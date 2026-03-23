@@ -6,12 +6,18 @@
 
 | 장 | 문서 | 내용 |
 |----|------|------|
-| 1 | 이 문서 | 개요, 코드 구조, 데이터 흐름 |
-| 2 | [longform.md](longform.md) | 롱폼 — 섹션 구성, 역할, 타이밍, 워크플로 |
-| 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성 |
-| 4 | [tts.md](tts.md) | 음성 생성 — 엔진, 보이스, 커맨드, web-bo 통합 |
-| 5 | [lineup.md](lineup.md) | 편성 — 인물 선정, 라이벌 묶음, 정치 균형 |
-| 6 | [rules.md](rules.md) | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항, 체크리스트 |
+| 1 | 이 문서 | 개요, 코드 구조, 데이터 흐름, **에피소드 제작 절차** |
+| 2 | [longform.md](longform.md) | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
+| 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
+| 4 | [voice/tts.md](voice/tts.md) | 음성 생성 — 엔진, 보이스, 커맨드 |
+| 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Gemini TTS 목록, 셀럽별 매핑 |
+| 4c | [voice/timing-user.md](voice/timing-user.md) | 음성 타이밍 사용 가이드 — 갭 기반 파이프라인 |
+| 5 | [lineup.md](lineup.md) | 편성표 — 배포 순서, 제작 진행 현황 |
+| 5b | [candidates.md](candidates.md) | 후보 전략 — 라이벌 묶음, 정치 교차 |
+| 5c | candidates-raw.md | 후보 전체 리스트 (DB 자동 생성, git 미추적) |
+| 6 | [rules.md](rules.md) | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항 |
+| 7 | [render.md](render.md) | 렌더 출력 — 명령어, 파일명 규칙, 코덱 옵션 |
+| — | [celeb-profile.md](celeb-profile.md) | 인물 열전 시리즈 기획서 (별도 시리즈) |
 
 ---
 
@@ -20,7 +26,7 @@
 ```
 sw/remotion/
   episodes/<name>.json          ← 에피소드 데이터 (SSoT, 컴포지션 완료)
-  episodes/<name>/draft/         ← 정비 중 에피소드 (git 미추적)
+  episodes/<name>/candidates/    ← Candidate 에피소드 (Lineup 승격 전)
   scripts/generate-voice.ts     ← TTS 생성 스크립트
   scripts/dev.mjs               ← 개발 서버 + 정적 파일 서버
   src/
@@ -39,7 +45,7 @@ sw/remotion/
         BookRecap.tsx           ← 리캡
         Overlay.tsx             ← 자막 + 타이밍 오버레이
         Subtitles.tsx           ← 롱폼 자막
-        KoreanTypewriter.tsx    ← 타이프라이터 효과
+        Typewriter.tsx    ← 타이프라이터 효과
         utils.ts                ← 공용 유틸 (sf, makeVf, BrandLogo, safeImg, fadeInOut)
         fonts.ts                ← 폰트 로딩
       ServiceIntro/             ← 서비스 소개 영상 (별도)
@@ -85,14 +91,49 @@ BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
 ## 음성 파일 구조
 
 ```
-public/voice/<episode-name>/
-  service-intro.wav, featured-quote.wav
-  label-summary.wav, label-context.wav       ← 공용 라벨 (에피소드별 생성)
-  narrator-celeb-intro.wav, philosophy.wav, narrator-outro.wav
-  book-0-title.wav, book-0-summary.wav, book-0-context.wav
-  book-0-quote.wav, book-0-context-after.wav
+public/voice/common/
+  A1-service-greeting.wav                    ← 공유 (한국어)
+  C1-label-summary.wav                       ← 공유 (한국어)
+  C2-label-context.wav                       ← 공유 (한국어)
+
+public/voice/<episode-name>/gemini/          ← 기본 엔진
+  A2-service-intro.wav, A3-featured-quote.wav
+  B1-celeb-intro.wav, B2-philosophy.wav, E1-outro.wav
+  D01a-title.wav, D01b-summary.wav, D01c-context.wav
+  D01d-quote.wav, D01e-context-after.wav
+  S01-intro.wav, S02-celeb-mid.wav, S03-book-context.wav  ← 쇼츠
   ...
 ```
+
+## 새 에피소드 제작 절차
+
+에피소드 JSON 생성의 단일 참조 경로. 각 단계의 상세 기준은 링크 문서에서 확인한다.
+
+### 단계별 체크
+
+| 단계 | 작업 | 참조 |
+|------|------|------|
+| 1 | **편성 확인** — 순서·라이벌 묶음·분량(10권↓단일, 11~20권 2편, 20권↑선별) | [lineup.md](lineup.md) § 편성 원칙·제작 규칙 |
+| 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·페르소나 | 아래 DB 소스 표 |
+| 3 | **JSON 초안** — `candidates/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
+| 4 | **텍스트 검수** — 주어 규칙·말투·oneLiner 7~15자·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup.md) § 품질 |
+| 5 | **표지 다운로드** — 외부 URL → `public/covers/cover-NNN.jpg` | [rules.md](rules.md) § 표지 이미지 |
+| 6 | **보이스 배정** — ElevenLabs(`voice_id_ko`) 또는 Gemini 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup.md) § 보이스 |
+| 7 | **Lineup 승격** — `candidates/` → `episodes/book-recommend/`, `script.ts` 등록 | — |
+| 8 | **TTS 생성** — `pnpm voice -- --episode <name> --update-json` | [voice/tts.md](voice/tts.md) |
+| 9 | **프리뷰** — `pnpm reboot` | — |
+
+### DB 소스 (2단계)
+
+| 데이터 | 테이블 | 주요 필드 |
+|--------|--------|-----------|
+| 기본 정보 | `profiles` | nickname, nickname_en, bio, avatar_url, speech_tone |
+| 명언 (SSoT) | `celeb_dialogues` | lines→quote |
+| 콘텐츠 목록 | `user_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review |
+| celebCount | `user_contents` 집계 | content_id별 추천 셀럽 수 |
+| 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
+
+---
 
 ## 윤리 원칙
 

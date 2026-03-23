@@ -6,37 +6,30 @@
       {
         "id": "hook",
         "role": "narrator",
-        "text": "What was the book Alexander the Great kept under his pillow on every battlefield?",
+        "text": "A treasure chest seized from the Persian king. What Alexander put inside was a single book.",
         "visual": "hook",
-        "duration": 4.89
+        "duration": 6.21
       },
       {
         "id": "intro",
         "role": "narrator",
-        "text": "He ascended the throne at twenty and conquered from Greece to India, the greatest conqueror in history. Through years of relentless campaigning, he never marched without his books.",
+        "text": "Alexander the Great, King of Macedonia. The conqueror who seized the world by thirty held one treasure above all others. It was not gold, nor a crown.",
         "visual": "intro",
-        "duration": 12.25
+        "duration": 11.17
       },
       {
         "id": "celeb-mid",
         "role": "celeb",
         "text": "When I opened the Iliad, Achilles stood beside me. On the nights before battle, it was not my armor that kept me, it was the story.",
         "visual": "intro",
-        "duration": 9.57
+        "duration": 7.93
       },
       {
         "id": "book-context",
         "role": "narrator",
-        "text": "That book was Homer's Iliad. Alexander carried a personal copy annotated by his tutor Aristotle throughout his entire campaign. At the ruins of Troy, he laid a wreath at the tomb of Achilles. At the plains of Gaugamela, he charged at the head of his wedge formation, writing his own epic in blood and glory.",
+        "text": "A personal copy annotated by his tutor Aristotle, kept beside a dagger under his pillow. At Troy he laid a wreath at the tomb of Achilles. At Gaugamela he charged at the head of his wedge, writing his own epic on the battlefield. After the conquest, he placed this book inside the treasure chest of Darius III. He chose the Iliad as the one treasure worthy of the most precious chest in the world.",
         "visual": "book",
-        "duration": 21.33
-      },
-      {
-        "id": "celeb-end",
-        "role": "celeb",
-        "text": "A hero's path begins on the battlefield, but his legend is completed in the pages of a book. If you want to know more, open my library.",
-        "visual": "cta",
-        "duration": 9.73
+        "duration": 25.29
       }
     ]
   },
@@ -82,7 +75,6 @@
       "directQuoteSource": "Plutarch, Life of Alexander",
       "quoteDuration": 7.28,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "A warrior's manual and a hero's epic",
       "stats": {
         "publishYear": "8th century BC"
       },
@@ -98,9 +90,8 @@
       "contextDuration": 18.01,
       "directQuote": "Homer's verse led me to the perfect site for my city.",
       "directQuoteSource": "Plutarch, Life of Alexander",
-      "quoteDuration": 3.81,
+      "quoteDuration": 2.72,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "A hero's return, a city's birth",
       "stats": {
         "publishYear": "8th century BC"
       },
@@ -115,7 +106,6 @@
       "context": "Alexander read this book from childhood and deeply admired Cyrus the Great. That admiration revealed itself after his conquest of Persia. When Alexander visited the tomb of Cyrus at Pasargadae and discovered that guards had desecrated the burial chamber, he ordered their immediate execution and commanded the tomb's full restoration.",
       "contextDuration": 21.57,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "The conqueror who modeled himself on a conqueror",
       "stats": {
         "publishYear": "c. 370 BC"
       },
@@ -130,7 +120,6 @@
       "context": "This book served as Alexander's practical military guide for his Persian campaign. No Macedonian had ever penetrated so deep into Asia, only Xenophon had mapped the route. Alexander studied Mesopotamian geography, Persian military tactics, and logistics in hostile territory from these very pages.",
       "contextDuration": 20.61,
       "source": "Robin Lane Fox, Alexander the Great",
-      "oneLiner": "The field manual for conquest",
       "stats": {
         "publishYear": "c. 370 BC"
       },
@@ -145,7 +134,6 @@
       "context": "In 335 BC, when Alexander crushed the Theban revolt and razed the city, he gave a single order of preservation: spare the temples, the house of Pindar, and his descendants. Pindar had once written odes praising Alexander's ancestors. He burned a city to the ground, yet spared a poet's home.",
       "contextDuration": 21.69,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "The conqueror who spared a poet's house",
       "stats": {
         "publishYear": "5th century BC"
       },
@@ -160,7 +148,6 @@
       "context": "When books ran short during the Persian campaign, Alexander requested fresh supplies from his treasurer Harpalus, and Aeschylus was among them. A play about Greece's victory over Persia must have held special resonance for a man who was marching to conquer Persia himself.",
       "contextDuration": 16.25,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "A Persian tragedy, read by Persia's conqueror",
       "stats": {
         "publishYear": "472 BC"
       },
@@ -175,7 +162,6 @@
       "context": "Another work Alexander received from his treasurer Harpalus during the inland campaign. He had complete sets of tragedies shipped to the front lines, proof that he regarded literature as essential supply, as vital as grain or weapons.",
       "contextDuration": 14.93,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "Heroes who defied fate itself",
       "stats": {
         "publishYear": "5th century BC"
       },
@@ -190,7 +176,6 @@
       "context": "Also shipped from Harpalus during the campaign. As the most popular tragedian of the age, Euripides offered a human perspective on ancient myth, insight that would have served a king seeking to understand the people he ruled.",
       "contextDuration": 13.57,
       "source": "Plutarch, Life of Alexander",
-      "oneLiner": "The era's greatest voice of tragedy",
       "stats": {
         "publishYear": "5th century BC"
       },
@@ -243,633 +228,5575 @@
     "A2-service-intro": [
       {
         "start": 0,
-        "end": 3.011
+        "end": 0.726,
+        "text": "Today's"
+      },
+      {
+        "start": 0.726,
+        "end": 1.19,
+        "text": "guest"
+      },
+      {
+        "start": 1.19,
+        "end": 1.422,
+        "text": "is"
+      },
+      {
+        "start": 1.422,
+        "end": 2.147,
+        "text": "Alexander"
+      },
+      {
+        "start": 2.147,
+        "end": 2.268,
+        "text": "the"
+      },
+      {
+        "start": 2.268,
+        "end": 3.0109583333333334,
+        "text": "Great."
       }
     ],
     "B1-celeb-intro": [
       {
         "start": 0,
-        "end": 2.14
+        "end": 0.93,
+        "text": "Alexander"
       },
       {
-        "start": 2.14,
-        "end": 4.1
+        "start": 0.93,
+        "end": 1.401,
+        "text": "III"
       },
       {
-        "start": 4.1,
-        "end": 10.44
+        "start": 1.401,
+        "end": 1.511,
+        "text": "of"
       },
       {
-        "start": 10.44,
-        "end": 12.52
+        "start": 1.511,
+        "end": 2.261,
+        "text": "Macedon,"
       },
       {
-        "start": 12.52,
-        "end": 16.56
+        "start": 2.261,
+        "end": 2.741,
+        "text": "known"
       },
       {
-        "start": 16.56,
-        "end": 22.051
+        "start": 2.741,
+        "end": 3.011,
+        "text": "as"
+      },
+      {
+        "start": 3.011,
+        "end": 3.621,
+        "text": "Alexander"
+      },
+      {
+        "start": 3.621,
+        "end": 3.741,
+        "text": "the"
+      },
+      {
+        "start": 3.741,
+        "end": 4.281,
+        "text": "Great,"
+      },
+      {
+        "start": 4.281,
+        "end": 4.702,
+        "text": "was"
+      },
+      {
+        "start": 4.702,
+        "end": 5.132,
+        "text": "king"
+      },
+      {
+        "start": 5.132,
+        "end": 5.262,
+        "text": "of"
+      },
+      {
+        "start": 5.262,
+        "end": 5.472,
+        "text": "the"
+      },
+      {
+        "start": 5.472,
+        "end": 5.892,
+        "text": "ancient"
+      },
+      {
+        "start": 5.892,
+        "end": 6.622,
+        "text": "Macedonian"
+      },
+      {
+        "start": 6.622,
+        "end": 7.313,
+        "text": "empire"
+      },
+      {
+        "start": 7.313,
+        "end": 7.643,
+        "text": "and"
+      },
+      {
+        "start": 7.643,
+        "end": 7.773,
+        "text": "the"
+      },
+      {
+        "start": 7.773,
+        "end": 8.053,
+        "text": "most"
+      },
+      {
+        "start": 8.053,
+        "end": 8.693,
+        "text": "formidable"
+      },
+      {
+        "start": 8.693,
+        "end": 9.283,
+        "text": "conqueror"
+      },
+      {
+        "start": 9.283,
+        "end": 9.443,
+        "text": "in"
+      },
+      {
+        "start": 9.443,
+        "end": 9.974,
+        "text": "recorded"
+      },
+      {
+        "start": 9.974,
+        "end": 10.784,
+        "text": "history."
+      },
+      {
+        "start": 10.784,
+        "end": 11.564,
+        "text": "Ascending"
+      },
+      {
+        "start": 11.564,
+        "end": 11.694,
+        "text": "the"
+      },
+      {
+        "start": 11.694,
+        "end": 12.054,
+        "text": "throne"
+      },
+      {
+        "start": 12.054,
+        "end": 12.174,
+        "text": "at"
+      },
+      {
+        "start": 12.174,
+        "end": 12.705,
+        "text": "twenty,"
+      },
+      {
+        "start": 12.705,
+        "end": 13.045,
+        "text": "he"
+      },
+      {
+        "start": 13.045,
+        "end": 13.435,
+        "text": "forged"
+      },
+      {
+        "start": 13.435,
+        "end": 13.585,
+        "text": "a"
+      },
+      {
+        "start": 13.585,
+        "end": 14.145,
+        "text": "vast"
+      },
+      {
+        "start": 14.145,
+        "end": 14.715,
+        "text": "empire"
+      },
+      {
+        "start": 14.715,
+        "end": 15.236,
+        "text": "stretching"
+      },
+      {
+        "start": 15.236,
+        "end": 15.446,
+        "text": "from"
+      },
+      {
+        "start": 15.446,
+        "end": 15.916,
+        "text": "Greece"
+      },
+      {
+        "start": 15.916,
+        "end": 16.136,
+        "text": "to"
+      },
+      {
+        "start": 16.136,
+        "end": 16.796,
+        "text": "India,"
+      },
+      {
+        "start": 16.796,
+        "end": 17.196,
+        "text": "and"
+      },
+      {
+        "start": 17.196,
+        "end": 17.376,
+        "text": "his"
+      },
+      {
+        "start": 17.376,
+        "end": 17.806,
+        "text": "spread"
+      },
+      {
+        "start": 17.806,
+        "end": 17.947,
+        "text": "of"
+      },
+      {
+        "start": 17.947,
+        "end": 18.627,
+        "text": "Hellenistic"
+      },
+      {
+        "start": 18.627,
+        "end": 19.227,
+        "text": "culture"
+      },
+      {
+        "start": 19.227,
+        "end": 19.657,
+        "text": "left"
+      },
+      {
+        "start": 19.657,
+        "end": 19.807,
+        "text": "an"
+      },
+      {
+        "start": 19.807,
+        "end": 20.417,
+        "text": "indelible"
+      },
+      {
+        "start": 20.417,
+        "end": 20.798,
+        "text": "mark"
+      },
+      {
+        "start": 20.798,
+        "end": 20.998,
+        "text": "on"
+      },
+      {
+        "start": 20.998,
+        "end": 22.050958333333334,
+        "text": "civilization."
       }
     ],
     "B2-philosophy": [
       {
         "start": 0,
-        "end": 1.08
+        "end": 0.28,
+        "text": "I"
       },
       {
-        "start": 1.08,
-        "end": 2.24
+        "start": 0.28,
+        "end": 0.41,
+        "text": "am"
       },
       {
-        "start": 2.24,
-        "end": 6
+        "start": 0.41,
+        "end": 1.231,
+        "text": "Alexander,"
       },
       {
-        "start": 6,
-        "end": 10.36
+        "start": 1.231,
+        "end": 1.611,
+        "text": "King"
       },
       {
-        "start": 10.36,
-        "end": 14.26
+        "start": 1.611,
+        "end": 1.731,
+        "text": "of"
       },
       {
-        "start": 14.26,
-        "end": 16.82
+        "start": 1.731,
+        "end": 2.872,
+        "text": "Macedon."
       },
       {
-        "start": 16.82,
-        "end": 19.96
+        "start": 2.872,
+        "end": 3.612,
+        "text": "The"
       },
       {
-        "start": 19.96,
-        "end": 23.6
+        "start": 3.612,
+        "end": 4.043,
+        "text": "Iliad"
+      },
+      {
+        "start": 4.043,
+        "end": 4.473,
+        "text": "awakened"
+      },
+      {
+        "start": 4.473,
+        "end": 4.583,
+        "text": "the"
+      },
+      {
+        "start": 4.583,
+        "end": 4.933,
+        "text": "spirit"
+      },
+      {
+        "start": 4.933,
+        "end": 5.023,
+        "text": "of"
+      },
+      {
+        "start": 5.023,
+        "end": 5.143,
+        "text": "the"
+      },
+      {
+        "start": 5.143,
+        "end": 5.523,
+        "text": "hero"
+      },
+      {
+        "start": 5.523,
+        "end": 5.824,
+        "text": "within"
+      },
+      {
+        "start": 5.824,
+        "end": 6.254,
+        "text": "me,"
+      },
+      {
+        "start": 6.254,
+        "end": 6.624,
+        "text": "and"
+      },
+      {
+        "start": 6.624,
+        "end": 6.744,
+        "text": "the"
+      },
+      {
+        "start": 6.744,
+        "end": 7.094,
+        "text": "wisdom"
+      },
+      {
+        "start": 7.094,
+        "end": 7.194,
+        "text": "of"
+      },
+      {
+        "start": 7.194,
+        "end": 7.675,
+        "text": "history"
+      },
+      {
+        "start": 7.675,
+        "end": 7.945,
+        "text": "gave"
+      },
+      {
+        "start": 7.945,
+        "end": 8.065,
+        "text": "me"
+      },
+      {
+        "start": 8.065,
+        "end": 8.195,
+        "text": "the"
+      },
+      {
+        "start": 8.195,
+        "end": 8.585,
+        "text": "blade"
+      },
+      {
+        "start": 8.585,
+        "end": 8.725,
+        "text": "to"
+      },
+      {
+        "start": 8.725,
+        "end": 9.106,
+        "text": "pierce"
+      },
+      {
+        "start": 9.106,
+        "end": 9.256,
+        "text": "the"
+      },
+      {
+        "start": 9.256,
+        "end": 9.566,
+        "text": "heart"
+      },
+      {
+        "start": 9.566,
+        "end": 9.686,
+        "text": "of"
+      },
+      {
+        "start": 9.686,
+        "end": 10.827,
+        "text": "empires."
+      },
+      {
+        "start": 10.827,
+        "end": 11.497,
+        "text": "On"
+      },
+      {
+        "start": 11.497,
+        "end": 12.158,
+        "text": "blood-soaked"
+      },
+      {
+        "start": 12.158,
+        "end": 12.968,
+        "text": "battlefields"
+      },
+      {
+        "start": 12.968,
+        "end": 13.238,
+        "text": "I"
+      },
+      {
+        "start": 13.238,
+        "end": 13.779,
+        "text": "recited"
+      },
+      {
+        "start": 13.779,
+        "end": 14.519,
+        "text": "tragedy,"
+      },
+      {
+        "start": 14.519,
+        "end": 14.859,
+        "text": "and"
+      },
+      {
+        "start": 14.859,
+        "end": 15.189,
+        "text": "before"
+      },
+      {
+        "start": 15.189,
+        "end": 15.63,
+        "text": "poets"
+      },
+      {
+        "start": 15.63,
+        "end": 15.77,
+        "text": "I"
+      },
+      {
+        "start": 15.77,
+        "end": 16.21,
+        "text": "sheathed"
+      },
+      {
+        "start": 16.21,
+        "end": 16.42,
+        "text": "my"
+      },
+      {
+        "start": 16.42,
+        "end": 17.361,
+        "text": "sword."
+      },
+      {
+        "start": 17.361,
+        "end": 18.131,
+        "text": "Through"
+      },
+      {
+        "start": 18.131,
+        "end": 18.281,
+        "text": "the"
+      },
+      {
+        "start": 18.281,
+        "end": 18.702,
+        "text": "endless"
+      },
+      {
+        "start": 18.702,
+        "end": 19.222,
+        "text": "exhaustion"
+      },
+      {
+        "start": 19.222,
+        "end": 19.312,
+        "text": "of"
+      },
+      {
+        "start": 19.312,
+        "end": 20.112,
+        "text": "campaign,"
+      },
+      {
+        "start": 20.112,
+        "end": 20.813,
+        "text": "literature"
+      },
+      {
+        "start": 20.813,
+        "end": 20.963,
+        "text": "was"
+      },
+      {
+        "start": 20.963,
+        "end": 21.093,
+        "text": "the"
+      },
+      {
+        "start": 21.093,
+        "end": 21.513,
+        "text": "supply"
+      },
+      {
+        "start": 21.513,
+        "end": 21.773,
+        "text": "line"
+      },
+      {
+        "start": 21.773,
+        "end": 21.874,
+        "text": "of"
+      },
+      {
+        "start": 21.874,
+        "end": 22.084,
+        "text": "my"
+      },
+      {
+        "start": 22.084,
+        "end": 23.6,
+        "text": "soul."
       }
     ],
     "E1-outro": [
       {
         "start": 0,
-        "end": 4.76
+        "end": 0.521,
+        "text": "Those"
       },
       {
-        "start": 4.76,
-        "end": 11.92
+        "start": 0.521,
+        "end": 0.702,
+        "text": "were"
       },
       {
-        "start": 11.92,
-        "end": 12.26
+        "start": 0.702,
+        "end": 0.892,
+        "text": "the"
       },
       {
-        "start": 12.26,
-        "end": 14.371
+        "start": 0.892,
+        "end": 1.203,
+        "text": "eight"
+      },
+      {
+        "start": 1.203,
+        "end": 1.554,
+        "text": "books"
+      },
+      {
+        "start": 1.554,
+        "end": 1.744,
+        "text": "that"
+      },
+      {
+        "start": 1.744,
+        "end": 2.365,
+        "text": "accompanied"
+      },
+      {
+        "start": 2.365,
+        "end": 2.987,
+        "text": "Alexander"
+      },
+      {
+        "start": 2.987,
+        "end": 3.107,
+        "text": "the"
+      },
+      {
+        "start": 3.107,
+        "end": 3.448,
+        "text": "Great"
+      },
+      {
+        "start": 3.448,
+        "end": 3.889,
+        "text": "across"
+      },
+      {
+        "start": 3.889,
+        "end": 4.069,
+        "text": "his"
+      },
+      {
+        "start": 4.069,
+        "end": 4.961,
+        "text": "battlefields."
+      },
+      {
+        "start": 4.961,
+        "end": 5.703,
+        "text": "Curious"
+      },
+      {
+        "start": 5.703,
+        "end": 5.973,
+        "text": "about"
+      },
+      {
+        "start": 5.973,
+        "end": 6.124,
+        "text": "the"
+      },
+      {
+        "start": 6.124,
+        "end": 6.494,
+        "text": "deeper"
+      },
+      {
+        "start": 6.494,
+        "end": 6.915,
+        "text": "story"
+      },
+      {
+        "start": 6.915,
+        "end": 7.016,
+        "text": "of"
+      },
+      {
+        "start": 7.016,
+        "end": 7.126,
+        "text": "the"
+      },
+      {
+        "start": 7.126,
+        "end": 7.677,
+        "text": "conqueror"
+      },
+      {
+        "start": 7.677,
+        "end": 7.918,
+        "text": "who"
+      },
+      {
+        "start": 7.918,
+        "end": 8.369,
+        "text": "wielded"
+      },
+      {
+        "start": 8.369,
+        "end": 8.479,
+        "text": "a"
+      },
+      {
+        "start": 8.479,
+        "end": 8.8,
+        "text": "sword"
+      },
+      {
+        "start": 8.8,
+        "end": 8.97,
+        "text": "in"
+      },
+      {
+        "start": 8.97,
+        "end": 9.14,
+        "text": "one"
+      },
+      {
+        "start": 9.14,
+        "end": 9.501,
+        "text": "hand"
+      },
+      {
+        "start": 9.501,
+        "end": 9.702,
+        "text": "and"
+      },
+      {
+        "start": 9.702,
+        "end": 9.792,
+        "text": "a"
+      },
+      {
+        "start": 9.792,
+        "end": 10.072,
+        "text": "book"
+      },
+      {
+        "start": 10.072,
+        "end": 10.183,
+        "text": "in"
+      },
+      {
+        "start": 10.183,
+        "end": 10.333,
+        "text": "the"
+      },
+      {
+        "start": 10.333,
+        "end": 10.674,
+        "text": "other,"
+      },
+      {
+        "start": 10.674,
+        "end": 11.255,
+        "text": "twenty-four"
+      },
+      {
+        "start": 11.255,
+        "end": 11.696,
+        "text": "centuries"
+      },
+      {
+        "start": 11.696,
+        "end": 12.238,
+        "text": "ago?"
+      },
+      {
+        "start": 12.238,
+        "end": 12.969,
+        "text": "Discover"
+      },
+      {
+        "start": 12.969,
+        "end": 13.29,
+        "text": "more"
+      },
+      {
+        "start": 13.29,
+        "end": 13.5,
+        "text": "on"
+      },
+      {
+        "start": 13.5,
+        "end": 13.791,
+        "text": "Feel"
+      },
+      {
+        "start": 13.791,
+        "end": 13.821,
+        "text": "&"
+      },
+      {
+        "start": 13.821,
+        "end": 14.370958333333334,
+        "text": "Note."
       }
     ],
     "D01b-summary": [
       {
         "start": 0,
-        "end": 3.72
+        "end": 0.481,
+        "text": "An"
       },
       {
-        "start": 3.72,
-        "end": 9.3
+        "start": 0.481,
+        "end": 0.891,
+        "text": "epic"
       },
       {
-        "start": 9.3,
-        "end": 15.16
+        "start": 0.891,
+        "end": 1.351,
+        "text": "poem"
       },
       {
-        "start": 15.16,
-        "end": 21.62
+        "start": 1.351,
+        "end": 1.591,
+        "text": "by"
       },
       {
-        "start": 21.62,
-        "end": 24.72
+        "start": 1.591,
+        "end": 2.032,
+        "text": "Homer"
       },
       {
-        "start": 24.72,
-        "end": 27.6
+        "start": 2.032,
+        "end": 2.282,
+        "text": "from"
       },
       {
-        "start": 27.6,
-        "end": 29.411
+        "start": 2.282,
+        "end": 2.502,
+        "text": "the"
+      },
+      {
+        "start": 2.502,
+        "end": 2.763,
+        "text": "8th"
+      },
+      {
+        "start": 2.763,
+        "end": 3.233,
+        "text": "century"
+      },
+      {
+        "start": 3.233,
+        "end": 4.014,
+        "text": "BC."
+      },
+      {
+        "start": 4.014,
+        "end": 4.394,
+        "text": "It"
+      },
+      {
+        "start": 4.394,
+        "end": 4.975,
+        "text": "chronicles"
+      },
+      {
+        "start": 4.975,
+        "end": 5.155,
+        "text": "the"
+      },
+      {
+        "start": 5.155,
+        "end": 5.565,
+        "text": "final"
+      },
+      {
+        "start": 5.565,
+        "end": 5.915,
+        "text": "year"
+      },
+      {
+        "start": 5.915,
+        "end": 6.066,
+        "text": "of"
+      },
+      {
+        "start": 6.066,
+        "end": 6.216,
+        "text": "the"
+      },
+      {
+        "start": 6.216,
+        "end": 6.816,
+        "text": "ten-year"
+      },
+      {
+        "start": 6.816,
+        "end": 7.217,
+        "text": "war"
+      },
+      {
+        "start": 7.217,
+        "end": 7.607,
+        "text": "between"
+      },
+      {
+        "start": 7.607,
+        "end": 7.727,
+        "text": "the"
+      },
+      {
+        "start": 7.727,
+        "end": 8.057,
+        "text": "Greek"
+      },
+      {
+        "start": 8.057,
+        "end": 8.758,
+        "text": "coalition"
+      },
+      {
+        "start": 8.758,
+        "end": 8.938,
+        "text": "and"
+      },
+      {
+        "start": 8.938,
+        "end": 9.599,
+        "text": "Troy."
+      },
+      {
+        "start": 9.599,
+        "end": 10.049,
+        "text": "When"
+      },
+      {
+        "start": 10.049,
+        "end": 10.169,
+        "text": "the"
+      },
+      {
+        "start": 10.169,
+        "end": 10.61,
+        "text": "greatest"
+      },
+      {
+        "start": 10.61,
+        "end": 11.11,
+        "text": "warrior"
+      },
+      {
+        "start": 11.11,
+        "end": 11.691,
+        "text": "Achilles"
+      },
+      {
+        "start": 11.691,
+        "end": 12.311,
+        "text": "withdraws"
+      },
+      {
+        "start": 12.311,
+        "end": 12.522,
+        "text": "from"
+      },
+      {
+        "start": 12.522,
+        "end": 12.962,
+        "text": "battle"
+      },
+      {
+        "start": 12.962,
+        "end": 13.302,
+        "text": "after"
+      },
+      {
+        "start": 13.302,
+        "end": 13.412,
+        "text": "a"
+      },
+      {
+        "start": 13.412,
+        "end": 13.783,
+        "text": "feud"
+      },
+      {
+        "start": 13.783,
+        "end": 13.963,
+        "text": "with"
+      },
+      {
+        "start": 13.963,
+        "end": 14.473,
+        "text": "Commander"
+      },
+      {
+        "start": 14.473,
+        "end": 15.354,
+        "text": "Agamemnon,"
+      },
+      {
+        "start": 15.354,
+        "end": 15.724,
+        "text": "the"
+      },
+      {
+        "start": 15.724,
+        "end": 16.085,
+        "text": "death"
+      },
+      {
+        "start": 16.085,
+        "end": 16.235,
+        "text": "of"
+      },
+      {
+        "start": 16.235,
+        "end": 16.405,
+        "text": "his"
+      },
+      {
+        "start": 16.405,
+        "end": 17.006,
+        "text": "companion"
+      },
+      {
+        "start": 17.006,
+        "end": 17.786,
+        "text": "Patroclus"
+      },
+      {
+        "start": 17.786,
+        "end": 18.327,
+        "text": "drives"
+      },
+      {
+        "start": 18.327,
+        "end": 18.547,
+        "text": "him"
+      },
+      {
+        "start": 18.547,
+        "end": 18.827,
+        "text": "back"
+      },
+      {
+        "start": 18.827,
+        "end": 18.957,
+        "text": "to"
+      },
+      {
+        "start": 18.957,
+        "end": 19.088,
+        "text": "the"
+      },
+      {
+        "start": 19.088,
+        "end": 19.528,
+        "text": "field"
+      },
+      {
+        "start": 19.528,
+        "end": 19.718,
+        "text": "in"
+      },
+      {
+        "start": 19.718,
+        "end": 19.828,
+        "text": "a"
+      },
+      {
+        "start": 19.828,
+        "end": 20.369,
+        "text": "storm"
+      },
+      {
+        "start": 20.369,
+        "end": 20.579,
+        "text": "of"
+      },
+      {
+        "start": 20.579,
+        "end": 21.069,
+        "text": "rage"
+      },
+      {
+        "start": 21.069,
+        "end": 21.26,
+        "text": "and"
+      },
+      {
+        "start": 21.26,
+        "end": 21.99,
+        "text": "grief."
+      },
+      {
+        "start": 21.99,
+        "end": 22.501,
+        "text": "It"
+      },
+      {
+        "start": 22.501,
+        "end": 22.631,
+        "text": "is"
+      },
+      {
+        "start": 22.631,
+        "end": 22.801,
+        "text": "the"
+      },
+      {
+        "start": 22.801,
+        "end": 23.592,
+        "text": "wellspring"
+      },
+      {
+        "start": 23.592,
+        "end": 23.762,
+        "text": "of"
+      },
+      {
+        "start": 23.762,
+        "end": 24.222,
+        "text": "Western"
+      },
+      {
+        "start": 24.222,
+        "end": 24.983,
+        "text": "literature,"
+      },
+      {
+        "start": 24.983,
+        "end": 25.343,
+        "text": "a"
+      },
+      {
+        "start": 25.343,
+        "end": 25.824,
+        "text": "song"
+      },
+      {
+        "start": 25.824,
+        "end": 25.994,
+        "text": "of"
+      },
+      {
+        "start": 25.994,
+        "end": 26.374,
+        "text": "war's"
+      },
+      {
+        "start": 26.374,
+        "end": 26.915,
+        "text": "glory"
+      },
+      {
+        "start": 26.915,
+        "end": 27.125,
+        "text": "and"
+      },
+      {
+        "start": 27.125,
+        "end": 27.836,
+        "text": "tragedy,"
+      },
+      {
+        "start": 27.836,
+        "end": 28.186,
+        "text": "of"
+      },
+      {
+        "start": 28.186,
+        "end": 28.686,
+        "text": "honor"
+      },
+      {
+        "start": 28.686,
+        "end": 28.977,
+        "text": "and"
+      },
+      {
+        "start": 28.977,
+        "end": 29.410958333333333,
+        "text": "fate."
       }
     ],
     "D01c-context": [
       {
         "start": 0,
-        "end": 3.2
+        "end": 0.87,
+        "text": "Alexander"
       },
       {
-        "start": 3.2,
-        "end": 6.04
+        "start": 0.87,
+        "end": 1,
+        "text": "the"
       },
       {
-        "start": 6.04,
-        "end": 8.74
+        "start": 1,
+        "end": 1.38,
+        "text": "Great"
       },
       {
-        "start": 8.74,
-        "end": 12.28
+        "start": 1.38,
+        "end": 1.76,
+        "text": "slept"
       },
       {
-        "start": 12.28,
-        "end": 14.96
+        "start": 1.76,
+        "end": 1.93,
+        "text": "with"
       },
       {
-        "start": 14.96,
-        "end": 16.96
+        "start": 1.93,
+        "end": 2.021,
+        "text": "a"
       },
       {
-        "start": 16.96,
-        "end": 19.731
+        "start": 2.021,
+        "end": 2.441,
+        "text": "copy"
+      },
+      {
+        "start": 2.441,
+        "end": 2.571,
+        "text": "of"
+      },
+      {
+        "start": 2.571,
+        "end": 2.731,
+        "text": "the"
+      },
+      {
+        "start": 2.731,
+        "end": 3.381,
+        "text": "Iliad,"
+      },
+      {
+        "start": 3.381,
+        "end": 4.151,
+        "text": "personally"
+      },
+      {
+        "start": 4.151,
+        "end": 4.711,
+        "text": "annotated"
+      },
+      {
+        "start": 4.711,
+        "end": 4.891,
+        "text": "by"
+      },
+      {
+        "start": 4.891,
+        "end": 5.071,
+        "text": "his"
+      },
+      {
+        "start": 5.071,
+        "end": 5.431,
+        "text": "tutor"
+      },
+      {
+        "start": 5.431,
+        "end": 6.232,
+        "text": "Aristotle,"
+      },
+      {
+        "start": 6.232,
+        "end": 6.752,
+        "text": "tucked"
+      },
+      {
+        "start": 6.752,
+        "end": 7.072,
+        "text": "beneath"
+      },
+      {
+        "start": 7.072,
+        "end": 7.232,
+        "text": "his"
+      },
+      {
+        "start": 7.232,
+        "end": 7.682,
+        "text": "pillow"
+      },
+      {
+        "start": 7.682,
+        "end": 8.312,
+        "text": "alongside"
+      },
+      {
+        "start": 8.312,
+        "end": 8.382,
+        "text": "a"
+      },
+      {
+        "start": 8.382,
+        "end": 9.072,
+        "text": "dagger."
+      },
+      {
+        "start": 9.072,
+        "end": 9.522,
+        "text": "He"
+      },
+      {
+        "start": 9.522,
+        "end": 9.853,
+        "text": "called"
+      },
+      {
+        "start": 9.853,
+        "end": 10.043,
+        "text": "it"
+      },
+      {
+        "start": 10.043,
+        "end": 10.223,
+        "text": "a"
+      },
+      {
+        "start": 10.223,
+        "end": 10.823,
+        "text": "treasury"
+      },
+      {
+        "start": 10.823,
+        "end": 11.013,
+        "text": "of"
+      },
+      {
+        "start": 11.013,
+        "end": 11.273,
+        "text": "all"
+      },
+      {
+        "start": 11.273,
+        "end": 11.833,
+        "text": "military"
+      },
+      {
+        "start": 11.833,
+        "end": 12.733,
+        "text": "virtue."
+      },
+      {
+        "start": 12.733,
+        "end": 13.473,
+        "text": "After"
+      },
+      {
+        "start": 13.473,
+        "end": 13.894,
+        "text": "launching"
+      },
+      {
+        "start": 13.894,
+        "end": 14.054,
+        "text": "his"
+      },
+      {
+        "start": 14.054,
+        "end": 14.444,
+        "text": "Persian"
+      },
+      {
+        "start": 14.444,
+        "end": 15.134,
+        "text": "campaign,"
+      },
+      {
+        "start": 15.134,
+        "end": 15.514,
+        "text": "his"
+      },
+      {
+        "start": 15.514,
+        "end": 15.814,
+        "text": "first"
+      },
+      {
+        "start": 15.814,
+        "end": 16.274,
+        "text": "detour"
+      },
+      {
+        "start": 16.274,
+        "end": 16.484,
+        "text": "was"
+      },
+      {
+        "start": 16.484,
+        "end": 16.624,
+        "text": "to"
+      },
+      {
+        "start": 16.624,
+        "end": 17.144,
+        "text": "Troy,"
+      },
+      {
+        "start": 17.144,
+        "end": 17.514,
+        "text": "where"
+      },
+      {
+        "start": 17.514,
+        "end": 17.645,
+        "text": "he"
+      },
+      {
+        "start": 17.645,
+        "end": 17.865,
+        "text": "laid"
+      },
+      {
+        "start": 17.865,
+        "end": 17.925,
+        "text": "a"
+      },
+      {
+        "start": 17.925,
+        "end": 18.265,
+        "text": "wreath"
+      },
+      {
+        "start": 18.265,
+        "end": 18.405,
+        "text": "at"
+      },
+      {
+        "start": 18.405,
+        "end": 18.525,
+        "text": "the"
+      },
+      {
+        "start": 18.525,
+        "end": 18.805,
+        "text": "tomb"
+      },
+      {
+        "start": 18.805,
+        "end": 18.915,
+        "text": "of"
+      },
+      {
+        "start": 18.915,
+        "end": 19.730958333333334,
+        "text": "Achilles."
       }
     ],
     "D01d-quote": [
       {
         "start": 0,
-        "end": 1.5
+        "end": 0.543,
+        "text": "Achilles"
       },
       {
-        "start": 1.5,
-        "end": 3.82
+        "start": 0.543,
+        "end": 0.714,
+        "text": "was"
       },
       {
-        "start": 3.82,
-        "end": 7.28
+        "start": 0.714,
+        "end": 1.087,
+        "text": "truly"
+      },
+      {
+        "start": 1.087,
+        "end": 1.831,
+        "text": "blessed,"
+      },
+      {
+        "start": 1.831,
+        "end": 2.304,
+        "text": "in"
+      },
+      {
+        "start": 2.304,
+        "end": 2.596,
+        "text": "life"
+      },
+      {
+        "start": 2.596,
+        "end": 2.706,
+        "text": "he"
+      },
+      {
+        "start": 2.706,
+        "end": 2.877,
+        "text": "had"
+      },
+      {
+        "start": 2.877,
+        "end": 2.948,
+        "text": "a"
+      },
+      {
+        "start": 2.948,
+        "end": 3.28,
+        "text": "loyal"
+      },
+      {
+        "start": 3.28,
+        "end": 4.045,
+        "text": "companion,"
+      },
+      {
+        "start": 4.045,
+        "end": 4.377,
+        "text": "and"
+      },
+      {
+        "start": 4.377,
+        "end": 4.517,
+        "text": "in"
+      },
+      {
+        "start": 4.517,
+        "end": 4.87,
+        "text": "death"
+      },
+      {
+        "start": 4.87,
+        "end": 5.03,
+        "text": "he"
+      },
+      {
+        "start": 5.03,
+        "end": 5.292,
+        "text": "found"
+      },
+      {
+        "start": 5.292,
+        "end": 5.372,
+        "text": "a"
+      },
+      {
+        "start": 5.372,
+        "end": 5.664,
+        "text": "great"
+      },
+      {
+        "start": 5.664,
+        "end": 6.086,
+        "text": "poet"
+      },
+      {
+        "start": 6.086,
+        "end": 6.268,
+        "text": "to"
+      },
+      {
+        "start": 6.268,
+        "end": 6.529,
+        "text": "sing"
+      },
+      {
+        "start": 6.529,
+        "end": 6.62,
+        "text": "of"
+      },
+      {
+        "start": 6.62,
+        "end": 6.791,
+        "text": "his"
+      },
+      {
+        "start": 6.791,
+        "end": 7.28,
+        "text": "deeds."
       }
     ],
     "D01e-context-after": [
       {
         "start": 0,
-        "end": 1.58
+        "end": 0.661,
+        "text": "After"
       },
       {
-        "start": 1.58,
-        "end": 6.48
+        "start": 0.661,
+        "end": 1.122,
+        "text": "conquering"
       },
       {
-        "start": 6.48,
-        "end": 12.051
+        "start": 1.122,
+        "end": 1.773,
+        "text": "Persia,"
+      },
+      {
+        "start": 1.773,
+        "end": 2.624,
+        "text": "Alexander"
+      },
+      {
+        "start": 2.624,
+        "end": 2.984,
+        "text": "stored"
+      },
+      {
+        "start": 2.984,
+        "end": 3.175,
+        "text": "this"
+      },
+      {
+        "start": 3.175,
+        "end": 3.826,
+        "text": "manuscript"
+      },
+      {
+        "start": 3.826,
+        "end": 3.976,
+        "text": "in"
+      },
+      {
+        "start": 3.976,
+        "end": 4.066,
+        "text": "a"
+      },
+      {
+        "start": 4.066,
+        "end": 4.466,
+        "text": "jeweled"
+      },
+      {
+        "start": 4.466,
+        "end": 5.007,
+        "text": "casket"
+      },
+      {
+        "start": 5.007,
+        "end": 5.428,
+        "text": "seized"
+      },
+      {
+        "start": 5.428,
+        "end": 5.608,
+        "text": "from"
+      },
+      {
+        "start": 5.608,
+        "end": 6.059,
+        "text": "Darius"
+      },
+      {
+        "start": 6.059,
+        "end": 6.71,
+        "text": "III."
+      },
+      {
+        "start": 6.71,
+        "end": 7.08,
+        "text": "He"
+      },
+      {
+        "start": 7.08,
+        "end": 7.381,
+        "text": "chose"
+      },
+      {
+        "start": 7.381,
+        "end": 7.551,
+        "text": "the"
+      },
+      {
+        "start": 7.551,
+        "end": 8.092,
+        "text": "Iliad"
+      },
+      {
+        "start": 8.092,
+        "end": 8.262,
+        "text": "as"
+      },
+      {
+        "start": 8.262,
+        "end": 8.472,
+        "text": "the"
+      },
+      {
+        "start": 8.472,
+        "end": 8.733,
+        "text": "one"
+      },
+      {
+        "start": 8.733,
+        "end": 9.183,
+        "text": "treasure"
+      },
+      {
+        "start": 9.183,
+        "end": 9.654,
+        "text": "worthy"
+      },
+      {
+        "start": 9.654,
+        "end": 9.754,
+        "text": "of"
+      },
+      {
+        "start": 9.754,
+        "end": 9.884,
+        "text": "the"
+      },
+      {
+        "start": 9.884,
+        "end": 10.145,
+        "text": "most"
+      },
+      {
+        "start": 10.145,
+        "end": 10.655,
+        "text": "precious"
+      },
+      {
+        "start": 10.655,
+        "end": 11.066,
+        "text": "chest"
+      },
+      {
+        "start": 11.066,
+        "end": 11.216,
+        "text": "in"
+      },
+      {
+        "start": 11.216,
+        "end": 11.336,
+        "text": "the"
+      },
+      {
+        "start": 11.336,
+        "end": 12.050958333333334,
+        "text": "world."
       }
     ],
     "D02b-summary": [
       {
         "start": 0,
-        "end": 2.06
+        "end": 0.43,
+        "text": "The"
       },
       {
-        "start": 2.06,
-        "end": 3.94
+        "start": 0.43,
+        "end": 1.031,
+        "text": "sequel"
       },
       {
-        "start": 3.94,
-        "end": 9.4
+        "start": 1.031,
+        "end": 1.281,
+        "text": "to"
       },
       {
-        "start": 9.4,
-        "end": 15.44
+        "start": 1.281,
+        "end": 1.472,
+        "text": "the"
       },
       {
-        "start": 15.44,
-        "end": 19.24
+        "start": 1.472,
+        "end": 2.412,
+        "text": "Iliad."
       },
       {
-        "start": 19.24,
-        "end": 20.28
+        "start": 2.412,
+        "end": 3.003,
+        "text": "After"
       },
       {
-        "start": 20.28,
-        "end": 22.611
+        "start": 3.003,
+        "end": 3.153,
+        "text": "the"
+      },
+      {
+        "start": 3.153,
+        "end": 3.443,
+        "text": "fall"
+      },
+      {
+        "start": 3.443,
+        "end": 3.564,
+        "text": "of"
+      },
+      {
+        "start": 3.564,
+        "end": 4.134,
+        "text": "Troy,"
+      },
+      {
+        "start": 4.134,
+        "end": 4.444,
+        "text": "the"
+      },
+      {
+        "start": 4.444,
+        "end": 4.895,
+        "text": "cunning"
+      },
+      {
+        "start": 4.895,
+        "end": 5.335,
+        "text": "hero"
+      },
+      {
+        "start": 5.335,
+        "end": 6.126,
+        "text": "Odysseus"
+      },
+      {
+        "start": 6.126,
+        "end": 6.797,
+        "text": "embarks"
+      },
+      {
+        "start": 6.797,
+        "end": 6.947,
+        "text": "on"
+      },
+      {
+        "start": 6.947,
+        "end": 7.087,
+        "text": "a"
+      },
+      {
+        "start": 7.087,
+        "end": 7.978,
+        "text": "decade-long"
+      },
+      {
+        "start": 7.978,
+        "end": 8.468,
+        "text": "voyage"
+      },
+      {
+        "start": 8.468,
+        "end": 8.819,
+        "text": "home"
+      },
+      {
+        "start": 8.819,
+        "end": 8.999,
+        "text": "to"
+      },
+      {
+        "start": 8.999,
+        "end": 9.74,
+        "text": "Ithaca."
+      },
+      {
+        "start": 9.74,
+        "end": 10.24,
+        "text": "From"
+      },
+      {
+        "start": 10.24,
+        "end": 10.36,
+        "text": "the"
+      },
+      {
+        "start": 10.36,
+        "end": 10.781,
+        "text": "cave"
+      },
+      {
+        "start": 10.781,
+        "end": 10.891,
+        "text": "of"
+      },
+      {
+        "start": 10.891,
+        "end": 11.031,
+        "text": "the"
+      },
+      {
+        "start": 11.031,
+        "end": 11.772,
+        "text": "Cyclops"
+      },
+      {
+        "start": 11.772,
+        "end": 12.042,
+        "text": "to"
+      },
+      {
+        "start": 12.042,
+        "end": 12.192,
+        "text": "the"
+      },
+      {
+        "start": 12.192,
+        "end": 12.632,
+        "text": "song"
+      },
+      {
+        "start": 12.632,
+        "end": 12.732,
+        "text": "of"
+      },
+      {
+        "start": 12.732,
+        "end": 12.873,
+        "text": "the"
+      },
+      {
+        "start": 12.873,
+        "end": 13.533,
+        "text": "Sirens"
+      },
+      {
+        "start": 13.533,
+        "end": 13.844,
+        "text": "and"
+      },
+      {
+        "start": 13.844,
+        "end": 13.934,
+        "text": "a"
+      },
+      {
+        "start": 13.934,
+        "end": 14.504,
+        "text": "descent"
+      },
+      {
+        "start": 14.504,
+        "end": 14.774,
+        "text": "into"
+      },
+      {
+        "start": 14.774,
+        "end": 14.965,
+        "text": "the"
+      },
+      {
+        "start": 14.965,
+        "end": 15.836,
+        "text": "underworld,"
+      },
+      {
+        "start": 15.836,
+        "end": 16.436,
+        "text": "this"
+      },
+      {
+        "start": 16.436,
+        "end": 16.937,
+        "text": "mythic"
+      },
+      {
+        "start": 16.937,
+        "end": 17.597,
+        "text": "odyssey"
+      },
+      {
+        "start": 17.597,
+        "end": 18.408,
+        "text": "celebrates"
+      },
+      {
+        "start": 18.408,
+        "end": 18.848,
+        "text": "human"
+      },
+      {
+        "start": 18.848,
+        "end": 19.459,
+        "text": "wisdom,"
+      },
+      {
+        "start": 19.459,
+        "end": 20.45,
+        "text": "endurance,"
+      },
+      {
+        "start": 20.45,
+        "end": 20.76,
+        "text": "and"
+      },
+      {
+        "start": 20.76,
+        "end": 20.91,
+        "text": "the"
+      },
+      {
+        "start": 20.91,
+        "end": 21.421,
+        "text": "meaning"
+      },
+      {
+        "start": 21.421,
+        "end": 21.661,
+        "text": "of"
+      },
+      {
+        "start": 21.661,
+        "end": 22.610958333333333,
+        "text": "homecoming."
       }
     ],
     "D02c-context": [
       {
         "start": 0,
-        "end": 3.406
+        "end": 0.55,
+        "text": "When"
       },
       {
-        "start": 3.406,
-        "end": 12.24
+        "start": 0.55,
+        "end": 1.421,
+        "text": "Alexander"
       },
       {
-        "start": 12.24,
-        "end": 12.378
+        "start": 1.421,
+        "end": 1.681,
+        "text": "set"
       },
       {
-        "start": 12.378,
-        "end": 18.011
+        "start": 1.681,
+        "end": 1.871,
+        "text": "out"
+      },
+      {
+        "start": 1.871,
+        "end": 2.031,
+        "text": "to"
+      },
+      {
+        "start": 2.031,
+        "end": 2.431,
+        "text": "found"
+      },
+      {
+        "start": 2.431,
+        "end": 2.511,
+        "text": "a"
+      },
+      {
+        "start": 2.511,
+        "end": 2.711,
+        "text": "new"
+      },
+      {
+        "start": 2.711,
+        "end": 3.022,
+        "text": "city"
+      },
+      {
+        "start": 3.022,
+        "end": 3.172,
+        "text": "in"
+      },
+      {
+        "start": 3.172,
+        "end": 3.802,
+        "text": "Egypt,"
+      },
+      {
+        "start": 3.802,
+        "end": 4.412,
+        "text": "legend"
+      },
+      {
+        "start": 4.412,
+        "end": 4.792,
+        "text": "holds"
+      },
+      {
+        "start": 4.792,
+        "end": 5.053,
+        "text": "that"
+      },
+      {
+        "start": 5.053,
+        "end": 5.513,
+        "text": "Homer"
+      },
+      {
+        "start": 5.513,
+        "end": 5.893,
+        "text": "appeared"
+      },
+      {
+        "start": 5.893,
+        "end": 6.013,
+        "text": "to"
+      },
+      {
+        "start": 6.013,
+        "end": 6.183,
+        "text": "him"
+      },
+      {
+        "start": 6.183,
+        "end": 6.303,
+        "text": "in"
+      },
+      {
+        "start": 6.303,
+        "end": 6.363,
+        "text": "a"
+      },
+      {
+        "start": 6.363,
+        "end": 6.793,
+        "text": "dream"
+      },
+      {
+        "start": 6.793,
+        "end": 7.074,
+        "text": "and"
+      },
+      {
+        "start": 7.074,
+        "end": 7.624,
+        "text": "recited"
+      },
+      {
+        "start": 7.624,
+        "end": 7.704,
+        "text": "a"
+      },
+      {
+        "start": 7.704,
+        "end": 8.184,
+        "text": "passage"
+      },
+      {
+        "start": 8.184,
+        "end": 8.344,
+        "text": "from"
+      },
+      {
+        "start": 8.344,
+        "end": 8.484,
+        "text": "the"
+      },
+      {
+        "start": 8.484,
+        "end": 9.165,
+        "text": "Odyssey,"
+      },
+      {
+        "start": 9.165,
+        "end": 10.075,
+        "text": "inspiring"
+      },
+      {
+        "start": 10.075,
+        "end": 10.325,
+        "text": "him"
+      },
+      {
+        "start": 10.325,
+        "end": 10.525,
+        "text": "to"
+      },
+      {
+        "start": 10.525,
+        "end": 10.885,
+        "text": "choose"
+      },
+      {
+        "start": 10.885,
+        "end": 11.026,
+        "text": "the"
+      },
+      {
+        "start": 11.026,
+        "end": 11.356,
+        "text": "site"
+      },
+      {
+        "start": 11.356,
+        "end": 11.486,
+        "text": "of"
+      },
+      {
+        "start": 11.486,
+        "end": 12.566,
+        "text": "Alexandria."
+      },
+      {
+        "start": 12.566,
+        "end": 13.567,
+        "text": "Alexander"
+      },
+      {
+        "start": 13.567,
+        "end": 14.087,
+        "text": "praised"
+      },
+      {
+        "start": 14.087,
+        "end": 14.447,
+        "text": "Homer's"
+      },
+      {
+        "start": 14.447,
+        "end": 14.978,
+        "text": "poetry"
+      },
+      {
+        "start": 14.978,
+        "end": 15.208,
+        "text": "for"
+      },
+      {
+        "start": 15.208,
+        "end": 15.608,
+        "text": "guiding"
+      },
+      {
+        "start": 15.608,
+        "end": 15.848,
+        "text": "him"
+      },
+      {
+        "start": 15.848,
+        "end": 16.008,
+        "text": "to"
+      },
+      {
+        "start": 16.008,
+        "end": 16.158,
+        "text": "the"
+      },
+      {
+        "start": 16.158,
+        "end": 16.678,
+        "text": "perfect"
+      },
+      {
+        "start": 16.678,
+        "end": 17.239,
+        "text": "location"
+      },
+      {
+        "start": 17.239,
+        "end": 17.409,
+        "text": "for"
+      },
+      {
+        "start": 17.409,
+        "end": 17.569,
+        "text": "his"
+      },
+      {
+        "start": 17.569,
+        "end": 18.010958333333335,
+        "text": "city."
       }
     ],
     "D02d-quote": [
       {
         "start": 0,
-        "end": 3.811
+        "end": 0.407,
+        "text": "Homer's"
+      },
+      {
+        "start": 0.407,
+        "end": 0.754,
+        "text": "verse"
+      },
+      {
+        "start": 0.754,
+        "end": 0.957,
+        "text": "led"
+      },
+      {
+        "start": 0.957,
+        "end": 1.079,
+        "text": "me"
+      },
+      {
+        "start": 1.079,
+        "end": 1.191,
+        "text": "to"
+      },
+      {
+        "start": 1.191,
+        "end": 1.313,
+        "text": "the"
+      },
+      {
+        "start": 1.313,
+        "end": 1.761,
+        "text": "perfect"
+      },
+      {
+        "start": 1.761,
+        "end": 2.056,
+        "text": "site"
+      },
+      {
+        "start": 2.056,
+        "end": 2.199,
+        "text": "for"
+      },
+      {
+        "start": 2.199,
+        "end": 2.362,
+        "text": "my"
+      },
+      {
+        "start": 2.362,
+        "end": 2.72,
+        "text": "city."
       }
     ],
     "D03b-summary": [
       {
         "start": 0,
-        "end": 1.307
+        "end": 0.64,
+        "text": "Written"
       },
       {
-        "start": 1.307,
-        "end": 4.3
+        "start": 0.64,
+        "end": 0.851,
+        "text": "by"
       },
       {
-        "start": 4.3,
-        "end": 6.14
+        "start": 0.851,
+        "end": 1.611,
+        "text": "Xenophon,"
       },
       {
-        "start": 6.14,
-        "end": 9.16
+        "start": 1.611,
+        "end": 1.981,
+        "text": "this"
       },
       {
-        "start": 9.16,
-        "end": 13.62
+        "start": 1.981,
+        "end": 2.271,
+        "text": "work"
       },
       {
-        "start": 13.62,
-        "end": 15.08
+        "start": 2.271,
+        "end": 2.852,
+        "text": "chronicles"
       },
       {
-        "start": 15.08,
-        "end": 16.62
+        "start": 2.852,
+        "end": 3.012,
+        "text": "the"
       },
       {
-        "start": 16.62,
-        "end": 18.66
+        "start": 3.012,
+        "end": 3.312,
+        "text": "life"
       },
       {
-        "start": 18.66,
-        "end": 20.971
+        "start": 3.312,
+        "end": 3.452,
+        "text": "of"
+      },
+      {
+        "start": 3.452,
+        "end": 3.922,
+        "text": "Cyrus"
+      },
+      {
+        "start": 3.922,
+        "end": 4.063,
+        "text": "the"
+      },
+      {
+        "start": 4.063,
+        "end": 4.523,
+        "text": "Great,"
+      },
+      {
+        "start": 4.523,
+        "end": 5.143,
+        "text": "founder"
+      },
+      {
+        "start": 5.143,
+        "end": 5.233,
+        "text": "of"
+      },
+      {
+        "start": 5.233,
+        "end": 5.343,
+        "text": "the"
+      },
+      {
+        "start": 5.343,
+        "end": 5.714,
+        "text": "Persian"
+      },
+      {
+        "start": 5.714,
+        "end": 6.444,
+        "text": "Empire."
+      },
+      {
+        "start": 6.444,
+        "end": 7.004,
+        "text": "More"
+      },
+      {
+        "start": 7.004,
+        "end": 7.525,
+        "text": "political"
+      },
+      {
+        "start": 7.525,
+        "end": 8.195,
+        "text": "philosophy"
+      },
+      {
+        "start": 8.195,
+        "end": 8.395,
+        "text": "than"
+      },
+      {
+        "start": 8.395,
+        "end": 8.725,
+        "text": "strict"
+      },
+      {
+        "start": 8.725,
+        "end": 9.366,
+        "text": "history,"
+      },
+      {
+        "start": 9.366,
+        "end": 9.696,
+        "text": "it"
+      },
+      {
+        "start": 9.696,
+        "end": 10.216,
+        "text": "projects"
+      },
+      {
+        "start": 10.216,
+        "end": 10.386,
+        "text": "the"
+      },
+      {
+        "start": 10.386,
+        "end": 10.957,
+        "text": "virtues"
+      },
+      {
+        "start": 10.957,
+        "end": 11.077,
+        "text": "of"
+      },
+      {
+        "start": 11.077,
+        "end": 11.197,
+        "text": "an"
+      },
+      {
+        "start": 11.197,
+        "end": 11.707,
+        "text": "ideal"
+      },
+      {
+        "start": 11.707,
+        "end": 12.208,
+        "text": "ruler"
+      },
+      {
+        "start": 12.208,
+        "end": 12.568,
+        "text": "onto"
+      },
+      {
+        "start": 12.568,
+        "end": 12.698,
+        "text": "the"
+      },
+      {
+        "start": 12.698,
+        "end": 13.038,
+        "text": "figure"
+      },
+      {
+        "start": 13.038,
+        "end": 13.148,
+        "text": "of"
+      },
+      {
+        "start": 13.148,
+        "end": 13.819,
+        "text": "Cyrus,"
+      },
+      {
+        "start": 13.819,
+        "end": 14.209,
+        "text": "his"
+      },
+      {
+        "start": 14.209,
+        "end": 14.609,
+        "text": "valor"
+      },
+      {
+        "start": 14.609,
+        "end": 14.729,
+        "text": "in"
+      },
+      {
+        "start": 14.729,
+        "end": 15.25,
+        "text": "battle,"
+      },
+      {
+        "start": 15.25,
+        "end": 15.61,
+        "text": "his"
+      },
+      {
+        "start": 15.61,
+        "end": 16.03,
+        "text": "wisdom"
+      },
+      {
+        "start": 16.03,
+        "end": 16.15,
+        "text": "in"
+      },
+      {
+        "start": 16.15,
+        "end": 16.81,
+        "text": "governance,"
+      },
+      {
+        "start": 16.81,
+        "end": 17.201,
+        "text": "his"
+      },
+      {
+        "start": 17.201,
+        "end": 17.931,
+        "text": "generosity"
+      },
+      {
+        "start": 17.931,
+        "end": 18.211,
+        "text": "toward"
+      },
+      {
+        "start": 18.211,
+        "end": 18.902,
+        "text": "soldiers,"
+      },
+      {
+        "start": 18.902,
+        "end": 19.352,
+        "text": "and"
+      },
+      {
+        "start": 19.352,
+        "end": 19.562,
+        "text": "his"
+      },
+      {
+        "start": 19.562,
+        "end": 20.082,
+        "text": "firmness"
+      },
+      {
+        "start": 20.082,
+        "end": 20.423,
+        "text": "against"
+      },
+      {
+        "start": 20.423,
+        "end": 20.970958333333332,
+        "text": "enemies."
       }
     ],
     "D03c-context": [
       {
         "start": 0,
-        "end": 4.82
+        "end": 1.02,
+        "text": "Alexander"
       },
       {
-        "start": 4.82,
-        "end": 9.14
+        "start": 1.02,
+        "end": 1.3,
+        "text": "read"
       },
       {
-        "start": 9.14,
-        "end": 16.16
+        "start": 1.3,
+        "end": 1.51,
+        "text": "this"
       },
       {
-        "start": 16.16,
-        "end": 21.571
+        "start": 1.51,
+        "end": 1.751,
+        "text": "book"
+      },
+      {
+        "start": 1.751,
+        "end": 1.941,
+        "text": "from"
+      },
+      {
+        "start": 1.941,
+        "end": 2.671,
+        "text": "childhood"
+      },
+      {
+        "start": 2.671,
+        "end": 3.031,
+        "text": "and"
+      },
+      {
+        "start": 3.031,
+        "end": 3.561,
+        "text": "deeply"
+      },
+      {
+        "start": 3.561,
+        "end": 4.081,
+        "text": "admired"
+      },
+      {
+        "start": 4.081,
+        "end": 4.491,
+        "text": "Cyrus"
+      },
+      {
+        "start": 4.491,
+        "end": 4.611,
+        "text": "the"
+      },
+      {
+        "start": 4.611,
+        "end": 5.182,
+        "text": "Great."
+      },
+      {
+        "start": 5.182,
+        "end": 5.752,
+        "text": "That"
+      },
+      {
+        "start": 5.752,
+        "end": 6.532,
+        "text": "admiration"
+      },
+      {
+        "start": 6.532,
+        "end": 7.042,
+        "text": "revealed"
+      },
+      {
+        "start": 7.042,
+        "end": 7.512,
+        "text": "itself"
+      },
+      {
+        "start": 7.512,
+        "end": 7.872,
+        "text": "after"
+      },
+      {
+        "start": 7.872,
+        "end": 8.042,
+        "text": "his"
+      },
+      {
+        "start": 8.042,
+        "end": 8.582,
+        "text": "conquest"
+      },
+      {
+        "start": 8.582,
+        "end": 8.692,
+        "text": "of"
+      },
+      {
+        "start": 8.692,
+        "end": 9.483,
+        "text": "Persia."
+      },
+      {
+        "start": 9.483,
+        "end": 10.023,
+        "text": "When"
+      },
+      {
+        "start": 10.023,
+        "end": 10.653,
+        "text": "Alexander"
+      },
+      {
+        "start": 10.653,
+        "end": 11.083,
+        "text": "visited"
+      },
+      {
+        "start": 11.083,
+        "end": 11.203,
+        "text": "the"
+      },
+      {
+        "start": 11.203,
+        "end": 11.423,
+        "text": "tomb"
+      },
+      {
+        "start": 11.423,
+        "end": 11.523,
+        "text": "of"
+      },
+      {
+        "start": 11.523,
+        "end": 11.963,
+        "text": "Cyrus"
+      },
+      {
+        "start": 11.963,
+        "end": 12.083,
+        "text": "at"
+      },
+      {
+        "start": 12.083,
+        "end": 13.004,
+        "text": "Pasargadae"
+      },
+      {
+        "start": 13.004,
+        "end": 13.284,
+        "text": "and"
+      },
+      {
+        "start": 13.284,
+        "end": 13.874,
+        "text": "discovered"
+      },
+      {
+        "start": 13.874,
+        "end": 14.064,
+        "text": "that"
+      },
+      {
+        "start": 14.064,
+        "end": 14.434,
+        "text": "guards"
+      },
+      {
+        "start": 14.434,
+        "end": 14.614,
+        "text": "had"
+      },
+      {
+        "start": 14.614,
+        "end": 15.264,
+        "text": "desecrated"
+      },
+      {
+        "start": 15.264,
+        "end": 15.374,
+        "text": "the"
+      },
+      {
+        "start": 15.374,
+        "end": 15.764,
+        "text": "burial"
+      },
+      {
+        "start": 15.764,
+        "end": 16.365,
+        "text": "chamber,"
+      },
+      {
+        "start": 16.365,
+        "end": 16.755,
+        "text": "he"
+      },
+      {
+        "start": 16.755,
+        "end": 17.125,
+        "text": "ordered"
+      },
+      {
+        "start": 17.125,
+        "end": 17.345,
+        "text": "their"
+      },
+      {
+        "start": 17.345,
+        "end": 17.975,
+        "text": "immediate"
+      },
+      {
+        "start": 17.975,
+        "end": 18.775,
+        "text": "execution"
+      },
+      {
+        "start": 18.775,
+        "end": 19.055,
+        "text": "and"
+      },
+      {
+        "start": 19.055,
+        "end": 19.596,
+        "text": "commanded"
+      },
+      {
+        "start": 19.596,
+        "end": 19.726,
+        "text": "the"
+      },
+      {
+        "start": 19.726,
+        "end": 20.166,
+        "text": "tomb's"
+      },
+      {
+        "start": 20.166,
+        "end": 20.526,
+        "text": "full"
+      },
+      {
+        "start": 20.526,
+        "end": 21.570958333333333,
+        "text": "restoration."
       }
     ],
     "D04b-summary": [
       {
         "start": 0,
-        "end": 6.3
+        "end": 0.301,
+        "text": "A"
       },
       {
-        "start": 6.3,
-        "end": 10.34
+        "start": 0.301,
+        "end": 0.802,
+        "text": "firsthand"
       },
       {
-        "start": 10.34,
-        "end": 12.94
+        "start": 0.802,
+        "end": 1.203,
+        "text": "account"
       },
       {
-        "start": 12.94,
-        "end": 15.08
+        "start": 1.203,
+        "end": 1.353,
+        "text": "of"
       },
       {
-        "start": 15.08,
-        "end": 17.1
+        "start": 1.353,
+        "end": 1.623,
+        "text": "ten"
       },
       {
-        "start": 17.1,
-        "end": 18
+        "start": 1.623,
+        "end": 2.064,
+        "text": "thousand"
       },
       {
-        "start": 18,
-        "end": 18.749
+        "start": 2.064,
+        "end": 2.355,
+        "text": "Greek"
       },
       {
-        "start": 18.749,
-        "end": 20.251
+        "start": 2.355,
+        "end": 2.946,
+        "text": "mercenaries"
+      },
+      {
+        "start": 2.946,
+        "end": 3.116,
+        "text": "who"
+      },
+      {
+        "start": 3.116,
+        "end": 3.397,
+        "text": "joined"
+      },
+      {
+        "start": 3.397,
+        "end": 3.517,
+        "text": "the"
+      },
+      {
+        "start": 3.517,
+        "end": 4.008,
+        "text": "rebellion"
+      },
+      {
+        "start": 4.008,
+        "end": 4.128,
+        "text": "of"
+      },
+      {
+        "start": 4.128,
+        "end": 4.549,
+        "text": "Cyrus"
+      },
+      {
+        "start": 4.549,
+        "end": 4.669,
+        "text": "the"
+      },
+      {
+        "start": 4.669,
+        "end": 5.08,
+        "text": "Younger"
+      },
+      {
+        "start": 5.08,
+        "end": 5.231,
+        "text": "in"
+      },
+      {
+        "start": 5.231,
+        "end": 5.742,
+        "text": "401"
+      },
+      {
+        "start": 5.742,
+        "end": 6.674,
+        "text": "BC."
+      },
+      {
+        "start": 6.674,
+        "end": 7.235,
+        "text": "After"
+      },
+      {
+        "start": 7.235,
+        "end": 7.625,
+        "text": "marching"
+      },
+      {
+        "start": 7.625,
+        "end": 7.896,
+        "text": "deep"
+      },
+      {
+        "start": 7.896,
+        "end": 8.136,
+        "text": "into"
+      },
+      {
+        "start": 8.136,
+        "end": 8.598,
+        "text": "Persia"
+      },
+      {
+        "start": 8.598,
+        "end": 8.788,
+        "text": "and"
+      },
+      {
+        "start": 8.788,
+        "end": 9.108,
+        "text": "losing"
+      },
+      {
+        "start": 9.108,
+        "end": 9.279,
+        "text": "their"
+      },
+      {
+        "start": 9.279,
+        "end": 9.78,
+        "text": "commanders"
+      },
+      {
+        "start": 9.78,
+        "end": 9.92,
+        "text": "to"
+      },
+      {
+        "start": 9.92,
+        "end": 10.522,
+        "text": "treachery,"
+      },
+      {
+        "start": 10.522,
+        "end": 10.882,
+        "text": "they"
+      },
+      {
+        "start": 10.882,
+        "end": 11.123,
+        "text": "fought"
+      },
+      {
+        "start": 11.123,
+        "end": 11.313,
+        "text": "their"
+      },
+      {
+        "start": 11.313,
+        "end": 11.503,
+        "text": "way"
+      },
+      {
+        "start": 11.503,
+        "end": 11.764,
+        "text": "back"
+      },
+      {
+        "start": 11.764,
+        "end": 12.014,
+        "text": "through"
+      },
+      {
+        "start": 12.014,
+        "end": 12.465,
+        "text": "hostile"
+      },
+      {
+        "start": 12.465,
+        "end": 13.357,
+        "text": "territory."
+      },
+      {
+        "start": 13.357,
+        "end": 13.988,
+        "text": "Written"
+      },
+      {
+        "start": 13.988,
+        "end": 14.159,
+        "text": "by"
+      },
+      {
+        "start": 14.159,
+        "end": 14.69,
+        "text": "Xenophon"
+      },
+      {
+        "start": 14.69,
+        "end": 15.351,
+        "text": "himself,"
+      },
+      {
+        "start": 15.351,
+        "end": 15.652,
+        "text": "it"
+      },
+      {
+        "start": 15.652,
+        "end": 15.802,
+        "text": "is"
+      },
+      {
+        "start": 15.802,
+        "end": 16.122,
+        "text": "rich"
+      },
+      {
+        "start": 16.122,
+        "end": 16.283,
+        "text": "in"
+      },
+      {
+        "start": 16.283,
+        "end": 16.754,
+        "text": "tactical"
+      },
+      {
+        "start": 16.754,
+        "end": 17.355,
+        "text": "detail,"
+      },
+      {
+        "start": 17.355,
+        "end": 18.187,
+        "text": "terrain,"
+      },
+      {
+        "start": 18.187,
+        "end": 19.069,
+        "text": "logistics,"
+      },
+      {
+        "start": 19.069,
+        "end": 19.309,
+        "text": "and"
+      },
+      {
+        "start": 19.309,
+        "end": 19.85,
+        "text": "battlefield"
+      },
+      {
+        "start": 19.85,
+        "end": 20.250958333333333,
+        "text": "strategy."
       }
     ],
     "D04c-context": [
       {
         "start": 0,
-        "end": 5.08
+        "end": 0.54,
+        "text": "This"
       },
       {
-        "start": 5.08,
-        "end": 8.9
+        "start": 0.54,
+        "end": 0.871,
+        "text": "book"
       },
       {
-        "start": 8.9,
-        "end": 11.12
+        "start": 0.871,
+        "end": 1.301,
+        "text": "served"
       },
       {
-        "start": 11.12,
-        "end": 14.48
+        "start": 1.301,
+        "end": 1.521,
+        "text": "as"
       },
       {
-        "start": 14.48,
-        "end": 16.48
+        "start": 1.521,
+        "end": 2.362,
+        "text": "Alexander's"
       },
       {
-        "start": 16.48,
-        "end": 20.611
+        "start": 2.362,
+        "end": 2.993,
+        "text": "practical"
+      },
+      {
+        "start": 2.993,
+        "end": 3.563,
+        "text": "military"
+      },
+      {
+        "start": 3.563,
+        "end": 3.863,
+        "text": "guide"
+      },
+      {
+        "start": 3.863,
+        "end": 4.023,
+        "text": "for"
+      },
+      {
+        "start": 4.023,
+        "end": 4.183,
+        "text": "his"
+      },
+      {
+        "start": 4.183,
+        "end": 4.564,
+        "text": "Persian"
+      },
+      {
+        "start": 4.564,
+        "end": 5.374,
+        "text": "campaign."
+      },
+      {
+        "start": 5.374,
+        "end": 5.905,
+        "text": "No"
+      },
+      {
+        "start": 5.905,
+        "end": 6.686,
+        "text": "Macedonian"
+      },
+      {
+        "start": 6.686,
+        "end": 6.896,
+        "text": "had"
+      },
+      {
+        "start": 6.896,
+        "end": 7.176,
+        "text": "ever"
+      },
+      {
+        "start": 7.176,
+        "end": 7.817,
+        "text": "penetrated"
+      },
+      {
+        "start": 7.817,
+        "end": 8.047,
+        "text": "so"
+      },
+      {
+        "start": 8.047,
+        "end": 8.307,
+        "text": "deep"
+      },
+      {
+        "start": 8.307,
+        "end": 8.537,
+        "text": "into"
+      },
+      {
+        "start": 8.537,
+        "end": 9.178,
+        "text": "Asia,"
+      },
+      {
+        "start": 9.178,
+        "end": 9.738,
+        "text": "only"
+      },
+      {
+        "start": 9.738,
+        "end": 10.309,
+        "text": "Xenophon"
+      },
+      {
+        "start": 10.309,
+        "end": 10.449,
+        "text": "had"
+      },
+      {
+        "start": 10.449,
+        "end": 10.699,
+        "text": "mapped"
+      },
+      {
+        "start": 10.699,
+        "end": 10.809,
+        "text": "the"
+      },
+      {
+        "start": 10.809,
+        "end": 11.5,
+        "text": "route."
+      },
+      {
+        "start": 11.5,
+        "end": 12.57,
+        "text": "Alexander"
+      },
+      {
+        "start": 12.57,
+        "end": 12.981,
+        "text": "studied"
+      },
+      {
+        "start": 12.981,
+        "end": 13.811,
+        "text": "Mesopotamian"
+      },
+      {
+        "start": 13.811,
+        "end": 14.712,
+        "text": "geography,"
+      },
+      {
+        "start": 14.712,
+        "end": 15.413,
+        "text": "Persian"
+      },
+      {
+        "start": 15.413,
+        "end": 15.973,
+        "text": "military"
+      },
+      {
+        "start": 15.973,
+        "end": 16.694,
+        "text": "tactics,"
+      },
+      {
+        "start": 16.694,
+        "end": 17.104,
+        "text": "and"
+      },
+      {
+        "start": 17.104,
+        "end": 17.705,
+        "text": "logistics"
+      },
+      {
+        "start": 17.705,
+        "end": 17.835,
+        "text": "in"
+      },
+      {
+        "start": 17.835,
+        "end": 18.315,
+        "text": "hostile"
+      },
+      {
+        "start": 18.315,
+        "end": 18.916,
+        "text": "territory"
+      },
+      {
+        "start": 18.916,
+        "end": 19.156,
+        "text": "from"
+      },
+      {
+        "start": 19.156,
+        "end": 19.446,
+        "text": "these"
+      },
+      {
+        "start": 19.446,
+        "end": 19.816,
+        "text": "very"
+      },
+      {
+        "start": 19.816,
+        "end": 20.610958333333333,
+        "text": "pages."
       }
     ],
     "D05b-summary": [
       {
         "start": 0,
-        "end": 2.8
+        "end": 0.471,
+        "text": "An"
       },
       {
-        "start": 2.8,
-        "end": 4.84
+        "start": 0.471,
+        "end": 1.082,
+        "text": "anthology"
       },
       {
-        "start": 4.84,
-        "end": 6.42
+        "start": 1.082,
+        "end": 1.273,
+        "text": "of"
       },
       {
-        "start": 6.42,
-        "end": 8.26
+        "start": 1.273,
+        "end": 1.703,
+        "text": "ancient"
       },
       {
-        "start": 8.26,
-        "end": 9.92
+        "start": 1.703,
+        "end": 2.024,
+        "text": "Greek"
       },
       {
-        "start": 9.92,
-        "end": 11.78
+        "start": 2.024,
+        "end": 2.364,
+        "text": "lyric"
       },
       {
-        "start": 11.78,
-        "end": 14.92
+        "start": 2.364,
+        "end": 2.896,
+        "text": "poets,"
       },
       {
-        "start": 14.92,
-        "end": 17.811
+        "start": 2.896,
+        "end": 3.517,
+        "text": "including"
+      },
+      {
+        "start": 3.517,
+        "end": 4.058,
+        "text": "Pindar's"
+      },
+      {
+        "start": 4.058,
+        "end": 4.509,
+        "text": "victory"
+      },
+      {
+        "start": 4.509,
+        "end": 5.02,
+        "text": "odes,"
+      },
+      {
+        "start": 5.02,
+        "end": 5.741,
+        "text": "Sappho's"
+      },
+      {
+        "start": 5.741,
+        "end": 5.991,
+        "text": "love"
+      },
+      {
+        "start": 5.991,
+        "end": 6.563,
+        "text": "poems,"
+      },
+      {
+        "start": 6.563,
+        "end": 6.913,
+        "text": "and"
+      },
+      {
+        "start": 6.913,
+        "end": 7.595,
+        "text": "Alcaeus's"
+      },
+      {
+        "start": 7.595,
+        "end": 7.845,
+        "text": "war"
+      },
+      {
+        "start": 7.845,
+        "end": 8.616,
+        "text": "songs."
+      },
+      {
+        "start": 8.616,
+        "end": 9.568,
+        "text": "Pindar's"
+      },
+      {
+        "start": 9.568,
+        "end": 10.08,
+        "text": "odes,"
+      },
+      {
+        "start": 10.08,
+        "end": 10.69,
+        "text": "composed"
+      },
+      {
+        "start": 10.69,
+        "end": 10.881,
+        "text": "for"
+      },
+      {
+        "start": 10.881,
+        "end": 11.241,
+        "text": "Olympic"
+      },
+      {
+        "start": 11.241,
+        "end": 11.963,
+        "text": "champions,"
+      },
+      {
+        "start": 11.963,
+        "end": 12.324,
+        "text": "are"
+      },
+      {
+        "start": 12.324,
+        "end": 12.764,
+        "text": "choral"
+      },
+      {
+        "start": 12.764,
+        "end": 13.255,
+        "text": "hymns"
+      },
+      {
+        "start": 13.255,
+        "end": 13.897,
+        "text": "celebrating"
+      },
+      {
+        "start": 13.897,
+        "end": 14.388,
+        "text": "heroic"
+      },
+      {
+        "start": 14.388,
+        "end": 15.119,
+        "text": "ideals,"
+      },
+      {
+        "start": 15.119,
+        "end": 15.5,
+        "text": "the"
+      },
+      {
+        "start": 15.5,
+        "end": 16.061,
+        "text": "pinnacle"
+      },
+      {
+        "start": 16.061,
+        "end": 16.221,
+        "text": "of"
+      },
+      {
+        "start": 16.221,
+        "end": 16.752,
+        "text": "classical"
+      },
+      {
+        "start": 16.752,
+        "end": 17.063,
+        "text": "Greek"
+      },
+      {
+        "start": 17.063,
+        "end": 17.810958333333332,
+        "text": "literature."
       }
     ],
     "D05c-context": [
       {
         "start": 0,
-        "end": 0.764
+        "end": 0.8,
+        "text": "In"
       },
       {
-        "start": 0.764,
-        "end": 5.88
+        "start": 0.8,
+        "end": 1.386,
+        "text": "335"
       },
       {
-        "start": 5.88,
-        "end": 9.96
+        "start": 1.386,
+        "end": 2.251,
+        "text": "BC,"
       },
       {
-        "start": 9.96,
-        "end": 11.36
+        "start": 2.251,
+        "end": 2.631,
+        "text": "when"
       },
       {
-        "start": 11.36,
-        "end": 12.78
+        "start": 2.631,
+        "end": 3.272,
+        "text": "Alexander"
       },
       {
-        "start": 12.78,
-        "end": 17.02
+        "start": 3.272,
+        "end": 3.742,
+        "text": "crushed"
       },
       {
-        "start": 17.02,
-        "end": 19.52
+        "start": 3.742,
+        "end": 3.892,
+        "text": "the"
       },
       {
-        "start": 19.52,
-        "end": 21.691
+        "start": 3.892,
+        "end": 4.252,
+        "text": "Theban"
+      },
+      {
+        "start": 4.252,
+        "end": 4.722,
+        "text": "revolt"
+      },
+      {
+        "start": 4.722,
+        "end": 4.932,
+        "text": "and"
+      },
+      {
+        "start": 4.932,
+        "end": 5.383,
+        "text": "razed"
+      },
+      {
+        "start": 5.383,
+        "end": 5.543,
+        "text": "the"
+      },
+      {
+        "start": 5.543,
+        "end": 6.073,
+        "text": "city,"
+      },
+      {
+        "start": 6.073,
+        "end": 6.423,
+        "text": "he"
+      },
+      {
+        "start": 6.423,
+        "end": 6.653,
+        "text": "gave"
+      },
+      {
+        "start": 6.653,
+        "end": 6.763,
+        "text": "a"
+      },
+      {
+        "start": 6.763,
+        "end": 7.273,
+        "text": "single"
+      },
+      {
+        "start": 7.273,
+        "end": 7.614,
+        "text": "order"
+      },
+      {
+        "start": 7.614,
+        "end": 7.744,
+        "text": "of"
+      },
+      {
+        "start": 7.744,
+        "end": 8.734,
+        "text": "preservation:"
+      },
+      {
+        "start": 8.734,
+        "end": 9.334,
+        "text": "spare"
+      },
+      {
+        "start": 9.334,
+        "end": 9.444,
+        "text": "the"
+      },
+      {
+        "start": 9.444,
+        "end": 10.115,
+        "text": "temples,"
+      },
+      {
+        "start": 10.115,
+        "end": 10.445,
+        "text": "the"
+      },
+      {
+        "start": 10.445,
+        "end": 10.755,
+        "text": "house"
+      },
+      {
+        "start": 10.755,
+        "end": 10.865,
+        "text": "of"
+      },
+      {
+        "start": 10.865,
+        "end": 11.565,
+        "text": "Pindar,"
+      },
+      {
+        "start": 11.565,
+        "end": 11.926,
+        "text": "and"
+      },
+      {
+        "start": 11.926,
+        "end": 12.126,
+        "text": "his"
+      },
+      {
+        "start": 12.126,
+        "end": 13.096,
+        "text": "descendants."
+      },
+      {
+        "start": 13.096,
+        "end": 13.946,
+        "text": "Pindar"
+      },
+      {
+        "start": 13.946,
+        "end": 14.147,
+        "text": "had"
+      },
+      {
+        "start": 14.147,
+        "end": 14.437,
+        "text": "once"
+      },
+      {
+        "start": 14.437,
+        "end": 14.817,
+        "text": "written"
+      },
+      {
+        "start": 14.817,
+        "end": 15.187,
+        "text": "odes"
+      },
+      {
+        "start": 15.187,
+        "end": 15.687,
+        "text": "praising"
+      },
+      {
+        "start": 15.687,
+        "end": 16.358,
+        "text": "Alexander's"
+      },
+      {
+        "start": 16.358,
+        "end": 17.318,
+        "text": "ancestors."
+      },
+      {
+        "start": 17.318,
+        "end": 17.838,
+        "text": "He"
+      },
+      {
+        "start": 17.838,
+        "end": 18.309,
+        "text": "burned"
+      },
+      {
+        "start": 18.309,
+        "end": 18.459,
+        "text": "a"
+      },
+      {
+        "start": 18.459,
+        "end": 18.839,
+        "text": "city"
+      },
+      {
+        "start": 18.839,
+        "end": 18.989,
+        "text": "to"
+      },
+      {
+        "start": 18.989,
+        "end": 19.099,
+        "text": "the"
+      },
+      {
+        "start": 19.099,
+        "end": 19.769,
+        "text": "ground,"
+      },
+      {
+        "start": 19.769,
+        "end": 20.269,
+        "text": "yet"
+      },
+      {
+        "start": 20.269,
+        "end": 20.7,
+        "text": "spared"
+      },
+      {
+        "start": 20.7,
+        "end": 20.8,
+        "text": "a"
+      },
+      {
+        "start": 20.8,
+        "end": 21.23,
+        "text": "poet's"
+      },
+      {
+        "start": 21.23,
+        "end": 21.690958333333334,
+        "text": "home."
       }
     ],
     "D06b-summary": [
       {
         "start": 0,
-        "end": 1.98
+        "end": 0.371,
+        "text": "The"
       },
       {
-        "start": 1.98,
-        "end": 3.46
+        "start": 0.371,
+        "end": 0.843,
+        "text": "collected"
       },
       {
-        "start": 3.46,
-        "end": 6.02
+        "start": 0.843,
+        "end": 1.174,
+        "text": "works"
       },
       {
-        "start": 6.02,
-        "end": 7.54
+        "start": 1.174,
+        "end": 1.254,
+        "text": "of"
       },
       {
-        "start": 7.54,
-        "end": 13.771
+        "start": 1.254,
+        "end": 2.067,
+        "text": "Aeschylus,"
+      },
+      {
+        "start": 2.067,
+        "end": 2.377,
+        "text": "the"
+      },
+      {
+        "start": 2.377,
+        "end": 2.808,
+        "text": "father"
+      },
+      {
+        "start": 2.808,
+        "end": 2.929,
+        "text": "of"
+      },
+      {
+        "start": 2.929,
+        "end": 3.771,
+        "text": "tragedy."
+      },
+      {
+        "start": 3.771,
+        "end": 4.413,
+        "text": "Among"
+      },
+      {
+        "start": 4.413,
+        "end": 4.614,
+        "text": "his"
+      },
+      {
+        "start": 4.614,
+        "end": 5.025,
+        "text": "seven"
+      },
+      {
+        "start": 5.025,
+        "end": 5.587,
+        "text": "surviving"
+      },
+      {
+        "start": 5.587,
+        "end": 6.159,
+        "text": "plays,"
+      },
+      {
+        "start": 6.159,
+        "end": 6.439,
+        "text": "The"
+      },
+      {
+        "start": 6.439,
+        "end": 6.971,
+        "text": "Persians"
+      },
+      {
+        "start": 6.971,
+        "end": 7.372,
+        "text": "stands"
+      },
+      {
+        "start": 7.372,
+        "end": 7.723,
+        "text": "out,"
+      },
+      {
+        "start": 7.723,
+        "end": 8.104,
+        "text": "the"
+      },
+      {
+        "start": 8.104,
+        "end": 8.556,
+        "text": "only"
+      },
+      {
+        "start": 8.556,
+        "end": 9.017,
+        "text": "extant"
+      },
+      {
+        "start": 9.017,
+        "end": 9.328,
+        "text": "war"
+      },
+      {
+        "start": 9.328,
+        "end": 9.869,
+        "text": "tragedy"
+      },
+      {
+        "start": 9.869,
+        "end": 10.411,
+        "text": "depicting"
+      },
+      {
+        "start": 10.411,
+        "end": 10.531,
+        "text": "the"
+      },
+      {
+        "start": 10.531,
+        "end": 10.993,
+        "text": "defeat"
+      },
+      {
+        "start": 10.993,
+        "end": 11.163,
+        "text": "at"
+      },
+      {
+        "start": 11.163,
+        "end": 11.805,
+        "text": "Salamis"
+      },
+      {
+        "start": 11.805,
+        "end": 12.086,
+        "text": "from"
+      },
+      {
+        "start": 12.086,
+        "end": 12.196,
+        "text": "the"
+      },
+      {
+        "start": 12.196,
+        "end": 12.648,
+        "text": "Persian"
+      },
+      {
+        "start": 12.648,
+        "end": 12.959,
+        "text": "court's"
+      },
+      {
+        "start": 12.959,
+        "end": 13.770958333333333,
+        "text": "perspective."
       }
     ],
     "D06c-context": [
       {
         "start": 0,
-        "end": 2.8
+        "end": 0.541,
+        "text": "When"
       },
       {
-        "start": 2.8,
-        "end": 6.8
+        "start": 0.541,
+        "end": 0.861,
+        "text": "books"
       },
       {
-        "start": 6.8,
-        "end": 8.48
+        "start": 0.861,
+        "end": 1.151,
+        "text": "ran"
       },
       {
-        "start": 8.48,
-        "end": 16.251
+        "start": 1.151,
+        "end": 1.492,
+        "text": "short"
+      },
+      {
+        "start": 1.492,
+        "end": 1.762,
+        "text": "during"
+      },
+      {
+        "start": 1.762,
+        "end": 1.862,
+        "text": "the"
+      },
+      {
+        "start": 1.862,
+        "end": 2.243,
+        "text": "Persian"
+      },
+      {
+        "start": 2.243,
+        "end": 3.004,
+        "text": "campaign,"
+      },
+      {
+        "start": 3.004,
+        "end": 3.885,
+        "text": "Alexander"
+      },
+      {
+        "start": 3.885,
+        "end": 4.465,
+        "text": "requested"
+      },
+      {
+        "start": 4.465,
+        "end": 4.796,
+        "text": "fresh"
+      },
+      {
+        "start": 4.796,
+        "end": 5.316,
+        "text": "supplies"
+      },
+      {
+        "start": 5.316,
+        "end": 5.507,
+        "text": "from"
+      },
+      {
+        "start": 5.507,
+        "end": 5.677,
+        "text": "his"
+      },
+      {
+        "start": 5.677,
+        "end": 6.157,
+        "text": "treasurer"
+      },
+      {
+        "start": 6.157,
+        "end": 6.958,
+        "text": "Harpalus,"
+      },
+      {
+        "start": 6.958,
+        "end": 7.239,
+        "text": "and"
+      },
+      {
+        "start": 7.239,
+        "end": 7.849,
+        "text": "Aeschylus"
+      },
+      {
+        "start": 7.849,
+        "end": 8.03,
+        "text": "was"
+      },
+      {
+        "start": 8.03,
+        "end": 8.29,
+        "text": "among"
+      },
+      {
+        "start": 8.29,
+        "end": 8.801,
+        "text": "them."
+      },
+      {
+        "start": 8.801,
+        "end": 9.221,
+        "text": "A"
+      },
+      {
+        "start": 9.221,
+        "end": 9.511,
+        "text": "play"
+      },
+      {
+        "start": 9.511,
+        "end": 9.772,
+        "text": "about"
+      },
+      {
+        "start": 9.772,
+        "end": 10.242,
+        "text": "Greece's"
+      },
+      {
+        "start": 10.242,
+        "end": 10.703,
+        "text": "victory"
+      },
+      {
+        "start": 10.703,
+        "end": 10.913,
+        "text": "over"
+      },
+      {
+        "start": 10.913,
+        "end": 11.524,
+        "text": "Persia"
+      },
+      {
+        "start": 11.524,
+        "end": 11.934,
+        "text": "must"
+      },
+      {
+        "start": 11.934,
+        "end": 12.094,
+        "text": "have"
+      },
+      {
+        "start": 12.094,
+        "end": 12.365,
+        "text": "held"
+      },
+      {
+        "start": 12.365,
+        "end": 12.815,
+        "text": "special"
+      },
+      {
+        "start": 12.815,
+        "end": 13.296,
+        "text": "resonance"
+      },
+      {
+        "start": 13.296,
+        "end": 13.476,
+        "text": "for"
+      },
+      {
+        "start": 13.476,
+        "end": 13.556,
+        "text": "a"
+      },
+      {
+        "start": 13.556,
+        "end": 13.816,
+        "text": "man"
+      },
+      {
+        "start": 13.816,
+        "end": 13.977,
+        "text": "who"
+      },
+      {
+        "start": 13.977,
+        "end": 14.157,
+        "text": "was"
+      },
+      {
+        "start": 14.157,
+        "end": 14.577,
+        "text": "marching"
+      },
+      {
+        "start": 14.577,
+        "end": 14.707,
+        "text": "to"
+      },
+      {
+        "start": 14.707,
+        "end": 15.088,
+        "text": "conquer"
+      },
+      {
+        "start": 15.088,
+        "end": 15.488,
+        "text": "Persia"
+      },
+      {
+        "start": 15.488,
+        "end": 16.250958333333333,
+        "text": "himself."
       }
     ],
     "D07b-summary": [
       {
         "start": 0,
-        "end": 3.8
+        "end": 0.922,
+        "text": "Tragedies"
       },
       {
-        "start": 3.8,
-        "end": 5.32
+        "start": 0.922,
+        "end": 1.504,
+        "text": "exploring"
       },
       {
-        "start": 5.32,
-        "end": 6.32
+        "start": 1.504,
+        "end": 1.624,
+        "text": "the"
       },
       {
-        "start": 6.32,
-        "end": 7.24
+        "start": 1.624,
+        "end": 2.155,
+        "text": "collision"
       },
       {
-        "start": 7.24,
-        "end": 12.82
+        "start": 2.155,
+        "end": 2.606,
+        "text": "between"
       },
       {
-        "start": 12.82,
-        "end": 16.371
+        "start": 2.606,
+        "end": 2.987,
+        "text": "fate"
+      },
+      {
+        "start": 2.987,
+        "end": 3.168,
+        "text": "and"
+      },
+      {
+        "start": 3.168,
+        "end": 3.509,
+        "text": "human"
+      },
+      {
+        "start": 3.509,
+        "end": 4.14,
+        "text": "will."
+      },
+      {
+        "start": 4.14,
+        "end": 4.952,
+        "text": "Oedipus"
+      },
+      {
+        "start": 4.952,
+        "end": 5.504,
+        "text": "Rex,"
+      },
+      {
+        "start": 5.504,
+        "end": 6.536,
+        "text": "Antigone,"
+      },
+      {
+        "start": 6.536,
+        "end": 7.539,
+        "text": "Electra,"
+      },
+      {
+        "start": 7.539,
+        "end": 8.471,
+        "text": "Sophocles"
+      },
+      {
+        "start": 8.471,
+        "end": 8.832,
+        "text": "paints"
+      },
+      {
+        "start": 8.832,
+        "end": 8.982,
+        "text": "the"
+      },
+      {
+        "start": 8.982,
+        "end": 9.453,
+        "text": "heroic"
+      },
+      {
+        "start": 9.453,
+        "end": 10.075,
+        "text": "defiance"
+      },
+      {
+        "start": 10.075,
+        "end": 10.225,
+        "text": "of"
+      },
+      {
+        "start": 10.225,
+        "end": 10.797,
+        "text": "mortals"
+      },
+      {
+        "start": 10.797,
+        "end": 11.588,
+        "text": "confronting"
+      },
+      {
+        "start": 11.588,
+        "end": 12.38,
+        "text": "inescapable"
+      },
+      {
+        "start": 12.38,
+        "end": 13.212,
+        "text": "destiny."
+      },
+      {
+        "start": 13.212,
+        "end": 13.703,
+        "text": "He"
+      },
+      {
+        "start": 13.703,
+        "end": 13.834,
+        "text": "is"
+      },
+      {
+        "start": 13.834,
+        "end": 14.265,
+        "text": "hailed"
+      },
+      {
+        "start": 14.265,
+        "end": 14.415,
+        "text": "as"
+      },
+      {
+        "start": 14.415,
+        "end": 14.596,
+        "text": "the"
+      },
+      {
+        "start": 14.596,
+        "end": 15.137,
+        "text": "master"
+      },
+      {
+        "start": 15.137,
+        "end": 15.287,
+        "text": "of"
+      },
+      {
+        "start": 15.287,
+        "end": 15.769,
+        "text": "tragic"
+      },
+      {
+        "start": 15.769,
+        "end": 16.370958333333334,
+        "text": "irony."
       }
     ],
     "D07c-context": [
       {
         "start": 0,
-        "end": 5.02
+        "end": 0.751,
+        "text": "Another"
       },
       {
-        "start": 5.02,
-        "end": 8.8
+        "start": 0.751,
+        "end": 1.082,
+        "text": "work"
       },
       {
-        "start": 8.8,
-        "end": 12.2
+        "start": 1.082,
+        "end": 1.713,
+        "text": "Alexander"
       },
       {
-        "start": 12.2,
-        "end": 14.931
+        "start": 1.713,
+        "end": 2.084,
+        "text": "received"
+      },
+      {
+        "start": 2.084,
+        "end": 2.254,
+        "text": "from"
+      },
+      {
+        "start": 2.254,
+        "end": 2.425,
+        "text": "his"
+      },
+      {
+        "start": 2.425,
+        "end": 2.936,
+        "text": "treasurer"
+      },
+      {
+        "start": 2.936,
+        "end": 3.657,
+        "text": "Harpalus"
+      },
+      {
+        "start": 3.657,
+        "end": 4.008,
+        "text": "during"
+      },
+      {
+        "start": 4.008,
+        "end": 4.148,
+        "text": "the"
+      },
+      {
+        "start": 4.148,
+        "end": 4.508,
+        "text": "inland"
+      },
+      {
+        "start": 4.508,
+        "end": 5.29,
+        "text": "campaign."
+      },
+      {
+        "start": 5.29,
+        "end": 5.711,
+        "text": "He"
+      },
+      {
+        "start": 5.711,
+        "end": 5.901,
+        "text": "had"
+      },
+      {
+        "start": 5.901,
+        "end": 6.502,
+        "text": "complete"
+      },
+      {
+        "start": 6.502,
+        "end": 6.793,
+        "text": "sets"
+      },
+      {
+        "start": 6.793,
+        "end": 6.923,
+        "text": "of"
+      },
+      {
+        "start": 6.923,
+        "end": 7.594,
+        "text": "tragedies"
+      },
+      {
+        "start": 7.594,
+        "end": 7.925,
+        "text": "shipped"
+      },
+      {
+        "start": 7.925,
+        "end": 8.015,
+        "text": "to"
+      },
+      {
+        "start": 8.015,
+        "end": 8.125,
+        "text": "the"
+      },
+      {
+        "start": 8.125,
+        "end": 8.366,
+        "text": "front"
+      },
+      {
+        "start": 8.366,
+        "end": 9.057,
+        "text": "lines,"
+      },
+      {
+        "start": 9.057,
+        "end": 9.658,
+        "text": "proof"
+      },
+      {
+        "start": 9.658,
+        "end": 9.838,
+        "text": "that"
+      },
+      {
+        "start": 9.838,
+        "end": 9.979,
+        "text": "he"
+      },
+      {
+        "start": 9.979,
+        "end": 10.42,
+        "text": "regarded"
+      },
+      {
+        "start": 10.42,
+        "end": 11.011,
+        "text": "literature"
+      },
+      {
+        "start": 11.011,
+        "end": 11.261,
+        "text": "as"
+      },
+      {
+        "start": 11.261,
+        "end": 11.802,
+        "text": "essential"
+      },
+      {
+        "start": 11.802,
+        "end": 12.494,
+        "text": "supply,"
+      },
+      {
+        "start": 12.494,
+        "end": 12.854,
+        "text": "as"
+      },
+      {
+        "start": 12.854,
+        "end": 13.295,
+        "text": "vital"
+      },
+      {
+        "start": 13.295,
+        "end": 13.485,
+        "text": "as"
+      },
+      {
+        "start": 13.485,
+        "end": 13.956,
+        "text": "grain"
+      },
+      {
+        "start": 13.956,
+        "end": 14.137,
+        "text": "or"
+      },
+      {
+        "start": 14.137,
+        "end": 14.930958333333333,
+        "text": "weapons."
       }
     ],
     "D08b-summary": [
       {
         "start": 0,
-        "end": 1.551
+        "end": 0.361,
+        "text": "The"
       },
       {
-        "start": 1.551,
-        "end": 6.3
+        "start": 0.361,
+        "end": 0.652,
+        "text": "works"
       },
       {
-        "start": 6.3,
-        "end": 7.42
+        "start": 0.652,
+        "end": 0.792,
+        "text": "of"
       },
       {
-        "start": 7.42,
-        "end": 9.3
+        "start": 0.792,
+        "end": 1.554,
+        "text": "Euripides,"
       },
       {
-        "start": 9.3,
-        "end": 13.34
+        "start": 1.554,
+        "end": 2.215,
+        "text": "celebrated"
       },
       {
-        "start": 13.34,
-        "end": 17.131
+        "start": 2.215,
+        "end": 2.406,
+        "text": "for"
+      },
+      {
+        "start": 2.406,
+        "end": 2.606,
+        "text": "his"
+      },
+      {
+        "start": 2.606,
+        "end": 3.327,
+        "text": "penetrating"
+      },
+      {
+        "start": 3.327,
+        "end": 4.119,
+        "text": "psychological"
+      },
+      {
+        "start": 4.119,
+        "end": 4.73,
+        "text": "insight"
+      },
+      {
+        "start": 4.73,
+        "end": 5.062,
+        "text": "and"
+      },
+      {
+        "start": 5.062,
+        "end": 5.422,
+        "text": "vivid"
+      },
+      {
+        "start": 5.422,
+        "end": 5.913,
+        "text": "portrayal"
+      },
+      {
+        "start": 5.913,
+        "end": 6.024,
+        "text": "of"
+      },
+      {
+        "start": 6.024,
+        "end": 6.615,
+        "text": "women."
+      },
+      {
+        "start": 6.615,
+        "end": 7.547,
+        "text": "Medea,"
+      },
+      {
+        "start": 7.547,
+        "end": 7.818,
+        "text": "The"
+      },
+      {
+        "start": 7.818,
+        "end": 8.48,
+        "text": "Bacchae,"
+      },
+      {
+        "start": 8.48,
+        "end": 8.74,
+        "text": "and"
+      },
+      {
+        "start": 8.74,
+        "end": 8.97,
+        "text": "other"
+      },
+      {
+        "start": 8.97,
+        "end": 9.502,
+        "text": "plays"
+      },
+      {
+        "start": 9.502,
+        "end": 10.394,
+        "text": "reinterpret"
+      },
+      {
+        "start": 10.394,
+        "end": 10.975,
+        "text": "traditional"
+      },
+      {
+        "start": 10.975,
+        "end": 11.436,
+        "text": "myths"
+      },
+      {
+        "start": 11.436,
+        "end": 11.787,
+        "text": "through"
+      },
+      {
+        "start": 11.787,
+        "end": 11.877,
+        "text": "a"
+      },
+      {
+        "start": 11.877,
+        "end": 12.579,
+        "text": "profoundly"
+      },
+      {
+        "start": 12.579,
+        "end": 12.98,
+        "text": "human"
+      },
+      {
+        "start": 12.98,
+        "end": 13.681,
+        "text": "lens."
+      },
+      {
+        "start": 13.681,
+        "end": 14.172,
+        "text": "He"
+      },
+      {
+        "start": 14.172,
+        "end": 14.343,
+        "text": "was"
+      },
+      {
+        "start": 14.343,
+        "end": 14.473,
+        "text": "the"
+      },
+      {
+        "start": 14.473,
+        "end": 14.714,
+        "text": "most"
+      },
+      {
+        "start": 14.714,
+        "end": 15.235,
+        "text": "popular"
+      },
+      {
+        "start": 15.235,
+        "end": 15.866,
+        "text": "tragedian"
+      },
+      {
+        "start": 15.866,
+        "end": 16.037,
+        "text": "of"
+      },
+      {
+        "start": 16.037,
+        "end": 16.678,
+        "text": "Alexander's"
+      },
+      {
+        "start": 16.678,
+        "end": 17.130958333333332,
+        "text": "era."
       }
     ],
     "D08c-context": [
       {
         "start": 0,
-        "end": 2.64
+        "end": 0.671,
+        "text": "Also"
       },
       {
-        "start": 2.64,
-        "end": 5.72
+        "start": 0.671,
+        "end": 1.001,
+        "text": "shipped"
       },
       {
-        "start": 5.72,
-        "end": 8.98
+        "start": 1.001,
+        "end": 1.192,
+        "text": "from"
       },
       {
-        "start": 8.98,
-        "end": 13.571
-      }
-    ],
-    "S01-hook": [
+        "start": 1.192,
+        "end": 1.732,
+        "text": "Harpalus"
+      },
       {
-        "start": 0,
-        "end": 4.891
+        "start": 1.732,
+        "end": 2.033,
+        "text": "during"
+      },
+      {
+        "start": 2.033,
+        "end": 2.133,
+        "text": "the"
+      },
+      {
+        "start": 2.133,
+        "end": 3.004,
+        "text": "campaign."
+      },
+      {
+        "start": 3.004,
+        "end": 3.534,
+        "text": "As"
+      },
+      {
+        "start": 3.534,
+        "end": 3.695,
+        "text": "the"
+      },
+      {
+        "start": 3.695,
+        "end": 4.035,
+        "text": "most"
+      },
+      {
+        "start": 4.035,
+        "end": 4.556,
+        "text": "popular"
+      },
+      {
+        "start": 4.556,
+        "end": 5.126,
+        "text": "tragedian"
+      },
+      {
+        "start": 5.126,
+        "end": 5.227,
+        "text": "of"
+      },
+      {
+        "start": 5.227,
+        "end": 5.397,
+        "text": "the"
+      },
+      {
+        "start": 5.397,
+        "end": 5.928,
+        "text": "age,"
+      },
+      {
+        "start": 5.928,
+        "end": 6.759,
+        "text": "Euripides"
+      },
+      {
+        "start": 6.759,
+        "end": 7.149,
+        "text": "offered"
+      },
+      {
+        "start": 7.149,
+        "end": 7.259,
+        "text": "a"
+      },
+      {
+        "start": 7.259,
+        "end": 7.65,
+        "text": "human"
+      },
+      {
+        "start": 7.65,
+        "end": 8.281,
+        "text": "perspective"
+      },
+      {
+        "start": 8.281,
+        "end": 8.481,
+        "text": "on"
+      },
+      {
+        "start": 8.481,
+        "end": 8.811,
+        "text": "ancient"
+      },
+      {
+        "start": 8.811,
+        "end": 9.372,
+        "text": "myth,"
+      },
+      {
+        "start": 9.372,
+        "end": 10.083,
+        "text": "insight"
+      },
+      {
+        "start": 10.083,
+        "end": 10.253,
+        "text": "that"
+      },
+      {
+        "start": 10.253,
+        "end": 10.433,
+        "text": "would"
+      },
+      {
+        "start": 10.433,
+        "end": 10.573,
+        "text": "have"
+      },
+      {
+        "start": 10.573,
+        "end": 10.884,
+        "text": "served"
+      },
+      {
+        "start": 10.884,
+        "end": 10.954,
+        "text": "a"
+      },
+      {
+        "start": 10.954,
+        "end": 11.364,
+        "text": "king"
+      },
+      {
+        "start": 11.364,
+        "end": 11.795,
+        "text": "seeking"
+      },
+      {
+        "start": 11.795,
+        "end": 11.915,
+        "text": "to"
+      },
+      {
+        "start": 11.915,
+        "end": 12.476,
+        "text": "understand"
+      },
+      {
+        "start": 12.476,
+        "end": 12.606,
+        "text": "the"
+      },
+      {
+        "start": 12.606,
+        "end": 12.916,
+        "text": "people"
+      },
+      {
+        "start": 12.916,
+        "end": 13.066,
+        "text": "he"
+      },
+      {
+        "start": 13.066,
+        "end": 13.570958333333333,
+        "text": "ruled."
       }
     ],
     "S02-intro": [
       {
         "start": 0,
-        "end": 4.52
+        "end": 0.922,
+        "text": "Alexander"
       },
       {
-        "start": 4.52,
-        "end": 6.82
+        "start": 0.922,
+        "end": 1.042,
+        "text": "the"
       },
       {
-        "start": 6.82,
-        "end": 9.86
+        "start": 1.042,
+        "end": 1.584,
+        "text": "Great,"
       },
       {
-        "start": 9.86,
-        "end": 12.251
+        "start": 1.584,
+        "end": 2.114,
+        "text": "King"
+      },
+      {
+        "start": 2.114,
+        "end": 2.235,
+        "text": "of"
+      },
+      {
+        "start": 2.235,
+        "end": 3.287,
+        "text": "Macedonia."
+      },
+      {
+        "start": 3.287,
+        "end": 3.677,
+        "text": "The"
+      },
+      {
+        "start": 3.677,
+        "end": 4.259,
+        "text": "conqueror"
+      },
+      {
+        "start": 4.259,
+        "end": 4.469,
+        "text": "who"
+      },
+      {
+        "start": 4.469,
+        "end": 4.87,
+        "text": "seized"
+      },
+      {
+        "start": 4.87,
+        "end": 5.01,
+        "text": "the"
+      },
+      {
+        "start": 5.01,
+        "end": 5.381,
+        "text": "world"
+      },
+      {
+        "start": 5.381,
+        "end": 5.571,
+        "text": "by"
+      },
+      {
+        "start": 5.571,
+        "end": 6.163,
+        "text": "thirty"
+      },
+      {
+        "start": 6.163,
+        "end": 6.694,
+        "text": "held"
+      },
+      {
+        "start": 6.694,
+        "end": 6.974,
+        "text": "one"
+      },
+      {
+        "start": 6.974,
+        "end": 7.405,
+        "text": "treasure"
+      },
+      {
+        "start": 7.405,
+        "end": 7.746,
+        "text": "above"
+      },
+      {
+        "start": 7.746,
+        "end": 8.006,
+        "text": "all"
+      },
+      {
+        "start": 8.006,
+        "end": 8.677,
+        "text": "others."
+      },
+      {
+        "start": 8.677,
+        "end": 9.098,
+        "text": "It"
+      },
+      {
+        "start": 9.098,
+        "end": 9.259,
+        "text": "was"
+      },
+      {
+        "start": 9.259,
+        "end": 9.489,
+        "text": "not"
+      },
+      {
+        "start": 9.489,
+        "end": 10.061,
+        "text": "gold,"
+      },
+      {
+        "start": 10.061,
+        "end": 10.451,
+        "text": "nor"
+      },
+      {
+        "start": 10.451,
+        "end": 10.531,
+        "text": "a"
+      },
+      {
+        "start": 10.531,
+        "end": 11.170958333333333,
+        "text": "crown."
       }
     ],
     "S03-celeb-mid": [
       {
         "start": 0,
-        "end": 1.76
+        "end": 0.201,
+        "text": "When"
       },
       {
-        "start": 1.76,
-        "end": 3.72
+        "start": 0.201,
+        "end": 0.301,
+        "text": "I"
       },
       {
-        "start": 3.72,
-        "end": 5.82
+        "start": 0.301,
+        "end": 0.552,
+        "text": "opened"
       },
       {
-        "start": 5.82,
-        "end": 7.92
+        "start": 0.552,
+        "end": 0.642,
+        "text": "the"
       },
       {
-        "start": 7.92,
-        "end": 9.571
+        "start": 0.642,
+        "end": 1.144,
+        "text": "Iliad,"
+      },
+      {
+        "start": 1.144,
+        "end": 1.645,
+        "text": "Achilles"
+      },
+      {
+        "start": 1.645,
+        "end": 1.846,
+        "text": "stood"
+      },
+      {
+        "start": 1.846,
+        "end": 2.187,
+        "text": "beside"
+      },
+      {
+        "start": 2.187,
+        "end": 2.609,
+        "text": "me."
+      },
+      {
+        "start": 2.609,
+        "end": 2.99,
+        "text": "On"
+      },
+      {
+        "start": 2.99,
+        "end": 3.1,
+        "text": "the"
+      },
+      {
+        "start": 3.1,
+        "end": 3.331,
+        "text": "nights"
+      },
+      {
+        "start": 3.331,
+        "end": 3.632,
+        "text": "before"
+      },
+      {
+        "start": 3.632,
+        "end": 4.103,
+        "text": "battle,"
+      },
+      {
+        "start": 4.103,
+        "end": 4.324,
+        "text": "it"
+      },
+      {
+        "start": 4.324,
+        "end": 4.455,
+        "text": "was"
+      },
+      {
+        "start": 4.455,
+        "end": 4.595,
+        "text": "not"
+      },
+      {
+        "start": 4.595,
+        "end": 4.816,
+        "text": "my"
+      },
+      {
+        "start": 4.816,
+        "end": 5.087,
+        "text": "armor"
+      },
+      {
+        "start": 5.087,
+        "end": 5.217,
+        "text": "that"
+      },
+      {
+        "start": 5.217,
+        "end": 5.478,
+        "text": "kept"
+      },
+      {
+        "start": 5.478,
+        "end": 5.8,
+        "text": "me,"
+      },
+      {
+        "start": 5.8,
+        "end": 6.06,
+        "text": "it"
+      },
+      {
+        "start": 6.06,
+        "end": 6.2,
+        "text": "was"
+      },
+      {
+        "start": 6.2,
+        "end": 6.341,
+        "text": "the"
+      },
+      {
+        "start": 6.341,
+        "end": 7.932854166666667,
+        "text": "story."
       }
     ],
     "S04-book-context": [
       {
         "start": 0,
-        "end": 2.52
+        "end": 0.431,
+        "text": "A"
       },
       {
-        "start": 2.52,
-        "end": 9.06
+        "start": 0.431,
+        "end": 0.941,
+        "text": "personal"
       },
       {
-        "start": 9.06,
-        "end": 11.04
+        "start": 0.941,
+        "end": 1.422,
+        "text": "copy"
       },
       {
-        "start": 11.04,
-        "end": 13.32
+        "start": 1.422,
+        "end": 2.012,
+        "text": "annotated"
       },
       {
-        "start": 13.32,
-        "end": 15.26
+        "start": 2.012,
+        "end": 2.203,
+        "text": "by"
       },
       {
-        "start": 15.26,
-        "end": 17.86
+        "start": 2.203,
+        "end": 2.393,
+        "text": "his"
       },
       {
-        "start": 17.86,
-        "end": 21.331
+        "start": 2.393,
+        "end": 2.813,
+        "text": "tutor"
+      },
+      {
+        "start": 2.813,
+        "end": 3.675,
+        "text": "Aristotle,"
+      },
+      {
+        "start": 3.675,
+        "end": 4.095,
+        "text": "kept"
+      },
+      {
+        "start": 4.095,
+        "end": 4.465,
+        "text": "beside"
+      },
+      {
+        "start": 4.465,
+        "end": 4.555,
+        "text": "a"
+      },
+      {
+        "start": 4.555,
+        "end": 5.006,
+        "text": "dagger"
+      },
+      {
+        "start": 5.006,
+        "end": 5.246,
+        "text": "under"
+      },
+      {
+        "start": 5.246,
+        "end": 5.386,
+        "text": "his"
+      },
+      {
+        "start": 5.386,
+        "end": 6.078,
+        "text": "pillow."
+      },
+      {
+        "start": 6.078,
+        "end": 6.538,
+        "text": "At"
+      },
+      {
+        "start": 6.538,
+        "end": 7.018,
+        "text": "Troy"
+      },
+      {
+        "start": 7.018,
+        "end": 7.259,
+        "text": "he"
+      },
+      {
+        "start": 7.259,
+        "end": 7.549,
+        "text": "laid"
+      },
+      {
+        "start": 7.549,
+        "end": 7.619,
+        "text": "a"
+      },
+      {
+        "start": 7.619,
+        "end": 7.97,
+        "text": "wreath"
+      },
+      {
+        "start": 7.97,
+        "end": 8.1,
+        "text": "at"
+      },
+      {
+        "start": 8.1,
+        "end": 8.23,
+        "text": "the"
+      },
+      {
+        "start": 8.23,
+        "end": 8.5,
+        "text": "tomb"
+      },
+      {
+        "start": 8.5,
+        "end": 8.6,
+        "text": "of"
+      },
+      {
+        "start": 8.6,
+        "end": 9.471,
+        "text": "Achilles."
+      },
+      {
+        "start": 9.471,
+        "end": 9.962,
+        "text": "At"
+      },
+      {
+        "start": 9.962,
+        "end": 10.723,
+        "text": "Gaugamela"
+      },
+      {
+        "start": 10.723,
+        "end": 10.953,
+        "text": "he"
+      },
+      {
+        "start": 10.953,
+        "end": 11.404,
+        "text": "charged"
+      },
+      {
+        "start": 11.404,
+        "end": 11.484,
+        "text": "at"
+      },
+      {
+        "start": 11.484,
+        "end": 11.614,
+        "text": "the"
+      },
+      {
+        "start": 11.614,
+        "end": 11.814,
+        "text": "head"
+      },
+      {
+        "start": 11.814,
+        "end": 11.904,
+        "text": "of"
+      },
+      {
+        "start": 11.904,
+        "end": 12.074,
+        "text": "his"
+      },
+      {
+        "start": 12.074,
+        "end": 12.595,
+        "text": "wedge,"
+      },
+      {
+        "start": 12.595,
+        "end": 13.116,
+        "text": "writing"
+      },
+      {
+        "start": 13.116,
+        "end": 13.316,
+        "text": "his"
+      },
+      {
+        "start": 13.316,
+        "end": 13.546,
+        "text": "own"
+      },
+      {
+        "start": 13.546,
+        "end": 13.917,
+        "text": "epic"
+      },
+      {
+        "start": 13.917,
+        "end": 14.047,
+        "text": "on"
+      },
+      {
+        "start": 14.047,
+        "end": 14.147,
+        "text": "the"
+      },
+      {
+        "start": 14.147,
+        "end": 15.128,
+        "text": "battlefield."
+      },
+      {
+        "start": 15.128,
+        "end": 15.739,
+        "text": "After"
+      },
+      {
+        "start": 15.739,
+        "end": 15.869,
+        "text": "the"
+      },
+      {
+        "start": 15.869,
+        "end": 16.53,
+        "text": "conquest,"
+      },
+      {
+        "start": 16.53,
+        "end": 16.73,
+        "text": "he"
+      },
+      {
+        "start": 16.73,
+        "end": 17.08,
+        "text": "placed"
+      },
+      {
+        "start": 17.08,
+        "end": 17.281,
+        "text": "this"
+      },
+      {
+        "start": 17.281,
+        "end": 17.551,
+        "text": "book"
+      },
+      {
+        "start": 17.551,
+        "end": 17.941,
+        "text": "inside"
+      },
+      {
+        "start": 17.941,
+        "end": 18.061,
+        "text": "the"
+      },
+      {
+        "start": 18.061,
+        "end": 18.422,
+        "text": "treasure"
+      },
+      {
+        "start": 18.422,
+        "end": 18.772,
+        "text": "chest"
+      },
+      {
+        "start": 18.772,
+        "end": 18.882,
+        "text": "of"
+      },
+      {
+        "start": 18.882,
+        "end": 19.403,
+        "text": "Darius"
+      },
+      {
+        "start": 19.403,
+        "end": 20.184,
+        "text": "III."
+      },
+      {
+        "start": 20.184,
+        "end": 20.685,
+        "text": "He"
+      },
+      {
+        "start": 20.685,
+        "end": 21.005,
+        "text": "chose"
+      },
+      {
+        "start": 21.005,
+        "end": 21.185,
+        "text": "the"
+      },
+      {
+        "start": 21.185,
+        "end": 21.636,
+        "text": "Iliad"
+      },
+      {
+        "start": 21.636,
+        "end": 21.786,
+        "text": "as"
+      },
+      {
+        "start": 21.786,
+        "end": 22.016,
+        "text": "the"
+      },
+      {
+        "start": 22.016,
+        "end": 22.286,
+        "text": "one"
+      },
+      {
+        "start": 22.286,
+        "end": 22.687,
+        "text": "treasure"
+      },
+      {
+        "start": 22.687,
+        "end": 23.097,
+        "text": "worthy"
+      },
+      {
+        "start": 23.097,
+        "end": 23.228,
+        "text": "of"
+      },
+      {
+        "start": 23.228,
+        "end": 23.348,
+        "text": "the"
+      },
+      {
+        "start": 23.348,
+        "end": 23.598,
+        "text": "most"
+      },
+      {
+        "start": 23.598,
+        "end": 24.069,
+        "text": "precious"
+      },
+      {
+        "start": 24.069,
+        "end": 24.469,
+        "text": "chest"
+      },
+      {
+        "start": 24.469,
+        "end": 24.609,
+        "text": "in"
+      },
+      {
+        "start": 24.609,
+        "end": 24.729,
+        "text": "the"
+      },
+      {
+        "start": 24.729,
+        "end": 25.290958333333332,
+        "text": "world."
       }
     ],
-    "S05-celeb-end": [
+    "S01-hook": [
       {
         "start": 0,
-        "end": 3.02
+        "end": 0.463,
+        "text": "A"
       },
       {
-        "start": 3.02,
-        "end": 6.58
+        "start": 0.463,
+        "end": 0.866,
+        "text": "treasure"
       },
       {
-        "start": 6.58,
-        "end": 8.3
+        "start": 0.866,
+        "end": 1.309,
+        "text": "chest"
       },
       {
-        "start": 8.3,
-        "end": 9.731
+        "start": 1.309,
+        "end": 1.822,
+        "text": "seized"
+      },
+      {
+        "start": 1.822,
+        "end": 2.003,
+        "text": "from"
+      },
+      {
+        "start": 2.003,
+        "end": 2.114,
+        "text": "the"
+      },
+      {
+        "start": 2.114,
+        "end": 2.527,
+        "text": "Persian"
+      },
+      {
+        "start": 2.527,
+        "end": 3.111,
+        "text": "king."
+      },
+      {
+        "start": 3.111,
+        "end": 3.594,
+        "text": "What"
+      },
+      {
+        "start": 3.594,
+        "end": 4.208,
+        "text": "Alexander"
+      },
+      {
+        "start": 4.208,
+        "end": 4.379,
+        "text": "put"
+      },
+      {
+        "start": 4.379,
+        "end": 4.892,
+        "text": "inside"
+      },
+      {
+        "start": 4.892,
+        "end": 5.174,
+        "text": "was"
+      },
+      {
+        "start": 5.174,
+        "end": 5.295,
+        "text": "a"
+      },
+      {
+        "start": 5.295,
+        "end": 5.768,
+        "text": "single"
+      },
+      {
+        "start": 5.768,
+        "end": 6.210958333333333,
+        "text": "book."
       }
     ]
   }

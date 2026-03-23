@@ -16,11 +16,24 @@
 ### 셀럽 보이스 오버라이드
 
 에피소드 JSON의 `host.geminiVoice`로 Gemini 셀럽 보이스를 인물별로 지정할 수 있다.
-전체 보이스 목록과 배정 현황은 [`voice-actors.md`](voice-actors.md) 참조.
+전체 보이스 목록과 배정 현황은 [`actors.md`](actors.md) 참조.
 
 ```json
 { "host": { "geminiVoice": "Orus" } }
 ```
+
+### 셀럽 보이스 스타일 지시 (voiceStyle)
+
+Gemini TTS는 보이스가 음색만 결정하고 어조·감정·속도는 텍스트 프롬프트로 제어한다. `host.voiceStyle`을 지정하면 셀럽 역할(`celeb`) 음성 생성 시 텍스트 앞에 지시가 자동 삽입된다.
+
+```json
+{ "host": { "voiceStyle": "무게감 있는 목소리로, 권위적이고 위엄 있는 어조로, 빠른 속도로 말한다" } }
+```
+
+**주의사항:**
+- "천천히", "무게감 있게" 등의 지시는 속도를 크게 늦출 수 있다. "빠른 속도로" 등 속도 지시를 함께 사용하여 균형을 맞춘다.
+- ElevenLabs 엔진에는 적용되지 않는다 (커스텀 보이스 자체에 캐릭터 내장).
+- 인물별 voiceStyle 배정 현황은 [`actors.md`](actors.md) 참조.
 
 ## 엔진 선택
 
@@ -41,9 +54,9 @@
 
 | 파일 | 텍스트 |
 |------|--------|
-| `service-greeting.wav` | "feelandnote 서재 탐방 코너에서는..." |
-| `label-summary.wav` | "핵심 요약" |
-| `label-context.wav` | "추천 및 감상경위" |
+| `A1-service-greeting.wav` | "feelandnote 서재 탐방 코너에서는..." |
+| `C1-label-summary.wav` | "핵심 요약" |
+| `C2-label-context.wav` | "추천 및 감상경위" |
 
 ## 텍스트 작성 규칙
 

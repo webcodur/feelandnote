@@ -1,13 +1,8 @@
 /**
- * analyze-voice.ts — 텍스트 + 파형 결합 분석으로 문장별 타이밍 생성
+ * analyze-voice.ts — 단어 단위 voiceTimings 생성 + duration 동기화
  *
- * 접근법:
- *   1. 텍스트를 쉼표/마침표로 분할 → 문장 수 결정
- *   2. 글자 수 비례로 각 문장 경계의 추정 시각 계산
- *   3. WAV 파형에서 무음 구간 탐지
- *   4. 각 추정 경계에 가장 가까운 무음 구간의 중심을 실제 경계로 선택
- *
- * 규칙 단일원천: docs/project/remotion/voice-timing-for-agent.md
+ * whisper-debug.json의 단어별 타임스탬프를 voiceTimings에 직접 저장한다.
+ * whisper-debug.json이 없으면 SENTENCE_SPLIT + RMS 폴백.
  *
  * Usage:
  *   pnpm analyze -- --episode alexander-the-great --update-json
@@ -16,6 +11,7 @@
  */
 import { readFileSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
+import { SENTENCE_SPLIT } from '../src/compositions/BookRecommend/sentence-split'
 import { fileURLToPath } from 'url'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO,
@@ -111,18 +107,53 @@ function computeDebugRms(path: string): number[] {
   return rms
 }
 
-// --- 파형 분석: 글자 비례 추정 + 무음 스냅 ---
+/** TTS voiceStyle 태그·trailing 무음 마커를 제거하여 화면 텍스트 기준 분할을 보장 */
+function stripTtsTags(text: string): string {
+  return text.replace(/^\[.*?\]\s*/, '').replace(/\s*\.{3}\s*\.{3}\s*$/, '').trim()
+}
+
+// --- 타이밍 분석 ---
 type SentenceTiming = { start: number; end: number; text?: string }
 
+type WhisperWord = { word: string; start: number; end: number }
+
+/** whisper-debug.json 단어를 세그먼트로 변환. 경계는 무음 구간 중앙. */
+function analyzeWithWhisperWords(
+  whisperWords: WhisperWord[],
+  duration: number,
+): SentenceTiming[] {
+  if (whisperWords.length === 0) return []
+
+  const segments: SentenceTiming[] = whisperWords.map(w => ({
+    start: w.start,
+    end: w.end,
+    text: w.word,
+  }))
+
+  // 경계 = 이전 단어 끝 ↔ 다음 단어 시작의 중앙 (무음 구간 한가운데서 전환)
+  segments[0].start = 0
+  const mids: number[] = []
+  for (let i = 0; i < segments.length - 1; i++) {
+    mids.push(Math.round(((segments[i].end + segments[i + 1].start) / 2) * 1000) / 1000)
+  }
+  for (let i = 0; i < mids.length; i++) {
+    segments[i].end = mids[i]
+    segments[i + 1].start = mids[i]
+  }
+  segments[segments.length - 1].end = duration
+
+  return segments
+}
+
+/** SENTENCE_SPLIT 폴백 — Whisper 데이터 없을 때 사용 */
 function analyzeWithSilence(
   wavPath: string,
   text: string,
 ): SentenceTiming[] {
-  const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
+  const sentences = text.split(SENTENCE_SPLIT).filter(Boolean)
   const { duration, silences } = detectSilences(wavPath)
   const needed = sentences.length - 1
 
-  // 글자 수 비례로 경계 추정 → 가장 가까운 무음에 스냅
   const totalChars = sentences.reduce((sum, s) => sum + s.length, 0)
   const estimatedBoundaries: number[] = []
   let charCursor = 0
@@ -137,17 +168,11 @@ function analyzeWithSilence(
   for (const estimated of estimatedBoundaries) {
     let bestIdx = -1
     let bestDist = Infinity
-
     for (let si = 0; si < silences.length; si++) {
       if (usedSilences.has(si)) continue
       const dist = Math.abs(silences[si].center - estimated)
-      if (dist < bestDist) {
-        bestDist = dist
-        bestIdx = si
-      }
+      if (dist < bestDist) { bestDist = dist; bestIdx = si }
     }
-
-    // 시작/끝 무음은 경계로 사용하지 않음 (오디오 시작/끝 여백)
     const isEdgeSilence = bestIdx >= 0 && (silences[bestIdx].end < 0.5 || silences[bestIdx].start > duration - 0.5)
     if (bestIdx >= 0 && !isEdgeSilence && bestDist < duration * 0.25) {
       boundaries.push(silences[bestIdx].start)
@@ -169,6 +194,29 @@ function analyzeWithSilence(
 }
 
 // --- 텍스트 조회 ---
+/** 화면 표시용 텍스트 (TTS 오버라이드 무시). 문장 분할 기준으로 사용 */
+function getDisplayText(episode: any, textField: string, bookIndex?: number): string | null {
+  if (bookIndex !== undefined) {
+    const book = episode.books[bookIndex]
+    return book?.[textField] ?? null
+  }
+  switch (textField) {
+    case 'celebIntro': return episode.narrator.celebIntro
+    case 'philosophy': return episode.host.philosophy
+    case 'outro': return episode.narrator.outro
+    case 'serviceGreeting': return episode.narrator.serviceGreeting
+    case 'serviceIntro': return episode.narrator.serviceIntro
+    default:
+      if (textField.startsWith('short-')) {
+        const segId = textField.replace('short-', '')
+        const seg = episode.shorts?.segments?.find((s: any) => s.id === segId)
+        return seg?.text ?? null
+      }
+      return null
+  }
+}
+
+/** TTS용 텍스트 (오버라이드 우선). 오디오와의 대응 확인용 */
 function getTextForTarget(episode: any, textField: string, bookIndex?: number): string | null {
   if (bookIndex !== undefined) {
     const book = episode.books[bookIndex]
@@ -249,9 +297,11 @@ for (let i = 0; i < episode.books.length; i++) {
 }
 
 if (episode.shorts?.segments) {
-  episode.shorts.segments.forEach((seg: { id: string }, i: number) => {
-    targets.push({ file: vnShort(i, seg.id), textField: `short-${seg.id}` })
-  })
+  let si = 0
+  for (const seg of episode.shorts.segments as Array<{ id: string; visual?: string }>) {
+    targets.push({ file: vnShort(si, seg.id), textField: `short-${seg.id}` })
+    si++
+  }
 }
 
 const filtered = onlyFilter
@@ -264,28 +314,44 @@ console.log(`${filtered.length}개 파일 분석 (텍스트+파형 결합)\n`)
 const results: Record<string, SentenceTiming[]> = {}
 const debugTargets: Record<string, any> = {}
 
+// Whisper 데이터 로드 (있으면 갭 기반 우선)
+let whisperData: Record<string, WhisperWord[]> = {}
+try {
+  const whisperPath = join(voiceBaseDir, 'whisper-debug.json')
+  const raw = JSON.parse(readFileSync(whisperPath, 'utf-8'))
+  whisperData = raw.targets ?? raw
+} catch { /* whisper 없으면 폴백 */ }
+const hasWhisper = Object.keys(whisperData).length > 0
+console.log(hasWhisper ? '단어 단위 매핑 (whisperx + diff)' : 'Whisper 없음 — SENTENCE_SPLIT 폴백')
+
 for (const target of filtered) {
   const locale = episode.locale === 'en' ? 'en' as const : 'ko' as const
   const { dir, subPath } = resolveVoiceRelPath(target.file, voiceSelect, locale)
   const wavPath = dir === 'common'
     ? join(__dirname, '..', 'public', 'voice', 'common', subPath)
     : join(voiceBaseDir, subPath)
-  const text = getTextForTarget(episode, target.textField, target.bookIndex)
+  const displayText = getDisplayText(episode, target.textField, target.bookIndex)
 
-  if (!text) {
+  if (!displayText) {
     console.log(`[${target.file}] 텍스트 없음 — 건너뜀`)
     continue
   }
 
   try {
-    const timings = analyzeWithSilence(wavPath, text)
-    const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
+    const whisperKey = vnTimingKey(target.file)
+    const whisperWords = whisperData[whisperKey] ?? whisperData[target.file]
+    const { duration } = detectSilences(wavPath)
+
+    const timings = whisperWords
+      ? analyzeWithWhisperWords(whisperWords, duration)
+      : analyzeWithSilence(wavPath, displayText)
+
     results[target.file] = timings
 
-    console.log(`[${target.file}] ${sentences.length}문장 → ${timings.length} segments`)
+    const method = whisperWords ? 'whisper' : 'fallback'
+    console.log(`[${target.file}] ${timings.length} segments (${method})`)
     timings.forEach((t, i) => {
-      const sent = sentences[i] || ''
-      const preview = sent.length > 30 ? sent.slice(0, 30) + '...' : sent
+      const preview = (t.text ?? '').length > 30 ? (t.text ?? '').slice(0, 30) + '...' : (t.text ?? '')
       console.log(`  ${i + 1}. ${t.start.toFixed(2)}s ~ ${t.end.toFixed(2)}s  "${preview}"`)
     })
 
@@ -307,10 +373,7 @@ if (updateJson) {
   if (!episode.voiceTimings) episode.voiceTimings = {}
   for (const [file, timings] of Object.entries(results)) {
     const key = vnTimingKey(file)
-    // 기존 text 보존 — remotion-bo에서 편집한 자막 우선, 없으면 분석 결과 사용
-    const prev: Array<{ text?: string }> = episode.voiceTimings[key] ?? []
-    const merged = timings.map((t, i) => ({ ...t, text: prev[i]?.text ?? t.text }))
-    episode.voiceTimings[key] = merged
+    episode.voiceTimings[key] = timings
 
     // duration 자동 동기화 — voiceTimings의 마지막 end를 duration으로 반영
     const lastEnd = timings[timings.length - 1]?.end

@@ -6,37 +6,30 @@
       {
         "id": "hook",
         "role": "narrator",
-        "text": "This man tells you to jump down the rabbit hole. And he actually did it, building a three-trillion-dollar company.",
+        "text": "Jump down the rabbit hole. That's how a three-trillion-dollar company was born.",
         "visual": "hook",
-        "duration": 8.09
+        "duration": 5.69
       },
       {
         "id": "intro",
         "role": "narrator",
-        "text": "Jensen Huang, founder of NVIDIA. The man who designed the core infrastructure of the AI era through GPU technology. His library holds a surprising book.",
+        "text": "Jensen Huang, founder of NVIDIA. The book he named as his favorite in a commencement speech was a single fairy tale.",
         "visual": "intro",
-        "duration": 11.37
+        "duration": 7.49
       },
       {
         "id": "celeb-mid",
         "role": "celeb",
-        "text": "NVIDIA is always thirty days from going out of business. That sense of urgency is what brought us here.",
+        "text": "Alice jumped down the rabbit hole without a second thought. So did I. No one expected a gaming chip company to become the heart of AI, but I jumped.",
         "visual": "intro",
-        "duration": 6.37
+        "duration": 10.01
       },
       {
         "id": "book-context",
         "role": "narrator",
-        "text": "In his commencement speech at National Taiwan University, Jensen Huang named Alice in Wonderland as his favorite book. He explained that Alice's curiosity, diving down the rabbit hole into an unpredictable world, captures the essence of entrepreneurship. His own journey, transforming a gaming graphics company into the backbone of the AI era, was itself a rabbit hole.",
+        "text": "In Alice in Wonderland, Alice is thrown into a world where logic doesn't apply. Instead of being afraid, she never stops asking questions. Jensen Huang said this attitude is the essence of entrepreneurship. His own journey, transforming a gaming graphics company into an AI infrastructure giant, was itself a rabbit hole.",
         "visual": "book",
-        "duration": 23.01
-      },
-      {
-        "id": "celeb-end",
-        "role": "celeb",
-        "text": "Our job is not to predict the future, but to make the future possible. If you want to know more, open my library.",
-        "visual": "cta",
-        "duration": 8.01
+        "duration": 19.69
       }
     ]
   },
@@ -51,6 +44,7 @@
     "serviceGreetingDuration": 9.29,
     "serviceIntroDuration": 2.41,
     "celebIntroDuration": 14.89,
+    "bridgeDuration": 2.81,
     "outroDuration": 13.81
   },
   "host": {
@@ -70,11 +64,10 @@
     {
       "title": "Alice's Adventures in Wonderland",
       "creator": "Lewis Carroll",
-      "thumbnail_url": "https://covers.openlibrary.org/b/id/10527843-L.jpg",
+      "thumbnail_url": "covers/cover-007.jpg",
       "summary": "The story begins when an ordinary girl named Alice follows a white rabbit carrying a pocket watch down a rabbit hole. She enters a world where common sense does not apply. Her body grows and shrinks repeatedly, the Cheshire Cat vanishes leaving only its grin, and time stands still at the Mad Hatter's tea party. The Queen of Hearts screams off with their heads over the slightest offense, yet no one is ever actually executed. In this world, instead of being afraid, Alice never stops asking questions. Why this rule? Does this even make sense? The flexibility to abandon familiar logic and embrace new rules is at the heart of this fairy tale.",
       "context": "In his 2023 commencement speech at National Taiwan University, Jensen Huang named this fairy tale as his favorite book. He explained that Alice's story of diving down the rabbit hole and exploring an unpredictable world captures the essence of entrepreneurship. The attitude of responding with curiosity instead of fear when familiar rules no longer apply is essential for technological innovation. His own journey of transforming NVIDIA from a gaming graphics company into the core infrastructure company of the AI era was itself a leap down the rabbit hole.",
       "source": "National Taiwan University Commencement Speech (2023)",
-      "oneLiner": "The entrepreneur who jumped down the rabbit hole",
       "stats": {
         "publishYear": "1865",
         "celebCount": 11
@@ -86,11 +79,10 @@
     {
       "title": "Snow Crash",
       "creator": "Neal Stephenson",
-      "thumbnail_url": "https://covers.openlibrary.org/b/id/392508-L.jpg",
+      "thumbnail_url": "covers/cover-008.jpg",
       "summary": "In the near future, the U.S. federal government has collapsed and the world is run by corporate franchises. The protagonist, Hiro Protagonist, is a pizza delivery driver in reality but a legendary swordsman and hacker in the virtual reality Metaverse. The concept of the Metaverse introduced by this 1992 novel, a three-dimensional virtual world accessed through avatars, has influenced the vision of countless technology companies since. A virus called Snow Crash threatens both the Metaverse and the real world simultaneously, prophetically depicting the impact of the digital world on reality.",
       "context": "In a 2024 Acquired podcast interview, Jensen Huang directly discussed this novel's influence. From NVIDIA's earliest days, he deeply resonated with the book's vision of a virtual world and became convinced that graphics processing technology would become the foundation for building entirely new realities beyond just gaming. The imagination written on pages over thirty years ago has been realized today in NVIDIA's Omniverse platform.",
       "source": "Acquired Podcast (2024)",
-      "oneLiner": "The novel that made the metaverse real",
       "stats": {
         "publishYear": "1992",
         "celebCount": 4
@@ -102,13 +94,12 @@
     {
       "title": "The Innovator's Dilemma",
       "creator": "Clayton Christensen",
-      "thumbnail_url": "https://covers.openlibrary.org/b/id/9274687-L.jpg",
+      "thumbnail_url": "covers/cover-009.jpg",
       "summary": "The paradox that excellent management can destroy a company is this book's core thesis. Listening to customers and focusing on profitable markets, the textbook principles of good management, can actually doom a company. Low-performance, low-margin technologies that existing customers reject create new markets and eventually replace incumbents. Through case studies in disk drives, steel, and excavators, it shows how disruptive innovation works. The lesson is clear: the moment you become complacent with your current formula for success is the most dangerous moment.",
       "context": "In a 2023 Acquired podcast interview, Jensen Huang declared that Clay Christensen's series is the best. He said they are intuitive, easy to understand, and highly accessible. According to Stephen Witt's biography, Huang cited Christensen's logic that sometimes ignoring customers and investors is the right call, and invested in the CUDA platform, which generated no revenue for a decade, instead of the gaming market that Wall Street wanted. Today's AI boom is the fruit of that ignored investment.",
       "directQuote": "Clay Christensen's series is the best.",
       "directQuoteSource": "Acquired Podcast (2023)",
       "source": "Acquired Podcast (2023)",
-      "oneLiner": "A decade of ignored investment bears fruit",
       "stats": {
         "publishYear": "1997",
         "celebCount": 9
@@ -121,13 +112,12 @@
     {
       "title": "Only the Paranoid Survive",
       "creator": "Andrew S. Grove",
-      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1757789693i/66863.jpg",
+      "thumbnail_url": "covers/cover-010.jpg",
       "summary": "Written by Intel's legendary CEO Andrew Grove, this book introduces the concept of the strategic inflection point. When the fundamental dynamics of an industry shift, you must sense the change and have the courage to abandon your existing formula for success to survive. Grove's own decision to pivot Intel from memory chips to microprocessors is the defining example. When a tenfold change occurs, clinging to the old way means death, while embracing change opens new opportunities.",
       "context": "In an Acquired interview, Jensen Huang said he really enjoyed reading Andrew Grove's books and that they are all excellent. At a 2023 Harvard Business Review event, Huang stated that NVIDIA always feels like it is in crisis, we feel that way, directly embodying Grove's thesis that only the paranoid survive. An NVIDIA vice president has said that regardless of the market cap, we feel every day like the company could go bankrupt tomorrow.",
       "directQuote": "NVIDIA always feels like it is in crisis. We feel that way.",
       "directQuoteSource": "Harvard Business Review Event (2023)",
       "source": "Acquired Podcast (2023) / HBR Event (2023)",
-      "oneLiner": "A trillion-dollar company with a startup's sense of crisis",
       "stats": {
         "publishYear": "1996",
         "celebCount": 4
@@ -140,11 +130,10 @@
     {
       "title": "Zero to One",
       "creator": "Peter Thiel",
-      "thumbnail_url": "https://covers.openlibrary.org/b/id/9002334-L.jpg",
+      "thumbnail_url": "covers/cover-011.jpg",
       "summary": "Written by PayPal co-founder Peter Thiel based on his Stanford lectures, this book upends conventional thinking about competition and monopoly. Thiel's core argument is this: competition is a loser's game. True innovation is not about making something slightly better in an existing market but creating an entirely new market. Going from one to N is imitation; going from zero to one is real innovation. He advances the bold thesis that monopoly is not evil but proof of value creation.",
       "context": "In 2015, Jensen Huang recommended this book to employees through NVIDIA's internal communications. Huang resonated with the argument that truly innovative companies don't win the competition but make competition itself irrelevant. NVIDIA's redefinition of the GPU from a gaming-only device to a general-purpose parallel computing platform, and its construction of an unassailable moat through the CUDA ecosystem, was precisely the zero-to-one path this book describes.",
       "source": "NVIDIA Internal Recommendation (2015)",
-      "oneLiner": "Technology that makes competition irrelevant",
       "stats": {
         "publishYear": "2014",
         "celebCount": 11
@@ -156,11 +145,10 @@
     {
       "title": "A Thousand Brains",
       "creator": "Jeff Hawkins",
-      "thumbnail_url": "https://covers.openlibrary.org/b/id/10675398-L.jpg",
+      "thumbnail_url": "covers/cover-012.jpg",
       "summary": "Palm Pilot creator and neuroscience researcher Jeff Hawkins explains human intelligence through a new framework. Each column of the neocortex independently builds a model of the world, and thousands of these models form perception through consensus. The brain does not operate as one giant model but functions like a democracy where tens of thousands of small models vote. This perspective presents a fundamentally different possibility for intelligence than current deep learning.",
       "context": "At GTC 2022, Jensen Huang personally recommended this book and revealed that he had read it deeply. The insight that implementing intelligence closer to how the brain actually works, beyond general-purpose deep learning, requires fundamentally different hardware architecture, and the vision that NVIDIA must evolve from a mere chip manufacturer into an intelligence infrastructure company, were reinforced by this reading.",
       "source": "GTC Keynote (2022)",
-      "oneLiner": "From chip maker to intelligence infrastructure company",
       "stats": {
         "publishYear": "2021",
         "celebCount": 2
@@ -172,11 +160,10 @@
     {
       "title": "High Output Management",
       "creator": "Andrew S. Grove",
-      "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1347800461i/324750.jpg",
+      "thumbnail_url": "covers/cover-013.jpg",
       "summary": "A management book about what a manager's output really is, how to measure it, and how to maximize it. The core concept is leverage: maximizing the multiplier effect that one manager's actions have on the entire organization's performance. It analyzes routine management activities like meetings, decision-making, and performance reviews as if they were factory production processes, advising managers to focus their time on the highest-leverage activities.",
       "context": "This is one of the series Huang mentioned when he said he likes all of Andrew Grove's books. Huang's practice of having over forty direct reports, operating an organization that functions like a neural network rather than a traditional hierarchy, where information reaches all levels simultaneously so that new hires and executives hear the same decision at the same moment, is an extreme application of the information flow and leverage principles this book emphasizes.",
       "source": "Acquired Podcast (2023)",
-      "oneLiner": "An organization that runs like a neural network",
       "stats": {
         "publishYear": "1983",
         "celebCount": 5
@@ -237,811 +224,6764 @@
     "A2-service-intro": [
       {
         "start": 0,
-        "end": 2.411,
-        "text": "Today's guest is Jensen Huang."
+        "end": 0.755,
+        "text": "Today's"
+      },
+      {
+        "start": 0.755,
+        "end": 1.178,
+        "text": "guest"
+      },
+      {
+        "start": 1.178,
+        "end": 1.379,
+        "text": "is"
+      },
+      {
+        "start": 1.379,
+        "end": 1.832,
+        "text": "Jensen"
+      },
+      {
+        "start": 1.832,
+        "end": 2.4109583333333333,
+        "text": "Huang."
       }
     ],
     "B1-celeb-intro": [
       {
         "start": 0,
-        "end": 1.05,
-        "text": "Jensen Huang."
+        "end": 0.782,
+        "text": "Jensen"
       },
       {
-        "start": 1.05,
-        "end": 3.45,
-        "text": "A Taiwanese-American entrepreneur,"
+        "start": 0.782,
+        "end": 1.384,
+        "text": "Huang."
       },
       {
-        "start": 3.45,
-        "end": 6.1,
-        "text": "co-founder and CEO of NVIDIA."
+        "start": 1.384,
+        "end": 1.654,
+        "text": "A"
       },
       {
-        "start": 6.1,
-        "end": 11.26,
-        "text": "He has led the revolution in GPU technology and artificial intelligence,"
+        "start": 1.654,
+        "end": 2.837,
+        "text": "Taiwanese-American"
       },
       {
-        "start": 11.26,
-        "end": 14.891,
-        "text": "designing the core infrastructure of the AI era."
+        "start": 2.837,
+        "end": 3.679,
+        "text": "entrepreneur,"
+      },
+      {
+        "start": 3.679,
+        "end": 4.531,
+        "text": "co-founder"
+      },
+      {
+        "start": 4.531,
+        "end": 4.741,
+        "text": "and"
+      },
+      {
+        "start": 4.741,
+        "end": 5.443,
+        "text": "CEO"
+      },
+      {
+        "start": 5.443,
+        "end": 5.623,
+        "text": "of"
+      },
+      {
+        "start": 5.623,
+        "end": 6.395,
+        "text": "NVIDIA."
+      },
+      {
+        "start": 6.395,
+        "end": 6.816,
+        "text": "He"
+      },
+      {
+        "start": 6.816,
+        "end": 7.037,
+        "text": "has"
+      },
+      {
+        "start": 7.037,
+        "end": 7.327,
+        "text": "led"
+      },
+      {
+        "start": 7.327,
+        "end": 7.478,
+        "text": "the"
+      },
+      {
+        "start": 7.478,
+        "end": 8.139,
+        "text": "revolution"
+      },
+      {
+        "start": 8.139,
+        "end": 8.32,
+        "text": "in"
+      },
+      {
+        "start": 8.32,
+        "end": 9.031,
+        "text": "GPU"
+      },
+      {
+        "start": 9.031,
+        "end": 9.904,
+        "text": "technology"
+      },
+      {
+        "start": 9.904,
+        "end": 10.254,
+        "text": "and"
+      },
+      {
+        "start": 10.254,
+        "end": 10.785,
+        "text": "artificial"
+      },
+      {
+        "start": 10.785,
+        "end": 11.598,
+        "text": "intelligence,"
+      },
+      {
+        "start": 11.598,
+        "end": 12.319,
+        "text": "designing"
+      },
+      {
+        "start": 12.319,
+        "end": 12.459,
+        "text": "the"
+      },
+      {
+        "start": 12.459,
+        "end": 12.85,
+        "text": "core"
+      },
+      {
+        "start": 12.85,
+        "end": 13.652,
+        "text": "infrastructure"
+      },
+      {
+        "start": 13.652,
+        "end": 13.833,
+        "text": "of"
+      },
+      {
+        "start": 13.833,
+        "end": 14.013,
+        "text": "the"
+      },
+      {
+        "start": 14.013,
+        "end": 14.404,
+        "text": "AI"
+      },
+      {
+        "start": 14.404,
+        "end": 14.890958333333334,
+        "text": "era."
       }
     ],
     "B2-philosophy": [
       {
         "start": 0,
-        "end": 0.6,
+        "end": 0.781,
         "text": "Hello,"
       },
       {
-        "start": 0.6,
-        "end": 1.8,
-        "text": "I'm Jensen Huang."
+        "start": 0.781,
+        "end": 1.152,
+        "text": "I'm"
       },
       {
-        "start": 1.8,
-        "end": 5.9,
-        "text": "Reading Alice in Wonderland taught me how to jump down the rabbit hole."
+        "start": 1.152,
+        "end": 1.562,
+        "text": "Jensen"
       },
       {
-        "start": 5.9,
-        "end": 8.45,
-        "text": "In Snow Crash I saw the metaverse,"
+        "start": 1.562,
+        "end": 2.214,
+        "text": "Huang."
       },
       {
-        "start": 8.45,
-        "end": 12.96,
-        "text": "and I knew that graphics chips would become the building blocks of a new world."
+        "start": 2.214,
+        "end": 2.964,
+        "text": "Reading"
       },
       {
-        "start": 12.96,
-        "end": 14.5,
-        "text": "As the saying goes,"
+        "start": 2.964,
+        "end": 3.295,
+        "text": "Alice"
       },
       {
-        "start": 14.5,
-        "end": 16.35,
-        "text": "only the paranoid survive,"
+        "start": 3.295,
+        "end": 3.425,
+        "text": "in"
       },
       {
-        "start": 16.35,
-        "end": 19.8,
-        "text": "and NVIDIA is always thirty days from bankruptcy."
+        "start": 3.425,
+        "end": 4.036,
+        "text": "Wonderland"
       },
       {
-        "start": 19.8,
-        "end": 22.571,
-        "text": "That urgency is what brought us here."
+        "start": 4.036,
+        "end": 4.306,
+        "text": "taught"
+      },
+      {
+        "start": 4.306,
+        "end": 4.467,
+        "text": "me"
+      },
+      {
+        "start": 4.467,
+        "end": 4.667,
+        "text": "how"
+      },
+      {
+        "start": 4.667,
+        "end": 4.797,
+        "text": "to"
+      },
+      {
+        "start": 4.797,
+        "end": 5.097,
+        "text": "jump"
+      },
+      {
+        "start": 5.097,
+        "end": 5.328,
+        "text": "down"
+      },
+      {
+        "start": 5.328,
+        "end": 5.458,
+        "text": "the"
+      },
+      {
+        "start": 5.458,
+        "end": 5.758,
+        "text": "rabbit"
+      },
+      {
+        "start": 5.758,
+        "end": 6.37,
+        "text": "hole."
+      },
+      {
+        "start": 6.37,
+        "end": 6.91,
+        "text": "In"
+      },
+      {
+        "start": 6.91,
+        "end": 7.201,
+        "text": "Snow"
+      },
+      {
+        "start": 7.201,
+        "end": 7.691,
+        "text": "Crash"
+      },
+      {
+        "start": 7.691,
+        "end": 7.882,
+        "text": "I"
+      },
+      {
+        "start": 7.882,
+        "end": 8.112,
+        "text": "saw"
+      },
+      {
+        "start": 8.112,
+        "end": 8.222,
+        "text": "the"
+      },
+      {
+        "start": 8.222,
+        "end": 8.953,
+        "text": "metaverse,"
+      },
+      {
+        "start": 8.953,
+        "end": 9.374,
+        "text": "and"
+      },
+      {
+        "start": 9.374,
+        "end": 9.474,
+        "text": "I"
+      },
+      {
+        "start": 9.474,
+        "end": 9.744,
+        "text": "knew"
+      },
+      {
+        "start": 9.744,
+        "end": 9.935,
+        "text": "that"
+      },
+      {
+        "start": 9.935,
+        "end": 10.465,
+        "text": "graphics"
+      },
+      {
+        "start": 10.465,
+        "end": 10.846,
+        "text": "chips"
+      },
+      {
+        "start": 10.846,
+        "end": 11.046,
+        "text": "would"
+      },
+      {
+        "start": 11.046,
+        "end": 11.357,
+        "text": "become"
+      },
+      {
+        "start": 11.357,
+        "end": 11.487,
+        "text": "the"
+      },
+      {
+        "start": 11.487,
+        "end": 11.897,
+        "text": "building"
+      },
+      {
+        "start": 11.897,
+        "end": 12.258,
+        "text": "blocks"
+      },
+      {
+        "start": 12.258,
+        "end": 12.378,
+        "text": "of"
+      },
+      {
+        "start": 12.378,
+        "end": 12.448,
+        "text": "a"
+      },
+      {
+        "start": 12.448,
+        "end": 12.638,
+        "text": "new"
+      },
+      {
+        "start": 12.638,
+        "end": 13.39,
+        "text": "world."
+      },
+      {
+        "start": 13.39,
+        "end": 13.96,
+        "text": "As"
+      },
+      {
+        "start": 13.96,
+        "end": 14.101,
+        "text": "the"
+      },
+      {
+        "start": 14.101,
+        "end": 14.411,
+        "text": "saying"
+      },
+      {
+        "start": 14.411,
+        "end": 14.881,
+        "text": "goes,"
+      },
+      {
+        "start": 14.881,
+        "end": 15.302,
+        "text": "only"
+      },
+      {
+        "start": 15.302,
+        "end": 15.443,
+        "text": "the"
+      },
+      {
+        "start": 15.443,
+        "end": 16.043,
+        "text": "paranoid"
+      },
+      {
+        "start": 16.043,
+        "end": 16.755,
+        "text": "survive,"
+      },
+      {
+        "start": 16.755,
+        "end": 17.165,
+        "text": "and"
+      },
+      {
+        "start": 17.165,
+        "end": 17.776,
+        "text": "NVIDIA"
+      },
+      {
+        "start": 17.776,
+        "end": 18.006,
+        "text": "is"
+      },
+      {
+        "start": 18.006,
+        "end": 18.407,
+        "text": "always"
+      },
+      {
+        "start": 18.407,
+        "end": 18.807,
+        "text": "thirty"
+      },
+      {
+        "start": 18.807,
+        "end": 19.118,
+        "text": "days"
+      },
+      {
+        "start": 19.118,
+        "end": 19.308,
+        "text": "from"
+      },
+      {
+        "start": 19.308,
+        "end": 20.2,
+        "text": "bankruptcy."
+      },
+      {
+        "start": 20.2,
+        "end": 20.79,
+        "text": "That"
+      },
+      {
+        "start": 20.79,
+        "end": 21.502,
+        "text": "urgency"
+      },
+      {
+        "start": 21.502,
+        "end": 21.712,
+        "text": "is"
+      },
+      {
+        "start": 21.712,
+        "end": 21.862,
+        "text": "what"
+      },
+      {
+        "start": 21.862,
+        "end": 22.112,
+        "text": "brought"
+      },
+      {
+        "start": 22.112,
+        "end": 22.212,
+        "text": "us"
+      },
+      {
+        "start": 22.212,
+        "end": 22.570958333333333,
+        "text": "here."
       }
     ],
     "E1-outro": [
       {
         "start": 0,
-        "end": 4.2,
-        "text": "Those were the seven books that shaped Jensen Huang's thinking."
+        "end": 0.851,
+        "text": "Those"
       },
       {
-        "start": 4.2,
-        "end": 6.9,
-        "text": "Like Alice diving down the rabbit hole,"
+        "start": 0.851,
+        "end": 1.121,
+        "text": "were"
       },
       {
-        "start": 6.9,
-        "end": 11,
-        "text": "curious about the deeper story of the man who leaped into the unknown?"
+        "start": 1.121,
+        "end": 1.301,
+        "text": "the"
       },
       {
-        "start": 11,
-        "end": 13.811,
-        "text": "Discover more on Feelandnote."
+        "start": 1.301,
+        "end": 1.741,
+        "text": "seven"
+      },
+      {
+        "start": 1.741,
+        "end": 2.151,
+        "text": "books"
+      },
+      {
+        "start": 2.151,
+        "end": 2.401,
+        "text": "that"
+      },
+      {
+        "start": 2.401,
+        "end": 2.792,
+        "text": "shaped"
+      },
+      {
+        "start": 2.792,
+        "end": 3.342,
+        "text": "Jensen"
+      },
+      {
+        "start": 3.342,
+        "end": 3.762,
+        "text": "Huang's"
+      },
+      {
+        "start": 3.762,
+        "end": 4.523,
+        "text": "thinking."
+      },
+      {
+        "start": 4.523,
+        "end": 5.083,
+        "text": "Like"
+      },
+      {
+        "start": 5.083,
+        "end": 5.553,
+        "text": "Alice"
+      },
+      {
+        "start": 5.553,
+        "end": 6.004,
+        "text": "diving"
+      },
+      {
+        "start": 6.004,
+        "end": 6.204,
+        "text": "down"
+      },
+      {
+        "start": 6.204,
+        "end": 6.304,
+        "text": "the"
+      },
+      {
+        "start": 6.304,
+        "end": 6.614,
+        "text": "rabbit"
+      },
+      {
+        "start": 6.614,
+        "end": 7.104,
+        "text": "hole,"
+      },
+      {
+        "start": 7.104,
+        "end": 7.925,
+        "text": "curious"
+      },
+      {
+        "start": 7.925,
+        "end": 8.205,
+        "text": "about"
+      },
+      {
+        "start": 8.205,
+        "end": 8.325,
+        "text": "the"
+      },
+      {
+        "start": 8.325,
+        "end": 8.675,
+        "text": "deeper"
+      },
+      {
+        "start": 8.675,
+        "end": 9.075,
+        "text": "story"
+      },
+      {
+        "start": 9.075,
+        "end": 9.185,
+        "text": "of"
+      },
+      {
+        "start": 9.185,
+        "end": 9.326,
+        "text": "the"
+      },
+      {
+        "start": 9.326,
+        "end": 9.626,
+        "text": "man"
+      },
+      {
+        "start": 9.626,
+        "end": 9.846,
+        "text": "who"
+      },
+      {
+        "start": 9.846,
+        "end": 10.186,
+        "text": "leaped"
+      },
+      {
+        "start": 10.186,
+        "end": 10.406,
+        "text": "into"
+      },
+      {
+        "start": 10.406,
+        "end": 10.556,
+        "text": "the"
+      },
+      {
+        "start": 10.556,
+        "end": 11.237,
+        "text": "unknown?"
+      },
+      {
+        "start": 11.237,
+        "end": 11.937,
+        "text": "Discover"
+      },
+      {
+        "start": 11.937,
+        "end": 12.337,
+        "text": "more"
+      },
+      {
+        "start": 12.337,
+        "end": 12.597,
+        "text": "on"
+      },
+      {
+        "start": 12.597,
+        "end": 12.948,
+        "text": "Feel"
+      },
+      {
+        "start": 12.948,
+        "end": 13.018,
+        "text": "&"
+      },
+      {
+        "start": 13.018,
+        "end": 13.810958333333334,
+        "text": "Note."
       }
     ],
     "D01b-summary": [
       {
         "start": 0,
-        "end": 6.9,
-        "text": "The story begins when an ordinary girl named Alice follows a white rabbit carrying a pocket watch down a rabbit hole."
+        "end": 0.42,
+        "text": "The"
       },
       {
-        "start": 6.9,
-        "end": 10.3,
-        "text": "She enters a world where common sense does not apply."
+        "start": 0.42,
+        "end": 0.76,
+        "text": "story"
       },
       {
-        "start": 10.3,
-        "end": 13,
-        "text": "Her body grows and shrinks repeatedly,"
+        "start": 0.76,
+        "end": 1.281,
+        "text": "begins"
       },
       {
-        "start": 13,
-        "end": 16.3,
-        "text": "the Cheshire Cat vanishes leaving only its grin,"
+        "start": 1.281,
+        "end": 1.461,
+        "text": "when"
       },
       {
-        "start": 16.3,
-        "end": 19.6,
-        "text": "and time stands still at the Mad Hatter's tea party."
+        "start": 1.461,
+        "end": 1.611,
+        "text": "an"
       },
       {
-        "start": 19.6,
-        "end": 24.2,
-        "text": "The Queen of Hearts screams off with their heads over the slightest offense,"
+        "start": 1.611,
+        "end": 2.131,
+        "text": "ordinary"
       },
       {
-        "start": 24.2,
-        "end": 26.85,
-        "text": "yet no one is ever actually executed."
+        "start": 2.131,
+        "end": 2.452,
+        "text": "girl"
       },
       {
-        "start": 26.85,
-        "end": 28.35,
-        "text": "In this world,"
+        "start": 2.452,
+        "end": 2.802,
+        "text": "named"
       },
       {
-        "start": 28.35,
-        "end": 29.85,
-        "text": "instead of being afraid,"
+        "start": 2.802,
+        "end": 3.342,
+        "text": "Alice"
       },
       {
-        "start": 29.85,
-        "end": 32.35,
-        "text": "Alice never stops asking questions."
+        "start": 3.342,
+        "end": 3.872,
+        "text": "follows"
       },
       {
-        "start": 32.35,
-        "end": 33.72,
-        "text": "Why this rule?"
+        "start": 3.872,
+        "end": 3.983,
+        "text": "a"
       },
       {
-        "start": 33.72,
-        "end": 35.2,
-        "text": "Does this even make sense?"
+        "start": 3.983,
+        "end": 4.283,
+        "text": "white"
       },
       {
-        "start": 35.2,
-        "end": 42.371,
-        "text": "The flexibility to abandon familiar logic and embrace new rules is at the heart of this fairy tale."
+        "start": 4.283,
+        "end": 4.683,
+        "text": "rabbit"
+      },
+      {
+        "start": 4.683,
+        "end": 5.143,
+        "text": "carrying"
+      },
+      {
+        "start": 5.143,
+        "end": 5.223,
+        "text": "a"
+      },
+      {
+        "start": 5.223,
+        "end": 5.564,
+        "text": "pocket"
+      },
+      {
+        "start": 5.564,
+        "end": 5.964,
+        "text": "watch"
+      },
+      {
+        "start": 5.964,
+        "end": 6.284,
+        "text": "down"
+      },
+      {
+        "start": 6.284,
+        "end": 6.374,
+        "text": "a"
+      },
+      {
+        "start": 6.374,
+        "end": 6.674,
+        "text": "rabbit"
+      },
+      {
+        "start": 6.674,
+        "end": 7.204,
+        "text": "hole."
+      },
+      {
+        "start": 7.204,
+        "end": 7.735,
+        "text": "She"
+      },
+      {
+        "start": 7.735,
+        "end": 8.065,
+        "text": "enters"
+      },
+      {
+        "start": 8.065,
+        "end": 8.165,
+        "text": "a"
+      },
+      {
+        "start": 8.165,
+        "end": 8.535,
+        "text": "world"
+      },
+      {
+        "start": 8.535,
+        "end": 8.756,
+        "text": "where"
+      },
+      {
+        "start": 8.756,
+        "end": 9.146,
+        "text": "common"
+      },
+      {
+        "start": 9.146,
+        "end": 9.536,
+        "text": "sense"
+      },
+      {
+        "start": 9.536,
+        "end": 9.756,
+        "text": "does"
+      },
+      {
+        "start": 9.756,
+        "end": 9.926,
+        "text": "not"
+      },
+      {
+        "start": 9.926,
+        "end": 10.647,
+        "text": "apply."
+      },
+      {
+        "start": 10.647,
+        "end": 11.117,
+        "text": "Her"
+      },
+      {
+        "start": 11.117,
+        "end": 11.527,
+        "text": "body"
+      },
+      {
+        "start": 11.527,
+        "end": 12.028,
+        "text": "grows"
+      },
+      {
+        "start": 12.028,
+        "end": 12.198,
+        "text": "and"
+      },
+      {
+        "start": 12.198,
+        "end": 12.618,
+        "text": "shrinks"
+      },
+      {
+        "start": 12.618,
+        "end": 13.429,
+        "text": "repeatedly,"
+      },
+      {
+        "start": 13.429,
+        "end": 13.789,
+        "text": "the"
+      },
+      {
+        "start": 13.789,
+        "end": 14.149,
+        "text": "Cheshire"
+      },
+      {
+        "start": 14.149,
+        "end": 14.499,
+        "text": "Cat"
+      },
+      {
+        "start": 14.499,
+        "end": 15.13,
+        "text": "vanishes"
+      },
+      {
+        "start": 15.13,
+        "end": 15.53,
+        "text": "leaving"
+      },
+      {
+        "start": 15.53,
+        "end": 15.86,
+        "text": "only"
+      },
+      {
+        "start": 15.86,
+        "end": 16.02,
+        "text": "its"
+      },
+      {
+        "start": 16.02,
+        "end": 16.6,
+        "text": "grin,"
+      },
+      {
+        "start": 16.6,
+        "end": 17.011,
+        "text": "and"
+      },
+      {
+        "start": 17.011,
+        "end": 17.431,
+        "text": "time"
+      },
+      {
+        "start": 17.431,
+        "end": 17.841,
+        "text": "stands"
+      },
+      {
+        "start": 17.841,
+        "end": 18.242,
+        "text": "still"
+      },
+      {
+        "start": 18.242,
+        "end": 18.372,
+        "text": "at"
+      },
+      {
+        "start": 18.372,
+        "end": 18.492,
+        "text": "the"
+      },
+      {
+        "start": 18.492,
+        "end": 18.752,
+        "text": "Mad"
+      },
+      {
+        "start": 18.752,
+        "end": 19.142,
+        "text": "Hatter's"
+      },
+      {
+        "start": 19.142,
+        "end": 19.332,
+        "text": "tea"
+      },
+      {
+        "start": 19.332,
+        "end": 20.033,
+        "text": "party."
+      },
+      {
+        "start": 20.033,
+        "end": 20.553,
+        "text": "The"
+      },
+      {
+        "start": 20.553,
+        "end": 20.803,
+        "text": "Queen"
+      },
+      {
+        "start": 20.803,
+        "end": 20.903,
+        "text": "of"
+      },
+      {
+        "start": 20.903,
+        "end": 21.264,
+        "text": "Hearts"
+      },
+      {
+        "start": 21.264,
+        "end": 21.894,
+        "text": "screams"
+      },
+      {
+        "start": 21.894,
+        "end": 22.184,
+        "text": "off"
+      },
+      {
+        "start": 22.184,
+        "end": 22.334,
+        "text": "with"
+      },
+      {
+        "start": 22.334,
+        "end": 22.564,
+        "text": "their"
+      },
+      {
+        "start": 22.564,
+        "end": 23.025,
+        "text": "heads"
+      },
+      {
+        "start": 23.025,
+        "end": 23.315,
+        "text": "over"
+      },
+      {
+        "start": 23.315,
+        "end": 23.485,
+        "text": "the"
+      },
+      {
+        "start": 23.485,
+        "end": 23.965,
+        "text": "slightest"
+      },
+      {
+        "start": 23.965,
+        "end": 24.586,
+        "text": "offense,"
+      },
+      {
+        "start": 24.586,
+        "end": 25.076,
+        "text": "yet"
+      },
+      {
+        "start": 25.076,
+        "end": 25.296,
+        "text": "no"
+      },
+      {
+        "start": 25.296,
+        "end": 25.446,
+        "text": "one"
+      },
+      {
+        "start": 25.446,
+        "end": 25.566,
+        "text": "is"
+      },
+      {
+        "start": 25.566,
+        "end": 25.826,
+        "text": "ever"
+      },
+      {
+        "start": 25.826,
+        "end": 26.317,
+        "text": "actually"
+      },
+      {
+        "start": 26.317,
+        "end": 27.258,
+        "text": "executed."
+      },
+      {
+        "start": 27.258,
+        "end": 27.788,
+        "text": "In"
+      },
+      {
+        "start": 27.788,
+        "end": 28.018,
+        "text": "this"
+      },
+      {
+        "start": 28.018,
+        "end": 28.498,
+        "text": "world,"
+      },
+      {
+        "start": 28.498,
+        "end": 29.099,
+        "text": "instead"
+      },
+      {
+        "start": 29.099,
+        "end": 29.189,
+        "text": "of"
+      },
+      {
+        "start": 29.189,
+        "end": 29.479,
+        "text": "being"
+      },
+      {
+        "start": 29.479,
+        "end": 30.179,
+        "text": "afraid,"
+      },
+      {
+        "start": 30.179,
+        "end": 30.79,
+        "text": "Alice"
+      },
+      {
+        "start": 30.79,
+        "end": 31.15,
+        "text": "never"
+      },
+      {
+        "start": 31.15,
+        "end": 31.6,
+        "text": "stops"
+      },
+      {
+        "start": 31.6,
+        "end": 31.99,
+        "text": "asking"
+      },
+      {
+        "start": 31.99,
+        "end": 32.771,
+        "text": "questions."
+      },
+      {
+        "start": 32.771,
+        "end": 33.291,
+        "text": "Why"
+      },
+      {
+        "start": 33.291,
+        "end": 33.521,
+        "text": "this"
+      },
+      {
+        "start": 33.521,
+        "end": 33.972,
+        "text": "rule?"
+      },
+      {
+        "start": 33.972,
+        "end": 34.332,
+        "text": "Does"
+      },
+      {
+        "start": 34.332,
+        "end": 34.512,
+        "text": "this"
+      },
+      {
+        "start": 34.512,
+        "end": 34.722,
+        "text": "even"
+      },
+      {
+        "start": 34.722,
+        "end": 34.922,
+        "text": "make"
+      },
+      {
+        "start": 34.922,
+        "end": 35.623,
+        "text": "sense?"
+      },
+      {
+        "start": 35.623,
+        "end": 36.183,
+        "text": "The"
+      },
+      {
+        "start": 36.183,
+        "end": 36.984,
+        "text": "flexibility"
+      },
+      {
+        "start": 36.984,
+        "end": 37.174,
+        "text": "to"
+      },
+      {
+        "start": 37.174,
+        "end": 37.754,
+        "text": "abandon"
+      },
+      {
+        "start": 37.754,
+        "end": 38.234,
+        "text": "familiar"
+      },
+      {
+        "start": 38.234,
+        "end": 38.725,
+        "text": "logic"
+      },
+      {
+        "start": 38.725,
+        "end": 38.965,
+        "text": "and"
+      },
+      {
+        "start": 38.965,
+        "end": 39.445,
+        "text": "embrace"
+      },
+      {
+        "start": 39.445,
+        "end": 39.655,
+        "text": "new"
+      },
+      {
+        "start": 39.655,
+        "end": 40.216,
+        "text": "rules"
+      },
+      {
+        "start": 40.216,
+        "end": 40.516,
+        "text": "is"
+      },
+      {
+        "start": 40.516,
+        "end": 40.626,
+        "text": "at"
+      },
+      {
+        "start": 40.626,
+        "end": 40.756,
+        "text": "the"
+      },
+      {
+        "start": 40.756,
+        "end": 41.146,
+        "text": "heart"
+      },
+      {
+        "start": 41.146,
+        "end": 41.326,
+        "text": "of"
+      },
+      {
+        "start": 41.326,
+        "end": 41.536,
+        "text": "this"
+      },
+      {
+        "start": 41.536,
+        "end": 41.827,
+        "text": "fairy"
+      },
+      {
+        "start": 41.827,
+        "end": 42.370958333333334,
+        "text": "tale."
       }
     ],
     "D01c-context": [
       {
         "start": 0,
-        "end": 4.3,
-        "text": "In his 2023 commencement speech at National Taiwan University,"
+        "end": 0.38,
+        "text": "In"
       },
       {
-        "start": 4.3,
-        "end": 7.9,
-        "text": "Jensen Huang named this fairy tale as his favorite book."
+        "start": 0.38,
+        "end": 0.54,
+        "text": "his"
       },
       {
-        "start": 7.9,
-        "end": 16.7,
-        "text": "He explained that Alice's story of diving down the rabbit hole and exploring an unpredictable world captures the essence of entrepreneurship."
+        "start": 0.54,
+        "end": 1.291,
+        "text": "2023"
       },
       {
-        "start": 16.7,
-        "end": 25.95,
-        "text": "The attitude of responding with curiosity instead of fear when familiar rules no longer apply is essential for technological innovation."
+        "start": 1.291,
+        "end": 2.081,
+        "text": "commencement"
       },
       {
-        "start": 25.95,
-        "end": 36.571,
-        "text": "His own journey of transforming NVIDIA from a gaming graphics company into the core infrastructure company of the AI era was itself a leap down the rabbit hole."
+        "start": 2.081,
+        "end": 2.462,
+        "text": "speech"
+      },
+      {
+        "start": 2.462,
+        "end": 2.642,
+        "text": "at"
+      },
+      {
+        "start": 2.642,
+        "end": 3.152,
+        "text": "National"
+      },
+      {
+        "start": 3.152,
+        "end": 3.652,
+        "text": "Taiwan"
+      },
+      {
+        "start": 3.652,
+        "end": 4.543,
+        "text": "University,"
+      },
+      {
+        "start": 4.543,
+        "end": 5.193,
+        "text": "Jensen"
+      },
+      {
+        "start": 5.193,
+        "end": 5.613,
+        "text": "Huang"
+      },
+      {
+        "start": 5.613,
+        "end": 5.974,
+        "text": "named"
+      },
+      {
+        "start": 5.974,
+        "end": 6.194,
+        "text": "this"
+      },
+      {
+        "start": 6.194,
+        "end": 6.524,
+        "text": "fairy"
+      },
+      {
+        "start": 6.524,
+        "end": 6.934,
+        "text": "tale"
+      },
+      {
+        "start": 6.934,
+        "end": 7.144,
+        "text": "as"
+      },
+      {
+        "start": 7.144,
+        "end": 7.384,
+        "text": "his"
+      },
+      {
+        "start": 7.384,
+        "end": 7.765,
+        "text": "favorite"
+      },
+      {
+        "start": 7.765,
+        "end": 8.375,
+        "text": "book."
+      },
+      {
+        "start": 8.375,
+        "end": 8.885,
+        "text": "He"
+      },
+      {
+        "start": 8.885,
+        "end": 9.416,
+        "text": "explained"
+      },
+      {
+        "start": 9.416,
+        "end": 9.666,
+        "text": "that"
+      },
+      {
+        "start": 9.666,
+        "end": 10.136,
+        "text": "Alice's"
+      },
+      {
+        "start": 10.136,
+        "end": 10.566,
+        "text": "story"
+      },
+      {
+        "start": 10.566,
+        "end": 10.746,
+        "text": "of"
+      },
+      {
+        "start": 10.746,
+        "end": 11.227,
+        "text": "diving"
+      },
+      {
+        "start": 11.227,
+        "end": 11.487,
+        "text": "down"
+      },
+      {
+        "start": 11.487,
+        "end": 11.607,
+        "text": "the"
+      },
+      {
+        "start": 11.607,
+        "end": 11.917,
+        "text": "rabbit"
+      },
+      {
+        "start": 11.917,
+        "end": 12.298,
+        "text": "hole"
+      },
+      {
+        "start": 12.298,
+        "end": 12.618,
+        "text": "and"
+      },
+      {
+        "start": 12.618,
+        "end": 13.228,
+        "text": "exploring"
+      },
+      {
+        "start": 13.228,
+        "end": 13.408,
+        "text": "an"
+      },
+      {
+        "start": 13.408,
+        "end": 14.169,
+        "text": "unpredictable"
+      },
+      {
+        "start": 14.169,
+        "end": 14.689,
+        "text": "world"
+      },
+      {
+        "start": 14.689,
+        "end": 15.449,
+        "text": "captures"
+      },
+      {
+        "start": 15.449,
+        "end": 15.629,
+        "text": "the"
+      },
+      {
+        "start": 15.629,
+        "end": 16.03,
+        "text": "essence"
+      },
+      {
+        "start": 16.03,
+        "end": 16.17,
+        "text": "of"
+      },
+      {
+        "start": 16.17,
+        "end": 17.381,
+        "text": "entrepreneurship."
+      },
+      {
+        "start": 17.381,
+        "end": 17.931,
+        "text": "The"
+      },
+      {
+        "start": 17.931,
+        "end": 18.461,
+        "text": "attitude"
+      },
+      {
+        "start": 18.461,
+        "end": 18.581,
+        "text": "of"
+      },
+      {
+        "start": 18.581,
+        "end": 19.202,
+        "text": "responding"
+      },
+      {
+        "start": 19.202,
+        "end": 19.432,
+        "text": "with"
+      },
+      {
+        "start": 19.432,
+        "end": 20.252,
+        "text": "curiosity"
+      },
+      {
+        "start": 20.252,
+        "end": 20.652,
+        "text": "instead"
+      },
+      {
+        "start": 20.652,
+        "end": 20.752,
+        "text": "of"
+      },
+      {
+        "start": 20.752,
+        "end": 21.243,
+        "text": "fear"
+      },
+      {
+        "start": 21.243,
+        "end": 21.643,
+        "text": "when"
+      },
+      {
+        "start": 21.643,
+        "end": 22.203,
+        "text": "familiar"
+      },
+      {
+        "start": 22.203,
+        "end": 22.594,
+        "text": "rules"
+      },
+      {
+        "start": 22.594,
+        "end": 22.754,
+        "text": "no"
+      },
+      {
+        "start": 22.754,
+        "end": 23.074,
+        "text": "longer"
+      },
+      {
+        "start": 23.074,
+        "end": 23.714,
+        "text": "apply"
+      },
+      {
+        "start": 23.714,
+        "end": 24.085,
+        "text": "is"
+      },
+      {
+        "start": 24.085,
+        "end": 24.645,
+        "text": "essential"
+      },
+      {
+        "start": 24.645,
+        "end": 24.825,
+        "text": "for"
+      },
+      {
+        "start": 24.825,
+        "end": 25.535,
+        "text": "technological"
+      },
+      {
+        "start": 25.535,
+        "end": 26.456,
+        "text": "innovation."
+      },
+      {
+        "start": 26.456,
+        "end": 27.006,
+        "text": "His"
+      },
+      {
+        "start": 27.006,
+        "end": 27.196,
+        "text": "own"
+      },
+      {
+        "start": 27.196,
+        "end": 27.617,
+        "text": "journey"
+      },
+      {
+        "start": 27.617,
+        "end": 27.777,
+        "text": "of"
+      },
+      {
+        "start": 27.777,
+        "end": 28.487,
+        "text": "transforming"
+      },
+      {
+        "start": 28.487,
+        "end": 29.078,
+        "text": "NVIDIA"
+      },
+      {
+        "start": 29.078,
+        "end": 29.328,
+        "text": "from"
+      },
+      {
+        "start": 29.328,
+        "end": 29.418,
+        "text": "a"
+      },
+      {
+        "start": 29.418,
+        "end": 29.818,
+        "text": "gaming"
+      },
+      {
+        "start": 29.818,
+        "end": 30.168,
+        "text": "graphics"
+      },
+      {
+        "start": 30.168,
+        "end": 30.739,
+        "text": "company"
+      },
+      {
+        "start": 30.739,
+        "end": 31.159,
+        "text": "into"
+      },
+      {
+        "start": 31.159,
+        "end": 31.299,
+        "text": "the"
+      },
+      {
+        "start": 31.299,
+        "end": 31.699,
+        "text": "core"
+      },
+      {
+        "start": 31.699,
+        "end": 32.359,
+        "text": "infrastructure"
+      },
+      {
+        "start": 32.359,
+        "end": 32.77,
+        "text": "company"
+      },
+      {
+        "start": 32.77,
+        "end": 32.88,
+        "text": "of"
+      },
+      {
+        "start": 32.88,
+        "end": 33.05,
+        "text": "the"
+      },
+      {
+        "start": 33.05,
+        "end": 33.47,
+        "text": "AI"
+      },
+      {
+        "start": 33.47,
+        "end": 33.93,
+        "text": "era"
+      },
+      {
+        "start": 33.93,
+        "end": 34.291,
+        "text": "was"
+      },
+      {
+        "start": 34.291,
+        "end": 34.851,
+        "text": "itself"
+      },
+      {
+        "start": 34.851,
+        "end": 35.061,
+        "text": "a"
+      },
+      {
+        "start": 35.061,
+        "end": 35.391,
+        "text": "leap"
+      },
+      {
+        "start": 35.391,
+        "end": 35.641,
+        "text": "down"
+      },
+      {
+        "start": 35.641,
+        "end": 35.762,
+        "text": "the"
+      },
+      {
+        "start": 35.762,
+        "end": 36.042,
+        "text": "rabbit"
+      },
+      {
+        "start": 36.042,
+        "end": 36.57095833333333,
+        "text": "hole."
       }
     ],
     "D02b-summary": [
       {
         "start": 0,
-        "end": 1.2,
-        "text": "In the near future,"
+        "end": 0.4,
+        "text": "In"
       },
       {
-        "start": 1.2,
-        "end": 1.85,
-        "text": "the U.S."
+        "start": 0.4,
+        "end": 0.5,
+        "text": "the"
       },
       {
-        "start": 1.85,
-        "end": 5.85,
-        "text": "federal government has collapsed and the world is run by corporate franchises."
+        "start": 0.5,
+        "end": 0.751,
+        "text": "near"
       },
       {
-        "start": 5.85,
-        "end": 7.15,
-        "text": "The protagonist,"
+        "start": 0.751,
+        "end": 1.271,
+        "text": "future,"
       },
       {
-        "start": 7.15,
-        "end": 8.05,
-        "text": "Hiro Protagonist,"
+        "start": 1.271,
+        "end": 1.562,
+        "text": "the"
       },
       {
-        "start": 8.05,
-        "end": 14.7,
-        "text": "is a pizza delivery driver in reality but a legendary swordsman and hacker in the virtual reality Metaverse."
+        "start": 1.562,
+        "end": 1.882,
+        "text": "U.S."
       },
       {
-        "start": 14.7,
-        "end": 18.94,
-        "text": "The concept of the Metaverse introduced by this 1992 novel,"
+        "start": 1.882,
+        "end": 2.272,
+        "text": "federal"
       },
       {
-        "start": 18.94,
-        "end": 22.5,
-        "text": "a three-dimensional virtual world accessed through avatars,"
+        "start": 2.272,
+        "end": 2.703,
+        "text": "government"
       },
       {
-        "start": 22.5,
-        "end": 26.08,
-        "text": "has influenced the vision of countless technology companies since."
+        "start": 2.703,
+        "end": 2.863,
+        "text": "has"
       },
       {
-        "start": 26.08,
-        "end": 31.95,
-        "text": "A virus called Snow Crash threatens both the Metaverse and the real world simultaneously,"
+        "start": 2.863,
+        "end": 3.483,
+        "text": "collapsed"
       },
       {
-        "start": 31.95,
-        "end": 36.171,
-        "text": "prophetically depicting the impact of the digital world on reality."
+        "start": 3.483,
+        "end": 3.703,
+        "text": "and"
+      },
+      {
+        "start": 3.703,
+        "end": 3.834,
+        "text": "the"
+      },
+      {
+        "start": 3.834,
+        "end": 4.184,
+        "text": "world"
+      },
+      {
+        "start": 4.184,
+        "end": 4.314,
+        "text": "is"
+      },
+      {
+        "start": 4.314,
+        "end": 4.564,
+        "text": "run"
+      },
+      {
+        "start": 4.564,
+        "end": 4.765,
+        "text": "by"
+      },
+      {
+        "start": 4.765,
+        "end": 5.175,
+        "text": "corporate"
+      },
+      {
+        "start": 5.175,
+        "end": 6.146,
+        "text": "franchises."
+      },
+      {
+        "start": 6.146,
+        "end": 6.586,
+        "text": "The"
+      },
+      {
+        "start": 6.586,
+        "end": 7.317,
+        "text": "protagonist,"
+      },
+      {
+        "start": 7.317,
+        "end": 7.727,
+        "text": "Hiro"
+      },
+      {
+        "start": 7.727,
+        "end": 8.518,
+        "text": "Protagonist,"
+      },
+      {
+        "start": 8.518,
+        "end": 8.798,
+        "text": "is"
+      },
+      {
+        "start": 8.798,
+        "end": 8.878,
+        "text": "a"
+      },
+      {
+        "start": 8.878,
+        "end": 9.219,
+        "text": "pizza"
+      },
+      {
+        "start": 9.219,
+        "end": 9.649,
+        "text": "delivery"
+      },
+      {
+        "start": 9.649,
+        "end": 10.009,
+        "text": "driver"
+      },
+      {
+        "start": 10.009,
+        "end": 10.13,
+        "text": "in"
+      },
+      {
+        "start": 10.13,
+        "end": 10.81,
+        "text": "reality"
+      },
+      {
+        "start": 10.81,
+        "end": 11.13,
+        "text": "but"
+      },
+      {
+        "start": 11.13,
+        "end": 11.211,
+        "text": "a"
+      },
+      {
+        "start": 11.211,
+        "end": 11.851,
+        "text": "legendary"
+      },
+      {
+        "start": 11.851,
+        "end": 12.412,
+        "text": "swordsman"
+      },
+      {
+        "start": 12.412,
+        "end": 12.562,
+        "text": "and"
+      },
+      {
+        "start": 12.562,
+        "end": 13.032,
+        "text": "hacker"
+      },
+      {
+        "start": 13.032,
+        "end": 13.192,
+        "text": "in"
+      },
+      {
+        "start": 13.192,
+        "end": 13.323,
+        "text": "the"
+      },
+      {
+        "start": 13.323,
+        "end": 13.763,
+        "text": "virtual"
+      },
+      {
+        "start": 13.763,
+        "end": 14.304,
+        "text": "reality"
+      },
+      {
+        "start": 14.304,
+        "end": 15.255,
+        "text": "Metaverse."
+      },
+      {
+        "start": 15.255,
+        "end": 15.775,
+        "text": "The"
+      },
+      {
+        "start": 15.775,
+        "end": 16.235,
+        "text": "concept"
+      },
+      {
+        "start": 16.235,
+        "end": 16.325,
+        "text": "of"
+      },
+      {
+        "start": 16.325,
+        "end": 16.435,
+        "text": "the"
+      },
+      {
+        "start": 16.435,
+        "end": 16.966,
+        "text": "Metaverse"
+      },
+      {
+        "start": 16.966,
+        "end": 17.536,
+        "text": "introduced"
+      },
+      {
+        "start": 17.536,
+        "end": 17.697,
+        "text": "by"
+      },
+      {
+        "start": 17.697,
+        "end": 17.857,
+        "text": "this"
+      },
+      {
+        "start": 17.857,
+        "end": 18.488,
+        "text": "1992"
+      },
+      {
+        "start": 18.488,
+        "end": 19.248,
+        "text": "novel,"
+      },
+      {
+        "start": 19.248,
+        "end": 19.568,
+        "text": "a"
+      },
+      {
+        "start": 19.568,
+        "end": 20.349,
+        "text": "three-dimensional"
+      },
+      {
+        "start": 20.349,
+        "end": 20.83,
+        "text": "virtual"
+      },
+      {
+        "start": 20.83,
+        "end": 21.26,
+        "text": "world"
+      },
+      {
+        "start": 21.26,
+        "end": 21.73,
+        "text": "accessed"
+      },
+      {
+        "start": 21.73,
+        "end": 21.991,
+        "text": "through"
+      },
+      {
+        "start": 21.991,
+        "end": 22.722,
+        "text": "avatars,"
+      },
+      {
+        "start": 22.722,
+        "end": 23.142,
+        "text": "has"
+      },
+      {
+        "start": 23.142,
+        "end": 23.702,
+        "text": "influenced"
+      },
+      {
+        "start": 23.702,
+        "end": 23.822,
+        "text": "the"
+      },
+      {
+        "start": 23.822,
+        "end": 24.193,
+        "text": "vision"
+      },
+      {
+        "start": 24.193,
+        "end": 24.383,
+        "text": "of"
+      },
+      {
+        "start": 24.383,
+        "end": 24.933,
+        "text": "countless"
+      },
+      {
+        "start": 24.933,
+        "end": 25.504,
+        "text": "technology"
+      },
+      {
+        "start": 25.504,
+        "end": 25.934,
+        "text": "companies"
+      },
+      {
+        "start": 25.934,
+        "end": 26.716,
+        "text": "since."
+      },
+      {
+        "start": 26.716,
+        "end": 27.296,
+        "text": "A"
+      },
+      {
+        "start": 27.296,
+        "end": 27.766,
+        "text": "virus"
+      },
+      {
+        "start": 27.766,
+        "end": 28.086,
+        "text": "called"
+      },
+      {
+        "start": 28.086,
+        "end": 28.367,
+        "text": "Snow"
+      },
+      {
+        "start": 28.367,
+        "end": 28.827,
+        "text": "Crash"
+      },
+      {
+        "start": 28.827,
+        "end": 29.338,
+        "text": "threatens"
+      },
+      {
+        "start": 29.338,
+        "end": 29.568,
+        "text": "both"
+      },
+      {
+        "start": 29.568,
+        "end": 29.678,
+        "text": "the"
+      },
+      {
+        "start": 29.678,
+        "end": 30.239,
+        "text": "Metaverse"
+      },
+      {
+        "start": 30.239,
+        "end": 30.489,
+        "text": "and"
+      },
+      {
+        "start": 30.489,
+        "end": 30.609,
+        "text": "the"
+      },
+      {
+        "start": 30.609,
+        "end": 30.849,
+        "text": "real"
+      },
+      {
+        "start": 30.849,
+        "end": 31.159,
+        "text": "world"
+      },
+      {
+        "start": 31.159,
+        "end": 32.2,
+        "text": "simultaneously,"
+      },
+      {
+        "start": 32.2,
+        "end": 33.041,
+        "text": "prophetically"
+      },
+      {
+        "start": 33.041,
+        "end": 33.562,
+        "text": "depicting"
+      },
+      {
+        "start": 33.562,
+        "end": 33.742,
+        "text": "the"
+      },
+      {
+        "start": 33.742,
+        "end": 34.202,
+        "text": "impact"
+      },
+      {
+        "start": 34.202,
+        "end": 34.292,
+        "text": "of"
+      },
+      {
+        "start": 34.292,
+        "end": 34.402,
+        "text": "the"
+      },
+      {
+        "start": 34.402,
+        "end": 34.803,
+        "text": "digital"
+      },
+      {
+        "start": 34.803,
+        "end": 35.203,
+        "text": "world"
+      },
+      {
+        "start": 35.203,
+        "end": 35.423,
+        "text": "on"
+      },
+      {
+        "start": 35.423,
+        "end": 36.17095833333333,
+        "text": "reality."
       }
     ],
     "D02c-context": [
       {
         "start": 0,
-        "end": 3.05,
-        "text": "In a 2024 Acquired podcast interview,"
+        "end": 0.28,
+        "text": "In"
       },
       {
-        "start": 3.05,
-        "end": 6.48,
-        "text": "Jensen Huang directly discussed this novel's influence."
+        "start": 0.28,
+        "end": 1.38,
+        "text": "a"
       },
       {
-        "start": 6.48,
-        "end": 8.7,
-        "text": "From NVIDIA's earliest days,"
+        "start": 1.38,
+        "end": 1.47,
+        "text": "2024"
       },
       {
-        "start": 8.7,
-        "end": 21.1,
-        "text": "he deeply resonated with the book's vision of a virtual world and became convinced that graphics processing technology would become the foundation for building entirely new realities beyond just gaming."
+        "start": 1.47,
+        "end": 2.02,
+        "text": "Acquired"
       },
       {
-        "start": 21.1,
-        "end": 29.131,
-        "text": "The imagination written on pages over thirty years ago has been realized today in NVIDIA's Omniverse platform."
+        "start": 2.02,
+        "end": 2.6,
+        "text": "podcast"
+      },
+      {
+        "start": 2.6,
+        "end": 3.241,
+        "text": "interview,"
+      },
+      {
+        "start": 3.241,
+        "end": 3.931,
+        "text": "Jensen"
+      },
+      {
+        "start": 3.931,
+        "end": 4.341,
+        "text": "Huang"
+      },
+      {
+        "start": 4.341,
+        "end": 4.961,
+        "text": "directly"
+      },
+      {
+        "start": 4.961,
+        "end": 5.481,
+        "text": "discussed"
+      },
+      {
+        "start": 5.481,
+        "end": 5.701,
+        "text": "this"
+      },
+      {
+        "start": 5.701,
+        "end": 6.081,
+        "text": "novel's"
+      },
+      {
+        "start": 6.081,
+        "end": 6.841,
+        "text": "influence."
+      },
+      {
+        "start": 6.841,
+        "end": 7.321,
+        "text": "From"
+      },
+      {
+        "start": 7.321,
+        "end": 7.911,
+        "text": "NVIDIA's"
+      },
+      {
+        "start": 7.911,
+        "end": 8.421,
+        "text": "earliest"
+      },
+      {
+        "start": 8.421,
+        "end": 8.952,
+        "text": "days,"
+      },
+      {
+        "start": 8.952,
+        "end": 9.352,
+        "text": "he"
+      },
+      {
+        "start": 9.352,
+        "end": 9.852,
+        "text": "deeply"
+      },
+      {
+        "start": 9.852,
+        "end": 10.422,
+        "text": "resonated"
+      },
+      {
+        "start": 10.422,
+        "end": 10.592,
+        "text": "with"
+      },
+      {
+        "start": 10.592,
+        "end": 10.682,
+        "text": "the"
+      },
+      {
+        "start": 10.682,
+        "end": 10.962,
+        "text": "book's"
+      },
+      {
+        "start": 10.962,
+        "end": 11.392,
+        "text": "vision"
+      },
+      {
+        "start": 11.392,
+        "end": 11.542,
+        "text": "of"
+      },
+      {
+        "start": 11.542,
+        "end": 11.632,
+        "text": "a"
+      },
+      {
+        "start": 11.632,
+        "end": 12.132,
+        "text": "virtual"
+      },
+      {
+        "start": 12.132,
+        "end": 12.672,
+        "text": "world"
+      },
+      {
+        "start": 12.672,
+        "end": 13.012,
+        "text": "and"
+      },
+      {
+        "start": 13.012,
+        "end": 13.392,
+        "text": "became"
+      },
+      {
+        "start": 13.392,
+        "end": 13.982,
+        "text": "convinced"
+      },
+      {
+        "start": 13.982,
+        "end": 14.212,
+        "text": "that"
+      },
+      {
+        "start": 14.212,
+        "end": 14.733,
+        "text": "graphics"
+      },
+      {
+        "start": 14.733,
+        "end": 15.303,
+        "text": "processing"
+      },
+      {
+        "start": 15.303,
+        "end": 16.073,
+        "text": "technology"
+      },
+      {
+        "start": 16.073,
+        "end": 16.413,
+        "text": "would"
+      },
+      {
+        "start": 16.413,
+        "end": 16.763,
+        "text": "become"
+      },
+      {
+        "start": 16.763,
+        "end": 16.883,
+        "text": "the"
+      },
+      {
+        "start": 16.883,
+        "end": 17.603,
+        "text": "foundation"
+      },
+      {
+        "start": 17.603,
+        "end": 17.803,
+        "text": "for"
+      },
+      {
+        "start": 17.803,
+        "end": 18.213,
+        "text": "building"
+      },
+      {
+        "start": 18.213,
+        "end": 19.003,
+        "text": "entirely"
+      },
+      {
+        "start": 19.003,
+        "end": 19.283,
+        "text": "new"
+      },
+      {
+        "start": 19.283,
+        "end": 20.063,
+        "text": "realities"
+      },
+      {
+        "start": 20.063,
+        "end": 20.624,
+        "text": "beyond"
+      },
+      {
+        "start": 20.624,
+        "end": 20.834,
+        "text": "just"
+      },
+      {
+        "start": 20.834,
+        "end": 21.584,
+        "text": "gaming."
+      },
+      {
+        "start": 21.584,
+        "end": 22.104,
+        "text": "The"
+      },
+      {
+        "start": 22.104,
+        "end": 22.924,
+        "text": "imagination"
+      },
+      {
+        "start": 22.924,
+        "end": 23.264,
+        "text": "written"
+      },
+      {
+        "start": 23.264,
+        "end": 23.404,
+        "text": "on"
+      },
+      {
+        "start": 23.404,
+        "end": 23.924,
+        "text": "pages"
+      },
+      {
+        "start": 23.924,
+        "end": 24.274,
+        "text": "over"
+      },
+      {
+        "start": 24.274,
+        "end": 24.704,
+        "text": "thirty"
+      },
+      {
+        "start": 24.704,
+        "end": 24.984,
+        "text": "years"
+      },
+      {
+        "start": 24.984,
+        "end": 25.444,
+        "text": "ago"
+      },
+      {
+        "start": 25.444,
+        "end": 25.774,
+        "text": "has"
+      },
+      {
+        "start": 25.774,
+        "end": 25.984,
+        "text": "been"
+      },
+      {
+        "start": 25.984,
+        "end": 26.515,
+        "text": "realized"
+      },
+      {
+        "start": 26.515,
+        "end": 26.995,
+        "text": "today"
+      },
+      {
+        "start": 26.995,
+        "end": 27.195,
+        "text": "in"
+      },
+      {
+        "start": 27.195,
+        "end": 27.875,
+        "text": "NVIDIA's"
+      },
+      {
+        "start": 27.875,
+        "end": 28.425,
+        "text": "Omniverse"
+      },
+      {
+        "start": 28.425,
+        "end": 29.130958333333332,
+        "text": "platform."
       }
     ],
     "D03b-summary": [
       {
         "start": 0,
-        "end": 5.3,
-        "text": "The paradox that excellent management can destroy a company is this book's core thesis."
+        "end": 0.4,
+        "text": "The"
       },
       {
-        "start": 5.3,
-        "end": 8.9,
-        "text": "Listening to customers and focusing on profitable markets,"
+        "start": 0.4,
+        "end": 1.07,
+        "text": "paradox"
       },
       {
-        "start": 8.9,
-        "end": 11.5,
-        "text": "the textbook principles of good management,"
+        "start": 1.07,
+        "end": 1.33,
+        "text": "that"
       },
       {
-        "start": 11.5,
-        "end": 13.26,
-        "text": "can actually doom a company."
+        "start": 1.33,
+        "end": 1.831,
+        "text": "excellent"
       },
       {
-        "start": 13.26,
-        "end": 14.95,
+        "start": 1.831,
+        "end": 2.401,
+        "text": "management"
+      },
+      {
+        "start": 2.401,
+        "end": 2.581,
+        "text": "can"
+      },
+      {
+        "start": 2.581,
+        "end": 3.111,
+        "text": "destroy"
+      },
+      {
+        "start": 3.111,
+        "end": 3.201,
+        "text": "a"
+      },
+      {
+        "start": 3.201,
+        "end": 3.741,
+        "text": "company"
+      },
+      {
+        "start": 3.741,
+        "end": 3.931,
+        "text": "is"
+      },
+      {
+        "start": 3.931,
+        "end": 4.181,
+        "text": "this"
+      },
+      {
+        "start": 4.181,
+        "end": 4.541,
+        "text": "book's"
+      },
+      {
+        "start": 4.541,
+        "end": 4.931,
+        "text": "core"
+      },
+      {
+        "start": 4.931,
+        "end": 5.762,
+        "text": "thesis."
+      },
+      {
+        "start": 5.762,
+        "end": 6.552,
+        "text": "Listening"
+      },
+      {
+        "start": 6.552,
+        "end": 6.692,
+        "text": "to"
+      },
+      {
+        "start": 6.692,
+        "end": 7.282,
+        "text": "customers"
+      },
+      {
+        "start": 7.282,
+        "end": 7.452,
+        "text": "and"
+      },
+      {
+        "start": 7.452,
+        "end": 7.982,
+        "text": "focusing"
+      },
+      {
+        "start": 7.982,
+        "end": 8.142,
+        "text": "on"
+      },
+      {
+        "start": 8.142,
+        "end": 8.702,
+        "text": "profitable"
+      },
+      {
+        "start": 8.702,
+        "end": 9.313,
+        "text": "markets,"
+      },
+      {
+        "start": 9.313,
+        "end": 9.653,
+        "text": "the"
+      },
+      {
+        "start": 9.653,
+        "end": 10.153,
+        "text": "textbook"
+      },
+      {
+        "start": 10.153,
+        "end": 10.673,
+        "text": "principles"
+      },
+      {
+        "start": 10.673,
+        "end": 10.783,
+        "text": "of"
+      },
+      {
+        "start": 10.783,
+        "end": 10.993,
+        "text": "good"
+      },
+      {
+        "start": 10.993,
+        "end": 11.643,
+        "text": "management,"
+      },
+      {
+        "start": 11.643,
+        "end": 11.983,
+        "text": "can"
+      },
+      {
+        "start": 11.983,
+        "end": 12.463,
+        "text": "actually"
+      },
+      {
+        "start": 12.463,
+        "end": 12.843,
+        "text": "doom"
+      },
+      {
+        "start": 12.843,
+        "end": 12.934,
+        "text": "a"
+      },
+      {
+        "start": 12.934,
+        "end": 13.724,
+        "text": "company."
+      },
+      {
+        "start": 13.724,
+        "end": 15.114,
         "text": "Low-performance,"
       },
       {
-        "start": 14.95,
-        "end": 21.7,
-        "text": "low-margin technologies that existing customers reject create new markets and eventually replace incumbents."
+        "start": 15.114,
+        "end": 15.884,
+        "text": "low-margin"
       },
       {
-        "start": 21.7,
-        "end": 24.55,
-        "text": "Through case studies in disk drives,"
+        "start": 15.884,
+        "end": 16.615,
+        "text": "technologies"
       },
       {
-        "start": 24.55,
-        "end": 25.1,
+        "start": 16.615,
+        "end": 16.835,
+        "text": "that"
+      },
+      {
+        "start": 16.835,
+        "end": 17.395,
+        "text": "existing"
+      },
+      {
+        "start": 17.395,
+        "end": 17.935,
+        "text": "customers"
+      },
+      {
+        "start": 17.935,
+        "end": 18.555,
+        "text": "reject"
+      },
+      {
+        "start": 18.555,
+        "end": 19.115,
+        "text": "create"
+      },
+      {
+        "start": 19.115,
+        "end": 19.355,
+        "text": "new"
+      },
+      {
+        "start": 19.355,
+        "end": 19.865,
+        "text": "markets"
+      },
+      {
+        "start": 19.865,
+        "end": 20.055,
+        "text": "and"
+      },
+      {
+        "start": 20.055,
+        "end": 20.646,
+        "text": "eventually"
+      },
+      {
+        "start": 20.646,
+        "end": 21.126,
+        "text": "replace"
+      },
+      {
+        "start": 21.126,
+        "end": 22.106,
+        "text": "incumbents."
+      },
+      {
+        "start": 22.106,
+        "end": 22.836,
+        "text": "Through"
+      },
+      {
+        "start": 22.836,
+        "end": 23.116,
+        "text": "case"
+      },
+      {
+        "start": 23.116,
+        "end": 23.566,
+        "text": "studies"
+      },
+      {
+        "start": 23.566,
+        "end": 23.726,
+        "text": "in"
+      },
+      {
+        "start": 23.726,
+        "end": 24.037,
+        "text": "disk"
+      },
+      {
+        "start": 24.037,
+        "end": 24.617,
+        "text": "drives,"
+      },
+      {
+        "start": 24.617,
+        "end": 25.197,
         "text": "steel,"
       },
       {
-        "start": 25.1,
-        "end": 26.1,
-        "text": "and excavators,"
+        "start": 25.197,
+        "end": 25.447,
+        "text": "and"
       },
       {
-        "start": 26.1,
-        "end": 28.7,
-        "text": "it shows how disruptive innovation works."
+        "start": 25.447,
+        "end": 26.307,
+        "text": "excavators,"
       },
       {
-        "start": 28.7,
-        "end": 37.131,
-        "text": "The lesson is clear: the moment you become complacent with your current formula for success is the most dangerous moment."
+        "start": 26.307,
+        "end": 26.627,
+        "text": "it"
+      },
+      {
+        "start": 26.627,
+        "end": 27.027,
+        "text": "shows"
+      },
+      {
+        "start": 27.027,
+        "end": 27.307,
+        "text": "how"
+      },
+      {
+        "start": 27.307,
+        "end": 27.908,
+        "text": "disruptive"
+      },
+      {
+        "start": 27.908,
+        "end": 28.478,
+        "text": "innovation"
+      },
+      {
+        "start": 28.478,
+        "end": 29.178,
+        "text": "works."
+      },
+      {
+        "start": 29.178,
+        "end": 29.668,
+        "text": "The"
+      },
+      {
+        "start": 29.668,
+        "end": 30.078,
+        "text": "lesson"
+      },
+      {
+        "start": 30.078,
+        "end": 30.228,
+        "text": "is"
+      },
+      {
+        "start": 30.228,
+        "end": 30.878,
+        "text": "clear:"
+      },
+      {
+        "start": 30.878,
+        "end": 31.298,
+        "text": "the"
+      },
+      {
+        "start": 31.298,
+        "end": 31.679,
+        "text": "moment"
+      },
+      {
+        "start": 31.679,
+        "end": 31.869,
+        "text": "you"
+      },
+      {
+        "start": 31.869,
+        "end": 32.229,
+        "text": "become"
+      },
+      {
+        "start": 32.229,
+        "end": 32.909,
+        "text": "complacent"
+      },
+      {
+        "start": 32.909,
+        "end": 33.079,
+        "text": "with"
+      },
+      {
+        "start": 33.079,
+        "end": 33.309,
+        "text": "your"
+      },
+      {
+        "start": 33.309,
+        "end": 33.699,
+        "text": "current"
+      },
+      {
+        "start": 33.699,
+        "end": 34.169,
+        "text": "formula"
+      },
+      {
+        "start": 34.169,
+        "end": 34.319,
+        "text": "for"
+      },
+      {
+        "start": 34.319,
+        "end": 35.01,
+        "text": "success"
+      },
+      {
+        "start": 35.01,
+        "end": 35.31,
+        "text": "is"
+      },
+      {
+        "start": 35.31,
+        "end": 35.47,
+        "text": "the"
+      },
+      {
+        "start": 35.47,
+        "end": 35.84,
+        "text": "most"
+      },
+      {
+        "start": 35.84,
+        "end": 36.44,
+        "text": "dangerous"
+      },
+      {
+        "start": 36.44,
+        "end": 37.13095833333333,
+        "text": "moment."
       }
     ],
     "D03c-context": [
       {
         "start": 0,
-        "end": 3,
-        "text": "In a 2023 Acquired podcast interview,"
+        "end": 0.461,
+        "text": "In"
       },
       {
-        "start": 3,
-        "end": 7,
-        "text": "Jensen Huang declared that Clay Christensen's series is the best."
+        "start": 0.461,
+        "end": 1.402,
+        "text": "a"
       },
       {
-        "start": 7,
-        "end": 8.55,
-        "text": "He said they are intuitive,"
+        "start": 1.402,
+        "end": 1.492,
+        "text": "2023"
       },
       {
-        "start": 8.55,
-        "end": 9.95,
-        "text": "easy to understand,"
+        "start": 1.492,
+        "end": 2.012,
+        "text": "Acquired"
       },
       {
-        "start": 9.95,
-        "end": 11.4,
-        "text": "and highly accessible."
+        "start": 2.012,
+        "end": 2.563,
+        "text": "podcast"
       },
       {
-        "start": 11.4,
-        "end": 13.7,
-        "text": "According to Stephen Witt's biography,"
+        "start": 2.563,
+        "end": 3.154,
+        "text": "interview,"
       },
       {
-        "start": 13.7,
-        "end": 19.85,
-        "text": "Huang cited Christensen's logic that sometimes ignoring customers and investors is the right call,"
+        "start": 3.154,
+        "end": 3.724,
+        "text": "Jensen"
       },
       {
-        "start": 19.85,
-        "end": 22,
-        "text": "and invested in the CUDA platform,"
+        "start": 3.724,
+        "end": 4.045,
+        "text": "Huang"
       },
       {
-        "start": 22,
-        "end": 24.4,
-        "text": "which generated no revenue for a decade,"
+        "start": 4.045,
+        "end": 4.455,
+        "text": "declared"
       },
       {
-        "start": 24.4,
-        "end": 27.1,
-        "text": "instead of the gaming market that Wall Street wanted."
+        "start": 4.455,
+        "end": 4.635,
+        "text": "that"
       },
       {
-        "start": 27.1,
-        "end": 31.411,
-        "text": "Today's AI boom is the fruit of that ignored investment."
+        "start": 4.635,
+        "end": 4.926,
+        "text": "Clay"
+      },
+      {
+        "start": 4.926,
+        "end": 5.516,
+        "text": "Christensen's"
+      },
+      {
+        "start": 5.516,
+        "end": 6.037,
+        "text": "series"
+      },
+      {
+        "start": 6.037,
+        "end": 6.267,
+        "text": "is"
+      },
+      {
+        "start": 6.267,
+        "end": 6.477,
+        "text": "the"
+      },
+      {
+        "start": 6.477,
+        "end": 7.168,
+        "text": "best."
+      },
+      {
+        "start": 7.168,
+        "end": 7.538,
+        "text": "He"
+      },
+      {
+        "start": 7.538,
+        "end": 7.769,
+        "text": "said"
+      },
+      {
+        "start": 7.769,
+        "end": 7.959,
+        "text": "they"
+      },
+      {
+        "start": 7.959,
+        "end": 8.169,
+        "text": "are"
+      },
+      {
+        "start": 8.169,
+        "end": 8.99,
+        "text": "intuitive,"
+      },
+      {
+        "start": 8.99,
+        "end": 9.37,
+        "text": "easy"
+      },
+      {
+        "start": 9.37,
+        "end": 9.481,
+        "text": "to"
+      },
+      {
+        "start": 9.481,
+        "end": 10.191,
+        "text": "understand,"
+      },
+      {
+        "start": 10.191,
+        "end": 10.482,
+        "text": "and"
+      },
+      {
+        "start": 10.482,
+        "end": 10.882,
+        "text": "highly"
+      },
+      {
+        "start": 10.882,
+        "end": 11.774,
+        "text": "accessible."
+      },
+      {
+        "start": 11.774,
+        "end": 12.494,
+        "text": "According"
+      },
+      {
+        "start": 12.494,
+        "end": 12.644,
+        "text": "to"
+      },
+      {
+        "start": 12.644,
+        "end": 13.045,
+        "text": "Stephen"
+      },
+      {
+        "start": 13.045,
+        "end": 13.305,
+        "text": "Witt's"
+      },
+      {
+        "start": 13.305,
+        "end": 14.125,
+        "text": "biography,"
+      },
+      {
+        "start": 14.125,
+        "end": 14.636,
+        "text": "Huang"
+      },
+      {
+        "start": 14.636,
+        "end": 14.977,
+        "text": "cited"
+      },
+      {
+        "start": 14.977,
+        "end": 15.637,
+        "text": "Christensen's"
+      },
+      {
+        "start": 15.637,
+        "end": 16.098,
+        "text": "logic"
+      },
+      {
+        "start": 16.098,
+        "end": 16.418,
+        "text": "that"
+      },
+      {
+        "start": 16.418,
+        "end": 17.109,
+        "text": "sometimes"
+      },
+      {
+        "start": 17.109,
+        "end": 17.69,
+        "text": "ignoring"
+      },
+      {
+        "start": 17.69,
+        "end": 18.24,
+        "text": "customers"
+      },
+      {
+        "start": 18.24,
+        "end": 18.38,
+        "text": "and"
+      },
+      {
+        "start": 18.38,
+        "end": 19.031,
+        "text": "investors"
+      },
+      {
+        "start": 19.031,
+        "end": 19.201,
+        "text": "is"
+      },
+      {
+        "start": 19.201,
+        "end": 19.342,
+        "text": "the"
+      },
+      {
+        "start": 19.342,
+        "end": 19.562,
+        "text": "right"
+      },
+      {
+        "start": 19.562,
+        "end": 20.123,
+        "text": "call,"
+      },
+      {
+        "start": 20.123,
+        "end": 20.473,
+        "text": "and"
+      },
+      {
+        "start": 20.473,
+        "end": 21.003,
+        "text": "invested"
+      },
+      {
+        "start": 21.003,
+        "end": 21.124,
+        "text": "in"
+      },
+      {
+        "start": 21.124,
+        "end": 21.234,
+        "text": "the"
+      },
+      {
+        "start": 21.234,
+        "end": 21.554,
+        "text": "CUDA"
+      },
+      {
+        "start": 21.554,
+        "end": 22.165,
+        "text": "platform,"
+      },
+      {
+        "start": 22.165,
+        "end": 22.495,
+        "text": "which"
+      },
+      {
+        "start": 22.495,
+        "end": 23.056,
+        "text": "generated"
+      },
+      {
+        "start": 23.056,
+        "end": 23.326,
+        "text": "no"
+      },
+      {
+        "start": 23.326,
+        "end": 23.746,
+        "text": "revenue"
+      },
+      {
+        "start": 23.746,
+        "end": 23.927,
+        "text": "for"
+      },
+      {
+        "start": 23.927,
+        "end": 24.007,
+        "text": "a"
+      },
+      {
+        "start": 24.007,
+        "end": 24.627,
+        "text": "decade,"
+      },
+      {
+        "start": 24.627,
+        "end": 25.248,
+        "text": "instead"
+      },
+      {
+        "start": 25.248,
+        "end": 25.348,
+        "text": "of"
+      },
+      {
+        "start": 25.348,
+        "end": 25.448,
+        "text": "the"
+      },
+      {
+        "start": 25.448,
+        "end": 25.779,
+        "text": "gaming"
+      },
+      {
+        "start": 25.779,
+        "end": 26.129,
+        "text": "market"
+      },
+      {
+        "start": 26.129,
+        "end": 26.309,
+        "text": "that"
+      },
+      {
+        "start": 26.309,
+        "end": 26.54,
+        "text": "Wall"
+      },
+      {
+        "start": 26.54,
+        "end": 26.79,
+        "text": "Street"
+      },
+      {
+        "start": 26.79,
+        "end": 27.42,
+        "text": "wanted."
+      },
+      {
+        "start": 27.42,
+        "end": 28.191,
+        "text": "Today's"
+      },
+      {
+        "start": 28.191,
+        "end": 28.532,
+        "text": "AI"
+      },
+      {
+        "start": 28.532,
+        "end": 28.932,
+        "text": "boom"
+      },
+      {
+        "start": 28.932,
+        "end": 29.142,
+        "text": "is"
+      },
+      {
+        "start": 29.142,
+        "end": 29.293,
+        "text": "the"
+      },
+      {
+        "start": 29.293,
+        "end": 29.713,
+        "text": "fruit"
+      },
+      {
+        "start": 29.713,
+        "end": 29.863,
+        "text": "of"
+      },
+      {
+        "start": 29.863,
+        "end": 30.164,
+        "text": "that"
+      },
+      {
+        "start": 30.164,
+        "end": 30.684,
+        "text": "ignored"
+      },
+      {
+        "start": 30.684,
+        "end": 31.410958333333333,
+        "text": "investment."
       }
     ],
     "D03d-quote": [
       {
         "start": 0,
-        "end": 2.851,
-        "text": "Clay Christensen's series is the best."
+        "end": 0.645,
+        "text": "Clay"
+      },
+      {
+        "start": 0.645,
+        "end": 1.33,
+        "text": "Christensen's"
+      },
+      {
+        "start": 1.33,
+        "end": 1.824,
+        "text": "series"
+      },
+      {
+        "start": 1.824,
+        "end": 2.015,
+        "text": "is"
+      },
+      {
+        "start": 2.015,
+        "end": 2.156,
+        "text": "the"
+      },
+      {
+        "start": 2.156,
+        "end": 2.8509583333333333,
+        "text": "best."
       }
     ],
     "D04b-summary": [
       {
         "start": 0,
-        "end": 3.9,
-        "text": "Written by Intel's legendary CEO Andrew Grove,"
+        "end": 0.661,
+        "text": "Written"
       },
       {
-        "start": 3.9,
-        "end": 8.42,
-        "text": "this book introduces the concept of the strategic inflection point."
+        "start": 0.661,
+        "end": 0.921,
+        "text": "by"
       },
       {
-        "start": 8.42,
-        "end": 11.8,
-        "text": "When the fundamental dynamics of an industry shift,"
+        "start": 0.921,
+        "end": 1.572,
+        "text": "Intel's"
       },
       {
-        "start": 11.8,
-        "end": 18.32,
-        "text": "you must sense the change and have the courage to abandon your existing formula for success to survive."
+        "start": 1.572,
+        "end": 2.252,
+        "text": "legendary"
       },
       {
-        "start": 18.32,
-        "end": 25.55,
-        "text": "Grove's own decision to pivot Intel from memory chips to microprocessors is the defining example."
+        "start": 2.252,
+        "end": 3.053,
+        "text": "CEO"
       },
       {
-        "start": 25.55,
-        "end": 28.05,
-        "text": "When a tenfold change occurs,"
+        "start": 3.053,
+        "end": 3.554,
+        "text": "Andrew"
       },
       {
-        "start": 28.05,
-        "end": 30.26,
-        "text": "clinging to the old way means death,"
+        "start": 3.554,
+        "end": 4.204,
+        "text": "Grove,"
       },
       {
-        "start": 30.26,
-        "end": 33.891,
-        "text": "while embracing change opens new opportunities."
+        "start": 4.204,
+        "end": 4.645,
+        "text": "this"
+      },
+      {
+        "start": 4.645,
+        "end": 5.025,
+        "text": "book"
+      },
+      {
+        "start": 5.025,
+        "end": 5.736,
+        "text": "introduces"
+      },
+      {
+        "start": 5.736,
+        "end": 5.876,
+        "text": "the"
+      },
+      {
+        "start": 5.876,
+        "end": 6.517,
+        "text": "concept"
+      },
+      {
+        "start": 6.517,
+        "end": 6.667,
+        "text": "of"
+      },
+      {
+        "start": 6.667,
+        "end": 6.797,
+        "text": "the"
+      },
+      {
+        "start": 6.797,
+        "end": 7.498,
+        "text": "strategic"
+      },
+      {
+        "start": 7.498,
+        "end": 8.119,
+        "text": "inflection"
+      },
+      {
+        "start": 8.119,
+        "end": 8.74,
+        "text": "point."
+      },
+      {
+        "start": 8.74,
+        "end": 9.24,
+        "text": "When"
+      },
+      {
+        "start": 9.24,
+        "end": 9.38,
+        "text": "the"
+      },
+      {
+        "start": 9.38,
+        "end": 10.051,
+        "text": "fundamental"
+      },
+      {
+        "start": 10.051,
+        "end": 10.691,
+        "text": "dynamics"
+      },
+      {
+        "start": 10.691,
+        "end": 10.811,
+        "text": "of"
+      },
+      {
+        "start": 10.811,
+        "end": 10.932,
+        "text": "an"
+      },
+      {
+        "start": 10.932,
+        "end": 11.412,
+        "text": "industry"
+      },
+      {
+        "start": 11.412,
+        "end": 11.983,
+        "text": "shift,"
+      },
+      {
+        "start": 11.983,
+        "end": 12.383,
+        "text": "you"
+      },
+      {
+        "start": 12.383,
+        "end": 12.764,
+        "text": "must"
+      },
+      {
+        "start": 12.764,
+        "end": 13.154,
+        "text": "sense"
+      },
+      {
+        "start": 13.154,
+        "end": 13.304,
+        "text": "the"
+      },
+      {
+        "start": 13.304,
+        "end": 13.895,
+        "text": "change"
+      },
+      {
+        "start": 13.895,
+        "end": 14.165,
+        "text": "and"
+      },
+      {
+        "start": 14.165,
+        "end": 14.355,
+        "text": "have"
+      },
+      {
+        "start": 14.355,
+        "end": 14.505,
+        "text": "the"
+      },
+      {
+        "start": 14.505,
+        "end": 14.986,
+        "text": "courage"
+      },
+      {
+        "start": 14.986,
+        "end": 15.156,
+        "text": "to"
+      },
+      {
+        "start": 15.156,
+        "end": 15.697,
+        "text": "abandon"
+      },
+      {
+        "start": 15.697,
+        "end": 15.897,
+        "text": "your"
+      },
+      {
+        "start": 15.897,
+        "end": 16.437,
+        "text": "existing"
+      },
+      {
+        "start": 16.437,
+        "end": 16.948,
+        "text": "formula"
+      },
+      {
+        "start": 16.948,
+        "end": 17.138,
+        "text": "for"
+      },
+      {
+        "start": 17.138,
+        "end": 17.719,
+        "text": "success"
+      },
+      {
+        "start": 17.719,
+        "end": 17.889,
+        "text": "to"
+      },
+      {
+        "start": 17.889,
+        "end": 18.75,
+        "text": "survive."
+      },
+      {
+        "start": 18.75,
+        "end": 19.591,
+        "text": "Grove's"
+      },
+      {
+        "start": 19.591,
+        "end": 19.831,
+        "text": "own"
+      },
+      {
+        "start": 19.831,
+        "end": 20.382,
+        "text": "decision"
+      },
+      {
+        "start": 20.382,
+        "end": 20.572,
+        "text": "to"
+      },
+      {
+        "start": 20.572,
+        "end": 20.992,
+        "text": "pivot"
+      },
+      {
+        "start": 20.992,
+        "end": 21.473,
+        "text": "Intel"
+      },
+      {
+        "start": 21.473,
+        "end": 21.703,
+        "text": "from"
+      },
+      {
+        "start": 21.703,
+        "end": 22.103,
+        "text": "memory"
+      },
+      {
+        "start": 22.103,
+        "end": 22.544,
+        "text": "chips"
+      },
+      {
+        "start": 22.544,
+        "end": 22.814,
+        "text": "to"
+      },
+      {
+        "start": 22.814,
+        "end": 24.045,
+        "text": "microprocessors"
+      },
+      {
+        "start": 24.045,
+        "end": 24.336,
+        "text": "is"
+      },
+      {
+        "start": 24.336,
+        "end": 24.466,
+        "text": "the"
+      },
+      {
+        "start": 24.466,
+        "end": 25.037,
+        "text": "defining"
+      },
+      {
+        "start": 25.037,
+        "end": 25.858,
+        "text": "example."
+      },
+      {
+        "start": 25.858,
+        "end": 26.368,
+        "text": "When"
+      },
+      {
+        "start": 26.368,
+        "end": 26.468,
+        "text": "a"
+      },
+      {
+        "start": 26.468,
+        "end": 27.149,
+        "text": "tenfold"
+      },
+      {
+        "start": 27.149,
+        "end": 27.589,
+        "text": "change"
+      },
+      {
+        "start": 27.589,
+        "end": 28.23,
+        "text": "occurs,"
+      },
+      {
+        "start": 28.23,
+        "end": 28.821,
+        "text": "clinging"
+      },
+      {
+        "start": 28.821,
+        "end": 28.951,
+        "text": "to"
+      },
+      {
+        "start": 28.951,
+        "end": 29.111,
+        "text": "the"
+      },
+      {
+        "start": 29.111,
+        "end": 29.321,
+        "text": "old"
+      },
+      {
+        "start": 29.321,
+        "end": 29.722,
+        "text": "way"
+      },
+      {
+        "start": 29.722,
+        "end": 30.032,
+        "text": "means"
+      },
+      {
+        "start": 30.032,
+        "end": 30.543,
+        "text": "death,"
+      },
+      {
+        "start": 30.543,
+        "end": 31.023,
+        "text": "while"
+      },
+      {
+        "start": 31.023,
+        "end": 31.624,
+        "text": "embracing"
+      },
+      {
+        "start": 31.624,
+        "end": 32.094,
+        "text": "change"
+      },
+      {
+        "start": 32.094,
+        "end": 32.575,
+        "text": "opens"
+      },
+      {
+        "start": 32.575,
+        "end": 32.875,
+        "text": "new"
+      },
+      {
+        "start": 32.875,
+        "end": 33.89095833333333,
+        "text": "opportunities."
       }
     ],
     "D04c-context": [
       {
         "start": 0,
-        "end": 1.5,
-        "text": "In an Acquired interview,"
+        "end": 0.401,
+        "text": "In"
       },
       {
-        "start": 1.5,
-        "end": 6.94,
-        "text": "Jensen Huang said he really enjoyed reading Andrew Grove's books and that they are all excellent."
+        "start": 0.401,
+        "end": 0.511,
+        "text": "an"
       },
       {
-        "start": 6.94,
-        "end": 10.05,
-        "text": "At a 2023 Harvard Business Review event,"
+        "start": 0.511,
+        "end": 1.031,
+        "text": "Acquired"
       },
       {
-        "start": 10.05,
-        "end": 13.65,
-        "text": "Huang stated that NVIDIA always feels like it is in crisis,"
+        "start": 1.031,
+        "end": 1.632,
+        "text": "interview,"
       },
       {
-        "start": 13.65,
-        "end": 15,
-        "text": "we feel that way,"
+        "start": 1.632,
+        "end": 2.173,
+        "text": "Jensen"
       },
       {
-        "start": 15,
-        "end": 19.1,
-        "text": "directly embodying Grove's thesis that only the paranoid survive."
+        "start": 2.173,
+        "end": 2.534,
+        "text": "Huang"
       },
       {
-        "start": 19.1,
-        "end": 23.05,
-        "text": "An NVIDIA vice president has said that regardless of the market cap,"
+        "start": 2.534,
+        "end": 2.754,
+        "text": "said"
       },
       {
-        "start": 23.05,
-        "end": 26.851,
-        "text": "we feel every day like the company could go bankrupt tomorrow."
+        "start": 2.754,
+        "end": 2.944,
+        "text": "he"
+      },
+      {
+        "start": 2.944,
+        "end": 3.375,
+        "text": "really"
+      },
+      {
+        "start": 3.375,
+        "end": 3.826,
+        "text": "enjoyed"
+      },
+      {
+        "start": 3.826,
+        "end": 4.196,
+        "text": "reading"
+      },
+      {
+        "start": 4.196,
+        "end": 4.587,
+        "text": "Andrew"
+      },
+      {
+        "start": 4.587,
+        "end": 4.987,
+        "text": "Grove's"
+      },
+      {
+        "start": 4.987,
+        "end": 5.488,
+        "text": "books"
+      },
+      {
+        "start": 5.488,
+        "end": 5.788,
+        "text": "and"
+      },
+      {
+        "start": 5.788,
+        "end": 5.959,
+        "text": "that"
+      },
+      {
+        "start": 5.959,
+        "end": 6.089,
+        "text": "they"
+      },
+      {
+        "start": 6.089,
+        "end": 6.279,
+        "text": "are"
+      },
+      {
+        "start": 6.279,
+        "end": 6.53,
+        "text": "all"
+      },
+      {
+        "start": 6.53,
+        "end": 7.39,
+        "text": "excellent."
+      },
+      {
+        "start": 7.39,
+        "end": 8.703,
+        "text": "At"
+      },
+      {
+        "start": 8.703,
+        "end": 8.733,
+        "text": "a"
+      },
+      {
+        "start": 8.733,
+        "end": 8.793,
+        "text": "2023"
+      },
+      {
+        "start": 8.793,
+        "end": 9.133,
+        "text": "Harvard"
+      },
+      {
+        "start": 9.133,
+        "end": 9.474,
+        "text": "Business"
+      },
+      {
+        "start": 9.474,
+        "end": 9.744,
+        "text": "Review"
+      },
+      {
+        "start": 9.744,
+        "end": 10.245,
+        "text": "event,"
+      },
+      {
+        "start": 10.245,
+        "end": 10.756,
+        "text": "Huang"
+      },
+      {
+        "start": 10.756,
+        "end": 11.126,
+        "text": "stated"
+      },
+      {
+        "start": 11.126,
+        "end": 11.357,
+        "text": "that"
+      },
+      {
+        "start": 11.357,
+        "end": 11.978,
+        "text": "NVIDIA"
+      },
+      {
+        "start": 11.978,
+        "end": 12.478,
+        "text": "always"
+      },
+      {
+        "start": 12.478,
+        "end": 12.829,
+        "text": "feels"
+      },
+      {
+        "start": 12.829,
+        "end": 13.019,
+        "text": "like"
+      },
+      {
+        "start": 13.019,
+        "end": 13.119,
+        "text": "it"
+      },
+      {
+        "start": 13.119,
+        "end": 13.249,
+        "text": "is"
+      },
+      {
+        "start": 13.249,
+        "end": 13.349,
+        "text": "in"
+      },
+      {
+        "start": 13.349,
+        "end": 14.021,
+        "text": "crisis,"
+      },
+      {
+        "start": 14.021,
+        "end": 14.361,
+        "text": "we"
+      },
+      {
+        "start": 14.361,
+        "end": 14.601,
+        "text": "feel"
+      },
+      {
+        "start": 14.601,
+        "end": 14.771,
+        "text": "that"
+      },
+      {
+        "start": 14.771,
+        "end": 15.192,
+        "text": "way,"
+      },
+      {
+        "start": 15.192,
+        "end": 15.913,
+        "text": "directly"
+      },
+      {
+        "start": 15.913,
+        "end": 16.474,
+        "text": "embodying"
+      },
+      {
+        "start": 16.474,
+        "end": 16.824,
+        "text": "Grove's"
+      },
+      {
+        "start": 16.824,
+        "end": 17.325,
+        "text": "thesis"
+      },
+      {
+        "start": 17.325,
+        "end": 17.676,
+        "text": "that"
+      },
+      {
+        "start": 17.676,
+        "end": 18.076,
+        "text": "only"
+      },
+      {
+        "start": 18.076,
+        "end": 18.206,
+        "text": "the"
+      },
+      {
+        "start": 18.206,
+        "end": 18.727,
+        "text": "paranoid"
+      },
+      {
+        "start": 18.727,
+        "end": 19.508,
+        "text": "survive."
+      },
+      {
+        "start": 19.508,
+        "end": 19.989,
+        "text": "An"
+      },
+      {
+        "start": 19.989,
+        "end": 20.41,
+        "text": "NVIDIA"
+      },
+      {
+        "start": 20.41,
+        "end": 20.67,
+        "text": "vice"
+      },
+      {
+        "start": 20.67,
+        "end": 21.131,
+        "text": "president"
+      },
+      {
+        "start": 21.131,
+        "end": 21.271,
+        "text": "has"
+      },
+      {
+        "start": 21.271,
+        "end": 21.541,
+        "text": "said"
+      },
+      {
+        "start": 21.541,
+        "end": 21.812,
+        "text": "that"
+      },
+      {
+        "start": 21.812,
+        "end": 22.382,
+        "text": "regardless"
+      },
+      {
+        "start": 22.382,
+        "end": 22.473,
+        "text": "of"
+      },
+      {
+        "start": 22.473,
+        "end": 22.573,
+        "text": "the"
+      },
+      {
+        "start": 22.573,
+        "end": 22.863,
+        "text": "market"
+      },
+      {
+        "start": 22.863,
+        "end": 23.314,
+        "text": "cap,"
+      },
+      {
+        "start": 23.314,
+        "end": 23.664,
+        "text": "we"
+      },
+      {
+        "start": 23.664,
+        "end": 24.025,
+        "text": "feel"
+      },
+      {
+        "start": 24.025,
+        "end": 24.405,
+        "text": "every"
+      },
+      {
+        "start": 24.405,
+        "end": 24.666,
+        "text": "day"
+      },
+      {
+        "start": 24.666,
+        "end": 24.856,
+        "text": "like"
+      },
+      {
+        "start": 24.856,
+        "end": 24.976,
+        "text": "the"
+      },
+      {
+        "start": 24.976,
+        "end": 25.397,
+        "text": "company"
+      },
+      {
+        "start": 25.397,
+        "end": 25.577,
+        "text": "could"
+      },
+      {
+        "start": 25.577,
+        "end": 25.727,
+        "text": "go"
+      },
+      {
+        "start": 25.727,
+        "end": 26.148,
+        "text": "bankrupt"
+      },
+      {
+        "start": 26.148,
+        "end": 26.850958333333335,
+        "text": "tomorrow."
       }
     ],
     "D04d-quote": [
       {
         "start": 0,
-        "end": 3.2,
-        "text": "NVIDIA always feels like it is in crisis."
+        "end": 1.144,
+        "text": "NVIDIA"
       },
       {
-        "start": 3.2,
-        "end": 5.051,
-        "text": "We feel that way."
+        "start": 1.144,
+        "end": 1.665,
+        "text": "always"
+      },
+      {
+        "start": 1.665,
+        "end": 2.096,
+        "text": "feels"
+      },
+      {
+        "start": 2.096,
+        "end": 2.357,
+        "text": "like"
+      },
+      {
+        "start": 2.357,
+        "end": 2.478,
+        "text": "it"
+      },
+      {
+        "start": 2.478,
+        "end": 2.618,
+        "text": "is"
+      },
+      {
+        "start": 2.618,
+        "end": 2.798,
+        "text": "in"
+      },
+      {
+        "start": 2.798,
+        "end": 3.611,
+        "text": "crisis."
+      },
+      {
+        "start": 3.611,
+        "end": 4.052,
+        "text": "We"
+      },
+      {
+        "start": 4.052,
+        "end": 4.313,
+        "text": "feel"
+      },
+      {
+        "start": 4.313,
+        "end": 4.494,
+        "text": "that"
+      },
+      {
+        "start": 4.494,
+        "end": 5.050958333333333,
+        "text": "way."
       }
     ],
     "D05b-summary": [
       {
         "start": 0,
-        "end": 4.35,
-        "text": "Written by PayPal co-founder Peter Thiel based on his Stanford lectures,"
+        "end": 0.591,
+        "text": "Written"
       },
       {
-        "start": 4.35,
-        "end": 8.3,
-        "text": "this book upends conventional thinking about competition and monopoly."
+        "start": 0.591,
+        "end": 0.791,
+        "text": "by"
       },
       {
-        "start": 8.3,
-        "end": 12.9,
-        "text": "Thiel's core argument is this: competition is a loser's game."
+        "start": 0.791,
+        "end": 1.321,
+        "text": "PayPal"
       },
       {
-        "start": 12.9,
-        "end": 20.22,
-        "text": "True innovation is not about making something slightly better in an existing market but creating an entirely new market."
+        "start": 1.321,
+        "end": 1.962,
+        "text": "co-founder"
       },
       {
-        "start": 20.22,
-        "end": 26.2,
-        "text": "Going from one to N is imitation; going from zero to one is real innovation."
+        "start": 1.962,
+        "end": 2.272,
+        "text": "Peter"
       },
       {
-        "start": 26.2,
-        "end": 32.291,
-        "text": "He advances the bold thesis that monopoly is not evil but proof of value creation."
+        "start": 2.272,
+        "end": 2.793,
+        "text": "Thiel"
+      },
+      {
+        "start": 2.793,
+        "end": 3.263,
+        "text": "based"
+      },
+      {
+        "start": 3.263,
+        "end": 3.383,
+        "text": "on"
+      },
+      {
+        "start": 3.383,
+        "end": 3.534,
+        "text": "his"
+      },
+      {
+        "start": 3.534,
+        "end": 4.004,
+        "text": "Stanford"
+      },
+      {
+        "start": 4.004,
+        "end": 4.625,
+        "text": "lectures,"
+      },
+      {
+        "start": 4.625,
+        "end": 5.015,
+        "text": "this"
+      },
+      {
+        "start": 5.015,
+        "end": 5.336,
+        "text": "book"
+      },
+      {
+        "start": 5.336,
+        "end": 5.916,
+        "text": "upends"
+      },
+      {
+        "start": 5.916,
+        "end": 6.507,
+        "text": "conventional"
+      },
+      {
+        "start": 6.507,
+        "end": 6.897,
+        "text": "thinking"
+      },
+      {
+        "start": 6.897,
+        "end": 7.157,
+        "text": "about"
+      },
+      {
+        "start": 7.157,
+        "end": 7.868,
+        "text": "competition"
+      },
+      {
+        "start": 7.868,
+        "end": 8.048,
+        "text": "and"
+      },
+      {
+        "start": 8.048,
+        "end": 8.869,
+        "text": "monopoly."
+      },
+      {
+        "start": 8.869,
+        "end": 9.54,
+        "text": "Thiel's"
+      },
+      {
+        "start": 9.54,
+        "end": 9.9,
+        "text": "core"
+      },
+      {
+        "start": 9.9,
+        "end": 10.401,
+        "text": "argument"
+      },
+      {
+        "start": 10.401,
+        "end": 10.561,
+        "text": "is"
+      },
+      {
+        "start": 10.561,
+        "end": 11.072,
+        "text": "this:"
+      },
+      {
+        "start": 11.072,
+        "end": 12.082,
+        "text": "competition"
+      },
+      {
+        "start": 12.082,
+        "end": 12.273,
+        "text": "is"
+      },
+      {
+        "start": 12.273,
+        "end": 12.343,
+        "text": "a"
+      },
+      {
+        "start": 12.343,
+        "end": 12.723,
+        "text": "loser's"
+      },
+      {
+        "start": 12.723,
+        "end": 13.264,
+        "text": "game."
+      },
+      {
+        "start": 13.264,
+        "end": 13.864,
+        "text": "True"
+      },
+      {
+        "start": 13.864,
+        "end": 14.515,
+        "text": "innovation"
+      },
+      {
+        "start": 14.515,
+        "end": 14.685,
+        "text": "is"
+      },
+      {
+        "start": 14.685,
+        "end": 14.895,
+        "text": "not"
+      },
+      {
+        "start": 14.895,
+        "end": 15.176,
+        "text": "about"
+      },
+      {
+        "start": 15.176,
+        "end": 15.546,
+        "text": "making"
+      },
+      {
+        "start": 15.546,
+        "end": 15.936,
+        "text": "something"
+      },
+      {
+        "start": 15.936,
+        "end": 16.407,
+        "text": "slightly"
+      },
+      {
+        "start": 16.407,
+        "end": 16.767,
+        "text": "better"
+      },
+      {
+        "start": 16.767,
+        "end": 16.917,
+        "text": "in"
+      },
+      {
+        "start": 16.917,
+        "end": 17.037,
+        "text": "an"
+      },
+      {
+        "start": 17.037,
+        "end": 17.518,
+        "text": "existing"
+      },
+      {
+        "start": 17.518,
+        "end": 18.059,
+        "text": "market"
+      },
+      {
+        "start": 18.059,
+        "end": 18.419,
+        "text": "but"
+      },
+      {
+        "start": 18.419,
+        "end": 18.979,
+        "text": "creating"
+      },
+      {
+        "start": 18.979,
+        "end": 19.13,
+        "text": "an"
+      },
+      {
+        "start": 19.13,
+        "end": 19.75,
+        "text": "entirely"
+      },
+      {
+        "start": 19.75,
+        "end": 19.94,
+        "text": "new"
+      },
+      {
+        "start": 19.94,
+        "end": 20.581,
+        "text": "market."
+      },
+      {
+        "start": 20.581,
+        "end": 21.152,
+        "text": "Going"
+      },
+      {
+        "start": 21.152,
+        "end": 21.442,
+        "text": "from"
+      },
+      {
+        "start": 21.442,
+        "end": 21.732,
+        "text": "one"
+      },
+      {
+        "start": 21.732,
+        "end": 21.993,
+        "text": "to"
+      },
+      {
+        "start": 21.993,
+        "end": 22.333,
+        "text": "N"
+      },
+      {
+        "start": 22.333,
+        "end": 22.543,
+        "text": "is"
+      },
+      {
+        "start": 22.543,
+        "end": 23.334,
+        "text": "imitation;"
+      },
+      {
+        "start": 23.334,
+        "end": 23.844,
+        "text": "going"
+      },
+      {
+        "start": 23.844,
+        "end": 24.045,
+        "text": "from"
+      },
+      {
+        "start": 24.045,
+        "end": 24.495,
+        "text": "zero"
+      },
+      {
+        "start": 24.495,
+        "end": 24.735,
+        "text": "to"
+      },
+      {
+        "start": 24.735,
+        "end": 25.086,
+        "text": "one"
+      },
+      {
+        "start": 25.086,
+        "end": 25.346,
+        "text": "is"
+      },
+      {
+        "start": 25.346,
+        "end": 25.686,
+        "text": "real"
+      },
+      {
+        "start": 25.686,
+        "end": 26.527,
+        "text": "innovation."
+      },
+      {
+        "start": 26.527,
+        "end": 26.948,
+        "text": "He"
+      },
+      {
+        "start": 26.948,
+        "end": 27.498,
+        "text": "advances"
+      },
+      {
+        "start": 27.498,
+        "end": 27.648,
+        "text": "the"
+      },
+      {
+        "start": 27.648,
+        "end": 27.979,
+        "text": "bold"
+      },
+      {
+        "start": 27.979,
+        "end": 28.459,
+        "text": "thesis"
+      },
+      {
+        "start": 28.459,
+        "end": 28.689,
+        "text": "that"
+      },
+      {
+        "start": 28.689,
+        "end": 29.34,
+        "text": "monopoly"
+      },
+      {
+        "start": 29.34,
+        "end": 29.5,
+        "text": "is"
+      },
+      {
+        "start": 29.5,
+        "end": 29.791,
+        "text": "not"
+      },
+      {
+        "start": 29.791,
+        "end": 30.241,
+        "text": "evil"
+      },
+      {
+        "start": 30.241,
+        "end": 30.581,
+        "text": "but"
+      },
+      {
+        "start": 30.581,
+        "end": 31.012,
+        "text": "proof"
+      },
+      {
+        "start": 31.012,
+        "end": 31.182,
+        "text": "of"
+      },
+      {
+        "start": 31.182,
+        "end": 31.592,
+        "text": "value"
+      },
+      {
+        "start": 31.592,
+        "end": 32.290958333333336,
+        "text": "creation."
       }
     ],
     "D05c-context": [
       {
         "start": 0,
-        "end": 0.8,
-        "text": "In 2015,"
+        "end": 0.541,
+        "text": "In"
       },
       {
-        "start": 0.8,
-        "end": 5.5,
-        "text": "Jensen Huang recommended this book to employees through NVIDIA's internal communications."
+        "start": 0.541,
+        "end": 1.142,
+        "text": "2015,"
       },
       {
-        "start": 5.5,
-        "end": 13.45,
-        "text": "Huang resonated with the argument that truly innovative companies don't win the competition but make competition itself irrelevant."
+        "start": 1.142,
+        "end": 1.722,
+        "text": "Jensen"
       },
       {
-        "start": 13.45,
-        "end": 20.35,
-        "text": "NVIDIA's redefinition of the GPU from a gaming-only device to a general-purpose parallel computing platform,"
+        "start": 1.722,
+        "end": 2.042,
+        "text": "Huang"
       },
       {
-        "start": 20.35,
-        "end": 24.45,
-        "text": "and its construction of an unassailable moat through the CUDA ecosystem,"
+        "start": 2.042,
+        "end": 2.583,
+        "text": "recommended"
       },
       {
-        "start": 24.45,
-        "end": 28.291,
-        "text": "was precisely the zero-to-one path this book describes."
+        "start": 2.583,
+        "end": 2.753,
+        "text": "this"
+      },
+      {
+        "start": 2.753,
+        "end": 2.963,
+        "text": "book"
+      },
+      {
+        "start": 2.963,
+        "end": 3.114,
+        "text": "to"
+      },
+      {
+        "start": 3.114,
+        "end": 3.614,
+        "text": "employees"
+      },
+      {
+        "start": 3.614,
+        "end": 3.885,
+        "text": "through"
+      },
+      {
+        "start": 3.885,
+        "end": 4.445,
+        "text": "NVIDIA's"
+      },
+      {
+        "start": 4.445,
+        "end": 4.866,
+        "text": "internal"
+      },
+      {
+        "start": 4.866,
+        "end": 5.887,
+        "text": "communications."
+      },
+      {
+        "start": 5.887,
+        "end": 6.468,
+        "text": "Huang"
+      },
+      {
+        "start": 6.468,
+        "end": 6.988,
+        "text": "resonated"
+      },
+      {
+        "start": 6.988,
+        "end": 7.118,
+        "text": "with"
+      },
+      {
+        "start": 7.118,
+        "end": 7.248,
+        "text": "the"
+      },
+      {
+        "start": 7.248,
+        "end": 7.669,
+        "text": "argument"
+      },
+      {
+        "start": 7.669,
+        "end": 7.919,
+        "text": "that"
+      },
+      {
+        "start": 7.919,
+        "end": 8.46,
+        "text": "truly"
+      },
+      {
+        "start": 8.46,
+        "end": 8.95,
+        "text": "innovative"
+      },
+      {
+        "start": 8.95,
+        "end": 9.561,
+        "text": "companies"
+      },
+      {
+        "start": 9.561,
+        "end": 10.022,
+        "text": "don't"
+      },
+      {
+        "start": 10.022,
+        "end": 10.302,
+        "text": "win"
+      },
+      {
+        "start": 10.302,
+        "end": 10.402,
+        "text": "the"
+      },
+      {
+        "start": 10.402,
+        "end": 11.133,
+        "text": "competition"
+      },
+      {
+        "start": 11.133,
+        "end": 11.483,
+        "text": "but"
+      },
+      {
+        "start": 11.483,
+        "end": 11.754,
+        "text": "make"
+      },
+      {
+        "start": 11.754,
+        "end": 12.395,
+        "text": "competition"
+      },
+      {
+        "start": 12.395,
+        "end": 12.905,
+        "text": "itself"
+      },
+      {
+        "start": 12.905,
+        "end": 13.846,
+        "text": "irrelevant."
+      },
+      {
+        "start": 13.846,
+        "end": 14.647,
+        "text": "NVIDIA's"
+      },
+      {
+        "start": 14.647,
+        "end": 15.348,
+        "text": "redefinition"
+      },
+      {
+        "start": 15.348,
+        "end": 15.428,
+        "text": "of"
+      },
+      {
+        "start": 15.428,
+        "end": 15.538,
+        "text": "the"
+      },
+      {
+        "start": 15.538,
+        "end": 16.229,
+        "text": "GPU"
+      },
+      {
+        "start": 16.229,
+        "end": 16.539,
+        "text": "from"
+      },
+      {
+        "start": 16.539,
+        "end": 16.619,
+        "text": "a"
+      },
+      {
+        "start": 16.619,
+        "end": 17.28,
+        "text": "gaming-only"
+      },
+      {
+        "start": 17.28,
+        "end": 17.791,
+        "text": "device"
+      },
+      {
+        "start": 17.791,
+        "end": 18.101,
+        "text": "to"
+      },
+      {
+        "start": 18.101,
+        "end": 18.191,
+        "text": "a"
+      },
+      {
+        "start": 18.191,
+        "end": 18.992,
+        "text": "general-purpose"
+      },
+      {
+        "start": 18.992,
+        "end": 19.443,
+        "text": "parallel"
+      },
+      {
+        "start": 19.443,
+        "end": 19.873,
+        "text": "computing"
+      },
+      {
+        "start": 19.873,
+        "end": 20.584,
+        "text": "platform,"
+      },
+      {
+        "start": 20.584,
+        "end": 21.015,
+        "text": "and"
+      },
+      {
+        "start": 21.015,
+        "end": 21.165,
+        "text": "its"
+      },
+      {
+        "start": 21.165,
+        "end": 21.775,
+        "text": "construction"
+      },
+      {
+        "start": 21.775,
+        "end": 21.896,
+        "text": "of"
+      },
+      {
+        "start": 21.896,
+        "end": 22.066,
+        "text": "an"
+      },
+      {
+        "start": 22.066,
+        "end": 22.777,
+        "text": "unassailable"
+      },
+      {
+        "start": 22.777,
+        "end": 23.137,
+        "text": "moat"
+      },
+      {
+        "start": 23.137,
+        "end": 23.457,
+        "text": "through"
+      },
+      {
+        "start": 23.457,
+        "end": 23.547,
+        "text": "the"
+      },
+      {
+        "start": 23.547,
+        "end": 23.888,
+        "text": "CUDA"
+      },
+      {
+        "start": 23.888,
+        "end": 24.679,
+        "text": "ecosystem,"
+      },
+      {
+        "start": 24.679,
+        "end": 25.029,
+        "text": "was"
+      },
+      {
+        "start": 25.029,
+        "end": 25.68,
+        "text": "precisely"
+      },
+      {
+        "start": 25.68,
+        "end": 25.84,
+        "text": "the"
+      },
+      {
+        "start": 25.84,
+        "end": 26.601,
+        "text": "zero-to-one"
+      },
+      {
+        "start": 26.601,
+        "end": 26.982,
+        "text": "path"
+      },
+      {
+        "start": 26.982,
+        "end": 27.222,
+        "text": "this"
+      },
+      {
+        "start": 27.222,
+        "end": 27.432,
+        "text": "book"
+      },
+      {
+        "start": 27.432,
+        "end": 28.290958333333332,
+        "text": "describes."
       }
     ],
     "D06b-summary": [
       {
         "start": 0,
-        "end": 6.54,
-        "text": "Palm Pilot creator and neuroscience researcher Jeff Hawkins explains human intelligence through a new framework."
+        "end": 0.59,
+        "text": "Palm"
       },
       {
-        "start": 6.54,
-        "end": 11.36,
-        "text": "Each column of the neocortex independently builds a model of the world,"
+        "start": 0.59,
+        "end": 0.96,
+        "text": "Pilot"
       },
       {
-        "start": 11.36,
-        "end": 14.8,
-        "text": "and thousands of these models form perception through consensus."
+        "start": 0.96,
+        "end": 1.481,
+        "text": "creator"
       },
       {
-        "start": 14.8,
-        "end": 22.6,
-        "text": "The brain does not operate as one giant model but functions like a democracy where tens of thousands of small models vote."
+        "start": 1.481,
+        "end": 1.701,
+        "text": "and"
       },
       {
-        "start": 22.6,
-        "end": 28.971,
-        "text": "This perspective presents a fundamentally different possibility for intelligence than current deep learning."
+        "start": 1.701,
+        "end": 2.421,
+        "text": "neuroscience"
+      },
+      {
+        "start": 2.421,
+        "end": 3.011,
+        "text": "researcher"
+      },
+      {
+        "start": 3.011,
+        "end": 3.311,
+        "text": "Jeff"
+      },
+      {
+        "start": 3.311,
+        "end": 3.932,
+        "text": "Hawkins"
+      },
+      {
+        "start": 3.932,
+        "end": 4.632,
+        "text": "explains"
+      },
+      {
+        "start": 4.632,
+        "end": 4.942,
+        "text": "human"
+      },
+      {
+        "start": 4.942,
+        "end": 5.552,
+        "text": "intelligence"
+      },
+      {
+        "start": 5.552,
+        "end": 5.832,
+        "text": "through"
+      },
+      {
+        "start": 5.832,
+        "end": 5.912,
+        "text": "a"
+      },
+      {
+        "start": 5.912,
+        "end": 6.153,
+        "text": "new"
+      },
+      {
+        "start": 6.153,
+        "end": 6.983,
+        "text": "framework."
+      },
+      {
+        "start": 6.983,
+        "end": 7.543,
+        "text": "Each"
+      },
+      {
+        "start": 7.543,
+        "end": 8.003,
+        "text": "column"
+      },
+      {
+        "start": 8.003,
+        "end": 8.093,
+        "text": "of"
+      },
+      {
+        "start": 8.093,
+        "end": 8.203,
+        "text": "the"
+      },
+      {
+        "start": 8.203,
+        "end": 9.164,
+        "text": "neocortex"
+      },
+      {
+        "start": 9.164,
+        "end": 10.094,
+        "text": "independently"
+      },
+      {
+        "start": 10.094,
+        "end": 10.454,
+        "text": "builds"
+      },
+      {
+        "start": 10.454,
+        "end": 10.534,
+        "text": "a"
+      },
+      {
+        "start": 10.534,
+        "end": 10.865,
+        "text": "model"
+      },
+      {
+        "start": 10.865,
+        "end": 10.965,
+        "text": "of"
+      },
+      {
+        "start": 10.965,
+        "end": 11.085,
+        "text": "the"
+      },
+      {
+        "start": 11.085,
+        "end": 11.595,
+        "text": "world,"
+      },
+      {
+        "start": 11.595,
+        "end": 11.985,
+        "text": "and"
+      },
+      {
+        "start": 11.985,
+        "end": 12.555,
+        "text": "thousands"
+      },
+      {
+        "start": 12.555,
+        "end": 12.645,
+        "text": "of"
+      },
+      {
+        "start": 12.645,
+        "end": 12.855,
+        "text": "these"
+      },
+      {
+        "start": 12.855,
+        "end": 13.246,
+        "text": "models"
+      },
+      {
+        "start": 13.246,
+        "end": 13.566,
+        "text": "form"
+      },
+      {
+        "start": 13.566,
+        "end": 14.116,
+        "text": "perception"
+      },
+      {
+        "start": 14.116,
+        "end": 14.346,
+        "text": "through"
+      },
+      {
+        "start": 14.346,
+        "end": 15.246,
+        "text": "consensus."
+      },
+      {
+        "start": 15.246,
+        "end": 15.707,
+        "text": "The"
+      },
+      {
+        "start": 15.707,
+        "end": 16.037,
+        "text": "brain"
+      },
+      {
+        "start": 16.037,
+        "end": 16.237,
+        "text": "does"
+      },
+      {
+        "start": 16.237,
+        "end": 16.497,
+        "text": "not"
+      },
+      {
+        "start": 16.497,
+        "end": 16.967,
+        "text": "operate"
+      },
+      {
+        "start": 16.967,
+        "end": 17.177,
+        "text": "as"
+      },
+      {
+        "start": 17.177,
+        "end": 17.457,
+        "text": "one"
+      },
+      {
+        "start": 17.457,
+        "end": 17.847,
+        "text": "giant"
+      },
+      {
+        "start": 17.847,
+        "end": 18.348,
+        "text": "model"
+      },
+      {
+        "start": 18.348,
+        "end": 18.688,
+        "text": "but"
+      },
+      {
+        "start": 18.688,
+        "end": 19.188,
+        "text": "functions"
+      },
+      {
+        "start": 19.188,
+        "end": 19.388,
+        "text": "like"
+      },
+      {
+        "start": 19.388,
+        "end": 19.468,
+        "text": "a"
+      },
+      {
+        "start": 19.468,
+        "end": 20.198,
+        "text": "democracy"
+      },
+      {
+        "start": 20.198,
+        "end": 20.539,
+        "text": "where"
+      },
+      {
+        "start": 20.539,
+        "end": 20.929,
+        "text": "tens"
+      },
+      {
+        "start": 20.929,
+        "end": 21.029,
+        "text": "of"
+      },
+      {
+        "start": 21.029,
+        "end": 21.509,
+        "text": "thousands"
+      },
+      {
+        "start": 21.509,
+        "end": 21.629,
+        "text": "of"
+      },
+      {
+        "start": 21.629,
+        "end": 21.969,
+        "text": "small"
+      },
+      {
+        "start": 21.969,
+        "end": 22.379,
+        "text": "models"
+      },
+      {
+        "start": 22.379,
+        "end": 23.05,
+        "text": "vote."
+      },
+      {
+        "start": 23.05,
+        "end": 23.6,
+        "text": "This"
+      },
+      {
+        "start": 23.6,
+        "end": 24.19,
+        "text": "perspective"
+      },
+      {
+        "start": 24.19,
+        "end": 24.56,
+        "text": "presents"
+      },
+      {
+        "start": 24.56,
+        "end": 24.72,
+        "text": "a"
+      },
+      {
+        "start": 24.72,
+        "end": 25.611,
+        "text": "fundamentally"
+      },
+      {
+        "start": 25.611,
+        "end": 26.011,
+        "text": "different"
+      },
+      {
+        "start": 26.011,
+        "end": 26.631,
+        "text": "possibility"
+      },
+      {
+        "start": 26.631,
+        "end": 26.801,
+        "text": "for"
+      },
+      {
+        "start": 26.801,
+        "end": 27.461,
+        "text": "intelligence"
+      },
+      {
+        "start": 27.461,
+        "end": 27.762,
+        "text": "than"
+      },
+      {
+        "start": 27.762,
+        "end": 28.132,
+        "text": "current"
+      },
+      {
+        "start": 28.132,
+        "end": 28.372,
+        "text": "deep"
+      },
+      {
+        "start": 28.372,
+        "end": 28.970958333333332,
+        "text": "learning."
       }
     ],
     "D06c-context": [
       {
         "start": 0,
-        "end": 2,
-        "text": "At GTC 2022,"
+        "end": 0.46,
+        "text": "At"
       },
       {
-        "start": 2,
-        "end": 7.3,
-        "text": "Jensen Huang personally recommended this book and revealed that he had read it deeply."
+        "start": 0.46,
+        "end": 1.221,
+        "text": "GTC"
       },
       {
-        "start": 7.3,
-        "end": 12.65,
-        "text": "The insight that implementing intelligence closer to how the brain actually works,"
+        "start": 1.221,
+        "end": 1.311,
+        "text": "2022,"
       },
       {
-        "start": 12.65,
-        "end": 15.1,
-        "text": "beyond general-purpose deep learning,"
+        "start": 1.311,
+        "end": 2.191,
+        "text": "Jensen"
       },
       {
-        "start": 15.1,
-        "end": 18.25,
-        "text": "requires fundamentally different hardware architecture,"
+        "start": 2.191,
+        "end": 3.492,
+        "text": "Huang"
       },
       {
-        "start": 18.25,
-        "end": 25.78,
-        "text": "and the vision that NVIDIA must evolve from a mere chip manufacturer into an intelligence infrastructure company,"
+        "start": 3.492,
+        "end": 4.212,
+        "text": "personally"
       },
       {
-        "start": 25.78,
-        "end": 28.011,
-        "text": "were reinforced by this reading."
+        "start": 4.212,
+        "end": 4.763,
+        "text": "recommended"
+      },
+      {
+        "start": 4.763,
+        "end": 4.943,
+        "text": "this"
+      },
+      {
+        "start": 4.943,
+        "end": 5.333,
+        "text": "book"
+      },
+      {
+        "start": 5.333,
+        "end": 5.603,
+        "text": "and"
+      },
+      {
+        "start": 5.603,
+        "end": 6.104,
+        "text": "revealed"
+      },
+      {
+        "start": 6.104,
+        "end": 6.264,
+        "text": "that"
+      },
+      {
+        "start": 6.264,
+        "end": 6.394,
+        "text": "he"
+      },
+      {
+        "start": 6.394,
+        "end": 6.554,
+        "text": "had"
+      },
+      {
+        "start": 6.554,
+        "end": 6.784,
+        "text": "read"
+      },
+      {
+        "start": 6.784,
+        "end": 6.884,
+        "text": "it"
+      },
+      {
+        "start": 6.884,
+        "end": 7.675,
+        "text": "deeply."
+      },
+      {
+        "start": 7.675,
+        "end": 8.235,
+        "text": "The"
+      },
+      {
+        "start": 8.235,
+        "end": 8.685,
+        "text": "insight"
+      },
+      {
+        "start": 8.685,
+        "end": 8.915,
+        "text": "that"
+      },
+      {
+        "start": 8.915,
+        "end": 9.545,
+        "text": "implementing"
+      },
+      {
+        "start": 9.545,
+        "end": 10.326,
+        "text": "intelligence"
+      },
+      {
+        "start": 10.326,
+        "end": 10.856,
+        "text": "closer"
+      },
+      {
+        "start": 10.856,
+        "end": 10.986,
+        "text": "to"
+      },
+      {
+        "start": 10.986,
+        "end": 11.196,
+        "text": "how"
+      },
+      {
+        "start": 11.196,
+        "end": 11.326,
+        "text": "the"
+      },
+      {
+        "start": 11.326,
+        "end": 11.717,
+        "text": "brain"
+      },
+      {
+        "start": 11.717,
+        "end": 12.237,
+        "text": "actually"
+      },
+      {
+        "start": 12.237,
+        "end": 12.817,
+        "text": "works,"
+      },
+      {
+        "start": 12.817,
+        "end": 13.618,
+        "text": "beyond"
+      },
+      {
+        "start": 13.618,
+        "end": 14.498,
+        "text": "general-purpose"
+      },
+      {
+        "start": 14.498,
+        "end": 14.718,
+        "text": "deep"
+      },
+      {
+        "start": 14.718,
+        "end": 15.299,
+        "text": "learning,"
+      },
+      {
+        "start": 15.299,
+        "end": 16.109,
+        "text": "requires"
+      },
+      {
+        "start": 16.109,
+        "end": 16.96,
+        "text": "fundamentally"
+      },
+      {
+        "start": 16.96,
+        "end": 17.4,
+        "text": "different"
+      },
+      {
+        "start": 17.4,
+        "end": 17.88,
+        "text": "hardware"
+      },
+      {
+        "start": 17.88,
+        "end": 18.811,
+        "text": "architecture,"
+      },
+      {
+        "start": 18.811,
+        "end": 19.271,
+        "text": "and"
+      },
+      {
+        "start": 19.271,
+        "end": 19.411,
+        "text": "the"
+      },
+      {
+        "start": 19.411,
+        "end": 19.781,
+        "text": "vision"
+      },
+      {
+        "start": 19.781,
+        "end": 20.001,
+        "text": "that"
+      },
+      {
+        "start": 20.001,
+        "end": 20.562,
+        "text": "NVIDIA"
+      },
+      {
+        "start": 20.562,
+        "end": 20.892,
+        "text": "must"
+      },
+      {
+        "start": 20.892,
+        "end": 21.362,
+        "text": "evolve"
+      },
+      {
+        "start": 21.362,
+        "end": 21.572,
+        "text": "from"
+      },
+      {
+        "start": 21.572,
+        "end": 21.672,
+        "text": "a"
+      },
+      {
+        "start": 21.672,
+        "end": 22.003,
+        "text": "mere"
+      },
+      {
+        "start": 22.003,
+        "end": 22.293,
+        "text": "chip"
+      },
+      {
+        "start": 22.293,
+        "end": 23.273,
+        "text": "manufacturer"
+      },
+      {
+        "start": 23.273,
+        "end": 23.814,
+        "text": "into"
+      },
+      {
+        "start": 23.814,
+        "end": 23.944,
+        "text": "an"
+      },
+      {
+        "start": 23.944,
+        "end": 24.654,
+        "text": "intelligence"
+      },
+      {
+        "start": 24.654,
+        "end": 25.314,
+        "text": "infrastructure"
+      },
+      {
+        "start": 25.314,
+        "end": 25.925,
+        "text": "company,"
+      },
+      {
+        "start": 25.925,
+        "end": 26.335,
+        "text": "were"
+      },
+      {
+        "start": 26.335,
+        "end": 27.015,
+        "text": "reinforced"
+      },
+      {
+        "start": 27.015,
+        "end": 27.176,
+        "text": "by"
+      },
+      {
+        "start": 27.176,
+        "end": 27.356,
+        "text": "this"
+      },
+      {
+        "start": 27.356,
+        "end": 28.010958333333335,
+        "text": "reading."
       }
     ],
     "D07b-summary": [
       {
         "start": 0,
-        "end": 3.55,
-        "text": "A management book about what a manager's output really is,"
+        "end": 0.33,
+        "text": "A"
       },
       {
-        "start": 3.55,
-        "end": 4.5,
-        "text": "how to measure it,"
+        "start": 0.33,
+        "end": 0.881,
+        "text": "management"
       },
       {
-        "start": 4.5,
-        "end": 5.88,
-        "text": "and how to maximize it."
+        "start": 0.881,
+        "end": 1.232,
+        "text": "book"
       },
       {
-        "start": 5.88,
-        "end": 13.9,
-        "text": "The core concept is leverage: maximizing the multiplier effect that one manager's actions have on the entire organization's performance."
+        "start": 1.232,
+        "end": 1.572,
+        "text": "about"
       },
       {
-        "start": 13.9,
-        "end": 17.85,
-        "text": "It analyzes routine management activities like meetings,"
+        "start": 1.572,
+        "end": 1.762,
+        "text": "what"
       },
       {
-        "start": 17.85,
-        "end": 18.3,
+        "start": 1.762,
+        "end": 1.852,
+        "text": "a"
+      },
+      {
+        "start": 1.852,
+        "end": 2.433,
+        "text": "manager's"
+      },
+      {
+        "start": 2.433,
+        "end": 2.924,
+        "text": "output"
+      },
+      {
+        "start": 2.924,
+        "end": 3.274,
+        "text": "really"
+      },
+      {
+        "start": 3.274,
+        "end": 3.675,
+        "text": "is,"
+      },
+      {
+        "start": 3.675,
+        "end": 3.995,
+        "text": "how"
+      },
+      {
+        "start": 3.995,
+        "end": 4.095,
+        "text": "to"
+      },
+      {
+        "start": 4.095,
+        "end": 4.426,
+        "text": "measure"
+      },
+      {
+        "start": 4.426,
+        "end": 4.646,
+        "text": "it,"
+      },
+      {
+        "start": 4.646,
+        "end": 4.957,
+        "text": "and"
+      },
+      {
+        "start": 4.957,
+        "end": 5.117,
+        "text": "how"
+      },
+      {
+        "start": 5.117,
+        "end": 5.227,
+        "text": "to"
+      },
+      {
+        "start": 5.227,
+        "end": 5.778,
+        "text": "maximize"
+      },
+      {
+        "start": 5.778,
+        "end": 6.128,
+        "text": "it."
+      },
+      {
+        "start": 6.128,
+        "end": 6.539,
+        "text": "The"
+      },
+      {
+        "start": 6.539,
+        "end": 6.889,
+        "text": "core"
+      },
+      {
+        "start": 6.889,
+        "end": 7.47,
+        "text": "concept"
+      },
+      {
+        "start": 7.47,
+        "end": 7.65,
+        "text": "is"
+      },
+      {
+        "start": 7.65,
+        "end": 8.271,
+        "text": "leverage:"
+      },
+      {
+        "start": 8.271,
+        "end": 9.132,
+        "text": "maximizing"
+      },
+      {
+        "start": 9.132,
+        "end": 9.262,
+        "text": "the"
+      },
+      {
+        "start": 9.262,
+        "end": 9.893,
+        "text": "multiplier"
+      },
+      {
+        "start": 9.893,
+        "end": 10.283,
+        "text": "effect"
+      },
+      {
+        "start": 10.283,
+        "end": 10.554,
+        "text": "that"
+      },
+      {
+        "start": 10.554,
+        "end": 10.764,
+        "text": "one"
+      },
+      {
+        "start": 10.764,
+        "end": 11.275,
+        "text": "manager's"
+      },
+      {
+        "start": 11.275,
+        "end": 11.675,
+        "text": "actions"
+      },
+      {
+        "start": 11.675,
+        "end": 12.006,
+        "text": "have"
+      },
+      {
+        "start": 12.006,
+        "end": 12.176,
+        "text": "on"
+      },
+      {
+        "start": 12.176,
+        "end": 12.306,
+        "text": "the"
+      },
+      {
+        "start": 12.306,
+        "end": 12.817,
+        "text": "entire"
+      },
+      {
+        "start": 12.817,
+        "end": 13.548,
+        "text": "organization's"
+      },
+      {
+        "start": 13.548,
+        "end": 14.359,
+        "text": "performance."
+      },
+      {
+        "start": 14.359,
+        "end": 14.799,
+        "text": "It"
+      },
+      {
+        "start": 14.799,
+        "end": 15.46,
+        "text": "analyzes"
+      },
+      {
+        "start": 15.46,
+        "end": 15.971,
+        "text": "routine"
+      },
+      {
+        "start": 15.971,
+        "end": 16.452,
+        "text": "management"
+      },
+      {
+        "start": 16.452,
+        "end": 17.133,
+        "text": "activities"
+      },
+      {
+        "start": 17.133,
+        "end": 17.503,
+        "text": "like"
+      },
+      {
+        "start": 17.503,
+        "end": 18.024,
+        "text": "meetings,"
+      },
+      {
+        "start": 18.024,
+        "end": 18.915,
         "text": "decision-making,"
       },
       {
-        "start": 18.3,
-        "end": 22.6,
-        "text": "and performance reviews as if they were factory production processes,"
+        "start": 18.915,
+        "end": 19.105,
+        "text": "and"
       },
       {
-        "start": 22.6,
-        "end": 26.771,
-        "text": "advising managers to focus their time on the highest-leverage activities."
+        "start": 19.105,
+        "end": 19.646,
+        "text": "performance"
+      },
+      {
+        "start": 19.646,
+        "end": 20.187,
+        "text": "reviews"
+      },
+      {
+        "start": 20.187,
+        "end": 20.507,
+        "text": "as"
+      },
+      {
+        "start": 20.507,
+        "end": 20.647,
+        "text": "if"
+      },
+      {
+        "start": 20.647,
+        "end": 20.807,
+        "text": "they"
+      },
+      {
+        "start": 20.807,
+        "end": 21.028,
+        "text": "were"
+      },
+      {
+        "start": 21.028,
+        "end": 21.558,
+        "text": "factory"
+      },
+      {
+        "start": 21.558,
+        "end": 22.029,
+        "text": "production"
+      },
+      {
+        "start": 22.029,
+        "end": 22.8,
+        "text": "processes,"
+      },
+      {
+        "start": 22.8,
+        "end": 23.441,
+        "text": "advising"
+      },
+      {
+        "start": 23.441,
+        "end": 23.921,
+        "text": "managers"
+      },
+      {
+        "start": 23.921,
+        "end": 24.071,
+        "text": "to"
+      },
+      {
+        "start": 24.071,
+        "end": 24.442,
+        "text": "focus"
+      },
+      {
+        "start": 24.442,
+        "end": 24.632,
+        "text": "their"
+      },
+      {
+        "start": 24.632,
+        "end": 24.983,
+        "text": "time"
+      },
+      {
+        "start": 24.983,
+        "end": 25.133,
+        "text": "on"
+      },
+      {
+        "start": 25.133,
+        "end": 25.263,
+        "text": "the"
+      },
+      {
+        "start": 25.263,
+        "end": 26.124,
+        "text": "highest-leverage"
+      },
+      {
+        "start": 26.124,
+        "end": 26.770958333333333,
+        "text": "activities."
       }
     ],
     "D07c-context": [
       {
         "start": 0,
-        "end": 5.15,
-        "text": "This is one of the series Huang mentioned when he said he likes all of Andrew Grove's books."
+        "end": 0.61,
+        "text": "This"
       },
       {
-        "start": 5.15,
-        "end": 9,
-        "text": "Huang's practice of having over forty direct reports,"
+        "start": 0.61,
+        "end": 0.801,
+        "text": "is"
       },
       {
-        "start": 9,
-        "end": 14.1,
-        "text": "operating an organization that functions like a neural network rather than a traditional hierarchy,"
+        "start": 0.801,
+        "end": 0.951,
+        "text": "one"
       },
       {
-        "start": 14.1,
-        "end": 22.45,
-        "text": "where information reaches all levels simultaneously so that new hires and executives hear the same decision at the same moment,"
+        "start": 0.951,
+        "end": 1.041,
+        "text": "of"
       },
       {
-        "start": 22.45,
-        "end": 28.011,
-        "text": "is an extreme application of the information flow and leverage principles this book emphasizes."
-      }
-    ],
-    "S01-hook": [
-      {
-        "start": 0,
-        "end": 3.25,
-        "text": "This man tells you to jump down the rabbit hole."
+        "start": 1.041,
+        "end": 1.171,
+        "text": "the"
       },
       {
-        "start": 3.25,
-        "end": 4.98,
-        "text": "And he actually did it,"
+        "start": 1.171,
+        "end": 1.611,
+        "text": "series"
       },
       {
-        "start": 4.98,
-        "end": 8.091,
-        "text": "building a three-trillion-dollar company."
+        "start": 1.611,
+        "end": 2.021,
+        "text": "Huang"
+      },
+      {
+        "start": 2.021,
+        "end": 2.532,
+        "text": "mentioned"
+      },
+      {
+        "start": 2.532,
+        "end": 2.772,
+        "text": "when"
+      },
+      {
+        "start": 2.772,
+        "end": 2.962,
+        "text": "he"
+      },
+      {
+        "start": 2.962,
+        "end": 3.232,
+        "text": "said"
+      },
+      {
+        "start": 3.232,
+        "end": 3.442,
+        "text": "he"
+      },
+      {
+        "start": 3.442,
+        "end": 3.902,
+        "text": "likes"
+      },
+      {
+        "start": 3.902,
+        "end": 4.243,
+        "text": "all"
+      },
+      {
+        "start": 4.243,
+        "end": 4.393,
+        "text": "of"
+      },
+      {
+        "start": 4.393,
+        "end": 4.693,
+        "text": "Andrew"
+      },
+      {
+        "start": 4.693,
+        "end": 5.003,
+        "text": "Grove's"
+      },
+      {
+        "start": 5.003,
+        "end": 5.664,
+        "text": "books."
+      },
+      {
+        "start": 5.664,
+        "end": 6.374,
+        "text": "Huang's"
+      },
+      {
+        "start": 6.374,
+        "end": 6.904,
+        "text": "practice"
+      },
+      {
+        "start": 6.904,
+        "end": 7.074,
+        "text": "of"
+      },
+      {
+        "start": 7.074,
+        "end": 7.415,
+        "text": "having"
+      },
+      {
+        "start": 7.415,
+        "end": 7.705,
+        "text": "over"
+      },
+      {
+        "start": 7.705,
+        "end": 8.135,
+        "text": "forty"
+      },
+      {
+        "start": 8.135,
+        "end": 8.465,
+        "text": "direct"
+      },
+      {
+        "start": 8.465,
+        "end": 9.166,
+        "text": "reports,"
+      },
+      {
+        "start": 9.166,
+        "end": 9.866,
+        "text": "operating"
+      },
+      {
+        "start": 9.866,
+        "end": 10.006,
+        "text": "an"
+      },
+      {
+        "start": 10.006,
+        "end": 10.707,
+        "text": "organization"
+      },
+      {
+        "start": 10.707,
+        "end": 10.917,
+        "text": "that"
+      },
+      {
+        "start": 10.917,
+        "end": 11.407,
+        "text": "functions"
+      },
+      {
+        "start": 11.407,
+        "end": 11.607,
+        "text": "like"
+      },
+      {
+        "start": 11.607,
+        "end": 11.707,
+        "text": "a"
+      },
+      {
+        "start": 11.707,
+        "end": 12.077,
+        "text": "neural"
+      },
+      {
+        "start": 12.077,
+        "end": 12.598,
+        "text": "network"
+      },
+      {
+        "start": 12.598,
+        "end": 12.968,
+        "text": "rather"
+      },
+      {
+        "start": 12.968,
+        "end": 13.128,
+        "text": "than"
+      },
+      {
+        "start": 13.128,
+        "end": 13.198,
+        "text": "a"
+      },
+      {
+        "start": 13.198,
+        "end": 13.688,
+        "text": "traditional"
+      },
+      {
+        "start": 13.688,
+        "end": 14.509,
+        "text": "hierarchy,"
+      },
+      {
+        "start": 14.509,
+        "end": 14.899,
+        "text": "where"
+      },
+      {
+        "start": 14.899,
+        "end": 15.52,
+        "text": "information"
+      },
+      {
+        "start": 15.52,
+        "end": 15.99,
+        "text": "reaches"
+      },
+      {
+        "start": 15.99,
+        "end": 16.29,
+        "text": "all"
+      },
+      {
+        "start": 16.29,
+        "end": 16.65,
+        "text": "levels"
+      },
+      {
+        "start": 16.65,
+        "end": 17.741,
+        "text": "simultaneously"
+      },
+      {
+        "start": 17.741,
+        "end": 18.101,
+        "text": "so"
+      },
+      {
+        "start": 18.101,
+        "end": 18.301,
+        "text": "that"
+      },
+      {
+        "start": 18.301,
+        "end": 18.551,
+        "text": "new"
+      },
+      {
+        "start": 18.551,
+        "end": 18.992,
+        "text": "hires"
+      },
+      {
+        "start": 18.992,
+        "end": 19.142,
+        "text": "and"
+      },
+      {
+        "start": 19.142,
+        "end": 19.742,
+        "text": "executives"
+      },
+      {
+        "start": 19.742,
+        "end": 19.992,
+        "text": "hear"
+      },
+      {
+        "start": 19.992,
+        "end": 20.172,
+        "text": "the"
+      },
+      {
+        "start": 20.172,
+        "end": 20.483,
+        "text": "same"
+      },
+      {
+        "start": 20.483,
+        "end": 20.993,
+        "text": "decision"
+      },
+      {
+        "start": 20.993,
+        "end": 21.153,
+        "text": "at"
+      },
+      {
+        "start": 21.153,
+        "end": 21.313,
+        "text": "the"
+      },
+      {
+        "start": 21.313,
+        "end": 21.623,
+        "text": "same"
+      },
+      {
+        "start": 21.623,
+        "end": 22.264,
+        "text": "moment,"
+      },
+      {
+        "start": 22.264,
+        "end": 22.654,
+        "text": "is"
+      },
+      {
+        "start": 22.654,
+        "end": 22.764,
+        "text": "an"
+      },
+      {
+        "start": 22.764,
+        "end": 23.434,
+        "text": "extreme"
+      },
+      {
+        "start": 23.434,
+        "end": 24.135,
+        "text": "application"
+      },
+      {
+        "start": 24.135,
+        "end": 24.255,
+        "text": "of"
+      },
+      {
+        "start": 24.255,
+        "end": 24.405,
+        "text": "the"
+      },
+      {
+        "start": 24.405,
+        "end": 25.055,
+        "text": "information"
+      },
+      {
+        "start": 25.055,
+        "end": 25.356,
+        "text": "flow"
+      },
+      {
+        "start": 25.356,
+        "end": 25.516,
+        "text": "and"
+      },
+      {
+        "start": 25.516,
+        "end": 25.896,
+        "text": "leverage"
+      },
+      {
+        "start": 25.896,
+        "end": 26.476,
+        "text": "principles"
+      },
+      {
+        "start": 26.476,
+        "end": 26.746,
+        "text": "this"
+      },
+      {
+        "start": 26.746,
+        "end": 26.997,
+        "text": "book"
+      },
+      {
+        "start": 26.997,
+        "end": 28.010958333333335,
+        "text": "emphasizes."
       }
     ],
     "S02-intro": [
       {
         "start": 0,
-        "end": 1.2,
-        "text": "Jensen Huang,"
+        "end": 0.701,
+        "text": "Jensen"
       },
       {
-        "start": 1.2,
-        "end": 2.6,
-        "text": "founder of NVIDIA."
+        "start": 0.701,
+        "end": 1.222,
+        "text": "Huang,"
       },
       {
-        "start": 2.6,
-        "end": 8,
-        "text": "The man who designed the core infrastructure of the AI era through GPU technology."
+        "start": 1.222,
+        "end": 1.833,
+        "text": "founder"
       },
       {
-        "start": 8,
-        "end": 11.371,
-        "text": "His library holds a surprising book."
+        "start": 1.833,
+        "end": 1.994,
+        "text": "of"
+      },
+      {
+        "start": 1.994,
+        "end": 2.745,
+        "text": "NVIDIA."
+      },
+      {
+        "start": 2.745,
+        "end": 3.135,
+        "text": "The"
+      },
+      {
+        "start": 3.135,
+        "end": 3.366,
+        "text": "book"
+      },
+      {
+        "start": 3.366,
+        "end": 3.536,
+        "text": "he"
+      },
+      {
+        "start": 3.536,
+        "end": 3.867,
+        "text": "named"
+      },
+      {
+        "start": 3.867,
+        "end": 4.007,
+        "text": "as"
+      },
+      {
+        "start": 4.007,
+        "end": 4.197,
+        "text": "his"
+      },
+      {
+        "start": 4.197,
+        "end": 4.648,
+        "text": "favorite"
+      },
+      {
+        "start": 4.648,
+        "end": 4.758,
+        "text": "in"
+      },
+      {
+        "start": 4.758,
+        "end": 4.828,
+        "text": "a"
+      },
+      {
+        "start": 4.828,
+        "end": 5.379,
+        "text": "commencement"
+      },
+      {
+        "start": 5.379,
+        "end": 5.8,
+        "text": "speech"
+      },
+      {
+        "start": 5.8,
+        "end": 6.111,
+        "text": "was"
+      },
+      {
+        "start": 6.111,
+        "end": 6.211,
+        "text": "a"
+      },
+      {
+        "start": 6.211,
+        "end": 6.672,
+        "text": "single"
+      },
+      {
+        "start": 6.672,
+        "end": 7.012,
+        "text": "fairy"
+      },
+      {
+        "start": 7.012,
+        "end": 7.490958333333333,
+        "text": "tale."
       }
     ],
     "S03-celeb-mid": [
       {
         "start": 0,
-        "end": 3.4,
-        "text": "NVIDIA is always thirty days from going out of business."
+        "end": 0.733,
+        "text": "Alice"
       },
       {
-        "start": 3.4,
-        "end": 6.371,
-        "text": "That sense of urgency is what brought us here."
+        "start": 0.733,
+        "end": 1.104,
+        "text": "jumped"
+      },
+      {
+        "start": 1.104,
+        "end": 1.375,
+        "text": "down"
+      },
+      {
+        "start": 1.375,
+        "end": 1.516,
+        "text": "the"
+      },
+      {
+        "start": 1.516,
+        "end": 1.867,
+        "text": "rabbit"
+      },
+      {
+        "start": 1.867,
+        "end": 2.098,
+        "text": "hole"
+      },
+      {
+        "start": 2.098,
+        "end": 2.439,
+        "text": "without"
+      },
+      {
+        "start": 2.439,
+        "end": 2.52,
+        "text": "a"
+      },
+      {
+        "start": 2.52,
+        "end": 2.871,
+        "text": "second"
+      },
+      {
+        "start": 2.871,
+        "end": 3.483,
+        "text": "thought."
+      },
+      {
+        "start": 3.483,
+        "end": 3.955,
+        "text": "So"
+      },
+      {
+        "start": 3.955,
+        "end": 4.176,
+        "text": "did"
+      },
+      {
+        "start": 4.176,
+        "end": 4.738,
+        "text": "I."
+      },
+      {
+        "start": 4.738,
+        "end": 5.29,
+        "text": "No"
+      },
+      {
+        "start": 5.29,
+        "end": 5.431,
+        "text": "one"
+      },
+      {
+        "start": 5.431,
+        "end": 5.963,
+        "text": "expected"
+      },
+      {
+        "start": 5.963,
+        "end": 6.073,
+        "text": "a"
+      },
+      {
+        "start": 6.073,
+        "end": 6.545,
+        "text": "gaming"
+      },
+      {
+        "start": 6.545,
+        "end": 6.796,
+        "text": "chip"
+      },
+      {
+        "start": 6.796,
+        "end": 7.207,
+        "text": "company"
+      },
+      {
+        "start": 7.207,
+        "end": 7.348,
+        "text": "to"
+      },
+      {
+        "start": 7.348,
+        "end": 7.689,
+        "text": "become"
+      },
+      {
+        "start": 7.689,
+        "end": 7.86,
+        "text": "the"
+      },
+      {
+        "start": 7.86,
+        "end": 8.221,
+        "text": "heart"
+      },
+      {
+        "start": 8.221,
+        "end": 8.372,
+        "text": "of"
+      },
+      {
+        "start": 8.372,
+        "end": 9.014,
+        "text": "AI,"
+      },
+      {
+        "start": 9.014,
+        "end": 9.436,
+        "text": "but"
+      },
+      {
+        "start": 9.436,
+        "end": 9.586,
+        "text": "I"
+      },
+      {
+        "start": 9.586,
+        "end": 10.010958333333333,
+        "text": "jumped."
       }
     ],
     "S04-book-context": [
       {
         "start": 0,
-        "end": 3.18,
-        "text": "In his commencement speech at National Taiwan University,"
+        "end": 0.491,
+        "text": "In"
       },
       {
-        "start": 3.18,
-        "end": 6.74,
-        "text": "Jensen Huang named Alice in Wonderland as his favorite book."
+        "start": 0.491,
+        "end": 0.881,
+        "text": "Alice"
       },
       {
-        "start": 6.74,
-        "end": 9.6,
-        "text": "He explained that Alice's curiosity,"
+        "start": 0.881,
+        "end": 1.001,
+        "text": "in"
       },
       {
-        "start": 9.6,
-        "end": 13.12,
-        "text": "diving down the rabbit hole into an unpredictable world,"
+        "start": 1.001,
+        "end": 1.773,
+        "text": "Wonderland,"
       },
       {
-        "start": 13.12,
-        "end": 15.55,
-        "text": "captures the essence of entrepreneurship."
+        "start": 1.773,
+        "end": 2.233,
+        "text": "Alice"
       },
       {
-        "start": 15.55,
-        "end": 17.05,
-        "text": "His own journey,"
+        "start": 2.233,
+        "end": 2.373,
+        "text": "is"
       },
       {
-        "start": 17.05,
-        "end": 21.15,
-        "text": "transforming a gaming graphics company into the backbone of the AI era,"
+        "start": 2.373,
+        "end": 2.684,
+        "text": "thrown"
       },
       {
-        "start": 21.15,
-        "end": 23.011,
-        "text": "was itself a rabbit hole."
+        "start": 2.684,
+        "end": 2.924,
+        "text": "into"
+      },
+      {
+        "start": 2.924,
+        "end": 3.004,
+        "text": "a"
+      },
+      {
+        "start": 3.004,
+        "end": 3.305,
+        "text": "world"
+      },
+      {
+        "start": 3.305,
+        "end": 3.515,
+        "text": "where"
+      },
+      {
+        "start": 3.515,
+        "end": 3.945,
+        "text": "logic"
+      },
+      {
+        "start": 3.945,
+        "end": 4.226,
+        "text": "doesn't"
+      },
+      {
+        "start": 4.226,
+        "end": 4.906,
+        "text": "apply."
+      },
+      {
+        "start": 4.906,
+        "end": 5.548,
+        "text": "Instead"
+      },
+      {
+        "start": 5.548,
+        "end": 5.638,
+        "text": "of"
+      },
+      {
+        "start": 5.638,
+        "end": 5.908,
+        "text": "being"
+      },
+      {
+        "start": 5.908,
+        "end": 6.469,
+        "text": "afraid,"
+      },
+      {
+        "start": 6.469,
+        "end": 6.809,
+        "text": "she"
+      },
+      {
+        "start": 6.809,
+        "end": 7.21,
+        "text": "never"
+      },
+      {
+        "start": 7.21,
+        "end": 7.611,
+        "text": "stops"
+      },
+      {
+        "start": 7.611,
+        "end": 7.971,
+        "text": "asking"
+      },
+      {
+        "start": 7.971,
+        "end": 8.752,
+        "text": "questions."
+      },
+      {
+        "start": 8.752,
+        "end": 9.453,
+        "text": "Jensen"
+      },
+      {
+        "start": 9.453,
+        "end": 9.773,
+        "text": "Huang"
+      },
+      {
+        "start": 9.773,
+        "end": 10.014,
+        "text": "said"
+      },
+      {
+        "start": 10.014,
+        "end": 10.324,
+        "text": "this"
+      },
+      {
+        "start": 10.324,
+        "end": 10.905,
+        "text": "attitude"
+      },
+      {
+        "start": 10.905,
+        "end": 11.075,
+        "text": "is"
+      },
+      {
+        "start": 11.075,
+        "end": 11.285,
+        "text": "the"
+      },
+      {
+        "start": 11.285,
+        "end": 11.726,
+        "text": "essence"
+      },
+      {
+        "start": 11.726,
+        "end": 11.836,
+        "text": "of"
+      },
+      {
+        "start": 11.836,
+        "end": 12.878,
+        "text": "entrepreneurship."
+      },
+      {
+        "start": 12.878,
+        "end": 13.328,
+        "text": "His"
+      },
+      {
+        "start": 13.328,
+        "end": 13.519,
+        "text": "own"
+      },
+      {
+        "start": 13.519,
+        "end": 13.979,
+        "text": "journey,"
+      },
+      {
+        "start": 13.979,
+        "end": 14.73,
+        "text": "transforming"
+      },
+      {
+        "start": 14.73,
+        "end": 14.82,
+        "text": "a"
+      },
+      {
+        "start": 14.82,
+        "end": 15.171,
+        "text": "gaming"
+      },
+      {
+        "start": 15.171,
+        "end": 15.621,
+        "text": "graphics"
+      },
+      {
+        "start": 15.621,
+        "end": 16.082,
+        "text": "company"
+      },
+      {
+        "start": 16.082,
+        "end": 16.362,
+        "text": "into"
+      },
+      {
+        "start": 16.362,
+        "end": 16.513,
+        "text": "an"
+      },
+      {
+        "start": 16.513,
+        "end": 16.923,
+        "text": "AI"
+      },
+      {
+        "start": 16.923,
+        "end": 17.574,
+        "text": "infrastructure"
+      },
+      {
+        "start": 17.574,
+        "end": 18.145,
+        "text": "giant,"
+      },
+      {
+        "start": 18.145,
+        "end": 18.505,
+        "text": "was"
+      },
+      {
+        "start": 18.505,
+        "end": 18.996,
+        "text": "itself"
+      },
+      {
+        "start": 18.996,
+        "end": 19.106,
+        "text": "a"
+      },
+      {
+        "start": 19.106,
+        "end": 19.387,
+        "text": "rabbit"
+      },
+      {
+        "start": 19.387,
+        "end": 19.690958333333334,
+        "text": "hole."
       }
     ],
-    "S05-celeb-end": [
+    "S01-hook": [
       {
         "start": 0,
-        "end": 2.75,
-        "text": "Our job is not to predict the future,"
+        "end": 0.584,
+        "text": "Jump"
       },
       {
-        "start": 2.75,
-        "end": 4.9,
-        "text": "but to make the future possible."
+        "start": 0.584,
+        "end": 0.936,
+        "text": "down"
       },
       {
-        "start": 4.9,
-        "end": 6.5,
-        "text": "If you want to know more,"
+        "start": 0.936,
+        "end": 1.148,
+        "text": "the"
       },
       {
-        "start": 6.5,
-        "end": 8.011,
-        "text": "open my library."
+        "start": 1.148,
+        "end": 1.55,
+        "text": "rabbit"
+      },
+      {
+        "start": 1.55,
+        "end": 2.094,
+        "text": "hole."
+      },
+      {
+        "start": 2.094,
+        "end": 2.728,
+        "text": "That's"
+      },
+      {
+        "start": 2.728,
+        "end": 2.97,
+        "text": "how"
+      },
+      {
+        "start": 2.97,
+        "end": 3.081,
+        "text": "a"
+      },
+      {
+        "start": 3.081,
+        "end": 4.49,
+        "text": "three-trillion-dollar"
+      },
+      {
+        "start": 4.49,
+        "end": 4.893,
+        "text": "company"
+      },
+      {
+        "start": 4.893,
+        "end": 5.064,
+        "text": "was"
+      },
+      {
+        "start": 5.064,
+        "end": 5.690958333333334,
+        "text": "born."
       }
     ]
   }
