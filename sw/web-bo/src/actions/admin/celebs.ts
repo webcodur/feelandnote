@@ -373,6 +373,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
+    p_celeb_tier: null,
   })
   const total = countData ?? 0
 
@@ -396,10 +397,11 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
+    p_celeb_tier: null,
   })
 
   if (error) {
-    console.error('[getCelebs] RPC 조회 실패:', error)
+    console.error('[getCelebs] RPC 조회 실패:', error.message, error.code, error.details)
     throw error
   }
 
