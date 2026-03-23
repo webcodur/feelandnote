@@ -6,7 +6,7 @@ nul
 .env.*
 !.env.example
 
-# Google Analytics credentials
+# Google credentials (GA, YouTube OAuth)
 ga-credentials.json
 **/credentials/
 
@@ -31,6 +31,18 @@ docs/project/remotion/candidates-raw.md
 
 # Remotion draft episodes (정비 중, 컴포지션 미완료)
 sw/remotion/episodes/book-recommend/draft/
+
+# Remotion candidate episodes (자동 생성, DB에서 재생성 가능)
+sw/remotion/episodes/book-recommend/candidates/
+
+# Remotion cover images (DB thumbnail_url에서 재다운로드 가능)
+sw/remotion/public/covers/
+
+# Remotion celeb images (수동 관리 에셋, git 추적 제외)
+sw/remotion/public/images/celebs/
+
+# Remotion temp scripts
+sw/remotion/tmp-*
 
 # Remotion voice assets (managed via R2)
 sw/remotion/public/voice/**/*.wav
