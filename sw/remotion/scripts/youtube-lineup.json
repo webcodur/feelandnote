@@ -1,0 +1,126 @@
+{
+  "alexander-the-great": {
+    "hook": {
+      "ko": "일리아스를 베개 삼은 정복자 왕",
+      "en": "The Conqueror King Who Slept on the Iliad"
+    },
+    "privacyStatus": "private"
+  },
+  "jensen-huang": {
+    "hook": {
+      "ko": "이상한 나라의 칩 황제",
+      "en": "Wonderland's Chip Emperor"
+    },
+    "privacyStatus": "private",
+    "uploads": {
+      "ko-longform": {
+        "videoId": "y1iV56pxj-I",
+        "uploadedAt": "2026-03-23T13:43:38.424Z"
+      },
+      "ko-shorts": {
+        "videoId": "euJQhhe8HIk",
+        "uploadedAt": "2026-03-23T13:43:43.766Z"
+      },
+      "en-longform": {
+        "videoId": "42Mn8UgkKcI",
+        "uploadedAt": "2026-03-23T13:43:59.784Z"
+      },
+      "en-shorts": {
+        "videoId": "KBGwwjtyzZY",
+        "uploadedAt": "2026-03-23T13:44:04.000Z"
+      }
+    }
+  },
+  "dario-amodei": {
+    "hook": {
+      "ko": "인류의 마지막 발명품과 마주 선 과학자",
+      "en": "The Scientist Standing Before Humanity's Last Invention"
+    },
+    "privacyStatus": "private",
+    "uploads": {
+      "ko-longform": {
+        "videoId": "UBC9B4NPDFw",
+        "uploadedAt": "2026-03-23T13:44:53.000Z"
+      },
+      "ko-shorts": {
+        "videoId": "ehD0oMiPruY",
+        "uploadedAt": "2026-03-23T13:44:57.883Z"
+      },
+      "en-longform": {
+        "videoId": "8KOyYy8IBIo",
+        "uploadedAt": "2026-03-23T13:45:09.962Z"
+      },
+      "en-shorts": {
+        "videoId": "26hCemX7W8A",
+        "uploadedAt": "2026-03-23T13:45:13.654Z"
+      }
+    }
+  },
+  "elon-musk": {
+    "hook": {
+      "ko": "SF를 도면으로 바꾼 몽상가",
+      "en": "The Dreamer Who Turned Sci-Fi into Blueprints"
+    },
+    "privacyStatus": "private"
+  },
+  "elon-musk-2": {
+    "hook": {
+      "ko": "위인전에서 로켓 연료를 찾은 남자",
+      "en": "The Man Who Found Rocket Fuel in Biographies"
+    },
+    "privacyStatus": "private"
+  },
+  "leonardo-da-vinci": {
+    "hook": {
+      "ko": "신의 설계도를 훔쳐본 독학자",
+      "en": "The Autodidact Who Peeked at God's Blueprints"
+    },
+    "privacyStatus": "private"
+  },
+  "marcus-aurelius": {
+    "hook": {
+      "ko": "피 묻은 옥좌 위에서 내면을 다스린 철학자",
+      "en": "The Philosopher Who Tamed His Mind on a Bloodstained Throne"
+    },
+    "privacyStatus": "private"
+  },
+  "mark-zuckerberg": {
+    "hook": {
+      "ko": "문명의 궤적을 읽는 제국의 설계자",
+      "en": "The Empire Builder Who Reads the Arc of Civilization"
+    },
+    "privacyStatus": "private"
+  },
+  "napoleon-bonaparte": {
+    "hook": {
+      "ko": "영웅전을 현실로 만든 포병",
+      "en": "The Artilleryman Who Made Heroic Tales Real"
+    },
+    "privacyStatus": "private"
+  },
+  "yi-sun-sin": {
+    "hook": {
+      "ko": "붉은 바다에서 검은 먹을 간 장군",
+      "en": "The Admiral Who Ground Black Ink on a Crimson Sea"
+    },
+    "privacyStatus": "private",
+    "uploads": {
+      "ko-longform": {
+        "videoId": "PjoBKhrmAM8",
+        "uploadedAt": "2026-03-23T13:44:17.593Z"
+      },
+      "ko-shorts": {
+        "videoId": "lTLXrCPOWSM",
+        "uploadedAt": "2026-03-23T13:44:22.117Z"
+      },
+      "en-longform": {
+        "videoId": "w2t_Jy8tetw",
+        "uploadedAt": "2026-03-23T13:44:34.883Z"
+      },
+      "en-shorts": {
+        "videoId": "dscgLWGDYCU",
+        "uploadedAt": "2026-03-23T13:44:39.036Z"
+      }
+    }
+  }
+}
