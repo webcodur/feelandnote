@@ -562,7 +562,7 @@ export default function CelebForm({ mode, celeb }: Props) {
                 ) : (
                   <>
                     <Upload className="w-4 h-4 text-text-secondary" />
-                    <span className="text-[10px] text-text-secondary">300×300</span>
+                    <span className="text-[10px] text-text-secondary">800×800</span>
                   </>
                 )}
               </div>

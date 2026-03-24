@@ -36,11 +36,13 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 ## 셀럽 이미지 규격
 
-Supabase Storage `avatars/celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
+R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 | 파일명 | 크기 | 비율 | 용도 |
 |--------|------|------|------|
-| `avatar.webp` | 300×300 | 1:1 | 원형 아바타, 카드 썸네일, 모든 이미지 표시 |
+| `avatar.webp` | 800×800 | 1:1 | 원형 아바타, 카드 썸네일, 모든 이미지 표시 (레티나 3x 대응) |
+
+> 2026-03-24 이전 등록 셀럽은 300×300. 신규 업로드분만 800×800.
 
 Portrait(9:16)은 전면 제거됨. DB 컬럼(`portrait_url`)만 잔류.
 

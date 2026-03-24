@@ -1,7 +1,7 @@
 // 이미지 리사이징 유틸리티 (클라이언트용)
 
 const IMAGE_SIZES = {
-  avatar: { width: 300, height: 300 },  // 1:1 정사각 (원형 아바타 대응)
+  avatar: { width: 800, height: 800 },  // 1:1 정사각 (원형 아바타, 레티나 3x 대응)
 } as const
 
 export type ImageType = 'avatar'
