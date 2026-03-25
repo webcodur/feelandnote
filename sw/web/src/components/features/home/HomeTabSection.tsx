@@ -1,18 +1,29 @@
 "use client";
 
-import { useState, useRef, type ReactNode } from "react";
+import { useState, useRef, Fragment, type ReactNode } from "react";
 import Logo from "@/components/ui/Logo";
 import { Tabs, Tab } from "@/components/ui/Tab";
 import { ChevronDown } from "lucide-react";
 
-/** [[text]] 마커를 하이라이트 span으로 변환 */
+/**
+ * [[인물명]] → 엑센트 색상 
+ * 《작품명》 → 텍스트 프라이머리 
+ * 나머지    → 기본 회색
+ */
 function renderHighlighted(text: string): ReactNode[] {
-  return text.split(/(\[\[.*?\]\])/).map((seg, i) => {
+  return text.split(/(\[\[.*?\]\]|《.*?》)/).map((seg, i) => {
     if (seg.startsWith("[[") && seg.endsWith("]]")) {
       const name = seg.slice(2, -2);
       return (
-        <span key={i} className="text-text-primary font-medium">
+        <span key={i} className="text-accent font-medium tracking-wide">
           {name}
+        </span>
+      );
+    }
+    if (seg.startsWith("《") && seg.endsWith("》")) {
+      return (
+        <span key={i} className="text-text-primary/95 font-medium tracking-wide">
+          {seg}
         </span>
       );
     }
@@ -48,7 +59,7 @@ export default function HomeTabSection({
       {/* 1. Logo Space */}
       <div className="flex flex-col items-center justify-center pt-16 pb-6 md:pt-28 md:pb-10 animate-in fade-in slide-in-from-top-4 duration-700 w-full">
         <Logo size="xl" variant="hero" subtitle="YOUR CULTURAL LEGACY" />
-        
+
         {/* Service Intro */}
         <div className="mt-10 md:mt-14 w-full max-w-2xl px-4 md:px-6 animate-in fade-in delay-200 duration-700">
           <div className="relative px-6 py-8 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
@@ -59,20 +70,20 @@ export default function HomeTabSection({
             <div className="absolute bottom-0 right-0 w-5 h-5 md:w-7 md:h-7 border-b border-r border-accent/20" />
 
             {/* Prose */}
-            <div className="space-y-5 text-[15px] md:text-base text-text-primary/60 leading-[1.9] md:leading-[2] break-keep">
+            <div className="relative z-10 space-y-6 md:space-y-8 text-[15.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
               {labels.intro.split("\n\n").map((para, i) => (
                 <p key={i}>{renderHighlighted(para)}</p>
               ))}
             </div>
 
             {/* Divider + Catchphrase */}
-            <div className="mt-8 md:mt-10 flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3">
-                <div className="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-accent/30" />
-                <div className="w-1 h-1 md:w-1.5 md:h-1.5 rotate-45 bg-accent/40" />
-                <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-accent/30" />
+            <div className="relative z-10 mt-10 md:mt-12 flex flex-col items-center gap-5">
+              <div className="flex items-center gap-4">
+                <div className="h-[1px] w-16 md:w-24 bg-gradient-to-r from-transparent via-accent/50 to-accent/80" />
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rotate-45 bg-accent shadow-[0_0_10px_theme(colors.accent)]" />
+                <div className="h-[1px] w-16 md:w-24 bg-gradient-to-l from-transparent via-accent/50 to-accent/80" />
               </div>
-              <p className="text-sm md:text-base tracking-[0.15em] text-accent/60 font-light">
+              <p className="text-sm md:text-base tracking-[0.2em] text-accent/90 font-medium drop-shadow-sm">
                 {labels.introSub}
               </p>
             </div>
@@ -80,17 +91,18 @@ export default function HomeTabSection({
         </div>
 
         {/* Scroll Button & Divider */}
-        <div className="mt-20 md:mt-32 flex flex-col items-center gap-6 animate-in fade-in delay-500 duration-700 w-full">
-            <button 
+        <div className="mt-20 md:mt-32 flex flex-col items-center gap-6 animate-in fade-in delay-500 duration-1000 w-full">
+            <button
                 onClick={handleScrollDown}
-                className="group flex flex-col items-center gap-2 text-text-tertiary hover:text-accent transition-colors"
+                className="group flex flex-col items-center gap-3 text-text-tertiary hover:text-accent transition-all duration-300"
                 aria-label="Scroll down"
             >
-                <div className="p-2 rounded-full border border-white/10 group-hover:border-accent/30 bg-white/5 group-hover:bg-accent/10 transition-all animate-bounce">
-                    <ChevronDown size={24} strokeWidth={1.5} />
+                <div className="relative p-2.5 rounded-full border border-white/10 group-hover:border-accent/40 bg-white/5 group-hover:bg-accent/10 transition-all duration-300">
+                    <ChevronDown size={22} strokeWidth={1.5} className="animate-bounce" />
+                    <div className="absolute inset-0 rounded-full border border-accent/0 group-hover:border-accent/30 group-hover:scale-125 transition-all duration-500 opacity-0 group-hover:opacity-100 pointer-events-none" />
                 </div>
             </button>
-            <div className="w-full max-w-[200px] h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="w-full max-w-[240px] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
       </div>
 
