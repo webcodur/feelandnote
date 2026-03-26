@@ -2,6 +2,8 @@
 
 영상 제작 관리 대시보드. Remotion 영상의 기획·제작·관리 전 과정을 한 곳에서 다룬다.
 
+> **NOTE (26.03.23):** R2 음성 동기화 시스템 폐기. 이 문서의 R2 관련 기획(R2 현황 페이지, R2 동기화 UI, R2 상태 표시)은 더 이상 유효하지 않다. 영상 음성 파일은 로컬 전용으로 관리한다.
+
 ## 정체성
 
 - **web-bo** = 서비스 운영 (셀럽 CRUD, 콘텐츠, 사용자)
@@ -439,7 +441,7 @@ episodes/book-recommend/
 |------|------|------|
 | DB 접근 | Supabase 직접 연결 (anon key, 읽기 전용) | web-bo와 동일 URL/키. 환경변수 공유, 타입은 독립 정의 |
 | 상태 관리 | React state + fetch | 로컬 도구. 복잡한 상태관리 불필요 |
-| 에피소드 저장 | 파일 기반 (`episodes/{series}/{name}.json`) | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
+| 에피소드 저장 | 파일 기반 (`episodes/{series}/{person}/{locale}.json`) | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
 | 편성 데이터 | `episodes/{series}/lineup.json` | lineup.md를 구조화. DB 불필요 (편성은 로컬 판단) |
 | 렌더 큐 | 인메모리 → 파일 영속화 (배치 도입 시 전환) | 초기는 간단하게, 규모 커지면 전환 |
 | 시리즈 확장 | 레지스트리 패턴 | 새 시리즈 = 정의 1개 추가. UI/라우팅 자동 |
@@ -475,8 +477,7 @@ episodes/book-recommend/
 
 ### Phase 4: 시리즈 확장 — 미착수
 
-14. 라이벌 대담 (OneNightLibrary) 레지스트리 등록
-15. 서비스 소개 레지스트리 등록
+14. 서비스 소개 레지스트리 등록
 16. 사이드바 2단 에피소드 목록 가상 스크롤
 
 ### Phase 5: 다국어 — 미착수
@@ -532,6 +533,6 @@ sw/remotion-bo/src/
 ### 핵심 설계
 
 - **시리즈 확장**: `series-registry.ts`에 정의 1개 추가 → UI/라우팅/API 자동 대응
-- **에피소드 파일 기반**: `episodes/{series}/{name}.json` (DB 아닌 파일)
+- **에피소드 파일 기반**: `episodes/{series}/{person}/{locale}.json` (DB 아닌 파일)
 - **Supabase 읽기 전용**: 셀럽 프로필·도서만 조회. 쓰기는 JSON 파일로
 - **스캐폴딩**: DB → JSON 뼈대 자동 생성. AI 초안 필드는 빈 문자열 (LLM 연동 시 채움)
