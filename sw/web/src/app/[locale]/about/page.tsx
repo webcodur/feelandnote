@@ -90,6 +90,19 @@ export default async function AboutPage() {
           </div>
         </div>
 
+        {/* Operator Info */}
+        <div className="mt-20 border-t border-white/10 pt-12">
+          <h2 className="mb-6 text-center font-serif text-lg text-text-primary">{t("operatorTitle")}</h2>
+          <p className="mb-6 text-center text-sm leading-7 text-text-secondary">
+            {t("operatorService")}
+          </p>
+          <div className="flex flex-col items-center gap-1 text-xs text-text-secondary/70">
+            <span>{t("operatorName")}</span>
+            <span>{t("operatorEmail")}</span>
+            <span>{t("operatorLocation")}</span>
+          </div>
+        </div>
+
       </section>
     </main>
   );

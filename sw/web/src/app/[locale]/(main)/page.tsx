@@ -116,7 +116,8 @@ export default async function MainPage() {
           quickRecord: t("quickRecord"),
         }}
       />
-      {locale === 'ko' && <PopularBooks />}
+      {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
+      {/* {locale === 'ko' && <PopularBooks />} */}
     </div>
   );
 }

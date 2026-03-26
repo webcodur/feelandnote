@@ -108,7 +108,8 @@ export default async function ScripturesPage() {
         <ScripturesHubContent />
       </Suspense>
 
-      <PopularBooks />
+      {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
+      {/* <PopularBooks /> */}
     </div>
   );
 }

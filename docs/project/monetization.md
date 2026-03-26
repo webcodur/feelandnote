@@ -38,13 +38,21 @@ Feelandnote 서비스의 수익화 전략을 탐색·정리하는 문서.
 - 백오피스 콘텐츠 상세에서 제휴 URL 입력/편집 UI 존재
 - **남은 일: 제휴 프로그램 가입 → 실제 URL을 DB에 채우는 것**
 
-### AdSense (승인 신청 완료, 심사 대기 중)
+### AdSense (승인 재신청 준비)
 - `layout.tsx`에 AdSense 스크립트 삽입됨 (`ca-pub-3751045783335791`)
 - Google Analytics 활성 상태
 - 승인 필수 페이지 전부 완비: About, Privacy, Terms, Contact, Sitemap, Robots.txt
 - 푸터에 모든 정책 페이지 링크됨
-- **승인 신청 완료 (26.03.09)** — 심사 대기 중 (1일~4주 소요)
-- **남은 일: 승인 후 광고 단위(Ad Unit) 페이지 배치**
+- **1차 승인 신청 (26.03.09)** — 거절됨
+- **26.03.26 개선 사항:**
+  - 개인정보처리방침에 광고 조항 추가 (Google AdSense, 쿠키, 행동 타겟팅, opt-out 안내)
+  - 개인정보 보호 책임자 조항 추가 (7조)
+  - About 페이지에 운영자 정보 (서비스 설명, 팀, 이메일, 소재지) 추가
+  - 정책 페이지(Privacy, Terms, Contact) `robots noindex` 제거 → Google 크롤링 허용
+  - 정책 페이지에 `description`, `hreflang alternates` 메타 추가
+  - Privacy/Terms 영문 페이지의 "koreanOnly" 배너 제거 (영문 번역 완료 상태와 모순)
+  - 쿠팡 제휴 링크 전면 비활성 (홈, 탐색, 서고, 콘텐츠 상세 — 주석처리)
+- **남은 일: 승인 후 광고 단위(Ad Unit) 페이지 배치 + 쿠팡 제휴 재활성**
 
 ## 진행 기록
 

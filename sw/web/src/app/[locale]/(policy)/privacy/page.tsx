@@ -4,16 +4,20 @@
   책임: Feel&Note 개인정보 수집 및 이용 내역을 표시한다.
 */
 
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("policy");
-  return { title: t("privacy"), robots: { index: false, follow: false } };
+  return {
+    title: t("privacy"),
+    description: t("privacyDescription"),
+    alternates: getAlternates("/privacy"),
+  };
 }
 
 export default async function PrivacyPage() {
   const t = await getTranslations("policy");
-  const locale = await getLocale();
 
   const bold = (chunks: React.ReactNode) => <strong>{chunks}</strong>;
 
@@ -24,11 +28,6 @@ export default async function PrivacyPage() {
         <p className="text-text-secondary">
           {t("privacyDescription")}
         </p>
-        {locale === "en" && (
-          <p className="text-sm text-amber-400/80 bg-amber-400/5 border border-amber-400/20 rounded-lg px-4 py-2">
-            {t("koreanOnly")}
-          </p>
-        )}
       </header>
 
       <section className="space-y-4">
@@ -80,6 +79,31 @@ export default async function PrivacyPage() {
         <p className="text-text-secondary leading-relaxed">
           {t("privacy5Body")}
         </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold">{t("privacy6Title")}</h2>
+        <p className="text-text-secondary leading-relaxed">
+          {t("privacy6Body")}
+        </p>
+        <ul className="list-disc pl-5 space-y-2 text-text-secondary leading-relaxed">
+          <li>{t.rich("privacy6Item1", { b: bold })}</li>
+          <li>{t.rich("privacy6Item2", { b: bold })}</li>
+          <li>{t.rich("privacy6Item3", { b: bold })}</li>
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold">{t("privacy7Title")}</h2>
+        <p className="text-text-secondary leading-relaxed">
+          {t("privacy7Body")}
+        </p>
+        <div className="rounded-lg bg-bg-card/50 p-4 border border-border">
+          <ul className="list-disc pl-5 space-y-2 text-text-secondary">
+            <li>{t.rich("privacy7Item1", { b: bold })}</li>
+            <li>{t.rich("privacy7Item2", { b: bold })}</li>
+          </ul>
+        </div>
       </section>
 
       <footer className="pt-8 border-t border-border">

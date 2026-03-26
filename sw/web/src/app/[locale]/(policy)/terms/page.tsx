@@ -4,16 +4,20 @@
   책임: Feel&Note 서비스 이용약관을 표시한다.
 */
 
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { getAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("policy");
-  return { title: t("terms"), robots: { index: false, follow: false } };
+  return {
+    title: t("terms"),
+    description: t("termsDescription"),
+    alternates: getAlternates("/terms"),
+  };
 }
 
 export default async function TermsPage() {
   const t = await getTranslations("policy");
-  const locale = await getLocale();
 
   return (
     <div className="space-y-10 text-text-primary">
@@ -22,11 +26,6 @@ export default async function TermsPage() {
         <p className="text-text-secondary">
           {t("termsDescription")}
         </p>
-        {locale === "en" && (
-          <p className="text-sm text-amber-400/80 bg-amber-400/5 border border-amber-400/20 rounded-lg px-4 py-2">
-            {t("koreanOnly")}
-          </p>
-        )}
       </header>
 
       <section className="space-y-4">

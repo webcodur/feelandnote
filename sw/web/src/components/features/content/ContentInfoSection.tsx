@@ -286,8 +286,8 @@ export default function ContentInfoSection({
       {/* 미디어 임베드 */}
       <MediaEmbed contentId={content.id} type={content.type} />
 
-      {/* 제휴 링크 */}
-      {content.affiliateLinks && content.affiliateLinks.length > 0 && (
+      {/* 제휴 링크: AdSense 승인 전까지 비활성 */}
+      {/* {content.affiliateLinks && content.affiliateLinks.length > 0 && (
         <div className="space-y-2">
           <div className="flex flex-col gap-2">
             {content.affiliateLinks.map((link) => {
@@ -315,7 +315,7 @@ export default function ContentInfoSection({
             </p>
           )}
         </div>
-      )}
+      )} */}
 
       {/* 외부 플랫폼 링크 - 추후 활성화 예정 */}
       {/* <ExternalPlatformLinks
