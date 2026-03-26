@@ -2,20 +2,18 @@ import React from "react";
 import { Composition, Folder } from "remotion";
 import "./style.css";
 import {
-  ServiceIntro,
-  totalFrames as serviceIntroFrames,
-} from "./compositions/ServiceIntro";
-import {
-  ServiceMV,
-  totalFrames as serviceMVFrames,
-} from "./compositions/ServiceMV";
+  OlympusMV,
+  totalFrames as olympusMVFrames,
+} from "./compositions/OlympusMV";
 import {
   BookRecommend,
   calcTotalFrames as calcBookFrames,
   BookRecommendShort,
   calcShortTotalFrames,
   episodes,
+  episodeStatus,
 } from "./compositions/BookRecommend";
+import type { EpisodeStatus } from "./compositions/BookRecommend";
 import {
   CelebProfile,
   episodes as profileEpisodes,
@@ -39,37 +37,65 @@ function groupByPerson<T>(entries: [string, T][]) {
   return Object.values(groups)
 }
 
+/** baseName에서 상태를 결정 (KO 기준, 없으면 wip) */
+function getStatus(baseName: string): EpisodeStatus {
+  return episodeStatus[baseName] ?? 'wip'
+}
+
+const STATUS_LABELS: Record<EpisodeStatus, string> = {
+  uploaded: '1-Uploaded',
+  wip: '2-WIP',
+  candidate: '3-Candidate',
+}
+
+/** 에피소드를 상태별로 분류 */
+function groupByStatus(allEntries: [string, unknown][]) {
+  const result: Record<EpisodeStatus, [string, unknown][]> = { uploaded: [], wip: [], candidate: [] }
+  for (const [name, script] of allEntries) {
+    const isEn = name.endsWith('-en')
+    const baseName = isEn ? name.slice(0, -3) : name
+    const status = getStatus(baseName)
+    result[status].push([name, script])
+  }
+  return result
+}
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       {/* === 서재 탐방 === */}
       <Folder name="BookRecommend">
-        {groupByPerson(Object.entries(episodes)).map(({ label, items }) => (
-          <Folder key={label} name={label}>
-            {(() => {
-              const valid = items.filter(({ script }) => {
-                const dur = calcBookFrames(script)
-                return Number.isFinite(dur) && dur > 0
-              })
-              return (
-                <>
-                  {valid.map(({ name, lang, script }) => (
-                    <Composition key={`${name}-L`} id={`${label}-${lang}-L`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
-                  ))}
-                  {valid.map(({ name, lang, script }) => (
-                    <Composition key={`${name}-LT`} id={`${label}-${lang}-LT`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
-                  ))}
-                  {valid.filter(({ script }) => script.shorts).map(({ name, lang, script }) => (
-                    <Composition key={`${name}-S`} id={`${label}-${lang}-S`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
-                  ))}
-                  {valid.filter(({ script }) => script.shorts).map(({ name, lang, script }) => (
-                    <Composition key={`${name}-ST`} id={`${label}-${lang}-ST`} component={BookRecommendShort} durationInFrames={1} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
-                  ))}
-                </>
-              )
-            })()}
-          </Folder>
-        ))}
+        {(Object.entries(STATUS_LABELS) as [EpisodeStatus, string][]).map(([status, folderName]) => {
+          const statusEntries = groupByStatus(Object.entries(episodes))[status]
+          if (statusEntries.length === 0) return null
+          return (
+            <Folder key={status} name={folderName}>
+              {groupByPerson(statusEntries as [string, typeof episodes[string]][]).map(({ label, items }) => (
+                <Folder key={label} name={label}>
+                  {(() => {
+                    const valid = items.filter(({ script }) => {
+                      const dur = calcBookFrames(script)
+                      return Number.isFinite(dur) && dur > 0
+                    })
+                    return (
+                      <>
+                        {valid.map(({ name, lang, script }) => (
+                          <Composition key={`${name}-L-VID`} id={`${label}-${lang}-L-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
+                        ))}
+                        {valid.map(({ name, lang, script }) => (
+                          <Composition key={`${name}-L-THUMB`} id={`${label}-${lang}-L-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
+                        ))}
+                        {valid.filter(({ script }) => script.shorts).map(({ name, lang, script }) => (
+                          <Composition key={`${name}-S-VID`} id={`${label}-${lang}-S-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
+                        ))}
+                      </>
+                    )
+                  })()}
+                </Folder>
+              ))}
+            </Folder>
+          )
+        })}
       </Folder>
 
       {/* === 인물 열전 === */}
@@ -99,20 +125,12 @@ export const RemotionRoot: React.FC = () => {
       {/* === 기타 === */}
       <Folder name="Misc">
         <Composition
-          id="ServiceIntro"
-          component={ServiceIntro}
-          durationInFrames={serviceIntroFrames}
+          id="OlympusMV"
+          component={OlympusMV}
+          durationInFrames={olympusMVFrames}
           fps={FPS}
-          width={1920}
-          height={1080}
-        />
-        <Composition
-          id="ServiceMV"
-          component={ServiceMV}
-          durationInFrames={serviceMVFrames}
-          fps={FPS}
-          width={1920}
-          height={1080}
+          width={1080}
+          height={1920}
         />
       </Folder>
     </>
