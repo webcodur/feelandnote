@@ -47,7 +47,7 @@ function buildPageTitleEn(
   profession: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession);
+  const professionLabel = getCelebProfessionLabel(profession, 'en');
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
@@ -65,7 +65,7 @@ function buildMetaDescriptionEn(
   profession: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession);
+  const professionLabel = getCelebProfessionLabel(profession, 'en');
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
@@ -218,7 +218,7 @@ export default async function CelebPage({ params }: PageProps) {
       "@type": "Person",
       name: profile.nickname,
       ...(profile.nationality && { nationality: profile.nationality }),
-      ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession) }),
+      ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession, locale) }),
       url: canonicalUrl,
     },
     ...(contentItems.length > 0

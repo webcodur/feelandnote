@@ -34,10 +34,10 @@ async function loadFont() {
 export default async function Image({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const result = await getCelebBySlug(slug);
+  const { locale, slug } = await params;
+  const result = await getCelebBySlug(slug, locale);
   const fontData = await loadFont();
 
   if (!result.success || !result.data) {
@@ -64,17 +64,24 @@ export default async function Image({
   }
 
   const { nickname, profession, contentTypeCounts } = result.data;
-  const professionLabel = getCelebProfessionLabel(profession);
+  const professionLabel = getCelebProfessionLabel(profession, locale);
 
   const parts: string[] = [];
-  if (contentTypeCounts.BOOK > 0) parts.push(`${contentTypeCounts.BOOK}권의 책`);
-  if (contentTypeCounts.VIDEO > 0) parts.push(`${contentTypeCounts.VIDEO}편의 영화`);
-  if (contentTypeCounts.MUSIC > 0) parts.push(`${contentTypeCounts.MUSIC}곡의 음악`);
-  if (contentTypeCounts.GAME > 0) parts.push(`${contentTypeCounts.GAME}개의 게임`);
+  if (locale === 'en') {
+    if (contentTypeCounts.BOOK > 0) parts.push(`${contentTypeCounts.BOOK} books`);
+    if (contentTypeCounts.VIDEO > 0) parts.push(`${contentTypeCounts.VIDEO} movies`);
+    if (contentTypeCounts.MUSIC > 0) parts.push(`${contentTypeCounts.MUSIC} songs`);
+    if (contentTypeCounts.GAME > 0) parts.push(`${contentTypeCounts.GAME} games`);
+  } else {
+    if (contentTypeCounts.BOOK > 0) parts.push(`${contentTypeCounts.BOOK}권의 책`);
+    if (contentTypeCounts.VIDEO > 0) parts.push(`${contentTypeCounts.VIDEO}편의 영화`);
+    if (contentTypeCounts.MUSIC > 0) parts.push(`${contentTypeCounts.MUSIC}곡의 음악`);
+    if (contentTypeCounts.GAME > 0) parts.push(`${contentTypeCounts.GAME}개의 게임`);
+  }
 
   const subtitle = parts.length > 0
-    ? `감상한 ${parts.join(", ")}`
-    : "감상 기록";
+    ? locale === 'en' ? parts.join(", ") : `감상한 ${parts.join(", ")}`
+    : locale === 'en' ? "Cultural Archive" : "감상 기록";
 
   return new ImageResponse(
     (
