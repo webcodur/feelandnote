@@ -4,7 +4,6 @@
   책임: 4개 콘텐츠 타입별 Top 10 인물 랭킹을 표시한다.
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
@@ -67,9 +66,5 @@ async function TopByTypeServer() {
 }
 
 export default function TopByTypePage() {
-  return (
-    <Suspense fallback={<TopByTypeSkeleton />}>
-      <TopByTypeServer />
-    </Suspense>
-  );
+  return <TopByTypeServer />;
 }

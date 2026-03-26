@@ -4,7 +4,6 @@
   책임: 큐레이션 섹션별로 셀럽을 소개하는 허브 역할
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import { getCelebs } from "@/actions/home/getCelebs";
@@ -18,7 +17,6 @@ import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
 import TopByTypeGrid from "@/components/features/user/explore/hub/TopByTypeGrid";
 import PersonaExtremeGrid from "@/components/features/user/explore/hub/PersonaExtremeGrid";
 import SpotlightCard from "@/components/features/user/explore/hub/SpotlightCard";
-import HubSkeleton from "@/components/features/user/explore/hub/HubSkeleton";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
 export async function generateMetadata() {
@@ -124,9 +122,7 @@ async function HubContent() {
 export default function ExplorePage() {
   return (
     <>
-      <Suspense fallback={<HubSkeleton />}>
-        <HubContent />
-      </Suspense>
+      <HubContent />
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
       {/* <PopularBooks /> */}
     </>

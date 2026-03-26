@@ -4,7 +4,6 @@
   책임: 서가의 서브페이지들을 허브 구조로 묶어 미리보기를 제공하고 각 페이지로 안내한다.
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
@@ -100,13 +99,7 @@ export default async function ScripturesPage() {
         groupId={SCRIPTURES_GROUP_ID}
       />
 
-      <Suspense fallback={
-        <div className="w-full flex items-center justify-center py-32">
-          <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
-        </div>
-      }>
-        <ScripturesHubContent />
-      </Suspense>
+      <ScripturesHubContent />
 
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
       {/* <PopularBooks /> */}

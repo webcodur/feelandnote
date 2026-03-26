@@ -5,7 +5,6 @@
   참고: 제목 + 카테고리탭은 [category]/layout.tsx에서 처리.
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
@@ -74,15 +73,5 @@ export default async function AcademyCoursePage({
     redirect(`/${locale}/scriptures/academy/${cat.id}/${cat.courses[0].id}`);
   }
 
-  return (
-    <Suspense
-      fallback={
-        <div className="w-full flex justify-center py-32">
-          <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
-        </div>
-      }
-    >
-      <LessonContent categoryId={category} courseId={course} />
-    </Suspense>
-  );
+  return <LessonContent categoryId={category} courseId={course} />;
 }

@@ -4,7 +4,6 @@
   책임: 인물 목록을 필터링하여 보여준다.
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
@@ -25,48 +24,6 @@ export async function generateMetadata() {
 }
 
 const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
-
-function SectionSkeleton() {
-  return (
-    <div className="animate-pulse">
-      {/* PC 컨트롤 패널 스켈레톤 */}
-      <div className="hidden md:block mb-6">
-        {/* 1행: 검색 + 버튼 */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex-1 max-w-sm h-9 bg-bg-card rounded-lg" />
-          <div className="h-9 w-9 bg-bg-card rounded-lg" />
-        </div>
-        {/* 2행: 필터 칩들 */}
-        <div className="flex flex-wrap items-center gap-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-9 w-24 bg-bg-card rounded-md" />
-          ))}
-        </div>
-      </div>
-
-      {/* 모바일 컨트롤 스켈레톤 */}
-      <div className="md:hidden mb-6">
-        <div className="flex gap-2 mb-2">
-          <div className="flex-1 h-9 bg-bg-card rounded-lg" />
-          <div className="h-9 w-9 bg-bg-card rounded-lg" />
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-9 bg-bg-card rounded-lg" />
-          ))}
-          <div className="h-9 bg-bg-card rounded-lg col-span-2" />
-        </div>
-      </div>
-
-      {/* 셀럽 그리드 스켈레톤 (13/19 비율) */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div key={i} className="aspect-[13/19] bg-bg-card rounded-xl" />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -156,42 +113,12 @@ async function CelebsCarouselContent() {
   );
 }
 
-function CarouselSkeleton() {
-  return (
-    <div className="animate-pulse space-y-8">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i}>
-          <div className="flex items-center justify-between mb-3 px-1">
-            <div className="h-5 w-20 bg-bg-card rounded" />
-            <div className="h-4 w-14 bg-bg-card rounded" />
-          </div>
-          <div className="flex gap-2 md:gap-3 overflow-hidden">
-            {Array.from({ length: 8 }).map((_, j) => (
-              <div key={j} className="flex-shrink-0 w-[28%] sm:w-[22%] md:w-[16%] lg:w-[13%] xl:w-[11%] 2xl:w-[9%]">
-                <div className="aspect-[13/19] bg-bg-card rounded-xl" />
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
 
   if (isGridView(params)) {
-    return (
-      <Suspense fallback={<SectionSkeleton />}>
-        <CelebsFilterContent searchParams={params} />
-      </Suspense>
-    );
+    return <CelebsFilterContent searchParams={params} />;
   }
 
-  return (
-    <Suspense fallback={<CarouselSkeleton />}>
-      <CelebsCarouselContent />
-    </Suspense>
-  );
+  return <CelebsCarouselContent />;
 }

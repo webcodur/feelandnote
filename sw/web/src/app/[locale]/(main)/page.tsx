@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getAlternates } from "@/lib/seo";
@@ -82,22 +81,18 @@ export default async function MainPage() {
   ]);
 
   const RecordSection = (
-    <Suspense fallback={<HomeSectionSkeleton />}>
-      <HomeRecordSection 
-          unreviewedList={unreviewedResult.items}
-          reviewedList={reviewedResult.items}
-          profile={profile}
-          initialSuggestions={initialSuggestions}
-      />
-    </Suspense>
+    <HomeRecordSection
+        unreviewedList={unreviewedResult.items}
+        reviewedList={reviewedResult.items}
+        profile={profile}
+        initialSuggestions={initialSuggestions}
+    />
   );
 
   const FigureSectionContent = (
     <div className="flex flex-col gap-12">
       {todayFigureResult.figure && (
-        <Suspense fallback={<div className="h-64 bg-white/5 rounded-xl animate-pulse" />}>
-          <TodayFigureSection figure={todayFigureResult.figure} contents={todayFigureResult.contents} source={todayFigureResult.source} />
-        </Suspense>
+        <TodayFigureSection figure={todayFigureResult.figure} contents={todayFigureResult.contents} source={todayFigureResult.source} />
       )}
 
       <HomeNavigationLinks />

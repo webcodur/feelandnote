@@ -4,7 +4,6 @@
   책임: 타임라인 컴포넌트를 호출하여 매체 역사 정보를 표시한다.
 */ // ------------------------------
 
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import MuseumTimeline from "@/components/features/scriptures/museum/MuseumTimeline";
@@ -27,13 +26,7 @@ export default async function MuseumPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="w-full pb-20">
-      <Suspense fallback={
-        <div className="w-full flex justify-center py-32">
-           <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
-        </div>
-      }>
-        <MuseumContent cat={cat} sub={sub} />
-      </Suspense>
+      <MuseumContent cat={cat} sub={sub} />
     </div>
   );
 }
