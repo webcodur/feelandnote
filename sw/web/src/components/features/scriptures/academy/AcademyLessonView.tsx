@@ -41,7 +41,7 @@ function CourseTabs({
           return (
             <Link
               key={course.id}
-              href={`/scriptures/academy/${categoryId}/${course.id}`}
+              href={`/library/academy/${categoryId}/${course.id}`}
               className={`
                 px-3.5 py-2 rounded-md text-sm font-medium transition-all duration-200
                 flex items-center gap-2

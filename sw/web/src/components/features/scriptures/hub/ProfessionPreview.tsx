@@ -78,7 +78,7 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
         return (
           <Link
             key={p.profession}
-            href={`/scriptures/profession?p=${p.profession}`}
+            href={`/library/profession?p=${p.profession}`}
             className={`${visibilityClass} group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.hoverBorder} transition-all duration-500 flex flex-col`}
           >
             {/* 상단 악센트 바 */}

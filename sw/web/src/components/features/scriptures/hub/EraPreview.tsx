@@ -113,7 +113,7 @@ export default function EraPreview({ eras }: EraPreviewProps) {
         return (
           <Link
             key={era.era}
-            href={`/scriptures/era?tab=${era.era}`}
+            href={`/library/era?tab=${era.era}`}
             className={`group relative overflow-hidden rounded-2xl bg-[#111113]/90 backdrop-blur-xl border border-white/[0.06] ${theme.accentBorder} transition-all duration-500 flex flex-col`}
           >
             {/* ── 상단 악센트 바 ── */}

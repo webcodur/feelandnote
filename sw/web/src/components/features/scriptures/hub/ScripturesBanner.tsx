@@ -1,10 +1,10 @@
 /*
-  파일명: /components/features/scriptures/hub/ScripturesBanner.tsx
+  파일명: /components/features/library/hub/ScripturesBanner.tsx
   기능: 서가 배너 (동적 breadcrumb, N단 지원)
   책임: 현재 경로 depth에 따라 배너 breadcrumb을 동적으로 표시한다.
         - /scriptures → 허브 타이틀만
-        - /scriptures/academy → 서가 > 학당
-        - /scriptures/academy/video/composition → 서가 > 학당 > 영상 제작
+        - /library/academy → 서가 > 학당
+        - /library/academy/video/composition → 서가 > 학당 > 영상 제작
 */ // ------------------------------
 
 "use client";
@@ -46,10 +46,10 @@ export default function ScripturesBanner() {
   const crumbs: Crumb[] = [];
 
   if (subKey) {
-    // 1단: /scriptures/{sub}
+    // 1단: /library/{sub}
     crumbs.push({
       label: tNav(`sub.${subKey}`),
-      href: `/scriptures/${subSegment}`,
+      href: `/library/${subSegment}`,
     });
 
     // 2단+: academy 카테고리 (segments[2])
@@ -59,7 +59,7 @@ export default function ScripturesBanner() {
         const catLabel = tAcademy(`category.${categoryId}.label`);
         crumbs.push({
           label: catLabel,
-          href: `/scriptures/academy/${categoryId}`,
+          href: `/library/academy/${categoryId}`,
         });
       } catch {
         // 번역 키 없으면 무시

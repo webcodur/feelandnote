@@ -75,7 +75,7 @@ export default function MuseumPreview() {
                 {subs.map((sub) => (
                   <Link
                     key={sub.id}
-                    href={`/scriptures/museum?cat=${key}&sub=${sub.id}`}
+                    href={`/library/museum?cat=${key}&sub=${sub.id}`}
                     className="group rounded-lg overflow-hidden border border-white/[0.06] hover:border-accent/30 transition-all duration-400"
                   >
                     {/* 이미지 */}
