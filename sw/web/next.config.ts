@@ -37,6 +37,27 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: false,
       },
+      // /scriptures → /library 경로 변경 (2026-03-26)
+      {
+        source: '/scriptures',
+        destination: '/library',
+        permanent: true,
+      },
+      {
+        source: '/scriptures/:path*',
+        destination: '/library/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:locale/scriptures',
+        destination: '/:locale/library',
+        permanent: true,
+      },
+      {
+        source: '/:locale/scriptures/:path*',
+        destination: '/:locale/library/:path*',
+        permanent: true,
+      },
     ];
   },
 };

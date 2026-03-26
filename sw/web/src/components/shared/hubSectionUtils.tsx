@@ -64,10 +64,10 @@ export const SCRIPTURES_GROUP_ID = "scriptures";
 
 export const SCRIPTURES_SECTIONS = [
   { key: "figure",     icon: <CalendarHeart size={14} />, moreHref: "/explore/today",         titleKey: "figureLabel",     subtitleKey: "figure",     moreKey: "moreDetail" },
-  { key: "era",        icon: <Clock size={14} />,         moreHref: "/scriptures/era",        titleKey: "eraLabel",        subtitleKey: "era",        moreKey: "moreDetail" },
-  { key: "profession", icon: <Route size={14} />,         moreHref: "/scriptures/profession", titleKey: "professionLabel", subtitleKey: "profession", moreKey: "moreDetail" },
-  { key: "museum",     icon: <Scroll size={14} />,        moreHref: "/scriptures/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },
-  { key: "academy",    icon: <GraduationCap size={14} />, moreHref: "/scriptures/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },
+  { key: "era",        icon: <Clock size={14} />,         moreHref: "/library/era",        titleKey: "eraLabel",        subtitleKey: "era",        moreKey: "moreDetail" },
+  { key: "profession", icon: <Route size={14} />,         moreHref: "/library/profession", titleKey: "professionLabel", subtitleKey: "profession", moreKey: "moreDetail" },
+  { key: "museum",     icon: <Scroll size={14} />,        moreHref: "/library/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },
+  { key: "academy",    icon: <GraduationCap size={14} />, moreHref: "/library/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },
 ] as const;
 
 export const scripturesSection = (key: (typeof SCRIPTURES_SECTIONS)[number]["key"], t: (k: string) => string) =>

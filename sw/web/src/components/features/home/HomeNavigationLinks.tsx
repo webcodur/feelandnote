@@ -24,7 +24,7 @@ export function HomeNavigationLinks() {
       </Link>
 
       <Link
-        href="/scriptures"
+        href="/library"
         className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
       >
         <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300">

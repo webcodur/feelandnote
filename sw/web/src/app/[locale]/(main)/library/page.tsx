@@ -21,7 +21,7 @@ import AcademyPreview from "@/components/features/scriptures/hub/AcademyPreview"
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.meta");
-  return { title: t("title"), description: t("description"), alternates: getAlternates("/scriptures") };
+  return { title: t("title"), description: t("description"), alternates: getAlternates("/library") };
 }
 
 async function ScripturesHubContent() {

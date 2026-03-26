@@ -48,7 +48,7 @@ export default async function AcademyPage() {
             return (
               <Link
                 key={cat.id}
-                href={`/scriptures/academy/${cat.id}/${firstSub}`}
+                href={`/library/academy/${cat.id}/${firstSub}`}
                 className="group relative flex flex-col items-center p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm"
               >
                 {/* 아이콘 */}

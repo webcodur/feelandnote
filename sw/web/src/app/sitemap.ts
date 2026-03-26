@@ -85,12 +85,12 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/explore/directory', 'weekly', 0.8],
   ['/explore/feed', 'daily', 0.7],
   // 서가
-  ['/scriptures', 'daily', 0.8],
-  ['/scriptures/era', 'weekly', 0.8],
-  ['/scriptures/museum', 'monthly', 0.7],
-  ['/scriptures/academy', 'monthly', 0.7],
-  ['/scriptures/profession', 'weekly', 0.7],
-  ['/scriptures/figure', 'weekly', 0.6],
+  ['/library', 'daily', 0.8],
+  ['/library/era', 'weekly', 0.8],
+  ['/library/museum', 'monthly', 0.7],
+  ['/library/academy', 'monthly', 0.7],
+  ['/library/profession', 'weekly', 0.7],
+  ['/library/figure', 'weekly', 0.6],
   // 아고라
   ['/agora', 'daily', 0.7],
   // 기타

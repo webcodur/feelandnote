@@ -91,7 +91,7 @@ export default function ScripturesBanner() {
 
         {isSubpage ? (
           <h1 className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
-            <Link href="/scriptures" className={parentStyle}>
+            <Link href="/library" className={parentStyle}>
               {hubTitle}
             </Link>
             {crumbs.map((crumb, i) => {
@@ -133,7 +133,7 @@ export default function ScripturesBanner() {
         <TreeBanner compact>
           {isSubpage ? (
             <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
-              <Link href="/scriptures" className={parentStyleDesktop}>
+              <Link href="/library" className={parentStyleDesktop}>
                 {hubTitle}
               </Link>
               {crumbs.map((crumb, i) => {

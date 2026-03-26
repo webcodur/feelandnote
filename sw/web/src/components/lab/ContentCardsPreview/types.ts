@@ -82,7 +82,7 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
     ],
   },
   {
-    url: "/scriptures",
+    url: "/library",
     pageName: "작품 (지혜의 서가)",
     sections: [
       {

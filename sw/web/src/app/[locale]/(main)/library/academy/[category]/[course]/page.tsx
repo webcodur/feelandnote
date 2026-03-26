@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/scriptures/academy/[category]/[course]/page.tsx
+  파일명: /app/(main)/library/academy/[category]/[course]/page.tsx
   기능: 학당 코스 페이지
   책임: 카테고리/코스 파라미터를 검증하고 AcademyLessonView를 렌더링한다.
   참고: 제목 + 카테고리탭은 [category]/layout.tsx에서 처리.
@@ -65,12 +65,12 @@ export default async function AcademyCoursePage({
   // 유효성 검증
   const cat = ACADEMY_CATEGORY_IDS.find((c) => c.id === category);
   if (!cat) {
-    redirect(`/${locale}/scriptures/academy`);
+    redirect(`/${locale}/library/academy`);
   }
 
   const validCourse = cat.courses.some((c) => c.id === course);
   if (!validCourse) {
-    redirect(`/${locale}/scriptures/academy/${cat.id}/${cat.courses[0].id}`);
+    redirect(`/${locale}/library/academy/${cat.id}/${cat.courses[0].id}`);
   }
 
   return <LessonContent categoryId={category} courseId={course} />;

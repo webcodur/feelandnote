@@ -12,7 +12,7 @@ export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
   const t = useTranslations("scriptures.hub");
 
   return (
-    <Link href="/scriptures/academy" className="block w-full group">
+    <Link href="/library/academy" className="block w-full group">
       <div className="relative overflow-hidden rounded-3xl bg-neutral-900 border border-white/10 hover:border-blue-500/40 transition-all duration-700 shadow-2xl">
         {/* 배경 */}
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900 to-[#0a1128] z-0 pointer-events-none" />

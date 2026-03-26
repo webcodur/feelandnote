@@ -1,5 +1,5 @@
 /*
-  파일명: /constants/scriptures.tsx
+  파일명: /constants/library.tsx
   기능: 서가 관련 상수 Single Source of Truth
   책임: 서가 탭 정보를 단일 원천으로 관리한다.
 */
@@ -13,10 +13,10 @@ export interface ScripturesTab {
 }
 
 export const SCRIPTURES_TABS: ScripturesTab[] = [
-  { value: "era", icon: Clock, href: "/scriptures/era" },
-  { value: "profession", icon: Route, href: "/scriptures/profession" },
-  { value: "museum", icon: Scroll, href: "/scriptures/museum" },
-  { value: "academy", icon: GraduationCap, href: "/scriptures/academy" },
+  { value: "era", icon: Clock, href: "/library/era" },
+  { value: "profession", icon: Route, href: "/library/profession" },
+  { value: "museum", icon: Scroll, href: "/library/museum" },
+  { value: "academy", icon: GraduationCap, href: "/library/academy" },
 ];
 
 // 5행 3열 그리드 (갈림길 페이지용) — 긴 라벨과 짧은 라벨을 교차 배치

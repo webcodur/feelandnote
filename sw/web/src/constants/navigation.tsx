@@ -66,17 +66,17 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     key: "scriptures",
-    href: "/scriptures",
+    href: "/library",
     label: "서가",
     icon: BookOpen,
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { key: "era", href: "/scriptures/era", label: "불후의 명작" },
-      { key: "profession", href: "/scriptures/profession", label: "갈림길" },
-      { key: "museum", href: "/scriptures/museum", label: "박물관" },
-      { key: "academy", href: "/scriptures/academy", label: "학당" },
+      { key: "era", href: "/library/era", label: "불후의 명작" },
+      { key: "profession", href: "/library/profession", label: "갈림길" },
+      { key: "museum", href: "/library/museum", label: "박물관" },
+      { key: "academy", href: "/library/academy", label: "학당" },
     ],
   },
   {
@@ -145,7 +145,7 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     key: "scriptures",
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
-    link: "/scriptures",
+    link: "/library",
   },
   rest: {
     id: "rest-section",

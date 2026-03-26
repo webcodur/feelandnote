@@ -45,7 +45,7 @@ export default function BottomNavSheet({ onClose, userId }: BottomNavSheetProps)
         { href: "/", label: t("home"), icon: Home },
         { href: userId ? `/${userId}/reading/collections` : "/login", label: t("playlists"), icon: ListMusic },
         { href: "/explore", label: t("explore"), icon: Compass },
-        { href: "/scriptures", label: t("scriptures"), icon: BookOpen },
+        { href: "/library", label: t("scriptures"), icon: BookOpen },
       ],
     },
     {
