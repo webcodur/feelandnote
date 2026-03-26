@@ -12,7 +12,7 @@ import TodayFigureSection from "@/components/features/figure/TodayFigureSection"
 import { getTodayFigure } from "@/actions/scriptures";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.figure");
+  const t = await getTranslations("explore.today");
   return { title: t("metaTitle"), description: t("metaDescription"), alternates: getAlternates("/explore/today") };
 }
 

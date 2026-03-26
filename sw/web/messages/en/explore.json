@@ -189,6 +189,10 @@
       "metaTitle": "Celebrity Timeline by Country | Explore",
       "metaDescription": "Explore celebrities by country and era. Discover their recommended books, movies, and music in chronological order."
     },
+    "today": {
+      "metaTitle": "Today's Figure | Explore",
+      "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
+    },
     "spotlight": {
       "metaTitle": "Spotlight | Explore",
       "collection": "Spotlight Collection",

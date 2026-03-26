@@ -189,6 +189,10 @@
       "metaTitle": "국가별 셀럽 연대기 | 인물",
       "metaDescription": "국가별 셀럽 연대기. 각 인물이 추천한 책, 영화, 음악을 시대순으로 탐색하세요."
     },
+    "today": {
+      "metaTitle": "오늘의 인물 | 탐색",
+      "metaDescription": "매일 새로운 셀럽의 추천 책, 영화, 음악을 소개합니다. 오늘의 인물이 읽고, 보고, 들은 작품을 확인하세요."
+    },
     "spotlight": {
       "metaTitle": "스포트라이트 | 인물",
       "collection": "스포트라이트 컬렉션",

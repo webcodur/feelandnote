@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL("https://feelandnote.com"),
     title: {
       default: t("title"),
-      template: "%s | Feel&Note",
+      template: "%s",
     },
     description: t("description"),
     alternates: {

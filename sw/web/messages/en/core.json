@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Feel&Note - A Single Line Recorded, A Thousand Years of Echoes",
+    "title": "Feel&Note",
     "description": "Discover what great minds read, watched, and listened to. Explore the records and echoes of 1,000+ notable figures.",
     "twitterDescription": "A single line recorded, a thousand years of echoes. A cultural archive of 1,000+ great minds."
   },
@@ -222,8 +222,17 @@
     "privacy4Body": "The Company destroys personal information without delay when it becomes unnecessary due to expiration of the retention period or achievement of the processing purpose. Electronic files are deleted using technical methods to prevent recovery.",
     "privacy5Title": "5. Member Rights and How to Exercise Them",
     "privacy5Body": "Members may exercise their rights to access, correct, delete, or suspend processing of their personal information at any time. Such rights may be exercised through written notice, email, etc. to the Company, and the Company will act without delay.",
-    "privacyAnnouncementDate": "Announcement date: January 11, 2026",
-    "privacyEffectiveDate": "Effective date: January 11, 2026",
+    "privacy6Title": "6. Advertising and Cookie Usage",
+    "privacy6Body": "This Service displays third-party advertisements to cover operating costs and maintain free access. Cookies and similar technologies are used in this process.",
+    "privacy6Item1": "<b>Google AdSense</b>: This Service displays advertisements through Google AdSense. Google and third-party ad networks may use cookies (including the DART cookie) to serve personalized ads based on your interests.",
+    "privacy6Item2": "<b>Google Analytics</b>: This Service uses Google Analytics to analyze website usage. Google Analytics collects anonymous statistical data through cookies, and the collected data is used solely for service improvement purposes.",
+    "privacy6Item3": "<b>Cookie management and ad personalization opt-out</b>: You can refuse or delete cookies through your browser settings. You can also disable personalized ads through Google Ads Settings (https://adssettings.google.com) or opt out of third-party ad cookies through the Network Advertising Initiative (https://optout.networkadvertising.org). Some service features may be limited if you refuse cookies.",
+    "privacy7Title": "7. Privacy Officer",
+    "privacy7Body": "The following Privacy Officer is designated to oversee personal information processing and to handle member complaints and damage relief related to personal information processing.",
+    "privacy7Item1": "<b>Contact</b>: Feel&Note Operations Team",
+    "privacy7Item2": "<b>Email</b>: feelandnote@gmail.com",
+    "privacyAnnouncementDate": "Announcement date: March 26, 2026",
+    "privacyEffectiveDate": "Effective date: March 26, 2026",
     "contact": "Contact Us",
     "contactTitle": "Contact Us",
     "contactDescription": "Get in touch with Feel&Note for inquiries and feedback.",
@@ -441,6 +450,11 @@
     "epilogue3": "where our single lines become history",
     "epilogue4": "and our reflections become legacy.",
     "fromBuilders": "From the Builders of",
-    "teamName": "Feel&Note Team"
+    "teamName": "Feel&Note Team",
+    "operatorTitle": "About This Service",
+    "operatorService": "Feel&Note is a service for recording and managing impressions of cultural content such as books, films, music, and games. It archives the cultural consumption records of over 1,000 historical and contemporary notable figures.",
+    "operatorName": "Operated by: Feel&Note Team",
+    "operatorEmail": "Contact: feelandnote@gmail.com",
+    "operatorLocation": "Based in: Republic of Korea"
   }
 }
