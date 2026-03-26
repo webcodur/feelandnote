@@ -8,7 +8,7 @@
     "scriptures": {
       "englishTitle": "Curated Reads",
       "description": "Works that echoed through centuries, waiting on the shelves.",
-      "link": "Go to Scriptures"
+      "link": "Go to Library"
     },
     "agora": {
       "englishTitle": "The Agora",
@@ -110,7 +110,7 @@
       "tabs": {
         "todayFigure": "Today's Figure",
         "quickRecord": "Quick Record",
-        "intro": "[[Alexander the Great]] kept Homer's Iliad by his side even on the battlefield. [[Napoleon]] read The Sorrows of Young Werther seven times and carried it all the way to Egypt, and [[Lincoln]] fell in love with [[Shakespeare]]'s plays, memorizing lines and frequenting the theater. What works captivated these great minds, what single lines changed the course of their lives. These traces continue to inspire us thousands of years later.\n\n[[Feel&Note]] gathers those records in one place. The books historical figures read, the films that moved them, the music they cherished, and the games they lost themselves in — all here for anyone to explore. We can each leave our own impressions in this same space. Just as someone's single line from a thousand years ago reaches us today, the line we leave now may become someone's inspiration in the distant future.",
+        "intro": "[[Alexander the Great]] kept [[Homer]]'s 《Iliad》 at his side on the battlefield\n[[Caesar]] wept reading the biography of [[Alexander the Great]]\n[[Napoleon]] carried [[Caesar]]'s 《Commentarii》 on his campaigns\n\n[[Boccaccio]] revered [[Dante]]'s 《Divine Comedy》 all his life\n[[Shakespeare]] drew stories from [[Boccaccio]]'s 《Decameron》\n[[Lincoln]] recited [[Shakespeare]]'s plays from memory\n\nOne person's inspiration becomes another's creation\nand that creation transforms yet another's life\n\n[[Feel&Note]] gathers those threads in one place. The books great figures read, the films that moved them, the music they cherished, and the games they lost themselves in — a chain of inspiration anyone can explore. You can leave your own impressions in this same space. Just as someone's single line from a thousand years ago reaches us today, the line you leave now may become someone's inspiration in the distant future.",
         "introSub": "A Single Line Recorded, A Thousand Years of Echoes"
       }
     }
