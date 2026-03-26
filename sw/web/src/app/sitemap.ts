@@ -53,65 +53,59 @@ function entry(
   changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
   priority: number,
   lastModified?: Date,
-): MetadataRoute.Sitemap[number] {
+): MetadataRoute.Sitemap[number][] {
   const normalizedPath = path === '/' ? '' : path
-  return {
-    url: `${BASE_URL}${normalizedPath}`,
-    lastModified: lastModified ?? new Date(),
-    changeFrequency,
-    priority,
-    alternates: {
-      languages: {
-        ko: `${BASE_URL}${normalizedPath}`,
-        en: `${BASE_URL}/en${normalizedPath}`,
-        'x-default': `${BASE_URL}${normalizedPath}`,
-      },
-    },
+  const modified = lastModified ?? new Date()
+  const langs = {
+    ko: `${BASE_URL}${normalizedPath}`,
+    en: `${BASE_URL}/en${normalizedPath}`,
+    'x-default': `${BASE_URL}${normalizedPath}`,
   }
+  return [
+    { url: langs.ko, lastModified: modified, changeFrequency, priority, alternates: { languages: langs } },
+    { url: langs.en, lastModified: modified, changeFrequency, priority, alternates: { languages: langs } },
+  ]
 }
 
-const staticEntries: MetadataRoute.Sitemap = [
-  entry('/', 'daily', 1),
-
+const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], number][] = [
+  ['/', 'daily', 1],
   // 탐색
-  entry('/explore', 'daily', 0.8),
-  entry('/explore/figures', 'daily', 0.8),
-  entry('/explore/celebs', 'daily', 0.8),
-  entry('/explore/people', 'daily', 0.6),
-  entry('/explore/ranking', 'daily', 0.7),
-  entry('/explore/timeline', 'weekly', 0.7),
-  entry('/explore/spotlight', 'daily', 0.7),
-  entry('/explore/persona', 'weekly', 0.6),
-  entry('/explore/figure', 'weekly', 0.6),
-  entry('/explore/celeb-feed', 'daily', 0.7),
-  entry('/explore/top-by-type', 'weekly', 0.6),
-  entry('/explore/today', 'daily', 0.7),
-  entry('/explore/directory', 'weekly', 0.8),
-  entry('/explore/feed', 'daily', 0.7),
-
-  // 경전
-  entry('/scriptures', 'daily', 0.8),
-  entry('/scriptures/era', 'weekly', 0.8),
-  entry('/scriptures/museum', 'monthly', 0.7),
-  entry('/scriptures/academy', 'monthly', 0.7),
-  entry('/scriptures/profession', 'weekly', 0.7),
-  entry('/scriptures/figure', 'weekly', 0.6),
-
+  ['/explore', 'daily', 0.8],
+  ['/explore/figures', 'daily', 0.8],
+  ['/explore/celebs', 'daily', 0.8],
+  ['/explore/people', 'daily', 0.6],
+  ['/explore/ranking', 'daily', 0.7],
+  ['/explore/timeline', 'weekly', 0.7],
+  ['/explore/spotlight', 'daily', 0.7],
+  ['/explore/persona', 'weekly', 0.6],
+  ['/explore/figure', 'weekly', 0.6],
+  ['/explore/celeb-feed', 'daily', 0.7],
+  ['/explore/top-by-type', 'weekly', 0.6],
+  ['/explore/today', 'daily', 0.7],
+  ['/explore/directory', 'weekly', 0.8],
+  ['/explore/feed', 'daily', 0.7],
+  // 서가
+  ['/scriptures', 'daily', 0.8],
+  ['/scriptures/era', 'weekly', 0.8],
+  ['/scriptures/museum', 'monthly', 0.7],
+  ['/scriptures/academy', 'monthly', 0.7],
+  ['/scriptures/profession', 'weekly', 0.7],
+  ['/scriptures/figure', 'weekly', 0.6],
   // 아고라
-  entry('/agora', 'daily', 0.7),
-
+  ['/agora', 'daily', 0.7],
   // 기타
-  entry('/rest', 'monthly', 0.5),
-  entry('/about', 'monthly', 0.5),
-  entry('/terms', 'yearly', 0.3),
-  entry('/privacy', 'yearly', 0.3),
-  entry('/contact', 'yearly', 0.3),
+  ['/rest', 'monthly', 0.5],
+  ['/about', 'monthly', 0.5],
+  ['/terms', 'yearly', 0.3],
+  ['/privacy', 'yearly', 0.3],
+  ['/contact', 'yearly', 0.3],
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const celebs = await fetchCelebs()
 
-  const celebEntries = celebs.map((celeb) =>
+  const staticEntries = staticPaths.flatMap(([path, freq, priority]) => entry(path, freq, priority))
+  const celebEntries = celebs.flatMap((celeb) =>
     entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.created_at ? new Date(celeb.created_at) : undefined),
   )
 
