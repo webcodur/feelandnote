@@ -1,10 +1,11 @@
 import React from 'react'
-import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, Series, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, Series, staticFile, useCurrentFrame } from 'remotion'
 import type { BookRecommendScript } from './types'
-import { sf, fadeInOut, BrandLogo, BRAND_LOGO_SIZE, makeVf } from './utils'
+import { sf, fadeInOut, BrandLogo, makeVf } from './utils'
+import { DARK, DARK_BG } from '../theme'
 import { BrandIntro } from './sections/BrandIntro'
 import { HostIntro } from './sections/HostIntro'
-import { BookCardVisual } from './sections/BookCardVisual'
+import { BookCardVisual, CINEM_PAD, STONE_BAR_H } from './sections/BookCardVisual'
 import { BookRecap } from './sections/BookRecap'
 import { FONT } from './fonts'
 import { Overlay } from './sections/Overlay'
@@ -18,8 +19,10 @@ import { useTimeline } from './useTimeline'
 import { usePrefetch } from './usePrefetch'
 import { PreIntro } from './sections/PreIntro'
 import { BookCarousel } from './sections/BookCarousel'
+import { Breadcrumb } from './sections/Breadcrumb'
 import { StudioSubtitles } from './studio/StudioSubtitles'
-import { DevOverlay } from './studio/DevOverlay'
+import { PromptPanel } from './studio/PromptPanel'
+import { SubEditor } from './studio/SubEditor'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
@@ -57,9 +60,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
     : 0
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0a0a0a' }}>
+    <AbsoluteFill style={{ backgroundColor: DARK.base }}>
       {/* 배경 */}
-      <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 50% 40%, #1a1510 0%, #0a0a0a 70%)' }} />
+      <AbsoluteFill style={{ background: DARK_BG.radial }} />
       <AbsoluteFill
         style={{
           backgroundImage:
@@ -71,10 +74,13 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         style={{ background: `radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,${vignetteOpacity}) 100%)` }}
       />
 
+      {/* 콘텐츠 영역 */}
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+
       {/* 브랜드 */}
       <Sequence from={tl.brandStart} durationInFrames={BRAND_FRAMES}>
         {hasVoice && <Audio src={sf('sfx/chime.wav')} volume={0.6} />}
-        <BrandIntro durationFrames={BRAND_FRAMES} locale={script.locale} />
+        <BrandIntro script={script} durationFrames={BRAND_FRAMES} opacity={fadeInOut(frame, tl.brandStart, BRAND_FRAMES)} />
       </Sequence>
 
       {/* ===== Continuation: ReturnIntro + PrevRecap ===== */}
@@ -89,12 +95,12 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             if (op <= 0) return null
             return (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 20 }}>
-                <Img src={host.avatar_url} style={{ width: 160, height: 160, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)', backgroundColor: 'rgba(30,24,16,0.9)' }} />
-                <div style={{ color: '#e8e0d0', fontSize: 26, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 800, lineHeight: 1.7 }}>
+                <Img src={host.avatar_url} style={{ width: 260, height: 260, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)', backgroundColor: 'rgba(30,24,16,0.9)' }} />
+                <div style={{ color: '#e8e0d0', fontSize: 36, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 1000, lineHeight: 1.7 }}>
                   {narrator.returnIntro}
                 </div>
                 {script.series && (
-                  <div style={{ color: '#c8a46e', fontSize: 16, fontFamily: FONT.cinzel, letterSpacing: 4 }}>
+                  <div style={{ color: '#c8a46e', fontSize: 22, fontFamily: FONT.cinzel, letterSpacing: 4 }}>
                     PART {script.series.part} / {script.series.totalParts}
                   </div>
                 )}
@@ -114,9 +120,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             if (op <= 0) return null
             return (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 16 }}>
-                <div style={{ color: '#c8a46e', fontSize: 14, fontFamily: FONT.cinzel, letterSpacing: 6 }}>PREVIOUSLY</div>
-                <div style={{ width: 400, height: 1, backgroundColor: '#c8a46e', opacity: 0.3 }} />
-                <div style={{ color: '#ccc', fontSize: 22, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 900, lineHeight: 1.8, marginTop: 8 }}>
+                <div style={{ color: '#c8a46e', fontSize: 20, fontFamily: FONT.cinzel, letterSpacing: 6 }}>PREVIOUSLY</div>
+                <div style={{ width: 500, height: 1, backgroundColor: '#c8a46e', opacity: 0.3 }} />
+                <div style={{ color: '#ccc', fontSize: 30, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 1050, lineHeight: 1.8, marginTop: 8 }}>
                   {narrator.prevRecap}
                 </div>
               </AbsoluteFill>
@@ -192,7 +198,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {tl.hasInterlude && (
         <Sequence from={tl.midRecapStart} durationInFrames={RECAP_FRAMES}>
           {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
-          <BookRecap books={tl.firstHalfBooks} host={host} totalFrames={RECAP_FRAMES} label="PART I" />
+          <BookRecap books={tl.firstHalfBooks} totalFrames={RECAP_FRAMES} />
         </Sequence>
       )}
 
@@ -219,11 +225,11 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             </Sequence>
             {intOpacity > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: intOpacity, gap: 20 }}>
-                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-                <div style={{ color: '#c8a46e', fontSize: 18, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, opacity: fadeInOut(intLocal, f(0.5), tl.interludeFrames - f(0.83), f(0.67), f(0.5)) }}>
+                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 700], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
+                <div style={{ color: '#c8a46e', fontSize: 24, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, opacity: fadeInOut(intLocal, f(0.5), tl.interludeFrames - f(0.83), f(0.67), f(0.5)) }}>
                   PART II
                 </div>
-                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 600], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
+                <div style={{ width: interpolate(intLocal, [f(0.17), f(1.33)], [0, 700], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }), height: 1, backgroundColor: '#c8a46e', opacity: 0.5 }} />
               </AbsoluteFill>
             )}
           </>
@@ -299,7 +305,6 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                 hasContextAfter={bt.hasContextAfter}
                 contextAfterFrames={bt.contextAfterFrames}
                 contextAfterText={book.contextAfter}
-                totalBooks={books.length}
                 labelSummaryF={tl.LABEL_SUMMARY_F}
                 labelContextF={tl.LABEL_CONTEXT_F}
                 titleSummaryGapF={tl.TITLE_SUMMARY_GAP_F}
@@ -316,7 +321,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* 리캡 */}
       <Sequence from={tl.recapStart} durationInFrames={RECAP_FRAMES}>
         {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
-        <BookRecap books={tl.secondHalfBooks} host={host} totalFrames={RECAP_FRAMES} />
+        <BookRecap books={tl.secondHalfBooks} totalFrames={RECAP_FRAMES} />
       </Sequence>
 
       {/* 아웃트로 + 로고 */}
@@ -337,25 +342,87 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             </Sequence>
             {narOp > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: narOp }}>
-                <div style={{ color: '#ccc', fontSize: 26, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 900, lineHeight: 1.7 }}>
+                <div style={{ color: '#ccc', fontSize: 36, fontFamily: FONT.sans, textAlign: 'center', maxWidth: 1100, lineHeight: 1.7 }}>
                   {narrator.outro}
                 </div>
               </AbsoluteFill>
             )}
-            {logoOp > 0 && (
-              <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: logoOp }}>
-                <BrandLogo fontSize={BRAND_LOGO_SIZE} />
-              </AbsoluteFill>
-            )}
+            <BrandIntro script={script} durationFrames={LOGO_FRAMES} opacity={logoOp} />
           </>
         )
       })()}
 
-      <Overlay script={script} />
+      {/* 상단 브레드크럼 — 영상 전체 표시 */}
+      <Breadcrumb script={script} tl={tl} />
+
+      </div>{/* /콘텐츠 영역 */}
+
+      {/* 하단 세이프존 — 진행바만 표시 (돌판 텍스처 제거) */}
+
+      <Overlay script={script} stoneBarH={STONE_BAR_H} />
 
       {/* 스튜디오 전용 */}
       {!getRemotionEnvironment().isRendering && <StudioSubtitles script={script} tl={tl} />}
-      {!getRemotionEnvironment().isRendering && <DevOverlay frame={frame} tl={tl} books={books} />}
+      {!getRemotionEnvironment().isRendering && (
+        <PromptPanel
+          script={script}
+          currentBookIdx={(() => { let idx = 0; tl.bookStarts.forEach((s, i) => { if (frame >= s) idx = i }); return idx })()}
+          currentPhase={(() => {
+            for (let i = 0; i < tl.bookStarts.length; i++) {
+              const bs = tl.bookStarts[i]; const bt = tl.bookTimings[i]
+              const summaryStart = bs + bt.titleFrames + tl.TITLE_SUMMARY_GAP_F
+              const contextStart = bs + bt.summaryEnd + tl.SUMMARY_CONTEXT_GAP_F
+              if (frame >= contextStart && frame < contextStart + bt.contextFrames) return 'c'
+              if (frame >= summaryStart && frame < summaryStart + bt.summaryFrames) return 's'
+            }
+            return null
+          })()}
+        />
+      )}
+      {!getRemotionEnvironment().isRendering && (
+        <SubEditor
+          voiceTimings={script.voiceTimings}
+          episodeName={epName}
+          locale={script.locale ?? 'ko'}
+          currentTimingKey={(() => {
+            // 현재 프레임 → 재생 중인 voiceTimings 키 (전 구간 커버)
+            const { bookStarts, bookTimings, hostIntroStart, celebIntroFrames, philosophyFrames,
+              svcGreetingStart, svcGreetingFrames, svcIntroStart, svcIntroFrames,
+              fQuoteStart, fQuoteFrames, bridgeStart, bridgeFrames,
+              outroStart, outroFrames, TITLE_SUMMARY_GAP_F, SUMMARY_CONTEXT_GAP_F } = tl
+            // 프리인트로
+            if (frame >= svcGreetingStart && frame < svcGreetingStart + svcGreetingFrames) return vnTimingKey(VN_SERVICE_GREETING)
+            if (frame >= svcIntroStart && frame < svcIntroStart + svcIntroFrames) return vnTimingKey(VN_SERVICE_INTRO)
+            if (fQuoteFrames > 0 && frame >= fQuoteStart && frame < fQuoteStart + fQuoteFrames) return vnTimingKey(VN_FEATURED_QUOTE)
+            // 호스트 인트로
+            const philoStart = hostIntroStart + celebIntroFrames + f(1)
+            if (frame >= hostIntroStart && frame < philoStart) return vnTimingKey(VN_CELEB_INTRO)
+            if (philosophyFrames > 0 && frame >= philoStart && frame < philoStart + philosophyFrames) return vnTimingKey(VN_PHILOSOPHY)
+            // 책 구간
+            for (let i = 0; i < bookStarts.length; i++) {
+              const bs = bookStarts[i]; const bt = bookTimings[i]
+              const nextStart = i + 1 < bookStarts.length ? bookStarts[i + 1] : tl.recapStart
+              if (frame < bs || frame >= nextStart) continue
+              const titleEnd = bs + bt.titleFrames
+              const summaryStart = titleEnd + TITLE_SUMMARY_GAP_F
+              const summaryEnd = summaryStart + bt.summaryFrames
+              const contextStart = bs + bt.summaryEnd + SUMMARY_CONTEXT_GAP_F
+              const contextEnd = contextStart + bt.contextFrames
+              if (frame >= bs && frame < titleEnd) return vnTimingKey(vnBookTitle(i))
+              if (frame >= summaryStart && frame < summaryEnd) return vnTimingKey(vnBookSummary(i))
+              if (frame >= contextStart && frame < contextEnd) return vnTimingKey(vnBookContext(i))
+              if (bt.hasQuote) {
+                const quoteStart = contextEnd + 90
+                const quoteEnd = quoteStart + bt.quoteFrames
+                if (frame >= quoteStart && frame < quoteEnd) return vnTimingKey(vnBookQuote(i))
+                if (bt.hasContextAfter && frame >= quoteEnd) return vnTimingKey(vnBookContextAfter(i))
+              }
+            }
+            if (frame >= outroStart) return vnTimingKey(VN_OUTRO)
+            return undefined
+          })()}
+        />
+      )}
     </AbsoluteFill>
   )
 }
