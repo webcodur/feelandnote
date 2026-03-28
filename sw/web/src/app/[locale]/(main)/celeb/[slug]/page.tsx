@@ -26,10 +26,10 @@ function subjectParticle(name: string): string {
 
 function buildPageTitle(
   nickname: string,
-  profession: string | null,
+  title: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession);
+  const prefix = title ?? '';
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
   if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
@@ -37,17 +37,17 @@ function buildPageTitle(
   if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname} 추천 책·영화·음악`;
+    return `${prefix} ${nickname} 추천 책·영화·음악`.trim();
   }
-  return `${professionLabel} ${nickname} ${parts.join(", ")}`;
+  return `${prefix} ${nickname} ${parts.join(", ")}`.trim();
 }
 
 function buildPageTitleEn(
   nickname: string,
-  profession: string | null,
+  title: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession, 'en');
+  const prefix = title ?? '';
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
@@ -55,17 +55,17 @@ function buildPageTitleEn(
   if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}'s Recommended Books & Movies`;
+    return `${prefix} ${nickname}'s Recommended Books & Movies`.trim();
   }
-  return `${professionLabel} ${nickname}: ${parts.join(", ")}`;
+  return `${prefix} ${nickname}: ${parts.join(", ")}`.trim();
 }
 
 function buildMetaDescriptionEn(
   nickname: string,
-  profession: string | null,
+  title: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession, 'en');
+  const prefix = title ?? '';
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
@@ -73,18 +73,18 @@ function buildMetaDescriptionEn(
   if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
 
   if (parts.length === 0) {
-    return `Discover ${professionLabel} ${nickname}'s book recommendations, favorite movies, music, and cultural journey on Feel&Note.`;
+    return `Discover ${prefix} ${nickname}'s book recommendations, favorite movies, music, and cultural journey on Feel&Note.`.replace(/  +/g, ' ');
   }
-  return `${professionLabel} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste, cultural journey, and personal recommendations.`;
+  return `${prefix} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste, cultural journey, and personal recommendations.`.replace(/  +/g, ' ');
 }
 
 /** 120~160자 분량의 SEO description 생성 */
 function buildMetaDescription(
   nickname: string,
-  profession: string | null,
+  title: string | null,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): string {
-  const professionLabel = getCelebProfessionLabel(profession);
+  const prefix = title ?? '';
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
   if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
@@ -92,10 +92,10 @@ function buildMetaDescription(
   if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${professionLabel} ${nickname}이 추천한 책, 영화, 음악, 게임 목록과 감상 여정. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`;
+    return `${prefix} ${nickname}${subjectParticle(nickname)} 추천한 책, 영화, 음악, 게임 목록과 감상 여정. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`.trim();
   }
 
-  return `${professionLabel} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}이 직접 추천하거나 즐겨본 작품과 감상 여정을 확인하세요.`;
+  return `${prefix} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}${subjectParticle(nickname)} 직접 추천하거나 즐겨본 작품과 감상 여정을 확인하세요.`.trim();
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -108,13 +108,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: t("notFound") };
   }
 
-  const { nickname, profession, contentTypeCounts } = result.data;
+  const { nickname, title, contentTypeCounts } = result.data;
   const pageTitle = locale === 'en'
-    ? buildPageTitleEn(nickname, profession, contentTypeCounts)
-    : buildPageTitle(nickname, profession, contentTypeCounts);
+    ? buildPageTitleEn(nickname, title, contentTypeCounts)
+    : buildPageTitle(nickname, title, contentTypeCounts);
   const description = locale === 'en'
-    ? buildMetaDescriptionEn(nickname, profession, contentTypeCounts)
-    : buildMetaDescription(nickname, profession, contentTypeCounts);
+    ? buildMetaDescriptionEn(nickname, title, contentTypeCounts)
+    : buildMetaDescription(nickname, title, contentTypeCounts);
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
 
   // OG 이미지는 opengraph-image.tsx에서 자동 생성 (Next.js file convention)
@@ -149,8 +149,8 @@ export default async function CelebPage({ params }: PageProps) {
   const profile = result.data;
   const userId = profile.id;
   const pageTitle = locale === 'en'
-    ? buildPageTitleEn(profile.nickname, profile.profession, profile.contentTypeCounts)
-    : buildPageTitle(profile.nickname, profile.profession, profile.contentTypeCounts);
+    ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
+    : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
 
   const [guestbookResult, personaData, contentListResult, dialogueResult, contemporaries] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),

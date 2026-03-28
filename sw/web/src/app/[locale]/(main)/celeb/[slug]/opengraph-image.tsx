@@ -6,7 +6,6 @@
 
 import { ImageResponse } from "next/og";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 
 export const alt = "Feel&Note 셀럽 프로필";
 export const size = { width: 1200, height: 630 };
@@ -63,8 +62,8 @@ export default async function Image({
     );
   }
 
-  const { nickname, profession, contentTypeCounts } = result.data;
-  const professionLabel = getCelebProfessionLabel(profession, locale);
+  const { nickname, title, contentTypeCounts } = result.data;
+  const celebTitle = title ?? '';
 
   const parts: string[] = [];
   if (locale === 'en') {
@@ -111,16 +110,16 @@ export default async function Image({
           }}
         />
 
-        {/* 직군 라벨 */}
+        {/* 수식어/대표작 */}
         <div
           style={{
             fontSize: 24,
             color: "#d4af37",
-            letterSpacing: "0.3em",
+            letterSpacing: "0.15em",
             marginBottom: 16,
           }}
         >
-          {professionLabel.toUpperCase()}
+          {celebTitle}
         </div>
 
         {/* 셀럽 이름 */}

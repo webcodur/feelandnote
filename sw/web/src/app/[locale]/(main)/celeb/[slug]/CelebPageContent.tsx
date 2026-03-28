@@ -136,6 +136,7 @@ export default function CelebPageContent({
 
             <div className="space-y-2 w-full text-center">
               <p className="font-serif text-xl text-text-primary tracking-tight">
+                {profile.title && <span className="text-accent/70">{profile.title}{' '}</span>}
                 {nickname}
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-text-tertiary flex-wrap">
@@ -203,6 +204,7 @@ export default function CelebPageContent({
 
             <div className="space-y-2 min-w-0">
               <p className="font-serif text-2xl text-text-primary tracking-tight">
+                {profile.title && <span className="text-accent/70">{profile.title}{' '}</span>}
                 {nickname}
               </p>
               <div className="flex items-center gap-2 text-sm text-text-tertiary flex-wrap">
