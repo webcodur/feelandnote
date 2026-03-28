@@ -54,7 +54,7 @@
     "userRecords": "{nickname}의 기록",
     "userFallback": "사용자",
     "about": {
-      "title": "About Feel&Note",
+      "title": "Feel&Note",
       "description": "셀럽이 추천한 책, 영화, 음악을 기록하고 탐색하는 감상 아카이브 플랫폼. 1,000명 이상의 셀럽 추천 작품을 만나보세요."
     },
     "lab": "Lab"
@@ -421,40 +421,5 @@
   "popularBooks": {
     "title": "추천 도서",
     "buyOnCoupang": "쿠팡에서 보기"
-  },
-  "aboutPage": {
-    "heroTitle1": "여러분의 감상은",
-    "heroTitle2": "어디로 흩어집니까?",
-    "p1Line1": "우리는 매일 수많은 이야기를 마주합니다.",
-    "p1Line2": "책, 영화, 음악, 그리고 게임까지.",
-    "p1Line3": "하지만 그 순간의 전율은",
-    "p1Line4": "다음 콘텐츠에 밀려 너무나 쉽게",
-    "p1Line5": "기억 저편으로 사라지고 맙니다.",
-    "p1Highlight": "우리는 너무 많이 보고, 너무 빨리 잊습니다.",
-    "feelTitle": "Feel",
-    "feelDesc1": "감각은 직관적입니다.",
-    "feelDesc2": "우리가 무언가를 보며 느끼는 기쁨, 슬픔, 충격은",
-    "feelDesc3": "가장 정직한 반응입니다.",
-    "feelDesc4": "여러분의 울림을 흘려보내지 마세요.",
-    "noteTitle": "Note",
-    "noteDesc1": "기록은 이성적입니다.",
-    "noteDesc2": "흩어지는 감정을 단어로 붙잡아",
-    "noteDesc3": "구체적인 형태로 조각하는 과정입니다.",
-    "noteDesc4": "기록된 한 줄이 천 년을 울립니다.",
-    "promise1": "Feel&Note는",
-    "promise2": "여러분의 한 줄이",
-    "promiseHighlight": "천 년의 울림",
-    "promise3": "로 남기를 바랍니다.",
-    "epilogue1": "이곳은 단순한 기록장이 아닙니다.",
-    "epilogue2": "여러분의 한 줄이 역사가 되고,",
-    "epilogue3": "여러분의 울림이 유산이 되는",
-    "epilogue4": "곳입니다.",
-    "fromBuilders": "From the Builders of",
-    "teamName": "Feel&Note Team",
-    "operatorTitle": "서비스 안내",
-    "operatorService": "Feel&Note는 도서, 영화, 음악, 게임 등 문화 콘텐츠의 감상을 기록하고 관리하는 서비스입니다. 역사 속 인물과 현대 명사 1,000여 명의 콘텐츠 소비 기록을 아카이브하여 제공합니다.",
-    "operatorName": "운영: Feel&Note Team",
-    "operatorEmail": "문의: feelandnote@gmail.com",
-    "operatorLocation": "소재: 대한민국"
   }
 }

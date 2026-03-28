@@ -95,7 +95,6 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/agora', 'daily', 0.7],
   // 기타
   ['/rest', 'monthly', 0.5],
-  ['/about', 'monthly', 0.5],
   ['/terms', 'yearly', 0.3],
   ['/privacy', 'yearly', 0.3],
   ['/contact', 'yearly', 0.3],

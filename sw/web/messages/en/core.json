@@ -54,7 +54,7 @@
     "userRecords": "{nickname}'s Records",
     "userFallback": "User",
     "about": {
-      "title": "About Feel&Note",
+      "title": "Feel&Note",
       "description": "A cultural archive platform for discovering books, movies, and music recommended by 1,000+ celebrities. Record your own cultural journey."
     },
     "lab": "Lab"
@@ -421,40 +421,5 @@
   "popularBooks": {
     "title": "Most Read Books",
     "buyOnCoupang": "View on Coupang"
-  },
-  "aboutPage": {
-    "heroTitle1": "Where do your impressions",
-    "heroTitle2": "scatter to?",
-    "p1Line1": "Every day, we encounter countless stories.",
-    "p1Line2": "Books, films, music, and games.",
-    "p1Line3": "But the thrill of those moments",
-    "p1Line4": "is too easily pushed aside by the next piece of content,",
-    "p1Line5": "vanishing beyond the reach of memory.",
-    "p1Highlight": "We consume too much and forget too fast.",
-    "feelTitle": "Feel",
-    "feelDesc1": "Sensation is intuitive.",
-    "feelDesc2": "The joy, sorrow, and shock we feel when we experience something",
-    "feelDesc3": "are the most honest reactions.",
-    "feelDesc4": "Don't let that echo fade away.",
-    "noteTitle": "Note",
-    "noteDesc1": "Recording is rational.",
-    "noteDesc2": "It's the process of capturing fleeting emotions in words",
-    "noteDesc3": "and sculpting them into tangible form.",
-    "noteDesc4": "A single line recorded, a thousand years of echoes.",
-    "promise1": "Feel&Note hopes",
-    "promise2": "your single line becomes",
-    "promiseHighlight": "a thousand years of echoes",
-    "promise3": ".",
-    "epilogue1": "This is not just a journal.",
-    "epilogue2": "It is a place",
-    "epilogue3": "where our single lines become history",
-    "epilogue4": "and our reflections become legacy.",
-    "fromBuilders": "From the Builders of",
-    "teamName": "Feel&Note Team",
-    "operatorTitle": "About This Service",
-    "operatorService": "Feel&Note is a service for recording and managing impressions of cultural content such as books, films, music, and games. It archives the cultural consumption records of over 1,000 historical and contemporary notable figures.",
-    "operatorName": "Operated by: Feel&Note Team",
-    "operatorEmail": "Contact: feelandnote@gmail.com",
-    "operatorLocation": "Based in: Republic of Korea"
   }
 }

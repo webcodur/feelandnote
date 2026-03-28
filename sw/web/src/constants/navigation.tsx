@@ -116,7 +116,6 @@ export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length
 
 // #region 풋터 브랜드 링크
 export const FOOTER_BRAND_LINKS: NavSubLink[] = [
-  { key: "about", href: "/about", label: "서비스 소개" },
   { key: "search", href: "/search", label: "검색" },
   { key: "terms", href: "/terms", label: "이용약관" },
   { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
