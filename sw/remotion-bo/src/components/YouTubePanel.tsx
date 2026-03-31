@@ -112,7 +112,7 @@ export function YouTubePanel({ series, name, post }: Props) {
         try { chapters = calcChapterTimestamps(ep, lang) } catch { /* fallback */ }
       }
 
-      const description = buildDescriptionV2(celebName, ep.books, lang, isShorts, chapters)
+      const description = buildDescriptionV2(celebName, ep.books, lang, isShorts, chapters, undefined, baseName)
       result[key] = { title, description, links: [] }
     }
     return result

@@ -40,7 +40,6 @@ export function Waveform({ audioUrl, isPlaying, duration, currentTime = 0, trimS
       .then(audioBuffer => {
         const data = audioBuffer.getChannelData(0)
         const barCount = Math.floor(canvas.width / BAR_GAP)
-        const step = Math.floor(data.length / barCount)
         const amp = canvas.height / 2
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         // 중앙선
@@ -48,9 +47,11 @@ export function Waveform({ audioUrl, isPlaying, duration, currentTime = 0, trimS
         ctx.fillRect(0, amp, canvas.width, 1)
 
         for (let i = 0; i < barCount; i++) {
+          const s0 = Math.round((i / barCount) * data.length)
+          const s1 = Math.round(((i + 1) / barCount) * data.length)
           let sum = 0
-          for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
-          const avg = sum / step
+          for (let j = s0; j < s1; j++) sum += Math.abs(data[j] || 0)
+          const avg = sum / (s1 - s0 || 1)
           const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4)
           ctx.fillStyle = BAR_COLOR
           ctx.fillRect(i * BAR_GAP, amp - h / 2, BAR_WIDTH, h)
@@ -66,6 +67,15 @@ export function Waveform({ audioUrl, isPlaying, duration, currentTime = 0, trimS
     const t = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration
     onSeek(t)
   }, [onSeek, duration])
+
+  // 파형 더블클릭 → trim 영역 우측 생성 (trimEnd 설정)
+  const handleDoubleClick = useCallback((e: React.MouseEvent) => {
+    if (!onTrimChange || !containerRef.current || duration <= 0) return
+    e.preventDefault()
+    const rect = containerRef.current.getBoundingClientRect()
+    const t = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration
+    onTrimChange(trimStart, Math.max(t, trimStart + 0.02))
+  }, [onTrimChange, duration, trimStart])
 
   // trim 핸들 드래그
   const handleHandleDrag = useCallback((handle: 'start' | 'end', e: React.PointerEvent) => {
@@ -113,6 +123,7 @@ export function Waveform({ audioUrl, isPlaying, duration, currentTime = 0, trimS
         ref={containerRef}
         className={`relative w-full h-12 bg-bg-main overflow-hidden select-none touch-none cursor-pointer ${showRuler ? 'rounded-b' : 'rounded'}`}
         onClick={handleClick}
+        onDoubleClick={handleDoubleClick}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
       >

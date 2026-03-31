@@ -95,8 +95,6 @@ interface CelebLine {
   label: string
   text: string
   fileName: string
-  /** web R2 퍼블릭 URL (명언 등 web 서빙용 음원) */
-  webR2Url?: string
 }
 
 interface ElevenLabsPanelProps {
@@ -310,39 +308,6 @@ function CelebLineEditor({ line, voiceId, settings, series, name, playbackSpeed,
     }
   }, [series, name, line.fileName, preview])
 
-  const [loadingR2, setLoadingR2] = useState(false)
-  const handleLoadFromWebR2 = useCallback(async () => {
-    if (!line.webR2Url) return
-    setLoadingR2(true)
-    setError(null)
-    try {
-      // 서버 프록시 경유 (CORS 우회)
-      const proxyRes = await fetch(`/api/${series}/voice/fetch-r2`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: line.webR2Url }),
-      })
-      const data = await proxyRes.json()
-      if (!data.success) throw new Error(data.error ?? '가져오기 실패')
-      const raw = Uint8Array.from(atob(data.base64), c => c.charCodeAt(0))
-      // MP3 → decode → WAV 변환
-      const audioCtx = new AudioContext()
-      const audioBuf = await audioCtx.decodeAudioData(raw.buffer.slice(0) as ArrayBuffer)
-      const boosted = await applyGain(audioBuf, settings.volumeBoost ?? 0)
-      const wavBuf = encodeWAV(boosted, 0, boosted.duration)
-      const wavBase64 = abToBase64(wavBuf)
-      const blob = new Blob([wavBuf], { type: 'audio/wav' })
-      const blobUrl = URL.createObjectURL(blob)
-      await audioCtx.close()
-      if (preview) URL.revokeObjectURL(preview.blobUrl)
-      setPreview({ blobUrl, base64: wavBase64, bytes: wavBuf.byteLength, duration: boosted.duration, trimStart: 0, trimEnd: boosted.duration })
-    } catch (e) {
-      setError(`web R2 로드 실패: ${String(e)}`)
-    } finally {
-      setLoadingR2(false)
-    }
-  }, [line.webR2Url, settings.volumeBoost, series, preview])
-
   const handleDownload = useCallback(() => {
     if (!preview) return
     const a = document.createElement('a')
@@ -448,16 +413,6 @@ function CelebLineEditor({ line, voiceId, settings, series, name, playbackSpeed,
             {loading ? '로드 중...' : '기존 파일 로드'}
           </button>
         )}
-        {line.webR2Url && (
-          <button
-            onClick={handleLoadFromWebR2}
-            disabled={loadingR2}
-            className={BTN_SECONDARY}
-            title="web R2에서 기존 음원 가져오기 (명언 등)"
-          >
-            {loadingR2 ? '로드 중...' : 'web R2 가져오기'}
-          </button>
-        )}
       </div>
     </div>
   )
@@ -473,12 +428,7 @@ export function ElevenLabsPanel({ episode, series, name, onRefresh }: ElevenLabs
   const [batchRunning, setBatchRunning] = useState(false)
   const [batchStatus, setBatchStatus] = useState<string | null>(null)
 
-  // celeb ID를 avatar_url에서 추출 (celebs/{id}/avatar.webp)
-  const celebIdMatch = episode.host.avatar_url?.match(/celebs\/([a-f0-9-]+)\//)
-  const celebId = celebIdMatch?.[1]
-  const r2Base = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || 'https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev'
   const locale = (episode as Record<string, unknown>).locale === 'en' ? 'en' : 'ko'
-  const webR2 = (fileName: string) => celebId ? `${r2Base}/celebs/${celebId}/voice/${locale}/${fileName}` : undefined
 
   // Collect celeb lines: philosophy, featuredQuote, shorts celeb segments
   const celebLines: CelebLine[] = []
@@ -498,23 +448,24 @@ export function ElevenLabsPanel({ episode, series, name, onRefresh }: ElevenLabs
       label: 'A3-featured-quote',
       text: episode.host.featuredQuote,
       fileName: 'elevenlabs/A3-featured-quote.wav',
-      webR2Url: webR2('quote.mp3'),
     })
   }
 
   // Shorts celeb segments
   if (episode.shorts?.segments) {
-    for (const seg of episode.shorts.segments) {
+    let si = 0
+    for (const seg of episode.shorts.segments as Array<{ id: string; role: string; visual?: string; text?: string }>) {
+      if (seg.visual === 'hook') continue
       if (seg.role === 'celeb' && seg.text) {
-        const id = seg.id
-        const prefix = `short-${id}`
+        const key = `S${String(si + 1).padStart(2, '0')}-${seg.id}`
         celebLines.push({
-          key: prefix,
-          label: `S-${id} (쇼츠)`,
+          key,
+          label: `${key} (쇼츠)`,
           text: seg.text,
-          fileName: `elevenlabs/${prefix}.wav`,
+          fileName: `elevenlabs/${key}.wav`,
         })
       }
+      si++
     }
   }
 

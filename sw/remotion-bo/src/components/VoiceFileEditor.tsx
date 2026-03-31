@@ -1,31 +1,21 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
-import type { R2FileInfo } from './R2Status'
+import type { VoiceFile } from './voice-utils'
 import { Waveform } from './Waveform'
 
 const BTN = 'px-2 py-0.5 rounded text-xs font-semibold'
-const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
 const BTN_SECONDARY = `bg-bg-card border border-border ${BTN} hover:bg-bg-hover`
-
-function StatusDot({ status }: { status: R2FileInfo['status'] }) {
-  if (status === 'synced') return <span className="text-success-text text-xs" title="R2 동기화됨">●</span>
-  if (status === 'unsynced') return <span className="text-warning-text text-xs" title="로컬 변경됨">▲</span>
-  return <span className="text-text-dim text-xs" title="로컬 전용">○</span>
-}
 
 const ENGINE_BADGE: Record<string, { label: string; cls: string }> = {
   gemini: { label: 'GEM', cls: 'text-blue-400 bg-blue-400/10' },
-  cloud: { label: 'GCP', cls: 'text-yellow-400 bg-yellow-400/10' },
   elevenlabs: { label: 'ELE', cls: 'text-purple-400 bg-purple-400/10' },
   common: { label: 'CMN', cls: 'text-teal-400 bg-teal-400/10' },
 }
 
 /** 파일명 → 한글 설명 */
 function describeFile(name: string): string {
-  // 엔진 서브디렉토리 제거
-  const base = name.replace(/^(gemini|cloud|elevenlabs)\//, '').replace('.wav', '')
-  // 직접 매핑
+  const base = name.replace(/^(gemini|elevenlabs)\//, '').replace('.wav', '')
   const direct: Record<string, string> = {
     'A1-service-greeting': '서비스 인사',
     'A2-service-intro': '서비스 소개',
@@ -40,29 +30,26 @@ function describeFile(name: string): string {
     'E4-prev-recap': '전편 요약',
   }
   if (direct[base]) return direct[base]
-  // A1-service-greeting-N (파트)
   const partMatch = base.match(/^A1-service-greeting-(\d+)$/)
   if (partMatch) return `인사 파트${partMatch[1]}`
-  // D{NN}{phase}
   const bookMatch = base.match(/^D(\d{2})([a-e])-/)
   if (bookMatch) {
     const n = parseInt(bookMatch[1])
     const phase: Record<string, string> = { a: '제목', b: '요약', c: '맥락', d: '인용', e: '후속' }
     return `책${n} ${phase[bookMatch[2]] ?? ''}`
   }
-  // S{NN}-{id}
   const shortMatch = base.match(/^S\d{2}-(.+)$/)
   if (shortMatch) return `쇼츠: ${shortMatch[1]}`
   return ''
 }
 
-function EngineBadge({ engine }: { engine: R2FileInfo['engine'] }) {
-  const b = ENGINE_BADGE[engine] ?? ENGINE_BADGE.active
+function EngineBadge({ engine }: { engine: string }) {
+  const b = ENGINE_BADGE[engine] ?? ENGINE_BADGE.common
   return <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${b.cls} shrink-0 w-9 text-center`}>{b.label}</span>
 }
 
 interface VoiceFileEditorProps {
-  file: R2FileInfo
+  file: VoiceFile
   series: string
   episode: string
   onRefresh: () => void
@@ -110,17 +97,8 @@ export function VoiceFileEditor({ file, series, episode, onRefresh }: VoiceFileE
   }, [onRefresh])
 
   const handleRegenerate = () => {
-    // Extract the voice key from file name (e.g. "gemini/A1-service-greeting.wav" -> "A1-service-greeting")
-    const baseName = file.name.replace(/^(gemini|cloud)\//, '').replace('.wav', '')
+    const baseName = file.name.replace(/^(gemini)\//, '').replace('.wav', '')
     postAction(`/api/${series}/voice/generate`, { episode, only: baseName }, 'regen')
-  }
-
-  const handleUpload = () => {
-    postAction(`/api/${series}/voice/upload-file`, { episode, fileName: file.name }, 'upload')
-  }
-
-  const handleDownload = () => {
-    postAction(`/api/${series}/voice/download-file`, { episode, fileName: file.name }, 'download')
   }
 
   return (
@@ -137,7 +115,6 @@ export function VoiceFileEditor({ file, series, episode, onRefresh }: VoiceFileE
         >
           {isPlaying ? '■' : '▶'}
         </button>
-        <StatusDot status={file.status} />
         <EngineBadge engine={file.engine} />
         <span className="flex-1 text-text-secondary truncate">{file.name}</span>
         <span className="text-text-dim w-24 truncate shrink-0">{describeFile(file.name)}</span>
@@ -157,20 +134,6 @@ export function VoiceFileEditor({ file, series, episode, onRefresh }: VoiceFileE
               className={BTN_SECONDARY}
             >
               {loading === 'regen' ? '생성 중...' : '재생성'}
-            </button>
-            <button
-              onClick={handleUpload}
-              disabled={loading === 'upload'}
-              className={BTN_PRIMARY}
-            >
-              {loading === 'upload' ? '업로드 중...' : 'R2 업로드'}
-            </button>
-            <button
-              onClick={handleDownload}
-              disabled={loading === 'download'}
-              className={BTN_SECONDARY}
-            >
-              {loading === 'download' ? '다운로드 중...' : 'R2 다운로드'}
             </button>
           </div>
         </div>

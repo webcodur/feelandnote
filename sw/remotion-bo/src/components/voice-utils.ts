@@ -1,4 +1,7 @@
-import type { R2FileInfo } from './R2Status'
+// ── Types ──
+
+export type VoiceFile = { name: string; sizeKB: number; duration: number; engine: string }
+export type VoiceSummary = { total: number; totalSizeKB: number }
 
 // ── Audio utility functions ──
 
@@ -6,7 +9,7 @@ import type { R2FileInfo } from './R2Status'
 export function encodeWAV(buf: AudioBuffer, startSec = 0, endSec?: number): ArrayBuffer {
   const sr = buf.sampleRate
   const s0 = Math.round(startSec * sr)
-  const s1 = Math.round((endSec ?? buf.duration) * sr)
+  const s1 = endSec != null ? Math.round(endSec * sr) : buf.length
   const len = s1 - s0
   const ch = buf.numberOfChannels
   const bps = 2
@@ -59,21 +62,66 @@ export async function applyGain(buf: AudioBuffer, gainDb: number): Promise<Audio
   return offCtx.startRendering()
 }
 
+/** Decode audio, optionally apply gain, return WAV base64 + preview blob URL.
+ * WAV + no boost: returns original base64 without re-encoding (no decoder padding loss). */
+export async function prepareAudioPreview(
+  rawBase64: string,
+  sourceFormat: 'wav' | 'mp3',
+  volumeBoostDb: number,
+): Promise<{ base64: string; blobUrl: string; duration: number }> {
+  const rawBytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0))
+  const needsReEncode = sourceFormat !== 'wav' || volumeBoostDb > 0
+
+  const audioCtx = new AudioContext()
+  const audioBuf = await audioCtx.decodeAudioData(rawBytes.buffer.slice(0) as ArrayBuffer)
+
+  let base64: string
+  let blob: Blob
+  let duration: number
+
+  if (needsReEncode) {
+    const processed = volumeBoostDb > 0
+      ? await applyGain(audioBuf, volumeBoostDb)
+      : audioBuf
+    const wavBuf = encodeWAV(processed)
+    base64 = abToBase64(wavBuf)
+    blob = new Blob([wavBuf], { type: 'audio/wav' })
+    duration = processed.duration
+  } else {
+    base64 = rawBase64
+    blob = new Blob([rawBytes], { type: 'audio/wav' })
+    duration = audioBuf.duration
+  }
+
+  await audioCtx.close()
+  return { base64, blobUrl: URL.createObjectURL(blob), duration }
+}
+
+/** Process audio for save (no blob URL). Returns WAV base64.
+ * WAV + no boost: returns original base64 without re-encoding. */
+export async function prepareAudioForSave(
+  rawBase64: string,
+  sourceFormat: 'wav' | 'mp3',
+  volumeBoostDb: number,
+): Promise<string> {
+  if (sourceFormat === 'wav' && volumeBoostDb <= 0) return rawBase64
+  const rawBytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0))
+  const audioCtx = new AudioContext()
+  const audioBuf = await audioCtx.decodeAudioData(rawBytes.buffer.slice(0) as ArrayBuffer)
+  const processed = volumeBoostDb > 0 ? await applyGain(audioBuf, volumeBoostDb) : audioBuf
+  const wavBuf = encodeWAV(processed)
+  await audioCtx.close()
+  return abToBase64(wavBuf)
+}
+
 /** ELE 대상 섹션인지 판별 (셀럽 음성 섹션) */
 export function isEleSection(key: string): boolean {
   return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-celeb-/.test(key)
 }
 
-/** 섹션 키 → webR2 URL 생성 (명언만 해당) */
-export function webR2UrlForSection(key: string, celebId: string | undefined, locale: string, r2Base: string): string | undefined {
-  if (!celebId) return undefined
-  if (key === 'A3-featured-quote') return `${r2Base}/celebs/${celebId}/voice/${locale}/quote.mp3`
-  return undefined
-}
-
 /** 파일명 → 한글 설명 */
 export function describeFile(name: string): string {
-  const base = name.replace(/^(gemini|cloud|elevenlabs)\//, '').replace('.wav', '')
+  const base = name.replace(/^(gemini|elevenlabs)\//, '').replace('.wav', '')
   const direct: Record<string, string> = {
     'A1-service-greeting': '서비스 인사',
     'A2-service-intro': '서비스 소개',
@@ -103,13 +151,12 @@ export function describeFile(name: string): string {
 
 /** 파일명에서 섹션 키 추출 (엔진 접두사 제거) */
 export function sectionKey(name: string): string {
-  return name.replace(/^(gemini|cloud|elevenlabs)\//, '').replace('.wav', '')
+  return name.replace(/^(gemini|elevenlabs|common-en|common)\//, '').replace('.wav', '')
 }
 
 /** 파일명에서 엔진 슬롯 판별 */
-export function engineSlot(name: string): 'gemini' | 'cloud' | 'elevenlabs' | 'common' {
+export function engineSlot(name: string): 'gemini' | 'elevenlabs' | 'common' {
   if (name.startsWith('gemini/')) return 'gemini'
-  if (name.startsWith('cloud/')) return 'cloud'
   if (name.startsWith('elevenlabs/')) return 'elevenlabs'
   return 'common'
 }
@@ -117,14 +164,13 @@ export function engineSlot(name: string): 'gemini' | 'cloud' | 'elevenlabs' | 'c
 export type VoiceSection = {
   key: string
   description: string
-  gemini?: R2FileInfo
-  cloud?: R2FileInfo
-  elevenlabs?: R2FileInfo
-  common?: R2FileInfo
+  gemini?: VoiceFile
+  elevenlabs?: VoiceFile
+  common?: VoiceFile
 }
 
 /** 에피소드 JSON에서 필요한 전체 섹션 키 목록 생성 */
-export function expectedSections(ep: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string }> } }): { key: string; description: string }[] {
+export function expectedSections(ep: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string; visual?: string }> } }): { key: string; description: string }[] {
   const result: { key: string; description: string }[] = []
   const add = (key: string) => result.push({ key, description: describeFile(key + '.wav') })
 
@@ -152,17 +198,18 @@ export function expectedSections(ep: { narrator: Record<string, unknown>; host: 
   if ((ep.narrator.prevRecapDuration as number) > 0 || ep.narrator.prevRecap) add('E4-prev-recap')
 
   if (ep.shorts) {
-    ep.shorts.segments.forEach((seg, i) => {
-      const idx = String(i + 1).padStart(2, '0')
+    for (let si = 0; si < ep.shorts.segments.length; si++) {
+      const seg = ep.shorts.segments[si]
+      const idx = String(si + 1).padStart(2, '0')
       add(`S${idx}-${seg.id}`)
-    })
+    }
   }
 
   return result
 }
 
 /** 파일 목록을 섹션 단위로 그룹핑 (에피소드 기대 섹션 포함) */
-export function groupBySection(files: R2FileInfo[], ep?: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string }> } }): VoiceSection[] {
+export function groupBySection(files: VoiceFile[], ep?: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string }> } }): VoiceSection[] {
   const map = new Map<string, VoiceSection>()
 
   // 에피소드에서 기대되는 전체 섹션을 먼저 등록

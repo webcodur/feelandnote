@@ -17,6 +17,8 @@ type SeriesStats = {
 export default function DashboardPage() {
   const [stats, setStats] = useState<SeriesStats[]>([])
 
+  useEffect(() => { document.title = 'Dashboard — Remotion BO' }, [])
+
   useEffect(() => {
     Promise.all(
       SERIES.map(async (s) => {

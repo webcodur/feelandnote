@@ -4,13 +4,13 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 type Task = {
   id: string; type: string; series: string; episode: string
-  status: 'running' | 'done' | 'error'
+  status: 'queued' | 'running' | 'done' | 'error'
   log: string[]
 }
 
 function TaskRow({ task }: { task: Task }) {
   const [open, setOpen] = useState(task.status === 'running')
-  const isRunning = task.status === 'running'
+  const isRunning = task.status === 'running' || task.status === 'queued'
   // running은 마지막 10줄만, 완료는 접혀 있다가 펼치면 마지막 20줄
   const tailLines = isRunning ? 10 : 20
   const logTail = task.log.slice(-tailLines).join('\n') || '(waiting...)'
@@ -19,7 +19,8 @@ function TaskRow({ task }: { task: Task }) {
     <div>
       <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setOpen(!open)}>
         <span className={`text-[11px] font-semibold px-2 py-0.5 rounded ${
-          isRunning ? 'bg-info text-info-text' :
+          task.status === 'queued' ? 'bg-amber-900/40 text-amber-400' :
+          task.status === 'running' ? 'bg-info text-info-text' :
           task.status === 'done' ? 'bg-success text-success-text' :
           'bg-danger text-danger-text'
         }`}>{task.status}</span>

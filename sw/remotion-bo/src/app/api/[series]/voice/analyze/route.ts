@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   const { episode, only } = await req.json()
   if (!episode) return Response.json({ error: 'episode required' }, { status: 400 })
 
-  const args = ['npx', 'tsx', 'scripts/analyze-voice.ts', '--', '--episode', episode, '--update-json']
+  const args = ['npx', 'tsx', 'scripts/voice/analyze-voice.ts', '--', '--episode', episode, '--update-json']
   if (only) args.push('--only', String(only))
 
   return new Promise<Response>((resolve) => {

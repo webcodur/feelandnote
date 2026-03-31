@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { listEpisodes, loadEpisode, saveEpisode, scanLocalWavs, loadR2Manifest } from '@/lib/server-utils'
+import { listEpisodes, loadEpisode, saveEpisode, scanLocalWavs } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
 import { supabase } from '@/lib/supabase'
 
@@ -7,11 +7,25 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  const names = await listEpisodes(series)
-  const list = await Promise.all(names.map(async (name) => {
+  const items = await listEpisodes(series)
+
+  // slug 추출: episode ID → person name (elon-musk-2-en → elon-musk)
+  const toSlug = (n: string) => {
+    const base = n.endsWith('-en') ? n.slice(0, -3) : n
+    const m = base.match(/^(.+)-\d+$/)
+    return m ? m[1] : base
+  }
+  const slugs = [...new Set(items.map(i => toSlug(i.id)))]
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('slug, birth_date')
+    .in('slug', slugs)
+    .eq('profile_type', 'CELEB')
+  const birthMap = new Map((profiles ?? []).map(p => [p.slug, p.birth_date]))
+
+  const list = await Promise.all(items.map(async ({ id: name, status }) => {
     const ep = await loadEpisode(series, name)
     const wavs = await scanLocalWavs(name)
-    const r2m = await loadR2Manifest(name)
     return {
       name,
       nickname: ep.host?.nickname ?? name,
@@ -19,8 +33,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
       hasShorts: !!ep.shorts,
       voiceCount: wavs.length,
       voiceSizeMB: +(wavs.reduce((s: number, w: { size: number }) => s + w.size, 0) / 1024 / 1024).toFixed(1),
-      r2Count: Object.keys(r2m).length,
-      synced: wavs.length > 0 && Object.keys(r2m).length >= wavs.length,
+      birthYear: (() => { const d = birthMap.get(toSlug(name)); if (!d) return null; const y = parseInt(d, 10); return isNaN(y) ? null : y })(),
+      status,
     }
   }))
   return NextResponse.json(list)
@@ -36,7 +50,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   // 중복 확인
   const existing = await listEpisodes(series)
-  if (existing.includes(slug)) {
+  if (existing.some(e => e.id === slug)) {
     return NextResponse.json({ error: 'episode already exists' }, { status: 409 })
   }
 

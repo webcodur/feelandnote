@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import path from 'path'
-import { VOICE_DIR } from '@/lib/server-utils'
+import { voiceDir } from '@/lib/server-utils'
 
 function filePath(episode: string) {
-  return path.join(VOICE_DIR, episode, 'voice-select.json')
+  return path.join(voiceDir(episode), 'voice-select.json')
 }
 
 /** GET — 현재 voice-select.json 반환 */

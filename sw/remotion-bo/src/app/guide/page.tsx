@@ -1,3 +1,5 @@
+export const metadata = { title: '가이드' }
+
 export default function GuidePage() {
   return (
     <div className="max-w-3xl space-y-10">

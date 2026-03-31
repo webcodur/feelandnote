@@ -10,6 +10,15 @@ type BookStats = {
   celebCount?: number
 }
 
+type CinematicImage = {
+  file: string
+  text?: string
+  field?: 'summary' | 'context' | 'contextAfter'
+  keyword?: string
+  prompt?: string
+  ko?: string
+}
+
 type BookEntry = {
   title: string
   creator: string
@@ -27,6 +36,8 @@ type BookEntry = {
   oneLiner: string
   stats: BookStats
   titleDuration: number
+  images?: CinematicImage[]
+  imagePrompts?: Record<string, unknown>
 }
 
 type NarratorLines = {
@@ -50,12 +61,23 @@ type NarratorLines = {
   outroDuration: number
 }
 
+type ImageChange = {
+  t: number
+  image: string
+  text?: string
+}
+
+const toImageChanges = (v: unknown): ImageChange[] =>
+  Array.isArray(v) ? v : v ? [v as ImageChange] : []
+
 type ShortSegment = {
   id: string
-  role: 'narrator' | 'celeb'
+  role: 'narrator' | 'celeb' | 'summary'
   text: string
   visual: 'hook' | 'intro' | 'book' | 'cta'
   duration?: number
+  image?: string
+  imageChangeAt?: ImageChange[]
 }
 
 type ShortsConfig = {
@@ -79,9 +101,9 @@ type CelebHost = {
 }
 
 export type EpisodeData = {
-  host: CelebHost
-  narrator: NarratorLines
-  books: BookEntry[]
+  host?: CelebHost
+  narrator?: NarratorLines
+  books?: BookEntry[]
   shorts?: ShortsConfig
   [key: string]: unknown
 }
@@ -162,7 +184,11 @@ function FieldWithDuration({ label, value, onChange, duration, rows }: {
 }
 
 // --- Main Editor ---
-export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onChange: (ep: EpisodeData) => void }) {
+const EMPTY_HOST: CelebHost = { nickname: '', nickname_en: '', speech_tone: 'calm', avatar_url: '', bio: '', title: '' }
+const EMPTY_NARRATOR: NarratorLines = { bridge: '', bridgeDuration: 0, outro: '', outroDuration: 0 }
+
+export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: EpisodeData; onChange: (ep: EpisodeData) => void }) {
+  const episode = { ...rawEpisode, host: rawEpisode.host ?? EMPTY_HOST, narrator: rawEpisode.narrator ?? EMPTY_NARRATOR, books: rawEpisode.books ?? [] }
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({ host: true })
   const [openBooks, setOpenBooks] = useState<Record<number, boolean>>({ 0: true })
 
@@ -211,10 +237,45 @@ export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onC
     onChange({ ...episode, books })
   }
 
+  // Book images helpers
+  const setBookImages = (idx: number, images: CinematicImage[] | undefined) => {
+    const books = [...episode.books]
+    books[idx] = { ...books[idx], images }
+    onChange({ ...episode, books })
+  }
+  const addBookImage = (bookIdx: number) => {
+    const book = episode.books[bookIdx]
+    const images = [...(book.images ?? [])]
+    const n = bookIdx + 1
+    const slot = images.length + 1
+    images.push({ file: `${n}-${slot}.jpg` })
+    setBookImages(bookIdx, images)
+  }
+  const updateBookImage = (bookIdx: number, imgIdx: number, field: keyof CinematicImage, value: string) => {
+    const book = episode.books[bookIdx]
+    const images = [...(book.images ?? [])]
+    images[imgIdx] = { ...images[imgIdx], [field]: value }
+    if (!value && field !== 'file') delete (images[imgIdx] as Record<string, unknown>)[field]
+    setBookImages(bookIdx, images)
+  }
+  const removeBookImage = (bookIdx: number, imgIdx: number) => {
+    const book = episode.books[bookIdx]
+    const images = (book.images ?? []).filter((_, i) => i !== imgIdx)
+    setBookImages(bookIdx, images.length ? images : undefined)
+  }
+  const moveBookImage = (bookIdx: number, imgIdx: number, dir: -1 | 1) => {
+    const book = episode.books[bookIdx]
+    const images = [...(book.images ?? [])]
+    const target = imgIdx + dir
+    if (target < 0 || target >= images.length) return
+    ;[images[imgIdx], images[target]] = [images[target], images[imgIdx]]
+    setBookImages(bookIdx, images)
+  }
+
   // Shorts helpers
   const shorts = episode.shorts
   const setShorts = (s: ShortsConfig) => onChange({ ...episode, shorts: s })
-  const setSegment = (idx: number, field: string, value: string) => {
+  const setSegment = (idx: number, field: string, value: unknown) => {
     if (!shorts) return
     const segs = [...shorts.segments]
     segs[idx] = { ...segs[idx], [field]: value }
@@ -230,6 +291,30 @@ export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onC
   const removeSegment = (idx: number) => {
     if (!shorts) return
     setShorts({ ...shorts, segments: shorts.segments.filter((_, i) => i !== idx) })
+  }
+  const setSegImage = (idx: number, value: string) => {
+    setSegment(idx, 'image', value || undefined)
+  }
+  const addImageChange = (segIdx: number) => {
+    if (!shorts) return
+    const seg = shorts.segments[segIdx]
+    const changes: ImageChange[] = [...toImageChanges(seg.imageChangeAt)]
+    changes.push({ t: 0, image: '', text: '' })
+    setSegment(segIdx, 'imageChangeAt', changes)
+  }
+  const updateImageChange = (segIdx: number, changeIdx: number, field: keyof ImageChange, value: string | number) => {
+    if (!shorts) return
+    const seg = shorts.segments[segIdx]
+    const changes = [...toImageChanges(seg.imageChangeAt)]
+    changes[changeIdx] = { ...changes[changeIdx], [field]: value }
+    if (field === 'text' && !value) delete (changes[changeIdx] as Record<string, unknown>).text
+    setSegment(segIdx, 'imageChangeAt', changes)
+  }
+  const removeImageChange = (segIdx: number, changeIdx: number) => {
+    if (!shorts) return
+    const seg = shorts.segments[segIdx]
+    const changes = toImageChanges(seg.imageChangeAt).filter((_, i) => i !== changeIdx)
+    setSegment(segIdx, 'imageChangeAt', changes.length ? changes : undefined)
   }
 
   return (
@@ -335,6 +420,43 @@ export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onC
                     <TextField label="출판년도" value={book.stats.publishYear ?? ''} onChange={v => setBookStats(idx, 'publishYear', v)} />
                     <TextField label="출처 URL" value={book.source ?? ''} onChange={v => setBook(idx, 'source', v)} />
                   </div>
+
+                  {/* 시네마틱 이미지 */}
+                  <div className="border-t border-border pt-3 mt-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] text-text-secondary font-medium">IMAGES</span>
+                      <span className="text-[10px] text-text-dim">{book.images?.length ?? 0}장</span>
+                      <div className="flex-1" />
+                      <button onClick={() => addBookImage(idx)} className={BTN_ADD}>+ 이미지</button>
+                    </div>
+                    {(book.images ?? []).map((img, iIdx) => (
+                      <div key={iIdx} className="border border-border rounded p-2 space-y-1.5 bg-bg-card">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono text-text-dim w-5">#{iIdx + 1}</span>
+                          <label className="text-[10px] text-text-secondary shrink-0">file</label>
+                          <input value={img.file} onChange={e => updateBookImage(idx, iIdx, 'file', e.target.value)}
+                            className="w-28 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                            placeholder="1-1.jpg" />
+                          <label className="text-[10px] text-text-secondary shrink-0">keyword</label>
+                          <input value={img.keyword ?? ''} onChange={e => updateBookImage(idx, iIdx, 'keyword', e.target.value)}
+                            className="flex-1 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                            placeholder="키워드" />
+                          <button onClick={() => moveBookImage(idx, iIdx, -1)}
+                            className="text-text-dim hover:text-text-primary text-[10px] px-0.5" title="위로">▲</button>
+                          <button onClick={() => moveBookImage(idx, iIdx, 1)}
+                            className="text-text-dim hover:text-text-primary text-[10px] px-0.5" title="아래로">▼</button>
+                          <button onClick={() => removeBookImage(idx, iIdx)}
+                            className="text-danger text-xs hover:opacity-70" title="삭제">✕</button>
+                        </div>
+                        <div className="flex items-center gap-2 pl-7">
+                          <label className="text-[10px] text-text-secondary shrink-0 w-8">text</label>
+                          <input value={img.text ?? ''} onChange={e => updateBookImage(idx, iIdx, 'text', e.target.value)}
+                            className="flex-1 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                            placeholder={iIdx === 0 ? '(첫 이미지 — 섹션 시작부터 표시)' : '나레이션 텍스트 앵커'} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -366,6 +488,7 @@ export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onC
                 className="bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent">
                 <option value="narrator">narrator</option>
                 <option value="celeb">celeb</option>
+                <option value="summary">summary</option>
               </select>
               <select value={seg.visual} onChange={e => setSegment(idx, 'visual', e.target.value)}
                 className="bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent">
@@ -380,10 +503,45 @@ export function EpisodeEditor({ episode, onChange }: { episode: EpisodeData; onC
             </div>
             <textarea value={seg.text} onChange={e => setSegment(idx, 'text', e.target.value)}
               rows={2} className={`${INPUT_CLS} resize-y`} placeholder="텍스트" />
+
+            {/* 이미지 설정 */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] text-text-secondary shrink-0 w-14">image</label>
+                <input value={seg.image ?? ''} onChange={e => setSegImage(idx, e.target.value)}
+                  className="flex-1 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                  placeholder="예: episodes/done/person/images/shorts-2.png" />
+              </div>
+
+              {/* imageChangeAt 편집 */}
+              {toImageChanges(seg.imageChangeAt).map((change, cIdx) => (
+                <div key={cIdx} className="flex items-center gap-2 pl-14">
+                  <span className="text-[10px] text-text-dim shrink-0">전환 {cIdx + 1}</span>
+                  <input type="number" step={0.01} value={change.t}
+                    onChange={e => updateImageChange(idx, cIdx, 't', parseFloat(e.target.value) || 0)}
+                    className="w-16 bg-bg-main border border-border rounded px-2 py-1 text-xs text-center focus:outline-none focus:border-accent"
+                    title="전환 시점 (초)" />
+                  <span className="text-[10px] text-text-dim">초</span>
+                  <input value={change.image}
+                    onChange={e => updateImageChange(idx, cIdx, 'image', e.target.value)}
+                    className="flex-1 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                    placeholder="이미지 경로" />
+                  <input value={change.text ?? ''}
+                    onChange={e => updateImageChange(idx, cIdx, 'text', e.target.value)}
+                    className="flex-1 bg-bg-main border border-border rounded px-2 py-1 text-xs focus:outline-none focus:border-accent"
+                    placeholder="텍스트 앵커 (선택)" title="이 텍스트 시작 시점에 전환" />
+                  <button onClick={() => removeImageChange(idx, cIdx)}
+                    className="text-danger text-xs hover:opacity-70 shrink-0" title="전환점 삭제">✕</button>
+                </div>
+              ))}
+              <button onClick={() => addImageChange(idx)}
+                className="ml-14 text-[10px] text-accent hover:underline">+ 이미지 전환점 추가</button>
+            </div>
           </div>
         ))}
         {!shorts && <div className="text-xs text-text-dim">쇼츠 설정 없음 — 추가하려면 세그먼트 추가 클릭</div>}
       </Section>
+
     </div>
   )
 }

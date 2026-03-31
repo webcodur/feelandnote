@@ -3,35 +3,32 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { EpisodeData } from './EpisodeEditor'
-import type { R2Summary } from './R2Status'
-
 type Props = {
   episode: EpisodeData
   fileNames: string[]
-  r2Summary: R2Summary
   series: string
   name: string
 }
 
 function checkText(ep: EpisodeData) {
-  return !!(ep.narrator.celebIntro && ep.narrator.bridge && ep.narrator.outro
-    && ep.host.philosophy && ep.books.length > 0 && ep.books.every(b => b.summary && b.context))
+  return !!(ep.narrator?.celebIntro && ep.narrator?.bridge && ep.narrator?.outro
+    && ep.host?.philosophy && ep.books?.length > 0 && ep.books.every(b => b.summary && b.context))
 }
 
 function checkImages(ep: EpisodeData) {
-  return !!ep.host.avatar_url && ep.books.every(b => !!b.thumbnail_url)
+  return !!ep.host?.avatar_url && ep.books?.every(b => !!b.thumbnail_url)
 }
 
 /** 프로덕션 모델 판별 + 엔진별 기대/현황 계산 */
 function computeVoice(ep: EpisodeData, fileNames: string[]) {
-  const hasEL = !!ep.host.elevenlabsVoiceId
+  const hasEL = !!ep.host?.elevenlabsVoiceId
   const model = hasEL ? 'Gemini + ElevenLabs' : 'Gemini'
 
   // ElevenLabs 대상 키워드
   const elKeys: string[] = []
   if (hasEL) {
-    if ((ep.host.voiceDuration ?? 0) > 0) elKeys.push('philosophy')
-    if ((ep.host.featuredQuoteDuration ?? 0) > 0) elKeys.push('featured-quote')
+    if ((ep.host?.voiceDuration ?? 0) > 0) elKeys.push('philosophy')
+    if ((ep.host?.featuredQuoteDuration ?? 0) > 0) elKeys.push('featured-quote')
     if (ep.shorts) ep.shorts.segments.forEach(s => {
       if (s.role === 'celeb' && (s.duration ?? 0) > 0) elKeys.push(s.id)
     })
@@ -40,17 +37,17 @@ function computeVoice(ep: EpisodeData, fileNames: string[]) {
   // Gemini 대상 수 계산
   let geminiExp = 0
   const countIf = (d?: number) => { if (d && d > 0) geminiExp++ }
-  countIf(ep.narrator.serviceGreetingDuration)
-  countIf(ep.narrator.serviceIntroDuration)
-  countIf(ep.narrator.celebIntroDuration)
-  countIf(ep.narrator.bridgeDuration)
-  countIf(ep.narrator.outroDuration)
-  countIf(ep.narrator.labelSummaryDuration)
-  countIf(ep.narrator.labelContextDuration)
-  countIf(ep.narrator.returnIntroDuration)
-  countIf(ep.narrator.prevRecapDuration)
-  countIf(ep.narrator.interludeDuration)
-  for (const b of ep.books) {
+  countIf(ep.narrator?.serviceGreetingDuration)
+  countIf(ep.narrator?.serviceIntroDuration)
+  countIf(ep.narrator?.celebIntroDuration)
+  countIf(ep.narrator?.bridgeDuration)
+  countIf(ep.narrator?.outroDuration)
+  countIf(ep.narrator?.labelSummaryDuration)
+  countIf(ep.narrator?.labelContextDuration)
+  countIf(ep.narrator?.returnIntroDuration)
+  countIf(ep.narrator?.prevRecapDuration)
+  countIf(ep.narrator?.interludeDuration)
+  for (const b of ep.books ?? []) {
     if (b.titleDuration > 0) geminiExp++
     if (b.summaryDuration > 0) geminiExp++
     if (b.contextDuration > 0) geminiExp++
@@ -59,8 +56,8 @@ function computeVoice(ep: EpisodeData, fileNames: string[]) {
     if ((b.quoteDuration ?? 0) > 0 && !hasEL) geminiExp++
   }
   if (!hasEL) {
-    countIf(ep.host.voiceDuration)
-    countIf(ep.host.featuredQuoteDuration)
+    countIf(ep.host?.voiceDuration)
+    countIf(ep.host?.featuredQuoteDuration)
     if (ep.shorts) ep.shorts.segments.forEach(s => {
       if (s.role === 'celeb' && (s.duration ?? 0) > 0) geminiExp++
     })
@@ -83,25 +80,25 @@ function computeVoice(ep: EpisodeData, fileNames: string[]) {
 
 /** 에피소드 음성 BOM (Bill of Materials) */
 function computeBOM(ep: EpisodeData) {
-  const n = ep.books.length
-  const quotes = ep.books.filter(b => (b.quoteDuration ?? 0) > 0).length
-  const ctxAfter = ep.books.filter(b => (b.contextAfterDuration ?? 0) > 0).length
+  const n = ep.books?.length ?? 0
+  const quotes = ep.books?.filter(b => (b.quoteDuration ?? 0) > 0).length ?? 0
+  const ctxAfter = ep.books?.filter(b => (b.contextAfterDuration ?? 0) > 0).length ?? 0
   const shorts = ep.shorts?.segments.length ?? 0
 
   // 기본 나레이션 (존재하는 것만)
   let base = 0
   const baseItems: string[] = []
-  if ((ep.narrator.serviceGreetingDuration ?? 0) > 0) { base++; baseItems.push('인사') }
-  if ((ep.narrator.serviceIntroDuration ?? 0) > 0) { base++; baseItems.push('소개') }
-  if ((ep.host.featuredQuoteDuration ?? 0) > 0) { base++; baseItems.push('명언') }
-  if ((ep.narrator.celebIntroDuration ?? 0) > 0) { base++; baseItems.push('인물소개') }
-  if ((ep.host.voiceDuration ?? 0) > 0) { base++; baseItems.push('감상철학') }
-  if ((ep.narrator.labelSummaryDuration ?? 0) > 0) { base++; baseItems.push('라벨×2') }
-  if ((ep.narrator.labelContextDuration ?? 0) > 0) base++ // 라벨×2에 포함
-  if ((ep.narrator.outroDuration ?? 0) > 0) { base++; baseItems.push('아웃트로') }
-  if ((ep.narrator.returnIntroDuration ?? 0) > 0) { base++; baseItems.push('복귀인사') }
-  if ((ep.narrator.prevRecapDuration ?? 0) > 0) { base++; baseItems.push('전편요약') }
-  if ((ep.narrator.interludeDuration ?? 0) > 0) { base++; baseItems.push('중간안내') }
+  if ((ep.narrator?.serviceGreetingDuration ?? 0) > 0) { base++; baseItems.push('인사') }
+  if ((ep.narrator?.serviceIntroDuration ?? 0) > 0) { base++; baseItems.push('소개') }
+  if ((ep.host?.featuredQuoteDuration ?? 0) > 0) { base++; baseItems.push('명언') }
+  if ((ep.narrator?.celebIntroDuration ?? 0) > 0) { base++; baseItems.push('인물소개') }
+  if ((ep.host?.voiceDuration ?? 0) > 0) { base++; baseItems.push('감상철학') }
+  if ((ep.narrator?.labelSummaryDuration ?? 0) > 0) { base++; baseItems.push('라벨×2') }
+  if ((ep.narrator?.labelContextDuration ?? 0) > 0) base++ // 라벨×2에 포함
+  if ((ep.narrator?.outroDuration ?? 0) > 0) { base++; baseItems.push('아웃트로') }
+  if ((ep.narrator?.returnIntroDuration ?? 0) > 0) { base++; baseItems.push('복귀인사') }
+  if ((ep.narrator?.prevRecapDuration ?? 0) > 0) { base++; baseItems.push('전편요약') }
+  if ((ep.narrator?.interludeDuration ?? 0) > 0) { base++; baseItems.push('중간안내') }
 
   const bookBase = n * 3 // title + summary + context
   const total = base + bookBase + quotes + ctxAfter + shorts
@@ -115,7 +112,7 @@ function Dot({ ok, warn }: { ok: boolean; warn?: boolean }) {
   return <span className="text-text-dim">○</span>
 }
 
-export function StatusOverview({ episode, fileNames, r2Summary, series, name }: Props) {
+export function StatusOverview({ episode, fileNames, series, name }: Props) {
   const [counterpart, setCounterpart] = useState<string | null>(null)
 
   const isEn = name.endsWith('-en')
@@ -132,9 +129,6 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
   const imageOk = checkImages(episode)
   const voice = computeVoice(episode, fileNames)
   const bom = computeBOM(episode)
-  const needUpload = r2Summary.localOnly + r2Summary.unsynced
-  const r2Ok = fileNames.length > 0 && needUpload === 0
-
   // 다음 행동
   let next = ''
   if (!textOk) next = '텍스트 필수 필드를 채우세요'
@@ -142,7 +136,6 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
   else if (fileNames.length === 0) next = 'Gemini TTS를 생성하세요'
   else if (!voice.gemini.ok) next = `Gemini 음성 ${voice.gemini.expected - voice.gemini.present}개를 생성하세요`
   else if (voice.hasEL && !voice.el.ok) next = `ElevenLabs 셀럽 음성 ${voice.el.expected - voice.el.present}개를 생성하세요`
-  else if (!r2Ok) next = `R2에 ${needUpload}개를 업로드하세요`
   else next = '렌더링 준비 완료'
 
   return (
@@ -176,7 +169,7 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
       {/* 체크리스트 */}
       <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
         {/* 텍스트 */}
-        <Dot ok={textOk} warn={episode.books.length > 0 && !textOk} />
+        <Dot ok={textOk} warn={(episode.books?.length ?? 0) > 0 && !textOk} />
         <span className={textOk ? 'text-text-primary' : 'text-text-dim'}>텍스트</span>
 
         {/* 이미지 */}
@@ -198,13 +191,6 @@ export function StatusOverview({ episode, fileNames, r2Summary, series, name }: 
             <span className="text-text-dim text-xs ml-1">{voice.el.present}/{voice.el.expected}</span>
           </span>
         </>}
-
-        {/* R2 */}
-        <Dot ok={r2Ok} warn={needUpload > 0} />
-        <span className={r2Ok ? 'text-text-primary' : 'text-text-dim'}>
-          R2
-          {needUpload > 0 && <span className="text-warning-text text-xs ml-1">{needUpload}개 업로드 필요</span>}
-        </span>
 
         {/* 렌더 */}
         <Dot ok={false} />

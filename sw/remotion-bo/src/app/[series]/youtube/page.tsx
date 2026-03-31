@@ -179,6 +179,21 @@ export default function YouTubeLineupPage({ params }: { params: Promise<{ series
     } finally { setSyncing(false) }
   }
 
+  const handlePurge = async () => {
+    setSyncing(true)
+    try {
+      const res = await fetch(`/api/${series}/youtube/sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'purge' }),
+      })
+      if (!res.ok) return
+      const { purged } = await res.json() as { purged: number }
+      if (purged > 0) fetchAll()
+      await handleSync()
+    } finally { setSyncing(false) }
+  }
+
   const handlePush = async (episode: string, variant: string) => {
     const res = await fetch(`/api/${series}/youtube/sync`, {
       method: 'POST',
@@ -239,8 +254,8 @@ export default function YouTubeLineupPage({ params }: { params: Promise<{ series
               {saving ? '저장 중...' : `${dirty.size}건 저장`}
             </button>
           )}
-          <button onClick={handleSync} disabled={syncing} className={`${BTN_SECONDARY} ${syncing ? 'opacity-50' : ''}`}>
-            {syncing ? '확인 중...' : '동기화 확인'}
+          <button onClick={handlePurge} disabled={syncing} className={`${BTN_SECONDARY} ${syncing ? 'opacity-50' : ''}`}>
+            {syncing ? '확인 중...' : '전체 갱신'}
           </button>
         </div>
       </div>
@@ -429,6 +444,9 @@ function LineupRow({ row, series, meta, isDirty, saving, syncMap, syncChecked, o
               </button>
             )}
             {Object.keys(uploads).length > 0 && !isDirty && (
+              // 동기화 확인 후 삭제된 variant만 남은 경우 숨김
+              !syncChecked || Object.keys(uploads).some(vk => syncMap?.[vk]?.status !== 'deleted')
+            ) && (
               <button onClick={onPushAll}
                 className="text-accent text-xs font-semibold hover:underline">
                 메타 푸시

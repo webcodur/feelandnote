@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
-import { VOICE_DIR } from '@/lib/server-utils'
+import { voiceDir } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
@@ -14,7 +14,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   }
 
   try {
-    const filePath = path.join(VOICE_DIR, episode, fileName)
+    const filePath = path.join(voiceDir(episode), fileName)
     await mkdir(path.dirname(filePath), { recursive: true })
     const buf = Buffer.from(base64, 'base64')
     await writeFile(filePath, buf)

@@ -40,8 +40,8 @@ export async function GET(req: Request) {
   // 기존 에피소드 존재 여부 매핑
   const episodeMap = new Map<string, string>()
   for (const s of SERIES) {
-    const eps = await listEpisodes(s.id)
-    for (const ep of eps) episodeMap.set(ep, s.id)
+    const items = await listEpisodes(s.id)
+    for (const item of items) episodeMap.set(item.id, s.id)
   }
 
   const results = (data ?? []).map(celeb => ({

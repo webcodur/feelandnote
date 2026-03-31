@@ -24,11 +24,17 @@ type Props = {
   heightClass?: string
   /** 눈금자 표시 */
   showRuler?: boolean
+  /** trim 시작/끝 (초) — 설정 시 오버레이 표시 */
+  trimStart?: number
+  trimEnd?: number
+  /** trim 끝 변경 콜백 — 전달 시 우측 드래그 핸들 표시 */
+  onTrimEnd?: (time: number) => void
 }
 
 export function AudioWavePlayer({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
+  trimStart, trimEnd, onTrimEnd,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -131,12 +137,33 @@ export function AudioWavePlayer({
     if (!onDoubleClick) return
     e.preventDefault()
     const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect || duration <= 0) return
-    const t = Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration * 1000) / 1000
+    if (!rect || dur <= 0) return
+    const t = Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * dur * 1000) / 1000
     onDoubleClick(t)
   }, [dur, onDoubleClick])
 
-  const pct = (t: number) => dur > 0 ? (t / dur) * 100 : 0
+  // trim 핸들 드래그 — document 이벤트 기반, cleanup ref로 언마운트 안전
+  const trimCleanupRef = useRef<(() => void) | null>(null)
+  const handleTrimDown = useCallback((e: React.PointerEvent) => {
+    if (!onTrimEnd || !containerRef.current || dur <= 0) return
+    e.preventDefault()
+    e.stopPropagation()
+    const rect = containerRef.current.getBoundingClientRect()
+    const calcT = (cx: number) =>
+      Math.round(Math.max(0.02, Math.min(1, (cx - rect.left) / rect.width)) * dur * 1000) / 1000
+    const onMove = (ev: PointerEvent) => onTrimEnd(calcT(ev.clientX))
+    const onUp = () => {
+      document.removeEventListener('pointermove', onMove)
+      document.removeEventListener('pointerup', onUp)
+      trimCleanupRef.current = null
+    }
+    document.addEventListener('pointermove', onMove)
+    document.addEventListener('pointerup', onUp)
+    trimCleanupRef.current = onUp
+  }, [onTrimEnd, dur])
+  useEffect(() => () => { trimCleanupRef.current?.() }, [])
+
+  const trimHandlePct = dur > 0 && trimEnd !== undefined ? (trimEnd / dur) * 100 : 100
 
   return (
     <div className="space-y-0">
@@ -150,21 +177,41 @@ export function AudioWavePlayer({
         />
       )}
 
-      {/* 파형 */}
-      <div
-        ref={containerRef}
-        tabIndex={0}
-        className={`relative w-full ${heightClass} bg-bg-main overflow-hidden select-none touch-none cursor-crosshair focus:outline focus:outline-1 focus:outline-accent/40 ${showRuler ? 'rounded-b' : 'rounded'}`}
-        onClick={handleClick}
-        onDoubleClick={onDoubleClick ? handleDblClick : undefined}
-        onKeyDown={handleKeyDown}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
-      >
-        <canvas ref={canvasRef} width={1200} height={96} className="w-full h-full" />
-        {HoverOverlay}
-        <PlayheadOverlay playhead={playhead} duration={dur} playing={playing} />
-        {children}
+      {/* 파형 + 트림 핸들 래퍼 */}
+      <div className="relative">
+        <div
+          ref={containerRef}
+          tabIndex={0}
+          className={`relative w-full ${heightClass} bg-bg-main overflow-hidden select-none touch-none cursor-crosshair focus:outline focus:outline-1 focus:outline-accent/40 ${showRuler ? 'rounded-b' : 'rounded'}`}
+          onClick={handleClick}
+          onDoubleClick={onDoubleClick ? handleDblClick : undefined}
+          onKeyDown={handleKeyDown}
+          onMouseMove={onMouseMove}
+          onMouseLeave={onMouseLeave}
+        >
+          <canvas ref={canvasRef} width={1200} height={96} className="w-full h-full" />
+          {HoverOverlay}
+          <PlayheadOverlay playhead={playhead} duration={dur} playing={playing} />
+          {dur > 0 && trimEnd !== undefined && trimEnd < dur - 0.01 && (
+            <div className="absolute inset-y-0 right-0 bg-red-900/40 pointer-events-none"
+              style={{ width: `${(1 - trimEnd / dur) * 100}%` }} />
+          )}
+          {dur > 0 && trimStart !== undefined && trimStart > 0.01 && (
+            <div className="absolute inset-y-0 left-0 bg-black/40 pointer-events-none"
+              style={{ width: `${(trimStart / dur) * 100}%` }} />
+          )}
+          {children}
+        </div>
+        {onTrimEnd && dur > 0 && (
+          <div
+            className="absolute top-0 bottom-0 w-6 -ml-3 cursor-ew-resize z-20 flex items-center justify-center group select-none"
+            style={{ left: `${trimHandlePct}%`, touchAction: 'none' }}
+            draggable={false}
+            onPointerDown={handleTrimDown}
+          >
+            <div className="w-1 h-full bg-red-400 group-hover:bg-red-300 group-hover:w-1.5 rounded-full transition-all" />
+          </div>
+        )}
       </div>
 
       {/* 컨트롤 */}

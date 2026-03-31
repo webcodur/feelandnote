@@ -23,7 +23,7 @@ export const SERIES: SeriesDefinition[] = [
   {
     id: 'book-recommend',
     label: '서재 탐방',
-    icon: '📺',
+    icon: '📚',
     composition: 'BookRecommend',
     episodeDir: 'book-recommend',
     render: {

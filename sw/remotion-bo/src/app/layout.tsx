@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { Header } from '@/components/Header'
 
 export const metadata: Metadata = {
-  title: 'Remotion BO',
+  title: { default: 'Remotion BO', template: '%s — Remotion BO' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -11,6 +11,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!voiceId || !text) return NextResponse.json({ success: false, error: 'voiceId and text required' }, { status: 400 })
 
   try {
+    // MP3 원본 반환 — web-bo와 동일 (pcm_24000은 끝 잘림 발생)
     const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
@@ -36,7 +37,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     }
 
     const buffer = Buffer.from(await res.arrayBuffer())
-    return NextResponse.json({ success: true, base64: buffer.toString('base64'), bytes: buffer.length })
+    return NextResponse.json({ success: true, base64: buffer.toString('base64'), bytes: buffer.length, format: 'mp3' })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) })
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SERIES } from '@/lib/series-registry'
@@ -29,6 +29,8 @@ const PROFESSIONS = [
 export default function SearchPage() {
   const router = useRouter()
   const [query, setQuery] = useState('')
+
+  useEffect(() => { document.title = '인물 검색 — Remotion BO' }, [])
   const [profession, setProfession] = useState('')
   const [hasVoice, setHasVoice] = useState(false)
   const [results, setResults] = useState<CelebResult[]>([])

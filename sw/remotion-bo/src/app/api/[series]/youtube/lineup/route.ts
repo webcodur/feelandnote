@@ -5,7 +5,7 @@ import path from 'path'
 import { getSeriesById } from '@/lib/series-registry'
 
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
-const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube-lineup.json')
+const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
 
 export async function GET(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -43,7 +43,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
     if (existsSync(LINEUP_PATH)) all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
   } catch { /* fresh start */ }
 
-  all[episode] = { hook, privacyStatus }
+  all[episode] = { ...(all[episode] as Record<string, unknown>), hook, privacyStatus }
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
   return NextResponse.json({ ok: true })
 }
