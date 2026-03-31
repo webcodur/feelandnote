@@ -15,7 +15,7 @@ export const toFrames = (sec: number) => Math.ceil(sec * FPS) + Math.round(1.5 *
 /** 순수 오디오 프레임 (버퍼 없음). 자막·하이라이트 분배용. */
 export const toAudioFrames = (sec: number) => Math.ceil(sec * FPS)
 
-export const BRAND_FRAMES = f(4)           // 240
+export const BRAND_FRAMES = f(2.5)         // 150
 export const CELEB_VISUAL_DELAY = f(2.5)   // 150
 
 // --- 섹션 라벨 타이밍 ---
@@ -24,7 +24,7 @@ export const CELEB_VISUAL_DELAY = f(2.5)   // 150
 export const PRE_LABEL_GAP = f(0.4)        // 24
 /** "핵심 요약" 라벨 기본 프레임 (JSON duration 없을 때 폴백) */
 export const LABEL_FRAMES = f(1.33)        // 80
-/** "추천 및 감상경위" 라벨 기본 프레임 (JSON duration 없을 때 폴백) */
+/** "감상경위" 라벨 기본 프레임 (JSON duration 없을 때 폴백) */
 export const LABEL_CONTEXT_FRAMES = f(1.83) // 110
 /** 라벨 오디오 후 무음 */
 export const POST_LABEL_GAP = f(0.4)       // 24
@@ -38,20 +38,16 @@ export const titleSummaryGap = (labelDur?: number) => PRE_LABEL_GAP + labelSumma
 /** 요약 → 경위 사이 총 갭 (라벨 포함) */
 export const summaryContextGap = (labelDur?: number) => PRE_LABEL_GAP + labelContextFrames(labelDur) + POST_LABEL_GAP
 
-/** 하위호환: 고정값 (JSON duration 없는 에피소드용) */
-export const TITLE_SUMMARY_GAP = PRE_LABEL_GAP + LABEL_FRAMES + POST_LABEL_GAP
-export const SUMMARY_CONTEXT_GAP = PRE_LABEL_GAP + LABEL_CONTEXT_FRAMES + POST_LABEL_GAP
-
 /** 맥락 → 셀럽 인용 사이 갭 (인용 있을 때만) */
-export const CONTEXT_QUOTE_GAP = f(3)      // 180
+export const CONTEXT_QUOTE_GAP = f(1.5)    // 90
 /** 인용 → 후속 맥락 사이 갭 */
-export const QUOTE_CONTEXTAFTER_GAP = f(0.67) // 40
+export const QUOTE_CONTEXTAFTER_GAP = f(0.4) // 24
 /** 책 사이 전환 프레임 */
 export const BOOK_GAP = f(3)               // 180
 /** 중간안내 프레임 (10개 초과 시 삽입) */
 export const INTERLUDE_FRAMES = f(4)       // 240
-/** 리캡 섹션 프레임 */
-export const RECAP_FRAMES = f(5)           // 300
+/** 리캡 섹션 프레임 (포스터형 + 테이블형) */
+export const RECAP_FRAMES = f(9)           // 540
 /** 로고 섹션 프레임 */
 export const LOGO_FRAMES = f(3)            // 180
 
@@ -112,24 +108,47 @@ export const bookTotalFrames = (b: BookDurations, ld?: LabelDurations) => {
 
 import type { ShortSegment } from './types'
 
+/** 쇼츠 세그먼트 프레임 (오디오 + 0.3초 여운) */
+export const toShortFrames = (sec: number) => Math.ceil(sec * FPS) + f(0.3)
 /** 세그먼트 간 전환 프레임 */
-export const SHORT_GAP = f(0.4)            // 24
+export const SHORT_GAP = f(0.2)            // 12
+/** CTA 세그먼트 앞 전환 갭 — 배경 확장 후 텍스트 등장 */
+export const SHORT_CTA_GAP = f(1.0)        // 60
 /** duration 없는 세그먼트 폴백 프레임 */
-export const SHORT_FALLBACK = f(2.5)       // 150
+export const SHORT_FALLBACK = f(2.5)       // 75
 /** 채널 안내 (BrandIntro) 프레임 — hook 직후 삽입 */
+/** hook 프레임 — 텍스트 떠오름 + 여운 */
+export const SHORT_HOOK_FRAMES = f(3.5)    // 105
 export const SHORT_BRAND_FRAMES = f(2.5)   // 150
+/** CTA 폴백 프레임 (duration 없을 때) */
+export const SHORT_CTA_FRAMES = f(3.5)     // 210
 /** 로고 프레임 */
 export const SHORT_LOGO_FRAMES = f(3)      // 180
+/** 오프닝 리빌 (chime + 아바타+포스터) */
+export const SHORT_REVEAL_FRAMES = f(2.0)  // 120
+/** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
+export const SHORT_REVEAL_GAP = f(1.0)     // 60
+/** 세그먼트 레이아웃 — 단일원천. BookRecommendShort, generate-srt 모두 이 함수를 사용한다. */
+export function shortSegLayout(segments: ShortSegment[]) {
+  const segTimings = segments.map((seg, i) => {
+    if (seg.visual === 'cta') return SHORT_CTA_FRAMES
+    const fallback = i === 0 ? SHORT_HOOK_FRAMES : SHORT_FALLBACK
+    const base = seg.duration ? toShortFrames(seg.duration) : fallback
+    return base
+  })
 
-/** 세그먼트 배열 → 총 프레임 (hook 뒤 BrandIntro 포함) */
-export const shortTotalFrames = (segments: ShortSegment[]) => {
-  let total = 0
-  for (let i = 0; i < segments.length; i++) {
-    total += segments[i].duration ? toFrames(segments[i].duration!) : SHORT_FALLBACK
-    total += SHORT_GAP
-    // hook 세그먼트 뒤에 BrandIntro 삽입
-    if (i === 0) total += SHORT_BRAND_FRAMES + SHORT_GAP
+  const segStarts: number[] = []
+  let cursor = SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
+  for (let i = 0; i < segTimings.length; i++) {
+    segStarts.push(cursor)
+    const gap = segments[i + 1]?.visual === 'cta' ? SHORT_CTA_GAP : SHORT_GAP
+    cursor += segTimings[i] + gap
   }
-  total += SHORT_LOGO_FRAMES
-  return total
+
+  return { segTimings, segStarts, logoStart: cursor }
 }
+
+/** 세그먼트 배열 → 총 프레임 */
+export const shortTotalFrames = (segments: ShortSegment[]) =>
+  shortSegLayout(segments).logoStart + SHORT_LOGO_FRAMES
+

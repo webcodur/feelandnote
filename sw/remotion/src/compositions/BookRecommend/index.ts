@@ -1,5 +1,6 @@
-export { BookRecommend, calcTotalFrames } from './BookRecommend'
+export { BookRecommend, calcTotalFrames } from './BookRecommendLong'
 export { BookRecommendShort, calcShortTotalFrames } from './BookRecommendShort'
-export { currentEpisode, episodes, EPISODE_NAME, isVoiceReady, isContinuation } from './script'
+export { episodes, EPISODE_NAME, isVoiceReady, isContinuation, episodeStatus, episodeDir } from './script'
+export type { EpisodeStatus } from './script'
 export type { BookRecommendScript, CelebHost, BookEntry, NarratorLines, TtsOverrides, ShortsConfig, SeriesInfo } from './types'
 export * from './timing'

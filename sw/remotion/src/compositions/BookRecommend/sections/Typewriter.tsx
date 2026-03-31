@@ -1,6 +1,6 @@
-import { interpolate, useCurrentFrame } from 'remotion'
+import { Easing, interpolate, useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
-import { splitSentences } from '../utils'
+import { buildHighlightSegments } from '../utils'
 
 type Segment = { start: number; end: number; text?: string }
 
@@ -30,24 +30,7 @@ export const Typewriter: React.FC<Props> = ({
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
-  const sentences = splitSentences(text, timings)
-
-  const hasTimings = timings && timings.length === sentences.length
-    && timings.every(t => t.start != null && t.end != null)
-
-  if (!hasTimings) {
-    console.warn(`[Typewriter] timings 불일치: sentences=${sentences.length}, timings=${timings?.length ?? 0}, text="${text.slice(0, 40)}..."`)
-  }
-
-  const ranges = hasTimings
-    ? timings.map(t => ({
-        start: Math.round(t.start * FPS),
-        end: Math.round(t.end * FPS),
-      }))
-    : sentences.map((_, i) => {
-        const dur = spreadFrames / sentences.length
-        return { start: Math.round(i * dur), end: Math.round((i + 1) * dur) }
-      })
+  const { texts: sentences, ranges } = buildHighlightSegments(text, timings, spreadFrames)
 
   return (
     <div
@@ -63,62 +46,67 @@ export const Typewriter: React.FC<Props> = ({
         const r = ranges[Math.min(i, ranges.length - 1)]
         const s0 = r.start
         const s2 = Math.max(r.end, s0 + 2)
-        const chars = sentence.split('')
-        const sweepDur = (s2 - s0) * 0.6
+        const nextR = i + 1 < ranges.length ? ranges[i + 1] : null
 
-        const FADE_OUT = Math.round(FPS * 0.3) // 읽는→읽은 페이드아웃 (0.3초)
+        // 다음 단어의 시작 시점을 다음 연결점(n0)으로 설정
+        // 간격이 0.5초 이상 벌어지면 기존 문장 끝부분(s2)부터 꺼지도록 하여 계속 불이 켜져있지 않게 보정
+        const n0 = nextR
+          ? (nextR.start - s2 > FPS * 0.5 ? s2 : nextR.start)
+          : s2
+
+        const BOOST = 4 // 하이라이트를 음성보다 살짝 앞당김
+        const FADE_IN = 12 // 0.2초 — 부드러운 점등
+        const FADE_OUT = 15 // 0.25초 — 부드러운 크로스페이드
+        const suffix = i < sentences.length - 1 ? ' ' : ''
+
+        // ── 상태 판별 ──
+        const isFuture = elapsed < s0 - BOOST
+        const isPast = elapsed >= n0 + FADE_OUT
+
+        // 읽을 문장 — 매우 어둡게
+        if (isFuture) {
+          return (
+            <span key={i} style={{ opacity: 0.15, color }}>{sentence}{suffix}</span>
+          )
+        }
+
+        // 읽은 문장
+        if (isPast) {
+          return (
+            <span key={i} style={{
+              opacity: 0.7,
+              color: `color-mix(in srgb, ${highlightColor} 15%, ${color})`,
+            }}>{sentence}{suffix}</span>
+          )
+        }
+
+        // ── 읽는 단어 — 빠른 페이드인 & 크로스페이드 아웃 ──
+        const t0 = s0 - BOOST
+        const sweepProgress = interpolate(elapsed, [t0, t0 + FADE_IN], [0, 1], {
+          ...CL,
+          easing: Easing.out(Easing.cubic),
+        })
+
+        // n0 - BOOST 지점 (즉 다음 단어 켜지는 시점)에 맞춰 꺼주어 부드럽게 크로스 스윕
+        const fadeProgress = interpolate(elapsed, [n0 - BOOST, n0 - BOOST + FADE_OUT], [0, 1], CL)
+
+        let wordOpacity: number
+        let wordMix: number
+
+        if (elapsed >= n0 - BOOST) {
+          wordOpacity = interpolate(fadeProgress, [0, 1], [1, 0.85], CL)
+          wordMix = interpolate(fadeProgress, [0, 1], [1, 0.25], CL)
+        } else {
+          wordOpacity = interpolate(sweepProgress, [0, 1], [0.25, 1], CL)
+          wordMix = sweepProgress
+        }
 
         return (
-          <span key={i}>
-            {chars.map((char, ci) => {
-              const delay = chars.length > 1
-                ? (ci / (chars.length - 1)) * sweepDur
-                : 0
-              const riseStart = s0 + delay
-
-              // 글자별 스윕 진행도 (0→1)
-              const t0 = riseStart
-              const t1 = Math.max(t0 + 2, t0 + 0.01)
-              const sweepProgress = interpolate(elapsed, [t0, t1], [0, 1], CL)
-
-              // 읽는→읽은 페이드아웃 진행도 (0→1)
-              const fadeProgress = interpolate(elapsed, [s2, s2 + FADE_OUT], [0, 1], CL)
-
-              let charOpacity: number
-              let colorMix: number // 0 = 기본색, 1 = 하이라이트색
-
-              if (elapsed < s0) {
-                // 읽을 단어
-                charOpacity = 0.25
-                colorMix = 0
-              } else if (elapsed >= s2 + FADE_OUT) {
-                // 읽은 단어 (페이드아웃 완료)
-                charOpacity = 0.9
-                colorMix = 0.3
-              } else if (elapsed >= s2) {
-                // 페이드아웃 중 (읽는→읽은)
-                charOpacity = interpolate(fadeProgress, [0, 1], [1, 0.9], CL)
-                colorMix = 1 - fadeProgress
-              } else {
-                // 읽는 단어 — 부드러운 색 전환
-                charOpacity = interpolate(sweepProgress, [0, 1], [0.25, 1], CL)
-                colorMix = sweepProgress
-              }
-
-              return (
-                <span
-                  key={ci}
-                  style={{
-                    opacity: charOpacity,
-                    color: `color-mix(in srgb, ${highlightColor} ${Math.round(colorMix * 100)}%, ${color})`,
-                    transition: 'none',
-                  }}
-                >
-                  {char}
-                </span>
-              )
-            })}
-            {i < sentences.length - 1 ? ' ' : ''}
+          <span key={i} style={{
+            opacity: wordOpacity,
+            color: `color-mix(in srgb, ${highlightColor} ${Math.round(wordMix * 100)}%, ${color})`,
+          }}>
+            {sentence}{suffix}
           </span>
         )
       })}

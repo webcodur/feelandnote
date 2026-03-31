@@ -24,9 +24,9 @@ export function usePrefetch(
   useEffect(() => {
     if (!hasVoice) return
     const urls: string[] = [
-      sf('sfx/chime.wav'),
-      sf('sfx/page-turn.wav'),
-      sf('sfx/whoosh.wav'),
+      sf('common/sfx/chime.wav'),
+      sf('common/sfx/page-turn.wav'),
+      sf('common/sfx/whoosh.wav'),
       vf(VN_LABEL_SUMMARY),
       vf(VN_LABEL_CONTEXT),
       ...(narrator.outroDuration > 0 ? [vf(VN_OUTRO)] : []),
@@ -35,15 +35,15 @@ export function usePrefetch(
         vf(vnBookTitle(i)),
         vf(vnBookSummary(i)),
         vf(vnBookContext(i)),
-        ...(books[i].directQuote ? [vf(vnBookQuote(i))] : []),
-        ...(books[i].contextAfter ? [vf(vnBookContextAfter(i))] : []),
+        ...((books[i].directQuote && (books[i].quoteDuration ?? 0) > 0) ? [vf(vnBookQuote(i))] : []),
+        ...((books[i].contextAfter && (books[i].contextAfterDuration ?? 0) > 0) ? [vf(vnBookContextAfter(i))] : []),
       ]),
     ]
     if (cont) {
       if ((narrator.returnIntroDuration ?? 0) > 0) urls.push(vf(VN_RETURN_INTRO))
       if ((narrator.prevRecapDuration ?? 0) > 0) urls.push(vf(VN_PREV_RECAP))
     } else {
-      urls.push(sf('sfx/type-reveal.wav'))
+      urls.push(sf('common/sfx/type-reveal.wav'))
       if ((narrator.serviceGreetingDuration ?? 0) > 0) {
         urls.push(vf(VN_SERVICE_GREETING))
       }

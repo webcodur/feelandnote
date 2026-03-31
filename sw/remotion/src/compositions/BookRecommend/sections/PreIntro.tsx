@@ -5,7 +5,7 @@
 import React from 'react'
 import { AbsoluteFill, Img, interpolate } from 'remotion'
 import type { CelebHost, BookEntry } from '../types'
-import { fadeInOut, safeImg } from '../utils'
+import { fadeInOut, safeImg, BALANCED, SUBTITLE_STYLE } from '../utils'
 import { f } from '../timing'
 import { FONT } from '../fonts'
 import { SpeakingIndicator } from './SpeakingIndicator'
@@ -35,11 +35,11 @@ export const PreIntro: React.FC<Props> = ({
 
   const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
-  // ── parts 기반 정확한 타이밍 ──
+  // ── parts 기반 정확한 타이밍 (짧은 고정 인사 대응) ──
   const gf = svcGreetingFrames
   const CORNER = 0
-  const LIBRARY = Math.round(gf * 0.35)
-  const INTRODUCE = Math.round(gf * 0.55)
+  const LIBRARY = Math.round(gf * 0.2)
+  const INTRODUCE = Math.round(gf * 0.45)
 
   // 책 등장
   const shelfAppear = f(0.17)
@@ -56,8 +56,8 @@ export const PreIntro: React.FC<Props> = ({
     [shelfAppear, shelfAppear + f(0.67), svcTotalEnd - f(0.5), svcTotalEnd],
     [0, 1, 1, 0], CL)
   const brightStart = Math.max(shelfAppear + 1, LIBRARY)
-  const baseBrightness = interpolate(local, [shelfAppear, brightStart, brightStart + f(0.67)], [0.35, 0.35, 0.85], CL)
-  const shelfBrightness = Math.max(0.3, baseBrightness)
+  const baseBrightness = interpolate(local, [shelfAppear, brightStart, brightStart + f(0.5)], [0.5, 0.5, 0.9], CL)
+  const shelfBrightness = Math.max(0.4, baseBrightness)
 
   // ── 책 순차 점프 ──
   const jumpStart = shelfBright
@@ -95,17 +95,17 @@ export const PreIntro: React.FC<Props> = ({
       {/* 아바타 블록 */}
       {(() => {
         const spaceStart = avatarAppear - f(0.5)
-        const avatarHeight = 180 + 14 + 48 + 12
+        const avatarHeight = 300 + 14 + 92 + 32
         const spaceH = interpolate(local, [spaceStart, avatarAppear], [0, avatarHeight], CL)
         const avatarDelay = f(0.33)
         const avatarFadeIn = interpolate(local, [avatarAppear + avatarDelay, avatarAppear + avatarDelay + f(0.5)], [0, 1], CL)
         const showSpace = local >= spaceStart && (avatarOp > 0 || spaceH > 0)
         if (!showSpace) return null
         return <div style={{ height: spaceH, minHeight: 0, overflow: 'visible', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
-          {avatarOp > 0 && <div style={{ opacity: Math.min(avatarFadeIn, avatarOp), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+          {avatarOp > 0 && <div style={{ opacity: Math.min(avatarFadeIn, avatarOp), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 32 }}>
           <div style={{ position: 'relative' }}>
             <div style={{
-              width: 180, height: 180, borderRadius: '50%', overflow: 'hidden',
+              width: 300, height: 300, borderRadius: '50%', overflow: 'hidden',
               backgroundColor: 'rgba(30,24,16,0.9)',
               border: `2px solid rgba(200,164,110,${borderAlpha})`,
               boxShadow: revealProgress > 0.5
@@ -123,18 +123,18 @@ export const PreIntro: React.FC<Props> = ({
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               opacity: questionOp,
             }}>
-              <div style={{ color: '#c8a46e', fontSize: 48, fontWeight: 700, fontFamily: FONT.serif }}>?</div>
+              <div style={{ color: '#c8a46e', fontSize: 72, fontWeight: 700, fontFamily: FONT.serif }}>?</div>
             </div>
-            {quoteOp > 0 && <SpeakingIndicator size={32} opacity={quoteOp} audioSrc={fQuoteAudioSrc} audioStartFrame={svcGreetingStart + svcGreetingFrames + svcIntroFrames + f(1)} />}
+            {quoteOp > 0 && <SpeakingIndicator size={48} opacity={quoteOp} audioSrc={fQuoteAudioSrc} audioStartFrame={svcGreetingStart + svcGreetingFrames + svcIntroFrames + f(1)} />}
           </div>
           {/* 이름 슬롯 */}
-          <div style={{ minHeight: 48, minWidth: 300, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ position: 'absolute', opacity: questionOp, color: '#c8a46e', fontSize: 24, fontWeight: 700, fontFamily: FONT.serif, letterSpacing: 6, whiteSpace: 'nowrap' }}>
+          <div style={{ minHeight: 92, minWidth: 300, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', opacity: questionOp, color: '#c8a46e', fontSize: 38, fontWeight: 700, fontFamily: FONT.serif, letterSpacing: 6, whiteSpace: 'nowrap' }}>
               ???
             </div>
             <div style={{ position: 'absolute', opacity: nameOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
-              <div style={{ color: '#e8e0d0', fontSize: 26, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
-              <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.cormorant, letterSpacing: 2 }}>{locale === 'en' ? host.title : host.nickname_en}</div>
+              <div style={{ color: '#e8e0d0', fontSize: 40, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
+              <div style={{ ...SUBTITLE_STYLE, fontSize: 32 }}>{locale === 'en' ? host.title : host.nickname_en}</div>
             </div>
           </div>
         </div>}
@@ -154,7 +154,7 @@ export const PreIntro: React.FC<Props> = ({
         }}>
           <div style={{ opacity: labelOp, display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-            <div style={{ color: '#c8a46e', fontSize: 18, fontWeight: 600, fontFamily: FONT.cinzel, letterSpacing: 6 }}>
+            <div style={{ color: '#c8a46e', fontSize: 24, fontWeight: 600, fontFamily: FONT.cinzel, letterSpacing: 6 }}>
               {libraryTourText}
             </div>
             <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
@@ -163,7 +163,7 @@ export const PreIntro: React.FC<Props> = ({
           {shelfOp > 0 && (
             <div style={{
               opacity: shelfOp, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-              gap: 10, perspective: 800,
+              gap: 14, perspective: 800,
             }}>
               {books.slice(0, bookCount).map((b, bi) => {
                 const mid = bookCount / 2
@@ -183,7 +183,7 @@ export const PreIntro: React.FC<Props> = ({
                     transformOrigin: 'bottom center',
                   }}>
                     <div style={{
-                      width: 120, height: 180, borderRadius: 6, overflow: 'hidden',
+                      width: 170, height: 255, borderRadius: 6, overflow: 'hidden',
                       boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
                       border: '1px solid rgba(200,164,110,0.1)',
                     }}>
@@ -197,20 +197,20 @@ export const PreIntro: React.FC<Props> = ({
               })}
             </div>
           )}
-          <div style={{ opacity: shelfOp, color: '#666', fontSize: 14, fontFamily: FONT.sans, letterSpacing: 2 }}>
+          <div style={{ opacity: shelfOp, color: '#666', fontSize: 20, fontFamily: FONT.sans, letterSpacing: 2 }}>
             {books.length} BOOKS
           </div>
         </div>
         {/* 명언 */}
         {quoteOp > 0 && (
           <div style={{
-            position: 'absolute', top: 20, opacity: quoteOp,
-            maxWidth: 800, textAlign: 'center', padding: '0 40px',
+            position: 'absolute', top: -10, opacity: quoteOp,
+            maxWidth: 1200, textAlign: 'center', padding: '0 40px',
           }}>
-            <div style={{ color: '#c8a46e', fontSize: 30, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7 }}>
-              &ldquo;{host.featuredQuote}&rdquo;
+            <div style={{ color: '#c8a46e', fontSize: 46, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, ...BALANCED }}>
+              {`\u201C${host.featuredQuote ?? ''}\u201D`}
             </div>
-            <div style={{ color: '#777', fontSize: 14, fontFamily: FONT.sans, marginTop: 14 }}>
+            <div style={{ color: '#777', fontSize: 22, fontFamily: FONT.sans, marginTop: 14 }}>
               &mdash; {host.nickname}
             </div>
           </div>

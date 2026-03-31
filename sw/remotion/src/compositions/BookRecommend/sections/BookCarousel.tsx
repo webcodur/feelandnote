@@ -21,10 +21,10 @@ export const BookCarousel: React.FC<Props> = ({
   books, localFrame, duration, fromIdx, toIdx, opacity,
 }) => {
   if (opacity <= 0) return null
-  const CARD_W = 100, CARD_H = 150, CARD_GAP = 24
+  const CARD_W = 150, CARD_H = 225, CARD_GAP = 24
   const CARD_STEP = CARD_W + CARD_GAP
   const VIEWPORT_W = CARD_STEP * 5
-  const POINTER_W = 120
+  const POINTER_W = 160
 
   // 타이밍: 정지(15%) → 스크롤(35%) → 정지(50%)
   const holdEnd = Math.round(duration * 0.15)
@@ -33,7 +33,7 @@ export const BookCarousel: React.FC<Props> = ({
   const centerPos = interpolate(scrollProgress, [0, 1], [fromIdx, toIdx])
   const scrollX = centerPos * CARD_STEP
 
-  const numStyle = { color: '#c8a46e', fontSize: 24, fontFamily: FONT.cinzel, fontWeight: 600 } as const
+  const numStyle = { color: '#c8a46e', fontSize: 32, fontFamily: FONT.cinzel, fontWeight: 600 } as const
   const numFrom = fromIdx + 1
   const numTo = toIdx + 1
   const numProgress = scrollProgress
@@ -46,7 +46,7 @@ export const BookCarousel: React.FC<Props> = ({
   return (
     <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity, gap: 0 }}>
       {/* BOOK SHELF 라벨 */}
-      <div style={{ color: '#c8a46e', fontSize: 14, fontFamily: FONT.cinzel, letterSpacing: 8, fontWeight: 600, opacity: labelOp, marginBottom: 16 }}>
+      <div style={{ color: '#c8a46e', fontSize: 20, fontFamily: FONT.cinzel, letterSpacing: 8, fontWeight: 600, opacity: labelOp, marginBottom: 16 }}>
         BOOK SHELF
       </div>
 

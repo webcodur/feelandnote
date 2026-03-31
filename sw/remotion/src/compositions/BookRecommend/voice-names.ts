@@ -39,6 +39,22 @@ export function vnTimingKey(fileName: string) { return fileName.replace('.wav', 
 export const COMMON_VOICE_FILES = new Set([VN_SERVICE_GREETING, VN_LABEL_SUMMARY, VN_LABEL_CONTEXT])
 
 /**
+ * episode name → { person, locale }
+ * 'alexander-the-great' → { person: 'alexander-the-great', locale: 'ko' }
+ * 'alexander-the-great-en' → { person: 'alexander-the-great', locale: 'en' }
+ * 'elon-musk-2' → { person: 'elon-musk', locale: 'ko-2' }
+ * 'elon-musk-2-en' → { person: 'elon-musk', locale: 'en-2' }
+ */
+export function parseEpName(epName: string): { person: string; locale: string } {
+  let rest = epName
+  let lang = 'ko'
+  if (rest.endsWith('-en')) { lang = 'en'; rest = rest.slice(0, -3) }
+  const m = rest.match(/-(\d+)$/)
+  if (m) { rest = rest.slice(0, -m[0].length); lang = `${lang}-${m[1]}` }
+  return { person: rest, locale: lang }
+}
+
+/**
  * voice-select.json 기반 음성 경로 해소 — 단일원천(SSoT)
  *
  * 사용처: makeVf (Remotion 재생), generate-voice (TTS 저장), analyze-voice (파형 분석)
@@ -53,10 +69,10 @@ export function resolveVoiceRelPath(
   file: string,
   voiceSelect: { default: string; slots?: Record<string, string> } | null,
   locale?: 'ko' | 'en',
-): { dir: 'common' | 'episode'; subPath: string } {
-  // 공통 파일 (한국어만)
-  if ((locale ?? 'ko') === 'ko' && COMMON_VOICE_FILES.has(file)) {
-    return { dir: 'common', subPath: file }
+): { dir: 'common' | 'common-en' | 'episode'; subPath: string } {
+  // 공통 파일 — ko는 common/voice/ko/, en은 common/voice/en/
+  if (COMMON_VOICE_FILES.has(file)) {
+    return { dir: locale === 'en' ? 'common-en' : 'common', subPath: file }
   }
   // voice-select가 있으면 slots 우선, 없으면 default 엔진
   if (voiceSelect) {
@@ -98,18 +114,6 @@ export function oldToNew(oldName: string, bookCount: number, shortSegments?: { i
       'context-after': vnBookContextAfter,
     }
     return map[phase]?.(i) ?? null
-  }
-
-  // Multi-part files: service-greeting-{N}.wav
-  const partMatch = oldName.match(/^(service-greeting)-(\d+)\.wav$/)
-  if (partMatch) {
-    const base = partMatch[1]
-    const partNum = partMatch[2]
-    const newBase = direct[`${base}.wav`]
-    if (newBase) {
-      // A1-service-greeting.wav -> A1-service-greeting-{N}.wav
-      return newBase.replace('.wav', `-${partNum}.wav`)
-    }
   }
 
   // Shorts: short-{segId}.wav

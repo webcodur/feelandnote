@@ -15,6 +15,50 @@ import {
 } from './timing'
 import { isContinuation } from './script'
 
+// --- TTS 미생성 시 글자 수 기반 duration 추정 (프리뷰 레이아웃용) ---
+const KO_CPS = 4.5 // 한국어 TTS 속도 ~4.5자/초
+const est = (text?: string | null) => text ? text.length / KO_CPS : 0
+const d = (sec: number | undefined, text?: string | null) => (sec ?? 0) > 0 ? (sec ?? 0) : est(text)
+
+/** duration 0인 필드를 글자 수 기반으로 추정하여 채운 script 사본 반환 */
+function withEstimatedDurations(script: BookRecommendScript): BookRecommendScript {
+  const { narrator: n, host: h, books } = script
+  const anyBookMissing = books.some(b =>
+    b.titleDuration === 0 || b.summaryDuration === 0
+    || (b.directQuote && (b.quoteDuration ?? 0) === 0)
+    || (b.contextAfter && (b.contextAfterDuration ?? 0) === 0)
+  )
+  const anyNarratorMissing = (n.celebIntroDuration ?? 0) === 0 || n.outroDuration === 0
+  const anyHostMissing = (h.voiceDuration ?? 0) === 0 || (h.featuredQuoteDuration ?? 0) === 0
+  if (!anyBookMissing && !anyNarratorMissing && !anyHostMissing) return script // 이미 TTS 완료
+  return {
+    ...script,
+    narrator: {
+      ...n,
+      serviceGreetingDuration: d(n.serviceGreetingDuration, n.serviceGreeting),
+      serviceIntroDuration: d(n.serviceIntroDuration, n.serviceIntro),
+      celebIntroDuration: d(n.celebIntroDuration, n.celebIntro),
+      bridgeDuration: d(n.bridgeDuration, n.bridge) || n.bridgeDuration,
+      outroDuration: d(n.outroDuration, n.outro) || n.outroDuration,
+      labelSummaryDuration: (n.labelSummaryDuration ?? 0) > 0 ? n.labelSummaryDuration : 1.0,
+      labelContextDuration: (n.labelContextDuration ?? 0) > 0 ? n.labelContextDuration : 1.5,
+    },
+    host: {
+      ...h,
+      voiceDuration: d(h.voiceDuration, h.philosophy),
+      featuredQuoteDuration: d(h.featuredQuoteDuration, h.featuredQuote),
+    },
+    books: books.map(b => ({
+      ...b,
+      titleDuration: d(b.titleDuration, `${b.title}, ${b.creator}`),
+      summaryDuration: d(b.summaryDuration, b.summary),
+      contextDuration: d(b.contextDuration, b.context),
+      quoteDuration: b.directQuote ? d(b.quoteDuration, b.directQuote) : b.quoteDuration,
+      contextAfterDuration: b.contextAfter ? d(b.contextAfterDuration, b.contextAfter) : b.contextAfterDuration,
+    })),
+  }
+}
+
 export interface BookTiming {
   titleFrames: number
   summaryFrames: number
@@ -72,7 +116,8 @@ export interface Timeline {
   totalFrames: number
 }
 
-export function buildTimeline(script: BookRecommendScript): Timeline {
+export function buildTimeline(rawScript: BookRecommendScript): Timeline {
+  const script = withEstimatedDurations(rawScript)
   const { narrator, host, books } = script
   const cont = isContinuation(script)
   const ld: LabelDurations = { labelSummaryDuration: narrator.labelSummaryDuration, labelContextDuration: narrator.labelContextDuration }

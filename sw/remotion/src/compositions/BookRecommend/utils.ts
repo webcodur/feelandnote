@@ -2,21 +2,25 @@ import React from 'react'
 import { interpolate, staticFile } from 'remotion'
 import { FONT } from './fonts'
 import { f } from './timing'
-import { resolveVoiceRelPath } from './voice-names'
+import { parseEpName, resolveVoiceRelPath } from './voice-names'
+import { episodeDir } from './script'
 
-export { SENTENCE_SPLIT, splitSentences, paginateSentences, slicePageTimings } from './sentence-split'
+export { SENTENCE_SPLIT, splitSentences, buildHighlightSegments, expandSubTimings, paginateSentences, slicePageTimings, splitSub, isTimingsStale } from './sentence-split'
+export type { Sub } from './sentence-split'
 
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
 export const sf = (path: string) => staticFile(path)
 
-/** 에피소드 이미지 경로용 baseName — '-en' 접미사 제거하여 한/영 이미지 공유 */
-export const imageBase = (epName: string) => `celebs/${epName.replace(/-en$/, '')}`
 
 /** 에피소드별 음성 경로 팩토리 — resolveVoiceRelPath 단일원천 사용 */
 export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en') => {
+  const { person, locale: voiceLocale } = parseEpName(epName)
+  const epDir = episodeDir[epName] ?? `todo/${person}`
   return (file: string) => {
     const { dir, subPath } = resolveVoiceRelPath(file, voiceSelect, locale)
-    return dir === 'common' || dir === 'common-en' ? sf(`voice/${dir}/${subPath}`) : sf(`voice/${epName}/${subPath}`)
+    if (dir === 'common') return sf(`common/voice/ko/${subPath}`)
+    if (dir === 'common-en') return sf(`common/voice/en/${subPath}`)
+    return sf(`episodes/${epDir}/voice/${voiceLocale}/${subPath}`)
   }
 }
 
@@ -99,14 +103,14 @@ export const BrandLogo: React.FC<LogoProps> = ({ variant = 'full', fontSize, sty
 
   if (variant === 'brand' || variant === 'full') {
     const goldStyle: React.CSSProperties = {
-      backgroundImage: `url('${sf('images/noise.svg')}'), linear-gradient(180deg, #fad482 0%, #c1922c 40%, #856015 55%, #d6a848 100%)`,
+      backgroundImage: `url('${sf('common/images/noise.svg')}'), linear-gradient(180deg, #fad482 0%, #c1922c 40%, #856015 55%, #d6a848 100%)`,
       backgroundBlendMode: 'overlay', // texture 덮기
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.8)) drop-shadow(0px -1px 1px rgba(255,255,255,0.2))'
     }
     const silverStyle: React.CSSProperties = {
-      backgroundImage: `url('${sf('images/noise.svg')}'), linear-gradient(180deg, #ffffff 0%, #dfdbd2 45%, #a8a49c 60%, #f2efe9 100%)`,
+      backgroundImage: `url('${sf('common/images/noise.svg')}'), linear-gradient(180deg, #ffffff 0%, #dfdbd2 45%, #a8a49c 60%, #f2efe9 100%)`,
       backgroundBlendMode: 'overlay',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',

@@ -8,6 +8,7 @@
  * audioSrc 없으면 sin wave 폴백.
  */
 import React from 'react'
+import { DARK } from '../../theme'
 import { useCurrentFrame } from 'remotion'
 import { useAudioData, visualizeAudio } from '@remotion/media-utils'
 import { FPS } from '../timing'
@@ -113,7 +114,7 @@ export const SpeakingIndicator: React.FC<Props> = ({
       width: size,
       height: size,
       borderRadius: '50%',
-      backgroundColor: '#0a0a0a',
+      backgroundColor: DARK.base,
       border: '2px solid rgba(200,164,110,0.4)',
       display: 'flex',
       alignItems: 'center',

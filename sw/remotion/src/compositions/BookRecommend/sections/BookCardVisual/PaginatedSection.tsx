@@ -35,33 +35,37 @@ type Props = {
   spreadFrames: number
   /** 섹션 전체 bodyOp (부모 interpolate 결과) */
   bodyOp: number
-  /** 인라인 마커 opacity (부모 interpolate 결과) */
-  labelOp: number
-  /** 마커 라벨 */
-  markerLabel: string
   /** 본문 텍스트 색상 */
   textColor: string
   /** 전체 voiceTimings (단일 페이지용) */
   timings?: VoiceTimingSegment[]
 }
 
+/** 섹션 제목 높이 — 부모 pagination 계산에 사용 */
+export const SECTION_LABEL_H = 62
+
+/** 섹션 라벨 — PaginatedSection 외부에서 독립 렌더 */
+export const SectionLabel: React.FC<{ label: string; opacity: number }> = ({ label, opacity }) => (
+  <div style={{ opacity, marginBottom: 16, textAlign: 'center' }}>
+    <span style={{
+      color: '#c8a46e', fontSize: 38, fontWeight: 600,
+      fontFamily: FONT.sans, letterSpacing: 1,
+    }}>
+      {label}
+    </span>
+  </div>
+)
+
 export const PaginatedSection: React.FC<Props> = ({
   text, pages, pageTimings, startFrame, spreadFrames,
-  bodyOp, labelOp, markerLabel, textColor, timings,
+  bodyOp, textColor, timings,
 }) => {
   const frame = useCurrentFrame()
-
-  const marker = (op: number) => (
-    <span style={{ display: 'inline', marginRight: 14, opacity: op }}>
-      <span style={{ color: '#c8a46e', fontSize: 38, fontFamily: FONT.sans, lineHeight: BODY_LH, verticalAlign: 'baseline' }}>{markerLabel}</span>
-    </span>
-  )
 
   if (pages.length === 1) {
     return (
       <div style={{ opacity: bodyOp, fontFamily: FONT.sans }}>
-        {marker(labelOp)}
-        <Typewriter text={text} startFrame={startFrame} spreadFrames={spreadFrames} color={textColor} fontSize={38} style={{ lineHeight: BODY_LH, display: 'inline' }} timings={timings} />
+        <Typewriter text={text} startFrame={startFrame} spreadFrames={spreadFrames} color={textColor} fontSize={38} style={{ lineHeight: BODY_LH }} timings={timings} />
       </div>
     )
   }
@@ -89,8 +93,7 @@ export const PaginatedSection: React.FC<Props> = ({
             opacity: Math.max(op, 0), transform: `translateX(${xIn + xOut}px)`,
             fontFamily: FONT.sans,
           }}>
-            {isFirst && marker(labelOp)}
-            <Typewriter text={pt} startFrame={ps} spreadFrames={pe - ps} color={textColor} fontSize={38} style={{ lineHeight: BODY_LH, display: isFirst ? 'inline' : undefined }} timings={spt?.timings} />
+            <Typewriter text={pt} startFrame={ps} spreadFrames={pe - ps} color={textColor} fontSize={38} style={{ lineHeight: BODY_LH }} timings={spt?.timings} />
           </div>
         )
       })}

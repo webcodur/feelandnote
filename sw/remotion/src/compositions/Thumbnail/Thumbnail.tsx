@@ -4,9 +4,10 @@
  */
 import { AbsoluteFill, Img } from 'remotion'
 import { FONT } from '../BookRecommend/fonts'
-import { safeImg } from '../BookRecommend/utils'
+import { safeImg, BALANCED } from '../BookRecommend/utils'
 import type { BookRecommendScript } from '../BookRecommend/types'
 import { t } from '../BookRecommend/i18n'
+import { DARK } from '../theme'
 
 type Props = {
   script: BookRecommendScript
@@ -17,8 +18,8 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
   const i18n = t(script)
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#060504' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 25% 50%, #1e1810 0%, #0a0908 60%, #060504 100%)' }} />
+    <AbsoluteFill style={{ backgroundColor: DARK.surface }}>
+      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 25% 50%, #1e1810 0%, ${DARK.base} 60%, ${DARK.surface} 100%)` }} />
 
       {books.slice(0, 4).map((b, i) => (
         <div key={i} style={{
@@ -31,53 +32,59 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
         </div>
       ))}
 
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 50px' }}>
-        <div style={{ width: 420, display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-          <div style={{ position: 'relative', marginBottom: 20 }}>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center' }}>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingLeft: 40 }}>
+          <div style={{ position: 'relative' }}>
             <div style={{
-              position: 'absolute', inset: -36,
+              position: 'absolute', inset: -50,
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(200,164,110,0.12) 0%, transparent 60%)',
               zIndex: 0,
             }} />
             <div style={{
               position: 'relative', zIndex: 1,
-              width: 300, height: 300, borderRadius: '50%', overflow: 'hidden',
-              border: '3px solid rgba(200,164,110,0.4)',
-              boxShadow: '0 24px 70px rgba(0,0,0,0.7)',
+              width: 440, height: 440, borderRadius: '50%', overflow: 'hidden',
+              border: '3px solid rgba(200,164,110,0.55)',
+              boxShadow: '0 24px 70px rgba(0,0,0,0.7), 0 0 40px rgba(200,164,110,0.18), 0 0 80px rgba(200,164,110,0.08)',
             }}>
               <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
-          <div style={{ color: '#f0e8d8', fontSize: 44, fontWeight: 700, fontFamily: FONT.sans, textAlign: 'center' }}>{host.nickname}</div>
-          <div style={{ color: '#888', fontSize: 20, fontFamily: FONT.cormorant, letterSpacing: 4, marginTop: 4 }}>{script.locale === 'en' ? host.title : host.nickname_en}</div>
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 50 }}>
-          <div style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', top: -70, left: -24, color: 'rgba(200,164,110,0.12)', fontSize: 180, fontFamily: FONT.serif, fontWeight: 700, lineHeight: 1 }}>
-              &ldquo;
-            </div>
-            <div style={{ color: '#f0e8d8', fontSize: 52, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.55, maxWidth: 700, position: 'relative' }}>
-              {host.featuredQuote}
-            </div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingRight: 60 }}>
+          <div style={{ color: '#c8a46e', fontSize: 36, fontWeight: 500, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 12, textAlign: 'center' }}>
+            {host.title}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 30 }}>
-            <div style={{ width: 50, height: 3, backgroundColor: '#c8a46e', opacity: 0.5 }} />
-            <div style={{ color: '#c8a46e', fontSize: 22, fontFamily: FONT.sans, fontWeight: 600 }}>{host.nickname}</div>
+          <div style={{ color: '#f0e8d8', fontSize: 110, fontWeight: 700, fontFamily: script.locale === 'en' ? FONT.serif : FONT.sans, lineHeight: 1.15, wordBreak: 'keep-all', textAlign: 'center', ...BALANCED }}>
+            {host.nickname}
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 40, marginBottom: 24 }}>
+            <div style={{ width: 80, height: 1, background: 'linear-gradient(to right, transparent, rgba(200,164,110,0.6))' }} />
+            <div style={{ width: 10, height: 10, border: '1.5px solid rgba(200,164,110,0.7)', transform: 'rotate(45deg)', flexShrink: 0 }} />
+            <div style={{ width: 80, height: 1, background: 'linear-gradient(to left, transparent, rgba(200,164,110,0.6))' }} />
+          </div>
+          <div style={{ color: '#c8a46e', fontSize: 56, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, textAlign: 'center' }}>
+            {i18n.libraryTour}
           </div>
         </div>
       </div>
 
-      <div style={{ position: 'absolute', top: 28, left: 50 }}>
-        <span style={{ color: '#c8a46e', fontSize: 22, fontFamily: FONT.cinzel, letterSpacing: 5, opacity: 0.8 }}>FEEL <span style={{ color: '#f0e8d8' }}>&amp;</span> NOTE</span>
+      {/* 고급스러운 액자 프레임 */}
+      <div style={{
+        position: 'absolute', inset: 40,
+        border: '1px solid rgba(200,164,110,0.3)',
+        pointerEvents: 'none', zIndex: 10
+      }}>
+        <div style={{ position: 'absolute', top: -2, left: -2, width: 40, height: 40, borderTop: '3px solid rgba(200,164,110,0.9)', borderLeft: '3px solid rgba(200,164,110,0.9)' }} />
+        <div style={{ position: 'absolute', top: -2, right: -2, width: 40, height: 40, borderTop: '3px solid rgba(200,164,110,0.9)', borderRight: '3px solid rgba(200,164,110,0.9)' }} />
+        <div style={{ position: 'absolute', bottom: -2, left: -2, width: 40, height: 40, borderBottom: '3px solid rgba(200,164,110,0.9)', borderLeft: '3px solid rgba(200,164,110,0.9)' }} />
+        <div style={{ position: 'absolute', bottom: -2, right: -2, width: 40, height: 40, borderBottom: '3px solid rgba(200,164,110,0.9)', borderRight: '3px solid rgba(200,164,110,0.9)' }} />
+        
+        {/* 이너 보더 */}
+        <div style={{ position: 'absolute', inset: 12, border: '1px solid rgba(200,164,110,0.1)' }} />
       </div>
-      <div style={{ position: 'absolute', bottom: 28, right: 40, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-        <div style={{ color: '#c8a46e', fontSize: 22, fontFamily: FONT.cinzel, letterSpacing: 5, opacity: 0.7 }}>{i18n.libraryTour}</div>
-      </div>
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 3, height: 120, background: 'linear-gradient(to bottom, rgba(200,164,110,0.4), transparent)' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: 3, height: 120, background: 'linear-gradient(to top, rgba(200,164,110,0.4), transparent)' }} />
     </AbsoluteFill>
   )
 }

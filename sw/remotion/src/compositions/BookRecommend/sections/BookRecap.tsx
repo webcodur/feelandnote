@@ -1,20 +1,16 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import type { BookEntry, CelebHost } from '../types'
+import type { BookEntry } from '../types'
 import { safeImg } from '../utils'
 import { FONT } from '../fonts'
 import { f } from '../timing'
 
 type Props = {
   books: BookEntry[]
-  host: CelebHost
   totalFrames: number
-  /** 헤더 라벨 (기본: "{NAME}'S BOOKSHELF") */
-  label?: string
 }
 
 /**
  * 그리드 행 분배: 6권 이상 시 2행, 홀수면 아래 행이 1권 더 많다.
- * 1-5: [books], 6: [3,3], 7: [3,4], 8: [4,4], 9: [4,5], 10: [5,5]
  */
 function splitRows(count: number): [number, number] {
   if (count <= 5) return [count, 0]
@@ -22,190 +18,103 @@ function splitRows(count: number): [number, number] {
   return [top, count - top]
 }
 
+const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
+
 /**
- * 리캡: 표지 + 제목 그리드. 6권 이상 시 2행 배치.
+ * 리캡: 포스터형 그리드.
  */
-export const BookRecap: React.FC<Props> = ({ books, host, totalFrames, label }) => {
+export const BookRecap: React.FC<Props> = ({ books, totalFrames }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
+
+  const posterOp = interpolate(frame,
+    [0, f(0.83), totalFrames - f(0.83), totalFrames],
+    [0, 1, 1, 0], CL)
 
   const count = books.length
   const [topCount, bottomCount] = splitRows(count)
   const isGrid = bottomCount > 0
   const maxCols = isGrid ? Math.max(topCount, bottomCount) : count
 
-  // 카드 크기
-  const thumbW = maxCols >= 5 ? 140 : maxCols >= 4 ? 160 : 200
+  const thumbW = isGrid
+    ? (maxCols >= 5 ? 170 : maxCols >= 4 ? 195 : 230)
+    : (maxCols >= 5 ? 150 : maxCols >= 4 ? 170 : 210)
   const thumbH = Math.round(thumbW * 1.5)
-  const titleSize = maxCols >= 5 ? 24 : maxCols >= 4 ? 26 : 31
-  const creatorSize = maxCols >= 5 ? 19 : maxCols >= 4 ? 21 : 23
-  const oneLinerSize = maxCols >= 5 ? 19 : maxCols >= 4 ? 21 : 23
-  const cardGap = maxCols >= 5 ? 12 : maxCols >= 4 ? 20 : 32
-  const cardMaxWidth = maxCols >= 5 ? 320 : maxCols >= 4 ? 360 : 420
-  const showOneLiner = true
-
-  // 전체 페이드
-  const fadeIn = interpolate(frame, [0, f(0.83)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  const fadeOut = interpolate(frame, [totalFrames - f(0.83), totalFrames], [1, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  })
-  const opacity = fadeIn * fadeOut
-
-  // 상단 라벨
-  const labelOpacity = interpolate(frame, [f(0.17), f(0.67)], [0, 1], { extrapolateRight: 'clamp' })
-  const lineWidth = interpolate(frame, [f(0.33), f(1.33)], [0, 200], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-
-  const headerText = label ?? `${host.nickname_en.toUpperCase()}'S BOOKSHELF`
+  const titleSize = isGrid
+    ? (maxCols >= 5 ? 30 : maxCols >= 4 ? 32 : 36)
+    : (maxCols >= 5 ? 26 : maxCols >= 4 ? 28 : 34)
+  const creatorSize = isGrid
+    ? (maxCols >= 5 ? 24 : maxCols >= 4 ? 26 : 28)
+    : (maxCols >= 5 ? 22 : maxCols >= 4 ? 24 : 26)
+  const cardGap = isGrid
+    ? (maxCols >= 5 ? 18 : maxCols >= 4 ? 24 : 34)
+    : (maxCols >= 5 ? 14 : maxCols >= 4 ? 20 : 30)
+  const cardMaxWidth = isGrid
+    ? (maxCols >= 5 ? 380 : maxCols >= 4 ? 420 : 460)
+    : (maxCols >= 5 ? 340 : maxCols >= 4 ? 380 : 420)
 
   const renderCard = (book: BookEntry, globalIndex: number) => {
     const delay = globalIndex * f(0.27)
     const enter = spring({ frame: Math.max(0, frame - f(0.5) - delay), fps, config: { damping: 14, stiffness: 140 } })
-    const y = interpolate(frame, [f(0.5) + delay, f(1) + delay], [20, 0], { extrapolateRight: 'clamp' })
-    const quoteOpacity = interpolate(frame, [f(1.33) + delay, f(2) + delay], [0, 1], {
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    })
-
     return (
       <div
         key={globalIndex}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: cardMaxWidth,
-          maxWidth: cardMaxWidth,
-          opacity: enter,
-          transform: `translateY(${y}px)`,
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          width: cardMaxWidth, maxWidth: cardMaxWidth, opacity: enter,
         }}
       >
-        {/* 표지 */}
         <div
           style={{
-            width: thumbW,
-            height: thumbH,
-            borderRadius: 6,
-            overflow: 'hidden',
+            width: thumbW, height: thumbH, borderRadius: 6, overflow: 'hidden',
             boxShadow: '0 15px 50px rgba(0,0,0,0.5), 0 0 30px rgba(200,164,110,0.06)',
             marginBottom: isGrid ? 10 : 20,
           }}
         >
           <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-
-        {/* 제목 */}
         <div
           style={{
-            color: '#e8e0d0',
-            fontSize: titleSize,
-            fontWeight: 700,
-            fontFamily: FONT.serif,
-            textAlign: 'center',
-            marginBottom: 2,
-            lineHeight: 1.3,
-            maxWidth: cardMaxWidth - 10,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
+            color: '#e8e0d0', fontSize: titleSize, fontWeight: 700,
+            fontFamily: FONT.serif, textAlign: 'center', marginBottom: 2,
+            lineHeight: 1.3, maxWidth: cardMaxWidth - 10, overflow: 'hidden',
+            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
           }}
         >
           {book.title}
         </div>
-
-        {/* 저자 */}
-        <div
-          style={{
-            color: '#888',
-            fontSize: creatorSize,
-            fontFamily: FONT.sans,
-            textAlign: 'center',
-            marginBottom: showOneLiner ? 14 : 0,
-          }}
-        >
+        <div style={{ color: '#888', fontSize: creatorSize, fontFamily: FONT.sans, textAlign: 'center' }}>
           {book.creator}
         </div>
-
-        {/* 한줄 요약 — 1행 레이아웃에서만 표시 */}
-        {showOneLiner && (
-          <div style={{ opacity: quoteOpacity, textAlign: 'center' }}>
-            <div
-              style={{
-                color: '#c8a46e',
-                fontSize: oneLinerSize,
-                fontFamily: FONT.serif,
-                lineHeight: 1.6,
-                borderTop: '1px solid rgba(200, 164, 110, 0.2)',
-                paddingTop: 12,
-              }}
-            >
-              {book.oneLiner}
-            </div>
-          </div>
-        )}
       </div>
     )
   }
 
   const renderRow = (rowBooks: BookEntry[], startIndex: number) => (
-    <div
-      style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: cardGap,
-      }}
-    >
+    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: cardGap }}>
       {rowBooks.map((book, i) => renderCard(book, startIndex + i))}
     </div>
   )
 
   return (
-    <div style={{ position: 'absolute', inset: 0, opacity }}>
-      {/* 상단 라벨 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '50px 0 0',
-          opacity: labelOpacity,
-          gap: 12,
-          zIndex: 1,
-        }}
-      >
-        <div style={{ color: '#c8a46e', fontSize: 16, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600 }}>
-          {headerText}
+    <div style={{ position: 'absolute', inset: 0 }}>
+      {posterOp > 0 && (
+        <div style={{ position: 'absolute', inset: 0, opacity: posterOp }}>
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+            alignItems: 'stretch', padding: '80px 40px 80px',
+          }}>
+            {isGrid ? (
+              <>
+                {renderRow(books.slice(0, topCount), 0)}
+                {renderRow(books.slice(topCount), topCount)}
+              </>
+            ) : (
+              renderRow(books, 0)
+            )}
+          </div>
         </div>
-        <div style={{ width: lineWidth, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-      </div>
-
-      {/* 책 그리드 */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          padding: '90px 40px 30px',
-        }}
-      >
-        {isGrid ? (
-          <>
-            {renderRow(books.slice(0, topCount), 0)}
-            {renderRow(books.slice(topCount), topCount)}
-          </>
-        ) : (
-          renderRow(books, 0)
-        )}
-      </div>
+      )}
     </div>
   )
 }

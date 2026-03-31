@@ -3,13 +3,14 @@
  * BookRecommend의 실제 프레임 위치로 자막 데이터를 생성하여 Subtitles에 전달.
  */
 import React from 'react'
-import { Subtitles, type Sub } from './Subtitles'
+import { Subtitles } from './Subtitles'
 import type { BookRecommendScript, VoiceTimingSegment } from '../types'
 import type { Timeline } from '../useTimeline'
 import {
   toAudioFrames, CELEB_VISUAL_DELAY,
-  CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, SENTENCE_BREATH, FPS, f,
+  CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
 } from '../timing'
+import { splitSub, type Sub } from '../utils'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
@@ -21,45 +22,6 @@ import {
 interface Props {
   script: BookRecommendScript
   tl: Timeline
-}
-
-/** 텍스트를 voiceTiming 기반 또는 비율 기반으로 자막 분할 */
-function splitSub(start: number, end: number, speaker: string, text: string, timings?: VoiceTimingSegment[]): Sub[] {
-  // 타이밍에 text가 포함되어 있으면 직접 사용 (remotion-bo에서 편집한 자막)
-  if (timings && timings.length > 0 && timings.every(t => t.text)) {
-    return timings.map(t => ({ start: start + Math.round(t.start * FPS), end: start + Math.round(t.end * FPS), speaker, text: t.text! }))
-  }
-  const sentences = text.split(/(?<=[.?!,。])\s+/).filter(Boolean)
-  if (sentences.length <= 1) return [{ start, end, speaker, text }]
-  const MIN_F = Math.round(1.5 * FPS), MAX_F = Math.round(8 * FPS)
-  let raw: Sub[]
-  if (timings && timings.length === sentences.length) {
-    raw = timings.map((t, i) => ({ start: start + Math.round(t.start * FPS), end: start + Math.round(t.end * FPS), speaker, text: sentences[i] }))
-  } else {
-    const total = end - start, breath = (sentences.length - 1) * SENTENCE_BREATH
-    const dist = Math.max(total - breath, total * 0.7), chars = sentences.reduce((s, x) => s + x.length, 0)
-    raw = []; let c = start
-    for (let i = 0; i < sentences.length; i++) {
-      if (i > 0) c += SENTENCE_BREATH
-      const fr = Math.round((sentences[i].length / chars) * dist)
-      raw.push({ start: c, end: c + fr, speaker, text: sentences[i] }); c += fr
-    }
-  }
-  // 병합
-  const merged: Sub[] = []
-  for (const s of raw) { if (merged.length > 0 && (s.end - s.start) < MIN_F) { merged[merged.length-1].text += ' ' + s.text; merged[merged.length-1].end = s.end } else merged.push({...s}) }
-  // 분할
-  const result: Sub[] = []
-  for (const s of merged) {
-    if ((s.end - s.start) <= MAX_F) { result.push(s); continue }
-    const mid = Math.floor(s.text.length / 2)
-    let sp = -1
-    for (let d = 0; d < mid; d++) { if (/[,，、]/.test(s.text[mid+d]||'')) { sp = mid+d+1; break } if (/[,，、]/.test(s.text[mid-d]||'')) { sp = mid-d+1; break } }
-    if (sp < 0) for (let d = 0; d < mid; d++) { if (s.text[mid+d]===' ') { sp = mid+d+1; break } if (s.text[mid-d]===' ') { sp = mid-d+1; break } }
-    if (sp > 0 && sp < s.text.length) { const r = sp / s.text.length, sf = start + Math.round((s.end-start)*r); result.push({start:s.start,end:sf,speaker,text:s.text.slice(0,sp).trim()}); result.push({start:sf,end:s.end,speaker,text:s.text.slice(sp).trim()}) }
-    else result.push(s)
-  }
-  return result
 }
 
 export const StudioSubtitles: React.FC<Props> = ({ script, tl }) => {
@@ -112,7 +74,7 @@ export const StudioSubtitles: React.FC<Props> = ({ script, tl }) => {
 
     if (bt.hasQuote && b.directQuote && b.quoteDuration) {
       c += CONTEXT_QUOTE_GAP
-      subs.push(...splitSub(c, c + toAudioFrames(b.quoteDuration), host.nickname, `"${b.directQuote}"`, vtk(vnTimingKey(vnBookQuote(i)))))
+      subs.push(...splitSub(c, c + toAudioFrames(b.quoteDuration), host.nickname, `\u201C${b.directQuote}\u201D`, vtk(vnTimingKey(vnBookQuote(i)))))
       c += bt.quoteFrames
 
       if (bt.hasContextAfter && b.contextAfter && b.contextAfterDuration) {

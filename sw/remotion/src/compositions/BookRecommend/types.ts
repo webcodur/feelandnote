@@ -30,6 +30,30 @@ export interface BookStats {
   publishYear?: string
 }
 
+/** 시네마틱 이미지 — 텍스트 앵커 기반 전환 */
+export interface CinematicImage {
+  /** 이미지 파일명 (에피소드 images/ 디렉토리 기준, 확장자 포함. e.g. "1-1.jpg") */
+  file: string
+  /** 텍스트 앵커 — 나레이션에서 이 텍스트가 시작될 때 이미지 전환.
+   *  배열 첫 이미지는 생략 가능 (북 섹션 시작부터 표시) */
+  text?: string
+  /** 귀속 필드 — BO에서 이미지가 표시될 섹션. 텍스트 편집에 영향받지 않는 안정적 배치 */
+  field?: 'summary' | 'context' | 'contextAfter'
+  /** 이미지 키워드 (Studio 표시용) */
+  keyword?: string
+  /** 이미지 프롬프트 (생성용) */
+  prompt?: string
+  /** 한국어 프롬프트 (생성용) */
+  ko?: string
+}
+
+/** CinematicPanel에 전달되는 이미지 전환 정보 (프레임 해석 완료) */
+export interface ImageTransition {
+  frame: number
+  file: string
+  keyword?: string
+}
+
 export interface BookEntry {
   title: string
   creator: string
@@ -54,19 +78,22 @@ export interface BookEntry {
   contextAfterDuration?: number
   /** 출처 URL */
   source?: string
-  /** 리캡용 한줄 요약 */
-  oneLiner: string
   /** 통계 데이터 */
   stats: BookStats
   /** 제목+저자 음성 길이 (초) */
   titleDuration: number
+  /** 시네마틱 이미지 배열 (텍스트 앵커 기반 N장 전환). imagePrompts보다 우선 */
+  images?: CinematicImage[]
+  /** 시네마틱 이미지 프롬프트 (레거시 — 2슬롯 고정) */
+  imagePrompts?: {
+    '1': { prompt: string; ko: string; keyword: string }
+    '2': { prompt: string; ko: string; keyword: string }
+  }
 }
 
 export interface NarratorLines {
-  /** Section 0: 서비스 인트로 — 공용 (인사~소개합니다). alexander만 분리, 나머지는 serviceIntro에 통합 */
+  /** 서비스 인사 — 고정 문구, 공용 오디오(common/) 재사용 */
   serviceGreeting?: string
-  /** 분할 오디오 파트 (service-greeting-1~N.wav) */
-  serviceGreetingParts?: { text: string; duration: number }[]
   serviceGreetingDuration?: number
   /** Section 0: 서비스 인트로 — 본문 (예: "서재 탐방 코너에서는..."). continuation에서는 없음 */
   serviceIntro?: string
@@ -85,7 +112,7 @@ export interface NarratorLines {
   bridgeDuration: number
   /** "핵심 요약" 라벨 오디오 길이 (초) */
   labelSummaryDuration?: number
-  /** "추천 및 감상경위" 라벨 오디오 길이 (초) */
+  /** "감상경위" 라벨 오디오 길이 (초) */
   labelContextDuration?: number
   /** 중간안내 텍스트 (10개 초과 시) */
   interlude?: string
@@ -119,6 +146,10 @@ export interface TtsOverrides {
     contextAfter?: string
     directQuote?: string
   }>
+  /** 쇼츠 세그먼트별 TTS 오버라이드 (인덱스 = segments 순서) */
+  shorts?: Array<{
+    text?: string
+  }>
 }
 
 /** 슬롯별 TTS 엔진 선택 (voice-select.json) */
@@ -131,16 +162,20 @@ export interface VoiceSelect {
 export interface ShortSegment {
   /** 고유 ID (음성 파일명: short-{id}.wav) */
   id: string
-  /** 화자: narrator 또는 celeb */
-  role: 'narrator' | 'celeb'
+  /** 화자: narrator, celeb, summary(요약맨 — 롱폼 Charon 보이스) */
+  role: 'narrator' | 'celeb' | 'summary'
   /** 자막/TTS 텍스트 */
   text: string
-  /** TTS 오버라이드 — 발음이 다를 때만 지정 */
-  ttsText?: string
   /** 비주얼 유형: hook, intro, book, cta */
   visual: 'hook' | 'intro' | 'book' | 'cta'
   /** TTS 생성 후 자동 반영 (초) */
   duration?: number
+  /** 구간별 커스텀 배경 이미지 경로 (옵션) */
+  image?: string
+  /** 세그먼트 내 이미지 전환 — t초 시점에서 다른 이미지로 교체.
+   *  text 앵커 지정 시 analyze-voice가 voiceTimings에서 해당 텍스트 시작 시간을 t에 자동 반영.
+   *  배열로 여러 전환점을 지정할 수 있다. */
+  imageChangeAt?: { t: number; image: string; text?: string } | { t: number; image: string; text?: string }[]
 }
 
 /**
@@ -150,12 +185,22 @@ export interface ShortSegment {
 export interface ShortsConfig {
   /** 소개할 책 인덱스 (기본 0) */
   featuredBookIndex?: number
+  /** 인트로/리빌 배경 이미지 파일명 (images/ 기준) */
+  revealBg?: string
+  /** 책 구간 폴백 배경 이미지 파일명 (images/ 기준) */
+  bookBg?: string
   /** 세그먼트 배열 — 순서대로 재생 */
   segments: ShortSegment[]
 }
 
 /** 파형 분석 기반 음성 타이밍 */
-export type VoiceTimingSegment = { start: number; end: number; text?: string }
+export type VoiceTimingSegment = {
+  start: number; end: number; text?: string
+  /** 자막 표시용 의미 단위 분할 — LLM이 지정. 없으면 text 그대로 사용 */
+  sub?: string[]
+  /** sub 경계 시점 (초) — analyze가 단어 타이밍에서 산출. sub.length - 1개. 없으면 글자수 비례 폴백 */
+  subTimings?: number[]
+}
 export type VoiceTimings = Record<string, VoiceTimingSegment[]>
 
 /** 시리즈 정보 — 2부 이상 에피소드에만 존재 */

@@ -5,7 +5,7 @@ import { sf, fadeInOut, BrandLogo, makeVf } from './utils'
 import { DARK, DARK_BG } from '../theme'
 import { BrandIntro } from './sections/BrandIntro'
 import { HostIntro } from './sections/HostIntro'
-import { BookCardVisual, CINEM_PAD, STONE_BAR_H } from './sections/BookCardVisual'
+import { BookCardVisual, CINEM_PAD } from './sections/BookCardVisual'
 import { BookRecap } from './sections/BookRecap'
 import { FONT } from './fonts'
 import { Overlay } from './sections/Overlay'
@@ -79,7 +79,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       {/* 브랜드 */}
       <Sequence from={tl.brandStart} durationInFrames={BRAND_FRAMES}>
-        {hasVoice && <Audio src={sf('sfx/chime.wav')} volume={0.6} />}
+        {hasVoice && <Audio src={sf('common/sfx/chime.wav')} volume={0.6} />}
         <BrandIntro script={script} durationFrames={BRAND_FRAMES} opacity={fadeInOut(frame, tl.brandStart, BRAND_FRAMES)} />
       </Sequence>
 
@@ -167,7 +167,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {!tl.cont && tl.hostIntroFrames > 0 && (
         <Sequence from={tl.hostIntroStart} durationInFrames={tl.hostIntroFrames}>
           <Sequence from={0} durationInFrames={tl.celebIntroFrames}>
-            {hasVoice && <Audio src={sf('sfx/type-reveal.wav')} volume={0.7} />}
+            {hasVoice && <Audio src={sf('common/sfx/type-reveal.wav')} volume={0.7} />}
             {hasVoice && (narrator.celebIntroDuration ?? 0) > 0 && (
               <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={tl.celebIntroFrames - CELEB_VISUAL_DELAY}>
                 <Audio src={vf(VN_CELEB_INTRO)} />
@@ -185,10 +185,10 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       {/* 브릿지 */}
       <Sequence from={tl.bridgeStart} durationInFrames={tl.bridgeFrames}>
-        {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />}
+        {hasVoice && <Audio src={sf('common/sfx/page-turn.wav')} volume={0.6} />}
         {hasVoice && (
           <Sequence from={f(0.5)} durationInFrames={tl.bridgeFrames - f(0.5)}>
-            <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
+            <Audio src={sf('common/sfx/whoosh.wav')} volume={0.4} />
           </Sequence>
         )}
       </Sequence>
@@ -197,7 +197,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* 중간 리캡 (10개 초과 시) */}
       {tl.hasInterlude && (
         <Sequence from={tl.midRecapStart} durationInFrames={RECAP_FRAMES}>
-          {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
+          {hasVoice && <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />}
           <BookRecap books={tl.firstHalfBooks} totalFrames={RECAP_FRAMES} />
         </Sequence>
       )}
@@ -211,10 +211,10 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         return (
           <>
             <Sequence from={tl.interludeStart} durationInFrames={tl.interludeFrames}>
-              {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.6} />}
+              {hasVoice && <Audio src={sf('common/sfx/page-turn.wav')} volume={0.6} />}
               {hasVoice && (
                 <Sequence from={f(0.5)} durationInFrames={tl.interludeFrames - f(0.5)}>
-                  <Audio src={sf('sfx/whoosh.wav')} volume={0.4} />
+                  <Audio src={sf('common/sfx/whoosh.wav')} volume={0.4} />
                 </Sequence>
               )}
               {hasVoice && narrator.interludeDuration && narrator.interludeDuration > 0 && (
@@ -246,7 +246,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             {/* 책 사이 전환 */}
             {i > 0 && (
               <Sequence from={gapStart} durationInFrames={BOOK_GAP}>
-                {hasVoice && <Audio src={sf('sfx/page-turn.wav')} volume={0.4} />}
+                {hasVoice && <Audio src={sf('common/sfx/page-turn.wav')} volume={0.4} />}
                 {(() => {
                   const gapLocal = frame - gapStart
                   const op = gapLocal >= 0 && gapLocal < BOOK_GAP
@@ -257,7 +257,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               </Sequence>
             )}
             <Sequence from={tl.bookStarts[i]} durationInFrames={bt.total}>
-              {hasVoice && i === 0 && <Audio src={sf('sfx/page-turn.wav')} volume={0.5} />}
+              {hasVoice && i === 0 && <Audio src={sf('common/sfx/page-turn.wav')} volume={0.5} />}
               {hasVoice && (
                 <Series>
                   <Series.Sequence durationInFrames={bt.titleFrames}>
@@ -267,23 +267,23 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                     <Audio src={vf(VN_LABEL_SUMMARY)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.summaryFrames}>
-                    <Audio src={sf('sfx/whoosh.wav')} volume={0.25} />
+                    <Audio src={sf('common/sfx/whoosh.wav')} volume={0.25} />
                     <Audio src={vf(vnBookSummary(i))} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.SUMMARY_CONTEXT_GAP_F} durationInFrames={tl.LABEL_CONTEXT_F}>
                     <Audio src={vf(VN_LABEL_CONTEXT)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.contextFrames}>
-                    <Audio src={sf('sfx/whoosh.wav')} volume={0.2} />
+                    <Audio src={sf('common/sfx/whoosh.wav')} volume={0.2} />
                     <Audio src={vf(vnBookContext(i))} />
                   </Series.Sequence>
                   {bt.hasQuote && (
                     <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={bt.quoteFrames}>
-                      <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />
+                      <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
                       <Audio src={vf(vnBookQuote(i))} />
                     </Series.Sequence>
                   )}
-                  {bt.hasContextAfter && (
+                  {bt.hasContextAfter && (book.contextAfterDuration ?? 0) > 0 && (
                     <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={bt.contextAfterFrames}>
                       <Audio src={vf(vnBookContextAfter(i))} />
                     </Series.Sequence>
@@ -320,7 +320,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       {/* 리캡 */}
       <Sequence from={tl.recapStart} durationInFrames={RECAP_FRAMES}>
-        {hasVoice && <Audio src={sf('sfx/whoosh.wav')} volume={0.3} />}
+        {hasVoice && <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />}
         <BookRecap books={tl.secondHalfBooks} totalFrames={RECAP_FRAMES} />
       </Sequence>
 
@@ -338,7 +338,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               {hasVoice && narrator.outroDuration > 0 && <Audio src={vf(VN_OUTRO)} />}
             </Sequence>
             <Sequence from={logoStart} durationInFrames={LOGO_FRAMES}>
-              {hasVoice && <Audio src={sf('sfx/chime.wav')} volume={0.5} />}
+              {hasVoice && <Audio src={sf('common/sfx/chime.wav')} volume={0.5} />}
             </Sequence>
             {narOp > 0 && (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: narOp }}>
@@ -359,26 +359,10 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       {/* 하단 세이프존 — 진행바만 표시 (돌판 텍스처 제거) */}
 
-      <Overlay script={script} stoneBarH={STONE_BAR_H} />
+      <Overlay script={script} />
 
       {/* 스튜디오 전용 */}
       {!getRemotionEnvironment().isRendering && <StudioSubtitles script={script} tl={tl} />}
-      {!getRemotionEnvironment().isRendering && (
-        <PromptPanel
-          script={script}
-          currentBookIdx={(() => { let idx = 0; tl.bookStarts.forEach((s, i) => { if (frame >= s) idx = i }); return idx })()}
-          currentPhase={(() => {
-            for (let i = 0; i < tl.bookStarts.length; i++) {
-              const bs = tl.bookStarts[i]; const bt = tl.bookTimings[i]
-              const summaryStart = bs + bt.titleFrames + tl.TITLE_SUMMARY_GAP_F
-              const contextStart = bs + bt.summaryEnd + tl.SUMMARY_CONTEXT_GAP_F
-              if (frame >= contextStart && frame < contextStart + bt.contextFrames) return 'c'
-              if (frame >= summaryStart && frame < summaryStart + bt.summaryFrames) return 's'
-            }
-            return null
-          })()}
-        />
-      )}
       {!getRemotionEnvironment().isRendering && (
         <SubEditor
           voiceTimings={script.voiceTimings}
@@ -420,6 +404,22 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             }
             if (frame >= outroStart) return vnTimingKey(VN_OUTRO)
             return undefined
+          })()}
+        />
+      )}
+      {!getRemotionEnvironment().isRendering && (
+        <PromptPanel
+          script={script}
+          currentBookIdx={(() => { let idx = 0; tl.bookStarts.forEach((s, i) => { if (frame >= s) idx = i }); return idx })()}
+          currentPhase={(() => {
+            for (let i = 0; i < tl.bookStarts.length; i++) {
+              const bs = tl.bookStarts[i]; const bt = tl.bookTimings[i]
+              const summaryStart = bs + bt.titleFrames + tl.TITLE_SUMMARY_GAP_F
+              const contextStart = bs + bt.summaryEnd + tl.SUMMARY_CONTEXT_GAP_F
+              if (frame >= contextStart && frame < contextStart + bt.contextFrames) return '2'
+              if (frame >= summaryStart && frame < summaryStart + bt.summaryFrames) return '1'
+            }
+            return null
           })()}
         />
       )}
