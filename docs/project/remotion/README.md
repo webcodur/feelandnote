@@ -1,142 +1,110 @@
-# 서재 탐방 — Remotion 영상 제작 가이드
+# Remotion 영상 제작 가이드
 
-셀럽의 추천 도서를 소개하는 영상 시리즈. Remotion(React 기반 영상 프레임워크)으로 제작한다.
+Remotion(React 기반 영상 프레임워크)으로 제작하는 영상 시리즈.
 
-## 목차
+## 시리즈
 
-| 장 | 문서 | 내용 |
-|----|------|------|
-| 1 | 이 문서 | 개요, 코드 구조, 데이터 흐름, **에피소드 제작 절차** |
-| 2 | [longform.md](longform.md) | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
-| 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
-| 4 | [voice/tts.md](voice/tts.md) | 음성 생성 — 엔진, 보이스, 커맨드 |
-| 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Gemini TTS 목록, 셀럽별 매핑 |
-| 4c | [voice/timing-user.md](voice/timing-user.md) | 음성 타이밍 사용 가이드 — 갭 기반 파이프라인 |
-| 5 | [lineup.md](lineup.md) | 편성표 — 배포 순서, 제작 진행 현황 |
-| 5b | [candidates.md](candidates.md) | 후보 전략 — 라이벌 묶음, 정치 교차 |
-| 5c | candidates-raw.md | 후보 전체 리스트 (DB 자동 생성, git 미추적) |
-| 6 | [rules.md](rules.md) | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항 |
-| 7 | [render.md](render.md) | 렌더 출력 — 명령어, 파일명 규칙, 코덱 옵션 |
-| — | [celeb-profile.md](celeb-profile.md) | 인물 열전 시리즈 기획서 (별도 시리즈) |
+| 시리즈 | 문서 | 설명 |
+|--------|------|------|
+| 서재 탐방 | [book-recommend/](book-recommend/README.md) | 셀럽의 추천 도서 소개. 롱폼(16:9) + 쇼츠(9:16) |
 
 ---
 
-## 코드 구조
+## 공통 코드 구조
 
 ```
-sw/remotion/
-  episodes/<name>.json          ← 에피소드 데이터 (SSoT, 컴포지션 완료)
-  episodes/<name>/candidates/    ← Candidate 에피소드 (Lineup 승격 전)
-  scripts/generate-voice.ts     ← TTS 생성 스크립트
-  scripts/dev.mjs               ← 개발 서버 + 정적 파일 서버
+sw/remotion/public/
+  episodes/
+    pre-todo/                      ← 초안 풀 (flat JSON, 검수 전)
+    todo/<person>/                 ← 검수 완료, voice 미생성
+    live/<person>/                 ← 진행중 (voice 작업)
+    done/<person>/                 ← 완료 (YouTube 업로드)
+      <locale>.json                  에피소드 데이터 (SSoT)
+      voice/<locale>/<engine>/       생성된 음성 파일
+      images/                        시네마틱 배경 + 쇼츠 이미지
+      covers/                        책 표지 이미지
+  common/                          ← 공유 리소스 (음성, 이미지, SFX)
+  covers/                          ← 초안용 표지 (pre-todo 참조)
+  scripts/
+    voice/                         ← TTS 생성, WhisperX, 분석
+    srt/                           ← 자막 생성·검증·적용
+    image/                         ← 이미지 생성·등록·검색
+    render/                        ← 렌더 스크립트
+    youtube/                       ← YouTube 업로드·편성
+    dev.mjs                        ← 개발 서버 + 정적 파일 서버
   src/
-    Root.tsx                    ← Remotion 등록 (Composition)
+    Root.tsx                       ← Remotion 등록 (Composition)
     compositions/
-      BookRecommend/            ← 롱폼 메인
-        script.ts               ← 에피소드 로더 (JSON → currentEpisode)
-        timing.ts               ← 타이밍 상수 + 계산 (단일원천)
-        types.ts                ← 타입 정의
-        BookRecommend.tsx       ← 롱폼 컴포지션
-        BookRecommendShort.tsx  ← 쇼츠 컴포지션
-        BookCard.tsx            ← 책 오디오 모드
-        BookCardVisual.tsx      ← 책 비주얼 모드 (2열 레이아웃)
-        BrandIntro.tsx          ← 브랜드 인트로
-        HostIntro.tsx           ← 셀럽 소개 + 감상철학
-        BookRecap.tsx           ← 리캡
-        Overlay.tsx             ← 자막 + 타이밍 오버레이
-        Subtitles.tsx           ← 롱폼 자막
-        Typewriter.tsx    ← 타이프라이터 효과
-        utils.ts                ← 공용 유틸 (sf, makeVf, BrandLogo, safeImg, fadeInOut)
-        fonts.ts                ← 폰트 로딩
-      ServiceIntro/             ← 서비스 소개 영상 (별도)
-  public/
-    voice/<episode-name>/       ← 생성된 음성 파일
-    images/                     ← 셀럽 아바타, 표지 등
+      BookRecommend/               ← 서재 탐방
+      Thumbnail/                   ← 썸네일
 ```
 
-## 단일원천 (SSoT) 데이터 흐름
+## 명령어
 
-```
-episodes/<name>.json (자막 텍스트 + TTS 오버라이드 + duration)
-    ↓
-script.ts (JSON import → currentEpisode export)
-    ↓
-generate-voice.ts  →  tts 오버라이드 우선, 없으면 기본 텍스트
-    ↓                  --update-json 시 duration을 JSON에 역반영
-timing.ts (타이밍 상수 + 계산 함수)
-    ↓
-BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
+### 개발 서버
+
+```bash
+pnpm dev:remotion     # Remotion Studio (:3002) + serve (:8001)
+pnpm dev:remotion-bo  # 영상 관리 대시보드 (:3003)
 ```
 
-- **에피소드 JSON이 SSoT.** duration, 자막 텍스트, TTS 오버라이드 모두 여기에.
-- **timing.ts가 타이밍 SSoT.** `toFrames`(배치용, +15 버퍼) / `toAudioFrames`(자막용, 버퍼 없음).
-- **script.ts가 에피소드 로더.** `EPISODE_NAME` 변경으로 에피소드 전환.
+### 음성 파이프라인 (4단계, 순서 엄수)
 
-## 에피소드 데이터 — BookEntry
+텍스트 변경 후 반드시 1~3단계를 모두 실행한다. 4단계는 3단계 이후 별도 실행.
 
-| 필드 | 용도 |
-|------|------|
-| `summary` | 요약맨: 핵심 요약 |
-| `summaryDuration` | 요약맨 음성 길이 (초) |
-| `context` | 나레이터: 추천 경위 (3인칭) |
-| `contextDuration` | 경위 음성 길이 (초) |
-| `directQuote` | 셀럽 직접 인용문 (optional) |
-| `quoteDuration` | 인용문 음성 길이 (optional) |
-| `contextAfter` | 나레이터: 후속 맥락 (optional) |
-| `contextAfterDuration` | 후속 맥락 음성 길이 (optional) |
-| `oneLiner` | 리캡용 한줄 요약 |
-| `stats` | DB 통계 (celebCount, celebNames, publisher 등) |
-| `titleDuration` | 제목+저자 음성 길이 (초) |
-
-## 음성 파일 구조
-
-```
-public/voice/common/
-  A1-service-greeting.wav                    ← 공유 (한국어)
-  C1-label-summary.wav                       ← 공유 (한국어)
-  C2-label-context.wav                       ← 공유 (한국어)
-
-public/voice/<episode-name>/gemini/          ← 기본 엔진
-  A2-service-intro.wav, A3-featured-quote.wav
-  B1-celeb-intro.wav, B2-philosophy.wav, E1-outro.wav
-  D01a-title.wav, D01b-summary.wav, D01c-context.wav
-  D01d-quote.wav, D01e-context-after.wav
-  S01-intro.wav, S02-celeb-mid.wav, S03-book-context.wav  ← 쇼츠
-  ...
+```bash
+cd sw/remotion
+pnpm voice -- --episode <name> --update-json           # 1. TTS 생성 (변경분만 자동 감지)
+python scripts/voice/whisper-words.py --episode <name>        # 2. WhisperX 단어 타임스탬프 추출
+pnpm analyze -- --episode <name> --update-json          # 3. voiceTimings + duration 동기화
+# 4. 자막 의미 단위 분할 — Claude Code에 "sub 채워줘" 요청 (LLM이 의미 단위로 분할)
+pnpm sub:check -- --episode <name>                     # 4a. 누락·깨진 sub 확인
+pnpm sub:apply -- --episode <name> --input subs.json   # 4b. sub 매핑 일괄 적용 (선택)
 ```
 
-## 새 에피소드 제작 절차
+#### 범위 필터: `--shorts` / `--long`
 
-에피소드 JSON 생성의 단일 참조 경로. 각 단계의 상세 기준은 링크 문서에서 확인한다.
+1~3단계 모두 `--shorts` 또는 `--long` 플래그로 범위를 제한할 수 있다.
+쇼츠만 작업할 때 롱폼 voiceTimings/sub를 건드리지 않는다.
 
-### 단계별 체크
+```bash
+pnpm voice -- --episode <name> --shorts --force --update-json   # 쇼츠만 TTS
+python scripts/voice/whisper-words.py --episode <name> --shorts        # 쇼츠만 WhisperX
+pnpm analyze -- --episode <name> --shorts --update-json          # 쇼츠만 analyze
+```
 
-| 단계 | 작업 | 참조 |
-|------|------|------|
-| 1 | **편성 확인** — 순서·라이벌 묶음·분량(10권↓단일, 11~20권 2편, 20권↑선별) | [lineup.md](lineup.md) § 편성 원칙·제작 규칙 |
-| 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·페르소나 | 아래 DB 소스 표 |
-| 3 | **JSON 초안** — `candidates/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
-| 4 | **텍스트 검수** — 주어 규칙·말투·oneLiner 7~15자·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup.md) § 품질 |
-| 5 | **표지 다운로드** — 외부 URL → `public/covers/cover-NNN.jpg` | [rules.md](rules.md) § 표지 이미지 |
-| 6 | **보이스 배정** — ElevenLabs(`voice_id_ko`) 또는 Gemini 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup.md) § 보이스 |
-| 7 | **Lineup 승격** — `candidates/` → `episodes/book-recommend/`, `script.ts` 등록 | — |
-| 8 | **TTS 생성** — `pnpm voice -- --episode <name> --update-json` | [voice/tts.md](voice/tts.md) |
-| 9 | **프리뷰** — `pnpm reboot` | — |
+- 3단계 실행 시 sub 누락 세그먼트가 자동 경고된다.
+- 3단계(analyze)는 텍스트가 동일한 세그먼트의 기존 sub를 자동 보존한다.
+- 불변식: `sub.join(' ') === text` (공백 조인)
+- 4단계 상세 규칙: [voice/tts.md — 4단계: sub 생성](book-recommend/voice/tts.md#4단계-자막-의미-단위-분할-sub-필드)
 
-### DB 소스 (2단계)
+#### 개별 세그먼트 지정: `--only`
 
-| 데이터 | 테이블 | 주요 필드 |
-|--------|--------|-----------|
-| 기본 정보 | `profiles` | nickname, nickname_en, bio, avatar_url, speech_tone |
-| 명언 (SSoT) | `celeb_dialogues` | lines→quote |
-| 콘텐츠 목록 | `user_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review |
-| celebCount | `user_contents` 집계 | content_id별 추천 셀럽 수 |
-| 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
+1~3단계 모두 `--only`로 특정 세그먼트만 처리할 수 있다. 나머지 파일은 건드리지 않는다.
+TTS(1단계)는 `--only` 지정 시 매니페스트 체크를 건너뛰어 자동으로 재생성된다.
 
----
+```bash
+pnpm voice -- --episode <name> --only S07-book-quote-2 --update-json
+python scripts/voice/whisper-words.py --episode <name> --only S07-book-quote-2
+pnpm analyze -- --episode <name> --only S07-book-quote-2 --update-json
+```
 
-## 윤리 원칙
+- 복수 지정: `--only S07-book-quote-2,S08-book-context-3`
+- 롱폼도 동일: `--only D05b-summary`
+- `--shorts`/`--long`과 동시 사용하지 않는다 (독립 필터)
 
-- **셀럽 음성(Puck/ElevenLabs)은 검증된 직접 인용문에만 사용한다.** AI가 창작한 1인칭 발언을 셀럽 목소리로 읽지 않는다.
-- 추천 경위(context)는 나레이터가 3인칭으로 전달한다. 출처(인터뷰, 기사 등)를 명시한다.
-- 직접 인용문이 없는 책은 quote 단계를 건너뛴다.
+#### TTS 오버라이드와 파이프라인
+
+`tts.*` 오버라이드가 있으면 WhisperX와 analyze가 자동으로 오버라이드 텍스트를 기준으로 매핑한다.
+오버라이드는 **발음 변환 전용** (`18년` → `십팔 년`). 내용 변경은 `segments[].text`를 직접 수정한다.
+
+#### 잔존 WAV 감지
+
+세그먼트 ID 변경 후 옛 WAV가 남으면 whisper-words.py가 자동 경고하고 제외한다.
+
+### bash 별칭
+
+```
+1/2/3/4/5     → dev 서버 실행 (web/bo/remotion/remotion-bo/lab)
+rv/rvl        → voice/voice:list
+```

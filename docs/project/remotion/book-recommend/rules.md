@@ -23,6 +23,7 @@
 - `toFrames()` = 배치용(+15 버퍼), `toAudioFrames()` = 자막/하이라이트용(버퍼 없음)
 - 라벨 duration: `narrator.labelSummaryDuration`, `narrator.labelContextDuration`
 - 컴포넌트는 `episodeName` prop으로 경로 분기. 모듈 레벨에서 EPISODE_NAME 직접 사용 금지.
+- 이미지 전환은 시간이 아닌 **대사(텍스트 앵커)**에 묶는다. 음성 재생성 시 `text` 앵커가 자동으로 voiceTimings에서 재매핑된다. `images` 배열 상세: `images.md`
 
 ## 롱폼 vs 쇼츠 차이
 
@@ -31,7 +32,7 @@
 | 해상도 | 1920×1080 | 1080×1920 |
 | 구조 | 섹션 순차 (Brand→Intro→Books→Recap→Outro) | 4비트 (훅→누구→책→펀치) |
 | 인물 등장 | FeaturedQuote에서 아바타 등장 | 훅에 이름 포함 → Beat2에서 아바타 바로 등장 |
-| 라벨 오디오 | "핵심 요약", "추천 및 감상경위" | 없음 |
+| 라벨 오디오 | "핵심 요약", "감상경위" | 없음 |
 | 자막 | Subtitles 컴포넌트 | Sub 컴포넌트 (비트별 독립) |
 | Safe Zone | 없음 | 상하 15% 비움 (플랫폼 UI 겹침) |
 
@@ -92,6 +93,7 @@ pnpm serve   # dev.mjs가 자동 실행. 포트는 REMOTION_SERVE_PORT 환경변
 - [ ] 이 변경이 롱폼/쇼츠/둘 다에 영향을 주는가?
 - [ ] interpolate에 가변값이 들어가는가? → `fadeInOut()` 사용
 - [ ] 새 `<Img>`를 추가하는가? → `safeImg()` 적용
+- [ ] 이미지 전환을 추가하는가? → `images` 배열에 `text` 앵커로 정의 (시간 하드코딩 금지)
 - [ ] 하드코딩 프레임 상수를 쓰는가? → timing.ts 상수 또는 JSON duration 사용. 매직넘버 금지
 - [ ] 로고/브랜드 텍스트가 있는가? → `BrandLogo` 사용
 - [ ] `EPISODE_NAME`을 직접 참조하는가? → `episodeName` prop 사용

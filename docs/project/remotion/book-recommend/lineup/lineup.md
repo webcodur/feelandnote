@@ -30,7 +30,7 @@
 ### 보이스
 
 - **ElevenLabs**: `has_voice=true`인 인물은 `host.elevenlabsVoiceId` 필수. DB `profiles.voice_id_ko` 참조.
-- **Gemini**: ElevenLabs 없는 인물은 `host.geminiVoice` 배정. `voice-actors.md` 참조. 같은 라이벌 묶음 내 보이스 구별 필수.
+- **Gemini**: ElevenLabs 없는 인물은 `host.geminiVoice` 배정. `voice/actors.md` 참조. 같은 라이벌 묶음 내 보이스 구별 필수.
 
 ### 품질
 
@@ -38,16 +38,11 @@
 
 ---
 
-## 배포 완료
-
-| # | 인물 | 시대 | 직군 | 책 수 | 플랫폼 |
-|---|------|------|------|-------|--------|
-| 1 | 알렉산더 대왕 | 고대 | commander | 8 | — |
-
 ## 제작 완료 (배포 대기)
 
 | # | 인물 | 시대 | 직군 | 책 수 | JSON | TTS |
 |---|------|------|------|-------|------|-----|
+| 1 | 알렉산더 대왕 | 고대 | commander | 8 | ✅ | ✅ |
 | 2 | 레오나르도 다빈치 | 근세 | scientist | 11 | ✅ (6+5) | ✅ |
 | 8 | 나폴레옹 | 근세 | commander | 13 | ✅ | ✅ |
 | 9 | 젠슨 황 | 현대 | entrepreneur | 7 | ✅ | ✅ |
@@ -75,6 +70,7 @@
 | — | 셰릴 샌드버그 | 현대 | entrepreneur | 19 | ✅ (10+9) |
 | — | 한강 | 현대 | writer | 11 | ✅ (6+5) |
 | — | 문재인 | 현대 | politician | 17 | ✅ (9+8) |
+| — | 짐 캐리 | 현대 | actor | 6 | ✅ |
 
 ---
 
