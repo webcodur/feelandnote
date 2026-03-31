@@ -8,6 +8,8 @@
 import { execSync, spawn } from 'child_process'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import http from 'http'
+import fs from 'fs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
@@ -50,12 +52,65 @@ if (isRestart) {
   await new Promise(r => setTimeout(r, 1000))
 }
 
+// --- Studio API 서버 (voiceTimings sub 편집 저장용) ---
+
+const API_PORT = 8787
+
+/** todo/live/done 3단 구조에서 에피소드 디렉토리 탐색 */
+function findEpisodeDir(person) {
+  for (const status of ['todo', 'live', 'done']) {
+    const dir = path.join(ROOT, 'public', 'episodes', status, person)
+    if (fs.existsSync(dir)) return dir
+  }
+  throw new Error(`Episode not found: ${person}`)
+}
+
+const apiServer = http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return }
+
+  if (req.method === 'POST' && req.url === '/api/save-sub') {
+    let body = ''
+    req.on('data', c => { body += c })
+    req.on('end', () => {
+      try {
+        const { episode, locale, timingKey, segIndex, sub } = JSON.parse(body)
+        if (!episode || !locale || !timingKey || segIndex == null || !Array.isArray(sub)) {
+          res.writeHead(400); res.end(JSON.stringify({ error: 'missing fields' })); return
+        }
+        // episode "dario-amodei-en" + locale "en" → dir "dario-amodei", file "en.json"
+        const dir = locale !== 'ko' ? episode.replace(new RegExp(`-${locale}$`), '') : episode
+        const jsonPath = path.join(findEpisodeDir(dir), `${locale}.json`)
+        if (!fs.existsSync(jsonPath)) {
+          res.writeHead(404); res.end(JSON.stringify({ error: 'file not found' })); return
+        }
+        const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
+        if (!data.voiceTimings?.[timingKey]?.[segIndex]) {
+          res.writeHead(404); res.end(JSON.stringify({ error: 'timing segment not found' })); return
+        }
+        data.voiceTimings[timingKey][segIndex].sub = sub
+        fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2) + '\n', 'utf8')
+        console.log(`[api] sub 저장: ${episode}/${locale} → ${timingKey}[${segIndex}]`)
+        res.writeHead(200); res.end(JSON.stringify({ ok: true }))
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: String(e) }))
+      }
+    })
+    return
+  }
+  res.writeHead(404); res.end('not found')
+})
+apiServer.listen(API_PORT, () => console.log(`[api] sub 편집 API → localhost:${API_PORT}\n`))
+
 // --- Remotion Studio ---
 console.log(`[studio] remotion studio → localhost:${STUDIO_PORT}\n`)
 studio = spawn('npx', ['remotion', 'studio', '--port', STUDIO_PORT], {
   cwd: ROOT,
   stdio: 'inherit',
   shell: true,
+  env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },
 })
 
 studio.on('exit', (code) => {

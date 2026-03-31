@@ -17,24 +17,12 @@ import { createReadStream, existsSync, statSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { lineup, buildTitle, buildDescription, buildTags, calcChapterTimestamps, type EpisodeMeta } from './youtube-lineup.js'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const CREDENTIALS_DIR = path.join(__dirname, '..', 'credentials')
+const CREDENTIALS_DIR = path.join(__dirname, '..', '..', 'credentials')
 const CLIENT_SECRET_PATH = path.join(CREDENTIALS_DIR, 'client_secret.json')
-const OUT_DIR = path.join(__dirname, '..', 'out')
-const EPISODES_DIR = path.join(__dirname, '..', 'episodes', 'book-recommend')
-
-/** Episode ID → 인물별 디렉토리 파일 경로 */
-function resolveEpisodePath(episodeId: string): string {
-  const isEn = episodeId.endsWith('-en')
-  const base = isEn ? episodeId.slice(0, -3) : episodeId
-  const partMatch = base.match(/-(\d+)$/)
-  const person = partMatch ? base.slice(0, -partMatch[0].length) : base
-  const part = partMatch ? parseInt(partMatch[1]) : 1
-  const locale = isEn ? 'en' : 'ko'
-  const filename = part > 1 ? `${locale}-${part}.json` : `${locale}.json`
-  return path.join(EPISODES_DIR, person, filename)
-}
+const OUT_DIR = path.join(__dirname, '..', '..', 'out')
 
 /** 채널별 토큰 경로: ko → youtube_token.json, en → youtube_token_en.json */
 function tokenPath(channel: 'ko' | 'en' = 'ko') {
@@ -297,7 +285,7 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
     const title = ytMeta[variantKey]?.title ?? buildTitle(meta, celebName, variant.lang, isShorts)
     const links = (ytMeta[variantKey] as any)?.links as { label: string; url: string }[] | undefined
-    const description = ytMeta[variantKey]?.description ?? buildDescription(celebName, books, variant.lang, isShorts, chapters, links)
+    const description = ytMeta[variantKey]?.description ?? buildDescription(celebName, books, variant.lang, isShorts, chapters, links, episodeName)
     const tags = buildTags(celebName, variant.lang, isShorts)
 
     const files = findFiles(label, variant.lang, variant.type)

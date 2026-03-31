@@ -4,20 +4,16 @@
  * 알파벳 순 = 재생 순서가 되도록 파일명을 변경한다.
  *
  * Usage:
- *   npx tsx scripts/migrate-voice-names.ts                    # dry run
- *   npx tsx scripts/migrate-voice-names.ts --apply            # 실제 적용
- *   npx tsx scripts/migrate-voice-names.ts --episode elon-musk  # 특정 에피소드만
+ *   npx tsx scripts/voice/migrate-voice-names.ts                    # dry run
+ *   npx tsx scripts/voice/migrate-voice-names.ts --apply            # 실제 적용
+ *   npx tsx scripts/voice/migrate-voice-names.ts --episode elon-musk  # 특정 에피소드만
  */
 import { readdir, readFile, writeFile, rename, stat } from 'fs/promises'
+import { existsSync } from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
-import { oldToNew, vnTimingKey } from '../src/compositions/BookRecommend/voice-names'
-import type { BookRecommendScript } from '../src/compositions/BookRecommend/types'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const ROOT = path.join(__dirname, '..')
-const VOICE_DIR = path.join(ROOT, 'public', 'voice')
-const EPISODES_DIR = path.join(ROOT, 'episodes', 'book-recommend')
+import { oldToNew, vnTimingKey } from '../../src/compositions/BookRecommend/voice-names'
+import type { BookRecommendScript } from '../../src/compositions/BookRecommend/types'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
 
 // --- CLI ---
 const args = process.argv.slice(2)
@@ -29,7 +25,7 @@ type RenameEntry = { old: string; new: string; dir: string }
 
 async function loadEpisode(name: string): Promise<BookRecommendScript | null> {
   try {
-    const raw = await readFile(path.join(EPISODES_DIR, `${name}.json`), 'utf-8')
+    const raw = await readFile(resolveEpisodePath(name), 'utf-8')
     return JSON.parse(raw) as BookRecommendScript
   } catch { return null }
 }
@@ -65,7 +61,8 @@ async function migrateEpisode(epName: string): Promise<number> {
 
   const bookCount = episode.books.length
   const shortSegments = episode.shorts?.segments?.map(s => ({ id: s.id }))
-  const epVoiceDir = path.join(VOICE_DIR, epName)
+  const { person, locale } = parseEpName(epName)
+  const epVoiceDir = path.join(findEpisodeDir(person), 'voice', locale)
 
   const renames: RenameEntry[] = []
 
@@ -98,7 +95,7 @@ async function migrateEpisode(epName: string): Promise<number> {
 
   // 파일 리네임 출력
   for (const r of renames) {
-    const rel = path.relative(VOICE_DIR, r.dir)
+    const rel = path.relative(epVoiceDir, r.dir)
     console.log(`  ${rel ? rel + '/' : ''}${r.old} -> ${r.new}`)
   }
 
@@ -124,31 +121,7 @@ async function migrateEpisode(epName: string): Promise<number> {
     }
   }
 
-  // r2-manifest.json 키 변경
-  const r2ManifestPath = path.join(epVoiceDir, 'r2-manifest.json')
-  let r2Manifest: Record<string, unknown> | null = null
-  const r2Renames: { old: string; new: string }[] = []
-  try {
-    const raw = await readFile(r2ManifestPath, 'utf-8')
-    r2Manifest = JSON.parse(raw)
-    if (r2Manifest) {
-      for (const oldKey of Object.keys(r2Manifest)) {
-        // oldKey can be "book-0-title.wav" or "gemini/book-0-title.wav"
-        const parts = oldKey.split('/')
-        const fileName = parts[parts.length - 1]
-        const prefix = parts.length > 1 ? parts.slice(0, -1).join('/') + '/' : ''
-        const newFileName = oldToNew(fileName, bookCount, shortSegments)
-        if (newFileName && newFileName !== fileName) {
-          r2Renames.push({ old: oldKey, new: prefix + newFileName })
-        }
-      }
-      if (r2Renames.length > 0) {
-        console.log(`  r2-manifest.json 키 ${r2Renames.length}개 변경`)
-      }
-    }
-  } catch { /* no manifest */ }
-
-  console.log(`  합계: 파일 ${renames.length}개, voiceTimings ${timingRenames.length}개, r2-manifest ${r2Renames.length}개`)
+  console.log(`  합계: 파일 ${renames.length}개, voiceTimings ${timingRenames.length}개`)
 
   if (!applyMode) return renames.length
 
@@ -165,19 +138,9 @@ async function migrateEpisode(epName: string): Promise<number> {
       episode.voiceTimings[t.new] = episode.voiceTimings[t.old]
       delete episode.voiceTimings[t.old]
     }
-    const epJsonPath = path.join(EPISODES_DIR, `${epName}.json`)
+    const epJsonPath = resolveEpisodePath(epName)
     await writeFile(epJsonPath, JSON.stringify(episode, null, 2) + '\n', 'utf-8')
     console.log(`  -> ${epName}.json voiceTimings 갱신 완료`)
-  }
-
-  // 3. r2-manifest.json 키 갱신
-  if (r2Renames.length > 0 && r2Manifest) {
-    for (const r of r2Renames) {
-      r2Manifest[r.new] = r2Manifest[r.old]
-      delete r2Manifest[r.old]
-    }
-    await writeFile(r2ManifestPath, JSON.stringify(r2Manifest, null, 2) + '\n', 'utf-8')
-    console.log(`  -> r2-manifest.json 갱신 완료`)
   }
 
   return renames.length
@@ -191,19 +154,41 @@ async function main() {
   if (epFilter) {
     totalRenames = await migrateEpisode(epFilter)
   } else {
-    // 모든 에피소드
-    const entries = await readdir(VOICE_DIR)
-    for (const entry of entries) {
-      if (entry === 'common') continue
-      const s = await stat(path.join(VOICE_DIR, entry)).catch(() => null)
-      if (!s?.isDirectory()) continue
-      totalRenames += await migrateEpisode(entry)
+    // 모든 에피소드: public/episodes/{todo|live|done}/{person}/voice/{locale} 순회
+    const EPISODES_BASE = path.join(ROOT, 'public', 'episodes')
+    for (const status of ['todo', 'live', 'done']) {
+      const statusDir = path.join(EPISODES_BASE, status)
+      const statusStat = await stat(statusDir).catch(() => null)
+      if (!statusStat?.isDirectory()) continue
+      const persons = await readdir(statusDir)
+      for (const person of persons) {
+        if (person.startsWith('_')) continue
+        const personDir = path.join(statusDir, person)
+        const s = await stat(personDir).catch(() => null)
+        if (!s?.isDirectory()) continue
+        const voiceDir = path.join(personDir, 'voice')
+        const vs = await stat(voiceDir).catch(() => null)
+        if (!vs?.isDirectory()) continue
+        const locales = await readdir(voiceDir)
+        for (const locale of locales) {
+          const ls = await stat(path.join(voiceDir, locale)).catch(() => null)
+          if (!ls?.isDirectory()) continue
+          // locale → epName 재구성
+          const parts = locale.split('-')
+          const baseLang = parts[0]
+          const partNum = parts[1] ? parseInt(parts[1]) : 0
+          let epName = person
+          if (partNum > 0) epName += `-${partNum}`
+          if (baseLang === 'en') epName += '-en'
+          totalRenames += await migrateEpisode(epName)
+        }
+      }
     }
   }
 
   console.log(`\n합계: ${totalRenames}개 파일 리네임 ${applyMode ? '완료' : '예정'}`)
   if (!applyMode && totalRenames > 0) {
-    console.log('실제 적용: npx tsx scripts/migrate-voice-names.ts --apply')
+    console.log('실제 적용: npx tsx scripts/voice/migrate-voice-names.ts --apply')
   }
 }
 

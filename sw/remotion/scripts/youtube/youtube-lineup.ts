@@ -30,8 +30,8 @@ export function buildTitle(
   isShorts: boolean,
 ): string {
   const hook = meta.hook[lang]
-  if (isShorts) return hook
   const series = lang === 'ko' ? '서재탐방' : 'Library Tour'
+  if (isShorts) return `${celebName} - ${hook}`
   return `[${series}] ${celebName} - ${hook}`
 }
 
@@ -49,8 +49,8 @@ const labelCF = (dur?: number) => dur ? toAF(dur) + fr(0.33) : fr(1.83)
 const titleSummaryGap = (ld?: number) => PRE_LABEL_GAP + labelSF(ld) + POST_LABEL_GAP
 const summaryContextGap = (ld?: number) => PRE_LABEL_GAP + labelCF(ld) + POST_LABEL_GAP
 
-const CONTEXT_QUOTE_GAP = fr(3)
-const QUOTE_CONTEXTAFTER_GAP = fr(0.67)
+const CONTEXT_QUOTE_GAP = fr(1.5)
+const QUOTE_CONTEXTAFTER_GAP = fr(0.4)
 const BOOK_GAP = fr(3)
 
 function bookTotalF(b: any, lsd?: number, lcd?: number): number {
@@ -98,12 +98,12 @@ export function calcChapterTimestamps(ep: any, lang: 'ko' | 'en' = 'ko'): { time
 
   for (let i = 0; i < books.length; i++) {
     if (i > 0) cursor += BOOK_GAP
-    if (i === mid) cursor += fr(5) + fr(4)
+    if (i === mid) cursor += fr(9) + fr(4)
     chapters.push({ time: fmtTime(cursor), label: `${i + 1}. ${books[i].title} — ${books[i].creator}` })
     cursor += bookTotalF(books[i], lsd, lcd)
   }
 
-  cursor += fr(5) // RECAP_FRAMES
+  cursor += fr(9) // RECAP_FRAMES
   chapters.push({ time: fmtTime(cursor), label: lang === 'ko' ? '수록 도서' : 'Featured Books' })
 
   return chapters
@@ -139,6 +139,17 @@ export function buildTags(celebName: string, lang: 'ko' | 'en', isShorts: boolea
 
 export type YouTubeLink = { label: string; url: string }
 
+/** 마지막 글자 받침 유무 판별 (한글 외 문자는 받침 없음 처리) */
+function hasBatchim(name: string): boolean {
+  const last = name.charCodeAt(name.length - 1)
+  if (last < 0xAC00 || last > 0xD7A3) return false
+  return (last - 0xAC00) % 28 !== 0
+}
+
+function subjectMarker(name: string): string {
+  return hasBatchim(name) ? '이' : '가'
+}
+
 /** 설명 생성 (롱폼: 타임스탬프+트랙, 쇼츠: 간결) */
 export function buildDescription(
   celebName: string,
@@ -147,15 +158,29 @@ export function buildDescription(
   isShorts: boolean,
   chapters?: { time: string; label: string }[],
   links?: YouTubeLink[],
+  celebSlug?: string,
 ): string {
   const linkLines = (links && links.length > 0)
     ? links.map(l => `${l.label} — ${l.url}`)
     : []
 
+  const celebProfileLine = celebSlug
+    ? lang === 'ko'
+      ? `${celebName} 프로필 — https://feelandnote.com/ko/celeb/${celebSlug}`
+      : `${celebName} Profile — https://feelandnote.com/en/celeb/${celebSlug}`
+    : undefined
+
   if (isShorts) {
+    const trackList = books
+      .map((b, i) => {
+        const year = b.stats?.publishYear ? ` (${b.stats.publishYear})` : ''
+        return `${i + 1}. ${b.title} — ${b.creator}${year}`
+      })
+      .join('\n')
+
     const base = lang === 'ko'
-      ? [`${celebName}의 서재를 탐방합니다.`]
-      : [`Explore the library of ${celebName}.`]
+      ? [`${celebName}의 서재를 탐방합니다.`, '', '📌 수록 도서', trackList]
+      : [`Explore the library of ${celebName}.`, '', '📌 Featured Books', trackList]
     if (linkLines.length) base.push('', ...linkLines)
     base.push(
       '',
@@ -163,8 +188,9 @@ export function buildDescription(
         ? `#Shorts #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천`
         : `#Shorts #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation`,
       '',
-      'Feelandnote — https://feelandnote.com',
     )
+    if (celebProfileLine) base.push(celebProfileLine)
+    base.push('Feelandnote — https://feelandnote.com')
     return base.join('\n')
   }
 
@@ -176,12 +202,14 @@ export function buildDescription(
     .join('\n')
 
   if (lang === 'ko') {
-    const lines = [`${celebName}이 읽은 ${books.length}권의 책을 소개합니다.`, '']
+    const lines = [`${celebName}${subjectMarker(celebName)} 읽은 ${books.length}권의 책을 소개합니다.`, '']
     if (chapters?.length) {
       lines.push('📚 타임라인', ...chapters.map(c => `${c.time} ${c.label}`), '')
     }
     lines.push('📌 수록 도서', trackList, '')
-    lines.push('🔗 링크', 'Feelandnote — https://feelandnote.com')
+    lines.push('🔗 링크')
+    if (celebProfileLine) lines.push(celebProfileLine)
+    lines.push('Feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
     lines.push('', `#서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천`)
     return lines.join('\n')
@@ -192,7 +220,9 @@ export function buildDescription(
     lines.push('📚 Timeline', ...chapters.map(c => `${c.time} ${c.label}`), '')
   }
   lines.push('📌 Featured Books', trackList, '')
-  lines.push('🔗 Links', 'Feelandnote — https://feelandnote.com')
+  lines.push('🔗 Links')
+  if (celebProfileLine) lines.push(celebProfileLine)
+  lines.push('Feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('',
     `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation`,

@@ -11,25 +11,7 @@
       "ko": "이상한 나라의 칩 황제",
       "en": "Wonderland's Chip Emperor"
     },
-    "privacyStatus": "private",
-    "uploads": {
-      "ko-longform": {
-        "videoId": "y1iV56pxj-I",
-        "uploadedAt": "2026-03-23T13:43:38.424Z"
-      },
-      "ko-shorts": {
-        "videoId": "euJQhhe8HIk",
-        "uploadedAt": "2026-03-23T13:43:43.766Z"
-      },
-      "en-longform": {
-        "videoId": "42Mn8UgkKcI",
-        "uploadedAt": "2026-03-23T13:43:59.784Z"
-      },
-      "en-shorts": {
-        "videoId": "KBGwwjtyzZY",
-        "uploadedAt": "2026-03-23T13:44:04.000Z"
-      }
-    }
+    "privacyStatus": "private"
   },
   "dario-amodei": {
     "hook": {
@@ -39,20 +21,20 @@
     "privacyStatus": "private",
     "uploads": {
       "ko-longform": {
-        "videoId": "UBC9B4NPDFw",
-        "uploadedAt": "2026-03-23T13:44:53.000Z"
+        "videoId": "UnKxhjULgs8",
+        "uploadedAt": "2026-03-29T08:25:48.583Z"
       },
       "ko-shorts": {
-        "videoId": "ehD0oMiPruY",
-        "uploadedAt": "2026-03-23T13:44:57.883Z"
+        "videoId": "YJ8Go3h63ME",
+        "uploadedAt": "2026-03-29T08:25:52.708Z"
       },
       "en-longform": {
-        "videoId": "8KOyYy8IBIo",
-        "uploadedAt": "2026-03-23T13:45:09.962Z"
+        "videoId": "kghpSaRWIDA",
+        "uploadedAt": "2026-03-29T08:26:03.450Z"
       },
       "en-shorts": {
-        "videoId": "26hCemX7W8A",
-        "uploadedAt": "2026-03-23T13:45:13.654Z"
+        "videoId": "tQkTZkmRNOg",
+        "uploadedAt": "2026-03-29T08:26:08.794Z"
       }
     }
   },
@@ -79,8 +61,8 @@
   },
   "marcus-aurelius": {
     "hook": {
-      "ko": "피 묻은 옥좌 위에서 내면을 다스린 철학자",
-      "en": "The Philosopher Who Tamed His Mind on a Bloodstained Throne"
+      "ko": "노예의 가르침으로 제국을 다스린 황제",
+      "en": " The Emperor Who Ruled an Empire by a Slave's Teachings"
     },
     "privacyStatus": "private"
   },
@@ -103,24 +85,6 @@
       "ko": "붉은 바다에서 검은 먹을 간 장군",
       "en": "The Admiral Who Ground Black Ink on a Crimson Sea"
     },
-    "privacyStatus": "private",
-    "uploads": {
-      "ko-longform": {
-        "videoId": "PjoBKhrmAM8",
-        "uploadedAt": "2026-03-23T13:44:17.593Z"
-      },
-      "ko-shorts": {
-        "videoId": "lTLXrCPOWSM",
-        "uploadedAt": "2026-03-23T13:44:22.117Z"
-      },
-      "en-longform": {
-        "videoId": "w2t_Jy8tetw",
-        "uploadedAt": "2026-03-23T13:44:34.883Z"
-      },
-      "en-shorts": {
-        "videoId": "dscgLWGDYCU",
-        "uploadedAt": "2026-03-23T13:44:39.036Z"
-      }
-    }
+    "privacyStatus": "private"
   }
 }

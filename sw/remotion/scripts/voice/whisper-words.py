@@ -6,8 +6,8 @@ whisper-words.py — WhisperX 전사 + diff-match-patch 매핑
 3) 매칭된 짝을 기준으로 타임스탬프를 원문 단어에 이식
 
 Usage:
-  python scripts/whisper-words.py --episode alexander-the-great
-  python scripts/whisper-words.py --episode alexander-the-great --only D05b-summary
+  python scripts/voice/whisper-words.py --episode alexander-the-great
+  python scripts/voice/whisper-words.py --episode alexander-the-great --only D05b-summary
 """
 import argparse, json, os, sys, glob, io, re
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -15,19 +15,61 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 from diff_match_patch import diff_match_patch
 
 
+def parse_ep_name(ep_name):
+    """ep-name → (person, locale) 파싱"""
+    rest, lang = ep_name, 'ko'
+    if rest.endswith('-en'):
+        lang = 'en'
+        rest = rest[:-3]
+    m = re.match(r'^(.+)-(\d+)$', rest)
+    if m:
+        rest = m.group(1)
+        lang = f'{lang}-{m.group(2)}'
+    return rest, lang
+
+
+def find_episode_dir(root, person):
+    """todo/live/done 3단 구조에서 에피소드 디렉토리 탐색"""
+    for status in ['todo', 'live', 'done']:
+        d = os.path.join(root, 'public', 'episodes', status, person)
+        if os.path.isdir(d):
+            return d
+    raise FileNotFoundError(f'Episode not found: {person}')
+
+
+def resolve_episode_path(script_dir, episode_id):
+    """Episode ID → 인물별 디렉토리 파일 경로"""
+    root = os.path.join(script_dir, '..', '..')
+    person, locale = parse_ep_name(episode_id)
+    parts = locale.split('-')
+    base_lang = parts[0]
+    part_num = int(parts[1]) if len(parts) > 1 else 1
+    filename = f'{base_lang}-{part_num}.json' if part_num > 1 else f'{base_lang}.json'
+    return os.path.join(find_episode_dir(root, person), filename)
+
+
 def get_display_text(ep, fname):
-    """WAV 파일명 → 에피소드 JSON에서 원문 텍스트 추출"""
+    """WAV 파일명 → 화면 표시용 원문 텍스트 추출"""
     key = fname.replace('.wav', '')
     if key == 'A1-service-greeting': return ep.get('narrator', {}).get('serviceGreeting')
     if key == 'A2-service-intro': return ep.get('narrator', {}).get('serviceIntro')
     if key == 'B1-celeb-intro': return ep.get('narrator', {}).get('celebIntro')
     if key == 'B2-philosophy': return ep.get('host', {}).get('philosophy')
+    if key == 'A3-featured-quote': return ep.get('host', {}).get('featuredQuote')
     if key == 'E1-outro': return ep.get('narrator', {}).get('outro')
     m = re.match(r'D(\d{2})([a-e])-(.+)', key)
     if m:
         idx = int(m.group(1)) - 1
+        phase = m.group(2)
+        if phase == 'a' and idx < len(ep.get('books', [])):
+            book = ep['books'][idx]
+            parts = [book.get('title', '')]
+            if book.get('creator'): parts.append(book['creator'])
+            year = book.get('stats', {}).get('publishYear', '')
+            if year: parts.append(str(year))
+            return ' '.join(parts)
         field_map = {'b': 'summary', 'c': 'context', 'd': 'directQuote', 'e': 'contextAfter'}
-        field = field_map.get(m.group(2))
+        field = field_map.get(phase)
         if field and idx < len(ep.get('books', [])):
             return ep['books'][idx].get(field)
     m = re.match(r'S\d{2}-(.+)', key)
@@ -37,6 +79,50 @@ def get_display_text(ep, fname):
             if seg.get('id') == seg_id:
                 return seg.get('text')
     return None
+
+
+def get_tts_text(ep, fname):
+    """WAV 파일명 → TTS에 실제 전달된 텍스트 (오버라이드 우선, 폴백: display_text)"""
+    key = fname.replace('.wav', '')
+    tts = ep.get('tts', {})
+
+    # narrator/host 오버라이드
+    tts_n = tts.get('narrator', {})
+    tts_h = tts.get('host', {})
+    overrides = {
+        'A1-service-greeting': tts_n.get('serviceGreeting'),
+        'A2-service-intro': tts_n.get('serviceIntro'),
+        'B1-celeb-intro': tts_n.get('celebIntro'),
+        'B2-philosophy': tts_h.get('philosophy'),
+        'A3-featured-quote': tts_h.get('featuredQuote'),
+        'E1-outro': tts_n.get('outro'),
+    }
+    if key in overrides and overrides[key]:
+        return overrides[key]
+
+    # books 오버라이드
+    m = re.match(r'D(\d{2})([a-e])-(.+)', key)
+    if m:
+        idx = int(m.group(1)) - 1
+        phase = m.group(2)
+        tts_books = tts.get('books', [])
+        if idx < len(tts_books):
+            if phase == 'a' and tts_books[idx].get('title'):
+                return tts_books[idx]['title']
+            field_map = {'b': 'summary', 'c': 'context', 'd': 'directQuote', 'e': 'contextAfter'}
+            field = field_map.get(phase)
+            if field and tts_books[idx].get(field):
+                return tts_books[idx][field]
+
+    # shorts 오버라이드
+    m = re.match(r'S(\d{2})-(.+)', key)
+    if m:
+        seg_idx = int(m.group(1)) - 1
+        tts_shorts = tts.get('shorts', [])
+        if seg_idx < len(tts_shorts) and tts_shorts[seg_idx].get('text'):
+            return tts_shorts[seg_idx]['text']
+
+    return get_display_text(ep, fname)
 
 
 def strip(s):
@@ -73,18 +159,28 @@ def map_whisper_to_display(whisper_words, display_text, duration):
     w_pos = 0  # whisper 문자열 포인터
     d_pos = 0  # display 문자열 포인터
     d_char_times = [None] * len(d_joined)  # display 문자별 시각
+    last_delete_times = []  # 직전 DELETE 구간 타이밍 (치환 감지용)
 
     for op, text in diffs:
         n = len(text)
         if op == 0:  # EQUAL
+            last_delete_times = []
             for i in range(n):
                 if w_pos + i < len(w_char_to_time):
                     d_char_times[d_pos + i] = w_char_to_time[w_pos + i]
             w_pos += n
             d_pos += n
         elif op == -1:  # DELETE (whisper에만 있음)
+            last_delete_times = [w_char_to_time[w_pos + i] for i in range(n) if w_pos + i < len(w_char_to_time)]
             w_pos += n
         elif op == 1:  # INSERT (display에만 있음)
+            # DELETE→INSERT 치환: 삭제 구간 타이밍을 삽입 구간에 비례 이식
+            # (숫자 "1800" ↔ 한글 발음 "천팔백" 등)
+            if last_delete_times:
+                for i in range(n):
+                    src_idx = int(i * len(last_delete_times) / n)
+                    d_char_times[d_pos + i] = last_delete_times[src_idx]
+                last_delete_times = []
             d_pos += n
 
     # 4) display 단어별 시각 결정
@@ -134,12 +230,16 @@ def main():
     parser.add_argument('--episode', required=True)
     parser.add_argument('--model', default='base')
     parser.add_argument('--only', default=None)
+    parser.add_argument('--shorts', action='store_true', help='쇼츠(S*.wav)만')
+    parser.add_argument('--long', action='store_true', help='롱폼(S* 제외)만')
     args = parser.parse_args()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    voice_dir = os.path.join(script_dir, '..', 'public', 'voice', args.episode)
+    root = os.path.join(script_dir, '..', '..')
+    person, locale = parse_ep_name(args.episode)
+    voice_dir = os.path.join(find_episode_dir(root, person), 'voice', locale)
 
-    ep_path = os.path.join(script_dir, '..', 'episodes', 'book-recommend', f'{args.episode}.json')
+    ep_path = resolve_episode_path(script_dir, args.episode)
     with open(ep_path, encoding='utf-8') as f:
         ep = json.load(f)
     lang = 'en' if ep.get('locale') == 'en' else 'ko'
@@ -167,7 +267,41 @@ def main():
         print(f'WAV 파일 없음: {default_dir}')
         sys.exit(1)
 
-    if args.only:
+    # 유효 WAV 키 목록 생성 (에피소드 JSON 기준)
+    valid_keys = set()
+    if ep.get('narrator', {}).get('serviceGreeting'): valid_keys.add('A1-service-greeting')
+    if ep.get('narrator', {}).get('serviceIntro'): valid_keys.add('A2-service-intro')
+    if ep.get('narrator', {}).get('celebIntro'): valid_keys.add('B1-celeb-intro')
+    if ep.get('host', {}).get('philosophy'): valid_keys.add('B2-philosophy')
+    if ep.get('host', {}).get('featuredQuote'): valid_keys.add('A3-featured-quote')
+    if ep.get('narrator', {}).get('outro'): valid_keys.add('E1-outro')
+    for i, book in enumerate(ep.get('books', [])):
+        idx = f'{i+1:02d}'
+        valid_keys.add(f'D{idx}a-title')
+        valid_keys.add(f'D{idx}b-summary')
+        valid_keys.add(f'D{idx}c-context')
+        if book.get('directQuote'): valid_keys.add(f'D{idx}d-quote')
+        if book.get('contextAfter'): valid_keys.add(f'D{idx}e-context-after')
+    if ep.get('shorts', {}).get('segments'):
+        si = 0
+        for seg in ep['shorts']['segments']:
+            if seg.get('id') == 'cta': si += 1; continue
+            valid_keys.add(f'S{si+1:02d}-{seg["id"]}')
+            si += 1
+
+    # 잔존 WAV 감지
+    orphaned = [f for f in wav_files if os.path.basename(f).replace('.wav', '') not in valid_keys]
+    if orphaned:
+        print(f'⚠ 잔존 WAV {len(orphaned)}건 — 에피소드에 해당 세그먼트 없음:')
+        for f in orphaned:
+            print(f'  {os.path.basename(f)}')
+        wav_files = [f for f in wav_files if f not in orphaned]
+
+    if args.shorts:
+        wav_files = [f for f in wav_files if os.path.basename(f).startswith('S')]
+    elif args.long:
+        wav_files = [f for f in wav_files if not os.path.basename(f).startswith('S')]
+    elif args.only:
         filters = args.only.split(',')
         wav_files = [f for f in wav_files if any(flt in os.path.basename(f) for flt in filters)]
 
@@ -176,8 +310,10 @@ def main():
     print(f'{len(wav_files)}개 WAV 분석\n')
 
     import whisperx
-    device = 'cpu'
-    asr_model = whisperx.load_model(args.model, device, compute_type='int8')
+    import torch
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    compute = 'float16' if device == 'cuda' else 'int8'
+    asr_model = whisperx.load_model(args.model, device, compute_type=compute)
 
     results = {}
     for wav_path in wav_files:
@@ -187,6 +323,9 @@ def main():
         try:
             audio = whisperx.load_audio(wav_path)
             display_text = get_display_text(ep, fname)
+            tts_text = get_tts_text(ep, fname)
+            # diff 매칭은 TTS 텍스트(실제 발화) 기준, 출력은 display 텍스트(화면 표시)
+            match_text = tts_text or display_text
 
             # 1) WhisperX 순수 전사
             asr_result = asr_model.transcribe(audio, language=lang)
@@ -204,9 +343,16 @@ def main():
                 if 'start' in w and 'end' in w:
                     whisper_words.append({'word': w['word'], 'start': round(w['start'], 3), 'end': round(w['end'], 3)})
 
-            # 3) diff-match-patch로 원문에 매핑
+            # 3) diff-match-patch로 매핑
+            # TTS 오버라이드가 있으면: WhisperX → TTS 텍스트 매핑 → 타임스탬프 추출 → display 텍스트에 이식
             if display_text and whisper_words:
-                words = map_whisper_to_display(whisper_words, display_text, duration)
+                if match_text != display_text:
+                    # TTS 텍스트로 정확한 타임스탬프 추출
+                    tts_words = map_whisper_to_display(whisper_words, match_text, duration)
+                    # display 텍스트 단어에 타임스탬프 이식 (diff-match-patch로 TTS→display 매핑)
+                    words = map_whisper_to_display(tts_words, display_text, duration)
+                else:
+                    words = map_whisper_to_display(whisper_words, display_text, duration)
             else:
                 words = whisper_words
 
@@ -220,7 +366,24 @@ def main():
             print(f'[{key}] 건너뜀 — {e}')
 
     out_path = os.path.join(voice_dir, 'whisper-debug.json')
-    out_data = {'episode': args.episode, 'model': args.model, 'engine': 'whisperx+diff', 'targets': results}
+    # --only 사용 시 기존 데이터 병합 (덮어쓰기 방지)
+    existing_targets = {}
+    if os.path.exists(out_path):
+        try:
+            with open(out_path, 'r', encoding='utf-8') as f:
+                existing = json.load(f)
+            existing_targets = existing.get('targets', {})
+        except Exception:
+            pass
+    # 잔존 키 정리: 범위에 해당하는 기존 키 중 유효하지 않은 것만 제거
+    if args.shorts:
+        cleaned = {k: v for k, v in existing_targets.items() if not k.startswith('S') or k in valid_keys}
+    elif args.long:
+        cleaned = {k: v for k, v in existing_targets.items() if k.startswith('S') or k in valid_keys}
+    else:
+        cleaned = {k: v for k, v in existing_targets.items() if k in valid_keys}
+    merged = {**cleaned, **results}
+    out_data = {'episode': args.episode, 'model': args.model, 'engine': 'whisperx+diff', 'targets': merged}
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(out_data, f, indent=2, ensure_ascii=False)
     print(f'\n-> {out_path}')

@@ -8,7 +8,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const OUT_DIR = path.join(__dirname, '..', 'public', 'sfx')
+const OUT_DIR = path.join(__dirname, '..', '..', 'public', 'sfx')
 
 /**
  * WAV 파일 생성 (모노, 44100Hz, 16bit)
