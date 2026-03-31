@@ -19,7 +19,7 @@ Read target file -> identify sections by line range:
   - Shared infra (types, constants, utilities)
 ```
 
-Count lines per section. Extraction candidates: any block >80 lines with a clear boundary.
+Count lines per section. Identify distinct visual phases and logical blocks.
 
 ### 2. Dependency graph -- Trace imports before moving anything
 
@@ -35,7 +35,7 @@ This determines what stays at root (widely imported) vs what moves into subdirec
 **Priority order:**
 1. **Duplicated logic** -> consolidate into single module (e.g., `calcTotalFrames` + inline cursor walking -> `buildTimeline()`)
 2. **Custom hooks** -> `useXxx.ts` (prefetch, timeline, animation state)
-3. **Large visual sections** (>100 lines) -> standalone component files
+3. **Visual sections** -> standalone component files (size irrelevant — distinct phase = separate file)
 4. **Dev-only blocks** -> separate, conditionally rendered
 
 **Rules:**
@@ -94,6 +94,6 @@ Only pre-existing errors should remain. Zero new errors from the refactoring.
 
 - Creating `index.ts` barrel files in every subdirectory -- only the root `index.ts` matters
 - Moving shared infra (types, timing, utils) into subdirectories -- these stay at root
-- Splitting files under 100 lines -- not worth the import overhead
+- Refusing to extract a visual phase just because it's short -- orchestrators split by responsibility, not line count
 - Changing any logic during extraction -- refactor != rewrite
 - Deeply nested directories (sections/foo/bar/) -- keep one level deep

@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai"
 
 // Gemini API 키 로테이션 (remotion/.env 키들을 web/.env에 복사)
 const API_KEYS = Array.from({ length: 50 }, (_, i) =>
-  process.env[`GOOGLE_GENAI_API_KEY${i}`],
+  process.env[`GOOGLE_GENAI_API_KEY_FREE${i}`],
 ).filter(Boolean) as string[]
 
 let keyIndex = 0

@@ -4,7 +4,8 @@
 
 ## 프로젝트 개요
 
-Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. Neo-Pantheon(고전 신전) 테마의 다크 UI. 모노레포 구조:
+Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 
+Neo-Pantheon(고전 신전) 테마의 다크 UI. 모노레포 구조:
 
 | # | 앱 | 경로 | 포트 | 설명 |
 |---|-----|------|------|------|
@@ -39,30 +40,9 @@ pnpm build:web
 pnpm build:bo
 ```
 
-### Remotion 음성/렌더
+### Remotion
 
-```bash
-pnpm voice -- --episode <name> --update-json          # TTS 생성
-pnpm voice -- --episode <name> --upload                # TTS 생성 + R2 업로드
-pnpm voice:list -- --episode <name>                    # TTS 대상 목록
-```
-
-### 음성 R2 관리 (sw/remotion 내)
-
-```bash
-pnpm voice:upload -- --episode <name>     # R2 업로드
-pnpm voice:pull -- --episode <name>       # R2 다운로드
-pnpm voice:pull -- --all                  # 전체 다운로드
-pnpm voice:r2 -- --status                 # 동기화 현황
-```
-
-### bash 별칭 (bashrc)
-
-```
-1/2/3/4/5     → dev 서버 실행 (web/bo/remotion/remotion-bo/lab)
-rv/rvl        → voice/voice:list
-rvu/rvp/rvs   → R2 upload/pull/status
-```
+음성, 렌더, R2, bash 별칭 등 모든 명령어는 `docs/project/remotion/README.md` 참조.
 
 ## 기술 스택
 
@@ -119,25 +99,12 @@ rvu/rvp/rvs   → R2 upload/pull/status
 
 ### 영상 (`docs/project/remotion/`)
 
-| 문서 | 내용 |
-|------|------|
-| `celeb-profile.md` | 인물 열전 — 시리즈 기획서 (페르소나·영향력·명언) |
+`README.md`가 공통 허브. 시리즈별 하위 디렉토리 참조.
 
-#### 서재 탐방
-
-| 장 | 문서 | 내용 |
-|----|------|------|
-| 1 | `README.md` | 개요, 코드 구조, SSoT 데이터 흐름, **에피소드 제작 절차**, 윤리 원칙 |
-| 2 | `longform.md` | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
-| 3 | `shorts.md` | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
-| 4 | `voice/tts.md` | 음성 생성 — 엔진, 보이스, 커맨드 |
-| 4b | `voice/actors.md` | 보이스 배정 — Gemini TTS 전체 목록, 셀럽별 매핑 |
-| 4c | `voice/timing-user.md` | 음성 타이밍 사용 가이드 — 갭 기반 파이프라인, 명령어, 트러블슈팅 |
-| 5 | `lineup.md` | 편성표 — 배포 순서, 제작 진행 현황 |
-| 5b | `candidates.md` | 후보 전략 — 라이벌 묶음, 정치 교차, 주의사항 |
-| 5c | `candidates-raw.md` | 후보 전체 리스트 — DB 자동 생성, git 미추적. 재생성 방법은 candidates.md 참조 |
-| 6 | `rules.md` | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항, 체크리스트 |
-| 7 | `render.md` | 렌더 출력 — 명령어, 파일명 규칙, 코덱·PNG 무손실 옵션 |
+| 디렉토리 | 내용 |
+|----------|------|
+| `README.md` | 공통 — 코드 구조, 명령어, 음성 파이프라인 |
+| `book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 
 ### 영상 관리 대시보드
 
@@ -163,7 +130,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
 | 셀럽 창작 서가 | — | **완료** | 실시간 Wikidata SPARQL 조회 방식. celeb_works 테이블 DROP 완료 |
-| 음성 R2 관리 시스템 | — | **완료** | WAV git 제외, R2 업로드/다운로드/동기화. voice-r2.ts |
+| 음성 R2 관리 시스템 | — | **폐기** | R2 음성 동기화 제거 (26.03.23). 영상 음성은 로컬 전용 |
 | remotion-bo 프로젝트 | `docs/project/remotion-bo-plan.md` | **Phase 2 완료** | Next.js. 시리즈 레지스트리, 2단 사이드바, Supabase 셀럽 검색, 스캐폴딩. AI 초안은 LLM 연동 시 별도 |
 | 포트 정비 | — | **완료** | remotion 3003, lab 3002, remotion-bo 3010+3011. bashrc 동기화 |
 | 단어 단위 voiceTimings 파이프라인 | `docs/todo/voice-timing-gap-pipeline.md` | **v5 완료** | WhisperX + diff-match-patch 단어 매핑. Typewriter 글자 스윕 하이라이트 |
@@ -173,4 +140,4 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 ## 아이디어 응답 방식
 
-네이밍 작명, 문학적 아이디어 등 창작 아이디어 요청 시: 개행·설명·번호 없이, 아이디어만 다수 나열한다.
+네이밍 작명, 문학적 아이디어 등 창작 아이디어 요청 시: 설명 없이, 아이디어만 다수 나열한다.
