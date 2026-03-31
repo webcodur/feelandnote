@@ -27,30 +27,42 @@ dist-ssr
 .next
 
 # Remotion auto-generated docs (DB에서 재생성 가능)
-docs/project/remotion/candidates-raw.md
+docs/project/remotion/book-recommend/lineup/candidates-raw.md
 
-# Remotion draft episodes (정비 중, 컴포지션 미완료)
-sw/remotion/episodes/book-recommend/draft/
+# Remotion episodes — 전체 로컬 관리
+sw/remotion/public/episodes/
+sw/remotion/episodes/
 
-# Remotion candidate episodes (자동 생성, DB에서 재생성 가능)
-sw/remotion/episodes/book-recommend/candidates/
+# Remotion old voice directories (episodes/로 이전됨)
+sw/remotion/public/voice/
+sw/remotion/public/voice-profile/
+sw/remotion/public/voice-samples/
 
-# Remotion cover images (DB thumbnail_url에서 재다운로드 가능)
+# Remotion cover images (candidate용, DB thumbnail_url에서 재다운로드 가능)
 sw/remotion/public/covers/
-
-# Remotion celeb images (수동 관리 에셋, git 추적 제외)
-sw/remotion/public/images/celebs/
 
 # Remotion temp scripts
 sw/remotion/tmp-*
 
-# Remotion voice assets (managed via R2)
-sw/remotion/public/voice/**/*.wav
-sw/remotion/public/voice-profile/**/*.wav
-!sw/remotion/public/voice/**/r2-manifest.json
-!sw/remotion/public/voice/**/manifest.json
-sw/remotion/public/voice/**/timing-debug.json
-sw/remotion/public/voice/**/whisper-debug.json
+
+# Remotion temp data
+sw/remotion/subs-*.json
+sw/remotion/check-images.cjs
+
+# Root-level temp scripts
+/copy-*.cjs
+/copy_images.js
+/map-*.cjs
+/scan-*.cjs
+/survey*.cjs
+/_fix-subs.mjs
+
+# Wrangler cache
+.wrangler/
+
+# Backups & temp
+backups/
+tmp/
 
 # Editor directories and files
 .vscode/*
