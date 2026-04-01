@@ -33,7 +33,6 @@ type BookEntry = {
   contextAfter?: string
   contextAfterDuration?: number
   source?: string
-  oneLiner: string
   stats: BookStats
   titleDuration: number
   images?: CinematicImage[]
@@ -82,6 +81,7 @@ type ShortSegment = {
 
 type ShortsConfig = {
   featuredBookIndex?: number
+  revealBg?: string
   segments: ShortSegment[]
 }
 
@@ -220,7 +220,7 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
   const addBook = () => {
     const blank: BookEntry = {
       title: '', creator: '', thumbnail_url: '', summary: '', summaryDuration: 0,
-      context: '', contextDuration: 0, oneLiner: '', stats: {}, titleDuration: 0,
+      context: '', contextDuration: 0, stats: {}, titleDuration: 0,
     }
     onChange({ ...episode, books: [...episode.books, blank] })
     setOpenBooks(prev => ({ ...prev, [episode.books.length]: true }))
@@ -415,7 +415,6 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
                   </div>
                   <FieldWithDuration label="후속 맥락" value={book.contextAfter ?? ''} onChange={v => setBook(idx, 'contextAfter', v)}
                     duration={book.contextAfterDuration} rows={2} />
-                  <TextField label="한줄 요약" value={book.oneLiner} onChange={v => setBook(idx, 'oneLiner', v)} />
                   <div className="grid grid-cols-2 gap-3">
                     <TextField label="출판년도" value={book.stats.publishYear ?? ''} onChange={v => setBookStats(idx, 'publishYear', v)} />
                     <TextField label="출처 URL" value={book.source ?? ''} onChange={v => setBook(idx, 'source', v)} />

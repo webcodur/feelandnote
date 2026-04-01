@@ -254,6 +254,43 @@ function LongformView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpa
   )
 }
 
+/* ── 인트로 배경 이미지 슬롯 ── */
+function RevealBgSlot({ fileName, imageBaseUrl, onDrop, onRemove }: {
+  fileName: string | null; imageBaseUrl: string
+  onDrop: (fn: string) => void; onRemove: () => void
+}) {
+  const [over, setOver] = useState(false)
+  const [err, setErr] = useState(false)
+
+  return (
+    <div
+      onDragOver={e => { e.preventDefault(); setOver(true) }}
+      onDragLeave={() => setOver(false)}
+      onDrop={e => { e.preventDefault(); setOver(false); const f = e.dataTransfer.getData('text/plain'); if (f) onDrop(f) }}
+      className={`mt-2 flex items-center gap-3 rounded border px-3 py-2 transition-colors ${
+        over ? 'border-accent bg-accent/10' : 'border-border/40 bg-bg-card/30'
+      }`}
+    >
+      <span className="text-[11px] text-text-secondary font-semibold shrink-0">인트로 배경</span>
+      {fileName ? (
+        <div className="group/rv flex items-center gap-2">
+          <div className="w-[100px] aspect-[16/10] rounded overflow-hidden bg-bg-main border border-border/30">
+            {err ? (
+              <div className="w-full h-full flex items-center justify-center text-[9px] text-text-secondary">{fileName}</div>
+            ) : (
+              <img src={`${imageBaseUrl}/${fileName}`} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />
+            )}
+          </div>
+          <span className="text-[10px] text-text-secondary truncate max-w-[200px]">{fileName}</span>
+          <button onClick={onRemove} className="text-red-400 hover:text-red-300 text-[11px] opacity-0 group-hover/rv:opacity-100 transition-opacity">&times;</button>
+        </div>
+      ) : (
+        <span className="text-[10px] text-text-secondary italic">이미지 풀에서 드래그하여 배정</span>
+      )}
+    </div>
+  )
+}
+
 /* ── 쇼츠 ── */
 function ShortsView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpand, renderExpanded, activeEngine, playingKey, onTogglePlay }: {
   episode: EpisodeData; sectionMap: Map<string, VoiceSection>
@@ -340,15 +377,27 @@ function ShortsView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpand
     updateSegImages(segIdx, [...imgs, { file: '', text: anchorText }])
   }
 
+  const revealBg = episode.shorts?.revealBg ?? null
+
+  const setRevealBg = (fileName: string) => {
+    if (assignedFiles.has(fileName)) return
+    onUpdate({ ...episode, shorts: { ...episode.shorts!, revealBg: fileName } })
+  }
+  const removeRevealBg = () => {
+    const { revealBg: _, ...rest } = episode.shorts!
+    onUpdate({ ...episode, shorts: { ...rest, segments } as any })
+  }
+
   const assignedFiles = useMemo(() => {
     const set = new Set<string>()
+    if (episode.shorts?.revealBg) set.add(episode.shorts.revealBg)
     for (const seg of segments) {
       if (seg.image) set.add(seg.image.split('/').pop()!)
       const changes = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
       for (const c of changes) set.add(c.image.split('/').pop()!)
     }
     return set
-  }, [segments])
+  }, [segments, episode.shorts?.revealBg])
   const unassigned = folderImages.filter(f => !assignedFiles.has(f))
 
   const [anchorPick, setAnchorPick] = useState<AnchorPick>(null)
@@ -411,6 +460,14 @@ function ShortsView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpand
           if (seg.visual === 'book' || seg.visual === 'cta') return null
           return renderSeg(seg, i, false)
         })}
+
+        {/* revealBg — 인트로 구간 배경 이미지 */}
+        <RevealBgSlot
+          fileName={revealBg}
+          imageBaseUrl={imageBaseUrl}
+          onDrop={setRevealBg}
+          onRemove={removeRevealBg}
+        />
       </div>
 
       {/* HR + 책 구간 + 이미지 풀 사이드바 */}
