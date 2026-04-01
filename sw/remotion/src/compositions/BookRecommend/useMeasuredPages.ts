@@ -52,8 +52,6 @@ function measurePages(
     document.body.appendChild(el)
     el.textContent = 'test'
     const cs = window.getComputedStyle(el)
-    console.log(`[useMeasuredPages] computed: w=${cs.width} fontSize=${cs.fontSize} lh=${cs.lineHeight} font=${cs.fontFamily.substring(0, 40)}`)
-    console.log(`[useMeasuredPages] text="${text.substring(0, 60)}…" sentences=${sentences.length} maxH=${maxHeight} w=${width}`)
     const heights: number[] = []
     let acc = ''
     for (let i = 0; i < sentences.length; i++) {
@@ -61,7 +59,6 @@ function measurePages(
       el.textContent = acc
       heights.push(el.offsetHeight)
     }
-    console.log(`[useMeasuredPages] 문장별 누적높이:`, heights.map((h, i) => `[${i}]${h}`).join(' '))
 
     // 첫 문장 유효성
     if (heights[0] <= 0) {
@@ -94,7 +91,6 @@ function measurePages(
       document.body.removeChild(el)
 
       if (pages.length > 0) {
-        console.log(`[useMeasuredPages] → ${pages.length}페이지 분할`)
         return { pages, ranges }
       }
     }
@@ -105,7 +101,6 @@ function measurePages(
   // --- 폴백: CPL 추정 ---
   const linesPerPage = Math.floor(maxHeight / FALLBACK_LH)
   const charsPerPage = linesPerPage * FALLBACK_CPL_KO
-  console.log(`[useMeasuredPages] CPL 폴백: ${linesPerPage}줄 × ${FALLBACK_CPL_KO}자 = ${charsPerPage}자/페이지`)
   return paginateSentences(text, charsPerPage, timings)
 }
 

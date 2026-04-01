@@ -146,14 +146,12 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
       // 한국어 제목으로 먼저 검색 (BOOK만 구글 우선)
       const koResponse = await searchExternal(extracted.type, searchQuery, 1, { preferGoogle: isBook })
       searchResultsKo = mapSearchResults(koResponse.items)
-      console.log(`  → 검색(Ko): ${searchResultsKo.length}건`)
 
       // 한국어로 못 찾으면 원본으로 재검색
       if (searchResultsKo.length === 0 && title !== extracted.title) {
         const origQuery = isBook && extracted.creator ? `${extracted.title} - ${extracted.creator}` : extracted.title
         const origResponse = await searchExternal(extracted.type, origQuery, 1, { preferGoogle: isBook })
         searchResultsOriginal = mapSearchResults(origResponse.items)
-        console.log(`  → 검색(Orig): ${searchResultsOriginal.length}건`)
       }
     } catch (err) {
       console.warn(`  → 검색 실패:`, err)

@@ -527,7 +527,6 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
           }
           if (j === 0 && !img.field) { img.field = 'summary'; cleaned = true }
           if (j > 0 && img.text && !allTexts.includes(img.text)) {
-            console.log(`유령 앵커 정리: 책${i + 1} #${j + 1} "${img.text}"`)
             delete img.text
             cleaned = true
           }
@@ -554,7 +553,6 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
           delete copy.image
           delete copy.imageChangeAt
           segs[si] = copy
-          console.log(`쇼츠 중복 이미지 정리: #${si + 1} ${seg.id} "${fn}"`)
           cleaned = true
         } else {
           const changes = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []

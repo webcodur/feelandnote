@@ -361,8 +361,6 @@ export async function updateTagAssignmentDesc(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  console.log('[updateTagAssignmentDesc] Input:', { celebId, tagId, short_desc, long_desc, short_desc_en, long_desc_en })
-
   const updatePayload: Record<string, string | null> = { short_desc, long_desc }
   if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
   if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
@@ -373,8 +371,6 @@ export async function updateTagAssignmentDesc(
     .eq('celeb_id', celebId)
     .eq('tag_id', tagId)
     .select()
-
-  console.log('[updateTagAssignmentDesc] Result:', { data, error })
 
   if (error) {
     console.error('태그 설명 수정 에러:', error)

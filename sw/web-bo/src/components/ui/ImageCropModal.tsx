@@ -76,7 +76,6 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
       const result = await detectFaceLandmarks(img)
       if (result) {
         const area = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight)
-        console.log('[AutoCrop] area:', area)
 
         // react-easy-crop에게 "이 영역을 보여줘"라고 지시 → 내부에서 crop+zoom 자동 계산
         setInitialArea(area)
