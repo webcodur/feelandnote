@@ -1,5 +1,5 @@
 ---
-name: voice-sync
+name: remo-voice-sync
 description: Remotion 음성 파일 변경 후 voiceTimings + duration 동기화 + 자막 sub 생성. "시맨틱컷"(기존 sub 전량 삭제 후 의미 단위 재분할), "sub 채워줘", 오디오 교체/재생성 시 실행.
 ---
 
@@ -22,7 +22,9 @@ description: Remotion 음성 파일 변경 후 voiceTimings + duration 동기화
 
 ### Step 1: 대상 판별 및 에피소드 JSON 로드
 
-에피소드 JSON 위치: `sw/remotion/public/episodes/{stage}/{person}/{locale}.json`
+에피소드 파일 위치:
+- 콘텐츠: `sw/remotion/public/episodes/{stage}/{person}/{locale}.json`
+- 타이밍: `sw/remotion/public/episodes/{stage}/{person}/{locale}.timing.json` (voiceTimings 포함)
 
 **sub 작업 가능 여부 판별 (3단계 완료 확인):**
 
@@ -80,7 +82,7 @@ description: Remotion 음성 파일 변경 후 voiceTimings + duration 동기화
 
 ### Step 4: JSON 기록
 
-에피소드 JSON의 `voiceTimings[segId][idx].sub` 배열에 직접 기록하고 저장한다.
+`<locale>.timing.json`의 `voiceTimings[segId][idx].sub` 배열에 직접 기록하고 저장한다.
 
 ### Step 5: 검증
 

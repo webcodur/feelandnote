@@ -19,7 +19,8 @@
       "mcp__google-search-console__search_analytics",
       "mcp__google-search-console__index_inspect",
       "mcp__google-analytics__get_ga4_data",
-      "mcp__google-search-console__detect_quick_wins"
+      "mcp__google-search-console__detect_quick_wins",
+      "Skill(update-config)"
     ],
     "deny": [],
     "ask": []

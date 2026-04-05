@@ -1,5 +1,5 @@
 ---
-name: episode-translate
+name: remo-episode-translate
 description: ko 에피소드(ko.json)를 영문 번역하여 en.json을 생성/갱신한다. 롱폼(narrator, host, books)과 쇼츠(shorts.segments) 텍스트를 번역하고, 구조·메타데이터·이미지는 보존한다. /episode-translate <에피소드명> 으로 실행.
 ---
 
@@ -86,7 +86,7 @@ done → live → todo 순서로 탐색한다.
 
 ### 5. tts (TTS 오버라이드)
 
-ko의 `tts` 구조를 복사하되, 영문에서 발음 오버라이드가 필요한 경우만 설정한다. 대부분의 경우 en에서는 tts 오버라이드가 불필요하다.
+영문 에피소드에는 `tts` 필드를 포함하지 않는다. 영어는 숫자·외래어 발음 변환이 불필요하므로 tts 오버라이드가 없다.
 
 ## 번역 규칙
 
@@ -104,7 +104,7 @@ ko의 `tts` 구조를 복사하되, 영문에서 발음 오버라이드가 필�
 
 ### 금지사항
 
-- duration, voiceTimings 등 음성 관련 필드를 건드리지 않는다
+- duration, voiceTimings는 `<locale>.timing.json`에 별도 저장된다. content JSON에 없으므로 신경 쓸 필요 없다
 - images, imageChangeAt 등 이미지 관련 필드를 건드리지 않는다
 - id, role, visual 등 구조 필드를 변경하지 않는다
 

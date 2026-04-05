@@ -1,5 +1,5 @@
 ---
-name: celeb-basic-profile
+name: celeb-1-basic-profile
 description: "셀럽 기본 정보만 생성하는 전문 에이전트. 닉네임, 직군, 수식어, 국적, 성별, 생몰일, 소개, 명언 등을 작성한다.\n\n<example>\nuser: \"스티브 잡스 기본 정보 생성해줘\"\nassistant: \"스티브 잡스 기본 정보를 생성한다.\"\n</example>\n\n<example>\nuser: \"이 셀럽 프로필 정보 채워줘\"\nassistant: \"기본 프로필 정보를 생성한다.\"\n</example>"
 model: sonnet
 color: blue

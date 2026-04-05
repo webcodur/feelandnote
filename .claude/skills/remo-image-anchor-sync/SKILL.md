@@ -1,5 +1,5 @@
 ---
-name: image-anchor-sync
+name: remo-image-anchor-sync
 description: ko 에피소드의 이미지 배치(file + field + text 앵커)를 en 에피소드에 동기화. LLM이 ko 앵커의 의미를 파악하여 en 번역문에서 대응 위치를 찾아 앵커를 자동 생성한다. /image-anchor-sync <에피소드명> 으로 실행.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: celeb-dialogue
+name: celeb-8-dialogue
 description: "셀럽 고유 대사 생성 전문 에이전트. 인물별 21개 대사(7상황 x 3변형)를 생성하여 celeb_dialogues 테이블에 INSERT한다.\n\n<example>\nuser: \"이 인물들 고유 대사 생성해줘\"\nassistant: \"고유 대사를 생성한다.\"\n</example>\n\n<example>\nuser: \"대사 일괄 생성\"\nassistant: \"대사를 일괄 생성한다.\"\n</example>"
 model: opus
 color: violet

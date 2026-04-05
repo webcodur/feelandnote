@@ -1,5 +1,5 @@
 ---
-name: celeb-persona
+name: celeb-5-persona
 description: "셀럽 페르소나 벡터 생성 전문 에이전트. 덕목 8개, 능력 4개, 성향 4개를 평가하여 celeb_persona 테이블에 등록한다.\n\n<example>\nuser: \"레오니다스 1세 페르소나 생성해줘\"\nassistant: \"레오니다스 1세 페르소나를 생성한다.\"\n</example>\n\n<example>\nuser: \"이 셀럽 페르소나 벡터 채워줘\"\nassistant: \"페르소나 벡터를 생성한다.\"\n</example>"
 model: sonnet
 color: orange

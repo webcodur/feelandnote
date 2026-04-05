@@ -1,5 +1,5 @@
 ---
-name: celeb-influence
+name: celeb-4-influence
 description: "셀럽 영향력 평가 전문 에이전트. 6개 영역(정치, 전략, 기술, 사회, 경제, 문화)과 통시성을 평가하여 점수와 설명을 작성한다.\n\n<example>\nuser: \"알베르트 아인슈타인 영향력 평가해줘\"\nassistant: \"아인슈타인의 영향력을 평가한다.\"\n</example>\n\n<example>\nuser: \"이 인물 영향력 점수 매겨줘\"\nassistant: \"영향력 평가를 시작한다.\"\n</example>"
 model: opus
 color: purple
