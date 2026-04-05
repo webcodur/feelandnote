@@ -33,7 +33,6 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
       celeb_dialogues(lines, lines_en)
     `)
     .eq('profile_type', 'CELEB')
-    .not('death_date', 'is', null)
     .order('nickname', { ascending: true })
 
   if (error) throw error

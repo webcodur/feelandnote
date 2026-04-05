@@ -41,15 +41,12 @@ sw/remotion/public/voice-samples/
 # Remotion cover images (candidate용, DB thumbnail_url에서 재다운로드 가능)
 sw/remotion/public/covers/
 
-# Remotion temp scripts
+# Remotion temp scripts & data
 sw/remotion/tmp-*
-
-
-# Remotion temp data
 sw/remotion/subs-*.json
-sw/remotion/check-images.cjs
 
 # Root-level temp scripts
+/cp-*.cjs
 /copy-*.cjs
 /copy_images.js
 /map-*.cjs

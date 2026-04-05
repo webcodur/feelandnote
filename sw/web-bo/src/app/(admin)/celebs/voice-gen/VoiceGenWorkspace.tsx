@@ -413,7 +413,7 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
     setDialogueSaving(true)
 
     const buildLines = (loc: string): DialogueLines => {
-      const result: Record<string, [string, string, string]> = {}
+      const result: Record<string, unknown> = {}
       for (const type of DIALOGUE_TYPES) {
         result[type] = [
           editDialogues[`${loc}/${type}-1`] || '',
@@ -421,6 +421,7 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
           editDialogues[`${loc}/${type}-3`] || '',
         ]
       }
+      result.quote = editQuotes[loc] ?? ''
       return result as unknown as DialogueLines
     }
 
@@ -429,12 +430,6 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
       if (speechTone !== (selected.speech_tone || '')) {
         await updateSpeechTone(selected.id, speechTone)
       }
-      const koQuote = editQuotes['ko'] ?? ''
-      const enQuote = editQuotes['en'] ?? ''
-      const origKo = (selected.dialogue_lines as any)?.quote ?? ''
-      const origEn = (selected.dialogue_lines_en as any)?.quote ?? ''
-      if (koQuote !== origKo) await saveQuote(selected.id, 'ko', koQuote)
-      if (enQuote !== origEn) await saveQuote(selected.id, 'en', enQuote)
       showToast('success', SAVE_DONE_LABEL)
     } catch (err) {
       showToast('error', `${SAVE_FAIL_LABEL}: ${String(err)}`)

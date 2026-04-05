@@ -5,7 +5,7 @@ const VARIANTS = ['marble', 'beam', 'pixel', 'sunset', 'ring', 'bauhaus'] as con
 type Variant = (typeof VARIANTS)[number]
 
 const PALETTES = {
-  'Neo-Pantheon': ['#1a1a2e', '#6c5ce7', '#a29bfe', '#dfe6e9', '#ffeaa7'],
+  'Dark-Modern': ['#1a1a2e', '#6c5ce7', '#a29bfe', '#dfe6e9', '#ffeaa7'],
   'Ocean': ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51'],
   'Forest': ['#606c38', '#283618', '#fefae0', '#dda15e', '#bc6c25'],
   'Neon': ['#ff006e', '#8338ec', '#3a86ff', '#fb5607', '#ffbe0b'],
@@ -21,7 +21,7 @@ const SAMPLE_NAMES = [
 export function BoringAvatarsLab() {
   const [name, setName] = useState('Alexander')
   const [variant, setVariant] = useState<Variant>('beam')
-  const [palette, setPalette] = useState<keyof typeof PALETTES>('Neo-Pantheon')
+  const [palette, setPalette] = useState<keyof typeof PALETTES>('Dark-Modern')
   const [size, setSize] = useState(120)
 
   return (

@@ -157,6 +157,7 @@ export async function saveCelebDialogues(
     celeb_id: celebId,
     updated_at: new Date().toISOString(),
   }
+
   if (lines !== null) payload.lines = lines
   if (lines_en !== null) payload.lines_en = lines_en
 
