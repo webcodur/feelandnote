@@ -20,7 +20,7 @@ app/
 actions/               # Server Actions: achievements, activity, auth, board, celebs, contents, guestbook, home, notes, notifications, playlists, recommendations, records, scriptures, search, user
 components/
   features/            # 도메인별 (agora, board, book, content, explore, game, home, influence, landing, lounge, profile, recommendations, scriptures, user)
-  layout/  |  shared/  |  ui/ (cards, icons/neo-pantheon, Layout)
+  layout/  |  shared/  |  ui/ (cards, icons/dark-theme, Layout)
   lab/
 contexts/              # SoundContext
 lib/                   # auth, config, errors, supabase(client/server/middleware), utils

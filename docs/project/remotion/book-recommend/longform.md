@@ -21,7 +21,7 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 ### Book 내부 화자 전환
 
-인용문·후속맥락은 선택:
+인용문·후속맥락은 선택. category가 BOOK이 아닌 항목(VIDEO, GAME, MUSIC)은 포스터 우상단에 아이콘 뱃지, 타이틀 영역에 카테고리명이 표시된다 (BOOK은 표시 없음).
 
 ```
 나레이터(Kore): 제목+저자+년도 (팩트만)
@@ -47,24 +47,9 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 나레이터는 설명하지 않는다. 요약은 요약맨의 역할. 셀럽 음성은 실제 발언 인용에만 사용.
 
-### 말투 규칙
+### 말투·텍스트 규칙
 
-- **인물 소개 (celebIntro)**: 서술체 (`~이다`, `~했다`). 위키백과 톤.
-  - 풀네임 ≠ 닉네임: 한 문장으로 편입 (예: "알렉산드로스 3세 메가스, 통칭 알렉산더 대왕은 고대 마케도니아의 왕이자 역사상 가장 위대한 정복자이다.")
-  - 풀네임 ≈ 닉네임: 이름 + 마침표 + 설명 (예: "일론 머스크. 테슬라 창업자이자..."). 수식어는 DB 프로필 기반으로 정확하게.
-- **주어 규칙** (나레이터·요약맨 파트에만 적용, celebIntro 제외): 모든 문장에 주어가 있어야 한다. 첫 문장 이후 이름을 반복하지 않을 때는 3인칭 대명사(`그는`, `그의`)로 처리한다. 주어 없는 문장 금지. 인물 소개(celebIntro)는 위키백과 서술체이므로 주어 생략 허용.
-- **나레이터 · 요약맨** (그 외): 정중체 (`~입니다`, `~합니다`, `~했습니다`). 시청자에게 설명하는 톤.
-- **셀럽 (감상철학 · 직접 인용문)**: 해당 인물의 개인 성향에 맞는 말투. speech_tone 참고.
-- 아웃트로: 나레이터이므로 정중체.
-
----
-
-## 텍스트 금기
-
-| # | 금기 | 설명 |
-|---|------|------|
-| 1 | **인용 예고 후 반복** | context에서 인용구 의미를 다 풀고 directQuote에서 같은 내용을 또 보여주면 안 된다. 3단 분리(context → directQuote → contextAfter)로 해결한다 |
-| 2 | **역사적 사실 단정/과장** | 검증 안 된 인과를 단정하지 않는다("결과였습니다" → "흔적이 남아 있습니다"). 낙선/실패 등 사실과 다른 표현 금지 |
+말투, 주어, 연결어, 텍스트 금기 등 글쓰기 품질 규칙은 **[writer/0-draft.md](writer/0-draft.md)**에서 관리한다.
 
 ---
 
@@ -148,17 +133,14 @@ const labelSummaryFrom = visual
 
 ### DB → 에피소드 JSON 변환 체크리스트
 
-1. 셀럽 기본 정보: nickname, bio, avatar_url, speech_tone
-2. consumption_philosophy → 1인칭 감상철학 재작성 (speech_tone 반영)
-3. 콘텐츠 목록: title, creator, thumbnail, review
-4. review → summary(책 자체 설명) + context(추천 경위) 분리
-5. directQuote: 검증된 직접 인용문만 (사료 출처 명시)
-5b. **간접 인용 따옴표**: context/contextAfter 본문에서 `~라고 썼`, `~를 인용하여`, `~라는 구절` 등 타인의 발언·구절을 옮길 때 `\u201C...\u201D`로 감싼다
-6. stats: celebCount, celebNames (DB 조회)
-7. publishYear: 고대 작품은 "기원전 X세기" 형식
-8. TTS 오버라이드: 숫자 → 한글, 외래어 발음 조정
-9. source: 출처 명시
-10. **표지 이미지**: 한영 양쪽 모두 `content_locales`에 유효한 `thumbnail_url`이 있는 콘텐츠만 포함. 한쪽이라도 없으면 해당 콘텐츠 제외. 외부 URL은 `public/covers/`에 로컬 다운로드 후 `covers/cover-NNN.jpg` 경로로 교체 (렌더 속도 + 안정성)
+DB 소스 매핑과 필드별 작성 기준은 **[writer/0-draft.md](writer/0-draft.md)** 참조. 아래는 JSON 변환 시 기술적 체크.
+
+1. consumption_philosophy → 1인칭 감상철학 재작성 (speech_tone 반영)
+2. **category**: DB `contents.type`이 BOOK이 아닌 항목은 `"category": "VIDEO"` 등 필수 추가
+3. stats: celebCount, celebNames (DB 조회)
+4. publishYear: 고대 작품은 "기원전 X세기" 형식
+5. TTS 오버라이드: 숫자 → 한글, 외래어 발음 조정
+6. **표지 이미지**: 한영 양쪽 `content_locales`에 유효한 `thumbnail_url` 필수. 외부 URL은 `public/covers/`에 로컬 다운로드
 
 ---
 
@@ -264,5 +246,4 @@ sw/remotion/public/images/{에피소드명}/
 
 - **summary 이미지**: 책의 핵심 주제/내용을 시각화. 예) 아이네이스 → 고대 로마 함선, 지중해 항해
 - **context 이미지**: 셀럽이 그 책과 만난 맥락을 시각화. 예) 아이네이스 context → 고등학교 교실, 라틴어 교과서
-- Neo-Pantheon 다크 테마를 강제하지 않는다. **객관적, 사실적, 역사적 스타일**로 생성한다.
-- 텍스트, 로고, 워터마크가 포함되지 않도록 한다.
+

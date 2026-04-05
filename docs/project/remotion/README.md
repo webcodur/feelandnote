@@ -19,7 +19,8 @@ sw/remotion/public/
     todo/<person>/                 ← 검수 완료, voice 미생성
     live/<person>/                 ← 진행중 (voice 작업)
     done/<person>/                 ← 완료 (YouTube 업로드)
-      <locale>.json                  에피소드 데이터 (SSoT)
+      <locale>.json                  에피소드 콘텐츠 (텍스트, 메타, 이미지)
+      <locale>.timing.json           타이밍 데이터 (voiceTimings, duration) — 파이프라인 자동 생성
       voice/<locale>/<engine>/       생성된 음성 파일
       images/                        시네마틱 배경 + 쇼츠 이미지
       covers/                        책 표지 이미지
@@ -95,8 +96,9 @@ pnpm analyze -- --episode <name> --only S07-book-quote-2 --update-json
 
 #### TTS 오버라이드와 파이프라인
 
-`tts.*` 오버라이드가 있으면 WhisperX와 analyze가 자동으로 오버라이드 텍스트를 기준으로 매핑한다.
-오버라이드는 **발음 변환 전용** (`18년` → `십팔 년`). 내용 변경은 `segments[].text`를 직접 수정한다.
+`tts.replace` 치환맵이 있으면 WhisperX와 analyze가 자동으로 치환된 텍스트를 기준으로 매핑한다.
+오버라이드는 **발음 변환 전용** (`334년` → `삼백삼십사 년`). 내용 변경은 `segments[].text`를 직접 수정한다.
+TTS 오버라이드 구조 상세: [voice/tts.md — TTS 오버라이드 구조](book-recommend/voice/tts.md#tts-오버라이드-구조)
 
 #### 잔존 WAV 감지
 

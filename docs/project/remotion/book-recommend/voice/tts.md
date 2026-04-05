@@ -67,6 +67,10 @@ Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 �
 - ElevenLabs 모델: `eleven_multilingual_v2`, 출력: `pcm_24000`
 - `.env`에 `ELEVENLABS_API_KEY` 필요
 
+### ElevenLabs와 Gemini 파이프라인의 관계
+
+에피소드에 `host.elevenlabsVoiceId`가 있으면, Gemini 파이프라인(`pnpm voice`)은 **celeb 역할을 자동 스킵**한다. ElevenLabs 커스텀 보이스는 자동화·LLM 판단이 불가능하다. 생성된 음성을 사람이 직접 듣고 품질을 판단해야 하므로, 유저가 ElevenLabs 사이트에서 개별적으로 생성·선별한다. 따라서 celeb 음성은 Gemini 파이프라인 밖의 유저 수작업 영역이며, 3단계 파이프라인에 포함되지 않는다.
+
 ## 공통 음성
 
 에피소드마다 동일한 음성은 `public/voice/common/`에 1회 생성하여 재사용한다.
@@ -100,7 +104,7 @@ pnpm voice -- --engine elevenlabs --episode alexander-the-great --role celeb --u
 
 ### Duration 자동 반영
 
-`--update-json` 플래그를 붙이면 TTS 생성 후 duration을 에피소드 JSON에 자동 기록한다. 수동 복사 불필요.
+`--update-json` 플래그를 붙이면 TTS 생성 후 duration을 `<locale>.timing.json`에 자동 기록한다. 수동 복사 불필요.
 
 ## Gemini API 키 로테이션
 
@@ -285,7 +289,8 @@ voiceTimings에 text가 있으면 `book.context` 대신 **voiceTimings 텍스트
 | 파일 | 위치 | git 추적 | 비고 |
 |------|------|----------|------|
 | `whisper-debug.json` | `public/voice/<에피소드>/` | ❌ | WhisperX 단어 타임스탬프 + diff 매핑 결과 |
-| `<에피소드>.json` | `episodes/book-recommend/` | ✅ | voiceTimings (단어 단위) |
+| `<locale>.json` | `episodes/<시리즈>/done/<person>/` | ✅ | 에피소드 콘텐츠 (텍스트, 메타, 이미지) |
+| `<locale>.timing.json` | `episodes/<시리즈>/done/<person>/` | ✅ | voiceTimings + duration — 파이프라인 자동 생성 |
 
 ### 트러블슈팅
 
@@ -297,7 +302,7 @@ voiceTimings에 text가 있으면 `book.context` 대신 **voiceTimings 텍스트
 | TTS 재생성 후 자막이 밀림 | 전체 파이프라인 3단계 재실행 |
 | 텍스트 바꿨는데 화면 안 바뀜 | 파이프라인 3단계 재실행 (splitSentences 우선순위 참고) |
 | 잔존 WAV로 whisper 오염 | 세그먼트 ID 변경 후 옛 WAV 삭제. whisper-words.py가 자동 경고 |
-| TTS 오버라이드와 자막 불일치 | `tts.*` 오버라이드는 발음 변환 전용. 내용 변경은 `segments[].text` 직접 수정 |
+| TTS 오버라이드와 자막 불일치 | `tts.replace`는 발음 변환 전용 전역 치환맵. 내용 변경은 `segments[].text` 직접 수정 |
 | analyze 후 기존 sub 유실 | `--shorts`/`--long`으로 범위 제한. 텍스트 동일 시 sub 자동 이식됨 |
 
 ### 의존성
@@ -311,3 +316,40 @@ pip install whisperx diff-match-patch
 ## 음성 파일 저장
 
 WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 관리한다.
+
+### 에피소드 파일 분할
+
+에피소드 데이터는 콘텐츠와 타이밍 두 파일로 분리한다:
+
+| 파일 | 내용 |
+|------|------|
+| `<locale>.json` | 콘텐츠 (텍스트, 메타데이터, 이미지, tts 오버라이드) |
+| `<locale>.timing.json` | 타이밍 데이터 — 파이프라인 자동 생성 |
+
+`timing.json`에 저장되는 필드:
+- `voiceTimings` — 단어별 타임스탬프
+- 모든 `*Duration` 필드 (narrator, host, books, shorts)
+
+- `pnpm voice -- --update-json`: duration을 `timing.json`에 저장
+- `pnpm analyze -- --update-json`: voiceTimings + duration을 `timing.json`에 저장
+
+### TTS 오버라이드 구조
+
+에피소드 JSON(`<locale>.json`)의 `tts` 필드로 발음을 제어한다:
+
+```json
+{
+  "tts": {
+    "titles": ["일리아스, 호메로스, 기원전 팔 세기", null, "국부론, 애덤 스미스, ..."],
+    "replace": { "334년": "삼백삼십사 년", "8세기": "팔 세기" }
+  }
+}
+```
+
+| 필드 | 설명 |
+|------|------|
+| `tts.titles[]` | `books[]`와 인덱스 대응. 책 제목 발음용 전문 오버라이드. `null`이면 자동 생성 |
+| `tts.replace` | 전역 치환맵. 모든 텍스트 필드에 적용 (숫자 → 한글 등) |
+
+- 오버라이드는 **발음 변환 전용**이다. 내용 변경은 `segments[].text`를 직접 수정한다.
+- 기존의 전문 복사 방식(`tts.narrator`, `tts.books[]` 내 텍스트 사본)은 폐기되었다.

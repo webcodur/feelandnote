@@ -5,7 +5,6 @@
 ## 프로젝트 개요
 
 Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기록 및 관리 서비스다. 
-Neo-Pantheon(고전 신전) 테마의 다크 UI. 모노레포 구조:
 
 | # | 앱 | 경로 | 포트 | 설명 |
 |---|-----|------|------|------|
@@ -86,6 +85,7 @@ pnpm build:bo
 | 5 | `celeb-5-persona.md` | 페르소나 |
 | 6 | `celeb-speech.md` | Speech 트랙 (tone → quotes → dialogue) |
 | 7 | `celeb-i18n.md` | 영문 번역 |
+| C | `celeb-content-audit.md` | 콘텐츠 데이터 감사 (출처·locale·thumbnail 검증) |
 | A | `celeb-tag-system.md` | 부록: 스포트라이트 태그 |
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 |
 
@@ -135,8 +135,9 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 포트 정비 | — | **완료** | remotion 3003, lab 3002, remotion-bo 3010+3011. bashrc 동기화 |
 | 단어 단위 voiceTimings 파이프라인 | `docs/todo/voice-timing-gap-pipeline.md` | **v5 완료** | WhisperX + diff-match-patch 단어 매핑. Typewriter 글자 스윕 하이라이트 |
 | BookCardVisual 페이지 전환 버그 | `docs/todo/book-card-page-break.md` | **완료** | needsQuoteCtxAfterBreak로 quote→contextAfter 3페이지 전환 |
+| 쇼츠 이미지 타이밍 수정 | `docs/todo/shorts-image-without-voice.md` | **완료** | voiceTimings 없을 때 imageChangeAt 간격에 맞춰 세그먼트 시간 및 크로스페이드 동적 조정 |
 
-* 마지막 작업 시각: 26.03.23
+* 마지막 작업 시각: 26.04.05
 
 ## 아이디어 응답 방식
 

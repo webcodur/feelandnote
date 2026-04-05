@@ -7,7 +7,7 @@
 - 컴포넌트 조건부 렌더링은 && (삼항 금지)
 - any, Record<string, unknown> 금지
 - ENUM은 "ENUM_" 접두사 + 언더바 형식
-- 아이콘: lucide-react (범용) + neo-pantheon (테마)
+- 아이콘: lucide-react (범용)
 
 ## 컴포넌트
 - left/right 대신 start/end
@@ -37,7 +37,7 @@ export default function Page() {
 - 한국어, JSDoc 금지, region/endregion 그룹화
 - 대규모 외부: 절대경로(@/), 소규모 내부: 상대경로(./)
 
-# 디자인 시스템 (Neo-Pantheon)
+# 디자인 시스템
 
 **컨셉**: 고대 신전의 권위 + 현대적 선명함. 다크 스톤 테마.
 

@@ -10,15 +10,19 @@
 ```sql
 SELECT p.nickname, p.nickname_en,
   (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
+   WHERE uc.user_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) as contents,
+  (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
    WHERE uc.user_id = p.id AND c.type = 'BOOK') as books,
+  (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
+   WHERE uc.user_id = p.id AND c.type != 'BOOK') as non_books,
   EXISTS(SELECT 1 FROM celeb_persona cp WHERE cp.celeb_id = p.id) as has_persona,
   EXISTS(SELECT 1 FROM celeb_dialogues cd WHERE cd.celeb_id = p.id) as has_dialogue,
   p.has_voice
 FROM profiles p
 WHERE p.celeb_tier = 'full'
 AND (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
-   WHERE uc.user_id = p.id AND c.type = 'BOOK') >= 3
-ORDER BY books DESC
+   WHERE uc.user_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) >= 3
+ORDER BY contents DESC
 ```
 
 결과를 마크다운 테이블로 변환하여 `candidates-raw.md`에 저장한다. JSON 완료된 인물은 제외.
