@@ -64,3 +64,13 @@ export function splitHighlights(text: string, anchors: string[]): { text: string
 }
 
 export const stripExt = (f: string) => f.replace(/\.[^.]+$/, '')
+
+/** seg.image + seg.imageChangeAt → CinematicImage[] 변환 */
+export function segToImages(seg: any): CinematicImage[] {
+  const imgs: CinematicImage[] = []
+  if (seg?.image) imgs.push({ file: seg.image.split('/').pop() })
+  const changes = seg?.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
+  for (const c of changes) imgs.push({ file: c.image.split('/').pop(), text: c.text })
+  return imgs
+}
+

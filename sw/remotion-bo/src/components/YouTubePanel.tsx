@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
-  buildTitle, buildDescriptionV2, calcChapterTimestamps,
+  buildTitle, buildDescription, calcChapterTimestamps,
   type EpisodeMeta, type YouTubeMeta, type YouTubeLink, type EpisodeForChapters, type BookForDesc,
-} from '@/lib/youtube-utils'
+} from '@feelandnote/shared/lib/youtube-meta'
 
 const BTN = 'px-3 py-1 rounded text-sm font-semibold'
 const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
@@ -112,7 +112,7 @@ export function YouTubePanel({ series, name, post }: Props) {
         try { chapters = calcChapterTimestamps(ep, lang) } catch { /* fallback */ }
       }
 
-      const description = buildDescriptionV2(celebName, ep.books, lang, isShorts, chapters, undefined, baseName)
+      const description = buildDescription(celebName, ep.books, lang, isShorts, chapters, undefined, baseName)
       result[key] = { title, description, links: [] }
     }
     return result
@@ -135,10 +135,23 @@ export function YouTubePanel({ series, name, post }: Props) {
 
   // --- 이벤트 핸들러 ---
 
+  const saveMeta = async () => {
+    await fetch(`/api/${series}/youtube/meta?episode=${baseName}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editMeta),
+    })
+  }
+
   const handleUpload = async (lang?: string, type?: string) => {
     const label = [lang?.toUpperCase(), type].filter(Boolean).join(' ') || '전체'
-    setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 요청 중...`)
+    setUploadMsg(`${label} 메타 저장 중...`)
     setUploadLog(null)
+
+    // 업로드 전 메타 자동 저장
+    await saveMeta()
+
+    setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 요청 중...`)
 
     const res = await fetch(`/api/${series}/youtube/upload`, {
       method: 'POST',
@@ -174,11 +187,7 @@ export function YouTubePanel({ series, name, post }: Props) {
   const handleSaveMeta = async () => {
     setSaving(true)
     try {
-      await fetch(`/api/${series}/youtube/meta?episode=${baseName}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editMeta),
-      })
+      await saveMeta()
       fetchStatus()
     } finally { setSaving(false) }
   }
@@ -223,7 +232,7 @@ export function YouTubePanel({ series, name, post }: Props) {
         lineup={lineup}
         editing={editingLineup}
         draft={lineupDraft}
-        onEdit={() => { setEditingLineup(true); setLineupDraft(lineup ?? { hook: { ko: '', en: '' }, privacyStatus: 'private' }) }}
+        onEdit={() => { setEditingLineup(true); setLineupDraft(lineup ?? { hook: { ko: '', en: '' } }) }}
         onCancel={() => setEditingLineup(false)}
         onSave={handleSaveLineup}
         onDraftChange={setLineupDraft}
@@ -315,17 +324,6 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
     return (
       <div className="space-y-2 p-2 rounded bg-bg-main border border-accent/40">
         <div className="flex items-center gap-2 text-sm">
-          <select
-            value={draft.privacyStatus}
-            onChange={e => onDraftChange({ ...draft, privacyStatus: e.target.value as EpisodeMeta['privacyStatus'] })}
-            className="bg-bg-card border border-border rounded px-2 py-0.5 text-sm text-text-primary"
-          >
-            <option value="private">private</option>
-            <option value="unlisted">unlisted</option>
-            <option value="public">public</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
           <label className="text-text-dim w-14 shrink-0">훅(KO)</label>
           <input
             value={draft.hook.ko}
@@ -362,12 +360,6 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
         </span>
         {lineup ? (
           <>
-            <span className="text-text-dim">|</span>
-            <span className={`${TAG} ${
-              lineup.privacyStatus === 'public' ? 'bg-green-900/40 text-green-400' :
-              lineup.privacyStatus === 'unlisted' ? 'bg-yellow-900/40 text-yellow-400' :
-              'bg-red-900/40 text-red-400'
-            }`}>{lineup.privacyStatus}</span>
             <button onClick={onEdit} className="text-text-dim hover:text-accent text-xs">[수정]</button>
           </>
         ) : (

@@ -36,7 +36,16 @@ export async function GET(req: Request, { params }: { params: Promise<{ path: st
     if (existsSync(vsPath)) {
       try {
         const vs = JSON.parse(readFileSync(vsPath, 'utf-8'))
-        const engine = vs.slots?.[fileName] ?? vs.default
+        let engine = vs.slots?.[fileName] ?? vs.default
+        // celeb 파일이고 elevenlabs 파일이 존재하면 자동 라우팅
+        if (engine !== 'elevenlabs') {
+          const key = fileName.replace('.wav', '')
+          const isCeleb = key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-quote$/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
+          if (isCeleb) {
+            const elePath = path.join(vDir, 'elevenlabs', fileName)
+            if (existsSync(elePath)) engine = 'elevenlabs'
+          }
+        }
         if (engine) {
           const resolved = path.join(vDir, engine, fileName)
           if (existsSync(resolved)) abs = resolved

@@ -33,9 +33,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   const body = await req.json()
-  const { hook, privacyStatus } = body
-  if (!hook || !privacyStatus) {
-    return NextResponse.json({ error: 'hook, privacyStatus required' }, { status: 400 })
+  const { hook } = body
+  if (!hook) {
+    return NextResponse.json({ error: 'hook required' }, { status: 400 })
   }
 
   let all: Record<string, unknown> = {}
@@ -43,7 +43,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
     if (existsSync(LINEUP_PATH)) all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
   } catch { /* fresh start */ }
 
-  all[episode] = { ...(all[episode] as Record<string, unknown>), hook, privacyStatus }
+  all[episode] = { ...(all[episode] as Record<string, unknown>), hook }
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
   return NextResponse.json({ ok: true })
 }

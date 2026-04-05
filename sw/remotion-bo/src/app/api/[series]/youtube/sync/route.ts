@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 import path from 'path'
 import { getSeriesById } from '@/lib/series-registry'
 import { ytGet, ytPut } from '@/lib/youtube-client'
-import { buildTitle, buildDescriptionV2, buildTags, calcChapterTimestamps, type EpisodeMeta } from '@/lib/youtube-utils'
+import { buildTitle, buildDescription, buildTags, calcChapterTimestamps, buildYouTubeSnippet, type EpisodeMeta } from '@feelandnote/shared/lib/youtube-meta'
 import { loadEpisode, toPascal } from '@/lib/server-utils'
 
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
@@ -13,7 +13,6 @@ const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-line
 type YTVideoItem = {
   id: string
   snippet: { title: string; description: string; categoryId: string }
-  status: { privacyStatus: string }
 }
 type YTListResponse = { items?: YTVideoItem[] }
 
@@ -24,11 +23,9 @@ export type VariantSync = {
   status: SyncStatus
   videoId?: string
   uploadedAt?: string
-  diffs?: string[]        // 차이 항목 ('title', 'privacy', ...)
+  diffs?: string[]        // 차이 항목 ('title', ...)
   ytTitle?: string        // YouTube 현재 제목
-  ytPrivacy?: string
   localTitle?: string
-  localPrivacy?: string
 }
 
 export type EpisodeSyncResult = {
@@ -76,7 +73,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     for (let i = 0; i < items.length; i += 50) {
       const batch = items.slice(i, i + 50)
       const ids = batch.map(b => b.videoId).join(',')
-      const data = await ytGet<YTListResponse>(channel, 'videos', { part: 'snippet,status', id: ids })
+      const data = await ytGet<YTListResponse>(channel, 'videos', { part: 'snippet', id: ids })
       if (data?.items) {
         for (const v of data.items) ytVideos.set(v.id, v)
       }
@@ -118,10 +115,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         localTitle = buildTitle(meta, '?', lang, isShorts)
       }
 
-      const localPrivacy = meta.privacyStatus
       const diffs: string[] = []
       if (ytVideo.snippet.title !== localTitle) diffs.push('title')
-      if (ytVideo.status.privacyStatus !== localPrivacy) diffs.push('privacy')
 
       variants.push({
         variant: item.variant,
@@ -130,9 +125,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         uploadedAt: item.uploadedAt,
         diffs,
         ytTitle: ytVideo.snippet.title,
-        ytPrivacy: ytVideo.status.privacyStatus,
         localTitle,
-        localPrivacy,
       })
     }
 
@@ -271,13 +264,13 @@ async function pushVariant(series: string, episode: string, variant: string, vid
   const chapters = !isShorts ? calcChapterTimestamps(ep, lang) : undefined
   const links = ytMeta[variant]?.links
   const title = ytMeta[variant]?.title ?? buildTitle(meta, celebName, lang, isShorts)
-  const description = ytMeta[variant]?.description ?? buildDescriptionV2(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode)
+  const description = ytMeta[variant]?.description ?? buildDescription(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode)
 
   const tags = buildTags(celebName, lang, isShorts)
+  const snippet = buildYouTubeSnippet({ title, description, tags, lang })
 
-  return ytPut(lang, 'videos', { part: 'snippet,status' }, {
+  return ytPut(lang, 'videos', { part: 'snippet' }, {
     id: videoId,
-    snippet: { title, description, tags, categoryId: '27' },
-    status: { privacyStatus: meta.privacyStatus, selfDeclaredMadeForKids: false },
+    snippet,
   })
 }

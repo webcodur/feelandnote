@@ -58,19 +58,31 @@ export function prodFile(sec: VoiceSection): VoiceFile | undefined {
   return sec.elevenlabs ?? sec.gemini ?? sec.common
 }
 
+/** tts.replace 치환맵 적용 */
+function applyTtsReplace(text: string, ep: EpisodeData): string {
+  const replace = ((ep as Record<string, unknown>).tts as { replace?: Record<string, string> } | undefined)?.replace
+  if (!replace || !text) return text
+  let result = text
+  for (const [from, to] of Object.entries(replace)) {
+    result = result.replaceAll(from, to)
+  }
+  return result
+}
+
 export function getTextsForSection(key: string, ep: EpisodeData): { original: string; tts: string } {
-  const ttsData = (ep as Record<string, unknown>).tts as { narrator?: Record<string, string>; host?: Record<string, string>; books?: Array<Record<string, string>> } | undefined
+  const ttsData = (ep as Record<string, unknown>).tts as { titles?: (string | null)[]; replace?: Record<string, string> } | undefined
   const nr = ep.narrator!
   const ho = ep.host!
   const bks = ep.books!
+  const r = (text: string) => applyTtsReplace(text, ep)
 
   const directMap: Record<string, () => { original: string; tts: string }> = {
-    'A1-service-greeting': () => ({ original: nr.serviceGreeting ?? '', tts: ttsData?.narrator?.serviceGreeting ?? '' }),
-    'A2-service-intro': () => ({ original: nr.serviceIntro ?? '', tts: ttsData?.narrator?.serviceIntro ?? '' }),
+    'A1-service-greeting': () => ({ original: nr.serviceGreeting ?? '', tts: r(nr.serviceGreeting ?? '') }),
+    'A2-service-intro': () => ({ original: nr.serviceIntro ?? '', tts: r(nr.serviceIntro ?? '') }),
     'A3-featured-quote': () => ({ original: ho.featuredQuote ?? '', tts: '' }),
-    'B1-celeb-intro': () => ({ original: nr.celebIntro ?? '', tts: ttsData?.narrator?.celebIntro ?? '' }),
-    'B2-philosophy': () => ({ original: ho.philosophy ?? '', tts: ttsData?.host?.philosophy ?? '' }),
-    'E1-outro': () => ({ original: nr.outro ?? '', tts: ttsData?.narrator?.outro ?? '' }),
+    'B1-celeb-intro': () => ({ original: nr.celebIntro ?? '', tts: r(nr.celebIntro ?? '') }),
+    'B2-philosophy': () => ({ original: ho.philosophy ?? '', tts: r(ho.philosophy ?? '') }),
+    'E1-outro': () => ({ original: nr.outro ?? '', tts: r(nr.outro ?? '') }),
     'E3-return-intro': () => ({ original: nr.returnIntro ?? '', tts: '' }),
     'E4-prev-recap': () => ({ original: nr.prevRecap ?? '', tts: '' }),
   }
@@ -81,14 +93,16 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
     const book = bks[idx]
-    const ttsBook = ttsData?.books?.[idx]
     if (!book) return { original: '', tts: '' }
     const phaseMap: Record<string, () => { original: string; tts: string }> = {
-      'a': () => ({ original: [book.title, book.creator, book.stats?.publishYear].filter(Boolean).join(', '), tts: ttsBook?.title ?? '' }),
-      'b': () => ({ original: book.summary, tts: ttsBook?.summary ?? '' }),
-      'c': () => ({ original: book.context, tts: ttsBook?.context ?? '' }),
-      'd': () => ({ original: book.directQuote ?? '', tts: ttsBook?.directQuote ?? '' }),
-      'e': () => ({ original: book.contextAfter ?? '', tts: ttsBook?.contextAfter ?? '' }),
+      'a': () => {
+        const orig = [book.title, book.creator, book.stats?.publishYear].filter(Boolean).join(', ')
+        return { original: orig, tts: ttsData?.titles?.[idx] ?? '' }
+      },
+      'b': () => ({ original: book.summary, tts: r(book.summary) }),
+      'c': () => ({ original: book.context, tts: r(book.context) }),
+      'd': () => ({ original: book.directQuote ?? '', tts: r(book.directQuote ?? '') }),
+      'e': () => ({ original: book.contextAfter ?? '', tts: r(book.contextAfter ?? '') }),
     }
     return phaseMap[phase]?.() ?? { original: '', tts: '' }
   }
@@ -96,14 +110,15 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
   const shortMatch = key.match(/^S\d{2}-(.+)$/)
   if (shortMatch && ep.shorts) {
     const seg = ep.shorts.segments.find(s => s.id === shortMatch[1])
-    return { original: seg?.text ?? '', tts: (seg as any)?.ttsText ?? '' }
+    return { original: seg?.text ?? '', tts: r(seg?.text ?? '') }
   }
 
   return { original: '', tts: '' }
 }
 
-export function setTextForSection(key: string, field: 'original' | 'tts', value: string, ep: EpisodeData): EpisodeData {
-  const next = JSON.parse(JSON.stringify(ep)) as EpisodeData & { tts?: { narrator?: Record<string, string>; host?: Record<string, string>; books?: Array<Record<string, string>> } }
+/** 원문 텍스트 수정 (tts 필드는 로컬 state 전용이므로 여기서 처리하지 않음) */
+export function setTextForSection(key: string, value: string, ep: EpisodeData): EpisodeData {
+  const next = JSON.parse(JSON.stringify(ep)) as EpisodeData
 
   const nr = next.narrator!, ho = next.host!, bks = next.books!
   const directOriginal: Record<string, (v: string) => void> = {
@@ -116,32 +131,17 @@ export function setTextForSection(key: string, field: 'original' | 'tts', value:
     'E3-return-intro': v => { nr.returnIntro = v },
     'E4-prev-recap': v => { nr.prevRecap = v },
   }
-  const directTts: Record<string, (v: string) => void> = {
-    'A1-service-greeting': v => { if (!next.tts) next.tts = {}; if (!next.tts.narrator) next.tts.narrator = {}; next.tts.narrator.serviceGreeting = v },
-    'A2-service-intro': v => { if (!next.tts) next.tts = {}; if (!next.tts.narrator) next.tts.narrator = {}; next.tts.narrator.serviceIntro = v },
-    'B1-celeb-intro': v => { if (!next.tts) next.tts = {}; if (!next.tts.narrator) next.tts.narrator = {}; next.tts.narrator.celebIntro = v },
-    'B2-philosophy': v => { if (!next.tts) next.tts = {}; if (!next.tts.host) next.tts.host = {}; next.tts.host.philosophy = v },
-    'E1-outro': v => { if (!next.tts) next.tts = {}; if (!next.tts.narrator) next.tts.narrator = {}; next.tts.narrator.outro = v },
-  }
 
-  if (field === 'original' && directOriginal[key]) { directOriginal[key](value); return next }
-  if (field === 'tts' && directTts[key]) { directTts[key](value); return next }
+  if (directOriginal[key]) { directOriginal[key](value); return next }
 
   const bookMatch = key.match(/^D(\d{2})([a-e])-/)
   if (bookMatch) {
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
     if (bks[idx]) {
-      const phaseFieldOriginal: Record<string, string> = { b: 'summary', c: 'context', d: 'directQuote', e: 'contextAfter' }
-      if (field === 'original' && phaseFieldOriginal[phase]) {
-        (bks[idx] as Record<string, unknown>)[phaseFieldOriginal[phase]] = value
-      }
-      if (field === 'tts') {
-        if (!next.tts) next.tts = {}
-        if (!next.tts.books) next.tts.books = []
-        while (next.tts.books.length <= idx) next.tts.books.push({})
-        const ttsField: Record<string, string> = { a: 'title', b: 'summary', c: 'context', d: 'directQuote', e: 'contextAfter' }
-        if (ttsField[phase]) next.tts.books[idx][ttsField[phase]] = value
+      const phaseField: Record<string, string> = { b: 'summary', c: 'context', d: 'directQuote', e: 'contextAfter' }
+      if (phaseField[phase]) {
+        (bks[idx] as Record<string, unknown>)[phaseField[phase]] = value
       }
     }
     return next
@@ -150,10 +150,7 @@ export function setTextForSection(key: string, field: 'original' | 'tts', value:
   const shortMatch = key.match(/^S\d{2}-(.+)$/)
   if (shortMatch && next.shorts) {
     const seg = next.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
-    if (seg) {
-      if (field === 'original') seg.text = value
-      if (field === 'tts') (seg as any).ttsText = value
-    }
+    if (seg) seg.text = value
     return next
   }
 
@@ -204,7 +201,7 @@ function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose }: {
 function SyncModeContent({ secKey, episode, episodeData, series, name, onEpisodeChange, onSave, onRefresh }: {
   secKey: string; episode: EpisodeData; episodeData: EpisodeData; series: string; name: string
   onEpisodeChange: (ep: EpisodeData) => void
-  onSave: (data: EpisodeData) => Promise<void>
+  onSave: (data: EpisodeData) => Promise<unknown>
   onRefresh: () => void
 }) {
   const [saving, setSaving] = useState(false)
@@ -230,7 +227,7 @@ function SyncModeContent({ secKey, episode, episodeData, series, name, onEpisode
       ;(ep as any).voiceTimings = { ...((ep as any).voiceTimings ?? {}), [secKey]: withText }
     }
     if (segs.length > 0) {
-      ep = setTextForSection(secKey, 'original', segs.join(' '), ep)
+      ep = setTextForSection(secKey, segs.join(' '), ep)
     }
     setSaving(true)
     await onSave(ep)
@@ -244,7 +241,7 @@ function SyncModeContent({ secKey, episode, episodeData, series, name, onEpisode
           <div className="text-[9px] text-text-dim">원문 텍스트</div>
           <textarea
             value={txts.original}
-            onChange={e => onEpisodeChange(setTextForSection(secKey, 'original', e.target.value, episodeData))}
+            onChange={e => onEpisodeChange(setTextForSection(secKey, e.target.value, episodeData))}
             onKeyDown={e => e.stopPropagation()}
             onClick={e => e.stopPropagation()}
             rows={Math.min(3, Math.max(1, Math.ceil(txts.original.length / 70)))}
@@ -557,7 +554,7 @@ type ExpandedVoicePanelProps = {
   activeEngine: string
   onToggleSlot: (key: string, engine: string) => void
   onEpisodeChange: (ep: EpisodeData) => void
-  onSave: (data: EpisodeData) => Promise<void>
+  onSave: (data: EpisodeData) => Promise<unknown>
   onRefresh: () => void
 }
 
@@ -568,9 +565,15 @@ export function ExpandedVoicePanel({
 }: ExpandedVoicePanelProps) {
   const [expandMode, setExpandMode] = useState<'trim' | 'sync'>('trim')
   const [trimStart, setTrimStart] = useState(0)
-  const [trimEnd, setTrimEnd] = useState(() => prodFile(section)?.duration ?? 0)
+  const engineFile: Record<string, VoiceFile | undefined> = { gemini: section.gemini, elevenlabs: section.elevenlabs, common: section.common }
+  const activeFile = engineFile[activeEngine] ?? prodFile(section)
+  const [trimEnd, setTrimEnd] = useState(() => activeFile?.duration ?? 0)
   const [trimSaving, setTrimSaving] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [ttsText, setTtsText] = useState(() => {
+    const { tts, original } = getTextsForSection(secKey, episode)
+    return tts || original
+  })
   const [eleGenerating, setEleGenerating] = useState(false)
   const [eleError, setEleError] = useState<string | null>(null)
   const [eleTempPreview, setEleTempPreview] = useState<{ key: string; blobUrl: string; base64: string; duration: number } | null>(null)
@@ -639,7 +642,7 @@ export function ExpandedVoicePanel({
   }
 
   const saveTrimmed = async () => {
-    const f = prodFile(section)
+    const f = activeFile
     if (!f) return
     const isTrimmed = trimStart > 0.01 || (trimEnd > 0 && trimEnd < f.duration - 0.01)
     if (!isTrimmed) return
@@ -694,34 +697,21 @@ export function ExpandedVoicePanel({
 
       {/* TRIM mode */}
       {expandMode === 'trim' && (<>
-        {/* Text editing */}
-        {(() => {
-          const txts = getTextsForSection(secKey, episode)
-          if (!txts.original) return null
-          return (
-            <div className="space-y-1.5">
-              <div>
-                <span className="text-[9px] text-accent">TTS 오버라이드</span>
-                <textarea
-                  value={txts.tts}
-                  onChange={e => onEpisodeChange(setTextForSection(secKey, 'tts', e.target.value, episode))}
-                  onKeyDown={e => e.stopPropagation()}
-                  onClick={e => e.stopPropagation()}
-                  rows={Math.min(3, Math.max(1, Math.ceil((txts.tts || '').length / 60)))}
-                  placeholder="발음 변환 시만 입력 (예: 18년 → 십팔 년)"
-                  className="w-full bg-bg-main border border-border rounded px-2 py-1 text-[11px] text-text-dim resize-y focus:outline-none focus:border-accent select-text"
-                />
-              </div>
-              <button
-                onClick={async (e) => { e.stopPropagation(); setSaving(true); await onSave(episode); setSaving(false) }}
-                disabled={saving}
-                className="px-2 py-0.5 rounded bg-accent text-bg-main text-[10px] font-semibold hover:bg-accent-hover disabled:opacity-50"
-              >
-                {saving ? '저장 중...' : '저장'}
-              </button>
-            </div>
-          )
-        })()}
+        {/* TTS 텍스트 (임시 — 음원 생성 전용, 저장되지 않음) */}
+        {getTextsForSection(secKey, episode).original && (
+          <div className="space-y-1">
+            <span className="text-[9px] text-text-dim">TTS 입력 텍스트 <span className="text-accent">(임시)</span></span>
+            <textarea
+              value={ttsText}
+              onChange={e => setTtsText(e.target.value)}
+              onKeyDown={e => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
+              rows={Math.min(3, Math.max(1, Math.ceil((ttsText || '').length / 60)))}
+              placeholder="tts.replace 자동 적용. 수동 편집 시 이 텍스트로 음원 생성"
+              className="w-full bg-bg-main border border-border rounded px-2 py-1 text-[11px] text-text-dim resize-y focus:outline-none focus:border-accent select-text"
+            />
+          </div>
+        )}
 
         {/* Waveforms per engine */}
         {(() => {
@@ -759,9 +749,8 @@ export function ExpandedVoicePanel({
 
         {/* Trim controls */}
         {(() => {
-          const f = prodFile(section)
-          if (!f) return null
-          const isTrimmed = trimStart > 0.01 || (trimEnd > 0 && trimEnd < f.duration - 0.01)
+          if (!activeFile) return null
+          const isTrimmed = trimStart > 0.01 || (trimEnd > 0 && trimEnd < activeFile.duration - 0.01)
           if (!isTrimmed) return null
           return (
             <div className="flex items-center gap-3 py-1">
@@ -777,7 +766,7 @@ export function ExpandedVoicePanel({
                 {trimSaving ? '저장 중...' : '트림 저장'}
               </button>
               <button
-                onClick={() => { setTrimStart(0); setTrimEnd(f.duration) }}
+                onClick={() => { setTrimStart(0); setTrimEnd(activeFile.duration) }}
                 className="text-[10px] text-text-dim hover:text-text-secondary"
               >
                 초기화
@@ -801,10 +790,7 @@ export function ExpandedVoicePanel({
         {isEle && !hasTempPreview && (
           <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                const txts = getTextsForSection(secKey, episode)
-                handleEleGenerate(secKey, txts.tts || txts.original)
-              }}
+              onClick={() => handleEleGenerate(secKey, ttsText)}
               disabled={eleGenerating}
               className={BTN_ELE}
             >

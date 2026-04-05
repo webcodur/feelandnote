@@ -8,6 +8,7 @@
     "start": "next start -p 3003"
   },
   "dependencies": {
+    "@feelandnote/shared": "workspace:*",
     "@aws-sdk/client-s3": "^3.997.0",
     "@supabase/supabase-js": "^2.91.1",
     "next": "^16.1.1",

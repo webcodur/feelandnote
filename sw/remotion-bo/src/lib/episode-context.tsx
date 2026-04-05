@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useEffect, useRef, useCallback, ty
 import type { EpisodeData } from '@/components/EpisodeEditor'
 import type { VoiceFile, VoiceSummary } from '@/components/voice-utils'
 
+export type SaveResult = { ok: boolean; fieldSync?: { synced: number; textAnchorsNeeded: number } | null }
+
 type EpisodeContextValue = {
   series: string
   name: string
@@ -12,7 +14,7 @@ type EpisodeContextValue = {
   updateEpisode: (ep: EpisodeData) => void
   dirty: boolean
   saving: boolean
-  save: (data?: EpisodeData) => Promise<void>
+  save: (data?: EpisodeData) => Promise<SaveResult | null>
   reload: () => void
   voiceFiles: VoiceFile[]
   voiceSummary: VoiceSummary
@@ -76,20 +78,23 @@ export function EpisodeProvider({ series, name, children }: { series: string; na
     setDirty(true)
   }, [])
 
-  const save = useCallback(async (data?: EpisodeData) => {
+  const save = useCallback(async (data?: EpisodeData): Promise<SaveResult | null> => {
     const toSave = data ?? episodeRef.current
-    if (!toSave) return
+    if (!toSave) return null
     setSaving(true)
     try {
       const res = await fetch(`/api/${series}/episodes/${name}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(toSave),
       })
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? res.statusText)
+      const result: SaveResult = await res.json()
       setEpisode(toSave)
       setJsonText(JSON.stringify(toSave, null, 2))
       setDirty(false)
+      return result
     } catch (e: unknown) {
       alert('저장 실패: ' + (e instanceof Error ? e.message : String(e)))
+      return null
     } finally {
       setSaving(false)
     }

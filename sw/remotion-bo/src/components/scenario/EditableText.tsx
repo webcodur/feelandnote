@@ -15,16 +15,9 @@ export function EditableText({
 }) {
   const [draft, setDraft] = useState(value)
   const ref = useRef<HTMLTextAreaElement>(null)
-  const wrapRef = useRef<HTMLDivElement>(null)
   const [selectedText, setSelectedText] = useState('')
 
   useEffect(() => { setDraft(value) }, [value])
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.style.height = 'auto'
-      ref.current.style.height = ref.current.scrollHeight + 'px'
-    }
-  }, [draft])
 
   const commit = () => {
     if (pickMode) return
@@ -48,7 +41,7 @@ export function EditableText({
   const hasHighlights = activeHighlights.length > 0
 
   return (
-    <div ref={wrapRef} className="relative">
+    <div className="relative">
       {hasHighlights && (
         <div aria-hidden className="absolute inset-0 text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-words text-transparent">
           {splitHighlights(draft, activeHighlights).map((seg, j) =>
@@ -66,7 +59,7 @@ export function EditableText({
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
-        className={`relative w-full text-sm leading-relaxed bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none overflow-hidden transition-colors ${
+        className={`relative w-full text-sm leading-relaxed bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors ${
           pickMode
             ? 'border-amber-500/60 cursor-text select-text bg-amber-500/5'
             : 'border-transparent hover:border-border focus:border-accent'

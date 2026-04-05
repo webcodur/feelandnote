@@ -54,6 +54,16 @@ function episodeFilePath(episodeId: string): string {
 }
 
 /**
+ * Timing 파일 경로: public/episodes/{status}/{person}/{locale}.timing.json
+ */
+function timingFilePath(episodeId: string): string {
+  const { person, locale } = parseEpisodeId(episodeId)
+  const found = findEpisodeDir(person)
+  const base = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
+  return path.join(base, `${locale}.timing.json`)
+}
+
+/**
  * Voice 디렉토리 경로: public/episodes/{status}/{person}/voice/{locale}/
  */
 export function voiceDir(episodeId: string): string {
@@ -87,7 +97,7 @@ export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]>
       const personDir = path.join(statusDir, e.name)
       const files = await readdir(personDir)
       for (const f of files) {
-        if (f.endsWith('.json')) items.push({ id: buildEpisodeId(e.name, f), status: s })
+        if (f.endsWith('.json') && !f.endsWith('.timing.json')) items.push({ id: buildEpisodeId(e.name, f), status: s })
       }
     }
   }
@@ -126,13 +136,29 @@ export async function promoteCandidate(series: string, name: string) {
 export async function loadEpisode(_series: string, name: string) {
   const fp = episodeFilePath(name)
   const raw = await readFile(fp, 'utf-8')
-  return JSON.parse(raw)
+  const content = JSON.parse(raw)
+
+  const tp = timingFilePath(name)
+  let timing: Record<string, unknown> | null = null
+  try {
+    const tRaw = await readFile(tp, 'utf-8')
+    timing = JSON.parse(tRaw)
+  } catch { /* timing 파일 없으면 content만 반환 */ }
+
+  return mergeEpisodeFiles(content, timing)
 }
 
 export async function saveEpisode(_series: string, name: string, data: unknown) {
   const fp = episodeFilePath(name)
+  const tp = timingFilePath(name)
   await mkdir(path.dirname(fp), { recursive: true })
-  await writeFile(fp, JSON.stringify(data, null, 2) + '\n', 'utf-8')
+
+  const { content, timing } = splitEpisodeData(data)
+  await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
+
+  if (Object.keys(timing).length > 0) {
+    await writeFile(tp, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
+  }
 }
 
 /** 인물 폴더를 물리적으로 다른 상태 폴더로 이동 */
@@ -169,6 +195,22 @@ export async function scanLocalWavs(episodeName: string): Promise<{ relPath: str
     }
   }
   await walk(baseDir, '')
+
+  // 공통 음성 파일 포함 (common/voice/{locale}/)
+  const { locale } = parseEpisodeId(episodeName)
+  const baseLang = locale.split('-')[0] // ko-2 → ko
+  const commonDir = path.join(COMMON_VOICE_DIR, baseLang)
+  try {
+    const entries = await readdir(commonDir, { withFileTypes: true })
+    for (const e of entries) {
+      if (!e.isFile() || !e.name.endsWith('.wav')) continue
+      const abs = path.join(commonDir, e.name)
+      const s = await stat(abs)
+      const seen = results.some(r => r.relPath.endsWith('/' + e.name) || r.relPath === e.name)
+      if (!seen) results.push({ relPath: `common/${e.name}`, absPath: abs, size: s.size })
+    }
+  } catch { /* common dir may not exist */ }
+
   return results
 }
 
@@ -443,3 +485,90 @@ export async function loadVoiceFiles(episodeNames: string[]): Promise<string[]> 
   }
   return results
 }
+
+// --- Episode content/timing 분리·병합 ---
+
+const NARRATOR_DURATION_KEYS = [
+  'serviceGreetingDuration', 'serviceIntroDuration', 'celebIntroDuration',
+  'bridgeDuration', 'outroDuration', 'labelSummaryDuration', 'labelContextDuration',
+  'returnIntroDuration', 'prevRecapDuration', 'interludeDuration',
+] as const
+
+const HOST_DURATION_KEYS = ['featuredQuoteDuration', 'voiceDuration'] as const
+
+const BOOK_DURATION_KEYS = [
+  'titleDuration', 'summaryDuration', 'contextDuration',
+  'quoteDuration', 'contextAfterDuration',
+] as const
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function mergeEpisodeFiles(content: any, timing: any): any {
+  if (!timing || Object.keys(timing).length === 0) return content
+  return {
+    ...content,
+    voiceTimings: timing.voiceTimings ?? content.voiceTimings,
+    narrator: { ...content.narrator, ...timing.narrator },
+    host: { ...content.host, ...timing.host },
+    books: content.books?.map((b: any, i: number) => ({
+      ...b, ...(timing.books?.[i] ?? {}),
+    })),
+    shorts: content.shorts
+      ? {
+          ...content.shorts,
+          segments: content.shorts.segments?.map((s: any, i: number) => ({
+            ...s, ...(timing.shorts?.segments?.[i] ?? {}),
+          })),
+        }
+      : content.shorts,
+  }
+}
+
+function splitEpisodeData(data: unknown): { content: any; timing: any } {
+  const timing: any = {}
+  const content = JSON.parse(JSON.stringify(data))
+
+  // voiceTimings
+  if (content.voiceTimings) {
+    timing.voiceTimings = content.voiceTimings
+    delete content.voiceTimings
+  }
+
+  // narrator duration fields
+  const nd: any = {}
+  for (const k of NARRATOR_DURATION_KEYS) {
+    if (content.narrator?.[k] != null) { nd[k] = content.narrator[k]; delete content.narrator[k] }
+  }
+  if (Object.keys(nd).length > 0) timing.narrator = nd
+
+  // host duration fields
+  const hd: any = {}
+  for (const k of HOST_DURATION_KEYS) {
+    if (content.host?.[k] != null) { hd[k] = content.host[k]; delete content.host[k] }
+  }
+  if (Object.keys(hd).length > 0) timing.host = hd
+
+  // books duration fields
+  if (content.books) {
+    const bd = content.books.map((b: any) => {
+      const d: any = {}
+      for (const k of BOOK_DURATION_KEYS) {
+        if (b[k] != null) { d[k] = b[k]; delete b[k] }
+      }
+      return d
+    })
+    if (bd.some((d: any) => Object.keys(d).length > 0)) timing.books = bd
+  }
+
+  // shorts segment duration
+  if (content.shorts?.segments) {
+    const sd = content.shorts.segments.map((s: any) => {
+      const d: any = {}
+      if (s.duration != null) { d.duration = s.duration; delete s.duration }
+      return d
+    })
+    if (sd.some((d: any) => Object.keys(d).length > 0)) timing.shorts = { segments: sd }
+  }
+
+  return { content, timing }
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */

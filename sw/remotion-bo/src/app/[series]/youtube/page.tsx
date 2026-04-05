@@ -10,7 +10,6 @@ type UploadRecord = { videoId: string; uploadedAt: string }
 
 type EpisodeMeta = {
   hook: { ko: string; en: string }
-  privacyStatus: 'private' | 'unlisted' | 'public'
   uploads?: Record<string, UploadRecord>
 }
 
@@ -38,9 +37,7 @@ type VariantSync = {
   videoId?: string
   diffs?: string[]
   ytTitle?: string
-  ytPrivacy?: string
   localTitle?: string
-  localPrivacy?: string
 }
 
 type Draft = Record<string, EpisodeMeta>
@@ -60,7 +57,7 @@ function formatSize(bytes: number): string {
   return `${(bytes / 1024).toFixed(0)}K`
 }
 
-const EMPTY_META: EpisodeMeta = { hook: { ko: '', en: '' }, privacyStatus: 'private' }
+const EMPTY_META: EpisodeMeta = { hook: { ko: '', en: '' } }
 
 // ─── 동기화 배지 색상 ──────────────────────────────────
 
@@ -292,7 +289,6 @@ export default function YouTubeLineupPage({ params }: { params: Promise<{ series
                 <th className="text-left px-3 py-2 w-36">인물</th>
                 <th className="text-left px-3 py-2">훅 (KO)</th>
                 <th className="text-left px-3 py-2">훅 (EN)</th>
-                <th className="text-center px-2 py-2 w-20">공개</th>
                 <th className="text-center px-2 py-2 w-32">렌더</th>
                 <th className="text-center px-2 py-2 w-32">YouTube</th>
                 <th className="text-center px-2 py-2 w-16"></th>
@@ -380,18 +376,6 @@ function LineupRow({ row, series, meta, isDirty, saving, syncMap, syncChecked, o
             placeholder="English hook..."
           />
         </td>
-        {/* 공개 상태 */}
-        <td className="px-2 py-1.5 text-center">
-          <select
-            value={meta.privacyStatus}
-            onChange={e => onUpdate(m => ({ ...m, privacyStatus: e.target.value as EpisodeMeta['privacyStatus'] }))}
-            className="bg-transparent text-xs outline-none cursor-pointer text-center"
-          >
-            <option value="private">private</option>
-            <option value="unlisted">unlisted</option>
-            <option value="public">public</option>
-          </select>
-        </td>
         {/* 렌더 배지 */}
         <td className="px-2 py-1.5">
           <div className="flex justify-center gap-1">
@@ -464,7 +448,7 @@ function LineupRow({ row, series, meta, isDirty, saving, syncMap, syncChecked, o
       {/* 확장 행: drift/deleted 상세 */}
       {expanded && syncMap && (
         <tr className="border-b border-border bg-bg-main/50">
-          <td colSpan={7} className="px-6 py-2">
+          <td colSpan={6} className="px-6 py-2">
             <div className="space-y-1.5">
               {Object.entries(syncMap).filter(([, v]) => v.status === 'drift' || v.status === 'deleted').map(([vk, v]) => (
                 <div key={vk} className="flex items-start gap-3 text-xs">
@@ -479,13 +463,6 @@ function LineupRow({ row, series, meta, isDirty, saving, syncMap, syncChecked, o
                             <span className="text-text-dim">제목:</span>{' '}
                             <span className="text-red-400 line-through">{v.ytTitle}</span>{' '}
                             <span className="text-green-400">→ {v.localTitle}</span>
-                          </div>
-                        )}
-                        {v.diffs?.includes('privacy') && (
-                          <div>
-                            <span className="text-text-dim">공개:</span>{' '}
-                            <span className="text-red-400">{v.ytPrivacy}</span>{' '}
-                            <span className="text-green-400">→ {v.localPrivacy}</span>
                           </div>
                         )}
                       </div>

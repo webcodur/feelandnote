@@ -96,7 +96,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       directQuote: '', // 수동 검수 필수
       directQuoteSource: '',
       contextAfter: '',
-      oneLiner: '',
       stats: {
         publishYear: (content?.publish_year as string) ?? '',
       },

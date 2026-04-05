@@ -1,12 +1,14 @@
 {
   "name": "@feelandnote/shared",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "exports": {
     "./constants/celeb-professions": "./src/constants/celeb-professions.ts",
     "./constants/statuses": "./src/constants/statuses.ts",
     "./constants/explore-presets": "./src/constants/explore-presets.ts",
     "./lib/countries": "./src/lib/countries.ts",
+    "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts"
   },

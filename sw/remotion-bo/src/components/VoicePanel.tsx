@@ -131,7 +131,7 @@ function SyncModePanel({ secKey, episodeData, series, episode, getTextForKey, on
     }
     // 원문도 업데이트
     if (segs.length > 0) {
-      ep = setTextForSection(secKey, 'original', segs.join(' '), ep)
+      ep = setTextForSection(secKey, segs.join(' '), ep)
     }
     setSaving(true)
     await onSave(ep)
@@ -146,7 +146,7 @@ function SyncModePanel({ secKey, episodeData, series, episode, getTextForKey, on
           <div className="text-[9px] text-text-dim">원문 텍스트</div>
           <textarea
             value={txts.original}
-            onChange={e => onEpisodeChange(setTextForSection(secKey, 'original', e.target.value, episodeData))}
+            onChange={e => onEpisodeChange(setTextForSection(secKey, e.target.value, episodeData))}
             onKeyDown={e => e.stopPropagation()}
             onClick={e => e.stopPropagation()}
             rows={Math.min(3, Math.max(1, Math.ceil(txts.original.length / 70)))}
@@ -513,28 +513,11 @@ function VoiceSectionTable({ voiceFiles, voiceSummary, series, episode, episodeD
                           {/* 텍스트 — 인라인 편집 */}
                           {(() => {
                             const txts = getTextsForSection(sec.key, episodeData)
-                            if (!txts.original) return null
+                            if (!txts.original || !txts.tts || txts.tts === txts.original) return null
                             return (
-                              <div className="pl-7 space-y-1.5">
-                                <div>
-                                  <span className="text-[9px] text-accent">TTS 오버라이드</span>
-                                  <textarea
-                                    value={txts.tts}
-                                    onChange={e => onEpisodeChange(setTextForSection(sec.key, 'tts', e.target.value, episodeData))}
-                                    onKeyDown={e => e.stopPropagation()}
-                                    onClick={e => e.stopPropagation()}
-                                    rows={Math.min(3, Math.max(1, Math.ceil((txts.tts || '').length / 60)))}
-                                    placeholder="발음 변환 시만 입력 (예: 18년 → 십팔 년)"
-                                    className="w-full bg-bg-main border border-border rounded px-2 py-1 text-[11px] text-text-dim resize-y focus:outline-none focus:border-accent select-text"
-                                  />
-                                </div>
-                                <button
-                                  onClick={async (e) => { e.stopPropagation(); setSaving(true); await onSave(episodeData); setSaving(false) }}
-                                  disabled={saving}
-                                  className="px-2 py-0.5 rounded bg-accent text-bg-main text-[10px] font-semibold hover:bg-accent-hover disabled:opacity-50 self-end"
-                                >
-                                  {saving ? '저장 중...' : '저장'}
-                                </button>
+                              <div className="pl-7">
+                                <span className="text-[9px] text-text-dim">TTS 적용 텍스트</span>
+                                <div className="text-[10px] text-text-dim bg-bg-main border border-border rounded px-2 py-1 whitespace-pre-wrap">{txts.tts}</div>
                               </div>
                             )
                           })()}

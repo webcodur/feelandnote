@@ -116,7 +116,7 @@ export async function prepareAudioForSave(
 
 /** ELE 대상 섹션인지 판별 (셀럽 음성 섹션) */
 export function isEleSection(key: string): boolean {
-  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-celeb-/.test(key)
+  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
 }
 
 /** 파일명 → 한글 설명 */

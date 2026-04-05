@@ -16,7 +16,7 @@ export type VoiceInfo = {
 }
 
 export type AnchorPick = {
-  bookIdx: number
+  itemIdx: number
   imgIdx: number
   draft: string | null
   field?: ImageField

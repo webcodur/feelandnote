@@ -37,12 +37,12 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete }: {
 }
 
 /** 인라인 이미지 행 — 롱폼 책 섹션용. 여러 CinematicImage를 한 행에 표시 */
-export function InlineImageRow({ images, allImages, imageBaseUrl, bookIdx, picking, anchorPick,
+export function InlineImageRow({ images, allImages, imageBaseUrl, itemIdx, picking, anchorPick,
   onReplace, onRemove, onStartPick, onCancelPick }: {
-  images: CinematicImage[]; allImages: CinematicImage[]; imageBaseUrl: string; bookIdx: number
+  images: CinematicImage[]; allImages: CinematicImage[]; imageBaseUrl: string; itemIdx: number
   picking: boolean; anchorPick: AnchorPick
-  onReplace: (bookIdx: number, imgIdx: number, fileName: string) => void
-  onRemove: (bookIdx: number, imgIdx: number) => void
+  onReplace: (itemIdx: number, imgIdx: number, fileName: string) => void
+  onRemove: (itemIdx: number, imgIdx: number) => void
   onStartPick: (globalIdx: number) => void; onCancelPick: () => void
 }) {
   if (!images.length) return null
@@ -53,8 +53,8 @@ export function InlineImageRow({ images, allImages, imageBaseUrl, bookIdx, picki
         const isPicking = picking && anchorPick?.imgIdx === gi
         return <InlineThumb key={`it-${gi}`} img={img} index={gi} imageBaseUrl={imageBaseUrl}
           isPicking={isPicking}
-          onReplace={fn => onReplace(bookIdx, gi, fn)}
-          onRemove={() => onRemove(bookIdx, gi)}
+          onReplace={fn => onReplace(itemIdx, gi, fn)}
+          onRemove={() => onRemove(itemIdx, gi)}
           onStartPick={() => onStartPick(gi)}
           onCancelPick={onCancelPick}
         />
@@ -113,14 +113,15 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
           <button onClick={onRemove} className="absolute top-0.5 right-0.5 w-5 h-5 flex items-center justify-center rounded-full bg-black/80 text-red-400 hover:text-red-200 hover:bg-red-500/80 text-sm font-bold opacity-0 group-hover/thumb:opacity-100 transition-all">&times;</button>
         )}
       </div>
-      {(index > 0 || isEmpty) && img.text && (
+      {img.text ? (
         <div className="px-0.5 py-px bg-bg-card/80 text-[10px] truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
           <span className={isEmpty ? 'text-text-secondary italic' : 'text-amber-400'}>&ldquo;{img.text}&rdquo;</span>
         </div>
-      )}
-      {index > 0 && !img.text && !isEmpty && (
+      ) : !isEmpty && (
         <div className="px-0.5 py-px bg-bg-card/80 text-[10px] truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
-          <span className="text-red-400 italic">앵커 없음</span>
+          <span className={index > 0 ? 'text-red-400 italic' : 'text-text-secondary italic opacity-0 group-hover/thumb:opacity-100 transition-opacity'}>
+            {index > 0 ? '앵커 없음' : '위치 변경'}
+          </span>
         </div>
       )}
     </div>
