@@ -10,10 +10,10 @@ import {
   CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK,
   RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK,
   titleSummaryGap, summaryContextGap, labelSummaryFrames, labelContextFrames,
-  summaryPhaseEnd, contextPhaseEnd, quotePhaseEnd, bookTotalFrames,
+  summaryPhaseEnd, contextPhaseEnd, quotePhaseEnd, contextAfterPhaseEnd, quote2PhaseEnd, bookTotalFrames,
   type LabelDurations, f,
 } from './timing'
-import { isContinuation } from './script'
+import { isContinuation } from './timing'
 
 // --- TTS 미생성 시 글자 수 기반 duration 추정 (프리뷰 레이아웃용) ---
 const KO_CPS = 4.5 // 한국어 TTS 속도 ~4.5자/초
@@ -27,6 +27,8 @@ function withEstimatedDurations(script: BookRecommendScript): BookRecommendScrip
     b.titleDuration === 0 || b.summaryDuration === 0
     || (b.directQuote && (b.quoteDuration ?? 0) === 0)
     || (b.contextAfter && (b.contextAfterDuration ?? 0) === 0)
+    || (b.directQuote2 && (b.quoteDuration2 ?? 0) === 0)
+    || (b.contextAfter2 && (b.contextAfterDuration2 ?? 0) === 0)
   )
   const anyNarratorMissing = (n.celebIntroDuration ?? 0) === 0 || n.outroDuration === 0
   const anyHostMissing = (h.voiceDuration ?? 0) === 0 || (h.featuredQuoteDuration ?? 0) === 0
@@ -55,6 +57,8 @@ function withEstimatedDurations(script: BookRecommendScript): BookRecommendScrip
       contextDuration: d(b.contextDuration, b.context),
       quoteDuration: b.directQuote ? d(b.quoteDuration, b.directQuote) : b.quoteDuration,
       contextAfterDuration: b.contextAfter ? d(b.contextAfterDuration, b.contextAfter) : b.contextAfterDuration,
+      quoteDuration2: b.directQuote2 ? d(b.quoteDuration2, b.directQuote2) : b.quoteDuration2,
+      contextAfterDuration2: b.contextAfter2 ? d(b.contextAfterDuration2, b.contextAfter2) : b.contextAfterDuration2,
     })),
   }
 }
@@ -65,12 +69,18 @@ export interface BookTiming {
   contextFrames: number
   quoteFrames: number
   contextAfterFrames: number
+  quote2Frames: number
+  contextAfter2Frames: number
   summaryEnd: number
   contextEnd: number
   quoteEnd: number
+  contextAfterEnd: number
+  quote2End: number
   total: number
   hasQuote: boolean
   hasContextAfter: boolean
+  hasQuote2: boolean
+  hasContextAfter2: boolean
 }
 
 export interface Timeline {
@@ -168,12 +178,18 @@ export function buildTimeline(rawScript: BookRecommendScript): Timeline {
     contextFrames: toFrames(b.contextDuration),
     quoteFrames: b.quoteDuration ? toFrames(b.quoteDuration) : 0,
     contextAfterFrames: b.contextAfterDuration ? toFrames(b.contextAfterDuration) : 0,
+    quote2Frames: b.quoteDuration2 ? toFrames(b.quoteDuration2) : 0,
+    contextAfter2Frames: b.contextAfterDuration2 ? toFrames(b.contextAfterDuration2) : 0,
     summaryEnd: summaryPhaseEnd(b, ld),
     contextEnd: contextPhaseEnd(b, ld),
     quoteEnd: quotePhaseEnd(b, ld),
+    contextAfterEnd: contextAfterPhaseEnd(b, ld),
+    quote2End: quote2PhaseEnd(b, ld),
     total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F,
     hasQuote: !!b.quoteDuration,
     hasContextAfter: !!b.contextAfterDuration,
+    hasQuote2: !!b.quoteDuration2,
+    hasContextAfter2: !!b.contextAfterDuration2,
   }))
 
   const hasInterlude = books.length > 10

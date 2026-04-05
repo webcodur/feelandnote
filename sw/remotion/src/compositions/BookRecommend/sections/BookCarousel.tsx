@@ -4,7 +4,7 @@
 import React from 'react'
 import { AbsoluteFill, Img, interpolate } from 'remotion'
 import type { BookEntry } from '../types'
-import { fadeInOut, safeImg } from '../utils'
+import { fadeInOut, safeImg, useIsPortrait } from '../utils'
 import { f } from '../timing'
 import { FONT } from '../fonts'
 
@@ -20,11 +20,13 @@ interface Props {
 export const BookCarousel: React.FC<Props> = ({
   books, localFrame, duration, fromIdx, toIdx, opacity,
 }) => {
+  const portrait = useIsPortrait()
   if (opacity <= 0) return null
   const CARD_W = 150, CARD_H = 225, CARD_GAP = 24
   const CARD_STEP = CARD_W + CARD_GAP
-  const VIEWPORT_W = CARD_STEP * 5
-  const POINTER_W = 160
+  const VISIBLE_COUNT = portrait ? 4 : 5
+  const VIEWPORT_W = CARD_STEP * VISIBLE_COUNT
+  const POINTER_W = portrait ? 130 : 160
 
   // 타이밍: 정지(15%) → 스크롤(35%) → 정지(50%)
   const holdEnd = Math.round(duration * 0.15)

@@ -5,6 +5,7 @@ import {
   OlympusMV,
   totalFrames as olympusMVFrames,
 } from "./compositions/OlympusMV";
+import { AudioTest, AUDIO_TEST_FRAMES } from "./compositions/AudioTest";
 import {
   BookRecommend,
   calcTotalFrames as calcBookFrames,
@@ -16,6 +17,7 @@ import {
 import type { EpisodeStatus } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
+import { ShortsThumbnail } from "./compositions/Thumbnail/ShortsThumbnail";
 
 
 /** 에피소드 목록을 baseName(인물명) 기준으로 그룹핑 */
@@ -83,10 +85,16 @@ export const RemotionRoot: React.FC = () => {
                           <Composition key={`${name}-L-VID`} id={`${label}-${lang}-L-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
                         ))}
                         {validLong.map(({ name, lang, script }) => (
+                          <Composition key={`${name}-LV-VID`} id={`${label}-${lang}-LV-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
+                        ))}
+                        {validLong.map(({ name, lang, script }) => (
                           <Composition key={`${name}-L-THUMB`} id={`${label}-${lang}-L-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
                         ))}
                         {validShort.map(({ name, lang, script }) => (
                           <Composition key={`${name}-S-VID`} id={`${label}-${lang}-S-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
+                        ))}
+                        {validShort.map(({ name, lang, script }) => (
+                          <Composition key={`${name}-S-THUMB`} id={`${label}-${lang}-S-THUMB`} component={ShortsThumbnail} durationInFrames={1} fps={1} width={1080} height={1920} defaultProps={{ script }} />
                         ))}
                       </>
                     )
@@ -107,6 +115,14 @@ export const RemotionRoot: React.FC = () => {
           fps={FPS}
           width={1080}
           height={1920}
+        />
+        <Composition
+          id="AudioTest"
+          component={AudioTest}
+          durationInFrames={AUDIO_TEST_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
         />
       </Folder>
     </>

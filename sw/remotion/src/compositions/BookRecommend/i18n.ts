@@ -16,6 +16,7 @@ interface Strings {
   labelSummary: string
   labelContext: string
   publishYear: (year: string) => string
+  categoryLabel: Record<string, string>
   partLabel: (part: number, total: number) => string
   bookCounter: (current: number, total: number) => string
   // 섹션 명칭 (Breadcrumb용)
@@ -47,8 +48,9 @@ const strings: Record<'ko' | 'en', Strings> = {
     brandCount: (n: number) => `${n}권의 책`,
     labelTitle: '제목',
     labelSummary: '핵심 요약',
-    labelContext: '감상경위',
+    labelContext: '감상 배경',
     publishYear: (year: string) => year.includes('세기') || year.includes('년') ? year : `${year}년 집필`,
+    categoryLabel: { BOOK: '도서', VIDEO: '영상', GAME: '게임', MUSIC: '음악' },
     partLabel: (part: number, total: number) => `${part}/${total}편`,
     bookCounter: (current: number, total: number) => `${current}/${total}권`,
     secOpening: '오프닝',
@@ -79,6 +81,7 @@ const strings: Record<'ko' | 'en', Strings> = {
     labelSummary: 'Summary',
     labelContext: 'Context',
     publishYear: (year: string) => year,
+    categoryLabel: { BOOK: 'Book', VIDEO: 'Film', GAME: 'Game', MUSIC: 'Music' },
     partLabel: (part: number, total: number) => `Part ${part}/${total}`,
     bookCounter: (current: number, total: number) => `${current}/${total}`,
     secOpening: 'Opening',

@@ -11,7 +11,7 @@
  */
 import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
-import { ROOT, findEpisodeDir } from '../lib/episode.js'
+import { ROOT, findEpisodeDir, resolveTimingPath, parseEpName } from '../lib/episode.js'
 
 const args = process.argv.slice(2)
 const epIdx = args.indexOf('--episode')
@@ -35,6 +35,12 @@ const epPath = join(findEpisodeDir(person), filename)
 
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
 const subsMap: Record<string, Record<string, string[]>> = JSON.parse(readFileSync(inputPath, 'utf-8'))
+
+// timing.json에서 voiceTimings 로드
+const timingPath = resolveTimingPath(epName)
+let timing: any = {}
+try { timing = JSON.parse(readFileSync(timingPath, 'utf-8')) } catch { /* */ }
+if (timing.voiceTimings) episode.voiceTimings = timing.voiceTimings
 
 if (!episode.voiceTimings) {
   console.error('voiceTimings 없음')
@@ -75,5 +81,7 @@ for (const [key, indices] of Object.entries(subsMap)) {
   }
 }
 
-writeFileSync(epPath, JSON.stringify(episode, null, 2) + '\n', 'utf-8')
+// voiceTimings를 timing.json에 저장 (content JSON은 건드리지 않음)
+timing.voiceTimings = episode.voiceTimings
+writeFileSync(timingPath, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
 console.log(`\n✅ ${applied}건 적용 / ⏭ ${skipped}건 스킵(기존) / ❌ ${errors}건 실패`)

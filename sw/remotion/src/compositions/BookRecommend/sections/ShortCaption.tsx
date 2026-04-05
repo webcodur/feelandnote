@@ -9,7 +9,7 @@
  * - 문장 경계에서만 끊음 (단어 중간 절단 없음)
  * - 짧은 텍스트(1페이지 이내)는 페이징 없이 전체 표시
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
 import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale } from '../utils'
@@ -52,32 +52,26 @@ export const ShortCaption: React.FC<Props> = ({
   const frame = useCurrentFrame()
   const isEn = locale === 'en'
 
-  // ── stale 감지: 텍스트 변경 시 이전 voiceTimings 무시 ──
-  const fresh = !isTimingsStale(text, timings) ? timings : undefined
+  // 텍스트·타이밍이 불변이므로 한 번만 계산 — 매 프레임 문자열 분할/페이징 방지
+  const { pages, pageTiming, hasSub: singlePage_ } = useMemo(() => {
+    const fresh = !isTimingsStale(text, timings) ? timings : undefined
+    const expanded = fresh ? expandSubTimings(fresh) : undefined
+    const hasSub = fresh?.some(t => t.sub && t.sub.length > 1) ?? false
+    const CHARS_PER_PAGE = isEn ? 50 : 30
 
-  // ── sub 필드가 있으면 확장 → 더 세밀한 페이징 ──
-  const expanded = fresh ? expandSubTimings(fresh) : undefined
-  const hasSub = fresh?.some(t => t.sub && t.sub.length > 1) ?? false
-
-  // ── 페이징 ──
-  // sub 정의됨 → 각 확장 세그먼트가 곧 페이지 (휴리스틱 우회)
-  // sub 없음 → 글자수 기반 자동 페이징
-  const CHARS_PER_PAGE = isEn ? 50 : 30
-
-  let pages: string[]
-  let pageRanges: { startIdx: number; endIdx: number }[]
-
-  if (hasSub && expanded && expanded.length > 1) {
-    pages = expanded.map(t => t.text ?? '')
-    pageRanges = expanded.map((_, i) => ({ startIdx: i, endIdx: i + 1 }))
-  } else {
-    const result = paginateSentences(text, CHARS_PER_PAGE, expanded, true)
-    pages = result.pages
-    pageRanges = result.ranges
-  }
-
-  const pageTiming = slicePageTimings(pageRanges, expanded)
-  const singlePage = pages.length <= 1
+    let pg: string[]
+    let pr: { startIdx: number; endIdx: number }[]
+    if (hasSub && expanded && expanded.length > 1) {
+      pg = expanded.map(t => t.text ?? '')
+      pr = expanded.map((_, i) => ({ startIdx: i, endIdx: i + 1 }))
+    } else {
+      const result = paginateSentences(text, CHARS_PER_PAGE, expanded, true)
+      pg = result.pages
+      pr = result.ranges
+    }
+    return { pages: pg, pageTiming: slicePageTimings(pr, expanded), hasSub: pg.length <= 1 }
+  }, [text, timings, isEn])
+  const singlePage = singlePage_
 
   const textShadowStyle: React.CSSProperties = strokeWidth > 0 ? {
     WebkitTextStroke: `${strokeWidth}px ${strokeColor}`,

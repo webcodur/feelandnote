@@ -1,6 +1,6 @@
 import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { BookEntry } from '../types'
-import { safeImg } from '../utils'
+import { safeImg, useIsPortrait } from '../utils'
 import { FONT } from '../fonts'
 import { f } from '../timing'
 
@@ -26,6 +26,7 @@ const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as con
 export const BookRecap: React.FC<Props> = ({ books, totalFrames }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
+  const portrait = useIsPortrait()
 
   const posterOp = interpolate(frame,
     [0, f(0.83), totalFrames - f(0.83), totalFrames],
@@ -36,22 +37,22 @@ export const BookRecap: React.FC<Props> = ({ books, totalFrames }) => {
   const isGrid = bottomCount > 0
   const maxCols = isGrid ? Math.max(topCount, bottomCount) : count
 
-  const thumbW = isGrid
-    ? (maxCols >= 5 ? 170 : maxCols >= 4 ? 195 : 230)
-    : (maxCols >= 5 ? 150 : maxCols >= 4 ? 170 : 210)
+  const thumbW = portrait
+    ? (isGrid ? (maxCols >= 4 ? 140 : 170) : (maxCols >= 4 ? 130 : 160))
+    : (isGrid ? (maxCols >= 5 ? 170 : maxCols >= 4 ? 195 : 230) : (maxCols >= 5 ? 150 : maxCols >= 4 ? 170 : 210))
   const thumbH = Math.round(thumbW * 1.5)
-  const titleSize = isGrid
-    ? (maxCols >= 5 ? 30 : maxCols >= 4 ? 32 : 36)
-    : (maxCols >= 5 ? 26 : maxCols >= 4 ? 28 : 34)
-  const creatorSize = isGrid
-    ? (maxCols >= 5 ? 24 : maxCols >= 4 ? 26 : 28)
-    : (maxCols >= 5 ? 22 : maxCols >= 4 ? 24 : 26)
-  const cardGap = isGrid
-    ? (maxCols >= 5 ? 18 : maxCols >= 4 ? 24 : 34)
-    : (maxCols >= 5 ? 14 : maxCols >= 4 ? 20 : 30)
-  const cardMaxWidth = isGrid
-    ? (maxCols >= 5 ? 380 : maxCols >= 4 ? 420 : 460)
-    : (maxCols >= 5 ? 340 : maxCols >= 4 ? 380 : 420)
+  const titleSize = portrait
+    ? (isGrid ? (maxCols >= 4 ? 26 : 29) : (maxCols >= 4 ? 22 : 27))
+    : (isGrid ? (maxCols >= 5 ? 30 : maxCols >= 4 ? 32 : 36) : (maxCols >= 5 ? 26 : maxCols >= 4 ? 28 : 34))
+  const creatorSize = portrait
+    ? (isGrid ? (maxCols >= 4 ? 20 : 22) : (maxCols >= 4 ? 18 : 21))
+    : (isGrid ? (maxCols >= 5 ? 24 : maxCols >= 4 ? 26 : 28) : (maxCols >= 5 ? 22 : maxCols >= 4 ? 24 : 26))
+  const cardGap = portrait
+    ? (isGrid ? (maxCols >= 4 ? 14 : 20) : (maxCols >= 4 ? 12 : 16))
+    : (isGrid ? (maxCols >= 5 ? 18 : maxCols >= 4 ? 24 : 34) : (maxCols >= 5 ? 14 : maxCols >= 4 ? 20 : 30))
+  const cardMaxWidth = portrait
+    ? (isGrid ? (maxCols >= 4 ? 310 : 340) : (maxCols >= 4 ? 280 : 320))
+    : (isGrid ? (maxCols >= 5 ? 380 : maxCols >= 4 ? 420 : 460) : (maxCols >= 5 ? 340 : maxCols >= 4 ? 380 : 420))
 
   const renderCard = (book: BookEntry, globalIndex: number) => {
     const delay = globalIndex * f(0.27)
@@ -102,7 +103,7 @@ export const BookRecap: React.FC<Props> = ({ books, totalFrames }) => {
         <div style={{ position: 'absolute', inset: 0, opacity: posterOp }}>
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
-            alignItems: 'stretch', padding: '80px 40px 80px',
+            alignItems: 'stretch', padding: portrait ? '60px 30px 60px' : '80px 40px 80px',
           }}>
             {isGrid ? (
               <>

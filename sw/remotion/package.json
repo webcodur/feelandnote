@@ -22,8 +22,8 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
+    "@feelandnote/shared": "workspace:*",
     "@aws-sdk/client-s3": "^3.997.0",
-    "@fal-ai/client": "^1.9.5",
     "@google-cloud/text-to-speech": "^6.4.0",
     "@google/genai": "^1.44.0",
     "@remotion/cli": "4.0.434",

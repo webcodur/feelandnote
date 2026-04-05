@@ -6,7 +6,7 @@
  */
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { ROOT, findEpisodeDir } from '../lib/episode.js'
+import { ROOT, findEpisodeDir, resolveTimingPath, parseEpName } from '../lib/episode.js'
 
 const args = process.argv.slice(2)
 const epIdx = args.indexOf('--episode')
@@ -27,6 +27,12 @@ const filename = part > 1 ? `${locale}-${part}.json` : `${locale}.json`
 const epPath = join(findEpisodeDir(person), filename)
 
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
+// timing.json에서 voiceTimings 로드
+const timingPath = resolveTimingPath(epName)
+try {
+  const timing = JSON.parse(readFileSync(timingPath, 'utf-8'))
+  if (timing.voiceTimings) episode.voiceTimings = timing.voiceTimings
+} catch { /* timing.json 없으면 content에서 fallback */ }
 const vt = episode.voiceTimings as Record<string, any[]> | undefined
 
 if (!vt) {

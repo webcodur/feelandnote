@@ -17,10 +17,10 @@ import {
   VN_CELEB_INTRO, VN_PHILOSOPHY, VN_OUTRO, VN_FEATURED_QUOTE,
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   VN_RETURN_INTRO, VN_INTERLUDE,
-  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
   vnShort, vnTimingKey, resolveVoiceRelPath,
 } from '../../src/compositions/BookRecommend/voice-names'
-import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
 
 // --- WAV 파싱 ---
 function parseWav(path: string) {
@@ -366,7 +366,26 @@ try {
   voiceSelect = JSON.parse(readFileSync(join(voiceBaseDir, 'voice-select.json'), 'utf-8'))
 } catch { /* voice-select 없으면 null */ }
 const epPath = resolveEpisodePath(epName)
+const timingPath = resolveTimingPath(epName)
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
+let timing: any = {}
+try { timing = JSON.parse(readFileSync(timingPath, 'utf-8')) } catch { /* 신규 에피소드 */ }
+
+// voiceTimings를 episode에 합침 (기존 코드 호환)
+if (timing.voiceTimings) episode.voiceTimings = timing.voiceTimings
+// duration도 합침
+if (timing.narrator) Object.assign(episode.narrator, timing.narrator)
+if (timing.host) Object.assign(episode.host, timing.host)
+if (timing.books) {
+  timing.books.forEach((bt: any, i: number) => {
+    if (episode.books[i]) Object.assign(episode.books[i], bt)
+  })
+}
+if (timing.shorts?.segments) {
+  timing.shorts.segments.forEach((st: any, i: number) => {
+    if (episode.shorts?.segments?.[i]) Object.assign(episode.shorts.segments[i], st)
+  })
+}
 
 // 분석 대상
 type Target = { file: string; textField: string; bookIndex?: number }
@@ -392,6 +411,12 @@ for (let i = 0; i < episode.books.length; i++) {
   }
   if (episode.books[i].contextAfter) {
     targets.push({ file: vnBookContextAfter(i), textField: 'contextAfter', bookIndex: i })
+  }
+  if (episode.books[i].directQuote2) {
+    targets.push({ file: vnBookQuote2(i), textField: 'directQuote2', bookIndex: i })
+  }
+  if (episode.books[i].contextAfter2) {
+    targets.push({ file: vnBookContextAfter2(i), textField: 'contextAfter2', bookIndex: i })
   }
 }
 
@@ -431,7 +456,7 @@ console.log(hasWhisper ? '단어 단위 매핑 (whisperx + diff)' : 'Whisper 없
 
 for (const target of filtered) {
   const locale = episode.locale === 'en' ? 'en' as const : 'ko' as const
-  const { dir, subPath } = resolveVoiceRelPath(target.file, voiceSelect, locale)
+  const { dir, subPath } = resolveVoiceRelPath(target.file, voiceSelect, locale, !!episode.host?.elevenlabsVoiceId)
   const commonLocale = episode.locale === 'en' ? 'en' : 'ko'
   const wavPath = dir === 'common'
     ? join(ROOT, 'public', 'common', 'voice', commonLocale, subPath)
@@ -546,7 +571,7 @@ if (updateJson) {
     if (file === VN_RETURN_INTRO && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
     if (file === VN_INTERLUDE && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
 
-    const bookMatch = file.match(/^D(\d{2})[a-e]-(title|summary|context|quote|context-after)\.wav$/)
+    const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context|quote|context-after|quote2|context-after2)\.wav$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
       if (!episode.books[idx]) continue
@@ -556,6 +581,8 @@ if (updateJson) {
         case 'context': episode.books[idx].contextDuration = rounded; break
         case 'quote': episode.books[idx].quoteDuration = rounded; break
         case 'context-after': episode.books[idx].contextAfterDuration = rounded; break
+        case 'quote2': episode.books[idx].quoteDuration2 = rounded; break
+        case 'context-after2': episode.books[idx].contextAfterDuration2 = rounded; break
       }
     }
 
@@ -583,8 +610,52 @@ if (updateJson) {
     }
   }
 
-  writeFileSync(epPath, JSON.stringify(episode, null, 2) + '\n', 'utf-8')
-  console.log(`\n✓ ${epName}.json voiceTimings + duration 동기화 완료`)
+  // timing.json에 저장할 데이터 구성
+  const timingOut: any = { voiceTimings: episode.voiceTimings }
+
+  // narrator duration 추출
+  const narratorDurationKeys = [
+    'serviceGreetingDuration', 'serviceIntroDuration', 'celebIntroDuration',
+    'bridgeDuration', 'outroDuration', 'labelSummaryDuration', 'labelContextDuration',
+    'returnIntroDuration', 'prevRecapDuration', 'interludeDuration',
+  ]
+  const ntd: any = {}
+  for (const k of narratorDurationKeys) {
+    if (episode.narrator[k] != null) ntd[k] = episode.narrator[k]
+  }
+  if (Object.keys(ntd).length > 0) timingOut.narrator = ntd
+
+  // host duration 추출
+  const htd: any = {}
+  if (episode.host.featuredQuoteDuration != null) htd.featuredQuoteDuration = episode.host.featuredQuoteDuration
+  if (episode.host.voiceDuration != null) htd.voiceDuration = episode.host.voiceDuration
+  if (Object.keys(htd).length > 0) timingOut.host = htd
+
+  // books duration 추출
+  const btd = episode.books.map((b: any) => {
+    const d: any = {}
+    for (const k of ['titleDuration', 'summaryDuration', 'contextDuration', 'quoteDuration', 'contextAfterDuration', 'quoteDuration2', 'contextAfterDuration2']) {
+      if (b[k] != null) d[k] = b[k]
+    }
+    return d
+  })
+  if (btd.some((d: any) => Object.keys(d).length > 0)) timingOut.books = btd
+
+  // shorts duration 추출
+  if (episode.shorts?.segments) {
+    const std = episode.shorts.segments.map((s: any) => {
+      const d: any = {}
+      if (s.duration != null) d.duration = s.duration
+      return d
+    })
+    if (std.some((d: any) => Object.keys(d).length > 0)) {
+      timingOut.shorts = { segments: std }
+    }
+  }
+
+  // timing.json에 저장 (content JSON은 건드리지 않음)
+  writeFileSync(timingPath, JSON.stringify(timingOut, null, 2) + '\n', 'utf-8')
+  console.log(`\n✓ ${epName}.timing.json voiceTimings + duration 동기화 완료`)
 
   // sub 누락 경고
   const missingSubs: string[] = []

@@ -6,7 +6,7 @@
 import React from 'react'
 import { interpolate, useCurrentFrame } from 'remotion'
 import { FONT } from '../fonts'
-import { BrandLogo } from '../utils'
+import { BrandLogo, useIsPortrait } from '../utils'
 import { BRAND_FRAMES, RECAP_FRAMES, LOGO_FRAMES, f } from '../timing'
 import type { Timeline } from '../useTimeline'
 import type { BookRecommendScript } from '../types'
@@ -21,6 +21,7 @@ type Props = {
 
 export const Breadcrumb: React.FC<Props> = ({ script, tl }) => {
   const frame = useCurrentFrame()
+  const portrait = useIsPortrait()
   const i18n = t(script)
   const { host, books } = script
 
@@ -29,6 +30,8 @@ export const Breadcrumb: React.FC<Props> = ({ script, tl }) => {
   const fadeOut = interpolate(frame, [tl.totalFrames - f(1), tl.totalFrames], [1, 0], CL)
   const barOp = Math.min(fadeIn, fadeOut)
 
+  // 세로 영상에서는 상하단 바가 역할을 대신하므로 숨김
+  if (portrait) return null
   if (barOp <= 0) return null
 
   // ── 현재 섹션 판별 ──
@@ -105,7 +108,7 @@ export const Breadcrumb: React.FC<Props> = ({ script, tl }) => {
    * SEP       #e8e0d0 op 0.3   — 구분자 (|, ·)
    * ACCENT    #c8a46e          — 페이즈/섹션명 (골드)
    */
-  const BASE: React.CSSProperties = { fontSize: 20, fontFamily: FONT.sans, fontWeight: 500, letterSpacing: '0.02em' }
+  const BASE: React.CSSProperties = { fontSize: portrait ? 16 : 20, fontFamily: FONT.sans, fontWeight: 500, letterSpacing: '0.02em' }
   const PRIMARY: React.CSSProperties = { ...BASE, color: '#ffffff' }
   const LABEL: React.CSSProperties = { ...BASE, color: '#e8e0d0' }
   const MUTED: React.CSSProperties = { ...BASE, color: '#e8e0d0', opacity: 0.5 }
@@ -113,7 +116,7 @@ export const Breadcrumb: React.FC<Props> = ({ script, tl }) => {
   const ACCENT: React.CSSProperties = { ...BASE, color: '#c8a46e' }
 
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '44px 80px', zIndex: 30, opacity: barOp }}>
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: portrait ? '32px 40px' : '44px 80px', zIndex: 30, opacity: barOp }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* 좌: 프로그램 정보 + 편수 */}
         <div style={{ display: 'flex', alignItems: 'center' }}>

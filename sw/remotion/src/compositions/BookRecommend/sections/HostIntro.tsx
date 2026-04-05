@@ -4,7 +4,8 @@ import { Typewriter } from './Typewriter'
 import { FONT } from '../fonts'
 import { toAudioFrames, CELEB_VISUAL_DELAY, f, FPS } from '../timing'
 import { SpeakingIndicator } from './SpeakingIndicator'
-import { SUBTITLE_COLOR, SUBTITLE_STYLE, CELEB_VOICE_COLOR, CELEB_VOICE_HIGHLIGHT, CELEB_VOICE_FONT_SIZE, CELEB_VOICE_BORDER, CELEB_VOICE_PADDING_LEFT, paginateSentences, slicePageTimings } from '../utils'
+import { freshAvatarUrl } from '../../../lib/avatar'
+import { SUBTITLE_COLOR, SUBTITLE_STYLE, CELEB_VOICE_COLOR, CELEB_VOICE_HIGHLIGHT, CELEB_VOICE_FONT_SIZE, CELEB_VOICE_BORDER, CELEB_VOICE_PADDING_LEFT, paginateSentences, slicePageTimings, useIsPortrait } from '../utils'
 
 type Props = {
   host: CelebHost
@@ -35,15 +36,16 @@ type Props = {
 export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrames, totalFrames, narratorDuration, philosophyDuration, narratorTimings, philosophyTimings, philosophyAudioSrc, locale }) => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
+  const portrait = useIsPortrait()
 
   const inPhase1 = frame < celebIntroFrames
   const phase2Local = frame - celebIntroFrames
   const phase2Frames = totalFrames - celebIntroFrames
 
   // --- 감상철학 멀티페이지 ---
-  const PHILO_LINE_H = 44 * 1.8
-  const PHILO_CPL = locale === 'en' ? 40 : 22
-  const PHILO_VISIBLE_H = 620
+  const PHILO_LINE_H = (portrait ? 38 : 44) * 1.8
+  const PHILO_CPL = locale === 'en' ? (portrait ? 30 : 40) : (portrait ? 16 : 22)
+  const PHILO_VISIBLE_H = portrait ? 700 : 620
   const PHILO_LINES = Math.floor(PHILO_VISIBLE_H / PHILO_LINE_H)
   const PHILO_MAX_CHARS = PHILO_LINES * PHILO_CPL
   const FLIP_F = f(0.4)
@@ -75,21 +77,31 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
     extrapolateRight: 'clamp',
   })
 
+  // --- 세로/가로 분기 치수 ---
+  const AVATAR_SIZE = portrait ? 280 : 400
+  const NAME_SIZE = portrait ? 60 : 82
+  const TITLE_SIZE = portrait ? 28 : 34
+  const NAME_EN_SIZE = portrait ? 30 : 36
+  const BIO_SIZE = portrait ? 36 : 42
+  const PHILO_FONT_SIZE = portrait ? 38 : CELEB_VOICE_FONT_SIZE
+  const LINE_W = portrait ? 400 : 500
+
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: fadeOut }}>
-      {/* 메인 레이아웃: 좌측 아바타 + 우측 정보 */}
+      {/* 메인 레이아웃 */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           display: 'flex',
+          flexDirection: portrait ? 'column' : 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '140px 90px 108px',
-          gap: 70,
+          padding: portrait ? '120px 60px 80px' : '140px 90px 108px',
+          gap: portrait ? 40 : 70,
         }}
       >
-        {/* ===== 좌측: 아바타 (항상 유지) ===== */}
+        {/* ===== 아바타 ===== */}
         <div
           style={{
             flexShrink: 0,
@@ -97,11 +109,11 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             transform: `translateY(${avatarY}px) scale(${avatarEnter})`,
           }}
         >
-          <div style={{ position: 'relative', width: 400, height: 400 }}>
+          <div style={{ position: 'relative', width: AVATAR_SIZE, height: AVATAR_SIZE }}>
             <div
               style={{
-                width: 400,
-                height: 400,
+                width: AVATAR_SIZE,
+                height: AVATAR_SIZE,
                 borderRadius: '50%',
                 overflow: 'hidden',
                 border: '3px solid #c8a46e',
@@ -109,23 +121,23 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                 boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.15)',
               }}
             >
-              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <Img src={freshAvatarUrl(host.avatar_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            {phase2FadeIn > 0 && <SpeakingIndicator size={48} opacity={phase2FadeIn} audioSrc={philosophyAudioSrc} audioStartFrame={celebIntroFrames + f(1)} />}
+            {phase2FadeIn > 0 && <SpeakingIndicator size={portrait ? 40 : 48} opacity={phase2FadeIn} audioSrc={philosophyAudioSrc} audioStartFrame={celebIntroFrames + f(1)} />}
           </div>
         </div>
 
-        {/* ===== 우측: 인물 정보(유지) + 화자 영역(전환) ===== */}
-        <div style={{ flex: 1, maxWidth: 1020, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          {/* 인물 메타 정보 — 항상 표시 */}
-          <div style={{ opacity: infoOpacity }}>
-            <div style={{ ...SUBTITLE_STYLE, fontSize: 34, marginBottom: 8 }}>
+        {/* ===== 인물 정보 + 화자 영역 ===== */}
+        <div style={{ flex: 1, maxWidth: portrait ? 960 : 1020, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: portrait ? 'center' : undefined }}>
+          {/* 인물 메타 정보 */}
+          <div style={{ opacity: infoOpacity, textAlign: portrait ? 'center' : undefined }}>
+            <div style={{ ...SUBTITLE_STYLE, fontSize: TITLE_SIZE, marginBottom: 8 }}>
               {host.title}
             </div>
             <div
               style={{
                 color: '#e8e0d0',
-                fontSize: 82,
+                fontSize: NAME_SIZE,
                 fontWeight: 700,
                 fontFamily: FONT.sans,
                 lineHeight: 1.3,
@@ -135,35 +147,38 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
               {host.nickname}
             </div>
             {locale !== 'en' && (
-              <div style={{ ...SUBTITLE_STYLE, fontSize: 36, marginBottom: 22 }}>
+              <div style={{ ...SUBTITLE_STYLE, fontSize: NAME_EN_SIZE, marginBottom: 22 }}>
                 {host.nickname_en}
               </div>
             )}
             <div
               style={{
-                width: interpolate(frame, [f(0.83), f(1.5)], [0, 500], { extrapolateRight: 'clamp' }),
+                width: interpolate(frame, [f(0.83), f(1.5)], [0, LINE_W], { extrapolateRight: 'clamp' }),
                 height: 1,
                 backgroundColor: '#c8a46e',
                 opacity: 0.3,
                 marginBottom: 24,
+                ...(portrait ? { marginLeft: 'auto', marginRight: 'auto' } : {}),
               }}
             />
           </div>
 
           {/* 화자 영역 — 나레이터 bio / 셀럽 감상철학 크로스페이드 (grid 겹침) */}
           <div style={{ display: 'grid' }}>
-            {/* Phase 1: 나레이터 biography — 항상 렌더링하여 공간 확보 (레이아웃 점프 방지) */}
-            <div style={{ gridRow: 1, gridColumn: 1, opacity: phase1TextOpacity, fontFamily: FONT.sans }}>
-              <Typewriter
-                text={narratorText}
-                startFrame={CELEB_VISUAL_DELAY}
-                spreadFrames={toAudioFrames(narratorDuration)}
-                color="#ccc"
-                fontSize={42}
-                style={{ lineHeight: 1.8 }}
-                timings={narratorTimings}
-              />
-            </div>
+            {/* Phase 1: 나레이터 biography — portrait에서는 자막으로 대체 */}
+            {!portrait && (
+              <div style={{ gridRow: 1, gridColumn: 1, opacity: phase1TextOpacity, fontFamily: FONT.sans }}>
+                <Typewriter
+                  text={narratorText}
+                  startFrame={CELEB_VISUAL_DELAY}
+                  spreadFrames={toAudioFrames(narratorDuration)}
+                  color="#ccc"
+                  fontSize={BIO_SIZE}
+                  style={{ lineHeight: 1.8 }}
+                  timings={narratorTimings}
+                />
+              </div>
+            )}
 
             {/* Phase 2: 셀럽 감상철학 (멀티페이지) */}
             {phase2FadeIn > 0 && (
@@ -176,7 +191,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                       spreadFrames={philoSpread}
                       color={CELEB_VOICE_COLOR}
                       highlightColor={CELEB_VOICE_HIGHLIGHT}
-                      fontSize={CELEB_VOICE_FONT_SIZE}
+                      fontSize={PHILO_FONT_SIZE}
                       style={{ lineHeight: 1.8 }}
                       timings={philosophyTimings}
                     />
@@ -202,7 +217,7 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
                             top: pi === 0 ? undefined : 0, left: 0, right: 0,
                             opacity: Math.max(op, 0), transform: `translateX(${xIn + xOut}px)`,
                           }}>
-                            <Typewriter text={pt} startFrame={ps} spreadFrames={pe - ps} color={CELEB_VOICE_COLOR} highlightColor={CELEB_VOICE_HIGHLIGHT} fontSize={CELEB_VOICE_FONT_SIZE} style={{ lineHeight: 1.8 }} timings={ppt?.timings} />
+                            <Typewriter text={pt} startFrame={ps} spreadFrames={pe - ps} color={CELEB_VOICE_COLOR} highlightColor={CELEB_VOICE_HIGHLIGHT} fontSize={PHILO_FONT_SIZE} style={{ lineHeight: 1.8 }} timings={ppt?.timings} />
                           </div>
                         )
                       })}

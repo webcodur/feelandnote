@@ -5,9 +5,10 @@
 import React from 'react'
 import { AbsoluteFill, Img, interpolate } from 'remotion'
 import type { CelebHost, BookEntry } from '../types'
-import { fadeInOut, safeImg, BALANCED, SUBTITLE_STYLE } from '../utils'
+import { fadeInOut, safeImg, BALANCED, SUBTITLE_STYLE, useIsPortrait } from '../utils'
 import { f } from '../timing'
 import { FONT } from '../fonts'
+import { freshAvatarUrl } from '../../../lib/avatar'
 import { SpeakingIndicator } from './SpeakingIndicator'
 
 interface Props {
@@ -27,6 +28,7 @@ export const PreIntro: React.FC<Props> = ({
   frame, svcGreetingStart, svcGreetingFrames, svcIntroFrames, fQuoteFrames,
   host, books, locale, fQuoteAudioSrc,
 }) => {
+  const portrait = useIsPortrait()
   const libraryTourText = locale === 'en' ? 'Library Tour' : '서재 탐방'
   const totalPreIntro = svcGreetingFrames + svcIntroFrames + fQuoteFrames
   if (totalPreIntro <= 0) return null
@@ -95,7 +97,8 @@ export const PreIntro: React.FC<Props> = ({
       {/* 아바타 블록 */}
       {(() => {
         const spaceStart = avatarAppear - f(0.5)
-        const avatarHeight = 300 + 14 + 92 + 32
+        const avatarSize = portrait ? 240 : 300
+        const avatarHeight = avatarSize + 14 + 92 + 32
         const spaceH = interpolate(local, [spaceStart, avatarAppear], [0, avatarHeight], CL)
         const avatarDelay = f(0.33)
         const avatarFadeIn = interpolate(local, [avatarAppear + avatarDelay, avatarAppear + avatarDelay + f(0.5)], [0, 1], CL)
@@ -105,14 +108,14 @@ export const PreIntro: React.FC<Props> = ({
           {avatarOp > 0 && <div style={{ opacity: Math.min(avatarFadeIn, avatarOp), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 32 }}>
           <div style={{ position: 'relative' }}>
             <div style={{
-              width: 300, height: 300, borderRadius: '50%', overflow: 'hidden',
+              width: avatarSize, height: avatarSize, borderRadius: '50%', overflow: 'hidden',
               backgroundColor: 'rgba(30,24,16,0.9)',
               border: `2px solid rgba(200,164,110,${borderAlpha})`,
               boxShadow: revealProgress > 0.5
                 ? '0 16px 50px rgba(0,0,0,0.5)'
                 : '0 8px 30px rgba(0,0,0,0.3)',
             }}>
-              <Img src={host.avatar_url} style={{
+              <Img src={freshAvatarUrl(host.avatar_url)} style={{
                 width: '100%', height: '100%', objectFit: 'cover',
                 filter: `brightness(${imgBrightness})`,
               }} />
@@ -133,8 +136,8 @@ export const PreIntro: React.FC<Props> = ({
               ???
             </div>
             <div style={{ position: 'absolute', opacity: nameOp, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
-              <div style={{ color: '#e8e0d0', fontSize: 40, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
-              <div style={{ ...SUBTITLE_STYLE, fontSize: 32 }}>{locale === 'en' ? host.title : host.nickname_en}</div>
+              <div style={{ color: '#e8e0d0', fontSize: portrait ? 34 : 40, fontWeight: 700, fontFamily: FONT.sans }}>{host.nickname}</div>
+              <div style={{ ...SUBTITLE_STYLE, fontSize: portrait ? 26 : 32 }}>{locale === 'en' ? host.title : host.nickname_en}</div>
             </div>
           </div>
         </div>}
@@ -154,7 +157,7 @@ export const PreIntro: React.FC<Props> = ({
         }}>
           <div style={{ opacity: labelOp, display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
-            <div style={{ color: '#c8a46e', fontSize: 24, fontWeight: 600, fontFamily: FONT.cinzel, letterSpacing: 6 }}>
+            <div style={{ color: '#c8a46e', fontSize: portrait ? 20 : 24, fontWeight: 600, fontFamily: FONT.cinzel, letterSpacing: 6 }}>
               {libraryTourText}
             </div>
             <div style={{ width: 40, height: 1, backgroundColor: '#c8a46e', opacity: 0.4 }} />
@@ -183,7 +186,7 @@ export const PreIntro: React.FC<Props> = ({
                     transformOrigin: 'bottom center',
                   }}>
                     <div style={{
-                      width: 170, height: 255, borderRadius: 6, overflow: 'hidden',
+                      width: portrait ? 140 : 170, height: portrait ? 210 : 255, borderRadius: 6, overflow: 'hidden',
                       boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
                       border: '1px solid rgba(200,164,110,0.1)',
                     }}>
@@ -205,9 +208,9 @@ export const PreIntro: React.FC<Props> = ({
         {quoteOp > 0 && (
           <div style={{
             position: 'absolute', top: -10, opacity: quoteOp,
-            maxWidth: 1200, textAlign: 'center', padding: '0 40px',
+            maxWidth: portrait ? 900 : 1200, textAlign: 'center', padding: '0 40px',
           }}>
-            <div style={{ color: '#c8a46e', fontSize: 46, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, ...BALANCED }}>
+            <div style={{ color: '#c8a46e', fontSize: portrait ? 38 : 46, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, ...BALANCED }}>
               {`\u201C${host.featuredQuote ?? ''}\u201D`}
             </div>
             <div style={{ color: '#777', fontSize: 22, fontFamily: FONT.sans, marginTop: 14 }}>

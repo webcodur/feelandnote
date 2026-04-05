@@ -22,6 +22,8 @@ export function vnBookSummary(i: number) { return `D${String(i + 1).padStart(2, 
 export function vnBookContext(i: number) { return `D${String(i + 1).padStart(2, '0')}c-context.wav` }
 export function vnBookQuote(i: number) { return `D${String(i + 1).padStart(2, '0')}d-quote.wav` }
 export function vnBookContextAfter(i: number) { return `D${String(i + 1).padStart(2, '0')}e-context-after.wav` }
+export function vnBookQuote2(i: number) { return `D${String(i + 1).padStart(2, '0')}f-quote2.wav` }
+export function vnBookContextAfter2(i: number) { return `D${String(i + 1).padStart(2, '0')}g-context-after2.wav` }
 
 // Longform: Outro & continuation
 export const VN_OUTRO = 'E1-outro.wav'
@@ -34,6 +36,12 @@ export function vnShort(segIndex: number, segId: string) { return `S${String(seg
 
 /** voiceTimings key (filename without .wav) */
 export function vnTimingKey(fileName: string) { return fileName.replace('.wav', '') }
+
+/** 셀럽 보이스 파일 판별 — ElevenLabs 자동 라우팅 대상 */
+export function isCelebVoiceFile(file: string): boolean {
+  const key = file.replace('.wav', '')
+  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-quote$/.test(key) || /^D\d{2}f-quote2$/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
+}
 
 /** 공통 음성 파일 집합 — 에피소드 간 재사용 */
 export const COMMON_VOICE_FILES = new Set([VN_SERVICE_GREETING, VN_LABEL_SUMMARY, VN_LABEL_CONTEXT])
@@ -69,6 +77,7 @@ export function resolveVoiceRelPath(
   file: string,
   voiceSelect: { default: string; slots?: Record<string, string> } | null,
   locale?: 'ko' | 'en',
+  hasElevenlabs?: boolean,
 ): { dir: 'common' | 'common-en' | 'episode'; subPath: string } {
   // 공통 파일 — ko는 common/voice/ko/, en은 common/voice/en/
   if (COMMON_VOICE_FILES.has(file)) {
@@ -76,7 +85,9 @@ export function resolveVoiceRelPath(
   }
   // voice-select가 있으면 slots 우선, 없으면 default 엔진
   if (voiceSelect) {
-    const engine = voiceSelect.slots?.[file] ?? voiceSelect.default
+    // ElevenLabs ID가 있는 인물: celeb 파일은 무조건 elevenlabs
+    const engine = voiceSelect.slots?.[file]
+      ?? (hasElevenlabs && isCelebVoiceFile(file) ? 'elevenlabs' : voiceSelect.default)
     return { dir: 'episode', subPath: `${engine}/${file}` }
   }
   // voice-select 없으면 직접 참조

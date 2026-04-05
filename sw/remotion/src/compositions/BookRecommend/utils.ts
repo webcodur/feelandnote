@@ -1,9 +1,15 @@
 import React from 'react'
-import { interpolate, staticFile } from 'remotion'
+import { interpolate, staticFile, useVideoConfig } from 'remotion'
 import { FONT } from './fonts'
 import { f } from './timing'
 import { parseEpName, resolveVoiceRelPath } from './voice-names'
 import { episodeDir } from './script'
+
+/** 세로 영상 여부 (height > width) — 컴포넌트 레이아웃 분기용 */
+export const useIsPortrait = () => {
+  const { width, height } = useVideoConfig()
+  return height > width
+}
 
 export { SENTENCE_SPLIT, splitSentences, buildHighlightSegments, expandSubTimings, paginateSentences, slicePageTimings, splitSub, isTimingsStale } from './sentence-split'
 export type { Sub } from './sentence-split'
@@ -13,11 +19,11 @@ export const sf = (path: string) => staticFile(path)
 
 
 /** 에피소드별 음성 경로 팩토리 — resolveVoiceRelPath 단일원천 사용 */
-export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en') => {
+export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en', hasElevenlabs?: boolean) => {
   const { person, locale: voiceLocale } = parseEpName(epName)
   const epDir = episodeDir[epName] ?? `todo/${person}`
   return (file: string) => {
-    const { dir, subPath } = resolveVoiceRelPath(file, voiceSelect, locale)
+    const { dir, subPath } = resolveVoiceRelPath(file, voiceSelect, locale, hasElevenlabs)
     if (dir === 'common') return sf(`common/voice/ko/${subPath}`)
     if (dir === 'common-en') return sf(`common/voice/en/${subPath}`)
     return sf(`episodes/${epDir}/voice/${voiceLocale}/${subPath}`)

@@ -11,6 +11,7 @@ import {
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
+  vnTimingKey,
 } from './voice-names'
 
 export function usePrefetch(
@@ -35,8 +36,8 @@ export function usePrefetch(
         vf(vnBookTitle(i)),
         vf(vnBookSummary(i)),
         vf(vnBookContext(i)),
-        ...((books[i].directQuote && (books[i].quoteDuration ?? 0) > 0) ? [vf(vnBookQuote(i))] : []),
-        ...((books[i].contextAfter && (books[i].contextAfterDuration ?? 0) > 0) ? [vf(vnBookContextAfter(i))] : []),
+        ...((books[i].directQuote && (books[i].quoteDuration ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i))]) ? [vf(vnBookQuote(i))] : []),
+        ...((books[i].contextAfter && (books[i].contextAfterDuration ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookContextAfter(i))]) ? [vf(vnBookContextAfter(i))] : []),
       ]),
     ]
     if (cont) {

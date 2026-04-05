@@ -24,7 +24,8 @@ interface Props {
   tl: Timeline
 }
 
-export const StudioSubtitles: React.FC<Props> = ({ script, tl }) => {
+/** 롱폼 자막 배열 빌드 — 서비스 인사 ~ 아웃트로 전 구간 */
+export function buildLongSubs(script: BookRecommendScript, tl: Timeline): Sub[] {
   const { narrator, host, books } = script
   const vtk = (key: string): VoiceTimingSegment[] | undefined => script.voiceTimings?.[key]
 
@@ -87,5 +88,10 @@ export const StudioSubtitles: React.FC<Props> = ({ script, tl }) => {
   if (narrator.outroDuration > 0)
     subs.push(...splitSub(tl.outroStart, tl.outroStart + toAudioFrames(narrator.outroDuration), '나레이터', narrator.outro, vtk(vnTimingKey(VN_OUTRO))))
 
+  return subs
+}
+
+export const StudioSubtitles: React.FC<Props> = ({ script, tl }) => {
+  const subs = buildLongSubs(script, tl)
   return <Subtitles subs={subs} />
 }

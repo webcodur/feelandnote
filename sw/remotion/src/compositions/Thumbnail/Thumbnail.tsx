@@ -1,10 +1,12 @@
 /**
  * Thumbnail -- YouTube longform thumbnail (1280x720)
- * Quote hook: avatar + featured quote
+ * Split layout: left = clear face, right = faded image + text overlay
  */
 import { AbsoluteFill, Img } from 'remotion'
+import { staticFile } from 'remotion'
+import { freshAvatarUrl } from '../../lib/avatar'
 import { FONT } from '../BookRecommend/fonts'
-import { safeImg, BALANCED } from '../BookRecommend/utils'
+import { BALANCED } from '../BookRecommend/utils'
 import type { BookRecommendScript } from '../BookRecommend/types'
 import { t } from '../BookRecommend/i18n'
 import { DARK } from '../theme'
@@ -14,76 +16,201 @@ type Props = {
 }
 
 export const Thumbnail: React.FC<Props> = ({ script }) => {
-  const { host, books } = script
+  const { host } = script
   const i18n = t(script)
+  const isEn = script.locale === 'en'
 
   return (
-    <AbsoluteFill style={{ backgroundColor: DARK.surface }}>
-      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 25% 50%, #1e1810 0%, ${DARK.base} 60%, ${DARK.surface} 100%)` }} />
-
-      {books.slice(0, 4).map((b, i) => (
-        <div key={i} style={{
+    <AbsoluteFill style={{ backgroundColor: '#151312' }}>
+      {/* 벽지 질감 — 부드러운 얼룩 패턴 */}
+      <div
+        style={{
           position: 'absolute',
-          left: 350 + i * 180, top: 40 + (i % 2) * 120,
-          width: 280, height: 420, opacity: 0.06,
-          transform: `rotate(${(i - 1.5) * 4}deg)`,
-        }}>
-          <Img src={safeImg(b.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(12px) saturate(0.3)' }} />
-        </div>
-      ))}
+          inset: 0,
+          background: [
+            'radial-gradient(ellipse at 75% 25%, #1c1918 0%, transparent 45%)',
+            'radial-gradient(ellipse at 55% 75%, #191716 0%, transparent 40%)',
+            'radial-gradient(ellipse at 90% 60%, #181615 0%, transparent 35%)',
+            'radial-gradient(ellipse at 65% 45%, #1b1918 0%, #151312 100%)',
+          ].join(', '),
+        }}
+      />
 
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center' }}>
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingLeft: 40 }}>
-          <div style={{ position: 'relative' }}>
-            <div style={{
-              position: 'absolute', inset: -50,
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(200,164,110,0.12) 0%, transparent 60%)',
-              zIndex: 0,
-            }} />
-            <div style={{
-              position: 'relative', zIndex: 1,
-              width: 440, height: 440, borderRadius: '50%', overflow: 'hidden',
-              border: '3px solid rgba(200,164,110,0.55)',
-              boxShadow: '0 24px 70px rgba(0,0,0,0.7), 0 0 40px rgba(200,164,110,0.18), 0 0 80px rgba(200,164,110,0.08)',
-            }}>
-              <Img src={host.avatar_url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </div>
+      {/* 장식: 좌측 세로 금선 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 28,
+          top: 60,
+          bottom: 60,
+          width: 1.5,
+          background: 'linear-gradient(to bottom, transparent, rgba(200,164,110,0.3) 20%, rgba(200,164,110,0.3) 80%, transparent)',
+        }}
+      />
+
+      {/* 장식: 대각선 금선 — 이미지와 텍스트 경계 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '42%',
+          top: 0,
+          width: 1,
+          height: '100%',
+          background: 'linear-gradient(to bottom, transparent 10%, rgba(200,164,110,0.12) 30%, rgba(200,164,110,0.2) 50%, rgba(200,164,110,0.12) 70%, transparent 90%)',
+          transform: 'rotate(2deg)',
+          transformOrigin: 'top center',
+        }}
+      />
+
+      {/* 인물 이미지 — 전체 깔기 */}
+      <Img
+        src={freshAvatarUrl(host.avatar_url)}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          objectPosition: 'left center',
+          filter: 'contrast(1.1) brightness(1.05)',
+        }}
+      />
+
+      {/* 우측 절반 fade out — 이미지를 서서히 배경색으로 녹임 */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to right, transparent 45%, #151312 58%)',
+        }}
+      />
+
+      {/* 하단 비네팅 */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(6,5,3,0.5) 0%, transparent 30%)',
+        }}
+      />
+
+      {/* 우측 텍스트 영역 */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 20,
+          top: 0,
+          bottom: 0,
+          width: 640,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {/* 직함 */}
+        <div
+          style={{
+            color: '#c8a46e',
+            fontSize: 36,
+            fontWeight: 500,
+            fontFamily: FONT.sans,
+            letterSpacing: 4,
+            marginBottom: 16,
+            textAlign: 'center',
+            textShadow: '0 2px 16px rgba(0,0,0,0.6)',
+          }}
+        >
+          {host.title}
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingRight: 60 }}>
-          <div style={{ color: '#c8a46e', fontSize: 36, fontWeight: 500, fontFamily: FONT.sans, letterSpacing: 2, marginBottom: 12, textAlign: 'center' }}>
-            {host.title}
-          </div>
-          <div style={{ color: '#f0e8d8', fontSize: 110, fontWeight: 700, fontFamily: script.locale === 'en' ? FONT.serif : FONT.sans, lineHeight: 1.15, wordBreak: 'keep-all', textAlign: 'center', ...BALANCED }}>
-            {host.nickname}
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 40, marginBottom: 24 }}>
-            <div style={{ width: 80, height: 1, background: 'linear-gradient(to right, transparent, rgba(200,164,110,0.6))' }} />
-            <div style={{ width: 10, height: 10, border: '1.5px solid rgba(200,164,110,0.7)', transform: 'rotate(45deg)', flexShrink: 0 }} />
-            <div style={{ width: 80, height: 1, background: 'linear-gradient(to left, transparent, rgba(200,164,110,0.6))' }} />
-          </div>
-          <div style={{ color: '#c8a46e', fontSize: 56, fontFamily: FONT.cinzel, letterSpacing: 6, fontWeight: 600, textAlign: 'center' }}>
-            {i18n.libraryTour}
-          </div>
+        {/* 이름 */}
+        <div
+          style={{
+            color: '#f0e8d8',
+            fontSize: isEn ? 110 : 116,
+            fontWeight: 700,
+            fontFamily: isEn ? FONT.serif : FONT.sans,
+            lineHeight: 1.1,
+            textAlign: 'center',
+            wordBreak: 'keep-all',
+            textShadow: '0 4px 30px rgba(0,0,0,0.9), 0 0 80px rgba(200,164,110,0.15)',
+            ...BALANCED,
+          }}
+        >
+          {host.nickname}
+        </div>
+
+        {/* 구분선 */}
+        <div
+          style={{
+            width: 110,
+            height: 2,
+            background: 'linear-gradient(to right, rgba(200,164,110,0.1), #c8a46e 50%, rgba(200,164,110,0.1))',
+            marginTop: 44,
+            marginBottom: 44,
+          }}
+        />
+
+        {/* 시리즈명 */}
+        <div
+          style={{
+            color: '#c8a46e',
+            fontSize: 48,
+            fontFamily: FONT.cinzel,
+            letterSpacing: 6,
+            fontWeight: 600,
+            textAlign: 'center',
+            textShadow: '0 2px 16px rgba(0,0,0,0.6)',
+          }}
+        >
+          {i18n.libraryTour}
         </div>
       </div>
 
-      {/* 고급스러운 액자 프레임 */}
-      <div style={{
-        position: 'absolute', inset: 40,
-        border: '1px solid rgba(200,164,110,0.3)',
-        pointerEvents: 'none', zIndex: 10
-      }}>
-        <div style={{ position: 'absolute', top: -2, left: -2, width: 40, height: 40, borderTop: '3px solid rgba(200,164,110,0.9)', borderLeft: '3px solid rgba(200,164,110,0.9)' }} />
-        <div style={{ position: 'absolute', top: -2, right: -2, width: 40, height: 40, borderTop: '3px solid rgba(200,164,110,0.9)', borderRight: '3px solid rgba(200,164,110,0.9)' }} />
-        <div style={{ position: 'absolute', bottom: -2, left: -2, width: 40, height: 40, borderBottom: '3px solid rgba(200,164,110,0.9)', borderLeft: '3px solid rgba(200,164,110,0.9)' }} />
-        <div style={{ position: 'absolute', bottom: -2, right: -2, width: 40, height: 40, borderBottom: '3px solid rgba(200,164,110,0.9)', borderRight: '3px solid rgba(200,164,110,0.9)' }} />
-        
-        {/* 이너 보더 */}
-        <div style={{ position: 'absolute', inset: 12, border: '1px solid rgba(200,164,110,0.1)' }} />
+      {/* 장식: 우측 코너 장식 (상단) */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 28,
+          top: 48,
+          width: 36,
+          height: 36,
+          borderTop: '1.5px solid rgba(200,164,110,0.35)',
+          borderRight: '1.5px solid rgba(200,164,110,0.35)',
+        }}
+      />
+      {/* 장식: 우측 코너 장식 (하단) */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 28,
+          bottom: 48,
+          width: 36,
+          height: 36,
+          borderBottom: '1.5px solid rgba(200,164,110,0.35)',
+          borderRight: '1.5px solid rgba(200,164,110,0.35)',
+        }}
+      />
+
+      {/* 좌하단 브랜드 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 48,
+          bottom: 32,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          fontSize: 22,
+          fontWeight: 700,
+          fontFamily: FONT.brand,
+          letterSpacing: 4,
+        }}
+      >
+        <span style={{ color: '#c8a46e' }}>FEEL</span>
+        <span style={{ color: '#f8f4ed', fontSize: 20 }}>&</span>
+        <span style={{ color: '#c8a46e' }}>NOTE</span>
       </div>
     </AbsoluteFill>
   )

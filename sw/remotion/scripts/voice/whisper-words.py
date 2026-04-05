@@ -81,48 +81,33 @@ def get_display_text(ep, fname):
     return None
 
 
+def apply_tts_replace(text, ep):
+    """tts.replace 치환맵을 텍스트에 적용 — 긴 키부터 치환하여 부분 매칭 충돌 방지"""
+    if not text:
+        return text
+    replace_map = ep.get('tts', {}).get('replace', {})
+    for k, v in sorted(replace_map.items(), key=lambda x: len(x[0]), reverse=True):
+        text = text.replace(k, v)
+    return text
+
+
 def get_tts_text(ep, fname):
-    """WAV 파일명 → TTS에 실제 전달된 텍스트 (오버라이드 우선, 폴백: display_text)"""
+    """WAV 파일명 → TTS에 실제 전달된 텍스트 (tts.titles + tts.replace 적용)"""
     key = fname.replace('.wav', '')
     tts = ep.get('tts', {})
+    titles = tts.get('titles', [])
 
-    # narrator/host 오버라이드
-    tts_n = tts.get('narrator', {})
-    tts_h = tts.get('host', {})
-    overrides = {
-        'A1-service-greeting': tts_n.get('serviceGreeting'),
-        'A2-service-intro': tts_n.get('serviceIntro'),
-        'B1-celeb-intro': tts_n.get('celebIntro'),
-        'B2-philosophy': tts_h.get('philosophy'),
-        'A3-featured-quote': tts_h.get('featuredQuote'),
-        'E1-outro': tts_n.get('outro'),
-    }
-    if key in overrides and overrides[key]:
-        return overrides[key]
-
-    # books 오버라이드
-    m = re.match(r'D(\d{2})([a-e])-(.+)', key)
+    # title: tts.titles[] 우선, 없으면 display_text
+    m = re.match(r'D(\d{2})a-title', key)
     if m:
         idx = int(m.group(1)) - 1
-        phase = m.group(2)
-        tts_books = tts.get('books', [])
-        if idx < len(tts_books):
-            if phase == 'a' and tts_books[idx].get('title'):
-                return tts_books[idx]['title']
-            field_map = {'b': 'summary', 'c': 'context', 'd': 'directQuote', 'e': 'contextAfter'}
-            field = field_map.get(phase)
-            if field and tts_books[idx].get(field):
-                return tts_books[idx][field]
+        if idx < len(titles) and titles[idx]:
+            return titles[idx]
+        return get_display_text(ep, fname)
 
-    # shorts 오버라이드
-    m = re.match(r'S(\d{2})-(.+)', key)
-    if m:
-        seg_idx = int(m.group(1)) - 1
-        tts_shorts = tts.get('shorts', [])
-        if seg_idx < len(tts_shorts) and tts_shorts[seg_idx].get('text'):
-            return tts_shorts[seg_idx]['text']
-
-    return get_display_text(ep, fname)
+    # 그 외: display_text에 tts.replace 적용
+    display = get_display_text(ep, fname)
+    return apply_tts_replace(display, ep)
 
 
 def strip(s):
@@ -222,6 +207,23 @@ def map_whisper_to_display(whisper_words, display_text, duration):
                 result[i + j]['start'] = round(prev_end + j * seg, 3)
                 result[i + j]['end'] = round(prev_end + (j + 1) * seg, 3)
 
+    # 6) overlap 해소: start가 이전 단어 start 이하인 경우 균등 분배
+    for i in range(1, len(result)):
+        if result[i]['start'] <= result[i - 1]['start']:
+            # overlap 구간 범위 파악 (연속된 overlap 묶음)
+            group_start = i - 1
+            group_end = i
+            while group_end + 1 < len(result) and result[group_end + 1]['start'] <= result[group_end]['start']:
+                group_end += 1
+            # 묶음의 시간 범위: 첫 단어 start ~ 마지막 단어 end
+            t_start = result[group_start]['start']
+            t_end = max(result[j]['end'] for j in range(group_start, group_end + 1))
+            count = group_end - group_start + 1
+            seg = (t_end - t_start) / count
+            for j in range(count):
+                result[group_start + j]['start'] = round(t_start + j * seg, 3)
+                result[group_start + j]['end'] = round(t_start + (j + 1) * seg, 3)
+
     return result
 
 
@@ -261,6 +263,23 @@ def main():
             if os.path.exists(slot_path):
                 wav_files = [f for f in wav_files if os.path.basename(f) != slot_file]
                 wav_files.append(slot_path)
+        wav_files = sorted(wav_files)
+
+    # ElevenLabs 자동 라우팅: celeb 파일이 elevenlabs에 존재하면 우선 사용
+    import re
+    def is_celeb_voice(fname):
+        k = fname.replace('.wav', '')
+        return k in ('A3-featured-quote', 'B2-philosophy') or bool(re.match(r'^D\d{2}d-quote$', k)) or bool(re.match(r'^S\d{2}-celeb-', k)) or bool(re.match(r'^S\d{2}-book-quote', k))
+
+    ele_dir = os.path.join(voice_dir, 'elevenlabs')
+    if os.path.isdir(ele_dir):
+        for wf in list(wav_files):
+            bn = os.path.basename(wf)
+            if is_celeb_voice(bn):
+                ele_path = os.path.join(ele_dir, bn)
+                if os.path.exists(ele_path) and wf != ele_path:
+                    wav_files = [f for f in wav_files if f != wf]
+                    wav_files.append(ele_path)
         wav_files = sorted(wav_files)
 
     if not wav_files:

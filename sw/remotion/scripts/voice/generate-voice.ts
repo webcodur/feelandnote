@@ -24,11 +24,11 @@ import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
-  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnShort, vnTimingKey, COMMON_VOICE_FILES,
 } from '../../src/compositions/BookRecommend/voice-names'
-import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
 
 // CLI에서 --episode <name> 또는 기본값
 const args = process.argv.slice(2)
@@ -45,13 +45,12 @@ const OUT_DIR = path.join(BASE_DIR, ENGINE)
 const IS_EN = EPISODE_NAME.endsWith('-en')
 const COMMON_DIR = path.join(ROOT, 'public', 'common', 'voice', IS_EN ? 'en' : 'ko')
 
-/** 공통 음성 — 한국어만 common/ 재사용. 영문은 에피소드별 생성.
- *  --only로 공용 파일 지정 시 재생성 허용 (set에서 제외) */
+/** 공통 음성 — common/voice/{locale}/ 재사용. 에피소드별 생성 건너뜀.
+ *  --only로도 공통 파일은 보호됨. 재생성하려면 --include-common 필수. */
 const onlyArg = args[args.indexOf('--only') + 1]
 const onlyTargets = args.includes('--only') && onlyArg ? onlyArg.split(',') : []
-let COMMON_FILES = IS_EN ? new Set<string>() : new Set(
-  [...COMMON_VOICE_FILES].filter(f => !onlyTargets.some(t => f.includes(t)))
-)
+const includeCommon = args.includes('--include-common')
+let COMMON_FILES = includeCommon ? new Set<string>() : new Set(COMMON_VOICE_FILES)
 
 // 역할 필터: --role narrator,summary,celeb
 const roleIdx = args.indexOf('--role')
@@ -90,7 +89,9 @@ async function saveWav(filename: string, pcmData: Buffer): Promise<number> {
 }
 
 // --- TTS 합성 ---
-async function synthesize(text: string, voiceName: Voice, outputFile: string, retries = 5, keyRetries = API_KEYS.length - 1): Promise<number> {
+
+/** Gemini TTS → PCM Buffer (키 로테이션·재시도 포함) */
+async function synthesizeRaw(text: string, voiceName: Voice, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
   try {
     const response = await ai.models.generateContent({
       model: MODEL,
@@ -102,41 +103,62 @@ async function synthesize(text: string, voiceName: Voice, outputFile: string, re
     })
     const data = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
     if (!data) {
-      // audio 없으면 같은 키로 재시도 (서버 일시 오류, 최대 5회)
       if (retries > 0) {
         console.log(`  빈 응답 — 2초 후 재시도 (${retries}회 남음)`)
         await new Promise(r => setTimeout(r, 2000))
-        return synthesize(text, voiceName, outputFile, retries - 1, keyRetries)
+        return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
       }
-      throw new Error(`No audio: ${outputFile}`)
+      throw new Error('No audio data')
     }
-    const pcm = Buffer.from(data, 'base64')
-    const duration = await saveWav(outputFile, pcm)
-    console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s`)
-    return duration
+    return Buffer.from(data, 'base64')
   } catch (e: any) {
     if ([429, 403].includes(e.status) && keyRetries > 0) {
-      // 할당량 초과/차단 → 다음 키로 전환
       keyIndex = (keyIndex + 1) % API_KEYS.length
       ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
       console.log(`  키 ${keyIndex + 1}로 전환 (${e.status})`)
-      return synthesize(text, voiceName, outputFile, 5, keyRetries - 1)
+      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
     }
     if ([400].includes(e.status) && e.message?.includes('expired') && keyRetries > 0) {
-      // 만료된 키 → 다음 키로 전환
       keyIndex = (keyIndex + 1) % API_KEYS.length
       ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
       console.log(`  키 ${keyIndex + 1}로 전환 (만료)`)
-      return synthesize(text, voiceName, outputFile, 5, keyRetries - 1)
+      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
     }
     if ([500].includes(e.status) && retries > 0) {
-      // 서버 오류 → 같은 키로 재시도 (최대 5회)
       console.log(`  서버 오류(500) — 3초 후 재시도 (${retries}회 남음)`)
       await new Promise(r => setTimeout(r, 3000))
-      return synthesize(text, voiceName, outputFile, retries - 1, keyRetries)
+      return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
     }
     throw e
   }
+}
+
+async function synthesize(text: string, voiceName: Voice, outputFile: string): Promise<number> {
+  const pcm = await synthesizeRaw(text, voiceName)
+  const duration = await saveWav(outputFile, pcm)
+  console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s`)
+  return duration
+}
+
+// --- 긴 텍스트 분할 ---
+const TTS_SPLIT_CHARS = IS_EN ? 800 : 500
+
+/** 문장 경계 기준 분할 (마침표·물음표·느낌표 뒤) */
+function splitTextForTts(text: string): string[] {
+  if (text.length <= TTS_SPLIT_CHARS) return [text]
+  const sentences = text.split(/(?<=[.!?])\s+/)
+  const chunks: string[] = []
+  let current = ''
+  for (const sent of sentences) {
+    if (current && (current + ' ' + sent).length > TTS_SPLIT_CHARS) {
+      chunks.push(current)
+      current = sent
+    } else {
+      current = current ? current + ' ' + sent : sent
+    }
+  }
+  if (current) chunks.push(current)
+  return chunks
 }
 
 // --- ElevenLabs TTS ---
@@ -172,25 +194,38 @@ async function synthesizeElevenlabs(text: string, voiceId: string, outputFile: s
 }
 
 // --- 쇼츠 속도 지시 ---
-// 쇼츠: 전 역할 무조건 1.2배속
+// 쇼츠: narrator/summary 1.2배, celeb 정속 (voiceStyle만)
 const SHORTS_SPEED = '1.2배속으로'
 
 // 엔진별 합성 디스패치
 // ElevenLabs는 --engine elevenlabs 명시 시에만 사용 (수동 제어)
-async function tts(text: string, voiceName: Voice, outputFile: string, role: Role, isShort?: boolean, shortSegId?: string): Promise<number> {
-  let styled: string
-  if (isShort) {
-    // 쇼츠: style 있으면 style만 적용 (속도 지시 생략), 없으면 1.2배속
-    const segStyle = shortSegId && episode.shorts?.segments?.find((s: { id: string }) => s.id === shortSegId)?.style
-    styled = segStyle ? `${segStyle}: ${text}` : `${SHORTS_SPEED}: ${text}`
-  } else {
-    // 롱폼: celeb만 voiceStyle 적용
-    styled = (role === 'celeb' && episode.host.voiceStyle) ? `${episode.host.voiceStyle}: ${text}` : text
-  }
+async function tts(rawText: string, voiceName: Voice, outputFile: string, role: Role, isShort?: boolean, shortSegId?: string): Promise<number> {
+  const text = rawText.replace(/\n/g, ' ')
   if (ENGINE === 'elevenlabs') {
     return synthesizeElevenlabs(text, episode.host.elevenlabsVoiceId!, outputFile)
   }
-  return synthesize(styled, voiceName, outputFile)
+
+  // 스타일 프리픽스 결정 (분할 시 각 청크에 독립 적용)
+  // 쇼츠 celeb은 정속 (voiceStyle만 적용)
+  let stylePrefix = ''
+  if (isShort) {
+    if (role === 'celeb') {
+      stylePrefix = episode.host.voiceStyle || ''
+    } else {
+      const segStyle = shortSegId && episode.shorts?.segments?.find((s: { id: string }) => s.id === shortSegId)?.style
+      stylePrefix = segStyle || SHORTS_SPEED
+    }
+  } else if (role === 'celeb' && episode.host.voiceStyle) {
+    stylePrefix = episode.host.voiceStyle
+  }
+  const applyStyle = (t: string) => stylePrefix ? `${stylePrefix}: ${t}` : t
+
+  // 청크 분할 비활성화 — 단일 호출로 생성 (분할 경계 끊김 방지)
+  // TODO: Gemini TTS에 길이 제한이 있으면 복원 필요
+  // const chunks = splitTextForTts(text)
+  // if (chunks.length > 1) { ... }
+
+  return synthesize(applyStyle(text), voiceName, outputFile)
 }
 
 // 에피소드 데이터 (main에서 로드)
@@ -201,32 +236,46 @@ function ttsText(field: string, bookIndex?: number): string {
   const tts = episode.tts
 
   if (bookIndex !== undefined) {
-    const bookTts = tts?.books?.[bookIndex]
     const book = episode.books[bookIndex]
     switch (field) {
       case 'title': {
-        if (bookTts?.title) return bookTts.title
+        const titleOverride = tts?.titles?.[bookIndex]
+        if (titleOverride) return titleOverride
         const year = book.stats?.publishYear
         return year ? `${book.title}, ${book.creator}, ${year}` : `${book.title}, ${book.creator}`
       }
-      case 'summary': return bookTts?.summary ?? book.summary
-      case 'context': return bookTts?.context ?? book.context
-      case 'contextAfter': return bookTts?.contextAfter ?? book.contextAfter ?? ''
-      case 'directQuote': return bookTts?.directQuote ?? book.directQuote ?? ''
+      case 'summary': return applyReplacements(book.summary)
+      case 'context': return applyReplacements(book.context)
+      case 'contextAfter': return applyReplacements(book.contextAfter ?? '')
+      case 'directQuote': return applyReplacements(book.directQuote ?? '')
+      case 'directQuote2': return applyReplacements(book.directQuote2 ?? '')
+      case 'contextAfter2': return applyReplacements(book.contextAfter2 ?? '')
       default: throw new Error(`Unknown book field: ${field}`)
     }
   }
 
   switch (field) {
-    case 'serviceGreeting': return tts?.narrator?.serviceGreeting ?? episode.narrator.serviceGreeting ?? ''
-    case 'serviceIntro': return tts?.narrator?.serviceIntro ?? episode.narrator.serviceIntro ?? ''
-    case 'celebIntro': return tts?.narrator?.celebIntro ?? episode.narrator.celebIntro ?? ''
-    case 'philosophy': return tts?.host?.philosophy ?? episode.host.philosophy ?? ''
-    case 'returnIntro': return tts?.narrator?.returnIntro ?? episode.narrator.returnIntro ?? ''
-    case 'prevRecap': return tts?.narrator?.prevRecap ?? episode.narrator.prevRecap ?? ''
-    case 'outro': return tts?.narrator?.outro ?? episode.narrator.outro
+    case 'serviceGreeting': return applyReplacements(episode.narrator.serviceGreeting ?? '')
+    case 'serviceIntro': return applyReplacements(episode.narrator.serviceIntro ?? '')
+    case 'celebIntro': return applyReplacements(episode.narrator.celebIntro ?? '')
+    case 'philosophy': return applyReplacements(episode.host.philosophy ?? '')
+    case 'returnIntro': return applyReplacements(episode.narrator.returnIntro ?? '')
+    case 'prevRecap': return applyReplacements(episode.narrator.prevRecap ?? '')
+    case 'outro': return applyReplacements(episode.narrator.outro)
     default: throw new Error(`Unknown field: ${field}`)
   }
+}
+
+/** tts.replace 맵 적용 — 긴 키부터 치환하여 부분 매칭 충돌 방지 */
+function applyReplacements(text: string): string {
+  const replace = episode.tts?.replace
+  if (!replace) return text
+  let result = text
+  const sorted = Object.entries(replace).sort((a, b) => b[0].length - a[0].length)
+  for (const [from, to] of sorted) {
+    result = result.replaceAll(from, to)
+  }
+  return result
 }
 
 // --- Job 목록 생성 ---
@@ -239,7 +288,7 @@ function buildJobs(): Job[] {
   // 섹션 라벨 — locale 기반, common/ 에 있으면 건너뜀
   const isEn = episode.locale === 'en'
   const labelSummaryText = isEn ? 'Summary' : '핵심 요약'
-  const labelContextText = isEn ? 'Context' : '감상경위'
+  const labelContextText = isEn ? 'Context' : '감상 배경'
   if (!COMMON_FILES.has(VN_LABEL_SUMMARY)) {
     jobs.push({ file: VN_LABEL_SUMMARY, voice: VOICE.narrator, text: labelSummaryText, role: 'narrator' })
   }
@@ -287,6 +336,12 @@ function buildJobs(): Job[] {
     if (b.contextAfter) {
       jobs.push({ file: vnBookContextAfter(i), voice: VOICE.narrator, text: ttsText('contextAfter', i), role: 'narrator' })
     }
+    if (b.directQuote2) {
+      jobs.push({ file: vnBookQuote2(i), voice: VOICE.celeb, text: ttsText('directQuote2', i), role: 'celeb' })
+    }
+    if (b.contextAfter2) {
+      jobs.push({ file: vnBookContextAfter2(i), voice: VOICE.narrator, text: ttsText('contextAfter2', i), role: 'narrator' })
+    }
   }
 
   // 중간안내 (10개 초과 시)
@@ -299,12 +354,11 @@ function buildJobs(): Job[] {
 
   // 쇼츠 V1 — 세그먼트 기반 (cta는 음성 없이 chime만 사용)
   if (episode.shorts?.segments) {
-    const shortsTts = episode.tts?.shorts
     let si = 0
     for (const seg of episode.shorts.segments) {
       if (seg.id === 'cta') { si++; continue }
       const voice = seg.role === 'celeb' ? VOICE.celeb : seg.role === 'summary' ? VOICE.summary : VOICE.narrator
-      const text = shortsTts?.[si]?.text ?? seg.text
+      const text = applyReplacements(seg.text)
       jobs.push({ file: vnShort(si, seg.id), voice, text, role: seg.role as Role, isShort: true, shortSegId: seg.id })
       si++
     }
@@ -331,9 +385,9 @@ async function saveManifest(m: Manifest, dir: string = OUT_DIR): Promise<void> {
   await writeFile(path.join(dir, 'manifest.json'), JSON.stringify(m, null, 2) + '\n', 'utf-8')
 }
 
-/** job이 원래 공용 파일인지 — 영문은 에피소드별 생성이므로 false */
+/** job이 원래 공용 파일인지 */
 function isCommonFile(file: string): boolean {
-  return !IS_EN && COMMON_VOICE_FILES.has(file)
+  return COMMON_VOICE_FILES.has(file)
 }
 
 /** job의 출력 디렉토리 — 국문 공용 파일은 common/, 나머지는 episode/engine/ */
@@ -350,7 +404,7 @@ function manifestDir(job: Job): string {
 async function main() {
   // 에피소드 로드
   episode = await loadEpisode(EPISODE_NAME)
-  // 공통 음성은 common/voice/ko/ (또는 en/)에서 해소. 에피소드별 생성 건너뜀.
+  // 공통 음성은 common/voice/{locale}/에서 해소. 에피소드별 생성 건너뜀.
   // 셀럽 보이스 오버라이드 (geminiVoice → voice-actors.md 참조)
   if (episode.host.geminiVoice) {
     VOICE.celeb = episode.host.geminiVoice
@@ -383,6 +437,20 @@ async function main() {
   if (ROLE_FILTER) {
     jobs = jobs.filter(j => ROLE_FILTER.includes(j.role))
     console.log(`역할 필터: [${ROLE_FILTER.join(', ')}] → ${jobs.length}개`)
+  }
+
+  // ElevenLabs 보이스가 있는 셀럽: Gemini 엔진일 때 celeb role 생성 차단
+  // ─── 왜 건너뛰는가 ───
+  // ElevenLabs 커스텀 보이스는 자동화·LLM 판단이 불가능하다.
+  // 생성된 음성을 사람이 직접 듣고 품질을 판단해야 하므로,
+  // 유저가 ElevenLabs 사이트에서 개별적으로 생성·선별한다.
+  // 따라서 elevenlabsVoiceId가 있는 에피소드의 celeb 음성은
+  // Gemini 파이프라인에서 제외하고 유저 수작업 영역으로 남긴다.
+  if (ENGINE === 'gemini' && episode.host.elevenlabsVoiceId) {
+    const before = jobs.length
+    jobs = jobs.filter(j => j.role !== 'celeb')
+    const skipped = before - jobs.length
+    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단)`)
   }
 
   if (onlyFiles) {
@@ -467,52 +535,57 @@ async function main() {
     console.log(`${file.padEnd(30)} ${dur.toFixed(2)}s`)
   }
 
-  // --update-json: duration을 에피소드 JSON에 자동 반영
+  // --update-json: duration을 timing.json에 자동 반영
   if (args.includes('--update-json')) {
-    const jsonPath = resolveEpisodePath(EPISODE_NAME)
-    const raw = await readFile(jsonPath, 'utf-8')
-    const json = JSON.parse(raw) as BookRecommendScript
+    const timingPath = resolveTimingPath(EPISODE_NAME)
+    const timingRaw = existsSync(timingPath) ? await readFile(timingPath, 'utf-8') : '{}'
+    const timing = JSON.parse(timingRaw)
+    if (!timing.narrator) timing.narrator = {}
+    if (!timing.host) timing.host = {}
+    if (!timing.books) timing.books = []
+    if (!timing.shorts) timing.shorts = {}
 
     for (const [file, dur] of Object.entries(results)) {
       const rounded = Math.round(dur * 100) / 100
 
-      if (file === VN_SERVICE_GREETING) { json.narrator.serviceGreetingDuration = rounded; continue }
-      if (file === VN_SERVICE_INTRO) { json.narrator.serviceIntroDuration = rounded; continue }
-      if (file === VN_CELEB_INTRO) { json.narrator.celebIntroDuration = rounded; continue }
-      if (file === VN_PHILOSOPHY) { json.host.voiceDuration = rounded; continue }
-      if (file === VN_OUTRO) { json.narrator.outroDuration = rounded; continue }
-      if (file === VN_FEATURED_QUOTE) { json.host.featuredQuoteDuration = rounded; continue }
-      if (file === VN_LABEL_SUMMARY) { json.narrator.labelSummaryDuration = rounded; continue }
-      if (file === VN_LABEL_CONTEXT) { json.narrator.labelContextDuration = rounded; continue }
-      if (file === VN_RETURN_INTRO) { json.narrator.returnIntroDuration = rounded; continue }
-      if (file === VN_PREV_RECAP) { json.narrator.prevRecapDuration = rounded; continue }
-      if (file === VN_INTERLUDE && json.narrator.interludeDuration !== undefined) { json.narrator.interludeDuration = rounded; continue }
-      // 쇼츠 V1 세그먼트: S{NN}-{id}.wav → segments[].duration
+      if (file === VN_SERVICE_GREETING) { timing.narrator.serviceGreetingDuration = rounded; continue }
+      if (file === VN_SERVICE_INTRO) { timing.narrator.serviceIntroDuration = rounded; continue }
+      if (file === VN_CELEB_INTRO) { timing.narrator.celebIntroDuration = rounded; continue }
+      if (file === VN_PHILOSOPHY) { timing.host.voiceDuration = rounded; continue }
+      if (file === VN_OUTRO) { timing.narrator.outroDuration = rounded; continue }
+      if (file === VN_FEATURED_QUOTE) { timing.host.featuredQuoteDuration = rounded; continue }
+      if (file === VN_LABEL_SUMMARY) { timing.narrator.labelSummaryDuration = rounded; continue }
+      if (file === VN_LABEL_CONTEXT) { timing.narrator.labelContextDuration = rounded; continue }
+      if (file === VN_RETURN_INTRO) { timing.narrator.returnIntroDuration = rounded; continue }
+      if (file === VN_PREV_RECAP) { timing.narrator.prevRecapDuration = rounded; continue }
+      if (file === VN_INTERLUDE && timing.narrator.interludeDuration !== undefined) { timing.narrator.interludeDuration = rounded; continue }
+      // 쇼츠 V1 세그먼트: S{NN}-{id}.wav → shorts.segments[].duration
       const shortMatch = file.match(/^S\d{2}-(.+)\.wav$/)
-      if (shortMatch && json.shorts?.segments) {
-        const seg = json.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
+      if (shortMatch && timing.shorts?.segments) {
+        const seg = timing.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
         if (seg) { seg.duration = rounded; continue }
       }
       // D{NN}{letter}-{phase}.wav
-      const bookMatch = file.match(/^D(\d{2})[a-e]-(title|summary|context|quote|context-after)\.wav$/)
+      const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context|quote|context-after|quote2|context-after2)\.wav$/)
       if (bookMatch) {
         const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
-        const field = bookMatch[2]
-        if (!json.books[idx]) continue
-        switch (field) {
-          case 'title': json.books[idx].titleDuration = rounded; break
-          case 'summary': json.books[idx].summaryDuration = rounded; break
-          case 'context': json.books[idx].contextDuration = rounded; break
-          case 'quote': json.books[idx].quoteDuration = rounded; break
-          case 'context-after': json.books[idx].contextAfterDuration = rounded; break
+        if (!timing.books[idx]) timing.books[idx] = {}
+        switch (bookMatch[2]) {
+          case 'title': timing.books[idx].titleDuration = rounded; break
+          case 'summary': timing.books[idx].summaryDuration = rounded; break
+          case 'context': timing.books[idx].contextDuration = rounded; break
+          case 'quote': timing.books[idx].quoteDuration = rounded; break
+          case 'context-after': timing.books[idx].contextAfterDuration = rounded; break
+          case 'quote2': timing.books[idx].quoteDuration2 = rounded; break
+          case 'context-after2': timing.books[idx].contextAfterDuration2 = rounded; break
         }
       }
     }
 
-    await writeFile(jsonPath, JSON.stringify(json, null, 2) + '\n', 'utf-8')
-    console.log(`\n✓ ${EPISODE_NAME}.json duration 자동 반영 완료`)
+    await writeFile(timingPath, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
+    console.log(`\n✓ ${EPISODE_NAME} timing.json duration 자동 반영 완료`)
 
-    // 공용 파일 duration → 전체 에피소드 JSON 일괄 반영
+    // 공용 파일 duration → 전체 에피소드 timing.json 일괄 반영
     const commonResults = Object.entries(results).filter(([f]) => COMMON_VOICE_FILES.has(f))
     if (commonResults.length > 0) {
       const { readdirSync, statSync } = await import('fs')
@@ -524,28 +597,27 @@ async function main() {
         const allDirs = readdirSync(statusDir).filter((d: string) => statSync(path.join(statusDir, d)).isDirectory())
         for (const d of allDirs) {
           const dir = path.join(statusDir, d)
-          for (const fname of readdirSync(dir).filter((f: string) => f.endsWith('.json'))) {
+          for (const fname of readdirSync(dir).filter((f: string) => f.endsWith('.timing.json'))) {
             const fp = path.join(dir, fname)
-            if (fp === jsonPath) continue // 이미 처리됨
-            const epRaw = await readFile(fp, 'utf-8')
-            const epJson = JSON.parse(epRaw) as BookRecommendScript
-            const isCont = (epJson.series?.part ?? 1) > 1
-            if (isCont) continue
+            if (fp === timingPath) continue // 이미 처리됨
+            const tRaw = await readFile(fp, 'utf-8')
+            const tJson = JSON.parse(tRaw)
+            if (!tJson.narrator) tJson.narrator = {}
             let changed = false
             for (const [file, dur] of commonResults) {
               const rounded = Math.round(dur * 100) / 100
-              if (file === VN_SERVICE_GREETING) { epJson.narrator.serviceGreetingDuration = rounded; changed = true }
-              if (file === VN_LABEL_SUMMARY) { epJson.narrator.labelSummaryDuration = rounded; changed = true }
-              if (file === VN_LABEL_CONTEXT) { epJson.narrator.labelContextDuration = rounded; changed = true }
+              if (file === VN_SERVICE_GREETING) { tJson.narrator.serviceGreetingDuration = rounded; changed = true }
+              if (file === VN_LABEL_SUMMARY) { tJson.narrator.labelSummaryDuration = rounded; changed = true }
+              if (file === VN_LABEL_CONTEXT) { tJson.narrator.labelContextDuration = rounded; changed = true }
             }
             if (changed) {
-              await writeFile(fp, JSON.stringify(epJson, null, 2) + '\n', 'utf-8')
+              await writeFile(fp, JSON.stringify(tJson, null, 2) + '\n', 'utf-8')
               count++
             }
           }
         }
       }
-      if (count > 0) console.log(`✓ 공용 파일 duration → ${count}개 에피소드 JSON 일괄 반영`)
+      if (count > 0) console.log(`✓ 공용 파일 duration → ${count}개 timing.json 일괄 반영`)
     }
   }
 

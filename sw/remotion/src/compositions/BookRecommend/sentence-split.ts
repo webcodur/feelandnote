@@ -136,16 +136,20 @@ export function slicePageTimings(
   const total = ranges[ranges.length - 1].endIdx
   if (total !== allTimings.length) return undefined
   if (allTimings.some(t => t.start == null || t.end == null)) return undefined
-  return ranges.map(r => ({
-    range: r,
-    timings: allTimings.slice(r.startIdx, r.endIdx).map(t => ({
-      ...t,
-      start: t.start - allTimings[r.startIdx].start,
-      end: t.end - allTimings[r.startIdx].start,
-    })),
-    absStart: allTimings[r.startIdx].start,
-    absEnd: allTimings[r.endIdx - 1].end,
-  }))
+  return ranges.map(r => {
+    const base = allTimings[r.startIdx].start
+    return {
+      range: r,
+      timings: allTimings.slice(r.startIdx, r.endIdx).map(t => ({
+        ...t,
+        start: t.start - base,
+        end: t.end - base,
+        subTimings: t.subTimings?.map(st => st - base),
+      })),
+      absStart: base,
+      absEnd: allTimings[r.endIdx - 1].end,
+    }
+  })
 }
 
 /** voiceTimings → 자막 세그먼트 변환. voiceTimings가 없으면 비율 분배 폴백.

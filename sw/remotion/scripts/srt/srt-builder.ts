@@ -16,7 +16,7 @@ import { splitSub, type Sub } from '../../src/compositions/BookRecommend/sentenc
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
-  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
   VN_OUTRO,
   vnShort, vnTimingKey,
 } from '../../src/compositions/BookRecommend/voice-names'
@@ -144,6 +144,26 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
           narratorLabel, b.contextAfter,
           vtk(vnTimingKey(vnBookContextAfter(i))),
         ))
+        c += bt.contextAfterFrames
+      }
+
+      if (bt.hasQuote2 && b.directQuote2 && b.quoteDuration2) {
+        c += CONTEXT_QUOTE_GAP
+        subs.push(...splitSub(
+          c, c + toAudioFrames(b.quoteDuration2),
+          host.nickname, `\u201C${b.directQuote2}\u201D`,
+          vtk(vnTimingKey(vnBookQuote2(i))),
+        ))
+        c += bt.quote2Frames
+
+        if (bt.hasContextAfter2 && b.contextAfter2 && b.contextAfterDuration2) {
+          c += QUOTE_CONTEXTAFTER_GAP
+          subs.push(...splitSub(
+            c, c + toAudioFrames(b.contextAfterDuration2),
+            narratorLabel, b.contextAfter2,
+            vtk(vnTimingKey(vnBookContextAfter2(i))),
+          ))
+        }
       }
     }
   }

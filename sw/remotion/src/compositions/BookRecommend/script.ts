@@ -1,32 +1,6 @@
-import type { BookRecommendScript, VoiceSelect } from './types'
+import type { BookRecommendScript, EpisodeTimingData, VoiceSelect } from './types'
+import { mergeEpisode } from './merge-episode'
 import { parseEpName } from './voice-names'
-// done
-import alexanderData from '../../../public/episodes/done/alexander-the-great/ko.json'
-import alexanderEnData from '../../../public/episodes/done/alexander-the-great/en.json'
-import darioAmodeiData from '../../../public/episodes/done/dario-amodei/ko.json'
-import darioAmodeiEnData from '../../../public/episodes/done/dario-amodei/en.json'
-import jensenHuangData from '../../../public/episodes/done/jensen-huang/ko.json'
-import jensenHuangEnData from '../../../public/episodes/done/jensen-huang/en.json'
-import marcusAureliusData from '../../../public/episodes/done/marcus-aurelius/ko.json'
-import marcusAureliusEnData from '../../../public/episodes/done/marcus-aurelius/en.json'
-import yiSunSinData from '../../../public/episodes/done/yi-sun-sin/ko.json'
-import yiSunSinEnData from '../../../public/episodes/done/yi-sun-sin/en.json'
-// live
-import abrahamLincolnData from '../../../public/episodes/live/abraham-lincoln/ko.json'
-import elonMuskData from '../../../public/episodes/live/elon-musk/ko.json'
-import elonMusk2Data from '../../../public/episodes/live/elon-musk/ko-2.json'
-import elonMuskEnData from '../../../public/episodes/live/elon-musk/en.json'
-import elonMusk2EnData from '../../../public/episodes/live/elon-musk/en-2.json'
-import jimCarreyData from '../../../public/episodes/live/jim-carrey/ko.json'
-import davinciData from '../../../public/episodes/live/leonardo-da-vinci/ko.json'
-import markZuckerbergData from '../../../public/episodes/live/mark-zuckerberg/ko.json'
-import napoleonData from '../../../public/episodes/live/napoleon-bonaparte/ko.json'
-// todo
-import albertEinsteinData from '../../../public/episodes/todo/albert-einstein/ko.json'
-import galileoGalileiData from '../../../public/episodes/todo/galileo-galilei/ko.json'
-import nikolaTeslaData from '../../../public/episodes/todo/nikola-tesla/ko.json'
-import steveJobsData from '../../../public/episodes/todo/steve-jobs/ko.json'
-import warrenBuffettData from '../../../public/episodes/todo/warren-buffett/ko.json'
 
 /** 현재 활성 에피소드 — TTS/렌더링 시 사용  */
 export const EPISODE_NAME = 'jim-carrey'
@@ -45,66 +19,63 @@ function withKoImages(en: BookRecommendScript, ko: BookRecommendScript): BookRec
   }
 }
 
-/** epName → staticFile 경로 prefix (todo/live/done + person) */
-export const episodeDir: Record<string, string> = {
-  // done
-  'alexander-the-great': 'done/alexander-the-great',
-  'alexander-the-great-en': 'done/alexander-the-great',
-  'dario-amodei': 'done/dario-amodei',
-  'dario-amodei-en': 'done/dario-amodei',
-  'jensen-huang': 'done/jensen-huang',
-  'jensen-huang-en': 'done/jensen-huang',
-  'marcus-aurelius': 'done/marcus-aurelius',
-  'marcus-aurelius-en': 'done/marcus-aurelius',
-  'yi-sun-sin': 'done/yi-sun-sin',
-  'yi-sun-sin-en': 'done/yi-sun-sin',
-  // live
-  'abraham-lincoln': 'live/abraham-lincoln',
-  'elon-musk': 'live/elon-musk',
-  'elon-musk-2': 'live/elon-musk',
-  'elon-musk-en': 'live/elon-musk',
-  'elon-musk-2-en': 'live/elon-musk',
-  'jim-carrey': 'live/jim-carrey',
-  'leonardo-da-vinci': 'live/leonardo-da-vinci',
-  'mark-zuckerberg': 'live/mark-zuckerberg',
-  'napoleon-bonaparte': 'live/napoleon-bonaparte',
-  // todo
-  'albert-einstein': 'todo/albert-einstein',
-  'galileo-galilei': 'todo/galileo-galilei',
-  'nikola-tesla': 'todo/nikola-tesla',
-  'steve-jobs': 'todo/steve-jobs',
-  'warren-buffett': 'todo/warren-buffett',
+/* ── 디렉토리 자동 탐색: public/episodes/{done|live|todo}/{person}/ ── */
+
+const contentCtx = require.context(
+  '../../../public/episodes', true, /\/(ko|en)(-\d+)?\.json$/,
+)
+const timingCtx = require.context(
+  '../../../public/episodes', true, /\/(ko|en)(-\d+)?\.timing\.json$/,
+)
+
+/** require.context key 패턴: ./status/person/locale.json */
+const PATH_RE = /^\.\/(\w+)\/([^/]+)\/((?:ko|en)(?:-\d+)?)\.json$/
+
+/** fileLocale → epName suffix: ko→'', en→'-en', ko-2→'-2', en-2→'-2-en' */
+function localeToSuffix(locale: string): string {
+  const isEn = locale.startsWith('en')
+  const m = locale.match(/-(\d+)/)
+  return `${m ? `-${m[1]}` : ''}${isEn ? '-en' : ''}`
 }
 
-/** 전체 에피소드 맵 — 폴더 위치가 상태를 결정 */
-export const episodes: Record<string, BookRecommendScript> = {
-  // done
-  'alexander-the-great': alexanderData as BookRecommendScript,
-  'alexander-the-great-en': withKoImages(alexanderEnData as BookRecommendScript, alexanderData as BookRecommendScript),
-  'dario-amodei': darioAmodeiData as BookRecommendScript,
-  'dario-amodei-en': withKoImages(darioAmodeiEnData as BookRecommendScript, darioAmodeiData as BookRecommendScript),
-  'marcus-aurelius': marcusAureliusData as BookRecommendScript,
-  'marcus-aurelius-en': withKoImages(marcusAureliusEnData as BookRecommendScript, marcusAureliusData as BookRecommendScript),
-  'yi-sun-sin': yiSunSinData as BookRecommendScript,
-  'yi-sun-sin-en': withKoImages(yiSunSinEnData as BookRecommendScript, yiSunSinData as BookRecommendScript),
-  // live
-  'abraham-lincoln': abrahamLincolnData as unknown as BookRecommendScript,
-  'elon-musk': elonMuskData as BookRecommendScript,
-  'elon-musk-2': elonMusk2Data as BookRecommendScript,
-  'elon-musk-en': withKoImages(elonMuskEnData as BookRecommendScript, elonMuskData as BookRecommendScript),
-  'elon-musk-2-en': withKoImages(elonMusk2EnData as BookRecommendScript, elonMusk2Data as BookRecommendScript),
-  'jensen-huang': jensenHuangData as BookRecommendScript,
-  'jensen-huang-en': withKoImages(jensenHuangEnData as BookRecommendScript, jensenHuangData as BookRecommendScript),
-  'jim-carrey': jimCarreyData as unknown as BookRecommendScript,
-  'leonardo-da-vinci': davinciData as BookRecommendScript,
-  'mark-zuckerberg': markZuckerbergData as BookRecommendScript,
-  'napoleon-bonaparte': napoleonData as BookRecommendScript,
-  // todo
-  'albert-einstein': albertEinsteinData as unknown as BookRecommendScript,
-  'galileo-galilei': galileoGalileiData as unknown as BookRecommendScript,
-  'nikola-tesla': nikolaTeslaData as unknown as BookRecommendScript,
-  'steve-jobs': steveJobsData as unknown as BookRecommendScript,
-  'warren-buffett': warrenBuffettData as unknown as BookRecommendScript,
+/** epName → staticFile 경로 prefix (status/person) */
+export const episodeDir: Record<string, string> = {}
+
+/** 전체 에피소드 맵 — 디렉토리 구조에서 자동 생성 */
+export const episodes: Record<string, BookRecommendScript> = {}
+
+// Phase 1: ko 에피소드 우선 로드
+const koCache: Record<string, BookRecommendScript> = {}
+const enPending: { epName: string; script: BookRecommendScript }[] = []
+
+for (const key of contentCtx.keys()) {
+  const m = key.match(PATH_RE)
+  if (!m) continue
+  const [, status, person, locale] = m
+
+  let timing: EpisodeTimingData | undefined
+  try { timing = timingCtx(key.replace(/\.json$/, '.timing.json')) as EpisodeTimingData }
+  catch { /* timing 없어도 등록 */ }
+
+  const epName = `${person}${localeToSuffix(locale)}`
+  episodeDir[epName] = `${status}/${person}`
+
+  const content = contentCtx(key) as unknown as BookRecommendScript
+  const merged = timing ? mergeEpisode(content, timing) : content
+
+  if (locale.startsWith('en')) {
+    enPending.push({ epName, script: merged })
+  } else {
+    koCache[epName] = merged
+    episodes[epName] = merged
+  }
+}
+
+// Phase 2: en 에피소드 — ko imagePrompts 상속
+for (const { epName, script } of enPending) {
+  const koName = epName.replace(/-en$/, '')
+  const ko = koCache[koName]
+  episodes[epName] = ko ? withKoImages(script, ko) : script
 }
 
 /** 에피소드 상태 맵 — episodeDir에서 자동 추출 */
@@ -115,8 +86,9 @@ export const episodeStatus: Record<string, EpisodeStatus> = Object.fromEntries(
   })
 )
 
-/** continuation(2부 이상) 판별 */
-export const isContinuation = (ep: BookRecommendScript) => (ep.series?.part ?? 1) > 1
+/** continuation — timing.ts에서 가져와 re-export */
+export { isContinuation } from './timing'
+import { isContinuation } from './timing'
 
 /** 에피소드 음성 준비 완료 여부 */
 export function isVoiceReady(ep: BookRecommendScript): boolean {

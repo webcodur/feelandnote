@@ -54,10 +54,15 @@ export interface ImageTransition {
   keyword?: string
 }
 
+/** 콘텐츠 카테고리 — 포스터 아이콘·타이틀 라벨에 사용 */
+export type ContentCategory = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
+
 export interface BookEntry {
   title: string
   creator: string
   thumbnail_url: string
+  /** 콘텐츠 카테고리 (생략 시 BOOK) */
+  category?: ContentCategory
   /** 요약맨: 책 소개 + 핵심 인사이트 */
   summary: string
   /** 요약맨 음성 길이 (초) */
@@ -76,6 +81,16 @@ export interface BookEntry {
   contextAfter?: string
   /** 후속 맥락 음성 길이 (초, 있을 때만) */
   contextAfterDuration?: number
+  /** 2번째 셀럽 직접 인용 (있을 때만) */
+  directQuote2?: string
+  /** 2번째 인용 출처 표시 */
+  directQuoteSource2?: string
+  /** 2번째 인용 음성 길이 (초, 있을 때만) */
+  quoteDuration2?: number
+  /** 2번째 인용 뒤 나레이터 후속 맥락 (있을 때만) */
+  contextAfter2?: string
+  /** 2번째 후속 맥락 음성 길이 (초, 있을 때만) */
+  contextAfterDuration2?: number
   /** 출처 URL */
   source?: string
   /** 통계 데이터 */
@@ -127,29 +142,10 @@ export interface NarratorLines {
  * 자막용(기본 텍스트)과 다를 때만 지정. 미지정 시 기본 텍스트 사용.
  */
 export interface TtsOverrides {
-  narrator?: {
-    serviceGreeting?: string
-    serviceIntro?: string
-    celebIntro?: string
-    returnIntro?: string
-    prevRecap?: string
-    outro?: string
-  }
-  host?: {
-    philosophy?: string
-  }
-  books?: Array<{
-    /** TTS용 제목+저자+연도 (예: "..., 천구백칠십구 년 집필") */
-    title?: string
-    summary?: string
-    context?: string
-    contextAfter?: string
-    directQuote?: string
-  }>
-  /** 쇼츠 세그먼트별 TTS 오버라이드 (인덱스 = segments 순서) */
-  shorts?: Array<{
-    text?: string
-  }>
+  /** 책 제목 TTS (생성값 전문 오버라이드) — books[]와 인덱스 대응, null이면 자동 생성 */
+  titles?: (string | null)[]
+  /** 전역 텍스트 치환맵 — 숫자→한글 등 발음 변환. 모든 텍스트 필드에 적용 */
+  replace?: Record<string, string>
 }
 
 /** 슬롯별 TTS 엔진 선택 (voice-select.json) */
@@ -209,6 +205,41 @@ export interface SeriesInfo {
   totalParts: number
   totalBooks: number
   prevEpisode: string
+}
+
+/** timing.json 구조 — 파이프라인이 자동 생성하는 기계 데이터 */
+export interface EpisodeTimingData {
+  voiceTimings?: VoiceTimings
+  narrator?: {
+    serviceGreetingDuration?: number
+    serviceIntroDuration?: number
+    celebIntroDuration?: number
+    bridgeDuration?: number
+    outroDuration?: number
+    labelSummaryDuration?: number
+    labelContextDuration?: number
+    returnIntroDuration?: number
+    prevRecapDuration?: number
+    interludeDuration?: number
+  }
+  host?: {
+    featuredQuoteDuration?: number
+    voiceDuration?: number
+  }
+  books?: Array<{
+    titleDuration?: number
+    summaryDuration?: number
+    contextDuration?: number
+    quoteDuration?: number
+    contextAfterDuration?: number
+    quoteDuration2?: number
+    contextAfterDuration2?: number
+  }>
+  shorts?: {
+    segments?: Array<{
+      duration?: number
+    }>
+  }
 }
 
 export interface BookRecommendScript {

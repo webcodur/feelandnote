@@ -8,6 +8,7 @@ import { Img, interpolate, staticFile, useCurrentFrame } from 'remotion'
 import type { BookRecommendScript } from '../types'
 import { BRAND_FRAMES, f } from '../timing'
 import { buildTimeline } from '../useTimeline'
+import { useIsPortrait } from '../utils'
 
 const ACCENT = '#c8a46e'
 const MARGIN = 36
@@ -58,7 +59,9 @@ type Props = { script: BookRecommendScript }
 
 export const Overlay: React.FC<Props> = ({ script }) => {
   const frame = useCurrentFrame()
+  const portrait = useIsPortrait()
   const tl = useMemo(() => buildTimeline(script), [script])
+  const margin = portrait ? 24 : MARGIN
 
   const fadeIn = interpolate(frame, [BRAND_FRAMES - f(1), BRAND_FRAMES], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   const outroFade = frame > tl.outroStart
@@ -68,8 +71,8 @@ export const Overlay: React.FC<Props> = ({ script }) => {
 
   return (
     <div style={{
-      position: 'absolute', top: MARGIN, left: MARGIN, right: MARGIN,
-      bottom: MARGIN,
+      position: 'absolute', top: margin, left: margin, right: margin,
+      bottom: margin,
       borderRadius: 2, border: '1px double rgba(200,164,110,0.15)', pointerEvents: 'none', opacity: decorOpacity, zIndex: 50,
     }}>
       {/* Gilded Crest — 인물별 커스텀 예정, 필요 시 활성화

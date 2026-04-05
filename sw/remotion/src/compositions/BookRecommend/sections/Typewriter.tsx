@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Easing, interpolate, useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
 import { buildHighlightSegments } from '../utils'
@@ -30,7 +31,11 @@ export const Typewriter: React.FC<Props> = ({
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
-  const { texts: sentences, ranges } = buildHighlightSegments(text, timings, spreadFrames)
+  // 텍스트·타이밍이 불변이므로 한 번만 계산 — 매 프레임 문자열 분할 방지
+  const { texts: sentences, ranges } = useMemo(
+    () => buildHighlightSegments(text, timings, spreadFrames),
+    [text, timings, spreadFrames],
+  )
 
   return (
     <div

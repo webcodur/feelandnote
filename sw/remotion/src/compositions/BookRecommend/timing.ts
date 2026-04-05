@@ -74,6 +74,8 @@ export type BookDurations = {
   contextDuration: number
   quoteDuration?: number
   contextAfterDuration?: number
+  quoteDuration2?: number
+  contextAfterDuration2?: number
 }
 
 /** 라벨 duration 쌍 (narrator에서 추출) */
@@ -96,17 +98,37 @@ export const quotePhaseEnd = (b: BookDurations, ld?: LabelDurations) =>
     ? contextPhaseEnd(b, ld) + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration)
     : contextPhaseEnd(b, ld)
 
-/** 전체 (인용문 + 후속 맥락 포함) */
-export const bookTotalFrames = (b: BookDurations, ld?: LabelDurations) => {
-  if (!b.quoteDuration) return contextPhaseEnd(b, ld)
+/** contextAfter 끝 (1벌) */
+export const contextAfterPhaseEnd = (b: BookDurations, ld?: LabelDurations) => {
   const qEnd = quotePhaseEnd(b, ld)
+  if (!b.quoteDuration) return qEnd
   if (!b.contextAfterDuration) return qEnd
   return qEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration)
 }
 
+/** 2번째 인용문 끝 */
+export const quote2PhaseEnd = (b: BookDurations, ld?: LabelDurations) => {
+  const caEnd = contextAfterPhaseEnd(b, ld)
+  if (!b.quoteDuration2) return caEnd
+  return caEnd + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration2)
+}
+
+/** 전체 (인용문 + 후속 맥락 2벌 포함) */
+export const bookTotalFrames = (b: BookDurations, ld?: LabelDurations) => {
+  if (!b.quoteDuration) return contextPhaseEnd(b, ld)
+  const caEnd = contextAfterPhaseEnd(b, ld)
+  if (!b.quoteDuration2) return caEnd
+  const q2End = quote2PhaseEnd(b, ld)
+  if (!b.contextAfterDuration2) return q2End
+  return q2End + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration2)
+}
+
 // --- 쇼츠(9:16) 타이밍 ---
 
-import type { ShortSegment } from './types'
+import type { BookRecommendScript, ShortSegment } from './types'
+
+/** continuation(2부 이상) 판별 */
+export const isContinuation = (ep: BookRecommendScript) => (ep.series?.part ?? 1) > 1
 
 /** 쇼츠 세그먼트 프레임 (오디오 + 0.3초 여운) */
 export const toShortFrames = (sec: number) => Math.ceil(sec * FPS) + f(0.3)
@@ -128,13 +150,22 @@ export const SHORT_LOGO_FRAMES = f(3)      // 180
 export const SHORT_REVEAL_FRAMES = f(2.0)  // 120
 /** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
 export const SHORT_REVEAL_GAP = f(1.0)     // 60
-/** 세그먼트 레이아웃 — 단일원천. BookRecommendShort, generate-srt 모두 이 함수를 사용한다. */
+/** 세그먼트 레이아웃 — 단일원천. BookRecommendShort, generate-srt 모두 이 함수를 사용한다.
+ *
+ * duration 우선순위: seg.duration(TTS) > imageMinFrames(이미지당 2초) > fallback
+ * imageMinFrames는 duration 미설정 프리뷰에서 이미지가 크로스페이드 안에 묻히지 않도록 보장한다. */
 export function shortSegLayout(segments: ShortSegment[]) {
   const segTimings = segments.map((seg, i) => {
     if (seg.visual === 'cta') return SHORT_CTA_FRAMES
     const fallback = i === 0 ? SHORT_HOOK_FRAMES : SHORT_FALLBACK
+    // imageChangeAt이 있으면 이미지당 최소 2초 확보 (크로스페이드 0.5초 고려)
+    const imageCount = seg.imageChangeAt
+      ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt.length : 1)
+      : 0
+    const imageMinFrames = imageCount > 0 ? f(imageCount * 2) : 0
+
     const base = seg.duration ? toShortFrames(seg.duration) : fallback
-    return base
+    return Math.max(base, imageMinFrames)
   })
 
   const segStarts: number[] = []

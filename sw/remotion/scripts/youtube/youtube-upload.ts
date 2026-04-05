@@ -16,8 +16,8 @@ import { execSync } from 'child_process'
 import { createReadStream, existsSync, statSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { lineup, buildTitle, buildDescription, buildTags, calcChapterTimestamps, type EpisodeMeta } from './youtube-lineup.js'
-import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
+import { lineup, buildTitle, buildDescription, buildTags, calcChapterTimestamps, buildYouTubeSnippet, type EpisodeMeta } from './youtube-lineup.js'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, loadEpisode } from '../lib/episode.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const CREDENTIALS_DIR = path.join(__dirname, '..', '..', 'credentials')
@@ -33,8 +33,6 @@ const SCOPES = [
   'https://www.googleapis.com/auth/youtube.upload',
   'https://www.googleapis.com/auth/youtube.force-ssl',
 ]
-
-const CATEGORY_EDUCATION = '27'
 
 // ─── OAuth2 ─────────────────────────────────────────────
 
@@ -138,21 +136,14 @@ async function uploadVideo(
   privacyStatus: string,
 ) {
   const fileSize = statSync(filePath).size
-  const langCode = lang === 'ko' ? 'ko' : 'en'
+  const snippet = buildYouTubeSnippet({ title, description, tags, lang })
 
   console.log(`  업로드 중: ${path.basename(filePath)} (${(fileSize / 1024 / 1024).toFixed(0)}MB)`)
 
   const res = await yt.videos.insert({
     part: ['snippet', 'status'],
     requestBody: {
-      snippet: {
-        title,
-        description,
-        tags,
-        categoryId: CATEGORY_EDUCATION,
-        defaultLanguage: langCode,
-        defaultAudioLanguage: langCode,
-      },
+      snippet,
       status: {
         privacyStatus,
         selfDeclaredMadeForKids: false,
@@ -249,9 +240,9 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     return true
   })
 
-  // 에피소드 데이터 로드
-  const koData = JSON.parse(await readFile(resolveEpisodePath(episodeName), 'utf-8'))
-  const enData = JSON.parse(await readFile(resolveEpisodePath(`${episodeName}-en`), 'utf-8'))
+  // 에피소드 데이터 로드 (content + timing 머지)
+  const koData = await loadEpisode(episodeName)
+  const enData = await loadEpisode(`${episodeName}-en`)
 
   // youtube-meta.json 커스텀 메타 로드
   const metaPath = path.join(OUT_DIR, label, 'youtube-meta.json')
@@ -302,14 +293,23 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
       console.log(`  영상: ${files.video}`)
       console.log(`  자막: ${files.srt ?? '없음'}`)
       console.log(`  썸네일: ${files.thumb ?? '없음'}`)
-      console.log(`  공개: ${meta.privacyStatus}`)
+      console.log(`  공개: private (고정)`)
       continue
     }
 
     const yt = await getYt(variant.lang)
     if (!yt) continue
-    const videoId = await uploadVideo(yt, files.video, title, description, tags, variant.lang, meta.privacyStatus)
-    if (files.srt) await uploadCaption(yt, videoId, files.srt, variant.lang)
+    const videoId = await uploadVideo(yt, files.video, title, description, tags, variant.lang, 'private')
+    if (files.srt) {
+      // 영상 처리 대기 후 자막 업로드 (즉시 시도 시 거부될 수 있음)
+      console.log('  자막 업로드 대기 (10초)...')
+      await new Promise(r => setTimeout(r, 10_000))
+      try {
+        await uploadCaption(yt, videoId, files.srt, variant.lang)
+      } catch (e: any) {
+        console.warn(`  자막 업로드 실패: ${e.message}`)
+      }
+    }
     if (files.thumb) await setThumbnail(yt, videoId, files.thumb)
 
     // videoId를 lineup.json에 기록
