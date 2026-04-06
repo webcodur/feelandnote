@@ -209,7 +209,7 @@ const LINEUP_PATH = path.join(__dirname, 'youtube-lineup.json')
 
 async function saveUploadRecord(episodeName: string, variantKey: string, videoId: string) {
   const all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
-  if (!all[episodeName]) return
+  if (!all[episodeName]) all[episodeName] = { hook: { ko: '', en: '' } }
   if (!all[episodeName].uploads) all[episodeName].uploads = {}
   all[episodeName].uploads[variantKey] = { videoId, uploadedAt: new Date().toISOString() }
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
@@ -219,11 +219,8 @@ async function saveUploadRecord(episodeName: string, variantKey: string, videoId
 // ─── 메인 ───────────────────────────────────────────────
 
 async function upload(episodeName: string, filterLang?: string, filterType?: string, dry = false) {
-  const meta = lineup[episodeName]
-  if (!meta) {
-    console.error(`편성표에 '${episodeName}' 없음. youtube-lineup.ts에 추가 필요.`)
-    process.exit(1)
-  }
+  const meta: EpisodeMeta | undefined = lineup[episodeName]
+  if (!meta) console.log(`편성표에 '${episodeName}' 없음 — 에피소드 데이터 기반으로 진행`)
 
   const label = toCompLabel(episodeName)
   const variants: Variant[] = [
@@ -274,9 +271,12 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
 
     const variantKey = `${variant.lang}-${variant.type}`
     const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
-    const title = ytMeta[variantKey]?.title ?? buildTitle(meta, celebName, variant.lang, isShorts)
+    const fallbackTitle = meta
+      ? buildTitle(meta, celebName, variant.lang, isShorts)
+      : `${variant.lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`
+    const title = ytMeta[variantKey]?.title || fallbackTitle
     const links = (ytMeta[variantKey] as any)?.links as { label: string; url: string }[] | undefined
-    const description = ytMeta[variantKey]?.description ?? buildDescription(celebName, books, variant.lang, isShorts, chapters, links, episodeName)
+    const description = ytMeta[variantKey]?.description || buildDescription(celebName, books, variant.lang, isShorts, chapters, links, episodeName)
     const tags = buildTags(celebName, variant.lang, isShorts)
 
     const files = findFiles(label, variant.lang, variant.type)

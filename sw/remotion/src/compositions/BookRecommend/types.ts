@@ -196,6 +196,8 @@ export type VoiceTimingSegment = {
   sub?: string[]
   /** sub 경계 시점 (초) — analyze가 단어 타이밍에서 산출. sub.length - 1개. 없으면 글자수 비례 폴백 */
   subTimings?: number[]
+  /** 단어 단위 타이밍 — imageChangeAt anchor의 word-level 매칭에 사용. analyze가 자동 채움 */
+  words?: { text: string; start: number; end: number }[]
 }
 export type VoiceTimings = Record<string, VoiceTimingSegment[]>
 

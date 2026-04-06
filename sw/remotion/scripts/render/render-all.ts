@@ -2,10 +2,13 @@
  * render-all.ts — 롱폼 + 쇼츠 MP4/SRT 일괄 렌더
  *
  * Usage:
- *   pnpm render:all                              # 전체 에피소드
- *   pnpm render:all -- --episode alexander-the-great  # 특정 에피소드
- *   pnpm render:all -- --only longform            # 롱폼만
- *   pnpm render:all -- --only shorts              # 쇼츠만
+ *   pnpm render:all                                       # 전체 에피소드
+ *   pnpm render:all -- --episode alexander-the-great      # 특정 에피소드 (한/영 모두)
+ *   pnpm render:all -- --only longform                    # 롱폼만
+ *   pnpm render:all -- --only shorts                      # 쇼츠만
+ *   pnpm render:all -- --lang ko                          # 한국어만
+ *   pnpm render:all -- --lang en                          # 영문만
+ *   pnpm render:all -- --episode alex-karp --lang ko --only shorts  # 조합 가능
  */
 import { execSync, spawn } from 'child_process'
 import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from 'fs'
@@ -104,6 +107,11 @@ const epFlag = args.indexOf('--episode')
 const epFilter = epFlag >= 0 ? args[epFlag + 1] : null
 const onlyFlag = args.indexOf('--only')
 const only = onlyFlag >= 0 ? args[onlyFlag + 1] : null // 'longform' | 'shorts'
+const langFlag = args.indexOf('--lang')
+const langFilter = langFlag >= 0 ? args[langFlag + 1] : null // 'ko' | 'en'
+if (langFilter && langFilter !== 'ko' && langFilter !== 'en') {
+  throw new Error(`--lang 옵션은 'ko' 또는 'en'만 허용한다 (입력: ${langFilter})`)
+}
 
 const OUT_DIR = join(__dirname, '..', '..', 'out')
 mkdirSync(OUT_DIR, { recursive: true })
@@ -186,12 +194,14 @@ function toCompId(name: string) {
   return { label, lang }
 }
 
-const targetEpisodes = epFilter
-  ? Object.fromEntries(
-      Object.entries(episodes as Record<string, BookRecommendScript>)
-        .filter(([k]) => k === epFilter || k === `${epFilter}-en`)
-    )
-  : episodes as Record<string, BookRecommendScript>
+const targetEpisodes = Object.fromEntries(
+  Object.entries(episodes as Record<string, BookRecommendScript>).filter(([k]) => {
+    if (epFilter && k !== epFilter && k !== `${epFilter}-en`) return false
+    if (langFilter === 'ko' && k.endsWith('-en')) return false
+    if (langFilter === 'en' && !k.endsWith('-en')) return false
+    return true
+  })
+)
 
 async function main() {
   const entries = Object.entries(targetEpisodes)

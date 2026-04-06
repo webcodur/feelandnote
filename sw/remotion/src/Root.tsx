@@ -5,7 +5,6 @@ import {
   OlympusMV,
   totalFrames as olympusMVFrames,
 } from "./compositions/OlympusMV";
-import { AudioTest, AUDIO_TEST_FRAMES } from "./compositions/AudioTest";
 import {
   BookRecommend,
   calcTotalFrames as calcBookFrames,
@@ -115,14 +114,6 @@ export const RemotionRoot: React.FC = () => {
           fps={FPS}
           width={1080}
           height={1920}
-        />
-        <Composition
-          id="AudioTest"
-          component={AudioTest}
-          durationInFrames={AUDIO_TEST_FRAMES}
-          fps={FPS}
-          width={1920}
-          height={1080}
         />
       </Folder>
     </>

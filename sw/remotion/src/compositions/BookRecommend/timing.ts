@@ -136,6 +136,10 @@ export const toShortFrames = (sec: number) => Math.ceil(sec * FPS) + f(0.3)
 export const SHORT_GAP = f(0.2)            // 12
 /** CTA 세그먼트 앞 전환 갭 — 배경 확장 후 텍스트 등장 */
 export const SHORT_CTA_GAP = f(1.0)        // 60
+/** celeb 인용 세그먼트 후 전환 갭 — 인용 여운 + 화자 전환 호흡 */
+export const SHORT_CELEB_GAP = f(1.2)      // 72
+/** book 세그먼트가 cta 직전일 때 마지막 이미지 holding pad — 음성 끝난 후에도 잠시 더 노출 */
+export const SHORT_BOOK_TAIL_HOLD = f(1.5) // 90
 /** duration 없는 세그먼트 폴백 프레임 */
 export const SHORT_FALLBACK = f(2.5)       // 75
 /** 채널 안내 (BrandIntro) 프레임 — hook 직후 삽입 */
@@ -165,14 +169,22 @@ export function shortSegLayout(segments: ShortSegment[]) {
     const imageMinFrames = imageCount > 0 ? f(imageCount * 2) : 0
 
     const base = seg.duration ? toShortFrames(seg.duration) : fallback
-    return Math.max(base, imageMinFrames)
+    // book → cta 전환 직전에는 마지막 이미지 holding 추가 (음성 후에도 잠시 더 보여줌)
+    const isBookBeforeCta = seg.visual === 'book' && segments[i + 1]?.visual === 'cta'
+    const tailHold = isBookBeforeCta ? SHORT_BOOK_TAIL_HOLD : 0
+    return Math.max(base, imageMinFrames) + tailHold
   })
 
   const segStarts: number[] = []
   let cursor = SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
   for (let i = 0; i < segTimings.length; i++) {
     segStarts.push(cursor)
-    const gap = segments[i + 1]?.visual === 'cta' ? SHORT_CTA_GAP : SHORT_GAP
+    const next = segments[i + 1]
+    const gap = next?.visual === 'cta'
+      ? SHORT_CTA_GAP
+      : segments[i].role === 'celeb'
+      ? SHORT_CELEB_GAP
+      : SHORT_GAP
     cursor += segTimings[i] + gap
   }
 

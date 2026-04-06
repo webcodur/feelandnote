@@ -344,6 +344,16 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
 
 // --- CLI ---
 const args = process.argv.slice(2)
+
+// 허용 플래그 검증 — 오타·미지원 플래그 유입 방지
+const KNOWN_FLAGS = new Set(['--episode', '--only', '--shorts', '--long', '--update-json', '--export-debug'])
+for (const arg of args) {
+  if (arg === '--') continue
+  if (arg.startsWith('--') && !KNOWN_FLAGS.has(arg)) {
+    throw new Error(`알 수 없는 플래그: ${arg} (허용: ${[...KNOWN_FLAGS].join(', ')})`)
+  }
+}
+
 const epIdx = args.indexOf('--episode')
 const epName = epIdx >= 0 ? args[epIdx + 1] : null
 const onlyIdx = args.indexOf('--only')
@@ -553,6 +563,28 @@ if (updateJson) {
         }
       }
     }
+
+    // 쇼츠 imageChangeAt anchor의 word-level 매칭용 — segment 내 단어 타이밍 첨부
+    // 같은 sentence에 여러 anchor가 있을 때 단어 위치로 구분 가능하게 함
+    const shortMatchForWords = file.match(/^S\d{2}-(.+)\.wav$/)
+    if (shortMatchForWords && words && episode.shorts?.segments) {
+      const shortSeg = episode.shorts.segments.find((s: any) => s.id === shortMatchForWords[1])
+      const hasImageChangeAt = shortSeg && (Array.isArray(shortSeg.imageChangeAt) ? shortSeg.imageChangeAt.length > 0 : !!shortSeg.imageChangeAt)
+      if (hasImageChangeAt) {
+        for (const seg of timings) {
+          const segWords = words.filter(w =>
+            w.start >= seg.start - 0.05 && w.end <= seg.end + 0.05 && w.text)
+          if (segWords.length > 0) {
+            ;(seg as any).words = segWords.map(w => ({
+              text: w.text,
+              start: Math.round(w.start * 1000) / 1000,
+              end: Math.round(w.end * 1000) / 1000,
+            }))
+          }
+        }
+      }
+    }
+
     episode.voiceTimings[key] = timings
 
     // duration 자동 동기화 — voiceTimings의 마지막 end를 duration으로 반영

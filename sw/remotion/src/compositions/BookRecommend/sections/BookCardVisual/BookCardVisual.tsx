@@ -36,7 +36,8 @@ type ParsedSection = {
   fullText: string
 }
 
-/** 섹션 세그먼트를 파싱하여 캐싱용 구조 반환 */
+/** 섹션 세그먼트를 파싱하여 캐싱용 구조 반환.
+ *  sub/subTimings가 있으면 구절 단위로 확장하여 이미지 앵커의 프레임 해상도를 높인다. */
 function parseSection(
   timings: Record<string, VoiceTimingSegment[]>,
   entry: SectionEntry,
@@ -48,10 +49,21 @@ function parseSection(
   let fullText = ''
   for (const seg of segs) {
     if (!seg.text) continue
-    positions.push({ offset, seg })
-    const normText = seg.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
-    fullText += normText
-    offset += normText.length
+    if (seg.sub && seg.subTimings && seg.sub.length > 1) {
+      for (let si = 0; si < seg.sub.length; si++) {
+        const subStart = si === 0 ? seg.start : (seg.subTimings[si - 1] ?? seg.start)
+        const subEnd = si < seg.subTimings.length ? seg.subTimings[si] : seg.end
+        positions.push({ offset, seg: { start: subStart, end: subEnd, text: seg.sub[si] } })
+        const normText = seg.sub[si].replace(/[\s.,!?“"”'’\n\r]/g, '')
+        fullText += normText
+        offset += normText.length
+      }
+    } else {
+      positions.push({ offset, seg })
+      const normText = seg.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
+      fullText += normText
+      offset += normText.length
+    }
   }
   return { baseFrame: entry.baseFrame, positions, fullText }
 }

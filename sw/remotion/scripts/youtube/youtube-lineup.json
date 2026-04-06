@@ -112,5 +112,69 @@
       "ko": "붉은 바다에서 검은 먹을 간 장군",
       "en": "The Admiral Who Ground Black Ink on a Crimson Sea"
     }
+  },
+  "alex-karp": {
+    "hook": {
+      "ko": "무너진 이성의 잿더미 위로 데이터 요새를 쌓은 철학도",
+      "en": "The Philosophy Student Who Built a Data Fortress Upon the Ashes of Collapsed Reason"
+    },
+    "uploads": {
+      "ko-longform": {
+        "videoId": "Pe_-fZqPNKU",
+        "uploadedAt": "2026-04-06T03:32:58.771Z"
+      },
+      "ko-shorts": {
+        "videoId": "jVc-hwCIBU4",
+        "uploadedAt": "2026-04-06T06:42:08.608Z"
+      }
+    }
+  },
+  "albert-einstein": {
+    "hook": {
+      "ko": "시간의 족쇄를 풀고 인류를 불확실성의 심연으로 밀어넣은 자",
+      "en": "The One Who Unlocked the Shackles of Time and Pushed Humanity into the Abyss of Uncertainty"
+    }
+  },
+  "donald-trump": {
+    "hook": {
+      "ko": "혐오와 열광의 링 위에서 피를 튀기며 제국을 거래한 마피아",
+      "en": "The Mafia Who Traded the Empire While Spattering Blood on the Ring of Hatred and Fanaticism"
+    }
+  },
+  "galileo-galilei": {
+    "hook": {
+      "ko": "우주의 밑바닥을 엿본 죄로 평생 입을 틀어막힌 관측자",
+      "en": "The Observer Whose Mouth Was Gagged for Life for the Sin of Peeking at the Bottom of the Universe"
+    }
+  },
+  "nikola-tesla": {
+    "hook": {
+      "ko": "100년 후의 도면을 훔쳐온 대가로 현재의 모든 것을 박탈당한 이방인",
+      "en": "The Stranger Stripped of Everything in the Present as the Price for Stealing the Blueprints of a Century Later"
+    }
+  },
+  "steve-jobs": {
+    "hook": {
+      "ko": "오직 죽음만이 멈출 수 있었던 실리콘밸리의 오만한 폭군",
+      "en": "The Arrogant Tyrant of Silicon Valley Who Could Only Be Stopped by Death"
+    }
+  },
+  "warren-buffett": {
+    "hook": {
+      "ko": "월스트리트의 피바람 속에서 체리 코크를 씹어 삼키는 냉혈한",
+      "en": "The Cold-Blooded Man Chewing on Cherry Coke Amidst the Bloodbath of Wall Street"
+    }
+  },
+  "abraham-lincoln": {
+    "hook": {
+      "ko": "60만의 시체를 밟고 서서 자유의 헌법을 피로 다시 쓴 학살자이자 구원자",
+      "en": "The Slaughterer and Savior Who Stood Upon 600,000 Corpses to Rewrite the Constitution of Freedom in Blood"
+    }
+  },
+  "jim-carrey": {
+    "hook": {
+      "ko": "폭소의 제단 위에 짐 캐리라는 자아의 목을 쳐서 바친 해체주의자",
+      "en": "The Deconstructionist Who Beheaded and Sacrificed the Ego Named Jim Carrey on the Altar of Roaring Laughter"
+    }
   }
 }

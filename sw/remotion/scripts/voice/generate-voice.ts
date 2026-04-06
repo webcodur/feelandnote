@@ -2,11 +2,13 @@
  * BookRecommend TTS 생성 — script.ts 단일원천
  *
  * 사용법:
- *   pnpm voice                              → Gemini TTS (기본)
- *   pnpm voice -- --engine elevenlabs       → ElevenLabs (셀럽 커스텀 보이스)
- *   pnpm voice -- --only book-0-summary     → 특정 파일만
- *   pnpm voice -- --only book-0-title,book-1-title  → 복수 지정
- *   pnpm voice -- --list                    → 생성 대상 목록만 출력
+ *   pnpm voice                                          → Gemini TTS (기본)
+ *   pnpm voice -- --engine elevenlabs                   → ElevenLabs (셀럽 커스텀 보이스)
+ *   pnpm voice -- --only book-0-summary                 → 특정 파일만
+ *   pnpm voice -- --only book-0-title,book-1-title      → 복수 지정
+ *   pnpm voice -- --list                                → 생성 대상 목록만 출력
+ *   pnpm voice -- --episode <name> --normalize             → 신규 생성 후 라우드니스 정규화
+ *   pnpm voice -- --episode <name> --normalize (변경 없음) → OUT_DIR 모든 wav 일괄 정규화
  *
  * 보이스: Kore(나레이터), Charon(요약맨), Puck(셀럽)
  */
@@ -32,6 +34,16 @@ import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPat
 
 // CLI에서 --episode <name> 또는 기본값
 const args = process.argv.slice(2)
+
+// 허용 플래그 검증 — 오타·미지원 플래그 유입 방지
+const KNOWN_FLAGS = new Set(['--episode', '--engine', '--only', '--force', '--shorts', '--long', '--update-json', '--include-common', '--normalize'])
+for (const arg of args) {
+  if (arg === '--') continue
+  if (arg.startsWith('--') && !KNOWN_FLAGS.has(arg)) {
+    throw new Error(`알 수 없는 플래그: ${arg} (허용: ${[...KNOWN_FLAGS].join(', ')})`)
+  }
+}
+
 const epIdx = args.indexOf('--episode')
 const EPISODE_NAME = epIdx >= 0 ? args[epIdx + 1] : 'elon-musk'
 
@@ -400,6 +412,85 @@ function manifestDir(job: Job): string {
   return jobOutDir(job)
 }
 
+// === 라우드니스 정규화 (loudnorm 2-pass linear) ===
+// 신규 wav 생성 직후 또는 --normalize 단독 호출 시 디렉토리 일괄 적용.
+// 원본은 같은 디렉토리의 .raw/ 에 자동 백업하여 롤백 가능.
+// 셀럽이 ElevenLabs 보이스를 쓰는 경우 적용하지 않는다 (수작업 검수 영역 보호).
+const NORMALIZE_TARGET_I = -19
+const NORMALIZE_TARGET_TP = -1.5
+const NORMALIZE_TARGET_LRA = 11
+
+function runFfmpeg(ffArgs: string[]): Promise<{ stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    execFile('ffmpeg', ffArgs, { maxBuffer: 1024 * 1024 * 32 }, (err, stdout, stderr) => {
+      if (err) reject(Object.assign(err, { stderr }))
+      else resolve({ stdout, stderr })
+    })
+  })
+}
+
+/** 단일 wav 정규화. 원본은 .raw/에 1회 한정 백업. 성공 시 input_i 반환. */
+async function normalizeWav(filePath: string): Promise<{ inI: string } | null> {
+  const dir = path.dirname(filePath)
+  const name = path.basename(filePath)
+  const rawDir = path.join(dir, '.raw')
+  const rawPath = path.join(rawDir, name)
+
+  // 1) 원본 1회 백업
+  if (!existsSync(rawPath)) {
+    await mkdir(rawDir, { recursive: true })
+    const { copyFile } = await import('fs/promises')
+    await copyFile(filePath, rawPath)
+  }
+
+  // 2) 1-pass 측정
+  let measureRes: { stderr: string }
+  try {
+    measureRes = await runFfmpeg([
+      '-hide_banner', '-nostats', '-i', filePath,
+      '-af', `loudnorm=I=${NORMALIZE_TARGET_I}:TP=${NORMALIZE_TARGET_TP}:LRA=${NORMALIZE_TARGET_LRA}:print_format=json`,
+      '-f', 'null', '-',
+    ])
+  } catch (e: any) {
+    measureRes = { stderr: e.stderr || '' }
+  }
+  const jsonMatch = measureRes.stderr.match(/\{[\s\S]*?\}/)
+  if (!jsonMatch) return null
+  let measured: { input_i?: string; input_tp?: string; input_lra?: string; input_thresh?: string; target_offset?: string }
+  try { measured = JSON.parse(jsonMatch[0]) } catch { return null }
+  const { input_i, input_tp, input_lra, input_thresh, target_offset } = measured
+  if (!input_i || !input_tp || !input_lra || !input_thresh || !target_offset) return null
+
+  // 3) 2-pass 적용 (linear: 게인만 조정, 컴프레션 없음)
+  const tmpPath = filePath.replace(/\.wav$/, '.norm.tmp.wav')
+  await runFfmpeg([
+    '-hide_banner', '-nostats', '-loglevel', 'error', '-y',
+    '-i', filePath,
+    '-af', `loudnorm=I=${NORMALIZE_TARGET_I}:TP=${NORMALIZE_TARGET_TP}:LRA=${NORMALIZE_TARGET_LRA}:linear=true:measured_I=${input_i}:measured_TP=${input_tp}:measured_LRA=${input_lra}:measured_thresh=${input_thresh}:offset=${target_offset}`,
+    '-ar', '24000', '-ac', '1',
+    tmpPath,
+  ])
+
+  // 4) 원자적 교체
+  const { rename } = await import('fs/promises')
+  await rename(tmpPath, filePath)
+
+  return { inI: input_i }
+}
+
+/** 디렉토리 내 모든 wav 일괄 정규화 (TTS 생성 없이 후처리만 수행) */
+async function normalizeAll(outDir: string): Promise<void> {
+  const { readdirSync } = await import('fs')
+  const files = readdirSync(outDir).filter((f: string) => f.endsWith('.wav'))
+  console.log(`\n=== 라우드니스 정규화: ${files.length}개 (I=${NORMALIZE_TARGET_I} LUFS, TP=${NORMALIZE_TARGET_TP}, linear) ===`)
+  for (const f of files) {
+    const fp = path.join(outDir, f)
+    const result = await normalizeWav(fp)
+    if (result) console.log(`  [OK]   ${f.padEnd(30)} in_i=${result.inI}`)
+    else console.log(`  [SKIP] ${f.padEnd(30)} 측정 실패`)
+  }
+}
+
 // --- CLI ---
 async function main() {
   // 에피소드 로드
@@ -496,6 +587,11 @@ async function main() {
     jobs = filtered
     if (skipped > 0) console.log(`변경 없는 ${skipped}개 스킵`)
     if (jobs.length === 0) {
+      // --normalize 단독: TTS 생성 없이 OUT_DIR의 모든 wav만 정규화
+      if (args.includes('--normalize') && ENGINE !== 'elevenlabs') {
+        await normalizeAll(OUT_DIR)
+        return
+      }
       console.log('변경된 텍스트 없음. 전체 재생성: --force')
       return
     }
@@ -512,16 +608,24 @@ async function main() {
   }
 
   console.log(`${jobs.length}개 음성 생성 시작... [엔진: ${ENGINE}]\n`)
+  const normalizeEnabled = args.includes('--normalize') && ENGINE !== 'elevenlabs'
   const results: Record<string, number> = {}
   for (const job of jobs) {
     const dir = jobOutDir(job)
     await mkdir(dir, { recursive: true })
     console.log(`[${job.file}]${isCommonFile(job.file) ? ' (common)' : ''}`)
-    results[job.file] = await tts(job.text, job.voice, path.join(dir, job.file), job.role, job.isShort, job.shortSegId)
+    const fp = path.join(dir, job.file)
+    results[job.file] = await tts(job.text, job.voice, fp, job.role, job.isShort, job.shortSegId)
     // 성공 시 매니페스트 업데이트
     const mDir = manifestDir(job)
     const m = await getManifest(mDir)
     m[job.file] = jobHash(job.text, job.voice)
+    // --normalize: 신규 wav 즉시 정규화 (.raw/ 백업 자동)
+    if (normalizeEnabled) {
+      const r = await normalizeWav(fp)
+      if (r) console.log(`  ↳ normalized (in_i=${r.inI})`)
+      else console.log(`  ↳ normalize 측정 실패 — 원본 유지`)
+    }
   }
   // 변경된 매니페스트 저장
   for (const [dir, m] of manifestCache) {

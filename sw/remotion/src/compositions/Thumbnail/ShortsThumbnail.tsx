@@ -87,7 +87,7 @@ export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFoote
         background: 'linear-gradient(to bottom, #090807, transparent)',
       }} />
       <div style={{
-        position: 'absolute', bottom: BOT_H, left: 0, right: 0, height: 320,
+        position: 'absolute', bottom: BOT_H, left: 0, right: 0, height: 120,
         background: 'linear-gradient(to top, #090807, transparent)',
       }} />
       {/* 약간의 비네팅 효과로 시선 집중 */}
@@ -144,15 +144,25 @@ export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFoote
         />
       </div>
 
-      {/* ── 하단 타이포그래피 (단단한 마감) ── */}
+      {/* 책제목 배경 음영 — 책 표지와 겹치는 구간에서 텍스트가 시각적 우위에 서도록
+          zIndex 7: 책 표지(5) 위, 타이틀(10) 아래 */}
       {!hideFooter && (
         <div style={{
-          position: 'absolute', bottom: SAFE_Z, left: 80, right: 80,
+          position: 'absolute',
+          top: TOP_H + MID_H - 80, left: 0, right: 0, height: 340,
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.85) 100%)',
+          zIndex: 7,
+          pointerEvents: 'none',
+        }} />
+      )}
+
+      {/* ── 하단 타이포그래피 (단단한 마감) ── */}
+      {/* 인물 이미지 컨테이너 바닥(TOP_H + MID_H)에 앵커 — 갭 없이 바로 이어짐 */}
+      {!hideFooter && (
+        <div style={{
+          position: 'absolute', top: TOP_H + MID_H, left: 80, right: 80,
           zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-start'
         }}>
-          {/* 시선을 묶어주는 미니멀 골드 바 */}
-          <div style={{ width: 60, height: 4, backgroundColor: GOLD, marginBottom: 24 }} />
-          
           {/* 유튜브 시청자에게 가장 명확히 소구할 콘텐츠 포맷 위치에 실제 책 제목 노출 */}
           <div style={{
             fontSize: isEn ? 52 : 60, color: CREAM, fontWeight: 900,

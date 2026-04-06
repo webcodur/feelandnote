@@ -177,27 +177,58 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       if (seg.imageChangeAt) {
         const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]
         const timingKey = vnTimingKey(vnShort(i, seg.id))
-        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string }[] | undefined
+        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; words?: { text: string; start: number; end: number }[] }[] | undefined
         const segText = seg.text ?? ''
         const segDurSec = segTimings[i] / fps
+        const stripPunct = (s: string) => s.replace(/[\s.,!?“"”'’《》\n\r]/g, '')
 
+        // word-level fullText (있으면 우선) — 같은 sentence 내 여러 anchor 구분 가능
+        let wordFullText = ''
+        const wordPositions: { offset: number; start: number }[] = []
+        if (timings) {
+          for (const seg of timings) {
+            if (!seg.words) continue
+            for (const w of seg.words) {
+              if (!w.text) continue
+              wordPositions.push({ offset: wordFullText.length, start: w.start })
+              wordFullText += stripPunct(w.text)
+            }
+          }
+        }
+        const hasWordLevel = wordPositions.length > 0
+
+        // sentence-level fullText (폴백)
         let fullText = ''
         const positions: { offset: number; start: number }[] = []
         if (timings) {
           for (const w of timings) {
             if (!w.text) continue
             positions.push({ offset: fullText.length, start: w.start })
-            fullText += w.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
+            fullText += stripPunct(w.text)
           }
         }
-        const normSegText = segText.replace(/[\s.,!?“"”'’\n\r]/g, '')
+        const normSegText = stripPunct(segText)
 
         for (const change of changes) {
           let resolved = change.t
           if (change.text) {
-            const normAnchor = change.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
+            const normAnchor = stripPunct(change.text)
             let matched = false
-            if (timings && normAnchor) {
+            // 1순위: word-level 매칭 (같은 sentence 내 여러 anchor 구분)
+            if (hasWordLevel && normAnchor) {
+              const pos = wordFullText.indexOf(normAnchor)
+              if (pos !== -1) {
+                for (let j = wordPositions.length - 1; j >= 0; j--) {
+                  if (pos >= wordPositions[j].offset) {
+                    resolved = wordPositions[j].start
+                    matched = true
+                    break
+                  }
+                }
+              }
+            }
+            // 2순위: sentence-level 매칭 (words 데이터 없을 때 폴백)
+            if (!matched && timings && normAnchor) {
               const pos = fullText.indexOf(normAnchor)
               if (pos !== -1) {
                 for (let j = positions.length - 1; j >= 0; j--) {
@@ -781,8 +812,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         )
       })()}
 
-      {/* studio-only dev overlay — 2배속 진단: 일시 비활성화 */}
-      {false && !getRemotionEnvironment().isRendering && (
+      {/* studio-only dev overlay */}
+      {!getRemotionEnvironment().isRendering && (
         <ShortDevOverlay
           frame={frame}
           totalFrames={compFrames}
@@ -795,7 +826,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
           voiceTimings={script.voiceTimings}
         />
       )}
-      {false && !getRemotionEnvironment().isRendering && (
+      {!getRemotionEnvironment().isRendering && (
         <SubEditor
            voiceTimings={script.voiceTimings}
            episodeName={epName}
