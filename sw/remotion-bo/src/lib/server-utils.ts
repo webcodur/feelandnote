@@ -97,7 +97,10 @@ export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]>
       const personDir = path.join(statusDir, e.name)
       const files = await readdir(personDir)
       for (const f of files) {
-        if (f.endsWith('.json') && !f.endsWith('.timing.json')) items.push({ id: buildEpisodeId(e.name, f), status: s })
+        if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
+        const base = f.replace('.json', '')
+        if (!/^(ko|en)(?:-(\d+))?$/.test(base)) continue
+        items.push({ id: buildEpisodeId(e.name, f), status: s })
       }
     }
   }
@@ -150,15 +153,13 @@ export async function loadEpisode(_series: string, name: string) {
 
 export async function saveEpisode(_series: string, name: string, data: unknown) {
   const fp = episodeFilePath(name)
-  const tp = timingFilePath(name)
   await mkdir(path.dirname(fp), { recursive: true })
 
-  const { content, timing } = splitEpisodeData(data)
+  // timing.json은 voice/analyze 파이프라인 단독 관리(SSoT).
+  // 백오피스가 받은 객체에 voiceTimings/duration 등이 섞여 있어도 split으로 분리해서 버린다.
+  // 이렇게 하지 않으면 백오피스 메모리의 stale timing이 디스크의 NEW timing을 덮어쓴다.
+  const { content } = splitEpisodeData(data)
   await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
-
-  if (Object.keys(timing).length > 0) {
-    await writeFile(tp, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
-  }
 }
 
 /** 인물 폴더를 물리적으로 다른 상태 폴더로 이동 */

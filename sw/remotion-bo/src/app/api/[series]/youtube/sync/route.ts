@@ -110,9 +110,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         let ytMeta: Record<string, { title?: string }> = {}
         try { if (existsSync(metaPath)) ytMeta = JSON.parse(await readFile(metaPath, 'utf-8')) } catch {}
 
-        localTitle = ytMeta[item.variant]?.title ?? buildTitle(meta, celebName, lang, isShorts)
+        localTitle = ytMeta[item.variant]?.title || (meta.hook[lang] ? buildTitle(meta, celebName, lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`)
       } catch {
-        localTitle = buildTitle(meta, '?', lang, isShorts)
+        localTitle = meta.hook[lang] ? buildTitle(meta, '?', lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ?`
       }
 
       const diffs: string[] = []
@@ -263,8 +263,9 @@ async function pushVariant(series: string, episode: string, variant: string, vid
 
   const chapters = !isShorts ? calcChapterTimestamps(ep, lang) : undefined
   const links = ytMeta[variant]?.links
-  const title = ytMeta[variant]?.title ?? buildTitle(meta, celebName, lang, isShorts)
-  const description = ytMeta[variant]?.description ?? buildDescription(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode)
+  const fallbackTitle = meta.hook[lang] ? buildTitle(meta, celebName, lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`
+  const title = ytMeta[variant]?.title || fallbackTitle
+  const description = ytMeta[variant]?.description || buildDescription(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode)
 
   const tags = buildTags(celebName, lang, isShorts)
   const snippet = buildYouTubeSnippet({ title, description, tags, lang })
