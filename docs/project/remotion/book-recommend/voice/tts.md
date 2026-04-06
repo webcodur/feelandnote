@@ -284,6 +284,74 @@ pnpm sub:apply -- --episode <name> --input subs.json  # sub 매핑 일괄 적용
 
 voiceTimings에 text가 있으면 `book.context` 대신 **voiceTimings 텍스트를 화면에 표시**한다. 텍스트만 바꾸고 파이프라인을 안 돌리면 화면에 옛 텍스트가 남는다.
 
+## 5. 라우드니스 정규화 (옵트인)
+
+Gemini TTS는 동일 보이스라도 텍스트 톤·길이에 따라 세그먼트 간 평균 음량(dB)이 들쑥날쑥하다. 짧고 강렬한 hook이 일반 본문보다 4dB 이상 크게 합성되는 경우가 흔하다. 이를 해소하기 위해 `--normalize` 플래그로 ffmpeg `loudnorm` 후처리를 적용할 수 있다.
+
+### 사용법
+
+```bash
+# 신규 생성 + 자동 정규화 (생성된 wav만)
+pnpm voice -- --episode <name> --normalize --update-json
+
+# 일괄 정규화만 (TTS 생성 없이 OUT_DIR의 모든 wav 후처리)
+pnpm voice -- --episode <name> --normalize
+```
+
+- 매니페스트 비교 결과 `변경된 텍스트 없음`이면 자동으로 일괄 정규화 모드로 전환된다
+- `--shorts` / `--long` / `--only` 와 조합 가능 (해당 범위만 신규 생성·정규화)
+- `--engine elevenlabs` 일 때는 자동 비활성화 (셀럽 수작업 검수 영역 보호)
+
+### 타겟 파라미터
+
+| 항목 | 값 | 이유 |
+|------|----|------|
+| I (Integrated LUFS) | -19 | 깎는 방향 위주로 평준화. 천장(0 dB)에 붙은 wav가 클립되지 않도록 보수적 |
+| TP (True Peak) | -1.5 dB | 클리핑 안전 마진 |
+| LRA (Loudness Range) | 11 | 기본값. linear 모드에서 큰 영향 없음 |
+| linear=true | ✓ | 게인만 조정, 컴프레션 미적용 → 음색·다이나믹 보존 |
+| 패스 | 2-pass | 1패스 측정 → 2패스 정확 적용 |
+
+### 백업·롤백
+
+정규화는 원본 wav를 같은 디렉토리의 `.raw/` 하위에 1회 한정으로 자동 백업한 뒤 in-place로 교체한다. 이미 백업이 있는 파일은 백업 단계를 건너뛴다 (재정규화 시에도 원본 보존).
+
+```
+public/episodes/<status>/<person>/voice/<locale>/gemini/
+├── S01-hook.wav          ← 정규화 후
+├── S04-book-context.wav  ← 정규화 후
+├── ...
+└── .raw/
+    ├── S01-hook.wav      ← 원본 (자동 백업)
+    ├── S04-book-context.wav
+    └── ...
+```
+
+롤백:
+
+```bash
+cp public/episodes/<status>/<person>/voice/<locale>/gemini/.raw/*.wav \
+   public/episodes/<status>/<person>/voice/<locale>/gemini/
+```
+
+### 동작 검증
+
+정규화 전후 평균 dB는 ffmpeg `volumedetect`로 측정한다:
+
+```bash
+for f in public/episodes/<...>/voice/<locale>/gemini/*.wav; do
+  ffmpeg -i "$f" -af volumedetect -vn -sn -dn -f null - 2>&1 | grep -E "mean_volume|max_volume"
+done
+```
+
+기대치: mean이 `-19 ~ -20 dB` 부근으로 수렴하고, max는 `-1.5 dB` 이하 (피크 안전 마진 확보).
+
+### 주의
+
+- 셀럽 음성(ElevenLabs)에는 적용 금지. 정규화 코드가 자동 차단함
+- 너무 짧은 wav (2초 미만)는 LUFS 측정 정확도가 떨어짐. BookRecommend 쇼츠는 모두 충분한 길이라 해당 없음
+- linear 모드에서 헤드룸이 부족하면 ffmpeg가 dynamic으로 자동 fallback할 수 있음 (드물게 발생, 음색 영향 미미)
+
 ### 출력 파일
 
 | 파일 | 위치 | git 추적 | 비고 |

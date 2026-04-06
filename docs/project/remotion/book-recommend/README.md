@@ -16,8 +16,9 @@
 | 5c | lineup/candidates-raw.md | 후보 전체 리스트 (DB 자동 생성, git 미추적) |
 | 6 | [rules.md](rules.md) | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항 |
 | 7 | [render.md](render.md) | 렌더 출력 — 명령어, 파일명 규칙, 코덱 옵션 |
-| 8 | [images.md](images.md) | 배경연출 이미지 — 생성 API, 프롬프트 규칙, 슬롯 구조 |
+| 8 | [image-requirements.md](image-requirements.md) | 배경연출 이미지 — 생성 가이드, 프롬프트 규칙, 품질 기준 |
 | 8b | [shorts-image.md](shorts-image.md) | 쇼츠 이미지 전환 — imageChangeAt, 앵커 매칭, 크로스페이드 |
+| 8c | [image-anchor-sync.md](image-anchor-sync.md) | 이미지 앵커 동기화 파이프라인 — 폴더 스캔·품질 필터·ko/en 동기화 |
 | 9 | [writer/](writer/) | 글쓰기 + 교정 파이프라인 |
 | 9-0 | [writer/0-draft.md](writer/0-draft.md) | **초안 작성 가이드** — 테마·필드별 기준·말투·문장 원칙·DB 매핑 |
 | 9-1 | [writer/1-fact-check.md](writer/1-fact-check.md) | 사료 검증 — 역사적 사실·인용문·출처 교차 검증 |

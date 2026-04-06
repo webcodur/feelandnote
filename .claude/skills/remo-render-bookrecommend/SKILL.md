@@ -15,24 +15,38 @@ BookRecommend 시리즈의 롱폼(16:9) 및 쇼츠(9:16) MP4 + SRT를 렌더링�
 
 ### 에피소드명 규칙
 
-- 한국어 버전: `dario-amodei`, `jensen-huang` 등 (slug 그대로)
-- 영문 버전: `dario-amodei-en` 처럼 `-en` 접미사 추가
-- "영문", "EN", "en" 키워드가 있으면 `-en` 접미사를 자동 추가
+- 슬러그 그대로 사용: `dario-amodei`, `jensen-huang` 등
+- 언어 분리는 `--lang` 옵션으로 처리한다 (`-en` 접미사 방식은 deprecated, 호환용으로만 유지)
 
 ### 옵션
 
 | 옵션 | 설명 |
 |------|------|
-| (없음) | 롱폼 + 쇼츠 모두 렌더 |
+| (없음) | 한·영 × 롱폼·쇼츠 전부 렌더 |
 | `--only longform` 또는 `롱폼` | 롱폼만 렌더 |
 | `--only shorts` 또는 `쇼츠` | 쇼츠만 렌더 |
+| `--lang ko` 또는 `한국어`/`한/KO` | 한국어 버전만 렌더 |
+| `--lang en` 또는 `영문`/`영어`/`EN` | 영문 버전만 렌더 |
+
+언어와 타입 옵션은 자유롭게 조합 가능하다.
 
 ### 호출 예시
 
-- `/render dario-amodei-en 쇼츠` → 다리오 아모데이 영문 쇼츠만
-- `/render jensen-huang 롱폼` → 젠슨황 한국어 롱폼만
-- `/render alexander-the-great` → 알렉산더 한국어 롱폼 + 쇼츠 모두
-- `다리오 아모데이 영문 롱폼 렌더` → `/render dario-amodei-en --only longform`
+- `/render alex-karp --lang ko --only shorts` → 알렉스 카프 한국어 쇼츠만
+- `/render alex-karp 한국어 쇼츠` → 동일 (자연어 → 옵션 변환)
+- `/render dario-amodei --lang en --only shorts` → 다리오 아모데이 영문 쇼츠만
+- `/render jensen-huang --lang ko --only longform` → 젠슨황 한국어 롱폼만
+- `/render alexander-the-great` → 알렉산더 한·영 × 롱폼·쇼츠 전부
+
+### 자연어 → 옵션 매핑
+
+사용자 입력을 다음과 같이 변환한다:
+
+- "한국어", "한", "KO", "ko" → `--lang ko`
+- "영문", "영어", "EN", "en" → `--lang en`
+- "한/영", "한영", "전부", (언어 미지정) → `--lang` 생략 (양쪽 모두)
+- "쇼츠" → `--only shorts`
+- "롱폼" → `--only longform`
 
 ## 실행 흐름
 
@@ -51,7 +65,7 @@ sw/remotion/public/episodes/{done|live|todo}/<person>/<locale>.json
 
 ```bash
 cd sw/remotion
-pnpm render:all -- --episode <에피소드명> [--only longform|shorts]
+pnpm render:all -- --episode <에피소드명> [--lang ko|en] [--only longform|shorts]
 ```
 
 - 렌더는 시간이 오래 걸린다 (쇼츠 ~3분, 롱폼 ~15분)
