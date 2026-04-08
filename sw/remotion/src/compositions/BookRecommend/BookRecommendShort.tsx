@@ -7,12 +7,12 @@
  * @see docs/project/remotion/shorts.md
  */
 import React, { useEffect } from 'react'
-import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, prefetch, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'
+import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import { freshAvatarUrl } from '../../lib/avatar'
 import type { BookRecommendScript } from './types'
 import { fadeInOut, safeImg, sf, makeVf } from './utils'
+import { safePrefetch } from './safe-prefetch'
 import { DARK } from '../theme'
-import { BrandShorts } from './sections/BrandIntro'
 import { FONT } from './fonts'
 import { SHORT_CTA_FRAMES, SHORT_LOGO_FRAMES, SHORT_REVEAL_FRAMES, shortTotalFrames, shortSegLayout, FPS, f } from './timing'
 import { EPISODE_NAME, loadVoiceSelect, episodeDir } from './script'
@@ -41,31 +41,53 @@ const MID_H = 1920 - HEADER_H - SAFE_BOTTOM
 const RIGHT_STRIP_W = 280
 const CONTENT_PAD = 48
 const SAFE_PAD = `60px ${CONTENT_PAD}px 40px`
-const SERIES_BG = 'common/images/series-bg.jpg'
 const REVEAL_BG = 'common/images/reveal-bg.jpg'
 const CTA_BG = 'common/images/cta-bg.jpg'
 const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
-type Props = { script: BookRecommendScript; episodeName?: string }
+type Props = { script: BookRecommendScript; episodeName?: string; shortsIndex: number }
 
-export const calcShortTotalFrames = (script: BookRecommendScript) => {
-  if (!script.shorts?.segments) return 300
-  return shortTotalFrames(script.shorts.segments)
+/** 쇼츠 총 프레임 계산. shortsIndex는 1-based (필수) */
+export const calcShortTotalFrames = (script: BookRecommendScript, shortsIndex: number) => {
+  const segs = script.shorts?.[shortsIndex - 1]?.segments
+  if (!segs) return 300
+  return shortTotalFrames(segs)
 }
 
-export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => {
+export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, shortsIndex }) => {
   const frame = useCurrentFrame()
   const { fps, durationInFrames: compFrames } = useVideoConfig()
   const epName = episodeName ?? EPISODE_NAME
   const vf = makeVf(epName, loadVoiceSelect(epName), script.locale, !!script.host.elevenlabsVoiceId)
   const { host, books } = script
-  const segments = script.shorts?.segments ?? []
+  // shortsIndex: 1-based (외부 노출) → 배열 접근 시 -1 변환
+  const shorts = script.shorts?.[shortsIndex - 1]
+  const segments = shorts?.segments ?? []
   const hasVoice = segments.some(s => (s.duration ?? 0) > 0)
-  const bi = script.shorts?.featuredBookIndex ?? 0
+  const bi = shorts?.featuredBookIndex ?? 0
   const book = books[bi]
   const imgBase = shortsImageBase(epName)
-  const revealBgUrl = script.shorts?.revealBg ? sf(`${imgBase}/${script.shorts.revealBg}`) : null
-  const bookBgUrl = script.shorts?.bookBg ? sf(`${imgBase}/${script.shorts.bookBg}`) : null
+  const revealBgUrl = shorts?.revealBg ? sf(`${imgBase}/${shorts.revealBg}`) : null
+  const bookBgUrl = shorts?.bookBg ? sf(`${imgBase}/${shorts.bookBg}`) : null
+
+  // --- "인물명의 서재" / "N's Library" 단일 블록의 길이 기반 적응형 fontSize ──
+  // 수식어(~60) + 본문(1~2줄) 2단 구성. HEADER_H 320 한도 안에서 2줄까지 안전하게 수용.
+  // 가용 폭: 1080 - padding 160 = 920px. 서체: 영문 serif weight 900(≈0.5×fs/char), 한글 sans weight 900(≈0.95×fs/glyph).
+  const libraryLabel = script.locale === 'en' ? "'s Library" : '의 서재'
+  const libraryText = `${host.nickname}${libraryLabel}`
+  const nameFontSize = (() => {
+    if (script.locale === 'en') {
+      const len = libraryText.length
+      if (len <= 20) return 92   // e.g. "Lincoln's Library", "Confucius's Library"
+      if (len <= 30) return 78   // e.g. "Marcus Aurelius's Library", "Alexander the Great's Library"
+      return 66                   // e.g. "Wolfgang Amadeus Mozart's Library"
+    }
+    // 한국어: 공백 제외 글자수 기준
+    const len = libraryText.replace(/\s/g, '').length
+    if (len <= 7) return 112   // e.g. "공자의 서재", "링컨의 서재"
+    if (len <= 11) return 96   // e.g. "알렉산더 대왕의 서재", "세종대왕의 서재"
+    return 80                   // e.g. "마르쿠스 아우렐리우스의 서재", "레오나르도 다 빈치의 서재"
+  })()
 
   // --- segment timing (timing.ts SSoT) ---
   const { segTimings, segStarts, logoStart } = shortSegLayout(segments)
@@ -75,7 +97,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
     if (!hasVoice) return
     const audioUrls = [
       sf('common/sfx/chime.wav'),
-      ...segments.flatMap((seg, i) => (seg.duration && seg.visual !== 'cta') ? [vf(vnShort(i, seg.id))] : []),
+      ...segments.flatMap((seg, i) => (seg.duration && seg.visual !== 'cta') ? [vf(vnShort(i, seg.id, shortsIndex))] : []),
     ]
     const imageUrls = [
       ...(revealBgUrl ? [revealBgUrl] : []),
@@ -94,13 +116,14 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       }),
     ]
     const cleanups = [
-      ...audioUrls.map(u => prefetch(u, { method: 'blob-url', contentType: 'audio/wav' }).free),
-      ...imageUrls.map(u => prefetch(u, { method: 'blob-url' }).free),
+      ...audioUrls.map(u => safePrefetch(u, { method: 'blob-url', contentType: 'audio/wav' }).free),
+      ...imageUrls.map(u => safePrefetch(u, { method: 'blob-url' }).free),
     ]
     return () => cleanups.forEach(fn => fn())
   }, [segments.length, hasVoice, imgBase])
 
   // --- helpers ---
+  const introIdx = segments.findIndex(s => s.id === 'intro')
   const segOp = (i: number) => {
     if (i === 0) {
       // 텍스트는 gap 끝 0.6초 전에 등장, 하이라이팅은 오디오와 동기
@@ -110,9 +133,18 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       if (frame >= segEnd - f(0.5)) return (segEnd - frame) / f(0.5)
       return 1
     }
+    if (i === introIdx && introIdx === 1) {
+      // hook 직후 intro — 부드럽게 등장 (fade-in 길게)
+      return fadeInOut(frame, segStarts[i], segTimings[i], f(0.6), f(0.33))
+    }
     return fadeInOut(frame, segStarts[i], segTimings[i])
   }
   const logoOp = fadeInOut(frame, logoStart, SHORT_LOGO_FRAMES)
+  // LOGO 풀스크린 오버레이용(매거진 ShortsThumbnail) — CTA 끝/LOGO 시작에서 페이드 인, LOGO 끝에서 페이드 아웃
+  const logoContentOp = interpolate(frame,
+    [logoStart - f(0.3), logoStart + f(0.3), logoStart + SHORT_LOGO_FRAMES - f(0.5), logoStart + SHORT_LOGO_FRAMES],
+    [0, 1, 1, 0], CL,
+  )
 
   const bookSegIdx = segments.findIndex(s => s.visual === 'book')
   const bookStart = bookSegIdx >= 0 ? segStarts[bookSegIdx] : 0
@@ -132,15 +164,16 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
   const stripBookStart = bookIdx >= 0 ? segStarts[bookIdx] : Infinity
   const stripBookEnd = bookIdx >= 0 ? segStarts[bookIdx] + segTimings[bookIdx] : 0
 
-  const introIdx = segments.findIndex(s => s.id === 'intro')
   const stripAvatarOp = (() => {
     const fadeOut = interpolate(frame, [stripEnd - f(0.4), stripEnd], [1, 0], CL)
-    // hook + intro 구간 숨김 — intro 끝나면 복귀
-    const hideEnd = introIdx >= 0
-      ? segStarts[introIdx] + segTimings[introIdx]
-      : (segments[0] ? segStarts[0] + segTimings[0] : 0)
+    // hook + intro 구간 숨김 — intro 다음 세그먼트(보통 celeb-mid) 시작 시점에 텍스트와 동시 등장
+    const showStart = introIdx >= 0 && introIdx + 1 < segments.length
+      ? segStarts[introIdx + 1]
+      : (introIdx >= 0
+        ? segStarts[introIdx] + segTimings[introIdx]
+        : (segments[0] ? segStarts[0] + segTimings[0] : 0))
     const introHide = interpolate(frame,
-      [hideEnd - f(0.3), hideEnd],
+      [showStart, showStart + f(0.27)],
       [0, 1], CL)
     if (bookIdx >= 0) {
       const base = interpolate(frame, [0, f(0.6), stripBookStart - f(0.4), stripBookStart], [0, 1, 1, 0], CL)
@@ -149,9 +182,14 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
     return Math.min(interpolate(frame, [0, f(0.6)], [0, 1], CL), fadeOut, introHide)
   })()
 
+  // 책 포스터는 책 세그먼트 시작 후 최대 7초만 노출 → 이후 우측 스트립 비움
+  const POSTER_VISIBLE_S = 7
+  const posterHardEnd = Math.min(stripBookStart + f(POSTER_VISIBLE_S), stripBookEnd)
+  const posterFadeInEnd = stripBookStart + f(0.5)
+  const posterFadeOutStart = Math.max(posterFadeInEnd + 1, posterHardEnd - f(0.4))
   const stripPosterOp = bookIdx >= 0
     ? Math.min(
-        interpolate(frame, [stripBookStart, stripBookStart + f(0.5), stripBookEnd - f(0.4), stripBookEnd], [0, 1, 1, 0], CL),
+        interpolate(frame, [stripBookStart, posterFadeInEnd, posterFadeOutStart, posterHardEnd], [0, 1, 1, 0], CL),
         interpolate(frame, [stripEnd - f(0.4), stripEnd], [1, 0], CL),
       )
     : 0
@@ -163,6 +201,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
   )
 
   // --- image groups (precomputed to prevent regex parse every frame) ---
+  // hook/intro/celeb-mid/book 모든 세그먼트의 seg.image + imageChangeAt를 통합 시퀀스로 빌드
   const imageGroups = React.useMemo(() => {
     const groups: { image: string; start: number }[] = []
     const push = (image: string, start: number) => {
@@ -171,12 +210,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       groups.push({ image, start })
     }
     segments.forEach((seg, i) => {
-      if (!seg.image || seg.visual !== 'book') return
+      if (!seg.image || seg.visual === 'cta') return
       const img1 = seg.image.startsWith('episodes/') ? seg.image : `${imgBase}/${seg.image}`
       push(img1, segStarts[i])
       if (seg.imageChangeAt) {
         const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]
-        const timingKey = vnTimingKey(vnShort(i, seg.id))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
         const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; words?: { text: string; start: number; end: number }[] }[] | undefined
         const segText = seg.text ?? ''
         const segDurSec = segTimings[i] / fps
@@ -258,33 +297,53 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         }
       }
     })
+    // 책 세그먼트에 seg.image가 없으면서 bookBg(폴백)이 있으면 가상 그룹으로 추가.
+    // hook/intro 이미지에서 자연스럽게 cross-fade 되도록 하기 위함.
+    const bookHasImage = segments.some(s => s.visual === 'book' && s.image)
+    if (bookSegIdx >= 0 && !bookHasImage && shorts?.bookBg) {
+      const bookBgPath = shorts.bookBg.startsWith('episodes/') ? shorts.bookBg : `${imgBase}/${shorts.bookBg}`
+      push(bookBgPath, segStarts[bookSegIdx])
+    }
     groups.sort((a, b) => a.start - b.start)
+    // 최소 간격 보정 — voiceTimings 없는 프리뷰에서 앵커가 겹칠 때 Remotion interpolate 에러 방지
+    const MIN_GROUP_GAP = f(0.15)
+    for (let gi = 1; gi < groups.length; gi++) {
+      if (groups[gi].start - groups[gi - 1].start < MIN_GROUP_GAP) {
+        groups[gi].start = groups[gi - 1].start + MIN_GROUP_GAP
+      }
+    }
     return groups
-  }, [segments, segStarts, script.voiceTimings, segTimings, fps, imgBase])
+  }, [segments, segStarts, script.voiceTimings, segTimings, fps, imgBase, bookSegIdx, shorts?.bookBg])
 
   return (
     <AbsoluteFill style={{ backgroundColor: DARK.base }}>
-      {/* 중단 1열(텍스트) 배경 — gap부터 밝게 시작 → hook까지 어두워짐 → 마지막 콘텐츠 세그먼트와 함께 fade-out */}
+      {/* 중단 1열(텍스트) 배경 — 시작부터 hook 끝까지 어둡게 유지 → 마지막 콘텐츠 세그먼트와 함께 fade-out */}
       {(() => {
-        const gapStart = SHORT_REVEAL_FRAMES
-        const hookStart = segStarts[0] ?? gapStart
         const lastContentIdx = segments.reduce((last, s, i) => s.visual !== 'cta' ? i : last, -1)
         const contentEnd = lastContentIdx >= 0 ? segStarts[lastContentIdx] + segTimings[lastContentIdx] : logoStart
         const bgOp = interpolate(frame, [contentEnd - f(0.5), contentEnd], [1, 0], CL)
         if (bgOp <= 0) return null
-        const bright = interpolate(frame, [gapStart, hookStart], [0.8, 0.42], CL)
-        const sat = interpolate(frame, [gapStart, hookStart], [0.9, 0.65], CL)
-        // 셀럽 인용구 구간 — 배경 명도/채도 감소
-        const celebDim = segments.reduce((d, s, i) => (s.role === 'celeb' || s.visual === 'hook') ? Math.max(d, segOp(i)) : d, 0)
+        // 셀럽 인용구·hook 구간 + 영상 시작부터 hook 끝까지 dim 유지
+        // book 세그먼트(book-context)는 정상 밝기로 유지 — dim/비네팅 모두 book 활성도만큼 해제
+        const hookEnd = (segStarts[0] ?? 0) + (segTimings[0] ?? 0)
+        const initialDim = interpolate(frame, [hookEnd - f(0.5), hookEnd], [1, 0], CL)
+        const bookOp = bookSegIdx >= 0 ? segOp(bookSegIdx) : 0
+        const celebDimRaw = segments.reduce((d, s, i) => (s.role === 'celeb' || s.visual === 'hook') ? Math.max(d, segOp(i)) : d, initialDim)
+        const celebDim = Math.max(0, celebDimRaw * (1 - bookOp))
         const imgBright = interpolate(celebDim, [0, 1], [1, 0.35], CL)
         const imgSat = interpolate(celebDim, [0, 1], [1, 0.5], CL)
         const dimFilter = celebDim > 0 ? `brightness(${imgBright}) saturate(${imgSat})` : undefined
         return (
           <>
-            {/* 배경 이미지 1 — hook~celeb-mid */}
+            {/* 배경 이미지 1 — 기본 배경 (revealBg).
+                첫 imageGroup 시작 시점(book 이전 hook/intro 포함) 또는 book 시작 시점에 fade-out */}
             {(() => {
-              const blend = bookSegIdx >= 0
-                ? interpolate(frame, [segStarts[bookSegIdx] - f(0.3), segStarts[bookSegIdx] + f(0.2)], [1, 0], CL)
+              const firstImgStart = imageGroups.length > 0 ? imageGroups[0].start : null
+              const fadeOutAt = firstImgStart != null
+                ? firstImgStart
+                : (bookSegIdx >= 0 ? segStarts[bookSegIdx] : null)
+              const blend = fadeOutAt != null
+                ? interpolate(frame, [fadeOutAt - f(0.3), fadeOutAt + f(0.2)], [1, 0], CL)
                 : 1
               return (blend > 0 && revealBgUrl) ? (
                 <Img src={revealBgUrl} style={{
@@ -296,20 +355,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
                 }} />
               ) : null
             })()}
-            {/* 배경 이미지 2 — book 구간 폴백. seg.image가 있으면 렌더 생략 */}
-            {bookSegIdx >= 0 && !segments.some(s => s.visual === 'book' && s.image) && (() => {
-              const blend = interpolate(frame, [segStarts[bookSegIdx] - f(0.3), segStarts[bookSegIdx] + f(0.2)], [0, 1], CL)
-              return (blend > 0 && bookBgUrl) ? (
-                <Img src={bookBgUrl} style={{
-                  position: 'absolute', top: HEADER_H, left: 0,
-                  width: W, height: MID_H,
-                  objectFit: 'cover',
-                  filter: dimFilter,
-                  zIndex: 1, opacity: bgOp * blend,
-                }} />
-              ) : null
-            })()}
-            {/* seg.image + imageChangeAt → groups 배열 → 크로스페이드 렌더링 */}
+            {/* 통합 imageGroups — hook/intro/celeb-mid/book 모든 세그먼트의 이미지 + bookBg 폴백을 cross-fade 시퀀스로 렌더 */}
             {imageGroups.map(({ image, start }, gi) => {
                 const groups = imageGroups
                 const nextStart = gi < groups.length - 1 ? groups[gi + 1].start : null
@@ -340,7 +386,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
                 )
               })
             }
-            <div style={{ position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H, background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)', zIndex: 2, opacity: bgOp }} />
+            <div style={{ position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H, background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)', zIndex: 2, opacity: bgOp * (1 - bookOp) }} />
           </>
         )
       })()}
@@ -351,34 +397,39 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: HEADER_H, background: DARK.surface, zIndex: 10 }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: SAFE_BOTTOM, background: DARK.surface, zIndex: 10 }} />
 
-      {/* ── FIXED TOP TYPOGRAPHY ── */}
-      {/* ShortsThumbnail의 상단과 픽셀 단위로 똑같은 컴포넌트를 최상단 고정 노출 */}
+      {/* ── FIXED TOP TYPOGRAPHY ──
+          구조: host.title(수식어, 트래킹 골드) → "인물명의 서재"/"N's Library" 단일 블록 (적응형 fontSize, 자연 래핑) */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: HEADER_H,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: '0 80px',
         zIndex: 115,
       }}>
+        {/* 수식어 — 영문은 ALL CAPS 트래킹 */}
         <div style={{
-          fontSize: script.locale === 'en' ? 44 : 52, color: '#c8a46e', // GOLD
-          fontFamily: FONT.sans, fontWeight: 700, letterSpacing: 4, marginBottom: 12,
-          textAlign: 'center', wordBreak: 'keep-all'
+          fontSize: script.locale === 'en' ? 58 : 68, color: '#c8a46e', // GOLD
+          fontFamily: FONT.hahmlet, fontWeight: 700, letterSpacing: 4, marginBottom: 20,
+          textAlign: 'center', wordBreak: 'keep-all',
+          textTransform: script.locale === 'en' ? 'uppercase' : undefined,
         }}>
-          {script.locale === 'en' ? 'LIBRARY TOUR' : '서재 탐방'}
+          {host.title}
         </div>
+        {/* "인물명의 서재" 단일 텍스트 블록 — 긴 이름은 자연 래핑 */}
+        {/* Do Hyeon은 단일 weight 폰트라 fontWeight를 명시하지 않는다 (synthetic bold 방지) */}
         <div style={{
-          fontSize: script.locale === 'en' ? 94 : 110, fontWeight: 900,
-          fontFamily: script.locale === 'en' ? FONT.serif : FONT.sans,
-          color: '#e8e0d0', lineHeight: 1.0, textAlign: 'center', // CREAM
+          fontSize: nameFontSize,
+          fontWeight: script.locale === 'en' ? 900 : 400,
+          fontFamily: script.locale === 'en' ? FONT.serif : FONT.doHyeon,
+          color: '#e8e0d0', lineHeight: 1.05, textAlign: 'center', // CREAM
           textShadow: '0 8px 40px rgba(0,0,0,0.9)',
           wordBreak: 'keep-all',
           textWrap: 'balance',
         } as React.CSSProperties}>
-          {host.nickname}
+          {libraryText}
         </div>
       </div>
 
-      {/* (FIXED BOTTOM TYPOGRAPHY는 더 이상 영상 내내 유지하지 않고, 썸네일 오프닝과 함께 페이드아웃 되도록 ShortsThumbnail에 온전히 위임합니다.) */}
+      {/* (FIXED BOTTOM TYPOGRAPHY는 영상 내내 유지하지 않는다. 오프닝 리빌 구간에만 상단 타이포가 보이고, 본문에서는 자막/책 정보로 대체된다.) */}
 
       {/* audio — reveal chime */}
       <Sequence from={0} durationInFrames={SHORT_REVEAL_FRAMES}>
@@ -390,7 +441,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         const audioFrom = i === 0 ? segStarts[i] - f(0.15) : segStarts[i]
         return (
           <Sequence key={seg.id} from={audioFrom} durationInFrames={segTimings[i]}>
-            <Audio src={vf(vnShort(i, seg.id))} />
+            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} />
           </Sequence>
         )
       })}
@@ -401,15 +452,70 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         </Sequence>
       )}
 
-      {/* ── 오프닝 리빌: 매거진 썸네일 레이아웃 전면 적용 ── */}
+      {/* ── 오프닝 리빌: 무대/원형 인물 + 회전 책 포스터 (구버전 디자인) ──
+          revealBgUrl(에피소드별)이 있으면 우선, 없으면 공용 reveal-bg.jpg.
+          MID_H 영역에만 그려서 상단 타이포(zIndex 115)와 하단 블랙 마진(zIndex 10)이 겹치지 않게 한다. */}
       {revealOp > 0 && (() => {
+        const beatScale = interpolate(frame, [0, f(0.8)], [1.06, 1], CL)
+        const bgUrl = revealBgUrl ?? sf(REVEAL_BG)
         return (
           <div style={{
-            position: 'absolute', inset: 0,
+            position: 'absolute',
+            top: HEADER_H, left: 0, width: W, height: MID_H,
             zIndex: 100, opacity: revealOp, overflow: 'hidden',
-            backgroundColor: '#090807',
+            backgroundColor: DARK.base,
           }}>
-            <ShortsThumbnail script={script} hideHeader />
+            <Img src={bgUrl} style={{
+              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+              objectFit: 'cover', filter: 'brightness(0.35) saturate(0.5)',
+            }} />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(6,4,2,0.7) 100%)',
+            }} />
+            {/* 책 포스터 — 우측, 살짝 회전 */}
+            <div style={{
+              position: 'absolute',
+              top: '50%', left: 420,
+              transform: `translateY(-50%) rotate(-3deg) scale(${beatScale})`,
+              zIndex: 1,
+            }}>
+              <div style={{
+                width: 380, height: 570, borderRadius: 10, overflow: 'hidden',
+                boxShadow: '0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(200,164,110,0.15)',
+              }}>
+                <Img src={safeImg(book.thumbnail_url)} style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                }} />
+              </div>
+            </div>
+            {/* 아바타 — 좌측, 원형 */}
+            <div style={{
+              position: 'absolute',
+              top: '50%', left: 140,
+              transform: `translateY(-38%) scale(${beatScale})`,
+              zIndex: 2,
+            }}>
+              <div style={{
+                position: 'absolute', inset: -6,
+                borderRadius: '50%',
+                background: DARK.surface,
+                boxShadow: `0 0 20px 10px ${DARK.surface}`,
+              }} />
+              <div style={{
+                position: 'relative',
+                width: 380, height: 380,
+                overflow: 'hidden',
+                borderRadius: '50%',
+                boxShadow: '0 16px 50px rgba(0,0,0,0.6)',
+                border: '3px solid rgba(200,164,110,0.25)',
+              }}>
+                <Img src={freshAvatarUrl(host.avatar_url)} style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                  filter: 'brightness(0.9) contrast(1.05)',
+                }} />
+              </div>
+            </div>
           </div>
         )
       })()}
@@ -520,7 +626,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         if (seg.visual === 'cta' || seg.visual === 'hook' || seg.role === 'celeb') return null
         const op = segOp(i)
         if (op <= 0) return null
-        const timingKey = vnTimingKey(vnShort(i, seg.id))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
         const capStart = i === 0 ? segStarts[i] - f(0.15) : segStarts[i]
         return (
           <div key={`cap-${i}`} style={{
@@ -549,7 +655,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
         if (seg.visual !== 'hook') return null
         const op = segOp(i)
         if (op <= 0) return null
-        const timingKey = vnTimingKey(vnShort(i, seg.id))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
         const timings = script.voiceTimings?.[timingKey]
         // \n 명시 분리 → 문장부호 분리 → 단일 문장 순으로 판별
         const hookSentences = seg.text.includes('\n')
@@ -678,7 +784,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
                   lineHeight: 1.7,
                   wordBreak: 'keep-all',
                 }}
-                timings={script.voiceTimings?.[vnTimingKey(vnShort(i, seg.id))]}
+                timings={script.voiceTimings?.[vnTimingKey(vnShort(i, seg.id, shortsIndex))]}
               />
             </div>
           </div>
@@ -700,9 +806,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
               [ctaStart, ctaStart + f(0.5), logoStart - f(0.5), logoStart],
               [0, 1, 1, 0], CL)
           : 0
-        const logoContentOp = interpolate(frame,
-          [logoStart - f(0.3), logoStart + f(0.3), endFrame - f(0.5), endFrame],
-          [0, 1, 1, 0], CL)
+        // logoContentOp는 상단 스코프에서 단일 정의 (풀스크린 오버레이도 동일 값을 참조)
 
         const bgZoom = interpolate(frame, [ctaStart, endFrame], [1, 1.06], CL)
 
@@ -736,15 +840,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
                 opacity: ctaContentOp,
               }} />
             )}
-            {/* Logo 배경 */}
-            {logoContentOp > 0 && (
-              <Img src={sf(SERIES_BG)} style={{
-                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                objectFit: 'cover', filter: 'brightness(0.45) saturate(0.6)',
-                transform: `scale(${bgZoom})`,
-                opacity: logoContentOp,
-              }} />
-            )}
+            {/* LOGO 영역 배경/콘텐츠는 이 MID_H 블록에서 제거됨 — 풀스크린 ShortsThumbnail 오버레이로 분리 */}
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10,10,10,0.6) 80%)' }} />
 
             {/* CTA 콘텐츠 */}
@@ -798,19 +894,22 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
               </div>
             )}
 
-            {/* Logo — CTA 위에 크로스페이드 */}
-            {logoContentOp > 0 && (
-              <BrandShorts
-                script={script}
-                durationFrames={SHORT_LOGO_FRAMES}
-                opacity={logoContentOp}
-                scale={1.4}
-                style={{ padding: `${CONTENT_PAD}px`, zIndex: 2 }}
-              />
-            )}
           </div>
         )
       })()}
+
+      {/* ── LOGO 풀스크린 오버레이: 매거진 ShortsThumbnail (오프닝의 무대 디자인과 교대로 사용) ──
+          쇼츠 오프닝은 무대(원형 인물+회전 책), 마지막은 매거진 레이아웃으로 두 백업본을 모두 활용한다.
+          hideHeader=true: 상단 수식어/이름 타이포는 FIXED TOP TYPOGRAPHY가 이미 zIndex 115로 표시중이므로 중복 방지. */}
+      {logoContentOp > 0 && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          zIndex: 100, opacity: logoContentOp, overflow: 'hidden',
+          backgroundColor: '#090807',
+        }}>
+          <ShortsThumbnail script={script} hideHeader shortsIndex={shortsIndex} />
+        </div>
+      )}
 
       {/* studio-only dev overlay */}
       {!getRemotionEnvironment().isRendering && (
@@ -824,6 +923,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
           segStarts={segStarts}
           segTimings={segTimings}
           voiceTimings={script.voiceTimings}
+          shortsIndex={shortsIndex}
         />
       )}
       {!getRemotionEnvironment().isRendering && (
@@ -831,7 +931,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName }) => 
            voiceTimings={script.voiceTimings}
            episodeName={epName}
            locale={script.locale ?? 'ko'}
-           currentTimingKey={currentSeg >= 0 ? vnTimingKey(vnShort(currentSeg, segments[currentSeg].id)) : undefined}
+           currentTimingKey={currentSeg >= 0 ? vnTimingKey(vnShort(currentSeg, segments[currentSeg].id, shortsIndex)) : undefined}
          />
        )}
     </AbsoluteFill>
