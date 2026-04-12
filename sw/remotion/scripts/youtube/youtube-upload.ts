@@ -106,16 +106,38 @@ function toCompLabel(episodeName: string): string {
   return episodeName.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
 }
 
-type Variant = { lang: 'ko' | 'en'; type: 'longform' | 'shorts' }
+type Variant = { lang: 'ko' | 'en'; type: 'longform' | 'shorts'; shortsIndex?: number }
 
-function findFiles(label: string, lang: 'ko' | 'en', type: 'longform' | 'shorts') {
+/**
+ * variant → 출력 파일 suffix. 옵션 2: shortsIndex는 1-based 일관.
+ * longform=L-VID, shorts={shortsIndex}는 S{shortsIndex}-VID
+ */
+function variantFileSuffix(v: Variant): string {
+  if (v.type === 'longform') return 'L-VID'
+  const idx = v.shortsIndex ?? 1
+  return `S${idx}-VID`
+}
+
+/**
+ * variant → uploads 키. 옵션 2: shortsIndex는 1-based 일관.
+ * longform={lang}-longform, shorts={lang}-shorts-{shortsIndex}
+ */
+function variantKey(v: Variant): string {
+  if (v.type === 'longform') return `${v.lang}-longform`
+  const idx = v.shortsIndex ?? 1
+  return `${v.lang}-shorts-${idx}`
+}
+
+function findFiles(label: string, lang: 'ko' | 'en', variant: Variant) {
   const langCode = lang.toUpperCase()
   const dir = path.join(OUT_DIR, label, langCode)
-  const typeCode = type === 'longform' ? 'L' : 'S'
+  const suffix = variantFileSuffix(variant)
+  // 썸네일은 롱폼만 존재 (L-THUMB.png). 쇼츠는 자동 생성.
+  const thumbCode = variant.type === 'longform' ? 'L-THUMB' : `${suffix.replace('-VID', '')}-THUMB`
 
-  const video = path.join(dir, `${typeCode}-VID.mp4`)
-  const thumb = path.join(dir, `${typeCode}-THUMB.png`)
-  const srt = path.join(dir, `${typeCode}-VID.srt`)
+  const video = path.join(dir, `${suffix}.mp4`)
+  const thumb = path.join(dir, `${thumbCode}.png`)
+  const srt = path.join(dir, `${suffix}.srt`)
 
   return {
     video: existsSync(video) ? video : null,
@@ -209,7 +231,7 @@ const LINEUP_PATH = path.join(__dirname, 'youtube-lineup.json')
 
 async function saveUploadRecord(episodeName: string, variantKey: string, videoId: string) {
   const all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
-  if (!all[episodeName]) all[episodeName] = { hook: { ko: '', en: '' } }
+  if (!all[episodeName]) all[episodeName] = {}
   if (!all[episodeName].uploads) all[episodeName].uploads = {}
   all[episodeName].uploads[variantKey] = { videoId, uploadedAt: new Date().toISOString() }
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
@@ -218,28 +240,33 @@ async function saveUploadRecord(episodeName: string, variantKey: string, videoId
 
 // ─── 메인 ───────────────────────────────────────────────
 
-async function upload(episodeName: string, filterLang?: string, filterType?: string, dry = false) {
+async function upload(episodeName: string, filterLang?: string, filterType?: string, filterShortsIndex?: number, dry = false) {
   const meta: EpisodeMeta | undefined = lineup[episodeName]
   if (!meta) console.log(`편성표에 '${episodeName}' 없음 — 에피소드 데이터 기반으로 진행`)
 
   const label = toCompLabel(episodeName)
-  const variants: Variant[] = [
-    { lang: 'ko', type: 'longform' },
-    { lang: 'ko', type: 'shorts' },
-    { lang: 'en', type: 'longform' },
-    { lang: 'en', type: 'shorts' },
-  ]
+
+  // 에피소드 데이터 로드 (content + timing + shorts 외부 파일까지 머지)
+  const koData = await loadEpisode(episodeName).catch(() => null) as any
+  const enData = await loadEpisode(`${episodeName}-en`).catch(() => null) as any
+
+  const koShortsCount = Array.isArray(koData?.shorts) ? koData.shorts.length : 0
+  const enShortsCount = Array.isArray(enData?.shorts) ? enData.shorts.length : 0
+
+  // 옵션 2: shortsIndex는 1-based 일관. 배열 길이에 따라 variant 동적 확장
+  const variants: Variant[] = []
+  if (koData) variants.push({ lang: 'ko', type: 'longform' })
+  for (let i = 0; i < koShortsCount; i++) variants.push({ lang: 'ko', type: 'shorts', shortsIndex: i + 1 })
+  if (enData) variants.push({ lang: 'en', type: 'longform' })
+  for (let i = 0; i < enShortsCount; i++) variants.push({ lang: 'en', type: 'shorts', shortsIndex: i + 1 })
 
   // 필터
   const filtered = variants.filter(v => {
     if (filterLang && v.lang !== filterLang) return false
     if (filterType && v.type !== filterType) return false
+    if (typeof filterShortsIndex === 'number' && v.type === 'shorts' && v.shortsIndex !== filterShortsIndex) return false
     return true
   })
-
-  // 에피소드 데이터 로드 (content + timing 머지)
-  const koData = await loadEpisode(episodeName)
-  const enData = await loadEpisode(`${episodeName}-en`)
 
   // youtube-meta.json 커스텀 메타 로드
   const metaPath = path.join(OUT_DIR, label, 'youtube-meta.json')
@@ -261,27 +288,43 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
 
   console.log(`\n에피소드: ${episodeName}`)
   if (Object.keys(ytMeta).length) console.log('메타 오버라이드: youtube-meta.json 적용')
-  console.log(`대상: ${filtered.map(v => `${v.lang}-${v.type}`).join(', ')}\n`)
+  console.log(`대상: ${filtered.map(v => variantKey(v)).join(', ')}\n`)
 
   for (const variant of filtered) {
     const data = variant.lang === 'ko' ? koData : enData
+    if (!data) { console.log(`── ${variant.lang.toUpperCase()} ${variant.type}: 에피소드 데이터 없음, 건너뜀`); continue }
     const celebName = data.host.nickname as string
     const books = data.books as any[]
     const isShorts = variant.type === 'shorts'
+    const shortsIdx = variant.shortsIndex ?? 1 // 1-based
 
-    const variantKey = `${variant.lang}-${variant.type}`
+    const vKey = variantKey(variant)
     const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
-    const fallbackTitle = meta
-      ? buildTitle(meta, celebName, variant.lang, isShorts)
-      : `${variant.lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`
-    const title = ytMeta[variantKey]?.title || fallbackTitle
-    const links = (ytMeta[variantKey] as any)?.links as { label: string; url: string }[] | undefined
-    const description = ytMeta[variantKey]?.description || buildDescription(celebName, books, variant.lang, isShorts, chapters, links, episodeName)
-    const tags = buildTags(celebName, variant.lang, isShorts)
+    // shorts 배열에서 해당 인덱스의 featuredBookIndex 사용 (없으면 0). 배열 접근은 shortsIdx - 1
+    const targetShortsCfg = isShorts && Array.isArray(data.shorts)
+      ? data.shorts[shortsIdx - 1]
+      : undefined
+    const shortsBookTitle = isShorts
+      ? books[targetShortsCfg?.featuredBookIndex ?? 0]?.title
+      : undefined
+    // 롱폼 신규 포맷 — 다부 에피소드면 totalBooks + part, 단일 부면 books.length
+    const epSeries = (data as any).series as { part: number; totalParts: number; totalBooks: number } | undefined
+    const isMultipart = (epSeries?.totalParts ?? 1) > 1
+    const longformBookCount = isMultipart ? (epSeries?.totalBooks ?? books.length) : books.length
+    const longformPart = isMultipart ? epSeries?.part : undefined
+    // meta가 없어도 롱폼 신규 포맷은 항상 계산 가능 — 빈 meta 폴백.
+    const titleMeta = meta ?? {}
+    const fallbackTitle = buildTitle(titleMeta, celebName, variant.lang, isShorts, shortsIdx, shortsBookTitle, longformBookCount, longformPart)
+    const title = ytMeta[vKey]?.title || fallbackTitle
+    const links = (ytMeta[vKey] as any)?.links as { label: string; url: string }[] | undefined
+    const featuredBookIndex = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : undefined
+    const description = ytMeta[vKey]?.description
+      || (buildDescription as any)(celebName, books, variant.lang, isShorts, chapters, links, episodeName, shortsIdx, featuredBookIndex)
+    const tags = (buildTags as any)(celebName, variant.lang, isShorts, shortsIdx)
 
-    const files = findFiles(label, variant.lang, variant.type)
+    const files = findFiles(label, variant.lang, variant)
 
-    console.log(`── ${variant.lang.toUpperCase()} ${variant.type} (${variant.lang === 'en' ? 'EN채널' : 'KO채널'}) ──`)
+    console.log(`── ${variant.lang.toUpperCase()} ${variant.type}${isShorts ? `#${shortsIdx}` : ''} (${variant.lang === 'en' ? 'EN채널' : 'KO채널'}) ──`)
     console.log(`  제목: ${title}`)
 
     if (!files.video) {
@@ -313,7 +356,7 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     if (files.thumb) await setThumbnail(yt, videoId, files.thumb)
 
     // videoId를 lineup.json에 기록
-    await saveUploadRecord(episodeName, variantKey, videoId)
+    await saveUploadRecord(episodeName, vKey, videoId)
     console.log()
   }
 
@@ -340,9 +383,13 @@ if (command === 'auth') {
   const typeIdx = args.indexOf('--type')
   const type = typeIdx >= 0 ? args[typeIdx + 1] : undefined
 
+  // 옵션 2: shortsIndex는 1-based (S1, S2, ...)
+  const shortsIdxFlag = args.indexOf('--shorts-index')
+  const shortsIndex = shortsIdxFlag >= 0 ? Number(args[shortsIdxFlag + 1]) : undefined
+
   const dry = args.includes('--dry')
 
-  upload(episode, lang, type, dry).catch(console.error)
+  upload(episode, lang, type, shortsIndex, dry).catch(console.error)
 } else {
   console.log(`사용법:
   pnpm youtube:auth                                       KO 채널 인증

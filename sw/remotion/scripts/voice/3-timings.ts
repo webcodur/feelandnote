@@ -1,15 +1,19 @@
 /**
- * analyze-voice.ts — 단어 단위 voiceTimings 생성 + duration 동기화
+ * 3-timings.ts — 음성 파이프라인 3단계: 단어 단위 voiceTimings + duration + imageChangeAt 해소
  *
- * whisper-debug.json의 단어별 타임스탬프를 voiceTimings에 직접 저장한다.
- * whisper-debug.json이 없으면 SENTENCE_SPLIT + RMS 폴백.
+ * 2-whisper.py가 생성한 voice/{locale}/2-word-timings.json 의 단어 타임스탬프를
+ * 읽어 voiceTimings에 반영한다. 2-word-timings.json 이 없으면 SENTENCE_SPLIT + RMS 폴백.
+ *
+ * 출력:
+ *  - {locale}.timing.json : voiceTimings + duration
+ *  - shorts/{locale}-N.timing.json : 쇼츠 duration + imageChangeAt
  *
  * Usage:
- *   pnpm analyze -- --episode alexander-the-great --update-json
- *   pnpm analyze -- --episode alexander-the-great --update-json --export-debug
- *   pnpm analyze -- --episode alexander-the-great --only book-0-context
+ *   pnpm analyze -- --episode alexander-the-great --long --update-json
+ *   pnpm analyze -- --episode alexander-the-great --shorts 1 --update-json --export-debug
+ *   pnpm analyze -- --episode alexander-the-great --long --only D05b-summary
  */
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { SENTENCE_SPLIT } from '../../src/compositions/BookRecommend/sentence-split'
 import {
@@ -17,7 +21,7 @@ import {
   VN_CELEB_INTRO, VN_PHILOSOPHY, VN_OUTRO, VN_FEATURED_QUOTE,
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   VN_RETURN_INTRO, VN_INTERLUDE,
-  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   vnShort, vnTimingKey, resolveVoiceRelPath,
 } from '../../src/compositions/BookRecommend/voice-names'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
@@ -110,7 +114,7 @@ type SentenceTiming = { start: number; end: number; text?: string }
 
 type WhisperWord = { word: string; start: number; end: number }
 
-/** whisper-debug.json 단어를 세그먼트로 변환. 경계는 무음 구간 중앙. */
+/** 2-word-timings.json 단어를 세그먼트로 변환. 경계는 실제 단어 end 보존(공백 그대로). */
 function analyzeWithWhisperWords(
   whisperWords: WhisperWord[],
   duration: number,
@@ -123,11 +127,10 @@ function analyzeWithWhisperWords(
     text: w.word,
   }))
 
-  // 경계 = 다음 단어의 시작 시점 (무음 구간은 이전 단어에 귀속)
+  // 단어 원본 end 보존. 첫 단어만 0부터, 마지막 단어만 duration까지 확장.
+  // 단어/구절 사이 공백은 데이터에 그대로 남겨 프론트의 Typewriter 보정 로직이
+  // 긴 간격(0.5s+)일 때 정확히 페이드아웃하도록 한다.
   segments[0].start = 0
-  for (let i = 0; i < segments.length - 1; i++) {
-    segments[i].end = segments[i + 1].start
-  }
   segments[segments.length - 1].end = duration
 
   return segments
@@ -270,6 +273,30 @@ function adjustPhraseBoundaries(
   }
 }
 
+/** 숫자 word 타이밍 보정 — Whisper가 숫자·한글숫자를 비정상적으로 짧게(0.4s 미만) 잡는 문제.
+ *  앞뒤 word 사이 gap을 활용해 자연스러운 길이로 확장한다. */
+function fixNumericWordTimings(words: { text: string; start: number; end: number }[]): void {
+  const MIN_DUR = 0.4
+  const numRe = /^\d|^[천백십만억]/
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i]
+    if (!numRe.test(w.text)) continue
+    const dur = w.end - w.start
+    if (dur >= MIN_DUR) continue
+
+    const prev = words[i - 1]
+    const next = words[i + 1]
+    const gapBefore = prev ? w.start - prev.end : w.start
+    const gapAfter = next ? next.start - w.end : 0
+
+    const expandBefore = Math.min(gapBefore * 0.8, 0.5)
+    const expandAfter = Math.min(gapAfter * 0.8, 0.5)
+
+    w.start = Math.round((w.start - expandBefore) * 1000) / 1000
+    w.end = Math.round((w.end + expandAfter) * 1000) / 1000
+  }
+}
+
 /** SENTENCE_SPLIT 폴백 — Whisper 데이터 없을 때 사용 */
 function analyzeWithSilence(
   wavPath: string,
@@ -323,6 +350,10 @@ function analyzeWithSilence(
 function getDisplayText(episode: any, textField: string, bookIndex?: number): string | null {
   if (bookIndex !== undefined) {
     const book = episode.books[bookIndex]
+    const quoteMatch = textField.match(/^quote:(\d+)$/)
+    if (quoteMatch) return book?.quotePairs?.[parseInt(quoteMatch[1])]?.quote ?? null
+    const afterMatch = textField.match(/^after:(\d+)$/)
+    if (afterMatch) return book?.quotePairs?.[parseInt(afterMatch[1])]?.after ?? null
     return book?.[textField] ?? null
   }
   switch (textField) {
@@ -333,9 +364,17 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
     case 'serviceGreeting': return episode.narrator.serviceGreeting
     case 'serviceIntro': return episode.narrator.serviceIntro
     default:
+      // textField: 'short-{shortsIdx}-{segId}' — shortsIdx는 1-based
       if (textField.startsWith('short-')) {
-        const segId = textField.replace('short-', '')
-        const seg = episode.shorts?.segments?.find((s: any) => s.id === segId)
+        const rest = textField.replace('short-', '')
+        const m = rest.match(/^(\d+)-(.+)$/)
+        if (!m) return null
+        const shortsIdx1 = parseInt(m[1]) // 1-based
+        const segId = m[2]
+        const shortsArr = Array.isArray(episode.shorts) ? episode.shorts : []
+        // _shortsIdx1로 식별 (gap 있을 수 있음)
+        const target = shortsArr.find((s: any) => s?._shortsIdx1 === shortsIdx1)
+        const seg = target?.segments?.find((s: any) => s.id === segId)
         return seg?.text ?? null
       }
       return null
@@ -346,7 +385,7 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
 const args = process.argv.slice(2)
 
 // 허용 플래그 검증 — 오타·미지원 플래그 유입 방지
-const KNOWN_FLAGS = new Set(['--episode', '--only', '--shorts', '--long', '--update-json', '--export-debug'])
+const KNOWN_FLAGS = new Set(['--episode', '--only', '--exclude', '--shorts', '--long', '--update-json', '--export-debug'])
 for (const arg of args) {
   if (arg === '--') continue
   if (arg.startsWith('--') && !KNOWN_FLAGS.has(arg)) {
@@ -358,18 +397,42 @@ const epIdx = args.indexOf('--episode')
 const epName = epIdx >= 0 ? args[epIdx + 1] : null
 const onlyIdx = args.indexOf('--only')
 const onlyFilter = onlyIdx >= 0 ? args[onlyIdx + 1].split(',') : null
-const shortsOnly = args.includes('--shorts')
-const longOnly = args.includes('--long')
+const excludeIdx = args.indexOf('--exclude')
+const excludeFilter = excludeIdx >= 0 ? args[excludeIdx + 1].split(',') : null
 const updateJson = args.includes('--update-json')
 const exportDebug = args.includes('--export-debug')
 
+const USAGE = 'Usage: pnpm analyze -- --episode <name> (--long | --shorts <N>) [--only file1,file2] [--exclude file1,file2] [--update-json] [--export-debug]'
+
 if (!epName) {
-  console.error('Usage: pnpm analyze -- --episode <name> [--only file1,file2] [--shorts] [--long] [--update-json] [--export-debug]')
+  console.error(USAGE)
+  process.exit(1)
+}
+
+// 단일 타겟 스코프: --long 또는 --shorts <N> 정확히 하나 필수
+const SHORTS_FLAG_IDX = args.indexOf('--shorts')
+const HAS_LONG_FLAG = args.includes('--long')
+let SHORTS_INDEX: number | null = null
+if (SHORTS_FLAG_IDX >= 0) {
+  const raw = args[SHORTS_FLAG_IDX + 1]
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    console.error(`✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
+    console.error(`  ${USAGE}`)
+    process.exit(1)
+  }
+  SHORTS_INDEX = parsed
+}
+if (HAS_LONG_FLAG === (SHORTS_INDEX !== null)) {
+  console.error('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.')
+  console.error(`  ${USAGE}`)
   process.exit(1)
 }
 
 const { person: epPerson, locale: epLocale } = parseEpName(epName)
-const voiceBaseDir = join(findEpisodeDir(epPerson), 'voice', epLocale)
+const episodeDir = findEpisodeDir(epPerson)
+const voiceBaseDir = join(episodeDir, 'voice', epLocale)
+const shortsDir = join(episodeDir, 'shorts')
 // voice-select.json이 있으면 엔진 하위 디렉토리 사용
 let voiceSelect: { default: string; slots?: Record<string, string> } | null = null
 try {
@@ -391,61 +454,97 @@ if (timing.books) {
     if (episode.books[i]) Object.assign(episode.books[i], bt)
   })
 }
-if (timing.shorts?.segments) {
-  timing.shorts.segments.forEach((st: any, i: number) => {
-    if (episode.shorts?.segments?.[i]) Object.assign(episode.shorts.segments[i], st)
-  })
+
+// 옵션 2: 쇼츠 본체는 shorts/{locale}-{N}.json 외부 파일
+// 쇼츠 타이밍은 shorts/{locale}-{N}.timing.json 외부 파일
+// 본체 timing.shorts는 더 이상 사용하지 않는다.
+//
+// 단일 타겟 스코프 — 로드 단계에서 격리하여 후속 로직(targets push, 저장 루프)이
+// 다른 쇼츠를 건드리지 않도록 한다. 이게 없으면 저장 루프가 기존 timing.json을 재기록해
+// 다른 쇼츠의 텍스트 수정 결과를 덮어쓰는 버그가 발생한다.
+episode.shorts = []
+if (SHORTS_INDEX !== null) {
+  const idx1 = SHORTS_INDEX
+  const contentPath = join(shortsDir, `${epLocale}-${idx1}.json`)
+  if (!existsSync(contentPath)) {
+    console.error(`✗ shorts/${epLocale}-${idx1}.json 이 없다`)
+    process.exit(1)
+  }
+  const c = JSON.parse(readFileSync(contentPath, 'utf-8'))
+  const timingPathShorts = join(shortsDir, `${epLocale}-${idx1}.timing.json`)
+  let t: any = null
+  if (existsSync(timingPathShorts)) {
+    try { t = JSON.parse(readFileSync(timingPathShorts, 'utf-8')) } catch { /* corrupt → null */ }
+  }
+  if (!t?.segments) {
+    episode.shorts = [{ ...c, _shortsIdx1: idx1 }]
+  } else {
+    episode.shorts = [{
+      ...c,
+      segments: c.segments.map((seg: any, i: number) => ({
+        ...seg,
+        ...(t.segments[i] ?? {}),
+      })),
+      _shortsIdx1: idx1,
+    }]
+  }
 }
+// --long 일 때는 episode.shorts가 빈 배열로 유지된다 (shorts 처리 전부 생략)
 
 // 분석 대상
 type Target = { file: string; textField: string; bookIndex?: number }
 const targets: Target[] = []
 
-if (episode.narrator.serviceGreeting) {
-  targets.push({ file: VN_SERVICE_GREETING, textField: 'serviceGreeting' })
-}
-targets.push({ file: VN_SERVICE_INTRO, textField: 'serviceIntro' })
-targets.push({ file: VN_CELEB_INTRO, textField: 'celebIntro' })
-targets.push({ file: VN_PHILOSOPHY, textField: 'philosophy' })
-if (episode.host.featuredQuote) {
-  targets.push({ file: VN_FEATURED_QUOTE, textField: 'featuredQuote' })
-}
-targets.push({ file: VN_OUTRO, textField: 'outro' })
+// 단일 타겟 스코프 — 롱폼 타겟은 --long 일 때만 push
+if (SHORTS_INDEX === null) {
+  if (episode.narrator.serviceGreeting) {
+    targets.push({ file: VN_SERVICE_GREETING, textField: 'serviceGreeting' })
+  }
+  targets.push({ file: VN_SERVICE_INTRO, textField: 'serviceIntro' })
+  targets.push({ file: VN_CELEB_INTRO, textField: 'celebIntro' })
+  targets.push({ file: VN_PHILOSOPHY, textField: 'philosophy' })
+  if (episode.host.featuredQuote) {
+    targets.push({ file: VN_FEATURED_QUOTE, textField: 'featuredQuote' })
+  }
+  targets.push({ file: VN_OUTRO, textField: 'outro' })
 
-for (let i = 0; i < episode.books.length; i++) {
-  targets.push({ file: vnBookTitle(i), textField: 'title', bookIndex: i })
-  targets.push({ file: vnBookSummary(i), textField: 'summary', bookIndex: i })
-  targets.push({ file: vnBookContext(i), textField: 'context', bookIndex: i })
-  if (episode.books[i].directQuote) {
-    targets.push({ file: vnBookQuote(i), textField: 'directQuote', bookIndex: i })
-  }
-  if (episode.books[i].contextAfter) {
-    targets.push({ file: vnBookContextAfter(i), textField: 'contextAfter', bookIndex: i })
-  }
-  if (episode.books[i].directQuote2) {
-    targets.push({ file: vnBookQuote2(i), textField: 'directQuote2', bookIndex: i })
-  }
-  if (episode.books[i].contextAfter2) {
-    targets.push({ file: vnBookContextAfter2(i), textField: 'contextAfter2', bookIndex: i })
+  for (let i = 0; i < episode.books.length; i++) {
+    targets.push({ file: vnBookTitle(i), textField: 'title', bookIndex: i })
+    targets.push({ file: vnBookSummary(i), textField: 'summary', bookIndex: i })
+    targets.push({ file: vnBookContext(i), textField: 'contextMain', bookIndex: i })
+    for (let pi = 0; pi < (episode.books[i].quotePairs?.length ?? 0); pi++) {
+      const pair = episode.books[i].quotePairs![pi]
+      if (pair.quote) targets.push({ file: vnBookQuote(i, pi), textField: `quote:${pi}`, bookIndex: i })
+      if (pair.after) targets.push({ file: vnBookAfter(i, pi), textField: `after:${pi}`, bookIndex: i })
+    }
   }
 }
 
-if (episode.shorts?.segments) {
+// 옵션 2: shorts 배열은 외부 파일에서 이미 로드됨. shortsIdx는 1-based
+// 단일 타겟 스코프 — episode.shorts는 SHORTS_INDEX != null일 때만 1개 원소 보유, 그 외 빈 배열
+const shortsArrForTargets: any[] = Array.isArray(episode.shorts) ? episode.shorts : []
+for (const cfg of shortsArrForTargets) {
+  if (!cfg?.segments) continue
+  const shortsIdx1: number = cfg._shortsIdx1 // 1-based
   let si = 0
-  for (const seg of episode.shorts.segments as Array<{ id: string; visual?: string }>) {
+  for (const seg of cfg.segments as Array<{ id: string; visual?: string }>) {
     if (seg.id === 'cta') { si++; continue }
-    targets.push({ file: vnShort(si, seg.id), textField: `short-${seg.id}` })
+    targets.push({
+      file: vnShort(si, seg.id, shortsIdx1),
+      textField: `short-${shortsIdx1}-${seg.id}`,
+    })
     si++
   }
 }
 
-const filtered = shortsOnly
-  ? targets.filter(t => t.file.startsWith('S'))
-  : longOnly
-  ? targets.filter(t => !t.file.startsWith('S'))
-  : onlyFilter
+// 단일 타겟 스코프는 episode.shorts 로드 단계에서 이미 격리됨.
+// 여기서는 --only / --exclude 필터만 적용한다.
+let filtered = onlyFilter
   ? targets.filter(t => onlyFilter.some(f => t.file.includes(f)))
   : targets
+if (excludeFilter) {
+  filtered = filtered.filter(t => !excludeFilter.some(f => t.file.includes(f)))
+}
 
 console.log(`에피소드: ${epName}`)
 console.log(`${filtered.length}개 파일 분석 (텍스트+파형 결합)\n`)
@@ -457,7 +556,7 @@ const debugTargets: Record<string, any> = {}
 // Whisper 데이터 로드 (있으면 갭 기반 우선)
 let whisperData: Record<string, WhisperWord[]> = {}
 try {
-  const whisperPath = join(voiceBaseDir, 'whisper-debug.json')
+  const whisperPath = join(voiceBaseDir, '2-word-timings.json')
   const raw = JSON.parse(readFileSync(whisperPath, 'utf-8'))
   whisperData = raw.targets ?? raw
 } catch { /* whisper 없으면 폴백 */ }
@@ -566,20 +665,32 @@ if (updateJson) {
 
     // 쇼츠 imageChangeAt anchor의 word-level 매칭용 — segment 내 단어 타이밍 첨부
     // 같은 sentence에 여러 anchor가 있을 때 단어 위치로 구분 가능하게 함
-    const shortMatchForWords = file.match(/^S\d{2}-(.+)\.wav$/)
-    if (shortMatchForWords && words && episode.shorts?.segments) {
-      const shortSeg = episode.shorts.segments.find((s: any) => s.id === shortMatchForWords[1])
+    // 파일명: 'shorts-{N}/S{NN}-{id}.wav' (옵션 2: 접두사 필수, 1-based)
+    const shortMatchForWords = file.match(/^shorts-(\d+)\/S\d{2}-(.+)\.wav$/)
+    if (shortMatchForWords && words && Array.isArray(episode.shorts) && episode.shorts.length > 0) {
+      const swShortsIdx1 = parseInt(shortMatchForWords[1]) // 1-based
+      const swSegId = shortMatchForWords[2]
+      const shortCfg = episode.shorts.find((s: any) => s?._shortsIdx1 === swShortsIdx1)
+      const shortSeg = shortCfg?.segments?.find((s: any) => s.id === swSegId)
       const hasImageChangeAt = shortSeg && (Array.isArray(shortSeg.imageChangeAt) ? shortSeg.imageChangeAt.length > 0 : !!shortSeg.imageChangeAt)
-      if (hasImageChangeAt) {
-        for (const seg of timings) {
-          const segWords = words.filter(w =>
-            w.start >= seg.start - 0.05 && w.end <= seg.end + 0.05 && w.text)
-          if (segWords.length > 0) {
-            ;(seg as any).words = segWords.map(w => ({
-              text: w.text,
-              start: Math.round(w.start * 1000) / 1000,
-              end: Math.round(w.end * 1000) / 1000,
-            }))
+      // words는 모든 쇼츠 세그먼트에 이식 (하이라이팅용). imageChangeAt 보정은 별도.
+      for (const seg of timings) {
+        const segWords = words.filter(w =>
+          w.start >= seg.start - 0.05 && w.end <= seg.end + 0.05 && w.text)
+        if (segWords.length > 0) {
+          ;(seg as any).words = segWords.map(w => ({
+            text: w.text,
+            start: Math.round(w.start * 1000) / 1000,
+            end: Math.round(w.end * 1000) / 1000,
+          }))
+          // 숫자 word 타이밍 보정 — Whisper가 숫자를 비정상적으로 짧게 잡는 문제
+          fixNumericWordTimings((seg as any).words)
+        }
+        // 세그먼트 start를 첫 word start에 맞춤 — 자막 페이지 전환 정확도
+        if ((seg as any).words?.length > 0) {
+          const firstWordStart = (seg as any).words[0].start
+          if (seg.start > firstWordStart + 0.05) {
+            seg.start = firstWordStart
           }
         }
       }
@@ -603,7 +714,8 @@ if (updateJson) {
     if (file === VN_RETURN_INTRO && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
     if (file === VN_INTERLUDE && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
 
-    const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context|quote|context-after|quote2|context-after2)\.wav$/)
+    // D{NN}{letter}-(title|summary|context).wav
+    const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context)\.wav$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
       if (!episode.books[idx]) continue
@@ -611,31 +723,89 @@ if (updateJson) {
         case 'title': episode.books[idx].titleDuration = rounded; break
         case 'summary': episode.books[idx].summaryDuration = rounded; break
         case 'context': episode.books[idx].contextDuration = rounded; break
-        case 'quote': episode.books[idx].quoteDuration = rounded; break
-        case 'context-after': episode.books[idx].contextAfterDuration = rounded; break
-        case 'quote2': episode.books[idx].quoteDuration2 = rounded; break
-        case 'context-after2': episode.books[idx].contextAfterDuration2 = rounded; break
       }
+      continue
+    }
+    // D{NN}d{N}-(quote|after).wav — quotePairs 동적 배열
+    const dMatch = file.match(/^D(\d{2})d(\d+)-(quote|after)\.wav$/)
+    if (dMatch) {
+      const idx = parseInt(dMatch[1]) - 1  // 1-based -> 0-based
+      if (!episode.books[idx]) continue
+      const n = parseInt(dMatch[2])
+      const isQuote = dMatch[3] === 'quote'
+      const pairIdx = Math.floor((n - 1) / 2) // d1,d2→0  d3,d4→1  d5,d6→2
+      if (!episode.books[idx].quotePairs) episode.books[idx].quotePairs = []
+      while (episode.books[idx].quotePairs.length <= pairIdx) {
+        episode.books[idx].quotePairs.push({})
+      }
+      if (isQuote) episode.books[idx].quotePairs[pairIdx].quoteDuration = rounded
+      else episode.books[idx].quotePairs[pairIdx].afterDuration = rounded
     }
 
-    // 쇼츠 V1 세그먼트
-    const shortMatch = file.match(/^S\d{2}-(.+)\.wav$/)
-    if (shortMatch && episode.shorts?.segments) {
-      const seg = episode.shorts.segments.find((s: any) => s.id === shortMatch[1])
+    // 쇼츠 세그먼트 — 옵션 2: 'shorts-{N}/S{NN}-{id}.wav' 형식 (접두사 필수, 1-based)
+    const shortMatch = file.match(/^shorts-(\d+)\/S\d{2}-(.+)\.wav$/)
+    if (shortMatch && Array.isArray(episode.shorts) && episode.shorts.length > 0) {
+      const sShortsIdx1 = parseInt(shortMatch[1]) // 1-based
+      const sSegId = shortMatch[2]
+      const shortCfg = episode.shorts.find((s: any) => s?._shortsIdx1 === sShortsIdx1)
+      const seg = shortCfg?.segments?.find((s: any) => s.id === sSegId)
       if (seg) {
         seg.duration = rounded
         // imageChangeAt.text 앵커 → t 자동 해소 (배열 또는 단일 객체)
         const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : seg.imageChangeAt ? [seg.imageChangeAt] : []
-        for (const change of changes) {
-          if (change.text && timings.length > 0) {
-            const match = timings.find((t: any) => t.text?.includes(change.text))
-            if (match) {
-              const resolved = Math.round(match.start * 100) / 100
-              change.t = resolved
-              console.log(`  imageChangeAt "${change.text}" → ${resolved}s`)
-            } else {
-              console.log(`  ⚠ imageChangeAt 앵커 "${change.text}" 매칭 실패`)
+
+        // 평탄화: word 단위 + sentence 단위 두 목록을 동시에 구축
+        // 단일 단어 앵커는 word-level에서 정밀하게, 다단어 앵커는 sentence-level 폴백으로 매칭한다.
+        type AnchorPos = { start: number; text: string }
+        const flatWords: AnchorPos[] = []
+        const flatSents: AnchorPos[] = []
+        for (const t of timings) {
+          if (t.text) flatSents.push({ start: t.start, text: t.text })
+          const tw = (t as any).words as Array<{ start: number; text: string }> | undefined
+          if (tw && Array.isArray(tw) && tw.length > 0) {
+            for (const w of tw) {
+              if (w.text) flatWords.push({ start: w.start, text: w.text })
             }
+          }
+        }
+
+        // occurrence-aware matching: 같은 anchor의 N번째 등장에 자동 매핑.
+        // word-level 우선 시도 → 실패 시 sentence-level 폴백.
+        // occurrence 카운터는 단일하게 공유하여 word/sentence 어느 단계에서 잡히든 N번째 사용은 N번째 매칭이 된다.
+        const findIn = (list: AnchorPos[], text: string, occIdx: number): number | null => {
+          let count = 0
+          for (const item of list) {
+            if (item.text.includes(text)) {
+              if (count === occIdx) return item.start
+              count++
+            }
+          }
+          return null
+        }
+
+        const occurrence = new Map<string, number>()
+        for (const change of changes) {
+          if (!change.text) continue
+          const occIdx = occurrence.get(change.text) ?? 0
+          occurrence.set(change.text, occIdx + 1)
+
+          // 1) word-level 우선
+          let matchedStart: number | null = flatWords.length > 0
+            ? findIn(flatWords, change.text, occIdx)
+            : null
+          let matchSource: 'word' | 'sentence' = 'word'
+          // 2) 실패 시 sentence-level 폴백 (다단어 앵커 대응)
+          if (matchedStart == null && flatSents.length > 0) {
+            matchedStart = findIn(flatSents, change.text, occIdx)
+            if (matchedStart != null) matchSource = 'sentence'
+          }
+
+          if (matchedStart != null) {
+            const resolved = Math.round(matchedStart * 100) / 100
+            change.t = resolved
+            console.log(`  imageChangeAt "${change.text}" #${occIdx + 1} → ${resolved}s (${matchSource})`)
+          } else {
+            console.log(`  ⚠ imageChangeAt 앵커 "${change.text}" #${occIdx + 1} 매칭 실패 (본문 등장 횟수 부족)`)
           }
         }
       }
@@ -666,28 +836,52 @@ if (updateJson) {
   // books duration 추출
   const btd = episode.books.map((b: any) => {
     const d: any = {}
-    for (const k of ['titleDuration', 'summaryDuration', 'contextDuration', 'quoteDuration', 'contextAfterDuration', 'quoteDuration2', 'contextAfterDuration2']) {
+    for (const k of ['titleDuration', 'summaryDuration', 'contextDuration']) {
       if (b[k] != null) d[k] = b[k]
+    }
+    if (b.quotePairs?.length) {
+      d.quotePairDurations = b.quotePairs.map((p: any) => {
+        const pd: any = {}
+        if (p.quoteDuration != null) pd.quoteDuration = p.quoteDuration
+        if (p.afterDuration != null) pd.afterDuration = p.afterDuration
+        return pd
+      })
     }
     return d
   })
   if (btd.some((d: any) => Object.keys(d).length > 0)) timingOut.books = btd
 
-  // shorts duration 추출
-  if (episode.shorts?.segments) {
-    const std = episode.shorts.segments.map((s: any) => {
-      const d: any = {}
-      if (s.duration != null) d.duration = s.duration
-      return d
-    })
-    if (std.some((d: any) => Object.keys(d).length > 0)) {
-      timingOut.shorts = { segments: std }
-    }
-  }
+  // 옵션 2: 본체 timing.json에는 timing.shorts 저장하지 않는다
+  // 쇼츠 duration은 shorts/{locale}-{N}.timing.json 별도 파일로 저장
 
   // timing.json에 저장 (content JSON은 건드리지 않음)
   writeFileSync(timingPath, JSON.stringify(timingOut, null, 2) + '\n', 'utf-8')
   console.log(`\n✓ ${epName}.timing.json voiceTimings + duration 동기화 완료`)
+
+  // 쇼츠 외부 timing 파일 저장 — shortsIdx(1-based)별로 분리
+  if (Array.isArray(episode.shorts) && episode.shorts.length > 0) {
+    mkdirSync(shortsDir, { recursive: true })
+    for (const cfg of episode.shorts as any[]) {
+      if (!cfg?.segments || !cfg._shortsIdx1) continue
+      const shortsIdx1: number = cfg._shortsIdx1
+      const segs = cfg.segments.map((s: any) => {
+        const d: any = {}
+        if (s.duration != null) d.duration = s.duration
+        // imageChangeAt 앵커 해소 결과도 외부 파일에 반영
+        if (s.imageChangeAt) d.imageChangeAt = s.imageChangeAt
+        return d
+      })
+      // 기존 파일 머지 (voiceTimings 등 다른 필드 보존은 현재 분리 안 함, 세그먼트 단위만)
+      const fp = join(shortsDir, `${epLocale}-${shortsIdx1}.timing.json`)
+      let existing: any = { segments: [] }
+      if (existsSync(fp)) {
+        try { existing = JSON.parse(readFileSync(fp, 'utf-8')) } catch { /* corrupt → 덮어쓰기 */ }
+      }
+      existing.segments = segs
+      writeFileSync(fp, JSON.stringify(existing, null, 2) + '\n', 'utf-8')
+      console.log(`  ✓ shorts/${epLocale}-${shortsIdx1}.timing.json`)
+    }
+  }
 
   // sub 누락 경고
   const missingSubs: string[] = []
@@ -702,6 +896,26 @@ if (updateJson) {
     console.warn(`\n⚠ sub 미처리 세그먼트 ${missingSubs.length}건:`)
     missingSubs.forEach(m => console.warn(m))
     console.warn(`→ "sub 채워줘" 또는 pnpm sub:apply 실행 필요`)
+  }
+
+  // 비정상 duration 경고 — 글자수 대비 너무 짧은 세그먼트
+  // TTS ~4.5자/초 기준, 글자수 × 0.1s 미만이면 whisper diff 매핑 실패 의심
+  const abnormalDurations: string[] = []
+  for (const [key, segs] of Object.entries(episode.voiceTimings as Record<string, any[]>)) {
+    for (let i = 0; i < segs.length; i++) {
+      const seg = segs[i]
+      const text: string = seg.text ?? ''
+      const chars = text.replace(/\s/g, '').length
+      const duration = (seg.end ?? 0) - (seg.start ?? 0)
+      if (chars >= 5 && duration < chars * 0.1) {
+        abnormalDurations.push(`  ${key}[${i}]: ${duration.toFixed(2)}s / ${chars}자\n    → ${text}`)
+      }
+    }
+  }
+  if (abnormalDurations.length > 0) {
+    console.warn(`\n⚠ 비정상 짧은 세그먼트 ${abnormalDurations.length}건 (< 0.1s/자):`)
+    abnormalDurations.forEach(m => console.warn(m))
+    console.warn(`→ tts.replace 매핑 확인 필요 (docs/project/remotion/book-recommend/voice/tts.md)`)
   }
 }
 

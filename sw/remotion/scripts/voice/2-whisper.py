@@ -1,13 +1,20 @@
 """
-whisper-words.py — WhisperX 전사 + diff-match-patch 매핑
+2-whisper.py — WhisperX 전사 + diff-match-patch 매핑
 
 1) WhisperX로 오디오를 순수 전사 → 단어별 타임스탬프 추출
 2) 전사 텍스트와 원문을 diff-match-patch로 대조
 3) 매칭된 짝을 기준으로 타임스탬프를 원문 단어에 이식
 
+단일 타겟 스코프:
+  --long          : 롱폼(공용/도서/아웃트로)만
+  --shorts <N>    : 쇼츠 {N}번 한 개만 (1-based)
+  두 플래그 중 정확히 하나 필수.
+
 Usage:
-  python scripts/voice/whisper-words.py --episode alexander-the-great
-  python scripts/voice/whisper-words.py --episode alexander-the-great --only D05b-summary
+  python scripts/voice/2-whisper.py --episode yi-sun-sin --long
+  python scripts/voice/2-whisper.py --episode yi-sun-sin --shorts 1
+  python scripts/voice/2-whisper.py --episode yi-sun-sin --long --only D05c-context
+  python scripts/voice/2-whisper.py --episode yi-sun-sin --shorts 1 --only S01-hook
 """
 import argparse, json, os, sys, glob, io, re
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -16,7 +23,7 @@ from diff_match_patch import diff_match_patch
 
 
 def parse_ep_name(ep_name):
-    """ep-name → (person, locale) 파싱"""
+    """ep-name → (person, locale) 파싱. 멀티파트 시리즈는 `locale`에 part 번호가 포함됨."""
     rest, lang = ep_name, 'ko'
     if rest.endswith('-en'):
         lang = 'en'
@@ -48,36 +55,89 @@ def resolve_episode_path(script_dir, episode_id):
     return os.path.join(find_episode_dir(root, person), filename)
 
 
-def get_display_text(ep, fname):
-    """WAV 파일명 → 화면 표시용 원문 텍스트 추출"""
-    key = fname.replace('.wav', '')
+def load_shorts_content(episode_dir, base_lang, shorts_index):
+    """shorts/{base_lang}-{N}.json 을 읽어 `_shortsIdx1` 를 주입한 딕셔너리로 반환.
+
+    base_lang 은 'ko' 또는 'en' (멀티파트 번호는 쇼츠 경로에 사용하지 않음).
+    """
+    path = os.path.join(episode_dir, 'shorts', f'{base_lang}-{shorts_index}.json')
+    if not os.path.exists(path):
+        print(f'✗ shorts 파일 없음: {path}', file=sys.stderr)
+        sys.exit(1)
+    with open(path, 'r', encoding='utf-8') as f:
+        cfg = json.load(f)
+    cfg['_shortsIdx1'] = shorts_index
+    return cfg
+
+
+def get_display_text(ep, key):
+    """WAV 파일 키(확장자 없음) → 화면 표시용 원문 텍스트 추출.
+
+    key 형식:
+      - 'A1-service-greeting' 등 고정 키
+      - 'D{NN}a-title', 'D{NN}b-summary', 'D{NN}c-context'
+      - 'D{NN}d{N}-quote', 'D{NN}d{N}-after' (quotePairs 동적 배열)
+      - 'shorts-{N}/S{NN}-{segId}' (옵션 2: 접두사 필수)
+    """
     if key == 'A1-service-greeting': return ep.get('narrator', {}).get('serviceGreeting')
     if key == 'A2-service-intro': return ep.get('narrator', {}).get('serviceIntro')
     if key == 'B1-celeb-intro': return ep.get('narrator', {}).get('celebIntro')
     if key == 'B2-philosophy': return ep.get('host', {}).get('philosophy')
     if key == 'A3-featured-quote': return ep.get('host', {}).get('featuredQuote')
     if key == 'E1-outro': return ep.get('narrator', {}).get('outro')
-    m = re.match(r'D(\d{2})([a-e])-(.+)', key)
+    if key == 'E2-interlude': return ep.get('narrator', {}).get('interlude')
+    if key == 'E3-return-intro': return ep.get('narrator', {}).get('returnIntro')
+    if key == 'E4-prev-recap': return ep.get('narrator', {}).get('prevRecap')
+
+    # 쿼트페어: D{NN}d{N}-(quote|after) — d1=pair0.quote, d2=pair0.after, d3=pair1.quote, ...
+    m_qp = re.match(r'^D(\d{2})d(\d+)-(quote|after)$', key)
+    if m_qp:
+        idx = int(m_qp.group(1)) - 1
+        n = int(m_qp.group(2))
+        kind = m_qp.group(3)
+        pair_idx = (n - 1) // 2
+        books = ep.get('books', [])
+        if idx < len(books):
+            pairs = books[idx].get('quotePairs') or []
+            if pair_idx < len(pairs):
+                return pairs[pair_idx].get(kind)
+        return None
+
+    # 본문: D{NN}{a|b|c}-(title|summary|context)
+    m = re.match(r'^D(\d{2})([a-c])-(title|summary|context)$', key)
     if m:
         idx = int(m.group(1)) - 1
         phase = m.group(2)
-        if phase == 'a' and idx < len(ep.get('books', [])):
-            book = ep['books'][idx]
+        books = ep.get('books', [])
+        if idx >= len(books):
+            return None
+        book = books[idx]
+        if phase == 'a':
             parts = [book.get('title', '')]
             if book.get('creator'): parts.append(book['creator'])
             year = book.get('stats', {}).get('publishYear', '')
             if year: parts.append(str(year))
             return ' '.join(parts)
-        field_map = {'b': 'summary', 'c': 'context', 'd': 'directQuote', 'e': 'contextAfter'}
-        field = field_map.get(phase)
-        if field and idx < len(ep.get('books', [])):
-            return ep['books'][idx].get(field)
-    m = re.match(r'S\d{2}-(.+)', key)
-    if m:
-        seg_id = m.group(1)
-        for seg in ep.get('shorts', {}).get('segments', []):
-            if seg.get('id') == seg_id:
-                return seg.get('text')
+        if phase == 'b':
+            return book.get('summary')
+        if phase == 'c':
+            return book.get('contextMain')
+
+    # 쇼츠: shorts-{N}/S{NN}-{segId} — 옵션 2 이후 접두사 필수
+    m_short = re.match(r'^shorts-(\d+)/S\d{2}-(.+)$', key)
+    if m_short:
+        shorts_idx1 = int(m_short.group(1))
+        seg_id = m_short.group(2)
+        shorts_arr = ep.get('shorts')
+        if isinstance(shorts_arr, list):
+            for cfg in shorts_arr:
+                if cfg and cfg.get('_shortsIdx1') == shorts_idx1:
+                    for seg in cfg.get('segments') or []:
+                        if seg.get('id') == seg_id:
+                            return seg.get('text')
+                    break
+        return None
+
     return None
 
 
@@ -91,22 +151,21 @@ def apply_tts_replace(text, ep):
     return text
 
 
-def get_tts_text(ep, fname):
-    """WAV 파일명 → TTS에 실제 전달된 텍스트 (tts.titles + tts.replace 적용)"""
-    key = fname.replace('.wav', '')
+def get_tts_text(ep, key):
+    """키 → TTS에 실제 전달된 텍스트 (tts.titles + tts.replace 적용)"""
     tts = ep.get('tts', {})
     titles = tts.get('titles', [])
 
     # title: tts.titles[] 우선, 없으면 display_text
-    m = re.match(r'D(\d{2})a-title', key)
+    m = re.match(r'^D(\d{2})a-title$', key)
     if m:
         idx = int(m.group(1)) - 1
         if idx < len(titles) and titles[idx]:
             return titles[idx]
-        return get_display_text(ep, fname)
+        return get_display_text(ep, key)
 
-    # 그 외: display_text에 tts.replace 적용
-    display = get_display_text(ep, fname)
+    # 그 외: display_text 에 tts.replace 적용
+    display = get_display_text(ep, key)
     return apply_tts_replace(display, ep)
 
 
@@ -227,24 +286,75 @@ def map_whisper_to_display(whisper_words, display_text, duration):
     return result
 
 
+def is_celeb_voice_key(key):
+    """ElevenLabs 자동 라우팅 대상 — 키(확장자 없음) 기반"""
+    return (
+        key in ('A3-featured-quote', 'B2-philosophy')
+        or bool(re.match(r'^D\d{2}d-quote$', key))
+        or bool(re.match(r'^D\d{2}d\d+-quote$', key))
+        or bool(re.match(r'^shorts-\d+/S\d{2}-celeb-', key))
+        or bool(re.match(r'^shorts-\d+/S\d{2}-book-quote', key))
+    )
+
+
+def path_to_key(wav_path, default_dir):
+    """wav 절대 경로 → default_dir 기준 상대 키 (확장자 제거, 슬래시 정규화).
+
+    default_dir 이외 엔진(elevenlabs 등)에 있어도 동일 상대 경로를 키로 쓴다.
+    """
+    # 엔진 디렉토리의 공통 부모가 voice_dir 이므로, elevenlabs 쪽 파일은
+    # voice_dir/elevenlabs/<subpath> 형태다. default_dir 기준 상대 경로를 만들려면
+    # 엔진 디렉토리만 잘라내면 된다.
+    voice_dir = os.path.dirname(default_dir)
+    for engine in (os.listdir(voice_dir) if os.path.isdir(voice_dir) else []):
+        eng_dir = os.path.join(voice_dir, engine)
+        if os.path.isdir(eng_dir) and wav_path.startswith(eng_dir + os.sep):
+            rel = os.path.relpath(wav_path, eng_dir)
+            return rel.replace('\\', '/').removesuffix('.wav')
+    # 폴백 — default_dir 기준
+    rel = os.path.relpath(wav_path, default_dir)
+    return rel.replace('\\', '/').removesuffix('.wav')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--episode', required=True)
     parser.add_argument('--model', default='base')
-    parser.add_argument('--only', default=None)
-    parser.add_argument('--shorts', action='store_true', help='쇼츠(S*.wav)만')
-    parser.add_argument('--long', action='store_true', help='롱폼(S* 제외)만')
+    parser.add_argument('--only', default=None, help='쉼표 구분. 키 contains 매칭 (e.g. D05c-context,S01-hook)')
+    parser.add_argument('--shorts', type=int, default=None, help='쇼츠 번호 (1-based). --long 과 동시 지정 불가')
+    parser.add_argument('--long', action='store_true', help='롱폼만 처리. --shorts 와 동시 지정 불가')
     args = parser.parse_args()
+
+    # 단일 타겟 스코프 — 정확히 하나 필수
+    is_long = bool(args.long)
+    shorts_index = args.shorts  # None 또는 int
+    if is_long == (shorts_index is not None):
+        print('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.', file=sys.stderr)
+        print('  사용: python scripts/voice/2-whisper.py --episode <name> (--long | --shorts <N>)', file=sys.stderr)
+        sys.exit(1)
+    if shorts_index is not None and shorts_index < 1:
+        print(f'✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: {shorts_index}', file=sys.stderr)
+        sys.exit(1)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root = os.path.join(script_dir, '..', '..')
     person, locale = parse_ep_name(args.episode)
-    voice_dir = os.path.join(find_episode_dir(root, person), 'voice', locale)
+    episode_dir = find_episode_dir(root, person)
+    voice_dir = os.path.join(episode_dir, 'voice', locale)
 
     ep_path = resolve_episode_path(script_dir, args.episode)
     with open(ep_path, encoding='utf-8') as f:
         ep = json.load(f)
     lang = 'en' if ep.get('locale') == 'en' else 'ko'
+    base_lang = locale.split('-')[0]  # 멀티파트에서 'ko-2' → 'ko'
+
+    # 쇼츠 외부 파일 로드 — 3-timings.ts 와 동일한 구조로 ep['shorts'] 주입
+    if shorts_index is not None:
+        short_cfg = load_shorts_content(episode_dir, base_lang, shorts_index)
+        ep['shorts'] = [short_cfg]
+    else:
+        # 롱폼 스코프에서는 쇼츠 데이터를 참조하지 않는다
+        ep['shorts'] = []
 
     vs_path = os.path.join(voice_dir, 'voice-select.json')
     vs = None
@@ -255,76 +365,101 @@ def main():
         default_engine = vs.get('default', 'gemini')
 
     default_dir = os.path.join(voice_dir, default_engine)
-    wav_files = sorted(glob.glob(os.path.join(default_dir, '*.wav')))
 
+    # --- WAV 파일 스캔 (스코프별) ---
+    if is_long:
+        # 롱폼: default_dir 바로 밑 *.wav (서브디렉토리 제외)
+        wav_files = sorted(glob.glob(os.path.join(default_dir, '*.wav')))
+    else:
+        # 쇼츠 N: default_dir/shorts-{N}/*.wav 만
+        shorts_sub = os.path.join(default_dir, f'shorts-{shorts_index}')
+        wav_files = sorted(glob.glob(os.path.join(shorts_sub, '*.wav')))
+
+    # voice-select slots 처리 — 특정 파일을 다른 엔진에서 가져온다 (키는 'shorts-N/...' 또는 basename)
     if vs and vs.get('slots'):
-        for slot_file, engine in vs['slots'].items():
-            slot_path = os.path.join(voice_dir, engine, slot_file)
-            if os.path.exists(slot_path):
-                wav_files = [f for f in wav_files if os.path.basename(f) != slot_file]
-                wav_files.append(slot_path)
+        for slot_key, engine in vs['slots'].items():
+            slot_rel = slot_key  # 예: 'D01d1-quote.wav' 또는 'shorts-1/S03-celeb-mid.wav'
+            slot_path = os.path.join(voice_dir, engine, slot_rel)
+            if not os.path.exists(slot_path):
+                continue
+            # 스코프와 맞는 slot만 교체 대상
+            slot_is_shorts = slot_rel.startswith('shorts-')
+            if is_long and slot_is_shorts:
+                continue
+            if shorts_index is not None and not slot_rel.startswith(f'shorts-{shorts_index}/'):
+                continue
+            # default_engine 쪽 같은 상대 경로 파일은 제거 (교체)
+            default_slot_path = os.path.join(default_dir, slot_rel)
+            wav_files = [f for f in wav_files if os.path.normpath(f) != os.path.normpath(default_slot_path)]
+            wav_files.append(slot_path)
         wav_files = sorted(wav_files)
 
-    # ElevenLabs 자동 라우팅: celeb 파일이 elevenlabs에 존재하면 우선 사용
-    import re
-    def is_celeb_voice(fname):
-        k = fname.replace('.wav', '')
-        return k in ('A3-featured-quote', 'B2-philosophy') or bool(re.match(r'^D\d{2}d-quote$', k)) or bool(re.match(r'^S\d{2}-celeb-', k)) or bool(re.match(r'^S\d{2}-book-quote', k))
-
+    # ElevenLabs 자동 라우팅: celeb 파일이 elevenlabs 쪽에 있으면 우선 사용
     ele_dir = os.path.join(voice_dir, 'elevenlabs')
     if os.path.isdir(ele_dir):
         for wf in list(wav_files):
-            bn = os.path.basename(wf)
-            if is_celeb_voice(bn):
-                ele_path = os.path.join(ele_dir, bn)
-                if os.path.exists(ele_path) and wf != ele_path:
-                    wav_files = [f for f in wav_files if f != wf]
+            key = path_to_key(wf, default_dir)
+            if is_celeb_voice_key(key):
+                ele_path = os.path.join(ele_dir, key + '.wav')
+                if os.path.exists(ele_path) and os.path.normpath(wf) != os.path.normpath(ele_path):
+                    wav_files = [f for f in wav_files if os.path.normpath(f) != os.path.normpath(wf)]
                     wav_files.append(ele_path)
         wav_files = sorted(wav_files)
 
     if not wav_files:
-        print(f'WAV 파일 없음: {default_dir}')
+        scope_label = '--long' if is_long else f'--shorts {shorts_index}'
+        print(f'WAV 파일 없음 ({scope_label}): {default_dir}')
         sys.exit(1)
 
-    # 유효 WAV 키 목록 생성 (에피소드 JSON 기준)
+    # --- 유효 키 목록 생성 (스코프별) ---
     valid_keys = set()
-    if ep.get('narrator', {}).get('serviceGreeting'): valid_keys.add('A1-service-greeting')
-    if ep.get('narrator', {}).get('serviceIntro'): valid_keys.add('A2-service-intro')
-    if ep.get('narrator', {}).get('celebIntro'): valid_keys.add('B1-celeb-intro')
-    if ep.get('host', {}).get('philosophy'): valid_keys.add('B2-philosophy')
-    if ep.get('host', {}).get('featuredQuote'): valid_keys.add('A3-featured-quote')
-    if ep.get('narrator', {}).get('outro'): valid_keys.add('E1-outro')
-    for i, book in enumerate(ep.get('books', [])):
-        idx = f'{i+1:02d}'
-        valid_keys.add(f'D{idx}a-title')
-        valid_keys.add(f'D{idx}b-summary')
-        valid_keys.add(f'D{idx}c-context')
-        if book.get('directQuote'): valid_keys.add(f'D{idx}d-quote')
-        if book.get('contextAfter'): valid_keys.add(f'D{idx}e-context-after')
-    if ep.get('shorts', {}).get('segments'):
+    if is_long:
+        if ep.get('narrator', {}).get('serviceGreeting'): valid_keys.add('A1-service-greeting')
+        if ep.get('narrator', {}).get('serviceIntro'): valid_keys.add('A2-service-intro')
+        if ep.get('narrator', {}).get('celebIntro'): valid_keys.add('B1-celeb-intro')
+        if ep.get('host', {}).get('philosophy'): valid_keys.add('B2-philosophy')
+        if ep.get('host', {}).get('featuredQuote'): valid_keys.add('A3-featured-quote')
+        if ep.get('narrator', {}).get('outro'): valid_keys.add('E1-outro')
+        if ep.get('narrator', {}).get('interlude'): valid_keys.add('E2-interlude')
+        if ep.get('narrator', {}).get('returnIntro'): valid_keys.add('E3-return-intro')
+        if ep.get('narrator', {}).get('prevRecap'): valid_keys.add('E4-prev-recap')
+        for i, book in enumerate(ep.get('books', [])):
+            idx = f'{i+1:02d}'
+            valid_keys.add(f'D{idx}a-title')
+            valid_keys.add(f'D{idx}b-summary')
+            valid_keys.add(f'D{idx}c-context')
+            # 쿼트페어: d1=pair0.quote, d2=pair0.after, d3=pair1.quote, ...
+            for qi, pair in enumerate(book.get('quotePairs') or []):
+                if pair.get('quote'):
+                    valid_keys.add(f'D{idx}d{qi*2+1}-quote')
+                if pair.get('after'):
+                    valid_keys.add(f'D{idx}d{qi*2+2}-after')
+    else:
+        # 쇼츠 N — 해당 쇼츠의 segments 만
+        short_cfg = ep['shorts'][0]
         si = 0
-        for seg in ep['shorts']['segments']:
-            if seg.get('id') == 'cta': si += 1; continue
-            valid_keys.add(f'S{si+1:02d}-{seg["id"]}')
+        for seg in short_cfg.get('segments') or []:
+            if seg.get('id') == 'cta':
+                si += 1
+                continue
+            valid_keys.add(f'shorts-{shorts_index}/S{si+1:02d}-{seg["id"]}')
             si += 1
 
-    # 잔존 WAV 감지
-    orphaned = [f for f in wav_files if os.path.basename(f).replace('.wav', '') not in valid_keys]
+    # --- 잔존 WAV 감지 ---
+    orphaned = [f for f in wav_files if path_to_key(f, default_dir) not in valid_keys]
     if orphaned:
         print(f'⚠ 잔존 WAV {len(orphaned)}건 — 에피소드에 해당 세그먼트 없음:')
         for f in orphaned:
-            print(f'  {os.path.basename(f)}')
+            print(f'  {path_to_key(f, default_dir)}.wav')
         wav_files = [f for f in wav_files if f not in orphaned]
 
-    if args.shorts:
-        wav_files = [f for f in wav_files if os.path.basename(f).startswith('S')]
-    elif args.long:
-        wav_files = [f for f in wav_files if not os.path.basename(f).startswith('S')]
-    elif args.only:
-        filters = args.only.split(',')
-        wav_files = [f for f in wav_files if any(flt in os.path.basename(f) for flt in filters)]
+    # --- --only 필터 (키 contains) ---
+    if args.only:
+        filters = [s.strip() for s in args.only.split(',') if s.strip()]
+        wav_files = [f for f in wav_files if any(flt in path_to_key(f, default_dir) for flt in filters)]
 
-    print(f'에피소드: {args.episode}')
+    scope_label = '롱폼' if is_long else f'쇼츠 {shorts_index}'
+    print(f'에피소드: {args.episode} ({scope_label})')
     print(f'모델: {args.model} (whisperx + diff-match-patch)')
     print(f'{len(wav_files)}개 WAV 분석\n')
 
@@ -336,13 +471,12 @@ def main():
 
     results = {}
     for wav_path in wav_files:
-        fname = os.path.basename(wav_path)
-        key = fname.replace('.wav', '')
+        key = path_to_key(wav_path, default_dir)
 
         try:
             audio = whisperx.load_audio(wav_path)
-            display_text = get_display_text(ep, fname)
-            tts_text = get_tts_text(ep, fname)
+            display_text = get_display_text(ep, key)
+            tts_text = get_tts_text(ep, key)
             # diff 매칭은 TTS 텍스트(실제 발화) 기준, 출력은 display 텍스트(화면 표시)
             match_text = tts_text or display_text
 
@@ -384,8 +518,8 @@ def main():
         except Exception as e:
             print(f'[{key}] 건너뜀 — {e}')
 
-    out_path = os.path.join(voice_dir, 'whisper-debug.json')
-    # --only 사용 시 기존 데이터 병합 (덮어쓰기 방지)
+    # --- 저장: 스코프 밖 기존 데이터는 보존, 스코프 안은 valid_keys + 신규 결과로 재구성 ---
+    out_path = os.path.join(voice_dir, '2-word-timings.json')
     existing_targets = {}
     if os.path.exists(out_path):
         try:
@@ -393,19 +527,31 @@ def main():
                 existing = json.load(f)
             existing_targets = existing.get('targets', {})
         except Exception:
-            pass
-    # 잔존 키 정리: 범위에 해당하는 기존 키 중 유효하지 않은 것만 제거
-    if args.shorts:
-        cleaned = {k: v for k, v in existing_targets.items() if not k.startswith('S') or k in valid_keys}
-    elif args.long:
-        cleaned = {k: v for k, v in existing_targets.items() if k.startswith('S') or k in valid_keys}
+            existing_targets = {}
+
+    if is_long:
+        # 롱폼 스코프: 쇼츠 데이터는 그대로, 롱폼은 valid_keys 교집합만 남기고 신규 결과로 덮어씀
+        def in_scope(k):
+            return not k.startswith('shorts-')
+        cleaned = {
+            k: v for k, v in existing_targets.items()
+            if (not in_scope(k)) or (k in valid_keys)
+        }
     else:
-        cleaned = {k: v for k, v in existing_targets.items() if k in valid_keys}
+        # 쇼츠 N 스코프: 다른 쇼츠·롱폼 데이터는 그대로, 이 쇼츠만 재구성
+        prefix = f'shorts-{shorts_index}/'
+        def in_scope(k):
+            return k.startswith(prefix)
+        cleaned = {
+            k: v for k, v in existing_targets.items()
+            if (not in_scope(k)) or (k in valid_keys)
+        }
     merged = {**cleaned, **results}
     out_data = {'episode': args.episode, 'model': args.model, 'engine': 'whisperx+diff', 'targets': merged}
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(out_data, f, indent=2, ensure_ascii=False)
     print(f'\n-> {out_path}')
+
 
 if __name__ == '__main__':
     main()

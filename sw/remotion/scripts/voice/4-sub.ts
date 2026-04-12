@@ -1,11 +1,15 @@
 /**
- * apply-sub.ts — sub 매핑을 에피소드 JSON에 적용
+ * 4-sub.ts — 음성 파이프라인 4단계: 자막 sub 분할 적용
+ *
+ * 3-timings.ts 가 voiceTimings를 만든 뒤, 각 문장 세그먼트를 의미 단위로 재분할한
+ * sub 배열을 덮어쓴다. sub가 있으면 다음 analyze 실행 시 subTimings가 자동 계산됨.
  *
  * Usage:
  *   pnpm sub:apply -- --episode <name> --input subs.json
  *
  * subs.json 형태:
  *   { "D01b-summary": { "0": ["청크1", "청크2"] }, ... }
+ *   쇼츠 키 형태: { "shorts-2/S01-hook": { "0": ["청크1", "청크2"] } }
  *
  * 불변식: sub.join(' ') === text (공백 조인)
  */

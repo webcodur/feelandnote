@@ -25,6 +25,10 @@ import type { BookRecommendScript, EpisodeTimingData } from '../../src/compositi
 const EPISODES_DIR = join(__dirname, '..', '..', 'public', 'episodes')
 const STATUSES = ['done', 'live', 'todo'] as const
 
+/**
+ * 본체 timing.json 머지. shorts는 외부 파일(loadExternalShortsSync)에서 이미 병합되어 있으므로
+ * 여기서는 그대로 통과시킨다.
+ */
 function mergeEpisode(content: BookRecommendScript, timing: EpisodeTimingData): BookRecommendScript {
   return {
     ...content,
@@ -35,16 +39,47 @@ function mergeEpisode(content: BookRecommendScript, timing: EpisodeTimingData): 
       ...book,
       ...(timing.books?.[i] ?? {}),
     })),
-    shorts: content.shorts
-      ? {
-          ...content.shorts,
-          segments: content.shorts.segments.map((seg, i) => ({
-            ...seg,
-            ...(timing.shorts?.segments?.[i] ?? {}),
-          })),
-        }
-      : content.shorts,
+    shorts: content.shorts,
   }
+}
+
+/**
+ * shorts/{locale}-{N}.json · {locale}-{N}.timing.json 외부 파일 동기 로드
+ * 옵션 2: 쇼츠는 본체 밖 shorts/ 에 1-based로 저장
+ */
+function loadExternalShortsSync(episodeDir: string, locale: string): any[] {
+  const shortsDir = join(episodeDir, 'shorts')
+  if (!existsSync(shortsDir)) return []
+
+  const files = readdirSync(shortsDir)
+  const contentRe = new RegExp(`^${locale}-(\\d+)\\.json$`)
+  const timingRe = new RegExp(`^${locale}-(\\d+)\\.timing\\.json$`)
+
+  const contents = new Map<number, any>()
+  const timings = new Map<number, any>()
+
+  for (const f of files) {
+    if (f.endsWith('.timing.json')) {
+      const m = f.match(timingRe)
+      if (m) timings.set(parseInt(m[1]), loadJSON<any>(join(shortsDir, f)))
+    } else if (f.endsWith('.json')) {
+      const m = f.match(contentRe)
+      if (m) contents.set(parseInt(m[1]), loadJSON<any>(join(shortsDir, f)))
+    }
+  }
+
+  return [...contents.keys()].sort((a, b) => a - b).map(idx => {
+    const c = contents.get(idx)
+    const t = timings.get(idx)
+    if (!t?.segments) return c
+    return {
+      ...c,
+      segments: c.segments.map((seg: any, i: number) => ({
+        ...seg,
+        ...(t.segments[i] ?? {}),
+      })),
+    }
+  })
 }
 
 function withKoImages(en: BookRecommendScript, ko: BookRecommendScript): BookRecommendScript {
@@ -72,21 +107,20 @@ function loadEpisodes(): Record<string, BookRecommendScript> {
     for (const person of readdirSync(statusDir, { withFileTypes: true })) {
       if (!person.isDirectory()) continue
       const personDir = join(statusDir, person.name)
+
       for (const locale of ['ko', 'en'] as const) {
         const contentPath = join(personDir, `${locale}.json`)
         if (!existsSync(contentPath)) continue
         const content = loadJSON<BookRecommendScript>(contentPath)
+        // 옵션 2: 쇼츠는 shorts/{locale}-{N}.json 외부 파일에서 로드
+        const shortsArr = loadExternalShortsSync(personDir, locale)
+        if (shortsArr.length > 0) (content as any).shorts = shortsArr
         const timingPath = join(personDir, `${locale}.timing.json`)
         const timing = existsSync(timingPath) ? loadJSON<EpisodeTimingData>(timingPath) : undefined
         const merged = timing ? mergeEpisode(content, timing) : content
         const epName = `${person.name}${locale === 'en' ? '-en' : ''}`
-
-        if (locale === 'en') {
-          enPending.push({ epName, script: merged })
-        } else {
-          koCache[epName] = merged
-          episodes[epName] = merged
-        }
+        if (locale === 'en') enPending.push({ epName, script: merged })
+        else { koCache[epName] = merged; episodes[epName] = merged }
       }
     }
   }
@@ -111,6 +145,11 @@ const langFlag = args.indexOf('--lang')
 const langFilter = langFlag >= 0 ? args[langFlag + 1] : null // 'ko' | 'en'
 if (langFilter && langFilter !== 'ko' && langFilter !== 'en') {
   throw new Error(`--lang 옵션은 'ko' 또는 'en'만 허용한다 (입력: ${langFilter})`)
+}
+const shortsIndexFlag = args.indexOf('--shorts-index')
+const shortsIndexFilter = shortsIndexFlag >= 0 ? parseInt(args[shortsIndexFlag + 1], 10) : null // 1-based
+if (shortsIndexFilter !== null && (!Number.isInteger(shortsIndexFilter) || shortsIndexFilter < 1)) {
+  throw new Error(`--shorts-index 옵션은 1 이상 정수만 허용한다 (입력: ${args[shortsIndexFlag + 1]})`)
 }
 
 const OUT_DIR = join(__dirname, '..', '..', 'out')
@@ -207,13 +246,20 @@ async function main() {
   const entries = Object.entries(targetEpisodes)
   const totalJobs: string[] = []
 
-  // 작업 목록 사전 집계
+  // 작업 목록 사전 집계 — shortsIndex는 1-based로 일관
   for (const [name, script] of entries) {
     if (!script) continue
     const { label, lang } = toCompId(name)
     const p = `${label}-${lang}`
     if (!only || only === 'longform') totalJobs.push(`${p}-L-VID`, `${p}-L-THUMB`)
-    if ((!only || only === 'shorts') && script.shorts) totalJobs.push(`${p}-S-VID`)
+    if (!only || only === 'shorts') {
+      const shortsArr = (script.shorts ?? []) as any[]
+      for (let i = 0; i < shortsArr.length; i++) {
+        const shortsIndex = i + 1 // 1-based
+        if (shortsIndexFilter !== null && shortsIndex !== shortsIndexFilter) continue
+        totalJobs.push(`${p}-S${shortsIndex}-VID`)
+      }
+    }
   }
 
   console.log(`\n${'═'.repeat(60)}`)
@@ -255,21 +301,27 @@ async function main() {
       console.log(`  ✓ 썸네일: ${lt}`)
     }
 
-    // 쇼츠
-    if ((!only || only === 'shorts') && script.shorts) {
-      const compId = `${compPrefix}-S-VID`
-      jobIdx++
-      console.log(`\n${'─'.repeat(60)}`)
-      console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 쇼츠 렌더: ${compId} [${ts()}]`)
-      console.log(`${'─'.repeat(60)}`)
-      const mp4 = join(epDir, 'S-VID.mp4')
-      await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
-      console.log(`  ✓ 쇼츠 완료 [${ts()}]`)
+    // 쇼츠 — 배열 순회. shortsIndex는 1-based 일관 (shorts[0]=S1, shorts[1]=S2, ...)
+    if (!only || only === 'shorts') {
+      const shortsArr = (script.shorts ?? []) as any[]
+      for (let i = 0; i < shortsArr.length; i++) {
+        const shortsIndex = i + 1 // 1-based
+        if (shortsIndexFilter !== null && shortsIndex !== shortsIndexFilter) continue
+        const suffix = `S${shortsIndex}`
+        const compId = `${compPrefix}-${suffix}-VID`
+        jobIdx++
+        console.log(`\n${'─'.repeat(60)}`)
+        console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 쇼츠 렌더: ${compId} [${ts()}]`)
+        console.log(`${'─'.repeat(60)}`)
+        const mp4 = join(epDir, `${suffix}-VID.mp4`)
+        await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
+        console.log(`  ✓ 쇼츠 완료 [${ts()}]`)
 
-      const srt = subsToSrt(buildShortsSubs(script))
-      const srtPath = join(epDir, 'S-VID.srt')
-      writeFileSync(srtPath, srt, 'utf-8')
-      console.log(`  ✓ SRT: ${srtPath}`)
+        const srt = subsToSrt(buildShortsSubs(script, shortsIndex))
+        const srtPath = join(epDir, `${suffix}-VID.srt`)
+        writeFileSync(srtPath, srt, 'utf-8')
+        console.log(`  ✓ SRT: ${srtPath}`)
+      }
     }
   }
 

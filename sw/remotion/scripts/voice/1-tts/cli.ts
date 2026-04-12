@@ -1,0 +1,79 @@
+/**
+ * 1-tts/cli.ts — CLI 인자 파싱·환경 상수
+ *
+ * 모듈 로드 시점에 process.argv를 한 번 파싱하여 전역 상수를 export 한다.
+ * 다른 모듈은 import 만으로 같은 환경을 공유한다.
+ */
+
+import path from 'path'
+import { ROOT, findEpisodeDir, parseEpName } from '../../lib/episode.js'
+
+// --- 원본 args ---
+export const args = process.argv.slice(2)
+
+// --- 허용 플래그 검증 — 오타·미지원 플래그 유입 방지 ---
+const KNOWN_FLAGS = new Set([
+  '--episode', '--engine', '--only', '--force', '--shorts', '--long',
+  '--update-json', '--include-common', '--normalize', '--list',
+  '--init-manifest', '--start-key', '--role',
+])
+for (const arg of args) {
+  if (arg === '--') continue
+  if (arg.startsWith('--') && !KNOWN_FLAGS.has(arg)) {
+    throw new Error(`알 수 없는 플래그: ${arg} (허용: ${[...KNOWN_FLAGS].join(', ')})`)
+  }
+}
+
+// --- 단일 타겟 스코프: --long 또는 --shorts <N> 정확히 하나 필수 ---
+// --list, --init-manifest 등 메타 플래그만 사용할 때도 동일하게 강제한다
+const SHORTS_FLAG_IDX = args.indexOf('--shorts')
+const HAS_LONG_FLAG = args.includes('--long')
+let parsedShortsIndex: number | null = null
+if (SHORTS_FLAG_IDX >= 0) {
+  const raw = args[SHORTS_FLAG_IDX + 1]
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    console.error(`✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
+    console.error('  사용: pnpm voice -- --episode <name> (--long | --shorts <N>) [...옵션]')
+    process.exit(1)
+  }
+  parsedShortsIndex = parsed
+}
+if (HAS_LONG_FLAG === (parsedShortsIndex !== null)) {
+  console.error('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.')
+  console.error('  사용: pnpm voice -- --episode <name> (--long | --shorts <N>) [...옵션]')
+  process.exit(1)
+}
+export const SHORTS_INDEX: number | null = parsedShortsIndex
+
+// --- 에피소드 ---
+const epIdx = args.indexOf('--episode')
+export const EPISODE_NAME = epIdx >= 0 ? args[epIdx + 1] : 'elon-musk'
+
+// --- 엔진 선택: --engine gemini | elevenlabs (기본: gemini) ---
+const engineIdx = args.indexOf('--engine')
+export const ENGINE = engineIdx >= 0 ? args[engineIdx + 1] : 'gemini'
+
+// --- 에피소드 경로 해석 ---
+const parsed = parseEpName(EPISODE_NAME)
+export const EP_PERSON = parsed.person
+export const EP_LOCALE = parsed.locale
+export const BASE_DIR = path.join(findEpisodeDir(EP_PERSON), 'voice', EP_LOCALE)
+export const OUT_DIR = path.join(BASE_DIR, ENGINE)
+export const IS_EN = EPISODE_NAME.endsWith('-en')
+export const COMMON_DIR = path.join(ROOT, 'public', 'common', 'voice', IS_EN ? 'en' : 'ko')
+
+// --- --only / --include-common ---
+// 공통 음성 — common/voice/{locale}/ 재사용. --only 로도 공통 파일은 보호됨.
+// 재생성하려면 --include-common 필수.
+const onlyArgValue = args[args.indexOf('--only') + 1]
+export const onlyTargets = args.includes('--only') && onlyArgValue ? onlyArgValue.split(',') : []
+export const includeCommon = args.includes('--include-common')
+
+// --- --role narrator,summary,celeb ---
+const roleIdx = args.indexOf('--role')
+export const ROLE_FILTER = roleIdx >= 0 ? (args[roleIdx + 1]?.split(',') ?? null) : null
+
+// --- API 키 시작 인덱스 (--start-key N, 1-based) ---
+const startKeyIdx = args.indexOf('--start-key')
+export const START_KEY_INDEX = startKeyIdx >= 0 ? Number(args[startKeyIdx + 1]) : 1

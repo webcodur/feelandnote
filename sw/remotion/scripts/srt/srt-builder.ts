@@ -16,7 +16,7 @@ import { splitSub, type Sub } from '../../src/compositions/BookRecommend/sentenc
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
-  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
+  vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO,
   vnShort, vnTimingKey,
 } from '../../src/compositions/BookRecommend/voice-names'
@@ -123,46 +123,31 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
     const ctStart = c
     subs.push(...splitSub(
       ctStart, ctStart + toAudioFrames(b.contextDuration),
-      narratorLabel, b.context,
+      narratorLabel, b.contextMain,
       vtk(vnTimingKey(vnBookContext(i))),
     ))
     c += bt.contextFrames
 
-    if (bt.hasQuote && b.directQuote && b.quoteDuration) {
-      c += CONTEXT_QUOTE_GAP
-      subs.push(...splitSub(
-        c, c + toAudioFrames(b.quoteDuration),
-        host.nickname, `\u201C${b.directQuote}\u201D`,
-        vtk(vnTimingKey(vnBookQuote(i))),
-      ))
-      c += bt.quoteFrames
-
-      if (bt.hasContextAfter && b.contextAfter && b.contextAfterDuration) {
-        c += QUOTE_CONTEXTAFTER_GAP
-        subs.push(...splitSub(
-          c, c + toAudioFrames(b.contextAfterDuration),
-          narratorLabel, b.contextAfter,
-          vtk(vnTimingKey(vnBookContextAfter(i))),
-        ))
-        c += bt.contextAfterFrames
-      }
-
-      if (bt.hasQuote2 && b.directQuote2 && b.quoteDuration2) {
+    for (let pi = 0; pi < (bt.quotePairTimings?.length ?? 0); pi++) {
+      const pt = bt.quotePairTimings[pi]
+      const pair = b.quotePairs?.[pi]
+      if (pt.hasQuote && pair?.quote && pair.quoteDuration) {
         c += CONTEXT_QUOTE_GAP
         subs.push(...splitSub(
-          c, c + toAudioFrames(b.quoteDuration2),
-          host.nickname, `\u201C${b.directQuote2}\u201D`,
-          vtk(vnTimingKey(vnBookQuote2(i))),
+          c, c + toAudioFrames(pair.quoteDuration),
+          host.nickname, `\u201C${pair.quote}\u201D`,
+          vtk(vnTimingKey(vnBookQuote(i, pi))),
         ))
-        c += bt.quote2Frames
+        c += pt.quoteFrames
 
-        if (bt.hasContextAfter2 && b.contextAfter2 && b.contextAfterDuration2) {
+        if (pt.hasAfter && pair.after && pair.afterDuration) {
           c += QUOTE_CONTEXTAFTER_GAP
           subs.push(...splitSub(
-            c, c + toAudioFrames(b.contextAfterDuration2),
-            narratorLabel, b.contextAfter2,
-            vtk(vnTimingKey(vnBookContextAfter2(i))),
+            c, c + toAudioFrames(pair.afterDuration),
+            narratorLabel, pair.after,
+            vtk(vnTimingKey(vnBookAfter(i, pi))),
           ))
+          c += pt.afterFrames
         }
       }
     }
@@ -181,9 +166,12 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
 
 // ── shorts SRT — shortSegLayout() SSoT ──
 
-export function buildShortsSubs(script: BookRecommendScript): Sub[] {
-  if (!script.shorts?.segments) return []
-  const segments = script.shorts.segments
+export function buildShortsSubs(script: BookRecommendScript, shortsIndex: number = 1): Sub[] {
+  // 옵션 2: shortsIndex는 1-based. 배열 인덱스는 shortsIndex - 1.
+  const shortsArr = Array.isArray(script.shorts) ? script.shorts : undefined
+  const target = shortsArr?.[shortsIndex - 1]
+  if (!target?.segments) return []
+  const segments = target.segments
   const isEn = script.locale === 'en'
   const { host } = script
 
@@ -196,7 +184,7 @@ export function buildShortsSubs(script: BookRecommendScript): Sub[] {
     const seg = segments[i]
     if (seg.visual === 'cta') continue
     const speaker = seg.role === 'celeb' ? host.nickname : (isEn ? 'Narrator' : '나레이터')
-    const timingKey = vnTimingKey(vnShort(i, seg.id))
+    const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
     const audioFrames = seg.duration ? toAudioFrames(seg.duration) : segTimings[i]
 
     subs.push(...splitSub(

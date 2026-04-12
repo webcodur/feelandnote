@@ -80,19 +80,24 @@ const apiServer = http.createServer((req, res) => {
         if (!episode || !locale || !timingKey || segIndex == null || !Array.isArray(sub)) {
           res.writeHead(400); res.end(JSON.stringify({ error: 'missing fields' })); return
         }
-        // episode "dario-amodei-en" + locale "en" → dir "dario-amodei", file "en.json"
+        // episode "dario-amodei-en" + locale "en" → dir "dario-amodei"
         const dir = locale !== 'ko' ? episode.replace(new RegExp(`-${locale}$`), '') : episode
-        const jsonPath = path.join(findEpisodeDir(dir), `${locale}.json`)
+        const epDir = findEpisodeDir(dir)
+        // voiceTimings는 timing.json에 분리 저장 (ko.timing.json / en.timing.json)
+        const timingPath = path.join(epDir, `${locale}.timing.json`)
+        const mainPath = path.join(epDir, `${locale}.json`)
+        // timing.json 우선, 없으면 메인 json 폴백
+        const jsonPath = fs.existsSync(timingPath) ? timingPath : mainPath
         if (!fs.existsSync(jsonPath)) {
           res.writeHead(404); res.end(JSON.stringify({ error: 'file not found' })); return
         }
         const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
         if (!data.voiceTimings?.[timingKey]?.[segIndex]) {
-          res.writeHead(404); res.end(JSON.stringify({ error: 'timing segment not found' })); return
+          res.writeHead(404); res.end(JSON.stringify({ error: `timing segment not found: ${timingKey}[${segIndex}]` })); return
         }
         data.voiceTimings[timingKey][segIndex].sub = sub
         fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2) + '\n', 'utf8')
-        console.log(`[api] sub 저장: ${episode}/${locale} → ${timingKey}[${segIndex}]`)
+        console.log(`[api] sub 저장: ${jsonPath} → ${timingKey}[${segIndex}]`)
         res.writeHead(200); res.end(JSON.stringify({ ok: true }))
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: String(e) }))
