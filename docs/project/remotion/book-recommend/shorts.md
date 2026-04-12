@@ -72,14 +72,15 @@
 - **텍스트**: 음성 싱크 자막, 핵심 키워드 강조색
 - **비주얼**: 생성 이미지 배경 + 자막. 3~4초마다 시각 변화 (줌, 패닝, 텍스트 전환)
 
-> context(추천 경위)가 보통 더 스토리가 강하다. "아리스토텔레스가 직접 교정한 필사본을 베개 밑에 두고 잤다" — 이런 구체적 에피소드가 숫자보다 강력하다.
+> contextMain(감상 배경)이 보통 더 스토리가 강하다. "아리스토텔레스가 직접 교정한 필사본을 베개 밑에 두고 잤다" — 이런 구체적 에피소드가 숫자보다 강력하다.
 
 ### 마무리: CTA + 브랜드 로고
 
 book-context 마지막 문장이 여운을 남기며 책 이야기를 닫는다. 이후 CTA 세그먼트로 롱폼 유도 → 브랜드 로고로 닫는다.
 
 - **book-context 마무리**: 마지막 문장은 정보 전달이 아닌 여운. 스토리의 결론이자 감정의 착지점.
-- **CTA 텍스트**: "{nickname}의 전체 서재는 하단의 [서재탐방] 클릭으로 만나보세요" (ko) / "Watch the full story [Library Tour] Tap below" (en). JSON에는 "풀 영상은 하단의 …"로 저장되어 있으나, 렌더러가 `script.host.nickname`으로 동적 교체한다.
+- **CTA 텍스트는 i18n 단일원천**: `src/compositions/BookRecommend/i18n.ts`의 `ctaDefault` 한 곳에서만 관리한다 (ko / en 각각). 에피소드 JSON의 cta 세그먼트에는 **`text` 필드를 작성하지 않는다.** 작성해도 dead text다 — 음성·자막·렌더러 모두 cta 세그먼트의 text를 무시한다.
+- **CTA 세그먼트 자체는 필수**: `{ id: 'cta', role: 'narrator', visual: 'cta' }`만 둔다. 컴포지션이 `ctaIdx`로 위치를 잡아 CTA 블록을 띄운다. 세그먼트가 없으면 CTA가 표시되지 않는다.
 - **비주얼**: 브랜드 로고 + CTA 오버레이
 
 ---
@@ -125,44 +126,60 @@ MID 영역 우측에 아바타와 책 포스터가 교차 표시된다.
 
 ### 배경 이미지 (4장 레이어 시스템)
 
-에피소드당 **4장**의 배경 이미지를 `public/images/shorts/`에 배치한다. 3개 레이어가 구간별로 교차 표시된다.
+에피소드 레벨에서 **2종의 폴백 배경**(`revealBg`, `bookBg`) + **세그먼트별 커스텀 이미지**(`seg.image` + `imageChangeAt`)가 통합 cross-fade 시퀀스로 재생된다. 모든 세그먼트(`hook`/`intro`/`celeb-mid`/`book`)가 자체 이미지를 가질 수 있다.
 
 **파일 규칙:**
 - **slug**: 에피소드명에서 `-en` 접미사를 제거한 값 (한/영 공유)
 - `.gitignore` 포함 (AI 생성 이미지, 로컬 전용)
 
-**파일 구성:**
+**구성 필드:**
 
-| 파일 | 용도 | 비고 |
+| 필드 | 위치 | 용도 |
 |------|------|------|
-| `{slug}.png` | hook~celeb-mid 구간 배경 | 자동 적용 (Layer 1) |
-| `{slug}-2.png` | book 구간 폴백 배경 | `seg.image` 없을 때만 (Layer 2) |
-| `{slug}-3.png` | book 구간 첫 번째 커스텀 이미지 | `seg.image`로 지정 |
-| `{slug}-4.png` | book 구간 두 번째 커스텀 이미지 | `imageChangeAt`으로 전환 |
+| `shorts.revealBg` | shorts root | 기본 배경. 첫 세그먼트 이미지(또는 book 시작) 직전까지 표시 |
+| `shorts.bookBg` | shorts root | book 구간 폴백. book 세그먼트에 `seg.image`가 없을 때만 사용 |
+| `seg.image` | 모든 visual 세그먼트 (`hook`/`intro`/`book`) | 해당 세그먼트 시작 시 cross-fade 인 |
+| `seg.imageChangeAt` | 모든 visual 세그먼트 | 세그먼트 내 추가 전환점 (텍스트 앵커로 보정) |
 
 **레이어 동작:**
 
-1. **Layer 1** (`{slug}.png`): hook → intro → celeb-mid 구간에 자동 표시. book 구간 시작 시 fade-out.
-2. **Layer 2** (`{slug}-2.png`): book 구간 폴백. `seg.image`가 설정되면 **표시되지 않는다**.
-3. **Layer 3** (`seg.image` + `imageChangeAt`): book 세그먼트에 명시적으로 지정한 이미지. 구간 내 여러 이미지 전환 가능.
+1. **revealBg**: 영상 시작부터 표시. 첫 `seg.image`가 등장하는 시점(또는 book 시작 시점)에 fade-out.
+2. **통합 imageGroups**: 모든 세그먼트의 `seg.image` + `imageChangeAt`가 시간순 cross-fade 시퀀스로 합쳐진다. book 세그먼트에 image가 없고 `bookBg`가 있으면 가상 그룹으로 자동 포함되어 hook/intro 이미지에서 자연스럽게 cross-fade 된다.
+3. CTA 세그먼트는 이미지 시퀀스에 포함되지 않는다 (별도 CTA 배경 사용).
 
 **이미지 전환 예시 (에피소드 JSON):**
 
 ```jsonc
 {
-  "id": "book-context",
-  "visual": "book",
-  "image": "images/shorts/elon-musk-3.png",
-  "imageChangeAt": [
-    { "t": 15, "image": "images/shorts/elon-musk-4.png", "text": "지구 문명도 언젠가" },
-    { "t": 22.89, "image": "images/shorts/elon-musk-2.png", "text": "인류를 다행성 종으로" }
+  "revealBg": "twin-towers-2001.webp",
+  "bookBg": "berlin-wall.png",
+  "segments": [
+    {
+      "id": "hook",
+      "visual": "hook",
+      "image": "images/shorts/karp-hook.png"   // ← hook 전용 이미지 (NEW)
+    },
+    {
+      "id": "intro",
+      "visual": "intro"
+      // image 없음 → hook 이미지가 그대로 유지됨
+    },
+    {
+      "id": "book-context",
+      "visual": "book",
+      "image": "images/shorts/elon-musk-3.png",
+      "imageChangeAt": [
+        { "t": 15, "image": "images/shorts/elon-musk-4.png", "text": "지구 문명도 언젠가" },
+        { "t": 22.89, "image": "images/shorts/elon-musk-2.png", "text": "인류를 다행성 종으로" }
+      ]
+    }
   ]
 }
 ```
 
 - `image`: 세그먼트 시작 시 표시할 이미지
 - `imageChangeAt.t`: 세그먼트 시작 기준 전환 시점 (초)
-- `imageChangeAt.text`: 텍스트 앵커 — `analyze-voice` 실행 시 voiceTimings에서 해당 텍스트 시작 시간으로 `t` 자동 보정
+- `imageChangeAt.text`: 텍스트 앵커 — `3-timings` 실행 시 voiceTimings에서 해당 텍스트 시작 시간으로 `t` 자동 보정
 
 **시각 효과:**
 - 레이어 간 cross-fade 전환 (0.3초)
@@ -246,7 +263,7 @@ interface ShortsConfig {
 interface ShortSegment {
   id: string                    // 음성 파일명: S{nn}-{id}.wav (voice-eligible 0-based)
   role: 'narrator' | 'celeb' | 'summary'  // 화자 (summary = 롱폼 Charon 보이스)
-  text: string                  // 자막/TTS 텍스트
+  text: string                  // 자막/TTS 텍스트 (cta는 생략 — i18n 단일원천)
   visual: 'hook' | 'intro' | 'book' | 'cta'  // 비주얼 유형
   duration?: number             // TTS 생성 후 자동 반영 (초)
   image?: string                // 세그먼트 배경 이미지 (book 전용). 설정 시 slug-2 폴백 비활성
@@ -256,7 +273,7 @@ interface ShortSegment {
 interface ImageChange {
   t: number       // 전환 시점 (세그먼트 시작 기준, 초)
   image: string   // 전환할 이미지 경로
-  text?: string   // 텍스트 앵커 — analyze-voice가 voiceTimings에서 매칭하여 t 자동 보정
+  text?: string   // 텍스트 앵커 — 3-timings가 voiceTimings에서 매칭하여 t 자동 보정
 }
 ```
 
@@ -323,14 +340,14 @@ Remotion Studio에서 쇼츠 컴포지션 이름은 다음 패턴을 따른다:
 2. 배경 이미지 생성 (4장)
    → {slug}.png (hook~celeb-mid), {slug}-2.png, -3.png, -4.png (book 구간)
    → book-context 세그먼트에 image + imageChangeAt 설정
-   → text 앵커로 전환점 지정 (analyze-voice가 t 자동 보정)
+   → text 앵커로 전환점 지정 (3-timings가 t 자동 보정)
 
-3. TTS 생성
-   → pnpm voice -- --episode <name> --only S01-hook,S02-intro,S03-celeb-mid,S04-book-context --update-json
+3. TTS 생성 (쇼츠 N번)
+   → pnpm voice -- --episode <name> --shorts <N> --only S01-hook,S02-intro,S03-celeb-mid,S04-book-context --update-json
 
-4. 음성 분석
-   → python scripts/voice/whisper-words.py --episode <name>
-   → pnpm analyze -- --episode <name> --update-json
+4. 음성 분석 (쇼츠 N번)
+   → python scripts/voice/2-whisper.py --episode <name> --shorts <N>
+   → pnpm analyze -- --episode <name> --shorts <N> --update-json
    → (imageChangeAt의 text 앵커가 있으면 t 값 자동 보정됨)
 
 5. Remotion 스튜디오에서 프리뷰

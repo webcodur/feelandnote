@@ -137,7 +137,7 @@ episodes/
 ### 마이그레이션 계획
 
 1. `episodes/book-recommend/` 디렉토리 생성, 기존 JSON 이동
-2. `generate-voice.ts`에 `--series` 플래그 추가 (기본값 `book-recommend`)
+2. `1-tts.ts`에 `--series` 플래그 추가 (기본값 `book-recommend`)
 3. `voice-r2.ts`의 R2 경로에 시리즈 프리픽스 추가: `remotion/voice/{series}/{name}/`
 4. `render-all.ts`에 시리즈 인식 추가
 5. `script.ts`의 episodes import를 시리즈별 동적 로드로 전환
@@ -198,15 +198,14 @@ DB 데이터 → JSON 뼈대 생성 → AI 초안 → 수동 검수.
 |-----------|-----------|
 | `host.philosophy` | DB consumption_philosophy + speech_tone → 1인칭 재작성 |
 | `books[].summary` | DB review → 책 자체 설명 추출 |
-| `books[].context` | DB review → 추천 경위 추출 (3인칭) |
+| `books[].contextMain` | DB review → 감상 배경 추출 (3인칭) |
 | `narrator.celebIntro` | DB bio → 위키백과 서술체 재작성 |
 | `narrator.outro` | 템플릿 + 인물명/책 수 자동 삽입 |
 
 **수동 검수 필수**:
 | JSON 필드 | 이유 |
 |-----------|------|
-| `books[].directQuote` | 검증된 인용문만 허용. AI 창작 금지 |
-| `books[].contextAfter` | 스토리텔링 판단 필요 |
+| `books[].quotePairs` | 인용문+후속맥락 배열. 검증된 인용문만 허용. AI 창작 금지 |
 | `shorts.segments` | 훅/CTA 등 크리에이티브 |
 | `narrator.serviceIntro` | 에피소드별 커스텀 |
 
@@ -394,10 +393,10 @@ episodes/book-recommend/
 | 나레이터 TTS | Kore (ko-KR) | Gemini Journey / Cloud en-US |
 | 요약맨 TTS | Charon (ko-KR) | Gemini Puck / Cloud en-US |
 | 셀럽 TTS | ElevenLabs | ElevenLabs (동일 보이스 가능) |
-| 화면 라벨 | "핵심 요약" / "추천 경위" | "Key Summary" / "Why They Read It" |
+| 화면 라벨 | "핵심 요약" / "감상 배경" | "Key Summary" / "Why They Read It" |
 | 브랜드 | FEEL & NOTE | 동일 |
 | CTA | "Feel & Note 앱에서 만나보세요" | "Discover more at feelandnote.com" |
-| directQuote | 한국어 번역본 | **영문 원전에서 인용** (번역 금지) |
+| quotePairs[].quote | 한국어 번역본 | **영문 원전에서 인용** (번역 금지) |
 
 ### 영문 에피소드 생성 파이프라인
 
@@ -407,10 +406,10 @@ episodes/book-recommend/
 2. AI 번역 + 재작성 → .en.json 생성
    - celebIntro: 영문 위키백과 톤
    - philosophy: 1인칭 영문 재작성
-   - summary/context: 영어 자연어순
-   - directQuote: 영문 원전 조회 (번역 아님!)
+   - summary/contextMain: 영어 자연어순
+   - quotePairs[].quote: 영문 원전 조회 (번역 아님!)
       ↓
-3. 수동 검수 (특히 directQuote 원전 확인)
+3. 수동 검수 (특히 quotePairs[].quote 원전 확인)
       ↓
 4. 영문 TTS 생성 (--locale en)
       ↓
@@ -423,7 +422,7 @@ episodes/book-recommend/
 
 - `BookRecommend.tsx`: `locale` prop 추가. 라벨/CTA만 분기
 - `Root.tsx`: 로케일별 Composition 자동 등록 (`{Label}En`)
-- `generate-voice.ts`: `--locale en` → 영문 보이스 매핑
+- `1-tts.ts`: `--locale en` → 영문 보이스 매핑
 - `render-all.ts`: 로케일별 출력 파일 분리
 
 ### remotion-bo 반영
@@ -467,7 +466,7 @@ episodes/book-recommend/
 7. ✅ 셀럽 검색 API (`/api/celebs/search`, `/api/celebs/[slug]`)
 8. ✅ 인물 검색 페이지 (`/search` — 직군·음성 필터, 에피소드 존재 여부 표시)
 9. ✅ 에피소드 스캐폴딩 (`POST /api/[series]/episodes` — DB→JSON 뼈대 생성)
-10. ⏸ AI 초안 (philosophy, summary, context, celebIntro) — LLM 연동 시 별도 작업
+10. ⏸ AI 초안 (philosophy, summary, contextMain, celebIntro) — LLM 연동 시 별도 작업
 
 ### Phase 3: 편성 관리 — 미착수
 
@@ -484,8 +483,8 @@ episodes/book-recommend/
 
 17. 에피소드 JSON 로케일 체계 (`{name}.en.json`)
 18. Composition locale prop + 라벨/CTA 분기
-19. 영문 TTS 보이스 매핑 + generate-voice.ts --locale 플래그
-20. 영문 에피소드 AI 재작성 파이프라인 (directQuote 원전 조회 포함)
+19. 영문 TTS 보이스 매핑 + 1-tts.ts --locale 플래그
+20. 영문 에피소드 AI 재작성 파이프라인 (quotePairs[].quote 원전 조회 포함)
 21. remotion-bo 로케일 배지 + "영문 버전 생성" 버튼
 
 ### Phase 6: 인프라 고도화 — 미착수

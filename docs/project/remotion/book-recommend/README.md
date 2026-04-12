@@ -26,6 +26,7 @@
 | 9-3 | [writer/3-story-power.md](writer/3-story-power.md) | 스토리 파워 — 중심축·감정곡선·S급 context·벤치마크 |
 | 9-4 | [writer/4-prose.md](writer/4-prose.md) | 글 부드러움 — 주어·연결어·리듬·TTS 친화성 |
 | 9-5 | [writer/5-critical.md](writer/5-critical.md) | 비판적 검토 — 논리비약·과장·미설명전제·독자관점 |
+| 9-6 | [writer/6-paragraphs.md](writer/6-paragraphs.md) | 문단 분할 — 긴 서술 필드를 `\n\n` 기준으로 분할. 원문 보존 |
 | 10 | [final-check.md](final-check.md) | 출품 전 최종 점검 — 한영 정합성·텍스트·이미지·음성·윤리 |
 
 ---
@@ -39,7 +40,7 @@ public/episodes/<person>/
     ↓                      예: elon-musk/ko.json + ko.timing.json
 script.ts (JSON import → mergeEpisode → currentEpisode export)
     ↓
-generate-voice.ts  →  tts.replace 치환맵 적용, tts.titles 오버라이드
+scripts/voice/1-tts.ts  →  tts.replace 치환맵 적용, tts.titles 오버라이드
     ↓                  --update-json 시 duration을 timing.json에 역반영
 timing.ts (타이밍 상수 + 계산 함수)
     ↓
@@ -56,12 +57,9 @@ BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
 |------|------|
 | `summary` | 요약맨: 핵심 요약 |
 | `summaryDuration` | 요약맨 음성 길이 (초) |
-| `context` | 나레이터: 추천 경위 (3인칭) |
+| `contextMain` | 나레이터: 감상 배경 (3인칭) |
 | `contextDuration` | 경위 음성 길이 (초) |
-| `directQuote` | 셀럽 직접 인용문 (optional) |
-| `quoteDuration` | 인용문 음성 길이 (optional) |
-| `contextAfter` | 나레이터: 후속 맥락 (optional) |
-| `contextAfterDuration` | 후속 맥락 음성 길이 (optional) |
+| `quotePairs` | 인용문+후속맥락 배열 (optional). 각 항목: `{ quote, quoteSource?, quoteDuration?, after?, afterDuration? }` |
 | `category` | 콘텐츠 카테고리 (BOOK/VIDEO/GAME/MUSIC, 생략 시 BOOK) |
 | `stats` | DB 통계 (celebCount, celebNames, publisher 등) |
 | `titleDuration` | 제목+저자 음성 길이 (초) |
@@ -76,7 +74,7 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
   A2-service-intro.wav, A3-featured-quote.wav
   B1-celeb-intro.wav, B2-philosophy.wav, E1-outro.wav
   D01a-title.wav, D01b-summary.wav, D01c-context.wav
-  D01d-quote.wav, D01e-context-after.wav
+  D01d1-quote.wav, D01d2-after.wav
   S01-intro.wav, S02-celeb-mid.wav, S03-book-context.wav  ← 쇼츠
   ...
 ```
@@ -136,10 +134,19 @@ public/episodes/
 2. **대기 → 진행**: voice 생성 후 인물 폴더를 `todo/` → `live/`로 이동.
 3. **진행 → 완료**: YouTube 게시 후 인물 폴더를 `live/` → `done/`으로 이동.
 
+### 영문(en) 작업 시점 원칙
+
+**en 작업은 ko가 한국어 YouTube에 올라간 뒤 안정적이라고 판단된 시점에만 착수한다.**
+
+- 한국어 본이 라이브로 나간 뒤 썸네일·자막·이미지·내러티브 구조에 큰 수정이 없다는 게 확인되면 그때 en을 생성·동기화한다.
+- 그 전에 en을 미리 만들면 ko 개편이 있을 때마다 en을 재작업해야 해서 비용만 중복된다.
+- 적용 범위: `/episode-translate`, `/image-anchor-sync`의 en 동기화, en 이미지 앵커, en voice 등 모든 en 관련 파이프라인.
+- 따라서 `live/` 단계에서 en.json이 ko.json과 책 수·이미지 수가 맞지 않는 상태는 **정상이며 의도된 상태**다. done 이후에 맞춘다.
+
 ---
 
 ## 윤리 원칙
 
 - **셀럽 음성(Puck/ElevenLabs)은 검증된 직접 인용문에만 사용한다.** AI가 창작한 1인칭 발언을 셀럽 목소리로 읽지 않는다.
-- 추천 경위(context)는 나레이터가 3인칭으로 전달한다. 출처(인터뷰, 기사 등)를 명시한다.
+- 감상 배경(contextMain)은 나레이터가 3인칭으로 전달한다. 출처(인터뷰, 기사 등)를 명시한다.
 - 직접 인용문이 없는 책은 quote 단계를 건너뛴다.

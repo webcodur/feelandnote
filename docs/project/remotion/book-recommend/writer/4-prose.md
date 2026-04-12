@@ -15,7 +15,7 @@ sw/remotion/public/episodes/{stage}/{person}/{locale}.json
 
 ### 검토 대상 필드
 
-summary, context, contextAfter, philosophy, celebIntro, outro, shorts 세그먼트
+summary, contextMain, quotePairs[].after, philosophy, celebIntro, outro, shorts 세그먼트
 
 ---
 
@@ -106,8 +106,8 @@ summary, context, contextAfter, philosophy, celebIntro, outro, shorts 세그먼�
 | 필드 | 말투 | 예시 |
 |------|------|------|
 | summary | 정중체 (~입니다) | "이 책은 ~를 다룬 작품입니다." |
-| context | 정중체 (~했습니다) | "그는 ~했습니다." |
-| contextAfter | 정중체 | "하지만 놀라운 건 ~였습니다." |
+| contextMain | 정중체 (~했습니다) | "그는 ~했습니다." |
+| quotePairs[].after | 정중체 | "하지만 놀라운 건 ~였습니다." |
 | philosophy | 1인칭 + speech_tone | "나는 ~이다." 또는 "저는 ~입니다." |
 | celebIntro | 서술체 (~이다, ~했다) | "~은 ~의 왕이다." |
 | outro | 정중체 | "~의 N권의 책이었습니다." |
@@ -117,7 +117,7 @@ summary, context, contextAfter, philosophy, celebIntro, outro, shorts 세그먼�
 
 ## 6. 인용부호 규칙
 
-- **AI가 작성한 텍스트에 큰따옴표(`""`)를 사용하지 않는다.** 인용부호는 검증된 실제 발언(directQuote)에만 허용.
+- **AI가 작성한 텍스트에 큰따옴표(`""`)를 사용하지 않는다.** 인용부호는 검증된 실제 발언(quotePairs[].quote)에만 허용.
 - 강조가 필요하면 인용부호 대신 문맥으로 전달한다.
 
 ---
@@ -128,7 +128,7 @@ summary, context, contextAfter, philosophy, celebIntro, outro, shorts 세그먼�
 
 - `thumbnail_url`, `stats`, `source` — 데이터 필드
 - `duration`, `*Duration` — TTS 파이프라인이 관리
-- `directQuote` — 실제 발언 원문
+- `quotePairs[].quote` — 실제 발언 원문
 
 텍스트를 변경하면 `tts` 오버라이드(tts.replace, tts.titles)도 갱신 필요 여부를 확인한다.
 
@@ -170,5 +170,5 @@ summary, context, contextAfter, philosophy, celebIntro, outro, shorts 세그먼�
 ```
 
 - 단어를 삭제하지 않고 **수려하게 재작문**한다.
-- directQuote는 수정하지 않는다.
+- contextQuote는 수정하지 않는다.
 - 새로운 정보를 추가하지 않는다.

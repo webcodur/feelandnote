@@ -43,7 +43,7 @@ sw/remotion/public/episodes/{done|live|todo|pre-todo}/{name}/
 ## 전제 조건
 
 - `images/` 폴더에 이미지 파일이 존재한다 (파일명 자유).
-- `ko.json`의 본문(`books[].summary/context/contextAfter/directQuote`, `shorts.segments[].text`)이 확정되어 있다.
+- `ko.json`의 본문(`books[].summary/contextMain/quotePairs[].quote/quotePairs[].after`, `shorts.segments[].text`)이 확정되어 있다.
 - `en.json`이 존재하고 번역이 완료되어 있다 (Phase B 필수).
 
 ---
@@ -55,7 +55,7 @@ sw/remotion/public/episodes/{done|live|todo|pre-todo}/{name}/
 ```typescript
 type CinematicImage = {
   file: string           // 파일명 (images/ 기준 상대)
-  field: 'summary' | 'context' | 'contextAfter' | 'directQuote'
+  field?: 'summary' | 'context'  // summary = summary 텍스트 배경, context = contextMain+quotePairs[].quote+quotePairs[].after 통합 배경
   text?: string          // 텍스트 앵커 — 이 문구가 나오는 시점에 이미지 전환
   keyword?: string       // 대안 앵커 (deprecated, 일부 에피소드 잔존)
 }
@@ -65,17 +65,73 @@ type CinematicImage = {
 
 ```typescript
 type ImageChange = {
-  t: number              // 오프셋 (초). 0으로 초기화, analyze-voice가 text 기반 재계산
+  t: number              // 오프셋 (초). 0으로 초기화, 3-timings가 text 기반 재계산
   image: string          // episodes/... 전체 경로
   text?: string          // 텍스트 앵커
 }
 ```
 
+### 앵커란 무엇인가 (개념 설명)
+
+영상 렌더러는 음성과 이미지를 시간 축 위에 나란히 올린다. "이 이미지를 음성의 어느 시점에 띄울까?"를 정해야 하는데, 두 가지 방법이 있다.
+
+| 방법 | 예 | 단점 |
+|------|------|------|
+| 시간(초) 직접 지정 | "12.3초에 trojan.jpg 띄워" | 음성 길이가 1초만 바뀌어도 모든 시간을 다시 계산해야 함 |
+| **텍스트 앵커** | "본문에 '트로이'가 나오는 순간 trojan.jpg 띄워" | 음성 재생성·문장 수정에 자동 대응 |
+
+이 파이프라인은 **텍스트 앵커 방식**만 쓴다. 이미지마다 본문 속 짧은 단어 하나를 "앵커"로 지정하면, 렌더러가 WhisperX로 받아쓴 음성 타이밍에서 그 단어가 발음되는 정확한 시점에 이미지를 띄운다.
+
+### 왜 단어 1개여야 하는가
+
+과거에는 앵커를 "3~7 단어" 어구로 잡았는데, 두 가지 함정이 있었다.
+
+1. **세그먼트 경계 문제**: WhisperX는 쉼표·마침표 단위로 음성 세그먼트를 자른다. "그로부터 3년 뒤 페르시아의" 같은 긴 앵커는 세그먼트 경계를 넘어가는 순간 `includes()` 매칭이 통째로 깨진다. 매칭이 깨지면 이미지는 그냥 안 뜬다(혹은 잘못된 시점에 뜬다).
+2. **본문 수정 취약성**: 본문에서 단어 하나만 바꿔도 긴 앵커는 통째로 재작성해야 한다.
+
+단어 1개 앵커는 거의 항상 단일 세그먼트 내부에 들어가고, 본문 수정에도 잘 안 깨진다.
+
 ### 앵커 규칙 (공통)
 
 1. **문자열 매칭**: 앵커는 해당 field/segment 본문에 `includes()`로 정확히 포함되는 연속 문자열이어야 한다. 매칭 실패 시 렌더러는 해당 이미지를 skip.
 2. **세그먼트 단위**: 단일 voiceTimings 세그먼트 내부에 들어가야 한다. 쉼표·마침표를 가로지르면 WhisperX 세그먼트 경계를 넘어가 매칭 실패.
-3. **길이**: ko 3~7 단어, en 3~5 단어 권장. 너무 짧으면 본문 내 중복 위험, 너무 길면 매칭 실패 위험.
+3. **길이**: **단어 1개를 원칙으로 한다**. ko·en 모두 핵심 명사·동사 1단어. 긴 어구 앵커는 WhisperX 세그먼트 경계를 넘기 쉬워 매칭이 깨진다.
+4. **시작 앵커 필수**: `summary`, `context` 등 모든 field의 첫 이미지는 반드시 그 field 본문 첫 단어(또는 첫 1~2단어)를 앵커로 가진다. `text` 없이 배치(= field 시작 자동 표시)는 금지. 이는 렌더러의 시작 정렬 안정성을 위해 필수.
+5. **중복 단어 자동 disambiguation (occurrence-aware matching)**: 같은 단어가 본문에 여러 번 등장해도 보조 필드 없이 그냥 같은 텍스트로 적는다. 매칭 엔진은 **이미지 배열 순서가 본문 등장 순서와 일치한다**는 규약을 활용해, 같은 `(field, text)` 조합이 N번째 등장하면 본문에서도 N번째 등장 위치에 자동 매핑한다.
+
+### Occurrence-aware matching이 어떻게 동작하나 (시각화)
+
+단어 1개 앵커를 쓰면 자연스럽게 따라오는 문제: "트로이"가 본문에 두 번 나오면 어느 쪽인가? 작가에게 `nth: 2` 같은 보조 필드를 적게 하면 번거롭고, 본문 수정에도 깨진다. 그래서 **이미지 배열 순서를 그대로 신뢰**하는 방식을 쓴다.
+
+**입력 예시** (작가가 작성한 이미지 배열)
+```json
+"summary": "트로이 전쟁의 영웅 아킬레우스. 트로이 성벽 앞에서...",
+"images": [
+  { "file": "war-scene.jpg",   "field": "summary", "text": "트로이" },
+  { "file": "achilles.jpg",    "field": "summary", "text": "아킬레우스" },
+  { "file": "wall-scene.jpg",  "field": "summary", "text": "트로이" }
+]
+```
+
+**매칭 엔진의 동작**
+```
+본문: "트로이 전쟁의 영웅 아킬레우스. 트로이 성벽 앞에서..."
+       ↑①                   ↑              ↑②
+       1번째 "트로이"        "아킬레우스"   2번째 "트로이"
+
+이미지 배열 순회:
+  [0] "트로이"     → 카운터 0 → 본문 1번째 등장 위치 ①
+  [1] "아킬레우스" → 카운터 0 → 본문 1번째 등장 위치
+  [2] "트로이"     → 카운터 1 → 본문 2번째 등장 위치 ②
+```
+
+**작가가 지켜야 할 단 한 가지**: 이미지 배열을 **본문 등장 순서대로** 정렬한다. 순서를 어기면 매칭도 어긋난다.
+
+**핵심 약속**
+- 작가는 보조 필드(`nth`, `before`, `after`) 일절 적지 않는다.
+- 같은 단어가 N번 나오면 그냥 N번 적는다.
+- 매칭 엔진이 알아서 N번째 위치에 매핑한다.
+- 본문 등장 횟수가 부족하면(예: 본문엔 "트로이"가 한 번뿐인데 이미지에선 두 번 사용) 경고를 출력한다 → 작가가 다른 앵커로 바꾼다.
 
 ---
 
@@ -125,9 +181,9 @@ PASS된 이미지만 대상으로 한다.
 
 각 PASS 이미지에 대해:
 
-1. 장면 묘사를 ko.json의 `books[].summary/context/contextAfter/directQuote` 전 영역과 대조.
-2. 가장 의미적으로 맞아떨어지는 **(bookIndex, field)** 선정.
-3. 해당 field 본문에서 이미지가 "등장해야 할" 전환 지점의 **3~7 단어 ko 앵커**를 뽑는다.
+1. 장면 묘사를 ko.json의 `books[].summary/contextMain/quotePairs[].quote/quotePairs[].after` 전 영역과 대조.
+2. 가장 의미적으로 맞아떨어지는 **(bookIndex, field)** 선정. field 값은 `'summary'` 또는 `'context'`(contextMain+quotePairs[].quote+quotePairs[].after 통합).
+3. 해당 field 본문에서 이미지가 "등장해야 할" 전환 지점의 **단어 1개(필요 시 최대 2개)**를 ko 앵커로 뽑는다. 핵심 명사·동사를 우선 선택.
 4. 같은 field 내에서 본문 등장 순서대로 정렬.
 
 #### A-3-2. 쇼츠 (`shorts.segments[]`)
@@ -135,16 +191,16 @@ PASS된 이미지만 대상으로 한다.
 1. 각 segment의 `text`와 PASS 이미지를 대조.
 2. **배경 이미지 (`seg.image`)**: segment 전체 기간 유지되는 이미지. segment 주제의 대표 장면 1장.
 3. **전환 이미지 (`seg.imageChangeAt[]`)**: segment 내 특정 문장에서 교체되는 이미지. 각 항목에 text 앵커 + `t: 0` 초기화.
-4. `t` 값은 `pnpm analyze`(analyze-voice) 실행 시 text 앵커 기반으로 자동 재계산된다.
+4. `t` 값은 `pnpm analyze`(3-timings.ts) 실행 시 text 앵커 기반으로 자동 재계산된다.
 
 ### A-4. SUMMARY/CONTEXT 시작 이미지 보장
 
 각 book에 대해 하드 요구사항:
 
 - **`field: "summary"`인 이미지가 최소 1장** 존재해야 한다.
-  - 첫 번째 summary 이미지는 `text` 없이 배치하거나(= field 시작과 동시 표시), summary 첫 문장 앵커를 부여한다.
+  - 첫 번째 summary 이미지는 **반드시 summary 본문 첫 단어(또는 첫 1~2 단어)를 `text` 앵커로 가진다**. `text` 없이 배치 금지.
 - **`field: "context"`인 이미지가 최소 1장** 존재해야 한다.
-  - context 시작 지점의 앵커를 반드시 부여한다.
+  - 첫 번째 context 이미지는 **반드시 contextMain 본문 첫 단어(또는 첫 1~2 단어)를 `text` 앵커로 가진다**.
 
 #### 미달 시 대처
 
@@ -172,8 +228,8 @@ PASS된 이미지만 대상으로 한다.
 각 book에 대해 `ko.books[i].images[]`를 순회:
 
 1. `file`, `field`, `keyword`(있으면) 그대로 복사.
-2. `text`가 있는 항목: **en 앵커 생성**(B-3 프롬프트).
-3. `text`가 없는 항목(field 시작 이미지): `text` 없이 복사.
+2. **모든 항목에 `text`가 존재해야 한다** (Phase A 시작 앵커 필수 규칙). en 앵커 생성(B-3 프롬프트).
+3. 만약 ko에 `text` 없는 항목이 발견되면 데이터 오류로 간주하고 경고 출력.
 
 ### B-2. 쇼츠 동기화
 
@@ -194,9 +250,10 @@ ko 앵커: "{ko 앵커 텍스트}"
 en 필드({field}) 본문:
 "{en 본문}"
 
-위 ko 앵커와 의미적으로 동일한 지점에서 시작하는 en 텍스트의 처음 3~5단어를 답하라.
+위 ko 앵커와 의미적으로 동일한 지점에서 시작하는 en 텍스트의 **단어 1개**(영문 본문 내 중복으로 모호한 경우만 최대 2단어)를 답하라.
 규칙:
-- en 본문에 실제 존재하는 연속 텍스트여야 한다
+- en 본문에 실제 존재하는 단어(또는 연속 2단어)여야 한다
+- 핵심 명사·동사·고유명사를 우선 선택한다 (관사 the/a, 전치사 of/in 단독 금지)
 - 해당 위치부터 이미지가 바뀌므로, 새로운 장면/맥락이 시작되는 정확한 지점이어야 한다
 - 앵커 텍스트만 출력하라 (따옴표, 설명 없이)
 ```
@@ -230,23 +287,23 @@ PASS: 28장 / REJECT: 8장
 [롱폼 배치]
 Book 1: 일리아스 (images: 7)
   summary:
-    #1 trojan-war.jpg (시작)
-    #2 warrior.png → "최고의"
+    #1 trojan-war.jpg → "트로이" ⭐ summary 시작
+    #2 warrior.png → "아킬레우스"
   context:
     #3 reading.png → "알렉산더에게" ⭐ context 시작
-    #4 sleeping.png → "알렉산더는 스승"
-    #5 tomb.png → "기원전 334년 페르시아"
-  contextAfter:
-    #6 cavalry.png → "그로부터 3년 뒤 페르시아의"
-    #7 chest.png → "알렉산더는 다리우스"
+    #4 sleeping.png → "스승"
+    #5 tomb.png → "페르시아"
+  after (quotePairs[0]):
+    #6 cavalry.png → "기병" ⭐ after 시작
+    #7 chest.png → "다리우스"
 
 Book 2: ...
 
 [쇼츠 배치]
 seg 3 (book-context):
   image: sleeping.png
-  changeAt[0]: cavalry.png → "기원전 331년"
-  changeAt[1]: chest.png → "당시 그는 화려한"
+  changeAt[0]: cavalry.png → "기병"
+  changeAt[1]: chest.png → "보석함"
 
 [SUMMARY/CONTEXT 시작 이미지 보장]
 ✔ Book 1: summary 1장, context 1장
@@ -256,9 +313,9 @@ seg 3 (book-context):
 === Phase B: en 앵커 동기화 ===
 
 Book 1: The Iliad
-  #1 trojan-war.jpg (시작)
-  #2 warrior.png ko:"최고의" → en:"The greatest"
-  #3 reading.png ko:"알렉산더에게" → en:"For Alexander, the"
+  #1 trojan-war.jpg ko:"트로이" → en:"Trojan" ⭐ summary 시작
+  #2 warrior.png ko:"아킬레우스" → en:"Achilles"
+  #3 reading.png ko:"알렉산더에게" → en:"Alexander" ⭐ context 시작
   ...
 
 [en 앵커 실패]
@@ -324,6 +381,61 @@ en 앵커 성공: 27장 / 실패: 1장
 | 파일 | 역할 |
 |------|------|
 | `sw/remotion/src/compositions/BookRecommend/BookRecommendShort.tsx` | 쇼츠 크로스페이드 렌더 (groups 배열 생성) |
-| `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx` | 롱폼 CinematicPanel 렌더 |
-| `sw/remotion/src/compositions/BookRecommend/timing.ts` | `shortSegLayout`, `resolveImageTransitions` |
-| `sw/remotion/scripts/voice/analyze-voice.ts` | text 앵커 → voiceTimings 매핑 |
+| `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx` | 롱폼 CinematicPanel 렌더, `findAnchorInSection`·`resolveImageTransitions` |
+| `sw/remotion/src/compositions/BookRecommend/timing.ts` | `shortSegLayout` |
+| `sw/remotion/scripts/voice/3-timings.ts` | text 앵커 → voiceTimings 매핑, 쇼츠 `imageChangeAt.t` 자동 해소 |
+
+---
+
+## 개선 이력
+
+### 2026-04-06 — 단어 1개 앵커 + Occurrence-aware Matching
+
+**배경**
+- 기존 규칙은 앵커 길이를 "ko 3~7 단어 / en 3~5 단어"로 권장했다.
+- 긴 앵커는 WhisperX 음성 세그먼트(쉼표·마침표 단위) 경계를 자주 넘어갔고, 경계를 넘는 순간 `includes()` 매칭이 통째로 깨졌다.
+- 매칭이 깨지면 이미지가 안 뜨거나 잘못된 시점에 떴는데, 폴백 로직 때문에 **에러 없이 조용히 잘못 동작**해서 디버깅이 어려웠다.
+
+**변경 내용**
+
+1. **앵커 길이 1단어 원칙화**
+   - 길이 규칙: `3~7 단어` → `단어 1개` (롱폼·쇼츠·en 공통)
+   - 핵심 명사·동사·고유명사를 우선 선택
+   - 영문 앵커도 1단어 (관사 `the`/`a`, 전치사 `of`/`in` 단독 금지)
+
+2. **시작 앵커 필수화**
+   - `summary`, `context` 모든 field의 첫 이미지는 본문 첫 단어를 `text` 앵커로 가져야 한다.
+   - 기존엔 "첫 이미지는 `text` 없이 배치 = field 시작과 동시 표시" 옵션이 열려 있었으나, 시작 정렬 안정성을 위해 폐지.
+
+3. **Occurrence-aware sequential matching 도입**
+   - 단어 1개 앵커는 본문 내 중복 가능성이 커졌다 (예: "트로이"가 본문에 두 번).
+   - 기존 매칭은 `indexOf` / `find` 단발 호출이라 항상 첫 등장 위치만 잡았다.
+   - 변경: 같은 `(field, text)` 조합이 이미지 배열에서 N번째로 등장하면, 본문에서도 N번째 등장 위치에 매핑.
+   - 작가는 **이미지 배열을 본문 등장 순서대로 정렬**만 하면 된다. `nth`, `before`, `after` 같은 보조 필드 일절 없음.
+   - 본문 등장 횟수가 부족하면 명확한 경고를 출력 → 작가가 인지하고 수정.
+
+**개선 효과**
+
+| 항목 | 변경 전 | 변경 후 |
+|------|---------|---------|
+| 앵커 길이 | 3~7 단어 어구 | 단어 1개 |
+| 세그먼트 경계 위반 | 자주 발생 | 거의 없음 |
+| 본문 수정 시 앵커 깨짐 | 빈번 | 드묾 |
+| 중복 단어 매칭 | 첫 등장 위치로 잘못 매핑 (조용한 버그) | 자동 disambiguation |
+| 작가가 적어야 할 정보 | text 어구 | text 단어 1개 + 본문 순서 정렬 |
+| 매칭 실패 가시성 | 폴백으로 묻힘 | `#N` occurrence 표기 경고 |
+
+**코드 변경 파일**
+- `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx`
+  - `findAnchorInSection(anchor, section, occurrenceIndex)` — N번째 등장 위치까지 순차 진행
+  - `estimateAnchorFrame(...)` — 폴백 함수도 occurrence-aware로 통일
+  - `resolveImageTransitions` — `occurrenceCounter: Map<"${field}::${text}", count>` 추가
+- `sw/remotion/scripts/voice/3-timings.ts`
+  - voiceTimings를 word 단위(`seg.words`) 또는 segment 단위로 평탄화
+  - `imageChangeAt` 매칭에 occurrence counter 적용
+  - 콘솔 로그에 `#N` 표기
+
+**마이그레이션 가이드 (기존 에피소드)**
+- 기존 에피소드의 긴 앵커는 즉시 깨지지 않는다 (구버전 매칭이 그대로 동작). 다만 다음 작업 시 단어 1개로 정리하면 안정성이 올라간다.
+- 기존 `text` 없는 시작 이미지(field 시작 자동 표시)도 그대로 동작한다 (backward-compat 유지). 다만 신규 작성 시엔 반드시 시작 단어 앵커를 부여한다.
+- Occurrence-aware matching은 기존 데이터에도 자동 적용된다. 같은 단어 앵커가 두 번 이상 쓰인 기존 에피소드는 두 번째 매칭이 첫 등장 → 두 번째 등장으로 **이동**한다. 의도한 동작인지 확인이 필요할 수 있다.

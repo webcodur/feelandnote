@@ -21,9 +21,9 @@ sw/remotion/public/episodes/{stage}/{person}/{locale}.json
 | 필드 | 검증 항목 | 우선순위 |
 |------|-----------|----------|
 | context | 연도, 장소, 인물 관계, 사건 경위 | **최우선** |
-| contextAfter | 후속 사건 사실 여부 | 높음 |
-| directQuote | 실제 발언 여부 | **최우선** |
-| directQuoteSource | 문헌 실존 여부 | **최우선** |
+| quotePairs[].after | 후속 사건 사실 여부 | 높음 |
+| quotePairs[].quote | 실제 발언 여부 | **최우선** |
+| quotePairs[].quoteSource | 문헌 실존 여부 | **최우선** |
 | source | 참고 문헌 실존 여부 | 높음 |
 | celebIntro | 인물 기본 정보(생몰년, 직함, 업적) | 중간 |
 | philosophy | 셀럽 발언 기반이면 발언 존재 여부 | 중간 |
@@ -45,11 +45,11 @@ sw/remotion/public/episodes/{stage}/{person}/{locale}.json
 - "~라고 전해진다"류 표현이 있으면, 실제로 전해지는 사료가 있는가
 - 여러 출처 간 상충이 있으면, 가장 신뢰도 높은 출처를 채택하고 상충 사실을 명시
 
-### 3. 인용문 (directQuote)
+### 3. 인용문 (quotePairs[].quote)
 
 - 원문(번역 전)이 실존하는가
 - 번역이 원문의 의미를 왜곡하지 않는가 (번역 차이는 허용, 의미 변질은 불가)
-- directQuoteSource가 가리키는 문헌에 해당 발언이 실제로 존재하는가
+- quotePairs[].quoteSource가 가리키는 문헌에 해당 발언이 실제로 존재하는가
 - AI가 생성한 가짜 인용이 아닌가
 
 ### 4. 출처 문헌 (source)
@@ -115,7 +115,7 @@ sw/remotion/public/episodes/{stage}/{person}/{locale}.json
 - Book 3 "[책제목]": 연도 불일치 — 일부 사료에서 다른 기록 존재
 
 ### ❌ 오류 발견
-- Book 5 "[책제목]": directQuote 원문과 불일치
+- Book 5 "[책제목]": contextQuote 원문과 불일치
 
 ### 📌 검증 불가
 - Book 7 "[책제목]": source "XXX" — 해당 문헌 확인 불가

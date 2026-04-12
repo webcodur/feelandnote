@@ -7,9 +7,9 @@
 ## 윤리/표현
 
 - **인용부호("\u201C\u201D)는 검증된 실제 발언에만 사용.** AI 작성 텍스트(philosophy, philosophySnippet)에 인용부호 금지.
-- **context/contextAfter 본문 내 간접 인용에도 인용부호 필수.** `~라고 썼습니다`, `~를 인용하여`, `~라는 구절` 등 타인의 발언·구절을 옮길 때 해당 부분을 `\u201C...\u201D`로 감싼다. 예: `\u201C오 키타이론이여\u201D라는 비탄의 외침`.
+- **contextMain/quotePairs[].after 본문 내 간접 인용에도 인용부호 필수.** `~라고 썼습니다`, `~를 인용하여`, `~라는 구절` 등 타인의 발언·구절을 옮길 때 해당 부분을 `\u201C...\u201D`로 감싼다. 예: `\u201C오 키타이론이여\u201D라는 비탄의 외침`.
 - **셀럽 음성(ElevenLabs)은 검증된 직접 인용문에만 사용.** 감상철학 등 AI 작성 텍스트는 나레이터 음성으로 읽는다.
-- **ElevenLabs 호출은 백오피스(`VoiceGenWorkspace`)에서 수동 제어.** generate-voice.ts에서 자동 호출하지 않는다.
+- **ElevenLabs 호출은 백오피스(`VoiceGenWorkspace`)에서 수동 제어.** 1-tts.ts에서 자동 호출하지 않는다.
 
 ## 표지 이미지
 
@@ -19,6 +19,7 @@
 
 ## 데이터 흐름
 
+- 긴 서술 필드(summary/contextMain/quotePairs[].after/celebIntro/outro/philosophy)는 `\n\n`를 문단 구분자로 사용한다. 어휘는 보존하고 개행만 삽입한다. 세부 규칙은 [writer/6-paragraphs.md](writer/6-paragraphs.md).
 - duration 값은 `<locale>.timing.json`이 SSoT. 폴백 상수(`CELEB_INTRO_FALLBACK`, `BRIDGE_FALLBACK`, `OUTRO_FALLBACK`)는 timing.ts에서 관리. 매직넘버 사용 금지.
 - `toFrames()` = 배치용(+15 버퍼), `toAudioFrames()` = 자막/하이라이트용(버퍼 없음)
 - 라벨 duration: `narrator.labelSummaryDuration`, `narrator.labelContextDuration`

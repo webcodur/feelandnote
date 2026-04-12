@@ -45,13 +45,18 @@ for i, (k, e) in enumerate(zip(ko['books'], en['books'])):
     if ko_imgs != en_imgs:
         errors.append(f"Book {i} ({k['title']}) images MISMATCH:\n  ko: {ko_imgs}\n  en: {en_imgs}")
 
-# 1-3. directQuote / contextAfter 필드 존재 여부 일치
+# 1-3. quotePairs 배열 길이 및 구조 일치
 for i, (k, e) in enumerate(zip(ko['books'], en['books'])):
-    for field in ['directQuote', 'contextAfter']:
-        ko_has = field in k
-        en_has = field in e
-        if ko_has != en_has:
-            errors.append(f"Book {i} ({k['title']}) field '{field}': ko={ko_has}, en={en_has}")
+    ko_qp = k.get('quotePairs', [])
+    en_qp = e.get('quotePairs', [])
+    if len(ko_qp) != len(en_qp):
+        errors.append(f"Book {i} ({k['title']}) quotePairs count: ko={len(ko_qp)}, en={len(en_qp)}")
+    for j, (kp, ep) in enumerate(zip(ko_qp, en_qp)):
+        for field in ['quote', 'after']:
+            ko_has = field in kp
+            en_has = field in ep
+            if ko_has != en_has:
+                errors.append(f"Book {i} ({k['title']}) quotePairs[{j}].{field}: ko={ko_has}, en={en_has}")
 
 # 1-4. shorts segments id/role 일치
 ko_segs = [(s['id'], s['role']) for s in ko['shorts']['segments']]
@@ -86,7 +91,7 @@ else:
 | 패턴 | 원인 | 증상 |
 |------|------|------|
 | **이미지 순환 오류** | 번역 시 book 순서 밀림 | en book N에 book N+2의 이미지가 할당됨 |
-| **필드 누락/초과** | 번역 중 directQuote·contextAfter 복사 실수 | ko에 없는 필드가 en에 존재하거나 그 반대 |
+| **필드 누락/초과** | 번역 중 quotePairs 복사 실수 | ko에 없는 quotePairs 항목이 en에 존재하거나 그 반대 |
 | **중복 인용문** | 필드가 잘못된 book에 복사됨 | 같은 인용문이 두 book에 미묘하게 다른 표현으로 존재 |
 
 ---
@@ -161,8 +166,7 @@ for locale in ['ko', 'en']:
 A2-service-intro, A3-featured-quote,
 B1-celeb-intro, B2-philosophy,
 D{NN}a-title, D{NN}b-summary, D{NN}c-context,
-D{NN}d-quote (directQuote가 있는 book만),
-D{NN}e-context-after (contextAfter가 있는 book만),
+D{NN}d1-quote, D{NN}d2-after, D{NN}d3-quote, D{NN}d4-after, ... (quotePairs 배열 순서대로),
 E1-outro
 ```
 
@@ -186,7 +190,7 @@ cat voice/en/gemini/manifest.json | python -m json.tool | grep -c '"'
 
 ### ElevenLabs 파일 확인
 
-`voice/{locale}/elevenlabs/` 에 있는 WAV는 셀럽 음성(직접 인용문). 해당 book에 `directQuote`가 있고, `directQuoteSource`가 "민간전승" 등 불확실한 출처가 아닌지 교차 확인.
+`voice/{locale}/elevenlabs/` 에 있는 WAV는 셀럽 음성(인용문). 해당 book에 `quotePairs[].quote`가 있고, `quotePairs[].quoteSource`가 "민간전승" 등 불확실한 출처가 아닌지 교차 확인.
 
 ---
 
@@ -210,9 +214,9 @@ grep -oP '\d+[가-힣]*' ko.json | sort -u
 
 | 규칙 | 점검 |
 |------|------|
-| 셀럽 음성은 검증된 직접 인용문만 | `directQuoteSource`가 신뢰할 수 있는 1차 사료인지 |
+| 셀럽 음성은 검증된 인용문만 | `quotePairs[].quoteSource`가 신뢰할 수 있는 1차 사료인지 |
 | 민간전승·출처 미상 인용문 | 나레이터 음성으로 전환하거나, 화면에 "전해지는 이야기" 표기 |
-| context/contextAfter의 간접 인용 | 인용부호(`""`)로 감싸고 출처 명시 |
+| contextMain/quotePairs[].after의 간접 인용 | 인용부호(`""`)로 감싸고 출처 명시 |
 | AI 작성 텍스트에 인용부호 금지 | philosophy, philosophySnippet에 `""` 없는지 |
 
 ---
@@ -229,7 +233,7 @@ grep -oP '\d+[가-힣]*' ko.json | sort -u
 
 ### 한영 분량 균형
 
-ko와 en의 context/contextAfter 분량이 극단적으로 차이 나면 영상 길이가 달라진다. en이 지나치게 축약된 book이 있는지 비교.
+ko와 en의 contextMain/contextAfter 분량이 극단적으로 차이 나면 영상 길이가 달라진다. en이 지나치게 축약된 book이 있는지 비교.
 
 ### 쇼츠 훅
 

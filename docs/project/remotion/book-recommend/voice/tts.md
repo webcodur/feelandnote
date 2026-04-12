@@ -56,6 +56,58 @@ Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 �
 - 쇼츠에서도 celeb에는 voiceStyle만 적용되고 속도 지시는 삽입되지 않는다.
 - 인물별 voiceStyle 배정 현황은 [`actors.md`](actors.md) 참조.
 
+### 짧은 narrator/summary 문장 특수 톤 (tail padding)
+
+파이프라인은 `seg.style` prefix로 톤을 지시하지만, Gemini TTS는 **짧고 독립적인 문장에서는 style prefix를 제대로 반영하지 못하고 평상어로 되돌아가는** 경향이 있다. 짧은 세그먼트에 사극체·비장체·낮은 톤·속삭임 같은 특정 캐릭터 톤이 필요할 때는 파이프라인 우회가 필요하다.
+
+**적용 대상** (hook 전용 아님): 쇼츠 `S01-hook`, `S02-intro`, 짧은 narrator 연결 구간, 롱폼 `D{NN}a-title`(연극적 제목 발화) 등 **30~60자 이내의 독립 문장**이라면 어디든 가능. 반복 사용 절차는 `.claude/skills/remo-voice-short-retone` 스킬로 정리되어 있다.
+
+#### ✅ tail padding 전략
+
+1. Hook 원문 **뒤**에 해당 톤의 긴 서술(사극 줄거리, 감정 장면 등)을 붙여 긴 본문으로 Gemini에 투입
+2. 생성된 wav에서 앞(hook 원문) 부분만 살리고 뒤 서술은 절단
+3. 절단 지점은 반드시 wav2vec2 forced alignment로 단어별 타임스탬프를 확보한 뒤 확정
+
+```typescript
+// ad-hoc 스크립트 예시 (scripts/voice/ 하위 일회성)
+process.argv.push('--shorts', '1', '--episode', '<name>', '--start-key', '5')
+const { synthesizeGemini } = await import('./1-tts/engines.js')
+const text = `<hook 원문 두 문장>
+
+<해당 톤의 긴 서술 문단 — 절단 후 버릴 부분>`
+await synthesizeGemini(text, 'Charon', path.join(rawDir, 'S01-hook.wav'))
+```
+
+#### ⛔ 금지 사항
+
+- **hook 앞에 prefix padding 금지** — whisper/diff 앵커가 첫 단어 매칭에 실패해 절단 시 첫 단어가 소실된다. 뒤에 붙이면 hook 원문은 절대 안전
+- **silencedetect 단독 추측 절단 금지** — 반드시 wav2vec2 forced alignment(`2-whisper.py` 경로 또는 ad-hoc)로 마지막 hook 단어의 `end` 시점을 확인한 뒤 0.5~1.0초 여운을 더해 절단
+- **고유어/한자어 혼합 텍스트 금지** — 비교 표현("A 대 B")은 반드시 한자어 통일 (`고유어 수사 vs 한자어 수사` 섹션 참조)
+
+#### 후속 파이프라인 정규화
+
+수동 절단 wav는 파이프라인 정석 후속 단계를 반드시 밟는다:
+
+```bash
+# 0) tts.replace 동기화 — 실제 발화와 일치해야 forced alignment가 정확
+#    shorts/ko-N.json 의 tts.replace 를 실제 한자어 발화로 교체
+
+# 1) 단일 파일 normalize (normalizeAll은 shorts-N/ 하위를 스캔 못함)
+#    ad-hoc 스크립트로 normalizeWav(path) 직접 호출
+
+# 2) manifest 재계산 (향후 pnpm voice 실행 시 wav 덮어쓰기 방지)
+pnpm voice -- --episode <name> --shorts <N> --init-manifest
+
+# 3~5) 정석 파이프라인 (--only 필수)
+python scripts/voice/2-whisper.py --episode <name> --shorts <N> --only <seg>
+pnpm analyze -- --episode <name> --shorts <N> --only <seg> --update-json
+pnpm sub:check -- --episode <name>
+```
+
+#### 과거 사고
+
+- **이순신 쇼츠 S01-hook (2026-04-11)**: 처음엔 "사극 prefix + hook" 구조로 생성하고 앞을 자르려다 `"열셋 대"` 첫 단어가 whisper diff 매칭 실패로 소실 → `"백서른셋이 아니었습니다"` 부터 잘려버림. tail padding 전략 + 한자어 통일(`"십삼 대 백삼십삼"`)로 재생성 후 정상화. 절단 지점은 wav2vec2 forced alignment로 `"백삼십삼이었습니다"` 마지막 end(5.34s) + 여운 0.56s → **5.9s** 로 확정.
+
 ## 엔진 선택
 
 | 엔진 | 플래그 | 비고 |
@@ -74,7 +126,7 @@ Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 �
 ## 공통 음성
 
 에피소드마다 동일한 음성은 `public/voice/common/`에 1회 생성하여 재사용한다.
-`generate-voice.ts`가 자동으로 건너뛰고, `makeVf`가 `voice/common/` 경로로 해소한다.
+`1-tts.ts`가 자동으로 건너뛰고, `makeVf`가 `voice/common/` 경로로 해소한다.
 
 | 파일 | 텍스트 |
 |------|--------|
@@ -95,16 +147,31 @@ Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 �
 
 ### 역할 필터 (`--role`)
 
+`--long` 또는 `--shorts <N>` 단일 타겟 스코프와 함께 사용한다.
+
 ```bash
-pnpm voice -- --episode alexander-the-great --role celeb --force --update-json       # 셀럽만
-pnpm voice -- --episode alexander-the-great --role narrator,summary --update-json     # 나레이터+요약맨만
-pnpm voice -- --episode alexander-the-great --update-json                             # 전체
-pnpm voice -- --engine elevenlabs --episode alexander-the-great --role celeb --update-json  # ElevenLabs 셀럽
+pnpm voice -- --episode alexander-the-great --long --role celeb --force --update-json       # 롱폼 셀럽만
+pnpm voice -- --episode alexander-the-great --long --role narrator,summary --update-json     # 롱폼 나레이터+요약맨만
+pnpm voice -- --episode alexander-the-great --long --update-json                             # 롱폼 전체
+pnpm voice -- --engine elevenlabs --episode alexander-the-great --long --role celeb --update-json  # ElevenLabs 셀럽
 ```
 
 ### Duration 자동 반영
 
 `--update-json` 플래그를 붙이면 TTS 생성 후 duration을 `<locale>.timing.json`에 자동 기록한다. 수동 복사 불필요.
+
+> ⚠ **`--update-json`은 duration만 갱신한다.** word-level `voiceTimings`는 건드리지 않는다. "timing.json 동기화됐네"로 착각 금지. voiceTimings는 반드시 2-whisper + 3-timings 단계를 거쳐야 갱신된다. voice만 돌리고 끝내면 wav와 voiceTimings가 어긋나 하이라이트·자막 타이밍이 전부 꼬인다.
+
+### ⛔ 메인 트랙 4단계는 한 세트
+
+**voice(1) → whisper(2) → analyze(3) → sub(4) 4단계는 반드시 한 세트로 실행한다.** 단일 세그먼트 실험·테스트·디버깅도 예외 없음. 이유:
+
+- voice 단계가 wav를 새로 쓰는 순간, 옛 wav 기준으로 만들어진 voiceTimings는 즉시 오염된다
+- 렌더·preview·YouTube 업로드는 wav + voiceTimings + sub 셋을 모두 참조하므로 어느 한쪽이 옛것이면 바로 깨진다
+- 3단계까지만 돌리고 4단계를 건너뛰면 자막이 `splitSub()` 폴백으로 떨어져 고유명사·관형절·보조용언이 파괴된다
+- voice `--only`로 한 세그먼트만 돌렸어도, whisper/analyze/sub 모두 **같은 `--only`** 범위로 실행한다
+
+과거 사고: 알렉스 카프 쇼츠2 들숨 테스트 시 voice만 실행하고 whisper·analyze를 스킵했다가 하이라이트가 엉망이 되어 렌더·업로드 이후에 발견.
 
 ## Gemini API 키 로테이션
 
@@ -153,18 +220,30 @@ pnpm voice -- --engine elevenlabs --episode alexander-the-great --role celeb --u
 
 영상에서 텍스트가 음성에 맞춰 **단어별로** 하이라이팅된다. 에피소드 JSON의 `voiceTimings` 필드가 이 정보를 담는다.
 
-### 파이프라인 (4단계 필수, 순서 엄수)
+### 파이프라인 (메인 트랙 4단계 필수, 순서 엄수)
+
+> **1단계 실행 전 [0단계: Pre-flight](../../../remotion/README.md#0단계-pre-flight-파이프라인-실행-전-필수) 필수.** 텍스트 전문 읽기 → `tts.replace` 숫자 오버라이드 → `voice-select.json` 점검.
+
+1~4단계 모두 **`--long` 또는 `--shorts <N>` 단일 타겟 스코프 필수**.
+한 번의 명령은 정확히 하나의 대상(롱폼 전체 또는 쇼츠 1개)만 처리한다.
 
 ```bash
 cd sw/remotion
-pnpm voice -- --episode <name> --update-json           # 1. TTS 생성 (변경분만 자동 감지)
-python scripts/voice/whisper-words.py --episode <name>        # 2. WhisperX 단어 타임스탬프 추출
-pnpm analyze -- --episode <name> --update-json          # 3. voiceTimings + duration 동기화
-# 4. sub 생성 — Claude Code에 "sub 채워줘" 요청
+# 롱폼
+pnpm voice -- --episode <name> --long --normalize --update-json     # 1. TTS 생성 (변경분만 자동 감지)
+python scripts/voice/2-whisper.py --episode <name> --long           # 2. WhisperX 단어 타임스탬프 추출
+pnpm analyze -- --episode <name> --long --update-json                # 3. voiceTimings + duration 동기화
+# 4. /voice-sync <name>                                              # Claude Code가 의미 단위 sub 생성
+
+# 쇼츠 N (N은 1-based)
+pnpm voice -- --episode <name> --shorts 1 --normalize --update-json
+python scripts/voice/2-whisper.py --episode <name> --shorts 1
+pnpm analyze -- --episode <name> --shorts 1 --update-json
+# 4. /voice-sync <name>
 ```
 
 - `--update-json` 누락 시 파일에 저장되지 않는다
-- 특정 파일만: `--only D01c-context` (voice, whisper-words 모두 지원)
+- 스코프 내 특정 파일만: `--only D01c-context` (voice, whisper-words, analyze 모두 지원, 단일 타겟 스코프와 함께)
 - 강제 재생성: `--force` (voice만)
 
 ### 4단계: 자막 의미 단위 분할 (sub 필드)
@@ -292,14 +371,14 @@ Gemini TTS는 동일 보이스라도 텍스트 톤·길이에 따라 세그먼�
 
 ```bash
 # 신규 생성 + 자동 정규화 (생성된 wav만)
-pnpm voice -- --episode <name> --normalize --update-json
+pnpm voice -- --episode <name> --long --normalize --update-json
 
 # 일괄 정규화만 (TTS 생성 없이 OUT_DIR의 모든 wav 후처리)
-pnpm voice -- --episode <name> --normalize
+pnpm voice -- --episode <name> --long --normalize
 ```
 
 - 매니페스트 비교 결과 `변경된 텍스트 없음`이면 자동으로 일괄 정규화 모드로 전환된다
-- `--shorts` / `--long` / `--only` 와 조합 가능 (해당 범위만 신규 생성·정규화)
+- `--long` 또는 `--shorts <N>` 단일 타겟 스코프 필수. `--only`와 조합 가능 (해당 범위만 신규 생성·정규화)
 - `--engine elevenlabs` 일 때는 자동 비활성화 (셀럽 수작업 검수 영역 보호)
 
 ### 타겟 파라미터
@@ -356,7 +435,7 @@ done
 
 | 파일 | 위치 | git 추적 | 비고 |
 |------|------|----------|------|
-| `whisper-debug.json` | `public/voice/<에피소드>/` | ❌ | WhisperX 단어 타임스탬프 + diff 매핑 결과 |
+| `2-word-timings.json` | `public/voice/<에피소드>/{locale}/` | ❌ | WhisperX 단어 타임스탬프 + diff 매핑 결과 (중간 산출물) |
 | `<locale>.json` | `episodes/<시리즈>/done/<person>/` | ✅ | 에피소드 콘텐츠 (텍스트, 메타, 이미지) |
 | `<locale>.timing.json` | `episodes/<시리즈>/done/<person>/` | ✅ | voiceTimings + duration — 파이프라인 자동 생성 |
 
@@ -369,9 +448,9 @@ done
 | "No data chunk" 에러 | MP3를 .wav로 리네임한 파일. WAV로 재변환 필요 |
 | TTS 재생성 후 자막이 밀림 | 전체 파이프라인 3단계 재실행 |
 | 텍스트 바꿨는데 화면 안 바뀜 | 파이프라인 3단계 재실행 (splitSentences 우선순위 참고) |
-| 잔존 WAV로 whisper 오염 | 세그먼트 ID 변경 후 옛 WAV 삭제. whisper-words.py가 자동 경고 |
+| 잔존 WAV로 whisper 오염 | 세그먼트 ID 변경 후 옛 WAV 삭제. 2-whisper.py가 자동 경고 |
 | TTS 오버라이드와 자막 불일치 | `tts.replace`는 발음 변환 전용 전역 치환맵. 내용 변경은 `segments[].text` 직접 수정 |
-| analyze 후 기존 sub 유실 | `--shorts`/`--long`으로 범위 제한. 텍스트 동일 시 sub 자동 이식됨 |
+| analyze 후 기존 sub 유실 | `--long` 또는 `--shorts <N>` 으로 단일 타겟 스코프 지정. 텍스트 동일 시 sub 자동 이식됨 |
 
 ### 의존성
 
@@ -421,3 +500,59 @@ WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 �
 
 - 오버라이드는 **발음 변환 전용**이다. 내용 변경은 `segments[].text`를 직접 수정한다.
 - 기존의 전문 복사 방식(`tts.narrator`, `tts.books[]` 내 텍스트 사본)은 폐기되었다.
+
+#### ⛔ 숫자 매핑은 반드시 단위 명사까지 포함
+
+화면은 아라비아 숫자로 남기고 발음만 한글로 바꿀 때, `tts.replace` 키는 **숫자 + 단위 명사를 한 덩어리**로 등록해야 한다.
+
+```json
+// ❌ 금지 — 숫자만 매핑 (죽은 키가 되거나 diff 경계가 꼬임)
+"replace": { "1,704": "천칠백사", "13": "십삼" }
+
+// ✅ 필수 — 단위까지 포함
+"replace": {
+  "1,704명": "천칠백사 명",
+  "3,759명": "삼천칠백오십구 명",
+  "12척": "열두 척",
+  "1594년": "천오백구십사 년"
+}
+```
+
+**이유:** `2-whisper.py`의 TTS 오버라이드는 2단계 매핑(`whisper → match_text → display_text`)을 수행한다. `display_words` 토큰 경계가 `"1,704명"`처럼 단위까지 한 단어로 묶여 있어야 diff-match-patch가 `"1,704명" ↔ "천칠백사 명"`을 DELETE/INSERT 쌍으로 명확히 처리한다. 숫자만 매핑하면 `"1,704"` 와 `"명"`이 별개 토큰으로 잘려 diff 경계가 꼬이고, 해당 세그먼트 `duration`이 실제 발음(2~3초)보다 훨씬 짧은 값(0.5~1초)으로 망가져 하이라이팅이 튄다.
+
+**죽은 키 금지:** 단위 없는 숫자 키(`"13"`, `"305"`)는 단위 포함 키(`"13척"`, `"305편"`)가 먼저 소비하므로 실제로 매칭되지 않는 죽은 키가 된다. 등록하지 않는다. **점검 시 롱폼 본문뿐 아니라 `shorts/*.json` 세그먼트 텍스트도 반드시 포함**하여 검색한다. `tts.replace`는 롱폼·쇼츠 공용이므로 한쪽에만 등장하는 키를 죽은 키로 오판하지 않는다.
+
+**사후 점검:** 파이프라인 실행 후 `voiceTimings`에서 문장 세그먼트 `duration`이 글자수 대비 비정상적으로 짧으면(한글 10자 이상인데 1.5초 미만) 단위 누락을 의심한다. tts.replace 키를 `단위 포함`으로 교체한 뒤 `--only <key>`로 voice·whisper·analyze만 재실행하면 복구된다 (본문·wav 재작성 불필요, manifest 비교로 자동 감지).
+
+**과거 사고:** 이순신 에피소드 D03c-context(`사망자 1,704명, 신음하는 병사 3,759명`)에서 숫자만 매핑한 탓에 세그먼트 `duration`이 0.56초·0.96초로 무너졌고, 화면 타이핑 속도가 번쩍였다. 단위 포함 매핑으로 교체 후 2.33초·1.67초로 정상화.
+
+#### 고유어 수사 vs 한자어 수사
+
+한국어에서 숫자 읽기는 **단위 명사와 문맥**에 따라 고유어(하나, 둘, 셋…) 또는 한자어(일, 이, 삼…)가 결정된다. 하드코딩 불가 — **반드시 본문을 읽고 판단**한다.
+
+| 단위 | 수사 | 예시 |
+|------|------|------|
+| 척(배), 권(책), 명(소수), 번 | **고유어** | 12척→열두 척, 5권→다섯 권, 2번→두 번 |
+| 년, 월, 일, 세기, 편(章), 호 | **한자어** | 1594년→천오백구십사 년, 13편→십삼 편 |
+| 명(대수), 척(대수), 편(대수) | **한자어** | 1,704명→천칠백사 명, 133척→백삼십삼 |
+| 비교 "A 대 B" (對) | **한자어 통일** | 13 대 133 → 십삼 대 백삼십삼, 1 대 133 → 일 대 백삼십삼 |
+
+**같은 단위도 문맥에 따라 달라진다:**
+- "6편으로 정리했으며" (갯수) → **여섯 편** (고유어)
+- "13편 전체를 관통합니다" (장 번호/구조) → **십삼 편** (한자어)
+- "5권의 책이었습니다" (갯수) → **다섯 권** (고유어)
+- "제7권" (순서) → **제칠권** (한자어)
+
+**⛔ 고유어/한자어 혼합 금지:** 같은 문장 또는 인접한 두 문장에서 같은 숫자 개념을 고유어와 한자어로 섞어 쓰면 Gemini TTS가 앞 숫자를 단위 명사로 오해하여 통째로 다른 단어를 발음한다. 비교 표현("A 대 B")은 **한자어로 완전 통일**한다. `"열셋 대 백삼십삼"` 같은 혼합은 금지 — `"십삼 대 백삼십삼"`.
+
+**과거 사고:** 이순신 쇼츠 `S01-hook`("13 대 133이 아니었습니다. 1 대 133이었습니다.")에서 첫 매핑을 `"13 대 133이": "열셋 대 백서른셋이"`, 두 번째를 `"1 대 133이었습니다.": "일 대 백서른셋이었습니다."`로 고유어로 등록 → Gemini가 "열셋 대"를 배 단위로 오해하여 **"열세 척이 백서른셋이"**로 발화. 한자어 통일 (`"십삼 대 백삼십삼이"`, `"일 대 백삼십삼이었습니다."`)로 교체 후 정상.
+
+#### 한자·외국어 괄호 처리
+
+본문에 한국어 음차 + 괄호 원문이 함께 있으면(`모야천지(母也天只)`), 괄호째 제거한다. 그대로 두면 TTS가 한자를 재음독하여 이중 발음이 된다.
+
+```json
+// ✅ 괄호째 빈 문자열로 치환
+"(母也天只)": "",
+"(天只)": ""
+```

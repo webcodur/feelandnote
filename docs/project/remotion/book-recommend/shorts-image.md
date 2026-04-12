@@ -78,7 +78,7 @@ vnTimingKey(fileName)     → "S04-book-context"        // voice-names.ts:38
 
 ```typescript
 imageChangeAt?: {
-  t: number       // 오프셋 (초). analyze-voice가 text 앵커 매칭 시 자동 반영
+  t: number       // 오프셋 (초). 3-timings가 text 앵커 매칭 시 자동 반영
   image: string   // 전환 이미지 경로 (episodes/... 형식)
   text?: string   // 텍스트 앵커 — voiceTimings에서 해당 텍스트 시작 시간 조회
 } | { ... }[]     // 배열로 여러 전환점

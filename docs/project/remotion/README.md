@@ -49,50 +49,91 @@ pnpm dev:remotion     # Remotion Studio (:3002) + serve (:8001)
 pnpm dev:remotion-bo  # 영상 관리 대시보드 (:3003)
 ```
 
-### 음성 파이프라인 (4단계, 순서 엄수)
+### 음성 파이프라인
 
-텍스트 변경 후 반드시 1~3단계를 모두 실행한다. 4단계는 3단계 이후 별도 실행.
+1단계(TTS)는 사용자 수동, 이후 **2~4단계(+3.5 조건부)는 `/voice-sync` 스킬 한 번 호출로 일괄 실행**된다. 사용자가 각 단계를 따로 기억할 필요 없음.
+
+| 단계 | 스크립트 | 실행 | 역할 |
+|------|----------|------|------|
+| 1 | `1-tts.ts` → `1-tts/` 모듈 | `pnpm voice` (사용자 수동, 유료 API) | Gemini/ElevenLabs TTS → wav 생성 |
+| 2 | `2-whisper.py` | `/voice-sync` 내부 | WhisperX + diff-match-patch → `voice/{locale}/2-word-timings.json` |
+| 3 | `3-timings.ts` | `/voice-sync` 내부 | voiceTimings · duration · imageChangeAt 계산 |
+| 3.5 | `reconcile-check.ts` | `/voice-sync` 내부 (조건부) | 진단 — Whisper 오인식·duration 압축 탐지. 이슈 0건 시 스킵 |
+| 4 | `4-sub.ts` + 규칙 기반 분할 | `/voice-sync` 내부 | 자막 의미 단위 sub 분할 + 검증 |
+
+**기본 흐름:**
+
+```bash
+# 1단계 (사용자 수동)
+cd sw/remotion
+pnpm voice -- --episode <name> --long --normalize --update-json
+
+# 2~4단계 (Claude Code에서 한 번에)
+/voice-sync <name>
+```
+
+이 한 번의 스킬 호출 안에서 whisper → analyze → reconcile-check(조건부) → sub 생성 → sub:check 검증까지 자동 순차 실행된다. `/voice-sync` 스킬 상세는 `.claude/skills/remo-voice-sync/SKILL.md` 참조.
+
+#### 0단계: Pre-flight (파이프라인 실행 전 필수)
+
+**1단계(TTS) 실행 전에 반드시 수행한다.** 이 단계를 건너뛰면 숫자 타이밍 뭉개짐, voice-select 누락, duration 불일치가 파이프라인 완료 후에야 발견된다.
+
+1. **텍스트 전문 읽기** — 대상 에피소드 JSON(롱폼 `ko.json` 또는 쇼츠 `shorts/ko-N.json`)의 모든 세그먼트 텍스트를 순서대로 읽는다.
+2. **`tts.replace` 점검** — 텍스트에서 아라비아 숫자·한자·외국어 괄호를 찾아 `tts.replace`에 등록한다.
+   - 숫자는 **단위 명사까지 한 덩어리**로 매핑 (예: `"133척의"` → `"백삼십삼 척의"`)
+   - 고유어/한자어 판단은 단위와 문맥 기준 ([tts.md § 고유어 수사 vs 한자어 수사](book-recommend/voice/tts.md#고유어-수사-vs-한자어-수사) 참조)
+   - 한자 괄호(`(母也天只)`)는 빈 문자열로 치환
+   - 쉼이 필요한 곳은 `...`로 유도 (예: `"아니었습니다. 1 대"` → `"아니었습니다... 일 대"`)
+3. **`voice-select.json` 점검** — ElevenLabs 세그먼트가 있으면 `voice/{locale}/voice-select.json`의 `slots`에 전부 등록되어 있는지 확인한다.
+4. **imageChangeAt 텍스트 앵커 점검** — 숫자로 시작하는 앵커는 `tts.replace` 매핑 후에도 voiceTimings 매핑이 부정확할 수 있다. 파이프라인 완료 후 수동 보정이 필요할 수 있음을 인지한다.
+
+#### 메인 트랙 단일성 원칙
+
+- **TTS(1단계) 후 반드시 `/voice-sync`로 2~4단계 완주.** sub 없이 렌더·업로드 금지 — `splitSub()` 폴백은 고유명사·관형절을 파괴한다.
+- `--only`로 부분 재생성했으면 `/voice-sync`도 동일 범위에서 호출한다 (스킬이 `--only` 전파).
+
+> ⚠ **`pnpm voice --update-json`은 duration만 갱신한다.** word-level voiceTimings는 2-whisper + 3-timings(= `/voice-sync` 내부)로만 업데이트된다. 플래그 이름에 속지 말 것.
 
 ```bash
 cd sw/remotion
-pnpm voice -- --episode <name> --update-json           # 1. TTS 생성 (변경분만 자동 감지)
-python scripts/voice/whisper-words.py --episode <name>        # 2. WhisperX 단어 타임스탬프 추출
-pnpm analyze -- --episode <name> --update-json          # 3. voiceTimings + duration 동기화
-# 4. 자막 의미 단위 분할 — Claude Code에 "sub 채워줘" 요청 (LLM이 의미 단위로 분할)
-pnpm sub:check -- --episode <name>                     # 4a. 누락·깨진 sub 확인
-pnpm sub:apply -- --episode <name> --input subs.json   # 4b. sub 매핑 일괄 적용 (선택)
+# 롱폼
+pnpm voice -- --episode <name> --long --normalize --update-json   # 1. TTS (사용자 수동)
+# → Claude Code에서 /voice-sync <name>  (2~4단계 자동 일괄)
+
+# 쇼츠
+pnpm voice -- --episode <name> --shorts 1 --normalize --update-json
+# → /voice-sync <name> --shorts 1
 ```
 
-#### 범위 필터: `--shorts` / `--long`
+#### 단일 타겟 스코프: `--long` / `--shorts <N>`
 
-1~3단계 모두 `--shorts` 또는 `--long` 플래그로 범위를 제한할 수 있다.
-쇼츠만 작업할 때 롱폼 voiceTimings/sub를 건드리지 않는다.
+**`--long` 또는 `--shorts <N>` 중 정확히 하나**를 반드시 지정. 한 번의 명령은 하나의 대상(롱폼 전체 또는 쇼츠 1개)만 처리한다.
 
-```bash
-pnpm voice -- --episode <name> --shorts --force --update-json   # 쇼츠만 TTS
-python scripts/voice/whisper-words.py --episode <name> --shorts        # 쇼츠만 WhisperX
-pnpm analyze -- --episode <name> --shorts --update-json          # 쇼츠만 analyze
-```
+- `--long`: 본체 롱폼만. 쇼츠 파일은 건드리지 않음
+- `--shorts <N>`: `shorts/{locale}-{N}.json` 1개만. `<N>`은 1-based 정수
+- 둘 다 지정/둘 다 생략/존재하지 않는 인덱스 → 즉시 에러
 
-- 3단계 실행 시 sub 누락 세그먼트가 자동 경고된다.
-- 3단계(analyze)는 텍스트가 동일한 세그먼트의 기존 sub를 자동 보존한다.
-- 불변식: `sub.join(' ') === text` (공백 조인)
+쇼츠가 여러 개면 각각 1단계 TTS 실행 후 `/voice-sync <name> --shorts N` 개별 호출.
+
+- `/voice-sync` 스킬은 3단계 sub 누락 경고가 0건이 될 때까지 4단계를 자동 완주
+- 3단계(analyze)가 텍스트 동일 세그먼트의 기존 sub 자동 보존
+- 불변식: `sub.join(' ') === text`
 - 4단계 상세 규칙: [voice/tts.md — 4단계: sub 생성](book-recommend/voice/tts.md#4단계-자막-의미-단위-분할-sub-필드)
 
 #### 개별 세그먼트 지정: `--only`
 
-1~3단계 모두 `--only`로 특정 세그먼트만 처리할 수 있다. 나머지 파일은 건드리지 않는다.
-TTS(1단계)는 `--only` 지정 시 매니페스트 체크를 건너뛰어 자동으로 재생성된다.
+1단계와 `/voice-sync` 모두 `--only`로 특정 세그먼트만 처리 가능. `--long`/`--shorts <N>`와 함께 사용.
 
 ```bash
-pnpm voice -- --episode <name> --only S07-book-quote-2 --update-json
-python scripts/voice/whisper-words.py --episode <name> --only S07-book-quote-2
-pnpm analyze -- --episode <name> --only S07-book-quote-2 --update-json
+# 롱폼 특정 세그먼트
+pnpm voice -- --episode <name> --long --only D05b-summary --normalize --update-json
+# → /voice-sync <name> --only D05b-summary  (동일 범위 전파)
 ```
 
+- TTS(1단계)는 `--only` 지정 시 매니페스트 체크를 건너뛰어 자동 재생성
+- `/voice-sync`는 해당 세그먼트만 2~4단계 재처리
+
 - 복수 지정: `--only S07-book-quote-2,S08-book-context-3`
-- 롱폼도 동일: `--only D05b-summary`
-- `--shorts`/`--long`과 동시 사용하지 않는다 (독립 필터)
 
 #### TTS 오버라이드와 파이프라인
 
@@ -102,7 +143,7 @@ TTS 오버라이드 구조 상세: [voice/tts.md — TTS 오버라이드 구조]
 
 #### 잔존 WAV 감지
 
-세그먼트 ID 변경 후 옛 WAV가 남으면 whisper-words.py가 자동 경고하고 제외한다.
+세그먼트 ID 변경 후 옛 WAV가 남으면 2-whisper.py가 자동 경고하고 제외한다.
 
 ### bash 별칭
 

@@ -21,18 +21,19 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 ### Book 내부 화자 전환
 
-인용문·후속맥락은 선택. category가 BOOK이 아닌 항목(VIDEO, GAME, MUSIC)은 포스터 우상단에 아이콘 뱃지, 타이틀 영역에 카테고리명이 표시된다 (BOOK은 표시 없음).
+인용문(`quotePairs[].quote`)·후속맥락(`quotePairs[].after`)은 선택. `quotePairs` 배열로 인용문+후속맥락 쌍을 여러 개 나열할 수 있다. category가 BOOK이 아닌 항목(VIDEO, GAME, MUSIC)은 포스터 우상단에 아이콘 뱃지, 타이틀 영역에 카테고리명이 표시된다 (BOOK은 표시 없음).
 
 ```
 나레이터(Kore): 제목+저자+년도 (팩트만)
            → TITLE_SUMMARY_GAP →
 요약맨(Charon): 핵심 요약
            → SUMMARY_CONTEXT_GAP →
-나레이터(Kore): 추천 경위 (3인칭, DB review 기반)
-           → CONTEXT_QUOTE_GAP → (직접 인용문이 있을 때만)
-셀럽(Puck):     직접 인용문 (검증된 발언만)
-           → QUOTE_CONTEXTAFTER_GAP → (후속맥락이 있을 때만)
-나레이터(Kore): 후속 맥락
+나레이터(Kore): 감상 배경 (3인칭, DB review 기반)
+           → CONTEXT_QUOTE_GAP → (quotePairs가 있을 때만)
+셀럽(Puck):     인용문 (검증된 발언만) — quotePairs[0].quote
+           → QUOTE_AFTER_GAP → (after가 있을 때만)
+나레이터(Kore): 후속 맥락 — quotePairs[0].after
+           → (추가 quotePairs가 있으면 반복)
 ```
 
 ---
@@ -41,7 +42,7 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 | 역할 | 담당 | 내용 |
 |------|------|------|
-| 나레이터 | Kore (여성) | 팩트(제목/저자/년도) + 추천 경위(3인칭) + 후속맥락 |
+| 나레이터 | Kore (여성) | 팩트(제목/저자/년도) + 감상 배경(3인칭) + 후속맥락 |
 | 요약맨 | Charon (남성) | 책 핵심 요약 |
 | 셀럽 | Puck (남성) | 직접 인용문만 (없으면 생략) |
 
@@ -50,6 +51,10 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 ### 말투·텍스트 규칙
 
 말투, 주어, 연결어, 텍스트 금기 등 글쓰기 품질 규칙은 **[writer/0-draft.md](writer/0-draft.md)**에서 관리한다.
+
+### 문단 분할
+
+긴 서술 필드(summary/contextMain/quotePairs[].after/celebIntro/outro/philosophy)는 문단으로 나누어 `\n\n`로 구분한다. 규칙·예시는 **[writer/6-paragraphs.md](writer/6-paragraphs.md)** 참조. voiceTimings 재생성은 불필요하다.
 
 ---
 
@@ -81,15 +86,15 @@ const toFrames = (sec: number) => Math.ceil(sec * 30) + 15
 ```ts
 summaryPhaseEnd  = toFrames(titleDuration) + TITLE_SUMMARY_GAP + toFrames(summaryDuration)
 contextPhaseEnd  = summaryPhaseEnd + SUMMARY_CONTEXT_GAP + toFrames(contextDuration)
-quotePhaseEnd    = contextPhaseEnd + CONTEXT_QUOTE_GAP + toFrames(quoteDuration)
-bookTotalFrames  = contextAfterDuration
-  ? quotePhaseEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(contextAfterDuration)
-  : quoteDuration ? quotePhaseEnd : contextPhaseEnd
+// quotePairs가 있으면 각 pair의 quoteDuration + afterDuration을 순차 누적
+quotePhaseEnd    = contextPhaseEnd + CONTEXT_QUOTE_GAP + toFrames(quotePairs[0].quoteDuration)
+// 각 pair의 after, 다음 pair의 quote가 GAP과 함께 연쇄
+bookTotalFrames  = quotePairs가 있으면 마지막 pair까지 누적, 없으면 contextPhaseEnd
 ```
 
 ### Visual 모드 라벨 타이밍
 
-visual 모드에서 "핵심 요약" / "추천 경위" 라벨 오디오는 2열 레이아웃 전환과 동기화해야 한다:
+visual 모드에서 "핵심 요약" / "감상 배경" 라벨 오디오는 2열 레이아웃 전환과 동기화해야 한다:
 ```ts
 const labelSummaryFrom = visual
   ? summaryAudioStart - LABEL_FRAMES - 4   // 화면 전환 후 재생
@@ -122,13 +127,13 @@ const labelSummaryFrom = visual
 1. `episodes/book-recommend/candidates/<name>.json` 작성 (기존 JSON 복사 후 수정)
 2. 텍스트 검수 완료 후 `episodes/book-recommend/`로 이동 (Candidate → Lineup 승격)
 3. `script.ts`에 JSON import + episodes 맵 등록 + `EPISODE_NAME` 변경
-4. `pnpm voice -- --episode <name> --update-json` 실행 (duration 자동 반영)
+4. `pnpm voice -- --episode <name> --long --update-json` 실행 (duration 자동 반영)
 5. `pnpm reboot`으로 프리뷰
 
 ### 텍스트 수정
 
 1. `episodes/<name>.json` 수정 (자막 텍스트 + 필요시 tts 오버라이드)
-2. `pnpm voice -- --episode <name> --only <파일명> --update-json` 실행
+2. `pnpm voice -- --episode <name> --long --only <파일명> --update-json` 실행
 3. web-bo 에디터의 TTS 버튼으로도 가능 (Gemini / Cloud 선택)
 
 ### DB → 에피소드 JSON 변환 체크리스트
@@ -204,7 +209,7 @@ sw/remotion/public/images/{에피소드명}/
 | 파일 | 표시 시점 | 용도 |
 |------|-----------|------|
 | `book-{i}-summary.png` | 핵심 요약 텍스트 배경 | 책의 내용/주제를 시각적으로 표현 |
-| `book-{i}-context.png` | 추천 경위 텍스트 배경 | 셀럽과 책의 관계/맥락을 시각적으로 표현 |
+| `book-{i}-context.png` | 감상 배경 텍스트 배경 | 셀럽과 책의 관계/맥락을 시각적으로 표현 |
 
 ### 필요 이미지 수 계산
 
