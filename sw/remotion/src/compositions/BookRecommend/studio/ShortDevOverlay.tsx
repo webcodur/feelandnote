@@ -24,6 +24,8 @@ interface Props {
   segStarts: number[]
   segTimings: number[]
   voiceTimings?: Record<string, VoiceTimingSegment[]>
+  /** 쇼츠 번호 (1-based, 필수) */
+  shortsIndex: number
 }
 
 const BEAT_COLORS: Record<string, string> = {
@@ -36,7 +38,7 @@ const BEAT_COLORS: Record<string, string> = {
 
 export const ShortDevOverlay: React.FC<Props> = ({
   frame, totalFrames, logoStart, logoFrames, currentSeg,
-  segments, segStarts, segTimings, voiceTimings,
+  segments, segStarts, segTimings, voiceTimings, shortsIndex,
 }) => {
   const _logoFrames = logoFrames ?? SHORT_LOGO_FRAMES
   const inLogo = frame >= logoStart && frame < logoStart + _logoFrames
@@ -49,7 +51,7 @@ export const ShortDevOverlay: React.FC<Props> = ({
       : 'gap'
 
   const dur = seg?.duration ? `${seg.duration.toFixed(2)}s` : '--'
-  const vFile = seg ? vnShort(currentSeg, seg.id) : '--'
+  const vFile = seg ? vnShort(currentSeg, seg.id, shortsIndex) : '--'
   const elapsed = (frame / FPS).toFixed(2)
   const total = (totalFrames / FPS).toFixed(2)
 
@@ -75,7 +77,7 @@ export const ShortDevOverlay: React.FC<Props> = ({
   // 자막 미리보기
   let subText = ''
   if (seg && seg.text && seg.visual !== 'cta') {
-    const vtKey = vnTimingKey(vnShort(currentSeg, seg.id))
+    const vtKey = vnTimingKey(vnShort(currentSeg, seg.id, shortsIndex))
     const vt = voiceTimings?.[vtKey]
     const elapsedFrames = frame - segStarts[currentSeg]
     if (vt && vt.length > 1 && vt.every(t => t.text && t.start != null && t.end != null)) {

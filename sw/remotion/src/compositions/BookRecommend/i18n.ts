@@ -28,6 +28,8 @@ interface Strings {
   secPrevRecap: string
   secCelebIntro: string
   secPhilosophy: string
+  /** Breadcrumb에서 감상철학 섹션 옆에 병기하는 고지 문구 */
+  secPhilosophyNote: string
   secBridge: string
   secMidRecap: string
   secInterlude: string
@@ -61,6 +63,7 @@ const strings: Record<'ko' | 'en', Strings> = {
     secPrevRecap: '이전 회차',
     secCelebIntro: '인물 소개',
     secPhilosophy: '감상 철학',
+    secPhilosophyNote: '인물의 기록을 바탕으로 재구성한 1인칭 독백',
     secBridge: '전환',
     secMidRecap: '중간 정리',
     secInterlude: '후반부',
@@ -92,6 +95,7 @@ const strings: Record<'ko' | 'en', Strings> = {
     secPrevRecap: 'Previously',
     secCelebIntro: 'Profile',
     secPhilosophy: 'Philosophy',
+    secPhilosophyNote: "A first-person monologue reconstructed from the figure's records",
     secBridge: 'Transition',
     secMidRecap: 'Mid Recap',
     secInterlude: 'Part II',

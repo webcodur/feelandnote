@@ -8,24 +8,30 @@
  */
 import React, { useEffect } from 'react'
 import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'
-import { freshAvatarUrl } from '../../lib/avatar'
 import type { BookRecommendScript } from './types'
 import { fadeInOut, safeImg, sf, makeVf } from './utils'
 import { safePrefetch } from './safe-prefetch'
 import { DARK } from '../theme'
 import { FONT } from './fonts'
-import { SHORT_CTA_FRAMES, SHORT_LOGO_FRAMES, SHORT_REVEAL_FRAMES, shortTotalFrames, shortSegLayout, FPS, f } from './timing'
+import { SHORT_CTA_FRAMES, SHORT_LOGO_FRAMES, SHORT_LOGO_FRAMES_BGM, SHORT_REVEAL_FRAMES, shortTotalFrames, shortSegLayout, FPS, f } from './timing'
 import { EPISODE_NAME, loadVoiceSelect, episodeDir } from './script'
+import {
+  SHORT_W as W, SHORT_HEADER_H as HEADER_H, SHORT_SAFE_BOTTOM as SAFE_BOTTOM,
+  SHORT_MID_H as MID_H, SHORT_RIGHT_STRIP_W as RIGHT_STRIP_W,
+  SHORT_CONTENT_PAD as CONTENT_PAD, REVEAL_BG, CTA_BG, CL,
+} from './shorts-constants'
 
 import { ShortDevOverlay } from './studio/ShortDevOverlay'
 import { SubEditor } from './studio/SubEditor'
 import { t } from './i18n'
 import { vnShort, vnTimingKey } from './voice-names'
 import { ShortCaption } from './sections/ShortCaption'
+import { BgmAudio, BgmToggle } from './BgmAudio'
 import { Typewriter } from './sections/Typewriter'
 import { ShortsThumbnail } from '../Thumbnail/ShortsThumbnail'
+import { CircleAvatar } from './sections/CircleAvatar'
+import { ShortBackgroundLayer } from './sections/ShortBackgroundLayer'
 
-/** safe zone */
 /** 숏폼 배경 이미지 경로 — episodes/{status}/{person}/images/shorts-N.png */
 const shortsImageBase = (epName: string) => {
   const person = epName.replace(/-en$/, '').replace(/-\d+(-en)?$/, '')
@@ -33,25 +39,13 @@ const shortsImageBase = (epName: string) => {
   return `episodes/${dir}/images`
 }
 
-const SAFE_TOP = 120    // 썸네일과 통일된 여백
-const SAFE_BOTTOM = 460 // 썸네일 BOT_H와 통일
-const HEADER_H = 320    // 썸네일 TOP_H와 통일
-const W = 1080
-const MID_H = 1920 - HEADER_H - SAFE_BOTTOM
-const RIGHT_STRIP_W = 280
-const CONTENT_PAD = 48
-const SAFE_PAD = `60px ${CONTENT_PAD}px 40px`
-const REVEAL_BG = 'common/images/reveal-bg.jpg'
-const CTA_BG = 'common/images/cta-bg.jpg'
-const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
-
 type Props = { script: BookRecommendScript; episodeName?: string; shortsIndex: number }
 
 /** 쇼츠 총 프레임 계산. shortsIndex는 1-based (필수) */
 export const calcShortTotalFrames = (script: BookRecommendScript, shortsIndex: number) => {
-  const segs = script.shorts?.[shortsIndex - 1]?.segments
-  if (!segs) return 300
-  return shortTotalFrames(segs)
+  const shorts = script.shorts?.[shortsIndex - 1]
+  if (!shorts?.segments) return 300
+  return shortTotalFrames(shorts.segments, !!(shorts.bgm?.length))
 }
 
 export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, shortsIndex }) => {
@@ -64,6 +58,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   const shorts = script.shorts?.[shortsIndex - 1]
   const segments = shorts?.segments ?? []
   const hasVoice = segments.some(s => (s.duration ?? 0) > 0)
+  const hasBgm = !!(shorts?.bgm?.length)
+  const logoFrames = hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES
   const bi = shorts?.featuredBookIndex ?? 0
   const book = books[bi]
   const imgBase = shortsImageBase(epName)
@@ -139,10 +135,11 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     }
     return fadeInOut(frame, segStarts[i], segTimings[i])
   }
-  const logoOp = fadeInOut(frame, logoStart, SHORT_LOGO_FRAMES)
+  const logoOp = fadeInOut(frame, logoStart, logoFrames)
   // LOGO 풀스크린 오버레이용(매거진 ShortsThumbnail) — CTA 끝/LOGO 시작에서 페이드 인, LOGO 끝에서 페이드 아웃
+  const logoFadeOut = hasBgm ? f(1.5) : f(0.5)
   const logoContentOp = interpolate(frame,
-    [logoStart - f(0.3), logoStart + f(0.3), logoStart + SHORT_LOGO_FRAMES - f(0.5), logoStart + SHORT_LOGO_FRAMES],
+    [logoStart - f(0.3), logoStart + f(0.3), logoStart + logoFrames - logoFadeOut, logoStart + logoFrames],
     [0, 1, 1, 0], CL,
   )
 
@@ -249,7 +246,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         const normSegText = stripPunct(segText)
 
         for (const change of changes) {
-          let resolved = change.t
+          // voiceTimings 없으면 이전 파이프라인의 stale t 값 무시 → 텍스트 위치 비율 폴백
+          let resolved = (!timings || timings.length === 0) ? 0 : change.t
           if (change.text) {
             const normAnchor = stripPunct(change.text)
             let matched = false
@@ -305,11 +303,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       push(bookBgPath, segStarts[bookSegIdx])
     }
     groups.sort((a, b) => a.start - b.start)
-    // 최소 간격 보정 — voiceTimings 없는 프리뷰에서 앵커가 겹칠 때 Remotion interpolate 에러 방지
+    // 최소 간격 보정 — 간격이 너무 짧으면 앞 이미지가 순간 스침 → 앞 이미지 제거
+    // (기존: 뒤 이미지를 밀어서 오히려 0.15초 스침 발생)
     const MIN_GROUP_GAP = f(0.15)
-    for (let gi = 1; gi < groups.length; gi++) {
+    for (let gi = groups.length - 1; gi > 0; gi--) {
       if (groups[gi].start - groups[gi - 1].start < MIN_GROUP_GAP) {
-        groups[gi].start = groups[gi - 1].start + MIN_GROUP_GAP
+        groups.splice(gi - 1, 1)
       }
     }
     return groups
@@ -317,79 +316,13 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
 
   return (
     <AbsoluteFill style={{ backgroundColor: DARK.base }}>
-      {/* 중단 1열(텍스트) 배경 — 시작부터 hook 끝까지 어둡게 유지 → 마지막 콘텐츠 세그먼트와 함께 fade-out */}
-      {(() => {
-        const lastContentIdx = segments.reduce((last, s, i) => s.visual !== 'cta' ? i : last, -1)
-        const contentEnd = lastContentIdx >= 0 ? segStarts[lastContentIdx] + segTimings[lastContentIdx] : logoStart
-        const bgOp = interpolate(frame, [contentEnd - f(0.5), contentEnd], [1, 0], CL)
-        if (bgOp <= 0) return null
-        // 셀럽 인용구·hook 구간 + 영상 시작부터 hook 끝까지 dim 유지
-        // book 세그먼트(book-context)는 정상 밝기로 유지 — dim/비네팅 모두 book 활성도만큼 해제
-        const hookEnd = (segStarts[0] ?? 0) + (segTimings[0] ?? 0)
-        const initialDim = interpolate(frame, [hookEnd - f(0.5), hookEnd], [1, 0], CL)
-        const bookOp = bookSegIdx >= 0 ? segOp(bookSegIdx) : 0
-        const celebDimRaw = segments.reduce((d, s, i) => (s.role === 'celeb' || s.visual === 'hook') ? Math.max(d, segOp(i)) : d, initialDim)
-        const celebDim = Math.max(0, celebDimRaw * (1 - bookOp))
-        const imgBright = interpolate(celebDim, [0, 1], [1, 0.35], CL)
-        const imgSat = interpolate(celebDim, [0, 1], [1, 0.5], CL)
-        const dimFilter = celebDim > 0 ? `brightness(${imgBright}) saturate(${imgSat})` : undefined
-        return (
-          <>
-            {/* 배경 이미지 1 — 기본 배경 (revealBg).
-                첫 imageGroup 시작 시점(book 이전 hook/intro 포함) 또는 book 시작 시점에 fade-out */}
-            {(() => {
-              const firstImgStart = imageGroups.length > 0 ? imageGroups[0].start : null
-              const fadeOutAt = firstImgStart != null
-                ? firstImgStart
-                : (bookSegIdx >= 0 ? segStarts[bookSegIdx] : null)
-              const blend = fadeOutAt != null
-                ? interpolate(frame, [fadeOutAt - f(0.3), fadeOutAt + f(0.2)], [1, 0], CL)
-                : 1
-              return (blend > 0 && revealBgUrl) ? (
-                <Img src={revealBgUrl} style={{
-                  position: 'absolute', top: HEADER_H, left: 0,
-                  width: W, height: MID_H,
-                  objectFit: 'cover',
-                  filter: dimFilter,
-                  zIndex: 1, opacity: bgOp * blend,
-                }} />
-              ) : null
-            })()}
-            {/* 통합 imageGroups — hook/intro/celeb-mid/book 모든 세그먼트의 이미지 + bookBg 폴백을 cross-fade 시퀀스로 렌더 */}
-            {imageGroups.map(({ image, start }, gi) => {
-                const groups = imageGroups
-                const nextStart = gi < groups.length - 1 ? groups[gi + 1].start : null
-                const spacing = nextStart != null ? nextStart - start : Infinity
-                
-                // 크로스페이드 시간 동적 조정 (최대 0.5초)
-                const maxFadeIn = f(0.5)
-                const realFadeIn = Math.min(maxFadeIn, Math.floor(spacing * 0.4))
-                const inPre = Math.floor(realFadeIn * (0.3 / 0.5))
-                const inPost = realFadeIn - inPre
-                const fadeIn = interpolate(frame, [start - inPre, start + inPost], [0, 1], CL)
-                
-                // 페이드아웃 동적 조정 (최대 0.2초)
-                const maxFadeOut = f(0.2)
-                const realFadeOut = Math.min(maxFadeOut, Math.floor(spacing * 0.4))
-                const fadeOut = nextStart != null ? interpolate(frame, [nextStart, nextStart + realFadeOut], [1, 0], CL) : 1
-                
-                const op = Math.min(bgOp, fadeIn, fadeOut)
-                if (op <= 0) return null
-                return (
-                  <Img key={`${image}-${start}`} src={sf(image)} style={{
-                    position: 'absolute', top: HEADER_H, left: 0,
-                    width: W, height: MID_H,
-                    objectFit: 'cover',
-                    filter: dimFilter,
-                    zIndex: 1, opacity: op,
-                  }} />
-                )
-              })
-            }
-            <div style={{ position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H, background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)', zIndex: 2, opacity: bgOp * (1 - bookOp) }} />
-          </>
-        )
-      })()}
+      {/* BGM (쇼츠별) */}
+      {shorts?.bgm?.length && <BgmAudio tracks={shorts.bgm} totalFrames={compFrames} />}
+
+      <ShortBackgroundLayer
+        segOp={segOp} segments={segments} segStarts={segStarts} segTimings={segTimings}
+        bookSegIdx={bookSegIdx} logoStart={logoStart} imageGroups={imageGroups} revealBgUrl={revealBgUrl}
+      />
 
       {/* ── FIXED FRAME BACKGROUNDS ── */}
       {/* 영상 스크롤을 막아주고 썸네일과 완벽히 오버랩되는 상/하단 완전 블랙 마진 */}
@@ -445,8 +378,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           </Sequence>
         )
       })}
-      {/* CTA chime — voice 없이 효과음만 */}
-      {ctaIdx >= 0 && (
+      {/* CTA chime — BGM 있으면 생략 */}
+      {ctaIdx >= 0 && !shorts?.bgm?.length && (
         <Sequence from={segStarts[ctaIdx]} durationInFrames={SHORT_CTA_FRAMES}>
           <Audio src={sf('common/sfx/chime.wav')} volume={0.5} />
         </Sequence>
@@ -496,25 +429,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
               transform: `translateY(-38%) scale(${beatScale})`,
               zIndex: 2,
             }}>
-              <div style={{
-                position: 'absolute', inset: -6,
-                borderRadius: '50%',
-                background: DARK.surface,
-                boxShadow: `0 0 20px 10px ${DARK.surface}`,
-              }} />
-              <div style={{
-                position: 'relative',
-                width: 380, height: 380,
-                overflow: 'hidden',
-                borderRadius: '50%',
-                boxShadow: '0 16px 50px rgba(0,0,0,0.6)',
-                border: '3px solid rgba(200,164,110,0.25)',
-              }}>
-                <Img src={freshAvatarUrl(host.avatar_url)} style={{
-                  width: '100%', height: '100%', objectFit: 'cover',
-                  filter: 'brightness(0.9) contrast(1.05)',
-                }} />
-              </div>
+              <CircleAvatar avatarUrl={host.avatar_url} size={440} filter="brightness(1.15) contrast(1.08)" />
             </div>
           </div>
         )
@@ -540,25 +455,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
               display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
               opacity: stripAvatarOp,
             }}>
-              <div style={{ position: 'relative', margin: '20px auto 0' }}>
-                <div style={{
-                  position: 'absolute', inset: -6,
-                  borderRadius: '50%',
-                  background: DARK.surface,
-                  boxShadow: `0 0 20px 10px ${DARK.surface}`,
-                }} />
-                <div style={{
-                  position: 'relative',
-                  width: RIGHT_STRIP_W - 40, height: RIGHT_STRIP_W - 40,
-                  borderRadius: '50%', overflow: 'hidden',
-                  border: '3px solid rgba(200,164,110,0.25)',
-                  boxShadow: '0 16px 50px rgba(0,0,0,0.6)',
-                }}>
-                  <Img src={freshAvatarUrl(host.avatar_url)} style={{
-                    width: '100%', height: '100%', objectFit: 'cover',
-                    filter: 'brightness(0.9) contrast(1.05)',
-                  }} />
-                </div>
+              <div style={{ margin: '20px auto 0' }}>
+                <CircleAvatar avatarUrl={host.avatar_url} size={RIGHT_STRIP_W - 40} />
               </div>
             </div>
           )}
@@ -596,27 +494,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
             zIndex: 12,
             opacity: op,
           }}>
-            <div style={{ position: 'relative' }}>
-              <div style={{
-                position: 'absolute', inset: -6,
-                borderRadius: '50%',
-                background: DARK.surface,
-                boxShadow: `0 0 20px 10px ${DARK.surface}`,
-              }} />
-              <div style={{
-                position: 'relative',
-                width: 340, height: 340,
-                borderRadius: '50%',
-                overflow: 'hidden',
-                border: '3px solid rgba(200,164,110,0.25)',
-                boxShadow: '0 16px 50px rgba(0,0,0,0.6)',
-              }}>
-                <Img src={freshAvatarUrl(host.avatar_url)} style={{
-                  width: '100%', height: '100%', objectFit: 'cover',
-                  filter: 'brightness(0.9) contrast(1.05)',
-                }} />
-              </div>
-            </div>
+            <CircleAvatar avatarUrl={host.avatar_url} size={340} />
           </div>
         )
       })()}
@@ -657,13 +535,28 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         if (op <= 0) return null
         const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
         const timings = script.voiceTimings?.[timingKey]
-        // \n 명시 분리 → 문장부호 분리 → 단일 문장 순으로 판별
-        const hookSentences = seg.text.includes('\n')
-          ? seg.text.split('\n').filter(Boolean)
-          : seg.text.split(/(?<=[.?!。])\s+/).filter(Boolean)
+        // 문장 분리: 마침표/물음표/느낌표 기준 (2그룹: primary + secondary)
+        // \n은 개행만 담당 — Typewriter의 whiteSpace:pre-wrap이 처리
+        const plainText = seg.text.replace(/\n/g, ' ')
+        const hookSentences = plainText.split(/(?<=[.?!。])\s+/).filter(Boolean)
         const hasTwo = hookSentences.length >= 2
         const hlStart = segStarts[i] - f(0.15)
         const spreadFrames = seg.duration ? Math.ceil(seg.duration * FPS) : 150
+
+        // 원본 텍스트(\n 보존)를 첫 문장/나머지로 분리
+        let sent1Text = seg.text
+        let sent2Text = ''
+        if (hasTwo) {
+          const s1Len = hookSentences[0].length
+          let matched = 0; let splitPos = seg.text.length
+          for (let ci = 0; ci < seg.text.length && matched < s1Len; ci++) {
+            if (seg.text[ci] === '\n') continue
+            matched++
+            if (matched === s1Len) { splitPos = ci + 1; break }
+          }
+          sent1Text = seg.text.slice(0, splitPos).trim()
+          sent2Text = seg.text.slice(splitPos).trim()
+        }
 
         let timings1 = timings
         let timings2: typeof timings
@@ -703,12 +596,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
               }}>
                 <div style={{ maxWidth: 780, textAlign: 'center', textWrap: 'balance', wordBreak: 'keep-all' } as React.CSSProperties}>
                   <Typewriter
-                    text={hookSentences[0]}
+                    text={sent1Text}
                     startFrame={hlStart}
                     spreadFrames={spreadFrames}
                     color="#c8a46e"
                     highlightColor="#f5e6c8"
-                    fontSize={72}
+                    fontSize={66}
                     style={{ fontFamily: FONT.serif, fontWeight: 800, textAlign: 'center', lineHeight: 1.4 }}
                     timings={timings1}
                   />
@@ -716,11 +609,11 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 <div style={{ width: 60, height: 2, backgroundColor: '#c8a46e', opacity: 0.3 }} />
                 <div style={{ maxWidth: 780, textAlign: 'center', textWrap: 'balance', wordBreak: 'keep-all' } as React.CSSProperties}>
                   <Typewriter
-                    text={hookSentences.slice(1).join(' ')}
+                    text={sent2Text}
                     startFrame={hlStart}
                     spreadFrames={spreadFrames}
                     color="#cec6b6"
-                    fontSize={52}
+                    fontSize={56}
                     style={{ fontFamily: FONT.sans, fontWeight: 500, textAlign: 'center', lineHeight: 1.6, letterSpacing: '0.01em' }}
                     timings={timings2}
                   />
@@ -747,11 +640,64 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         )
       })}
 
-      {/* ── 셀럽 인용구 (화면 중앙) ── */}
+      {/* ── 셀럽 인용구 (화면 중앙) — \n 문단 분할 시 페이지 전환 ── */}
       {segments.map((seg, i) => {
         if (seg.role !== 'celeb') return null
         const op = segOp(i)
         if (op <= 0) return null
+        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
+        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string }[] | undefined
+        const paragraphs = seg.text.split('\n').filter(Boolean)
+        const hasParagraphs = paragraphs.length >= 2
+
+        // 문단별 타이밍 분할: 공백 제거한 누적 글자수 기준으로 timings 분배
+        type VTSeg = { start: number; end: number; text: string }
+        const paraTimings: VTSeg[][] = []
+        if (hasParagraphs && timings && timings.length > 0) {
+          const strip = (s: string) => s.replace(/\s/g, '')
+          // 각 문단의 누적 글자수 (공백 제거)
+          const cumLen: number[] = []
+          let total = 0
+          for (const p of paragraphs) { total += strip(p).length; cumLen.push(total) }
+
+          let tIdx = 0
+          let accLen = 0
+          for (let pi = 0; pi < paragraphs.length; pi++) {
+            const slice: VTSeg[] = []
+            while (tIdx < timings.length) {
+              slice.push(timings[tIdx])
+              accLen += strip(timings[tIdx].text ?? '').length
+              tIdx++
+              if (accLen >= cumLen[pi]) break
+            }
+            paraTimings.push(slice)
+          }
+        }
+
+        // 문단별 프레임 범위
+        // "..." whisper 아티팩트를 건너뛰고 실제 발화 시작으로 범위 산출
+        // → imageChangeAt 앵커 타이밍과 정확히 일치시켜 이미지·텍스트 전환 동기화
+        const isArtifact = (t: VTSeg) => /^[.…]+$/.test(t.text ?? '')
+        const paraRanges: { start: number; end: number }[] = paraTimings.length > 0
+          ? paraTimings.map((pt) => {
+              if (!pt || pt.length === 0) return { start: segStarts[i], end: segStarts[i] + segTimings[i] }
+              const realFirst = pt.find(t => !isArtifact(t)) ?? pt[0]
+              return { start: segStarts[i] + Math.round(realFirst.start * FPS), end: segStarts[i] + Math.round(pt[pt.length - 1].end * FPS) }
+            })
+          : (() => {
+              // voiceTimings 없을 때: 글자수 비율로 세그먼트 시간 분배
+              const strip = (s: string) => s.replace(/\s/g, '')
+              const totalLen = paragraphs.reduce((sum, p) => sum + strip(p).length, 0)
+              let acc = 0
+              return paragraphs.map((p) => {
+                const ratio = strip(p).length / totalLen
+                const start = segStarts[i] + Math.round(acc * segTimings[i])
+                acc += ratio
+                const end = segStarts[i] + Math.round(acc * segTimings[i])
+                return { start, end }
+              })
+            })()
+
         return (
           <div key={`quote-${i}`} style={{
             position: 'absolute',
@@ -761,32 +707,88 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
             opacity: op,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: `0 ${CONTENT_PAD + 16}px`,
-            paddingRight: `${CONTENT_PAD + 16 + 120}px`,
+            justifyContent: 'flex-start',
+            padding: `0 ${CONTENT_PAD}px`,
+            paddingRight: `${CONTENT_PAD + 120}px`,
           }}>
-            <div style={{
-              maxWidth: 780,
-              borderLeft: '4px solid rgba(200,164,110,0.4)',
-              paddingLeft: 24,
-            }}>
-              <Typewriter
-                text={seg.text}
-                startFrame={segStarts[i]}
-                spreadFrames={segTimings[i]}
-                color="#c8a46e"
-                highlightColor="#f5e6c8"
-                fontSize={54}
-                style={{
-                  fontFamily: FONT.serif,
-                  fontWeight: 700,
-                  textAlign: 'left',
-                  lineHeight: 1.7,
-                  wordBreak: 'keep-all',
-                }}
-                timings={script.voiceTimings?.[vnTimingKey(vnShort(i, seg.id, shortsIndex))]}
-              />
-            </div>
+            {hasParagraphs ? paragraphs.map((para, pi) => {
+              const range = paraRanges[pi]
+              const nextStart = pi < paragraphs.length - 1 ? paraRanges[pi + 1].start : Infinity
+              const fadeIn = interpolate(frame, [range.start - f(0.3), range.start], [0, 1], CL)
+              const fadeOut = pi < paragraphs.length - 1
+                ? interpolate(frame, [nextStart - f(0.4), nextStart - f(0.1)], [1, 0], CL)
+                : 1
+              const paraOp = Math.min(fadeIn, fadeOut)
+              if (paraOp <= 0) return null
+              const riseY = interpolate(frame, [range.start - f(0.3), range.start], [20, 0], CL)
+              return (
+                <div key={pi} style={{
+                  position: 'absolute', left: CONTENT_PAD, right: CONTENT_PAD + 120,
+                  maxWidth: 780,
+                  borderLeft: '4px solid rgba(200,164,110,0.4)',
+                  paddingLeft: 24,
+                  opacity: paraOp,
+                  transform: `translateY(${riseY}px)`,
+                }}>
+                  <Typewriter
+                    text={para}
+                    startFrame={paraTimings[pi]?.length ? segStarts[i] : range.start}
+                    spreadFrames={paraTimings[pi]?.length ? segTimings[i] : range.end - range.start}
+                    color="#c8a46e"
+                    highlightColor="#f5e6c8"
+                    fontSize={54}
+                    style={{
+                      fontFamily: FONT.serif,
+                      fontWeight: 700,
+                      textAlign: 'left',
+                      lineHeight: 1.7,
+                      wordBreak: 'keep-all',
+                    }}
+                    timings={paraTimings[pi]?.length ? paraTimings[pi] : undefined}
+                  />
+                </div>
+              )
+            }) : (
+              <div style={{
+                maxWidth: 780,
+                borderLeft: '4px solid rgba(200,164,110,0.4)',
+                paddingLeft: 24,
+              }}>
+                <Typewriter
+                  text={seg.text}
+                  startFrame={segStarts[i]}
+                  spreadFrames={segTimings[i]}
+                  color="#c8a46e"
+                  highlightColor="#f5e6c8"
+                  fontSize={54}
+                  style={{
+                    fontFamily: FONT.serif,
+                    fontWeight: 700,
+                    textAlign: 'left',
+                    lineHeight: 1.7,
+                    wordBreak: 'keep-all',
+                  }}
+                  timings={timings}
+                />
+              </div>
+            )}
+            {/* 인용 출처 — celeb 세그먼트 하단에 작은 글씨로 표시 */}
+            {seg.quoteSource && (
+              <div style={{
+                position: 'absolute',
+                bottom: 80,
+                left: CONTENT_PAD,
+                right: CONTENT_PAD + 120,
+                color: 'rgba(200, 164, 110, 0.55)',
+                fontSize: 28,
+                fontFamily: FONT.sans,
+                fontWeight: 500,
+                textAlign: 'left',
+                paddingLeft: 28,
+              }}>
+                — {seg.quoteSource}
+              </div>
+            )}
           </div>
         )
       })}
@@ -794,7 +796,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       {/* ══ CTA + Logo — 전폭, 공유 배경 ══ */}
       {(() => {
         const ctaStart = ctaIdx >= 0 ? segStarts[ctaIdx] : logoStart
-        const endFrame = logoStart + SHORT_LOGO_FRAMES
+        const endFrame = logoStart + logoFrames
         const blockOp = interpolate(frame,
           [ctaStart - f(0.15), ctaStart],
           [0, 1], CL,
@@ -917,7 +919,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           frame={frame}
           totalFrames={compFrames}
           logoStart={logoStart}
-          logoFrames={SHORT_LOGO_FRAMES}
+          logoFrames={logoFrames}
           currentSeg={currentSeg}
           segments={segments}
           segStarts={segStarts}
@@ -934,6 +936,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
            currentTimingKey={currentSeg >= 0 ? vnTimingKey(vnShort(currentSeg, segments[currentSeg].id, shortsIndex)) : undefined}
          />
        )}
+      <BgmToggle hasBgm={!!shorts?.bgm?.length} />
     </AbsoluteFill>
   )
 }

@@ -19,6 +19,10 @@ export interface CelebHost {
   elevenlabsVoiceId?: string
   /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */
   geminiVoice?: string
+  /** 셀럽 발화 스타일 prefix (한·영 공통) — 롱폼 celeb + 쇼츠 celeb-mid에 적용. 정속 prefix. */
+  voiceStyle?: string
+  /** 쇼츠 narrator/summary 속도 prefix 오버라이드 — 미지정 시 SHORTS_SPEED_DEFAULT('1.2배속으로') 적용. 셀럽 단위 조절용. */
+  shortsSpeed?: string
 }
 
 export interface BookStats {
@@ -37,8 +41,8 @@ export interface CinematicImage {
   /** 텍스트 앵커 — 나레이션에서 이 텍스트가 시작될 때 이미지 전환.
    *  배열 첫 이미지는 생략 가능 (북 섹션 시작부터 표시) */
   text?: string
-  /** 귀속 필드 — BO에서 이미지가 표시될 섹션. 텍스트 편집에 영향받지 않는 안정적 배치 */
-  field?: 'summary' | 'context' | 'contextAfter'
+  /** 귀속 필드 — summary(책 장면) 또는 context(인물 장면). 세부 위치는 text 앵커가 결정 */
+  field?: 'summary' | 'context'
   /** 이미지 키워드 (Studio 표시용) */
   keyword?: string
   /** 이미지 프롬프트 (생성용) */
@@ -57,6 +61,15 @@ export interface ImageTransition {
 /** 콘텐츠 카테고리 — 포스터 아이콘·타이틀 라벨에 사용 */
 export type ContentCategory = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
+/** 인용+후속맥락 한 쌍 */
+export interface QuotePair {
+  quote: string
+  quoteSource?: string
+  quoteDuration?: number
+  after?: string
+  afterDuration?: number
+}
+
 export interface BookEntry {
   title: string
   creator: string
@@ -67,30 +80,17 @@ export interface BookEntry {
   summary: string
   /** 요약맨 음성 길이 (초) */
   summaryDuration: number
-  /** 나레이터 3인칭: 추천 경위 + 맥락 해석 */
-  context: string
-  /** 나레이터 맥락 음성 길이 (초) */
+  /** 나레이터 3인칭: 감상 배경 */
+  contextMain: string
+  /** 감상 배경 음성 길이 (초). voice: c-context.wav */
   contextDuration: number
-  /** 셀럽 실제 발언 (있을 때만) */
-  directQuote?: string
-  /** 인용 출처 표시 (예: "Fresh Dialogues 인터뷰") */
-  directQuoteSource?: string
-  /** 인용 음성 길이 (초, 있을 때만) */
-  quoteDuration?: number
-  /** 인용문 뒤 나레이터 후속 맥락 (있을 때만) */
-  contextAfter?: string
-  /** 후속 맥락 음성 길이 (초, 있을 때만) */
-  contextAfterDuration?: number
-  /** 2번째 셀럽 직접 인용 (있을 때만) */
-  directQuote2?: string
-  /** 2번째 인용 출처 표시 */
-  directQuoteSource2?: string
-  /** 2번째 인용 음성 길이 (초, 있을 때만) */
-  quoteDuration2?: number
-  /** 2번째 인용 뒤 나레이터 후속 맥락 (있을 때만) */
-  contextAfter2?: string
-  /** 2번째 후속 맥락 음성 길이 (초, 있을 때만) */
-  contextAfterDuration2?: number
+  /** 인용+후속맥락 쌍 배열 (동적 N개). voice: d1-quote, d2-after, d3-quote, d4-after, ... */
+  quotePairs?: QuotePair[]
+  /** 섹션별 BGM — summary/contextMain 구간에 배경 음악 배정 */
+  bgm?: {
+    summary?: BgmTrack
+    context?: BgmTrack
+  }
   /** 출처 URL */
   source?: string
   /** 통계 데이터 */
@@ -169,9 +169,11 @@ export interface ShortSegment {
   /** 구간별 커스텀 배경 이미지 경로 (옵션) */
   image?: string
   /** 세그먼트 내 이미지 전환 — t초 시점에서 다른 이미지로 교체.
-   *  text 앵커 지정 시 analyze-voice가 voiceTimings에서 해당 텍스트 시작 시간을 t에 자동 반영.
+   *  text 앵커 지정 시 3-timings가 voiceTimings에서 해당 텍스트 시작 시간을 t에 자동 반영.
    *  배열로 여러 전환점을 지정할 수 있다. */
   imageChangeAt?: { t: number; image: string; text?: string } | { t: number; image: string; text?: string }[]
+  /** 인용 출처 — celeb role 세그먼트에서 인용문 아래에 표시 */
+  quoteSource?: string
 }
 
 /**
@@ -187,6 +189,8 @@ export interface ShortsConfig {
   bookBg?: string
   /** 세그먼트 배열 — 순서대로 재생 */
   segments: ShortSegment[]
+  /** 쇼츠 BGM — 에피소드 전체가 아닌 쇼츠 변형별 독립 */
+  bgm?: BgmTrack[]
 }
 
 /** 파형 분석 기반 음성 타이밍 */
@@ -232,16 +236,19 @@ export interface EpisodeTimingData {
     titleDuration?: number
     summaryDuration?: number
     contextDuration?: number
-    quoteDuration?: number
-    contextAfterDuration?: number
-    quoteDuration2?: number
-    contextAfterDuration2?: number
+    quotePairDurations?: Array<{ quoteDuration?: number; afterDuration?: number }>
   }>
-  shorts?: {
+  /**
+   * 쇼츠 타이밍 — 옵션 2 전환 이후 에피소드 timing.json 루트에는 shorts 필드가 저장되지 않는다.
+   * shorts timing은 `shorts/{locale}-{N}.timing.json` 파일로 분리 저장되며
+   * script.ts가 직접 읽어 BookRecommendScript.shorts 배열에 주입한다.
+   * 타입은 레거시 호환용으로 남겨두지만 mergeEpisode에서는 사용하지 않는다.
+   */
+  shorts?: Array<{
     segments?: Array<{
       duration?: number
     }>
-  }
+  }>
 }
 
 export interface BookRecommendScript {
@@ -254,8 +261,30 @@ export interface BookRecommendScript {
   narrator: NarratorLines
   /** TTS 텍스트 오버라이드 — 한글 숫자 등 발음 차이가 있는 필드만 지정 */
   tts?: TtsOverrides
-  /** 쇼츠 설정 */
-  shorts?: ShortsConfig
-  /** 파형 분석 기반 음성 타이밍 (analyze-voice.ts로 생성) */
+  /** 쇼츠 설정 (배열: 동일 에피소드 내 복수 쇼츠 버전. shorts[0]=기본, shorts[1]=alt 등) */
+  shorts?: ShortsConfig[]
+  /** 파형 분석 기반 음성 타이밍 (3-timings.ts로 생성) */
   voiceTimings?: VoiceTimings
+}
+
+/** 배경 음악 트랙 */
+export interface BgmTrack {
+  /** 파일 경로 (public/ 기준, e.g. "episodes/done/yi-sun-sin/music/theme.mp3") */
+  file: string
+  /** 볼륨 0-1 (기본 0.15) */
+  volume?: number
+  /** 재생 시작 (초, 컴포지션 기준. 기본 0) */
+  from?: number
+  /** 재생 종료 (초, 컴포지션 기준. 미지정 시 끝까지) */
+  to?: number
+  /** 페이드인 (초, 기본 2) */
+  fadeIn?: number
+  /** 페이드아웃 (초, 기본 3) */
+  fadeOut?: number
+  /** 음악 파일 내 시작 오프셋 (초, 기본 0) */
+  startFrom?: number
+  /** 구간이 트랙보다 길 때 루프 반복 (기본 true) */
+  loop?: boolean
+  /** 트랙 원본 길이 (초). loop 계산에 필요. music 파일 목록 API가 자동 채워줌 */
+  trackDuration?: number
 }

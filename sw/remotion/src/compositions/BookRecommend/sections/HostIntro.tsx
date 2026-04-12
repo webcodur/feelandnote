@@ -1,4 +1,4 @@
-import { Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
+import { Img, interpolate, spring, useCurrentFrame, useVideoConfig, staticFile } from 'remotion'
 import type { CelebHost, VoiceTimingSegment } from '../types'
 import { Typewriter } from './Typewriter'
 import { FONT } from '../fonts'
@@ -55,7 +55,12 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
   const { pages: philoPages, ranges: philoRanges } = paginateSentences(philoText, PHILO_MAX_CHARS, philosophyTimings)
   const philoPT = slicePageTimings(philoRanges, philosophyTimings)
   const philoStart = celebIntroFrames + f(1)
-  const philoSpread = toAudioFrames(philosophyDuration)
+  const philoSpreadRaw = toAudioFrames(philosophyDuration)
+  // 음성 미생성(duration=0) 폴백: phase2 잔여 프레임에서 시작 지연을 뺀 값을 분배 기준으로 사용.
+  // 실제 음성 싱크는 아니지만, 프리뷰에서 페이지 전환이 동작하도록 한다.
+  const philoSpread = philoSpreadRaw > 0
+    ? philoSpreadRaw
+    : Math.max(0, phase2Frames - f(1))
 
   // --- 등장 애니메이션 ---
   const avatarEnter = spring({ frame: Math.max(0, frame - f(0.17)), fps, config: { damping: 14, stiffness: 160 } })
@@ -112,12 +117,12 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
           <div style={{ position: 'relative', width: AVATAR_SIZE, height: AVATAR_SIZE }}>
             <div
               style={{
+                position: 'relative',
                 width: AVATAR_SIZE,
                 height: AVATAR_SIZE,
                 borderRadius: '50%',
                 overflow: 'hidden',
                 border: '3px solid #c8a46e',
-                backgroundColor: 'rgba(30,24,16,0.9)',
                 boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(200,164,110,0.15)',
               }}
             >
@@ -184,7 +189,8 @@ export const HostIntro: React.FC<Props> = ({ host, narratorText, celebIntroFrame
             {phase2FadeIn > 0 && (
               <div style={{ gridRow: 1, gridColumn: 1, opacity: phase2FadeIn }}>
                 <div style={{ borderLeft: CELEB_VOICE_BORDER, paddingLeft: CELEB_VOICE_PADDING_LEFT, fontFamily: FONT.serif }}>
-                  {(philoPages.length === 1 || philoSpread <= 0) ? (
+
+                  {(philoPages.length === 1) ? (
                     <Typewriter
                       text={philoText}
                       startFrame={philoStart}

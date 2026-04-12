@@ -150,7 +150,15 @@ export const Breadcrumb: React.FC<Props> = ({ script, tl }) => {
               )}
             </>
           ) : sectionName ? (
-            <div style={ACCENT}>{sectionName}</div>
+            <>
+              <div style={ACCENT}>{sectionName}</div>
+              {sectionName === i18n.secPhilosophy && (
+                <>
+                  <div style={SEP}>·</div>
+                  <div style={MUTED}>{i18n.secPhilosophyNote}</div>
+                </>
+              )}
+            </>
           ) : null}
         </div>
       </div>

@@ -14,7 +14,7 @@ import { splitSub, type Sub } from '../utils'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
-  vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO,
   vnTimingKey,
 } from '../voice-names'
@@ -70,17 +70,21 @@ export function buildLongSubs(script: BookRecommendScript, tl: Timeline): Sub[] 
     c += tl.LABEL_CONTEXT_F
 
     const ctStart = c
-    subs.push(...splitSub(ctStart, ctStart + toAudioFrames(b.contextDuration), '나레이터', b.context, vtk(vnTimingKey(vnBookContext(i)))))
+    subs.push(...splitSub(ctStart, ctStart + toAudioFrames(b.contextDuration), '나레이터', b.contextMain, vtk(vnTimingKey(vnBookContext(i)))))
     c += bt.contextFrames
 
-    if (bt.hasQuote && b.directQuote && b.quoteDuration) {
-      c += CONTEXT_QUOTE_GAP
-      subs.push(...splitSub(c, c + toAudioFrames(b.quoteDuration), host.nickname, `\u201C${b.directQuote}\u201D`, vtk(vnTimingKey(vnBookQuote(i)))))
-      c += bt.quoteFrames
-
-      if (bt.hasContextAfter && b.contextAfter && b.contextAfterDuration) {
+    for (let pi = 0; pi < bt.quotePairTimings.length; pi++) {
+      const pt = bt.quotePairTimings[pi]
+      const pair = b.quotePairs?.[pi]
+      if (pt.hasQuote && pair?.quote && pair.quoteDuration) {
+        c += CONTEXT_QUOTE_GAP
+        subs.push(...splitSub(c, c + toAudioFrames(pair.quoteDuration), host.nickname, `\u201C${pair.quote}\u201D`, vtk(vnTimingKey(vnBookQuote(i, pi)))))
+        c += pt.quoteFrames
+      }
+      if (pt.hasAfter && pair?.after && pair.afterDuration) {
         c += QUOTE_CONTEXTAFTER_GAP
-        subs.push(...splitSub(c, c + toAudioFrames(b.contextAfterDuration), '나레이터', b.contextAfter, vtk(vnTimingKey(vnBookContextAfter(i)))))
+        subs.push(...splitSub(c, c + toAudioFrames(pair.afterDuration), '나레이터', pair.after, vtk(vnTimingKey(vnBookAfter(i, pi)))))
+        c += pt.afterFrames
       }
     }
   }

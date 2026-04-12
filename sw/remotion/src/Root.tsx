@@ -16,19 +16,27 @@ import {
 import type { EpisodeStatus } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
-import { ShortsThumbnail } from "./compositions/Thumbnail/ShortsThumbnail";
 
 
-/** 에피소드 목록을 baseName(인물명) 기준으로 그룹핑 */
+/** 에피소드명에서 로케일·파트 접미사를 분리 */
+function parseEpMeta(name: string) {
+  const isEn = name.endsWith('-en')
+  const withoutEn = isEn ? name.slice(0, -3) : name
+  const partMatch = withoutEn.match(/-(\d+)$/)
+  const partNum = partMatch ? parseInt(partMatch[1]) : 1
+  const baseName = withoutEn.replace(/-\d+$/, '')
+  return { isEn, baseName, partNum }
+}
+
+/** 에피소드 목록을 baseName(인물명) 기준으로 그룹핑 — 파트 접미사(-2, -3)도 같은 폴더에 묶는다 */
 function groupByPerson<T>(entries: [string, T][]) {
   const sorted = [...entries].sort(([a], [b]) => a.localeCompare(b))
-  const groups: Record<string, { label: string; items: { name: string; lang: string; script: T }[] }> = {}
+  const groups: Record<string, { label: string; items: { name: string; lang: string; partNum: number; script: T }[] }> = {}
   for (const [name, script] of sorted) {
-    const isEn = name.endsWith('-en')
-    const baseName = isEn ? name.slice(0, -3) : name
+    const { isEn, baseName, partNum } = parseEpMeta(name)
     const label = baseName.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
     if (!groups[baseName]) groups[baseName] = { label, items: [] }
-    groups[baseName].items.push({ name, lang: isEn ? 'EN' : 'KO', script })
+    groups[baseName].items.push({ name, lang: isEn ? 'EN' : 'KO', partNum, script })
   }
   return Object.values(groups)
 }
@@ -48,8 +56,7 @@ const STATUS_LABELS: Record<EpisodeStatus, string> = {
 function groupByStatus(allEntries: [string, unknown][]) {
   const result: Record<EpisodeStatus, [string, unknown][]> = { done: [], live: [], todo: [] }
   for (const [name, script] of allEntries) {
-    const isEn = name.endsWith('-en')
-    const baseName = isEn ? name.slice(0, -3) : name
+    const { baseName } = parseEpMeta(name)
     const status = getStatus(baseName)
     result[status].push([name, script])
   }
@@ -73,27 +80,29 @@ export const RemotionRoot: React.FC = () => {
                       const dur = calcBookFrames(script)
                       return Number.isFinite(dur) && dur > 0
                     })
-                    const validShort = items.filter(({ script }) => {
-                      if (!script.shorts) return false
-                      const dur = calcShortTotalFrames(script)
+                    // shortsIndex는 1-based로 일관 생성 (i + 1)
+                    const shortsEntries = items.flatMap(({ name, lang, partNum, script }) => {
+                      const arr = script.shorts ?? []
+                      return arr.map((_, i) => ({ name, lang, partNum, script, shortsIndex: i + 1 }))
+                    }).filter(({ script, shortsIndex }) => {
+                      const dur = calcShortTotalFrames(script, shortsIndex)
                       return Number.isFinite(dur) && dur > 0
                     })
+                    /** 파트 접미사 — 1편은 빈 문자열, 2편 이상은 -P2, -P3 등 */
+                    const pt = (partNum: number) => partNum > 1 ? `-P${partNum}` : ''
                     return (
                       <>
-                        {validLong.map(({ name, lang, script }) => (
-                          <Composition key={`${name}-L-VID`} id={`${label}-${lang}-L-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
+                        {validLong.map(({ name, lang, partNum, script }) => (
+                          <Composition key={`${name}-L-VID`} id={`${label}-${lang}${pt(partNum)}-L-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
                         ))}
-                        {validLong.map(({ name, lang, script }) => (
-                          <Composition key={`${name}-LV-VID`} id={`${label}-${lang}-LV-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
+                        {validLong.map(({ name, lang, partNum, script }) => (
+                          <Composition key={`${name}-LV-VID`} id={`${label}-${lang}${pt(partNum)}-LV-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
                         ))}
-                        {validLong.map(({ name, lang, script }) => (
-                          <Composition key={`${name}-L-THUMB`} id={`${label}-${lang}-L-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
+                        {validLong.map(({ name, lang, partNum, script }) => (
+                          <Composition key={`${name}-L-THUMB`} id={`${label}-${lang}${pt(partNum)}-L-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
                         ))}
-                        {validShort.map(({ name, lang, script }) => (
-                          <Composition key={`${name}-S-VID`} id={`${label}-${lang}-S-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
-                        ))}
-                        {validShort.map(({ name, lang, script }) => (
-                          <Composition key={`${name}-S-THUMB`} id={`${label}-${lang}-S-THUMB`} component={ShortsThumbnail} durationInFrames={1} fps={1} width={1080} height={1920} defaultProps={{ script }} />
+                        {shortsEntries.map(({ name, lang, partNum, script, shortsIndex }) => (
+                          <Composition key={`${name}-S${shortsIndex}-VID`} id={`${label}-${lang}${pt(partNum)}-S${shortsIndex}-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script, shortsIndex)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name, shortsIndex }} />
                         ))}
                       </>
                     )

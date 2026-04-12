@@ -22,20 +22,6 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#151312' }}>
-      {/* 벽지 질감 — 부드러운 얼룩 패턴 */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: [
-            'radial-gradient(ellipse at 75% 25%, #1c1918 0%, transparent 45%)',
-            'radial-gradient(ellipse at 55% 75%, #191716 0%, transparent 40%)',
-            'radial-gradient(ellipse at 90% 60%, #181615 0%, transparent 35%)',
-            'radial-gradient(ellipse at 65% 45%, #1b1918 0%, #151312 100%)',
-          ].join(', '),
-        }}
-      />
-
       {/* 장식: 좌측 세로 금선 */}
       <div
         style={{
@@ -62,19 +48,27 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
         }}
       />
 
-      {/* 인물 이미지 — 전체 깔기 */}
-      <Img
-        src={freshAvatarUrl(host.avatar_url)}
+      {/* 인물 이미지 — 전체 깔기 (div 래퍼로 mask 적용) */}
+      <div
         style={{
           position: 'absolute',
           inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-          objectPosition: 'left center',
-          filter: 'contrast(1.1) brightness(1.05)',
+          maskImage: 'linear-gradient(to right, black 35%, transparent 52%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 35%, transparent 52%)',
+          zIndex: 15,
         }}
-      />
+      >
+        <Img
+          src={freshAvatarUrl(host.avatar_url)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            objectPosition: 'left center',
+            filter: 'contrast(1.1) brightness(1.05)',
+          }}
+        />
+      </div>
 
       {/* 우측 절반 fade out — 이미지를 서서히 배경색으로 녹임 */}
       <div
@@ -82,6 +76,38 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
           position: 'absolute',
           inset: 0,
           background: 'linear-gradient(to right, transparent 45%, #151312 58%)',
+        }}
+      />
+
+      {/* 우측 서재 배경 이미지 — 2열(50%~) 전용 */}
+      <Img
+        src={staticFile('common/images/library_bg.png')}
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: 0,
+          width: '50%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'right center',
+          opacity: 0.82,
+          filter: 'brightness(0.42) saturate(0.9)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
+        }}
+      />
+
+      {/* 우측 서재 위 다크 오버레이 — 텍스트 가독성, 2열(50%~) 전용 */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: 0,
+          width: '50%',
+          height: '100%',
+          background: 'linear-gradient(to right, transparent 0%, rgba(15,12,10,0.45) 25%, rgba(15,12,10,0.3) 100%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
         }}
       />
 
@@ -108,15 +134,15 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
           alignItems: 'center',
         }}
       >
-        {/* 직함 */}
+        {/* 수식어(직함) */}
         <div
           style={{
             color: '#c8a46e',
-            fontSize: 36,
+            fontSize: 52,
             fontWeight: 500,
-            fontFamily: FONT.sans,
+            fontFamily: FONT.hahmlet,
             letterSpacing: 4,
-            marginBottom: 16,
+            marginBottom: 20,
             textAlign: 'center',
             textShadow: '0 2px 16px rgba(0,0,0,0.6)',
           }}
@@ -168,28 +194,29 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
         </div>
       </div>
 
-      {/* 장식: 우측 코너 장식 (상단) */}
-      <div
+      {/* 장식: 우측 코너 — 책장 SVG (상단) */}
+      <Img
+        src={staticFile('common/images/deco/bookshelf-corner.svg')}
         style={{
           position: 'absolute',
-          right: 28,
-          top: 48,
-          width: 36,
-          height: 36,
-          borderTop: '1.5px solid rgba(200,164,110,0.35)',
-          borderRight: '1.5px solid rgba(200,164,110,0.35)',
+          right: 12,
+          top: 12,
+          width: 140,
+          height: 140,
+          transform: 'scaleY(-1)',
+          zIndex: 20,
         }}
       />
-      {/* 장식: 우측 코너 장식 (하단) */}
-      <div
+      {/* 장식: 우측 코너 — 책장 SVG (하단) */}
+      <Img
+        src={staticFile('common/images/deco/bookshelf-corner.svg')}
         style={{
           position: 'absolute',
-          right: 28,
-          bottom: 48,
-          width: 36,
-          height: 36,
-          borderBottom: '1.5px solid rgba(200,164,110,0.35)',
-          borderRight: '1.5px solid rgba(200,164,110,0.35)',
+          right: 12,
+          bottom: 12,
+          width: 140,
+          height: 140,
+          zIndex: 20,
         }}
       />
 

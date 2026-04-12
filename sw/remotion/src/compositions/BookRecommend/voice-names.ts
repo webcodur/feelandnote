@@ -20,10 +20,12 @@ export const VN_LABEL_CONTEXT = 'C2-label-context.wav'
 export function vnBookTitle(i: number) { return `D${String(i + 1).padStart(2, '0')}a-title.wav` }
 export function vnBookSummary(i: number) { return `D${String(i + 1).padStart(2, '0')}b-summary.wav` }
 export function vnBookContext(i: number) { return `D${String(i + 1).padStart(2, '0')}c-context.wav` }
-export function vnBookQuote(i: number) { return `D${String(i + 1).padStart(2, '0')}d-quote.wav` }
-export function vnBookContextAfter(i: number) { return `D${String(i + 1).padStart(2, '0')}e-context-after.wav` }
-export function vnBookQuote2(i: number) { return `D${String(i + 1).padStart(2, '0')}f-quote2.wav` }
-export function vnBookContextAfter2(i: number) { return `D${String(i + 1).padStart(2, '0')}g-context-after2.wav` }
+export function vnBookQuote(i: number, pairIdx: number) {
+  return `D${String(i + 1).padStart(2, '0')}d${pairIdx * 2 + 1}-quote.wav`
+}
+export function vnBookAfter(i: number, pairIdx: number) {
+  return `D${String(i + 1).padStart(2, '0')}d${pairIdx * 2 + 2}-after.wav`
+}
 
 // Longform: Outro & continuation
 export const VN_OUTRO = 'E1-outro.wav'
@@ -32,15 +34,32 @@ export const VN_RETURN_INTRO = 'E3-return-intro.wav'
 export const VN_PREV_RECAP = 'E4-prev-recap.wav'
 
 // Shorts
-export function vnShort(segIndex: number, segId: string) { return `S${String(segIndex + 1).padStart(2, '0')}-${segId}.wav` }
+/**
+ * Shorts 음성 파일 경로 (에피소드 voice 디렉토리 기준 상대경로)
+ *
+ * 옵션 2 이후: 모든 쇼츠가 `shorts-{shortsIndex}/` 접두사를 사용한다.
+ * 접두사 없는 레거시 경로는 더 이상 생성하지 않는다.
+ *
+ * @param segIndex 세그먼트 인덱스 (0-based)
+ * @param segId 세그먼트 ID (hook, intro, celeb-mid, book-context, cta 등)
+ * @param shortsIndex 쇼츠 번호 (1-based, 필수)
+ * @returns `shorts-{shortsIndex}/S{nn}-{segId}.wav`
+ */
+export function vnShort(segIndex: number, segId: string, shortsIndex: number) {
+  return `shorts-${shortsIndex}/S${String(segIndex + 1).padStart(2, '0')}-${segId}.wav`
+}
 
 /** voiceTimings key (filename without .wav) */
 export function vnTimingKey(fileName: string) { return fileName.replace('.wav', '') }
 
-/** 셀럽 보이스 파일 판별 — ElevenLabs 자동 라우팅 대상 */
+/** 셀럽 보이스 파일 판별 — ElevenLabs 자동 라우팅 대상.
+ *  쇼츠는 옵션 2 이후 `shorts-{N}/` 접두사가 필수다. */
 export function isCelebVoiceFile(file: string): boolean {
   const key = file.replace('.wav', '')
-  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-quote$/.test(key) || /^D\d{2}f-quote2$/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
+  return key === 'A3-featured-quote' || key === 'B2-philosophy'
+    || /^D\d{2}d\d+-quote$/.test(key)
+    || /^shorts-\d+\/S\d{2}-celeb-/.test(key)
+    || /^shorts-\d+\/S\d{2}-book-quote/.test(key)
 }
 
 /** 공통 음성 파일 집합 — 에피소드 간 재사용 */
@@ -48,24 +67,18 @@ export const COMMON_VOICE_FILES = new Set([VN_SERVICE_GREETING, VN_LABEL_SUMMARY
 
 /**
  * episode name → { person, locale }
- * 'alexander-the-great' → { person: 'alexander-the-great', locale: 'ko' }
- * 'alexander-the-great-en' → { person: 'alexander-the-great', locale: 'en' }
- * 'elon-musk-2' → { person: 'elon-musk', locale: 'ko-2' }
- * 'elon-musk-2-en' → { person: 'elon-musk', locale: 'en-2' }
+ * 'alex-karp'     → { person: 'alex-karp', locale: 'ko' }
+ * 'alex-karp-en'  → { person: 'alex-karp', locale: 'en' }
  */
 export function parseEpName(epName: string): { person: string; locale: string } {
-  let rest = epName
-  let lang = 'ko'
-  if (rest.endsWith('-en')) { lang = 'en'; rest = rest.slice(0, -3) }
-  const m = rest.match(/-(\d+)$/)
-  if (m) { rest = rest.slice(0, -m[0].length); lang = `${lang}-${m[1]}` }
-  return { person: rest, locale: lang }
+  if (epName.endsWith('-en')) return { person: epName.slice(0, -3), locale: 'en' }
+  return { person: epName, locale: 'ko' }
 }
 
 /**
  * voice-select.json 기반 음성 경로 해소 — 단일원천(SSoT)
  *
- * 사용처: makeVf (Remotion 재생), generate-voice (TTS 저장), analyze-voice (파형 분석)
+ * 사용처: makeVf (Remotion 재생), 1-tts (TTS 저장), 3-timings (파형 분석)
  *
  * @param epName 에피소드명
  * @param file 음성 파일명 (e.g. 'B2-philosophy.wav')
@@ -94,46 +107,3 @@ export function resolveVoiceRelPath(
   return { dir: 'episode', subPath: file }
 }
 
-/** Old name -> New name mapping for migration */
-export function oldToNew(oldName: string, bookCount: number, shortSegments?: { id: string }[]): string | null {
-  // Direct mappings
-  const direct: Record<string, string> = {
-    'service-greeting.wav': VN_SERVICE_GREETING,
-    'service-intro.wav': VN_SERVICE_INTRO,
-    'featured-quote.wav': VN_FEATURED_QUOTE,
-    'narrator-celeb-intro.wav': VN_CELEB_INTRO,
-    'philosophy.wav': VN_PHILOSOPHY,
-    'label-summary.wav': VN_LABEL_SUMMARY,
-    'label-context.wav': VN_LABEL_CONTEXT,
-    'narrator-outro.wav': VN_OUTRO,
-    'interlude.wav': VN_INTERLUDE,
-    'return-intro.wav': VN_RETURN_INTRO,
-    'prev-recap.wav': VN_PREV_RECAP,
-  }
-  if (direct[oldName]) return direct[oldName]
-
-  // Book files: book-{i}-{phase}.wav
-  const bookMatch = oldName.match(/^book-(\d+)-(title|summary|context-after|context|quote)\.wav$/)
-  if (bookMatch) {
-    const i = parseInt(bookMatch[1])
-    const phase = bookMatch[2]
-    const map: Record<string, (i: number) => string> = {
-      'title': vnBookTitle,
-      'summary': vnBookSummary,
-      'context': vnBookContext,
-      'quote': vnBookQuote,
-      'context-after': vnBookContextAfter,
-    }
-    return map[phase]?.(i) ?? null
-  }
-
-  // Shorts: short-{segId}.wav
-  const shortMatch = oldName.match(/^short-(.+)\.wav$/)
-  if (shortMatch && shortSegments) {
-    const segId = shortMatch[1]
-    const idx = shortSegments.findIndex(s => s.id === segId)
-    if (idx >= 0) return vnShort(idx, segId)
-  }
-
-  return null // Unknown file, skip
-}

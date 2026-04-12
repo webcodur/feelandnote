@@ -18,6 +18,8 @@ type Props = {
   script: BookRecommendScript
   hideHeader?: boolean
   hideFooter?: boolean
+  /** 쇼츠 번호 (1-based, 필수) */
+  shortsIndex: number
 }
 
 const GOLD = '#c8a46e'
@@ -47,10 +49,11 @@ const BookCover: React.FC<{
   </div>
 )
 
-export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFooter }) => {
+export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFooter, shortsIndex }) => {
   const frame = useCurrentFrame()
   const { host, books } = script
-  const bi = script.shorts?.featuredBookIndex ?? 0
+  // shortsIndex는 1-based. 배열 접근 시 -1 변환
+  const bi = script.shorts?.[shortsIndex - 1]?.featuredBookIndex ?? 0
   const book = books[bi]
   const isEn = script.locale === 'en'
 

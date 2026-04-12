@@ -11,7 +11,7 @@ export const useIsPortrait = () => {
   return height > width
 }
 
-export { SENTENCE_SPLIT, splitSentences, buildHighlightSegments, expandSubTimings, paginateSentences, slicePageTimings, splitSub, isTimingsStale } from './sentence-split'
+export { SENTENCE_SPLIT, splitSentences, buildHighlightSegments, expandSubTimings, paginateSentences, slicePageTimings, splitSub, isTimingsStale, sliceOriginalByTimings } from './sentence-split'
 export type { Sub } from './sentence-split'
 
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */

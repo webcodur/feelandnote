@@ -27,6 +27,10 @@ const L_FONT_XS = 12 * L
 
 const API_URL = 'http://localhost:8787/api/save-sub'
 
+/** 모듈 레벨 sub 오버라이드 — Remotion 재렌더와 무관하게 유지 */
+const subOverrides = new Map<string, string[]>()
+function overrideKey(timingKey: string, segIndex: number) { return `${timingKey}:${segIndex}` }
+
 interface Props {
   voiceTimings?: VoiceTimings
   episodeName: string
@@ -72,16 +76,23 @@ const GROUP_COLORS = ['#c8a46e', '#6ea4c8', '#8bb8a8', '#c86ea4', '#c8c86e', '#a
 function SegEditor({ seg, segIndex, timingKey, episodeName, locale }: SegEditorProps) {
   const text = seg.text ?? ''
   const words = useMemo(() => tokenize(text), [text])
-  const [breaks, setBreaks] = useState<number[]>(() =>
-    seg.sub ? subToBreaks(seg.sub, words) : []
-  )
+  const oKey = overrideKey(timingKey, segIndex)
+  // seg.sub 직렬화 — Remotion 매 프레임 새 객체 생성해도 값이 같으면 effect 안 돎
+  const subJson = JSON.stringify(seg.sub ?? null)
+  const [breaks, setBreaks] = useState<number[]>(() => {
+    const cached = subOverrides.get(oKey)
+    const sub = cached ?? seg.sub
+    return sub ? subToBreaks(sub, words) : []
+  })
   const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [saved, setSaved] = useState(() => subOverrides.has(oKey))
 
   useEffect(() => {
-    setBreaks(seg.sub ? subToBreaks(seg.sub, words) : [])
-    setSaved(false)
-  }, [seg, words])
+    const cached = subOverrides.get(oKey)
+    const sub = cached ?? seg.sub
+    setBreaks(sub ? subToBreaks(sub, words) : [])
+    setSaved(!!cached)
+  }, [oKey, subJson, text])
 
   const toggleBreak = useCallback((idx: number) => {
     setBreaks(prev => {
@@ -95,16 +106,27 @@ function SegEditor({ seg, segIndex, timingKey, episodeName, locale }: SegEditorP
 
   const save = useCallback(async () => {
     setSaving(true)
+    // 모듈 캐시에 즉시 반영 — Remotion 재렌더와 무관하게 유지
+    subOverrides.set(oKey, currentSub)
+    // 디스크 저장
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ episode: episodeName, locale, timingKey, segIndex, sub: currentSub }),
       })
-      if (res.ok) setSaved(true)
-    } catch { /* dev server down */ }
+      if (!res.ok) {
+        const err = await res.text()
+        console.error(`[SubEditor] save 실패 ${res.status}:`, err)
+      } else {
+        console.log(`[SubEditor] 저장 완료: ${timingKey}[${segIndex}]`)
+      }
+    } catch (e) {
+      console.error('[SubEditor] API 연결 실패:', e)
+    }
+    setSaved(true)
     setSaving(false)
-  }, [episodeName, locale, timingKey, segIndex, currentSub])
+  }, [oKey, episodeName, locale, timingKey, segIndex, currentSub])
 
   if (words.length <= 1) return null
 

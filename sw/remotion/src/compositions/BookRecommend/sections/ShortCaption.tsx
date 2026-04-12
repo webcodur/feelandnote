@@ -12,7 +12,7 @@
 import React, { useMemo } from 'react'
 import { useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
-import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale } from '../utils'
+import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale, sliceOriginalByTimings } from '../utils'
 import { FONT } from '../fonts'
 import type { VoiceTimingSegment } from '../types'
 
@@ -62,7 +62,8 @@ export const ShortCaption: React.FC<Props> = ({
     let pg: string[]
     let pr: { startIdx: number; endIdx: number }[]
     if (hasSub && expanded && expanded.length > 1) {
-      pg = expanded.map(t => t.text ?? '')
+      // sub 수에 맞춰 원고 raw slice — Whisper STT 오인식 노출 방지
+      pg = sliceOriginalByTimings(text, expanded)
       pr = expanded.map((_, i) => ({ startIdx: i, endIdx: i + 1 }))
     } else {
       const result = paginateSentences(text, CHARS_PER_PAGE, expanded, true)
@@ -115,17 +116,23 @@ export const ShortCaption: React.FC<Props> = ({
     <div style={{ position: 'relative', ...style }}>
       {pages.map((pageText, pi) => {
         const spt = pageTiming?.[pi]
+        const sptNext = pageTiming?.[pi + 1]
 
-        // 페이지 시작/끝 프레임 (voiceTimings 우선, 없으면 비율 분배)
+        // 페이지 시작 프레임 (voiceTimings 우선, 없으면 비율 분배)
+        // 종료점은 "다음 페이지 시작" — 발화 사이 공백에도 자막을 유지하여
+        // 페이지가 잠깐 보였다 사라지는 깜빡임을 방지한다.
         const charsBefore = pages.slice(0, pi).reduce((s, p) => s + p.length, 0)
+        const charsBeforeNext = charsBefore + pageText.length
         const ratio = charsBefore / text.length
-        const endRatio = (charsBefore + pageText.length) / text.length
+        const nextRatio = charsBeforeNext / text.length
         const ps = spt ? startFrame + Math.round(spt.absStart * FPS) : startFrame + Math.round(spreadFrames * ratio)
-        const pe = spt ? startFrame + Math.round(spt.absEnd * FPS) : startFrame + Math.round(spreadFrames * endRatio)
+        const nextPs = sptNext
+          ? startFrame + Math.round(sptNext.absStart * FPS)
+          : startFrame + Math.round(spreadFrames * nextRatio)
 
-        // 즉시 전환 — 겹침 없음
+        // 즉시 전환 — 다음 페이지 시작 직전까지 유지
         const isLast = pi === pages.length - 1
-        const visible = frame >= ps && (isLast || frame < pe)
+        const visible = frame >= ps && (isLast || frame < nextPs)
         if (!visible) return null
 
         return (

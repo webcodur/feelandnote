@@ -2,14 +2,14 @@
  * usePrefetch — BookRecommend 오디오 프리페치 훅
  */
 import { useEffect } from 'react'
-import { prefetch } from 'remotion'
 import type { BookRecommendScript } from './types'
 import { sf } from './utils'
+import { safePrefetch } from './safe-prefetch'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
-  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnTimingKey,
 } from './voice-names'
@@ -36,8 +36,10 @@ export function usePrefetch(
         vf(vnBookTitle(i)),
         vf(vnBookSummary(i)),
         vf(vnBookContext(i)),
-        ...((books[i].directQuote && (books[i].quoteDuration ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i))]) ? [vf(vnBookQuote(i))] : []),
-        ...((books[i].contextAfter && (books[i].contextAfterDuration ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookContextAfter(i))]) ? [vf(vnBookContextAfter(i))] : []),
+        ...(books[i].quotePairs ?? []).flatMap((p, pi) => [
+          ...(p.quoteDuration ? [vf(vnBookQuote(i, pi))] : []),
+          ...(p.afterDuration ? [vf(vnBookAfter(i, pi))] : []),
+        ]),
       ]),
     ]
     if (cont) {
@@ -54,7 +56,7 @@ export function usePrefetch(
     }
     if (host.featuredQuoteDuration && host.featuredQuoteDuration > 0) urls.push(vf(VN_FEATURED_QUOTE))
     const cleanups = urls.map((url) => {
-      const { free } = prefetch(url, { method: 'blob-url', contentType: 'audio/wav' })
+      const { free } = safePrefetch(url)
       return free
     })
     return () => cleanups.forEach((fn) => fn())

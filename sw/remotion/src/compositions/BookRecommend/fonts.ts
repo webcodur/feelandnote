@@ -10,4 +10,8 @@ export const FONT = {
   cormorant: '"Cormorant Garamond", serif',
   /** 브랜드 */
   brand: '"Castoro Titling", Cinzel, serif',
+  /** 수식어 — 롱폼 썸네일 직함 */
+  hahmlet: 'Hahmlet, "Noto Serif KR", serif',
+  /** 쇼츠 헤드라인 — 인물명 임팩트 */
+  doHyeon: '"Do Hyeon", "Pretendard Variable", sans-serif',
 } as const

@@ -3,7 +3,7 @@
  * 나레이션 동기화 시퀀스: 라벨 → 책 등장 → 아바타 reveal → 명언
  */
 import React from 'react'
-import { AbsoluteFill, Img, interpolate } from 'remotion'
+import { AbsoluteFill, Img, interpolate, staticFile } from 'remotion'
 import type { CelebHost, BookEntry } from '../types'
 import { fadeInOut, safeImg, BALANCED, SUBTITLE_STYLE, useIsPortrait } from '../utils'
 import { f } from '../timing'
@@ -108,8 +108,8 @@ export const PreIntro: React.FC<Props> = ({
           {avatarOp > 0 && <div style={{ opacity: Math.min(avatarFadeIn, avatarOp), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 32 }}>
           <div style={{ position: 'relative' }}>
             <div style={{
+              position: 'relative',
               width: avatarSize, height: avatarSize, borderRadius: '50%', overflow: 'hidden',
-              backgroundColor: 'rgba(30,24,16,0.9)',
               border: `2px solid rgba(200,164,110,${borderAlpha})`,
               boxShadow: revealProgress > 0.5
                 ? '0 16px 50px rgba(0,0,0,0.5)'

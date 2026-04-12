@@ -5,12 +5,12 @@
 import { useMemo } from 'react'
 import type { BookRecommendScript, BookEntry } from './types'
 import {
-  toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
+  toFrames, toQuoteFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   BOOK_GAP, RECAP_FRAMES, INTERLUDE_FRAMES, LOGO_FRAMES,
   CELEB_INTRO_FALLBACK, BRIDGE_FALLBACK, OUTRO_FALLBACK,
   RETURN_INTRO_FALLBACK, PREV_RECAP_FALLBACK,
   titleSummaryGap, summaryContextGap, labelSummaryFrames, labelContextFrames,
-  summaryPhaseEnd, contextPhaseEnd, quotePhaseEnd, contextAfterPhaseEnd, quote2PhaseEnd, bookTotalFrames,
+  summaryPhaseEnd, contextPhaseEnd, quotePairsEnd, bookTotalFrames,
   type LabelDurations, f,
 } from './timing'
 import { isContinuation } from './timing'
@@ -18,17 +18,35 @@ import { isContinuation } from './timing'
 // --- TTS 미생성 시 글자 수 기반 duration 추정 (프리뷰 레이아웃용) ---
 const KO_CPS = 4.5 // 한국어 TTS 속도 ~4.5자/초
 const est = (text?: string | null) => text ? text.length / KO_CPS : 0
-const d = (sec: number | undefined, text?: string | null) => (sec ?? 0) > 0 ? (sec ?? 0) : est(text)
 
-/** duration 0인 필드를 글자 수 기반으로 추정하여 채운 script 사본 반환 */
+/** voiceTimings 세그먼트 배열에서 실제 오디오 duration(마지막 end) 추출 */
+function vtEnd(script: BookRecommendScript, key: string): number | undefined {
+  const segs = script.voiceTimings?.[key]
+  if (!segs || segs.length === 0) return undefined
+  const lastEnd = segs[segs.length - 1].end
+  return lastEnd != null && lastEnd > 0 ? lastEnd : undefined
+}
+
+/** duration 우선순위: 기존 > voiceTimings 실제 duration > 글자 수 추정 */
+const resolve = (sec: number | undefined, vt: number | undefined, text?: string | null) =>
+  (sec ?? 0) > 0 ? (sec ?? 0) : (vt ?? est(text))
+
+/** duration 0인 필드를 voiceTimings 실제값 또는 글자 수 기반으로 채운 script 사본 반환.
+ *
+ *  voiceTimings의 마지막 end를 실제 오디오 duration으로 우선 사용한다.
+ *  ko.json에 titleDuration/summaryDuration/quoteDuration 등이 null이어도,
+ *  voiceTimings가 있으면 정확한 duration이 복원된다. 둘 다 없으면 text.length/KO_CPS 폴백.
+ *
+ *  이 계산이 없으면 quotePairs 추정치가 실제 오디오보다 길어 인용 구간 사이에
+ *  10~20초 무음이 쌓인다. (이순신 Book 5 오자병법 케이스) */
 function withEstimatedDurations(script: BookRecommendScript): BookRecommendScript {
   const { narrator: n, host: h, books } = script
   const anyBookMissing = books.some(b =>
     b.titleDuration === 0 || b.summaryDuration === 0
-    || (b.directQuote && (b.quoteDuration ?? 0) === 0)
-    || (b.contextAfter && (b.contextAfterDuration ?? 0) === 0)
-    || (b.directQuote2 && (b.quoteDuration2 ?? 0) === 0)
-    || (b.contextAfter2 && (b.contextAfterDuration2 ?? 0) === 0)
+    || b.quotePairs?.some(p =>
+      (p.quote && (p.quoteDuration ?? 0) === 0)
+      || (p.after && (p.afterDuration ?? 0) === 0)
+    )
   )
   const anyNarratorMissing = (n.celebIntroDuration ?? 0) === 0 || n.outroDuration === 0
   const anyHostMissing = (h.voiceDuration ?? 0) === 0 || (h.featuredQuoteDuration ?? 0) === 0
@@ -37,50 +55,56 @@ function withEstimatedDurations(script: BookRecommendScript): BookRecommendScrip
     ...script,
     narrator: {
       ...n,
-      serviceGreetingDuration: d(n.serviceGreetingDuration, n.serviceGreeting),
-      serviceIntroDuration: d(n.serviceIntroDuration, n.serviceIntro),
-      celebIntroDuration: d(n.celebIntroDuration, n.celebIntro),
-      bridgeDuration: d(n.bridgeDuration, n.bridge) || n.bridgeDuration,
-      outroDuration: d(n.outroDuration, n.outro) || n.outroDuration,
+      serviceGreetingDuration: resolve(n.serviceGreetingDuration, vtEnd(script, 'A1-service-greeting'), n.serviceGreeting),
+      serviceIntroDuration: resolve(n.serviceIntroDuration, vtEnd(script, 'A2-service-intro'), n.serviceIntro),
+      celebIntroDuration: resolve(n.celebIntroDuration, vtEnd(script, 'B1-celeb-intro'), n.celebIntro),
+      bridgeDuration: resolve(n.bridgeDuration, vtEnd(script, 'B3-bridge'), n.bridge) || n.bridgeDuration,
+      outroDuration: resolve(n.outroDuration, vtEnd(script, 'E1-outro'), n.outro) || n.outroDuration,
       labelSummaryDuration: (n.labelSummaryDuration ?? 0) > 0 ? n.labelSummaryDuration : 1.0,
       labelContextDuration: (n.labelContextDuration ?? 0) > 0 ? n.labelContextDuration : 1.5,
     },
     host: {
       ...h,
-      voiceDuration: d(h.voiceDuration, h.philosophy),
-      featuredQuoteDuration: d(h.featuredQuoteDuration, h.featuredQuote),
+      voiceDuration: resolve(h.voiceDuration, vtEnd(script, 'B2-philosophy'), h.philosophy),
+      featuredQuoteDuration: resolve(h.featuredQuoteDuration, vtEnd(script, 'A3-featured-quote'), h.featuredQuote),
     },
-    books: books.map(b => ({
-      ...b,
-      titleDuration: d(b.titleDuration, `${b.title}, ${b.creator}`),
-      summaryDuration: d(b.summaryDuration, b.summary),
-      contextDuration: d(b.contextDuration, b.context),
-      quoteDuration: b.directQuote ? d(b.quoteDuration, b.directQuote) : b.quoteDuration,
-      contextAfterDuration: b.contextAfter ? d(b.contextAfterDuration, b.contextAfter) : b.contextAfterDuration,
-      quoteDuration2: b.directQuote2 ? d(b.quoteDuration2, b.directQuote2) : b.quoteDuration2,
-      contextAfterDuration2: b.contextAfter2 ? d(b.contextAfterDuration2, b.contextAfter2) : b.contextAfterDuration2,
-    })),
+    books: books.map((b, i) => {
+      const bk = String(i + 1).padStart(2, '0')
+      return {
+        ...b,
+        titleDuration: resolve(b.titleDuration, vtEnd(script, `D${bk}a-title`), `${b.title}, ${b.creator}`),
+        summaryDuration: resolve(b.summaryDuration, vtEnd(script, `D${bk}b-summary`), b.summary),
+        contextDuration: resolve(b.contextDuration, vtEnd(script, `D${bk}c-context`), b.contextMain),
+        quotePairs: b.quotePairs?.map((p, pi) => {
+          const qKey = `D${bk}d${pi * 2 + 1}-quote`
+          const aKey = `D${bk}d${pi * 2 + 2}-after`
+          return {
+            ...p,
+            quoteDuration: p.quote ? resolve(p.quoteDuration, vtEnd(script, qKey), p.quote) : p.quoteDuration,
+            afterDuration: p.after ? resolve(p.afterDuration, vtEnd(script, aKey), p.after) : p.afterDuration,
+          }
+        }),
+      }
+    }),
   }
+}
+
+export interface QuotePairTiming {
+  hasQuote: boolean
+  quoteFrames: number
+  hasAfter: boolean
+  afterFrames: number
 }
 
 export interface BookTiming {
   titleFrames: number
   summaryFrames: number
   contextFrames: number
-  quoteFrames: number
-  contextAfterFrames: number
-  quote2Frames: number
-  contextAfter2Frames: number
   summaryEnd: number
   contextEnd: number
-  quoteEnd: number
-  contextAfterEnd: number
-  quote2End: number
+  quotePairsEnd: number
   total: number
-  hasQuote: boolean
-  hasContextAfter: boolean
-  hasQuote2: boolean
-  hasContextAfter2: boolean
+  quotePairTimings: QuotePairTiming[]
 }
 
 export interface Timeline {
@@ -128,7 +152,18 @@ export interface Timeline {
 
 export function buildTimeline(rawScript: BookRecommendScript): Timeline {
   const script = withEstimatedDurations(rawScript)
-  const { narrator, host, books } = script
+  const { narrator, host } = script
+  // 텍스트가 비어 있는 quotePairs는 duration을 강제 0으로 만든다.
+  // 시나리오 에디터에서 텍스트만 잘랐을 때 옛 wav/timing이 잔존해
+  // 의도치 않은 음성·페이지가 재생되는 문제를 차단한다.
+  const books = script.books.map(b => ({
+    ...b,
+    quotePairs: b.quotePairs?.map(p => ({
+      ...p,
+      quoteDuration: p.quote ? p.quoteDuration : 0,
+      afterDuration: p.after ? p.afterDuration : 0,
+    })),
+  }))
   const cont = isContinuation(script)
   const ld: LabelDurations = { labelSummaryDuration: narrator.labelSummaryDuration, labelContextDuration: narrator.labelContextDuration }
 
@@ -176,20 +211,16 @@ export function buildTimeline(rawScript: BookRecommendScript): Timeline {
     titleFrames: toFrames(b.titleDuration),
     summaryFrames: toFrames(b.summaryDuration),
     contextFrames: toFrames(b.contextDuration),
-    quoteFrames: b.quoteDuration ? toFrames(b.quoteDuration) : 0,
-    contextAfterFrames: b.contextAfterDuration ? toFrames(b.contextAfterDuration) : 0,
-    quote2Frames: b.quoteDuration2 ? toFrames(b.quoteDuration2) : 0,
-    contextAfter2Frames: b.contextAfterDuration2 ? toFrames(b.contextAfterDuration2) : 0,
     summaryEnd: summaryPhaseEnd(b, ld),
     contextEnd: contextPhaseEnd(b, ld),
-    quoteEnd: quotePhaseEnd(b, ld),
-    contextAfterEnd: contextAfterPhaseEnd(b, ld),
-    quote2End: quote2PhaseEnd(b, ld),
+    quotePairsEnd: quotePairsEnd(b, ld),
     total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F,
-    hasQuote: !!b.quoteDuration,
-    hasContextAfter: !!b.contextAfterDuration,
-    hasQuote2: !!b.quoteDuration2,
-    hasContextAfter2: !!b.contextAfterDuration2,
+    quotePairTimings: (b.quotePairs ?? []).map(p => ({
+      hasQuote: !!p.quoteDuration,
+      quoteFrames: p.quoteDuration ? toQuoteFrames(p.quoteDuration) : 0,
+      hasAfter: !!p.afterDuration,
+      afterFrames: p.afterDuration ? toQuoteFrames(p.afterDuration) : 0,
+    })),
   }))
 
   const hasInterlude = books.length > 10

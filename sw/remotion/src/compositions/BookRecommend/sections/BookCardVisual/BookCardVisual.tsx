@@ -17,9 +17,10 @@ import { FONT } from '../../fonts'
 import {
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
 } from '../../timing'
-import { safeImg, useIsPortrait, CELEB_VOICE_COLOR, CELEB_VOICE_HIGHLIGHT, CELEB_VOICE_BORDER, CELEB_VOICE_PADDING_LEFT } from '../../utils'
+import { safeImg, useIsPortrait, CELEB_VOICE_COLOR, CELEB_VOICE_HIGHLIGHT, CELEB_VOICE_BORDER, CELEB_VOICE_PADDING_LEFT, expandSubTimings, sliceOriginalByTimings, isTimingsStale } from '../../utils'
 import { MetaCategoryIcon, getCategoryAccent } from './CategoryBadge'
-import { vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2, vnTimingKey } from '../../voice-names'
+import { vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter, vnTimingKey } from '../../voice-names'
+import type { QuotePairTiming } from '../../useTimeline'
 import type { BookRecommendScript } from '../../types'
 import { t } from '../../i18n'
 
@@ -27,7 +28,7 @@ const CLAMP = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as 
 
 // ── 텍스트 앵커 → 프레임 해석 ──
 
-type SectionEntry = { key: string; baseFrame: number; field: string }
+type SectionEntry = { key: string; baseFrame: number; field: string; origText: string | undefined }
 
 /** 섹션의 세그먼트를 미리 파싱한 구조 */
 type ParsedSection = {
@@ -37,59 +38,107 @@ type ParsedSection = {
 }
 
 /** 섹션 세그먼트를 파싱하여 캐싱용 구조 반환.
- *  sub/subTimings가 있으면 구절 단위로 확장하여 이미지 앵커의 프레임 해상도를 높인다. */
+ *  원고(`origText`)를 expanded sub 단위로 slice하여 fullText를 구성한다.
+ *  seg.text/seg.sub는 Whisper STT 오인식이 있을 수 있어 이미지 앵커 indexOf 매칭이 실패한다
+ *  (예: "갑오년" → "가보년", "계사년" → "개사년", "읊으면서도" → "잃투면서도").
+ *  원고 slice로 구성하면 앵커를 원고 그대로 쓸 수 있다. */
 function parseSection(
   timings: Record<string, VoiceTimingSegment[]>,
   entry: SectionEntry,
 ): ParsedSection | null {
   const segs = timings[entry.key]
   if (!segs) return null
+
+  // 원고가 없거나 stale한 timing이면 seg.text 폴백
+  const origText = entry.origText
+  const fresh = origText && !isTimingsStale(origText, segs) ? segs : undefined
+  const expanded = fresh ? expandSubTimings(fresh) : undefined
+  const useOrig = origText && expanded && expanded.length > 0
+    && expanded.every(t => t.start != null && t.end != null)
+
   let offset = 0
   const positions: { offset: number; seg: VoiceTimingSegment }[] = []
   let fullText = ''
-  for (const seg of segs) {
-    if (!seg.text) continue
-    if (seg.sub && seg.subTimings && seg.sub.length > 1) {
-      for (let si = 0; si < seg.sub.length; si++) {
-        const subStart = si === 0 ? seg.start : (seg.subTimings[si - 1] ?? seg.start)
-        const subEnd = si < seg.subTimings.length ? seg.subTimings[si] : seg.end
-        positions.push({ offset, seg: { start: subStart, end: subEnd, text: seg.sub[si] } })
-        const normText = seg.sub[si].replace(/[\s.,!?“"”'’\n\r]/g, '')
+
+  if (useOrig) {
+    // 원고를 expanded sub 수에 맞춰 slice하고, 각 slice의 norm 텍스트로 fullText 구성
+    const slices = sliceOriginalByTimings(origText!, expanded!)
+    for (let i = 0; i < expanded!.length; i++) {
+      const t = expanded![i]
+      const sliceText = slices[i] ?? ''
+      positions.push({ offset, seg: { start: t.start!, end: t.end!, text: sliceText } })
+      const normText = sliceText.replace(/[\s.,!?“"”'’\n\r]/g, '')
+      fullText += normText
+      offset += normText.length
+    }
+  } else {
+    // 폴백: 기존 seg.text/sub 기반 (원고 없을 때)
+    for (const seg of segs) {
+      if (!seg.text) continue
+      if (seg.sub && seg.subTimings && seg.sub.length > 1) {
+        for (let si = 0; si < seg.sub.length; si++) {
+          const subStart = si === 0 ? seg.start : (seg.subTimings[si - 1] ?? seg.start)
+          const subEnd = si < seg.subTimings.length ? seg.subTimings[si] : seg.end
+          positions.push({ offset, seg: { start: subStart, end: subEnd, text: seg.sub[si] } })
+          const normText = seg.sub[si].replace(/[\s.,!?“"”'’\n\r]/g, '')
+          fullText += normText
+          offset += normText.length
+        }
+      } else {
+        positions.push({ offset, seg })
+        const normText = seg.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
         fullText += normText
         offset += normText.length
       }
-    } else {
-      positions.push({ offset, seg })
-      const normText = seg.text.replace(/[\s.,!?“"”'’\n\r]/g, '')
-      fullText += normText
-      offset += normText.length
     }
   }
   return { baseFrame: entry.baseFrame, positions, fullText }
 }
 
-/** 텍스트 위치 비율로 프레임 추정 (voiceTimings 없을 때 폴백) */
+/** 텍스트 위치 비율로 프레임 추정 (voiceTimings 없을 때 폴백)
+ *  occurrenceIndex(0-based)번째 등장 위치를 사용한다. */
 function estimateAnchorFrame(
   anchor: string,
   sectionText: string | undefined,
   baseFrame: number,
   sectionFrames: number,
+  occurrenceIndex: number,
 ): number {
   if (!sectionText) return -1
   const normText = sectionText.replace(/[\s.,!?“"”'’\n\r]/g, '')
   const normAnchor = anchor.replace(/[\s.,!?“"”'’\n\r]/g, '')
   if (!normAnchor) return -1
-  const pos = normText.indexOf(normAnchor)
-  if (pos === -1) return -1
+
+  let pos = -1
+  let from = 0
+  for (let i = 0; i <= occurrenceIndex; i++) {
+    pos = normText.indexOf(normAnchor, from)
+    if (pos === -1) return -1
+    from = pos + 1
+  }
   return baseFrame + Math.round((pos / Math.max(1, normText.length)) * sectionFrames)
 }
 
-/** fullText 내에서 anchor 위치의 세그먼트 시작 프레임 반환. 못 찾으면 -1 */
-function findAnchorInSection(anchor: string, section: ParsedSection): number {
+/** fullText 내에서 anchor의 occurrenceIndex(0-based)번째 등장 세그먼트 시작 프레임 반환.
+ *  같은 앵커 단어가 본문에 여러 번 나오면 작성 순서대로 N번째 등장 위치에 자동 매핑된다.
+ *  N번째 등장이 없으면 -1. */
+function findAnchorInSection(
+  anchor: string,
+  section: ParsedSection,
+  occurrenceIndex: number,
+): number {
   const normAnchor = anchor.replace(/[\s.,!?“"”'’\n\r]/g, '')
   if (!normAnchor) return -1
-  const pos = section.fullText.indexOf(normAnchor)
-  if (pos === -1) return -1
+
+  // occurrenceIndex번째 등장 위치 찾기
+  let pos = -1
+  let from = 0
+  for (let i = 0; i <= occurrenceIndex; i++) {
+    pos = section.fullText.indexOf(normAnchor, from)
+    if (pos === -1) return -1
+    from = pos + 1  // 1글자씩 진행 (overlap 허용, "트로이트로이" 같은 케이스 대응)
+  }
+
   for (let i = section.positions.length - 1; i >= 0; i--) {
     if (pos >= section.positions[i].offset) {
       return section.baseFrame + f(section.positions[i].seg.start)
@@ -98,23 +147,13 @@ function findAnchorInSection(anchor: string, section: ParsedSection): number {
   return -1
 }
 
-/** 이전 앵커 시간 기준으로 다음 세그먼트 시작 프레임 반환 */
-function findNextSegFrameFallback(prevFrame: number | undefined, section: ParsedSection): number {
-  if (prevFrame === undefined) return section.baseFrame
-  for (const pos of section.positions) {
-    const sFrame = section.baseFrame + f(pos.seg.start)
-    // 이전 프레임보다 최소 0.5초(또는 적당한 간격) 이후의 세그먼트를 찾음
-    if (sFrame > prevFrame + f(0.5)) {
-      return sFrame
-    }
-  }
-  return prevFrame + f(1.5) // 세그먼트를 못 찾으면 단순히 1.5초 정도 뒤로 미룸
-}
-
 /** book.images 텍스트 앵커를 프레임으로 해석
  *
  * voiceTimings 있음: findAnchorInSection으로 정확한 단어 시작 프레임 매칭
  * voiceTimings 없음: estimateAnchorFrame으로 (텍스트위치/전체길이)×섹션프레임 비율 추정
+ *
+ * 매칭 실패 시 조용한 폴백 금지. 해당 이미지는 transitions에서 제외되고,
+ * CinematicPanel은 이전 transition의 이미지를 그대로 유지한다.
  */
 function resolveImageTransitions(
   book: BookEntry,
@@ -122,84 +161,116 @@ function resolveImageTransitions(
   timings: Record<string, VoiceTimingSegment[]> | undefined,
   sSummary: number,
   sContext: number,
-  sContextAfter: number,
   summaryFrames: number,
   contextFrames: number,
-  contextAfterFrames: number,
+  qpTimings: QuotePairTiming[],
+  pairStarts: Array<{ sQuote: number; sAfter: number }>,
 ): ImageTransition[] | undefined {
   if (!book.images?.length) return undefined
 
   const sectionEntries: SectionEntry[] = [
-    { key: vnTimingKey(vnBookSummary(bookIndex)), baseFrame: sSummary, field: 'summary' },
-    { key: vnTimingKey(vnBookContext(bookIndex)), baseFrame: sContext, field: 'context' },
-    { key: vnTimingKey(vnBookContextAfter(bookIndex)), baseFrame: sContextAfter, field: 'contextAfter' },
+    { key: vnTimingKey(vnBookSummary(bookIndex)), baseFrame: sSummary, field: 'summary', origText: book.summary },
+    { key: vnTimingKey(vnBookContext(bookIndex)), baseFrame: sContext, field: 'context', origText: book.contextMain },
   ]
+  for (let pi = 0; pi < qpTimings.length; pi++) {
+    const ps = pairStarts[pi]
+    const pair = book.quotePairs?.[pi]
+    if (qpTimings[pi].hasQuote) {
+      sectionEntries.push({ key: vnTimingKey(vnBookQuote(bookIndex, pi)), baseFrame: ps.sQuote, field: 'context', origText: pair?.quote })
+    }
+    if (qpTimings[pi].hasAfter) {
+      sectionEntries.push({ key: vnTimingKey(vnBookAfter(bookIndex, pi)), baseFrame: ps.sAfter, field: 'context', origText: pair?.after })
+    }
+  }
 
-  // 섹션별 파싱 캐시
-  const parsed = new Map<string, ParsedSection>()
+  // 섹션별 파싱 캐시 — field 'context'는 여러 섹션에 매핑되므로 배열로 관리
+  const parsedMulti = new Map<string, ParsedSection[]>()
   const baseFrames: Record<string, number> = {}
+  // context 계열 텍스트를 연결하여 폴백 검색에 사용
+  const allCtxText = [
+    book.contextMain,
+    ...(book.quotePairs ?? []).flatMap(p => [p.quote, p.after].filter(Boolean)),
+  ].join('\n')
   const sectionTexts: Record<string, string | undefined> = {
     summary: book.summary,
-    context: book.context,
-    contextAfter: book.contextAfter,
+    context: allCtxText || undefined,
   }
+  const totalAfterFrames = qpTimings.reduce((sum, pt) => sum + pt.afterFrames, 0)
   const sectionFrameMap: Record<string, number> = {
     summary: summaryFrames,
-    context: contextFrames,
-    contextAfter: contextAfterFrames,
+    context: contextFrames + totalAfterFrames,
   }
   for (const entry of sectionEntries) {
-    baseFrames[entry.field] = entry.baseFrame
+    if (!(entry.field in baseFrames)) baseFrames[entry.field] = entry.baseFrame
     if (timings) {
       const p = parseSection(timings, entry)
-      if (p) parsed.set(entry.field, p)
+      if (p) {
+        const arr = parsedMulti.get(entry.field) ?? []
+        arr.push(p)
+        parsedMulti.set(entry.field, arr)
+      }
     }
   }
 
-  // field별로 이전 앵커 추적 (폴백용)
-  const prevAnchors: Record<string, string> = {}
-  const prevFrames: Record<string, number> = {}
+  // occurrence-aware matching: `${field}::${anchor}` → 등장 누적 카운트
+  // 같은 단어가 본문에 N번 나오면 작성 순서대로 N번째 위치에 자동 매핑
+  const occurrenceCounter = new Map<string, number>()
 
-  const result: ImageTransition[] = book.images.map((img, i) => {
+  const result: ImageTransition[] = []
+  for (let i = 0; i < book.images.length; i++) {
+    const img = book.images[i]
     const field = img.field ?? (i === 0 ? 'summary' : 'context')
 
-    // 첫 이미지 또는 text 없음 → 섹션 시작
-    if (i === 0 || !img.text) {
-      const section = parsed.get(field)
-      const frame = section?.baseFrame ?? baseFrames[field] ?? 0
-      prevFrames[field] = frame
-      return { frame, file: img.file, keyword: img.keyword }
+    // text 없음 → 스킵. 이전 이미지가 그대로 유지된다.
+    if (!img.text) {
+      if (typeof window !== 'undefined') {
+        console.warn(`[ImageAnchor] text 앵커 누락 → 스킵 (${img.file})`)
+      }
+      continue
     }
 
-    // field에 해당하는 섹션만 검색
-    const section = parsed.get(field)
+    // field에 해당하는 섹션들을 순차 검색
+    const sections = parsedMulti.get(field)
     let frame = -1
 
-    if (section) {
-      frame = findAnchorInSection(img.text, section)
+    if (sections && sections.length > 0) {
+      const occKey = `${field}::${img.text}`
+      const occIdx = occurrenceCounter.get(occKey) ?? 0
+      occurrenceCounter.set(occKey, occIdx + 1)
 
-      // 앵커 실패 → 같은 field의 이전 프레임 기준 다음 세그먼트로 폴백
-      if (frame === -1) {
-        frame = findNextSegFrameFallback(prevFrames[field], section)
-        if (typeof window !== 'undefined') {
-          console.warn(`[ImageAnchor] "${img.text}" 매칭 실패 → 이전 프레임 기준 다음 세그먼트(${frame})로 폴백 (${img.file})`)
-        }
+      // 여러 섹션을 순차 검색하여 앵커 매칭
+      for (const section of sections) {
+        frame = findAnchorInSection(img.text, section, occIdx)
+        if (frame !== -1) break
       }
-    } else if (img.text) {
-      // voiceTimings 없음 — 텍스트 위치 비율로 프레임 추정
+
+      if (frame === -1) {
+        if (typeof window !== 'undefined') {
+          console.warn(`[ImageAnchor] "${img.text}" #${occIdx + 1} 매칭 실패 → 스킵 (${img.file})`)
+        }
+        continue
+      }
+    } else {
+      // voiceTimings 없음 — 텍스트 위치 비율로 프레임 추정 (Studio 미리보기용)
+      const occKey = `${field}::${img.text}`
+      const occIdx = occurrenceCounter.get(occKey) ?? 0
+      occurrenceCounter.set(occKey, occIdx + 1)
       const estimated = estimateAnchorFrame(
         img.text, sectionTexts[field],
         baseFrames[field] ?? 0, sectionFrameMap[field] ?? 0,
+        occIdx,
       )
-      frame = estimated !== -1 ? estimated : (prevFrames[field] !== undefined ? prevFrames[field] + f(1.5) : (baseFrames[field] ?? 0))
-    } else {
-      frame = prevFrames[field] ?? baseFrames[field] ?? 0
+      if (estimated === -1) {
+        if (typeof window !== 'undefined') {
+          console.warn(`[ImageAnchor] "${img.text}" 추정 실패 → 스킵 (${img.file})`)
+        }
+        continue
+      }
+      frame = estimated
     }
 
-    prevAnchors[field] = img.text
-    prevFrames[field] = frame
-    return { frame, file: img.file, keyword: img.keyword }
-  })
+    result.push({ frame, file: img.file, keyword: img.keyword })
+  }
 
   // 프레임 오름차순 정렬 보장
   result.sort((a, b) => a.frame - b.frame)
@@ -223,15 +294,7 @@ type Props = {
   summaryEnd: number
   contextFrames: number
   contextEnd: number
-  hasQuote: boolean
-  quoteFrames: number
-  hasContextAfter: boolean
-  contextAfterFrames: number
-  contextAfterText?: string
-  hasQuote2: boolean
-  quote2Frames: number
-  hasContextAfter2: boolean
-  contextAfter2Frames: number
+  quotePairTimings: QuotePairTiming[]
   labelSummaryF: number
   labelContextF: number
   titleSummaryGapF: number
@@ -243,8 +306,7 @@ type Props = {
 
 export const BookCardVisual: React.FC<Props> = ({
   book, host, index, totalFrames, titleFrames, summaryFrames, summaryEnd,
-  contextFrames, contextEnd, hasQuote, quoteFrames, hasContextAfter, contextAfterFrames, contextAfterText,
-  hasQuote2, quote2Frames, hasContextAfter2, contextAfter2Frames,
+  contextFrames, contextEnd, quotePairTimings,
   labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings, script,
 }) => {
   const i18n = t(script)
@@ -299,13 +361,16 @@ export const BookCardVisual: React.FC<Props> = ({
         if (sum) newGeom.summary = { top: sum.offsetTop, height: sum.offsetHeight }
       }
       if (contextContentRef.current) {
-        const ids = ['context', 'quote', 'contextAfter', 'quote2', 'contextAfter2']
+        const ids = ['context']
+        for (let pi = 0; pi < quotePairTimings.length; pi++) {
+          ids.push(`quote-${pi}`, `after-${pi}`)
+        }
         ids.forEach(id => {
           const el = contextContentRef.current!.querySelector(`[data-id="${id}"]`) as HTMLElement
           if (el) newGeom[id] = { top: el.offsetTop, height: el.offsetHeight }
         })
       }
-      
+
       setGeom(prev => {
         const prevStr = JSON.stringify(prev)
         const newStr = JSON.stringify(newGeom)
@@ -326,7 +391,7 @@ export const BookCardVisual: React.FC<Props> = ({
     return () => {
       observer?.disconnect()
     }
-  }, [bodyVisible, portrait, book.summary, book.context, book.directQuote, contextAfterText, book.directQuote2, book.contextAfter2])
+  }, [bodyVisible, portrait, book.summary, book.contextMain, book.quotePairs, quotePairTimings])
   const VISIBLE_H = measuredH > 0 ? measuredH : VISIBLE_H_CALC
 
   const isSquare = true
@@ -340,20 +405,24 @@ export const BookCardVisual: React.FC<Props> = ({
   const sLabelContext = sSummaryEnd + summaryContextGapF
   const sContext = sLabelContext + labelContextF
   const sContextEnd = sContext + contextFrames
-  const sQuote = hasQuote ? sContextEnd + CONTEXT_QUOTE_GAP : totalFrames
-  const sContextAfter = hasContextAfter ? sQuote + quoteFrames + QUOTE_CONTEXTAFTER_GAP : totalFrames
-  const sContextAfterEnd = hasContextAfter ? sContextAfter + contextAfterFrames : (hasQuote ? sQuote + quoteFrames : sContextEnd)
-  const sQuote2 = hasQuote2 ? sContextAfterEnd + CONTEXT_QUOTE_GAP : totalFrames
-  const sContextAfter2 = hasContextAfter2 ? sQuote2 + quote2Frames + QUOTE_CONTEXTAFTER_GAP : totalFrames
-  const contextTotalEnd = hasContextAfter2
-    ? sContextAfter2 + contextAfter2Frames
-    : hasQuote2 ? sQuote2 + quote2Frames
-    : sContextAfterEnd
+
+  // quotePairs 동적 시작 프레임 계산
+  const pairStarts: Array<{ sQuote: number; sAfter: number }> = []
+  {
+    let cursor = sContextEnd
+    for (const pt of quotePairTimings) {
+      const sQ = pt.hasQuote ? cursor + CONTEXT_QUOTE_GAP : cursor
+      const quoteEnd = sQ + pt.quoteFrames
+      const sA = pt.hasAfter ? quoteEnd + QUOTE_CONTEXTAFTER_GAP : quoteEnd
+      pairStarts.push({ sQuote: sQ, sAfter: sA })
+      cursor = sA + pt.afterFrames
+    }
+  }
 
   // --- 이미지 전환 (텍스트 앵커 해석) ---
   const imageTransitions = React.useMemo(() => {
-    return resolveImageTransitions(book, index, timings, sSummary, sContext, sContextAfter, summaryFrames, contextFrames, contextAfterFrames)
-  }, [book, index, timings, sSummary, sContext, sContextAfter, summaryFrames, contextFrames, contextAfterFrames])
+    return resolveImageTransitions(book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts)
+  }, [book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts])
 
   // --- 공통 ---
   const fadeOut = interpolate(frame, [totalFrames - f(1), totalFrames], [1, 0], CLAMP)
@@ -376,18 +445,16 @@ export const BookCardVisual: React.FC<Props> = ({
     [0, 1, 1, 0], CLAMP)
   const contextLabelOp = interpolate(frame, [sLabelContext, sLabelContext + f(0.5)], [0, 1], CLAMP)
   const contextBodyOp = interpolate(frame, [sLabelContext, sLabelContext + f(0.5)], [0, 1], CLAMP)
-  const quoteOp = hasQuote
-    ? interpolate(frame, [sQuote, sQuote + f(0.5)], [0, 1], CLAMP)
-    : 1
-  const contextAfterOp = hasContextAfter
-    ? interpolate(frame, [sContextAfter, sContextAfter + f(0.5)], [0, 1], CLAMP)
-    : 1
-  const quote2Op = hasQuote2
-    ? interpolate(frame, [sQuote2, sQuote2 + f(0.5)], [0, 1], CLAMP)
-    : 1
-  const contextAfter2Op = hasContextAfter2
-    ? interpolate(frame, [sContextAfter2, sContextAfter2 + f(0.5)], [0, 1], CLAMP)
-    : 1
+  const quoteOpacities = pairStarts.map((ps, pi) =>
+    quotePairTimings[pi].hasQuote
+      ? interpolate(frame, [ps.sQuote, ps.sQuote + f(0.5)], [0, 1], CLAMP)
+      : 1
+  )
+  const afterOpacities = pairStarts.map((ps, pi) =>
+    quotePairTimings[pi].hasAfter
+      ? interpolate(frame, [ps.sAfter, ps.sAfter + f(0.5)], [0, 1], CLAMP)
+      : 1
+  )
 
   // --- 스크롤: 나레이션이 하단 근접 시 몇 줄씩 밀어올림 ---
   // 나레이션 위치가 바닥 3줄 이내에 도달하면 STEP만큼 밀어서 상단 2줄 위치로 복귀.
@@ -499,12 +566,16 @@ export const BookCardVisual: React.FC<Props> = ({
   const sumSegs = geom.summary ? [{ s: sSummary, e: sSummaryEnd, top: geom.summary.top, height: geom.summary.height, timings: summaryAllTimings }] : []
   const summaryScrollY = scrollPiecewise(summaryH, sumSegs)
 
-  const ctxSegs = []
+  const ctxSegs: { s: number; e: number; top: number; height: number; timings?: VoiceTimingSegment[] }[] = []
   if (geom.context) ctxSegs.push({ s: sContext, e: sContextEnd, top: geom.context.top, height: geom.context.height, timings: contextAllTimings })
-  if (hasQuote && geom.quote) ctxSegs.push({ s: sQuote, e: sQuote + quoteFrames, top: geom.quote.top, height: geom.quote.height, timings: timings?.[vnTimingKey(vnBookQuote(index))] })
-  if (hasContextAfter && geom.contextAfter) ctxSegs.push({ s: sContextAfter, e: sContextAfter + contextAfterFrames, top: geom.contextAfter.top, height: geom.contextAfter.height, timings: timings?.[vnTimingKey(vnBookContextAfter(index))] })
-  if (hasQuote2 && geom.quote2) ctxSegs.push({ s: sQuote2, e: sQuote2 + quote2Frames, top: geom.quote2.top, height: geom.quote2.height, timings: timings?.[vnTimingKey(vnBookQuote2(index))] })
-  if (hasContextAfter2 && geom.contextAfter2) ctxSegs.push({ s: sContextAfter2, e: sContextAfter2 + contextAfter2Frames, top: geom.contextAfter2.top, height: geom.contextAfter2.height, timings: timings?.[vnTimingKey(vnBookContextAfter2(index))] })
+  for (let pi = 0; pi < quotePairTimings.length; pi++) {
+    const pt = quotePairTimings[pi]
+    const ps = pairStarts[pi]
+    const qGeom = geom[`quote-${pi}`]
+    const aGeom = geom[`after-${pi}`]
+    if (pt.hasQuote && qGeom) ctxSegs.push({ s: ps.sQuote, e: ps.sQuote + pt.quoteFrames, top: qGeom.top, height: qGeom.height, timings: timings?.[vnTimingKey(vnBookQuote(index, pi))] })
+    if (pt.hasAfter && aGeom) ctxSegs.push({ s: ps.sAfter, e: ps.sAfter + pt.afterFrames, top: aGeom.top, height: aGeom.height, timings: timings?.[vnTimingKey(vnBookAfter(index, pi))] })
+  }
   
   const contextScrollY = scrollPiecewise(contextH, ctxSegs)
 
@@ -553,60 +624,48 @@ export const BookCardVisual: React.FC<Props> = ({
         }}>
           {/* 감상경위 본문 */}
           <div data-id="context">
-            <Typewriter text={book.context} startFrame={sContext} spreadFrames={contextFrames - f(0.5)}
+            <Typewriter text={book.contextMain} startFrame={sContext} spreadFrames={contextFrames - f(0.5)}
               color="#bbb" fontSize={BODY_FONT} style={{ lineHeight: BODY_LH }}
               timings={contextAllTimings} />
           </div>
 
-          {/* 인용문 */}
-          {hasQuote && book.directQuote && (
-            <div data-id="quote" style={{
-              opacity: quoteOp, marginTop: 8,
-              borderLeft: CELEB_VOICE_BORDER, paddingLeft: CELEB_VOICE_PADDING_LEFT,
-            }}>
-              <Typewriter text={book.directQuote} startFrame={sQuote} spreadFrames={quoteFrames - f(0.5)}
-                color={CELEB_VOICE_COLOR} highlightColor={CELEB_VOICE_HIGHLIGHT}
-                fontSize={BODY_FONT} style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.5 }}
-                timings={timings?.[vnTimingKey(vnBookQuote(index))]} />
-              <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
-                — {host.nickname}{book.directQuoteSource ? `, ${book.directQuoteSource}` : ''}
-              </div>
-            </div>
-          )}
-
-          {/* 후속 맥락 */}
-          {hasContextAfter && contextAfterText && (
-            <div data-id="contextAfter" style={{ opacity: contextAfterOp, marginTop: 12, fontFamily: FONT.sans }}>
-              <Typewriter text={contextAfterText} startFrame={sContextAfter} spreadFrames={contextAfterFrames - f(0.5)}
-                color="#bbb" fontSize={BODY_FONT} style={{ lineHeight: BODY_LH }}
-                timings={timings?.[vnTimingKey(vnBookContextAfter(index))]} />
-            </div>
-          )}
-
-          {/* 2번째 인용문 */}
-          {hasQuote2 && book.directQuote2 && (
-            <div data-id="quote2" style={{
-              opacity: quote2Op, marginTop: 8,
-              borderLeft: CELEB_VOICE_BORDER, paddingLeft: CELEB_VOICE_PADDING_LEFT,
-            }}>
-              <Typewriter text={book.directQuote2} startFrame={sQuote2} spreadFrames={quote2Frames - f(0.5)}
-                color={CELEB_VOICE_COLOR} highlightColor={CELEB_VOICE_HIGHLIGHT}
-                fontSize={BODY_FONT} style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.5 }}
-                timings={timings?.[vnTimingKey(vnBookQuote2(index))]} />
-              <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
-                — {host.nickname}{book.directQuoteSource2 ? `, ${book.directQuoteSource2}` : ''}
-              </div>
-            </div>
-          )}
-
-          {/* 2번째 후속 맥락 */}
-          {hasContextAfter2 && book.contextAfter2 && (
-            <div data-id="contextAfter2" style={{ opacity: contextAfter2Op, marginTop: 12, fontFamily: FONT.sans }}>
-              <Typewriter text={book.contextAfter2} startFrame={sContextAfter2} spreadFrames={contextAfter2Frames - f(0.5)}
-                color="#bbb" fontSize={BODY_FONT} style={{ lineHeight: BODY_LH }}
-                timings={timings?.[vnTimingKey(vnBookContextAfter2(index))]} />
-            </div>
-          )}
+          {/* 인용+후속맥락 쌍 (동적 N개) */}
+          {quotePairTimings.map((pt, pi) => {
+            const ps = pairStarts[pi]
+            const pair = book.quotePairs?.[pi]
+            return (
+              <React.Fragment key={`qp-${pi}`}>
+                {pt.hasQuote && pair?.quote && (
+                  <div data-id={`quote-${pi}`} style={{
+                    opacity: quoteOpacities[pi], marginTop: 40,
+                    borderLeft: CELEB_VOICE_BORDER, paddingLeft: CELEB_VOICE_PADDING_LEFT,
+                  }}>
+                    <Typewriter text={pair.quote} startFrame={ps.sQuote} spreadFrames={pt.quoteFrames - f(0.5)}
+                      color={CELEB_VOICE_COLOR} highlightColor={CELEB_VOICE_HIGHLIGHT}
+                      fontSize={BODY_FONT} style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.5 }}
+                      timings={timings?.[vnTimingKey(vnBookQuote(index, pi))]} />
+                    {pair.quoteSource && (
+                      <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
+                        — {host.nickname}, {pair.quoteSource}
+                      </div>
+                    )}
+                    {!pair.quoteSource && (
+                      <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
+                        — {host.nickname}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {pt.hasAfter && pair?.after && (
+                  <div data-id={`after-${pi}`} style={{ opacity: afterOpacities[pi], marginTop: 40, fontFamily: FONT.sans }}>
+                    <Typewriter text={pair.after} startFrame={ps.sAfter} spreadFrames={pt.afterFrames - f(0.5)}
+                      color="#bbb" fontSize={BODY_FONT} style={{ lineHeight: BODY_LH }}
+                      timings={timings?.[vnTimingKey(vnBookAfter(index, pi))]} />
+                  </div>
+                )}
+              </React.Fragment>
+            )
+          })}
         </div>
       </div>
     </div>
@@ -662,9 +721,11 @@ export const BookCardVisual: React.FC<Props> = ({
           {/* 세로 모드: CinematicPanel 배경 — 인용구 구간만 어둡게, 기본은 원본 */}
           {portrait && (() => {
             // 인용구 구간 여부를 프레임 기반으로 직접 판별 (quoteOp는 가로용 폴백값이라 사용 불가)
-            const inQuote1 = hasQuote ? interpolate(frame, [sQuote, sQuote + f(0.5), sQuote + quoteFrames - f(0.5), sQuote + quoteFrames], [0, 1, 1, 0], CLAMP) : 0
-            const inQuote2 = hasQuote2 ? interpolate(frame, [sQuote2, sQuote2 + f(0.5), sQuote2 + quote2Frames - f(0.5), sQuote2 + quote2Frames], [0, 1, 1, 0], CLAMP) : 0
-            const quoteActive = Math.max(inQuote1, inQuote2)
+            const quoteActive = pairStarts.reduce((max, ps, pi) => {
+              if (!quotePairTimings[pi].hasQuote) return max
+              const v = interpolate(frame, [ps.sQuote, ps.sQuote + f(0.5), ps.sQuote + quotePairTimings[pi].quoteFrames - f(0.5), ps.sQuote + quotePairTimings[pi].quoteFrames], [0, 1, 1, 0], CLAMP)
+              return Math.max(max, v)
+            }, 0)
             const bright = interpolate(quoteActive, [0, 1], [1, 0.35], CLAMP)
             const sat = interpolate(quoteActive, [0, 1], [1, 0.6], CLAMP)
             return (
@@ -730,13 +791,17 @@ export const BookCardVisual: React.FC<Props> = ({
           </div>
 
           {/* portrait: 인용구 전용 표시 — 인용구 읽는 구간에만 표시 */}
-          {portrait && hasQuote && book.directQuote && (() => {
+          {portrait && quotePairTimings.map((pt, pi) => {
+            if (!pt.hasQuote) return null
+            const pair = book.quotePairs?.[pi]
+            if (!pair?.quote) return null
+            const ps = pairStarts[pi]
             const pqOp = interpolate(frame,
-              [sQuote, sQuote + f(0.5), sQuote + quoteFrames - f(0.5), sQuote + quoteFrames],
+              [ps.sQuote, ps.sQuote + f(0.5), ps.sQuote + pt.quoteFrames - f(0.5), ps.sQuote + pt.quoteFrames],
               [0, 1, 1, 0], CLAMP)
             if (pqOp <= 0) return null
             return (
-            <div style={{
+            <div key={`pq-${pi}`} style={{
               position: 'absolute', inset: 0, zIndex: 20,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               padding: '0 64px',
@@ -748,57 +813,22 @@ export const BookCardVisual: React.FC<Props> = ({
                 paddingLeft: 24,
               }}>
                 <Typewriter
-                  text={book.directQuote}
-                  startFrame={sQuote}
-                  spreadFrames={quoteFrames - f(0.5)}
+                  text={pair.quote}
+                  startFrame={ps.sQuote}
+                  spreadFrames={pt.quoteFrames - f(0.5)}
                   color={CELEB_VOICE_COLOR}
                   highlightColor={CELEB_VOICE_HIGHLIGHT}
                   fontSize={54}
                   style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, wordBreak: 'keep-all' }}
-                  timings={timings?.[vnTimingKey(vnBookQuote(index))]}
+                  timings={timings?.[vnTimingKey(vnBookQuote(index, pi))]}
                 />
                 <div style={{ color: '#888', fontSize: 24, fontFamily: FONT.sans, marginTop: 12 }}>
-                  — {host.nickname}{book.directQuoteSource ? `, ${book.directQuoteSource}` : ''}
+                  — {host.nickname}{pair.quoteSource ? `, ${pair.quoteSource}` : ''}
                 </div>
               </div>
             </div>
             )
-          })()}
-
-          {portrait && hasQuote2 && book.directQuote2 && (() => {
-            const pq2Op = interpolate(frame,
-              [sQuote2, sQuote2 + f(0.5), sQuote2 + quote2Frames - f(0.5), sQuote2 + quote2Frames],
-              [0, 1, 1, 0], CLAMP)
-            if (pq2Op <= 0) return null
-            return (
-            <div style={{
-              position: 'absolute', inset: 0, zIndex: 20,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              padding: '0 64px',
-              opacity: pq2Op,
-            }}>
-              <div style={{
-                maxWidth: 780,
-                borderLeft: '4px solid rgba(200,164,110,0.4)',
-                paddingLeft: 24,
-              }}>
-                <Typewriter
-                  text={book.directQuote2}
-                  startFrame={sQuote2}
-                  spreadFrames={quote2Frames - f(0.5)}
-                  color={CELEB_VOICE_COLOR}
-                  highlightColor={CELEB_VOICE_HIGHLIGHT}
-                  fontSize={54}
-                  style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, wordBreak: 'keep-all' }}
-                  timings={timings?.[vnTimingKey(vnBookQuote2(index))]}
-                />
-                <div style={{ color: '#888', fontSize: 24, fontFamily: FONT.sans, marginTop: 12 }}>
-                  — {host.nickname}{book.directQuoteSource2 ? `, ${book.directQuoteSource2}` : ''}
-                </div>
-              </div>
-            </div>
-            )
-          })()}
+          })}
           {/* 2열: 배경연출 (1:1, 세로 꽉참) — 가로 모드 전용 */}
           {!portrait && (
             <div style={{ flexShrink: 0, height: '100%', aspectRatio: '1 / 1', opacity: posterOp, position: 'relative' }}>

@@ -1,4 +1,4 @@
-import type { BookRecommendScript, EpisodeTimingData, VoiceSelect } from './types'
+import type { BookRecommendScript, EpisodeTimingData, ShortsConfig, VoiceSelect } from './types'
 import { mergeEpisode } from './merge-episode'
 import { parseEpName } from './voice-names'
 
@@ -22,27 +22,121 @@ function withKoImages(en: BookRecommendScript, ko: BookRecommendScript): BookRec
 /* ── 디렉토리 자동 탐색: public/episodes/{done|live|todo}/{person}/ ── */
 
 const contentCtx = require.context(
-  '../../../public/episodes', true, /\/(ko|en)(-\d+)?\.json$/,
+  '../../../public/episodes', true, /\/(ko|en)\.json$/,
 )
 const timingCtx = require.context(
-  '../../../public/episodes', true, /\/(ko|en)(-\d+)?\.timing\.json$/,
+  '../../../public/episodes', true, /\/(ko|en)\.timing\.json$/,
+)
+
+/** 쇼츠 분리 파일 스캔 — 옵션 2: shorts/{locale}-{N}.json, shorts/{locale}-{N}.timing.json */
+const shortsContentCtx = require.context(
+  '../../../public/episodes', true, /\/shorts\/(ko|en)-\d+\.json$/,
+)
+const shortsTimingCtx = require.context(
+  '../../../public/episodes', true, /\/shorts\/(ko|en)-\d+\.timing\.json$/,
 )
 
 /** require.context key 패턴: ./status/person/locale.json */
-const PATH_RE = /^\.\/(\w+)\/([^/]+)\/((?:ko|en)(?:-\d+)?)\.json$/
+const PATH_RE = /^\.\/(\w+)\/([^/]+)\/(ko|en)\.json$/
 
-/** fileLocale → epName suffix: ko→'', en→'-en', ko-2→'-2', en-2→'-2-en' */
-function localeToSuffix(locale: string): string {
-  const isEn = locale.startsWith('en')
-  const m = locale.match(/-(\d+)/)
-  return `${m ? `-${m[1]}` : ''}${isEn ? '-en' : ''}`
-}
+/** shorts 파일 경로 패턴 */
+const SHORTS_PATH_RE = /^\.\/(\w+)\/([^/]+)\/shorts\/(ko|en)-(\d+)\.json$/
+const SHORTS_TIMING_PATH_RE = /^\.\/(\w+)\/([^/]+)\/shorts\/(ko|en)-(\d+)\.timing\.json$/
 
 /** epName → staticFile 경로 prefix (status/person) */
 export const episodeDir: Record<string, string> = {}
 
 /** 전체 에피소드 맵 — 디렉토리 구조에서 자동 생성 */
 export const episodes: Record<string, BookRecommendScript> = {}
+
+/** 쇼츠 외부 파일 수집 — personKey(`status/person`) → locale → idx → 데이터 */
+type ShortsContentBuckets = { ko: Map<number, ShortsConfig>; en: Map<number, ShortsConfig> }
+type ShortsTimingBuckets = {
+  ko: Map<number, { segments?: Array<{ duration?: number }> }>
+  en: Map<number, { segments?: Array<{ duration?: number }> }>
+}
+
+const shortsContentMap: Record<string, ShortsContentBuckets> = {}
+const shortsTimingMap: Record<string, ShortsTimingBuckets> = {}
+
+for (const key of shortsContentCtx.keys()) {
+  // 방어: .timing.json 이 첫 정규식에 잡혀도 skip
+  if (key.endsWith('.timing.json')) continue
+  const m = key.match(SHORTS_PATH_RE)
+  if (!m) continue
+  const [, status, person, locale, idxStr] = m
+  const personKey = `${status}/${person}`
+  const idx = parseInt(idxStr, 10)
+  if (!Number.isFinite(idx) || idx < 1) continue
+  if (!shortsContentMap[personKey]) {
+    shortsContentMap[personKey] = { ko: new Map(), en: new Map() }
+  }
+  shortsContentMap[personKey][locale as 'ko' | 'en'].set(
+    idx,
+    shortsContentCtx(key) as ShortsConfig,
+  )
+}
+
+for (const key of shortsTimingCtx.keys()) {
+  const m = key.match(SHORTS_TIMING_PATH_RE)
+  if (!m) continue
+  const [, status, person, locale, idxStr] = m
+  const personKey = `${status}/${person}`
+  const idx = parseInt(idxStr, 10)
+  if (!Number.isFinite(idx) || idx < 1) continue
+  if (!shortsTimingMap[personKey]) {
+    shortsTimingMap[personKey] = { ko: new Map(), en: new Map() }
+  }
+  shortsTimingMap[personKey][locale as 'ko' | 'en'].set(
+    idx,
+    shortsTimingCtx(key) as { segments?: Array<{ duration?: number }> },
+  )
+}
+
+/** 쇼츠 외부 파일 주입 — content.shorts 배열을 1-based idx 순서로 채운다.
+ *  timing 파일이 있으면 segments[i].duration을 머지한다.
+ *
+ *  방어 로직: 외부 shorts 파일이 없는 에피소드에서 본체 ko.json에 레거시로 남아있는
+ *  shorts 필드(단일 객체 또는 배열)를 배열로 정규화한다. 누락된 에피소드가 있어도
+ *  Root.tsx의 arr.map 크래시를 막는 최후의 안전장치. */
+function injectExternalShorts(
+  content: BookRecommendScript,
+  personKey: string,
+  locale: 'ko' | 'en',
+): BookRecommendScript {
+  const contentMap = shortsContentMap[personKey]?.[locale]
+  if (!contentMap || contentMap.size === 0) {
+    // 외부 파일 없음 → 본체 content.shorts 정규화 (단일 객체 → 배열)
+    const rawShorts = (content as unknown as { shorts?: unknown }).shorts
+    if (rawShorts == null) return content
+    if (Array.isArray(rawShorts)) return content
+    // 단일 객체 → 배열 감싸기. 경고 로그 (마이그레이션 누락 감지용)
+    if (typeof window !== 'undefined') {
+      console.warn(
+        `[shorts 마이그레이션 누락] ${personKey} ${locale}: ko.json에 레거시 shorts 필드가 남아있다. shorts/${locale}-1.json으로 분리 필요.`,
+      )
+    }
+    return { ...content, shorts: [rawShorts as ShortsConfig] }
+  }
+
+  const timingMap = shortsTimingMap[personKey]?.[locale]
+  const sortedIdxs = [...contentMap.keys()].sort((a, b) => a - b)
+
+  const shortsArr: ShortsConfig[] = sortedIdxs.map((idx) => {
+    const shortsContent = contentMap.get(idx)!
+    const shortsTiming = timingMap?.get(idx)
+    if (!shortsTiming?.segments) return shortsContent
+    return {
+      ...shortsContent,
+      segments: shortsContent.segments.map((seg, i) => ({
+        ...seg,
+        ...(shortsTiming.segments?.[i] ?? {}),
+      })),
+    }
+  })
+
+  return { ...content, shorts: shortsArr }
+}
 
 // Phase 1: ko 에피소드 우선 로드
 const koCache: Record<string, BookRecommendScript> = {}
@@ -57,13 +151,16 @@ for (const key of contentCtx.keys()) {
   try { timing = timingCtx(key.replace(/\.json$/, '.timing.json')) as EpisodeTimingData }
   catch { /* timing 없어도 등록 */ }
 
-  const epName = `${person}${localeToSuffix(locale)}`
-  episodeDir[epName] = `${status}/${person}`
+  const epName = locale === 'en' ? `${person}-en` : person
+  const personKey = `${status}/${person}`
+  episodeDir[epName] = personKey
 
-  const content = contentCtx(key) as unknown as BookRecommendScript
+  const rawContent = contentCtx(key) as unknown as BookRecommendScript
+  // shorts 외부 파일 주입 (mergeEpisode 이전에 수행)
+  const content = injectExternalShorts(rawContent, personKey, locale as 'ko' | 'en')
   const merged = timing ? mergeEpisode(content, timing) : content
 
-  if (locale.startsWith('en')) {
+  if (locale === 'en') {
     enPending.push({ epName, script: merged })
   } else {
     koCache[epName] = merged
@@ -71,7 +168,7 @@ for (const key of contentCtx.keys()) {
   }
 }
 
-// Phase 2: en 에피소드 — ko imagePrompts 상속
+// Phase 2: en 에피소드 등록 (ko imagePrompts 상속)
 for (const { epName, script } of enPending) {
   const koName = epName.replace(/-en$/, '')
   const ko = koCache[koName]

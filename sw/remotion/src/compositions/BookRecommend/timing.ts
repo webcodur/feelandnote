@@ -12,6 +12,9 @@ export const f = (sec: number) => Math.round(sec * FPS)
 
 /** 섹션 프레임 (오디오 + 1.5초 버퍼). 타이밍 배치용. fadeOut(1초) + 여운(0.5초). */
 export const toFrames = (sec: number) => Math.ceil(sec * FPS) + Math.round(1.5 * FPS)
+/** 인용(quote/after) 전용 섹션 프레임. 짧은 0.5초 버퍼만 사용.
+ *  연속 인용 사이에 긴 무음이 쌓이는 것을 방지한다. fadeOut(0.25초) + 여운(0.25초). */
+export const toQuoteFrames = (sec: number) => Math.ceil(sec * FPS) + Math.round(0.5 * FPS)
 /** 순수 오디오 프레임 (버퍼 없음). 자막·하이라이트 분배용. */
 export const toAudioFrames = (sec: number) => Math.ceil(sec * FPS)
 
@@ -38,8 +41,9 @@ export const titleSummaryGap = (labelDur?: number) => PRE_LABEL_GAP + labelSumma
 /** 요약 → 경위 사이 총 갭 (라벨 포함) */
 export const summaryContextGap = (labelDur?: number) => PRE_LABEL_GAP + labelContextFrames(labelDur) + POST_LABEL_GAP
 
-/** 맥락 → 셀럽 인용 사이 갭 (인용 있을 때만) */
-export const CONTEXT_QUOTE_GAP = f(1.5)    // 90
+/** 맥락 → 셀럽 인용 사이 갭 (인용 있을 때만).
+ *  toQuoteFrames(0.5초 버퍼)와 합쳐 각 인용 앞 총 ~1.0초 무음을 확보한다. */
+export const CONTEXT_QUOTE_GAP = f(0.5)    // 30
 /** 인용 → 후속 맥락 사이 갭 */
 export const QUOTE_CONTEXTAFTER_GAP = f(0.4) // 24
 /** 책 사이 전환 프레임 */
@@ -68,14 +72,16 @@ export const SENTENCE_BREATH = f(0.27)     // 16
 
 // --- 계산 함수 ---
 
+export type QuotePairDurations = {
+  quoteDuration?: number
+  afterDuration?: number
+}
+
 export type BookDurations = {
   titleDuration: number
   summaryDuration: number
   contextDuration: number
-  quoteDuration?: number
-  contextAfterDuration?: number
-  quoteDuration2?: number
-  contextAfterDuration2?: number
+  quotePairs?: QuotePairDurations[]
 }
 
 /** 라벨 duration 쌍 (narrator에서 추출) */
@@ -92,36 +98,25 @@ export const summaryPhaseEnd = (b: BookDurations, ld?: LabelDurations) =>
 export const contextPhaseEnd = (b: BookDurations, ld?: LabelDurations) =>
   summaryPhaseEnd(b, ld) + summaryContextGap(ld?.labelContextDuration) + toFrames(b.contextDuration)
 
-/** 인용문 끝 */
-export const quotePhaseEnd = (b: BookDurations, ld?: LabelDurations) =>
-  b.quoteDuration
-    ? contextPhaseEnd(b, ld) + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration)
-    : contextPhaseEnd(b, ld)
-
-/** contextAfter 끝 (1벌) */
-export const contextAfterPhaseEnd = (b: BookDurations, ld?: LabelDurations) => {
-  const qEnd = quotePhaseEnd(b, ld)
-  if (!b.quoteDuration) return qEnd
-  if (!b.contextAfterDuration) return qEnd
-  return qEnd + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration)
+/** 모든 quotePairs를 순회하여 마지막 프레임 위치를 반환 */
+export function quotePairsEnd(b: BookDurations, ld?: LabelDurations): number {
+  const ctxEnd = contextPhaseEnd(b, ld)
+  if (!b.quotePairs?.length) return ctxEnd
+  let cursor = ctxEnd
+  for (const pair of b.quotePairs) {
+    if (pair.quoteDuration) {
+      cursor += CONTEXT_QUOTE_GAP + toQuoteFrames(pair.quoteDuration)
+    }
+    if (pair.afterDuration) {
+      cursor += QUOTE_CONTEXTAFTER_GAP + toQuoteFrames(pair.afterDuration)
+    }
+  }
+  return cursor
 }
 
-/** 2번째 인용문 끝 */
-export const quote2PhaseEnd = (b: BookDurations, ld?: LabelDurations) => {
-  const caEnd = contextAfterPhaseEnd(b, ld)
-  if (!b.quoteDuration2) return caEnd
-  return caEnd + CONTEXT_QUOTE_GAP + toFrames(b.quoteDuration2)
-}
-
-/** 전체 (인용문 + 후속 맥락 2벌 포함) */
-export const bookTotalFrames = (b: BookDurations, ld?: LabelDurations) => {
-  if (!b.quoteDuration) return contextPhaseEnd(b, ld)
-  const caEnd = contextAfterPhaseEnd(b, ld)
-  if (!b.quoteDuration2) return caEnd
-  const q2End = quote2PhaseEnd(b, ld)
-  if (!b.contextAfterDuration2) return q2End
-  return q2End + QUOTE_CONTEXTAFTER_GAP + toFrames(b.contextAfterDuration2)
-}
+/** 전체 (context + quotePairs 전부 포함) */
+export const bookTotalFrames = (b: BookDurations, ld?: LabelDurations) =>
+  quotePairsEnd(b, ld)
 
 // --- 쇼츠(9:16) 타이밍 ---
 
@@ -134,8 +129,12 @@ export const isContinuation = (ep: BookRecommendScript) => (ep.series?.part ?? 1
 export const toShortFrames = (sec: number) => Math.ceil(sec * FPS) + f(0.3)
 /** 세그먼트 간 전환 프레임 */
 export const SHORT_GAP = f(0.2)            // 12
+/** hook → 다음 세그먼트 전환 갭 — 훅 여운 + 인트로 호흡 (부드럽고 천천히) */
+export const SHORT_HOOK_GAP = f(0.6)       // 36
 /** CTA 세그먼트 앞 전환 갭 — 배경 확장 후 텍스트 등장 */
 export const SHORT_CTA_GAP = f(1.0)        // 60
+/** celeb 인용 세그먼트 앞 전환 갭 — 화자 전환 호흡 (narrator → celeb) */
+export const SHORT_PRE_CELEB_GAP = f(0.8)  // 48
 /** celeb 인용 세그먼트 후 전환 갭 — 인용 여운 + 화자 전환 호흡 */
 export const SHORT_CELEB_GAP = f(1.2)      // 72
 /** book 세그먼트가 cta 직전일 때 마지막 이미지 holding pad — 음성 끝난 후에도 잠시 더 노출 */
@@ -148,8 +147,10 @@ export const SHORT_HOOK_FRAMES = f(3.5)    // 105
 export const SHORT_BRAND_FRAMES = f(2.5)   // 150
 /** CTA 폴백 프레임 (duration 없을 때) */
 export const SHORT_CTA_FRAMES = f(3.5)     // 210
-/** 로고 프레임 */
+/** 로고 프레임 (기본) */
 export const SHORT_LOGO_FRAMES = f(3)      // 180
+/** 로고 프레임 (BGM 있을 때 — 느린 페이드아웃) */
+export const SHORT_LOGO_FRAMES_BGM = f(5)  // 300
 /** 오프닝 리빌 (chime + 아바타+포스터) */
 export const SHORT_REVEAL_FRAMES = f(2.0)  // 120
 /** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
@@ -182,8 +183,12 @@ export function shortSegLayout(segments: ShortSegment[]) {
     const next = segments[i + 1]
     const gap = next?.visual === 'cta'
       ? SHORT_CTA_GAP
+      : segments[i].visual === 'hook'
+      ? SHORT_HOOK_GAP
       : segments[i].role === 'celeb'
       ? SHORT_CELEB_GAP
+      : next?.role === 'celeb'
+      ? SHORT_PRE_CELEB_GAP
       : SHORT_GAP
     cursor += segTimings[i] + gap
   }
@@ -191,7 +196,7 @@ export function shortSegLayout(segments: ShortSegment[]) {
   return { segTimings, segStarts, logoStart: cursor }
 }
 
-/** 세그먼트 배열 → 총 프레임 */
-export const shortTotalFrames = (segments: ShortSegment[]) =>
-  shortSegLayout(segments).logoStart + SHORT_LOGO_FRAMES
+/** 세그먼트 배열 → 총 프레임. BGM 있으면 로고 구간 확장 */
+export const shortTotalFrames = (segments: ShortSegment[], hasBgm = false) =>
+  shortSegLayout(segments).logoStart + (hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES)
 

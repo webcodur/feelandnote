@@ -26,11 +26,12 @@ import { StudioSubtitles } from './studio/StudioSubtitles'
 import { PortraitSubtitles } from './sections/PortraitSubtitles'
 import { PromptPanel } from './studio/PromptPanel'
 import { SubEditor } from './studio/SubEditor'
+import { BgmAudio, BgmToggle } from './BgmAudio'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
-  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookContextAfter, vnBookQuote2, vnBookContextAfter2,
+  vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnTimingKey,
 } from './voice-names'
@@ -103,7 +104,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             if (op <= 0) return null
             return (
               <AbsoluteFill style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: op, gap: 20 }}>
-                <Img src={freshAvatarUrl(host.avatar_url)} style={{ width: portrait ? 200 : 260, height: portrait ? 200 : 260, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(200,164,110,0.3)', backgroundColor: 'rgba(30,24,16,0.9)' }} />
+                <div style={{ position: 'relative', width: portrait ? 200 : 260, height: portrait ? 200 : 260, borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(200,164,110,0.3)' }}>
+                  <Img src={freshAvatarUrl(host.avatar_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
                 <div style={{ color: '#e8e0d0', fontSize: portrait ? 30 : 36, fontFamily: FONT.sans, textAlign: 'center', maxWidth: portrait ? 800 : 1000, lineHeight: 1.7 }}>
                   {narrator.returnIntro}
                 </div>
@@ -285,30 +288,42 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.2} />
                     <Audio src={vf(vnBookContext(i))} />
                   </Series.Sequence>
-                  {bt.hasQuote && script.voiceTimings?.[vnTimingKey(vnBookQuote(i))] && (
-                    <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={bt.quoteFrames}>
-                      <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
-                      <Audio src={vf(vnBookQuote(i))} />
-                    </Series.Sequence>
-                  )}
-                  {bt.hasContextAfter && (book.contextAfterDuration ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookContextAfter(i))] && (
-                    <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={bt.contextAfterFrames}>
-                      <Audio src={vf(vnBookContextAfter(i))} />
-                    </Series.Sequence>
-                  )}
-                  {bt.hasQuote2 && script.voiceTimings?.[vnTimingKey(vnBookQuote2(i))] && (
-                    <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={bt.quote2Frames}>
-                      <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
-                      <Audio src={vf(vnBookQuote2(i))} />
-                    </Series.Sequence>
-                  )}
-                  {bt.hasContextAfter2 && (book.contextAfterDuration2 ?? 0) > 0 && script.voiceTimings?.[vnTimingKey(vnBookContextAfter2(i))] && (
-                    <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={bt.contextAfter2Frames}>
-                      <Audio src={vf(vnBookContextAfter2(i))} />
-                    </Series.Sequence>
-                  )}
+                  {bt.quotePairTimings.map((pt, pi) => (
+                    <React.Fragment key={`qp-${pi}`}>
+                      {pt.hasQuote && pt.quoteFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i, pi))] && (
+                        <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={pt.quoteFrames}>
+                          <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
+                          <Audio src={vf(vnBookQuote(i, pi))} />
+                        </Series.Sequence>
+                      )}
+                      {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi))] && (
+                        <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={pt.afterFrames}>
+                          <Audio src={vf(vnBookAfter(i, pi))} />
+                        </Series.Sequence>
+                      )}
+                    </React.Fragment>
+                  ))}
                 </Series>
               )}
+              {/* 섹션별 BGM — Series 밖에서 절대 위치 Sequence */}
+              {book.bgm?.summary && (() => {
+                const sumBgmStart = bt.titleFrames + tl.TITLE_SUMMARY_GAP_F + tl.LABEL_SUMMARY_F
+                return bt.summaryFrames > 0 ? (
+                  <Sequence from={sumBgmStart} durationInFrames={bt.summaryFrames}>
+                    <BgmAudio tracks={[book.bgm!.summary!]} totalFrames={bt.summaryFrames} />
+                  </Sequence>
+                ) : null
+              })()}
+              {book.bgm?.context && (() => {
+                const ctxBgmStart = bt.summaryEnd + tl.SUMMARY_CONTEXT_GAP_F + tl.LABEL_CONTEXT_F
+                const ctxBgmEnd = bt.quotePairsEnd > bt.contextEnd ? bt.quotePairsEnd : bt.contextEnd
+                const ctxBgmDur = ctxBgmEnd - ctxBgmStart
+                return ctxBgmDur > 0 ? (
+                  <Sequence from={ctxBgmStart} durationInFrames={ctxBgmDur}>
+                    <BgmAudio tracks={[book.bgm!.context!]} totalFrames={ctxBgmDur} />
+                  </Sequence>
+                ) : null
+              })()}
               <BookCardVisual
                 book={book}
                 host={host}
@@ -319,15 +334,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                 summaryEnd={bt.summaryEnd}
                 contextFrames={bt.contextFrames}
                 contextEnd={bt.contextEnd}
-                hasQuote={bt.hasQuote}
-                quoteFrames={bt.quoteFrames}
-                hasContextAfter={bt.hasContextAfter}
-                contextAfterFrames={bt.contextAfterFrames}
-                contextAfterText={book.contextAfter}
-                hasQuote2={bt.hasQuote2}
-                quote2Frames={bt.quote2Frames}
-                hasContextAfter2={bt.hasContextAfter2}
-                contextAfter2Frames={bt.contextAfter2Frames}
+                quotePairTimings={bt.quotePairTimings}
                 labelSummaryF={tl.LABEL_SUMMARY_F}
                 labelContextF={tl.LABEL_CONTEXT_F}
                 titleSummaryGapF={tl.TITLE_SUMMARY_GAP_F}
@@ -412,7 +419,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
           if (frame < titleEnd) headerLabel = ''
           else if (frame < bs + bt.summaryEnd) headerLabel = isEn ? 'Summary' : '핵심 요약'
           else if (frame < contextEnd) headerLabel = isEn ? 'Background' : '감상 배경'
-          else if (bt.hasQuote) headerLabel = isEn ? 'Quote' : '셀럽 인용'
+          else if (bt.quotePairTimings.some(pt => pt.hasQuote)) headerLabel = isEn ? 'Quote' : '셀럽 인용'
         } else if (!tl.cont && frame >= tl.hostIntroStart && frame < tl.hostIntroStart + tl.celebIntroFrames) {
           headerLabel = isEn ? 'Introduction' : '인물 소개'
         } else if (!tl.cont && frame >= tl.hostIntroStart + tl.celebIntroFrames && frame < tl.hostIntroStart + tl.hostIntroFrames) {
@@ -572,9 +579,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* Portrait 자막 — 세로 영상 렌더링 시에도 표시 */}
       {portrait && <PortraitSubtitles script={script} tl={tl} />}
 
-      {/* 스튜디오 전용 — 2배속 오디오 싱크 문제 진단: 일시 비활성화 */}
-      {false && !getRemotionEnvironment().isRendering && !portrait && <StudioSubtitles script={script} tl={tl} />}
-      {false && !getRemotionEnvironment().isRendering && (
+      {/* 스튜디오 전용 */}
+      {!getRemotionEnvironment().isRendering && !portrait && <StudioSubtitles script={script} tl={tl} />}
+      {!getRemotionEnvironment().isRendering && (
         <SubEditor
           voiceTimings={script.voiceTimings}
           episodeName={epName}
@@ -606,11 +613,23 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               if (frame >= bs && frame < titleEnd) return vnTimingKey(vnBookTitle(i))
               if (frame >= summaryStart && frame < summaryEnd) return vnTimingKey(vnBookSummary(i))
               if (frame >= contextStart && frame < contextEnd) return vnTimingKey(vnBookContext(i))
-              if (bt.hasQuote) {
-                const quoteStart = contextEnd + 90
-                const quoteEnd = quoteStart + bt.quoteFrames
-                if (frame >= quoteStart && frame < quoteEnd) return vnTimingKey(vnBookQuote(i))
-                if (bt.hasContextAfter && frame >= quoteEnd) return vnTimingKey(vnBookContextAfter(i))
+              {
+                let cur = contextEnd
+                for (let pi = 0; pi < bt.quotePairTimings.length; pi++) {
+                  const pt = bt.quotePairTimings[pi]
+                  if (pt.hasQuote) {
+                    const qStart = cur + CONTEXT_QUOTE_GAP
+                    const qEnd = qStart + pt.quoteFrames
+                    if (frame >= qStart && frame < qEnd) return vnTimingKey(vnBookQuote(i, pi))
+                    cur = qEnd
+                  }
+                  if (pt.hasAfter) {
+                    const aStart = cur + QUOTE_CONTEXTAFTER_GAP
+                    const aEnd = aStart + pt.afterFrames
+                    if (frame >= aStart && frame < aEnd) return vnTimingKey(vnBookAfter(i, pi))
+                    cur = aEnd
+                  }
+                }
               }
             }
             if (frame >= outroStart) return vnTimingKey(VN_OUTRO)
@@ -618,7 +637,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
           })()}
         />
       )}
-      {false && !getRemotionEnvironment().isRendering && (
+      {!getRemotionEnvironment().isRendering && (
         <PromptPanel
           script={script}
           currentBookIdx={(() => { let idx = 0; tl.bookStarts.forEach((s, i) => { if (frame >= s) idx = i }); return idx })()}
@@ -634,6 +653,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
           })()}
         />
       )}
+      <BgmToggle hasBgm={books.some(b => b.bgm?.summary || b.bgm?.context)} />
     </AbsoluteFill>
   )
 }
