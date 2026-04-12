@@ -63,10 +63,8 @@ done → live → todo 순서로 탐색한다.
 | `title` | 책 제목 | 공식 영문 제목 사용 (위키피디아/공식 번역) |
 | `creator` | 저자 | 영문 이름 |
 | `summary` | 핵심 요약 | 나레이터 톤 영문. 문장 수를 ko와 맞춤 |
-| `context` | 추천 경위 | 나레이터 톤 영문. ko의 모든 에피소드/일화를 빠짐없이 포함 |
-| `contextAfter` | 후속 맥락 (옵션) | 동일 |
-| `directQuote` | 직접 인용 (옵션) | 원문 영문 번역 (출처가 있으면 공식 번역 사용) |
-| `directQuoteSource` | 인용 출처 | 영문 표기 |
+| `contextMain` | 감상 배경 | 나레이터 톤 영문. ko의 모든 에피소드/일화를 빠짐없이 포함 |
+| `quotePairs` | 인용문+후속맥락 배열 (옵션) | 각 항목의 `quote`는 원문 영문 번역 (출처가 있으면 공식 번역 사용), `after`는 동일 번역, `quoteSource`는 영문 표기 |
 
 번역하지 않는 필드: `thumbnail_url`, `source`, `stats`, `titleDuration`, `summaryDuration`, `contextDuration` 등 duration 필드들, `images` (이미지 동기화는 /image-anchor-sync 스킬로 별도 처리)
 
@@ -99,7 +97,7 @@ done → live → todo 순서로 탐색한다.
 ### 구조 보존
 
 - ko의 문장 수를 가능한 맞춘다. 영상에서 voiceTimings 매핑이 문장 단위이므로, 문장 수가 크게 달라지면 타이밍 불일치 발생
-- ko의 `contextAfter`가 있으면 en에도 반드시 포함. 축약/생략 금지
+- ko의 `quotePairs[].after`가 있으면 en에도 반드시 포함. 축약/생략 금지
 - 고유명사(인명, 지명, 작품명)는 정확한 영문 표기 사용
 
 ### 금지사항
@@ -131,11 +129,12 @@ en.json에 `locale: "en"` 설정 후 저장.
 
 저장 후 안내:
 ```
-번역 완료. 후속 작업:
+번역 완료. 후속 작업 (--long 또는 --shorts <N> 단일 타겟 스코프 필수):
 1. 이미지 동기화: /image-anchor-sync <에피소드명>
-2. TTS 생성: pnpm voice -- --episode <에피소드명>-en --update-json
-3. WhisperX: python scripts/voice/whisper-words.py --episode <에피소드명>-en
-4. 타이밍 동기화: pnpm analyze -- --episode <에피소드명>-en --update-json
+2. 롱폼 TTS: pnpm voice -- --episode <에피소드명>-en --long --update-json
+3. 롱폼 WhisperX: python scripts/voice/2-whisper.py --episode <에피소드명>-en --long
+4. 롱폼 타이밍 동기화: pnpm analyze -- --episode <에피소드명>-en --long --update-json
+5. 쇼츠가 있으면 N마다 반복: --shorts <N> 으로 동일한 3단계 실행
 ```
 
 ## 검증 출력
@@ -153,8 +152,8 @@ en.json에 `locale: "en"` 설정 후 저장.
 === books (N권) ===
   Book 1: 일리아스 → The Iliad
     summary: [ko N문장 → en N문장]
-    context: [ko N문장 → en N문장]
-    contextAfter: [ko N문장 → en N문장]
+    contextMain: [ko N문장 → en N문장]
+    quotePairs: [ko N쌍 → en N쌍]
   ...
 
 === shorts (N세그먼트) ===
