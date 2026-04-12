@@ -1,392 +1,125 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEpisode } from '@/lib/episode-context'
 import { groupBySection, type VoiceSection } from './voice-utils'
 import type { EpisodeData } from './EpisodeEditor'
 import { VoiceToolbar, ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, type EleSettings } from './ScenarioVoice'
 import {
-  type CinematicImage, type ImageField, type AnchorPick, type VoiceInfo,
-  bookKey, shortsKey, lookupVoice, matchImagesToField, unmatchedImages, segToImages,
-  ScenarioRow, AddFieldButton, ImagePool, InlineImageRow, InlineThumb,
+  parseViewParam, viewToParam, VIEW_LONGFORM,
+  useImageEditor, useSaveSync,
+  LongformView, ShortsView,
 } from './scenario'
 
-const FIELD_ORDER: Record<string, number> = { summary: 0, context: 1, contextAfter: 2 }
-
-/* ── 공통 이미지 핸들러 props ── */
-type ImageEditorProps = {
-  anchorPick: AnchorPick; setAnchorPick: (p: AnchorPick) => void
-  imageBaseUrl: string; unassigned: string[]; refreshFolderImages: () => void
-  getImages: (idx: number) => CinematicImage[]
-  removeImage: (idx: number, imgIdx: number) => void
-  replaceImage: (idx: number, imgIdx: number, fileName: string) => void
-  addAnchor: (idx: number, text: string, field?: ImageField) => void
-  dropImage: (idx: number, fileName: string, field?: ImageField) => void
-  handlePick: (selected: string, field?: ImageField) => void
-  confirmAnchor: () => void
-}
-
-/* ── 롱폼 ── */
-function LongformView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpand, renderExpanded, activeEngine, playingKey, onTogglePlay,
-  anchorPick, setAnchorPick, imageBaseUrl, unassigned, refreshFolderImages, getImages,
-  removeImage, replaceImage, addAnchor, dropImage, handlePick, confirmAnchor }: {
-  episode: EpisodeData; sectionMap: Map<string, VoiceSection>
-  onUpdate: (ep: EpisodeData) => void
-  expandedKey: string | null; onToggleExpand: (key: string) => void; renderExpanded: (key: string) => React.ReactNode
-  activeEngine: (key: string) => string; playingKey: string | null; onTogglePlay: (key: string) => void
-} & ImageEditorProps) {
-  const { series, name } = useEpisode()
-  const narrator = episode.narrator!
-  const host = episode.host!
-  const books = episode.books ?? []
-
-  const uN = (field: string, value: string) => onUpdate({ ...episode, narrator: { ...narrator, [field]: value } })
-  const uH = (field: string, value: string) => onUpdate({ ...episode, host: { ...host, [field]: value } })
-  const uB = (i: number, field: string, value: string) => {
-    const newBooks = [...books]; newBooks[i] = { ...newBooks[i], [field]: value }; onUpdate({ ...episode, books: newBooks })
-  }
-  const deleteBookField = (i: number, field: string, durField: string) => {
-    const newBooks = [...books]
-    const copy = { ...newBooks[i] }
-    delete (copy as Record<string, unknown>)[field]
-    delete (copy as Record<string, unknown>)[durField]
-    newBooks[i] = copy
-    onUpdate({ ...episode, books: newBooks })
-  }
-
-  const vi = (key: string, dur?: number) => lookupVoice(sectionMap, key, dur)
-  const vUrl = (key: string) => `/api/${series}/voice/play/${name}/${key}.wav`
-
-  const isPicking = (idx: number) => anchorPick?.itemIdx === idx
-
-  return (
-    <div className="space-y-1">
-      {/* 인트로 */}
-      <div className="max-w-3xl">
-        <ScenarioRow label="서비스 인사" role="narrator" value={narrator.serviceGreeting ?? ''} voiceInfo={vi('A1-service-greeting', narrator.serviceGreetingDuration)} onCommit={v => uN('serviceGreeting', v)} sectionKey="A1-service-greeting" audioUrl={vUrl('A1-service-greeting')} activeEngine={activeEngine('A1-service-greeting')} isPlaying={playingKey === 'A1-service-greeting'} onTogglePlay={() => onTogglePlay('A1-service-greeting')} expanded={expandedKey === 'A1-service-greeting'} onToggleExpand={() => onToggleExpand('A1-service-greeting')} renderExpanded={() => renderExpanded('A1-service-greeting')} />
-        {narrator.serviceIntro && <ScenarioRow label="오늘의 인물" role="narrator" value={narrator.serviceIntro} voiceInfo={vi('A2-service-intro', narrator.serviceIntroDuration)} onCommit={v => uN('serviceIntro', v)} sectionKey="A2-service-intro" audioUrl={vUrl('A2-service-intro')} activeEngine={activeEngine('A2-service-intro')} isPlaying={playingKey === 'A2-service-intro'} onTogglePlay={() => onTogglePlay('A2-service-intro')} expanded={expandedKey === 'A2-service-intro'} onToggleExpand={() => onToggleExpand('A2-service-intro')} renderExpanded={() => renderExpanded('A2-service-intro')} />}
-        {host.featuredQuote && <ScenarioRow label="대표 명언" role="celeb" value={host.featuredQuote} voiceInfo={vi('A3-featured-quote', host.featuredQuoteDuration)} onCommit={v => uH('featuredQuote', v)} sectionKey="A3-featured-quote" audioUrl={vUrl('A3-featured-quote')} activeEngine={activeEngine('A3-featured-quote')} isPlaying={playingKey === 'A3-featured-quote'} onTogglePlay={() => onTogglePlay('A3-featured-quote')} expanded={expandedKey === 'A3-featured-quote'} onToggleExpand={() => onToggleExpand('A3-featured-quote')} renderExpanded={() => renderExpanded('A3-featured-quote')} />}
-        <ScenarioRow label="인물 소개" role="narrator" value={narrator.celebIntro ?? ''} voiceInfo={vi('B1-celeb-intro', narrator.celebIntroDuration)} onCommit={v => uN('celebIntro', v)} sectionKey="B1-celeb-intro" audioUrl={vUrl('B1-celeb-intro')} activeEngine={activeEngine('B1-celeb-intro')} isPlaying={playingKey === 'B1-celeb-intro'} onTogglePlay={() => onTogglePlay('B1-celeb-intro')} expanded={expandedKey === 'B1-celeb-intro'} onToggleExpand={() => onToggleExpand('B1-celeb-intro')} renderExpanded={() => renderExpanded('B1-celeb-intro')} />
-        <ScenarioRow label="감상철학" role="celeb" value={host.philosophy ?? ''} voiceInfo={vi('B2-philosophy', host.voiceDuration)} onCommit={v => uH('philosophy', v)} sectionKey="B2-philosophy" audioUrl={vUrl('B2-philosophy')} activeEngine={activeEngine('B2-philosophy')} isPlaying={playingKey === 'B2-philosophy'} onTogglePlay={() => onTogglePlay('B2-philosophy')} expanded={expandedKey === 'B2-philosophy'} onToggleExpand={() => onToggleExpand('B2-philosophy')} renderExpanded={() => renderExpanded('B2-philosophy')} />
-        {narrator.bridge && <ScenarioRow label="브릿지" role="narrator" value={narrator.bridge} voiceInfo={vi('B3-bridge', narrator.bridgeDuration)} onCommit={v => uN('bridge', v)} sectionKey="B3-bridge" audioUrl={vUrl('B3-bridge')} activeEngine={activeEngine('B3-bridge')} isPlaying={playingKey === 'B3-bridge'} onTogglePlay={() => onTogglePlay('B3-bridge')} expanded={expandedKey === 'B3-bridge'} onToggleExpand={() => onToggleExpand('B3-bridge')} renderExpanded={() => renderExpanded('B3-bridge')} />}
-      </div>
-
-      {/* HR + 책 섹션 + 미배정 풀 사이드바 */}
-      <hr className="border-border my-4" />
-
-      <div className="flex gap-0">
-        {/* ── 좌: 책 목록 ── */}
-        <div className="flex-1 min-w-0">
-      {books.map((book: any, i: number) => {
-        const picking = isPicking(i)
-        const allImgs: CinematicImage[] = getImages(i)
-        const imgsBase = matchImagesToField(allImgs, 'summary', book.summary ?? '', true)
-        const imgsContext = matchImagesToField(allImgs, 'context', book.context ?? '', false)
-        const imgsAfter = matchImagesToField(allImgs, 'contextAfter', book.contextAfter ?? '', false)
-        const fieldTexts = [book.summary ?? '', book.context ?? '', book.contextAfter ?? '']
-        const imgsSummary = [...imgsBase, ...unmatchedImages(allImgs, fieldTexts)]
-
-        const imgRowProps = { allImages: allImgs, imageBaseUrl, itemIdx: i, picking, anchorPick, onReplace: replaceImage, onRemove: removeImage, onStartPick: (gi: number) => setAnchorPick({ itemIdx: i, imgIdx: gi, draft: null }), onCancelPick: () => setAnchorPick(null) }
-
-        return (
-          <details
-            key={i}
-            open={picking || undefined}
-            onToggle={picking ? (e: React.ToggleEvent<HTMLDetailsElement>) => { e.currentTarget.open = true } : undefined}
-            className={`border rounded-lg overflow-hidden group my-3 ${picking ? 'border-amber-500/50' : 'border-border'}`}
-          >
-            <summary className={`bg-bg-card px-4 py-3 select-none hover:bg-bg-hover transition-colors list-none ${picking ? 'pointer-events-none' : 'cursor-pointer'}`}>
-              <div className="flex items-baseline gap-2">
-                <span className="text-accent font-mono text-xs">{i + 1}/{books.length}</span>
-                <span className="font-semibold">{book.title}</span>
-                <span className="text-text-secondary text-sm">— {book.creator}</span>
-                {book.stats?.publishYear && <span className="text-text-secondary text-xs">{book.stats.publishYear}</span>}
-                {allImgs.length > 0 && <span className="text-text-secondary text-[10px] ml-1">{allImgs.length}장</span>}
-                <span className="text-text-secondary text-xs ml-auto group-open:rotate-90 transition-transform">&#9654;</span>
-              </div>
-            </summary>
-
-            <div className="border-t border-border">
-              <div className="p-4 space-y-0">
-                {/* 앵커 확정 배너 */}
-                {picking && anchorPick!.draft && (
-                  <div className="flex items-center gap-2 mb-3 px-2 py-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-[11px]">
-                    <span className="text-amber-400 font-semibold">#{anchorPick!.imgIdx + 1}</span>
-                    <span className="text-text-primary truncate flex-1">&ldquo;{anchorPick!.draft}&rdquo;</span>
-                    <button onClick={confirmAnchor} className="px-2 py-0.5 rounded bg-amber-500 text-black text-[10px] font-semibold hover:bg-amber-400 shrink-0">확정</button>
-                    <span className="text-text-secondary text-[10px]">또는 다시 드래그</span>
-                    <button onClick={() => setAnchorPick(null)} className="text-text-secondary hover:text-red-400 text-[10px]">취소</button>
-                  </div>
-                )}
-
-                <ScenarioRow label="제목 읽기" role="narrator" value={`${book.title}, ${book.creator}`}
-                  voiceInfo={vi(bookKey(i, 'a-title'), book.titleDuration)} onCommit={() => {}}
-                  sectionKey={bookKey(i, 'a-title')} audioUrl={vUrl(bookKey(i, 'a-title'))}
-                  activeEngine={activeEngine(bookKey(i, 'a-title'))} isPlaying={playingKey === bookKey(i, 'a-title')} onTogglePlay={() => onTogglePlay(bookKey(i, 'a-title'))}
-                  expanded={expandedKey === bookKey(i, 'a-title')} onToggleExpand={() => onToggleExpand(bookKey(i, 'a-title'))} renderExpanded={() => renderExpanded(bookKey(i, 'a-title'))}
-                />
-
-                <ScenarioRow label="핵심 요약" role="summary" value={book.summary}
-                  voiceInfo={vi(bookKey(i, 'b-summary'), book.summaryDuration)}
-                  onCommit={v => uB(i, 'summary', v)}
-                  pickMode={picking} onPick={(t) => handlePick(t, 'summary')}
-                  highlights={imgsSummary.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
-                  sectionKey={bookKey(i, 'b-summary')} audioUrl={vUrl(bookKey(i, 'b-summary'))}
-                  activeEngine={activeEngine(bookKey(i, 'b-summary'))} isPlaying={playingKey === bookKey(i, 'b-summary')} onTogglePlay={() => onTogglePlay(bookKey(i, 'b-summary'))}
-                  expanded={expandedKey === bookKey(i, 'b-summary')} onToggleExpand={() => onToggleExpand(bookKey(i, 'b-summary'))} renderExpanded={() => renderExpanded(bookKey(i, 'b-summary'))}
-                  onDrop={fn => dropImage(i, fn, 'summary')} onAddAnchor={t => addAnchor(i, t, 'summary')}
-                  images={<InlineImageRow images={imgsSummary} {...imgRowProps} />}
-                />
-
-                <ScenarioRow label="추천 경위" role="narrator" value={book.context}
-                  voiceInfo={vi(bookKey(i, 'c-context'), book.contextDuration)}
-                  onCommit={v => uB(i, 'context', v)}
-                  pickMode={picking} onPick={(t) => handlePick(t, 'context')}
-                  highlights={imgsContext.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
-                  sectionKey={bookKey(i, 'c-context')} audioUrl={vUrl(bookKey(i, 'c-context'))}
-                  activeEngine={activeEngine(bookKey(i, 'c-context'))} isPlaying={playingKey === bookKey(i, 'c-context')} onTogglePlay={() => onTogglePlay(bookKey(i, 'c-context'))}
-                  expanded={expandedKey === bookKey(i, 'c-context')} onToggleExpand={() => onToggleExpand(bookKey(i, 'c-context'))} renderExpanded={() => renderExpanded(bookKey(i, 'c-context'))}
-                  onDrop={fn => dropImage(i, fn, 'context')} onAddAnchor={t => addAnchor(i, t, 'context')}
-                  images={<InlineImageRow images={imgsContext} {...imgRowProps} />}
-                />
-
-                {book.directQuote ? (
-                  <div className="relative group/del">
-                    <ScenarioRow label="직접 인용" role="celeb" value={book.directQuote}
-                      voiceInfo={vi(bookKey(i, 'd-quote'), book.quoteDuration)} onCommit={v => uB(i, 'directQuote', v)}
-                      sectionKey={bookKey(i, 'd-quote')} audioUrl={vUrl(bookKey(i, 'd-quote'))}
-                      activeEngine={activeEngine(bookKey(i, 'd-quote'))} isPlaying={playingKey === bookKey(i, 'd-quote')} onTogglePlay={() => onTogglePlay(bookKey(i, 'd-quote'))}
-                      expanded={expandedKey === bookKey(i, 'd-quote')} onToggleExpand={() => onToggleExpand(bookKey(i, 'd-quote'))} renderExpanded={() => renderExpanded(bookKey(i, 'd-quote'))}
-                    />
-                    <button onClick={() => { if (confirm('직접 인용을 삭제합니다.')) deleteBookField(i, 'directQuote', 'quoteDuration') }} className="absolute top-1 right-6 text-[10px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
-                  </div>
-                ) : (
-                  <AddFieldButton label="+ 직접 인용" onClick={() => uB(i, 'directQuote', '(인용문 입력)')} />
-                )}
-
-                {book.contextAfter ? (
-                  <div className="relative group/del">
-                    <ScenarioRow label="후속 맥락" role="narrator" value={book.contextAfter}
-                      voiceInfo={vi(bookKey(i, 'e-context-after'), book.contextAfterDuration)}
-                      onCommit={v => uB(i, 'contextAfter', v)}
-                      pickMode={picking} onPick={(t) => handlePick(t, 'contextAfter')}
-                      highlights={imgsAfter.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
-                      sectionKey={bookKey(i, 'e-context-after')} audioUrl={vUrl(bookKey(i, 'e-context-after'))}
-                      activeEngine={activeEngine(bookKey(i, 'e-context-after'))} isPlaying={playingKey === bookKey(i, 'e-context-after')} onTogglePlay={() => onTogglePlay(bookKey(i, 'e-context-after'))}
-                      expanded={expandedKey === bookKey(i, 'e-context-after')} onToggleExpand={() => onToggleExpand(bookKey(i, 'e-context-after'))} renderExpanded={() => renderExpanded(bookKey(i, 'e-context-after'))}
-                      onDrop={fn => dropImage(i, fn, 'contextAfter')} onAddAnchor={t => addAnchor(i, t, 'contextAfter')}
-                      images={<InlineImageRow images={imgsAfter} {...imgRowProps} />}
-                    />
-                    <button onClick={() => { if (confirm('후속 맥락을 삭제합니다.')) deleteBookField(i, 'contextAfter', 'contextAfterDuration') }} className="absolute top-1 right-6 text-[10px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
-                  </div>
-                ) : (
-                  <AddFieldButton label="+ 후속 맥락" onClick={() => uB(i, 'contextAfter', '(후속 맥락 입력)')} />
-                )}
-
-                {book.directQuote2 ? (
-                  <div className="relative group/del">
-                    <ScenarioRow label="직접 인용 2" role="celeb" value={book.directQuote2}
-                      voiceInfo={vi(bookKey(i, 'f-quote2'), book.quoteDuration2)} onCommit={v => uB(i, 'directQuote2', v)}
-                      sectionKey={bookKey(i, 'f-quote2')} audioUrl={vUrl(bookKey(i, 'f-quote2'))}
-                      activeEngine={activeEngine(bookKey(i, 'f-quote2'))} isPlaying={playingKey === bookKey(i, 'f-quote2')} onTogglePlay={() => onTogglePlay(bookKey(i, 'f-quote2'))}
-                      expanded={expandedKey === bookKey(i, 'f-quote2')} onToggleExpand={() => onToggleExpand(bookKey(i, 'f-quote2'))} renderExpanded={() => renderExpanded(bookKey(i, 'f-quote2'))}
-                    />
-                    <button onClick={() => { if (confirm('직접 인용 2를 삭제합니다.')) deleteBookField(i, 'directQuote2', 'quoteDuration2') }} className="absolute top-1 right-6 text-[10px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
-                  </div>
-                ) : (
-                  <AddFieldButton label="+ 직접 인용 2" onClick={() => uB(i, 'directQuote2', '(인용문 2 입력)')} />
-                )}
-
-                {book.contextAfter2 ? (
-                  <div className="relative group/del">
-                    <ScenarioRow label="후속 맥락 2" role="narrator" value={book.contextAfter2}
-                      voiceInfo={vi(bookKey(i, 'g-context-after2'), book.contextAfterDuration2)}
-                      onCommit={v => uB(i, 'contextAfter2', v)}
-                      sectionKey={bookKey(i, 'g-context-after2')} audioUrl={vUrl(bookKey(i, 'g-context-after2'))}
-                      activeEngine={activeEngine(bookKey(i, 'g-context-after2'))} isPlaying={playingKey === bookKey(i, 'g-context-after2')} onTogglePlay={() => onTogglePlay(bookKey(i, 'g-context-after2'))}
-                      expanded={expandedKey === bookKey(i, 'g-context-after2')} onToggleExpand={() => onToggleExpand(bookKey(i, 'g-context-after2'))} renderExpanded={() => renderExpanded(bookKey(i, 'g-context-after2'))}
-                    />
-                    <button onClick={() => { if (confirm('후속 맥락 2를 삭제합니다.')) deleteBookField(i, 'contextAfter2', 'contextAfterDuration2') }} className="absolute top-1 right-6 text-[10px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
-                  </div>
-                ) : (
-                  <AddFieldButton label="+ 후속 맥락 2" onClick={() => uB(i, 'contextAfter2', '(후속 맥락 2 입력)')} />
-                )}
-
-              </div>
-            </div>
-          </details>
-        )
-      })}
-        </div>
-
-        {/* ── 우측: 미배정 이미지 풀 ── */}
-        <ImagePool
-          images={unassigned}
-          imageBaseUrl={imageBaseUrl}
-          onDrop={fn => dropImage(0, fn)}
-          onDelete={async fn => {
-            await fetch(`/api/${series}/images/${name}/${fn}`, { method: 'DELETE' })
-            refreshFolderImages()
-          }}
-          onOpenFolder={() => fetch(`/api/${series}/images/${name}`, { method: 'POST' })}
-        />
-      </div>
-    </div>
-  )
-}
-
-/* ── 인트로 배경 이미지 슬롯 ── */
-function RevealBgSlot({ fileName, imageBaseUrl, onDrop, onRemove }: {
-  fileName: string | null; imageBaseUrl: string
-  onDrop: (fn: string) => void; onRemove: () => void
+/* ── BGM 패널 (쇼츠 전용 — shorts[].bgm에 저장) ── */
+function BgmPanel({ episode, onUpdate, series, name, shortsIndex }: {
+  episode: EpisodeData; onUpdate: (ep: EpisodeData) => void; series: string; name: string; shortsIndex: number
 }) {
-  const [over, setOver] = useState(false)
-  const [err, setErr] = useState(false)
+  const shortsArr: any[] = Array.isArray(episode.shorts) ? episode.shorts : (episode.shorts ? [episode.shorts] : [])
+  const currentShorts = shortsArr[shortsIndex - 1]
+  const bgm: any[] = currentShorts?.bgm ?? []
+  const setBgm = (next: any[]) => {
+    const arr = [...shortsArr]
+    arr[shortsIndex - 1] = { ...currentShorts, bgm: next.length ? next : undefined }
+    onUpdate({ ...episode, shorts: arr } as any)
+  }
+  type MusicFile = { name: string; duration: number | null }
+  const [musicFiles, setMusicFiles] = useState<MusicFile[]>([])
+  const [basePath, setBasePath] = useState('')
+
+  useEffect(() => {
+    fetch(`/api/${series}/music/${name}`)
+      .then(r => r.json())
+      .then(d => { setMusicFiles(d.files ?? []); setBasePath(d.basePath ?? '') })
+      .catch(() => {})
+  }, [series, name])
+
+  const addTrack = (fileName: string) => {
+    const file = basePath ? `${basePath}/${fileName}` : fileName
+    const meta = musicFiles.find(f => f.name === fileName)
+    const trackDuration = meta?.duration != null ? Math.round(meta.duration * 100) / 100 : undefined
+    setBgm([...bgm, { file, volume: 0.15, loop: true, ...(trackDuration != null ? { trackDuration } : {}) }])
+  }
+  const removeTrack = (i: number) => setBgm(bgm.filter((_, j) => j !== i))
+  const updateTrack = (i: number, field: string, value: any) => {
+    const next = [...bgm]; next[i] = { ...next[i], [field]: value }; setBgm(next)
+  }
+
+  const usedFiles = new Set(bgm.map((t: any) => t.file?.split('/').pop()))
+  const available = musicFiles.filter(f => !usedFiles.has(f.name))
 
   return (
-    <div
-      onDragOver={e => { e.preventDefault(); setOver(true) }}
-      onDragLeave={() => setOver(false)}
-      onDrop={e => { e.preventDefault(); setOver(false); const f = e.dataTransfer.getData('text/plain'); if (f) onDrop(f) }}
-      className={`mt-2 flex items-center gap-3 rounded border px-3 py-2 transition-colors ${
-        over ? 'border-accent bg-accent/10' : 'border-border/40 bg-bg-card/30'
-      }`}
-    >
-      <span className="text-[11px] text-text-secondary font-semibold shrink-0">인트로 배경</span>
-      {fileName ? (
-        <div className="group/rv flex items-center gap-2">
-          <div className="w-[100px] aspect-[16/10] rounded overflow-hidden bg-bg-main border border-border/30">
-            {err ? (
-              <div className="w-full h-full flex items-center justify-center text-[9px] text-text-secondary">{fileName}</div>
-            ) : (
-              <img src={`${imageBaseUrl}/${fileName}`} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />
-            )}
+    <details className="border border-border/40 rounded-lg">
+      <summary className="px-4 py-2 text-xs font-semibold text-text-secondary cursor-pointer select-none hover:text-text-primary">
+        BGM {bgm.length > 0 && <span className="text-accent ml-1">{bgm.length}트랙</span>}
+        {musicFiles.length === 0 && bgm.length === 0 && <span className="text-text-secondary/50 ml-2 font-normal">music/ 폴더에 파일 배치 필요</span>}
+      </summary>
+      <div className="px-4 pb-3 space-y-2">
+        {bgm.map((t: any, i: number) => (
+          <div key={i} className="flex items-center gap-2 text-[11px]">
+            <span className="text-text-primary truncate max-w-[200px]" title={t.file}>{t.file?.split('/').pop() ?? '(없음)'}</span>
+            <label className="flex items-center gap-1 text-text-secondary shrink-0">
+              Vol
+              <input type="number" step="0.05" min="0" max="1" className="w-12 bg-bg-card border border-border/40 rounded px-1 text-center"
+                value={t.volume ?? 0.15} onChange={e => updateTrack(i, 'volume', parseFloat(e.target.value) || 0.15)} />
+            </label>
+            <label className="flex items-center gap-1 text-text-secondary shrink-0">
+              FadeIn
+              <input type="number" step="0.5" min="0" className="w-10 bg-bg-card border border-border/40 rounded px-1 text-center"
+                value={t.fadeIn ?? 2} onChange={e => updateTrack(i, 'fadeIn', parseFloat(e.target.value) || 2)} />s
+            </label>
+            <label className="flex items-center gap-1 text-text-secondary shrink-0">
+              FadeOut
+              <input type="number" step="0.5" min="0" className="w-10 bg-bg-card border border-border/40 rounded px-1 text-center"
+                value={t.fadeOut ?? 3} onChange={e => updateTrack(i, 'fadeOut', parseFloat(e.target.value) || 3)} />s
+            </label>
+            <button onClick={() => removeTrack(i)} className="text-red-400 hover:text-red-300 text-sm">&times;</button>
           </div>
-          <span className="text-[10px] text-text-secondary truncate max-w-[200px]">{fileName}</span>
-          <button onClick={onRemove} className="text-red-400 hover:text-red-300 text-[11px] opacity-0 group-hover/rv:opacity-100 transition-opacity">&times;</button>
-        </div>
-      ) : (
-        <span className="text-[10px] text-text-secondary italic">이미지 풀에서 드래그하여 배정</span>
-      )}
-    </div>
-  )
-}
-
-/* ── 쇼츠 ── */
-function ShortsView({ episode, sectionMap, onUpdate, expandedKey, onToggleExpand, renderExpanded, activeEngine, playingKey, onTogglePlay,
-  anchorPick, setAnchorPick, imageBaseUrl, unassigned, refreshFolderImages, getImages,
-  removeImage, replaceImage, addAnchor, dropImage, handlePick, confirmAnchor,
-  assignedFiles }: {
-  episode: EpisodeData; sectionMap: Map<string, VoiceSection>
-  onUpdate: (ep: EpisodeData) => void
-  expandedKey: string | null; onToggleExpand: (key: string) => void; renderExpanded: (key: string) => React.ReactNode
-  activeEngine: (key: string) => string; playingKey: string | null; onTogglePlay: (key: string) => void
-  assignedFiles: Set<string>
-} & ImageEditorProps) {
-  const { series, name } = useEpisode()
-
-  if (!episode.shorts) return null
-  const { segments } = episode.shorts
-
-  const updateSeg = (i: number, text: string) => {
-    const newSegs = [...segments]; newSegs[i] = { ...newSegs[i], text }
-    onUpdate({ ...episode, shorts: { ...episode.shorts!, segments: newSegs } })
-  }
-
-  const revealBg = episode.shorts?.revealBg ?? null
-  const setRevealBg = (fileName: string) => {
-    if (assignedFiles.has(fileName)) return
-    onUpdate({ ...episode, shorts: { ...episode.shorts!, revealBg: fileName } })
-  }
-  const removeRevealBg = () => {
-    const { revealBg: _, ...rest } = episode.shorts!
-    onUpdate({ ...episode, shorts: { ...rest, segments } as any })
-  }
-
-  const renderSeg = (seg: any, i: number, withImage: boolean) => {
-    const key = shortsKey(i, seg.id)
-    const voiceInfo = lookupVoice(sectionMap, key, seg.duration)
-    const isExpanded = expandedKey === key
-    const audioUrl = `/api/${series}/voice/play/${name}/${key}.wav`
-    const allImgs = withImage ? getImages(i) : []
-    const picking = anchorPick?.itemIdx === i
-
-    const imgRowProps = {
-      allImages: allImgs, imageBaseUrl, itemIdx: i, picking, anchorPick,
-      onReplace: replaceImage, onRemove: removeImage,
-      onStartPick: (gi: number) => setAnchorPick({ itemIdx: i, imgIdx: gi, draft: null }),
-      onCancelPick: () => setAnchorPick(null),
-    }
-
-    const imgNode = withImage && allImgs.length > 0
-      ? <InlineImageRow images={allImgs} {...imgRowProps} />
-      : null
-
-    return (
-      <ScenarioRow
-        key={seg.id}
-        label={`#${i + 1} ${seg.id}`} role={seg.role} value={seg.text}
-        voiceInfo={voiceInfo} onCommit={v => updateSeg(i, v)}
-        pickMode={picking} onPick={handlePick}
-        highlights={allImgs.map(img => img.text).filter((t): t is string => !!t)}
-        sectionKey={key} audioUrl={audioUrl}
-        activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key)}
-        expanded={isExpanded} onToggleExpand={() => onToggleExpand(key)} renderExpanded={() => renderExpanded(key)}
-        onDrop={withImage ? (fn => dropImage(i, fn)) : undefined}
-        onAddAnchor={withImage ? (t => addAnchor(i, t)) : undefined}
-        images={imgNode}
-      />
-    )
-  }
-
-  return (
-    <div className="flex gap-0">
-      <div className="flex-1 min-w-0 space-y-1">
-        {/* 인트로 구간 — hook, intro, celeb-mid */}
-        <div className="max-w-3xl">
-          {segments.map((seg: any, i: number) => {
-            if (seg.visual === 'book' || seg.visual === 'cta') return null
-            return renderSeg(seg, i, false)
-          })}
-
-          {/* revealBg — 인트로 구간 배경 이미지 */}
-          <RevealBgSlot
-            fileName={revealBg}
-            imageBaseUrl={imageBaseUrl}
-            onDrop={setRevealBg}
-            onRemove={removeRevealBg}
-          />
-        </div>
-
-        {/* HR + 책 구간 */}
-        <hr className="border-border my-4" />
-
-        <div className="space-y-1">
-          {/* 앵커 확정 배너 */}
-          {anchorPick?.draft && (
-            <div className="flex items-center gap-2 px-2 py-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-[11px]">
-              <span className="text-amber-400 font-semibold">#{anchorPick.imgIdx + 1}</span>
-              <span className="text-text-primary truncate flex-1">&ldquo;{anchorPick.draft}&rdquo;</span>
-              <button onClick={confirmAnchor} className="px-2 py-0.5 rounded bg-amber-500 text-black text-[10px] font-semibold hover:bg-amber-400 shrink-0">확정</button>
-              <button onClick={() => setAnchorPick(null)} className="text-text-secondary hover:text-red-400 text-[10px]">취소</button>
-            </div>
-          )}
-          {segments.map((seg: any, i: number) => {
-            if (seg.visual !== 'book' && seg.visual !== 'cta') return null
-            return renderSeg(seg, i, seg.visual === 'book')
-          })}
-        </div>
+        ))}
+        {available.length > 0 ? (
+          <div className="flex items-center gap-2">
+            <select className="text-[11px] bg-bg-card border border-border/40 rounded px-2 py-1 text-text-primary"
+              defaultValue="" onChange={e => { if (e.target.value) { addTrack(e.target.value); e.target.value = '' } }}>
+              <option value="" disabled>+ 트랙 선택</option>
+              {available.map(f => (
+                <option key={f.name} value={f.name}>
+                  {f.name}{f.duration != null ? ` (${Math.round(f.duration)}s)` : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : musicFiles.length > 0 && bgm.length > 0 ? (
+          <span className="text-[10px] text-text-secondary/50">모든 음악 파일 사용 중</span>
+        ) : null}
       </div>
-
-      <ImagePool images={unassigned} imageBaseUrl={imageBaseUrl} />
-    </div>
+    </details>
   )
 }
 
 /* ── 메인 ── */
 export function ScenarioView({ episode }: { episode: EpisodeData }) {
   const { updateEpisode, save, dirty, saving, voiceFiles, voiceSummary, series, name, isEn, post, refreshFiles } = useEpisode()
-  const [view, setView] = useState<'longform' | 'shorts'>('longform')
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  // view: 'longform' | 'shorts-1' | 'shorts-2' | … (URL ?view=long|short-1|... 와 동기화)
+  const view = parseViewParam(searchParams.get('view'))
+  const setView = useCallback((next: string) => {
+    const sp = new URLSearchParams(searchParams.toString())
+    sp.set('view', viewToParam(next))
+    router.replace(`${pathname}?${sp.toString()}`, { scroll: false })
+  }, [router, pathname, searchParams])
+
+  // 옵션 2: shorts는 배열(외부 파일 로드 결과). view는 1-based — 'shorts-1', 'shorts-2' …
+  const shortsArr: any[] = useMemo(
+    () => Array.isArray(episode.shorts) ? episode.shorts : (episode.shorts ? [episode.shorts] : []),
+    [episode.shorts],
+  )
+  const isShortsView = view.startsWith('shorts-')
+  const currentShortsIndex = isShortsView ? parseInt(view.split('-')[1], 10) : -1  // 1-based
+  const currentShorts = currentShortsIndex >= 1 ? shortsArr[currentShortsIndex - 1] : undefined
 
   const { vs, saveVs } = useVoiceSelect(series, name)
   const hasELVoiceId = !!episode.host?.elevenlabsVoiceId
@@ -447,261 +180,16 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
   }, [sectionMap, episode, series, name, eleSettings, activeEngine, toggleSlot, updateEpisode, save, refreshFiles])
 
   /* ── 이미지 편집기 (공통) ── */
-  const [anchorPick, setAnchorPick] = useState<AnchorPick>(null)
-  const [folderImages, setFolderImages] = useState<string[]>([])
-  const [epStatus, setEpStatus] = useState<string>('live')
-  const imageBaseUrl = `/api/${series}/images/${name}`
-
-  const refreshFolderImages = useCallback(() => {
-    fetch(`/api/${series}/images/${name}`)
-      .then(r => r.json())
-      .then(d => { setFolderImages(d.files ?? []); if (d.status) setEpStatus(d.status) })
-      .catch(() => {})
-  }, [series, name])
-  useEffect(() => { refreshFolderImages() }, [refreshFolderImages])
-
   const books = episode.books ?? []
-  const segments = episode.shorts?.segments ?? []
-  const episodeDir = `episodes/${epStatus}/${name}/images`
+  const { anchorPick, setAnchorPick, assignedFiles, crossUsage, imgProps } = useImageEditor({
+    episode, updateEpisode, series, name, view,
+    books, shortsArr, currentShortsIndex, currentShorts,
+  })
 
-  const positionOf = (idx: number) => {
-    if (view === 'longform') {
-      const book = books[idx] as any
-      return (img: CinematicImage): number => {
-        if (!img.text) return -1
-        const fo = FIELD_ORDER[img.field ?? 'summary'] ?? 0
-        const ft: string = img.field === 'context' ? book?.context : img.field === 'contextAfter' ? book?.contextAfter : book?.summary
-        const tp = (ft ?? '').indexOf(img.text)
-        return tp < 0 ? -1 : fo * 100000 + tp
-      }
-    }
-    const segText = segments[idx]?.text ?? ''
-    return (img: CinematicImage): number => img.text ? segText.indexOf(img.text) : -1
-  }
-
-  /** 텍스트 앵커 순서로 정렬하여 반환. 쇼츠는 primary(seg.image) 고정 */
-  const sortByPos = (imgs: CinematicImage[], pos: (img: CinematicImage) => number) =>
-    [...imgs].sort((a, b) => {
-      const pa = pos(a), pb = pos(b)
-      if (pa < 0 && pb < 0) return 0
-      if (pa < 0) return 1
-      if (pb < 0) return -1
-      return pa - pb
-    })
-  const getImages = (idx: number): CinematicImage[] => {
-    const raw = view === 'longform' ? (books[idx]?.images ?? []) : segToImages(segments[idx])
-    if (raw.length <= 1) return raw
-    const pos = positionOf(idx)
-    if (view === 'shorts') {
-      const [primary, ...rest] = raw
-      return [primary, ...sortByPos(rest, pos)]
-    }
-    return sortByPos(raw, pos)
-  }
-
-  const setImages = (idx: number, imgs: CinematicImage[]) => {
-    if (view === 'longform') {
-      const nb = [...books] as any[]; nb[idx] = { ...nb[idx], images: imgs.length ? imgs : undefined }
-      updateEpisode({ ...episode, books: nb })
-    } else {
-      const ns = [...segments]; const seg = { ...ns[idx] }
-      if (imgs.length === 0) { delete seg.image; delete seg.imageChangeAt }
-      else {
-        seg.image = `${episodeDir}/${imgs[0].file}`
-        if (imgs.length > 1) {
-          seg.imageChangeAt = imgs.slice(1).map(img => ({ t: 0, image: `${episodeDir}/${img.file}`, ...(img.text ? { text: img.text } : {}) }))
-        } else { delete seg.imageChangeAt }
-      }
-      ns[idx] = seg
-      updateEpisode({ ...episode, shorts: { ...episode.shorts!, segments: ns } })
-    }
-  }
-
-  const imgRemove = (idx: number, imgIdx: number) => {
-    setImages(idx, getImages(idx).filter((_, j) => j !== imgIdx))
-  }
-  const imgReplace = (idx: number, imgIdx: number, fileName: string) => {
-    const imgs = [...getImages(idx)]; imgs[imgIdx] = { ...imgs[imgIdx], file: fileName }; setImages(idx, imgs)
-  }
-  const imgAddAnchor = (idx: number, anchorText: string, field?: ImageField) => {
-    const imgs = getImages(idx)
-    if (imgs.some(img => img.text === anchorText)) return
-    setImages(idx, [...imgs, { file: '', text: anchorText, ...(field ? { field } : {}) }])
-  }
-
-  const assignedFiles = useMemo(() => {
-    const set = new Set<string>()
-    if (view === 'longform') {
-      for (const b of books) for (const img of ((b as any).images ?? [])) if (img.file) set.add(img.file)
-    } else {
-      if (episode.shorts?.revealBg) set.add(episode.shorts.revealBg)
-      for (const seg of segments) {
-        if (seg.image) set.add((seg.image as string).split('/').pop()!)
-        const ch = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
-        for (const c of ch) set.add((c as any).image.split('/').pop()!)
-      }
-    }
-    return set
-  }, [view, books, segments, episode.shorts?.revealBg])
-
-  const imgDrop = (idx: number, fileName: string, field?: ImageField) => {
-    const imgs = getImages(idx)
-    if (view === 'longform') {
-      const ei = imgs.findIndex(img => img.file === fileName)
-      if (ei >= 0) { const u = [...imgs]; u[ei] = { ...u[ei], field: field ?? u[ei].field }; setImages(idx, u); return }
-    } else {
-      if (assignedFiles.has(fileName)) return
-    }
-    let autoText: string | undefined
-    if (imgs.length > 0) {
-      if (view === 'longform') {
-        const b = books[idx] as any
-        const ft = field === 'context' ? b?.context : field === 'contextAfter' ? b?.contextAfter : b?.summary
-        autoText = ft?.trim().split(/\s+/)[0]
-      } else { autoText = segments[idx]?.text?.trim().split(/\s+/)[0] }
-    }
-    setImages(idx, [...imgs, { file: fileName, ...(field ? { field } : {}), ...(autoText ? { text: autoText } : {}) }])
-  }
-
-  const imgHandlePick = useCallback((selected: string, field?: ImageField) => {
-    setAnchorPick(prev => prev ? { ...prev, draft: selected, ...(field ? { field } : {}) } : null)
-  }, [])
-
-  const imgConfirmAnchor = () => {
-    if (!anchorPick?.draft) return
-    const { itemIdx: idx, imgIdx, draft, field } = anchorPick
-    const imgs = [...getImages(idx)]
-    imgs[imgIdx] = { ...imgs[imgIdx], text: draft, ...(field ? { field } : {}) }
-    setImages(idx, imgs)
-    setAnchorPick(null)
-  }
-
-  const unassigned = useMemo(() => {
-    if (view === 'longform') return folderImages.filter(f => !f.startsWith('shorts') && !assignedFiles.has(f))
-    return folderImages.filter(f => !assignedFiles.has(f))
-  }, [view, folderImages, assignedFiles])
-
-  const imgProps = { anchorPick, setAnchorPick, imageBaseUrl, unassigned, refreshFolderImages, getImages,
-    removeImage: imgRemove, replaceImage: imgReplace, addAnchor: imgAddAnchor, dropImage: imgDrop,
-    handlePick: imgHandlePick, confirmAnchor: imgConfirmAnchor }
-
-  const handleSave = useCallback(async () => {
-    const books = (episode.books ?? []) as any[]
-    const errors: string[] = []
-    let cleaned = false
-    books.forEach((b: any, i: number) => {
-      if (!b.directQuote && b.contextAfter) {
-        errors.push(`책 ${i + 1} "${b.title}": 직접 인용 없이 후속 맥락이 존재합니다. 직접 인용을 추가하거나 후속 맥락을 삭제하세요.`)
-      }
-      if (!b.directQuote2 && b.contextAfter2) {
-        errors.push(`책 ${i + 1} "${b.title}": 직접 인용 2 없이 후속 맥락 2가 존재합니다. 직접 인용 2를 추가하거나 후속 맥락 2를 삭제하세요.`)
-      }
-      if (b.images?.length) {
-        const fieldMap: [ImageField, string][] = [
-          ['summary', b.summary ?? ''],
-          ['context', b.context ?? ''],
-          ['contextAfter', b.contextAfter ?? ''],
-        ]
-        const allTexts = fieldMap.map(([, t]) => t).join(' ')
-        b.images.forEach((img: any, j: number) => {
-          if (!img.field && img.text) {
-            for (const [f, t] of fieldMap) {
-              if (t.includes(img.text)) { img.field = f; cleaned = true; break }
-            }
-          }
-          if (j === 0 && !img.field) { img.field = 'summary'; cleaned = true }
-          if (j > 0 && img.text && !allTexts.includes(img.text)) {
-            delete img.text
-            cleaned = true
-          }
-        })
-      }
-    })
-    if (errors.length) {
-      alert('저장 불가:\n\n' + errors.join('\n'))
-      return
-    }
-
-    // 쇼츠 중복 이미지 정리: 앞 세그먼트와 동일한 seg.image 제거
-    let shortsSegs: any[] | undefined
-    const shorts = episode.shorts
-    if (shorts?.segments) {
-      const segs = [...shorts.segments] as any[]
-      let lastImage: string | undefined
-      for (let si = 0; si < segs.length; si++) {
-        const seg = segs[si]
-        if (!seg.image) { lastImage = undefined; continue }
-        const fn = seg.image.split('/').pop()
-        if (fn === lastImage) {
-          const copy = { ...seg }
-          delete copy.image
-          delete copy.imageChangeAt
-          segs[si] = copy
-          cleaned = true
-        } else {
-          const changes = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
-          lastImage = changes.length > 0 ? changes[changes.length - 1].image?.split('/').pop() : fn
-        }
-      }
-      if (cleaned) shortsSegs = segs
-    }
-
-    if (cleaned) {
-      const updated = { ...episode, books }
-      if (shortsSegs && shorts) updated.shorts = { ...shorts, segments: shortsSegs }
-      updateEpisode(updated as EpisodeData)
-    }
-    await save()
-  }, [episode, save, updateEpisode])
-
-  const syncImages = useCallback(async () => {
-    const koName = isEn ? name.replace(/-en$/, '') : name
-    const enName = isEn ? name : `${name}-en`
-    try {
-      const [resKo, resEn] = await Promise.all([
-        fetch(`/api/${series}/episodes/${koName}`),
-        fetch(`/api/${series}/episodes/${enName}`),
-      ])
-      if (!resKo.ok) throw new Error('ko 에피소드 로드 실패')
-      if (!resEn.ok) throw new Error('en 에피소드 로드 실패')
-      const ko = await resKo.json()
-      const en = await resEn.json()
-
-      const koBooks = ko.books ?? []
-      const enBooks = [...(en.books ?? [])]
-      let synced = 0
-      koBooks.forEach((kb: any, i: number) => {
-        if (i >= enBooks.length || !kb.images?.length) return
-        enBooks[i] = {
-          ...enBooks[i],
-          images: kb.images.map((img: any) => ({ file: img.file, field: img.field, keyword: img.keyword, prompt: img.prompt })),
-        }
-        synced += kb.images.length
-      })
-
-      const koShorts = ko.shorts?.segments ?? []
-      const enShorts = [...(en.shorts?.segments ?? [])]
-      koShorts.forEach((ks: any, i: number) => {
-        if (i >= enShorts.length) return
-        if (ks.image) { enShorts[i] = { ...enShorts[i], image: ks.image }; synced++ }
-      })
-
-      const updated = {
-        ...en,
-        books: enBooks,
-        ...(en.shorts ? { shorts: { ...en.shorts, segments: enShorts } } : {}),
-      }
-
-      const saveRes = await fetch(`/api/${series}/episodes/${enName}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated),
-      })
-      if (!saveRes.ok) throw new Error('en 에피소드 저장 실패')
-      alert(`${synced}장 동기화 완료 (${koName} → ${enName})`)
-      if (isEn) window.location.reload()
-    } catch (e: unknown) {
-      alert('동기화 실패: ' + (e instanceof Error ? e.message : String(e)))
-    }
-  }, [series, name, isEn])
+  /* ── 저장 & 동기화 ── */
+  const { handleSave, syncImages } = useSaveSync({
+    episode, updateEpisode, save, series, name, isEn,
+  })
 
   return (
     <div className="space-y-4">
@@ -716,7 +204,23 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
       <div className="flex items-center gap-4 border-b border-border">
         <div className="flex gap-1">
           <button onClick={() => { setView('longform'); setAnchorPick(null) }} className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${view === 'longform' ? 'border-accent text-accent' : 'border-transparent text-text-secondary hover:text-text-primary'}`}>롱폼</button>
-          <button onClick={() => { setView('shorts'); setAnchorPick(null) }} className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${view === 'shorts' ? 'border-accent text-accent' : 'border-transparent text-text-secondary hover:text-text-primary'}`} disabled={!episode.shorts}>쇼츠{!episode.shorts && ' (없음)'}</button>
+          {shortsArr.map((_, i) => {
+            const idx = i + 1  // 1-based
+            const v = `shorts-${idx}`
+            const label = shortsArr.length === 1 && idx === 1 ? '쇼츠' : `쇼츠 ${idx}`
+            return (
+              <button
+                key={v}
+                onClick={() => { setView(v); setAnchorPick(null) }}
+                className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${view === v ? 'border-accent text-accent' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+              >
+                {label}
+              </button>
+            )
+          })}
+          {shortsArr.length === 0 && (
+            <button disabled className="px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-text-secondary opacity-40">쇼츠 (없음)</button>
+          )}
         </div>
         <div className="ml-auto flex items-center gap-2">
           <button onClick={syncImages} className="px-2 py-1 text-[10px] text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40 transition-colors" title={isEn ? 'ko에서 이미지 가져오기' : 'en으로 이미지 동기화'}>
@@ -729,16 +233,21 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         </div>
       </div>
 
+      {/* 쇼츠 BGM */}
+      {isShortsView && currentShortsIndex >= 1 && (
+        <BgmPanel episode={episode} onUpdate={updateEpisode} series={series} name={name} shortsIndex={currentShortsIndex} />
+      )}
+
       {view === 'longform' ? (
         <LongformView episode={episode} sectionMap={sectionMap} onUpdate={updateEpisode}
           expandedKey={expandedKey} onToggleExpand={toggleExpand} renderExpanded={renderExpanded}
           activeEngine={activeEngine} playingKey={playingKey} onTogglePlay={togglePlay} {...imgProps} />
-      ) : (
-        <ShortsView episode={episode} sectionMap={sectionMap} onUpdate={updateEpisode}
+      ) : isShortsView && currentShortsIndex >= 1 ? (
+        <ShortsView episode={episode} shortsIndex={currentShortsIndex} sectionMap={sectionMap} onUpdate={updateEpisode}
           expandedKey={expandedKey} onToggleExpand={toggleExpand} renderExpanded={renderExpanded}
           activeEngine={activeEngine} playingKey={playingKey} onTogglePlay={togglePlay} {...imgProps}
           assignedFiles={assignedFiles} />
-      )}
+      ) : null}
 
       {dirty && (
         <button

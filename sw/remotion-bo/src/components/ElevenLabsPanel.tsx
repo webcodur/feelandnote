@@ -451,23 +451,29 @@ export function ElevenLabsPanel({ episode, series, name, onRefresh }: ElevenLabs
     })
   }
 
-  // Shorts celeb segments
-  if (episode.shorts?.segments) {
+  // 옵션 2: Shorts celeb segments — 접두사 `shorts-{N}/` 필수 (1-based)
+  const shortsArrPanel: Array<{ segments?: Array<{ id: string; role: string; visual?: string; text?: string }> }> =
+    Array.isArray(episode.shorts) ? (episode.shorts as any) : (episode.shorts ? [episode.shorts as any] : [])
+  shortsArrPanel.forEach((cfg, sIdx) => {
+    if (!cfg?.segments) return
+    const shortsIndex = sIdx + 1  // 1-based
+    const prefix = `shorts-${shortsIndex}/`
     let si = 0
-    for (const seg of episode.shorts.segments as Array<{ id: string; role: string; visual?: string; text?: string }>) {
-      if (seg.visual === 'hook') continue
+    for (const seg of cfg.segments) {
+      if (seg.visual === 'hook') { si++; continue }
       if (seg.role === 'celeb' && seg.text) {
-        const key = `S${String(si + 1).padStart(2, '0')}-${seg.id}`
+        const baseKey = `S${String(si + 1).padStart(2, '0')}-${seg.id}`
+        const key = `${prefix}${baseKey}`
         celebLines.push({
           key,
-          label: `${key} (쇼츠)`,
+          label: `${key} (쇼츠${shortsArrPanel.length === 1 ? '' : ` ${shortsIndex}`})`,
           text: seg.text,
           fileName: `elevenlabs/${key}.wav`,
         })
       }
       si++
     }
-  }
+  })
 
   if (celebLines.length === 0) return null
 

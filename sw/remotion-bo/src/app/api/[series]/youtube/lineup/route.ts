@@ -33,17 +33,21 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   const body = await req.json()
-  const { hook } = body
-  if (!hook) {
-    return NextResponse.json({ error: 'hook required' }, { status: 400 })
-  }
+  // hook은 레거시 필드. 신규 롱폼 포맷은 사용하지 않으므로 필수가 아니다.
+  // 오면 그대로 저장(호환용), 없으면 기존 값 유지.
+  const { hook, shortsRelation } = body
 
   let all: Record<string, unknown> = {}
   try {
     if (existsSync(LINEUP_PATH)) all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
   } catch { /* fresh start */ }
 
-  all[episode] = { ...(all[episode] as Record<string, unknown>), hook }
+  const existing = (all[episode] as Record<string, unknown>) ?? {}
+  all[episode] = {
+    ...existing,
+    ...(hook !== undefined ? { hook } : {}),
+    ...(shortsRelation !== undefined ? { shortsRelation } : {}),
+  }
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
   return NextResponse.json({ ok: true })
 }

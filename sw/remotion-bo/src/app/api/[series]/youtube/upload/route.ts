@@ -7,12 +7,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const series = getSeriesById(seriesId)
   if (!series) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  const { episode, lang, type, dry } = await req.json()
+  const { episode, lang, type, shortsIndex, dry } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   const args = ['youtube:upload', '--', '--episode', episode]
   if (lang) args.push('--lang', lang)
   if (type) args.push('--type', type)
+  if (typeof shortsIndex === 'number') args.push('--shorts-index', String(shortsIndex))
   if (dry) args.push('--dry')
 
   const task = queueTask('youtube-upload', seriesId, episode, args)

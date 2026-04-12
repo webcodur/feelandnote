@@ -19,20 +19,37 @@ type CandidateSummary = { name: string; nickname: string; booksCount: number }
 type EpisodeGroup = {
   baseName: string
   status: EpisodeStatus
+  /** 파트 번호 (1편이면 1, 2편이면 2 등. 단일 에피소드도 1) */
+  partNum: number
   ko?: EpisodeSummary
   en?: EpisodeSummary
+}
+
+/** 에피소드명에서 -en 및 -\d+ 접미사를 분리 */
+function parseEpName(name: string) {
+  const isEn = name.endsWith('-en')
+  const withoutEn = isEn ? name.slice(0, -3) : name
+  const partMatch = withoutEn.match(/-(\d+)$/)
+  const partNum = partMatch ? parseInt(partMatch[1]) : 1
+  const basePerson = withoutEn.replace(/-\d+$/, '')
+  return { isEn, basePerson, partNum, groupKey: withoutEn }
 }
 
 function groupEpisodes(episodes: EpisodeSummary[]): EpisodeGroup[] {
   const map = new Map<string, EpisodeGroup>()
   for (const ep of episodes) {
-    const isEn = ep.name.endsWith('-en')
-    const base = isEn ? ep.name.slice(0, -3) : ep.name
-    if (!map.has(base)) map.set(base, { baseName: base, status: ep.status ?? 'todo' })
-    const g = map.get(base)!
+    const { isEn, groupKey, partNum } = parseEpName(ep.name)
+    if (!map.has(groupKey)) map.set(groupKey, { baseName: groupKey, status: ep.status ?? 'todo', partNum })
+    const g = map.get(groupKey)!
     if (isEn) g.en = ep; else { g.ko = ep; g.status = ep.status ?? 'todo' }
   }
   return [...map.values()]
+}
+
+/** 같은 인물의 파트 수 계산 (1편만 있으면 1) */
+function countParts(groups: EpisodeGroup[], group: EpisodeGroup): number {
+  const { basePerson } = parseEpName(group.baseName)
+  return groups.filter(g => parseEpName(g.baseName).basePerson === basePerson).length
 }
 
 type TabKey = EpisodeStatus | 'candidate-pool' | 'storage'  // 'todo' | 'live' | 'done' | ...
@@ -166,6 +183,9 @@ export default function SeriesHomePage({ params }: { params: Promise<{ series: s
                 <div className="flex items-center justify-between mb-1">
                   <Link href={`/${series}/${primary.name}`} className="font-semibold hover:text-accent transition-colors">
                     {primary.nickname}
+                    {countParts(filteredGroups, g) > 1 && (
+                      <span className="ml-1.5 text-xs font-medium text-accent">{g.partNum}편</span>
+                    )}
                   </Link>
                   <div className="flex items-center gap-2">
                     {/* 언어 배지 */}

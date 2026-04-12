@@ -45,12 +45,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     if (existsSync(LINEUP_PATH)) lineupAll = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
   } catch { /* ignore */ }
 
-  // 업로드 기록이 있는 에피소드만 수집
+  // 옵션 2: variant는 1-based (ko-longform | ko-shorts-1 | ko-shorts-2 …)
   const toCheck: { name: string; variant: string; videoId: string; uploadedAt: string; channel: 'ko' | 'en' }[] = []
   for (const [name, meta] of Object.entries(lineupAll)) {
     if (!meta.uploads) continue
     for (const [variant, rec] of Object.entries(meta.uploads)) {
-      const channel = variant.startsWith('en') ? 'en' : 'ko'
+      const channel = variant.startsWith('en-') ? 'en' : 'ko'
       toCheck.push({ name, variant, videoId: rec.videoId, uploadedAt: rec.uploadedAt, channel })
     }
   }
@@ -96,8 +96,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         continue
       }
 
-      // 로컬 제목 생성
-      const [lang, type] = item.variant.split('-') as ['ko' | 'en', 'longform' | 'shorts']
+      // 옵션 2: variant 키 파싱 — ko-longform | ko-shorts-1 | ko-shorts-2 … (1-based)
+      const parts = item.variant.split('-')
+      const lang = parts[0] as 'ko' | 'en'
+      const type = (parts[1] === 'longform' ? 'longform' : 'shorts') as 'longform' | 'shorts'
+      const shortsIndex = type === 'shorts' ? parseInt(parts[2] ?? '1', 10) : 0
       const isShorts = type === 'shorts'
       let localTitle = ''
       try {
@@ -105,14 +108,29 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         const ep = await loadEpisode(series, epName)
         const celebName = ep.host?.nickname ?? name
 
-        // youtube-meta.json 커스텀 확인
-        const metaPath = path.join(REMOTION_ROOT, 'out', toPascal(name), 'youtube-meta.json')
-        let ytMeta: Record<string, { title?: string }> = {}
-        try { if (existsSync(metaPath)) ytMeta = JSON.parse(await readFile(metaPath, 'utf-8')) } catch {}
+        // 쇼츠 타이틀 조립용 대표 책 제목 — shortsIndex 1-based, 배열 접근은 -1
+        const shortsArr = Array.isArray(ep.shorts) ? ep.shorts : (ep.shorts ? [ep.shorts] : [])
+        const targetShorts = isShorts ? shortsArr[shortsIndex - 1] : undefined
+        const shortsBookTitle = isShorts
+          ? ep.books?.[targetShorts?.featuredBookIndex ?? 0]?.title
+          : undefined
 
-        localTitle = ytMeta[item.variant]?.title || (meta.hook[lang] ? buildTitle(meta, celebName, lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`)
+        // 롱폼 신규 포맷 — 다부면 totalBooks + part, 단일 부면 books.length
+        const isMultipart = (ep.series?.totalParts ?? 1) > 1
+        const longformBookCount = isMultipart ? (ep.series?.totalBooks ?? ep.books?.length ?? 0) : (ep.books?.length ?? 0)
+        const longformPart = isMultipart ? ep.series?.part : undefined
+
+        // localTitle 은 항상 신규 포맷으로 재생성한다 — buildVariantPushData 와 동일.
+        // youtube-meta.json override 사용 시, 푸시 후에도 옛 포맷과 비교되어 영원히 DRIFT 가 뜬다.
+        localTitle = buildTitle(meta, celebName, lang, isShorts, shortsIndex, shortsBookTitle, longformBookCount, longformPart)
       } catch {
-        localTitle = meta.hook[lang] ? buildTitle(meta, '?', lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ?`
+        // ep 로드 실패 — 책 수를 알 수 없으므로 longform 포맷을 만들 수 없다.
+        // shorts일 때만 buildTitle을 호출하고, longform이면 placeholder 반환.
+        if (isShorts) {
+          localTitle = buildTitle(meta, '?', lang, isShorts, shortsIndex)
+        } else {
+          localTitle = lang === 'ko' ? '? 가 읽은 ?권의 책' : '? Books ? Read'
+        }
       }
 
       const diffs: string[] = []
@@ -142,7 +160,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
   const { action, episode, variant } = await req.json() as {
-    action: 'push' | 'push-all' | 'remove' | 'purge'
+    action: 'push' | 'push-all' | 'preview' | 'preview-all' | 'remove' | 'purge'
     episode?: string
     variant?: string
   }
@@ -162,7 +180,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     for (const [name, meta] of Object.entries(lineupAll)) {
       if (!meta.uploads) continue
       for (const [vk, rec] of Object.entries(meta.uploads)) {
-        toCheck.push({ name, variant: vk, videoId: rec.videoId, channel: vk.startsWith('en') ? 'en' : 'ko' })
+        toCheck.push({ name, variant: vk, videoId: rec.videoId, channel: vk.startsWith('en-') ? 'en' : 'ko' })
       }
     }
     if (toCheck.length === 0) return NextResponse.json({ purged: 0 })
@@ -226,7 +244,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     const results: { variant: string; ok: boolean; error?: string }[] = []
     for (const [vk, rec] of Object.entries(meta.uploads)) {
       try {
-        const res = await pushVariant(series, episode, vk, rec.videoId, meta)
+        await pushVariant(series, episode, vk, rec.videoId, meta)
         results.push({ variant: vk, ok: true })
       } catch (e: any) {
         results.push({ variant: vk, ok: false, error: e.message })
@@ -244,18 +262,80 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     return NextResponse.json({ ok: true, videoId })
   }
 
+  // ─── preview / preview-all: 푸시 시 적용될 메타 미리보기 ──
+  if (action === 'preview-all') {
+    if (!meta.uploads || Object.keys(meta.uploads).length === 0) {
+      return NextResponse.json({ error: 'no uploads' }, { status: 400 })
+    }
+    const previews: VariantPreview[] = []
+    for (const [vk, rec] of Object.entries(meta.uploads)) {
+      try {
+        const p = await previewVariant(series, episode, vk, rec.videoId, meta)
+        previews.push(p)
+      } catch (e: any) {
+        previews.push({ variant: vk, videoId: rec.videoId, error: e.message })
+      }
+    }
+    return NextResponse.json({ previews })
+  }
+
+  if (action === 'preview') {
+    if (!variant) return NextResponse.json({ error: 'variant required' }, { status: 400 })
+    const videoId = meta.uploads?.[variant]?.videoId
+    if (!videoId) return NextResponse.json({ error: 'no upload record' }, { status: 400 })
+    try {
+      const p = await previewVariant(series, episode, variant, videoId, meta)
+      return NextResponse.json({ previews: [p] })
+    } catch (e: any) {
+      return NextResponse.json({ previews: [{ variant, videoId, error: e.message }] })
+    }
+  }
+
   return NextResponse.json({ error: 'unknown action' }, { status: 400 })
 }
 
-// ─── pushVariant: 단일 variant 메타 푸시 ────────────────
+// ─── 미리보기 응답 타입 ─────────────────────────────────
 
-async function pushVariant(series: string, episode: string, variant: string, videoId: string, meta: EpisodeMeta) {
-  const [lang, type] = variant.split('-') as ['ko' | 'en', 'longform' | 'shorts']
+export type VariantPreview = {
+  variant: string
+  videoId: string
+  lang?: 'ko' | 'en'
+  ytSnippet?: { title: string; description: string }
+  newSnippet?: { title: string; description: string; tags: string[] }
+  diffs?: ('title' | 'description' | 'tags')[]
+  error?: string
+}
+
+// ─── 공통: variant 푸시 데이터 조립 ──────────────────────
+
+type VariantPushData = {
+  lang: 'ko' | 'en'
+  shortsIndex: number
+  snippet: { title: string; description: string; tags: string[]; categoryId: string; defaultLanguage: string; defaultAudioLanguage: string }
+}
+
+/**
+ * variant 키와 lineup meta로 YouTube에 PUT 할 snippet을 조립한다.
+ * 실제 API 호출은 하지 않는다. push/preview 양쪽에서 공유.
+ */
+async function buildVariantPushData(series: string, episode: string, variant: string, meta: EpisodeMeta): Promise<VariantPushData> {
+  // 옵션 2: variant 키 파싱 — ko-longform | ko-shorts-1 | ko-shorts-2 … (1-based)
+  const parts = variant.split('-')
+  const lang = parts[0] as 'ko' | 'en'
+  const type = (parts[1] === 'longform' ? 'longform' : 'shorts') as 'longform' | 'shorts'
+  const shortsIndex = type === 'shorts' ? parseInt(parts[2] ?? '1', 10) : 0
   const isShorts = type === 'shorts'
 
   const epName = lang === 'en' ? `${episode}-en` : episode
   const ep = await loadEpisode(series, epName)
   const celebName = ep.host?.nickname ?? episode
+
+  // 쇼츠 타이틀 조립용 대표 책 제목 — shortsIndex 1-based, 배열 접근은 -1
+  const shortsArr = Array.isArray(ep.shorts) ? ep.shorts : (ep.shorts ? [ep.shorts] : [])
+  const targetShorts = isShorts ? shortsArr[shortsIndex - 1] : undefined
+  const shortsBookTitle = isShorts
+    ? ep.books?.[targetShorts?.featuredBookIndex ?? 0]?.title
+    : undefined
 
   const metaPath = path.join(REMOTION_ROOT, 'out', toPascal(episode), 'youtube-meta.json')
   let ytMeta: Record<string, { title?: string; description?: string; links?: { label: string; url: string }[] }> = {}
@@ -263,15 +343,57 @@ async function pushVariant(series: string, episode: string, variant: string, vid
 
   const chapters = !isShorts ? calcChapterTimestamps(ep, lang) : undefined
   const links = ytMeta[variant]?.links
-  const fallbackTitle = meta.hook[lang] ? buildTitle(meta, celebName, lang, isShorts) : `${lang === 'ko' ? '[서재탐방]' : '[Library Tour]'} ${celebName}`
-  const title = ytMeta[variant]?.title || fallbackTitle
-  const description = ytMeta[variant]?.description || buildDescription(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode)
+  // 롱폼 신규 포맷 — 다부면 totalBooks + part, 단일 부면 books.length
+  const isMultipart = (ep.series?.totalParts ?? 1) > 1
+  const longformBookCount = isMultipart ? (ep.series?.totalBooks ?? ep.books?.length ?? 0) : (ep.books?.length ?? 0)
+  const longformPart = isMultipart ? ep.series?.part : undefined
+  // title/description 모두 항상 신규 포맷으로 재생성한다 — 저장된 override(youtube-meta.json)는 무시.
+  // 과거에 자동 저장된 옛 포맷이 누적되어 있어 modal/푸시에 잔존하므로.
+  const title = buildTitle(meta, celebName, lang, isShorts, shortsIndex, shortsBookTitle, longformBookCount, longformPart)
+  const featuredBookIndex = isShorts ? (targetShorts?.featuredBookIndex ?? 0) : undefined
+  const description = buildDescription(celebName, ep.books ?? [], lang, isShorts, chapters, links, episode, shortsIndex, featuredBookIndex)
 
-  const tags = buildTags(celebName, lang, isShorts)
-  const snippet = buildYouTubeSnippet({ title, description, tags, lang })
+  const tags = buildTags(celebName, lang, isShorts, shortsIndex)
+  const snippet = buildYouTubeSnippet({ title, description, tags, lang, shortsIndex })
 
+  return { lang, shortsIndex, snippet }
+}
+
+// ─── pushVariant: 단일 variant 메타 푸시 ────────────────
+
+async function pushVariant(series: string, episode: string, variant: string, videoId: string, meta: EpisodeMeta) {
+  const { lang, snippet } = await buildVariantPushData(series, episode, variant, meta)
   return ytPut(lang, 'videos', { part: 'snippet' }, {
     id: videoId,
     snippet,
   })
+}
+
+// ─── previewVariant: 푸시 전 미리보기 ───────────────────
+
+async function previewVariant(series: string, episode: string, variant: string, videoId: string, meta: EpisodeMeta): Promise<VariantPreview> {
+  const { lang, snippet } = await buildVariantPushData(series, episode, variant, meta)
+
+  // 현재 YouTube 상태 조회
+  let ytSnippet: { title: string; description: string } | undefined
+  try {
+    const data = await ytGet<YTListResponse>(lang, 'videos', { part: 'snippet', id: videoId })
+    const item = data?.items?.[0]
+    if (item) ytSnippet = { title: item.snippet.title, description: item.snippet.description }
+  } catch { /* ignore — 미리보기는 YouTube 조회 실패해도 신규 값은 보여준다 */ }
+
+  const diffs: ('title' | 'description' | 'tags')[] = []
+  if (ytSnippet) {
+    if (ytSnippet.title !== snippet.title) diffs.push('title')
+    if (ytSnippet.description !== snippet.description) diffs.push('description')
+  }
+
+  return {
+    variant,
+    videoId,
+    lang,
+    ytSnippet,
+    newSnippet: { title: snippet.title, description: snippet.description, tags: snippet.tags },
+    diffs,
+  }
 }

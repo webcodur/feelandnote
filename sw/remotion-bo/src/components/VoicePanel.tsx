@@ -217,7 +217,7 @@ function VoiceSectionTable({ voiceFiles, voiceSummary, series, episode, episodeD
     if (key === 'B1-celeb-intro') return ep.narrator.celebIntro ?? ''
     if (key === 'B2-philosophy') return ep.host.philosophy ?? ''
     if (key === 'E1-outro') return ep.narrator.outro ?? ''
-    const bookMatch = key.match(/^D(\d{2})[a-e]-(.+)$/)
+    const bookMatch = key.match(/^D(\d{2})[a-c]-(.+)$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1
       const book = ep.books[idx]
@@ -225,13 +225,26 @@ function VoiceSectionTable({ voiceFiles, voiceSummary, series, episode, episodeD
       const f = bookMatch[2]
       if (f === 'title') return `${book.title}, ${book.creator}`
       if (f === 'summary') return book.summary
-      if (f === 'context') return book.context
-      if (f === 'quote') return book.directQuote ?? ''
-      if (f === 'context-after') return book.contextAfter ?? ''
+      if (f === 'context') return book.contextMain
     }
-    const shortMatch = key.match(/^S\d{2}-(.+)$/)
-    if (shortMatch && ep.shorts?.segments) {
-      const seg = ep.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
+    // quotePairs: D{nn}d{N}-quote / D{nn}d{N}-after
+    const pairMatch = key.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+    if (pairMatch) {
+      const idx = parseInt(pairMatch[1]) - 1
+      const dn = parseInt(pairMatch[2])
+      const pi = Math.floor((dn - 1) / 2)
+      const book = ep.books[idx] as any
+      if (!book) return ''
+      const pair = book.quotePairs?.[pi]
+      if (!pair) return ''
+      return pairMatch[3] === 'quote' ? (pair.quote ?? '') : (pair.after ?? '')
+    }
+    // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
+    const shortMatch = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
+    if (shortMatch && ep.shorts) {
+      const sIdx = parseInt(shortMatch[1], 10) - 1
+      const arr: any[] = Array.isArray(ep.shorts) ? ep.shorts : [ep.shorts]
+      const seg = arr[sIdx]?.segments?.find((s: { id: string }) => s.id === shortMatch[2])
       return seg?.text ?? ''
     }
     return ''
@@ -685,7 +698,23 @@ export function VoicePanel({ episode, voiceFiles, voiceSummary, series, name, pl
     }
   }
 
-  const hasShorts = !!episode.shorts && episode.shorts.segments.length > 0
+  // shorts 배열 정규화 (단일 객체 호환)
+  const shortsArr: Array<{ segments: Array<{ id: string; role: string; text?: string }> }> =
+    Array.isArray(episode.shorts) ? episode.shorts as any : (episode.shorts ? [episode.shorts as any] : [])
+  const hasShorts = shortsArr.some(s => s?.segments?.length > 0)
+  const collectShortsCelebKeys = (predicate: (seg: { role: string; text?: string }) => boolean) => {
+    const out: { key: string; text: string }[] = []
+    // 옵션 2: 접두사 `shorts-{N}/` 필수 (1-based)
+    shortsArr.forEach((cfg, sIdx) => {
+      const prefix = `shorts-${sIdx + 1}/`
+      cfg?.segments?.forEach((s, i) => {
+        if (!predicate(s)) return
+        const idx = String(i + 1).padStart(2, '0')
+        out.push({ key: `${prefix}S${idx}-${s.id}`, text: s.text ?? '' })
+      })
+    })
+    return out
+  }
   const [voiceOpen, setVoiceOpen] = useState(false)
 
   return (
@@ -721,17 +750,16 @@ export function VoicePanel({ episode, voiceFiles, voiceSummary, series, name, pl
                 // 셀럽 파일은 elevenlabs로 매핑
                 if (episode.host.philosophy) elSlots['B2-philosophy.wav'] = 'elevenlabs'
                 if (episode.host.featuredQuote) elSlots['A3-featured-quote.wav'] = 'elevenlabs'
-                if (episode.shorts) episode.shorts.segments.forEach((s, i) => {
-                  if (s.role === 'celeb') {
-                    const idx = String(i + 1).padStart(2, '0')
-                    elSlots[`S${idx}-${s.id}.wav`] = 'elevenlabs'
-                  }
-                })
-                // book quotes
-                episode.books.forEach((b, i) => {
-                  if (b.directQuote) {
-                    const bn = String(i + 1).padStart(2, '0')
-                    elSlots[`D${bn}d-quote.wav`] = 'elevenlabs'
+                for (const ln of collectShortsCelebKeys(s => s.role === 'celeb')) {
+                  elSlots[`${ln.key}.wav`] = 'elevenlabs'
+                }
+                // book quotes (quotePairs)
+                episode.books.forEach((b: any, i: number) => {
+                  const bn = String(i + 1).padStart(2, '0')
+                  for (let pi = 0; pi < (b.quotePairs?.length ?? 0); pi++) {
+                    if (b.quotePairs[pi].quote) {
+                      elSlots[`D${bn}d${pi * 2 + 1}-quote.wav`] = 'elevenlabs'
+                    }
                   }
                 })
                 saveVs({ default: 'gemini', slots: elSlots })
@@ -832,9 +860,9 @@ export function VoicePanel({ episode, voiceFiles, voiceSummary, series, name, pl
                     const lines: { key: string; text: string }[] = []
                     if (episode.host.philosophy) lines.push({ key: 'B2-philosophy', text: episode.host.philosophy })
                     if (episode.host.featuredQuote) lines.push({ key: 'A3-featured-quote', text: episode.host.featuredQuote })
-                    if (episode.shorts) episode.shorts.segments.forEach((s, i) => {
-                      if (s.role === 'celeb' && s.text) lines.push({ key: `S${String(i+1).padStart(2,'0')}-${s.id}`, text: s.text })
-                    })
+                    for (const ln of collectShortsCelebKeys(s => s.role === 'celeb' && !!s.text)) {
+                      if (ln.text) lines.push(ln)
+                    }
                     let ok = 0, fail = 0
                     for (const ln of lines) {
                       setEleBatchStatus(`${ln.key} 생성 중...`)

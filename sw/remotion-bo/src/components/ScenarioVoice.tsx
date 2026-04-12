@@ -88,7 +88,7 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
   }
   if (directMap[key]) return directMap[key]()
 
-  const bookMatch = key.match(/^D(\d{2})([a-e])-/)
+  const bookMatch = key.match(/^D(\d{2})([a-c])-/)
   if (bookMatch) {
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
@@ -100,16 +100,32 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
         return { original: orig, tts: ttsData?.titles?.[idx] ?? '' }
       },
       'b': () => ({ original: book.summary, tts: r(book.summary) }),
-      'c': () => ({ original: book.context, tts: r(book.context) }),
-      'd': () => ({ original: book.directQuote ?? '', tts: r(book.directQuote ?? '') }),
-      'e': () => ({ original: book.contextAfter ?? '', tts: r(book.contextAfter ?? '') }),
+      'c': () => ({ original: book.contextMain, tts: r(book.contextMain) }),
     }
     return phaseMap[phase]?.() ?? { original: '', tts: '' }
   }
 
-  const shortMatch = key.match(/^S\d{2}-(.+)$/)
+  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}-after
+  const pairMatch = key.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  if (pairMatch) {
+    const idx = parseInt(pairMatch[1]) - 1
+    const dn = parseInt(pairMatch[2])
+    const pi = Math.floor((dn - 1) / 2)
+    const isQuote = pairMatch[3] === 'quote'
+    const book = bks[idx]
+    if (!book) return { original: '', tts: '' }
+    const pair = (book as any).quotePairs?.[pi]
+    if (!pair) return { original: '', tts: '' }
+    if (isQuote) return { original: pair.quote ?? '', tts: r(pair.quote ?? '') }
+    return { original: pair.after ?? '', tts: r(pair.after ?? '') }
+  }
+
+  // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
+  const shortMatch = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
   if (shortMatch && ep.shorts) {
-    const seg = ep.shorts.segments.find(s => s.id === shortMatch[1])
+    const sIdx = parseInt(shortMatch[1], 10) - 1  // 1-based → 배열 인덱스
+    const arr: any[] = Array.isArray(ep.shorts) ? ep.shorts : [ep.shorts]
+    const seg = arr[sIdx]?.segments?.find((s: { id: string }) => s.id === shortMatch[2])
     return { original: seg?.text ?? '', tts: r(seg?.text ?? '') }
   }
 
@@ -134,12 +150,12 @@ export function setTextForSection(key: string, value: string, ep: EpisodeData): 
 
   if (directOriginal[key]) { directOriginal[key](value); return next }
 
-  const bookMatch = key.match(/^D(\d{2})([a-e])-/)
+  const bookMatch = key.match(/^D(\d{2})([a-c])-/)
   if (bookMatch) {
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
     if (bks[idx]) {
-      const phaseField: Record<string, string> = { b: 'summary', c: 'context', d: 'directQuote', e: 'contextAfter' }
+      const phaseField: Record<string, string> = { b: 'summary', c: 'contextMain' }
       if (phaseField[phase]) {
         (bks[idx] as Record<string, unknown>)[phaseField[phase]] = value
       }
@@ -147,9 +163,29 @@ export function setTextForSection(key: string, value: string, ep: EpisodeData): 
     return next
   }
 
-  const shortMatch = key.match(/^S\d{2}-(.+)$/)
+  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}-after
+  const pairMatch = key.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  if (pairMatch) {
+    const idx = parseInt(pairMatch[1]) - 1
+    const dn = parseInt(pairMatch[2])
+    const pi = Math.floor((dn - 1) / 2)
+    const isQuote = pairMatch[3] === 'quote'
+    if (bks[idx]) {
+      const pairs = [...((bks[idx] as any).quotePairs ?? [])]
+      if (pairs[pi]) {
+        pairs[pi] = { ...pairs[pi], [isQuote ? 'quote' : 'after']: value }
+        ;(bks[idx] as any).quotePairs = pairs
+      }
+    }
+    return next
+  }
+
+  // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
+  const shortMatch = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
   if (shortMatch && next.shorts) {
-    const seg = next.shorts.segments.find((s: { id: string }) => s.id === shortMatch[1])
+    const sIdx = parseInt(shortMatch[1], 10) - 1
+    const arr: any[] = Array.isArray(next.shorts) ? next.shorts : [next.shorts]
+    const seg = arr[sIdx]?.segments?.find((s: { id: string }) => s.id === shortMatch[2])
     if (seg) seg.text = value
     return next
   }
@@ -364,7 +400,23 @@ export function VoiceToolbar({
   const [eleSettingsOpen, setEleSettingsOpen] = useState(false)
   const [eleBatchRunning, setEleBatchRunning] = useState(false)
   const [eleBatchStatus, setEleBatchStatus] = useState<string | null>(null)
-  const hasShorts = !!episode.shorts && episode.shorts.segments.length > 0
+  // shorts 배열 정규화 (단일 객체 호환)
+  const shortsArr: Array<{ segments: Array<{ id: string; role: string; text?: string }> }> =
+    Array.isArray(episode.shorts) ? episode.shorts as any : (episode.shorts ? [episode.shorts as any] : [])
+  const hasShorts = shortsArr.some(s => s?.segments?.length > 0)
+  /** 옵션 2: 모든 쇼츠의 셀럽 세그먼트를 (key, text) 페어로. 접두사 `shorts-{N}/` 필수 (1-based). */
+  const collectShortsCelebKeys = (predicate: (seg: { role: string; text?: string }) => boolean) => {
+    const out: { key: string; text: string }[] = []
+    shortsArr.forEach((cfg, sIdx) => {
+      const prefix = `shorts-${sIdx + 1}/`  // 1-based
+      cfg?.segments?.forEach((s, i) => {
+        if (!predicate(s)) return
+        const idx = String(i + 1).padStart(2, '0')
+        out.push({ key: `${prefix}S${idx}-${s.id}`, text: s.text ?? '' })
+      })
+    })
+    return out
+  }
 
   return (
     <details className="bg-bg-secondary border border-border rounded-lg overflow-hidden">
@@ -390,16 +442,15 @@ export function VoiceToolbar({
                   const elSlots: Record<string, string> = {}
                   if (episode.host?.philosophy) elSlots['B2-philosophy.wav'] = 'elevenlabs'
                   if (episode.host?.featuredQuote) elSlots['A3-featured-quote.wav'] = 'elevenlabs'
-                  if (episode.shorts) episode.shorts.segments.forEach((s, i) => {
-                    if (s.role === 'celeb') {
-                      const idx = String(i + 1).padStart(2, '0')
-                      elSlots[`S${idx}-${s.id}.wav`] = 'elevenlabs'
-                    }
-                  })
-                  episode.books?.forEach((b, i) => {
-                    if (b.directQuote) {
-                      const bn = String(i + 1).padStart(2, '0')
-                      elSlots[`D${bn}d-quote.wav`] = 'elevenlabs'
+                  for (const ln of collectShortsCelebKeys(s => s.role === 'celeb')) {
+                    elSlots[`${ln.key}.wav`] = 'elevenlabs'
+                  }
+                  episode.books?.forEach((b: any, i: number) => {
+                    const bn = String(i + 1).padStart(2, '0')
+                    for (let pi = 0; pi < (b.quotePairs?.length ?? 0); pi++) {
+                      if (b.quotePairs[pi].quote) {
+                        elSlots[`D${bn}d${pi * 2 + 1}-quote.wav`] = 'elevenlabs'
+                      }
                     }
                   })
                   onSaveVs({ default: 'gemini', slots: elSlots })
@@ -498,9 +549,9 @@ export function VoiceToolbar({
                       const lines: { key: string; text: string }[] = []
                       if (ho.philosophy) lines.push({ key: 'B2-philosophy', text: ho.philosophy })
                       if (ho.featuredQuote) lines.push({ key: 'A3-featured-quote', text: ho.featuredQuote })
-                      if (episode.shorts) episode.shorts.segments.forEach((s, i) => {
-                        if (s.role === 'celeb' && s.text) lines.push({ key: `S${String(i + 1).padStart(2, '0')}-${s.id}`, text: s.text })
-                      })
+                      for (const ln of collectShortsCelebKeys(s => s.role === 'celeb' && !!s.text)) {
+                        if (ln.text) lines.push(ln)
+                      }
                       let ok = 0, fail = 0
                       for (const ln of lines) {
                         setEleBatchStatus(`${ln.key} 생성 중...`)

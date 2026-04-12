@@ -59,7 +59,7 @@ export function EditableText({
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
-        className={`relative w-full text-sm leading-relaxed bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors ${
+        className={`relative w-full text-sm leading-relaxed whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors ${
           pickMode
             ? 'border-amber-500/60 cursor-text select-text bg-amber-500/5'
             : 'border-transparent hover:border-border focus:border-accent'

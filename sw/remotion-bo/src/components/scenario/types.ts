@@ -1,13 +1,14 @@
 export type CinematicImage = {
   file: string
   text?: string
-  field?: 'summary' | 'context' | 'contextAfter'
+  /** summary = 책 장면, context = 인물 장면 (Main/Quote/After 세부 위치는 text 앵커가 결정) */
+  field?: 'summary' | 'context'
   keyword?: string
   prompt?: string
   ko?: string
 }
 
-export type ImageField = 'summary' | 'context' | 'contextAfter'
+export type ImageField = 'summary' | 'context'
 
 export type VoiceInfo = {
   sectionKey: string
@@ -44,4 +45,19 @@ export const ENGINE_LABELS: Record<string, string> = {
   gemini: 'GEM',
   elevenlabs: 'ELE',
   common: 'CMN',
+}
+
+/* ── 공통 이미지 핸들러 props ── */
+export type ImageEditorProps = {
+  anchorPick: AnchorPick; setAnchorPick: (p: AnchorPick) => void
+  imageBaseUrl: string; unassigned: string[]; refreshFolderImages: () => void
+  getImages: (idx: number) => CinematicImage[]
+  removeImage: (idx: number, imgIdx: number) => void
+  replaceImage: (idx: number, imgIdx: number, fileName: string) => void
+  addAnchor: (idx: number, text: string, field?: ImageField) => void
+  dropImage: (idx: number, fileName: string, field?: ImageField) => void
+  handlePick: (selected: string, field?: ImageField) => void
+  confirmAnchor: () => void
+  /** 반대쪽 뷰에서의 사용 현황 (파일명 → 설명) */
+  crossUsage?: Map<string, string>
 }

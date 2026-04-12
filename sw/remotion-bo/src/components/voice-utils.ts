@@ -114,14 +114,18 @@ export async function prepareAudioForSave(
   return abToBase64(wavBuf)
 }
 
-/** ELE 대상 섹션인지 판별 (셀럽 음성 섹션) */
+/** ELE 대상 섹션인지 판별 (셀럽 음성 섹션). `shorts-N/` prefix가 붙어 있어도 동작한다. */
 export function isEleSection(key: string): boolean {
-  return key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d-/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
+  const base = key.replace(/^shorts-\d+\//, '')
+  return base === 'A3-featured-quote' || base === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(base) || /^S\d{2}-celeb-/.test(base) || /^S\d{2}-book-quote/.test(base)
 }
 
 /** 파일명 → 한글 설명 */
 export function describeFile(name: string): string {
-  const base = name.replace(/^(gemini|elevenlabs)\//, '').replace('.wav', '')
+  const base = name
+    .replace(/^(gemini|elevenlabs)\//, '')
+    .replace(/^shorts-(\d+)\//, '')
+    .replace('.wav', '')
   const direct: Record<string, string> = {
     'A1-service-greeting': '서비스 인사',
     'A2-service-intro': '서비스 소개',
@@ -138,11 +142,19 @@ export function describeFile(name: string): string {
   if (direct[base]) return direct[base]
   const partMatch = base.match(/^A1-service-greeting-(\d+)$/)
   if (partMatch) return `인사 파트${partMatch[1]}`
-  const bookMatch = base.match(/^D(\d{2})([a-e])-/)
+  const bookMatch = base.match(/^D(\d{2})([a-c])-/)
   if (bookMatch) {
     const n = parseInt(bookMatch[1])
-    const phase: Record<string, string> = { a: '제목', b: '요약', c: '맥락', d: '인용', e: '후속' }
+    const phase: Record<string, string> = { a: '제목', b: '요약', c: '맥락' }
     return `책${n} ${phase[bookMatch[2]] ?? ''}`
+  }
+  const pairMatch = base.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  if (pairMatch) {
+    const n = parseInt(pairMatch[1])
+    const dn = parseInt(pairMatch[2])
+    const pi = Math.floor((dn - 1) / 2)
+    const label = pairMatch[3] === 'quote' ? '인용' : '후속'
+    return `책${n} ${label}${pi > 0 ? ` ${pi + 1}` : ''}`
   }
   const shortMatch = base.match(/^S\d{2}-(.+)$/)
   if (shortMatch) return `쇼츠: ${shortMatch[1]}`
@@ -170,7 +182,8 @@ export type VoiceSection = {
 }
 
 /** 에피소드 JSON에서 필요한 전체 섹션 키 목록 생성 */
-export function expectedSections(ep: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string; visual?: string }> } }): { key: string; description: string }[] {
+type ExpectedShortsCfg = { segments: Array<{ id: string; role: string; visual?: string }> }
+export function expectedSections(ep: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: ExpectedShortsCfg | ExpectedShortsCfg[] }): { key: string; description: string }[] {
   const result: { key: string; description: string }[] = []
   const add = (key: string) => result.push({ key, description: describeFile(key + '.wav') })
 
@@ -188,8 +201,12 @@ export function expectedSections(ep: { narrator: Record<string, unknown>; host: 
     add(`D${bn}a-title`)
     add(`D${bn}b-summary`)
     add(`D${bn}c-context`)
-    if (b.directQuote || (b.quoteDuration as number) > 0) add(`D${bn}d-quote`)
-    if (b.contextAfter || (b.contextAfterDuration as number) > 0) add(`D${bn}e-context-after`)
+    // quotePairs: 동적 인용+후속맥락
+    for (let pi = 0; pi < ((b.quotePairs as any[])?.length ?? 0); pi++) {
+      const pair = (b.quotePairs as any[])[pi]
+      if (pair.quote) add(`D${bn}d${pi * 2 + 1}-quote`)
+      if (pair.after) add(`D${bn}d${pi * 2 + 2}-after`)
+    }
   }
 
   if ((ep.narrator.outroDuration as number) > 0 || ep.narrator.outro) add('E1-outro')
@@ -197,19 +214,24 @@ export function expectedSections(ep: { narrator: Record<string, unknown>; host: 
   if ((ep.narrator.returnIntroDuration as number) > 0 || ep.narrator.returnIntro) add('E3-return-intro')
   if ((ep.narrator.prevRecapDuration as number) > 0 || ep.narrator.prevRecap) add('E4-prev-recap')
 
-  if (ep.shorts) {
-    for (let si = 0; si < ep.shorts.segments.length; si++) {
-      const seg = ep.shorts.segments[si]
+  // 옵션 2: shorts는 1-based 접두사 필수. 모든 쇼츠에 shorts-{N}/S{NN}-{id}
+  const shortsArr: ExpectedShortsCfg[] = Array.isArray(ep.shorts)
+    ? ep.shorts
+    : (ep.shorts ? [ep.shorts] : [])
+  shortsArr.forEach((cfg, sIdx) => {
+    const prefix = `shorts-${sIdx + 1}/`  // 1-based
+    for (let si = 0; si < cfg.segments.length; si++) {
+      const seg = cfg.segments[si]
       const idx = String(si + 1).padStart(2, '0')
-      add(`S${idx}-${seg.id}`)
+      add(`${prefix}S${idx}-${seg.id}`)
     }
-  }
+  })
 
   return result
 }
 
 /** 파일 목록을 섹션 단위로 그룹핑 (에피소드 기대 섹션 포함) */
-export function groupBySection(files: VoiceFile[], ep?: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: { segments: Array<{ id: string; role: string }> } }): VoiceSection[] {
+export function groupBySection(files: VoiceFile[], ep?: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: ExpectedShortsCfg | ExpectedShortsCfg[] }): VoiceSection[] {
   const map = new Map<string, VoiceSection>()
 
   // 에피소드에서 기대되는 전체 섹션을 먼저 등록

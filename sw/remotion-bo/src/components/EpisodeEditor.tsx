@@ -13,30 +13,50 @@ type BookStats = {
 type CinematicImage = {
   file: string
   text?: string
-  field?: 'summary' | 'context' | 'contextAfter'
+  field?: 'summary' | 'context'
   keyword?: string
   prompt?: string
   ko?: string
 }
 
-type BookEntry = {
+type QuotePair = {
+  quote: string
+  quoteSource?: string
+  quoteDuration?: number
+  after?: string
+  afterDuration?: number
+}
+
+export type BgmTrack = {
+  file: string
+  volume?: number
+  from?: number
+  to?: number
+  fadeIn?: number
+  fadeOut?: number
+  startFrom?: number
+  loop?: boolean
+  trackDuration?: number
+}
+
+export type BookEntry = {
   title: string
   creator: string
   thumbnail_url: string
   summary: string
   summaryDuration: number
-  context: string
+  contextMain: string
   contextDuration: number
-  directQuote?: string
-  directQuoteSource?: string
-  quoteDuration?: number
-  contextAfter?: string
-  contextAfterDuration?: number
+  quotePairs?: QuotePair[]
   source?: string
   stats: BookStats
   titleDuration: number
   images?: CinematicImage[]
   imagePrompts?: Record<string, unknown>
+  bgm?: {
+    summary?: BgmTrack
+    context?: BgmTrack
+  }
 }
 
 type NarratorLines = {
@@ -104,7 +124,8 @@ export type EpisodeData = {
   host?: CelebHost
   narrator?: NarratorLines
   books?: BookEntry[]
-  shorts?: ShortsConfig
+  /** 옵션 2: shorts는 항상 배열. 외부 파일 shorts/{locale}-{N}.json에서 로드된다. */
+  shorts?: ShortsConfig[]
   [key: string]: unknown
 }
 
@@ -220,7 +241,7 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
   const addBook = () => {
     const blank: BookEntry = {
       title: '', creator: '', thumbnail_url: '', summary: '', summaryDuration: 0,
-      context: '', contextDuration: 0, stats: {}, titleDuration: 0,
+      contextMain: '', contextDuration: 0, stats: {}, titleDuration: 0,
     }
     onChange({ ...episode, books: [...episode.books, blank] })
     setOpenBooks(prev => ({ ...prev, [episode.books.length]: true }))
@@ -272,9 +293,15 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
     setBookImages(bookIdx, images)
   }
 
-  // Shorts helpers
-  const shorts = episode.shorts
-  const setShorts = (s: ShortsConfig) => onChange({ ...episode, shorts: s })
+  // Shorts helpers — 옵션 2: 첫 번째 쇼츠(1번)만 편집한다.
+  // 복수 쇼츠 편집은 ScenarioView의 탭에서 처리한다.
+  const shortsArr: ShortsConfig[] = Array.isArray(episode.shorts) ? episode.shorts : []
+  const shorts: ShortsConfig | undefined = shortsArr[0]
+  const setShorts = (s: ShortsConfig) => {
+    const next = [...shortsArr]
+    next[0] = s
+    onChange({ ...episode, shorts: next })
+  }
   const setSegment = (idx: number, field: string, value: unknown) => {
     if (!shorts) return
     const segs = [...shorts.segments]
@@ -406,15 +433,23 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
                   <TextField label="썸네일 URL" value={book.thumbnail_url} onChange={v => setBook(idx, 'thumbnail_url', v)} />
                   <FieldWithDuration label="요약" value={book.summary} onChange={v => setBook(idx, 'summary', v)}
                     duration={book.summaryDuration} rows={4} />
-                  <FieldWithDuration label="맥락" value={book.context} onChange={v => setBook(idx, 'context', v)}
+                  <FieldWithDuration label="맥락" value={book.contextMain} onChange={v => setBook(idx, 'contextMain', v)}
                     duration={book.contextDuration} rows={3} />
-                  <div className="grid grid-cols-2 gap-3">
-                    <FieldWithDuration label="직접 인용" value={book.directQuote ?? ''} onChange={v => setBook(idx, 'directQuote', v)}
-                      duration={book.quoteDuration} />
-                    <TextField label="인용 출처" value={book.directQuoteSource ?? ''} onChange={v => setBook(idx, 'directQuoteSource', v)} />
-                  </div>
-                  <FieldWithDuration label="후속 맥락" value={book.contextAfter ?? ''} onChange={v => setBook(idx, 'contextAfter', v)}
-                    duration={book.contextAfterDuration} rows={2} />
+                  {(book.quotePairs ?? []).map((pair, pi) => (
+                    <div key={pi} className="space-y-2 pl-3 border-l-2 border-accent/20">
+                      <div className="grid grid-cols-2 gap-3">
+                        <FieldWithDuration label={`직접 인용${pi > 0 ? ` ${pi + 1}` : ''}`} value={pair.quote} onChange={v => {
+                          const books = [...episode.books]; const pairs = [...(books[idx].quotePairs ?? [])]; pairs[pi] = { ...pairs[pi], quote: v }; books[idx] = { ...books[idx], quotePairs: pairs }; onChange({ ...episode, books })
+                        }} duration={pair.quoteDuration} />
+                        <TextField label="인용 출처" value={pair.quoteSource ?? ''} onChange={v => {
+                          const books = [...episode.books]; const pairs = [...(books[idx].quotePairs ?? [])]; pairs[pi] = { ...pairs[pi], quoteSource: v || undefined }; books[idx] = { ...books[idx], quotePairs: pairs }; onChange({ ...episode, books })
+                        }} />
+                      </div>
+                      <FieldWithDuration label={`후속 맥락${pi > 0 ? ` ${pi + 1}` : ''}`} value={pair.after ?? ''} onChange={v => {
+                        const books = [...episode.books]; const pairs = [...(books[idx].quotePairs ?? [])]; pairs[pi] = { ...pairs[pi], after: v || undefined }; books[idx] = { ...books[idx], quotePairs: pairs }; onChange({ ...episode, books })
+                      }} duration={pair.afterDuration} rows={2} />
+                    </div>
+                  ))}
                   <div className="grid grid-cols-2 gap-3">
                     <TextField label="출판년도" value={book.stats.publishYear ?? ''} onChange={v => setBookStats(idx, 'publishYear', v)} />
                     <TextField label="출처 URL" value={book.source ?? ''} onChange={v => setBook(idx, 'source', v)} />

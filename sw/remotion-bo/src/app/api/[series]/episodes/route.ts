@@ -92,10 +92,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       creator: ko?.creator ?? '',
       thumbnail_url: (content?.thumbnail_url as string) ?? '',
       summary: '', // AI 초안 대상
-      context: '', // AI 초안 대상
-      directQuote: '', // 수동 검수 필수
-      directQuoteSource: '',
-      contextAfter: '',
+      contextMain: '', // AI 초안 대상
+      quotePairs: [],
       stats: {
         publishYear: (content?.publish_year as string) ?? '',
       },

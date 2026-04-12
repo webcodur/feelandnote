@@ -2,11 +2,13 @@
 
 import { useState, useRef } from 'react'
 import type { CinematicImage, AnchorPick } from './types'
-import { stripExt } from './utils'
+import { stripExt, parseImagePrefix, stripImagePrefix } from './utils'
 
 /** 이미지 풀에서 드래그할 수 있는 이미지 카드 */
-export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete }: {
+export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete, crossLabel }: {
   fileName: string; imageBaseUrl: string; onDrop: () => void; onDelete?: () => void
+  /** 반대쪽 뷰에서의 사용 현황 */
+  crossLabel?: string
 }) {
   const [err, setErr] = useState(false)
   return (
@@ -28,10 +30,14 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete }: {
           >&times;</button>
         )}
       </div>
-      <div className="flex items-center justify-between px-1 py-0.5">
-        <span className="text-[10px] text-text-secondary truncate">{stripExt(fileName)}</span>
+      <div className="flex items-center justify-between px-1 py-0.5 gap-0.5">
+        {(() => { const p = parseImagePrefix(fileName); return p ? <span className="text-[9px] font-mono bg-accent/20 text-accent px-0.5 rounded shrink-0">{p.bookNum}-{p.fieldCode}</span> : null })()}
+        <span className="text-[10px] text-text-secondary truncate">{stripExt(stripImagePrefix(fileName))}</span>
         <button onClick={onDrop} className="text-[10px] text-accent hover:underline shrink-0">추가</button>
       </div>
+      {crossLabel && (
+        <div className="px-1 pb-0.5 text-[9px] text-blue-400/70 truncate">{crossLabel}</div>
+      )}
     </div>
   )
 }
@@ -87,7 +93,7 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
           ? over ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-dashed border-border/60 bg-bg-main/50'
           : over ? 'border-accent ring-1 ring-accent/30' : isPicking ? 'border-amber-500/60' : 'border-border/40 hover:border-border'
       } ${!isEmpty ? 'cursor-grab active:cursor-grabbing' : ''}`}
-      title={isEmpty ? `빈 슬롯 — "${img.text ?? ''}"` : `#${index + 1} ${stripExt(img.file)}${img.text ? ` — "${img.text}"` : ''}`}
+      title={isEmpty ? `빈 슬롯 — "${img.text ?? ''}"` : `#${index + 1} ${stripExt(stripImagePrefix(img.file))}${img.text ? ` — "${img.text}"` : ''}`}
     >
       <div className="aspect-[16/10] bg-bg-main relative">
         {isEmpty ? (
@@ -105,7 +111,9 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
             ) : (
               <img src={`${imageBaseUrl}/${img.file}`} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />
             )}
-            <div className="absolute top-0 left-0 px-0.5 bg-black/70 text-white text-[9px] font-mono leading-tight">#{index + 1}</div>
+            <div className="absolute top-0 left-0 px-0.5 bg-black/70 text-white text-[9px] font-mono leading-tight">
+              {(() => { const p = parseImagePrefix(img.file); return p ? <><span className="text-accent">{p.bookNum}-{p.fieldCode}</span> </> : null })()}#{index + 1}
+            </div>
             <button onClick={onRemove} className="absolute top-0.5 right-0.5 w-5 h-5 flex items-center justify-center rounded-full bg-black/80 text-red-400 hover:text-red-200 hover:bg-red-500/80 text-sm font-bold opacity-0 group-hover/thumb:opacity-100 transition-all">&times;</button>
           </>
         )}

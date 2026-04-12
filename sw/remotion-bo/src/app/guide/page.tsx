@@ -137,8 +137,8 @@ export default function GuidePage() {
           <InfoGrid items={[
             { label: 'host.philosophy', desc: '감상철학 (AI 초안 또는 수동 작성)' },
             { label: 'books[].summary', desc: '핵심 요약 (AI 초안 또는 수동 작성)' },
-            { label: 'books[].context', desc: '추천 경위 (AI 초안 또는 수동 작성)' },
-            { label: 'books[].directQuote', desc: '직접 인용 — 검증된 인용문만. AI 창작 금지' },
+            { label: 'books[].contextMain', desc: '감상 배경 (AI 초안 또는 수동 작성)' },
+            { label: 'books[].contextQuote', desc: '직접 인용 — 검증된 인용문만. AI 창작 금지' },
             { label: 'narrator.celebIntro', desc: '인물 소개 (AI 초안 또는 수동 작성)' },
             { label: 'shorts.segments', desc: '쇼츠 구성 — 크리에이티브 판단 필요' },
           ]} />

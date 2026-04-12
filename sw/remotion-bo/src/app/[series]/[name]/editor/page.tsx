@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useEpisode } from '@/lib/episode-context'
 import { EpisodeEditor } from '@/components/EpisodeEditor'
+import { BgmEditor } from '@/components/BgmEditor'
 import { StatusOverview } from '@/components/StatusOverview'
 import { TaskPanel } from '@/components/TaskPanel'
 import { CopyLabel } from '@/components/CopyLabel'
@@ -36,6 +37,25 @@ export default function EditorPage() {
           </summary>
           <div className="px-4 pb-3">
             <StatusOverview episode={episode} fileNames={voiceFiles.map(f => f.name)} series={series} name={name} />
+          </div>
+        </details>
+      </section>
+
+      {/* BGM */}
+      <section className={SECTION_CLS}>
+        <details>
+          <summary className={HEADER_CLS}>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-accent tracking-widest">BGM</span>
+              <CopyLabel text="BGM" />
+              <span className="text-[10px] text-text-dim">
+                {(episode.books ?? []).filter(b => b.bgm?.summary || b.bgm?.context).length}/{(episode.books ?? []).length}권
+              </span>
+            </div>
+            <span className="text-text-dim text-xs">▶</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <BgmEditor episode={episode} onChange={updateEpisode} />
           </div>
         </details>
       </section>

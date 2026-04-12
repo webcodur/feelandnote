@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from 'fs/promises'
+import { readFile, readdir, stat, rename } from 'fs/promises'
 import { existsSync } from 'fs'
 import { spawn, execSync } from 'child_process'
 import path from 'path'
@@ -85,4 +85,34 @@ export async function POST(_req: Request, { params }: { params: Promise<{ path: 
   const imagesDir = path.join(found.dir, 'images')
   spawn('explorer.exe', [imagesDir], { detached: true, stdio: 'ignore' })
   return Response.json({ ok: true })
+}
+
+/** PATCH → 이미지 파일 이름 변경 (prefix 추가/제거) */
+export async function PATCH(req: Request, { params }: { params: Promise<{ path: string[] }> }) {
+  const segments = (await params).path
+  if (segments.length !== 2) {
+    return Response.json({ error: 'Invalid path' }, { status: 400 })
+  }
+  const [episodeName, oldName] = segments
+  const { newName } = await req.json() as { newName: string }
+  if (!newName || /[/\\]/.test(newName)) {
+    return Response.json({ error: 'Invalid new name' }, { status: 400 })
+  }
+
+  const found = findEpisodeDir(episodeName)
+  if (!found) return Response.json({ error: 'episode not found' }, { status: 404 })
+
+  const imagesDir = path.join(found.dir, 'images')
+  const oldPath = path.join(imagesDir, oldName)
+  const newPath = path.join(imagesDir, newName)
+
+  if (!existsSync(oldPath)) {
+    return Response.json({ error: 'File not found' }, { status: 404 })
+  }
+  if (existsSync(newPath)) {
+    return Response.json({ error: 'Target name already exists' }, { status: 409 })
+  }
+
+  await rename(oldPath, newPath)
+  return Response.json({ ok: true, oldName, newName })
 }

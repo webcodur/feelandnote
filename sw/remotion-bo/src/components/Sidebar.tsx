@@ -30,17 +30,6 @@ function fmtYear(y: number | null): string {
   return y < 0 ? `BC ${Math.abs(y)}` : String(y)
 }
 
-/** 동일 인물 다편 감지: baseName 기준으로 "1편", "2편" 등 반환 */
-function detectPartLabel(baseName: string, allBaseNames: string[]): string | null {
-  const partMatch = baseName.match(/-(\d+)$/)
-  if (partMatch) return `${partMatch[1]}편`
-  const hasSequel = allBaseNames.some(n => {
-    const suffix = n.slice(baseName.length)
-    return suffix.length > 0 && /^-\d+$/.test(suffix)
-  })
-  return hasSequel ? '1편' : null
-}
-
 function groupEpisodes(episodes: EpisodeSummary[]): EpisodeGroup[] {
   const map = new Map<string, EpisodeGroup>()
   for (const ep of episodes) {
@@ -211,7 +200,6 @@ export function Sidebar() {
                         const primary = g.ko ?? g.en!
                         const active = pathname.startsWith(`/${activeSeries}/${g.ko?.name}/`) || pathname.startsWith(`/${activeSeries}/${g.en?.name}/`)
                           || pathname === `/${activeSeries}/${g.ko?.name}` || pathname === `/${activeSeries}/${g.en?.name}`
-                        const partLabel = detectPartLabel(g.baseName, groups.map(o => o.baseName))
                         return (
                           <Link key={g.baseName} href={`/${activeSeries}/${primary.name}`}
                             className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${
@@ -219,7 +207,6 @@ export function Sidebar() {
                             }`}>
                             <StatusIcon status={g.status} hasVoice={primary.voiceCount > 0} />
                             <span className="font-semibold truncate">{primary.nickname}</span>
-                            {partLabel && <span className="text-[9px] px-1 rounded bg-purple-500/15 text-purple-400 shrink-0">{partLabel}</span>}
                             <span className="ml-auto flex items-center gap-1 shrink-0">
                               {g.ko && <span className="text-[9px] px-0.5 rounded bg-blue-500/15 text-blue-400">K</span>}
                               {g.en && <span className="text-[9px] px-0.5 rounded bg-green-500/15 text-green-400">E</span>}
@@ -245,7 +232,6 @@ export function Sidebar() {
             <div className="space-y-0.5">
               {filteredCandidates.map(d => {
                 const active = pathname.startsWith(`/${activeSeries}/${d.name}`)
-                const candidatePartLabel = detectPartLabel(d.name, filteredCandidates.map(c => c.name))
                 return (
                   <Link key={d.name} href={`/${activeSeries}/${d.name}`}
                     className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${
@@ -253,7 +239,6 @@ export function Sidebar() {
                     }`}>
                     <span className="text-zinc-500 text-[10px]">◇</span>
                     <span className="font-semibold truncate">{d.nickname}</span>
-                    {candidatePartLabel && <span className="text-[9px] px-1 rounded bg-purple-500/15 text-purple-400 shrink-0">{candidatePartLabel}</span>}
                     <span className="ml-auto text-[10px] text-text-dim shrink-0">{fmtYear(d.birthYear)}</span>
                   </Link>
                 )

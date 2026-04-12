@@ -8,6 +8,15 @@ const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
 const COMMON_VOICE_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'voice')
 export const VOICE_ARCHIVE = path.join(REMOTION_ROOT, 'voice-archive')
 
+/**
+ * 작업 완료된 인물 보관소 — D:\done_people
+ *
+ * 사용자가 작업을 끝낸 셀럽 폴더를 통째로 이 경로로 옮긴다. 표준 episodes 디렉토리와
+ * 동일한 구조({person}/{ko,en}.json …)이며, findEpisodeDir/listEpisodes 가 이 경로도
+ * 폴백으로 스캔한다. 메타 푸시·로드는 정상 동작하고, status는 'done' 으로 노출된다.
+ */
+const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/done_people'
+
 /** export — API 라우트에서 직접 사용 */
 export { EPISODES_DIR, COMMON_VOICE_DIR }
 
@@ -18,19 +27,15 @@ export type EpisodeStatus = (typeof STATUSES)[number]
 /**
  * Episode ID ↔ person/locale 변환
  *
- *   elon-musk      → person: elon-musk,  locale: ko
- *   elon-musk-en   → person: elon-musk,  locale: en
- *   elon-musk-2    → person: elon-musk,  locale: ko-2
- *   elon-musk-2-en → person: elon-musk,  locale: en-2
+ *   elon-musk      → person: elon-musk, locale: ko
+ *   elon-musk-en   → person: elon-musk, locale: en
+ *
+ * 동일 인물 다편(alt 에피소드) 패턴은 폐기됨. 이제 같은 인물의 복수 쇼츠는
+ * shorts 배열로 표현한다.
  */
 export function parseEpisodeId(episodeId: string): { person: string; locale: string } {
-  const isEn = episodeId.endsWith('-en')
-  const base = isEn ? episodeId.slice(0, -3) : episodeId
-  const partMatch = base.match(/-(\d+)$/)
-  const person = partMatch ? base.slice(0, -partMatch[0].length) : base
-  const part = partMatch ? parseInt(partMatch[1]) : 1
-  const locale = isEn ? 'en' : 'ko'
-  return { person, locale: part > 1 ? `${locale}-${part}` : locale }
+  if (episodeId.endsWith('-en')) return { person: episodeId.slice(0, -3), locale: 'en' }
+  return { person: episodeId, locale: 'ko' }
 }
 
 /** person 이름(또는 episode ID)으로 상태 폴더를 찾는다 */
@@ -40,6 +45,9 @@ export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir
     const dir = path.join(EPISODES_DIR, s, person)
     if (existsSync(dir)) return { status: s, dir }
   }
+  // 아카이브 폴백 — D:/done_people/{person}. status 는 'done' 으로 통일.
+  const archivedDir = path.join(ARCHIVED_EPISODES_DIR, person)
+  if (existsSync(archivedDir)) return { status: 'done', dir: archivedDir }
   return null
 }
 
@@ -75,13 +83,9 @@ export function voiceDir(episodeId: string): string {
 
 function buildEpisodeId(personDir: string, filename: string): string {
   const base = filename.replace('.json', '')
-  const match = base.match(/^(ko|en)(?:-(\d+))?$/)
-  if (!match) return personDir
-  const [, locale, part] = match
-  let id = personDir
-  if (part) id += `-${part}`
-  if (locale === 'en') id += '-en'
-  return id
+  if (base === 'ko') return personDir
+  if (base === 'en') return `${personDir}-en`
+  return personDir
 }
 
 export type EpisodeListItem = { id: string; status: EpisodeStatus }
@@ -99,11 +103,29 @@ export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]>
       for (const f of files) {
         if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
         const base = f.replace('.json', '')
-        if (!/^(ko|en)(?:-(\d+))?$/.test(base)) continue
+        if (!/^(ko|en)$/.test(base)) continue
         items.push({ id: buildEpisodeId(e.name, f), status: s })
       }
     }
   }
+
+  // 아카이브 폴더 스캔 — 작업 완료된 인물들 (status: 'done' 으로 통일)
+  try {
+    const archivedEntries = await readdir(ARCHIVED_EPISODES_DIR, { withFileTypes: true })
+    for (const e of archivedEntries) {
+      if (!e.isDirectory() || e.name.startsWith('_')) continue
+      const personDir = path.join(ARCHIVED_EPISODES_DIR, e.name)
+      let files
+      try { files = await readdir(personDir) } catch { continue }
+      for (const f of files) {
+        if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
+        const base = f.replace('.json', '')
+        if (!/^(ko|en)$/.test(base)) continue
+        items.push({ id: buildEpisodeId(e.name, f), status: 'done' })
+      }
+    }
+  } catch { /* 아카이브 디렉토리가 없으면 무시 */ }
+
   return items
 }
 
@@ -136,10 +158,69 @@ export async function promoteCandidate(series: string, name: string) {
   await unlink(src)
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * 옵션 2: 외부 쇼츠 파일 로드 — shorts/{locale}-{N}.json 및
+ * shorts/{locale}-{N}.timing.json 을 읽어 1-based 오름차순 배열로 반환.
+ */
+async function loadExternalShorts(episodeDir: string, locale: string): Promise<any[]> {
+  const shortsDir = path.join(episodeDir, 'shorts')
+  if (!existsSync(shortsDir)) return []
+  let files: string[]
+  try {
+    files = await readdir(shortsDir)
+  } catch {
+    return []
+  }
+
+  const contentRe = new RegExp(`^${locale}-(\\d+)\\.json$`)
+  const timingRe = new RegExp(`^${locale}-(\\d+)\\.timing\\.json$`)
+
+  const contents = new Map<number, any>()
+  const timings = new Map<number, any>()
+
+  for (const f of files) {
+    if (f.endsWith('.timing.json')) {
+      const m = f.match(timingRe)
+      if (m) {
+        try {
+          timings.set(parseInt(m[1], 10), JSON.parse(await readFile(path.join(shortsDir, f), 'utf-8')))
+        } catch { /* corrupt timing → skip */ }
+      }
+    } else {
+      const m = f.match(contentRe)
+      if (m) {
+        try {
+          contents.set(parseInt(m[1], 10), JSON.parse(await readFile(path.join(shortsDir, f), 'utf-8')))
+        } catch { /* corrupt content → skip */ }
+      }
+    }
+  }
+
+  return [...contents.keys()]
+    .sort((a, b) => a - b)
+    .map((idx) => {
+      const c = contents.get(idx)
+      const t = timings.get(idx)
+      if (!t?.segments || !Array.isArray(c?.segments)) return c
+      return {
+        ...c,
+        segments: c.segments.map((seg: any, i: number) => ({ ...seg, ...(t.segments[i] ?? {}) })),
+      }
+    })
+}
+
 export async function loadEpisode(_series: string, name: string) {
   const fp = episodeFilePath(name)
   const raw = await readFile(fp, 'utf-8')
-  const content = JSON.parse(raw)
+  const content: any = JSON.parse(raw)
+
+  // 외부 shorts 파일 로드 (옵션 2)
+  const { person, locale } = parseEpisodeId(name)
+  const found = findEpisodeDir(person)
+  const episodeDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
+  const shortsArr = await loadExternalShorts(episodeDir, locale)
+  if (shortsArr.length > 0) content.shorts = shortsArr
 
   const tp = timingFilePath(name)
   let timing: Record<string, unknown> | null = null
@@ -150,6 +231,68 @@ export async function loadEpisode(_series: string, name: string) {
 
   return mergeEpisodeFiles(content, timing)
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+/**
+ * 옵션 2: 외부 쇼츠 파일로 저장 — shorts/{locale}-{N}.json 쓰기.
+ * segment.duration은 {locale}-{N}.timing.json으로 분리.
+ * 입력 배열보다 작아진 경우 잉여 파일을 정리한다.
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export async function saveShorts(_series: string, name: string, shortsArr: any[]) {
+  const { person, locale } = parseEpisodeId(name)
+  const found = findEpisodeDir(person)
+  const baseDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
+  const shortsDir = path.join(baseDir, 'shorts')
+  await mkdir(shortsDir, { recursive: true })
+
+  const contentRe = new RegExp(`^${locale}-(\\d+)\\.json$`)
+  let existingFiles: string[] = []
+  try {
+    existingFiles = (await readdir(shortsDir)).filter(f => contentRe.test(f))
+  } catch { /* empty */ }
+
+  const writtenFiles = new Set<string>()
+  for (let i = 0; i < shortsArr.length; i++) {
+    const idx = i + 1 // 1-based
+    const fileName = `${locale}-${idx}.json`
+    writtenFiles.add(fileName)
+
+    const shortsContent = JSON.parse(JSON.stringify(shortsArr[i]))
+    const segDurations: Array<Record<string, unknown>> = []
+    if (Array.isArray(shortsContent.segments)) {
+      shortsContent.segments.forEach((s: any) => {
+        const d: Record<string, unknown> = {}
+        if (s.duration != null) { d.duration = s.duration; delete s.duration }
+        segDurations.push(d)
+      })
+    }
+
+    await writeFile(path.join(shortsDir, fileName), JSON.stringify(shortsContent, null, 2) + '\n', 'utf-8')
+
+    // 타이밍 파일 (segment duration이 하나라도 있을 때만)
+    const timingFile = `${locale}-${idx}.timing.json`
+    const timingPath = path.join(shortsDir, timingFile)
+    if (segDurations.some(d => Object.keys(d).length > 0)) {
+      let existing: any = {}
+      if (existsSync(timingPath)) {
+        try { existing = JSON.parse(await readFile(timingPath, 'utf-8')) } catch { /* ignore */ }
+      }
+      existing.segments = segDurations
+      await writeFile(timingPath, JSON.stringify(existing, null, 2) + '\n', 'utf-8')
+    }
+  }
+
+  // 잉여 파일 정리 — 새 배열에 없으면 content + timing 모두 제거
+  for (const ef of existingFiles) {
+    if (!writtenFiles.has(ef)) {
+      await unlink(path.join(shortsDir, ef)).catch(() => {})
+      const timingFile = ef.replace(/\.json$/, '.timing.json')
+      await unlink(path.join(shortsDir, timingFile)).catch(() => {})
+    }
+  }
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function saveEpisode(_series: string, name: string, data: unknown) {
   const fp = episodeFilePath(name)
@@ -158,8 +301,18 @@ export async function saveEpisode(_series: string, name: string, data: unknown) 
   // timing.json은 voice/analyze 파이프라인 단독 관리(SSoT).
   // 백오피스가 받은 객체에 voiceTimings/duration 등이 섞여 있어도 split으로 분리해서 버린다.
   // 이렇게 하지 않으면 백오피스 메모리의 stale timing이 디스크의 NEW timing을 덮어쓴다.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const originalShorts = (data as any)?.shorts
   const { content } = splitEpisodeData(data)
   await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
+
+  // 옵션 2: 쇼츠는 외부 파일로 분리 저장
+  if (Array.isArray(originalShorts) && originalShorts.length > 0) {
+    await saveShorts(_series, name, originalShorts)
+  } else if (originalShorts && !Array.isArray(originalShorts)) {
+    // 유예 호환: 객체로 들어온 경우 1-based 단일 배열로 취급
+    await saveShorts(_series, name, [originalShorts])
+  }
 }
 
 /** 인물 폴더를 물리적으로 다른 상태 폴더로 이동 */
@@ -199,8 +352,7 @@ export async function scanLocalWavs(episodeName: string): Promise<{ relPath: str
 
   // 공통 음성 파일 포함 (common/voice/{locale}/)
   const { locale } = parseEpisodeId(episodeName)
-  const baseLang = locale.split('-')[0] // ko-2 → ko
-  const commonDir = path.join(COMMON_VOICE_DIR, baseLang)
+  const commonDir = path.join(COMMON_VOICE_DIR, locale)
   try {
     const entries = await readdir(commonDir, { withFileTypes: true })
     for (const e of entries) {
@@ -377,12 +529,8 @@ async function collectVoiceEpisodeIds(): Promise<string[]> {
       for (const loc of locales) {
         if (!loc.isDirectory()) continue
         const locName = loc.name
-        const match = locName.match(/^(ko|en)(?:-(\d+))?$/)
-        if (!match) continue
-        const [, lang, part] = match
-        let id = p.name
-        if (part) id += `-${part}`
-        if (lang === 'en') id += '-en'
+        if (locName !== 'ko' && locName !== 'en') continue
+        const id = locName === 'en' ? `${p.name}-en` : p.name
         ids.push(id)
       }
     }
@@ -499,28 +647,31 @@ const HOST_DURATION_KEYS = ['featuredQuoteDuration', 'voiceDuration'] as const
 
 const BOOK_DURATION_KEYS = [
   'titleDuration', 'summaryDuration', 'contextDuration',
-  'quoteDuration', 'contextAfterDuration',
 ] as const
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function mergeEpisodeFiles(content: any, timing: any): any {
   if (!timing || Object.keys(timing).length === 0) return content
+  // 옵션 2: shorts는 외부 파일에서 이미 주입됨 (segments[].duration 포함).
+  // 본체 timing.json은 더 이상 shorts 블록을 관리하지 않는다.
   return {
     ...content,
     voiceTimings: timing.voiceTimings ?? content.voiceTimings,
     narrator: { ...content.narrator, ...timing.narrator },
     host: { ...content.host, ...timing.host },
-    books: content.books?.map((b: any, i: number) => ({
-      ...b, ...(timing.books?.[i] ?? {}),
-    })),
-    shorts: content.shorts
-      ? {
-          ...content.shorts,
-          segments: content.shorts.segments?.map((s: any, i: number) => ({
-            ...s, ...(timing.shorts?.segments?.[i] ?? {}),
-          })),
-        }
-      : content.shorts,
+    books: content.books?.map((b: any, i: number) => {
+      const tb = timing.books?.[i] ?? {}
+      const merged = { ...b, ...tb }
+      // quotePairDurations → quotePairs 내부에 병합
+      if (tb.quotePairDurations && merged.quotePairs) {
+        merged.quotePairs = merged.quotePairs.map((p: any, pi: number) => ({
+          ...p, ...(tb.quotePairDurations[pi] ?? {}),
+        }))
+        delete merged.quotePairDurations
+      }
+      return merged
+    }),
+    shorts: content.shorts,
   }
 }
 
@@ -555,20 +706,23 @@ function splitEpisodeData(data: unknown): { content: any; timing: any } {
       for (const k of BOOK_DURATION_KEYS) {
         if (b[k] != null) { d[k] = b[k]; delete b[k] }
       }
+      // quotePairs 내부 duration 분리
+      if (b.quotePairs?.length) {
+        d.quotePairDurations = b.quotePairs.map((p: any) => {
+          const pd: any = {}
+          if (p.quoteDuration != null) { pd.quoteDuration = p.quoteDuration; delete p.quoteDuration }
+          if (p.afterDuration != null) { pd.afterDuration = p.afterDuration; delete p.afterDuration }
+          return pd
+        })
+      }
       return d
     })
     if (bd.some((d: any) => Object.keys(d).length > 0)) timing.books = bd
   }
 
-  // shorts segment duration
-  if (content.shorts?.segments) {
-    const sd = content.shorts.segments.map((s: any) => {
-      const d: any = {}
-      if (s.duration != null) { d.duration = s.duration; delete s.duration }
-      return d
-    })
-    if (sd.some((d: any) => Object.keys(d).length > 0)) timing.shorts = { segments: sd }
-  }
+  // 옵션 2: shorts는 외부 파일(shorts/{locale}-{N}.json)로 분리 저장.
+  // 본체 저장 시 shorts 필드는 배제한다. 외부 파일 쓰기는 saveShorts 전담.
+  if (content.shorts !== undefined) delete content.shorts
 
   return { content, timing }
 }

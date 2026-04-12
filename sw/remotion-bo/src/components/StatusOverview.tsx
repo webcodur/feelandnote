@@ -12,24 +12,31 @@ type Props = {
 
 function checkText(ep: EpisodeData) {
   return !!(ep.narrator?.celebIntro && ep.narrator?.bridge && ep.narrator?.outro
-    && ep.host?.philosophy && ep.books?.length > 0 && ep.books.every(b => b.summary && b.context))
+    && ep.host?.philosophy && ep.books?.length > 0 && ep.books.every(b => b.summary && b.contextMain))
 }
 
 function checkImages(ep: EpisodeData) {
   return !!ep.host?.avatar_url && ep.books?.every(b => !!b.thumbnail_url)
 }
 
+/** shorts 배열 정규화 (단일 객체 호환) */
+function normalizeShortsArr(ep: EpisodeData): Array<{ segments?: Array<{ id: string; role: string; duration?: number }> }> {
+  return Array.isArray(ep.shorts) ? (ep.shorts as any) : (ep.shorts ? [ep.shorts as any] : [])
+}
+
 /** 프로덕션 모델 판별 + 엔진별 기대/현황 계산 */
 function computeVoice(ep: EpisodeData, fileNames: string[]) {
   const hasEL = !!ep.host?.elevenlabsVoiceId
   const model = hasEL ? 'Gemini + ElevenLabs' : 'Gemini'
+  const shortsArr = normalizeShortsArr(ep)
+  const allShortsSegs = shortsArr.flatMap(s => s.segments ?? [])
 
   // ElevenLabs 대상 키워드
   const elKeys: string[] = []
   if (hasEL) {
     if ((ep.host?.voiceDuration ?? 0) > 0) elKeys.push('philosophy')
     if ((ep.host?.featuredQuoteDuration ?? 0) > 0) elKeys.push('featured-quote')
-    if (ep.shorts) ep.shorts.segments.forEach(s => {
+    allShortsSegs.forEach(s => {
       if (s.role === 'celeb' && (s.duration ?? 0) > 0) elKeys.push(s.id)
     })
   }
@@ -51,18 +58,20 @@ function computeVoice(ep: EpisodeData, fileNames: string[]) {
     if (b.titleDuration > 0) geminiExp++
     if (b.summaryDuration > 0) geminiExp++
     if (b.contextDuration > 0) geminiExp++
-    if ((b.contextAfterDuration ?? 0) > 0) geminiExp++
-    // quote는 EL 없을 때 Gemini
-    if ((b.quoteDuration ?? 0) > 0 && !hasEL) geminiExp++
+    // quotePairs: after는 Gemini, quote는 EL 없을 때 Gemini
+    for (const pair of ((b as any).quotePairs ?? [])) {
+      if ((pair.afterDuration ?? 0) > 0) geminiExp++
+      if ((pair.quoteDuration ?? 0) > 0 && !hasEL) geminiExp++
+    }
   }
   if (!hasEL) {
     countIf(ep.host?.voiceDuration)
     countIf(ep.host?.featuredQuoteDuration)
-    if (ep.shorts) ep.shorts.segments.forEach(s => {
+    allShortsSegs.forEach(s => {
       if (s.role === 'celeb' && (s.duration ?? 0) > 0) geminiExp++
     })
   }
-  if (ep.shorts) ep.shorts.segments.forEach(s => {
+  allShortsSegs.forEach(s => {
     if (s.role === 'narrator' && (s.duration ?? 0) > 0) geminiExp++
   })
 
@@ -81,9 +90,10 @@ function computeVoice(ep: EpisodeData, fileNames: string[]) {
 /** 에피소드 음성 BOM (Bill of Materials) */
 function computeBOM(ep: EpisodeData) {
   const n = ep.books?.length ?? 0
-  const quotes = ep.books?.filter(b => (b.quoteDuration ?? 0) > 0).length ?? 0
-  const ctxAfter = ep.books?.filter(b => (b.contextAfterDuration ?? 0) > 0).length ?? 0
-  const shorts = ep.shorts?.segments.length ?? 0
+  const quotes = ep.books?.reduce((sum, b) => sum + ((b as any).quotePairs ?? []).filter((p: any) => (p.quoteDuration ?? 0) > 0).length, 0) ?? 0
+  const ctxAfter = ep.books?.reduce((sum, b) => sum + ((b as any).quotePairs ?? []).filter((p: any) => (p.afterDuration ?? 0) > 0).length, 0) ?? 0
+  const shortsArr = normalizeShortsArr(ep)
+  const shorts = shortsArr.reduce((sum, s) => sum + (s.segments?.length ?? 0), 0)
 
   // 기본 나레이션 (존재하는 것만)
   let base = 0
