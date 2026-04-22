@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface RecordsSearchResult {
   id: string
@@ -88,7 +88,7 @@ export async function searchRecords({
       rating,
       content:contents!inner(
         id, type, user_count,
-        content_locales(${CL_SELECT})
+        content_locales(${CL_SELECT_LIST})
       )
     `, { count: 'exact' })
     .eq('user_id', user.id)

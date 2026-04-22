@@ -8,7 +8,7 @@ import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
@@ -158,7 +158,7 @@ export default async function CelebPage({ params }: PageProps) {
     // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
     supabase
       .from('user_contents')
-      .select(`contents!inner(id, type, content_locales(${CL_SELECT}))`)
+      .select(`contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
       .eq('user_id', userId)
       .limit(50),
     supabase

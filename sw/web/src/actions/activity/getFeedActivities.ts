@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface FeedActivity {
   id: string
@@ -142,7 +142,7 @@ export async function getFeedActivities(
     const [{ data: contents }, { data: userContents }] = await Promise.all([
       supabase
         .from('contents')
-        .select(`id, type, content_locales(${CL_SELECT})`)
+        .select(`id, type, content_locales(${CL_SELECT_LIST})`)
         .in('id', contentIds),
       supabase
         .from('user_contents')

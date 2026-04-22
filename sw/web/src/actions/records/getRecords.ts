@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { RecordType } from './createRecord'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetRecordsParams {
   userId?: string  // 특정 사용자/셀럽의 기록 조회
@@ -41,7 +41,7 @@ export async function getRecords(params: GetRecordsParams = {}) {
     .from('records')
     .select(`
       *,
-      contentData:contents(id, type, content_locales(${CL_SELECT})),
+      contentData:contents(id, type, content_locales(${CL_SELECT_LIST})),
       contributor:profiles!records_contributor_id_fkey(id, nickname, avatar_url)
     `)
     .eq('user_id', targetUserId)
@@ -109,7 +109,7 @@ export async function getRecord(recordId: string, userId?: string) {
     .from('records')
     .select(`
       *,
-      contentData:contents(id, type, content_locales(${CL_SELECT})),
+      contentData:contents(id, type, content_locales(${CL_SELECT_LIST})),
       contributor:profiles!records_contributor_id_fkey(id, nickname, avatar_url)
     `)
     .eq('id', recordId)

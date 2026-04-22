@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { Note, NoteWithContent } from './types'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export async function getNote(noteId: string): Promise<ActionResult<Note | null>> {
   const supabase = await createClient()
@@ -78,7 +78,7 @@ export async function getMyNotes(): Promise<ActionResult<NoteWithContent[]>> {
     .from('notes')
     .select(`
       *,
-      content:contents(id, type, content_locales(${CL_SELECT})),
+      content:contents(id, type, content_locales(${CL_SELECT_LIST})),
       sections:note_sections(count)
     `)
     .eq('user_id', user.id)

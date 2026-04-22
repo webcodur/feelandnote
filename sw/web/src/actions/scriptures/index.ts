@@ -4,7 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { CategoryId } from '@/constants/categories'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
 
 // #region Types
 export interface ScriptureContent {
@@ -180,7 +181,7 @@ async function fetchAllUserContents(
           user_id,
           content_id,
           rating,
-          contents!inner(id, type, content_locales(${CL_SELECT}))
+          contents!inner(id, type, content_locales(${CL_SELECT_LIST}))
         `)
         .in('user_id', batchIds)
         .eq('status', 'FINISHED')
@@ -643,13 +644,13 @@ async function fetchFigureContents(
       .single(),
     supabase
       .from('user_contents')
-      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT}))`)
+      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
     supabase
       .from('celeb_dialogues')
-      .select('lines, lines_en')
+      .select(DIALOGUE_BRIEF_SELECT)
       .eq('celeb_id', celebId)
       .single(),
     fetchUserContentCounts(supabase),
@@ -689,10 +690,11 @@ async function fetchFigureContents(
   const nicknameEn = (profile as any).nickname_en ?? null
   const bioEn = (profile as any).bio_en ?? null
 
-  // 대사 데이터 추출
-  const lines = (locale === 'en' && dialogue?.lines_en) ? dialogue.lines_en : dialogue?.lines
-  const greetingLines: string[] = (lines as any)?.greeting ?? []
-  const quote: string | null = (lines as any)?.quote ?? null
+  // 대사 데이터 추출 (서버측 JSON path 결과 → ko 폴백)
+  const d = dialogue as unknown as DialogueBrief | null
+  const useEn = locale === 'en'
+  const greetingLines: string[] = (useEn ? d?.greeting_en : d?.greeting) ?? d?.greeting ?? []
+  const quote: string | null = (useEn ? d?.quote_en : d?.quote) ?? d?.quote ?? null
 
   return {
     figure: {
@@ -992,7 +994,7 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
 
   const { data, error } = await supabase
     .from('user_contents')
-    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT}))`)
+    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
     .in('user_id', celebIds)
     .eq('visibility', 'public')
     .eq('status', 'FINISHED')

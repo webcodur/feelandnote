@@ -6,7 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { CL_SELECT, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
   TimelineCeleb,
   TimelineContent,
@@ -53,7 +53,7 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      `user_id, content_id, review, review_en, source_url, contents!inner(id, type, content_locales(${CL_SELECT}))`
+      `user_id, content_id, review, review_en, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");

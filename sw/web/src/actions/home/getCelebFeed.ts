@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetCelebFeedParams {
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
@@ -35,7 +35,7 @@ export async function getCelebFeed(
       updated_at,
       content:contents!user_contents_content_id_fkey!inner(
         id, type, user_count,
-        content_locales(${CL_SELECT})
+        content_locales(${CL_SELECT_LIST})
       ),
       celeb:profiles!user_contents_user_id_fkey!inner(
         id,

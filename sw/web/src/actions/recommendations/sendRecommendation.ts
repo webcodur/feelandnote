@@ -5,7 +5,7 @@ import { createNotification } from "@/actions/notifications";
 import type { SendRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
 import { getLocale } from "next-intl/server";
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface SendRecommendationData {
   recommendationId: string;
@@ -44,7 +44,7 @@ export async function sendRecommendation(
       id,
       user_id,
       status,
-      content:contents(id, type, content_locales(${CL_SELECT}))
+      content:contents(id, type, content_locales(${CL_SELECT_LIST}))
     `
     )
     .eq("id", params.userContentId)

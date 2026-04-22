@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { EXPORT_STATUS_LABELS } from '@/constants/statuses'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface ExportParams {
   type?: ContentType
@@ -41,7 +41,7 @@ export async function getContentsForExport(params: ExportParams = {}): Promise<E
     throw new Error('로그인이 필요합니다')
   }
 
-  const contentJoin = type ? `content:contents!inner(*, content_locales(${CL_SELECT}))` : `content:contents(*, content_locales(${CL_SELECT}))`
+  const contentJoin = type ? `content:contents!inner(*, content_locales(${CL_SELECT_LIST}))` : `content:contents(*, content_locales(${CL_SELECT_LIST}))`
 
   let query = supabase
     .from('user_contents')

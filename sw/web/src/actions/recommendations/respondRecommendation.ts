@@ -5,7 +5,6 @@ import { createNotification } from "@/actions/notifications";
 import { revalidatePath } from "next/cache";
 import type { RespondRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface RespondRecommendationData {
   accepted: boolean;
@@ -35,7 +34,7 @@ export async function respondRecommendation(
       status,
       user_content:user_contents!content_recommendations_user_content_id_fkey(
         content_id,
-        content:contents(id, type, metadata, content_locales(${CL_SELECT}))
+        content:contents(id, type, metadata)
       )
     `
     )
@@ -78,7 +77,6 @@ export async function respondRecommendation(
       id: string;
       type: string;
       metadata: Record<string, unknown> | null;
-      content_locales: ContentLocaleRow[] | null;
     };
     type UserContentData = {
       content_id: string;

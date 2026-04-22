@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface RecentContent {
   id: string
@@ -19,7 +19,7 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
 
   const { data, error } = await supabase
     .from('contents')
-    .select(`id, type, created_at, content_locales(${CL_SELECT})`)
+    .select(`id, type, created_at, content_locales(${CL_SELECT_LIST})`)
     .order('created_at', { ascending: false })
     .limit(limit)
 

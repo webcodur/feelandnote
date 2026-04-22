@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
+import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
 
@@ -112,7 +113,7 @@ async function fetchCelebsPublic(
       .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIds),
     supabase.from('celeb_dialogues')
-      .select('celeb_id, lines, lines_en')
+      .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in('celeb_id', celebIds),
     supabase.from('profiles')
       .select('id, voice_v, voice_speed')
@@ -142,11 +143,11 @@ async function fetchCelebsPublic(
   const greetingEnMap: Record<string, string[]> = {}
   const quoteMap: Record<string, string> = {}
   const quoteEnMap: Record<string, string> = {}
-  ;(dialogueResult.data ?? []).forEach((row: any) => {
-    if (row.lines?.greeting) greetingMap[row.celeb_id] = row.lines.greeting
-    if (row.lines_en?.greeting) greetingEnMap[row.celeb_id] = row.lines_en.greeting
-    if (row.lines?.quote) quoteMap[row.celeb_id] = row.lines.quote
-    if (row.lines_en?.quote) quoteEnMap[row.celeb_id] = row.lines_en.quote
+  ;((dialogueResult.data ?? []) as unknown as DialogueBriefWithId[]).forEach(row => {
+    if (row.greeting) greetingMap[row.celeb_id] = row.greeting
+    if (row.greeting_en) greetingEnMap[row.celeb_id] = row.greeting_en
+    if (row.quote) quoteMap[row.celeb_id] = row.quote
+    if (row.quote_en) quoteEnMap[row.celeb_id] = row.quote_en
   })
 
   // 음성 맵

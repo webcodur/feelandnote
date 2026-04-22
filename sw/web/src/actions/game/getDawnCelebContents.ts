@@ -7,7 +7,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getLocale } from "next-intl/server";
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 export interface DawnContent {
   contentId: string;
@@ -30,7 +30,7 @@ export async function getDawnCelebContents(
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      `user_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT}))`
+      `user_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");

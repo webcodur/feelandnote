@@ -1,17 +1,33 @@
 // content_locales 테이블 헬퍼
 
-/** content_locales SELECT 필드 */
+/**
+ * content_locales SELECT 필드 (상세 페이지용 - 전체 필드)
+ * description/publisher/isbn/affiliate_url 포함. 상세 페이지·수정 화면에서만 사용.
+ */
 export const CL_SELECT = 'locale, title, creator, thumbnail_url, description, isbn, publisher, affiliate_url'
+
+/**
+ * 경량 SELECT (리스트·피드·카드용)
+ * description/publisher/isbn/affiliate_url 제외 → egress 절약.
+ * flattenLocales는 누락 필드를 null로 안전 처리한다.
+ */
+export const CL_SELECT_LIST = 'locale, title, creator, thumbnail_url'
+
+/**
+ * 초경량 SELECT (뱃지·이름만 필요한 곳)
+ * title만 가져온다. creator/thumbnail도 불필요할 때.
+ */
+export const CL_SELECT_MINI = 'locale, title'
 
 export interface ContentLocaleRow {
   locale: string
   title: string | null
   creator: string | null
   thumbnail_url: string | null
-  description: string | null
-  isbn: string | null
-  publisher: string | null
-  affiliate_url: unknown
+  description?: string | null
+  isbn?: string | null
+  publisher?: string | null
+  affiliate_url?: unknown
 }
 
 /**

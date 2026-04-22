@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface UpdateRecordParams {
   recordId: string
@@ -59,10 +58,7 @@ export async function updateRecord(params: UpdateRecordParams): Promise<ActionRe
     .update(updateData)
     .eq('id', params.recordId)
     .eq('user_id', user.id)
-    .select(`
-      *,
-      content:contents(id, type, content_locales(${CL_SELECT}))
-    `)
+    .select('*')
     .single()
 
   if (error) {
