@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ShortCaption — 쇼츠 자막 컴포넌트
  *
  * 긴 텍스트는 자동 페이징 — 문장 단위로 끊어서 순차 표시.
@@ -106,9 +106,11 @@ export const ShortCaption: React.FC<Props> = ({
     ...style,
   }
 
+  const stripDot = (s: string) => s.replace(/\./g, '').replace(/,\s*$/, '')
+
   // ── 단일 페이지 ──
   if (singlePage) {
-    return <div style={baseStyle}>{text}</div>
+    return <div style={baseStyle}>{stripDot(text)}</div>
   }
 
   // ── 멀티페이지: 즉시 전환 ──
@@ -119,8 +121,10 @@ export const ShortCaption: React.FC<Props> = ({
         const sptNext = pageTiming?.[pi + 1]
 
         // 페이지 시작 프레임 (voiceTimings 우선, 없으면 비율 분배)
-        // 종료점은 "다음 페이지 시작" — 발화 사이 공백에도 자막을 유지하여
+        // 기본 종료점은 "다음 페이지 시작" — 발화 사이 공백에도 자막을 유지하여
         // 페이지가 잠깐 보였다 사라지는 깜빡임을 방지한다.
+        // 단 페이지 자체 발화 끝과 다음 페이지 시작 사이 간격이 길면(의도적 포즈)
+        // 자막도 함께 내려 시각적 공백을 확보한다.
         const charsBefore = pages.slice(0, pi).reduce((s, p) => s + p.length, 0)
         const charsBeforeNext = charsBefore + pageText.length
         const ratio = charsBefore / text.length
@@ -129,18 +133,26 @@ export const ShortCaption: React.FC<Props> = ({
         const nextPs = sptNext
           ? startFrame + Math.round(sptNext.absStart * FPS)
           : startFrame + Math.round(spreadFrames * nextRatio)
+        const ownEnd = spt ? startFrame + Math.round(spt.absEnd * FPS) : nextPs
+        const GAP_THRESHOLD = Math.round(1.5 * FPS)
+        const gapFrames = nextPs - ownEnd
+        // 적응형 TRAIL: 갭의 절반(linger) ↔ 최대 1.5s. 짧은 포즈는 짧게, 긴 포즈는 1.5s까지.
+        const trailFrames = Math.min(Math.round(gapFrames * 0.5), Math.round(1.5 * FPS))
+        const cutoff = gapFrames > GAP_THRESHOLD ? ownEnd + trailFrames : nextPs
 
-        // 즉시 전환 — 다음 페이지 시작 직전까지 유지
+        // 즉시 전환 — 컷오프 직전까지 유지
         const isLast = pi === pages.length - 1
-        const visible = frame >= ps && (isLast || frame < nextPs)
+        const visible = frame >= ps && (isLast || frame < cutoff)
         if (!visible) return null
 
         return (
           <div key={pi} style={baseStyle}>
-            {pageText}
+            {stripDot(pageText)}
           </div>
         )
       })}
     </div>
   )
 }
+
+

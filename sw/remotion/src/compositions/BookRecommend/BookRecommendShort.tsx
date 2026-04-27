@@ -13,7 +13,13 @@ import { fadeInOut, safeImg, sf, makeVf } from './utils'
 import { safePrefetch } from './safe-prefetch'
 import { DARK } from '../theme'
 import { FONT } from './fonts'
-import { SHORT_CTA_FRAMES, SHORT_LOGO_FRAMES, SHORT_LOGO_FRAMES_BGM, SHORT_REVEAL_FRAMES, shortTotalFrames, shortSegLayout, FPS, f } from './timing'
+import {
+  SHORT_CTA_FRAMES, SHORT_LOGO_FRAMES, SHORT_LOGO_FRAMES_BGM, SHORT_REVEAL_FRAMES,
+  SHORT_CTA_BLOCK_FADE_IN, SHORT_OUTRO_CLOSE, SHORT_OUTRO_OPEN,
+  SHORT_LOGO_FADE_IN_PRE, SHORT_LOGO_FADE_IN_POST,
+  SHORT_LOGO_FADE_OUT, SHORT_LOGO_FADE_OUT_BGM,
+  shortTotalFrames, shortSegLayout, FPS, f,
+} from './timing'
 import { EPISODE_NAME, loadVoiceSelect, episodeDir } from './script'
 import {
   SHORT_W as W, SHORT_HEADER_H as HEADER_H, SHORT_SAFE_BOTTOM as SAFE_BOTTOM,
@@ -136,10 +142,15 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     return fadeInOut(frame, segStarts[i], segTimings[i])
   }
   const logoOp = fadeInOut(frame, logoStart, logoFrames)
-  // LOGO 풀스크린 오버레이용(매거진 ShortsThumbnail) — CTA 끝/LOGO 시작에서 페이드 인, LOGO 끝에서 페이드 아웃
-  const logoFadeOut = hasBgm ? f(1.5) : f(0.5)
+  // LOGO 풀스크린 오버레이용(매거진 ShortsThumbnail)
+  // CTA 있음: logoStart 이전 pre-lead(0.3s)로 진입 (기존)
+  // CTA 없음: 닫힘 페이즈 동안 숨겨두고, logoStart부터 열림 페이즈(OPEN)에서만 페이드인
+  const logoFadeOut = hasBgm ? SHORT_LOGO_FADE_OUT_BGM : SHORT_LOGO_FADE_OUT
+  const hasCtaSeg = segments.some(s => s.visual === 'cta')
+  const logoFadeInPre = hasCtaSeg ? SHORT_LOGO_FADE_IN_PRE : 0
+  const logoFadeInPost = hasCtaSeg ? SHORT_LOGO_FADE_IN_POST : SHORT_OUTRO_OPEN
   const logoContentOp = interpolate(frame,
-    [logoStart - f(0.3), logoStart + f(0.3), logoStart + logoFrames - logoFadeOut, logoStart + logoFrames],
+    [logoStart - logoFadeInPre, logoStart + logoFadeInPost, logoStart + logoFrames - logoFadeOut, logoStart + logoFrames],
     [0, 1, 1, 0], CL,
   )
 
@@ -164,11 +175,15 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   const stripAvatarOp = (() => {
     const fadeOut = interpolate(frame, [stripEnd - f(0.4), stripEnd], [1, 0], CL)
     // hook + intro 구간 숨김 — intro 다음 세그먼트(보통 celeb-mid) 시작 시점에 텍스트와 동시 등장
-    const showStart = introIdx >= 0 && introIdx + 1 < segments.length
-      ? segStarts[introIdx + 1]
-      : (introIdx >= 0
-        ? segStarts[introIdx] + segTimings[introIdx]
-        : (segments[0] ? segStarts[0] + segTimings[0] : 0))
+    // 단, intro가 compact 모드면 intro 시작 시점부터 스트립 아바타를 노출 (중앙 아바타 대체)
+    const introCompact = introIdx >= 0 && !!segments[introIdx]?.compact
+    const showStart = introCompact
+      ? segStarts[introIdx]
+      : introIdx >= 0 && introIdx + 1 < segments.length
+        ? segStarts[introIdx + 1]
+        : (introIdx >= 0
+          ? segStarts[introIdx] + segTimings[introIdx]
+          : (segments[0] ? segStarts[0] + segTimings[0] : 0))
     const introHide = interpolate(frame,
       [showStart, showStart + f(0.27)],
       [0, 1], CL)
@@ -200,25 +215,59 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   // --- image groups (precomputed to prevent regex parse every frame) ---
   // hook/intro/celeb-mid/book 모든 세그먼트의 seg.image + imageChangeAt를 통합 시퀀스로 빌드
   const imageGroups = React.useMemo(() => {
-    const groups: { image: string; start: number }[] = []
-    const push = (image: string, start: number) => {
+    const groups: { image: string; start: number; noZoom: boolean }[] = []
+    /** 같은 image + 같은 noZoom 조합이 연속되면 병합, 다르면 새 그룹 push.
+     *  이미지를 명시하지 않은 세그먼트(dedup)에서도 noZoom이 바뀌면 이전 이미지를
+     *  새 그룹으로 재push하여 줌 동작이 세그먼트 경계에서 즉시 전환되게 한다. */
+    const push = (image: string, start: number, noZoom: boolean) => {
       const last = groups[groups.length - 1]
-      if (last && last.image === image) return
-      groups.push({ image, start })
+      if (last && last.image === image && last.noZoom === noZoom) return
+      groups.push({ image, start, noZoom })
     }
     segments.forEach((seg, i) => {
-      if (!seg.image || seg.visual === 'cta') return
-      const img1 = seg.image.startsWith('episodes/') ? seg.image : `${imgBase}/${seg.image}`
-      push(img1, segStarts[i])
+      if (seg.visual === 'cta') return
+      const segNoZoom = !!seg.noZoom
+      // seg.image 없음(dedup) → 직전 그룹의 이미지를 승계. 승계할 이미지도 없으면 skip.
+      const inheritedImage = groups.length > 0 ? groups[groups.length - 1].image : null
+      const baseImage = seg.image
+        ? (seg.image.startsWith('episodes/') ? seg.image : `${imgBase}/${seg.image}`)
+        : inheritedImage
+      if (!baseImage) return
+      push(baseImage, segStarts[i], segNoZoom)
+      // imageChangeAt 처리 경로는 seg.image 가 존재할 때만 의미 있음 (앵커 텍스트는 seg.text 기반)
+      if (!seg.image) return
       if (seg.imageChangeAt) {
         const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]
         const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
-        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; words?: { text: string; start: number; end: number }[] }[] | undefined
+        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; sub?: string[]; subTimings?: number[]; words?: { text: string; start: number; end: number }[] }[] | undefined
         const segText = seg.text ?? ''
         const segDurSec = segTimings[i] / fps
         const stripPunct = (s: string) => s.replace(/[\s.,!?“"”'’《》\n\r]/g, '')
 
-        // word-level fullText (있으면 우선) — 같은 sentence 내 여러 anchor 구분 가능
+        // sub-level fullText (최우선) — 유저가 VoiceTimingEditor에서 subTimings를 편집하면 즉시 반영되므로
+        // 자막 타이밍과 이미지 전환 타이밍을 동일 원천(sub 경계)으로 묶는다.
+        let subFullText = ''
+        const subPositions: { offset: number; start: number }[] = []
+        if (timings) {
+          for (const sen of timings) {
+            const subs = (sen.sub ?? []) as string[]
+            const subT = (sen.subTimings ?? []) as number[]
+            if (subs.length === 0) {
+              // sub 분할 없음 → 문장 전체를 하나의 sub로 취급
+              subPositions.push({ offset: subFullText.length, start: sen.start })
+              subFullText += stripPunct(sen.text ?? '')
+              continue
+            }
+            for (let si = 0; si < subs.length; si++) {
+              const subStart = si === 0 ? sen.start : subT[si - 1]
+              subPositions.push({ offset: subFullText.length, start: subStart })
+              subFullText += stripPunct(subs[si])
+            }
+          }
+        }
+        const hasSubLevel = subPositions.length > 0
+
+        // word-level fullText (sub 데이터 없을 때 폴백) — whisper 원본이라 유저 편집 미반영
         let wordFullText = ''
         const wordPositions: { offset: number; start: number }[] = []
         if (timings) {
@@ -233,7 +282,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         }
         const hasWordLevel = wordPositions.length > 0
 
-        // sentence-level fullText (폴백)
+        // sentence-level fullText (최후 폴백)
         let fullText = ''
         const positions: { offset: number; start: number }[] = []
         if (timings) {
@@ -246,13 +295,31 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         const normSegText = stripPunct(segText)
 
         for (const change of changes) {
-          // voiceTimings 없으면 이전 파이프라인의 stale t 값 무시 → 텍스트 위치 비율 폴백
-          let resolved = (!timings || timings.length === 0) ? 0 : change.t
+          // voiceTimings 없거나 stale이면 change.t 무시 → 텍스트 위치 비율 폴백.
+          // 초기값이 유한수가 아니면 "미결" 상태로 두고 매칭/폴백이 채우도록 한다.
+          const initial = (!timings || timings.length === 0)
+            ? 0
+            : (typeof change.t === 'number' && Number.isFinite(change.t) ? change.t : NaN)
+          let resolved: number = initial
+          const needFallback = () => !Number.isFinite(resolved) || resolved === 0
           if (change.text) {
             const normAnchor = stripPunct(change.text)
             let matched = false
-            // 1순위: word-level 매칭 (같은 sentence 내 여러 anchor 구분)
-            if (hasWordLevel && normAnchor) {
+            // 1순위: sub-level 매칭 (자막과 동일 원천, 유저 편집 즉시 반영)
+            if (hasSubLevel && normAnchor) {
+              const pos = subFullText.indexOf(normAnchor)
+              if (pos !== -1) {
+                for (let j = subPositions.length - 1; j >= 0; j--) {
+                  if (pos >= subPositions[j].offset) {
+                    resolved = subPositions[j].start
+                    matched = true
+                    break
+                  }
+                }
+              }
+            }
+            // 2순위: word-level 매칭 (sub 없을 때)
+            if (!matched && hasWordLevel && normAnchor) {
               const pos = wordFullText.indexOf(normAnchor)
               if (pos !== -1) {
                 for (let j = wordPositions.length - 1; j >= 0; j--) {
@@ -264,7 +331,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 }
               }
             }
-            // 2순위: sentence-level 매칭 (words 데이터 없을 때 폴백)
+            // 3순위: sentence-level 매칭 (sub·word 모두 매칭 실패)
             if (!matched && timings && normAnchor) {
               const pos = fullText.indexOf(normAnchor)
               if (pos !== -1) {
@@ -277,21 +344,25 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 }
               }
             }
-            if (!matched && resolved === 0 && normAnchor && normSegText.length > 0) {
+            // 4순위: 세그먼트 텍스트 내 위치 비율 폴백 (timing이 stale이어도 동작)
+            if (!matched && needFallback() && normAnchor && normSegText.length > 0) {
               const pos = normSegText.indexOf(normAnchor)
               if (pos !== -1) {
                 resolved = (pos / normSegText.length) * segDurSec
                 matched = true
               }
             }
-            if (!matched && resolved === 0) {
+            // 5순위: 마지막 이미지 이후 강제 간격
+            if (!matched && needFallback()) {
               const lastFrame = groups.length > 0 ? groups[groups.length - 1].start : segStarts[i]
               resolved = (lastFrame - segStarts[i]) / fps + 1.5
               if (typeof window !== 'undefined') console.warn(`[Shorts Image] "${change.text}" 매칭 실패 -> 강제 폴백 적용`)
             }
           }
+          // 최종 안전장치: 여전히 비-유한수면 0으로 고정 (interpolate NaN 크래시 방지)
+          if (!Number.isFinite(resolved)) resolved = 0
           const img2 = change.image.startsWith('episodes/') ? change.image : `${imgBase}/${change.image}`
-          push(img2, segStarts[i] + f(resolved))
+          push(img2, segStarts[i] + f(resolved), segNoZoom)
         }
       }
     })
@@ -300,7 +371,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     const bookHasImage = segments.some(s => s.visual === 'book' && s.image)
     if (bookSegIdx >= 0 && !bookHasImage && shorts?.bookBg) {
       const bookBgPath = shorts.bookBg.startsWith('episodes/') ? shorts.bookBg : `${imgBase}/${shorts.bookBg}`
-      push(bookBgPath, segStarts[bookSegIdx])
+      push(bookBgPath, segStarts[bookSegIdx], !!segments[bookSegIdx]?.noZoom)
     }
     groups.sort((a, b) => a.start - b.start)
     // 최소 간격 보정 — 간격이 너무 짧으면 앞 이미지가 순간 스침 → 앞 이미지 제거
@@ -316,8 +387,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
 
   return (
     <AbsoluteFill style={{ backgroundColor: DARK.base }}>
-      {/* BGM (쇼츠별) */}
-      {shorts?.bgm?.length && <BgmAudio tracks={shorts.bgm} totalFrames={compFrames} />}
+      {/* BGM (쇼츠별) — 마지막 대사 오디오 끝 이후 볼륨 100% */}
+      {shorts?.bgm?.length && (() => {
+        const lastVoice = [...segments.entries()].filter(([, s]) => s.visual !== 'cta' && (s.duration ?? 0) > 0).at(-1)
+        const voiceEndFrame = lastVoice != null ? segStarts[lastVoice[0]] + segTimings[lastVoice[0]] : undefined
+        return <BgmAudio tracks={shorts.bgm} totalFrames={compFrames} voiceEndFrame={voiceEndFrame} />
+      })()}
 
       <ShortBackgroundLayer
         segOp={segOp} segments={segments} segStarts={segStarts} segTimings={segTimings}
@@ -374,7 +449,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         const audioFrom = i === 0 ? segStarts[i] - f(0.15) : segStarts[i]
         return (
           <Sequence key={seg.id} from={audioFrom} durationInFrames={segTimings[i]}>
-            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} />
+            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} volume={seg.volume ?? 1} />
           </Sequence>
         )
       })}
@@ -482,8 +557,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         </div>
       </div>
 
-      {/* ── intro 중앙 아바타 ── */}
-      {introIdx >= 0 && (() => {
+      {/* ── intro 중앙 아바타 — compact 모드에서는 우상단 스트립으로 이관되어 표시 안 함 ── */}
+      {introIdx >= 0 && !segments[introIdx]?.compact && (() => {
         const op = segOp(introIdx)
         if (op <= 0) return null
         return (
@@ -501,7 +576,9 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
 
       {/* ── 자막 (하단) ── */}
       {segments.map((seg, i) => {
-        if (seg.visual === 'cta' || seg.visual === 'hook' || seg.role === 'celeb') return null
+        if (seg.visual === 'cta' || seg.visual === 'hook') return null
+        // celeb 세그먼트는 기본(덮기)에서 하단 자막 제외. subtitle=true 일 때만 여기서 렌더.
+        if (seg.role === 'celeb' && !seg.subtitle) return null
         const op = segOp(i)
         if (op <= 0) return null
         const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
@@ -596,7 +673,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
               }}>
                 <div style={{ maxWidth: 780, textAlign: 'center', textWrap: 'balance', wordBreak: 'keep-all' } as React.CSSProperties}>
                   <Typewriter
-                    text={sent1Text}
+                    text={sent1Text.replace(/\./g, '')}
                     startFrame={hlStart}
                     spreadFrames={spreadFrames}
                     color="#c8a46e"
@@ -609,7 +686,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 <div style={{ width: 60, height: 2, backgroundColor: '#c8a46e', opacity: 0.3 }} />
                 <div style={{ maxWidth: 780, textAlign: 'center', textWrap: 'balance', wordBreak: 'keep-all' } as React.CSSProperties}>
                   <Typewriter
-                    text={sent2Text}
+                    text={sent2Text.replace(/\./g, '')}
                     startFrame={hlStart}
                     spreadFrames={spreadFrames}
                     color="#cec6b6"
@@ -625,7 +702,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 opacity: riseOp, transform: `translateY(${riseY}px)`,
               } as React.CSSProperties}>
                 <Typewriter
-                  text={seg.text}
+                  text={seg.text.replace(/\./g, '')}
                   startFrame={hlStart}
                   spreadFrames={spreadFrames}
                   color="#c8a46e"
@@ -643,6 +720,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       {/* ── 셀럽 인용구 (화면 중앙) — \n 문단 분할 시 페이지 전환 ── */}
       {segments.map((seg, i) => {
         if (seg.role !== 'celeb') return null
+        // subtitle=true → 하단 자막으로 이관, 중앙 오버레이 생략
+        if (seg.subtitle) return null
         const op = segOp(i)
         if (op <= 0) return null
         const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
@@ -797,8 +876,10 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       {(() => {
         const ctaStart = ctaIdx >= 0 ? segStarts[ctaIdx] : logoStart
         const endFrame = logoStart + logoFrames
+        // CTA 있으면 직전 급진입(기존), 없으면 닫힘 페이즈 전체에서 BG와 크로스 전환
+        const blockFadeIn = ctaIdx >= 0 ? SHORT_CTA_BLOCK_FADE_IN : SHORT_OUTRO_CLOSE
         const blockOp = interpolate(frame,
-          [ctaStart - f(0.15), ctaStart],
+          [ctaStart - blockFadeIn, ctaStart],
           [0, 1], CL,
         )
         if (blockOp <= 0) return null
