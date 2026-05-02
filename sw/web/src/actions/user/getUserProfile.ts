@@ -47,6 +47,7 @@ export interface PublicUserProfile {
   wikidata_qid?: string | null
   celeb_tier?: 'full' | 'light' | null
   monologue?: string | null
+  youtube_videos?: Record<string, { videoId: string; uploadedAt: string }> | null
 }
 
 export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {

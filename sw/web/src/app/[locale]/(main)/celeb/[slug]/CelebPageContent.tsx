@@ -23,6 +23,7 @@ import LibraryTabs from "./LibraryTabs";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
 import DialogueSection from "./DialogueSection";
+import VideosSection, { type CelebVideoItem } from "./VideosSection";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
@@ -77,6 +78,23 @@ export default function CelebPageContent({
   const wikidataQid = profile.wikidata_qid ?? null;
 
   const celebForGreeting = { ...profile, greeting, nickname };
+
+  /* ── 유튜브 영상: 현재 locale에 맞춰 longform/shorts 분리 ── */
+  const youtubeVideos = profile.youtube_videos ?? {};
+  const longformKey = `${locale}-longform`;
+  const longform: CelebVideoItem[] = youtubeVideos[longformKey]
+    ? [{ videoId: youtubeVideos[longformKey].videoId }]
+    : [];
+  const shortsPrefix = `${locale}-shorts-`;
+  const shorts: CelebVideoItem[] = Object.entries(youtubeVideos)
+    .filter(([k]) => k.startsWith(shortsPrefix))
+    .sort(([a], [b]) => {
+      const ai = parseInt(a.slice(shortsPrefix.length), 10) || 0;
+      const bi = parseInt(b.slice(shortsPrefix.length), 10) || 0;
+      return ai - bi;
+    })
+    .map(([, v]) => ({ videoId: v.videoId }));
+  const hasAnyVideo = longform.length > 0 || shorts.length > 0;
 
   const handleAvatarClick = useCallback(() => {
     fireGreeting(celebForGreeting);
@@ -253,6 +271,16 @@ export default function CelebPageContent({
           <DecorativeLabel label={t("contemporaries")} />
           <SectionWrap>
             <ContemporariesSection contemporaries={contemporaries} />
+          </SectionWrap>
+        </section>
+      )}
+
+      {/* 영상 (롱폼 + 쇼츠) */}
+      {hasAnyVideo && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("videos")} />
+          <SectionWrap>
+            <VideosSection longform={longform} shorts={shorts} />
           </SectionWrap>
         </section>
       )}
