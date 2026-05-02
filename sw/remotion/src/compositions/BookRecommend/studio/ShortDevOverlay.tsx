@@ -32,7 +32,6 @@ const BEAT_COLORS: Record<string, string> = {
   hook: '#c8a46e',
   intro: '#6ea4c8',
   book: '#8bc86e',
-  cta: '#c8c86e',
   logo: '#c86ea4',
 }
 
@@ -76,7 +75,7 @@ export const ShortDevOverlay: React.FC<Props> = ({
 
   // 자막 미리보기
   let subText = ''
-  if (seg && seg.text && seg.visual !== 'cta') {
+  if (seg && seg.text) {
     const vtKey = vnTimingKey(vnShort(currentSeg, seg.id, shortsIndex))
     const vt = voiceTimings?.[vtKey]
     const elapsedFrames = frame - segStarts[currentSeg]

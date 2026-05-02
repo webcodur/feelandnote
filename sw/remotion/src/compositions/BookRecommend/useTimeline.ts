@@ -172,8 +172,11 @@ export function buildTimeline(rawScript: BookRecommendScript): Timeline {
   const svcGreetingFrames = cont ? 0 : (sgdR > 0 ? toFrames(sgdR) : 0)
   const svcIntroFrames = cont ? 0 : ((narrator.serviceIntroDuration ?? 0) > 0 ? toFrames(narrator.serviceIntroDuration!) : 0)
   const celebIntroFrames = cont ? 0 : (CELEB_VISUAL_DELAY + ((narrator.celebIntroDuration ?? 0) > 0 ? toFrames(narrator.celebIntroDuration!) : CELEB_INTRO_FALLBACK))
-  const philosophyFrames = cont ? 0 : toFrames(host.voiceDuration ?? 0)
-  const hostIntroFrames = cont ? 0 : (celebIntroFrames + f(1) + philosophyFrames)
+  // B2-philosophy.wav가 없으면(=voiceTimings 키 부재) 시각도 0프레임으로 스킵.
+  // 글자수 추정으로 무음 80초가 흐르는 사고 방지.
+  const hasPhilosophyVoice = !!script.voiceTimings?.['B2-philosophy']
+  const philosophyFrames = (cont || !hasPhilosophyVoice) ? 0 : toFrames(host.voiceDuration ?? 0)
+  const hostIntroFrames = cont ? 0 : (celebIntroFrames + (philosophyFrames > 0 ? f(1) + philosophyFrames : 0))
   const returnIntroFrames = cont ? ((narrator.returnIntroDuration ?? 0) > 0 ? toFrames(narrator.returnIntroDuration!) : RETURN_INTRO_FALLBACK) : 0
   const prevRecapFrames = cont ? ((narrator.prevRecapDuration ?? 0) > 0 ? toFrames(narrator.prevRecapDuration!) : PREV_RECAP_FALLBACK) : 0
   const bridgeFrames = narrator.bridgeDuration > 0 ? toFrames(narrator.bridgeDuration) : BRIDGE_FALLBACK

@@ -131,22 +131,19 @@ export const toShortFrames = (sec: number) => Math.ceil(sec * FPS) + f(0.3)
 export const SHORT_GAP = f(0.2)            // 12
 /** hook → 다음 세그먼트 전환 갭 — 훅 여운 + 인트로 호흡 (부드럽고 천천히) */
 export const SHORT_HOOK_GAP = f(0.6)       // 36
-/** CTA 세그먼트 앞 전환 갭 — 배경 확장 후 텍스트 등장 */
-export const SHORT_CTA_GAP = f(1.0)        // 60
 /** celeb 인용 세그먼트 앞 전환 갭 — 화자 전환 호흡 (narrator → celeb) */
-export const SHORT_PRE_CELEB_GAP = f(0.8)  // 48
+export const SHORT_PRE_CELEB_GAP = f(0.7)  // 42
 /** celeb 인용 세그먼트 후 전환 갭 — 인용 여운 + 화자 전환 호흡 */
-export const SHORT_CELEB_GAP = f(1.2)      // 72
-/** book 세그먼트가 cta 직전일 때 마지막 이미지 holding pad — 음성 끝난 후에도 잠시 더 노출 */
-export const SHORT_BOOK_TAIL_HOLD = f(1.5) // 90
+export const SHORT_CELEB_GAP = f(1.05)     // 63
+/** 마지막 세그먼트 이미지 홀드 — 나레이션 끝난 뒤 닫힘 전 여운 */
+export const SHORT_OUTRO_HOLD = f(1.2)     // 72
+/** 마지막 세그먼트 → 로고 갭 (= 닫힘 페이즈 길이) */
+export const SHORT_OUTRO_GAP = f(0.5)      // 30
 /** duration 없는 세그먼트 폴백 프레임 */
 export const SHORT_FALLBACK = f(2.5)       // 75
-/** 채널 안내 (BrandIntro) 프레임 — hook 직후 삽입 */
 /** hook 프레임 — 텍스트 떠오름 + 여운 */
 export const SHORT_HOOK_FRAMES = f(3.5)    // 105
 export const SHORT_BRAND_FRAMES = f(2.5)   // 150
-/** CTA 폴백 프레임 (duration 없을 때) */
-export const SHORT_CTA_FRAMES = f(3.5)     // 210
 /** 로고 프레임 (기본) */
 export const SHORT_LOGO_FRAMES = f(3)      // 180
 /** 로고 프레임 (BGM 있을 때 — 느린 페이드아웃) */
@@ -155,13 +152,19 @@ export const SHORT_LOGO_FRAMES_BGM = f(5)  // 300
 export const SHORT_REVEAL_FRAMES = f(2.0)  // 120
 /** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
 export const SHORT_REVEAL_GAP = f(1.0)     // 60
+/** 아웃트로 닫힘 페이즈 — BG 소멸 + 다크 블록 진입 (SHORT_OUTRO_GAP과 매칭) */
+export const SHORT_OUTRO_CLOSE = f(0.5)    // 30
+/** 아웃트로 열림 페이즈 — 닫힘 완료 후 logoStart부터 로고(인물·책·정보) 전체 페이드인 */
+export const SHORT_OUTRO_OPEN = f(1.1)     // 66
+/** 로고 콘텐츠 페이드아웃 (BGM 유무) */
+export const SHORT_LOGO_FADE_OUT = f(0.5)      // 30
+export const SHORT_LOGO_FADE_OUT_BGM = f(1.5)  // 90
 /** 세그먼트 레이아웃 — 단일원천. BookRecommendShort, generate-srt 모두 이 함수를 사용한다.
  *
  * duration 우선순위: seg.duration(TTS) > imageMinFrames(이미지당 2초) > fallback
  * imageMinFrames는 duration 미설정 프리뷰에서 이미지가 크로스페이드 안에 묻히지 않도록 보장한다. */
 export function shortSegLayout(segments: ShortSegment[]) {
   const segTimings = segments.map((seg, i) => {
-    if (seg.visual === 'cta') return SHORT_CTA_FRAMES
     const fallback = i === 0 ? SHORT_HOOK_FRAMES : SHORT_FALLBACK
     // imageChangeAt이 있으면 이미지당 최소 2초 확보 (크로스페이드 0.5초 고려)
     const imageCount = seg.imageChangeAt
@@ -170,9 +173,9 @@ export function shortSegLayout(segments: ShortSegment[]) {
     const imageMinFrames = imageCount > 0 ? f(imageCount * 2) : 0
 
     const base = seg.duration ? toShortFrames(seg.duration) : fallback
-    // book → cta 전환 직전에는 마지막 이미지 holding 추가 (음성 후에도 잠시 더 보여줌)
-    const isBookBeforeCta = seg.visual === 'book' && segments[i + 1]?.visual === 'cta'
-    const tailHold = isBookBeforeCta ? SHORT_BOOK_TAIL_HOLD : 0
+    // 마지막 세그먼트: outro hold — 로고 전환 완충
+    const isLast = i === segments.length - 1
+    const tailHold = isLast ? SHORT_OUTRO_HOLD : 0
     return Math.max(base, imageMinFrames) + tailHold
   })
 
@@ -181,16 +184,24 @@ export function shortSegLayout(segments: ShortSegment[]) {
   for (let i = 0; i < segTimings.length; i++) {
     segStarts.push(cursor)
     const next = segments[i + 1]
-    const gap = next?.visual === 'cta'
-      ? SHORT_CTA_GAP
+    const gap = !next
+      ? SHORT_OUTRO_GAP
       : segments[i].visual === 'hook'
       ? SHORT_HOOK_GAP
       : segments[i].role === 'celeb'
       ? SHORT_CELEB_GAP
-      : next?.role === 'celeb'
+      : next.role === 'celeb'
       ? SHORT_PRE_CELEB_GAP
       : SHORT_GAP
-    cursor += segTimings[i] + gap
+    // 사용자 지정 추가 멈춤 — 자동 gap에 더해진다.
+    const extraGap = (segments[i].gapAfter && Number.isFinite(segments[i].gapAfter))
+      ? Math.max(0, f(segments[i].gapAfter as number))
+      : 0
+    if (typeof window !== 'undefined' && extraGap > 0) {
+      // eslint-disable-next-line no-console
+      console.log(`[shortSegLayout] seg#${i} id=${segments[i].id} gapAfter=${segments[i].gapAfter}s → +${extraGap}f`)
+    }
+    cursor += segTimings[i] + gap + extraGap
   }
 
   return { segTimings, segStarts, logoStart: cursor }

@@ -11,8 +11,13 @@ let bgmMuted = false
 /**
  * BGM 트랙 렌더러 — fade in/out + 볼륨 제어.
  * 롱폼·쇼츠 양쪽에서 사용.
+ * voiceEndFrame: 대사 오디오가 끝나는 프레임. 이 이후로 BGM 볼륨을 1.0으로 ramp.
  */
-export function BgmAudio({ tracks, totalFrames }: { tracks: BgmTrack[]; totalFrames: number }) {
+export function BgmAudio({ tracks, totalFrames, voiceEndFrame }: {
+  tracks: BgmTrack[]
+  totalFrames: number
+  voiceEndFrame?: number
+}) {
   const { fps } = useVideoConfig()
 
   if (!tracks.length || bgmMuted) return null
@@ -37,11 +42,16 @@ export function BgmAudio({ tracks, totalFrames }: { tracks: BgmTrack[]; totalFra
         const shouldLoop = loopEnabled && loopCycleF > 0 && dur > loopCycleF
 
         // 페이드 볼륨 — 구간 전체(dur) 기준으로 계산. 루프 회차별로 globalF 보정
+        // voiceEndFrame 이후 0.5초 동안 vol → 1.0으로 ramp
+        const rampF = Math.round(0.5 * fps)
         const makeVolume = (segStart: number) => (lf: number) => {
           const globalF = segStart + lf
-          const fadeIn = fadeInF > 0 ? interpolate(globalF, [0, fadeInF], [0, vol], { extrapolateRight: 'clamp' }) : vol
-          const fadeOut = fadeOutF > 0 ? interpolate(globalF, [dur - fadeOutF, dur], [vol, 0], { extrapolateLeft: 'clamp' }) : vol
-          return Math.min(fadeIn, fadeOut)
+          const targetVol = (voiceEndFrame != null && globalF > voiceEndFrame)
+            ? interpolate(globalF, [voiceEndFrame, voiceEndFrame + rampF], [vol, 1.0], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' })
+            : vol
+          const fadeInMult = fadeInF > 0 ? interpolate(globalF, [0, fadeInF], [0, 1], { extrapolateRight: 'clamp' }) : 1
+          const fadeOutMult = fadeOutF > 0 ? interpolate(globalF, [dur - fadeOutF, dur], [1, 0], { extrapolateLeft: 'clamp' }) : 1
+          return targetVol * Math.min(fadeInMult, fadeOutMult)
         }
 
         // 루프: 필요한 횟수만큼 Sequence로 직접 배치 (fadeIn/fadeOut이 전역 기준으로 정확히 작동)

@@ -1,20 +1,21 @@
 /**
  * 쇼츠 배경 이미지 레이어 — dimFilter 계산, revealBg, imageGroups 크로스페이드, 비네팅.
- * book-context 구간 이미지는 dim 해제하여 일관된 밝기 유지.
+ * 어두움 처리는 segment.darken === true 명시 세그먼트에만 적용.
  */
 import { Img, interpolate, useCurrentFrame } from 'remotion'
 import { sf } from '../utils'
-import { f } from '../timing'
+import { f, SHORT_OUTRO_CLOSE } from '../timing'
 import {
   SHORT_HEADER_H as HEADER_H, SHORT_W as W, SHORT_MID_H as MID_H, CL,
 } from '../shorts-constants'
+import { DARK } from '../../theme'
 
-type ImageGroup = { image: string; start: number }
+type ImageGroup = { image: string; start: number; noZoom?: boolean }
 
 type Props = {
   /** 세그먼트 opacity 계산 함수 */
   segOp: (i: number) => number
-  segments: { role?: string; visual?: string }[]
+  segments: { role?: string; visual?: string; darken?: boolean | 'light'; topRight?: 'avatar' | 'book' | 'none' }[]
   segStarts: number[]
   segTimings: number[]
   bookSegIdx: number
@@ -24,43 +25,35 @@ type Props = {
 }
 
 export const ShortBackgroundLayer: React.FC<Props> = ({
-  segOp, segments, segStarts, segTimings,
+  segments, segStarts, segTimings,
   bookSegIdx, logoStart, imageGroups, revealBgUrl,
 }) => {
   const frame = useCurrentFrame()
 
-  const lastContentIdx = segments.reduce((last, s, i) => s.visual !== 'cta' ? i : last, -1)
-  const contentEnd = lastContentIdx >= 0 ? segStarts[lastContentIdx] + segTimings[lastContentIdx] : logoStart
-  const bgOp = interpolate(frame, [contentEnd - f(0.5), contentEnd], [1, 0], CL)
+  // 로고 진입까지 배경 유지하다가 닫힘 페이즈 동안 페이드아웃 → 로고 풀스크린으로 크로스 전환
+  const bgOp = interpolate(frame, [logoStart - SHORT_OUTRO_CLOSE, logoStart], [1, 0], CL)
   if (bgOp <= 0) return null
 
-  // --- dimFilter: celeb/hook 구간 어둡게, book 구간 해제 ---
-  // bookOp: 내레이션 book 세그먼트(role=narrator, visual=book) 전체에 대한 활성도.
-  // 중간 quote(celeb, visual=book) 이후의 book-context-N에서도 vignette·dim이 올바르게 해제되도록
-  // findIndex 방식(첫 book 세그먼트만 추적) 대신 narrator-book 전체를 max로 집계한다.
-  // celeb role의 book-visual 세그먼트(중간 인용)는 제외하여 인용 연출의 dim은 유지한다.
-  const hookEnd = (segStarts[0] ?? 0) + (segTimings[0] ?? 0)
-  const initialDim = interpolate(frame, [hookEnd - f(0.5), hookEnd], [1, 0], CL)
-  const bookOp = segments.reduce(
-    (m, s, i) => (s.visual === 'book' && s.role !== 'celeb') ? Math.max(m, segOp(i)) : m,
-    0,
-  )
-  // celeb/hook dim을 세그먼트 gap까지 연장 — 다음 세그먼트 시작 전까지 유지하여
-  // celeb 이미지가 gap에서 밝게 튀어나오는 현상 방지
-  const celebDimRaw = segments.reduce((d, s, i) => {
-    if (s.role !== 'celeb' && s.visual !== 'hook') return d
+  // --- dimFilter: darken 명시 세그먼트만 어둡게 + 비네팅 ---
+  // true(heavy): 1.0 강도, 'light': 0.5 강도. 세그먼트 gap까지 유지하여 밝게 튀는 현상 방지.
+  // 첫 세그먼트(hook)가 darken이면 fade-in 0 — 처음부터 어두운 톤 즉시 유지(밝게 시작했다 어두워지는 것 방지).
+  const dim = segments.reduce((d, s, i) => {
+    const intensity = s.darken === true ? 1 : s.darken === 'light' ? 0.5 : 0
+    if (intensity === 0) return d
     const dimEnd = i + 1 < segments.length ? segStarts[i + 1] : segStarts[i] + segTimings[i]
     const dur = dimEnd - segStarts[i]
     if (dur <= 0) return d
-    const fi = Math.max(1, Math.min(f(0.27), Math.floor(dur / 3)))
+    const fi = i === 0 ? 0 : Math.max(1, Math.min(f(0.27), Math.floor(dur / 3)))
     const fo = Math.max(1, Math.min(f(0.33), Math.floor(dur / 3)))
-    const dimOp = interpolate(frame, [segStarts[i], segStarts[i] + fi, dimEnd - fo, dimEnd], [0, 1, 1, 0], CL)
-    return Math.max(d, dimOp)
-  }, initialDim)
-  const celebDim = Math.max(0, celebDimRaw * (1 - bookOp))
-  const imgBright = interpolate(celebDim, [0, 1], [1, 0.35], CL)
-  const imgSat = interpolate(celebDim, [0, 1], [1, 0.5], CL)
-  const dimFilter = celebDim > 0 ? `brightness(${imgBright}) saturate(${imgSat})` : undefined
+    // fi=0(첫 세그먼트 즉시 dim)인 경우 inputRange 단조성을 위해 3점으로 축약
+    const dimOp = fi === 0
+      ? interpolate(frame, [segStarts[i], dimEnd - fo, dimEnd], [1, 1, 0], CL)
+      : interpolate(frame, [segStarts[i], segStarts[i] + fi, dimEnd - fo, dimEnd], [0, 1, 1, 0], CL)
+    return Math.max(d, dimOp * intensity)
+  }, 0)
+  const imgBright = interpolate(dim, [0, 1], [1, 0.35], CL)
+  const imgSat = interpolate(dim, [0, 1], [1, 0.5], CL)
+  const dimFilter = dim > 0 ? `brightness(${imgBright}) saturate(${imgSat})` : undefined
 
   // --- revealBg 페이드아웃 ---
   const firstImgStart = imageGroups.length > 0 ? imageGroups[0].start : null
@@ -85,9 +78,11 @@ export const ShortBackgroundLayer: React.FC<Props> = ({
       )}
 
       {/* imageGroups 크로스페이드 + Ken Burns */}
-      {imageGroups.map(({ image, start }, gi) => {
+      {imageGroups.map(({ image, start, noZoom }, gi) => {
+        // 방어: 상류 파이프라인 버그로 start가 비-유한수면 렌더 스킵 (interpolate NaN 크래시 방지)
+        if (!Number.isFinite(start)) return null
         const nextStart = gi < imageGroups.length - 1 ? imageGroups[gi + 1].start : null
-        const spacing = nextStart != null ? nextStart - start : Infinity
+        const spacing = nextStart != null && Number.isFinite(nextStart) ? nextStart - start : Infinity
 
         const maxFadeIn = f(0.5)
         const realFadeIn = Math.min(maxFadeIn, Math.floor(spacing * 0.4))
@@ -104,27 +99,38 @@ export const ShortBackgroundLayer: React.FC<Props> = ({
         const op = Math.min(bgOp, fadeIn, fadeOut)
         if (op <= 0) return null
 
-        const imgDuration = nextStart != null ? nextStart - start : f(5)
-        const zoom = interpolate(frame, [start, start + imgDuration], [1, 1.08], CL)
+        // 시간 비례 선형 확대 — clamp 없이 이미지가 보이는 내내 계속 줌인
+        // 기준 속도: 5초당 +0.08 (= 초당 1.6%)
+        const zoomRate = 0.08 / f(5)
+        const zoom = noZoom ? 1 : 1 + Math.max(0, frame - start) * zoomRate
 
+        // overflow:hidden 래퍼로 MID 영역 클리핑 — scale 확대 시 상하 경계 밖으로 삐져나가 header/footer 뒤로 비치는 현상 방지
         return (
-          <Img key={`${image}-${start}`} src={sf(image)} style={{
+          <div key={`${image}-${start}`} style={{
             position: 'absolute', top: HEADER_H, left: 0,
             width: W, height: MID_H,
-            objectFit: 'cover',
-            filter: dimFilter,
+            backgroundColor: DARK.base,
+            overflow: 'hidden',
             zIndex: 1, opacity: op,
-            transform: `scale(${zoom})`,
-          }} />
+          }}>
+            <Img src={sf(image)} style={{
+              width: '100%', height: '100%',
+              objectFit: 'contain',
+              filter: dimFilter,
+              transform: `scale(${zoom})`,
+            }} />
+          </div>
         )
       })}
 
-      {/* 비네팅 오버레이 — book 구간에서 해제 */}
-      <div style={{
-        position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H,
-        background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)',
-        zIndex: 2, opacity: bgOp * (1 - bookOp),
-      }} />
+      {/* 비네팅 오버레이 — darken 명시 세그먼트에서만 표시 (dim 비례) */}
+      {dim > 0 && (
+        <div style={{
+          position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H,
+          background: 'radial-gradient(ellipse at 50% 30%, rgba(26,21,16,0.3) 0%, rgba(10,10,10,0.6) 70%)',
+          zIndex: 2, opacity: bgOp * dim,
+        }} />
+      )}
     </>
   )
 }

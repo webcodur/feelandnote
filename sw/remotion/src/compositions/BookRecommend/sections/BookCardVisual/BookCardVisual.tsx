@@ -176,30 +176,33 @@ function resolveImageTransitions(
     const ps = pairStarts[pi]
     const pair = book.quotePairs?.[pi]
     if (qpTimings[pi].hasQuote) {
-      sectionEntries.push({ key: vnTimingKey(vnBookQuote(bookIndex, pi)), baseFrame: ps.sQuote, field: 'context', origText: pair?.quote })
+      sectionEntries.push({ key: vnTimingKey(vnBookQuote(bookIndex, pi)), baseFrame: ps.sQuote, field: 'quote', origText: pair?.quote })
     }
     if (qpTimings[pi].hasAfter) {
-      sectionEntries.push({ key: vnTimingKey(vnBookAfter(bookIndex, pi)), baseFrame: ps.sAfter, field: 'context', origText: pair?.after })
+      sectionEntries.push({ key: vnTimingKey(vnBookAfter(bookIndex, pi)), baseFrame: ps.sAfter, field: 'quote', origText: pair?.after })
     }
   }
 
-  // 섹션별 파싱 캐시 — field 'context'는 여러 섹션에 매핑되므로 배열로 관리
+  // 섹션별 파싱 캐시 — 동일 field에 여러 섹션이 붙을 수 있으므로 배열로 관리
   const parsedMulti = new Map<string, ParsedSection[]>()
   const baseFrames: Record<string, number> = {}
-  // context 계열 텍스트를 연결하여 폴백 검색에 사용
-  const allCtxText = [
-    book.contextMain,
-    ...(book.quotePairs ?? []).flatMap(p => [p.quote, p.after].filter(Boolean)),
-  ].join('\n')
+  const quoteAfterText = (book.quotePairs ?? []).flatMap(p => [p.quote, p.after].filter(Boolean)).join('\n')
+  // 레거시 데이터 대응: quote 이미지를 context로 저장해둔 경우를 위한 fallback 텍스트(폴백 추정용)
+  const allCtxText = [book.contextMain, quoteAfterText].filter(Boolean).join('\n')
   const sectionTexts: Record<string, string | undefined> = {
     summary: book.summary,
     context: allCtxText || undefined,
+    quote: quoteAfterText || undefined,
   }
+  const totalQuoteFrames = qpTimings.reduce((sum, pt) => sum + pt.quoteFrames, 0)
   const totalAfterFrames = qpTimings.reduce((sum, pt) => sum + pt.afterFrames, 0)
   const sectionFrameMap: Record<string, number> = {
     summary: summaryFrames,
-    context: contextFrames + totalAfterFrames,
+    context: contextFrames + totalQuoteFrames + totalAfterFrames,
+    quote: totalQuoteFrames + totalAfterFrames,
   }
+  // field별 폴백 순서 — 기본 필드 매칭 실패 시 시도할 대체 필드 (레거시 호환)
+  const FIELD_FALLBACK: Record<string, string[]> = { quote: ['context'], context: ['quote'] }
   for (const entry of sectionEntries) {
     if (!(entry.field in baseFrames)) baseFrames[entry.field] = entry.baseFrame
     if (timings) {
@@ -219,7 +222,8 @@ function resolveImageTransitions(
   const result: ImageTransition[] = []
   for (let i = 0; i < book.images.length; i++) {
     const img = book.images[i]
-    const field = img.field ?? (i === 0 ? 'summary' : 'context')
+    const primaryField = img.field ?? (i === 0 ? 'summary' : 'context')
+    const fieldsToTry = [primaryField, ...(FIELD_FALLBACK[primaryField] ?? [])]
 
     // text 없음 → 스킵. 이전 이미지가 그대로 유지된다.
     if (!img.text) {
@@ -229,44 +233,42 @@ function resolveImageTransitions(
       continue
     }
 
-    // field에 해당하는 섹션들을 순차 검색
-    const sections = parsedMulti.get(field)
     let frame = -1
 
-    if (sections && sections.length > 0) {
+    for (const field of fieldsToTry) {
+      const sections = parsedMulti.get(field)
       const occKey = `${field}::${img.text}`
       const occIdx = occurrenceCounter.get(occKey) ?? 0
-      occurrenceCounter.set(occKey, occIdx + 1)
 
-      // 여러 섹션을 순차 검색하여 앵커 매칭
-      for (const section of sections) {
-        frame = findAnchorInSection(img.text, section, occIdx)
-        if (frame !== -1) break
+      if (sections && sections.length > 0) {
+        for (const section of sections) {
+          frame = findAnchorInSection(img.text, section, occIdx)
+          if (frame !== -1) break
+        }
+        if (frame !== -1) {
+          occurrenceCounter.set(occKey, occIdx + 1)
+          break
+        }
+      } else {
+        // voiceTimings 없음 — 텍스트 위치 비율로 프레임 추정 (Studio 미리보기용)
+        const estimated = estimateAnchorFrame(
+          img.text, sectionTexts[field],
+          baseFrames[field] ?? 0, sectionFrameMap[field] ?? 0,
+          occIdx,
+        )
+        if (estimated !== -1) {
+          occurrenceCounter.set(occKey, occIdx + 1)
+          frame = estimated
+          break
+        }
       }
+    }
 
-      if (frame === -1) {
-        if (typeof window !== 'undefined') {
-          console.warn(`[ImageAnchor] "${img.text}" #${occIdx + 1} 매칭 실패 → 스킵 (${img.file})`)
-        }
-        continue
+    if (frame === -1) {
+      if (typeof window !== 'undefined') {
+        console.warn(`[ImageAnchor] "${img.text}" 매칭 실패 (field=${primaryField}) → 스킵 (${img.file})`)
       }
-    } else {
-      // voiceTimings 없음 — 텍스트 위치 비율로 프레임 추정 (Studio 미리보기용)
-      const occKey = `${field}::${img.text}`
-      const occIdx = occurrenceCounter.get(occKey) ?? 0
-      occurrenceCounter.set(occKey, occIdx + 1)
-      const estimated = estimateAnchorFrame(
-        img.text, sectionTexts[field],
-        baseFrames[field] ?? 0, sectionFrameMap[field] ?? 0,
-        occIdx,
-      )
-      if (estimated === -1) {
-        if (typeof window !== 'undefined') {
-          console.warn(`[ImageAnchor] "${img.text}" 추정 실패 → 스킵 (${img.file})`)
-        }
-        continue
-      }
-      frame = estimated
+      continue
     }
 
     result.push({ frame, file: img.file, keyword: img.keyword })

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ShortCaption — 쇼츠 자막 컴포넌트
  *
  * 긴 텍스트는 자동 페이징 — 문장 단위로 끊어서 순차 표시.
@@ -8,13 +8,20 @@
  * - 영문: 1페이지 ≈ 50자 (약 2줄)
  * - 문장 경계에서만 끊음 (단어 중간 절단 없음)
  * - 짧은 텍스트(1페이지 이내)는 페이징 없이 전체 표시
+ *
+ * 패널 폭 조이기:
+ * - canvas measureText로 줄바꿈 위치를 사전 계산 → 명시적 \n 삽입.
+ * - 박스는 `whiteSpace: pre-wrap` + `width: fit-content`만으로 가장 긴 줄에 자동으로 맞춤.
+ * - DOM 측정·재측정 루프 없음(부모/transform/폰트로딩 종속 없음).
  */
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useLayoutEffect } from 'react'
 import { useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
 import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale, sliceOriginalByTimings } from '../utils'
 import { FONT } from '../fonts'
 import type { VoiceTimingSegment } from '../types'
+
+const MAX_PANEL_WIDTH = 760
 
 type Props = {
   text: string
@@ -56,13 +63,14 @@ export const ShortCaption: React.FC<Props> = ({
   const { pages, pageTiming, hasSub: singlePage_ } = useMemo(() => {
     const fresh = !isTimingsStale(text, timings) ? timings : undefined
     const expanded = fresh ? expandSubTimings(fresh) : undefined
-    const hasSub = fresh?.some(t => t.sub && t.sub.length > 1) ?? false
     const CHARS_PER_PAGE = isEn ? 50 : 30
 
     let pg: string[]
     let pr: { startIdx: number; endIdx: number }[]
-    if (hasSub && expanded && expanded.length > 1) {
-      // sub 수에 맞춰 원고 raw slice — Whisper STT 오인식 노출 방지
+    // 토막이 여러 개로 분할되어 있으면(=의도된 분할) 그 단위를 자막 페이지로 사용.
+    // sub 배열로 하위 분할된 경우와 토막 자체가 분리된 경우 모두 포섭한다.
+    if (expanded && expanded.length > 1) {
+      // expanded 수에 맞춰 원고 raw slice — Whisper STT 오인식 노출 방지
       pg = sliceOriginalByTimings(text, expanded)
       pr = expanded.map((_, i) => ({ startIdx: i, endIdx: i + 1 }))
     } else {
@@ -100,6 +108,7 @@ export const ShortCaption: React.FC<Props> = ({
     boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)',
     textShadow: '0 1px 4px rgba(0,0,0,0.4)',
     width: 'fit-content',
+    maxWidth: MAX_PANEL_WIDTH,
     margin: '0 auto',
 
     ...textShadowStyle,
@@ -110,7 +119,11 @@ export const ShortCaption: React.FC<Props> = ({
 
   // ── 단일 페이지 ──
   if (singlePage) {
-    return <div style={baseStyle}>{stripDot(text)}</div>
+    return (
+      <Panel style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
+        {stripDot(text)}
+      </Panel>
+    )
   }
 
   // ── 멀티페이지: 즉시 전환 ──
@@ -146,13 +159,67 @@ export const ShortCaption: React.FC<Props> = ({
         if (!visible) return null
 
         return (
-          <div key={pi} style={baseStyle}>
+          <Panel key={pi} style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
             {stripDot(pageText)}
-          </div>
+          </Panel>
         )
       })}
     </div>
   )
 }
 
+// canvas measureText로 wrap 위치를 사전에 계산해 \n을 박는다.
+// `wordBreak: keep-all` 동작을 모방하기 위해 공백 경계에서만 끊는다(한국어는 공백 단위).
+// 폰트 메트릭이 fallback일 때 약간의 오차가 날 수 있으므로 maxWidth보다 살짝 좁게 wrap한다.
+const wrapToLines = (text: string, fontSize: number, fontWeight: number, maxWidth: number): string => {
+  if (typeof document === 'undefined') return text
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return text
+  ctx.font = `${fontWeight} ${fontSize}px ${FONT.sans}`
+  const safeMax = Math.max(80, maxWidth - 16)
+  const tokens = text.split(/(\s+)/).filter(t => t !== '')
+  const lines: string[] = []
+  let cur = ''
+  for (const tok of tokens) {
+    const isSpace = /^\s+$/.test(tok)
+    const trial = cur + tok
+    if (cur.trim() === '' || ctx.measureText(trial).width <= safeMax) {
+      cur = trial
+    } else {
+      lines.push(cur.trimEnd())
+      cur = isSpace ? '' : tok
+    }
+  }
+  if (cur.trim()) lines.push(cur.trimEnd())
+  return lines.length > 0 ? lines.join('\n') : text
+}
 
+// 패널: 사전 wrap 결과만 출력. 박스 폭 측정·고정 로직 없음.
+// `width: fit-content`은 \n으로 끊어진 줄 중 max-content(가장 긴 줄)에 자동으로 맞춰진다.
+// 폰트 로드 전후 메트릭 차이로 wrap 위치가 살짝 달라질 수 있어, document.fonts.ready 후 재계산.
+const Panel: React.FC<{
+  children: string
+  style: React.CSSProperties
+  fontSize: number
+  fontWeight: number
+  maxWidth: number
+}> = ({ children, style, fontSize, fontWeight, maxWidth }) => {
+  const [wrapped, setWrapped] = useState<string>(() => wrapToLines(children, fontSize, fontWeight, maxWidth))
+
+  useLayoutEffect(() => {
+    let cancelled = false
+    const next = wrapToLines(children, fontSize, fontWeight, maxWidth)
+    setWrapped(prev => prev === next ? prev : next)
+    if (typeof document !== 'undefined' && document.fonts && typeof document.fonts.ready?.then === 'function') {
+      document.fonts.ready.then(() => {
+        if (cancelled) return
+        const after = wrapToLines(children, fontSize, fontWeight, maxWidth)
+        setWrapped(prev => prev === after ? prev : after)
+      }).catch(() => {})
+    }
+    return () => { cancelled = true }
+  }, [children, fontSize, fontWeight, maxWidth])
+
+  return <div style={style}>{wrapped}</div>
+}

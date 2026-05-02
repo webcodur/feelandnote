@@ -185,12 +185,12 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               </Sequence>
             )}
           </Sequence>
-          {hasVoice && (
+          {hasVoice && tl.philosophyFrames > 0 && (
             <Sequence from={tl.celebIntroFrames + f(1)} durationInFrames={tl.philosophyFrames}>
               <Audio src={vf(VN_PHILOSOPHY)} />
             </Sequence>
           )}
-          <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={host.voiceDuration ?? 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} philosophyAudioSrc={hasVoice ? vf(VN_PHILOSOPHY) : undefined} locale={script.locale} />
+          <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={tl.philosophyFrames > 0 ? (host.voiceDuration ?? 0) : 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} philosophyAudioSrc={hasVoice && tl.philosophyFrames > 0 ? vf(VN_PHILOSOPHY) : undefined} locale={script.locale} />
         </Sequence>
       )}
 

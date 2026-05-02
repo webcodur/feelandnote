@@ -8,7 +8,6 @@ export const SHORT_RIGHT_STRIP_W = 280
 export const SHORT_CONTENT_PAD = 48
 
 export const REVEAL_BG = 'common/images/reveal-bg.jpg'
-export const CTA_BG = 'common/images/cta-bg.jpg'
 
 /** Remotion interpolate clamp 옵션 — 매번 리터럴 객체 생성 방지 */
 export const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }

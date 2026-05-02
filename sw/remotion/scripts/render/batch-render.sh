@@ -45,13 +45,13 @@ run_pipeline() {
 
   # 롱폼 파이프라인
   echo "  [1-long] TTS 생성 (롱폼)..." | tee -a "$LOG"
-  pnpm voice -- --episode "$ep" --long --update-json 2>&1 | tee -a "$LOG"
+  pnpm voice:tts -- --episode "$ep" --long --update-json 2>&1 | tee -a "$LOG"
 
   echo "  [2-long] WhisperX 타임스탬프 (롱폼)..." | tee -a "$LOG"
-  python scripts/voice/2-whisper.py --episode "$ep" --long 2>&1 | tee -a "$LOG"
+  python scripts/voice/3-transcribe.py --episode "$ep" --long 2>&1 | tee -a "$LOG"
 
   echo "  [3-long] voiceTimings 분석 (롱폼)..." | tee -a "$LOG"
-  pnpm analyze -- --episode "$ep" --long --update-json 2>&1 | tee -a "$LOG"
+  pnpm voice:align -- --episode "$ep" --long --update-json 2>&1 | tee -a "$LOG"
 
   # 쇼츠 파이프라인 — shorts/{locale}-{N}.json 스캔해 N마다 실행
   if [[ -d "${ep_dir}/shorts" ]]; then
@@ -65,13 +65,13 @@ run_pipeline() {
       [[ "$n" =~ ^[0-9]+$ ]] || continue
 
       echo "  [1-shorts-${n}] TTS 생성..." | tee -a "$LOG"
-      pnpm voice -- --episode "$ep" --shorts "$n" --update-json 2>&1 | tee -a "$LOG"
+      pnpm voice:tts -- --episode "$ep" --shorts "$n" --update-json 2>&1 | tee -a "$LOG"
 
       echo "  [2-shorts-${n}] WhisperX 타임스탬프..." | tee -a "$LOG"
-      python scripts/voice/2-whisper.py --episode "$ep" --shorts "$n" 2>&1 | tee -a "$LOG"
+      python scripts/voice/3-transcribe.py --episode "$ep" --shorts "$n" 2>&1 | tee -a "$LOG"
 
       echo "  [3-shorts-${n}] voiceTimings 분석..." | tee -a "$LOG"
-      pnpm analyze -- --episode "$ep" --shorts "$n" --update-json 2>&1 | tee -a "$LOG"
+      pnpm voice:align -- --episode "$ep" --shorts "$n" --update-json 2>&1 | tee -a "$LOG"
     done
   fi
 

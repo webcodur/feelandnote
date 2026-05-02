@@ -41,20 +41,19 @@ function groupByPerson<T>(entries: [string, T][]) {
   return Object.values(groups)
 }
 
-/** baseName에서 상태를 결정 (KO 기준, 없으면 todo) */
+/** baseName에서 상태를 결정. script.ts에서 이미 done/live만 등록되므로 폴백은 타입 만족용. */
 function getStatus(baseName: string): EpisodeStatus {
-  return episodeStatus[baseName] ?? 'todo'
+  return episodeStatus[baseName] ?? 'done'
 }
 
 const STATUS_LABELS: Record<EpisodeStatus, string> = {
   done: '1-Done',
   live: '2-Live',
-  todo: '3-Todo',
 }
 
 /** 에피소드를 상태별로 분류 */
 function groupByStatus(allEntries: [string, unknown][]) {
-  const result: Record<EpisodeStatus, [string, unknown][]> = { done: [], live: [], todo: [] }
+  const result: Record<EpisodeStatus, [string, unknown][]> = { done: [], live: [] }
   for (const [name, script] of allEntries) {
     const { baseName } = parseEpMeta(name)
     const status = getStatus(baseName)

@@ -10,12 +10,13 @@
  *   out/{Label}/{Lang}/S-VID.srt
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
-import { join } from 'path'
-import type { BookRecommendScript } from '../../src/compositions/BookRecommend/types'
+import { join, dirname } from 'path'
+import type { BookRecommendScript, EpisodeTimingData } from '../../src/compositions/BookRecommend/types'
 import { buildLongformSubs, buildShortsSubs, subsToSrt } from './srt-builder'
+import { mergeEpisode } from '../../src/compositions/BookRecommend/merge-episode'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
 
-const outDir = join(ROOT, 'scripts', 'out')
+const outDir = join(ROOT, 'out')
 
 /** slug → PascalCase label + lang */
 function toCompId(name: string) {
@@ -49,7 +50,12 @@ for (const name of targets) {
   const epOutDir = join(outDir, label, lang)
   mkdirSync(epOutDir, { recursive: true })
 
-  const script = JSON.parse(readFileSync(jsonPath, 'utf-8')) as BookRecommendScript
+  const content = JSON.parse(readFileSync(jsonPath, 'utf-8')) as BookRecommendScript
+  const timingPath = jsonPath.replace(/\.json$/, '.timing.json')
+  const timing = existsSync(timingPath)
+    ? JSON.parse(readFileSync(timingPath, 'utf-8')) as EpisodeTimingData
+    : undefined
+  const script = timing ? mergeEpisode(content, timing) : content
 
   // longform
   const longSrt = subsToSrt(buildLongformSubs(script))

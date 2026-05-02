@@ -41,7 +41,7 @@ export const VN_PREV_RECAP = 'E4-prev-recap.wav'
  * 접두사 없는 레거시 경로는 더 이상 생성하지 않는다.
  *
  * @param segIndex 세그먼트 인덱스 (0-based)
- * @param segId 세그먼트 ID (hook, intro, celeb-mid, book-context, cta 등)
+ * @param segId 세그먼트 ID (hook, intro, celeb-mid, book-context 등)
  * @param shortsIndex 쇼츠 번호 (1-based, 필수)
  * @returns `shorts-{shortsIndex}/S{nn}-{segId}.wav`
  */

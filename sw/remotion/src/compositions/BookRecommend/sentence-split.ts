@@ -251,10 +251,15 @@ function sliceOriginalByTimingsFull(
 
   // slice 경계 앞 구두점·공백을 이전 slice 끝에 흡수하는 헬퍼
   // (경계가 "ABC. DEF"의 'D' 앞에 오면 ". "가 다음 slice 머리로 넘어가는 버그 방지)
+  // 따옴표는 제외: '검은 양'처럼 따옴표로 시작하는 덩어리는 다음 slice 머리에 붙어야
+  // 하이라이트 타이밍이 뒤 문장에 귀속된다.
   const isBoundaryChar = (c: string): boolean =>
-    /[\s.,!?;:。，！？；：、'""''·\n\r]/.test(c)
+    /[\s.,!?;:。，！？；：、·\n\r]/.test(c)
   const isWordContinuer = (c: string): boolean =>
     !isBoundaryChar(c)
+  // 닫는 따옴표 — 문장 종결부호 뒤에 붙는 경우에만 이전 slice로 흡수
+  // (`아니하리라.'`에서 `'`가 다음 slice 머리로 넘어가 공백이 삽입되는 버그 방지)
+  const isClosingQuote = (c: string): boolean => /['"'"」』]/.test(c)
 
   // 문단 경계(\n\n+) raw 범위를 미리 수집 — slice가 문단을 넘지 않도록 cap
   const paraBreaks: { start: number; end: number }[] = []
@@ -294,6 +299,15 @@ function sliceOriginalByTimingsFull(
       while (rawEnd < text.length && isWordContinuer(text[rawEnd])) rawEnd++
       // 2) 뒤따르는 구두점·공백·개행을 이전 slice로 흡수 (다음 slice는 깨끗한 단어로 시작)
       while (rawEnd < text.length && isBoundaryChar(text[rawEnd])) rawEnd++
+      // 3) 직전 rawEnd-1이 문장 종결부호(.!?。)이고 rawEnd 위치가 닫는 따옴표면
+      //    따옴표도 이전 slice에 흡수 후 뒤따르는 공백도 재흡수
+      //    (`아니하리라.'`의 `'`가 다음 slice로 넘어가 공백 삽입되는 문제 방지)
+      if (rawEnd > 0 && rawEnd < text.length
+          && /[.!?。]/.test(text[rawEnd - 1])
+          && isClosingQuote(text[rawEnd])) {
+        rawEnd++
+        while (rawEnd < text.length && isBoundaryChar(text[rawEnd])) rawEnd++
+      }
     }
     slices.push(text.slice(prevRaw, rawEnd).trim())
     boundaries.push(rawEnd)
@@ -363,6 +377,20 @@ export function slicePageTimings(
   if (allTimings.some(t => t.start == null || t.end == null)) return undefined
   return ranges.map(r => {
     const base = allTimings[r.startIdx].start
+    const lastSeg = allTimings[r.endIdx - 1]
+    // absEnd: 발화 실제 종료점. Whisper가 trailing silence를 마지막 단어 end에
+    // 흡수시키는 케이스를 char 수 대비 duration 비교로 감지, 추정 종료점으로 보정.
+    let absEnd = lastSeg.end
+    const lastRealWord = lastSeg.words?.filter(w => w.text && !/^[.…]+$/.test(w.text)).slice(-1)[0]
+    if (lastRealWord) {
+      const wordDur = lastRealWord.end - lastRealWord.start
+      const expectedDur = Math.max(lastRealWord.text.replace(/\s/g, '').length * 0.18, 0.3)
+      if (wordDur > expectedDur * 1.8) {
+        absEnd = lastRealWord.start + expectedDur * 1.3
+      } else {
+        absEnd = lastRealWord.end
+      }
+    }
     return {
       range: r,
       timings: allTimings.slice(r.startIdx, r.endIdx).map(t => ({
@@ -372,7 +400,7 @@ export function slicePageTimings(
         subTimings: t.subTimings?.map(st => st - base),
       })),
       absStart: base,
-      absEnd: allTimings[r.endIdx - 1].end,
+      absEnd,
     }
   })
 }

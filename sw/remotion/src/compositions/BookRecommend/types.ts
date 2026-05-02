@@ -3,8 +3,6 @@ export interface CelebHost {
   nickname_en: string
   speech_tone: string
   avatar_url: string
-  /** 인물 소개 (DB bio) */
-  bio: string
   /** 직함 */
   title: string
   /** 대표 명언 */
@@ -21,7 +19,7 @@ export interface CelebHost {
   geminiVoice?: string
   /** 셀럽 발화 스타일 prefix (한·영 공통) — 롱폼 celeb + 쇼츠 celeb-mid에 적용. 정속 prefix. */
   voiceStyle?: string
-  /** 쇼츠 narrator/summary 속도 prefix 오버라이드 — 미지정 시 SHORTS_SPEED_DEFAULT('1.2배속으로') 적용. 셀럽 단위 조절용. */
+  /** narrator/summary 발화 스타일 prefix 오버라이드 (레거시 필드명, 쇼츠·롱폼 공통) — 미지정 시 NARRATOR_STYLE_DEFAULT('숨소리 안나게 발화') 적용. 셀럽 단위 조절용. */
   shortsSpeed?: string
 }
 
@@ -41,8 +39,9 @@ export interface CinematicImage {
   /** 텍스트 앵커 — 나레이션에서 이 텍스트가 시작될 때 이미지 전환.
    *  배열 첫 이미지는 생략 가능 (북 섹션 시작부터 표시) */
   text?: string
-  /** 귀속 필드 — summary(책 장면) 또는 context(인물 장면). 세부 위치는 text 앵커가 결정 */
-  field?: 'summary' | 'context'
+  /** 귀속 필드 — summary(책 장면), context(인물 배경), quote(직접 인용 전용).
+   *  세부 위치는 text 앵커가 결정. 레거시 데이터는 quote 이미지도 'context'일 수 있음 */
+  field?: 'summary' | 'context' | 'quote'
   /** 이미지 키워드 (Studio 표시용) */
   keyword?: string
   /** 이미지 프롬프트 (생성용) */
@@ -162,8 +161,8 @@ export interface ShortSegment {
   role: 'narrator' | 'celeb' | 'summary'
   /** 자막/TTS 텍스트 */
   text: string
-  /** 비주얼 유형: hook, intro, book, cta */
-  visual: 'hook' | 'intro' | 'book' | 'cta'
+  /** 비주얼 유형: hook, intro, book */
+  visual: 'hook' | 'intro' | 'book'
   /** TTS 생성 후 자동 반영 (초) */
   duration?: number
   /** 구간별 커스텀 배경 이미지 경로 (옵션) */
@@ -172,8 +171,75 @@ export interface ShortSegment {
    *  text 앵커 지정 시 3-timings가 voiceTimings에서 해당 텍스트 시작 시간을 t에 자동 반영.
    *  배열로 여러 전환점을 지정할 수 있다. */
   imageChangeAt?: { t: number; image: string; text?: string } | { t: number; image: string; text?: string }[]
+  /** 다음 세그먼트로 넘어가기 전 추가 멈춤(초). 자동 gap에 더해진다.
+   *  이 시간 동안 마지막 이미지가 그대로 유지되어 다음 장면으로 천천히 전환된다.
+   *  자막·음성은 세그먼트 끝과 함께 사라지고, 다음 세그먼트는 그만큼 늦게 시작한다. */
+  gapAfter?: number
+  /** 사운드 이펙트 — 이 세그먼트 내에서 재생할 단발성 효과음.
+   *  text 앵커 + offset(초) 조합으로 재생 시각을 결정한다.
+   *  - text 없음: 세그먼트 시작 + offset
+   *  - text 있음: 해당 구절 시작 시점(voiceTimings 매칭) + offset
+   *  - voiceTimings 없거나 매칭 실패 시 세그먼트 텍스트 내 위치 비율로 폴백
+   *  file은 에피소드 soundeffect/ 폴더 기준 상대 경로 또는 'episodes/...' 절대 경로. */
+  sfx?: {
+    file: string
+    text?: string
+    offset?: number
+    volume?: number
+    /** 재생 길이 제한(초). 미지정 시 음원 끝까지. */
+    duration?: number
+    /** 시작 페이드인(초). 0초부터 이 시간만큼 0→volume으로 ramp. */
+    fadeIn?: number
+    /** 끝나기 전 페이드아웃(초). duration이 지정되어 있어야 의미가 있다. */
+    fadeOut?: number
+  }[]
   /** 인용 출처 — celeb role 세그먼트에서 인용문 아래에 표시 */
   quoteSource?: string
+  /** 우상단 표시 — 'avatar': 인물 얼굴, 'book': 책 표지, 'none': 표시 안 함.
+   *  미지정 시 자동(intro 다음 세그먼트부터 얼굴, book 구간에서 책으로 전환). */
+  topRight?: 'avatar' | 'book' | 'none'
+  /** 화면 어둡게 처리 강도.
+   *  true(=heavy): 강하게 어둡게(brightness 0.35·saturate 0.5),
+   *  'light': 살짝 어둡게(brightness 0.65·saturate 0.75),
+   *  undefined: 평소 밝기. */
+  darken?: boolean | 'light'
+  /** 배경 이미지 켄번즈 줌. true: 줌 ON(1→1.08), false: 고정 배경.
+   *  미지정 시 ON. */
+  zoomIn?: boolean
+  /** 본문 텍스트 강조 표시 모드.
+   *  true(=fullscreen): 화면 중앙에 좌측정렬 큰 글씨(54px)로 본문을 덮어 표시.
+   *  'bottom': 화면 하단에 좌측정렬 큰 글씨(50px, 풀스크린보다 살짝 작게)로 표시.
+   *  미지정: 일반 자막(ShortCaption)으로 하단 가운데 페이지 단위 표시.
+   *  truthy 모드(true·'bottom')에서는 일반 자막은 숨김. */
+  textOverlay?: boolean | 'bottom'
+  /** 세그먼트 오디오 볼륨. 기본값 1. 음악이나 효과음에 묻히는 경우 조절. */
+  volume?: number
+  /** Gemini TTS 발화 스타일 prefix (예: "낮고 간절하게 속삭이듯"). narrator/summary 우선 적용, celeb는 host.voiceStyle 대체. */
+  style?: string
+  /** Gemini TTS 보이스 명시 오버라이드 (예: "Sulafat"). 지정 시 role과 무관하게 Gemini로 합성하며 ElevenLabs 셀럽 차단도 우회한다. 캐릭터 보이스(다중 화자) 용도. */
+  geminiVoice?: string
+  /** ElevenLabs 보이스 ID 세그먼트 단위 오버라이드. 지정 시 host.elevenlabsVoiceId 대신 이 값을 사용한다. 다중 화자(예: 손권 별도 보이스) 용도.
+   *  speaker 참조보다 우선한다. */
+  elevenlabsVoiceId?: string
+  /** 화자 ID — ShortsConfig.speakers 배열의 항목과 매칭. 화자 카드의 voiceId·색상이 이 세그먼트에 적용된다. */
+  speaker?: string
+  /** 음성 잠금 — true 시 TTS 1단계가 이 세그먼트를 무조건 스킵.
+   *  텍스트가 바뀌어 매니페스트 해시가 어긋나거나 `--force`가 와도 재합성하지 않는다.
+   *  손으로 톤·발화 톤을 다듬어 마음에 든 결과를 그대로 보존하는 용도.
+   *  의도적으로 다시 생성하려면 이 필드를 제거하거나 `--include-locked` 플래그를 사용. */
+  voiceLock?: boolean
+}
+
+/** 화자 카드 — 쇼츠 내 다중 화자 정의. segment.speaker가 이 id를 참조한다. */
+export interface Speaker {
+  /** 고유 ID (예: 'zhuge', 'sunquan'). segment.speaker에서 참조. */
+  id: string
+  /** 표시 라벨 (BO 화면용, 예: '제갈량') */
+  label: string
+  /** 색상 (hex, 예: '#3b82f6'). 시나리오 행 좌측 색띠·드롭다운 칩 등에 사용. */
+  color: string
+  /** ElevenLabs 보이스 ID — 이 화자 라인 합성 시 host.elevenlabsVoiceId 대신 사용. */
+  elevenlabsVoiceId?: string
 }
 
 /**
@@ -183,10 +249,14 @@ export interface ShortSegment {
 export interface ShortsConfig {
   /** 소개할 책 인덱스 (기본 0) */
   featuredBookIndex?: number
+  /** 쇼츠 썸네일에 표시할 책 제목 오버라이드. 없으면 books[featuredBookIndex].title 사용 */
+  bookTitleOverride?: string
   /** 인트로/리빌 배경 이미지 파일명 (images/ 기준) */
   revealBg?: string
   /** 책 구간 폴백 배경 이미지 파일명 (images/ 기준) */
   bookBg?: string
+  /** 화자 카드 배열 — 다중 화자(예: 셀럽 본인 + 상대 인물) 정의. segment.speaker로 참조. */
+  speakers?: Speaker[]
   /** 세그먼트 배열 — 순서대로 재생 */
   segments: ShortSegment[]
   /** 쇼츠 BGM — 에피소드 전체가 아닌 쇼츠 변형별 독립 */

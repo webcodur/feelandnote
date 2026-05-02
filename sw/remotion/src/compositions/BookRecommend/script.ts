@@ -5,8 +5,11 @@ import { parseEpName } from './voice-names'
 /** 현재 활성 에피소드 — TTS/렌더링 시 사용  */
 export const EPISODE_NAME = 'jim-carrey'
 
-/** 에피소드 상태 — 폴더 위치 기반 */
-export type EpisodeStatus = 'done' | 'live' | 'todo'
+/** 에피소드 상태 — 폴더 위치 기반. 스튜디오에는 done/live만 노출하고 나머지(todo, todo-*, excluded)는 제외. */
+export type EpisodeStatus = 'done' | 'live'
+
+/** 스튜디오에 노출할 폴더명 화이트리스트 — script.ts와 Root.tsx 공용 가드 */
+const ACTIVE_STATUSES: ReadonlySet<string> = new Set(['done', 'live'])
 
 /** en 에피소드에 ko의 imagePrompts 자동 상속 (이미지는 로케일 무관) */
 function withKoImages(en: BookRecommendScript, ko: BookRecommendScript): BookRecommendScript {
@@ -65,6 +68,7 @@ for (const key of shortsContentCtx.keys()) {
   const m = key.match(SHORTS_PATH_RE)
   if (!m) continue
   const [, status, person, locale, idxStr] = m
+  if (!ACTIVE_STATUSES.has(status)) continue
   const personKey = `${status}/${person}`
   const idx = parseInt(idxStr, 10)
   if (!Number.isFinite(idx) || idx < 1) continue
@@ -81,6 +85,7 @@ for (const key of shortsTimingCtx.keys()) {
   const m = key.match(SHORTS_TIMING_PATH_RE)
   if (!m) continue
   const [, status, person, locale, idxStr] = m
+  if (!ACTIVE_STATUSES.has(status)) continue
   const personKey = `${status}/${person}`
   const idx = parseInt(idxStr, 10)
   if (!Number.isFinite(idx) || idx < 1) continue
@@ -146,6 +151,7 @@ for (const key of contentCtx.keys()) {
   const m = key.match(PATH_RE)
   if (!m) continue
   const [, status, person, locale] = m
+  if (!ACTIVE_STATUSES.has(status)) continue
 
   let timing: EpisodeTimingData | undefined
   try { timing = timingCtx(key.replace(/\.json$/, '.timing.json')) as EpisodeTimingData }
@@ -187,15 +193,15 @@ export const episodeStatus: Record<string, EpisodeStatus> = Object.fromEntries(
 export { isContinuation } from './timing'
 import { isContinuation } from './timing'
 
-/** 에피소드 음성 준비 완료 여부 */
+/** 에피소드 음성 준비 완료 여부.
+ *
+ *  단일 wav 누락(예: B2-philosophy)이 전체 hasVoice 분기를 무너뜨려
+ *  sfx·다른 음성·이미지 스케줄까지 차단되는 사고를 막기 위해
+ *  booksReady만 게이트한다. 개별 음성 슬롯은 자체 duration 가드로
+ *  존재 여부를 판단해 누락분만 무음 처리된다.
+ */
 export function isVoiceReady(ep: BookRecommendScript): boolean {
-  const booksReady = ep.books.every(b => b.titleDuration > 0 && b.summaryDuration > 0)
-  if (isContinuation(ep)) {
-    return (ep.narrator.returnIntroDuration ?? 0) > 0 && booksReady
-  }
-  return (ep.host.voiceDuration ?? 0) > 0
-    && (ep.narrator.celebIntroDuration ?? 0) > 0
-    && booksReady
+  return ep.books.every(b => b.titleDuration > 0 && b.summaryDuration > 0)
 }
 
 /** 에피소드별 voice-select 로드 */

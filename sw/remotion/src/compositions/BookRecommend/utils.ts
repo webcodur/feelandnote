@@ -83,7 +83,7 @@ export const BALANCED: React.CSSProperties = { textWrap: 'balance' } as React.CS
 /**
  * Feel & Note 로고 — 공통 컴포넌트
  * variant:
- *   'full'  — FEEL & NOTE + 구분선 + feelandnote.com (outro/CTA용)
+ *   'full'  — FEEL & NOTE + 구분선 + feelandnote.com (outro용)
  *   'brand' — FEEL & NOTE 단색 (BrandIntro용)
  *   'watermark' — FEEL & NOTE 소형 (Overlay용)
  */

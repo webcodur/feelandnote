@@ -65,7 +65,15 @@ export const PreIntro: React.FC<Props> = ({
   const jumpStart = shelfBright
   const jumpEnd = svcGreetingFrames
   const jumpDuration = jumpEnd - jumpStart
-  const bookCount = Math.min(books.length, 7)
+  const bookCount = books.length
+
+  // ── 부채형 배치: 책 수에 따라 크기·간격·회전각 동적 조정 ──
+  const manyBooks = bookCount > 7
+  const bookW = portrait ? (manyBooks ? 120 : 140) : (manyBooks ? 150 : 170)
+  const bookH = Math.round(bookW * 1.5)
+  const bookGap = manyBooks ? Math.max(6, 14 - (bookCount - 7) * 2) : 14
+  const maxAngle = bookCount > 1 ? Math.min(22, 6 + bookCount * 1.5) : 0
+  const centerIdx = (bookCount - 1) / 2
 
   // ── 아바타 ──
   const avatarIn = interpolate(local, [avatarAppear, avatarAppear + f(0.67)], [0, 1], CL)
@@ -166,9 +174,9 @@ export const PreIntro: React.FC<Props> = ({
           {shelfOp > 0 && (
             <div style={{
               opacity: shelfOp, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-              gap: 14, perspective: 800,
+              gap: bookGap, perspective: 800,
             }}>
-              {books.slice(0, bookCount).map((b, bi) => {
+              {books.map((b, bi) => {
                 const mid = bookCount / 2
                 const dist = Math.abs(bi - mid)
                 const delay = shelfAppear + dist * f(0.2)
@@ -179,21 +187,35 @@ export const PreIntro: React.FC<Props> = ({
                 const jumpY = jumpLocal >= 0 && jumpLocal < f(0.67)
                   ? -Math.sin((jumpLocal / f(0.67)) * Math.PI) * 10
                   : 0
+                const rotY = centerIdx > 0 ? ((bi - centerIdx) / centerIdx) * maxAngle : 0
+                const normDist = centerIdx > 0 ? Math.abs(bi - centerIdx) / centerIdx : 0
+                const edgeRatio = 1 - normDist * 0.12
+                const bw = Math.round(bookW * edgeRatio)
+                const bh = Math.round(bw * 1.5)
+                // rotateY로 시각적으로 벌어진 간격을 보상
+                const pullPx = normDist * bookW * 0.08
                 return (
                   <div key={bi} style={{
                     opacity: bookOp,
-                    transform: `scale(1) translateY(${jumpY}px)`,
-                    transformOrigin: 'bottom center',
+                    transform: `rotateY(${rotY}deg)`,
+                    transformStyle: 'preserve-3d',
+                    marginLeft: -pullPx,
+                    marginRight: -pullPx,
                   }}>
                     <div style={{
-                      width: portrait ? 140 : 170, height: portrait ? 210 : 255, borderRadius: 6, overflow: 'hidden',
-                      boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
-                      border: '1px solid rgba(200,164,110,0.1)',
+                      transform: `translateY(${jumpY}px)`,
+                      transformOrigin: 'bottom center',
                     }}>
-                      <Img src={safeImg(b.thumbnail_url)} style={{
-                        width: '100%', height: '100%', objectFit: 'cover',
-                        filter: `brightness(${brightness}) saturate(0.75)`,
-                      }} />
+                      <div style={{
+                        width: bw, height: bh, borderRadius: 6, overflow: 'hidden',
+                        boxShadow: '0 6px 20px rgba(0,0,0,0.6)',
+                        border: '1px solid rgba(200,164,110,0.1)',
+                      }}>
+                        <Img src={safeImg(b.thumbnail_url)} style={{
+                          width: '100%', height: '100%', objectFit: 'cover',
+                          filter: `brightness(${brightness}) saturate(0.75)`,
+                        }} />
+                      </div>
                     </div>
                   </div>
                 )

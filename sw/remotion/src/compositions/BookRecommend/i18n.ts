@@ -6,8 +6,6 @@ import type { BookRecommendScript } from './types'
 interface Strings {
   libraryTour: string
   tagline: string
-  ctaText: string
-  ctaDefault: string
   nBooks: (n: number) => string
   headerTitle: (title: string, nickname: string) => string
   brandSubtitle: (nickname: string, n: number) => string
@@ -42,8 +40,6 @@ const strings: Record<'ko' | 'en', Strings> = {
   ko: {
     libraryTour: '서재 탐방',
     tagline: '한 줄의 기록, 천 년의 울림',
-    ctaText: 'feelandnote.com',
-    ctaDefault: '전체 영상은 하단의 [서재탐방]에서 만나보세요',
     nBooks: (n: number) => `${n}권의 책`,
     headerTitle: (title: string, nickname: string) => `${title} ${nickname}의 서재`,
     brandSubtitle: (nickname: string) => `${nickname}의 서재를 함께한`,
@@ -74,8 +70,6 @@ const strings: Record<'ko' | 'en', Strings> = {
   en: {
     libraryTour: 'Library Tour',
     tagline: 'A Single Line Recorded,\nA Thousand Years of Echoes',
-    ctaText: 'feelandnote.com',
-    ctaDefault: 'Full video below [Library Tour] Watch now',
     nBooks: (n: number) => `${n} Books`,
     headerTitle: (title: string, nickname: string) => `${title} ${nickname}'s Library`,
     brandSubtitle: (nickname: string) => `Exploring ${nickname}'s Library`,

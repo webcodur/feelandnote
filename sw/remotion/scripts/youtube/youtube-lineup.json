@@ -59,12 +59,6 @@
       "en": "The Dreamer Who Turned Sci-Fi into Blueprints"
     }
   },
-  "elon-musk-2": {
-    "hook": {
-      "ko": "위인전에서 로켓 연료를 찾은 남자",
-      "en": "The Man Who Found Rocket Fuel in Biographies"
-    }
-  },
   "leonardo-da-vinci": {
     "hook": {
       "ko": "신의 설계도를 훔쳐본 독학자",
@@ -139,10 +133,6 @@
         "videoId": "Pe_-fZqPNKU",
         "uploadedAt": "2026-04-06T03:32:58.771Z"
       },
-      "ko-shorts-1": {
-        "videoId": "lANZiLiXDf8",
-        "uploadedAt": "2026-04-06T07:37:55.535Z"
-      },
       "ko-shorts-2": {
         "videoId": "1Gkj8InzMas",
         "uploadedAt": "2026-04-07T11:20:36.166Z"
@@ -150,10 +140,6 @@
       "en-longform": {
         "videoId": "xF5Q2tFMVJ4",
         "uploadedAt": "2026-04-11T05:23:31.233Z"
-      },
-      "en-shorts-1": {
-        "videoId": "RMOgBmaZQ6I",
-        "uploadedAt": "2026-04-11T05:24:40.916Z"
       },
       "en-shorts-2": {
         "videoId": "idCNG5EucEQ",
@@ -206,6 +192,18 @@
       "ko-shorts-2": {
         "videoId": "I2JCY7iPspY",
         "uploadedAt": "2026-04-12T12:00:00.698Z"
+      },
+      "ko-shorts-7": {
+        "videoId": "HG9WPEgGJJU",
+        "uploadedAt": "2026-04-14T10:08:59.572Z"
+      },
+      "ko-shorts-1": {
+        "videoId": "nfH3FIfV_PY",
+        "uploadedAt": "2026-04-15T09:18:21.016Z"
+      },
+      "ko-longform": {
+        "videoId": "9wHI2qIr5B0",
+        "uploadedAt": "2026-04-19T00:09:07.056Z"
       }
     }
   },
@@ -213,6 +211,34 @@
     "hook": {
       "ko": "폭소의 제단 위에 짐 캐리라는 자아의 목을 쳐서 바친 해체주의자",
       "en": "The Deconstructionist Who Beheaded and Sacrificed the Ego Named Jim Carrey on the Altar of Roaring Laughter"
+    }
+  },
+  "vincent-van-gogh": {
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "9CRHJrJQ6Z0",
+        "uploadedAt": "2026-04-25T12:27:27.099Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "GWs02Q0Wv3w",
+        "uploadedAt": "2026-04-25T12:28:00.421Z"
+      },
+      "ko-shorts-3": {
+        "videoId": "Q5V6f_avYbE",
+        "uploadedAt": "2026-04-27T08:40:39.970Z"
+      }
+    }
+  },
+  "zhuge-liang": {
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "7rHfNd0J8rg",
+        "uploadedAt": "2026-04-30T11:54:58.221Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "fTAU5vNK1ic",
+        "uploadedAt": "2026-05-02T04:18:01.951Z"
+      }
     }
   }
 }

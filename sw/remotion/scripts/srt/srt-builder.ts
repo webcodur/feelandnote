@@ -14,7 +14,7 @@ import {
 } from '../../src/compositions/BookRecommend/timing'
 import { splitSub, type Sub } from '../../src/compositions/BookRecommend/sentence-split'
 import {
-  VN_SERVICE_GREETING, VN_SERVICE_INTRO,
+  VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
   vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO,
@@ -41,6 +41,13 @@ export function subsToSrt(subs: Sub[]): string {
 
 // ── longform SRT — buildTimeline() SSoT ──
 
+/** duration 필드가 비어도 voiceTimings 마지막 end 로 폴백 */
+function resolveDur(sec: number | undefined, segs: VoiceTimingSegment[] | undefined): number {
+  if ((sec ?? 0) > 0) return sec as number
+  const last = segs?.[segs.length - 1]?.end
+  return last != null && last > 0 ? last : 0
+}
+
 export function buildLongformSubs(script: BookRecommendScript): Sub[] {
   const { narrator, host, books } = script
   const tl = buildTimeline(script)
@@ -55,7 +62,7 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
   if (!tl.cont && tl.svcGreetingFrames > 0 && narrator.serviceGreeting)
     subs.push(...splitSub(
       tl.svcGreetingStart,
-      tl.svcGreetingStart + toAudioFrames(narrator.serviceGreetingDuration ?? 0),
+      tl.svcGreetingStart + toAudioFrames(resolveDur(narrator.serviceGreetingDuration, vtk(vnTimingKey(VN_SERVICE_GREETING)))),
       narratorLabel, narrator.serviceGreeting,
       vtk(vnTimingKey(VN_SERVICE_GREETING)),
     ))
@@ -64,7 +71,7 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
   if (!tl.cont && tl.svcIntroFrames > 0 && narrator.serviceIntro)
     subs.push(...splitSub(
       tl.svcIntroStart,
-      tl.svcIntroStart + toAudioFrames(narrator.serviceIntroDuration!),
+      tl.svcIntroStart + toAudioFrames(resolveDur(narrator.serviceIntroDuration, vtk(vnTimingKey(VN_SERVICE_INTRO)))),
       narratorLabel, narrator.serviceIntro,
       vtk(vnTimingKey(VN_SERVICE_INTRO)),
     ))
@@ -73,7 +80,7 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
   if (tl.fQuoteFrames > 0 && host.featuredQuote)
     subs.push(...splitSub(
       tl.fQuoteStart + f(1),
-      tl.fQuoteStart + f(1) + toAudioFrames(host.featuredQuoteDuration!),
+      tl.fQuoteStart + f(1) + toAudioFrames(resolveDur(host.featuredQuoteDuration, vtk(vnTimingKey(VN_FEATURED_QUOTE)))),
       host.nickname, host.featuredQuote,
     ))
 
@@ -182,7 +189,6 @@ export function buildShortsSubs(script: BookRecommendScript, shortsIndex: number
 
   for (let i = 0; i < segments.length; i++) {
     const seg = segments[i]
-    if (seg.visual === 'cta') continue
     const speaker = seg.role === 'celeb' ? host.nickname : (isEn ? 'Narrator' : '나레이터')
     const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
     const audioFrames = seg.duration ? toAudioFrames(seg.duration) : segTimings[i]

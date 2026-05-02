@@ -51,8 +51,8 @@ export function usePrefetch(
         urls.push(vf(VN_SERVICE_GREETING))
       }
       if ((narrator.serviceIntroDuration ?? 0) > 0) urls.push(vf(VN_SERVICE_INTRO))
-      urls.push(vf(VN_CELEB_INTRO))
-      urls.push(vf(VN_PHILOSOPHY))
+      if ((narrator.celebIntroDuration ?? 0) > 0) urls.push(vf(VN_CELEB_INTRO))
+      if ((host.voiceDuration ?? 0) > 0) urls.push(vf(VN_PHILOSOPHY))
     }
     if (host.featuredQuoteDuration && host.featuredQuoteDuration > 0) urls.push(vf(VN_FEATURED_QUOTE))
     const cleanups = urls.map((url) => {

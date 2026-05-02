@@ -12,12 +12,19 @@ import {
 } from '../timing'
 import { splitSub, type Sub } from '../utils'
 import {
-  VN_SERVICE_GREETING, VN_SERVICE_INTRO,
+  VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
   vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO,
   vnTimingKey,
 } from '../voice-names'
+
+/** duration 필드가 비어도 voiceTimings 마지막 end 로 폴백 */
+function resolveDur(sec: number | undefined, segs: VoiceTimingSegment[] | undefined): number {
+  if ((sec ?? 0) > 0) return sec as number
+  const last = segs?.[segs.length - 1]?.end
+  return last != null && last > 0 ? last : 0
+}
 
 interface Props {
   script: BookRecommendScript
@@ -33,13 +40,13 @@ export function buildLongSubs(script: BookRecommendScript, tl: Timeline): Sub[] 
 
   // 서비스 인사
   if (!tl.cont && tl.svcGreetingFrames > 0 && narrator.serviceGreeting)
-    subs.push(...splitSub(tl.svcGreetingStart, tl.svcGreetingStart + toAudioFrames(narrator.serviceGreetingDuration ?? 0), '나레이터', narrator.serviceGreeting, vtk(vnTimingKey(VN_SERVICE_GREETING))))
+    subs.push(...splitSub(tl.svcGreetingStart, tl.svcGreetingStart + toAudioFrames(resolveDur(narrator.serviceGreetingDuration, vtk(vnTimingKey(VN_SERVICE_GREETING)))), '나레이터', narrator.serviceGreeting, vtk(vnTimingKey(VN_SERVICE_GREETING))))
   // 서비스 인트로
   if (!tl.cont && tl.svcIntroFrames > 0 && narrator.serviceIntro)
-    subs.push(...splitSub(tl.svcIntroStart, tl.svcIntroStart + toAudioFrames(narrator.serviceIntroDuration!), '나레이터', narrator.serviceIntro, vtk(vnTimingKey(VN_SERVICE_INTRO))))
+    subs.push(...splitSub(tl.svcIntroStart, tl.svcIntroStart + toAudioFrames(resolveDur(narrator.serviceIntroDuration, vtk(vnTimingKey(VN_SERVICE_INTRO)))), '나레이터', narrator.serviceIntro, vtk(vnTimingKey(VN_SERVICE_INTRO))))
   // 명언
   if (tl.fQuoteFrames > 0 && host.featuredQuote)
-    subs.push(...splitSub(tl.fQuoteStart + f(1), tl.fQuoteStart + f(1) + toAudioFrames(host.featuredQuoteDuration!), host.nickname, host.featuredQuote))
+    subs.push(...splitSub(tl.fQuoteStart + f(1), tl.fQuoteStart + f(1) + toAudioFrames(resolveDur(host.featuredQuoteDuration, vtk(vnTimingKey(VN_FEATURED_QUOTE)))), host.nickname, host.featuredQuote))
   // 셀럽 소개
   if (!tl.cont && narrator.celebIntro) {
     const cs = tl.hostIntroStart + CELEB_VISUAL_DELAY

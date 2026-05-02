@@ -247,7 +247,8 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
   const label = toCompLabel(episodeName)
 
   // 에피소드 데이터 로드 (content + timing + shorts 외부 파일까지 머지)
-  const koData = await loadEpisode(episodeName).catch(() => null) as any
+  // parseEpName은 locale 접미사를 강제한다 — `${name}-ko` / `${name}-en` 으로 호출.
+  const koData = await loadEpisode(`${episodeName}-ko`).catch(() => null) as any
   const enData = await loadEpisode(`${episodeName}-en`).catch(() => null) as any
 
   const koShortsCount = Array.isArray(koData?.shorts) ? koData.shorts.length : 0

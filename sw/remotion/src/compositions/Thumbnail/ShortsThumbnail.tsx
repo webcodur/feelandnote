@@ -53,8 +53,10 @@ export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFoote
   const frame = useCurrentFrame()
   const { host, books } = script
   // shortsIndex는 1-based. 배열 접근 시 -1 변환
-  const bi = script.shorts?.[shortsIndex - 1]?.featuredBookIndex ?? 0
+  const shorts = script.shorts?.[shortsIndex - 1]
+  const bi = shorts?.featuredBookIndex ?? 0
   const book = books[bi]
+  const displayTitle = shorts?.bookTitleOverride ?? book.title
   const isEn = script.locale === 'en'
 
   // 매거진의 텍스트 레이아웃은 고정된 채 인물과 오브제만 미세하게 호흡하듯 줌인
@@ -174,7 +176,7 @@ export const ShortsThumbnail: React.FC<Props> = ({ script, hideHeader, hideFoote
             textShadow: '0 4px 20px rgba(0,0,0,0.9)',
             display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
           }}>
-            {book.title}
+            {displayTitle}
           </div>
           
           {/* 프리미엄한 에디토리얼 마감 (워터마크 느낌) */}

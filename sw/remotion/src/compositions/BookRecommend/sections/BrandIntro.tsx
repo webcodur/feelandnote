@@ -14,7 +14,7 @@ type BrandProps = {
   style?: React.CSSProperties
 }
 
-/** 브랜드 콘텐츠 — 로고 + tagline + CTA (배경 없음) */
+/** 브랜드 콘텐츠 — 로고 + tagline + 사이트 도메인 (배경 없음) */
 export const Brand: React.FC<BrandProps> = ({ script, opacity = 1, scale = 1, locale, style }) => {
   if (opacity <= 0) return null
   const s = (v: number) => Math.round(v * scale)
@@ -50,7 +50,7 @@ export const Brand: React.FC<BrandProps> = ({ script, opacity = 1, scale = 1, lo
         fontWeight: 600, letterSpacing: s(2), textAlign: 'center',
         boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
       }}>
-        {strings.ctaText}
+        feelandnote.com
       </div>
     </div>
   )
