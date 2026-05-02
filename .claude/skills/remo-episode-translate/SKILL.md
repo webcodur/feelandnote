@@ -131,9 +131,9 @@ en.json에 `locale: "en"` 설정 후 저장.
 ```
 번역 완료. 후속 작업 (--long 또는 --shorts <N> 단일 타겟 스코프 필수):
 1. 이미지 동기화: /image-anchor-sync <에피소드명>
-2. 롱폼 TTS: pnpm voice -- --episode <에피소드명>-en --long --update-json
+2. 롱폼 TTS: pnpm voice:tts -- --episode <에피소드명>-en --long --update-json
 3. 롱폼 WhisperX: python scripts/voice/2-whisper.py --episode <에피소드명>-en --long
-4. 롱폼 타이밍 동기화: pnpm analyze -- --episode <에피소드명>-en --long --update-json
+4. 롱폼 타이밍 동기화: pnpm voice:align -- --episode <에피소드명>-en --long --update-json
 5. 쇼츠가 있으면 N마다 반복: --shorts <N> 으로 동일한 3단계 실행
 ```
 

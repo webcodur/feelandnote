@@ -179,7 +179,7 @@ ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:no
 
 ### Step 5: normalize
 
-**쇼츠**(`shorts-N/` 하위)는 파이프라인 `normalizeAll`이 스캔하지 못하므로 `normalizeWav(path)` 단일 파일 호출로 수동 정규화한다. **롱폼**(OUT_DIR 직속)은 `pnpm voice --normalize` 경로로 normalizeAll이 적용되지만, 이 스킬은 voice 우회 경로이므로 동일하게 ad-hoc 스크립트가 안전하다.
+**쇼츠**(`shorts-N/` 하위)는 파이프라인 `normalizeAll`이 스캔하지 못하므로 `normalizeWav(path)` 단일 파일 호출로 수동 정규화한다. **롱폼**(OUT_DIR 직속)은 `pnpm voice:tts --normalize` 경로로 normalizeAll이 적용되지만, 이 스킬은 voice 우회 경로이므로 동일하게 ad-hoc 스크립트가 안전하다.
 
 ad-hoc 스크립트 (`sw/remotion/scripts/voice/retone-normalize.ts`, 일회성):
 
@@ -215,10 +215,10 @@ console.log(result ? `✓ in_i=${result.inI}` : '✗ 측정 실패')
 
 ```bash
 # 쇼츠
-pnpm voice -- --episode <name> --shorts <N> --init-manifest
+pnpm voice:tts -- --episode <name> --shorts <N> --init-manifest
 
 # 롱폼
-pnpm voice -- --episode <name> --long --init-manifest
+pnpm voice:tts -- --episode <name> --long --init-manifest
 ```
 
 - 현재 `jobs.ts` 텍스트(= 원본 json 세그먼트 텍스트 + tts.replace 적용) 기준으로 manifest hash 재기록
@@ -229,14 +229,14 @@ pnpm voice -- --episode <name> --long --init-manifest
 ```bash
 # 쇼츠 예시
 python scripts/voice/2-whisper.py --episode <name> --shorts <N> --only <seg>
-pnpm analyze -- --episode <name> --shorts <N> --only <seg> --update-json
+pnpm voice:align -- --episode <name> --shorts <N> --only <seg> --update-json
 
 # 롱폼 예시
 python scripts/voice/2-whisper.py --episode <name> --long --only <seg>
-pnpm analyze -- --episode <name> --long --only <seg> --update-json
+pnpm voice:align -- --episode <name> --long --only <seg> --update-json
 
 # 공통: sub 검증
-pnpm sub:check -- --episode <name>
+pnpm voice:chunk -- --check -- --episode <name>
 ```
 
 - 2단계가 성공하려면 tts_text(= Step 4에서 수정한 `tts.replace` 적용 결과)와 실제 wav 발화가 일치해야 한다

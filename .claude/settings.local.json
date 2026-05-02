@@ -5,6 +5,7 @@
   "permissions": {
     "allow": [
       "Bash(*)",
+      "PowerShell(*)",
       "Read(*)",
       "Write(*)",
       "Edit(*)",
@@ -13,6 +14,8 @@
       "WebSearch(*)",
       "WebFetch(*)",
       "Task(*)",
+      "Agent(*)",
+      "ToolSearch(*)",
       "mcp__supabase__*",
       "mcp__google-search-console__list_sites",
       "mcp__google-search-console__list_sitemaps",
@@ -20,7 +23,22 @@
       "mcp__google-search-console__index_inspect",
       "mcp__google-analytics__get_ga4_data",
       "mcp__google-search-console__detect_quick_wins",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "PowerShell(Move-Item *)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=풀잎 월트 휘트먼&display=8\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher, image | ConvertTo-Json -Depth 3)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=국화부인 피에르 로티&display=8\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher, image | ConvertTo-Json -Depth 3)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=여자의 삶 미슐레&display=10\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher, image | ConvertTo-Json -Depth 3)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=국화부인&display=10\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher, image | ConvertTo-Json -Depth 3)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=Madame Chrysantheme 로티&display=5\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher, image | ConvertTo-Json -Depth 3)",
+      "PowerShell($env:NAVER_CLIENT_ID=\"iIDPCzAVSqVhlIN234EK\"; $env:NAVER_CLIENT_SECRET=\"sb0Y5Yec0P\"; $h = @{\"X-Naver-Client-Id\"=$env:NAVER_CLIENT_ID; \"X-Naver-Client-Secret\"=$env:NAVER_CLIENT_SECRET}; $r = Invoke-RestMethod -Uri \"https://openapi.naver.com/v1/search/book.json?query=피에르 로티&display=10\" -Headers $h; $r.items | Select-Object isbn, title, author, publisher | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Madame+Chrysantheme&author=Pierre+Loti&limit=5\"; $r.docs | Select-Object title, author_name, first_publish_year, isbn, cover_i | Select-Object -First 5 | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Leaves+of+Grass&author=Walt+Whitman&limit=5\"; $r.docs | Select-Object title, author_name, first_publish_year, isbn, cover_i | Select-Object -First 3 | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Woman&author=Jules+Michelet&limit=10\"; $r.docs | Select-Object title, author_name, first_publish_year, isbn, cover_i | Select-Object -First 5 | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Leaves+of+Grass&author=Walt+Whitman&limit=30&fields=title,author_name,first_publish_year,isbn,publisher,cover_i\"; $r.docs | Where-Object { $_.isbn -ne $null } | Select-Object -First 5 | ForEach-Object { [PSCustomObject]@{ title=$_.title; author=$_.author_name[0]; year=$_.first_publish_year; isbn=$_.isbn[0]; publisher=$_.publisher[0]; cover_i=$_.cover_i } } | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Madame+Chrysantheme&author=Loti&limit=30&fields=title,author_name,first_publish_year,isbn,publisher,cover_i\"; $r.docs | Where-Object { $_.isbn -ne $null } | Select-Object -First 5 | ForEach-Object { [PSCustomObject]@{ title=$_.title; author=$_.author_name[0]; year=$_.first_publish_year; isbn=$_.isbn[0]; publisher=$_.publisher[0]; cover_i=$_.cover_i } } | ConvertTo-Json -Depth 3)",
+      "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Woman&author=Michelet&limit=30&fields=title,author_name,first_publish_year,isbn,publisher,cover_i\"; $r.docs | Where-Object { $_.isbn -ne $null } | Select-Object -First 5 | ForEach-Object { [PSCustomObject]@{ title=$_.title; author=$_.author_name[0]; year=$_.first_publish_year; isbn=$_.isbn[0]; publisher=$_.publisher[0]; cover_i=$_.cover_i } } | ConvertTo-Json -Depth 3)",
+      "Read(//c/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/eacdb118-cdd0-4365-9243-6f910d0ce86a/tasks/**)",
+      "Bash(grep -E --line-buffered \"Error|Traceback|✗|FAIL|error|saved|완료|Transcribed|wav$\")"
     ],
     "deny": [],
     "ask": []
