@@ -7,6 +7,9 @@ const BAR_COLOR = 'rgba(200, 164, 110, 0.8)'
 const BAR_GAP = 1.5
 const BAR_W = 1
 
+// 전역 활성 플레이어 — 가장 최근에 상호작용한 하나만 Space 키에 반응
+let _activePlayer: { toggle: () => void } | null = null
+
 type Props = {
   audioUrl: string
   duration: number
@@ -29,12 +32,15 @@ type Props = {
   trimEnd?: number
   /** trim 끝 변경 콜백 — 전달 시 우측 드래그 핸들 표시 */
   onTrimEnd?: (time: number) => void
+  /** 초당 픽셀 수 — 지정 시 "화면 꽉차기" 대신 절대 가로폭으로 렌더, 가로 스크롤 발생.
+   *  지정 없으면 부모 너비 꽉 채움(기존 동작). 긴 오디오에서 시간 감각 유지용. */
+  pxPerSec?: number
 }
 
 export function AudioWavePlayer({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
-  trimStart, trimEnd, onTrimEnd,
+  trimStart, trimEnd, onTrimEnd, pxPerSec,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -127,10 +133,30 @@ export function AudioWavePlayer({
     onTimeClick?.(t)
   }, [dur, onClick, playFrom, onTimeClick])
 
-  // 키보드: Space → 재생/일시정지 토글
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.code === 'Space') { e.preventDefault(); togglePlay() }
-  }, [togglePlay])
+  // 이 플레이어를 active로 등록 — 상호작용 시 호출
+  const playerHandleRef = useRef({ toggle: togglePlay })
+  playerHandleRef.current.toggle = togglePlay
+  const activate = useCallback(() => { _activePlayer = playerHandleRef.current }, [])
+  // 언마운트 시 자신이 active면 해제
+  useEffect(() => {
+    const handle = playerHandleRef.current
+    return () => { if (_activePlayer === handle) _activePlayer = null }
+  }, [])
+
+  // 전역 Space — 오직 active player만 반응 (이중 호출·다중 인스턴스 충돌 방지)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code !== 'Space') return
+      if (e.repeat) return
+      const el = document.activeElement as HTMLElement | null
+      if (el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable)) return
+      if (!_activePlayer || _activePlayer !== playerHandleRef.current) return
+      e.preventDefault()
+      _activePlayer.toggle()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   // 더블클릭
   const handleDblClick = useCallback((e: React.MouseEvent) => {
@@ -164,9 +190,11 @@ export function AudioWavePlayer({
   useEffect(() => () => { trimCleanupRef.current?.() }, [])
 
   const trimHandlePct = dur > 0 && trimEnd !== undefined ? (trimEnd / dur) * 100 : 100
+  const absWidth = pxPerSec && dur > 0 ? Math.round(dur * pxPerSec) : null
 
   return (
-    <div className="space-y-0">
+    <div className={absWidth ? 'overflow-x-auto' : ''}>
+    <div className="space-y-0" style={absWidth ? { width: `${absWidth}px` } : undefined}>
       {/* 눈금자 */}
       {showRuler && (
         <TimeRuler
@@ -179,17 +207,35 @@ export function AudioWavePlayer({
 
       {/* 파형 + 트림 핸들 래퍼 */}
       <div className="relative">
+        {/*
+         * ⚠️ Space 정지 버그 근본 원인 & 해결 — 절대 tabIndex={0} 으로 되돌리지 말 것
+         *
+         * [증상] Space 누르면 "잠깐 멈췄다가 다시 재생됨" / 여러 번 눌러도 안 멈춤
+         * [원인] tabIndex={0}이면 컨테이너가 키보드 focus 대상. 브라우저는
+         *        focus된 요소에서 Space 키를 누르면 **click 이벤트를 자동 생성**(buttons·링크 접근성 표준).
+         *        → window keydown이 togglePlay로 pause 한 직후,
+         *          같은 Space가 click을 발동 → handleClick → playFrom → 다시 재생.
+         *        재생↔정지가 한 번의 Space에 연달아 일어나 "방해만 잠깐"처럼 보인다.
+         * [해결] 1) tabIndex={-1}  : 키보드 focus 제거 → Space-click 자동생성 차단
+         *        2) onKeyDown에 Space preventDefault : 혹시 어떤 경로로 focus 들어와도 보호
+         *        3) window keydown의 e.repeat 체크    : 키 길게 눌렀을 때 반복 toggle 방지
+         *        4) _activePlayer 모듈 레벨 변수      : 여러 AudioWavePlayer 동시 반응 방지
+         *
+         * 이전 세션에서도 같은 버그로 여러 번 시도·실패했다. tabIndex 이슈를 건너뛰면 재발한다.
+         */}
         <div
           ref={containerRef}
-          tabIndex={0}
-          className={`relative w-full ${heightClass} bg-bg-main overflow-hidden select-none touch-none cursor-crosshair focus:outline focus:outline-1 focus:outline-accent/40 ${showRuler ? 'rounded-b' : 'rounded'}`}
-          onClick={handleClick}
+          tabIndex={-1}
+          className={`relative w-full ${heightClass} bg-bg-main overflow-hidden select-none touch-none cursor-crosshair ${showRuler ? 'rounded-b' : 'rounded'}`}
+          onClick={(e) => { activate(); handleClick(e) }}
+          onPointerDown={activate}
+          onMouseEnter={activate}
           onDoubleClick={onDoubleClick ? handleDblClick : undefined}
-          onKeyDown={handleKeyDown}
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
+          onKeyDown={(e) => { if (e.code === 'Space') e.preventDefault() }}
         >
-          <canvas ref={canvasRef} width={1200} height={96} className="w-full h-full" />
+          <canvas ref={canvasRef} width={absWidth ?? 1200} height={96} className="w-full h-full" />
           {HoverOverlay}
           <PlayheadOverlay playhead={playhead} duration={dur} playing={playing} />
           {dur > 0 && trimEnd !== undefined && trimEnd < dur - 0.01 && (
@@ -230,6 +276,7 @@ export function AudioWavePlayer({
           {playhead.toFixed(2)}s / {dur.toFixed(2)}s
         </span>
       </div>
+    </div>
     </div>
   )
 }

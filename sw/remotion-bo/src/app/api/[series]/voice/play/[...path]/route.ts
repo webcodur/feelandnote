@@ -40,7 +40,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ path: st
         // celeb 파일이고 elevenlabs 파일이 존재하면 자동 라우팅
         if (engine !== 'elevenlabs') {
           const key = fileName.replace('.wav', '')
-          const isCeleb = key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(key) || /^S\d{2}-celeb-/.test(key) || /^S\d{2}-book-quote/.test(key)
+          const isCeleb = key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(key) || /^(shorts-\d+\/)?S\d{2}-celeb-/.test(key) || /^(shorts-\d+\/)?S\d{2}-book-quote/.test(key)
           if (isCeleb) {
             const elePath = path.join(vDir, 'elevenlabs', fileName)
             if (existsSync(elePath)) engine = 'elevenlabs'

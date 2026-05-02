@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { queueTask } from '@/lib/server-utils'
+import { queueTask, cancelTask } from '@/lib/server-utils'
 import { getSeriesById } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
@@ -18,4 +18,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   const task = queueTask('youtube-upload', seriesId, episode, args)
   return NextResponse.json({ taskId: task.id })
+}
+
+export async function DELETE(req: Request, { params }: { params: Promise<{ series: string }> }) {
+  await params
+  const url = new URL(req.url)
+  const taskId = url.searchParams.get('taskId')
+  if (!taskId) return NextResponse.json({ error: 'taskId required' }, { status: 400 })
+
+  const ok = cancelTask(taskId)
+  if (!ok) return NextResponse.json({ error: 'task not found or not cancellable' }, { status: 404 })
+  return NextResponse.json({ cancelled: taskId })
 }

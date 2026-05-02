@@ -98,7 +98,7 @@ export default function GuidePage() {
         </Desc>
         <InfoGrid items={[
           { label: '롱폼 탭', desc: '서비스 인사 → 인물 소개 → 감상철학 → 도서별(요약·경위·인용) → 아웃트로' },
-          { label: '쇼츠 탭', desc: '세그먼트별 역할·비주얼·대사·duration 표시' },
+          { label: '쇼츠 탭', desc: '구간별 역할·비주얼·대사·duration 표시' },
         ]} />
         <div className="mt-2">
           <p className="text-xs text-text-secondary">역할별 색상:</p>
@@ -126,7 +126,7 @@ export default function GuidePage() {
         ]} />
         <SubSection title="스캐폴딩으로 자동 채워지는 필드">
           <InfoGrid items={[
-            { label: 'host.*', desc: 'nickname, bio, speech_tone, avatar_url, voice_id' },
+            { label: 'host.*', desc: 'nickname, speech_tone, avatar_url, voice_id' },
             { label: 'books[].title/creator', desc: 'DB에 등록된 도서 제목·저자' },
             { label: 'books[].thumbnail_url', desc: '도서 표지 이미지' },
             { label: 'narrator.serviceIntro', desc: '"오늘 함께할 인물은 ○○○입니다."' },

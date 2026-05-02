@@ -114,7 +114,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       nickname_en: profile.nickname_en ?? '',
       speech_tone: profile.speech_tone ?? '',
       avatar_url: profile.avatar_url ?? '',
-      bio: profile.bio ?? '',
       title: profile.title ?? '',
       featuredQuote: '',
       philosophy: '', // AI 초안 대상

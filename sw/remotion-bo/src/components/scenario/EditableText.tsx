@@ -6,24 +6,25 @@ import { splitHighlights } from './utils'
 export function EditableText({
   value, onCommit, pickMode, onPick, highlights, onAddAnchor,
 }: {
-  value: string
+  value: string | undefined
   onCommit: (v: string) => void
   pickMode?: boolean
   onPick?: (selected: string) => void
   highlights?: string[]
   onAddAnchor?: (text: string) => void
 }) {
-  const [draft, setDraft] = useState(value)
+  const safeValue = value ?? ''
+  const [draft, setDraft] = useState(safeValue)
   const ref = useRef<HTMLTextAreaElement>(null)
   const [selectedText, setSelectedText] = useState('')
 
-  useEffect(() => { setDraft(value) }, [value])
+  useEffect(() => { setDraft(safeValue) }, [safeValue])
 
   const commit = () => {
     if (pickMode) return
-    const trimmed = draft.trim()
-    if (trimmed && trimmed !== value) onCommit(trimmed)
-    else setDraft(value)
+    const trimmed = (draft ?? '').trim()
+    if (trimmed && trimmed !== safeValue) onCommit(trimmed)
+    else setDraft(safeValue)
   }
 
   const handleMouseUp = () => {
@@ -37,14 +38,14 @@ export function EditableText({
     }
   }
 
-  const activeHighlights = highlights?.filter(h => h && draft.includes(h)) ?? []
+  const activeHighlights = highlights?.filter(h => h && (draft ?? '').includes(h)) ?? []
   const hasHighlights = activeHighlights.length > 0
 
   return (
     <div className="relative">
       {hasHighlights && (
         <div aria-hidden className="absolute inset-0 text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-words text-transparent">
-          {splitHighlights(draft, activeHighlights).map((seg, j) =>
+          {splitHighlights(draft ?? '', activeHighlights).map((seg, j) =>
             seg.highlight
               ? <mark key={j} className="bg-amber-500/25 text-transparent rounded-sm">{seg.text}</mark>
               : <span key={j}>{seg.text}</span>
@@ -53,7 +54,7 @@ export function EditableText({
       )}
       <textarea
         ref={ref}
-        value={draft}
+        value={draft ?? ''}
         onChange={e => { if (!pickMode) setDraft(e.target.value) }}
         onBlur={() => { commit(); setTimeout(() => setSelectedText(''), 200) }}
         onMouseUp={handleMouseUp}

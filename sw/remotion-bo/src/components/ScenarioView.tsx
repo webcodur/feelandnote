@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEpisode } from '@/lib/episode-context'
 import { groupBySection, type VoiceSection } from './voice-utils'
 import type { EpisodeData } from './EpisodeEditor'
-import { VoiceToolbar, ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, type EleSettings } from './ScenarioVoice'
+import { VoiceToolbar, ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, DEFAULT_ELE_SEND_OPTS, type EleSettings, type EleSendOpts } from './scenario-voice'
+import { VoicePipelineStatus } from './VoicePipelineStatus'
 import {
   parseViewParam, viewToParam, VIEW_LONGFORM,
   useImageEditor, useSaveSync,
@@ -125,12 +126,52 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
   const hasELVoiceId = !!episode.host?.elevenlabsVoiceId
   const mode = detectMode(vs, hasELVoiceId)
   const [eleSettings, setEleSettings] = useState<EleSettings>(() => ({ ...DEFAULT_ELE_SETTINGS }))
+  const [eleSendOpts, setEleSendOpts] = useState<EleSendOpts>(() => ({ ...DEFAULT_ELE_SEND_OPTS }))
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
   const [playingKey, setPlayingKey] = useState<string | null>(null)
+  const [pipelineReloadSignal, setPipelineReloadSignal] = useState(0)
+  // 모달 닫힐 때 파이프라인 패널 자동 갱신 — 사용자가 처리한 항목이 즉시 사라지게
+  useEffect(() => {
+    if (expandedKey === null) setPipelineReloadSignal(s => s + 1)
+  }, [expandedKey])
 
   const togglePlay = useCallback((key: string) => {
     setPlayingKey(prev => prev === key ? null : key)
   }, [])
+
+  // playingKey 변경 시 실제 오디오 재생/정지. 단일 Audio 인스턴스를 ref로 관리한다.
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  useEffect(() => {
+    // 이전 재생 정리 — 핸들러부터 제거해야 src 변경/pause로 인한 잔여 error 이벤트가
+    // 새 재생을 setPlayingKey(null) 로 끊지 않는다 (StrictMode 더블 마운트 대응).
+    if (audioRef.current) {
+      const prev = audioRef.current
+      prev.onended = null
+      prev.onerror = null
+      prev.pause()
+      audioRef.current = null
+    }
+    if (!playingKey) return
+    const url = `/api/${series}/voice/play/${name}/${playingKey}.wav`
+    const audio = new Audio(url)
+    audioRef.current = audio
+    audio.onended = () => { if (audioRef.current === audio) setPlayingKey(null) }
+    audio.onerror = () => {
+      if (audioRef.current !== audio) return
+      console.error('[ScenarioView] audio load failed:', url)
+      setPlayingKey(null)
+    }
+    audio.play().catch(err => {
+      if (audioRef.current !== audio) return
+      console.error('[ScenarioView] audio play rejected:', err)
+      setPlayingKey(null)
+    })
+    return () => {
+      audio.onended = null
+      audio.onerror = null
+      audio.pause()
+    }
+  }, [playingKey, series, name])
 
   const activeEngine = useCallback((sectionKey: string): string => {
     if (!vs) return ''
@@ -170,6 +211,8 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         name={name}
         voiceId={episode.host?.elevenlabsVoiceId}
         eleSettings={eleSettings}
+        eleSendOpts={eleSendOpts}
+        onEleSendOptsChange={setEleSendOpts}
         activeEngine={activeEngine(key)}
         onToggleSlot={toggleSlot}
         onEpisodeChange={updateEpisode}
@@ -177,7 +220,7 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         onRefresh={refreshFiles}
       />
     )
-  }, [sectionMap, episode, series, name, eleSettings, activeEngine, toggleSlot, updateEpisode, save, refreshFiles])
+  }, [sectionMap, episode, series, name, eleSettings, eleSendOpts, activeEngine, toggleSlot, updateEpisode, save, refreshFiles])
 
   /* ── 이미지 편집기 (공통) ── */
   const books = episode.books ?? []
@@ -198,7 +241,15 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         voiceSummary={voiceSummary} mode={mode} hasELVoiceId={hasELVoiceId}
         vs={vs} onSaveVs={saveVs}
         eleSettings={eleSettings} onEleSettingsChange={setEleSettings}
+        eleSendOpts={eleSendOpts} onEleSendOptsChange={setEleSendOpts}
         onRefresh={refreshFiles} post={post}
+      />
+
+      <VoicePipelineStatus
+        series={series}
+        name={name}
+        onJumpToSegment={(key) => setExpandedKey(key)}
+        reloadSignal={pipelineReloadSignal}
       />
 
       <div className="flex items-center gap-4 border-b border-border">
@@ -207,7 +258,10 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
           {shortsArr.map((_, i) => {
             const idx = i + 1  // 1-based
             const v = `shorts-${idx}`
-            const label = shortsArr.length === 1 && idx === 1 ? '쇼츠' : `쇼츠 ${idx}`
+            const bookIdx = shortsArr[i]?.featuredBookIndex ?? i
+            const rawTitle = books[bookIdx]?.title ?? ''
+            const shortTitle = rawTitle.length > 14 ? rawTitle.slice(0, 14) + '…' : rawTitle
+            const label = shortTitle ? `${idx}. ${shortTitle}` : (shortsArr.length === 1 && idx === 1 ? '쇼츠' : `쇼츠 ${idx}`)
             return (
               <button
                 key={v}
@@ -259,6 +313,53 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         </button>
       )}
 
+      {/* 음성 편집 전역 모달 — 아코디언 대체 */}
+      <VoiceEditorModal openKey={expandedKey} onClose={() => setExpandedKey(null)} renderExpanded={renderExpanded} />
+    </div>
+  )
+}
+
+// ── 전역 모달 ──
+function VoiceEditorModal({ openKey, onClose, renderExpanded }: {
+  openKey: string | null
+  onClose: () => void
+  renderExpanded: (key: string) => React.ReactNode
+}) {
+  useEffect(() => {
+    if (!openKey) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
+  }, [openKey, onClose])
+  if (!openKey) return null
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-bg-card border border-border rounded-lg flex flex-col"
+        style={{ width: 'min(96vw, 1800px)', height: 'min(94vh, 1100px)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-6 py-3 border-b border-border">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-semibold">VoiceTimingEditor</span>
+            <span className="text-[11px] text-text-secondary">{openKey}</span>
+          </div>
+          <button
+            onClick={onClose}
+            className="px-3 py-1 rounded text-xs bg-bg-main border border-border hover:bg-bg-hover text-text-secondary"
+          >
+            닫기 (ESC)
+          </button>
+        </div>
+        <div className="flex-1 overflow-auto p-6">
+          {renderExpanded(openKey)}
+        </div>
+      </div>
     </div>
   )
 }

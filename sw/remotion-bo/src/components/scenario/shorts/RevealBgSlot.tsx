@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { mediaSrc, isVideoFile } from '../utils'
 
 export function RevealBgSlot({ fileName, imageBaseUrl, onDrop, onRemove }: {
   fileName: string | null; imageBaseUrl: string
@@ -21,12 +22,15 @@ export function RevealBgSlot({ fileName, imageBaseUrl, onDrop, onRemove }: {
       <span className="text-[11px] text-text-secondary font-semibold shrink-0">인트로 배경</span>
       {fileName ? (
         <div className="group/rv flex items-center gap-2">
-          <div className="w-[100px] aspect-[16/10] rounded overflow-hidden bg-bg-main border border-border/30">
+          <div className="relative w-[100px] aspect-[16/10] rounded overflow-hidden bg-bg-main border border-border/30">
             {err ? (
               <div className="w-full h-full flex items-center justify-center text-[9px] text-text-secondary">{fileName}</div>
+            ) : isVideoFile(fileName) ? (
+              <video src={mediaSrc(imageBaseUrl, fileName)} className="w-full h-full object-cover" muted loop playsInline autoPlay preload="metadata" onError={() => setErr(true)} />
             ) : (
-              <img src={`${imageBaseUrl}/${fileName}`} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />
+              <img src={mediaSrc(imageBaseUrl, fileName)} alt="" className="w-full h-full object-cover" onError={() => setErr(true)} />
             )}
+            {isVideoFile(fileName) && <span className="absolute bottom-0.5 left-0.5 px-1 py-px text-[9px] font-semibold rounded bg-black/70 text-white">▶</span>}
           </div>
           <span className="text-[10px] text-text-secondary truncate max-w-[200px]">{fileName}</span>
           <button onClick={onRemove} className="text-red-400 hover:text-red-300 text-[11px] opacity-0 group-hover/rv:opacity-100 transition-opacity">&times;</button>

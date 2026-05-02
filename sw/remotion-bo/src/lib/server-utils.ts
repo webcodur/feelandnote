@@ -1,6 +1,6 @@
 import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } from 'fs/promises'
 import { existsSync } from 'fs'
-import { spawn } from 'child_process'
+import { spawn, type ChildProcess } from 'child_process'
 import path from 'path'
 
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
@@ -298,13 +298,19 @@ export async function saveEpisode(_series: string, name: string, data: unknown) 
   const fp = episodeFilePath(name)
   await mkdir(path.dirname(fp), { recursive: true })
 
-  // timing.json은 voice/analyze 파이프라인 단독 관리(SSoT).
-  // 백오피스가 받은 객체에 voiceTimings/duration 등이 섞여 있어도 split으로 분리해서 버린다.
-  // 이렇게 하지 않으면 백오피스 메모리의 stale timing이 디스크의 NEW timing을 덮어쓴다.
+  // content와 timing을 분리해 각각 {locale}.json / {locale}.timing.json에 저장.
+  // 프론트는 loadEpisode의 merge 결과(= timing.json 전체 포함)를 유지한 채 PUT하므로
+  // SYNC 모드의 수동 교정이 유실되지 않도록 timing도 덮어써 기록한다.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const originalShorts = (data as any)?.shorts
-  const { content } = splitEpisodeData(data)
+  const { content, timing } = splitEpisodeData(data)
   await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
+
+  if (timing && Object.keys(timing).length > 0) {
+    const tp = timingFilePath(name)
+    await mkdir(path.dirname(tp), { recursive: true })
+    await writeFile(tp, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
+  }
 
   // 옵션 2: 쇼츠는 외부 파일로 분리 저장
   if (Array.isArray(originalShorts) && originalShorts.length > 0) {
@@ -369,7 +375,7 @@ export async function scanLocalWavs(episodeName: string): Promise<{ relPath: str
 
 
 // --- Task Queue (globalThis로 dev HMR 생존) ---
-export type TaskStatus = 'queued' | 'running' | 'done' | 'error'
+export type TaskStatus = 'queued' | 'running' | 'done' | 'error' | 'cancelled'
 export type Task = { id: string; type: string; series: string; episode: string; status: TaskStatus; log: string[]; startedAt: string; finishedAt?: string }
 
 const g = globalThis as unknown as {
@@ -377,11 +383,13 @@ const g = globalThis as unknown as {
   __taskCounter?: number
   __uploadQueue?: { task: Task; args: string[] }[]
   __uploadRunning?: boolean
+  __childProcesses?: Map<string, ChildProcess>
 }
 if (!g.__tasks) g.__tasks = new Map()
 if (!g.__taskCounter) g.__taskCounter = 0
 if (!g.__uploadQueue) g.__uploadQueue = []
 if (g.__uploadRunning == null) g.__uploadRunning = false
+if (!g.__childProcesses) g.__childProcesses = new Map()
 const tasks = g.__tasks
 function nextTaskId() { return ++g.__taskCounter! }
 
@@ -429,6 +437,7 @@ function drainUploadQueue() {
 function spawnTask(task: Task, args: string[], onDone?: () => void) {
   const cmd = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
   const child = spawn(cmd, args, { cwd: REMOTION_ROOT, shell: true })
+  g.__childProcesses!.set(task.id, child)
 
   child.stdout?.on('data', (d: Buffer) => {
     task.log.push(...d.toString().split('\n').filter(Boolean))
@@ -437,16 +446,47 @@ function spawnTask(task: Task, args: string[], onDone?: () => void) {
     task.log.push(...d.toString().split('\n').filter(Boolean))
   })
   child.on('close', (code) => {
-    task.status = code === 0 ? 'done' : 'error'
+    g.__childProcesses!.delete(task.id)
+    if (task.status !== 'cancelled') {
+      task.status = code === 0 ? 'done' : 'error'
+    }
     task.finishedAt = new Date().toISOString()
     onDone?.()
   })
   child.on('error', (err) => {
-    task.status = 'error'
-    task.log.push(`Error: ${err.message}`)
+    g.__childProcesses!.delete(task.id)
+    if (task.status !== 'cancelled') {
+      task.status = 'error'
+      task.log.push(`Error: ${err.message}`)
+    }
     task.finishedAt = new Date().toISOString()
     onDone?.()
   })
+}
+
+export function cancelTask(id: string): boolean {
+  const task = tasks.get(id)
+  if (!task) return false
+  if (task.status !== 'queued' && task.status !== 'running') return false
+
+  task.status = 'cancelled'
+  task.finishedAt = new Date().toISOString()
+  task.log.push('[cancelled] 사용자 중단')
+
+  // 큐에서 제거 (queued 상태)
+  const qIdx = g.__uploadQueue!.findIndex(q => q.task.id === id)
+  if (qIdx >= 0) g.__uploadQueue!.splice(qIdx, 1)
+
+  // 실행 중이면 프로세스 종료
+  const child = g.__childProcesses!.get(id)
+  if (child) {
+    child.kill('SIGTERM')
+    g.__childProcesses!.delete(id)
+    g.__uploadRunning = false
+    drainUploadQueue()
+  }
+
+  return true
 }
 
 export function toPascal(name: string) {

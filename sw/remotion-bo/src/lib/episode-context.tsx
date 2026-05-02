@@ -72,6 +72,23 @@ export function EpisodeProvider({ series, name, children }: { series: string; na
     refreshFiles()
   }, [fetchEpisode, refreshFiles])
 
+  // 외부에서 JSON/voice 파일이 갱신된 경우(에디터로 직접 수정 등) 탭 활성화 시 자동 재로드.
+  // dirty/saving 중에는 스킵해 사용자 편집을 덮어쓰지 않는다.
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState !== 'visible') return
+      if (dirty || saving) return
+      fetchEpisode()
+      refreshFiles()
+    }
+    window.addEventListener('focus', handler)
+    document.addEventListener('visibilitychange', handler)
+    return () => {
+      window.removeEventListener('focus', handler)
+      document.removeEventListener('visibilitychange', handler)
+    }
+  }, [dirty, saving, fetchEpisode, refreshFiles])
+
   const updateEpisode = useCallback((ep: EpisodeData) => {
     setEpisode(ep)
     setJsonText(JSON.stringify(ep, null, 2))

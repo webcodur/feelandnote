@@ -92,6 +92,8 @@ export function YouTubePanel({ series, name, post }: Props) {
   const [dryRun, setDryRun] = useState(false)
   const [uploadMsg, setUploadMsg] = useState<string | null>(null)
   const [uploadLog, setUploadLog] = useState<string[] | null>(null)
+  const [uploadTaskId, setUploadTaskId] = useState<string | null>(null)
+  const [uploadActive, setUploadActive] = useState(false)
   const [openVariant, setOpenVariant] = useState<VariantKey | null>(null)
   const [editMeta, setEditMeta] = useState<Record<VariantKey, MetaEntry>>({} as any)
   const [editingLineup, setEditingLineup] = useState(false)
@@ -223,6 +225,8 @@ export function YouTubePanel({ series, name, post }: Props) {
     }
 
     const { taskId } = await res.json()
+    setUploadTaskId(taskId)
+    setUploadActive(true)
     setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 진행 중...`)
 
     // 태스크 직접 폴링
@@ -232,14 +236,21 @@ export function YouTubePanel({ series, name, post }: Props) {
         if (!tr.ok) return
         const task = await tr.json()
         setUploadLog(task.log?.slice(-20) ?? [])
-        if (task.status !== 'running') {
+        if (task.status !== 'running' && task.status !== 'queued') {
           clearInterval(poll)
-          setUploadMsg(task.status === 'done'
-            ? `${label} ${dryRun ? '드라이런' : '업로드'} 완료`
-            : `${label} 오류 발생`)
+          setUploadActive(false)
+          setUploadTaskId(null)
+          if (task.status === 'done') setUploadMsg(`${label} ${dryRun ? '드라이런' : '업로드'} 완료`)
+          else if (task.status === 'cancelled') setUploadMsg(`${label} 업로드 중단됨`)
+          else setUploadMsg(`${label} 오류 발생`)
         }
       } catch { /* ignore */ }
     }, 1500)
+  }
+
+  const handleCancelUpload = async () => {
+    if (!uploadTaskId) return
+    await fetch(`/api/${series}/youtube/upload?taskId=${uploadTaskId}`, { method: 'DELETE' })
   }
 
   const handleSaveMeta = async () => {
@@ -248,6 +259,22 @@ export function YouTubePanel({ series, name, post }: Props) {
       await saveMeta()
       fetchStatus()
     } finally { setSaving(false) }
+  }
+
+  const handleDbSync = async () => {
+    setUploadMsg('DB 투입 중...')
+    setUploadLog(null)
+    try {
+      const res = await fetch(`/api/${series}/youtube/db-sync?episode=${baseName}`, { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) {
+        setUploadMsg(`DB 투입 실패: ${data.error ?? res.statusText}`)
+        return
+      }
+      setUploadMsg(`DB 투입 완료: ${data.slug} (${data.variantCount}개 variant)`)
+    } catch (e) {
+      setUploadMsg(`DB 투입 오류: ${e instanceof Error ? e.message : String(e)}`)
+    }
   }
 
   const handleResetVariant = (key: VariantKey) => {
@@ -281,6 +308,7 @@ export function YouTubePanel({ series, name, post }: Props) {
 
   const { auth, lineup, variants } = status
   const disabled = !auth.ko.authenticated && !auth.en.authenticated
+  const hasUploads = Boolean(lineup?.uploads && Object.keys(lineup.uploads).length > 0)
 
   return (
     <div className="space-y-4">
@@ -358,13 +386,28 @@ export function YouTubePanel({ series, name, post }: Props) {
         <button onClick={() => handleUpload('en')} disabled={disabled} className={`${BTN_SECONDARY} ${disabled ? 'opacity-30 cursor-default' : ''}`}>
           EN만
         </button>
+        <button
+          onClick={handleDbSync}
+          disabled={!hasUploads}
+          title="lineup.json의 uploads를 profiles.youtube_videos(DB)에 반영"
+          className={`${BTN_SECONDARY} ${!hasUploads ? 'opacity-30 cursor-default' : ''}`}
+        >
+          DB 투입
+        </button>
         <label className="ml-auto flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer select-none">
           <input type="checkbox" checked={dryRun} onChange={e => setDryRun(e.target.checked)} className="accent-accent" />
           드라이런
         </label>
       </div>
       {uploadMsg && (
-        <p className="text-xs text-accent animate-pulse">{uploadMsg}</p>
+        <div className="flex items-center gap-2">
+          <p className={`text-xs ${uploadActive ? 'text-accent animate-pulse' : 'text-text-secondary'}`}>{uploadMsg}</p>
+          {uploadActive && (
+            <button onClick={handleCancelUpload} className="text-xs text-red-400 hover:text-red-300 border border-red-400/40 rounded px-1.5 py-0.5">
+              중단
+            </button>
+          )}
+        </div>
       )}
       {uploadLog && uploadLog.length > 0 && (
         <pre className="bg-bg-main border border-border rounded p-2 text-[11px] font-mono text-text-secondary max-h-48 overflow-y-auto whitespace-pre-wrap">

@@ -9,7 +9,7 @@ import { VoiceBadge } from './AudioBar'
 export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode, onPick, highlights,
   sectionKey, audioUrl, activeEngine, isPlaying, onTogglePlay,
   expanded, onToggleExpand, renderExpanded,
-  images, onDrop, onAddAnchor }: {
+  images, onDrop, onAddAnchor, actions }: {
   label: string; role: string; value: string; voiceInfo?: VoiceInfo
   onCommit: (v: string) => void
   pickMode?: boolean; onPick?: (selected: string) => void
@@ -21,11 +21,14 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
   images?: React.ReactNode
   onDrop?: (fileName: string) => void
   onAddAnchor?: (text: string) => void
+  /** 레이블 하단에 렌더되는 행별 액션 버튼(저장 등). */
+  actions?: React.ReactNode
 }) {
   const [over, setOver] = useState(false)
   return (
     <>
       <div
+        id={sectionKey ? `row-${sectionKey}` : undefined}
         onDragOver={onDrop ? (e => { e.preventDefault(); setOver(true) }) : undefined}
         onDragLeave={onDrop ? (() => setOver(false)) : undefined}
         onDrop={onDrop ? (e => { e.preventDefault(); setOver(false); const f = e.dataTransfer.getData('text/plain'); if (f) onDrop(f) }) : undefined}
@@ -33,7 +36,10 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
           over ? 'bg-accent/8 ring-1 ring-accent/30' : ''
         }`}
       >
-        <VoiceBadge label={label} role={role} />
+        <div className="flex flex-col gap-1">
+          <VoiceBadge label={label} role={role} />
+          {actions && <div className="pl-2">{actions}</div>}
+        </div>
         <div className="min-w-0">
           {(images || onDrop) && (
             <div className={`mb-1 px-2 py-1.5 rounded border ${images ? 'bg-[#1a1a14] border-[#2e2a1a]' : 'bg-transparent border-dashed border-border/30'}`}>
@@ -46,10 +52,14 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
           <EditableText value={value} onCommit={onCommit} pickMode={pickMode} onPick={onPick} highlights={highlights} onAddAnchor={onAddAnchor} />
           {voiceInfo && audioUrl && (
             <div className="mt-1 rounded bg-[#1a1f2a] border border-[#2a3040]">
-              <div className="flex items-center gap-1.5 px-2 py-1 cursor-pointer select-none" onClick={onToggleExpand}>
-                <span className={`text-[10px] shrink-0 transition-colors ${expanded ? 'text-accent' : 'text-text-secondary'}`}>
-                  {expanded ? '▼' : '▶'}
-                </span>
+              <div className="flex items-center gap-1.5 px-2 py-1">
+                <button
+                  onClick={onTogglePlay}
+                  className="px-1.5 py-0.5 rounded bg-bg-card border border-border hover:bg-bg-hover text-text-secondary text-[10px]"
+                  title="이 구간 재생/정지"
+                >
+                  {isPlaying ? '⏸' : '▶'}
+                </button>
                 <span className="text-[10px] text-text-secondary font-mono">{voiceInfo.sectionKey}</span>
                 <span className="text-[10px] text-text-secondary">{(voiceInfo.duration ?? 0).toFixed(1)}s</span>
                 {activeEngine && (
@@ -58,12 +68,14 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
                   </span>
                 )}
                 {!voiceInfo.exists && <span className="text-[10px] text-red-400">미생성</span>}
+                <button
+                  onClick={onToggleExpand}
+                  className="ml-auto px-2 py-0.5 rounded bg-accent text-bg-primary text-[10px] font-semibold hover:opacity-90"
+                  title="파형 편집 모달 열기"
+                >
+                  편집기 열기
+                </button>
               </div>
-              {expanded && renderExpanded && (
-                <div className="border-t border-[#2a3040] px-3 py-2">
-                  {renderExpanded()}
-                </div>
-              )}
             </div>
           )}
         </div>

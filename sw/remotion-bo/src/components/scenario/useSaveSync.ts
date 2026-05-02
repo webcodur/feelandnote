@@ -26,9 +26,12 @@ export function useSaveSync(params: {
         }
       }
       if (b.images?.length) {
+        // quote 우선 판별 (quote/after 텍스트에 앵커 매칭) → 없으면 summary → context 순 폴백
+        const quoteAfterText = ((b.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? '']).join(' ')
         const fieldMap: [ImageField, string][] = [
           ['summary', b.summary ?? ''],
-          ['context', [b.contextMain ?? '', ...((b.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? ''])].join(' ')],
+          ['quote', quoteAfterText],
+          ['context', b.contextMain ?? ''],
         ]
         const allTexts = fieldMap.map(([, t]) => t).join(' ')
         b.images.forEach((img: any, j: number) => {
@@ -67,7 +70,7 @@ export function useSaveSync(params: {
       return imgPath.slice(0, imgPath.length - fn.length) + current
     }
 
-    // 쇼츠 중복 이미지 정리: 각 쇼츠 변형마다 앞 세그먼트와 동일한 seg.image 제거
+    // 쇼츠 중복 이미지 정리: 각 쇼츠 변형마다 앞 구간와 동일한 seg.image 제거
     const shortsArrLocal: any[] = Array.isArray(episode.shorts) ? episode.shorts : (episode.shorts ? [episode.shorts] : [])
     let cleanedShortsArr: any[] | undefined
     if (shortsArrLocal.length > 0) {

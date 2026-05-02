@@ -1,5 +1,16 @@
 import type { VoiceSection } from '../voice-utils'
 import type { CinematicImage, ImageField, VoiceInfo } from './types'
+import { isVideoFile } from '@/lib/media-exts'
+
+export { isVideoFile }
+
+/** imageBaseUrl(`/api/{series}/images/{ep}`) 기준 파일 src 생성. 영상은 videos 라우트로 스왑. */
+export function mediaSrc(imageBaseUrl: string, fileName: string): string {
+  if (isVideoFile(fileName)) {
+    return `${imageBaseUrl.replace('/images/', '/videos/')}/${fileName}`
+  }
+  return `${imageBaseUrl}/${fileName}`
+}
 
 export function bookKey(i: number, phase: string) {
   return `D${String(i + 1).padStart(2, '0')}${phase}`
@@ -75,15 +86,20 @@ export const stripExt = (f: string) => f.replace(/\.[^.]+$/, '')
 /** Image prefix format: {bookNum}-{fieldCode}-{baseName}.{ext} */
 export type ImagePrefix = {
   bookNum: number    // 1-based book index
-  fieldCode: number  // 1=summary, 2=context
+  fieldCode: number  // 1=summary, 2=context, 3=quote
   baseName: string   // original filename without prefix
 }
 
-const FIELD_CODES: Record<string, number> = { summary: 1, context: 2 }
+const FIELD_CODES: Record<ImageField, number> = { summary: 1, context: 2, quote: 3 }
+const FIELD_BY_CODE: Record<number, ImageField> = { 1: 'summary', 2: 'context', 3: 'quote' }
+
+export function fieldFromCode(code: number): ImageField | null {
+  return FIELD_BY_CODE[code] ?? null
+}
 
 /** Parse prefix from image filename. Returns null if no valid prefix. */
 export function parseImagePrefix(filename: string): ImagePrefix | null {
-  const match = filename.match(/^(\d+)-([12])-(.+)$/)
+  const match = filename.match(/^(\d+)-([123])-(.+)$/)
   if (!match) return null
   return {
     bookNum: parseInt(match[1], 10),
@@ -93,7 +109,7 @@ export function parseImagePrefix(filename: string): ImagePrefix | null {
 }
 
 /** Add prefix to image filename. bookIndex is 0-based. */
-export function addImagePrefix(filename: string, bookIndex: number, field: 'summary' | 'context'): string {
+export function addImagePrefix(filename: string, bookIndex: number, field: ImageField): string {
   const base = stripImagePrefix(filename)
   const code = FIELD_CODES[field] ?? 2
   return `${bookIndex + 1}-${code}-${base}`
@@ -119,12 +135,13 @@ export function compareImageNames(a: string, b: string): number {
   return a.localeCompare(b)  // both unprefixed: alphabetical
 }
 
-/** Distribute field='context' images into sub-section buckets based on text anchor matching */
+/** Distribute field='context'|'quote' images into sub-section buckets based on text anchor matching.
+ *  field='quote': quote/after 슬롯으로 직접 분배 (앵커 없어도 OK — 매칭 실패 시 첫 pair quote)
+ *  field='context': 기존 동작. main/quote/after 중 앵커 매칭된 슬롯 (레거시 호환 경로) */
 export function distributeContextImages(
   allImgs: CinematicImage[],
   book: { contextMain?: string; quotePairs?: Array<{ quote?: string; after?: string }> },
 ): { main: CinematicImage[]; pairs: Array<{ quote: CinematicImage[]; after: CinematicImage[] }> } {
-  const ctxImgs = allImgs.filter(img => img.field === 'context')
   const main: CinematicImage[] = []
   const pairs = (book.quotePairs ?? []).map(() => ({ quote: [] as CinematicImage[], after: [] as CinematicImage[] }))
 
@@ -137,17 +154,61 @@ export function distributeContextImages(
     sections.push({ text: p.quote ?? '', bucket: pairs[pi].quote })
     sections.push({ text: p.after ?? '', bucket: pairs[pi].after })
   }
+  // quote 전용 섹션 (quote/after만) — field='quote' 이미지의 매칭 대상
+  const quoteOnlySections = sections.slice(1)
 
-  for (const img of ctxImgs) {
-    if (!img.text) { main.push(img); continue }
-    let placed = false
-    for (const sec of sections) {
-      if (sec.text && sec.text.includes(img.text)) { sec.bucket.push(img); placed = true; break }
+  for (const img of allImgs) {
+    if (img.field === 'quote') {
+      if (!img.text) {
+        // 앵커 없는 quote 이미지 → 첫 pair의 quote 슬롯
+        if (pairs[0]) pairs[0].quote.push(img)
+        else main.push(img)
+        continue
+      }
+      let placed = false
+      for (const sec of quoteOnlySections) {
+        if (sec.text && sec.text.includes(img.text)) { sec.bucket.push(img); placed = true; break }
+      }
+      if (!placed && pairs[0]) { pairs[0].quote.push(img); placed = true }
+      if (!placed) main.push(img)
+    } else if (img.field === 'context') {
+      if (!img.text) { main.push(img); continue }
+      let placed = false
+      for (const sec of sections) {
+        if (sec.text && sec.text.includes(img.text)) { sec.bucket.push(img); placed = true; break }
+      }
+      if (!placed) main.push(img)
     }
-    if (!placed) main.push(img)
   }
 
   return { main, pairs }
+}
+
+/** 특정 이미지 파일이 배정된 ScenarioRow의 sectionKey를 반환. 없으면 null.
+ *  quote 이미지의 경우 text 앵커로 quotePairs 세부 위치(quote/after)까지 식별. */
+export function locateImageSectionKey(
+  fileName: string,
+  books: Array<{ images?: CinematicImage[]; quotePairs?: Array<{ quote?: string; after?: string }> }>,
+): string | null {
+  for (let bi = 0; bi < books.length; bi++) {
+    const book = books[bi]
+    const img = (book.images ?? []).find(i => i.file === fileName)
+    if (!img) continue
+    if (img.field === 'summary' || !img.field) return bookKey(bi, 'b-summary')
+    if (img.field === 'context') return bookKey(bi, 'c-context')
+    if (img.field === 'quote') {
+      const pairs = book.quotePairs ?? []
+      if (img.text) {
+        for (let pi = 0; pi < pairs.length; pi++) {
+          const p = pairs[pi]
+          if (p.quote && p.quote.includes(img.text)) return bookKey(bi, `d${pi * 2 + 1}-quote`)
+          if (p.after && p.after.includes(img.text)) return bookKey(bi, `d${pi * 2 + 2}-after`)
+        }
+      }
+      return pairs.length > 0 ? bookKey(bi, 'd1-quote') : bookKey(bi, 'c-context')
+    }
+  }
+  return null
 }
 
 /** seg.image + seg.imageChangeAt → CinematicImage[] 변환 */

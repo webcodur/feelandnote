@@ -93,10 +93,12 @@ type ShortSegment = {
   id: string
   role: 'narrator' | 'celeb' | 'summary'
   text: string
-  visual: 'hook' | 'intro' | 'book' | 'cta'
+  visual: 'hook' | 'intro' | 'book'
   duration?: number
   image?: string
   imageChangeAt?: ImageChange[]
+  sfx?: { file: string; text?: string; offset?: number; volume?: number; duration?: number; fadeIn?: number; fadeOut?: number }[]
+  gapAfter?: number
 }
 
 type ShortsConfig = {
@@ -110,7 +112,6 @@ type CelebHost = {
   nickname_en: string
   speech_tone: string
   avatar_url: string
-  bio: string
   title: string
   featuredQuote?: string
   featuredQuoteDuration?: number
@@ -205,7 +206,7 @@ function FieldWithDuration({ label, value, onChange, duration, rows }: {
 }
 
 // --- Main Editor ---
-const EMPTY_HOST: CelebHost = { nickname: '', nickname_en: '', speech_tone: 'calm', avatar_url: '', bio: '', title: '' }
+const EMPTY_HOST: CelebHost = { nickname: '', nickname_en: '', speech_tone: 'calm', avatar_url: '', title: '' }
 const EMPTY_NARRATOR: NarratorLines = { bridge: '', bridgeDuration: 0, outro: '', outroDuration: 0 }
 
 export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: EpisodeData; onChange: (ep: EpisodeData) => void }) {
@@ -364,7 +365,6 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
             </select>
           </div>
         </div>
-        <TextField label="소개 (bio)" value={episode.host.bio} onChange={v => setHost('bio', v)} rows={2} />
         <FieldWithDuration label="대표 명언" value={episode.host.featuredQuote ?? ''} onChange={v => setHost('featuredQuote', v)}
           duration={episode.host.featuredQuoteDuration} rows={2} />
         <FieldWithDuration label="감상철학" value={episode.host.philosophy ?? ''} onChange={v => setHost('philosophy', v)}
@@ -501,7 +501,7 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
       {/* SHORTS */}
       <Section id="shorts" title="SHORTS" badge={shorts ? `${shorts.segments.length}개` : '없음'} open={!!openSections.shorts} onToggle={toggle}>
         <div className="flex items-center gap-3 mb-1">
-          <button onClick={addSegment} className={BTN_ADD}>+ 세그먼트 추가</button>
+          <button onClick={addSegment} className={BTN_ADD}>+ 구간 추가</button>
           {shorts && (
             <div className="flex items-center gap-1">
               <label className={`${LABEL_CLS} mb-0`}>featuredBookIndex</label>
@@ -529,7 +529,6 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
                 <option value="hook">hook</option>
                 <option value="intro">intro</option>
                 <option value="book">book</option>
-                <option value="cta">cta</option>
               </select>
               {seg.duration != null && <span className={BADGE_CLS}>{seg.duration}s</span>}
               <div className="flex-1" />
@@ -573,7 +572,7 @@ export function EpisodeEditor({ episode: rawEpisode, onChange }: { episode: Epis
             </div>
           </div>
         ))}
-        {!shorts && <div className="text-xs text-text-dim">쇼츠 설정 없음 — 추가하려면 세그먼트 추가 클릭</div>}
+        {!shorts && <div className="text-xs text-text-dim">쇼츠 설정 없음 — 추가하려면 구간 추가 클릭</div>}
       </Section>
 
     </div>
