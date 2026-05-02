@@ -20,10 +20,24 @@ export function findEpisodeDir(person: string): string {
   throw new Error(`Episode not found: ${person}`)
 }
 
-/** ep-name → { person, locale } 파싱 — 단순 -en 접미사만 처리 */
+/** ep-name → { person, locale } 파싱
+ *
+ * locale 접미사("-ko" 또는 "-en")가 반드시 명시되어야 한다. 명시 누락 시
+ * 잘못된 폴더에 wav 덮어쓰기 사고가 발생하므로 throw 한다.
+ *
+ * 과거 사고(2026-04-28): "abraham-lincoln" 으로 영문 음성 생성 명령을 줬더니
+ * locale 자동 default(ko) 로 처리되어 사용자가 직접 만든 ko ElevenLabs 음성
+ * 17개를 신규 합성으로 덮어쓰고 복구 불가 상태로 만들었다.
+ */
 export function parseEpName(epName: string): { person: string; locale: string } {
   if (epName.endsWith('-en')) return { person: epName.slice(0, -3), locale: 'en' }
-  return { person: epName, locale: 'ko' }
+  if (epName.endsWith('-ko')) return { person: epName.slice(0, -3), locale: 'ko' }
+  throw new Error(
+    `✗ --episode 에 locale 접미사가 필수다.\n` +
+    `   받은 값: "${epName}"\n` +
+    `   사용법: "${epName}-ko" (한국어) 또는 "${epName}-en" (영문)\n` +
+    `   locale 자동 default 는 음성 덮어쓰기 사고를 막기 위해 차단됐다.`
+  )
 }
 
 /** episodeId → JSON 파일 절대 경로 */

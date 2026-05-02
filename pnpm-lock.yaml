@@ -216,6 +216,9 @@ importers:
       '@feelandnote/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@google/genai':
+        specifier: ^1.44.0
+        version: 1.44.0
       '@supabase/supabase-js':
         specifier: ^2.91.1
         version: 2.91.1

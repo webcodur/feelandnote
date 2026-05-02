@@ -1,5 +1,5 @@
 /**
- * 1-tts/normalize.ts — 라우드니스 정규화 (loudnorm 2-pass linear)
+ * 2-synthesize/normalize.ts — 라우드니스 정규화 (loudnorm 2-pass linear)
  *
  * 신규 wav 생성 직후 또는 --normalize 단독 호출 시 디렉토리 일괄 적용.
  * 원본은 같은 디렉토리의 .raw/ 에 자동 백업하여 롤백 가능.

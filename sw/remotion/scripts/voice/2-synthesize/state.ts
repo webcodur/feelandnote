@@ -1,5 +1,5 @@
 /**
- * 1-tts/state.ts — 런타임 전역 상태
+ * 2-synthesize/state.ts — 런타임 전역 상태
  *
  * episode 데이터는 main()에서 한 번 로드 후 setEpisode 로 등록한다.
  * 다른 모듈은 ep() 헬퍼로 접근한다 (null 가드 강제).

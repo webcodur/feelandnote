@@ -9,9 +9,9 @@
  *  - shorts/{locale}-N.timing.json : 쇼츠 duration + imageChangeAt
  *
  * Usage:
- *   pnpm analyze -- --episode alexander-the-great --long --update-json
- *   pnpm analyze -- --episode alexander-the-great --shorts 1 --update-json --export-debug
- *   pnpm analyze -- --episode alexander-the-great --long --only D05b-summary
+ *   pnpm voice:align -- --episode alexander-the-great --long --update-json
+ *   pnpm voice:align -- --episode alexander-the-great --shorts 1 --update-json --export-debug
+ *   pnpm voice:align -- --episode alexander-the-great --long --only D05b-summary
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { join } from 'path'
@@ -192,7 +192,8 @@ function trimWordLeadingSilence(
   }
 }
 
-/** 단어 세그먼트를 구절로 병합. 분절 기준: 구두점(, . ! ?)만 사용.
+/** 단어 세그먼트를 구절로 병합. 분절 기준: 문장 종결 구두점(. ! ?)만 사용.
+ *  콤마는 세그먼트를 끊지 않는다 — 한 문장은 한 덩어리.
  *  오디오 무음·단어 수 제한 없음 — 문장 내부 분할은 LLM sub이 전담. */
 function mergeIntoPhrases(segments: SentenceTiming[]): SentenceTiming[] {
   if (segments.length <= 1) return segments
@@ -211,7 +212,7 @@ function mergeIntoPhrases(segments: SentenceTiming[]): SentenceTiming[] {
     }
 
     const text = segments[i].text?.trim() ?? ''
-    if (/[,.!?。，！？]$/.test(text)) {
+    if (/[.!?。][''"」』]?$/.test(text)) {
       merged.push({ start: pStart, end: segments[i].end, text: pWords.join(' ') })
       pStart = segments[i + 1].start
       pWords = []
@@ -235,7 +236,9 @@ function adjustPhraseBoundaries(
   for (let i = 1; i < phrases.length; i++) {
     const currentStart = phrases[i].start
     // 직전 구절 끝에서 현재 구절 시작까지 역추적 (최대 1초)
-    const searchFrom = Math.round(Math.max(0, currentStart - 1.0) * sampleRate)
+    // 하한을 phrases[i-1].end로 제한 — [i-1] 구간 내부 무음을 [i] 시작점으로
+    // 잘못 잡아 [i-1].end를 역전시키는 버그 방지.
+    const searchFrom = Math.round(Math.max(phrases[i - 1].end, currentStart - 1.0) * sampleRate)
     const searchTo = Math.round(currentStart * sampleRate)
     if (searchTo - searchFrom < windowSize * 3) continue
 
@@ -274,10 +277,34 @@ function adjustPhraseBoundaries(
 }
 
 /** 숫자 word 타이밍 보정 — Whisper가 숫자·한글숫자를 비정상적으로 짧게(0.4s 미만) 잡는 문제.
- *  앞뒤 word 사이 gap을 활용해 자연스러운 길이로 확장한다. */
-function fixNumericWordTimings(words: { text: string; start: number; end: number }[]): void {
+ *  앞뒤 word 사이 gap을 활용해 자연스러운 길이로 확장한다.
+ *  tts.replace 매핑이 있으면 실제 발화 텍스트 길이로 정확 추정 (예: "1831년" ↔ "천팔백삼십일 년").
+ *  음절당 약 0.18초 가정. */
+function fixNumericWordTimings(
+  words: { text: string; start: number; end: number }[],
+  ttsReplace?: Record<string, string>,
+): void {
   const MIN_DUR = 0.4
   const numRe = /^\d|^[천백십만억]/
+  const SYLLABLE_DUR = 0.18
+
+  // 단어의 실제 발화 음절 수 추정 (tts.replace 고려)
+  const estimateSyllables = (text: string): number => {
+    // 1) tts.replace에 정확히 매핑된 키가 있으면 그 길이 사용
+    if (ttsReplace) {
+      // 단어 자체가 키거나, 단어가 키의 prefix인 경우 찾기
+      for (const [k, v] of Object.entries(ttsReplace)) {
+        if (text === k || (text.length >= 3 && k.startsWith(text))) {
+          return v.replace(/\s+/g, '').length
+        }
+      }
+    }
+    // 2) 숫자 → 한국어 음절 대략 변환 (각 자리 ~2음절)
+    const digitCount = (text.match(/\d/g) || []).length
+    const nonDigit = text.length - digitCount
+    return digitCount * 2.2 + nonDigit
+  }
+
   for (let i = 0; i < words.length; i++) {
     const w = words[i]
     if (!numRe.test(w.text)) continue
@@ -286,11 +313,26 @@ function fixNumericWordTimings(words: { text: string; start: number; end: number
 
     const prev = words[i - 1]
     const next = words[i + 1]
-    const gapBefore = prev ? w.start - prev.end : w.start
+    // 첫 단어(prev 없음)면 앞쪽 확장 여지 없음 — gapBefore=0.
+    // 과거: prev ? w.start - prev.end : w.start → 세그먼트 첫 단어에서 start 전체 길이로 오인, 숫자 단어가 세그먼트 경계 앞까지 당겨지는 버그.
+    const gapBefore = prev ? w.start - prev.end : 0
     const gapAfter = next ? next.start - w.end : 0
 
-    const expandBefore = Math.min(gapBefore * 0.8, 0.5)
-    const expandAfter = Math.min(gapAfter * 0.8, 0.5)
+    const syllables = estimateSyllables(w.text)
+    const expectedDur = Math.max(0.5, Math.min(2.0, syllables * SYLLABLE_DUR))
+    const ratio = dur / expectedDur
+    let expandBefore: number
+    let expandAfter: number
+    if (ratio < 0.4) {
+      // Whisper 매핑이 심하게 깨진 경우(실제 발화의 40% 미만): 앞뒤 gap을 최대한 흡수.
+      // 단, expectedDur를 cap으로 삼아 과도 확장 방지.
+      expandBefore = Math.min(gapBefore * 0.9, expectedDur)
+      expandAfter = Math.min(gapAfter * 0.5, expectedDur * 0.3)
+    } else {
+      const needed = Math.max(0, expectedDur - dur)
+      expandBefore = Math.min(gapBefore * 0.8, needed * 0.7)
+      expandAfter = Math.min(gapAfter * 0.8, needed * 0.3)
+    }
 
     w.start = Math.round((w.start - expandBefore) * 1000) / 1000
     w.end = Math.round((w.end + expandAfter) * 1000) / 1000
@@ -315,7 +357,8 @@ function analyzeWithSilence(
   }
 
   const usedSilences = new Set<number>()
-  const boundaries: number[] = []
+  // 각 경계마다 (prevEnd, nextStart) 쌍을 기록 — 침묵 구간에 걸치면 prev는 silence.start, next는 silence.end로 분리
+  const boundaryPairs: { prevEnd: number; nextStart: number }[] = []
 
   for (const estimated of estimatedBoundaries) {
     let bestIdx = -1
@@ -327,19 +370,19 @@ function analyzeWithSilence(
     }
     const isEdgeSilence = bestIdx >= 0 && (silences[bestIdx].end < 0.5 || silences[bestIdx].start > duration - 0.5)
     if (bestIdx >= 0 && !isEdgeSilence && bestDist < duration * 0.25) {
-      boundaries.push(silences[bestIdx].start)
+      boundaryPairs.push({ prevEnd: silences[bestIdx].start, nextStart: silences[bestIdx].end })
       usedSilences.add(bestIdx)
     } else {
-      boundaries.push(estimated)
+      boundaryPairs.push({ prevEnd: estimated, nextStart: estimated })
     }
   }
 
-  boundaries.sort((a, b) => a - b)
+  boundaryPairs.sort((a, b) => a.prevEnd - b.prevEnd)
   const result: SentenceTiming[] = []
   let cursor = 0
-  for (const boundary of boundaries) {
-    result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(boundary * 1000) / 1000, text: sentences[result.length] })
-    cursor = boundary
+  for (const { prevEnd, nextStart } of boundaryPairs) {
+    result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(prevEnd * 1000) / 1000, text: sentences[result.length] })
+    cursor = nextStart
   }
   result.push({ start: Math.round(cursor * 1000) / 1000, end: Math.round(duration * 1000) / 1000, text: sentences[result.length] })
   return result
@@ -402,7 +445,7 @@ const excludeFilter = excludeIdx >= 0 ? args[excludeIdx + 1].split(',') : null
 const updateJson = args.includes('--update-json')
 const exportDebug = args.includes('--export-debug')
 
-const USAGE = 'Usage: pnpm analyze -- --episode <name> (--long | --shorts <N>) [--only file1,file2] [--exclude file1,file2] [--update-json] [--export-debug]'
+const USAGE = 'Usage: pnpm voice:align -- --episode <name> (--long | --shorts <N>) [--only file1,file2] [--exclude file1,file2] [--update-json] [--export-debug]'
 
 if (!epName) {
   console.error(USAGE)
@@ -528,7 +571,6 @@ for (const cfg of shortsArrForTargets) {
   const shortsIdx1: number = cfg._shortsIdx1 // 1-based
   let si = 0
   for (const seg of cfg.segments as Array<{ id: string; visual?: string }>) {
-    if (seg.id === 'cta') { si++; continue }
     targets.push({
       file: vnShort(si, seg.id, shortsIdx1),
       textField: `short-${shortsIdx1}-${seg.id}`,
@@ -663,17 +705,8 @@ if (updateJson) {
       }
     }
 
-    // 쇼츠 imageChangeAt anchor의 word-level 매칭용 — segment 내 단어 타이밍 첨부
-    // 같은 sentence에 여러 anchor가 있을 때 단어 위치로 구분 가능하게 함
-    // 파일명: 'shorts-{N}/S{NN}-{id}.wav' (옵션 2: 접두사 필수, 1-based)
-    const shortMatchForWords = file.match(/^shorts-(\d+)\/S\d{2}-(.+)\.wav$/)
-    if (shortMatchForWords && words && Array.isArray(episode.shorts) && episode.shorts.length > 0) {
-      const swShortsIdx1 = parseInt(shortMatchForWords[1]) // 1-based
-      const swSegId = shortMatchForWords[2]
-      const shortCfg = episode.shorts.find((s: any) => s?._shortsIdx1 === swShortsIdx1)
-      const shortSeg = shortCfg?.segments?.find((s: any) => s.id === swSegId)
-      const hasImageChangeAt = shortSeg && (Array.isArray(shortSeg.imageChangeAt) ? shortSeg.imageChangeAt.length > 0 : !!shortSeg.imageChangeAt)
-      // words는 모든 쇼츠 세그먼트에 이식 (하이라이팅용). imageChangeAt 보정은 별도.
+    // 모든 세그먼트(롱폼·쇼츠 공통) — 숫자 word 타이밍 보정 + 세그먼트 start 당김
+    if (words) {
       for (const seg of timings) {
         const segWords = words.filter(w =>
           w.start >= seg.start - 0.05 && w.end <= seg.end + 0.05 && w.text)
@@ -683,8 +716,9 @@ if (updateJson) {
             start: Math.round(w.start * 1000) / 1000,
             end: Math.round(w.end * 1000) / 1000,
           }))
-          // 숫자 word 타이밍 보정 — Whisper가 숫자를 비정상적으로 짧게 잡는 문제
-          fixNumericWordTimings((seg as any).words)
+          // 숫자 word 타이밍 보정 — Whisper가 숫자(예: "1831년" ↔ "천팔백삼십일 년")를
+          // 비정상적으로 짧게 잡는 문제. 앞뒤 gap을 흡수해 자연 길이로 확장.
+          fixNumericWordTimings((seg as any).words, episode.tts?.replace)
         }
         // 세그먼트 start를 첫 word start에 맞춤 — 자막 페이지 전환 정확도
         if ((seg as any).words?.length > 0) {
@@ -813,6 +847,10 @@ if (updateJson) {
   }
 
   // timing.json에 저장할 데이터 구성
+  // 안전망 — 저장 전 voiceTimings 자동 보정 (음수 duration · 극단 찌부)
+  // "analyze가 새로 쓸 때마다 항상 실행" — 사용자가 UI 열기 전에 말 안 되는 값은 없음 보장
+  applySafetyNet(episode.voiceTimings as Record<string, any[]>)
+
   const timingOut: any = { voiceTimings: episode.voiceTimings }
 
   // narrator duration 추출
@@ -885,17 +923,31 @@ if (updateJson) {
 
   // sub 누락 경고
   const missingSubs: string[] = []
+  const oversizedSubs: string[] = []
+  const MAX_SUB_CHUNK_LEN = 35
   for (const [key, segs] of Object.entries(episode.voiceTimings as Record<string, any[]>)) {
     for (let i = 0; i < segs.length; i++) {
       if (!segs[i].sub && (segs[i].text?.length ?? 0) > 30) {
         missingSubs.push(`  ${key}[${i}]: (${segs[i].text.length}자) ${segs[i].text.slice(0, 40)}…`)
+      }
+      if (Array.isArray(segs[i].sub)) {
+        (segs[i].sub as string[]).forEach((chunk, j) => {
+          if (chunk.length > MAX_SUB_CHUNK_LEN) {
+            oversizedSubs.push(`  ${key}[${i}].sub[${j}] (${chunk.length}자): ${chunk.slice(0, 40)}…`)
+          }
+        })
       }
     }
   }
   if (missingSubs.length > 0) {
     console.warn(`\n⚠ sub 미처리 세그먼트 ${missingSubs.length}건:`)
     missingSubs.forEach(m => console.warn(m))
-    console.warn(`→ "sub 채워줘" 또는 pnpm sub:apply 실행 필요`)
+    console.warn(`→ "sub 채워줘" 또는 pnpm voice:chunk 실행 필요`)
+  }
+  if (oversizedSubs.length > 0) {
+    console.warn(`\n⚠ sub 청크 과대 ${oversizedSubs.length}건 (${MAX_SUB_CHUNK_LEN}자 초과 — 추가 분할 필요):`)
+    oversizedSubs.slice(0, 20).forEach(m => console.warn(m))
+    if (oversizedSubs.length > 20) console.warn(`  ... 외 ${oversizedSubs.length - 20}건`)
   }
 
   // 비정상 duration 경고 — 글자수 대비 너무 짧은 세그먼트
@@ -917,6 +969,53 @@ if (updateJson) {
     abnormalDurations.forEach(m => console.warn(m))
     console.warn(`→ tts.replace 매핑 확인 필요 (docs/project/remotion/book-recommend/voice/tts.md)`)
   }
+}
+
+/**
+ * 안전망: voiceTimings에서 다음 두 케이스만 자동 복구
+ *  (1) 음수 duration (end < start) — Whisper 정렬 실패의 가장 명확한 증상
+ *  (2) 극단 찌부 (음절수 대비 50% 미만 + 5자 이상) — 치환 구간 정렬 실패
+ *
+ * 보정 전략: 다음 세그먼트 start 직전까지 확장 (overflow 방지).
+ * 마지막 세그먼트는 음절수 × 130ms 기준으로 확장.
+ *
+ * 의도적 한계:
+ *  - WAV 파형 직접 검출은 하지 않음 (이번 단계는 안전망만)
+ *  - 미세 어긋남(±0.5초)은 사용자가 UI에서 손봄
+ *  - "확신 있는 명백한 오류"만 건드림
+ */
+function applySafetyNet(voiceTimings: Record<string, any[]>): void {
+  const SEC_PER_SYL = 0.13
+  const COMPRESSED_THRESHOLD = 0.5
+  const MIN_CHARS_FOR_COMPRESS_CHECK = 5
+  let fixedNeg = 0
+  let fixedCompressed = 0
+  for (const [, segs] of Object.entries(voiceTimings)) {
+    for (let i = 0; i < segs.length; i++) {
+      const seg = segs[i]
+      const text: string = seg.text ?? ''
+      const chars = text.replace(/\s/g, '').length
+      const dur = (seg.end ?? 0) - (seg.start ?? 0)
+      const expected = chars * SEC_PER_SYL
+      const nextStart: number | null = i + 1 < segs.length ? (segs[i + 1].start ?? null) : null
+      const cap = nextStart != null ? nextStart - 0.05 : (seg.start ?? 0) + Math.max(0.5, expected)
+
+      if (dur < 0) {
+        seg.end = Math.max((seg.start ?? 0) + 0.1, cap)
+        fixedNeg++
+        continue
+      }
+      if (chars >= MIN_CHARS_FOR_COMPRESS_CHECK && dur < expected * COMPRESSED_THRESHOLD) {
+        const target = Math.min((seg.start ?? 0) + expected, cap)
+        if (target > (seg.end ?? 0) + 0.1) {
+          seg.end = target
+          fixedCompressed++
+        }
+      }
+    }
+  }
+  if (fixedNeg > 0) console.log(`✓ 안전망: 음수 duration ${fixedNeg}건 자동 복구`)
+  if (fixedCompressed > 0) console.log(`✓ 안전망: 극단 찌부 ${fixedCompressed}건 자동 복구 (음절×130ms 기준)`)
 }
 
 if (exportDebug && Object.keys(debugTargets).length > 0) {

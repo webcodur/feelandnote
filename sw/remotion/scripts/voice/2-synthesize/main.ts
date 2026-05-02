@@ -1,5 +1,5 @@
 /**
- * 1-tts/main.ts — TTS 파이프라인 1단계 메인 오케스트레이션
+ * 2-synthesize/main.ts — TTS 파이프라인 1단계 메인 오케스트레이션
  *
  * 1) 에피소드 로드 + 공용 파일 셋업 + 셀럽 보이스 오버라이드
  * 2) buildJobs → 역할/스코프/manifest 필터
@@ -69,6 +69,22 @@ export async function main(): Promise<void> {
     console.log(`역할 필터: [${ROLE_FILTER.join(', ')}] → ${jobs.length}개`)
   }
 
+  // 잠금 필터: voiceLock 세그먼트는 무조건 제외 (--force, --only, 텍스트 변경에도 보호)
+  // ─── 왜 이 위치인가 ───
+  // 매니페스트 해시 검사보다 먼저 차단해야 텍스트가 변경된 잠금 세그먼트도 보호된다.
+  // 의도적으로 재생성하려면 JSON에서 voiceLock을 제거하거나 --include-locked 플래그를 사용한다.
+  const includeLocked = args.includes('--include-locked')
+  if (!includeLocked) {
+    const before = jobs.length
+    const locked = jobs.filter(j => j.voiceLock)
+    jobs = jobs.filter(j => !j.voiceLock)
+    const skipped = before - jobs.length
+    if (skipped > 0) {
+      console.log(`잠금 보호 → ${skipped}개 건너뜀 (--include-locked 로 우회)`)
+      for (const j of locked) console.log(`  🔒 ${j.file}`)
+    }
+  }
+
   // ElevenLabs 보이스가 있는 셀럽: Gemini 엔진일 때 celeb role 생성 차단
   // ─── 왜 건너뛰는가 ───
   // ElevenLabs 커스텀 보이스는 자동화·LLM 판단이 불가능하다.
@@ -76,11 +92,12 @@ export async function main(): Promise<void> {
   // 유저가 ElevenLabs 사이트에서 개별적으로 생성·선별한다.
   // 따라서 elevenlabsVoiceId가 있는 에피소드의 celeb 음성은
   // Gemini 파이프라인에서 제외하고 유저 수작업 영역으로 남긴다.
+  // 단, segment.geminiVoice 명시 오버라이드(forceGemini)는 캐릭터 보이스이므로 차단 우회.
   if (ENGINE === 'gemini' && episode.host.elevenlabsVoiceId) {
     const before = jobs.length
-    jobs = jobs.filter(j => j.role !== 'celeb')
+    jobs = jobs.filter(j => j.role !== 'celeb' || j.forceGemini)
     const skipped = before - jobs.length
-    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단)`)
+    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단, geminiVoice 명시는 통과)`)
   }
 
   if (onlyFiles) {
@@ -173,7 +190,7 @@ export async function main(): Promise<void> {
     const fp = path.join(dir, job.file)
     // job.file이 'shorts-2/S01-...' 처럼 하위 경로를 포함할 수 있으므로 부모 dir 생성
     await mkdir(path.dirname(fp), { recursive: true })
-    results[job.file] = await tts(job.text, job.voice, fp, job.role, job.isShort, job.shortSegId)
+    results[job.file] = await tts(job.text, job.voice, fp, job.role, job.isShort, job.shortSegId, job.voiceMeta, job.forceGemini, job.elevenlabsVoiceId)
     // 성공 시 매니페스트 업데이트
     const mDir = manifestDir(job)
     const m = await getManifest(mDir)

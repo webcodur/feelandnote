@@ -22,12 +22,35 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 from diff_match_patch import diff_match_patch
 
 
-def parse_ep_name(ep_name):
-    """ep-name → (person, locale) 파싱. 멀티파트 시리즈는 `locale`에 part 번호가 포함됨."""
-    rest, lang = ep_name, 'ko'
-    if rest.endswith('-en'):
-        lang = 'en'
-        rest = rest[:-3]
+def _episode_dir_exists(root, person):
+    for status in ['todo', 'live', 'done']:
+        if os.path.isdir(os.path.join(root, 'public', 'episodes', status, person)):
+            return True
+    return False
+
+
+def parse_ep_name(ep_name, root=None):
+    """ep-name → (person, locale) 파싱.
+
+    locale 접미사(-ko / -en) 필수. TS 계열(scripts/lib/episode.ts)과 동일 규약.
+    분리 스키마(에피소드마다 폴더: `elon-musk-3/ko.json`) 우선.
+    폴더가 없으면 옛 멀티파트 스키마(`elon-musk/ko-3.json`)로 폴백.
+    """
+    if ep_name.endswith('-en'):
+        rest, lang = ep_name[:-3], 'en'
+    elif ep_name.endswith('-ko'):
+        rest, lang = ep_name[:-3], 'ko'
+    else:
+        sys.stderr.write(
+            f'✗ --episode 에 locale 접미사가 필수다.\n'
+            f'   받은 값: "{ep_name}"\n'
+            f'   사용법: "<인물>-ko" (한국어) 또는 "<인물>-en" (영문)\n'
+            f'   locale 자동 default 는 음성 덮어쓰기 사고를 막기 위해 차단됐다.\n'
+        )
+        sys.exit(1)
+    # 분리 스키마: 이름 전체가 폴더로 존재하면 그대로 사용
+    if root is not None and _episode_dir_exists(root, rest):
+        return rest, lang
     m = re.match(r'^(.+)-(\d+)$', rest)
     if m:
         rest = m.group(1)
@@ -47,7 +70,7 @@ def find_episode_dir(root, person):
 def resolve_episode_path(script_dir, episode_id):
     """Episode ID → 인물별 디렉토리 파일 경로"""
     root = os.path.join(script_dir, '..', '..')
-    person, locale = parse_ep_name(episode_id)
+    person, locale = parse_ep_name(episode_id, root=root)
     parts = locale.split('-')
     base_lang = parts[0]
     part_num = int(parts[1]) if len(parts) > 1 else 1
@@ -141,11 +164,14 @@ def get_display_text(ep, key):
     return None
 
 
-def apply_tts_replace(text, ep):
-    """tts.replace 치환맵을 텍스트에 적용 — 긴 키부터 치환하여 부분 매칭 충돌 방지"""
+def apply_tts_replace(text, ep, extra=None):
+    """tts.replace 치환맵을 텍스트에 적용 — 긴 키부터 치환하여 부분 매칭 충돌 방지.
+    쇼츠처럼 본체 밖 파일에 별도 tts.replace가 있을 때는 extra로 주입한다."""
     if not text:
         return text
-    replace_map = ep.get('tts', {}).get('replace', {})
+    replace_map = dict(ep.get('tts', {}).get('replace', {}))
+    if extra:
+        replace_map.update(extra)
     for k, v in sorted(replace_map.items(), key=lambda x: len(x[0]), reverse=True):
         text = text.replace(k, v)
     return text
@@ -166,7 +192,18 @@ def get_tts_text(ep, key):
 
     # 그 외: display_text 에 tts.replace 적용
     display = get_display_text(ep, key)
-    return apply_tts_replace(display, ep)
+
+    # 쇼츠 key: 쇼츠 cfg의 tts.replace를 본체에 머지
+    extra = None
+    m_short = re.match(r'^shorts-(\d+)/S\d{2}-(.+)$', key)
+    if m_short:
+        shorts_idx1 = int(m_short.group(1))
+        for cfg in ep.get('shorts') or []:
+            if cfg and cfg.get('_shortsIdx1') == shorts_idx1:
+                extra = (cfg.get('tts') or {}).get('replace')
+                break
+
+    return apply_tts_replace(display, ep, extra=extra)
 
 
 def strip(s):
@@ -174,8 +211,10 @@ def strip(s):
     return re.sub(r'[^a-zA-Z0-9\uAC00-\uD7A3\u3040-\u30FF\u4E00-\u9FFF]', '', s).lower()
 
 
-def map_whisper_to_display(whisper_words, display_text, duration):
-    """diff-match-patch로 WhisperX 전사 결과를 원문 단어에 매핑"""
+def map_whisper_to_display(whisper_words, display_text, duration, tts_replace=None):
+    """diff-match-patch로 WhisperX 전사 결과를 원문 단어에 매핑.
+    tts_replace가 주어지면 치환 키 word의 duration이 실제 발음 음절수 대비 너무 짧은 경우
+    (예: '1865년' 원문 ↔ '천팔백육십오 년' 실제 발음) 이웃 단어 사이 gap을 흡수해 확장."""
     display_words = display_text.split()
     if not whisper_words or not display_words:
         return [{'word': w, 'start': 0, 'end': duration} for w in display_words]
@@ -283,6 +322,37 @@ def map_whisper_to_display(whisper_words, display_text, duration):
                 result[group_start + j]['start'] = round(t_start + j * seg, 3)
                 result[group_start + j]['end'] = round(t_start + (j + 1) * seg, 3)
 
+    # 7) tts.replace 역매핑 후처리: display word가 치환 키("1865년")면 whisper_words 내에서
+    #    치환값("천팔백육십오 년")의 연속 토큰 시퀀스를 찾아 전체 구간(첫 token.start ~ 마지막 token.end)을
+    #    해당 display word의 timing으로 이식. diff-match-patch의 글자수 차이 매핑 문제를 근본 해결.
+    if tts_replace:
+        for i, dw in enumerate(display_words):
+            # display word가 치환 키와 매칭되는지 (조사·구두점 붙은 변형 허용)
+            matched_key = None
+            for key in tts_replace:
+                # 정확 일치 또는 "키+조사/구두점" 형태
+                if dw == key or (dw.startswith(key) and len(dw) > len(key) and not strip(dw[len(key):])[:1].isalnum()):
+                    matched_key = key
+                    break
+            if not matched_key:
+                continue
+            replaced_value = tts_replace[matched_key]
+            target_tokens = replaced_value.split()
+            if not target_tokens:
+                continue
+            # whisper_words 연속 sequence에서 target_tokens 매칭 찾기 (strip 비교로 구두점 무시)
+            target_stripped = [strip(t) for t in target_tokens]
+            found_range = None
+            for j in range(len(whisper_words) - len(target_tokens) + 1):
+                if all(strip(whisper_words[j + k]['word']).startswith(target_stripped[k])
+                       or target_stripped[k].startswith(strip(whisper_words[j + k]['word']))
+                       for k in range(len(target_tokens))):
+                    found_range = (whisper_words[j]['start'], whisper_words[j + len(target_tokens) - 1]['end'])
+                    break
+            if found_range:
+                result[i]['start'] = round(found_range[0], 3)
+                result[i]['end'] = round(found_range[1], 3)
+
     return result
 
 
@@ -338,7 +408,7 @@ def main():
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root = os.path.join(script_dir, '..', '..')
-    person, locale = parse_ep_name(args.episode)
+    person, locale = parse_ep_name(args.episode, root=root)
     episode_dir = find_episode_dir(root, person)
     voice_dir = os.path.join(episode_dir, 'voice', locale)
 
@@ -397,6 +467,7 @@ def main():
     # ElevenLabs 자동 라우팅: celeb 파일이 elevenlabs 쪽에 있으면 우선 사용
     ele_dir = os.path.join(voice_dir, 'elevenlabs')
     if os.path.isdir(ele_dir):
+        # 1) default_dir에 placeholder가 있는 경우 — 교체
         for wf in list(wav_files):
             key = path_to_key(wf, default_dir)
             if is_celeb_voice_key(key):
@@ -404,6 +475,16 @@ def main():
                 if os.path.exists(ele_path) and os.path.normpath(wf) != os.path.normpath(ele_path):
                     wav_files = [f for f in wav_files if os.path.normpath(f) != os.path.normpath(wf)]
                     wav_files.append(ele_path)
+        # 2) default_dir에 placeholder 없이 elevenlabs에만 있는 celeb 파일 — 추가 발견
+        if is_long:
+            ele_candidates = sorted(glob.glob(os.path.join(ele_dir, '*.wav')))
+        else:
+            ele_candidates = sorted(glob.glob(os.path.join(ele_dir, f'shorts-{shorts_index}', '*.wav')))
+        existing_keys = {path_to_key(f, default_dir) for f in wav_files}
+        for ef in ele_candidates:
+            key = path_to_key(ef, default_dir)
+            if is_celeb_voice_key(key) and key not in existing_keys:
+                wav_files.append(ef)
         wav_files = sorted(wav_files)
 
     if not wav_files:
@@ -496,16 +577,18 @@ def main():
                 if 'start' in w and 'end' in w:
                     whisper_words.append({'word': w['word'], 'start': round(w['start'], 3), 'end': round(w['end'], 3)})
 
-            # 3) diff-match-patch로 매핑
-            # TTS 오버라이드가 있으면: WhisperX → TTS 텍스트 매핑 → 타임스탬프 추출 → display 텍스트에 이식
+            # 3) diff-match-patch로 매핑 (Whisper → match_text → display_text)
             if display_text and whisper_words:
+                replace_table = dict(ep.get('tts', {}).get('replace', {}) or {})
+                if shorts_index is not None:
+                    short_cfg_replace = (ep.get('shorts') or [{}])[0].get('tts', {}).get('replace', {}) or {}
+                    replace_table.update(short_cfg_replace)
+
                 if match_text != display_text:
-                    # TTS 텍스트로 정확한 타임스탬프 추출
                     tts_words = map_whisper_to_display(whisper_words, match_text, duration)
-                    # display 텍스트 단어에 타임스탬프 이식 (diff-match-patch로 TTS→display 매핑)
-                    words = map_whisper_to_display(tts_words, display_text, duration)
+                    words = map_whisper_to_display(tts_words, display_text, duration, replace_table)
                 else:
-                    words = map_whisper_to_display(whisper_words, display_text, duration)
+                    words = map_whisper_to_display(whisper_words, display_text, duration, replace_table)
             else:
                 words = whisper_words
 

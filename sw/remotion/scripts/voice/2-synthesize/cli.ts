@@ -1,5 +1,5 @@
 /**
- * 1-tts/cli.ts — CLI 인자 파싱·환경 상수
+ * 2-synthesize/cli.ts — CLI 인자 파싱·환경 상수
  *
  * 모듈 로드 시점에 process.argv를 한 번 파싱하여 전역 상수를 export 한다.
  * 다른 모듈은 import 만으로 같은 환경을 공유한다.
@@ -16,6 +16,7 @@ const KNOWN_FLAGS = new Set([
   '--episode', '--engine', '--only', '--force', '--shorts', '--long',
   '--update-json', '--include-common', '--normalize', '--list',
   '--init-manifest', '--start-key', '--role',
+  '--default-tags', '--default-trail', '--include-locked',
 ])
 for (const arg of args) {
   if (arg === '--') continue
@@ -34,14 +35,14 @@ if (SHORTS_FLAG_IDX >= 0) {
   const parsed = raw !== undefined ? Number(raw) : NaN
   if (!Number.isInteger(parsed) || parsed < 1) {
     console.error(`✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
-    console.error('  사용: pnpm voice -- --episode <name> (--long | --shorts <N>) [...옵션]')
+    console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N>) [...옵션]')
     process.exit(1)
   }
   parsedShortsIndex = parsed
 }
 if (HAS_LONG_FLAG === (parsedShortsIndex !== null)) {
   console.error('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.')
-  console.error('  사용: pnpm voice -- --episode <name> (--long | --shorts <N>) [...옵션]')
+  console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N>) [...옵션]')
   process.exit(1)
 }
 export const SHORTS_INDEX: number | null = parsedShortsIndex

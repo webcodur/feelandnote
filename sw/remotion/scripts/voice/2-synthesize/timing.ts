@@ -1,5 +1,5 @@
 /**
- * 1-tts/timing.ts — TTS 결과 duration → timing.json 자동 반영
+ * 2-synthesize/timing.ts — TTS 결과 duration → timing.json 자동 반영
  *
  * --update-json 플래그로 호출된다. 본체 timing.json + 쇼츠 외부 timing 파일 + 공용 파일 일괄 반영.
  * 본체 timing.json에는 timing.shorts를 저장하지 않는다 (옵션 2: 쇼츠는 별도 파일).

@@ -1,5 +1,5 @@
 /**
- * 1-tts/jobs.ts — TTS Job 빌더
+ * 2-synthesize/jobs.ts — TTS Job 빌더
  *
  * 단일 타겟 스코프(--long 또는 --shorts <N>)에 따라 wav 생성 대상 목록을 만든다.
  * 옵션 2: 쇼츠는 외부 파일(shorts/{locale}-{N}.json)에서 로드되어 episode.shorts 배열로 주입된다.
@@ -16,7 +16,7 @@ import {
 import { SHORTS_INDEX } from './cli.js'
 import { VOICE, type Role, type Voice } from './config.js'
 import { ep, commonFiles } from './state.js'
-import { ttsText, applyReplacements } from './tts.js'
+import { ttsText, applyReplacements, type VoiceMeta } from './tts.js'
 
 export type Job = {
   file: string
@@ -25,6 +25,13 @@ export type Job = {
   role: Role
   isShort?: boolean
   shortSegId?: string
+  voiceMeta?: VoiceMeta
+  /** segment.geminiVoice 지정으로 강제 Gemini 합성. ElevenLabs 셀럽 차단을 우회하고, ENGINE=elevenlabs 런에서도 Gemini로 분기한다. */
+  forceGemini?: boolean
+  /** segment.elevenlabsVoiceId 오버라이드. 지정 시 host.elevenlabsVoiceId 대신 사용. 다중 화자 용도. */
+  elevenlabsVoiceId?: string
+  /** 세그먼트에 voiceLock: true가 설정됨. main 파이프라인이 매니페스트 검사 전 단계에서 제외한다. */
+  voiceLock?: boolean
 }
 
 export function buildJobs(): Job[] {
@@ -69,12 +76,18 @@ export function buildJobs(): Job[] {
       jobs.push({ file: VN_CELEB_INTRO, voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
       // 셀럽 감상철학
       if (episode.host.philosophy) {
-        jobs.push({ file: VN_PHILOSOPHY, voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb' })
+        jobs.push({
+          file: VN_PHILOSOPHY, voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb',
+          voiceMeta: (episode.host as any).philosophyVoice as VoiceMeta | undefined,
+        })
       }
     }
     // 대표 명언 (셀럽 목소리, 공통)
     if (episode.host.featuredQuote) {
-      jobs.push({ file: VN_FEATURED_QUOTE, voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb' })
+      jobs.push({
+        file: VN_FEATURED_QUOTE, voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb',
+        voiceMeta: (episode.host as any).featuredQuoteVoice as VoiceMeta | undefined,
+      })
     }
 
     // 도서별
@@ -86,7 +99,10 @@ export function buildJobs(): Job[] {
       for (let pi = 0; pi < (b.quotePairs?.length ?? 0); pi++) {
         const pair = b.quotePairs![pi]
         if (pair.quote) {
-          jobs.push({ file: vnBookQuote(i, pi), voice: VOICE.celeb, text: ttsText(`quote:${pi}`, i), role: 'celeb' })
+          jobs.push({
+            file: vnBookQuote(i, pi), voice: VOICE.celeb, text: ttsText(`quote:${pi}`, i), role: 'celeb',
+            voiceMeta: (pair as any).voice as VoiceMeta | undefined,
+          })
         }
         if (pair.after) {
           jobs.push({ file: vnBookAfter(i, pi), voice: VOICE.narrator, text: ttsText(`after:${pi}`, i), role: 'narrator' })
@@ -115,16 +131,34 @@ export function buildJobs(): Job[] {
       process.exit(1)
     }
     let si = 0
+    const shortReplace = shortCfg.tts?.replace as Record<string, string> | undefined
     for (const seg of shortCfg.segments) {
-      if (seg.id === 'cta') { si++; continue }
-      const voice = seg.role === 'celeb' ? VOICE.celeb : seg.role === 'summary' ? VOICE.summary : VOICE.narrator
-      const text = applyReplacements(seg.text)
+      const segGemVoice = (seg as { geminiVoice?: string }).geminiVoice
+      const segSpeakerId = (seg as { speaker?: string }).speaker
+      const speakersArr = Array.isArray((shortCfg as { speakers?: { id: string; elevenlabsVoiceId?: string }[] }).speakers)
+        ? (shortCfg as { speakers: { id: string; elevenlabsVoiceId?: string }[] }).speakers
+        : []
+      const speakerObj = segSpeakerId ? speakersArr.find(s => s.id === segSpeakerId) : undefined
+      // 우선순위: segment.elevenlabsVoiceId > speaker.elevenlabsVoiceId > host.elevenlabsVoiceId(tts.ts에서 fallback)
+      const segEleVoiceId = (seg as { elevenlabsVoiceId?: string }).elevenlabsVoiceId
+        ?? speakerObj?.elevenlabsVoiceId
+      const voice = segGemVoice
+        ? segGemVoice
+        : seg.role === 'celeb' ? VOICE.celeb
+        : seg.role === 'summary' ? VOICE.summary
+        : seg.id === 'hook' ? VOICE.shortsHook
+        : VOICE.shortsNarrator
+      const text = applyReplacements(seg.text, shortReplace)
       jobs.push({
         file: vnShort(si, seg.id, SHORTS_INDEX as number),
         voice, text,
         role: seg.role as Role,
         isShort: true,
         shortSegId: seg.id,
+        voiceMeta: seg.role === 'celeb' && !segGemVoice ? ((seg as any).voice as VoiceMeta | undefined) : undefined,
+        forceGemini: !!segGemVoice,
+        elevenlabsVoiceId: segEleVoiceId,
+        voiceLock: !!(seg as { voiceLock?: boolean }).voiceLock,
       })
       si++
     }
