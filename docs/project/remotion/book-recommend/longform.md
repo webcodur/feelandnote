@@ -127,13 +127,13 @@ const labelSummaryFrom = visual
 1. `episodes/book-recommend/candidates/<name>.json` 작성 (기존 JSON 복사 후 수정)
 2. 텍스트 검수 완료 후 `episodes/book-recommend/`로 이동 (Candidate → Lineup 승격)
 3. `script.ts`에 JSON import + episodes 맵 등록 + `EPISODE_NAME` 변경
-4. `pnpm voice -- --episode <name> --long --update-json` 실행 (duration 자동 반영)
+4. `pnpm voice:tts -- --episode <name> --long --update-json` 실행 (duration 자동 반영)
 5. `pnpm reboot`으로 프리뷰
 
 ### 텍스트 수정
 
 1. `episodes/<name>.json` 수정 (자막 텍스트 + 필요시 tts 오버라이드)
-2. `pnpm voice -- --episode <name> --long --only <파일명> --update-json` 실행
+2. `pnpm voice:tts -- --episode <name> --long --only <파일명> --update-json` 실행
 3. web-bo 에디터의 TTS 버튼으로도 가능 (Gemini / Cloud 선택)
 
 ### DB → 에피소드 JSON 변환 체크리스트

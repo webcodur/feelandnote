@@ -25,7 +25,7 @@
 | 9-2 | [writer/2-chronology.md](writer/2-chronology.md) | 인생 순서 배치 — 생애 연대기 기반 books 배열 |
 | 9-3 | [writer/3-story-power.md](writer/3-story-power.md) | 스토리 파워 — 중심축·감정곡선·S급 context·벤치마크 |
 | 9-4 | [writer/4-prose.md](writer/4-prose.md) | 글 부드러움 — 주어·연결어·리듬·TTS 친화성 |
-| 9-5 | [writer/5-critical.md](writer/5-critical.md) | 비판적 검토 — 논리비약·과장·미설명전제·독자관점 |
+| 9-5 | [writer/5-editorial-board.md](writer/5-editorial-board.md) | 5인 편집국 사이클 — 위생·도끼·번역투·사료·직업 분야 단일 SSoT |
 | 9-6 | [writer/6-paragraphs.md](writer/6-paragraphs.md) | 문단 분할 — 긴 서술 필드를 `\n\n` 기준으로 분할. 원문 보존 |
 | 10 | [final-check.md](final-check.md) | 출품 전 최종 점검 — 한영 정합성·텍스트·이미지·음성·윤리 |
 
@@ -40,7 +40,7 @@ public/episodes/<person>/
     ↓                      예: elon-musk/ko.json + ko.timing.json
 script.ts (JSON import → mergeEpisode → currentEpisode export)
     ↓
-scripts/voice/1-tts.ts  →  tts.replace 치환맵 적용, tts.titles 오버라이드
+scripts/voice/2-synthesize.ts  →  tts.replace 치환맵 적용, tts.titles 오버라이드
     ↓                  --update-json 시 duration을 timing.json에 역반영
 timing.ts (타이밍 상수 + 계산 함수)
     ↓

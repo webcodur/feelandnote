@@ -66,49 +66,43 @@ CSS 필터 `brightness(0.18) saturate(0.5)` + radial gradient 오버레이가 �
 
 > A dim control room with a holographic star map of a crumbling galactic empire glowing faintly above a worn metal desk. Scattered on the desk: rolled blueprint scrolls and a small glowing orb representing a distant colony planet. Deep space visible through a narrow viewport — faint nebulae and dying stars. Moody low-key lighting, muted gold and deep blue tones. Industrial sci-fi atmosphere. No people, no text.
 
-### 5. elon-musk-2
-**셀럽:** 일론 머스크 / 테슬라·SpaceX 창업자 (에피소드 2)
-**추천서:** (elon-musk ep2 — 다른 도서 세트)
-
-> Close-up of a rocket engine nozzle cross-section blueprint on aged paper, pinned to a dark cork board. A brass compass and mechanical pencil rest on the blueprint. Dramatic side-lighting from the left. Dark, engineering aesthetic. No people.
-
-### 6. jensen-huang
+### 5. jensen-huang
 **셀럽:** 젠슨 황 / 엔비디아 창업자
 **추천서:** 이상한 나라의 앨리스, 스노 크래시, 혁신기업의 딜레마
 
 > A single GPU chip placed on an open vintage book, reflecting amber light. A magnifying glass rests beside it. Dark leather desk surface, shallow depth of field. Warm tungsten lighting from above. Tech-meets-classic-literature mood. No people.
 
-### 7. jim-carrey
+### 6. jim-carrey
 **셀럽:** 짐 캐리 / 배우·코미디언
 **추천서:** 위대한 개츠비, 파운틴헤드, 지금 이 순간을 살아라
 
 > A theatrical mask (comedy/tragedy) resting on a stack of vintage books. A single spotlight from above creates dramatic shadows. Velvet curtain fabric visible in the dark background. Rich deep reds and golds. Stage atmosphere. No people.
 
-### 8. leonardo-da-vinci
+### 7. leonardo-da-vinci
 **셀럽:** 레오나르도 다빈치 / 르네상스의 거인
 **추천서:** 신곡, 변신 이야기, 이솝 우화
 
 > A leather-bound sketchbook open to a page with faint anatomical drawings, beside a set of Renaissance-era brass drawing instruments. A candle drips wax onto a stone surface. Warm chiaroscuro lighting. Workshop atmosphere. No people, no readable text.
 
-### 9. marcus-aurelius
+### 8. marcus-aurelius
 **셀럽:** 마르쿠스 아우렐리우스 / 철인 황제
 **추천서:** 에픽테토스 강의, 국가(플라톤), 일리아스
 
 > A marble bust pedestal (empty, no head) beside a papyrus scroll and a small bronze oil lamp, in a dark stone chamber. A shaft of moonlight from a narrow window illuminates the scroll. Roman architectural detail in shadow. Stoic, contemplative mood. No people.
 
-### 10. mark-zuckerberg
+### 9. mark-zuckerberg
 **셀럽:** 마크 주커버그 / 메타 창업자
 **추천서:** 아이네이스, 권력의 종말, 우리 본성의 선한 천사
 
 > A modern minimalist desk with a single hardcover book, a pair of reading glasses, and a small succulent plant. Clean lines, matte surfaces. A strip of warm LED light along the desk edge. Dark concrete wall background. Silicon Valley intellectual aesthetic. No people, no screens.
 
-### 11. napoleon-bonaparte
+### 10. napoleon-bonaparte
 **셀럽:** 나폴레옹 보나파르트 / 프랑스 황제
 **추천서:** 플루타르코스 영웅전, 일리아스, 군주론
 
 > A leather-bound copy of a book on a campaign field desk, with a brass telescope and a folded map. A single candle in a brass holder. Dark tent canvas background. Military command post atmosphere. Warm amber and deep shadow. No people.
 
-### 12. yi-sun-sin
+### 11. yi-sun-sin
 **셀럽:** 이순신 / 충무공
 **추천서:** 손자병법, 오자병법, 삼국지연의
 
@@ -128,14 +122,13 @@ CSS 필터 `brightness(0.18) saturate(0.5)` + radial gradient 오버레이가 �
 | 2 | alexander-the-great | |
 | 3 | dario-amodei | |
 | 4 | elon-musk | |
-| 5 | elon-musk-2 | ep2 |
-| 6 | jensen-huang | |
-| 7 | jim-carrey | |
-| 8 | leonardo-da-vinci | 신규 추가 |
-| 9 | marcus-aurelius | |
-| 10 | mark-zuckerberg | |
-| 11 | napoleon-bonaparte | 신규 추가 |
-| 12 | yi-sun-sin | |
+| 5 | jensen-huang | |
+| 6 | jim-carrey | |
+| 7 | leonardo-da-vinci | 신규 추가 |
+| 8 | marcus-aurelius | |
+| 9 | mark-zuckerberg | |
+| 10 | napoleon-bonaparte | 신규 추가 |
+| 11 | yi-sun-sin | |
 
 ## 저장 경로
 

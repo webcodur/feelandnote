@@ -98,6 +98,7 @@ type ImageChange = {
 3. **길이**: **단어 1개를 원칙으로 한다**. ko·en 모두 핵심 명사·동사 1단어. 긴 어구 앵커는 WhisperX 세그먼트 경계를 넘기 쉬워 매칭이 깨진다.
 4. **시작 앵커 필수**: `summary`, `context` 등 모든 field의 첫 이미지는 반드시 그 field 본문 첫 단어(또는 첫 1~2단어)를 앵커로 가진다. `text` 없이 배치(= field 시작 자동 표시)는 금지. 이는 렌더러의 시작 정렬 안정성을 위해 필수.
 5. **중복 단어 자동 disambiguation (occurrence-aware matching)**: 같은 단어가 본문에 여러 번 등장해도 보조 필드 없이 그냥 같은 텍스트로 적는다. 매칭 엔진은 **이미지 배열 순서가 본문 등장 순서와 일치한다**는 규약을 활용해, 같은 `(field, text)` 조합이 N번째 등장하면 본문에서도 N번째 등장 위치에 자동 매핑한다.
+6. **앵커 위치 = 문장 시작 또는 콤마 직후**: 앵커 텍스트는 본문에서 **새 문장 시작 단어(마침표·물음표·느낌표·줄바꿈 직후)** 또는 **콤마 직후 단어**부터 시작해야 한다. 문장 중간 단어(예: "유비를 강하가 받아주었습니다"에서 "강하가"만 잡기) 금지. 화면 전환은 호흡 단위(절·문장)에서 일어나야 시청자에게 자연스럽다. 검증 시 앵커 직전 문자가 `.`, `?`, `!`, `\n`, `, ` 중 하나여야 한다(첫 글자가 본문 시작인 경우 제외).
 
 ### Occurrence-aware matching이 어떻게 동작하나 (시각화)
 
@@ -191,7 +192,7 @@ PASS된 이미지만 대상으로 한다.
 1. 각 segment의 `text`와 PASS 이미지를 대조.
 2. **배경 이미지 (`seg.image`)**: segment 전체 기간 유지되는 이미지. segment 주제의 대표 장면 1장.
 3. **전환 이미지 (`seg.imageChangeAt[]`)**: segment 내 특정 문장에서 교체되는 이미지. 각 항목에 text 앵커 + `t: 0` 초기화.
-4. `t` 값은 `pnpm analyze`(3-timings.ts) 실행 시 text 앵커 기반으로 자동 재계산된다.
+4. `t` 값은 `pnpm voice:align`(4-align.ts) 실행 시 text 앵커 기반으로 자동 재계산된다.
 
 ### A-4. SUMMARY/CONTEXT 시작 이미지 보장
 
@@ -383,7 +384,7 @@ en 앵커 성공: 27장 / 실패: 1장
 | `sw/remotion/src/compositions/BookRecommend/BookRecommendShort.tsx` | 쇼츠 크로스페이드 렌더 (groups 배열 생성) |
 | `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx` | 롱폼 CinematicPanel 렌더, `findAnchorInSection`·`resolveImageTransitions` |
 | `sw/remotion/src/compositions/BookRecommend/timing.ts` | `shortSegLayout` |
-| `sw/remotion/scripts/voice/3-timings.ts` | text 앵커 → voiceTimings 매핑, 쇼츠 `imageChangeAt.t` 자동 해소 |
+| `sw/remotion/scripts/voice/4-align.ts` | text 앵커 → voiceTimings 매핑, 쇼츠 `imageChangeAt.t` 자동 해소 |
 
 ---
 
@@ -430,7 +431,7 @@ en 앵커 성공: 27장 / 실패: 1장
   - `findAnchorInSection(anchor, section, occurrenceIndex)` — N번째 등장 위치까지 순차 진행
   - `estimateAnchorFrame(...)` — 폴백 함수도 occurrence-aware로 통일
   - `resolveImageTransitions` — `occurrenceCounter: Map<"${field}::${text}", count>` 추가
-- `sw/remotion/scripts/voice/3-timings.ts`
+- `sw/remotion/scripts/voice/4-align.ts`
   - voiceTimings를 word 단위(`seg.words`) 또는 segment 단위로 평탄화
   - `imageChangeAt` 매칭에 occurrence counter 적용
   - 콘솔 로그에 `#N` 표기

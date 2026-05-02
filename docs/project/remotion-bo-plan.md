@@ -137,7 +137,7 @@ episodes/
 ### 마이그레이션 계획
 
 1. `episodes/book-recommend/` 디렉토리 생성, 기존 JSON 이동
-2. `1-tts.ts`에 `--series` 플래그 추가 (기본값 `book-recommend`)
+2. `2-synthesize.ts`에 `--series` 플래그 추가 (기본값 `book-recommend`)
 3. `voice-r2.ts`의 R2 경로에 시리즈 프리픽스 추가: `remotion/voice/{series}/{name}/`
 4. `render-all.ts`에 시리즈 인식 추가
 5. `script.ts`의 episodes import를 시리즈별 동적 로드로 전환
@@ -422,7 +422,7 @@ episodes/book-recommend/
 
 - `BookRecommend.tsx`: `locale` prop 추가. 라벨/CTA만 분기
 - `Root.tsx`: 로케일별 Composition 자동 등록 (`{Label}En`)
-- `1-tts.ts`: `--locale en` → 영문 보이스 매핑
+- `2-synthesize.ts`: `--locale en` → 영문 보이스 매핑
 - `render-all.ts`: 로케일별 출력 파일 분리
 
 ### remotion-bo 반영
@@ -483,7 +483,7 @@ episodes/book-recommend/
 
 17. 에피소드 JSON 로케일 체계 (`{name}.en.json`)
 18. Composition locale prop + 라벨/CTA 분기
-19. 영문 TTS 보이스 매핑 + 1-tts.ts --locale 플래그
+19. 영문 TTS 보이스 매핑 + 2-synthesize.ts --locale 플래그
 20. 영문 에피소드 AI 재작성 파이프라인 (quotePairs[].quote 원전 조회 포함)
 21. remotion-bo 로케일 배지 + "영문 버전 생성" 버튼
 

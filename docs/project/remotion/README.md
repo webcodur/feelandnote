@@ -55,18 +55,18 @@ pnpm dev:remotion-bo  # 영상 관리 대시보드 (:3003)
 
 | 단계 | 스크립트 | 실행 | 역할 |
 |------|----------|------|------|
-| 1 | `1-tts.ts` → `1-tts/` 모듈 | `pnpm voice` (사용자 수동, 유료 API) | Gemini/ElevenLabs TTS → wav 생성 |
-| 2 | `2-whisper.py` | `/voice-sync` 내부 | WhisperX + diff-match-patch → `voice/{locale}/2-word-timings.json` |
-| 3 | `3-timings.ts` | `/voice-sync` 내부 | voiceTimings · duration · imageChangeAt 계산 |
-| 3.5 | `reconcile-check.ts` | `/voice-sync` 내부 (조건부) | 진단 — Whisper 오인식·duration 압축 탐지. 이슈 0건 시 스킵 |
-| 4 | `4-sub.ts` + 규칙 기반 분할 | `/voice-sync` 내부 | 자막 의미 단위 sub 분할 + 검증 |
+| 1 | `2-synthesize.ts` → `2-synthesize/` 모듈 | `pnpm voice` (사용자 수동, 유료 API) | Gemini/ElevenLabs TTS → wav 생성 |
+| 2 | `3-transcribe.py` | `/voice-sync` 내부 | WhisperX + diff-match-patch → `voice/{locale}/2-word-timings.json` |
+| 3 | `4-align.ts` | `/voice-sync` 내부 | voiceTimings · duration · imageChangeAt 계산 |
+| 3.5 | `4-align.ts (안전망 통합)` | `/voice-sync` 내부 (조건부) | 진단 — Whisper 오인식·duration 압축 탐지. 이슈 0건 시 스킵 |
+| 4 | `5-chunk.ts` + 규칙 기반 분할 | `/voice-sync` 내부 | 자막 의미 단위 sub 분할 + 검증 |
 
 **기본 흐름:**
 
 ```bash
 # 1단계 (사용자 수동)
 cd sw/remotion
-pnpm voice -- --episode <name> --long --normalize --update-json
+pnpm voice:tts -- --episode <name> --long --normalize --update-json
 
 # 2~4단계 (Claude Code에서 한 번에)
 /voice-sync <name>
@@ -92,16 +92,16 @@ pnpm voice -- --episode <name> --long --normalize --update-json
 - **TTS(1단계) 후 반드시 `/voice-sync`로 2~4단계 완주.** sub 없이 렌더·업로드 금지 — `splitSub()` 폴백은 고유명사·관형절을 파괴한다.
 - `--only`로 부분 재생성했으면 `/voice-sync`도 동일 범위에서 호출한다 (스킬이 `--only` 전파).
 
-> ⚠ **`pnpm voice --update-json`은 duration만 갱신한다.** word-level voiceTimings는 2-whisper + 3-timings(= `/voice-sync` 내부)로만 업데이트된다. 플래그 이름에 속지 말 것.
+> ⚠ **`pnpm voice:tts --update-json`은 duration만 갱신한다.** word-level voiceTimings는 3-transcribe + 4-align(= `/voice-sync` 내부)로만 업데이트된다. 플래그 이름에 속지 말 것.
 
 ```bash
 cd sw/remotion
 # 롱폼
-pnpm voice -- --episode <name> --long --normalize --update-json   # 1. TTS (사용자 수동)
+pnpm voice:tts -- --episode <name> --long --normalize --update-json   # 1. TTS (사용자 수동)
 # → Claude Code에서 /voice-sync <name>  (2~4단계 자동 일괄)
 
 # 쇼츠
-pnpm voice -- --episode <name> --shorts 1 --normalize --update-json
+pnpm voice:tts -- --episode <name> --shorts 1 --normalize --update-json
 # → /voice-sync <name> --shorts 1
 ```
 
@@ -126,7 +126,7 @@ pnpm voice -- --episode <name> --shorts 1 --normalize --update-json
 
 ```bash
 # 롱폼 특정 세그먼트
-pnpm voice -- --episode <name> --long --only D05b-summary --normalize --update-json
+pnpm voice:tts -- --episode <name> --long --only D05b-summary --normalize --update-json
 # → /voice-sync <name> --only D05b-summary  (동일 범위 전파)
 ```
 
@@ -143,7 +143,7 @@ TTS 오버라이드 구조 상세: [voice/tts.md — TTS 오버라이드 구조]
 
 #### 잔존 WAV 감지
 
-세그먼트 ID 변경 후 옛 WAV가 남으면 2-whisper.py가 자동 경고하고 제외한다.
+세그먼트 ID 변경 후 옛 WAV가 남으면 3-transcribe.py가 자동 경고하고 제외한다.
 
 ### bash 별칭
 

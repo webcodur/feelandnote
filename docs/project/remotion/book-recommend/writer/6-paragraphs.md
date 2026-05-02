@@ -98,7 +98,7 @@ sw/remotion/public/episodes/{stage}/{person}/{locale}.json
 ### 원문 보존
 
 **어휘·어순·구두점을 절대 수정하지 않는다.** 오직 `\n\n`만 삽입한다.
-문장 재작문·추가·삭제가 필요하면 그것은 `writer/4-prose.md` 또는 `writer/5-critical.md`의 영역이다.
+문장 재작문·추가·삭제가 필요하면 그것은 `writer/4-prose.md` 또는 `writer/5-editorial-board.md`의 영역이다.
 
 ---
 

@@ -1,80 +1,149 @@
-# 단어 단위 voiceTimings 파이프라인
+# 음성 파이프라인 — 5단계 통합 규격
 
-## 개요
+## 철학
 
-WhisperX 전사 + diff-match-patch 매핑으로 **단어별** 타임스탬프를 추출하여 voiceTimings를 생성하고, 기계적 매핑이 해결하지 못하는 잔여 오류를 LLM 보정으로 재정비한다.
+각 단계는 **하나의 변환** 책임 + **자체 검증·자동 수정** + **트랜잭션 보장**.
+단계가 분리된 진단/수정 도구는 폐기하고, 한 명령에 통합한다(`--dry-run`으로 검출만 가능).
 
-## 파이프라인
-
-1단계(TTS)만 사용자 수동, 이후 2~4단계(+3.5 조건부)는 `/voice-sync` 스킬 한 번 호출로 일괄 실행.
-
-```bash
-# 1단계만 사용자 수동 (유료 API)
-pnpm voice -- --episode <name> --long --normalize --update-json
-# 또는 --shorts <N>
-
-# Claude Code에서 2~4단계 일괄
-/voice-sync <name>             # 롱폼
-/voice-sync <name> --shorts 1  # 쇼츠
+```
+─ Synthesis ─
+1. pronounce    본문 모호표기 ↔ 발화규칙 결정·등록
+2. tts          음성 합성 (유료)
+─ Alignment ─
+3. transcribe   음성에서 단어별 시간 추출
+4. align        세그먼트 시간 매핑 + 자동 안전망
+─ Composition ─
+5. chunk        의미 단위(sub) 분할 + 적용 + 검증
 ```
 
-이 한 번의 스킬 호출 안에서:
-1. `python scripts/voice/2-whisper.py` — WhisperX + diff-match-patch
-2. `pnpm analyze --update-json` — voiceTimings/duration/imageChangeAt
-3. `pnpm reconcile:check` — 진단 (이슈 0건 시 스킵)
-4. LLM sub 의미 단위 분할 → `ko.timing.json`에 직접 기록 → `analyze` 재실행(subTimings 자동 계산) → `sub:check` 검증
+## 사용자 흐름
 
-자동 순차 실행된다.
+본문 변경 후:
 
-4단계 상세: [voice/tts.md — 4단계](../project/remotion/book-recommend/voice/tts.md#4단계-자막-의미-단위-분할-sub-필드)
-스킬 상세: `.claude/skills/remo-voice-sync/SKILL.md`
+```bash
+# 1: 본문 발화 규칙 점검 (dry-run으로 누락 검출)
+pnpm voice:pronounce -- --episode <ep>
+# 누락 있으면:
+/voice-pronounce <ep>          # LLM이 발화 결정 + ko.json에 자동 등록
 
-## 핵심 로직
+# 2: 음성 합성 (유료, 사용자 수동)
+pnpm voice:tts -- --episode <ep> --long --normalize --update-json
 
-### 2-whisper.py (WhisperX + diff-match-patch)
+# 3-5: 일괄 자동
+/voice-sync <ep>
+```
 
-1. WhisperX로 오디오를 **순수 전사** → 단어별 타임스탬프 추출
-2. 전사 텍스트와 원문을 **diff-match-patch**로 문자 단위 대조
-3. EQUAL 구간을 기준으로 WhisperX 타임스탬프를 원문 단어에 이식
-4. 매칭 실패 단어는 이전/다음에서 균등 보간
+각 명령 단독 호출도 가능하지만 일반적으로 `/voice-sync`만 알면 된다.
 
-장점:
-- WhisperX가 "인리아스로"로 잘못 인식해도 **타이밍은 정확** → diff가 "일리아스 로"에 매핑
-- 한영 혼용("OpenAI", "Claude") 타겟도 타임스탬프 존재 (Whisper가 음성을 인식하므로)
-- 원문 강제 정렬(forced alignment)의 영어 단어 누락 문제 없음
+## 단계 명세
 
-### 3-timings.ts — mergeIntoPhrases()
+### 1. pronounce — 발화 규칙 결정
 
-단어 세그먼트를 **구절 단위**로 병합한다. 분절 기준은 **구두점(`, . ! ?`)만** 사용한다.
+**문제**: 본문에 "1865년", "10권의" 같은 숫자+단위가 있으면 합성기가 어떻게 읽을지 명시해야 한다 (한자어/고유어 수사 차이).
 
-- 호흡 무음, 단어 수 제한 등 오디오 기반 분절은 하지 않는다
-- 구두점 사이의 의미 단위 분할은 4단계 LLM sub이 전담
+**입력**: ko.json
+**출력 (apply 모드)**: ko.json의 `tts.replace` 자동 등록
+**출력 (dry-run)**: 누락 토큰 리스트
 
-### 보정 — 3.5단계 (조건부, `/voice-sync` 내부)
+`/voice-pronounce` 스킬: dry-run 결과를 LLM이 받아 문맥 보고 발화 결정 → 자동 등록.
 
-`pnpm reconcile:check`가 다음을 탐지:
+### 2. tts — 음성 합성
 
-- **Whisper literal digit 재구성** — "천오백칠십육 년" 발화를 literal `"1576년"` 토큰으로 받아쓰고 140ms 시간창에 찌부되는 현상
-- **Whisper 고유명사 오인식** — "시경→식영", "갑오년→가보년", "계사년→개사년" 등이 seg.text에 STT 원문으로 남는 현상
-- **한자 괄호 스트립으로 인한 앵커 `indexOf` 실패**
+**입력**: ko.json (tts.replace 적용된 발화 텍스트)
+**출력**: WAV 파일들
+**비용**: 유료 API. 사용자 명시적 승인 필요(`feedback_no_auto_generation`).
 
-**근본 해결**: `2-whisper.py`가 신 스키마(`contextMain`, `quotePairs[]`)를 이해하도록 수정하여 diff-match-patch 매핑이 **모든 세그먼트에 제대로 적용**되면 대부분 자동 교정된다 (STT "가보년" → 원고 "갑오년" 치환). 이순신 세션(2026-04-11)에서 이 버그 고친 뒤 reconcile 이슈 0건으로 떨어짐.
+### 3. transcribe — 단어 시간 추출
 
-`reconcile:check` 이슈 0건이면 건너뛴다. 남은 이슈(content-audio mismatch 등)는 `/voice-sync` 스킬이 보고만 하고 수동 판단 요청.
+**입력**: WAV
+**출력**: `voice/{locale}/2-word-timings.json`
+**도구**: WhisperX + diff-match-patch
+- WhisperX로 순수 전사 + 단어 timing
+- 전사 텍스트와 원문을 문자 단위 대조
+- EQUAL 구간 기준 timing을 원문 단어에 이식
 
-폐기된 접근: wav2vec2 forced alignment(원고 타겟), WAV silence 분할. 둘 다 한국어·숫자 고밀도 에피소드에서 실패 이력. 상세는 `feedback_voice_alignment_dead_ends` 메모리.
+장점: WhisperX가 "인리아스로"로 잘못 인식해도 timing은 정확 → diff가 "일리아스 로"에 매핑.
 
-### 의미 단위 분할 (sub) — 4단계
+### 4. align — 세그먼트 시간 + 자동 안전망
 
-3.5단계까지 정돈된 문장 세그먼트에 LLM이 `sub` 필드를 추가한다.
-`expandSubTimings()`가 글자수 비례로 타이밍을 자동 분배.
+**입력**: word-timings + ko.json
+**출력**: `ko.timing.json`의 voiceTimings + duration
+**자체 검증·복구 (안전망)**:
+- 음수 duration (`end < start`) → 다음 세그먼트 start 직전까지 자동 확장
+- 극단 찌부 (음절수 × 130ms 기준 50% 미만 + 5자 이상) → 음절×130ms로 확장 (overflow 방지)
 
-### Typewriter.tsx (하이라이트 UI)
+**의도적 한계**:
+- WAV 파형 직접 검출은 안 함 (안전망만)
+- 미세 어긋남(±0.5초)은 사용자가 UI에서 손봄
+- "확신 있는 명백한 오류"만 건드림
+
+### 5. chunk — 의미 단위 분할
+
+**입력**: ko.timing.json + LLM이 만든 subs.json
+**출력**: voiceTimings의 각 세그먼트에 `sub` 배열 박힘 + subTimings 자동 계산은 4-align 재실행이 담당
+**자체 검증 (트랜잭션)**:
+- `sub.join(' ') === text` 불변식 일괄 검증
+- 하나라도 실패 → abort, 디스크 미수정
+- 전부 통과 → 일괄 커밋
+
+**분할 규칙** ([tts.md](../project/remotion/book-recommend/voice/tts.md) 4단계 참조):
+- 절 경계 (연결어미 뒤)
+- 주어/목적어 뒤 (서술어까지 10자 이내면 합침)
+- 수식절+피수식어 한 덩어리
+- 금기: 글자수 N등분, 고유명사 파괴, 지시사+체언 분리, 보조용언 분리
+
+### 통합 원칙
+
+| 원칙 | 적용 |
+|------|------|
+| 한 단계 = 한 책임 | 변환 1개만 담당 |
+| 자체 검증·자동 수정 | 별도 check 명령 없음. dry-run 옵션으로 검출만 가능 |
+| 트랜잭션 | 검증 실패 시 디스크 미수정 |
+| 통합 명령 | `voice:*` 네임스페이스, 5개 명령으로 충분 |
+
+## 명령 매핑
+
+| 단계 | 명령 | 파일 |
+|------|------|------|
+| 1 | `pnpm voice:pronounce` | `1-pronounce.ts` |
+| 2 | `pnpm voice:tts` | `2-synthesize.ts` |
+| 3 | `pnpm voice:transcribe` | `3-transcribe.py` |
+| 4 | `pnpm voice:align` | `4-align.ts` |
+| 5 | `pnpm voice:chunk` | `5-chunk.ts` |
+
+호환: `voice`, `analyze`, `sub:apply`, `sub:check`, `reconcile:check`는 alias로 유지.
+
+## 스킬
+
+- **`/voice-sync <ep>`** — 3·4·5 일괄 자동 (가장 흔한 진입점)
+- **`/voice-pronounce <ep>`** — 1단계 단독 (LLM 호출 포함)
+- **`/voice-sub-plan <ep>`** — 5단계 단독 (텍스트 대폭 변경 시)
+
+## UI 보조 — VoicePipelineStatus 패널
+
+`remotion-bo/scenario` 페이지 상단 고정. 5단계의 위험지역을 한눈에:
+
+- **Synthesis**: tts.replace 누락 토큰
+- **Alignment**: 안전망 잔존 이상 (음수·찌부)
+- **Composition**: sub 미분할 긴 문장 (30자↑) + 불변식 위반
+
+각 항목 클릭 → 해당 세그먼트 모달(VoiceTimingEditor) 직링크. 사용자가 "위험지역만" 처리하면 그 외 문제 발생 가능성 최소화.
+
+## Typewriter (영상 하이라이트 UI 측)
 
 | 상태 | opacity | 색상 |
 |------|---------|------|
-| 읽을 단어 | 0.2 | 기본색 |
-| 읽는 단어 | 0.25→1.0 (스윕) | 기본색→하이라이트색 (`color-mix` 블렌딩) |
-| 읽은 단어 | 0.85 | 하이라이트색 25% 블렌딩 |
+| 읽을 단어 | 0.15 | 기본색 |
+| 읽는 단어 | 0.25→1.0 (스윕) | 기본색 → 하이라이트색 (`color-mix`) |
+| 읽은 단어 | 0.7 | 하이라이트색 15% 블렌딩 |
 
-- BOOST=4f (67ms 앞당김), FADE_IN=12f (200ms), FADE_OUT=15f (250ms)
+상수 (FPS=60):
+- BOOST=4f (67ms 앞당김)
+- FADE_IN=12f (200ms)
+- FADE_OUT=15f (250ms)
+
+## 폐기 이력
+
+- **reconcile-check / reconcile-apply 분리**: 폐기. 4-align 안전망에 통합.
+- **sub-apply / sub-check 분리**: 폐기. 5-chunk에 트랜잭션 통합.
+- **wav2vec2 forced alignment**, **WAV silence 분할**: 폐기. 한국어·숫자 고밀도 에피소드에서 실패 이력. (`feedback_voice_alignment_dead_ends`)

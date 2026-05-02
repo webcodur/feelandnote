@@ -19,19 +19,18 @@
 
 속도 지시 없음. 시청자가 유튜브 배속 기능으로 조절한다.
 
-### 쇼츠 (★ 빠른 참조)
+### 쇼츠·롱폼 공통 (★ 빠른 참조)
 
-| 역할 | 속도 | 텍스트 프롬프트 |
-|------|------|----------------|
-| 나레이터 (hook) | **원속** | 속도 지시 없음 |
-| 나레이터 (그 외) | **1.2배** | `1.2배속으로` |
-| 요약맨 | **1.2배** | `1.2배속으로` |
-| 셀럽 | **원속** | voiceStyle만 적용 (속도 미삽입) |
+| 역할 | 기본 prefix | 비고 |
+|------|-------------|------|
+| 나레이터 (쇼츠·롱폼) | `편안하고 자연스럽게` | `NARRATOR_STYLE_DEFAULT` 전역 기본 |
+| 요약맨 | `편안하고 자연스럽게` | 나레이터와 동일 |
+| 셀럽 | `voiceStyle`만 적용 | 별도 스타일 지시 없음 |
 
-- hook·셀럽은 원속. 나레이터(hook 제외)·요약맨만 1.2배.
-- 영문은 전부 원속 (속도 지시 없음).
-- 프롬프트에 "또박또박 명확하게" 등 부가 지시를 넣으면 속도가 상쇄된다. `1.2배속으로`만 사용.
-- **ElevenLabs는 텍스트 프롬프트 속도 지시가 적용되지 않는다.** 커스텀 보이스 자체 속도를 따른다.
+- 배속 지시는 2026-04-17 전면 폐기. 모든 셀럽이 원속 재생이다.
+- `NARRATOR_STYLE_DEFAULT`는 한·영 공통 적용되지만 "편안하고 자연스럽게"는 한국어 지시라 영문 TTS에서는 실효가 제한된다. 영문에 별도 스타일이 필요하면 `segment.style`에 영문 지시문을 넣는다 (경고 로그 발생).
+- 셀럽별 오버라이드는 `episode.host.shortsSpeed` 필드(레거시 이름, 실제는 스타일 문자열)에 저장한다.
+- **ElevenLabs는 텍스트 prefix가 적용되지 않는다.** 커스텀 보이스 자체 특성을 따른다.
 
 ### 셀럽 보이스 오버라이드
 
@@ -71,7 +70,7 @@ Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 �
 ```typescript
 // ad-hoc 스크립트 예시 (scripts/voice/ 하위 일회성)
 process.argv.push('--shorts', '1', '--episode', '<name>', '--start-key', '5')
-const { synthesizeGemini } = await import('./1-tts/engines.js')
+const { synthesizeGemini } = await import('./2-synthesize/engines.js')
 const text = `<hook 원문 두 문장>
 
 <해당 톤의 긴 서술 문단 — 절단 후 버릴 부분>`
@@ -81,7 +80,7 @@ await synthesizeGemini(text, 'Charon', path.join(rawDir, 'S01-hook.wav'))
 #### ⛔ 금지 사항
 
 - **hook 앞에 prefix padding 금지** — whisper/diff 앵커가 첫 단어 매칭에 실패해 절단 시 첫 단어가 소실된다. 뒤에 붙이면 hook 원문은 절대 안전
-- **silencedetect 단독 추측 절단 금지** — 반드시 wav2vec2 forced alignment(`2-whisper.py` 경로 또는 ad-hoc)로 마지막 hook 단어의 `end` 시점을 확인한 뒤 0.5~1.0초 여운을 더해 절단
+- **silencedetect 단독 추측 절단 금지** — 반드시 wav2vec2 forced alignment(`3-transcribe.py` 경로 또는 ad-hoc)로 마지막 hook 단어의 `end` 시점을 확인한 뒤 0.5~1.0초 여운을 더해 절단
 - **고유어/한자어 혼합 텍스트 금지** — 비교 표현("A 대 B")은 반드시 한자어 통일 (`고유어 수사 vs 한자어 수사` 섹션 참조)
 
 #### 후속 파이프라인 정규화
@@ -95,13 +94,13 @@ await synthesizeGemini(text, 'Charon', path.join(rawDir, 'S01-hook.wav'))
 # 1) 단일 파일 normalize (normalizeAll은 shorts-N/ 하위를 스캔 못함)
 #    ad-hoc 스크립트로 normalizeWav(path) 직접 호출
 
-# 2) manifest 재계산 (향후 pnpm voice 실행 시 wav 덮어쓰기 방지)
-pnpm voice -- --episode <name> --shorts <N> --init-manifest
+# 2) manifest 재계산 (향후 pnpm voice:tts 실행 시 wav 덮어쓰기 방지)
+pnpm voice:tts -- --episode <name> --shorts <N> --init-manifest
 
 # 3~5) 정석 파이프라인 (--only 필수)
-python scripts/voice/2-whisper.py --episode <name> --shorts <N> --only <seg>
-pnpm analyze -- --episode <name> --shorts <N> --only <seg> --update-json
-pnpm sub:check -- --episode <name>
+python scripts/voice/3-transcribe.py --episode <name> --shorts <N> --only <seg>
+pnpm voice:align -- --episode <name> --shorts <N> --only <seg> --update-json
+pnpm voice:chunk -- --check -- --episode <name>
 ```
 
 #### 과거 사고
@@ -126,7 +125,7 @@ pnpm sub:check -- --episode <name>
 ## 공통 음성
 
 에피소드마다 동일한 음성은 `public/voice/common/`에 1회 생성하여 재사용한다.
-`1-tts.ts`가 자동으로 건너뛰고, `makeVf`가 `voice/common/` 경로로 해소한다.
+`2-synthesize.ts`가 자동으로 건너뛰고, `makeVf`가 `voice/common/` 경로로 해소한다.
 
 | 파일 | 텍스트 |
 |------|--------|
@@ -150,17 +149,17 @@ pnpm sub:check -- --episode <name>
 `--long` 또는 `--shorts <N>` 단일 타겟 스코프와 함께 사용한다.
 
 ```bash
-pnpm voice -- --episode alexander-the-great --long --role celeb --force --update-json       # 롱폼 셀럽만
-pnpm voice -- --episode alexander-the-great --long --role narrator,summary --update-json     # 롱폼 나레이터+요약맨만
-pnpm voice -- --episode alexander-the-great --long --update-json                             # 롱폼 전체
-pnpm voice -- --engine elevenlabs --episode alexander-the-great --long --role celeb --update-json  # ElevenLabs 셀럽
+pnpm voice:tts -- --episode alexander-the-great --long --role celeb --force --update-json       # 롱폼 셀럽만
+pnpm voice:tts -- --episode alexander-the-great --long --role narrator,summary --update-json     # 롱폼 나레이터+요약맨만
+pnpm voice:tts -- --episode alexander-the-great --long --update-json                             # 롱폼 전체
+pnpm voice:tts -- --engine elevenlabs --episode alexander-the-great --long --role celeb --update-json  # ElevenLabs 셀럽
 ```
 
 ### Duration 자동 반영
 
 `--update-json` 플래그를 붙이면 TTS 생성 후 duration을 `<locale>.timing.json`에 자동 기록한다. 수동 복사 불필요.
 
-> ⚠ **`--update-json`은 duration만 갱신한다.** word-level `voiceTimings`는 건드리지 않는다. "timing.json 동기화됐네"로 착각 금지. voiceTimings는 반드시 2-whisper + 3-timings 단계를 거쳐야 갱신된다. voice만 돌리고 끝내면 wav와 voiceTimings가 어긋나 하이라이트·자막 타이밍이 전부 꼬인다.
+> ⚠ **`--update-json`은 duration만 갱신한다.** word-level `voiceTimings`는 건드리지 않는다. "timing.json 동기화됐네"로 착각 금지. voiceTimings는 반드시 3-transcribe + 4-align 단계를 거쳐야 갱신된다. voice만 돌리고 끝내면 wav와 voiceTimings가 어긋나 하이라이트·자막 타이밍이 전부 꼬인다.
 
 ### ⛔ 메인 트랙 4단계는 한 세트
 
@@ -230,15 +229,15 @@ pnpm voice -- --engine elevenlabs --episode alexander-the-great --long --role ce
 ```bash
 cd sw/remotion
 # 롱폼
-pnpm voice -- --episode <name> --long --normalize --update-json     # 1. TTS 생성 (변경분만 자동 감지)
-python scripts/voice/2-whisper.py --episode <name> --long           # 2. WhisperX 단어 타임스탬프 추출
-pnpm analyze -- --episode <name> --long --update-json                # 3. voiceTimings + duration 동기화
+pnpm voice:tts -- --episode <name> --long --normalize --update-json     # 1. TTS 생성 (변경분만 자동 감지)
+python scripts/voice/3-transcribe.py --episode <name> --long           # 2. WhisperX 단어 타임스탬프 추출
+pnpm voice:align -- --episode <name> --long --update-json                # 3. voiceTimings + duration 동기화
 # 4. /voice-sync <name>                                              # Claude Code가 의미 단위 sub 생성
 
 # 쇼츠 N (N은 1-based)
-pnpm voice -- --episode <name> --shorts 1 --normalize --update-json
-python scripts/voice/2-whisper.py --episode <name> --shorts 1
-pnpm analyze -- --episode <name> --shorts 1 --update-json
+pnpm voice:tts -- --episode <name> --shorts 1 --normalize --update-json
+python scripts/voice/3-transcribe.py --episode <name> --shorts 1
+pnpm voice:align -- --episode <name> --shorts 1 --update-json
 # 4. /voice-sync <name>
 ```
 
@@ -342,8 +341,8 @@ sub.join(' ') === text  // 반드시 true
 #### 도구
 
 ```bash
-pnpm sub:check -- --episode <name>   # 깨진 sub + 누락 sub 보고
-pnpm sub:apply -- --episode <name> --input subs.json  # sub 매핑 일괄 적용
+pnpm voice:chunk -- --check -- --episode <name>   # 깨진 sub + 누락 sub 보고
+pnpm voice:chunk -- --episode <name> --input subs.json  # sub 매핑 일괄 적용
 ```
 
 `sub:apply`의 입력 형태:
@@ -371,10 +370,10 @@ Gemini TTS는 동일 보이스라도 텍스트 톤·길이에 따라 세그먼�
 
 ```bash
 # 신규 생성 + 자동 정규화 (생성된 wav만)
-pnpm voice -- --episode <name> --long --normalize --update-json
+pnpm voice:tts -- --episode <name> --long --normalize --update-json
 
 # 일괄 정규화만 (TTS 생성 없이 OUT_DIR의 모든 wav 후처리)
-pnpm voice -- --episode <name> --long --normalize
+pnpm voice:tts -- --episode <name> --long --normalize
 ```
 
 - 매니페스트 비교 결과 `변경된 텍스트 없음`이면 자동으로 일괄 정규화 모드로 전환된다
@@ -448,7 +447,7 @@ done
 | "No data chunk" 에러 | MP3를 .wav로 리네임한 파일. WAV로 재변환 필요 |
 | TTS 재생성 후 자막이 밀림 | 전체 파이프라인 3단계 재실행 |
 | 텍스트 바꿨는데 화면 안 바뀜 | 파이프라인 3단계 재실행 (splitSentences 우선순위 참고) |
-| 잔존 WAV로 whisper 오염 | 세그먼트 ID 변경 후 옛 WAV 삭제. 2-whisper.py가 자동 경고 |
+| 잔존 WAV로 whisper 오염 | 세그먼트 ID 변경 후 옛 WAV 삭제. 3-transcribe.py가 자동 경고 |
 | TTS 오버라이드와 자막 불일치 | `tts.replace`는 발음 변환 전용 전역 치환맵. 내용 변경은 `segments[].text` 직접 수정 |
 | analyze 후 기존 sub 유실 | `--long` 또는 `--shorts <N>` 으로 단일 타겟 스코프 지정. 텍스트 동일 시 sub 자동 이식됨 |
 
@@ -477,8 +476,8 @@ WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 �
 - `voiceTimings` — 단어별 타임스탬프
 - 모든 `*Duration` 필드 (narrator, host, books, shorts)
 
-- `pnpm voice -- --update-json`: duration을 `timing.json`에 저장
-- `pnpm analyze -- --update-json`: voiceTimings + duration을 `timing.json`에 저장
+- `pnpm voice:tts -- --update-json`: duration을 `timing.json`에 저장
+- `pnpm voice:align -- --update-json`: voiceTimings + duration을 `timing.json`에 저장
 
 ### TTS 오버라이드 구조
 
@@ -518,7 +517,7 @@ WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 �
 }
 ```
 
-**이유:** `2-whisper.py`의 TTS 오버라이드는 2단계 매핑(`whisper → match_text → display_text`)을 수행한다. `display_words` 토큰 경계가 `"1,704명"`처럼 단위까지 한 단어로 묶여 있어야 diff-match-patch가 `"1,704명" ↔ "천칠백사 명"`을 DELETE/INSERT 쌍으로 명확히 처리한다. 숫자만 매핑하면 `"1,704"` 와 `"명"`이 별개 토큰으로 잘려 diff 경계가 꼬이고, 해당 세그먼트 `duration`이 실제 발음(2~3초)보다 훨씬 짧은 값(0.5~1초)으로 망가져 하이라이팅이 튄다.
+**이유:** `3-transcribe.py`의 TTS 오버라이드는 2단계 매핑(`whisper → match_text → display_text`)을 수행한다. `display_words` 토큰 경계가 `"1,704명"`처럼 단위까지 한 단어로 묶여 있어야 diff-match-patch가 `"1,704명" ↔ "천칠백사 명"`을 DELETE/INSERT 쌍으로 명확히 처리한다. 숫자만 매핑하면 `"1,704"` 와 `"명"`이 별개 토큰으로 잘려 diff 경계가 꼬이고, 해당 세그먼트 `duration`이 실제 발음(2~3초)보다 훨씬 짧은 값(0.5~1초)으로 망가져 하이라이팅이 튄다.
 
 **죽은 키 금지:** 단위 없는 숫자 키(`"13"`, `"305"`)는 단위 포함 키(`"13척"`, `"305편"`)가 먼저 소비하므로 실제로 매칭되지 않는 죽은 키가 된다. 등록하지 않는다. **점검 시 롱폼 본문뿐 아니라 `shorts/*.json` 세그먼트 텍스트도 반드시 포함**하여 검색한다. `tts.replace`는 롱폼·쇼츠 공용이므로 한쪽에만 등장하는 키를 죽은 키로 오판하지 않는다.
 

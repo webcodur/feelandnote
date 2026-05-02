@@ -239,22 +239,41 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 | 테이블.컬럼 | locale | 설명 | 확보 방법 |
 |-------------|--------|------|-----------|
 | `content_locales.isbn` | ko | 한국어 판본 ISBN | Naver 도서 API |
-| `content_locales.isbn` | en | 영어 판본 ISBN | Google Books API |
+| `content_locales.isbn` | en | 영어 판본 ISBN | OpenLibrary / Amazon / 출판사 직검색 (아래 분기) |
 | `content_locales.title` | ko | 한국어 제목 | Naver 검색 결과 |
-| `content_locales.title` | en | 영문 제목 | Google Books 결과 |
-| `content_locales.creator` | en | 영문 저자명 | Google Books 결과 |
+| `content_locales.title` | en | 영문 제목 | 원서 정보 (아래 분기) |
+| `content_locales.creator` | en | 영문 저자명 | 원서 정보 (아래 분기) |
 
-### Google Books API로 isbn(en) 확보
+### 영문판 매칭 분기 (도서 원전 기준)
 
-```bash
-export $(grep -E "^GOOGLE_BOOKS_API_KEY" ./sw/web/.env | head -1 | xargs) && \
-curl -s "https://www.googleapis.com/books/v1/volumes?q=intitle:{영문제목}+inauthor:{영문저자}&langRestrict=en&key=$GOOGLE_BOOKS_API_KEY" \
-| jq '[.items[:3][] | {title: .volumeInfo.title, authors: .volumeInfo.authors, isbn: [.volumeInfo.industryIdentifiers[]? | select(.type=="ISBN_13") | .identifier][0]}]'
-```
+**Google Books API 사용 금지가 원칙이다.** 키 만료 이슈가 빈발하고 동양 고전·한국 도서에서 부적합한 결과를 반환한다.
 
-- 한국어 판본이 있는 경우: `isbn:{isbn_ko}` 또는 영문 제목+저자로 역검색
-- 원서가 영어인 경우: 원서 ISBN을 `isbn_en`에 직접 사용
-- 한국 미출판 도서: `isbn_ko` = null, `isbn_en` = 원서 ISBN
+**메타데이터(title/creator/ISBN)와 표지(thumbnail)를 별도 출처로 분리한다.** 자가출판본·번역본은 메타데이터 보유 사이트에 표지가 비어있는 경우가 많아 단일 출처 강제는 비효율이다. `sources` JSONB로 출처를 분리 표기한다.
+
+#### 표준 4단계 파이프라인 (`docs/en-book-data-quality.md` 정합)
+
+1. **소넷 에이전트 판단**: ko_title + ko_creator → en_title + en_creator 변환
+2. **OpenLibrary**: 실존 확인 + ISBN 확보 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`
+3. **Goodreads BookCover API**: 표지 1순위 — `https://bookcover.longitood.com/bookcover?book_title={title}&author_name={author}` (author 필수, 요청 간 500ms+ 간격)
+4. **Fallback**: OpenLibrary 표지 (`https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false`) — 응답 < 1KB는 placeholder로 간주하여 폐기. 둘 다 실패 시 `thumbnail_url = null`, `sources.thumbnail = "confirmed_unavailable"`
+
+**sources 표기**: `{"primary": "openlibrary", "thumbnail": "goodreads"}` 형태로 메타데이터·표지 출처 분리.
+
+#### 분기별 특칙
+
+**1) 동아시아 고전 (중국·한국·일본 원전)** — 예: 귀곡자, 음부경, 도덕경, 논어, 정관정요
+- 영역본이 검증 가능하면 위 4단계 그대로 적용
+- 영역본 미존재 시: `isbn = null`, title은 Wikipedia 영문 표제 (예: "Huangdi Yinfujing"), thumbnail은 Wikipedia 이미지 또는 null, `sources.primary = "wikipedia"`
+- 동양 고전은 Google Books에서 한자 음차본·해설서 false positive가 잦다
+
+**2) 한국 현대 도서 (한국 저자 한국어 원작)** — 예: 박경리 토지, 이문열 삼국지, 한강 채식주의자
+- 영역본 있을 때만 en locale 등록 (위 4단계 적용)
+- 영역본 미존재 시: `isbn = null`, title은 한국어 제목의 영문 음차(MR/RR), `sources.primary = "transliteration"`
+
+**3) 서양 원서** — 영문이 원전
+- 위 4단계 그대로 적용
+- Naver 검색 결과의 `description`/`pubdate`에서 원서 정보 보충 가능
+- Amazon 상품 페이지 스크래핑은 OpenLibrary·Goodreads 모두 실패한 경우의 최후 수단
 
 ### VIDEO/GAME/MUSIC i18n
 
@@ -301,7 +320,7 @@ ON CONFLICT (content_id, locale) DO NOTHING;
 -- 3) content_locales (영문)
 INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
 VALUES
-  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"google_books"}', true),
+  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"openlibrary|amazon|wikipedia|transliteration"}', true),
   ...
 ON CONFLICT (content_id, locale) DO NOTHING;
 ```
@@ -320,10 +339,12 @@ VALUES
 ```
 
 **external_source 값:**
-- BOOK: `naver_book` (네이버 도서 API) 또는 `google_books` (구글 북스 API)
+- BOOK: `naver_book` (네이버 도서 API, 한국어판 기본) / `openlibrary` / `amazon` / `wikipedia` (영역본 부재 동양 고전)
 - VIDEO: `tmdb`
 - GAME: `igdb`
 - MUSIC: `spotify`
+
+**금지**: `google_books` 사용 금지 (위 "영문판 매칭 분기" 참조)
 
 **⚠️ contents.external_id 형식 (필수):**
 
@@ -350,6 +371,10 @@ VALUES
    - 다른 주어로 시작 금지: ❌ "크세노폰이 그린…" / ❌ "공교롭게도 에우리피데스는…"
    - 셀럽 본인이라도 다른 조사 금지: ❌ "알렉산더에게 일리아스는…" → ⭕ "알렉산더는 일리아스를…"
 2. **원문 병기 금지**: "나를 바꿨다(changed me)" → "자신을 바꿨다고 말했다"
+   - **한문 직접 인용 금지**: 사기·한서 등 한문 사료의 원문 한자를 그대로 따옴표에 박지 않는다. 반드시 한글 풀이로 옮긴다.
+   - ❌ `사마천은 "東事師於齊, 而習之於鬼谷先生"이라 적었다`
+   - ⭕ `사마천은 "동쪽으로 제나라에 가 스승을 섬기고, 귀곡 선생에게 배웠다"고 적었다` (필요 시 핵심 한자어만 괄호 병기: 췌마(揣摩), 합종(合縱))
+   - 영문(`review_en`)도 동일: 한문·중국어 원문 직접 인용 금지, 영문 풀이로 옮긴다
 3. **간결 서술체**: 존댓말 금지, "~것이다" 남발 금지 (한 본문에 1회 이내)
 4. **번역투 금지**: 피동형/이중피동/대시(-) 대화 금지
 5. **출처 본문 통합**: 출처는 본문 안에 자연스럽게 거명한다. `출처: …` 같은 별도 라벨/꼬리표 금지
@@ -401,8 +426,8 @@ VALUES
 
 | 변수명 | 용도 | 타입 |
 |--------|------|------|
-| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 네이버 도서 API | BOOK |
-| `GOOGLE_BOOKS_API_KEY` | 구글 도서 API | BOOK |
+| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 네이버 도서 API | BOOK (한국어판) |
+| ~~`GOOGLE_BOOKS_API_KEY`~~ | ~~구글 도서 API~~ | **사용 금지** (위 "영문판 매칭 분기" 참조) |
 | `TMDB_ACCESS_TOKEN` | TMDB API | VIDEO |
 | `IGDB_CLIENT_ID` / `IGDB_ACCESS_TOKEN` | IGDB API | GAME |
 | `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` | Spotify API | MUSIC |

@@ -15,7 +15,7 @@
 | **2초마다 시각 변화** | 컷/줌/텍스트 전환. 정적 화면 3초 이상 금지 |
 | **자막 필수** | 무음 시청자 60%+. 음성 싱크 자막 항시 표시 |
 | **Safe Zone** | 중앙 75% 집중. 우측 하단 120px, 하단 200px 비움 |
-| **자연스러운 마무리** | book-context 마지막 문장이 여운으로 닫힌 뒤, CTA → 브랜드 로고로 마무리 |
+| **자연스러운 마무리** | 본문 마지막 문장이 여운으로 닫힌 뒤 곧바로 브랜드 로고로 마무리 |
 
 ---
 
@@ -25,11 +25,21 @@
 
 ---
 
-## 구조: 4비트
+## 구조
 
-쇼츠는 기승전결이 아니라 **비트(Beat)**로 설계한다. 각 비트는 독립적 임팩트를 가지며 2~3초마다 시각 변화가 발생한다.
+쇼츠는 다음 골격을 따른다.
 
-### Beat 1: 훅 (0~3초)
+```
+훅 → 인트로 → [대사 OR 해설] × N → 로고
+```
+
+- **훅 1개 + 인트로 1개**가 도입부 골격이다. 이 둘은 항상 단수.
+- **본문은 [대사(role: celeb) / 해설(role: narrator)]을 N개 자유 배치**한다. 알터네이션이 기본이지만 같은 종류 연속도 허용. 인용–맥락 페어가 늘어나면 `celeb-2`, `book-context-2` 식으로 번호가 자동 부여된다.
+- **로고 마무리**: 본문 마지막 세그먼트의 음성·이미지가 끝나면 닫힘 페이즈(0.5초)에서 배경이 사라지고 풀스크린 ShortsThumbnail(매거진 표지)이 페이드인되어 영상이 닫힌다. 별도 CTA 블록·세그먼트는 없다.
+
+각 구간은 독립적 임팩트를 가지며 2~3초마다 시각 변화가 발생한다.
+
+### 훅 (0~3초)
 
 **목적**: 스크롤 멈추기. 첫 1초가 전부.
 
@@ -46,7 +56,7 @@
 
 > 훅은 **결과를 먼저** 보여준다. "이 사람이 이걸 읽었다"가 아니라 "이 책이 이 결과를 만들었다".
 
-### Beat 2: 누구+왜 (3~10초)
+### 인트로 — 누구+왜 (3~10초)
 
 **목적**: 권위 확립 + 감정 연결
 
@@ -63,25 +73,26 @@
 "내게 문학은 영혼을 위한 보급품이었다"
 ```
 
-### Beat 3: 책+핵심
+### 본문 — [대사 / 해설] × N
 
-**목적**: 이 책이 왜 특별한가 — 핵심 스토리
+**목적**: 이 책이 왜 특별한가 — 핵심 스토리를 인용과 맥락의 교차로 풀어낸다.
 
-- **표지 리빌**: 큰 표지 등장 (0.5초) → 즉시 핵심 내용으로
-- **핵심 내용**: summary 또는 context 중 **더 스토리가 있는 쪽** 하나만
+- **대사(role: celeb)**: 셀럽 1인칭 인용·독백. 검증된 직접 인용 또는 1인칭 페르소나 발화.
+- **해설(role: narrator)**: 사료·서사 맥락. 롱폼 S급 context 추출.
+- **배치**: 알터네이션 권장(대사 → 해설 → 대사 → 해설 …)이지만 같은 종류 연속도 허용. 페어가 늘어나면 id에 번호가 자동 부여된다 (`celeb-2`, `book-context-2`).
+- **표지 리빌**: 첫 book 구간 진입 시 큰 표지 등장 (0.5초) → 즉시 본문으로
 - **텍스트**: 음성 싱크 자막, 핵심 키워드 강조색
 - **비주얼**: 생성 이미지 배경 + 자막. 3~4초마다 시각 변화 (줌, 패닝, 텍스트 전환)
 
 > contextMain(감상 배경)이 보통 더 스토리가 강하다. "아리스토텔레스가 직접 교정한 필사본을 베개 밑에 두고 잤다" — 이런 구체적 에피소드가 숫자보다 강력하다.
 
-### 마무리: CTA + 브랜드 로고
+### 마무리: 로고
 
-book-context 마지막 문장이 여운을 남기며 책 이야기를 닫는다. 이후 CTA 세그먼트로 롱폼 유도 → 브랜드 로고로 닫는다.
+본문 마지막 문장이 여운을 남기며 책 이야기를 닫는 즉시, 닫힘 페이즈(0.5초) 동안 배경이 페이드아웃되고 풀스크린 매거진 표지(ShortsThumbnail)가 페이드인된다.
 
-- **book-context 마무리**: 마지막 문장은 정보 전달이 아닌 여운. 스토리의 결론이자 감정의 착지점.
-- **CTA 텍스트는 i18n 단일원천**: `src/compositions/BookRecommend/i18n.ts`의 `ctaDefault` 한 곳에서만 관리한다 (ko / en 각각). 에피소드 JSON의 cta 세그먼트에는 **`text` 필드를 작성하지 않는다.** 작성해도 dead text다 — 음성·자막·렌더러 모두 cta 세그먼트의 text를 무시한다.
-- **CTA 세그먼트 자체는 필수**: `{ id: 'cta', role: 'narrator', visual: 'cta' }`만 둔다. 컴포지션이 `ctaIdx`로 위치를 잡아 CTA 블록을 띄운다. 세그먼트가 없으면 CTA가 표시되지 않는다.
-- **비주얼**: 브랜드 로고 + CTA 오버레이
+- **본문 마무리**: 마지막 문장은 정보 전달이 아닌 여운. 스토리의 결론이자 감정의 착지점.
+- **자동 처리**: 별도 세그먼트 추가 없이 컴포지션이 마지막 세그먼트 종료 시점부터 자동으로 닫힘 → 로고 페이즈를 실행한다.
+- **비주얼**: 매거진 레이아웃의 브랜드 로고 + 인물·책·정보 카드.
 
 ---
 
@@ -118,7 +129,7 @@ MID 영역 우측에 아바타와 책 포스터가 교차 표시된다.
 |------|------|------|
 | intro 종료 후 ~ book 시작 전 | 아바타 (fade-in) | hook/intro 구간에서는 숨김 |
 | book 구간 | 책 포스터 (cross-fade) | 아바타에서 전환 |
-| CTA 직전 | fade-out | 스트립 사라짐 |
+| 로고 진입 직전 | fade-out | 스트립 사라짐 |
 
 ### Reveal 애니메이션
 
@@ -145,7 +156,7 @@ MID 영역 우측에 아바타와 책 포스터가 교차 표시된다.
 
 1. **revealBg**: 영상 시작부터 표시. 첫 `seg.image`가 등장하는 시점(또는 book 시작 시점)에 fade-out.
 2. **통합 imageGroups**: 모든 세그먼트의 `seg.image` + `imageChangeAt`가 시간순 cross-fade 시퀀스로 합쳐진다. book 세그먼트에 image가 없고 `bookBg`가 있으면 가상 그룹으로 자동 포함되어 hook/intro 이미지에서 자연스럽게 cross-fade 된다.
-3. CTA 세그먼트는 이미지 시퀀스에 포함되지 않는다 (별도 CTA 배경 사용).
+3. 마지막 세그먼트 종료 후 닫힘 페이즈(0.5초) 동안 배경 전체가 페이드아웃되며 풀스크린 매거진 표지로 전환된다.
 
 **이미지 전환 예시 (에피소드 JSON):**
 
@@ -261,10 +272,10 @@ interface ShortsConfig {
 }
 
 interface ShortSegment {
-  id: string                    // 음성 파일명: S{nn}-{id}.wav (voice-eligible 0-based)
+  id: string                    // 음성 파일명: S{nn}-{id}.wav (0-based)
   role: 'narrator' | 'celeb' | 'summary'  // 화자 (summary = 롱폼 Charon 보이스)
-  text: string                  // 자막/TTS 텍스트 (cta는 생략 — i18n 단일원천)
-  visual: 'hook' | 'intro' | 'book' | 'cta'  // 비주얼 유형
+  text: string                  // 자막/TTS 텍스트
+  visual: 'hook' | 'intro' | 'book'  // 비주얼 유형
   duration?: number             // TTS 생성 후 자동 반영 (초)
   image?: string                // 세그먼트 배경 이미지 (book 전용). 설정 시 slug-2 폴백 비활성
   imageChangeAt?: ImageChange | ImageChange[]  // 세그먼트 내 이미지 전환점
@@ -281,16 +292,20 @@ interface ImageChange {
 
 ---
 
-## 기존 리소스 재활용
+## 음성 파일 명명
 
-| 쇼츠 구간 | 음성 파일 | 비고 |
+세그먼트는 `S{nn}-{id}.wav`로 합성된다. `nn`은 세그먼트 0-based 순번.
+
+| 쇼츠 구간 | id 예시 | 비고 |
 |----------|----------|--------|
-| 훅 | S01-hook.wav | **신규 생성** + chime 오버레이 |
-| 인트로 나레이션 | S02-intro.wav | **신규 생성** |
-| 셀럽 독백 | S03-celeb-mid.wav | **신규 생성** (ElevenLabs/Gemini) |
-| 책 내용 | S04-book-context.wav | **신규 생성** |
+| 훅 | `hook` | chime 오버레이 |
+| 인트로 | `intro` | 인물명 필수 |
+| 대사 (1번째) | `celeb-mid` | ElevenLabs/Gemini |
+| 해설 (1번째) | `book-context` | 나레이터 |
+| 대사 (2번째 이상) | `celeb-2`, `celeb-3` … | 페어 추가 시 자동 번호 |
+| 해설 (2번째 이상) | `book-context-2`, `book-context-3` … | 페어 추가 시 자동 번호 |
 
-hook~book-context까지 S01~S04 번호가 부여된다.
+> 본문 페어 수는 자유. 백오피스에서 `+ 인용` / `+ 맥락` 버튼으로 추가하면 id가 자동 부여된다.
 
 ---
 
@@ -334,20 +349,22 @@ Remotion Studio에서 쇼츠 컴포지션 이름은 다음 패턴을 따른다:
 ## 제작 워크플로
 
 ```
-1. 에피소드 JSON에 shorts 필드 작성
-   → hook, introLine, philosophySnippet, preferSection 결정
+1. 에피소드 JSON에 shorts.segments 작성
+   → 훅 → 인트로 → [대사/해설] × N 골격으로 구성 (마무리 로고는 자동)
+   → 백오피스 시나리오 뷰에서 `+ 인용`/`+ 맥락`으로 본문 페어 자유 추가
 
-2. 배경 이미지 생성 (4장)
-   → {slug}.png (hook~celeb-mid), {slug}-2.png, -3.png, -4.png (book 구간)
-   → book-context 세그먼트에 image + imageChangeAt 설정
-   → text 앵커로 전환점 지정 (3-timings가 t 자동 보정)
+2. 배경 이미지 생성
+   → 도입부(훅·인트로·1번째 대사)와 본문 구간별 이미지 분배
+   → 각 세그먼트에 image + imageChangeAt 설정
+   → text 앵커로 전환점 지정 (voice:align이 t 자동 보정)
 
 3. TTS 생성 (쇼츠 N번)
-   → pnpm voice -- --episode <name> --shorts <N> --only S01-hook,S02-intro,S03-celeb-mid,S04-book-context --update-json
+   → pnpm voice:tts -- --episode <name> --shorts <N> --update-json
+   → 부분 합성은 `--only S01-hook,S02-intro,…` 처럼 실제 세그먼트 id로 지정
 
 4. 음성 분석 (쇼츠 N번)
-   → python scripts/voice/2-whisper.py --episode <name> --shorts <N>
-   → pnpm analyze -- --episode <name> --shorts <N> --update-json
+   → python scripts/voice/3-transcribe.py --episode <name> --shorts <N>
+   → pnpm voice:align -- --episode <name> --shorts <N> --update-json
    → (imageChangeAt의 text 앵커가 있으면 t 값 자동 보정됨)
 
 5. Remotion 스튜디오에서 프리뷰
