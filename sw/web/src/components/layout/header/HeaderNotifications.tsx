@@ -11,7 +11,10 @@ import { useTranslations, useLocale } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
 import { ko, enUS } from "date-fns/locale";
 
-type Notification = Database["public"]["Tables"]["notifications"]["Row"];
+type NotificationFull = Database["public"]["Tables"]["notifications"]["Row"];
+// 헤더 드롭다운에서 사용하는 필드만 — egress 절감
+type Notification = Pick<NotificationFull, "id" | "type" | "message" | "link" | "is_read" | "created_at">;
+const NOTIFICATION_BRIEF_COLUMNS = "id, type, message, link, is_read, created_at";
 
 const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors";
 const ICON_SIZE = 20;
@@ -37,17 +40,17 @@ export default function HeaderNotifications() {
         return;
       }
 
-      // Fetch initial data
+      // Fetch initial data — 필요 컬럼만 select
       const { data } = await supabase
         .from("notifications")
-        .select("*")
+        .select(NOTIFICATION_BRIEF_COLUMNS)
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(20);
 
       if (data) {
-        setNotifications(data);
-        setUnreadCount(data.filter((n) => !n.is_read).length);
+        setNotifications(data as Notification[]);
+        setUnreadCount((data as Notification[]).filter((n) => !n.is_read).length);
       }
       setLoading(false);
 
@@ -63,7 +66,15 @@ export default function HeaderNotifications() {
             filter: `user_id=eq.${user.id}`,
           },
           (payload) => {
-            const newNotif = payload.new as Notification;
+            const full = payload.new as NotificationFull;
+            const newNotif: Notification = {
+              id: full.id,
+              type: full.type,
+              message: full.message,
+              link: full.link,
+              is_read: full.is_read,
+              created_at: full.created_at,
+            };
             setNotifications((prev) => [newNotif, ...prev]);
             setUnreadCount((prev) => prev + 1);
           }

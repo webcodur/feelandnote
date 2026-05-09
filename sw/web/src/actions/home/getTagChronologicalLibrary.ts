@@ -5,18 +5,19 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
   TimelineCeleb,
   TimelineContent,
 } from "@/components/features/game/shared/CelebContentTimeline";
 
-export async function getTagChronologicalLibrary(tagId: string): Promise<{
+async function fetchTagChronologicalLibrary(tagId: string): Promise<{
   celebs: TimelineCeleb[];
   contentsMap: Record<string, TimelineContent[]>;
 }> {
-  const supabase = await createClient();
+  const supabase = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회
   const { data: assignments } = await supabase
@@ -93,3 +94,9 @@ export async function getTagChronologicalLibrary(tagId: string): Promise<{
 
   return { celebs, contentsMap };
 }
+
+export const getTagChronologicalLibrary = unstable_cache(
+  fetchTagChronologicalLibrary,
+  ['tag-chronological-library'],
+  { revalidate: 3600, tags: ['celebs'] }
+);

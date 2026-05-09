@@ -44,6 +44,27 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 카운트만 필요한 쿼리는 `head:true count:'exact'` 또는 RPC. row 페이지네이션 금지
 - RSC 페이지에서 supabase 직접 호출 금지 — 캐시 안 입혀짐. 액션으로 분리
 
+### 사고 후속 4차 정리 (2026-05-09)
+
+전수 점검 + Vercel React/Next.js 베스트 프랙티스 적용으로 안정 상태 확보. **자동화 안전망 도입**으로 동일 패턴 재발 차단.
+
+**자동화 검사 스크립트** (`sw/web/scripts/check-egress-patterns.mjs`)
+- 4가지 위험 패턴 정적 검사: lines 통째 select / RSC 직접 supabase 호출 / 캐시 누락 server action / 페이지네이션 풀스캔
+- 실행: `pnpm lint:egress` (sw/web 디렉토리)
+- 종료 코드: CRITICAL 적발 시 1, WARN만이면 0
+- 의도된 패턴은 `// egress-allow: <이유>` 주석으로 화이트리스트
+- CI/PR 검증에 통합 가능
+
+**추가 캐시 적용 (Phase 4-8, 8개)**:
+- `getContentDetail` 인증 의존 분리 + 콘텐츠 자체 부분 unstable_cache (가장 큰 미처리)
+- `getAchievementData`, `getProfileShowcase`(신규), `getPersonaByCelebId`, `getPersonaPeople`
+- `getTagSharedLibrary`, `getTagChronologicalLibrary`
+- `HeaderNotifications` `select("*")` → 6개 필드만 (인증 사용자 mount fetch 페이로드 절감)
+
+**잔여 WARN (정보성, 다음 사이클 처리)**:
+- 인증 의존 server action 다수 — 외부 wrap + 인증 비의존 부분 분리 후 캐시화 (예: `getFeedActivities`, `getMyContents`, `getFlows` 등 약 30개)
+- `getCelebForModal` 등 일부 H 우선순위 액션 별도 처리
+
 ### 사고 후속 3차 정리 (2026-05-09)
 
 전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.

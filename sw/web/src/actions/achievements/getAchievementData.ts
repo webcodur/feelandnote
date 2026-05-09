@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { TITLES, type TitleDefinition } from '@/constants/titles'
 
 export interface TitleWithStatus extends TitleDefinition {
@@ -28,18 +30,11 @@ export interface AchievementData {
   stats: Record<string, number>
 }
 
-export async function getAchievementData(targetUserId?: string): Promise<AchievementData | null> {
-  const supabase = await createClient()
+type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 
-  // targetUserId가 없으면 로그인 유저 기준
-  let userId = targetUserId
-  if (!userId) {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return null
-    userId = user.id
-  }
+async function fetchAchievementDataInner(userId: string): Promise<AchievementData> {
+  const supabase = createStaticClient()
 
-  // 병렬로 데이터 조회
   const [stats, scoreLogsResult, userScoreResult] = await Promise.all([
     getUserStats(supabase, userId),
     supabase
@@ -55,7 +50,6 @@ export async function getAchievementData(targetUserId?: string): Promise<Achieve
       .single(),
   ])
 
-  // 실시간으로 칭호 해금 여부 계산
   const titles: TitleWithStatus[] = TITLES.map(title => ({
     ...title,
     unlocked: checkCondition(title.condition, stats),
@@ -69,9 +63,26 @@ export async function getAchievementData(targetUserId?: string): Promise<Achieve
   }
 }
 
-// 사용자 통계 조회 (export하여 selectTitle에서도 사용)
+const fetchAchievementDataCached = unstable_cache(
+  fetchAchievementDataInner,
+  ['achievement-data'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getAchievementData(targetUserId?: string): Promise<AchievementData | null> {
+  let userId = targetUserId
+  if (!userId) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null
+    userId = user.id
+  }
+  return fetchAchievementDataCached(userId)
+}
+
+// 사용자 통계 조회 (selectTitle 등에서도 사용)
 export async function getUserStats(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: AnySupabase,
   userId: string
 ): Promise<Record<string, number>> {
   const [
@@ -110,24 +121,23 @@ export async function getUserStats(
       .not('review', 'is', null)
   ])
 
-  // 카테고리 수
   const categoryTypes = new Set(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (categoryResult.data || []).map((item: any) => item.contents?.type).filter(Boolean)
   )
 
-  // 창작자 수
   const creators = new Set(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (creatorResult.data || []).map((item: any) => {
       const locales = item.contents?.content_locales || []
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const ko = locales.find((l: any) => l.locale === 'ko')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const en = locales.find((l: any) => l.locale === 'en')
       return ko?.creator || en?.creator
     }).filter(Boolean)
   )
 
-  // 리뷰 통계
   const reviews = reviewLengthResult.data || []
   const avgReviewLength = reviews.length > 0
     ? reviews.reduce((sum, r) => sum + (r.review?.length || 0), 0) / reviews.length
@@ -145,7 +155,6 @@ export async function getUserStats(
   }
 }
 
-// 조건 체크
 function checkCondition(condition: { type: string; value: number }, stats: Record<string, number>): boolean {
   const statValue = stats[condition.type] || 0
   return statValue >= condition.value

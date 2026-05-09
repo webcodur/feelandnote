@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export interface PersonaPersonSummary {
   id: string
@@ -25,8 +26,8 @@ interface PersonaPeopleRow {
 const parseProfile = (row: PersonaPeopleRow): PersonaJoinedProfileRow | null =>
   (Array.isArray(row.profiles) ? row.profiles[0] : row.profiles) ?? null
 
-export async function getPersonaPeople(limit: number = 200): Promise<PersonaPersonSummary[]> {
-  const supabase = await createClient()
+async function fetchPersonaPeople(limit: number): Promise<PersonaPersonSummary[]> {
+  const supabase = createStaticClient()
   const { data, error } = await supabase
     .from('celeb_persona')
     .select(`
@@ -58,4 +59,14 @@ export async function getPersonaPeople(limit: number = 200): Promise<PersonaPers
     })
     .filter((person) => person.nickname.length > 0)
     .sort((a, b) => a.nickname.localeCompare(b.nickname, 'ko'))
+}
+
+const getPersonaPeopleCached = unstable_cache(
+  fetchPersonaPeople,
+  ['persona-people'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getPersonaPeople(limit: number = 200): Promise<PersonaPersonSummary[]> {
+  return getPersonaPeopleCached(limit)
 }

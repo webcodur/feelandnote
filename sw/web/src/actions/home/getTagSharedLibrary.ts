@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 export interface SharedContentCeleb {
@@ -27,10 +28,8 @@ export interface SharedContent {
   celebs: SharedContentCeleb[];
 }
 
-export async function getTagSharedLibrary(
-  tagId: string
-): Promise<SharedContent[]> {
-  const supabase = await createClient();
+async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
+  const supabase = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회
   const { data: assignments } = await supabase
@@ -136,3 +135,9 @@ export async function getTagSharedLibrary(
 
   return result;
 }
+
+export const getTagSharedLibrary = unstable_cache(
+  fetchTagSharedLibrary,
+  ['tag-shared-library'],
+  { revalidate: 3600, tags: ['celebs'] }
+);

@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getAchievementData } from "@/actions/achievements";
+import { getProfileShowcase } from "@/actions/achievements/getProfileShowcase";
 import { notFound } from "next/navigation";
 import ProfileAchievementsSection from "../ProfileAchievementsSection";
 
@@ -20,16 +21,14 @@ export default async function MeritsPage({ params }: PageProps) {
 
   const isOwner = currentUser?.id === userId;
 
-  const [achievements, profileResult] = await Promise.all([
+  const [achievements, showcaseCodes] = await Promise.all([
     getAchievementData(userId),
-    supabase.from("profiles").select("showcase_titles").eq("id", userId).single(),
+    getProfileShowcase(userId),
   ]);
 
   if (!achievements) {
     notFound();
   }
-
-  const showcaseCodes = (profileResult.data?.showcase_titles as string[]) || [];
 
   return (
     <ProfileAchievementsSection

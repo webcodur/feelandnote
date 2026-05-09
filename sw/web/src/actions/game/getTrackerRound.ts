@@ -414,6 +414,7 @@ async function buildRound(
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
     supabase.from("profiles").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
+    // egress-allow: 게임 라운드가 4명 옵션의 21상황 × 3변형 대사를 모두 사용 (clash_attack 등)
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);
 

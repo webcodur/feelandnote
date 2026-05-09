@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
 
@@ -16,10 +17,8 @@ interface PersonaRow {
     | null
 }
 
-export async function getPersonaByCelebId(celebId: string): Promise<PersonaProfile | null> {
-  if (!celebId) return null
-
-  const supabase = await createClient()
+async function fetchPersonaByCelebId(celebId: string): Promise<PersonaProfile | null> {
+  const supabase = createStaticClient()
   const { data, error } = await supabase
     .from('celeb_persona')
     .select(`
@@ -51,4 +50,15 @@ export async function getPersonaByCelebId(celebId: string): Promise<PersonaProfi
     title: profile?.title ?? null,
     ...stats,
   }
+}
+
+const getPersonaByCelebIdCached = unstable_cache(
+  fetchPersonaByCelebId,
+  ['persona-by-celeb'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getPersonaByCelebId(celebId: string): Promise<PersonaProfile | null> {
+  if (!celebId) return null
+  return getPersonaByCelebIdCached(celebId)
 }
