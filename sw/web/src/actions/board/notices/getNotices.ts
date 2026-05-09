@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { NoticeWithAuthor } from '@/types/database'
 
 interface GetNoticesParams {
@@ -8,9 +9,8 @@ interface GetNoticesParams {
   offset?: number
 }
 
-export async function getNotices(params: GetNoticesParams = {}) {
-  const { limit = 20, offset = 0 } = params
-  const supabase = await createClient()
+async function fetchNotices(limit: number, offset: number) {
+  const supabase = createStaticClient()
 
   const { data, error, count } = await supabase
     .from('notices')
@@ -29,7 +29,6 @@ export async function getNotices(params: GetNoticesParams = {}) {
 
   const notices = data as NoticeWithAuthor[]
 
-  // 댓글 수 조회
   if (notices.length > 0) {
     const ids = notices.map(n => n.id)
     const { data: counts } = await supabase
@@ -52,4 +51,15 @@ export async function getNotices(params: GetNoticesParams = {}) {
     total: count ?? 0,
     hasMore: (count ?? 0) > offset + limit
   }
+}
+
+const getNoticesCached = unstable_cache(
+  fetchNotices,
+  ['notices'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getNotices(params: GetNoticesParams = {}) {
+  const { limit = 20, offset = 0 } = params
+  return getNoticesCached(limit, offset)
 }

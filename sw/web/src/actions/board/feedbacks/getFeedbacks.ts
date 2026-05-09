@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithAuthor, FeedbackCategory, FeedbackStatus } from '@/types/database'
 
 interface GetFeedbacksParams {
@@ -10,9 +11,13 @@ interface GetFeedbacksParams {
   offset?: number
 }
 
-export async function getFeedbacks(params: GetFeedbacksParams = {}) {
-  const { category, status, limit = 20, offset = 0 } = params
-  const supabase = await createClient()
+async function fetchFeedbacks(
+  category: FeedbackCategory | null,
+  status: FeedbackStatus | null,
+  limit: number,
+  offset: number,
+) {
+  const supabase = createStaticClient()
 
   let query = supabase
     .from('feedbacks')
@@ -40,7 +45,6 @@ export async function getFeedbacks(params: GetFeedbacksParams = {}) {
 
   const feedbacks = data as FeedbackWithAuthor[]
 
-  // 댓글 수 조회
   if (feedbacks.length > 0) {
     const ids = feedbacks.map(f => f.id)
     const { data: counts } = await supabase
@@ -63,4 +67,15 @@ export async function getFeedbacks(params: GetFeedbacksParams = {}) {
     total: count ?? 0,
     hasMore: (count ?? 0) > offset + limit
   }
+}
+
+const getFeedbacksCached = unstable_cache(
+  fetchFeedbacks,
+  ['feedbacks'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getFeedbacks(params: GetFeedbacksParams = {}) {
+  const { category, status, limit = 20, offset = 0 } = params
+  return getFeedbacksCached(category ?? null, status ?? null, limit, offset)
 }

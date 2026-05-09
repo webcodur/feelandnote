@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import {
   type Aura,
   AURA_ORDER_DESC, // 9 -> 1 순서
@@ -32,8 +33,8 @@ export interface InfluenceDistribution {
   ranking: RankedCeleb[]
 }
 
-export async function getInfluenceDistribution(): Promise<InfluenceDistribution> {
-  const supabase = await createClient()
+async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
+  const supabase = createStaticClient()
 
   // 영향력 데이터와 프로필 조인
   const { data } = await supabase
@@ -141,3 +142,9 @@ export async function getInfluenceDistribution(): Promise<InfluenceDistribution>
 
   return distribution
 }
+
+export const getInfluenceDistribution = unstable_cache(
+  fetchInfluenceDistribution,
+  ['influence-distribution'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

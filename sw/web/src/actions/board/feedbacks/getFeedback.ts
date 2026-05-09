@@ -1,13 +1,12 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithDetails } from '@/types/database'
 
-export async function getFeedback(id: string) {
-  const supabase = await createClient()
-
-  // 조회수 증가
-  await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+async function fetchFeedbackData(id: string): Promise<FeedbackWithDetails | null> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('feedbacks')
@@ -27,4 +26,18 @@ export async function getFeedback(id: string) {
   }
 
   return data as FeedbackWithDetails
+}
+
+const getFeedbackDataCached = unstable_cache(
+  fetchFeedbackData,
+  ['feedback-data'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getFeedback(id: string) {
+  // 조회수 증가는 캐시 외부에서 처리
+  const supabase = await createClient()
+  await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+
+  return getFeedbackDataCached(id)
 }

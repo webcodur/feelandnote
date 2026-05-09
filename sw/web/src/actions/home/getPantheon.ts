@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import type { TierList, Flow, ContentRecord, Profile } from '@/types/database'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export type PantheonItemType = 'tier-list' | 'flow' | 'blind-test'
 
@@ -10,7 +10,7 @@ export interface PantheonItem {
   type: PantheonItemType
   title: string
   subtitle: string
-  userId?: string // Link generation aid
+  userId?: string
   metadata?: {
     image?: string | null
     author?: string | null
@@ -18,21 +18,13 @@ export interface PantheonItem {
   }
 }
 
-export async function getPantheon(): Promise<PantheonItem[]> {
-  const supabase = await createClient()
+async function fetchPantheonPool(): Promise<PantheonItem[]> {
+  const supabase = createStaticClient()
   const items: PantheonItem[] = []
 
-  // 1. Fetch Top Tier Lists (Public)
-  // has_tiers = true인 flows를 조회
   const { data: tierLists } = await supabase
     .from('flows')
-    .select(`
-      id, 
-      name, 
-      is_public,
-      created_at,
-      user_id
-    `)
+    .select(`id, name, is_public, created_at, user_id`)
     .eq('is_public', true)
     .eq('has_tiers', true)
     .order('created_at', { ascending: false })
@@ -44,74 +36,65 @@ export async function getPantheon(): Promise<PantheonItem[]> {
         id: tier.id,
         type: 'tier-list',
         title: tier.name,
-        subtitle: '', 
+        subtitle: '',
         userId: tier.user_id,
-        metadata: {
-          author: 'Agora' 
-        }
+        metadata: { author: 'Agora' }
       })
     })
   }
 
-  // 2. Fetch Top Flows (Public)
   const { data: flows } = await supabase
     .from('flows')
-    .select(`
-      id, 
-      name, 
-      is_public,
-      created_at,
-      user_id
-    `)
+    .select(`id, name, is_public, created_at, user_id`)
     .eq('is_public', true)
-    .eq('has_tiers', false) // 순수 플로우만
+    .eq('has_tiers', false)
     .order('created_at', { ascending: false })
     .limit(3)
 
   if (flows) {
     flows.forEach(fl => {
-        items.push({
-            id: fl.id,
-            type: 'flow',
-            title: fl.name,
-            subtitle: '',
-            userId: fl.user_id,
-            metadata: {
-                author: 'Curator'
-            }
-        })
+      items.push({
+        id: fl.id,
+        type: 'flow',
+        title: fl.name,
+        subtitle: '',
+        userId: fl.user_id,
+        metadata: { author: 'Curator' }
+      })
     })
   }
 
-  // 3. Fetch Blind Test Candidates (Quotes from Records)
-  // type='QUOTE' & visibility='public'
   const { data: quotes } = await supabase
     .from('records')
-    .select(`
-        id,
-        content,
-        content_id,
-        visibility
-    `)
+    .select(`id, content, content_id, visibility`)
     .eq('type', 'QUOTE')
     .eq('visibility', 'public')
     .order('created_at', { ascending: false })
     .limit(3)
 
   if (quotes) {
-      quotes.forEach(q => {
-          items.push({
-              id: q.id,
-              type: 'blind-test',
-              title: q.content.length > 30 ? q.content.slice(0, 30) + '...' : q.content,
-              subtitle: '',
-              metadata: {
-                  author: 'Unknown'
-              }
-          })
+    quotes.forEach(q => {
+      items.push({
+        id: q.id,
+        type: 'blind-test',
+        title: q.content.length > 30 ? q.content.slice(0, 30) + '...' : q.content,
+        subtitle: '',
+        metadata: { author: 'Unknown' }
       })
+    })
   }
 
-  // Shuffle items to give a random feed feel
-  return items.sort(() => Math.random() - 0.5).slice(0, 5)
+  return items
+}
+
+const getPantheonPoolCached = unstable_cache(
+  fetchPantheonPool,
+  ['pantheon-pool'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getPantheon(): Promise<PantheonItem[]> {
+  const pool = await getPantheonPoolCached()
+  // 풀은 캐시, 셔플은 외부에서 매 요청 새로 (random feed 인상 유지)
+  return [...pool].sort(() => Math.random() - 0.5).slice(0, 5)
 }

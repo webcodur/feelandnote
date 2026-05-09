@@ -1,6 +1,8 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { type CelebLevel, getCelebLevelByRanking, calculatePercentile } from "@/constants/materials";
 
 // 영향력 상세 데이터 타입
@@ -9,7 +11,6 @@ export interface CelebInfluenceDetail {
   nickname: string;
   avatar_url: string | null;
   profession: string | null;
-  // 6대 영역 (각 0-10점)
   political: number;
   political_exp: string | null;
   strategic: number;
@@ -22,21 +23,17 @@ export interface CelebInfluenceDetail {
   economic_exp: string | null;
   cultural: number;
   cultural_exp: string | null;
-  // 시대초월성 (0-40점)
   transhistoricity: number;
   transhistoricity_exp: string | null;
-  // 총점 및 레벨
   total_score: number;
   level: CelebLevel;
   ranking: number;
   percentile: number;
 }
 
-// 영향력 상세 조회
-export async function getCelebInfluence(celebId: string): Promise<CelebInfluenceDetail | null> {
-  const supabase = await createClient();
+async function fetchCelebInfluence(celebId: string): Promise<CelebInfluenceDetail | null> {
+  const supabase = createStaticClient();
 
-  // 영향력 데이터 조회
   const { data, error } = await supabase
     .from("celeb_influence")
     .select(`
@@ -67,16 +64,18 @@ export async function getCelebInfluence(celebId: string): Promise<CelebInfluence
 
   if (error || !data) return null;
 
-  // 순위 계산: 자신보다 점수 높은 셀럽 수 + 1
-  const { count: higherCount } = await supabase
-    .from("celeb_influence")
-    .select("*", { count: "exact", head: true })
-    .gt("total_score", data.total_score ?? 0);
-
-  const { count: totalCount } = await supabase
-    .from("celeb_influence")
-    .select("*", { count: "exact", head: true })
-    .gt("total_score", 0);
+  // 두 count 쿼리 병렬화 (Promise.all)
+  const totalScore = data.total_score ?? 0;
+  const [{ count: higherCount }, { count: totalCount }] = await Promise.all([
+    supabase
+      .from("celeb_influence")
+      .select("*", { count: "exact", head: true })
+      .gt("total_score", totalScore),
+    supabase
+      .from("celeb_influence")
+      .select("*", { count: "exact", head: true })
+      .gt("total_score", 0),
+  ]);
 
   const ranking = (higherCount ?? 0) + 1;
   const total = totalCount ?? 1;
@@ -104,9 +103,20 @@ export async function getCelebInfluence(celebId: string): Promise<CelebInfluence
     cultural_exp: data.cultural_exp,
     transhistoricity: data.transhistoricity ?? 0,
     transhistoricity_exp: data.transhistoricity_exp,
-    total_score: data.total_score ?? 0,
+    total_score: totalScore,
     level,
     ranking,
     percentile,
   };
 }
+
+const getCelebInfluenceCached = unstable_cache(
+  fetchCelebInfluence,
+  ["celeb-influence-detail"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
+// React.cache로 같은 RSC 요청 안의 중복 호출 dedup + unstable_cache로 cross-request 캐시
+export const getCelebInfluence = cache(async (celebId: string): Promise<CelebInfluenceDetail | null> => {
+  return getCelebInfluenceCached(celebId);
+});

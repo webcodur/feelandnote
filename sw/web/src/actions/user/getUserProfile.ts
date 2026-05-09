@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
@@ -50,7 +51,10 @@ export interface PublicUserProfile {
   youtube_videos?: Record<string, { videoId: string; uploadedAt: string }> | null
 }
 
-export async function getUserProfile(userId: string): Promise<ActionResult<PublicUserProfile>> {
+// React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
+export const getUserProfile = cache(getUserProfileInner)
+
+async function getUserProfileInner(userId: string): Promise<ActionResult<PublicUserProfile>> {
   const supabase = await createClient()
 
   const { data: { user: currentUser } } = await supabase.auth.getUser()

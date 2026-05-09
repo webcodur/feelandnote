@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -121,7 +122,10 @@ const getCelebBySlugCached = unstable_cache(
   { revalidate: 3600, tags: ['celebs'] }
 )
 
-export async function getCelebBySlug(
+// React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
+export const getCelebBySlug = cache(getCelebBySlugInner);
+
+async function getCelebBySlugInner(
   slug: string,
   locale: string = 'ko'
 ): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts }>> {

@@ -44,14 +44,33 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 카운트만 필요한 쿼리는 `head:true count:'exact'` 또는 RPC. row 페이지네이션 금지
 - RSC 페이지에서 supabase 직접 호출 금지 — 캐시 안 입혀짐. 액션으로 분리
 
+### 사고 후속 3차 정리 (2026-05-09)
+
+전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
+
+**추가 캐시 적용 (10개)**:
+- `getCelebDirectory` (신규, `explore/directory` 페이지의 RSC 직접 supabase 호출 분리)
+- `getCelebInfluence` (waterfall 제거 — 두 count 쿼리 Promise.all 병렬화 + unstable_cache + React.cache 동시 적용)
+- `getGuestbookEntries`, `getNotices`, `getFeedbacks`, `getNotice`, `getFeedback`, `getComments`, `getInfluenceDistribution`, `getPantheon`
+- `searchUsers` (인증 의존 부분 외부 분리), `searchTags`
+
+**React.cache 적용 (server-cache-react 가이드)**:
+- `getCelebBySlug`, `getUserProfile` outer wrapper에 `cache()` 적용 — `generateMetadata`와 default export의 동일 RSC 요청 안 중복 호출 dedup
+
+**조회수 RPC 분리**:
+- `getNotice`, `getFeedback` — 조회수 increment RPC를 캐시 외부로 빼고 데이터 조회만 캐시
+
 **잔여 작업**:
 - [ ] Supabase Storage 구 avatar 파일 852개 정리 (Googlebot 크롤링 중)
-- [ ] web-bo mutation 8개 파일에 `revalidateWebCache()` 점진 적용
+- [ ] web-bo mutation 8개 파일에 `revalidateWebCache()` 점진 적용 (현 시점 미적용 — UX 이슈, egress와 무관)
 - [ ] 한도 회복 후 `20260509_egress_optimization.sql` 마이그레이션 적용
 - [ ] 위 마이그레이션 적용 후 클라이언트 코드 RPC 교체 (scriptures/index.ts, getCelebBySlug.ts)
 - [ ] daily_figures cron 동작 모니터링/실패 알림 (실패하면 `getTodayFigure` seed fallback 풀스캔으로 떨어짐)
-- [ ] `HeaderNotifications.tsx` realtime 구독 비용 점검 (지속 egress 가능)
-- [ ] web-bo `admin/celebs.ts` 의 3중 `revalidatePath` 통합(tag 기반) — 캐시 hit ratio 보호
+- [ ] `HeaderNotifications.tsx` realtime 구독 + mount fetch 비용 점검 (지속 egress 가능, 인증 사용자 비례)
+- [ ] `content/[contentId]/page.tsx` + `getContentDetail` 캐시 분리 — 인증 의존(본인 기록) 부분과 콘텐츠 자체 부분 분리 후 unstable_cache 적용 (코드 재구조화 양 커 별도 사이클)
+- [ ] CelebPageContent props 슬림화 (RSC → 클라 serialization 절약, server-serialization 가이드)
+- [ ] TimelineSection 등 lucide 아이콘 dynamic import (bundle-dynamic-imports)
+- [ ] CelebDetailModal 같은 클라 모달에 SWR 도입 (client-swr-dedup)
 - [ ] Pro 업그레이드 검토 ($25/월, 250GB egress)
 
 ## Cloudflare R2 (이미지 저장소)

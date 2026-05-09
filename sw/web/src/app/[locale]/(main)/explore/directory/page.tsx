@@ -6,7 +6,7 @@
 
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
 import { getAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
@@ -34,29 +34,15 @@ function getChosung(char: string): string {
   return "#";
 }
 
-interface CelebRow {
-  slug: string;
-  nickname: string;
-  nickname_en: string | null;
-  profession: string | null;
-}
-
 export default async function DirectoryPage() {
   const locale = await getLocale();
   const t = await getTranslations("explore.directory");
-  const supabase = await createClient();
 
-  const { data: celebs } = await supabase
-    .from("profiles")
-    .select("slug, nickname, nickname_en, profession")
-    .eq("profile_type", "CELEB")
-    .eq("status", "active")
-    .not("slug", "is", null)
-    .order("nickname", { ascending: true });
+  const celebs = await getCelebDirectory();
 
   // 초성/알파벳별 그룹핑
-  const groups = new Map<string, CelebRow[]>();
-  for (const celeb of (celebs ?? []) as CelebRow[]) {
+  const groups = new Map<string, CelebDirectoryRow[]>();
+  for (const celeb of celebs) {
     const name = locale === "en" && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
     const key = getChosung(name.charAt(0));
     if (!groups.has(key)) groups.set(key, []);
@@ -72,7 +58,7 @@ export default async function DirectoryPage() {
     return a.localeCompare(b, "ko");
   });
 
-  const totalCount = celebs?.length ?? 0;
+  const totalCount = celebs.length;
 
   return (
     <div className="max-w-4xl mx-auto">

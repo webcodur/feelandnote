@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 
 interface GetCommentsParams {
@@ -8,8 +9,8 @@ interface GetCommentsParams {
   postId: string
 }
 
-export async function getComments({ boardType, postId }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {
-  const supabase = await createClient()
+async function fetchComments(boardType: BoardType, postId: string): Promise<BoardCommentWithAuthor[]> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('board_comments')
@@ -24,4 +25,14 @@ export async function getComments({ boardType, postId }: GetCommentsParams): Pro
   }
 
   return data as BoardCommentWithAuthor[]
+}
+
+const getCommentsCached = unstable_cache(
+  fetchComments,
+  ['board-comments'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getComments({ boardType, postId }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {
+  return getCommentsCached(boardType, postId)
 }
