@@ -1,0 +1,28 @@
+name: Egress Lint
+
+on:
+  pull_request:
+    paths:
+      - 'sw/web/src/**'
+      - 'sw/web/scripts/check-egress-patterns.mjs'
+      - '.github/workflows/lint-egress.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'sw/web/src/**'
+
+jobs:
+  lint:
+    name: Supabase egress 위험 패턴 검사
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 위험 패턴 검사
+        working-directory: sw/web
+        run: node scripts/check-egress-patterns.mjs

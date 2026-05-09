@@ -53,7 +53,14 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 실행: `pnpm lint:egress` (sw/web 디렉토리)
 - 종료 코드: CRITICAL 적발 시 1, WARN만이면 0
 - 의도된 패턴은 `// egress-allow: <이유>` 주석으로 화이트리스트
-- CI/PR 검증에 통합 가능
+- **GitHub Actions 통합**: `.github/workflows/lint-egress.yml` — PR/push 시 자동 실행, CRITICAL 적발 시 머지 차단
+
+**옛 avatar 일괄 삭제 스크립트** (`sw/web/scripts/delete-old-avatars.mjs`)
+- Supabase Storage `avatars/celebs/{uuid}/avatar.webp` 옛 파일 852개 일괄 삭제
+- 안전 점검 완료(2026-05-09): 활성 셀럽 1079명 중 Supabase Storage URL 사용 0명, 모두 R2로 이전됨
+- 실행: `node scripts/delete-old-avatars.mjs` (sw/web 디렉토리, `SUPABASE_SERVICE_ROLE_KEY` 필요)
+- `--dry-run` 옵션으로 사전 점검 가능
+- **한도 차단 상태에서는 Storage API 도 막힘** → Pro 결제 또는 리필(2026-06-05경) 후 실행
 
 **추가 캐시 적용 (Phase 4-8, 8개)**:
 - `getContentDetail` 인증 의존 분리 + 콘텐츠 자체 부분 unstable_cache (가장 큰 미처리)
