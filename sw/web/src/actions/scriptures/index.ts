@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { CategoryId } from '@/constants/categories'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
@@ -63,7 +64,6 @@ interface CelebInfo {
   profession: string | null
 }
 
-// 직업 매핑 (공유 패키지에서 변환)
 const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
 // #endregion
 
@@ -149,14 +149,16 @@ function chunkArray<T>(array: T[], size: number): T[][] {
   return chunks
 }
 
+type StaticSupabase = ReturnType<typeof createStaticClient>
+
 // #region 헬퍼 함수 - 페이지네이션으로 모든 데이터 조회
 async function fetchAllUserContents(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: StaticSupabase,
   celebIds: string[],
   category?: string
 ) {
   const PAGE_SIZE = 1000
-  const BATCH_SIZE = 50 // URL 길이 제한으로 인해 ID를 배치로 분할
+  const BATCH_SIZE = 50
   const allData: Array<{
     user_id: string
     content_id: string
@@ -164,10 +166,8 @@ async function fetchAllUserContents(
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null }
   }> = []
 
-  // 빈 배열이면 빈 결과 반환 (Supabase .in()은 빈 배열에서 에러 발생)
   if (!celebIds.length) return allData
 
-  // ID를 배치로 분할하여 쿼리
   const idBatches = chunkArray(celebIds, BATCH_SIZE)
 
   for (const batchIds of idBatches) {
@@ -232,14 +232,12 @@ async function fetchAllUserContents(
   return allData
 }
 
-// content_id별 전체 셀럽 카운트 조회 (직업/시대 스코프 무관)
 async function fetchGlobalCelebCounts(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: StaticSupabase,
   contentIds: string[]
 ): Promise<Map<string, number>> {
   if (!contentIds.length) return new Map()
 
-  // 해당 콘텐츠의 user_contents 조회
   const { data: ucData } = await supabase
     .from('user_contents')
     .select('content_id, user_id')
@@ -248,7 +246,6 @@ async function fetchGlobalCelebCounts(
 
   if (!ucData?.length) return new Map()
 
-  // 고유 user_id에서 CELEB만 필터
   const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
   const celebIdSet = new Set<string>()
 
@@ -263,7 +260,6 @@ async function fetchGlobalCelebCounts(
     if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
   }
 
-  // content_id별 셀럽 수 집계
   const countMap = new Map<string, number>()
   for (const item of ucData) {
     if (!celebIdSet.has(item.user_id)) continue
@@ -273,16 +269,14 @@ async function fetchGlobalCelebCounts(
   return countMap
 }
 
-// 일반 사용자(USER)의 content_id별 카운트 조회
 async function fetchUserContentCounts(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: StaticSupabase,
   category?: string
 ): Promise<Map<string, number>> {
   const PAGE_SIZE = 1000
   const BATCH_SIZE = 50
   const countMap = new Map<string, number>()
 
-  // USER 프로필 ID 목록 조회
   const { data: userProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
@@ -337,18 +331,17 @@ async function fetchUserContentCounts(
 // #endregion
 
 // #region 인물들의 선택 - 셀럽이 가장 많이 본 콘텐츠
-export async function getChosenScriptures(params?: {
-  category?: string
-  page?: number
-  limit?: number
-}): Promise<ScripturesResult> {
-  const supabase = await createClient()
-  const page = params?.page || 1
-  const limit = params?.limit || 12
+async function fetchChosenScriptures(
+  category: string | null,
+  page: number,
+  limit: number,
+  locale: string,
+): Promise<ScripturesResult> {
+  const supabase = createStaticClient()
   const offset = (page - 1) * limit
 
   const { data, error } = await supabase.rpc('get_chosen_scriptures', {
-    p_category: params?.category || null,
+    p_category: category,
     p_limit: limit,
     p_offset: offset,
   })
@@ -358,7 +351,6 @@ export async function getChosenScriptures(params?: {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
-  const locale = await getLocale()
   const total = Number((data as Record<string, unknown>[])[0]?.total_count ?? 0)
   const contents: ScriptureContent[] = (data as Record<string, unknown>[]).map(row => {
     const titleKo = (row.title_ko as string) ?? null
@@ -393,31 +385,42 @@ export async function getChosenScriptures(params?: {
   }
 }
 
-// 빠른 기록용 추천 목록 (성경 제외)
-export async function getQuickRecordSuggestions(category: string = 'BOOK'): Promise<ScriptureContent[]> {
-  // 1. 넉넉하게 가져와서 필터링 (성경 제외)
-  const result = await getChosenScriptures({ category, limit: 30 })
-  
-  // 2. "성경" 키워드 제외 필터링
-  const suggestions = result.contents.filter(item => !item.title.includes('성경'))
+const getChosenScripturesCached = unstable_cache(
+  fetchChosenScriptures,
+  ['chosen-scriptures'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
 
-  // 3. 상위 10개만 반환
+export async function getChosenScriptures(params?: {
+  category?: string
+  page?: number
+  limit?: number
+}): Promise<ScripturesResult> {
+  const locale = await getLocale()
+  return getChosenScripturesCached(
+    params?.category || null,
+    params?.page || 1,
+    params?.limit || 12,
+    locale,
+  )
+}
+
+export async function getQuickRecordSuggestions(category: string = 'BOOK'): Promise<ScriptureContent[]> {
+  const result = await getChosenScriptures({ category, limit: 30 })
+  const suggestions = result.contents.filter(item => !item.title.includes('성경'))
   return suggestions.slice(0, 10)
 }
 // #endregion
 
 // #region 길의 갈래 - 직업별 인기 콘텐츠
-export async function getScripturesByProfession(params?: {
-  profession?: string
-  page?: number
-  limit?: number
-}): Promise<ScripturesByProfession | null> {
-  const supabase = await createClient()
-  const page = params?.page || 1
-  const limit = params?.limit || 12
-  const profession = params?.profession || 'entrepreneur'
+async function fetchScripturesByProfession(
+  profession: string,
+  page: number,
+  limit: number,
+  locale: string,
+): Promise<ScripturesByProfession | null> {
+  const supabase = createStaticClient()
 
-  // 해당 직업의 CELEB 프로필 ID 조회
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
@@ -429,7 +432,6 @@ export async function getScripturesByProfession(params?: {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 콘텐츠 + top5 셀럽 병렬 조회 (둘 다 celebIds만 필요)
   const [typedData, { data: topCelebsData }] = await Promise.all([
     fetchAllUserContents(supabase, celebIds),
     supabase
@@ -441,7 +443,6 @@ export async function getScripturesByProfession(params?: {
       .limit(5),
   ])
 
-  const locale = await getLocale()
   const topCelebs: TopCeleb[] = (topCelebsData || []).map(c => {
     const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
     const contentCount = typedData.filter(item => item.user_id === c.id).length
@@ -459,12 +460,10 @@ export async function getScripturesByProfession(params?: {
     }
   })
 
-  // 일반 사용자(USER) 콘텐츠 카운트 조회
   const userCountMap = await fetchUserContentCounts(supabase)
 
   const { contents, total } = aggregateContents(typedData, { page, limit, userCountMap })
 
-  // 뱃지에는 전체 셀럽 카운트 표시 (직업 스코프 무관)
   const globalCounts = await fetchGlobalCelebCounts(supabase, contents.map(c => c.id))
   for (const content of contents) {
     content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
@@ -481,9 +480,28 @@ export async function getScripturesByProfession(params?: {
   }
 }
 
-// 직업별 셀럽 인원 수 조회 (탭 표시용)
-export async function getProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
-  const supabase = await createClient()
+const getScripturesByProfessionCached = unstable_cache(
+  fetchScripturesByProfession,
+  ['scriptures-by-profession'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getScripturesByProfession(params?: {
+  profession?: string
+  page?: number
+  limit?: number
+}): Promise<ScripturesByProfession | null> {
+  const locale = await getLocale()
+  return getScripturesByProfessionCached(
+    params?.profession || 'entrepreneur',
+    params?.page || 1,
+    params?.limit || 12,
+    locale,
+  )
+}
+
+async function fetchProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
+  const supabase = createStaticClient()
 
   const results = await Promise.all(
     PROFESSION_MAP.map(async ({ key, label }) => {
@@ -502,6 +520,12 @@ export async function getProfessionContentCounts(): Promise<Array<{ profession: 
     .filter((r): r is NonNullable<typeof r> => r !== null)
     .sort((a, b) => b.count - a.count)
 }
+
+export const getProfessionContentCounts = unstable_cache(
+  fetchProfessionContentCounts,
+  ['profession-content-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
 // #endregion
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
@@ -514,13 +538,9 @@ export interface TodayFigure {
   bio: string | null
   bio_en: string | null
   contentCount: number
-  /** greeting 대사 3개 (celeb_dialogues.lines.greeting) */
   greetingLines: string[]
-  /** 명언 (celeb_dialogues.lines.quote) */
   quote: string | null
-  /** 말투 (profiles.speech_tone) */
   speechTone: string
-  /** 음성 버전 (캐시 버스터) */
   voiceV: number
 }
 
@@ -535,11 +555,9 @@ export interface TodayFigureResult {
   source: TodayFigureSource
 }
 
-export async function getTodayFigure(): Promise<TodayFigureResult> {
-  const supabase = await createClient()
-  const today = new Date().toISOString().slice(0, 10)
+async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureResult> {
+  const supabase = createStaticClient()
 
-  // 0. daily_figures에서 오늘 데이터 확인 (Cron이 저장한 뉴스 기반 인물)
   const { data: dailyFigure } = await supabase
     .from('daily_figures')
     .select('celeb_id, source, news_count')
@@ -547,7 +565,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     .single()
 
   if (dailyFigure) {
-    const result = await fetchFigureContents(supabase, dailyFigure.celeb_id)
+    const result = await fetchFigureContents(supabase, dailyFigure.celeb_id, locale)
     return {
       ...result,
       source: {
@@ -559,8 +577,6 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 
   const seedSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  // Fallback: 기존 seed 알고리즘
-  // 1. 셀럽 프로필 ID 목록 조회
   const { data: celebProfiles, error: profileError } = await supabase
     .from('profiles')
     .select('id')
@@ -573,7 +589,6 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 
   const celebIds = celebProfiles.map(p => p.id)
 
-  // 2. 해당 셀럽들의 콘텐츠 개수 집계 (배치 + 페이지네이션)
   const PAGE_SIZE = 1000
   const BATCH_SIZE = 50
   const celebCountsData: { user_id: string }[] = []
@@ -603,14 +618,12 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     return { figure: null, contents: [], source: seedSource }
   }
 
-  // 셀럽별 콘텐츠 개수 집계
   const countMap = new Map<string, number>()
   for (const item of celebCountsData) {
     const count = countMap.get(item.user_id) || 0
     countMap.set(item.user_id, count + 1)
   }
 
-  // 5개 이상인 셀럽만 필터
   const eligibleCelebs = Array.from(countMap.entries())
     .filter(([, count]) => count >= 5)
     .map(([id, count]) => ({ id, count }))
@@ -619,23 +632,33 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
     return { figure: null, contents: [], source: seedSource }
   }
 
-  // seed 기반 결정적 랜덤 선택
   const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1
   const selectedIndex = seed % eligibleCelebs.length
   const selected = eligibleCelebs[selectedIndex]
 
-  const result = await fetchFigureContents(supabase, selected.id)
+  const result = await fetchFigureContents(supabase, selected.id, locale)
   return { ...result, source: seedSource }
 }
 
-/** 셀럽 ID로 프로필 + 콘텐츠 조회 (공통 로직) */
+const getTodayFigureCached = unstable_cache(
+  fetchTodayFigure,
+  ['today-figure'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getTodayFigure(): Promise<TodayFigureResult> {
+  const locale = await getLocale()
+  const today = new Date().toISOString().slice(0, 10)
+  return getTodayFigureCached(today, locale)
+}
+
 async function fetchFigureContents(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  celebId: string
+  supabase: StaticSupabase,
+  celebId: string,
+  locale: string,
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  // 프로필 + 콘텐츠 + 대사 + 유저 카운트 병렬 조회
   const [{ data: profile }, { data: userContents }, { data: dialogue }, userCountMap] = await Promise.all([
     supabase
       .from('profiles')
@@ -660,7 +683,6 @@ async function fetchFigureContents(
     return { figure: null, contents: [], source: defaultSource }
   }
 
-  const locale = await getLocale()
   const contents: ScriptureContent[] = (userContents || []).map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
     const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null, locale)
@@ -690,7 +712,6 @@ async function fetchFigureContents(
   const nicknameEn = (profile as any).nickname_en ?? null
   const bioEn = (profile as any).bio_en ?? null
 
-  // 대사 데이터 추출 (서버측 JSON path 결과 → ko 폴백)
   const d = dialogue as unknown as DialogueBrief | null
   const useEn = locale === 'en'
   const greetingLines: string[] = (useEn ? d?.greeting_en : d?.greeting) ?? d?.greeting ?? []
@@ -771,9 +792,8 @@ export interface EraScriptures {
   topCelebs: EraCeleb[]
 }
 
-export async function getScripturesByEra(): Promise<EraScriptures[]> {
-  const supabase = await createClient()
-  const locale = await getLocale()
+async function fetchScripturesByEra(locale: string): Promise<EraScriptures[]> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_scriptures_by_era', {
     p_era: null,
@@ -787,7 +807,6 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     return []
   }
 
-  // RPC 결과를 시대별로 그룹핑
   const eraMap = new Map<string, EraScriptures>()
   const rows = data as Record<string, unknown>[]
 
@@ -829,7 +848,6 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
     })
   }
 
-  // ERA_CONFIG 순서 보장
   const eras: Era[] = ['ancient', 'medieval', 'modern', 'contemporary']
   return eras.map(era => eraMap.get(era) ?? {
     era,
@@ -843,26 +861,33 @@ export async function getScripturesByEra(): Promise<EraScriptures[]> {
   })
 }
 
-// #region 단일 시대 콘텐츠 조회 (카테고리 필터 + 페이지네이션)
-export async function getEraContents(params: {
-  era: string
-  category?: string
-  page?: number
-  limit?: number
-}): Promise<ScripturesResult> {
-  const supabase = await createClient()
-  const era = params.era as Era
-  const page = params.page || 1
-  const limit = params.limit || 12
-  const category = params.category || null
+const getScripturesByEraCached = unstable_cache(
+  fetchScripturesByEra,
+  ['scriptures-by-era'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
 
-  if (!ERA_CONFIG[era]) {
+export async function getScripturesByEra(): Promise<EraScriptures[]> {
+  const locale = await getLocale()
+  return getScripturesByEraCached(locale)
+}
+
+async function fetchEraContents(
+  era: string,
+  category: string | null,
+  page: number,
+  limit: number,
+  locale: string,
+): Promise<ScripturesResult> {
+  const eraKey = era as Era
+  if (!ERA_CONFIG[eraKey]) {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
+  const supabase = createStaticClient()
   const offset = (page - 1) * limit
   const { data, error } = await supabase.rpc('get_scriptures_by_era', {
-    p_era: era,
+    p_era: eraKey,
     p_category: category,
     p_limit: limit,
     p_offset: offset,
@@ -873,7 +898,6 @@ export async function getEraContents(params: {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
-  const locale = await getLocale()
   const rows = data as Record<string, unknown>[]
   const total = Number(rows[0]?.total_count ?? 0)
   const contents: ScriptureContent[] = rows.map(row => {
@@ -908,11 +932,33 @@ export async function getEraContents(params: {
     currentPage: page,
   }
 }
+
+const getEraContentsCached = unstable_cache(
+  fetchEraContents,
+  ['era-contents'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getEraContents(params: {
+  era: string
+  category?: string
+  page?: number
+  limit?: number
+}): Promise<ScripturesResult> {
+  const locale = await getLocale()
+  return getEraContentsCached(
+    params.era,
+    params.category || null,
+    params.page || 1,
+    params.limit || 12,
+    locale,
+  )
+}
 // #endregion
 
 // #region 콘텐츠를 감상한 셀럽 목록
-export async function getCelebsForContent(contentId: string): Promise<CelebInfo[]> {
-  const supabase = await createClient()
+async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
+  const supabase = createStaticClient()
 
   const { data: userContents, error: ucError } = await supabase
     .from('user_contents')
@@ -943,11 +989,17 @@ export async function getCelebsForContent(contentId: string): Promise<CelebInfo[
     profession: p.profession
   }))
 }
+
+export const getCelebsForContent = unstable_cache(
+  fetchCelebsForContent,
+  ['celebs-for-content'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
 // #endregion
 
 // #region 전 시대 통합 - 최고 영향력 셀럽 Top 3 (감상 기록 5개 이상)
-export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
-  const supabase = await createClient()
+async function fetchTopCelebsAcrossAllEras(locale: string): Promise<TopCeleb[]> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_top_celebs_across_eras', {
     p_limit: 3,
@@ -958,7 +1010,6 @@ export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
     return []
   }
 
-  const locale = await getLocale()
   return (data as Record<string, unknown>[]).map(row => {
     const nicknameKo = row.nickname as string
     const nicknameEn = (row.nickname_en as string) ?? null
@@ -976,6 +1027,17 @@ export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
     }
   })
 }
+
+const getTopCelebsAcrossAllErasCached = unstable_cache(
+  fetchTopCelebsAcrossAllEras,
+  ['top-celebs-across-eras'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
+  const locale = await getLocale()
+  return getTopCelebsAcrossAllErasCached(locale)
+}
 // #endregion
 
 // #region 허브 콘텐츠 샘플 - 셀럽별/직업별 대표 콘텐츠 (미리보기용)
@@ -987,10 +1049,15 @@ export interface HubContentSample {
   creator: string | null
 }
 
-/** 셀럽 ID 목록 → 셀럽별 대표 콘텐츠 반환 (썸네일 있는 것만) */
-export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
+async function fetchContentSamplesForCelebs(
+  celebIdsKey: string,
+  perCeleb: number,
+  locale: string,
+): Promise<Record<string, HubContentSample[]>> {
+  const celebIds = celebIdsKey ? celebIdsKey.split(',') : []
   if (!celebIds.length) return {}
-  const supabase = await createClient()
+
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('user_contents')
@@ -1004,7 +1071,6 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
   const result: Record<string, HubContentSample[]> = {}
   const seen: Record<string, Set<string>> = {}
 
-  const locale = await getLocale()
   for (const row of data as any[]) {
     const celebId = row.user_id as string
     const content = row.contents as any
@@ -1030,14 +1096,29 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
   return result
 }
 
-/** 직업별 대표 콘텐츠 반환 (DB 함수 get_profession_content_samples 사용) */
-export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {
-  const supabase = await createClient()
+const getContentSamplesForCelebsCached = unstable_cache(
+  fetchContentSamplesForCelebs,
+  ['content-samples-for-celebs'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
+  if (!celebIds.length) return {}
+  const locale = await getLocale()
+  // 정렬한 join을 키로 — 같은 조합이면 캐시 히트
+  const key = [...celebIds].sort().join(',')
+  return getContentSamplesForCelebsCached(key, perCeleb, locale)
+}
+
+async function fetchContentSamplesByProfession(
+  perProfession: number,
+  locale: string,
+): Promise<Record<string, HubContentSample[]>> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_profession_content_samples', { per_profession: perProfession })
   if (error || !data?.length) return {}
 
-  const locale = await getLocale()
   const result: Record<string, HubContentSample[]> = {}
   for (const row of data as any[]) {
     const profession = row.profession as string
@@ -1057,5 +1138,16 @@ export async function getContentSamplesByProfession(_professions: string[], perP
     })
   }
   return result
+}
+
+const getContentSamplesByProfessionCached = unstable_cache(
+  fetchContentSamplesByProfession,
+  ['content-samples-by-profession'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {
+  const locale = await getLocale()
+  return getContentSamplesByProfessionCached(perProfession, locale)
 }
 // #endregion

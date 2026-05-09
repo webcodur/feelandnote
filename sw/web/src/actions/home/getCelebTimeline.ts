@@ -1,7 +1,9 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getCountryNamesMap } from '@/lib/countries'
+import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
 export interface TimelineCeleb {
   id: string
@@ -37,8 +39,8 @@ export interface TimelineData {
   countries: CountryGroup[]
 }
 
-export async function getCelebTimeline(): Promise<TimelineData> {
-  const supabase = await createClient()
+async function fetchCelebTimeline(): Promise<TimelineData> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('profiles')
@@ -54,10 +56,10 @@ export async function getCelebTimeline(): Promise<TimelineData> {
     return { celebs: [], countries: [] }
   }
 
-  const rows = (data || []) as Array<Omit<TimelineCeleb, 'greeting' | 'greeting_en'> & { id: string }>
+  const rows = (data || []) as Array<Omit<TimelineCeleb, 'greeting' | 'greeting_en' | 'quotes' | 'quotes_en'> & { id: string }>
   const celebIds = rows.map(r => r.id)
 
-  // 대사 조회 (greeting + quote, 100개씩 배치 분할, 병렬 실행)
+  // 대사 조회 (greeting + quote, JSON path만 100개씩 배치)
   const greetingMap = new Map<string, string[]>()
   const greetingEnMap = new Map<string, string[]>()
   const quoteMap = new Map<string, string>()
@@ -71,18 +73,16 @@ export async function getCelebTimeline(): Promise<TimelineData> {
     batches.map(batch =>
       supabase
         .from('celeb_dialogues')
-        .select('celeb_id, lines, lines_en')
+        .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
         .in('celeb_id', batch)
     )
   )
   for (const { data: dialogueRows } of batchResults) {
-    ;(dialogueRows ?? []).forEach(row => {
-      const lines = row.lines as Record<string, any> | null
-      const linesEn = row.lines_en as Record<string, any> | null
-      if (lines?.greeting) greetingMap.set(row.celeb_id, lines.greeting)
-      if (linesEn?.greeting) greetingEnMap.set(row.celeb_id, linesEn.greeting)
-      if (lines?.quote) quoteMap.set(row.celeb_id, lines.quote)
-      if (linesEn?.quote) quoteEnMap.set(row.celeb_id, linesEn.quote)
+    ;((dialogueRows ?? []) as unknown as DialogueBriefWithId[]).forEach(row => {
+      if (row.greeting) greetingMap.set(row.celeb_id, row.greeting)
+      if (row.greeting_en) greetingEnMap.set(row.celeb_id, row.greeting_en)
+      if (row.quote) quoteMap.set(row.celeb_id, row.quote)
+      if (row.quote_en) quoteEnMap.set(row.celeb_id, row.quote_en)
     })
   }
 
@@ -90,8 +90,8 @@ export async function getCelebTimeline(): Promise<TimelineData> {
     ...row,
     quotes: quoteMap.get(row.id) ?? null,
     quotes_en: quoteEnMap.get(row.id) ?? null,
-    has_voice: (row as Record<string, unknown>).has_voice as boolean ?? false,
-    voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
+    has_voice: row.has_voice ?? false,
+    voice_v: row.voice_v ?? 0,
     greeting: greetingMap.get(row.id) ?? null,
     greeting_en: greetingEnMap.get(row.id) ?? null,
   }))
@@ -117,3 +117,9 @@ export async function getCelebTimeline(): Promise<TimelineData> {
 
   return { celebs, countries }
 }
+
+export const getCelebTimeline = unstable_cache(
+  fetchCelebTimeline,
+  ['celeb-timeline'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

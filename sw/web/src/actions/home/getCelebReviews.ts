@@ -1,16 +1,17 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
-import type { SupabaseClient } from '@supabase/supabase-js'
 
-export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
-  const supabase = await createClient()
+type StaticSupabase = ReturnType<typeof createStaticClient>
 
-  // 해당 셀럽의 리뷰 조회
+async function fetchCelebReviews(celebId: string, locale: string): Promise<CelebReview[]> {
+  const supabase = createStaticClient()
+
   const { data, error } = await supabase
     .from('user_contents')
     .select(`
@@ -51,11 +52,9 @@ export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
     return []
   }
 
-  // 인원 구성 배치 조회 (셀럽 + 일반인)
   const contentIds = [...new Set(data.map(row => row.content_id))]
   const contentCounts = await getContentCountsForContents(supabase, contentIds)
 
-  const locale = await getLocale()
   const reviews: CelebReview[] = data
     .filter(row => row.content && row.celeb && row.review)
     .map(row => {
@@ -106,9 +105,8 @@ interface ContentCounts {
   userCount: number
 }
 
-// 콘텐츠별 셀럽/일반인 수 집계 (RPC 단일 호출)
 async function getContentCountsForContents(
-  supabase: SupabaseClient,
+  supabase: StaticSupabase,
   contentIds: string[]
 ): Promise<Record<string, ContentCounts>> {
   if (!contentIds.length) return {}
@@ -127,4 +125,15 @@ async function getContentCountsForContents(
     }
   }
   return counts
+}
+
+const getCelebReviewsCached = unstable_cache(
+  fetchCelebReviews,
+  ['celeb-reviews'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
+  const locale = await getLocale()
+  return getCelebReviewsCached(celebId, locale)
 }

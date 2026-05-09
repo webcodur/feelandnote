@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
@@ -13,10 +14,9 @@ export interface PopularBook {
   affiliateLinks: AffiliateLink[]
 }
 
-export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]> {
-  const supabase = await createClient()
+async function fetchPopularBooks(limit: number, locale: string): Promise<PopularBook[]> {
+  const supabase = createStaticClient()
 
-  // 1. affiliate_url이 있는 도서 ID 조회
   const { data: affiliateRows } = await supabase
     .from('content_locales')
     .select('content_id')
@@ -26,7 +26,6 @@ export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]>
 
   const contentIds = [...new Set(affiliateRows.map(r => r.content_id))]
 
-  // 2. 해당 도서의 전체 로케일 데이터 조회
   const { data, error } = await supabase
     .from('contents')
     .select(`id, user_count, content_locales(${CL_SELECT})`)
@@ -40,7 +39,6 @@ export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]>
     return []
   }
 
-  const locale = await getLocale()
   return (data || [])
     .map(item => {
       const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
@@ -55,4 +53,15 @@ export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]>
       }
     })
     .filter(book => book.affiliateLinks.length > 0)
+}
+
+const getPopularBooksCached = unstable_cache(
+  fetchPopularBooks,
+  ['popular-books'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getPopularBooks(limit: number = 5): Promise<PopularBook[]> {
+  const locale = await getLocale()
+  return getPopularBooksCached(limit, locale)
 }

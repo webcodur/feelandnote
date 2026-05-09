@@ -1,9 +1,12 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
-import { type PublicUserProfile, type SelectedTitle } from './getUserProfile'
+import { type PublicUserProfile } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
+import { DIALOGUE_PROFILE_SELECT, type DialogueProfile } from '@/lib/utils/celeb-dialogues'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -12,47 +15,72 @@ export interface ContentTypeCounts {
   MUSIC: number
 }
 
-export async function getCelebBySlug(
-  slug: string,
-  locale: string = 'ko'
-): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts }>> {
-  const supabase = await createClient()
+const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+interface PublicCelebBySlugData {
+  profile: {
+    id: string
+    slug: string | null
+    nickname: string | null
+    nickname_en: string | null
+    avatar_url: string | null
+    bio: string | null
+    bio_en: string | null
+    profession: string | null
+    title: string | null
+    title_en: string | null
+    cultural_journey: string | null
+    cultural_journey_en: string | null
+    nationality: string | null
+    birth_date: string | null
+    death_date: string | null
+    is_verified: boolean | null
+    created_at: string
+    selected_title: string | null
+    has_voice: boolean | null
+    voice_v: number | null
+    voice_speed: number | null
+    wikidata_qid: string | null
+    celeb_tier: string | null
+    youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
+  }
+  contentCount: number
+  followerCount: number
+  guestbookCount: number
+  contentTypeCounts: ContentTypeCounts
+  dialogue: DialogueProfile | null
+}
 
-  const { data: profile, error: profileError } = await supabase
+async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
+  const supabase = createStaticClient()
+
+  const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .single()
 
-  if (profileError || !profile) {
-    return failure('NOT_FOUND', '셀럽을 찾을 수 없다.')
-  }
+  if (!profile) return null
 
-  const userId = profile.id
+  const userId = profile.id as string
 
-  // 콘텐츠 수 + 타입별 카운트를 병렬 조회
+  // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0
   const [
     contentCountResult,
-    typeCountsResult,
     followerResult,
     guestbookResult,
     dialogueResult,
+    ...typeCountResults
   ] = await Promise.all([
     supabase
       .from('user_contents')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId),
     supabase
-      .from('user_contents')
-      .select('content_id, contents!inner(type)')
-      .eq('user_id', userId) as unknown as Promise<{ data: Array<{ contents: { type: string } }> | null }>,
-    supabase
       .from('follows')
-      .select('follower_id', { count: 'exact' })
+      .select('*', { count: 'exact', head: true })
       .eq('following_id', userId),
     supabase
       .from('guestbook_entries')
@@ -60,46 +88,83 @@ export async function getCelebBySlug(
       .eq('profile_id', userId),
     supabase
       .from('celeb_dialogues')
-      .select('lines, lines_en')
+      .select(DIALOGUE_PROFILE_SELECT)
       .eq('celeb_id', userId)
       .maybeSingle(),
+    ...CONTENT_TYPES.map(type =>
+      supabase
+        .from('user_contents')
+        .select('id, contents!inner(type)', { count: 'exact', head: true })
+        .eq('user_id', userId)
+        .eq('contents.type', type)
+    ),
   ])
 
-  // 타입별 카운트 집계
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
-  if (typeCountsResult.data) {
-    for (const row of typeCountsResult.data) {
-      const type = (row.contents as unknown as { type: string })?.type as keyof ContentTypeCounts
-      if (type && type in contentTypeCounts) {
-        contentTypeCounts[type]++
-      }
-    }
+  CONTENT_TYPES.forEach((type, idx) => {
+    contentTypeCounts[type] = typeCountResults[idx]?.count || 0
+  })
+
+  return {
+    profile: profile as PublicCelebBySlugData['profile'],
+    contentCount: contentCountResult.count || 0,
+    followerCount: followerResult.count || 0,
+    guestbookCount: guestbookResult.count || 0,
+    contentTypeCounts,
+    dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
+  }
+}
+
+const getCelebBySlugCached = unstable_cache(
+  fetchCelebBySlugPublic,
+  ['celeb-by-slug'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getCelebBySlug(
+  slug: string,
+  locale: string = 'ko'
+): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts }>> {
+  const pub = await getCelebBySlugCached(slug)
+
+  if (!pub) {
+    return failure('NOT_FOUND', '셀럽을 찾을 수 없다.')
   }
 
-  // 팔로우 상태
+  // 동적 데이터 — 인증 사용자 의존이라 캐시 불가
   let isFollowing = false
   let isFollower = false
   let isBlocked = false
 
-  if (currentUser && currentUser.id !== userId) {
-    const [followingData, followerData, blockData] = await Promise.all([
-      supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', userId).single(),
-      supabase.from('follows').select('id').eq('follower_id', userId).eq('following_id', currentUser.id).single(),
-      supabase.from('blocks').select('id')
-        .or(`blocker_id.eq.${currentUser.id},blocked_id.eq.${currentUser.id}`)
-        .or(`blocker_id.eq.${userId},blocked_id.eq.${userId}`)
-        .single(),
-    ])
-    isFollowing = !!followingData.data
-    isFollower = !!followerData.data
-    isBlocked = !!blockData.data
+  try {
+    const supabase = await createClient()
+    const { data: { user: currentUser } } = await supabase.auth.getUser()
+
+    if (currentUser && currentUser.id !== pub.profile.id) {
+      const [followingData, followerData, blockData] = await Promise.all([
+        supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', pub.profile.id).maybeSingle(),
+        supabase.from('follows').select('id').eq('follower_id', pub.profile.id).eq('following_id', currentUser.id).maybeSingle(),
+        supabase.from('blocks').select('id')
+          .or(`blocker_id.eq.${currentUser.id},blocked_id.eq.${currentUser.id}`)
+          .or(`blocker_id.eq.${pub.profile.id},blocked_id.eq.${pub.profile.id}`)
+          .maybeSingle(),
+      ])
+      isFollowing = !!followingData.data
+      isFollower = !!followerData.data
+      isBlocked = !!blockData.data
+    }
+  } catch {
+    // 캐시 컨텍스트 외 호출 실패 시 무시
   }
 
+  const profile = pub.profile
   const selectedTitle = getTitleInfo(profile.selected_title)
 
   const isEn = locale === 'en'
   const resolve = <T,>(en: T | null | undefined, ko: T): T =>
     isEn && en ? en : ko
+
+  const d = pub.dialogue
 
   return {
     success: true,
@@ -111,14 +176,8 @@ export async function getCelebBySlug(
       nickname_ko: profile.nickname || 'Unknown',
       avatar_url: profile.avatar_url,
       bio: resolve(profile.bio_en, profile.bio),
-      quotes: resolve(
-        (dialogueResult.data?.lines_en as Record<string, any> | null)?.quote ?? null,
-        (dialogueResult.data?.lines as Record<string, any> | null)?.quote ?? null
-      ),
-      monologue: resolve(
-        (dialogueResult.data?.lines_en as Record<string, any> | null)?.monologue ?? null,
-        (dialogueResult.data?.lines as Record<string, any> | null)?.monologue ?? null
-      ),
+      quotes: resolve(d?.quote_en ?? null, d?.quote ?? null),
+      monologue: resolve(d?.monologue_en ?? null, d?.monologue ?? null),
       profession: profile.profession,
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
@@ -132,22 +191,22 @@ export async function getCelebBySlug(
       created_at: profile.created_at,
       selected_title: selectedTitle,
       stats: {
-        content_count: contentCountResult.count || 0,
-        follower_count: followerResult.count || 0,
+        content_count: pub.contentCount,
+        follower_count: pub.followerCount,
         following_count: 0,
         friend_count: 0,
-        guestbook_count: guestbookResult.count || 0,
+        guestbook_count: pub.guestbookCount,
       },
       is_following: isFollowing,
       is_follower: isFollower,
       is_blocked: isBlocked,
       has_voice: profile.has_voice ?? false,
-      voice_v: (profile as Record<string, unknown>).voice_v as number ?? 0,
-      voice_speed: (profile as Record<string, unknown>).voice_speed as number ?? 1.0,
-      wikidata_qid: (profile as Record<string, unknown>).wikidata_qid as string | null ?? null,
-      celeb_tier: ((profile as Record<string, unknown>).celeb_tier as 'full' | 'light') ?? 'full',
-      youtube_videos: ((profile as Record<string, unknown>).youtube_videos as Record<string, { videoId: string; uploadedAt: string }> | null) ?? null,
-      contentTypeCounts,
+      voice_v: profile.voice_v ?? 0,
+      voice_speed: profile.voice_speed ?? 1.0,
+      wikidata_qid: profile.wikidata_qid ?? null,
+      celeb_tier: ((profile.celeb_tier as 'full' | 'light') ?? 'full'),
+      youtube_videos: profile.youtube_videos ?? null,
+      contentTypeCounts: pub.contentTypeCounts,
     },
   }
 }

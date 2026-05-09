@@ -5,22 +5,24 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
+import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
 /** 게임 풀 최소 통시성 — 대중 인지도 확보 기준 */
 const MIN_TRANSHISTORICITY = 15;
 
-/** 카드 풀 조회 (대사 미포함 — 경량) */
-export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
-  const supabase = await createClient();
-  const locale = await getLocale();
+/** 카드 풀 조회 (대사 미포함 — 경량, 1시간 캐시) */
+async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<BattleCard[]> {
+  const celebIds = celebIdsKey ? celebIdsKey.split(",") : undefined;
+  const supabase = createStaticClient();
   const isEn = locale === "en";
 
   let query = supabase
@@ -48,17 +50,17 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
     return [];
   }
 
-  // quote를 celeb_dialogues에서 조회
+  // quote만 JSON path로 조회 (전체 lines JSONB 송출 방지)
   const cardIds = personaData.map(r => r.id);
   const quoteMap = new Map<string, string>();
   if (cardIds.length > 0) {
     const { data: dRows } = await supabase
       .from("celeb_dialogues")
-      .select("celeb_id, lines, lines_en")
+      .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in("celeb_id", cardIds);
-    for (const d of dRows ?? []) {
-      const lines = (isEn && (d as any).lines_en) ? (d as any).lines_en : d.lines;
-      quoteMap.set(d.celeb_id, (lines as any)?.quote ?? "");
+    for (const d of (dRows ?? []) as unknown as DialogueBriefWithId[]) {
+      const quote = (isEn && d.quote_en) ? d.quote_en : d.quote;
+      quoteMap.set(d.celeb_id, quote ?? "");
     }
   }
 
@@ -102,12 +104,27 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
     });
 }
 
-/** 드래프트 풀 확정 후, 선택된 카드의 대사만 조회하여 병합 */
-export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, DialogueLines>> {
-  if (cardIds.length === 0) return new Map();
+const getCelebCardsCached = unstable_cache(
+  fetchCelebCards,
+  ["celeb-cards"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
 
-  const supabase = await createClient();
+export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
   const locale = await getLocale();
+  const key = celebIds && celebIds.length > 0 ? [...celebIds].sort().join(",") : "";
+  return getCelebCardsCached(key, locale);
+}
+
+/** 드래프트 풀 확정 후, 선택된 카드의 대사만 조회 (1시간 캐시) — Map은 직렬화 불가라 Record로 캐시 후 변환 */
+async function fetchCardDialogues(
+  cardIdsKey: string,
+  locale: string,
+): Promise<Record<string, DialogueLines>> {
+  const cardIds = cardIdsKey ? cardIdsKey.split(",") : [];
+  if (cardIds.length === 0) return {};
+
+  const supabase = createStaticClient();
 
   const { data, error } = await supabase
     .from("celeb_dialogues")
@@ -116,13 +133,27 @@ export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, 
 
   if (error) {
     console.error("[loadCardDialogues] 대사 조회 실패:", error.message);
-    return new Map();
+    return {};
   }
 
-  const map = new Map<string, DialogueLines>();
+  const out: Record<string, DialogueLines> = {};
   for (const d of data ?? []) {
     const lines = (locale === 'en' && d.lines_en) ? d.lines_en : d.lines;
-    if (lines) map.set(d.celeb_id, lines as DialogueLines);
+    if (lines) out[d.celeb_id] = lines as DialogueLines;
   }
-  return map;
+  return out;
+}
+
+const getCardDialoguesCached = unstable_cache(
+  fetchCardDialogues,
+  ["card-dialogues"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
+export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, DialogueLines>> {
+  if (cardIds.length === 0) return new Map();
+  const locale = await getLocale();
+  const key = [...cardIds].sort().join(",");
+  const record = await getCardDialoguesCached(key, locale);
+  return new Map(Object.entries(record));
 }

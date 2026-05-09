@@ -5,10 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
+import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { flattenLocales } from "@/lib/utils/content-locale";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
@@ -152,29 +153,23 @@ export default async function CelebPage({ params }: PageProps) {
     ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
     : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
 
-  const [guestbookResult, personaData, contentListResult, dialogueResult, contemporaries] = await Promise.all([
+  const [guestbookResult, personaData, contentList, dialogueData, contemporaries] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getSimilarByCelebId(userId, 3, locale),
-    // JSON-LD ItemList용 콘텐츠 목록 (최대 50개)
-    supabase
-      .from('user_contents')
-      .select(`contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
-      .eq('user_id', userId)
-      .limit(50),
-    supabase
-      .from('celeb_dialogues')
-      .select('lines, lines_en')
-      .eq('celeb_id', userId)
-      .maybeSingle(),
+    getCelebJsonLdContents(userId),
+    getCelebDialogueFull(userId),
     profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
   ]);
 
-  const dialogueData = dialogueResult.data as { lines: Record<string, string[]>; lines_en: Record<string, string[]> | null } | null;
-  const greeting = locale === 'en' && dialogueData?.lines_en?.greeting
-    ? dialogueData.lines_en.greeting
-    : dialogueData?.lines?.greeting ?? null;
+  const greetingFromLines = (lines: Record<string, string[] | string> | null | undefined) => {
+    const v = lines?.greeting;
+    return Array.isArray(v) ? v : null;
+  };
+  const greeting = locale === 'en'
+    ? (greetingFromLines(dialogueData?.lines_en) ?? greetingFromLines(dialogueData?.lines))
+    : greetingFromLines(dialogueData?.lines);
   const rawLines = locale === 'en' && dialogueData?.lines_en
     ? dialogueData.lines_en
     : dialogueData?.lines ?? null;
@@ -193,8 +188,7 @@ export default async function CelebPage({ params }: PageProps) {
 
   // JSON-LD 구조화 데이터: Person + ItemList
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
-  const contentItems = (contentListResult.data ?? []).map((row, idx) => {
-    const rawContent = row.contents as unknown as { id: string; type: string; content_locales: ContentLocaleRow[] | null };
+  const contentItems = contentList.map((rawContent, idx) => {
     const flat = flattenLocales(rawContent.content_locales, locale);
     const schemaType = rawContent.type === 'BOOK' ? 'Book'
       : rawContent.type === 'VIDEO' ? 'Movie'

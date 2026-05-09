@@ -1,6 +1,7 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { unstable_cache } from 'next/cache';
+import { createStaticClient } from '@/lib/supabase/static';
 import { parsePersonaJsonb, parsePersonaJsonbWithReasons, type PersonaStats, type PersonaStatsWithReasons, type PersonaJsonb } from '@/lib/persona/types';
 
 export interface PersonaQuickViewData {
@@ -10,8 +11,8 @@ export interface PersonaQuickViewData {
   greeting: { ko: string; en: string | null } | null;
 }
 
-export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQuickViewData> {
-  const supabase = await createClient();
+async function fetchPersonaQuickViewData(celebId: string): Promise<PersonaQuickViewData> {
+  const supabase = createStaticClient();
 
   const [personaResult, dialoguesResult] = await Promise.all([
     supabase
@@ -21,7 +22,7 @@ export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQ
       .maybeSingle(),
     supabase
       .from('celeb_dialogues')
-      .select('lines, lines_en')
+      .select('greeting:lines->greeting, greeting_en:lines_en->greeting')
       .eq('celeb_id', celebId)
       .maybeSingle()
   ]);
@@ -39,12 +40,12 @@ export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQ
   }
 
   let greeting: { ko: string; en: string | null } | null = null;
-  const dialogues = dialoguesResult.data as { lines: Record<string, string[]>, lines_en: Record<string, string[]> | null } | null;
+  const dialogues = dialoguesResult.data as { greeting: string[] | null; greeting_en: string[] | null } | null;
 
-  if (dialogues?.lines?.greeting && dialogues.lines.greeting.length > 0) {
+  if (dialogues?.greeting && dialogues.greeting.length > 0) {
     greeting = {
-      ko: dialogues.lines.greeting[0],
-      en: dialogues.lines_en?.greeting?.[0] ?? null
+      ko: dialogues.greeting[0],
+      en: dialogues.greeting_en?.[0] ?? null
     };
   }
 
@@ -55,3 +56,9 @@ export async function getPersonaQuickViewData(celebId: string): Promise<PersonaQ
     greeting
   };
 }
+
+export const getPersonaQuickViewData = unstable_cache(
+  fetchPersonaQuickViewData,
+  ['persona-quick-view'],
+  { revalidate: 3600, tags: ['celebs'] }
+);

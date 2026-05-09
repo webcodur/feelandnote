@@ -156,15 +156,15 @@ export async function getTrackerRound(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote를 celeb_dialogues에서 조회
+  // quote만 JSON path로 조회
   const { data: chosenDialogue } = await supabase
     .from("celeb_dialogues")
-    .select("lines, lines_en")
+    .select("quote:lines->quote, quote_en:lines_en->quote")
     .eq("celeb_id", chosen.id)
     .maybeSingle();
   const chosenQuote = resolve(
-    (chosenDialogue?.lines_en as any)?.quote,
-    (chosenDialogue?.lines as any)?.quote
+    (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
+    (chosenDialogue as { quote?: string | null } | null)?.quote
   );
 
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
@@ -245,15 +245,15 @@ async function getTrackerRoundFallback(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote를 celeb_dialogues에서 조회
+  // quote만 JSON path로 조회
   const { data: chosenDialogue } = await supabase
     .from("celeb_dialogues")
-    .select("lines, lines_en")
+    .select("quote:lines->quote, quote_en:lines_en->quote")
     .eq("celeb_id", chosen.id)
     .maybeSingle();
   const chosenQuote = resolve(
-    (chosenDialogue?.lines_en as any)?.quote,
-    (chosenDialogue?.lines as any)?.quote
+    (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
+    (chosenDialogue as { quote?: string | null } | null)?.quote
   );
 
   return buildRound(supabase, chosen.id, chosen.slug ?? null,

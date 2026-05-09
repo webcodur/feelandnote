@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 
 export interface CelebSearchResult {
@@ -24,18 +25,14 @@ interface SearchCelebsResponse {
   hasMore: boolean
 }
 
-export async function searchCelebs({
-  query,
-  page = 1,
-  limit = 20,
-}: SearchCelebsParams): Promise<SearchCelebsResponse> {
-  if (!query.trim()) {
-    return { items: [], total: 0, hasMore: false }
-  }
-
-  const locale = await getLocale()
+async function fetchSearchCelebs(
+  query: string,
+  page: number,
+  limit: number,
+  locale: string,
+): Promise<SearchCelebsResponse> {
   const isEn = locale === 'en'
-  const supabase = await createClient()
+  const supabase = createStaticClient()
   const offset = (page - 1) * limit
 
   const { data, count, error } = await supabase
@@ -66,4 +63,22 @@ export async function searchCelebs({
     total,
     hasMore: offset + limit < total,
   }
+}
+
+const searchCelebsCached = unstable_cache(
+  fetchSearchCelebs,
+  ['search-celebs'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function searchCelebs({
+  query,
+  page = 1,
+  limit = 20,
+}: SearchCelebsParams): Promise<SearchCelebsResponse> {
+  if (!query.trim()) {
+    return { items: [], total: 0, hasMore: false }
+  }
+  const locale = await getLocale()
+  return searchCelebsCached(query.trim(), page, limit, locale)
 }

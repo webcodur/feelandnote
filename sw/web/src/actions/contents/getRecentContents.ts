@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
@@ -14,8 +15,8 @@ export interface RecentContent {
   created_at: string
 }
 
-export async function getRecentContents(limit: number = 10): Promise<RecentContent[]> {
-  const supabase = await createClient()
+async function fetchRecentContents(limit: number, locale: string): Promise<RecentContent[]> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('contents')
@@ -28,7 +29,6 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
     return []
   }
 
-  const locale = await getLocale()
   return (data || []).map(item => {
     const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale)
@@ -41,4 +41,15 @@ export async function getRecentContents(limit: number = 10): Promise<RecentConte
       created_at: item.created_at,
     }
   })
+}
+
+const getRecentContentsCached = unstable_cache(
+  fetchRecentContents,
+  ['recent-contents'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getRecentContents(limit: number = 10): Promise<RecentContent[]> {
+  const locale = await getLocale()
+  return getRecentContentsCached(limit, locale)
 }

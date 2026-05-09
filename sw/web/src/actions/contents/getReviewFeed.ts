@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export interface ReviewFeedItem {
   id: string
@@ -26,9 +28,14 @@ interface GetReviewFeedParams {
   excludeUserId?: string
 }
 
-export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+async function fetchReviewFeed(
+  contentId: string,
+  limit: number,
+  offset: number,
+  excludeUserId: string | null,
+  currentUserId: string | null,
+): Promise<ReviewFeedItem[]> {
+  const supabase = createStaticClient()
 
   let query = supabase
     .from('user_contents')
@@ -40,28 +47,27 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
       is_spoiler,
       updated_at,
       source_url,
+      user_id,
       user:profiles!user_contents_user_id_fkey(id, nickname, nickname_en, avatar_url, profile_type)
     `)
-    .eq('content_id', params.contentId)
+    .eq('content_id', contentId)
     .not('review', 'is', null)
     .order('updated_at', { ascending: false })
 
-  // 본인 리뷰는 항상 제외
-  if (user) {
-    query = query.neq('user_id', user.id)
+  if (currentUserId) {
+    query = query.neq('user_id', currentUserId)
   }
 
-  // 특정 사용자 리뷰 제외 (타인 프로필 조회 시 해당 사용자 리뷰 제외)
-  if (params.excludeUserId) {
-    query = query.neq('user_id', params.excludeUserId)
+  if (excludeUserId) {
+    query = query.neq('user_id', excludeUserId)
   }
 
-  if (params.limit) {
-    query = query.limit(params.limit)
+  if (limit) {
+    query = query.limit(limit)
   }
 
-  if (params.offset) {
-    query = query.range(params.offset, params.offset + (params.limit || 20) - 1)
+  if (offset) {
+    query = query.range(offset, offset + (limit || 20) - 1)
   }
 
   const { data, error } = await query
@@ -71,10 +77,32 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
     return []
   }
 
-  return (data || []).map(record => ({
-    ...record,
-    review: record.review as string,
-    review_en: (record as any).review_en ?? null,
-    user: Array.isArray(record.user) ? record.user[0] : record.user
-  })) as ReviewFeedItem[]
+  return (data || []).map(record => {
+    const { user_id: _drop, ...rest } = record as any
+    return {
+      ...rest,
+      review: rest.review as string,
+      review_en: rest.review_en ?? null,
+      user: Array.isArray(rest.user) ? rest.user[0] : rest.user,
+    }
+  }) as ReviewFeedItem[]
+}
+
+const getReviewFeedCached = unstable_cache(
+  fetchReviewFeed,
+  ['review-feed'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  return getReviewFeedCached(
+    params.contentId,
+    params.limit ?? 20,
+    params.offset ?? 0,
+    params.excludeUserId ?? null,
+    user?.id ?? null,
+  )
 }

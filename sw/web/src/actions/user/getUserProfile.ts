@@ -123,17 +123,17 @@ export async function getUserProfile(userId: string): Promise<ActionResult<Publi
 
   const selectedTitle = getTitleInfo(profile.selected_title)
 
-  // 셀럽인 경우 celeb_dialogues에서 quote 조회
+  // 셀럽인 경우 celeb_dialogues에서 quote 조회 (JSON path만)
   let dialogueQuote: string | null = null
   let dialogueQuoteEn: string | null = null
   if (profile.profile_type === 'CELEB') {
     const { data: dlg } = await supabase
       .from('celeb_dialogues')
-      .select('lines, lines_en')
+      .select('quote:lines->quote, quote_en:lines_en->quote')
       .eq('celeb_id', userId)
       .maybeSingle()
-    dialogueQuote = (dlg?.lines as Record<string, any> | null)?.quote ?? null
-    dialogueQuoteEn = (dlg?.lines_en as Record<string, any> | null)?.quote ?? null
+    dialogueQuote = (dlg as { quote?: string | null } | null)?.quote ?? null
+    dialogueQuoteEn = (dlg as { quote_en?: string | null } | null)?.quote_en ?? null
   }
 
   const locale = await getLocale()

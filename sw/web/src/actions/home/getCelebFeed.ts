@@ -1,28 +1,28 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 interface GetCelebFeedParams {
-  contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
-  cursor?: string       // ISO datetime string
+  contentType?: string
+  cursor?: string
   limit?: number
 }
 
 const EMPTY_RESPONSE: CelebFeedResponse = { reviews: [], nextCursor: null, hasMore: false }
 
-export async function getCelebFeed(
-  params: GetCelebFeedParams = {}
+async function fetchCelebFeed(
+  contentType: string,
+  cursor: string | null,
+  limit: number,
+  locale: string,
 ): Promise<CelebFeedResponse> {
-  const { contentType = 'all', cursor, limit = 20 } = params
+  const supabase = createStaticClient()
 
-  const supabase = await createClient()
-
-  // 셀럽 리뷰 조회 - profiles 조인으로 CELEB 필터링 (별도 쿼리 불필요)
-  // contents 조인에서 type 필터링 (별도 쿼리 불필요)
   let query = supabase
     .from('user_contents')
     .select(`
@@ -56,12 +56,10 @@ export async function getCelebFeed(
     .order('updated_at', { ascending: false })
     .limit(limit + 1)
 
-  // 콘텐츠 타입 필터 - 조인된 contents에서 직접 필터링
   if (contentType !== 'all') {
     query = query.eq('content.type', contentType)
   }
 
-  // 커서 기반 페이지네이션
   if (cursor) {
     query = query.lt('updated_at', cursor)
   }
@@ -82,7 +80,6 @@ export async function getCelebFeed(
 
   const filtered = sliced.filter(row => row.content && row.celeb && row.review)
 
-  // 셀럽 카운트 배치 조회
   const contentIds = [...new Set(filtered.map(row => {
     const c = Array.isArray(row.content) ? row.content[0] : row.content
     return c.id
@@ -103,50 +100,63 @@ export async function getCelebFeed(
     }
   }
 
-  const locale = await getLocale()
   const reviews: CelebReview[] = filtered.map(row => {
-      const content = Array.isArray(row.content) ? row.content[0] : row.content
-      const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
+    const content = Array.isArray(row.content) ? row.content[0] : row.content
+    const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
-      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
-      return {
-        id: row.id,
-        rating: row.rating,
-        review: row.review as string,
-        review_en: (row as any).review_en ?? null,
-        is_spoiler: row.is_spoiler ?? false,
-        source_url: row.source_url ?? null,
-        updated_at: row.updated_at,
-        content: {
-          id: content.id,
-          title: flat.title,
-          creator: flat.creator,
-          thumbnail_url: flat.thumbnail_url,
-          type: content.type as ContentType,
-          celeb_count: celebCountMap.get(content.id) ?? 0,
-          user_count: content.user_count ?? 0,
-          title_ko: flat.title_ko,
-          title_en: flat.title_en,
-          creator_en: flat.creator_en,
-          isbn_en: flat.isbn_en,
-          thumbnail_en: flat.thumbnail_en,
-          has_en_edition: flat.has_en_edition,
-        },
-        celeb: {
-          id: celeb.id,
-          slug: celeb.slug ?? null,
-          nickname: celeb.nickname || '',
-          avatar_url: celeb.avatar_url,
-          profession: celeb.profession ?? null,
-          is_verified: celeb.is_verified ?? false,
-          is_platform_managed: celeb.claimed_by === null,
-        },
-      }
-    })
+    const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
+    return {
+      id: row.id,
+      rating: row.rating,
+      review: row.review as string,
+      review_en: (row as any).review_en ?? null,
+      is_spoiler: row.is_spoiler ?? false,
+      source_url: row.source_url ?? null,
+      updated_at: row.updated_at,
+      content: {
+        id: content.id,
+        title: flat.title,
+        creator: flat.creator,
+        thumbnail_url: flat.thumbnail_url,
+        type: content.type as ContentType,
+        celeb_count: celebCountMap.get(content.id) ?? 0,
+        user_count: content.user_count ?? 0,
+        title_ko: flat.title_ko,
+        title_en: flat.title_en,
+        creator_en: flat.creator_en,
+        isbn_en: flat.isbn_en,
+        thumbnail_en: flat.thumbnail_en,
+        has_en_edition: flat.has_en_edition,
+      },
+      celeb: {
+        id: celeb.id,
+        slug: celeb.slug ?? null,
+        nickname: celeb.nickname || '',
+        avatar_url: celeb.avatar_url,
+        profession: celeb.profession ?? null,
+        is_verified: celeb.is_verified ?? false,
+        is_platform_managed: celeb.claimed_by === null,
+      },
+    }
+  })
 
   const nextCursor = hasMore && reviews.length > 0
     ? reviews[reviews.length - 1].updated_at
     : null
 
   return { reviews, nextCursor, hasMore }
+}
+
+const getCelebFeedCached = unstable_cache(
+  fetchCelebFeed,
+  ['celeb-feed'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getCelebFeed(
+  params: GetCelebFeedParams = {}
+): Promise<CelebFeedResponse> {
+  const { contentType = 'all', cursor, limit = 20 } = params
+  const locale = await getLocale()
+  return getCelebFeedCached(contentType, cursor ?? null, limit, locale)
 }

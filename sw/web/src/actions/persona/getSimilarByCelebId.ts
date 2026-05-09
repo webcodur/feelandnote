@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
 import { calcDistance, type SimilarCeleb } from '@/lib/persona/utils'
@@ -11,12 +12,12 @@ export interface SimilarByCelebResult {
   similarCelebs: SimilarCeleb[]
 }
 
-export async function getSimilarByCelebId(
+async function fetchSimilarByCelebId(
   celebId: string,
-  limit: number = 5,
-  locale: string = 'ko'
+  limit: number,
+  locale: string,
 ): Promise<SimilarByCelebResult> {
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   const { data: target, error: targetError } = await supabase
     .from('celeb_persona')
@@ -84,4 +85,18 @@ export async function getSimilarByCelebId(
     .slice(0, limit)
 
   return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs }
+}
+
+const getSimilarByCelebIdCached = unstable_cache(
+  fetchSimilarByCelebId,
+  ['similar-by-celeb'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getSimilarByCelebId(
+  celebId: string,
+  limit: number = 5,
+  locale: string = 'ko'
+): Promise<SimilarByCelebResult> {
+  return getSimilarByCelebIdCached(celebId, limit, locale)
 }

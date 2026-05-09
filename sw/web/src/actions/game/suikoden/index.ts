@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from "next-intl/server";
 import type { GameCharacter } from '@/lib/game/suikoden/types'
 import type { PersonaJsonb } from '@/lib/persona/types'
@@ -51,11 +53,11 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
   if (filteredIds.length > 0) {
     const { data: dRows } = await supabase
       .from('celeb_dialogues')
-      .select('celeb_id, lines, lines_en')
+      .select('celeb_id, quote:lines->quote, quote_en:lines_en->quote')
       .in('celeb_id', filteredIds)
-    for (const d of dRows ?? []) {
-      const lines = (locale === 'en' && (d as any).lines_en) ? (d as any).lines_en : d.lines
-      quoteMap.set(d.celeb_id, (lines as any)?.quote ?? '')
+    for (const d of (dRows ?? []) as Array<{ celeb_id: string; quote: string | null; quote_en: string | null }>) {
+      const quote = (locale === 'en' && d.quote_en) ? d.quote_en : d.quote
+      quoteMap.set(d.celeb_id, quote ?? '')
     }
   }
 
@@ -73,10 +75,9 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }
 
-/** celeb_dialogues 로딩 — characterId → lines 매핑 */
-export async function loadSuikodenDialogues(): Promise<Record<string, any>> {
-  const supabase = await createClient();
-  const locale = await getLocale();
+/** celeb_dialogues 로딩 — characterId → lines 매핑 (1시간 캐시) */
+async function fetchSuikodenDialogues(locale: string): Promise<Record<string, any>> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('celeb_dialogues')
@@ -89,8 +90,18 @@ export async function loadSuikodenDialogues(): Promise<Record<string, any>> {
 
   const result: Record<string, any> = {};
   data.forEach(row => {
-    // locale에 따라 lines_en을 우선 적용하거나 fallback으로 lines 사용
     result[row.celeb_id] = locale === 'en' && row.lines_en ? row.lines_en : row.lines;
   });
   return result;
+}
+
+const loadSuikodenDialoguesCached = unstable_cache(
+  fetchSuikodenDialogues,
+  ['suikoden-dialogues'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function loadSuikodenDialogues(): Promise<Record<string, any>> {
+  const locale = await getLocale()
+  return loadSuikodenDialoguesCached(locale)
 }

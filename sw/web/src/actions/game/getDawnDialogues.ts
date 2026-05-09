@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 
 export interface DawnDialogueData {
@@ -14,13 +15,14 @@ export interface DawnDialogueData {
   quote: string;
 }
 
-export async function getDawnDialogues(
-  celebIds: string[]
+async function fetchDawnDialogues(
+  celebIdsKey: string,
+  locale: string,
 ): Promise<Record<string, DawnDialogueData>> {
+  const celebIds = celebIdsKey ? celebIdsKey.split(",") : [];
   if (celebIds.length === 0) return {};
 
-  const supabase = await createClient();
-  const locale = await getLocale();
+  const supabase = createStaticClient();
 
   const [tonesResult, dialoguesResult] = await Promise.all([
     supabase.from("profiles").select("id, speech_tone").in("id", celebIds),
@@ -35,7 +37,7 @@ export async function getDawnDialogues(
   const dialogueMap = new Map<string, any>();
   const quoteMap = new Map<string, string>();
   for (const d of dialoguesResult.data ?? []) {
-    const lines = (locale === 'en' && d.lines_en) ? d.lines_en : d.lines;
+    const lines = (locale === "en" && d.lines_en) ? d.lines_en : d.lines;
     dialogueMap.set(d.celeb_id, lines);
     const quote = (lines as any)?.quote ?? "";
     quoteMap.set(d.celeb_id, quote);
@@ -50,4 +52,20 @@ export async function getDawnDialogues(
     };
   }
   return result;
+}
+
+const getDawnDialoguesCached = unstable_cache(
+  fetchDawnDialogues,
+  ["dawn-dialogues"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
+export async function getDawnDialogues(
+  celebIds: string[]
+): Promise<Record<string, DawnDialogueData>> {
+  if (celebIds.length === 0) return {};
+  const locale = await getLocale();
+  // 정렬한 join을 키로 — 같은 조합이면 캐시 히트
+  const key = [...celebIds].sort().join(",");
+  return getDawnDialoguesCached(key, locale);
 }
