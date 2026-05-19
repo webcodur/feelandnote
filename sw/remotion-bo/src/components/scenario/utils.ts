@@ -4,6 +4,24 @@ import { isVideoFile } from '@/lib/media-exts'
 
 export { isVideoFile }
 
+/**
+ * 객체의 한 필드를 갱신해 새 객체로 반환한다.
+ * value 가 undefined 이면 키 자체를 제거한다(JSON 을 깔끔하게 유지).
+ * dropFalse=true 이면 false 도 제거 대상(speaker · topRight 등 기본값 의미가 있는 필드용).
+ * zoomIn 처럼 false 가 명시적 의미(강제 OFF)인 자리는 dropFalse=false(기본값) 유지.
+ */
+export function setField<T extends Record<string, unknown>>(
+  obj: T,
+  field: string,
+  value: unknown,
+  opts?: { dropFalse?: boolean }
+): T {
+  const dropFalse = opts?.dropFalse ?? false
+  const { [field]: _drop, ...rest } = obj
+  if (value === undefined || (dropFalse && value === false)) return rest as T
+  return { ...obj, [field]: value } as T
+}
+
 /** imageBaseUrl(`/api/{series}/images/{ep}`) 기준 파일 src 생성. 영상은 videos 라우트로 스왑. */
 export function mediaSrc(imageBaseUrl: string, fileName: string): string {
   if (isVideoFile(fileName)) {

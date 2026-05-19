@@ -24,16 +24,43 @@ export type AnchorPick = {
   field?: ImageField
 } | null
 
+/**
+ * 행 역할 — 새 체계는 line / comment 두 가지.
+ *   line    = 등장인물 발화·대사 (셀럽 본인 발언, 인용)
+ *   comment = 외부 시점 해설·서술 (나레이터, 요약맨, 브릿지 등)
+ *
+ * 기존 데이터·코드는 narrator / summary / celeb / host 같은 값을 그대로 쓰지만,
+ * 표시 단계에서 normalizeRole 로 line/comment 로 환원한다.
+ */
+export type SimpleRole = 'line' | 'comment'
+
 export const ROLE_COLORS: Record<string, string> = {
+  // 새 체계
+  line: 'text-[#c8a46e]',
+  comment: 'text-[#888]',
+  // 하위호환
   narrator: 'text-[#888]',
   summary: 'text-[#8bb8a8]',
   celeb: 'text-[#c8a46e]',
+  host: 'text-[#c8a46e]',
 }
 
 export const ROLE_LABELS: Record<string, string> = {
-  narrator: '나레이터',
-  summary: '요약맨',
-  celeb: '셀럽',
+  // 새 체계
+  line: '대사',
+  comment: '해설',
+  // 하위호환
+  narrator: '해설',
+  summary: '해설',
+  celeb: '대사',
+  host: '대사',
+}
+
+/** 자유 role 값을 line/comment 두 종으로 환원. 모르는 값은 comment 로 본다. */
+export function normalizeRole(role: string | undefined | null): SimpleRole {
+  if (role === 'line') return 'line'
+  if (role === 'celeb' || role === 'host' || role === 'quote' || role === 'character') return 'line'
+  return 'comment'
 }
 
 export const ENGINE_COLORS: Record<string, string> = {

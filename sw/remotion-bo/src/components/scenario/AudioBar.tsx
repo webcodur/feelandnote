@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { ENGINE_COLORS, ENGINE_LABELS, ROLE_COLORS, ROLE_LABELS } from './types'
+import { useState, useRef, useEffect, type ReactNode } from 'react'
+import { ENGINE_COLORS, ENGINE_LABELS, ROLE_COLORS, ROLE_LABELS, normalizeRole } from './types'
 
 export function InlineAudioBar({ sectionKey, audioUrl, duration, exists, activeEngine, isPlaying, onTogglePlay }: {
   sectionKey: string; audioUrl: string; duration?: number; exists: boolean
@@ -66,11 +66,12 @@ export function InlineAudioBar({ sectionKey, audioUrl, duration, exists, activeE
   )
 }
 
-export function VoiceBadge({ label, role }: { label: string; role: string }) {
+export function VoiceBadge({ label, role }: { label: ReactNode; role: string }) {
+  const simple = normalizeRole(role)
   return (
     <div className="pt-1 space-y-0.5">
       <div className="text-xs font-semibold text-text-secondary leading-tight">{label}</div>
-      <div className={`text-[10px] ${ROLE_COLORS[role]}`}>{ROLE_LABELS[role]}</div>
+      <div className={`text-[11px] ${ROLE_COLORS[simple]}`}>{ROLE_LABELS[simple]}</div>
     </div>
   )
 }

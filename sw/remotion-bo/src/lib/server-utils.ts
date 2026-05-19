@@ -144,6 +144,9 @@ export async function listCandidates(series: string): Promise<string[]> {
   }
 }
 
+// 신구조(책 단위 분할) 헬퍼 재export — 호출부에서 server-utils 단일 import 로 끝낼 수 있게 한다.
+export { isNewLayout, listBookFolders } from './episode-new-layout'
+
 export async function loadCandidate(series: string, name: string) {
   const raw = await readFile(path.join(candidatesDir(series), `${name}.json`), 'utf-8')
   return JSON.parse(raw)

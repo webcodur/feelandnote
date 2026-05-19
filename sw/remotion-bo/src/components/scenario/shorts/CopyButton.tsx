@@ -12,7 +12,7 @@ import { useState, useCallback } from 'react'
  *      role === 'celeb'    → [대사]
  *      role === 'narrator' → [해설]
  */
-export function ShortsCopyButton({ segments }: { segments: any[] }) {
+export function ShortsCopyButton({ segments, shortsName }: { segments: any[]; shortsName?: string }) {
   const [copied, setCopied] = useState(false)
 
   const copy = useCallback(() => {
@@ -30,7 +30,8 @@ export function ShortsCopyButton({ segments }: { segments: any[] }) {
       .filter((x): x is { kind: Exclude<Kind, null>; seg: any } => x.kind !== null)
 
     const structure = items.map(x => x.kind).join(' → ')
-    const header = `[구조] ${structure}`
+    const titleLine = shortsName ? `[쇼츠] ${shortsName}\n` : ''
+    const header = `${titleLine}[구조] ${structure}`
 
     const body = items
       .filter(({ seg }) => typeof seg.text === 'string' && seg.text.trim().length > 0)
@@ -41,7 +42,7 @@ export function ShortsCopyButton({ segments }: { segments: any[] }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     })
-  }, [segments])
+  }, [segments, shortsName])
 
   return (
     <button

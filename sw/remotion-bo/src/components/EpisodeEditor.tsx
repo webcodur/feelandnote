@@ -27,6 +27,17 @@ type QuotePair = {
   afterDuration?: number
 }
 
+/** 한 구간에 얹는 효과음 한 개. 텍스트 앵커 기준 ± offset(초) 으로 발화 시점을 잡는다. */
+export type SfxItem = {
+  file: string
+  text?: string
+  offset?: number
+  volume?: number
+  duration?: number
+  fadeIn?: number
+  fadeOut?: number
+}
+
 export type BgmTrack = {
   file: string
   volume?: number
