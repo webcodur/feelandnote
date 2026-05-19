@@ -54,9 +54,10 @@ function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode
         >{part}</mark>
       )
     }
-    // 일반 텍스트 — 오버레이에서 항상 투명. textarea 본문이 그대로 노출.
+    // 일반 텍스트 — viewMode 면 오버레이가 본 글자를 그린다(textarea 는 글자 투명).
+    // 편집 모드(focused)면 textarea 가 본 글자를 담당하니 오버레이는 투명.
     return (
-      <span key={i} className="text-transparent">
+      <span key={i} className={viewMode ? 'text-text-primary' : 'text-transparent'}>
         {part.split('\n').map((line, j, arr) => (
           <React.Fragment key={j}>{line}{j < arr.length - 1 && <br />}</React.Fragment>
         ))}
@@ -131,7 +132,10 @@ export function EditableText({
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
-        className={`relative w-full text-sm leading-relaxed whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors ${
+        className={`relative w-full text-sm leading-relaxed whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/30 selection:text-text-primary ${
+          // viewMode(비포커스·비픽모드) 면 글자 투명 — 오버레이가 색으로 그린다. 편집·픽모드는 정상 색.
+          viewMode ? 'text-transparent' : 'text-text-primary'
+        } ${
           pickMode
             ? 'border-amber-500/60 cursor-text select-text bg-amber-500/5'
             : 'border-transparent hover:border-border focus:border-accent'
