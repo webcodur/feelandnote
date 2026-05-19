@@ -154,47 +154,65 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
           onCancel={() => setAnchorPick(null)}
         />
 
-        {/* 인트로 구간 — splitIdx 이전 (hook, intro, 초반 celeb 등).
-            우측 이미지 풀이 따로 있으므로 폭 제한을 두지 않는다. */}
-        <div>
-          {segments.map((seg: any, i: number) => {
-            if (i >= splitIdx) return null
-            return (
-              <Fragment key={`intro-${i}`}>
-                <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
-                <SegmentRow seg={seg} idx={i} withImage={true} {...rowProps} dragHandleProps={dragPropsFor(i)} />
-              </Fragment>
-            )
-          })}
+        {(() => {
+          const introSegs = segments.slice(0, splitIdx)
+          const bookSegs = segments.slice(splitIdx)
+          const introChars = introSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
+          const bookChars = bookSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
+          return (
+            <>
+              {/* 인트로 구간 — splitIdx 이전 (hook, intro, 초반 celeb 등) */}
+              <details open className="rounded border border-border/40 bg-bg-card/30 overflow-hidden">
+                <summary className="px-3 py-1.5 text-[12px] text-text-secondary cursor-pointer select-none hover:text-text-primary flex items-center gap-2">
+                  <span className="font-semibold text-text-primary">인트로</span>
+                  <span className="text-[11px] opacity-70 tabular-nums">{introSegs.length}구간 · {introChars}자</span>
+                </summary>
+                <div className="px-3 pb-3 pt-1 border-t border-border/40">
+                  {segments.map((seg: any, i: number) => {
+                    if (i >= splitIdx) return null
+                    return (
+                      <Fragment key={`intro-${i}`}>
+                        <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
+                        <SegmentRow seg={seg} idx={i} withImage={true} {...rowProps} dragHandleProps={dragPropsFor(i)} />
+                      </Fragment>
+                    )
+                  })}
+                  {/* revealBg — 인트로 구간 기본 배경 (구간별 이미지가 없을 때 표시) */}
+                  <RevealBgSlot
+                    fileName={revealBg}
+                    imageBaseUrl={imageBaseUrl}
+                    onDrop={fn => state.setRevealBg(fn, assignedFiles)}
+                    onRemove={state.removeRevealBg}
+                  />
+                </div>
+              </details>
 
-          {/* revealBg — 인트로 구간 기본 배경 (구간별 이미지가 없을 때 표시) */}
-          <RevealBgSlot
-            fileName={revealBg}
-            imageBaseUrl={imageBaseUrl}
-            onDrop={fn => state.setRevealBg(fn, assignedFiles)}
-            onRemove={state.removeRevealBg}
-          />
-        </div>
-
-        <hr className="border-border my-4" />
-
-        {/* 책 구간 — splitIdx 이후 (book + 책 구간 내 celeb) */}
-        <div className="space-y-1">
-          {segments.map((seg: any, i: number) => {
-            if (i < splitIdx) return null
-            const withImage = seg.visual === 'book' || seg.role === 'celeb'
-            return (
-              <Fragment key={`book-${i}`}>
-                <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
-                <SegmentRow seg={seg} idx={i} withImage={withImage} {...rowProps} dragHandleProps={dragPropsFor(i)} />
-              </Fragment>
-            )
-          })}
-          <div className="flex items-center gap-3 pt-2">
-            <AddFieldButton label="+ 인용 추가" onClick={() => state.insertSegmentAt(segments.length, 'quote')} />
-            <AddFieldButton label="+ 맥락 추가" onClick={() => state.insertSegmentAt(segments.length, 'context')} />
-          </div>
-        </div>
+              {/* 본편 구간 — splitIdx 이후 (book + 책 구간 내 celeb) */}
+              <details open className="rounded border border-border/40 bg-bg-card/30 overflow-hidden">
+                <summary className="px-3 py-1.5 text-[12px] text-text-secondary cursor-pointer select-none hover:text-text-primary flex items-center gap-2">
+                  <span className="font-semibold text-text-primary">본편</span>
+                  <span className="text-[11px] opacity-70 tabular-nums">{bookSegs.length}구간 · {bookChars}자</span>
+                </summary>
+                <div className="px-3 pb-3 pt-1 border-t border-border/40 space-y-1">
+                  {segments.map((seg: any, i: number) => {
+                    if (i < splitIdx) return null
+                    const withImage = seg.visual === 'book' || seg.role === 'celeb'
+                    return (
+                      <Fragment key={`book-${i}`}>
+                        <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
+                        <SegmentRow seg={seg} idx={i} withImage={withImage} {...rowProps} dragHandleProps={dragPropsFor(i)} />
+                      </Fragment>
+                    )
+                  })}
+                  <div className="flex items-center gap-3 pt-2">
+                    <AddFieldButton label="+ 인용 추가" onClick={() => state.insertSegmentAt(segments.length, 'quote')} />
+                    <AddFieldButton label="+ 맥락 추가" onClick={() => state.insertSegmentAt(segments.length, 'context')} />
+                  </div>
+                </div>
+              </details>
+            </>
+          )
+        })()}
       </div>
 
       <ImagePool allImages={folderImages} usedFiles={usedFiles} fileBookMap={fileBookMap} fileFieldMap={fileFieldMap} view={view} imageBaseUrl={imageBaseUrl}

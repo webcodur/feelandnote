@@ -67,11 +67,16 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
             </button>
           ) : (
             <>
-              {(images || onDrop) && (
-                <div className={`mb-1 px-2 py-1.5 rounded border ${images ? 'bg-[#1a1a14] border-[#2e2a1a]' : 'bg-transparent border-dashed border-border/30'}`}>
-                  {images || <div className="text-[11px] text-text-secondary italic py-1">이미지를 드래그하여 추가</div>}
+              {images ? (
+                <div className="mb-1 px-2 py-1.5 rounded border bg-[#1a1a14] border-[#2e2a1a]">
+                  {images}
                 </div>
-              )}
+              ) : onDrop ? (
+                <div className="mb-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-dashed border-border/30 text-[11px] text-text-secondary/60 italic">
+                  <span>🖼</span>
+                  <span>드래그로 이미지 추가</span>
+                </div>
+              ) : null}
               {onDrop && over && (
                 <div className="text-[11px] text-accent py-0.5">여기에 놓으면 이 섹션에 이미지 추가</div>
               )}

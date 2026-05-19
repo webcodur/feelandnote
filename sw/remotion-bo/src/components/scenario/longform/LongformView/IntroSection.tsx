@@ -111,13 +111,28 @@ export function IntroSection({
     )
   }
 
-  return (
-    <>
-      <div className="flex justify-end">
-        <LongformCopyAllButton narrator={narrator} host={host} books={allBooks} />
-      </div>
+  // 헤더 요약용 — 활성 행 수 카운트(없는 행은 표시 자체 안 함)
+  const activeRows = [
+    true,                       // 서비스 인사 (항상 표시)
+    !!narrator.serviceIntro,
+    !!host.featuredQuote,
+    true,                       // 인물 소개 (항상 표시)
+    true,                       // 감상철학 (항상 표시)
+    !!narrator.bridge,
+    !!narrator.outro,
+  ].filter(Boolean).length
 
-      <div className="max-w-3xl">
+  return (
+    <details open className="rounded border border-border/40 bg-bg-card/30 overflow-hidden">
+      <summary className="px-3 py-1.5 text-[12px] text-text-secondary cursor-pointer select-none hover:text-text-primary flex items-center gap-2">
+        <span className="font-semibold text-text-primary">인트로</span>
+        <span className="text-[11px] opacity-70 tabular-nums">{activeRows}구간</span>
+        <span className="ml-auto" onClick={e => e.preventDefault()}>
+          <LongformCopyAllButton narrator={narrator} host={host} books={allBooks} />
+        </span>
+      </summary>
+
+      <div className="px-3 pb-3 pt-1 border-t border-border/40">
         {row({ label: '서비스 인사', role: 'narrator', value: narrator.serviceGreeting ?? '', field: ['narrator', 'serviceGreeting'], key_: 'A1-service-greeting', duration: narrator.serviceGreetingDuration, rawValue: narrator.serviceGreeting ?? '' })}
         {narrator.serviceIntro && row({ label: '오늘의 인물', role: 'narrator', value: narrator.serviceIntro, field: ['narrator', 'serviceIntro'], key_: 'A2-service-intro', duration: narrator.serviceIntroDuration })}
         {host.featuredQuote && row({ label: '대표 명언', role: 'celeb', value: host.featuredQuote, field: ['host', 'featuredQuote'], key_: 'A3-featured-quote', duration: host.featuredQuoteDuration })}
@@ -126,6 +141,6 @@ export function IntroSection({
         {narrator.bridge && row({ label: '브릿지', role: 'narrator', value: narrator.bridge, field: ['narrator', 'bridge'], key_: 'B3-bridge', duration: narrator.bridgeDuration })}
         {narrator.outro && row({ label: '마무리', role: 'narrator', value: narrator.outro, field: ['narrator', 'outro'], key_: 'Z1-outro', duration: narrator.outroDuration })}
       </div>
-    </>
+    </details>
   )
 }
