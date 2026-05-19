@@ -113,7 +113,7 @@ export function EditableText({
       {/* 오버레이 — 부호 부분에 강조 색/배경. 일반 글자는 투명이라 textarea 본문이 그대로 노출. */}
       <div
         aria-hidden
-        className="absolute inset-0 text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-words"
+        className="absolute inset-0 py-1 text-[15px] leading-7 tracking-[-0.005em] pointer-events-none whitespace-pre-wrap break-words"
       >
         {hasHighlights
           ? splitHighlights(display, activeHighlights).map((seg, j) =>
@@ -132,14 +132,14 @@ export function EditableText({
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
-        className={`relative w-full text-sm leading-relaxed whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/30 selection:text-text-primary ${
+        className={`relative w-full text-[15px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/30 selection:text-text-primary ${
           // viewMode(비포커스·비픽모드) 면 글자 투명 — 오버레이가 색으로 그린다. 편집·픽모드는 정상 색.
           viewMode ? 'text-transparent' : 'text-text-primary'
         } ${
           pickMode
             ? 'border-amber-500/60 cursor-text select-text bg-amber-500/5'
-            : 'border-transparent hover:border-border focus:border-accent'
-        }`}
+            : 'border-transparent hover:border-border/70 focus:border-accent focus:border-b-2'
+        } py-1`}
       />
       {onAddAnchor && selectedText && (
         <button
