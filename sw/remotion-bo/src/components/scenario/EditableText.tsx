@@ -4,16 +4,18 @@ import React, { useState, useRef, useEffect } from 'react'
 import { splitHighlights } from './utils'
 
 /**
- * 텍스트 안 인용·강조 부호 부분에 배경색으로 강조 띠를 칠하는 오버레이용 분할.
+ * 인용·강조 부호 부분을 글자 색·배경 띠로 강조하는 오버레이 분할.
  *
- * 본 서비스(`sw/web` FormattedText) 규칙을 그대로 따른다 — 다만 textarea 글자 위에 겹치는
- * 오버레이라 글자색 변경은 두 번 겹쳐 흐려지므로 색 강조는 「배경 띠」 형태로만 적용한다.
+ * 본 서비스(`sw/web` FormattedText) 규칙:
+ *   "…"                    → accent 톤(쌍따옴표 강조)
+ *   『…』 《…》             → 흰색 굵게(작품·매체 큰 단위)
+ *   「…」 〈…〉 <…> '…'    → accent + 본문체(소단위 강조)
  *
- *   "…"                    → 강조 배경 (accent 톤, 약하게)
- *   『…』 《…》             → 굵은 배경 강조 (작품·매체 큰 단위)
- *   「…」 〈…〉 <…> '…'   → 강조 배경 (소단위)
+ * 두 모드:
+ *   - viewMode (편집기 비포커스): 부호 부분 글자 색·배경을 모두 칠해 강조. 일반 글자는 본 색 그대로.
+ *   - editMode (편집기 포커스): 오버레이는 부호 부분에 배경 띠만 약하게. 글자는 textarea 가 담당해 IME 안전.
  */
-function renderEmphasisOverlay(text: string): React.ReactNode[] {
+function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode[] {
   if (!text) return []
   const parts = text.split(/(".*?"|(?<!\w)'[^'\n]*'(?!\w)|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g)
   return parts.map((part, i) => {
@@ -27,16 +29,32 @@ function renderEmphasisOverlay(text: string): React.ReactNode[] {
       (part.startsWith('〈') && part.endsWith('〉')) ||
       (part.startsWith('<') && part.endsWith('>')) ||
       (part.startsWith("'") && part.endsWith("'") && part.length >= 2)
+
     if (isDouble) {
-      return <mark key={i} className="bg-accent/15 rounded-sm text-transparent">{part}</mark>
+      return (
+        <mark
+          key={i}
+          className={`rounded-sm px-0.5 bg-amber-500/15 ${viewMode ? 'text-amber-300' : 'text-transparent'}`}
+        >{part}</mark>
+      )
     }
     if (isBig) {
-      return <mark key={i} className="bg-text-primary/15 rounded-sm text-transparent">{part}</mark>
+      return (
+        <mark
+          key={i}
+          className={`rounded-sm px-0.5 font-bold bg-amber-500/20 ${viewMode ? 'text-amber-200' : 'text-transparent'}`}
+        >{part}</mark>
+      )
     }
     if (isSmall) {
-      return <mark key={i} className="bg-accent/10 rounded-sm text-transparent">{part}</mark>
+      return (
+        <mark
+          key={i}
+          className={`rounded-sm px-0.5 font-serif bg-amber-500/12 ${viewMode ? 'text-amber-300' : 'text-transparent'}`}
+        >{part}</mark>
+      )
     }
-    // 일반 텍스트는 오버레이에서 투명 — textarea 본문이 그대로 보이게.
+    // 일반 텍스트 — 오버레이에서 항상 투명. textarea 본문이 그대로 노출.
     return (
       <span key={i} className="text-transparent">
         {part.split('\n').map((line, j, arr) => (
@@ -59,6 +77,7 @@ export function EditableText({
 }) {
   const safeValue = value ?? ''
   const [draft, setDraft] = useState(safeValue)
+  const [focused, setFocused] = useState(false)
   const ref = useRef<HTMLTextAreaElement>(null)
   const [selectedText, setSelectedText] = useState('')
 
@@ -85,10 +104,12 @@ export function EditableText({
   const activeHighlights = highlights?.filter(h => h && (draft ?? '').includes(h)) ?? []
   const hasHighlights = activeHighlights.length > 0
   const display = draft ?? ''
+  // 비포커스 상태에서만 부호 부분의 글자 색·배경을 모두 강조. 포커스 시는 textarea 글자가 우선이라 색 충돌 방지.
+  const viewMode = !focused && !pickMode
 
   return (
     <div className="relative">
-      {/* 오버레이 — textarea 본문 위에 강조 띠(부호 / 앵커) 만 칠한다. 일반 글자는 textarea 가 그대로 표시. */}
+      {/* 오버레이 — 부호 부분에 강조 색/배경. 일반 글자는 투명이라 textarea 본문이 그대로 노출. */}
       <div
         aria-hidden
         className="absolute inset-0 text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-words"
@@ -96,16 +117,17 @@ export function EditableText({
         {hasHighlights
           ? splitHighlights(display, activeHighlights).map((seg, j) =>
               seg.highlight
-                ? <mark key={j} className="bg-amber-500/25 rounded-sm text-transparent">{renderEmphasisOverlay(seg.text)}</mark>
-                : <React.Fragment key={j}>{renderEmphasisOverlay(seg.text)}</React.Fragment>
+                ? <mark key={j} className="bg-amber-500/25 rounded-sm text-transparent">{renderEmphasisOverlay(seg.text, viewMode)}</mark>
+                : <React.Fragment key={j}>{renderEmphasisOverlay(seg.text, viewMode)}</React.Fragment>
             )
-          : renderEmphasisOverlay(display)}
+          : renderEmphasisOverlay(display, viewMode)}
       </div>
       <textarea
         ref={ref}
         value={display}
         onChange={e => { if (!pickMode) setDraft(e.target.value) }}
-        onBlur={() => { commit(); setTimeout(() => setSelectedText(''), 200) }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => { setFocused(false); commit(); setTimeout(() => setSelectedText(''), 200) }}
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
