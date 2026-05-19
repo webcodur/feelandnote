@@ -7,7 +7,8 @@ import { scanMediaRecursive, IMG_EXTS, IMG_MIME, type MediaScanResult } from '@/
 
 const MIME = IMG_MIME
 
-/** 신구조면 books/<책>/images 를 한 번에 합쳐서 평면 결과로 돌려준다. 옛 구조면 personDir/images 단순 스캔. */
+/** 신구조면 books/<책>/images 를 한 번에 합쳐서 평면 결과로 돌려준다. 옛 구조면 personDir/images 단순 스캔.
+ *  같은 basename 이 여러 책에 있어도 모두 노출되도록 두 번째 이후는 키를 「<책>/basename」 형태로 평탄화한다. */
 async function scanEpisodeImages(personDir: string): Promise<MediaScanResult> {
   if (!isNewLayout(personDir)) {
     return scanMediaRecursive(path.join(personDir, 'images'), IMG_EXTS)
@@ -15,7 +16,6 @@ async function scanEpisodeImages(personDir: string): Promise<MediaScanResult> {
   const booksDir = path.join(personDir, 'books')
   const bookFolders = await listBookFolders(personDir)
   const merged: MediaScanResult = { files: [], folders: [], fileFolders: {}, fileAbsPaths: {}, duplicates: [] }
-  const dupMap = new Map<string, string[]>()
   for (const bf of bookFolders) {
     const imgDir = path.join(booksDir, bf, 'images')
     if (!existsSync(imgDir)) continue
@@ -24,20 +24,15 @@ async function scanEpisodeImages(personDir: string): Promise<MediaScanResult> {
     for (const sub of scan.folders) merged.folders.push(`${bf}/${sub}`)
     for (const f of scan.files) {
       const subFolder = scan.fileFolders[f] ? `${bf}/${scan.fileFolders[f]}` : bf
-      if (merged.fileFolders[f] !== undefined) {
-        const arr = dupMap.get(f) ?? [merged.fileFolders[f]]
-        arr.push(subFolder)
-        dupMap.set(f, arr)
-        continue
-      }
-      merged.files.push(f)
-      merged.fileFolders[f] = subFolder
-      merged.fileAbsPaths[f] = scan.fileAbsPaths[f]
+      // 첫 등장은 basename 그대로(기존 매칭 호환), 충돌 시 두 번째 이후는 「<책>/basename」 평탄 키로
+      const key = merged.fileFolders[f] === undefined ? f : `${bf}/${f}`
+      merged.files.push(key)
+      merged.fileFolders[key] = subFolder
+      merged.fileAbsPaths[key] = scan.fileAbsPaths[f]
     }
   }
   merged.files.sort()
   merged.folders.sort()
-  merged.duplicates = Array.from(dupMap.entries()).map(([name, fs]) => ({ name, folders: fs }))
   return merged
 }
 
@@ -63,8 +58,6 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
   const found = findEpisodeDir(episodeName)
   if (!found) return Response.json({ error: 'episode not found' }, { status: 404 })
 
-  const imagesDir = path.join(found.dir, 'images')
-
   // 파일 경로 없음 → 디렉토리 내 이미지 목록 반환 (재귀 스캔)
   if (!fileParts.length) {
     const scan = await scanEpisodeImages(found.dir)
@@ -77,17 +70,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
     })
   }
 
-  // 파일 서빙 — 정확 경로 우선, 없으면 basename으로 재귀 탐색
-  let abs = path.join(imagesDir, ...fileParts)
+  // 파일 서빙 — 신구조/옛 구조 분기 정확 경로 → 없으면 basename 으로 재귀 탐색
+  let abs = resolveImageAbs(found.dir, fileParts)
   if (!existsSync(abs)) {
-    if (fileParts.length === 1) {
-      const scan = await scanEpisodeImages(found.dir)
-      const hit = scan.fileAbsPaths[fileParts[0]]
-      if (hit) abs = hit
-      else return Response.json({ error: 'not found' }, { status: 404 })
-    } else {
-      return Response.json({ error: 'not found' }, { status: 404 })
-    }
+    // 마지막 한 토막(basename)으로 재귀 탐색 — 옛 코드 호환 + prefix 키 fallback
+    const scan = await scanEpisodeImages(found.dir)
+    const key = fileParts.join('/')
+    const hit = scan.fileAbsPaths[key] ?? scan.fileAbsPaths[fileParts[fileParts.length - 1]]
+    if (hit) abs = hit
+    else return Response.json({ error: 'not found' }, { status: 404 })
   }
 
   const ext = path.extname(abs).toLowerCase()
