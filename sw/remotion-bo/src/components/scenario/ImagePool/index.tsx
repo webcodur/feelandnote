@@ -15,7 +15,7 @@ import { PoolGroups } from './PoolGroups'
 
 /** 미디어/이미지 풀 사이드바 — 검색/필터/뷰모드/아코디언 그룹/정렬 지원 */
 export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, view, imageBaseUrl, bookTitles, onLocate, onDrop, onDelete, onOpenFolder, onOpenFolderPath, onRefresh, crossUsage,
-  subFolders = [], fileFolders = {}, duplicates = [], onMoveFile, onCreateFolder, onRenameFolder, onDeleteFolder }: {
+  subFolders = [], fileFolders = {}, onMoveFile, onCreateFolder, onRenameFolder, onDeleteFolder }: {
   /** 에피소드 폴더 전체 이미지 파일명 */
   allImages: string[]
   /** 롱폼/모든 쇼츠에서 사용 중인 파일명 (used 뱃지 + 드래그 추가 비활성 기준) */
@@ -218,7 +218,7 @@ export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, vie
 
       {(subFolders.length > 0 || onCreateFolder) && (
         <PoolFolders
-          subFolders={subFolders} fileFolders={fileFolders} folderFiles={filter.folderFiles} duplicates={duplicates}
+          subFolders={subFolders} fileFolders={fileFolders} folderFiles={filter.folderFiles}
           opened={opened} viewMode={viewMode} sortMode={filter.sortMode}
           folderDrop={sel.folderDrop} setFolderDrop={sel.setFolderDrop} onFolderDrop={sel.handleFolderDrop}
           renderImage={renderImage}

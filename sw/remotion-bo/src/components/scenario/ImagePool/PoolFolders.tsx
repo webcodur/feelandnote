@@ -10,7 +10,7 @@ import { POOL_STYLES, sortBy, type FolderDropState, type SortMode, type ViewMode
  * "루트로 꺼내기" 드롭존은 폴더 밖(루트)으로 빼는 데 쓴다.
  */
 export function PoolFolders({
-  subFolders, fileFolders, folderFiles, duplicates,
+  subFolders, fileFolders, folderFiles,
   opened, viewMode, sortMode,
   folderDrop, setFolderDrop, onFolderDrop,
   renderImage,
@@ -20,7 +20,6 @@ export function PoolFolders({
   subFolders: string[]
   fileFolders: Record<string, string>
   folderFiles: Map<string, string[]>
-  duplicates: Array<{ name: string; folders: string[] }>
   opened: Set<string>
   viewMode: ViewMode
   sortMode: SortMode
@@ -69,12 +68,6 @@ export function PoolFolders({
           >+ 새 폴더</button>
         )}
       </div>
-
-      {duplicates.length > 0 && (
-        <div className="px-1 py-1 text-[11px] text-red-400 bg-red-500/10 rounded leading-tight">
-          ⚠ 이름 중복: {duplicates.map(d => `${d.name} (${d.folders.map(f => f || '루트').join(', ')})`).join(' · ')}
-        </div>
-      )}
 
       {subFolders.length === 0 && (
         <div className="px-1 py-2 text-[11px] text-text-secondary italic">폴더 없음 — &quot;+ 새 폴더&quot; 로 만들어라</div>
