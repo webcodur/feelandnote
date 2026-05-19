@@ -9,13 +9,13 @@ const BTN = 'px-3 py-1 rounded text-sm font-semibold'
 const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
 const BTN_SECONDARY = `bg-bg-card border border-border ${BTN} hover:bg-bg-hover`
 
-/** 현재 path에서 sub-route(editor/scenario/youtube/render/voice) 추출. 없으면 'editor' */
+/** 현재 path에서 sub-route(scenario/youtube/render/voice) 추출. 없으면 'scenario' */
 function pickSubRoute(pathname: string, series: string, name: string): string {
   const prefix = `/${series}/${name}`
-  if (!pathname.startsWith(prefix)) return 'editor'
+  if (!pathname.startsWith(prefix)) return 'scenario'
   const rest = pathname.slice(prefix.length).replace(/^\//, '')
   const seg = rest.split('/')[0]
-  return seg || 'editor'
+  return seg || 'scenario'
 }
 
 export function EpisodeHeader() {

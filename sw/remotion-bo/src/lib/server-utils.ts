@@ -1,5 +1,5 @@
 import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } from 'fs/promises'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync, readdirSync, type Dirent } from 'fs'
 import { spawn, type ChildProcess } from 'child_process'
 import path from 'path'
 
@@ -20,9 +20,68 @@ const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/
 /** export — API 라우트에서 직접 사용 */
 export { EPISODES_DIR, COMMON_VOICE_DIR }
 
-// --- 3단 상태 폴더 ---
+// --- 상태 정책 ---
+//
+// 신구조: episodes/<person>/_status (JSON 한 줄) 가 진척도 SSoT.
+// 폴더 위치는 그룹 축으로 자유롭게 사용 가능 (예: episodes/three-kingdoms/).
+//
+// 마이그레이션 호환: episodes/<status>/<person>/ 옛 위치도 인식한다.
 const STATUSES = ['todo', 'live', 'done'] as const
 export type EpisodeStatus = (typeof STATUSES)[number]
+const STATUS_FILE = '_status.json'
+
+function readStatusFile(personDir: string): EpisodeStatus | null {
+  const fp = path.join(personDir, STATUS_FILE)
+  if (!existsSync(fp)) return null
+  try {
+    // BOM(0xFEFF) 선두 제거
+    const raw = readFileSync(fp, 'utf-8').replace(/^﻿/, '').trim()
+    const parsed = JSON.parse(raw)
+    const value = typeof parsed === 'string' ? parsed : parsed?.status
+    if ((STATUSES as readonly string[]).includes(value)) return value as EpisodeStatus
+  } catch { /* ignore */ }
+  return null
+}
+
+/** 인물 폴더 후보인지 — _status 파일이 있거나 ko.json/en.json 직속이면 인물 폴더 */
+function isPersonDir(dir: string): boolean {
+  if (existsSync(path.join(dir, STATUS_FILE))) return true
+  if (existsSync(path.join(dir, 'ko.json')) || existsSync(path.join(dir, 'en.json'))) return true
+  // 신구조(책 단위 분할) 인물 — meta.{locale}.json 직속
+  if (existsSync(path.join(dir, 'meta.ko.json')) || existsSync(path.join(dir, 'meta.en.json'))) return true
+  return false
+}
+
+type PersonHit = { name: string; dir: string; status: EpisodeStatus; group: string }
+
+/** episodes/ 루트부터 재귀 스캔하여 인물 폴더 목록을 모은다.
+ *  - 인물 폴더 = _status 파일 보유 또는 ko/en/meta JSON 직속 (재귀 중단)
+ *  - 그 외 디렉토리 = 그룹 폴더 (자식 재귀, 경로를 group 으로 누적)
+ *  - 스킵: `_` 접두 폴더, 루트의 옛 status 폴더(todo/live/done), 루트의 pre-todo
+ *  - group 은 '/' 로 연결한 그룹 경로 ('' = 루트). 예: 'three-kingdoms' */
+function scanPersonFoldersSync(root: string): PersonHit[] {
+  const hits: PersonHit[] = []
+  function walk(dir: string, depth: number, group: string) {
+    let entries: Dirent[]
+    try { entries = readdirSync(dir, { withFileTypes: true }) as Dirent[] } catch { return }
+    for (const e of entries) {
+      if (!e.isDirectory()) continue
+      if (e.name.startsWith('_')) continue
+      // 루트 레벨에서만 옛 status/candidates 폴더를 스킵 (legacy compat).
+      if (depth === 0 && ((STATUSES as readonly string[]).includes(e.name) || e.name === 'pre-todo')) continue
+      const sub = path.join(dir, e.name)
+      if (isPersonDir(sub)) {
+        const status = readStatusFile(sub) ?? 'todo'
+        hits.push({ name: e.name, dir: sub, status, group })
+      } else {
+        const nextGroup = group ? `${group}/${e.name}` : e.name
+        walk(sub, depth + 1, nextGroup) // 그룹 폴더로 간주, 재귀
+      }
+    }
+  }
+  walk(root, 0, '')
+  return hits
+}
 
 /**
  * Episode ID ↔ person/locale 변환
@@ -38,14 +97,25 @@ export function parseEpisodeId(episodeId: string): { person: string; locale: str
   return { person: episodeId, locale: 'ko' }
 }
 
-/** person 이름(또는 episode ID)으로 상태 폴더를 찾는다 */
-export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir: string } | null {
+/** person 이름(또는 episode ID)으로 인물 폴더를 찾는다.
+ *  신구조(루트 또는 그룹 폴더 안 인물) → 옛 status 폴더 → 아카이브 순. */
+export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir: string; group?: string } | null {
   const { person } = parseEpisodeId(personOrId)
+  // 1. 신구조 — 루트 직속 인물
+  const rootDir = path.join(EPISODES_DIR, person)
+  if (isPersonDir(rootDir)) {
+    return { status: readStatusFile(rootDir) ?? 'todo', dir: rootDir, group: '' }
+  }
+  // 2. 신구조 — 그룹 폴더 안 (전체 재귀 탐색). 한 번 스캔하므로 비용 허용 범위.
+  for (const hit of scanPersonFoldersSync(EPISODES_DIR)) {
+    if (hit.name === person) return { status: hit.status, dir: hit.dir, group: hit.group }
+  }
+  // 3. 옛 status 폴더 폴백 (legacy)
   for (const s of STATUSES) {
     const dir = path.join(EPISODES_DIR, s, person)
     if (existsSync(dir)) return { status: s, dir }
   }
-  // 아카이브 폴백 — D:/done_people/{person}. status 는 'done' 으로 통일.
+  // 4. 아카이브 폴백 — D:/done_people/{person}. status 는 'done' 으로 통일.
   const archivedDir = path.join(ARCHIVED_EPISODES_DIR, person)
   if (existsSync(archivedDir)) return { status: 'done', dir: archivedDir }
   return null
@@ -88,10 +158,50 @@ function buildEpisodeId(personDir: string, filename: string): string {
   return personDir
 }
 
-export type EpisodeListItem = { id: string; status: EpisodeStatus }
+export type EpisodeListItem = { id: string; status: EpisodeStatus; group: string }
+
+/** 한 인물 폴더에서 ko / en 에피소드 ID 목록을 추출. 신구조(meta.{locale}.json) · 옛 구조(ko.json) 둘 다 인식. */
+async function listPersonEpisodes(personName: string, personDir: string): Promise<string[]> {
+  let files: string[]
+  try { files = await readdir(personDir) } catch { return [] }
+  const ids: string[] = []
+  // 신구조: meta.{ko,en}.json
+  if (files.includes('meta.ko.json')) ids.push(buildEpisodeId(personName, 'ko.json'))
+  if (files.includes('meta.en.json')) ids.push(buildEpisodeId(personName, 'en.json'))
+  // 옛 구조: ko.json / en.json (신구조와 동시 존재해도 dedup)
+  for (const f of files) {
+    if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
+    const base = f.replace('.json', '')
+    if (!/^(ko|en)$/.test(base)) continue
+    const id = buildEpisodeId(personName, f)
+    if (!ids.includes(id)) ids.push(id)
+  }
+  return ids
+}
 
 export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]> {
   const items: EpisodeListItem[] = []
+  const seen = new Set<string>()
+
+  // 1. 신구조 — episodes/ 루트 및 그룹 폴더
+  for (const hit of scanPersonFoldersSync(EPISODES_DIR)) {
+    const ids = await listPersonEpisodes(hit.name, hit.dir)
+    if (ids.length === 0) {
+      // 작업 시작 안 한 인물 폴더(_status 만 있음) — 기본 ko 식별자로 카드 한 장
+      if (!seen.has(hit.name)) {
+        seen.add(hit.name)
+        items.push({ id: hit.name, status: hit.status, group: hit.group })
+      }
+      continue
+    }
+    for (const id of ids) {
+      if (seen.has(id)) continue
+      seen.add(id)
+      items.push({ id, status: hit.status, group: hit.group })
+    }
+  }
+
+  // 2. 옛 status 폴더 폴백 — 마이그레이션 안 끝난 인물들 (legacy)
   for (const s of STATUSES) {
     const statusDir = path.join(EPISODES_DIR, s)
     let entries
@@ -99,29 +209,26 @@ export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]>
     for (const e of entries) {
       if (!e.isDirectory() || e.name.startsWith('_')) continue
       const personDir = path.join(statusDir, e.name)
-      const files = await readdir(personDir)
-      for (const f of files) {
-        if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
-        const base = f.replace('.json', '')
-        if (!/^(ko|en)$/.test(base)) continue
-        items.push({ id: buildEpisodeId(e.name, f), status: s })
+      const ids = await listPersonEpisodes(e.name, personDir)
+      for (const id of ids) {
+        if (seen.has(id)) continue
+        seen.add(id)
+        items.push({ id, status: s, group: '' })
       }
     }
   }
 
-  // 아카이브 폴더 스캔 — 작업 완료된 인물들 (status: 'done' 으로 통일)
+  // 3. 아카이브 폴더 스캔 — 작업 완료된 인물들 (status: 'done' · group: '_archive')
   try {
     const archivedEntries = await readdir(ARCHIVED_EPISODES_DIR, { withFileTypes: true })
     for (const e of archivedEntries) {
       if (!e.isDirectory() || e.name.startsWith('_')) continue
       const personDir = path.join(ARCHIVED_EPISODES_DIR, e.name)
-      let files
-      try { files = await readdir(personDir) } catch { continue }
-      for (const f of files) {
-        if (!f.endsWith('.json') || f.endsWith('.timing.json')) continue
-        const base = f.replace('.json', '')
-        if (!/^(ko|en)$/.test(base)) continue
-        items.push({ id: buildEpisodeId(e.name, f), status: 'done' })
+      const ids = await listPersonEpisodes(e.name, personDir)
+      for (const id of ids) {
+        if (seen.has(id)) continue
+        seen.add(id)
+        items.push({ id, status: 'done', group: '_archive' })
       }
     }
   } catch { /* 아카이브 디렉토리가 없으면 무시 */ }
@@ -145,7 +252,8 @@ export async function listCandidates(series: string): Promise<string[]> {
 }
 
 // 신구조(책 단위 분할) 헬퍼 재export — 호출부에서 server-utils 단일 import 로 끝낼 수 있게 한다.
-export { isNewLayout, listBookFolders } from './episode-new-layout'
+export { isNewLayout, listBookFolders, loadNewLayoutEpisode, saveNewLayoutEpisode } from './episode-new-layout'
+import { isNewLayout, loadNewLayoutEpisode, saveNewLayoutEpisode } from './episode-new-layout'
 
 export async function loadCandidate(series: string, name: string) {
   const raw = await readFile(path.join(candidatesDir(series), `${name}.json`), 'utf-8')
@@ -214,14 +322,27 @@ async function loadExternalShorts(episodeDir: string, locale: string): Promise<a
 }
 
 export async function loadEpisode(_series: string, name: string) {
+  const { person, locale } = parseEpisodeId(name)
+  const found = findEpisodeDir(person)
+  const episodeDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
+
+  // 신구조(책 단위 분할): books/ 폴더가 있으면 분할 파일을 합쳐 한 episode 객체로 반환한다.
+  if (isNewLayout(episodeDir)) {
+    const merged = await loadNewLayoutEpisode(name)
+    // 외부 shorts 파일은 신구조에서는 책 폴더 안 shorts.{locale}.json 으로 이미 흡수됨.
+    // 기존 episodes/{person}/shorts/{locale}-N.json 도 있다면 추가 흡수 (이중 호환).
+    const extraShorts = await loadExternalShorts(episodeDir, locale)
+    if (extraShorts.length > 0) {
+      merged.shorts = Array.isArray(merged.shorts) ? [...merged.shorts, ...extraShorts] : extraShorts
+    }
+    return merged
+  }
+
+  // 옛 구조 — {locale}.json + {locale}.timing.json + shorts/{locale}-N.json
   const fp = episodeFilePath(name)
   const raw = await readFile(fp, 'utf-8')
   const content: any = JSON.parse(raw)
 
-  // 외부 shorts 파일 로드 (옵션 2)
-  const { person, locale } = parseEpisodeId(name)
-  const found = findEpisodeDir(person)
-  const episodeDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
   const shortsArr = await loadExternalShorts(episodeDir, locale)
   if (shortsArr.length > 0) content.shorts = shortsArr
 
@@ -298,6 +419,14 @@ export async function saveShorts(_series: string, name: string, shortsArr: any[]
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function saveEpisode(_series: string, name: string, data: unknown) {
+  // 신구조: meta + 책별 + 쇼츠별 파일을 한꺼번에 분해 저장. 외부 shorts/{locale}-N.json 폴백 경로는 사용 안 함.
+  const { person } = parseEpisodeId(name)
+  const found = findEpisodeDir(person)
+  if (found && isNewLayout(found.dir)) {
+    await saveNewLayoutEpisode(name, data)
+    return
+  }
+
   const fp = episodeFilePath(name)
   await mkdir(path.dirname(fp), { recursive: true })
 

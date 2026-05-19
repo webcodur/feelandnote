@@ -18,23 +18,35 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const slugs = [...new Set(items.map(i => toSlug(i.id)))]
   const { data: profiles } = await supabase
     .from('profiles')
-    .select('slug, birth_date')
+    .select('slug, nickname, birth_date')
     .in('slug', slugs)
     .eq('profile_type', 'CELEB')
   const birthMap = new Map((profiles ?? []).map(p => [p.slug, p.birth_date]))
+  const nicknameMap = new Map((profiles ?? []).map(p => [p.slug, p.nickname]))
 
-  const list = await Promise.all(items.map(async ({ id: name, status }) => {
-    const ep = await loadEpisode(series, name)
-    const wavs = await scanLocalWavs(name)
+  const list = await Promise.all(items.map(async ({ id: name, status, group }) => {
+    // 작업 시작 안 한 인물 폴더(ko/en 본문 부재)는 loadEpisode 가 실패할 수 있다. 폴백으로 최소 정보만 반환.
+    const fallbackNickname = nicknameMap.get(toSlug(name)) ?? name
+    let nickname = fallbackNickname
+    let booksCount = 0
+    let hasShorts = false
+    try {
+      const ep = await loadEpisode(series, name)
+      nickname = ep.host?.nickname ?? fallbackNickname
+      booksCount = ep.books?.length ?? 0
+      hasShorts = !!ep.shorts
+    } catch { /* 본문 없음 — 카드만 표시 (DB nickname 폴백 유지) */ }
+    const wavs = await scanLocalWavs(name).catch(() => [] as Array<{ size: number }>)
     return {
       name,
-      nickname: ep.host?.nickname ?? name,
-      booksCount: ep.books?.length ?? 0,
-      hasShorts: !!ep.shorts,
+      nickname,
+      booksCount,
+      hasShorts,
       voiceCount: wavs.length,
       voiceSizeMB: +(wavs.reduce((s: number, w: { size: number }) => s + w.size, 0) / 1024 / 1024).toFixed(1),
       birthYear: (() => { const d = birthMap.get(toSlug(name)); if (!d) return null; const y = parseInt(d, 10); return isNaN(y) ? null : y })(),
       status,
+      group,
     }
   }))
   return NextResponse.json(list)

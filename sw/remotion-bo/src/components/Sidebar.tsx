@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SERIES } from '@/lib/series-registry'
 
-type EpisodeStatus = 'uploaded' | 'wip' | 'candidate'
+type EpisodeStatus = 'todo' | 'live' | 'done'
 
 type EpisodeSummary = {
   name: string
@@ -55,18 +55,18 @@ function groupByPerson(episodes: EpisodeSummary[]): PersonGroup[] {
     const { isEn, basePerson, partNum, groupKey } = parseEpName(ep.name)
 
     if (!partMap.has(groupKey)) {
-      partMap.set(groupKey, { partNum, baseName: groupKey, status: ep.status ?? 'wip' })
+      partMap.set(groupKey, { partNum, baseName: groupKey, status: ep.status ?? 'todo' })
     }
     const part = partMap.get(groupKey)!
     if (isEn) part.en = ep
-    else { part.ko = ep; part.status = ep.status ?? 'wip' }
+    else { part.ko = ep; part.status = ep.status ?? 'todo' }
 
     if (!personMap.has(basePerson)) {
       personMap.set(basePerson, {
         personKey: basePerson,
         nickname: ep.nickname,
         birthYear: ep.birthYear ?? null,
-        status: ep.status ?? 'wip',
+        status: ep.status ?? 'todo',
         parts: [],
       })
     }
@@ -92,18 +92,18 @@ function groupByPerson(episodes: EpisodeSummary[]): PersonGroup[] {
 }
 
 function StatusIcon({ status, hasVoice }: { status: EpisodeStatus; hasVoice: boolean }) {
-  if (status === 'uploaded') return <span className="text-green-400 text-[10px]">▲</span>
+  if (status === 'done') return <span className="text-green-400 text-[10px]">▲</span>
   if (hasVoice) return <span className="text-success-text text-[10px]">●</span>
-  if (status === 'candidate') return <span className="text-amber-400 text-[10px]">◇</span>
+  if (status === 'todo') return <span className="text-amber-400 text-[10px]">◇</span>
   return <span className="text-text-dim text-[10px]">○</span>
 }
 
 type CandidateSummary = { name: string; nickname: string; booksCount: number; birthYear: number | null }
 
 const STATUS_SECTIONS: { key: EpisodeStatus; label: string; color: string }[] = [
-  { key: 'uploaded', label: 'Uploaded', color: 'text-green-400' },
-  { key: 'wip', label: 'WIP', color: 'text-blue-400' },
-  { key: 'candidate', label: 'Candidate', color: 'text-amber-400' },
+  { key: 'done', label: 'Done', color: 'text-green-400' },
+  { key: 'live', label: 'Live', color: 'text-blue-400' },
+  { key: 'todo', label: 'Todo', color: 'text-amber-400' },
 ]
 
 export function Sidebar() {

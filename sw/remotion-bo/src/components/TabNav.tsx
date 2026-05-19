@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const TABS = [
-  { label: 'Editor', segment: 'editor' },
   { label: 'Scenario', segment: 'scenario' },
   { label: 'YouTube', segment: 'youtube' },
 ] as const
