@@ -42,7 +42,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
 
   // 파일 경로 없음 → music/ 디렉토리 내 오디오 목록 반환 (duration 포함)
   if (!fileParts.length) {
-    const basePath = `episodes/${found.status}/${episodeName}/music`
+    // active status(live/done) 는 인물 폴더가 episodes 직속 — basePath 에 status 가 들어가면 안 됨.
+    // 그 외 status 는 episodes/<status>/<인물> 안.
+    const activeStatuses = new Set(['live', 'done'])
+    const statusPart = activeStatuses.has(found.status) ? '' : `${found.status}/`
+    const basePath = `episodes/${statusPart}${episodeName}/music`
     if (!existsSync(musicDir)) return Response.json({ files: [], basePath })
     const entries = await readdir(musicDir, { withFileTypes: true })
     const names = entries
