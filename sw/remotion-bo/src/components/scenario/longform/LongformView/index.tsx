@@ -11,6 +11,7 @@ import { buildHostSpeaker } from '../../speakerHelpers'
 import { IntroSection } from './IntroSection'
 import { BookSection } from './BookSection'
 import { useLongformState } from './useLongformState'
+import { stripImageRefs } from '../../utils'
 
 /**
  * 표시 범위 옵션 — 새 탭 체계 대응.
@@ -135,6 +136,7 @@ export function LongformView({ episode, sectionMap, onUpdate, onToggleExpand, ac
             onDrop={fn => dropImage(0, fn)}
             onDelete={async fn => {
               await fetch(`/api/${series}/images/${name}/${fn}`, { method: 'DELETE' })
+              onUpdate(stripImageRefs(episode, fn))
               refreshFolderImages()
             }}
             onOpenFolder={() => fetch(`/api/${series}/images/${name}`, { method: 'POST' })}

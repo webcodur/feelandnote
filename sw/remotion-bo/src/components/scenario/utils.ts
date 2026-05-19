@@ -229,6 +229,52 @@ export function locateImageSectionKey(
   return null
 }
 
+/**
+ * 이미지 파일이 풀에서 영구 삭제될 때 episode 안의 모든 사용처 참조를 비운다.
+ *
+ * 대상:
+ *   - books[].images: { file } === target 항목 제거
+ *   - shorts[].segments[].image: 일치 시 키 제거
+ *   - shorts[].segments[].imageChangeAt: 일치 항목 제거(배열) 또는 키 제거(단일)
+ *
+ * 신구조 prefix 키(`<책>/basename`) 도 마지막 토막(basename) 으로 매칭한다.
+ */
+export function stripImageRefs<T extends Record<string, unknown>>(ep: T, target: string): T {
+  const baseOf = (s: string) => (s.split('/').pop() ?? s)
+  const tgts = new Set<string>([target, baseOf(target)])
+  const hit = (v: unknown): boolean =>
+    typeof v === 'string' && (tgts.has(v) || tgts.has(baseOf(v)))
+
+  const next = JSON.parse(JSON.stringify(ep)) as Record<string, unknown>
+  if (Array.isArray(next.books)) {
+    for (const b of next.books as Array<Record<string, unknown>>) {
+      if (Array.isArray(b?.images)) {
+        b.images = (b.images as Array<Record<string, unknown>>).filter(
+          img => !hit(img?.file),
+        )
+      }
+    }
+  }
+  if (Array.isArray(next.shorts)) {
+    for (const s of next.shorts as Array<Record<string, unknown>>) {
+      const segs = (s as { segments?: Array<Record<string, unknown>> }).segments
+      if (!Array.isArray(segs)) continue
+      for (const seg of segs) {
+        if (hit(seg.image)) delete seg.image
+        const ch = seg.imageChangeAt
+        if (Array.isArray(ch)) {
+          const filtered = (ch as Array<Record<string, unknown>>).filter(c => !hit(c?.image))
+          if (filtered.length === 0) delete seg.imageChangeAt
+          else seg.imageChangeAt = filtered
+        } else if (ch && typeof ch === 'object' && hit((ch as Record<string, unknown>).image)) {
+          delete seg.imageChangeAt
+        }
+      }
+    }
+  }
+  return next as T
+}
+
 /** seg.image + seg.imageChangeAt → CinematicImage[] 변환 */
 export function segToImages(seg: any): CinematicImage[] {
   const imgs: CinematicImage[] = []

@@ -114,11 +114,11 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ path
   const found = findEpisodeDir(episodeName)
   if (!found) return Response.json({ error: 'episode not found' }, { status: 404 })
 
-  const imagesDir = path.join(found.dir, 'images')
-  let abs = path.join(imagesDir, ...fileParts)
-  if (!existsSync(abs) && fileParts.length === 1) {
+  let abs = resolveImageAbs(found.dir, fileParts)
+  if (!existsSync(abs)) {
     const scan = await scanEpisodeImages(found.dir)
-    const hit = scan.fileAbsPaths[fileParts[0]]
+    const key = fileParts.join('/')
+    const hit = scan.fileAbsPaths[key] ?? scan.fileAbsPaths[fileParts[fileParts.length - 1]]
     if (hit) abs = hit
   }
   if (!existsSync(abs)) return Response.json({ error: 'not found' }, { status: 404 })

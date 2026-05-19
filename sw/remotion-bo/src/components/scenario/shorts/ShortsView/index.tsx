@@ -17,6 +17,7 @@ import { useSfxFiles } from '../../useSfxFiles'
 import { AnchorConfirmBanner } from '../../AnchorConfirmBanner'
 import { callRenameApi, segmentIdRename, segmentReorderRenames } from '../../voiceRename'
 import { EditorPanel } from '../../EditorPanel'
+import { stripImageRefs } from '../../utils'
 
 /* ── 쇼츠 ── */
 export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggleExpand, activeEngine, playingKey, onTogglePlay,
@@ -233,6 +234,7 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
         bookTitles={(episode.books ?? []).map((b: any) => b?.title ?? '')}
         onDelete={async fn => {
           await fetch(`/api/${series}/images/${name}/${fn}`, { method: 'DELETE' })
+          onUpdate(stripImageRefs(episode, fn))
           refreshFolderImages()
         }}
         onOpenFolder={() => fetch(`/api/${series}/images/${name}`, { method: 'POST' })}
