@@ -142,16 +142,33 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ path
   }
 }
 
-/** POST → 탐색기에서 이미지 폴더 열기 */
+/** POST → 탐색기에서 이미지 폴더 열기.
+ *
+ * 경로:
+ *   /[name]                           → 루트 (옛: <person>/images, 신: <person>/books)
+ *   /[name]/[bookFolder]              → 책의 이미지 루트 (신: books/<책>/images, 옛: images/<sub>)
+ *   /[name]/[bookFolder]/[sub...]     → 그 하위 sub 폴더
+ */
 export async function POST(_req: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const segments = (await params).path
   const episodeName = segments[0]
+  const fileParts = segments.slice(1)
   const found = findEpisodeDir(episodeName)
   if (!found) return Response.json({ error: 'episode not found' }, { status: 404 })
 
-  const imagesDir = path.join(found.dir, 'images')
-  spawn('explorer.exe', [imagesDir], { detached: true, stdio: 'ignore' })
-  return Response.json({ ok: true })
+  let target: string
+  if (fileParts.length > 0) {
+    target = resolveImageAbs(found.dir, fileParts)
+  } else if (isNewLayout(found.dir)) {
+    target = path.join(found.dir, 'books')
+  } else {
+    target = path.join(found.dir, 'images')
+  }
+  if (!existsSync(target)) {
+    return Response.json({ error: 'folder not found', target }, { status: 404 })
+  }
+  spawn('explorer.exe', [target], { detached: true, stdio: 'ignore' })
+  return Response.json({ ok: true, opened: target })
 }
 
 /** PATCH → 이미지 파일 이름 변경 (prefix 추가/제거). 폴더는 유지. */
