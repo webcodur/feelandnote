@@ -11,7 +11,7 @@ import {
   parseViewParam, viewToParam, viewToBookIndex, VIEW_META,
   useImageEditor, useSaveSync,
   LongformView, ShortsView,
-  BgmPanel, VoiceEditorModal,
+  BgmPanel, VoiceEditorModal, MaterialModal, TtsReplaceModal,
 } from './scenario'
 import { useAudioPreview } from './scenario/useAudioPreview'
 import { AudioPreviewProvider } from './scenario/AudioPreviewContext'
@@ -28,7 +28,6 @@ function CollapseAllBar() {
   const open = total - ctx.collapsedCount
   return (
     <div className="flex items-center gap-2 text-[11px] text-text-secondary">
-      <span className="opacity-70">행 {open}/{total} 펼침</span>
       <button
         onClick={ctx.expandAll}
         className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
@@ -119,25 +118,13 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
   const [eleSendOpts, setEleSendOpts] = useState<EleSendOpts>(() => ({ ...DEFAULT_ELE_SEND_OPTS }))
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
   const [pipelineReloadSignal, setPipelineReloadSignal] = useState(0)
+  const [materialOpen, setMaterialOpen] = useState(false)
+  const [ttsReplaceOpen, setTtsReplaceOpen] = useState(false)
 
   // 편집 모달 닫힐 때 파이프라인 패널 자동 갱신 — 사용자가 처리한 항목이 즉시 사라지게
   useEffect(() => {
     if (expandedKey === null) setPipelineReloadSignal(s => s + 1)
   }, [expandedKey])
-
-  // Alt+S — 현재 화면에 보이는 모든 SaveButton 을 일괄 클릭
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (!e.altKey || (e.key !== 's' && e.key !== 'S')) return
-      e.preventDefault()
-      const buttons = document.querySelectorAll<HTMLButtonElement>(
-        'button[data-save-button="true"]:not(:disabled)',
-      )
-      buttons.forEach(b => b.click())
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [])
 
   const audioCtl = useAudioPreview(series, name)
   const { playingKey, togglePlay } = audioCtl
@@ -168,7 +155,7 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     return map
   }, [voiceFiles, episode])
 
-  const renderExpanded = useCallback((key: string) => {
+  const renderExpanded = useCallback((key: string, mode: 'trim' | 'sync') => {
     const section = sectionMap.get(key)
     if (!section) return null
     return (
@@ -183,13 +170,30 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         eleSendOpts={eleSendOpts}
         onEleSendOptsChange={setEleSendOpts}
         activeEngine={activeEngine(key)}
-        onToggleSlot={toggleSlot}
         onEpisodeChange={updateEpisode}
         onSave={save}
         onRefresh={refreshFiles}
+        expandMode={mode}
       />
     )
-  }, [sectionMap, episode, series, name, eleSettings, eleSendOpts, activeEngine, toggleSlot, updateEpisode, save, refreshFiles])
+  }, [sectionMap, episode, series, name, eleSettings, eleSendOpts, activeEngine, updateEpisode, save, refreshFiles])
+
+  // 모달 헤더용 엔진 상태 — openKey 의 활성/기본/override 와 wav 존재 여부.
+  const modalEngineState = useMemo(() => {
+    if (!expandedKey) return null
+    const section = sectionMap.get(expandedKey)
+    if (!section) return null
+    const defaultEng = vs?.default ?? ''
+    const active = activeEngine(expandedKey)
+    const slotEngine = vs?.slots?.[`${expandedKey}.wav`]
+    return {
+      active,
+      default: defaultEng,
+      hasOverride: !!slotEngine && slotEngine !== defaultEng,
+      hasFile: { gemini: !!section.gemini, elevenlabs: !!section.elevenlabs },
+      onToggle: (eng: 'gemini' | 'elevenlabs') => toggleSlot(expandedKey, eng),
+    }
+  }, [expandedKey, sectionMap, vs, activeEngine, toggleSlot])
 
   /* ── 이미지 편집기 ──
    *  책 탭에서는 롱폼 책 영역(book.images)과 쇼츠 segment 이미지가 같이 보이므로
@@ -216,10 +220,25 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     episode, updateEpisode, save, series, name, isEn,
   })
 
+  // Alt+S — 전체 저장: 행별 SaveButton 일괄 클릭 + episode 전체 저장(우하단 fixed 버튼과 동일)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (!e.altKey || (e.key !== 's' && e.key !== 'S')) return
+      e.preventDefault()
+      const buttons = document.querySelectorAll<HTMLButtonElement>(
+        'button[data-save-button="true"]:not(:disabled)',
+      )
+      buttons.forEach(b => b.click())
+      if (dirty && !saving) void handleSave()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [dirty, saving, handleSave])
+
   return (
     <AudioPreviewProvider value={audioCtl}>
     <RowCollapseProvider>
-    <div className="space-y-4">
+    <div className="space-y-3 p-4">
       <VoiceToolbar
         episode={episode} series={series} name={name}
         voiceSummary={voiceSummary} mode={mode} hasELVoiceId={hasELVoiceId}
@@ -227,6 +246,74 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         eleSettings={eleSettings} onEleSettingsChange={setEleSettings}
         eleSendOpts={eleSendOpts} onEleSendOptsChange={setEleSendOpts}
         onRefresh={refreshFiles} post={post}
+        speakerPanelNode={
+          <SpeakerPanel
+            speakers={mergedSpeakers}
+            onChange={(next: Speaker[]) => {
+              // 사용자가 화자를 편집·저장하는 순간 옛 shorts[i].speakers 는 청소된다(자동 마이그레이션).
+              const cleanedShorts = Array.isArray(episode.shorts)
+                ? episode.shorts.map((s: any) => {
+                    if (!s || !Array.isArray(s.speakers)) return s
+                    const { speakers: _, ...rest } = s
+                    return rest
+                  })
+                : episode.shorts
+              if (next.length === 0) {
+                const { speakers: _, ...rest } = episode
+                updateEpisode({ ...rest, shorts: cleanedShorts } as EpisodeData)
+              } else {
+                updateEpisode({ ...episode, speakers: next, shorts: cleanedShorts } as EpisodeData)
+              }
+            }}
+            onRenameId={(oldId, newId) => {
+              // 화자 id 변경 — 책 · 인트로 · 쇼츠의 참조도 같이 새 id 로 갈아끼운다.
+              const renameStr = (v: unknown) => v === oldId ? newId : v
+              const ep: any = { ...episode }
+              if (ep.narrator) {
+                ep.narrator = { ...ep.narrator }
+                for (const k of Object.keys(ep.narrator)) {
+                  if (k.endsWith('Speaker')) ep.narrator[k] = renameStr(ep.narrator[k])
+                }
+              }
+              if (ep.host) {
+                ep.host = { ...ep.host }
+                for (const k of Object.keys(ep.host)) {
+                  if (k.endsWith('Speaker')) ep.host[k] = renameStr(ep.host[k])
+                }
+              }
+              if (Array.isArray(ep.books)) {
+                ep.books = ep.books.map((b: any) => {
+                  if (!b) return b
+                  const nb: any = { ...b }
+                  for (const k of Object.keys(nb)) {
+                    if (k.endsWith('Speaker')) nb[k] = renameStr(nb[k])
+                  }
+                  if (Array.isArray(nb.quotePairs)) {
+                    nb.quotePairs = nb.quotePairs.map((p: any) => {
+                      if (!p) return p
+                      const np: any = { ...p }
+                      for (const k of Object.keys(np)) {
+                        if (k.endsWith('Speaker')) np[k] = renameStr(np[k])
+                      }
+                      return np
+                    })
+                  }
+                  return nb
+                })
+              }
+              if (Array.isArray(ep.shorts)) {
+                ep.shorts = ep.shorts.map((s: any) => {
+                  if (!s || !Array.isArray(s.segments)) return s
+                  return {
+                    ...s,
+                    segments: s.segments.map((seg: any) => seg?.speaker === oldId ? { ...seg, speaker: newId } : seg),
+                  }
+                })
+              }
+              updateEpisode(ep as EpisodeData)
+            }}
+          />
+        }
       />
 
       <VoicePipelineStatus
@@ -239,10 +326,23 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
       {/* 도구 영역 — 접기 · 배속 · 섹션 카운트 · 이미지 동기화 한 줄에 통합 */}
       <div className="mb-2 rounded border border-border/40 bg-bg-card/30 flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-1.5 text-[11px] text-text-secondary">
         <CollapseAllBar />
-        <div className="w-px h-4 bg-border/50" />
         <PlaybackRateControl />
         <div className="ml-auto flex items-center gap-2">
           <span>{sectionMap.size}개 섹션 · {voiceFiles.length}개 음성</span>
+          <button
+            onClick={() => setMaterialOpen(true)}
+            className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+            title="책 폴더의 「재료.txt」 (작가가 정리한 원자료) 보기"
+          >
+            재료 메모
+          </button>
+          <button
+            onClick={() => setTtsReplaceOpen(true)}
+            className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+            title="본문 → TTS 송신 시 적용되는 치환 사전 편집 (episode.tts.replace)"
+          >
+            TTS 치환
+          </button>
           <button
             onClick={syncImages}
             className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
@@ -253,72 +353,6 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         </div>
       </div>
 
-      <SpeakerPanel
-        speakers={mergedSpeakers}
-        onChange={(next: Speaker[]) => {
-          // 사용자가 화자를 편집·저장하는 순간 옛 shorts[i].speakers 는 청소된다(자동 마이그레이션).
-          const cleanedShorts = Array.isArray(episode.shorts)
-            ? episode.shorts.map((s: any) => {
-                if (!s || !Array.isArray(s.speakers)) return s
-                const { speakers: _, ...rest } = s
-                return rest
-              })
-            : episode.shorts
-          if (next.length === 0) {
-            const { speakers: _, ...rest } = episode
-            updateEpisode({ ...rest, shorts: cleanedShorts } as EpisodeData)
-          } else {
-            updateEpisode({ ...episode, speakers: next, shorts: cleanedShorts } as EpisodeData)
-          }
-        }}
-        onRenameId={(oldId, newId) => {
-          // 화자 id 변경 — 책 · 인트로 · 쇼츠의 참조도 같이 새 id 로 갈아끼운다.
-          const renameStr = (v: unknown) => v === oldId ? newId : v
-          const ep: any = { ...episode }
-          if (ep.narrator) {
-            ep.narrator = { ...ep.narrator }
-            for (const k of Object.keys(ep.narrator)) {
-              if (k.endsWith('Speaker')) ep.narrator[k] = renameStr(ep.narrator[k])
-            }
-          }
-          if (ep.host) {
-            ep.host = { ...ep.host }
-            for (const k of Object.keys(ep.host)) {
-              if (k.endsWith('Speaker')) ep.host[k] = renameStr(ep.host[k])
-            }
-          }
-          if (Array.isArray(ep.books)) {
-            ep.books = ep.books.map((b: any) => {
-              if (!b) return b
-              const nb: any = { ...b }
-              for (const k of Object.keys(nb)) {
-                if (k.endsWith('Speaker')) nb[k] = renameStr(nb[k])
-              }
-              if (Array.isArray(nb.quotePairs)) {
-                nb.quotePairs = nb.quotePairs.map((p: any) => {
-                  if (!p) return p
-                  const np: any = { ...p }
-                  for (const k of Object.keys(np)) {
-                    if (k.endsWith('Speaker')) np[k] = renameStr(np[k])
-                  }
-                  return np
-                })
-              }
-              return nb
-            })
-          }
-          if (Array.isArray(ep.shorts)) {
-            ep.shorts = ep.shorts.map((s: any) => {
-              if (!s || !Array.isArray(s.segments)) return s
-              return {
-                ...s,
-                segments: s.segments.map((seg: any) => seg?.speaker === oldId ? { ...seg, speaker: newId } : seg),
-              }
-            })
-          }
-          updateEpisode(ep as EpisodeData)
-        }}
-      />
 
       <BookTabsBar
         view={view}
@@ -400,7 +434,26 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
       )}
 
       {/* 음성 편집 전역 모달 — 아코디언 대체 */}
-      <VoiceEditorModal openKey={expandedKey} onClose={() => setExpandedKey(null)} renderExpanded={renderExpanded} />
+      <VoiceEditorModal
+        openKey={expandedKey}
+        onClose={() => setExpandedKey(null)}
+        renderExpanded={renderExpanded}
+        engineState={modalEngineState}
+      />
+
+      {/* 재료.txt 뷰어 — 책 폴더의 원자료 메모 */}
+      <MaterialModal
+        series={series}
+        name={name}
+        open={materialOpen}
+        onClose={() => setMaterialOpen(false)}
+      />
+
+      {/* TTS 치환 사전 편집기 — episode.tts.replace */}
+      <TtsReplaceModal
+        open={ttsReplaceOpen}
+        onClose={() => setTtsReplaceOpen(false)}
+      />
     </div>
     </RowCollapseProvider>
     </AudioPreviewProvider>

@@ -146,10 +146,11 @@ export type SegmentEngineSpec = {
  */
 export function resolveSegmentEngine(
   key: string,
-  episode: { host?: { elevenlabsVoiceId?: string } | null; shorts?: unknown },
+  episode: { host?: { elevenlabsVoiceId?: string; geminiVoice?: string } | null; shorts?: unknown; speakers?: unknown },
 ): SegmentEngineSpec | null {
   type SegLite = { id: string; geminiVoice?: string; style?: string; elevenlabsVoiceId?: string; speaker?: string }
-  type ShortLite = { segments?: SegLite[]; speakers?: Array<{ id: string; elevenlabsVoiceId?: string }> }
+  type SpeakerLite = { id: string; engine?: 'gemini' | 'elevenlabs'; voiceId?: string; elevenlabsVoiceId?: string }
+  type ShortLite = { segments?: SegLite[]; speakers?: SpeakerLite[] }
 
   // shorts segment 매칭
   const m = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
@@ -163,15 +164,28 @@ export function resolveSegmentEngine(
     seg = shortCfg?.segments?.find(s => s.id === segId)
   }
 
-  // 1. Gemini 캐릭터 보이스 오버라이드
+  // 화자 풀 — 신구조 SSoT(episode.speakers) 우선, 옛 shortCfg.speakers 폴백
+  const epSpeakers = Array.isArray((episode as { speakers?: unknown }).speakers)
+    ? ((episode as { speakers: SpeakerLite[] }).speakers)
+    : []
+  const findSpeaker = (id: string): SpeakerLite | undefined =>
+    epSpeakers.find(s => s.id === id) ?? shortCfg?.speakers?.find(s => s.id === id)
+  const speakerObj = seg?.speaker ? findSpeaker(seg.speaker) : undefined
+
+  // 1. Gemini 캐릭터 보이스 — segment 직접 > 화자(gemini 엔진)
   if (seg?.geminiVoice) {
     return { engine: 'gemini', voiceParam: seg.geminiVoice, stylePrefix: seg.style }
   }
+  if (speakerObj?.engine === 'gemini' && speakerObj.voiceId) {
+    return { engine: 'gemini', voiceParam: speakerObj.voiceId, stylePrefix: seg?.style }
+  }
 
-  // 2. ELE 셀럽 섹션 — voiceId 우선순위 해소
+  // 2. ELE 셀럽 섹션 — voiceId 우선순위: segment 직접 > 화자(SSoT) > 옛 elevenlabsVoiceId > host
   if (isEleSection(key)) {
-    const speakerObj = seg?.speaker ? shortCfg?.speakers?.find(sp => sp.id === seg!.speaker) : undefined
-    const voiceId = seg?.elevenlabsVoiceId ?? speakerObj?.elevenlabsVoiceId ?? episode.host?.elevenlabsVoiceId
+    const speakerVoice = speakerObj
+      ? (speakerObj.engine === 'elevenlabs' && speakerObj.voiceId ? speakerObj.voiceId : speakerObj.elevenlabsVoiceId)
+      : undefined
+    const voiceId = seg?.elevenlabsVoiceId ?? speakerVoice ?? episode.host?.elevenlabsVoiceId
     if (voiceId) return { engine: 'elevenlabs', voiceParam: voiceId }
   }
 

@@ -133,8 +133,10 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
 
   if (!status) {
     return (
-      <div className="rounded border border-border bg-bg-card px-3 py-2 text-[11px] text-text-secondary">
-        파이프라인 상태 로드 중...
+      <div className="mb-2 rounded border border-border/40 bg-bg-card/30 px-3 py-1.5 text-[12px] text-text-secondary flex items-center gap-2">
+        <span className="font-semibold text-text-primary">VoicePipelineStatus</span>
+        <span className="inline-block w-2 h-2 rounded-full bg-text-secondary/50 animate-pulse" />
+        <span>점검 중…</span>
       </div>
     )
   }
@@ -145,8 +147,9 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
 
   if (total === 0) {
     return (
-      <div className="rounded border border-emerald-700/40 bg-emerald-950/20 px-3 py-2 text-[11px] text-emerald-300">
-        ✓ 파이프라인 위험지역·용의자 없음 — 모든 단계 정상
+      <div className="mb-2 rounded border border-emerald-700/40 bg-emerald-950/20 px-3 py-1.5 text-[12px] text-emerald-300 flex items-center gap-2">
+        <span className="font-semibold text-emerald-200">VoicePipelineStatus</span>
+        <span className="text-emerald-300">✓ 위험지역 · 용의자 없음 — 모든 단계 정상</span>
       </div>
     )
   }
@@ -159,10 +162,11 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
   const headerLabel = totalConfirmed > 0 ? `위험지역 ${totalConfirmed}건` : '위험지역 없음'
 
   return (
-    <div className={`rounded border ${headerColor}`}>
-      <div className="flex items-center gap-3 px-3 py-2 cursor-pointer select-none" onClick={() => setCollapsed(c => !c)}>
-        <span className="text-[10px] text-text-secondary">{collapsed ? '▶' : '▼'}</span>
-        <span className={`text-xs font-semibold ${totalConfirmed > 0 ? 'text-red-300' : 'text-amber-300'}`}>
+    <div className={`mb-2 rounded border ${headerColor}`}>
+      <div className="flex items-center gap-2 px-3 py-1.5 text-[12px] cursor-pointer select-none" onClick={() => setCollapsed(c => !c)}>
+        <span className="text-[11px] text-text-secondary">{collapsed ? '▶' : '▼'}</span>
+        <span className="font-semibold text-text-primary">VoicePipelineStatus</span>
+        <span className={`font-semibold ${totalConfirmed > 0 ? 'text-red-300' : 'text-amber-300'}`}>
           {headerLabel}
         </span>
         <span className="text-[10px] text-text-secondary">

@@ -38,7 +38,8 @@ export function SaveButton({ onSave, title, className }: {
       onClick={handleClick}
       disabled={state === 'saving'}
       title={title ?? '이 항목만 저장 (디스크 최신 상태와 머지)'}
-      className={`inline-flex items-center px-2 py-0.5 rounded border text-[10px] font-medium transition-colors ${tone} ${className ?? ''}`}
+      data-save-button="true"
+      className={`inline-flex items-center px-2 py-0.5 rounded border text-[11px] font-medium transition-colors leading-none ${tone} ${className ?? ''}`}
     >{label}</button>
   )
 }

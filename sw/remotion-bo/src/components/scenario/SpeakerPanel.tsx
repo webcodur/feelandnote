@@ -214,40 +214,26 @@ export function SpeakerPanel({ speakers, onChange, onRenameId }: {
   }
 
   return (
-    <div className="mb-2 rounded border border-border/40 bg-bg-card/30">
+    <div>
       <button
         type="button"
-        onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-3 py-1.5 text-[12px] text-text-secondary hover:text-text-primary cursor-pointer"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-2 px-2 py-1.5 text-left cursor-pointer select-none outline-none hover:bg-bg-hover rounded"
       >
-        <span className="flex items-center gap-2">
-          <span>{open ? '▼' : '▶'}</span>
-          <span className="font-semibold text-text-primary">화자 설정</span>
-          <span className="text-[11px] opacity-70">(host + {speakers.length})</span>
-          {!open && speakers.length > 0 && (
-            <span className="flex items-center gap-1 ml-2">
-              {speakers.map(s => {
-                const v = getSpeakerVoice(s)
-                return (
-                  <span key={s.id} className="flex items-center gap-1 text-[11px]">
-                    <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: s.color }} />
-                    <span>{s.label}</span>
-                    {v && (
-                      <span className={`text-[11px] font-bold ${v.engine === 'gemini' ? 'text-blue-300' : 'text-purple-300'}`}>
-                        {v.engine === 'gemini' ? 'GEM' : 'ELE'}
-                      </span>
-                    )}
-                  </span>
-                )
-              })}
-            </span>
-          )}
+        <span className={`text-[10px] text-text-dim shrink-0 ${open ? 'rotate-90' : ''}`}>▶</span>
+        <span className="text-[11px] font-bold text-text-secondary select-none">화자 설정 (Host + 추가 화자)</span>
+        
+        <span className="ml-auto flex items-center gap-1.5 opacity-80">
+          <span className="text-[10px] text-text-secondary mr-1">host + {speakers.length}</span>
+          {speakers.slice(0, 4).map(s => (
+            <span key={s.id} className="inline-block w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: s.color }} title={s.label} />
+          ))}
+          {speakers.length > 4 && <span className="text-[10px] ml-0.5">+{speakers.length - 4}</span>}
         </span>
-        <span className="text-[11px] opacity-70">화자별 엔진 · 보이스 · 색상 관리</span>
       </button>
 
       {open && (
-        <div className="px-3 pb-2 pt-1 space-y-1.5">
+        <div className="mt-2 p-3 space-y-1.5 border border-border/40 bg-black/10 rounded-lg">
           {/* host 고정 행 — 인물 본인 보이스. 펼치면 ELE 보이스 목록 · DB 동기화. */}
           <HostSpeakerRow />
           {speakers.length > 0 && <div className="border-t border-border/40 my-1.5" />}
@@ -264,11 +250,13 @@ export function SpeakerPanel({ speakers, onChange, onRenameId }: {
               onRenameId={(oldId, newId) => renameId(i, oldId, newId)}
             />
           ))}
-          <button
-            type="button"
-            onClick={addSpeaker}
-            className="text-[11px] px-2 py-1 rounded border border-accent/40 text-accent hover:bg-accent/10 cursor-pointer"
-          >+ 화자 추가</button>
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={addSpeaker}
+              className="text-[11px] px-2 py-1 rounded border border-accent/40 text-accent hover:bg-accent/10 cursor-pointer"
+            >+ 화자 추가</button>
+          </div>
         </div>
       )}
     </div>

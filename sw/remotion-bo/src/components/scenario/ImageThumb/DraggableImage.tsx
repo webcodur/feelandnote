@@ -28,14 +28,14 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete, onLoc
         if (onDragStartMulti) onDragStartMulti(e, fileName)
         else { e.dataTransfer.setData('text/plain', fileName); e.dataTransfer.effectAllowed = 'copy' }
       }}
-      className={`group/pool rounded overflow-hidden border cursor-grab active:cursor-grabbing hover:border-accent/50 transition-colors relative ${
+      className={`group/pool rounded overflow-hidden border cursor-grab active:cursor-grabbing hover:border-accent/50 relative ${
         selected ? 'border-accent ring-1 ring-accent/40' : 'border-border/30'
       }`}
     >
       {onToggleSelect && (
         <button
           onClick={e => { e.stopPropagation(); onToggleSelect() }}
-          className={`absolute top-0.5 left-0.5 z-10 w-4 h-4 flex items-center justify-center rounded border text-[11px] font-bold transition-colors ${
+          className={`absolute top-0.5 left-0.5 z-10 w-4 h-4 flex items-center justify-center rounded border text-[11px] font-bold ${
             selected ? 'bg-accent border-accent text-white' : 'bg-black/60 border-white/40 text-transparent hover:text-white/60'
           }`}
           title={selected ? '선택 해제' : '선택'}

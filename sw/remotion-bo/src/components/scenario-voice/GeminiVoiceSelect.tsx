@@ -34,7 +34,7 @@ export function GeminiVoiceSelect({
       value={value}
       onChange={e => onChange(e.target.value)}
       title={title}
-      className={`bg-bg-card border border-border/40 rounded font-mono cursor-pointer ${className ?? ''}`}
+      className={`bg-bg-main border border-border/50 rounded px-1.5 py-0 h-[22px] font-mono cursor-pointer focus:border-accent/60 focus:outline-none ${className ?? ''}`}
     >
       {placeholderLabel && <option value="">{placeholderLabel}</option>}
       <optgroup label={groupLabels.male}>

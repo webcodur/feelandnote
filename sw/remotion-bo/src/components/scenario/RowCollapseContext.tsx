@@ -65,6 +65,23 @@ export function RowCollapseProvider({ children }: { children: ReactNode }) {
     collapsedCount: collapsed.size,
   }), [isCollapsed, toggle, collapseAll, expandAll, register, unregister, collapsed])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+Q 또는 Cmd+Q
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'q') {
+        e.preventDefault()
+        // 전부 접혀있지 않으면 전체 접기, 다 접혀있으면 전체 펼치기
+        if (collapsed.size < registered.current.size) {
+          collapseAll()
+        } else {
+          expandAll()
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [collapsed.size, collapseAll, expandAll])
+
   return <RowCollapseContext.Provider value={value}>{children}</RowCollapseContext.Provider>
 }
 

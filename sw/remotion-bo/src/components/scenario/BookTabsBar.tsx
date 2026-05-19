@@ -36,7 +36,7 @@ export function BookTabsBar({
           }`}
           style={{ minHeight: '52px' }}
         >
-          기본/기타
+          기본
         </button>
 
         {books.map((book, i) => {

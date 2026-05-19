@@ -26,7 +26,8 @@ export function PoolHeader({
           title="이미지 풀 접기"
           className="text-[12px] text-text-secondary hover:text-accent mr-1"
         >▶</button>
-        <span>미디어 {scopedCount}개</span>
+        <span className="text-text-primary">ImagePool</span>
+        <span className="text-text-secondary normal-case font-normal ml-1">미디어 {scopedCount}개</span>
         <span className="text-text-secondary/60 normal-case font-normal">
           · 이미지 {imageCount} / 영상 {videoCount}
           · used {usedCount} / unused {scopedCount - usedCount}

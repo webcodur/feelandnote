@@ -58,7 +58,7 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
       onDragOver={e => { e.preventDefault(); e.stopPropagation(); setOver(true) }}
       onDragLeave={() => setOver(false)}
       onDrop={e => { e.preventDefault(); e.stopPropagation(); setOver(false); const f = e.dataTransfer.getData('text/plain'); if (f) onReplace(f) }}
-      className={`group/thumb relative w-[140px] rounded overflow-hidden border transition-colors shrink-0 ${
+      className={`group/thumb relative w-[140px] rounded overflow-hidden border  shrink-0 ${
         isEmpty
           ? over ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-dashed border-border/60 bg-bg-main/50'
           : over ? 'border-accent ring-1 ring-accent/30' : isPicking ? 'border-amber-500/60' : 'border-border/40 hover:border-border'
@@ -99,7 +99,7 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
         </div>
       ) : !isEmpty && (
         <div className="px-0.5 py-px bg-bg-card/80 text-[11px] truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
-          <span className={index > 0 ? 'text-red-400 italic' : 'text-text-secondary italic opacity-0 group-hover/thumb:opacity-100 transition-opacity'}>
+          <span className={index > 0 ? 'text-red-400 italic' : 'text-text-secondary italic opacity-0 group-hover/thumb:opacity-100 '}>
             {index > 0 ? '앵커 없음' : '위치 변경'}
           </span>
         </div>

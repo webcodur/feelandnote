@@ -14,9 +14,8 @@ export function PlaybackRateControl() {
   const isOff = rate === 1
 
   return (
-    <div className="flex items-center gap-1 text-[11px] text-text-secondary">
-      <span className="font-semibold text-text-primary">배속</span>
-      <span className={`tabular-nums mr-1 ${isOff ? 'opacity-70' : 'text-accent font-semibold'}`}>×{rate}</span>
+    <div className="flex items-center gap-1 text-[11px] text-text-secondary ml-2 pl-3 border-l border-border/50">
+      <span className="font-bold text-text-primary mr-1">재생속도</span>
       {PLAYBACK_RATES.map(r => {
         const active = r === rate
         return (

@@ -172,16 +172,16 @@ export function VoiceMappingPanel() {
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center gap-2 px-4 py-2 text-left hover:bg-bg-hover"
+        className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-bg-hover"
       >
-        <span className="text-[11px] font-medium text-purple-300">인물 보이스</span>
-        <span className="text-[10px] text-text-dim font-mono">
+        <span className={`text-[10px] text-text-dim shrink-0 ${open ? 'rotate-90' : ''}`}>▶</span>
+        <span className="text-[11px] font-bold text-text-secondary select-none">인물 보이스</span>
+        <span className="text-[10px] text-purple-300/80 font-mono flex-1 truncate ml-1">
           {currentJsonId ? (currentJsonName ?? currentJsonId) : '미배정'}
         </span>
         {mismatch && (
-          <span className="text-[10px] text-amber-300/90 ml-1">DB와 다름</span>
+          <span className="text-[10px] text-amber-300/90 shrink-0">DB와 다름</span>
         )}
-        <span className="text-text-dim text-xs ml-auto">{open ? '▼' : '▶'}</span>
       </button>
 
       {open && (

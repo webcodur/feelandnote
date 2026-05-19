@@ -114,6 +114,7 @@ export function BookSection({
     <ContainerTag key={i} id={`book-${i}`} {...containerProps}>
       <HeaderTag className={headerClass}>
         <div className="flex items-baseline gap-2">
+          {!isFocused && <span className="text-text-secondary text-xs group-open:rotate-90 transition-transform">&#9654;</span>}
           <span className="text-accent font-mono text-xs">{i + 1}/{totalBooks}</span>
           <span className="font-semibold">{book.title}</span>
           <span className="text-text-secondary text-sm">— {book.creator}</span>
@@ -121,7 +122,6 @@ export function BookSection({
           {allImgs.length > 0 && <span className="text-text-secondary text-[11px] ml-1">{allImgs.length}장</span>}
           <span className="ml-auto flex items-center gap-2">
             <BookCopyButton book={book} index={i} total={totalBooks} />
-            {!isFocused && <span className="text-text-secondary text-xs group-open:rotate-90 transition-transform">&#9654;</span>}
           </span>
         </div>
       </HeaderTag>
@@ -145,13 +145,17 @@ export function BookSection({
               sectionKey={bookKey(i, 'a-title')} audioUrl={vUrl(bookKey(i, 'a-title'))}
               activeEngine={activeEngine(bookKey(i, 'a-title'))} isPlaying={playingKey === bookKey(i, 'a-title')} onTogglePlay={() => onTogglePlay(bookKey(i, 'a-title'), book.titleGainDb)}
               onToggleExpand={() => onToggleExpand(bookKey(i, 'a-title'))}
+              footer={
+                <>
+                  <RowSpeakerSelect value={book.titleSpeaker} speakers={speakers} name={`spk-b${i}-title`}
+                    onChange={next => uB(i, 'titleSpeaker', next)} />
+                  <SegmentSfxEditor sfx={book.titleSfx} files={sfxFiles} basePath={sfxBase}
+                    onChange={next => uB(i, 'titleSfx', next)} />
+                  <GainDbInput value={typeof book.titleGainDb === 'number' ? book.titleGainDb : undefined}
+                    onChange={next => uB(i, 'titleGainDb', next)} sectionKey={bookKey(i, 'a-title')} />
+                </>
+              }
             />
-            <RowSpeakerSelect value={book.titleSpeaker} speakers={speakers} name={`spk-b${i}-title`}
-              onChange={next => uB(i, 'titleSpeaker', next)} />
-            <SegmentSfxEditor sfx={book.titleSfx} files={sfxFiles} basePath={sfxBase}
-              onChange={next => uB(i, 'titleSfx', next)} />
-            <GainDbInput value={typeof book.titleGainDb === 'number' ? book.titleGainDb : undefined}
-              onChange={next => uB(i, 'titleGainDb', next)} sectionKey={bookKey(i, 'a-title')} />
           </div>
 
           <div style={accentStyle(book.summarySpeaker)}>
@@ -166,13 +170,17 @@ export function BookSection({
               onDrop={fn => dropImage(i, fn, 'summary')} onAddAnchor={t => addAnchor(i, t, 'summary')}
               images={<InlineImageRow images={imgsSummary} {...imgRowProps} />}
               actions={<SaveButton onSave={() => saveField(['books', i, 'summary'], book.summary)} />}
+              footer={
+                <>
+                  <RowSpeakerSelect value={book.summarySpeaker} speakers={speakers} name={`spk-b${i}-summary`}
+                    onChange={next => uB(i, 'summarySpeaker', next)} />
+                  <SegmentSfxEditor sfx={book.summarySfx} files={sfxFiles} basePath={sfxBase}
+                    onChange={next => uB(i, 'summarySfx', next)} />
+                  <GainDbInput value={typeof book.summaryGainDb === 'number' ? book.summaryGainDb : undefined}
+                    onChange={next => uB(i, 'summaryGainDb', next)} sectionKey={bookKey(i, 'b-summary')} />
+                </>
+              }
             />
-            <RowSpeakerSelect value={book.summarySpeaker} speakers={speakers} name={`spk-b${i}-summary`}
-              onChange={next => uB(i, 'summarySpeaker', next)} />
-            <SegmentSfxEditor sfx={book.summarySfx} files={sfxFiles} basePath={sfxBase}
-              onChange={next => uB(i, 'summarySfx', next)} />
-            <GainDbInput value={typeof book.summaryGainDb === 'number' ? book.summaryGainDb : undefined}
-              onChange={next => uB(i, 'summaryGainDb', next)} sectionKey={bookKey(i, 'b-summary')} />
           </div>
           {musicFiles.length > 0 && (
             <BgmSelect label="요약 BGM" current={book.bgm?.summary?.file} files={musicFiles}
@@ -191,13 +199,17 @@ export function BookSection({
               onDrop={fn => dropImage(i, fn, 'context')} onAddAnchor={t => addAnchor(i, t, 'context')}
               images={<InlineImageRow images={imgsCtxMain} {...imgRowProps} />}
               actions={<SaveButton onSave={() => saveField(['books', i, 'contextMain'], book.contextMain)} />}
+              footer={
+                <>
+                  <RowSpeakerSelect value={book.contextMainSpeaker} speakers={speakers} name={`spk-b${i}-context`}
+                    onChange={next => uB(i, 'contextMainSpeaker', next)} />
+                  <SegmentSfxEditor sfx={book.contextMainSfx} files={sfxFiles} basePath={sfxBase}
+                    onChange={next => uB(i, 'contextMainSfx', next)} />
+                  <GainDbInput value={typeof book.contextMainGainDb === 'number' ? book.contextMainGainDb : undefined}
+                    onChange={next => uB(i, 'contextMainGainDb', next)} sectionKey={bookKey(i, 'c-context')} />
+                </>
+              }
             />
-            <RowSpeakerSelect value={book.contextMainSpeaker} speakers={speakers} name={`spk-b${i}-context`}
-              onChange={next => uB(i, 'contextMainSpeaker', next)} />
-            <SegmentSfxEditor sfx={book.contextMainSfx} files={sfxFiles} basePath={sfxBase}
-              onChange={next => uB(i, 'contextMainSfx', next)} />
-            <GainDbInput value={typeof book.contextMainGainDb === 'number' ? book.contextMainGainDb : undefined}
-              onChange={next => uB(i, 'contextMainGainDb', next)} sectionKey={bookKey(i, 'c-context')} />
           </div>
           {musicFiles.length > 0 && (
             <BgmSelect label="배경 BGM" current={book.bgm?.context?.file} files={musicFiles}
@@ -223,24 +235,28 @@ export function BookSection({
                     onDrop={fn => dropImage(i, fn, 'quote')} onAddAnchor={t => addAnchor(i, t, 'quote')}
                     images={<InlineImageRow images={pairQuoteImgs} {...imgRowProps} />}
                     actions={<SaveButton onSave={() => saveField(['books', i, 'quotePairs', pi, 'quote'], pair.quote)} />}
+                    footer={
+                      <>
+                        <RowSpeakerSelect value={pair.quoteSpeaker as string | undefined} speakers={speakers}
+                          name={`spk-b${i}-quote${pi}`}
+                          onChange={next => updateQuotePair(i, pi, 'quoteSpeaker', next)} />
+                        <SegmentSfxEditor sfx={pair.quoteSfx as SfxItem[] | undefined} files={sfxFiles} basePath={sfxBase}
+                          onChange={next => updateQuotePair(i, pi, 'quoteSfx', next)} />
+                        <GainDbInput value={typeof pair.quoteGainDb === 'number' ? pair.quoteGainDb : undefined}
+                          onChange={next => updateQuotePair(i, pi, 'quoteGainDb', next)} sectionKey={quoteKey} />
+                        <div className="ml-[72px] mt-1 mb-1 flex items-center gap-1">
+                          <span className="text-[11px] text-text-secondary/60">출처:</span>
+                          <input
+                            className="text-[11px] text-[#c8a46e]/90 bg-bg-card/60 border border-border/40 rounded px-1 py-0.5 focus:border-accent/60 focus:outline-none flex-1 max-w-[400px]"
+                            value={pair.quoteSource ?? ''}
+                            onChange={e => updateQuotePair(i, pi, 'quoteSource', e.target.value || undefined)}
+                            placeholder="(예: 인터뷰 제목·매체·연도)"
+                            title="이 인용 출처 — 인터뷰·기사·서신 등"
+                          />
+                        </div>
+                      </>
+                    }
                   />
-                  <RowSpeakerSelect value={pair.quoteSpeaker as string | undefined} speakers={speakers}
-                    name={`spk-b${i}-quote${pi}`}
-                    onChange={next => updateQuotePair(i, pi, 'quoteSpeaker', next)} />
-                  <SegmentSfxEditor sfx={pair.quoteSfx as SfxItem[] | undefined} files={sfxFiles} basePath={sfxBase}
-                    onChange={next => updateQuotePair(i, pi, 'quoteSfx', next)} />
-                  <GainDbInput value={typeof pair.quoteGainDb === 'number' ? pair.quoteGainDb : undefined}
-                    onChange={next => updateQuotePair(i, pi, 'quoteGainDb', next)} sectionKey={quoteKey} />
-                  <div className="ml-[72px] -mt-1 mb-1 flex items-center gap-1">
-                    <span className="text-[11px] text-text-secondary/60">출처:</span>
-                    <input
-                      className="text-[11px] text-[#c8a46e]/90 bg-bg-card/60 border border-border/40 rounded px-1 py-0.5 focus:border-accent/60 focus:outline-none flex-1 max-w-[400px]"
-                      value={pair.quoteSource ?? ''}
-                      onChange={e => updateQuotePair(i, pi, 'quoteSource', e.target.value || undefined)}
-                      placeholder="(예: 인터뷰 제목·매체·연도)"
-                      title="이 인용 출처 — 인터뷰·기사·서신 등"
-                    />
-                  </div>
                   <button onClick={() => removeQuotePair(i, pi)} className="absolute top-1 right-6 text-[11px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
                 </div>
 
@@ -258,14 +274,18 @@ export function BookSection({
                       onDrop={fn => dropImage(i, fn, 'quote')} onAddAnchor={t => addAnchor(i, t, 'quote')}
                       images={<InlineImageRow images={pairAfterImgs} {...imgRowProps} />}
                       actions={<SaveButton onSave={() => saveField(['books', i, 'quotePairs', pi, 'after'], pair.after)} />}
+                      footer={
+                        <>
+                          <RowSpeakerSelect value={pair.afterSpeaker as string | undefined} speakers={speakers}
+                            name={`spk-b${i}-after${pi}`}
+                            onChange={next => updateQuotePair(i, pi, 'afterSpeaker', next)} />
+                          <SegmentSfxEditor sfx={pair.afterSfx as SfxItem[] | undefined} files={sfxFiles} basePath={sfxBase}
+                            onChange={next => updateQuotePair(i, pi, 'afterSfx', next)} />
+                          <GainDbInput value={typeof pair.afterGainDb === 'number' ? pair.afterGainDb : undefined}
+                            onChange={next => updateQuotePair(i, pi, 'afterGainDb', next)} sectionKey={afterKey} />
+                        </>
+                      }
                     />
-                    <RowSpeakerSelect value={pair.afterSpeaker as string | undefined} speakers={speakers}
-                      name={`spk-b${i}-after${pi}`}
-                      onChange={next => updateQuotePair(i, pi, 'afterSpeaker', next)} />
-                    <SegmentSfxEditor sfx={pair.afterSfx as SfxItem[] | undefined} files={sfxFiles} basePath={sfxBase}
-                      onChange={next => updateQuotePair(i, pi, 'afterSfx', next)} />
-                    <GainDbInput value={typeof pair.afterGainDb === 'number' ? pair.afterGainDb : undefined}
-                      onChange={next => updateQuotePair(i, pi, 'afterGainDb', next)} sectionKey={afterKey} />
                     <button onClick={() => updateQuotePair(i, pi, 'after', undefined)} className="absolute top-1 right-6 text-[11px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
                   </div>
                 ) : (

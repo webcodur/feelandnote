@@ -36,13 +36,13 @@ export type SimpleRole = 'line' | 'comment'
 
 export const ROLE_COLORS: Record<string, string> = {
   // 새 체계
-  line: 'text-[#c8a46e]',
-  comment: 'text-[#888]',
+  line: 'text-[#e8c890]',
+  comment: 'text-[#ececec]',
   // 하위호환
-  narrator: 'text-[#888]',
-  summary: 'text-[#8bb8a8]',
-  celeb: 'text-[#c8a46e]',
-  host: 'text-[#c8a46e]',
+  narrator: 'text-[#ececec]',
+  summary: 'text-[#c8eedd]',
+  celeb: 'text-[#e8c890]',
+  host: 'text-[#e8c890]',
 }
 
 export const ROLE_LABELS: Record<string, string> = {

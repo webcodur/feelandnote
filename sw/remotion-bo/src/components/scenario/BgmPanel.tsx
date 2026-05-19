@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { EpisodeData } from '../EpisodeEditor'
+import { EditorPanel } from './EditorPanel'
 
 /**
  * 쇼츠 BGM 패널 — shorts[shortsIndex-1].bgm 배열을 편집한다.
@@ -51,50 +52,54 @@ export function BgmPanel({ episode, onUpdate, series, name, shortsIndex }: {
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
   return (
-    <details className="mb-2 rounded border border-border/40 bg-bg-card/30">
-      <summary className="px-3 py-1.5 text-[12px] text-text-secondary cursor-pointer select-none hover:text-text-primary flex items-center gap-2">
-        <span className="font-semibold text-text-primary">BGM</span>
-        {bgm.length > 0 && <span className="text-accent text-[11px] font-bold">{bgm.length}트랙</span>}
-        {musicFiles.length === 0 && bgm.length === 0 && <span className="text-text-secondary/50 text-[11px] italic">music/ 폴더에 파일 배치 필요</span>}
-      </summary>
-      <div className="px-3 pb-2 pt-1 space-y-2">
-        {bgm.map((t, i) => (
-          <div key={i} className="flex items-center gap-2 text-[11px]">
-            <span className="text-text-primary truncate max-w-[200px]" title={t.file}>{t.file?.split('/').pop() ?? '(없음)'}</span>
-            <label className="flex items-center gap-1 text-text-secondary shrink-0">
-              Vol
-              <input type="number" step="0.05" min="0" max="1" className="w-12 bg-bg-card border border-border/40 rounded px-1 text-center"
-                value={t.volume ?? 0.15} onChange={e => updateTrack(i, 'volume', parseFloat(e.target.value) || 0.15)} />
-            </label>
-            <label className="flex items-center gap-1 text-text-secondary shrink-0">
-              FadeIn
-              <input type="number" step="0.5" min="0" className="w-10 bg-bg-card border border-border/40 rounded px-1 text-center"
-                value={t.fadeIn ?? 2} onChange={e => updateTrack(i, 'fadeIn', parseFloat(e.target.value) || 2)} />s
-            </label>
-            <label className="flex items-center gap-1 text-text-secondary shrink-0">
-              FadeOut
-              <input type="number" step="0.5" min="0" className="w-10 bg-bg-card border border-border/40 rounded px-1 text-center"
-                value={t.fadeOut ?? 3} onChange={e => updateTrack(i, 'fadeOut', parseFloat(e.target.value) || 3)} />s
-            </label>
-            <button onClick={() => removeTrack(i)} title="이 트랙 삭제" className="text-text-dim hover:text-red-400 text-sm leading-none">×</button>
-          </div>
-        ))}
-        {available.length > 0 ? (
-          <div className="flex items-center gap-2">
-            <select className="text-[11px] bg-bg-card border border-border/40 rounded px-2 py-1 text-text-primary"
-              defaultValue="" onChange={e => { if (e.target.value) { addTrack(e.target.value); e.target.value = '' } }}>
-              <option value="" disabled>+ 트랙 선택</option>
-              {available.map(f => (
-                <option key={f.name} value={f.name}>
-                  {f.name}{f.duration != null ? ` (${Math.round(f.duration)}s)` : ''}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : musicFiles.length > 0 && bgm.length > 0 ? (
-          <span className="text-[11px] text-text-secondary/50">모든 음악 파일 사용 중</span>
-        ) : null}
-      </div>
-    </details>
+    <EditorPanel
+      title="배경음악 (BgmPanel)"
+      icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>}
+      collapsible
+      summaryNode={
+        <>
+          {bgm.length > 0 && <span>{bgm.length}트랙</span>}
+          {musicFiles.length === 0 && bgm.length === 0 && <span className="text-text-secondary/50 font-normal italic">music/ 파일 없음</span>}
+        </>
+      }
+      contentClassName="p-3 space-y-2"
+    >
+      {bgm.map((t, i) => (
+        <div key={i} className="flex items-center gap-2 text-[11px]">
+          <span className="text-text-primary truncate max-w-[200px]" title={t.file}>{t.file?.split('/').pop() ?? '(없음)'}</span>
+          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+            Vol
+            <input type="number" step="0.05" min="0" max="1" className="w-12 bg-black/40 border border-white/10 rounded px-1 text-center"
+              value={t.volume ?? 0.15} onChange={e => updateTrack(i, 'volume', parseFloat(e.target.value) || 0.15)} />
+          </label>
+          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+            FadeIn
+            <input type="number" step="0.5" min="0" className="w-10 bg-black/40 border border-white/10 rounded px-1 text-center"
+              value={t.fadeIn ?? 2} onChange={e => updateTrack(i, 'fadeIn', parseFloat(e.target.value) || 2)} />s
+          </label>
+          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+            FadeOut
+            <input type="number" step="0.5" min="0" className="w-10 bg-black/40 border border-white/10 rounded px-1 text-center"
+              value={t.fadeOut ?? 3} onChange={e => updateTrack(i, 'fadeOut', parseFloat(e.target.value) || 3)} />s
+          </label>
+          <button onClick={() => removeTrack(i)} title="이 트랙 삭제" className="text-text-dim hover:text-red-400 text-sm leading-none">×</button>
+        </div>
+      ))}
+      {available.length > 0 ? (
+        <div className="flex items-center gap-2">
+          <select className="text-[11px] bg-black/40 border border-white/10 rounded px-2 py-1 text-text-primary"
+            defaultValue="" onChange={e => { if (e.target.value) { addTrack(e.target.value); e.target.value = '' } }}>
+            <option value="" disabled>+ 트랙 선택</option>
+            {available.map(f => (
+              <option key={f.name} value={f.name}>
+                {f.name}{f.duration != null ? ` (${Math.round(f.duration)}s)` : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : musicFiles.length > 0 && bgm.length > 0 ? (
+        <span className="text-[11px] text-text-secondary/50">모든 음악 파일 사용 중</span>
+      ) : null}
+    </EditorPanel>
   )
 }

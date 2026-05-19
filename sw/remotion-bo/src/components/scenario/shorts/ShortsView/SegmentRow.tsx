@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react'
 import { ScenarioRow } from '../../ScenarioRow'
 import { SaveButton } from '../../SaveButton'
 import { InlineImageRow } from '../../ImageThumb'
-import { SegmentSfxEditor } from '../../SegmentSfxEditor'
-import { SegmentOptionsBar } from './SegmentOptionsBar'
-import { GainDbInput } from '../../GainDbInput'
+import { SegmentToolbox } from './SegmentToolbox'
 import { shortsKey, lookupVoice } from '../../utils'
 import type { VoiceSection } from '../../../voice-utils'
 import type { Speaker } from '../../SpeakerPanel'
@@ -50,7 +48,7 @@ export function SegmentRow({
   dropImage, addAnchor, handlePick,
   activeEngine, playingKey, onTogglePlay, onToggleExpand,
   updateSeg, updateSegField, updateSegFieldKeepFalse, removeSegment, saveSegment,
-  sfxFiles, sfxBase, renameSegId, dragHandleProps,
+  sfxFiles, sfxBase, renameSegId, dragHandleProps, totalSegments,
 }: {
   seg: any
   idx: number
@@ -96,6 +94,8 @@ export function SegmentRow({
     isDragging: boolean
     isOver: boolean
   }
+  /** 전체 세그먼트 수 — 번호 표기 n/m 의 m. */
+  totalSegments?: number
 }) {
   const key = shortsKey(idx, seg.id, shortsIndex)
   const voiceInfo = lookupVoice(sectionMap, key, seg.duration)
@@ -118,86 +118,62 @@ export function SegmentRow({
   const speakerObj = seg.speaker ? speakerById.get(seg.speaker) : undefined
   const accentColor = speakerObj?.color
 
-  const dragging = dragHandleProps?.isDragging
-  const dropOver = dragHandleProps?.isOver
+  // 타이틀바 좌측에 들어가는 라벨 — n/m 번호 + 식별자(편집기)
   const labelNode = (
-    <span className="flex items-center gap-1 leading-tight">
-      {dragHandleProps && (
-        <span
-          draggable={dragHandleProps.draggable}
-          onDragStart={dragHandleProps.onDragStart}
-          onDragEnd={dragHandleProps.onDragEnd}
-          className="cursor-grab active:cursor-grabbing text-text-secondary/60 hover:text-accent select-none px-0.5"
-          title="끌어서 구간 순서 바꾸기"
-        >⋮⋮</span>
-      )}
-      <span className="text-[11px] text-text-secondary">#{idx + 1}</span>
+    <span className="flex items-center gap-1.5 leading-none">
+      <span className="text-[11px] text-text-secondary tabular-nums">{idx + 1}/{totalSegments ?? '?'}</span>
       {renameSegId ? (
         <SegIdEditor value={seg.id} onCommit={next => renameSegId(idx, seg.id, next)} />
       ) : (
-        <span className="text-[11px] font-mono">{seg.id}</span>
+        <span className="text-[11px] font-mono text-text-primary">{seg.id}</span>
       )}
     </span>
   )
 
-  return (
-    <div
-      key={seg.id}
-      className={`relative group/del transition-opacity ${dragging ? 'opacity-50' : ''} ${dropOver ? 'ring-2 ring-accent/60 rounded' : ''}`}
-      style={accentColor ? { borderLeft: `3px solid ${accentColor}`, paddingLeft: 6 } : undefined}
-      onDragOver={dragHandleProps?.onDragOver}
-      onDragLeave={dragHandleProps?.onDragLeave}
-      onDrop={dragHandleProps?.onDrop}
-    >
-      <ScenarioRow
-        label={labelNode} role={seg.role} value={seg.text}
-        voiceInfo={voiceInfo} onCommit={v => updateSeg(idx, v)}
-        pickMode={picking} onPick={handlePick}
-        highlights={allImgs.map((img: any) => img.text).filter((t: string | undefined): t is string => !!t)}
-        sectionKey={key} audioUrl={audioUrl}
-        activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, seg.gainDb)}
-        onToggleExpand={() => onToggleExpand(key)}
-        onDrop={withImage ? (fn => dropImage(idx, fn)) : undefined}
-        onAddAnchor={withImage ? (t => addAnchor(idx, t)) : undefined}
-        images={imgNode}
-        actions={<SaveButton onSave={() => saveSegment(idx)} title="이 구간만 저장 (디스크 최신 상태와 머지)" />}
-      />
-      <SegmentOptionsBar
-        seg={seg} idx={idx} shortsIndex={shortsIndex}
-        speakers={speakers}
-        updateSegField={updateSegField} updateSegFieldKeepFalse={updateSegFieldKeepFalse}
-      />
-      {seg.role === 'celeb' && (
-        <div className="grid grid-cols-[100px_1fr] gap-2 pb-1">
-          <div />
-          <div className="flex items-center gap-1">
-            <span className="text-[11px] text-text-secondary/60">출처:</span>
-            <input
-              className="text-[11px] text-[#c8a46e]/90 bg-bg-card/60 border border-border/40 rounded px-1 py-0.5 focus:border-accent/60 focus:outline-none flex-1 max-w-[400px]"
-              value={seg.quoteSource ?? ''}
-              onChange={e => updateSegField(idx, 'quoteSource', e.target.value || undefined)}
-              placeholder="(예: 인터뷰 제목·매체·연도)"
-              title="셀럽 발화 출처 — 인터뷰·기사·서신 등"
-            />
-          </div>
-        </div>
-      )}
-      <SegmentSfxEditor
-        sfx={seg.sfx}
-        files={sfxFiles}
-        basePath={sfxBase}
-        onChange={next => updateSegField(idx, 'sfx', next)}
-      />
-      <GainDbInput
-        value={typeof seg.gainDb === 'number' ? seg.gainDb : undefined}
-        onChange={next => updateSegField(idx, 'gainDb', next)}
-        sectionKey={key}
-      />
+  // 타이틀바 우측 액션 — 저장(emerald) + 삭제(red)
+  const actionsNode = (
+    <>
+      <SaveButton onSave={() => saveSegment(idx)} title="이 구간만 저장 (디스크 최신 상태와 머지)" />
       <button
+        type="button"
         onClick={() => removeSegment(idx)}
-        className="absolute top-1 right-2 text-[11px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity"
         title="이 구간 삭제"
+        className="inline-flex items-center px-2 py-0.5 rounded border border-red-600/50 text-red-400/90 bg-transparent hover:bg-red-500/10 hover:border-red-400 hover:text-red-200 text-[11px] font-medium leading-none cursor-pointer transition-colors"
       >삭제</button>
-    </div>
+    </>
+  )
+
+  // 본문 아래 footer — 세그먼트 도구모음(옵션바·출처·SFX·음량)
+  const footerNode = (
+    <SegmentToolbox
+      seg={seg}
+      idx={idx}
+      shortsIndex={shortsIndex}
+      speakers={speakers}
+      updateSegField={updateSegField}
+      updateSegFieldKeepFalse={updateSegFieldKeepFalse}
+      sfxFiles={sfxFiles}
+      sfxBase={sfxBase}
+      sectionKey={key}
+    />
+  )
+
+  return (
+    <ScenarioRow
+      label={labelNode} role={seg.role} value={seg.text}
+      voiceInfo={voiceInfo} onCommit={v => updateSeg(idx, v)}
+      pickMode={picking} onPick={handlePick}
+      highlights={allImgs.map((img: any) => img.text).filter((t: string | undefined): t is string => !!t)}
+      sectionKey={key} audioUrl={audioUrl}
+      activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, seg.gainDb)}
+      onToggleExpand={() => onToggleExpand(key)}
+      onDrop={withImage ? (fn => dropImage(idx, fn)) : undefined}
+      onAddAnchor={withImage ? (t => addAnchor(idx, t)) : undefined}
+      images={imgNode}
+      actions={actionsNode}
+      dragHandle={dragHandleProps}
+      leadStyle={accentColor ? { borderLeft: `3px solid ${accentColor}` } : undefined}
+      footer={footerNode}
+    />
   )
 }

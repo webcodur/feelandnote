@@ -25,7 +25,7 @@ export function ListImage({ fileName, imageBaseUrl, onDrop, onDelete, onLocate, 
         if (onDragStartMulti) onDragStartMulti(e, fileName)
         else { e.dataTransfer.setData('text/plain', fileName); e.dataTransfer.effectAllowed = 'copy' }
       }}
-      className={`group/row flex items-center gap-2 px-1.5 py-1 rounded border hover:bg-bg-main/50 cursor-grab active:cursor-grabbing transition-colors ${
+      className={`group/row flex items-center gap-2 px-1.5 py-1 rounded border hover:bg-bg-main/50 cursor-grab active:cursor-grabbing ${
         selected ? 'border-accent bg-accent/5' : 'border-transparent hover:border-accent/40'
       }`}
       title={crossLabels?.join('\n')}
@@ -33,7 +33,7 @@ export function ListImage({ fileName, imageBaseUrl, onDrop, onDelete, onLocate, 
       {onToggleSelect && (
         <button
           onClick={e => { e.stopPropagation(); onToggleSelect() }}
-          className={`w-4 h-4 shrink-0 flex items-center justify-center rounded border text-[11px] font-bold transition-colors ${
+          className={`w-4 h-4 shrink-0 flex items-center justify-center rounded border text-[11px] font-bold ${
             selected ? 'bg-accent border-accent text-white' : 'bg-bg-main border-border/40 text-transparent hover:text-text-secondary'
           }`}
         >✓</button>

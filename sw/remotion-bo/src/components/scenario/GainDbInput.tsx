@@ -54,12 +54,11 @@ export function GainDbInput({
 
   return (
     <div
-      className={`grid grid-cols-[100px_1fr] gap-2 pb-1 ${isDefault ? 'opacity-40 hover:opacity-100 transition-opacity' : ''}`}
+      className="flex items-center gap-1.5"
       title="음량 조절 (dB). 0 이면 원본 그대로. +/- 한 칸은 ffmpeg volume=NdB 과 같다."
     >
-      <div />
-      <div className="flex items-center gap-2">
-        <span className="text-[11px] text-text-secondary/70 shrink-0">{label}</span>
+      <span className="text-[11px] text-text-secondary w-14 shrink-0 text-center">{label}</span>
+      <div className="flex-1 flex items-center gap-2">
         <input
           type="range"
           min={GAIN_DB_MIN}
@@ -80,7 +79,7 @@ export function GainDbInput({
             if (Number.isFinite(n)) commit(n)
           }}
           placeholder="0"
-          className={`w-14 text-center text-[11px] bg-bg-card border border-border/40 rounded px-1 py-0.5 font-mono ${isDefault ? 'text-text-dim' : 'text-amber-300'}`}
+          className={`w-14 text-center text-[11px] bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] font-mono focus:border-accent/60 focus:outline-none ${isDefault ? 'text-text-dim' : 'text-amber-300'}`}
         />
         <span className={`text-[11px] font-mono shrink-0 ${isDefault ? 'text-text-dim' : 'text-amber-300'}`}>
           {isDefault ? '0 dB' : `${sign}${display.toFixed(1)} dB`}

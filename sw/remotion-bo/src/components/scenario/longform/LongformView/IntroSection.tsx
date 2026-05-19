@@ -10,6 +10,7 @@ import { LongformCopyAllButton } from '../CopyButton'
 import { lookupVoice } from '../../utils'
 import type { VoiceSection } from '../../../voice-utils'
 import type { EpisodeData, SfxItem } from '../../../EpisodeEditor'
+import { EditorPanel } from '../../EditorPanel'
 
 /**
  * 인트로 영역(메타 탭) — 서비스 인사 / 인물 / 명언 / 인물 소개 / 감상철학 / 브릿지 / 마무리.
@@ -89,23 +90,27 @@ export function IntroSection({
           activeEngine={activeEngine(props.key_)} isPlaying={playingKey === props.key_} onTogglePlay={() => onTogglePlay(props.key_, fieldGainDb)}
           onToggleExpand={() => onToggleExpand(props.key_)}
           actions={<SaveButton onSave={() => saveField(props.field, props.rawValue ?? props.value)} />}
-        />
-        <RowSpeakerSelect
-          value={speakerId}
-          onChange={next => setSibling(props.field, 'Speaker', next)}
-          speakers={speakers}
-          name={`speaker-${props.key_}`}
-        />
-        <SegmentSfxEditor
-          sfx={getSibling<SfxItem[]>(props.field, 'Sfx')}
-          files={sfxFiles}
-          basePath={sfxBase}
-          onChange={next => setSibling(props.field, 'Sfx', next)}
-        />
-        <GainDbInput
-          value={fieldGainDb}
-          onChange={next => setSibling(props.field, 'GainDb', next)}
-          sectionKey={props.key_}
+          footer={
+            <>
+              <RowSpeakerSelect
+                value={speakerId}
+                onChange={next => setSibling(props.field, 'Speaker', next)}
+                speakers={speakers}
+                name={`speaker-${props.key_}`}
+              />
+              <SegmentSfxEditor
+                sfx={getSibling<SfxItem[]>(props.field, 'Sfx')}
+                files={sfxFiles}
+                basePath={sfxBase}
+                onChange={next => setSibling(props.field, 'Sfx', next)}
+              />
+              <GainDbInput
+                value={fieldGainDb}
+                onChange={next => setSibling(props.field, 'GainDb', next)}
+                sectionKey={props.key_}
+              />
+            </>
+          }
         />
       </div>
     )
@@ -123,24 +128,27 @@ export function IntroSection({
   ].filter(Boolean).length
 
   return (
-    <details open className="rounded border border-border/40 bg-bg-card/30 overflow-hidden">
-      <summary className="px-3 py-1.5 text-[12px] text-text-secondary cursor-pointer select-none hover:text-text-primary flex items-center gap-2">
-        <span className="font-semibold text-text-primary">인트로</span>
-        <span className="text-[11px] opacity-70 tabular-nums">{activeRows}구간</span>
-        <span className="ml-auto" onClick={e => e.preventDefault()}>
-          <LongformCopyAllButton narrator={narrator} host={host} books={allBooks} />
+    <EditorPanel
+      title="롱폼 인트로 (IntroSection)"
+      icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
+      collapsible
+      summaryNode={
+        <span className="flex items-center gap-2">
+          <span className="text-[10px] opacity-70 tabular-nums">{activeRows}구간</span>
+          <span onClick={e => e.preventDefault()}>
+            <LongformCopyAllButton narrator={narrator} host={host} books={allBooks} />
+          </span>
         </span>
-      </summary>
-
-      <div className="px-3 pb-3 pt-1 border-t border-border/40">
-        {row({ label: '서비스 인사', role: 'narrator', value: narrator.serviceGreeting ?? '', field: ['narrator', 'serviceGreeting'], key_: 'A1-service-greeting', duration: narrator.serviceGreetingDuration, rawValue: narrator.serviceGreeting ?? '' })}
-        {narrator.serviceIntro && row({ label: '오늘의 인물', role: 'narrator', value: narrator.serviceIntro, field: ['narrator', 'serviceIntro'], key_: 'A2-service-intro', duration: narrator.serviceIntroDuration })}
-        {host.featuredQuote && row({ label: '대표 명언', role: 'celeb', value: host.featuredQuote, field: ['host', 'featuredQuote'], key_: 'A3-featured-quote', duration: host.featuredQuoteDuration })}
-        {row({ label: '인물 소개', role: 'narrator', value: narrator.celebIntro ?? '', field: ['narrator', 'celebIntro'], key_: 'B1-celeb-intro', duration: narrator.celebIntroDuration, rawValue: narrator.celebIntro ?? '' })}
-        {row({ label: '감상철학', role: 'celeb', value: host.philosophy ?? '', field: ['host', 'philosophy'], key_: 'B2-philosophy', duration: host.voiceDuration, rawValue: host.philosophy ?? '' })}
-        {narrator.bridge && row({ label: '브릿지', role: 'narrator', value: narrator.bridge, field: ['narrator', 'bridge'], key_: 'B3-bridge', duration: narrator.bridgeDuration })}
-        {narrator.outro && row({ label: '마무리', role: 'narrator', value: narrator.outro, field: ['narrator', 'outro'], key_: 'Z1-outro', duration: narrator.outroDuration })}
-      </div>
-    </details>
+      }
+      contentClassName="p-3"
+    >
+      {row({ label: '서비스 인사', role: 'narrator', value: narrator.serviceGreeting ?? '', field: ['narrator', 'serviceGreeting'], key_: 'A1-service-greeting', duration: narrator.serviceGreetingDuration, rawValue: narrator.serviceGreeting ?? '' })}
+      {narrator.serviceIntro && row({ label: '오늘의 인물', role: 'narrator', value: narrator.serviceIntro, field: ['narrator', 'serviceIntro'], key_: 'A2-service-intro', duration: narrator.serviceIntroDuration })}
+      {host.featuredQuote && row({ label: '대표 명언', role: 'celeb', value: host.featuredQuote, field: ['host', 'featuredQuote'], key_: 'A3-featured-quote', duration: host.featuredQuoteDuration })}
+      {row({ label: '인물 소개', role: 'narrator', value: narrator.celebIntro ?? '', field: ['narrator', 'celebIntro'], key_: 'B1-celeb-intro', duration: narrator.celebIntroDuration, rawValue: narrator.celebIntro ?? '' })}
+      {row({ label: '감상철학', role: 'celeb', value: host.philosophy ?? '', field: ['host', 'philosophy'], key_: 'B2-philosophy', duration: host.voiceDuration, rawValue: host.philosophy ?? '' })}
+      {narrator.bridge && row({ label: '브릿지', role: 'narrator', value: narrator.bridge, field: ['narrator', 'bridge'], key_: 'B3-bridge', duration: narrator.bridgeDuration })}
+      {narrator.outro && row({ label: '마무리', role: 'narrator', value: narrator.outro, field: ['narrator', 'outro'], key_: 'Z1-outro', duration: narrator.outroDuration })}
+    </EditorPanel>
   )
 }
