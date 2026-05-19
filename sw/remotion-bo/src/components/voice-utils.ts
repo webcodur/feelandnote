@@ -246,20 +246,25 @@ export type VoiceSection = {
 
 /** 에피소드 JSON에서 필요한 전체 섹션 키 목록 생성 */
 type ExpectedShortsCfg = { segments: Array<{ id: string; role: string; visual?: string }> }
-export function expectedSections(ep: { narrator: Record<string, unknown>; host: Record<string, unknown>; books: Array<Record<string, unknown>>; shorts?: ExpectedShortsCfg | ExpectedShortsCfg[] }): { key: string; description: string }[] {
+export function expectedSections(ep: { narrator?: Record<string, unknown>; host?: Record<string, unknown>; books?: Array<Record<string, unknown>>; shorts?: ExpectedShortsCfg | ExpectedShortsCfg[] }): { key: string; description: string }[] {
   const result: { key: string; description: string }[] = []
   const add = (key: string) => result.push({ key, description: describeFile(key + '.wav') })
 
-  if (ep.narrator.serviceGreeting || (ep.narrator.serviceGreetingDuration as number) > 0) add('A1-service-greeting')
-  if (ep.narrator.serviceIntro || (ep.narrator.serviceIntroDuration as number) > 0) add('A2-service-intro')
-  if (ep.host.featuredQuote || (ep.host.featuredQuoteDuration as number) > 0) add('A3-featured-quote')
-  if (ep.narrator.celebIntro || (ep.narrator.celebIntroDuration as number) > 0) add('B1-celeb-intro')
-  if (ep.host.philosophy || (ep.host.voiceDuration as number) > 0) add('B2-philosophy')
-  if ((ep.narrator.labelSummaryDuration as number) > 0) add('C1-label-summary')
-  if ((ep.narrator.labelContextDuration as number) > 0) add('C2-label-context')
+  // 쇼츠 전용 에피소드 등은 narrator/host/books 가 비어 있을 수 있다. 모두 옵셔널 접근.
+  const narrator = ep.narrator ?? {}
+  const host = ep.host ?? {}
+  const books = ep.books ?? []
 
-  for (let i = 0; i < ep.books.length; i++) {
-    const b = ep.books[i]
+  if (narrator.serviceGreeting || (narrator.serviceGreetingDuration as number) > 0) add('A1-service-greeting')
+  if (narrator.serviceIntro || (narrator.serviceIntroDuration as number) > 0) add('A2-service-intro')
+  if (host.featuredQuote || (host.featuredQuoteDuration as number) > 0) add('A3-featured-quote')
+  if (narrator.celebIntro || (narrator.celebIntroDuration as number) > 0) add('B1-celeb-intro')
+  if (host.philosophy || (host.voiceDuration as number) > 0) add('B2-philosophy')
+  if ((narrator.labelSummaryDuration as number) > 0) add('C1-label-summary')
+  if ((narrator.labelContextDuration as number) > 0) add('C2-label-context')
+
+  for (let i = 0; i < books.length; i++) {
+    const b = books[i]
     const bn = String(i + 1).padStart(2, '0')
     add(`D${bn}a-title`)
     add(`D${bn}b-summary`)
@@ -272,10 +277,10 @@ export function expectedSections(ep: { narrator: Record<string, unknown>; host: 
     }
   }
 
-  if ((ep.narrator.outroDuration as number) > 0 || ep.narrator.outro) add('E1-outro')
-  if ((ep.narrator.interludeDuration as number) > 0) add('E2-interlude')
-  if ((ep.narrator.returnIntroDuration as number) > 0 || ep.narrator.returnIntro) add('E3-return-intro')
-  if ((ep.narrator.prevRecapDuration as number) > 0 || ep.narrator.prevRecap) add('E4-prev-recap')
+  if ((narrator.outroDuration as number) > 0 || narrator.outro) add('E1-outro')
+  if ((narrator.interludeDuration as number) > 0) add('E2-interlude')
+  if ((narrator.returnIntroDuration as number) > 0 || narrator.returnIntro) add('E3-return-intro')
+  if ((narrator.prevRecapDuration as number) > 0 || narrator.prevRecap) add('E4-prev-recap')
 
   // 옵션 2: shorts는 1-based 접두사 필수. 모든 쇼츠에 shorts-{N}/S{NN}-{id}
   const shortsArr: ExpectedShortsCfg[] = Array.isArray(ep.shorts)
