@@ -4,6 +4,9 @@ export type CinematicImage = {
   /** summary = 책 장면, context = 인물 배경, quote = 직접 인용 전용 장면
    *  context main/after 세부 위치는 text 앵커가 결정. quote는 직접 배정된 영역 */
   field?: 'summary' | 'context' | 'quote'
+  /** 쇼츠 imageChangeAt 전환 시각(초). voice:align 이 텍스트 앵커 기반으로 갱신.
+   *  BO 라운드트립에서 0 으로 리셋되지 않도록 보존한다. */
+  t?: number
   keyword?: string
   prompt?: string
   ko?: string

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef } from 'react'
 import type { CinematicImage, AnchorPick } from '../types'
@@ -69,19 +69,19 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
         {isEmpty ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-text-secondary">
             {over
-              ? <span className="text-accent text-[11px] font-semibold">놓기</span>
+              ? <span className="text-accent text-sm font-bold font-semibold">놓기</span>
               : <span className="text-[16px] leading-none opacity-50">+</span>
             }
           </div>
         ) : (
           <>
-            {over && <div className="absolute inset-0 bg-accent/20 z-10 flex items-center justify-center text-accent text-[11px] font-semibold">교체</div>}
+            {over && <div className="absolute inset-0 bg-accent/20 z-10 flex items-center justify-center text-accent text-sm font-bold font-semibold">교체</div>}
             {err ? (
-              <div className="absolute inset-0 flex items-center justify-center text-text-secondary text-[11px] px-0.5 text-center">{stripExt(img.file)}</div>
+              <div className="absolute inset-0 flex items-center justify-center text-text-secondary text-sm font-bold px-0.5 text-center">{stripExt(img.file)}</div>
             ) : (
               <MediaThumb fileName={img.file} imageBaseUrl={imageBaseUrl} className="w-full h-full object-cover" onError={() => setErr(true)} />
             )}
-            <div className="absolute top-0 left-0 px-0.5 bg-black/70 text-white text-[11px] font-mono leading-tight">
+            <div className="absolute top-0 left-0 px-0.5 bg-black/70 text-white text-sm font-bold font-mono leading-tight">
               {(() => { const p = parseImagePrefix(img.file); return p ? <><span className="text-accent">{p.bookNum}-{p.fieldCode}</span> </> : null })()}#{index + 1}
               {isVideoFile(img.file) && <span className="text-accent ml-0.5">▶</span>}
             </div>
@@ -94,18 +94,18 @@ export function InlineThumb({ img, index, imageBaseUrl, isPicking, onReplace, on
         )}
       </div>
       {img.text ? (
-        <div className="px-0.5 py-px bg-bg-card/80 text-[11px] truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
+        <div className="px-0.5 py-px bg-bg-card/80 text-sm font-bold truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
           <span className={isEmpty ? 'text-text-secondary italic' : 'text-amber-400'}>&ldquo;{img.text}&rdquo;</span>
         </div>
       ) : !isEmpty && (
-        <div className="px-0.5 py-px bg-bg-card/80 text-[11px] truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
+        <div className="px-0.5 py-px bg-bg-card/80 text-sm font-bold truncate cursor-pointer" onClick={() => isPicking ? onCancelPick() : onStartPick()}>
           <span className={index > 0 ? 'text-red-400 italic' : 'text-text-secondary italic opacity-0 group-hover/thumb:opacity-100 '}>
             {index > 0 ? '앵커 없음' : '위치 변경'}
           </span>
         </div>
       )}
       {!isEmpty && crossLabels && crossLabels.length > 0 && (
-        <div className="px-0.5 py-px text-[11px] text-blue-400/70 leading-tight space-y-px" title={crossLabels.join('\n')}>
+        <div className="px-0.5 py-px text-sm font-bold text-blue-400/70 leading-tight space-y-px" title={crossLabels.join('\n')}>
           {crossLabels.map((l, i) => <div key={i} className="truncate">{l}</div>)}
         </div>
       )}

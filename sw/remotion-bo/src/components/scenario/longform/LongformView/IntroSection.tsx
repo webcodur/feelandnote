@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { ScenarioRow } from '../../ScenarioRow'
 import { SaveButton } from '../../SaveButton'
@@ -134,7 +134,7 @@ export function IntroSection({
       collapsible
       summaryNode={
         <span className="flex items-center gap-2">
-          <span className="text-[10px] opacity-70 tabular-nums">{activeRows}구간</span>
+          <span className="text-xs font-bold opacity-70 tabular-nums">{activeRows}구간</span>
           <span onClick={e => e.preventDefault()}>
             <LongformCopyAllButton narrator={narrator} host={host} books={allBooks} />
           </span>

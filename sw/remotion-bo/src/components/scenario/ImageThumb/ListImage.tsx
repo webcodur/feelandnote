@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { stripExt, parseImagePrefix, stripImagePrefix, isVideoFile } from '../utils'
@@ -33,14 +33,14 @@ export function ListImage({ fileName, imageBaseUrl, onDrop, onDelete, onLocate, 
       {onToggleSelect && (
         <button
           onClick={e => { e.stopPropagation(); onToggleSelect() }}
-          className={`w-4 h-4 shrink-0 flex items-center justify-center rounded border text-[11px] font-bold ${
+          className={`w-4 h-4 shrink-0 flex items-center justify-center rounded border text-sm font-bold font-bold ${
             selected ? 'bg-accent border-accent text-white' : 'bg-bg-main border-border/40 text-transparent hover:text-text-secondary'
           }`}
         >✓</button>
       )}
       <div className="w-8 h-8 bg-bg-main rounded overflow-hidden shrink-0 relative">
         {err ? (
-          <div className="w-full h-full flex items-center justify-center text-[11px] text-text-secondary">?</div>
+          <div className="w-full h-full flex items-center justify-center text-sm font-bold text-text-secondary">?</div>
         ) : (
           <MediaThumb fileName={fileName} imageBaseUrl={imageBaseUrl} className="w-full h-full object-cover" onError={() => setErr(true)} />
         )}
@@ -49,14 +49,14 @@ export function ListImage({ fileName, imageBaseUrl, onDrop, onDelete, onLocate, 
         )}
       </div>
       {prefix && (
-        <span className="text-[11px] font-mono bg-accent/20 text-accent px-1 rounded shrink-0">{prefix.bookNum}-{prefix.fieldCode}</span>
+        <span className="text-sm font-bold font-mono bg-accent/20 text-accent px-1 rounded shrink-0">{prefix.bookNum}-{prefix.fieldCode}</span>
       )}
-      <span className="text-[11px] text-text-primary truncate flex-1">{baseName}</span>
+      <span className="text-sm font-bold text-text-primary truncate flex-1">{baseName}</span>
       {used && <span className={USED_BADGE_INLINE}>used</span>}
       {crossLabels && crossLabels.length > 0 && (
-        <span className="text-[11px] text-blue-400/70 truncate max-w-[180px] shrink-0">{crossLabels[0]}{crossLabels.length > 1 ? ` +${crossLabels.length - 1}` : ''}</span>
+        <span className="text-sm font-bold text-blue-400/70 truncate max-w-[180px] shrink-0">{crossLabels[0]}{crossLabels.length > 1 ? ` +${crossLabels.length - 1}` : ''}</span>
       )}
-      <button onClick={onDrop} className="text-[11px] text-accent hover:underline shrink-0">추가</button>
+      <button onClick={onDrop} className="text-sm font-bold text-accent hover:underline shrink-0">추가</button>
       {onLocate && (
         <button
           onClick={e => { e.stopPropagation(); onLocate() }}

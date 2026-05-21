@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 /**
  * VoicePipelineStatus — 음성 파이프라인 위험지역 + 잠재 용의자 패널
@@ -158,27 +158,27 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
   const grouped: Record<Issue['group'], Issue[]> = { synthesis: [], alignment: [], composition: [] }
   for (const i of filtered) grouped[i.group].push(i)
 
-  const headerColor = totalConfirmed > 0 ? 'border-red-700/50 bg-red-950/15' : 'border-amber-700/40 bg-amber-950/10'
+  const headerColor = totalConfirmed > 0 ? 'border-red-700/50 border-red-500 bg-red-50 text-red-800' : 'border-amber-700/40 border-amber-500 bg-amber-50 text-amber-800'
   const headerLabel = totalConfirmed > 0 ? `위험지역 ${totalConfirmed}건` : '위험지역 없음'
 
   return (
     <div className={`mb-2 rounded border ${headerColor}`}>
       <div className="flex items-center gap-2 px-3 py-1.5 text-[12px] cursor-pointer select-none" onClick={() => setCollapsed(c => !c)}>
-        <span className="text-[11px] text-text-secondary">{collapsed ? '▶' : '▼'}</span>
+        <span className="text-sm font-semibold font-bold text-text-secondary">{collapsed ? '▶' : '▼'}</span>
         <span className="font-semibold text-text-primary">VoicePipelineStatus</span>
-        <span className={`font-semibold ${totalConfirmed > 0 ? 'text-red-300' : 'text-amber-300'}`}>
+        <span className={`font-semibold ${totalConfirmed > 0 ? 'text-red-700 font-bold' : 'text-amber-700 font-bold'}`}>
           {headerLabel}
         </span>
-        <span className="text-[10px] text-text-secondary">
+        <span className="text-sm font-semibold font-bold text-text-secondary">
           잠재 용의자 {totalSuspect}건 · S {status.summary.synthesis.confirmed}+{status.summary.synthesis.suspect} / A {status.summary.alignment.confirmed}+{status.summary.alignment.suspect} / C {status.summary.composition.confirmed}+{status.summary.composition.suspect}
         </span>
-        <label className="ml-auto flex items-center gap-1 text-[10px] text-text-secondary cursor-pointer" onClick={(e) => e.stopPropagation()}>
+        <label className="ml-auto flex items-center gap-1 text-sm font-semibold font-bold text-text-secondary cursor-pointer" onClick={(e) => e.stopPropagation()}>
           <input type="checkbox" checked={showSuspect} onChange={e => setShowSuspect(e.target.checked)} className="cursor-pointer" />
           용의자 표시
         </label>
         <button
           onClick={(e) => { e.stopPropagation(); setShowHelp(s => !s) }}
-          className={`px-2 py-0.5 rounded text-[10px] border ${showHelp ? 'bg-bg-hover border-amber-600/50 text-amber-300' : 'bg-bg-card border-border text-text-secondary hover:bg-bg-hover'}`}
+          className={`px-2 py-0.5 rounded text-sm font-semibold font-bold border ${showHelp ? 'bg-bg-hover border-amber-600/50 text-amber-700 font-bold' : 'bg-bg-card border-border text-text-secondary hover:bg-bg-hover'}`}
           title="각 규칙이 무엇을 의미하는지 설명"
         >
           ? 도움말
@@ -186,15 +186,15 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
         <button
           onClick={(e) => { e.stopPropagation(); reload() }}
           disabled={loading}
-          className="px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary disabled:opacity-50"
+          className="px-2 py-0.5 rounded text-sm font-semibold font-bold bg-bg-card border border-border hover:bg-bg-hover text-text-secondary disabled:opacity-50"
         >
           {loading ? '갱신 중...' : '↻ 새로고침'}
         </button>
       </div>
 
       {showHelp && !collapsed && (
-        <div className="border-t border-current/20 bg-bg-main/40 px-3 py-2 space-y-2 text-[11px]">
-          <div className="text-[10px] text-text-dim">7개 규칙이 검사하는 내용입니다. 클릭하면 상세가 펼쳐집니다.</div>
+        <div className="border-t border-current/20 bg-bg-main/40 px-3 py-2 space-y-2 text-sm font-semibold font-bold">
+          <div className="text-sm font-semibold font-bold text-text-secondary">7개 규칙이 검사하는 내용입니다. 클릭하면 상세가 펼쳐집니다.</div>
           {Object.entries(KIND_HELP).map(([kind, help]) => {
             const open = openHelpKind === kind
             const label = KIND_LABELS[kind] ?? kind
@@ -204,14 +204,14 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
                   onClick={() => setOpenHelpKind(open ? null : kind)}
                   className="w-full flex items-center gap-2 px-2 py-1 text-left hover:bg-bg-hover"
                 >
-                  <span className="text-[10px] text-text-secondary">{open ? '▼' : '▶'}</span>
-                  <span className="font-mono text-amber-300 shrink-0">{label}</span>
-                  <span className="text-text-dim text-[10px] font-mono">{kind}</span>
+                  <span className="text-sm font-semibold font-bold text-text-secondary">{open ? '▼' : '▶'}</span>
+                  <span className="font-mono text-amber-700 font-bold shrink-0">{label}</span>
+                  <span className="text-text-secondary text-sm font-semibold font-bold font-mono">{kind}</span>
                 </button>
                 {open && (
                   <div className="px-3 py-2 space-y-1.5 border-t border-border/40 text-text-secondary">
-                    <div><span className="text-text-dim font-semibold mr-1">무엇:</span>{help.what}</div>
-                    <div><span className="text-text-dim font-semibold mr-1">왜 문제:</span>{help.why}</div>
+                    <div><span className="text-text-secondary font-semibold mr-1">무엇:</span>{help.what}</div>
+                    <div><span className="text-text-secondary font-semibold mr-1">왜 문제:</span>{help.why}</div>
                     <div><span className="text-emerald-400 font-semibold mr-1">해결:</span>{help.fix}</div>
                   </div>
                 )}
@@ -227,8 +227,8 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
             if (grouped[g].length === 0) return null
             return (
               <div key={g}>
-                <div className="text-[10px] font-semibold mb-1 flex items-center gap-2">
-                  <span className="text-amber-300">{GROUP_LABELS[g]}</span>
+                <div className="text-sm font-semibold font-bold font-semibold mb-1 flex items-center gap-2">
+                  <span className="text-amber-700 font-bold">{GROUP_LABELS[g]}</span>
                   <span className="text-text-secondary">— {grouped[g].length}건</span>
                 </div>
                 <div className="space-y-1">
@@ -240,24 +240,24 @@ export function VoicePipelineStatus({ series, name, onJumpToSegment, reloadSigna
                     return (
                       <div
                         key={`${g}-${idx}`}
-                        className={`flex items-center gap-2 px-2 py-1 rounded text-[11px] bg-bg-main border border-border/40 border-l-2 ${sevColor.split(' ').slice(1).join(' ')} ${it.key ? 'cursor-pointer hover:bg-bg-hover' : ''}`}
+                        className={`flex items-center gap-2 px-2 py-1 rounded text-sm font-semibold font-bold bg-bg-main border border-border/40 border-l-2 ${sevColor.split(' ').slice(1).join(' ')} ${it.key ? 'cursor-pointer hover:bg-bg-hover' : ''}`}
                         onClick={() => it.key && onJumpToSegment(it.key)}
                         title={it.text}
                       >
-                        <span className={`font-mono shrink-0 text-[10px] uppercase tracking-wide ${isConfirmed ? 'text-red-400' : 'text-amber-500'}`}>
+                        <span className={`font-mono shrink-0 text-sm font-semibold font-bold uppercase tracking-wide ${isConfirmed ? 'text-red-400' : 'text-amber-500'}`}>
                           {isConfirmed ? '확정' : '용의자'}
                         </span>
                         <span className={`font-mono shrink-0 ${sevColor.split(' ')[0]}`}>{KIND_LABELS[it.kind] ?? it.kind}</span>
                         <button
                           onClick={(e) => { e.stopPropagation(); setShowHelp(true); setOpenHelpKind(it.kind) }}
-                          className="shrink-0 text-[10px] w-4 h-4 rounded-full bg-bg-card border border-border text-text-dim hover:text-amber-300 hover:border-amber-600/50 flex items-center justify-center"
+                          className="shrink-0 text-sm font-semibold font-bold w-4 h-4 rounded-full bg-bg-card border border-border text-text-secondary hover:text-amber-700 font-bold hover:border-amber-600/50 flex items-center justify-center"
                           title={helpTitle}
                         >?</button>
                         {it.key && (
                           <span className="text-text-secondary font-mono shrink-0">[{it.key}{it.segIdx != null ? `:${it.segIdx}` : ''}]</span>
                         )}
                         <span className="text-text-primary truncate flex-1">{it.text}</span>
-                        {it.detail && <span className="text-text-dim shrink-0 text-[10px]">{it.detail}</span>}
+                        {it.detail && <span className="text-text-secondary shrink-0 text-sm font-semibold font-bold">{it.detail}</span>}
                       </div>
                     )
                   })}

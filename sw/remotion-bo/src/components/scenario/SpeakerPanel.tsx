@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useEpisode } from '@/lib/episode-context'
@@ -69,13 +69,13 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
 
   return (
     <div className="space-y-1">
-      <div className="grid grid-cols-[24px_100px_100px_auto_1fr_24px] gap-2 items-center text-[11px]">
+      <div className="grid grid-cols-[24px_100px_100px_auto_1fr_24px] gap-2 items-center text-sm font-bold">
         <input
           type="color"
           value={s.color}
           onChange={e => onPatch({ color: e.target.value })}
           title="화자 색상"
-          className="w-6 h-6 rounded cursor-pointer border border-border/40 bg-transparent p-0"
+          className="w-6 h-6 rounded cursor-pointer border border-slate-500 bg-transparent p-0 shadow-xs"
         />
         <input
           type="text"
@@ -85,7 +85,7 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
           onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
           placeholder="id (영문)"
           title="화자 ID — segment.speaker 가 이 값을 참조. 변경하면 모든 참조가 새 ID 로 갱신된다."
-          className="bg-bg-card border border-border/40 rounded px-2 py-1 font-mono"
+          className="bg-bg-card border border-slate-400 rounded px-2 py-1 font-mono text-text-primary font-bold shadow-xs focus:border-accent focus:outline-none"
         />
         <input
           type="text"
@@ -93,7 +93,7 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
           onChange={e => onPatch({ label: e.target.value })}
           placeholder="라벨"
           title="화면 표시용 라벨"
-          className="bg-bg-card border border-border/40 rounded px-2 py-1"
+          className="bg-bg-card border border-slate-400 rounded px-2 py-1 text-text-primary font-extrabold shadow-xs focus:border-accent focus:outline-none"
         />
         {/* 엔진 토글 */}
         <SpeakerEngineToggle
@@ -111,7 +111,7 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
             onChange={v => onPatch({ voiceId: v || undefined })}
             title="Gemini 캐릭터 보이스 선택"
             placeholderLabel="보이스 선택…"
-            className="px-2 py-1"
+            className="px-2 py-1 bg-bg-card border border-slate-400 rounded text-text-primary font-bold shadow-xs focus:border-accent focus:outline-none"
           />
         ) : (
           <EleVoiceExpandButton
@@ -125,7 +125,7 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
           type="button"
           onClick={onRemove}
           title="이 화자 삭제"
-          className="text-text-dim hover:text-red-400 text-sm leading-none cursor-pointer"
+          className="text-text-primary hover:text-red-600 text-base font-black leading-none cursor-pointer p-1 rounded hover:bg-slate-200 flex items-center justify-center h-6 w-6"
         >×</button>
       </div>
 
@@ -218,27 +218,27 @@ export function SpeakerPanel({ speakers, onChange, onRenameId }: {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-2 px-2 py-1.5 text-left cursor-pointer select-none outline-none hover:bg-bg-hover rounded"
+        className="w-full flex items-center gap-2 px-2.5 py-2 text-left cursor-pointer select-none outline-none bg-slate-100 hover:bg-slate-200 border border-slate-400 rounded shadow-xs transition-colors"
       >
-        <span className={`text-[10px] text-text-dim shrink-0 ${open ? 'rotate-90' : ''}`}>▶</span>
-        <span className="text-[11px] font-bold text-text-secondary select-none">화자 설정 (Host + 추가 화자)</span>
+        <span className={`text-xs font-bold text-text-primary shrink-0 transition-transform ${open ? 'rotate-90' : ''}`}>▶</span>
+        <span className="text-sm font-black font-black text-text-primary select-none">화자 설정 (Host + 추가 화자)</span>
         
-        <span className="ml-auto flex items-center gap-1.5 opacity-80">
-          <span className="text-[10px] text-text-secondary mr-1">host + {speakers.length}</span>
+        <span className="ml-auto flex items-center gap-1.5 opacity-100 font-extrabold text-text-secondary text-sm font-bold">
+          <span className="mr-1">host + {speakers.length}</span>
           {speakers.slice(0, 4).map(s => (
-            <span key={s.id} className="inline-block w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: s.color }} title={s.label} />
+            <span key={s.id} className="inline-block w-3 h-3 rounded-sm border border-slate-500" style={{ backgroundColor: s.color }} title={s.label} />
           ))}
-          {speakers.length > 4 && <span className="text-[10px] ml-0.5">+{speakers.length - 4}</span>}
+          {speakers.length > 4 && <span className="ml-0.5 font-black">+{speakers.length - 4}</span>}
         </span>
       </button>
 
       {open && (
-        <div className="mt-2 p-3 space-y-1.5 border border-border/40 bg-black/10 rounded-lg">
+        <div className="mt-2 p-3.5 space-y-2 border border-slate-400 bg-slate-50 rounded-lg shadow-sm">
           {/* host 고정 행 — 인물 본인 보이스. 펼치면 ELE 보이스 목록 · DB 동기화. */}
           <HostSpeakerRow />
-          {speakers.length > 0 && <div className="border-t border-border/40 my-1.5" />}
+          {speakers.length > 0 && <div className="border-t border-slate-300 my-2" />}
           {speakers.length === 0 && (
-            <div className="text-[11px] text-text-secondary/60 italic pt-1">추가 화자 없음 — 아래 + 버튼으로 등장인물 · 화자 추가</div>
+            <div className="text-sm font-bold text-text-secondary italic pt-1 font-bold">추가 화자 없음 — 아래 + 버튼으로 등장인물 · 화자 추가</div>
           )}
           {speakers.map((s, i) => (
             <SpeakerRow
@@ -254,7 +254,7 @@ export function SpeakerPanel({ speakers, onChange, onRenameId }: {
             <button
               type="button"
               onClick={addSpeaker}
-              className="text-[11px] px-2 py-1 rounded border border-accent/40 text-accent hover:bg-accent/10 cursor-pointer"
+              className="text-sm font-bold px-2.5 py-1 rounded border border-accent text-accent hover:bg-accent/15 cursor-pointer font-bold shadow-xs active:scale-[0.98] transition-all"
             >+ 화자 추가</button>
           </div>
         </div>

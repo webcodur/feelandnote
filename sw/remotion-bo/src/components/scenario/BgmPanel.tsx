@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import type { EpisodeData } from '../EpisodeEditor'
@@ -58,38 +58,38 @@ export function BgmPanel({ episode, onUpdate, series, name, shortsIndex }: {
       collapsible
       summaryNode={
         <>
-          {bgm.length > 0 && <span>{bgm.length}트랙</span>}
-          {musicFiles.length === 0 && bgm.length === 0 && <span className="text-text-secondary/50 font-normal italic">music/ 파일 없음</span>}
+          {bgm.length > 0 && <span className="text-slate-900 font-extrabold">{bgm.length}트랙</span>}
+          {musicFiles.length === 0 && bgm.length === 0 && <span className="text-slate-500 font-bold italic">music/ 파일 없음</span>}
         </>
       }
       contentClassName="p-3 space-y-2"
     >
       {bgm.map((t, i) => (
-        <div key={i} className="flex items-center gap-2 text-[11px]">
-          <span className="text-text-primary truncate max-w-[200px]" title={t.file}>{t.file?.split('/').pop() ?? '(없음)'}</span>
-          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+        <div key={i} className="flex items-center gap-2 text-sm font-bold">
+          <span className="text-slate-950 font-black truncate max-w-[200px]" title={t.file}>{t.file?.split('/').pop() ?? '(없음)'}</span>
+          <label className="flex items-center gap-1.5 text-slate-800 shrink-0">
             Vol
-            <input type="number" step="0.05" min="0" max="1" className="w-12 bg-black/40 border border-white/10 rounded px-1 text-center"
+            <input type="number" step="0.05" min="0" max="1" className="w-14 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center text-slate-950 font-bold shadow-sm focus:outline-none focus:border-accent"
               value={t.volume ?? 0.15} onChange={e => updateTrack(i, 'volume', parseFloat(e.target.value) || 0.15)} />
           </label>
-          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+          <label className="flex items-center gap-1.5 text-slate-800 shrink-0">
             FadeIn
-            <input type="number" step="0.5" min="0" className="w-10 bg-black/40 border border-white/10 rounded px-1 text-center"
+            <input type="number" step="0.5" min="0" className="w-12 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center text-slate-950 font-bold shadow-sm focus:outline-none focus:border-accent"
               value={t.fadeIn ?? 2} onChange={e => updateTrack(i, 'fadeIn', parseFloat(e.target.value) || 2)} />s
           </label>
-          <label className="flex items-center gap-1 text-text-secondary shrink-0">
+          <label className="flex items-center gap-1.5 text-slate-800 shrink-0">
             FadeOut
-            <input type="number" step="0.5" min="0" className="w-10 bg-black/40 border border-white/10 rounded px-1 text-center"
+            <input type="number" step="0.5" min="0" className="w-12 bg-white border border-slate-300 rounded px-1.5 py-0.5 text-center text-slate-950 font-bold shadow-sm focus:outline-none focus:border-accent"
               value={t.fadeOut ?? 3} onChange={e => updateTrack(i, 'fadeOut', parseFloat(e.target.value) || 3)} />s
           </label>
-          <button onClick={() => removeTrack(i)} title="이 트랙 삭제" className="text-text-dim hover:text-red-400 text-sm leading-none">×</button>
+          <button onClick={() => removeTrack(i)} title="이 트랙 삭제" className="text-slate-600 hover:text-red-600 font-extrabold text-sm leading-none">✕</button>
         </div>
       ))}
       {available.length > 0 ? (
         <div className="flex items-center gap-2">
-          <select className="text-[11px] bg-black/40 border border-white/10 rounded px-2 py-1 text-text-primary"
+          <select className="text-sm font-black bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-950 shadow-sm cursor-pointer focus:border-accent focus:bg-slate-50 focus:outline-none"
             defaultValue="" onChange={e => { if (e.target.value) { addTrack(e.target.value); e.target.value = '' } }}>
-            <option value="" disabled>+ 트랙 선택</option>
+            <option value="" disabled>+ 배경음악 트랙 선택</option>
             {available.map(f => (
               <option key={f.name} value={f.name}>
                 {f.name}{f.duration != null ? ` (${Math.round(f.duration)}s)` : ''}
@@ -98,7 +98,7 @@ export function BgmPanel({ episode, onUpdate, series, name, shortsIndex }: {
           </select>
         </div>
       ) : musicFiles.length > 0 && bgm.length > 0 ? (
-        <span className="text-[11px] text-text-secondary/50">모든 음악 파일 사용 중</span>
+        <span className="text-sm font-black text-slate-500">모든 음악 파일 사용 중</span>
       ) : null}
     </EditorPanel>
   )

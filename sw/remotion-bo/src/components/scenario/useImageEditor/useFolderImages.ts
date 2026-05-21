@@ -136,7 +136,8 @@ export function useFolderImages(series: string, name: string) {
 
   /**
    * 파일명 확장자에 따라 실제 저장 경로 합성.
-   * 신구조: 인물 폴더 자체가 스캔 루트라 sub은 완성된 상대경로(예 'books/04-관자/images', 'ref_people'). mediaRoot 추가 X.
+   * 신구조: fileFolders[file] = '09-슈퍼인텔리전스' 또는 '09-슈퍼인텔리전스/E-rival' 같은 책 폴더 상대경로(PoolFolders 표시 호환).
+   *         실제 디스크는 books/<책>/images/<sub?>/<file> 이므로 합성 시 books/ prefix 와 images/ 중간 토막을 펼친다.
    * 레거시: epDir/images/ 가 스캔 루트라 sub은 'images' 안의 서브폴더(예 'shorts/s2'). 영상은 videos/ 라우트.
    */
   const mediaPath = (fileName: string) => {
@@ -147,7 +148,10 @@ export function useFolderImages(series: string, name: string) {
     const statusPart = activeStatuses.has(epStatus) ? '' : `${epStatus}/`
     const episodeBaseDir = `episodes/${statusPart}${name}`
     if (newLayout) {
-      return sub ? `${episodeBaseDir}/${sub}/${fileName}` : `${episodeBaseDir}/${fileName}`
+      if (!sub) return `${episodeBaseDir}/${fileName}`
+      const [bookFolder, ...rest] = sub.split('/')
+      const subInside = rest.length ? `${rest.join('/')}/` : ''
+      return `${episodeBaseDir}/books/${bookFolder}/images/${subInside}${fileName}`
     }
     const subPart = sub ? `${sub}/` : ''
     return `${episodeBaseDir}/${mediaRoot(fileName)}/${subPart}${fileName}`

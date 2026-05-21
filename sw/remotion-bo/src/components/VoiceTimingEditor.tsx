@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useCallback, useMemo } from 'react'
 import { AudioWavePlayer, usePct } from './AudioWavePlayer'
@@ -295,7 +295,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
                 <div className="text-sm font-bold px-1.5 py-0.5 rounded bg-black/75 shrink-0" style={{ color: COLORS[i % COLORS.length] }}>
                   #{i + 1}
                 </div>
-                <div className="text-sm font-medium leading-snug break-words bg-black/75 rounded px-2 py-1" style={{ color: COLORS[i % COLORS.length] }}>
+                <div className="text-sm font-bold leading-snug break-words bg-black/75 rounded px-2 py-1" style={{ color: COLORS[i % COLORS.length] }}>
                   {segText}
                 </div>
               </div>
@@ -357,7 +357,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
                 transform: 'translateY(-50%)',
               }}
             >
-              <div className="inline-block text-xs font-medium leading-snug break-words bg-black/75 rounded px-1.5 py-0.5 text-cyan-200">
+              <div className="inline-block text-xs font-bold leading-snug break-words bg-black/75 rounded px-1.5 py-0.5 text-cyan-200">
                 {r.text}
               </div>
             </div>
@@ -371,7 +371,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
           updateSegments([...originalSentences])
           onChange(originalTimings.map(t => ({ ...t })))
         }}
-          className="px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
+          className="px-2 py-0.5 rounded text-xs font-bold bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
           경계+텍스트 초기화
         </button>
         <button onClick={() => {
@@ -394,7 +394,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
             })()
           )
         }}
-          className="px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
+          className="px-2 py-0.5 rounded text-xs font-bold bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
           텍스트만 재배분
         </button>
       </div>
@@ -403,13 +403,13 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
       <div className="bg-bg-main rounded overflow-hidden">
         <button
           onClick={() => setGuideOpen(v => !v)}
-          className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] text-text-secondary hover:text-text-primary transition-colors"
+          className="w-full flex items-center justify-between px-3 py-1.5 text-sm font-bold text-text-secondary hover:text-text-primary transition-colors"
         >
           <span>조작 안내</span>
-          <span className={`text-[10px] transition-transform ${guideOpen ? 'rotate-180' : ''}`}>▼</span>
+          <span className={`text-xs font-bold transition-transform ${guideOpen ? 'rotate-180' : ''}`}>▼</span>
         </button>
         {guideOpen && (
-          <div className="text-[11px] text-text-primary px-3 pb-2 space-y-0.5">
+          <div className="text-sm font-bold text-text-primary px-3 pb-2 space-y-0.5">
             <div><span className="text-accent">클릭</span> — 해당 위치부터 재생 + 토막 선택</div>
             <div><span className="text-accent">Space</span> — 재생/일시정지 토글 (파형 포커스 시)</div>
             <div><span className="text-accent">노란선 드래그</span> — 문장 경계 이동</div>
@@ -426,7 +426,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
         {timings.map((t, i) => (
           <div key={i} className={`flex items-start gap-2 text-xs group rounded px-1 py-0.5 transition-colors ${activeSegment === i ? 'bg-accent/10 ring-1 ring-accent/30' : ''}`}>
             <div
-              className="w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5 cursor-pointer"
+              className="w-5 h-5 rounded flex items-center justify-center text-xs font-black font-bold shrink-0 mt-0.5 cursor-pointer"
               style={{ backgroundColor: COLORS[i % COLORS.length], color: '#fff' }}
               onClick={() => setActiveSegment(activeSegment === i ? null : i)}>
               {i + 1}
@@ -449,12 +449,12 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
             <div className="flex gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
               {i > 0 && (
                 <button onClick={() => shiftWord(i, 'left')}
-                  className="px-1 py-0.5 rounded text-[9px] bg-bg-card border border-border hover:bg-bg-hover"
+                  className="px-1 py-0.5 rounded text-xs font-black bg-bg-card border border-border hover:bg-bg-hover"
                   title="첫 단어를 이전 토막로">◀</button>
               )}
               {i < timings.length - 1 && (
                 <button onClick={() => shiftWord(i, 'right')}
-                  className="px-1 py-0.5 rounded text-[9px] bg-bg-card border border-border hover:bg-bg-hover"
+                  className="px-1 py-0.5 rounded text-xs font-black bg-bg-card border border-border hover:bg-bg-hover"
                   title="마지막 단어를 다음 토막로">▶</button>
               )}
             </div>
@@ -471,7 +471,7 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
             setJsonOpen(true)
           }
         }}
-          className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
+          className="flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
           <span>{'{}'}</span>
           <span>{jsonOpen ? 'JSON 닫기' : 'JSON 편집'}</span>
         </button>
@@ -480,9 +480,9 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
             <textarea
               value={jsonText}
               onChange={(e) => { setJsonText(e.target.value); setJsonError(null) }}
-              className="w-full h-40 bg-bg-main border border-border rounded px-2 py-1 font-mono text-[10px] resize-y focus:outline-none focus:border-accent"
+              className="w-full h-40 bg-bg-main border border-border rounded px-2 py-1 font-mono text-xs font-bold resize-y focus:outline-none focus:border-accent"
             />
-            {jsonError && <div className="text-[10px] text-red-400">{jsonError}</div>}
+            {jsonError && <div className="text-xs font-bold text-red-400">{jsonError}</div>}
             <div className="flex gap-1">
               <button onClick={() => {
                 try {
@@ -494,11 +494,11 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
                   setJsonOpen(false)
                 } catch (e: unknown) { setJsonError('JSON 파싱 오류: ' + (e instanceof Error ? e.message : String(e))) }
               }}
-                className="px-2 py-0.5 rounded text-[10px] font-semibold bg-green-600 text-white hover:bg-green-500">
+                className="px-2 py-0.5 rounded text-xs font-bold font-semibold bg-green-600 text-white hover:bg-green-500">
                 JSON 적용
               </button>
               <button onClick={() => setJsonOpen(false)}
-                className="px-2 py-0.5 rounded text-[10px] bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
+                className="px-2 py-0.5 rounded text-xs font-bold bg-bg-card border border-border hover:bg-bg-hover text-text-secondary">
                 취소
               </button>
             </div>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Fragment } from 'react'
 import { ScenarioRow, AddFieldButton } from '../../ScenarioRow'
@@ -119,7 +119,7 @@ export function BookSection({
           <span className="font-semibold">{book.title}</span>
           <span className="text-text-secondary text-sm">— {book.creator}</span>
           {book.stats?.publishYear && <span className="text-text-secondary text-xs">{book.stats.publishYear}</span>}
-          {allImgs.length > 0 && <span className="text-text-secondary text-[11px] ml-1">{allImgs.length}장</span>}
+          {allImgs.length > 0 && <span className="text-text-secondary text-sm font-bold ml-1">{allImgs.length}장</span>}
           <span className="ml-auto flex items-center gap-2">
             <BookCopyButton book={book} index={i} total={totalBooks} />
           </span>
@@ -245,9 +245,9 @@ export function BookSection({
                         <GainDbInput value={typeof pair.quoteGainDb === 'number' ? pair.quoteGainDb : undefined}
                           onChange={next => updateQuotePair(i, pi, 'quoteGainDb', next)} sectionKey={quoteKey} />
                         <div className="ml-[72px] mt-1 mb-1 flex items-center gap-1">
-                          <span className="text-[11px] text-text-secondary/60">출처:</span>
+                          <span className="text-sm font-bold text-text-secondary/60">출처:</span>
                           <input
-                            className="text-[11px] text-[#c8a46e]/90 bg-bg-card/60 border border-border/40 rounded px-1 py-0.5 focus:border-accent/60 focus:outline-none flex-1 max-w-[400px]"
+                            className="text-sm font-bold text-[#c8a46e]/90 bg-bg-card/60 border border-border/40 rounded px-1 py-0.5 focus:border-accent/60 focus:outline-none flex-1 max-w-[400px]"
                             value={pair.quoteSource ?? ''}
                             onChange={e => updateQuotePair(i, pi, 'quoteSource', e.target.value || undefined)}
                             placeholder="(예: 인터뷰 제목·매체·연도)"
@@ -257,7 +257,7 @@ export function BookSection({
                       </>
                     }
                   />
-                  <button onClick={() => removeQuotePair(i, pi)} className="absolute top-1 right-6 text-[11px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
+                  <button onClick={() => removeQuotePair(i, pi)} className="absolute top-1 right-6 text-sm font-bold text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
                 </div>
 
                 {/* 후속 맥락 */}
@@ -286,7 +286,7 @@ export function BookSection({
                         </>
                       }
                     />
-                    <button onClick={() => updateQuotePair(i, pi, 'after', undefined)} className="absolute top-1 right-6 text-[11px] text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
+                    <button onClick={() => updateQuotePair(i, pi, 'after', undefined)} className="absolute top-1 right-6 text-sm font-bold text-red-400 hover:text-red-300 opacity-0 group-hover/del:opacity-100 transition-opacity">삭제</button>
                   </div>
                 ) : (
                   <AddFieldButton label="+ 후속 맥락" onClick={() => updateQuotePair(i, pi, 'after', '(후속 맥락 입력)')} />
@@ -306,7 +306,7 @@ export function BookSection({
                   el.open = false
                   el.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
-                className="px-2 py-0.5 text-[11px] text-text-secondary border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+                className="px-2 py-0.5 text-sm font-bold text-text-secondary border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
                 title="이 책 섹션 접기"
               >▲ 접기</button>
             </div>

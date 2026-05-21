@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { DraggableImage, ListImage } from '../ImageThumb'
@@ -133,13 +133,13 @@ export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, vie
 
       {/* 배치 액션 바 — 선택이 있을 때만 노출 */}
       {sel.selected.size > 0 && (
-        <div className="sticky top-0 z-20 flex flex-wrap items-center gap-1.5 p-1.5 rounded bg-accent/20 border border-accent/40 text-[11px]">
+        <div className="sticky top-0 z-20 flex flex-wrap items-center gap-1.5 p-1.5 rounded bg-accent/20 border border-accent/40 text-sm font-bold">
           <span className="font-semibold text-accent">선택 {sel.selected.size}개</span>
           {onMoveFile && subFolders.length > 0 && (
             <>
               <span className="text-text-secondary ml-1">이동 →</span>
               <select
-                className="bg-bg-card border border-border/40 rounded px-1 py-0.5 text-[11px]"
+                className="bg-bg-card border border-border/40 rounded px-1 py-0.5 text-sm font-bold"
                 defaultValue=""
                 disabled={sel.batchBusy}
                 onChange={e => {
@@ -231,7 +231,7 @@ export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, vie
       {filter.groups.length > 0 ? (
         <PoolGroups groups={filter.groups} opened={opened} viewMode={viewMode} renderImage={renderImage} toggleOpen={toggleOpen} />
       ) : (
-        <div className="text-[11px] text-text-secondary italic">
+        <div className="text-sm font-bold text-text-secondary italic">
           {filter.query || filter.filter !== 'all' || filter.usageFilter !== 'all' ? '검색·필터 조건에 맞는 이미지 없음' : '없음'}
         </div>
       )}

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 
@@ -41,17 +41,17 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
 
   return (
     <div className="flex items-start gap-1.5">
-      <span className="text-text-secondary w-14 shrink-0 text-center text-[11px] pt-1">SFX</span>
+      <span className="text-slate-900 font-extrabold w-14 shrink-0 text-center text-sm pt-1">SFX</span>
       <div className="flex-1 space-y-1.5 min-w-0">
         {files.length === 0 ? (
-          <div className="text-[11px] text-text-dim pt-1">soundeffect/ 폴더가 비어있다</div>
+          <div className="text-sm font-bold text-slate-500 pt-1">soundeffect/ 폴더가 비어있다</div>
         ) : list.length === 0 ? (
           <div className="pt-0.5">
-            <button type="button" onClick={add} className="text-[11px] text-text-secondary hover:text-accent transition-colors">+ 사운드 추가</button>
+            <button type="button" onClick={add} className="text-xs font-bold text-slate-700 hover:text-accent border border-slate-300 rounded px-2.5 py-1 bg-white hover:bg-slate-50 shadow-sm transition-colors">+ 사운드 추가</button>
           </div>
         ) : (
           <div className="space-y-1 px-1">
-            <div className="grid grid-cols-[1fr_60px_110px_50px_55px_55px_55px_24px] gap-1.5 items-center text-[10px] text-text-dim uppercase tracking-wide">
+            <div className="grid grid-cols-[1fr_60px_110px_50px_55px_55px_55px_24px] gap-1.5 items-center text-xs font-black text-slate-700 uppercase tracking-wide">
               <span>앵커 텍스트</span>
               <span className="text-center">시점 ± 초</span>
               <span>파일</span>
@@ -62,12 +62,12 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
               <span />
             </div>
             {list.map((s, idx) => (
-              <div key={idx} className="grid grid-cols-[1fr_60px_110px_50px_55px_55px_55px_24px] gap-1.5 items-center text-[11px]">
+              <div key={idx} className="grid grid-cols-[1fr_60px_110px_50px_55px_55px_55px_24px] gap-1.5 items-center text-sm font-bold">
                 <input
                   value={s.text ?? ''}
                   onChange={e => update(idx, { text: e.target.value })}
                   placeholder="비우면 구간 시작"
-                  className="bg-bg-main border border-border/50 rounded px-1.5 py-0 h-[22px] focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1.5 py-0.5 h-[24px] text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm"
                   title="대사에서 이 구절이 시작되는 시점이 기준점. 비우면 구간 시작 0초가 기준점"
                 />
                 <input
@@ -75,13 +75,13 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
                   value={Number.isFinite(s.offset) ? String(s.offset) : ''}
                   onChange={e => update(idx, { offset: parseFloat(e.target.value) })}
                   placeholder="0"
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] text-center focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-center text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm"
                   title="기준점에서 ± 초 (양수=뒤로 밀기, 음수=앞당기기)"
                 />
                 <select
                   value={fileName(s.file)}
                   onChange={e => update(idx, { file: basePath ? `${basePath}/${e.target.value}` : e.target.value })}
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm cursor-pointer"
                   title="재생할 사운드 이펙트 파일"
                 >
                   {files.map(f => (
@@ -99,7 +99,7 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
                   value={Number.isFinite(s.volume) ? String(s.volume) : ''}
                   onChange={e => update(idx, { volume: parseFloat(e.target.value) })}
                   placeholder="0.7"
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] text-center focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-center text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm"
                   title="볼륨 0~1 (기본 0.7)"
                 />
                 <input
@@ -107,7 +107,7 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
                   value={Number.isFinite(s.duration) ? String(s.duration) : ''}
                   onChange={e => update(idx, { duration: parseFloat(e.target.value) })}
                   placeholder="끝까지"
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] text-center focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-center text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm"
                   title="재생 길이 제한(초). 비우면 음원 자체 길이만큼 끝까지 재생"
                 />
                 <input
@@ -115,7 +115,7 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
                   value={Number.isFinite(s.fadeIn) ? String(s.fadeIn) : ''}
                   onChange={e => update(idx, { fadeIn: parseFloat(e.target.value) })}
                   placeholder="0"
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] text-center focus:outline-none focus:border-accent/60"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-center text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm"
                   title="시작 페이드인(초). 0초부터 이 시간 동안 0→설정볼륨으로 차오름"
                 />
                 <input
@@ -124,19 +124,19 @@ export function SegmentSfxEditor({ sfx, files, basePath, onChange }: {
                   onChange={e => update(idx, { fadeOut: parseFloat(e.target.value) })}
                   placeholder="0"
                   disabled={!Number.isFinite(s.duration) || (s.duration ?? 0) <= 0}
-                  className="bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] text-center focus:outline-none focus:border-accent/60 disabled:opacity-40"
+                  className="bg-white border border-slate-300 rounded px-1 py-0.5 h-[24px] text-center text-slate-950 font-bold focus:outline-none focus:border-accent focus:bg-slate-50 shadow-sm disabled:opacity-40"
                   title="끝나기 전 페이드아웃(초). 길이 칸이 비어있으면 작동하지 않음"
                 />
                 <button
                   type="button"
                   onClick={() => remove(idx)}
-                  className="text-red-400 hover:text-red-300 text-xs"
+                  className="text-red-600 hover:text-red-500 font-extrabold text-sm"
                   title="이 SFX 삭제"
                 >✕</button>
               </div>
             ))}
             <div>
-              <button type="button" onClick={add} className="text-[10px] text-text-secondary hover:text-accent transition-colors">+ 사운드 추가</button>
+              <button type="button" onClick={add} className="text-xs font-bold text-slate-700 hover:text-accent border border-slate-300 rounded px-2.5 py-1 bg-white hover:bg-slate-50 shadow-sm transition-colors">+ 사운드 추가</button>
             </div>
           </div>
         )}

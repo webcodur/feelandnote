@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useMemo, useState } from 'react'
 import { useEpisode } from '@/lib/episode-context'
@@ -98,14 +98,14 @@ export function HostSpeakerRow() {
   return (
     <div className="space-y-1">
       {/* 첫 줄 — 일반 화자 그리드와 동일 폭 */}
-      <div className="grid grid-cols-[24px_100px_100px_auto_1fr_24px] gap-2 items-center text-[11px]">
+      <div className="grid grid-cols-[24px_100px_100px_auto_1fr_24px] gap-2 items-center text-sm font-bold">
         <span
-          className="w-6 h-6 rounded border border-border/40"
+          className="w-6 h-6 rounded border border-slate-500 shadow-sm shrink-0"
           style={{ backgroundColor: HOST_COLOR }}
           title="host 고정 색"
         />
-        <span className="bg-bg-card/60 border border-border/40 rounded px-2 py-1 font-mono text-text-secondary">host</span>
-        <span className="bg-bg-card/60 border border-border/40 rounded px-2 py-1 truncate" title={nickname}>{nickname}</span>
+        <span className="bg-bg-card border border-slate-400 rounded px-2 py-1 font-mono text-text-secondary font-black text-center shadow-xs">host</span>
+        <span className="bg-bg-card border border-slate-400 rounded px-2 py-1 truncate text-text-primary font-extrabold shadow-xs" title={nickname}>{nickname}</span>
         {/* 엔진 토글 */}
         <SpeakerEngineToggle engine={engine} onChange={setEngine} />
         {/* 엔진별 보이스 — Gemini는 인라인 셀렉트, ELE는 현재값 표시(상세는 펼침) */}
@@ -115,7 +115,7 @@ export function HostSpeakerRow() {
             onChange={setGeminiVoice}
             title="Gemini 캐릭터 보이스"
             placeholderLabel="보이스 선택…"
-            className="px-2 py-1"
+            className="px-2 py-1 bg-bg-card border border-slate-400 rounded text-text-primary font-bold shadow-xs focus:border-accent"
           />
         ) : (
           <EleVoiceExpandButton

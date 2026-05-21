@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useCallback } from 'react'
 
@@ -84,7 +84,7 @@ export function LongformCopyAllButton({ narrator, host, books }: { narrator: Nar
   return (
     <button
       onClick={copy}
-      className="px-2.5 py-1 text-[11px] text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40 transition-colors"
+      className="px-2.5 py-1 text-sm font-bold text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40 transition-colors"
     >
       {copied ? '복사됨' : '전체 내용 복사'}
     </button>
@@ -104,7 +104,7 @@ export function BookCopyButton({ book, index, total }: { book: Book; index: numb
   return (
     <button
       onClick={copy}
-      className="px-2 py-0.5 text-[10px] text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40 transition-colors"
+      className="px-2 py-0.5 text-xs font-bold text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40 transition-colors"
       title="이 책의 내용만 복사"
     >
       {copied ? '복사됨' : '내용 복사'}

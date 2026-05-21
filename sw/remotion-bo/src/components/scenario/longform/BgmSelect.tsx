@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 export function BgmSelect({ label, current, files, onSelect, onRemove }: {
   label: string; current?: string; files: { name: string; duration: number | null }[]
@@ -6,7 +6,7 @@ export function BgmSelect({ label, current, files, onSelect, onRemove }: {
 }) {
   const currentFile = current?.split('/').pop()
   return (
-    <div className="ml-[72px] flex items-center gap-1.5 py-0.5 text-[10px]">
+    <div className="ml-[72px] flex items-center gap-1.5 py-0.5 text-xs font-bold">
       <span className="text-text-secondary/60 shrink-0">{label}</span>
       {currentFile ? (
         <>
@@ -14,7 +14,7 @@ export function BgmSelect({ label, current, files, onSelect, onRemove }: {
           <button onClick={onRemove} className="text-red-400/60 hover:text-red-400">&times;</button>
         </>
       ) : (
-        <select className="bg-bg-card border border-border/30 rounded px-1 py-0 text-text-secondary"
+        <select className="bg-bg-card border border-border rounded px-1 py-0 text-text-secondary"
           defaultValue="" onChange={e => { if (e.target.value) onSelect(e.target.value) }}>
           <option value="">선택...</option>
           {files.map(f => (

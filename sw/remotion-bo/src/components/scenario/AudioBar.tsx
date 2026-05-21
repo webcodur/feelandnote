@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import { ENGINE_COLORS, ENGINE_LABELS, ROLE_COLORS, ROLE_LABELS, normalizeRole } from './types'
@@ -39,7 +39,7 @@ export function InlineAudioBar({ sectionKey, audioUrl, duration, exists, activeE
 
   if (!exists) {
     return (
-      <div className="flex items-center gap-1 py-0.5 text-[10px] text-text-secondary">
+      <div className="flex items-center gap-1 py-0.5 text-xs font-bold text-text-secondary">
         <span className="w-1.5 h-1.5 rounded-full bg-neutral-600 inline-block shrink-0" />
         <span className="font-mono truncate">{sectionKey}</span>
       </div>
@@ -48,17 +48,17 @@ export function InlineAudioBar({ sectionKey, audioUrl, duration, exists, activeE
 
   return (
     <div className="flex items-center gap-1.5 py-0.5">
-      <button onClick={onTogglePlay} className={`text-[11px] w-4 text-center shrink-0 ${isPlaying ? 'text-accent' : 'text-text-secondary hover:text-accent'}`}>
+      <button onClick={onTogglePlay} className={`text-sm font-bold w-4 text-center shrink-0 ${isPlaying ? 'text-accent' : 'text-text-secondary hover:text-accent'}`}>
         {isPlaying ? '■' : '▶'}
       </button>
       <div ref={barRef} className="flex-1 h-1 bg-bg-main rounded-full cursor-pointer relative" onClick={handleSeek}>
         <div className="h-full bg-accent/60 rounded-full transition-[width] duration-100" style={{ width: `${progress}%` }} />
       </div>
-      <span className="text-[10px] text-text-secondary font-mono w-10 text-right shrink-0">
+      <span className="text-xs font-bold text-text-secondary font-mono w-10 text-right shrink-0">
         {isPlaying ? currentTime.toFixed(1) : (duration ?? 0).toFixed(1)}s
       </span>
       {activeEngine && (
-        <span className={`text-[10px] font-mono shrink-0 ${ENGINE_COLORS[activeEngine] ?? 'text-text-secondary'}`}>
+        <span className={`text-xs font-bold font-mono shrink-0 ${ENGINE_COLORS[activeEngine] ?? 'text-text-secondary'}`}>
           {ENGINE_LABELS[activeEngine] ?? ''}
         </span>
       )}
@@ -71,7 +71,7 @@ export function VoiceBadge({ label, role }: { label: ReactNode; role: string }) 
   return (
     <div className="pt-1 space-y-0.5">
       <div className="text-xs font-semibold text-text-secondary leading-tight">{label}</div>
-      <div className={`text-[11px] ${ROLE_COLORS[simple]}`}>{ROLE_LABELS[simple]}</div>
+      <div className={`text-sm font-bold ${ROLE_COLORS[simple]}`}>{ROLE_LABELS[simple]}</div>
     </div>
   )
 }

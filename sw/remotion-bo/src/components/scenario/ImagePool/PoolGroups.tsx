@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { POOL_STYLES, type Group, type ViewMode } from './constants'
 
@@ -20,13 +20,13 @@ export function PoolGroups({
       {groups.map(group => {
         const isOpen = opened.has(group.key)
         return (
-          <div key={group.key} className="border border-border/30 rounded overflow-hidden">
+          <div key={group.key} className="border border-border rounded overflow-hidden">
             <button
               onClick={() => toggleOpen(group.key)}
               className={POOL_STYLES.sectionHeader}
             >
-              <span className={`text-text-secondary text-[11px] transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
-              <span className="text-[11px] font-semibold text-text-primary truncate flex-1">{group.label}</span>
+              <span className={`text-text-secondary text-sm font-bold transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+              <span className="text-sm font-bold font-semibold text-text-primary truncate flex-1">{group.label}</span>
             </button>
             {isOpen && (
               <div className="p-1.5 space-y-1.5">

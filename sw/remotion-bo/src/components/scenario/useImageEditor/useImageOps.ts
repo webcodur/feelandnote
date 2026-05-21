@@ -85,7 +85,11 @@ export function makeImageOps({
         // 렌더(BookRecommendShort) 측은 seg.image 가 falsy 면 직전 이미지 승계로 처리하므로 안전.
         seg.image = imgs[0].file ? mediaPath(imgs[0].file) : ''
         if (imgs.length > 1) {
-          seg.imageChangeAt = imgs.slice(1).map(img => ({ t: 0, image: img.file ? mediaPath(img.file) : '', ...(img.text ? { text: img.text } : {}) }))
+          seg.imageChangeAt = imgs.slice(1).map(img => ({
+            t: typeof img.t === 'number' ? img.t : 0,
+            image: img.file ? mediaPath(img.file) : '',
+            ...(img.text ? { text: img.text } : {}),
+          }))
         } else { delete seg.imageChangeAt }
       }
       ns[idx] = seg
@@ -138,22 +142,19 @@ export function makeImageOps({
         const u = [...imgs]; u[ei] = { ...u[ei], file: renamed ?? fileName, field: newField }; setImages(idx, u)
         return
       }
-      // 신규 배정 — prefix 부착
+      // 신규 배정 — prefix 부착. 앵커 텍스트는 비워 두고 사용자가 명시 픽업으로 채운다.
       const imgField = field ?? (imgs.length === 0 ? 'summary' : 'context')
       const newName = addImagePrefix(fileName, idx, imgField)
       const renamed = await renameFile(fileName, newName)
       const finalName = renamed ?? fileName
-      let autoText: string | undefined
-      if (imgs.length > 0) {
-        const b = books[idx] as any
-        const ft = imgField === 'summary'
-          ? b?.summary
-          : imgField === 'quote'
-            ? ((b?.quotePairs ?? []) as any[])[0]?.quote
-            : b?.contextMain
-        autoText = (ft ?? '').trim().split(/\s+/)[0] || undefined
+      // 빈 슬롯(file 없이 text 만 가진 자리)이 있으면 그 자리부터 채운다. field 일치만 본다.
+      const emptyIdx = imgs.findIndex(img => !img.file && (img.field ?? 'context') === imgField)
+      if (emptyIdx >= 0) {
+        const u = [...imgs]; u[emptyIdx] = { ...u[emptyIdx], file: finalName, field: imgField }
+        setImages(idx, u)
+      } else {
+        setImages(idx, [...imgs, { file: finalName, field: imgField }])
       }
-      setImages(idx, [...imgs, { file: finalName, field: imgField, ...(autoText ? { text: autoText } : {}) }])
     } else {
       if (!currentShorts) return
       // 타깃 구간에 이미 있으면 no-op
@@ -162,9 +163,14 @@ export function makeImageOps({
       const ns = segments.map((s: any) => ({ ...s }))
       const writeSeg = (seg: any, nextImgs: CinematicImage[]) => {
         if (nextImgs.length === 0) { delete seg.image; delete seg.imageChangeAt; return }
-        seg.image = mediaPath(nextImgs[0].file)
+        // primary(첫 칸)는 file 이 비어 있으면 자리 표시용 빈 문자열 유지.
+        seg.image = nextImgs[0].file ? mediaPath(nextImgs[0].file) : ''
         if (nextImgs.length > 1) {
-          seg.imageChangeAt = nextImgs.slice(1).map(img => ({ t: 0, image: mediaPath(img.file), ...(img.text ? { text: img.text } : {}) }))
+          seg.imageChangeAt = nextImgs.slice(1).map(img => ({
+            t: typeof img.t === 'number' ? img.t : 0,
+            image: img.file ? mediaPath(img.file) : '',
+            ...(img.text ? { text: img.text } : {}),
+          }))
         } else { delete seg.imageChangeAt }
       }
 
@@ -178,11 +184,19 @@ export function makeImageOps({
         break
       }
 
-      // 타깃 구간에 파일 추가
+      // 타깃 구간 — 빈 슬롯(file 없는 자리)이 있으면 거기부터 채우고, 없으면 끝에 추가.
+      // 자동 앵커 부착(첫 단어 자동 삽입)은 다중 슬롯이 동일 앵커로 몰리는 문제가 있어 폐기.
+      // 앵커 텍스트는 사용자가 명시 픽업으로 채운다.
       const targetImgs = segToImages(ns[idx])
-      let autoText: string | undefined
-      if (targetImgs.length > 0) { autoText = segments[idx]?.text?.trim().split(/\s+/)[0] }
-      const next = [...targetImgs, { file: fileName, ...(field ? { field } : {}), ...(autoText ? { text: autoText } : {}) }]
+      const emptyIdx = targetImgs.findIndex(img => !img.file)
+      let next: CinematicImage[]
+      if (emptyIdx >= 0) {
+        next = targetImgs.map((img, j) =>
+          j === emptyIdx ? { ...img, file: fileName, ...(field ? { field } : {}) } : img,
+        )
+      } else {
+        next = [...targetImgs, { file: fileName, ...(field ? { field } : {}) }]
+      }
       writeSeg(ns[idx], next)
 
       writeShorts({ ...currentShorts, segments: ns })

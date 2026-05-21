@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SERIES } from '@/lib/series-registry'
@@ -15,12 +15,14 @@ type EpisodeSummary = {
   voiceCount: number
   birthYear: number | null
   status: EpisodeStatus
+  group: string
 }
 
 type PartEntry = {
   partNum: number
   baseName: string
   status: EpisodeStatus
+  group: string
   ko?: EpisodeSummary
   en?: EpisodeSummary
 }
@@ -30,6 +32,7 @@ type PersonGroup = {
   nickname: string
   birthYear: number | null
   status: EpisodeStatus
+  group: string
   parts: PartEntry[]
 }
 
@@ -55,11 +58,11 @@ function groupByPerson(episodes: EpisodeSummary[]): PersonGroup[] {
     const { isEn, basePerson, partNum, groupKey } = parseEpName(ep.name)
 
     if (!partMap.has(groupKey)) {
-      partMap.set(groupKey, { partNum, baseName: groupKey, status: ep.status ?? 'todo' })
+      partMap.set(groupKey, { partNum, baseName: groupKey, status: ep.status ?? 'todo', group: ep.group ?? '' })
     }
     const part = partMap.get(groupKey)!
     if (isEn) part.en = ep
-    else { part.ko = ep; part.status = ep.status ?? 'todo' }
+    else { part.ko = ep; part.status = ep.status ?? 'todo'; part.group = ep.group ?? '' }
 
     if (!personMap.has(basePerson)) {
       personMap.set(basePerson, {
@@ -67,6 +70,7 @@ function groupByPerson(episodes: EpisodeSummary[]): PersonGroup[] {
         nickname: ep.nickname,
         birthYear: ep.birthYear ?? null,
         status: ep.status ?? 'todo',
+        group: ep.group ?? '',
         parts: [],
       })
     }
@@ -74,6 +78,7 @@ function groupByPerson(episodes: EpisodeSummary[]): PersonGroup[] {
     if (!isEn) {
       person.nickname = ep.nickname
       person.birthYear = ep.birthYear ?? null
+      person.group = ep.group ?? ''
     }
   }
 
@@ -100,11 +105,22 @@ function StatusIcon({ status, hasVoice }: { status: EpisodeStatus; hasVoice: boo
 
 type CandidateSummary = { name: string; nickname: string; booksCount: number; birthYear: number | null }
 
-const STATUS_SECTIONS: { key: EpisodeStatus; label: string; color: string }[] = [
-  { key: 'done', label: 'Done', color: 'text-green-400' },
-  { key: 'live', label: 'Live', color: 'text-blue-400' },
-  { key: 'todo', label: 'Todo', color: 'text-amber-400' },
-]
+type TabKey =
+  | { kind: 'group'; group: string }
+  | { kind: 'draft' }
+
+function tabKeyId(t: TabKey): string {
+  if (t.kind === 'group') return `g:${t.group}`
+  return t.kind
+}
+
+function groupLabel(group: string): string {
+  if (!group) return '그 외'
+  if (group === '_archive') return '보관소'
+  return group.split('/').pop() || group
+}
+
+const SIDEBAR_COLLAPSED_KEY = 'remotion-bo:sidebar:collapsed'
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -113,11 +129,25 @@ export function Sidebar() {
   const [episodes, setEpisodes] = useState<EpisodeSummary[]>([])
   const [candidates, setCandidates] = useState<CandidateSummary[]>([])
   const [search, setSearch] = useState('')
-  const [tab, setTab] = useState<'lineup' | 'draft'>('lineup')
+  const [tab, setTab] = useState<TabKey>({ kind: 'group', group: '' })
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY)
+      if (saved !== null) setCollapsed(saved === '1')
+    } catch {}
+  }, [])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 'b') { e.preventDefault(); setCollapsed(prev => !prev) }
+      if (e.ctrlKey && e.key === 'b') {
+        e.preventDefault()
+        setCollapsed(prev => {
+          const next = !prev
+          try { window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? '1' : '0') } catch {}
+          return next
+        })
+      }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -142,10 +172,40 @@ export function Sidebar() {
   const byBirth = (a: { birthYear: number | null }, b: { birthYear: number | null }) =>
     (a.birthYear ?? 9999) - (b.birthYear ?? 9999)
 
-  const persons = groupByPerson(episodes).filter(p => {
+  const persons = useMemo(() => groupByPerson(episodes), [episodes])
+
+  // 그룹 정렬: 이름 있는 그룹 알파벳 → '' (그 외) → '_archive' (보관소)
+  const groupKeys = useMemo(() => {
+    const set = new Set<string>()
+    for (const p of persons) set.add(p.group)
+    const arr = [...set].filter(g => g !== '' && g !== '_archive').sort()
+    if (set.has('')) arr.push('')
+    if (set.has('_archive')) arr.push('_archive')
+    return arr
+  }, [persons])
+
+  // 첫 로드 시 첫 그룹으로 자동 이동
+  useEffect(() => {
+    if (tab.kind !== 'group') return
+    if (groupKeys.length === 0) return
+    if (!groupKeys.includes(tab.group)) {
+      setTab({ kind: 'group', group: groupKeys[0] })
+    }
+  }, [groupKeys, tab])
+
+  const groupCounts = groupKeys.map(g => ({
+    group: g,
+    count: persons.filter(p => p.group === g).length,
+  }))
+
+  const filteredPersons = useMemo(() => {
+    if (tab.kind !== 'group') return [] as PersonGroup[]
     const q = search.toLowerCase()
-    return p.personKey.includes(q) || p.nickname.includes(search)
-  }).sort((a, b) => byBirth(a, b))
+    return persons
+      .filter(p => p.group === tab.group)
+      .filter(p => p.personKey.includes(q) || p.nickname.includes(search))
+      .sort((a, b) => byBirth(a, b))
+  }, [persons, tab, search])
 
   const realNames = new Set(episodes.map(e => e.name))
   const filteredCandidates = candidates.filter(d => {
@@ -154,13 +214,19 @@ export function Sidebar() {
     return d.name.includes(q) || d.nickname.includes(search)
   }).sort((a, b) => byBirth(a, b))
 
+  const tabId = tabKeyId(tab)
+
   if (collapsed) {
     return (
       <div className="flex h-full shrink-0">
         <aside className="w-10 border-r border-border flex flex-col items-center py-4 gap-1">
           {SERIES.map(s => (
             <button key={s.id} title={s.label}
-              onClick={() => { setCollapsed(false); setActiveSeries(s.id) }}
+              onClick={() => {
+                setCollapsed(false)
+                try { window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, '0') } catch {}
+                setActiveSeries(s.id)
+              }}
               className={`text-base p-1.5 rounded-lg transition-colors ${activeSeries === s.id ? 'bg-bg-card text-accent' : 'hover:bg-bg-hover text-text-secondary'}`}>
               {s.icon}
             </button>
@@ -186,91 +252,83 @@ export function Sidebar() {
 
       {activeSeries && (
         <aside className="w-56 border-r border-border overflow-y-auto p-3">
-          <div className="flex items-center justify-between mb-2">
-            <Link href={`/${activeSeries}`}>
-              <h2 className="text-xs font-bold text-accent tracking-widest">
-                {SERIES.find(s => s.id === activeSeries)?.label}
-              </h2>
-            </Link>
-            <div className="flex rounded overflow-hidden border border-border text-[10px]">
-              <button onClick={() => setTab('lineup')}
-                className={`px-1.5 py-0.5 font-semibold transition-colors ${tab === 'lineup' ? 'bg-accent text-bg-main' : 'text-text-dim hover:text-text-secondary'}`}>
-                All {persons.length}
-              </button>
-              <button onClick={() => setTab('draft')}
-                className={`px-1.5 py-0.5 font-semibold transition-colors ${tab === 'draft' ? 'bg-zinc-500 text-white' : 'text-text-dim hover:text-text-secondary'}`}>
-                Draft {filteredCandidates.length}
-              </button>
-            </div>
+          <Link href={`/${activeSeries}`}>
+            <h2 className="text-xs font-bold text-accent tracking-widest mb-2">
+              {SERIES.find(s => s.id === activeSeries)?.label}
+            </h2>
+          </Link>
+
+          <div className="flex flex-wrap gap-1 rounded overflow-hidden border border-border text-[10px] mb-2">
+            {groupCounts.map(({ group, count }) => {
+              const id = `g:${group}`
+              const active = tabId === id
+              return (
+                <button key={id} onClick={() => setTab({ kind: 'group', group })}
+                  className={`px-1.5 py-0.5 font-semibold transition-colors ${active ? 'bg-accent text-bg-main' : 'text-text-dim hover:text-text-secondary'}`}>
+                  {groupLabel(group)} {count}
+                </button>
+              )
+            })}
+            <button onClick={() => setTab({ kind: 'draft' })}
+              className={`px-1.5 py-0.5 font-semibold transition-colors ${tabId === 'draft' ? 'bg-zinc-500 text-white' : 'text-text-dim hover:text-text-secondary'}`}>
+              Draft {filteredCandidates.length}
+            </button>
           </div>
 
           <input type="text" placeholder="검색..." value={search} onChange={e => setSearch(e.target.value)}
             className="w-full bg-bg-card border border-border rounded px-2 py-1.5 text-xs mb-2 focus:outline-none focus:border-accent" />
 
-          {tab === 'lineup' && (
-            <div className="space-y-3">
-              {STATUS_SECTIONS.map(({ key, label, color }) => {
-                const sectionPersons = persons.filter(p => p.status === key)
-                if (sectionPersons.length === 0) return null
-                return (
-                  <div key={key}>
-                    <div className={`text-[10px] font-bold tracking-wider ${color} mb-1 px-1`}>
-                      {label} ({sectionPersons.length})
-                    </div>
-                    <div className="space-y-0.5">
-                      {sectionPersons.map(person => {
-                        const firstPart = person.parts[0]
-                        const primary = firstPart.ko ?? firstPart.en!
-                        const isSingle = person.parts.length === 1
-                        const activePart = person.parts.find(p => {
-                          const epName = (p.ko ?? p.en!)?.name
-                          return epName && (pathname.startsWith(`/${activeSeries}/${epName}/`) || pathname === `/${activeSeries}/${epName}`)
-                        })
-                        const isActive = !!activePart
+          {tab.kind === 'group' && (
+            <div className="space-y-0.5">
+              {filteredPersons.map(person => {
+                const firstPart = person.parts[0]
+                const primary = firstPart.ko ?? firstPart.en!
+                const isSingle = person.parts.length === 1
+                const activePart = person.parts.find(p => {
+                  const epName = (p.ko ?? p.en!)?.name
+                  return epName && (pathname.startsWith(`/${activeSeries}/${epName}/`) || pathname === `/${activeSeries}/${epName}`)
+                })
+                const isActive = !!activePart
 
-                        const content = (
-                          <>
-                            <StatusIcon status={person.status} hasVoice={(primary?.voiceCount ?? 0) > 0} />
-                            <span className="font-semibold truncate">{person.nickname}</span>
-                            <span className="ml-auto flex items-center gap-1 shrink-0">
-                              {!isSingle && person.parts.map(p => {
-                                const ep = p.ko ?? p.en!
-                                if (!ep) return null
-                                const isActivePart = activePart?.baseName === p.baseName
-                                return (
-                                  <Link key={p.baseName} href={`/${activeSeries}/${ep.name}`}
-                                    onClick={e => e.stopPropagation()}
-                                    className={`text-[9px] w-4 h-4 flex items-center justify-center rounded font-bold transition-colors ${isActivePart ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
-                                    {p.partNum}
-                                  </Link>
-                                )
-                              })}
-                              <span className="text-[10px] text-text-dim">{fmtYear(person.birthYear)}</span>
-                            </span>
-                          </>
-                        )
-
-                        if (isSingle) {
-                          return (
-                            <Link key={person.personKey} href={`/${activeSeries}/${primary.name}`}
-                              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
-                              {content}
-                            </Link>
-                          )
-                        }
-
+                const content = (
+                  <>
+                    <StatusIcon status={person.status} hasVoice={(primary?.voiceCount ?? 0) > 0} />
+                    <span className="font-semibold truncate">{person.nickname}</span>
+                    <span className="ml-auto flex items-center gap-1 shrink-0">
+                      {!isSingle && person.parts.map(p => {
+                        const ep = p.ko ?? p.en!
+                        if (!ep) return null
+                        const isActivePart = activePart?.baseName === p.baseName
                         return (
-                          <div key={person.personKey}
-                            className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
-                            {content}
-                          </div>
+                          <Link key={p.baseName} href={`/${activeSeries}/${ep.name}`}
+                            onClick={e => e.stopPropagation()}
+                            className={`text-[9px] w-4 h-4 flex items-center justify-center rounded font-bold transition-colors ${isActivePart ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
+                            {p.partNum}
+                          </Link>
                         )
                       })}
-                    </div>
+                      <span className="text-[10px] text-text-dim">{fmtYear(person.birthYear)}</span>
+                    </span>
+                  </>
+                )
+
+                if (isSingle) {
+                  return (
+                    <Link key={person.personKey} href={`/${activeSeries}/${primary.name}`}
+                      className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
+                      {content}
+                    </Link>
+                  )
+                }
+
+                return (
+                  <div key={person.personKey}
+                    className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
+                    {content}
                   </div>
                 )
               })}
-              {persons.length === 0 && (
+              {filteredPersons.length === 0 && (
                 <div className="text-xs text-text-dim py-4 text-center">
                   {episodes.length === 0 ? '에피소드 없음' : '검색 결과 없음'}
                 </div>
@@ -278,7 +336,7 @@ export function Sidebar() {
             </div>
           )}
 
-          {tab === 'draft' && (
+          {tab.kind === 'draft' && (
             <div className="space-y-0.5">
               {filteredCandidates.map(d => {
                 const active = pathname.startsWith(`/${activeSeries}/${d.name}`)

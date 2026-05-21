@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 /**
  * ELE 보이스 펼침 버튼 — 현재 보이스 ID 표시 + 펼침 안내.
@@ -24,7 +24,7 @@ export function EleVoiceExpandButton({
       title={title}
       className="bg-bg-card border border-border/40 rounded px-2 py-1 font-mono text-left cursor-pointer hover:border-purple-500/40 truncate flex items-center gap-2"
     >
-      <span className="text-text-dim text-[11px] shrink-0">{open ? '▼' : '▶'}</span>
+      <span className="text-text-dim text-sm font-bold shrink-0">{open ? '▼' : '▶'}</span>
       <span className="text-purple-300 truncate flex-1">{voiceId || '(보이스 미설정)'}</span>
     </button>
   )

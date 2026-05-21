@@ -67,6 +67,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
       fileFolders: scan.fileFolders,
       duplicates: scan.duplicates,
       status: found.status,
+      newLayout: isNewLayout(found.dir),
     })
   }
 

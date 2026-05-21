@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useCallback } from 'react'
 
@@ -64,7 +64,7 @@ export function VoiceStorage({ series }: { series: string }) {
     }
   }
 
-  if (!data) return <div className="text-text-dim text-sm">Storage 로딩 중...</div>
+  if (!data) return <div className="text-text-secondary text-sm">Storage 로딩 중...</div>
 
   const filtered = data.episodes.filter(ep => {
     if (filter === 'loaded') return ep.status === 'loaded' || ep.status === 'partial'
@@ -83,11 +83,11 @@ export function VoiceStorage({ series }: { series: string }) {
       <div className="flex items-center gap-6 mb-4 text-sm">
         <div>
           <span className="text-green-400 font-semibold">{data.totalLoaded.sizeLabel}</span>
-          <span className="text-text-dim ml-1">loaded ({data.totalLoaded.count} files)</span>
+          <span className="text-text-secondary ml-1">loaded ({data.totalLoaded.count} files)</span>
         </div>
         <div>
           <span className="text-zinc-400 font-semibold">{data.totalArchived.sizeLabel}</span>
-          <span className="text-text-dim ml-1">archived ({data.totalArchived.count} files)</span>
+          <span className="text-text-secondary ml-1">archived ({data.totalArchived.count} files)</span>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ export function VoiceStorage({ series }: { series: string }) {
 
       {/* 필터 + 액션 */}
       <div className="flex items-center gap-3 mb-4">
-        <div className="flex gap-1 rounded-md overflow-hidden border border-border text-xs w-fit">
+        <div className="flex gap-1 rounded-md overflow-hidden border border-border text-sm font-semibold w-fit">
           {(['all', 'loaded', 'unloaded'] as const).map(f => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-3 py-1.5 font-semibold transition-colors ${filter === f ? 'bg-accent/80 text-white' : 'text-text-secondary hover:text-text-primary'}`}>
@@ -110,19 +110,19 @@ export function VoiceStorage({ series }: { series: string }) {
         <div className="ml-auto flex gap-2">
           {selectedUnloaded.length > 0 && (
             <button onClick={() => handleAction('load')} disabled={loading}
-              className="text-xs px-3 py-1.5 rounded bg-green-600 hover:bg-green-500 text-white font-semibold disabled:opacity-50 transition-colors">
+              className="text-sm font-semibold px-3 py-1.5 rounded bg-green-600 hover:bg-green-500 text-white font-semibold disabled:opacity-50 transition-colors">
               Load {selectedUnloaded.length}
             </button>
           )}
           {selectedLoaded.length > 0 && (
             <button onClick={() => handleAction('unload')} disabled={loading}
-              className="text-xs px-3 py-1.5 rounded bg-zinc-600 hover:bg-zinc-500 text-white font-semibold disabled:opacity-50 transition-colors">
+              className="text-sm font-semibold px-3 py-1.5 rounded bg-zinc-600 hover:bg-zinc-500 text-white font-semibold disabled:opacity-50 transition-colors">
               Unload {selectedLoaded.length}
             </button>
           )}
           {selected.size > 0 && (
             <button onClick={() => setSelected(new Set())}
-              className="text-xs px-2 py-1.5 text-text-dim hover:text-text-secondary transition-colors">
+              className="text-sm font-semibold px-2 py-1.5 text-text-secondary hover:text-text-secondary transition-colors">
               Clear
             </button>
           )}
@@ -140,13 +140,13 @@ export function VoiceStorage({ series }: { series: string }) {
                 disabled={ep.status === 'none'}
                 className="accent-accent w-3.5 h-3.5" />
               <span className="font-medium text-sm flex-1">{ep.name}</span>
-              <span className={`text-[10px] px-1.5 py-px rounded border ${badge.cls}`}>{badge.label}</span>
-              <span className="text-xs text-text-dim w-16 text-right">{ep.fileCount} files</span>
-              <span className="text-xs text-text-secondary w-16 text-right">{ep.sizeLabel}</span>
+              <span className={`text-sm font-semibold font-bold px-1.5 py-px rounded border ${badge.cls}`}>{badge.label}</span>
+              <span className="text-sm font-semibold text-text-secondary w-16 text-right">{ep.fileCount} files</span>
+              <span className="text-sm font-semibold text-text-secondary w-16 text-right">{ep.sizeLabel}</span>
             </label>
           )
         })}
-        {filtered.length === 0 && <p className="text-sm text-text-dim py-4">해당 조건의 에피소드가 없다.</p>}
+        {filtered.length === 0 && <p className="text-sm text-text-secondary py-4">해당 조건의 에피소드가 없다.</p>}
       </div>
     </div>
   )

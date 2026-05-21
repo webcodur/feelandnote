@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Fragment, useMemo, useState } from 'react'
 import { useEpisode } from '@/lib/episode-context'
@@ -133,16 +133,17 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
 
   return (
     <div className="flex gap-0">
-      <div className="flex-1 min-w-0 space-y-1">
+      <div className="flex-1 min-w-0 space-y-3">
         {/* 요약 + 시간 표 — 아코디언 (기본 접힘). 헤더에 핵심 카운트만 노출. */}
         <EditorPanel
           title="쇼츠 요약 (ShortsSummary)"
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>}
           collapsible
           defaultExpanded={false}
+          className="border-border bg-bg-card shadow-md shadow-black/20 mb-3"
           summaryNode={
             <span className="flex items-center gap-2">
-              <span className="text-[10px] tabular-nums">
+              <span className="text-xs font-bold tabular-nums">
                 글자 {totalChars.toLocaleString()}
                 <span className="text-text-dim"> · 공백제외 {totalNoSpace.toLocaleString()}</span>
                 <span className="text-text-dim"> · 구간 {segments.length}</span>
@@ -181,7 +182,8 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                 title="쇼츠 인트로 (ShortsIntro)"
                 icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
                 collapsible
-                summaryNode={<span className="text-[10px] opacity-70 tabular-nums">{introSegs.length}구간 · {introChars}자</span>}
+                className="border-accent/40 bg-bg-card shadow-lg shadow-black/25 mb-4 border-l-2 border-l-accent"
+                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{introSegs.length}구간 · {introChars}자</span>}
                 contentClassName="p-3"
               >
                 {segments.map((seg: any, i: number) => {
@@ -207,7 +209,8 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                 title="쇼츠 본편 (ShortsMain)"
                 icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>}
                 collapsible
-                summaryNode={<span className="text-[10px] opacity-70 tabular-nums">{bookSegs.length}구간 · {bookChars}자</span>}
+                className="border-border/40 bg-bg-card shadow-lg shadow-black/25 mb-4 border-l-2 border-l-text-secondary"
+                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{bookSegs.length}구간 · {bookChars}자</span>}
                 contentClassName="p-3 space-y-1"
               >
                 {segments.map((seg: any, i: number) => {

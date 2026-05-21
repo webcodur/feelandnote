@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { POOL_STYLES, sortBy, type FolderDropState, type SortMode, type ViewMode } from './constants'
 
@@ -57,9 +57,9 @@ export function PoolFolders({
   }
 
   return (
-    <div className="space-y-1 border border-border/30 rounded p-1.5 bg-bg-main/20">
+    <div className="space-y-1 border border-border rounded p-1.5 bg-bg-main/20">
       <div className="flex items-center justify-between px-1 py-0.5">
-        <span className="text-[11px] font-semibold text-text-secondary uppercase tracking-wide">📁 폴더 ({subFolders.length})</span>
+        <span className="text-sm font-bold font-semibold text-text-secondary uppercase tracking-wide">📁 폴더 ({subFolders.length})</span>
         {onCreateFolder && (
           <button
             onClick={handleCreateFolder}
@@ -70,7 +70,7 @@ export function PoolFolders({
       </div>
 
       {subFolders.length === 0 && (
-        <div className="px-1 py-2 text-[11px] text-text-secondary italic">폴더 없음 — &quot;+ 새 폴더&quot; 로 만들어라</div>
+        <div className="px-1 py-2 text-sm font-bold text-text-secondary italic">폴더 없음 — &quot;+ 새 폴더&quot; 로 만들어라</div>
       )}
 
       {subFolders.map(folder => {
@@ -82,32 +82,32 @@ export function PoolFolders({
         return (
           <div
             key={folder}
-            className={`border rounded overflow-hidden transition-colors ${dropActive ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-border/30'}`}
+            className={`border rounded overflow-hidden transition-colors ${dropActive ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-border'}`}
             onDragOver={e => { e.preventDefault(); e.stopPropagation(); setFolderDrop({ folder, active: true }) }}
             onDragLeave={() => setFolderDrop(null)}
             onDrop={e => onFolderDrop(e, folder)}
           >
             <div className={POOL_STYLES.sectionHeader + ' cursor-pointer'} onClick={() => toggleOpen(key)}>
-              <span className={`text-text-secondary text-[11px] transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
-              <span className="text-[11px] font-semibold text-text-primary truncate flex-1">📁 {folder} <span className="text-text-secondary font-normal">({files.length}{files.length !== totalInFolder ? `/${totalInFolder}` : ''})</span></span>
+              <span className={`text-text-secondary text-sm font-bold transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+              <span className="text-sm font-bold font-semibold text-text-primary truncate flex-1">📁 {folder} <span className="text-text-secondary font-normal">({files.length}{files.length !== totalInFolder ? `/${totalInFolder}` : ''})</span></span>
               {onOpenFolderPath && (
                 <button
                   onClick={e => { e.stopPropagation(); onOpenFolderPath(folder) }}
-                  className="text-[11px] text-text-secondary hover:text-accent px-1"
+                  className="text-sm font-bold text-text-secondary hover:text-accent px-1"
                   title="이 폴더를 탐색기로 열기"
                 >📂</button>
               )}
               {onRenameFolder && (
                 <button
                   onClick={e => { e.stopPropagation(); handleRenameFolder(folder) }}
-                  className="text-[11px] text-text-secondary hover:text-accent px-1"
+                  className="text-sm font-bold text-text-secondary hover:text-accent px-1"
                   title="이름 변경"
                 >✎</button>
               )}
               {onDeleteFolder && (
                 <button
                   onClick={e => { e.stopPropagation(); handleDeleteFolder(folder) }}
-                  className="text-[11px] text-text-secondary hover:text-red-400 px-1"
+                  className="text-sm font-bold text-text-secondary hover:text-red-400 px-1"
                   title="폴더 삭제 (비어있어야 함)"
                 >🗑</button>
               )}
@@ -119,7 +119,7 @@ export function PoolFolders({
                     {files.map(renderImage)}
                   </div>
                 ) : (
-                  <div className="text-[11px] text-text-secondary italic px-1 py-1">비어있음 — 이미지를 여기로 드래그해라</div>
+                  <div className="text-sm font-bold text-text-secondary italic px-1 py-1">비어있음 — 이미지를 여기로 드래그해라</div>
                 )}
               </div>
             )}
@@ -130,7 +130,7 @@ export function PoolFolders({
       {/* 루트로 꺼내기 드롭존 */}
       {subFolders.length > 0 && (
         <div
-          className={`mt-1 px-2 py-2 text-[11px] text-center rounded border-2 border-dashed transition-colors ${
+          className={`mt-1 px-2 py-2 text-sm font-bold text-center rounded border-2 border-dashed transition-colors ${
             folderDrop?.folder === '' && folderDrop.active
               ? 'border-accent text-accent bg-accent/10'
               : 'border-border/40 text-text-secondary'

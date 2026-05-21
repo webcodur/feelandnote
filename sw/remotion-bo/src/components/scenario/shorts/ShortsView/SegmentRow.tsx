@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { ScenarioRow } from '../../ScenarioRow'
@@ -28,7 +28,7 @@ function SegIdEditor({ value, onCommit }: { value: string; onCommit: (next: stri
       onClick={e => e.stopPropagation()}
       placeholder="id"
       title="구간 ID — 음성 파일명 기준 식별자. 변경하면 wav 파일과 자막 타이밍 데이터가 함께 새 이름으로 이동한다."
-      className="bg-transparent border-b border-transparent hover:border-border focus:border-accent text-[11px] font-mono px-1 py-0 w-32 outline-none"
+      className="bg-transparent border-b border-transparent hover:border-border focus:border-accent text-sm font-bold font-mono px-1 py-0 w-32 outline-none"
     />
   )
 }
@@ -121,11 +121,11 @@ export function SegmentRow({
   // 타이틀바 좌측에 들어가는 라벨 — n/m 번호 + 식별자(편집기)
   const labelNode = (
     <span className="flex items-center gap-1.5 leading-none">
-      <span className="text-[11px] text-text-secondary tabular-nums">{idx + 1}/{totalSegments ?? '?'}</span>
+      <span className="text-sm font-bold text-text-secondary tabular-nums">{idx + 1}/{totalSegments ?? '?'}</span>
       {renameSegId ? (
         <SegIdEditor value={seg.id} onCommit={next => renameSegId(idx, seg.id, next)} />
       ) : (
-        <span className="text-[11px] font-mono text-text-primary">{seg.id}</span>
+        <span className="text-sm font-bold font-mono text-text-primary">{seg.id}</span>
       )}
     </span>
   )
@@ -138,7 +138,7 @@ export function SegmentRow({
         type="button"
         onClick={() => removeSegment(idx)}
         title="이 구간 삭제"
-        className="inline-flex items-center px-2 py-0.5 rounded border border-red-600/50 text-red-400/90 bg-transparent hover:bg-red-500/10 hover:border-red-400 hover:text-red-200 text-[11px] font-medium leading-none cursor-pointer transition-colors"
+        className="inline-flex items-center px-2 py-0.5 rounded border border-red-600/50 text-red-400/90 bg-transparent hover:bg-red-500/10 hover:border-red-400 hover:text-red-200 text-sm font-bold font-medium leading-none cursor-pointer transition-colors"
       >삭제</button>
     </>
   )

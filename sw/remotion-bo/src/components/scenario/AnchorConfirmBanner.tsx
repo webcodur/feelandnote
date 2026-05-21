@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect } from 'react'
 import type { AnchorPick } from './types'
@@ -50,12 +50,12 @@ export function AnchorConfirmBanner({
 
   if (!anchorPick?.draft) return null
   return (
-    <div className={`flex items-center gap-2 px-2 py-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-[11px] ${className ?? ''}`}>
-      <span className="text-amber-400 font-semibold">#{anchorPick.imgIdx + 1}</span>
-      <span className="text-text-primary truncate flex-1">&ldquo;{anchorPick.draft}&rdquo;</span>
-      <button onClick={onConfirm} title="Enter" className="px-2 py-0.5 rounded bg-amber-500 text-black text-[11px] font-semibold hover:bg-amber-400 shrink-0">확정</button>
-      {hint && <span className="text-text-secondary text-[11px]">{hint}</span>}
-      <button onClick={onCancel} title="Esc" className="text-text-secondary hover:text-red-400 text-[11px]">취소</button>
+    <div className={`flex items-center gap-2 px-2 py-1.5 rounded bg-amber-50 border-2 border-amber-500 shadow-sm text-slate-950 text-sm font-bold ${className ?? ''}`}>
+      <span className="text-amber-900 font-black">#{anchorPick.imgIdx + 1}</span>
+      <span className="text-amber-950 font-black truncate flex-1">&ldquo;{anchorPick.draft}&rdquo;</span>
+      <button onClick={onConfirm} title="Enter" className="px-2 py-0.5 rounded bg-amber-500 text-black text-sm font-bold font-semibold hover:bg-amber-400 shrink-0">확정</button>
+      {hint && <span className="text-amber-800 text-sm font-black">{hint}</span>}
+      <button onClick={onCancel} title="Esc" className="text-amber-700 hover:text-red-600 text-sm font-black">취소</button>
     </div>
   )
 }

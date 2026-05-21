@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, type ReactNode } from 'react'
 import { Speaker } from '../../SpeakerPanel'
@@ -25,8 +25,8 @@ function Switch({ checked, onChange, activeColor = 'bg-accent' }: { checked: boo
   )
 }
 
-const LABEL = 'text-text-primary/90 font-medium w-14 shrink-0 text-center'
-const CTRL = 'bg-black/40 border border-white/10 rounded px-1.5 py-0 h-[22px] w-full cursor-pointer text-text-primary focus:border-accent focus:bg-black/60 focus:outline-none transition-colors'
+const LABEL = 'text-slate-900 font-extrabold w-14 shrink-0 text-center'
+const CTRL = 'bg-white border border-slate-300 rounded px-1.5 py-0 h-[22px] w-full cursor-pointer text-slate-950 font-black focus:border-accent focus:bg-slate-50 focus:outline-none transition-colors shadow-sm'
 
 function Cell({ label, title, colSpan = 2, children }: {
   label: string
@@ -84,7 +84,7 @@ export function SegmentToolbox({
       className="!mb-0"
       contentClassName="p-2 flex flex-col gap-2"
     >
-      <div className="grid grid-cols-12 gap-x-2 gap-y-2 items-center text-[11px]">
+      <div className="grid grid-cols-12 gap-x-2 gap-y-2 items-center text-sm font-bold">
         {/* Row 1: 기본 비주얼 & 오디오 설정 */}
         <Cell colSpan={2} label="우상단" title="화면 우상단 작은 카드. 자동 = 인트로 hook 류는 미표시, 책 영역은 책 표지">
           <select value={topRight ?? '__auto'} onChange={e => updateSegField(idx, 'topRight', e.target.value === '__auto' ? undefined : e.target.value)} className={CTRL}>
@@ -103,14 +103,14 @@ export function SegmentToolbox({
         </Cell>
         <Cell colSpan={2} label="줌인" title="배경 이미지 켄번즈 줌(1.00→1.08). 해제 시 고정 배경.">
           <Switch checked={zoomOn} onChange={c => updateSegFieldKeepFalse(idx, 'zoomIn', c ? undefined : false)} activeColor="bg-accent" />
-          <span className="text-text-primary ml-1">{zoomOn ? '켜' : '끔'}</span>
+          <span className="text-slate-950 font-bold ml-1">{zoomOn ? '켜' : '끔'}</span>
         </Cell>
         <Cell colSpan={2} label="잠금" title="음성 보존 — TTS 가 이 구간을 무조건 건드리지 않는다. 전체 재생성에서도 보존.">
           <Switch checked={seg.voiceLock === true} onChange={c => updateSegField(idx, 'voiceLock', c ? true : undefined)} activeColor="bg-red-400" />
-          <span className={`ml-1 ${seg.voiceLock ? 'text-amber-300' : 'text-text-primary'}`}>{seg.voiceLock ? '잠김' : '풀림'}</span>
+          <span className={`ml-1 ${seg.voiceLock ? 'text-amber-700 font-black' : 'text-slate-950 font-bold'}`}>{seg.voiceLock ? '잠김' : '풀림'}</span>
         </Cell>
         <Cell colSpan={2} label="멈춤" title="이 구간 다음으로 넘어가기 전 멈춤(초). 다음 구간이 그만큼 늦게 시작.">
-          <input type="number" step={0.1} min={0} value={Number.isFinite(seg.gapAfter) ? String(seg.gapAfter) : ''} onChange={e => { const n = parseFloat(e.target.value); updateSegField(idx, 'gapAfter', Number.isFinite(n) && n > 0 ? n : undefined) }} placeholder="0" className="bg-black/40 border border-white/10 rounded px-1 py-0 h-[22px] w-full min-w-0 text-center text-text-primary focus:border-accent focus:bg-black/60 focus:outline-none transition-colors" />
+          <input type="number" step={0.1} min={0} value={Number.isFinite(seg.gapAfter) ? String(seg.gapAfter) : ''} onChange={e => { const n = parseFloat(e.target.value); updateSegField(idx, 'gapAfter', Number.isFinite(n) && n > 0 ? n : undefined) }} placeholder="0" className="bg-white border border-slate-300 rounded px-1 py-0 h-[22px] w-full min-w-0 text-center text-slate-950 font-bold focus:border-accent focus:bg-slate-50 focus:outline-none transition-colors shadow-sm" />
         </Cell>
 
         {/* Row 2: 화자, 출처, 볼륨 */}
@@ -125,7 +125,7 @@ export function SegmentToolbox({
             <button
               type="button"
               onClick={() => setShowOverride(true)}
-              className="text-[10px] text-text-dim hover:text-accent ml-0.5 px-1 py-0.5 rounded border border-transparent hover:border-border/40 shrink-0"
+              className="text-xs font-bold text-slate-600 hover:text-accent ml-0.5 px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-50 shrink-0 font-bold shadow-sm"
             >
               + 오버라이드
             </button>
@@ -135,7 +135,7 @@ export function SegmentToolbox({
         {seg.role === 'celeb' ? (
           <Cell colSpan={4} label="출처">
             <input
-              className="text-[11px] text-[#e5c07b] bg-black/40 border border-white/10 rounded px-1.5 py-0 h-[22px] focus:border-accent focus:bg-black/60 focus:outline-none flex-1 w-full transition-colors"
+              className="text-amber-950 font-black bg-white border border-slate-300 rounded px-1.5 py-0 h-[22px] focus:border-accent focus:bg-slate-50 focus:outline-none flex-1 w-full transition-colors shadow-sm"
               value={seg.quoteSource ?? ''}
               onChange={e => updateSegField(idx, 'quoteSource', e.target.value || undefined)}
               placeholder="(예: 인터뷰 제목·매체·연도)"
@@ -152,10 +152,10 @@ export function SegmentToolbox({
         {isOverrideActive && (
           <Cell colSpan={12} label="오버라이드" title="이 구간 보이스/스타일 제미니 강제 오버라이드. 입력하면 엔진과 무관하게 제미니로 우회 생성됩니다.">
             <div className="flex items-center gap-1.5 flex-1 min-w-0">
-              <GeminiVoiceSelect value={seg.geminiVoice ?? ''} onChange={next => updateSegField(idx, 'geminiVoice', next || undefined)} placeholderLabel="보이스 ID (미지정)" className="bg-black/40 border border-white/10 rounded px-1.5 py-0 h-[22px] w-32 focus:border-accent focus:bg-black/60 focus:outline-none text-[#61afef] font-mono transition-colors" />
-              <input value={seg.style ?? ''} onChange={e => updateSegField(idx, 'style', e.target.value || undefined)} placeholder="제미니 스타일 (예: 속삭이듯)" className="bg-black/40 border border-white/10 rounded px-1.5 py-0 h-[22px] flex-1 min-w-0 focus:border-accent focus:bg-black/60 focus:outline-none text-text-primary italic placeholder:text-text-secondary/50 transition-colors" />
+              <GeminiVoiceSelect value={seg.geminiVoice ?? ''} onChange={next => updateSegField(idx, 'geminiVoice', next || undefined)} placeholderLabel="보이스 ID (미지정)" className="bg-white border border-slate-300 rounded px-1.5 py-0 h-[22px] w-32 focus:border-accent focus:bg-slate-50 focus:outline-none text-blue-900 font-extrabold font-mono transition-colors shadow-sm" />
+              <input value={seg.style ?? ''} onChange={e => updateSegField(idx, 'style', e.target.value || undefined)} placeholder="제미니 스타일 (예: 속삭이듯)" className="bg-white border border-slate-300 rounded px-1.5 py-0 h-[22px] flex-1 min-w-0 focus:border-accent focus:bg-slate-50 focus:outline-none text-slate-950 font-bold italic placeholder:text-slate-400 transition-colors shadow-sm" />
               {!seg.geminiVoice && !seg.style && (
-                <button type="button" onClick={() => setShowOverride(false)} className="text-[10px] text-text-dim hover:text-red-400 px-1">✕</button>
+                <button type="button" onClick={() => setShowOverride(false)} className="text-xs font-extrabold text-slate-600 hover:text-red-600 px-1.5 py-0.5 border border-slate-300 bg-white hover:bg-slate-50 rounded shadow-sm">✕</button>
               )}
             </div>
           </Cell>
@@ -163,7 +163,7 @@ export function SegmentToolbox({
       </div>
 
       {/* SFX */}
-      <div className="border-t border-border/20 pt-2 text-[11px]">
+      <div className="border-t border-border pt-2 text-sm font-bold">
         <SegmentSfxEditor sfx={seg.sfx} files={sfxFiles} basePath={sfxBase} onChange={next => updateSegField(idx, 'sfx', next)} />
       </div>
     </EditorPanel>

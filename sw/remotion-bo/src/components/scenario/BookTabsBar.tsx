@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { VIEW_META } from './viewHelpers'
@@ -29,10 +29,10 @@ export function BookTabsBar({
       <div className="flex gap-1.5 overflow-x-auto pb-1">
         <button
           onClick={() => onSelect(VIEW_META, 'long')}
-          className={`shrink-0 inline-flex items-center justify-center px-4 rounded-md border text-sm font-semibold whitespace-nowrap ${
+          className={`shrink-0 inline-flex items-center justify-center px-4 rounded-md border text-sm font-bold whitespace-nowrap transition-colors ${
             view === VIEW_META
-              ? 'border-accent text-accent bg-accent/5'
-              : 'border-border/40 text-text-primary hover:border-border hover:bg-bg-hover'
+              ? 'border-accent text-accent bg-accent/10 border-2 shadow-sm font-black'
+              : 'border-slate-400 text-text-secondary hover:text-text-primary hover:bg-bg-hover hover:border-slate-600'
           }`}
           style={{ minHeight: '52px' }}
         >
@@ -50,10 +50,10 @@ export function BookTabsBar({
           const isDragging = dragFrom === i
           const isOver = dragOver === i && dragFrom !== null && dragFrom !== i
           const cardBorder = isOver
-            ? 'border-accent ring-2 ring-accent/50'
+            ? 'border-accent ring-2 ring-accent/60'
             : isActive
-              ? 'border-accent'
-              : 'border-border/40 hover:border-border'
+              ? 'border-accent bg-bg-card shadow-md border-2'
+              : 'border-slate-400 hover:border-slate-600'
           return (
             <div
               key={v}
@@ -86,40 +86,40 @@ export function BookTabsBar({
                       e.dataTransfer.setData('text/plain', `book:${i}`)
                     }}
                     onDragEnd={() => { setDragFrom(null); setDragOver(null) }}
-                    className="cursor-grab active:cursor-grabbing px-1 py-1 text-text-secondary/60 hover:text-accent select-none"
+                    className="cursor-grab active:cursor-grabbing px-1.5 py-1 text-text-secondary hover:text-accent select-none font-bold"
                     title="끌어서 책 순서 바꾸기"
                   >⋮⋮</span>
                 )}
                 <button
                   onClick={() => onSelect(v, 'long')}
-                  className={`flex-1 px-3 pt-1.5 pb-0.5 text-sm font-semibold whitespace-nowrap text-center cursor-pointer ${
+                  className={`flex-1 px-3 pt-1.5 pb-0.5 text-sm font-bold whitespace-nowrap text-center cursor-pointer transition-colors ${
                     isActive
-                      ? 'text-accent bg-accent/5'
-                      : 'text-text-primary hover:bg-bg-hover'
+                      ? 'text-accent bg-accent/10 font-black'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
                   }`}
                 >
-                  <span className="font-mono text-[11px] mr-1 opacity-60">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-mono text-sm font-bold mr-1 opacity-80">{String(i + 1).padStart(2, '0')}</span>
                   {shortTitle}
                 </button>
               </div>
-              <div className={`flex border-t ${isActive ? 'border-accent/30' : 'border-border/30'}`}>
+              <div className={`flex border-t ${isActive ? 'border-accent border-t-2' : 'border-slate-300'}`}>
                 <button
                   onClick={() => onSelect(v, 'long')}
-                  className={`flex-1 py-0.5 text-[11px] font-bold cursor-pointer ${
+                  className={`flex-1 py-0.5 text-sm font-bold font-extrabold cursor-pointer transition-colors ${
                     isLong
-                      ? 'text-accent bg-accent/10'
+                      ? 'text-accent bg-accent/15 font-black'
                       : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
                   }`}
                 >롱</button>
-                <div className={`w-px ${isActive ? 'bg-accent/30' : 'bg-border/30'}`} />
+                <div className={`w-px ${isActive ? 'bg-accent' : 'bg-slate-300'}`} />
                 <button
                   onClick={() => { if (hasShorts) onSelect(v, 'short') }}
                   disabled={!hasShorts}
-                  className={`flex-1 py-0.5 text-[11px] font-bold ${
+                  className={`flex-1 py-0.5 text-sm font-bold font-extrabold transition-colors ${
                     !hasShorts
-                      ? 'text-text-secondary/30 cursor-not-allowed bg-bg-card/30'
+                      ? 'text-slate-400 cursor-not-allowed bg-slate-200'
                       : isShort
-                        ? 'text-accent bg-accent/10 cursor-pointer'
+                        ? 'text-accent bg-accent/15 cursor-pointer font-black'
                         : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary cursor-pointer'
                   }`}
                 >숏</button>

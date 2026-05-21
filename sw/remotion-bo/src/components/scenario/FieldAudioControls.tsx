@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { PLAYBACK_RATES, usePlaybackRate } from './usePlaybackRate'
@@ -97,13 +97,13 @@ export function FieldAudioControls({
     <div className="flex items-center gap-1.5 flex-1 min-w-0">
       <button
         onClick={handlePlayBtn}
-        className="px-1.5 py-0.5 rounded bg-bg-card border border-border hover:bg-bg-hover text-text-secondary text-[11px] flex-none"
+        className="px-1.5 py-0.5 rounded bg-bg-card border border-border hover:bg-bg-hover text-text-secondary text-sm font-bold flex-none"
         title={playing ? '일시정지' : (paused ? '재개' : '재생')}
       >{playing ? '❚❚' : '▶'}</button>
       {isCurrent ? (
         <button
           onClick={handleStop}
-          className="px-1.5 py-0.5 rounded bg-bg-card border border-border hover:bg-bg-hover text-text-secondary text-[11px] flex-none"
+          className="px-1.5 py-0.5 rounded bg-bg-card border border-border hover:bg-bg-hover text-text-secondary text-sm font-bold flex-none"
           title="정지 (처음으로)"
         >■</button>
       ) : (
@@ -122,13 +122,13 @@ export function FieldAudioControls({
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-[11px] text-text-secondary font-mono tabular-nums whitespace-nowrap flex-none">
+      <span className="text-sm font-bold text-text-secondary font-mono tabular-nums whitespace-nowrap flex-none">
         {fmt(currentTime)} / {fmt(duration)}s
       </span>
       <div ref={dropdownRef} className="relative flex-none">
         <button
           onClick={() => setOpen(o => !o)}
-          className={`px-1.5 py-0.5 rounded text-[11px] font-mono tabular-nums border transition-colors ${
+          className={`px-1.5 py-0.5 rounded text-sm font-bold font-mono tabular-nums border transition-colors ${
             rateActive
               ? 'border-accent text-accent bg-accent/10 font-semibold'
               : 'border-border text-text-secondary bg-bg-card hover:bg-bg-hover'
@@ -143,7 +143,7 @@ export function FieldAudioControls({
                 <button
                   key={r}
                   onClick={() => { setRate(r); setOpen(false) }}
-                  className={`px-2 py-1 text-[11px] font-mono tabular-nums text-right hover:bg-bg-hover ${
+                  className={`px-2 py-1 text-sm font-bold font-mono tabular-nums text-right hover:bg-bg-hover ${
                     active ? 'text-accent font-semibold' : 'text-text-secondary'
                   }`}
                 >×{r}</button>

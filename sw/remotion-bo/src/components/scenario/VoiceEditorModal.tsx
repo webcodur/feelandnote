@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useEffect, useState } from 'react'
 
@@ -23,16 +23,24 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
   engineState?: ModalEngineState | null
 }) {
   const [mode, setMode] = useState<ExpandMode>('trim')
+  // 배경에서 시작된 클릭만 닫기로 인정한다. 노란선 등 패널 내부에서 시작된 드래그가
+  // 우연히 배경 위에서 끝나도 모달이 닫히지 않도록 한다.
+  const downOnBackdropRef = React.useRef(false)
+  // onClose 는 부모가 인라인 함수로 넘기므로 매 렌더마다 새 참조다. 이 참조를 effect 의존성에 넣으면
+  // 부모 리렌더(예: 노란선 드래그 중 매 pointermove 마다 발생) 때마다 effect 가 재실행되어 setMode('trim')
+  // 이 SYNC 모드를 TRIM 으로 되돌린다 — 사용자 입장에선 편집기가 갑자기 닫혀 보이는 증상. ref 로 우회.
+  const onCloseRef = React.useRef(onClose)
+  React.useEffect(() => { onCloseRef.current = onClose }, [onClose])
 
   useEffect(() => {
     if (!openKey) return
     setMode('trim')
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current() }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
-  }, [openKey, onClose])
+  }, [openKey])
 
   if (!openKey) return null
 
@@ -57,7 +65,11 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
   return (
     <div
       className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
-      onClick={onClose}
+      onMouseDown={(e) => { downOnBackdropRef.current = e.target === e.currentTarget }}
+      onClick={(e) => {
+        if (downOnBackdropRef.current && e.target === e.currentTarget) onClose()
+        downOnBackdropRef.current = false
+      }}
     >
       <div
         className="bg-bg-card border border-border rounded-md flex flex-col shadow-xl overflow-hidden"

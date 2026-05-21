@@ -33,14 +33,14 @@ export function SyncModeContent({ secKey, episode, episodeData, series, name, on
   const handleSave = async (e: React.MouseEvent) => {
     e.stopPropagation()
     const segs = segmentsRef.current
-    let ep = JSON.parse(JSON.stringify(episodeData)) as EpisodeData
+    const ep = JSON.parse(JSON.stringify(episodeData)) as EpisodeData
     if (timings.length === segs.length && segs.length > 0) {
       const withText = timings.map((t, i) => ({ ...t, text: segs[i] }))
       ;(ep as any).voiceTimings = { ...((ep as any).voiceTimings ?? {}), [secKey]: withText }
     }
-    if (segs.length > 0) {
-      ep = setTextForSection(secKey, segs.join(' '), ep)
-    }
+    // 원문(seg.text/summary 등) 은 절대 토막 join 으로 덮어쓰지 않는다.
+    // /\s+/ 분할 후 ' ' join 라운드트립이 \n·\n\n 줄바꿈을 모두 파괴한다.
+    // 원문 수정은 위쪽 "원문 텍스트" textarea 에서 직접 편집.
     setSaving(true)
     await onSave(ep)
     setSaving(false)

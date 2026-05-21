@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import type { Speaker } from './SpeakerPanel'
 
@@ -46,7 +46,7 @@ export function SpeakerPicker({
         disabled={empty}
         name={name}
         title={title ?? (empty ? '먼저 상단 화자 설정에서 등록하라' : '상단 화자 설정에 등록된 인물 중 선택')}
-        className="bg-bg-main border border-border/50 rounded px-1.5 py-0 h-[22px] cursor-pointer focus:border-accent/60 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex-1 min-w-0"
+        className="bg-white border border-slate-300 text-slate-950 font-bold rounded px-2 py-0.5 h-[24px] cursor-pointer focus:border-accent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex-1 min-w-0 shadow-sm"
       >
         <option value="">{placeholderLabel}</option>
         {speakers.map(s => (

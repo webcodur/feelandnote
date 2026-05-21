@@ -275,12 +275,20 @@ export function stripImageRefs<T extends Record<string, unknown>>(ep: T, target:
   return next as T
 }
 
-/** seg.image + seg.imageChangeAt → CinematicImage[] 변환 */
+/** seg.image + seg.imageChangeAt → CinematicImage[] 변환.
+ *  primary(seg.image)는 file 만, 전환점(imageChangeAt)은 text + t 까지 함께 들고 와서 라운드트립 시 시각이 0 으로 깎이지 않게 한다. */
 export function segToImages(seg: any): CinematicImage[] {
   const imgs: CinematicImage[] = []
   if (seg?.image) imgs.push({ file: seg.image.split('/').pop() })
   const changes = seg?.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
-  for (const c of changes) imgs.push({ file: c.image.split('/').pop(), text: c.text })
+  for (const c of changes) {
+    const file = typeof c?.image === 'string' ? (c.image.split('/').pop() ?? '') : ''
+    imgs.push({
+      file,
+      ...(c?.text ? { text: c.text } : {}),
+      ...(typeof c?.t === 'number' ? { t: c.t } : {}),
+    })
+  }
   return imgs
 }
 

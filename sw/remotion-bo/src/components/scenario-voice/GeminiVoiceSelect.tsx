@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { GEMINI_VOICES_MALE, GEMINI_VOICES_FEMALE } from './types'
 
@@ -34,7 +34,7 @@ export function GeminiVoiceSelect({
       value={value}
       onChange={e => onChange(e.target.value)}
       title={title}
-      className={`bg-bg-main border border-border/50 rounded px-1.5 py-0 h-[22px] font-mono cursor-pointer focus:border-accent/60 focus:outline-none ${className ?? ''}`}
+      className={`bg-white border border-slate-300 text-slate-950 font-bold rounded px-2 py-0.5 h-[24px] font-mono cursor-pointer focus:border-accent focus:outline-none shadow-sm ${className ?? ''}`}
     >
       {placeholderLabel && <option value="">{placeholderLabel}</option>}
       <optgroup label={groupLabels.male}>

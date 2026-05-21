@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../EpisodeEditor'
@@ -466,13 +466,13 @@ export function ExpandedVoicePanel({
             {chosenEngine === 'gemini' && (
               <>
                 <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
-                  <span className="px-2 flex items-center text-sm text-text-secondary bg-bg-main border-r border-border">캐릭터 보이스</span>
+                  <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">캐릭터 보이스</span>
                   <select
                     value={geminiSpec.voiceParam}
                     onChange={e => { if (segmentLocator) handleSegmentFieldChange('geminiVoice', e.target.value || undefined) }}
                     disabled={!segmentLocator}
                     title={segmentLocator ? '보이스 선택 즉시 저장' : '쇼츠 segment 가 아니라 저장 대상이 없음'}
-                    className="h-8 text-sm bg-bg-card px-2 cursor-pointer text-text-primary disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none"
+                    className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none"
                   >
                     <optgroup label="남성">
                       {GEMINI_VOICES_MALE.map(v => <option key={v} value={v}>{v}</option>)}
@@ -484,7 +484,7 @@ export function ExpandedVoicePanel({
                 </div>
                 {segmentLocator && (
                   <div className="inline-flex items-stretch rounded border border-border overflow-hidden flex-1 min-w-[200px]">
-                    <span className="px-2 flex items-center text-sm text-text-secondary bg-bg-main border-r border-border shrink-0">스타일</span>
+                    <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">스타일</span>
                     <input
                       type="text"
                       value={styleEdit}
@@ -496,7 +496,7 @@ export function ExpandedVoicePanel({
                       onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
                       placeholder="예: 낮고 간절하게, 속삭이듯"
                       title="발화 스타일 — 입력 후 포커스 이탈 시 저장"
-                      className="h-8 flex-1 text-sm bg-bg-card px-2 text-text-primary focus:outline-none"
+                      className="h-8 flex-1 text-sm bg-white px-3 text-slate-950 font-bold focus:outline-none border-l border-slate-300"
                     />
                   </div>
                 )}
@@ -514,7 +514,7 @@ export function ExpandedVoicePanel({
           {sectionTexts.original && (
             <div className="space-y-1">
               <div className="flex items-stretch rounded border border-border overflow-hidden">
-                <span className="px-3 py-2 text-sm text-text-secondary bg-bg-main border-r border-border shrink-0">입력 텍스트</span>
+                <span className="px-3 py-2 text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">입력 텍스트</span>
                 <textarea
                   value={ttsText}
                   onChange={e => setTtsText(e.target.value)}
@@ -624,3 +624,4 @@ export function ExpandedVoicePanel({
     </div>
   )
 }
+

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { GAIN_DB_MAX, GAIN_DB_MIN, GAIN_DB_STEP, isUnityGain } from './gain'
 import { useAudioPreviewCtx } from './AudioPreviewContext'
@@ -57,7 +57,7 @@ export function GainDbInput({
       className="flex items-center gap-1.5"
       title="음량 조절 (dB). 0 이면 원본 그대로. +/- 한 칸은 ffmpeg volume=NdB 과 같다."
     >
-      <span className="text-[11px] text-text-secondary w-14 shrink-0 text-center">{label}</span>
+      <span className="text-sm font-bold text-text-secondary w-14 shrink-0 text-center">{label}</span>
       <div className="flex-1 flex items-center gap-2">
         <input
           type="range"
@@ -79,9 +79,9 @@ export function GainDbInput({
             if (Number.isFinite(n)) commit(n)
           }}
           placeholder="0"
-          className={`w-14 text-center text-[11px] bg-bg-main border border-border/50 rounded px-1 py-0 h-[22px] font-mono focus:border-accent/60 focus:outline-none ${isDefault ? 'text-text-dim' : 'text-amber-300'}`}
+          className={`w-14 text-center text-sm font-bold bg-bg-main border border-border rounded px-1 py-0 h-[22px] font-mono focus:border-accent/60 focus:outline-none ${isDefault ? 'text-text-dim' : 'text-accent font-black'}`}
         />
-        <span className={`text-[11px] font-mono shrink-0 ${isDefault ? 'text-text-dim' : 'text-amber-300'}`}>
+        <span className={`text-sm font-bold font-mono shrink-0 ${isDefault ? 'text-text-dim' : 'text-accent font-black'}`}>
           {isDefault ? '0 dB' : `${sign}${display.toFixed(1)} dB`}
         </span>
         {!isDefault && (
@@ -89,7 +89,7 @@ export function GainDbInput({
             type="button"
             onClick={reset}
             title="원본 음량으로 되돌리기"
-            className="text-[11px] text-text-dim hover:text-red-400 px-1"
+            className="text-sm font-bold text-text-dim hover:text-red-400 px-1"
           >×</button>
         )}
       </div>

@@ -1,31 +1,31 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
-  /* 프리미엄 다크 (Zinc 기반) - 탁한 느낌을 없애고 대비를 높임 */
-  --color-bg-main: #09090b;       /* 매우 깊은 블랙 */
-  --color-bg-secondary: #121214;  
-  --color-bg-card: #18181b;       /* 선명하게 구분되는 카드 배경 */
-  --color-bg-hover: #27272a;      
-  --color-border: #27272a;        /* 너무 밝은 회색이었던 테두리를 어둡게 눌러줌 */
-  --color-border-active: #c8a46e;
+  /* 프리미엄 초고대비 라이트 테마 (High-Contrast Slate Light) - 흐릿함을 없애고 칼같은 경계 제공 */
+  --color-bg-main: #e2e8f0;       /* 좀 더 차분하고 어두운 회색으로 카드가 선명히 부각되도록 함 */
+  --color-bg-secondary: #cbd5e1;  /* 확실히 구분되는 밝은 회색 보조 배경 */
+  --color-bg-card: #ffffff;       /* 칼같이 밝고 정갈한 순백색 카드 배경 */
+  --color-bg-hover: #94a3b8;      /* 또렷하고 명확한 마우스 호버 피드백 */
+  --color-border: #475569;        /* 확실하고 진하며 세련된 미디엄 슬레이트 테두리 선 (Slate 600) */
+  --color-border-active: #92400e;  /* 확실한 포인트가 되는 다크 골드/앰버 (Amber 800) */
 
-  /* 텍스트 계층 구조 명확화 (가시성 개선) */
-  --color-text-primary: #fafafa;  /* 본문/강조 (가장 밝은 흰색) */
-  --color-text-secondary: #a1a1aa;/* 라벨/보조 (명확히 구분되는 회색) */
-  --color-text-dim: #52525b;      /* 비활성/배경 텍스트 (어둡게 눌러줌) */
+  /* 텍스트 계층 구조 명확화 (초고대비 흑색 폰트) */
+  --color-text-primary: #020617;  /* 본문/강조 (가장 또렷하고 깊이 있는 슬레이트 블랙 - Slate 950) */
+  --color-text-secondary: #0f172a;/* 라벨/보조 (흐릿하지 않고 진한 다크 슬레이트 - Slate 900) */
+  --color-text-dim: #1e293b;      /* 비활성 텍스트조차 눈에 선명히 들어오도록 한 단계 더 어둡게 강제 (Slate 800) */
 
-  --color-accent: #c8a46e;
-  --color-accent-hover: #d4b07a;
+  --color-accent: #92400e;        /* 시인성이 뛰어난 오렌지 브라운 앰버 */
+  --color-accent-hover: #b45309;
 
-  /* 알림 색상도 딥 다크 테마에 맞춰 명도 대비 개선 */
-  --color-success: #052e16;
-  --color-success-text: #4ade80;
-  --color-warning: #451a03;
-  --color-warning-text: #fb923c;
-  --color-danger: #4c0519;
-  --color-danger-text: #fb7185;
-  --color-info: #082f49;
-  --color-info-text: #38bdf8;
+  /* 상태 알림 테마도 라이트 고대비에 맞춰 튜닝 */
+  --color-success: #dcfce7;
+  --color-success-text: #15803d;
+  --color-warning: #fef3c7;
+  --color-warning-text: #a16207;
+  --color-danger: #fee2e2;
+  --color-danger-text: #b91c1c;
+  --color-info: #e0f2fe;
+  --color-info-text: #0369a1;
 
   --font-mono: 'Cascadia Code', 'Fira Code', monospace;
 }
@@ -37,4 +37,66 @@ body {
   font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   백오피스 프리미엄 초고대비 UI 및 텍스트 쨍한 스케일업 (Giga Scale-up CSS Override)
+   ========================================================================== */
+
+/* 1. 기본 폰트 크기 및 시인성 전역 격상 */
+html {
+  font-size: 16px;
+}
+
+/* 2. 입력창, 셀렉트박스, 텍스트에리어, 버튼 크기 및 굵기 벌크업 */
+input, select, textarea, button {
+  font-size: 14.5px !important;
+  font-weight: 600 !important; /* 일반 500에서 600으로 글씨 획을 굵고 선명하게 고정 */
+  color: var(--color-text-primary) !important;
+}
+
+/* 3. 초미세 텍스트(text-xs, text-[10px], text-[11px] 등) 일체 스케일업 및 초고시인성 볼드체 매핑 */
+.text-xs {
+  font-size: 13.5px !important; /* 돋보기 필요 없도록 대폭 확대 */
+  font-weight: 700 !important;  /* 글씨 획 두께를 최대로 주어 라이트 모드 가독성 200% 보장 */
+  color: var(--color-text-secondary) !important;
+}
+
+.text-\[10px\] {
+  font-size: 12.5px !important; /* 10px 마이크로 폰트 해제 -> 최소 12.5px 확보 */
+  font-weight: 800 !important;  /* 극강의 볼드 */
+  letter-spacing: 0.02em;
+}
+
+.text-\[11px\] {
+  font-size: 13px !important;   /* 11px 마이크로 폰트 해제 -> 최소 13px 확보 */
+  font-weight: 800 !important;
+}
+
+/* 4. 본문 및 라벨 폰트 굵기 강제 보강 */
+.text-sm {
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+}
+
+.text-base {
+  font-size: 16.5px !important;
+  font-weight: 700 !important;
+}
+
+/* 5. 비활성/흐릿한 텍스트 쨍한 다크 그레이로 강제 전향 */
+.text-text-dim {
+  color: var(--color-text-dim) !important;
+  font-weight: 700 !important;
+}
+
+.text-text-secondary {
+  color: var(--color-text-secondary) !important;
+  font-weight: 700 !important;
+}
+
+/* 6. 솔리드 보더선 굵기 보강 */
+.border, .border-border, .border-slate-300 {
+  border-width: 1.5px !important; /* 테두리를 조금 더 두껍고 쨍하게 처리 */
+  border-color: var(--color-border) !important;
 }

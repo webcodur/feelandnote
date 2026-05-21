@@ -70,17 +70,22 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
   const dragging = dragHandle?.isDragging
   const dropOver = dragHandle?.isOver
 
+  // 세련된 역할별 뱃지 스타일 적용 (프리미엄 라이트 테마 대응)
+  const badgeStyle = simpleRole === 'line'
+    ? 'bg-accent/10 border border-accent/40 text-accent font-black text-xs font-bold px-1.5 py-0.5 rounded leading-none shrink-0'
+    : 'bg-bg-secondary border border-slate-400 text-text-primary font-bold text-xs font-bold px-1.5 py-0.5 rounded leading-none shrink-0'
+
   return (
     <div
       id={sectionKey ? `row-${sectionKey}` : undefined}
       style={leadStyle}
-      className={`mb-1 rounded border overflow-hidden transition-opacity ${
-        dropOver ? 'border-accent ring-1 ring-accent/40' : 'border-border/40'
-      } ${dragging ? 'opacity-50' : ''}`}
+      className={`mb-2 rounded-lg border overflow-hidden transition-all duration-200 ${
+        dropOver ? 'border-accent ring-2 ring-accent/60 bg-accent/10' : 'border-slate-400 bg-bg-card shadow-sm'
+      } ${dragging ? 'opacity-40 scale-[0.99]' : 'hover:border-border-active/60 hover:shadow-md'}`}
     >
       {/* ── 타이틀바 ── 손잡이/액션 외 영역 클릭 시 전체 토글 */}
       <div
-        className={`flex items-stretch text-[11px] bg-bg-hover/80 border-b border-border/60 select-none ${folderKey ? 'cursor-pointer hover:bg-bg-hover transition-colors' : ''}`}
+        className={`flex items-stretch text-sm font-bold bg-bg-secondary border-b border-slate-400 select-none transition-colors duration-150 ${folderKey ? 'cursor-pointer hover:bg-bg-hover' : ''}`}
         onClick={folderKey ? (e => {
           // 손잡이/액션 클릭은 위임 중단(stopPropagation) 해야 토글 안 됨
           if (e.defaultPrevented) return
@@ -93,13 +98,13 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
       >
         {/* 토글 삼각형 (맨 좌측) */}
         {folderKey ? (
-          <div className="flex items-center justify-center px-1">
-            <span className={`text-[10px] text-text-secondary transition-transform duration-200 ${!collapsed ? 'rotate-90' : ''}`}>
+          <div className="flex items-center justify-center px-2">
+            <span className={`text-xs font-black text-text-primary transition-transform duration-200 ${!collapsed ? 'rotate-90' : ''}`}>
               ▶
             </span>
           </div>
         ) : (
-          <div className="w-1 shrink-0" />
+          <div className="w-2 shrink-0" />
         )}
 
         {/* 손잡이 — drag 전용. 클릭은 무시(부모 토글 차단). */}
@@ -110,19 +115,19 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
             onDragEnd={dragHandle.onDragEnd}
             onClick={e => e.preventDefault()}
             onMouseDown={e => e.stopPropagation()}
-            className="flex items-center justify-center pl-0.5 pr-1.5 cursor-grab active:cursor-grabbing text-text-secondary/50 hover:text-text-secondary"
-            title="끌어서 행 순서 바꾸기"
+            className="flex items-center justify-center pl-0.5 pr-2 cursor-grab active:cursor-grabbing text-text-primary hover:text-accent transition-colors font-bold"
+            title="끌어서 책 순서 바꾸기"
           >
-            <span className="text-[11px] leading-none">⋮⋮</span>
+            <span className="text-sm font-bold leading-none">⋮⋮</span>
           </div>
         ) : (
           <div className="w-1 shrink-0" />
         )}
 
-        {/* 좌: 역할 + 라벨 (역할이 앞) */}
-        <div className="flex items-center gap-1.5 px-1 py-1 shrink-0">
-          <span className={`text-[11px] leading-none ${roleColor}`}>[{roleLabel}]</span>
-          <span className="font-semibold text-text-primary leading-none">{label}</span>
+        {/* 좌: 역할 뱃지 + 라벨 */}
+        <div className="flex items-center gap-2 px-1 py-1.5 shrink-0">
+          <span className={badgeStyle}>{roleLabel}</span>
+          <span className="font-extrabold text-text-primary leading-none">{label}</span>
         </div>
 
         {/* 중: 빈 공간(클릭 → 토글) */}
@@ -131,7 +136,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
         {/* 우: 액션 버튼 묶음 — 클릭 위임 중단. 손잡이 drag 도 중단(액션 영역에서 drag 시작 방지). */}
         {actions && (
           <div
-            className="flex items-center gap-1 px-2 py-1 shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 shrink-0"
             onClick={e => { e.stopPropagation(); e.preventDefault() }}
             onMouseDown={e => e.stopPropagation()}
             onDragStart={e => e.preventDefault()}
@@ -143,7 +148,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
 
       {/* ── 본문 ── */}
       <div
-        className={`px-3 transition-colors ${over ? 'bg-accent/10 ring-1 ring-accent/40 ring-inset' : ''} ${collapsed ? 'py-1' : 'py-2 space-y-1.5'}`}
+        className={`px-3.5 transition-all duration-200 ${over ? 'bg-accent/5 ring-1 ring-accent/25 ring-inset' : ''} ${collapsed ? 'py-1.5' : 'py-3 space-y-2'}`}
         onDragOver={onDrop ? (e => {
           // 행 단위 reorder 페이로드(seg:/book:)는 본문 영역에 떨어뜨려도 무시.
           const data = e.dataTransfer.types.includes('text/plain') ? '' : ''
@@ -169,22 +174,22 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
             {images}
           </EditorPanel>
         ) : !collapsed && onDrop ? (
-          <div className="mb-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-dashed border-border/30 text-[11px] text-text-secondary/70 italic">
+          <div className="mb-2 inline-flex items-center gap-1.5 px-2 py-1 rounded border border-dashed border-slate-500 bg-slate-50 text-xs font-bold text-text-primary font-semibold italic select-none">
             <span>🖼</span>
             <span>드래그로 이미지 추가</span>
           </div>
         ) : null}
 
         {!collapsed && onDrop && over && (
-          <div className="text-[11px] text-accent py-0.5">여기에 놓으면 이 섹션에 이미지 추가</div>
+          <div className="text-sm font-bold text-accent py-0.5 font-bold">여기에 놓으면 이 섹션에 이미지 추가</div>
         )}
 
         {/* 텍스트 영역은 접힘 상태에서도 항상 일관된 EditorPanel 로 표시됨 */}
         <EditorPanel
           title="스크립트 (ScriptEditor)"
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
-          className={collapsed ? '!mb-0 border-border/60' : 'mb-1.5'}
-          contentClassName={`px-3 ${collapsed ? 'py-1.5' : 'py-2'}`}
+          className={collapsed ? '!mb-0' : 'mb-2 shadow-xs'}
+          contentClassName={`px-3 ${collapsed ? 'py-1.5' : 'py-2.5'}`}
         >
           <EditableText value={value} onCommit={onCommit} pickMode={pickMode} onPick={onPick} highlights={highlights} onAddAnchor={onAddAnchor} />
         </EditorPanel>
@@ -193,8 +198,8 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
           <EditorPanel
             title="음성 제어판 (VoicePanel)"
             icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>}
-            className="mt-1.5"
-            contentClassName="flex items-center gap-1.5 px-3 py-2"
+            className="mt-2"
+            contentClassName="flex items-center gap-2 px-3 py-2"
           >
             <FieldAudioControls
               sectionKey={voiceInfo.sectionKey}
@@ -202,17 +207,17 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
               isPlaying={!!isPlaying}
               onTogglePlay={onTogglePlay ?? (() => {})}
             />
-            <span className="text-[11px] text-text-secondary font-mono whitespace-nowrap ml-2">{voiceInfo.sectionKey}</span>
+            <span className="text-sm font-bold text-text-secondary font-mono font-bold whitespace-nowrap ml-2">{voiceInfo.sectionKey}</span>
             {activeEngine && (
-              <span className={`text-[11px] font-mono whitespace-nowrap px-1.5 py-0.5 rounded border border-border/30 bg-bg-main ${ENGINE_COLORS[activeEngine] ?? 'text-text-secondary'}`}>
+              <span className={`text-xs font-bold font-mono font-extrabold whitespace-nowrap px-2 py-0.5 rounded border border-slate-400 bg-bg-secondary ${ENGINE_COLORS[activeEngine] ?? 'text-text-secondary'}`}>
                 {ENGINE_LABELS[activeEngine] ?? ''}
               </span>
             )}
-            {!voiceInfo.exists && <span className="text-[11px] text-red-400 whitespace-nowrap">미생성</span>}
+            {!voiceInfo.exists && <span className="text-xs font-bold text-red-700 font-extrabold whitespace-nowrap px-1.5 py-0.5 bg-red-100 border border-red-400 rounded">미생성</span>}
             <div className="flex-1"></div>
             <button
               onClick={onToggleExpand}
-              className="px-2 py-1 rounded bg-accent text-bg-primary text-[11px] font-bold hover:opacity-90 flex-none shadow-sm transition-opacity"
+              className="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white border border-purple-700 text-xs font-black shadow-sm transition-all duration-150 active:scale-[0.98] flex-none"
               title="파형 편집 모달 열기"
             >
               편집기 열기
@@ -222,7 +227,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
       </div>
 
       {!collapsed && footer && (
-        <div className="px-3 py-2">
+        <div className="px-3.5 py-2.5 border-t border-slate-300 bg-slate-50">
           {footer}
         </div>
       )}
@@ -232,8 +237,8 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
 
 export function AddFieldButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <div className="py-1 border-b border-border/30">
-      <button onClick={onClick} className="text-[11px] text-text-secondary hover:text-accent transition-colors">
+    <div className="py-1.5 border-b border-slate-300">
+      <button onClick={onClick} className="text-sm font-bold text-text-secondary hover:text-accent font-extrabold active:scale-[0.98] transition-all duration-150">
         {label}
       </button>
     </div>

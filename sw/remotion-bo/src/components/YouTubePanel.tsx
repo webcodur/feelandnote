@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
@@ -9,7 +9,7 @@ import {
 const BTN = 'px-3 py-1 rounded text-sm font-semibold'
 const BTN_PRIMARY = `bg-accent text-bg-main ${BTN} hover:bg-accent-hover`
 const BTN_SECONDARY = `bg-bg-card border border-border ${BTN} hover:bg-bg-hover`
-const TAG = 'text-[10px] px-1.5 py-0.5 rounded font-mono'
+const TAG = 'text-sm font-semibold font-bold px-1.5 py-0.5 rounded font-mono'
 
 type VariantInfo = {
   lang: 'ko' | 'en'
@@ -303,7 +303,7 @@ export function YouTubePanel({ series, name, post }: Props) {
 
   // --- 렌더링 ---
 
-  if (loading) return <div className="text-text-dim text-sm">로딩...</div>
+  if (loading) return <div className="text-text-secondary text-sm">로딩...</div>
   if (!status) return <div className="text-error-text text-sm">상태 조회 실패</div>
 
   const { auth, lineup, variants } = status
@@ -337,7 +337,7 @@ export function YouTubePanel({ series, name, post }: Props) {
       />
 
       {(!auth.ko.authenticated || !auth.en.authenticated) && (
-        <div className="text-xs text-error-text space-y-0.5">
+        <div className="text-sm font-semibold text-error-text space-y-0.5">
           {!auth.ko.authenticated && <p>KO 채널 미인증 — pnpm youtube:auth</p>}
           {!auth.en.authenticated && <p>EN 채널 미인증 — pnpm youtube:auth -- --channel en</p>}
         </div>
@@ -394,23 +394,23 @@ export function YouTubePanel({ series, name, post }: Props) {
         >
           DB 투입
         </button>
-        <label className="ml-auto flex items-center gap-1.5 text-xs text-text-secondary cursor-pointer select-none">
+        <label className="ml-auto flex items-center gap-1.5 text-sm font-semibold text-text-secondary cursor-pointer select-none">
           <input type="checkbox" checked={dryRun} onChange={e => setDryRun(e.target.checked)} className="accent-accent" />
           드라이런
         </label>
       </div>
       {uploadMsg && (
         <div className="flex items-center gap-2">
-          <p className={`text-xs ${uploadActive ? 'text-accent animate-pulse' : 'text-text-secondary'}`}>{uploadMsg}</p>
+          <p className={`text-sm font-semibold ${uploadActive ? 'text-accent animate-pulse' : 'text-text-secondary'}`}>{uploadMsg}</p>
           {uploadActive && (
-            <button onClick={handleCancelUpload} className="text-xs text-red-400 hover:text-red-300 border border-red-400/40 rounded px-1.5 py-0.5">
+            <button onClick={handleCancelUpload} className="text-sm font-semibold text-red-400 hover:text-red-300 border border-red-400/40 rounded px-1.5 py-0.5">
               중단
             </button>
           )}
         </div>
       )}
       {uploadLog && uploadLog.length > 0 && (
-        <pre className="bg-bg-main border border-border rounded p-2 text-[11px] font-mono text-text-secondary max-h-48 overflow-y-auto whitespace-pre-wrap">
+        <pre className="bg-bg-main border border-border rounded p-2 text-sm font-semibold font-bold font-mono text-text-secondary max-h-48 overflow-y-auto whitespace-pre-wrap">
           {uploadLog.join('\n')}
         </pre>
       )}
@@ -438,7 +438,7 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
     return (
       <div className="space-y-2 p-2 rounded bg-bg-main border border-accent/40">
         <div className="flex items-center gap-2 text-sm">
-          <label className="text-text-dim w-24 shrink-0">쇼츠 수식어(KO)</label>
+          <label className="text-text-secondary w-24 shrink-0">쇼츠 수식어(KO)</label>
           <input
             value={relKo}
             onChange={e => onDraftChange({ ...draft, shortsRelation: { ko: e.target.value, en: relEn } })}
@@ -447,7 +447,7 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
           />
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <label className="text-text-dim w-24 shrink-0">쇼츠 수식어(EN)</label>
+          <label className="text-text-secondary w-24 shrink-0">쇼츠 수식어(EN)</label>
           <input
             value={relEn}
             onChange={e => onDraftChange({ ...draft, shortsRelation: { ko: relKo, en: e.target.value } })}
@@ -456,8 +456,8 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
           />
         </div>
         <div className="flex gap-2">
-          <button onClick={onSave} disabled={saving} className={`${BTN_PRIMARY} text-xs ${saving ? 'opacity-50' : ''}`}>저장</button>
-          <button onClick={onCancel} className={`${BTN_SECONDARY} text-xs`}>취소</button>
+          <button onClick={onSave} disabled={saving} className={`${BTN_PRIMARY} text-sm font-semibold ${saving ? 'opacity-50' : ''}`}>저장</button>
+          <button onClick={onCancel} className={`${BTN_SECONDARY} text-sm font-semibold`}>취소</button>
         </div>
       </div>
     )
@@ -476,18 +476,18 @@ function LineupHeader({ auth, lineup, editing, draft, onEdit, onCancel, onSave, 
         </span>
         {lineup ? (
           <>
-            <button onClick={onEdit} className="text-text-dim hover:text-accent text-xs">[수정]</button>
+            <button onClick={onEdit} className="text-text-secondary hover:text-accent text-sm font-semibold">[수정]</button>
           </>
         ) : (
           <>
-            <span className="text-warning-text text-xs">편성표 미등록</span>
-            <button onClick={onEdit} className="text-accent text-xs hover:underline">[등록]</button>
+            <span className="text-warning-text text-sm font-semibold">편성표 미등록</span>
+            <button onClick={onEdit} className="text-accent text-sm font-semibold hover:underline">[등록]</button>
           </>
         )}
-        <button onClick={onRefresh} className="ml-auto text-text-dim hover:text-text-primary text-xs">새로고침</button>
+        <button onClick={onRefresh} className="ml-auto text-text-secondary hover:text-text-primary text-sm font-semibold">새로고침</button>
       </div>
       {lineup && (
-        <div className="text-xs text-text-dim space-y-0.5">
+        <div className="text-sm font-semibold text-text-secondary space-y-0.5">
           <div>쇼츠 수식어(KO): {lineup.shortsRelation?.ko ?? ''}</div>
           <div>쇼츠 수식어(EN): {lineup.shortsRelation?.en ?? ''}</div>
         </div>
@@ -525,13 +525,13 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
       <div className="flex items-center gap-3 p-2 hover:bg-bg-hover">
         <div role="button" tabIndex={0} onClick={onToggle} onKeyDown={e => e.key === 'Enter' && onToggle()}
           className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer">
-          <span className="text-text-dim text-xs w-4">{isOpen ? '▾' : '▸'}</span>
+          <span className="text-text-secondary text-sm font-semibold w-4">{isOpen ? '▾' : '▸'}</span>
           {/* 썸네일 */}
           <div className="w-12 h-8 rounded bg-bg-card overflow-hidden shrink-0 flex items-center justify-center">
             {v.thumb ? (
               <img src={`/api/${series}/youtube/thumb/${label}/${v.lang.toUpperCase()}/${v.thumb.name}`} alt="" className="w-full h-full object-cover" />
             ) : (
-              <span className="text-text-dim text-[8px]">—</span>
+              <span className="text-text-secondary text-sm font-semibold">—</span>
             )}
           </div>
           <span className={`${TAG} ${v.lang === 'ko' ? 'bg-blue-900/40 text-blue-400' : 'bg-purple-900/40 text-purple-400'}`}>
@@ -539,9 +539,9 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
           </span>
           <span className="font-semibold text-text-primary text-sm">{typeLabel}</span>
           {v.video ? (
-            <span className="text-text-dim text-xs">{formatSize(v.video.size)}</span>
+            <span className="text-text-secondary text-sm font-semibold">{formatSize(v.video.size)}</span>
           ) : (
-            <span className="text-warning-text text-xs">렌더 필요</span>
+            <span className="text-warning-text text-sm font-semibold">렌더 필요</span>
           )}
           {v.srt && <span className={`${TAG} bg-bg-card text-text-secondary`}>SRT</span>}
           {v.thumb && <span className={`${TAG} bg-bg-card text-text-secondary`}>THUMB</span>}
@@ -550,7 +550,7 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
         <button
           onClick={onUpload}
           disabled={disabled || !v.video}
-          className={`${BTN_SECONDARY} text-xs shrink-0 ${disabled || !v.video ? 'opacity-30 cursor-default' : ''}`}
+          className={`${BTN_SECONDARY} text-sm font-semibold shrink-0 ${disabled || !v.video ? 'opacity-30 cursor-default' : ''}`}
         >업로드</button>
       </div>
 
@@ -558,7 +558,7 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
       {isOpen && meta && (
         <div className="px-3 pb-3 space-y-2 border-t border-border">
           <div className="pt-2">
-            <label className="text-[10px] text-text-dim uppercase tracking-wider">제목</label>
+            <label className="text-sm font-semibold font-bold text-text-secondary uppercase tracking-wider">제목</label>
             <input
               value={meta.title}
               onChange={e => onUpdateMeta('title', e.target.value)}
@@ -566,17 +566,17 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
             />
           </div>
           <div>
-            <label className="text-[10px] text-text-dim uppercase tracking-wider">설명</label>
+            <label className="text-sm font-semibold font-bold text-text-secondary uppercase tracking-wider">설명</label>
             <textarea
               value={meta.description}
               onChange={e => onUpdateMeta('description', e.target.value)}
               rows={v.type === 'longform' ? 16 : 6}
-              className="w-full bg-bg-card border border-border rounded px-2 py-1 text-xs text-text-primary font-mono mt-0.5 leading-relaxed resize-y"
+              className="w-full bg-bg-card border border-border rounded px-2 py-1 text-sm font-semibold text-text-primary font-mono mt-0.5 leading-relaxed resize-y"
             />
           </div>
           {/* 링크 편집 */}
           <div>
-            <label className="text-[10px] text-text-dim uppercase tracking-wider">링크</label>
+            <label className="text-sm font-semibold font-bold text-text-secondary uppercase tracking-wider">링크</label>
             <div className="space-y-1 mt-1">
               {(meta.links ?? []).map((link, i) => (
                 <div key={i} className="flex items-center gap-1.5">
@@ -586,7 +586,7 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
                       const next = [...meta.links]; next[i] = { ...next[i], label: e.target.value }; onUpdateLinks(next)
                     }}
                     placeholder="라벨"
-                    className="w-32 bg-bg-card border border-border rounded px-2 py-0.5 text-xs text-text-primary"
+                    className="w-32 bg-bg-card border border-border rounded px-2 py-0.5 text-sm font-semibold text-text-primary"
                   />
                   <input
                     value={link.url}
@@ -594,21 +594,21 @@ function VariantRow({ variant: v, series, name, isOpen, meta, hasOverride, disab
                       const next = [...meta.links]; next[i] = { ...next[i], url: e.target.value }; onUpdateLinks(next)
                     }}
                     placeholder="https://..."
-                    className="flex-1 bg-bg-card border border-border rounded px-2 py-0.5 text-xs text-text-primary font-mono"
+                    className="flex-1 bg-bg-card border border-border rounded px-2 py-0.5 text-sm font-semibold text-text-primary font-mono"
                   />
                   <button onClick={() => { const next = meta.links.filter((_, j) => j !== i); onUpdateLinks(next) }}
-                    className="text-red-400 text-xs hover:text-red-300 shrink-0 px-1">✕</button>
+                    className="text-red-400 text-sm font-semibold hover:text-red-300 shrink-0 px-1">✕</button>
                 </div>
               ))}
               <button
                 onClick={() => onUpdateLinks([...(meta.links ?? []), { label: '', url: '' }])}
-                className="text-accent text-xs hover:underline">
+                className="text-accent text-sm font-semibold hover:underline">
                 + 링크 추가
               </button>
             </div>
           </div>
           <div className="flex justify-end">
-            <button onClick={onReset} className={`${BTN_SECONDARY} text-xs`}>기본값 복원</button>
+            <button onClick={onReset} className={`${BTN_SECONDARY} text-sm font-semibold`}>기본값 복원</button>
           </div>
         </div>
       )}

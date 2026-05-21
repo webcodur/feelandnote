@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import type { Speaker } from './SpeakerPanel'
 import { SpeakerPicker } from './SpeakerPicker'
@@ -26,7 +26,7 @@ export function RowSpeakerSelect({ value, onChange, speakers, name, label = '화
   return (
     <div className="grid grid-cols-[100px_1fr] gap-2 pb-1.5">
       <div />
-      <div className="flex items-center gap-2 px-2 py-1 rounded bg-bg-card/40 border border-border/30 text-[11px]">
+      <div className="flex items-center gap-2 px-2 py-1 rounded bg-bg-card/40 border border-border text-sm font-bold">
         <span className="text-text-secondary">{label}</span>
         <SpeakerPicker value={value} onChange={onChange} speakers={speakers} name={name} />
         {noExtras && <span className="text-text-dim italic">추가 화자는 상단 화자 설정에서 등록</span>}

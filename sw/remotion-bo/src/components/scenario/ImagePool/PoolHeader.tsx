@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { POOL_STYLES, type ViewMode } from './constants'
 
@@ -19,12 +19,12 @@ export function PoolHeader({
   onRefresh?: () => void
 }) {
   return (
-    <div className="flex items-center justify-between gap-2 text-[11px] text-text-secondary font-semibold uppercase tracking-wide">
+    <div className="flex items-center justify-between gap-2 text-sm font-bold text-text-secondary font-semibold uppercase tracking-wide">
       <span className="flex items-center gap-1">
         <button
           onClick={onCollapse}
           title="이미지 풀 접기"
-          className="text-[12px] text-text-secondary hover:text-accent mr-1"
+          className="text-sm font-black text-text-secondary hover:text-accent mr-1"
         >▶</button>
         <span className="text-text-primary">ImagePool</span>
         <span className="text-text-secondary normal-case font-normal ml-1">미디어 {scopedCount}개</span>
@@ -33,12 +33,12 @@ export function PoolHeader({
           · used {usedCount} / unused {scopedCount - usedCount}
         </span>
         {onOpenFolder && (
-          <button onClick={onOpenFolder} className="text-[11px] text-accent hover:text-accent-hover normal-case font-normal ml-1" title="이미지 폴더 열기">
+          <button onClick={onOpenFolder} className="text-sm font-bold text-accent hover:text-accent-hover normal-case font-normal ml-1" title="이미지 폴더 열기">
             📂
           </button>
         )}
         {onRefresh && (
-          <button onClick={onRefresh} className="text-[11px] text-accent hover:text-accent-hover normal-case font-normal ml-1" title="디스크에서 다시 불러오기">
+          <button onClick={onRefresh} className="text-sm font-bold text-accent hover:text-accent-hover normal-case font-normal ml-1" title="디스크에서 다시 불러오기">
             ↻
           </button>
         )}
@@ -69,7 +69,7 @@ export function CollapsedPool({ count, onExpand }: { count: number; onExpand: ()
         className="w-full h-full flex flex-col items-center justify-start gap-2 py-2 text-text-secondary hover:text-accent hover:bg-bg-hover transition-colors"
       >
         <span className="text-[14px]">◀</span>
-        <span className="[writing-mode:vertical-rl] text-[11px] tracking-widest">미디어 {count}개</span>
+        <span className="[writing-mode:vertical-rl] text-sm font-bold tracking-widest">미디어 {count}개</span>
       </button>
     </div>
   )

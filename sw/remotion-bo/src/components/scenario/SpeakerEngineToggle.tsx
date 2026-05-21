@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import type { SpeakerEngine } from './SpeakerPanel'
 
@@ -32,7 +32,7 @@ export function SpeakerEngineToggle({
       type="button"
       onClick={() => onChange(eng)}
       title={t[eng]}
-      className={`px-2 py-1 text-[11px] font-bold cursor-pointer ${engine === eng ? ACTIVE_CLS[eng] : 'text-text-dim hover:text-text-secondary'}`}
+      className={`px-2 py-1 text-sm font-bold font-bold cursor-pointer ${engine === eng ? ACTIVE_CLS[eng] : 'text-text-dim hover:text-text-secondary'}`}
     >{label}</button>
   )
   return (

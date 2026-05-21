@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { PLAYBACK_RATES, usePlaybackRate } from './usePlaybackRate'
 
@@ -14,7 +14,7 @@ export function PlaybackRateControl() {
   const isOff = rate === 1
 
   return (
-    <div className="flex items-center gap-1 text-[11px] text-text-secondary ml-2 pl-3 border-l border-border/50">
+    <div className="flex items-center gap-1 text-sm font-bold text-text-secondary ml-2 pl-3 border-l border-border/50">
       <span className="font-bold text-text-primary mr-1">재생속도</span>
       {PLAYBACK_RATES.map(r => {
         const active = r === rate
@@ -23,7 +23,7 @@ export function PlaybackRateControl() {
             key={r}
             type="button"
             onClick={() => setRate(r)}
-            className={`px-1.5 py-0.5 rounded text-[11px] tabular-nums border cursor-pointer transition-colors ${
+            className={`px-1.5 py-0.5 rounded text-sm font-bold tabular-nums border cursor-pointer transition-colors ${
               active
                 ? 'border-accent text-accent bg-accent/10 font-semibold'
                 : 'border-border/40 text-text-secondary hover:border-accent/40 hover:text-accent'

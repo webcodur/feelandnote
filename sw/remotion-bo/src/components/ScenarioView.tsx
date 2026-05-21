@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -30,12 +30,12 @@ function CollapseAllBar() {
     <div className="flex items-center gap-2 text-[11px] text-text-secondary">
       <button
         onClick={ctx.expandAll}
-        className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+        className="px-2 py-0.5 text-[11px] border border-border/60 rounded hover:border-accent/40 hover:text-accent transition-colors"
         title="모든 행을 펼친다"
       >▼ 전부 펼치기</button>
       <button
         onClick={ctx.collapseAll}
-        className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+        className="px-2 py-0.5 text-[11px] border border-border/60 rounded hover:border-accent/40 hover:text-accent transition-colors"
         title="모든 행을 접는다"
       >▶ 전부 접기</button>
     </div>
@@ -323,29 +323,29 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         reloadSignal={pipelineReloadSignal}
       />
 
-      {/* 도구 영역 — 접기 · 배속 · 섹션 카운트 · 이미지 동기화 한 줄에 통합 */}
-      <div className="mb-2 rounded border border-border/40 bg-bg-card/30 flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-1.5 text-[11px] text-text-secondary">
+      {/* 도구 영역 — 접기 · 배속 · 섹션 카운트 · 이미지 동기화 한 줄에 통합 (선명한 프리미엄 Solid 화) */}
+      <div className="mb-2 rounded border border-border/70 bg-bg-card flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-1.5 text-[11px] text-text-secondary shadow-xs">
         <CollapseAllBar />
         <PlaybackRateControl />
         <div className="ml-auto flex items-center gap-2">
           <span>{sectionMap.size}개 섹션 · {voiceFiles.length}개 음성</span>
           <button
             onClick={() => setMaterialOpen(true)}
-            className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+            className="px-2 py-0.5 text-[11px] border border-border/60 rounded hover:border-accent/40 hover:text-accent transition-colors bg-bg-main/30"
             title="책 폴더의 「재료.txt」 (작가가 정리한 원자료) 보기"
           >
             재료 메모
           </button>
           <button
             onClick={() => setTtsReplaceOpen(true)}
-            className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+            className="px-2 py-0.5 text-[11px] border border-border/60 rounded hover:border-accent/40 hover:text-accent transition-colors bg-bg-main/30"
             title="본문 → TTS 송신 시 적용되는 치환 사전 편집 (episode.tts.replace)"
           >
             TTS 치환
           </button>
           <button
             onClick={syncImages}
-            className="px-2 py-0.5 text-[11px] border border-border/40 rounded hover:border-accent/40 hover:text-accent transition-colors"
+            className="px-2 py-0.5 text-[11px] border border-border/60 rounded hover:border-accent/40 hover:text-accent transition-colors bg-bg-main/30"
             title={isEn ? 'ko에서 이미지 가져오기' : 'en으로 이미지 동기화'}
           >
             {isEn ? 'ko→en 이미지' : '→en 이미지 동기화'}

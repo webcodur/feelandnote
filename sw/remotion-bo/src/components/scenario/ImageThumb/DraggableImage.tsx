@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { stripExt, parseImagePrefix, stripImagePrefix, isVideoFile } from '../utils'
@@ -29,13 +29,13 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete, onLoc
         else { e.dataTransfer.setData('text/plain', fileName); e.dataTransfer.effectAllowed = 'copy' }
       }}
       className={`group/pool rounded overflow-hidden border cursor-grab active:cursor-grabbing hover:border-accent/50 relative ${
-        selected ? 'border-accent ring-1 ring-accent/40' : 'border-border/30'
+        selected ? 'border-accent ring-1 ring-accent/40' : 'border-border'
       }`}
     >
       {onToggleSelect && (
         <button
           onClick={e => { e.stopPropagation(); onToggleSelect() }}
-          className={`absolute top-0.5 left-0.5 z-10 w-4 h-4 flex items-center justify-center rounded border text-[11px] font-bold ${
+          className={`absolute top-0.5 left-0.5 z-10 w-4 h-4 flex items-center justify-center rounded border text-sm font-bold font-bold ${
             selected ? 'bg-accent border-accent text-white' : 'bg-black/60 border-white/40 text-transparent hover:text-white/60'
           }`}
           title={selected ? '선택 해제' : '선택'}
@@ -43,12 +43,12 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete, onLoc
       )}
       <div className="aspect-[16/10] bg-bg-main relative">
         {err ? (
-          <div className="w-full h-full flex items-center justify-center text-[11px] text-text-secondary">{stripExt(fileName)}</div>
+          <div className="w-full h-full flex items-center justify-center text-sm font-bold text-text-secondary">{stripExt(fileName)}</div>
         ) : (
           <MediaThumb fileName={fileName} imageBaseUrl={imageBaseUrl} className="w-full h-full object-cover" onError={() => setErr(true)} />
         )}
         {isVideoFile(fileName) && (
-          <span className="absolute bottom-0.5 left-0.5 px-1 py-px text-[11px] font-semibold rounded bg-black/70 text-white">▶</span>
+          <span className="absolute bottom-0.5 left-0.5 px-1 py-px text-sm font-bold font-semibold rounded bg-black/70 text-white">▶</span>
         )}
         {used && <span className={USED_BADGE_ABS}>used</span>}
         <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5">
@@ -68,12 +68,12 @@ export function DraggableImage({ fileName, imageBaseUrl, onDrop, onDelete, onLoc
         </div>
       </div>
       <div className="flex items-center justify-between px-1 py-0.5 gap-0.5">
-        {(() => { const p = parseImagePrefix(fileName); return p ? <span className="text-[11px] font-mono bg-accent/20 text-accent px-0.5 rounded shrink-0">{p.bookNum}-{p.fieldCode}</span> : null })()}
-        <span className="text-[11px] text-text-secondary truncate">{stripExt(stripImagePrefix(fileName))}</span>
-        <button onClick={onDrop} className="text-[11px] text-accent hover:underline shrink-0">추가</button>
+        {(() => { const p = parseImagePrefix(fileName); return p ? <span className="text-sm font-bold font-mono bg-accent/20 text-accent px-0.5 rounded shrink-0">{p.bookNum}-{p.fieldCode}</span> : null })()}
+        <span className="text-sm font-bold text-text-secondary truncate">{stripExt(stripImagePrefix(fileName))}</span>
+        <button onClick={onDrop} className="text-sm font-bold text-accent hover:underline shrink-0">추가</button>
       </div>
       {crossLabels && crossLabels.length > 0 && (
-        <div className="px-1 pb-0.5 text-[11px] text-blue-400/70 leading-tight space-y-px" title={crossLabels.join('\n')}>
+        <div className="px-1 pb-0.5 text-sm font-bold text-blue-400/70 leading-tight space-y-px" title={crossLabels.join('\n')}>
           {crossLabels.map((l, i) => <div key={i} className="truncate">{l}</div>)}
         </div>
       )}

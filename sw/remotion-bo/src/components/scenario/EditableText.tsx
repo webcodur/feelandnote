@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
 import { splitHighlights } from './utils'
@@ -8,14 +8,14 @@ import { splitHighlights } from './utils'
  *
  * 본 서비스(`sw/web` FormattedText) 규칙:
  *   "…"                    → accent 톤(쌍따옴표 강조)
- *   『…』 《…》             → 흰색 굵게(작품·매체 큰 단위)
+ *   『…』 《…》             → 굵게(작품·매체 큰 단위)
  *   「…」 〈…〉 <…> '…'    → accent + 본문체(소단위 강조)
  *
- * 두 모드:
- *   - viewMode (편집기 비포커스): 부호 부분 글자 색·배경을 모두 칠해 강조. 일반 글자는 본 색 그대로.
- *   - editMode (편집기 포커스): 오버레이는 부호 부분에 배경 띠만 약하게. 글자는 textarea 가 담당해 IME 안전.
+ * 이 오버레이는 텍스트 자체를 100% 투명(text-transparent)하게 그리며,
+ * 오직 강조 부호 영역의 '배경 띠'와 '테두리 뱃지'만 렌더링하여 textarea 글씨 위에 비춰 줍니다.
+ * 이를 통해 클릭 시(포커스 전환 시) 글자색이 투명<->불투명으로 교차하며 발생하던 깜빡임(Flicker) 버그를 원천 차단합니다.
  */
-function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode[] {
+function renderEmphasisOverlay(text: string): React.ReactNode[] {
   if (!text) return []
   const parts = text.split(/(".*?"|(?<!\w)'[^'\n]*'(?!\w)|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g)
   return parts.map((part, i) => {
@@ -34,7 +34,7 @@ function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode
       return (
         <mark
           key={i}
-          className={`rounded-sm px-0.5 bg-amber-500/15 ${viewMode ? 'text-amber-300' : 'text-transparent'}`}
+          className="rounded px-1 py-0.5 mx-0.5 bg-amber-500/15 border border-amber-400/40 font-bold text-[14.5px] text-transparent"
         >{part}</mark>
       )
     }
@@ -42,7 +42,7 @@ function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode
       return (
         <mark
           key={i}
-          className={`rounded-sm px-0.5 font-bold bg-amber-500/20 ${viewMode ? 'text-amber-200' : 'text-transparent'}`}
+          className="rounded px-1 py-0.5 mx-0.5 font-bold bg-amber-500/20 border border-amber-400/50 text-[14.5px] text-transparent"
         >{part}</mark>
       )
     }
@@ -50,14 +50,13 @@ function renderEmphasisOverlay(text: string, viewMode: boolean): React.ReactNode
       return (
         <mark
           key={i}
-          className={`rounded-sm px-0.5 font-serif bg-amber-500/12 ${viewMode ? 'text-amber-300' : 'text-transparent'}`}
+          className="rounded px-1 py-0.5 mx-0.5 font-serif bg-amber-500/10 border border-amber-400/30 text-[14.5px] text-transparent"
         >{part}</mark>
       )
     }
-    // 일반 텍스트 — viewMode 면 오버레이가 본 글자를 그린다(textarea 는 글자 투명).
-    // 편집 모드(focused)면 textarea 가 본 글자를 담당하니 오버레이는 투명.
+    
     return (
-      <span key={i} className={viewMode ? 'text-text-primary' : 'text-transparent'}>
+      <span key={i} className="text-transparent">
         {part.split('\n').map((line, j, arr) => (
           <React.Fragment key={j}>{line}{j < arr.length - 1 && <br />}</React.Fragment>
         ))}
@@ -105,12 +104,10 @@ export function EditableText({
   const activeHighlights = highlights?.filter(h => h && (draft ?? '').includes(h)) ?? []
   const hasHighlights = activeHighlights.length > 0
   const display = draft ?? ''
-  // 비포커스 상태에서만 부호 부분의 글자 색·배경을 모두 강조. 포커스 시는 textarea 글자가 우선이라 색 충돌 방지.
-  const viewMode = !focused && !pickMode
 
   return (
     <div className="relative">
-      {/* 오버레이 — 부호 부분에 강조 색/배경. 일반 글자는 투명이라 textarea 본문이 그대로 노출. */}
+      {/* 오버레이 — 글자 자체는 100% 투명하며, 오직 둥근 배경 뱃지와 테두리만 textarea 뒤에 비쳐 정밀 강조합니다. */}
       <div
         aria-hidden
         className="absolute inset-0 py-1 text-[15px] leading-7 tracking-[-0.005em] pointer-events-none whitespace-pre-wrap break-words"
@@ -118,10 +115,10 @@ export function EditableText({
         {hasHighlights
           ? splitHighlights(display, activeHighlights).map((seg, j) =>
               seg.highlight
-                ? <mark key={j} className="bg-amber-500/25 rounded-sm text-transparent">{renderEmphasisOverlay(seg.text, viewMode)}</mark>
-                : <React.Fragment key={j}>{renderEmphasisOverlay(seg.text, viewMode)}</React.Fragment>
+                ? <mark key={j} className="bg-amber-500/15 rounded border border-amber-400/40 text-transparent">{renderEmphasisOverlay(seg.text)}</mark>
+                : <React.Fragment key={j}>{renderEmphasisOverlay(seg.text)}</React.Fragment>
             )
-          : renderEmphasisOverlay(display, viewMode)}
+          : renderEmphasisOverlay(display)}
       </div>
       <textarea
         ref={ref}
@@ -132,19 +129,16 @@ export function EditableText({
         onMouseUp={handleMouseUp}
         readOnly={pickMode}
         rows={1}
-        className={`relative w-full text-[15px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/30 selection:text-text-primary ${
-          // viewMode(비포커스·비픽모드) 면 글자 투명 — 오버레이가 색으로 그린다. 편집·픽모드는 정상 색.
-          viewMode ? 'text-transparent' : 'text-text-primary'
-        } ${
+        className={`relative w-full text-[15px] font-medium leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/20 selection:text-text-primary text-text-primary ${
           pickMode
-            ? 'border-amber-500/60 cursor-text select-text bg-amber-500/5'
-            : 'border-transparent hover:border-border/70 focus:border-accent focus:border-b-2'
+            ? 'border-amber-400 cursor-text select-text bg-amber-50/50'
+            : 'border-transparent hover:border-border/70 focus:border-accent/80 focus:border-b-2'
         } py-1`}
       />
       {onAddAnchor && selectedText && (
         <button
           onMouseDown={e => { e.preventDefault(); onAddAnchor(selectedText); setSelectedText('') }}
-          className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 text-[10px] rounded bg-amber-500/15 border border-amber-500/30 text-amber-400 hover:bg-amber-500/25 transition-colors"
+          className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 text-xs font-bold rounded bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100 transition-colors"
         >
           <span>+</span> 앵커 &ldquo;{selectedText.length > 20 ? selectedText.slice(0, 20) + '…' : selectedText}&rdquo;
         </button>
