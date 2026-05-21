@@ -9,6 +9,7 @@
     "./constants/explore-presets": "./src/constants/explore-presets.ts",
     "./lib/countries": "./src/lib/countries.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
+    "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts"
   },

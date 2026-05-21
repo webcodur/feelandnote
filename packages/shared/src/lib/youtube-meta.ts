@@ -5,6 +5,8 @@
  * 단일원천(SSoT)으로, 이 파일 외에 YouTube 메타 생성 로직을 두지 않는다.
  */
 
+import { isThreeKingdomsMember, THREE_KINGDOMS_LABEL } from './three-kingdoms'
+
 // ─── 타입 ──────────────────────────────────────────────
 
 export type UploadRecord = { videoId: string; uploadedAt: string }
@@ -144,9 +146,11 @@ export function buildTags(
   isShorts: boolean,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _shortsIndex?: number,
+  celebSlug?: string,
 ): string[] {
   // 현재 태그 로직은 shortsIndex와 무관하다. 향후 인덱스별 태그 분기를 위한 자리표시.
   const name = celebName.replace(/\s/g, '')
+  const isThreeKingdoms = isThreeKingdomsMember(celebSlug)
   if (lang === 'ko') {
     const tags = [
       '서재탐방', name, celebName,
@@ -156,6 +160,7 @@ export function buildTags(
       'FeelAndNote', '필앤노트',
     ]
     if (isShorts) tags.push('Shorts')
+    if (isThreeKingdoms) tags.push(THREE_KINGDOMS_LABEL.ko, '삼국지인물')
     return tags
   }
   const tags = [
@@ -166,6 +171,7 @@ export function buildTags(
     'GreatMinds', 'FeelAndNote',
   ]
   if (isShorts) tags.push('Shorts')
+  if (isThreeKingdoms) tags.push(THREE_KINGDOMS_LABEL.en, 'RomanceOfTheThreeKingdoms')
   return tags
 }
 
@@ -214,6 +220,10 @@ export function buildDescription(
       : `${celebName} Profile — https://feelandnote.com/en/celeb/${celebSlug}`
     : undefined
 
+  const isThreeKingdoms = isThreeKingdomsMember(celebSlug)
+  const tkHashtagKo = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.ko}` : ''
+  const tkHashtagEn = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.en}` : ''
+
   if (isShorts) {
     // 쇼츠: featured 책 한 권만 표시 (전체 책 목록은 롱폼 영상에서 다룸)
     const idx = featuredBookIndex ?? 0
@@ -232,8 +242,8 @@ export function buildDescription(
     base.push(
       '',
       lang === 'ko'
-        ? `#Shorts #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천`
-        : `#Shorts #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation`,
+        ? `#Shorts #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`
+        : `#Shorts #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`,
       '',
     )
     if (celebProfileLine) base.push(celebProfileLine)
@@ -241,29 +251,40 @@ export function buildDescription(
     return base.join('\n')
   }
 
-  // 롱폼: 트랙리스트 제거 — 타임라인에 이미 책 정보가 노출되어 있다.
+  // 롱폼: 수록 도서 목록 + 타임라인 — 시청자가 한눈에 무슨 책이 다뤄지는지 알 수 있도록 명시.
+  const trackList = books.map(b => {
+    const year = b.stats?.publishYear ? ` (${b.stats.publishYear})` : ''
+    return `${b.title} — ${b.creator}${year}`
+  })
+
   if (lang === 'ko') {
     const lines = [`${celebName}${subjectMarker(celebName)} 읽은 ${books.length}권의 책을 소개합니다.`, '']
+    if (trackList.length) {
+      lines.push('📚 수록 도서', ...trackList, '')
+    }
     if (chapters?.length) {
-      lines.push('📚 타임라인', ...chapters.map(c => `${c.time} ${c.label}`), '')
+      lines.push('⏱ 타임라인', ...chapters.map(c => `${c.time} ${c.label}`), '')
     }
     lines.push('🔗 링크')
     if (celebProfileLine) lines.push(celebProfileLine)
     lines.push('Feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
-    lines.push('', `#서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천`)
+    lines.push('', `#서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
     return lines.join('\n')
   }
 
   const lines = [`Discover the ${books.length} books that ${celebName} read.`, '']
+  if (trackList.length) {
+    lines.push('📚 Featured Books', ...trackList, '')
+  }
   if (chapters?.length) {
-    lines.push('📚 Timeline', ...chapters.map(c => `${c.time} ${c.label}`), '')
+    lines.push('⏱ Timeline', ...chapters.map(c => `${c.time} ${c.label}`), '')
   }
   lines.push('🔗 Links')
   if (celebProfileLine) lines.push(celebProfileLine)
   lines.push('Feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
-  lines.push('', `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation`)
+  lines.push('', `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
   return lines.join('\n')
 }
 
@@ -306,11 +327,51 @@ function fmtTime(frames: number): string {
   return `${m}:${ss.toString().padStart(2, '0')}`
 }
 
+/**
+ * 타임라인 계산 입력 검증.
+ *
+ * narrator/host 음성 길이 또는 책별 길이가 누락되면 NaN 타임코드가 조용히
+ * 생성돼 그대로 캐시·업로드되는 사고가 발생한다(2026-05 빈센트 반 고흐 사례).
+ * 누락은 즉시 에러로 차단해 호출 측이 타이밍 미완 상태에서 description 을
+ * 캐시하지 못하게 한다.
+ */
+function validateChapterInput(
+  n: EpisodeForChapters['narrator'],
+  h: EpisodeForChapters['host'],
+  books: BookForDesc[],
+): void {
+  const missing: string[] = []
+  const requireNum = (label: string, v: unknown) => {
+    if (typeof v !== 'number' || !Number.isFinite(v)) missing.push(label)
+  }
+  if (!n) missing.push('narrator')
+  else {
+    requireNum('narrator.serviceGreetingDuration', n.serviceGreetingDuration)
+    requireNum('narrator.serviceIntroDuration', n.serviceIntroDuration)
+  }
+  if (!h) missing.push('host')
+  else {
+    requireNum('host.voiceDuration', h.voiceDuration)
+  }
+  books.forEach((b, i) => {
+    const tag = `books[${i}] (${b?.title ?? '?'})`
+    requireNum(`${tag}.titleDuration`, b?.titleDuration)
+    requireNum(`${tag}.summaryDuration`, b?.summaryDuration)
+    requireNum(`${tag}.contextDuration`, b?.contextDuration)
+  })
+  if (missing.length > 0) {
+    throw new Error(
+      `calcChapterTimestamps: 타이밍 누락으로 NaN 타임코드 생성 차단. 누락 항목:\n  - ${missing.join('\n  - ')}`,
+    )
+  }
+}
+
 export function calcChapterTimestamps(
   ep: EpisodeForChapters,
   lang: 'ko' | 'en' = 'ko',
 ): { time: string; label: string }[] {
   const { narrator: n, host: h, books } = ep
+  validateChapterInput(n, h, books)
   const intro = lang === 'ko' ? '인트로' : 'Intro'
   const chapters: { time: string; label: string }[] = [{ time: '0:00', label: intro }]
 
