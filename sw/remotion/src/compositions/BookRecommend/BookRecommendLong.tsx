@@ -2,7 +2,7 @@ import React from 'react'
 import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, Series, staticFile, useCurrentFrame } from 'remotion'
 import { freshAvatarUrl } from '../../lib/avatar'
 import type { BookRecommendScript } from './types'
-import { sf, fadeInOut, BrandLogo, makeVf, useIsPortrait, safeImg } from './utils'
+import { sf, fadeInOut, BrandLogo, makeVf, useIsPortrait, safeImg, dbToLinear } from './utils'
 import { DARK, DARK_BG } from '../theme'
 import { BrandIntro } from './sections/BrandIntro'
 import { HostIntro } from './sections/HostIntro'
@@ -14,7 +14,7 @@ import { Overlay } from './sections/Overlay'
 import {
   toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
-  BOOK_GAP, RECAP_FRAMES, LOGO_FRAMES, f,
+  BOOK_GAP, RECAP_FRAMES, LOGO_FRAMES, FPS, f,
 } from './timing'
 import { EPISODE_NAME, loadVoiceSelect, isVoiceReady } from './script'
 import { useTimeline } from './useTimeline'
@@ -27,6 +27,10 @@ import { PortraitSubtitles } from './sections/PortraitSubtitles'
 import { PromptPanel } from './studio/PromptPanel'
 import { SubEditor } from './studio/SubEditor'
 import { BgmAudio, BgmToggle } from './BgmAudio'
+import { SfxAudioLayer } from './sections/SfxAudioLayer'
+import { buildSfxRenderItems } from './sfx-build'
+import { collectLongformSections } from './longform-sfx'
+import { episodeDir } from './script'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
@@ -58,6 +62,20 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
   const tl = useTimeline(script)
 
   usePrefetch(script, vf, hasVoice, tl.cont)
+
+  // 사용자 지정 SFX — 모든 음성 행을 SfxSection으로 모아 렌더용 큐로 변환.
+  // 에피소드 soundeffect/ 폴더 기준 상대 경로(또는 'episodes/...' 절대 경로) 모두 지원.
+  const sfxItems = React.useMemo(() => {
+    const person = epName.replace(/-en$/, '').replace(/-\d+(-en)?$/, '')
+    const dir = episodeDir[epName] ?? episodeDir[person] ?? person
+    const sfxBase = `episodes/${dir}/soundeffect`
+    return buildSfxRenderItems({
+      sections: collectLongformSections(script, tl),
+      voiceTimings: script.voiceTimings,
+      fps: FPS,
+      resolveSrc: file => file.startsWith('episodes/') ? sf(file) : sf(`${sfxBase}/${file}`),
+    })
+  }, [script, tl, epName])
 
   // 배경
   const vignetteOpacity = interpolate(frame, [0, f(1)], [1, 0.6], { extrapolateRight: 'clamp' })
@@ -95,7 +113,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* ===== Continuation: ReturnIntro + PrevRecap ===== */}
       {tl.cont && tl.returnIntroFrames > 0 && (
         <Sequence from={tl.returnIntroStart} durationInFrames={tl.returnIntroFrames}>
-          {hasVoice && (narrator.returnIntroDuration ?? 0) > 0 && <Audio src={vf(VN_RETURN_INTRO)} />}
+          {hasVoice && (narrator.returnIntroDuration ?? 0) > 0 && <Audio src={vf(VN_RETURN_INTRO)} volume={dbToLinear(narrator.returnIntroGainDb)} />}
           {(() => {
             const local = frame - tl.returnIntroStart
             const op = local >= 0 && local < tl.returnIntroFrames
@@ -122,7 +140,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       )}
       {tl.cont && tl.prevRecapFrames > 0 && (
         <Sequence from={tl.prevRecapStart} durationInFrames={tl.prevRecapFrames}>
-          {hasVoice && (narrator.prevRecapDuration ?? 0) > 0 && <Audio src={vf(VN_PREV_RECAP)} />}
+          {hasVoice && (narrator.prevRecapDuration ?? 0) > 0 && <Audio src={vf(VN_PREV_RECAP)} volume={dbToLinear(narrator.prevRecapGainDb)} />}
           {(() => {
             const local = frame - tl.prevRecapStart
             const op = local >= 0 && local < tl.prevRecapFrames
@@ -145,18 +163,18 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* 서비스 오디오 */}
       {!tl.cont && hasVoice && tl.svcGreetingFrames > 0 && (
         <Sequence from={tl.svcGreetingStart} durationInFrames={tl.svcGreetingFrames}>
-          <Audio src={vf(VN_SERVICE_GREETING)} />
+          <Audio src={vf(VN_SERVICE_GREETING)} volume={dbToLinear(narrator.serviceGreetingGainDb)} />
         </Sequence>
       )}
       {!tl.cont && hasVoice && tl.svcIntroFrames > 0 && (
         <Sequence from={tl.svcIntroStart} durationInFrames={tl.svcIntroFrames}>
-          <Audio src={vf(VN_SERVICE_INTRO)} />
+          <Audio src={vf(VN_SERVICE_INTRO)} volume={dbToLinear(narrator.serviceIntroGainDb)} />
         </Sequence>
       )}
       {hasVoice && tl.fQuoteFrames > 0 && (
         <Sequence from={tl.fQuoteStart} durationInFrames={tl.fQuoteFrames}>
           <Sequence from={f(1)} durationInFrames={tl.fQuoteFrames}>
-            <Audio src={vf(VN_FEATURED_QUOTE)} />
+            <Audio src={vf(VN_FEATURED_QUOTE)} volume={dbToLinear(host.featuredQuoteGainDb)} />
           </Sequence>
         </Sequence>
       )}
@@ -172,6 +190,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         books={books}
         locale={script.locale}
         fQuoteAudioSrc={hasVoice && tl.fQuoteFrames > 0 ? vf(VN_FEATURED_QUOTE) : undefined}
+        fQuoteTimings={script.voiceTimings?.[vnTimingKey(VN_FEATURED_QUOTE)]}
       />}
 
       {/* 인물 소개 + 감상철학 (Part 1) */}
@@ -181,13 +200,13 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             {hasVoice && <Audio src={sf('common/sfx/type-reveal.wav')} volume={0.7} />}
             {hasVoice && (narrator.celebIntroDuration ?? 0) > 0 && (
               <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={tl.celebIntroFrames - CELEB_VISUAL_DELAY}>
-                <Audio src={vf(VN_CELEB_INTRO)} />
+                <Audio src={vf(VN_CELEB_INTRO)} volume={dbToLinear(narrator.celebIntroGainDb)} />
               </Sequence>
             )}
           </Sequence>
           {hasVoice && tl.philosophyFrames > 0 && (
             <Sequence from={tl.celebIntroFrames + f(1)} durationInFrames={tl.philosophyFrames}>
-              <Audio src={vf(VN_PHILOSOPHY)} />
+              <Audio src={vf(VN_PHILOSOPHY)} volume={dbToLinear(host.philosophyGainDb)} />
             </Sequence>
           )}
           <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={tl.philosophyFrames > 0 ? (host.voiceDuration ?? 0) : 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} philosophyAudioSrc={hasVoice && tl.philosophyFrames > 0 ? vf(VN_PHILOSOPHY) : undefined} locale={script.locale} />
@@ -230,7 +249,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               )}
               {hasVoice && narrator.interludeDuration && narrator.interludeDuration > 0 && (
                 <Sequence from={f(0.67)} durationInFrames={tl.interludeFrames - f(0.67)}>
-                  <Audio src={vf(VN_INTERLUDE)} />
+                  <Audio src={vf(VN_INTERLUDE)} volume={dbToLinear(narrator.interludeGainDb)} />
                 </Sequence>
               )}
             </Sequence>
@@ -272,33 +291,33 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               {hasVoice && (
                 <Series>
                   <Series.Sequence durationInFrames={bt.titleFrames}>
-                    <Audio src={vf(vnBookTitle(i))} />
+                    <Audio src={vf(vnBookTitle(i))} volume={dbToLinear(book.titleGainDb)} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.TITLE_SUMMARY_GAP_F} durationInFrames={tl.LABEL_SUMMARY_F}>
                     <Audio src={vf(VN_LABEL_SUMMARY)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.summaryFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.25} />
-                    <Audio src={vf(vnBookSummary(i))} />
+                    <Audio src={vf(vnBookSummary(i))} volume={dbToLinear(book.summaryGainDb)} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.SUMMARY_CONTEXT_GAP_F} durationInFrames={tl.LABEL_CONTEXT_F}>
                     <Audio src={vf(VN_LABEL_CONTEXT)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.contextFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.2} />
-                    <Audio src={vf(vnBookContext(i))} />
+                    <Audio src={vf(vnBookContext(i))} volume={dbToLinear(book.contextMainGainDb)} />
                   </Series.Sequence>
                   {bt.quotePairTimings.map((pt, pi) => (
                     <React.Fragment key={`qp-${pi}`}>
                       {pt.hasQuote && pt.quoteFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i, pi))] && (
                         <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={pt.quoteFrames}>
                           <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
-                          <Audio src={vf(vnBookQuote(i, pi))} />
+                          <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} />
                         </Series.Sequence>
                       )}
                       {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi))] && (
                         <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={pt.afterFrames}>
-                          <Audio src={vf(vnBookAfter(i, pi))} />
+                          <Audio src={vf(vnBookAfter(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} />
                         </Series.Sequence>
                       )}
                     </React.Fragment>
@@ -365,7 +384,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         return (
           <>
             <Sequence from={tl.outroStart} durationInFrames={tl.outroFrames}>
-              {hasVoice && narrator.outroDuration > 0 && <Audio src={vf(VN_OUTRO)} />}
+              {hasVoice && narrator.outroDuration > 0 && <Audio src={vf(VN_OUTRO)} volume={dbToLinear(narrator.outroGainDb)} />}
             </Sequence>
             <Sequence from={logoStart} durationInFrames={LOGO_FRAMES}>
               {hasVoice && <Audio src={sf('common/sfx/chime.wav')} volume={0.5} />}
@@ -654,6 +673,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         />
       )}
       <BgmToggle hasBgm={books.some(b => b.bgm?.summary || b.bgm?.context)} />
+
+      {/* 사용자 지정 SFX — 모든 음성 행에서 모아 단발 재생 (페이드인/아웃, 길이 제한 지원) */}
+      {hasVoice && <SfxAudioLayer items={sfxItems} />}
     </AbsoluteFill>
   )
 }

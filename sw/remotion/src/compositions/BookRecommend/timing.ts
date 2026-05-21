@@ -148,8 +148,19 @@ export const SHORT_BRAND_FRAMES = f(2.5)   // 150
 export const SHORT_LOGO_FRAMES = f(3)      // 180
 /** 로고 프레임 (BGM 있을 때 — 느린 페이드아웃) */
 export const SHORT_LOGO_FRAMES_BGM = f(5)  // 300
+/** 로고 길이 사용자 지정 클램프 범위(초) */
+export const SHORT_LOGO_MIN_SEC = 0.5
+export const SHORT_LOGO_MAX_SEC = 10
+/** 사용자 지정값(초) → 프레임. 미지정 시 BGM 유무로 폴백. */
+export function resolveShortLogoFrames(logoDurationSec: number | undefined, hasBgm: boolean): number {
+  if (typeof logoDurationSec === 'number' && Number.isFinite(logoDurationSec)) {
+    const clamped = Math.min(SHORT_LOGO_MAX_SEC, Math.max(SHORT_LOGO_MIN_SEC, logoDurationSec))
+    return f(clamped)
+  }
+  return hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES
+}
 /** 오프닝 리빌 (chime + 아바타+포스터) */
-export const SHORT_REVEAL_FRAMES = f(2.0)  // 120
+export const SHORT_REVEAL_FRAMES = f(3.0)  // 180
 /** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
 export const SHORT_REVEAL_GAP = f(1.0)     // 60
 /** 아웃트로 닫힘 페이즈 — BG 소멸 + 다크 블록 진입 (SHORT_OUTRO_GAP과 매칭) */
@@ -179,8 +190,16 @@ export function shortSegLayout(segments: ShortSegment[]) {
     return Math.max(base, imageMinFrames) + tailHold
   })
 
+  // 시작 순서: 훅이 첫 세그먼트일 때는 훅을 frame 0부터 재생하고,
+  // 훅 종료 + 훅갭 직후 오프닝 리빌(인물·책 등장)을 삽입한다.
+  // 훅이 없으면 기존 순서(리빌 → 세그먼트)로 폴백.
+  const hookFirst = segments[0]?.visual === 'hook'
   const segStarts: number[] = []
-  let cursor = SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
+  let revealStart = 0
+  let cursor = 0
+  if (!hookFirst) {
+    cursor = SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
+  }
   for (let i = 0; i < segTimings.length; i++) {
     segStarts.push(cursor)
     const next = segments[i + 1]
@@ -202,12 +221,22 @@ export function shortSegLayout(segments: ShortSegment[]) {
       console.log(`[shortSegLayout] seg#${i} id=${segments[i].id} gapAfter=${segments[i].gapAfter}s → +${extraGap}f`)
     }
     cursor += segTimings[i] + gap + extraGap
+    // 훅 종료 + 훅갭 직후 오프닝 리빌(인물·책) 구간 삽입
+    if (hookFirst && i === 0 && next) {
+      revealStart = cursor
+      cursor += SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
+    }
   }
 
-  return { segTimings, segStarts, logoStart: cursor }
+  return { segTimings, segStarts, logoStart: cursor, revealStart }
 }
 
-/** 세그먼트 배열 → 총 프레임. BGM 있으면 로고 구간 확장 */
-export const shortTotalFrames = (segments: ShortSegment[], hasBgm = false) =>
-  shortSegLayout(segments).logoStart + (hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES)
+/** 세그먼트 배열 → 총 프레임. BGM 있으면 로고 구간 확장.
+ *  logoDurationSec가 주어지면 그 값(클램프 후)을 우선 사용. */
+export const shortTotalFrames = (
+  segments: ShortSegment[],
+  hasBgm = false,
+  logoDurationSec?: number,
+) =>
+  shortSegLayout(segments).logoStart + resolveShortLogoFrames(logoDurationSec, hasBgm)
 

@@ -4,12 +4,13 @@
  */
 import React from 'react'
 import { AbsoluteFill, Img, interpolate, staticFile } from 'remotion'
-import type { CelebHost, BookEntry } from '../types'
-import { fadeInOut, safeImg, BALANCED, SUBTITLE_STYLE, useIsPortrait } from '../utils'
-import { f } from '../timing'
+import type { CelebHost, BookEntry, VoiceTimingSegment } from '../types'
+import { fadeInOut, safeImg, SUBTITLE_STYLE, useIsPortrait, CELEB_VOICE_HIGHLIGHT } from '../utils'
+import { f, toAudioFrames } from '../timing'
 import { FONT } from '../fonts'
 import { freshAvatarUrl } from '../../../lib/avatar'
 import { SpeakingIndicator } from './SpeakingIndicator'
+import { Typewriter } from './Typewriter'
 
 interface Props {
   frame: number
@@ -22,11 +23,13 @@ interface Props {
   locale?: 'ko' | 'en'
   /** 대표 명언 오디오 URL (SpeakingIndicator 파형용) */
   fQuoteAudioSrc?: string
+  /** 대표 명언 단어 단위 타이밍 — Typewriter 단어 강조용 */
+  fQuoteTimings?: VoiceTimingSegment[]
 }
 
 export const PreIntro: React.FC<Props> = ({
   frame, svcGreetingStart, svcGreetingFrames, svcIntroFrames, fQuoteFrames,
-  host, books, locale, fQuoteAudioSrc,
+  host, books, locale, fQuoteAudioSrc, fQuoteTimings,
 }) => {
   const portrait = useIsPortrait()
   const libraryTourText = locale === 'en' ? 'Library Tour' : '서재 탐방'
@@ -230,11 +233,34 @@ export const PreIntro: React.FC<Props> = ({
         {quoteOp > 0 && (
           <div style={{
             position: 'absolute', top: -10, opacity: quoteOp,
-            maxWidth: portrait ? 900 : 1200, textAlign: 'center', padding: '0 40px',
+            maxWidth: portrait ? 1000 : 1500, textAlign: 'center', padding: '0 40px',
           }}>
-            <div style={{ color: '#c8a46e', fontSize: portrait ? 38 : 46, fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, ...BALANCED }}>
-              {`\u201C${host.featuredQuote ?? ''}\u201D`}
-            </div>
+            {(() => {
+              const quoteText = host.featuredQuote ?? ''
+              const audioStart = svcGreetingStart + svcGreetingFrames + svcIntroFrames + f(1)
+              const totalSpread = host.featuredQuoteDuration && host.featuredQuoteDuration > 0
+                ? toAudioFrames(host.featuredQuoteDuration)
+                : Math.max(1, fQuoteFrames - f(1))
+              const fontSize = portrait ? 38 : 46
+              // \uD55C \uB369\uC5B4\uB9AC\uB85C \uD750\uB974\uAC8C \uB450\uACE0 CSS \uC790\uC5F0 \uC904\uBC14\uAFC8\uC5D0 \uB9E1\uAE34\uB2E4.
+              // - wordBreak: keep-all\uB85C \uC5B4\uC808 \uC911\uAC04 \uC790\uB974\uAE30 \uCC28\uB2E8
+              // - noShortPhraseBind\uB85C NBSP \uBB36\uC74C \uBE44\uD65C\uC131\uD654(\uC9E7\uC740 \uC5B4\uC808 widow \uBCF4\uD638\uAC00 \uC758\uBBF8 \uB2E8\uC704\uC640 \uC5B4\uAE0B\uB098\uB294 \uC704\uCE58\uC5D0 \uC904\uBC14\uAFC8\uC744 \uAC15\uC81C\uD558\uB358 \uBB38\uC81C \uD574\uACB0)
+              return (
+                <div style={{ fontFamily: FONT.serif, fontWeight: 700 }}>
+                  <Typewriter
+                    text={`\u201C${quoteText}\u201D`.replace(/([.!?])\s+/g, '$1\n\n')}
+                    startFrame={audioStart}
+                    spreadFrames={totalSpread}
+                    color="#c8a46e"
+                    highlightColor={CELEB_VOICE_HIGHLIGHT}
+                    fontSize={fontSize}
+                    style={{ lineHeight: 1.7, fontWeight: 700, textAlign: 'center', wordBreak: 'keep-all', textWrap: 'balance' as any }}
+                    timings={fQuoteTimings}
+                    noShortPhraseBind
+                  />
+                </div>
+              )
+            })()}
             <div style={{ color: '#777', fontSize: 22, fontFamily: FONT.sans, marginTop: 14 }}>
               &mdash; {host.nickname}
             </div>

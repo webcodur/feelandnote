@@ -39,6 +39,30 @@ export function buildJobs(): Job[] {
   const episode = ep()
   const COMMON_FILES = commonFiles()
 
+  // 통합 화자 풀 — episode.speakers가 SSoT. 옛 shorts[i].speakers 데이터는 쇼츠 스코프에서만 폴백.
+  // 화자 스키마: { id, engine: 'gemini'|'elevenlabs', voiceId } 또는 옛 { id, elevenlabsVoiceId }.
+  type SpeakerLite = { id: string; engine?: 'gemini' | 'elevenlabs'; voiceId?: string; elevenlabsVoiceId?: string }
+  const longSpeakers = Array.isArray((episode as { speakers?: SpeakerLite[] }).speakers)
+    ? (episode as { speakers: SpeakerLite[] }).speakers
+    : []
+  /** 화자의 활성 보이스 해소. 신규 engine+voiceId 우선, 옛 elevenlabsVoiceId 단독 폴백. */
+  const speakerVoice = (sp?: SpeakerLite): { engine: 'gemini' | 'elevenlabs'; voiceId: string } | null => {
+    if (!sp) return null
+    if (sp.engine && sp.voiceId) return { engine: sp.engine, voiceId: sp.voiceId }
+    if (sp.elevenlabsVoiceId) return { engine: 'elevenlabs', voiceId: sp.elevenlabsVoiceId }
+    return null
+  }
+  /** 화자 id → Job에 적용할 voice/elevenlabsVoiceId/forceGemini 필드. 풀에 없으면 빈 객체. */
+  const speakerFields = (speakerId?: string, pool: SpeakerLite[] = longSpeakers): { voice?: Voice; elevenlabsVoiceId?: string; forceGemini?: boolean } => {
+    if (!speakerId) return {}
+    const v = speakerVoice(pool.find(s => s.id === speakerId))
+    if (!v) return {}
+    if (v.engine === 'gemini') return { voice: v.voiceId as Voice, forceGemini: true }
+    return { elevenlabsVoiceId: v.voiceId }
+  }
+  const N = episode.narrator as Record<string, unknown>
+  const H = episode.host as Record<string, unknown>
+
   // 단일 타겟 스코프
   // - --long: 롱폼(공통/도서/아웃트로) job만 생성, 쇼츠 job 0개
   // - --shorts <N>: 해당 쇼츠 1개 job만 생성, 롱폼 job 0개
@@ -61,24 +85,40 @@ export function buildJobs(): Job[] {
     if (cont) {
       // continuation: returnIntro + prevRecap
       if (episode.narrator.returnIntro) {
-        jobs.push({ file: VN_RETURN_INTRO, voice: VOICE.narrator, text: ttsText('returnIntro'), role: 'narrator' })
+        jobs.push({
+          file: VN_RETURN_INTRO, voice: VOICE.narrator, text: ttsText('returnIntro'), role: 'narrator',
+          ...speakerFields(N.returnIntroSpeaker as string | undefined),
+        })
       }
       if (episode.narrator.prevRecap) {
-        jobs.push({ file: VN_PREV_RECAP, voice: VOICE.narrator, text: ttsText('prevRecap'), role: 'narrator' })
+        jobs.push({
+          file: VN_PREV_RECAP, voice: VOICE.narrator, text: ttsText('prevRecap'), role: 'narrator',
+          ...speakerFields(N.prevRecapSpeaker as string | undefined),
+        })
       }
     } else {
       // Part 1: 서비스 인사 — 공용 고정 오디오 (common/ 재사용, --only로 재생성 가능)
       if (!COMMON_FILES.has(VN_SERVICE_GREETING)) {
-        jobs.push({ file: VN_SERVICE_GREETING, voice: VOICE.narrator, text: ttsText('serviceGreeting'), role: 'narrator' })
+        jobs.push({
+          file: VN_SERVICE_GREETING, voice: VOICE.narrator, text: ttsText('serviceGreeting'), role: 'narrator',
+          ...speakerFields(N.serviceGreetingSpeaker as string | undefined),
+        })
       }
-      jobs.push({ file: VN_SERVICE_INTRO, voice: VOICE.narrator, text: ttsText('serviceIntro'), role: 'narrator' })
+      jobs.push({
+        file: VN_SERVICE_INTRO, voice: VOICE.narrator, text: ttsText('serviceIntro'), role: 'narrator',
+        ...speakerFields(N.serviceIntroSpeaker as string | undefined),
+      })
       // 나레이터 셀럽 소개
-      jobs.push({ file: VN_CELEB_INTRO, voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator' })
+      jobs.push({
+        file: VN_CELEB_INTRO, voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator',
+        ...speakerFields(N.celebIntroSpeaker as string | undefined),
+      })
       // 셀럽 감상철학
       if (episode.host.philosophy) {
         jobs.push({
           file: VN_PHILOSOPHY, voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb',
           voiceMeta: (episode.host as any).philosophyVoice as VoiceMeta | undefined,
+          ...speakerFields(H.philosophySpeaker as string | undefined),
         })
       }
     }
@@ -87,36 +127,58 @@ export function buildJobs(): Job[] {
       jobs.push({
         file: VN_FEATURED_QUOTE, voice: VOICE.celeb, text: episode.host.featuredQuote, role: 'celeb',
         voiceMeta: (episode.host as any).featuredQuoteVoice as VoiceMeta | undefined,
+        ...speakerFields(H.featuredQuoteSpeaker as string | undefined),
       })
     }
 
     // 도서별
     for (let i = 0; i < episode.books.length; i++) {
       const b = episode.books[i]
-      jobs.push({ file: vnBookTitle(i), voice: VOICE.narrator, text: ttsText('title', i), role: 'narrator' })
-      jobs.push({ file: vnBookSummary(i), voice: VOICE.summary, text: ttsText('summary', i), role: 'summary' })
-      jobs.push({ file: vnBookContext(i), voice: VOICE.narrator, text: ttsText('contextMain', i), role: 'narrator' })
+      const bX = b as Record<string, unknown>
+      jobs.push({
+        file: vnBookTitle(i), voice: VOICE.narrator, text: ttsText('title', i), role: 'narrator',
+        ...speakerFields(bX.titleSpeaker as string | undefined),
+      })
+      jobs.push({
+        file: vnBookSummary(i), voice: VOICE.summary, text: ttsText('summary', i), role: 'summary',
+        ...speakerFields(bX.summarySpeaker as string | undefined),
+      })
+      jobs.push({
+        file: vnBookContext(i), voice: VOICE.narrator, text: ttsText('contextMain', i), role: 'narrator',
+        ...speakerFields(bX.contextMainSpeaker as string | undefined),
+      })
       for (let pi = 0; pi < (b.quotePairs?.length ?? 0); pi++) {
         const pair = b.quotePairs![pi]
+        const pairX = pair as Record<string, unknown>
         if (pair.quote) {
           jobs.push({
             file: vnBookQuote(i, pi), voice: VOICE.celeb, text: ttsText(`quote:${pi}`, i), role: 'celeb',
             voiceMeta: (pair as any).voice as VoiceMeta | undefined,
+            ...speakerFields(pairX.quoteSpeaker as string | undefined),
           })
         }
         if (pair.after) {
-          jobs.push({ file: vnBookAfter(i, pi), voice: VOICE.narrator, text: ttsText(`after:${pi}`, i), role: 'narrator' })
+          jobs.push({
+            file: vnBookAfter(i, pi), voice: VOICE.narrator, text: ttsText(`after:${pi}`, i), role: 'narrator',
+            ...speakerFields(pairX.afterSpeaker as string | undefined),
+          })
         }
       }
     }
 
     // 중간안내 (10개 초과 시)
     if (episode.books.length > 10 && episode.narrator.interlude) {
-      jobs.push({ file: VN_INTERLUDE, voice: VOICE.narrator, text: episode.narrator.interlude, role: 'narrator' })
+      jobs.push({
+        file: VN_INTERLUDE, voice: VOICE.narrator, text: episode.narrator.interlude, role: 'narrator',
+        ...speakerFields(N.interludeSpeaker as string | undefined),
+      })
     }
 
     // 아웃트로
-    jobs.push({ file: VN_OUTRO, voice: VOICE.narrator, text: ttsText('outro'), role: 'narrator' })
+    jobs.push({
+      file: VN_OUTRO, voice: VOICE.narrator, text: ttsText('outro'), role: 'narrator',
+      ...speakerFields(N.outroSpeaker as string | undefined),
+    })
   } else {
     // 쇼츠 단일 타겟 — SHORTS_INDEX는 1-based, episode.shorts는 0-based
     const shortsArr = Array.isArray((episode as any).shorts) ? (episode as any).shorts : []
@@ -132,22 +194,28 @@ export function buildJobs(): Job[] {
     }
     let si = 0
     const shortReplace = shortCfg.tts?.replace as Record<string, string> | undefined
+    // 쇼츠 화자 폴백 풀 — episode.speakers에 없으면 옛 shorts[i].speakers를 참조.
+    const legacyShortSpeakers: SpeakerLite[] = Array.isArray((shortCfg as { speakers?: SpeakerLite[] }).speakers)
+      ? (shortCfg as { speakers: SpeakerLite[] }).speakers
+      : []
+    const mergedPool: SpeakerLite[] = [
+      ...longSpeakers,
+      ...legacyShortSpeakers.filter(s => !longSpeakers.some(ep => ep.id === s.id)),
+    ]
     for (const seg of shortCfg.segments) {
       const segGemVoice = (seg as { geminiVoice?: string }).geminiVoice
       const segSpeakerId = (seg as { speaker?: string }).speaker
-      const speakersArr = Array.isArray((shortCfg as { speakers?: { id: string; elevenlabsVoiceId?: string }[] }).speakers)
-        ? (shortCfg as { speakers: { id: string; elevenlabsVoiceId?: string }[] }).speakers
-        : []
-      const speakerObj = segSpeakerId ? speakersArr.find(s => s.id === segSpeakerId) : undefined
-      // 우선순위: segment.elevenlabsVoiceId > speaker.elevenlabsVoiceId > host.elevenlabsVoiceId(tts.ts에서 fallback)
+      const speakerFs = speakerFields(segSpeakerId, mergedPool)
+      // 우선순위: segment.geminiVoice 오버라이드 > 화자 engine+voiceId > segment.elevenlabsVoiceId 옛 호환
       const segEleVoiceId = (seg as { elevenlabsVoiceId?: string }).elevenlabsVoiceId
-        ?? speakerObj?.elevenlabsVoiceId
-      const voice = segGemVoice
-        ? segGemVoice
-        : seg.role === 'celeb' ? VOICE.celeb
+      const baseVoice: Voice = seg.role === 'celeb' ? VOICE.celeb
         : seg.role === 'summary' ? VOICE.summary
         : seg.id === 'hook' ? VOICE.shortsHook
         : VOICE.shortsNarrator
+      const voice: Voice = segGemVoice ? (segGemVoice as Voice)
+        : speakerFs.voice ?? baseVoice
+      const forceGemini = !!segGemVoice || !!speakerFs.forceGemini
+      const elevenlabsVoiceId = forceGemini ? undefined : (speakerFs.elevenlabsVoiceId ?? segEleVoiceId)
       const text = applyReplacements(seg.text, shortReplace)
       jobs.push({
         file: vnShort(si, seg.id, SHORTS_INDEX as number),
@@ -155,9 +223,9 @@ export function buildJobs(): Job[] {
         role: seg.role as Role,
         isShort: true,
         shortSegId: seg.id,
-        voiceMeta: seg.role === 'celeb' && !segGemVoice ? ((seg as any).voice as VoiceMeta | undefined) : undefined,
-        forceGemini: !!segGemVoice,
-        elevenlabsVoiceId: segEleVoiceId,
+        voiceMeta: seg.role === 'celeb' && !forceGemini ? ((seg as any).voice as VoiceMeta | undefined) : undefined,
+        forceGemini,
+        elevenlabsVoiceId,
         voiceLock: !!(seg as { voiceLock?: boolean }).voiceLock,
       })
       si++

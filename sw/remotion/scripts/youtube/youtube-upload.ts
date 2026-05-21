@@ -205,6 +205,35 @@ async function uploadCaption(
   console.log('  자막 완료')
 }
 
+/**
+ * 동일 언어 캡션이 이미 있으면 update, 없으면 insert.
+ * 업로드 시 자막이 누락됐거나 자막만 다시 올릴 때 사용.
+ */
+async function upsertCaption(
+  yt: ReturnType<typeof google.youtube>,
+  videoId: string,
+  srtPath: string,
+  lang: 'ko' | 'en',
+) {
+  const targetLang = lang === 'ko' ? 'ko' : 'en'
+  const list = await yt.captions.list({ videoId, part: ['snippet'] })
+  // YouTube 가 만든 asr 트랙은 외부 API 로 update 불가 — trackKind === 'standard' 만 후보로 삼는다.
+  const existing = (list.data.items ?? []).find(it =>
+    it.snippet?.language === targetLang && it.snippet?.trackKind === 'standard'
+  )
+  if (existing?.id) {
+    console.log(`  자막 갱신(update): ${path.basename(srtPath)} → caption=${existing.id}`)
+    await yt.captions.update({
+      part: ['snippet'],
+      requestBody: { id: existing.id },
+      media: { mimeType: 'application/x-subrip', body: createReadStream(srtPath) },
+    })
+    console.log('  자막 갱신 완료')
+    return
+  }
+  await uploadCaption(yt, videoId, srtPath, lang)
+}
+
 async function setThumbnail(
   yt: ReturnType<typeof google.youtube>,
   videoId: string,
@@ -321,7 +350,7 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     const featuredBookIndex = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : undefined
     const description = ytMeta[vKey]?.description
       || (buildDescription as any)(celebName, books, variant.lang, isShorts, chapters, links, episodeName, shortsIdx, featuredBookIndex)
-    const tags = (buildTags as any)(celebName, variant.lang, isShorts, shortsIdx)
+    const tags = (buildTags as any)(celebName, variant.lang, isShorts, shortsIdx, episodeName)
 
     const files = findFiles(label, variant.lang, variant)
 
@@ -364,6 +393,146 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
   console.log('완료.')
 }
 
+// ─── 메타 패치 (영상 파일은 그대로, 제목·설명·태그만 갱신) ─
+
+/**
+ * 이미 업로드된 영상의 snippet(제목·설명·태그)만 다시 만들어 YouTube 에 PUT 한다.
+ * youtube-meta.json 캐시가 깨졌거나 책 구성이 바뀐 뒤 영상을 다시 렌더하지 않고
+ * 메타데이터만 정정할 때 사용한다.
+ *
+ * - 캐시(youtube-meta.json)는 무시하고 항상 fresh 생성한다(잘못된 캐시 잔존 차단).
+ * - 패치 직후 fresh snippet 으로 캐시 파일을 다시 쓴다.
+ * - lineup.json 의 uploads 기록을 videoId 출처로 사용한다.
+ */
+async function patchMetadata(episodeName: string, filterLang?: string, filterType?: string, filterShortsIndex?: number, dry = false, withCaption = true) {
+  const meta: EpisodeMeta | undefined = lineup[episodeName]
+  if (!meta?.uploads) {
+    console.error(`업로드 기록 없음: lineup.json 의 ${episodeName}.uploads 가 비어 있다.`)
+    process.exit(1)
+  }
+
+  const label = toCompLabel(episodeName)
+
+  const koData = await loadEpisode(`${episodeName}-ko`).catch(() => null) as any
+  const enData = await loadEpisode(`${episodeName}-en`).catch(() => null) as any
+
+  // 업로드 기록이 있는 variant 만 대상으로 한다(파일 존재 여부와 무관).
+  const variants: Variant[] = []
+  for (const vKey of Object.keys(meta.uploads)) {
+    // ko-longform | ko-shorts-1 | en-longform | en-shorts-2 ...
+    const parts = vKey.split('-')
+    const lang = parts[0] as 'ko' | 'en'
+    const type = parts[1] === 'longform' ? 'longform' : 'shorts'
+    const shortsIndex = type === 'shorts' ? parseInt(parts[2] ?? '1', 10) : undefined
+    variants.push({ lang, type, shortsIndex })
+  }
+
+  const filtered = variants.filter(v => {
+    if (filterLang && v.lang !== filterLang) return false
+    if (filterType && v.type !== filterType) return false
+    if (typeof filterShortsIndex === 'number' && v.type === 'shorts' && v.shortsIndex !== filterShortsIndex) return false
+    return true
+  })
+
+  const metaPath = path.join(OUT_DIR, label, 'youtube-meta.json')
+  let ytMeta: Record<string, { title?: string; description?: string; links?: { label: string; url: string }[] }> = {}
+  if (existsSync(metaPath)) {
+    try { ytMeta = JSON.parse(await readFile(metaPath, 'utf-8')) } catch { /* ignore */ }
+  }
+
+  const ytClients: Partial<Record<string, ReturnType<typeof google.youtube>>> = {}
+  async function getYt(channel: 'ko' | 'en') {
+    if (dry) return null
+    if (!ytClients[channel]) {
+      const auth = await getAuthedClient(channel)
+      ytClients[channel] = google.youtube({ version: 'v3', auth })
+    }
+    return ytClients[channel]!
+  }
+
+  console.log(`\n에피소드: ${episodeName} (메타 패치 모드)`)
+  console.log(`대상: ${filtered.map(v => variantKey(v)).join(', ')}\n`)
+
+  for (const variant of filtered) {
+    const vKey = variantKey(variant)
+    const data = variant.lang === 'ko' ? koData : enData
+    if (!data) { console.log(`── ${vKey}: 에피소드 데이터 없음, 건너뜀`); continue }
+
+    const celebName = data.host.nickname as string
+    const books = data.books as any[]
+    const isShorts = variant.type === 'shorts'
+    const shortsIdx = variant.shortsIndex ?? 1
+
+    const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
+    const targetShortsCfg = isShorts && Array.isArray(data.shorts)
+      ? data.shorts[shortsIdx - 1]
+      : undefined
+    const shortsBookTitle = isShorts
+      ? books[targetShortsCfg?.featuredBookIndex ?? 0]?.title
+      : undefined
+    const epSeries = (data as any).series as { part: number; totalParts: number; totalBooks: number } | undefined
+    const isMultipart = (epSeries?.totalParts ?? 1) > 1
+    const longformBookCount = isMultipart ? (epSeries?.totalBooks ?? books.length) : books.length
+    const longformPart = isMultipart ? epSeries?.part : undefined
+
+    // fresh 재생성 — 캐시 ytMeta 의 title/description 은 무시한다(깨진 캐시 차단).
+    const links = ytMeta[vKey]?.links
+    const featuredBookIndex = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : undefined
+    const title = buildTitle({}, celebName, variant.lang, isShorts, shortsIdx, shortsBookTitle, longformBookCount, longformPart)
+    const description = (buildDescription as any)(celebName, books, variant.lang, isShorts, chapters, links, episodeName, shortsIdx, featuredBookIndex)
+    const tags = (buildTags as any)(celebName, variant.lang, isShorts, shortsIdx, episodeName)
+    const snippet = buildYouTubeSnippet({ title, description, tags, lang: variant.lang, shortsIndex: shortsIdx })
+
+    const videoId = meta.uploads?.[vKey]?.videoId
+    if (!videoId) { console.log(`── ${vKey}: 업로드 기록 없음, 건너뜀`); continue }
+
+    console.log(`── ${vKey} (videoId=${videoId}) ──`)
+    console.log(`  제목: ${title}`)
+    if (chapters?.length) {
+      console.log(`  타임라인 첫 5줄:`)
+      for (const c of chapters.slice(0, 5)) console.log(`    ${c.time} ${c.label}`)
+    }
+
+    if (dry) { console.log(`  (dry: PUT 호출 생략)`); continue }
+
+    const yt = await getYt(variant.lang)
+    if (!yt) continue
+    try {
+      await yt.videos.update({
+        part: ['snippet'],
+        requestBody: { id: videoId, snippet },
+      })
+      console.log(`  YouTube 갱신 완료`)
+    } catch (e: any) {
+      console.error(`  YouTube 갱신 실패: ${e.message}`)
+      continue
+    }
+
+    // 캐시 파일에도 fresh 값으로 덮어쓰기
+    ytMeta[vKey] = { ...ytMeta[vKey], title, description }
+
+    // 자막 — 동일 언어 트랙이 있으면 update, 없으면 insert
+    if (withCaption) {
+      const files = findFiles(label, variant.lang, variant)
+      if (!files.srt) {
+        console.log('  자막 srt 없음, 자막 단계 생략')
+      } else {
+        try {
+          await upsertCaption(yt, videoId, files.srt, variant.lang)
+        } catch (e: any) {
+          console.warn(`  자막 처리 실패: ${e.message}`)
+        }
+      }
+    }
+  }
+
+  if (!dry) {
+    await writeFile(metaPath, JSON.stringify(ytMeta, null, 2) + '\n', 'utf-8')
+    console.log(`\nyoutube-meta.json 갱신: ${metaPath}`)
+  }
+  console.log('완료.')
+}
+
 // ─── CLI ────────────────────────────────────────────────
 
 const args = process.argv.slice(2)
@@ -391,13 +560,36 @@ if (command === 'auth') {
   const dry = args.includes('--dry')
 
   upload(episode, lang, type, shortsIndex, dry).catch(console.error)
+} else if (command === 'patch-meta') {
+  const epIdx = args.indexOf('--episode')
+  const episode = epIdx >= 0 ? args[epIdx + 1] : null
+  if (!episode) { console.error('--episode 필수'); process.exit(1) }
+
+  const langIdx = args.indexOf('--lang')
+  const lang = langIdx >= 0 ? args[langIdx + 1] : undefined
+
+  const typeIdx = args.indexOf('--type')
+  const type = typeIdx >= 0 ? args[typeIdx + 1] : undefined
+
+  const shortsIdxFlag = args.indexOf('--shorts-index')
+  const shortsIndex = shortsIdxFlag >= 0 ? Number(args[shortsIdxFlag + 1]) : undefined
+
+  const dry = args.includes('--dry')
+  const withCaption = !args.includes('--no-caption')
+
+  patchMetadata(episode, lang, type, shortsIndex, dry, withCaption).catch(e => { console.error(e); process.exit(1) })
 } else {
   console.log(`사용법:
-  pnpm youtube:auth                                       KO 채널 인증
-  pnpm youtube:auth -- --channel en                       EN 채널 인증
-  pnpm youtube:upload -- --episode <name>                 4종 업로드 (KO→KO채널, EN→EN채널)
-  pnpm youtube:upload -- --episode <name> --lang ko       한글만 (KO채널)
-  pnpm youtube:upload -- --episode <name> --lang en       영문만 (EN채널)
-  pnpm youtube:upload -- --episode <name> --type longform 롱폼만
-  pnpm youtube:upload -- --episode <name> --dry           드라이런`)
+  pnpm youtube:auth                                            KO 채널 인증
+  pnpm youtube:auth -- --channel en                            EN 채널 인증
+  pnpm youtube:upload -- --episode <name>                      4종 업로드 (KO→KO채널, EN→EN채널)
+  pnpm youtube:upload -- --episode <name> --lang ko            한글만 (KO채널)
+  pnpm youtube:upload -- --episode <name> --lang en            영문만 (EN채널)
+  pnpm youtube:upload -- --episode <name> --type longform      롱폼만
+  pnpm youtube:upload -- --episode <name> --dry                드라이런
+
+  pnpm youtube:patch-meta -- --episode <name>                  업로드된 영상의 제목·설명·자막 fresh 재생성하여 갱신
+  pnpm youtube:patch-meta -- --episode <name> --type longform  롱폼만 메타 패치
+  pnpm youtube:patch-meta -- --episode <name> --no-caption     자막 단계 건너뛰기 (제목·설명만)
+  pnpm youtube:patch-meta -- --episode <name> --dry            드라이런`)
 }

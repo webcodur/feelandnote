@@ -57,6 +57,24 @@
     "hook": {
       "ko": "SF를 도면으로 바꾼 몽상가",
       "en": "The Dreamer Who Turned Sci-Fi into Blueprints"
+    },
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "hxtfvykc_Pw",
+        "uploadedAt": "2026-05-10T08:27:40.543Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "5JtRGGW6rn4",
+        "uploadedAt": "2026-05-15T10:04:21.950Z"
+      },
+      "ko-shorts-3": {
+        "videoId": "riIXYk-oS6g",
+        "uploadedAt": "2026-05-16T11:08:36.861Z"
+      },
+      "ko-shorts-4": {
+        "videoId": "nG1L-RY1J64",
+        "uploadedAt": "2026-05-20T09:11:26.132Z"
+      }
     }
   },
   "leonardo-da-vinci": {
@@ -226,6 +244,10 @@
       "ko-shorts-3": {
         "videoId": "Q5V6f_avYbE",
         "uploadedAt": "2026-04-27T08:40:39.970Z"
+      },
+      "ko-longform": {
+        "videoId": "SSLsoYdZEYE",
+        "uploadedAt": "2026-05-05T05:21:16.760Z"
       }
     }
   },
@@ -238,6 +260,14 @@
       "ko-shorts-2": {
         "videoId": "fTAU5vNK1ic",
         "uploadedAt": "2026-05-02T04:18:01.951Z"
+      },
+      "ko-shorts-3": {
+        "videoId": "ellCF1NGxX8",
+        "uploadedAt": "2026-05-06T13:30:44.435Z"
+      },
+      "ko-longform": {
+        "videoId": "xKoRJTSiQBk",
+        "uploadedAt": "2026-05-11T01:58:29.527Z"
       }
     }
   }

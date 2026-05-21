@@ -92,7 +92,7 @@ export async function synthesizeGemini(text: string, voiceName: Voice, outputFil
 
 /** MP3 buffer → 24kHz mono 16-bit PCM buffer (saveWav 입력 형태) */
 async function mp3ToPcm24k(mp3: Buffer): Promise<Buffer> {
-  const ffmpegPath = (ffmpegStatic as unknown as string) || 'ffmpeg'
+  const ffmpegPath = 'ffmpeg'
   return new Promise((resolve, reject) => {
     const ff = spawn(ffmpegPath, [
       '-loglevel', 'error',

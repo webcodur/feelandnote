@@ -24,8 +24,7 @@
  *   apply 후 자동으로 `voice:align --update-json` 안내 (subTimings 자동 계산은 4-align.ts 책임).
  */
 import { readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
-import { findEpisodeDir, resolveTimingPath } from '../lib/episode.js'
+import { resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
 
 const args = process.argv.slice(2)
 const epIdx = args.indexOf('--episode')
@@ -49,17 +48,22 @@ if (!epName) {
 // 불변식: mechanicalCommaSplit(text).join(' ') === text
 // 규칙:
 //   - 콤마 0개 → 원본 유지 (분할 안 함)
-//   - 콤마 3개 이상 → 열거 리스트로 간주, 유지
 //   - 그 외 → 콤마 뒤 공백에서 분할. 분할된 조각 중 5자 미만은 이웃과 병합.
+//     (진짜 짧은 열거 리스트는 5자 미만 병합 룰로 자연스럽게 한 덩어리로 합쳐진다.)
 function mechanicalCommaSplit(text: string): string[] {
   const commaCount = (text.match(/,/g) || []).length
-  if (commaCount === 0 || commaCount >= 3) return [text]
+  if (commaCount === 0) return [text]
   const parts = text.split(/(?<=,)\s+/).map(p => p.trim()).filter(Boolean)
   if (parts.length < 2) return [text]
   const merged: string[] = []
   for (const p of parts) {
     if (merged.length === 0) { merged.push(p); continue }
     const last = merged[merged.length - 1]
+    // 숫자 열거(예: "1, 2위", "1, 2, 3"): 콤마 직전이 숫자이고 다음 조각이 숫자로 시작하면 한 덩어리 유지
+    if (/\d,$/.test(last) && /^\d/.test(p)) {
+      merged[merged.length - 1] = last + ' ' + p
+      continue
+    }
     if (p.length < 5 || last.length < 5) {
       merged[merged.length - 1] = last + ' ' + p
     } else {
@@ -80,15 +84,8 @@ function refineLlmSubsByComma(subs: string[]): string[] {
 }
 
 // ─── 에피소드 + voiceTimings 로드 ───
-const isEn = epName.endsWith('-en')
-const isKo = epName.endsWith('-ko')
-const base = isEn || isKo ? epName.slice(0, -3) : epName
-const partMatch = base.match(/-(\d+)$/)
-const person = partMatch ? base.slice(0, -partMatch[0].length) : base
-const locale = isEn ? 'en' : 'ko'
-const part = partMatch ? parseInt(partMatch[1]) : 1
-const filename = part > 1 ? `${locale}-${part}.json` : `${locale}.json`
-const epPath = join(findEpisodeDir(person), filename)
+// 신구조면 meta.{locale}.json, 레거시면 {locale}.json 자동 분기
+const epPath = resolveEpisodePath(epName)
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
 
 const timingPath = resolveTimingPath(epName)

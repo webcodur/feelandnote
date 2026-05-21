@@ -13,7 +13,7 @@
  *   pnpm voice:align -- --episode alexander-the-great --shorts 1 --update-json --export-debug
  *   pnpm voice:align -- --episode alexander-the-great --long --only D05b-summary
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs'
 import { join } from 'path'
 import { SENTENCE_SPLIT } from '../../src/compositions/BookRecommend/sentence-split'
 import {
@@ -24,7 +24,7 @@ import {
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   vnShort, vnTimingKey, resolveVoiceRelPath,
 } from '../../src/compositions/BookRecommend/voice-names'
-import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
+import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath, isNewLayout, loadEpisode } from '../lib/episode.js'
 
 // --- WAV 파싱 ---
 function parseWav(path: string) {
@@ -481,8 +481,9 @@ let voiceSelect: { default: string; slots?: Record<string, string> } | null = nu
 try {
   voiceSelect = JSON.parse(readFileSync(join(voiceBaseDir, 'voice-select.json'), 'utf-8'))
 } catch { /* voice-select 없으면 null */ }
-const epPath = resolveEpisodePath(epName)
-const timingPath = resolveTimingPath(epName)
+const NEW_LAYOUT = isNewLayout(episodeDir, epLocale)
+const epPath = resolveEpisodePath(epName)  // 신구조면 meta.{locale}.json, 레거시면 {locale}.json
+const timingPath = resolveTimingPath(epName)  // 신구조면 meta.{locale}.timing.json
 const episode = JSON.parse(readFileSync(epPath, 'utf-8'))
 let timing: any = {}
 try { timing = JSON.parse(readFileSync(timingPath, 'utf-8')) } catch { /* 신규 에피소드 */ }
@@ -492,29 +493,85 @@ if (timing.voiceTimings) episode.voiceTimings = timing.voiceTimings
 // duration도 합침
 if (timing.narrator) Object.assign(episode.narrator, timing.narrator)
 if (timing.host) Object.assign(episode.host, timing.host)
-if (timing.books) {
+
+// 신구조: books/{NN-*}/book.{locale}.json + book.{locale}.timing.json 동기 로드
+// 레거시: timing.books → episode.books[i] 머지
+const BOOK_FOLDERS: string[] = NEW_LAYOUT
+  ? readdirSync(join(episodeDir, 'books'))
+      .filter(name => statSync(join(episodeDir, 'books', name)).isDirectory() && /^\d+-/.test(name))
+      .sort()
+  : []
+// 합성·composition은 활성 쇼츠(=shorts.{locale}.json 보유 폴더) 1-based 인덱스를 사용한다.
+// SHORTS_INDEX 도 동일 규약으로 해석해 책 prefix 인덱스와 분리한다.
+const SHORTS_FOLDERS: string[] = NEW_LAYOUT
+  ? BOOK_FOLDERS.filter(name =>
+      existsSync(join(episodeDir, 'books', name, `shorts.${epLocale}.json`)),
+    )
+  : []
+if (NEW_LAYOUT) {
+  episode.books = []
+  for (let i = 0; i < BOOK_FOLDERS.length; i++) {
+    const bd = join(episodeDir, 'books', BOOK_FOLDERS[i])
+    const bookFp = join(bd, `book.${epLocale}.json`)
+    if (!existsSync(bookFp)) continue
+    const book: any = JSON.parse(readFileSync(bookFp, 'utf-8'))
+    const bookTfp = join(bd, `book.${epLocale}.timing.json`)
+    let bookT: any = {}
+    if (existsSync(bookTfp)) {
+      try { bookT = JSON.parse(readFileSync(bookTfp, 'utf-8')) } catch { /* corrupt */ }
+    }
+    Object.assign(book, bookT)
+    if (bookT.quotePairDurations && Array.isArray(book.quotePairs)) {
+      book.quotePairs = book.quotePairs.map((p: any, pi: number) => ({
+        ...p, ...(bookT.quotePairDurations[pi] ?? {}),
+      }))
+      delete book.quotePairDurations
+    }
+    episode.books.push(book)
+  }
+} else if (timing.books) {
   timing.books.forEach((bt: any, i: number) => {
     if (episode.books[i]) Object.assign(episode.books[i], bt)
   })
 }
 
-// 옵션 2: 쇼츠 본체는 shorts/{locale}-{N}.json 외부 파일
-// 쇼츠 타이밍은 shorts/{locale}-{N}.timing.json 외부 파일
+// 옵션 2: 쇼츠 본체는 shorts/{locale}-{N}.json 외부 파일 (레거시)
+// 신구조: books/{NN-*}/shorts.{locale}.json — shortsIdx1 ↔ 책 폴더 idx0 매핑
+// 쇼츠 타이밍은 shorts/{locale}-{N}.timing.json 또는 books/{folder}/shorts.{locale}.timing.json
 // 본체 timing.shorts는 더 이상 사용하지 않는다.
 //
 // 단일 타겟 스코프 — 로드 단계에서 격리하여 후속 로직(targets push, 저장 루프)이
 // 다른 쇼츠를 건드리지 않도록 한다. 이게 없으면 저장 루프가 기존 timing.json을 재기록해
 // 다른 쇼츠의 텍스트 수정 결과를 덮어쓰는 버그가 발생한다.
+function resolveShortsContentPath(idx1: number): string | null {
+  if (NEW_LAYOUT) {
+    const folder = SHORTS_FOLDERS[idx1 - 1]
+    if (!folder) return null
+    return join(episodeDir, 'books', folder, `shorts.${epLocale}.json`)
+  }
+  return join(shortsDir, `${epLocale}-${idx1}.json`)
+}
+function resolveShortsTimingPathFn(idx1: number): string | null {
+  if (NEW_LAYOUT) {
+    const folder = SHORTS_FOLDERS[idx1 - 1]
+    if (!folder) return null
+    return join(episodeDir, 'books', folder, `shorts.${epLocale}.timing.json`)
+  }
+  return join(shortsDir, `${epLocale}-${idx1}.timing.json`)
+}
 episode.shorts = []
 if (SHORTS_INDEX !== null) {
   const idx1 = SHORTS_INDEX
-  const contentPath = join(shortsDir, `${epLocale}-${idx1}.json`)
-  if (!existsSync(contentPath)) {
-    console.error(`✗ shorts/${epLocale}-${idx1}.json 이 없다`)
+  const contentPath = resolveShortsContentPath(idx1)
+  if (!contentPath || !existsSync(contentPath)) {
+    const shown = NEW_LAYOUT
+      ? `books/${SHORTS_FOLDERS[idx1 - 1] ?? `<active-shorts-${idx1}>`}/shorts.${epLocale}.json`
+      : `shorts/${epLocale}-${idx1}.json`
+    console.error(`✗ ${shown} 이 없다`)
     process.exit(1)
   }
   const c = JSON.parse(readFileSync(contentPath, 'utf-8'))
-  const timingPathShorts = join(shortsDir, `${epLocale}-${idx1}.timing.json`)
+  const timingPathShorts = resolveShortsTimingPathFn(idx1)!
   let t: any = null
   if (existsSync(timingPathShorts)) {
     try { t = JSON.parse(readFileSync(timingPathShorts, 'utf-8')) } catch { /* corrupt → null */ }
@@ -524,10 +581,13 @@ if (SHORTS_INDEX !== null) {
   } else {
     episode.shorts = [{
       ...c,
-      segments: c.segments.map((seg: any, i: number) => ({
-        ...seg,
-        ...(t.segments[i] ?? {}),
-      })),
+      segments: c.segments.map((seg: any, i: number) => {
+        const tseg = t.segments[i] ?? {}
+        // imageChangeAt은 본문(content) 단일원천. timing 보존을 차단해야
+        // 본문에서 삭제·변경된 앵커가 옛 timing 머지로 잔존하지 않는다.
+        const { imageChangeAt: _ignoreTimingAnchors, ...tsegRest } = tseg
+        return { ...seg, ...tsegRest }
+      }),
       _shortsIdx1: idx1,
     }]
   }
@@ -728,6 +788,16 @@ if (updateJson) {
           }
         }
       }
+      // 인접 세그먼트 시간 겹침 제거 — Whisper 단어 정렬이 문장 경계 부근에서 단어를
+      // 양쪽 문장에 걸쳐 잡는 경우가 있어 seg[i+1].start < seg[i].end 가 발생할 수 있다.
+      // 그대로 두면 BookRecommendShort 의 문단↔자막 매핑이 다음 문장 첫 자막을
+      // 이전 문단에 잘못 귀속시켜, 끝 단어 하이라이트가 누락된다.
+      for (let i = 1; i < timings.length; i++) {
+        if (timings[i].start < timings[i - 1].end) {
+          timings[i].start = timings[i - 1].end
+          if (timings[i].end < timings[i].start) timings[i].end = timings[i].start + 0.05
+        }
+      }
     }
 
     episode.voiceTimings[key] = timings
@@ -738,7 +808,7 @@ if (updateJson) {
     const rounded = Math.round(lastEnd * 100) / 100
 
     if (file === VN_SERVICE_GREETING) { episode.narrator.serviceGreetingDuration = rounded; continue }
-    if (file === VN_SERVICE_INTRO && episode.narrator.serviceIntroDuration != null) { episode.narrator.serviceIntroDuration = rounded; continue }
+    if (file === VN_SERVICE_INTRO) { episode.narrator.serviceIntroDuration = rounded; continue }
     if (file === VN_CELEB_INTRO) { episode.narrator.celebIntroDuration = rounded; continue }
     if (file === VN_PHILOSOPHY) { episode.host.voiceDuration = rounded; continue }
     if (file === VN_OUTRO) { episode.narrator.outroDuration = rounded; continue }
@@ -804,8 +874,9 @@ if (updateJson) {
         }
 
         // occurrence-aware matching: 같은 anchor의 N번째 등장에 자동 매핑.
-        // word-level 우선 시도 → 실패 시 sentence-level 폴백.
-        // occurrence 카운터는 단일하게 공유하여 word/sentence 어느 단계에서 잡히든 N번째 사용은 N번째 매칭이 된다.
+        // 단일 단어 앵커: word-level 직접 매칭.
+        // 다중 단어 앵커: voiceTimings.words 슬라이딩 윈도우로 시퀀스 매칭 → 첫 단어 start 사용.
+        // 실패 시 sentence-level 폴백.
         const findIn = (list: AnchorPos[], text: string, occIdx: number): number | null => {
           let count = 0
           for (const item of list) {
@@ -817,18 +888,43 @@ if (updateJson) {
           return null
         }
 
+        // 다중 단어 앵커 — 토큰 시퀀스가 words 배열 내에서 연속 매칭되는 첫 단어 시작 시각.
+        const findWordSequence = (tokens: string[], occIdx: number): number | null => {
+          let count = 0
+          for (const t of timings) {
+            const tw = (t as any).words as Array<{ start: number; text: string }> | undefined
+            if (!tw || tw.length < tokens.length) continue
+            for (let i = 0; i <= tw.length - tokens.length; i++) {
+              let ok = true
+              for (let j = 0; j < tokens.length; j++) {
+                if (!tw[i + j].text.includes(tokens[j])) { ok = false; break }
+              }
+              if (ok) {
+                if (count === occIdx) return tw[i].start
+                count++
+              }
+            }
+          }
+          return null
+        }
+
         const occurrence = new Map<string, number>()
         for (const change of changes) {
           if (!change.text) continue
           const occIdx = occurrence.get(change.text) ?? 0
           occurrence.set(change.text, occIdx + 1)
 
-          // 1) word-level 우선
-          let matchedStart: number | null = flatWords.length > 0
-            ? findIn(flatWords, change.text, occIdx)
-            : null
+          const tokens = change.text.trim().split(/\s+/).filter(Boolean)
+          let matchedStart: number | null = null
           let matchSource: 'word' | 'sentence' = 'word'
-          // 2) 실패 시 sentence-level 폴백 (다단어 앵커 대응)
+
+          // 1) word-level — 단일 단어는 flatWords, 다중 단어는 words 시퀀스
+          if (tokens.length === 1 && flatWords.length > 0) {
+            matchedStart = findIn(flatWords, change.text, occIdx)
+          } else if (tokens.length > 1) {
+            matchedStart = findWordSequence(tokens, occIdx)
+          }
+          // 2) 실패 시 sentence-level 폴백
           if (matchedStart == null && flatSents.length > 0) {
             matchedStart = findIn(flatSents, change.text, occIdx)
             if (matchedStart != null) matchSource = 'sentence'
@@ -887,7 +983,19 @@ if (updateJson) {
     }
     return d
   })
-  if (btd.some((d: any) => Object.keys(d).length > 0)) timingOut.books = btd
+  // 신구조: books duration 은 책 폴더별 timing 파일로 분리. 메타에는 timing.books 두지 않는다.
+  // 레거시: 본체 timing.json 의 books 배열에 저장.
+  if (NEW_LAYOUT) {
+    for (let i = 0; i < BOOK_FOLDERS.length; i++) {
+      const d = btd[i]
+      if (!d || Object.keys(d).length === 0) continue
+      const fp = join(episodeDir, 'books', BOOK_FOLDERS[i], `book.${epLocale}.timing.json`)
+      writeFileSync(fp, JSON.stringify(d, null, 2) + '\n', 'utf-8')
+      console.log(`  ✓ books/${BOOK_FOLDERS[i]}/book.${epLocale}.timing.json`)
+    }
+  } else if (btd.some((d: any) => Object.keys(d).length > 0)) {
+    timingOut.books = btd
+  }
 
   // 옵션 2: 본체 timing.json에는 timing.shorts 저장하지 않는다
   // 쇼츠 duration은 shorts/{locale}-{N}.timing.json 별도 파일로 저장
@@ -897,8 +1005,10 @@ if (updateJson) {
   console.log(`\n✓ ${epName}.timing.json voiceTimings + duration 동기화 완료`)
 
   // 쇼츠 외부 timing 파일 저장 — shortsIdx(1-based)별로 분리
+  // 레거시: shorts/{locale}-{N}.timing.json
+  // 신구조: books/{folder}/shorts.{locale}.timing.json
   if (Array.isArray(episode.shorts) && episode.shorts.length > 0) {
-    mkdirSync(shortsDir, { recursive: true })
+    if (!NEW_LAYOUT) mkdirSync(shortsDir, { recursive: true })
     for (const cfg of episode.shorts as any[]) {
       if (!cfg?.segments || !cfg._shortsIdx1) continue
       const shortsIdx1: number = cfg._shortsIdx1
@@ -909,15 +1019,19 @@ if (updateJson) {
         if (s.imageChangeAt) d.imageChangeAt = s.imageChangeAt
         return d
       })
+      const fp = resolveShortsTimingPathFn(shortsIdx1)
+      if (!fp) continue
       // 기존 파일 머지 (voiceTimings 등 다른 필드 보존은 현재 분리 안 함, 세그먼트 단위만)
-      const fp = join(shortsDir, `${epLocale}-${shortsIdx1}.timing.json`)
       let existing: any = { segments: [] }
       if (existsSync(fp)) {
         try { existing = JSON.parse(readFileSync(fp, 'utf-8')) } catch { /* corrupt → 덮어쓰기 */ }
       }
       existing.segments = segs
       writeFileSync(fp, JSON.stringify(existing, null, 2) + '\n', 'utf-8')
-      console.log(`  ✓ shorts/${epLocale}-${shortsIdx1}.timing.json`)
+      const rel = NEW_LAYOUT
+        ? `books/${SHORTS_FOLDERS[shortsIdx1 - 1]}/shorts.${epLocale}.timing.json`
+        : `shorts/${epLocale}-${shortsIdx1}.timing.json`
+      console.log(`  ✓ ${rel}`)
     }
   }
 

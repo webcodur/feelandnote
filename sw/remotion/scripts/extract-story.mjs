@@ -20,8 +20,36 @@ import { fileURLToPath } from 'url'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 function findEpisodeDir(person) {
-  for (const status of ['todo', 'live', 'done']) {
-    const dir = join(ROOT, 'public', 'episodes', status, person)
+  const episodesRoot = join(ROOT, 'public', 'episodes')
+  const INACTIVE = new Set(['excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'])
+  const STATUSES = ['todo', 'live', 'done']
+  function walk(dir, depth) {
+    let entries
+    try { entries = readdirSync(dir, { withFileTypes: true }) } catch { return null }
+    for (const e of entries) {
+      if (!e.isDirectory()) continue
+      if (e.name.startsWith('_')) continue
+      if (depth === 0 && INACTIVE.has(e.name)) continue
+      if (depth === 0 && STATUSES.includes(e.name)) {
+        const found = walk(join(dir, e.name), depth + 1)
+        if (found) return found
+        continue
+      }
+      const sub = join(dir, e.name)
+      if (existsSync(join(sub, '_status.json'))) {
+        if (e.name === person) return sub
+      } else {
+        const found = walk(sub, depth + 1)
+        if (found) return found
+      }
+    }
+    return null
+  }
+  const hit = walk(episodesRoot, 0)
+  if (hit) return hit
+  // 옛 구조 폴백
+  for (const status of STATUSES) {
+    const dir = join(episodesRoot, status, person)
     if (existsSync(dir)) return dir
   }
   throw new Error(`Episode not found: ${person}`)

@@ -9,17 +9,18 @@
 import React, { useEffect } from 'react'
 import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { BookRecommendScript } from './types'
-import { fadeInOut, safeImg, sf, makeVf } from './utils'
+import { fadeInOut, safeImg, sf, makeVf, dbToLinear } from './utils'
+import { expandSubTimings } from './sentence-split'
 import { safePrefetch } from './safe-prefetch'
 import { DARK } from '../theme'
 import { FONT } from './fonts'
 import {
-  SHORT_LOGO_FRAMES, SHORT_LOGO_FRAMES_BGM, SHORT_REVEAL_FRAMES,
+  SHORT_REVEAL_FRAMES,
   SHORT_OUTRO_OPEN,
   SHORT_LOGO_FADE_OUT, SHORT_LOGO_FADE_OUT_BGM,
-  shortTotalFrames, shortSegLayout, FPS, f,
+  shortTotalFrames, shortSegLayout, resolveShortLogoFrames, FPS, f,
 } from './timing'
-import { EPISODE_NAME, loadVoiceSelect, episodeDir } from './script'
+import { EPISODE_NAME, loadVoiceSelect, episodeDir, resolveImageFile } from './script'
 import {
   SHORT_W as W, SHORT_HEADER_H as HEADER_H, SHORT_SAFE_BOTTOM as SAFE_BOTTOM,
   SHORT_MID_H as MID_H, SHORT_RIGHT_STRIP_W as RIGHT_STRIP_W,
@@ -35,19 +36,13 @@ import { Typewriter } from './sections/Typewriter'
 import { ShortsThumbnail } from '../Thumbnail/ShortsThumbnail'
 import { CircleAvatar } from './sections/CircleAvatar'
 import { ShortBackgroundLayer } from './sections/ShortBackgroundLayer'
-import { resolveAnchorTime } from './anchor-resolve'
-
-/** 숏폼 배경 이미지 경로 — episodes/{status}/{person}/images/shorts-N.png */
-const shortsImageBase = (epName: string) => {
-  const person = epName.replace(/-en$/, '').replace(/-\d+(-en)?$/, '')
-  const dir = episodeDir[epName] ?? episodeDir[person] ?? `todo/${person}`
-  return `episodes/${dir}/images`
-}
+import { SfxAudioLayer } from './sections/SfxAudioLayer'
+import { buildSfxRenderItems, type SfxSection } from './sfx-build'
 
 /** 사운드 이펙트 폴더 경로 — episodes/{status}/{person}/soundeffect/{file} */
 const shortsSfxBase = (epName: string) => {
   const person = epName.replace(/-en$/, '').replace(/-\d+(-en)?$/, '')
-  const dir = episodeDir[epName] ?? episodeDir[person] ?? `todo/${person}`
+  const dir = episodeDir[epName] ?? episodeDir[person] ?? person
   return `episodes/${dir}/soundeffect`
 }
 
@@ -57,7 +52,7 @@ type Props = { script: BookRecommendScript; episodeName?: string; shortsIndex: n
 export const calcShortTotalFrames = (script: BookRecommendScript, shortsIndex: number) => {
   const shorts = script.shorts?.[shortsIndex - 1]
   if (!shorts?.segments) return 300
-  return shortTotalFrames(shorts.segments, !!(shorts.bgm?.length))
+  return shortTotalFrames(shorts.segments, !!(shorts.bgm?.length), shorts.logoDurationSec)
 }
 
 export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, shortsIndex }) => {
@@ -71,13 +66,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   const segments = shorts?.segments ?? []
   const hasVoice = segments.some(s => (s.duration ?? 0) > 0)
   const hasBgm = !!(shorts?.bgm?.length)
-  const logoFrames = hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES
+  const logoFrames = resolveShortLogoFrames(shorts?.logoDurationSec, hasBgm)
   const bi = shorts?.featuredBookIndex ?? 0
   const book = books[bi]
-  const imgBase = shortsImageBase(epName)
   const sfxBase = shortsSfxBase(epName)
-  const revealBgUrl = shorts?.revealBg ? sf(`${imgBase}/${shorts.revealBg}`) : null
-  const bookBgUrl = shorts?.bookBg ? sf(`${imgBase}/${shorts.bookBg}`) : null
+  const revealBgUrl = shorts?.revealBg ? sf(resolveImageFile(epName, shorts.revealBg)) : null
+  const bookBgUrl = shorts?.bookBg ? sf(resolveImageFile(epName, shorts.bookBg)) : null
 
   // --- "인물명의 서재" / "N's Library" 단일 블록의 길이 기반 적응형 fontSize ──
   // 수식어(~60) + 본문(1~2줄) 2단 구성. HEADER_H 320 한도 안에서 2줄까지 안전하게 수용.
@@ -99,13 +93,12 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   })()
 
   // --- segment timing (timing.ts SSoT) ---
-  const { segTimings, segStarts, logoStart } = shortSegLayout(segments)
+  const { segTimings, segStarts, logoStart, revealStart } = shortSegLayout(segments)
 
   // --- prefetch ---
   useEffect(() => {
     if (!hasVoice) return
     const audioUrls = [
-      sf('common/sfx/chime.wav'),
       ...segments.flatMap((seg, i) => seg.duration ? [vf(vnShort(i, seg.id, shortsIndex))] : []),
       ...segments.flatMap(seg => (seg.sfx ?? []).map(sx =>
         sf(sx.file.startsWith('episodes/') ? sx.file : `${sfxBase}/${sx.file}`),
@@ -115,14 +108,11 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       ...(revealBgUrl ? [revealBgUrl] : []),
       ...(bookBgUrl ? [bookBgUrl] : []),
       ...segments.flatMap(seg => {
-        const img1 = seg.image ? (seg.image.startsWith('episodes/') ? seg.image : `${imgBase}/${seg.image}`) : null
+        const img1 = seg.image ? resolveImageFile(epName, seg.image) : null
         const imgs = img1 ? [sf(img1)] : []
         if (seg.imageChangeAt) {
           const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]
-          imgs.push(...changes.map(c => {
-            const img2 = c.image.startsWith('episodes/') ? c.image : `${imgBase}/${c.image}`
-            return sf(img2)
-          }))
+          imgs.push(...changes.map(c => sf(resolveImageFile(epName, c.image))))
         }
         return imgs
       }),
@@ -132,16 +122,19 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       ...imageUrls.map(u => safePrefetch(u, { method: 'blob-url' }).free),
     ]
     return () => cleanups.forEach(fn => fn())
-  }, [segments.length, hasVoice, imgBase])
+  }, [segments.length, hasVoice, epName])
 
   // --- helpers ---
   const introIdx = segments.findIndex(s => s.id === 'intro')
   const segOp = (i: number) => {
     if (i === 0) {
-      // 텍스트는 gap 끝 0.6초 전에 등장, 하이라이팅은 오디오와 동기
-      const riseStart = segStarts[0] - f(0.6)
+      // 훅이 영상 첫 프레임에 등장할 수 있어 페이드인을 0.3초 부여한다.
+      // segStarts[0]이 0이 아닐 때(폴백 흐름)도 동작하도록 Math.max로 클램프.
+      const riseDur = f(0.3)
+      const riseStart = Math.max(0, segStarts[0] - riseDur)
       const segEnd = segStarts[0] + segTimings[0]
       if (frame < riseStart || frame >= segEnd) return 0
+      if (frame < riseStart + riseDur) return (frame - riseStart) / riseDur
       if (frame >= segEnd - f(0.5)) return (segEnd - frame) / f(0.5)
       return 1
     }
@@ -176,9 +169,22 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   const finalStripPosterOp = segments.reduce((m, s, i) => s.topRight === 'book' ? Math.max(m, segOp(i)) : m, 0)
 
   // --- reveal ---
+  // 훅 → 리빌 → 다음 세그먼트 흐름에서, 리빌이 일찍 사라지면 갭 동안 훅 배경 이미지가
+  // 다시 노출되어 깜빡임이 발생한다. 따라서 리빌은 다음 세그먼트(인트로 등) 시작 시점까지
+  // 유지하고, 그 직전 0.5초간 페이드아웃하여 imageGroup 페이드인과 자연스럽게 교차한다.
+  // revealStart가 0이면(훅 없는 폴백) 첫 프레임부터 표시 + 종전 페이드아웃 유지.
+  const hookFirstFlow = revealStart > 0
+  const revealFadeIn = hookFirstFlow ? f(0.5) : 0
+  const revealFadeOut = f(0.8)
+  const revealEnd = hookFirstFlow && segStarts.length > 1
+    ? segStarts[1]
+    : revealStart + SHORT_REVEAL_FRAMES
+  // 단조성 보장: 페이드아웃 시작점이 페이드인 종료보다 항상 뒤에 오도록 클램프
+  const revealHoldEnd = Math.max(revealStart + revealFadeIn + 1, revealEnd - revealFadeOut)
+  const revealFadeInSafe = Math.max(1, revealFadeIn)
   const revealOp = interpolate(frame,
-    [0, SHORT_REVEAL_FRAMES - f(0.3), SHORT_REVEAL_FRAMES],
-    [1, 1, 0], CL,
+    [revealStart, revealStart + revealFadeInSafe, revealHoldEnd, revealEnd],
+    [revealFadeIn > 0 ? 0 : 1, 1, 1, 0], CL,
   )
 
   // --- image groups (precomputed to prevent regex parse every frame) ---
@@ -199,7 +205,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       // seg.image 없음(dedup) → 직전 그룹의 이미지를 승계. 승계할 이미지도 없으면 skip.
       const inheritedImage = groups.length > 0 ? groups[groups.length - 1].image : null
       const baseImage = seg.image
-        ? (seg.image.startsWith('episodes/') ? seg.image : `${imgBase}/${seg.image}`)
+        ? resolveImageFile(epName, seg.image)
         : inheritedImage
       if (!baseImage) return
       push(baseImage, segStarts[i], segNoZoom)
@@ -274,26 +280,27 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           if (change.text) {
             const normAnchor = stripPunct(change.text)
             let matched = false
-            // 1순위: sub-level 매칭 (자막과 동일 원천, 유저 편집 즉시 반영)
-            if (hasSubLevel && normAnchor) {
-              const pos = subFullText.indexOf(normAnchor)
+            // 1순위: word-level 매칭 (Whisper word-timing — 단어 단위 정확. sub가 1개로
+            //   거칠게 묶인 경우도 단어 단위로 정확히 짚는다.)
+            if (hasWordLevel && normAnchor) {
+              const pos = wordFullText.indexOf(normAnchor)
               if (pos !== -1) {
-                for (let j = subPositions.length - 1; j >= 0; j--) {
-                  if (pos >= subPositions[j].offset) {
-                    resolved = subPositions[j].start
+                for (let j = wordPositions.length - 1; j >= 0; j--) {
+                  if (pos >= wordPositions[j].offset) {
+                    resolved = wordPositions[j].start
                     matched = true
                     break
                   }
                 }
               }
             }
-            // 2순위: word-level 매칭 (sub 없을 때)
-            if (!matched && hasWordLevel && normAnchor) {
-              const pos = wordFullText.indexOf(normAnchor)
+            // 2순위: sub-level 매칭 (word 없을 때 — 자막 sub 경계 사용)
+            if (!matched && hasSubLevel && normAnchor) {
+              const pos = subFullText.indexOf(normAnchor)
               if (pos !== -1) {
-                for (let j = wordPositions.length - 1; j >= 0; j--) {
-                  if (pos >= wordPositions[j].offset) {
-                    resolved = wordPositions[j].start
+                for (let j = subPositions.length - 1; j >= 0; j--) {
+                  if (pos >= subPositions[j].offset) {
+                    resolved = subPositions[j].start
                     matched = true
                     break
                   }
@@ -330,7 +337,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           }
           // 최종 안전장치: 여전히 비-유한수면 0으로 고정 (interpolate NaN 크래시 방지)
           if (!Number.isFinite(resolved)) resolved = 0
-          const img2 = change.image.startsWith('episodes/') ? change.image : `${imgBase}/${change.image}`
+          const img2 = resolveImageFile(epName, change.image)
           push(img2, segStarts[i] + f(resolved), segNoZoom)
         }
       }
@@ -339,8 +346,20 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     // hook/intro 이미지에서 자연스럽게 cross-fade 되도록 하기 위함.
     const bookHasImage = segments.some(s => s.visual === 'book' && s.image)
     if (bookSegIdx >= 0 && !bookHasImage && shorts?.bookBg) {
-      const bookBgPath = shorts.bookBg.startsWith('episodes/') ? shorts.bookBg : `${imgBase}/${shorts.bookBg}`
+      const bookBgPath = resolveImageFile(epName, shorts.bookBg)
       push(bookBgPath, segStarts[bookSegIdx], segments[bookSegIdx]?.zoomIn === false)
+    }
+    // 훅 → 리빌 → 다음 세그먼트 흐름에서, 다음 세그먼트의 첫 이미지 그룹을 리빌이
+    // 완전히 덮은 시점으로 옮긴다. 페이드인 선행(약 0.3초)을 고려하여 시작점을
+    // `revealStart + 0.8초` (= 리빌 페이드인 0.5초 + 페이드인 선행 0.3초)로 잡으면
+    // 인트로 이미지의 페이드인 전 구간이 리빌 오버레이 뒤에 가려진다. 또한 훅 이미지의
+    // 페이드아웃(인트로 시작과 동시)도 리빌이 불투명한 동안 진행되어 노출되지 않는다.
+    if (revealStart > 0 && segments.length > 1) {
+      const introSegStart = segStarts[1]
+      const idx = groups.findIndex(g => g.start >= introSegStart)
+      if (idx > 0) {
+        groups[idx] = { ...groups[idx], start: revealStart + f(0.8) }
+      }
     }
     groups.sort((a, b) => a.start - b.start)
     // 최소 간격 보정 — 간격이 너무 짧으면 앞 이미지가 순간 스침 → 앞 이미지 제거
@@ -352,60 +371,24 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       }
     }
     return groups
-  }, [segments, segStarts, script.voiceTimings, segTimings, fps, imgBase, bookSegIdx, shorts?.bookBg])
+  }, [segments, segStarts, script.voiceTimings, segTimings, fps, epName, bookSegIdx, shorts?.bookBg, revealStart])
 
   // --- SFX items: 텍스트 앵커 + offset → 절대 프레임으로 해상. 길이 제한·페이드아웃 포함. ---
   const sfxItems = React.useMemo(() => {
-    type Item = {
-      src: string
-      startFrame: number
-      volume: number
-      durationFrames: number | null
-      fadeInFrames: number
-      fadeOutFrames: number
-      key: string
-    }
-    const items: Item[] = []
-    segments.forEach((seg, i) => {
-      const list = seg.sfx ?? []
-      if (list.length === 0) return
-      const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
-      const timings = script.voiceTimings?.[timingKey]
-      const segDurSec = segTimings[i] / fps
-      list.forEach((sx, sIdx) => {
-        const offset = Number.isFinite(sx.offset) ? (sx.offset as number) : 0
-        let baseSec = 0
-        if (sx.text) {
-          const resolved = resolveAnchorTime({
-            anchorText: sx.text, segText: seg.text ?? '',
-            segDurSec, timings,
-          })
-          if (resolved != null) baseSec = resolved
-        }
-        const tSec = baseSec + offset
-        const startFrame = Math.max(0, segStarts[i] + Math.round(tSec * fps))
-        const src = sx.file.startsWith('episodes/')
-          ? sf(sx.file)
-          : sf(`${sfxBase}/${sx.file}`)
-        const durSec = (Number.isFinite(sx.duration) && (sx.duration as number) > 0) ? (sx.duration as number) : null
-        const fadeInSec = (Number.isFinite(sx.fadeIn) && (sx.fadeIn as number) > 0) ? (sx.fadeIn as number) : 0
-        const fadeOutSec = (Number.isFinite(sx.fadeOut) && (sx.fadeOut as number) > 0) ? (sx.fadeOut as number) : 0
-        const durationFrames = durSec != null ? Math.max(1, Math.round(durSec * fps)) : null
-        // 페이드는 전체 길이를 넘지 못하게 클램프
-        const fadeInFrames = durationFrames != null
-          ? Math.min(Math.round(fadeInSec * fps), durationFrames)
-          : Math.round(fadeInSec * fps)
-        const fadeOutFrames = durationFrames != null
-          ? Math.min(Math.round(fadeOutSec * fps), durationFrames)
-          : 0
-        items.push({
-          src, startFrame, volume: sx.volume ?? 0.7,
-          durationFrames, fadeInFrames, fadeOutFrames,
-          key: `sfx-${i}-${sIdx}`,
-        })
-      })
+    const sections: SfxSection[] = segments.map((seg, i) => ({
+      timingsKey: vnTimingKey(vnShort(i, seg.id, shortsIndex)),
+      text: seg.text ?? '',
+      startFrame: segStarts[i],
+      durationFrames: segTimings[i],
+      sfx: seg.sfx,
+      keyPrefix: `sfx-${i}`,
+    }))
+    return buildSfxRenderItems({
+      sections,
+      voiceTimings: script.voiceTimings,
+      fps,
+      resolveSrc: file => file.startsWith('episodes/') ? sf(file) : sf(`${sfxBase}/${file}`),
     })
-    return items
   }, [segments, segStarts, segTimings, script.voiceTimings, fps, sfxBase, shortsIndex])
 
   return (
@@ -463,57 +446,26 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
 
       {/* (FIXED BOTTOM TYPOGRAPHY는 영상 내내 유지하지 않는다. 오프닝 리빌 구간에만 상단 타이포가 보이고, 본문에서는 자막/책 정보로 대체된다.) */}
 
-      {/* audio — reveal chime */}
-      <Sequence from={0} durationInFrames={SHORT_REVEAL_FRAMES}>
-        <Audio src={sf('common/sfx/chime.wav')} volume={0.7} />
-      </Sequence>
       {/* audio — segments (hook은 rise 중 겹쳐서 시작) */}
       {hasVoice && segments.map((seg, i) => {
         if (!seg.duration) return null
-        const audioFrom = i === 0 ? segStarts[i] - f(0.15) : segStarts[i]
+        const audioFrom = i === 0 ? Math.max(0, segStarts[i] - f(0.15)) : segStarts[i]
         return (
           <Sequence key={seg.id} from={audioFrom} durationInFrames={segTimings[i]}>
-            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} volume={seg.volume ?? 1} />
+            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} volume={(seg.volume ?? 1) * dbToLinear(seg.gainDb)} />
           </Sequence>
         )
       })}
 
       {/* audio — soundeffect (단발, 선택적 길이 제한 + 페이드인/아웃) */}
-      {sfxItems.map(it => {
-        const hasFadeIn = it.fadeInFrames > 0
-        const hasFadeOut = it.fadeOutFrames > 0 && it.durationFrames != null
-        const volProp = (hasFadeIn || hasFadeOut)
-          ? (lf: number) => {
-              let v = it.volume
-              if (hasFadeIn && lf < it.fadeInFrames) {
-                v *= interpolate(lf, [0, it.fadeInFrames], [0, 1], CL)
-              }
-              if (hasFadeOut) {
-                const dur = it.durationFrames as number
-                const fadeStart = dur - it.fadeOutFrames
-                if (lf > fadeStart) {
-                  v *= interpolate(lf, [fadeStart, dur], [1, 0], CL)
-                }
-              }
-              return v
-            }
-          : it.volume
-        return (
-          <Sequence
-            key={it.key}
-            from={it.startFrame}
-            durationInFrames={it.durationFrames ?? undefined}
-          >
-            <Audio src={it.src} volume={volProp} />
-          </Sequence>
-        )
-      })}
+      <SfxAudioLayer items={sfxItems} />
 
       {/* ── 오프닝 리빌: 무대/원형 인물 + 회전 책 포스터 (구버전 디자인) ──
           revealBgUrl(에피소드별)이 있으면 우선, 없으면 공용 reveal-bg.jpg.
           MID_H 영역에만 그려서 상단 타이포(zIndex 115)와 하단 블랙 마진(zIndex 10)이 겹치지 않게 한다. */}
       {revealOp > 0 && (() => {
-        const beatScale = interpolate(frame, [0, f(0.8)], [1.06, 1], CL)
+        // 비트 줌 — 리빌 시작 시점부터 0.8초간 1.06 → 1.00
+        const beatScale = interpolate(frame, [revealStart, revealStart + f(0.8)], [1.06, 1], CL)
         const bgUrl = revealBgUrl ?? sf(REVEAL_BG)
         return (
           <div style={{
@@ -635,6 +587,37 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         )
       })}
 
+      {/* ── 인용 출처 (우상단) — 자막 종류와 무관하게 공통 위치. 메인 영역 zoom과 분리되어 항상 고정. ── */}
+      {segments.map((seg, i) => {
+        if (!seg.quoteSource) return null
+        const op = segOp(i)
+        if (op <= 0) return null
+        return (
+          <div key={`qs-${i}`} style={{
+            position: 'absolute',
+            top: HEADER_H + 24,
+            right: CONTENT_PAD,
+            zIndex: 25,
+            opacity: op,
+            maxWidth: 480,
+            fontSize: 26,
+            fontFamily: FONT.sans,
+            fontWeight: 700,
+            color: 'rgba(232, 210, 160, 0.98)',
+            letterSpacing: 0.2,
+            textAlign: 'right',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            WebkitTextStroke: '1.2px rgba(0,0,0,0.95)',
+            paintOrder: 'stroke fill',
+            textShadow: '0 2px 6px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.8), 0 0 24px rgba(0,0,0,0.5)',
+          }}>
+            — {seg.quoteSource}
+          </div>
+        )
+      })}
+
       {/* ── 텍스트 덮기 오버레이 (textOverlay) — 좌측 정렬 + 골드 라인 + Typewriter 하이라이팅. \n 문단 분리 시 페이지 전환.
             모드: true(=fullscreen, 중앙 54px) | 'bottom'(하단 50px) ── */}
       {segments.map((seg, i) => {
@@ -644,53 +627,148 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         const isBottomMode = seg.textOverlay === 'bottom'
         const overlayFontSize = isBottomMode ? 50 : 54
         const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
-        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string }[] | undefined
+        const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; sub?: string[]; subTimings?: number[]; words?: { text: string; start: number; end: number }[] }[] | undefined
+        // ── 문단 분할 정책 ───────────────────────────────────────────
+        // paragraph 분할 = 본문 \n (작가가 화면 전환 위치를 명시적으로 제어).
+        // 음원 timing은 먼저 sub 단위로 펼쳐(expandSubTimings) 평면 배열로 만든 뒤
+        // paragraph에 분배한다 → 각 paragraph 안에서 sub 단위 sweep이 자연스럽게 작동.
+        // paragraph 경계 시간은 글자 비례로 추정한 뒤 가장 가까운 sub 경계로 snap →
+        // 작가 \n 위치와 sub 경계가 약간 어긋나도 매핑 누락 없이 정렬됨.
+        type VTSeg = { start: number; end: number; text: string; sub?: string[]; subTimings?: number[]; words?: { text: string; start: number; end: number }[] }
+        const isArtifact = (t: VTSeg) => /^[.…]+$/.test(t.text ?? '')
+        const stripWS = (s: string) => s.replace(/\s/g, '')
+
         const paragraphs = seg.text.split('\n').filter(Boolean)
         const hasParagraphs = paragraphs.length >= 2
 
-        // 문단별 타이밍 분할: 공백 제거한 누적 글자수 기준으로 timings 분배
-        type VTSeg = { start: number; end: number; text: string }
-        const paraTimings: VTSeg[][] = []
-        if (hasParagraphs && timings && timings.length > 0) {
-          const strip = (s: string) => s.replace(/\s/g, '')
-          const cumLen: number[] = []
-          let total = 0
-          for (const p of paragraphs) { total += strip(p).length; cumLen.push(total) }
+        let paraRanges: { start: number; end: number }[] = []
+        const paraTimings: VTSeg[][] = paragraphs.map(() => [])
 
-          let tIdx = 0
-          let accLen = 0
-          for (let pi = 0; pi < paragraphs.length; pi++) {
-            const slice: VTSeg[] = []
-            while (tIdx < timings.length) {
-              slice.push(timings[tIdx])
-              accLen += strip(timings[tIdx].text ?? '').length
-              tIdx++
-              if (accLen >= cumLen[pi]) break
+        if (hasParagraphs && timings && timings.length > 0) {
+          const realChunks = timings.filter(t => !isArtifact(t))
+          const chunks = realChunks.length > 0 ? realChunks : timings
+          // sub 단위로 평면화 — 자막 sweep의 기본 단위가 sub.
+          const expanded = expandSubTimings(chunks) as VTSeg[]
+          const expLens = expanded.map(t => stripWS(t.text ?? '').length)
+          const expCum: number[] = []
+          { let cc = 0; for (const len of expLens) { cc += len; expCum.push(cc) } }
+          const totalExpChars = expCum[expCum.length - 1] || 0
+
+          const paraCum: number[] = []
+          { let pc = 0; for (const p of paragraphs) { pc += stripWS(p).length; paraCum.push(pc) } }
+          const totalParaChars = paraCum[paraCum.length - 1] || 0
+          const scale = totalParaChars > 0 ? totalExpChars / totalParaChars : 1
+
+          // 글자 위치(c, expanded 좌표계) → 시간(초)
+          const charToSec = (c: number): number => {
+            if (c <= 0) return expanded[0].start
+            if (c >= totalExpChars) return expanded[expanded.length - 1].end
+            let prev = 0
+            for (let ei = 0; ei < expanded.length; ei++) {
+              const expEnd = expCum[ei]
+              if (c <= expEnd) {
+                const inLen = c - prev
+                const len = expEnd - prev
+                const r = len > 0 ? inLen / len : 0
+                return expanded[ei].start + r * (expanded[ei].end - expanded[ei].start)
+              }
+              prev = expEnd
             }
-            paraTimings.push(slice)
+            return expanded[expanded.length - 1].end
+          }
+
+          // sub 경계 후보(각 expanded.end + 시작점)
+          const subBoundaries: number[] = [expanded[0].start, ...expanded.map(t => t.end)]
+
+          // paragraph 경계 시간을 추정한 뒤 가장 가까운 sub 경계로 snap
+          const snapToSubBoundary = (sec: number): number => {
+            let best = sec
+            let bestDist = Infinity
+            for (const b of subBoundaries) {
+              const d = Math.abs(b - sec)
+              if (d < bestDist) { bestDist = d; best = b }
+            }
+            return best
+          }
+
+          const rawBoundaries = paraCum.slice(0, -1).map(c => charToSec(c * scale))
+          const snappedBoundaries = rawBoundaries.map(snapToSubBoundary)
+          const paraBoundarySec: number[] = [
+            expanded[0].start,
+            ...snappedBoundaries,
+            expanded[expanded.length - 1].end,
+          ]
+
+          paraRanges = paragraphs.map((_, pi) => ({
+            start: segStarts[i] + Math.round(paraBoundarySec[pi] * FPS),
+            end: segStarts[i] + Math.round(paraBoundarySec[pi + 1] * FPS),
+          }))
+
+          // expanded sub 단위 분배 — paragraph 경계가 sub 경계에 snap되어 있으므로
+          // 각 expanded sub는 정확히 한 paragraph에 귀속된다.
+          for (const exp of expanded) {
+            for (let pi = 0; pi < paragraphs.length; pi++) {
+              const pStart = paraBoundarySec[pi]
+              const pEnd = paraBoundarySec[pi + 1]
+              // sub 시작이 paragraph 범위 안이면 그 paragraph에 귀속
+              if (exp.start >= pStart - 1e-3 && exp.start < pEnd - 1e-3) {
+                paraTimings[pi].push(exp)
+                break
+              }
+            }
           }
         }
 
-        // 문단별 프레임 범위 — "..." whisper 아티팩트 건너뛰기
-        const isArtifact = (t: VTSeg) => /^[.…]+$/.test(t.text ?? '')
-        const paraRanges: { start: number; end: number }[] = paraTimings.length > 0
-          ? paraTimings.map((pt) => {
-              if (!pt || pt.length === 0) return { start: segStarts[i], end: segStarts[i] + segTimings[i] }
-              const realFirst = pt.find(t => !isArtifact(t)) ?? pt[0]
-              return { start: segStarts[i] + Math.round(realFirst.start * FPS), end: segStarts[i] + Math.round(pt[pt.length - 1].end * FPS) }
-            })
-          : (() => {
-              const strip = (s: string) => s.replace(/\s/g, '')
-              const totalLen = paragraphs.reduce((sum, p) => sum + strip(p).length, 0)
-              let acc = 0
-              return paragraphs.map((p) => {
-                const ratio = strip(p).length / totalLen
-                const start = segStarts[i] + Math.round(acc * segTimings[i])
-                acc += ratio
-                const end = segStarts[i] + Math.round(acc * segTimings[i])
-                return { start, end }
-              })
-            })()
+        if (paraRanges.length === 0) {
+          // 폴백 2: 음원 timing 부재 시 글자 비례 분배
+          const totalLen = paragraphs.reduce((sum, p) => sum + stripWS(p).length, 0) || 1
+          let acc = 0
+          paraRanges = paragraphs.map((p) => {
+            const ratio = stripWS(p).length / totalLen
+            const start = segStarts[i] + Math.round(acc * segTimings[i])
+            acc += ratio
+            const end = segStarts[i] + Math.round(acc * segTimings[i])
+            return { start, end }
+          })
+        }
+
+        // active paragraph — 전환 시점을 그 단락의 첫 음성 발화 시작 프레임에 맞춘다.
+        // paraRanges[pi].start는 sub 경계 snap 결과라 실제 첫 chunk보다 약간 일찍 잡힐 수 있는데,
+        // 그대로 두면 앞 단락 텍스트가 일찍 사라지고 갭 동안 빈 박스만 보인다.
+        // 첫 chunk start로 미루면 앞 단락 텍스트가 다음 발화 직전까지 그대로 유지된다.
+        let activeIdx = 0
+        if (hasParagraphs) {
+          for (let pi = 0; pi < paragraphs.length; pi++) {
+            const utteranceStartSec = paraTimings[pi]?.[0]?.start
+            const transitionFrame = utteranceStartSec !== undefined
+              ? segStarts[i] + Math.round(utteranceStartSec * FPS)
+              : paraRanges[pi].start
+            if (frame >= transitionFrame) activeIdx = pi
+          }
+        }
+        const activePara = hasParagraphs ? paragraphs[activeIdx] : seg.text
+        const activeRange = hasParagraphs
+          ? paraRanges[activeIdx]
+          : { start: segStarts[i], end: segStarts[i] + segTimings[i] }
+        const activeTimings = hasParagraphs
+          ? (paraTimings[activeIdx]?.length ? paraTimings[activeIdx] : undefined)
+          : timings
+        const activeStartFrame = hasParagraphs && paraTimings[activeIdx]?.length
+          ? segStarts[i]
+          : activeRange.start
+        const activeSpread = hasParagraphs && paraTimings[activeIdx]?.length
+          ? segTimings[i]
+          : (activeRange.end - activeRange.start)
+
+        // 활성 단락의 첫 음성 발화 시작 프레임 — 발화 전 lead silence 동안 빈 검은 박스만
+        // 뜨던 문제를 막기 위해, 이 프레임 이전엔 박스+인용출처를 통째로 숨긴다.
+        const activeUtteranceSec = activeTimings && activeTimings.length > 0
+          ? activeTimings[0].start
+          : undefined
+        const activeUtteranceFrame = activeUtteranceSec !== undefined
+          ? segStarts[i] + Math.round(activeUtteranceSec * FPS)
+          : activeRange.start
+        if (frame < activeUtteranceFrame) return null
 
         return (
           <div key={`text-overlay-${i}`} style={{
@@ -707,38 +785,21 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
             paddingBottom: isBottomMode ? CONTENT_PAD : 0,
           }}>
             {(() => {
-              // active paragraph — 박스 사이즈는 현재 보이는 paragraph 기준으로 가변, 박스 하단은 화면 하단 고정
-              let activeIdx = 0
-              if (hasParagraphs) {
-                for (let pi = 0; pi < paragraphs.length; pi++) {
-                  if (frame >= paraRanges[pi].start) activeIdx = pi
-                }
-              }
-              const activePara = hasParagraphs ? paragraphs[activeIdx] : seg.text
-              const activeRange = hasParagraphs
-                ? paraRanges[activeIdx]
-                : { start: segStarts[i], end: segStarts[i] + segTimings[i] }
-              const activeTimings = hasParagraphs
-                ? (paraTimings[activeIdx]?.length ? paraTimings[activeIdx] : undefined)
-                : timings
-              const activeStartFrame = hasParagraphs && paraTimings[activeIdx]?.length
-                ? segStarts[i]
-                : activeRange.start
-              const activeSpread = hasParagraphs && paraTimings[activeIdx]?.length
-                ? segTimings[i]
-                : (activeRange.end - activeRange.start)
               const txtPaintStyle: React.CSSProperties = {
                 fontFamily: FONT.serif,
                 fontWeight: 800,
                 textAlign: 'left',
                 lineHeight: 1.7,
                 wordBreak: 'keep-all',
+                // Chromium 117+ — 짧은 어절이 라인 끝에 단독으로 떨어지는 widow 회피
+                textWrap: 'pretty' as const,
                 WebkitTextStroke: '1.6px rgba(0,0,0,0.9)',
                 paintOrder: 'stroke fill',
                 textShadow: '0 0 8px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.75), 0 4px 16px rgba(0,0,0,0.55)',
               }
               return (
                 <div style={{
+                  width: 780,
                   maxWidth: 780,
                   borderLeft: '4px solid rgba(200,164,110,0.6)',
                   paddingLeft: 28,
@@ -760,23 +821,6 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
                 </div>
               )
             })()}
-            {/* 인용 출처 — 좌측 하단 작은 글씨 */}
-            {seg.quoteSource && (
-              <div style={{
-                position: 'absolute',
-                bottom: 80,
-                left: CONTENT_PAD,
-                right: CONTENT_PAD + 120,
-                color: 'rgba(200, 164, 110, 0.55)',
-                fontSize: 28,
-                fontFamily: FONT.sans,
-                fontWeight: 500,
-                textAlign: 'left',
-                paddingLeft: 28,
-              }}>
-                — {seg.quoteSource}
-              </div>
-            )}
           </div>
         )
       })}

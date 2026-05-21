@@ -74,6 +74,14 @@ export async function tts(
     return synthesizeElevenlabs(eleText, voiceId, outputFile)
   }
 
+  // 다중 화자 라우팅 — ENGINE이 gemini라도 화자별 elevenlabsVoiceId 오버라이드가 있으면 ElevenLabs로 분기.
+  // 롱폼 행별 xxxSpeaker / 쇼츠 segment.speaker가 가리키는 화자에 별도 voiceId가 등록된 경우다.
+  // forceGemini(geminiVoice 명시)가 우선 — 캐릭터 보이스 의도라면 Gemini로 흐른다.
+  if (elevenlabsVoiceIdOverride && !forceGemini) {
+    const eleText = buildEleText(text, voiceMeta)
+    return synthesizeElevenlabs(eleText, elevenlabsVoiceIdOverride, outputFile)
+  }
+
   // 스타일 prefix 결정 — 정책은 ../2-synthesize.ts 헤더 참조
   let stylePrefix = ''
   if (role === 'celeb' && !forceGemini) {

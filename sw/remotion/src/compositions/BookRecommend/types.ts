@@ -1,3 +1,21 @@
+/** 단일 SFX 큐. 쇼츠 segment.sfx와 롱폼 음성 행의 xxxSfx 모두 동일 형식. */
+export interface SfxItem {
+  /** 에피소드 soundeffect/ 기준 상대 또는 'episodes/...' 절대 경로 */
+  file: string
+  /** 앵커 텍스트 — 해당 구절 시작 시점이 기준점. 비우면 구간 시작 0초가 기준점 */
+  text?: string
+  /** 기준점에서 ± 초 (양수=뒤로 밀기, 음수=앞당기기) */
+  offset?: number
+  /** 볼륨 0~1 (기본 0.7) */
+  volume?: number
+  /** 재생 길이 제한(초). 미지정 시 음원 끝까지. */
+  duration?: number
+  /** 시작 페이드인(초). 0초부터 이 시간만큼 0→volume으로 ramp. */
+  fadeIn?: number
+  /** 끝나기 전 페이드아웃(초). duration이 지정되어 있어야 의미가 있다. */
+  fadeOut?: number
+}
+
 export interface CelebHost {
   nickname: string
   nickname_en: string
@@ -9,10 +27,22 @@ export interface CelebHost {
   featuredQuote?: string
   /** 명언 음성 길이 (초) */
   featuredQuoteDuration?: number
+  /** 명언 SFX */
+  featuredQuoteSfx?: SfxItem[]
+  /** 명언 화자 */
+  featuredQuoteSpeaker?: string
+  /** 명언 음량 dB 게인 */
+  featuredQuoteGainDb?: number
   /** 감상철학 요약 (continuation에서는 없음) */
   philosophy?: string
   /** 감상철학 음성 길이 (초, continuation에서는 없음) */
   voiceDuration?: number
+  /** 감상철학 SFX */
+  philosophySfx?: SfxItem[]
+  /** 감상철학 화자 */
+  philosophySpeaker?: string
+  /** 감상철학 음량 dB 게인 */
+  philosophyGainDb?: number
   /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
   elevenlabsVoiceId?: string
   /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */
@@ -65,8 +95,20 @@ export interface QuotePair {
   quote: string
   quoteSource?: string
   quoteDuration?: number
+  /** 직접 인용 SFX */
+  quoteSfx?: SfxItem[]
+  /** 직접 인용 화자 — episode.speakers[].id 참조. TTS 파이프라인에서 voiceId 라우팅. */
+  quoteSpeaker?: string
+  /** 직접 인용 음량 dB 게인 */
+  quoteGainDb?: number
   after?: string
   afterDuration?: number
+  /** 후속 맥락 SFX */
+  afterSfx?: SfxItem[]
+  /** 후속 맥락 화자 */
+  afterSpeaker?: string
+  /** 후속 맥락 음량 dB 게인 */
+  afterGainDb?: number
 }
 
 export interface BookEntry {
@@ -79,10 +121,22 @@ export interface BookEntry {
   summary: string
   /** 요약맨 음성 길이 (초) */
   summaryDuration: number
+  /** 핵심 요약 SFX */
+  summarySfx?: SfxItem[]
+  /** 핵심 요약 화자 — episode.speakers[].id 참조. */
+  summarySpeaker?: string
+  /** 핵심 요약 음량 dB 게인 */
+  summaryGainDb?: number
   /** 나레이터 3인칭: 감상 배경 */
   contextMain: string
   /** 감상 배경 음성 길이 (초). voice: c-context.wav */
   contextDuration: number
+  /** 감상 배경 SFX */
+  contextMainSfx?: SfxItem[]
+  /** 감상 배경 화자 */
+  contextMainSpeaker?: string
+  /** 감상 배경 음량 dB 게인 */
+  contextMainGainDb?: number
   /** 인용+후속맥락 쌍 배열 (동적 N개). voice: d1-quote, d2-after, d3-quote, d4-after, ... */
   quotePairs?: QuotePair[]
   /** 섹션별 BGM — summary/contextMain 구간에 배경 음악 배정 */
@@ -96,6 +150,12 @@ export interface BookEntry {
   stats: BookStats
   /** 제목+저자 음성 길이 (초) */
   titleDuration: number
+  /** 제목 읽기 SFX */
+  titleSfx?: SfxItem[]
+  /** 제목 읽기 화자 */
+  titleSpeaker?: string
+  /** 제목 읽기 음량 dB 게인 */
+  titleGainDb?: number
   /** 시네마틱 이미지 배열 (텍스트 앵커 기반 N장 전환). imagePrompts보다 우선 */
   images?: CinematicImage[]
   /** 시네마틱 이미지 프롬프트 (레거시 — 2슬롯 고정) */
@@ -109,21 +169,39 @@ export interface NarratorLines {
   /** 서비스 인사 — 고정 문구, 공용 오디오(common/) 재사용 */
   serviceGreeting?: string
   serviceGreetingDuration?: number
+  serviceGreetingSfx?: SfxItem[]
+  serviceGreetingSpeaker?: string
+  serviceGreetingGainDb?: number
   /** Section 0: 서비스 인트로 — 본문 (예: "서재 탐방 코너에서는..."). continuation에서는 없음 */
   serviceIntro?: string
   serviceIntroDuration?: number
+  serviceIntroSfx?: SfxItem[]
+  serviceIntroSpeaker?: string
+  serviceIntroGainDb?: number
   /** Section 1: 인물 소개 (bio 읊기). continuation에서는 없음 */
   celebIntro?: string
   celebIntroDuration?: number
+  celebIntroSfx?: SfxItem[]
+  celebIntroSpeaker?: string
+  celebIntroGainDb?: number
   /** continuation: 복귀 인사 (예: "서재 탐방, 두 번째 이야기입니다") */
   returnIntro?: string
   returnIntroDuration?: number
+  returnIntroSfx?: SfxItem[]
+  returnIntroSpeaker?: string
+  returnIntroGainDb?: number
   /** continuation: 이전 파트 요약 (예: "지난 1부에서는 ...") */
   prevRecap?: string
   prevRecapDuration?: number
+  prevRecapSfx?: SfxItem[]
+  prevRecapSpeaker?: string
+  prevRecapGainDb?: number
   /** 서재 이동 브릿지 */
   bridge: string
   bridgeDuration: number
+  bridgeSfx?: SfxItem[]
+  bridgeSpeaker?: string
+  bridgeGainDb?: number
   /** "핵심 요약" 라벨 오디오 길이 (초) */
   labelSummaryDuration?: number
   /** "감상경위" 라벨 오디오 길이 (초) */
@@ -131,9 +209,15 @@ export interface NarratorLines {
   /** 중간안내 텍스트 (10개 초과 시) */
   interlude?: string
   interludeDuration?: number
+  interludeSfx?: SfxItem[]
+  interludeSpeaker?: string
+  interludeGainDb?: number
   /** Section 6/7: 아웃트로 */
   outro: string
   outroDuration: number
+  outroSfx?: SfxItem[]
+  outroSpeaker?: string
+  outroGainDb?: number
 }
 
 /**
@@ -181,18 +265,7 @@ export interface ShortSegment {
    *  - text 있음: 해당 구절 시작 시점(voiceTimings 매칭) + offset
    *  - voiceTimings 없거나 매칭 실패 시 세그먼트 텍스트 내 위치 비율로 폴백
    *  file은 에피소드 soundeffect/ 폴더 기준 상대 경로 또는 'episodes/...' 절대 경로. */
-  sfx?: {
-    file: string
-    text?: string
-    offset?: number
-    volume?: number
-    /** 재생 길이 제한(초). 미지정 시 음원 끝까지. */
-    duration?: number
-    /** 시작 페이드인(초). 0초부터 이 시간만큼 0→volume으로 ramp. */
-    fadeIn?: number
-    /** 끝나기 전 페이드아웃(초). duration이 지정되어 있어야 의미가 있다. */
-    fadeOut?: number
-  }[]
+  sfx?: SfxItem[]
   /** 인용 출처 — celeb role 세그먼트에서 인용문 아래에 표시 */
   quoteSource?: string
   /** 우상단 표시 — 'avatar': 인물 얼굴, 'book': 책 표지, 'none': 표시 안 함.
@@ -214,6 +287,8 @@ export interface ShortSegment {
   textOverlay?: boolean | 'bottom'
   /** 세그먼트 오디오 볼륨. 기본값 1. 음악이나 효과음에 묻히는 경우 조절. */
   volume?: number
+  /** dB 게인. BO 입력값 그대로. 0(또는 미설정)이면 원본 음량. volume과 함께 곱셈 적용된다. */
+  gainDb?: number
   /** Gemini TTS 발화 스타일 prefix (예: "낮고 간절하게 속삭이듯"). narrator/summary 우선 적용, celeb는 host.voiceStyle 대체. */
   style?: string
   /** Gemini TTS 보이스 명시 오버라이드 (예: "Sulafat"). 지정 시 role과 무관하게 Gemini로 합성하며 ElevenLabs 셀럽 차단도 우회한다. 캐릭터 보이스(다중 화자) 용도. */
@@ -261,6 +336,8 @@ export interface ShortsConfig {
   segments: ShortSegment[]
   /** 쇼츠 BGM — 에피소드 전체가 아닌 쇼츠 변형별 독립 */
   bgm?: BgmTrack[]
+  /** 마지막 로고(엔드 카드) 노출 길이(초). 미설정 시 BGM 유무로 자동(3 또는 5). 0.5~10 클램프. */
+  logoDurationSec?: number
 }
 
 /** 파형 분석 기반 음성 타이밍 */
@@ -329,6 +406,8 @@ export interface BookRecommendScript {
   host: CelebHost
   books: BookEntry[]
   narrator: NarratorLines
+  /** 롱폼 화자 목록 — 인트로·책 본문·인용 모든 행이 공유. 쇼츠는 shorts[].speakers를 따로 보유. */
+  speakers?: Speaker[]
   /** TTS 텍스트 오버라이드 — 한글 숫자 등 발음 차이가 있는 필드만 지정 */
   tts?: TtsOverrides
   /** 쇼츠 설정 (배열: 동일 에피소드 내 복수 쇼츠 버전. shorts[0]=기본, shorts[1]=alt 등) */

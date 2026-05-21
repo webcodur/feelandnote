@@ -93,11 +93,15 @@ export async function main(): Promise<void> {
   // 따라서 elevenlabsVoiceId가 있는 에피소드의 celeb 음성은
   // Gemini 파이프라인에서 제외하고 유저 수작업 영역으로 남긴다.
   // 단, segment.geminiVoice 명시 오버라이드(forceGemini)는 캐릭터 보이스이므로 차단 우회.
-  if (ENGINE === 'gemini' && episode.host.elevenlabsVoiceId) {
+  // host 활성 엔진 판정 — 신규 voiceEngine 필드 우선, 없으면 elevenlabsVoiceId 존재로 추정.
+  const hostEngine: 'gemini' | 'elevenlabs' = (episode.host as { voiceEngine?: 'gemini' | 'elevenlabs' }).voiceEngine
+    ?? (episode.host.elevenlabsVoiceId ? 'elevenlabs' : 'gemini')
+  if (ENGINE === 'gemini' && hostEngine === 'elevenlabs' && episode.host.elevenlabsVoiceId) {
     const before = jobs.length
-    jobs = jobs.filter(j => j.role !== 'celeb' || j.forceGemini)
+    // celeb 차단 — 단, geminiVoice 명시(forceGemini) 또는 화자별 elevenlabsVoiceId 오버라이드가 있으면 통과.
+    jobs = jobs.filter(j => j.role !== 'celeb' || j.forceGemini || !!j.elevenlabsVoiceId)
     const skipped = before - jobs.length
-    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단, geminiVoice 명시는 통과)`)
+    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단, geminiVoice·화자 elevenlabsVoiceId 명시는 통과)`)
   }
 
   if (onlyFiles) {
@@ -114,7 +118,7 @@ export async function main(): Promise<void> {
     for (const j of jobs) {
       const dir = manifestDir(j)
       if (!byDir.has(dir)) byDir.set(dir, {})
-      byDir.get(dir)![j.file] = jobHash(j.text, j.voice)
+      byDir.get(dir)![j.file] = jobHash(j.text, j.voice, j.elevenlabsVoiceId)
     }
     for (const [dir, m] of byDir) {
       await mkdir(dir, { recursive: true })
@@ -136,7 +140,7 @@ export async function main(): Promise<void> {
     const filtered: Job[] = []
     for (const j of jobs) {
       const m = await getManifest(manifestDir(j))
-      if (jobHash(j.text, j.voice) !== m[j.file]) filtered.push(j)
+      if (jobHash(j.text, j.voice, j.elevenlabsVoiceId) !== m[j.file]) filtered.push(j)
     }
     const skipped = before - filtered.length
     jobs = filtered
@@ -173,7 +177,7 @@ export async function main(): Promise<void> {
     console.log('생성 대상:')
     for (const j of jobs) {
       const m = await getManifest(manifestDir(j))
-      const changed = jobHash(j.text, j.voice) !== m[j.file]
+      const changed = jobHash(j.text, j.voice, j.elevenlabsVoiceId) !== m[j.file]
       console.log(`  ${j.file.padEnd(30)} [${j.voice}] ${changed ? '← 변경' : ''}`)
     }
     return
@@ -194,7 +198,7 @@ export async function main(): Promise<void> {
     // 성공 시 매니페스트 업데이트
     const mDir = manifestDir(job)
     const m = await getManifest(mDir)
-    m[job.file] = jobHash(job.text, job.voice)
+    m[job.file] = jobHash(job.text, job.voice, job.elevenlabsVoiceId)
     // --normalize: 신규 wav 즉시 정규화 (.raw/ 백업 자동)
     if (normalizeEnabled) {
       const r = await normalizeWav(fp)

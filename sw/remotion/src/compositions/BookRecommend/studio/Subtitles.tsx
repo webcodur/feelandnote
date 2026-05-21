@@ -4,6 +4,7 @@
  */
 import { useCurrentFrame } from 'remotion'
 import { FONT } from '../fonts'
+import { stripCaptionPunct } from '../utils'
 import type { Sub } from '../sentence-split'
 
 export type { Sub }
@@ -25,7 +26,7 @@ export const Subtitles: React.FC<Props> = ({ subs }) => {
           {current.speaker}
         </div>
         <div style={{ color: '#e8e0d0', fontSize: 20, fontFamily: FONT.sans, lineHeight: 1.5 }}>
-          {current.text}
+          {stripCaptionPunct(current.text)}
         </div>
       </div>
     </div>

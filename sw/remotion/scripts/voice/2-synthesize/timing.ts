@@ -5,7 +5,7 @@
  * 본체 timing.json에는 timing.shorts를 저장하지 않는다 (옵션 2: 쇼츠는 별도 파일).
  */
 
-import { mkdir, readFile, writeFile } from 'fs/promises'
+import { mkdir, readFile, readdir, writeFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
 import {
@@ -15,29 +15,95 @@ import {
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   COMMON_VOICE_FILES,
 } from '../../../src/compositions/BookRecommend/voice-names'
-import { ROOT, findEpisodeDir, resolveTimingPath } from '../../lib/episode.js'
+import { ROOT, findEpisodeDir, isNewLayout, resolveTimingPath } from '../../lib/episode.js'
 import { EPISODE_NAME, EP_PERSON, EP_LOCALE } from './cli.js'
 
 export async function updateTimingJson(results: Record<string, number>): Promise<void> {
+  const episodeDir = findEpisodeDir(EP_PERSON)
+  const newLayout = isNewLayout(episodeDir, EP_LOCALE)
   const timingPath = resolveTimingPath(EPISODE_NAME)
   const timingRaw = existsSync(timingPath) ? await readFile(timingPath, 'utf-8') : '{}'
   const timing = JSON.parse(timingRaw)
   if (!timing.narrator) timing.narrator = {}
   if (!timing.host) timing.host = {}
-  if (!timing.books) timing.books = []
+  // 신구조: 책별 timing 은 books/{NN-*}/book.{locale}.timing.json 에 분리 저장 → meta 에는 books 키 자체를 두지 않는다
+  // 레거시: 본체 timing.json 에 books 배열 직접 저장
+  if (!newLayout) {
+    if (!timing.books) timing.books = []
+  } else if ('books' in timing) {
+    delete timing.books
+  }
   // 옵션 2: 본체 timing.json에 timing.shorts 저장하지 않는다 (shorts/{locale}-{N}.timing.json 별도)
   if ('shorts' in timing) delete timing.shorts
 
+  // 신구조 책별 timing 캐시 — folderIndex → folderPath, 책별 누적 객체
+  const bookFolders: string[] = newLayout
+    ? (await readdir(path.join(episodeDir, 'books'), { withFileTypes: true }))
+        .filter(e => e.isDirectory() && /^\d+-/.test(e.name))
+        .map(e => e.name)
+        .sort()
+    : []
+  const bookTimingCache = new Map<number, any>()
+  async function loadBookTiming(idx0: number): Promise<any> {
+    if (bookTimingCache.has(idx0)) return bookTimingCache.get(idx0)
+    const folder = bookFolders[idx0]
+    if (!folder) {
+      const empty = {}
+      bookTimingCache.set(idx0, empty)
+      return empty
+    }
+    const fp = path.join(episodeDir, 'books', folder, `book.${EP_LOCALE}.timing.json`)
+    let json: any = {}
+    if (existsSync(fp)) {
+      try { json = JSON.parse(await readFile(fp, 'utf-8')) } catch { /* 손상 시 초기화 */ }
+    }
+    bookTimingCache.set(idx0, json)
+    return json
+  }
+  function setBookField(idx0: number, key: string, value: number) {
+    if (newLayout) {
+      const cached = bookTimingCache.get(idx0) ?? {}
+      cached[key] = value
+      bookTimingCache.set(idx0, cached)
+    } else {
+      if (!timing.books[idx0]) timing.books[idx0] = {}
+      timing.books[idx0][key] = value
+    }
+  }
+  function setQuotePairField(idx0: number, pairIdx: number, key: 'quoteDuration' | 'afterDuration', value: number) {
+    if (newLayout) {
+      const cached = bookTimingCache.get(idx0) ?? {}
+      if (!cached.quotePairDurations) cached.quotePairDurations = []
+      while (cached.quotePairDurations.length <= pairIdx) cached.quotePairDurations.push({})
+      cached.quotePairDurations[pairIdx][key] = value
+      bookTimingCache.set(idx0, cached)
+    } else {
+      if (!timing.books[idx0]) timing.books[idx0] = {}
+      if (!timing.books[idx0].quotePairDurations) timing.books[idx0].quotePairDurations = []
+      while (timing.books[idx0].quotePairDurations.length <= pairIdx) timing.books[idx0].quotePairDurations.push({})
+      timing.books[idx0].quotePairDurations[pairIdx][key] = value
+    }
+  }
+
   // 쇼츠 timing 외부 파일 캐시: shortsIdx(1-based) → 파일 JSON
-  const episodeDir = findEpisodeDir(EP_PERSON)
+  // 레거시: shorts/{locale}-{N}.timing.json
+  // 신구조: books/{folder}/shorts.{locale}.timing.json — featuredBookIndex 매핑 필요 (shortsIdx1 ↔ 책 폴더 idx0)
   const shortsDir = path.join(episodeDir, 'shorts')
   const shortsTimingCache = new Map<number, any>()
-  const shortsTimingPath = (idx1: number) => path.join(shortsDir, `${EP_LOCALE}-${idx1}.timing.json`)
+  const shortsTimingPath = (idx1: number): string | null => {
+    if (newLayout) {
+      const idx0 = idx1 - 1
+      const folder = bookFolders[idx0]
+      if (!folder) return null
+      return path.join(episodeDir, 'books', folder, `shorts.${EP_LOCALE}.timing.json`)
+    }
+    return path.join(shortsDir, `${EP_LOCALE}-${idx1}.timing.json`)
+  }
   async function loadShortsTiming(idx1: number): Promise<any> {
     if (shortsTimingCache.has(idx1)) return shortsTimingCache.get(idx1)
     const fp = shortsTimingPath(idx1)
     let json: any = { segments: [] }
-    if (existsSync(fp)) {
+    if (fp && existsSync(fp)) {
       try { json = JSON.parse(await readFile(fp, 'utf-8')) } catch { /* 손상 시 초기화 */ }
     }
     if (!json.segments) json.segments = []
@@ -74,11 +140,11 @@ export async function updateTimingJson(results: Record<string, number>): Promise
     const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context)\.wav$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1 // 1-based -> 0-based
-      if (!timing.books[idx]) timing.books[idx] = {}
+      if (newLayout) await loadBookTiming(idx)
       switch (bookMatch[2]) {
-        case 'title': timing.books[idx].titleDuration = rounded; break
-        case 'summary': timing.books[idx].summaryDuration = rounded; break
-        case 'context': timing.books[idx].contextDuration = rounded; break
+        case 'title': setBookField(idx, 'titleDuration', rounded); break
+        case 'summary': setBookField(idx, 'summaryDuration', rounded); break
+        case 'context': setBookField(idx, 'contextDuration', rounded); break
       }
       continue
     }
@@ -89,26 +155,34 @@ export async function updateTimingJson(results: Record<string, number>): Promise
       const n = parseInt(dMatch[2])
       const isQuote = dMatch[3] === 'quote'
       const pairIdx = Math.floor((n - 1) / 2) // d1,d2→0  d3,d4→1  d5,d6→2
-      if (!timing.books[idx]) timing.books[idx] = {}
-      if (!timing.books[idx].quotePairDurations) timing.books[idx].quotePairDurations = []
-      while (timing.books[idx].quotePairDurations.length <= pairIdx) {
-        timing.books[idx].quotePairDurations.push({})
-      }
-      if (isQuote) timing.books[idx].quotePairDurations[pairIdx].quoteDuration = rounded
-      else timing.books[idx].quotePairDurations[pairIdx].afterDuration = rounded
+      if (newLayout) await loadBookTiming(idx)
+      setQuotePairField(idx, pairIdx, isQuote ? 'quoteDuration' : 'afterDuration', rounded)
     }
   }
 
   await writeFile(timingPath, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
   console.log(`\n✓ ${EPISODE_NAME} timing.json duration 자동 반영 완료`)
 
+  // 신구조: 책별 timing 파일 저장
+  if (newLayout && bookTimingCache.size > 0) {
+    for (const [idx0, data] of bookTimingCache) {
+      const folder = bookFolders[idx0]
+      if (!folder) continue
+      if (Object.keys(data).length === 0) continue
+      const fp = path.join(episodeDir, 'books', folder, `book.${EP_LOCALE}.timing.json`)
+      await writeFile(fp, JSON.stringify(data, null, 2) + '\n', 'utf-8')
+      console.log(`  ✓ books/${folder}/book.${EP_LOCALE}.timing.json`)
+    }
+  }
+
   // 쇼츠 timing 외부 파일 저장
   if (shortsTimingCache.size > 0) {
-    await mkdir(shortsDir, { recursive: true })
+    if (!newLayout) await mkdir(shortsDir, { recursive: true })
     for (const [idx1, data] of shortsTimingCache) {
       const fp = shortsTimingPath(idx1)
+      if (!fp) continue
       await writeFile(fp, JSON.stringify(data, null, 2) + '\n', 'utf-8')
-      console.log(`  ✓ shorts/${EP_LOCALE}-${idx1}.timing.json`)
+      console.log(`  ✓ ${path.relative(episodeDir, fp).replace(/\\/g, '/')}`)
     }
   }
 
@@ -118,12 +192,34 @@ export async function updateTimingJson(results: Record<string, number>): Promise
     const { readdirSync, statSync } = await import('fs')
     const EPISODES_BASE = path.join(ROOT, 'public', 'episodes')
     let count = 0
-    for (const status of ['todo', 'live', 'done']) {
-      const statusDir = path.join(EPISODES_BASE, status)
-      if (!existsSync(statusDir)) continue
-      const allDirs = readdirSync(statusDir).filter((d: string) => statSync(path.join(statusDir, d)).isDirectory())
-      for (const d of allDirs) {
-        const dir = path.join(statusDir, d)
+    // 재귀 스캔: _status.json 보유 인물 폴더 모두 + 옛 status 폴더 폴백
+    const personDirs: string[] = []
+    const INACTIVE = new Set(['excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'])
+    const STATUSES_LOCAL = new Set(['todo', 'live', 'done'])
+    function walk(dir: string, depth: number) {
+      let entries
+      try { entries = readdirSync(dir).filter((d: string) => statSync(path.join(dir, d)).isDirectory()) } catch { return }
+      for (const name of entries) {
+        if (name.startsWith('_')) continue
+        if (depth === 0 && INACTIVE.has(name)) continue
+        const sub = path.join(dir, name)
+        if (existsSync(path.join(sub, '_status.json'))) {
+          personDirs.push(sub)
+        } else if (depth === 0 && STATUSES_LOCAL.has(name)) {
+          // 옛 status 폴더 폴백
+          try {
+            for (const p of readdirSync(sub).filter((d: string) => statSync(path.join(sub, d)).isDirectory())) {
+              personDirs.push(path.join(sub, p))
+            }
+          } catch { /* empty */ }
+        } else {
+          walk(sub, depth + 1)
+        }
+      }
+    }
+    walk(EPISODES_BASE, 0)
+    for (const dir of personDirs) {
+      {
         for (const fname of readdirSync(dir).filter((f: string) => f.endsWith('.timing.json'))) {
           const fp = path.join(dir, fname)
           if (fp === timingPath) continue // 이미 처리됨

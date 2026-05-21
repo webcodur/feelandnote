@@ -3,6 +3,19 @@ import { Easing, interpolate, useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
 import { buildHighlightSegments } from '../utils'
 
+/** 짧은 어절(2자 이하)이 라인 끝 단독으로 떨어지지 않도록 직전 공백을 단단한 공백(NBSP)으로
+ *  변환한다. word-break: keep-all 정책 하에 한국어 자막에서 흔히 발생하는 widow 회피용. */
+function bindShortPhrases(text: string): string {
+  const parts = text.split(/(\s+)/)
+  for (let i = 2; i < parts.length; i += 2) {
+    const word = parts[i]
+    if (word && word.length <= 2 && parts[i - 1]) {
+      parts[i - 1] = parts[i - 1].replace(/[ \t]/g, ' ')
+    }
+  }
+  return parts.join('')
+}
+
 type Segment = { start: number; end: number; text?: string }
 
 type Props = {
@@ -14,6 +27,10 @@ type Props = {
   style?: React.CSSProperties
   highlightColor?: string
   timings?: Segment[]
+  /** 짧은 어절(2자 이하) widow 회피용 NBSP 묶음을 끈다.
+   *  대표 명언처럼 한 덩어리 짧은 텍스트에서는 NBSP가 오히려 줄바꿈 위치를
+   *  의미와 어긋난 자리로 밀어내므로, 자연스러운 줄바꿈이 필요할 때 사용. */
+  noShortPhraseBind?: boolean
 }
 
 const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
@@ -30,6 +47,7 @@ export const Typewriter: React.FC<Props> = ({
   style,
   highlightColor = '#fff',
   timings,
+  noShortPhraseBind = false,
 }) => {
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
@@ -57,8 +75,10 @@ export const Typewriter: React.FC<Props> = ({
   }, [sentences, paraBreakAfter])
 
   const renderSentence = (i: number, isLastInBlock: boolean) => {
-    const sentence = sentences[i]
-    if (!sentence) return null // whisper "..." 아티팩트 등 빈 슬라이스 스킵
+    const rawSentence = sentences[i]
+    if (!rawSentence) return null // whisper "..." 아티팩트 등 빈 슬라이스 스킵
+    // 짧은 어절 widow 회피 — 라인 끝에 짧은 어절(2자 이하)이 단독으로 떨어지지 않게
+    const sentence = noShortPhraseBind ? rawSentence : bindShortPhrases(rawSentence)
     const r = ranges[Math.min(i, ranges.length - 1)]
     const s0 = r.start
     const s2 = Math.max(r.end, s0 + 2)

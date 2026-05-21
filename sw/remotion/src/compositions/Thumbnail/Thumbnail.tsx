@@ -233,6 +233,7 @@ export const Thumbnail: React.FC<Props> = ({ script }) => {
           fontWeight: 700,
           fontFamily: FONT.brand,
           letterSpacing: 4,
+          zIndex: 30,
         }}
       >
         <span style={{ color: '#c8a46e' }}>FEEL</span>

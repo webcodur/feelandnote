@@ -12,6 +12,7 @@ import {
   calcShortTotalFrames,
   episodes,
   episodeStatus,
+  getEpisodeGroup,
 } from "./compositions/BookRecommend";
 import type { EpisodeStatus } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
@@ -41,23 +42,25 @@ function groupByPerson<T>(entries: [string, T][]) {
   return Object.values(groups)
 }
 
-/** baseName에서 상태를 결정. script.ts에서 이미 done/live만 등록되므로 폴백은 타입 만족용. */
-function getStatus(baseName: string): EpisodeStatus {
-  return episodeStatus[baseName] ?? 'done'
+// status 폴더 분류는 폐기. 그룹 폴더(예: Three-Kingdoms)와 미분류(Other)로 표시한다.
+void episodeStatus // 외부 export 유지를 위해 reference만 보존
+
+/** 그룹명 폴더 라벨로 변환 — 'three-kingdoms' → 'Three-Kingdoms' */
+function toGroupLabel(group: string): string {
+  return group.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('-')
 }
 
-const STATUS_LABELS: Record<EpisodeStatus, string> = {
-  done: '1-Done',
-  live: '2-Live',
-}
+const UNGROUPED_LABEL = 'Zzz-Ungrouped' // Remotion Folder 명명 규칙(a-z A-Z 0-9 -)에 맞추고 알파벳 정렬 시 끝쪽 배치
 
-/** 에피소드를 상태별로 분류 */
-function groupByStatus(allEntries: [string, unknown][]) {
-  const result: Record<EpisodeStatus, [string, unknown][]> = { done: [], live: [] }
+/** 에피소드를 그룹별로 분류 */
+function groupByGroup(allEntries: [string, unknown][]): Record<string, [string, unknown][]> {
+  const result: Record<string, [string, unknown][]> = {}
   for (const [name, script] of allEntries) {
     const { baseName } = parseEpMeta(name)
-    const status = getStatus(baseName)
-    result[status].push([name, script])
+    const group = getEpisodeGroup(baseName)
+    const folder = group ? toGroupLabel(group) : UNGROUPED_LABEL
+    if (!result[folder]) result[folder] = []
+    result[folder].push([name, script])
   }
   return result
 }
@@ -67,12 +70,13 @@ export const RemotionRoot: React.FC = () => {
     <>
       {/* === 서재 탐방 === */}
       <Folder name="BookRecommend">
-        {(Object.entries(STATUS_LABELS) as [EpisodeStatus, string][]).map(([status, folderName]) => {
-          const statusEntries = groupByStatus(Object.entries(episodes))[status]
-          if (statusEntries.length === 0) return null
+        {Object.entries(groupByGroup(Object.entries(episodes)))
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([groupFolder, groupEntries]) => {
+          if (groupEntries.length === 0) return null
           return (
-            <Folder key={status} name={folderName}>
-              {groupByPerson(statusEntries as [string, typeof episodes[string]][]).map(({ label, items }) => (
+            <Folder key={groupFolder} name={groupFolder}>
+              {groupByPerson(groupEntries as [string, typeof episodes[string]][]).map(({ label, items }) => (
                 <Folder key={label} name={label}>
                   {(() => {
                     const validLong = items.filter(({ script }) => {

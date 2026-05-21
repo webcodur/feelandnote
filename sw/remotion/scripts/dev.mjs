@@ -56,10 +56,33 @@ if (isRestart) {
 
 const API_PORT = 8787
 
-/** todo/live/done 3단 구조에서 에피소드 디렉토리 탐색 */
+/** 에피소드 디렉토리 탐색.
+ *  신구조: public/episodes/.../<person>/ (_status 파일 보유, 그룹 폴더 안 가능)
+ *  옛 구조 폴백: public/episodes/<status>/<person>/ */
 function findEpisodeDir(person) {
-  for (const status of ['todo', 'live', 'done']) {
-    const dir = path.join(ROOT, 'public', 'episodes', status, person)
+  const episodesRoot = path.join(ROOT, 'public', 'episodes')
+  const STATUSES = ['todo', 'live', 'done']
+  function walk(dir, depth) {
+    let entries
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }) } catch { return null }
+    for (const e of entries) {
+      if (!e.isDirectory()) continue
+      if (e.name.startsWith('_')) continue
+      if (depth === 0 && (STATUSES.includes(e.name) || e.name === 'pre-todo')) continue
+      const sub = path.join(dir, e.name)
+      if (fs.existsSync(path.join(sub, '_status.json'))) {
+        if (e.name === person) return sub
+        continue
+      }
+      const found = walk(sub, depth + 1)
+      if (found) return found
+    }
+    return null
+  }
+  const hit = walk(episodesRoot, 0)
+  if (hit) return hit
+  for (const status of STATUSES) {
+    const dir = path.join(episodesRoot, status, person)
     if (fs.existsSync(dir)) return dir
   }
   throw new Error(`Episode not found: ${person}`)
@@ -80,26 +103,31 @@ const apiServer = http.createServer((req, res) => {
         if (!episode || !locale || !timingKey || segIndex == null || !Array.isArray(sub)) {
           res.writeHead(400); res.end(JSON.stringify({ error: 'missing fields' })); return
         }
-        // episode "dario-amodei-en" + locale "en" → dir "dario-amodei"
-        const dir = locale !== 'ko' ? episode.replace(new RegExp(`-${locale}$`), '') : episode
+        // episode 식별자 → 디렉터리명: 모든 locale 접미사 제거 (예: zhuge-liang-ko → zhuge-liang).
+        const dir = episode.replace(new RegExp(`-${locale}$`), '')
         const epDir = findEpisodeDir(dir)
-        // voiceTimings는 timing.json에 분리 저장 (ko.timing.json / en.timing.json)
-        const timingPath = path.join(epDir, `${locale}.timing.json`)
-        const mainPath = path.join(epDir, `${locale}.json`)
-        // timing.json 우선, 없으면 메인 json 폴백
-        const jsonPath = fs.existsSync(timingPath) ? timingPath : mainPath
-        if (!fs.existsSync(jsonPath)) {
-          res.writeHead(404); res.end(JSON.stringify({ error: 'file not found' })); return
+        // 신구조 우선: meta.{locale}.timing.json. 없으면 레거시 폴백: {locale}.timing.json → {locale}.json.
+        const candidates = [
+          path.join(epDir, `meta.${locale}.timing.json`),
+          path.join(epDir, `${locale}.timing.json`),
+          path.join(epDir, `${locale}.json`),
+        ]
+        const jsonPath = candidates.find(p => fs.existsSync(p))
+        if (!jsonPath) {
+          res.writeHead(404); res.end(JSON.stringify({ error: 'file not found', tried: candidates })); return
         }
         const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
         if (!data.voiceTimings?.[timingKey]?.[segIndex]) {
           res.writeHead(404); res.end(JSON.stringify({ error: `timing segment not found: ${timingKey}[${segIndex}]` })); return
         }
         data.voiceTimings[timingKey][segIndex].sub = sub
+        // 기존 subTimings는 sub 길이가 바뀐 순간 의미가 어긋나므로 제거 — voice:align 재실행으로 자동 산출.
+        delete data.voiceTimings[timingKey][segIndex].subTimings
         fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2) + '\n', 'utf8')
         console.log(`[api] sub 저장: ${jsonPath} → ${timingKey}[${segIndex}]`)
         res.writeHead(200); res.end(JSON.stringify({ ok: true }))
       } catch (e) {
+        console.error('[api] save-sub 실패:', e)
         res.writeHead(500); res.end(JSON.stringify({ error: String(e) }))
       }
     })

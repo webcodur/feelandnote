@@ -25,6 +25,34 @@ import type { BookRecommendScript, EpisodeTimingData } from '../../src/compositi
 const EPISODES_DIR = join(__dirname, '..', '..', 'public', 'episodes')
 const STATUSES = ['done', 'live', 'todo'] as const
 
+/** episodes/ 재귀 스캔하여 _status.json 보유 인물 폴더 수집.
+ *  옛 구조(<status>/<person>) 폴백도 지원. */
+function scanPersonFolders(root: string): Array<{ name: string; dir: string }> {
+  const INACTIVE = new Set(['excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'])
+  const hits: Array<{ name: string; dir: string }> = []
+  function walk(dir: string, depth: number) {
+    let entries
+    try { entries = readdirSync(dir, { withFileTypes: true }) } catch { return }
+    for (const e of entries) {
+      if (!e.isDirectory() || e.name.startsWith('_')) continue
+      if (depth === 0 && INACTIVE.has(e.name)) continue
+      // 옛 status 폴더는 한 단계 더 들어가서 person 폴더 찾기
+      if (depth === 0 && (STATUSES as readonly string[]).includes(e.name)) {
+        walk(join(dir, e.name), depth + 1)
+        continue
+      }
+      const sub = join(dir, e.name)
+      if (existsSync(join(sub, '_status.json'))) {
+        hits.push({ name: e.name, dir: sub })
+      } else {
+        walk(sub, depth + 1)
+      }
+    }
+  }
+  walk(root, 0)
+  return hits
+}
+
 /**
  * 본체 timing.json 머지. shorts는 외부 파일(loadExternalShortsSync)에서 이미 병합되어 있으므로
  * 여기서는 그대로 통과시킨다.
@@ -96,28 +124,106 @@ function loadJSON<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf-8')) as T
 }
 
+function loadJSONOrNull<T>(path: string): T | null {
+  if (!existsSync(path)) return null
+  try { return JSON.parse(readFileSync(path, 'utf-8')) as T } catch { return null }
+}
+
+/**
+ * 신구조 레이아웃 동기 로더 — sw/remotion-bo/src/lib/episode-new-layout.ts 의 sync 미러.
+ *
+ * 디스크 구조:
+ *   {person}/
+ *     meta.{locale}.json + meta.{locale}.timing.json
+ *     books/{NN-제목}/
+ *       book.{locale}.json + book.{locale}.timing.json
+ *       shorts.{locale}.json + shorts.{locale}.timing.json
+ */
+function loadNewLayoutSync(personDir: string, locale: 'ko' | 'en'): BookRecommendScript | null {
+  const metaContent = loadJSONOrNull<any>(join(personDir, `meta.${locale}.json`))
+  if (!metaContent) return null
+  const metaTiming = loadJSONOrNull<any>(join(personDir, `meta.${locale}.timing.json`)) ?? {}
+
+  const booksDir = join(personDir, 'books')
+  const folders = existsSync(booksDir)
+    ? readdirSync(booksDir, { withFileTypes: true })
+        .filter(e => e.isDirectory() && /^\d+-/.test(e.name))
+        .map(e => e.name)
+        .sort()
+    : []
+
+  const books: any[] = []
+  const shortsArr: any[] = []
+
+  for (let i = 0; i < folders.length; i++) {
+    const bd = join(booksDir, folders[i])
+    const book = loadJSONOrNull<any>(join(bd, `book.${locale}.json`))
+    if (!book) continue
+    const bookT = loadJSONOrNull<any>(join(bd, `book.${locale}.timing.json`)) ?? {}
+    const merged: any = { ...book, ...bookT }
+    if (bookT.quotePairDurations && Array.isArray(merged.quotePairs)) {
+      merged.quotePairs = merged.quotePairs.map((p: any, pi: number) => ({
+        ...p, ...(bookT.quotePairDurations[pi] ?? {}),
+      }))
+      delete merged.quotePairDurations
+    }
+    books.push(merged)
+
+    const sc = loadJSONOrNull<any>(join(bd, `shorts.${locale}.json`))
+    if (sc) {
+      const st = loadJSONOrNull<any>(join(bd, `shorts.${locale}.timing.json`)) ?? {}
+      const mergedShorts: any = { ...sc, featuredBookIndex: i }
+      if (st.segments && Array.isArray(sc.segments)) {
+        mergedShorts.segments = sc.segments.map((seg: any, si: number) => ({
+          ...seg, ...(st.segments[si] ?? {}),
+        }))
+      }
+      shortsArr.push(mergedShorts)
+    }
+  }
+
+  const result: any = {
+    ...metaContent,
+    voiceTimings: metaTiming.voiceTimings ?? metaContent.voiceTimings,
+    narrator: { ...metaContent.narrator, ...(metaTiming.narrator ?? {}) },
+    host: { ...metaContent.host, ...(metaTiming.host ?? {}) },
+    books,
+  }
+  if (shortsArr.length > 0) result.shorts = shortsArr
+  return result as BookRecommendScript
+}
+
 function loadEpisodes(): Record<string, BookRecommendScript> {
   const episodes: Record<string, BookRecommendScript> = {}
   const koCache: Record<string, BookRecommendScript> = {}
   const enPending: { epName: string; script: BookRecommendScript }[] = []
 
-  for (const status of STATUSES) {
-    const statusDir = join(EPISODES_DIR, status)
-    if (!existsSync(statusDir)) continue
-    for (const person of readdirSync(statusDir, { withFileTypes: true })) {
-      if (!person.isDirectory()) continue
-      const personDir = join(statusDir, person.name)
+  for (const { name: personName, dir: personDir } of scanPersonFolders(EPISODES_DIR)) {
+    {
+      const person = { name: personName }
+      void person
+
+      // 신구조 레이아웃: books/ 디렉토리 + meta.{locale}.json
+      const isNewLayout = existsSync(join(personDir, 'books'))
 
       for (const locale of ['ko', 'en'] as const) {
-        const contentPath = join(personDir, `${locale}.json`)
-        if (!existsSync(contentPath)) continue
-        const content = loadJSON<BookRecommendScript>(contentPath)
-        // 옵션 2: 쇼츠는 shorts/{locale}-{N}.json 외부 파일에서 로드
-        const shortsArr = loadExternalShortsSync(personDir, locale)
-        if (shortsArr.length > 0) (content as any).shorts = shortsArr
-        const timingPath = join(personDir, `${locale}.timing.json`)
-        const timing = existsSync(timingPath) ? loadJSON<EpisodeTimingData>(timingPath) : undefined
-        const merged = timing ? mergeEpisode(content, timing) : content
+        let merged: BookRecommendScript | null = null
+
+        if (isNewLayout) {
+          merged = loadNewLayoutSync(personDir, locale)
+          if (!merged) continue
+        } else {
+          const contentPath = join(personDir, `${locale}.json`)
+          if (!existsSync(contentPath)) continue
+          const content = loadJSON<BookRecommendScript>(contentPath)
+          // 구조 레이아웃 옵션 2: 쇼츠는 shorts/{locale}-{N}.json 외부 파일에서 로드
+          const shortsArr = loadExternalShortsSync(personDir, locale)
+          if (shortsArr.length > 0) (content as any).shorts = shortsArr
+          const timingPath = join(personDir, `${locale}.timing.json`)
+          const timing = existsSync(timingPath) ? loadJSON<EpisodeTimingData>(timingPath) : undefined
+          merged = timing ? mergeEpisode(content, timing) : content
+        }
+
         const epName = `${person.name}${locale === 'en' ? '-en' : ''}`
         if (locale === 'en') enPending.push({ epName, script: merged })
         else { koCache[epName] = merged; episodes[epName] = merged }
@@ -158,10 +264,27 @@ mkdirSync(OUT_DIR, { recursive: true })
 // --- 유틸 ---
 function ts() { return new Date().toLocaleTimeString('ko-KR', { hour12: false }) }
 
+/**
+ * 진행 표시 모드:
+ *  - TTY (직접 터미널 실행): 같은 줄을 \r 로 덮어써 깔끔한 진행바 표시
+ *  - 비-TTY (Claude Code 백그라운드, 파일 리다이렉트, CI 등): 줄바꿈으로 찍되 일정 간격으로 throttle
+ *    하지 않으면 프레임당 한 줄이라 5만 줄+가 쏟아진다
+ */
+const IS_TTY = !!process.stdout.isTTY
+const PROGRESS_INTERVAL_MS = 3000 // 비-TTY 환경에서 진행 줄 출력 간격
+
 function runRender(cmd: string, compId: string, cwd: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn('pnpm.cmd', cmd.split(' ').slice(1), { cwd, shell: true })
     let lastLine = ''
+    let lastProgressAt = 0
+    const emitProgress = (text: string, force = false) => {
+      if (IS_TTY) { process.stdout.write(`\r${text}`); return }
+      const now = Date.now()
+      if (!force && now - lastProgressAt < PROGRESS_INTERVAL_MS) return
+      lastProgressAt = now
+      console.log(text)
+    }
 
     const handleData = (data: Buffer) => {
       const lines = data.toString().split('\n').filter(Boolean)
@@ -172,14 +295,15 @@ function runRender(cmd: string, compId: string, cwd: string): Promise<void> {
         // 번들링 진행
         const bundleMatch = line.match(/^Bundling (\d+)%/)
         if (bundleMatch) {
-          process.stdout.write(`\r  📦 번들링 ${bundleMatch[1]}%`)
+          const pct = +bundleMatch[1]
+          emitProgress(`  📦 번들링 ${pct}%`, pct === 100)
           continue
         }
 
-        // Public dir 복사 — 첫/마지막만
+        // Public dir 복사
         const copyMatch = line.match(/^Copying public dir (.+)/)
         if (copyMatch) {
-          process.stdout.write(`\r  📁 public 복사 ${copyMatch[1]}`)
+          emitProgress(`  📁 public 복사 ${copyMatch[1]}`)
           continue
         }
 
@@ -189,7 +313,8 @@ function runRender(cmd: string, compId: string, cwd: string): Promise<void> {
           const [, cur, total, remaining] = renderMatch
           const pct = ((+cur / +total) * 100).toFixed(1)
           const eta = remaining ? ` | 남은 시간: ${remaining}` : ''
-          process.stdout.write(`\r  🎬 렌더 ${cur}/${total} (${pct}%)${eta}        `)
+          const done = +cur >= +total
+          emitProgress(`  🎬 렌더 ${cur}/${total} (${pct}%)${eta}        `, done)
           continue
         }
 
@@ -198,13 +323,14 @@ function runRender(cmd: string, compId: string, cwd: string): Promise<void> {
         if (encodeMatch) {
           const [, cur, total] = encodeMatch
           const pct = ((+cur / +total) * 100).toFixed(1)
-          process.stdout.write(`\r  🔧 인코딩 ${cur}/${total} (${pct}%)        `)
+          const done = +cur >= +total
+          emitProgress(`  🔧 인코딩 ${cur}/${total} (${pct}%)        `, done)
           continue
         }
 
         // 출력 파일 (+ 로 시작)
         if (line.startsWith('+')) {
-          process.stdout.write('\n')
+          if (IS_TTY) process.stdout.write('\n')
           console.log(`  ✅ ${line.slice(1).trim()}`)
           continue
         }
@@ -216,7 +342,7 @@ function runRender(cmd: string, compId: string, cwd: string): Promise<void> {
     child.stdout?.on('data', handleData)
     child.stderr?.on('data', handleData)
     child.on('close', (code) => {
-      process.stdout.write('\n')
+      if (IS_TTY) process.stdout.write('\n')
       if (code === 0) resolve()
       else reject(new Error(`${compId} 렌더 실패 (exit ${code}). 마지막 로그: ${lastLine}`))
     })

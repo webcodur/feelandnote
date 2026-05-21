@@ -14,14 +14,31 @@ export const useIsPortrait = () => {
 export { SENTENCE_SPLIT, splitSentences, buildHighlightSegments, expandSubTimings, paginateSentences, slicePageTimings, splitSub, isTimingsStale, sliceOriginalByTimings } from './sentence-split'
 export type { Sub } from './sentence-split'
 
+/**
+ * 화면 자막 표시용 구두점 정리.
+ * - 마침표(.)는 모두 제거: 한 호흡으로 읽히는 자막에서 불필요.
+ * - 끝에 붙은 쉼표(,) 제거: 청크 마지막 쉼표는 발화 흐름 단서이지 표시될 필요 없음.
+ * 모든 화면 자막(쇼츠 ShortCaption, 롱폼 PortraitSubtitles, dev Subtitles)이 동일 규칙 사용.
+ */
+export const stripCaptionPunct = (s: string) => s.replace(/\./g, '').replace(/,\s*$/, '')
+
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
 export const sf = (path: string) => staticFile(path)
+
+/**
+ * dB 게인 → 곱셈 인자. BO `GainDbInput`이 저장하는 *GainDb 값을 Remotion `<Audio volume>`에 그대로 넘긴다.
+ * 0(또는 빈 값)이면 원본 음량 그대로(=1).
+ */
+export const dbToLinear = (db: number | undefined | null): number => {
+  if (db === undefined || db === null || !Number.isFinite(db) || db === 0) return 1
+  return Math.pow(10, db / 20)
+}
 
 
 /** 에피소드별 음성 경로 팩토리 — resolveVoiceRelPath 단일원천 사용 */
 export const makeVf = (epName: string, voiceSelect: { default: string; slots?: Record<string, string> } | null, locale?: 'ko' | 'en', hasElevenlabs?: boolean) => {
   const { person, locale: voiceLocale } = parseEpName(epName)
-  const epDir = episodeDir[epName] ?? `todo/${person}`
+  const epDir = episodeDir[epName] ?? person
   return (file: string) => {
     const { dir, subPath } = resolveVoiceRelPath(file, voiceSelect, locale, hasElevenlabs)
     if (dir === 'common') return sf(`common/voice/ko/${subPath}`)

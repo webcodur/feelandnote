@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/dev.mjs",
+    "scan:episodes": "tsx scripts/scan-episodes.ts",
     "reboot": "node scripts/dev.mjs --restart",
     "studio": "remotion studio",
     "voice:pronounce": "tsx scripts/voice/1-pronounce.ts",
@@ -19,6 +20,7 @@
     "srt": "tsx scripts/srt/generate-srt.ts",
     "youtube:auth": "tsx scripts/youtube/youtube-upload.ts auth",
     "youtube:upload": "tsx scripts/youtube/youtube-upload.ts upload",
+    "youtube:patch-meta": "tsx scripts/youtube/youtube-upload.ts patch-meta",
     "youtube": "tsx scripts/youtube/youtube-upload.ts",
     "upgrade": "remotion upgrade"
   },

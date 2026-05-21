@@ -23,10 +23,50 @@ from diff_match_patch import diff_match_patch
 
 
 def _episode_dir_exists(root, person):
+    # 신구조: episodes/.../<person>/_status.json 보유
+    found = _find_person_dir(root, person)
+    if found is not None:
+        return True
+    # 옛 구조 폴백
     for status in ['todo', 'live', 'done']:
         if os.path.isdir(os.path.join(root, 'public', 'episodes', status, person)):
             return True
     return False
+
+
+def _find_person_dir(root, person):
+    """episodes/ 재귀 스캔하여 _status.json 보유 인물 폴더 매치."""
+    episodes_root = os.path.join(root, 'public', 'episodes')
+    inactive = {'excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'}
+    statuses = {'todo', 'live', 'done'}
+
+    def walk(d, depth):
+        try:
+            entries = os.listdir(d)
+        except OSError:
+            return None
+        for name in entries:
+            sub = os.path.join(d, name)
+            if not os.path.isdir(sub):
+                continue
+            if name.startswith('_'):
+                continue
+            if depth == 0 and name in inactive:
+                continue
+            if depth == 0 and name in statuses:
+                found = walk(sub, depth + 1)
+                if found:
+                    return found
+                continue
+            if os.path.exists(os.path.join(sub, '_status.json')):
+                if name == person:
+                    return sub
+            else:
+                found = walk(sub, depth + 1)
+                if found:
+                    return found
+        return None
+    return walk(episodes_root, 0)
 
 
 def parse_ep_name(ep_name, root=None):
@@ -59,7 +99,10 @@ def parse_ep_name(ep_name, root=None):
 
 
 def find_episode_dir(root, person):
-    """todo/live/done 3단 구조에서 에피소드 디렉토리 탐색"""
+    """신구조: episodes/.../<person>/ (_status.json 보유). 옛 구조 폴백 지원."""
+    hit = _find_person_dir(root, person)
+    if hit is not None:
+        return hit
     for status in ['todo', 'live', 'done']:
         d = os.path.join(root, 'public', 'episodes', status, person)
         if os.path.isdir(d):
@@ -67,8 +110,47 @@ def find_episode_dir(root, person):
     raise FileNotFoundError(f'Episode not found: {person}')
 
 
+def is_new_layout(episode_dir, base_lang):
+    """신구조: meta.{locale}.json 또는 books/ 가 있으면 신구조"""
+    return (
+        os.path.isfile(os.path.join(episode_dir, f'meta.{base_lang}.json'))
+        or os.path.isdir(os.path.join(episode_dir, 'books'))
+    )
+
+
+def _list_book_folders(episode_dir):
+    """신구조 책 폴더 목록 (NN- prefix 정렬)"""
+    books_dir = os.path.join(episode_dir, 'books')
+    if not os.path.isdir(books_dir):
+        return []
+    entries = []
+    for name in os.listdir(books_dir):
+        full = os.path.join(books_dir, name)
+        if os.path.isdir(full) and len(name) >= 3 and name[:2].isdigit() and name[2] == '-':
+            entries.append(name)
+    entries.sort()
+    return entries
+
+
+def _load_new_layout_episode(episode_dir, base_lang):
+    """신구조 에피소드 로드 — meta.{locale}.json + books/{NN-*}/book.{locale}.json 머지"""
+    meta_path = os.path.join(episode_dir, f'meta.{base_lang}.json')
+    with open(meta_path, encoding='utf-8') as f:
+        meta = json.load(f)
+    books = []
+    for folder in _list_book_folders(episode_dir):
+        bd = os.path.join(episode_dir, 'books', folder)
+        bp = os.path.join(bd, f'book.{base_lang}.json')
+        if not os.path.isfile(bp):
+            continue
+        with open(bp, encoding='utf-8') as f:
+            books.append(json.load(f))
+    meta['books'] = books
+    return meta
+
+
 def resolve_episode_path(script_dir, episode_id):
-    """Episode ID → 인물별 디렉토리 파일 경로"""
+    """Episode ID → 인물별 디렉토리 파일 경로 (레거시 전용; 신구조에서는 main 이 직접 분기)"""
     root = os.path.join(script_dir, '..', '..')
     person, locale = parse_ep_name(episode_id, root=root)
     parts = locale.split('-')
@@ -79,10 +161,26 @@ def resolve_episode_path(script_dir, episode_id):
 
 
 def load_shorts_content(episode_dir, base_lang, shorts_index):
-    """shorts/{base_lang}-{N}.json 을 읽어 `_shortsIdx1` 를 주입한 딕셔너리로 반환.
+    """shorts 파일 로드 — 신구조 books/{NN-*}/shorts.{lang}.json 우선, 없으면 레거시 shorts/{lang}-{N}.json.
 
+    신구조에서는 정렬된 책 폴더 중 shorts.{lang}.json 가진 폴더만 모아 N번째(1-based).
     base_lang 은 'ko' 또는 'en' (멀티파트 번호는 쇼츠 경로에 사용하지 않음).
     """
+    book_folders = _list_book_folders(episode_dir)
+    if book_folders:
+        shorts_files = []
+        for folder in book_folders:
+            p = os.path.join(episode_dir, 'books', folder, f'shorts.{base_lang}.json')
+            if os.path.exists(p):
+                shorts_files.append(p)
+        if shorts_files:
+            if shorts_index < 1 or shorts_index > len(shorts_files):
+                print(f'✗ shorts 인덱스 {shorts_index} 가 범위 밖: 신구조에 {len(shorts_files)}개 존재', file=sys.stderr)
+                sys.exit(1)
+            with open(shorts_files[shorts_index - 1], 'r', encoding='utf-8') as f:
+                cfg = json.load(f)
+            cfg['_shortsIdx1'] = shorts_index
+            return cfg
     path = os.path.join(episode_dir, 'shorts', f'{base_lang}-{shorts_index}.json')
     if not os.path.exists(path):
         print(f'✗ shorts 파일 없음: {path}', file=sys.stderr)
@@ -412,11 +510,15 @@ def main():
     episode_dir = find_episode_dir(root, person)
     voice_dir = os.path.join(episode_dir, 'voice', locale)
 
-    ep_path = resolve_episode_path(script_dir, args.episode)
-    with open(ep_path, encoding='utf-8') as f:
-        ep = json.load(f)
-    lang = 'en' if ep.get('locale') == 'en' else 'ko'
     base_lang = locale.split('-')[0]  # 멀티파트에서 'ko-2' → 'ko'
+
+    if is_new_layout(episode_dir, base_lang):
+        ep = _load_new_layout_episode(episode_dir, base_lang)
+    else:
+        ep_path = resolve_episode_path(script_dir, args.episode)
+        with open(ep_path, encoding='utf-8') as f:
+            ep = json.load(f)
+    lang = 'en' if ep.get('locale') == 'en' else 'ko'
 
     # 쇼츠 외부 파일 로드 — 3-timings.ts 와 동일한 구조로 ep['shorts'] 주입
     if shorts_index is not None:

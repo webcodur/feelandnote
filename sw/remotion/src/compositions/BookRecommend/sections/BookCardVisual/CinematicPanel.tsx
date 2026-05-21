@@ -8,7 +8,7 @@ import type { BookEntry, ImageTransition } from '../../types'
 import { FONT } from '../../fonts'
 import { f } from '../../timing'
 import { DARK } from '../../../theme'
-import { episodeDir } from '../../script'
+import { resolveImageFile } from '../../script'
 
 const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
 
@@ -21,8 +21,7 @@ const CROSSFADE_F = f(0.67)
 // ── 이미지 경로 헬퍼 ──
 
 function cinemImgByFile(episodeName: string, file: string): string {
-  const dir = episodeDir[episodeName] ?? `todo/${episodeName}`
-  return `${staticFile(`episodes/${dir}/images/${file}`)}?v=${CACHE_BUST}`
+  return `${staticFile(resolveImageFile(episodeName, file))}?v=${CACHE_BUST}`
 }
 
 // ── 이미지 로드 훅 ──

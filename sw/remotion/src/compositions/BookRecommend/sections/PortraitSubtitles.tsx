@@ -10,6 +10,7 @@ import type { BookRecommendScript } from '../types'
 import type { Timeline } from '../useTimeline'
 import { buildLongSubs } from '../studio/StudioSubtitles'
 import { FONT } from '../fonts'
+import { stripCaptionPunct } from '../utils'
 import type { Sub } from '../utils'
 
 interface Props {
@@ -52,7 +53,7 @@ export const PortraitSubtitles: React.FC<Props> = ({ script, tl }) => {
         textShadow: '0 1px 4px rgba(0,0,0,0.4)',
         maxWidth: 960,
       }}>
-        {current.text}
+        {stripCaptionPunct(current.text)}
       </div>
     </div>
   )

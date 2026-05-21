@@ -17,7 +17,7 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react'
 import { useCurrentFrame } from 'remotion'
 import { FPS } from '../timing'
-import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale, sliceOriginalByTimings } from '../utils'
+import { expandSubTimings, paginateSentences, slicePageTimings, isTimingsStale, sliceOriginalByTimings, stripCaptionPunct } from '../utils'
 import { FONT } from '../fonts'
 import type { VoiceTimingSegment } from '../types'
 
@@ -50,7 +50,7 @@ export const ShortCaption: React.FC<Props> = ({
   color = '#e8e0d0',
   strokeColor = 'transparent',
   strokeWidth = 0,
-  fontSize = 44,
+  fontSize = 48,
   fontWeight = 600,
   timings,
   locale,
@@ -115,13 +115,11 @@ export const ShortCaption: React.FC<Props> = ({
     ...style,
   }
 
-  const stripDot = (s: string) => s.replace(/\./g, '').replace(/,\s*$/, '')
-
   // ── 단일 페이지 ──
   if (singlePage) {
     return (
       <Panel style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
-        {stripDot(text)}
+        {stripCaptionPunct(text)}
       </Panel>
     )
   }
@@ -160,7 +158,7 @@ export const ShortCaption: React.FC<Props> = ({
 
         return (
           <Panel key={pi} style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
-            {stripDot(pageText)}
+            {stripCaptionPunct(pageText)}
           </Panel>
         )
       })}

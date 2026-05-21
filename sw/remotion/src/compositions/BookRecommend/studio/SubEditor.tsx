@@ -104,11 +104,14 @@ function SegEditor({ seg, segIndex, timingKey, episodeName, locale }: SegEditorP
 
   const currentSub = useMemo(() => wordsToSub(words, breaks), [words, breaks])
 
+  const [saveError, setSaveError] = useState<string | null>(null)
   const save = useCallback(async () => {
     setSaving(true)
+    setSaveError(null)
     // 모듈 캐시에 즉시 반영 — Remotion 재렌더와 무관하게 유지
     subOverrides.set(oKey, currentSub)
     // 디스크 저장
+    let ok = false
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
@@ -118,13 +121,16 @@ function SegEditor({ seg, segIndex, timingKey, episodeName, locale }: SegEditorP
       if (!res.ok) {
         const err = await res.text()
         console.error(`[SubEditor] save 실패 ${res.status}:`, err)
+        setSaveError(`HTTP ${res.status}: ${err}`)
       } else {
         console.log(`[SubEditor] 저장 완료: ${timingKey}[${segIndex}]`)
+        ok = true
       }
     } catch (e) {
       console.error('[SubEditor] API 연결 실패:', e)
+      setSaveError(`네트워크 실패: ${e instanceof Error ? e.message : String(e)}`)
     }
-    setSaved(true)
+    setSaved(ok)
     setSaving(false)
   }, [oKey, episodeName, locale, timingKey, segIndex, currentSub])
 
@@ -205,16 +211,21 @@ function SegEditor({ seg, segIndex, timingKey, episodeName, locale }: SegEditorP
           disabled={saving}
           style={{
             padding: `${3 * L}px ${10 * L}px`, borderRadius: 4 * L,
-            border: `${Math.max(1, L / 2)}px solid ${saved ? 'rgba(110,200,130,0.4)' : 'rgba(200,164,110,0.3)'}`,
-            background: saved ? 'rgba(110,200,130,0.12)' : 'rgba(200,164,110,0.08)',
-            color: saved ? '#7ec88a' : C_GOLD,
+            border: `${Math.max(1, L / 2)}px solid ${saveError ? 'rgba(220,90,90,0.5)' : saved ? 'rgba(110,200,130,0.4)' : 'rgba(200,164,110,0.3)'}`,
+            background: saveError ? 'rgba(220,90,90,0.14)' : saved ? 'rgba(110,200,130,0.12)' : 'rgba(200,164,110,0.08)',
+            color: saveError ? '#e08585' : saved ? '#7ec88a' : C_GOLD,
             fontSize: L_FONT_XS, fontWeight: 600, cursor: 'pointer', fontFamily: FONT_UI,
             flexShrink: 0,
           }}
         >
-          {saving ? '...' : saved ? 'Saved' : 'Save'}
+          {saving ? '...' : saveError ? 'Failed' : saved ? 'Saved' : 'Save'}
         </button>
       </div>
+      {saveError && (
+        <div style={{ marginTop: 4 * L, fontSize: L_FONT_XS, color: '#e08585', fontFamily: FONT_MONO, wordBreak: 'break-all' }}>
+          {saveError}
+        </div>
+      )}
     </div>
   )
 }

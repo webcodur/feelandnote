@@ -217,7 +217,7 @@ export function buildTimeline(rawScript: BookRecommendScript): Timeline {
     summaryEnd: summaryPhaseEnd(b, ld),
     contextEnd: contextPhaseEnd(b, ld),
     quotePairsEnd: quotePairsEnd(b, ld),
-    total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F,
+    total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F + f(1),
     quotePairTimings: (b.quotePairs ?? []).map(p => ({
       hasQuote: !!p.quoteDuration,
       quoteFrames: p.quoteDuration ? toQuoteFrames(p.quoteDuration) : 0,

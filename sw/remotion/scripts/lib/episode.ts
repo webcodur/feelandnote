@@ -3,7 +3,7 @@
  *
  * scripts/ 하위 모든 스크립트가 공유하는 에피소드 탐색·파싱 함수.
  */
-import { existsSync } from 'fs'
+import { existsSync, readdirSync, type Dirent } from 'fs'
 import { readFile, readdir } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -11,10 +11,36 @@ import { fileURLToPath } from 'url'
 /** scripts/ 의 부모 = remotion 루트 */
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
-/** todo/live/done 3단 구조에서 에피소드 디렉토리 탐색 */
+/** 에피소드 디렉토리 탐색.
+ *  신구조: public/episodes/.../<person>/ (_status 파일 보유, 그룹 폴더 안 가능)
+ *  옛 구조 폴백: public/episodes/<status>/<person>/ */
+const STATUSES = ['todo', 'live', 'done'] as const
 export function findEpisodeDir(person: string): string {
-  for (const status of ['todo', 'live', 'done']) {
-    const dir = join(ROOT, 'public', 'episodes', status, person)
+  const episodesRoot = join(ROOT, 'public', 'episodes')
+  // 1) 신구조: 재귀 스캔으로 _status 보유 인물 폴더 매치
+  function walk(dir: string, depth: number): string | null {
+    let entries: Dirent[]
+    try { entries = readdirSync(dir, { withFileTypes: true }) as Dirent[] } catch { return null }
+    for (const e of entries) {
+      if (!e.isDirectory()) continue
+      if (e.name.startsWith('_')) continue
+      if (depth === 0 && ((STATUSES as readonly string[]).includes(e.name) || e.name === 'pre-todo')) continue
+      const sub = join(dir, e.name)
+      const hasStatus = existsSync(join(sub, '_status.json'))
+      if (hasStatus) {
+        if (e.name === person) return sub
+        continue
+      }
+      const found = walk(sub, depth + 1)
+      if (found) return found
+    }
+    return null
+  }
+  const hit = walk(episodesRoot, 0)
+  if (hit) return hit
+  // 2) 옛 구조 폴백
+  for (const status of STATUSES) {
+    const dir = join(episodesRoot, status, person)
     if (existsSync(dir)) return dir
   }
   throw new Error(`Episode not found: ${person}`)
@@ -40,16 +66,40 @@ export function parseEpName(epName: string): { person: string; locale: string } 
   )
 }
 
-/** episodeId → JSON 파일 절대 경로 */
-export function resolveEpisodePath(episodeId: string): string {
-  const { person, locale } = parseEpName(episodeId)
-  return join(findEpisodeDir(person), `${locale}.json`)
+/** 신구조 여부: meta.{locale}.json 또는 books/ 가 있으면 신구조 */
+export function isNewLayout(episodeDir: string, locale: string): boolean {
+  return existsSync(join(episodeDir, `meta.${locale}.json`)) || existsSync(join(episodeDir, 'books'))
 }
 
-/** episodeId → timing JSON 파일 절대 경로 */
+/** episodeId → JSON 파일 절대 경로 (신구조면 meta.{locale}.json, 레거시면 {locale}.json) */
+export function resolveEpisodePath(episodeId: string): string {
+  const { person, locale } = parseEpName(episodeId)
+  const dir = findEpisodeDir(person)
+  if (isNewLayout(dir, locale)) return join(dir, `meta.${locale}.json`)
+  return join(dir, `${locale}.json`)
+}
+
+/** episodeId → timing JSON 파일 절대 경로 (신구조면 meta.{locale}.timing.json) */
 export function resolveTimingPath(episodeId: string): string {
   const { person, locale } = parseEpName(episodeId)
-  return join(findEpisodeDir(person), `${locale}.timing.json`)
+  const dir = findEpisodeDir(person)
+  if (isNewLayout(dir, locale)) return join(dir, `meta.${locale}.timing.json`)
+  return join(dir, `${locale}.timing.json`)
+}
+
+/** 신구조 책 폴더 목록 (NN- prefix 정렬) */
+async function listBookFolders(episodeDir: string): Promise<string[]> {
+  const booksDir = join(episodeDir, 'books')
+  if (!existsSync(booksDir)) return []
+  const entries = await readdir(booksDir, { withFileTypes: true })
+  return entries
+    .filter(e => e.isDirectory() && /^\d+-/.test(e.name))
+    .map(e => e.name)
+    .sort()
+}
+
+async function readJsonOrNull(fp: string): Promise<any> {
+  try { return JSON.parse(await readFile(fp, 'utf-8')) } catch { return null }
 }
 
 /**
@@ -94,13 +144,70 @@ async function loadExternalShorts(episodeDir: string, locale: string): Promise<a
   })
 }
 
+/** 신구조 에피소드 로드 — meta + books/{NN-*}/book.{locale}.json 머지 */
+async function loadNewLayoutEpisode(episodeDir: string, locale: string): Promise<any> {
+  const metaContent = await readJsonOrNull(join(episodeDir, `meta.${locale}.json`))
+  if (!metaContent) throw new Error(`meta.${locale}.json 없음: ${episodeDir}`)
+  const metaTiming = (await readJsonOrNull(join(episodeDir, `meta.${locale}.timing.json`))) ?? {}
+
+  const folders = await listBookFolders(episodeDir)
+  const books: any[] = []
+  const shortsArr: any[] = []
+
+  for (let i = 0; i < folders.length; i++) {
+    const bd = join(episodeDir, 'books', folders[i])
+
+    const book = await readJsonOrNull(join(bd, `book.${locale}.json`))
+    if (!book) continue
+    const bookT = (await readJsonOrNull(join(bd, `book.${locale}.timing.json`))) ?? {}
+
+    const merged: any = { ...book, ...bookT }
+    if (bookT.quotePairDurations && Array.isArray(merged.quotePairs)) {
+      merged.quotePairs = merged.quotePairs.map((p: any, pi: number) => ({
+        ...p, ...(bookT.quotePairDurations[pi] ?? {}),
+      }))
+      delete merged.quotePairDurations
+    }
+    books.push(merged)
+
+    const sc = await readJsonOrNull(join(bd, `shorts.${locale}.json`))
+    if (sc) {
+      const st = (await readJsonOrNull(join(bd, `shorts.${locale}.timing.json`))) ?? {}
+      const mergedShorts: any = { ...sc, featuredBookIndex: i }
+      if (st.segments && Array.isArray(sc.segments)) {
+        mergedShorts.segments = sc.segments.map((seg: any, si: number) => ({
+          ...seg, ...(st.segments[si] ?? {}),
+        }))
+      }
+      shortsArr.push(mergedShorts)
+    }
+  }
+
+  const result: any = {
+    ...metaContent,
+    voiceTimings: metaTiming.voiceTimings ?? metaContent.voiceTimings,
+    narrator: { ...metaContent.narrator, ...metaTiming.narrator },
+    host: { ...metaContent.host, ...metaTiming.host },
+    books,
+  }
+  if (shortsArr.length > 0) result.shorts = shortsArr
+  return result
+}
+
 /** content + timing 머지하여 완전한 에피소드 데이터 반환. shorts는 외부 파일에서 로드 */
 export async function loadEpisode(episodeId: string): Promise<any> {
+  const { person, locale } = parseEpName(episodeId)
+  const episodeDir = findEpisodeDir(person)
+
+  // 신구조: meta.{locale}.json + books/{NN-*}/book.{locale}.json
+  if (isNewLayout(episodeDir, locale)) {
+    return loadNewLayoutEpisode(episodeDir, locale)
+  }
+
+  // 레거시: {locale}.json + shorts/{locale}-N.json
   const content = JSON.parse(await readFile(resolveEpisodePath(episodeId), 'utf-8'))
 
   // shorts 외부 파일 로드 → content.shorts 주입
-  const { person, locale } = parseEpName(episodeId)
-  const episodeDir = findEpisodeDir(person)
   const shortsArr = await loadExternalShorts(episodeDir, locale)
   if (shortsArr.length > 0) content.shorts = shortsArr
 
