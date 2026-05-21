@@ -109,30 +109,34 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 
 ---
 
-## 에피소드 상태 (폴더 기반)
+## 에피소드 상태 (`_status` 파일 기반)
 
-인물 폴더의 위치가 곧 상태다. `_status.json` 없음.
+진척도는 인물 폴더 안 `_status` 파일(한 줄 plain text)이 SSoT다. 폴더 위치는 그룹 축(예: `three-kingdoms/`)으로 자유 사용한다.
 
 ```
 public/episodes/
-  pre-todo/   ← 초안 풀 (flat JSON, 자동 생성)
-  todo/       ← 검수 완료, voice 미생성
-  live/       ← 진행중 (voice/이미지 작업)
-  done/       ← 완료 (YouTube 업로드)
+  pre-todo/                초안 풀 (flat JSON, 자동 생성)
+  <person>/                인물 폴더 1-depth
+    _status                "todo" / "live" / "done" 중 하나
+    ko.json, voice/, ...   인물 자산
+  <group>/<person>/        그룹 폴더 안 인물(예: three-kingdoms/zhuge-liang/)
+    _status
 ```
 
-| 상태 | 폴더 | 설명 |
-|------|------|------|
-| 초안 | `pre-todo/` | DB 자동 생성 JSON. 검수 전 |
-| 대기 | `todo/` | 검수 완료. voice 미생성 |
-| 진행 | `live/` | voice/이미지 작업 중 |
-| 완료 | `done/` | YouTube 업로드 완료 |
+| `_status` 값 | 설명 |
+|----------|------|
+| `todo` | 검수 완료. voice 미생성 |
+| `live` | voice/이미지 작업 중 |
+| `done` | YouTube 업로드 완료 |
+| (파일 없음) | 그룹 폴더 또는 비활성 분류 폴더 — 인식 안 함 |
+
+> **변경 이력 (2026-05)**: 옛 `todo/`·`live/`·`done/` 3단 폴더를 폐기하고 `_status` 파일로 분리. 진척도와 그룹을 직교 축으로 둘 수 있다. 마이그레이션 스크립트: `scripts/remotion/migrate-episodes-flatten.mjs`.
 
 ### 승격 절차
 
-1. **초안 → 대기**: `pre-todo/<name>.json` → `todo/<name>/ko.json` 이동 (디렉토리 생성). `script.ts`에 import + episodes 등록.
-2. **대기 → 진행**: voice 생성 후 인물 폴더를 `todo/` → `live/`로 이동.
-3. **진행 → 완료**: YouTube 게시 후 인물 폴더를 `live/` → `done/`으로 이동.
+1. **초안 → 대기**: `pre-todo/<name>.json` → `<name>/ko.json` 이동(인물 폴더 생성, `_status`에 `todo` 기록). `script.ts`에 import + episodes 등록.
+2. **대기 → 진행**: voice 생성 후 `_status` 파일을 `live`로 갱신. BO 대시보드 드롭다운으로도 가능.
+3. **진행 → 완료**: YouTube 게시 후 `_status`를 `done`으로 갱신.
 
 ### 영문(en) 작업 시점 원칙
 

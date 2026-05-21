@@ -44,6 +44,12 @@ sw/remotion/public/covers/
 # Remotion temp scripts & data
 sw/remotion/tmp-*
 sw/remotion/subs-*.json
+sw/remotion/subs.json
+sw/remotion/vg-story.md
+sw/remotion/_scan_shorts.mjs
+sw/remotion/fix-json.cjs
+sw/remotion/scripts/voice/_test-*.ts
+sw/remotion/scripts/voice/test-voices.ts
 
 # Root-level temp scripts
 /cp-*.cjs
@@ -53,6 +59,26 @@ sw/remotion/subs-*.json
 /scan-*.cjs
 /survey*.cjs
 /_fix-subs.mjs
+/.tmp_*
+/tmp_*
+/clean-symlinks.ps1
+/scripts/update-*.js
+
+# Root-level 작업 메모 (로컬 보관용)
+/CELEB_QUEUE.md
+/SHORTS_EXAMPLE.txt
+/최고 쇼츠.txt
+/프롬프트_*.txt
+
+# 외부 AI 에이전트 설정 (로컬 보관용)
+/.agents/
+/.codex/
+/scratch/
+/sw/scripts/
+/scripts/remotion/
+
+# 스케줄러·기타 캐시
+.claude/scheduled_tasks.lock
 
 # Wrangler cache
 .wrangler/

@@ -38,7 +38,14 @@
       "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Madame+Chrysantheme&author=Loti&limit=30&fields=title,author_name,first_publish_year,isbn,publisher,cover_i\"; $r.docs | Where-Object { $_.isbn -ne $null } | Select-Object -First 5 | ForEach-Object { [PSCustomObject]@{ title=$_.title; author=$_.author_name[0]; year=$_.first_publish_year; isbn=$_.isbn[0]; publisher=$_.publisher[0]; cover_i=$_.cover_i } } | ConvertTo-Json -Depth 3)",
       "PowerShell($r = Invoke-RestMethod -Uri \"https://openlibrary.org/search.json?title=Woman&author=Michelet&limit=30&fields=title,author_name,first_publish_year,isbn,publisher,cover_i\"; $r.docs | Where-Object { $_.isbn -ne $null } | Select-Object -First 5 | ForEach-Object { [PSCustomObject]@{ title=$_.title; author=$_.author_name[0]; year=$_.first_publish_year; isbn=$_.isbn[0]; publisher=$_.publisher[0]; cover_i=$_.cover_i } } | ConvertTo-Json -Depth 3)",
       "Read(//c/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/eacdb118-cdd0-4365-9243-6f910d0ce86a/tasks/**)",
-      "Bash(grep -E --line-buffered \"Error|Traceback|✗|FAIL|error|saved|완료|Transcribed|wav$\")"
+      "Bash(grep -E --line-buffered \"Error|Traceback|✗|FAIL|error|saved|완료|Transcribed|wav$\")",
+      "Bash(grep -E --line-buffered \"\\\\\\\\[D[0-9]|\\\\\\\\[B[0-9]|\\\\\\\\[E[0-9]|✓|✗|Error|error|ELIFECYCLE|duration 결과|timing\\\\\\\\.json\")",
+      "Bash(grep -E --line-buffered \"S1-VID 렌더|S1-VID\\\\\\\\.mp4|✓ 쇼츠 완료|❌|FAILED\")",
+      "Skill(remo-voice-sync)",
+      "Skill(ko-detranslate)",
+      "Skill(remo-render-bookrecommend)",
+      "Bash(rm -f tmp_spotify_token.txt .tmp_naver.py .claude/scheduled_tasks.lock)",
+      "Bash(rm -f sw/web-bo/scripts/.tmp-*)"
     ],
     "deny": [],
     "ask": []

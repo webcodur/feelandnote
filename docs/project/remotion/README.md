@@ -7,6 +7,13 @@ Remotion(React 기반 영상 프레임워크)으로 제작하는 영상 시리�
 | 시리즈 | 문서 | 설명 |
 |--------|------|------|
 | 서재 탐방 | [book-recommend/](book-recommend/README.md) | 셀럽의 추천 도서 소개. 롱폼(16:9) + 쇼츠(9:16) |
+| 저승 술집 | [hell-bar/](hell-bar/README.md) | 삼국지 인물 페어 매치 토크쇼. 6~8분 |
+
+## 인물 그룹 (시리즈 직교)
+
+| 그룹 | 문서 | 코드 SSoT |
+|------|------|-----------|
+| 삼국지 | [three-kingdoms.md](three-kingdoms.md) | `packages/shared/src/lib/three-kingdoms.ts` |
 
 ---
 

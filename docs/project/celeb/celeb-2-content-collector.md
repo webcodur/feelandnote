@@ -263,7 +263,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **1) 동아시아 고전 (중국·한국·일본 원전)** — 예: 귀곡자, 음부경, 도덕경, 논어, 정관정요
 - 영역본이 검증 가능하면 위 4단계 그대로 적용
-- 영역본 미존재 시: `isbn = null`, title은 Wikipedia 영문 표제 (예: "Huangdi Yinfujing"), thumbnail은 Wikipedia 이미지 또는 null, `sources.primary = "wikipedia"`
+- **영역본 미존재 시: 영문 줄 등록 폐기**. ISBN 없는 책을 외부에 노출할 길이 없다(독자가 그 책으로 도달할 수단이 없음). en locale 행 자체를 INSERT하지 않는다. 한국어판이 있으면 ko 줄만 등록 가능.
 - 동양 고전은 Google Books에서 한자 음차본·해설서 false positive가 잦다
 
 **2) 한국 현대 도서 (한국 저자 한국어 원작)** — 예: 박경리 토지, 이문열 삼국지, 한강 채식주의자
@@ -273,7 +273,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 **3) 서양 원서** — 영문이 원전
 - 위 4단계 그대로 적용
 - Naver 검색 결과의 `description`/`pubdate`에서 원서 정보 보충 가능
-- Amazon 상품 페이지 스크래핑은 OpenLibrary·Goodreads 모두 실패한 경우의 최후 수단
+- OpenLibrary·Goodreads 모두 실패하면 영문 줄 등록 폐기 (아마존 스크래핑 금지 — 공식 API 부재·접근권 제한·실사용 0건)
 
 ### VIDEO/GAME/MUSIC i18n
 
@@ -320,7 +320,7 @@ ON CONFLICT (content_id, locale) DO NOTHING;
 -- 3) content_locales (영문)
 INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
 VALUES
-  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"openlibrary|amazon|wikipedia|transliteration"}', true),
+  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"openlibrary|transliteration"}', true),
   ...
 ON CONFLICT (content_id, locale) DO NOTHING;
 ```
@@ -338,13 +338,16 @@ VALUES
   ...;
 ```
 
-**external_source 값:**
-- BOOK: `naver_book` (네이버 도서 API, 한국어판 기본) / `openlibrary` / `amazon` / `wikipedia` (영역본 부재 동양 고전)
+**external_source 값** (contents 테이블 — 책 1권의 1차 메타 출처. 그 책의 ISBN·표지를 어디서 잡았는가):
+- BOOK: `naver_book` (한국어판 있을 때 기본) / `openlibrary` (영문 원서만 있을 때)
 - VIDEO: `tmdb`
 - GAME: `igdb`
 - MUSIC: `spotify`
 
-**금지**: `google_books` 사용 금지 (위 "영문판 매칭 분기" 참조)
+**금지**:
+- `google_books` 사용 금지 (위 "영문판 매칭 분기" 참조). 시스템 제약상 기존 데이터 보존 위해 enum에는 남아있으나 신규 등록 사용 금지.
+- `amazon` 사용 금지 (공식 API 부재·접근권 제한·실사용 0건).
+- `wikipedia` 사용 금지 (ISBN 없는 책을 외부에 연결할 길이 없음 — 영역본 미존재 시 영문 줄 등록 폐기).
 
 **⚠️ contents.external_id 형식 (필수):**
 
