@@ -95,6 +95,24 @@ function countDialogueLines(data: DialogueLines | null) {
   return Object.values(data).flat().filter((l) => l?.trim()).length
 }
 
+function mergeLines(raw: DialogueLines | null | undefined): DialogueLines {
+  const base = structuredClone(EMPTY_LINES)
+  if (!raw) return base
+  for (const type of DIALOGUE_TYPES) {
+    const arr = (raw as unknown as Record<string, unknown>)[type]
+    if (Array.isArray(arr)) {
+      base[type] = [
+        typeof arr[0] === 'string' ? arr[0] : '',
+        typeof arr[1] === 'string' ? arr[1] : '',
+        typeof arr[2] === 'string' ? arr[2] : '',
+      ]
+    }
+  }
+  if (typeof raw.quote === 'string') base.quote = raw.quote
+  if (typeof raw.monologue === 'string') base.monologue = raw.monologue
+  return base
+}
+
 function initPersonaStats(raw: MemberPersona | null): Record<string, number> {
   const stats: Record<string, number> = {}
   for (const k of ALL_KEYS) stats[k] = (raw as Record<string, number> | null)?.[k] ?? 0
@@ -150,8 +168,8 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
 
   // --- Dialogue state ---
   const [activeLang, setActiveLang] = useState<'ko' | 'en'>('ko')
-  const [linesKo, setLinesKo] = useState<DialogueLines>(() => dialogueLines.lines ? structuredClone(dialogueLines.lines) : structuredClone(EMPTY_LINES))
-  const [linesEn, setLinesEn] = useState<DialogueLines>(() => dialogueLines.lines_en ? structuredClone(dialogueLines.lines_en) : structuredClone(EMPTY_LINES))
+  const [linesKo, setLinesKo] = useState<DialogueLines>(() => mergeLines(dialogueLines.lines))
+  const [linesEn, setLinesEn] = useState<DialogueLines>(() => mergeLines(dialogueLines.lines_en))
   const [tone, setTone] = useState(speechTone || 'free')
   const [quoteKo, setQuoteKo] = useState(() => dialogueLines.lines?.quote || '')
   const [quoteEn, setQuoteEn] = useState(() => dialogueLines.lines_en?.quote || '')
@@ -166,7 +184,7 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
   const [savingPersona, setSavingPersona] = useState(false)
 
   // dirty tracking
-  const initialDialogue = useRef({ lines: dialogueLines.lines, lines_en: dialogueLines.lines_en, tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '', monologueKo: dialogueLines.lines?.monologue || '', monologueEn: dialogueLines.lines_en?.monologue || '' })
+  const initialDialogue = useRef({ lines: mergeLines(dialogueLines.lines), lines_en: mergeLines(dialogueLines.lines_en), tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '', monologueKo: dialogueLines.lines?.monologue || '', monologueEn: dialogueLines.lines_en?.monologue || '' })
   const initialPersona = useRef({ stats: initPersonaStats(personaRaw), reasons: initReasons(personaRaw?.persona), rationale: personaRaw?.persona?.rationale_ko || '' })
 
   const isDialogueDirty = useCallback(() => {
@@ -175,8 +193,8 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
       || quoteEn !== initialDialogue.current.quoteEn
       || monologueKo !== initialDialogue.current.monologueKo
       || monologueEn !== initialDialogue.current.monologueEn
-      || JSON.stringify(linesKo) !== JSON.stringify(initialDialogue.current.lines ?? EMPTY_LINES)
-      || JSON.stringify(linesEn) !== JSON.stringify(initialDialogue.current.lines_en ?? EMPTY_LINES)
+      || JSON.stringify(linesKo) !== JSON.stringify(initialDialogue.current.lines)
+      || JSON.stringify(linesEn) !== JSON.stringify(initialDialogue.current.lines_en)
   }, [tone, linesKo, linesEn, quoteKo, quoteEn, monologueKo, monologueEn])
 
   const isPersonaDirty = useCallback(() => {
