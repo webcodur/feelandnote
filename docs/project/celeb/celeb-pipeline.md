@@ -21,8 +21,8 @@ basic 완료 후 4개 트랙이 **병렬** 실행된다.
 basic ─┬─ content ── cultural journey   (full 전용)
        ├─ influence
        ├─ persona
-       └─ speech (tone → quotes → dialogue*)
-                                    *퍼블릭 도메인만
+       └─ speech (tone → quotes → dialogue)
+                                    (dialogue는 전원 21개 전체)
 모든 트랙 완료 → i18n
 ```
 

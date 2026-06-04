@@ -435,8 +435,10 @@ done
 | 파일 | 위치 | git 추적 | 비고 |
 |------|------|----------|------|
 | `2-word-timings.json` | `public/voice/<에피소드>/{locale}/` | ❌ | WhisperX 단어 타임스탬프 + diff 매핑 결과 (중간 산출물) |
-| `<locale>.json` | `episodes/<시리즈>/done/<person>/` | ✅ | 에피소드 콘텐츠 (텍스트, 메타, 이미지) |
-| `<locale>.timing.json` | `episodes/<시리즈>/done/<person>/` | ✅ | voiceTimings + duration — 파이프라인 자동 생성 |
+| `<locale>.json` | `episodes/<person>/` (또는 `<person>/books/<책>/`) | ❌ | 에피소드 콘텐츠 (텍스트, 메타, 이미지) |
+| `<locale>.timing.json` | `episodes/<person>/` (또는 `<person>/books/<책>/`) | ❌ | voiceTimings + duration — 파이프라인 자동 생성 |
+
+> **`episodes/` 전체가 `.gitignore` 대상이다(로컬 전용).** 위 파일은 git이 추적하지 않으며, ripgrep 기반 검색(Grep 도구)에서도 누락된다. 직접 경로로 열거나 Bash `grep -r`로 찾는다. 경로는 `_status` 파일 체계 기준이며, 옛 `done/`·`live/`·`todo/` 3단 폴더는 폐기됐다.
 
 ### 트러블슈팅
 
@@ -555,3 +557,17 @@ WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 �
 "(母也天只)": "",
 "(天只)": ""
 ```
+
+## 1권 모드(SOLO) 향후 작업
+
+[solo.md](../solo.md)의 자유 마디 배열은 현재 wav가 합성되지 않은 상태다. 음성 파이프라인 통합 시 추가할 항목:
+
+- **마디 음성 파일명 규약** — `voice-names.ts` 의 `vnSolo(bookIndex, segIndex, segId)` → `voice/{locale}/solo-B{NN}/S{nn}-{segId}.wav`
+- **2-synthesize 분기** — `episode.solos[].segments[]` 순회. ID에 `-quote-`·`-celeb-` 포함 마디는 셀럽 보이스 라우팅(`isCelebVoiceFile` 솔로 패턴 이미 적용)
+- **3-transcribe 분기** — 솔로 마디도 `tts.replace` 치환 후 WhisperX 매핑
+- **4-align 분기** — 마디별 `voiceTimings` + `solo.<locale>.timing.json`의 `segments[].duration` 갱신
+- **5-chunk 분기** — sub 의미 단위 분할 (자막용)
+- **SRT 빌더** — `render-all.ts` 솔로 분기에 `buildSoloSubs` 추가
+- **BookRecommendSolo `<Audio>` 통합** — 현재 무음 재생. 마디별 wav 시퀀스 부착
+
+이 작업은 wav가 생기는 시점에 한 번에 들어간다. 솔로 마디 ID는 BO 편집기 발급 형식(`s12-quote-foo`)을 그대로 받아 안정성이 보장된다.

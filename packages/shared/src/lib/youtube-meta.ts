@@ -138,6 +138,25 @@ export function buildTitle(
   return `[Library Tour] ${bookCount} Books ${celebName} Read${partSuffix}`
 }
 
+// ─── 1권 모드(SOLO) 제목 ─────────────────────────────────
+
+/**
+ * 1권 모드 영상 제목.
+ *
+ * 한 인물·한 권의 자유 서술 영상. 책 제목이 필수.
+ * - KO: `[한 권 깊이] {인물}의 책 — {책제목}`
+ * - EN: `[One Book Deep] {Celeb}'s Pick — {Book Title}`
+ */
+export function buildSoloTitle(
+  celebName: string,
+  lang: 'ko' | 'en',
+  bookTitle: string,
+): string {
+  if (!bookTitle) throw new Error('buildSoloTitle: bookTitle 필수')
+  if (lang === 'ko') return `[한 권 깊이] ${celebName}의 책 — ${bookTitle}`
+  return `[One Book Deep] ${celebName}'s Pick — ${bookTitle}`
+}
+
 // ─── 태그 ──────────────────────────────────────────────
 
 export function buildTags(
@@ -285,6 +304,69 @@ export function buildDescription(
   lines.push('Feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('', `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
+  return lines.join('\n')
+}
+
+// ─── 1권 모드(SOLO) 설명 ────────────────────────────────
+
+/**
+ * 1권 모드 영상 설명.
+ *
+ * 한 인물·한 권만 다룬다. 책 표지·요약 정보는 본문에 노출하지 않고
+ * 간단한 인트로 + 책 한 권 라벨 + 링크 + 해시태그로 압축한다.
+ */
+export function buildSoloDescription(
+  celebName: string,
+  book: BookForDesc,
+  lang: 'ko' | 'en',
+  links?: YouTubeLink[],
+  celebSlug?: string,
+): string {
+  const linkLines = (links && links.length > 0)
+    ? links.map(l => `${l.label} — ${l.url}`)
+    : []
+
+  const celebProfileLine = celebSlug
+    ? lang === 'ko'
+      ? `${celebName} 프로필 — https://feelandnote.com/ko/celeb/${celebSlug}`
+      : `${celebName} Profile — https://feelandnote.com/en/celeb/${celebSlug}`
+    : undefined
+
+  const isThreeKingdoms = isThreeKingdomsMember(celebSlug)
+  const tkHashtagKo = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.ko}` : ''
+  const tkHashtagEn = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.en}` : ''
+
+  const year = book.stats?.publishYear ? ` (${book.stats.publishYear})` : ''
+  const bookLine = `${book.title} — ${book.creator}${year}`
+
+  if (lang === 'ko') {
+    const lines = [
+      `${celebName}의 서재에서 한 권을 깊이 들여다봅니다.`,
+      '',
+      '📖 오늘의 한 권',
+      bookLine,
+      '',
+      '🔗 링크',
+    ]
+    if (celebProfileLine) lines.push(celebProfileLine)
+    lines.push('Feelandnote — https://feelandnote.com')
+    if (linkLines.length) lines.push(...linkLines)
+    lines.push('', `#한권깊이 #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
+    return lines.join('\n')
+  }
+
+  const lines = [
+    `One book from ${celebName}'s shelf, examined in depth.`,
+    '',
+    '📖 Today\'s Book',
+    bookLine,
+    '',
+    '🔗 Links',
+  ]
+  if (celebProfileLine) lines.push(celebProfileLine)
+  lines.push('Feelandnote — https://feelandnote.com')
+  if (linkLines.length) lines.push(...linkLines)
+  lines.push('', `#OneBookDeep #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
   return lines.join('\n')
 }
 

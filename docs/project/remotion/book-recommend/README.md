@@ -9,6 +9,7 @@
 | 1 | 이 문서 | 데이터 흐름, BookEntry, 음성 파일 구조, **에피소드 제작 절차** |
 | 2 | [longform.md](longform.md) | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
 | 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
+| 3b | [solo.md](solo.md) | 1권 모드(SOLO) — 16:9 자유 마디, 책 폴더 솔로 파일, 컴포지션·렌더·유튜브 |
 | 4 | [voice/tts.md](voice/tts.md) | 음성 생성 — 엔진, 보이스, 커맨드, **타이밍 파이프라인** |
 | 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Gemini TTS 목록, 셀럽별 매핑 |
 | 5 | [lineup/lineup.md](lineup/lineup.md) | 편성표 — 배포 순서, 제작 진행 현황 |
@@ -50,6 +51,7 @@ BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
 - **콘텐츠는 `<locale>.json`, 타이밍은 `<locale>.timing.json`이 SSoT.** 텍스트·TTS 오버라이드는 content, duration·voiceTimings는 timing.
 - **timing.ts가 타이밍 상수 SSoT.** `toFrames`(배치용, +15 버퍼) / `toAudioFrames`(자막용, 버퍼 없음).
 - **script.ts가 에피소드 로더.** `mergeEpisode(content, timing)`으로 합성. `EPISODE_NAME` 변경으로 에피소드 전환.
+- **⚠️ `sw/remotion/public/episodes/` 전체는 `.gitignore` 대상이다(`.gitignore` 33행). 로컬 전용 자산이라 git이 추적하지 않으며, ripgrep 기반 검색 도구(Grep)는 기본적으로 무시 파일을 건너뛰어 이 폴더 안 텍스트를 찾지 못한다.** 에피소드 대본(`book.ko.json`·`ko.json` 등)을 검색·확인할 때는 파일 경로를 직접 열거나 Bash `grep -r`을 쓴다.
 
 ## 에피소드 데이터 — BookEntry
 

@@ -18,7 +18,7 @@ color: cyan
 
 1. **Phase 1: speech_tone 배정** — `profiles.speech_tone` 설정
 2. **Phase 2: quotes 작성/검수** — `celeb-speech.md` §6.2 참조
-3. **Phase 3: dialogue 생성** — `celeb-speech.md` §6.3 참조, 퍼블릭 도메인만 자동
+3. **Phase 3: dialogue 생성** — `celeb-speech.md` §6.3 참조, 전원 21개 전체 생성
 
 ## 핵심 원칙
 

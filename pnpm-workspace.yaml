@@ -5,7 +5,17 @@ packages:
   - 'sw/remotion'
   - 'sw/remotion-bo'
   - 'packages/*'
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@swc/core'
-  - esbuild
+
+overrides:
+  undici: '>=7.24.0'
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  ffmpeg-static: true
+  protobufjs: true
+  puppeteer: true
+  sharp: true
+  unrs-resolver: true

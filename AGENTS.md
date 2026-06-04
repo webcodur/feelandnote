@@ -150,8 +150,9 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 단어 단위 voiceTimings 파이프라인 | `docs/todo/voice-timing-gap-pipeline.md` | **v5 완료** | WhisperX + diff-match-patch 단어 매핑. Typewriter 글자 스윕 하이라이트 |
 | BookCardVisual 페이지 전환 버그 | `docs/todo/book-card-page-break.md` | **완료** | needsQuoteCtxAfterBreak로 quote→contextAfter 3페이지 전환 |
 | 쇼츠 이미지 타이밍 수정 | `docs/todo/shorts-image-without-voice.md` | **완료** | voiceTimings 없을 때 imageChangeAt 간격에 맞춰 세그먼트 시간 및 크로스페이드 동적 조정 |
+| 서재 탐방 1권 모드(SOLO) | `docs/project/remotion/book-recommend/solo.md` | **음성 외 완료** | 16:9 자동 변환 영상. 책 본문(book·meta)이 단일 SSoT — 솔로 전용 데이터·편집 화면 폐기. Remotion 자동 변환 + 렌더·유튜브 자동 메타. 음성 파이프라인은 wav 생성 후 |
 
-* 마지막 작업 시각: 26.04.05
+* 마지막 작업 시각: 26.05.23
 
 ## 아이디어 응답 방식
 

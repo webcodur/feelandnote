@@ -45,7 +45,8 @@
       "Skill(ko-detranslate)",
       "Skill(remo-render-bookrecommend)",
       "Bash(rm -f tmp_spotify_token.txt .tmp_naver.py .claude/scheduled_tasks.lock)",
-      "Bash(rm -f sw/web-bo/scripts/.tmp-*)"
+      "Bash(rm -f sw/web-bo/scripts/.tmp-*)",
+      "Skill(deep-research)"
     ],
     "deny": [],
     "ask": []
