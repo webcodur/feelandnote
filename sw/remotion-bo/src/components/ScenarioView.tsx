@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEpisode } from '@/lib/episode-context'
+import { useEpisode, type SaveScope } from '@/lib/episode-context'
 import { groupBySection, type VoiceSection } from './voice-utils'
 import type { EpisodeData } from './EpisodeEditor'
 import { VoiceToolbar, ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, DEFAULT_ELE_SEND_OPTS, type EleSettings, type EleSendOpts } from './scenario-voice'
@@ -10,9 +10,10 @@ import { VoicePipelineStatus } from './VoicePipelineStatus'
 import {
   parseViewParam, viewToParam, viewToBookIndex, VIEW_META,
   useImageEditor, useSaveSync,
-  LongformView, ShortsView,
+  LongformView, ShortsView, SoloSectionView,
   BgmPanel, VoiceEditorModal, MaterialModal, TtsReplaceModal,
 } from './scenario'
+import type { SubTab } from './scenario/BookTabsBar'
 import { useAudioPreview } from './scenario/useAudioPreview'
 import { AudioPreviewProvider } from './scenario/AudioPreviewContext'
 import { BookTabsBar } from './scenario/BookTabsBar'
@@ -53,11 +54,11 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
   // sub: 'long' | 'short' — 책 탭 내부 2단 탭 (메타 탭에선 무시)
   const view = parseViewParam(searchParams.get('view'))
   const subRaw = searchParams.get('sub')
-  const subTab: 'long' | 'short' = subRaw === 'short' ? 'short' : 'long'
+  const subTab: SubTab = subRaw === 'short' ? 'short' : subRaw === 'solo' ? 'solo' : 'long'
 
   // view·sub 동시 변경 — 같은 turn 안에서 두 번 router.replace 호출하면 두 번째가
   // 첫 번째 변경 전 searchParams 기반이라 view 변경이 유실된다. 한 번에 처리.
-  const setViewSub = useCallback((nextView: string, nextSub: 'long' | 'short') => {
+  const setViewSub = useCallback((nextView: string, nextSub: SubTab) => {
     const sp = new URLSearchParams(searchParams.toString())
     sp.set('view', viewToParam(nextView))
     if (nextSub === 'long') sp.delete('sub')
@@ -104,12 +105,21 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     return m
   }, [shortsArr])
 
+
   // 현재 보고 있는 책 (1-based) — null 이면 메타 탭
   const currentBookIndex1 = viewToBookIndex(view)         // 1-based or null
   const currentBookIndex0 = currentBookIndex1 != null ? currentBookIndex1 - 1 : null  // 0-based or null
   const isBookView = currentBookIndex0 != null
   const currentShortsIndex = isBookView ? (bookToShortsIndex.get(currentBookIndex0!) ?? -1) : -1
   const currentShorts = currentShortsIndex >= 1 ? shortsArr[currentShortsIndex - 1] : undefined
+
+  // 현재 보고 있는 세부 뷰 — 저장 범위 결정에 쓴다. 쇼츠 없는 책은 자동 long.
+  const hasShorts = currentShortsIndex >= 1 && !!currentShorts
+  const effectiveSub: SubTab = !isBookView ? 'long'
+    : subTab === 'short' && hasShorts ? 'short'
+    : subTab === 'solo' ? 'solo' : 'long'
+  // 쇼츠 뷰 저장은 쇼츠 파일만, 그 외(롱폼)는 책 파일만 기록한다(솔로는 자체 저장 버튼 전담).
+  const saveScope: SaveScope = effectiveSub === 'short' ? 'shorts' : 'longform'
 
   const { vs, saveVs } = useVoiceSelect(series, name)
   const hasELVoiceId = !!episode.host?.elevenlabsVoiceId
@@ -144,6 +154,14 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     refreshFiles()
   }, [vs, saveVs, refreshFiles])
 
+  // 명시적 활성 슬롯 지정(토글 아님) — '생성 및 저장' 직후 방금 만든 엔진을 활성으로 박는다.
+  const setSlotEngine = useCallback(async (sectionKey: string, engine: string) => {
+    const base = vs ?? { default: 'gemini', slots: {} }
+    const fileName = `${sectionKey}.wav`
+    const newSlots = { ...(base.slots ?? {}), [fileName]: engine }
+    await saveVs({ ...base, slots: newSlots })
+  }, [vs, saveVs])
+
   const toggleExpand = useCallback((key: string) => {
     setExpandedKey(prev => prev === key ? null : key)
   }, [])
@@ -173,10 +191,11 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         onEpisodeChange={updateEpisode}
         onSave={save}
         onRefresh={refreshFiles}
+        onActivateEngine={(engine) => setSlotEngine(key, engine)}
         expandMode={mode}
       />
     )
-  }, [sectionMap, episode, series, name, eleSettings, eleSendOpts, activeEngine, updateEpisode, save, refreshFiles])
+  }, [sectionMap, episode, series, name, eleSettings, eleSendOpts, activeEngine, updateEpisode, save, refreshFiles, setSlotEngine])
 
   // 모달 헤더용 엔진 상태 — openKey 의 활성/기본/override 와 wav 존재 여부.
   const modalEngineState = useMemo(() => {
@@ -200,6 +219,7 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
    *  편집 컨텍스트를 분리해 두 인스턴스로 운영한다. anchorPick · folderImages 가 각 영역별로 독립.
    */
   const books = episode.books ?? []
+
   const longformImg = useImageEditor({
     episode, updateEpisode, series, name,
     view: VIEW_META,  // longform 분기 (book · meta 모두 동일)
@@ -220,7 +240,8 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     episode, updateEpisode, save, series, name, isEn,
   })
 
-  // Alt+S — 전체 저장: 행별 SaveButton 일괄 클릭 + episode 전체 저장(우하단 fixed 버튼과 동일)
+  // Alt+S — 현재 뷰 저장: 행별 SaveButton 일괄 클릭 + 현재 뷰 범위로 episode 저장(우하단 버튼과 동일)
+  // 솔로 뷰는 행별 저장(SoloSectionView 자체)만 수행하고 전체 저장은 건너뛴다(책 본문 덮어쓰기 방지).
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!e.altKey || (e.key !== 's' && e.key !== 'S')) return
@@ -229,11 +250,11 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         'button[data-save-button="true"]:not(:disabled)',
       )
       buttons.forEach(b => b.click())
-      if (dirty && !saving) void handleSave()
+      if (dirty && !saving && effectiveSub !== 'solo') void handleSave(saveScope)
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [dirty, saving, handleSave])
+  }, [dirty, saving, handleSave, effectiveSub, saveScope])
 
   return (
     <AudioPreviewProvider value={audioCtl}>
@@ -402,16 +423,35 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
           {...longformImg.imgProps}
           focus="meta" />
       ) : (() => {
-        // 책 탭: 상단 탭에서 sub(long|short) 가 이미 결정됨. 쇼츠 없는 책은 자동 long.
-        const hasShorts = currentShortsIndex >= 1 && !!currentShorts
-        const effectiveSub: 'long' | 'short' = subTab === 'short' && hasShorts ? 'short' : 'long'
-        return effectiveSub === 'long' ? (
-          <LongformView episode={mergedEpisode} sectionMap={sectionMap} onUpdate={updateEpisode}
-            onToggleExpand={toggleExpand}
-            activeEngine={activeEngine} playingKey={playingKey} onTogglePlay={togglePlay}
-            {...longformImg.imgProps}
-            focus={{ kind: 'book', index: currentBookIndex0! }} />
-        ) : (
+        // 책 탭: 상단 탭에서 sub(long|short|solo) 가 이미 결정됨(effectiveSub 는 상단에서 계산).
+        if (effectiveSub === 'solo') {
+          return (
+            <SoloSectionView
+              series={series} name={name} bookIndex={currentBookIndex0!}
+              episode={episode}
+              sectionMap={sectionMap}
+              activeEngine={activeEngine}
+              playingKey={playingKey}
+              onTogglePlay={togglePlay}
+              eleSettings={eleSettings}
+              eleSendOpts={eleSendOpts}
+              onEleSendOptsChange={setEleSendOpts}
+              onEpisodeChange={updateEpisode}
+              onSave={save}
+              onRefreshFiles={refreshFiles}
+            />
+          )
+        }
+        if (effectiveSub === 'long') {
+          return (
+            <LongformView episode={mergedEpisode} sectionMap={sectionMap} onUpdate={updateEpisode}
+              onToggleExpand={toggleExpand}
+              activeEngine={activeEngine} playingKey={playingKey} onTogglePlay={togglePlay}
+              {...longformImg.imgProps}
+              focus={{ kind: 'book', index: currentBookIndex0! }} />
+          )
+        }
+        return (
           <div className="space-y-4">
             <BgmPanel episode={episode} onUpdate={updateEpisode} series={series} name={name} shortsIndex={currentShortsIndex} />
             <ShortsView episode={episode} shortsIndex={currentShortsIndex} sectionMap={sectionMap} onUpdate={updateEpisode}
@@ -423,13 +463,15 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
         )
       })()}
 
-      {dirty && (
+      {/* 솔로 뷰는 SoloSectionView 자체 「솔로 저장」 버튼이 solo.json 만 기록하므로 전체저장 버튼을 숨긴다.
+          (전체저장이 솔로 화면에서 책 본문을 옛 메모리로 덮어쓰는 사고를 원천 차단) */}
+      {dirty && effectiveSub !== 'solo' && (
         <button
-          onClick={handleSave}
+          onClick={() => handleSave(saveScope)}
           disabled={saving}
-          className="fixed bottom-6 right-6 z-50 px-5 py-2.5 rounded-full bg-accent text-bg-primary text-sm font-bold shadow-lg shadow-accent/30 hover:opacity-90 disabled:opacity-50 transition-all"
+          className="fixed bottom-6 right-6 z-50 px-5 py-2.5 rounded-full bg-emerald-500 text-white text-sm font-bold shadow-lg shadow-emerald-500/30 hover:bg-emerald-400 disabled:opacity-50 transition-all"
         >
-          {saving ? '저장 중...' : '저장'}
+          {saving ? '저장 중...' : `${effectiveSub === 'short' ? '쇼츠' : '롱폼'} 저장`}
         </button>
       )}
 

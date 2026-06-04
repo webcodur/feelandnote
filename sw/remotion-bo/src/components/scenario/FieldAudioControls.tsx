@@ -136,7 +136,7 @@ export function FieldAudioControls({
           title="재생 배속 (전역 적용)"
         >×{rate}</button>
         {open && (
-          <div className="absolute right-0 top-full mt-1 z-30 flex flex-col rounded border border-border bg-bg-card shadow-lg min-w-[56px]">
+          <div className="absolute right-0 bottom-full mb-1 z-30 flex flex-col rounded border border-border bg-bg-card shadow-lg min-w-[56px]">
             {PLAYBACK_RATES.map(r => {
               const active = r === rate
               return (

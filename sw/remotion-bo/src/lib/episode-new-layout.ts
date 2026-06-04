@@ -102,8 +102,16 @@ export async function loadNewLayoutEpisode(name: string) {
  * 쇼츠: data.shorts[].featuredBookIndex 가 가리키는 책 폴더에 저장.
  *   - 책 폴더당 0~1개 (1책=1쇼츠 원칙).
  *   - 입력에서 빠진 책의 기존 shorts.{locale}.json 은 제거한다.
+ *
+ * scope — 어떤 파일군을 기록할지 한정한다(교차 덮어쓰기 방지).
+ *   - 'all'(기본): meta + books + shorts 전부 (하위호환)
+ *   - 'longform' : meta + books 만 (shorts 파일은 손대지 않음)
+ *   - 'shorts'   : shorts 만 (meta·books 파일은 손대지 않음)
+ *   solo.{locale}.json 은 어떤 scope 에서도 건드리지 않는다(별도 PATCH API 전담).
  */
-export async function saveNewLayoutEpisode(name: string, data: any) {
+export type SaveScope = 'all' | 'longform' | 'shorts'
+
+export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveScope = 'all') {
   const { person, locale } = parseEpisodeId(name)
   const found = findEpisodeDir(person)!
   const epDir = found.dir
@@ -111,18 +119,23 @@ export async function saveNewLayoutEpisode(name: string, data: any) {
   const { content, timing } = splitEpisodeData(data)
   const folders = await listBookFolders(epDir)
 
+  const writeMetaBooks = scope === 'all' || scope === 'longform'
+  const writeShorts = scope === 'all' || scope === 'shorts'
+
   // meta — books·shorts 제외
-  const metaContent: any = { ...content }; delete metaContent.books
-  const metaTiming: any = { ...timing }; delete metaTiming.books
-  await writeFile(path.join(epDir, `meta.${locale}.json`),
-    JSON.stringify(metaContent, null, 2) + '\n', 'utf-8')
-  if (Object.keys(metaTiming).length > 0) {
-    await writeFile(path.join(epDir, `meta.${locale}.timing.json`),
-      JSON.stringify(metaTiming, null, 2) + '\n', 'utf-8')
+  if (writeMetaBooks) {
+    const metaContent: any = { ...content }; delete metaContent.books
+    const metaTiming: any = { ...timing }; delete metaTiming.books
+    await writeFile(path.join(epDir, `meta.${locale}.json`),
+      JSON.stringify(metaContent, null, 2) + '\n', 'utf-8')
+    if (Object.keys(metaTiming).length > 0) {
+      await writeFile(path.join(epDir, `meta.${locale}.timing.json`),
+        JSON.stringify(metaTiming, null, 2) + '\n', 'utf-8')
+    }
   }
 
   // books
-  const books: any[] = Array.isArray(content.books) ? content.books : []
+  const books: any[] = writeMetaBooks && Array.isArray(content.books) ? content.books : []
   const bookTimings: any[] = Array.isArray(timing.books) ? timing.books : []
   for (let i = 0; i < books.length; i++) {
     const folder = folders[i]
@@ -140,7 +153,7 @@ export async function saveNewLayoutEpisode(name: string, data: any) {
   }
 
   // shorts — featuredBookIndex 로 책 폴더 매칭
-  const originalShorts: any[] = Array.isArray(data?.shorts) ? data.shorts : []
+  const originalShorts: any[] = writeShorts && Array.isArray(data?.shorts) ? data.shorts : []
   const usedBookIndices = new Set<number>()
   for (const sc of originalShorts) {
     const idx = sc?.featuredBookIndex
@@ -172,14 +185,20 @@ export async function saveNewLayoutEpisode(name: string, data: any) {
     }
   }
 
-  // 입력에서 빠진 책의 기존 shorts.{locale}.json 정리
-  for (let i = 0; i < folders.length; i++) {
-    if (usedBookIndices.has(i)) continue
-    const bd = path.join(epDir, 'books', folders[i])
-    const sf = path.join(bd, `shorts.${locale}.json`)
-    if (existsSync(sf)) {
-      await unlink(sf).catch(() => {})
-      await unlink(path.join(bd, `shorts.${locale}.timing.json`)).catch(() => {})
+  // 입력에서 빠진 책의 기존 shorts.{locale}.json 정리 — shorts 기록 scope 에서만 수행
+  // (longform scope 에서는 shorts 파일을 절대 건드리지 않는다)
+  if (writeShorts) {
+    for (let i = 0; i < folders.length; i++) {
+      if (usedBookIndices.has(i)) continue
+      const bd = path.join(epDir, 'books', folders[i])
+      const sf = path.join(bd, `shorts.${locale}.json`)
+      if (existsSync(sf)) {
+        await unlink(sf).catch(() => {})
+        await unlink(path.join(bd, `shorts.${locale}.timing.json`)).catch(() => {})
+      }
     }
   }
+
+  // 1권 모드(SOLO) 자유섹션(solo.{locale}.json)은 별도 PATCH API로만 관리한다.
+  // 전체 저장은 이 파일을 건드리지 않는다(책 본문과 독립된 솔로 전용 데이터).
 }

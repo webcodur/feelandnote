@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { imageKeyFromPath } from '../utils'
 
 /**
  * 이미지 풀 사이드바에 필요한 사용 현황 맵 묶음.
@@ -11,7 +12,7 @@ import { useMemo } from 'react'
  * - fileBookMap·fileFieldMap: 롱폼 books.images의 책 인덱스/field 매핑.
  */
 export function usePoolMaps({
-  isShortsView, books, segments, currentShorts, shortsArr, view,
+  isShortsView, books, segments, currentShorts, shortsArr, view, dupNames,
 }: {
   isShortsView: boolean
   books: any[]
@@ -19,6 +20,8 @@ export function usePoolMaps({
   currentShorts: any
   shortsArr: any[]
   view: string
+  /** 다른 책과 이름이 겹치는 파일 집합 — 겹치는 파일만 폴더 포함 식별자로 집계해 풀 키와 맞춘다. */
+  dupNames: Set<string>
 }) {
   const assignedFiles = useMemo(() => {
     const set = new Set<string>()
@@ -27,13 +30,13 @@ export function usePoolMaps({
     } else {
       if (currentShorts?.revealBg) set.add(currentShorts.revealBg)
       for (const seg of segments) {
-        if (seg.image) set.add((seg.image as string).split('/').pop()!)
+        if (seg.image) set.add(imageKeyFromPath(seg.image as string, dupNames))
         const ch = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
-        for (const c of ch) set.add((c as any).image.split('/').pop()!)
+        for (const c of ch) set.add(imageKeyFromPath((c as any).image, dupNames))
       }
     }
     return set
-  }, [view, books, segments, currentShorts])
+  }, [view, books, segments, currentShorts, isShortsView, dupNames])
 
   const crossUsage = useMemo(() => {
     const map = new Map<string, string[]>()
@@ -55,13 +58,14 @@ export function usePoolMaps({
       if (shorts.revealBg) add(shorts.revealBg, `${shortsLabel} 배경`)
       if (!shorts.segments) return
       for (const seg of shorts.segments) {
-        if (seg.image) { const fn = (seg.image as string).split('/').pop()!; add(fn, `${shortsLabel} ${seg.id}`) }
+        if (seg.image) { const fn = imageKeyFromPath(seg.image as string, dupNames); add(fn, `${shortsLabel} ${seg.id}`) }
         const ch = seg.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
-        for (const c of ch) { const fn = (c as any).image.split('/').pop()!; add(fn, `${shortsLabel} ${seg.id}`) }
+        for (const c of ch) { const fn = imageKeyFromPath((c as any).image, dupNames); add(fn, `${shortsLabel} ${seg.id}`) }
       }
     })
+    // 1권 모드(SOLO)는 책 본문 이미지를 그대로 따라가므로 별도 누적 필요 없음 (롱폼 카운트에 흡수)
     return map
-  }, [books, shortsArr])
+  }, [books, shortsArr, dupNames])
 
   const usedFiles = useMemo(() => new Set(crossUsage.keys()), [crossUsage])
 

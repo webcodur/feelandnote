@@ -4,6 +4,7 @@ import type { EpisodeData } from '../../../EpisodeEditor'
 import type { Speaker } from '../../SpeakerPanel'
 import { buildHostSpeaker } from '../../speakerHelpers'
 import { setField } from '../../utils'
+import { remapChangeAnchors } from '../../anchorSync'
 
 /**
  * 쇼츠 1개 상태 + 세그먼트 CRUD 한 곳 모음.
@@ -46,8 +47,17 @@ export function useShortsState(
     onUpdate({ ...episode, shorts: arr } as any)
   }
 
-  const updateSeg = (i: number, text: string) => {
-    const newSegs = [...segments]; newSegs[i] = { ...newSegs[i], text }
+  // prev: 커밋 직전 본문. 본문이 바뀌면 이 구간의 이미지 전환점(imageChangeAt) 앵커를 옛→새 본문 위치로 이전한다.
+  const updateSeg = (i: number, text: string, prev?: string) => {
+    const cur = segments[i] ?? {}
+    const newSeg: any = { ...cur, text }
+    const oldText = prev ?? cur.text ?? ''
+    if (oldText !== text && Array.isArray(cur.imageChangeAt) && cur.imageChangeAt.length) {
+      const remapped = remapChangeAnchors(oldText, text, cur.imageChangeAt as any[], msg => console.info(`[쇼츠 #${i + 1}] ${msg}`))
+      if (remapped.length) newSeg.imageChangeAt = remapped
+      else delete newSeg.imageChangeAt
+    }
+    const newSegs = [...segments]; newSegs[i] = newSeg
     writeShorts({ ...currentShorts, segments: newSegs })
   }
 
@@ -65,10 +75,12 @@ export function useShortsState(
     writeShorts({ ...currentShorts, segments: newSegs })
   }
 
-  const removeSegment = (i: number) => {
+  // confirm 통과 시에만 삭제하고 true 반환 — 호출부가 wav 정리·뒤 구간 rename 여부를 판단한다.
+  const removeSegment = (i: number): boolean => {
     const seg = segments[i]
-    if (!confirm(`#${i + 1} ${seg?.id ?? ''} 구간 삭제?`)) return
+    if (!confirm(`#${i + 1} ${seg?.id ?? ''} 구간 삭제?`)) return false
     writeShorts({ ...currentShorts, segments: segments.filter((_, j) => j !== i) })
+    return true
   }
 
   // 디스크의 최신 상태를 읽어 해당 id만 교체. 다른 탭이 수정한 다른 구간·필드는 보존된다.
@@ -89,7 +101,10 @@ export function useShortsState(
   // visual은 삽입 위치 주변 맥락(인트로 vs 책)을 보고 결정.
   const insertSegmentAt = (atIdx: number, kind: 'quote' | 'context') => {
     const firstBookIdx = segments.findIndex((s: any) => s?.visual === 'book')
-    const inIntro = firstBookIdx < 0 ? true : atIdx <= firstBookIdx
+    // 끝에 추가([인용/맥락 추가])는 본문이므로 항상 book. 중간 삽입만 위치로 인트로 여부를 판정한다.
+    // (book 세그먼트가 아직 없다고 끝 추가까지 intro 로 보면 본문이 인트로로 잘못 분류된다)
+    const atEnd = atIdx >= segments.length
+    const inIntro = !atEnd && (firstBookIdx < 0 ? true : atIdx <= firstBookIdx)
 
     let newSeg: any
     if (kind === 'quote') {

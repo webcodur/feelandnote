@@ -53,6 +53,44 @@ export function segmentReorderRenames(
   return out
 }
 
+/** 쇼츠 구간을 atIdx 위치에 중간 삽입할 때의 rename 페어 계산.
+ *  atIdx 이상의 기존 구간이 한 칸씩 뒤로 밀리므로(S{n}→S{n+1}) 그 wav·타이밍·slots 를 함께 옮긴다.
+ *  segments 는 삽입 *전* 배열. atIdx >= segments.length(끝 추가)면 밀리는 구간이 없어 빈 배열. */
+export function segmentInsertRenames(
+  shortsIndex: number,
+  atIdx: number,
+  segments: Array<{ id?: string } | null | undefined>,
+): RenamePair[] {
+  const out: RenamePair[] = []
+  for (let i = atIdx; i < segments.length; i++) {
+    const segId = segments[i]?.id ?? ''
+    if (!segId) continue
+    const oldKey = `shorts-${shortsIndex}/S${String(i + 1).padStart(2, '0')}-${segId}`
+    const newKey = `shorts-${shortsIndex}/S${String(i + 2).padStart(2, '0')}-${segId}`
+    out.push({ from: oldKey, to: newKey })
+  }
+  return out
+}
+
+/** 쇼츠 구간 삭제 시의 rename 페어 계산. atIdx 이후 구간이 한 칸씩 당겨진다(S{n}→S{n-1}).
+ *  삭제 구간의 wav 는 호출부에서 따로 제거하고, 그 빈 자리로 다음 구간이 옮겨온다.
+ *  segments 는 삭제 *전* 배열. atIdx 가 마지막이면 당겨올 구간이 없어 빈 배열. */
+export function segmentDeleteRenames(
+  shortsIndex: number,
+  atIdx: number,
+  segments: Array<{ id?: string } | null | undefined>,
+): RenamePair[] {
+  const out: RenamePair[] = []
+  for (let i = atIdx + 1; i < segments.length; i++) {
+    const segId = segments[i]?.id ?? ''
+    if (!segId) continue
+    const oldKey = `shorts-${shortsIndex}/S${String(i + 1).padStart(2, '0')}-${segId}`
+    const newKey = `shorts-${shortsIndex}/S${String(i).padStart(2, '0')}-${segId}`
+    out.push({ from: oldKey, to: newKey })
+  }
+  return out
+}
+
 /** 단일 구간의 segId 변경. idx 는 0-based. */
 export function segmentIdRename(
   shortsIndex: number,

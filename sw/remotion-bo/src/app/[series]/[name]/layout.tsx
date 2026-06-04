@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { EpisodeProvider } from '@/lib/episode-context'
 import { EpisodeHeader } from '@/components/EpisodeHeader'
 import { TabNav } from '@/components/TabNav'
+import { isFactionSeries } from '@/lib/series-registry'
 
 export async function generateMetadata({ params }: { params: Promise<{ series: string; name: string }> }): Promise<Metadata> {
   const { name } = await params
@@ -17,6 +18,11 @@ export default async function EpisodeLayout({
   children: React.ReactNode
 }) {
   const { series, name } = await params
+
+  // 세력도: 음성·책 기반 래퍼(EpisodeProvider/TabNav)를 거치지 않고 자체 편집 화면을 띄운다.
+  if (isFactionSeries(series)) {
+    return <>{children}</>
+  }
 
   return (
     <EpisodeProvider series={series} name={name}>

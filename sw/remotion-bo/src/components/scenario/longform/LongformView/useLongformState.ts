@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react'
 import type { EpisodeData } from '../../../EpisodeEditor'
 import { locateImageSectionKey, setField } from '../../utils'
+import { remapAnchorsInField } from '../../anchorSync'
+import type { CinematicImage } from '../../types'
+
+/** 본문 필드명 — 이 필드를 고치면 같은 책의 이미지 앵커(book.images[].text)를 옛→새 본문 위치로 이전한다. */
+const TEXT_FIELDS = new Set(['summary', 'contextMain'])
 
 export type MusicFile = { name: string; duration: number | null }
 
@@ -29,19 +34,37 @@ export function useLongformState({
 
   const uN = (field: string, value: string) => onUpdate({ ...episode, narrator: { ...narrator, [field]: value } })
   const uH = (field: string, value: string) => onUpdate({ ...episode, host: { ...host, [field]: value } })
+  // 같은 책의 이미지 앵커(text)를 옛→새 본문 위치로 이전한다. 본문이 안 바뀌면 그대로 둔다.
+  const remapBookImages = (book: any, oldText: string, newText: string, label: string) => {
+    if (oldText === newText || !Array.isArray(book.images) || !book.images.length) return
+    book.images = remapAnchorsInField<CinematicImage>(
+      oldText, newText, book.images as CinematicImage[],
+      msg => console.info(`[롱폼 ${label}] ${msg}`),
+    )
+  }
+
   // value=undefined이면 setField가 키 자체를 제거해 JSON이 깔끔하게 유지된다.
-  const uB = (i: number, field: string, value: unknown) => {
+  // prev: 본문 필드(summary·contextMain)일 때 커밋 직전 텍스트 — 이미지 앵커 이전에 쓴다.
+  const uB = (i: number, field: string, value: unknown, prev?: string) => {
     const newBooks = [...allBooks]
-    newBooks[i] = setField(newBooks[i] ?? {}, field, value)
+    const book = setField(newBooks[i] ?? {}, field, value) as any
+    if (TEXT_FIELDS.has(field) && typeof value === 'string' && typeof prev === 'string') {
+      remapBookImages(book, prev, value, `책${i + 1}/${field}`)
+    }
+    newBooks[i] = book
     onUpdate({ ...episode, books: newBooks })
   }
 
-  const updateQuotePair = (bookIdx: number, pairIdx: number, field: string, value: any) => {
+  const updateQuotePair = (bookIdx: number, pairIdx: number, field: string, value: any, prev?: string) => {
     const newBooks = [...allBooks]
     const book = { ...newBooks[bookIdx] }
     const pairs = [...((book as any).quotePairs ?? [])]
     pairs[pairIdx] = setField(pairs[pairIdx] ?? {}, field, value)
     ;(book as any).quotePairs = pairs
+    // quote·after 본문이 바뀌면 같은 책 이미지 앵커를 이전한다(롱폼 앵커는 book.images 공용 풀).
+    if ((field === 'quote' || field === 'after') && typeof value === 'string' && typeof prev === 'string') {
+      remapBookImages(book, prev, value, `책${bookIdx + 1}/인용${pairIdx + 1}/${field}`)
+    }
     newBooks[bookIdx] = book
     onUpdate({ ...episode, books: newBooks })
   }

@@ -2,52 +2,58 @@
 
 import { useCallback } from 'react'
 import type { EpisodeData } from '../EpisodeEditor'
+import type { SaveScope } from '../../lib/episode-context'
 import type { ImageField } from './types'
 import { stripImagePrefix } from './utils'
 
 export function useSaveSync(params: {
   episode: EpisodeData
   updateEpisode: (ep: EpisodeData) => void
-  save: () => Promise<unknown>
+  save: (data?: EpisodeData, opts?: { scope?: SaveScope }) => Promise<unknown>
   series: string
   name: string
   isEn: boolean
 }) {
   const { episode, updateEpisode, save, series, name, isEn } = params
 
-  const handleSave = useCallback(async () => {
+  // scope — 현재 보는 뷰가 정한다. 'shorts'는 쇼츠 파일만, 'longform'은 책 파일만 기록.
+  const handleSave = useCallback(async (scope: SaveScope = 'all') => {
     const books = (episode.books ?? []) as any[]
     const errors: string[] = []
     let cleaned = false
-    books.forEach((b: any, i: number) => {
-      for (const [pi, pair] of ((b.quotePairs ?? []) as any[]).entries()) {
-        if (!pair.quote && pair.after) {
-          errors.push(`책 ${i + 1} "${b.title}": 인용 ${pi + 1}에 직접 인용 없이 후속 맥락이 존재합니다.`)
+    // 책 인용 검증·이미지 필드 자동지정은 책을 기록하는 scope 에서만 수행
+    // (쇼츠 저장은 책 파일을 건드리지 않으므로 롱폼 인용 오류로 막히지 않는다)
+    if (scope !== 'shorts') {
+      books.forEach((b: any, i: number) => {
+        for (const [pi, pair] of ((b.quotePairs ?? []) as any[]).entries()) {
+          if (!pair.quote && pair.after) {
+            errors.push(`책 ${i + 1} "${b.title}": 인용 ${pi + 1}에 직접 인용 없이 후속 맥락이 존재합니다.`)
+          }
         }
-      }
-      if (b.images?.length) {
-        // quote 우선 판별 (quote/after 텍스트에 앵커 매칭) → 없으면 summary → context 순 폴백
-        const quoteAfterText = ((b.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? '']).join(' ')
-        const fieldMap: [ImageField, string][] = [
-          ['summary', b.summary ?? ''],
-          ['quote', quoteAfterText],
-          ['context', b.contextMain ?? ''],
-        ]
-        const allTexts = fieldMap.map(([, t]) => t).join(' ')
-        b.images.forEach((img: any, j: number) => {
-          if (!img.field && img.text) {
-            for (const [f, t] of fieldMap) {
-              if (t.includes(img.text)) { img.field = f; cleaned = true; break }
+        if (b.images?.length) {
+          // quote 우선 판별 (quote/after 텍스트에 앵커 매칭) → 없으면 summary → context 순 폴백
+          const quoteAfterText = ((b.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? '']).join(' ')
+          const fieldMap: [ImageField, string][] = [
+            ['summary', b.summary ?? ''],
+            ['quote', quoteAfterText],
+            ['context', b.contextMain ?? ''],
+          ]
+          const allTexts = fieldMap.map(([, t]) => t).join(' ')
+          b.images.forEach((img: any, j: number) => {
+            if (!img.field && img.text) {
+              for (const [f, t] of fieldMap) {
+                if (t.includes(img.text)) { img.field = f; cleaned = true; break }
+              }
             }
-          }
-          if (j === 0 && !img.field) { img.field = 'summary'; cleaned = true }
-          if (j > 0 && img.text && !allTexts.includes(img.text)) {
-            delete img.text
-            cleaned = true
-          }
-        })
-      }
-    })
+            if (j === 0 && !img.field) { img.field = 'summary'; cleaned = true }
+            if (j > 0 && img.text && !allTexts.includes(img.text)) {
+              delete img.text
+              cleaned = true
+            }
+          })
+        }
+      })
+    }
     if (errors.length) {
       alert('저장 불가:\n\n' + errors.join('\n'))
       return
@@ -116,7 +122,7 @@ export function useSaveSync(params: {
       if (cleanedShortsArr) updated.shorts = cleanedShortsArr
       updateEpisode(updated as EpisodeData)
     }
-    await save()
+    await save(undefined, { scope })
   }, [episode, save, updateEpisode])
 
   const syncImages = useCallback(async () => {

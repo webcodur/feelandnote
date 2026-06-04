@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback, useMemo, use } from 'react'
 import Link from 'next/link'
-import { getSeriesById } from '@/lib/series-registry'
+import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 import { TaskPanel } from '@/components/TaskPanel'
 import { VoiceStorage } from '@/components/VoiceStorage'
+import { FactionSeriesHome } from '@/components/faction/FactionSeriesHome'
 
 type EpisodeStatus = 'todo' | 'live' | 'done'
 
@@ -174,6 +175,11 @@ function tabKeyId(t: TabKey): string {
 
 export default function SeriesHomePage({ params }: { params: Promise<{ series: string }> }) {
   const { series } = use(params)
+  if (isFactionSeries(series)) return <FactionSeriesHome series={series} />
+  return <BookRecommendSeriesHome series={series} />
+}
+
+function BookRecommendSeriesHome({ series }: { series: string }) {
   const seriesDef = getSeriesById(series)
   const [episodes, setEpisodes] = useState<EpisodeSummary[]>([])
   const [candidates, setCandidates] = useState<CandidateSummary[]>([])
@@ -268,13 +274,31 @@ export default function SeriesHomePage({ params }: { params: Promise<{ series: s
 
   const tabId = tabKeyId(tab)
 
+  const openFolder = (target: 'episodes' | 'archive') => {
+    fetch('/api/open-folder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ target }),
+    }).catch(() => {})
+  }
+
   return (
     <div>
       <div className="flex items-center gap-4 mb-1">
         <h1 className="text-xl font-bold">{seriesDef.icon} {seriesDef.label}</h1>
-        <Link href={`/${series}/youtube`} className="ml-auto text-xs text-text-secondary hover:text-accent transition-colors font-semibold">
-          YouTube 편성 →
-        </Link>
+        <div className="ml-auto flex items-center gap-2">
+          <button onClick={() => openFolder('episodes')}
+            className="text-xs px-2 py-1 rounded border border-border text-text-secondary hover:text-accent hover:border-accent/60 hover:bg-accent/10 active:scale-95 transition-all font-semibold">
+            📁 에피소드 폴더
+          </button>
+          <button onClick={() => openFolder('archive')}
+            className="text-xs px-2 py-1 rounded border border-border text-text-secondary hover:text-accent hover:border-accent/60 hover:bg-accent/10 active:scale-95 transition-all font-semibold">
+            📁 보관소
+          </button>
+          <Link href={`/${series}/youtube`} className="text-xs text-text-secondary hover:text-accent transition-colors font-semibold">
+            YouTube 편성 →
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-1 rounded-md border border-border text-xs mb-6 w-fit overflow-hidden">

@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server'
 import { listEpisodes, loadEpisode, saveEpisode, scanLocalWavs } from '@/lib/server-utils'
-import { isValidSeries } from '@/lib/series-registry'
+import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { listFactionEpisodes, createFactionEpisode } from '@/lib/faction-utils'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
+
+  // 세력도: 세력·인물 수 중심의 목록 카드
+  if (isFactionSeries(series)) {
+    return NextResponse.json(await listFactionEpisodes())
+  }
 
   const items = await listEpisodes(series)
 
@@ -56,6 +62,20 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
+
+  // 세력도: 빈 에피소드 생성 (제목·부제·음악만 받고 세력은 편집기에서 채운다)
+  if (isFactionSeries(series)) {
+    const { name, title, subtitle, music } = await req.json()
+    if (!name?.trim()) return NextResponse.json({ error: 'name required' }, { status: 400 })
+    try {
+      await createFactionEpisode(name.trim(), { title, subtitle, music })
+      return NextResponse.json({ ok: true, name: name.trim() })
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e)
+      const status = msg.includes('already exists') ? 409 : 400
+      return NextResponse.json({ error: msg }, { status })
+    }
+  }
 
   const { slug } = await req.json()
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })

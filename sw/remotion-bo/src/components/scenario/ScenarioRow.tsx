@@ -39,7 +39,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
   onToggleExpand,
   images, onDrop, onAddAnchor, actions, collapseKey, dragHandle, leadStyle, footer }: {
   label: ReactNode; role: string; value: string; voiceInfo?: VoiceInfo
-  onCommit: (v: string) => void
+  onCommit: (v: string, prev: string) => void
   pickMode?: boolean; onPick?: (selected: string) => void
   highlights?: string[]
   sectionKey?: string; audioUrl?: string; activeEngine?: string
@@ -63,6 +63,9 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
   const folderKey = collapseKey || sectionKey
   const { collapsed, toggle } = useRowCollapseState(folderKey)
   const previewText = (value ?? '').trim().replace(/\s+/g, ' ').slice(0, 80)
+  // 발화 속도 — 본문 글자수(공백·줄바꿈 제외) ÷ 오디오 길이(초). 파일이 있을 때만.
+  const charCount = (value ?? '').replace(/\s/g, '').length
+  const cps = voiceInfo?.exists && voiceInfo.duration ? charCount / voiceInfo.duration : null
   const simpleRole = normalizeRole(role)
   const roleLabel = ROLE_LABELS[simpleRole]
   const roleColor = ROLE_COLORS[simpleRole]
@@ -214,7 +217,14 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
               </span>
             )}
             {!voiceInfo.exists && <span className="text-xs font-bold text-red-700 font-extrabold whitespace-nowrap px-1.5 py-0.5 bg-red-100 border border-red-400 rounded">미생성</span>}
-            <div className="flex-1"></div>
+            {cps != null && (
+              <span
+                className="text-xs font-bold font-mono font-extrabold whitespace-nowrap px-2 py-0.5 rounded border border-slate-400 bg-bg-secondary text-text-secondary"
+                title={`본문 ${charCount}자 ÷ ${voiceInfo.duration?.toFixed(1)}초`}
+              >
+                {cps.toFixed(1)}자/초
+              </span>
+            )}
             <button
               onClick={onToggleExpand}
               className="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white border border-purple-700 text-xs font-black shadow-sm transition-all duration-150 active:scale-[0.98] flex-none"

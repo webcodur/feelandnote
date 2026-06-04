@@ -30,17 +30,25 @@ type Props = {
   /** trim 시작/끝 (초) — 설정 시 오버레이 표시 */
   trimStart?: number
   trimEnd?: number
+  /** trim 시작 변경 콜백 — 전달 시 좌측 드래그 핸들 표시 */
+  onTrimStart?: (time: number) => void
   /** trim 끝 변경 콜백 — 전달 시 우측 드래그 핸들 표시 */
   onTrimEnd?: (time: number) => void
+  /** 재생성 콜백 — 전달 시 정지 버튼 우측에 재생성 버튼 표시 */
+  onRegenerate?: () => void
+  /** 재생성 진행 중 — 버튼 비활성·라벨 변경 */
+  regenerating?: boolean
   /** 초당 픽셀 수 — 지정 시 "화면 꽉차기" 대신 절대 가로폭으로 렌더, 가로 스크롤 발생.
    *  지정 없으면 부모 너비 꽉 채움(기존 동작). 긴 오디오에서 시간 감각 유지용. */
   pxPerSec?: number
+  /** 마운트·오디오 변경 시 자동 재생 (예: 미리듣기 생성 직후) */
+  autoPlay?: boolean
 }
 
 export function AudioWavePlayer({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
-  trimStart, trimEnd, onTrimEnd, pxPerSec,
+  trimStart, trimEnd, onTrimStart, onTrimEnd, onRegenerate, regenerating, pxPerSec, autoPlay,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -92,8 +100,12 @@ export function AudioWavePlayer({
     audioRef.current = a
     a.onended = () => { setPlaying(false); setPlayhead(0) }
     a.addEventListener('loadedmetadata', () => {
+      // 메타데이터 대기 중 정지/교체됐으면(audioRef가 a가 아님) 재생하지 않는다.
+      // 자동 재생 직후 정지가 늦게 온 콜백에 묻혀 무시되던 경합 방지.
+      if (audioRef.current !== a) return
       a.currentTime = t
       a.play().then(() => {
+        if (audioRef.current !== a) { a.pause(); return }
         setPlaying(true)
         const tick = () => {
           if (a.paused) return
@@ -104,6 +116,11 @@ export function AudioWavePlayer({
       }).catch(() => {})
     }, { once: true })
   }, [audioUrl])
+
+  // 자동 재생 — autoPlay이면 오디오(URL) 준비 시 처음부터 1회 재생. 브라우저 정책상 막히면 조용히 무시.
+  useEffect(() => {
+    if (autoPlay && audioUrl) playFrom(0)
+  }, [autoPlay, audioUrl, playFrom])
 
   // 전체 재생/일시정지/정지
   const togglePlay = useCallback(() => {
@@ -168,16 +185,22 @@ export function AudioWavePlayer({
     onDoubleClick(t)
   }, [dur, onDoubleClick])
 
-  // trim 핸들 드래그 — document 이벤트 기반, cleanup ref로 언마운트 안전
+  // trim 핸들 드래그 — document 이벤트 기반, cleanup ref로 언마운트 안전.
+  // edge='start' 좌측 핸들 / edge='end' 우측 핸들. 반대편 경계 안쪽으로 0.05초 간격 clamp.
   const trimCleanupRef = useRef<(() => void) | null>(null)
-  const handleTrimDown = useCallback((e: React.PointerEvent) => {
-    if (!onTrimEnd || !containerRef.current || dur <= 0) return
+  const handleTrimDown = useCallback((edge: 'start' | 'end') => (e: React.PointerEvent) => {
+    const cb = edge === 'start' ? onTrimStart : onTrimEnd
+    if (!cb || !containerRef.current || dur <= 0) return
     e.preventDefault()
     e.stopPropagation()
     const rect = containerRef.current.getBoundingClientRect()
-    const calcT = (cx: number) =>
-      Math.round(Math.max(0.02, Math.min(1, (cx - rect.left) / rect.width)) * dur * 1000) / 1000
-    const onMove = (ev: PointerEvent) => onTrimEnd(calcT(ev.clientX))
+    const calcT = (cx: number) => {
+      let t = Math.max(0, Math.min(1, (cx - rect.left) / rect.width)) * dur
+      if (edge === 'start') t = Math.min(t, (trimEnd ?? dur) - 0.05)
+      else t = Math.max(t, (trimStart ?? 0) + 0.05)
+      return Math.round(Math.max(0, Math.min(dur, t)) * 1000) / 1000
+    }
+    const onMove = (ev: PointerEvent) => cb(calcT(ev.clientX))
     const onUp = () => {
       document.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerup', onUp)
@@ -186,10 +209,11 @@ export function AudioWavePlayer({
     document.addEventListener('pointermove', onMove)
     document.addEventListener('pointerup', onUp)
     trimCleanupRef.current = onUp
-  }, [onTrimEnd, dur])
+  }, [onTrimStart, onTrimEnd, trimStart, trimEnd, dur])
   useEffect(() => () => { trimCleanupRef.current?.() }, [])
 
-  const trimHandlePct = dur > 0 && trimEnd !== undefined ? (trimEnd / dur) * 100 : 100
+  const trimEndHandlePct = dur > 0 && trimEnd !== undefined ? (trimEnd / dur) * 100 : 100
+  const trimStartHandlePct = dur > 0 && trimStart !== undefined ? (trimStart / dur) * 100 : 0
   const absWidth = pxPerSec && dur > 0 ? Math.round(dur * pxPerSec) : null
 
   return (
@@ -248,12 +272,22 @@ export function AudioWavePlayer({
           )}
           {children}
         </div>
+        {onTrimStart && dur > 0 && (
+          <div
+            className="absolute top-0 bottom-0 w-6 -ml-3 cursor-ew-resize z-20 flex items-center justify-center group select-none"
+            style={{ left: `${trimStartHandlePct}%`, touchAction: 'none' }}
+            draggable={false}
+            onPointerDown={handleTrimDown('start')}
+          >
+            <div className="w-1 h-full bg-red-400 group-hover:bg-red-300 group-hover:w-1.5 rounded-full transition-all" />
+          </div>
+        )}
         {onTrimEnd && dur > 0 && (
           <div
             className="absolute top-0 bottom-0 w-6 -ml-3 cursor-ew-resize z-20 flex items-center justify-center group select-none"
-            style={{ left: `${trimHandlePct}%`, touchAction: 'none' }}
+            style={{ left: `${trimEndHandlePct}%`, touchAction: 'none' }}
             draggable={false}
-            onPointerDown={handleTrimDown}
+            onPointerDown={handleTrimDown('end')}
           >
             <div className="w-1 h-full bg-red-400 group-hover:bg-red-300 group-hover:w-1.5 rounded-full transition-all" />
           </div>
@@ -270,6 +304,12 @@ export function AudioWavePlayer({
           <button onClick={stop}
             className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover">
             ■ 정지
+          </button>
+        )}
+        {onRegenerate && (
+          <button onClick={onRegenerate} disabled={regenerating}
+            className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover disabled:opacity-50 disabled:cursor-not-allowed">
+            {regenerating ? '↻ 생성 중…' : '↻ 재생성'}
           </button>
         )}
         <span className="text-[10px] text-text-secondary font-mono">

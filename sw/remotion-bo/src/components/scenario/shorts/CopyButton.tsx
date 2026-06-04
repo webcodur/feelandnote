@@ -5,40 +5,45 @@ import { useState, useCallback } from 'react'
 /**
  * 쇼츠 내용 복사
  *
- * 출력 구성: 훅 → 인트로 → [대사 OR 해설] N개
- *  - 훅:   id === 'hook'   또는 visual === 'hook'
- *  - 인트로: id === 'intro' 또는 visual === 'intro' 이면서 hook 다음
- *  - 그 외 본문 구간:
- *      role === 'celeb'    → [대사]
- *      role === 'narrator' → [해설]
+ * 각 구간 라벨 = 위치 + 발화 유형. 둘 다 있으면 「위치 · 발화유형」, 하나만 있으면 그것만.
+ *  - 위치:    id/visual === 'hook' → 훅, id/visual === 'intro' → 인트로
+ *  - 발화유형: role === 'celeb' → 대사, role === 'narrator' → 해설
+ *  예) 훅이면서 셀럽 대사 → "훅 · 대사", 본문 해설 → "해설"
  */
 export function ShortsCopyButton({ segments, shortsName }: { segments: any[]; shortsName?: string }) {
   const [copied, setCopied] = useState(false)
 
   const copy = useCallback(() => {
-    type Kind = '훅' | '인트로' | '대사' | '해설' | null
-    const classify = (s: any): Kind => {
-      if (s?.id === 'hook' || s?.visual === 'hook') return '훅'
-      if (s?.id === 'intro' || s?.visual === 'intro') return '인트로'
-      if (s?.role === 'celeb') return '대사'
-      if (s?.role === 'narrator') return '해설'
-      return null
+    const speech = (s: any): '대사' | '해설' | null =>
+      s?.role === 'celeb' ? '대사' : s?.role === 'narrator' ? '해설' : null
+    const slot = (s: any): '훅' | '인트로' | null =>
+      (s?.id === 'hook' || s?.visual === 'hook') ? '훅'
+      : (s?.id === 'intro' || s?.visual === 'intro') ? '인트로' : null
+    const labelOf = (s: any): string | null => {
+      const sp = speech(s)
+      const sl = slot(s)
+      if (sl && sp) return `${sl} · ${sp}`
+      return sl ?? sp
     }
 
     const items = segments
-      .map(s => ({ kind: classify(s), seg: s }))
-      .filter((x): x is { kind: Exclude<Kind, null>; seg: any } => x.kind !== null)
+      .filter(s => !s?.disabled)  // 영상 제외 구간은 복사에서도 뺀다.
+      .map(s => ({ label: labelOf(s), seg: s }))
+      .filter((x): x is { label: string; seg: any } => x.label !== null)
 
-    const structure = items.map(x => x.kind).join(' → ')
-    const titleLine = shortsName ? `[쇼츠] ${shortsName}\n` : ''
-    const header = `${titleLine}[구조] ${structure}`
+    const titleLine = shortsName ? `[쇼츠] ${shortsName}` : ''
 
     const body = items
       .filter(({ seg }) => typeof seg.text === 'string' && seg.text.trim().length > 0)
-      .map(({ kind, seg }) => `# ${kind} (${seg.id})\n${seg.text}`)
+      .map(({ label, seg }) => {
+        const src = typeof seg.quoteSource === 'string' && seg.quoteSource.trim().length > 0
+          ? `\n출처: ${seg.quoteSource.trim()}`
+          : ''
+        return `# ${label} (${seg.id})\n${seg.text}${src}`
+      })
       .join('\n\n')
 
-    navigator.clipboard.writeText(`${header}\n\n${body}`).then(() => {
+    navigator.clipboard.writeText(titleLine ? `${titleLine}\n\n${body}` : body).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     })

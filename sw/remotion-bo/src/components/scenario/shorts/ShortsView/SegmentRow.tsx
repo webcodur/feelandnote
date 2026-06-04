@@ -74,7 +74,7 @@ export function SegmentRow({
   playingKey: string | null
   onTogglePlay: (key: string, gainDb?: number | null) => void
   onToggleExpand: (key: string) => void
-  updateSeg: (i: number, text: string) => void
+  updateSeg: (i: number, text: string, prev?: string) => void
   updateSegField: (i: number, field: string, value: any) => void
   updateSegFieldKeepFalse: (i: number, field: string, value: any) => void
   removeSegment: (i: number) => void
@@ -118,7 +118,9 @@ export function SegmentRow({
   const speakerObj = seg.speaker ? speakerById.get(seg.speaker) : undefined
   const accentColor = speakerObj?.color
 
-  // 타이틀바 좌측에 들어가는 라벨 — n/m 번호 + 식별자(편집기)
+  const isDisabled = seg.disabled === true
+
+  // 타이틀바 좌측에 들어가는 라벨 — n/m 번호 + 식별자(편집기) + 제외 배지
   const labelNode = (
     <span className="flex items-center gap-1.5 leading-none">
       <span className="text-sm font-bold text-text-secondary tabular-nums">{idx + 1}/{totalSegments ?? '?'}</span>
@@ -127,12 +129,29 @@ export function SegmentRow({
       ) : (
         <span className="text-sm font-bold font-mono text-text-primary">{seg.id}</span>
       )}
+      {isDisabled && (
+        <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-500/30 text-slate-300 text-[10px] font-black leading-none border border-slate-400/40">
+          영상 제외
+        </span>
+      )}
     </span>
   )
 
-  // 타이틀바 우측 액션 — 저장(emerald) + 삭제(red)
+  // 타이틀바 우측 액션 — 영상 포함/제외 토글 + 저장(emerald) + 삭제(red)
   const actionsNode = (
     <>
+      <button
+        type="button"
+        onClick={() => updateSegField(idx, 'disabled', isDisabled ? undefined : true)}
+        title={isDisabled
+          ? '지금은 영상에서 빠져 있다. 눌러서 다시 영상에 포함한다.'
+          : '이 구간을 영상에서 잠시 뺀다. 음성·내용은 그대로 보존되어 언제든 되살릴 수 있다.'}
+        className={`inline-flex items-center px-2 py-0.5 rounded border text-sm font-bold leading-none cursor-pointer transition-colors ${
+          isDisabled
+            ? 'border-emerald-600/50 text-emerald-400/90 bg-transparent hover:bg-emerald-500/10 hover:border-emerald-400 hover:text-emerald-200'
+            : 'border-slate-500/50 text-slate-400 bg-transparent hover:bg-slate-500/10 hover:border-slate-300 hover:text-slate-200'
+        }`}
+      >{isDisabled ? '영상에 넣기' : '영상에서 빼기'}</button>
       <SaveButton onSave={() => saveSegment(idx)} title="이 구간만 저장 (디스크 최신 상태와 머지)" />
       <button
         type="button"
@@ -158,10 +177,10 @@ export function SegmentRow({
     />
   )
 
-  return (
+  const row = (
     <ScenarioRow
       label={labelNode} role={seg.role} value={seg.text}
-      voiceInfo={voiceInfo} onCommit={v => updateSeg(idx, v)}
+      voiceInfo={voiceInfo} onCommit={(v, prev) => updateSeg(idx, v, prev)}
       pickMode={picking} onPick={handlePick}
       highlights={allImgs.map((img: any) => img.text).filter((t: string | undefined): t is string => !!t)}
       sectionKey={key} audioUrl={audioUrl}
@@ -176,4 +195,7 @@ export function SegmentRow({
       footer={footerNode}
     />
   )
+
+  // 영상 제외 구간은 흐리게 — 편집은 그대로 가능하되 영상에 안 들어감을 한눈에 보이게.
+  return isDisabled ? <div className="opacity-45 saturate-50">{row}</div> : row
 }

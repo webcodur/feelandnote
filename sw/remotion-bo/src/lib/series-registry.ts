@@ -32,6 +32,16 @@ export const SERIES: SeriesDefinition[] = [
       shortsSuffix: 'Short',
     },
   },
+  {
+    id: 'faction',
+    label: '세력도',
+    icon: '🏛️',
+    composition: 'Faction',
+    episodeDir: 'factions',
+    render: {
+      codec: 'h264',
+    },
+  },
   // 향후 추가:
   // { id: 'rival-talk', label: '라이벌 대담', icon: '🎭', ... },
   // { id: 'service-intro', label: '서비스 소개', icon: '📢', ... },
@@ -45,4 +55,9 @@ export function getSeriesById(id: string): SeriesDefinition | undefined {
 
 export function isValidSeries(id: string): boolean {
   return SERIES.some(s => s.id === id)
+}
+
+/** 세력도 시리즈인지 — 데이터 모델·편집 UI가 BookRecommend와 완전히 다르다. */
+export function isFactionSeries(id: string): boolean {
+  return id === 'faction'
 }

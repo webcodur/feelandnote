@@ -56,8 +56,8 @@ export function EditorPanel({
       {/* ── 펼침 상태 (expanded) 디자인 ── */}
       {expanded ? (
         <>
-          {/* 접기 버튼 (좌측 상단 absolute 배치로 공간 점유 0) */}
-          {collapsible && (
+          {/* 접기 버튼 (좌측 상단). icon 이 있으면 우측 아이콘이 토글을 겸하므로 생략 */}
+          {collapsible && !icon && (
             <div className="absolute top-1.5 left-1.5 z-10 flex items-center">
               <button
                 type="button"
@@ -78,12 +78,23 @@ export function EditorPanel({
               </div>
             )}
             {icon && (
-              <div 
-                className="text-text-primary p-0.5 transition-all flex items-center justify-center w-5 h-5"
-                title={title}
-              >
-                <span className="flex items-center [&>svg]:w-3.5 [&>svg]:h-3.5 opacity-90 hover:opacity-100">{icon}</span>
-              </div>
+              collapsible ? (
+                <button
+                  type="button"
+                  onClick={() => setExpanded(false)}
+                  className="text-text-primary hover:text-accent hover:bg-bg-hover rounded p-0.5 transition-all flex items-center justify-center w-5 h-5 focus:outline-none cursor-pointer"
+                  title="접기"
+                >
+                  <span className="flex items-center [&>svg]:w-3.5 [&>svg]:h-3.5 opacity-90 hover:opacity-100">{icon}</span>
+                </button>
+              ) : (
+                <div
+                  className="text-text-primary p-0.5 transition-all flex items-center justify-center w-5 h-5"
+                  title={title}
+                >
+                  <span className="flex items-center [&>svg]:w-3.5 [&>svg]:h-3.5 opacity-90 hover:opacity-100">{icon}</span>
+                </div>
+              )
             )}
           </div>
         </>
@@ -92,7 +103,7 @@ export function EditorPanel({
         <>
           {/* 아코디언 토글 및 접힘 상태 타이틀 (좌측) */}
           <div className="absolute top-1 left-1.5 z-10 flex items-center h-5">
-            {collapsible && (
+            {collapsible && !icon && (
               <button
                 type="button"
                 onClick={() => setExpanded(true)}
@@ -123,9 +134,9 @@ export function EditorPanel({
                     {title}
                   </div>
                 )}
-                <button 
-                  type="button" 
-                  onClick={() => { if (!collapsible) setOpen(!open) }}
+                <button
+                  type="button"
+                  onClick={() => { if (collapsible) setExpanded(true); else setOpen(!open) }}
                   onMouseEnter={() => setOpen(true)}
                   className="text-text-primary hover:text-accent p-1 bg-bg-secondary hover:bg-bg-hover rounded transition-colors focus:outline-none flex items-center justify-center w-5 h-5"
                   title={title}

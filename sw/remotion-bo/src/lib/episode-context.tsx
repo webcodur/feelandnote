@@ -5,6 +5,8 @@ import type { EpisodeData } from '@/components/EpisodeEditor'
 import type { VoiceFile, VoiceSummary } from '@/components/voice-utils'
 
 export type SaveResult = { ok: boolean; fieldSync?: { synced: number; textAnchorsNeeded: number } | null }
+/** 저장 범위 — 어떤 파일군만 기록할지 한정. 'all'=전체(현행). 서버 SaveScope 와 동일 값. */
+export type SaveScope = 'all' | 'longform' | 'shorts'
 
 type EpisodeContextValue = {
   series: string
@@ -14,7 +16,7 @@ type EpisodeContextValue = {
   updateEpisode: (ep: EpisodeData) => void
   dirty: boolean
   saving: boolean
-  save: (data?: EpisodeData) => Promise<SaveResult | null>
+  save: (data?: EpisodeData, opts?: { scope?: SaveScope }) => Promise<SaveResult | null>
   reload: () => void
   voiceFiles: VoiceFile[]
   voiceSummary: VoiceSummary
@@ -95,12 +97,14 @@ export function EpisodeProvider({ series, name, children }: { series: string; na
     setDirty(true)
   }, [])
 
-  const save = useCallback(async (data?: EpisodeData): Promise<SaveResult | null> => {
+  const save = useCallback(async (data?: EpisodeData, opts?: { scope?: SaveScope }): Promise<SaveResult | null> => {
     const toSave = data ?? episodeRef.current
     if (!toSave) return null
     setSaving(true)
     try {
-      const res = await fetch(`/api/${series}/episodes/${name}`, {
+      // scope 지정 시 해당 파일군만 기록(쇼츠↔롱폼 교차 덮어쓰기 방지). 미지정/'all'은 전체 저장.
+      const qs = opts?.scope && opts.scope !== 'all' ? `?scope=${opts.scope}` : ''
+      const res = await fetch(`/api/${series}/episodes/${name}${qs}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(toSave),
       })
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? res.statusText)

@@ -157,9 +157,11 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
     }
 
     const newTimings = [...timings]
+    // text 도 함께 분배 — 자동저장 시 sub/subTimings 와 동일하게 디스크에 들어가 새로고침 후 자동분할로
+    // 되돌아가는 결함을 방지한다.
     newTimings.splice(idx, 1,
-      { start: original.start, end: roundedT, ...leftSubExtra },
-      { start: roundedT, end: original.end, ...rightSubExtra }
+      { start: original.start, end: roundedT, text: p1, ...leftSubExtra },
+      { start: roundedT, end: original.end, text: p2, ...rightSubExtra }
     )
 
     const newSegs = [...segments]
@@ -180,7 +182,8 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
     const leftText = segments[boundaryIdx] ?? ''
     const rightText = segments[boundaryIdx + 1] ?? ''
 
-    const merged: Timing = { start: left.start, end: right.end }
+    // 병합된 text 도 함께 채워둔다 — 자동저장이 텍스트 누락된 timing 을 디스크에 쓰는 결함 방지.
+    const merged: Timing = { start: left.start, end: right.end, text: (leftText + ' ' + rightText).trim() }
 
     // 한쪽이라도 sub가 있으면 양쪽을 표준화한 뒤 병합 (없는 쪽은 [text] 단일 sub로 변환)
     const hasLeftSub = !!(left.sub && left.sub.length > 0)

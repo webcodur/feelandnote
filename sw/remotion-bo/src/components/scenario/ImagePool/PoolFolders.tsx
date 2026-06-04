@@ -56,6 +56,78 @@ export function PoolFolders({
     await onDeleteFolder(folderPath)
   }
 
+  const subFolderSet = new Set(subFolders)
+  const parentOf = (f: string) => { const idx = f.lastIndexOf('/'); return idx >= 0 ? f.slice(0, idx) : '' }
+
+  // 직속 하위 폴더 목록. parent='' 이면 최상위(슬래시 없는) 폴더.
+  const childrenOf = (parent: string) =>
+    subFolders.filter(f => parentOf(f) === parent).sort((a, b) => a.localeCompare(b))
+
+  // 최상위 = 부모가 없거나, 부모 폴더가 목록에 없는(고아) 폴더. 고아는 트리에서 누락되지 않게 최상위로 끌어올린다.
+  const topFolders = subFolders
+    .filter(f => { const p = parentOf(f); return p === '' || !subFolderSet.has(p) })
+    .sort((a, b) => a.localeCompare(b))
+
+  // 폴더 카드 — 펼치면 그 안의 하위 폴더를 먼저(재귀) 그리고 파일을 그린다.
+  const renderFolder = (folder: string): React.ReactNode => {
+    const key = `folder:${folder}`
+    const isOpen = opened.has(key)
+    const files = sortBy(sortMode, folderFiles.get(folder) ?? [])
+    const totalInFolder = Object.values(fileFolders).filter(f => f === folder).length
+    const dropActive = folderDrop?.folder === folder && folderDrop.active
+    const subs = childrenOf(folder)
+    // 정상 계층이면 마지막 토막만, 부모가 목록에 없는 고아면 전체 경로로 맥락을 보존한다.
+    const parent = parentOf(folder)
+    const label = (parent === '' || subFolderSet.has(parent)) ? (folder.split('/').pop() ?? folder) : folder
+    return (
+      <div
+        key={folder}
+        className={`border rounded overflow-hidden transition-colors ${dropActive ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-border'}`}
+        onDragOver={e => { e.preventDefault(); e.stopPropagation(); setFolderDrop({ folder, active: true }) }}
+        onDragLeave={() => setFolderDrop(null)}
+        onDrop={e => onFolderDrop(e, folder)}
+      >
+        <div className={POOL_STYLES.sectionHeader + ' cursor-pointer'} onClick={() => toggleOpen(key)}>
+          <span className={`text-text-secondary text-sm font-bold transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+          <span className="text-sm font-bold font-semibold text-text-primary truncate flex-1">📁 {label} <span className="text-text-secondary font-normal">({files.length}{files.length !== totalInFolder ? `/${totalInFolder}` : ''}{subs.length ? `, 폴더 ${subs.length}` : ''})</span></span>
+          {onOpenFolderPath && (
+            <button
+              onClick={e => { e.stopPropagation(); onOpenFolderPath(folder) }}
+              className="text-sm font-bold text-text-secondary hover:text-accent px-1"
+              title="이 폴더를 탐색기로 열기"
+            >📂</button>
+          )}
+          {onRenameFolder && (
+            <button
+              onClick={e => { e.stopPropagation(); handleRenameFolder(folder) }}
+              className="text-sm font-bold text-text-secondary hover:text-accent px-1"
+              title="이름 변경"
+            >✎</button>
+          )}
+          {onDeleteFolder && (
+            <button
+              onClick={e => { e.stopPropagation(); handleDeleteFolder(folder) }}
+              className="text-sm font-bold text-text-secondary hover:text-red-400 px-1"
+              title="폴더 삭제 (비어있어야 함)"
+            >🗑</button>
+          )}
+        </div>
+        {isOpen && (
+          <div className="p-1.5 space-y-1">
+            {subs.length > 0 && <div className="space-y-1">{subs.map(renderFolder)}</div>}
+            {files.length > 0 ? (
+              <div className={viewMode === 'grid' ? POOL_STYLES.gridBody : POOL_STYLES.listBody}>
+                {files.map(renderImage)}
+              </div>
+            ) : subs.length === 0 ? (
+              <div className="text-sm font-bold text-text-secondary italic px-1 py-1">비어있음 — 이미지를 여기로 드래그해라</div>
+            ) : null}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-1 border border-border rounded p-1.5 bg-bg-main/20">
       <div className="flex items-center justify-between px-1 py-0.5">
@@ -73,59 +145,7 @@ export function PoolFolders({
         <div className="px-1 py-2 text-sm font-bold text-text-secondary italic">폴더 없음 — &quot;+ 새 폴더&quot; 로 만들어라</div>
       )}
 
-      {subFolders.map(folder => {
-        const key = `folder:${folder}`
-        const isOpen = opened.has(key)
-        const files = sortBy(sortMode, folderFiles.get(folder) ?? [])
-        const totalInFolder = Object.values(fileFolders).filter(f => f === folder).length
-        const dropActive = folderDrop?.folder === folder && folderDrop.active
-        return (
-          <div
-            key={folder}
-            className={`border rounded overflow-hidden transition-colors ${dropActive ? 'border-accent ring-1 ring-accent/30 bg-accent/10' : 'border-border'}`}
-            onDragOver={e => { e.preventDefault(); e.stopPropagation(); setFolderDrop({ folder, active: true }) }}
-            onDragLeave={() => setFolderDrop(null)}
-            onDrop={e => onFolderDrop(e, folder)}
-          >
-            <div className={POOL_STYLES.sectionHeader + ' cursor-pointer'} onClick={() => toggleOpen(key)}>
-              <span className={`text-text-secondary text-sm font-bold transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
-              <span className="text-sm font-bold font-semibold text-text-primary truncate flex-1">📁 {folder} <span className="text-text-secondary font-normal">({files.length}{files.length !== totalInFolder ? `/${totalInFolder}` : ''})</span></span>
-              {onOpenFolderPath && (
-                <button
-                  onClick={e => { e.stopPropagation(); onOpenFolderPath(folder) }}
-                  className="text-sm font-bold text-text-secondary hover:text-accent px-1"
-                  title="이 폴더를 탐색기로 열기"
-                >📂</button>
-              )}
-              {onRenameFolder && (
-                <button
-                  onClick={e => { e.stopPropagation(); handleRenameFolder(folder) }}
-                  className="text-sm font-bold text-text-secondary hover:text-accent px-1"
-                  title="이름 변경"
-                >✎</button>
-              )}
-              {onDeleteFolder && (
-                <button
-                  onClick={e => { e.stopPropagation(); handleDeleteFolder(folder) }}
-                  className="text-sm font-bold text-text-secondary hover:text-red-400 px-1"
-                  title="폴더 삭제 (비어있어야 함)"
-                >🗑</button>
-              )}
-            </div>
-            {isOpen && (
-              <div className="p-1.5">
-                {files.length > 0 ? (
-                  <div className={viewMode === 'grid' ? POOL_STYLES.gridBody : POOL_STYLES.listBody}>
-                    {files.map(renderImage)}
-                  </div>
-                ) : (
-                  <div className="text-sm font-bold text-text-secondary italic px-1 py-1">비어있음 — 이미지를 여기로 드래그해라</div>
-                )}
-              </div>
-            )}
-          </div>
-        )
-      })}
+      {topFolders.map(renderFolder)}
 
       {/* 루트로 꺼내기 드롭존 */}
       {subFolders.length > 0 && (

@@ -131,7 +131,7 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
               className="inline-flex items-center gap-0.5 p-0.5 rounded border border-border bg-bg-main"
               title="편집 모드 전환"
             >
-              {segBtn('trim', mode === 'trim', () => setMode('trim'), '트림')}
+              {segBtn('trim', mode === 'trim', () => setMode('trim'), '생성')}
               {segBtn('sync', mode === 'sync', () => setMode('sync'), '싱크')}
             </div>
             <button

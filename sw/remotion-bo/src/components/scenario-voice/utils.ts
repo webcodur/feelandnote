@@ -191,6 +191,22 @@ export function sectionVoicePath(key: string, ep: EpisodeData): string | null {
 // path 표현을 episode 객체에서 dereference 한다. ko/en 본체와 shorts 외부 파일 모두
 // EpisodeData에 머지된 상태(loadEpisode)이므로 동일하게 동작한다.
 
+// ── 롱폼 구간별 발화 스타일 ──
+
+/** narrator/summary 구간 기본 발화 스타일 — CLI NARRATOR_STYLE_DEFAULT와 일치 유지(2-synthesize/config.ts) */
+export const NARRATOR_STYLE_DEFAULT = '편안하고 자연스럽게'
+
+/** 롱폼 구간키 → voiceStyles 저장 키. 쇼츠(shorts-{N}/…)는 segment.style을 쓰므로 null. */
+export function sectionStyleKey(secKey: string): string | null {
+  if (/^shorts-\d+\//.test(secKey)) return null
+  return secKey
+}
+
+/** celeb 발화 구간 판별 — 미리듣기 스타일 폴백을 host.voiceStyle로 할지 결정 */
+export function isCelebSection(secKey: string): boolean {
+  return secKey === 'A3-featured-quote' || secKey === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(secKey)
+}
+
 export function readSegmentVoiceMeta(ep: EpisodeData, voicePath: string | null): VoiceMeta | undefined {
   if (!voicePath) return undefined
   // path 파싱 — meta route와 동일 규칙 (간이판: 영문/숫자/_만)

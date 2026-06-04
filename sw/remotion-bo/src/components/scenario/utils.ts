@@ -22,12 +22,14 @@ export function setField<T extends Record<string, unknown>>(
   return { ...obj, [field]: value } as T
 }
 
-/** imageBaseUrl(`/api/{series}/images/{ep}`) 기준 파일 src 생성. 영상은 videos 라우트로 스왑. */
+/** imageBaseUrl(`/api/{series}/images/{ep}`) 기준 파일 src 생성. 영상은 videos 라우트로 스왑.
+ *  fileName 이 「<책>/<sub>/basename」 상대경로일 수 있어 슬래시는 보존하고 각 토막만 인코딩한다. */
 export function mediaSrc(imageBaseUrl: string, fileName: string): string {
+  const encoded = fileName.split('/').map(encodeURIComponent).join('/')
   if (isVideoFile(fileName)) {
-    return `${imageBaseUrl.replace('/images/', '/videos/')}/${fileName}`
+    return `${imageBaseUrl.replace('/images/', '/videos/')}/${encoded}`
   }
-  return `${imageBaseUrl}/${fileName}`
+  return `${imageBaseUrl}/${encoded}`
 }
 
 export function bookKey(i: number, phase: string) {
@@ -275,14 +277,56 @@ export function stripImageRefs<T extends Record<string, unknown>>(ep: T, target:
   return next as T
 }
 
+/** 저장된 풀 경로(episodes/.../books/<책>/images/<rest>) → 풀의 파일 식별자 복원.
+ *  파일 이름이 다른 책과 겹칠 때(dupNames)만 폴더 정보를 보존한 「<책>/<rest>」 상대경로를 돌려주고,
+ *  겹치지 않으면 파일 이름(basename)을 그대로 돌려준다 — 서버 풀 키 규칙과 정확히 일치시킨다. */
+export function imageKeyFromPath(p: string, dupNames?: Set<string>): string {
+  if (!p) return ''
+  const norm = p.replace(/\\/g, '/')
+  const base = norm.split('/').pop() ?? norm
+  if (!dupNames || !dupNames.has(base)) return base
+  const mNew = norm.match(/\/books\/(.+?)\/images\/(.+)$/)
+  if (mNew) return `${mNew[1]}/${mNew[2]}`
+  const mOld = norm.match(/(?:^|\/)images\/(.+)$/)
+  if (mOld) return mOld[1]
+  return base
+}
+
+/** CinematicImage[] → seg 의 image · imageChangeAt 두 필드값으로 변환 (쇼츠·솔로 공용 쓰기 부품).
+ *
+ *  segToImages 의 역연산이다. 첫 칸(primary)은 seg.image 로, 나머지는 imageChangeAt 배열로 분산한다.
+ *  - file 이 있으면 mediaPath 로 풀 경로(episodes/...)를 만들어 저장한다(BO 썸네일·렌더 공용 형식).
+ *  - file 이 빈 문자열(자리표시)이면 '' 그대로 둬 슬롯을 보존한다(키를 지우면 라운드트립에서 슬롯이 사라진다).
+ *  - imgs 가 비면 두 필드 모두 undefined(키 제거 의미).
+ *
+ *  반환 형태: { image?: string; imageChangeAt?: {...}[] }. undefined 인 필드는 호출부가 delete 처리한다. */
+export function imagesToSeg(
+  imgs: CinematicImage[],
+  mediaPath: (fileName: string) => string,
+): { image?: string; imageChangeAt?: Array<{ t: number; image: string; text?: string }> } {
+  if (imgs.length === 0) return { image: undefined, imageChangeAt: undefined }
+  const image = imgs[0].file ? mediaPath(imgs[0].file) : ''
+  if (imgs.length === 1) return { image, imageChangeAt: undefined }
+  const imageChangeAt = imgs.slice(1).map(img => ({
+    t: typeof img.t === 'number' ? img.t : 0,
+    image: img.file ? mediaPath(img.file) : '',
+    ...(img.text ? { text: img.text } : {}),
+  }))
+  return { image, imageChangeAt }
+}
+
 /** seg.image + seg.imageChangeAt → CinematicImage[] 변환.
- *  primary(seg.image)는 file 만, 전환점(imageChangeAt)은 text + t 까지 함께 들고 와서 라운드트립 시 시각이 0 으로 깎이지 않게 한다. */
-export function segToImages(seg: any): CinematicImage[] {
+ *  primary(seg.image)는 file 만, 전환점(imageChangeAt)은 text + t 까지 함께 들고 와서 라운드트립 시 시각이 0 으로 깎이지 않게 한다.
+ *  dupNames: 다른 책과 이름이 겹치는 파일 집합 — 겹치는 파일만 폴더 포함 식별자로 복원한다. */
+export function segToImages(seg: any, dupNames?: Set<string>): CinematicImage[] {
   const imgs: CinematicImage[] = []
-  if (seg?.image) imgs.push({ file: seg.image.split('/').pop() })
+  // seg.image 키가 존재하면 빈 문자열(자리표시)이라도 primary 슬롯을 유지한다.
+  // setImages 가 시작 이미지를 비울 때 ''로 저장하므로, 여기서 ''를 버리면 빈 시작 슬롯이
+  // 라운드트립에서 사라지고 imageChangeAt 첫 앵커가 primary 자리로 올라가 text 가 깎인다.
+  if (typeof seg?.image === 'string') imgs.push({ file: seg.image ? imageKeyFromPath(seg.image, dupNames) : '' })
   const changes = seg?.imageChangeAt ? (Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]) : []
   for (const c of changes) {
-    const file = typeof c?.image === 'string' ? (c.image.split('/').pop() ?? '') : ''
+    const file = typeof c?.image === 'string' ? imageKeyFromPath(c.image, dupNames) : ''
     imgs.push({
       file,
       ...(c?.text ? { text: c.text } : {}),

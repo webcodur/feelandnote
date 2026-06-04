@@ -16,8 +16,23 @@ export function SyncModeContent({ secKey, episode, episodeData, series, name, on
   const [autoSaving, setAutoSaving] = useState(false)
   const [autoSaved, setAutoSaved] = useState(false)
   const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 디바운스 대기 중인 마지막 변경분 — unmount 시 cleanup 에서 즉시 발사해 편집창 닫는 순간의 변경 유실을 막는다.
+  const pendingSaveRef = useRef<EpisodeData | null>(null)
+  const onSaveRef = useRef(onSave)
+  useEffect(() => { onSaveRef.current = onSave }, [onSave])
   const segmentsRef = useRef<string[]>([])
-  useEffect(() => () => { if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current) }, [])
+  useEffect(() => () => {
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current)
+      autoSaveTimerRef.current = null
+      // 대기 중인 변경이 있으면 즉시 fire — cleanup 은 동기라 await 불가하나, fetch 는
+      // 백그라운드로 진행되므로 호출만 하면 디스크에는 들어간다.
+      if (pendingSaveRef.current) {
+        void onSaveRef.current(pendingSaveRef.current)
+        pendingSaveRef.current = null
+      }
+    }
+  }, [])
   const timings = (episodeData.voiceTimings as any)?.[secKey] as Array<{ start: number; end: number }> | undefined
   const txts = getTextsForSection(secKey, episodeData)
   const text = txts.original
@@ -49,10 +64,14 @@ export function SyncModeContent({ secKey, episode, episodeData, series, name, on
   const handleTimingChange = (newTimings: Array<{ start: number; end: number; text?: string; sub?: string[]; subTimings?: number[] }>) => {
     const newEp = { ...episodeData, voiceTimings: { ...(episodeData.voiceTimings as any), [secKey]: newTimings } }
     onEpisodeChange(newEp)
-    // Debounced auto-save — 드래그 멈춘 뒤 500ms 후 저장
+    // Debounced auto-save — 드래그 멈춘 뒤 500ms 후 저장. 편집창이 그 사이 닫히면
+    // cleanup 이 pendingSaveRef 로 즉시 발사한다.
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current)
+    pendingSaveRef.current = newEp
     setAutoSaved(false)
     autoSaveTimerRef.current = setTimeout(async () => {
+      autoSaveTimerRef.current = null
+      pendingSaveRef.current = null
       setAutoSaving(true)
       try { await onSave(newEp); setAutoSaved(true) }
       finally { setAutoSaving(false) }

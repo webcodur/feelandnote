@@ -36,9 +36,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ path: st
     if (existsSync(vsPath)) {
       try {
         const vs = JSON.parse(readFileSync(vsPath, 'utf-8'))
-        let engine = vs.slots?.[fileName] ?? vs.default
-        // celeb 파일이고 elevenlabs 파일이 존재하면 자동 라우팅
-        if (engine !== 'elevenlabs') {
+        // slots 에 명시 지정이 있으면 그 지정을 최우선 존중한다. 명시 지정이 없을 때만
+        // 셀럽 자동 라우팅(아래)으로 default 를 보정한다 — 모달에서 GEM 으로 '생성 및 저장'
+        // 한 셀럽 구간이 elevenlabs 파일 잔존 때문에 옛 ELE 음원으로 되돌아가던 결함 방지.
+        const explicit: string | undefined = vs.slots?.[fileName]
+        let engine = explicit ?? vs.default
+        // celeb 파일이고 elevenlabs 파일이 존재하면 자동 라우팅 (명시 지정이 없을 때만)
+        if (!explicit && engine !== 'elevenlabs') {
           const key = fileName.replace('.wav', '')
           const isCeleb = key === 'A3-featured-quote' || key === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(key) || /^(shorts-\d+\/)?S\d{2}-celeb-/.test(key) || /^(shorts-\d+\/)?S\d{2}-book-quote/.test(key)
           if (isCeleb) {
@@ -82,6 +86,8 @@ async function streamFile(req: Request, abs: string) {
             'Content-Length': String(chunkSize),
             'Content-Range': `bytes ${start}-${end}/${fileSize}`,
             'Accept-Ranges': 'bytes',
+            // 같은 파일명에 새 음원을 덮어써도 브라우저가 옛 음성을 캐시해 내보내지 않도록 캐시 금지.
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
           },
         })
       }
@@ -97,6 +103,7 @@ async function streamFile(req: Request, abs: string) {
         'Content-Type': 'audio/wav',
         'Content-Length': String(fileSize),
         'Accept-Ranges': 'bytes',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
       },
     })
   } catch {

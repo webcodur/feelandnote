@@ -1,4 +1,8 @@
-﻿@import "tailwindcss";
+﻿/* 프리텐다드 — 한국어 가독성용 기본 폰트. 모든 텍스트에 적용.
+   CSS @import 규칙상 다른 모든 @import·규칙보다 앞에 와야 한다. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+@import "tailwindcss";
 
 @theme {
   /* 프리미엄 초고대비 라이트 테마 (High-Contrast Slate Light) - 흐릿함을 없애고 칼같은 경계 제공 */
@@ -34,9 +38,14 @@ body {
   margin: 0;
   background: var(--color-bg-main);
   color: var(--color-text-primary);
-  font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+  font-family: 'Pretendard Variable', 'Pretendard', 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 폼 요소가 시스템 폰트로 떨어지지 않게 명시 상속 */
+input, select, textarea, button {
+  font-family: inherit;
 }
 
 /* ==========================================================================

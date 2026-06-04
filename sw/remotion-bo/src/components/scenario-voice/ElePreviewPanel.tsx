@@ -4,11 +4,14 @@ import React, { useState, useRef } from 'react'
 import { AudioWavePlayer } from '../AudioWavePlayer'
 
 /** preview panel with playback and save (ELE/GEM 공용) */
-export function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose, label = 'ELE preview', tone = 'purple' }: {
+export function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose, label = 'ELE preview', tone = 'purple', autoPlay, onRegenerate, regenerating }: {
   blobUrl: string; duration: number
   onSave: (e: React.MouseEvent) => void; saving: boolean; onClose: () => void
   label?: string
   tone?: 'purple' | 'blue'
+  autoPlay?: boolean
+  onRegenerate?: () => void
+  regenerating?: boolean
 }) {
   const toneCls = tone === 'blue'
     ? { bg: 'bg-blue-500/5', border: 'border-blue-500/20', text: 'text-blue-300', btn: 'bg-blue-500 hover:bg-blue-400' }
@@ -31,7 +34,7 @@ export function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose, la
   return (
     <div className={`space-y-1.5 p-2 rounded-lg ${toneCls.bg} border ${toneCls.border}`}>
       <div className={`text-[10px] ${toneCls.text} font-semibold`}>{label}</div>
-      <AudioWavePlayer audioUrl={blobUrl} duration={duration} heightClass="h-12" showRuler={false} />
+      <AudioWavePlayer audioUrl={blobUrl} duration={duration} heightClass="h-12" showRuler={false} autoPlay={autoPlay} onRegenerate={onRegenerate} regenerating={regenerating} />
       <div className="flex items-center gap-2">
         <button onClick={onSave} disabled={saving}
           className={`px-2 py-0.5 rounded ${toneCls.btn} text-white text-[10px] font-semibold disabled:opacity-50`}>

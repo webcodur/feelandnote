@@ -18,6 +18,11 @@ export default function RenderPage() {
     document.title = `${episode?.host?.nickname ?? name} 렌더 — Remotion BO`
   }, [episode, name])
 
+  // 1권 모드 렌더 대상 — 솔로는 별도 데이터 없이 책 본문에서 자동 변환되므로 모든 책이 후보
+  const booksArr = Array.isArray((episode as { books?: Array<{ title?: string }> } | null)?.books)
+    ? ((episode as { books: Array<{ title?: string }> }).books)
+    : []
+
   return (
     <div className="space-y-4">
       {/* Render */}
@@ -47,6 +52,48 @@ export default function RenderPage() {
           <p className="text-[11px] text-text-dim leading-relaxed mt-3">
             음성 파일이 모두 준비된 후 실행하세요. 렌더링은 약 5-10분 소요됩니다.
           </p>
+        </div>
+      </section>
+
+      {/* 1권 모드(SOLO) */}
+      <section className={SECTION_CLS}>
+        <div className="px-4 py-3">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-bold text-accent tracking-widest">SOLO · 1권 모드</span>
+            <CopyLabel text="SOLO" />
+          </div>
+          {booksArr.length === 0 ? (
+            <p className="text-[11px] text-text-dim leading-relaxed">
+              책이 없습니다. books 폴더에 책을 추가하면 자동으로 1권 모드 회차가 생성됩니다.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <button onClick={() => post(`/api/${series}/render`, { episode: name, only: 'solos' })}
+                  className={BTN_PRIMARY}>솔로 전체 렌더</button>
+                <span className="text-[11px] text-text-dim">{booksArr.length}권 × 16:9 한 권 영상 (책 본문 자동 변환)</span>
+              </div>
+              <div className="pt-2 border-t border-border/40">
+                <div className="text-[11px] text-text-secondary mb-1.5">개별 책</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {booksArr.map((b, idx) => {
+                    const bookTitle = b?.title ?? `책 ${idx + 1}`
+                    const num = String(idx + 1).padStart(2, '0')
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => post(`/api/${series}/render`, { episode: name, only: 'solo', bookIndex: idx })}
+                        className={BTN_SECONDARY}
+                        title={bookTitle}
+                      >
+                        B{num} <span className="text-text-dim font-normal ml-1">{bookTitle.length > 12 ? bookTitle.slice(0, 12) + '…' : bookTitle}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

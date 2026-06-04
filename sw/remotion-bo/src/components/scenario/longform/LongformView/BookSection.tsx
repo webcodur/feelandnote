@@ -51,11 +51,11 @@ export function BookSection({
   removeImage: any
   removeImageOnly: any
   crossUsage: Map<string, string[]> | undefined
-  uB: (i: number, field: string, value: unknown) => void
+  uB: (i: number, field: string, value: unknown, prev?: string) => void
   dropImage: (i: number, fn: string, field?: ImageField) => void
   addAnchor: (i: number, t: string, field?: ImageField) => void
   handlePick: (selected: string, field?: ImageField) => void
-  updateQuotePair: (bookIdx: number, pairIdx: number, field: string, value: any) => void
+  updateQuotePair: (bookIdx: number, pairIdx: number, field: string, value: any, prev?: string) => void
   addQuotePair: (bookIdx: number) => void
   removeQuotePair: (bookIdx: number, pairIdx: number) => void
   saveField: (path: Array<string | number>, value: unknown) => Promise<void>
@@ -161,7 +161,7 @@ export function BookSection({
           <div style={accentStyle(book.summarySpeaker)}>
             <ScenarioRow label="핵심 요약" role="summary" value={book.summary}
               voiceInfo={vi(bookKey(i, 'b-summary'), book.summaryDuration)}
-              onCommit={v => uB(i, 'summary', v)}
+              onCommit={(v, prev) => uB(i, 'summary', v, prev)}
               pickMode={picking} onPick={(t) => handlePick(t, 'summary')}
               highlights={imgsSummary.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
               sectionKey={bookKey(i, 'b-summary')} audioUrl={vUrl(bookKey(i, 'b-summary'))}
@@ -190,7 +190,7 @@ export function BookSection({
           <div style={accentStyle(book.contextMainSpeaker)}>
             <ScenarioRow label="감상 배경" role="narrator" value={book.contextMain}
               voiceInfo={vi(bookKey(i, 'c-context'), book.contextDuration)}
-              onCommit={v => uB(i, 'contextMain', v)}
+              onCommit={(v, prev) => uB(i, 'contextMain', v, prev)}
               pickMode={picking} onPick={(t) => handlePick(t, 'context')}
               highlights={imgsCtxMain.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
               sectionKey={bookKey(i, 'c-context')} audioUrl={vUrl(bookKey(i, 'c-context'))}
@@ -226,7 +226,7 @@ export function BookSection({
                 {/* 직접 인용 */}
                 <div className="relative group/del" style={accentStyle(pair.quoteSpeaker)}>
                   <ScenarioRow label={`직접 인용${pi > 0 ? ` ${pi + 1}` : ''}`} role="celeb" value={pair.quote}
-                    voiceInfo={vi(quoteKey, pair.quoteDuration)} onCommit={v => updateQuotePair(i, pi, 'quote', v)}
+                    voiceInfo={vi(quoteKey, pair.quoteDuration)} onCommit={(v, prev) => updateQuotePair(i, pi, 'quote', v, prev)}
                     pickMode={picking} onPick={(t) => handlePick(t, 'quote')}
                     highlights={pairQuoteImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
                     sectionKey={quoteKey} audioUrl={vUrl(quoteKey)}
@@ -265,7 +265,7 @@ export function BookSection({
                   <div className="relative group/del" style={accentStyle(pair.afterSpeaker)}>
                     <ScenarioRow label={`후속 맥락${pi > 0 ? ` ${pi + 1}` : ''}`} role="narrator" value={pair.after}
                       voiceInfo={vi(afterKey, pair.afterDuration)}
-                      onCommit={v => updateQuotePair(i, pi, 'after', v)}
+                      onCommit={(v, prev) => updateQuotePair(i, pi, 'after', v, prev)}
                       pickMode={picking} onPick={(t) => handlePick(t, 'quote')}
                       highlights={pairAfterImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
                       sectionKey={afterKey} audioUrl={vUrl(afterKey)}

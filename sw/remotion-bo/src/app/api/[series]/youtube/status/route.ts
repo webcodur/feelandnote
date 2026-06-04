@@ -9,10 +9,12 @@ const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
 
 type VariantInfo = {
   lang: 'ko' | 'en'
-  type: 'longform' | 'shorts'
+  type: 'longform' | 'shorts' | 'solo'
   /** 옵션 2: 1-based 일관. longform은 무관(0 사용), shorts는 1, 2, 3 … */
   shortsIndex: number
-  /** 매칭 키. e.g. 'ko-longform', 'ko-shorts-1', 'ko-shorts-2' */
+  /** 1권 모드 책 인덱스 (0-based). solo 전용. */
+  bookIndex?: number
+  /** 매칭 키. e.g. 'ko-longform', 'ko-shorts-1', 'ko-solo-1' */
   key: string
   video: { exists: boolean; size: number; name: string } | null
   srt: { exists: boolean; name: string } | null
@@ -50,11 +52,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     episodeMeta = (lineup as any)[episode] ?? null
   } catch { /* ignore */ }
 
-  // 에피소드 데이터 로드 (shorts 배열 길이 추출)
-  const koData = await loadEpisode(seriesId, episode).catch(() => null) as { shorts?: unknown } | null
-  const enData = await loadEpisode(seriesId, `${episode}-en`).catch(() => null) as { shorts?: unknown } | null
+  // 에피소드 데이터 로드 (shorts·solos 배열 길이 추출)
+  const koData = await loadEpisode(seriesId, episode).catch(() => null) as { shorts?: unknown; solos?: unknown } | null
+  const enData = await loadEpisode(seriesId, `${episode}-en`).catch(() => null) as { shorts?: unknown; solos?: unknown } | null
   const koShortsCount = Array.isArray(koData?.shorts) ? koData!.shorts!.length as number : (koData?.shorts ? 1 : 0)
   const enShortsCount = Array.isArray(enData?.shorts) ? enData!.shorts!.length as number : (enData?.shorts ? 1 : 0)
+  const koSolos: Array<{ featuredBookIndex?: number }> = Array.isArray(koData?.solos) ? koData!.solos as any : []
+  const enSolos: Array<{ featuredBookIndex?: number }> = Array.isArray(enData?.solos) ? enData!.solos as any : []
 
   // 출력 파일 스캔 — shorts 배열 길이만큼 variant 확장
   const label = toPascal(episode)
@@ -63,14 +67,18 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
 
   async function scanVariant(
     lang: 'ko' | 'en',
-    type: 'longform' | 'shorts',
-    shortsIndex: number,  // 1-based for shorts, 0 for longform
+    type: 'longform' | 'shorts' | 'solo',
+    shortsIndex: number,  // 1-based for shorts, 0 for longform/solo
+    bookIndex?: number,   // 0-based for solo
   ) {
     const langCode = lang.toUpperCase()
     const langDir = path.join(outDir, langCode)
 
-    // 옵션 2: file suffix 1-based 일관. longform=L, shorts=S{N}
-    const baseSuffix = type === 'longform' ? 'L' : `S${shortsIndex}`
+    // 파일 suffix — longform=L, shorts=S{N}, solo=B{NN}
+    let baseSuffix: string
+    if (type === 'longform') baseSuffix = 'L'
+    else if (type === 'solo') baseSuffix = `B${String((bookIndex ?? 0) + 1).padStart(2, '0')}`
+    else baseSuffix = `S${shortsIndex}`
 
     const videoName = `${baseSuffix}-VID.mp4`
     const videoPath = path.join(langDir, videoName)
@@ -81,8 +89,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     const srtName = `${baseSuffix}-VID.srt`
     const srtPath = path.join(langDir, srtName)
 
-    // 옵션 2: variant key 1-based 일관
-    const key = type === 'longform' ? `${lang}-longform` : `${lang}-shorts-${shortsIndex}`
+    // variant key — longform·shorts·solo 각각 1-based 일관
+    let key: string
+    if (type === 'longform') key = `${lang}-longform`
+    else if (type === 'solo') key = `${lang}-solo-${(bookIndex ?? 0) + 1}`
+    else key = `${lang}-shorts-${shortsIndex}`
 
     let videoInfo: VariantInfo['video'] = null
     if (existsSync(videoPath)) {
@@ -91,7 +102,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     }
 
     variants.push({
-      lang, type, shortsIndex, key,
+      lang, type, shortsIndex, bookIndex, key,
       video: videoInfo,
       srt: existsSync(srtPath) ? { exists: true, name: srtName } : null,
       thumb: existsSync(thumbPath) ? { exists: true, name: thumbName } : null,
@@ -100,8 +111,14 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
 
   if (koData) await scanVariant('ko', 'longform', 0)
   for (let i = 1; i <= koShortsCount; i++) await scanVariant('ko', 'shorts', i)
+  for (const s of koSolos) {
+    if (typeof s.featuredBookIndex === 'number') await scanVariant('ko', 'solo', 0, s.featuredBookIndex)
+  }
   if (enData) await scanVariant('en', 'longform', 0)
   for (let i = 1; i <= enShortsCount; i++) await scanVariant('en', 'shorts', i)
+  for (const s of enSolos) {
+    if (typeof s.featuredBookIndex === 'number') await scanVariant('en', 'solo', 0, s.featuredBookIndex)
+  }
 
   // youtube-meta.json 읽기
   const metaPath = path.join(outDir, 'youtube-meta.json')

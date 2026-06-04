@@ -8,7 +8,9 @@ import { scanMediaRecursive, IMG_EXTS, IMG_MIME, type MediaScanResult } from '@/
 const MIME = IMG_MIME
 
 /** 신구조면 books/<책>/images 를 한 번에 합쳐서 평면 결과로 돌려준다. 옛 구조면 personDir/images 단순 스캔.
- *  같은 basename 이 여러 책에 있어도 모두 노출되도록 두 번째 이후는 키를 「<책>/basename」 형태로 평탄화한다. */
+ *  파일 이름이 한 책에서만 쓰이면 basename 을 키로(기존 매칭·롱폼 호환), 여러 책에 겹치면
+ *  겹치는 모든 등장에 「images 루트 기준 상대경로(<책>/<sub?>/basename)」를 키로 부여한다.
+ *  이 상대경로 키는 resolveImageAbs 가 그대로 실제 파일로 환원할 수 있어, 화면·렌더가 정확한 책 폴더를 가리킨다. */
 async function scanEpisodeImages(personDir: string): Promise<MediaScanResult> {
   if (!isNewLayout(personDir)) {
     return scanMediaRecursive(path.join(personDir, 'images'), IMG_EXTS)
@@ -16,21 +18,38 @@ async function scanEpisodeImages(personDir: string): Promise<MediaScanResult> {
   const booksDir = path.join(personDir, 'books')
   const bookFolders = await listBookFolders(personDir)
   const merged: MediaScanResult = { files: [], folders: [], fileFolders: {}, fileAbsPaths: {}, duplicates: [] }
+
+  // 1-pass: 책별 스캔 수집 + basename 등장 횟수 집계 (겹침 판정용)
+  const scans: Array<{ bf: string; scan: MediaScanResult }> = []
+  const nameCount = new Map<string, number>()
   for (const bf of bookFolders) {
     const imgDir = path.join(booksDir, bf, 'images')
     if (!existsSync(imgDir)) continue
     const scan = await scanMediaRecursive(imgDir, IMG_EXTS)
+    scans.push({ bf, scan })
     if (!merged.folders.includes(bf)) merged.folders.push(bf)
     for (const sub of scan.folders) merged.folders.push(`${bf}/${sub}`)
+    for (const f of scan.files) nameCount.set(f, (nameCount.get(f) ?? 0) + 1)
+  }
+
+  // 2-pass: 키 부여 — 겹치는 이름은 상대경로, 그 외는 basename
+  const dupFolders = new Map<string, string[]>()
+  for (const { bf, scan } of scans) {
     for (const f of scan.files) {
       const subFolder = scan.fileFolders[f] ? `${bf}/${scan.fileFolders[f]}` : bf
-      // 첫 등장은 basename 그대로(기존 매칭 호환), 충돌 시 두 번째 이후는 「<책>/basename」 평탄 키로
-      const key = merged.fileFolders[f] === undefined ? f : `${bf}/${f}`
+      const collides = (nameCount.get(f) ?? 0) > 1
+      const key = collides ? `${subFolder}/${f}` : f
       merged.files.push(key)
       merged.fileFolders[key] = subFolder
       merged.fileAbsPaths[key] = scan.fileAbsPaths[f]
+      if (collides) {
+        const arr = dupFolders.get(f) ?? []
+        arr.push(subFolder)
+        dupFolders.set(f, arr)
+      }
     }
   }
+  merged.duplicates = Array.from(dupFolders.entries()).map(([name, folders]) => ({ name, folders }))
   merged.files.sort()
   merged.folders.sort()
   return merged

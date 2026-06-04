@@ -136,8 +136,11 @@ export type EpisodeData = {
   host?: CelebHost
   narrator?: NarratorLines
   books?: BookEntry[]
-  /** 옵션 2: shorts는 항상 배열. 외부 파일 shorts/{locale}-{N}.json에서 로드된다. */
+  /** 옵션 2: shorts는 항상 배열. 외부 파일 shorts/{locale}-{N}.json에서 로드된다.
+   *  1권 모드(SOLO)는 별도 데이터 없이 book 본문에서 자동 변환되므로 EpisodeData에 필드 없음. */
   shorts?: ShortsConfig[]
+  /** 롱폼 구간별 Gemini 발화 스타일 prefix. 키는 구간 식별자(예: "B2-philosophy"). 쇼츠는 segment.style 사용. */
+  voiceStyles?: Record<string, string>
   [key: string]: unknown
 }
 

@@ -1,7 +1,21 @@
 'use client'
 
 import type { CinematicImage, ImageField } from '../types'
-import { segToImages, addImagePrefix, stripImagePrefix } from '../utils'
+import { segToImages, imagesToSeg, addImagePrefix, stripImagePrefix } from '../utils'
+
+/** CinematicImage[] 를 seg(쇼츠 segment / 솔로 section) 의 image·imageChangeAt 키에 반영한다.
+ *  imagesToSeg 결과를 seg 객체에 쓰되, undefined 인 필드는 키 자체를 제거한다. seg 를 직접 변형한다. */
+export function applyImagesToSeg(
+  seg: { image?: string; imageChangeAt?: unknown },
+  imgs: CinematicImage[],
+  mediaPath: (fileName: string) => string,
+) {
+  const { image, imageChangeAt } = imagesToSeg(imgs, mediaPath)
+  if (image === undefined) delete seg.image
+  else seg.image = image
+  if (imageChangeAt === undefined) delete seg.imageChangeAt
+  else seg.imageChangeAt = imageChangeAt
+}
 
 const FIELD_ORDER: Record<string, number> = { summary: 0, context: 1, quote: 1 }
 
@@ -14,7 +28,7 @@ const FIELD_ORDER: Record<string, number> = { summary: 0, context: 1, quote: 1 }
  */
 export function makeImageOps({
   isShortsView, books, segments, currentShorts, currentShortsIndex, shortsArr, episode, updateEpisode,
-  renameFile, mediaPath,
+  renameFile, mediaPath, dupNames,
 }: {
   isShortsView: boolean
   books: any[]
@@ -26,6 +40,8 @@ export function makeImageOps({
   updateEpisode: (ep: any) => void
   renameFile: (oldName: string, newName: string) => Promise<string | null>
   mediaPath: (fileName: string) => string
+  /** 다른 책과 이름이 겹치는 파일 집합 — 겹치는 파일만 폴더 포함 식별자로 다룬다. */
+  dupNames: Set<string>
 }) {
   const positionOf = (idx: number) => {
     if (!isShortsView) {
@@ -54,7 +70,7 @@ export function makeImageOps({
     })
 
   const getImages = (idx: number): CinematicImage[] => {
-    const raw = !isShortsView ? (books[idx]?.images ?? []) : segToImages(segments[idx])
+    const raw = !isShortsView ? (books[idx]?.images ?? []) : segToImages(segments[idx], dupNames)
     if (raw.length <= 1) return raw
     const pos = positionOf(idx)
     if (isShortsView) {
@@ -78,20 +94,9 @@ export function makeImageOps({
     } else {
       if (!currentShorts) return
       const ns = [...segments]; const seg = { ...ns[idx] }
-      if (imgs.length === 0) { delete seg.image; delete seg.imageChangeAt }
-      else {
-        // 섹션 앵커(primary) 이미지만 비운 경우 imgs[0].file 이 빈 문자열.
-        // 빈 문자열 그대로 보존해 자리 표시(키 자체를 지우면 라운드트립에서 슬롯이 사라진다).
-        // 렌더(BookRecommendShort) 측은 seg.image 가 falsy 면 직전 이미지 승계로 처리하므로 안전.
-        seg.image = imgs[0].file ? mediaPath(imgs[0].file) : ''
-        if (imgs.length > 1) {
-          seg.imageChangeAt = imgs.slice(1).map(img => ({
-            t: typeof img.t === 'number' ? img.t : 0,
-            image: img.file ? mediaPath(img.file) : '',
-            ...(img.text ? { text: img.text } : {}),
-          }))
-        } else { delete seg.imageChangeAt }
-      }
+      // 섹션 앵커(primary) 이미지만 비운 경우 imgs[0].file 이 빈 문자열 — imagesToSeg 가 ''로 보존한다.
+      // 렌더(BookRecommendShort) 측은 seg.image 가 falsy 면 직전 이미지 승계로 처리하므로 안전.
+      applyImagesToSeg(seg, imgs, mediaPath)
       ns[idx] = seg
       writeShorts({ ...currentShorts, segments: ns })
     }
@@ -127,7 +132,12 @@ export function makeImageOps({
   const addAnchor = (idx: number, anchorText: string, field?: ImageField) => {
     const imgs = getImages(idx)
     if (imgs.some(img => img.text === anchorText)) return
-    setImages(idx, [...imgs, { file: '', text: anchorText, ...(field ? { field } : {}) }])
+    const next: CinematicImage[] = [...imgs, { file: '', text: anchorText, ...(field ? { field } : {}) }]
+    // 쇼츠: 시작 이미지(seg.image)는 파일 경로만 담아 text 앵커를 못 싣는다.
+    // 앵커가 첫 칸(primary)으로 가면 저장 때 text 가 버려지므로, 빈 시작 슬롯을 앞에 깔아
+    // imageChangeAt(text 보존) 영역으로 보낸다.
+    if (isShortsView && next.length === 1) next.unshift({ file: '' })
+    setImages(idx, next)
   }
 
   const dropImage = async (idx: number, fileName: string, field?: ImageField) => {
@@ -161,23 +171,12 @@ export function makeImageOps({
       if (imgs.some(img => img.file === fileName)) return
 
       const ns = segments.map((s: any) => ({ ...s }))
-      const writeSeg = (seg: any, nextImgs: CinematicImage[]) => {
-        if (nextImgs.length === 0) { delete seg.image; delete seg.imageChangeAt; return }
-        // primary(첫 칸)는 file 이 비어 있으면 자리 표시용 빈 문자열 유지.
-        seg.image = nextImgs[0].file ? mediaPath(nextImgs[0].file) : ''
-        if (nextImgs.length > 1) {
-          seg.imageChangeAt = nextImgs.slice(1).map(img => ({
-            t: typeof img.t === 'number' ? img.t : 0,
-            image: img.file ? mediaPath(img.file) : '',
-            ...(img.text ? { text: img.text } : {}),
-          }))
-        } else { delete seg.imageChangeAt }
-      }
+      const writeSeg = (seg: any, nextImgs: CinematicImage[]) => applyImagesToSeg(seg, nextImgs, mediaPath)
 
       // MOVE: 같은 쇼츠 내 다른 구간에 있으면 먼저 제거 (이동 시맨틱)
       for (let si = 0; si < ns.length; si++) {
         if (si === idx) continue
-        const srcImgs = segToImages(ns[si])
+        const srcImgs = segToImages(ns[si], dupNames)
         const hit = srcImgs.findIndex(img => img.file === fileName)
         if (hit < 0) continue
         writeSeg(ns[si], srcImgs.filter((_, j) => j !== hit))
@@ -187,7 +186,7 @@ export function makeImageOps({
       // 타깃 구간 — 빈 슬롯(file 없는 자리)이 있으면 거기부터 채우고, 없으면 끝에 추가.
       // 자동 앵커 부착(첫 단어 자동 삽입)은 다중 슬롯이 동일 앵커로 몰리는 문제가 있어 폐기.
       // 앵커 텍스트는 사용자가 명시 픽업으로 채운다.
-      const targetImgs = segToImages(ns[idx])
+      const targetImgs = segToImages(ns[idx], dupNames)
       const emptyIdx = targetImgs.findIndex(img => !img.file)
       let next: CinematicImage[]
       if (emptyIdx >= 0) {

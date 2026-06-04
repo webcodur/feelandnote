@@ -2,6 +2,9 @@ import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } fro
 import { existsSync, readFileSync, readdirSync, type Dirent } from 'fs'
 import { spawn, type ChildProcess } from 'child_process'
 import path from 'path'
+import { isFactionSeries } from './series-registry'
+import { listFactionEpisodes, loadFactionEpisode, saveFactionEpisode } from './faction-utils'
+import type { FactionScript } from './faction-types'
 
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
 const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
@@ -18,7 +21,7 @@ export const VOICE_ARCHIVE = path.join(REMOTION_ROOT, 'voice-archive')
 const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/done_people'
 
 /** export — API 라우트에서 직접 사용 */
-export { EPISODES_DIR, COMMON_VOICE_DIR }
+export { EPISODES_DIR, COMMON_VOICE_DIR, ARCHIVED_EPISODES_DIR }
 
 // --- 상태 정책 ---
 //
@@ -179,7 +182,13 @@ async function listPersonEpisodes(personName: string, personDir: string): Promis
   return ids
 }
 
-export async function listEpisodes(_series?: string): Promise<EpisodeListItem[]> {
+export async function listEpisodes(series?: string): Promise<EpisodeListItem[]> {
+  // 세력도: factions/ 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
+  if (isFactionSeries(series ?? '')) {
+    const fx = await listFactionEpisodes()
+    return fx.map(f => ({ id: f.id, status: 'live' as EpisodeStatus, group: '' }))
+  }
+
   const items: EpisodeListItem[] = []
   const seen = new Set<string>()
 
@@ -253,7 +262,8 @@ export async function listCandidates(series: string): Promise<string[]> {
 
 // 신구조(책 단위 분할) 헬퍼 재export — 호출부에서 server-utils 단일 import 로 끝낼 수 있게 한다.
 export { isNewLayout, listBookFolders, loadNewLayoutEpisode, saveNewLayoutEpisode } from './episode-new-layout'
-import { isNewLayout, loadNewLayoutEpisode, saveNewLayoutEpisode } from './episode-new-layout'
+export type { SaveScope } from './episode-new-layout'
+import { isNewLayout, loadNewLayoutEpisode, saveNewLayoutEpisode, type SaveScope } from './episode-new-layout'
 
 export async function loadCandidate(series: string, name: string) {
   const raw = await readFile(path.join(candidatesDir(series), `${name}.json`), 'utf-8')
@@ -321,7 +331,11 @@ async function loadExternalShorts(episodeDir: string, locale: string): Promise<a
     })
 }
 
-export async function loadEpisode(_series: string, name: string) {
+export async function loadEpisode(series: string, name: string) {
+  if (isFactionSeries(series)) {
+    const { person, locale } = parseEpisodeId(name)
+    return loadFactionEpisode(person, locale)
+  }
   const { person, locale } = parseEpisodeId(name)
   const found = findEpisodeDir(person)
   const episodeDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
@@ -418,38 +432,51 @@ export async function saveShorts(_series: string, name: string, shortsArr: any[]
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-export async function saveEpisode(_series: string, name: string, data: unknown) {
+export async function saveEpisode(series: string, name: string, data: unknown, scope: SaveScope = 'all') {
+  if (isFactionSeries(series)) {
+    const { person, locale } = parseEpisodeId(name)
+    await saveFactionEpisode(person, data as FactionScript, locale)
+    return
+  }
   // 신구조: meta + 책별 + 쇼츠별 파일을 한꺼번에 분해 저장. 외부 shorts/{locale}-N.json 폴백 경로는 사용 안 함.
   const { person } = parseEpisodeId(name)
   const found = findEpisodeDir(person)
   if (found && isNewLayout(found.dir)) {
-    await saveNewLayoutEpisode(name, data)
+    await saveNewLayoutEpisode(name, data, scope)
     return
   }
 
-  const fp = episodeFilePath(name)
-  await mkdir(path.dirname(fp), { recursive: true })
+  // 레거시 통짜 구조 — scope 에 맞춰 본문(meta+books)·쇼츠를 선택 기록
+  const writeMainContent = scope === 'all' || scope === 'longform'
+  const writeShortsPart = scope === 'all' || scope === 'shorts'
 
-  // content와 timing을 분리해 각각 {locale}.json / {locale}.timing.json에 저장.
-  // 프론트는 loadEpisode의 merge 결과(= timing.json 전체 포함)를 유지한 채 PUT하므로
-  // SYNC 모드의 수동 교정이 유실되지 않도록 timing도 덮어써 기록한다.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const originalShorts = (data as any)?.shorts
-  const { content, timing } = splitEpisodeData(data)
-  await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
+  if (writeMainContent) {
+    const fp = episodeFilePath(name)
+    await mkdir(path.dirname(fp), { recursive: true })
 
-  if (timing && Object.keys(timing).length > 0) {
-    const tp = timingFilePath(name)
-    await mkdir(path.dirname(tp), { recursive: true })
-    await writeFile(tp, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
+    // content와 timing을 분리해 각각 {locale}.json / {locale}.timing.json에 저장.
+    // 프론트는 loadEpisode의 merge 결과(= timing.json 전체 포함)를 유지한 채 PUT하므로
+    // SYNC 모드의 수동 교정이 유실되지 않도록 timing도 덮어써 기록한다.
+    const { content, timing } = splitEpisodeData(data)
+    await writeFile(fp, JSON.stringify(content, null, 2) + '\n', 'utf-8')
+
+    if (timing && Object.keys(timing).length > 0) {
+      const tp = timingFilePath(name)
+      await mkdir(path.dirname(tp), { recursive: true })
+      await writeFile(tp, JSON.stringify(timing, null, 2) + '\n', 'utf-8')
+    }
   }
 
   // 옵션 2: 쇼츠는 외부 파일로 분리 저장
-  if (Array.isArray(originalShorts) && originalShorts.length > 0) {
-    await saveShorts(_series, name, originalShorts)
-  } else if (originalShorts && !Array.isArray(originalShorts)) {
-    // 유예 호환: 객체로 들어온 경우 1-based 단일 배열로 취급
-    await saveShorts(_series, name, [originalShorts])
+  if (writeShortsPart) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const originalShorts = (data as any)?.shorts
+    if (Array.isArray(originalShorts) && originalShorts.length > 0) {
+      await saveShorts(series, name, originalShorts)
+    } else if (originalShorts && !Array.isArray(originalShorts)) {
+      // 유예 호환: 객체로 들어온 경우 1-based 단일 배열로 취급
+      await saveShorts(series, name, [originalShorts])
+    }
   }
 }
 

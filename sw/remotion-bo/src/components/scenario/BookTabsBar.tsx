@@ -11,14 +11,16 @@ import { VIEW_META } from './viewHelpers'
  * - 활성 시각 강조는 view + subTab 조합으로 결정한다.
  * - 책 카드 좌상단 ⋮⋮ 핸들을 끌어서 책 순서를 바꾼다. onReorder 제공 시 활성.
  */
+export type SubTab = 'long' | 'short' | 'solo'
+
 export function BookTabsBar({
   view, subTab, books, bookToShortsIndex, onSelect, onReorder,
 }: {
   view: string
-  subTab: 'long' | 'short'
+  subTab: SubTab
   books: Array<{ title?: string }>
   bookToShortsIndex: Map<number, number>
-  onSelect: (nextView: string, nextSub: 'long' | 'short') => void
+  onSelect: (nextView: string, nextSub: SubTab) => void
   /** 책 순서 변경 — fromIdx 책을 toIdx 자리로. 음성 파일도 함께 rename. */
   onReorder?: (fromIdx: number, toIdx: number) => void
 }) {
@@ -45,6 +47,7 @@ export function BookTabsBar({
           const hasShorts = bookToShortsIndex.has(i)
           const isLong = isActive && subTab === 'long'
           const isShort = isActive && subTab === 'short'
+          const isSolo = isActive && subTab === 'solo'
           const rawTitle = book?.title ?? ''
           const shortTitle = rawTitle.length > 10 ? rawTitle.slice(0, 10) + '…' : rawTitle
           const isDragging = dragFrom === i
@@ -123,6 +126,15 @@ export function BookTabsBar({
                         : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary cursor-pointer'
                   }`}
                 >숏</button>
+                <div className={`w-px ${isActive ? 'bg-accent' : 'bg-slate-300'}`} />
+                <button
+                  onClick={() => onSelect(v, 'solo')}
+                  className={`flex-1 py-0.5 text-sm font-bold font-extrabold cursor-pointer transition-colors ${
+                    isSolo
+                      ? 'text-accent bg-accent/15 font-black'
+                      : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
+                  }`}
+                >솔로</button>
               </div>
             </div>
           )

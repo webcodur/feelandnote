@@ -90,22 +90,23 @@ export function VoiceToolbar({
   const [expanded, setExpanded] = useState(true)
 
   return (
-    <div className={`bg-bg-card border border-border/50 rounded-lg mb-4 ${!expanded ? 'overflow-hidden h-[34px]' : ''}`}>
-      <button 
-        className="w-full flex items-center gap-2 px-3 py-2 text-left cursor-pointer select-none outline-none hover:bg-bg-hover"
+    <div className="bg-bg-card border border-border/50 rounded-lg mb-4 overflow-hidden">
+      <button
+        type="button"
+        className={`w-full flex items-center gap-2 px-3 py-2 text-left cursor-pointer select-none outline-none hover:bg-bg-hover transition-colors ${expanded ? 'border-b border-border/40' : ''}`}
         onClick={() => setExpanded(!expanded)}
       >
-        <span className={`text-[10px] text-text-dim ${expanded ? 'rotate-90' : ''}`}>▶</span>
-        <span className="font-bold text-[12px] text-text-secondary">음성 엔진 제어판 (VoiceToolbar)</span>
-        
-        <span className="ml-auto opacity-80 text-[10px] font-mono font-medium flex items-center gap-2">
-          <span className="bg-bg-main px-2 py-0.5 rounded-full border border-border text-slate-800 font-bold">
+        <span className={`inline-block text-[10px] text-text-dim shrink-0 transition-transform ${expanded ? 'rotate-90' : ''}`}>▶</span>
+        <span className="font-bold text-[12px] text-text-secondary shrink-0">음성 엔진 제어판 (VoiceToolbar)</span>
+        <span className="ml-auto text-[10px] font-mono shrink-0">
+          <span className="bg-bg-main px-2 py-0.5 rounded-full border border-border text-slate-800 font-bold whitespace-nowrap">
             {voiceSummary.total}파일 · {(voiceSummary.totalSizeKB / 1024).toFixed(1)}MB
           </span>
         </span>
       </button>
 
-      <div className="p-3 pt-1 space-y-1.5 border-t border-border/40">
+      {expanded && (
+      <div className="p-3 pt-1 space-y-1.5">
       {/* 2. Generate tools */}
       <div className="space-y-2">
         <div className="text-[12px] text-slate-900 font-black">일괄 생성 도구</div>
@@ -113,8 +114,10 @@ export function VoiceToolbar({
         <div className="bg-bg-main border border-border/60 rounded p-2 flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <select value={engine} onChange={e => setEngine(e.target.value)}
+              title="일괄 생성 모델. Gemini 3.1은 audio tag 지원·단가 2배. 둘 다 GEM 슬롯에 저장된다."
               className="bg-white border border-slate-300 text-slate-950 font-black rounded px-2.5 py-1 text-xs outline-none focus:border-accent transition-colors shadow-sm cursor-pointer">
-              <option value="gemini">Gemini</option>
+              <option value="gemini">GEM 2.5</option>
+              <option value="gemini-v3">GEM 3.1</option>
             </select>
             <select value={role} onChange={e => setRole(e.target.value)}
               className="bg-white border border-slate-300 text-slate-950 font-black rounded px-2.5 py-1 text-xs outline-none focus:border-accent transition-colors shadow-sm cursor-pointer">
@@ -328,6 +331,7 @@ export function VoiceToolbar({
         </div>
       )}
       </div>
+      )}
     </div>
   )
 }

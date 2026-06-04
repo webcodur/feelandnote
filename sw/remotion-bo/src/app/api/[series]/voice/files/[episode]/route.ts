@@ -21,5 +21,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ episode
     }
   }))
   const totalSizeKB = files.reduce((s, f) => s + f.sizeKB, 0)
-  return NextResponse.json({ files, summary: { total: files.length, totalSizeKB } })
+  return NextResponse.json(
+    { files, summary: { total: files.length, totalSizeKB } },
+    { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+  )
 }

@@ -3,73 +3,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { splitHighlights } from './utils'
 
-/**
- * 인용·강조 부호 부분을 글자 색·배경 띠로 강조하는 오버레이 분할.
- *
- * 본 서비스(`sw/web` FormattedText) 규칙:
- *   "…"                    → accent 톤(쌍따옴표 강조)
- *   『…』 《…》             → 굵게(작품·매체 큰 단위)
- *   「…」 〈…〉 <…> '…'    → accent + 본문체(소단위 강조)
- *
- * 이 오버레이는 텍스트 자체를 100% 투명(text-transparent)하게 그리며,
- * 오직 강조 부호 영역의 '배경 띠'와 '테두리 뱃지'만 렌더링하여 textarea 글씨 위에 비춰 줍니다.
- * 이를 통해 클릭 시(포커스 전환 시) 글자색이 투명<->불투명으로 교차하며 발생하던 깜빡임(Flicker) 버그를 원천 차단합니다.
- */
-function renderEmphasisOverlay(text: string): React.ReactNode[] {
-  if (!text) return []
-  const parts = text.split(/(".*?"|(?<!\w)'[^'\n]*'(?!\w)|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g)
-  return parts.map((part, i) => {
-    if (!part) return null
-    const isDouble = part.startsWith('"') && part.endsWith('"') && part.length >= 2
-    const isBig =
-      (part.startsWith('『') && part.endsWith('』')) ||
-      (part.startsWith('《') && part.endsWith('》'))
-    const isSmall =
-      (part.startsWith('「') && part.endsWith('」')) ||
-      (part.startsWith('〈') && part.endsWith('〉')) ||
-      (part.startsWith('<') && part.endsWith('>')) ||
-      (part.startsWith("'") && part.endsWith("'") && part.length >= 2)
-
-    if (isDouble) {
-      return (
-        <mark
-          key={i}
-          className="rounded px-1 py-0.5 mx-0.5 bg-amber-500/15 border border-amber-400/40 font-bold text-[14.5px] text-transparent"
-        >{part}</mark>
-      )
-    }
-    if (isBig) {
-      return (
-        <mark
-          key={i}
-          className="rounded px-1 py-0.5 mx-0.5 font-bold bg-amber-500/20 border border-amber-400/50 text-[14.5px] text-transparent"
-        >{part}</mark>
-      )
-    }
-    if (isSmall) {
-      return (
-        <mark
-          key={i}
-          className="rounded px-1 py-0.5 mx-0.5 font-serif bg-amber-500/10 border border-amber-400/30 text-[14.5px] text-transparent"
-        >{part}</mark>
-      )
-    }
-    
-    return (
-      <span key={i} className="text-transparent">
-        {part.split('\n').map((line, j, arr) => (
-          <React.Fragment key={j}>{line}{j < arr.length - 1 && <br />}</React.Fragment>
-        ))}
-      </span>
-    )
-  })
-}
-
 export function EditableText({
   value, onCommit, pickMode, onPick, highlights, onAddAnchor,
 }: {
   value: string | undefined
-  onCommit: (v: string) => void
+  /** 본문 커밋. prev 는 커밋 직전 본문(앵커 동기화용) — 상위가 옛/새 본문 차이로 이미지 앵커를 이전한다. */
+  onCommit: (v: string, prev: string) => void
   pickMode?: boolean
   onPick?: (selected: string) => void
   highlights?: string[]
@@ -86,7 +25,7 @@ export function EditableText({
   const commit = () => {
     if (pickMode) return
     const trimmed = (draft ?? '').trim()
-    if (trimmed && trimmed !== safeValue) onCommit(trimmed)
+    if (trimmed && trimmed !== safeValue) onCommit(trimmed, safeValue)
     else setDraft(safeValue)
   }
 
@@ -105,42 +44,59 @@ export function EditableText({
   const hasHighlights = activeHighlights.length > 0
   const display = draft ?? ''
 
+  // 오버레이 분할 — 앵커로 등록된 텍스트(activeHighlights)만 mark 로 감싼다.
+  // mark 는 padding·margin 없이 글자 폭만 차지하므로 textarea 글자와 1:1 로 겹친다.
+  const overlaySegments: { text: string; highlight: boolean }[] = hasHighlights
+    ? splitHighlights(display, activeHighlights)
+    : [{ text: display, highlight: false }]
+
   return (
     <div className="relative">
-      {/* 오버레이 — 글자 자체는 100% 투명하며, 오직 둥근 배경 뱃지와 테두리만 textarea 뒤에 비쳐 정밀 강조합니다. */}
+      {/* 입력 카드 — 흰 배경·테두리·포커스 링. 안에서 띠 오버레이(뒤)와 글자(textarea, 앞)를 겹친다. */}
       <div
-        aria-hidden
-        className="absolute inset-0 py-1 text-[15px] leading-7 tracking-[-0.005em] pointer-events-none whitespace-pre-wrap break-words"
-      >
-        {hasHighlights
-          ? splitHighlights(display, activeHighlights).map((seg, j) =>
-              seg.highlight
-                ? <mark key={j} className="bg-amber-500/15 rounded border border-amber-400/40 text-transparent">{renderEmphasisOverlay(seg.text)}</mark>
-                : <React.Fragment key={j}>{renderEmphasisOverlay(seg.text)}</React.Fragment>
-            )
-          : renderEmphasisOverlay(display)}
-      </div>
-      <textarea
-        ref={ref}
-        value={display}
-        onChange={e => { if (!pickMode) setDraft(e.target.value) }}
-        onFocus={() => setFocused(true)}
-        onBlur={() => { setFocused(false); commit(); setTimeout(() => setSelectedText(''), 200) }}
-        onMouseUp={handleMouseUp}
-        readOnly={pickMode}
-        rows={1}
-        className={`relative w-full text-[15px] font-medium leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border-0 border-b rounded-none px-0 resize-none outline-none [field-sizing:content] transition-colors caret-text-primary selection:bg-accent/20 selection:text-text-primary text-text-primary ${
+        className={`relative rounded-md border shadow-sm transition-colors ${
           pickMode
-            ? 'border-amber-400 cursor-text select-text bg-amber-50/50'
-            : 'border-transparent hover:border-border/70 focus:border-accent/80 focus:border-b-2'
-        } py-1`}
-      />
-      {onAddAnchor && selectedText && (
+            ? 'border-amber-400 bg-amber-50/70'
+            : 'border-border/40 bg-white hover:border-border/70 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20'
+        }`}
+      >
+        {/* 띠 오버레이 — 글자는 투명, 앵커 구간 배경 띠만 깔린다(테두리 없음).
+            투명 배경의 textarea가 위에서 글자를 또렷이 그리므로 글자에 막이 끼지 않는다.
+            textarea와 동일한 padding·font·border 로 글자 위치를 1:1 로 맞춘다. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 px-2.5 py-1.5 border border-transparent font-semibold text-[14.5px] leading-7 tracking-[-0.005em] pointer-events-none whitespace-pre-wrap break-words text-transparent"
+        >
+          {overlaySegments.map((seg, j) =>
+            seg.highlight
+              ? <mark key={j} className="bg-amber-400/30 rounded-sm text-transparent">{seg.text}</mark>
+              : <React.Fragment key={j}>{seg.text}</React.Fragment>
+          )}
+        </div>
+        <textarea
+          ref={ref}
+          value={display}
+          onChange={e => { if (!pickMode) setDraft(e.target.value) }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => { setFocused(false); commit(); setSelectedText('') }}
+          onMouseUp={handleMouseUp}
+          readOnly={pickMode}
+          rows={1}
+          spellCheck={false}
+          className={`relative w-full font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border border-transparent rounded-md px-2.5 py-1.5 resize-none outline-none [field-sizing:content] caret-text-primary selection:bg-amber-300/40 selection:text-text-primary text-text-primary ${
+            pickMode ? 'cursor-text select-text' : ''
+          }`}
+        />
+      </div>
+      {onAddAnchor && selectedText && focused && (
         <button
           onMouseDown={e => { e.preventDefault(); onAddAnchor(selectedText); setSelectedText('') }}
-          className="inline-flex items-center gap-1 mt-0.5 px-1.5 py-0.5 text-xs font-bold rounded bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100 transition-colors"
+          className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1 text-[12px] font-bold rounded-md bg-amber-100 border border-amber-400 text-amber-900 hover:bg-amber-200 hover:border-amber-500 shadow-sm transition-colors"
+          title="선택한 구절을 이미지 앵커로 등록"
         >
-          <span>+</span> 앵커 &ldquo;{selectedText.length > 20 ? selectedText.slice(0, 20) + '…' : selectedText}&rdquo;
+          <span className="text-base leading-none">＋</span>
+          <span>선택 구절을 이미지 앵커로 등록</span>
+          <span className="text-amber-700 font-mono">&ldquo;{selectedText.length > 16 ? selectedText.slice(0, 16) + '…' : selectedText}&rdquo;</span>
         </button>
       )}
     </div>

@@ -87,6 +87,8 @@ export function splitEpisodeData(data: unknown): { content: any; timing: any } {
 
   // 외부 shorts 파일로 분리 저장되므로 본체에서는 배제
   if (content.shorts !== undefined) delete content.shorts
+  // 폐기된 솔로 잔재 차단 — solos는 별도 저장 안 함 (책 본문에서 자동 변환)
+  if (content.solos !== undefined) delete content.solos
 
   return { content, timing }
 }

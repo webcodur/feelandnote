@@ -81,7 +81,9 @@ export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
     setPaused(false)
     setCurrentTime(0)
     setDuration(0)
-    const url = `/api/${series}/voice/play/${name}/${key}.wav`
+    // 매 재생마다 갱신 표식을 붙인다 — 같은 주소면 브라우저 미디어 캐시가 이전 음원을
+    // 재사용해, 모달에서 새로 저장한 음원이 바깥 재생에 반영되지 않던 결함 방지.
+    const url = `/api/${series}/voice/play/${name}/${key}.wav?t=${Date.now()}`
     const audio = new Audio(url)
     audio.playbackRate = rate
     audioRef.current = audio

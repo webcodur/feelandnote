@@ -142,19 +142,22 @@ export function useFolderImages(series: string, name: string) {
    */
   const mediaPath = (fileName: string) => {
     const sub = fileFolders[fileName] ?? ''
+    // fileName 은 basename 이거나, 이름이 겹치는 파일이면 「<책>/<sub?>/basename」 상대경로다.
+    // 폴더는 fileFolders(sub) 로 잡고, 실제 파일 이름은 마지막 토막만 써서 경로를 이중으로 박지 않는다.
+    const base = fileName.split('/').pop() ?? fileName
     // 활성 status(live·done)는 디스크에 status 폴더가 없고 인물 폴더가 episodes 직속.
     // 그 외 status(todo·excluded 등)는 episodes/{status}/{인물} 폴더 안.
     const activeStatuses = new Set(['live', 'done'])
     const statusPart = activeStatuses.has(epStatus) ? '' : `${epStatus}/`
     const episodeBaseDir = `episodes/${statusPart}${name}`
     if (newLayout) {
-      if (!sub) return `${episodeBaseDir}/${fileName}`
+      if (!sub) return `${episodeBaseDir}/${base}`
       const [bookFolder, ...rest] = sub.split('/')
       const subInside = rest.length ? `${rest.join('/')}/` : ''
-      return `${episodeBaseDir}/books/${bookFolder}/images/${subInside}${fileName}`
+      return `${episodeBaseDir}/books/${bookFolder}/images/${subInside}${base}`
     }
     const subPart = sub ? `${sub}/` : ''
-    return `${episodeBaseDir}/${mediaRoot(fileName)}/${subPart}${fileName}`
+    return `${episodeBaseDir}/${mediaRoot(base)}/${subPart}${base}`
   }
 
   return {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { CinematicImage, ImageField, AnchorPick, ImageEditorProps } from '../types'
 import { useFolderImages } from './useFolderImages'
@@ -31,11 +31,13 @@ export function useImageEditor(params: {
   const segments: any[] = currentShorts?.segments ?? []
 
   const folder = useFolderImages(series, name)
+  // 다른 책과 이름이 겹치는 파일 집합 — 겹치는 파일만 폴더 포함 식별자로 다뤄 풀 키와 맞춘다.
+  const dupNames = useMemo(() => new Set(folder.duplicates.map(d => d.name)), [folder.duplicates])
   const ops = makeImageOps({
     isShortsView, books, segments, currentShorts, currentShortsIndex, shortsArr, episode, updateEpisode,
-    renameFile: folder.renameFile, mediaPath: folder.mediaPath,
+    renameFile: folder.renameFile, mediaPath: folder.mediaPath, dupNames,
   })
-  const maps = usePoolMaps({ isShortsView, books, segments, currentShorts, shortsArr, view })
+  const maps = usePoolMaps({ isShortsView, books, segments, currentShorts, shortsArr, view, dupNames })
 
   const [anchorPick, setAnchorPick] = useState<AnchorPick>(null)
   const handlePick = useCallback((selected: string, field?: ImageField) => {

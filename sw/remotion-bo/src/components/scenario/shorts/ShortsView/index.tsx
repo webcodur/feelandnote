@@ -15,9 +15,9 @@ import { SegmentTimingPanel } from './SegmentTimingPanel'
 import { useShortsState } from './useShortsState'
 import { useSfxFiles } from '../../useSfxFiles'
 import { AnchorConfirmBanner } from '../../AnchorConfirmBanner'
-import { callRenameApi, segmentIdRename, segmentReorderRenames } from '../../voiceRename'
+import { callRenameApi, segmentIdRename, segmentReorderRenames, segmentInsertRenames, segmentDeleteRenames } from '../../voiceRename'
 import { EditorPanel } from '../../EditorPanel'
-import { stripImageRefs } from '../../utils'
+import { stripImageRefs, shortsKey } from '../../utils'
 
 /* ── 쇼츠 ── */
 export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggleExpand, activeEngine, playingKey, onTogglePlay,
@@ -56,6 +56,32 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
     const pair = segmentIdRename(shortsIndex, idx, oldId, newId)
     const { errors } = await callRenameApi(series, name, [pair])
     if (errors.length) console.warn('rename 일부 실패:', errors)
+  }
+
+  // 구간 중간 삽입 — atIdx 이후 구간들의 순번이 한 칸씩 밀리므로 그 wav 도 함께 옮긴다.
+  // (끝 추가는 밀리는 구간이 없어 rename 페어가 비고, callRenameApi 가 곧장 no-op 반환)
+  const insertSegment = async (atIdx: number, kind: 'quote' | 'context') => {
+    const renames = segmentInsertRenames(shortsIndex, atIdx, segments)
+    state.insertSegmentAt(atIdx, kind)
+    const { errors } = await callRenameApi(series, name, renames)
+    if (errors.length) console.warn('insert rename 일부 실패:', errors)
+  }
+
+  // 구간 삭제 — 삭제 구간 wav 제거 + 뒤 구간 순번 당김(S{n}→S{n-1}) rename.
+  // 이게 없으면 뒤 구간 음성 연결이 어긋나고, 삭제 구간 wav 가 고아로 남아 같은 id 재삽입 시 옛 음성이 잘못 붙는다.
+  const deleteSegment = async (idx: number) => {
+    const seg = segments[idx]
+    const renames = segmentDeleteRenames(shortsIndex, idx, segments)
+    if (!state.removeSegment(idx)) return // confirm 취소 시 wav·rename 모두 건너뜀
+    // 삭제 구간의 옛 wav 를 먼저 비운다 — 뒤 구간이 이 자리로 옮겨오기 전에 제거해야 충돌 없이 당겨진다.
+    if (seg?.id) {
+      await fetch(`/api/${series}/voice/file/${name}`, {
+        method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ secKey: shortsKey(idx, seg.id, shortsIndex), engines: ['gemini', 'elevenlabs'] }),
+      }).catch(() => {})
+    }
+    const { errors } = await callRenameApi(series, name, renames)
+    if (errors.length) console.warn('delete rename 일부 실패:', errors)
   }
 
   // 구간 순서 재배치 — moveSegment + 변경된 모든 prefix wav rename
@@ -106,8 +132,10 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
     isOver: dragOverIdx === i && dragFromIdx !== null && dragFromIdx !== i,
   })
 
-  const totalChars = segments.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
-  const totalNoSpace = segments.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.replace(/\s/g, '').length : 0), 0)
+  // 글자·구간 집계는 영상에 실제로 들어가는 구간만 센다(영상 제외 구간은 빠짐).
+  const countSegs = segments.filter((s: any) => !s?.disabled)
+  const totalChars = countSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
+  const totalNoSpace = countSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.replace(/\s/g, '').length : 0), 0)
 
   const celebName = episode.host?.nickname ?? ''
   const featuredIdx = (currentShorts as { featuredBookIndex?: number })?.featuredBookIndex ?? 0
@@ -124,7 +152,7 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
     updateSeg: state.updateSeg,
     updateSegField: state.updateSegField,
     updateSegFieldKeepFalse: state.updateSegFieldKeepFalse,
-    removeSegment: state.removeSegment,
+    removeSegment: deleteSegment,
     saveSegment: state.saveSegment,
     sfxFiles, sfxBase,
     renameSegId,
@@ -137,16 +165,15 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
         {/* 요약 + 시간 표 — 아코디언 (기본 접힘). 헤더에 핵심 카운트만 노출. */}
         <EditorPanel
           title="쇼츠 요약 (ShortsSummary)"
-          icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>}
           collapsible
-          defaultExpanded={false}
+          defaultExpanded={true}
           className="border-border bg-bg-card shadow-md shadow-black/20 mb-3"
           summaryNode={
             <span className="flex items-center gap-2">
               <span className="text-xs font-bold tabular-nums">
                 글자 {totalChars.toLocaleString()}
                 <span className="text-text-dim"> · 공백제외 {totalNoSpace.toLocaleString()}</span>
-                <span className="text-text-dim"> · 구간 {segments.length}</span>
+                <span className="text-text-dim"> · 구간 {countSegs.length}</span>
               </span>
               <span onClick={e => e.preventDefault()}>
                 <ShortsCopyButton segments={segments} shortsName={shortsName} />
@@ -173,8 +200,11 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
         {(() => {
           const introSegs = segments.slice(0, splitIdx)
           const bookSegs = segments.slice(splitIdx)
-          const introChars = introSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
-          const bookChars = bookSegs.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
+          // 글자·구간 수 표시는 영상 제외 구간을 뺀 활성 구간만 집계.
+          const introActive = introSegs.filter((s: any) => !s?.disabled)
+          const bookActive = bookSegs.filter((s: any) => !s?.disabled)
+          const introChars = introActive.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
+          const bookChars = bookActive.reduce((sum: number, s: any) => sum + (typeof s?.text === 'string' ? s.text.length : 0), 0)
           return (
             <>
               {/* 인트로 구간 — splitIdx 이전 (hook, intro, 초반 celeb 등) */}
@@ -183,14 +213,14 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                 icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>}
                 collapsible
                 className="border-accent/40 bg-bg-card shadow-lg shadow-black/25 mb-4 border-l-2 border-l-accent"
-                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{introSegs.length}구간 · {introChars}자</span>}
+                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{introActive.length}구간 · {introChars}자</span>}
                 contentClassName="p-3"
               >
                 {segments.map((seg: any, i: number) => {
                   if (i >= splitIdx) return null
                   return (
                     <Fragment key={`intro-${i}`}>
-                      <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
+                      <SegmentInsertBar atIdx={i} onInsert={insertSegment} />
                       <SegmentRow seg={seg} idx={i} withImage={true} {...rowProps} dragHandleProps={dragPropsFor(i)} />
                     </Fragment>
                   )
@@ -210,7 +240,7 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                 icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>}
                 collapsible
                 className="border-border/40 bg-bg-card shadow-lg shadow-black/25 mb-4 border-l-2 border-l-text-secondary"
-                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{bookSegs.length}구간 · {bookChars}자</span>}
+                summaryNode={<span className="text-xs font-bold opacity-70 tabular-nums">{bookActive.length}구간 · {bookChars}자</span>}
                 contentClassName="p-3 space-y-1"
               >
                 {segments.map((seg: any, i: number) => {
@@ -218,14 +248,14 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                   const withImage = seg.visual === 'book' || seg.role === 'celeb'
                   return (
                     <Fragment key={`book-${i}`}>
-                      <SegmentInsertBar atIdx={i} onInsert={state.insertSegmentAt} />
+                      <SegmentInsertBar atIdx={i} onInsert={insertSegment} />
                       <SegmentRow seg={seg} idx={i} withImage={withImage} {...rowProps} dragHandleProps={dragPropsFor(i)} />
                     </Fragment>
                   )
                 })}
                 <div className="flex items-center gap-3 pt-2">
-                  <AddFieldButton label="+ 인용 추가" onClick={() => state.insertSegmentAt(segments.length, 'quote')} />
-                  <AddFieldButton label="+ 맥락 추가" onClick={() => state.insertSegmentAt(segments.length, 'context')} />
+                  <AddFieldButton label="+ 인용 추가" onClick={() => insertSegment(segments.length, 'quote')} />
+                  <AddFieldButton label="+ 맥락 추가" onClick={() => insertSegment(segments.length, 'context')} />
                 </div>
               </EditorPanel>
             </>
