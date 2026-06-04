@@ -1,0 +1,41 @@
+{
+  "title": "AI를 만드는 사람들",
+  "subtitle": "1편 · LLM",
+  "groups": [
+    {
+      "name": "선구자",
+      "tagline": "모든 것의 시작",
+      "color": "#c0a062",
+      "people": [
+        { "name": "제프리 힌턴", "role": "딥러닝의 대부", "org": "Google Brain" },
+        { "name": "요슈아 벤지오", "role": "심층학습 개척자", "org": "MILA" },
+        { "name": "얀 르쿤", "role": "CNN의 아버지", "org": "Meta AI" }
+      ]
+    },
+    {
+      "name": "OpenAI",
+      "tagline": "전선의 선두",
+      "color": "#10a37f",
+      "people": [
+        { "name": "샘 알트만", "role": "CEO", "org": "OpenAI" },
+        { "name": "일리야 수츠케버", "role": "공동 창업자", "org": "OpenAI" }
+      ]
+    },
+    {
+      "name": "Anthropic",
+      "tagline": "안전한 AI",
+      "color": "#cc785c",
+      "people": [
+        { "name": "다리오 아모데이", "role": "CEO", "org": "Anthropic" }
+      ]
+    },
+    {
+      "name": "Google DeepMind",
+      "tagline": "지능의 해부",
+      "color": "#4285f4",
+      "people": [
+        { "name": "데미스 허사비스", "role": "CEO", "org": "Google DeepMind" }
+      ]
+    }
+  ]
+}

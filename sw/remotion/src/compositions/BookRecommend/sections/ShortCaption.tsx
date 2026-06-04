@@ -41,6 +41,10 @@ type Props = {
   locale?: 'ko' | 'en'
   /** 컨테이너 스타일 */
   style?: React.CSSProperties
+  /** 페이지당 글자 수 오버라이드 — 미지정 시 로케일 기본(ko 30 / en 50). 솔로는 듬성듬성하게 키운다. */
+  charsPerPage?: number
+  /** 패널 최대 폭(px) 오버라이드 — 미지정 시 760. 솔로(16:9)는 넓게 잡는다. */
+  maxPanelWidth?: number
 }
 
 export const ShortCaption: React.FC<Props> = ({
@@ -55,15 +59,18 @@ export const ShortCaption: React.FC<Props> = ({
   timings,
   locale,
   style,
+  charsPerPage,
+  maxPanelWidth,
 }) => {
   const frame = useCurrentFrame()
   const isEn = locale === 'en'
+  const PANEL_WIDTH = maxPanelWidth ?? MAX_PANEL_WIDTH
 
   // 텍스트·타이밍이 불변이므로 한 번만 계산 — 매 프레임 문자열 분할/페이징 방지
   const { pages, pageTiming, hasSub: singlePage_ } = useMemo(() => {
     const fresh = !isTimingsStale(text, timings) ? timings : undefined
     const expanded = fresh ? expandSubTimings(fresh) : undefined
-    const CHARS_PER_PAGE = isEn ? 50 : 30
+    const CHARS_PER_PAGE = charsPerPage ?? (isEn ? 50 : 30)
 
     let pg: string[]
     let pr: { startIdx: number; endIdx: number }[]
@@ -79,7 +86,7 @@ export const ShortCaption: React.FC<Props> = ({
       pr = result.ranges
     }
     return { pages: pg, pageTiming: slicePageTimings(pr, expanded), hasSub: pg.length <= 1 }
-  }, [text, timings, isEn])
+  }, [text, timings, isEn, charsPerPage])
   const singlePage = singlePage_
 
   const textShadowStyle: React.CSSProperties = strokeWidth > 0 ? {
@@ -108,7 +115,7 @@ export const ShortCaption: React.FC<Props> = ({
     boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)',
     textShadow: '0 1px 4px rgba(0,0,0,0.4)',
     width: 'fit-content',
-    maxWidth: MAX_PANEL_WIDTH,
+    maxWidth: PANEL_WIDTH,
     margin: '0 auto',
 
     ...textShadowStyle,
@@ -118,7 +125,7 @@ export const ShortCaption: React.FC<Props> = ({
   // ── 단일 페이지 ──
   if (singlePage) {
     return (
-      <Panel style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
+      <Panel style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={PANEL_WIDTH}>
         {stripCaptionPunct(text)}
       </Panel>
     )
@@ -157,7 +164,7 @@ export const ShortCaption: React.FC<Props> = ({
         if (!visible) return null
 
         return (
-          <Panel key={pi} style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={MAX_PANEL_WIDTH}>
+          <Panel key={pi} style={baseStyle} fontSize={fontSize} fontWeight={fontWeight} maxWidth={PANEL_WIDTH}>
             {stripCaptionPunct(pageText)}
           </Panel>
         )

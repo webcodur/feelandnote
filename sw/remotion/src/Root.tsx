@@ -10,12 +10,22 @@ import {
   calcTotalFrames as calcBookFrames,
   BookRecommendShort,
   calcShortTotalFrames,
+  BookRecommendSolo,
+  calcSoloTotalFrames,
   episodes,
+  soloEpisodes,
   episodeStatus,
   getEpisodeGroup,
 } from "./compositions/BookRecommend";
-import type { EpisodeStatus } from "./compositions/BookRecommend";
+import type { EpisodeStatus, SoloScript } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
+import {
+  Faction,
+  calcTotalFrames as calcFactionFrames,
+  episodes as factionEpisodes,
+  episodeNames as factionEpisodeNames,
+  FPS as FACTION_FPS,
+} from "./compositions/Faction";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
 
 
@@ -113,6 +123,75 @@ export const RemotionRoot: React.FC = () => {
                 </Folder>
               ))}
             </Folder>
+          )
+        })}
+      </Folder>
+
+      {/* === 서재 탐방 · 1권 모드 === */}
+      <Folder name="BookRecommendSolo">
+        {(() => {
+          // soloEpisodes 키 → person·locale·bookNum 분해 후 인물별 그룹핑
+          type SoloEntry = { key: string; person: string; lang: 'KO' | 'EN'; bookNum: string; script: SoloScript }
+          const entries: SoloEntry[] = []
+          for (const [key, script] of Object.entries(soloEpisodes)) {
+            const m = key.match(/^(.+?)-B(\d{2})(-en)?$/)
+            if (!m) continue
+            entries.push({ key, person: m[1], lang: m[3] ? 'EN' : 'KO', bookNum: m[2], script })
+          }
+          const groups: Record<string, SoloEntry[]> = {}
+          for (const e of entries) {
+            if (!groups[e.person]) groups[e.person] = []
+            groups[e.person].push(e)
+          }
+          return Object.entries(groups)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([person, items]) => {
+              // 컴포지션 ID는 기존 롱폼/쇼츠와 동일한 PascalCase(대시 제거).
+              // 예: 'elon-musk' → 'ElonMusk'. 솔로 ID: 'ElonMusk-KO-B01-VID'
+              const label = person.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
+              return (
+                <Folder key={person} name={label}>
+                  {items
+                    .sort((a, b) => (a.lang + a.bookNum).localeCompare(b.lang + b.bookNum))
+                    .map(({ key, lang, bookNum, script }) => {
+                      const dur = calcSoloTotalFrames(script)
+                      if (!Number.isFinite(dur) || dur <= 0) return null
+                      return (
+                        <Composition
+                          key={key}
+                          id={`${label}-${lang}-B${bookNum}-VID`}
+                          component={BookRecommendSolo}
+                          durationInFrames={dur}
+                          fps={FPS}
+                          width={1920}
+                          height={1080}
+                          defaultProps={{ script }}
+                        />
+                      )
+                    })}
+                </Folder>
+              )
+            })
+        })()}
+      </Folder>
+
+      {/* === 세력도 === */}
+      <Folder name="Faction">
+        {Object.entries(factionEpisodes).map(([key, script]) => {
+          const dur = calcFactionFrames(script)
+          if (!Number.isFinite(dur) || dur <= 0) return null
+          const id = `Faction-${key.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+          return (
+            <Composition
+              key={key}
+              id={id}
+              component={Faction}
+              durationInFrames={dur}
+              fps={FACTION_FPS}
+              width={1080}
+              height={1920}
+              defaultProps={{ script, episodeName: factionEpisodeNames[key] }}
+            />
           )
         })}
       </Folder>

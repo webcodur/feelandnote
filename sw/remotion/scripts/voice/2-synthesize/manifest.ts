@@ -20,11 +20,15 @@ export type Manifest = Record<string, string> // file → sha256(text+voice)
  * 화자 voiceId까지 포함해야 "텍스트 동일 + 화자만 교체" 사례에서 변경 감지가 된다.
  * 다만 오버라이드가 없는 경우에는 기존 hash 형식(`${voice}:${text}`)을 유지해 옛 wav 호환을 보장.
  * 즉 화자 도입 전부터 있던 모든 wav는 추가 입력 없이 그대로 통과.
+ *
+ * stylePrefix는 undefined(미지정)면 기존 형식 그대로 — 스타일 도입 전 wav 호환. 명시 지정 시
+ * (빈 문자열 옵트아웃 포함) 해시에 반영해 스타일만 바꿔도 재생성이 트리거되게 한다.
  */
-export function jobHash(text: string, voice: string, elevenlabsVoiceId?: string): string {
-  const payload = elevenlabsVoiceId
+export function jobHash(text: string, voice: string, elevenlabsVoiceId?: string, stylePrefix?: string): string {
+  const base = elevenlabsVoiceId
     ? `${voice}|ele:${elevenlabsVoiceId}:${text}`
     : `${voice}:${text}`
+  const payload = stylePrefix !== undefined ? `${base}|style:${stylePrefix}` : base
   return createHash('sha256').update(payload).digest('hex').slice(0, 16)
 }
 

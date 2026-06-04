@@ -13,7 +13,7 @@ import { COMMON_VOICE_FILES } from '../../../src/compositions/BookRecommend/voic
 import { loadEpisode as loadEpisodeMerged } from '../../lib/episode.js'
 import type { BookRecommendScript } from '../../../src/compositions/BookRecommend/types'
 import {
-  args, EPISODE_NAME, ENGINE, OUT_DIR, SHORTS_INDEX, ROLE_FILTER, includeCommon, BASE_DIR,
+  args, EPISODE_NAME, ENGINE, GEMINI_MODEL, OUT_DIR, SHORTS_INDEX, ROLE_FILTER, includeCommon, BASE_DIR,
 } from './cli.js'
 import { VOICE } from './config.js'
 import { setEpisode, setCommonFiles } from './state.js'
@@ -118,7 +118,7 @@ export async function main(): Promise<void> {
     for (const j of jobs) {
       const dir = manifestDir(j)
       if (!byDir.has(dir)) byDir.set(dir, {})
-      byDir.get(dir)![j.file] = jobHash(j.text, j.voice, j.elevenlabsVoiceId)
+      byDir.get(dir)![j.file] = jobHash(j.text, j.voice, j.elevenlabsVoiceId, j.stylePrefix)
     }
     for (const [dir, m] of byDir) {
       await mkdir(dir, { recursive: true })
@@ -140,7 +140,7 @@ export async function main(): Promise<void> {
     const filtered: Job[] = []
     for (const j of jobs) {
       const m = await getManifest(manifestDir(j))
-      if (jobHash(j.text, j.voice, j.elevenlabsVoiceId) !== m[j.file]) filtered.push(j)
+      if (jobHash(j.text, j.voice, j.elevenlabsVoiceId, j.stylePrefix) !== m[j.file]) filtered.push(j)
     }
     const skipped = before - filtered.length
     jobs = filtered
@@ -177,14 +177,14 @@ export async function main(): Promise<void> {
     console.log('생성 대상:')
     for (const j of jobs) {
       const m = await getManifest(manifestDir(j))
-      const changed = jobHash(j.text, j.voice, j.elevenlabsVoiceId) !== m[j.file]
+      const changed = jobHash(j.text, j.voice, j.elevenlabsVoiceId, j.stylePrefix) !== m[j.file]
       console.log(`  ${j.file.padEnd(30)} [${j.voice}] ${changed ? '← 변경' : ''}`)
     }
     return
   }
 
   // 5) 합성 실행
-  console.log(`${jobs.length}개 음성 생성 시작... [엔진: ${ENGINE}]\n`)
+  console.log(`${jobs.length}개 음성 생성 시작... [엔진: ${ENGINE === 'gemini' ? GEMINI_MODEL : ENGINE}]\n`)
   const normalizeEnabled = args.includes('--normalize') && ENGINE !== 'elevenlabs'
   const results: Record<string, number> = {}
   for (const job of jobs) {
@@ -194,11 +194,11 @@ export async function main(): Promise<void> {
     const fp = path.join(dir, job.file)
     // job.file이 'shorts-2/S01-...' 처럼 하위 경로를 포함할 수 있으므로 부모 dir 생성
     await mkdir(path.dirname(fp), { recursive: true })
-    results[job.file] = await tts(job.text, job.voice, fp, job.role, job.isShort, job.shortSegId, job.voiceMeta, job.forceGemini, job.elevenlabsVoiceId)
+    results[job.file] = await tts(job.text, job.voice, fp, job.role, job.isShort, job.shortSegId, job.voiceMeta, job.forceGemini, job.elevenlabsVoiceId, job.stylePrefix)
     // 성공 시 매니페스트 업데이트
     const mDir = manifestDir(job)
     const m = await getManifest(mDir)
-    m[job.file] = jobHash(job.text, job.voice, job.elevenlabsVoiceId)
+    m[job.file] = jobHash(job.text, job.voice, job.elevenlabsVoiceId, job.stylePrefix)
     // --normalize: 신규 wav 즉시 정규화 (.raw/ 백업 자동)
     if (normalizeEnabled) {
       const r = await normalizeWav(fp)

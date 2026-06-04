@@ -17,6 +17,7 @@ import { createReadStream, existsSync, statSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { lineup, buildTitle, buildDescription, buildTags, calcChapterTimestamps, buildYouTubeSnippet, type EpisodeMeta } from './youtube-lineup.js'
+import { buildSoloTitle, buildSoloDescription } from '@feelandnote/shared/lib/youtube-meta'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, loadEpisode } from '../lib/episode.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -106,24 +107,35 @@ function toCompLabel(episodeName: string): string {
   return episodeName.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
 }
 
-type Variant = { lang: 'ko' | 'en'; type: 'longform' | 'shorts'; shortsIndex?: number }
+type Variant = {
+  lang: 'ko' | 'en'
+  type: 'longform' | 'shorts' | 'solo'
+  shortsIndex?: number
+  /** 1권 모드 책 인덱스 (0-based). solo 전용. */
+  bookIndex?: number
+}
 
 /**
  * variant → 출력 파일 suffix. 옵션 2: shortsIndex는 1-based 일관.
- * longform=L-VID, shorts={shortsIndex}는 S{shortsIndex}-VID
+ * longform=L-VID, shorts={shortsIndex}는 S{shortsIndex}-VID, solo={bookIndex+1, 2자리}는 B{NN}-VID
  */
 function variantFileSuffix(v: Variant): string {
   if (v.type === 'longform') return 'L-VID'
+  if (v.type === 'solo') {
+    const num = String((v.bookIndex ?? 0) + 1).padStart(2, '0')
+    return `B${num}-VID`
+  }
   const idx = v.shortsIndex ?? 1
   return `S${idx}-VID`
 }
 
 /**
  * variant → uploads 키. 옵션 2: shortsIndex는 1-based 일관.
- * longform={lang}-longform, shorts={lang}-shorts-{shortsIndex}
+ * longform={lang}-longform, shorts={lang}-shorts-{shortsIndex}, solo={lang}-solo-{bookIndex+1}
  */
 function variantKey(v: Variant): string {
   if (v.type === 'longform') return `${v.lang}-longform`
+  if (v.type === 'solo') return `${v.lang}-solo-${(v.bookIndex ?? 0) + 1}`
   const idx = v.shortsIndex ?? 1
   return `${v.lang}-shorts-${idx}`
 }
@@ -132,7 +144,7 @@ function findFiles(label: string, lang: 'ko' | 'en', variant: Variant) {
   const langCode = lang.toUpperCase()
   const dir = path.join(OUT_DIR, label, langCode)
   const suffix = variantFileSuffix(variant)
-  // 썸네일은 롱폼만 존재 (L-THUMB.png). 쇼츠는 자동 생성.
+  // 썸네일 — 롱폼은 L-THUMB.png 존재, 쇼츠/솔로는 동일 prefix-THUMB 자동 생성 시도
   const thumbCode = variant.type === 'longform' ? 'L-THUMB' : `${suffix.replace('-VID', '')}-THUMB`
 
   const video = path.join(dir, `${suffix}.mp4`)
@@ -269,7 +281,7 @@ async function saveUploadRecord(episodeName: string, variantKey: string, videoId
 
 // ─── 메인 ───────────────────────────────────────────────
 
-async function upload(episodeName: string, filterLang?: string, filterType?: string, filterShortsIndex?: number, dry = false) {
+async function upload(episodeName: string, filterLang?: string, filterType?: string, filterShortsIndex?: number, filterBookIndex?: number, dry = false) {
   const meta: EpisodeMeta | undefined = lineup[episodeName]
   if (!meta) console.log(`편성표에 '${episodeName}' 없음 — 에피소드 데이터 기반으로 진행`)
 
@@ -282,19 +294,25 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
 
   const koShortsCount = Array.isArray(koData?.shorts) ? koData.shorts.length : 0
   const enShortsCount = Array.isArray(enData?.shorts) ? enData.shorts.length : 0
+  // 1권 모드(SOLO) 후보 — 별도 데이터 없이 책 본문에서 자동 변환되므로 책 배열을 그대로 후보로 삼는다.
+  const koBooksCount = Array.isArray(koData?.books) ? koData.books.length : 0
+  const enBooksCount = Array.isArray(enData?.books) ? enData.books.length : 0
 
   // 옵션 2: shortsIndex는 1-based 일관. 배열 길이에 따라 variant 동적 확장
   const variants: Variant[] = []
   if (koData) variants.push({ lang: 'ko', type: 'longform' })
   for (let i = 0; i < koShortsCount; i++) variants.push({ lang: 'ko', type: 'shorts', shortsIndex: i + 1 })
+  for (let i = 0; i < koBooksCount; i++) variants.push({ lang: 'ko', type: 'solo', bookIndex: i })
   if (enData) variants.push({ lang: 'en', type: 'longform' })
   for (let i = 0; i < enShortsCount; i++) variants.push({ lang: 'en', type: 'shorts', shortsIndex: i + 1 })
+  for (let i = 0; i < enBooksCount; i++) variants.push({ lang: 'en', type: 'solo', bookIndex: i })
 
   // 필터
   const filtered = variants.filter(v => {
     if (filterLang && v.lang !== filterLang) return false
     if (filterType && v.type !== filterType) return false
     if (typeof filterShortsIndex === 'number' && v.type === 'shorts' && v.shortsIndex !== filterShortsIndex) return false
+    if (typeof filterBookIndex === 'number' && v.type === 'solo' && v.bookIndex !== filterBookIndex) return false
     return true
   })
 
@@ -326,10 +344,13 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     const celebName = data.host.nickname as string
     const books = data.books as any[]
     const isShorts = variant.type === 'shorts'
+    const isSolo = variant.type === 'solo'
     const shortsIdx = variant.shortsIndex ?? 1 // 1-based
+    const soloBookIdx = variant.bookIndex ?? 0
 
     const vKey = variantKey(variant)
-    const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
+    // 솔로·쇼츠는 챕터 없음. 롱폼만 챕터 계산.
+    const chapters = (!isShorts && !isSolo) ? calcChapterTimestamps(data, variant.lang) : undefined
     // shorts 배열에서 해당 인덱스의 featuredBookIndex 사용 (없으면 0). 배열 접근은 shortsIdx - 1
     const targetShortsCfg = isShorts && Array.isArray(data.shorts)
       ? data.shorts[shortsIdx - 1]
@@ -342,19 +363,35 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     const isMultipart = (epSeries?.totalParts ?? 1) > 1
     const longformBookCount = isMultipart ? (epSeries?.totalBooks ?? books.length) : books.length
     const longformPart = isMultipart ? epSeries?.part : undefined
-    // meta가 없어도 롱폼 신규 포맷은 항상 계산 가능 — 빈 meta 폴백.
+    // meta가 없어도 자동 생성 가능 — 빈 meta 폴백. 솔로는 별도 빌더 사용.
     const titleMeta = meta ?? {}
-    const fallbackTitle = buildTitle(titleMeta, celebName, variant.lang, isShorts, shortsIdx, shortsBookTitle, longformBookCount, longformPart)
-    const title = ytMeta[vKey]?.title || fallbackTitle
     const links = (ytMeta[vKey] as any)?.links as { label: string; url: string }[] | undefined
-    const featuredBookIndex = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : undefined
-    const description = ytMeta[vKey]?.description
-      || (buildDescription as any)(celebName, books, variant.lang, isShorts, chapters, links, episodeName, shortsIdx, featuredBookIndex)
+    let fallbackTitle: string
+    let fallbackDescription: string
+    if (isSolo) {
+      const featuredBook = books[soloBookIdx]
+      fallbackTitle = featuredBook?.title
+        ? buildSoloTitle(celebName, variant.lang, featuredBook.title)
+        : `[한 권 깊이] ${celebName}` // 책 제목 누락 시 안전 폴백 (실제로는 거의 없음)
+      fallbackDescription = featuredBook
+        ? buildSoloDescription(celebName, featuredBook, variant.lang, links, episodeName)
+        : ''
+    } else {
+      fallbackTitle = buildTitle(titleMeta, celebName, variant.lang, isShorts, shortsIdx, shortsBookTitle, longformBookCount, longformPart)
+      const featuredBookIndex = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : undefined
+      fallbackDescription = (buildDescription as any)(celebName, books, variant.lang, isShorts, chapters, links, episodeName, shortsIdx, featuredBookIndex)
+    }
+    const title = ytMeta[vKey]?.title || fallbackTitle
+    const description = ytMeta[vKey]?.description || fallbackDescription
+    // 솔로는 isShorts=false로 일반 태그 사용. (1권 깊이 전용 태그는 향후 buildTags 분기에서)
     const tags = (buildTags as any)(celebName, variant.lang, isShorts, shortsIdx, episodeName)
 
     const files = findFiles(label, variant.lang, variant)
 
-    console.log(`── ${variant.lang.toUpperCase()} ${variant.type}${isShorts ? `#${shortsIdx}` : ''} (${variant.lang === 'en' ? 'EN채널' : 'KO채널'}) ──`)
+    const variantLabel = isSolo
+      ? `SOLO B${String(soloBookIdx + 1).padStart(2, '0')}`
+      : `${variant.type}${isShorts ? `#${shortsIdx}` : ''}`
+    console.log(`── ${variant.lang.toUpperCase()} ${variantLabel} (${variant.lang === 'en' ? 'EN채널' : 'KO채널'}) ──`)
     console.log(`  제목: ${title}`)
 
     if (!files.video) {
@@ -557,9 +594,13 @@ if (command === 'auth') {
   const shortsIdxFlag = args.indexOf('--shorts-index')
   const shortsIndex = shortsIdxFlag >= 0 ? Number(args[shortsIdxFlag + 1]) : undefined
 
+  // 1권 모드: bookIndex는 0-based
+  const bookIdxFlag = args.indexOf('--book-index')
+  const bookIndex = bookIdxFlag >= 0 ? Number(args[bookIdxFlag + 1]) : undefined
+
   const dry = args.includes('--dry')
 
-  upload(episode, lang, type, shortsIndex, dry).catch(console.error)
+  upload(episode, lang, type, shortsIndex, bookIndex, dry).catch(console.error)
 } else if (command === 'patch-meta') {
   const epIdx = args.indexOf('--episode')
   const episode = epIdx >= 0 ? args[epIdx + 1] : null

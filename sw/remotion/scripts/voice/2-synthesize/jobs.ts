@@ -11,7 +11,7 @@ import {
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
-  vnShort,
+  vnShort, vnTimingKey, COMMON_VOICE_FILES,
 } from '../../../src/compositions/BookRecommend/voice-names'
 import { SHORTS_INDEX } from './cli.js'
 import { VOICE, type Role, type Voice } from './config.js'
@@ -30,6 +30,8 @@ export type Job = {
   forceGemini?: boolean
   /** segment.elevenlabsVoiceId 오버라이드. 지정 시 host.elevenlabsVoiceId 대신 사용. 다중 화자 용도. */
   elevenlabsVoiceId?: string
+  /** 롱폼 구간별 발화 스타일 prefix(voiceStyles[구간키]). 지정 시 tts()의 role 기반 폴백을 건너뛴다. '' = 옵트아웃. */
+  stylePrefix?: string
   /** 세그먼트에 voiceLock: true가 설정됨. main 파이프라인이 매니페스트 검사 전 단계에서 제외한다. */
   voiceLock?: boolean
 }
@@ -229,6 +231,17 @@ export function buildJobs(): Job[] {
         voiceLock: !!(seg as { voiceLock?: boolean }).voiceLock,
       })
       si++
+    }
+  }
+
+  // 롱폼 구간별 스타일 주입 — voiceStyles[vnTimingKey(file)]. 에피소드 공유 common 파일은 제외.
+  // 쇼츠(else 분기)는 segment.style 경로를 그대로 쓰므로 주입하지 않는다.
+  if (isLongScope) {
+    const VS = episode.voiceStyles ?? {}
+    for (const j of jobs) {
+      if (COMMON_VOICE_FILES.has(j.file)) continue
+      const s = VS[vnTimingKey(j.file)]
+      if (s !== undefined) j.stylePrefix = s
     }
   }
 

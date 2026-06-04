@@ -303,6 +303,10 @@ export interface ShortSegment {
    *  손으로 톤·발화 톤을 다듬어 마음에 든 결과를 그대로 보존하는 용도.
    *  의도적으로 다시 생성하려면 이 필드를 제거하거나 `--include-locked` 플래그를 사용. */
   voiceLock?: boolean
+  /** 영상 제외 — true 시 이 세그먼트를 영상 렌더에서 완전히 건너뛴다(시간 0, 음성·자막·이미지 미표시).
+   *  음성 파일과 데이터는 보존되므로, false로 되돌리면 그대로 다시 살아난다.
+   *  배열에서 삭제하지 않고 잠시 빼두는 용도. 인덱스가 유지되어 음성 파일명이 어긋나지 않는다. */
+  disabled?: boolean
 }
 
 /** 화자 카드 — 쇼츠 내 다중 화자 정의. segment.speaker가 이 id를 참조한다. */
@@ -414,6 +418,9 @@ export interface BookRecommendScript {
   shorts?: ShortsConfig[]
   /** 파형 분석 기반 음성 타이밍 (3-timings.ts로 생성) */
   voiceTimings?: VoiceTimings
+  /** 롱폼 구간별 Gemini TTS 발화 스타일 prefix. 키는 구간 식별자(예: "B2-philosophy", "D01b-summary").
+   *  쇼츠는 segment.style을 따로 쓰므로 여기 포함하지 않는다. 빈 문자열은 prefix 없음(명시적 옵트아웃). */
+  voiceStyles?: Record<string, string>
 }
 
 /** 배경 음악 트랙 */

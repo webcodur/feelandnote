@@ -200,6 +200,10 @@ const newShortsContentCtx = require.context(
 const newShortsTimingCtx = require.context(
   '../../../public/episodes', true, /\/books\/[^/]+\/shorts\.(ko|en)\.timing\.json$/,
 )
+/** 1권 모드(SOLO) 자유섹션 — books/{slug}/solo.{ko,en}.json. 책 slug에 매달린 솔로 전용 데이터. */
+const soloContentCtx = require.context(
+  '../../../public/episodes', true, /\/books\/[^/]+\/solo\.(ko|en)\.json$/,
+)
 
 /** 경로 키 → person·locale·extras 매칭. prefix 1개(옛 status 또는 그룹) 옵션. */
 type LegacyContentMatch = { person: string; dir: string; locale: 'ko' | 'en' }
@@ -247,6 +251,11 @@ function matchNewShorts(key: string): NewBookMatch | null {
 }
 function matchNewShortsTiming(key: string): NewBookMatch | null {
   const parsed = parsePathKey(key, 'books\\/([^/]+)\\/shorts\\.(ko|en)\\.timing\\.json')
+  if (!parsed) return null
+  return { person: parsed.person, dir: parsed.dir, slug: parsed.rest[0], locale: parsed.rest[1] as 'ko' | 'en' }
+}
+function matchSolo(key: string): NewBookMatch | null {
+  const parsed = parsePathKey(key, 'books\\/([^/]+)\\/solo\\.(ko|en)\\.json')
   if (!parsed) return null
   return { person: parsed.person, dir: parsed.dir, slug: parsed.rest[0], locale: parsed.rest[1] as 'ko' | 'en' }
 }
@@ -343,7 +352,8 @@ function injectExternalShorts(
   return { ...content, shorts: shortsArr }
 }
 
-/** 신구조 수집 — personKey → locale → { meta, metaTiming, books[], shorts[] } */
+/** 신구조 수집 — personKey → locale → { meta, metaTiming, books[], shorts[] }.
+ *  1권 모드(SOLO)는 별도 데이터 없이 책 본문에서 자동 변환되므로 bucket에 솔로 영역 없음. */
 type NewLayoutBucket = {
   meta?: any
   metaTiming?: any
@@ -545,4 +555,47 @@ export function loadVoiceSelect(name: string): VoiceSelect | null {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     return require(`../../../public/episodes/${dir}/voice/${locale}/voice-select.json`) as VoiceSelect
   } catch { return null }
+}
+
+/* ── 1권 모드 — 신구조 인물의 모든 책에 대해 SoloScript 자동 생성 ── */
+
+import { buildSoloScript, type SoloScript, type SoloFreeSection } from './solo-build'
+
+/** 자유섹션 인덱스 — person → locale → slug → SoloFreeSection[]. solo.{ko,en}.json에서 로드. */
+const soloSectionsMap: Record<string, { ko: Map<string, SoloFreeSection[]>; en: Map<string, SoloFreeSection[]> }> = {}
+for (const key of soloContentCtx.keys()) {
+  const r = matchSolo(key)
+  if (!r) continue
+  if (!personToStatus[r.person]) continue
+  if (!soloSectionsMap[r.person]) soloSectionsMap[r.person] = { ko: new Map(), en: new Map() }
+  const doc = soloContentCtx(key) as { sections?: SoloFreeSection[] }
+  soloSectionsMap[r.person][r.locale].set(r.slug, Array.isArray(doc?.sections) ? doc.sections : [])
+}
+
+/** soloEpisodes 키 형식: `{person}-B{NN}` (KO) / `{person}-B{NN}-en` (EN). NN은 1-based 2자리.
+ *  책메타·인사·아웃트로는 책 데이터에서 자동 구성되고, 자유섹션만 solo.{ko,en}.json에서 로드한다.
+ *  자유섹션 파일이 없으면 정형부만으로 회차가 구성된다(빈 솔로). */
+export const soloEpisodes: Record<string, SoloScript> = {}
+
+for (const person of newLayoutPersons) {
+  const buckets = newLayoutMap[person]
+  for (const locale of ['ko', 'en'] as const) {
+    const bucket = buckets[locale]
+    if (!bucket.meta) continue
+    const slugs = [...bucket.books.keys()].sort()
+    const assembled = assembleNewLayout(bucket)
+    if (!assembled) continue
+    slugs.forEach((slug, i) => {
+      const bk = bucket.books.get(slug)
+      if (!bk?.content) return
+      const epName = locale === 'en' ? `${person}-en` : person
+      const freeSections = soloSectionsMap[person]?.[locale].get(slug) ?? []
+      // 음성 정렬 타이밍 — 롱폼·쇼츠와 동일 출처(meta timing의 voiceTimings)를 솔로에도 주입.
+      const solo = buildSoloScript(assembled, i, epName, slug, freeSections, assembled.voiceTimings)
+      if (!solo) return
+      const num = String(i + 1).padStart(2, '0')
+      const key = locale === 'en' ? `${person}-B${num}-en` : `${person}-B${num}`
+      soloEpisodes[key] = solo
+    })
+  }
 }

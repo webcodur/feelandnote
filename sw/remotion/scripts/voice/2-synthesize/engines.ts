@@ -13,8 +13,8 @@ import wav from 'wav'
 import path from 'path'
 import { spawn } from 'node:child_process'
 import ffmpegStatic from 'ffmpeg-static'
-import { MODEL, BO_BASE_URL, BO_SERIES, type Voice } from './config.js'
-import { START_KEY_INDEX } from './cli.js'
+import { BO_BASE_URL, BO_SERIES, type Voice } from './config.js'
+import { START_KEY_INDEX, GEMINI_MODEL } from './cli.js'
 
 // --- API 키 로테이션 ---
 const API_KEYS = Array.from({ length: 100 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY_FREE${i + 1}`]).filter(Boolean) as string[]
@@ -38,7 +38,7 @@ export async function saveWav(filename: string, pcmData: Buffer): Promise<number
 async function synthesizeRaw(text: string, voiceName: Voice, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
   try {
     const response = await ai.models.generateContent({
-      model: MODEL,
+      model: GEMINI_MODEL,
       contents: [{ parts: [{ text }] }],
       config: {
         responseModalities: ['AUDIO'],

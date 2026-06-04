@@ -49,17 +49,36 @@ export function vnShort(segIndex: number, segId: string, shortsIndex: number) {
   return `shorts-${shortsIndex}/S${String(segIndex + 1).padStart(2, '0')}-${segId}.wav`
 }
 
+// 1권 모드(SOLO)
+/**
+ * 솔로 마디 음성 파일 경로 (에피소드 voice 디렉토리 기준 상대경로).
+ *
+ * 한 책의 솔로 마디는 책 폴더 단위로 묶인다 — `solo-B{NN}/` 접두사로 다른 솔로와 분리.
+ * NN은 1-based 2자리 (책 인덱스 + 1).
+ *
+ * @param bookIndex 책 인덱스 (0-based)
+ * @param segIndex 마디 인덱스 (0-based, 마디 배열 순서)
+ * @param segId 마디 ID (영문/숫자/하이픈만, BO 편집기가 발급)
+ * @returns `solo-B{NN}/S{nn}-{segId}.wav`
+ */
+export function vnSolo(bookIndex: number, segIndex: number, segId: string) {
+  const bookNN = String(bookIndex + 1).padStart(2, '0')
+  return `solo-B${bookNN}/S${String(segIndex + 1).padStart(2, '0')}-${segId}.wav`
+}
+
 /** voiceTimings key (filename without .wav) */
 export function vnTimingKey(fileName: string) { return fileName.replace('.wav', '') }
 
 /** 셀럽 보이스 파일 판별 — ElevenLabs 자동 라우팅 대상.
- *  쇼츠는 옵션 2 이후 `shorts-{N}/` 접두사가 필수다. */
+ *  쇼츠는 옵션 2 이후 `shorts-{N}/` 접두사가 필수다.
+ *  솔로는 `solo-B{NN}/` 접두사 안에서 ID에 `-quote-`·`-celeb-`가 들어가면 셀럽 보이스. */
 export function isCelebVoiceFile(file: string): boolean {
   const key = file.replace('.wav', '')
   return key === 'A3-featured-quote' || key === 'B2-philosophy'
     || /^D\d{2}d\d+-quote$/.test(key)
     || /^shorts-\d+\/S\d{2}-celeb-/.test(key)
     || /^shorts-\d+\/S\d{2}-book-quote/.test(key)
+    || /^solo-B\d{2}\/S\d{2}-.*-(quote|celeb)/.test(key)
 }
 
 /** 공통 음성 파일 집합 — 에피소드 간 재사용 */

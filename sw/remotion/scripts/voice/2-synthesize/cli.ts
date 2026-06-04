@@ -7,6 +7,7 @@
 
 import path from 'path'
 import { ROOT, findEpisodeDir, parseEpName } from '../../lib/episode.js'
+import { MODEL_GEMINI_25, MODEL_GEMINI_31 } from './config.js'
 
 // --- 원본 args ---
 export const args = process.argv.slice(2)
@@ -51,9 +52,14 @@ export const SHORTS_INDEX: number | null = parsedShortsIndex
 const epIdx = args.indexOf('--episode')
 export const EPISODE_NAME = epIdx >= 0 ? args[epIdx + 1] : 'elon-musk'
 
-// --- 엔진 선택: --engine gemini | elevenlabs (기본: gemini) ---
+// --- 엔진 선택: --engine gemini | gemini-v3 | elevenlabs (기본: gemini) ---
+// 출력 슬롯·합성 분기는 gemini/elevenlabs로 정규화한다(OUT_DIR=BASE_DIR/ENGINE). gemini-v3는
+// gemini 슬롯에 저장하되 모델만 3.1로 분기 → 최종 렌더는 모델 구분 없이 gemini 슬롯을 쓴다.
 const engineIdx = args.indexOf('--engine')
-export const ENGINE = engineIdx >= 0 ? args[engineIdx + 1] : 'gemini'
+const RAW_ENGINE = engineIdx >= 0 ? args[engineIdx + 1] : 'gemini'
+export const ENGINE = RAW_ENGINE === 'elevenlabs' ? 'elevenlabs' : 'gemini'
+/** Gemini 합성 모델 — gemini-v3면 3.1, 그 외 2.5. (engines.ts synthesizeRaw가 사용) */
+export const GEMINI_MODEL = RAW_ENGINE === 'gemini-v3' ? MODEL_GEMINI_31 : MODEL_GEMINI_25
 
 // --- 에피소드 경로 해석 ---
 const parsed = parseEpName(EPISODE_NAME)

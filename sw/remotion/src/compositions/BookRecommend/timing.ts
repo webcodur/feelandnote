@@ -175,7 +175,14 @@ export const SHORT_LOGO_FADE_OUT_BGM = f(1.5)  // 90
  * duration 우선순위: seg.duration(TTS) > imageMinFrames(이미지당 2초) > fallback
  * imageMinFrames는 duration 미설정 프리뷰에서 이미지가 크로스페이드 안에 묻히지 않도록 보장한다. */
 export function shortSegLayout(segments: ShortSegment[]) {
+  // 영상 제외(disabled) 세그먼트는 시간을 차지하지 않는다. tailHold(outro 완충)는
+  // 실제 마지막에 재생되는 활성 세그먼트가 받아야 하므로 마지막 활성 인덱스를 따로 구한다.
+  let lastActiveIdx = -1
+  for (let i = segments.length - 1; i >= 0; i--) {
+    if (!segments[i].disabled) { lastActiveIdx = i; break }
+  }
   const segTimings = segments.map((seg, i) => {
+    if (seg.disabled) return 0
     const fallback = i === 0 ? SHORT_HOOK_FRAMES : SHORT_FALLBACK
     // imageChangeAt이 있으면 이미지당 최소 2초 확보 (크로스페이드 0.5초 고려)
     const imageCount = seg.imageChangeAt
@@ -185,7 +192,7 @@ export function shortSegLayout(segments: ShortSegment[]) {
 
     const base = seg.duration ? toShortFrames(seg.duration) : fallback
     // 마지막 세그먼트: outro hold — 로고 전환 완충
-    const isLast = i === segments.length - 1
+    const isLast = i === lastActiveIdx
     const tailHold = isLast ? SHORT_OUTRO_HOLD : 0
     return Math.max(base, imageMinFrames) + tailHold
   })
@@ -193,7 +200,7 @@ export function shortSegLayout(segments: ShortSegment[]) {
   // 시작 순서: 훅이 첫 세그먼트일 때는 훅을 frame 0부터 재생하고,
   // 훅 종료 + 훅갭 직후 오프닝 리빌(인물·책 등장)을 삽입한다.
   // 훅이 없으면 기존 순서(리빌 → 세그먼트)로 폴백.
-  const hookFirst = segments[0]?.visual === 'hook'
+  const hookFirst = !segments[0]?.disabled && segments[0]?.visual === 'hook'
   const segStarts: number[] = []
   let revealStart = 0
   let cursor = 0
@@ -203,7 +210,10 @@ export function shortSegLayout(segments: ShortSegment[]) {
   for (let i = 0; i < segTimings.length; i++) {
     segStarts.push(cursor)
     const next = segments[i + 1]
-    const gap = !next
+    // disabled 세그먼트는 시간(segTimings=0)도 멈춤(gap)도 차지하지 않고 통째로 건너뛴다.
+    const gap = segments[i].disabled
+      ? 0
+      : !next
       ? SHORT_OUTRO_GAP
       : segments[i].visual === 'hook'
       ? SHORT_HOOK_GAP
@@ -213,7 +223,7 @@ export function shortSegLayout(segments: ShortSegment[]) {
       ? SHORT_PRE_CELEB_GAP
       : SHORT_GAP
     // 사용자 지정 추가 멈춤 — 자동 gap에 더해진다.
-    const extraGap = (segments[i].gapAfter && Number.isFinite(segments[i].gapAfter))
+    const extraGap = (!segments[i].disabled && segments[i].gapAfter && Number.isFinite(segments[i].gapAfter))
       ? Math.max(0, f(segments[i].gapAfter as number))
       : 0
     if (typeof window !== 'undefined' && extraGap > 0) {

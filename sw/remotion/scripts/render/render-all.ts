@@ -1,14 +1,16 @@
 /**
- * render-all.ts — 롱폼 + 쇼츠 MP4/SRT 일괄 렌더
+ * render-all.ts — 롱폼 + 쇼츠 + 솔로(1권 모드) MP4/SRT 일괄 렌더
  *
  * Usage:
  *   pnpm render:all                                       # 전체 에피소드
  *   pnpm render:all -- --episode alexander-the-great      # 특정 에피소드 (한/영 모두)
  *   pnpm render:all -- --only longform                    # 롱폼만
  *   pnpm render:all -- --only shorts                      # 쇼츠만
+ *   pnpm render:all -- --only solos                       # 솔로(1권 모드)만
  *   pnpm render:all -- --lang ko                          # 한국어만
  *   pnpm render:all -- --lang en                          # 영문만
  *   pnpm render:all -- --episode alex-karp --lang ko --only shorts  # 조합 가능
+ *   pnpm render:all -- --episode elon-musk --only solos --book-index 0  # 솔로 특정 책만
  */
 import { execSync, spawn } from 'child_process'
 import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from 'fs'
@@ -257,6 +259,12 @@ const shortsIndexFilter = shortsIndexFlag >= 0 ? parseInt(args[shortsIndexFlag +
 if (shortsIndexFilter !== null && (!Number.isInteger(shortsIndexFilter) || shortsIndexFilter < 1)) {
   throw new Error(`--shorts-index 옵션은 1 이상 정수만 허용한다 (입력: ${args[shortsIndexFlag + 1]})`)
 }
+// 1권 모드 솔로 책 인덱스 필터 (0-based)
+const bookIndexFlag = args.indexOf('--book-index')
+const bookIndexFilter = bookIndexFlag >= 0 ? parseInt(args[bookIndexFlag + 1], 10) : null
+if (bookIndexFilter !== null && (!Number.isInteger(bookIndexFilter) || bookIndexFilter < 0)) {
+  throw new Error(`--book-index 옵션은 0 이상 정수만 허용한다 (입력: ${args[bookIndexFlag + 1]})`)
+}
 
 const OUT_DIR = join(__dirname, '..', '..', 'out')
 mkdirSync(OUT_DIR, { recursive: true })
@@ -386,6 +394,17 @@ async function main() {
         totalJobs.push(`${p}-S${shortsIndex}-VID`)
       }
     }
+    // 1권 모드 솔로 — solos 배열 순회
+    if (!only || only === 'solos') {
+      const solosArr = ((script as any).solos ?? []) as Array<{ featuredBookIndex?: number }>
+      for (const so of solosArr) {
+        const idx = so?.featuredBookIndex
+        if (typeof idx !== 'number') continue
+        if (bookIndexFilter !== null && idx !== bookIndexFilter) continue
+        const num = String(idx + 1).padStart(2, '0')
+        totalJobs.push(`${p}-B${num}-VID`)
+      }
+    }
   }
 
   console.log(`\n${'═'.repeat(60)}`)
@@ -447,6 +466,27 @@ async function main() {
         const srtPath = join(epDir, `${suffix}-VID.srt`)
         writeFileSync(srtPath, srt, 'utf-8')
         console.log(`  ✓ SRT: ${srtPath}`)
+      }
+    }
+
+    // 1권 모드 솔로 — solos 배열 순회. 컴포지션 ID: {Pascal}-{LANG}-B{NN}-VID
+    if (!only || only === 'solos') {
+      const solosArr = ((script as any).solos ?? []) as Array<{ featuredBookIndex?: number }>
+      for (const so of solosArr) {
+        const idx = so?.featuredBookIndex
+        if (typeof idx !== 'number') continue
+        if (bookIndexFilter !== null && idx !== bookIndexFilter) continue
+        const num = String(idx + 1).padStart(2, '0')
+        const suffix = `B${num}`
+        const compId = `${compPrefix}-${suffix}-VID`
+        jobIdx++
+        console.log(`\n${'─'.repeat(60)}`)
+        console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 솔로 렌더: ${compId} [${ts()}]`)
+        console.log(`${'─'.repeat(60)}`)
+        const mp4 = join(epDir, `${suffix}-VID.mp4`)
+        await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
+        console.log(`  ✓ 솔로 완료 [${ts()}]`)
+        // 솔로 SRT는 음성 파이프라인 통합 후 별도 빌더 추가. wav 없는 단계에서는 SRT 생략.
       }
     }
   }

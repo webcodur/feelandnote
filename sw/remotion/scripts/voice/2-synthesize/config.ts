@@ -11,7 +11,12 @@ export type Voice = string
 export type Role = 'narrator' | 'summary' | 'celeb'
 
 // --- Gemini 모델 ---
-export const MODEL = 'gemini-2.5-flash-preview-tts'
+// gemini-v3 엔진 선택 시 3.1 flash TTS(200+ audio tag, 70+ 언어). 그 외 기본 2.5 flash preview TTS.
+// 실제 선택은 cli.ts의 GEMINI_MODEL(--engine 값 기반). BO 미리듣기 라우트의 MODEL과 값이 일치해야 한다.
+export const MODEL_GEMINI_25 = 'gemini-2.5-flash-preview-tts'
+export const MODEL_GEMINI_31 = 'gemini-3.1-flash-tts-preview'
+/** @deprecated 기본 모델 별칭 — 신규 코드는 cli.GEMINI_MODEL 사용 */
+export const MODEL = MODEL_GEMINI_25
 
 // --- 보이스 역할 ---
 // VOICE.celeb은 episode.host.geminiVoice 가 있으면 main()에서 오버라이드된다.

@@ -62,6 +62,7 @@ export async function tts(
   voiceMeta?: VoiceMeta,
   forceGemini?: boolean,
   elevenlabsVoiceIdOverride?: string,
+  stylePrefixOverride?: string,
 ): Promise<number> {
   const text = rawText.replace(/\n/g, ' ')
   const episode = ep()
@@ -83,8 +84,12 @@ export async function tts(
   }
 
   // 스타일 prefix 결정 — 정책은 ../2-synthesize.ts 헤더 참조
+  // 롱폼 구간별 voiceStyles 오버라이드가 있으면 role 분기를 건너뛰고 그대로 사용.
+  // 빈 문자열('')도 명시적 옵트아웃으로 인정해 prefix 없이 합성한다.
   let stylePrefix = ''
-  if (role === 'celeb' && !forceGemini) {
+  if (stylePrefixOverride !== undefined) {
+    stylePrefix = stylePrefixOverride
+  } else if (role === 'celeb' && !forceGemini) {
     // celeb (쇼츠 celeb-mid + 롱폼 celeb): host.voiceStyle만 적용
     stylePrefix = episode.host.voiceStyle || ''
   } else if (forceGemini) {

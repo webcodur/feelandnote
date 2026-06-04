@@ -22,8 +22,14 @@ export type { Sub } from './sentence-split'
  */
 export const stripCaptionPunct = (s: string) => s.replace(/\./g, '').replace(/,\s*$/, '')
 
-/** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용 */
-export const sf = (path: string) => staticFile(path)
+/** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용.
+ *  이미 변환된 경로(staticFile prefix·외부 URL·인라인 데이터)는 그대로 통과시켜
+ *  이중 prefix("already prefixed with the static base") throw를 막는다. */
+export const sf = (path: string) => {
+  if (!path) return path
+  if (/^(https?:|blob:|data:|\/)/.test(path)) return path
+  return staticFile(path)
+}
 
 /**
  * dB 게인 → 곱셈 인자. BO `GainDbInput`이 저장하는 *GainDb 값을 Remotion `<Audio volume>`에 그대로 넘긴다.
@@ -53,7 +59,6 @@ const PLACEHOLDER = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAA
 /** Remotion <Img>의 빈 src 방어 + 로컬 경로 자동 변환 */
 export const safeImg = (src?: string) => {
   if (!src) return PLACEHOLDER
-  if (src.startsWith('http') || src.startsWith('data:')) return src
   return sf(src)
 }
 

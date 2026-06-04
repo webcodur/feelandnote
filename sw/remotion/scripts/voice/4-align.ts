@@ -22,7 +22,7 @@ import {
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   VN_RETURN_INTRO, VN_INTERLUDE,
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
-  vnShort, vnTimingKey, resolveVoiceRelPath,
+  vnShort, vnSolo, vnTimingKey, resolveVoiceRelPath,
 } from '../../src/compositions/BookRecommend/voice-names'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath, isNewLayout, loadEpisode } from '../lib/episode.js'
 
@@ -389,6 +389,37 @@ function analyzeWithSilence(
 }
 
 // --- 텍스트 조회 ---
+/** SOLO 마디 표시 텍스트 — buildSoloSegments(solo-build.ts) 와 동일 규약.
+ *  정형부(greeting/intro/title/outro)는 책·인물 데이터로 동적 생성,
+ *  자유섹션은 episode._soloSections 에서 id 매칭. 없으면 null(=스킵). */
+function getSoloDisplayText(episode: any, segId: string): string | null {
+  const book = episode._soloBook
+  if (!book) return null
+  const host = episode.host ?? {}
+  const narrator = episode.narrator ?? {}
+  const title = book.title ?? ''
+  const creator = book.creator ?? ''
+  const nickname = host.nickname ?? ''
+  const isEn = episode.locale === 'en'
+  switch (segId) {
+    case 'greeting': return narrator.serviceGreeting ?? null
+    case 'intro':
+      return isEn
+        ? `Today's book — ${title} by ${creator}, brought to you by ${host.nickname_en ?? nickname}.`
+        : `오늘의 한 권은 ${nickname}의 서재에서 꺼낸 ${title}입니다.`
+    case 'title': return `${title}\n${creator}`
+    case 'outro':
+      return isEn
+        ? `That was ${title}, one book from ${host.nickname_en ?? nickname}'s shelf.`
+        : `이상으로 ${nickname}의 한 권, ${title}이었습니다.`
+    default: {
+      const sections = (episode._soloSections ?? []) as Array<{ id: string; text?: string }>
+      const s = sections.find(x => x.id === segId)
+      return s?.text ?? null
+    }
+  }
+}
+
 /** 화면 표시용 텍스트 (TTS 오버라이드 무시). 문장 분할 기준으로 사용 */
 function getDisplayText(episode: any, textField: string, bookIndex?: number): string | null {
   if (bookIndex !== undefined) {
@@ -407,6 +438,11 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
     case 'serviceGreeting': return episode.narrator.serviceGreeting
     case 'serviceIntro': return episode.narrator.serviceIntro
     default:
+      // textField: 'solo-{segId}' — buildSoloSegments(solo-build.ts) 와 동일 규약.
+      // 정형부(greeting/intro/title/outro)는 책·인물 데이터로 동적 생성, 그 외는 _soloSections id 매칭.
+      if (textField.startsWith('solo-')) {
+        return getSoloDisplayText(episode, textField.slice('solo-'.length))
+      }
       // textField: 'short-{shortsIdx}-{segId}' — shortsIdx는 1-based
       if (textField.startsWith('short-')) {
         const rest = textField.replace('short-', '')
@@ -428,7 +464,7 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
 const args = process.argv.slice(2)
 
 // 허용 플래그 검증 — 오타·미지원 플래그 유입 방지
-const KNOWN_FLAGS = new Set(['--episode', '--only', '--exclude', '--shorts', '--long', '--update-json', '--export-debug'])
+const KNOWN_FLAGS = new Set(['--episode', '--only', '--exclude', '--shorts', '--solo', '--long', '--update-json', '--export-debug'])
 for (const arg of args) {
   if (arg === '--') continue
   if (arg.startsWith('--') && !KNOWN_FLAGS.has(arg)) {
@@ -445,15 +481,16 @@ const excludeFilter = excludeIdx >= 0 ? args[excludeIdx + 1].split(',') : null
 const updateJson = args.includes('--update-json')
 const exportDebug = args.includes('--export-debug')
 
-const USAGE = 'Usage: pnpm voice:align -- --episode <name> (--long | --shorts <N>) [--only file1,file2] [--exclude file1,file2] [--update-json] [--export-debug]'
+const USAGE = 'Usage: pnpm voice:align -- --episode <name> (--long | --shorts <N> | --solo <N>) [--only file1,file2] [--exclude file1,file2] [--update-json] [--export-debug]'
 
 if (!epName) {
   console.error(USAGE)
   process.exit(1)
 }
 
-// 단일 타겟 스코프: --long 또는 --shorts <N> 정확히 하나 필수
+// 단일 타겟 스코프: --long / --shorts <N> / --solo <N> 정확히 하나 필수
 const SHORTS_FLAG_IDX = args.indexOf('--shorts')
+const SOLO_FLAG_IDX = args.indexOf('--solo')
 const HAS_LONG_FLAG = args.includes('--long')
 let SHORTS_INDEX: number | null = null
 if (SHORTS_FLAG_IDX >= 0) {
@@ -466,8 +503,21 @@ if (SHORTS_FLAG_IDX >= 0) {
   }
   SHORTS_INDEX = parsed
 }
-if (HAS_LONG_FLAG === (SHORTS_INDEX !== null)) {
-  console.error('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.')
+// SOLO_BOOK_INDEX: 1-based 책 인덱스 (--solo <N>)
+let SOLO_BOOK_INDEX: number | null = null
+if (SOLO_FLAG_IDX >= 0) {
+  const raw = args[SOLO_FLAG_IDX + 1]
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    console.error(`✗ --solo 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
+    console.error(`  ${USAGE}`)
+    process.exit(1)
+  }
+  SOLO_BOOK_INDEX = parsed
+}
+const SCOPE_COUNT = (HAS_LONG_FLAG ? 1 : 0) + (SHORTS_INDEX !== null ? 1 : 0) + (SOLO_BOOK_INDEX !== null ? 1 : 0)
+if (SCOPE_COUNT !== 1) {
+  console.error('✗ --long / --shorts <N> / --solo <N> 중 정확히 하나만 지정해야 한다.')
   console.error(`  ${USAGE}`)
   process.exit(1)
 }
@@ -594,12 +644,43 @@ if (SHORTS_INDEX !== null) {
 }
 // --long 일 때는 episode.shorts가 빈 배열로 유지된다 (shorts 처리 전부 생략)
 
+// 솔로 스코프 — 대상 책 + 자유섹션 로드 (getSoloDisplayText 가 참조)
+let SOLO_MARKER_IDS: string[] = []
+if (SOLO_BOOK_INDEX !== null) {
+  const bookIdx0 = SOLO_BOOK_INDEX - 1
+  const soloBook = episode.books[bookIdx0]
+  if (!soloBook) {
+    console.error(`✗ --solo ${SOLO_BOOK_INDEX}: 책이 없다 (책 ${episode.books.length}권)`)
+    process.exit(1)
+  }
+  episode._soloBook = soloBook
+  // solo.{locale}.json sections 로드 (신구조 책 폴더). 없으면 정형부만.
+  let soloSections: Array<{ id: string; text?: string }> = []
+  if (NEW_LAYOUT && BOOK_FOLDERS[bookIdx0]) {
+    const soloFp = join(episodeDir, 'books', BOOK_FOLDERS[bookIdx0], `solo.${epLocale}.json`)
+    if (existsSync(soloFp)) {
+      try {
+        const raw = JSON.parse(readFileSync(soloFp, 'utf-8'))
+        soloSections = (Array.isArray(raw) ? raw : raw.sections) ?? []
+      } catch { /* corrupt → 정형부만 */ }
+    }
+  }
+  episode._soloSections = soloSections
+  // buildSoloSegments(solo-build.ts) 마디 전체 순서: [greeting?] → intro → title → 자유섹션 → outro
+  if (episode.narrator?.serviceGreeting) SOLO_MARKER_IDS.push('greeting')
+  SOLO_MARKER_IDS.push('intro', 'title')
+  for (const s of soloSections) {
+    if ((s.text ?? '').trim()) SOLO_MARKER_IDS.push(s.id)
+  }
+  SOLO_MARKER_IDS.push('outro')
+}
+
 // 분석 대상
 type Target = { file: string; textField: string; bookIndex?: number }
 const targets: Target[] = []
 
 // 단일 타겟 스코프 — 롱폼 타겟은 --long 일 때만 push
-if (SHORTS_INDEX === null) {
+if (HAS_LONG_FLAG) {
   if (episode.narrator.serviceGreeting) {
     targets.push({ file: VN_SERVICE_GREETING, textField: 'serviceGreeting' })
   }
@@ -621,6 +702,18 @@ if (SHORTS_INDEX === null) {
       if (pair.after) targets.push({ file: vnBookAfter(i, pi), textField: `after:${pi}`, bookIndex: i })
     }
   }
+}
+
+// 솔로 타겟 — 마디 전체 순서대로 vnSolo(bookIdx0, segIdx, segId). wav 없는 타겟은
+// 처리 루프에서 detectSilences 가 던지는 예외로 자연 스킵된다(graceful).
+if (SOLO_BOOK_INDEX !== null) {
+  const bookIdx0 = SOLO_BOOK_INDEX - 1
+  SOLO_MARKER_IDS.forEach((segId, segIdx) => {
+    targets.push({
+      file: vnSolo(bookIdx0, segIdx, segId),
+      textField: `solo-${segId}`,
+    })
+  })
 }
 
 // 옵션 2: shorts 배열은 외부 파일에서 이미 로드됨. shortsIdx는 1-based
@@ -669,9 +762,15 @@ for (const target of filtered) {
   const locale = episode.locale === 'en' ? 'en' as const : 'ko' as const
   const { dir, subPath } = resolveVoiceRelPath(target.file, voiceSelect, locale, !!episode.host?.elevenlabsVoiceId)
   const commonLocale = episode.locale === 'en' ? 'en' : 'ko'
-  const wavPath = dir === 'common'
+  let wavPath = dir === 'common'
     ? join(ROOT, 'public', 'common', 'voice', commonLocale, subPath)
     : join(voiceBaseDir, subPath)
+  // 엔진 폴백 — voice-select default 엔진 경로에 없으면 elevenlabs 쪽 동일 상대 경로를 시도.
+  // 솔로 actor 마디(elevenlabs 전용)처럼 default(gemini) 경로에 없는 파일을 잡는다.
+  if (dir === 'episode' && !existsSync(wavPath)) {
+    const elePath = join(voiceBaseDir, 'elevenlabs', target.file)
+    if (existsSync(elePath)) wavPath = elePath
+  }
   const displayText = getDisplayText(episode, target.textField, target.bookIndex)
 
   if (!displayText) {

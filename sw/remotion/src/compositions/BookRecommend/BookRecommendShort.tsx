@@ -99,8 +99,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   useEffect(() => {
     if (!hasVoice) return
     const audioUrls = [
-      ...segments.flatMap((seg, i) => seg.duration ? [vf(vnShort(i, seg.id, shortsIndex))] : []),
-      ...segments.flatMap(seg => (seg.sfx ?? []).map(sx =>
+      ...segments.flatMap((seg, i) => seg.duration && !seg.disabled ? [vf(vnShort(i, seg.id, shortsIndex))] : []),
+      ...segments.flatMap(seg => seg.disabled ? [] : (seg.sfx ?? []).map(sx =>
         sf(sx.file.startsWith('episodes/') ? sx.file : `${sfxBase}/${sx.file}`),
       )),
     ]
@@ -125,8 +125,10 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   }, [segments.length, hasVoice, epName])
 
   // --- helpers ---
-  const introIdx = segments.findIndex(s => s.id === 'intro')
+  const introIdx = segments.findIndex(s => s.id === 'intro' && !s.disabled)
   const segOp = (i: number) => {
+    // 영상 제외 세그먼트 — 자막·우상단·텍스트오버레이·인용출처가 모두 segOp 기반이라 여기서 한 번에 차단.
+    if (segments[i]?.disabled) return 0
     if (i === 0) {
       // 훅이 영상 첫 프레임에 등장할 수 있어 페이드인을 0.3초 부여한다.
       // segStarts[0]이 0이 아닐 때(폴백 흐름)도 동작하도록 Math.max로 클램프.
@@ -152,7 +154,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     [0, 1, 1, 0], CL,
   )
 
-  const bookSegIdx = segments.findIndex(s => s.visual === 'book')
+  const bookSegIdx = segments.findIndex(s => s.visual === 'book' && !s.disabled)
   const bookStart = bookSegIdx >= 0 ? segStarts[bookSegIdx] : 0
   const coverScale = spring({
     frame: Math.max(0, frame - bookStart - f(0.1)), fps,
@@ -200,6 +202,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       groups.push({ image, start, noZoom })
     }
     segments.forEach((seg, i) => {
+      if (seg.disabled) return  // 영상 제외 세그먼트의 배경 이미지는 그룹에 넣지 않는다.
       // 줌인: zoomIn === false면 강제 OFF. 그 외(true/undefined)는 ON.
       const segNoZoom = seg.zoomIn === false
       // seg.image 없음(dedup) → 직전 그룹의 이미지를 승계. 승계할 이미지도 없으면 skip.
@@ -280,27 +283,28 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           if (change.text) {
             const normAnchor = stripPunct(change.text)
             let matched = false
-            // 1순위: word-level 매칭 (Whisper word-timing — 단어 단위 정확. sub가 1개로
-            //   거칠게 묶인 경우도 단어 단위로 정확히 짚는다.)
-            if (hasWordLevel && normAnchor) {
-              const pos = wordFullText.indexOf(normAnchor)
+            // 1순위: sub-level 매칭 — 유저가 VoiceTimingEditor 에서 sub 경계(cyan 선)를 옮긴 교정값을
+            //   존중. words(Whisper 자동) 보다 우선해야 수동 수정이 영상에 반영된다.
+            //   anchor-resolve.ts 의 resolveAnchorTime 과 동일 정책.
+            if (hasSubLevel && normAnchor) {
+              const pos = subFullText.indexOf(normAnchor)
               if (pos !== -1) {
-                for (let j = wordPositions.length - 1; j >= 0; j--) {
-                  if (pos >= wordPositions[j].offset) {
-                    resolved = wordPositions[j].start
+                for (let j = subPositions.length - 1; j >= 0; j--) {
+                  if (pos >= subPositions[j].offset) {
+                    resolved = subPositions[j].start
                     matched = true
                     break
                   }
                 }
               }
             }
-            // 2순위: sub-level 매칭 (word 없을 때 — 자막 sub 경계 사용)
-            if (!matched && hasSubLevel && normAnchor) {
-              const pos = subFullText.indexOf(normAnchor)
+            // 2순위: word-level 매칭 (Whisper word-timing — sub 가 없거나 매칭 실패 시 단어 단위 정밀 폴백)
+            if (!matched && hasWordLevel && normAnchor) {
+              const pos = wordFullText.indexOf(normAnchor)
               if (pos !== -1) {
-                for (let j = subPositions.length - 1; j >= 0; j--) {
-                  if (pos >= subPositions[j].offset) {
-                    resolved = subPositions[j].start
+                for (let j = wordPositions.length - 1; j >= 0; j--) {
+                  if (pos >= wordPositions[j].offset) {
+                    resolved = wordPositions[j].start
                     matched = true
                     break
                   }
@@ -344,7 +348,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     })
     // 책 세그먼트에 seg.image가 없으면서 bookBg(폴백)이 있으면 가상 그룹으로 추가.
     // hook/intro 이미지에서 자연스럽게 cross-fade 되도록 하기 위함.
-    const bookHasImage = segments.some(s => s.visual === 'book' && s.image)
+    const bookHasImage = segments.some(s => s.visual === 'book' && s.image && !s.disabled)
     if (bookSegIdx >= 0 && !bookHasImage && shorts?.bookBg) {
       const bookBgPath = resolveImageFile(epName, shorts.bookBg)
       push(bookBgPath, segStarts[bookSegIdx], segments[bookSegIdx]?.zoomIn === false)
@@ -380,7 +384,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       text: seg.text ?? '',
       startFrame: segStarts[i],
       durationFrames: segTimings[i],
-      sfx: seg.sfx,
+      sfx: seg.disabled ? undefined : seg.sfx,  // 영상 제외 세그먼트의 효과음은 재생하지 않는다.
       keyPrefix: `sfx-${i}`,
     }))
     return buildSfxRenderItems({
@@ -395,7 +399,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
     <AbsoluteFill style={{ backgroundColor: DARK.base }}>
       {/* BGM (쇼츠별) — 마지막 대사 오디오 끝 이후 볼륨 100% */}
       {shorts?.bgm?.length && (() => {
-        const lastVoice = [...segments.entries()].filter(([, s]) => (s.duration ?? 0) > 0).at(-1)
+        const lastVoice = [...segments.entries()].filter(([, s]) => (s.duration ?? 0) > 0 && !s.disabled).at(-1)
         const voiceEndFrame = lastVoice != null ? segStarts[lastVoice[0]] + segTimings[lastVoice[0]] : undefined
         return <BgmAudio tracks={shorts.bgm} totalFrames={compFrames} voiceEndFrame={voiceEndFrame} />
       })()}
@@ -448,7 +452,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
 
       {/* audio — segments (hook은 rise 중 겹쳐서 시작) */}
       {hasVoice && segments.map((seg, i) => {
-        if (!seg.duration) return null
+        if (!seg.duration || seg.disabled) return null
         const audioFrom = i === 0 ? Math.max(0, segStarts[i] - f(0.15)) : segStarts[i]
         return (
           <Sequence key={seg.id} from={audioFrom} durationInFrames={segTimings[i]}>
@@ -828,7 +832,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       {/* ── 훅 시각 신호: 화면 가장자리 골드 vignette 펄스 + chime ──
             훅 텍스트는 일반 자막으로 처리. 훅임을 알 수 있게 가장자리에서 골드 빛이 옅게 호흡한다. */}
       {(() => {
-        const hookIdx = segments.findIndex(s => s.visual === 'hook')
+        const hookIdx = segments.findIndex(s => s.visual === 'hook' && !s.disabled)
         if (hookIdx < 0) return null
         const hookStart = segStarts[hookIdx]
         const hookEnd = hookStart + segTimings[hookIdx]

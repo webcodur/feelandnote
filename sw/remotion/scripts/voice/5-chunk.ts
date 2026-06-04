@@ -36,7 +36,7 @@ const dryRun = args.includes('--dry-run')
 const strictMode = args.includes('--strict')
 
 const MIN_SUB_LEN = 30  // 4-align.ts(analyze) 경고 기준과 동일
-const MAX_SUB_CHUNK_LEN = 35  // 개별 sub 청크 최대 길이 — 초과 시 재분할 보고
+const MAX_SUB_CHUNK_LEN = 50  // 개별 sub 청크 최대 길이 — 초과 시 재분할 보고
 
 if (!epName) {
   console.error('Usage: pnpm voice:chunk -- --episode <name> [--input subs.json] [--check] [--dry-run] [--strict]')

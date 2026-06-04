@@ -8,11 +8,13 @@
 단일 타겟 스코프:
   --long          : 롱폼(공용/도서/아웃트로)만
   --shorts <N>    : 쇼츠 {N}번 한 개만 (1-based)
-  두 플래그 중 정확히 하나 필수.
+  --solo <N>      : 1권 모드(SOLO) {N}번 책 한 권만 (1-based)
+  세 플래그 중 정확히 하나 필수.
 
 Usage:
   python scripts/voice/2-whisper.py --episode yi-sun-sin --long
   python scripts/voice/2-whisper.py --episode yi-sun-sin --shorts 1
+  python scripts/voice/2-whisper.py --episode elon-musk-ko --solo 1
   python scripts/voice/2-whisper.py --episode yi-sun-sin --long --only D05c-context
   python scripts/voice/2-whisper.py --episode yi-sun-sin --shorts 1 --only S01-hook
 """
@@ -191,6 +193,75 @@ def load_shorts_content(episode_dir, base_lang, shorts_index):
     return cfg
 
 
+def load_solo_sections(episode_dir, base_lang, solo_index):
+    """1권 모드(SOLO) 자유섹션 로드 — 신구조 books/{NN-*}/solo.{lang}.json.
+
+    solo_index 는 1-based 책 인덱스. 정렬된 책 폴더의 solo_index 번째 폴더에서 solo.{lang}.json 의
+    sections 배열을 읽는다. 파일이 없으면 빈 배열(정형부만으로 회차 구성).
+    반환: (sections list, book_folder name)
+    """
+    book_folders = _list_book_folders(episode_dir)
+    if solo_index < 1 or solo_index > len(book_folders):
+        print(f'✗ solo 인덱스 {solo_index} 가 범위 밖: 책 {len(book_folders)}권 존재', file=sys.stderr)
+        sys.exit(1)
+    folder = book_folders[solo_index - 1]
+    p = os.path.join(episode_dir, 'books', folder, f'solo.{base_lang}.json')
+    if not os.path.exists(p):
+        return [], folder
+    with open(p, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    sections = data.get('sections') if isinstance(data, dict) else data
+    return (sections or []), folder
+
+
+def solo_display_text(ep, key):
+    """SOLO 키 → 화면 표시 텍스트. 키 형식 'solo-B{NN}/S{nn}-{segId}'.
+
+    정형부(greeting/intro/title/outro)는 책·인물 데이터에서 동적 생성하고,
+    그 외 segId 는 solo.{lang}.json sections 에서 id 매칭한다. 없으면 None(=스킵).
+
+    buildSoloSegments(solo-build.ts) 와 동일 규약:
+      greeting → narrator.serviceGreeting
+      intro    → `오늘의 한 권은 {host.nickname}의 서재에서 꺼낸 {book.title}입니다.`
+      title    → `{book.title}\n{book.creator}`
+      outro    → `이상으로 {host.nickname}의 한 권, {book.title}이었습니다.`
+    """
+    m = re.match(r'^solo-B(\d{2})/S\d{2}-(.+)$', key)
+    if not m:
+        return None
+    book_idx = int(m.group(1)) - 1
+    seg_id = m.group(2)
+    books = ep.get('books', [])
+    if book_idx >= len(books):
+        return None
+    book = books[book_idx]
+    host = ep.get('host', {})
+    narrator = ep.get('narrator', {})
+    title = book.get('title', '')
+    creator = book.get('creator', '')
+    nickname = host.get('nickname', '')
+    is_en = ep.get('locale') == 'en'
+
+    if seg_id == 'greeting':
+        return narrator.get('serviceGreeting')
+    if seg_id == 'intro':
+        if is_en:
+            return f"Today's book — {title} by {creator}, brought to you by {host.get('nickname_en', nickname)}."
+        return f'오늘의 한 권은 {nickname}의 서재에서 꺼낸 {title}입니다.'
+    if seg_id == 'title':
+        return f'{title}\n{creator}'
+    if seg_id == 'outro':
+        if is_en:
+            return f"That was {title}, one book from {host.get('nickname_en', nickname)}'s shelf."
+        return f'이상으로 {nickname}의 한 권, {title}이었습니다.'
+
+    # 자유섹션 — solo sections 에서 id 매칭
+    for s in ep.get('_soloSections', []):
+        if s.get('id') == seg_id:
+            return s.get('text')
+    return None
+
+
 def get_display_text(ep, key):
     """WAV 파일 키(확장자 없음) → 화면 표시용 원문 텍스트 추출.
 
@@ -199,7 +270,10 @@ def get_display_text(ep, key):
       - 'D{NN}a-title', 'D{NN}b-summary', 'D{NN}c-context'
       - 'D{NN}d{N}-quote', 'D{NN}d{N}-after' (quotePairs 동적 배열)
       - 'shorts-{N}/S{NN}-{segId}' (옵션 2: 접두사 필수)
+      - 'solo-B{NN}/S{nn}-{segId}' (1권 모드)
     """
+    if key.startswith('solo-B'):
+        return solo_display_text(ep, key)
     if key == 'A1-service-greeting': return ep.get('narrator', {}).get('serviceGreeting')
     if key == 'A2-service-intro': return ep.get('narrator', {}).get('serviceIntro')
     if key == 'B1-celeb-intro': return ep.get('narrator', {}).get('celebIntro')
@@ -489,19 +563,25 @@ def main():
     parser.add_argument('--episode', required=True)
     parser.add_argument('--model', default='base')
     parser.add_argument('--only', default=None, help='쉼표 구분. 키 contains 매칭 (e.g. D05c-context,S01-hook)')
-    parser.add_argument('--shorts', type=int, default=None, help='쇼츠 번호 (1-based). --long 과 동시 지정 불가')
-    parser.add_argument('--long', action='store_true', help='롱폼만 처리. --shorts 와 동시 지정 불가')
+    parser.add_argument('--shorts', type=int, default=None, help='쇼츠 번호 (1-based). --long/--solo 와 동시 지정 불가')
+    parser.add_argument('--solo', type=int, default=None, help='1권 모드 책 번호 (1-based). --long/--shorts 와 동시 지정 불가')
+    parser.add_argument('--long', action='store_true', help='롱폼만 처리. --shorts/--solo 와 동시 지정 불가')
     args = parser.parse_args()
 
-    # 단일 타겟 스코프 — 정확히 하나 필수
+    # 단일 타겟 스코프 — --long / --shorts / --solo 중 정확히 하나 필수
     is_long = bool(args.long)
     shorts_index = args.shorts  # None 또는 int
-    if is_long == (shorts_index is not None):
-        print('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.', file=sys.stderr)
-        print('  사용: python scripts/voice/2-whisper.py --episode <name> (--long | --shorts <N>)', file=sys.stderr)
+    solo_index = args.solo      # None 또는 int
+    scope_count = sum([is_long, shorts_index is not None, solo_index is not None])
+    if scope_count != 1:
+        print('✗ --long / --shorts <N> / --solo <N> 중 정확히 하나만 지정해야 한다.', file=sys.stderr)
+        print('  사용: python scripts/voice/2-whisper.py --episode <name> (--long | --shorts <N> | --solo <N>)', file=sys.stderr)
         sys.exit(1)
     if shorts_index is not None and shorts_index < 1:
         print(f'✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: {shorts_index}', file=sys.stderr)
+        sys.exit(1)
+    if solo_index is not None and solo_index < 1:
+        print(f'✗ --solo 인자는 1 이상 정수여야 한다. 받은 값: {solo_index}', file=sys.stderr)
         sys.exit(1)
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -525,8 +605,13 @@ def main():
         short_cfg = load_shorts_content(episode_dir, base_lang, shorts_index)
         ep['shorts'] = [short_cfg]
     else:
-        # 롱폼 스코프에서는 쇼츠 데이터를 참조하지 않는다
+        # 롱폼/솔로 스코프에서는 쇼츠 데이터를 참조하지 않는다
         ep['shorts'] = []
+
+    # 솔로 자유섹션 로드 — solo_display_text 가 _soloSections 에서 id 매칭한다
+    if solo_index is not None:
+        solo_sections, _solo_folder = load_solo_sections(episode_dir, base_lang, solo_index)
+        ep['_soloSections'] = solo_sections
 
     vs_path = os.path.join(voice_dir, 'voice-select.json')
     vs = None
@@ -542,10 +627,22 @@ def main():
     if is_long:
         # 롱폼: default_dir 바로 밑 *.wav (서브디렉토리 제외)
         wav_files = sorted(glob.glob(os.path.join(default_dir, '*.wav')))
-    else:
+    elif shorts_index is not None:
         # 쇼츠 N: default_dir/shorts-{N}/*.wav 만
         shorts_sub = os.path.join(default_dir, f'shorts-{shorts_index}')
         wav_files = sorted(glob.glob(os.path.join(shorts_sub, '*.wav')))
+    else:
+        # 솔로 N: default_dir/solo-B{NN}/*.wav (gemini) + elevenlabs 쪽도 함께 스캔
+        solo_nn = f'{solo_index:02d}'
+        solo_sub = os.path.join(default_dir, f'solo-B{solo_nn}')
+        wav_files = sorted(glob.glob(os.path.join(solo_sub, '*.wav')))
+        ele_solo_sub = os.path.join(voice_dir, 'elevenlabs', f'solo-B{solo_nn}')
+        if os.path.isdir(ele_solo_sub):
+            existing_solo_keys = {path_to_key(f, default_dir) for f in wav_files}
+            for ef in sorted(glob.glob(os.path.join(ele_solo_sub, '*.wav'))):
+                if path_to_key(ef, default_dir) not in existing_solo_keys:
+                    wav_files.append(ef)
+            wav_files = sorted(wav_files)
 
     # voice-select slots 처리 — 특정 파일을 다른 엔진에서 가져온다 (키는 'shorts-N/...' 또는 basename)
     if vs and vs.get('slots'):
@@ -556,9 +653,12 @@ def main():
                 continue
             # 스코프와 맞는 slot만 교체 대상
             slot_is_shorts = slot_rel.startswith('shorts-')
-            if is_long and slot_is_shorts:
+            slot_is_solo = slot_rel.startswith('solo-B')
+            if is_long and (slot_is_shorts or slot_is_solo):
                 continue
             if shorts_index is not None and not slot_rel.startswith(f'shorts-{shorts_index}/'):
+                continue
+            if solo_index is not None and not slot_rel.startswith(f'solo-B{solo_index:02d}/'):
                 continue
             # default_engine 쪽 같은 상대 경로 파일은 제거 (교체)
             default_slot_path = os.path.join(default_dir, slot_rel)
@@ -578,7 +678,10 @@ def main():
                     wav_files = [f for f in wav_files if os.path.normpath(f) != os.path.normpath(wf)]
                     wav_files.append(ele_path)
         # 2) default_dir에 placeholder 없이 elevenlabs에만 있는 celeb 파일 — 추가 발견
-        if is_long:
+        #    솔로는 위 WAV 스캔에서 이미 elevenlabs/solo-B{NN} 를 합쳤으므로 여기서는 건너뛴다.
+        if solo_index is not None:
+            ele_candidates = []
+        elif is_long:
             ele_candidates = sorted(glob.glob(os.path.join(ele_dir, '*.wav')))
         else:
             ele_candidates = sorted(glob.glob(os.path.join(ele_dir, f'shorts-{shorts_index}', '*.wav')))
@@ -590,7 +693,7 @@ def main():
         wav_files = sorted(wav_files)
 
     if not wav_files:
-        scope_label = '--long' if is_long else f'--shorts {shorts_index}'
+        scope_label = '--long' if is_long else (f'--shorts {shorts_index}' if shorts_index is not None else f'--solo {solo_index}')
         print(f'WAV 파일 없음 ({scope_label}): {default_dir}')
         sys.exit(1)
 
@@ -617,7 +720,7 @@ def main():
                     valid_keys.add(f'D{idx}d{qi*2+1}-quote')
                 if pair.get('after'):
                     valid_keys.add(f'D{idx}d{qi*2+2}-after')
-    else:
+    elif shorts_index is not None:
         # 쇼츠 N — 해당 쇼츠의 segments 만
         short_cfg = ep['shorts'][0]
         si = 0
@@ -627,6 +730,22 @@ def main():
                 continue
             valid_keys.add(f'shorts-{shorts_index}/S{si+1:02d}-{seg["id"]}')
             si += 1
+    else:
+        # 솔로 N — buildSoloSegments(solo-build.ts) 마디 전체 순서대로 키 생성.
+        #   [greeting?] → intro → title → 자유섹션(빈 텍스트 제외) → outro
+        # nn 은 1-based 전체 마디 인덱스. vnSolo(bookIndex, segIndex, segId) 와 동일.
+        solo_nn = f'{solo_index:02d}'
+        marker_ids = []
+        if ep.get('narrator', {}).get('serviceGreeting'):
+            marker_ids.append('greeting')
+        marker_ids.append('intro')
+        marker_ids.append('title')
+        for s in ep.get('_soloSections', []):
+            if (s.get('text') or '').strip():
+                marker_ids.append(s['id'])
+        marker_ids.append('outro')
+        for seg_i, seg_id in enumerate(marker_ids):
+            valid_keys.add(f'solo-B{solo_nn}/S{seg_i+1:02d}-{seg_id}')
 
     # --- 잔존 WAV 감지 ---
     orphaned = [f for f in wav_files if path_to_key(f, default_dir) not in valid_keys]
@@ -641,7 +760,7 @@ def main():
         filters = [s.strip() for s in args.only.split(',') if s.strip()]
         wav_files = [f for f in wav_files if any(flt in path_to_key(f, default_dir) for flt in filters)]
 
-    scope_label = '롱폼' if is_long else f'쇼츠 {shorts_index}'
+    scope_label = '롱폼' if is_long else (f'쇼츠 {shorts_index}' if shorts_index is not None else f'솔로 B{solo_index:02d}')
     print(f'에피소드: {args.episode} ({scope_label})')
     print(f'모델: {args.model} (whisperx + diff-match-patch)')
     print(f'{len(wav_files)}개 WAV 분석\n')
@@ -715,16 +834,25 @@ def main():
             existing_targets = {}
 
     if is_long:
-        # 롱폼 스코프: 쇼츠 데이터는 그대로, 롱폼은 valid_keys 교집합만 남기고 신규 결과로 덮어씀
+        # 롱폼 스코프: 쇼츠·솔로 데이터는 그대로, 롱폼은 valid_keys 교집합만 남기고 신규 결과로 덮어씀
         def in_scope(k):
-            return not k.startswith('shorts-')
+            return not (k.startswith('shorts-') or k.startswith('solo-B'))
+        cleaned = {
+            k: v for k, v in existing_targets.items()
+            if (not in_scope(k)) or (k in valid_keys)
+        }
+    elif shorts_index is not None:
+        # 쇼츠 N 스코프: 다른 쇼츠·롱폼·솔로 데이터는 그대로, 이 쇼츠만 재구성
+        prefix = f'shorts-{shorts_index}/'
+        def in_scope(k):
+            return k.startswith(prefix)
         cleaned = {
             k: v for k, v in existing_targets.items()
             if (not in_scope(k)) or (k in valid_keys)
         }
     else:
-        # 쇼츠 N 스코프: 다른 쇼츠·롱폼 데이터는 그대로, 이 쇼츠만 재구성
-        prefix = f'shorts-{shorts_index}/'
+        # 솔로 N 스코프: 다른 솔로·롱폼·쇼츠 데이터는 그대로, 이 솔로 책만 재구성
+        prefix = f'solo-B{solo_index:02d}/'
         def in_scope(k):
             return k.startswith(prefix)
         cleaned = {
