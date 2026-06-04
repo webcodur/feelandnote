@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>밀리의 서재 캡쳐</title>
+<style>
+  :root {
+    --bg: #15171c;
+    --panel: #1d2027;
+    --panel-2: #242832;
+    --line: #313644;
+    --text: #e7e9ee;
+    --muted: #969db0;
+    --accent: #6c8cff;
+    --accent-2: #4f6fe0;
+    --green: #44c08a;
+    --red: #e05a5a;
+    --amber: #e0a93a;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 64px; }
+  header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+  header h1 { font-size: 22px; margin: 0; letter-spacing: -0.3px; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .card h2 {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.6px; color: var(--muted); margin: 0 0 16px;
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 12.5px; color: var(--muted); }
+  input, select {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 9px 11px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  .hint { font-size: 11.5px; color: #6b7280; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button {
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+    padding: 10px 16px; border-radius: 9px; cursor: pointer;
+    transition: all .15s;
+  }
+  button:hover { border-color: var(--accent); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.primary { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+  button.primary:hover { background: var(--accent); border-color: var(--accent); }
+  button.danger { color: var(--red); }
+  button.danger:hover { border-color: var(--red); }
+  .region-box {
+    background: var(--panel-2); border: 1px dashed var(--line);
+    border-radius: 8px; padding: 12px; font-size: 13px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .region-val { font-variant-numeric: tabular-nums; color: var(--accent); }
+  /* 진행 */
+  .progress-track {
+    height: 10px; background: var(--panel-2); border-radius: 99px; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .progress-bar {
+    height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    transition: width .3s ease;
+  }
+  .status-line {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 12px 0 4px; font-size: 13.5px;
+  }
+  .status-msg { color: var(--muted); }
+  .status-count { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 99px; margin-right: 7px; vertical-align: middle; }
+  .dot.idle { background: #555; }
+  .dot.run { background: var(--green); box-shadow: 0 0 0 3px rgba(68,192,138,.18); animation: pulse 1.2s infinite; }
+  .dot.err { background: var(--red); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .preview {
+    margin-top: 14px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line);
+    background: var(--panel-2); min-height: 120px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preview img { max-width: 100%; display: block; }
+  .preview .empty { color: #5b6270; font-size: 13px; padding: 40px; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
+    padding: 12px 20px; border-radius: 10px; font-size: 14px;
+    opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 50;
+  }
+  .toast.show { opacity: 1; }
+  .toast.ok { border-color: var(--green); }
+  .toast.err { border-color: var(--red); }
+  .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .save-row { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .save-row .saved { color: var(--green); font-size: 12.5px; margin-right: 12px; align-self: center; opacity: 0; transition: opacity .3s; }
+  .save-row .saved.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>밀리의 서재 캡쳐</h1>
+    <span class="sub">화면을 한 장씩 찍어 페이지를 넘기고, PDF로 묶습니다.</span>
+  </header>
+
+  <!-- 설정 -->
+  <div class="card">
+    <h2>설정</h2>
+    <div class="grid">
+      <div class="field">
+        <label>책 이름 (폴더·파일명)</label>
+        <input id="session_name" placeholder="book01" />
+      </div>
+      <div class="field">
+        <label>PDF 파일명</label>
+        <input id="pdf_filename" placeholder="book01.pdf" />
+      </div>
+      <div class="field">
+        <label>전체 페이지 수</label>
+        <input id="pages" type="number" min="1" />
+      </div>
+      <div class="field">
+        <label>페이지 넘김 키</label>
+        <select id="next_key">
+          <option value="right">→ 오른쪽 화살표</option>
+          <option value="left">← 왼쪽 화살표</option>
+          <option value="pagedown">Page Down</option>
+          <option value="pageup">Page Up</option>
+          <option value="space">스페이스</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>키 입력 방식</label>
+        <select id="key_method">
+          <option value="click">마우스 우측 클릭 (밀리 권장)</option>
+          <option value="direct">키보드 화살표 · scan code</option>
+          <option value="key">키보드 화살표 · 일반</option>
+        </select>
+        <span class="hint">밀리는 우측 클릭이 가장 잘 넘어갑니다</span>
+      </div>
+      <div class="field">
+        <label>캡쳐할 모니터</label>
+        <select id="monitor"></select>
+      </div>
+      <div class="field">
+        <label>시작 전 준비 시간 (초)</label>
+        <input id="countdown_seconds" type="number" min="0" />
+      </div>
+      <div class="field">
+        <label>찍기 전 대기 (ms)</label>
+        <input id="delay_before_capture_ms" type="number" min="0" step="50" />
+        <span class="hint">화면이 안정되길 기다리는 시간</span>
+      </div>
+      <div class="field">
+        <label>넘긴 뒤 대기 (ms)</label>
+        <input id="delay_after_next_ms" type="number" min="0" step="50" />
+        <span class="hint">다음 페이지가 뜰 때까지</span>
+      </div>
+      <div class="field">
+        <label>밀리 앱 창 이름</label>
+        <input id="window_title" placeholder="밀리의 서재" />
+        <span class="hint">이 이름의 창을 찾아 맨 앞에 띄웁니다</span>
+      </div>
+      <div class="field">
+        <label>자동 포커스</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text);padding:9px 0 0">
+          <input id="auto_focus" type="checkbox" style="width:auto" />
+          페이지 넘김 직전 밀리 창을 맨 앞으로
+        </label>
+      </div>
+    </div>
+
+    <!-- 영역 -->
+    <div class="field full" style="margin-top:16px">
+      <label>찍을 영역</label>
+      <div class="region-box">
+        <span id="region_label">모니터 전체 화면</span>
+        <div class="row">
+          <button id="btn_region_pick" type="button">본문 영역 지정</button>
+          <button id="btn_region_clear" type="button">전체로</button>
+        </div>
+      </div>
+      <span class="hint" id="region_hint">UI·여백 없이 책 본문만 잘라 찍으려면 영역을 지정하세요.</span>
+    </div>
+
+    <div class="save-row">
+      <span class="saved" id="saved_flag">저장됨</span>
+      <button id="btn_save" type="button">설정 저장</button>
+    </div>
+  </div>
+
+  <!-- 실행 -->
+  <div class="card">
+    <h2>캡쳐</h2>
+    <div class="row">
+      <div class="field" style="max-width:160px">
+        <label>시작 페이지 (재개)</label>
+        <input id="start_page" type="number" min="1" value="1" />
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btn_start" class="primary" type="button">캡쳐 시작</button>
+      <button id="btn_stop" class="danger" type="button" disabled>중단</button>
+      <button id="btn_test" type="button">넘김 키 테스트</button>
+    </div>
+    <p class="hint" style="margin:10px 0 0">
+      "넘김 키 테스트"를 누르고 3초 안에 밀리 창을 띄워 두면, 페이지가 한 번 넘어가는지 확인할 수 있습니다.
+    </p>
+
+    <div class="status-line" style="margin-top:20px">
+      <span class="status-msg"><span id="dot" class="dot idle"></span><span id="status_msg">대기 중</span></span>
+      <span class="status-count" id="status_count"></span>
+    </div>
+    <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+
+    <div class="preview" id="preview">
+      <span class="empty">방금 찍은 페이지가 여기 표시됩니다.</span>
+    </div>
+  </div>
+
+  <!-- PDF -->
+  <div class="card">
+    <h2>PDF로 묶기</h2>
+    <p class="hint" style="margin-top:0">찍은 이미지들을 한 권의 PDF로 합칩니다.</p>
+    <button id="btn_bind" type="button">PDF 만들기</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const FIELDS = ["session_name","pdf_filename","pages","next_key","monitor",
+  "countdown_seconds","delay_before_capture_ms","delay_after_next_ms"];
+let region = null; // [x,y,w,h] 또는 null
+let polling = null;
+
+function toast(msg, kind="") {
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast show " + kind;
+  setTimeout(() => t.className = "toast " + kind, 2600);
+}
+
+async function loadMonitors(selected) {
+  const res = await fetch("/api/monitors");
+  const mons = await res.json();
+  const sel = $("monitor");
+  sel.innerHTML = "";
+  mons.forEach(m => {
+    const o = document.createElement("option");
+    o.value = m.index;
+    o.textContent = `${m.label} (${m.width}×${m.height})`;
+    sel.appendChild(o);
+  });
+  sel.value = selected ?? 1;
+}
+
+async function loadConfig() {
+  const cfg = await (await fetch("/api/config")).json();
+  await loadMonitors(cfg.monitor);
+  $("session_name").value = cfg.session_name ?? "book01";
+  $("pdf_filename").value = cfg.pdf_filename ?? "book01.pdf";
+  $("pages").value = cfg.pages ?? 100;
+  $("next_key").value = cfg.next_key ?? "right";
+  $("key_method").value = cfg.key_method ?? "click";
+  $("countdown_seconds").value = cfg.countdown_seconds ?? 5;
+  $("delay_before_capture_ms").value = cfg.delay_before_capture_ms ?? 350;
+  $("delay_after_next_ms").value = cfg.delay_after_next_ms ?? 800;
+  $("window_title").value = cfg.window_title ?? "밀리의 서재";
+  $("auto_focus").checked = cfg.auto_focus !== false;
+  region = cfg.capture_region ?? null;
+  renderRegion();
+}
+
+function renderRegion() {
+  if (region) {
+    $("region_label").innerHTML = `영역 <span class="region-val">${region[2]}×${region[3]}</span> @ (${region[0]}, ${region[1]})`;
+  } else {
+    $("region_label").textContent = "모니터 전체 화면";
+  }
+}
+
+function collectConfig() {
+  return {
+    session_name: $("session_name").value.trim() || "book01",
+    pdf_filename: $("pdf_filename").value.trim() || "book01.pdf",
+    pages: parseInt($("pages").value) || 1,
+    capture_region: region,
+    monitor: parseInt($("monitor").value) || 1,
+    next_key: $("next_key").value,
+    key_method: $("key_method").value,
+    countdown_seconds: parseInt($("countdown_seconds").value) || 0,
+    delay_before_capture_ms: parseInt($("delay_before_capture_ms").value) || 0,
+    delay_after_next_ms: parseInt($("delay_after_next_ms").value) || 0,
+    auto_focus: $("auto_focus").checked,
+    window_title: $("window_title").value.trim() || "밀리의 서재",
+    output_dir: "./captures",
+  };
+}
+
+async function saveConfig() {
+  await fetch("/api/config", {
+    method: "POST", headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(collectConfig()),
+  });
+  $("saved_flag").classList.add("show");
+  setTimeout(() => $("saved_flag").classList.remove("show"), 1500);
+}
+
+// 영역 측정: 좌상단 → 우하단, 각 3초 카운트 후 마우스 위치 기록
+async function pickPoint(corner, delay=3) {
+  toast(`${corner} 모서리로 마우스를 옮긴 뒤 ${delay}초 대기…`, "");
+  const res = await fetch(`/api/region/point?delay=${delay}`, {method:"POST"});
+  return await res.json();
+}
+
+$("btn_region_pick").onclick = async () => {
+  const btn = $("btn_region_pick");
+  btn.disabled = true;
+  try {
+    const tl = await pickPoint("좌상단");
+    const br = await pickPoint("우하단");
+    const x = Math.min(tl.x, br.x), y = Math.min(tl.y, br.y);
+    const w = Math.abs(br.x - tl.x), h = Math.abs(br.y - tl.y);
+    if (w < 10 || h < 10) { toast("영역이 너무 작습니다. 다시 시도하세요.", "err"); }
+    else { region = [x, y, w, h]; renderRegion(); await saveConfig(); toast("영역 지정 완료", "ok"); }
+  } finally { btn.disabled = false; }
+};
+
+$("btn_region_clear").onclick = async () => {
+  region = null; renderRegion(); await saveConfig();
+};
+
+$("btn_save").onclick = saveConfig;
+
+// 캡쳐 시작
+$("btn_start").onclick = async () => {
+  await saveConfig();
+  const start = parseInt($("start_page").value) || 1;
+  const end = parseInt($("pages").value) || 1;
+  const countdown = parseInt($("countdown_seconds").value) || 0;
+  const res = await fetch("/api/capture/start", {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({start, end, countdown}),
+  });
+  const data = await res.json();
+  if (!data.ok) { toast(data.error || "시작 실패", "err"); return; }
+  setRunning(true);
+  startPolling();
+};
+
+$("btn_stop").onclick = async () => {
+  await fetch("/api/capture/stop", {method:"POST"});
+  toast("중단 요청됨", "");
+};
+
+$("btn_test").onclick = async () => {
+  await saveConfig();
+  const btn = $("btn_test");
+  btn.disabled = true; btn.textContent = "3초 뒤 전송…";
+  toast("3초 안에 밀리 창을 띄워 두세요", "");
+  try {
+    const res = await fetch("/api/test-key", {method:"POST"});
+    const d = await res.json();
+    if (!d.focused && d.focus_error) toast("밀리 창 못 찾음: " + d.focus_error, "err");
+    else toast(`'${d.key}' 키 전송 완료 (${d.method}). 페이지가 넘어갔나요?`, "ok");
+  } finally { btn.disabled = false; btn.textContent = "넘김 키 테스트"; }
+};
+
+function setRunning(on) {
+  $("btn_start").disabled = on;
+  $("btn_stop").disabled = !on;
+  $("dot").className = "dot " + (on ? "run" : "idle");
+}
+
+function startPolling() {
+  if (polling) clearInterval(polling);
+  polling = setInterval(updateStatus, 700);
+}
+
+async function updateStatus() {
+  const s = await (await fetch("/api/capture/status")).json();
+  $("status_msg").textContent = s.message || (s.running ? "진행 중" : "대기 중");
+  $("bar").style.width = (s.percent || 0) + "%";
+  if (s.end) $("status_count").textContent = `${s.current} / ${s.end}`;
+
+  if (s.error) {
+    $("dot").className = "dot err";
+    $("status_msg").textContent = "오류: " + s.error;
+  }
+  if (s.latest_file && s.session) {
+    const url = `/api/preview/${encodeURIComponent(s.session)}/${encodeURIComponent(s.latest_file)}?t=${Date.now()}`;
+    $("preview").innerHTML = `<img src="${url}" alt="page ${s.current}" />`;
+  }
+  if (!s.running) {
+    setRunning(false);
+    clearInterval(polling); polling = null;
+    if (s.finished) toast("캡쳐 완료", "ok");
+    $("dot").className = s.error ? "dot err" : "dot idle";
+  }
+}
+
+// PDF
+$("btn_bind").onclick = async () => {
+  const btn = $("btn_bind");
+  btn.disabled = true; btn.textContent = "묶는 중…";
+  try {
+    const res = await fetch("/api/bind", {method:"POST"});
+    const d = await res.json();
+    if (d.ok) toast(`PDF 완료: ${d.count}장, ${(d.size/1048576).toFixed(1)}MB`, "ok");
+    else toast(d.error || "실패", "err");
+  } finally { btn.disabled = false; btn.textContent = "PDF 만들기"; }
+};
+
+loadConfig();
+</script>
+</body>
+</html>
