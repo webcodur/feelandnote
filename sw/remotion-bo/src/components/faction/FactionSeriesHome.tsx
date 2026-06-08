@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { FactionEpisodeListItem } from '@/lib/faction-types'
 import { Plus, Copy, Trash2 } from './icons'
+import { UiLabel } from '@/components/ui-label'
 
 export function FactionSeriesHome({ series }: { series: string }) {
   const router = useRouter()
@@ -71,7 +72,8 @@ export function FactionSeriesHome({ series }: { series: string }) {
   }
 
   return (
-    <div>
+    <div className="relative">
+      <UiLabel ko="Faction 시리즈홈" code="FactionSeriesHome" />
       <h1 className="mb-4 text-xl font-bold">🏛️ 세력도</h1>
 
       {/* 새 세력도 폼 */}

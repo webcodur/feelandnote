@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { UiLabel } from '@/components/ui-label'
 
 type Task = {
   id: string; type: string; series: string; episode: string
@@ -68,7 +69,8 @@ export function TaskPanel() {
   if (visible.length === 0) return <div className="text-[11px] text-text-dim">진행 중인 작업 없음</div>
 
   return (
-    <div className="space-y-2">
+    <div className="relative space-y-2">
+      <UiLabel ko="작업 큐" code="TaskPanel" />
       {visible.map(task => (
         <TaskRow key={task.id} task={task} />
       ))}

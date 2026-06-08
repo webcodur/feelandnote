@@ -7,6 +7,7 @@ import { totalSec, cueCount, formatMmss } from './timing'
 import { Plus, Save, Eye, Upload } from './icons'
 import { FactionGroupEditor } from './FactionGroupEditor'
 import { FactionPreview } from './FactionPreview'
+import { UiLabel } from '@/components/ui-label'
 
 const EMPTY_GROUP: FactionGroup = { name: '', tagline: '', color: '#92400e', people: [] }
 
@@ -122,7 +123,8 @@ export function FactionEditor({ series, name }: { series: string; name: string }
   const addGroup = () => updateGroups([...groups, { ...EMPTY_GROUP, people: [] }])
 
   return (
-    <div className="pb-12">
+    <div className="relative pb-12">
+      <UiLabel ko="Faction 편집" code="FactionEditor" />
       {/* 상단 고정 바 */}
       <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-bg-main/95 px-4 py-3 backdrop-blur">
         <div className="mb-2 flex items-center gap-2">

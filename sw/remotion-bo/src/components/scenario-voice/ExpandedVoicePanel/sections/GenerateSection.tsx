@@ -1,0 +1,290 @@
+import type { SegmentEngineSpec } from '../../../voice-utils'
+import {
+  type EleSendOpts,
+  type VoiceMeta,
+  BTN_ELE,
+  BTN_SM,
+  GEMINI_VOICES_MALE,
+  GEMINI_VOICES_FEMALE,
+} from '../../types'
+import { ElePreviewPanel } from '../../ElePreviewPanel'
+import { VoiceMetaEditor } from '../../VoiceMetaEditor'
+import { BTN_GEM, type GenEngine, type TempPreview } from '../types'
+import type { EngineKind } from '../../../voice-utils'
+
+type SegmentLocator = { shortsIndex: number; segmentId: string } | null
+
+type GenerateSectionProps = {
+  secKey: string
+  sectionTexts: { original: string; tts: string }
+  overrideText?: string
+  ttsText: string
+  setTtsText: (v: string) => void
+  chosenEngine: GenEngine
+  setChosenEngine: (e: GenEngine) => void
+  generating: boolean
+  handleCancelGenerate: () => void
+  engineSpec: SegmentEngineSpec | null
+  eleSpec: SegmentEngineSpec | null
+  geminiSpec: SegmentEngineSpec
+  activeSpec: SegmentEngineSpec | null
+  voiceOverride?: { value: string; onChange: (v: string) => void } | null
+  segmentLocator: SegmentLocator
+  handleSegmentFieldChange: (field: 'geminiVoice' | 'style', value: string | undefined) => void
+  styleEdit: string
+  setStyleEdit: (v: string) => void
+  handleLongformStyleChange: (value: string) => void
+  hasTempPreview: boolean
+  tempPreview: TempPreview | null
+  previewEngine: EngineKind | null
+  handleSavePreview: (key: string) => void
+  trimSaving: boolean
+  setTempPreview: (p: TempPreview | null) => void
+  handleGenerate: (spec: SegmentEngineSpec, key: string, text: string, opts?: { saveImmediately?: boolean }) => void
+  segmentPath: string | null
+  segmentMeta: VoiceMeta | undefined
+  metaSaving: boolean
+  metaError: string | null
+  handleSegmentMetaChange: (next: VoiceMeta) => void
+  eleSendOpts: EleSendOpts
+}
+
+export function GenerateSection({
+  secKey, sectionTexts, overrideText, ttsText, setTtsText,
+  chosenEngine, setChosenEngine, generating, handleCancelGenerate,
+  engineSpec, eleSpec, geminiSpec, activeSpec,
+  voiceOverride, segmentLocator, handleSegmentFieldChange,
+  styleEdit, setStyleEdit, handleLongformStyleChange,
+  hasTempPreview, tempPreview, previewEngine, handleSavePreview, trimSaving, setTempPreview,
+  handleGenerate, segmentPath, segmentMeta, metaSaving, metaError,
+  handleSegmentMetaChange, eleSendOpts,
+}: GenerateSectionProps) {
+  return (
+    <section className="rounded-md border border-border bg-bg-main/40 p-4 space-y-3">
+      <div className="flex items-center gap-3 flex-wrap">
+        <h3 className="text-sm font-semibold text-text-primary">새 음원 생성</h3>
+        <span className="text-xs text-text-secondary">텍스트로 음원 합성 후 슬롯에 저장</span>
+        {generating && (
+          <span className="ml-auto flex items-center gap-2 text-xs">
+            <span className="text-amber-300 animate-pulse">
+              {chosenEngine === 'elevenlabs' ? 'ELE' : chosenEngine === 'gemini-v3' ? 'GEM 3.1' : 'GEM 2.5'} 생성 중…
+            </span>
+            <button
+              type="button"
+              onClick={handleCancelGenerate}
+              className="px-2 py-0.5 rounded border border-red-400/50 text-red-300 hover:bg-red-500/20 font-semibold"
+            >취소</button>
+          </span>
+        )}
+      </div>
+
+      {/* 생성 엔진 토글(세그먼티드 컨트롤) + GEM 선택 시 캐릭터 보이스 · 스타일 인라인 */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
+          <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">엔진</span>
+          <select
+            value={chosenEngine}
+            onChange={e => setChosenEngine(e.target.value as GenEngine)}
+            title="새 음원 합성에 쓸 엔진·모델. GEM 3.1은 audio tag 지원·단가 2배(GEM 슬롯 공유). ELE는 보이스 매핑 필요"
+            className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold focus:outline-none"
+          >
+            <option value="gemini">GEM 2.5</option>
+            <option value="gemini-v3">GEM 3.1</option>
+            <option value="elevenlabs" disabled={!eleSpec}>ELE</option>
+          </select>
+        </div>
+
+        {chosenEngine !== 'elevenlabs' && (
+          <>
+            <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
+              <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">캐릭터 보이스</span>
+              <select
+                value={geminiSpec.voiceParam}
+                onChange={e => {
+                  if (voiceOverride) voiceOverride.onChange(e.target.value)
+                  else if (segmentLocator) handleSegmentFieldChange('geminiVoice', e.target.value || undefined)
+                }}
+                disabled={!segmentLocator && !voiceOverride}
+                title={(segmentLocator || voiceOverride) ? '보이스 선택 적용 (솔로는 저장 버튼으로 확정)' : '쇼츠 segment 가 아니라 저장 대상이 없음'}
+                className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none"
+              >
+                <optgroup label="남성">
+                  {GEMINI_VOICES_MALE.map(v => <option key={v} value={v}>{v}</option>)}
+                </optgroup>
+                <optgroup label="여성">
+                  {GEMINI_VOICES_FEMALE.map(v => <option key={v} value={v}>{v}</option>)}
+                </optgroup>
+              </select>
+            </div>
+            <div className="inline-flex items-stretch rounded border border-border overflow-hidden flex-1 min-w-[200px]">
+              <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">스타일</span>
+              <input
+                type="text"
+                value={styleEdit}
+                onChange={e => setStyleEdit(e.target.value)}
+                onBlur={() => {
+                  // 쇼츠 segment는 segment.style, 롱폼 구간은 episode.voiceStyles[구간키]에 각각 저장한다.
+                  const cur = geminiSpec.stylePrefix ?? ''
+                  if (styleEdit === cur) return
+                  if (segmentLocator) handleSegmentFieldChange('style', styleEdit || undefined)
+                  else handleLongformStyleChange(styleEdit)
+                }}
+                onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                placeholder="예: 낮고 간절하게, 속삭이듯"
+                title="발화 스타일 — 입력 후 포커스 이탈 시 저장. 비우면 기본 말투로 돌아간다."
+                className="h-8 flex-1 text-sm bg-white px-3 text-slate-950 font-bold focus:outline-none border-l border-slate-300"
+              />
+            </div>
+          </>
+        )}
+
+        {engineSpec?.engine && engineSpec.engine !== chosenEngine && (
+          <span className="text-xs text-amber-300 shrink-0">
+            기본 매핑({engineSpec.engine === 'gemini' ? 'Gemini' : 'ElevenLabs'})과 다름
+          </span>
+        )}
+      </div>
+
+      {/* TTS 입력 텍스트 — 라벨 + 입력란 한 박스 묶음 */}
+      {(sectionTexts.original || overrideText) && (
+        <div className="space-y-1">
+          <div className="flex items-stretch rounded border border-border overflow-hidden">
+            <span className="px-3 py-2 text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">입력 텍스트</span>
+            <textarea
+              value={ttsText}
+              onChange={e => setTtsText(e.target.value)}
+              onKeyDown={e => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
+              rows={1}
+              placeholder="tts.replace 자동 적용. 수동 편집 시 이 텍스트로 음원 생성"
+              className="flex-1 bg-bg-card px-3 py-2 text-sm text-text-primary resize-y focus:outline-none select-text [field-sizing:content]"
+            />
+          </div>
+          <div className="text-xs text-text-secondary pl-1">이 입력은 음원 생성에만 쓰이고 본문에는 저장되지 않는다.</div>
+        </div>
+      )}
+
+      {/* 생성 중 — 결과 파형 자리를 미리 확보(skeleton). 완료되면 아래 미리듣기로 교체된다. */}
+      {generating && !hasTempPreview && (
+        <div className="rounded-md border border-border bg-bg-card/40 p-3 space-y-2">
+          <div className="flex items-center gap-2 text-xs text-text-secondary">
+            <span className="font-semibold animate-pulse">미리듣기 생성 중…</span>
+          </div>
+          <div className="w-full h-14 rounded bg-bg-main/60 animate-pulse" />
+          <div className="flex items-center gap-2">
+            <button disabled className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border opacity-40 cursor-not-allowed">▶ 재생</button>
+            <span className="text-[10px] text-text-secondary font-mono">0.00s / 0.00s</span>
+          </div>
+        </div>
+      )}
+
+      {/* Temp preview (engine-aware) */}
+      {hasTempPreview && tempPreview && (
+        <ElePreviewPanel
+          blobUrl={tempPreview.blobUrl}
+          duration={tempPreview.duration}
+          onSave={(e) => { e.stopPropagation(); handleSavePreview(secKey) }}
+          saving={trimSaving}
+          onClose={() => { URL.revokeObjectURL(tempPreview.blobUrl); setTempPreview(null) }}
+          label={previewEngine === 'gemini' ? 'GEM preview' : 'ELE preview'}
+          tone={previewEngine === 'gemini' ? 'blue' : 'purple'}
+          autoPlay
+          onRegenerate={() => { if (activeSpec) handleGenerate(activeSpec, secKey, ttsText) }}
+          regenerating={generating}
+        />
+      )}
+
+    {/* Generate area — ElevenLabs */}
+    {chosenEngine === 'elevenlabs' && eleSpec && !hasTempPreview && (
+      <div className="space-y-2">
+        {/* 이 구간 전용 톤 에디터 — path가 매핑되는 셀럽 구간 한정 */}
+        {segmentPath && (
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] text-text-secondary font-semibold">이 구간 톤</span>
+              <span className="text-[10px] text-text-dim">(이 구간에만 적용 · JSON 저장)</span>
+              {segmentMeta && (segmentMeta.tags?.length || typeof segmentMeta.trail === 'boolean') && (
+                <span className="text-[10px] font-mono text-purple-300">
+                  [{segmentMeta.tags?.join(', ') ?? ''}{typeof segmentMeta.trail === 'boolean' ? `${segmentMeta.tags?.length ? ', ' : ''}trail=${segmentMeta.trail ? 'on' : 'off'}` : ''}] ✓
+                </span>
+              )}
+              {metaSaving && <span className="text-[10px] text-amber-400">저장 중...</span>}
+            </div>
+            <VoiceMetaEditor
+              value={segmentMeta}
+              onChange={handleSegmentMetaChange}
+              defaults={{
+                defaultTags: eleSendOpts.emotionEnabled ? eleSendOpts.emotions : [],
+                defaultTrail: eleSendOpts.trailEnabled,
+              }}
+              compact
+            />
+            {metaError && <div className="text-[11px] text-danger-text">{metaError}</div>}
+          </div>
+        )}
+
+        {/* 페이지 기본 톤 — 읽기 전용 요약. 편집은 상단 VOICE → ELEVENLABS 설정 */}
+        <div className="text-[10px] text-text-dim flex items-center gap-2 px-1">
+          <span>페이지 기본 톤:</span>
+          <span className="font-mono text-text-secondary">
+            {eleSendOpts.emotionEnabled && eleSendOpts.emotions.length > 0
+              ? `[${eleSendOpts.emotions.join(', ')}]`
+              : '[감정 태그 없음]'}
+            {' · '}
+            {eleSendOpts.trailEnabled ? 'trail=on' : 'trail=off'}
+          </span>
+          <span className="text-text-dim">— 이 구간 톤이 비어 있을 때 적용. 변경은 상단 VOICE 패널에서.</span>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={() => eleSpec && handleGenerate(eleSpec, secKey, ttsText)}
+            disabled={generating || !eleSpec}
+            className={`${BTN_ELE} disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {generating ? 'ELE 생성 중…' : 'ELE 생성'}
+          </button>
+          <button
+            onClick={() => eleSpec && handleGenerate(eleSpec, secKey, ttsText, { saveImmediately: true })}
+            disabled={generating || !eleSpec}
+            className={`${BTN_SM} bg-emerald-600 text-white border border-emerald-500/50 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+            title="생성 후 미리듣기 없이 바로 슬롯에 저장"
+          >
+            {generating ? '처리 중…' : '생성 및 저장'}
+          </button>
+          <span className="text-[11px] text-text-dim">「생성」은 미리듣기, 「생성 및 저장」은 바로 슬롯 반영.</span>
+        </div>
+      </div>
+    )}
+
+    {/* Generate area — Gemini(2.5/3.1). 캐릭터 보이스·스타일은 위 ENGINE 행에 인라인. */}
+    {chosenEngine !== 'elevenlabs' && !hasTempPreview && (
+      <div className="flex items-center gap-2 flex-wrap">
+        <button
+          onClick={() => handleGenerate(geminiSpec, secKey, ttsText)}
+          disabled={generating}
+          className={BTN_GEM}
+        >
+          {generating ? 'GEM 생성 중…' : chosenEngine === 'gemini-v3' ? 'GEM 3.1 생성' : 'GEM 2.5 생성'}
+        </button>
+        <button
+          onClick={() => handleGenerate(geminiSpec, secKey, ttsText, { saveImmediately: true })}
+          disabled={generating}
+          className={`${BTN_SM} bg-emerald-600 text-white border border-emerald-500/50 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+          title="생성 후 미리듣기 없이 바로 슬롯에 저장"
+        >
+          {generating ? '처리 중…' : '생성 및 저장'}
+        </button>
+        <span className="text-[11px] text-text-dim">「생성」은 미리듣기, 「생성 및 저장」은 바로 슬롯 반영.</span>
+      </div>
+    )}
+
+      {/* 단일 생성 미지원 안내 — 나레이터/요약 등 도구막대 일괄 생성 대상. 솔로는 GEM 단일 생성이 정상이므로 제외 */}
+      {!engineSpec && !hasTempPreview && !secKey.startsWith('solo-B') && (
+        <div className="text-[11px] text-text-dim px-1">
+          이 행은 편집기 안에서 단일 생성을 지원하지 않는다. 위쪽 VoiceToolbar 의 일괄 생성으로 갱신하라.
+        </div>
+      )}
+    </section>
+  )
+}

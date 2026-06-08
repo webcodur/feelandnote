@@ -1,0 +1,1 @@
+export { VoiceMappingPanel } from './VoiceMappingPanel'

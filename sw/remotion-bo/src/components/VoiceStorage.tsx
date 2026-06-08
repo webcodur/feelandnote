@@ -1,6 +1,7 @@
 ﻿'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { UiLabel } from '@/components/ui-label'
 
 type VoiceEpisodeStorage = {
   name: string
@@ -78,7 +79,8 @@ export function VoiceStorage({ series }: { series: string }) {
   const loadedPct = data.totalLoaded.sizeBytes / (data.totalLoaded.sizeBytes + data.totalArchived.sizeBytes) * 100 || 0
 
   return (
-    <div>
+    <div className="relative">
+      <UiLabel ko="음성 저장소" code="VoiceStorage" />
       {/* 총량 요약 */}
       <div className="flex items-center gap-6 mb-4 text-sm">
         <div>

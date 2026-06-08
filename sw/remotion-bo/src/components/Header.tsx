@@ -2,12 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { UiLabel } from '@/components/ui-label'
 
 export function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="h-11 border-b border-border flex items-center px-4 gap-4 shrink-0">
+    <header className="relative h-11 border-b border-border flex items-center px-4 gap-4 shrink-0">
+      <UiLabel ko="상단 헤더" code="Header" />
       <Link href="/" className="text-sm font-bold text-accent tracking-wide">
         Remotion BO
       </Link>
