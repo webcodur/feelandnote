@@ -6,7 +6,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 
 import CuratedSpotlightMobile from "./CuratedSpotlightMobile";
 
-const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
+const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
 interface FeaturedSpotlightMobileProps {
   activeTag: FeaturedTag | null;

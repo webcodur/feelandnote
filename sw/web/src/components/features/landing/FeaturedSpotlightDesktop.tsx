@@ -3,7 +3,7 @@
 import type { FeaturedTag } from "@/actions/home";
 import type { SpotlightLocation } from "./FeaturedSpotlight";
 import { useTranslations } from "next-intl";
-import CuratedSpotlightDesktop from "./CuratedSpotlightDesktop";
+import CuratedSpotlightDesktop from "./curatedSpotlightDesktop/CuratedSpotlightDesktop";
 
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 

@@ -11,7 +11,7 @@ import { Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
 import EyeOfTime from "../dawn/EyeOfTime";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import DawnResult from "../dawn/DawnResult";
 import { useDawnGame } from "./useDawnGame";
 import { INITIAL_TORCHES } from "./types";

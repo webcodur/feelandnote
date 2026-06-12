@@ -15,7 +15,7 @@ import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import type { CelebProfile } from "@/types/home";
 

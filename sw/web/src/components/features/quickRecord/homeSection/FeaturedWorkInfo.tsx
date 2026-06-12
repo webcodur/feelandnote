@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Info, BookOpen, MessageSquare, Award, Search, X, User, Calendar, Building2, Film, Users, ExternalLink, Loader2, Music, Disc, Gamepad2, Monitor, Briefcase, Code, type LucideIcon } from "lucide-react";
+import { BookOpen, MessageSquare, Award, Search, ExternalLink, Loader2, List } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
-import InfoPanel from "../InfoPanel";
-import ExternalResourceSearch, { type ExternalResourceSearchHandle } from "../ExternalResourceSearch";
 import { type QuickRecordTarget } from "@/contexts/QuickRecordContext";
-import { useRef } from "react";
 import type { ContentMetadata } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
-import { HomeSuggestions } from "./HomeSuggestions";
-import { HomeArchiveArea } from "./HomeArchiveArea";
 import type { SuggestionProps, ArchiveProps } from "./HomeEditorArea";
-import { List } from "lucide-react";
+import FeaturedWorkModal, { type ModalType, type SelectionTab } from "./FeaturedWorkModal";
+import FeaturedWorkMetadata from "./FeaturedWorkMetadata";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { useTranslations } from "next-intl";
-
-type ModalType = 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL' | 'EXTERNAL' | 'SELECT_CONTENT' | null;
 
 interface FeaturedWorkInfoProps {
     targetContent: QuickRecordTarget;
@@ -28,8 +22,7 @@ interface FeaturedWorkInfoProps {
 export default function FeaturedWorkInfo({ targetContent, suggestionProps, archiveProps }: FeaturedWorkInfoProps) {
     const t = useTranslations("quickRecord.home");
     const [activeModal, setActiveModal] = useState<ModalType>(null);
-    const [selectionTab, setSelectionTab] = useState<'SUGGESTION' | 'ARCHIVE'>('SUGGESTION');
-    const searchRef = useRef<ExternalResourceSearchHandle>(null);
+    const [selectionTab, setSelectionTab] = useState<SelectionTab>('SUGGESTION');
 
     const [detailData, setDetailData] = useState<ContentDetailData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +43,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                     case 'CERTIFICATE': categoryId = 'certificate'; break;
                     default: categoryId = 'book';
                 }
-                
+
                 // VIDEO일 때 'movie'는 CategoryId에 없는 값이다(외부 API 폴백 경로에서 미매칭). 동작 보존을 위해 캐스트 유지
                 const data = await getContentDetail(targetContent.contentId || targetContent.id, categoryId as CategoryId);
                 setDetailData(data);
@@ -60,7 +53,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                 setIsLoading(false);
             }
         };
-        
+
         if (targetContent.contentId || targetContent.id) {
             loadDetail();
         }
@@ -78,90 +71,6 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
     };
     const contentLink = `/content/${targetContent.contentId || targetContent.id}?category=${getLinkCategory()}`;
 
-    const ModalContainer = ({ type, onClose, title, icon: Icon }: { type: ModalType, onClose: () => void, title: string, icon: LucideIcon }) => {
-        if (!type) return null;
-
-        return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
-                <div 
-                    className="w-full max-w-4xl h-[80vh] bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
-                    onClick={e => e.stopPropagation()}
-                >
-                    {/* Header */}
-                    <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
-                        <h3 className="text-lg font-serif font-bold text-text-primary flex items-center gap-2">
-                            <Icon size={20} className="text-accent" />
-                            {title}
-                        </h3>
-                        <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors text-text-tertiary hover:text-white">
-                            <X size={20} />
-                        </button>
-                    </div>
-
-                    {/* Body */}
-                    <div className="flex-1 overflow-hidden bg-bg-secondary/30 relative">
-                        {type === 'EXTERNAL' ? (
-                            <div className="bg-bg-main/30 h-full overflow-y-auto custom-scrollbar p-6">
-                                <ExternalResourceSearch 
-                                    ref={searchRef}
-                                    title={targetContent.title}
-                                    creator={targetContent.creator}
-                                    type={targetContent.type}
-                                    className="border-0 shadow-none rounded-none bg-transparent"
-                                    hideHeader={true}
-                                />
-                            </div>
-                        ) : type === 'SELECT_CONTENT' ? (
-                            <div className="flex flex-col h-full bg-bg-main/30">
-                                {/* Tabs */}
-                                <div className="flex border-b border-white/10 shrink-0">
-                                    <button 
-                                        onClick={() => setSelectionTab('SUGGESTION')}
-                                        className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'SUGGESTION' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
-                                    >
-                                        {t("celebRecommendations")}
-                                    </button>
-                                    <button
-                                        onClick={() => setSelectionTab('ARCHIVE')}
-                                        className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'ARCHIVE' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
-                                    >
-                                        {t("archiveTab")}
-                                    </button>
-                                </div>
-                                
-                                {/* Content */}
-                                <div className="flex-1 overflow-y-auto p-2 scrollbar-hide">
-                                    {selectionTab === 'SUGGESTION' ? (
-                                        <HomeSuggestions {...suggestionProps} />
-                                    ) : (
-                                        <HomeArchiveArea {...archiveProps} />
-                                    )}
-                                </div>
-                            </div>
-                        ) : (
-                            <InfoPanel 
-                                content={{
-                                    id: targetContent.id,
-                                    contentId: targetContent.contentId || targetContent.id,
-                                    title: targetContent.title,
-                                    type: targetContent.type,
-                                    thumbnailUrl: targetContent.thumbnailUrl,
-                                    creator: targetContent.creator
-                                }}
-                                initialTab={
-                                    type === 'DETAIL' ? 'DETAIL' : 
-                                    type === 'REVIEW_CELEB' ? 'REVIEW_CELEB' : 
-                                    'REVIEW_NORMAL'
-                                }
-                                hideTabs={true}
-                            />
-                        )}
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <div className="w-fit mx-auto mb-8">
             <ClassicalBox className="bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[2px]">
@@ -169,14 +78,14 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                      {/* Thumbnail (Link to Detail) */}
                     {/* Left Column: Thumbnail & Select Button */}
                     <div className="flex flex-col gap-3 shrink-0 items-center">
-                        <Link 
+                        <Link
                             href={contentLink}
                             target="_blank"
                             className="w-48 aspect-[2/3] relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 group cursor-pointer block"
                         >
                             {targetContent.thumbnailUrl ? (
-                                <Image 
-                                    src={targetContent.thumbnailUrl} 
+                                <Image
+                                    src={targetContent.thumbnailUrl}
                                     alt={targetContent.title}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -187,7 +96,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 </div>
                             )}
                              <div className="absolute inset-0 ring-1 ring-inset ring-black/20 group-hover:ring-accent/50 transition-all" />
-                             
+
                              {/* Hover Effect Hint */}
                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
                                 <ExternalLink size={24} className="text-white drop-shadow-md" />
@@ -195,7 +104,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                         </Link>
 
                         {/* Select Content Button */}
-                        <button 
+                        <button
                             onClick={() => setActiveModal('SELECT_CONTENT')}
                             className="w-48 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/15 border border-white/5 hover:border-accent/30 flex items-center justify-center gap-2 group transition-all"
                         >
@@ -209,8 +118,8 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                         <div className="space-y-4 w-full flex flex-col items-center">
                             {/* Dynamic Title Size */}
                             <h2 className={`${
-                                targetContent.title.length > 20 ? 'text-xl md:text-2xl' : 
-                                targetContent.title.length > 10 ? 'text-2xl md:text-3xl' : 
+                                targetContent.title.length > 20 ? 'text-xl md:text-2xl' :
+                                targetContent.title.length > 10 ? 'text-2xl md:text-3xl' :
                                 'text-3xl md:text-4xl'
                             } font-serif font-bold text-text-primary leading-tight break-keep mt-2`}>
                                 {targetContent.title}
@@ -219,7 +128,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                              <div className="inline-flex px-3 py-1 rounded-full border border-accent/20 bg-accent/5 text-accent text-xs font-bold tracking-wider mb-2">
                                 {targetContent.type}
                             </div>
-                            
+
                             {/* Metadata (Icon + Value layout) */}
                             {isLoading ? (
                                 <div className="flex items-center gap-2 text-text-tertiary justify-center">
@@ -227,171 +136,17 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                     <span>{t("loadingInfo")}</span>
                                 </div>
                             ) : (
-                                <div className="mx-auto w-fit">
-                                    <div className="grid grid-cols-[auto_auto] gap-x-4 gap-y-2.5 text-sm">
-                                        {/* Creator (항상 표시) */}
-                                        <span className="text-text-tertiary flex items-center justify-center">
-                                            <User size={16} className="opacity-70" />
-                                        </span>
-                                        <span className="text-text-primary text-center">{targetContent.creator || 'Unknown'}</span>
-
-                                        {/* BOOK */}
-                                        {targetContent.type === 'BOOK' && (
-                                            <>
-                                                {metadata?.publisher && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Building2 size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.publisher}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.publishDate && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Calendar size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.publishDate}</span>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* VIDEO */}
-                                        {targetContent.type === 'VIDEO' && (
-                                            <>
-                                                {metadata?.director && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Film size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.director}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.cast?.[0] && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Users size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.cast[0].name}</span>
-                                                    </>
-                                                )}
-                                                {detailData?.content?.releaseDate && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Calendar size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* MUSIC */}
-                                        {targetContent.type === 'MUSIC' && (
-                                            <>
-                                                {metadata?.albumType && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Disc size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center capitalize">{metadata.albumType}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.totalTracks && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Music size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.totalTracks} Tracks</span>
-                                                    </>
-                                                )}
-                                                {metadata?.label && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center">
-                                                            <Building2 size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary">{metadata.label}</span>
-                                                    </>
-                                                )}
-                                                {detailData?.content?.releaseDate && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Calendar size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* GAME */}
-                                        {targetContent.type === 'GAME' && (
-                                            <>
-                                                {metadata?.developer && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Code size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.developer}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.platforms && metadata.platforms.length > 0 && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Gamepad2 size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.platforms.slice(0, 3).join(', ')}</span>
-                                                    </>
-                                                )}
-                                                {detailData?.content?.releaseDate && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Calendar size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{detailData.content.releaseDate}</span>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* CERTIFICATE */}
-                                        {targetContent.type === 'CERTIFICATE' && (
-                                            <>
-                                                {metadata?.qualificationType && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Award size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.qualificationType}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.majorField && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <Briefcase size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.majorField}</span>
-                                                    </>
-                                                )}
-                                                {metadata?.series && (
-                                                    <>
-                                                        <span className="text-text-tertiary flex items-center justify-center">
-                                                            <List size={16} className="opacity-70" />
-                                                        </span>
-                                                        <span className="text-text-primary text-center">{metadata.series}</span>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
+                                <FeaturedWorkMetadata
+                                    targetContent={targetContent}
+                                    metadata={metadata}
+                                    releaseDate={detailData?.content?.releaseDate}
+                                />
                             )}
                         </div>
 
                         {/* Action Buttons Grid */}
                         <div className="grid grid-cols-2 gap-2 w-full md:w-fit pt-4">
-                            <button 
+                            <button
                                 onClick={() => setActiveModal('DETAIL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
@@ -429,8 +184,8 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
 
             {/* Modals */}
             {activeModal && (
-                <ModalContainer 
-                    type={activeModal} 
+                <FeaturedWorkModal
+                    type={activeModal}
                     onClose={() => setActiveModal(null)}
                     title={
                         activeModal === 'DETAIL' ? t("modalDetailTitle") :
@@ -446,6 +201,11 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                         activeModal === 'SELECT_CONTENT' ? List :
                         Search
                     }
+                    targetContent={targetContent}
+                    suggestionProps={suggestionProps}
+                    archiveProps={archiveProps}
+                    selectionTab={selectionTab}
+                    setSelectionTab={setSelectionTab}
                 />
             )}
         </div>

@@ -10,8 +10,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Info, ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
-import LightCelebModal from "@/components/features/home/celeb-card-drafts/LightCelebModal";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
+import LightCelebModal from "@/components/features/celeb/modals/LightCelebModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";

@@ -10,7 +10,7 @@ import UserMiniProfilePopover from "./UserMiniProfilePopover";
 import { getCelebForModal } from "@/actions/celebs";
 import type { CelebProfile } from "@/types/home";
 
-const CelebDetailModal = lazy(() => import("@/components/features/home/celeb-card-drafts/CelebDetailModal"));
+const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
 interface UserAvatarWithPopoverProps {
   userId: string;

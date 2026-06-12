@@ -18,7 +18,7 @@ import {
 } from "@/lib/persona/constants";
 import { distanceToMatchPercent, type PersonaVector, type SimilarCeleb } from "@/lib/persona/utils";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
 
 interface Props {

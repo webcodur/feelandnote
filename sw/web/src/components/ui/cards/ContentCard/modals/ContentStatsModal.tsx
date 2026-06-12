@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCelebsForContent } from "@/actions/scriptures";
 import { getCelebForModal } from "@/actions/celebs";
-import CelebDetailModal from "@/components/features/home/celeb-card-drafts/CelebDetailModal";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
 
 interface CelebInfo {
