@@ -28,6 +28,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
+import type { TNetInput } from '@vladmandic/face-api'
 import { createRequire } from 'module'
 const _require = createRequire(import.meta.url)
 const faceapi = _require(
@@ -35,6 +36,12 @@ const faceapi = _require(
 ) as typeof import('@vladmandic/face-api')
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// 서비스 롤 클라이언트 — 호출부 추론 타입을 매개변수 선언에 재사용
+function createServiceClient(url: string, key: string) {
+  return createClient(url, key)
+}
+type ServiceClient = ReturnType<typeof createServiceClient>
 
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
@@ -194,7 +201,7 @@ async function detectLargestFace(imgBuf: Buffer): Promise<DetectedFace | null> {
     new Uint8Array(data),
     [info.height, info.width, 3],
     'int32'
-  ) as unknown as faceapi.TNetInput
+  ) as unknown as TNetInput
   try {
     const options = new faceapi.SsdMobilenetv1Options({
       minConfidence: 0.4,
@@ -462,7 +469,7 @@ type Outcome =
 async function processOne(args: {
   profile: ProfileRow
   env: Record<string, string>
-  supabase: ReturnType<typeof createClient>
+  supabase: ServiceClient
   r2: S3Client
   manualUrl?: string
   sourceNote?: string
@@ -511,7 +518,7 @@ async function processOne(args: {
   // DB 갱신
   const { error } = await supabase
     .from('profiles')
-    .update({ avatar_url: publicUrl } as any)
+    .update({ avatar_url: publicUrl })
     .eq('id', profile.id)
   if (error) throw new Error(`profiles update 실패: ${error.message}`)
 
@@ -562,7 +569,7 @@ async function main() {
   await ensureFaceModels()
   console.log('[init] tf backend:', tf.getBackend(), '/ face-api loaded')
 
-  const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+  const supabase = createServiceClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
   const r2 = new S3Client({
     region: 'auto',
     endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,

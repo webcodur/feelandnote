@@ -31,6 +31,7 @@ import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 // vladmandic의 기본 entry는 tfjs-node를 require하므로 node-wasm 빌드로 직접 import.
+import type { TNetInput } from '@vladmandic/face-api'
 import { createRequire } from 'module'
 const _require = createRequire(import.meta.url)
 const faceapi = _require(
@@ -38,6 +39,12 @@ const faceapi = _require(
 ) as typeof import('@vladmandic/face-api')
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// 서비스 롤 클라이언트 — 호출부 추론 타입을 매개변수 선언에 재사용
+function createServiceClient(url: string, key: string) {
+  return createClient(url, key)
+}
+type ServiceClient = ReturnType<typeof createServiceClient>
 
 // ─── 입력 데이터 (slug → profile_id) ────────────────────────────
 const DEFAULT_TARGETS: ReadonlyArray<readonly [string, string]> = [
@@ -382,7 +389,7 @@ async function detectLargestFace(
     .raw()
     .toBuffer({ resolveWithObject: true })
   // data: Uint8Array RGB. tensor shape [H, W, 3]
-  const tensor = tf.tensor3d(new Uint8Array(data), [info.height, info.width, 3], 'int32') as unknown as faceapi.TNetInput
+  const tensor = tf.tensor3d(new Uint8Array(data), [info.height, info.width, 3], 'int32') as unknown as TNetInput
   try {
     const options = new faceapi.SsdMobilenetv1Options({
       minConfidence: 0.4,
@@ -493,7 +500,7 @@ async function processOne(
     profileId: string
     profile: ProfileRow
     env: Record<string, string>
-    supabase: ReturnType<typeof createClient>
+    supabase: ServiceClient
     r2: S3Client
     dryRun: boolean
   }
@@ -631,7 +638,7 @@ async function processOne(
   // 6. DB
   const update: Record<string, string> = { avatar_url: publicUrl }
   if (qidReassigned || (!profile.wikidata_qid && qid)) update.wikidata_qid = qid
-  const { error } = await supabase.from('profiles').update(update as any).eq('id', profileId)
+  const { error } = await supabase.from('profiles').update(update).eq('id', profileId)
   if (error) throw new Error(`profiles update 실패: ${error.message}`)
 
   // 7. 로그
@@ -718,7 +725,7 @@ async function main() {
   await ensureFaceModels()
   console.log('[init] face-api SSD MobileNet loaded')
 
-  const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+  const supabase = createServiceClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
   const r2 = new S3Client({
     region: 'auto',
     endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
