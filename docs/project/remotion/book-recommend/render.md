@@ -16,15 +16,15 @@ pnpm render:all -- --episode elon-musk --only solos --book-index 0   # 특정 �
 ```
 out/{Label}/
   KO/
-    L-VID.mp4          ← 롱폼 영상
-    L-VID.srt          ← 롱폼 자막
-    L-THUMB.png        ← 롱폼 썸네일 (1280×720)
+    LH-VID.mp4          ← 롱폼 영상
+    LH-VID.srt          ← 롱폼 자막
+    LH-THUMB.png        ← 롱폼 썸네일 (1280×720)
     S{N}-VID.mp4       ← 쇼츠 영상 (N=1,2,...)
     S{N}-VID.srt       ← 쇼츠 자막
     B{NN}-VID.mp4      ← 1권 모드 영상 (NN=책번호 2자리, 01,02,...)
     B{NN}-VID.srt      ← 1권 모드 자막 (음성 통합 후 생성, 현재 미구현)
   EN/
-    L-VID.mp4
+    LH-VID.mp4
     ...
     B{NN}-VID.mp4
 ```
@@ -38,15 +38,15 @@ out/{Label}/
 ```
 out/JensenHuang/
   KO/
-    L-VID.mp4       85MB
-    L-VID.srt
-    L-THUMB.png     599KB
+    LH-VID.mp4       85MB
+    LH-VID.srt
+    LH-THUMB.png     599KB
     S1-VID.mp4      7.9MB
     S1-VID.srt
   EN/
-    L-VID.mp4       93MB
-    L-VID.srt
-    L-THUMB.png     592KB
+    LH-VID.mp4       93MB
+    LH-VID.srt
+    LH-THUMB.png     592KB
     S1-VID.mp4      8.3MB
     S1-VID.srt
 ```
@@ -54,7 +54,7 @@ out/JensenHuang/
 ```
 out/ElonMusk/             ← 솔로 회차 보유 인물
   KO/
-    L-VID.mp4
+    LH-VID.mp4
     ...
     B01-VID.mp4     ← 1권 모드 회차 1 (은하수 안내서)
     B06-VID.mp4     ← 1권 모드 회차 6 (파운데이션)
@@ -86,8 +86,8 @@ Root.tsx에서 등록하는 컴포지션 ID:
 
 | 타입 | ID 패턴 | 해상도 | 비고 |
 |------|---------|--------|------|
-| 롱폼 영상 | `{Label}-{Lang}-L-VID` | 1920×1080 | |
-| 롱폼 썸네일 | `{Label}-{Lang}-L-THUMB` | 1280×720 | 1프레임 |
+| 롱폼 영상 | `{Label}-{Lang}-LH-VID` | 1920×1080 | |
+| 롱폼 썸네일 | `{Label}-{Lang}-LH-THUMB` | 1280×720 | 1프레임 |
 | 쇼츠 영상 | `{Label}-{Lang}-S{N}-VID` | 1080×1920 | N=1-based |
 | 쇼츠 썸네일 | `{Label}-{Lang}-S{N}-THUMB` | 1080×1920 | 1프레임 |
 | 1권 모드 영상 | `{Label}-{Lang}-B{NN}-VID` | 1920×1080 | NN=책번호 2자리 (1-based) |
@@ -129,12 +129,12 @@ variant 키 규약:
 render-all.ts (에피소드 slug)
   → toCompId("jensen-huang")    = { label: "JensenHuang", lang: "KO" }
   → toCompId("jensen-huang-en") = { label: "JensenHuang", lang: "EN" }
-  → out/JensenHuang/KO/L-VID.mp4, out/JensenHuang/EN/L-VID.mp4
+  → out/JensenHuang/KO/LH-VID.mp4, out/JensenHuang/EN/LH-VID.mp4
 
 youtube-upload.ts (에피소드 slug)
   → toCompLabel("jensen-huang") = "JensenHuang"
   → out/JensenHuang/KO/, out/JensenHuang/EN/ 에서 변형 스캔
-    (롱폼 L-VID + 쇼츠 S{N}-VID + 솔로 B{NN}-VID)
+    (롱폼 LH-VID + 쇼츠 S{N}-VID + 솔로 B{NN}-VID)
   → youtube-meta.json 있으면 override 적용
   → Google YouTube API 업로드
 ```

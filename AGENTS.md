@@ -65,6 +65,12 @@ pnpm build:bo
 - Supabase (PostgreSQL, 인증, SSR)
 - TypeScript 5, pnpm
 
+## 데이터 동기화 원칙 (DB ↔ Remotion)
+
+셀럽의 감상배경(review) 및 도서 목록은 DB와 Remotion이 100% 일치해야 한다(SSoT).
+1. **DB → Remotion (스캐폴딩)**: DB에 새로운 도서/콘텐츠가 확정되면, 작업자는 반드시 `sw/remotion/public/episodes/<셀럽>/books/` 에피소드 디렉토리에 폴더를 생성하고 `book.ko.json` 초안을 스캐폴딩하여 누락을 방지한다.
+2. **Remotion → DB (환각 방지 백필)**: Remotion 대본 작성 과정에서 추가된 디테일을 DB로 흡수할 때(`/remo-review-backfill`), **모든 신규 일화와 인용구는 반드시 `search_web`으로 독립적인 팩트체크를 거친다.** 3자 큐레이션 사이트의 자의적 해석이나 대본 AI의 환각이 DB를 오염시키지 않도록 원천 차단한다.
+
 ## 레퍼런스
 
 작업에 해당하는 문서만 참조한다.
@@ -142,7 +148,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 |------|--------|------|------|
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
-| Supabase 타입 재생성 | — | 대기 | content_locales 포함, 현재 `as any` 캐스팅 |
+| Supabase 타입 재생성 | — | **완료** | 26.06.12 재생성 + any 캐스팅 148건 전량 제거 |
 | 셀럽 창작 서가 | — | **완료** | 실시간 Wikidata SPARQL 조회 방식. celeb_works 테이블 DROP 완료 |
 | 음성 R2 관리 시스템 | — | **폐기** | R2 음성 동기화 제거 (26.03.23). 영상 음성은 로컬 전용 |
 | remotion-bo 프로젝트 | `docs/project/remotion-bo-plan.md` | **Phase 2 완료** | Next.js. 시리즈 레지스트리, 2단 사이드바, Supabase 셀럽 검색, 스캐폴딩. AI 초안은 LLM 연동 시 별도 |
