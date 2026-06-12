@@ -147,6 +147,18 @@
   background: var(--color-accent);
 }
 
+/* 스크롤 막대 숨김 — scrollbar-hide / no-scrollbar 두 표기가 코드 전반에 혼용됨 */
+.scrollbar-hide,
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Hide scrollbar but keep functionality */
 .scrollbar-hidden {
   scrollbar-width: none;

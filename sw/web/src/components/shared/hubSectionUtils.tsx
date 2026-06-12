@@ -2,7 +2,7 @@
 
 import {
   Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText, Clock,
-  Route, Scroll, GraduationCap, CalendarHeart,
+  Route, Scroll, GraduationCap, CalendarHeart, Youtube,
 } from "lucide-react";
 
 // ────────────────────────────────────────────────────
@@ -51,6 +51,7 @@ export const EXPLORE_SECTIONS = [
 export const EXPLORE_STANDALONE = [
   { key: "navFeed",      href: "/explore/feed",      icon: <Rss size={14} /> },
   { key: "navTimeline",  href: "/explore/timeline",  icon: <Clock size={14} /> },
+  { key: "navYoutube",   href: "/explore/youtube",   icon: <Youtube size={14} /> },
   { key: "navDirectory", href: "/explore/directory",  icon: <BookOpenText size={14} /> },
 ] as const;
 

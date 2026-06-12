@@ -158,7 +158,19 @@
       "navSpotlight": "Spotlight",
       "navDirectory": "Directory",
       "navTimeline": "Timeline by Country",
+      "navYoutube": "YouTube Channel",
       "navToday": "Today's Figure"
+    },
+    "youtube": {
+      "metaTitle": "YouTube Channel | Library Tour Videos",
+      "metaDescription": "Library Tour on video — the books great figures actually read. Watch full episodes and one-book shorts in one place.",
+      "intro": "Tour the libraries of great figures on video. Full episodes trace one figure's reading life; shorts tell the story of one figure and one book.",
+      "visitChannel": "Visit Channel",
+      "longformTitle": "Full Episodes",
+      "longformSub": "Full-length tours through one figure's entire library",
+      "shortsTitle": "One Figure, One Book",
+      "shortsSub": "Short videos on the story of a figure and a single book",
+      "viewShelf": "View Library"
     },
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures | Explore",

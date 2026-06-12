@@ -61,6 +61,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
       { key: "feed", href: "/explore/feed", label: "인물 피드" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
+      { key: "youtube", href: "/explore/youtube", label: "유튜브 채널" },
       { key: "directory", href: "/explore/directory", label: "디렉토리" },
     ],
   },

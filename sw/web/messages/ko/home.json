@@ -1,5 +1,12 @@
 {
   "home": {
+    "youtube": {
+      "title": "유튜브 채널",
+      "subtitle": "서재 탐방 영상으로 만나는 인물들",
+      "viewAll": "전체보기",
+      "more": "더보기",
+      "channel": "유튜브 채널"
+    },
     "explore": {
       "englishTitle": "Notable Figures",
       "description": "위인들이 남긴 감상의 궤적을 따라가 보세요.",

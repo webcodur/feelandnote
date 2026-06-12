@@ -158,7 +158,19 @@
       "navSpotlight": "스포트라이트",
       "navDirectory": "디렉토리",
       "navTimeline": "국가별 연대기",
+      "navYoutube": "유튜브 채널",
       "navToday": "오늘의 인물"
+    },
+    "youtube": {
+      "metaTitle": "유튜브 채널 | 서재 탐방 영상",
+      "metaDescription": "위인들이 읽은 책을 영상으로 만나는 서재 탐방. 인물 본편과 인물-책 쇼츠를 한곳에서 감상하세요.",
+      "intro": "위인의 서재를 영상으로 탐방합니다. 본편은 한 인물의 독서 일대기를, 쇼츠는 인물과 책 한 권의 이야기를 담습니다.",
+      "visitChannel": "채널 바로가기",
+      "longformTitle": "인물 본편",
+      "longformSub": "한 인물의 서재를 통째로 탐방하는 본편 영상",
+      "shortsTitle": "인물과 책, 쇼츠",
+      "shortsSub": "인물과 책 한 권의 이야기를 짧게 담은 영상",
+      "viewShelf": "서재 보러 가기"
     },
     "directory": {
       "metaTitle": "셀럽 전체 목록 | 추천 책·영화 디렉토리",

@@ -1,5 +1,12 @@
 {
   "home": {
+    "youtube": {
+      "title": "YouTube Channel",
+      "subtitle": "Figures featured in Library Tour videos",
+      "viewAll": "View all",
+      "more": "More",
+      "channel": "YouTube channel"
+    },
     "explore": {
       "englishTitle": "Notable Figures",
       "description": "Follow the trails of appreciation left by great minds.",
