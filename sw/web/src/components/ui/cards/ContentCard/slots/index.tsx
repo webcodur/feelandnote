@@ -1,35 +1,15 @@
 "use client";
 /*
   ContentCard 슬롯 컴포넌트
-  - TypeLabel: 좌상단 카테고리 레이블
   - SelectOverlay: 선택 모드 오버레이
-  - RecommendButton: 추천 버튼
   - StatsBadge: 인원 구성 뱃지
   - RatingBadge: 별점 뱃지
   - EditionToggle: BOOK 에디션 전환 (국문/영문)
 */
 export { EditionToggle } from "./EditionToggle";
 
-import { Check, Gift, Crown, User, Star, Bookmark, Trash2 } from "lucide-react";
+import { Check, Crown, User, Star } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
-import { TYPE_ICONS } from "../constants";
-import type { ContentType } from "@/types/database";
-
-// #region TypeLabel
-export function TypeLabel({ type, onOpen }: { type: ContentType; onOpen: () => void }) {
-  const Icon = TYPE_ICONS[type];
-  return (
-    <button
-      type="button"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpen(); }}
-      className="absolute top-1 left-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-accent/40 shadow-lg hover:bg-accent hover:border-accent group/type"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Icon size={12} className="text-accent group-hover/type:text-white" strokeWidth={2} />
-    </button>
-  );
-}
-// #endregion
 
 // #region SelectOverlay
 export function SelectOverlay({ isSelected }: { isSelected: boolean }) {
@@ -48,25 +28,6 @@ export function SelectOverlay({ isSelected }: { isSelected: boolean }) {
         {isSelected && <Check size={20} className="text-white" strokeWidth={3} />}
       </div>
     </div>
-  );
-}
-// #endregion
-
-// #region RecommendButton
-export function RecommendButton({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
-  return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick?.(e);
-      }}
-      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center backdrop-blur-sm rounded-md shadow-lg bg-black/70 border border-accent/50 hover:bg-accent hover:border-accent group/rec"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Gift size={12} className="text-accent group-hover/rec:text-white" strokeWidth={2} />
-    </button>
   );
 }
 // #endregion
@@ -131,53 +92,6 @@ export function RatingBadge({
       <Star size={9} className={hasRating ? `text-yellow-500 fill-yellow-500 ${onClick ? "group-hover/rating:text-white group-hover/rating:fill-white" : ""}` : `text-text-tertiary ${onClick ? "group-hover/rating:text-white" : ""}`} />
       <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
     </div>
-  );
-}
-// #endregion
-
-// #region DeleteButton
-export function DeleteButton({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
-  return (
-    <button
-      type="button"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
-      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-red-500/50 shadow-lg hover:bg-red-500 hover:border-red-500 group/del"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Trash2 size={11} className="text-red-400 group-hover/del:text-white" strokeWidth={2} />
-    </button>
-  );
-}
-// #endregion
-
-// #region SavedBadge
-export function SavedBadge({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
-  const interactive = !!onClick;
-  return (
-    <button
-      type="button"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
-      disabled={!interactive}
-      className={`absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-accent rounded-md shadow-lg ${interactive ? "hover:bg-accent/80 cursor-pointer" : ""}`}
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Bookmark size={12} className="text-white fill-white" strokeWidth={2} />
-    </button>
-  );
-}
-// #endregion
-
-// #region AddButton
-export function AddButton({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
-  return (
-    <button
-      type="button"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClick?.(e); }}
-      className="absolute top-1 right-1 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-md border border-white/30 shadow-lg hover:bg-accent hover:border-accent group/add"
-      style={{ zIndex: Z_INDEX.cardBadge }}
-    >
-      <Bookmark size={12} className="text-white/70 group-hover/add:text-white" strokeWidth={2} />
-    </button>
   );
 }
 // #endregion

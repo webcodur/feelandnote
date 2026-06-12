@@ -5,11 +5,10 @@
 export type UnitClass = 'general' | 'saint' | 'strategist' | 'official' | 'artist' | 'artisan' | 'ranger'
 export type Grade = 'SS' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E'
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
-export type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'placement' | 'battle' | 'disposition' | 'manage' | 'result'
+type GamePhase = 'title' | 'setup' | 'wandering' | 'strategy' | 'placement' | 'battle' | 'disposition' | 'manage' | 'result'
 export type Era = 'ancient' | 'medieval' | 'modern'
 export type AIPersonality = 'conqueror' | 'schemer' | 'economist' | 'virtuous' | 'culturist'
 export type RegionId = 'east_asia' | 'southeast_asia' | 'south_asia' | 'central_asia' | 'middle_east' | 'east_europe' | 'west_europe' | 'africa' | 'americas' | 'oceania'
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
 // ── 전술 시스템 (레거시 — 참조용으로 유지) ──
 
@@ -19,7 +18,7 @@ export type TacticType = 'charge' | 'defend' | 'stratagem' | 'fire' | 'morale' |
 
 export interface GridPosition { row: number; col: number }  // row 0=전열, 1=중열, 2=후열
 
-export type StatusEffectType = 'confused' | 'defending' | 'trapped' | 'shielded'
+type StatusEffectType = 'confused' | 'defending' | 'trapped' | 'shielded'
 
 export interface StatusEffect {
   type: StatusEffectType
@@ -49,9 +48,9 @@ export interface BattleAction {
   targetRow?: number  // 범위 공격용
 }
 
-export type BattlePhase = 'placement' | 'action_select' | 'animating' | 'result'
+type BattlePhase = 'placement' | 'action_select' | 'animating' | 'result'
 
-export type BattleAnimationType = 'melee' | 'ranged' | 'fire' | 'heal' | 'buff' | 'debuff' | 'defend'
+type BattleAnimationType = 'melee' | 'ranged' | 'fire' | 'heal' | 'buff' | 'debuff' | 'defend'
 
 export interface BattleAnimation {
   type: BattleAnimationType
@@ -64,7 +63,7 @@ export interface BattleAnimation {
 
 // ── 턴제 시스템 ──
 
-export type CharacterTask = 'idle' | 'building' | 'working' | 'training' | 'hunting'
+type CharacterTask = 'idle' | 'building' | 'working' | 'training' | 'hunting'
 
 export interface GameTime {
   year: number       // 시작: 1002
@@ -154,7 +153,7 @@ export interface BuildingDef {
   effect: BuildingEffect
 }
 
-export interface BuildingEffect {
+interface BuildingEffect {
   goldPerTurn?: number
   foodPerTurn?: number
   knowledgePerTurn?: number
@@ -310,7 +309,7 @@ export interface BattleState {
 
 // ── 방랑 이벤트 ──
 
-export type WanderingEventType =
+type WanderingEventType =
   | 'guest'           // 객장 방문 — 수락/거절
   | 'bandit_win'      // 도적 격퇴 — 금 획득
   | 'bandit_lose'     // 도적 습격 — 금 손실
@@ -329,7 +328,7 @@ export interface WanderingEvent {
 
 // ── 방랑 상태 ──
 
-export interface WanderingState {
+interface WanderingState {
   leaderId: string
   leader: GameCharacter
   currentRegionId: RegionId
@@ -363,7 +362,7 @@ export interface ThreatCard {
 
 // ── 선술집 방문자 ──
 
-export interface TavernVisitor {
+interface TavernVisitor {
   character: GameCharacter
   territoryId: TerritoryId
   arrivalTurn: number
@@ -428,13 +427,13 @@ export interface GameSettings {
 
 // ── 시나리오 정의 ──
 
-export interface ScenarioPlayerCandidate {
+interface ScenarioPlayerCandidate {
   profileId: string
   startTerritoryId: TerritoryId
   startDescription: string
 }
 
-export interface ScenarioAIFaction {
+interface ScenarioAIFaction {
   leaderId: string
   memberIds: string[]
   territoryId: TerritoryId
@@ -464,12 +463,4 @@ export interface WorldPreview {
   era: Era
   difficulty: 'easy' | 'normal' | 'hard'
   placements: CharacterPlacement[]
-}
-
-// ── 에셋 ──
-
-export interface AssetManifest {
-  portraits: Record<string, string>
-  bgm: Record<string, string | null>
-  se: Record<string, string | null>
 }

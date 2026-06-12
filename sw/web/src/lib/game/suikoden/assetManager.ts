@@ -9,7 +9,7 @@ const assetCache = new Map<string, boolean>()
 const checkPromises = new Map<string, Promise<boolean>>()
 
 /** 에셋 존재 여부 비동기 체크 (캐시 사용) */
-export async function checkAssetExists(path: string): Promise<boolean> {
+async function checkAssetExists(path: string): Promise<boolean> {
   if (assetCache.has(path)) return assetCache.get(path)!
   if (checkPromises.has(path)) return checkPromises.get(path)!
 

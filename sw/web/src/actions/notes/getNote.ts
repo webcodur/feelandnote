@@ -2,42 +2,8 @@
 
 // egress-allow: notes는 본인 전용 RLS — anon 전환 시 빈 결과라 캐시 분리 불가
 import { createClient } from '@/lib/supabase/server'
-import type { Note, NoteWithContent } from './types'
+import type { Note } from './types'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
-import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
-
-// getMyNotes select 문자열에 대응하는 조인 행 타입
-interface NoteContentJoin {
-  id: string
-  type: string
-  content_locales: ContentLocaleRow[] | null
-}
-
-interface MyNoteRow extends Omit<Note, 'sections'> {
-  content: NoteContentJoin | null
-  sections: { count: number }[]
-}
-
-export async function getNote(noteId: string): Promise<ActionResult<Note | null>> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('notes')
-    .select(`
-      *,
-      sections:note_sections(*)
-    `)
-    .eq('id', noteId)
-    .single()
-
-  if (error) {
-    if (error.code === 'PGRST116') return success(null)
-    return handleSupabaseError(error, { context: 'note', logPrefix: '[노트 조회]' })
-  }
-
-  return success(data as Note)
-}
 
 export async function getNoteByContentId(contentId: string): Promise<ActionResult<Note | null>> {
   const supabase = await createClient()
@@ -77,47 +43,4 @@ export async function getNoteByContentId(contentId: string): Promise<ActionResul
   }
 
   return success(data as Note)
-}
-
-export async function getMyNotes(): Promise<ActionResult<NoteWithContent[]>> {
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return failure('UNAUTHORIZED')
-  }
-
-  const { data, error } = await supabase
-    .from('notes')
-    .select(`
-      *,
-      content:contents(id, type, content_locales(${CL_SELECT_LIST})),
-      sections:note_sections(count)
-    `)
-    .eq('user_id', user.id)
-    .order('updated_at', { ascending: false })
-
-  if (error) {
-    return handleSupabaseError(error, { context: 'note', logPrefix: '[노트 목록 조회]' })
-  }
-
-  // content_locales → flat 변환
-  const locale = await getLocale()
-  const rows: MyNoteRow[] = data || []
-  const mapped = rows.map(item => {
-    const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
-    const flat = flattenLocales(rawContent?.content_locales, locale)
-    return {
-      ...item,
-      content: rawContent ? {
-        id: rawContent.id,
-        type: rawContent.type,
-        title: flat.title,
-        creator: flat.creator,
-        thumbnail_url: flat.thumbnail_url,
-      } : null,
-    }
-  })
-
-  return success(mapped as unknown as NoteWithContent[])
 }

@@ -178,29 +178,6 @@ export async function reorderNodes(params: { stageId: string; nodeIds: string[] 
   return { success: true }
 }
 
-// Node를 다른 스테이지로 이동
-export async function moveNode(params: { nodeId: string; targetStageId: string; sortOrder?: number }) {
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('로그인이 필요합니다')
-
-  const updateData: Record<string, unknown> = { stage_id: params.targetStageId }
-  if (params.sortOrder !== undefined) updateData.sort_order = params.sortOrder
-
-  const { error } = await supabase
-    .from('flow_nodes')
-    .update(updateData)
-    .eq('id', params.nodeId)
-
-  if (error) {
-    console.error('노드 이동 에러:', error)
-    throw new Error('노드 이동에 실패했습니다')
-  }
-
-  return { success: true }
-}
-
 // Node 설명/속성 수정
 export async function updateNode(params: { nodeId: string; description?: string | null }) {
   const supabase = await createClient()

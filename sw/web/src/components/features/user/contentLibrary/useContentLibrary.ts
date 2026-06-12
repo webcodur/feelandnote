@@ -31,7 +31,7 @@ import {
   formatMonthLabel,
 } from "./contentLibraryTypes";
 
-export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode, GroupedContents, TabOption } from "./contentLibraryTypes";
+export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode } = options;

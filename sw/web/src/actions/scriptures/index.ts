@@ -505,7 +505,7 @@ export const getProfessionContentCounts = unstable_cache(
 // #endregion
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
-export interface TodayFigure {
+interface TodayFigure {
   id: string
   nickname: string
   nickname_en: string | null
@@ -520,7 +520,7 @@ export interface TodayFigure {
   voiceV: number
 }
 
-export interface TodayFigureSource {
+interface TodayFigureSource {
   type: 'news' | 'seed' | 'birthday'
   newsCount: number
 }
@@ -1058,7 +1058,8 @@ const getContentSamplesForCelebsCached = unstable_cache(
   { revalidate: 3600, tags: ['celebs'] }
 )
 
-export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
+// 미사용 — unstable_cache 래퍼 구조 보존을 위해 export만 해제
+async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
   if (!celebIds.length) return {}
   const locale = await getLocale()
   // 정렬한 join을 키로 — 같은 조합이면 캐시 히트

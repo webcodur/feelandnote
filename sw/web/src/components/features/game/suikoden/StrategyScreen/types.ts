@@ -1,7 +1,7 @@
 import type { GameState, TerritoryId, DialogEntry, TaxRate } from '@/lib/game/suikoden/types'
 
 /** characterId → celeb_dialogues.lines */
-export type DialoguesMap = Record<string, Record<string, string[]>>
+type DialoguesMap = Record<string, Record<string, string[]>>
 
 export interface StrategyScreenProps {
   state: GameState

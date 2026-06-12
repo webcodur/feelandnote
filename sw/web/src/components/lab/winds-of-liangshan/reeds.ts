@@ -10,7 +10,7 @@ import {
 
 // ─── 갈대 클러스터 생성 ───
 
-export function generateReedClusters(W: number): ReedCluster[] {
+function generateReedClusters(W: number): ReedCluster[] {
   const clusters: ReedCluster[] = [];
   let x = -W * 0.1;
   while (x < W * 1.1) {

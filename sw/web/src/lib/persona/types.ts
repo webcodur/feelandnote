@@ -10,10 +10,10 @@ export interface PersonaField {
 }
 
 /** 4그룹 타입 */
-export type PersonaAbilities = Record<AbilityKey, PersonaField>
-export type PersonaInnerVirtues = Record<InnerVirtueKey, PersonaField>
-export type PersonaOuterVirtues = Record<OuterVirtueKey, PersonaField>
-export type PersonaDispositions = Record<TendencyKey, PersonaField>
+type PersonaAbilities = Record<AbilityKey, PersonaField>
+type PersonaInnerVirtues = Record<InnerVirtueKey, PersonaField>
+type PersonaOuterVirtues = Record<OuterVirtueKey, PersonaField>
+type PersonaDispositions = Record<TendencyKey, PersonaField>
 
 /** DB persona jsonb 전체 구조 */
 export interface PersonaJsonb {
@@ -57,7 +57,7 @@ export function parsePersonaJsonb(jsonb: PersonaJsonb): PersonaStats {
   } as unknown as PersonaStats
 }
 
-export type PersonaStatWithReason = { score: number; reason_ko: string; reason_en: string };
+type PersonaStatWithReason = { score: number; reason_ko: string; reason_en: string };
 export type PersonaStatsWithReasons = Record<string, PersonaStatWithReason>;
 
 /** jsonb → PersonaStatsWithReasons 파서 */

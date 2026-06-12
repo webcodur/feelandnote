@@ -105,7 +105,6 @@ export function lightenColor(hex: string, amount: number): string {
   return `rgb(${r},${g},${b})`
 }
 
-export const OCEAN_COLOR = '#0c0a09'
 export const LAND_DEFAULT = 'rgba(41,37,36,0.6)'
 export const BORDER_COLOR = 'rgba(120,113,108,0.3)'
 export const DOT_NEUTRAL = '#57534e'

@@ -1,8 +1,2 @@
-export { getCelebProfiles } from './getCelebProfiles'
-export { getCelebProfile } from './getCelebProfile'
-export { createCelebProfile } from './createCelebProfile'
-export { addCelebContent } from './addCelebContent'
-export { createCelebRecord } from './createCelebRecord'
 export { getCelebForModal } from './getCelebForModal'
-export { searchCelebNews } from './searchCelebNews'
 export { searchCelebImages } from './searchCelebImages'

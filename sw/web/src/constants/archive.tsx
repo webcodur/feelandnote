@@ -18,7 +18,7 @@ export interface ArchiveTab {
   ownerSubDescription: string;
 }
 
-export const ARCHIVE_TABS: ArchiveTab[] = [
+const ARCHIVE_TABS: ArchiveTab[] = [
   {
     value: "intro",
     label: "소개",

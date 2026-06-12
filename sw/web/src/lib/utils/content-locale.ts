@@ -13,12 +13,6 @@ export const CL_SELECT = 'locale, title, creator, thumbnail_url, description, is
  */
 export const CL_SELECT_LIST = 'locale, title, creator, thumbnail_url'
 
-/**
- * 초경량 SELECT (뱃지·이름만 필요한 곳)
- * title만 가져온다. creator/thumbnail도 불필요할 때.
- */
-export const CL_SELECT_MINI = 'locale, title'
-
 export interface ContentLocaleRow {
   locale: string
   title: string | null

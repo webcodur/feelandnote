@@ -5,9 +5,6 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
 
-/** @deprecated PersonaProfile을 직접 사용하세요 */
-export type { PersonaProfile as PersonaVector } from '@/lib/persona/types'
-
 interface PersonaRow {
   celeb_id: string
   persona: PersonaJsonb

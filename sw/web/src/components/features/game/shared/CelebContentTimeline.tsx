@@ -42,7 +42,7 @@ interface CelebContentTimelineProps {
   locale?: string;
 }
 
-export function formatYear(year: number): string {
+function formatYear(year: number): string {
   if (year < 0) return `BC ${Math.abs(year)}`;
   return `AD ${year}`;
 }

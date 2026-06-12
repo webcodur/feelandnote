@@ -10,7 +10,7 @@ import { useRef } from "react";
 import { Link } from "@/i18n/navigation";
 import { hubSectionId } from "@/components/shared/hubSectionUtils";
 
-export interface HubNavItem {
+interface HubNavItem {
   label: string;
   href: string;
   icon?: React.ReactNode;

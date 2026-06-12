@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCountryNamesMap } from '@/lib/countries'
 
-export interface NationalityCount {
+interface NationalityCount {
   value: string  // 'all' | 'none' | 국가 코드 (ISO 3166-1 alpha-2)
   label: string  // 한글 표시명
   count: number

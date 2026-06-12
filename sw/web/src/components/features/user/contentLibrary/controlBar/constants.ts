@@ -26,8 +26,3 @@ export const REVIEW_FILTER_OPTIONS: { value: ReviewFilter; label: string }[] = [
   { value: "has_review", label: "리뷰 있음" },
   { value: "no_review", label: "리뷰 없음" },
 ];
-
-export const CONTROL_BUTTON_VARIANTS = {
-  default: "w-full h-7 sm:h-8 rounded-lg border bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:border-border hover:text-text-primary transition-colors",
-  active: "w-full h-7 sm:h-8 rounded-lg border bg-accent/10 border-accent/20 text-accent shadow-sm transition-colors",
-};

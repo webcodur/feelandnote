@@ -1,13 +1,12 @@
 /*
   파일명: /components/ui/Button.tsx
-  기능: 기본 버튼 및 셀렉트 컴포넌트
-  책임: variant/size에 따른 스타일을 적용한 버튼과 드롭다운을 제공한다.
+  기능: 기본 버튼 컴포넌트
+  책임: variant/size에 따른 스타일을 적용한 버튼을 제공한다.
 */ // ------------------------------
 
 "use client";
 
-import { ReactNode, ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
-import { LucideIcon, ChevronDown } from "lucide-react";
+import { ReactNode, ButtonHTMLAttributes } from "react";
 
 // #region Base Button
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -59,94 +58,6 @@ export default function Button({
     >
       {children}
     </button>
-  );
-}
-// #endregion
-
-// #region IconButton
-interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: LucideIcon;
-  size?: number;
-  active?: boolean;
-}
-
-export function IconButton({
-  icon: Icon,
-  size = 16,
-  active = false,
-  className = "",
-  disabled,
-  onClick,
-  ...props
-}: IconButtonProps) {
-  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
-
-  return (
-    <button
-      className={`flex items-center justify-center rounded-lg ${disabledStyles} ${className}`}
-      disabled={disabled}
-      onClick={onClick}
-      {...props}
-    >
-      <Icon size={size} strokeWidth={active ? 2.5 : 2} />
-    </button>
-  );
-}
-// #endregion
-
-// #region SelectDropdown
-interface SelectOption<T extends string> {
-  value: T;
-  label: string;
-}
-
-interface SelectDropdownProps<T extends string> extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange" | "size"> {
-  value: T;
-  onChange: (value: T) => void;
-  options: SelectOption<T>[];
-  icon?: LucideIcon;
-  placeholder?: string;
-}
-
-export function SelectDropdown<T extends string>({
-  value,
-  onChange,
-  options,
-  icon: Icon,
-  placeholder,
-  className = "",
-  disabled,
-  ...props
-}: SelectDropdownProps<T>) {
-  const selectedLabel = options.find((o) => o.value === value)?.label ?? placeholder ?? "";
-
-  return (
-    <div className={`relative group ${className}`}>
-      <select
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-        value={value}
-        onChange={(e) => onChange(e.target.value as T)}
-        disabled={disabled}
-        {...props}
-      >
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      <div
-        className={`
-          flex items-center gap-2 px-3 h-full rounded-lg text-[inherit] font-medium pointer-events-none border border-transparent
-          bg-surface text-text-secondary group-hover:bg-surface-hover group-hover:text-text-primary
-          ${disabled ? "opacity-50" : ""}
-        `}
-      >
-        {Icon && <Icon size={14} className="flex-shrink-0 opacity-70 sm:size-[14px] size-[12px]" />}
-        <span className="truncate flex-1">{selectedLabel}</span>
-        <ChevronDown size={14} className="flex-shrink-0 opacity-50 group-hover:opacity-80 sm:size-[14px] size-[12px]" />
-      </div>
-    </div>
   );
 }
 // #endregion

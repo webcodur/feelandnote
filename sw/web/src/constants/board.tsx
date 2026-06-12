@@ -4,21 +4,7 @@
   책임: 게시판 카테고리, 피드백 관련 정보를 단일 원천으로 관리한다.
 */
 
-import { Megaphone, MessageSquare, type LucideIcon } from "lucide-react";
 import type { FeedbackCategory, FeedbackStatus } from "@/types/database";
-
-// #region 게시판 항목 (메인페이지 프리뷰용)
-export interface BoardItem {
-  value: string;
-  icon: LucideIcon;
-  href: string;
-}
-
-export const BOARD_ITEMS: BoardItem[] = [
-  { value: "notice", icon: Megaphone, href: "/agora/board/notice" },
-  { value: "feedback", icon: MessageSquare, href: "/agora/board/feedback" },
-];
-// #endregion
 
 // #region 피드백 카테고리
 export const FEEDBACK_CATEGORY_COLORS: Record<FeedbackCategory, string> = {

@@ -12,26 +12,12 @@ export type DuelAction = "charge" | "strike" | "brace";
 
 export type DuelPhase = "intro" | "select" | "clash" | "resolve" | "end";
 
-export interface DuelFighterState {
-  card: BattleCard;
-  hp: number;
-  maxHp: number;
-  momentum: number; // 기세 (0-5)
-}
-
 export interface DuelClashResult {
   playerAction: DuelAction;
   aiAction: DuelAction;
   playerDamage: number; // 플레이어가 받는 데미지
   aiDamage: number;     // AI가 받는 데미지
   narrative: string;
-}
-
-export interface DuelResult {
-  winner: "player" | "ai" | "draw";
-  playerHpLeft: number;
-  aiHpLeft: number;
-  rounds: DuelClashResult[];
 }
 
 // ─── 상수 ───
@@ -220,20 +206,6 @@ export function duelAiDecide(
   if (r < 0.65) return aiMomentum >= 2 ? "strike" : "charge";
   return "brace";
 }
-
-// ─── 유틸리티 ───
-
-export const DUEL_ACTION_LABELS: Record<DuelAction, string> = {
-  charge: "충전",
-  strike: "공격",
-  brace: "버티기",
-};
-
-export const DUEL_ACTION_ICONS: Record<DuelAction, string> = {
-  charge: "⚡",
-  strike: "⚔",
-  brace: "🛡",
-};
 
 // ─── 명령별 일기토 설정 ───
 

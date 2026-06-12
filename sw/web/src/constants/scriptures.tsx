@@ -1,23 +1,8 @@
 /*
-  파일명: /constants/library.tsx
+  파일명: /constants/scriptures.tsx
   기능: 서가 관련 상수 Single Source of Truth
-  책임: 서가 탭 정보를 단일 원천으로 관리한다.
+  책임: 서가 직군 그리드 배치 정보를 단일 원천으로 관리한다.
 */
-
-import { Scroll, Route, Clock, GraduationCap, type LucideIcon } from "lucide-react";
-
-export interface ScripturesTab {
-  value: string;
-  icon: LucideIcon;
-  href: string;
-}
-
-export const SCRIPTURES_TABS: ScripturesTab[] = [
-  { value: "era", icon: Clock, href: "/library/era" },
-  { value: "profession", icon: Route, href: "/library/profession" },
-  { value: "museum", icon: Scroll, href: "/library/museum" },
-  { value: "academy", icon: GraduationCap, href: "/library/academy" },
-];
 
 // 5행 3열 그리드 (갈림길 페이지용) — 긴 라벨과 짧은 라벨을 교차 배치
 export const PROFESSION_ROWS = [

@@ -2,7 +2,7 @@ import type { BandDef, BandPath } from "../types";
 import { fbm, fbm2D, hashNoise, wave } from "./noise";
 
 // --- [3] 대기 원근 + [4] 광원 방향 색 논리 ---
-export const tintBandColor = (hex: string, t: number, bandX: number, vpX: number, w: number): string => {
+const tintBandColor = (hex: string, t: number, bandX: number, vpX: number, w: number): string => {
   let r = parseInt(hex.slice(1, 3), 16);
   let g = parseInt(hex.slice(3, 5), 16);
   let b = parseInt(hex.slice(5, 7), 16);
@@ -131,7 +131,7 @@ export const createShoreFunctions = (
 };
 
 // --- [1] 수면 반사: "부서진 빛의 집합" ---
-export const drawSunReflection = (
+const drawSunReflection = (
   ctx: CanvasRenderingContext2D,
   w: number,
   h: number,

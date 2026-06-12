@@ -33,15 +33,6 @@ export const CATEGORIES: CategoryConfig[] = [
   { id: "certificate", label: "자격증", shortLabel: "CERT", icon: LaurelIcon, lucideIcon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE", unit: "개", creatorLabel: "발급기관" },
 ] as const;
 
-// ContentType → CategoryId 매핑
-export const TYPE_TO_CATEGORY_ID: Record<ContentType, CategoryId> = {
-  BOOK: "book",
-  VIDEO: "video",
-  GAME: "game",
-  MUSIC: "music",
-  CERTIFICATE: "certificate",
-};
-
 // CategoryId → ContentType 매핑 (all은 undefined)
 export const CATEGORY_ID_TO_TYPE: Record<CategoryId, ContentType | undefined> = {
   all: undefined,

@@ -55,12 +55,3 @@ export function failure(
   }
 }
 // #endregion
-
-// #region 인증 체크 헬퍼
-export function requireAuth(user: unknown): ActionFailure | null {
-  if (!user) {
-    return failure('UNAUTHORIZED')
-  }
-  return null
-}
-// #endregion

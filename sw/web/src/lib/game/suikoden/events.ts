@@ -2,7 +2,7 @@
 
 import type { GameState, Season } from './types'
 
-export interface GameEvent {
+interface GameEvent {
   id: string
   name: string
   description: string

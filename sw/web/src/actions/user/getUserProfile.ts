@@ -6,7 +6,7 @@ import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
 import { getLocale } from 'next-intl/server'
 
-export interface SelectedTitle {
+interface SelectedTitle {
   name: string
   grade: string
 }

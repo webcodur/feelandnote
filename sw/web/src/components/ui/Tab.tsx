@@ -7,7 +7,6 @@
 "use client";
 
 import { ReactNode, createContext, useContext, useRef, useEffect, useState, useCallback, useMemo } from "react";
-import { Link } from "@/i18n/navigation";
 
 // #region Context
 interface TabIndicator {
@@ -30,12 +29,6 @@ interface TabProps {
   active: boolean;
   onClick?: () => void;
   className?: string;
-}
-
-interface LinkTabProps {
-  href: string;
-  label: ReactNode;
-  active: boolean;
 }
 
 interface TabsProps {
@@ -81,37 +74,6 @@ export function Tab({ label, active, onClick, className = "" }: TabProps) {
   );
 }
 
-export function LinkTab({ href, label, active }: LinkTabProps) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const id = useRef(Math.random().toString(36).slice(2)).current;
-  const context = useContext(TabsContext);
-
-  useEffect(() => {
-    if (!ref.current || !context) return;
-    context.registerTab(id, ref.current, active);
-    return () => context.unregisterTab(id);
-  }, [id, active, context]);
-
-  const handleMouseEnter = useCallback(() => {
-    context?.setHoveredTab(id);
-  }, [context, id]);
-
-  const handleMouseLeave = useCallback(() => {
-    context?.setHoveredTab(null);
-  }, [context]);
-
-  return (
-    <Link
-      ref={ref}
-      href={href}
-      className={`${tabBaseClass} no-underline ${active ? activeClass : inactiveClass}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {label}
-    </Link>
-  );
-}
 // #endregion
 
 // #region Tabs 컴포넌트

@@ -2,7 +2,6 @@
   파일명: contentLibraryTypes.ts
   기능: 콘텐츠 라이브러리 타입 및 헬퍼 함수
 */
-import type { ContentType, ContentStatus } from "@/types/database";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
 // #region 타입
@@ -26,15 +25,6 @@ export interface UseContentLibraryOptions {
   defaultViewMode?: ViewMode;
 }
 
-export interface GroupedContents {
-  all: UserContentWithContent[];
-}
-
-export interface TabOption {
-  value: string;
-  label: string;
-  type?: ContentType;
-}
 // #endregion
 
 // #region 헬퍼 함수

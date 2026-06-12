@@ -102,9 +102,6 @@ export function getSearchPresets(type: string, locale: string): SearchPreset[] {
   return presets[type] || [];
 }
 
-/** @deprecated locale 미지원 — getSearchPresets(type, locale) 사용 */
-export const SEARCH_PRESETS = SEARCH_PRESETS_KO;
-
 // 구글 검색 URL 생성
 export function generateGoogleSearchUrl(query: string): string {
   const encodedQuery = encodeURIComponent(query);

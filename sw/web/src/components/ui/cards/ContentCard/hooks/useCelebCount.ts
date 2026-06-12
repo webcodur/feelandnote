@@ -73,9 +73,3 @@ export function useContentCounts(contentId?: string): ContentCountsResult {
     userCount: counts?.userCount,
   };
 }
-
-// 하위 호환 (기존 useCelebCount 사용처)
-export function useCelebCount(contentId?: string): number | undefined {
-  const { celebCount } = useContentCounts(contentId);
-  return celebCount;
-}

@@ -39,8 +39,6 @@ const BATTLE_AUDIO_CONFIG: GameAudioConfig = {
   },
 };
 
-export type { BgmTrack };
-
 export function useBattleAudio() {
   return useGameAudio(BATTLE_AUDIO_CONFIG);
 }

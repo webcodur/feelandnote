@@ -21,7 +21,7 @@ export const JUDGMENT_STYLE: Record<RhythmJudgment, { color: string; label: stri
 export const JUDGE_RATIO = 0.78;    // 플레이 영역 높이의 78% 지점에 타겟 배치
 export const NOTE_R = 16;           // 노트 반지름
 export const TARGET_R = 24;         // 타겟 동심원 반지름
-export const LANE_GAP = 72;         // 레인 간 중심 간격
+const LANE_GAP = 72;         // 레인 간 중심 간격
 export const LANE_COUNT = 3;
 export const LANE_KEYS = ["Q", "W", "E"] as const;
 export const LANE_KEY_CODES: Record<string, Lane> = { KeyQ: 0, KeyW: 1, KeyE: 2 };

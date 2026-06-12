@@ -1,14 +1,10 @@
 // ─── 상수 ───
 
 export const LIGHT_X_RATIO = 0.75;
-export const LIGHT_Y_RATIO = 0.15;
-export const WATER_TOP_RATIO = 0.52;
+const LIGHT_Y_RATIO = 0.15;
+const WATER_TOP_RATIO = 0.52;
 export const WARM_SUN = "rgba(255, 220, 160,";
 export const HAZE_MIST = "rgba(180, 200, 190,";
-export const INK_SKY = "#2f3f4a";
-export const INK_MOUNTAIN_FAR = "rgba(80, 100, 110,";
-export const INK_MOUNTAIN_NEAR = "rgba(30, 45, 48,";
-export const WATER_DEEP = "#1f4a45";
 export const PARTICLE_COUNT = 50;
 
 // ─── 인터페이스 ───
@@ -74,7 +70,7 @@ export function clamp(v: number, min: number, max: number) {
 }
 
 /** 카메라 스크롤 속도 (px/초) — 사물 레이어 기준 */
-export const CAMERA_SPEED = 15;
+const CAMERA_SPEED = 15;
 
 export function makeSceneContext(W: number, H: number, time: number): SceneContext {
   return {

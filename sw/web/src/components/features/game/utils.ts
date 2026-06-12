@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 // 사망 연도 파싱 (birth_date와 동일한 형식 지원)
-export function parseDeathYear(deathDate: string | null): number | null {
+function parseDeathYear(deathDate: string | null): number | null {
   if (!deathDate) return null;
 
   // "-399" 또는 "-43-12-07" 형식 (BC)
@@ -24,10 +24,6 @@ export function isPublicDomainCeleb(deathDate: string | null): boolean {
   const deathYear = parseDeathYear(deathDate);
   return deathYear !== null && deathYear <= 1920;
 }
-
-// 퍼블릭 도메인 안내 문구
-export const PUBLIC_DOMAIN_NOTICE =
-  "이 게임에는 저작권·초상권 보호를 위해 1920년 이전에 사망한 역사적 인물만 등장합니다.";
 
 function getOrdinal(n: number): string {
   const mod10 = n % 10;

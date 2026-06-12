@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-export type NotificationType =
+type NotificationType =
   | "like"
   | "comment"
   | "follow"

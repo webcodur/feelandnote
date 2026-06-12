@@ -1,8 +1,6 @@
 import type { CelebProfile } from "@/types/home";
 import type { Aura } from "@/constants/materials";
 
-export const DATE_LOCALES_IMPORT = "date-fns/locale";
-
 export const AURA_GRADIENTS: Record<Aura, string> = {
   1: "from-[#8d6e63] via-[#5d4037] to-[#3e2723]",         // wood (필멸자)
   2: "from-[#607d8b] via-[#455a64] to-[#263238]",         // stone (순례자)

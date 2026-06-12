@@ -26,10 +26,10 @@ export interface RhythmResult {
 // ─── 상수 ───
 
 export const NOTE_COUNT = 12;        // 기본 노트 개수
-export const NOTE_INTERVAL = 700;    // 노트 간격 (ms)
-export const FIRST_NOTE_DELAY = 1200; // 첫 노트까지 대기 (ms)
-export const PERFECT_WINDOW = 50;   // ±ms
-export const GOOD_WINDOW = 120;     // ±ms
+const NOTE_INTERVAL = 700;    // 노트 간격 (ms)
+const FIRST_NOTE_DELAY = 1200; // 첫 노트까지 대기 (ms)
+const PERFECT_WINDOW = 50;   // ±ms
+const GOOD_WINDOW = 120;     // ±ms
 export const NOTE_FALL_DURATION = 1200; // 낙하 시간 (ms)
 
 const JUDGMENT_SCORES: Record<RhythmJudgment, number> = {

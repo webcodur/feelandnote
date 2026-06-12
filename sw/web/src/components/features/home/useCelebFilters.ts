@@ -17,7 +17,7 @@ export const SORT_VALUES: CelebSortBy[] = [
 
 export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
 
-export const DEFAULT_PAGE_SIZE = 24;
+const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
 
 const VALID_SORT_VALUES: CelebSortBy[] = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
@@ -262,13 +262,4 @@ export function useCelebFilters({
     handleSearchSubmit,
     handleSearchClear,
   };
-}
-
-// Rank → Variant 변환
-export function getRankVariant(rank?: string) {
-  if (rank === "S") return "crimson";
-  if (rank === "A") return "gold";
-  if (rank === "B") return "silver";
-  if (rank === "C") return "bronze";
-  return "iron";
 }

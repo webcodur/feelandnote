@@ -9,7 +9,7 @@ export interface TitleWithStatus extends TitleDefinition {
   unlocked: boolean
 }
 
-export interface ScoreLog {
+interface ScoreLog {
   id: string
   type: 'activity' | 'title'
   action: string
@@ -17,7 +17,7 @@ export interface ScoreLog {
   created_at: string
 }
 
-export interface UserScore {
+interface UserScore {
   activity_score: number
   title_bonus: number
   total_score: number

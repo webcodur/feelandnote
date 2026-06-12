@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
-export interface UpdateProfileInput {
+interface UpdateProfileInput {
   nickname?: string
   bio?: string
   avatar_url?: string

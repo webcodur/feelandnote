@@ -10,7 +10,7 @@ import {
   FILTER_BOTTOMSHEET_STYLES,
 } from "@/constants/filterStyles";
 
-export interface FilterTabItem<T extends string = string> {
+interface FilterTabItem<T extends string = string> {
   value: T;
   label: string;
 }

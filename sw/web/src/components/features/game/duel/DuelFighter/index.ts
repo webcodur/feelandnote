@@ -1,2 +1,2 @@
 export { default } from "./DuelFighter";
-export type { FighterPose, DuelFighterProps } from "./types";
+export type { FighterPose } from "./types";

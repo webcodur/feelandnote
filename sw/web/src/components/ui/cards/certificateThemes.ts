@@ -4,7 +4,7 @@
   책임: 자격증 분야에 따른 색상, 아이콘, 패턴 정보를 제공한다.
 */ // ------------------------------
 
-import { Award, Cpu, Zap, Building2, Beaker, BarChart3, Shield, Wrench, Palette, BookOpen, type LucideIcon } from "lucide-react";
+import { Award, Cpu, Zap, Building2, Beaker, BarChart3, Shield, Wrench, Palette, type LucideIcon } from "lucide-react";
 
 // #region 타입
 export interface FieldTheme {
@@ -16,7 +16,7 @@ export interface FieldTheme {
 // #endregion
 
 // #region 상수
-export const FIELD_THEMES: Record<string, FieldTheme> = {
+const FIELD_THEMES: Record<string, FieldTheme> = {
   정보: {
     icon: Cpu,
     gradient: "from-blue-600 via-cyan-500 to-blue-400",
@@ -73,29 +73,6 @@ export const FIELD_THEMES: Record<string, FieldTheme> = {
   },
 };
 
-export const STATUS_CONFIG = {
-  WISH: {
-    label: "목표",
-    ring: "ring-zinc-500/50",
-    badge: "bg-zinc-500/80",
-  },
-  EXPERIENCE: {
-    label: "학습 중",
-    ring: "ring-amber-500/50",
-    badge: "bg-amber-500/80",
-  },
-  COMPLETE: {
-    label: "취득",
-    ring: "ring-green-500/70",
-    badge: "bg-green-500/80",
-  },
-  RECOMMEND: {
-    label: "추천",
-    ring: "ring-accent/70",
-    badge: "bg-accent/80",
-  },
-};
-
 // 분야 키워드 매핑
 const FIELD_KEYWORDS: Record<string, string[]> = {
   정보: ["정보", "컴퓨터", "데이터", "sql"],
@@ -121,6 +98,4 @@ export function getFieldTheme(title: string, series: string): FieldTheme {
 
   return FIELD_THEMES.default;
 }
-
-export { BookOpen };
 // #endregion

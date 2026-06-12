@@ -1,1 +1,1 @@
-export { createNotification, type NotificationType } from "./createNotification";
+export { createNotification } from "./createNotification";

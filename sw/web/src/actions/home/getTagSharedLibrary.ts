@@ -9,7 +9,7 @@ import { unstable_cache } from "next/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
-export interface SharedContentCeleb {
+interface SharedContentCeleb {
   id: string;
   nickname: string;
   nickname_en: string | null;

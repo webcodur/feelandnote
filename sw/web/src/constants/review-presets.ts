@@ -9,15 +9,13 @@ export interface ReviewPreset {
   sentiment: ReviewSentiment;
 }
 
-export type ReviewPresetCategory = "common" | "positive" | "negative" | "neutral" | CategoryId;
-
 interface PresetGroup {
   label: string;
   presets: ReviewPreset[];
 }
 
 // 1. 공통 프리셋
-export const COMMON_PRESETS: PresetGroup[] = [
+const COMMON_PRESETS: PresetGroup[] = [
   {
     label: "긍정 계열",
     presets: [
@@ -58,7 +56,7 @@ export const COMMON_PRESETS: PresetGroup[] = [
 ];
 
 // 2. 카테고리별 특화 프리셋
-export const CATEGORY_PRESETS: Record<string, ReviewPreset[]> = {
+const CATEGORY_PRESETS: Record<string, ReviewPreset[]> = {
   book: [
     { id: "BOOK_01", keyword: "페이지 턴너예요", description: "읽는 속도가 빨라서 한 번에 끝냄", sentiment: "positive" },
     { id: "BOOK_02", keyword: "지식 폭발", description: "새로운 지식·통찰이 엄청 많이 얻어짐", sentiment: "positive" },
@@ -112,7 +110,7 @@ export const getPresetsByCategory = (category: CategoryId): ReviewPreset[] => {
 };
 
 // 모든 프리셋 (공통 + 카테고리 전체)
-export const getAllPresets = (): ReviewPreset[] => {
+const getAllPresets = (): ReviewPreset[] => {
   const common = getAllCommonPresets();
   const category = Object.values(CATEGORY_PRESETS).flat();
   return [...common, ...category];

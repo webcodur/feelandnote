@@ -6,7 +6,7 @@
 
 import type {
   BattleCard, Command, NationState, RoundRecord, RoundAction,
-  Domain, CounterResult,
+  CounterResult,
 } from "./types";
 import { MAX_POWER, MAX_MORALE, CAPTAIN_AURA_BONUS, CAPTAIN_PLAY_BONUS } from "./types";
 
@@ -54,16 +54,6 @@ export function aptitudeToStars(value: number): number {
   if (value >= 9) return 3;
   if (value >= 5) return 2;
   return 1;
-}
-
-/** 영역 순서 랜덤 셔플 */
-export function shuffleDomains(domains: Domain[]): Domain[] {
-  const arr = [...domains];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
 }
 
 // ─── 상성 매트릭스 (3×3 RPS) ───

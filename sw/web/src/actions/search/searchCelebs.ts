@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 
-export interface CelebSearchResult {
+interface CelebSearchResult {
   id: string
   slug: string | null
   nickname: string

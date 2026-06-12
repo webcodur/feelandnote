@@ -3,7 +3,7 @@
 import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 
-export interface FollowingUserInfo {
+interface FollowingUserInfo {
   id: string
   nickname: string
   avatar_url: string | null

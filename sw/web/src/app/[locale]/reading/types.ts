@@ -24,12 +24,12 @@ export interface SelectedBook {
 // #region 섹션 타입
 export type SectionType = "basic" | "character" | "image" | "timeline" | "conceptMap" | "comparison" | "glossary";
 
-export interface SectionPosition {
+interface SectionPosition {
   x: number;
   y: number;
 }
 
-export interface SectionSize {
+interface SectionSize {
   width: number;
   height: number;
 }
@@ -38,7 +38,7 @@ export interface SectionSize {
 export type CharacterGender = "male" | "female" | "unknown";
 
 // 인물 관계
-export interface CharacterRelation {
+interface CharacterRelation {
   targetId: string; // 관계 대상 인물 ID
   type: string; // 관계 유형 (부모, 자식, 친구, 적 등)
 }
@@ -63,19 +63,19 @@ export const RELATION_TYPES = [
 ] as const;
 
 // 기본 섹션
-export interface BasicSectionData {
+interface BasicSectionData {
   type: "basic";
   content: string;
 }
 
 // 인물 섹션
-export interface CharacterSectionData {
+interface CharacterSectionData {
   type: "character";
   characters: CharacterInfo[];
 }
 
 // 이미지 섹션
-export interface ImageSectionData {
+interface ImageSectionData {
   type: "image";
   imageUrl: string | null; // base64 또는 blob URL
 }
@@ -139,7 +139,7 @@ export interface GlossarySectionData {
   terms: GlossaryTerm[];
 }
 
-export type SectionData =
+type SectionData =
   | BasicSectionData
   | CharacterSectionData
   | ImageSectionData
@@ -168,18 +168,4 @@ export interface ReadingWorkspaceData {
   customQuotes: ReadingQuote[];
   lastUpdated: string;
 }
-// #endregion
-
-// #region 섹션 기본값
-export const DEFAULT_SECTION_SIZE: SectionSize = { width: 280, height: 200 };
-
-export const SECTION_TYPE_LABELS: Record<SectionType, string> = {
-  basic: "메모",
-  character: "조직",
-  image: "이미지",
-  timeline: "타임라인",
-  conceptMap: "개념 맵",
-  comparison: "비교표",
-  glossary: "용어집",
-};
 // #endregion

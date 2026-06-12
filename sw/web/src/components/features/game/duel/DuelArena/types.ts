@@ -11,7 +11,7 @@ export interface DuelArenaProps {
 
 export type IconComponent = React.FC<{ color: string; size?: number }>;
 
-export type ActionStyleConfig = {
+type ActionStyleConfig = {
   activeClass: string;
   color: string;
   glowColor: string;

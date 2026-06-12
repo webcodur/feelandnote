@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
-export interface GenderCount {
+interface GenderCount {
   value: string  // 'all' | 'male' | 'female'
   label: string  // 한글 표시명
   count: number

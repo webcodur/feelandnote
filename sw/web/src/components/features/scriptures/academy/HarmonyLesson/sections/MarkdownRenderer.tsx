@@ -30,7 +30,7 @@ function InlineMarkdown({ text }: { text: string }) {
 }
 
 /** 문장이 현재 하이라이트 대상인지 판별 (순수 텍스트 매칭) */
-export function isSentenceHighlighted(
+function isSentenceHighlighted(
   text: string,
   activeSentence: string | null,
 ): boolean {

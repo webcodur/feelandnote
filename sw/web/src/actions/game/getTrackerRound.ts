@@ -69,7 +69,7 @@ interface TrackerDialogueRow {
   lines_en: DialogueLines | null;
 }
 
-export interface TrackerPersona {
+interface TrackerPersona {
   // 능력 (0~100)
   command: number;
   martial: number;

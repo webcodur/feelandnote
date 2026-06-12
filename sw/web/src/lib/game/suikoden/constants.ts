@@ -116,21 +116,6 @@ export const GRADE_TROOPS: Record<Grade, number> = {
 
 export const EQUIPMENT_MAX = { weapons: 10000, horses: 1000, ships: 1000, charms: 1000 } as const
 
-export const EQUIPMENT_LABELS: Record<string, { name: string; icon: string; desc: string }> = {
-  weapons: { name: '무기', icon: '⚔️', desc: '공격력 보정 (최대 +30%)' },
-  horses:  { name: '군마', icon: '🐎', desc: '돌격 보정 (최대 +20%)' },
-  ships:   { name: '조선', icon: '⛵', desc: '수상전 보정' },
-  charms:  { name: '부적', icon: '📿', desc: '계략 방어 보정 (최대 -30% 피해)' },
-}
-
-/** 장비 구매 단가 { gold, material } */
-export const EQUIPMENT_COST: Record<string, { gold: number; material: number }> = {
-  weapons: { gold: 2, material: 1 },
-  horses:  { gold: 5, material: 0 },
-  ships:   { gold: 8, material: 3 },
-  charms:  { gold: 3, material: 0 },
-}
-
 // ── 건물 카테고리 ──
 
 export type BuildingCategory = 'agriculture' | 'commerce' | 'military' | 'culture'
@@ -191,11 +176,6 @@ export const TACTIC_INFO: Record<TacticType, { name: string; icon: string; descr
   feint:     { name: '유인', icon: '🗡️', description: '반격. 돌격에 강함', troopCostRate: 0.05 },
 }
 
-// ── 전투 상수 ──
-
-export const BATTLE_MAX_ROUNDS = 10   // 레거시 (전술 상성 시스템용)
-export const BATTLE_MAX_UNITS = 5
-
 // ── 개별 유닛 턴제 전투 상수 ──
 
 export const BATTLE_MAX_TURNS = 30
@@ -234,9 +214,6 @@ export const CLASS_DEFAULT_ROW: Record<UnitClass, number> = {
   strategist: 2,
   artist: 2,
 }
-
-/** 병과별 성인 추가 */
-export const UNIT_CLASS_WITH_SAINT = ['general', 'strategist', 'artisan', 'official', 'artist', 'ranger'] as const
 
 /** 스킬 정의 타입 */
 export interface SkillDef {
@@ -529,39 +506,11 @@ export const DIFFICULTY_CONFIG = {
   hard:   { aiFactions: 7, startMembers: 1, maxTurns: 80,  startAP: 3 },
 } as const
 
-// ── 스탯 라벨 ──
-
-// 능력 4종 + 덕목 8종 라벨 (성향은 별도)
-export const STAT_LABELS: Record<string, { name: string; icon: string; desc: string }> = {
-  // 능력
-  command:     { name: '통솔', icon: '👑', desc: '조직·군대·국가를 이끄는 능력' },
-  martial:     { name: '무력', icon: '⚔️', desc: '전투 공격력. 돌격·일기토 주력' },
-  intellect:   { name: '지력', icon: '🧠', desc: '계략·화공·외교. 학당 건설 조건' },
-  charm:       { name: '매력', icon: '💎', desc: '등용·외교·민심 보정' },
-  // 덕목
-  temperance:  { name: '절제', icon: '⚖️', desc: '욕망/감정/권력을 자제' },
-  diligence:   { name: '근면', icon: '🔨', desc: '건축 효율·생산량 보정' },
-  reflection:  { name: '성찰', icon: '📖', desc: '계략 보조·연구 효율' },
-  courage:     { name: '용기', icon: '🔥', desc: '순찰 성공률·돌격 보조' },
-  loyalty:     { name: '충의', icon: '🛡️', desc: '신념·관계에 대한 헌신' },
-  benevolence: { name: '인자', icon: '💚', desc: '사원 건설·등용·치유' },
-  fairness:    { name: '공정', icon: '⚖️', desc: '외교·동맹 보정' },
-  humility:    { name: '겸양', icon: '🙏', desc: '방어·수비 보정' },
-}
-
 // 능력 4종 키 (UI 표시 순서용) — persona 단일원천
 export const ABILITY_STAT_KEYS = _ABILITY_KEYS
 
 // 덕목 8종 키 — persona 단일원천
 export const VIRTUE_STAT_KEYS = _VIRTUE_KEYS
-
-// 성향 4축 라벨
-export const DISPOSITION_LABELS: Record<string, { neg: string; pos: string; icon: string }> = {
-  pessimism_optimism:        { neg: '비관', pos: '낙관', icon: '☀️' },
-  conservative_progressive:  { neg: '보수', pos: '진보', icon: '🔄' },
-  individual_social:         { neg: '개인', pos: '공동체', icon: '🤝' },
-  cautious_bold:             { neg: '신중', pos: '대담', icon: '⚡' },
-}
 
 // 성향 4축 — persona 단일원천
 export const DISPOSITION_KEYS = _TENDENCY_KEYS

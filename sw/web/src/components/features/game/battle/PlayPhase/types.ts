@@ -63,7 +63,7 @@ export const CLASH_KEYFRAMES = `
 
 /* ─── 내러티브 파싱 ─── */
 
-export type NarrativeSide = "player" | "ai" | "system";
+type NarrativeSide = "player" | "ai" | "system";
 export type NarrativeType = "normal" | "rebellion" | "mandate";
 export interface ParsedNarrative {
   side: NarrativeSide;

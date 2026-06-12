@@ -3,7 +3,7 @@
 import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 
-export interface FriendInfo {
+interface FriendInfo {
   id: string
   nickname: string
   avatar_url: string | null

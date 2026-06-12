@@ -41,7 +41,7 @@ export type MaterialKey =
 export type Aura = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 // 오라 칭호 (직업)
-export type AuraTitle =
+type AuraTitle =
   | "MORTAL"      // 필멸자 (1)
   | "PILGRIM"     // 순례자 (2)
   | "MONK"        // 수사 (3)
@@ -54,7 +54,7 @@ export type AuraTitle =
 ;
 
 // 하위 호환용 (deprecated)
-export type Level = 1 | 2 | 3 | 4 | 5;
+type Level = 1 | 2 | 3 | 4 | 5;
 export type CelebLevel = "COSMIC" | "TITAN" | "GIGANTIC" | "SAGE" | "HERO";
 export type NormalLevel = "PROPHET" | "PRIEST" | "PILGRIM" | "NOVICE" | "MORTAL";
 
@@ -488,15 +488,8 @@ export const MATERIAL_ORDER: MaterialKey[] = [
   "wood", "stone", "bronze", "silver", "gold", "emerald", "crimson", "diamond", "holographic"
 ];
 
-// 재질 순서 (역순 - 높은 순 → 낮은 순)
-export const MATERIAL_ORDER_DESC: MaterialKey[] = [
-  "holographic", "diamond", "crimson", "emerald", "gold", "silver", "bronze", "stone", "wood"
-];
-
-export const getMaterial = (key: MaterialKey): MaterialConfig => MATERIALS[key];
-
 // 오라로 재질 조회
-export const getMaterialByAura = (aura: Aura): MaterialConfig => {
+const getMaterialByAura = (aura: Aura): MaterialConfig => {
   const auraMap: Record<Aura, MaterialKey> = {
     1: "wood",
     2: "stone",
@@ -511,67 +504,8 @@ export const getMaterialByAura = (aura: Aura): MaterialConfig => {
   return MATERIALS[auraMap[aura]];
 };
 
-// 오라 칭호로 재질 조회
-export const AURA_TITLE_TO_MATERIAL: Record<AuraTitle, MaterialConfig> = {
-  MORTAL: MATERIALS.wood,
-  PILGRIM: MATERIALS.stone,
-  MONK: MATERIALS.bronze,
-  EVANGELIST: MATERIALS.silver,
-  PRIEST: MATERIALS.gold,
-  ARCHON: MATERIALS.emerald,
-  PROPHET: MATERIALS.crimson,
-  APOSTLE: MATERIALS.diamond,
-  IMMORTAL: MATERIALS.holographic,
-};
-
-// 오라 칭호 라벨
-export const AURA_TITLE_LABELS: Record<AuraTitle, { en: string; ko: string }> = {
-  MORTAL: { en: "MORTAL", ko: "필멸자" },
-  PILGRIM: { en: "PILGRIM", ko: "순례자" },
-  MONK: { en: "MONK", ko: "수사" },
-  EVANGELIST: { en: "EVANGELIST", ko: "전도사" },
-  PRIEST: { en: "PRIEST", ko: "사제" },
-  ARCHON: { en: "ARCHON", ko: "신관" },
-  PROPHET: { en: "PROPHET", ko: "선지자" },
-  APOSTLE: { en: "APOSTLE", ko: "사도" },
-  IMMORTAL: { en: "IMMORTAL", ko: "불멸자" },
-};
-
-// 오라 순서 (낮은 순 → 높은 순)
-export const AURA_ORDER: Aura[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 // 오라 순서 (높은 순 → 낮은 순 - 차트/랭킹 등 상위권 우선 노출 시 사용)
 export const AURA_ORDER_DESC: Aura[] = [9, 8, 7, 6, 5, 4, 3, 2, 1];
-
-// 오라 칭호 순서 (낮은 순 → 높은 순)
-export const AURA_TITLE_ORDER: AuraTitle[] = [
-  "MORTAL", "PILGRIM", "MONK", "EVANGELIST", "PRIEST", "ARCHON", "PROPHET", "APOSTLE", "IMMORTAL"
-];
-
-// 하위 호환용 (deprecated) - Grade 별칭
-export type Grade = Aura;
-export type GradeTitle = AuraTitle;
-export const getMaterialByGrade = getMaterialByAura;
-
-// 하위 호환용 (deprecated)
-export const getMaterialByLevel = (level: Level): MaterialConfig => {
-  const levelMap: Record<Level, MaterialKey> = {
-    5: "gold",
-    4: "silver",
-    3: "bronze",
-    2: "stone",
-    1: "wood",
-  };
-  return MATERIALS[levelMap[level]];
-};
-
-export const CELEB_LEVEL_TO_MATERIAL: Record<CelebLevel, MaterialConfig> = {
-  COSMIC: MATERIALS.gold,
-  TITAN: MATERIALS.silver,
-  GIGANTIC: MATERIALS.bronze,
-  SAGE: MATERIALS.stone,
-  HERO: MATERIALS.wood,
-};
 
 export const NORMAL_LEVEL_TO_MATERIAL: Record<NormalLevel, MaterialConfig> = {
   PROPHET: MATERIALS.gold,
@@ -581,40 +515,9 @@ export const NORMAL_LEVEL_TO_MATERIAL: Record<NormalLevel, MaterialConfig> = {
   MORTAL: MATERIALS.wood,
 };
 
-export const CELEB_LEVEL_LABELS: Record<CelebLevel, { en: string; ko: string }> = {
-  COSMIC: { en: "COSMIC", ko: "코스믹" },
-  TITAN: { en: "TITAN", ko: "타이탄" },
-  GIGANTIC: { en: "GIGANTIC", ko: "기간틱" },
-  SAGE: { en: "SAGE", ko: "세이지" },
-  HERO: { en: "HERO", ko: "히어로" },
-};
-
-export const NORMAL_LEVEL_LABELS: Record<NormalLevel, { en: string; ko: string }> = {
-  PROPHET: { en: "PROPHET", ko: "예언자" },
-  PRIEST: { en: "PRIEST", ko: "성직자" },
-  PILGRIM: { en: "PILGRIM", ko: "순례자" },
-  NOVICE: { en: "NOVICE", ko: "초심자" },
-  MORTAL: { en: "MORTAL", ko: "필멸자" },
-};
 // #endregion
 
 // #region 오라 백분위 임계값 (수능식 등급 컷)
-/**
- * 오라 백분위 기준 (수능 등급 컷과 동일)
- * 오라가 높을수록(9에 가까울수록) 상위
- */
-export const AURA_PERCENTILES: Record<Aura, { min: number; max: number }> = {
-  9: { min: 0, max: 4 },     // 상위 4% 이내
-  8: { min: 4, max: 11 },    // 상위 11% 이내
-  7: { min: 11, max: 23 },   // 상위 23% 이내
-  6: { min: 23, max: 40 },   // 상위 40% 이내
-  5: { min: 40, max: 60 },   // 상위 60% 이내
-  4: { min: 60, max: 77 },   // 상위 77% 이내
-  3: { min: 77, max: 89 },   // 상위 89% 이내
-  2: { min: 89, max: 96 },   // 상위 96% 이내
-  1: { min: 96, max: 100 },  // 나머지
-};
-
 /**
  * percentile(상위 몇 %)로 오라 계산
  * @param percentile 상위 몇 % (0~100)
@@ -640,14 +543,6 @@ export function calculatePercentile(ranking: number, total: number): number {
 }
 
 /**
- * 순위와 전체 수로 오라 계산
- */
-export function getAuraByRanking(ranking: number, total: number): Aura {
-  const percentile = calculatePercentile(ranking, total);
-  return getAuraByPercentile(percentile);
-}
-
-/**
  * 점수(0~100)로 오라 계산 (81~: 9등급, 71~: 8등급 ...)
  * @param score 총점 (0~100)
  */
@@ -664,51 +559,10 @@ export function getAuraByScore(score: number): Aura {
 }
 
 /**
- * Aura → MaterialKey 변환
- */
-export function getMaterialKeyFromAura(aura: Aura): MaterialKey {
-  return getMaterialByAura(aura).key;
-}
-
-/**
  * Aura → MaterialConfig 변환
  */
 export function getMaterialFromAura(aura: Aura): MaterialConfig {
   return getMaterialByAura(aura);
-}
-
-/**
- * Aura → AuraTitle 변환
- */
-export function getAuraTitleFromAura(aura: Aura): AuraTitle {
-  return getMaterialByAura(aura).auraTitle;
-}
-
-/**
- * percentile → MaterialKey 변환 (오라 시스템 SSOT)
- * @param percentile 상위 몇 % (0~100)
- */
-export function getMaterialKeyByPercentile(percentile: number): MaterialKey {
-  const aura = getAuraByPercentile(percentile);
-  return getMaterialKeyFromAura(aura);
-}
-
-/**
- * percentile → MaterialConfig 변환 (오라 시스템 SSOT)
- * @param percentile 상위 몇 % (0~100)
- */
-export function getMaterialConfigByPercentile(percentile: number): MaterialConfig {
-  const aura = getAuraByPercentile(percentile);
-  return getMaterialByAura(aura);
-}
-
-/**
- * score → MaterialKey 변환
- * @param score 총점 (0~100)
- */
-export function getMaterialKeyByScore(score: number): MaterialKey {
-  const aura = getAuraByScore(score);
-  return getMaterialKeyFromAura(aura);
 }
 
 /**
@@ -720,27 +574,8 @@ export function getMaterialConfigByScore(score: number): MaterialConfig {
   return getMaterialByAura(aura);
 }
 
-// 하위 호환용 (deprecated) - Grade 별칭
-export const getGradeByPercentile = getAuraByPercentile;
-export const getGradeByRanking = getAuraByRanking;
-export const getMaterialKeyFromGrade = getMaterialKeyFromAura;
-export const getMaterialFromGrade = getMaterialFromAura;
-export const getGradeTitleFromGrade = getAuraTitleFromAura;
-
 // 하위 호환용 (deprecated)
-export const CELEB_LEVEL_PERCENTILES: Record<CelebLevel, number> = {
-  COSMIC: 4,
-  TITAN: 11,
-  GIGANTIC: 23,
-  SAGE: 40,
-  HERO: 100,
-};
-
-export const CELEB_LEVEL_ORDER: CelebLevel[] = [
-  "COSMIC", "TITAN", "GIGANTIC", "SAGE", "HERO"
-];
-
-export function getCelebLevelByPercentile(percentile: number): CelebLevel {
+function getCelebLevelByPercentile(percentile: number): CelebLevel {
   if (percentile <= 4) return "COSMIC";
   if (percentile <= 11) return "TITAN";
   if (percentile <= 23) return "GIGANTIC";
@@ -751,13 +586,5 @@ export function getCelebLevelByPercentile(percentile: number): CelebLevel {
 export function getCelebLevelByRanking(ranking: number, total: number): CelebLevel {
   const percentile = calculatePercentile(ranking, total);
   return getCelebLevelByPercentile(percentile);
-}
-
-export function getMaterialFromCelebLevel(level: CelebLevel): MaterialKey {
-  return CELEB_LEVEL_TO_MATERIAL[level].key;
-}
-
-export function getMaterialConfigFromCelebLevel(level: CelebLevel): MaterialConfig {
-  return CELEB_LEVEL_TO_MATERIAL[level];
 }
 // #endregion

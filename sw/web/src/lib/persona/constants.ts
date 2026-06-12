@@ -6,9 +6,9 @@ export const VIRTUE_KEYS = [...INNER_VIRTUE_KEYS, ...OUTER_VIRTUE_KEYS] as const
 
 export type InnerVirtueKey = (typeof INNER_VIRTUE_KEYS)[number]
 export type OuterVirtueKey = (typeof OUTER_VIRTUE_KEYS)[number]
-export type VirtueKey = (typeof VIRTUE_KEYS)[number]
+type VirtueKey = (typeof VIRTUE_KEYS)[number]
 
-export const VIRTUE_LABELS: Record<VirtueKey, string> = {
+const VIRTUE_LABELS: Record<VirtueKey, string> = {
   temperance: '절제',
   diligence: '근면',
   reflection: '성찰',
@@ -81,34 +81,3 @@ export const PROFESSION_LABELS: Record<string, string> = {
   other: '기타',
 }
 
-export const PROFESSION_COLORS: Record<string, string> = {
-  leader: '#d4af37',
-  politician: '#ef5350',
-  commander: '#ff7043',
-  entrepreneur: '#66bb6a',
-  investor: '#26c6da',
-  humanities_scholar: '#ab47bc',
-  social_scientist: '#7e57c2',
-  scientist: '#4fc3f7',
-  director: '#ec407a',
-  musician: '#ffa726',
-  visual_artist: '#8d6e63',
-  author: '#78909c',
-  actor: '#f06292',
-  influencer: '#9ccc65',
-  athlete: '#29b6f6',
-  other: '#bdbdbd',
-}
-
-export const CHART_COLORS = [
-  '#d4af37',
-  '#4fc3f7',
-  '#ef5350',
-  '#66bb6a',
-  '#ab47bc',
-  '#ff7043',
-  '#26c6da',
-  '#ec407a',
-  '#8d6e63',
-  '#78909c',
-]

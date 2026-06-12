@@ -6,7 +6,7 @@ import type { ContentStatus } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
-export type SpotifyEntity = 'track' | 'album'
+type SpotifyEntity = 'track' | 'album'
 
 export interface MusicTrack {
   id: string

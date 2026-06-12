@@ -6,9 +6,6 @@
 
 import { Book, Layers, Frame, Landmark, LayoutGrid, Waves, Users, Zap, Swords, ImageIcon, ShoppingCart, type LucideIcon } from "lucide-react";
 
-// 섹션명
-export const LAB_SECTION_NAME = "Component Lab";
-
 export interface LabItem {
   value: string;
   label: string;

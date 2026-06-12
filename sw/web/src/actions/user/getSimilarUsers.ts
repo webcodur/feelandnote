@@ -4,7 +4,7 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 
 // region 타입
-export interface SimilarUser {
+interface SimilarUser {
   id: string;
   nickname: string;
   avatar_url: string | null;

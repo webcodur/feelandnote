@@ -1,7 +1,7 @@
 /*
   파일명: lib/game/voice/types.ts
   기능: 대사 시스템 타입 정의
-  책임: SpeechTone, DialogueType, DialogueLines, DefaultLines 타입을 단일 원천으로 관리한다.
+  책임: SpeechTone, DialogueType, DialogueLines 타입을 단일 원천으로 관리한다.
 
   용어 구분:
   - dialogueLines: DB 개인화 대사 (celeb_dialogues 테이블, 인물별 고유)
@@ -24,9 +24,6 @@ export type DialogueType =
 
 /** 인물별 고유 대사 구조 (7상황 × 3변형) */
 export type DialogueLines = Record<DialogueType, [string, string, string]>;
-
-/** 톤별 범용 대사 구조 (speech_tone → 상황별 변형 배열) */
-export type DefaultLines = Record<SpeechTone, Record<string, string[]>>;
 
 /** 변형 수 */
 export const VARIANTS_PER_LINE = 3;

@@ -66,7 +66,7 @@ export const TITLE_ICONS = {
   Medal, Flag, Trophy 
 } as const;
 
-export type TitleIconName = keyof typeof TITLE_ICONS;
+type TitleIconName = keyof typeof TITLE_ICONS;
 // #endregion
 
 // #region 칭호 정의

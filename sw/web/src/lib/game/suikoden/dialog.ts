@@ -10,7 +10,7 @@ function nextDialogId(): string {
 // ── 말투 결정 ──
 // gender: true=남, false=여, null=불명
 
-export function getSpeechTone(char: GameCharacter): SpeechTone {
+function getSpeechTone(char: GameCharacter): SpeechTone {
   const { benevolence, courage } = char.stats
   const isFemale = char.gender === false
 

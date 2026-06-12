@@ -14,7 +14,8 @@ const DEFAULT_COUNTS: FriendActivityTypeCounts = {
   CERTIFICATE: 0,
 }
 
-export async function getFriendActivityTypeCounts(): Promise<FriendActivityTypeCounts> {
+// 미사용 — egress-allow 구조 보존을 위해 export만 해제
+async function getFriendActivityTypeCounts(): Promise<FriendActivityTypeCounts> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

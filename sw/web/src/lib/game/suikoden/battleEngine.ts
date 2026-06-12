@@ -13,14 +13,14 @@ import { getAvailableSkills } from './skills'
 
 // ── HP 공식 ──
 
-export function calcUnitHp(character: GameCharacter): number {
+function calcUnitHp(character: GameCharacter): number {
   const { command, martial } = character.stats
   return Math.max(10, Math.round(300 + command * 2.0 + martial * 1.0))
 }
 
 // ── 속도 공식 ──
 
-export function calcSpeed(character: GameCharacter): number {
+function calcSpeed(character: GameCharacter): number {
   return 10 + (CLASS_SPEED_BONUS[character.unitClass] ?? 0) + Math.floor(character.stats.martial / 25)
 }
 
@@ -49,7 +49,7 @@ function createBattleUnit(
 
 // ── 자동 배치 ──
 
-export function autoPlaceUnits(
+function autoPlaceUnits(
   characters: GameCharacter[],
   factionId: string,
   leaderId: string,
@@ -79,7 +79,7 @@ export function autoPlaceUnits(
 
 // ── 턴 오더 계산 ──
 
-export function calcTurnOrder(allies: BattleUnit[], enemies: BattleUnit[]): string[] {
+function calcTurnOrder(allies: BattleUnit[], enemies: BattleUnit[]): string[] {
   const allUnits = [...allies, ...enemies].filter(u => !u.isDefeated)
   // 속도 내림차순 → 같으면 이름순(결정론적)
   allUnits.sort((a, b) => {
@@ -229,7 +229,7 @@ function getTargetsByRow(hostiles: BattleUnit[]): string[] {
 
 // ── 대미지 계산 ──
 
-export function calcMeleeDamage(attacker: BattleUnit, target: BattleUnit, moraleMod: number): number {
+function calcMeleeDamage(attacker: BattleUnit, target: BattleUnit, moraleMod: number): number {
   const martial = attacker.character.stats.martial
   const classMult = CLASS_ATTACK_MULT[attacker.character.unitClass] ?? 1.0
   const defRate = Math.min(0.5, target.character.stats.command * 0.004 + target.character.stats.courage * 0.002)
@@ -242,18 +242,7 @@ export function calcMeleeDamage(attacker: BattleUnit, target: BattleUnit, morale
   ))
 }
 
-export function calcRangedDamage(attacker: BattleUnit, target: BattleUnit): number {
-  const martial = attacker.character.stats.martial
-  const classMult = CLASS_ATTACK_MULT[attacker.character.unitClass] ?? 1.0
-  const defRate = Math.min(0.5, target.character.stats.command * 0.004 + target.character.stats.courage * 0.002)
-  const random = 0.85 + Math.random() * 0.3
-
-  return Math.max(1, Math.round(
-    martial * 1.0 * classMult * (1 - defRate * 0.5) * random
-  ))
-}
-
-export function calcStratagemDamage(attacker: BattleUnit, target: BattleUnit): number {
+function calcStratagemDamage(attacker: BattleUnit, target: BattleUnit): number {
   const intellect = attacker.character.stats.intellect
   const resist = target.character.stats.intellect * 0.004
   const charmResist = 1 - target.character.equipment.charms / 1000 * 0.3  // 부적: 최대 -30% 피해
@@ -818,7 +807,7 @@ export function confirmPlacement(state: BattleState): BattleState {
 
 // ── 레거시 변환: BattleUnit[] → BattleParticipant[] ──
 
-export function unitsToParticipants(units: BattleUnit[]): BattleParticipant[] {
+function unitsToParticipants(units: BattleUnit[]): BattleParticipant[] {
   return units.map(u => ({
     character: u.character,
     factionId: u.factionId,

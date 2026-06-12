@@ -2,7 +2,7 @@
   ContentCard 상수 정의
 */
 import { BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
-import type { ContentType, ContentStatus } from "@/types/database";
+import type { ContentType } from "@/types/database";
 
 export const TYPE_ICONS: Record<ContentType, typeof BookOpen> = {
   BOOK: BookOpen,
@@ -10,11 +10,6 @@ export const TYPE_ICONS: Record<ContentType, typeof BookOpen> = {
   GAME: Gamepad2,
   MUSIC: Music,
   CERTIFICATE: Award,
-};
-
-export const STATUS_STYLES: Record<ContentStatus, { label: string; color: string }> = {
-  WANT: { label: "관심", color: "text-status-wish" },
-  FINISHED: { label: "감상", color: "text-status-completed" },
 };
 
 export const ASPECT_STYLES = {

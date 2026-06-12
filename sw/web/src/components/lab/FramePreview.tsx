@@ -52,8 +52,8 @@ const createMockFriend = (mat: MaterialConfig) => ({
 // #endregion
 
 
-// #region 뱃지 배경 스타일 헬퍼 (export for reuse)
-export const getBadgeBackground = (mat: MaterialConfig) =>
+// #region 뱃지 배경 스타일 헬퍼
+const getBadgeBackground = (mat: MaterialConfig) =>
   mat.textureUrl
     ? {
         background: mat.gradient.simple,
@@ -141,8 +141,8 @@ function RomanBadge({ mat, size = "md" }: { mat: MaterialConfig; size?: "sm" | "
 }
 // #endregion
 
-// #region 뱃지 컴포넌트 (로마자 + 등급) - export for InfluenceBadge
-export function CombinedBadge({ mat, size = "md" }: { mat: MaterialConfig; size?: "sm" | "md" | "lg" }) {
+// #region 뱃지 컴포넌트 (로마자 + 등급)
+function CombinedBadge({ mat, size = "md" }: { mat: MaterialConfig; size?: "sm" | "md" | "lg" }) {
   const sizeStyles = {
     sm: { wrapper: "w-12 h-16", text: "text-sm", title: "text-[6px]" },
     md: { wrapper: "w-14 h-18", text: "text-base", title: "text-[7px]" },

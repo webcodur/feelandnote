@@ -93,22 +93,3 @@ export async function fetchContentMetadata(
     return { id: externalId, metadata: null }
   }
 }
-
-// 여러 콘텐츠 metadata 일괄 조회
-export async function fetchContentsMetadata(
-  items: Array<{ externalId: string; type: ContentType }>
-): Promise<Map<string, ContentMetadata>> {
-  const results = await Promise.allSettled(
-    items.map(item => fetchContentMetadata(item.externalId, item.type))
-  )
-
-  const metadataMap = new Map<string, ContentMetadata>()
-
-  results.forEach((result, index) => {
-    if (result.status === 'fulfilled' && result.value.metadata) {
-      metadataMap.set(items[index].externalId, result.value)
-    }
-  })
-
-  return metadataMap
-}

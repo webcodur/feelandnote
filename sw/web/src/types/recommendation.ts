@@ -1,8 +1,8 @@
 // 추천 상태
-export type RecommendationStatus = "pending" | "accepted" | "declined";
+type RecommendationStatus = "pending" | "accepted" | "declined";
 
 // 추천 기본 타입
-export interface Recommendation {
+interface Recommendation {
   id: string;
   sender_id: string;
   receiver_id: string;
@@ -14,14 +14,14 @@ export interface Recommendation {
 }
 
 // 발신자 정보
-export interface RecommendationSender {
+interface RecommendationSender {
   id: string;
   nickname: string;
   avatar_url: string | null;
 }
 
 // 콘텐츠 정보 (추천에 포함)
-export interface RecommendationContent {
+interface RecommendationContent {
   id: string;
   title: string;
   thumbnail_url: string | null;

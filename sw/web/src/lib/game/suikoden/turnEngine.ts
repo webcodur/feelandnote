@@ -596,7 +596,7 @@ function updateStamina(state: GameState): GameState {
 
 // ── 훈련 진행 ──
 
-export function processTraining(state: GameState): GameState {
+function processTraining(state: GameState): GameState {
   let changed = false
   const factions = state.factions.map(f => {
     const members = f.members.map(m => {
@@ -738,20 +738,6 @@ export function commandDemolish(state: GameState, territoryId: TerritoryId, buil
     factions: factionsWithReturn,
     placements,
     log: [...state.log, `${bDef?.name ?? '건물'} 철거 (금+${goldReturn} 자재+${materialReturn})`],
-  }
-}
-
-// ── 명성 ──
-
-export function addFame(state: GameState, charOrFactionId: string, amount: number): GameState {
-  return {
-    ...state,
-    factions: state.factions.map(f => {
-      const isFaction = f.id === charOrFactionId
-      const hasMember = f.members.some(m => m.id === charOrFactionId)
-      if (!isFaction && !hasMember) return f
-      return { ...f, fame: Math.max(0, Math.min(1000, f.fame + amount)) }
-    }),
   }
 }
 

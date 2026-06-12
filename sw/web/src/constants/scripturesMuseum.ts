@@ -1,19 +1,5 @@
-// 콘텐츠 역사 분류 탭
-export interface HistorySubCategory {
-  id: string;
-  label: string;
-  description: string;
-}
-
-export interface HistoryCategory {
-  id: string;
-  label: string;
-  description: string;
-  available: boolean;
-  subCategories?: HistorySubCategory[];
-}
-
-export interface HistoryEraEssay {
+// 시대 에세이
+interface HistoryEraEssay {
   title: string;
   author: string;
   contentMarkdown: string;
@@ -35,7 +21,7 @@ export interface TypographyClass {
   essay?: HistoryEraEssay;
 }
 
-export interface ReadingMethod {
+interface ReadingMethod {
   id: string;
   name: string;
   nameEn: string;
@@ -51,7 +37,7 @@ export interface ReadingMethod {
 
 // ─── 화성학 레슨 타입 ────────────────────────────────────
 
-export interface LessonStep {
+interface LessonStep {
   title: string;
   contentMarkdown: string;
   exampleId: string | null;
@@ -297,64 +283,3 @@ export const ACADEMY_CATEGORY_IDS = [
   },
 ] as const;
 
-// ─── 하위 호환: 기존 HISTORY_CATEGORY_IDS ───
-
-export const HISTORY_CATEGORY_IDS = [
-  {
-    id: "book", available: true,
-    subCategories: [
-      { id: "media" },
-      { id: "writing_tool" },
-      { id: "typography" },
-      { id: "reading" },
-    ],
-  },
-  {
-    id: "video", available: true,
-    subCategories: [
-      { id: "media" },
-      { id: "technique" },
-      { id: "space" },
-    ],
-  },
-  {
-    id: "music", available: true,
-    subCategories: [
-      { id: "media" },
-      { id: "instrument" },
-      { id: "experience" },
-      { id: "harmony" },
-    ],
-  },
-  {
-    id: "game", available: true,
-    subCategories: [
-      { id: "platform" },
-      { id: "interface" },
-      { id: "graphics" },
-    ],
-  },
-] as const;
-
-// ─── 하위 호환: 기존 개별 export (ko 데이터 기본) ─────────
-
-const _koData = getScripturesData('ko');
-
-export const CONTENT_HISTORY_TIMELINE = _koData.defaultTimeline;
-export const HISTORY_TIMELINES = _koData.timelines;
-export const TYPOGRAPHY_CLASSES = _koData.typographyClasses;
-export const READING_METHODS = _koData.readingMethods;
-export const HARMONY_LESSONS = _koData.harmonyLessons;
-
-export const WRITING_TOOL_HISTORY_TIMELINE = koBook.WRITING_TOOL_HISTORY_TIMELINE as HistoryEra[];
-export const BOOK_TYPO_HISTORY_TIMELINE = koBook.BOOK_TYPO_HISTORY_TIMELINE as HistoryEra[];
-export const BOOK_READING_HISTORY_TIMELINE = koBook.BOOK_READING_HISTORY_TIMELINE as HistoryEra[];
-export const VIDEO_HISTORY_TIMELINE = koVideo.VIDEO_HISTORY_TIMELINE as HistoryEra[];
-export const VIDEO_TECH_HISTORY_TIMELINE = koVideo.VIDEO_TECH_HISTORY_TIMELINE as HistoryEra[];
-export const VIDEO_SPACE_HISTORY_TIMELINE = koVideo.VIDEO_SPACE_HISTORY_TIMELINE as HistoryEra[];
-export const MUSIC_HISTORY_TIMELINE = koMusic.MUSIC_HISTORY_TIMELINE as HistoryEra[];
-export const MUSIC_INST_HISTORY_TIMELINE = koMusic.MUSIC_INST_HISTORY_TIMELINE as HistoryEra[];
-export const MUSIC_EXP_HISTORY_TIMELINE = koMusic.MUSIC_EXP_HISTORY_TIMELINE as HistoryEra[];
-export const GAME_HISTORY_TIMELINE = koGame.GAME_HISTORY_TIMELINE as HistoryEra[];
-export const GAME_INTF_HISTORY_TIMELINE = koGame.GAME_INTF_HISTORY_TIMELINE as HistoryEra[];
-export const GAME_GFX_HISTORY_TIMELINE = koGame.GAME_GFX_HISTORY_TIMELINE as HistoryEra[];

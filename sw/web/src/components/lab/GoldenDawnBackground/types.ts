@@ -1,11 +1,3 @@
-export interface DrawContext {
-  ctx: CanvasRenderingContext2D;
-  w: number;
-  h: number;
-  time: number;
-  scrollOffset: number;
-}
-
 export interface BandDef {
   offset: number;
   color: string;

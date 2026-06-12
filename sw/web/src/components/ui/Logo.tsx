@@ -111,23 +111,3 @@ export default function Logo({
     <div onClick={onClick}>{containerContent}</div>
   );
 }
-
-// #region LogoIcon (deprecated, 호환성 유지)
-interface LogoIconProps {
-  size?: LogoSize;
-  className?: string;
-  asLink?: boolean;
-}
-
-export function LogoIcon({ className = "", asLink = true }: LogoIconProps) {
-  const icon = (
-    <div
-      className={`flex items-center justify-center p-1.5 rounded-lg bg-bg-card border border-accent/30 ${className}`}
-    >
-      <span className="font-cormorant text-sm logo-text-sepia">F&N</span>
-    </div>
-  );
-
-  return asLink ? <Link href="/">{icon}</Link> : icon;
-}
-// #endregion

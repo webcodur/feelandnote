@@ -1,6 +1,6 @@
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 
-export type CurrentUser = { id: string; nickname: string | null; avatar_url: string | null } | null;
+type CurrentUser = { id: string; nickname: string | null; avatar_url: string | null } | null;
 
 export interface GuestbookContentProps {
   profileId: string;

@@ -22,15 +22,6 @@ export const DOMAIN_LABELS: Record<Domain, string> = {
   cultural: "문화",
 };
 
-export const DOMAIN_LABELS_FULL: Record<Domain, string> = {
-  political: "정치·외교",
-  strategic: "전략·안보",
-  tech: "기술·과학",
-  social: "사회·윤리",
-  economic: "산업·경제",
-  cultural: "문화·예술",
-};
-
 export const DOMAIN_LABELS_EN: Record<Domain, string> = {
   political: "POLITICAL",
   strategic: "STRATEGIC",
@@ -78,12 +69,6 @@ export const COMMAND_LABELS: Record<Command, string> = {
   govern: "내정",
 };
 
-export const COMMAND_DESCRIPTIONS: Record<Command, string> = {
-  assault: "상대 국력 직접 타격. 민심 -3",
-  stratagem: "상대 민심 공격",
-  govern: "국력·민심 회복 + 버린패 회수. 카드 유지",
-};
-
 // ─── 국가 상태 ───
 
 export const INITIAL_POWER = 30;
@@ -98,7 +83,7 @@ export interface NationState {
 
 // ─── v6 게임 페이즈 ───
 
-export type GamePhase = "idle" | "loading" | "draft" | "captain" | "battle" | "result";
+type GamePhase = "idle" | "loading" | "draft" | "captain" | "battle" | "result";
 
 export type Difficulty = "normal" | "hard";
 

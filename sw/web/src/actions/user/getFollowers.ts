@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getTitleInfo } from '@/constants/titles'
 
-export interface FollowerInfo {
+interface FollowerInfo {
   id: string
   nickname: string
   avatar_url: string | null

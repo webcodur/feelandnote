@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 
-export interface SelectOption {
+interface SelectOption {
   value: string;
   label: string;
 }
