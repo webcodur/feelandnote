@@ -26,7 +26,7 @@ export type YouTubeStatus = {
 export type EpisodeData = EpisodeForChapters & {
   host: { nickname: string; nickname_en?: string }
   books: BookForDesc[]
-  shorts?: Array<{ featuredBookIndex?: number }>
+  shorts?: Array<{ featuredBookIndex?: number; slot?: number }>
   series?: { part: number; totalParts: number; totalBooks: number; prevEpisode?: string }
 }
 

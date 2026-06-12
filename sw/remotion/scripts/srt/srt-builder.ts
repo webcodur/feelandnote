@@ -179,6 +179,10 @@ export function buildShortsSubs(script: BookRecommendScript, shortsIndex: number
   const target = shortsArr?.[shortsIndex - 1]
   if (!target?.segments) return []
   const segments = target.segments
+  // slot: 고정 출력 번호. 음성 파일·voiceTimings 키가 모두 slot 기준(shorts-{slot}/…)이므로
+  // 배열 위치와 slot이 어긋날 때(예: 아틀라스 배열4위·slot8) 타이밍 키는 반드시 slot을 쓴다.
+  // BookRecommendShort.tsx와 동일 규칙.
+  const slot = target.slot ?? shortsIndex
   const isEn = script.locale === 'en'
   const { host } = script
 
@@ -190,7 +194,7 @@ export function buildShortsSubs(script: BookRecommendScript, shortsIndex: number
   for (let i = 0; i < segments.length; i++) {
     const seg = segments[i]
     const speaker = seg.role === 'celeb' ? host.nickname : (isEn ? 'Narrator' : '나레이터')
-    const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
+    const timingKey = vnTimingKey(vnShort(i, seg.id, slot))
     const audioFrames = seg.duration ? toAudioFrames(seg.duration) : segTimings[i]
 
     subs.push(...splitSub(

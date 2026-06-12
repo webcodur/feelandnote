@@ -1,6 +1,7 @@
 import type { BookRecommendScript, EpisodeTimingData, ShortsConfig, VoiceSelect } from './types'
 import { mergeEpisode } from './merge-episode'
 import { parseEpName } from './voice-names'
+import { applyPlaybackRates } from './playback-rate'
 
 /** 현재 활성 에피소드 — TTS/렌더링 시 사용  */
 export const EPISODE_NAME = 'jim-carrey'
@@ -457,6 +458,12 @@ function assembleNewLayout(bucket: NewLayoutBucket): BookRecommendScript | null 
     host: { ...bucket.meta.host, ...(metaTiming.host ?? {}) },
     books,
   }
+  // slot 부여 — shorts.json의 slot 우선, 없으면 max+폴더순(미발행분은 뒤로). slot 전무 시 1..N(폴더순, 기존 동작).
+  {
+    let maxSlot = 0
+    for (const s of shortsArr) if (typeof s?.slot === 'number') maxSlot = Math.max(maxSlot, s.slot)
+    for (const s of shortsArr) if (s && typeof s.slot !== 'number') s.slot = ++maxSlot
+  }
   if (shortsArr.length > 0) {
     result.shorts = shortsArr
   } else if (result.shorts != null && !Array.isArray(result.shorts)) {
@@ -480,8 +487,10 @@ for (const person of newLayoutPersons) {
   const buckets = newLayoutMap[person]
   const dir = personToDir[person] ?? person
   for (const locale of ['ko', 'en'] as const) {
-    const assembled = assembleNewLayout(buckets[locale])
-    if (!assembled) continue
+    const raw = assembleNewLayout(buckets[locale])
+    if (!raw) continue
+    // 음원별 배속 적용 — duration·voiceTimings·imageChangeAt 일괄 스케일 (롱폼·쇼츠)
+    const assembled = applyPlaybackRates(raw)
     const epName = locale === 'en' ? `${person}-en` : person
     episodeDir[epName] = dir
     if (locale === 'en') enPending.push({ epName, script: assembled })
@@ -507,7 +516,8 @@ for (const key of contentCtx.keys()) {
   const rawContent = contentCtx(key) as unknown as BookRecommendScript
   // shorts 외부 파일 주입 (mergeEpisode 이전에 수행)
   const content = injectExternalShorts(rawContent, r.person, r.locale)
-  const merged = timing ? mergeEpisode(content, timing) : content
+  // 음원별 배속 적용 — duration·voiceTimings·imageChangeAt 일괄 스케일 (롱폼·쇼츠)
+  const merged = applyPlaybackRates(timing ? mergeEpisode(content, timing) : content)
 
   if (r.locale === 'en') {
     enPending.push({ epName, script: merged })
@@ -583,6 +593,7 @@ for (const person of newLayoutPersons) {
     const bucket = buckets[locale]
     if (!bucket.meta) continue
     const slugs = [...bucket.books.keys()].sort()
+    // 솔로는 별도 음원(solo-B*)·별도 레이아웃이므로 배속 미적용 — 원본 그대로 조립한다.
     const assembled = assembleNewLayout(bucket)
     if (!assembled) continue
     slugs.forEach((slug, i) => {

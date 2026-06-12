@@ -16,7 +16,8 @@ import {
 import { isContinuation } from './timing'
 
 // --- TTS 미생성 시 글자 수 기반 duration 추정 (프리뷰 레이아웃용) ---
-const KO_CPS = 4.5 // 한국어 TTS 속도 ~4.5자/초
+// 실제 음성 147개 구간 실측 중앙값 ≈ 6.8자/초. 음성 없을 때 영상 길이를 실제에 맞춘다.
+export const KO_CPS = 6.8
 const est = (text?: string | null) => text ? text.length / KO_CPS : 0
 
 /** voiceTimings 세그먼트 배열에서 실제 오디오 duration(마지막 end) 추출 */
@@ -39,7 +40,7 @@ const resolve = (sec: number | undefined, vt: number | undefined, text?: string 
  *
  *  이 계산이 없으면 quotePairs 추정치가 실제 오디오보다 길어 인용 구간 사이에
  *  10~20초 무음이 쌓인다. (이순신 Book 5 오자병법 케이스) */
-function withEstimatedDurations(script: BookRecommendScript): BookRecommendScript {
+export function withEstimatedDurations(script: BookRecommendScript): BookRecommendScript {
   const { narrator: n, host: h, books } = script
   const anyBookMissing = books.some(b =>
     b.titleDuration === 0 || b.summaryDuration === 0

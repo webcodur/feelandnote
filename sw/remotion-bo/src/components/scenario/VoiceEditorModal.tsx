@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-export type ExpandMode = 'trim' | 'sync'
+export type ExpandMode = 'trim' | 'sync' | 'breath'
 
 /** 헤더 엔진 토글 상태 — 모달이 직접 받아 헤더에 그린다. */
 export type ModalEngineState = {
@@ -133,6 +133,7 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
             >
               {segBtn('trim', mode === 'trim', () => setMode('trim'), '생성')}
               {segBtn('sync', mode === 'sync', () => setMode('sync'), '싱크')}
+              {segBtn('breath', mode === 'breath', () => setMode('breath'), '들숨')}
             </div>
             <button
               onClick={onClose}

@@ -1,7 +1,7 @@
 import { readFile, readdir, stat } from 'fs/promises'
-import { existsSync } from 'fs'
+import { existsSync, mkdirSync } from 'fs'
 import path from 'path'
-import { execFile } from 'child_process'
+import { execFile, spawn } from 'child_process'
 import { promisify } from 'util'
 import { findEpisodeDir } from '@/lib/server-utils'
 
@@ -78,4 +78,24 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
       'Cache-Control': 'public, max-age=3600',
     },
   })
+}
+
+/** music/ 폴더를 OS 파일 탐색기로 연다. 폴더가 없으면 만들어 둔다. */
+export async function POST(_req: Request, { params }: { params: Promise<{ path: string[] }> }) {
+  const episodeName = (await params).path[0]
+  const found = findEpisodeDir(episodeName)
+  if (!found) return Response.json({ error: 'episode not found' }, { status: 404 })
+
+  const musicDir = path.join(found.dir, 'music')
+  if (!existsSync(musicDir)) {
+    try { mkdirSync(musicDir, { recursive: true }) } catch { /* ignore */ }
+  }
+
+  const platform = process.platform
+  const cmd = platform === 'win32' ? 'explorer' : platform === 'darwin' ? 'open' : 'xdg-open'
+  // 탐색기는 띄우고 즉시 분리한다(explorer 는 정상이어도 종료 코드 1을 반환할 수 있어 무시).
+  const child = spawn(cmd, [path.normalize(musicDir)], { detached: true, stdio: 'ignore' })
+  child.unref()
+
+  return Response.json({ ok: true, opened: musicDir })
 }

@@ -23,8 +23,8 @@ export type ExpandedVoicePanelProps = {
   onRefresh: () => void
   /** 음원을 슬롯에 저장한 직후, 그 엔진을 활성 슬롯으로 전환. 모달 밖 재생이 방금 만든 음원을 내보내게 한다. */
   onActivateEngine?: (engine: EngineKind) => void | Promise<void>
-  /** 외부에서 제어되는 TRIM/SYNC 모드. 모달 헤더의 탭 버튼이 이 상태를 가짐. */
-  expandMode?: 'trim' | 'sync'
+  /** 외부에서 제어되는 TRIM/SYNC/BREATH 모드. 모달 헤더의 탭 버튼이 이 상태를 가짐. */
+  expandMode?: 'trim' | 'sync' | 'breath'
   /** 입력 텍스트 직접 주입 — episode 본문에서 못 찾는 구간(솔로 자유섹션 등)의 합성 원문. */
   overrideText?: string
   /** 캐릭터 보이스(Gemini 보이스명) 저장처 외부 주입 — 솔로 자유섹션처럼 episode 밖에 저장하는 구간용.

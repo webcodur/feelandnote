@@ -170,19 +170,25 @@ def load_shorts_content(episode_dir, base_lang, shorts_index):
     """
     book_folders = _list_book_folders(episode_dir)
     if book_folders:
-        shorts_files = []
+        entries = []  # [(path, cfg)] — 폴더순
         for folder in book_folders:
             p = os.path.join(episode_dir, 'books', folder, f'shorts.{base_lang}.json')
             if os.path.exists(p):
-                shorts_files.append(p)
-        if shorts_files:
-            if shorts_index < 1 or shorts_index > len(shorts_files):
-                print(f'✗ shorts 인덱스 {shorts_index} 가 범위 밖: 신구조에 {len(shorts_files)}개 존재', file=sys.stderr)
-                sys.exit(1)
-            with open(shorts_files[shorts_index - 1], 'r', encoding='utf-8') as f:
-                cfg = json.load(f)
-            cfg['_shortsIdx1'] = shorts_index
-            return cfg
+                with open(p, 'r', encoding='utf-8') as f:
+                    entries.append((p, json.load(f)))
+        if entries:
+            # slot 부여 — 파일 slot 우선, 없으면 max+폴더순(미발행분 뒤로). slot 전무 시 1..N(폴더순, 기존 동작).
+            max_slot = max([c['slot'] for _, c in entries if isinstance(c.get('slot'), int)] + [0])
+            for _, c in entries:
+                if not isinstance(c.get('slot'), int):
+                    max_slot += 1
+                    c['slot'] = max_slot
+            for _, cfg in entries:
+                if cfg.get('slot') == shorts_index:
+                    cfg['_shortsIdx1'] = shorts_index
+                    return cfg
+            print(f'✗ slot {shorts_index} 인 쇼츠 없음: 신구조 slot 목록 {sorted(c["slot"] for _, c in entries)}', file=sys.stderr)
+            sys.exit(1)
     path = os.path.join(episode_dir, 'shorts', f'{base_lang}-{shorts_index}.json')
     if not os.path.exists(path):
         print(f'✗ shorts 파일 없음: {path}', file=sys.stderr)

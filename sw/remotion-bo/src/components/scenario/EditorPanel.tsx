@@ -11,6 +11,10 @@ interface EditorPanelProps {
   collapsible?: boolean
   defaultExpanded?: boolean
   summaryNode?: React.ReactNode
+  /** 지정 시 우측 상단 아이콘이 이 동작을 실행하는 버튼이 된다(collapsible 미사용 패널 전용). */
+  onIconClick?: () => void
+  /** onIconClick 버튼의 툴팁. */
+  iconTitle?: string
 }
 
 export function EditorPanel({
@@ -22,6 +26,8 @@ export function EditorPanel({
   collapsible = false,
   defaultExpanded = true,
   summaryNode,
+  onIconClick,
+  iconTitle,
 }: EditorPanelProps) {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState(defaultExpanded)
@@ -86,6 +92,15 @@ export function EditorPanel({
                   title="접기"
                 >
                   <span className="flex items-center [&>svg]:w-3.5 [&>svg]:h-3.5 opacity-90 hover:opacity-100">{icon}</span>
+                </button>
+              ) : onIconClick ? (
+                <button
+                  type="button"
+                  onClick={onIconClick}
+                  className="text-purple-700 hover:text-white hover:bg-purple-600 ring-1 ring-purple-300 rounded p-0.5 transition-all flex items-center justify-center w-5 h-5 focus:outline-none cursor-pointer active:scale-95"
+                  title={iconTitle ?? title}
+                >
+                  <span className="flex items-center [&>svg]:w-3.5 [&>svg]:h-3.5">{icon}</span>
                 </button>
               ) : (
                 <div

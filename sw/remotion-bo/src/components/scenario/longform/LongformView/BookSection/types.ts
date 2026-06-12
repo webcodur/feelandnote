@@ -32,7 +32,7 @@ export type BookSectionProps = {
   saveField: (path: Array<string | number>, value: unknown) => Promise<void>
   activeEngine: (key: string) => string
   playingKey: string | null
-  onTogglePlay: (key: string, gainDb?: number | null) => void
+  onTogglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   onToggleExpand: (key: string) => void
   musicFiles: MusicFile[]
   setBookBgm: (bookIdx: number, section: 'summary' | 'context', fileName: string | null) => void

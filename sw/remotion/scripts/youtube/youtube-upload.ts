@@ -117,10 +117,10 @@ type Variant = {
 
 /**
  * variant → 출력 파일 suffix. 옵션 2: shortsIndex는 1-based 일관.
- * longform=L-VID, shorts={shortsIndex}는 S{shortsIndex}-VID, solo={bookIndex+1, 2자리}는 B{NN}-VID
+ * longform=LH-VID, shorts={shortsIndex}는 S{shortsIndex}-VID, solo={bookIndex+1, 2자리}는 B{NN}-VID
  */
 function variantFileSuffix(v: Variant): string {
-  if (v.type === 'longform') return 'L-VID'
+  if (v.type === 'longform') return 'LH-VID'
   if (v.type === 'solo') {
     const num = String((v.bookIndex ?? 0) + 1).padStart(2, '0')
     return `B${num}-VID`
@@ -144,8 +144,8 @@ function findFiles(label: string, lang: 'ko' | 'en', variant: Variant) {
   const langCode = lang.toUpperCase()
   const dir = path.join(OUT_DIR, label, langCode)
   const suffix = variantFileSuffix(variant)
-  // 썸네일 — 롱폼은 L-THUMB.png 존재, 쇼츠/솔로는 동일 prefix-THUMB 자동 생성 시도
-  const thumbCode = variant.type === 'longform' ? 'L-THUMB' : `${suffix.replace('-VID', '')}-THUMB`
+  // 썸네일 — 롱폼은 LH-THUMB.png 존재, 쇼츠/솔로는 동일 prefix-THUMB 자동 생성 시도
+  const thumbCode = variant.type === 'longform' ? 'LH-THUMB' : `${suffix.replace('-VID', '')}-THUMB`
 
   const video = path.join(dir, `${suffix}.mp4`)
   const thumb = path.join(dir, `${thumbCode}.png`)
@@ -298,13 +298,15 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
   const koBooksCount = Array.isArray(koData?.books) ? koData.books.length : 0
   const enBooksCount = Array.isArray(enData?.books) ? enData.books.length : 0
 
-  // 옵션 2: shortsIndex는 1-based 일관. 배열 길이에 따라 variant 동적 확장
+  // shortsIndex = 고정 slot(쇼츠 데이터에 박힘). 로더가 slot을 보장(없으면 폴더순).
+  const koShortsArr: any[] = Array.isArray(koData?.shorts) ? koData.shorts : []
+  const enShortsArr: any[] = Array.isArray(enData?.shorts) ? enData.shorts : []
   const variants: Variant[] = []
   if (koData) variants.push({ lang: 'ko', type: 'longform' })
-  for (let i = 0; i < koShortsCount; i++) variants.push({ lang: 'ko', type: 'shorts', shortsIndex: i + 1 })
+  for (const s of koShortsArr) variants.push({ lang: 'ko', type: 'shorts', shortsIndex: s.slot })
   for (let i = 0; i < koBooksCount; i++) variants.push({ lang: 'ko', type: 'solo', bookIndex: i })
   if (enData) variants.push({ lang: 'en', type: 'longform' })
-  for (let i = 0; i < enShortsCount; i++) variants.push({ lang: 'en', type: 'shorts', shortsIndex: i + 1 })
+  for (const s of enShortsArr) variants.push({ lang: 'en', type: 'shorts', shortsIndex: s.slot })
   for (let i = 0; i < enBooksCount; i++) variants.push({ lang: 'en', type: 'solo', bookIndex: i })
 
   // 필터
@@ -352,8 +354,9 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     // 솔로·쇼츠는 챕터 없음. 롱폼만 챕터 계산.
     const chapters = (!isShorts && !isSolo) ? calcChapterTimestamps(data, variant.lang) : undefined
     // shorts 배열에서 해당 인덱스의 featuredBookIndex 사용 (없으면 0). 배열 접근은 shortsIdx - 1
+    // 고정 slot으로 해당 쇼츠 데이터 탐색 (배열 위치 아님 — 미발행분이 끼어도 안 밀림)
     const targetShortsCfg = isShorts && Array.isArray(data.shorts)
-      ? data.shorts[shortsIdx - 1]
+      ? data.shorts.find((s: any) => s.slot === shortsIdx)
       : undefined
     const shortsBookTitle = isShorts
       ? books[targetShortsCfg?.featuredBookIndex ?? 0]?.title
@@ -501,8 +504,9 @@ async function patchMetadata(episodeName: string, filterLang?: string, filterTyp
     const shortsIdx = variant.shortsIndex ?? 1
 
     const chapters = !isShorts ? calcChapterTimestamps(data, variant.lang) : undefined
+    // 고정 slot으로 해당 쇼츠 데이터 탐색 (배열 위치 아님 — 미발행분이 끼어도 안 밀림)
     const targetShortsCfg = isShorts && Array.isArray(data.shorts)
-      ? data.shorts[shortsIdx - 1]
+      ? data.shorts.find((s: any) => s.slot === shortsIdx)
       : undefined
     const shortsBookTitle = isShorts
       ? books[targetShortsCfg?.featuredBookIndex ?? 0]?.title

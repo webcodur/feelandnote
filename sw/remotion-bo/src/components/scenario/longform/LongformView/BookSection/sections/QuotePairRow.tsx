@@ -6,6 +6,7 @@ import { SaveButton } from '../../../../SaveButton'
 import { SegmentSfxEditor } from '../../../../SegmentSfxEditor'
 import { RowSpeakerSelect } from '../../../../RowSpeakerSelect'
 import { GainDbInput } from '../../../../GainDbInput'
+import { PlaybackRateInput } from '../../../../PlaybackRateInput'
 import type { Speaker } from '../../../../SpeakerPanel'
 import { InlineImageRow } from '../../../../ImageThumb'
 import { bookKey } from '../../../../utils'
@@ -34,7 +35,7 @@ export function QuotePairRow({
   vUrl: (key: string) => string
   updateQuotePair: (bookIdx: number, pairIdx: number, field: string, value: any, prev?: string) => void
   handlePick: (selected: string, field?: ImageField) => void
-  onTogglePlay: (key: string, gainDb?: number | null) => void
+  onTogglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   onToggleExpand: (key: string) => void
   dropImage: (i: number, fn: string, field?: ImageField) => void
   addAnchor: (i: number, t: string, field?: ImageField) => void
@@ -59,7 +60,8 @@ export function QuotePairRow({
           pickMode={picking} onPick={(t) => handlePick(t, 'quote')}
           highlights={pairQuoteImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
           sectionKey={quoteKey} audioUrl={vUrl(quoteKey)}
-          activeEngine={activeEngine(quoteKey)} isPlaying={playingKey === quoteKey} onTogglePlay={() => onTogglePlay(quoteKey, pair.quoteGainDb)}
+          playbackRate={typeof pair.quotePlaybackRate === 'number' ? pair.quotePlaybackRate : undefined}
+          activeEngine={activeEngine(quoteKey)} isPlaying={playingKey === quoteKey} onTogglePlay={() => onTogglePlay(quoteKey, pair.quoteGainDb, pair.quotePlaybackRate)}
           onToggleExpand={() => onToggleExpand(quoteKey)}
           onDrop={fn => dropImage(i, fn, 'quote')} onAddAnchor={t => addAnchor(i, t, 'quote')}
           images={<InlineImageRow images={pairQuoteImgs} {...imgRowProps} />}
@@ -73,6 +75,8 @@ export function QuotePairRow({
                 onChange={next => updateQuotePair(i, pi, 'quoteSfx', next)} />
               <GainDbInput value={typeof pair.quoteGainDb === 'number' ? pair.quoteGainDb : undefined}
                 onChange={next => updateQuotePair(i, pi, 'quoteGainDb', next)} sectionKey={quoteKey} />
+              <PlaybackRateInput value={typeof pair.quotePlaybackRate === 'number' ? pair.quotePlaybackRate : undefined}
+                onChange={next => updateQuotePair(i, pi, 'quotePlaybackRate', next)} sectionKey={quoteKey} />
               <div className="ml-[72px] mt-1 mb-1 flex items-center gap-1">
                 <span className="text-sm font-bold text-text-secondary/60">출처:</span>
                 <input
@@ -98,7 +102,8 @@ export function QuotePairRow({
             pickMode={picking} onPick={(t) => handlePick(t, 'quote')}
             highlights={pairAfterImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
             sectionKey={afterKey} audioUrl={vUrl(afterKey)}
-            activeEngine={activeEngine(afterKey)} isPlaying={playingKey === afterKey} onTogglePlay={() => onTogglePlay(afterKey, pair.afterGainDb)}
+            playbackRate={typeof pair.afterPlaybackRate === 'number' ? pair.afterPlaybackRate : undefined}
+            activeEngine={activeEngine(afterKey)} isPlaying={playingKey === afterKey} onTogglePlay={() => onTogglePlay(afterKey, pair.afterGainDb, pair.afterPlaybackRate)}
             onToggleExpand={() => onToggleExpand(afterKey)}
             onDrop={fn => dropImage(i, fn, 'quote')} onAddAnchor={t => addAnchor(i, t, 'quote')}
             images={<InlineImageRow images={pairAfterImgs} {...imgRowProps} />}
@@ -112,6 +117,8 @@ export function QuotePairRow({
                   onChange={next => updateQuotePair(i, pi, 'afterSfx', next)} />
                 <GainDbInput value={typeof pair.afterGainDb === 'number' ? pair.afterGainDb : undefined}
                   onChange={next => updateQuotePair(i, pi, 'afterGainDb', next)} sectionKey={afterKey} />
+                <PlaybackRateInput value={typeof pair.afterPlaybackRate === 'number' ? pair.afterPlaybackRate : undefined}
+                  onChange={next => updateQuotePair(i, pi, 'afterPlaybackRate', next)} sectionKey={afterKey} />
               </>
             }
           />

@@ -432,7 +432,7 @@ export async function saveShorts(_series: string, name: string, shortsArr: any[]
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-export async function saveEpisode(series: string, name: string, data: unknown, scope: SaveScope = 'all') {
+export async function saveEpisode(series: string, name: string, data: unknown, scope: SaveScope = 'all', bookIndices?: number[]) {
   if (isFactionSeries(series)) {
     const { person, locale } = parseEpisodeId(name)
     await saveFactionEpisode(person, data as FactionScript, locale)
@@ -442,7 +442,7 @@ export async function saveEpisode(series: string, name: string, data: unknown, s
   const { person } = parseEpisodeId(name)
   const found = findEpisodeDir(person)
   if (found && isNewLayout(found.dir)) {
-    await saveNewLayoutEpisode(name, data, scope)
+    await saveNewLayoutEpisode(name, data, scope, bookIndices)
     return
   }
 

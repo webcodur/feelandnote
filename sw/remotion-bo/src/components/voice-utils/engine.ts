@@ -1,5 +1,16 @@
 // ── Engine resolution ──
 
+/**
+ * secKey 의 `shorts-{N}` 은 고정 slot 번호다 (배열 위치가 아님).
+ * 발행 순서·미발행분 때문에 slot 과 배열 위치가 어긋날 수 있으므로, 항상 slot 으로 위치를 찾는다.
+ * slot 미지정 레거시 데이터는 (slot-1) 폴더순으로 폴백한다. useShortsState·BgmPanel 과 동일 규약.
+ */
+export function shortsArrIndexBySlot(shortsArr: readonly unknown[] | undefined, slot: number): number {
+  if (!Array.isArray(shortsArr)) return slot - 1
+  const i = shortsArr.findIndex(s => (s as { slot?: number } | null | undefined)?.slot === slot)
+  return i >= 0 ? i : slot - 1
+}
+
 /** ELE 대상 섹션인지 판별 (셀럽 음성 섹션). `shorts-N/` prefix가 붙어 있어도 동작한다. */
 export function isEleSection(key: string): boolean {
   const base = key.replace(/^shorts-\d+\//, '')
@@ -41,10 +52,9 @@ export function resolveSegmentEngine(
   let seg: SegLite | undefined
   let shortCfg: ShortLite | undefined
   if (m) {
-    const sIdx = parseInt(m[1], 10) - 1
     const segId = m[2]
     const arr = Array.isArray(episode.shorts) ? (episode.shorts as ShortLite[]) : []
-    shortCfg = arr[sIdx]
+    shortCfg = arr[shortsArrIndexBySlot(arr, parseInt(m[1], 10))]
     seg = shortCfg?.segments?.find(s => s.id === segId)
   }
 

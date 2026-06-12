@@ -49,13 +49,15 @@ export function EpisodeProvider({ series, name, children }: { series: string; na
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const episodeRef = useRef<EpisodeData | null>(null)
   episodeRef.current = episode
+  // 로드/저장 시점 스냅샷 — longform 부분 저장에서 "변경된 책"만 가려내는 기준.
+  const baselineRef = useRef<EpisodeData | null>(null)
 
   const isEn = name.endsWith('-en')
 
   const fetchEpisode = useCallback(() => {
     fetch(`/api/${series}/episodes/${name}`)
       .then(r => r.json())
-      .then(ep => { setEpisode(ep); setJsonText(JSON.stringify(ep, null, 2)); setDirty(false) })
+      .then(ep => { setEpisode(ep); baselineRef.current = JSON.parse(JSON.stringify(ep)); setJsonText(JSON.stringify(ep, null, 2)); setDirty(false) })
       .catch(() => {})
   }, [series, name])
 
@@ -102,14 +104,31 @@ export function EpisodeProvider({ series, name, children }: { series: string; na
     if (!toSave) return null
     setSaving(true)
     try {
+      const sc = opts?.scope
       // scope 지정 시 해당 파일군만 기록(쇼츠↔롱폼 교차 덮어쓰기 방지). 미지정/'all'은 전체 저장.
-      const qs = opts?.scope && opts.scope !== 'all' ? `?scope=${opts.scope}` : ''
+      const params = new URLSearchParams()
+      if (sc && sc !== 'all') params.set('scope', sc)
+      // longform 부분 저장: baseline 과 비교해 실제 바뀐 책 인덱스만 기록한다.
+      // BO 가 안 건드린 책은 디스크 원본을 보존 → 동시편집/외부수정 덮어쓰기 방지.
+      const base = baselineRef.current as unknown as { books?: unknown[] } | null
+      const cur = toSave as unknown as { books?: unknown[] }
+      if (sc === 'longform' && Array.isArray(base?.books) && Array.isArray(cur.books)
+          && base!.books!.length === cur.books!.length) {
+        const changed: number[] = []
+        for (let i = 0; i < cur.books!.length; i++) {
+          if (JSON.stringify(cur.books![i]) !== JSON.stringify(base!.books![i])) changed.push(i)
+        }
+        // 일부만 변경된 경우에만 부분 저장(전부 변경이면 전체 저장으로 둔다).
+        if (changed.length < cur.books!.length) params.set('books', changed.join(','))
+      }
+      const qs = params.toString() ? `?${params.toString()}` : ''
       const res = await fetch(`/api/${series}/episodes/${name}${qs}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(toSave),
       })
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? res.statusText)
       const result: SaveResult = await res.json()
       setEpisode(toSave)
+      baselineRef.current = JSON.parse(JSON.stringify(toSave))
       setJsonText(JSON.stringify(toSave, null, 2))
       setDirty(false)
       return result

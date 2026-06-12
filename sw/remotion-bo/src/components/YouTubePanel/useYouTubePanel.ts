@@ -4,7 +4,7 @@ import {
   type EpisodeMeta, type YouTubeLink,
 } from '@feelandnote/shared/lib/youtube-meta'
 import type { YouTubeStatus, EpisodeData, VariantKey, MetaEntry } from './types'
-import { parseVariantKey, buildVariantKeys } from './utils'
+import { parseVariantKey, buildVariantKeys, findShortsBySlot } from './utils'
 
 export function useYouTubePanel(series: string, name: string) {
   const [status, setStatus] = useState<YouTubeStatus | null>(null)
@@ -70,8 +70,8 @@ export function useYouTubePanel(series: string, name: string) {
 
       const celebName = lang === 'ko' ? ep.host.nickname : (ep.host.nickname_en ?? ep.host.nickname)
       const isShorts = type === 'shorts'
-      // shortsIndex 1-based. 배열 접근 시 -1.
-      const shortsCfg = isShorts ? ep.shorts?.[shortsIndex - 1] : undefined
+      // shortsIndex = 고정 slot. 배열 위치가 아니라 slot으로 탐색 (결번이 끼어도 안 밀림).
+      const shortsCfg = isShorts ? findShortsBySlot(ep.shorts, shortsIndex) : undefined
       const shortsBookTitle = isShorts
         ? (shortsCfg?.featuredBookIndex !== undefined
             ? ep.books?.[shortsCfg.featuredBookIndex]?.title

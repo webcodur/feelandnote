@@ -44,14 +44,21 @@ function bookFingerprint(book) {
 console.log(`\n=== 쇼츠 슬롯 매핑: ${ep} (${locale}) ===`)
 console.log(`출력 PascalCase: ${pascal} / out 경로: out/${pascal}/${LANG}/SN-VID.mp4\n`)
 
-let idx = 0
+// 폴더 → 고정 slot (파일 slot 우선, 없으면 max+폴더순). slot 전무 시 1..N(폴더순, 기존 동작).
+const slotByBook = new Map()
+{
+  const shortsBooks = books.filter(b => fs.existsSync(path.join(booksDir, b, `shorts.${locale}.json`)))
+  const cfgs = shortsBooks.map(b => { try { return JSON.parse(fs.readFileSync(path.join(booksDir, b, `shorts.${locale}.json`), 'utf-8')) } catch { return {} } })
+  let maxSlot = 0
+  for (const c of cfgs) if (typeof c.slot === 'number') maxSlot = Math.max(maxSlot, c.slot)
+  shortsBooks.forEach((b, i) => { const c = cfgs[i]; slotByBook.set(b, typeof c.slot === 'number' ? c.slot : ++maxSlot) })
+}
 const rows = []
 for (const b of books) {
   const sc = path.join(booksDir, b, `shorts.${locale}.json`)
   const hasShorts = fs.existsSync(sc)
   if (!hasShorts) { rows.push({ book: b, slot: '-', note: 'shorts 없음(슬롯 미부여)' }); continue }
-  idx++
-  const slot = idx
+  const slot = slotByBook.get(b)
   const gem = fs.existsSync(path.join(epDir, 'voice', locale, 'gemini', `shorts-${slot}`))
   const ele = fs.existsSync(path.join(epDir, 'voice', locale, 'elevenlabs', `shorts-${slot}`))
   const out = fs.existsSync(path.join('out', pascal, LANG, `S${slot}-VID.mp4`))
@@ -75,8 +82,7 @@ for (const r of rows) {
   console.log('')
 }
 
-// 위험 경고: youtube 업로드된 슬롯 수보다 앞쪽 책 구성이 바뀌면 매핑 어긋남
 const uploadedSlots = Object.keys(uploads).filter(k => k.startsWith(`${locale}-shorts-`)).length
-console.log(`── 업로드된 쇼츠: ${uploadedSlots}편, 현재 슬롯 배정: ${idx}편 ──`)
-console.log(`※ 책 폴더 사이에 shorts 보유 책이 새로 끼면 그 뒤 슬롯 번호가 전부 +1 밀려,`)
-console.log(`   이미 업로드된 youtube ko-shorts-N 기록과 책이 어긋난다. voice 음성지문 ↔ 책 celeb 가 일치하는지 대조하라.`)
+console.log(`── 업로드된 쇼츠: ${uploadedSlots}편, 슬롯 배정: ${slotByBook.size}편 ──`)
+console.log(`※ 슬롯 번호는 shorts.${locale}.json의 고정 slot 필드 기준(없으면 max+폴더순). 새 책이 끼어도 기존 발행분은 안 밀린다.`)
+console.log(`   voice 음성지문 ↔ 책 celeb 가 일치하는지 대조하라.`)

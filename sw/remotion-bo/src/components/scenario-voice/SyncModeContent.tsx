@@ -82,11 +82,11 @@ export function SyncModeContent({ secKey, episode, episodeData, series, name, on
     <div className="space-y-3">
       {/* 상태 표시줄 */}
       <div className="flex items-center gap-3 text-[11px] text-text-secondary">
-        <span>토막 {timings.length}개 / {dur.toFixed(2)}초</span>
+        <span>Stich {timings.length}개 / {dur.toFixed(2)}초</span>
         {autoSaving && <span className="text-amber-400">저장 중...</span>}
         {!autoSaving && autoSaved && <span className="text-emerald-500">저장됨</span>}
         {sentences.length !== timings.length && (
-          <span className="text-amber-400">문장 {sentences.length} / 타이밍 {timings.length}</span>
+          <span className="text-amber-400">문장 {sentences.length} / Stich {timings.length}</span>
         )}
       </div>
 

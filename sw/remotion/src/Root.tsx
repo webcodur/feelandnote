@@ -93,10 +93,10 @@ export const RemotionRoot: React.FC = () => {
                       const dur = calcBookFrames(script)
                       return Number.isFinite(dur) && dur > 0
                     })
-                    // shortsIndex는 1-based로 일관 생성 (i + 1)
+                    // shortsIndex=배열 위치(데이터 접근용), slot=출력 번호(고정). 파일 slot 우선, 없으면 폴더순.
                     const shortsEntries = items.flatMap(({ name, lang, partNum, script }) => {
                       const arr = script.shorts ?? []
-                      return arr.map((_, i) => ({ name, lang, partNum, script, shortsIndex: i + 1 }))
+                      return arr.map((s, i) => ({ name, lang, partNum, script, shortsIndex: i + 1, slot: (s as { slot?: number })?.slot ?? (i + 1) }))
                     }).filter(({ script, shortsIndex }) => {
                       const dur = calcShortTotalFrames(script, shortsIndex)
                       return Number.isFinite(dur) && dur > 0
@@ -106,16 +106,13 @@ export const RemotionRoot: React.FC = () => {
                     return (
                       <>
                         {validLong.map(({ name, lang, partNum, script }) => (
-                          <Composition key={`${name}-L-VID`} id={`${label}-${lang}${pt(partNum)}-L-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
+                          <Composition key={`${name}-LH-VID`} id={`${label}-${lang}${pt(partNum)}-LH-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
                         ))}
                         {validLong.map(({ name, lang, partNum, script }) => (
-                          <Composition key={`${name}-LV-VID`} id={`${label}-${lang}${pt(partNum)}-LV-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name }} />
+                          <Composition key={`${name}-LH-THUMB`} id={`${label}-${lang}${pt(partNum)}-LH-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
                         ))}
-                        {validLong.map(({ name, lang, partNum, script }) => (
-                          <Composition key={`${name}-L-THUMB`} id={`${label}-${lang}${pt(partNum)}-L-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
-                        ))}
-                        {shortsEntries.map(({ name, lang, partNum, script, shortsIndex }) => (
-                          <Composition key={`${name}-S${shortsIndex}-VID`} id={`${label}-${lang}${pt(partNum)}-S${shortsIndex}-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script, shortsIndex)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name, shortsIndex }} />
+                        {shortsEntries.map(({ name, lang, partNum, script, shortsIndex, slot }) => (
+                          <Composition key={`${name}-S${slot}-VID`} id={`${label}-${lang}${pt(partNum)}-S${slot}-VID`} component={BookRecommendShort} durationInFrames={calcShortTotalFrames(script, shortsIndex)} fps={FPS} width={1080} height={1920} defaultProps={{ script, episodeName: name, shortsIndex }} />
                         ))}
                       </>
                     )

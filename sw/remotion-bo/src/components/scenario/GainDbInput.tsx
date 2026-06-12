@@ -28,7 +28,6 @@ export function GainDbInput({
   const ctl = useAudioPreviewCtx()
   const isDefault = isUnityGain(value)
   const display = isDefault ? 0 : (value as number)
-  const sign = display > 0 ? '+' : ''
 
   const applyLive = (next: number | undefined) => {
     if (!ctl || !sectionKey || ctl.playingKey !== sectionKey) return
@@ -68,30 +67,27 @@ export function GainDbInput({
           onChange={e => commit(parseFloat(e.target.value))}
           className="flex-1 max-w-[200px] cursor-pointer accent-amber-500"
         />
+        {/* 기본값(0dB)도 빈칸이 아니라 0을 그대로 표시한다 — 빈 number input에서 스피너가
+            엉뚱한 기준값부터 시작하는 브라우저 동작 방지(PlaybackRateInput과 동일 결함 예방). */}
         <input
           type="number"
           step={GAIN_DB_STEP}
-          value={display === 0 ? '' : display}
+          value={display}
           onChange={e => {
             const raw = e.target.value
             if (raw === '' || raw === '-' || raw === '+') { onChange(undefined); applyLive(undefined); return }
             const n = parseFloat(raw)
             if (Number.isFinite(n)) commit(n)
           }}
-          placeholder="0"
-          className={`w-14 text-center text-sm font-bold bg-bg-main border border-border rounded px-1 py-0 h-[22px] font-mono focus:border-accent/60 focus:outline-none ${isDefault ? 'text-text-dim' : 'text-accent font-black'}`}
+          className={`w-20 text-center text-base font-bold bg-bg-main border border-border rounded px-1 py-0 h-[26px] font-mono focus:border-accent/60 focus:outline-none ${isDefault ? 'text-text-dim' : 'text-accent font-black'}`}
         />
-        <span className={`text-sm font-bold font-mono shrink-0 ${isDefault ? 'text-text-dim' : 'text-accent font-black'}`}>
-          {isDefault ? '0 dB' : `${sign}${display.toFixed(1)} dB`}
-        </span>
-        {!isDefault && (
-          <button
-            type="button"
-            onClick={reset}
-            title="원본 음량으로 되돌리기"
-            className="text-sm font-bold text-text-dim hover:text-red-400 px-1"
-          >×</button>
-        )}
+        <button
+          type="button"
+          onClick={reset}
+          disabled={isDefault}
+          title={isDefault ? '이미 원본 음량' : '원본 음량으로 되돌리기'}
+          className="text-sm font-bold text-text-dim hover:text-red-400 px-1 disabled:opacity-30 disabled:hover:text-text-dim disabled:cursor-default"
+        >×</button>
       </div>
     </div>
   )

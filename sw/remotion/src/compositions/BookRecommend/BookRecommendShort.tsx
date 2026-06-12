@@ -30,6 +30,7 @@ import {
 import { ShortDevOverlay } from './studio/ShortDevOverlay'
 import { SubEditor } from './studio/SubEditor'
 import { vnShort, vnTimingKey } from './voice-names'
+import { clampRate } from './playback-rate'
 import { ShortCaption } from './sections/ShortCaption'
 import { BgmAudio, BgmToggle } from './BgmAudio'
 import { Typewriter } from './sections/Typewriter'
@@ -61,8 +62,11 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   const epName = episodeName ?? EPISODE_NAME
   const vf = makeVf(epName, loadVoiceSelect(epName), script.locale, !!script.host.elevenlabsVoiceId)
   const { host, books } = script
-  // shortsIndex: 1-based (외부 노출) → 배열 접근 시 -1 변환
+  // shortsIndex: 배열 위치(1-based, 데이터 접근용) → 배열 접근 시 -1 변환
   const shorts = script.shorts?.[shortsIndex - 1]
+  // slot: 고정 출력 번호. 음성 파일·voiceTimings 키가 모두 slot 기준(shorts-{slot}/…)이므로
+  // 발행 순서로 배열 위치와 slot 이 어긋날 때(예: 아틀라스 배열4위·slot8) 음성 경로는 반드시 slot 을 쓴다.
+  const slot = shorts?.slot ?? shortsIndex
   const segments = shorts?.segments ?? []
   const hasVoice = segments.some(s => (s.duration ?? 0) > 0)
   const hasBgm = !!(shorts?.bgm?.length)
@@ -99,7 +103,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   useEffect(() => {
     if (!hasVoice) return
     const audioUrls = [
-      ...segments.flatMap((seg, i) => seg.duration && !seg.disabled ? [vf(vnShort(i, seg.id, shortsIndex))] : []),
+      ...segments.flatMap((seg, i) => seg.duration && !seg.disabled ? [vf(vnShort(i, seg.id, slot))] : []),
       ...segments.flatMap(seg => seg.disabled ? [] : (seg.sfx ?? []).map(sx =>
         sf(sx.file.startsWith('episodes/') ? sx.file : `${sfxBase}/${sx.file}`),
       )),
@@ -216,7 +220,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
       if (!seg.image) return
       if (seg.imageChangeAt) {
         const changes = Array.isArray(seg.imageChangeAt) ? seg.imageChangeAt : [seg.imageChangeAt]
-        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, slot))
         const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; sub?: string[]; subTimings?: number[]; words?: { text: string; start: number; end: number }[] }[] | undefined
         const segText = seg.text ?? ''
         const segDurSec = segTimings[i] / fps
@@ -380,7 +384,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   // --- SFX items: 텍스트 앵커 + offset → 절대 프레임으로 해상. 길이 제한·페이드아웃 포함. ---
   const sfxItems = React.useMemo(() => {
     const sections: SfxSection[] = segments.map((seg, i) => ({
-      timingsKey: vnTimingKey(vnShort(i, seg.id, shortsIndex)),
+      timingsKey: vnTimingKey(vnShort(i, seg.id, slot)),
       text: seg.text ?? '',
       startFrame: segStarts[i],
       durationFrames: segTimings[i],
@@ -456,7 +460,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         const audioFrom = i === 0 ? Math.max(0, segStarts[i] - f(0.15)) : segStarts[i]
         return (
           <Sequence key={seg.id} from={audioFrom} durationInFrames={segTimings[i]}>
-            <Audio src={vf(vnShort(i, seg.id, shortsIndex))} volume={(seg.volume ?? 1) * dbToLinear(seg.gainDb)} />
+            <Audio src={vf(vnShort(i, seg.id, slot))} volume={(seg.volume ?? 1) * dbToLinear(seg.gainDb)} playbackRate={clampRate(seg.playbackRate)} />
           </Sequence>
         )
       })}
@@ -567,7 +571,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         if (seg.textOverlay) return null
         const op = segOp(i)
         if (op <= 0) return null
-        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, slot))
         const capStart = i === 0 ? segStarts[i] - f(0.15) : segStarts[i]
         return (
           <div key={`cap-${i}`} style={{
@@ -610,9 +614,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
             color: 'rgba(232, 210, 160, 0.98)',
             letterSpacing: 0.2,
             textAlign: 'right',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            wordBreak: 'keep-all',
+            lineHeight: 1.35,
             WebkitTextStroke: '1.2px rgba(0,0,0,0.95)',
             paintOrder: 'stroke fill',
             textShadow: '0 2px 6px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.8), 0 0 24px rgba(0,0,0,0.5)',
@@ -630,7 +633,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         if (op <= 0) return null
         const isBottomMode = seg.textOverlay === 'bottom'
         const overlayFontSize = isBottomMode ? 50 : 54
-        const timingKey = vnTimingKey(vnShort(i, seg.id, shortsIndex))
+        const timingKey = vnTimingKey(vnShort(i, seg.id, slot))
         const timings = script.voiceTimings?.[timingKey] as { start: number; end: number; text: string; sub?: string[]; subTimings?: number[]; words?: { text: string; start: number; end: number }[] }[] | undefined
         // ── 문단 분할 정책 ───────────────────────────────────────────
         // paragraph 분할 = 본문 \n (작가가 화면 전환 위치를 명시적으로 제어).
@@ -889,7 +892,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           segStarts={segStarts}
           segTimings={segTimings}
           voiceTimings={script.voiceTimings}
-          shortsIndex={shortsIndex}
+          shortsIndex={slot}
         />
       )}
       {!getRemotionEnvironment().isRendering && (
@@ -897,7 +900,7 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
            voiceTimings={script.voiceTimings}
            episodeName={epName}
            locale={script.locale ?? 'ko'}
-           currentTimingKey={currentSeg >= 0 ? vnTimingKey(vnShort(currentSeg, segments[currentSeg].id, shortsIndex)) : undefined}
+           currentTimingKey={currentSeg >= 0 ? vnTimingKey(vnShort(currentSeg, segments[currentSeg].id, slot)) : undefined}
          />
        )}
       <BgmToggle hasBgm={!!shorts?.bgm?.length} />

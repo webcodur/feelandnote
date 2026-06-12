@@ -34,12 +34,16 @@ const inputPath = inputIdx >= 0 ? args[inputIdx + 1] : null
 const checkOnly = args.includes('--check')
 const dryRun = args.includes('--dry-run')
 const strictMode = args.includes('--strict')
+const onlyIdx = args.indexOf('--only')
+const onlyPatterns = onlyIdx >= 0 ? (args[onlyIdx + 1] ?? '').split(',').map(s => s.trim()).filter(Boolean) : []
+// --only 미지정이면 전체. 지정 시 voiceTimings 키에 부분일치하는 것만 처리(4-align과 동일 규약).
+const matchOnly = (key: string) => onlyPatterns.length === 0 || onlyPatterns.some(p => key.includes(p))
 
 const MIN_SUB_LEN = 30  // 4-align.ts(analyze) 경고 기준과 동일
 const MAX_SUB_CHUNK_LEN = 50  // 개별 sub 청크 최대 길이 — 초과 시 재분할 보고
 
 if (!epName) {
-  console.error('Usage: pnpm voice:chunk -- --episode <name> [--input subs.json] [--check] [--dry-run] [--strict]')
+  console.error('Usage: pnpm voice:chunk -- --episode <name> [--input subs.json] [--only <key부분일치,…>] [--check] [--dry-run] [--strict]')
   process.exit(1)
 }
 // checkOnly / inputPath 없어도 기계적 분할은 자동 수행
@@ -107,6 +111,7 @@ const errors: string[] = []
 
 if (!checkOnly) {
   for (const [key, segs] of Object.entries(vt)) {
+    if (!matchOnly(key)) continue
     segs.forEach((seg: any, i: number) => {
       if (!seg?.text) return
       if (seg.sub && Array.isArray(seg.sub) && seg.sub.length > 0) {
@@ -191,6 +196,7 @@ const shortSkipped: string[] = []
 const oversized: string[] = []  // sub 청크가 MAX_SUB_CHUNK_LEN 초과
 
 for (const [key, segs] of Object.entries(vt)) {
+  if (!matchOnly(key)) continue
   for (let i = 0; i < segs.length; i++) {
     total++
     const seg = segs[i]

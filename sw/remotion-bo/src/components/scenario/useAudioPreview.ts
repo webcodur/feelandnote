@@ -18,12 +18,15 @@ export type AudioPreviewCtl = {
   paused: boolean
   currentTime: number
   duration: number
-  togglePlay: (key: string, gainDb?: number | null) => void
+  /** mediaRate: 이 음원의 영상 배속(*PlaybackRate). 전역 미리듣기 배속과 곱해 재생 시작부터 적용된다. */
+  togglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   togglePause: () => void
   stop: () => void
   seek: (t: number) => void
   /** 현재 재생 중인 음원의 음량(dB)을 즉시 변경. 0/undefined면 원본. */
   setGainDb: (db: number | null | undefined) => void
+  /** 현재 재생 중인 음원의 영상 배속을 즉시 반영(전역 미리듣기 배속과 곱). 1/undefined면 원본. */
+  setMediaRate: (rate: number | null | undefined) => void
 }
 
 export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
@@ -75,7 +78,10 @@ export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
     if (!a.paused) rafRef.current = requestAnimationFrame(tick)
   }, [])
 
-  const start = useCallback((key: string, gainDb?: number | null) => {
+  // 현재 재생 음원의 영상 배속 — 전역 미리듣기 배속(rate)과 곱해 적용한다.
+  const mediaRateRef = useRef(1)
+
+  const start = useCallback((key: string, gainDb?: number | null, mediaRate?: number | null) => {
     cleanup()
     setPlayingKey(key)
     setPaused(false)
@@ -85,7 +91,8 @@ export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
     // 재사용해, 모달에서 새로 저장한 음원이 바깥 재생에 반영되지 않던 결함 방지.
     const url = `/api/${series}/voice/play/${name}/${key}.wav?t=${Date.now()}`
     const audio = new Audio(url)
-    audio.playbackRate = rate
+    mediaRateRef.current = mediaRate != null && Number.isFinite(mediaRate) && mediaRate > 0 ? mediaRate : 1
+    audio.playbackRate = rate * mediaRateRef.current
     audioRef.current = audio
 
     // Web Audio 그래프 연결 — audio 요소가 만들어지자마자 잡아서 gain 경유로 출력.
@@ -132,11 +139,11 @@ export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
     setPlayingKey(null); setPaused(false); setCurrentTime(0); setDuration(0)
   }, [cleanup])
 
-  const togglePlay = useCallback((key: string, gainDb?: number | null) => {
+  const togglePlay = useCallback((key: string, gainDb?: number | null, mediaRate?: number | null) => {
     if (playingKey === key) {
       stop()
     } else {
-      start(key, gainDb)
+      start(key, gainDb, mediaRate)
     }
   }, [playingKey, start, stop])
 
@@ -170,13 +177,22 @@ export function useAudioPreview(series: string, name: string): AudioPreviewCtl {
     gain.gain.value = dbToLinear(db ?? undefined)
   }, [])
 
-  // 재생 중 배속 변경 → 현재 재생 audio에 즉시 반영
+  // 음원별 영상 배속 — 전역 미리듣기 배속(rate)에 곱해 현재 재생에 즉시 반영.
+  // togglePlay의 mediaRate 인자로 재생 시작부터 적용되고, 재생 중 슬라이더 조작 시 이 함수로 갱신된다.
+  const setMediaRate = useCallback((mediaRate: number | null | undefined) => {
+    mediaRateRef.current = mediaRate != null && Number.isFinite(mediaRate) && mediaRate > 0 ? mediaRate : 1
+    const a = audioRef.current
+    if (!a) return
+    a.playbackRate = rate * mediaRateRef.current
+  }, [rate])
+
+  // 재생 중 전역 배속 변경 → 음원별 배속과 곱해 현재 재생 audio에 즉시 반영
   useEffect(() => {
-    if (audioRef.current) audioRef.current.playbackRate = rate
+    if (audioRef.current) audioRef.current.playbackRate = rate * mediaRateRef.current
   }, [rate])
 
   // 언마운트 시 정리
   useEffect(() => () => cleanup(), [cleanup])
 
-  return { playingKey, paused, currentTime, duration, togglePlay, togglePause, stop, seek, setGainDb }
+  return { playingKey, paused, currentTime, duration, togglePlay, togglePause, stop, seek, setGainDb, setMediaRate }
 }

@@ -6,7 +6,7 @@
  * Example: tsx scripts/srt/generate-srt.ts alexander-the-great
  *
  * Output:
- *   out/{Label}/{Lang}/L-VID.srt
+ *   out/{Label}/{Lang}/LH-VID.srt
  *   out/{Label}/{Lang}/S-VID.srt
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
@@ -14,6 +14,7 @@ import { join, dirname } from 'path'
 import type { BookRecommendScript, EpisodeTimingData } from '../../src/compositions/BookRecommend/types'
 import { buildLongformSubs, buildShortsSubs, subsToSrt } from './srt-builder'
 import { mergeEpisode } from '../../src/compositions/BookRecommend/merge-episode'
+import { applyPlaybackRates } from '../../src/compositions/BookRecommend/playback-rate'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath } from '../lib/episode.js'
 
 const outDir = join(ROOT, 'out')
@@ -55,11 +56,12 @@ for (const name of targets) {
   const timing = existsSync(timingPath)
     ? JSON.parse(readFileSync(timingPath, 'utf-8')) as EpisodeTimingData
     : undefined
-  const script = timing ? mergeEpisode(content, timing) : content
+  // 음원별 배속 반영 — 영상(script.ts)과 동일 스케일로 SRT 시각을 맞춘다.
+  const script = applyPlaybackRates(timing ? mergeEpisode(content, timing) : content)
 
   // longform
   const longSrt = subsToSrt(buildLongformSubs(script))
-  const longPath = join(epOutDir, 'L-VID.srt')
+  const longPath = join(epOutDir, 'LH-VID.srt')
   writeFileSync(longPath, longSrt, 'utf-8')
   console.log(`OK ${longPath}`)
 

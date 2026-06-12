@@ -5,6 +5,7 @@ import { SaveButton } from '../../SaveButton'
 import { SegmentSfxEditor } from '../../SegmentSfxEditor'
 import { RowSpeakerSelect } from '../../RowSpeakerSelect'
 import { GainDbInput } from '../../GainDbInput'
+import { PlaybackRateInput } from '../../PlaybackRateInput'
 import type { Speaker } from '../../SpeakerPanel'
 import { LongformCopyAllButton } from '../CopyButton'
 import { lookupVoice } from '../../utils'
@@ -27,7 +28,7 @@ export function IntroSection({
   onToggleExpand: (key: string) => void
   activeEngine: (key: string) => string
   playingKey: string | null
-  onTogglePlay: (key: string, gainDb?: number | null) => void
+  onTogglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   series: string
   name: string
   saveField: (path: Array<string | number>, value: unknown) => Promise<void>
@@ -43,8 +44,8 @@ export function IntroSection({
   const host = episode.host!
   const allBooks = episode.books ?? []
 
-  // SFX·화자·게인 형제 필드 — narrator.serviceGreeting → serviceGreetingSfx / serviceGreetingSpeaker / serviceGreetingGainDb.
-  type SiblingSuffix = 'Sfx' | 'Speaker' | 'GainDb'
+  // SFX·화자·게인·배속 형제 필드 — narrator.serviceGreeting → serviceGreetingSfx / serviceGreetingSpeaker / serviceGreetingGainDb / serviceGreetingPlaybackRate.
+  type SiblingSuffix = 'Sfx' | 'Speaker' | 'GainDb' | 'PlaybackRate'
   type SiblingValue = SfxItem[] | string | number | undefined
   const setSibling = (field: string[], suffix: SiblingSuffix, next: SiblingValue) => {
     const [target, key] = field as [string, string]
@@ -54,6 +55,7 @@ export function IntroSection({
       || (suffix === 'Sfx' && Array.isArray(next) && next.length === 0)
       || (suffix === 'Speaker' && next === '')
       || (suffix === 'GainDb' && next === 0)
+      || (suffix === 'PlaybackRate' && next === 1)
     if (isEmpty) delete parent[sibKey]
     else parent[sibKey] = next
     if (target === 'narrator') onUpdate({ ...episode, narrator: parent as typeof narrator })
@@ -87,7 +89,8 @@ export function IntroSection({
             else uH(field, v)
           }}
           sectionKey={props.key_} audioUrl={vUrl(props.key_)}
-          activeEngine={activeEngine(props.key_)} isPlaying={playingKey === props.key_} onTogglePlay={() => onTogglePlay(props.key_, fieldGainDb)}
+          playbackRate={getSibling<number>(props.field, 'PlaybackRate')}
+          activeEngine={activeEngine(props.key_)} isPlaying={playingKey === props.key_} onTogglePlay={() => onTogglePlay(props.key_, fieldGainDb, getSibling<number>(props.field, 'PlaybackRate'))}
           onToggleExpand={() => onToggleExpand(props.key_)}
           actions={<SaveButton onSave={() => saveField(props.field, props.rawValue ?? props.value)} />}
           footer={
@@ -107,6 +110,11 @@ export function IntroSection({
               <GainDbInput
                 value={fieldGainDb}
                 onChange={next => setSibling(props.field, 'GainDb', next)}
+                sectionKey={props.key_}
+              />
+              <PlaybackRateInput
+                value={getSibling<number>(props.field, 'PlaybackRate')}
+                onChange={next => setSibling(props.field, 'PlaybackRate', next)}
                 sectionKey={props.key_}
               />
             </>
@@ -148,7 +156,7 @@ export function IntroSection({
       {row({ label: '인물 소개', role: 'narrator', value: narrator.celebIntro ?? '', field: ['narrator', 'celebIntro'], key_: 'B1-celeb-intro', duration: narrator.celebIntroDuration, rawValue: narrator.celebIntro ?? '' })}
       {row({ label: '감상철학', role: 'celeb', value: host.philosophy ?? '', field: ['host', 'philosophy'], key_: 'B2-philosophy', duration: host.voiceDuration, rawValue: host.philosophy ?? '' })}
       {narrator.bridge && row({ label: '브릿지', role: 'narrator', value: narrator.bridge, field: ['narrator', 'bridge'], key_: 'B3-bridge', duration: narrator.bridgeDuration })}
-      {narrator.outro && row({ label: '마무리', role: 'narrator', value: narrator.outro, field: ['narrator', 'outro'], key_: 'Z1-outro', duration: narrator.outroDuration })}
+      {narrator.outro && row({ label: '마무리', role: 'narrator', value: narrator.outro, field: ['narrator', 'outro'], key_: 'E1-outro', duration: narrator.outroDuration })}
     </EditorPanel>
   )
 }

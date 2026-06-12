@@ -16,11 +16,11 @@ export type { Sub } from './sentence-split'
 
 /**
  * 화면 자막 표시용 구두점 정리.
- * - 마침표(.)는 모두 제거: 한 호흡으로 읽히는 자막에서 불필요.
- * - 끝에 붙은 쉼표(,) 제거: 청크 마지막 쉼표는 발화 흐름 단서이지 표시될 필요 없음.
- * 모든 화면 자막(쇼츠 ShortCaption, 롱폼 PortraitSubtitles, dev Subtitles)이 동일 규칙 사용.
+ * - 끝에 붙은 마침표(.)·쉼표(,) 제거: 청크 마지막 구두점은 발화 흐름 단서이지 표시될 필요 없음.
+ * - 중간 마침표는 보존: x.com·U.S.A 같은 값이 손상되지 않도록 문장 끝에서만 제거.
+ * 모든 화면 자막(쇼츠 ShortCaption, 롱폼 LongSubtitles, dev Subtitles)이 동일 규칙 사용.
  */
-export const stripCaptionPunct = (s: string) => s.replace(/\./g, '').replace(/,\s*$/, '')
+export const stripCaptionPunct = (s: string) => s.replace(/[.,]+\s*$/, '')
 
 /** 정적 파일 경로 헬퍼 — Remotion 내장 staticFile 사용.
  *  이미 변환된 경로(staticFile prefix·외부 URL·인라인 데이터)는 그대로 통과시켜

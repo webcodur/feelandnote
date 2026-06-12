@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SegmentEngineSpec } from '../../voice-utils'
+import { shortsArrIndexBySlot } from '../../voice-utils'
 import { type EleSendOpts, type VoiceMeta } from '../types'
 import { sectionVoicePath, readSegmentVoiceMeta, sectionStyleKey } from '../utils'
 
@@ -87,7 +88,7 @@ export function useSegmentMeta({
     const { shortsIndex, segmentId } = segmentLocator
     const ep = JSON.parse(JSON.stringify(episode)) as EpisodeData
     const arr = Array.isArray(ep.shorts) ? ep.shorts : []
-    const target = arr[shortsIndex - 1]?.segments?.find((s: { id: string }) => s.id === segmentId)
+    const target = arr[shortsArrIndexBySlot(arr, shortsIndex)]?.segments?.find((s: { id: string }) => s.id === segmentId)
     if (!target) return
     const t = target as Record<string, unknown>
     if (value === undefined || value === '') delete t[field]

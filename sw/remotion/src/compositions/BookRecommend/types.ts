@@ -33,6 +33,8 @@ export interface CelebHost {
   featuredQuoteSpeaker?: string
   /** 명언 음량 dB 게인 */
   featuredQuoteGainDb?: number
+  /** 명언 재생 배속 (1=원본, 0.5~2) */
+  featuredQuotePlaybackRate?: number
   /** 감상철학 요약 (continuation에서는 없음) */
   philosophy?: string
   /** 감상철학 음성 길이 (초, continuation에서는 없음) */
@@ -43,6 +45,8 @@ export interface CelebHost {
   philosophySpeaker?: string
   /** 감상철학 음량 dB 게인 */
   philosophyGainDb?: number
+  /** 감상철학 재생 배속 (1=원본, 0.5~2) */
+  philosophyPlaybackRate?: number
   /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
   elevenlabsVoiceId?: string
   /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */
@@ -101,6 +105,8 @@ export interface QuotePair {
   quoteSpeaker?: string
   /** 직접 인용 음량 dB 게인 */
   quoteGainDb?: number
+  /** 직접 인용 재생 배속 (1=원본, 0.5~2) */
+  quotePlaybackRate?: number
   after?: string
   afterDuration?: number
   /** 후속 맥락 SFX */
@@ -109,6 +115,8 @@ export interface QuotePair {
   afterSpeaker?: string
   /** 후속 맥락 음량 dB 게인 */
   afterGainDb?: number
+  /** 후속 맥락 재생 배속 (1=원본, 0.5~2) */
+  afterPlaybackRate?: number
 }
 
 export interface BookEntry {
@@ -127,6 +135,8 @@ export interface BookEntry {
   summarySpeaker?: string
   /** 핵심 요약 음량 dB 게인 */
   summaryGainDb?: number
+  /** 핵심 요약 재생 배속 (1=원본, 0.5~2) */
+  summaryPlaybackRate?: number
   /** 나레이터 3인칭: 감상 배경 */
   contextMain: string
   /** 감상 배경 음성 길이 (초). voice: c-context.wav */
@@ -137,6 +147,8 @@ export interface BookEntry {
   contextMainSpeaker?: string
   /** 감상 배경 음량 dB 게인 */
   contextMainGainDb?: number
+  /** 감상 배경 재생 배속 (1=원본, 0.5~2) */
+  contextMainPlaybackRate?: number
   /** 인용+후속맥락 쌍 배열 (동적 N개). voice: d1-quote, d2-after, d3-quote, d4-after, ... */
   quotePairs?: QuotePair[]
   /** 섹션별 BGM — summary/contextMain 구간에 배경 음악 배정 */
@@ -156,6 +168,8 @@ export interface BookEntry {
   titleSpeaker?: string
   /** 제목 읽기 음량 dB 게인 */
   titleGainDb?: number
+  /** 제목 읽기 재생 배속 (1=원본, 0.5~2) */
+  titlePlaybackRate?: number
   /** 시네마틱 이미지 배열 (텍스트 앵커 기반 N장 전환). imagePrompts보다 우선 */
   images?: CinematicImage[]
   /** 시네마틱 이미지 프롬프트 (레거시 — 2슬롯 고정) */
@@ -172,36 +186,42 @@ export interface NarratorLines {
   serviceGreetingSfx?: SfxItem[]
   serviceGreetingSpeaker?: string
   serviceGreetingGainDb?: number
+  serviceGreetingPlaybackRate?: number
   /** Section 0: 서비스 인트로 — 본문 (예: "서재 탐방 코너에서는..."). continuation에서는 없음 */
   serviceIntro?: string
   serviceIntroDuration?: number
   serviceIntroSfx?: SfxItem[]
   serviceIntroSpeaker?: string
   serviceIntroGainDb?: number
+  serviceIntroPlaybackRate?: number
   /** Section 1: 인물 소개 (bio 읊기). continuation에서는 없음 */
   celebIntro?: string
   celebIntroDuration?: number
   celebIntroSfx?: SfxItem[]
   celebIntroSpeaker?: string
   celebIntroGainDb?: number
+  celebIntroPlaybackRate?: number
   /** continuation: 복귀 인사 (예: "서재 탐방, 두 번째 이야기입니다") */
   returnIntro?: string
   returnIntroDuration?: number
   returnIntroSfx?: SfxItem[]
   returnIntroSpeaker?: string
   returnIntroGainDb?: number
+  returnIntroPlaybackRate?: number
   /** continuation: 이전 파트 요약 (예: "지난 1부에서는 ...") */
   prevRecap?: string
   prevRecapDuration?: number
   prevRecapSfx?: SfxItem[]
   prevRecapSpeaker?: string
   prevRecapGainDb?: number
+  prevRecapPlaybackRate?: number
   /** 서재 이동 브릿지 */
   bridge: string
   bridgeDuration: number
   bridgeSfx?: SfxItem[]
   bridgeSpeaker?: string
   bridgeGainDb?: number
+  bridgePlaybackRate?: number
   /** "핵심 요약" 라벨 오디오 길이 (초) */
   labelSummaryDuration?: number
   /** "감상경위" 라벨 오디오 길이 (초) */
@@ -212,12 +232,14 @@ export interface NarratorLines {
   interludeSfx?: SfxItem[]
   interludeSpeaker?: string
   interludeGainDb?: number
+  interludePlaybackRate?: number
   /** Section 6/7: 아웃트로 */
   outro: string
   outroDuration: number
   outroSfx?: SfxItem[]
   outroSpeaker?: string
   outroGainDb?: number
+  outroPlaybackRate?: number
 }
 
 /**
@@ -289,6 +311,9 @@ export interface ShortSegment {
   volume?: number
   /** dB 게인. BO 입력값 그대로. 0(또는 미설정)이면 원본 음량. volume과 함께 곱셈 적용된다. */
   gainDb?: number
+  /** 재생 배속 (1=원본, 0.5~2). 적재 시 duration·voiceTimings·imageChangeAt.t가 1/r 스케일되고
+   *  <Audio playbackRate>로 음원만 빠르게 재생된다. playback-rate.ts 참조. */
+  playbackRate?: number
   /** Gemini TTS 발화 스타일 prefix (예: "낮고 간절하게 속삭이듯"). narrator/summary 우선 적용, celeb는 host.voiceStyle 대체. */
   style?: string
   /** Gemini TTS 보이스 명시 오버라이드 (예: "Sulafat"). 지정 시 role과 무관하게 Gemini로 합성하며 ElevenLabs 셀럽 차단도 우회한다. 캐릭터 보이스(다중 화자) 용도. */
@@ -326,6 +351,9 @@ export interface Speaker {
  * 세그먼트 배열로 자유롭게 구성. 나레이션이 흐르고 비주얼이 따라간다.
  */
 export interface ShortsConfig {
+  /** 고정 출력 번호. 음성 파일·voiceTimings 키(shorts-{slot}/…)와 컴포지션 ID 의 기준.
+   *  배열 위치와 달리 책 발행 순서가 바뀌어도 유지된다. script.ts 조립 시 부여(없으면 폴더순). */
+  slot?: number
   /** 소개할 책 인덱스 (기본 0) */
   featuredBookIndex?: number
   /** 쇼츠 썸네일에 표시할 책 제목 오버라이드. 없으면 books[featuredBookIndex].title 사용 */

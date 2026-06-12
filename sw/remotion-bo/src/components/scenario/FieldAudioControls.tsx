@@ -19,12 +19,15 @@ export function FieldAudioControls({
   fallbackDuration,
   isPlaying,
   onTogglePlay,
+  playbackRate,
 }: {
   sectionKey: string
   /** voiceInfo.duration — 메타데이터 로드 전 표시용. */
   fallbackDuration: number
   isPlaying: boolean
   onTogglePlay: () => void
+  /** 이 음원의 영상 배속(*PlaybackRate 필드 값). 지정 시 총 시간을 「원본(취소선) 환산」으로 표시. */
+  playbackRate?: number
 }) {
   const ctl = useAudioPreviewCtx()
   const [rate, setRate] = usePlaybackRate()
@@ -92,6 +95,9 @@ export function FieldAudioControls({
   const fmt = (s: number) => Number.isFinite(s) ? s.toFixed(1) : '0.0'
   const pct = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0
   const rateActive = rate !== 1
+  // 영상 배속 환산 — 배속이 걸린 구간은 영상에서 duration/r 초로 재생된다.
+  const mediaRate = playbackRate !== undefined && Number.isFinite(playbackRate) && playbackRate > 0 ? playbackRate : 1
+  const mediaRated = Math.abs(mediaRate - 1) > 1e-6
 
   return (
     <div className="flex items-center gap-1.5 flex-1 min-w-0">
@@ -122,8 +128,16 @@ export function FieldAudioControls({
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-sm font-bold text-text-secondary font-mono tabular-nums whitespace-nowrap flex-none">
-        {fmt(currentTime)} / {fmt(duration)}s
+      <span
+        className="text-sm font-bold text-text-secondary font-mono tabular-nums whitespace-nowrap flex-none"
+        title={mediaRated ? `영상 배속 ×${mediaRate.toFixed(2)} — 원본 ${fmt(duration)}초가 영상에선 ${fmt(duration / mediaRate)}초로 재생된다.` : undefined}
+      >
+        {fmt(currentTime)} / {mediaRated ? (
+          <>
+            <span className="line-through opacity-50">{fmt(duration)}s</span>
+            {' '}<span className="text-sky-500">{fmt(duration / mediaRate)}s</span>
+          </>
+        ) : `${fmt(duration)}s`}
       </span>
       <div ref={dropdownRef} className="relative flex-none">
         <button

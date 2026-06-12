@@ -65,9 +65,13 @@ type Props = {
   sLabelContext: number
   /** 텍스트 앵커 기반 이미지 전환 — book.images 사용 시 BookCardVisual이 계산하여 전달 */
   imageTransitions?: ImageTransition[]
+  /** 화면 가득 채움 — 모서리 둥글기 제거 (가로 롱폼 풀스크린 이미지용) */
+  fullBleed?: boolean
+  /** 이미지 맞춤 방식 — 'cover'(잘림 감수, 기본) / 'contain'(안 잘리게, 여백 발생) */
+  fit?: 'cover' | 'contain'
 }
 
-export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelContext, imageTransitions }) => {
+export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelContext, imageTransitions, fullBleed, fit = 'cover' }) => {
   const frame = useCurrentFrame()
   const isStudio = !getRemotionEnvironment().isRendering
 
@@ -78,7 +82,7 @@ export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelConte
   const newFiles = useMemo(() => imageTransitions?.map(t => t.file) ?? [], [imageTransitions])
   const newSources = useImageSources(baseName, newFiles)
 
-  const imgStyle: React.CSSProperties = { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }
+  const imgStyle: React.CSSProperties = { width: '100%', height: '100%', objectFit: fit, objectPosition: 'center center' }
 
   // --- 렌더링 결정 ---
   let imageLayer: React.ReactNode = null
@@ -100,6 +104,12 @@ export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelConte
 
     imageLayer = (
       <>
+        {/* contain 시 좌우 여백을 같은 이미지의 흐린 배경으로 채움 */}
+        {fit === 'contain' && newSources[currentFile] && (
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+            <Img src={newSources[currentFile]} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(36px) brightness(0.4) saturate(0.8)', transform: 'scale(1.12)' }} />
+          </div>
+        )}
         {isCrossfading && prevFile && newSources[prevFile] && (
           <div style={{ position: 'absolute', inset: 0 }}>
             <Img src={newSources[prevFile]} style={imgStyle} />
@@ -117,7 +127,7 @@ export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelConte
   return (
     <div style={{
       position: 'absolute', inset: 0,
-      borderRadius: 12, overflow: 'hidden',
+      borderRadius: fullBleed ? 0 : 12, overflow: 'hidden',
       background: DARK.mid,
     }}>
       {imageLayer}
@@ -128,7 +138,9 @@ export const CinematicPanel: React.FC<Props> = ({ episodeName, book, sLabelConte
         <div style={{
           position: 'absolute', inset: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 24, border: '2px dashed rgba(200,164,110,0.3)', borderRadius: 12,
+          padding: 24,
+          border: fullBleed ? 'none' : '2px dashed rgba(200,164,110,0.3)',
+          borderRadius: fullBleed ? 0 : 12,
         }}>
           <div style={{
             color: '#c8a46e', fontSize: 36, fontFamily: FONT.sans,

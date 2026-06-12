@@ -52,11 +52,19 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     episodeMeta = (lineup as any)[episode] ?? null
   } catch { /* ignore */ }
 
-  // 에피소드 데이터 로드 (shorts·solos 배열 길이 추출)
+  // 에피소드 데이터 로드 (shorts 고정 slot·solos 추출)
   const koData = await loadEpisode(seriesId, episode).catch(() => null) as { shorts?: unknown; solos?: unknown } | null
   const enData = await loadEpisode(seriesId, `${episode}-en`).catch(() => null) as { shorts?: unknown; solos?: unknown } | null
-  const koShortsCount = Array.isArray(koData?.shorts) ? koData!.shorts!.length as number : (koData?.shorts ? 1 : 0)
-  const enShortsCount = Array.isArray(enData?.shorts) ? enData!.shorts!.length as number : (enData?.shorts ? 1 : 0)
+  // 쇼츠 variant는 배열 길이(1..N)가 아니라 고정 slot으로 만든다 — 결번이 있으면 번호가 밀린다 (status-all과 동일 규칙)
+  function shortsSlotsOf(data: { shorts?: unknown } | null): number[] {
+    if (!data?.shorts) return []
+    if (!Array.isArray(data.shorts)) return [1]
+    return (data.shorts as Array<{ slot?: number }>)
+      .map((s, i) => (typeof s?.slot === 'number' ? s.slot : i + 1))
+      .sort((a, b) => a - b)
+  }
+  const koShortsSlots = shortsSlotsOf(koData)
+  const enShortsSlots = shortsSlotsOf(enData)
   const koSolos: Array<{ featuredBookIndex?: number }> = Array.isArray(koData?.solos) ? koData!.solos as any : []
   const enSolos: Array<{ featuredBookIndex?: number }> = Array.isArray(enData?.solos) ? enData!.solos as any : []
 
@@ -74,9 +82,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     const langCode = lang.toUpperCase()
     const langDir = path.join(outDir, langCode)
 
-    // 파일 suffix — longform=L, shorts=S{N}, solo=B{NN}
+    // 파일 suffix — longform=LH(가로), shorts=S{N}, solo=B{NN}
     let baseSuffix: string
-    if (type === 'longform') baseSuffix = 'L'
+    if (type === 'longform') baseSuffix = 'LH'
     else if (type === 'solo') baseSuffix = `B${String((bookIndex ?? 0) + 1).padStart(2, '0')}`
     else baseSuffix = `S${shortsIndex}`
 
@@ -110,12 +118,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   }
 
   if (koData) await scanVariant('ko', 'longform', 0)
-  for (let i = 1; i <= koShortsCount; i++) await scanVariant('ko', 'shorts', i)
+  for (const slot of koShortsSlots) await scanVariant('ko', 'shorts', slot)
   for (const s of koSolos) {
     if (typeof s.featuredBookIndex === 'number') await scanVariant('ko', 'solo', 0, s.featuredBookIndex)
   }
   if (enData) await scanVariant('en', 'longform', 0)
-  for (let i = 1; i <= enShortsCount; i++) await scanVariant('en', 'shorts', i)
+  for (const slot of enShortsSlots) await scanVariant('en', 'shorts', slot)
   for (const s of enSolos) {
     if (typeof s.featuredBookIndex === 'number') await scanVariant('en', 'solo', 0, s.featuredBookIndex)
   }

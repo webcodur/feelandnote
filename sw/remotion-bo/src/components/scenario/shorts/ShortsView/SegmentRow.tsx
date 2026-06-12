@@ -72,7 +72,7 @@ export function SegmentRow({
   handlePick: any
   activeEngine: (key: string) => string
   playingKey: string | null
-  onTogglePlay: (key: string, gainDb?: number | null) => void
+  onTogglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   onToggleExpand: (key: string) => void
   updateSeg: (i: number, text: string, prev?: string) => void
   updateSegField: (i: number, field: string, value: any) => void
@@ -184,7 +184,7 @@ export function SegmentRow({
       pickMode={picking} onPick={handlePick}
       highlights={allImgs.map((img: any) => img.text).filter((t: string | undefined): t is string => !!t)}
       sectionKey={key} audioUrl={audioUrl}
-      activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, seg.gainDb)}
+      activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, seg.gainDb, seg.playbackRate)}
       onToggleExpand={() => onToggleExpand(key)}
       onDrop={withImage ? (fn => dropImage(idx, fn)) : undefined}
       onAddAnchor={withImage ? (t => addAnchor(idx, t)) : undefined}
@@ -193,6 +193,7 @@ export function SegmentRow({
       dragHandle={dragHandleProps}
       leadStyle={accentColor ? { borderLeft: `3px solid ${accentColor}` } : undefined}
       footer={footerNode}
+      playbackRate={typeof seg.playbackRate === 'number' ? seg.playbackRate : undefined}
     />
   )
 

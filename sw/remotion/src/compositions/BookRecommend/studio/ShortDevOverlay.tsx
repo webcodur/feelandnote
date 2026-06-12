@@ -24,7 +24,7 @@ interface Props {
   segStarts: number[]
   segTimings: number[]
   voiceTimings?: Record<string, VoiceTimingSegment[]>
-  /** 쇼츠 번호 (1-based, 필수) */
+  /** 쇼츠 고정 출력 번호(slot). 음성 파일 경로(shorts-{slot}/…) 생성용. */
   shortsIndex: number
 }
 
@@ -50,6 +50,10 @@ export const ShortDevOverlay: React.FC<Props> = ({
       : 'gap'
 
   const dur = seg?.duration ? `${seg.duration.toFixed(2)}s` : '--'
+  // 배속 표기 — 적재 변환(applyPlaybackRates)이 살아 있으면 dur 은 이미 1/r 스케일된 값이다.
+  const segRate = seg?.playbackRate && Number.isFinite(seg.playbackRate) && Math.abs(seg.playbackRate - 1) > 1e-6
+    ? seg.playbackRate
+    : null
   const vFile = seg ? vnShort(currentSeg, seg.id, shortsIndex) : '--'
   const elapsed = (frame / FPS).toFixed(2)
   const total = (totalFrames / FPS).toFixed(2)
@@ -127,6 +131,9 @@ export const ShortDevOverlay: React.FC<Props> = ({
             </span>
             <span style={{ color: '#888' }}>|</span>
             <span>dur: {dur}</span>
+            {segRate && (
+              <span style={{ color: '#6ec2f0', fontWeight: 700 }}>×{segRate}</span>
+            )}
             <span style={{ color: '#888' }}>|</span>
             <span style={{ fontSize: 26, color: '#999' }}>voice: {vFile}</span>
           </div>

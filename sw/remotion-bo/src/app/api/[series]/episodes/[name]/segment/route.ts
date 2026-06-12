@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { loadEpisode, saveEpisode } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
+import { shortsArrIndexBySlot } from '@/components/voice-utils'
 
 /**
  * PATCH /api/[series]/episodes/[name]/segment
@@ -9,7 +10,7 @@ import { isValidSeries } from '@/lib/series-registry'
  * 지정된 구간만 교체한 뒤 다시 저장한다. 다른 탭·세션이 방금 바꾼
  * 내용(다른 구간·다른 필드)은 보존된다.
  *
- * body: { shortsIndex: number (1-based), segmentId: string, segment: object }
+ * body: { shortsIndex: number (고정 slot), segmentId: string, segment: object }
  */
 export async function PATCH(req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
   const { series, name } = await params
@@ -23,13 +24,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ series
 
     const ep = await loadEpisode(series, name) as Record<string, unknown>
     const isArr = Array.isArray(ep.shorts)
-    const shortsArr = (isArr ? ep.shorts : (ep.shorts ? [ep.shorts] : [])) as Array<{ segments?: Array<{ id?: string }> }>
-    if (shortsIndex < 1 || shortsIndex > shortsArr.length) {
-      return NextResponse.json({ error: `shortsIndex out of range (1..${shortsArr.length})` }, { status: 400 })
+    const shortsArr = (isArr ? ep.shorts : (ep.shorts ? [ep.shorts] : [])) as Array<{ slot?: number; segments?: Array<{ id?: string }> }>
+    // shortsIndex 는 고정 slot 번호다(배열 위치 아님). slot 으로 위치를 찾는다.
+    const target = shortsArr[shortsArrIndexBySlot(shortsArr, shortsIndex)]
+    if (!target) {
+      return NextResponse.json({ error: `shorts slot ${shortsIndex} not found` }, { status: 404 })
     }
 
-    const target = shortsArr[shortsIndex - 1]
-    const segs = target?.segments
+    const segs = target.segments
     if (!Array.isArray(segs)) {
       return NextResponse.json({ error: 'segments missing' }, { status: 400 })
     }

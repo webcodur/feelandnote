@@ -17,6 +17,9 @@ export type ImageField = 'summary' | 'context' | 'quote'
 export type VoiceInfo = {
   sectionKey: string
   duration?: number
+  /** 실제 음성 파일(wav) 실측 길이(초). 발화 속도(초당 글자수) 계산용.
+   *  JSON 연출 duration은 음성 재생성 후 어긋날 수 있어 속도 계산에는 이 값을 쓴다. */
+  audioDuration?: number
   exists: boolean
 }
 

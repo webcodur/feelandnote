@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SegmentEngineSpec } from '../../voice-utils'
-import { resolveSegmentEngine } from '../../voice-utils'
+import { resolveSegmentEngine, shortsArrIndexBySlot } from '../../voice-utils'
 import { getTextsForSection, isCelebSection, NARRATOR_STYLE_DEFAULT } from '../utils'
 import type { GenEngine } from './types'
 
@@ -34,7 +34,7 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     const m = secKey.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
     const seg = m ? (() => {
       const arr = Array.isArray(episode.shorts) ? episode.shorts : []
-      return arr[parseInt(m[1], 10) - 1]?.segments?.find((s: { id: string }) => s.id === m[2]) as { speaker?: string; elevenlabsVoiceId?: string } | undefined
+      return arr[shortsArrIndexBySlot(arr, parseInt(m[1], 10))]?.segments?.find((s: { id: string }) => s.id === m[2]) as { speaker?: string; elevenlabsVoiceId?: string } | undefined
     })() : undefined
     const speakers: SpeakerLite[] = Array.isArray((episode as { speakers?: unknown }).speakers)
       ? (episode as { speakers: SpeakerLite[] }).speakers : []
@@ -55,7 +55,7 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     const m = secKey.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
     const seg = m ? (() => {
       const arr = Array.isArray(episode.shorts) ? episode.shorts : []
-      return arr[parseInt(m[1], 10) - 1]?.segments?.find((s: { id: string }) => s.id === m[2]) as { geminiVoice?: string; style?: string; speaker?: string } | undefined
+      return arr[shortsArrIndexBySlot(arr, parseInt(m[1], 10))]?.segments?.find((s: { id: string }) => s.id === m[2]) as { geminiVoice?: string; style?: string; speaker?: string } | undefined
     })() : undefined
     const speakers: SpeakerLite[] = Array.isArray((episode as { speakers?: unknown }).speakers)
       ? (episode as { speakers: SpeakerLite[] }).speakers : []

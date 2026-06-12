@@ -183,6 +183,13 @@ async function loadNewLayoutEpisode(episodeDir: string, locale: string): Promise
     }
   }
 
+  // slot 부여 — shorts.json의 slot 우선, 없으면 max+폴더순(미발행분은 뒤로). slot 전무 시 1..N(폴더순, 기존 동작).
+  {
+    let maxSlot = 0
+    for (const s of shortsArr) if (typeof s?.slot === 'number') maxSlot = Math.max(maxSlot, s.slot)
+    for (const s of shortsArr) if (s && typeof s.slot !== 'number') s.slot = ++maxSlot
+  }
+
   const result: any = {
     ...metaContent,
     voiceTimings: metaTiming.voiceTimings ?? metaContent.voiceTimings,

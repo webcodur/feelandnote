@@ -1,6 +1,6 @@
 /** 문장 분할 유틸리티 — 단일원천(SSoT). 컴포넌트·스크립트 모두 이 모듈에서 import한다. */
 import type { VoiceTimingSegment } from './types'
-import { FPS, SENTENCE_BREATH } from './timing'
+import { FPS } from './timing'
 
 export const SENTENCE_SPLIT = /(?<=[.?!。][''"」』]?)\s+/
 
@@ -39,7 +39,7 @@ export function expandSubTimings(timings: VoiceTimingSegment[]): VoiceTimingSegm
   return result
 }
 
-export type Sub = { start: number; end: number; speaker: string; text: string }
+export type Sub = { start: number; end: number; speaker: string; text: string; synthetic?: boolean }
 
 /** voiceTimings의 텍스트가 실제 텍스트와 일치하는지 확인. 불일치 시 타이밍을 무시해야 한다.
  *
@@ -405,6 +405,51 @@ export function slicePageTimings(
   })
 }
 
+/** 긴 자막 조각을 구두점(마침표·물음표·느낌표·쉼표) 경계에서 더 잘게 나눈다.
+ *
+ *  - 목표 길이(targetChars) 미만이면 분할하지 않는다 → "이순신, 원균, 권율" 같은
+ *    짧은 나열 콤마는 모아서 한 자막으로 둔다(문장에서 쉬는 콤마에서만 끊긴다).
+ *  - 한 호흡이 목표 길이 이상 쌓인 직후의 구두점 경계에서 끊는다.
+ *  - 단어 타이밍이 없으므로 각 조각의 start/end는 글자수 비례로 안분한다.
+ *  - 마지막 잔여 조각이 너무 짧으면(<8자) 직전 조각에 흡수한다.
+ */
+function splitByPunctuation(
+  start: number, end: number, speaker: string, text: string, targetChars = 32,
+): Sub[] {
+  const t = text.trim()
+  if (t.length <= targetChars) return [{ start, end, speaker, text: t }]
+
+  // 구두점 경계 위치(구두점 바로 다음 인덱스)
+  const breaks: number[] = []
+  for (let i = 0; i < t.length; i++) {
+    if (/[.?!。,，、]/.test(t[i])) breaks.push(i + 1)
+  }
+  if (breaks.length === 0) return [{ start, end, speaker, text: t }]
+
+  // 직전 컷에서 targetChars 이상 쌓인 첫 경계에서 컷
+  const pieces: [number, number][] = []
+  let segStart = 0
+  for (const b of breaks) {
+    if (b - segStart >= targetChars) { pieces.push([segStart, b]); segStart = b }
+  }
+  if (segStart < t.length) pieces.push([segStart, t.length])
+
+  // 마지막 조각이 너무 짧으면 직전과 병합
+  if (pieces.length >= 2 && pieces[pieces.length - 1][1] - pieces[pieces.length - 1][0] < 8) {
+    pieces[pieces.length - 2][1] = pieces[pieces.length - 1][1]
+    pieces.pop()
+  }
+  if (pieces.length <= 1) return [{ start, end, speaker, text: t }]
+
+  const dur = end - start, total = t.length
+  return pieces.map(([s, e]) => ({
+    start: start + Math.round((dur * s) / total),
+    end: start + Math.round((dur * e) / total),
+    speaker,
+    text: t.slice(s, e).trim(),
+  }))
+}
+
 /** voiceTimings → 자막 세그먼트 변환. voiceTimings가 없으면 비율 분배 폴백.
  *  Typewriter(하이라이팅), StudioSubtitles, generate-srt 모두 이 함수를 사용한다.
  *
@@ -419,66 +464,29 @@ export function splitSub(
   const expanded = timings ? expandSubTimings(timings) : undefined
   if (expanded && expanded.length > 1 && expanded.every(t => t.text && t.start != null && t.end != null)) {
     const origSlices = sliceOriginalByTimings(text, expanded)
-    return expanded.map((t, i) => ({
-      start: start + Math.round(t.start * FPS),
-      end: start + Math.round(t.end * FPS),
+    // 각 세그먼트(보통 한 문장)가 길면 구두점 경계에서 더 잘게 나눈다.
+    return expanded.flatMap((t, i) => splitByPunctuation(
+      start + Math.round(t.start! * FPS),
+      start + Math.round(t.end! * FPS),
       speaker,
-      text: (origSlices[i] ?? t.text ?? '').trim(),
-    }))
+      origSlices[i] ?? t.text ?? '',
+    ))
   }
 
-  // 폴백: SENTENCE_SPLIT으로 분할 후 비율 분배
+  // 폴백(voiceTimings 없음 — 음성 미생성): 문장별로 글자수 비율 배치한 뒤,
+  // 각 문장을 구두점(마침표·쉬는 콤마) 경계에서 splitByPunctuation으로 더 잘게 나눈다.
+  // 음성이 있을 때(위 경로)와 동일한 분할 규칙을 적용해 자막 모양을 일관되게 유지한다.
   const sentences = text.split(SENTENCE_SPLIT).filter(Boolean)
-  if (sentences.length <= 1) return [{ start, end, speaker, text }]
-
-  const MIN_F = Math.round(1.5 * FPS), MAX_F = Math.round(8 * FPS)
-  const total = end - start, breath = (sentences.length - 1) * SENTENCE_BREATH
-  const dist = Math.max(total - breath, total * 0.7)
-  const chars = sentences.reduce((s, x) => s + x.length, 0)
-  const raw: Sub[] = []
-  let c = start
+  if (sentences.length === 0) return [{ start, end, speaker, text }]
+  const totalChars = sentences.reduce((s, x) => s + x.length, 0) || 1
+  const out: Sub[] = []
+  let cursor = start
   for (let i = 0; i < sentences.length; i++) {
-    if (i > 0) c += SENTENCE_BREATH
-    const fr = Math.round((sentences[i].length / chars) * dist)
-    raw.push({ start: c, end: c + fr, speaker, text: sentences[i] })
-    c += fr
+    const segEnd = i === sentences.length - 1
+      ? end
+      : cursor + Math.round((end - start) * (sentences[i].length / totalChars))
+    out.push(...splitByPunctuation(cursor, segEnd, speaker, sentences[i]))
+    cursor = segEnd
   }
-
-  // 병합 (짧은 항목)
-  const merged: Sub[] = []
-  for (const s of raw) {
-    if (merged.length > 0 && (s.end - s.start) < MIN_F) {
-      merged[merged.length - 1].text += ' ' + s.text
-      merged[merged.length - 1].end = s.end
-    } else {
-      merged.push({ ...s })
-    }
-  }
-
-  // 분할 (긴 항목)
-  const result: Sub[] = []
-  for (const s of merged) {
-    if ((s.end - s.start) <= MAX_F) { result.push(s); continue }
-    const mid = Math.floor(s.text.length / 2)
-    let sp = -1
-    for (let d = 0; d < mid; d++) {
-      if (/[,，、]/.test(s.text[mid + d] || '')) { sp = mid + d + 1; break }
-      if (/[,，、]/.test(s.text[mid - d] || '')) { sp = mid - d + 1; break }
-    }
-    if (sp < 0) {
-      for (let d = 0; d < mid; d++) {
-        if (s.text[mid + d] === ' ') { sp = mid + d + 1; break }
-        if (s.text[mid - d] === ' ') { sp = mid - d + 1; break }
-      }
-    }
-    if (sp > 0 && sp < s.text.length) {
-      const r = sp / s.text.length
-      const sf = start + Math.round((s.end - start) * r)
-      result.push({ start: s.start, end: sf, speaker, text: s.text.slice(0, sp).trim() })
-      result.push({ start: sf, end: s.end, speaker, text: s.text.slice(sp).trim() })
-    } else {
-      result.push(s)
-    }
-  }
-  return result
+  return out
 }

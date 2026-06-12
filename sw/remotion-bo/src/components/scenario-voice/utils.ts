@@ -1,5 +1,6 @@
 import type { EpisodeData } from '../EpisodeEditor'
 import type { VoiceFile, VoiceSection } from '../voice-utils'
+import { shortsArrIndexBySlot } from '../voice-utils'
 import type { VoiceSelect, VoiceMeta } from './types'
 
 // ── Utility functions ──
@@ -83,8 +84,8 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
   // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
   const shortMatch = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
   if (shortMatch && ep.shorts) {
-    const sIdx = parseInt(shortMatch[1], 10) - 1  // 1-based → 배열 인덱스
     const arr: any[] = Array.isArray(ep.shorts) ? ep.shorts : [ep.shorts]
+    const sIdx = shortsArrIndexBySlot(arr, parseInt(shortMatch[1], 10))  // shorts-{N} = 고정 slot
     const seg = arr[sIdx]?.segments?.find((s: { id: string }) => s.id === shortMatch[2])
     return { original: seg?.text ?? '', tts: r(seg?.text ?? '') }
   }
@@ -143,8 +144,8 @@ export function setTextForSection(key: string, value: string, ep: EpisodeData): 
   // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
   const shortMatch = key.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
   if (shortMatch && next.shorts) {
-    const sIdx = parseInt(shortMatch[1], 10) - 1
     const arr: any[] = Array.isArray(next.shorts) ? next.shorts : [next.shorts]
+    const sIdx = shortsArrIndexBySlot(arr, parseInt(shortMatch[1], 10))  // shorts-{N} = 고정 slot
     const seg = arr[sIdx]?.segments?.find((s: { id: string }) => s.id === shortMatch[2])
     if (seg) seg.text = value
     return next
@@ -173,9 +174,9 @@ export function sectionVoicePath(key: string, ep: EpisodeData): string | null {
   // 쇼츠: shorts-{N}/S{NN}-{segId}
   const shortMatch = base.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
   if (shortMatch) {
-    const sIdx0 = parseInt(shortMatch[1], 10) - 1
     const segId = shortMatch[2]
     const arr = Array.isArray(ep.shorts) ? ep.shorts : []
+    const sIdx0 = shortsArrIndexBySlot(arr, parseInt(shortMatch[1], 10))  // shorts-{N} = 고정 slot
     const segments = (arr[sIdx0] as { segments?: Array<{ id: string; role?: string }> } | undefined)?.segments
     if (!segments) return null
     const segIdx = segments.findIndex(s => s.id === segId)

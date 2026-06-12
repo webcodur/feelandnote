@@ -29,7 +29,7 @@ export function LongformView({ episode, sectionMap, onUpdate, onToggleExpand, ac
   episode: EpisodeData; sectionMap: Map<string, VoiceSection>
   onUpdate: (ep: EpisodeData) => void
   onToggleExpand: (key: string) => void
-  activeEngine: (key: string) => string; playingKey: string | null; onTogglePlay: (key: string, gainDb?: number | null) => void
+  activeEngine: (key: string) => string; playingKey: string | null; onTogglePlay: (key: string, gainDb?: number | null, mediaRate?: number | null) => void
   focus?: LongformFocus
 } & ImageEditorProps) {
   const { series, name } = useEpisode()

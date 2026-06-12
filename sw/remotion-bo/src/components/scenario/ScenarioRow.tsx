@@ -37,7 +37,7 @@ export type RowDragHandle = {
 export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode, onPick, highlights,
   sectionKey, audioUrl, activeEngine, isPlaying, onTogglePlay,
   onToggleExpand,
-  images, onDrop, onAddAnchor, actions, collapseKey, dragHandle, leadStyle, footer }: {
+  images, onDrop, onAddAnchor, actions, collapseKey, dragHandle, leadStyle, footer, playbackRate }: {
   label: ReactNode; role: string; value: string; voiceInfo?: VoiceInfo
   onCommit: (v: string, prev: string) => void
   pickMode?: boolean; onPick?: (selected: string) => void
@@ -58,14 +58,22 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
   leadStyle?: React.CSSProperties
   /** 본문 아래에 같은 외곽선 안에 들어가는 부속 영역(옵션바/SFX/음량 등). 펼침 상태에서만 표시. */
   footer?: ReactNode
+  /** 영상 재생 배속(*PlaybackRate 필드 값). 발화 속도(자/초) 표기에 반영된다. 1/미지정이면 원본. */
+  playbackRate?: number
 }) {
   const [over, setOver] = useState(false)
   const folderKey = collapseKey || sectionKey
   const { collapsed, toggle } = useRowCollapseState(folderKey)
   const previewText = (value ?? '').trim().replace(/\s+/g, ' ').slice(0, 80)
-  // 발화 속도 — 본문 글자수(공백·줄바꿈 제외) ÷ 오디오 길이(초). 파일이 있을 때만.
+  // 발화 속도 — 본문 글자수(공백·줄바꿈 제외) ÷ 실제 음성 길이(초). 파일이 있을 때만.
+  // JSON 연출 duration은 음성 재생성 후 어긋날 수 있어, 속도는 wav 실측값(audioDuration)으로 계산한다.
+  // 배속(playbackRate)이 걸린 구간은 영상에서 재생 시간이 1/r로 줄므로 유효 속도로 환산해 보여준다.
   const charCount = (value ?? '').replace(/\s/g, '').length
-  const cps = voiceInfo?.exists && voiceInfo.duration ? charCount / voiceInfo.duration : null
+  const rate = playbackRate !== undefined && Number.isFinite(playbackRate) && playbackRate > 0 ? playbackRate : 1
+  const rated = Math.abs(rate - 1) > 1e-6
+  const rawDur = voiceInfo?.audioDuration ?? voiceInfo?.duration
+  const cpsDur = rawDur ? rawDur / rate : rawDur
+  const cps = voiceInfo?.exists && cpsDur ? charCount / cpsDur : null
   const simpleRole = normalizeRole(role)
   const roleLabel = ROLE_LABELS[simpleRole]
   const roleColor = ROLE_COLORS[simpleRole]
@@ -201,6 +209,8 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
           <EditorPanel
             title="음성 제어판 (VoicePanel)"
             icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>}
+            onIconClick={onToggleExpand}
+            iconTitle="파형 편집기 열기"
             className="mt-2"
             contentClassName="flex items-center gap-2 px-3 py-2"
           >
@@ -209,6 +219,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
               fallbackDuration={voiceInfo.duration ?? 0}
               isPlaying={!!isPlaying}
               onTogglePlay={onTogglePlay ?? (() => {})}
+              playbackRate={playbackRate}
             />
             <span className="text-sm font-bold text-text-secondary font-mono font-bold whitespace-nowrap ml-2">{voiceInfo.sectionKey}</span>
             {activeEngine && (
@@ -219,19 +230,16 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
             {!voiceInfo.exists && <span className="text-xs font-bold text-red-700 font-extrabold whitespace-nowrap px-1.5 py-0.5 bg-red-100 border border-red-400 rounded">미생성</span>}
             {cps != null && (
               <span
-                className="text-xs font-bold font-mono font-extrabold whitespace-nowrap px-2 py-0.5 rounded border border-slate-400 bg-bg-secondary text-text-secondary"
-                title={`본문 ${charCount}자 ÷ ${voiceInfo.duration?.toFixed(1)}초`}
+                className={`text-xs font-bold font-mono font-extrabold whitespace-nowrap px-2 py-0.5 rounded border bg-bg-secondary ${
+                  rated ? 'border-sky-400 text-sky-500' : 'border-slate-400 text-text-secondary'
+                }`}
+                title={rated
+                  ? `본문 ${charCount}자 ÷ ${cpsDur?.toFixed(1)}초 — 배속 ×${rate.toFixed(2)} 반영 (원본 ${rawDur?.toFixed(1)}초)`
+                  : `본문 ${charCount}자 ÷ ${cpsDur?.toFixed(1)}초`}
               >
-                {cps.toFixed(1)}자/초
+                {cps.toFixed(1)}자/초{rated ? ` ×${rate.toFixed(2)}` : ''}
               </span>
             )}
-            <button
-              onClick={onToggleExpand}
-              className="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white border border-purple-700 text-xs font-black shadow-sm transition-all duration-150 active:scale-[0.98] flex-none"
-              title="파형 편집 모달 열기"
-            >
-              편집기 열기
-            </button>
           </EditorPanel>
         )}
       </div>

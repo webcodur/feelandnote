@@ -81,6 +81,13 @@ export async function loadNewLayoutEpisode(name: string) {
     }
   }
 
+  // slot 부여 — shorts.json의 slot 우선, 없으면 max+폴더순(미발행분 뒤로). slot 전무 시 1..N(폴더순, 기존 동작).
+  {
+    let maxSlot = 0
+    for (const s of shortsArr) if (typeof s?.slot === 'number') maxSlot = Math.max(maxSlot, s.slot)
+    for (const s of shortsArr) if (s && typeof s.slot !== 'number') s.slot = ++maxSlot
+  }
+
   const result: any = {
     ...metaContent,
     voiceTimings: metaTiming.voiceTimings ?? metaContent.voiceTimings,
@@ -111,7 +118,7 @@ export async function loadNewLayoutEpisode(name: string) {
  */
 export type SaveScope = 'all' | 'longform' | 'shorts'
 
-export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveScope = 'all') {
+export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveScope = 'all', bookIndices?: number[]) {
   const { person, locale } = parseEpisodeId(name)
   const found = findEpisodeDir(person)!
   const epDir = found.dir
@@ -122,8 +129,8 @@ export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveS
   const writeMetaBooks = scope === 'all' || scope === 'longform'
   const writeShorts = scope === 'all' || scope === 'shorts'
 
-  // meta — books·shorts 제외
-  if (writeMetaBooks) {
+  // meta — books·shorts 제외. 부분 저장(bookIndices 지정)에서는 meta 를 건드리지 않는다.
+  if (writeMetaBooks && !bookIndices) {
     const metaContent: any = { ...content }; delete metaContent.books
     const metaTiming: any = { ...timing }; delete metaTiming.books
     await writeFile(path.join(epDir, `meta.${locale}.json`),
@@ -138,6 +145,8 @@ export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveS
   const books: any[] = writeMetaBooks && Array.isArray(content.books) ? content.books : []
   const bookTimings: any[] = Array.isArray(timing.books) ? timing.books : []
   for (let i = 0; i < books.length; i++) {
+    // 부분 저장: 변경된 책 인덱스만 기록(나머지 디스크 보존 — 동시편집/외부수정 덮어쓰기 방지).
+    if (bookIndices && !bookIndices.includes(i)) continue
     const folder = folders[i]
     if (!folder) {
       console.warn(`[saveEpisode] 책 ${i} 에 대응하는 폴더 없음 — 책 추가 API 필요`)

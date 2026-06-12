@@ -6,6 +6,7 @@ import { SegmentSfxEditor } from '../../../SegmentSfxEditor'
 import { RowSpeakerSelect } from '../../../RowSpeakerSelect'
 import { AnchorConfirmBanner } from '../../../AnchorConfirmBanner'
 import { GainDbInput } from '../../../GainDbInput'
+import { PlaybackRateInput } from '../../../PlaybackRateInput'
 import { InlineImageRow } from '../../../ImageThumb'
 import { BgmSelect } from '../../BgmSelect'
 import { BookCopyButton } from '../../CopyButton'
@@ -105,7 +106,8 @@ export function BookSection({
             <ScenarioRow label="제목 읽기" role="narrator" value={`${book.title}, ${book.creator}`}
               voiceInfo={vi(bookKey(i, 'a-title'), book.titleDuration)} onCommit={() => {}}
               sectionKey={bookKey(i, 'a-title')} audioUrl={vUrl(bookKey(i, 'a-title'))}
-              activeEngine={activeEngine(bookKey(i, 'a-title'))} isPlaying={playingKey === bookKey(i, 'a-title')} onTogglePlay={() => onTogglePlay(bookKey(i, 'a-title'), book.titleGainDb)}
+              playbackRate={typeof book.titlePlaybackRate === 'number' ? book.titlePlaybackRate : undefined}
+              activeEngine={activeEngine(bookKey(i, 'a-title'))} isPlaying={playingKey === bookKey(i, 'a-title')} onTogglePlay={() => onTogglePlay(bookKey(i, 'a-title'), book.titleGainDb, book.titlePlaybackRate)}
               onToggleExpand={() => onToggleExpand(bookKey(i, 'a-title'))}
               footer={
                 <>
@@ -115,6 +117,8 @@ export function BookSection({
                     onChange={next => uB(i, 'titleSfx', next)} />
                   <GainDbInput value={typeof book.titleGainDb === 'number' ? book.titleGainDb : undefined}
                     onChange={next => uB(i, 'titleGainDb', next)} sectionKey={bookKey(i, 'a-title')} />
+                  <PlaybackRateInput value={typeof book.titlePlaybackRate === 'number' ? book.titlePlaybackRate : undefined}
+                    onChange={next => uB(i, 'titlePlaybackRate', next)} sectionKey={bookKey(i, 'a-title')} />
                 </>
               }
             />
@@ -127,7 +131,8 @@ export function BookSection({
               pickMode={picking} onPick={(t) => handlePick(t, 'summary')}
               highlights={imgsSummary.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
               sectionKey={bookKey(i, 'b-summary')} audioUrl={vUrl(bookKey(i, 'b-summary'))}
-              activeEngine={activeEngine(bookKey(i, 'b-summary'))} isPlaying={playingKey === bookKey(i, 'b-summary')} onTogglePlay={() => onTogglePlay(bookKey(i, 'b-summary'), book.summaryGainDb)}
+              playbackRate={typeof book.summaryPlaybackRate === 'number' ? book.summaryPlaybackRate : undefined}
+              activeEngine={activeEngine(bookKey(i, 'b-summary'))} isPlaying={playingKey === bookKey(i, 'b-summary')} onTogglePlay={() => onTogglePlay(bookKey(i, 'b-summary'), book.summaryGainDb, book.summaryPlaybackRate)}
               onToggleExpand={() => onToggleExpand(bookKey(i, 'b-summary'))}
               onDrop={fn => dropImage(i, fn, 'summary')} onAddAnchor={t => addAnchor(i, t, 'summary')}
               images={<InlineImageRow images={imgsSummary} {...imgRowProps} />}
@@ -140,6 +145,8 @@ export function BookSection({
                     onChange={next => uB(i, 'summarySfx', next)} />
                   <GainDbInput value={typeof book.summaryGainDb === 'number' ? book.summaryGainDb : undefined}
                     onChange={next => uB(i, 'summaryGainDb', next)} sectionKey={bookKey(i, 'b-summary')} />
+                  <PlaybackRateInput value={typeof book.summaryPlaybackRate === 'number' ? book.summaryPlaybackRate : undefined}
+                    onChange={next => uB(i, 'summaryPlaybackRate', next)} sectionKey={bookKey(i, 'b-summary')} />
                 </>
               }
             />
@@ -156,7 +163,8 @@ export function BookSection({
               pickMode={picking} onPick={(t) => handlePick(t, 'context')}
               highlights={imgsCtxMain.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
               sectionKey={bookKey(i, 'c-context')} audioUrl={vUrl(bookKey(i, 'c-context'))}
-              activeEngine={activeEngine(bookKey(i, 'c-context'))} isPlaying={playingKey === bookKey(i, 'c-context')} onTogglePlay={() => onTogglePlay(bookKey(i, 'c-context'), book.contextMainGainDb)}
+              playbackRate={typeof book.contextMainPlaybackRate === 'number' ? book.contextMainPlaybackRate : undefined}
+              activeEngine={activeEngine(bookKey(i, 'c-context'))} isPlaying={playingKey === bookKey(i, 'c-context')} onTogglePlay={() => onTogglePlay(bookKey(i, 'c-context'), book.contextMainGainDb, book.contextMainPlaybackRate)}
               onToggleExpand={() => onToggleExpand(bookKey(i, 'c-context'))}
               onDrop={fn => dropImage(i, fn, 'context')} onAddAnchor={t => addAnchor(i, t, 'context')}
               images={<InlineImageRow images={imgsCtxMain} {...imgRowProps} />}
@@ -169,6 +177,8 @@ export function BookSection({
                     onChange={next => uB(i, 'contextMainSfx', next)} />
                   <GainDbInput value={typeof book.contextMainGainDb === 'number' ? book.contextMainGainDb : undefined}
                     onChange={next => uB(i, 'contextMainGainDb', next)} sectionKey={bookKey(i, 'c-context')} />
+                  <PlaybackRateInput value={typeof book.contextMainPlaybackRate === 'number' ? book.contextMainPlaybackRate : undefined}
+                    onChange={next => uB(i, 'contextMainPlaybackRate', next)} sectionKey={bookKey(i, 'c-context')} />
                 </>
               }
             />

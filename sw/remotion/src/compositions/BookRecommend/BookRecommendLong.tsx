@@ -22,8 +22,8 @@ import { usePrefetch } from './usePrefetch'
 import { PreIntro } from './sections/PreIntro'
 import { BookCarousel } from './sections/BookCarousel'
 import { Breadcrumb } from './sections/Breadcrumb'
-import { StudioSubtitles } from './studio/StudioSubtitles'
-import { PortraitSubtitles } from './sections/PortraitSubtitles'
+import { LongSubtitles } from './sections/LongSubtitles'
+import { GuideVoice } from './sections/GuideVoice'
 import { PromptPanel } from './studio/PromptPanel'
 import { SubEditor } from './studio/SubEditor'
 import { BgmAudio, BgmToggle } from './BgmAudio'
@@ -39,6 +39,7 @@ import {
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnTimingKey,
 } from './voice-names'
+import { clampRate } from './playback-rate'
 
 export { calcTotalFrames } from './useTimeline'
 
@@ -113,7 +114,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* ===== Continuation: ReturnIntro + PrevRecap ===== */}
       {tl.cont && tl.returnIntroFrames > 0 && (
         <Sequence from={tl.returnIntroStart} durationInFrames={tl.returnIntroFrames}>
-          {hasVoice && (narrator.returnIntroDuration ?? 0) > 0 && <Audio src={vf(VN_RETURN_INTRO)} volume={dbToLinear(narrator.returnIntroGainDb)} />}
+          {hasVoice && (narrator.returnIntroDuration ?? 0) > 0 && <Audio src={vf(VN_RETURN_INTRO)} volume={dbToLinear(narrator.returnIntroGainDb)} playbackRate={clampRate(narrator.returnIntroPlaybackRate)} />}
           {(() => {
             const local = frame - tl.returnIntroStart
             const op = local >= 0 && local < tl.returnIntroFrames
@@ -140,7 +141,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       )}
       {tl.cont && tl.prevRecapFrames > 0 && (
         <Sequence from={tl.prevRecapStart} durationInFrames={tl.prevRecapFrames}>
-          {hasVoice && (narrator.prevRecapDuration ?? 0) > 0 && <Audio src={vf(VN_PREV_RECAP)} volume={dbToLinear(narrator.prevRecapGainDb)} />}
+          {hasVoice && (narrator.prevRecapDuration ?? 0) > 0 && <Audio src={vf(VN_PREV_RECAP)} volume={dbToLinear(narrator.prevRecapGainDb)} playbackRate={clampRate(narrator.prevRecapPlaybackRate)} />}
           {(() => {
             const local = frame - tl.prevRecapStart
             const op = local >= 0 && local < tl.prevRecapFrames
@@ -163,18 +164,18 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
       {/* 서비스 오디오 */}
       {!tl.cont && hasVoice && tl.svcGreetingFrames > 0 && (
         <Sequence from={tl.svcGreetingStart} durationInFrames={tl.svcGreetingFrames}>
-          <Audio src={vf(VN_SERVICE_GREETING)} volume={dbToLinear(narrator.serviceGreetingGainDb)} />
+          <Audio src={vf(VN_SERVICE_GREETING)} volume={dbToLinear(narrator.serviceGreetingGainDb)} playbackRate={clampRate(narrator.serviceGreetingPlaybackRate)} />
         </Sequence>
       )}
       {!tl.cont && hasVoice && tl.svcIntroFrames > 0 && (
         <Sequence from={tl.svcIntroStart} durationInFrames={tl.svcIntroFrames}>
-          <Audio src={vf(VN_SERVICE_INTRO)} volume={dbToLinear(narrator.serviceIntroGainDb)} />
+          <Audio src={vf(VN_SERVICE_INTRO)} volume={dbToLinear(narrator.serviceIntroGainDb)} playbackRate={clampRate(narrator.serviceIntroPlaybackRate)} />
         </Sequence>
       )}
       {hasVoice && tl.fQuoteFrames > 0 && (
         <Sequence from={tl.fQuoteStart} durationInFrames={tl.fQuoteFrames}>
           <Sequence from={f(1)} durationInFrames={tl.fQuoteFrames}>
-            <Audio src={vf(VN_FEATURED_QUOTE)} volume={dbToLinear(host.featuredQuoteGainDb)} />
+            <Audio src={vf(VN_FEATURED_QUOTE)} volume={dbToLinear(host.featuredQuoteGainDb)} playbackRate={clampRate(host.featuredQuotePlaybackRate)} />
           </Sequence>
         </Sequence>
       )}
@@ -200,13 +201,13 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
             {hasVoice && <Audio src={sf('common/sfx/type-reveal.wav')} volume={0.7} />}
             {hasVoice && (narrator.celebIntroDuration ?? 0) > 0 && (
               <Sequence from={CELEB_VISUAL_DELAY} durationInFrames={tl.celebIntroFrames - CELEB_VISUAL_DELAY}>
-                <Audio src={vf(VN_CELEB_INTRO)} volume={dbToLinear(narrator.celebIntroGainDb)} />
+                <Audio src={vf(VN_CELEB_INTRO)} volume={dbToLinear(narrator.celebIntroGainDb)} playbackRate={clampRate(narrator.celebIntroPlaybackRate)} />
               </Sequence>
             )}
           </Sequence>
           {hasVoice && tl.philosophyFrames > 0 && (
             <Sequence from={tl.celebIntroFrames + f(1)} durationInFrames={tl.philosophyFrames}>
-              <Audio src={vf(VN_PHILOSOPHY)} volume={dbToLinear(host.philosophyGainDb)} />
+              <Audio src={vf(VN_PHILOSOPHY)} volume={dbToLinear(host.philosophyGainDb)} playbackRate={clampRate(host.philosophyPlaybackRate)} />
             </Sequence>
           )}
           <HostIntro host={host} narratorText={narrator.celebIntro ?? ''} celebIntroFrames={tl.celebIntroFrames} totalFrames={tl.hostIntroFrames} narratorDuration={narrator.celebIntroDuration ?? 0} philosophyDuration={tl.philosophyFrames > 0 ? (host.voiceDuration ?? 0) : 0} narratorTimings={script.voiceTimings?.[vnTimingKey(VN_CELEB_INTRO)]} philosophyTimings={script.voiceTimings?.[vnTimingKey(VN_PHILOSOPHY)]} philosophyAudioSrc={hasVoice && tl.philosophyFrames > 0 ? vf(VN_PHILOSOPHY) : undefined} locale={script.locale} />
@@ -249,7 +250,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               )}
               {hasVoice && narrator.interludeDuration && narrator.interludeDuration > 0 && (
                 <Sequence from={f(0.67)} durationInFrames={tl.interludeFrames - f(0.67)}>
-                  <Audio src={vf(VN_INTERLUDE)} volume={dbToLinear(narrator.interludeGainDb)} />
+                  <Audio src={vf(VN_INTERLUDE)} volume={dbToLinear(narrator.interludeGainDb)} playbackRate={clampRate(narrator.interludePlaybackRate)} />
                 </Sequence>
               )}
             </Sequence>
@@ -291,33 +292,33 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               {hasVoice && (
                 <Series>
                   <Series.Sequence durationInFrames={bt.titleFrames}>
-                    <Audio src={vf(vnBookTitle(i))} volume={dbToLinear(book.titleGainDb)} />
+                    <Audio src={vf(vnBookTitle(i))} volume={dbToLinear(book.titleGainDb)} playbackRate={clampRate(book.titlePlaybackRate)} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.TITLE_SUMMARY_GAP_F} durationInFrames={tl.LABEL_SUMMARY_F}>
                     <Audio src={vf(VN_LABEL_SUMMARY)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.summaryFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.25} />
-                    <Audio src={vf(vnBookSummary(i))} volume={dbToLinear(book.summaryGainDb)} />
+                    <Audio src={vf(vnBookSummary(i))} volume={dbToLinear(book.summaryGainDb)} playbackRate={clampRate(book.summaryPlaybackRate)} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.SUMMARY_CONTEXT_GAP_F} durationInFrames={tl.LABEL_CONTEXT_F}>
                     <Audio src={vf(VN_LABEL_CONTEXT)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.contextFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.2} />
-                    <Audio src={vf(vnBookContext(i))} volume={dbToLinear(book.contextMainGainDb)} />
+                    <Audio src={vf(vnBookContext(i))} volume={dbToLinear(book.contextMainGainDb)} playbackRate={clampRate(book.contextMainPlaybackRate)} />
                   </Series.Sequence>
                   {bt.quotePairTimings.map((pt, pi) => (
                     <React.Fragment key={`qp-${pi}`}>
                       {pt.hasQuote && pt.quoteFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i, pi))] && (
                         <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={pt.quoteFrames}>
                           <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
-                          <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} />
+                          <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.quotePlaybackRate)} />
                         </Series.Sequence>
                       )}
                       {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi))] && (
                         <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={pt.afterFrames}>
-                          <Audio src={vf(vnBookAfter(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} />
+                          <Audio src={vf(vnBookAfter(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.afterPlaybackRate)} />
                         </Series.Sequence>
                       )}
                     </React.Fragment>
@@ -384,7 +385,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
         return (
           <>
             <Sequence from={tl.outroStart} durationInFrames={tl.outroFrames}>
-              {hasVoice && narrator.outroDuration > 0 && <Audio src={vf(VN_OUTRO)} volume={dbToLinear(narrator.outroGainDb)} />}
+              {hasVoice && narrator.outroDuration > 0 && <Audio src={vf(VN_OUTRO)} volume={dbToLinear(narrator.outroGainDb)} playbackRate={clampRate(narrator.outroPlaybackRate)} />}
             </Sequence>
             <Sequence from={logoStart} durationInFrames={LOGO_FRAMES}>
               {hasVoice && <Audio src={sf('common/sfx/chime.wav')} volume={0.5} />}
@@ -595,11 +596,13 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       <Overlay script={script} />
 
-      {/* Portrait 자막 — 세로 영상 렌더링 시에도 표시 */}
-      {portrait && <PortraitSubtitles script={script} tl={tl} />}
+      {/* 하단 자막 — 가로·세로 공용, 렌더·스튜디오 공통 표시 */}
+      <LongSubtitles script={script} tl={tl} portrait={portrait} />
+
+      {/* 가이드 음성 — 음성 미생성 구간을 브라우저 읽기로 재생 (Studio 프리뷰 전용) */}
+      {!getRemotionEnvironment().isRendering && <GuideVoice script={script} tl={tl} />}
 
       {/* 스튜디오 전용 */}
-      {!getRemotionEnvironment().isRendering && !portrait && <StudioSubtitles script={script} tl={tl} />}
       {!getRemotionEnvironment().isRendering && (
         <SubEditor
           voiceTimings={script.voiceTimings}

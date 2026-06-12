@@ -558,6 +558,25 @@ const SHORTS_FOLDERS: string[] = NEW_LAYOUT
       existsSync(join(episodeDir, 'books', name, `shorts.${epLocale}.json`)),
     )
   : []
+// 폴더 → 고정 slot 맵. 파일 slot 우선, 없으면 max+폴더순(미발행분 뒤로). slot 전무 시 1..N(폴더순, 기존 동작).
+const SHORTS_SLOT_BY_FOLDER = new Map<string, number>()
+if (NEW_LAYOUT) {
+  const cfgs = SHORTS_FOLDERS.map(name => {
+    try { return JSON.parse(readFileSync(join(episodeDir, 'books', name, `shorts.${epLocale}.json`), 'utf-8')) }
+    catch { return {} }
+  })
+  let maxSlot = 0
+  for (const c of cfgs) if (typeof c?.slot === 'number') maxSlot = Math.max(maxSlot, c.slot)
+  SHORTS_FOLDERS.forEach((name, i) => {
+    const c = cfgs[i]
+    SHORTS_SLOT_BY_FOLDER.set(name, typeof c?.slot === 'number' ? c.slot : ++maxSlot)
+  })
+}
+/** 고정 slot → 책 폴더명 (배열 위치 아님). */
+function shortsFolderBySlot(slot: number): string | undefined {
+  for (const [name, s] of SHORTS_SLOT_BY_FOLDER) if (s === slot) return name
+  return undefined
+}
 if (NEW_LAYOUT) {
   episode.books = []
   for (let i = 0; i < BOOK_FOLDERS.length; i++) {
@@ -595,7 +614,7 @@ if (NEW_LAYOUT) {
 // 다른 쇼츠의 텍스트 수정 결과를 덮어쓰는 버그가 발생한다.
 function resolveShortsContentPath(idx1: number): string | null {
   if (NEW_LAYOUT) {
-    const folder = SHORTS_FOLDERS[idx1 - 1]
+    const folder = shortsFolderBySlot(idx1)
     if (!folder) return null
     return join(episodeDir, 'books', folder, `shorts.${epLocale}.json`)
   }
@@ -603,7 +622,7 @@ function resolveShortsContentPath(idx1: number): string | null {
 }
 function resolveShortsTimingPathFn(idx1: number): string | null {
   if (NEW_LAYOUT) {
-    const folder = SHORTS_FOLDERS[idx1 - 1]
+    const folder = shortsFolderBySlot(idx1)
     if (!folder) return null
     return join(episodeDir, 'books', folder, `shorts.${epLocale}.timing.json`)
   }
@@ -615,7 +634,7 @@ if (SHORTS_INDEX !== null) {
   const contentPath = resolveShortsContentPath(idx1)
   if (!contentPath || !existsSync(contentPath)) {
     const shown = NEW_LAYOUT
-      ? `books/${SHORTS_FOLDERS[idx1 - 1] ?? `<active-shorts-${idx1}>`}/shorts.${epLocale}.json`
+      ? `books/${shortsFolderBySlot(idx1) ?? `<slot-${idx1}>`}/shorts.${epLocale}.json`
       : `shorts/${epLocale}-${idx1}.json`
     console.error(`✗ ${shown} 이 없다`)
     process.exit(1)
@@ -1128,7 +1147,7 @@ if (updateJson) {
       existing.segments = segs
       writeFileSync(fp, JSON.stringify(existing, null, 2) + '\n', 'utf-8')
       const rel = NEW_LAYOUT
-        ? `books/${SHORTS_FOLDERS[shortsIdx1 - 1]}/shorts.${epLocale}.timing.json`
+        ? `books/${shortsFolderBySlot(shortsIdx1) ?? `<slot-${shortsIdx1}>`}/shorts.${epLocale}.timing.json`
         : `shorts/${epLocale}-${shortsIdx1}.timing.json`
       console.log(`  ✓ ${rel}`)
     }

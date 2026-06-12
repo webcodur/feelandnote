@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { VoiceFile } from '../../voice-utils'
 import { prodFile } from '../utils'
 import { SyncModeContent } from '../SyncModeContent'
+import { BreathModeContent } from '../BreathModeContent'
 import type { ExpandedVoicePanelProps } from './types'
 import { useVoiceSpec } from './useVoiceSpec'
 import { useSegmentMeta } from './useSegmentMeta'
@@ -56,6 +57,17 @@ export function ExpandedVoicePanel({
           series={series} name={name}
           onEpisodeChange={onEpisodeChange} onSave={onSave} onRefresh={onRefresh}
         />
+      )}
+
+      {/* BREATH mode — 들숨·잡소리 구간 무음 처리 */}
+      {expandMode === 'breath' && (
+        activeFile ? (
+          <BreathModeContent series={series} name={name} file={activeFile} onRefresh={onRefresh} />
+        ) : (
+          <div className="text-sm text-text-secondary italic px-1 py-2">
+            저장된 음원이 없다. 생성 탭에서 먼저 만든다.
+          </div>
+        )
       )}
 
       {/* TRIM mode */}

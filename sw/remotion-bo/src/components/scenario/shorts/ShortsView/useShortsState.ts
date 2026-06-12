@@ -23,7 +23,9 @@ export function useShortsState(
   name: string,
 ) {
   const shortsArr: any[] = Array.isArray(episode.shorts) ? episode.shorts : (episode.shorts ? [episode.shorts] : [])
-  const currentShorts = shortsArr[shortsIndex - 1]
+  // shortsIndex = 고정 slot. slot으로 배열 위치를 찾아 읽기·쓰기에 동일 위치 사용(없으면 배열 위치 폴백).
+  const shortsArrIdx = (() => { const i = shortsArr.findIndex((s) => s?.slot === shortsIndex); return i >= 0 ? i : shortsIndex - 1 })()
+  const currentShorts = shortsArr[shortsArrIdx]
   const segments: any[] = currentShorts?.segments ?? []
 
   // 화자 풀: host 가상 화자(맨 앞 고정) + episode.speakers(통합 SSoT) + 옛 shorts[i].speakers(읽기 호환 폴백, id 충돌은 episode 측 우선)
@@ -43,7 +45,7 @@ export function useShortsState(
 
   const writeShorts = (next: any) => {
     const arr = [...shortsArr]
-    arr[shortsIndex - 1] = next
+    arr[shortsArrIdx] = next
     onUpdate({ ...episode, shorts: arr } as any)
   }
 

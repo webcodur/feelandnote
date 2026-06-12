@@ -7,6 +7,7 @@ import { SpeakerPicker } from '../../SpeakerPicker'
 import { GeminiVoiceSelect } from '../../../scenario-voice/GeminiVoiceSelect'
 import { SegmentSfxEditor } from '../../SegmentSfxEditor'
 import { GainDbInput } from '../../GainDbInput'
+import { PlaybackRateInput } from '../../PlaybackRateInput'
 
 type FileMeta = { name: string; duration: number | null }
 
@@ -146,8 +147,9 @@ export function SegmentToolbox({
           </Cell>
         ) : <div className="col-span-4" />}
 
-        <div className="col-span-4 flex justify-end items-center pr-1">
+        <div className="col-span-4 flex flex-col items-end gap-1 pr-1">
           <GainDbInput value={typeof seg.gainDb === 'number' ? seg.gainDb : undefined} onChange={next => updateSegField(idx, 'gainDb', next)} sectionKey={sectionKey} />
+          <PlaybackRateInput value={typeof seg.playbackRate === 'number' ? seg.playbackRate : undefined} onChange={next => updateSegField(idx, 'playbackRate', next)} sectionKey={sectionKey} />
         </div>
 
         {/* Row 3: 제미니 오버라이드 */}

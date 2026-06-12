@@ -2,6 +2,7 @@
 
 import type { CinematicImage, ImageField } from '../types'
 import { segToImages, imagesToSeg, addImagePrefix, stripImagePrefix } from '../utils'
+import { shortsArrIndexBySlot } from '../../voice-utils'
 
 /** CinematicImage[] 를 seg(쇼츠 segment / 솔로 section) 의 image·imageChangeAt 키에 반영한다.
  *  imagesToSeg 결과를 seg 객체에 쓰되, undefined 인 필드는 키 자체를 제거한다. seg 를 직접 변형한다. */
@@ -82,8 +83,10 @@ export function makeImageOps({
 
   const writeShorts = (next: any) => {
     if (currentShortsIndex < 1) return
+    // currentShortsIndex 는 고정 slot 번호다(배열 위치 아님). slot 으로 쓰기 위치를 찾는다 —
+    // 배열 위치로 쓰면 slot≠위치인 책에서 다른 쇼츠를 덮어쓰고 현재 화면엔 반영되지 않는다.
     const arr = [...shortsArr]
-    arr[currentShortsIndex - 1] = next
+    arr[shortsArrIndexBySlot(arr, currentShortsIndex)] = next
     updateEpisode({ ...episode, shorts: arr })
   }
 

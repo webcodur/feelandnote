@@ -145,7 +145,7 @@ export function useScenarioState(episode: EpisodeData) {
     return map
   }, [voiceFiles, episode])
 
-  const renderExpanded = useCallback((key: string, mode: 'trim' | 'sync') => {
+  const renderExpanded = useCallback((key: string, mode: 'trim' | 'sync' | 'breath') => {
     const section = sectionMap.get(key)
     if (!section) return null
     return (

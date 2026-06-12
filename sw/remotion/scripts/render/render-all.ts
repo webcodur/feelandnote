@@ -11,12 +11,14 @@
  *   pnpm render:all -- --lang en                          # 영문만
  *   pnpm render:all -- --episode alex-karp --lang ko --only shorts  # 조합 가능
  *   pnpm render:all -- --episode elon-musk --only solos --book-index 0  # 솔로 특정 책만
+ *   pnpm render:all -- --episode elon-musk --only shorts --shorts-index 8 --srt-only  # SRT만 재생성
  */
 import { execSync, spawn } from 'child_process'
 import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { buildLongformSubs, buildShortsSubs, subsToSrt } from '../srt/srt-builder'
+import { applyPlaybackRates } from '../../src/compositions/BookRecommend/playback-rate'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -141,6 +143,13 @@ function loadJSONOrNull<T>(path: string): T | null {
  *       book.{locale}.json + book.{locale}.timing.json
  *       shorts.{locale}.json + shorts.{locale}.timing.json
  */
+/** 쇼츠 slot 부여 — shorts.json의 slot 우선, 없으면 max+폴더순(미발행분은 뒤로). slot 전무 시 1..N(폴더순, 기존 동작). */
+function assignShortsSlots(arr: any[]): void {
+  let maxSlot = 0
+  for (const s of arr) if (typeof s?.slot === 'number') maxSlot = Math.max(maxSlot, s.slot)
+  for (const s of arr) if (s && typeof s.slot !== 'number') s.slot = ++maxSlot
+}
+
 function loadNewLayoutSync(personDir: string, locale: 'ko' | 'en'): BookRecommendScript | null {
   const metaContent = loadJSONOrNull<any>(join(personDir, `meta.${locale}.json`))
   if (!metaContent) return null
@@ -184,6 +193,10 @@ function loadNewLayoutSync(personDir: string, locale: 'ko' | 'en'): BookRecommen
     }
   }
 
+  // slot 부여 — shorts.json에 박힌 slot 우선, 없으면 max+폴더순(미발행분은 뒤로 밀려 충돌 없음).
+  // slot이 전무한 다른 인물 에피소드는 1..N 으로 채워져 기존 폴더순 동작과 동일(하위호환).
+  assignShortsSlots(shortsArr)
+
   const result: any = {
     ...metaContent,
     voiceTimings: metaTiming.voiceTimings ?? metaContent.voiceTimings,
@@ -226,6 +239,10 @@ function loadEpisodes(): Record<string, BookRecommendScript> {
           merged = timing ? mergeEpisode(content, timing) : content
         }
 
+        // 음원별 배속 반영 — 영상(script.ts)과 동일 스케일로 SRT 시각을 맞춘다.
+        // 레거시 단일 JSON은 shorts가 객체일 수 있어 배열일 때만 적용 (배속 필드는 신레이아웃 전용).
+        if (!merged.shorts || Array.isArray(merged.shorts)) merged = applyPlaybackRates(merged)
+
         const epName = `${person.name}${locale === 'en' ? '-en' : ''}`
         if (locale === 'en') enPending.push({ epName, script: merged })
         else { koCache[epName] = merged; episodes[epName] = merged }
@@ -249,6 +266,8 @@ const epFlag = args.indexOf('--episode')
 const epFilter = epFlag >= 0 ? args[epFlag + 1] : null
 const onlyFlag = args.indexOf('--only')
 const only = onlyFlag >= 0 ? args[onlyFlag + 1] : null // 'longform' | 'shorts'
+// SRT만 재생성 — MP4 렌더·썸네일 생략
+const srtOnly = args.includes('--srt-only')
 const langFlag = args.indexOf('--lang')
 const langFilter = langFlag >= 0 ? args[langFlag + 1] : null // 'ko' | 'en'
 if (langFilter && langFilter !== 'ko' && langFilter !== 'en') {
@@ -385,13 +404,13 @@ async function main() {
     if (!script) continue
     const { label, lang } = toCompId(name)
     const p = `${label}-${lang}`
-    if (!only || only === 'longform') totalJobs.push(`${p}-L-VID`, `${p}-L-THUMB`)
+    if (!only || only === 'longform') totalJobs.push(`${p}-LH-VID`, `${p}-LH-THUMB`)
     if (!only || only === 'shorts') {
       const shortsArr = (script.shorts ?? []) as any[]
       for (let i = 0; i < shortsArr.length; i++) {
-        const shortsIndex = i + 1 // 1-based
-        if (shortsIndexFilter !== null && shortsIndex !== shortsIndexFilter) continue
-        totalJobs.push(`${p}-S${shortsIndex}-VID`)
+        const slot = shortsArr[i]?.slot ?? (i + 1) // 출력 번호 = 고정 slot
+        if (shortsIndexFilter !== null && slot !== shortsIndexFilter) continue
+        totalJobs.push(`${p}-S${slot}-VID`)
       }
     }
     // 1권 모드 솔로 — solos 배열 순회
@@ -423,46 +442,53 @@ async function main() {
 
     // 롱폼
     if (!only || only === 'longform') {
-      const compId = `${compPrefix}-L-VID`
+      const compId = `${compPrefix}-LH-VID`
       jobIdx++
-      console.log(`\n${'─'.repeat(60)}`)
-      console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 롱폼 렌더: ${compId} [${ts()}]`)
-      console.log(`${'─'.repeat(60)}`)
-      const mp4 = join(epDir, 'L-VID.mp4')
-      await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
-      console.log(`  ✓ 롱폼 완료 [${ts()}]`)
+      if (!srtOnly) {
+        console.log(`\n${'─'.repeat(60)}`)
+        console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 롱폼 렌더: ${compId} [${ts()}]`)
+        console.log(`${'─'.repeat(60)}`)
+        const mp4 = join(epDir, 'LH-VID.mp4')
+        await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
+        console.log(`  ✓ 롱폼 완료 [${ts()}]`)
+      }
 
       const srt = subsToSrt(buildLongformSubs(script))
-      const srtPath = join(epDir, 'L-VID.srt')
+      const srtPath = join(epDir, 'LH-VID.srt')
       writeFileSync(srtPath, srt, 'utf-8')
       console.log(`  ✓ SRT: ${srtPath}`)
 
       // 롱폼 썸네일
-      const thumbId = `${compPrefix}-L-THUMB`
+      const thumbId = `${compPrefix}-LH-THUMB`
       jobIdx++
-      console.log(`\n  [${jobIdx}/${totalJobs.length}] ▶ 롱폼 썸네일: ${thumbId} [${ts()}]`)
-      const lt = join(epDir, 'L-THUMB.png')
-      execSync(`pnpm.cmd remotion still ${thumbId} "${lt}" --frame=0 --image-format=png --gl=angle`, { stdio: 'inherit', cwd })
-      console.log(`  ✓ 썸네일: ${lt}`)
+      if (!srtOnly) {
+        console.log(`\n  [${jobIdx}/${totalJobs.length}] ▶ 롱폼 썸네일: ${thumbId} [${ts()}]`)
+        const lt = join(epDir, 'LH-THUMB.png')
+        execSync(`pnpm.cmd remotion still ${thumbId} "${lt}" --frame=0 --image-format=png --gl=angle`, { stdio: 'inherit', cwd })
+        console.log(`  ✓ 썸네일: ${lt}`)
+      }
     }
 
     // 쇼츠 — 배열 순회. shortsIndex는 1-based 일관 (shorts[0]=S1, shorts[1]=S2, ...)
     if (!only || only === 'shorts') {
       const shortsArr = (script.shorts ?? []) as any[]
       for (let i = 0; i < shortsArr.length; i++) {
-        const shortsIndex = i + 1 // 1-based
-        if (shortsIndexFilter !== null && shortsIndex !== shortsIndexFilter) continue
-        const suffix = `S${shortsIndex}`
+        const slot = shortsArr[i]?.slot ?? (i + 1) // 출력 번호 = 고정 slot
+        if (shortsIndexFilter !== null && slot !== shortsIndexFilter) continue
+        const suffix = `S${slot}`
         const compId = `${compPrefix}-${suffix}-VID`
         jobIdx++
-        console.log(`\n${'─'.repeat(60)}`)
-        console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 쇼츠 렌더: ${compId} [${ts()}]`)
-        console.log(`${'─'.repeat(60)}`)
-        const mp4 = join(epDir, `${suffix}-VID.mp4`)
-        await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
-        console.log(`  ✓ 쇼츠 완료 [${ts()}]`)
+        if (!srtOnly) {
+          console.log(`\n${'─'.repeat(60)}`)
+          console.log(`  [${jobIdx}/${totalJobs.length}] ▶ 쇼츠 렌더: ${compId} [${ts()}]`)
+          console.log(`${'─'.repeat(60)}`)
+          const mp4 = join(epDir, `${suffix}-VID.mp4`)
+          await runRender(`pnpm.cmd render ${compId} "${mp4}" --concurrency=75% --timeout=60000`, compId, cwd)
+          console.log(`  ✓ 쇼츠 완료 [${ts()}]`)
+        }
 
-        const srt = subsToSrt(buildShortsSubs(script, shortsIndex))
+        // 자막 데이터 접근은 배열 위치(i+1) — 컴포넌트/calc/subs 의미 그대로
+        const srt = subsToSrt(buildShortsSubs(script, i + 1))
         const srtPath = join(epDir, `${suffix}-VID.srt`)
         writeFileSync(srtPath, srt, 'utf-8')
         console.log(`  ✓ SRT: ${srtPath}`)

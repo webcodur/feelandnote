@@ -36,8 +36,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const episodes = await Promise.all(koNames.map(async (name) => {
     // 닉네임 + shorts 카운트 + 책수 + 시리즈 정보 로드
     let nickname = name
-    let koShortsCount = 0
-    let enShortsCount = 0
+    let koSlots: number[] = []
+    let enSlots: number[] = []
     let hasKo = false
     let hasEn = false
     let bookCount = 0
@@ -46,7 +46,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
       const ep = await loadEpisode(series, name)
       nickname = ep.host?.nickname ?? name
       hasKo = true
-      koShortsCount = Array.isArray(ep.shorts) ? ep.shorts.length : (ep.shorts ? 1 : 0)
+      koSlots = Array.isArray(ep.shorts) ? ep.shorts.map((s: { slot?: number }) => s?.slot).filter((n: unknown): n is number => typeof n === 'number') : (ep.shorts ? [1] : [])
       bookCount = Array.isArray(ep.books) ? ep.books.length : 0
       if (ep.series && typeof ep.series.totalParts === 'number' && ep.series.totalParts > 1) {
         partInfo = {
@@ -59,7 +59,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     try {
       const epEn = await loadEpisode(series, `${name}-en`)
       hasEn = true
-      enShortsCount = Array.isArray(epEn.shorts) ? epEn.shorts.length : (epEn.shorts ? 1 : 0)
+      enSlots = Array.isArray(epEn.shorts) ? epEn.shorts.map((s: { slot?: number }) => s?.slot).filter((n: unknown): n is number => typeof n === 'number') : (epEn.shorts ? [1] : [])
     } catch { /* ignore */ }
 
     // lineup 메타
@@ -71,10 +71,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     const variants: VariantStatus[] = []
 
     function pushVariant(lang: 'ko' | 'en', type: 'longform' | 'shorts', shortsIndex: number) {
-      // 옵션 2: 1-based 일관. longform=L, shorts=S{N}
+      // 옵션 2: 1-based 일관. longform=LH(가로), shorts=S{N}
       const langCode = lang.toUpperCase()
       const langDir = path.join(outDir, langCode)
-      const baseSuffix = type === 'longform' ? 'L' : `S${shortsIndex}`
+      const baseSuffix = type === 'longform' ? 'LH' : `S${shortsIndex}`
       const key = type === 'longform' ? `${lang}-longform` : `${lang}-shorts-${shortsIndex}`
 
       const videoPath = path.join(langDir, `${baseSuffix}-VID.mp4`)
@@ -92,9 +92,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     }
 
     if (hasKo) pushVariant('ko', 'longform', 0)
-    for (let i = 1; i <= koShortsCount; i++) pushVariant('ko', 'shorts', i)
+    for (const slot of koSlots) pushVariant('ko', 'shorts', slot)
     if (hasEn) pushVariant('en', 'longform', 0)
-    for (let i = 1; i <= enShortsCount; i++) pushVariant('en', 'shorts', i)
+    for (const slot of enSlots) pushVariant('en', 'shorts', slot)
 
     return { name, nickname, lineup, variants, bookCount, partInfo }
   }))

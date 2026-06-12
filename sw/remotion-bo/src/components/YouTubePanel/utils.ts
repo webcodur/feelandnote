@@ -8,17 +8,28 @@ export function parseVariantKey(key: string): { lang: 'ko' | 'en'; type: 'longfo
   return { lang: lang as 'ko' | 'en', type: 'shorts', shortsIndex }
 }
 
+/** 쇼츠 배열 → 고정 slot 목록 (slot 없으면 폴더순 1-based 폴백, 오름차순) */
+export function shortsSlots(ep: EpisodeData | null): number[] {
+  const arr = ep?.shorts ?? []
+  return arr
+    .map((s, i) => (typeof s.slot === 'number' ? s.slot : i + 1))
+    .sort((a, b) => a - b)
+}
+
+/** 고정 slot으로 쇼츠 탐색 — 배열 위치 아님 (결번이 끼어도 안 밀림) */
+export function findShortsBySlot<T extends { slot?: number }>(shorts: T[] | undefined, slot: number): T | undefined {
+  return shorts?.find((s, i) => (typeof s.slot === 'number' ? s.slot : i + 1) === slot)
+}
+
 export function buildVariantKeys(epKo: EpisodeData | null, epEn: EpisodeData | null): VariantKey[] {
   const keys: VariantKey[] = []
   if (epKo) {
     keys.push('ko-longform')
-    const koShortsCount = epKo.shorts?.length ?? 0
-    for (let i = 0; i < koShortsCount; i++) keys.push(`ko-shorts-${i + 1}`)
+    for (const slot of shortsSlots(epKo)) keys.push(`ko-shorts-${slot}`)
   }
   if (epEn) {
     keys.push('en-longform')
-    const enShortsCount = epEn.shorts?.length ?? 0
-    for (let i = 0; i < enShortsCount; i++) keys.push(`en-shorts-${i + 1}`)
+    for (const slot of shortsSlots(epEn)) keys.push(`en-shorts-${slot}`)
   }
   return keys
 }
