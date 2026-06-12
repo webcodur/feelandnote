@@ -16,7 +16,6 @@ interface DbProfile {
   birth_date?: string | null
   death_date?: string | null
   bio?: string | null
-  quotes?: string | null
   avatar_url?: string | null
 }
 

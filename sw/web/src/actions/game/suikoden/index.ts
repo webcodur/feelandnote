@@ -29,7 +29,6 @@ interface SuikodenProfileRow {
   birth_date: string | null
   death_date: string
   bio: string | null
-  quotes: string | null
   avatar_url: string | null
   celeb_influence: SuikodenInfluenceJoin | SuikodenInfluenceJoin[] | null
   celeb_persona: { persona: PersonaJsonb | null } | { persona: PersonaJsonb | null }[] | null
@@ -54,7 +53,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .from('profiles')
     .select(`
       id, nickname, title, profession, nationality, gender,
-      birth_date, death_date, bio, quotes,
+      birth_date, death_date, bio,
       avatar_url,
       celeb_influence (
         political, strategic, tech, social, economic, cultural,
