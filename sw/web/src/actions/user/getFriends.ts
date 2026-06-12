@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 
 export interface FriendInfo {
@@ -15,8 +16,11 @@ interface GetFriendsResult {
   error?: string
 }
 
+// egress-allow: 본인 가변 데이터 — 캐시 부적합 (팔로우 직후 즉시 갱신 필요, React.cache는 요청 내 dedup만 수행)
 // 친구 = 상호 팔로우 (맞팔)
-export async function getFriends(): Promise<GetFriendsResult> {
+export const getFriends = cache(getFriendsInner)
+
+async function getFriendsInner(): Promise<GetFriendsResult> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()

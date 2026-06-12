@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -63,6 +63,9 @@ export interface GetMyContentsResponse {
   hasMore: boolean
 }
 
+// user_contents에서 실제 사용하는 컬럼만 (contributor_id, review_presets 제외)
+const UC_SELECT = 'id, user_id, content_id, status, is_recommended, is_spoiler, rating, review, review_en, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
+
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
   const { page = 1, limit = 20, type, status, excludeStatus, search, hasReview, sortBy = 'recent' } = params
@@ -74,12 +77,14 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
 
   const offset = (page - 1) * limit
 
-  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, content_locales(${CL_SELECT})`
+  // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
+  const contentFields = `id, type, release_date, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
   // 검색 필터 - content_locales에서 2-step 검색
   let searchContentIds: string[] | null = null
   if (search && search.trim().length >= 2) {
     const searchTerm = `%${search.trim()}%`
+    // egress-allow: 본인 서재 검색 1단계 — content_id만 송출
     const { data: matchIds } = await supabase
       .from('content_locales')
       .select('content_id')
@@ -91,10 +96,11 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   const needsInnerJoin = !!type
   const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
+  // egress-allow: 본인 서재 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (컬럼 슬림화 적용)
   let query = supabase
     .from('user_contents')
     .select(`
-      *,
+      ${UC_SELECT},
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -150,7 +156,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   const items = (data || []).filter((item) =>
     item.content !== null
   ).map(item => {
-    const c = item.content as Record<string, unknown>
+    const c = item.content as unknown as Record<string, unknown>
     const locales = c.content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale)
     return {
@@ -185,81 +191,4 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     totalPages: Math.ceil(total / limit),
     hasMore: offset + items.length < total,
   }
-}
-
-// 기존 호환성을 위한 헬퍼 함수
-export async function getMyContentsAll(params: Omit<GetMyContentsParams, 'page' | 'limit'> = {}): Promise<UserContentWithContent[]> {
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    throw new Error('로그인이 필요합니다')
-  }
-
-  // type 필터가 있으면 inner join으로 contents 테이블에서 직접 필터링
-  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, content_locales(${CL_SELECT})`
-  const contentJoin = params.type ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
-
-  let query = supabase
-    .from('user_contents')
-    .select(`
-      *,
-      ${contentJoin}
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-
-  // type 필터 - DB 쿼리에서 직접 적용
-  if (params.type) {
-    query = query.eq('content.type', params.type)
-  }
-
-
-  if (params.status) {
-    query = query.eq('status', params.status)
-  }
-
-  // 제외할 상태 필터
-  if (params.excludeStatus?.length) {
-    query = query.not('status', 'in', `(${params.excludeStatus.join(',')})`)
-  }
-
-  const { data, error } = await query
-
-  if (error) {
-    console.error('콘텐츠 조회 에러:', error)
-    throw new Error('콘텐츠 목록을 불러오는데 실패했습니다')
-  }
-
-  const locale = await getLocale()
-  const items = (data || []).filter((item) =>
-    item.content !== null
-  ).map(item => {
-    const c = item.content as Record<string, unknown>
-    const locales = c.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales, locale)
-    return {
-      ...item,
-      content: {
-        id: c.id as string,
-        type: c.type as ContentType,
-        title: flat.title,
-        creator: flat.creator,
-        thumbnail_url: flat.thumbnail_url,
-        description: flat.description,
-        publisher: flat.publisher,
-        release_date: c.release_date as string | null,
-        metadata: c.metadata as Record<string, unknown> | null,
-        user_count: c.user_count as number | null,
-        title_ko: flat.title_ko,
-        title_en: flat.title_en,
-        creator_en: flat.creator_en,
-        isbn_en: flat.isbn_en,
-        thumbnail_en: flat.thumbnail_en,
-        has_en_edition: flat.has_en_edition,
-      },
-    }
-  }) as UserContentWithContent[]
-
-  return items
 }

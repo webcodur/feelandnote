@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { getTitleInfo } from '@/constants/titles'
 
@@ -14,7 +15,10 @@ export interface UserProfile {
   selected_title: { name: string; grade: string } | null
 }
 
-export async function getProfile(): Promise<UserProfile | null> {
+// egress-allow: 본인 가변 데이터 — 캐시 부적합 (프로필 수정 직후 즉시 갱신 필요, React.cache는 요청 내 dedup만 수행)
+export const getProfile = cache(getProfileInner)
+
+async function getProfileInner(): Promise<UserProfile | null> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -24,7 +28,7 @@ export async function getProfile(): Promise<UserProfile | null> {
 
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select('*')
+    .select('id, email, nickname, avatar_url, bio, birth_date, nationality, selected_title')
     .eq('id', user.id)
     .single()
 

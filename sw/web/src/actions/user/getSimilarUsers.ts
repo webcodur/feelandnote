@@ -1,5 +1,6 @@
 "use server";
 
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 
 // region 타입
@@ -40,7 +41,10 @@ interface GetSimilarUsersResult {
  */
 // endregion
 
-export async function getSimilarUsers(limit = 10): Promise<GetSimilarUsersResult> {
+// egress-allow: 본인 가변 데이터 — 캐시 부적합 (user.id 기반 RPC + blocks(비공개) 서브쿼리, anon 전환 불가. React.cache는 요청 내 dedup만 수행)
+export const getSimilarUsers = cache(getSimilarUsersInner);
+
+async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 

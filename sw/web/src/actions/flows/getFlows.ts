@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: flows는 공개 or 본인 RLS — 본인 비공개 플로우가 섞여 anon 전환 불가
 import { createClient } from '@/lib/supabase/server'
 import type { Flow, FlowSummary } from '@/types/database'
 

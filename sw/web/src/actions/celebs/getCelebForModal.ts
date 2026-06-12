@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
@@ -15,9 +17,19 @@ type ProfileModalRow = Pick<
   | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
 >
 
-export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {
-  const supabase = await createClient()
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+// 캐시되는 공개 데이터 묶음 (인증 비의존)
+interface CelebModalPublicData {
+  profile: ProfileModalRow
+  contentCount: number
+  followerCount: number
+  totalScore: number | null
+  tags: CelebTagInfo[]
+  dialogue: DialogueBrief | null
+}
+
+// 공개 테이블만 조회 — anon 클라이언트로 캐시 가능
+async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicData | null> {
+  const supabase = createStaticClient()
 
   // 프로필 조회 (CelebProfile에 매핑되는 필드만 — bio/cultural_journey 등 대형 TEXT 포함하지만 모두 UI에서 사용됨)
   const { data, error } = await supabase
@@ -32,12 +44,9 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
   if (error || !profile) return null
 
   // 병렬 조회
-  const [contentResult, followerResult, followResult, influenceResult, tagsResult, dialogueResult] = await Promise.all([
+  const [contentResult, followerResult, influenceResult, tagsResult, dialogueResult] = await Promise.all([
     supabase.from('user_contents').select('*', { count: 'exact', head: true }).eq('user_id', celebId),
     supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', celebId),
-    currentUser
-      ? supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', celebId).single()
-      : Promise.resolve({ data: null }),
     supabase.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     supabase
       .from('celeb_tag_assignments')
@@ -45,14 +54,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
       .eq('celeb_id', celebId),
     supabase.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
   ])
-
-  // JSON path 추출 컬럼은 Json으로 추론되므로 실제 형태로 교정
-  const dialogue = dialogueResult.data as DialogueBrief | null
-
-  // 팔로워 여부 (상대방이 나를 팔로우하는지)
-  const followerCheck = currentUser
-    ? await supabase.from('follows').select('id').eq('follower_id', celebId).eq('following_id', currentUser.id).single()
-    : { data: null }
 
   // 태그 정보 변환
   const tags: CelebTagInfo[] = (tagsResult.data || [])
@@ -68,10 +69,49 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
       long_desc_en: t.long_desc_en,
     }))
 
+  return {
+    profile,
+    contentCount: contentResult.count || 0,
+    followerCount: followerResult.count || 0,
+    totalScore: influenceResult.data?.total_score ?? null,
+    // JSON path 추출 컬럼은 Json으로 추론되므로 실제 형태로 교정
+    tags,
+    dialogue: dialogueResult.data as DialogueBrief | null,
+  }
+}
+
+const getCelebModalCached = unstable_cache(
+  fetchCelebModalPublic,
+  ['celeb-modal'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {
+  const pub = await getCelebModalCached(celebId)
+  if (!pub) return null
+
+  // 인증 사용자 의존 — 캐시 밖에서 cookie 클라이언트로 조회
+  let isFollowing = false
+  let isFollower = false
+
+  const supabase = await createClient()
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+
+  if (currentUser) {
+    const [followResult, followerCheck] = await Promise.all([
+      supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', celebId).single(),
+      supabase.from('follows').select('id').eq('follower_id', celebId).eq('following_id', currentUser.id).single(),
+    ])
+    isFollowing = !!followResult.data
+    isFollower = !!followerCheck.data
+  }
+
+  const { profile, dialogue } = pub
+
   // 영향력 정보 (total_score만 사용, level은 placeholder)
-  const influence: CelebInfluence | null = influenceResult.data?.total_score
+  const influence: CelebInfluence | null = pub.totalScore
     ? {
-        total_score: influenceResult.data.total_score,
+        total_score: pub.totalScore,
         level: getCelebLevelByRanking(1, 1), // placeholder - 실제 aura는 getAuraByScore로 계산됨
         ranking: undefined,
         percentile: undefined,
@@ -98,12 +138,12 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     quotes_en: dialogue?.quote_en ?? null,
     is_verified: profile.is_verified || false,
     is_platform_managed: profile.claimed_by === null,
-    follower_count: followerResult.count || 0,
-    content_count: contentResult.count || 0,
-    is_following: !!followResult.data,
-    is_follower: !!followerCheck.data,
+    follower_count: pub.followerCount,
+    content_count: pub.contentCount,
+    is_following: isFollowing,
+    is_follower: isFollower,
     influence,
-    tags,
+    tags: pub.tags,
     greeting: dialogue?.greeting ?? null,
     greeting_en: dialogue?.greeting_en ?? null,
     has_voice: profile.has_voice ?? false,

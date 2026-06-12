@@ -115,6 +115,7 @@ if (statSync(ACTION_DIR).isDirectory()) {
     if (!USE_SERVER_RE.test(text)) continue
     if (!(SUPABASE_FROM_RE.test(text) || SUPABASE_RPC_RE.test(text))) continue
     if (MUTATION_RE.test(text)) continue // mutation 액션은 캐시 안 함
+    if (ALLOW_COMMENT_RE.test(text)) continue // RLS 본인 데이터 등 의도된 비캐시 — // egress-allow: <사유> 화이트리스트
 
     const hasCache = UNSTABLE_CACHE_IMPORT_RE.test(text) || REACT_CACHE_IMPORT_RE.test(text)
     if (hasCache) continue

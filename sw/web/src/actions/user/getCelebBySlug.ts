@@ -67,13 +67,13 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const userId = profile.id as string
 
-  // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0
+  // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0, 타입별 카운트는 RPC 1회로 수신
   const [
     contentCountResult,
     followerResult,
     guestbookResult,
     dialogueResult,
-    ...typeCountResults
+    typeCountsResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -92,19 +92,14 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .select(DIALOGUE_PROFILE_SELECT)
       .eq('celeb_id', userId)
       .maybeSingle(),
-    ...CONTENT_TYPES.map(type =>
-      supabase
-        .from('user_contents')
-        .select('id, contents!inner(type)', { count: 'exact', head: true })
-        .eq('user_id', userId)
-        .eq('contents.type', type)
-    ),
+    supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
   ])
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
-  CONTENT_TYPES.forEach((type, idx) => {
-    contentTypeCounts[type] = typeCountResults[idx]?.count || 0
-  })
+  for (const row of typeCountsResult.data ?? []) {
+    const type = row.content_type as keyof ContentTypeCounts
+    if (CONTENT_TYPES.includes(type)) contentTypeCounts[type] = Number(row.total)
+  }
 
   return {
     profile: profile as PublicCelebBySlugData['profile'],

@@ -1,6 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { CATEGORIES } from '@/constants/categories'
 
 // #region 타입 정의
@@ -37,7 +39,32 @@ const CATEGORY_COLORS: Record<string, string> = {
   MUSIC: '#ec4899',
   CERTIFICATE: '#06b6d4',
 }
+
+interface UserContentStatRow {
+  status: string
+  rating: number | null
+  created_at: string | null
+  contents: { type: string } | { type: string }[] | null
+}
 // #endregion
+
+// 공개 데이터(user_contents·contents)만 조회 — viewer 무관, 캐시 가능
+async function fetchUserContentsStats(uid: string): Promise<UserContentStatRow[]> {
+  const supabase = createStaticClient()
+
+  const { data } = await supabase
+    .from('user_contents')
+    .select('status, rating, created_at, contents(type)')
+    .eq('user_id', uid)
+
+  return (data ?? []) as UserContentStatRow[]
+}
+
+const getUserContentsStatsCached = unstable_cache(
+  fetchUserContentsStats,
+  ['detailed-stats-contents'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
 
 export async function getDetailedStats(targetUserId?: string): Promise<DetailedStats> {
   const supabase = await createClient()
@@ -45,20 +72,16 @@ export async function getDetailedStats(targetUserId?: string): Promise<DetailedS
   const uid = targetUserId ?? (await supabase.auth.getUser()).data.user?.id
   if (!uid) return getEmptyStats()
 
-  // 2개 쿼리로 모든 데이터 확보
-  const [ucResult, recordsResult] = await Promise.all([
-    supabase
-      .from('user_contents')
-      .select('status, rating, created_at, contents(type)')
-      .eq('user_id', uid),
+  // records는 visibility RLS로 viewer마다 결과가 다르다 — cookie 클라이언트 유지, 카운트만 수신
+  const [rows, recordsResult] = await Promise.all([
+    getUserContentsStatsCached(uid),
     supabase
       .from('records')
-      .select('type')
+      .select('id', { count: 'exact', head: true })
       .eq('user_id', uid),
   ])
 
-  const rows = ucResult.data ?? []
-  const records = recordsResult.data ?? []
+  const totalRecords = recordsResult.count || 0
 
   // JS 집계
   let totalFinished = 0
@@ -71,7 +94,7 @@ export async function getDetailedStats(targetUserId?: string): Promise<DetailedS
   let ratingCount = 0
 
   for (const row of rows) {
-    const contents = row.contents as unknown as { type: string } | null
+    const contents = (Array.isArray(row.contents) ? row.contents[0] : row.contents) as { type: string } | null
     const type = contents?.type
     if (!type) continue
 
@@ -124,7 +147,7 @@ export async function getDetailedStats(targetUserId?: string): Promise<DetailedS
       totalFinished,
       totalWant,
       totalReviews,
-      totalRecords: records.length,
+      totalRecords,
     },
     categoryBreakdown,
     monthlyTrend,

@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: notes는 본인 전용 RLS — anon 전환 시 빈 결과라 캐시 분리 불가
 import { createClient } from '@/lib/supabase/server'
 import type { Note, NoteWithContent } from './types'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'

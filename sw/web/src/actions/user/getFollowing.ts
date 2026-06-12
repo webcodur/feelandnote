@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getTitleInfo } from '@/constants/titles'
 
 export interface FollowingInfo {
@@ -19,8 +20,8 @@ interface GetFollowingResult {
   error?: string
 }
 
-export async function getFollowing(userId: string): Promise<GetFollowingResult> {
-  const supabase = await createClient()
+async function fetchFollowing(userId: string): Promise<GetFollowingResult> {
+  const supabase = createStaticClient()
 
   const { data: following, error } = await supabase
     .from('follows')
@@ -60,4 +61,15 @@ export async function getFollowing(userId: string): Promise<GetFollowingResult> 
     })
 
   return { success: true, data: result }
+}
+
+// 타인 프로필 조회용 목록 — 본인 팔로잉 관리 화면은 getMyFollowing을 사용한다
+const getCachedFollowing = unstable_cache(
+  fetchFollowing,
+  ['following'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getFollowing(userId: string): Promise<GetFollowingResult> {
+  return getCachedFollowing(userId)
 }

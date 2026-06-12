@@ -1,9 +1,12 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -59,16 +62,28 @@ export interface GetUserContentsResponse {
   hasMore: boolean
 }
 
-export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
-  const { userId, type, status, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
-  const supabase = await createClient()
+interface QueryUserContentsOptions {
+  userId: string
+  type?: ContentType
+  page: number
+  limit: number
+  search?: string
+  hasReview?: boolean
+  sortBy: SortByOption
+  locale: string
+  isOwnProfile: boolean
+}
+
+// 서재 조회 공통 쿼리 — 클라이언트(cookie/static)와 viewer 의존 여부만 외부에서 주입
+async function queryUserContents(
+  supabase: SupabaseClient,
+  opts: QueryUserContentsOptions,
+): Promise<GetUserContentsResponse> {
+  const { userId, type, page, limit, search, hasReview, sortBy, locale, isOwnProfile } = opts
   const offset = (page - 1) * limit
 
-  // 현재 로그인한 사용자 확인
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
-  const isOwnProfile = currentUser?.id === userId
-
-  const contentFields = `id, type, subtype, external_id, release_date, metadata, user_count, created_at, content_locales(${CL_SELECT})`
+  // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
+  const contentFields = `id, type, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
   // 검색 필터 - content_locales에서 2-step 검색
   let searchContentIds: string[] | null = null
@@ -123,16 +138,13 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   }
 
   // status 필터 제거 (사용자 요구사항: status 무관하게 리뷰 유무로만 판단)
-  // if (status) {
-  //   query = query.eq('status', status)
-  // }
 
   // 검색 결과 content_id 필터
   if (searchContentIds) {
     query = query.in('content_id', searchContentIds)
   }
 
-  // 리뷰 필터 (강화됨)
+  // 리뷰 필터
   if (hasReview === true) {
     // 리뷰가 있는 경우: null이 아니고 빈 문자열도 아닌 경우
     query = query.not('review', 'is', null).neq('review', '')
@@ -140,7 +152,6 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
     // 리뷰가 없는 경우: null이거나 빈 문자열인 경우
     query = query.or('review.is.null,review.eq.')
   }
-
 
   query = query.range(offset, offset + limit - 1)
 
@@ -152,7 +163,6 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   }
 
   // content가 null인 항목 필터링 + content_locales 플래튼
-  const locale = await getLocale()
   const validContents = (userContents || []).filter(item => item.content !== null)
 
   const items: UserContentPublic[] = validContents.map(item => {
@@ -205,8 +215,42 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   }
 }
 
-// 전체 조회 (페이지네이션 없음)
-export async function getUserContentsAll(userId: string, type?: ContentType): Promise<UserContentPublic[]> {
-  const result = await getUserContents({ userId, type, page: 1, limit: 1000 })
-  return result.items
+// 타인 서재 — 공개 테이블(user_contents, contents, content_locales)만 읽으므로 캐시
+const getCachedPublicUserContents = unstable_cache(
+  async (
+    userId: string,
+    type: ContentType | undefined,
+    page: number,
+    limit: number,
+    search: string | undefined,
+    hasReview: boolean | undefined,
+    sortBy: SortByOption,
+    locale: string,
+  ) =>
+    queryUserContents(createStaticClient(), {
+      userId, type, page, limit, search, hasReview, sortBy, locale,
+      isOwnProfile: false,
+    }),
+  ['public-user-contents'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
+  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const supabase = await createClient()
+  const locale = await getLocale()
+
+  // 현재 로그인한 사용자 확인 (viewer 의존 — 캐시 외부)
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const isOwnProfile = currentUser?.id === userId
+
+  if (isOwnProfile) {
+    // egress-allow: 본인 서재 — 추가/삭제 즉시 반영 필요, 캐시 부적합
+    return queryUserContents(supabase, {
+      userId, type, page, limit, search, hasReview, sortBy, locale,
+      isOwnProfile: true,
+    })
+  }
+
+  return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale)
 }

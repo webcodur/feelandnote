@@ -1,7 +1,10 @@
 "use server";
 
+// egress-allow: content_recommendations는 수신자 본인 RLS — anon 전환 시 빈 결과라 캐시 분리 불가
 import { createClient } from "@/lib/supabase/server";
 import type { RecommendationWithDetails } from "@/types/recommendation";
+import { getLocale } from "next-intl/server";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface GetReceivedRecommendationsResult {
   success: boolean;
@@ -44,10 +47,8 @@ export async function getReceivedRecommendations(): Promise<GetReceivedRecommend
         review,
         content:contents(
           id,
-          title,
-          thumbnail_url,
           type,
-          creator
+          content_locales(${CL_SELECT_LIST})
         )
       )
     `
@@ -64,10 +65,8 @@ export async function getReceivedRecommendations(): Promise<GetReceivedRecommend
   type SenderData = { id: string; nickname: string; avatar_url: string | null };
   type ContentData = {
     id: string;
-    title: string;
-    thumbnail_url: string | null;
     type: string;
-    creator: string | null;
+    content_locales: ContentLocaleRow[] | null;
   };
   type UserContentData = {
     id: string;
@@ -76,6 +75,8 @@ export async function getReceivedRecommendations(): Promise<GetReceivedRecommend
     review: string | null;
     content: ContentData | ContentData[];
   };
+
+  const locale = await getLocale();
 
   const result: RecommendationWithDetails[] = (data ?? []).map((item) => {
     const sender = (
@@ -91,6 +92,7 @@ export async function getReceivedRecommendations(): Promise<GetReceivedRecommend
         ? userContent.content[0]
         : userContent?.content
     ) as ContentData;
+    const flat = flattenLocales(content?.content_locales, locale);
 
     return {
       id: item.id,
@@ -113,10 +115,10 @@ export async function getReceivedRecommendations(): Promise<GetReceivedRecommend
         review: userContent?.review ?? null,
         content: {
           id: content?.id ?? "",
-          title: content?.title ?? "",
-          thumbnail_url: content?.thumbnail_url ?? null,
+          title: flat.title,
+          thumbnail_url: flat.thumbnail_url,
           type: content?.type ?? "",
-          creator: content?.creator ?? null,
+          creator: flat.creator,
         },
       },
     };

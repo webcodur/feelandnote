@@ -69,6 +69,7 @@ export async function searchRecords({
   const offset = (page - 1) * limit
 
   // 2-step 검색: content_locales에서 먼저 content_id 검색
+  // egress-allow: 본인 기록 검색 1단계 — content_id만 송출
   const { data: matchIds } = await supabase
     .from('content_locales')
     .select('content_id')
@@ -77,6 +78,7 @@ export async function searchRecords({
   const searchContentIds = [...new Set(matchIds.map(m => m.content_id))]
 
   // 내 기록에서 검색 (rating 포함)
+  // egress-allow: 본인 기록 검색 — 수정 즉시 반영 필요, 캐시 부적합 (경량 select 적용)
   let searchQuery = supabase
     .from('user_contents')
     .select(`

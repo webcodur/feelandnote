@@ -1,16 +1,16 @@
--- 20260509_egress_optimization.sql
--- Egress 누수 핵심 풀스캔 4종을 SQL 함수로 흡수해 클라이언트 row 송출 0으로 만든다.
--- 적용 후 클라이언트 코드 변경(별도 PR)에서 RPC 호출로 교체한다.
+﻿-- 20260509_egress_optimization.sql
+-- Egress ?꾩닔 ?듭떖 ??ㅼ틪 4醫낆쓣 SQL ?⑥닔濡??≪닔???대씪?댁뼵??row ?≪텧 0?쇰줈 留뚮뱺??
+-- ?곸슜 ???대씪?댁뼵??肄붾뱶 蹂寃?蹂꾨룄 PR)?먯꽌 RPC ?몄텧濡?援먯껜?쒕떎.
 --
--- 배경: scriptures/index.ts 의 fetchUserContentCounts, getTodayFigure seed fallback,
---       getCelebBySlug 의 typeCounts, getScripturesByProfession 의 fetchAllUserContents
---       가 카운트만 필요하면서 row 자체를 페이지네이션으로 끝까지 받아 송출하던 패턴.
--- 효과: 캐시 미스 시점에도 egress 발생 거의 0 (count/array_agg만 송출).
+-- 諛곌꼍: scriptures/index.ts ??fetchUserContentCounts, getTodayFigure seed fallback,
+--       getCelebBySlug ??typeCounts, getScripturesByProfession ??fetchAllUserContents
+--       媛 移댁슫?몃쭔 ?꾩슂?섎㈃??row ?먯껜瑜??섏씠吏?ㅼ씠?섏쑝濡??앷퉴吏 諛쏆븘 ?≪텧?섎뜕 ?⑦꽩.
+-- ?④낵: 罹먯떆 誘몄뒪 ?쒖젏?먮룄 egress 諛쒖깮 嫄곗쓽 0 (count/array_agg留??≪텧).
 
--- 1) USER 프로필이 작성한 콘텐츠 ID별 카운트 (현 fetchUserContentCounts 대체)
+-- 1) USER ?꾨줈?꾩씠 ?묒꽦??肄섑뀗痢?ID蹂?移댁슫??(??fetchUserContentCounts ?泥?
 DROP FUNCTION IF EXISTS public.get_user_content_counts(text);
 CREATE OR REPLACE FUNCTION public.get_user_content_counts(p_category text DEFAULT NULL)
-RETURNS TABLE(content_id uuid, user_count bigint)
+RETURNS TABLE(content_id text, user_count bigint)
 LANGUAGE sql STABLE
 AS $function$
   SELECT uc.content_id, COUNT(*)::bigint AS user_count
@@ -23,7 +23,7 @@ AS $function$
   GROUP BY uc.content_id;
 $function$;
 
--- 2) seed 알고리즘 자격(5개 이상 공개 콘텐츠 보유) 활성 셀럽 (현 getTodayFigure fallback 대체)
+-- 2) seed ?뚭퀬由ъ쬁 ?먭꺽(5媛??댁긽 怨듦컻 肄섑뀗痢?蹂댁쑀) ?쒖꽦 ???(??getTodayFigure fallback ?泥?
 DROP FUNCTION IF EXISTS public.get_seed_eligible_celebs();
 CREATE OR REPLACE FUNCTION public.get_seed_eligible_celebs()
 RETURNS TABLE(celeb_id uuid, content_count bigint)
@@ -40,7 +40,7 @@ AS $function$
   HAVING COUNT(*) >= 5;
 $function$;
 
--- 3) 한 셀럽의 타입별 카운트 (현 getCelebBySlug 의 4 head:true count 대체)
+-- 3) ????쎌쓽 ??낅퀎 移댁슫??(??getCelebBySlug ??4 head:true count ?泥?
 DROP FUNCTION IF EXISTS public.get_celeb_type_counts(uuid);
 CREATE OR REPLACE FUNCTION public.get_celeb_type_counts(p_user_id uuid)
 RETURNS TABLE(content_type text, total bigint)
@@ -53,10 +53,10 @@ AS $function$
   GROUP BY c.type;
 $function$;
 
--- 4) 콘텐츠 ID 목록의 셀럽 카운트 (현 fetchGlobalCelebCounts 대체)
-DROP FUNCTION IF EXISTS public.get_celeb_content_counts(uuid[]);
-CREATE OR REPLACE FUNCTION public.get_celeb_content_counts(p_content_ids uuid[])
-RETURNS TABLE(content_id uuid, celeb_count bigint)
+-- 4) 肄섑뀗痢?ID 紐⑸줉?????移댁슫??(??fetchGlobalCelebCounts ?泥?
+DROP FUNCTION IF EXISTS public.get_celeb_content_counts(text[]);
+CREATE OR REPLACE FUNCTION public.get_celeb_content_counts(p_content_ids text[])
+RETURNS TABLE(content_id text, celeb_count bigint)
 LANGUAGE sql STABLE
 AS $function$
   SELECT uc.content_id, COUNT(*)::bigint AS celeb_count
@@ -69,8 +69,8 @@ AS $function$
   GROUP BY uc.content_id;
 $function$;
 
--- 권한: anon, authenticated 모두 호출 가능 (RLS 무시되는 SECURITY DEFINER 아님)
+-- 沅뚰븳: anon, authenticated 紐⑤몢 ?몄텧 媛??(RLS 臾댁떆?섎뒗 SECURITY DEFINER ?꾨떂)
 GRANT EXECUTE ON FUNCTION public.get_user_content_counts(text) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.get_seed_eligible_celebs() TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.get_celeb_type_counts(uuid) TO anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.get_celeb_content_counts(uuid[]) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.get_celeb_content_counts(text[]) TO anon, authenticated;

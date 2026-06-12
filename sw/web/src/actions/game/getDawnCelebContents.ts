@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
@@ -32,12 +33,13 @@ interface DawnContentRow {
   };
 }
 
-export async function getDawnCelebContents(
-  celebIds: string[]
+// 캐시 inner: 정렬된 id 목록 문자열 + locale만 받아 캐시 키를 안정화한다
+async function fetchDawnCelebContents(
+  idsKey: string,
+  locale: string
 ): Promise<Record<string, DawnContent[]>> {
-  if (celebIds.length === 0) return {};
-
-  const supabase = await createClient();
+  const supabase = createStaticClient();
+  const celebIds = idsKey.split(",");
 
   // 단일 쿼리: user_contents JOIN contents (셀럽당 최대 4개는 클라이언트에서 제한)
   // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
@@ -52,7 +54,6 @@ export async function getDawnCelebContents(
 
   if (error || !data) return {};
 
-  const locale = await getLocale();
   const result: Record<string, DawnContent[]> = {};
 
   for (const row of data) {
@@ -78,4 +79,20 @@ export async function getDawnCelebContents(
   }
 
   return result;
+}
+
+const getCachedDawnCelebContents = unstable_cache(
+  fetchDawnCelebContents,
+  ["dawn-celeb-contents"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
+export async function getDawnCelebContents(
+  celebIds: string[]
+): Promise<Record<string, DawnContent[]>> {
+  if (celebIds.length === 0) return {};
+
+  // locale은 요청 컨텍스트 의존이라 캐시 밖에서 확정해 인자로 전달
+  const locale = await getLocale();
+  return getCachedDawnCelebContents([...celebIds].sort().join(","), locale);
 }

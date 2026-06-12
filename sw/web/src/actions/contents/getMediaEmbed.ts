@@ -1,7 +1,8 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import type { ContentType } from '@/types/database'
-import { createClient } from '@/lib/supabase/server'
+import { createStaticClient } from '@/lib/supabase/static'
 import { getVideoTrailer } from '@feelandnote/content-search/tmdb'
 import { getGameTrailer } from '@feelandnote/content-search/igdb'
 import { getSpotifyEntityType } from '@feelandnote/content-search/spotify'
@@ -14,14 +15,14 @@ export type MediaEmbedResult = {
   spotifyEntity?: SpotifyEntityType
 }
 
-export async function getMediaEmbed(
+async function fetchMediaEmbed(
   contentId: string,
   type: ContentType
 ): Promise<MediaEmbedResult> {
   const none: MediaEmbedResult = { embedType: null, embedId: null }
 
   // DB에서 external_id 조회
-  const supabase = await createClient()
+  const supabase = createStaticClient()
   const { data } = await supabase
     .from('contents')
     .select('external_id')
@@ -52,4 +53,18 @@ export async function getMediaEmbed(
   }
 
   return none
+}
+
+// DB 조회 + 외부 API(trailer/spotify) 결과를 함께 캐시한다
+const getCachedMediaEmbed = unstable_cache(
+  fetchMediaEmbed,
+  ['media-embed'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getMediaEmbed(
+  contentId: string,
+  type: ContentType
+): Promise<MediaEmbedResult> {
+  return getCachedMediaEmbed(contentId, type)
 }

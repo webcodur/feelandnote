@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: activity_logs는 본인·팔로잉 RLS — anon 전환 시 빈 결과라 캐시 분리 불가
 import { createClient } from '@/lib/supabase/server'
 import type { FriendActivity, FriendActivityResponse } from '@/types/home'
 import type { ContentType } from '@/types/database'

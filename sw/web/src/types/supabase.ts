@@ -2473,7 +2473,21 @@ export type Database = {
           total_size: number
         }[]
       }
+      get_celeb_content_counts: {
+        Args: { p_content_ids: string[] }
+        Returns: {
+          celeb_count: number
+          content_id: string
+        }[]
+      }
       get_celeb_feed_type_counts: { Args: never; Returns: Json }
+      get_celeb_type_counts: {
+        Args: { p_user_id: string }
+        Returns: {
+          content_type: string
+          total: number
+        }[]
+      }
       get_celebs_sorted: {
         Args: {
           p_celeb_tier?: string
@@ -2593,6 +2607,13 @@ export type Database = {
           user_count: number
         }[]
       }
+      get_seed_eligible_celebs: {
+        Args: never
+        Returns: {
+          celeb_id: string
+          content_count: number
+        }[]
+      }
       get_shared_contents_by_celebs: {
         Args: {
           p_celeb_ids: string[]
@@ -2664,6 +2685,13 @@ export type Database = {
           quotes: string
           quotes_en: string
           slug: string
+        }[]
+      }
+      get_user_content_counts: {
+        Args: { p_category?: string }
+        Returns: {
+          content_id: string
+          user_count: number
         }[]
       }
       increment_feedback_view_count: {

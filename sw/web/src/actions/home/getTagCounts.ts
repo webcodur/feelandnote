@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export interface TagCount {
   id: string
@@ -18,8 +19,8 @@ interface TagCountRow {
   celeb_count: number
 }
 
-export async function getTagCounts(): Promise<TagCount[]> {
-  const supabase = await createClient()
+async function fetchTagCounts(): Promise<TagCount[]> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_tag_celeb_counts')
 
@@ -36,3 +37,9 @@ export async function getTagCounts(): Promise<TagCount[]> {
     count: Number(row.celeb_count),
   }))
 }
+
+export const getTagCounts = unstable_cache(
+  fetchTagCounts,
+  ['tag-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)

@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: records 카운트가 viewer 의존 RLS(visibility 정책)라 anon 캐시 전환 불가
 import { createClient } from '@/lib/supabase/server'
 import type { Profile } from '@/types/database'
 

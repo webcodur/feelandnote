@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: 본인 팔로잉 기준 RLS 카운트 — anon 전환 불가. RPC 1회로 페이로드 이미 최소
 import { createClient } from '@/lib/supabase/server'
 
 export type FriendActivityTypeCounts = Record<string, number>

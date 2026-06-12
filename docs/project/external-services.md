@@ -72,6 +72,31 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 인증 의존 server action 다수 — 외부 wrap + 인증 비의존 부분 분리 후 캐시화 (예: `getFeedActivities`, `getMyContents`, `getFlows` 등 약 30개)
 - `getCelebForModal` 등 일부 H 우선순위 액션 별도 처리
 
+### 사고 후속 5차 정리 — 전면 리팩토링 Phase 2 (2026-06-12)
+
+check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정리.
+
+**풀스캔 → SQL RPC 교체 (마이그레이션 `20260509_egress_optimization.sql` 적용 완료)**:
+- DB에 함수 4종 배포: `get_user_content_counts`, `get_seed_eligible_celebs`, `get_celeb_type_counts`, `get_celeb_content_counts` (원안의 uuid를 실제 스키마에 맞게 text로 교정)
+- 클라이언트 교체: `fetchUserContentCounts`, `fetchGlobalCelebCounts`, `getTodayFigure` seed fallback, `getCelebBySlug` 타입 카운트
+- `getScripturesByProfession`의 fetchAllUserContents는 행 자체가 필요해 의도적 풀스캔으로 유지
+
+**신규 캐시 적용 (unstable_cache + createStaticClient)**:
+- 공개: `getCelebProfiles`, `getCelebCounts`, `getContentUserCounts`, `getMediaEmbed`(외부 API 결과 포함), `getDawnCelebContents`, `getTrackerRound`(무작위 선택은 캐시 밖 분리), `getSharedContents`, `getTagCounts`, `getFollowing`
+- 인증 분리(공개 부분만 inner 캐시): `getCelebForModal`, `getMiniProfile`, `getFollowers`, `getDetailedStats`(records는 cookie 유지+head 카운트화), `getContent`, `getContentCounts`(head 카운트화), `getUserContents`(타인 경로만)
+
+**egress-allow 화이트리스트 (RLS 보호·본인 가변 데이터 — 캐시 불가/부적합)**:
+- `getProfile`(8컬럼 슬림화), `getFriends`, `getMyFollowing`, `getStats`, `getSimilarUsers`(이상 React.cache dedup 추가), `getMyContents`(16컬럼 슬림화), `getMyContentIds`, `getMyMusicList`, `searchRecords`, `getFeedActivities`(metadata 제거), `getFriendActivityTypeCounts`, `getFriendActivity`, `getUnreadGuestbookCount`, `getReceivedRecommendations`, `getRecommendableFriends`, `getFlow`/`getFlows`/`getFlowsContainingContent`, `getNote`, `getCelebProfile`
+- check-egress-patterns.mjs 검사 2(캐시 미적용)가 egress-allow 주석을 인식하도록 보완
+
+**부수 버그 수정**:
+- `getReceivedRecommendations`: contents에서 드롭된 title/thumbnail_url/creator 컬럼을 select해 매 호출 400 → content_locales 조회로 교정
+- `loadSuikodenCharacters`: 드롭된 profiles.quotes select로 조회 전체 실패 → 제거 (Phase 1에서 수정)
+
+**잔여 (다음 사이클)**:
+- [ ] `getFeedActivities` contentType 필터가 해당 타입 contents id 전량 수신 — FK 추가 또는 RPC 이관 필요
+- [ ] INFO 5건: 캐시 적용된 lines 통째 select → DIALOGUE_BRIEF_SELECT 계열로 추가 절감 여지
+
 ### 사고 후속 3차 정리 (2026-05-09)
 
 전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
@@ -91,8 +116,8 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 **잔여 작업**:
 - [ ] Supabase Storage 구 avatar 파일 852개 정리 (Googlebot 크롤링 중)
 - [ ] web-bo mutation 8개 파일에 `revalidateWebCache()` 점진 적용 (현 시점 미적용 — UX 이슈, egress와 무관)
-- [ ] 한도 회복 후 `20260509_egress_optimization.sql` 마이그레이션 적용
-- [ ] 위 마이그레이션 적용 후 클라이언트 코드 RPC 교체 (scriptures/index.ts, getCelebBySlug.ts)
+- [x] `20260509_egress_optimization.sql` 마이그레이션 적용 (2026-06-12, uuid→text 교정본)
+- [x] 클라이언트 코드 RPC 교체 (scriptures/index.ts, getCelebBySlug.ts) — 5차 정리 참조
 - [ ] daily_figures cron 동작 모니터링/실패 알림 (실패하면 `getTodayFigure` seed fallback 풀스캔으로 떨어짐)
 - [ ] `HeaderNotifications.tsx` realtime 구독 + mount fetch 비용 점검 (지속 egress 가능, 인증 사용자 비례)
 - [ ] `content/[contentId]/page.tsx` + `getContentDetail` 캐시 분리 — 인증 의존(본인 기록) 부분과 콘텐츠 자체 부분 분리 후 unstable_cache 적용 (코드 재구조화 양 커 별도 사이클)

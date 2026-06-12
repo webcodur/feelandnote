@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 
 export interface UserStats {
@@ -8,7 +9,10 @@ export interface UserStats {
   totalReviews: number
 }
 
-export async function getStats(): Promise<UserStats> {
+// egress-allow: 본인 가변 데이터 — 캐시 부적합 (records는 viewer 의존 RLS, 카운트 head:true로 페이로드 최소. React.cache는 요청 내 dedup만 수행)
+export const getStats = cache(getStatsInner)
+
+async function getStatsInner(): Promise<UserStats> {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()

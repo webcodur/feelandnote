@@ -249,98 +249,48 @@ async function fetchAllUserContents(
   return allData
 }
 
+// 콘텐츠 ID별 셀럽(active CELEB, FINISHED) 카운트 — RPC로 카운트만 수신
 async function fetchGlobalCelebCounts(
   supabase: StaticSupabase,
   contentIds: string[]
 ): Promise<Map<string, number>> {
   if (!contentIds.length) return new Map()
 
-  const { data: ucData } = await supabase
-    .from('user_contents')
-    .select('content_id, user_id')
-    .in('content_id', contentIds)
-    .eq('status', 'FINISHED')
+  const { data, error } = await supabase.rpc('get_celeb_content_counts', {
+    p_content_ids: contentIds,
+  })
 
-  if (!ucData?.length) return new Map()
-
-  const uniqueUserIds = [...new Set(ucData.map(r => r.user_id))]
-  const celebIdSet = new Set<string>()
-
-  for (const batch of chunkArray(uniqueUserIds, 50)) {
-    const { data: profiles } = await supabase
-      .from('profiles')
-      .select('id')
-      .in('id', batch)
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
-
-    if (profiles) profiles.forEach(p => celebIdSet.add(p.id))
+  if (error) {
+    console.error('fetchGlobalCelebCounts error:', error.message, error.code)
+    return new Map()
   }
 
   const countMap = new Map<string, number>()
-  for (const item of ucData) {
-    if (!celebIdSet.has(item.user_id)) continue
-    countMap.set(item.content_id, (countMap.get(item.content_id) || 0) + 1)
+  for (const row of data ?? []) {
+    countMap.set(row.content_id, Number(row.celeb_count))
   }
 
   return countMap
 }
 
+// 콘텐츠 ID별 일반 유저(USER, FINISHED) 카운트 — RPC로 카운트만 수신
 async function fetchUserContentCounts(
   supabase: StaticSupabase,
   category?: string
 ): Promise<Map<string, number>> {
-  const PAGE_SIZE = 1000
-  const BATCH_SIZE = 50
   const countMap = new Map<string, number>()
 
-  const { data: userProfiles, error: profileError } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('profile_type', 'USER')
+  const { data, error } = await supabase.rpc('get_user_content_counts', {
+    p_category: category ?? undefined,
+  })
 
-  if (profileError) {
-    console.error('fetchUserContentCounts profile error:', profileError.message)
+  if (error) {
+    console.error('fetchUserContentCounts error:', error.message, error.code)
     return countMap
   }
 
-  if (!userProfiles?.length) return countMap
-
-  const userIds = userProfiles.map(p => p.id)
-  const idBatches = chunkArray(userIds, BATCH_SIZE)
-
-  for (const batchIds of idBatches) {
-    let from = 0
-    let hasMore = true
-
-    while (hasMore) {
-      let query = supabase
-        .from('user_contents')
-        .select('content_id, contents!inner(type)')
-        .in('user_id', batchIds)
-        .eq('status', 'FINISHED')
-        .range(from, from + PAGE_SIZE - 1)
-
-      if (category) {
-        query = query.eq('contents.type', category)
-      }
-
-      const { data, error } = await query
-
-      if (error) {
-        console.error('fetchUserContentCounts error:', error.message, error.code)
-        break
-      }
-      if (!data?.length) break
-
-      for (const item of data) {
-        const count = countMap.get(item.content_id) || 0
-        countMap.set(item.content_id, count + 1)
-      }
-
-      hasMore = data.length === PAGE_SIZE
-      from += PAGE_SIZE
-    }
+  for (const row of data ?? []) {
+    countMap.set(row.content_id, Number(row.user_count))
   }
 
   return countMap
@@ -603,66 +553,22 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
   const seedSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  const { data: celebProfiles, error: profileError } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+  // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
+  const { data: eligibleData, error: eligibleError } = await supabase.rpc('get_seed_eligible_celebs')
 
-  if (profileError || !celebProfiles?.length) {
+  if (eligibleError || !eligibleData?.length) {
+    if (eligibleError) console.error('getTodayFigure seed error:', eligibleError.message)
     return { figure: null, contents: [], source: seedSource }
   }
 
-  const celebIds = celebProfiles.map(p => p.id)
-
-  const PAGE_SIZE = 1000
-  const BATCH_SIZE = 50
-  const celebCountsData: { user_id: string }[] = []
-  const idBatches = chunkArray(celebIds, BATCH_SIZE)
-
-  for (const batchIds of idBatches) {
-    let from = 0
-    let hasMore = true
-
-    while (hasMore) {
-      const { data, error } = await supabase
-        .from('user_contents')
-        .select('user_id')
-        .in('user_id', batchIds)
-        .eq('status', 'FINISHED')
-        .eq('visibility', 'public')
-        .range(from, from + PAGE_SIZE - 1)
-
-      if (error || !data?.length) break
-      celebCountsData.push(...data)
-      hasMore = data.length === PAGE_SIZE
-      from += PAGE_SIZE
-    }
-  }
-
-  if (!celebCountsData.length) {
-    return { figure: null, contents: [], source: seedSource }
-  }
-
-  const countMap = new Map<string, number>()
-  for (const item of celebCountsData) {
-    const count = countMap.get(item.user_id) || 0
-    countMap.set(item.user_id, count + 1)
-  }
-
-  const eligibleCelebs = Array.from(countMap.entries())
-    .filter(([, count]) => count >= 5)
-    .map(([id, count]) => ({ id, count }))
-
-  if (!eligibleCelebs.length) {
-    return { figure: null, contents: [], source: seedSource }
-  }
+  // 시드 선택이 캐시 재생성 간에도 흔들리지 않도록 id 순으로 고정
+  const eligibleCelebs = [...eligibleData].sort((a, b) => a.celeb_id.localeCompare(b.celeb_id))
 
   const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1
   const selectedIndex = seed % eligibleCelebs.length
   const selected = eligibleCelebs[selectedIndex]
 
-  const result = await fetchFigureContents(supabase, selected.id, locale)
+  const result = await fetchFigureContents(supabase, selected.celeb_id, locale)
   return { ...result, source: seedSource }
 }
 

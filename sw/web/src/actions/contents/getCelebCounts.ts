@@ -1,6 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createStaticClient } from '@/lib/supabase/static'
 
 export interface ContentCounts {
   celebCount: number
@@ -8,15 +9,12 @@ export interface ContentCounts {
 }
 
 // 콘텐츠별 셀럽/일반인 감상 수 배치 조회 (RPC 단일 호출)
-export async function getCelebCountsForContents(
-  contentIds: string[]
-): Promise<Record<string, ContentCounts>> {
-  if (!contentIds.length) return {}
-
-  const supabase = await createClient()
+// 캐시 inner: 정렬된 id 목록 문자열만 받아 캐시 키를 안정화한다
+async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentCounts>> {
+  const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
-    p_content_ids: contentIds,
+    p_content_ids: idsKey.split(','),
   })
 
   if (error || !data) return {}
@@ -29,4 +27,17 @@ export async function getCelebCountsForContents(
     }
   }
   return counts
+}
+
+const getCachedCelebCounts = unstable_cache(
+  fetchCelebCounts,
+  ['content-celeb-counts'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getCelebCountsForContents(
+  contentIds: string[]
+): Promise<Record<string, ContentCounts>> {
+  if (!contentIds.length) return {}
+  return getCachedCelebCounts([...contentIds].sort().join(','))
 }

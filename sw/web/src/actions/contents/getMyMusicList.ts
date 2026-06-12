@@ -26,6 +26,7 @@ export async function getMyMusicList(): Promise<MusicTrack[]> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return []
 
+  // egress-allow: 본인 음악 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (경량 select 적용)
   const { data, error } = await supabase
     .from('user_contents')
     .select(`id, status, content:contents!inner(id, external_id, content_locales(${CL_SELECT_LIST}))`)

@@ -1,5 +1,6 @@
 "use server";
 
+// egress-allow: blocks(본인 RLS) 의존 + 팔로우·차단 직후 즉시 반영 필요(추천 모달) — 캐시 부적합
 import { createClient } from "@/lib/supabase/server";
 import type { RecommendableUser } from "@/types/recommendation";
 

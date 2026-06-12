@@ -1,9 +1,11 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
-import type { Content } from '@/types/database'
+import { createStaticClient } from '@/lib/supabase/static'
+import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface UserContentWithDetails {
   id: string
@@ -15,13 +17,49 @@ export interface UserContentWithDetails {
   is_spoiler: boolean | null
   created_at: string
   updated_at: string
-  content: Content
-  user?: {
-    nickname: string | null
-    avatar_url: string | null
-  } | null
+  content: {
+    id: string
+    type: ContentType
+    title: string
+    creator: string | null
+    thumbnail_url: string | null
+    metadata: Record<string, unknown> | null
+  }
 }
 
+// 콘텐츠 자체 정보 (인증 비의존, 공개 테이블) — 캐시 내부
+async function fetchContentPublic(
+  contentId: string,
+  locale: string,
+): Promise<UserContentWithDetails['content'] | null> {
+  const supabase = createStaticClient()
+
+  const { data } = await supabase
+    .from('contents')
+    .select(`id, type, metadata, content_locales(${CL_SELECT_LIST})`)
+    .eq('id', contentId)
+    .maybeSingle()
+
+  if (!data) return null
+
+  const flat = flattenLocales(data.content_locales as ContentLocaleRow[] | null, locale)
+  return {
+    id: data.id as string,
+    type: data.type as ContentType,
+    title: flat.title,
+    creator: flat.creator,
+    thumbnail_url: flat.thumbnail_url,
+    metadata: data.metadata as Record<string, unknown> | null,
+  }
+}
+
+const fetchContentPublicCached = unstable_cache(
+  fetchContentPublic,
+  ['content-public-brief'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+// 본인 기록 + 콘텐츠 정보 조회 (독서 모드 페이지용)
 export async function getContent(contentId: string): Promise<UserContentWithDetails> {
   const supabase = await createClient()
 
@@ -33,61 +71,24 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
     throw new Error('로그인이 필요합니다')
   }
 
-  // 사용자의 콘텐츠 상태와 콘텐츠 정보를 조인해서 조회
-  const { data, error } = await supabase
+  const locale = await getLocale()
+
+  // egress-allow: 본인 기록 단건 — 수정 즉시 반영 필요, 캐시 부적합
+  const recordQuery = supabase
     .from('user_contents')
-    .select(
-      `
-      *,
-      content:contents(*, content_locales(${CL_SELECT}))
-    `
-    )
+    .select('id, user_id, content_id, status, rating, review, is_spoiler, created_at, updated_at')
     .eq('user_id', user.id)
     .eq('content_id', contentId)
     .single()
 
-  if (error || !data) {
+  const [{ data: record, error }, content] = await Promise.all([
+    recordQuery,
+    fetchContentPublicCached(contentId, locale),
+  ])
+
+  if (error || !record || !content) {
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  const locale = await getLocale()
-  const c = data.content as Record<string, unknown>
-  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null, locale)
-  const result = {
-    ...data,
-    content: { ...c, ...flat, content_locales: undefined },
-  }
-  return result as unknown as UserContentWithDetails
-}
-
-// 타인의 공개 콘텐츠 조회
-export async function getPublicContent(contentId: string, userId: string): Promise<UserContentWithDetails> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('user_contents')
-    .select(`
-      *,
-      content:contents(*, content_locales(${CL_SELECT})),
-      user:profiles!user_contents_user_id_fkey(nickname, avatar_url)
-    `)
-    .eq('user_id', userId)
-    .eq('content_id', contentId)
-    .eq('visibility', 'public')
-    .single()
-
-  if (error || !data) {
-    throw new Error('콘텐츠를 찾을 수 없습니다')
-  }
-
-  const locale = await getLocale()
-  const c = data.content as Record<string, unknown>
-  const flat = flattenLocales(c?.content_locales as ContentLocaleRow[] | null, locale)
-  const result = {
-    ...data,
-    content: { ...c, ...flat, content_locales: undefined },
-    user: Array.isArray(data.user) ? data.user[0] : data.user,
-  }
-
-  return result as unknown as UserContentWithDetails
+  return { ...record, content }
 }

@@ -1,5 +1,6 @@
 'use server'
 
+// egress-allow: 본인 소유 flows 필터 RLS — anon 전환 불가. id/name만 조회로 페이로드 최소
 import { createClient } from '@/lib/supabase/server'
 
 interface FlowInfo {

@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 import type { Tables } from "@/types/supabase";
@@ -166,25 +167,42 @@ async function isKoreanLocale(): Promise<boolean> {
   }
 }
 
+// 등용 후보 전체 조회 캐시 — exclude 필터·랜덤 선택은 캐시 밖에서 수행 (라운드 고정 방지)
+const getCachedTrackerCandidates = unstable_cache(
+  async () => {
+    const supabase = createStaticClient();
+    // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + persona + review 있는 콘텐츠 + cultural journey)
+    const { data, error } = await supabase.rpc("get_tracker_candidates", {
+      exclude_ids: [],
+    });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  },
+  ["tracker-candidates"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
 export async function getTrackerRound(
   excludeIds: string[] = []
 ): Promise<TrackerRound | null> {
   const safeIds = Array.isArray(excludeIds) ? excludeIds : [];
-  const supabase = await createClient();
+  const supabase = createStaticClient();
 
-  // 1. 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + persona + review 있는 콘텐츠 + cultural journey)
-  const { data: candidates, error: candErr } = await supabase.rpc(
-    "get_tracker_candidates",
-    { exclude_ids: safeIds }
-  );
-
-  // RPC가 없으면 직접 쿼리
-  if (candErr) {
-    console.error("[getTrackerRound] RPC 실패, fallback 사용:", candErr.message);
+  // 1. 자격 있는 셀럽 목록 조회 (캐시) — RPC가 없으면 직접 쿼리
+  let allCandidates;
+  try {
+    allCandidates = await getCachedTrackerCandidates();
+  } catch (e) {
+    console.error(
+      "[getTrackerRound] RPC 실패, fallback 사용:",
+      e instanceof Error ? e.message : String(e)
+    );
     return getTrackerRoundFallback(safeIds);
   }
 
-  if (!candidates || candidates.length === 0) return null;
+  const excludeSet = new Set(safeIds);
+  const candidates = allCandidates.filter((c: { id: string }) => !excludeSet.has(c.id));
+  if (candidates.length === 0) return null;
 
   // 랜덤 선택
   const chosen = candidates[Math.floor(Math.random() * candidates.length)];
@@ -213,67 +231,80 @@ export async function getTrackerRound(
     preferKo);
 }
 
+// fallback 자격 셀럽 목록 캐시 — exclude 필터·랜덤 선택은 캐시 밖에서 수행
+const getCachedFallbackEligible = unstable_cache(
+  async (): Promise<FallbackCelebRow[]> => {
+    const supabase = createStaticClient();
+
+    // 자격 있는 셀럽 목록: persona 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
+    const { data: allCelebs } = await supabase
+      .from("profiles")
+      .select("id, slug, nickname, nickname_en, profession, avatar_url, cultural_journey, cultural_journey_en, death_date, nationality, birth_date, bio, bio_en")
+      .eq("profile_type", "CELEB")
+      .eq("status", "active")
+      .not("cultural_journey", "is", null)
+      .not("death_date", "is", null);
+
+    if (!allCelebs || allCelebs.length === 0) return [];
+    const celebRows: FallbackCelebRow[] = allCelebs;
+
+    // 퍼블릭 도메인 필터 (1920년 이전 사망)
+    const publicDomain = celebRows.filter((c) => {
+      const d = c.death_date;
+      if (!d || d === "") return false;
+      if (d.startsWith("-")) return true; // BC
+      const match = d.match(/^(\d{1,4})/);
+      return match ? parseInt(match[1], 10) <= 1920 : false;
+    });
+
+    // persona 존재 확인
+    const celebIds = publicDomain.map((c) => c.id);
+    const { data: personas } = await supabase
+      .from("celeb_persona")
+      .select("celeb_id")
+      .in("celeb_id", celebIds);
+
+    const personaSet = new Set(
+      ((personas ?? []) as { celeb_id: string }[]).map((p) => p.celeb_id)
+    );
+
+    // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
+    const { data: reviewRows } = await supabase
+      .from("user_contents")
+      .select("user_id")
+      .in("user_id", celebIds)
+      .not("review", "is", null)
+      .neq("review", "");
+
+    const reviewCountMap = new Map<string, number>();
+    for (const r of (reviewRows ?? []) as { user_id: string }[]) {
+      reviewCountMap.set(r.user_id, (reviewCountMap.get(r.user_id) ?? 0) + 1);
+    }
+    const reviewSet = new Set(
+      [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
+    );
+
+    return publicDomain.filter(
+      (c) =>
+        personaSet.has(c.id) &&
+        reviewSet.has(c.id) &&
+        !!c.cultural_journey &&
+        c.cultural_journey.trim() !== ""
+    );
+  },
+  ["tracker-fallback-eligible"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
 async function getTrackerRoundFallback(
   excludeIds: string[]
 ): Promise<TrackerRound | null> {
-  const supabase = await createClient();
+  const supabase = createStaticClient();
 
-  // 자격 있는 셀럽 목록: persona 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
-  const { data: allCelebs } = await supabase
-    .from("profiles")
-    .select("id, slug, nickname, nickname_en, profession, avatar_url, cultural_journey, cultural_journey_en, death_date, nationality, birth_date, bio, bio_en")
-    .eq("profile_type", "CELEB")
-    .eq("status", "active")
-    .not("cultural_journey", "is", null)
-    .not("death_date", "is", null);
-
-  if (!allCelebs || allCelebs.length === 0) return null;
-  const celebRows: FallbackCelebRow[] = allCelebs;
-
-  // 퍼블릭 도메인 필터 (1920년 이전 사망)
-  const publicDomain = celebRows.filter((c) => {
-    const d = c.death_date;
-    if (!d || d === "") return false;
-    if (d.startsWith("-")) return true; // BC
-    const match = d.match(/^(\d{1,4})/);
-    return match ? parseInt(match[1], 10) <= 1920 : false;
-  });
-
-  // persona 존재 확인
-  const celebIds = publicDomain.map((c) => c.id);
-  const { data: personas } = await supabase
-    .from("celeb_persona")
-    .select("celeb_id")
-    .in("celeb_id", celebIds);
-
-  const personaSet = new Set((personas ?? []).map((p) => p.celeb_id));
-
-  // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
-  const { data: reviewRows } = await supabase
-    .from("user_contents")
-    .select("user_id")
-    .in("user_id", celebIds)
-    .not("review", "is", null)
-    .neq("review", "");
-
-  const reviewCountMap = new Map<string, number>();
-  for (const r of reviewRows ?? []) {
-    reviewCountMap.set(r.user_id, (reviewCountMap.get(r.user_id) ?? 0) + 1);
-  }
-  const reviewSet = new Set(
-    [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
-  );
+  const allEligible = await getCachedFallbackEligible();
   const safeExclude = Array.isArray(excludeIds) ? excludeIds : [];
   const excludeSet = new Set(safeExclude);
-
-  const eligible = publicDomain.filter(
-    (c) =>
-      personaSet.has(c.id) &&
-      reviewSet.has(c.id) &&
-      !excludeSet.has(c.id) &&
-      c.cultural_journey &&
-      c.cultural_journey.trim() !== ""
-  );
+  const eligible = allEligible.filter((c) => !excludeSet.has(c.id));
 
   if (eligible.length === 0) return null;
 
@@ -303,8 +334,25 @@ async function getTrackerRoundFallback(
     preferKo);
 }
 
+// 오답 보기 후보 풀 캐시 — 라운드 무관 고정 데이터 (제외할 정답 셀럽은 캐시 밖에서 필터)
+const getCachedDistractorPool = unstable_cache(
+  async (): Promise<DistractorRow[]> => {
+    const supabase = createStaticClient();
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
+      .eq("profile_type", "CELEB")
+      .eq("status", "active")
+      .not("death_date", "is", null)
+      .limit(300);
+    return (data ?? []) as DistractorRow[];
+  },
+  ["tracker-distractor-pool"],
+  { revalidate: 3600, tags: ["celebs"] }
+);
+
 async function buildRound(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  supabase: ReturnType<typeof createStaticClient>,
   celebId: string,
   celebSlug: string | null,
   nickname: string,
@@ -389,17 +437,9 @@ async function buildRound(
   }
 
   // 4. 유사 인물 오답 보기 5명 (직군·국적·생몰년 유사도, 퍼블릭 도메인만)
-  const { data: poolRaw } = await supabase
-    .from("profiles")
-    .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
-    .eq("profile_type", "CELEB")
-    .eq("status", "active")
-    .neq("id", celebId)
-    .not("death_date", "is", null)
-    .limit(300);
+  const poolRows = (await getCachedDistractorPool()).filter((d) => d.id !== celebId);
 
   // 퍼블릭 도메인 필터 (1920년 이전 사망)
-  const poolRows: DistractorRow[] = poolRaw ?? [];
   const pool = poolRows.filter((d) => {
     const dd = d.death_date;
     if (!dd || dd === "") return false;
