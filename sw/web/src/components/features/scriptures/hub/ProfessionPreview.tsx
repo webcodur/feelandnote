@@ -72,7 +72,7 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
         const Icon = PROFESSION_ICONS[p.profession];
         const colorClass = PROFESSION_COLORS[p.profession] ?? "text-white/50";
         const theme = getTheme(p.profession);
-        const title = tp(p.profession as any);
+        const title = tp(p.profession);
         const samples = contentSamples?.[p.profession];
 
         return (

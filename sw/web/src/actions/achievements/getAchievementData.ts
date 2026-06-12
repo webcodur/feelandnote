@@ -32,6 +32,20 @@ export interface AchievementData {
 
 type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 
+// contents!inner(type) 조인 행
+interface CategoryJoinRow {
+  content_id: string
+  contents: { type: string } | null
+}
+
+// contents!inner(content_locales(locale, creator)) 조인 행
+interface CreatorJoinRow {
+  content_id: string
+  contents: {
+    content_locales: { locale: string; creator: string | null }[] | null
+  } | null
+}
+
 async function fetchAchievementDataInner(userId: string): Promise<AchievementData> {
   const supabase = createStaticClient()
 
@@ -121,19 +135,19 @@ export async function getUserStats(
       .not('review', 'is', null)
   ])
 
+  // 미타입 클라이언트가 다대일 조인을 배열로 잘못 추론하므로 실제 런타임 형태로 교정
+  const categoryRows = (categoryResult.data || []) as unknown as CategoryJoinRow[]
+  const creatorRows = (creatorResult.data || []) as unknown as CreatorJoinRow[]
+
   const categoryTypes = new Set(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (categoryResult.data || []).map((item: any) => item.contents?.type).filter(Boolean)
+    categoryRows.map(item => item.contents?.type).filter(Boolean)
   )
 
   const creators = new Set(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (creatorResult.data || []).map((item: any) => {
+    creatorRows.map(item => {
       const locales = item.contents?.content_locales || []
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ko = locales.find((l: any) => l.locale === 'ko')
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const en = locales.find((l: any) => l.locale === 'en')
+      const ko = locales.find(l => l.locale === 'ko')
+      const en = locales.find(l => l.locale === 'en')
       return ko?.creator || en?.creator
     }).filter(Boolean)
   )

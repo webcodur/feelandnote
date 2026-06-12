@@ -12,20 +12,36 @@ import { Star } from "lucide-react";
 import NeoCelebCard from "@/components/features/home/neo-celeb-card";
 import FriendCardNameplate from "@/components/features/user/explore/FriendCardNameplate";
 import { MATERIALS, MATERIAL_ORDER, type MaterialConfig } from "@/constants/materials";
+import type { CelebProfile } from "@/types/home";
 
 // #region Mock 데이터
-const createMockCeleb = (mat: MaterialConfig) => ({
+const createMockCeleb = (mat: MaterialConfig): CelebProfile => ({
   id: `mock-${mat.key}`,
+  slug: null,
   nickname: mat.auraTitleKo,
+  nickname_en: null,
   avatar_url: "",
-  background_url: "",
   profession: "PREVIEW",
-  description: "",
+  title: null,
+  title_en: null,
+  cultural_journey: null,
+  cultural_journey_en: null,
+  nationality: null,
+  birth_date: null,
+  death_date: null,
+  bio: null,
+  bio_en: null,
+  quotes: null,
+  quotes_en: null,
+  is_verified: false,
+  is_platform_managed: true,
   follower_count: 0,
-  is_following: false,
   content_count: mat.aura * 10,
-  influence: { rank: mat.key.toUpperCase() },
-} as any);
+  is_following: false,
+  is_follower: false,
+  influence: null,
+  tags: [],
+});
 
 const createMockFriend = (mat: MaterialConfig) => ({
   id: `mock-${mat.key}`,

@@ -12,6 +12,27 @@ import { getAuraByPercentile, getAuraByScore } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 import { getCelebProfileUrl } from "@/lib/url";
 
+// variant별 스타일 키 (variantConfig가 variant에 따라 일부 키를 다르게 반환)
+interface VariantStyles {
+  surface: string;
+  borderVariant: string;
+  shadow?: string;
+  shadowHover?: string;
+  btn: string;
+  text?: string;
+  textColor?: string;
+  subText?: string;
+  subTextColor?: string;
+  dot?: string;
+  dotColor?: string;
+  label?: string;
+  labelColor?: string;
+  engravedEffect?: string;
+  frameColor?: string;
+  lpClass?: string;
+  imageFrame: string;
+}
+
 // 사이즈별 설정
 const SIZE_CONFIG = {
   default: {
@@ -100,6 +121,7 @@ export default function NeoCelebCard({
     setIsLoading(false);
   };
 
+  const variantStyles: VariantStyles = getVariantStyles(variant);
   const {
     surface,
     borderVariant,
@@ -117,7 +139,7 @@ export default function NeoCelebCard({
     engravedEffect,
     lpClass,
     imageFrame
-  } = getVariantStyles(variant) as any;
+  } = variantStyles;
 
   // Normalize styles
   const finalShadow = shadow || shadowHover || "";

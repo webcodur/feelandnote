@@ -28,6 +28,19 @@ interface GetReviewFeedParams {
   excludeUserId?: string
 }
 
+// select 문자열과 동일한 조회 행 (profiles 조인은 단건이지만 방어적으로 배열 허용)
+interface ReviewFeedRow {
+  id: string
+  rating: number | null
+  review: string | null
+  review_en: string | null
+  is_spoiler: boolean
+  updated_at: string
+  source_url: string | null
+  user_id: string
+  user: ReviewFeedItem['user'] | ReviewFeedItem['user'][]
+}
+
 async function fetchReviewFeed(
   contentId: string,
   limit: number,
@@ -77,15 +90,16 @@ async function fetchReviewFeed(
     return []
   }
 
-  return (data || []).map(record => {
-    const { user_id: _drop, ...rest } = record as any
-    return {
-      ...rest,
-      review: rest.review as string,
-      review_en: rest.review_en ?? null,
-      user: Array.isArray(rest.user) ? rest.user[0] : rest.user,
-    }
-  }) as ReviewFeedItem[]
+  return ((data || []) as ReviewFeedRow[]).map((record): ReviewFeedItem => ({
+    id: record.id,
+    rating: record.rating,
+    review: record.review as string,
+    review_en: record.review_en ?? null,
+    is_spoiler: record.is_spoiler,
+    updated_at: record.updated_at,
+    source_url: record.source_url,
+    user: Array.isArray(record.user) ? record.user[0] : record.user,
+  }))
 }
 
 const getReviewFeedCached = unstable_cache(

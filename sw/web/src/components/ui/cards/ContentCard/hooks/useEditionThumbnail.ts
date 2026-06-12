@@ -35,11 +35,11 @@ function requestThumbnailEn(contentId: string): Promise<string | null> {
 
         try {
           const supabase = createClient();
-          const { data } = await (supabase as any)
+          const { data } = await supabase
             .from("content_locales")
             .select("content_id, thumbnail_url")
             .in("content_id", ids)
-            .eq("locale", "en") as { data: { content_id: string; thumbnail_url: string | null }[] | null };
+            .eq("locale", "en");
 
           const map = new Map<string, string | null>();
           for (const row of data ?? []) {

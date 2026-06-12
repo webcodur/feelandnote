@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
+import type { Tables } from '@/types/supabase'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
@@ -55,6 +56,17 @@ interface CelebRow {
   total_score: number
   content_count: number
   celeb_tier: string | null
+}
+
+// 태그 조인 select 결과 행
+interface TagAssignmentJoinRow {
+  celeb_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  sort_order: number | null
+  tag: { id: string; name: string; name_en: string | null; color: string } | null
 }
 
 // --- 공개 데이터 캐싱 (1시간) ---
@@ -128,7 +140,8 @@ async function fetchCelebsPublic(
   // 태그 맵
   const tagMap: Record<string, CelebTagInfo[]> = {}
   const tagSortOrderMap: Record<string, number> = {}
-  ;((tagResult.data ?? []) as any[]).forEach(item => {
+  // 다대일 조인(tag)을 supabase가 배열로 잘못 추론하므로 unknown 경유 캐스트
+  ;((tagResult.data ?? []) as unknown as TagAssignmentJoinRow[]).forEach(item => {
     if (!item.tag) return
     const existing = tagMap[item.celeb_id] ?? []
     existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
@@ -152,13 +165,13 @@ async function fetchCelebsPublic(
 
   // 음성 맵
   const voiceMap: Record<string, { voice_v: number; voice_speed: number }> = {}
-  ;(voiceResult.data ?? []).forEach((row: any) => {
+  ;((voiceResult.data ?? []) as Pick<Tables<'profiles'>, 'id' | 'voice_v' | 'voice_speed'>[]).forEach(row => {
     voiceMap[row.id] = { voice_v: row.voice_v ?? 0, voice_speed: row.voice_speed ?? 1.0 }
   })
 
   // 영향력 랭킹 맵
   const rankingMap: Record<string, number> = {}
-  ;(influenceResult.data ?? []).forEach((item: any, index: number) => {
+  ;((influenceResult.data ?? []) as Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>[]).forEach((item, index) => {
     rankingMap[item.celeb_id] = index + 1
   })
 

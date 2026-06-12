@@ -36,12 +36,10 @@ interface SearchRecordsResponse {
   hasMore: boolean
 }
 
+// select 문자열(id, type, user_count, content_locales)과 동일한 필드 집합
 interface ContentData {
   id: string
   type: string
-  title: string
-  creator: string | null
-  thumbnail_url: string | null
   user_count: number | null
   content_locales?: ContentLocaleRow[] | null
 }
@@ -119,7 +117,7 @@ export async function searchRecords({
     })
     .map((item) => {
       const content = Array.isArray(item.content) ? item.content[0] : item.content
-      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
+      const flat = flattenLocales(content.content_locales, locale)
       return {
         id: item.id,
         contentId: item.content_id,

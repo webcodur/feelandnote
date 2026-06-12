@@ -3,15 +3,32 @@
 import { createClient } from '@/lib/supabase/server'
 import type { SavedFlowWithDetails, Flow, FlowOwner } from '@/types/database'
 
+// select 문자열에 대응하는 조인 행 타입
+interface ThumbnailLocale {
+  locale: string
+  thumbnail_url: string | null
+}
+
+interface StageNodeRow {
+  content: { id: string; content_locales: ThumbnailLocale[] } | null
+}
+
+interface StageRow {
+  nodes: StageNodeRow[]
+}
+
+interface SavedFlowJoined extends Flow {
+  flow_nodes: { count: number }[]
+  flow_stages: { count: number }[]
+  owner: FlowOwner
+  stages: StageRow[]
+}
+
 interface SavedFlowQueryResult {
   id: string
   saved_at: string
-  flow: Flow & {
-    flow_nodes: { count: number }[]
-    flow_stages: { count: number }[]
-    owner: FlowOwner
-    stages: { nodes: { content: { thumbnail_url: string | null } }[] }[]
-  }
+  // RLS로 flows 행이 숨겨지면 조인 결과가 null이 된다
+  flow: SavedFlowJoined | null
 }
 
 // 플로우 저장
@@ -86,16 +103,18 @@ export async function getSavedFlows(): Promise<SavedFlowWithDetails[]> {
     `)
     .eq('user_id', user.id)
     .order('saved_at', { ascending: false })
+    // flow는 다대일 조인이라 실제로는 단일 객체인데 추론은 배열로 잡혀 타입만 교정한다
+    .overrideTypes<SavedFlowQueryResult[], { merge: false }>()
 
   if (error) {
     console.error('저장된 플로우 조회 실패:', error)
     throw new Error('저장된 플로우를 불러오는데 실패했습니다')
   }
 
-  const results = (data || []) as unknown as any[]
+  const results = data || []
 
   return results
-    .filter((item) => item.flow)
+    .filter((item): item is SavedFlowQueryResult & { flow: SavedFlowJoined } => !!item.flow)
     .map((item): SavedFlowWithDetails => ({
       id: item.id,
       saved_at: item.saved_at,
@@ -104,18 +123,19 @@ export async function getSavedFlows(): Promise<SavedFlowWithDetails[]> {
         node_count: item.flow.flow_nodes?.[0]?.count || 0,
         stage_count: item.flow.flow_stages?.[0]?.count || 0,
         owner: item.flow.owner,
-        stages: (item.flow.stages?.slice(0, 1) || []).map((stage: any) => ({
+        stages: (item.flow.stages?.slice(0, 1) || []).map((stage) => ({
           ...stage,
-          nodes: (stage.nodes || []).map((node: any) => {
+          nodes: (stage.nodes || []).map((node) => {
             const locales = node.content?.content_locales || []
-            const ko = locales.find((l: any) => l.locale === 'ko')
-            const en = locales.find((l: any) => l.locale === 'en')
+            const ko = locales.find((l) => l.locale === 'ko')
+            const en = locales.find((l) => l.locale === 'en')
             return {
               ...node,
-              content: node.content ? {
+              // content_id는 NOT NULL FK라 조인 결과가 비지 않는다. null 분기는 방어 코드.
+              content: (node.content ? {
                 ...node.content,
                 thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
-              } : null,
+              } : null)!,
             }
           }),
         }))

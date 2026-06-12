@@ -49,8 +49,7 @@ export type CharacterInfoPanelProps = ReadonlyProps | FullProps
 
 type Tab = 'ability' | 'status' | 'relation' | 'troops' | 'items' | 'bio'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TranslationFn = (key: string, params?: Record<string, any>) => string
+type TranslationFn = (key: string, params?: Record<string, string | number | Date>) => string
 
 // ── 서브 컴포넌트 ──
 

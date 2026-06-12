@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import type { PersonaStatsWithReasons } from '@/lib/persona/types'
 
 const AXIS_LABELS: Record<string, { ko: string; en: string }> = {
   temperance: { ko: '절제의 화신', en: 'Paragon of Temperance' },
@@ -38,7 +39,7 @@ export interface PersonaExtremeEntry {
     title: string | null
     title_en: string | null
     has_voice: boolean
-    stats: Record<string, any>
+    stats: PersonaStatsWithReasons
   }
   runnersUp: {
     id: string
@@ -48,7 +49,7 @@ export interface PersonaExtremeEntry {
     avatar_url: string | null
     score: number
     reason: { ko: string; en: string }
-    stats: Record<string, any>
+    stats: PersonaStatsWithReasons
   }[]
   opposing?: {
     score: number
@@ -64,7 +65,7 @@ export interface PersonaExtremeEntry {
       title: string | null
       title_en: string | null
       has_voice: boolean
-      stats: Record<string, any>
+      stats: PersonaStatsWithReasons
     }
   }
 }

@@ -9,6 +9,39 @@ import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/uti
 
 type StaticSupabase = ReturnType<typeof createStaticClient>
 
+// contents 조인 select 결과 행
+interface ReviewContentRow {
+  id: string
+  type: string
+  user_count: number | null
+  content_locales: ContentLocaleRow[] | null
+}
+
+// profiles 조인 select 결과 행
+interface ReviewCelebRow {
+  id: string
+  slug: string | null
+  nickname: string | null
+  avatar_url: string | null
+  profession: string | null
+  is_verified: boolean | null
+  claimed_by: string | null
+}
+
+// user_contents select 결과 행
+interface ReviewRow {
+  id: string
+  rating: number | null
+  review: string | null
+  review_en: string | null
+  is_spoiler: boolean | null
+  source_url: string | null
+  updated_at: string
+  content_id: string
+  content: ReviewContentRow | ReviewContentRow[] | null
+  celeb: ReviewCelebRow | ReviewCelebRow[] | null
+}
+
 async function fetchCelebReviews(celebId: string, locale: string): Promise<CelebReview[]> {
   const supabase = createStaticClient()
 
@@ -52,21 +85,23 @@ async function fetchCelebReviews(celebId: string, locale: string): Promise<Celeb
     return []
   }
 
-  const contentIds = [...new Set(data.map(row => row.content_id))]
+  const rows = data as ReviewRow[]
+  const contentIds = [...new Set(rows.map(row => row.content_id))]
   const contentCounts = await getContentCountsForContents(supabase, contentIds)
 
-  const reviews: CelebReview[] = data
-    .filter(row => row.content && row.celeb && row.review)
+  const reviews: CelebReview[] = rows
+    .filter((row): row is ReviewRow & { content: ReviewContentRow | ReviewContentRow[]; celeb: ReviewCelebRow | ReviewCelebRow[]; review: string } =>
+      Boolean(row.content && row.celeb && row.review))
     .map(row => {
       const content = Array.isArray(row.content) ? row.content[0] : row.content
       const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
-      const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
+      const flat = flattenLocales(content.content_locales, locale)
       return {
         id: row.id,
         rating: row.rating,
-        review: row.review as string,
-        review_en: (row as any).review_en ?? null,
+        review: row.review,
+        review_en: row.review_en ?? null,
         is_spoiler: row.is_spoiler ?? false,
         source_url: row.source_url ?? null,
         updated_at: row.updated_at,

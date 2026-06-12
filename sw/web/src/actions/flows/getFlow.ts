@@ -1,7 +1,31 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { FlowWithStages, FlowStageWithNodes, FlowNodeWithContent } from '@/types/database'
+import type { FlowWithStages, FlowStage, FlowStageWithNodes, FlowNode, FlowNodeWithContent, ContentType } from '@/types/database'
+
+// select 문자열에 대응하는 조인 행 타입
+interface NodeLocaleRow {
+  locale: string
+  title: string | null
+  creator: string | null
+  thumbnail_url: string | null
+  description: string | null
+}
+
+interface NodeContentRow {
+  id: string
+  type: ContentType
+  external_id: string | null
+  subtype: string | null
+  release_date: string | null
+  metadata: Record<string, unknown> | null
+  created_at: string
+  content_locales?: NodeLocaleRow[]
+}
+
+interface FlowNodeQueryRow extends FlowNode {
+  content: NodeContentRow | null
+}
 
 export async function getFlow(flowId: string): Promise<FlowWithStages> {
   const supabase = await createClient()
@@ -52,11 +76,12 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   }
 
   // content_locales를 flat하게 resolve
-  const typedNodes = (nodes || []).map((node: any) => {
+  const nodeRows: FlowNodeQueryRow[] = nodes || []
+  const typedNodes = nodeRows.map((node) => {
     if (!node.content) return node
     const locales = node.content.content_locales || []
-    const ko = locales.find((l: any) => l.locale === 'ko')
-    const en = locales.find((l: any) => l.locale === 'en')
+    const ko = locales.find((l) => l.locale === 'ko')
+    const en = locales.find((l) => l.locale === 'en')
     return {
       ...node,
       content: {
@@ -71,7 +96,8 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   }) as FlowNodeWithContent[]
 
   // 스테이지별로 노드 그룹핑
-  const stagesWithNodes: FlowStageWithNodes[] = (stages || []).map(stage => ({
+  const stageRows: FlowStage[] = stages || []
+  const stagesWithNodes: FlowStageWithNodes[] = stageRows.map(stage => ({
     ...stage,
     nodes: typedNodes.filter(node => node.stage_id === stage.id)
   }))

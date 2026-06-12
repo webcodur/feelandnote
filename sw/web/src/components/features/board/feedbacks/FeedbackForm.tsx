@@ -77,7 +77,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
                   ${mode === 'edit' ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
-                {t(`category.${cat}` as any)}
+                {t(`category.${cat}`)}
               </button>
             ))}
           </div>

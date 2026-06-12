@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Info, BookOpen, MessageSquare, Award, Search, X, User, Calendar, Building2, Film, Users, ExternalLink, Loader2, Music, Disc, Gamepad2, Monitor, Briefcase, Code } from "lucide-react";
+import { Info, BookOpen, MessageSquare, Award, Search, X, User, Calendar, Building2, Film, Users, ExternalLink, Loader2, Music, Disc, Gamepad2, Monitor, Briefcase, Code, type LucideIcon } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import InfoPanel from "../InfoPanel";
 import ExternalResourceSearch, { type ExternalResourceSearchHandle } from "../ExternalResourceSearch";
 import { type QuickRecordTarget } from "@/contexts/QuickRecordContext";
 import { useRef } from "react";
 import type { ContentMetadata } from "@/types/content";
+import type { CategoryId } from "@/constants/categories";
 import { HomeSuggestions } from "./HomeSuggestions";
 import { HomeArchiveArea } from "./HomeArchiveArea";
 import type { SuggestionProps, ArchiveProps } from "./HomeEditorArea";
@@ -50,7 +51,8 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                     default: categoryId = 'book';
                 }
                 
-                const data = await getContentDetail(targetContent.contentId || targetContent.id, categoryId as any);
+                // VIDEO일 때 'movie'는 CategoryId에 없는 값이다(외부 API 폴백 경로에서 미매칭). 동작 보존을 위해 캐스트 유지
+                const data = await getContentDetail(targetContent.contentId || targetContent.id, categoryId as CategoryId);
                 setDetailData(data);
             } catch (e) {
                 console.error("상세 정보 로드 실패", e);
@@ -76,7 +78,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
     };
     const contentLink = `/content/${targetContent.contentId || targetContent.id}?category=${getLinkCategory()}`;
 
-    const ModalContainer = ({ type, onClose, title, icon: Icon }: { type: ModalType, onClose: () => void, title: string, icon: any }) => {
+    const ModalContainer = ({ type, onClose, title, icon: Icon }: { type: ModalType, onClose: () => void, title: string, icon: LucideIcon }) => {
         if (!type) return null;
 
         return (

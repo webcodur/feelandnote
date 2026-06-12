@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
+import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 
 export type FeaturedCeleb = CelebProfile & {
@@ -24,6 +25,66 @@ export interface FeaturedTag {
   is_featured: boolean
 }
 
+// --- 조회 행 타입 (select 문자열과 1:1 대응) ---
+
+type TagAssignmentRow = Tables<'celeb_tag_assignments'>
+type ContentCountRow = Database['public']['Functions']['count_contents_by_users']['Returns'][number]
+
+interface FeaturedTagRow {
+  id: string
+  name: string
+  name_en: string | null
+  description: string | null
+  description_en: string | null
+  color: string
+  is_featured: boolean | null
+}
+
+interface FeaturedProfileRow {
+  id: string
+  slug: string | null
+  nickname: string
+  nickname_en: string | null
+  avatar_url: string | null
+  title: string | null
+  title_en: string | null
+  profession: string | null
+  cultural_journey: string | null
+  cultural_journey_en: string | null
+  nationality: string | null
+  birth_date: string | null
+  death_date: string | null
+  bio: string | null
+  bio_en: string | null
+  is_verified: boolean | null
+  claimed_by: string | null
+  speech_tone: string | null
+  has_voice: boolean
+  voice_v: number
+  voice_speed: number
+}
+
+interface TagJoinRow {
+  celeb_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  tag: { id: string; name: string; name_en: string | null; color: string } | null
+}
+
+// lines/lines_en JSONB 중 홈에서 쓰는 키만 표현
+interface DialogueLinesBrief {
+  greeting?: string[] | null
+  quote?: string | null
+}
+
+interface DialogueRow {
+  celeb_id: string
+  lines: DialogueLinesBrief | null
+  lines_en: DialogueLinesBrief | null
+}
+
 // --- 공개 데이터 캐싱 (1시간) ---
 
 async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
@@ -38,8 +99,9 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   if (!allTags?.length) return []
 
-  const activeTags = allTags.filter(t => t.is_featured)
-  const upcomingTags = allTags.filter(t => !t.is_featured)
+  const tagRows = allTags as FeaturedTagRow[]
+  const activeTags = tagRows.filter(t => t.is_featured)
+  const upcomingTags = tagRows.filter(t => !t.is_featured)
 
   if (!activeTags.length) return []
 
@@ -52,11 +114,11 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     .in('tag_id', tagIds)
     .order('sort_order', { ascending: true })
 
-  const assignmentsByTag: Record<string, typeof allAssignments> = {}
+  const assignmentsByTag: Record<string, TagAssignmentRow[]> = {}
   const allCelebIds = new Set<string>()
 
   activeTags.forEach(tag => {
-    const tagAssignments = (allAssignments ?? [])
+    const tagAssignments = ((allAssignments ?? []) as TagAssignmentRow[])
       .filter(a => a.tag_id === tag.id)
       .slice(0, 8)
     assignmentsByTag[tag.id] = tagAssignments
@@ -85,21 +147,22 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   ])
 
   // 맵 구성
-  const profileMap = new Map<string, any>()
-  ;(profilesResult.data ?? []).forEach(p => profileMap.set(p.id, p))
+  const profileMap = new Map<string, FeaturedProfileRow>()
+  ;((profilesResult.data ?? []) as FeaturedProfileRow[]).forEach(p => profileMap.set(p.id, p))
 
   const followerCountMap = new Map<string, number>()
-  ;(followsResult.data ?? []).forEach((f: any) => {
+  ;((followsResult.data ?? []) as Pick<Tables<'follows'>, 'following_id'>[]).forEach(f => {
     followerCountMap.set(f.following_id, (followerCountMap.get(f.following_id) ?? 0) + 1)
   })
 
   const influenceMap = new Map<string, number>()
-  ;(influencesResult.data ?? []).forEach((inf: any) => {
+  ;((influencesResult.data ?? []) as Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>[]).forEach(inf => {
     influenceMap.set(inf.celeb_id, inf.total_score ?? 0)
   })
 
   const tagsMap = new Map<string, CelebTagInfo[]>()
-  ;(tagDataResult.data ?? []).forEach((item: any) => {
+  // 다대일 조인(tag)을 supabase가 배열로 잘못 추론하므로 unknown 경유 캐스트
+  ;((tagDataResult.data ?? []) as unknown as TagJoinRow[]).forEach(item => {
     if (!item.tag) return
     const list = tagsMap.get(item.celeb_id) ?? []
     list.push({ ...item.tag, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
@@ -108,11 +171,11 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   const contentCountMap = new Map<string, number>()
   if (contentCountsResult.data) {
-    (contentCountsResult.data as any[]).forEach(c => contentCountMap.set(c.user_id, c.count))
+    (contentCountsResult.data as ContentCountRow[]).forEach(c => contentCountMap.set(c.user_id, c.count))
   }
 
   const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null; quote?: string | null; quote_en?: string | null }>()
-  ;(dialoguesResult.data ?? []).forEach((d: any) => {
+  ;((dialoguesResult.data ?? []) as DialogueRow[]).forEach(d => {
     dialogueMap.set(d.celeb_id, {
       greeting: d.lines?.greeting ?? null,
       greeting_en: d.lines_en?.greeting ?? null,
@@ -128,7 +191,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     const assignments = assignmentsByTag[tag.id] ?? []
     if (!assignments.length) continue
 
-    const celebs: FeaturedCeleb[] = (assignments as any[])
+    const celebs: FeaturedCeleb[] = assignments
       .map((a): FeaturedCeleb | null => {
         const c = profileMap.get(a.celeb_id)
         if (!c) return null

@@ -28,7 +28,7 @@ interface SuikodenGameProps {
   onEnterFullScreen?: () => void
   onHomeRef?: MutableRefObject<(() => void) | null>
   onPhaseChange?: (phase: string) => void
-  onStartRef?: MutableRefObject<((...args: any[]) => void) | null>
+  onStartRef?: MutableRefObject<(() => void) | null>
 }
 
 type InternalPhase = 'idle' | 'setup' | 'ingame'

@@ -2,7 +2,16 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import type { FlowNodeWithContent } from '@/types/database'
+import type { Content, FlowNode, FlowNodeWithContent } from '@/types/database'
+
+// addNode select 문자열에 대응하는 콘텐츠 타입 (select에 external_id가 없다)
+type AddNodeContent = Omit<Content, 'external_id'>
+
+// addNode select 문자열에 대응하는 행 타입 (FK 조인 결과는 배열로 올 수 있다)
+interface AddNodeQueryRow extends FlowNode {
+  created_at: string | null
+  content: AddNodeContent | AddNodeContent[]
+}
 
 // Node 추가
 export async function addNode(params: {
@@ -118,11 +127,12 @@ export async function addNode(params: {
 
   revalidatePath(`/${user.id}/reading/collections/${params.flowId}`)
 
-  // Supabase returns content as array for FK join; normalize to single object
-  const raw = node as any
+  // FK 조인 결과가 배열로 반환될 수 있어 단일 객체로 정규화한다
+  // external_id는 조회하지 않으므로 Content 단언으로 기존 반환 계약을 유지한다
+  const raw: AddNodeQueryRow = node
   const normalized: FlowNodeWithContent = {
     ...raw,
-    content: Array.isArray(raw.content) ? raw.content[0] : raw.content,
+    content: (Array.isArray(raw.content) ? raw.content[0] : raw.content) as Content,
   }
 
   return normalized

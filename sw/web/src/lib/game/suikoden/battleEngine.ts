@@ -649,7 +649,7 @@ function updateMorale(state: BattleState, action: BattleAction): BattleState {
 
 function advanceTurn(state: BattleState): BattleState {
   // 상태이상 턴 감소
-  let newState = tickStatusEffects(state)
+  const newState = tickStatusEffects(state)
 
   // 전투 종료 체크
   const result = checkBattleEnd(newState)
@@ -669,7 +669,7 @@ function advanceTurn(state: BattleState): BattleState {
   }
 
   // 다음 행동자
-  let nextIndex = state.currentTurnIndex + 1
+  const nextIndex = state.currentTurnIndex + 1
 
   // 턴 오더 끝나면 다음 턴
   if (nextIndex >= state.turnOrder.length) {

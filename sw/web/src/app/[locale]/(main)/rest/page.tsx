@@ -65,7 +65,7 @@ export default async function RestPage() {
   ]);
 
   const hubItems = GAME_SECTIONS.map((game) => ({
-    label: t(`${game.valueKey}.label` as any),
+    label: t(`${game.valueKey}.label`),
     href: game.href,
     icon: game.icon,
   }));
@@ -74,7 +74,7 @@ export default async function RestPage() {
     GAME_SECTIONS.map((game) => [
       game.valueKey,
       {
-        title: t(`${game.valueKey}.label` as any),
+        title: t(`${game.valueKey}.label`),
         description: tHub(game.valueKey),
       },
     ])

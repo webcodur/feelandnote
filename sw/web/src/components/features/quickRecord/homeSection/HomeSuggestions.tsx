@@ -5,6 +5,7 @@ import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
 import type { ScriptureContent } from "@/actions/scriptures";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
 
 interface HomeSuggestionsProps {
@@ -13,10 +14,10 @@ interface HomeSuggestionsProps {
     isSwitchingCategory: boolean;
     localUnreviewedList: UserContentPublic[];
     allReviewedItems: UserContentPublic[];
-    onItemClick: (item: any, isWantItem: boolean) => void;
+    onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
     scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: any;
+    events: HorizontalScrollEvents;
     isDragging: boolean;
 }
 
@@ -69,7 +70,7 @@ export function HomeSuggestions({
                                                 e.stopPropagation();
                                                 onItemClick({
                                                     id: item.id,
-                                                    type: item.type,
+                                                    type: item.type as ContentType,
                                                     title: item.title,
                                                     creator: item.creator,
                                                     thumbnailUrl: item.thumbnail_url,
@@ -86,7 +87,7 @@ export function HomeSuggestions({
                                     } else {
                                         onItemClick({
                                             id: item.id,
-                                            type: item.type,
+                                            type: item.type as ContentType,
                                             title: item.title,
                                             creator: item.creator,
                                             thumbnailUrl: item.thumbnail_url,

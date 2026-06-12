@@ -13,6 +13,7 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Calendar, ArrowRight, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ContentType } from "@/types/database";
 import { getLocalizedContent } from "@/lib/utils/editions";
 
 interface Figure {
@@ -74,7 +75,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
 
     const displayName = locale === "en" && figure.nickname_en ? figure.nickname_en : figure.nickname;
     const displayBio = locale === "en" && figure.bio_en ? figure.bio_en : figure.bio;
-    const professionLabel = figure.profession ? tProfession(figure.profession as any) : "";
+    const professionLabel = figure.profession ? tProfession(figure.profession) : "";
 
     const filteredContents = categoryFilter
         ? contents.filter(c => c.type === categoryFilter)
@@ -204,7 +205,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                             <ContentCard
                                 key={content.id}
                                 contentId={content.id}
-                                contentType={content.type as any}
+                                contentType={content.type as ContentType}
                                 title={getLocalizedContent(content, locale).title}
                                 creator={getLocalizedContent(content, locale).creator ?? undefined}
                                 thumbnail={content.thumbnail_url}

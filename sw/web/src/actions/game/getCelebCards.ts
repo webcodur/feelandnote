@@ -13,11 +13,31 @@ import type { DialogueLines } from "@/lib/game/voice/types";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
+import type { Tables } from "@/types/supabase";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
 /** 게임 풀 최소 통시성 — 대중 인지도 확보 기준 */
 const MIN_TRANSHISTORICITY = 15;
+
+// celeb_influence 임베드 조회 행
+type CelebInfluenceJoin = Pick<
+  Tables<"celeb_influence">,
+  "political" | "strategic" | "tech" | "social" | "economic" | "cultural" | "transhistoricity"
+>;
+
+// celeb_persona 임베드 조회 행
+type CelebPersonaJoin = Pick<Tables<"celeb_persona">, "command" | "martial" | "intellect" | "charm">;
+
+// 카드 풀 profiles 조회 행 (!inner 조인이라 임베드는 항상 존재)
+type CelebCardRow = Pick<
+  Tables<"profiles">,
+  | "id" | "nickname" | "nickname_en" | "profession" | "title" | "title_en" | "nationality"
+  | "avatar_url" | "death_date" | "gender" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed"
+> & {
+  celeb_influence: CelebInfluenceJoin | CelebInfluenceJoin[];
+  celeb_persona: CelebPersonaJoin | CelebPersonaJoin[];
+};
 
 /** 카드 풀 조회 (대사 미포함 — 경량, 1시간 캐시) */
 async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<BattleCard[]> {
@@ -50,8 +70,10 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
     return [];
   }
 
+  const cardRows: CelebCardRow[] = personaData;
+
   // quote만 JSON path로 조회 (전체 lines JSONB 송출 방지)
-  const cardIds = personaData.map(r => r.id);
+  const cardIds = cardRows.map(r => r.id);
   const quoteMap = new Map<string, string>();
   if (cardIds.length > 0) {
     const { data: dRows } = await supabase
@@ -64,7 +86,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
     }
   }
 
-  return personaData
+  return cardRows
     .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
     .map((row) => {
       const inf = Array.isArray(row.celeb_influence)
@@ -81,9 +103,9 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 
       return {
         id: row.id,
-        nickname: (isEn && (row as any).nickname_en) || (row.nickname ?? ""),
+        nickname: (isEn && row.nickname_en) || (row.nickname ?? ""),
         profession: row.profession ?? "other",
-        title: (isEn && (row as any).title_en) || (row.title ?? ""),
+        title: (isEn && row.title_en) || (row.title ?? ""),
         nationality: row.nationality ?? "",
         avatarUrl: row.avatar_url,
         portraitUrl: null,
@@ -97,9 +119,9 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
           intellect: per.intellect ?? 0,
           charm: per.charm ?? 0,
         },
-        hasVoice: (row as any).has_voice ?? false,
-        voiceV: (row as any).voice_v ?? 0,
-        voiceSpeed: (row as any).voice_speed ?? 1.0,
+        hasVoice: row.has_voice ?? false,
+        voiceV: row.voice_v ?? 0,
+        voiceSpeed: row.voice_speed ?? 1.0,
       };
     });
 }

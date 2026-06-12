@@ -1,9 +1,9 @@
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import type { SortOption, ReviewFilter } from "../contentLibraryTypes";
-import { PantheonIcon } from "@/components/ui/icons/neo-pantheon";
+import { PantheonIcon, type IconProps } from "@/components/ui/icons/neo-pantheon";
 
-export const TAB_OPTIONS: { value: CategoryId; label: string; icon: React.ComponentType<any>; type: ContentType | undefined }[] = [
+export const TAB_OPTIONS: { value: CategoryId; label: string; icon: React.ComponentType<IconProps>; type: ContentType | undefined }[] = [
   { value: "all", label: "전체", icon: PantheonIcon, type: undefined },
   ...CATEGORIES.map((cat) => ({
     value: cat.id as CategoryId,

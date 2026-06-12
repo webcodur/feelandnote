@@ -4,16 +4,17 @@ import { Link } from "@/i18n/navigation";
 import { Bookmark, Sparkles, Star, BookOpen, ChevronRight } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
 
 interface HomeArchiveAreaProps {
     userId?: string;
     unreviewedList: UserContentPublic[];
     allReviewedItems: UserContentPublic[];
-    onItemClick: (item: any, isWantItem: boolean) => void;
+    onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
     scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: any;
+    events: HorizontalScrollEvents;
     isDragging: boolean;
 }
 

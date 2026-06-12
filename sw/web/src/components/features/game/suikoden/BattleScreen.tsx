@@ -52,8 +52,8 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
       || (battle.result === 'defender_wins' && !isPlayerAttacker)
     const type = playerWon ? 'battle_win' : 'battle_lose'
     const pf = state.factions.find(f => f.id === playerFactionId)
-    const leader = pf?.members.find((m: any) => m.id === pf.leaderId)
-    if (leader) onDialog(generateDialog(type as any, leader as any, dialogues?.[leader.id]))
+    const leader = pf?.members.find(m => m.id === pf.leaderId)
+    if (leader) onDialog(generateDialog(type, leader, dialogues?.[leader.id]))
   }, [battle.result])
 
   // 현재 행동자
@@ -188,8 +188,8 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
     // battle_start 대사
     if (onDialog) {
       const pf = state.factions.find(f => f.id === playerFactionId)
-      const leader = pf?.members.find((m: any) => m.id === pf.leaderId)
-      if (leader) onDialog(generateDialog('battle_start' as any, leader as any, dialogues?.[leader.id]))
+      const leader = pf?.members.find(m => m.id === pf.leaderId)
+      if (leader) onDialog(generateDialog('battle_start', leader, dialogues?.[leader.id]))
     }
 
     onUpdateState(s => {

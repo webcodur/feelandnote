@@ -103,29 +103,28 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
   const locale = useLocale();
   const [tab, setTab] = useState<TabType>("ability");
 
-  const statLabel = (key: StatKey) => t(`stat.${key}`);
-  const tendencyLabels = (key: TendencyKey): [string, string] => {
-    const [a, b] = TENDENCY_MAP[key];
-    return [t(`tendency_label.${a}`), t(`tendency_label.${b}`)];
-  };
-
-  const getVal = (key: string) => {
-    if (!stats) return 0;
-    const v = (stats as any)[key];
-    return typeof v === 'number' ? v : (v?.score || 0);
-  };
-
-  const getRationale = (key: string) => {
-    if (!stats) return undefined;
-    const v = (stats as any)[key];
-    if (typeof v === 'object' && v !== null) {
-      return locale === "en" ? v.reason_en : v.reason_ko;
-    }
-    return undefined;
-  };
-
   const content = useMemo(() => {
     if (!stats) return null;
+
+    const statLabel = (key: StatKey) => t(`stat.${key}`);
+    const tendencyLabels = (key: TendencyKey): [string, string] => {
+      const [a, b] = TENDENCY_MAP[key];
+      return [t(`tendency_label.${a}`), t(`tendency_label.${b}`)];
+    };
+
+    const getVal = (key: StatKey | TendencyKey) => {
+      const v = stats[key];
+      return typeof v === 'number' ? v : (v?.score || 0);
+    };
+
+    const getRationale = (key: StatKey | TendencyKey) => {
+      const v = stats[key];
+      if (typeof v === 'object' && v !== null) {
+        return locale === "en" ? v.reason_en : v.reason_ko;
+      }
+      return undefined;
+    };
+
     return {
       ability: (
         <div className="space-y-4">
@@ -156,7 +155,6 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
         </div>
       ),
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stats, t, locale]);
 
   return (

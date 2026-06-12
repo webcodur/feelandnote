@@ -8,6 +8,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
+import type { Tables } from "@/types/supabase";
+import type { DialogueLines } from "@/lib/game/voice/types";
 
 export interface TrackerContent {
   id: string;
@@ -26,10 +28,44 @@ export interface TrackerOption {
   nickname: string;
   avatarUrl: string | null;
   speechTone?: string | null;
-  dialogueLines?: any | null;
+  dialogueLines?: DialogueLines | null;
   hasVoice?: boolean;
   voiceV?: number;
   voiceSpeed?: number;
+}
+
+// fallback 경로 profiles 조회 행
+type FallbackCelebRow = Pick<
+  Tables<"profiles">,
+  | "id" | "slug" | "nickname" | "nickname_en" | "profession" | "avatar_url"
+  | "cultural_journey" | "cultural_journey_en" | "death_date" | "nationality"
+  | "birth_date" | "bio" | "bio_en"
+>;
+
+// 오답 보기 profiles 조회 행
+type DistractorRow = Pick<
+  Tables<"profiles">,
+  "id" | "nickname" | "nickname_en" | "avatar_url" | "profession" | "nationality" | "birth_date" | "death_date"
+>;
+
+// 옵션 인물 톤·음성 조회 행
+type ToneRow = Pick<Tables<"profiles">, "id" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed">;
+
+// 리뷰 콘텐츠 user_contents 조회 행
+type TrackerUcRow = Pick<Tables<"user_contents">, "content_id" | "review" | "review_en" | "source_url">;
+
+// contents(content_locales) 조회 행
+interface TrackerContentRow {
+  id: string;
+  type: string | null;
+  content_locales: { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null;
+}
+
+// celeb_dialogues lines 조회 행
+interface TrackerDialogueRow {
+  celeb_id: string;
+  lines: DialogueLines;
+  lines_en: DialogueLines | null;
 }
 
 export interface TrackerPersona {
@@ -192,9 +228,10 @@ async function getTrackerRoundFallback(
     .not("death_date", "is", null);
 
   if (!allCelebs || allCelebs.length === 0) return null;
+  const celebRows: FallbackCelebRow[] = allCelebs;
 
   // 퍼블릭 도메인 필터 (1920년 이전 사망)
-  const publicDomain = allCelebs.filter((c) => {
+  const publicDomain = celebRows.filter((c) => {
     const d = c.death_date;
     if (!d || d === "") return false;
     if (d.startsWith("-")) return true; // BC
@@ -257,11 +294,11 @@ async function getTrackerRoundFallback(
   );
 
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
-    (resolve((chosen as any).nickname_en, chosen.nickname) ?? chosen.nickname) as string,
+    (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
-    resolve((chosen as any).cultural_journey_en, chosen.cultural_journey),
+    resolve(chosen.cultural_journey_en, chosen.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
-    resolve((chosen as any).bio_en, chosen.bio),
+    resolve(chosen.bio_en, chosen.bio),
     chosenQuote,
     preferKo);
 }
@@ -301,7 +338,8 @@ async function buildRound(
 
   if (!personaData) return null;
 
-  const contentIds = (ucData ?? []).map((uc) => uc.content_id);
+  const ucRows: TrackerUcRow[] = ucData ?? [];
+  const contentIds = ucRows.map((uc) => uc.content_id);
   let contents: TrackerContent[] = [];
 
   if (contentIds.length > 0) {
@@ -311,15 +349,16 @@ async function buildRound(
       .in("id", contentIds);
 
     const reviewMap = new Map(
-      (ucData ?? []).map((uc) => [uc.content_id, { review: uc.review as string, review_en: (uc as any).review_en as string | null }])
+      ucRows.map((uc) => [uc.content_id, { review: uc.review as string, review_en: uc.review_en }])
     );
     const sourceUrlMap = new Map(
-      (ucData ?? []).map((uc) => [uc.content_id, (uc as any).source_url as string | null])
+      ucRows.map((uc) => [uc.content_id, uc.source_url])
     );
 
-    contents = (cData ?? [])
+    const contentRows: TrackerContentRow[] = cData ?? [];
+    contents = contentRows
       .map((c) => {
-        const locales = (c as any).content_locales as { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null;
+        const locales = c.content_locales;
         const ko = locales?.find(l => l.locale === 'ko');
         const en = locales?.find(l => l.locale === 'en');
         const prim = preferKo ? ko : en;
@@ -334,7 +373,7 @@ async function buildRound(
           title,
           creator,
           thumbnailUrl,
-          type: (c as any).type ?? "BOOK",
+          type: c.type ?? "BOOK",
           review: censorName(raw, nickname, [title, creator ?? ""]),
           rawReview: raw,
           sourceUrl: sourceUrlMap.get(c.id) ?? null,
@@ -360,7 +399,8 @@ async function buildRound(
     .limit(300);
 
   // 퍼블릭 도메인 필터 (1920년 이전 사망)
-  const pool = (poolRaw ?? []).filter((d) => {
+  const poolRows: DistractorRow[] = poolRaw ?? [];
+  const pool = poolRows.filter((d) => {
     const dd = d.death_date;
     if (!dd || dd === "") return false;
     if (dd.startsWith("-")) return true;
@@ -406,7 +446,7 @@ async function buildRound(
     { id: celebId, nickname, avatarUrl },
     ...distractors.map((d) => ({
       id: d.id,
-      nickname: resolveNick((d as any).nickname_en, d.nickname),
+      nickname: resolveNick(d.nickname_en, d.nickname as string),
       avatarUrl: d.avatar_url,
     })),
   ].sort(() => Math.random() - 0.5);
@@ -418,11 +458,14 @@ async function buildRound(
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);
 
-  const toneMap = new Map<string, string>((tones ?? []).map(t => [t.id, t.speech_tone as string]));
-  const dialogueMap = new Map<string, any>((dialogues ?? []).map(d => [d.celeb_id,
-    (!preferKo && (d as any).lines_en) ? (d as any).lines_en : d.lines
+  const toneRows: ToneRow[] = tones ?? [];
+  const dialogueRows: TrackerDialogueRow[] = dialogues ?? [];
+
+  const toneMap = new Map<string, string>(toneRows.map(t => [t.id, t.speech_tone as string]));
+  const dialogueMap = new Map<string, DialogueLines>(dialogueRows.map(d => [d.celeb_id,
+    (!preferKo && d.lines_en) ? d.lines_en : d.lines
   ]));
-  const voiceMap = new Map<string, { hasVoice: boolean; voiceV: number; voiceSpeed: number }>((tones ?? []).map(t => [t.id, { hasVoice: (t as any).has_voice ?? false, voiceV: (t as any).voice_v ?? 0, voiceSpeed: (t as any).voice_speed ?? 1.0 }]));
+  const voiceMap = new Map<string, { hasVoice: boolean; voiceV: number; voiceSpeed: number }>(toneRows.map(t => [t.id, { hasVoice: t.has_voice ?? false, voiceV: t.voice_v ?? 0, voiceSpeed: t.voice_speed ?? 1.0 }]));
 
   const options: TrackerOption[] = rawOptions.map(o => {
     const voice = voiceMap.get(o.id);

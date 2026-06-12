@@ -3,7 +3,13 @@
 import { createClient } from '@/lib/supabase/server'
 import type { FriendActivity, FriendActivityResponse } from '@/types/home'
 import type { ContentType } from '@/types/database'
-import { type ContentLocaleRow } from '@/lib/utils/content-locale'
+
+// contents + content_locales 조인 select 결과 행
+interface ActivityContentRow {
+  id: string
+  type: string
+  content_locales: { locale: string; title: string | null; thumbnail_url: string | null }[] | null
+}
 
 interface GetFriendActivityParams {
   limit?: number
@@ -78,8 +84,8 @@ export async function getFriendActivity(
 
     if (contents) {
       contentsMap = Object.fromEntries(
-        contents.map(c => {
-          const locales = (c as any).content_locales as ContentLocaleRow[] | null
+        (contents as ActivityContentRow[]).map(c => {
+          const locales = c.content_locales
           const ko = locales?.find(l => l.locale === 'ko')
           const en = locales?.find(l => l.locale === 'en')
           return [

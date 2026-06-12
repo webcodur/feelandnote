@@ -21,7 +21,7 @@ import { useTranslations } from "next-intl";
 // 서브 컴포넌트 임포트
 import { HomeRecordHeader } from "./homeSection/HomeRecordHeader";
 import { HomeSearchArea } from "./homeSection/HomeSearchArea";
-import { HomeEditorArea } from "./homeSection/HomeEditorArea";
+import { HomeEditorArea, type PickedContentItem } from "./homeSection/HomeEditorArea";
 import { HomeSuggestions } from "./homeSection/HomeSuggestions";
 import { HomeArchiveArea } from "./homeSection/HomeArchiveArea";
 
@@ -239,20 +239,22 @@ export default function HomeRecordSection({
       setSearchResults([]);
   };
 
-  const handleItemClick = async (item: any, isWantItem: boolean) => {
+  const handleItemClick = async (item: UserContentPublic | PickedContentItem, isWantItem: boolean) => {
     if (isDragging) return;
 
     if (isWantItem) {
+        // isWantItem=true 호출부는 항상 보관함 항목(UserContentPublic)을 전달한다
+        const saved = item as UserContentPublic;
         openQuickRecord({
-            id: item.id,
-            contentId: item.content.id,
-            type: item.content.type,
-            title: item.content.title,
-            thumbnailUrl: item.content.thumbnail_url,
-            creator: item.content.creator,
-            initialRating: item.public_record?.rating || 0,
-            initialReview: item.public_record?.content_preview || "",
-            initialPresets: item.public_record?.review_presets || [],
+            id: saved.id,
+            contentId: saved.content.id,
+            type: saved.content.type,
+            title: saved.content.title,
+            thumbnailUrl: saved.content.thumbnail_url,
+            creator: saved.content.creator,
+            initialRating: saved.public_record?.rating || 0,
+            initialReview: saved.public_record?.content_preview || "",
+            initialPresets: saved.public_record?.review_presets || [],
         });
         if (editorRef.current) {
             editorRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -260,14 +262,17 @@ export default function HomeRecordSection({
         return;
     }
 
+    // isWantItem=false 호출부는 항상 선택 콘텐츠(PickedContentItem)를 전달한다
+    const picked = item as PickedContentItem;
+
     if (!userId) {
         openQuickRecord({
-            id: `guest-${item.id}`,
-            contentId: item.id,
-            type: item.type,
-            title: item.title,
-            thumbnailUrl: item.thumbnailUrl || item.thumbnail,
-            creator: item.creator,
+            id: `guest-${picked.id}`,
+            contentId: picked.id,
+            type: picked.type,
+            title: picked.title,
+            thumbnailUrl: picked.thumbnailUrl || picked.thumbnail,
+            creator: picked.creator,
             initialPresets: [],
             isRecommendation: false,
             initialRating: 0,
@@ -280,25 +285,26 @@ export default function HomeRecordSection({
     }
 
     if (processingId) return;
-    setProcessingId(item.id);
+    setProcessingId(picked.id);
 
     try {
+        // 기존 런타임은 creator/thumbnail에 null도 그대로 전달한다. 동작 보존을 위해 캐스트 유지
         const result = await addContent({
-            id: item.id,
-            type: item.type,
-            title: item.title,
-            creator: item.creator,
-            thumbnailUrl: item.thumbnailUrl || item.thumbnail,
+            id: picked.id,
+            type: picked.type,
+            title: picked.title,
+            creator: picked.creator as string | undefined,
+            thumbnailUrl: (picked.thumbnailUrl || picked.thumbnail) as string | undefined,
         });
 
         if (result.success && result.data) {
              openQuickRecord({
                 id: result.data.userContentId,
-                contentId: item.id,
-                type: item.type,
-                title: item.title,
-                thumbnailUrl: item.thumbnailUrl || item.thumbnail,
-                creator: item.creator,
+                contentId: picked.id,
+                type: picked.type,
+                title: picked.title,
+                thumbnailUrl: picked.thumbnailUrl || picked.thumbnail,
+                creator: picked.creator,
                 initialPresets: [],
                 isRecommendation: false,
              });

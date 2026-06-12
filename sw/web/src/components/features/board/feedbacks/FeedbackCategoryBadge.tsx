@@ -15,7 +15,7 @@ export default function FeedbackCategoryBadge({ category }: FeedbackCategoryBadg
       inline-flex items-center px-2 py-0.5 text-xs font-medium rounded border
       ${FEEDBACK_CATEGORY_COLORS[category]}
     `}>
-      {t(category as any)}
+      {t(category)}
     </span>
   )
 }

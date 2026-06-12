@@ -12,6 +12,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
+import type { PersonaStatsWithReasons } from "@/lib/persona/types";
 import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 
 // #region 상수
@@ -75,18 +76,29 @@ function Avatar({ src, alt, size = 20 }: { src: string | null; alt: string; size
 // #endregion
 
 // #region 포커스 패널
-function FocusPanel({ 
-  celeb, score, reason, color, locale, label, stats 
-}: { 
-  celeb: { id: string; slug: string | null; nickname: string; nickname_en: string | null; avatar_url: string | null; profession?: string | null; title?: string | null; title_en?: string | null; };
+interface FocusedCeleb {
+  id: string;
+  slug: string | null;
+  nickname: string;
+  nickname_en: string | null;
+  avatar_url: string | null;
+  profession?: string | null;
+  title?: string | null;
+  title_en?: string | null;
+}
+
+function FocusPanel({
+  celeb, score, reason, color, locale, label, stats
+}: {
+  celeb: FocusedCeleb;
   score: number;
   reason?: string;
   color: string;
   locale: string;
   label?: string;
-  stats?: Record<string, number>;
+  stats?: PersonaStatsWithReasons;
 }) {
-  const name = getName(celeb as any, locale);
+  const name = getName(celeb, locale);
   const title = locale === "en" ? (celeb.title_en || celeb.profession) : (celeb.title || celeb.profession);
   
   return (
@@ -126,7 +138,7 @@ function FocusPanel({
 
        {stats && (
          <div className="w-full mb-8 text-left bg-black/40 rounded-2xl border border-white/5 overflow-hidden">
-           <PersonaStatPanel stats={stats as any} />
+           <PersonaStatPanel stats={stats} />
          </div>
        )}
 
@@ -134,7 +146,7 @@ function FocusPanel({
          <div className="flex-1" />
        )}
 
-       <Link href={celebHref(celeb as any)} className={cn("mt-auto w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all", "bg-white text-black hover:bg-white/90 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.2)]")}>
+       <Link href={celebHref(celeb)} className={cn("mt-auto w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all", "bg-white text-black hover:bg-white/90 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.2)]")}>
          {locale === "en" ? "View Full Profile" : "전체 프로필 보기"}
        </Link>
     </div>
@@ -401,7 +413,13 @@ export default function PersonaFullSection({ entries }: PersonaFullSectionProps)
   const color = AXIS_COLORS[activeEntry.axis] ?? "#d4af37";
   const axisLabelBadge = isEn ? (AXIS_SHORT_LABELS[activeEntry.axis]?.en || activeEntry.label.en) : (AXIS_SHORT_LABELS[activeEntry.axis]?.ko || activeEntry.label.ko);
 
-  let focusedInfo: any = null;
+  let focusedInfo: {
+    celeb: FocusedCeleb;
+    score: number;
+    reason?: string;
+    label?: string;
+    stats?: PersonaStatsWithReasons;
+  } | null = null;
 
   if (activeEntry.celeb.id === currentFocusedId) {
     focusedInfo = {

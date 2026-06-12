@@ -1049,9 +1049,9 @@ export function applyDisposition(
   const target = disp.targets[disp.currentIndex]
   const char = target.character
   const log = [...state.log]
-  let factions = state.factions.map(f => ({ ...f, members: [...f.members], prisoners: [...f.prisoners] }))
+  const factions = state.factions.map(f => ({ ...f, members: [...f.members], prisoners: [...f.prisoners] }))
   let placements = [...state.placements]
-  let wanderers = [...state.wanderers]
+  const wanderers = [...state.wanderers]
 
   const playerFaction = factions.find(f => f.id === state.playerFactionId)!
   const originFaction = factions.find(f => f.id === target.factionId)

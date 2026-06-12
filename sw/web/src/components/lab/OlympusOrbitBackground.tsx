@@ -266,9 +266,9 @@ export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: bo
 
     const project = (p: Point3D, cx: number, cy: number, rotAngle: number, worldOffset: Point3D): { x: number, y: number, z: number } | null => {
         // 1. Local Transform (Translation only for now)
-        let x = p.x + worldOffset.x;
-        let y = p.y + worldOffset.y;
-        let z = p.z + worldOffset.z;
+        const x = p.x + worldOffset.x;
+        const y = p.y + worldOffset.y;
+        const z = p.z + worldOffset.z;
 
         // 2. World Rotation (Around Y axis)
         const cos = Math.cos(rotAngle);

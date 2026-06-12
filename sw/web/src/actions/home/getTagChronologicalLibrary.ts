@@ -13,6 +13,30 @@ import type {
   TimelineContent,
 } from "@/components/features/game/shared/CelebContentTimeline";
 
+// 프로필 select 결과 행
+interface ChronoProfileRow {
+  id: string;
+  nickname: string;
+  nickname_en: string | null;
+  avatar_url: string | null;
+  profession: string | null;
+  birth_date: string | null;
+}
+
+// user_contents + contents 조인 select 결과 행
+interface ChronoUserContentRow {
+  user_id: string;
+  content_id: string;
+  review: string | null;
+  review_en: string | null;
+  source_url: string | null;
+  contents: {
+    id: string;
+    type: string | null;
+    content_locales: ContentLocaleRow[] | null;
+  };
+}
+
 async function fetchTagChronologicalLibrary(tagId: string): Promise<{
   celebs: TimelineCeleb[];
   contentsMap: Record<string, TimelineContent[]>;
@@ -38,7 +62,7 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
   if (!profiles?.length) return { celebs: [], contentsMap: {} };
 
   // birthYear 계산 후 정렬
-  const celebs: TimelineCeleb[] = profiles
+  const celebs: TimelineCeleb[] = (profiles as ChronoProfileRow[])
     .map((p) => ({
       id: p.id,
       nickname: p.nickname,
@@ -63,11 +87,9 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
 
   const contentsMap: Record<string, TimelineContent[]> = {};
 
-  for (const row of data) {
-    const c = row.contents as unknown as {
-      id: string; type: string | null;
-      content_locales: ContentLocaleRow[] | null;
-    };
+  // 다대일 조인(contents)을 supabase가 배열로 잘못 추론하므로 unknown 경유 캐스트
+  for (const row of data as unknown as ChronoUserContentRow[]) {
+    const c = row.contents;
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
 
@@ -86,9 +108,9 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
       creator_en: en?.creator ?? null,
       thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
       type: c.type ?? "BOOK",
-      review: (row as any).review ?? null,
-      review_en: (row as any).review_en ?? null,
-      sourceUrl: (row as any).source_url ?? null,
+      review: row.review ?? null,
+      review_en: row.review_en ?? null,
+      sourceUrl: row.source_url ?? null,
     });
   }
 

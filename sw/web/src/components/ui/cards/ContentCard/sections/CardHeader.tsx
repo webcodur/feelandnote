@@ -60,7 +60,8 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
           icon: <Trash2 size={14} />,
           onClick: async () => {
             if (onDelete) {
-              onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+              // 드롭다운 메뉴 클릭이라 실제 마우스 이벤트가 없어 최소 동작 객체를 전달한다
+              onDelete({ stopPropagation: () => {}, preventDefault: () => {} } as React.MouseEvent);
             } else if (internalUserContentId) {
               await removeContent(internalUserContentId);
               setInternalSaved(false);
@@ -76,7 +77,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
         icon: <Bookmark size={14} />,
         onClick: () => {
           if (onAdd) {
-            onAdd({ stopPropagation: () => {}, preventDefault: () => {} } as any);
+            onAdd({ stopPropagation: () => {}, preventDefault: () => {} } as React.MouseEvent);
           } else {
             setShowAddConfirm(true);
           }

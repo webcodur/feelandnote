@@ -79,7 +79,7 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
     >
       <div
         className="relative overflow-hidden selection:bg-white/20"
-        style={{ "--modal-color": color } as any}
+        style={{ ["--modal-color" as string]: color }}
       >
         {/* 상단 장식 글로우 */}
         <div

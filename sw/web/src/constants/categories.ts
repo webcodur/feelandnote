@@ -1,5 +1,5 @@
-import { BookOpen, Film, Gamepad2, Music, Award } from "lucide-react";
-import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
+import { BookOpen, Film, Gamepad2, Music, Award, type LucideIcon } from "lucide-react";
+import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon, type IconProps } from "@/components/ui/icons/neo-pantheon";
 import type { ContentType } from "@/types/database";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
@@ -16,8 +16,8 @@ export interface CategoryConfig {
   id: CategoryId;
   label: string;
   shortLabel: string; // 축약 라벨 (BOOK, VIDEO 등)
-  icon: React.ComponentType<any>; // 테마 아이콘 (neo-pantheon)
-  lucideIcon: React.ComponentType<any>; // 범용 아이콘 (lucide-react)
+  icon: React.ComponentType<IconProps>; // 테마 아이콘 (neo-pantheon)
+  lucideIcon: LucideIcon; // 범용 아이콘 (lucide-react)
   placeholder: string; // 검색용
   dbType: ContentType; // DB 저장값
   unit: string; // 콘텐츠 단위 (권, 편, 개 등)

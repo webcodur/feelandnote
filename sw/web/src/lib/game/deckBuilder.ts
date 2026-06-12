@@ -100,7 +100,7 @@ export function aiDraftPick(
   let bestScore = -Infinity;
   for (const card of availableCards) {
     const weakScore = calcAptitude(card, weakestCmd) * 2;
-    let score = weakScore + totalAptitude(card) + Math.random() * 3;
+    const score = weakScore + totalAptitude(card) + Math.random() * 3;
     if (score > bestScore) {
       bestScore = score;
       best = card;

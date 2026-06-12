@@ -142,7 +142,7 @@ export default function WindsOfLiangshanGeminiBackground() {
         items.forEach(reed => {
           ctx.lineWidth = reed.thickness;
 
-          let startX = reed.x;
+          const startX = reed.x;
           // Spawn slightly off-screen vertically
           const startY = height + (foreground ? 40 : 10);
           const reedHeight = height * reed.heightInfo;

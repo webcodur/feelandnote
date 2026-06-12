@@ -18,7 +18,7 @@ export async function fetchUrlContent(url: string): Promise<FetchUrlResult> {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     };
 
-    let response = await fetch(url, { headers });
+    const response = await fetch(url, { headers });
     
     if (!response.ok) {
         throw new Error(`Failed to fetch URL: ${response.status}`);
@@ -130,8 +130,8 @@ export async function fetchUrlContent(url: string): Promise<FetchUrlResult> {
       content: cleanHtml,
       text,
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error("fetchUrlContent error:", error);
-    return { error: error.message };
+    return { error: error instanceof Error ? error.message : String(error) };
   }
 }

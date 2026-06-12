@@ -42,7 +42,7 @@ async function fetchNotices(limit: number, offset: number) {
         acc[c.post_id] = (acc[c.post_id] || 0) + 1
         return acc
       }, {})
-      notices.forEach(n => { (n as any).comment_count = countMap[n.id] || 0 })
+      notices.forEach(n => { n.comment_count = countMap[n.id] || 0 })
     }
   }
 

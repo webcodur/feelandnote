@@ -65,7 +65,7 @@ export default function SuikodenGameWrapper({ characters, dialogues, initialFull
         onEnterFullScreen?: () => void;
         onHomeRef?: React.MutableRefObject<(() => void) | null>;
         onPhaseChange?: (phase: string) => void;
-        onStartRef?: React.MutableRefObject<((...args: any[]) => void) | null>;
+        onStartRef?: React.MutableRefObject<(() => void) | null>;
       }) {
         return <SuikodenGame characters={characters} dialogues={dialogues} {...props} />;
       },

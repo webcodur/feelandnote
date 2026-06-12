@@ -13,6 +13,8 @@ import ReviewCard from "@/components/features/content/ReviewCard";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 
 import type { ContentMetadata } from "@/types/content";
+import type { ContentType } from "@/types/database";
+import type { CategoryId } from "@/constants/categories";
 import { useTranslations } from "next-intl";
 
 type InfoTab = 'BASIC' | 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL';
@@ -22,7 +24,7 @@ interface InfoPanelProps {
     id: string; // user_contents.id가 아님. 실제 content.id를 받아야 함 (또는 둘 다)
     contentId: string; // items logic에서 contentId 분리 필요
     title: string;
-    type: string;
+    type: ContentType;
     thumbnailUrl?: string | null;
     creator?: string | null;
   };
@@ -62,7 +64,8 @@ export default function InfoPanel({
             }
             
             // API 호출 시 categoryId 전달
-            const data = await getContentDetail(content.contentId, categoryId as any);
+            // VIDEO일 때 'movie'는 CategoryId에 없는 값이다(외부 API 폴백 경로에서 미매칭). 동작 보존을 위해 캐스트 유지
+            const data = await getContentDetail(content.contentId, categoryId as CategoryId);
             setDetailData(data);
         } catch (e) {
             console.error("상세 정보 로드 실패", e);
@@ -247,7 +250,7 @@ export default function InfoPanel({
                         <h4 className="text-xs font-bold text-text-secondary flex items-center gap-1.5">
                             {content.type === 'VIDEO' ? t("trailer") : t("listen")}
                         </h4>
-                        <MediaEmbed contentId={content.contentId} type={content.type as any} />
+                        <MediaEmbed contentId={content.contentId} type={content.type} />
                      </div>
                 )}
 

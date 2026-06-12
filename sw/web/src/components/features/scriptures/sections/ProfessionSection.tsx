@@ -128,7 +128,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
                         }
                       `}
                     >
-                      <span>{tp(item.profession as any)}</span>
+                      <span>{tp(item.profession)}</span>
                       <span
                         className={`
                           text-xs font-normal tabular-nums ml-0.5
@@ -152,7 +152,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
           <div className="mb-10 sm:mb-14">
             <RepresentativeCelebs
               celebs={data.topCelebs}
-              title={`${t("representativePrefix")}${tp(activeProfession as any)}`}
+              title={`${t("representativePrefix")}${tp(activeProfession)}`}
               centered
             />
           </div>

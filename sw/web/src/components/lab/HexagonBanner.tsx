@@ -108,7 +108,7 @@ export default function HexagonBanner({ children, height = 700, compact = false 
           const isGold = active > 0.15 || wave > 0.75 || wave2 > 0.88;
           
           let color = `rgba(90, 90, 90, ${alpha})`;
-          let size = HEX_SIZE - 2;
+          const size = HEX_SIZE - 2;
 
           if (isGold) {
              color = `rgba(212, 175, 55, ${alpha * 1.3})`;

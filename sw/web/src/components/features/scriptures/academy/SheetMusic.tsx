@@ -19,6 +19,7 @@ type AbcjsModule = typeof import("abcjs");
 type AbcjsImport = AbcjsModule & { default?: AbcjsModule };
 type AbcSynth = InstanceType<AbcjsModule["synth"]["CreateSynth"]>;
 type AbcTimer = InstanceType<AbcjsModule["TimingCallbacks"]>;
+type AbcTimingEvent = import("abcjs").NoteTimingEvent;
 
 export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -137,7 +138,7 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
 
       let lastElements: Element[] = [];
       const timer = new abcjsMod.TimingCallbacks(visualObj[0], {
-        eventCallback: (ev: any) => {
+        eventCallback: (ev: AbcTimingEvent | null) => {
           // 이전에 하이라이트된 노트 색상 원복
           lastElements.forEach((el) => {
             if (el && el.classList) {
@@ -149,8 +150,8 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
 
           // 현재 재생되는 노트 요소 및 하위 path 들 까지 모두 하이라이트 적용
           if (ev && ev.elements) {
-            ev.elements.forEach((set: any) => {
-              set.forEach((el: Element) => {
+            ev.elements.forEach((set) => {
+              set.forEach((el) => {
                 const targets = el.querySelectorAll ? [el, ...Array.from(el.querySelectorAll("path"))] : [el];
                 targets.forEach(target => {
                   if (target && target.classList) {

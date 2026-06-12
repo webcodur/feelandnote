@@ -8,8 +8,42 @@ import type { GameCharacter } from '@/lib/game/suikoden/types'
 import type { PersonaJsonb } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
 import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
+import type { Tables } from '@/types/supabase'
 
 const CUTOFF_YEARS = 120
+
+// celeb_influence 임베드 조회 행
+type SuikodenInfluenceJoin = Pick<
+  Tables<'celeb_influence'>,
+  'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity' | 'total_score'
+>
+
+// profiles 조회 행 (death_date는 not-null 필터 적용됨)
+interface SuikodenProfileRow {
+  id: string
+  nickname: string | null
+  title: string | null
+  profession: string | null
+  nationality: string | null
+  gender: boolean | null
+  birth_date: string | null
+  death_date: string
+  bio: string | null
+  quotes: string | null
+  avatar_url: string | null
+  celeb_influence: SuikodenInfluenceJoin | SuikodenInfluenceJoin[] | null
+  celeb_persona: { persona: PersonaJsonb | null } | { persona: PersonaJsonb | null }[] | null
+}
+
+// 대사 구조 (상황 키 → 변형 배열)
+type SuikodenLines = Record<string, string[]>
+
+// celeb_dialogues 조회 행
+interface SuikodenDialogueRow {
+  celeb_id: string
+  lines: SuikodenLines
+  lines_en: SuikodenLines | null
+}
 
 export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
   const supabase = await createClient()
@@ -38,15 +72,17 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     return [];
   }
 
+  const rows: SuikodenProfileRow[] = data
+
   // celeb_dialogues에서 quote 조회
-  const filteredIds = data
-    .filter((p: any) => {
+  const filteredIds = rows
+    .filter((p) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
       if (!influence) return false
       const year = getDeathYear(p.death_date)
       return year <= maxDeathYear
     })
-    .map((p: any) => p.id)
+    .map((p) => p.id)
 
   const locale = await getLocale()
   const quoteMap = new Map<string, string>()
@@ -61,13 +97,13 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     }
   }
 
-  return data
-    .filter((p: any) => filteredIds.includes(p.id))
-    .map((p: any) => {
+  return rows
+    .filter((p) => filteredIds.includes(p.id))
+    .map((p) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
       const personaRow = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
-      const persona = personaRow?.persona ? parsePersonaJsonb(personaRow.persona as PersonaJsonb) : undefined
-      const char = dbToCharacter(p, influence, persona)
+      const persona = personaRow?.persona ? parsePersonaJsonb(personaRow.persona) : undefined
+      const char = dbToCharacter(p, influence!, persona)
       const dlgQuote = quoteMap.get(p.id)
       if (dlgQuote) char.quotes = dlgQuote
       return char
@@ -76,7 +112,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
 }
 
 /** celeb_dialogues 로딩 — characterId → lines 매핑 (1시간 캐시) */
-async function fetchSuikodenDialogues(locale: string): Promise<Record<string, any>> {
+async function fetchSuikodenDialogues(locale: string): Promise<Record<string, SuikodenLines>> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
@@ -88,8 +124,9 @@ async function fetchSuikodenDialogues(locale: string): Promise<Record<string, an
     return {}
   }
 
-  const result: Record<string, any> = {};
-  data.forEach(row => {
+  const result: Record<string, SuikodenLines> = {};
+  const dialogueRows: SuikodenDialogueRow[] = data;
+  dialogueRows.forEach(row => {
     result[row.celeb_id] = locale === 'en' && row.lines_en ? row.lines_en : row.lines;
   });
   return result;
@@ -101,7 +138,7 @@ const loadSuikodenDialoguesCached = unstable_cache(
   { revalidate: 3600, tags: ['celebs'] }
 )
 
-export async function loadSuikodenDialogues(): Promise<Record<string, any>> {
+export async function loadSuikodenDialogues(): Promise<Record<string, SuikodenLines>> {
   const locale = await getLocale()
   return loadSuikodenDialoguesCached(locale)
 }

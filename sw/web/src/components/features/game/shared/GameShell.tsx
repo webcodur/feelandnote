@@ -11,18 +11,18 @@ import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
 import GameGate from "./GameGate";
 
-interface GameShellConfig {
+interface GameShellConfig<StartArgs extends unknown[]> {
   gameName: string;
   gateIcon: ReactNode;
   gateSubtitle: string;
   phaseLabels: Record<string, string>;
   Background: ComponentType<{ className?: string; phase?: string }>;
-  Lobby: ComponentType<{ onStart: (...args: any[]) => void; onExit: () => void }>;
+  Lobby: ComponentType<{ onStart: (...args: StartArgs) => void; onExit: () => void }>;
   Game: ComponentType<{
     onEnterFullScreen?: () => void;
     onHomeRef?: React.MutableRefObject<(() => void) | null>;
     onPhaseChange?: (phase: string) => void;
-    onStartRef?: React.MutableRefObject<((...args: any[]) => void) | null>;
+    onStartRef?: React.MutableRefObject<((...args: StartArgs) => void) | null>;
   }>;
   /** GameFullScreen 하단 푸터 (오디오 플레이어 등) */
   footerExtra?: ReactNode;
@@ -34,10 +34,10 @@ interface GameShellConfig {
   onExitFullScreenExternal?: () => void;
 }
 
-export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, initialFullScreen, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig) {
+export default function GameShell<StartArgs extends unknown[]>({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, initialFullScreen, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig<StartArgs>) {
   const t = useTranslations("shared.game");
   const homeRef = useRef<(() => void) | null>(null);
-  const startRef = useRef<((...args: any[]) => void) | null>(null);
+  const startRef = useRef<((...args: StartArgs) => void) | null>(null);
   const enterFullScreenRef = useRef<(() => void) | null>(null);
   const exitFullScreenRef = useRef<(() => void) | null>(null);
   const [phase, setPhase] = useState("idle");
@@ -48,7 +48,7 @@ export default function GameShell({ gameName, gateIcon, gateSubtitle, phaseLabel
     homeRef.current?.();
   }, []);
 
-  const handleStart = useCallback((...args: any[]) => {
+  const handleStart = useCallback((...args: StartArgs) => {
     setLoading(true);
     enterFullScreenRef.current?.();
     startRef.current?.(...args);

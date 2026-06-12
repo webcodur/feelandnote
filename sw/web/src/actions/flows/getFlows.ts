@@ -3,6 +3,26 @@
 import { createClient } from '@/lib/supabase/server'
 import type { Flow, FlowSummary } from '@/types/database'
 
+// select 문자열에 대응하는 조인 행 타입
+interface ThumbnailLocale {
+  locale: string
+  thumbnail_url: string | null
+}
+
+interface StageNodeRow {
+  content: { id: string; content_locales: ThumbnailLocale[] } | null
+}
+
+interface StageRow {
+  nodes: StageNodeRow[]
+}
+
+interface FlowQueryRow extends Flow {
+  flow_stages: { count: number }[]
+  flow_nodes: { count: number }[]
+  stages: StageRow[]
+}
+
 export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -39,22 +59,25 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
     throw new Error('플로우를 불러오는데 실패했습니다')
   }
 
-  return (data || []).map((flow: any) => ({
+  const rows: FlowQueryRow[] = data || []
+
+  return rows.map((flow) => ({
     ...flow,
     stage_count: flow.flow_stages?.[0]?.count || 0,
     node_count: flow.flow_nodes?.[0]?.count || 0,
-    stages: (flow.stages || []).map((stage: any) => ({
+    stages: (flow.stages || []).map((stage) => ({
       ...stage,
-      nodes: (stage.nodes || []).map((node: any) => {
+      nodes: (stage.nodes || []).map((node) => {
         const locales = node.content?.content_locales || []
-        const ko = locales.find((l: any) => l.locale === 'ko')
-        const en = locales.find((l: any) => l.locale === 'en')
+        const ko = locales.find((l) => l.locale === 'ko')
+        const en = locales.find((l) => l.locale === 'en')
         return {
           ...node,
-          content: node.content ? {
+          // content_id는 NOT NULL FK라 조인 결과가 비지 않는다. null 분기는 방어 코드.
+          content: (node.content ? {
             ...node.content,
             thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
-          } : null,
+          } : null)!,
         }
       }),
     })),

@@ -113,7 +113,13 @@ export default function Logo({
 }
 
 // #region LogoIcon (deprecated, 호환성 유지)
-export function LogoIcon({ size = "md", className = "", asLink = true }: any) {
+interface LogoIconProps {
+  size?: LogoSize;
+  className?: string;
+  asLink?: boolean;
+}
+
+export function LogoIcon({ className = "", asLink = true }: LogoIconProps) {
   const icon = (
     <div
       className={`flex items-center justify-center p-1.5 rounded-lg bg-bg-card border border-accent/30 ${className}`}

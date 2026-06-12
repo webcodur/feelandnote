@@ -227,8 +227,8 @@ export function useBattleGame() {
     const prev = stateRef.current;
     if (prev.phase !== "draft") return;
 
-    let playerPicks = [...prev.draft.playerPicks];
-    let aiPicks = [...prev.draft.aiPicks];
+    const playerPicks = [...prev.draft.playerPicks];
+    const aiPicks = [...prev.draft.aiPicks];
     let round = prev.draft.round;
 
     while (round <= DRAFT_ROUNDS) {

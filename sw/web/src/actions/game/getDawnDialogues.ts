@@ -15,6 +15,16 @@ export interface DawnDialogueData {
   quote: string;
 }
 
+// lines JSONB 구조 — 상황 키는 변형 배열, quote 키만 단일 문자열
+type DawnLines = Record<string, string[]> & { quote?: string | null };
+
+// celeb_dialogues 조회 행
+interface DawnDialogueRow {
+  celeb_id: string;
+  lines: DawnLines;
+  lines_en: DawnLines | null;
+}
+
 async function fetchDawnDialogues(
   celebIdsKey: string,
   locale: string,
@@ -34,12 +44,13 @@ async function fetchDawnDialogues(
 
   const toneMap = new Map<string, string>((tonesResult.data ?? []).map((t) => [t.id, t.speech_tone as string]));
 
-  const dialogueMap = new Map<string, any>();
+  const dialogueMap = new Map<string, DawnLines>();
   const quoteMap = new Map<string, string>();
-  for (const d of dialoguesResult.data ?? []) {
+  const dialogueRows: DawnDialogueRow[] = dialoguesResult.data ?? [];
+  for (const d of dialogueRows) {
     const lines = (locale === "en" && d.lines_en) ? d.lines_en : d.lines;
     dialogueMap.set(d.celeb_id, lines);
-    const quote = (lines as any)?.quote ?? "";
+    const quote = lines?.quote ?? "";
     quoteMap.set(d.celeb_id, quote);
   }
 

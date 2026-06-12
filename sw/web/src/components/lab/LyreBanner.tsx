@@ -105,7 +105,7 @@ export default function LyreBanner({
       }
     };
 
-    let prevMouse = { x: -1000, y: -1000 };
+    const prevMouse = { x: -1000, y: -1000 };
     const mouse = { x: -1000, y: -1000 };
 
     const handleMouseMove = (e: MouseEvent) => {

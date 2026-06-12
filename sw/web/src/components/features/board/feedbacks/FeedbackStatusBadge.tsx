@@ -15,7 +15,7 @@ export default function FeedbackStatusBadge({ status }: FeedbackStatusBadgeProps
       inline-flex items-center px-2 py-0.5 text-xs font-medium rounded border
       ${FEEDBACK_STATUS_COLORS[status]}
     `}>
-      {t(status as any)}
+      {t(status)}
     </span>
   )
 }

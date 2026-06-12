@@ -74,7 +74,7 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
             height: "300%",
             background: mat.lp.gradient,
             animation: `rotateSpin ${mat.lp.duration || "8s"} linear infinite`,
-            mixBlendMode: (mat.lp.blendMode || "overlay") as any,
+            mixBlendMode: (mat.lp.blendMode || "overlay") as React.CSSProperties["mixBlendMode"],
             zIndex: 0,
           }}
         />

@@ -34,7 +34,7 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
 
   const displayName = locale === "en" && figure.nickname_en ? figure.nickname_en : figure.nickname;
   const displayBio = locale === "en" && figure.bio_en ? figure.bio_en : figure.bio;
-  const professionLabel = figure.profession ? tProfession(figure.profession as any) : "";
+  const professionLabel = figure.profession ? tProfession(figure.profession) : "";
 
   const today = new Date();
   const dateStr = t("dateLabel", { month: today.getMonth() + 1, day: today.getDate() });

@@ -7,6 +7,7 @@ import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
+import type { Tables } from '@/types/supabase'
 
 // #region Types
 export interface ScriptureContent {
@@ -62,6 +63,21 @@ interface CelebInfo {
   nickname: string
   avatar_url: string | null
   profession: string | null
+}
+
+// contents(content_locales) 임베드 조회 행 — select 문자열과 1:1 대응
+interface ContentJoinRow {
+  id: string
+  type: string
+  content_locales: ContentLocaleRow[] | null
+}
+
+// user_contents → contents 조인 조회 행
+interface UserContentJoinRow {
+  user_id: string
+  content_id: string
+  rating: number | null
+  contents: ContentJoinRow | ContentJoinRow[] | null
 }
 
 const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
@@ -199,19 +215,20 @@ async function fetchAllUserContents(
       }
 
       const locale = await getLocale()
-      const typedData = (data || []).map(item => {
+      const rows: UserContentJoinRow[] = data || []
+      const typedData = rows.map(item => {
         const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents
-        const flat = flattenLocales((raw as any)?.content_locales as ContentLocaleRow[] | null, locale)
+        const flat = flattenLocales(raw?.content_locales, locale)
         return {
           user_id: item.user_id,
           content_id: item.content_id,
           rating: item.rating,
           contents: {
-            id: (raw as any)?.id as string,
+            id: raw?.id as string,
             title: flat.title,
             creator: flat.creator,
             thumbnail_url: flat.thumbnail_url,
-            type: (raw as any)?.type as string,
+            type: raw?.type as string,
             title_ko: flat.title_ko,
             title_en: flat.title_en,
             creator_en: flat.creator_en,
@@ -413,6 +430,14 @@ export async function getQuickRecordSuggestions(category: string = 'BOOK'): Prom
 // #endregion
 
 // #region 길의 갈래 - 직업별 인기 콘텐츠
+// profiles + celeb_influence(total_score) 임베드 조회 행
+type TopCelebRow = Pick<
+  Tables<'profiles'>,
+  'id' | 'nickname' | 'nickname_en' | 'avatar_url' | 'title' | 'title_en'
+> & {
+  celeb_influence: { total_score: number | null } | { total_score: number | null }[] | null
+}
+
 async function fetchScripturesByProfession(
   profession: string,
   page: number,
@@ -443,11 +468,12 @@ async function fetchScripturesByProfession(
       .limit(5),
   ])
 
-  const topCelebs: TopCeleb[] = (topCelebsData || []).map(c => {
+  const topCelebRows: TopCelebRow[] = topCelebsData || []
+  const topCelebs: TopCeleb[] = topCelebRows.map(c => {
     const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
     const contentCount = typedData.filter(item => item.user_id === c.id).length
-    const nicknameEn = (c as any).nickname_en ?? null
-    const titleEn = (c as any).title_en ?? null
+    const nicknameEn = c.nickname_en ?? null
+    const titleEn = c.title_en ?? null
     return {
       id: c.id,
       nickname: (locale === 'en' ? nicknameEn || c.nickname : c.nickname) || '',
@@ -652,6 +678,24 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   return getTodayFigureCached(today, locale)
 }
 
+// 오늘의 인물 profiles 조회 행
+type FigureProfileRow = Pick<
+  Tables<'profiles'>,
+  'id' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession' | 'bio' | 'bio_en' | 'speech_tone' | 'voice_v'
+>
+
+// 오늘의 인물 user_contents 조회 행
+interface FigureUserContentRow {
+  id: string
+  content_id: string
+  rating: number | null
+  review: string | null
+  review_en: string | null
+  is_spoiler: boolean | null
+  source_url: string | null
+  contents: ContentJoinRow | ContentJoinRow[] | null
+}
+
 async function fetchFigureContents(
   supabase: StaticSupabase,
   celebId: string,
@@ -675,7 +719,8 @@ async function fetchFigureContents(
       .from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT)
       .eq('celeb_id', celebId)
-      .single(),
+      .single()
+      .overrideTypes<DialogueBrief, { merge: false }>(),
     fetchUserContentCounts(supabase),
   ])
 
@@ -683,21 +728,24 @@ async function fetchFigureContents(
     return { figure: null, contents: [], source: defaultSource }
   }
 
-  const contents: ScriptureContent[] = (userContents || []).map(item => {
+  const profileRow: FigureProfileRow = profile
+  const ucRows: FigureUserContentRow[] = userContents || []
+
+  const contents: ScriptureContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
-    const flat = flattenLocales((content as any)?.content_locales as ContentLocaleRow[] | null, locale)
+    const flat = flattenLocales(content?.content_locales, locale)
     return {
       id: content?.id || '',
       title: flat.title,
       creator: flat.creator,
       thumbnail_url: flat.thumbnail_url,
-      type: ((content as any)?.type as CategoryId) || 'BOOK',
+      type: (content?.type as CategoryId) || 'BOOK',
       celeb_count: 1,
       user_count: userCountMap.get(content?.id || '') ?? 0,
       avg_rating: item.rating ? Number(item.rating) : null,
       review: item.review,
-      review_en: (item as any).review_en ?? null,
-      is_spoiler: item.is_spoiler,
+      review_en: item.review_en ?? null,
+      is_spoiler: item.is_spoiler as boolean,
       source_url: item.source_url,
       user_content_id: item.id,
       title_ko: flat.title_ko,
@@ -709,28 +757,28 @@ async function fetchFigureContents(
     }
   }).filter(c => c.id)
 
-  const nicknameEn = (profile as any).nickname_en ?? null
-  const bioEn = (profile as any).bio_en ?? null
+  const nicknameEn = profileRow.nickname_en ?? null
+  const bioEn = profileRow.bio_en ?? null
 
-  const d = dialogue as unknown as DialogueBrief | null
+  const d: DialogueBrief | null = dialogue
   const useEn = locale === 'en'
   const greetingLines: string[] = (useEn ? d?.greeting_en : d?.greeting) ?? d?.greeting ?? []
   const quote: string | null = (useEn ? d?.quote_en : d?.quote) ?? d?.quote ?? null
 
   return {
     figure: {
-      id: profile.id,
-      nickname: (locale === 'en' ? nicknameEn || profile.nickname : profile.nickname) || '',
+      id: profileRow.id,
+      nickname: (locale === 'en' ? nicknameEn || profileRow.nickname : profileRow.nickname) || '',
       nickname_en: nicknameEn,
-      avatar_url: profile.avatar_url,
-      profession: profile.profession,
-      bio: (locale === 'en' ? bioEn || profile.bio : profile.bio) ?? null,
+      avatar_url: profileRow.avatar_url,
+      profession: profileRow.profession,
+      bio: (locale === 'en' ? bioEn || profileRow.bio : profileRow.bio) ?? null,
       bio_en: bioEn,
       contentCount: contents.length,
       greetingLines,
       quote,
-      speechTone: (profile as any).speech_tone ?? 'composed',
-      voiceV: (profile as any).voice_v ?? 0,
+      speechTone: profileRow.speech_tone ?? 'composed',
+      voiceV: profileRow.voice_v ?? 0,
     },
     contents,
     source: defaultSource
@@ -1059,22 +1107,24 @@ async function fetchContentSamplesForCelebs(
 
   const supabase = createStaticClient()
 
+  // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
   const { data, error } = await supabase
     .from('user_contents')
     .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
     .in('user_id', celebIds)
     .eq('visibility', 'public')
     .eq('status', 'FINISHED')
+    .overrideTypes<Array<{ user_id: string; contents: ContentJoinRow }>, { merge: false }>()
 
   if (error || !data?.length) return {}
 
   const result: Record<string, HubContentSample[]> = {}
   const seen: Record<string, Set<string>> = {}
 
-  for (const row of data as any[]) {
-    const celebId = row.user_id as string
-    const content = row.contents as any
-    const flat = flattenLocales(content.content_locales as ContentLocaleRow[], locale)
+  for (const row of data) {
+    const celebId = row.user_id
+    const content = row.contents
+    const flat = flattenLocales(content.content_locales, locale)
     if (!flat.thumbnail_url) continue
 
     if (!seen[celebId]) seen[celebId] = new Set()
@@ -1110,6 +1160,20 @@ export async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 
   return getContentSamplesForCelebsCached(key, perCeleb, locale)
 }
 
+// get_profession_content_samples RPC 결과 행
+interface ProfessionSampleRow {
+  profession: string
+  content_id: string
+  content_type: string
+  title: string | null
+  title_ko: string | null
+  title_en: string | null
+  creator: string | null
+  creator_en: string | null
+  thumbnail_url: string | null
+  thumbnail_en: string | null
+}
+
 async function fetchContentSamplesByProfession(
   perProfession: number,
   locale: string,
@@ -1120,15 +1184,16 @@ async function fetchContentSamplesByProfession(
   if (error || !data?.length) return {}
 
   const result: Record<string, HubContentSample[]> = {}
-  for (const row of data as any[]) {
-    const profession = row.profession as string
+  const rows: ProfessionSampleRow[] = data
+  for (const row of rows) {
+    const profession = row.profession
     if (!result[profession]) result[profession] = []
-    const titleKo = (row.title_ko as string) ?? (row.title as string) ?? null
-    const titleEn = (row.title_en as string) ?? null
-    const creatorKo = (row.creator as string) ?? null
-    const creatorEn = (row.creator_en as string) ?? null
-    const thumbKo = (row.thumbnail_url as string) ?? null
-    const thumbEn = (row.thumbnail_en as string) ?? null
+    const titleKo = row.title_ko ?? row.title ?? null
+    const titleEn = row.title_en ?? null
+    const creatorKo = row.creator ?? null
+    const creatorEn = row.creator_en ?? null
+    const thumbKo = row.thumbnail_url ?? null
+    const thumbEn = row.thumbnail_en ?? null
     result[profession].push({
       id: row.content_id,
       title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',

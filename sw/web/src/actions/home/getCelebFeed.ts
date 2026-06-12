@@ -15,6 +15,40 @@ interface GetCelebFeedParams {
 
 const EMPTY_RESPONSE: CelebFeedResponse = { reviews: [], nextCursor: null, hasMore: false }
 
+// contents 조인 select 결과 행
+interface FeedContentRow {
+  id: string
+  type: string
+  user_count: number | null
+  content_locales: ContentLocaleRow[] | null
+}
+
+// profiles 조인 select 결과 행
+interface FeedCelebRow {
+  id: string
+  slug: string | null
+  nickname: string | null
+  avatar_url: string | null
+  profession: string | null
+  is_verified: boolean | null
+  claimed_by: string | null
+  profile_type: string | null
+  status: string | null
+}
+
+// user_contents select 결과 행
+interface FeedRow {
+  id: string
+  rating: number | null
+  review: string | null
+  review_en: string | null
+  is_spoiler: boolean | null
+  source_url: string | null
+  updated_at: string
+  content: FeedContentRow | FeedContentRow[] | null
+  celeb: FeedCelebRow | FeedCelebRow[] | null
+}
+
 async function fetchCelebFeed(
   contentType: string,
   cursor: string | null,
@@ -75,10 +109,12 @@ async function fetchCelebFeed(
     return EMPTY_RESPONSE
   }
 
-  const hasMore = data.length > limit
-  const sliced = hasMore ? data.slice(0, limit) : data
+  const rows = data as FeedRow[]
+  const hasMore = rows.length > limit
+  const sliced = hasMore ? rows.slice(0, limit) : rows
 
-  const filtered = sliced.filter(row => row.content && row.celeb && row.review)
+  const filtered = sliced.filter((row): row is FeedRow & { content: FeedContentRow | FeedContentRow[]; celeb: FeedCelebRow | FeedCelebRow[]; review: string } =>
+    Boolean(row.content && row.celeb && row.review))
 
   const contentIds = [...new Set(filtered.map(row => {
     const c = Array.isArray(row.content) ? row.content[0] : row.content
@@ -94,7 +130,7 @@ async function fetchCelebFeed(
       .eq('profiles.profile_type', 'CELEB')
 
     if (counts) {
-      for (const row of counts) {
+      for (const row of counts as { content_id: string }[]) {
         celebCountMap.set(row.content_id, (celebCountMap.get(row.content_id) ?? 0) + 1)
       }
     }
@@ -104,12 +140,12 @@ async function fetchCelebFeed(
     const content = Array.isArray(row.content) ? row.content[0] : row.content
     const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
-    const flat = flattenLocales((content as any).content_locales as ContentLocaleRow[] | null, locale)
+    const flat = flattenLocales(content.content_locales, locale)
     return {
       id: row.id,
       rating: row.rating,
-      review: row.review as string,
-      review_en: (row as any).review_en ?? null,
+      review: row.review,
+      review_en: row.review_en ?? null,
       is_spoiler: row.is_spoiler ?? false,
       source_url: row.source_url ?? null,
       updated_at: row.updated_at,

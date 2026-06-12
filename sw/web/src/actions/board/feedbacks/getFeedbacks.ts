@@ -58,7 +58,7 @@ async function fetchFeedbacks(
         acc[c.post_id] = (acc[c.post_id] || 0) + 1
         return acc
       }, {})
-      feedbacks.forEach(f => { (f as any).comment_count = countMap[f.id] || 0 })
+      feedbacks.forEach(f => { f.comment_count = countMap[f.id] || 0 })
     }
   }
 

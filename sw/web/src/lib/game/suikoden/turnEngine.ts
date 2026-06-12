@@ -171,7 +171,7 @@ function updateConstructions(state: GameState): GameState {
     }
   }
 
-  let s = { ...state, factions, placements, log }
+  const s = { ...state, factions, placements, log }
   return s
 }
 
@@ -761,9 +761,9 @@ const TAVERN_VISIT_CHANCE = 0.10
 
 function updateTavernVisitors(state: GameState): GameState {
   let visitors = [...state.tavernVisitors]
-  let wanderers = [...state.wanderers]
+  const wanderers = [...state.wanderers]
   let factions = state.factions.map(f => ({ ...f, members: [...f.members], resources: { ...f.resources } }))
-  let placements = [...state.placements]
+  const placements = [...state.placements]
   const log = [...state.log]
 
   // 1. 등용 판정: recruiterId가 있고 할당 후 1턴 이상 경과

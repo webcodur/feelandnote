@@ -12,6 +12,23 @@ export interface SimilarByCelebResult {
   similarCelebs: SimilarCeleb[]
 }
 
+// celeb_persona + profiles 조인 행 (두 select의 합집합, 두 번째 조회는 생몰일·title 미포함)
+interface PersonaJoinProfile {
+  nickname: string | null
+  nickname_en: string | null
+  profession: string | null
+  avatar_url: string | null
+  birth_date?: string | null
+  death_date?: string | null
+  title?: string | null
+}
+
+interface PersonaJoinRow {
+  celeb_id: string
+  persona: PersonaJsonb
+  profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
+}
+
 async function fetchSimilarByCelebId(
   celebId: string,
   limit: number,
@@ -33,11 +50,11 @@ async function fetchSimilarByCelebId(
   }
 
   const isEn = locale === 'en'
-  const resolveNick = (en: string | null, ko: string) => isEn && en ? en : ko
+  const resolveNick = (en: string | null | undefined, ko: string) => isEn && en ? en : ko
 
-  const tRow = target as any
+  const tRow: PersonaJoinRow = target
   const tProfile = Array.isArray(tRow.profiles) ? tRow.profiles[0] : tRow.profiles
-  const tJsonb = tRow.persona as PersonaJsonb
+  const tJsonb = tRow.persona
   const tStats = parsePersonaJsonb(tJsonb)
 
   const targetPersona: PersonaProfile = {
@@ -64,10 +81,10 @@ async function fetchSimilarByCelebId(
     return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs: [] }
   }
 
-  const similarCelebs: SimilarCeleb[] = (all as any[])
+  const similarCelebs: SimilarCeleb[] = (all as PersonaJoinRow[])
     .map((row) => {
       const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
-      const stats = parsePersonaJsonb(row.persona as PersonaJsonb)
+      const stats = parsePersonaJsonb(row.persona)
       const vec: PersonaProfile = {
         celeb_id: row.celeb_id,
         nickname: resolveNick(profile?.nickname_en, profile?.nickname ?? ''),

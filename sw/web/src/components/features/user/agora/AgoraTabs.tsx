@@ -25,7 +25,7 @@ export default function AgoraTabs() {
   const tabs = useMemo(
     () => AGORA_ITEMS.map((item) => ({
       ...item,
-      label: t(`${toKey(item.value)}.label` as any),
+      label: t(`${toKey(item.value)}.label`),
     })),
     [t]
   );

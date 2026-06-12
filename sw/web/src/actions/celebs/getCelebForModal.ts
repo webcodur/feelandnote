@@ -2,15 +2,25 @@
 
 import { createClient } from '@/lib/supabase/server'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
+import type { Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
+
+// select 문자열과 동일한 필드 집합
+type ProfileModalRow = Pick<
+  Tables<'profiles'>,
+  | 'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession'
+  | 'title' | 'title_en' | 'cultural_journey' | 'cultural_journey_en'
+  | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
+  | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
+>
 
 export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {
   const supabase = await createClient()
   const { data: { user: currentUser } } = await supabase.auth.getUser()
 
   // 프로필 조회 (CelebProfile에 매핑되는 필드만 — bio/cultural_journey 등 대형 TEXT 포함하지만 모두 UI에서 사용됨)
-  const { data: profile, error } = await supabase
+  const { data, error } = await supabase
     .from('profiles')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier')
     .eq('id', celebId)
@@ -18,6 +28,7 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     .eq('status', 'active')
     .single()
 
+  const profile: ProfileModalRow | null = data
   if (error || !profile) return null
 
   // 병렬 조회
@@ -34,6 +45,9 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
       .eq('celeb_id', celebId),
     supabase.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
   ])
+
+  // JSON path 추출 컬럼은 Json으로 추론되므로 실제 형태로 교정
+  const dialogue = dialogueResult.data as DialogueBrief | null
 
   // 팔로워 여부 (상대방이 나를 팔로우하는지)
   const followerCheck = currentUser
@@ -74,14 +88,14 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     title: profile.title,
     title_en: profile.title_en ?? null,
     cultural_journey: profile.cultural_journey,
-    cultural_journey_en: (profile as any).cultural_journey_en ?? null,
+    cultural_journey_en: profile.cultural_journey_en ?? null,
     nationality: profile.nationality,
     birth_date: profile.birth_date,
     death_date: profile.death_date,
     bio: profile.bio,
-    bio_en: (profile as any).bio_en ?? null,
-    quotes: (dialogueResult.data as unknown as DialogueBrief | null)?.quote ?? null,
-    quotes_en: (dialogueResult.data as unknown as DialogueBrief | null)?.quote_en ?? null,
+    bio_en: profile.bio_en ?? null,
+    quotes: dialogue?.quote ?? null,
+    quotes_en: dialogue?.quote_en ?? null,
     is_verified: profile.is_verified || false,
     is_platform_managed: profile.claimed_by === null,
     follower_count: followerResult.count || 0,
@@ -90,11 +104,11 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     is_follower: !!followerCheck.data,
     influence,
     tags,
-    greeting: (dialogueResult.data as unknown as DialogueBrief | null)?.greeting ?? null,
-    greeting_en: (dialogueResult.data as unknown as DialogueBrief | null)?.greeting_en ?? null,
+    greeting: dialogue?.greeting ?? null,
+    greeting_en: dialogue?.greeting_en ?? null,
     has_voice: profile.has_voice ?? false,
-    voice_v: (profile as any).voice_v ?? 0,
-    voice_speed: (profile as any).voice_speed ?? 1.0,
+    voice_v: profile.voice_v ?? 0,
+    voice_speed: profile.voice_speed ?? 1.0,
     celeb_tier: (profile.celeb_tier as 'full' | 'light') ?? 'full',
   }
 }

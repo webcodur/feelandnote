@@ -12,6 +12,27 @@ import { useTranslations } from "next-intl";
 
 import type { ScriptureContent } from "@/actions/scriptures";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import type { ContentType } from "@/types/database";
+import type { CategoryId } from "@/constants/categories";
+import type { QuickRecordTarget } from "@/contexts/QuickRecordContext";
+import type { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
+
+// 가로 스크롤 훅이 반환하는 마우스 이벤트 핸들러 묶음
+export type HorizontalScrollEvents = ReturnType<typeof useHorizontalScroll>["events"];
+
+// 보관함 밖(추천 목록·검색 결과)에서 선택한 콘텐츠
+export interface PickedContentItem {
+    id: string;
+    type: ContentType;
+    title: string;
+    creator?: string | null;
+    thumbnailUrl?: string | null;
+    thumbnail?: string | null;
+    thumbnail_url?: string | null;
+}
+
+// isWantItem이 true면 보관함 항목(UserContentPublic), false면 PickedContentItem을 전달한다
+export type HomeItemClickHandler = (item: UserContentPublic | PickedContentItem, isWantItem: boolean) => void;
 
 export interface SuggestionProps {
     suggestions: ScriptureContent[];
@@ -19,10 +40,10 @@ export interface SuggestionProps {
     isSwitchingCategory: boolean;
     localUnreviewedList: UserContentPublic[];
     allReviewedItems: UserContentPublic[];
-    onItemClick: (item: any, isWantItem: boolean) => void;
+    onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
     scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: any;
+    events: HorizontalScrollEvents;
     isDragging: boolean;
 }
 
@@ -30,15 +51,15 @@ export interface ArchiveProps {
     userId?: string;
     unreviewedList: UserContentPublic[];
     allReviewedItems: UserContentPublic[];
-    onItemClick: (item: any, isWantItem: boolean) => void;
+    onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
     scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: any;
+    events: HorizontalScrollEvents;
     isDragging: boolean;
 }
 
 interface HomeEditorAreaProps {
-    targetContent: any; // QuickRecordContext targetContent
+    targetContent: QuickRecordTarget | null;
     onEditorComplete: () => void;
     editorRef: React.RefObject<HTMLDivElement | null>;
     suggestionProps: SuggestionProps;
@@ -239,7 +260,8 @@ export function HomeEditorArea({
                                 contentCreator={targetContent.creator}
                                 isRecommendation={targetContent.isRecommendation}
                                 hideHeader={true}
-                                contentType={targetContent.type}
+                                // 기존 런타임은 대문자 ContentType을 그대로 넘긴다(CategoryId 소문자와 불일치, 카테고리 프리셋이 빈 배열로 동작). 동작 보존을 위해 캐스트 유지
+                                contentType={targetContent.type as string as CategoryId}
                             />
                         </div>
                     ) : (

@@ -20,9 +20,10 @@ export async function searchInformation(query: string, type: 'NEWS' | 'IMAGE' = 
       const result = await searchImages(query);
       return { type: 'IMAGE' as const, items: result.items };
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Information search error:', error);
-    return { error: error.message || '검색 중 오류가 발생했습니다.' };
+    const message = error instanceof Error ? error.message : '';
+    return { error: message || '검색 중 오류가 발생했습니다.' };
   }
 }
 
@@ -33,8 +34,9 @@ export async function searchBlogAction(query: string) {
   try {
     const result = await searchBlog(query, 5);
     return { items: result.items };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Blog search error:', error);
-    return { error: error.message || '검색 중 오류가 발생했습니다.', items: [] };
+    const message = error instanceof Error ? error.message : '';
+    return { error: message || '검색 중 오류가 발생했습니다.', items: [] };
   }
 }

@@ -135,7 +135,7 @@ export default function PendulumBanner({ children }: Props) {
        const my = e.clientY - rect.top;
        
        // Find clicked ball
-       for (let b of balls) {
+       for (const b of balls) {
           const dx = b.x - mx;
           const dy = b.y - my;
           if (dx*dx + dy*dy < BALL_RADIUS*BALL_RADIUS) {
