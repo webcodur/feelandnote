@@ -8,14 +8,14 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
-import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
+import { getPersonaDistribution } from "@/actions/persona/getPersonaDistribution";
 import { getFeaturedTags } from "@/actions/home/getFeaturedTags";
 import HubSection from "@/components/shared/HubSection";
 import { EXPLORE_GROUP_ID, EXPLORE_SECTIONS, EXPLORE_STANDALONE, exploreSection } from "@/components/shared/hubSectionUtils";
 import HubNav from "@/components/shared/HubNav";
 import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
-import TopByTypeGrid from "@/components/features/user/explore/hub/TopByTypeGrid";
-import PersonaExtremeGrid from "@/components/features/user/explore/hub/PersonaExtremeGrid";
+import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
+import PersonaDistribution from "@/components/features/user/explore/personaAnalysis/PersonaDistribution";
 import SpotlightCard from "@/components/features/user/explore/hub/SpotlightCard";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
@@ -37,17 +37,15 @@ async function HubContent() {
   const t = await getTranslations("explore.hub");
 
   // 병렬 데이터 페칭
-  const [deepReadersResult, topByType, personaExtremes, lightResult, allResult, featuredTags] = await Promise.all([
+  const [deepReadersResult, topByType, personaPeople, allResult, featuredTags] = await Promise.all([
     getCelebs({ sortBy: "content_count", minContentCount: 30, limit: 6 }),
     getTopByContentType(),
-    getPersonaExtremes(),
-    getCelebs({ sortBy: "influence", limit: 6, tier: "light" }),
+    getPersonaDistribution(),
     getCelebs({ sortBy: "daily_recommend", limit: 12, tier: "full" }),
     getFeaturedTags(),
   ]);
 
   const deepReaders = deepReadersResult.celebs;
-  const lightCelebs = lightResult.celebs;
   const allCelebs = allResult.celebs;
   const spotlightTagNames = featuredTags
     .filter(tag => tag.is_featured && tag.celebs.length > 0)
@@ -67,6 +65,10 @@ async function HubContent() {
       }))
     }));
 
+  // 랭킹 섹션은 탭 내부에서 탭별 더보기를 처리하므로 섹션 래퍼의 더보기는 생략
+  const rs = exploreSection("ranking", t);
+  const rankingSection = { title: rs.title, subtitle: rs.subtitle, index: rs.index, total: rs.total, groupId: rs.groupId };
+
   return (
     <div className="space-y-12 md:space-y-16">
       {/* 서브페이지 네비게이터 — SSoT config에서 라벨·순서·넘버링 동기화 */}
@@ -76,43 +78,29 @@ async function HubContent() {
         groupId={EXPLORE_GROUP_ID}
       />
 
-      {/* 1/6 왕성한 탐구자 */}
-      {deepReaders.length > 0 && (
-        <HubSection {...exploreSection("deepReaders", t)} hideDivider>
-          <HubCelebGrid celebs={deepReaders} />
+      {/* 1/4 랭킹 — 왕성한 탐구자 · 분야별 최고 탭 */}
+      {(deepReaders.length > 0 || topByType.length > 0) && (
+        <HubSection {...rankingSection} hideDivider>
+          <RankingTabs deepReaders={deepReaders} topByType={topByType} />
         </HubSection>
       )}
 
-      {/* 2/6 분야별 랭킹 */}
-      {topByType.length > 0 && (
-        <HubSection {...exploreSection("topByType", t)}>
-          <TopByTypeGrid entries={topByType} />
+      {/* 2/4 성향 분석 — 성향 분포 */}
+      {personaPeople.length > 0 && (
+        <HubSection {...exploreSection("personaAnalysis", t)}>
+          <PersonaDistribution people={personaPeople} />
         </HubSection>
       )}
 
-      {/* 3/6 비범한 인물 */}
-      {personaExtremes.length > 0 && (
-        <HubSection {...exploreSection("personaExtremes", t)}>
-          <PersonaExtremeGrid entries={personaExtremes} />
-        </HubSection>
-      )}
-
-      {/* 4/6 스포트라이트 */}
+      {/* 3/4 스포트라이트 */}
       <HubSection {...exploreSection("spotlight", t)}>
         <SpotlightCard locale={locale} tags={spotlightTagNames} />
       </HubSection>
 
-      {/* 5/6 전체 탐구자 */}
+      {/* 4/4 전체 탐구자 */}
       {allCelebs.length > 0 && (
         <HubSection {...exploreSection("allCelebs", t)}>
           <HubCelebGrid celebs={allCelebs} />
-        </HubSection>
-      )}
-
-      {/* 6/6 사색가 */}
-      {lightCelebs.length > 0 && (
-        <HubSection {...exploreSection("lightCelebs", t)}>
-          <HubCelebGrid celebs={lightCelebs} />
         </HubSection>
       )}
     </div>

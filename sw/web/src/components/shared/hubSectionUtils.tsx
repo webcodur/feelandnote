@@ -2,7 +2,7 @@
 
 import {
   Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText, Clock,
-  Route, Scroll, GraduationCap, CalendarHeart, Youtube,
+  Route, Scroll, GraduationCap, CalendarHeart, Youtube, UsersRound,
 } from "lucide-react";
 
 // ────────────────────────────────────────────────────
@@ -40,12 +40,10 @@ function hubSection(sections: readonly HubSectionConfig[], groupId: string, key:
 export const EXPLORE_GROUP_ID = "explore";
 
 export const EXPLORE_SECTIONS = [
-  { key: "deepReaders",     icon: <Users size={14} />,        moreHref: "/explore/figures?sortBy=content_count", titleKey: "deepReaders",     subtitleKey: "deepReadersSub",     moreKey: "viewMore" },
-  { key: "topByType",       icon: <BarChart3 size={14} />,    moreHref: "/explore/ranking",                      titleKey: "topByType",       subtitleKey: "topByTypeSub",       moreKey: "viewAll" },
-  { key: "personaExtremes", icon: <Fingerprint size={14} />,  moreHref: "/explore/persona",                      titleKey: "personaExtremes", subtitleKey: "personaExtremesSub", moreKey: "viewAll" },
+  { key: "ranking",         icon: <BarChart3 size={14} />,    moreHref: "/explore/ranking",                      titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
+  { key: "personaAnalysis", icon: <Fingerprint size={14} />,  moreHref: "/explore/persona",                      titleKey: "personaAnalysis", subtitleKey: "personaAnalysisSub", moreKey: "viewAll" },
   { key: "spotlight",       icon: <Sparkles size={14} />,     moreHref: "/explore/spotlight",                    titleKey: "spotlight",       subtitleKey: "spotlightSub",       moreKey: "viewAll" },
   { key: "allCelebs",       icon: <Users size={14} />,        moreHref: "/explore/figures?tier=full",            titleKey: "allCelebs",       subtitleKey: "allCelebsSub",       moreKey: "viewAll" },
-  { key: "lightCelebs",     icon: <BookOpenText size={14} />, moreHref: "/explore/figures?tier=light",           titleKey: "lightCelebs",     subtitleKey: "lightCelebsSub",     moreKey: "viewAll" },
 ] as const;
 
 export const EXPLORE_STANDALONE = [
@@ -53,6 +51,7 @@ export const EXPLORE_STANDALONE = [
   { key: "navTimeline",  href: "/explore/timeline",  icon: <Clock size={14} /> },
   { key: "navYoutube",   href: "/explore/youtube",   icon: <Youtube size={14} /> },
   { key: "navDirectory", href: "/explore/directory",  icon: <BookOpenText size={14} /> },
+  { key: "navOthers",    href: "/explore/figures?tier=light", icon: <UsersRound size={14} /> },
 ] as const;
 
 export const exploreSection = (key: (typeof EXPLORE_SECTIONS)[number]["key"], t: (k: string) => string) =>

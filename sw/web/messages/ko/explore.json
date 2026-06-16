@@ -132,15 +132,19 @@
       }
     },
     "hub": {
+      "ranking": "랭킹",
+      "rankingSub": "기록을 가장 많이 남긴 인물과 분야별 최고 기록가를 한자리에서.",
+      "personaAnalysis": "성향 분석",
+      "personaAnalysisSub": "영향력 있는 인물들이 네 가지 성향(낙관·진취·공동체·과감)에서 어디쯤 서 있는지 분포로 봅니다. 이름으로 찾아볼 수도 있습니다.",
       "groupDocumented": "탐구자",
       "groupDocumentedDesc": "한 줄의 기록을 남긴 인물들. 그들의 울림이 여러분의 다음 감상을 안내합니다.",
-      "groupThinkers": "사색가",
+      "groupThinkers": "기타 인물",
       "groupThinkersDesc": "감상 기록은 전해지지 않으나, 남긴 사유 자체가 하나의 작품인 인물들.",
       "deepReaders": "왕성한 탐구자",
       "deepReadersSub": "30건 이상의 기록이 확인된 인물들. 풍부한 울림 속에서 한 사람의 세계관이 드러납니다.",
       "topByType": "분야별 랭킹",
       "topByTypeSub": "책·영화·게임·음악, 각 분야에서 가장 왕성한 감상을 남긴 인물들.",
-      "lightCelebs": "사색가",
+      "lightCelebs": "기타 인물",
       "lightCelebsSub": "기록 너머의 울림. 그들의 사유가 여러분의 감상에 새로운 깊이를 더합니다.",
       "spotlight": "스포트라이트",
       "spotlightSub": "시대와 분야를 넘어 하나의 주제로 엮인 인물 기획전.",
@@ -159,7 +163,8 @@
       "navDirectory": "디렉토리",
       "navTimeline": "국가별 연대기",
       "navYoutube": "유튜브 채널",
-      "navToday": "오늘의 인물"
+      "navToday": "오늘의 인물",
+      "navOthers": "기타 인물"
     },
     "youtube": {
       "metaTitle": "유튜브 채널 | 서재 탐방 영상",

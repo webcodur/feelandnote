@@ -132,6 +132,10 @@
       }
     },
     "hub": {
+      "ranking": "Rankings",
+      "rankingSub": "The most prolific figures and the top record-holder in each field, all in one place.",
+      "personaAnalysis": "Disposition Analysis",
+      "personaAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
       "groupDocumented": "Seekers",
       "groupDocumentedDesc": "Figures who left their lines recorded. Their echoes light the way to your next discovery.",
       "groupThinkers": "Thinkers",
@@ -159,7 +163,8 @@
       "navDirectory": "Directory",
       "navTimeline": "Timeline by Country",
       "navYoutube": "YouTube Channel",
-      "navToday": "Today's Figure"
+      "navToday": "Today's Figure",
+      "navOthers": "Other Figures"
     },
     "youtube": {
       "metaTitle": "YouTube Channel | Library Tour Videos",
