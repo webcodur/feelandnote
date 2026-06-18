@@ -26,6 +26,11 @@ dist-ssr
 *.local
 .next
 
+# Build & language caches (자동 재생성)
+*.tsbuildinfo
+__pycache__/
+*.pyc
+
 # Remotion auto-generated docs (DB에서 재생성 가능)
 docs/project/remotion/book-recommend/lineup/candidates-raw.md
 
@@ -40,6 +45,12 @@ sw/remotion/public/voice-samples/
 
 # Remotion cover images (candidate용, DB thumbnail_url에서 재다운로드 가능)
 sw/remotion/public/covers/
+
+# Remotion 세력도(faction) 영상 자료 — 전체 로컬 관리 (episodes와 동일 정책)
+sw/remotion/public/factions/
+
+# Remotion BGM 음원 (로컬 관리)
+sw/remotion/public/music/
 
 # Remotion temp scripts & data
 sw/remotion/tmp-*
