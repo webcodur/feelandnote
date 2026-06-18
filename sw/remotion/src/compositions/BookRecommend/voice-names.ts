@@ -18,13 +18,21 @@ export const VN_LABEL_CONTEXT = 'C2-label-context.wav'
 
 // Longform: Book phases
 export function vnBookTitle(i: number) { return `D${String(i + 1).padStart(2, '0')}a-title.wav` }
-export function vnBookSummary(i: number) { return `D${String(i + 1).padStart(2, '0')}b-summary.wav` }
-export function vnBookContext(i: number) { return `D${String(i + 1).padStart(2, '0')}c-context.wav` }
+/** part: 토막 인덱스(0-based). 0은 기존 이름 그대로(D01b-summary), 1부터 번호 부착(D01b2-summary) — 기존 음원 전부 호환 */
+export function vnBookSummary(i: number, part = 0) {
+  return `D${String(i + 1).padStart(2, '0')}b${part > 0 ? part + 1 : ''}-summary.wav`
+}
+export function vnBookContext(i: number, part = 0) {
+  return `D${String(i + 1).padStart(2, '0')}c${part > 0 ? part + 1 : ''}-context.wav`
+}
 export function vnBookQuote(i: number, pairIdx: number) {
   return `D${String(i + 1).padStart(2, '0')}d${pairIdx * 2 + 1}-quote.wav`
 }
-export function vnBookAfter(i: number, pairIdx: number) {
-  return `D${String(i + 1).padStart(2, '0')}d${pairIdx * 2 + 2}-after.wav`
+/** part: 토막 인덱스(0-based). 0은 기존 이름 그대로(D01d2-after), 1부터 `_N` 접미사 부착(D01d2_2-after).
+ *  접미사는 d 번호 뒤에 붙어 같은 인용 쌍 안에서만 분할하며, 다음 쌍의 d 인덱스(d3 등)와 충돌하지 않는다.
+ *  알파벳·숫자 정렬 시 D01d2 < D01d2_2 < D01d3 순서가 보장되어 재생 순서가 유지된다. */
+export function vnBookAfter(i: number, pairIdx: number, part = 0) {
+  return `D${String(i + 1).padStart(2, '0')}d${pairIdx * 2 + 2}${part > 0 ? `_${part + 1}` : ''}-after.wav`
 }
 
 // Longform: Outro & continuation

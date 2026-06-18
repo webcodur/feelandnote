@@ -12,10 +12,10 @@
 import { mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { VOICE } from '../2-synthesize/config.js'
+import { VOICE, MODEL_GEMINI_25, MODEL_GEMINI_31 } from '../2-synthesize/config.js'
 import { normalizeWav, normalizeAll } from '../2-synthesize/normalize.js'
 import {
-  EPISODE_NAME, DATA_PATH, VOICE_DIR, LANG,
+  EPISODE_NAME, DATA_PATH, VOICE_DIR, LANG, GEMINI_MODEL,
   DRY_RUN, LIST_ONLY, FORCE_ALL, NORMALIZE, INIT_MANIFEST, UPDATE_JSON, ONLY_TARGETS,
 } from './cli.js'
 import { loadFactionData, buildVoiceJobs, writeQuoteDurations, type FactionVoiceJob } from './data.js'
@@ -27,6 +27,21 @@ function voiceFor(job: FactionVoiceJob): string {
   return job.speaker && job.speaker.trim() ? job.speaker.trim() : VOICE.celeb
 }
 
+/**
+ * 인물별 합성 모델 — quoteEngine 이 'gemini-v3' 면 3.1, 'gemini' 면 2.5,
+ * 미지정이면 CLI 전역 --engine(GEMINI_MODEL)을 따른다. ('elevenlabs' 인물은 이미 잡에서 제외됨)
+ */
+function modelFor(job: FactionVoiceJob): string {
+  if (job.engine === 'gemini-v3') return MODEL_GEMINI_31
+  if (job.engine === 'gemini') return MODEL_GEMINI_25
+  return GEMINI_MODEL
+}
+
+/** 매니페스트 해시 키 — 보이스+모델을 합쳐, 엔진(2.5↔3.1) 교체도 재생성을 트리거한다. */
+function hashVoice(job: FactionVoiceJob): string {
+  return `${voiceFor(job)}@${modelFor(job)}`
+}
+
 export async function main(): Promise<void> {
   if (!existsSync(DATA_PATH)) {
     console.error(`✗ data.json 없음: ${DATA_PATH}`)
@@ -36,6 +51,13 @@ export async function main(): Promise<void> {
 
   const script = await loadFactionData()
   let jobs = buildVoiceJobs(script)
+
+  // ElevenLabs 인물은 자동 생성 대상이 아니다(사용자 전담). BO 미리듣기 패널에서 직접 생성·저장한다.
+  const eleSkipped = jobs.filter(j => j.engine === 'elevenlabs').length
+  if (eleSkipped > 0) {
+    jobs = jobs.filter(j => j.engine !== 'elevenlabs')
+    console.log(`ElevenLabs 지정 ${eleSkipped}명 자동 생성 제외 (사용자 전담)`)
+  }
 
   console.log(`에피소드: ${EPISODE_NAME} (factions/${EPISODE_NAME})`)
   console.log(`언어: ${LANG}  ·  대사 인물: ${jobs.length}명`)
@@ -55,7 +77,7 @@ export async function main(): Promise<void> {
   // --init-manifest: 합성 없이 현재 텍스트 기준 매니페스트만 생성
   if (INIT_MANIFEST) {
     const m: Record<string, string> = {}
-    for (const j of jobs) m[j.file] = jobHash(j.text, voiceFor(j))
+    for (const j of jobs) m[j.file] = jobHash(j.text, hashVoice(j))
     await saveManifest(m)
     console.log(`✓ voice-manifest.json 초기화 완료 (${jobs.length}개)`)
     return
@@ -79,7 +101,7 @@ export async function main(): Promise<void> {
   // 변경 감지: 매니페스트 해시와 비교해 변경 없는 잡 스킵
   if (!FORCE_ALL && ONLY_TARGETS.length === 0) {
     const before = jobs.length
-    jobs = jobs.filter(j => jobHash(j.text, voiceFor(j)) !== manifest[j.file])
+    jobs = jobs.filter(j => jobHash(j.text, hashVoice(j)) !== manifest[j.file])
     const skipped = before - jobs.length
     if (skipped > 0) console.log(`변경 없는 ${skipped}개 스킵`)
 
@@ -98,7 +120,7 @@ export async function main(): Promise<void> {
   if (LIST_ONLY) {
     console.log('생성 대상:')
     for (const j of jobs) {
-      const changed = jobHash(j.text, voiceFor(j)) !== manifest[j.file]
+      const changed = jobHash(j.text, hashVoice(j)) !== manifest[j.file]
       console.log(`  ${j.file.padEnd(22)} [${voiceFor(j)}] ${changed ? '← 변경' : ''}  ${j.text.slice(0, 40)}`)
     }
     return
@@ -121,9 +143,10 @@ export async function main(): Promise<void> {
   const durations: Record<string, number> = {}
   for (const job of jobs) {
     const voice = voiceFor(job)
+    const model = modelFor(job)
     const fp = path.join(VOICE_DIR, job.file)
-    console.log(`[${job.file}] [${voice}]`)
-    const dur = await synthesizeGemini(job.text, voice, fp)
+    console.log(`[${job.file}] [${voice}] (${model})`)
+    const dur = await synthesizeGemini(job.text, voice, fp, model)
     // --normalize: 신규 wav 즉시 정규화 (.raw/ 백업 자동). 길이는 정규화 후 다시 측정해 정확히 기록.
     if (NORMALIZE) {
       const r = await normalizeWav(fp)
@@ -131,7 +154,7 @@ export async function main(): Promise<void> {
       else console.log(`  ↳ normalize 측정 실패 — 원본 유지`)
     }
     durations[job.file] = await measureWavDuration(fp)
-    manifest[job.file] = jobHash(job.text, voice)
+    manifest[job.file] = jobHash(job.text, hashVoice(job))
   }
 
   await saveManifest(manifest)

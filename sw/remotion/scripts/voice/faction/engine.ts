@@ -30,11 +30,11 @@ export async function saveWav(filename: string, pcmData: Buffer): Promise<number
   })
 }
 
-/** Gemini TTS → PCM Buffer (키 로테이션·재시도 포함) */
-async function synthesizeRaw(text: string, voiceName: string, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
+/** Gemini TTS → PCM Buffer (키 로테이션·재시도 포함). model 미지정 시 CLI 기본 GEMINI_MODEL */
+async function synthesizeRaw(text: string, voiceName: string, model: string = GEMINI_MODEL, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
   try {
     const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
+      model,
       contents: [{ parts: [{ text }] }],
       config: {
         responseModalities: ['AUDIO'],
@@ -46,7 +46,7 @@ async function synthesizeRaw(text: string, voiceName: string, retries = 5, keyRe
       if (retries > 0) {
         console.log(`  빈 응답 — 2초 후 재시도 (${retries}회 남음)`)
         await new Promise(r => setTimeout(r, 2000))
-        return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
+        return synthesizeRaw(text, voiceName, model, retries - 1, keyRetries)
       }
       throw new Error('No audio data')
     }
@@ -57,26 +57,26 @@ async function synthesizeRaw(text: string, voiceName: string, retries = 5, keyRe
       keyIndex = (keyIndex + 1) % API_KEYS.length
       ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
       console.log(`  키 ${keyIndex + 1}로 전환 (${err.status})`)
-      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
+      return synthesizeRaw(text, voiceName, model, 5, keyRetries - 1)
     }
     if (err.status === 400 && err.message?.includes('expired') && keyRetries > 0) {
       keyIndex = (keyIndex + 1) % API_KEYS.length
       ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
       console.log(`  키 ${keyIndex + 1}로 전환 (만료)`)
-      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
+      return synthesizeRaw(text, voiceName, model, 5, keyRetries - 1)
     }
     if (err.status === 500 && retries > 0) {
       console.log(`  서버 오류(500) — 3초 후 재시도 (${retries}회 남음)`)
       await new Promise(r => setTimeout(r, 3000))
-      return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
+      return synthesizeRaw(text, voiceName, model, retries - 1, keyRetries)
     }
     throw e
   }
 }
 
-/** 합성 → wav 저장 → 길이(초) 반환 */
-export async function synthesizeGemini(text: string, voiceName: string, outputFile: string): Promise<number> {
-  const pcm = await synthesizeRaw(text, voiceName)
+/** 합성 → wav 저장 → 길이(초) 반환. model 미지정 시 CLI 기본(GEMINI_MODEL) */
+export async function synthesizeGemini(text: string, voiceName: string, outputFile: string, model?: string): Promise<number> {
+  const pcm = await synthesizeRaw(text, voiceName, model)
   const duration = await saveWav(outputFile, pcm)
   console.log(`  ${path.basename(outputFile).padEnd(28)} ${duration.toFixed(2)}s`)
   return duration

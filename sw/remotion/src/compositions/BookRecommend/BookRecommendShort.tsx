@@ -15,7 +15,7 @@ import { safePrefetch } from './safe-prefetch'
 import { DARK } from '../theme'
 import { FONT } from './fonts'
 import {
-  SHORT_REVEAL_FRAMES,
+  SHORT_REVEAL_ENABLED, SHORT_REVEAL_FRAMES,
   SHORT_OUTRO_OPEN,
   SHORT_LOGO_FADE_OUT, SHORT_LOGO_FADE_OUT_BGM,
   shortTotalFrames, shortSegLayout, resolveShortLogoFrames, FPS, f,
@@ -188,7 +188,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
   // 단조성 보장: 페이드아웃 시작점이 페이드인 종료보다 항상 뒤에 오도록 클램프
   const revealHoldEnd = Math.max(revealStart + revealFadeIn + 1, revealEnd - revealFadeOut)
   const revealFadeInSafe = Math.max(1, revealFadeIn)
-  const revealOp = interpolate(frame,
+  // SHORT_REVEAL_ENABLED=false면 리빌 오버레이를 그리지 않는다 (timing.ts에서 시간도 제거됨)
+  const revealOp = !SHORT_REVEAL_ENABLED ? 0 : interpolate(frame,
     [revealStart, revealStart + revealFadeInSafe, revealHoldEnd, revealEnd],
     [revealFadeIn > 0 ? 0 : 1, 1, 1, 0], CL,
   )
@@ -832,8 +833,9 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
         )
       })}
 
-      {/* ── 훅 시각 신호: 화면 가장자리 골드 vignette 펄스 + chime ──
-            훅 텍스트는 일반 자막으로 처리. 훅임을 알 수 있게 가장자리에서 골드 빛이 옅게 호흡한다. */}
+      {/* ── 훅 시각 신호 비활성화 (26.06.13 쇼츠 개편) — 화면 가장자리 골드 vignette 펄스.
+            복원하려면 아래 블록의 주석을 해제한다.
+
       {(() => {
         const hookIdx = segments.findIndex(s => s.visual === 'hook' && !s.disabled)
         if (hookIdx < 0) return null
@@ -864,6 +866,8 @@ export const BookRecommendShort: React.FC<Props> = ({ script, episodeName, short
           }} />
         )
       })()}
+
+      */}
 
       {/* 셀럽 자동 인용 오버레이 폐기 — 풀스크린 텍스트는 textOverlay 토글로 표시. */}
 

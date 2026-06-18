@@ -13,6 +13,7 @@ import {
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnTimingKey,
 } from './voice-names'
+import { bookFieldParts } from './field-parts'
 
 export function usePrefetch(
   script: BookRecommendScript,
@@ -32,10 +33,10 @@ export function usePrefetch(
       vf(VN_LABEL_CONTEXT),
       ...(narrator.outroDuration > 0 ? [vf(VN_OUTRO)] : []),
       ...(narrator.interludeDuration && narrator.interludeDuration > 0 ? [vf(VN_INTERLUDE)] : []),
-      ...books.flatMap((_, i) => [
+      ...books.flatMap((b, i) => [
         vf(vnBookTitle(i)),
-        vf(vnBookSummary(i)),
-        vf(vnBookContext(i)),
+        ...bookFieldParts(b.summary, b.summaryParts).map((_, p) => vf(vnBookSummary(i, p))),
+        ...bookFieldParts(b.contextMain, b.contextMainParts).map((_, p) => vf(vnBookContext(i, p))),
         ...(books[i].quotePairs ?? []).flatMap((p, pi) => [
           ...(p.quoteDuration ? [vf(vnBookQuote(i, pi))] : []),
           ...(p.afterDuration ? [vf(vnBookAfter(i, pi))] : []),

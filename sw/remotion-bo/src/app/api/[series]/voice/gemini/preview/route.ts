@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { GoogleGenAI } from '@google/genai'
 import { isValidSeries } from '@/lib/series-registry'
+import { MODEL_GEMINI_25 } from '@feelandnote/shared/lib/voice-policy'
 
 // ── Gemini 단일 segment 미리듣기 라우트
 //
@@ -11,7 +12,7 @@ import { isValidSeries } from '@/lib/series-registry'
 // 키 로테이션: GOOGLE_GENAI_API_KEY_FREE1..N. 429/403/만료/500 자동 재시도.
 // 환경변수 GEMINI_START_KEY (1-based)로 시작 키 지정 가능.
 
-const MODEL = 'gemini-2.5-flash-preview-tts'
+const MODEL = MODEL_GEMINI_25
 const API_KEYS = Array.from({ length: 100 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY_FREE${i + 1}`]).filter(Boolean) as string[]
 
 function wrapPcmAsWav(pcm: Buffer, sr: number, ch: number, bits: number): Buffer {

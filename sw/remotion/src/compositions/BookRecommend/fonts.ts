@@ -2,6 +2,8 @@
 export const FONT = {
   /** 한글 본문 — Inter + Pretendard */
   sans: 'Inter, "Pretendard Variable", Pretendard, "Noto Sans KR", sans-serif',
+  /** 프리텐다드 단일 — 솔로 자막 등 한글 우선 표기 */
+  pretendard: '"Pretendard Variable", Pretendard, "Noto Sans KR", sans-serif',
   /** 한글 세리프 — 감상철학, 셀럽 응답 */
   serif: 'MaruBuri, "Noto Serif KR", serif',
   /** 영문 장식 — 라벨, 섹션 타이틀 */

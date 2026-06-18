@@ -44,8 +44,32 @@ export interface FactionPerson {
   quoteGainDb?: number
   /** 대사 음성 재생 배속 (기본 1, 0.5~2) */
   quotePlaybackRate?: number
-  /** 대사 음성 화자 ID (선택) — 인물별 목소리 지정용. 미지정이면 공용 기본 목소리 */
+  /** 대사 음성 화자 ID (선택) — 인물별 Gemini 보이스명 오버라이드. 미지정이면 공용 기본 목소리 */
   quoteSpeaker?: string
+  /**
+   * 대사 음성 합성 엔진 (선택) — 'gemini'(2.5) | 'gemini-v3'(3.1) | 'elevenlabs'.
+   * 미지정이면 'gemini'. 파이프라인은 Gemini 만 자동 생성, 'elevenlabs' 는 미리듣기 패널에서 사용자가 직접 생성·저장.
+   */
+  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 대사 음성 ElevenLabs 보이스 ID (선택) — quoteEngine='elevenlabs' 일 때 사용. 미리듣기·사용자 생성용 */
+  quoteElevenlabsVoiceId?: string
+  /**
+   * 대사 발화 스타일 지시 (선택) — Gemini 합성 시 텍스트 앞에 "<지시>: " prefix 로 붙는다.
+   * 예: '강하고 단호하게', '낮고 간절하게'. 비면 기본 말투. 인물별로 톤을 저장해 같은 보이스라도
+   * 대사 강약을 다르게 낸다. 빈 문자열은 옵트아웃(스타일 없음)으로 취급한다.
+   */
+  quoteStyle?: string
+  /**
+   * 대사 ElevenLabs 감정/강도 옵션 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 북리커맨드 ELE send options 중 인물 톤 표현에 필요한 최소(stability·style)만 둔다.
+   * 미지정 필드는 프리뷰 라우트 기본값(stability 0.5, style 0.3)을 따른다.
+   */
+  quoteEleOptions?: {
+    /** 발화 안정성 (0~1). 낮을수록 표현이 강하고 변화가 크다 */
+    stability?: number
+    /** 스타일 과장 (0~1). 높을수록 감정·억양이 강조된다 */
+    style?: number
+  }
 }
 
 /**
@@ -72,6 +96,8 @@ export interface FactionCluster {
 export interface FactionGroup {
   /** 세력명 (예: 'OpenAI', '선구자') */
   name: string
+  /** 이 세력 인물 컷 전환효과. 미지정이면 에피소드 전역 설정을 따른다 */
+  transition?: FactionTransition
   /** 세력명 영문 */
   nameEn?: string
   /** 한 줄 설명 */

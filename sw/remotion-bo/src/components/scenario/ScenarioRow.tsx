@@ -37,11 +37,21 @@ export type RowDragHandle = {
 export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode, onPick, highlights,
   sectionKey, audioUrl, activeEngine, isPlaying, onTogglePlay,
   onToggleExpand,
-  images, onDrop, onAddAnchor, actions, collapseKey, dragHandle, leadStyle, footer, playbackRate }: {
+  images, onDrop, onAddAnchor, onSplitAt, live, barColor, headerColor, panelTint, actions, collapseKey, dragHandle, leadStyle, footer, playbackRate }: {
   label: ReactNode; role: string; value: string; voiceInfo?: VoiceInfo
   onCommit: (v: string, prev: string) => void
   pickMode?: boolean; onPick?: (selected: string) => void
   highlights?: string[]
+  /** 커서 위치에서 본문을 두 토막으로 나누기 (긴 서술 필드 전용) */
+  onSplitAt?: (offset: number, text: string) => void
+  /** 실시간 반영 — 타이핑마다 이미지 앵커·섬네일 라벨을 갱신(디스크 저장 아님). 앵커 있는 행에서만 켠다. */
+  live?: boolean
+  /** 음성 진행 막대 채움 색 — 섹션 구분색. 미지정 시 기본 accent. */
+  barColor?: string
+  /** 제목 띠 배경색 — 섹션 구분색(중간 농도 권장). 안쪽 패널에 안 가려 구분이 확실하다. */
+  headerColor?: string
+  /** 안쪽 패널(비주얼·스크립트·음성) 섹션 색 통일 — rgb 삼원색 문자열(예: "16,185,129"). 타입별 기본 테마(파랑 등)를 덮는다. */
+  panelTint?: string
   sectionKey?: string; audioUrl?: string; activeEngine?: string
   isPlaying?: boolean; onTogglePlay?: () => void
   onToggleExpand?: () => void
@@ -94,9 +104,10 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
         dropOver ? 'border-accent ring-2 ring-accent/60 bg-accent/10' : 'border-slate-400 bg-bg-card shadow-sm'
       } ${dragging ? 'opacity-40 scale-[0.99]' : 'hover:border-border-active/60 hover:shadow-md'}`}
     >
-      {/* ── 타이틀바 ── 손잡이/액션 외 영역 클릭 시 전체 토글 */}
+      {/* ── 타이틀바 ── 손잡이/액션 외 영역 클릭 시 전체 토글. 섹션 구분색은 여기(안쪽 패널에 안 가림). */}
       <div
-        className={`flex items-stretch text-sm font-bold bg-bg-secondary border-b border-slate-400 select-none transition-colors duration-150 ${folderKey ? 'cursor-pointer hover:bg-bg-hover' : ''}`}
+        className={`flex items-stretch text-sm font-bold border-b border-slate-400 select-none transition-colors duration-150 ${headerColor ? '' : 'bg-bg-secondary'} ${folderKey ? 'cursor-pointer hover:bg-bg-hover' : ''}`}
+        style={headerColor ? { backgroundColor: headerColor } : undefined}
         onClick={folderKey ? (e => {
           // 손잡이/액션 클릭은 위임 중단(stopPropagation) 해야 토글 안 됨
           if (e.defaultPrevented) return
@@ -179,6 +190,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
         {!collapsed && images ? (
           <EditorPanel
             title="비주얼 트랙 (VisualTrack)"
+            tintColor={panelTint}
             icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
             contentClassName="p-2"
           >
@@ -198,16 +210,18 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
         {/* 텍스트 영역은 접힘 상태에서도 항상 일관된 EditorPanel 로 표시됨 */}
         <EditorPanel
           title="스크립트 (ScriptEditor)"
+          tintColor={panelTint}
           icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
           className={collapsed ? '!mb-0' : 'mb-2 shadow-xs'}
           contentClassName={`px-3 ${collapsed ? 'py-1.5' : 'py-2.5'}`}
         >
-          <EditableText value={value} onCommit={onCommit} pickMode={pickMode} onPick={onPick} highlights={highlights} onAddAnchor={onAddAnchor} />
+          <EditableText value={value} onCommit={onCommit} pickMode={pickMode} onPick={onPick} highlights={highlights} onAddAnchor={onAddAnchor} onSplitAt={onSplitAt} live={live} />
         </EditorPanel>
 
         {!collapsed && voiceInfo && audioUrl && (
           <EditorPanel
             title="음성 제어판 (VoicePanel)"
+            tintColor={panelTint}
             icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>}
             onIconClick={onToggleExpand}
             iconTitle="파형 편집기 열기"
@@ -220,6 +234,7 @@ export function ScenarioRow({ label, role, value, voiceInfo, onCommit, pickMode,
               isPlaying={!!isPlaying}
               onTogglePlay={onTogglePlay ?? (() => {})}
               playbackRate={playbackRate}
+              fillColor={barColor}
             />
             <span className="text-sm font-bold text-text-secondary font-mono font-bold whitespace-nowrap ml-2">{voiceInfo.sectionKey}</span>
             {activeEngine && (

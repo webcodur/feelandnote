@@ -37,7 +37,7 @@ export const BookCardHero: React.FC<Props> = ({ book, locale, publishYearLabel, 
     <div style={{ position: 'absolute', inset: 0, opacity: titlePhaseOp, zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ transform: `translateY(${coverY}px) scale(${coverScale})`, marginBottom: 24 }}>
         <div style={{
-          width: portrait ? 340 : 480, height: portrait ? 510 : 720, borderRadius: 14, overflow: 'hidden', position: 'relative',
+          width: portrait ? 340 : 430, height: portrait ? 510 : 645, borderRadius: 14, overflow: 'hidden', position: 'relative',
           boxShadow: `0 36px 90px rgba(0,0,0,0.7), 0 0 70px ${accent.glow}`,
         }}>
           <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -55,13 +55,14 @@ export const BookCardHero: React.FC<Props> = ({ book, locale, publishYearLabel, 
           {book.creator}
         </div>
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginTop: 6, justifyContent: 'center' }}>
-          {book.source && <span style={{ color: '#666', fontSize: portrait ? 22 : 24, fontFamily: FONT.sans }}>{book.source}</span>}
-          {book.stats.publisher && (
-            <><span style={{ color: '#444', fontSize: portrait ? 22 : 24 }}>·</span><span style={{ color: '#666', fontSize: portrait ? 22 : 24, fontFamily: FONT.sans }}>{book.stats.publisher}</span></>
-          )}
-          {book.stats.publishYear && (
-            <><span style={{ color: '#444', fontSize: portrait ? 22 : 24 }}>·</span><span style={{ color: '#666', fontSize: portrait ? 22 : 24, fontFamily: FONT.sans }}>{publishYearLabel(book.stats.publishYear!)}</span></>
-          )}
+          {[book.stats.publisher, book.stats.publishYear ? publishYearLabel(book.stats.publishYear) : null]
+            .filter(Boolean)
+            .map((meta, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <span style={{ color: '#444', fontSize: portrait ? 22 : 24 }}>·</span>}
+                <span style={{ color: '#666', fontSize: portrait ? 22 : 24, fontFamily: FONT.sans }}>{meta}</span>
+              </React.Fragment>
+            ))}
         </div>
       </div>
     </div>

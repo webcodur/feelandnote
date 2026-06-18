@@ -159,6 +159,9 @@ export function resolveShortLogoFrames(logoDurationSec: number | undefined, hasB
   }
   return hasBgm ? SHORT_LOGO_FRAMES_BGM : SHORT_LOGO_FRAMES
 }
+/** 오프닝 리빌 사용 여부 — false면 리빌 구간을 통째로 건너뛰고 훅 → 인트로 바로 진행.
+ *  복원하려면 true로 되돌린다. (26.06.13 쇼츠 개편으로 비활성화) */
+export const SHORT_REVEAL_ENABLED = false
 /** 오프닝 리빌 (chime + 아바타+포스터) */
 export const SHORT_REVEAL_FRAMES = f(3.0)  // 180
 /** 리빌 → 첫 세그먼트 갭 (배경 전환 여유) */
@@ -204,7 +207,7 @@ export function shortSegLayout(segments: ShortSegment[]) {
   const segStarts: number[] = []
   let revealStart = 0
   let cursor = 0
-  if (!hookFirst) {
+  if (SHORT_REVEAL_ENABLED && !hookFirst) {
     cursor = SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
   }
   for (let i = 0; i < segTimings.length; i++) {
@@ -231,8 +234,8 @@ export function shortSegLayout(segments: ShortSegment[]) {
       console.log(`[shortSegLayout] seg#${i} id=${segments[i].id} gapAfter=${segments[i].gapAfter}s → +${extraGap}f`)
     }
     cursor += segTimings[i] + gap + extraGap
-    // 훅 종료 + 훅갭 직후 오프닝 리빌(인물·책) 구간 삽입
-    if (hookFirst && i === 0 && next) {
+    // 훅 종료 + 훅갭 직후 오프닝 리빌(인물·책) 구간 삽입 (SHORT_REVEAL_ENABLED=false면 건너뜀)
+    if (SHORT_REVEAL_ENABLED && hookFirst && i === 0 && next) {
       revealStart = cursor
       cursor += SHORT_REVEAL_FRAMES + SHORT_REVEAL_GAP
     }

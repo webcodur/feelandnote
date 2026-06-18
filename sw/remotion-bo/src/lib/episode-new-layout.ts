@@ -129,8 +129,9 @@ export async function saveNewLayoutEpisode(name: string, data: any, scope: SaveS
   const writeMetaBooks = scope === 'all' || scope === 'longform'
   const writeShorts = scope === 'all' || scope === 'shorts'
 
-  // meta — books·shorts 제외. 부분 저장(bookIndices 지정)에서는 meta 를 건드리지 않는다.
-  if (writeMetaBooks && !bookIndices) {
+  // meta — books·shorts 제외. 특정 책만 골라 저장할 때(bookIndices 에 책 번호가 있을 때)는 meta 를 건드리지 않는다.
+  // 단 bookIndices 가 빈 배열이면 "바뀐 책 없음 = meta 만 수정"이므로 meta 는 반드시 저장한다(책 루프는 빈 배열이라 자동 보존).
+  if (writeMetaBooks && (!bookIndices || bookIndices.length === 0)) {
     const metaContent: any = { ...content }; delete metaContent.books
     const metaTiming: any = { ...timing }; delete metaTiming.books
     await writeFile(path.join(epDir, `meta.${locale}.json`),

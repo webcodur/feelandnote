@@ -1,0 +1,1 @@
+export { FactionExpandedVoicePanel } from './FactionExpandedVoicePanel'

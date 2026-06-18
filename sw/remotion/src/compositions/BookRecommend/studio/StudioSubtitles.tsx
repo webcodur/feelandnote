@@ -12,6 +12,7 @@ import {
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f,
 } from '../timing'
 import { splitSub, type Sub } from '../utils'
+import { bookFieldParts, resolvePartDurations } from '../field-parts'
 import {
   VN_SERVICE_GREETING, VN_SERVICE_INTRO, VN_FEATURED_QUOTE,
   VN_CELEB_INTRO, VN_PHILOSOPHY,
@@ -76,15 +77,29 @@ export function buildLongSubs(rawScript: BookRecommendScript, tl: Timeline): Sub
     c += tl.TITLE_SUMMARY_GAP_F
     c += tl.LABEL_SUMMARY_F
 
+    // 핵심 요약 — 토막별 자막 (분할 없으면 1회 = 기존과 동일)
     const smStart = c
-    subs.push(...mark(splitSub(smStart, smStart + toAudioFrames(b.summaryDuration), '요약', b.summary, vtk(vnTimingKey(vnBookSummary(i)))), synth(vnTimingKey(vnBookSummary(i)))))
+    const sumParts = bookFieldParts(b.summary, b.summaryParts)
+    const sumDurs = resolvePartDurations(sumParts, b.summaryPartDurations, b.summaryDuration)
+    sumParts.forEach((partText, p) => {
+      const key = vnTimingKey(vnBookSummary(i, p))
+      const partStart = smStart + bt.summaryPartStartsF[p]
+      subs.push(...mark(splitSub(partStart, partStart + toAudioFrames(sumDurs[p]), '요약', partText, vtk(key)), synth(key)))
+    })
     c += bt.summaryFrames
 
     c += tl.SUMMARY_CONTEXT_GAP_F
     c += tl.LABEL_CONTEXT_F
 
+    // 감상 배경 — 토막별 자막
     const ctStart = c
-    subs.push(...mark(splitSub(ctStart, ctStart + toAudioFrames(b.contextDuration), '나레이터', b.contextMain, vtk(vnTimingKey(vnBookContext(i)))), synth(vnTimingKey(vnBookContext(i)))))
+    const ctxParts = bookFieldParts(b.contextMain, b.contextMainParts)
+    const ctxDurs = resolvePartDurations(ctxParts, b.contextPartDurations, b.contextDuration)
+    ctxParts.forEach((partText, p) => {
+      const key = vnTimingKey(vnBookContext(i, p))
+      const partStart = ctStart + bt.contextPartStartsF[p]
+      subs.push(...mark(splitSub(partStart, partStart + toAudioFrames(ctxDurs[p]), '나레이터', partText, vtk(key)), synth(key)))
+    })
     c += bt.contextFrames
 
     for (let pi = 0; pi < bt.quotePairTimings.length; pi++) {
@@ -97,7 +112,15 @@ export function buildLongSubs(rawScript: BookRecommendScript, tl: Timeline): Sub
       }
       if (pt.hasAfter && pair?.after && pair.afterDuration) {
         c += QUOTE_CONTEXTAFTER_GAP
-        subs.push(...mark(splitSub(c, c + toAudioFrames(pair.afterDuration), '나레이터', pair.after, vtk(vnTimingKey(vnBookAfter(i, pi)))), synth(vnTimingKey(vnBookAfter(i, pi)))))
+        // 후속 맥락 — 토막별 자막 (분할 없으면 1회 = 기존과 동일)
+        const aftStart = c
+        const aftParts = bookFieldParts(pair.after, pair.afterParts)
+        const aftDurs = resolvePartDurations(aftParts, pair.afterPartDurations, pair.afterDuration)
+        aftParts.forEach((partText, ap) => {
+          const key = vnTimingKey(vnBookAfter(i, pi, ap))
+          const partStart = aftStart + pt.afterPartStartsF[ap]
+          subs.push(...mark(splitSub(partStart, partStart + toAudioFrames(aftDurs[ap]), '나레이터', partText, vtk(key)), synth(key)))
+        })
         c += pt.afterFrames
       }
     }

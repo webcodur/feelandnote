@@ -24,6 +24,7 @@ import {
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   vnShort, vnSolo, vnTimingKey, resolveVoiceRelPath,
 } from '../../src/compositions/BookRecommend/voice-names'
+import { bookFieldParts, FIELD_PART_GAP_SEC } from '../../src/compositions/BookRecommend/field-parts'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, resolveTimingPath, isNewLayout, loadEpisode } from '../lib/episode.js'
 
 // --- WAV 파싱 ---
@@ -426,8 +427,22 @@ function getDisplayText(episode: any, textField: string, bookIndex?: number): st
     const book = episode.books[bookIndex]
     const quoteMatch = textField.match(/^quote:(\d+)$/)
     if (quoteMatch) return book?.quotePairs?.[parseInt(quoteMatch[1])]?.quote ?? null
+    // 후속 맥락 토막 — after:PI:AP (분할 시). PI = 인용 쌍, AP = 토막 인덱스
+    const afterPartMatch = textField.match(/^after:(\d+):(\d+)$/)
+    if (afterPartMatch) {
+      const pair = book?.quotePairs?.[parseInt(afterPartMatch[1])]
+      return bookFieldParts(pair?.after, pair?.afterParts)[parseInt(afterPartMatch[2])] ?? null
+    }
     const afterMatch = textField.match(/^after:(\d+)$/)
     if (afterMatch) return book?.quotePairs?.[parseInt(afterMatch[1])]?.after ?? null
+    // 토막 분할 필드 — summary:N / contextMain:N (N = 토막 인덱스, 0-based)
+    const partMatch = textField.match(/^(summary|contextMain):(\d+)$/)
+    if (partMatch) {
+      const parts = partMatch[1] === 'summary'
+        ? bookFieldParts(book?.summary, book?.summaryParts)
+        : bookFieldParts(book?.contextMain, book?.contextMainParts)
+      return parts[parseInt(partMatch[2])] ?? null
+    }
     return book?.[textField] ?? null
   }
   switch (textField) {
@@ -713,12 +728,23 @@ if (HAS_LONG_FLAG) {
 
   for (let i = 0; i < episode.books.length; i++) {
     targets.push({ file: vnBookTitle(i), textField: 'title', bookIndex: i })
-    targets.push({ file: vnBookSummary(i), textField: 'summary', bookIndex: i })
-    targets.push({ file: vnBookContext(i), textField: 'contextMain', bookIndex: i })
+    const b = episode.books[i]
+    const summaryN = bookFieldParts(b.summary, b.summaryParts).length
+    for (let p = 0; p < summaryN; p++) {
+      targets.push({ file: vnBookSummary(i, p), textField: `summary:${p}`, bookIndex: i })
+    }
+    const contextN = bookFieldParts(b.contextMain, b.contextMainParts).length
+    for (let p = 0; p < contextN; p++) {
+      targets.push({ file: vnBookContext(i, p), textField: `contextMain:${p}`, bookIndex: i })
+    }
     for (let pi = 0; pi < (episode.books[i].quotePairs?.length ?? 0); pi++) {
       const pair = episode.books[i].quotePairs![pi]
       if (pair.quote) targets.push({ file: vnBookQuote(i, pi), textField: `quote:${pi}`, bookIndex: i })
-      if (pair.after) targets.push({ file: vnBookAfter(i, pi), textField: `after:${pi}`, bookIndex: i })
+      // 후속 맥락 — 토막 분할 시 토막마다 별도 타겟 (분할 없으면 1개 = 기존과 동일)
+      const afterN = bookFieldParts(pair.after, pair.afterParts).length
+      for (let ap = 0; ap < afterN; ap++) {
+        targets.push({ file: vnBookAfter(i, pi, ap), textField: `after:${pi}:${ap}`, bookIndex: i })
+      }
     }
   }
 }
@@ -936,32 +962,69 @@ if (updateJson) {
     if (file === VN_RETURN_INTRO && episode.narrator.returnIntroDuration != null) { episode.narrator.returnIntroDuration = rounded; continue }
     if (file === VN_INTERLUDE && episode.narrator.interludeDuration != null) { episode.narrator.interludeDuration = rounded; continue }
 
-    // D{NN}{letter}-(title|summary|context).wav
-    const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context)\.wav$/)
+    // D{NN}{letter}{part?}-(title|summary|context).wav — part 없으면 첫 토막(b), b2=두 번째 토막
+    const bookMatch = file.match(/^D(\d{2})([a-c])(\d*)-(title|summary|context)\.wav$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1  // 1-based -> 0-based
-      if (!episode.books[idx]) continue
-      switch (bookMatch[2]) {
-        case 'title': episode.books[idx].titleDuration = rounded; break
-        case 'summary': episode.books[idx].summaryDuration = rounded; break
-        case 'context': episode.books[idx].contextDuration = rounded; break
+      const book = episode.books[idx]
+      if (!book) continue
+      if (bookMatch[4] === 'title') { book.titleDuration = rounded; continue }
+      const isSummary = bookMatch[4] === 'summary'
+      const part = bookMatch[3] ? parseInt(bookMatch[3]) - 1 : 0  // 'b2' → 토막 1
+      const parts = isSummary
+        ? bookFieldParts(book.summary, book.summaryParts)
+        : bookFieldParts(book.contextMain, book.contextMainParts)
+      const durKey = isSummary ? 'summaryPartDurations' : 'contextPartDurations'
+      const totalKey = isSummary ? 'summaryDuration' : 'contextDuration'
+      if (parts.length > 1) {
+        // 토막별 길이 기록 + 전 토막 확보 시 전체 길이(토막 합 + 재생 간격) 동기화
+        const arr: Array<number | undefined> = Array.isArray(book[durKey]) ? [...book[durKey]] : []
+        arr.length = parts.length
+        if (part < parts.length) arr[part] = rounded
+        book[durKey] = arr
+        if (arr.every(v => typeof v === 'number')) {
+          const total = (arr as number[]).reduce((a, v) => a + v, 0) + FIELD_PART_GAP_SEC * (parts.length - 1)
+          book[totalKey] = Math.round(total * 100) / 100
+        }
+      } else {
+        book[totalKey] = rounded
+        delete book[durKey]  // 토막 해제 잔존물 제거
       }
       continue
     }
-    // D{NN}d{N}-(quote|after).wav — quotePairs 동적 배열
-    const dMatch = file.match(/^D(\d{2})d(\d+)-(quote|after)\.wav$/)
+    // D{NN}d{N}{_part?}-(quote|after).wav — quotePairs 동적 배열. _2부터 후속 맥락 토막(0번 토막은 접미사 없음)
+    const dMatch = file.match(/^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)\.wav$/)
     if (dMatch) {
       const idx = parseInt(dMatch[1]) - 1  // 1-based -> 0-based
       if (!episode.books[idx]) continue
       const n = parseInt(dMatch[2])
-      const isQuote = dMatch[3] === 'quote'
+      const isQuote = dMatch[4] === 'quote'
       const pairIdx = Math.floor((n - 1) / 2) // d1,d2→0  d3,d4→1  d5,d6→2
       if (!episode.books[idx].quotePairs) episode.books[idx].quotePairs = []
       while (episode.books[idx].quotePairs.length <= pairIdx) {
         episode.books[idx].quotePairs.push({})
       }
-      if (isQuote) episode.books[idx].quotePairs[pairIdx].quoteDuration = rounded
-      else episode.books[idx].quotePairs[pairIdx].afterDuration = rounded
+      const pair = episode.books[idx].quotePairs[pairIdx]
+      if (isQuote) {
+        pair.quoteDuration = rounded
+      } else {
+        // 후속 맥락 — 토막 분할 시 토막별 길이 기록 + 전체 길이(토막 합 + 간격) 동기화. summary 토막 패턴과 동일
+        const part = dMatch[3] ? parseInt(dMatch[3]) - 1 : 0
+        const aParts = bookFieldParts(pair.after, pair.afterParts)
+        if (aParts.length > 1) {
+          const arr: Array<number | undefined> = Array.isArray(pair.afterPartDurations) ? [...pair.afterPartDurations] : []
+          arr.length = aParts.length
+          if (part < aParts.length) arr[part] = rounded
+          pair.afterPartDurations = arr
+          if (arr.every(v => typeof v === 'number')) {
+            const total = (arr as number[]).reduce((a, v) => a + v, 0) + FIELD_PART_GAP_SEC * (aParts.length - 1)
+            pair.afterDuration = Math.round(total * 100) / 100
+          }
+        } else {
+          pair.afterDuration = rounded
+          delete pair.afterPartDurations  // 토막 해제 잔존물 제거
+        }
+      }
     }
 
     // 쇼츠 세그먼트 — 옵션 2: 'shorts-{N}/S{NN}-{id}.wav' 형식 (접두사 필수, 1-based)
@@ -1088,7 +1151,7 @@ if (updateJson) {
   // books duration 추출
   const btd = episode.books.map((b: any) => {
     const d: any = {}
-    for (const k of ['titleDuration', 'summaryDuration', 'contextDuration']) {
+    for (const k of ['titleDuration', 'summaryDuration', 'summaryPartDurations', 'contextDuration', 'contextPartDurations']) {
       if (b[k] != null) d[k] = b[k]
     }
     if (b.quotePairs?.length) {
@@ -1096,6 +1159,7 @@ if (updateJson) {
         const pd: any = {}
         if (p.quoteDuration != null) pd.quoteDuration = p.quoteDuration
         if (p.afterDuration != null) pd.afterDuration = p.afterDuration
+        if (p.afterPartDurations != null) pd.afterPartDurations = p.afterPartDurations
         return pd
       })
     }

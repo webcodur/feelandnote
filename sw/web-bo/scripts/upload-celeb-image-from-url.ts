@@ -472,9 +472,10 @@ async function processOne(args: {
   supabase: ServiceClient
   r2: S3Client
   manualUrl?: string
+  manualFile?: string
   sourceNote?: string
 }): Promise<Outcome> {
-  const { profile, env, supabase, r2, manualUrl, sourceNote } = args
+  const { profile, env, supabase, r2, manualUrl, manualFile, sourceNote } = args
 
   let result: ProcessResult | null = null
   let licenseLabel: string | undefined
@@ -482,7 +483,16 @@ async function processOne(args: {
   // license_unsuitable 폴백: 위키미디어 원본 라이선스 무시
   const relic = WIKIMEDIA_RELICENSED[profile.slug]
 
-  if (manualUrl) {
+  if (manualFile) {
+    // 로컬 파일 직접 채용 — 다운로드 대신 디스크에서 읽어 동일 face-crop 파이프라인을 탄다.
+    const buf = readFileSync(manualFile)
+    const description = sourceNote ? `Source: local ${manualFile} | ${sourceNote}` : `Source: local ${manualFile}`
+    const conv = await toAvatarWebp(buf, description)
+    if (!conv.faceDetected || !conv.faceScore) {
+      return { kind: 'skipped', reason: 'local_no_face', detail: manualFile }
+    }
+    result = { buf: conv.buf, sourceUrl: manualFile, sourceType: sourceNote ?? 'local_file', faceScore: conv.faceScore, description }
+  } else if (manualUrl) {
     result = await tryCandidates([{ url: manualUrl, type: sourceNote ?? 'manual' }])
     if (!result) return { kind: 'skipped', reason: 'manual_url_face_invalid', detail: manualUrl }
   } else if (relic) {
@@ -548,6 +558,7 @@ async function main() {
   const manualCelebId = getFlag('--celeb-id')
   const manualSlug = getFlag('--slug')
   const manualUrl = getFlag('--image-url')
+  const manualFile = getFlag('--image-file')
   const manualNote = getFlag('--source-note')
   const onlyArg = getFlag('--only')
   const onlySet = onlyArg ? new Set(onlyArg.split(',').map((s) => s.trim())) : null
@@ -581,8 +592,8 @@ async function main() {
 
   // ─── 단일 모드 ──────────────────────────────
   if (!batch) {
-    if (!manualCelebId || !manualSlug || !manualUrl) {
-      console.error('단일 모드: --celeb-id, --slug, --image-url 필수')
+    if (!manualCelebId || !manualSlug || (!manualUrl && !manualFile)) {
+      console.error('단일 모드: --celeb-id, --slug, 그리고 --image-url 또는 --image-file 필수')
       process.exit(1)
     }
     const { data, error } = await supabase
@@ -598,6 +609,7 @@ async function main() {
       supabase,
       r2,
       manualUrl,
+      manualFile,
       sourceNote: manualNote,
     })
     console.log('\n결과:', outcome)

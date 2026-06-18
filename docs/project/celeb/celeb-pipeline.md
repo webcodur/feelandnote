@@ -13,6 +13,34 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'f
 
 ---
 
+## 셀럽 계정 생성 규칙
+
+basic 단계에서 `auth.users`와 `profiles` 행을 **같은 id**로 생성한다(`profiles.id`는 `auth.users.id`를 참조).
+
+> **id는 반드시 `gen_random_uuid()`로 DB가 생성한다. UUID 문자열을 직접 타이핑(하드코딩)하지 않는다.**
+
+- ❌ `id := 'c1e2f3a4-b5d6-7890-abcd-ef1234567890'`, `'a1b2c3d4-...-099'` 같은 예시형 값 직접 작성 — 충돌·중복 위험, 일반 셀럽과 식별자 패턴 불일치
+- ✅ `gen_random_uuid()`를 **한 번** 호출해 변수에 담고 `auth.users`·`profiles` 양쪽에 동일 적용
+- `email`은 `'celeb_' || <id> || '@feelandnote.local'` 형식으로 그 id에 맞춘다
+
+권장 패턴:
+
+```sql
+DO $$
+DECLARE cid uuid := gen_random_uuid();
+BEGIN
+  INSERT INTO auth.users (id, email, /* 기타 필수 컬럼 */)
+  VALUES (cid, 'celeb_' || cid::text || '@feelandnote.local', /* ... */);
+
+  INSERT INTO public.profiles (id, nickname, nickname_en, /* ... */)
+  VALUES (cid, /* ... */);
+END $$;
+```
+
+식별자 교정이 필요해지면 `auth.users.id`와 이를 참조하는 모든 자식(`profiles` + `user_scores`·`user_social` 등 셀럽 생성 시 자동 생성되는 부수 행)을 한 트랜잭션에서 함께 바꿔야 한다. 처음부터 `gen_random_uuid()`를 쓰면 이 사후 교정이 불필요하다.
+
+---
+
 ## 작업 순서
 
 basic 완료 후 4개 트랙이 **병렬** 실행된다.

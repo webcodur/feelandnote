@@ -18,7 +18,7 @@ const QUOTE_COLOR = '#ffd24a'
  * 대사 구절 색 팔레트 — 콤마·마침표로 끊은 구절마다 번갈아 입힌다.
  * 둘 다 어두운 배경에서 잘 보이는 노란 계열. 골드옐로 ↔ 앰버로 미묘하게만 차이.
  */
-const QUOTE_PALETTE = ['#ffd24a', '#f2a93e', '#d98a35', '#bd6b2e']
+const QUOTE_PALETTE = ['#ffd24a', '#ffc01e', '#ffb300', '#ffa000']
 /** 상단 고정 빈 영역(블랙 프레임) 높이 — 북리커맨드 쇼츠 HEADER_H와 통일. 본문 컷은 이 아래에만 그린다 */
 const HEADER_H = 320
 
@@ -301,7 +301,7 @@ const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number 
       {items.map((t, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: dot }}>
           {isList ? <span style={{ flexShrink: 0, width: dot, height: dot, borderRadius: '50%', background: accent }} /> : null}
-          <span style={{ color: '#a8a8b0', fontFamily: FONT, fontSize, fontWeight: 600, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left' }}>{t}</span>
+          <span style={{ color: '#d6d6de', fontFamily: FONT, fontSize, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left' }}>{t}</span>
         </div>
       ))}
     </div>
@@ -325,19 +325,21 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
 
   // ── 인물 사진 전환효과(세로 쇼츠 전용) — 전역 설정 또는 auto 순환. 가로 롱폼은 줌 없이 고정 ──
   const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
-  const tk = resolveTransition(transition, personIndex)
+  // 전환효과: 세력(group) 설정이 있으면 그 세력 인물 전부 통일, 없으면 에피소드 전역(transition)
+  const tk = resolveTransition(group.transition ?? transition, personIndex)
   const fxTransform = (() => {
     if (orientation === 'landscape') return 'scale(1)'
     if (tk === 'slide') {
       const x = interpolate(local, [0, f(0.45)], [105, 0], { ...clamp, easing: Easing.out(Easing.cubic) })
       return `translateX(${x}%)`
     }
+    // 줌인·켄번스도 도입부(0.55초)에 빠르게 움직이고 정지 — 대사 전 종료(줌아웃·슬라이드와 통일)
     if (tk === 'zoomin') {
-      return `scale(${interpolate(local, [0, f(6)], [1.0, 1.09], clamp)})`
+      return `scale(${interpolate(local, [0, f(0.55)], [1.0, 1.09], { ...clamp, easing: Easing.out(Easing.cubic) })})`
     }
     if (tk === 'kenburns') {
-      const s = interpolate(local, [0, f(6)], [1.03, 1.1], clamp)
-      const y = interpolate(local, [0, f(6)], [1.6, -1.6], clamp)
+      const s = interpolate(local, [0, f(0.55)], [1.03, 1.1], { ...clamp, easing: Easing.out(Easing.cubic) })
+      const y = interpolate(local, [0, f(0.55)], [1.6, -1.6], { ...clamp, easing: Easing.out(Easing.cubic) })
       return `scale(${s}) translateY(${y}%)`
     }
     // zoomout (기본): 살짝 크게 잡았다 제자리로
@@ -362,7 +364,7 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
 
   // 대사 음성 — quoteDuration이 있으면(파이프라인 생성·기록 후) 대사 등장 시점에 맞춰 재생. 없으면 무음.
   const audioEl = person.quoteDuration && person.quoteDuration > 0 ? (
-    <Sequence from={f(quoteEnterSec)} durationInFrames={f(person.quoteDuration)}>
+    <Sequence from={cueStart + f(quoteEnterSec)} durationInFrames={f(person.quoteDuration)}>
       <Audio
         src={staticFile(voiceRelPath(episodeName, vnPersonQuote(groupIndex, personIndex, clusterIndex)))}
         volume={dbToLinear(person.quoteGainDb)}
@@ -456,19 +458,34 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
 }
 
 /** 마무리(아웃트로) — 한 편의 매듭. 이번 편 제목·회차 안내만 중앙에 정적으로 표시. */
-const OutroCard: React.FC<{ script: FactionScript; episodeName: string }> = ({ script, episodeName }) => {
+const OutroCard: React.FC<{ script: FactionScript; episodeName: string; orientation: Orientation }> = ({ script, episodeName, orientation }) => {
   const title = script.outroTitle ?? script.title
   const [imgErr, setImgErr] = React.useState(false)
   const hasImage = !!script.outroImage && !imgErr
+  // 엔딩 이미지가 없으면 시작 화면처럼 핵심 인물 그리드를 깔되, 매듭이므로 더 어둡게 눌러 제목을 부각한다(수미상관).
+  const heroes = (script.heroes ?? []).map(s => findPerson(script, s)).filter(Boolean) as FactionPerson[]
+  const cols = orientation === 'landscape' ? `repeat(${heroes.length}, 1fr)` : '1fr 1fr'
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       {/* 엔딩 이미지(있으면) 풀스크린 배경 + 제목 가독용 그라데이션 */}
-      {hasImage && (
+      {hasImage ? (
         <AbsoluteFill style={{ overflow: 'hidden' }}>
           <Img src={imgSrc(episodeName, script.outroImage!)} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}99 0%, transparent 28%, transparent 58%, ${BG}e6 100%)` }} />
         </AbsoluteFill>
-      )}
+      ) : heroes.length ? (
+        <>
+          {/* 시작과 같은 인물 그리드 — 세로 2열 / 가로 1행 */}
+          <div style={{ display: 'grid', gridTemplateColumns: cols, width: '100%', height: '100%' }}>
+            {heroes.map((p, i) => (
+              <HeroCell key={i} episodeName={episodeName} person={p} />
+            ))}
+          </div>
+          {/* 매듭 톤 — 시작보다 짙게 덮어 인물을 가라앉히고 제목을 띄운다 */}
+          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}e6 0%, ${BG}b3 38%, ${BG}b3 62%, ${BG}f2 100%)` }} />
+          <AbsoluteFill style={{ background: `radial-gradient(ellipse 95% 40% at 50% 50%, ${BG}cc 0%, transparent 72%)` }} />
+        </>
+      ) : null}
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 22, padding: CAP_PAD }}>
         <div style={CAP_TITLE}>{title}</div>
         {script.outroNote && <div style={CAP_SUB}>{script.outroNote}</div>}
@@ -504,7 +521,7 @@ const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: str
       ? clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
       : g.people[cue.personIndex]
     content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} transition={script.transition} />
-  } else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} />
+  } else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} orientation={orientation} />
 
   // 세로: 본문 컷(세력·화보·인물)은 상단 빈 영역 아래에만 그린다(인트로·아웃트로는 풀스크린).
   // 가로: 상단 띠가 없으므로 모든 컷이 풀스크린.
@@ -518,9 +535,12 @@ const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: str
 
 /* ═══════════════ MAIN ═══════════════ */
 
-export const Faction: React.FC<{ script: FactionScript; episodeName: string; orientation?: Orientation }> = ({ script, episodeName, orientation = 'portrait' }) => {
+// shorts: true면 쇼츠(롱폼 전용 세력 제외, 짧게). 미지정이면 세로=쇼츠로 간주(기존 동작).
+// orientation은 화면 레이아웃(세로/가로), shorts는 컷 구성 — 둘을 분리해 'LV(세로인데 전체)' 같은 조합을 만든다.
+export const Faction: React.FC<{ script: FactionScript; episodeName: string; orientation?: Orientation; shorts?: boolean }> = ({ script, episodeName, orientation = 'portrait', shorts }) => {
   const frame = useCurrentFrame()
-  const cues = useMemo(() => buildCues(script, orientation === 'portrait'), [script, orientation])
+  const isShorts = shorts ?? (orientation === 'portrait')
+  const cues = useMemo(() => buildCues(script, isShorts), [script, isShorts])
   const last = cues[cues.length - 1]
   const total = last ? last.start + last.duration : 0
   // 인트로 끝 ~ 아웃트로 시작 사이에 상단 빈 영역 노출. 전환 크로스페이드와 동기로 페이드 인/아웃.
@@ -537,7 +557,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
   const showHeader = orientation === 'portrait' && headerOp > 0
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
-      <FactionBgm script={script} total={total} portrait={orientation === 'portrait'} />
+      <FactionBgm script={script} total={total} portrait={isShorts} />
       {cues.map((tc, i) => (
         <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} />
       ))}

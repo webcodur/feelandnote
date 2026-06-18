@@ -9,6 +9,7 @@ import {
   VN_CELEB_INTRO, VN_PHILOSOPHY, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter, VN_OUTRO,
 } from './voice-names'
+import { bookFieldParts } from './field-parts'
 
 /**
  * 롱폼의 모든 음성 행을 SfxSection 목록으로 변환.
@@ -114,17 +115,26 @@ export function collectLongformSections(script: BookRecommendScript, tl: Timelin
       })
     }
     if (summaryFrames > 0) {
-      out.push({
-        timingsKey: vnTimingKey(vnBookSummary(bi)), text: book.summary ?? '',
-        startFrame: bookStart + sSummary, durationFrames: summaryFrames,
-        sfx: book.summarySfx, keyPrefix: `sfx-book${bi}-summary`,
+      // 토막별 항목 — 앵커는 토막 본문에서 매칭된다 (분할 없으면 1개 = 기존과 동일)
+      const sumStarts = tl.bookTimings[bi]?.summaryPartStartsF ?? [0]
+      bookFieldParts(book.summary, book.summaryParts).forEach((partText, p) => {
+        out.push({
+          timingsKey: vnTimingKey(vnBookSummary(bi, p)), text: partText,
+          startFrame: bookStart + sSummary + (sumStarts[p] ?? 0),
+          durationFrames: p + 1 < sumStarts.length ? sumStarts[p + 1] - sumStarts[p] : summaryFrames - (sumStarts[p] ?? 0),
+          sfx: book.summarySfx, keyPrefix: `sfx-book${bi}-summary${p > 0 ? `-${p + 1}` : ''}`,
+        })
       })
     }
     if (contextFrames > 0) {
-      out.push({
-        timingsKey: vnTimingKey(vnBookContext(bi)), text: book.contextMain ?? '',
-        startFrame: bookStart + sContext, durationFrames: contextFrames,
-        sfx: book.contextMainSfx, keyPrefix: `sfx-book${bi}-context`,
+      const ctxStarts = tl.bookTimings[bi]?.contextPartStartsF ?? [0]
+      bookFieldParts(book.contextMain, book.contextMainParts).forEach((partText, p) => {
+        out.push({
+          timingsKey: vnTimingKey(vnBookContext(bi, p)), text: partText,
+          startFrame: bookStart + sContext + (ctxStarts[p] ?? 0),
+          durationFrames: p + 1 < ctxStarts.length ? ctxStarts[p + 1] - ctxStarts[p] : contextFrames - (ctxStarts[p] ?? 0),
+          sfx: book.contextMainSfx, keyPrefix: `sfx-book${bi}-context${p > 0 ? `-${p + 1}` : ''}`,
+        })
       })
     }
 

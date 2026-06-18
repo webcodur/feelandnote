@@ -10,6 +10,7 @@ import { ENGINE, IS_EN, args } from './cli.js'
 import { NARRATOR_STYLE_DEFAULT, type Role, type Voice } from './config.js'
 import { ep } from './state.js'
 import { synthesizeGemini, synthesizeElevenlabs } from './engines.js'
+import { bookFieldParts } from '../../../src/compositions/BookRecommend/field-parts'
 
 // ── Voice meta types (라인별 ELE 합성 메타) ──
 export type VoiceMeta = {
@@ -144,10 +145,30 @@ export function ttsText(field: string, bookIndex?: number): string {
       case 'summary': return applyReplacements(book.summary)
       case 'contextMain': return applyReplacements(book.contextMain)
       default: {
+        // 토막 분할 필드 — summary:N / contextMain:N (N = 토막 인덱스, 0-based)
+        const summaryPartMatch = field.match(/^summary:(\d+)$/)
+        if (summaryPartMatch) {
+          const parts = bookFieldParts(book.summary, book.summaryParts)
+          return applyReplacements(parts[parseInt(summaryPartMatch[1], 10)] ?? '')
+        }
+        const contextPartMatch = field.match(/^contextMain:(\d+)$/)
+        if (contextPartMatch) {
+          const parts = bookFieldParts(book.contextMain, book.contextMainParts)
+          return applyReplacements(parts[parseInt(contextPartMatch[1], 10)] ?? '')
+        }
         const quoteMatch = field.match(/^quote:(\d+)$/)
         if (quoteMatch) {
           const pi = parseInt(quoteMatch[1], 10)
           return applyReplacements(book.quotePairs?.[pi]?.quote ?? '')
+        }
+        // 후속 맥락 토막 — after:PI:AP (PI = 인용 쌍 인덱스, AP = 토막 인덱스, 둘 다 0-based)
+        const afterPartMatch = field.match(/^after:(\d+):(\d+)$/)
+        if (afterPartMatch) {
+          const pi = parseInt(afterPartMatch[1], 10)
+          const ap = parseInt(afterPartMatch[2], 10)
+          const pair = book.quotePairs?.[pi]
+          const parts = bookFieldParts(pair?.after, pair?.afterParts)
+          return applyReplacements(parts[ap] ?? '')
         }
         const afterMatch = field.match(/^after:(\d+)$/)
         if (afterMatch) {

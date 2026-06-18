@@ -27,11 +27,12 @@ export function describeFile(name: string): string {
   if (direct[base]) return direct[base]
   const partMatch = base.match(/^A1-service-greeting-(\d+)$/)
   if (partMatch) return `인사 파트${partMatch[1]}`
-  const bookMatch = base.match(/^D(\d{2})([a-c])-/)
+  const bookMatch = base.match(/^D(\d{2})([a-c])(\d*)-/)
   if (bookMatch) {
     const n = parseInt(bookMatch[1])
     const phase: Record<string, string> = { a: '제목', b: '요약', c: '맥락' }
-    return `책${n} ${phase[bookMatch[2]] ?? ''}`
+    const part = bookMatch[3] ? ` ${bookMatch[3]}` : ''  // b2 = 토막 2
+    return `책${n} ${phase[bookMatch[2]] ?? ''}${part}`
   }
   const pairMatch = base.match(/^D(\d{2})d(\d+)-(quote|after)$/)
   if (pairMatch) {
@@ -78,12 +79,22 @@ export function expectedSections(ep: { narrator?: Record<string, unknown>; host?
   if ((narrator.labelSummaryDuration as number) > 0) add('C1-label-summary')
   if ((narrator.labelContextDuration as number) > 0) add('C2-label-context')
 
+  // 토막 분할 필드의 토막 수 — scenario/utils bookFieldParts와 동일 규약 (의존 순환 방지로 로컬 계산)
+  const partCount = (full: unknown, parts: unknown): number => {
+    const arr = Array.isArray(parts) ? (parts as unknown[]).filter(p => typeof p === 'string' && (p as string).trim()) : []
+    return Math.max(1, arr.length)
+  }
+
   for (let i = 0; i < books.length; i++) {
     const b = books[i]
     const bn = String(i + 1).padStart(2, '0')
     add(`D${bn}a-title`)
-    add(`D${bn}b-summary`)
-    add(`D${bn}c-context`)
+    for (let p = 0; p < partCount(b.summary, b.summaryParts); p++) {
+      add(p === 0 ? `D${bn}b-summary` : `D${bn}b${p + 1}-summary`)
+    }
+    for (let p = 0; p < partCount(b.contextMain, b.contextMainParts); p++) {
+      add(p === 0 ? `D${bn}c-context` : `D${bn}c${p + 1}-context`)
+    }
     // quotePairs: 동적 인용+후속맥락
     for (let pi = 0; pi < ((b.quotePairs as any[])?.length ?? 0); pi++) {
       const pair = (b.quotePairs as any[])[pi]

@@ -268,12 +268,22 @@ def solo_display_text(ep, key):
     return None
 
 
+def field_parts(full, parts):
+    """긴 서술 필드의 토막 목록 — field-parts.ts bookFieldParts 와 동일 규약.
+    토막 목록 우선, 폴백은 전체 텍스트 1토막. 빈 토막 제외."""
+    ps = [p for p in (parts or []) if (p or '').strip()]
+    if ps:
+        return ps
+    return [full] if (full or '').strip() else []
+
+
 def get_display_text(ep, key):
     """WAV 파일 키(확장자 없음) → 화면 표시용 원문 텍스트 추출.
 
     key 형식:
       - 'A1-service-greeting' 등 고정 키
       - 'D{NN}a-title', 'D{NN}b-summary', 'D{NN}c-context'
+        (토막 분할 시 'D{NN}b2-summary', 'D{NN}c2-context' 등 번호 부착)
       - 'D{NN}d{N}-quote', 'D{NN}d{N}-after' (quotePairs 동적 배열)
       - 'shorts-{N}/S{NN}-{segId}' (옵션 2: 접두사 필수)
       - 'solo-B{NN}/S{nn}-{segId}' (1권 모드)
@@ -290,25 +300,32 @@ def get_display_text(ep, key):
     if key == 'E3-return-intro': return ep.get('narrator', {}).get('returnIntro')
     if key == 'E4-prev-recap': return ep.get('narrator', {}).get('prevRecap')
 
-    # 쿼트페어: D{NN}d{N}-(quote|after) — d1=pair0.quote, d2=pair0.after, d3=pair1.quote, ...
-    m_qp = re.match(r'^D(\d{2})d(\d+)-(quote|after)$', key)
+    # 쿼트페어: D{NN}d{N}{_part?}-(quote|after) — d1=pair0.quote, d2=pair0.after, d3=pair1.quote, ...
+    # 후속 맥락 토막 분할 시 d2_2, d2_3 ...(0번 토막은 접미사 없음). quote는 분할 없음.
+    m_qp = re.match(r'^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)$', key)
     if m_qp:
         idx = int(m_qp.group(1)) - 1
         n = int(m_qp.group(2))
-        kind = m_qp.group(3)
+        part = int(m_qp.group(3)) - 1 if m_qp.group(3) else 0
+        kind = m_qp.group(4)
         pair_idx = (n - 1) // 2
         books = ep.get('books', [])
         if idx < len(books):
             pairs = books[idx].get('quotePairs') or []
             if pair_idx < len(pairs):
-                return pairs[pair_idx].get(kind)
+                pair = pairs[pair_idx]
+                if kind == 'after':
+                    ps = field_parts(pair.get('after'), pair.get('afterParts'))
+                    return ps[part] if part < len(ps) else None
+                return pair.get(kind)
         return None
 
-    # 본문: D{NN}{a|b|c}-(title|summary|context)
-    m = re.match(r'^D(\d{2})([a-c])-(title|summary|context)$', key)
+    # 본문: D{NN}{a|b|c}{part?}-(title|summary|context) — part 없으면 첫 토막, b2=두 번째 토막
+    m = re.match(r'^D(\d{2})([a-c])(\d*)-(title|summary|context)$', key)
     if m:
         idx = int(m.group(1)) - 1
         phase = m.group(2)
+        part = int(m.group(3)) - 1 if m.group(3) else 0
         books = ep.get('books', [])
         if idx >= len(books):
             return None
@@ -320,9 +337,11 @@ def get_display_text(ep, key):
             if year: parts.append(str(year))
             return ' '.join(parts)
         if phase == 'b':
-            return book.get('summary')
+            ps = field_parts(book.get('summary'), book.get('summaryParts'))
+            return ps[part] if part < len(ps) else None
         if phase == 'c':
-            return book.get('contextMain')
+            ps = field_parts(book.get('contextMain'), book.get('contextMainParts'))
+            return ps[part] if part < len(ps) else None
 
     # 쇼츠: shorts-{N}/S{NN}-{segId} — 옵션 2 이후 접두사 필수
     m_short = re.match(r'^shorts-(\d+)/S\d{2}-(.+)$', key)
@@ -718,14 +737,19 @@ def main():
         for i, book in enumerate(ep.get('books', [])):
             idx = f'{i+1:02d}'
             valid_keys.add(f'D{idx}a-title')
-            valid_keys.add(f'D{idx}b-summary')
-            valid_keys.add(f'D{idx}c-context')
+            # 토막 분할 — 첫 토막은 기존 키, 둘째부터 b2/c2 식 번호 부착
+            for p in range(len(field_parts(book.get('summary'), book.get('summaryParts')))):
+                valid_keys.add(f'D{idx}b-summary' if p == 0 else f'D{idx}b{p+1}-summary')
+            for p in range(len(field_parts(book.get('contextMain'), book.get('contextMainParts')))):
+                valid_keys.add(f'D{idx}c-context' if p == 0 else f'D{idx}c{p+1}-context')
             # 쿼트페어: d1=pair0.quote, d2=pair0.after, d3=pair1.quote, ...
             for qi, pair in enumerate(book.get('quotePairs') or []):
                 if pair.get('quote'):
                     valid_keys.add(f'D{idx}d{qi*2+1}-quote')
                 if pair.get('after'):
-                    valid_keys.add(f'D{idx}d{qi*2+2}-after')
+                    # 후속 맥락 토막 분할 — 첫 토막은 기존 키, 둘째부터 d{N}_2 식 접미사
+                    for p in range(len(field_parts(pair.get('after'), pair.get('afterParts')))):
+                        valid_keys.add(f'D{idx}d{qi*2+2}-after' if p == 0 else f'D{idx}d{qi*2+2}_{p+1}-after')
     elif shorts_index is not None:
         # 쇼츠 N — 해당 쇼츠의 segments 만
         short_cfg = ep['shorts'][0]

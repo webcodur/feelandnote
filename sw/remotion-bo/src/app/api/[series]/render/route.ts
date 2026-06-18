@@ -10,14 +10,18 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { episode, only, bookIndex } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
-  // 세력도 — 한 에피소드 = 세로 영상 1편(쇼츠). 책/쇼츠 슬롯/솔로 갈래 없음.
-  // 컴포지션 ID 규약은 Root.tsx 세력도 등록과 일치: `Faction-{KEY 대문자}`.
+  // 세력도 — 컴포지션 ID 규약은 Root.tsx 등록과 일치: `Faction-{KEY 대문자}-{KO|EN}-{S|LV|LH}`.
+  // 활성: 세로 쇼츠(KO-S) + 세로 롱폼(KO-LV). 가로(LH)·영문(EN)은 Root.tsx에서 주석 — 쓰려면 둘 다 주석 해제.
   if (isFactionSeries(seriesId)) {
-    const compId = `Faction-${episode.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
-    const t = runTask('render-faction', seriesId, episode, [
-      'render', '--', compId, `out/Faction/${episode}.mp4`, '--codec', series.render.codec,
-    ])
-    return NextResponse.json({ taskIds: [t.id] })
+    const base = `Faction-${episode.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+    const targets = [
+      { comp: `${base}-KO-S`, out: `out/Faction/${episode}-KO-S.mp4` },
+      { comp: `${base}-KO-LV`, out: `out/Faction/${episode}-KO-LV.mp4` },
+    ]
+    const taskIds = targets.map(t =>
+      runTask('render-faction', seriesId, episode, ['render', '--', t.comp, t.out, '--codec', series.render.codec]).id,
+    )
+    return NextResponse.json({ taskIds })
   }
 
   const label = toPascal(episode)

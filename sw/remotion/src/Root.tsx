@@ -6,7 +6,6 @@ import {
   totalFrames as olympusMVFrames,
 } from "./compositions/OlympusMV";
 import {
-  BookRecommend,
   calcTotalFrames as calcBookFrames,
   BookRecommendShort,
   calcShortTotalFrames,
@@ -27,6 +26,7 @@ import {
   FPS as FACTION_FPS,
 } from "./compositions/Faction";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
+import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
 
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
@@ -106,7 +106,7 @@ export const RemotionRoot: React.FC = () => {
                     return (
                       <>
                         {validLong.map(({ name, lang, partNum, script }) => (
-                          <Composition key={`${name}-LH-VID`} id={`${label}-${lang}${pt(partNum)}-LH-VID`} component={BookRecommend} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
+                          <Composition key={`${name}-L-VID`} id={`${label}-${lang}${pt(partNum)}-L-VID`} component={BookRecommendLegacy} durationInFrames={calcBookFrames(script)} fps={FPS} width={1920} height={1080} defaultProps={{ script, episodeName: name }} />
                         ))}
                         {validLong.map(({ name, lang, partNum, script }) => (
                           <Composition key={`${name}-LH-THUMB`} id={`${label}-${lang}${pt(partNum)}-LH-THUMB`} component={Thumbnail} durationInFrames={1} fps={1} width={1280} height={720} defaultProps={{ script }} />
@@ -174,23 +174,57 @@ export const RemotionRoot: React.FC = () => {
 
       {/* === 세력도 === */}
       <Folder name="Faction">
-        {Object.entries(factionEpisodes).map(([key, script]) => {
-          const dur = calcFactionFrames(script)
-          if (!Number.isFinite(dur) || dur <= 0) return null
-          const id = `Faction-${key.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
-          return (
-            <Composition
-              key={key}
-              id={id}
-              component={Faction}
-              durationInFrames={dur}
-              fps={FACTION_FPS}
-              width={1080}
-              height={1920}
-              defaultProps={{ script, episodeName: factionEpisodeNames[key] }}
-            />
-          )
-        })}
+        {Object.entries(factionEpisodes)
+          // 한국어 키만 (영문 키 '-en'은 지금 미사용). EN 컴포지션은 아래 주석 참고.
+          .filter(([key]) => !key.endsWith('-en'))
+          .map(([key, script]) => {
+            // S(쇼츠)=롱폼 전용 세력 제외해 짧다. LV/LH(롱폼)=전체 세력.
+            const durS = calcFactionFrames(script, true)
+            const durLong = calcFactionFrames(script, false)
+            if (!Number.isFinite(durLong) || durLong <= 0) return null
+            const base = `Faction-${key.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+            const ep = factionEpisodeNames[key]
+            return (
+              <React.Fragment key={key}>
+                {/* KO-S — 한국어 세로 쇼츠 (1080x1920, 롱폼 전용 세력 제외) */}
+                <Composition
+                  id={`${base}-KO-S`}
+                  component={Faction}
+                  durationInFrames={durS}
+                  fps={FACTION_FPS}
+                  width={1080}
+                  height={1920}
+                  defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: true }}
+                />
+                {/* KO-LV — 한국어 세로 롱폼 (1080x1920, 전체 세력) */}
+                <Composition
+                  id={`${base}-KO-LV`}
+                  component={Faction}
+                  durationInFrames={durLong}
+                  fps={FACTION_FPS}
+                  width={1080}
+                  height={1920}
+                  defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: false }}
+                />
+                {/* KO-LH — 한국어 가로 롱폼 (1920x1080, 전체). 지금 미사용 — 필요 시 주석 해제
+                <Composition
+                  id={`${base}-KO-LH`}
+                  component={Faction}
+                  durationInFrames={durLong}
+                  fps={FACTION_FPS}
+                  width={1920}
+                  height={1080}
+                  defaultProps={{ script, episodeName: ep, orientation: 'landscape' as const, shorts: false }}
+                />
+                */}
+                {/* EN(영문) — 지금 미사용. 영문 스크립트는 factionEpisodes[`${key}-en`]. 필요 시 주석 해제
+                <Composition id={`${base}-EN-S`}  component={Faction} durationInFrames={durS}    fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: true  }} />
+                <Composition id={`${base}-EN-LV`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: false }} />
+                <Composition id={`${base}-EN-LH`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1920} height={1080} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'landscape' as const, shorts: false }} />
+                */}
+              </React.Fragment>
+            )
+          })}
       </Folder>
 
       {/* === 기타 === */}

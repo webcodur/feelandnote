@@ -310,7 +310,7 @@ const SoloSegmentView: React.FC<SegProps> = ({ seg, epName, locale, lengthFrames
             color={isQuote ? '#f0d9a8' : '#e8e0d0'}
             charsPerPage={locale === 'en' ? 80 : 45}
             maxPanelWidth={1300}
-            style={isQuote ? { fontFamily: FONT.serif, fontStyle: 'italic' } : { fontFamily: FONT.sans }}
+            style={{ fontFamily: FONT.pretendard }}
           />
         )}
         {isQuote && seg.quoteSource && (

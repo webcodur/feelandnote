@@ -20,6 +20,7 @@ export function FieldAudioControls({
   isPlaying,
   onTogglePlay,
   playbackRate,
+  fillColor,
 }: {
   sectionKey: string
   /** voiceInfo.duration — 메타데이터 로드 전 표시용. */
@@ -28,6 +29,8 @@ export function FieldAudioControls({
   onTogglePlay: () => void
   /** 이 음원의 영상 배속(*PlaybackRate 필드 값). 지정 시 총 시간을 「원본(취소선) 환산」으로 표시. */
   playbackRate?: number
+  /** 진행 막대 채움 색 — 섹션 구분색. 미지정 시 기본 accent. */
+  fillColor?: string
 }) {
   const ctl = useAudioPreviewCtx()
   const [rate, setRate] = usePlaybackRate()
@@ -124,8 +127,8 @@ export function FieldAudioControls({
         title={isCurrent ? '클릭/드래그로 위치 이동' : ''}
       >
         <div
-          className="absolute inset-y-0 left-0 bg-accent/70"
-          style={{ width: `${pct}%` }}
+          className={fillColor ? 'absolute inset-y-0 left-0' : 'absolute inset-y-0 left-0 bg-accent/70'}
+          style={fillColor ? { width: `${pct}%`, backgroundColor: fillColor } : { width: `${pct}%` }}
         />
       </div>
       <span

@@ -70,19 +70,28 @@ export async function updateTimingJson(results: Record<string, number>): Promise
       timing.books[idx0][key] = value
     }
   }
-  function setQuotePairField(idx0: number, pairIdx: number, key: 'quoteDuration' | 'afterDuration', value: number) {
+  function quotePairObj(idx0: number, pairIdx: number): any {
     if (newLayout) {
       const cached = bookTimingCache.get(idx0) ?? {}
       if (!cached.quotePairDurations) cached.quotePairDurations = []
       while (cached.quotePairDurations.length <= pairIdx) cached.quotePairDurations.push({})
-      cached.quotePairDurations[pairIdx][key] = value
       bookTimingCache.set(idx0, cached)
-    } else {
-      if (!timing.books[idx0]) timing.books[idx0] = {}
-      if (!timing.books[idx0].quotePairDurations) timing.books[idx0].quotePairDurations = []
-      while (timing.books[idx0].quotePairDurations.length <= pairIdx) timing.books[idx0].quotePairDurations.push({})
-      timing.books[idx0].quotePairDurations[pairIdx][key] = value
+      return cached.quotePairDurations[pairIdx]
     }
+    if (!timing.books[idx0]) timing.books[idx0] = {}
+    if (!timing.books[idx0].quotePairDurations) timing.books[idx0].quotePairDurations = []
+    while (timing.books[idx0].quotePairDurations.length <= pairIdx) timing.books[idx0].quotePairDurations.push({})
+    return timing.books[idx0].quotePairDurations[pairIdx]
+  }
+  function setQuotePairField(idx0: number, pairIdx: number, key: 'quoteDuration' | 'afterDuration', value: number) {
+    quotePairObj(idx0, pairIdx)[key] = value
+  }
+  /** 후속 맥락 토막별 길이 기록 — summary/context 토막 분할과 동일 패턴(afterPartDurations 배열) */
+  function setAfterPartDuration(idx0: number, pairIdx: number, part: number, value: number) {
+    const pd = quotePairObj(idx0, pairIdx)
+    const arr: Array<number | undefined> = Array.isArray(pd.afterPartDurations) ? [...pd.afterPartDurations] : []
+    arr[part] = value
+    pd.afterPartDurations = arr
   }
 
   // 쇼츠 timing 외부 파일 캐시: shortsIdx(1-based) → 파일 JSON
@@ -111,6 +120,30 @@ export async function updateTimingJson(results: Record<string, number>): Promise
     return json
   }
 
+  /** 책별 timing 객체 직접 접근 — 토막 배열처럼 setBookField(number)로 못 다루는 필드용 */
+  function bookTimingObj(idx0: number): any {
+    if (newLayout) {
+      const cached = bookTimingCache.get(idx0) ?? {}
+      bookTimingCache.set(idx0, cached)
+      return cached
+    }
+    if (!timing.books[idx0]) timing.books[idx0] = {}
+    return timing.books[idx0]
+  }
+
+  // 토막 분할 필드 선별 — 이번 결과에 b2/c2 같은 토막 파일이 있으면 그 필드는 분할 상태
+  const splitFields = new Set<string>()
+  for (const file of Object.keys(results)) {
+    const m = file.match(/^D(\d{2})([bc])\d+-/)
+    if (m) splitFields.add(`${parseInt(m[1]) - 1}:${m[2]}`)
+  }
+  // 후속 맥락 토막 분할 선별 — D{NN}d{N}_{P}-after 파일(part>0)이 있으면 그 인용 쌍의 after는 분할 상태
+  const splitAfter = new Set<string>()
+  for (const file of Object.keys(results)) {
+    const m = file.match(/^D(\d{2})d(\d+)_\d+-after\.wav$/)
+    if (m) splitAfter.add(`${parseInt(m[1]) - 1}:${Math.floor((parseInt(m[2]) - 1) / 2)}`)
+  }
+
   for (const [file, dur] of Object.entries(results)) {
     const rounded = Math.round(dur * 100) / 100
 
@@ -136,27 +169,50 @@ export async function updateTimingJson(results: Record<string, number>): Promise
       target.segments[segPos].duration = rounded
       continue
     }
-    // D{NN}{letter}-{phase}.wav (title, summary, context)
-    const bookMatch = file.match(/^D(\d{2})[a-g]-(title|summary|context)\.wav$/)
+    // D{NN}{letter}{part?}-{phase}.wav (title, summary, context) — part 없으면 첫 토막, b2=두 번째 토막
+    const bookMatch = file.match(/^D(\d{2})([a-c])(\d*)-(title|summary|context)\.wav$/)
     if (bookMatch) {
       const idx = parseInt(bookMatch[1]) - 1 // 1-based -> 0-based
       if (newLayout) await loadBookTiming(idx)
-      switch (bookMatch[2]) {
-        case 'title': setBookField(idx, 'titleDuration', rounded); break
-        case 'summary': setBookField(idx, 'summaryDuration', rounded); break
-        case 'context': setBookField(idx, 'contextDuration', rounded); break
+      if (bookMatch[4] === 'title') { setBookField(idx, 'titleDuration', rounded); continue }
+      const part = bookMatch[3] ? parseInt(bookMatch[3]) - 1 : 0
+      const durKey = bookMatch[4] === 'summary' ? 'summaryPartDurations' : 'contextPartDurations'
+      const totalKey = bookMatch[4] === 'summary' ? 'summaryDuration' : 'contextDuration'
+      const obj = bookTimingObj(idx)
+      const split = part > 0 || splitFields.has(`${idx}:${bookMatch[2]}`) || Array.isArray(obj[durKey])
+      if (split) {
+        // 토막별 기록만 — 전체 길이(토막 합 + 간격)는 align --update-json 이 확정한다
+        const arr: Array<number | undefined> = Array.isArray(obj[durKey]) ? [...obj[durKey]] : []
+        arr[part] = rounded
+        obj[durKey] = arr
+      } else {
+        obj[totalKey] = rounded
+        delete obj[durKey] // 토막 해제 잔존물 제거
       }
       continue
     }
-    // D{NN}d{N}-(quote|after).wav — quotePairs 동적 배열
-    const dMatch = file.match(/^D(\d{2})d(\d+)-(quote|after)\.wav$/)
+    // D{NN}d{N}{_part?}-(quote|after).wav — quotePairs 동적 배열. _2부터 후속 맥락 토막(0번 토막은 접미사 없음)
+    const dMatch = file.match(/^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)\.wav$/)
     if (dMatch) {
       const idx = parseInt(dMatch[1]) - 1 // 1-based -> 0-based
       const n = parseInt(dMatch[2])
-      const isQuote = dMatch[3] === 'quote'
+      const isQuote = dMatch[4] === 'quote'
       const pairIdx = Math.floor((n - 1) / 2) // d1,d2→0  d3,d4→1  d5,d6→2
       if (newLayout) await loadBookTiming(idx)
-      setQuotePairField(idx, pairIdx, isQuote ? 'quoteDuration' : 'afterDuration', rounded)
+      if (isQuote) {
+        setQuotePairField(idx, pairIdx, 'quoteDuration', rounded)
+      } else {
+        const part = dMatch[3] ? parseInt(dMatch[3]) - 1 : 0
+        const pd = quotePairObj(idx, pairIdx)
+        const split = part > 0 || splitAfter.has(`${idx}:${pairIdx}`) || Array.isArray(pd.afterPartDurations)
+        if (split) {
+          // 토막별 기록만 — 전체 길이(토막 합 + 간격)는 align --update-json 이 확정한다
+          setAfterPartDuration(idx, pairIdx, part, rounded)
+        } else {
+          pd.afterDuration = rounded
+          delete pd.afterPartDurations // 토막 해제 잔존물 제거
+        }
+      }
     }
   }
 

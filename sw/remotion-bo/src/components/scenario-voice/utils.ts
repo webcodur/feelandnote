@@ -1,6 +1,7 @@
 import type { EpisodeData } from '../EpisodeEditor'
 import type { VoiceFile, VoiceSection } from '../voice-utils'
 import { shortsArrIndexBySlot } from '../voice-utils'
+import { bookFieldParts } from '../scenario/utils'
 import type { VoiceSelect, VoiceMeta } from './types'
 
 // ── Utility functions ──
@@ -49,19 +50,28 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
   }
   if (directMap[key]) return directMap[key]()
 
-  const bookMatch = key.match(/^D(\d{2})([a-c])-/)
+  const bookMatch = key.match(/^D(\d{2})([a-c])(\d*)-/)
   if (bookMatch) {
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
+    const part = bookMatch[3] ? parseInt(bookMatch[3]) - 1 : 0  // b2 → 토막 1
     const book = bks[idx]
     if (!book) return { original: '', tts: '' }
+    const partText = (full: string | undefined, parts?: string[]) =>
+      bookFieldParts(full, parts)[part] ?? ''
     const phaseMap: Record<string, () => { original: string; tts: string }> = {
       'a': () => {
         const orig = [book.title, book.creator, book.stats?.publishYear].filter(Boolean).join(', ')
         return { original: orig, tts: ttsData?.titles?.[idx] ?? '' }
       },
-      'b': () => ({ original: book.summary, tts: r(book.summary) }),
-      'c': () => ({ original: book.contextMain, tts: r(book.contextMain) }),
+      'b': () => {
+        const t = partText(book.summary, (book as any).summaryParts)
+        return { original: t, tts: r(t) }
+      },
+      'c': () => {
+        const t = partText(book.contextMain, (book as any).contextMainParts)
+        return { original: t, tts: r(t) }
+      },
     }
     return phaseMap[phase]?.() ?? { original: '', tts: '' }
   }
@@ -111,14 +121,27 @@ export function setTextForSection(key: string, value: string, ep: EpisodeData): 
 
   if (directOriginal[key]) { directOriginal[key](value); return next }
 
-  const bookMatch = key.match(/^D(\d{2})([a-c])-/)
+  const bookMatch = key.match(/^D(\d{2})([a-c])(\d*)-/)
   if (bookMatch) {
     const idx = parseInt(bookMatch[1]) - 1
     const phase = bookMatch[2]
+    const part = bookMatch[3] ? parseInt(bookMatch[3]) - 1 : 0
     if (bks[idx]) {
-      const phaseField: Record<string, string> = { b: 'summary', c: 'contextMain' }
-      if (phaseField[phase]) {
-        (bks[idx] as Record<string, unknown>)[phaseField[phase]] = value
+      const phaseField: Record<string, 'summary' | 'contextMain'> = { b: 'summary', c: 'contextMain' }
+      const field = phaseField[phase]
+      if (field) {
+        const bookRec = bks[idx] as Record<string, unknown>
+        const partsKey = field === 'summary' ? 'summaryParts' : 'contextMainParts'
+        const parts = bookFieldParts(bookRec[field] as string | undefined, bookRec[partsKey] as string[] | undefined)
+        if (parts.length > 1 && part < parts.length) {
+          // 토막 수정 — 토막 목록과 본문(join) 동시 갱신
+          const nextParts = [...parts]
+          nextParts[part] = value
+          bookRec[partsKey] = nextParts
+          bookRec[field] = nextParts.join('\n\n')
+        } else {
+          bookRec[field] = value
+        }
       }
     }
     return next
@@ -194,8 +217,8 @@ export function sectionVoicePath(key: string, ep: EpisodeData): string | null {
 
 // ── 롱폼 구간별 발화 스타일 ──
 
-/** narrator/summary 구간 기본 발화 스타일 — CLI NARRATOR_STYLE_DEFAULT와 일치 유지(2-synthesize/config.ts) */
-export const NARRATOR_STYLE_DEFAULT = '편안하고 자연스럽게'
+/** narrator/summary 구간 기본 발화 스타일 — 공유 정책(voice-policy)이 단일원천. CLI 와 같은 값. */
+export { NARRATOR_STYLE_DEFAULT } from '@feelandnote/shared/lib/voice-policy'
 
 /** 롱폼 구간키 → voiceStyles 저장 키. 쇼츠(shorts-{N}/…)는 segment.style을 쓰므로 null. */
 export function sectionStyleKey(secKey: string): string | null {

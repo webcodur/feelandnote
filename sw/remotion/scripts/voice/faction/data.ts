@@ -19,6 +19,11 @@ export type FactionVoiceJob = {
   text: string
   /** 인물별 화자 ID (data 의 quoteSpeaker). 미지정이면 공용 기본 보이스 */
   speaker?: string
+  /**
+   * 인물별 합성 엔진 (data 의 quoteEngine). 'gemini' | 'gemini-v3' | 'elevenlabs'.
+   * 'elevenlabs' 는 사용자 전담이라 자동 생성에서 제외된다(buildVoiceJobs 단계에서 거른다).
+   */
+  engine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다 */
   groupIndex: number
   personIndex: number
@@ -35,6 +40,17 @@ export async function loadFactionData(): Promise<FactionScript> {
 function quoteTextOf(p: FactionPerson): string {
   const t = LANG === 'en' ? (p.quoteEn ?? p.quote) : p.quote
   return (t ?? '').trim()
+}
+
+/**
+ * 합성에 넘길 최종 텍스트 — 인물 발화 스타일(quoteStyle)이 있으면 "<지시>: 대사" prefix 를 붙인다.
+ * BO 미리듣기(useFactionVoiceGeneration)의 `${style}: ${text}` 와 동일 규칙이라 일괄 생성·미리듣기
+ * 결과가 일치한다. prefix 가 텍스트에 포함되므로 매니페스트 해시(voice:text)도 자동으로 바뀌어,
+ * 스타일만 고쳐도 재생성이 트리거된다. 빈 스타일은 옵트아웃(prefix 없음).
+ */
+function styledTextOf(p: FactionPerson, text: string): string {
+  const style = (p.quoteStyle ?? '').trim()
+  return style ? `${style}: ${text}` : text
 }
 
 /**
@@ -60,8 +76,10 @@ export function buildVoiceJobs(script: FactionScript): FactionVoiceJob[] {
     if (!text) continue
     jobs.push({
       file: vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex),
-      text,
+      // 발화 스타일 prefix 를 텍스트에 합쳐 합성·해시 양쪽에 반영한다(BO 미리듣기와 동일 규칙).
+      text: styledTextOf(person, text),
       speaker: person.quoteSpeaker,
+      engine: person.quoteEngine,
       groupIndex: cue.groupIndex,
       personIndex: cue.personIndex,
       clusterIndex: cue.clusterIndex,

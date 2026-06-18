@@ -14,6 +14,7 @@ import {
   type LabelDurations, f,
 } from './timing'
 import { isContinuation } from './timing'
+import { bookFieldParts, resolvePartDurations, bookPartStarts, FIELD_PART_GAP_SEC } from './field-parts'
 
 // --- TTS 미생성 시 글자 수 기반 duration 추정 (프리뷰 레이아웃용) ---
 // 실제 음성 147개 구간 실측 중앙값 ≈ 6.8자/초. 음성 없을 때 영상 길이를 실제에 맞춘다.
@@ -31,6 +32,19 @@ function vtEnd(script: BookRecommendScript, key: string): number | undefined {
 /** duration 우선순위: 기존 > voiceTimings 실제 duration > 글자 수 추정 */
 const resolve = (sec: number | undefined, vt: number | undefined, text?: string | null) =>
   (sec ?? 0) > 0 ? (sec ?? 0) : (vt ?? est(text))
+
+/** 토막 분할 필드의 voiceTimings 합산 duration — 전 토막 키가 있어야 유효(부분 합은 과소 추정) */
+function vtEndSplit(script: BookRecommendScript, keys: string[]): number | undefined {
+  if (keys.length === 0) return undefined
+  if (keys.length === 1) return vtEnd(script, keys[0])
+  let sum = 0
+  for (const k of keys) {
+    const e = vtEnd(script, k)
+    if (e == null) return undefined
+    sum += e
+  }
+  return sum + FIELD_PART_GAP_SEC * (keys.length - 1)
+}
 
 /** duration 0인 필드를 voiceTimings 실제값 또는 글자 수 기반으로 채운 script 사본 반환.
  *
@@ -71,18 +85,25 @@ export function withEstimatedDurations(script: BookRecommendScript): BookRecomme
     },
     books: books.map((b, i) => {
       const bk = String(i + 1).padStart(2, '0')
+      const summaryKeys = bookFieldParts(b.summary, b.summaryParts)
+        .map((_, p) => p === 0 ? `D${bk}b-summary` : `D${bk}b${p + 1}-summary`)
+      const contextKeys = bookFieldParts(b.contextMain, b.contextMainParts)
+        .map((_, p) => p === 0 ? `D${bk}c-context` : `D${bk}c${p + 1}-context`)
       return {
         ...b,
         titleDuration: resolve(b.titleDuration, vtEnd(script, `D${bk}a-title`), `${b.title}, ${b.creator}`),
-        summaryDuration: resolve(b.summaryDuration, vtEnd(script, `D${bk}b-summary`), b.summary),
-        contextDuration: resolve(b.contextDuration, vtEnd(script, `D${bk}c-context`), b.contextMain),
+        summaryDuration: resolve(b.summaryDuration, vtEndSplit(script, summaryKeys), b.summary),
+        contextDuration: resolve(b.contextDuration, vtEndSplit(script, contextKeys), b.contextMain),
         quotePairs: b.quotePairs?.map((p, pi) => {
           const qKey = `D${bk}d${pi * 2 + 1}-quote`
-          const aKey = `D${bk}d${pi * 2 + 2}-after`
+          const aBase = `D${bk}d${pi * 2 + 2}`
+          // 후속 맥락 토막별 키 — 0은 기존 이름(D{NN}d{N}-after), 1부터 `_N`(D{NN}d{N}_2-after)
+          const afterKeys = bookFieldParts(p.after, p.afterParts)
+            .map((_, ap) => ap === 0 ? `${aBase}-after` : `${aBase}_${ap + 1}-after`)
           return {
             ...p,
             quoteDuration: p.quote ? resolve(p.quoteDuration, vtEnd(script, qKey), p.quote) : p.quoteDuration,
-            afterDuration: p.after ? resolve(p.afterDuration, vtEnd(script, aKey), p.after) : p.afterDuration,
+            afterDuration: p.after ? resolve(p.afterDuration, vtEndSplit(script, afterKeys), p.after) : p.afterDuration,
           }
         }),
       }
@@ -95,6 +116,8 @@ export interface QuotePairTiming {
   quoteFrames: number
   hasAfter: boolean
   afterFrames: number
+  /** 후속 맥락 토막별 시작 프레임 (after 구간 시작 기준). 분할 없으면 [0] */
+  afterPartStartsF: number[]
 }
 
 export interface BookTiming {
@@ -106,6 +129,10 @@ export interface BookTiming {
   quotePairsEnd: number
   total: number
   quotePairTimings: QuotePairTiming[]
+  /** 핵심 요약 토막별 시작 프레임 (요약 구간 시작 기준). 분할 없으면 [0] */
+  summaryPartStartsF: number[]
+  /** 감상 배경 토막별 시작 프레임 (배경 구간 시작 기준). 분할 없으면 [0] */
+  contextPartStartsF: number[]
 }
 
 export interface Timeline {
@@ -211,21 +238,33 @@ export function buildTimeline(rawScript: BookRecommendScript): Timeline {
   cursor += bridgeFrames
 
   // --- Book timings ---
-  const bookTimings: BookTiming[] = books.map((b) => ({
-    titleFrames: toFrames(b.titleDuration),
-    summaryFrames: toFrames(b.summaryDuration),
-    contextFrames: toFrames(b.contextDuration),
-    summaryEnd: summaryPhaseEnd(b, ld),
-    contextEnd: contextPhaseEnd(b, ld),
-    quotePairsEnd: quotePairsEnd(b, ld),
-    total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F + f(1),
-    quotePairTimings: (b.quotePairs ?? []).map(p => ({
-      hasQuote: !!p.quoteDuration,
-      quoteFrames: p.quoteDuration ? toQuoteFrames(p.quoteDuration) : 0,
-      hasAfter: !!p.afterDuration,
-      afterFrames: p.afterDuration ? toQuoteFrames(p.afterDuration) : 0,
-    })),
-  }))
+  const bookTimings: BookTiming[] = books.map((b) => {
+    // 토막별 시작 프레임 — 오디오 배치·이미지 앵커·자막의 단일 기준
+    const summaryParts = bookFieldParts(b.summary, b.summaryParts)
+    const contextParts = bookFieldParts(b.contextMain, b.contextMainParts)
+    return {
+      titleFrames: toFrames(b.titleDuration),
+      summaryFrames: toFrames(b.summaryDuration),
+      contextFrames: toFrames(b.contextDuration),
+      summaryEnd: summaryPhaseEnd(b, ld),
+      contextEnd: contextPhaseEnd(b, ld),
+      quotePairsEnd: quotePairsEnd(b, ld),
+      total: bookTotalFrames(b, ld) + LABEL_SUMMARY_F + LABEL_CONTEXT_F + f(1),
+      quotePairTimings: (b.quotePairs ?? []).map(p => {
+        // 후속 맥락 토막별 시작 프레임 — after 구간 내부 배치(분할 없으면 [0]). summaryPartStartsF와 동일 패턴
+        const afterParts = bookFieldParts(p.after, p.afterParts)
+        return {
+          hasQuote: !!p.quoteDuration,
+          quoteFrames: p.quoteDuration ? toQuoteFrames(p.quoteDuration) : 0,
+          hasAfter: !!p.afterDuration,
+          afterFrames: p.afterDuration ? toQuoteFrames(p.afterDuration) : 0,
+          afterPartStartsF: bookPartStarts(resolvePartDurations(afterParts, p.afterPartDurations, p.afterDuration ?? 0)).map(f),
+        }
+      }),
+      summaryPartStartsF: bookPartStarts(resolvePartDurations(summaryParts, b.summaryPartDurations, b.summaryDuration)).map(f),
+      contextPartStartsF: bookPartStarts(resolvePartDurations(contextParts, b.contextPartDurations, b.contextDuration)).map(f),
+    }
+  })
 
   const hasInterlude = books.length > 10
   const interludeIndex = hasInterlude ? Math.ceil(books.length / 2) : -1

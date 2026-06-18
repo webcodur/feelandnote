@@ -15,6 +15,9 @@ interface EditorPanelProps {
   onIconClick?: () => void
   /** onIconClick 버튼의 툴팁. */
   iconTitle?: string
+  /** 섹션 구분색(rgb 삼원색 문자열, 예: "16,185,129"). 지정 시 패널 배경·테두리를 이 색으로 덮어
+   *  타입별 기본 테마(파랑·금색 등)를 끄고 섹션 색으로 통일한다. */
+  tintColor?: string
 }
 
 export function EditorPanel({
@@ -28,14 +31,20 @@ export function EditorPanel({
   summaryNode,
   onIconClick,
   iconTitle,
+  tintColor,
 }: EditorPanelProps) {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState(defaultExpanded)
 
+  // 섹션 구분색 지정 시 — 타입별 기본 테마 대신 섹션 색으로 배경·테두리를 통일한다.
+  const tintStyle: React.CSSProperties | undefined = tintColor
+    ? { backgroundColor: `rgba(${tintColor},0.07)`, borderColor: `rgba(${tintColor},0.45)` }
+    : undefined
+
   // 섹션 타이틀별 가시성(구분감) 극대화를 위한 프리미엄 테마 변수 매핑
   const lowerTitle = (title ?? '').toLowerCase()
   let themeStyles = 'border-border bg-bg-card'
-  
+
   if (lowerTitle.includes('visual') || lowerTitle.includes('비주얼')) {
     // 비주얼 트랙: 블루/하늘색 톤의 고대비 맑은 라이트 테마
     themeStyles = 'border-sky-400 bg-sky-50 shadow-xs'
@@ -57,7 +66,10 @@ export function EditorPanel({
   }
 
   return (
-    <div className={`relative rounded-md border transition-all duration-200 ${themeStyles} ${!expanded ? 'h-[26px] overflow-hidden !mb-1' : 'mb-2.5 overflow-visible'} ${className}`}>
+    <div
+      style={tintStyle}
+      className={`relative rounded-md border transition-all duration-200 ${tintColor ? 'shadow-xs' : themeStyles} ${!expanded ? 'h-[26px] overflow-hidden !mb-1' : 'mb-2.5 overflow-visible'} ${className}`}
+    >
       
       {/* ── 펼침 상태 (expanded) 디자인 ── */}
       {expanded ? (

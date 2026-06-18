@@ -51,6 +51,11 @@ export function SectionCard({
   const charCount = s.text.replace(/\s/g, '').length
   const cps = vi?.exists && vi.duration ? charCount / vi.duration : null
   const picking = anchorPick?.itemIdx === i
+  // 솔로는 섹션 구분이 없으므로, 위→아래로 색상(hue)이 점진적으로 흐르는 그라데이션으로 위치를 구분한다.
+  // 빨강(0)·노랑(60) 같은 경고·강조색을 피해 파랑(215)→보라→로즈(340) 구간만 돈다.
+  const hue = total > 1 ? Math.round(215 + (i / (total - 1)) * 125) : 215
+  const cardBg = `hsl(${hue}, 70%, 97%)`
+  const stripe = `hsl(${hue}, 55%, 55%)`
   return (
     <div key={s.id}
       onClick={() => onSetActive(i)}
@@ -60,7 +65,8 @@ export function SectionCard({
         const fn = e.dataTransfer.getData('text/plain')
         if (fn && !fn.startsWith('seg:') && !fn.startsWith('book:')) { onDropImage(i, fn); onSetActive(i) }
       }}
-      className={`rounded border bg-bg-main/30 p-3 space-y-2 ${
+      style={{ backgroundColor: cardBg, boxShadow: `inset 4px 0 0 ${stripe}` }}
+      className={`rounded border pl-4 pr-3 py-3 space-y-2 ${
         activeIdx === i ? 'border-accent/60 ring-1 ring-accent/30' : 'border-border/70'
       }`}>
       {/* 상단 조작 줄 */}
@@ -102,6 +108,7 @@ export function SectionCard({
       {/* 본문 텍스트 — 쇼츠·롱폼과 동일한 EditableText. 구절 선택으로 이미지 앵커를 잡는다(픽업·하이라이트 공용). */}
       <EditableText
         value={s.text}
+        live
         onCommit={(v, prev) => onCommitText(i, v, prev)}
         pickMode={picking}
         onPick={sel => onConfirmAnchor(i, sel)}
@@ -153,6 +160,7 @@ export function SectionCard({
             fallbackDuration={vi.duration ?? 0}
             isPlaying={playingKey === segKey}
             onTogglePlay={() => onTogglePlay(segKey)}
+            fillColor={stripe}
           />
           <span className="ml-1 text-[11px] font-mono text-text-secondary whitespace-nowrap">{segKey.split('/').pop()}</span>
           {eng && vi.exists && (

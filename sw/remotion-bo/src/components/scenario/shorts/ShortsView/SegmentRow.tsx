@@ -179,7 +179,7 @@ export function SegmentRow({
 
   const row = (
     <ScenarioRow
-      label={labelNode} role={seg.role} value={seg.text}
+      label={labelNode} role={seg.role} value={seg.text} live={withImage}
       voiceInfo={voiceInfo} onCommit={(v, prev) => updateSeg(idx, v, prev)}
       pickMode={picking} onPick={handlePick}
       highlights={allImgs.map((img: any) => img.text).filter((t: string | undefined): t is string => !!t)}

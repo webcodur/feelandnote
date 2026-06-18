@@ -10,7 +10,10 @@
  */
 
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from './types'
+// 등록 에피소드 화이트리스트 — 폴더에 data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
+import episodeRegistry from '../../../public/factions/_episodes.json'
 
+const ALLOW = new Set(episodeRegistry as string[])
 const ctx = require.context('../../../public/factions', true, /\/data\.json$/)
 const KEY_RE = /^\.\/(.+)\/data\.json$/
 
@@ -74,6 +77,7 @@ for (const ctxKey of ctx.keys()) {
   const m = ctxKey.match(KEY_RE)
   if (!m) continue
   const name = m[1]
+  if (!ALLOW.has(name)) continue // 등록 목록(_episodes.json)에 없는 폴더는 건너뛴다
   const data = ctx(ctxKey) as FactionScript
   episodes[name] = resolveScript(data, false)
   episodeNames[name] = name

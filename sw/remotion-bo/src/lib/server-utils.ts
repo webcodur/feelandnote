@@ -186,7 +186,7 @@ export async function listEpisodes(series?: string): Promise<EpisodeListItem[]> 
   // 세력도: factions/ 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
   if (isFactionSeries(series ?? '')) {
     const fx = await listFactionEpisodes()
-    return fx.map(f => ({ id: f.id, status: 'live' as EpisodeStatus, group: '' }))
+    return fx.map(f => ({ id: f.id, status: f.status as EpisodeStatus, group: '' }))
   }
 
   const items: EpisodeListItem[] = []
@@ -333,8 +333,8 @@ async function loadExternalShorts(episodeDir: string, locale: string): Promise<a
 
 export async function loadEpisode(series: string, name: string) {
   if (isFactionSeries(series)) {
-    const { person, locale } = parseEpisodeId(name)
-    return loadFactionEpisode(person, locale)
+    const { person } = parseEpisodeId(name)
+    return loadFactionEpisode(person)
   }
   const { person, locale } = parseEpisodeId(name)
   const found = findEpisodeDir(person)
@@ -434,8 +434,8 @@ export async function saveShorts(_series: string, name: string, shortsArr: any[]
 
 export async function saveEpisode(series: string, name: string, data: unknown, scope: SaveScope = 'all', bookIndices?: number[]) {
   if (isFactionSeries(series)) {
-    const { person, locale } = parseEpisodeId(name)
-    await saveFactionEpisode(person, data as FactionScript, locale)
+    const { person } = parseEpisodeId(name)
+    await saveFactionEpisode(person, data as FactionScript)
     return
   }
   // 신구조: meta + 책별 + 쇼츠별 파일을 한꺼번에 분해 저장. 외부 shorts/{locale}-N.json 폴백 경로는 사용 안 함.

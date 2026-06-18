@@ -6,13 +6,15 @@
  * 쇼츠 키 패턴: shorts-{idx}/S{NN}-{segId}
  */
 
+import { bookFieldParts, partPhase } from './utils'
+
 export type RenamePair = { from: string; to: string }
 
 /** 책 순서 재배치 시의 rename 페어 계산.
  *  newOrder[i] = 새 위치 i 에 들어갈 옛 idx. (예: [2,0,1] = 옛 2번 책이 첫 자리로) */
 export function bookReorderRenames(
   newOrder: number[],
-  books: Array<{ quotePairs?: unknown[] } | null | undefined>,
+  books: Array<{ quotePairs?: unknown[]; summary?: string; summaryParts?: string[]; contextMain?: string; contextMainParts?: string[] } | null | undefined>,
 ): RenamePair[] {
   const out: RenamePair[] = []
   for (let newI = 0; newI < newOrder.length; newI++) {
@@ -22,8 +24,13 @@ export function bookReorderRenames(
     const oldP = `D${String(oldI + 1).padStart(2, '0')}`
     const newP = `D${String(newI + 1).padStart(2, '0')}`
     out.push({ from: `${oldP}a-title`, to: `${newP}a-title` })
-    out.push({ from: `${oldP}b-summary`, to: `${newP}b-summary` })
-    out.push({ from: `${oldP}c-context`, to: `${newP}c-context` })
+    // 토막 분할 필드 — 토막 수만큼 rename (분할 없으면 1개 = 기존과 동일)
+    for (let p = 0; p < Math.max(1, bookFieldParts(book?.summary, book?.summaryParts).length); p++) {
+      out.push({ from: `${oldP}${partPhase('b', 'summary', p)}`, to: `${newP}${partPhase('b', 'summary', p)}` })
+    }
+    for (let p = 0; p < Math.max(1, bookFieldParts(book?.contextMain, book?.contextMainParts).length); p++) {
+      out.push({ from: `${oldP}${partPhase('c', 'context', p)}`, to: `${newP}${partPhase('c', 'context', p)}` })
+    }
     const pairs = Array.isArray(book?.quotePairs) ? book!.quotePairs.length : 0
     for (let pi = 0; pi < pairs; pi++) {
       out.push({ from: `${oldP}d${pi * 2 + 1}-quote`, to: `${newP}d${pi * 2 + 1}-quote` })

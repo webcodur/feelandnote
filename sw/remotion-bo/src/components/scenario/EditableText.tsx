@@ -1,10 +1,11 @@
 ﻿'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { splitHighlights } from './utils'
+import { remapAnchor } from './anchorSync'
 
 export function EditableText({
-  value, onCommit, pickMode, onPick, highlights, onAddAnchor,
+  value, onCommit, pickMode, onPick, highlights, onAddAnchor, onSplitAt, live,
 }: {
   value: string | undefined
   /** 본문 커밋. prev 는 커밋 직전 본문(앵커 동기화용) — 상위가 옛/새 본문 차이로 이미지 앵커를 이전한다. */
@@ -13,26 +14,44 @@ export function EditableText({
   onPick?: (selected: string) => void
   highlights?: string[]
   onAddAnchor?: (text: string) => void
+  /** 커서 위치에서 본문을 두 토막으로 나눈다. offset은 현재 입력 중 텍스트 기준 글자 위치. */
+  onSplitAt?: (offset: number, text: string) => void
+  /** 실시간 반영 — 타이핑마다 상위 화면 상태(이미지 앵커·섬네일 라벨)를 갱신한다.
+   *  디스크 저장이 아니라 메모리 상태만 바꾸며, 실제 저장은 저장 버튼이 따로 한다. */
+  live?: boolean
 }) {
   const safeValue = value ?? ''
   const [draft, setDraft] = useState(safeValue)
   const [focused, setFocused] = useState(false)
   const ref = useRef<HTMLTextAreaElement>(null)
   const [selectedText, setSelectedText] = useState('')
+  const [caret, setCaret] = useState<number | null>(null)
 
   useEffect(() => { setDraft(safeValue) }, [safeValue])
+
+  // 입력 반영 — live면 타이핑마다 상위 상태를 갱신(작은 1글자 변경이라 앵커 이전이 정확하다).
+  const handleChange = (v: string) => {
+    if (pickMode) return
+    setDraft(v)
+    if (live && v !== safeValue) onCommit(v, safeValue)
+  }
 
   const commit = () => {
     if (pickMode) return
     const trimmed = (draft ?? '').trim()
     if (trimmed && trimmed !== safeValue) onCommit(trimmed, safeValue)
-    else setDraft(safeValue)
+    else if (!live) setDraft(safeValue)
   }
 
   const handleMouseUp = () => {
     if (!ref.current) return
     const { selectionStart, selectionEnd } = ref.current
-    if (selectionStart === selectionEnd) { setSelectedText(''); return }
+    if (selectionStart === selectionEnd) {
+      setSelectedText('')
+      setCaret(selectionStart)
+      return
+    }
+    setCaret(null)
     const selected = ref.current.value.substring(selectionStart, selectionEnd).trim()
     if (selected.length >= 2) {
       if (pickMode && onPick) onPick(selected)
@@ -40,7 +59,31 @@ export function EditableText({
     }
   }
 
-  const activeHighlights = highlights?.filter(h => h && (draft ?? '').includes(h)) ?? []
+  const handleKeyUp = () => {
+    if (!ref.current || !onSplitAt) return
+    const { selectionStart, selectionEnd } = ref.current
+    setCaret(selectionStart === selectionEnd ? selectionStart : null)
+  }
+
+  // 커서가 본문 중간에 있을 때만 나누기 버튼 노출 — 양 끝에서는 토막이 비어 무의미
+  const canSplit = !!onSplitAt && !pickMode && focused && !selectedText
+    && caret != null && (draft ?? '').slice(0, caret).trim().length > 0 && (draft ?? '').slice(caret).trim().length > 0
+
+  // 형광 실시간 추적 — 타이핑 중에도 앵커 구절을 입력 중 텍스트(draft) 기준으로 따라 옮겨 표시한다.
+  // 데이터(img.text)는 칸 밖 클릭 확정 시 상위 remap이 갱신하고, 여기서는 표시만 미리 맞춘다.
+  const activeHighlights = useMemo(() => {
+    const d = draft ?? ''
+    if (!highlights?.length) return []
+    return highlights
+      .map(h => {
+        if (!h) return null
+        if (d.includes(h)) return h
+        if (d === safeValue) return null
+        const r = remapAnchor(safeValue, d, h)
+        return r.kind === 'lost' ? null : r.text
+      })
+      .filter((h): h is string => !!h && d.includes(h))
+  }, [highlights, draft, safeValue])
   const hasHighlights = activeHighlights.length > 0
   const display = draft ?? ''
 
@@ -76,10 +119,11 @@ export function EditableText({
         <textarea
           ref={ref}
           value={display}
-          onChange={e => { if (!pickMode) setDraft(e.target.value) }}
+          onChange={e => handleChange(e.target.value)}
           onFocus={() => setFocused(true)}
-          onBlur={() => { setFocused(false); commit(); setSelectedText('') }}
+          onBlur={() => { setFocused(false); commit(); setSelectedText(''); setCaret(null) }}
           onMouseUp={handleMouseUp}
+          onKeyUp={handleKeyUp}
           readOnly={pickMode}
           rows={1}
           spellCheck={false}
@@ -88,6 +132,16 @@ export function EditableText({
           }`}
         />
       </div>
+      {canSplit && (
+        <button
+          onMouseDown={e => { e.preventDefault(); onSplitAt!(caret!, draft ?? ''); setCaret(null) }}
+          className="inline-flex items-center gap-1.5 mt-1 px-2.5 py-1 text-[12px] font-bold rounded-md bg-sky-100 border border-sky-400 text-sky-900 hover:bg-sky-200 hover:border-sky-500 shadow-sm transition-colors"
+          title="커서 위치를 기준으로 본문을 두 토막으로 나눈다. 토막마다 음원을 따로 생성할 수 있다."
+        >
+          <span className="text-base leading-none">✂</span>
+          <span>여기서 나누기</span>
+        </button>
+      )}
       {onAddAnchor && selectedText && focused && (
         <button
           onMouseDown={e => { e.preventDefault(); onAddAnchor(selectedText); setSelectedText('') }}

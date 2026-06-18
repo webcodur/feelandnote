@@ -23,6 +23,8 @@ export type BookSectionProps = {
   removeImageOnly: any
   crossUsage: Map<string, string[]> | undefined
   uB: (i: number, field: string, value: unknown, prev?: string) => void
+  /** 토막 분할 갱신 — 토막 목록과 본문(join)을 한 번에 바꾼다. 1개로 줄면 분할 해제. */
+  uBSplit: (i: number, field: 'summary' | 'contextMain', parts: string[]) => void
   dropImage: (i: number, fn: string, field?: ImageField) => void
   addAnchor: (i: number, t: string, field?: ImageField) => void
   handlePick: (selected: string, field?: ImageField) => void

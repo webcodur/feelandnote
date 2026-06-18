@@ -102,6 +102,7 @@ export function LongformView({ episode, sectionMap, onUpdate, onToggleExpand, ac
                   removeImageOnly={removeImageOnly}
                   crossUsage={crossUsage}
                   uB={state.uB}
+                  uBSplit={state.uBSplit}
                   dropImage={dropImage}
                   addAnchor={addAnchor}
                   handlePick={handlePick}

@@ -15,7 +15,7 @@ function measureDuration(url: string): Promise<number> {
     a.src = url
   })
 }
-import { Plus, Save, Eye, Upload, Film, ImageIcon, Mic, Loader } from './icons'
+import { Plus, Save, Eye, Upload, Film, ImageIcon, Mic } from './icons'
 import { FactionGroupEditor } from './FactionGroupEditor'
 import { FactionCopyButton } from './FactionCopyButton'
 import { FactionPreview } from './FactionPreview'
@@ -25,6 +25,7 @@ import { collectUsedImages } from './usedImages'
 import { TaskPanel } from '@/components/TaskPanel'
 import { UiLabel } from '@/components/ui-label'
 import { FactionVoiceProvider, type FactionVoiceMeta } from './FactionVoiceContext'
+import { FactionVoiceModal, type FactionVoiceOptions } from './FactionVoiceModal'
 
 const EMPTY_GROUP: FactionGroup = { name: '', tagline: '', color: '#92400e', people: [] }
 
@@ -37,7 +38,7 @@ export function FactionEditor({ series, name }: { series: string; name: string }
   const [showPool, setShowPool] = useState(false)
   const [rendering, setRendering] = useState(false)
   const [musicList, setMusicList] = useState<string[]>([])
-  const [generatingVoice, setGeneratingVoice] = useState(false)
+  const [voiceModalOpen, setVoiceModalOpen] = useState(false)
   const [voiceFiles, setVoiceFiles] = useState<FactionVoiceMeta[]>([])
   const [regeneratingFile, setRegeneratingFile] = useState<string | null>(null)
   const musicRef = useRef<HTMLInputElement | null>(null)
@@ -143,13 +144,20 @@ export function FactionEditor({ series, name }: { series: string; name: string }
 
   // 음성 생성 트리거 — 디스크 최신 데이터 기준이므로 변경분을 먼저 저장한다.
   // only 지정 시 그 인물(파일명)만 재생성, 미지정이면 에피소드 전체.
-  const triggerVoice = useCallback(async (only?: string) => {
+  // engine·normalize·force 는 모달 옵션. 미지정 시 기본(gemini·normalize on·force on).
+  type TriggerOpts = { only?: string; engine?: string; normalize?: boolean; force?: boolean }
+  const triggerVoice = useCallback(async (opts: TriggerOpts = {}) => {
     if (scriptRef.current && dirty) await save()
     try {
+      const body: Record<string, unknown> = { episode: name }
+      if (opts.only) body.only = opts.only
+      if (opts.engine) body.engine = opts.engine
+      if (opts.normalize !== undefined) body.normalize = opts.normalize
+      if (opts.force !== undefined) body.force = opts.force
       const res = await fetch(`/api/${series}/faction-voice`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(only ? { episode: name, only } : { episode: name }),
+        body: JSON.stringify(body),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) alert('음성 생성 시작 실패: ' + (data.error ?? res.statusText))
@@ -158,17 +166,17 @@ export function FactionEditor({ series, name }: { series: string; name: string }
     }
   }, [series, name, dirty, save])
 
-  // 전체 음성 생성 (헤더 버튼)
-  const generateVoice = useCallback(async () => {
-    setGeneratingVoice(true)
-    try { await triggerVoice() } finally { setGeneratingVoice(false) }
-  }, [triggerVoice])
+  // 헤더 버튼 모달의 생성 콜백 — 옵션을 담아 전체/누락분 생성.
+  const generateVoice = useCallback(
+    (o: FactionVoiceOptions) => triggerVoice({ only: o.only, engine: o.engine, normalize: o.normalize, force: o.force }),
+    [triggerVoice],
+  )
 
   // 인물 한 명 음성 재생성 (행 버튼). 생성 후 잠시 뒤 목록 갱신해 길이·존재 반영.
   const regenerateVoice = useCallback(async (file: string) => {
     setRegeneratingFile(file)
     try {
-      await triggerVoice(file.replace(/\.wav$/i, ''))
+      await triggerVoice({ only: file.replace(/\.wav$/i, '') })
       // 백그라운드 task라 완료 시점을 알 수 없다 — 잠시 뒤 목록만 갱신.
       setTimeout(loadVoices, 4000)
     } finally {
@@ -281,7 +289,7 @@ export function FactionEditor({ series, name }: { series: string; name: string }
   const addGroup = () => updateGroups([...groups, { ...EMPTY_GROUP, people: [] }])
 
   return (
-    <FactionVoiceProvider value={{ byFile: voiceByFile, voiceUrl, regenerate: regenerateVoice, regeneratingFile }}>
+    <FactionVoiceProvider value={{ byFile: voiceByFile, voiceUrl, regenerate: regenerateVoice, regeneratingFile, reload: loadVoices, episodeName: name, series }}>
     <div className="relative pb-12">
       <UiLabel ko="Faction 편집" code="FactionEditor" />
       {/* 상단 바 */}
@@ -411,12 +419,11 @@ export function FactionEditor({ series, name }: { series: string; name: string }
               <Eye size={15} /> {showPreview ? '편집' : '미리보기'}
             </button>
             <button
-              onClick={generateVoice}
-              disabled={generatingVoice}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-50"
-              title="인물 대사 음성 전체 생성 (Gemini, 라우드니스 정규화 포함)"
+              onClick={() => setVoiceModalOpen(true)}
+              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
+              title="인물 대사 음성 생성 옵션 (엔진·대상·생성 모드)"
             >
-              {generatingVoice ? <Loader size={15} /> : <Mic size={15} />} {generatingVoice ? '시작 중...' : '음성 생성'}
+              <Mic size={15} /> 음성 생성
             </button>
             <button
               onClick={render}
@@ -571,6 +578,11 @@ export function FactionEditor({ series, name }: { series: string; name: string }
         <div className="mt-6 rounded-md border border-border bg-bg-main/40 p-3 lg:hidden">
           <FactionImagePool series={series} episodeName={name} usedImages={usedImages} />
         </div>
+      )}
+
+      {/* 음성 생성 옵션 모달 — 헤더 버튼으로 연다 */}
+      {voiceModalOpen && (
+        <FactionVoiceModal onClose={() => setVoiceModalOpen(false)} onGenerate={generateVoice} />
       )}
     </div>
     </FactionVoiceProvider>

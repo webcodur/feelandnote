@@ -55,6 +55,22 @@ export function useLongformState({
     onUpdate({ ...episode, books: newBooks })
   }
 
+  /** 토막 분할 갱신 — 토막 목록(2개 이상)과 본문(join '\n\n')을 한 번에 바꾼다.
+   *  1개로 줄면 분할 해제(parts 키 제거). 본문이 바뀌므로 이미지 앵커도 이전한다. */
+  const uBSplit = (i: number, field: 'summary' | 'contextMain', parts: string[]) => {
+    const partsKey = field === 'summary' ? 'summaryParts' : 'contextMainParts'
+    const clean = parts.map(p => (p ?? '').trim()).filter(Boolean)
+    if (clean.length === 0) return
+    const newBooks = [...allBooks]
+    const prevText = (newBooks[i] as any)?.[field] ?? ''
+    const joined = clean.join('\n\n')
+    let book = setField(newBooks[i] ?? {}, partsKey, clean.length > 1 ? clean : undefined) as any
+    book = setField(book, field, joined)
+    remapBookImages(book, prevText, joined, `책${i + 1}/${field}`)
+    newBooks[i] = book
+    onUpdate({ ...episode, books: newBooks })
+  }
+
   const updateQuotePair = (bookIdx: number, pairIdx: number, field: string, value: any, prev?: string) => {
     const newBooks = [...allBooks]
     const book = { ...newBooks[bookIdx] }
@@ -143,7 +159,7 @@ export function useLongformState({
   }
 
   return {
-    uN, uH, uB,
+    uN, uH, uB, uBSplit,
     updateQuotePair, addQuotePair, removeQuotePair,
     saveField,
     musicFiles, setBookBgm,

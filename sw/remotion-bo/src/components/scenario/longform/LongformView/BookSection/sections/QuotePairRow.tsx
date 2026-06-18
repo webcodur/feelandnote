@@ -55,7 +55,8 @@ export function QuotePairRow({
     <Fragment>
       {/* 직접 인용 */}
       <div className="relative group/del" style={accentStyle(pair.quoteSpeaker)}>
-        <ScenarioRow label={`직접 인용${pi > 0 ? ` ${pi + 1}` : ''}`} role="celeb" value={pair.quote}
+        <ScenarioRow label={`직접 인용${pi > 0 ? ` ${pi + 1}` : ''}`} role="celeb" value={pair.quote} live
+          barColor="rgba(244,63,94,0.8)" headerColor="rgba(244,63,94,0.22)" panelTint="244,63,94"
           voiceInfo={vi(quoteKey, pair.quoteDuration)} onCommit={(v, prev) => updateQuotePair(i, pi, 'quote', v, prev)}
           pickMode={picking} onPick={(t) => handlePick(t, 'quote')}
           highlights={pairQuoteImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
@@ -96,7 +97,8 @@ export function QuotePairRow({
       {/* 후속 맥락 */}
       {pair.after ? (
         <div className="relative group/del" style={accentStyle(pair.afterSpeaker)}>
-          <ScenarioRow label={`후속 맥락${pi > 0 ? ` ${pi + 1}` : ''}`} role="narrator" value={pair.after}
+          <ScenarioRow label={`후속 맥락${pi > 0 ? ` ${pi + 1}` : ''}`} role="narrator" value={pair.after} live
+            barColor="rgba(139,92,246,0.8)" headerColor="rgba(139,92,246,0.22)" panelTint="139,92,246"
             voiceInfo={vi(afterKey, pair.afterDuration)}
             onCommit={(v, prev) => updateQuotePair(i, pi, 'after', v, prev)}
             pickMode={picking} onPick={(t) => handlePick(t, 'quote')}

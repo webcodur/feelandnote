@@ -92,6 +92,7 @@ export async function updateSpeechTone(
   if (error) throw error
 
   revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/voice-gen', 'layout')
 }
 // #endregion
 
@@ -110,6 +111,7 @@ export async function updateVoiceSpeed(
   if (error) throw error
 
   revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/voice-gen', 'layout')
 }
 // #endregion
 
@@ -168,6 +170,6 @@ export async function saveCelebDialogues(
   if (error) throw error
 
   revalidatePath('/celebs/dialogues')
-  revalidatePath('/celebs/voice-gen')
+  revalidatePath('/celebs/voice-gen', 'layout')
 }
 // #endregion

@@ -422,6 +422,10 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
         ]
       }
       result.quote = editQuotes[loc] ?? ''
+      // 편집 화면에 노출되지 않는 기존 항목(monologue 등)은 덮어쓰지 않고 보존
+      const existing = loc === 'ko' ? selected.dialogue_lines : selected.dialogue_lines_en
+      const monologue = (existing as Record<string, unknown> | null)?.monologue
+      if (monologue !== undefined) result.monologue = monologue
       return result as unknown as DialogueLines
     }
 
@@ -430,12 +434,13 @@ export default function VoiceGenWorkspace({ celebs, initialSlug }: Props) {
       if (speechTone !== (selected.speech_tone || '')) {
         await updateSpeechTone(selected.id, speechTone)
       }
+      router.refresh()
       showToast('success', SAVE_DONE_LABEL)
     } catch (err) {
       showToast('error', `${SAVE_FAIL_LABEL}: ${String(err)}`)
     }
     setDialogueSaving(false)
-  }, [selected, editDialogues, editQuotes, speechTone, showToast])
+  }, [selected, editDialogues, editQuotes, speechTone, showToast, router])
 
   // 셀럽 선택 핸들러
   const selectCeleb = useCallback((celeb: VoiceGenCeleb, pushUrl = true) => {

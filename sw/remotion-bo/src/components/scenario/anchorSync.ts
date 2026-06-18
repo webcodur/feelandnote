@@ -58,6 +58,14 @@ function mapOffset(off: number, span: EditSpan): number {
   return span.prefix
 }
 
+/** 끝 경계용 오프셋 매핑 — 편집 구간 내부의 끝은 새 편집 구간 끝으로 보낸다.
+ *  앵커 한가운데에 글자가 끼어들면("가나다"→"가xx나다") 앵커가 삽입분까지 품도록 확장하는 핵심. */
+function mapOffsetEnd(off: number, span: EditSpan): number {
+  if (off <= span.prefix) return off
+  if (off >= span.oldEnd) return off + span.delta
+  return span.newEnd
+}
+
 /** 공백류(스페이스·줄바꿈·탭 등) 판정. 어절 경계 탐색용. */
 function isSpace(ch: string): boolean {
   return /\s/.test(ch)
@@ -138,12 +146,31 @@ export function remapAnchor(oldText: string, newText: string, anchor: string): A
   // 앵커가 편집 구간에 걸침 — 옛 구절이 새 본문에 그대로 유일하게 남아있으면 유지.
   if (isUnique(newText, anchor, newText.indexOf(anchor))) return { kind: 'kept', text: anchor }
 
-  // 위치 이전: 옛 시작 오프셋 → 새 오프셋.
+  // 위치 이전: 옛 구간(시작~끝)을 통째로 새 본문 구간으로 매핑한다.
+  // "가나다" 한가운데에 글자가 끼면("가xx나다") 바뀐 결과 전체가 새 앵커가 된다.
   const newStart = mapOffset(oldStart, span)
-  if (newStart >= newText.length) return { kind: 'lost' }
+  const newEnd = mapOffsetEnd(oldEndOfAnchor, span)
+  if (newStart >= newText.length || newEnd <= newStart) return { kind: 'lost' }
 
-  const phrase = uniquePhraseFrom(newText, newStart)
+  // 시작은 공백 건너뛰고, 끝은 어절 "중간"에서 끊겼을 때만 어절 끝까지 확장.
+  // (끝이 이미 어절 경계면 다음 어절을 끌어오지 않는다)
+  let s = newStart
+  while (s < newText.length && isSpace(newText[s])) s++
+  let e = Math.min(newEnd, newText.length)
+  while (e < newText.length && e > s && !isSpace(newText[e]) && !isSpace(newText[e - 1])) e++
+  const phrase = newText.slice(s, e).trim()
   if (!phrase) return { kind: 'lost' }
+
+  // 같은 구절이 더 앞에서 먼저 등장하면 indexOf 매칭이 그쪽을 잡는다 — 뒤 어절을 붙여 고유해질 때까지 확장.
+  if (isUnique(newText, phrase, s)) return { kind: 'remapped', text: phrase }
+  let ext = e
+  for (let words = 0; words < 4 && ext < newText.length; words++) {
+    while (ext < newText.length && isSpace(newText[ext])) ext++
+    while (ext < newText.length && !isSpace(newText[ext])) ext++
+    const wider = newText.slice(s, ext).trim()
+    if (isUnique(newText, wider, s)) return { kind: 'remapped', text: wider }
+  }
+  // 확장해도 고유하지 않으면 구간 그대로 사용 — 첫 등장 매칭 편차는 기존 동작과 동일하게 허용.
   return { kind: 'remapped', text: phrase }
 }
 

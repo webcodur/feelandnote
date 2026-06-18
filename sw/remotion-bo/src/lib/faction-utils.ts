@@ -19,6 +19,13 @@ export const MUSIC_DIR = path.join(REMOTION_ROOT, 'public', 'music')
 
 const IMAGE_RE = /\.(png|jpe?g|webp|gif)$/i
 
+/** 등록 에피소드 화이트리스트(_episodes.json) — 있으면 그 목록만 노출, 없으면 전체(하위호환) */
+const REGISTRY_PATH = path.join(FACTIONS_DIR, '_episodes.json')
+async function readRegistry(): Promise<Set<string> | null> {
+  try { return new Set(JSON.parse(await readFile(REGISTRY_PATH, 'utf-8')) as string[]) }
+  catch { return null }
+}
+
 /** 파일명 안전화 — 경로 이탈·특수문자 차단 */
 export function safeFilename(name: string): string {
   return path.basename(name).replace(/[^a-zA-Z0-9._-]/g, '_')
@@ -64,9 +71,11 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeListItem[]> {
   try { entries = await readdir(FACTIONS_DIR, { withFileTypes: true }) }
   catch { return [] }
 
+  const allow = await readRegistry()
   const items: FactionEpisodeListItem[] = []
   for (const e of entries) {
     if (!e.isDirectory() || e.name.startsWith('_')) continue
+    if (allow && !allow.has(e.name)) continue // 등록 목록에 없는 폴더는 숨김(파일은 보존)
     const fp = dataPath(e.name)
     if (!existsSync(fp)) continue
     try {

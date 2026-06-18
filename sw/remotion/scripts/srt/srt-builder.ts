@@ -20,6 +20,7 @@ import {
   VN_OUTRO,
   vnShort, vnTimingKey,
 } from '../../src/compositions/BookRecommend/voice-names'
+import { bookFieldParts, resolvePartDurations } from '../../src/compositions/BookRecommend/field-parts'
 
 // ── SRT formatting ──
 
@@ -116,23 +117,35 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
     c += tl.TITLE_SUMMARY_GAP_F
     c += tl.LABEL_SUMMARY_F
 
+    // 핵심 요약 — 토막별 자막 (분할 없으면 1회 = 기존과 동일)
     const smStart = c
-    subs.push(...splitSub(
-      smStart, smStart + toAudioFrames(b.summaryDuration),
-      summaryLabel, b.summary,
-      vtk(vnTimingKey(vnBookSummary(i))),
-    ))
+    const sumParts = bookFieldParts(b.summary, b.summaryParts)
+    const sumDurs = resolvePartDurations(sumParts, b.summaryPartDurations, b.summaryDuration)
+    sumParts.forEach((partText, p) => {
+      const partStart = smStart + (bt.summaryPartStartsF[p] ?? 0)
+      subs.push(...splitSub(
+        partStart, partStart + toAudioFrames(sumDurs[p]),
+        summaryLabel, partText,
+        vtk(vnTimingKey(vnBookSummary(i, p))),
+      ))
+    })
     c += bt.summaryFrames
 
     c += tl.SUMMARY_CONTEXT_GAP_F
     c += tl.LABEL_CONTEXT_F
 
+    // 감상 배경 — 토막별 자막
     const ctStart = c
-    subs.push(...splitSub(
-      ctStart, ctStart + toAudioFrames(b.contextDuration),
-      narratorLabel, b.contextMain,
-      vtk(vnTimingKey(vnBookContext(i))),
-    ))
+    const ctxParts = bookFieldParts(b.contextMain, b.contextMainParts)
+    const ctxDurs = resolvePartDurations(ctxParts, b.contextPartDurations, b.contextDuration)
+    ctxParts.forEach((partText, p) => {
+      const partStart = ctStart + (bt.contextPartStartsF[p] ?? 0)
+      subs.push(...splitSub(
+        partStart, partStart + toAudioFrames(ctxDurs[p]),
+        narratorLabel, partText,
+        vtk(vnTimingKey(vnBookContext(i, p))),
+      ))
+    })
     c += bt.contextFrames
 
     for (let pi = 0; pi < (bt.quotePairTimings?.length ?? 0); pi++) {
@@ -149,11 +162,18 @@ export function buildLongformSubs(script: BookRecommendScript): Sub[] {
 
         if (pt.hasAfter && pair.after && pair.afterDuration) {
           c += QUOTE_CONTEXTAFTER_GAP
-          subs.push(...splitSub(
-            c, c + toAudioFrames(pair.afterDuration),
-            narratorLabel, pair.after,
-            vtk(vnTimingKey(vnBookAfter(i, pi))),
-          ))
+          // 후속 맥락 — 토막별 자막 (분할 없으면 1회 = 기존과 동일)
+          const aftStart = c
+          const aftParts = bookFieldParts(pair.after, pair.afterParts)
+          const aftDurs = resolvePartDurations(aftParts, pair.afterPartDurations, pair.afterDuration)
+          aftParts.forEach((partText, ap) => {
+            const partStart = aftStart + (pt.afterPartStartsF[ap] ?? 0)
+            subs.push(...splitSub(
+              partStart, partStart + toAudioFrames(aftDurs[ap]),
+              narratorLabel, partText,
+              vtk(vnTimingKey(vnBookAfter(i, pi, ap))),
+            ))
+          })
           c += pt.afterFrames
         }
       }

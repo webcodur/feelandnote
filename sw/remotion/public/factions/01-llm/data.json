@@ -1,0 +1,1503 @@
+{
+  "title": "인류의 마지막 발명품, AI",
+  "outroTitle": "인류의 마지막 발명품, AI",
+  "heroes": [
+    "geoffrey-hinton",
+    "sam-altman",
+    "dario-amodei",
+    "elon-musk",
+    "mark-zuckerberg",
+    "demis-hassabis"
+  ],
+  "groups": [
+    {
+      "name": "AI의 시조",
+      "color": "#c0a062",
+      "image": "01-pioneers/_origin.png",
+      "people": [
+        {
+          "name": "앨런 튜링",
+          "image": "01-pioneers/앨런 튜링.png",
+          "slug": "alan-turing",
+          "quote": "인간이 AI에게 통제를 넘길 날이 머지않았습니다.",
+          "lines": [
+            "튜링 머신 고안",
+            "에니그마 해독"
+          ],
+          "quoteEn": "At some stage we should have to expect the machines to take control",
+          "quoteOrigin": "At some stage therefore we should have to expect the machines to take control, in the way that is mentioned in Samuel Butler's Erewhon",
+          "nameEn": "Alan Turing",
+          "quoteChunks": [
+            "인간이 AI에게",
+            "통제를 넘길 날이",
+            "머지않았습니다."
+          ],
+          "quoteEnChunks": [
+            "At some stage",
+            "we should have to expect",
+            "the machines to take control"
+          ],
+          "linesEn": [
+            "Turing machine",
+            "Cracked Enigma"
+          ]
+        },
+        {
+          "name": "존 매카시",
+          "image": "01-pioneers/존 매카시.png",
+          "slug": "john-mccarthy",
+          "quote": "AI라고 부르지도 않게 될 거요. 인간과 하나가 될 테니.",
+          "lines": [
+            "'AI' 명명",
+            "LISP 창시"
+          ],
+          "quoteEn": "As soon as it works, no one calls it AI any more",
+          "quoteOrigin": "As soon as it works, no one calls it AI anymore",
+          "nameEn": "John McCarthy",
+          "quoteChunks": [
+            "AI라고 부르지도 않게 될 거요.",
+            "인간과 하나가 될 테니."
+          ],
+          "quoteEnChunks": [
+            "As soon as it works,",
+            "no one calls it",
+            "AI any more"
+          ],
+          "linesEn": [
+            "Coined 'AI'",
+            "Created LISP"
+          ]
+        }
+      ],
+      "tagline": "",
+      "nameEn": "The Pioneers",
+      "taglineEn": ""
+    },
+    {
+      "name": "딥러닝의 시작",
+      "color": "#c0a062",
+      "image": "01-pioneers/_masters.png",
+      "people": [
+        {
+          "name": "제프리 힌턴",
+          "image": "01-pioneers/제프리 힌턴.png",
+          "slug": "geoffrey-hinton",
+          "quote": "역사상 처음으로 우릴 뛰어넘을 존재가 곧 등장합니다.",
+          "lines": [
+            "역전파 정립",
+            "2024 노벨물리학상"
+          ],
+          "quoteEn": "For the first time ever, we may have things more intelligent than us",
+          "quoteOrigin": "I think we're moving into a period when, for the first time ever, we may have things more intelligent than us",
+          "nameEn": "Geoffrey Hinton",
+          "quoteChunks": [
+            "역사상 처음으로",
+            "우릴 뛰어넘을 존재가 곧 등장합니다."
+          ],
+          "quoteEnChunks": [
+            "For the first time ever,",
+            "we may have things",
+            "more intelligent than us"
+          ],
+          "linesEn": [
+            "Backpropagation",
+            "2024 Nobel Physics"
+          ]
+        },
+        {
+          "name": "요슈아 벤지오",
+          "image": "01-pioneers/요슈아 벤지오.png",
+          "slug": "yoshua-bengio",
+          "quote": "우린 아이들의 미래가 걸린 러시안 룰렛을 돌리고 있습니다.",
+          "lines": [
+            "LawZero 공동대표",
+            "Mila 창립자"
+          ],
+          "quoteEn": "We are playing Russian roulette with the future of all children",
+          "quoteOrigin": "What really moves me is not fear for myself but love, the love of my children, of all the children, with whose future we are currently playing Russian Roulette",
+          "nameEn": "Yoshua Bengio",
+          "quoteChunks": [
+            "우린 아이들의 미래가 걸린",
+            "러시안 룰렛을 돌리고 있습니다."
+          ],
+          "quoteEnChunks": [
+            "We are playing",
+            "Russian roulette",
+            "with the future of all children"
+          ],
+          "linesEn": [
+            "LawZero co-president",
+            "Founded Mila"
+          ]
+        },
+        {
+          "name": "얀 르쿤",
+          "image": "01-pioneers/얀 르쿤.png",
+          "slug": "yann-lecun",
+          "quote": "AI가 르네상스를 다시 열어줄 거요.",
+          "lines": [
+            "CNN 창시",
+            "Meta AI 前수석"
+          ],
+          "quoteEn": "By amplifying human intelligence, AI may bring a new renaissance",
+          "quoteOrigin": "By amplifying human intelligence, AI may bring not just a new industrial revolution, but a new renaissance, a new period of enlightenment for humanity",
+          "nameEn": "Yann LeCun",
+          "quoteChunks": [
+            "AI가 르네상스를 다시 열어줄 거요."
+          ],
+          "quoteEnChunks": [
+            "By amplifying",
+            "human intelligence,",
+            "AI may bring a new renaissance"
+          ],
+          "linesEn": [
+            "Invented CNNs",
+            "Former Meta AI Chief"
+          ]
+        }
+      ],
+      "tagline": "",
+      "nameEn": "Dawn of Deep Learning",
+      "taglineEn": ""
+    },
+    {
+      "name": "Google DeepMind",
+      "tagline": "GEMINI",
+      "color": "#0ea5e9",
+      "clusters": [
+        {
+          "label": "창업자",
+          "note": "구글의 창업자",
+          "people": [
+            {
+              "name": "래리 페이지",
+              "org": "Alphabet",
+              "image": "02-google-deepmind/래리 페이지.png",
+              "slug": "larry-page",
+              "quote": "구글의 완성된 모습은 결국 'AI'입니다.",
+              "lines": [
+                "co-founder",
+                "PageRank 창안"
+              ],
+              "quoteEn": "AI would be the ultimate version of Google",
+              "quoteOrigin": "Artificial intelligence would be the ultimate version of Google",
+              "nameEn": "Larry Page",
+              "quoteChunks": [
+                "구글의 완성된 모습은",
+                "결국 'AI'입니다."
+              ],
+              "quoteEnChunks": [
+                "AI would be",
+                "the ultimate version",
+                "of Google"
+              ],
+              "linesEn": [
+                "co-founder",
+                "Created PageRank"
+              ]
+            },
+            {
+              "name": "세르게이 브린",
+              "org": "Google",
+              "image": "02-google-deepmind/세르게이 브린.png",
+              "slug": "sergey-brin",
+              "quote": "좌 우뇌를 이을 세 번째 뇌를 만들 겁니다.",
+              "lines": [
+                "co-founder",
+                "Gemini 참여"
+              ],
+              "quoteEn": "We want Google to be the third half of your brain.",
+              "quoteOrigin": "We want Google to be the third half of your brain",
+              "nameEn": "Sergey Brin",
+              "quoteChunks": [
+                "좌 우뇌를 이을 세 번째 뇌를 만들 겁니다."
+              ],
+              "quoteEnChunks": [
+                "We want Google to be",
+                "the third half",
+                "of your brain."
+              ],
+              "linesEn": [
+                "co-founder",
+                "Gemini"
+              ]
+            }
+          ],
+          "image": "02-google-deepmind/_founders.png",
+          "labelEn": "Founders",
+          "noteEn": "Google's founders"
+        },
+        {
+          "label": "딥마인드",
+          "note": "알파고에서 제미나이로",
+          "people": [
+            {
+              "name": "데미스 허사비스",
+              "org": "Google DeepMind",
+              "image": "02-google-deepmind/데미스 허사비스.png",
+              "slug": "demis-hassabis",
+              "quote": "먼저 지능을 해결한다. 그리고 이것으로 세상의 모든 걸 해결한다.",
+              "lines": [
+                "CEO",
+                "co-founder"
+              ],
+              "quoteEn": "Step one, solve intelligence; step two, use it to solve everything else",
+              "quoteOrigin": "Step one, solve intelligence; step two, use it to solve everything else",
+              "nameEn": "Demis Hassabis",
+              "quoteChunks": [
+                "먼저 지능을 해결한다. 그리고 이것으로 세상의 모든 걸 해결한다."
+              ],
+              "quoteEnChunks": [
+                "Step one, solve intelligence;",
+                "step two,",
+                "use it to solve everything else"
+              ],
+              "linesEn": [
+                "CEO",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "노엄 샤지어",
+              "org": "Google",
+              "image": "02-google-deepmind/노엄 샤지어.png",
+              "slug": "noam-shazeer",
+              "quote": "다음 단어를 예측시켰는데, 세상의 모든 걸 그려내기 시작했습니다.",
+              "lines": [
+                "Gemini 공동 리드",
+                "Transformer 논문 공저"
+              ],
+              "quoteEn": "Just predict the next word, and you get something that can talk about anything",
+              "quoteOrigin": "All you have to do is predict the next word and, once you do it, you get something that can just talk to you about anything",
+              "nameEn": "Noam Shazeer",
+              "quoteChunks": [
+                "다음 단어를 예측시켰는데,",
+                "세상의 모든 걸 그려내기 시작했습니다."
+              ],
+              "quoteEnChunks": [
+                "Just predict the next word,",
+                "and you get something",
+                "that can talk about anything"
+              ],
+              "linesEn": [
+                "Gemini co-lead",
+                "Transformer paper"
+              ]
+            },
+            {
+              "name": "오리올 비니알스",
+              "org": "Google DeepMind",
+              "image": "02-google-deepmind/오리올 비니알스.png",
+              "slug": "oriol-vinyals",
+              "quote": "우린 이미 몇몇 영역에서 초지능을 목격하고 있습니다.",
+              "lines": [
+                "리서치 VP",
+                "AlphaStar 개발"
+              ],
+              "quoteEn": "We've already seen some examples of narrow but superintelligent systems",
+              "quoteOrigin": "we honestly have seen some examples already of narrow but superintelligent system",
+              "nameEn": "Oriol Vinyals",
+              "quoteChunks": [
+                "우린 이미",
+                "몇몇 영역에서",
+                "초지능을 목격하고 있습니다."
+              ],
+              "quoteEnChunks": [
+                "We've already seen",
+                "some examples of",
+                "narrow but superintelligent systems"
+              ],
+              "linesEn": [
+                "VP Research",
+                "Built AlphaStar"
+              ]
+            },
+            {
+              "name": "코라이 카북추오글루",
+              "org": "Google DeepMind",
+              "image": "02-google-deepmind/코라이 카북추오글루.png",
+              "slug": "koray-kavukcuoglu",
+              "quote": "혼자 학습하는 존재만 만들면 됩니다. 다음 문제는 이것이 풀 테니까.",
+              "lines": [
+                "CTO",
+                "수석 AI 설계자"
+              ],
+              "quoteEn": "We're building technology that learns by itself and helps with things we don't even know yet.",
+              "quoteOrigin": "What we want to build is a technology that is forward-looking, that can learn by itself, and that can be helpful on things that we don't know yet.",
+              "nameEn": "Koray Kavukcuoglu",
+              "quoteChunks": [
+                "혼자 학습하는 존재만 만들면 됩니다.",
+                "다음 문제는 이것이 풀 테니까."
+              ],
+              "quoteEnChunks": [
+                "Technology that learns by itself,",
+                "helping with things",
+                "we don't even know yet."
+              ],
+              "linesEn": [
+                "CTO",
+                "Chief AI Architect"
+              ]
+            },
+            {
+              "name": "제프 딘",
+              "org": "Google DeepMind",
+              "image": "02-google-deepmind/제프 딘.png",
+              "slug": "jeff-dean",
+              "quote": "하나의 모델이 수백만 개의 일을 해내도록 할 겁니다.",
+              "lines": [
+                "수석 과학자",
+                "TensorFlow 개발"
+              ],
+              "quoteEn": "We can train a single model to do millions of things",
+              "quoteOrigin": "Pathways will enable us to train a single model to do thousands or millions of things",
+              "nameEn": "Jeff Dean",
+              "quoteChunks": [
+                "하나의 모델이",
+                "수백만 개의 일을 해내도록 할 겁니다."
+              ],
+              "quoteEnChunks": [
+                "We can train",
+                "a single model",
+                "to do millions of things"
+              ],
+              "linesEn": [
+                "Chief Scientist",
+                "Built TensorFlow"
+              ]
+            }
+          ],
+          "image": "02-google-deepmind/_deepmind.png",
+          "labelEn": "DeepMind",
+          "noteEn": "From AlphaGo to Gemini"
+        }
+      ],
+      "people": [],
+      "titleArt": "02-google-deepmind/_logo.png",
+      "nameEn": "Google DeepMind",
+      "taglineEn": "GEMINI"
+    },
+    {
+      "name": "OpenAI",
+      "tagline": "chatGPT",
+      "color": "#10a37f",
+      "people": [
+        {
+          "name": "샘 알트만",
+          "org": "OpenAI",
+          "image": "03-openai/샘 알트만.png",
+          "slug": "sam-altman",
+          "quote": "인간과 AI의 융합은 이미 시작됐습니다.",
+          "lines": [
+            "CEO",
+            "co-founder"
+          ],
+          "quoteEn": "The human-AI merge has already begun",
+          "quoteOrigin": "I believe the merge has already started, and we are a few years in.",
+          "nameEn": "Sam Altman",
+          "quoteChunks": [
+            "인간과 AI의 융합은",
+            "이미 시작됐습니다."
+          ],
+          "quoteEnChunks": [
+            "The human-AI merge",
+            "has already begun"
+          ],
+          "linesEn": [
+            "CEO",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "그렉 브록만",
+          "org": "OpenAI",
+          "image": "03-openai/그렉 브록만.png",
+          "slug": "greg-brockman",
+          "quote": "'AGI가 가능하다'에 베팅합니다. 맞다면 모든 게 바뀔 겁니다.",
+          "lines": [
+            "President",
+            "co-founder"
+          ],
+          "quoteEn": "The bet is that AGI is possible, and if we are right, it will change everything",
+          "quoteOrigin": "The fundamental bet is that AGI is possible, and if we are right about that, then it will really change everything",
+          "nameEn": "Greg Brockman",
+          "quoteChunks": [
+            "'AGI가 가능하다'에 베팅합니다.",
+            "맞다면 모든 게 바뀔 겁니다."
+          ],
+          "quoteEnChunks": [
+            "The bet is that AGI is possible,",
+            "and if we are right,",
+            "it will change everything"
+          ],
+          "linesEn": [
+            "President",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "야쿠브 파초키",
+          "org": "OpenAI",
+          "image": "03-openai/야쿠브 파초키.png",
+          "slug": "jakub-pachocki",
+          "quote": "10년 안에 초지능이 깨어날 겁니다.",
+          "lines": [
+            "Chief Scientist",
+            "GPT-4 개발"
+          ],
+          "quoteEn": "Superintelligence is less than a decade away",
+          "quoteOrigin": "We believe that it is possible that deep learning systems are less than a decade away from superintelligence",
+          "nameEn": "Jakub Pachocki",
+          "quoteChunks": [
+            "10년 안에 초지능이 깨어날 겁니다."
+          ],
+          "quoteEnChunks": [
+            "Superintelligence is",
+            "less than a decade",
+            "away"
+          ],
+          "linesEn": [
+            "Chief Scientist",
+            "Built GPT-4"
+          ]
+        },
+        {
+          "name": "마크 첸",
+          "org": "OpenAI",
+          "image": "03-openai/마크 첸.png",
+          "slug": "mark-chen",
+          "quote": "우리가 노벨상을 타려는 게 아닙니다. 모두가 노벨상에 도전하게 할 겁니다.",
+          "lines": [
+            "CRO",
+            "o1 개발"
+          ],
+          "quoteEn": "The Nobel Prize isn't for us to win. It's for everyone to win.",
+          "quoteOrigin": "We want to allow everyone the ability to win the Nobel Prize for themselves",
+          "nameEn": "Mark Chen",
+          "quoteChunks": [
+            "우리가 노벨상을 타려는 게 아닙니다.",
+            "모두가 노벨상에 도전하게 할 겁니다."
+          ],
+          "quoteEnChunks": [
+            "The Nobel Prize",
+            "isn't for us to win.",
+            "It's for everyone to win."
+          ],
+          "linesEn": [
+            "CRO",
+            "Built o1"
+          ]
+        }
+      ],
+      "image": "03-openai/_group.png",
+      "titleArt": "03-openai/_logo.png",
+      "taglineEn": "chatGPT"
+    },
+    {
+      "name": "Anthropic",
+      "tagline": "CLAUDE",
+      "color": "#cc785c",
+      "people": [],
+      "image": "04-anthropic/_group.png",
+      "clusters": [
+        {
+          "label": "공동창업그룹",
+          "note": "아모데이 남매",
+          "people": [
+            {
+              "name": "다리오 아모데이",
+              "org": "Anthropic",
+              "image": "04-anthropic/다리오 아모데이.png",
+              "slug": "dario-amodei",
+              "quote": "사람들은 AI가 얼마나 강력해질지 전혀 모릅니다.",
+              "lines": [
+                "CEO",
+                "co-founder"
+              ],
+              "quoteEn": "People underestimate how radical the upside is, and how bad the risks",
+              "quoteOrigin": "I think that most people are underestimating just how radical the upside of AI could be, just as I think most people are underestimating how bad the risks could be",
+              "nameEn": "Dario Amodei",
+              "quoteChunks": [
+                "사람들은 AI가",
+                "얼마나 강력해질지",
+                "전혀 모릅니다."
+              ],
+              "quoteEnChunks": [
+                "People underestimate",
+                "how radical the upside is,",
+                "and how bad the risks"
+              ],
+              "linesEn": [
+                "CEO",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "다니엘라 아모데이",
+              "org": "Anthropic",
+              "image": "04-anthropic/다니엘라 아모데이.png",
+              "slug": "daniela-amodei",
+              "quote": "똑똑하기 전에 믿을 수 있어야 합니다.",
+              "lines": [
+                "President",
+                "co-founder"
+              ],
+              "quoteEn": "It's not which model is smartest, but which you can rely on",
+              "quoteOrigin": "In regulated industries, the question isn't just which model is smartest, it's which model you can actually rely on, and whether the company behind it will be a responsible long-term partner",
+              "nameEn": "Daniela Amodei",
+              "quoteChunks": [
+                "똑똑하기 전에",
+                "믿을 수 있어야 합니다."
+              ],
+              "quoteEnChunks": [
+                "It's not which model is smartest,",
+                "but which you",
+                "can rely on"
+              ],
+              "linesEn": [
+                "President",
+                "co-founder"
+              ]
+            }
+          ],
+          "image": "04-anthropic/_founders.png",
+          "labelEn": "Co-founders",
+          "noteEn": "The Amodei siblings"
+        },
+        {
+          "label": "공동창업그룹",
+          "note": "OpenAI 출신 핵심진",
+          "people": [
+            {
+              "name": "잭 클락",
+              "org": "Anthropic",
+              "image": "04-anthropic/잭 클락.png",
+              "slug": "jack-clark",
+              "quote": "뻔한 기계가 아니라, 예측 불가능한 생명입니다.",
+              "lines": [
+                "정책 총괄",
+                "co-founder"
+              ],
+              "quoteEn": "Not a simple, predictable machine. A real, mysterious creature.",
+              "quoteOrigin": "But make no mistake: what we are dealing with is a real and mysterious creature, not a simple and predictable machine",
+              "nameEn": "Jack Clark",
+              "quoteChunks": [
+                "뻔한 기계가 아니라,",
+                "예측 불가능한 생명입니다."
+              ],
+              "quoteEnChunks": [
+                "Not a simple,",
+                "predictable machine.",
+                "A real, mysterious creature."
+              ],
+              "linesEn": [
+                "Policy lead",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "톰 브라운",
+              "org": "Anthropic",
+              "image": "04-anthropic/톰 브라운.png",
+              "slug": "tom-brown",
+              "quote": "오늘 못 찾은 답은, 내일 더 큰 연산으로 찾아냅니다.",
+              "lines": [
+                "컴퓨팅 총괄",
+                "co-founder"
+              ],
+              "quoteEn": "Today it gets stuck, but more compute makes it smarter",
+              "quoteOrigin": "Right now you may prompt the model to build a successful startup. It'll try to do it, but it'll get stuck. But as we add more compute, the model gets smarter.",
+              "nameEn": "Tom Brown",
+              "quoteChunks": [
+                "오늘 못 찾은 답은,",
+                "내일 더 큰 연산으로 찾아냅니다."
+              ],
+              "quoteEnChunks": [
+                "Today it gets stuck,",
+                "but more compute",
+                "makes it smarter"
+              ],
+              "linesEn": [
+                "Chief Compute",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "재러드 카플란",
+              "org": "Anthropic",
+              "image": "04-anthropic/재러드 카플란.png",
+              "slug": "jared-kaplan",
+              "quote": "자기 개선을 승인하는 날, 궁극의 위험이 시작될 겁니다.",
+              "lines": [
+                "과학 총괄",
+                "co-founder"
+              ],
+              "quoteEn": "The day we let them improve themselves, the ultimate risk begins.",
+              "quoteOrigin": "Recursive self-improvement is in some ways the ultimate risk, because it's like letting the AI go",
+              "nameEn": "Jared Kaplan",
+              "quoteChunks": [
+                "자기 개선을 승인하는 날,",
+                "궁극의 위험이 시작될 겁니다."
+              ],
+              "quoteEnChunks": [
+                "The day we let them",
+                "improve themselves,",
+                "the ultimate risk begins."
+              ],
+              "linesEn": [
+                "Chief Science",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "크리스 올라",
+              "org": "Anthropic",
+              "image": "04-anthropic/크리스 올라.png",
+              "slug": "chris-olah",
+              "quote": "만드는 우리에게도 모든 게 미스테리입니다.",
+              "lines": [
+                "해석가능성 연구",
+                "co-founder"
+              ],
+              "quoteEn": "They are not the cold calculating robots we were promised",
+              "quoteOrigin": "They are not the cold calculating robots we were promised. They remain mysterious even to those of us who create them.",
+              "nameEn": "Chris Olah",
+              "quoteChunks": [
+                "만드는 우리에게도 모든 게 미스테리입니다."
+              ],
+              "quoteEnChunks": [
+                "They are not ",
+                "the cold calculating robots",
+                "we were promised"
+              ],
+              "linesEn": [
+                "Interpretability",
+                "co-founder"
+              ]
+            },
+            {
+              "name": "샘 맥캔들리시",
+              "org": "Anthropic",
+              "image": "04-anthropic/샘 맥캔들리시.png",
+              "slug": "sam-mccandlish",
+              "quote": "그들이 강력해지면서 저희도 안전 기준을 격상시키고 있습니다.",
+              "lines": [
+                "Chief Architect",
+                "co-founder"
+              ],
+              "quoteEn": "We built our Safety Levels to reflect the risk",
+              "quoteOrigin": "There is always some level of arbitrariness in drawing boundaries, but we wanted to roughly reflect different tiers of risk",
+              "quoteChunks": [
+                "그들이 강력해지면서",
+                "저희도 안전 기준을 격상시키고 있습니다."
+              ],
+              "quoteEnChunks": [
+                "We built",
+                "our Safety Levels",
+                "to reflect the risk"
+              ],
+              "nameEn": "Sam McCandlish",
+              "linesEn": [
+                "Chief Architect",
+                "co-founder"
+              ]
+            }
+          ],
+          "image": "04-anthropic/_group.png",
+          "labelEn": "Co-founders",
+          "noteEn": "From OpenAI's core"
+        },
+        {
+          "label": "합류한 거물들",
+          "note": "경쟁사에서 건너온 영입 인사",
+          "image": "04-anthropic/_hires.png",
+          "labelEn": "Marquee Hires",
+          "noteEn": "Poached from rival labs",
+          "longformOnly": true,
+          "people": [
+            {
+              "name": "안드레이 카파시",
+              "org": "Anthropic",
+              "image": "04-anthropic/안드레이 카파시.png",
+              "quote": "앞으로 몇 년은 LLM의 가장 결정적인 시기가 될 겁니다.",
+              "lines": [
+                "OpenAI 창립멤버",
+                "Tesla AI 총괄"
+              ],
+              "quoteOrigin": "I think the next few years at the frontier of LLMs will be especially formative.",
+              "quoteEn": "The next few years at the frontier of LLMs will be especially formative.",
+              "nameEn": "Andrej Karpathy",
+              "quoteChunks": [
+                "앞으로 몇 년은",
+                "LLM의 가장 결정적인 시기가 될 겁니다."
+              ],
+              "quoteEnChunks": [
+                "The next few years",
+                "at the frontier of LLMs",
+                "will be especially formative."
+              ],
+              "linesEn": [
+                "OpenAI founding member",
+                "Tesla AI lead"
+              ]
+            },
+            {
+              "name": "얀 라이케",
+              "org": "Anthropic",
+              "image": "04-anthropic/얀 라이케.png",
+              "quote": "최근 몇 년간 업계에서 안전은 뒷전이었습니다. 다시 되찾아야합니다.",
+              "lines": [
+                "정렬 총괄",
+                "RLHF 연구"
+              ],
+              "quoteOrigin": "Over the past years, safety culture and processes have taken a backseat to shiny products.",
+              "quoteEn": "Over the past years, safety culture and processes have taken a backseat to shiny products.",
+              "nameEn": "Jan Leike",
+              "quoteChunks": [
+                "최근 몇 년간 업계에서 안전은 뒷전이었습니다. 다시 되찾아야합니다."
+              ],
+              "quoteEnChunks": [
+                "Over the past years, safety culture and processes have taken a backseat to shiny products."
+              ],
+              "linesEn": [
+                "Alignment lead",
+                "RLHF research"
+              ]
+            },
+            {
+              "name": "로스 노딘",
+              "org": "Anthropic",
+              "image": "04-anthropic/로스 노딘.png",
+              "quote": "테라와트급 컴퓨팅을 가장 빨리 가동시키는 방법을 고민 중입니다.",
+              "lines": [
+                "컴퓨팅",
+                "xAI 공동창업"
+              ],
+              "quoteEn": "Fastest path to a terawatt of compute equal to all US electricity",
+              "quoteOrigin": "Been thinking about the fastest way to bring a terawatt of compute online. That is roughly equivalent to all electrical power produced in America today.",
+              "nameEn": "Ross Nordeen",
+              "quoteChunks": [
+                "테라와트급 컴퓨팅을 가장 빨리 가동시키는 방법을 고민 중입니다."
+              ],
+              "quoteEnChunks": [
+                "Fastest path to a terawatt of compute",
+                "equal to all US electricity"
+              ],
+              "linesEn": [
+                "Compute",
+                "xAI co-founder"
+              ]
+            }
+          ]
+        }
+      ],
+      "titleArt": "04-anthropic/_logo.png",
+      "taglineEn": "CLAUDE"
+    },
+    {
+      "name": "xAI",
+      "tagline": "GROK",
+      "color": "#d8d8d8",
+      "people": [
+        {
+          "name": "일론 머스크",
+          "org": "xAI",
+          "image": "05-xai/일론 머스크.png",
+          "slug": "elon-musk",
+          "quote": "AI는 정치적 올바름을 떠나 진실만을 추구해야 합니다.",
+          "lines": [
+            "Founder",
+            "SpaceX·Tesla CEO"
+          ],
+          "quoteEn": "AI should be maximally truth-seeking, even if politically incorrect",
+          "quoteOrigin": "maximally truth-seeking AI, even if that truth is sometimes at odds with what is politically correct",
+          "nameEn": "Elon Musk",
+          "quoteChunks": [
+            "AI는 정치적 올바름을 떠나",
+            "진실만을 추구해야 합니다."
+          ],
+          "quoteEnChunks": [
+            "AI should be",
+            "maximally truth-seeking,",
+            "even if politically incorrect"
+          ],
+          "linesEn": [
+            "Founder",
+            "SpaceX·Tesla CEO"
+          ],
+          "quoteDuration": 4.13
+        },
+        {
+          "name": "마이클 니콜스",
+          "org": "xAI",
+          "image": "05-xai/마이클 니콜스.png",
+          "slug": "michael-nicolls",
+          "quote": "두 달 안에 연산 효율을 5배 높이겠습니다.",
+          "lines": [
+            "President",
+            "Starlink 총괄 역임"
+          ],
+          "quoteEn": "We're behind. In two months, we push efficiency to 50 percent.",
+          "quoteOrigin": "xAI is clearly behind the competition, and the training performance of its compute is embarrassingly low",
+          "nameEn": "Michael Nicolls",
+          "quoteChunks": [
+            "두 달 안에",
+            "연산 효율을 5배 높이겠습니다."
+          ],
+          "quoteEnChunks": [
+            "We're behind.",
+            "In two months,",
+            "we push efficiency to 50 percent."
+          ],
+          "linesEn": [
+            "President",
+            "Led Starlink"
+          ]
+        },
+        {
+          "name": "데벤드라 차플로트",
+          "org": "xAI",
+          "image": "05-xai/데벤드라 차플로트.png",
+          "slug": "devendra-singh-chaplot",
+          "quote": "디지털 지능을 넘어 물리적 지능으로 나아가야 합니다.",
+          "lines": [
+            "엔지니어",
+            "Mistral 공동창업"
+          ],
+          "quoteEn": "Beyond digital intelligence, toward physical intelligence",
+          "quoteOrigin": "Together SpaceX and xAI combine physical and digital intelligence under a leader who understands hardware at the deepest level",
+          "nameEn": "Devendra Chaplot",
+          "quoteChunks": [
+            "디지털 지능을 넘어",
+            "물리적 지능으로 나아가야 합니다."
+          ],
+          "quoteEnChunks": [
+            "Beyond digital intelligence,",
+            "toward physical",
+            "intelligence"
+          ],
+          "linesEn": [
+            "engineer",
+            "Mistral co-founder"
+          ]
+        },
+        {
+          "name": "앤드루 밀리치",
+          "org": "xAI",
+          "slug": "andrew-milich",
+          "quote": "우린 공상과학을 현실로 만듭니다.",
+          "lines": [
+            "엔지니어",
+            "cursor 개발"
+          ],
+          "image": "05-xai/앤드루 밀리치.png",
+          "quoteEn": "We make science fiction real",
+          "quoteOrigin": "X is the company realizing science fiction - reusable rockets, humanoid robots, data centers in space, and more",
+          "nameEn": "Andrew Milich",
+          "quoteChunks": [
+            "우린 공상과학을",
+            "현실로 만듭니다."
+          ],
+          "quoteEnChunks": [
+            "We make",
+            "science fiction",
+            "real"
+          ],
+          "linesEn": [
+            "engineer",
+            "Founded Skiff"
+          ]
+        },
+        {
+          "name": "제이슨 긴스버그",
+          "org": "xAI",
+          "slug": "jason-ginsberg",
+          "quote": "이게 내가 개발하는 방식을 바꿀까? 답은 YES 입니다.",
+          "lines": [
+            "엔지니어",
+            "cursor 개발"
+          ],
+          "image": "05-xai/제이슨 긴스버그.png",
+          "quoteEn": "I always ask: does this change the way I build? It does.",
+          "quoteOrigin": "The question I asked every day while working on Cursor 2.0: \"does this change the way I build?\" It does.",
+          "nameEn": "Jason Ginsberg",
+          "quoteChunks": [
+            "이게 내가 개발하는 방식을 바꿀까?",
+            "답은 YES 입니다."
+          ],
+          "quoteEnChunks": [
+            "I always ask:",
+            "does this change",
+            "the way I build? It does."
+          ],
+          "linesEn": [
+            "engineer",
+            "Founded Skiff"
+          ]
+        }
+      ],
+      "image": "05-xai/_group.png",
+      "titleArt": "05-xai/_logo.png",
+      "taglineEn": "GROK"
+    },
+    {
+      "name": "Meta",
+      "longformOnly": true,
+      "tagline": "오픈소스의 선두",
+      "color": "#0866ff",
+      "people": [
+        {
+          "name": "마크 저커버그",
+          "org": "Meta",
+          "image": "06-meta/마크 저커버그.png",
+          "slug": "mark-zuckerberg",
+          "quote": "빠르게 움직이고 부숴라. 부서지는 게 없다면 느린 것이다.",
+          "lines": [
+            "Founder"
+          ],
+          "quoteEn": "Move fast and break things; if nothing breaks, you're too slow",
+          "quoteOrigin": "Move fast and break things. Unless you are breaking stuff, you are not moving fast enough.",
+          "nameEn": "Mark Zuckerberg",
+          "quoteChunks": [
+            "빠르게 움직이고 부숴라.",
+            "부서지는 게 없다면 느린 것이다."
+          ],
+          "quoteEnChunks": [
+            "Move fast",
+            "and break things;",
+            "if nothing breaks, you're too slow"
+          ],
+          "linesEn": [
+            "Founder"
+          ]
+        },
+        {
+          "name": "알렉산더 왕",
+          "org": "Meta",
+          "image": "06-meta/알렉산더 왕.png",
+          "slug": "alexandr-wang",
+          "quote": "인간은 이제 AI의 관리자로 남을 겁니다.",
+          "lines": [
+            "최고AI책임자",
+            "Scale AI 창업"
+          ],
+          "quoteEn": "Humans will now remain as managers of AI.",
+          "quoteOrigin": "We as humans are kind of going to become the managers of AI agents",
+          "nameEn": "Alexandr Wang",
+          "quoteChunks": [
+            "인간은 이제",
+            "AI의 관리자로 남을 겁니다."
+          ],
+          "quoteEnChunks": [
+            "Humans will now",
+            "remain as",
+            "managers of AI."
+          ],
+          "linesEn": [
+            "Chief AI Officer",
+            "Founded Scale AI"
+          ]
+        },
+        {
+          "name": "냇 프리드먼",
+          "org": "Meta",
+          "image": "06-meta/냇 프리드먼.png",
+          "slug": "nat-friedman",
+          "quote": "지금 당장 움직이세요. 더 많이 부딪히면 더 많이 배웁니다.",
+          "lines": [
+            "초지능랩 부사장",
+            "GitHub CEO 역임"
+          ],
+          "quoteEn": "Do things fast; you learn more by touching reality more often.",
+          "quoteOrigin": "It's important to do things fast. You learn more per unit time because you make contact with reality more frequently.",
+          "nameEn": "Nat Friedman",
+          "quoteChunks": [
+            "지금 당장 움직이세요.",
+            "더 많이 부딪히면 더 많이 배웁니다."
+          ],
+          "quoteEnChunks": [
+            "Do things fast;",
+            "you learn more",
+            "by touching reality more often."
+          ],
+          "linesEn": [
+            "Superintelligence Labs VP",
+            "Former GitHub CEO"
+          ]
+        },
+        {
+          "name": "셩지아 자오",
+          "org": "Meta",
+          "image": "06-meta/셩지아 자오.png",
+          "slug": "shengjia-zhao",
+          "quote": "초지능을 만들되, 인간을 지원하도록 맞출 겁니다.",
+          "lines": [
+            "초지능랩 수석과학자",
+            "GPT-4 개발"
+          ],
+          "quoteEn": "Build superintelligence, and align it to empower people",
+          "quoteOrigin": "Looking forward to building asi and aligning it to empower people with the amazing team here",
+          "nameEn": "Shengjia Zhao",
+          "quoteChunks": [
+            "초지능을 만들되,",
+            "인간을 지원하도록 맞출 겁니다."
+          ],
+          "quoteEnChunks": [
+            "Build superintelligence,",
+            "and align it",
+            "to empower people"
+          ],
+          "linesEn": [
+            "Superintelligence Chief Scientist",
+            "Built GPT-4"
+          ]
+        },
+        {
+          "name": "다니엘 그로스",
+          "org": "Meta",
+          "image": "06-meta/다니엘 그로스.png",
+          "slug": "daniel-gross",
+          "quote": "우린 지능의 공장을 짓고 있습니다.",
+          "lines": [
+            "컴퓨팅 총괄",
+            "Safe Superintelligence 창업"
+          ],
+          "quoteEn": "What we're building is a factory for intelligence.",
+          "quoteOrigin": "what we're trying to make here is a factory for intelligence, there's clear market demand for intelligence",
+          "nameEn": "Daniel Gross",
+          "quoteChunks": [
+            "우린 지능의 공장을 짓고 있습니다."
+          ],
+          "quoteEnChunks": [
+            "What we're building",
+            "is a factory",
+            "for intelligence."
+          ],
+          "linesEn": [
+            "Head of Compute",
+            "Founded Safe Superintelligence"
+          ]
+        },
+        {
+          "name": "정형원",
+          "org": "Meta",
+          "image": "06-meta/정형원.png",
+          "slug": "hyung-won-chung",
+          "quote": "변화를 따라잡지 마십시오. 변화 자체를 연구하세요.",
+          "lines": [
+            "초지능랩 연구원",
+            "o1 개발"
+          ],
+          "quoteEn": "Instead of chasing the latest development, study the change itself.",
+          "quoteOrigin": "Instead of spending all our energy catching up with the latest development, we should study the change itself",
+          "nameEn": "Hyung Won Chung",
+          "quoteChunks": [
+            "변화를 따라잡지 마십시오.",
+            "변화 자체를 연구하세요."
+          ],
+          "quoteEnChunks": [
+            "Instead of chasing",
+            "the latest development,",
+            "study the change itself."
+          ],
+          "linesEn": [
+            "Superintelligence researcher",
+            "Built o1"
+          ]
+        }
+      ],
+      "image": "06-meta/_group.png",
+      "titleArt": "06-meta/_logo.png",
+      "taglineEn": "Leading Open Source",
+      "music": "Frostline_Pulse.mp3"
+    },
+    {
+      "name": "Mistral AI",
+      "longformOnly": true,
+      "tagline": "유럽의 반격",
+      "color": "#fa520f",
+      "people": [
+        {
+          "name": "아르투르 멘쉬",
+          "org": "Mistral AI",
+          "image": "07-mistral/아르투르 멘쉬.png",
+          "slug": "arthur-mensch",
+          "quote": "AI는 소수의 무기가 아닌 모두의 도구가 되어야 합니다.",
+          "lines": [
+            "CEO",
+            "co-founder"
+          ],
+          "quoteEn": "AI should empower, not dominate",
+          "quoteOrigin": "AI should be a tool for empowerment and not for dominance",
+          "nameEn": "Arthur Mensch",
+          "quoteChunks": [
+            "AI는 소수의 무기가 아닌",
+            "모두의 도구가 되어야 합니다."
+          ],
+          "quoteEnChunks": [
+            "AI should",
+            "empower,",
+            "not dominate"
+          ],
+          "linesEn": [
+            "CEO",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "기욤 람플",
+          "org": "Mistral AI",
+          "image": "07-mistral/기욤 람플.png",
+          "slug": "guillaume-lample",
+          "quote": "작은 모델 하나를 잘 빚어내서 거대 기업 다수를 박살낼 겁니다.",
+          "lines": [
+            "Chief Scientist",
+            "co-founder"
+          ],
+          "quoteEn": "A small, well-tuned model can match the giants.",
+          "quoteOrigin": "In practice, the huge majority of enterprise use cases are things that can be tackled by small models, especially if you fine-tune them. In many cases, you can actually match or even out-perform closed-source models.",
+          "nameEn": "Guillaume Lample",
+          "quoteChunks": [
+            "작은 모델 하나를 잘 빚어내서",
+            "거대 기업 다수를 박살낼 겁니다."
+          ],
+          "quoteEnChunks": [
+            "A small, well-tuned model",
+            "can match",
+            "the giants."
+          ],
+          "linesEn": [
+            "Chief Scientist",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "티모테 라크루아",
+          "org": "Mistral AI",
+          "image": "07-mistral/티모테 라크루아.png",
+          "slug": "timothee-lacroix",
+          "quote": "모델만 만들던 회사에서 인프라를 갖춘 회사로 나아가고 있습니다.",
+          "lines": [
+            "CTO",
+            "co-founder"
+          ],
+          "quoteEn": "We don't just build models. We build the stack beneath them.",
+          "quoteOrigin": "We started as a company that built models. To address the need for stability, we saw a way for us to basically build our own data centers and maintain them with our understanding of what quality looks like.",
+          "nameEn": "Timothée Lacroix",
+          "quoteChunks": [
+            "모델만 만들던 회사에서",
+            "인프라를 갖춘 회사로 나아가고 있습니다."
+          ],
+          "quoteEnChunks": [
+            "We don't just build models.",
+            "We build the stack",
+            "beneath them."
+          ],
+          "linesEn": [
+            "CTO",
+            "co-founder"
+          ]
+        }
+      ],
+      "image": "07-mistral/_group.png",
+      "titleArt": "07-mistral/_logo.png",
+      "taglineEn": "Europe Strikes Back"
+    },
+    {
+      "name": "Hugging Face",
+      "tagline": "오픈소스 AI의 본진",
+      "color": "#ffd21e",
+      "titleArt": "08-huggingface/_logo.png",
+      "image": "08-huggingface/_group.png",
+      "people": [
+        {
+          "name": "클레망 들랑그",
+          "org": "Hugging Face",
+          "image": "08-huggingface/클레망 들랑그.png",
+          "slug": "clement-delangue",
+          "quote": "AI를 거대 기업의 손에만 맡길 수 없죠.",
+          "lines": [
+            "CEO",
+            "co-founder"
+          ],
+          "quoteEn": "Open source keeps AI from belonging to a few big companies.",
+          "quoteOrigin": "Open-science and open-source foster innovation and fair competition between all thanks to ethical openness, giving civil society, nonprofits, academia and policy makers the capabilities they need to counterbalance the power of big private companies.",
+          "nameEn": "Clément Delangue",
+          "quoteChunks": [
+            "AI를 거대 기업의",
+            "손에만 맡길 수 없죠."
+          ],
+          "quoteEnChunks": [
+            "Open source keeps AI",
+            "from belonging",
+            "to a few big companies."
+          ],
+          "linesEn": [
+            "CEO",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "줄리앙 쇼몽",
+          "org": "Hugging Face",
+          "image": "08-huggingface/줄리앙 쇼몽.png",
+          "slug": "julien-chaumond",
+          "quote": "우리는 인간과 기계 사이를 잇는 다리를 짓고 있습니다.",
+          "lines": [
+            "CTO",
+            "co-founder"
+          ],
+          "quoteEn": "It's bridging between machines and humans in a way.",
+          "quoteOrigin": "The Hugging Face emoji has human features and is doing a human gesture, giving a hug. So it's bridging between machines and humans in a way.",
+          "nameEn": "Julien Chaumond",
+          "quoteChunks": [
+            "우리는 인간과 기계 사이를",
+            "잇는 다리를 짓고 있습니다."
+          ],
+          "quoteEnChunks": [
+            "It's bridging",
+            "between machines and humans,",
+            "in a way."
+          ],
+          "linesEn": [
+            "CTO",
+            "co-founder"
+          ]
+        },
+        {
+          "name": "토마스 울프",
+          "org": "Hugging Face",
+          "image": "08-huggingface/토마스 울프.png",
+          "slug": "thomas-wolf",
+          "quote": "모든 답을 아는 기계가 아닌 누구도 묻지 못한 질문을 던지는 기계가 필요합니다.",
+          "lines": [
+            "CSO",
+            "co-founder"
+          ],
+          "quoteEn": "We don't need a machine that knows every answer, but one that asks the question no one dared to.",
+          "quoteOrigin": "To create an Einstein in a data center, we don't just need a system that knows all the answers, but rather one that can ask questions nobody else has thought of or dared to ask.",
+          "nameEn": "Thomas Wolf",
+          "quoteChunks": [
+            "모든 답을 아는 기계가 아닌",
+            "누구도 묻지 못한 질문을 던지는 기계가 필요합니다."
+          ],
+          "quoteEnChunks": [
+            "We don't need a machine that knows every answer,",
+            "but one that asks",
+            "the question no one dared to."
+          ],
+          "linesEn": [
+            "CSO",
+            "co-founder"
+          ]
+        }
+      ],
+      "longformOnly": true,
+      "taglineEn": "Home of Open-Source AI"
+    },
+    {
+      "name": "DeepSeek - Moonshot",
+      "tagline": "",
+      "color": "#de2910",
+      "titleArt": "10-china/_logo.png",
+      "image": "10-china/_group.png",
+      "longformOnly": true,
+      "people": [
+        {
+          "name": "량원펑",
+          "org": "DeepSeek",
+          "image": "10-china/량원펑.png",
+          "slug": "liang-wenfeng",
+          "quote": "판을 엎으려던 게 아닙니다. 어느 날 뒤돌아보니 여기까지 와 있었죠.",
+          "lines": [
+            "DeepSeek Founder",
+            "High-Flyer 창업"
+          ],
+          "quoteEn": "We never intended to be a disruptor; it just happened by accident.",
+          "nameEn": "Liang Wenfeng",
+          "quoteChunks": [
+            "판을 엎으려던 게 아닙니다.",
+            "어느 날 뒤돌아보니 여기까지 와 있었죠."
+          ],
+          "quoteEnChunks": [
+            "We never intended",
+            "to be a disruptor;",
+            "it just happened by accident."
+          ],
+          "quoteOrigin": "We never intended to be a disruptor; it just happened by accident.",
+          "linesEn": [
+            "DeepSeek Founder",
+            "Founded High-Flyer"
+          ]
+        },
+        {
+          "name": "양즈린",
+          "org": "Moonshot AI",
+          "image": "10-china/양즈린.png",
+          "slug": "yang-zhilin",
+          "quote": "향후 10년, 중요한 건 오직 AGI 뿐입니다.",
+          "lines": [
+            "Moonshot AI CEO",
+            "co-founder"
+          ],
+          "quoteEn": "AGI is the only thing that matters over the next decade.",
+          "nameEn": "Yang Zhilin",
+          "quoteChunks": [
+            "향후 10년,",
+            "중요한 건 오직",
+            "AGI 뿐입니다."
+          ],
+          "quoteEnChunks": [
+            "AGI is the only thing",
+            "that matters",
+            "over the next decade."
+          ],
+          "linesEn": [
+            "Moonshot AI CEO",
+            "co-founder"
+          ]
+        }
+      ],
+      "nameEn": "DeepSeek - Moonshot",
+      "taglineEn": ""
+    },
+    {
+      "name": "재야",
+      "tagline": "깃발도 주인도 없이",
+      "color": "#9b6dd4",
+      "titleArt": "09-renegades/_logo.png",
+      "image": "09-renegades/_group.png",
+      "people": [
+        {
+          "name": "안드레 카파시",
+          "image": "09-renegades/안드레 카파시.png",
+          "slug": "andrej-karpathy",
+          "lines": [
+            "테슬라 자율주행 전 총괄 · AI 시대의 교육자"
+          ],
+          "nameEn": "Andrej Karpathy",
+          "linesEn": [
+            "Ex-Tesla Autopilot lead · Educator of the AI age"
+          ]
+        },
+        {
+          "name": "알렉 래드포드",
+          "image": "09-renegades/알렉 래드포드.png",
+          "slug": "alec-radford",
+          "lines": [
+            "GPT 시리즈의 1저자 · 은둔의 천재"
+          ],
+          "nameEn": "Alec Radford",
+          "linesEn": [
+            "Lead author of GPT · The reclusive genius"
+          ]
+        },
+        {
+          "name": "미라 무라티",
+          "image": "09-renegades/미라 무라티.png",
+          "slug": "mira-murati",
+          "lines": [
+            "OpenAI 전 CTO · 챗GPT 출시의 산파"
+          ],
+          "nameEn": "Mira Murati",
+          "linesEn": [
+            "Ex-OpenAI CTO · Midwife of ChatGPT"
+          ]
+        }
+      ],
+      "disabled": true,
+      "nameEn": "Renegades",
+      "taglineEn": "No flag, no master"
+    }
+  ],
+  "_inactiveGroups": [
+    {
+      "name": "Hugging Face",
+      "tagline": "The open hub",
+      "color": "#ffd21e",
+      "people": [
+        {
+          "name": "클레망 들랑그",
+          "org": "Hugging Face",
+          "image": "08-huggingface/클레망 들랑그.png",
+          "slug": "clement-delangue",
+          "lines": [
+            "Founder & CEO",
+            "오픈소스 AI 생태계의 중심"
+          ]
+        },
+        {
+          "name": "줄리앙 쇼몽",
+          "org": "Hugging Face",
+          "image": "08-huggingface/줄리앙 쇼몽.png",
+          "slug": "julien-chaumond",
+          "lines": [
+            "Founder",
+            "트랜스포머 라이브러리의 개발자"
+          ]
+        },
+        {
+          "name": "토마스 울프",
+          "org": "Hugging Face",
+          "image": "08-huggingface/토마스 울프.png",
+          "slug": "thomas-wolf",
+          "lines": [
+            "Founder & CSO",
+            "오픈소스 AI의 과학 두뇌"
+          ]
+        }
+      ],
+      "image": "08-huggingface/_group.png",
+      "titleArt": "08-huggingface/_logo.png"
+    },
+    {
+      "name": "자유진영",
+      "tagline": "Beyond the gates",
+      "color": "#9b8cce",
+      "people": [
+        {
+          "name": "안드레 카파시",
+          "org": "Eureka Labs",
+          "image": "09-renegades/안드레 카파시.png",
+          "slug": "andrej-karpathy",
+          "lines": [
+            "테슬라 자율주행 전 총괄",
+            "AI 시대 최고의 교육자"
+          ]
+        },
+        {
+          "name": "알렉 래드포드",
+          "image": "09-renegades/알렉 래드포드.png",
+          "slug": "alec-radford",
+          "lines": [
+            "GPT 시리즈를 일군 1저자",
+            "좀처럼 모습을 드러내지 않는 은둔자"
+          ]
+        },
+        {
+          "name": "미라 무라티",
+          "image": "09-renegades/미라 무라티.png",
+          "slug": "mira-murati",
+          "lines": [
+            "OpenAI 전 CTO",
+            "챗GPT 출시의 산파"
+          ]
+        }
+      ],
+      "titleArt": "09-renegades/_logo.png",
+      "image": "09-renegades/_group.png"
+    }
+  ],
+  "titleEn": "Humanity's Last Invention, AI",
+  "outroTitleEn": "Humanity's Last Invention, AI",
+  "tracks": [
+    {
+      "file": "Black Glass Pulse.mp3",
+      "durationSec": 230
+    },
+    {
+      "file": "Frostline_Pulse.mp3",
+      "durationSec": 178
+    }
+  ]
+}

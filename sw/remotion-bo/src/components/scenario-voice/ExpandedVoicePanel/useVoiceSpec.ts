@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SegmentEngineSpec } from '../../voice-utils'
 import { resolveSegmentEngine, shortsArrIndexBySlot } from '../../voice-utils'
-import { getTextsForSection, isCelebSection, NARRATOR_STYLE_DEFAULT } from '../utils'
+import { getTextsForSection } from '../utils'
+import { roleForLongformKey, geminiVoiceForRole, stylePrefixForRole, type Role } from '@feelandnote/shared/lib/voice-policy'
 import type { GenEngine } from './types'
 
 type UseVoiceSpecArgs = {
@@ -49,29 +50,38 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
 
   const geminiSpec: SegmentEngineSpec = useMemo(() => {
     if (engineSpec?.engine === 'gemini') return engineSpec
-    // 사용자가 GEM 으로 임시 전환할 때의 폴백.
-    // segment.geminiVoice > 화자 풀(gemini 엔진)의 voiceId > host.geminiVoice > 기본 'Kore'
+    // 사용자가 GEM 으로 임시 전환할 때의 폴백. 역할 기반 공유 정책(voice-policy)으로 결정한다.
     type SpeakerLite = { id: string; engine?: 'gemini' | 'elevenlabs'; voiceId?: string }
     const m = secKey.match(/^shorts-(\d+)\/S\d{2}-(.+)$/)
     const seg = m ? (() => {
       const arr = Array.isArray(episode.shorts) ? episode.shorts : []
-      return arr[shortsArrIndexBySlot(arr, parseInt(m[1], 10))]?.segments?.find((s: { id: string }) => s.id === m[2]) as { geminiVoice?: string; style?: string; speaker?: string } | undefined
+      return arr[shortsArrIndexBySlot(arr, parseInt(m[1], 10))]?.segments?.find((s: { id: string }) => s.id === m[2]) as { geminiVoice?: string; style?: string; speaker?: string; role?: string } | undefined
     })() : undefined
     const speakers: SpeakerLite[] = Array.isArray((episode as { speakers?: unknown }).speakers)
       ? (episode as { speakers: SpeakerLite[] }).speakers : []
     const speakerObj = seg?.speaker ? speakers.find(sp => sp.id === seg.speaker) : undefined
     const speakerGeminiVoice = speakerObj?.engine === 'gemini' ? speakerObj.voiceId : undefined
+
+    // 역할 판정 — 쇼츠는 segment.role(SSoT), 롱폼은 구간키 규칙. 이후 공유 정책으로
+    // 역할→보이스/스타일을 결정해 CLI 와 같은 결과를 보장한다(롱폼 나레이터=Kore, 요약=Charon).
+    const role: Role = m ? ((seg?.role as Role) ?? 'narrator') : roleForLongformKey(secKey)
+    const isHook = !!m && m[2] === 'hook'
+
     // 외부 저장처(솔로 자유섹션 등)가 주입되면 그 보이스를 최우선 사용.
-    const voiceName = voiceOverride?.value ?? seg?.geminiVoice ?? speakerGeminiVoice ?? (episode.host as { geminiVoice?: string })?.geminiVoice ?? 'Kore'
-    // 스타일 prefix 우선순위 — CLI(tts.ts)와 일치시킨다:
-    //   쇼츠 segment.style → 롱폼 voiceStyles[구간키] → (celeb) host.voiceStyle / (narrator·summary) host.shortsSpeed → NARRATOR_STYLE_DEFAULT
-    // 저장된 빈 문자열('')은 옵트아웃이므로 ?? 로 통과시켜 prefix 없이 미리듣기한다.
-    const savedStyle = episode.voiceStyles?.[secKey]
-    const stylePrefix = seg?.style
-      ?? savedStyle
-      ?? (isCelebSection(secKey)
-          ? (episode.host as { voiceStyle?: string })?.voiceStyle
-          : ((episode.host as { shortsSpeed?: string })?.shortsSpeed ?? NARRATOR_STYLE_DEFAULT))
+    const voiceName = voiceOverride?.value ?? geminiVoiceForRole(role, {
+      scope: m ? 'shorts' : 'long',
+      isHook,
+      hostGeminiVoice: (episode.host as { geminiVoice?: string })?.geminiVoice,
+      segGeminiVoice: seg?.geminiVoice,
+      speakerVoice: speakerGeminiVoice,
+    })
+    // 저장된 빈 문자열('')은 옵트아웃이므로 그대로 통과시켜 prefix 없이 미리듣기한다.
+    const stylePrefix = stylePrefixForRole(role, {
+      segStyle: seg?.style,
+      savedStyle: episode.voiceStyles?.[secKey],
+      hostVoiceStyle: (episode.host as { voiceStyle?: string })?.voiceStyle,
+      hostShortsSpeed: (episode.host as { shortsSpeed?: string })?.shortsSpeed,
+    })
     return { engine: 'gemini', voiceParam: voiceName, stylePrefix }
   }, [engineSpec, episode, secKey, voiceOverride])
 

@@ -108,7 +108,12 @@ export interface QuotePair {
   /** 직접 인용 재생 배속 (1=원본, 0.5~2) */
   quotePlaybackRate?: number
   after?: string
+  /** 후속 맥락 토막 분할 — 2개 이상이면 토막별 wav(D{NN}d{P}-after, D{NN}d{P}_2-after, ...)로 처리.
+   *  불변식: afterParts.join('\n\n') === after. 같은 인용 쌍 안에서만 분할(pairIdx·셀럽 음성 파일명 불변) */
+  afterParts?: string[]
   afterDuration?: number
+  /** 토막별 음성 길이 (초) — afterParts와 1:1 대응. 파이프라인 자동 기록 */
+  afterPartDurations?: number[]
   /** 후속 맥락 SFX */
   afterSfx?: SfxItem[]
   /** 후속 맥락 화자 */
@@ -125,10 +130,15 @@ export interface BookEntry {
   thumbnail_url: string
   /** 콘텐츠 카테고리 (생략 시 BOOK) */
   category?: ContentCategory
-  /** 요약맨: 책 소개 + 핵심 인사이트 */
+  /** 요약맨: 책 소개 + 핵심 인사이트. 토막 분할 시에도 전체 글(join('\n\n'))을 항상 유지 — 텍스트 소비자의 단일원천 */
   summary: string
+  /** 핵심 요약 토막 분할 — 2개 이상이면 음성·렌더가 토막별 wav(D{NN}b-summary, D{NN}b2-summary, ...)로 처리.
+   *  불변식: summaryParts.join('\n\n') === summary (BO 편집기가 유지) */
+  summaryParts?: string[]
   /** 요약맨 음성 길이 (초) */
   summaryDuration: number
+  /** 토막별 음성 길이 (초) — summaryParts와 1:1 대응. 파이프라인 자동 기록 */
+  summaryPartDurations?: number[]
   /** 핵심 요약 SFX */
   summarySfx?: SfxItem[]
   /** 핵심 요약 화자 — episode.speakers[].id 참조. */
@@ -137,10 +147,15 @@ export interface BookEntry {
   summaryGainDb?: number
   /** 핵심 요약 재생 배속 (1=원본, 0.5~2) */
   summaryPlaybackRate?: number
-  /** 나레이터 3인칭: 감상 배경 */
+  /** 나레이터 3인칭: 감상 배경. 토막 분할 시에도 전체 글(join('\n\n'))을 항상 유지 */
   contextMain: string
+  /** 감상 배경 토막 분할 — 2개 이상이면 토막별 wav(D{NN}c-context, D{NN}c2-context, ...)로 처리.
+   *  불변식: contextMainParts.join('\n\n') === contextMain */
+  contextMainParts?: string[]
   /** 감상 배경 음성 길이 (초). voice: c-context.wav */
   contextDuration: number
+  /** 토막별 음성 길이 (초) — contextMainParts와 1:1 대응. 파이프라인 자동 기록 */
+  contextPartDurations?: number[]
   /** 감상 배경 SFX */
   contextMainSfx?: SfxItem[]
   /** 감상 배경 화자 */
@@ -414,8 +429,12 @@ export interface EpisodeTimingData {
   books?: Array<{
     titleDuration?: number
     summaryDuration?: number
+    /** 핵심 요약 토막별 길이 — summaryParts 분할 시 1:1 기록 */
+    summaryPartDurations?: number[]
     contextDuration?: number
-    quotePairDurations?: Array<{ quoteDuration?: number; afterDuration?: number }>
+    /** 감상 배경 토막별 길이 — contextMainParts 분할 시 1:1 기록 */
+    contextPartDurations?: number[]
+    quotePairDurations?: Array<{ quoteDuration?: number; afterDuration?: number; afterPartDurations?: number[] }>
   }>
   /**
    * 쇼츠 타이밍 — 옵션 2 전환 이후 에피소드 timing.json 루트에는 shorts 필드가 저장되지 않는다.

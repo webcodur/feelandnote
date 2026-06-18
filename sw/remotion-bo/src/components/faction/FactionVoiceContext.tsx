@@ -18,6 +18,12 @@ export interface FactionVoiceCtx {
   regenerate: (file: string) => void
   /** 현재 재생성 중인 파일명 (없으면 null) */
   regeneratingFile: string | null
+  /** 음성 파일 목록 다시 읽기 — 미리듣기 저장 직후 존재·길이 갱신용 */
+  reload?: () => void
+  /** 현재 에피소드 폴더명 — 인물 패널 preview·save 라우트용 */
+  episodeName?: string
+  /** 시리즈 id — preview·save 라우트용 */
+  series?: string
 }
 
 const Ctx = createContext<FactionVoiceCtx | null>(null)

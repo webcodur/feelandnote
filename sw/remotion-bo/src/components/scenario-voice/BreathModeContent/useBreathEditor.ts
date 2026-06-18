@@ -4,15 +4,45 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import type { VoiceFile } from '../../voice-utils'
 import { parseWav, channelToFloat, muteRegions, toAudioBuffer, toBase64, type ParsedWav, type Region } from './wav'
 
+/**
+ * 음원 로드 URL·저장 호출을 주입하는 어댑터.
+ * 미지정이면 북리커맨드 기본 라우트(/voice/play, /voice/save)를 쓴다.
+ * 세력도 등 다른 저장 경로는 이 어댑터로 라우트만 갈아끼운다(동작 동일).
+ */
+export type BreathEndpoints = {
+  /** 캐시 무력화 쿼리까지 포함한 음원 GET URL */
+  loadUrl: (series: string, name: string, fileName: string) => string
+  /** wav 바이트를 디스크에 저장. 실패 시 throw */
+  save: (series: string, name: string, fileName: string, base64: string) => Promise<void>
+}
+
 type Args = {
   series: string
   name: string
   file: VoiceFile
   onRefresh: () => void
+  /** 로드·저장 라우트 어댑터 (선택). 미지정 시 북리커맨드 기본 라우트. */
+  endpoints?: BreathEndpoints
+}
+
+// 북리커맨드 기본 라우트 — 기존 동작 보존.
+const DEFAULT_ENDPOINTS: BreathEndpoints = {
+  loadUrl: (series, name, fileName) => `/api/${series}/voice/play/${name}/${fileName}?t=${Date.now()}`,
+  save: async (series, name, fileName, base64) => {
+    const res = await fetch(`/api/${series}/voice/save`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ episode: name, fileName, base64 }),
+    })
+    const data = await res.json()
+    if (!data.success) throw new Error(data.error ?? '저장 실패')
+  },
 }
 
 /** 들숨 제거 모드의 상태·로직 일체 — 로드, 재생, 구간 관리, 저장/복원 */
-export function useBreathEditor({ series, name, file, onRefresh }: Args) {
+export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Args) {
+  // 어댑터를 ref 에 고정 — 인라인 객체로 넘겨도 effect/callback 의존성이 흔들리지 않게.
+  const epRef = useRef<BreathEndpoints>(endpoints ?? DEFAULT_ENDPOINTS)
+  epRef.current = endpoints ?? DEFAULT_ENDPOINTS
   const [wav, setWav] = useState<ParsedWav | null>(null)
   const [samples, setSamples] = useState<Float32Array | null>(null)
   const [loading, setLoading] = useState(true)
@@ -39,7 +69,7 @@ export function useBreathEditor({ series, name, file, onRefresh }: Args) {
     setWav(null)
     setSamples(null)
     setRegions([])
-    fetch(`/api/${series}/voice/play/${name}/${file.name}?t=${Date.now()}`)
+    fetch(epRef.current.loadUrl(series, name, file.name))
       .then(r => {
         if (!r.ok) throw new Error(`음원 로드 실패 (${r.status})`)
         return r.arrayBuffer()
@@ -111,12 +141,7 @@ export function useBreathEditor({ series, name, file, onRefresh }: Args) {
   }, [])
 
   const saveBytes = useCallback(async (bytes: ArrayBuffer) => {
-    const res = await fetch(`/api/${series}/voice/save`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ episode: name, fileName: file.name, base64: toBase64(bytes) }),
-    })
-    const data = await res.json()
-    if (!data.success) throw new Error(data.error ?? '저장 실패')
+    await epRef.current.save(series, name, file.name, toBase64(bytes))
     const parsed = parseWav(bytes)
     setWav(parsed)
     setSamples(channelToFloat(parsed))

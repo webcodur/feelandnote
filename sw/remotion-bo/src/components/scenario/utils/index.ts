@@ -38,6 +38,22 @@ export function bookKey(i: number, phase: string) {
   return `D${String(i + 1).padStart(2, '0')}${phase}`
 }
 
+/** 긴 서술 필드(핵심 요약·감상 배경)의 토막 목록.
+ *  sw/remotion `field-parts.ts`의 bookFieldParts와 동일 규약 — 양쪽이 어긋나면 행/음원 매핑이 깨진다.
+ *  토막 목록 우선, 폴백은 전체 텍스트 1토막. 빈 토막 제외. */
+export function bookFieldParts(full: string | undefined, parts?: string[]): string[] {
+  if (parts && parts.length > 0) {
+    const filtered = parts.filter(p => typeof p === 'string' && p.trim().length > 0)
+    if (filtered.length > 0) return filtered
+  }
+  return full && full.trim().length > 0 ? [full] : []
+}
+
+/** 토막 phase 문자열 — 첫 토막은 기존 키(b-summary), 둘째부터 b2-summary 식 번호 부착 */
+export function partPhase(letter: 'b' | 'c', suffix: 'summary' | 'context', p: number) {
+  return p === 0 ? `${letter}-${suffix}` : `${letter}${p + 1}-${suffix}`
+}
+
 /**
  * 옵션 2: 쇼츠 파일 키. shortsIndex는 1-based(필수 접두사).
  * 예: shorts-1/S01-hook, shorts-2/S03-book-title

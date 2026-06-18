@@ -50,8 +50,34 @@ export interface FactionPerson {
   quoteGainDb?: number
   /** 대사 음성 재생 배속 (기본 1, 0.5~2) */
   quotePlaybackRate?: number
-  /** 대사 음성 화자 ID (선택) — 인물별 목소리 지정용. 미지정이면 공용 기본 목소리 */
+  /** 대사 음성 화자 ID (선택) — 인물별 Gemini 보이스명 오버라이드. 미지정이면 공용 기본 목소리 */
   quoteSpeaker?: string
+  /**
+   * 대사 음성 합성 엔진 (선택) — 'gemini'(2.5) | 'gemini-v3'(3.1) | 'elevenlabs'.
+   * 미지정이면 'gemini'. 파이프라인(pnpm voice:faction)은 Gemini 만 자동 생성하고,
+   * 'elevenlabs' 음원은 BO 미리듣기 패널에서 사용자가 직접 생성·저장한다(자동 생성 차단).
+   */
+  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 대사 음성 ElevenLabs 보이스 ID (선택) — quoteEngine='elevenlabs' 일 때 사용. 미리듣기·사용자 생성용 */
+  quoteElevenlabsVoiceId?: string
+  /**
+   * 대사 발화 스타일 지시 (선택) — Gemini 합성 시 텍스트 앞에 "<지시>: " prefix 로 붙는다.
+   * 예: '강하고 단호하게', '낮고 간절하게'. 비면 기본 말투. 인물별로 톤을 저장해 같은 보이스라도
+   * 대사 강약을 다르게 낸다. 파이프라인(pnpm voice:faction)이 이 값을 prefix 로 적용하고,
+   * 매니페스트 해시에 포함해 스타일을 바꾸면 재생성을 트리거한다. 빈 문자열은 옵트아웃(스타일 없음).
+   */
+  quoteStyle?: string
+  /**
+   * 대사 ElevenLabs 감정/강도 옵션 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 북리커맨드 ELE send options 중 인물 톤 표현에 필요한 최소(stability·style)만 둔다.
+   * Gemini 합성에는 영향이 없다(스타일은 quoteStyle 로 표현). 렌더는 저장된 wav 만 재생한다.
+   */
+  quoteEleOptions?: {
+    /** 발화 안정성 (0~1). 낮을수록 표현이 강하고 변화가 크다 */
+    stability?: number
+    /** 스타일 과장 (0~1). 높을수록 감정·억양이 강조된다 */
+    style?: number
+  }
 }
 
 /**
@@ -79,6 +105,8 @@ export interface FactionCluster {
 export interface FactionGroup {
   /** 세력명 (예: 'OpenAI', '선구자') */
   name: string
+  /** 이 세력 인물 컷 전환효과(세로 쇼츠). 미지정이면 에피소드 전역(script.transition)을 따른다 */
+  transition?: FactionTransition
   /** 세력명 영문 */
   nameEn?: string
   /** 한 줄 설명 (예: '모든 것의 시작') */

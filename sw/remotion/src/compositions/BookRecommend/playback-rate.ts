@@ -20,6 +20,7 @@ import type {
   VoiceTimings, VoiceTimingSegment,
 } from './types'
 import { vnTimingKey, vnShort } from './voice-names'
+import { bookFieldParts } from './field-parts'
 
 export const PLAYBACK_RATE_MIN = 0.5
 export const PLAYBACK_RATE_MAX = 2
@@ -72,6 +73,13 @@ export function applyPlaybackRates(script: BookRecommendScript): BookRecommendSc
     collect(`D${bk}a-title`, b.titlePlaybackRate)
     collect(`D${bk}b-summary`, b.summaryPlaybackRate)
     collect(`D${bk}c-context`, b.contextMainPlaybackRate)
+    // 토막 분할 — 배속은 필드 단위 한 값을 전 토막 키에 동일 적용
+    for (let p = 1; p < bookFieldParts(b.summary, b.summaryParts).length; p++) {
+      collect(`D${bk}b${p + 1}-summary`, b.summaryPlaybackRate)
+    }
+    for (let p = 1; p < bookFieldParts(b.contextMain, b.contextMainParts).length; p++) {
+      collect(`D${bk}c${p + 1}-context`, b.contextMainPlaybackRate)
+    }
     b.quotePairs?.forEach((p, pi) => {
       collect(`D${bk}d${pi * 2 + 1}-quote`, p.quotePlaybackRate)
       collect(`D${bk}d${pi * 2 + 2}-after`, p.afterPlaybackRate)
@@ -125,7 +133,9 @@ export function applyPlaybackRates(script: BookRecommendScript): BookRecommendSc
       ...b,
       titleDuration: (scaleDur(b.titleDuration, rateOf(`D${bk}a-title`)) ?? b.titleDuration),
       summaryDuration: (scaleDur(b.summaryDuration, rateOf(`D${bk}b-summary`)) ?? b.summaryDuration),
+      summaryPartDurations: b.summaryPartDurations?.map(d => d / rateOf(`D${bk}b-summary`)),
       contextDuration: (scaleDur(b.contextDuration, rateOf(`D${bk}c-context`)) ?? b.contextDuration),
+      contextPartDurations: b.contextPartDurations?.map(d => d / rateOf(`D${bk}c-context`)),
       quotePairs: b.quotePairs?.map((p, pi) => ({
         ...p,
         quoteDuration: scaleDur(p.quoteDuration, rateOf(`D${bk}d${pi * 2 + 1}-quote`)),

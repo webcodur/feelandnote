@@ -299,14 +299,31 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.summaryFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.25} />
-                    <Audio src={vf(vnBookSummary(i))} volume={dbToLinear(book.summaryGainDb)} playbackRate={clampRate(book.summaryPlaybackRate)} />
+                    {/* 토막별 음원 — 분할 없으면 [0] 하나로 기존과 동일 */}
+                    {bt.summaryPartStartsF.map((startF, p) => (
+                      <Sequence
+                        key={`sum-part-${p}`}
+                        from={startF}
+                        durationInFrames={p + 1 < bt.summaryPartStartsF.length ? bt.summaryPartStartsF[p + 1] - startF : bt.summaryFrames - startF}
+                      >
+                        <Audio src={vf(vnBookSummary(i, p))} volume={dbToLinear(book.summaryGainDb)} playbackRate={clampRate(book.summaryPlaybackRate)} />
+                      </Sequence>
+                    ))}
                   </Series.Sequence>
                   <Series.Sequence offset={tl.SUMMARY_CONTEXT_GAP_F} durationInFrames={tl.LABEL_CONTEXT_F}>
                     <Audio src={vf(VN_LABEL_CONTEXT)} />
                   </Series.Sequence>
                   <Series.Sequence offset={0} durationInFrames={bt.contextFrames}>
                     <Audio src={sf('common/sfx/whoosh.wav')} volume={0.2} />
-                    <Audio src={vf(vnBookContext(i))} volume={dbToLinear(book.contextMainGainDb)} playbackRate={clampRate(book.contextMainPlaybackRate)} />
+                    {bt.contextPartStartsF.map((startF, p) => (
+                      <Sequence
+                        key={`ctx-part-${p}`}
+                        from={startF}
+                        durationInFrames={p + 1 < bt.contextPartStartsF.length ? bt.contextPartStartsF[p + 1] - startF : bt.contextFrames - startF}
+                      >
+                        <Audio src={vf(vnBookContext(i, p))} volume={dbToLinear(book.contextMainGainDb)} playbackRate={clampRate(book.contextMainPlaybackRate)} />
+                      </Sequence>
+                    ))}
                   </Series.Sequence>
                   {bt.quotePairTimings.map((pt, pi) => (
                     <React.Fragment key={`qp-${pi}`}>
@@ -316,9 +333,18 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                           <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.quotePlaybackRate)} />
                         </Series.Sequence>
                       )}
-                      {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi))] && (
+                      {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi, 0))] && (
                         <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={pt.afterFrames}>
-                          <Audio src={vf(vnBookAfter(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.afterPlaybackRate)} />
+                          {/* 토막별 음원 — 분할 없으면 [0] 하나로 기존과 동일 */}
+                          {pt.afterPartStartsF.map((startF, ap) => (
+                            <Sequence
+                              key={`aft-part-${ap}`}
+                              from={startF}
+                              durationInFrames={ap + 1 < pt.afterPartStartsF.length ? pt.afterPartStartsF[ap + 1] - startF : pt.afterFrames - startF}
+                            >
+                              <Audio src={vf(vnBookAfter(i, pi, ap))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.afterPlaybackRate)} />
+                            </Sequence>
+                          ))}
                         </Series.Sequence>
                       )}
                     </React.Fragment>
@@ -359,6 +385,8 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                 labelContextF={tl.LABEL_CONTEXT_F}
                 titleSummaryGapF={tl.TITLE_SUMMARY_GAP_F}
                 summaryContextGapF={tl.SUMMARY_CONTEXT_GAP_F}
+                summaryPartStartsF={bt.summaryPartStartsF}
+                contextPartStartsF={bt.contextPartStartsF}
                 episodeName={epName}
                 timings={script.voiceTimings}
                 script={script}
@@ -633,8 +661,14 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
               const contextStart = bs + bt.summaryEnd + SUMMARY_CONTEXT_GAP_F
               const contextEnd = contextStart + bt.contextFrames
               if (frame >= bs && frame < titleEnd) return vnTimingKey(vnBookTitle(i))
-              if (frame >= summaryStart && frame < summaryEnd) return vnTimingKey(vnBookSummary(i))
-              if (frame >= contextStart && frame < contextEnd) return vnTimingKey(vnBookContext(i))
+              // 토막 분할 구간 — 현재 프레임이 속한 토막의 키 반환
+              const partAt = (starts: number[], local: number) => {
+                let p = 0
+                for (let k = starts.length - 1; k >= 0; k--) { if (local >= starts[k]) { p = k; break } }
+                return p
+              }
+              if (frame >= summaryStart && frame < summaryEnd) return vnTimingKey(vnBookSummary(i, partAt(bt.summaryPartStartsF, frame - summaryStart)))
+              if (frame >= contextStart && frame < contextEnd) return vnTimingKey(vnBookContext(i, partAt(bt.contextPartStartsF, frame - contextStart)))
               {
                 let cur = contextEnd
                 for (let pi = 0; pi < bt.quotePairTimings.length; pi++) {
@@ -648,7 +682,7 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
                   if (pt.hasAfter) {
                     const aStart = cur + QUOTE_CONTEXTAFTER_GAP
                     const aEnd = aStart + pt.afterFrames
-                    if (frame >= aStart && frame < aEnd) return vnTimingKey(vnBookAfter(i, pi))
+                    if (frame >= aStart && frame < aEnd) return vnTimingKey(vnBookAfter(i, pi, partAt(pt.afterPartStartsF, frame - aStart)))
                     cur = aEnd
                   }
                 }

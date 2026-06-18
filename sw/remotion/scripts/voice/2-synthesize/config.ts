@@ -6,34 +6,22 @@
  */
 import 'dotenv/config'
 
-export type Voice = string
+// 보이스 매핑·역할 판정·스타일 결정의 단일원천은 공유 패키지다.
+// BO(sw/remotion-bo)도 같은 모듈을 import 해 미러링 부채를 없앤다.
+import {
+  VOICE,
+  NARRATOR_STYLE_DEFAULT,
+  MODEL_GEMINI_25,
+  MODEL_GEMINI_31,
+  type Voice,
+  type Role,
+} from '@feelandnote/shared/lib/voice-policy'
 
-export type Role = 'narrator' | 'summary' | 'celeb'
+export { VOICE, NARRATOR_STYLE_DEFAULT, MODEL_GEMINI_25, MODEL_GEMINI_31 }
+export type { Voice, Role }
 
-// --- Gemini 모델 ---
-// gemini-v3 엔진 선택 시 3.1 flash TTS(200+ audio tag, 70+ 언어). 그 외 기본 2.5 flash preview TTS.
-// 실제 선택은 cli.ts의 GEMINI_MODEL(--engine 값 기반). BO 미리듣기 라우트의 MODEL과 값이 일치해야 한다.
-export const MODEL_GEMINI_25 = 'gemini-2.5-flash-preview-tts'
-export const MODEL_GEMINI_31 = 'gemini-3.1-flash-tts-preview'
 /** @deprecated 기본 모델 별칭 — 신규 코드는 cli.GEMINI_MODEL 사용 */
 export const MODEL = MODEL_GEMINI_25
-
-// --- 보이스 역할 ---
-// VOICE.celeb은 episode.host.geminiVoice 가 있으면 main()에서 오버라이드된다.
-export const VOICE = {
-  narrator: 'Kore' as Voice,
-  shortsNarrator: 'Charon' as Voice,
-  shortsHook: 'Charon' as Voice,
-  summary: 'Charon' as Voice,
-  celeb: 'Puck' as Voice,
-}
-
-// --- narrator/summary 발화 스타일 prefix 기본값 ---
-// 정책: ../2-synthesize.ts 헤더 주석 참조
-//  - 적용: 쇼츠·롱폼 narrator/summary (한·영 공통, 전역 기본)
-//  - 비적용: celeb (voiceStyle 별도)
-//  - 우선순위: segment.style > episode.host.shortsSpeed(레거시 오버라이드) > NARRATOR_STYLE_DEFAULT
-export const NARRATOR_STYLE_DEFAULT = '편안하고 자연스럽게'
 
 // --- ElevenLabs ---
 // CLI는 ElevenLabs API를 직접 호출하지 않고 BO route를 통과시킨다.

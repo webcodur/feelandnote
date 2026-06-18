@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { VoiceFile } from '../../voice-utils'
 import { UiLabel } from '@/components/ui-label'
-import { useBreathEditor } from './useBreathEditor'
+import { useBreathEditor, type BreathEndpoints } from './useBreathEditor'
 
 const CANVAS_H = 160
 const BAR_COLOR = 'rgba(200, 164, 110, 0.85)'
@@ -13,12 +13,14 @@ type Props = {
   name: string
   file: VoiceFile
   onRefresh: () => void
+  /** 로드·저장 라우트 어댑터 (선택) — 세력도 등 다른 저장 경로용. 미지정 시 북리커맨드 기본 라우트. */
+  endpoints?: BreathEndpoints
 }
 
 /** BREATH mode panel — 파형에서 들숨·잡소리 구간을 드래그로 지정해 무음 처리한다.
  *  잘라내지 않고 소리만 0으로 깎으므로 전체 길이·자막 타이밍이 변하지 않는다. */
-export function BreathModeContent({ series, name, file, onRefresh }: Props) {
-  const ed = useBreathEditor({ series, name, file, onRefresh })
+export function BreathModeContent({ series, name, file, onRefresh, endpoints }: Props) {
+  const ed = useBreathEditor({ series, name, file, onRefresh, endpoints })
   const [pxPerSec, setPxPerSec] = useState(200)
   const [gain, setGain] = useState(3)
   const canvasRef = useRef<HTMLCanvasElement>(null)

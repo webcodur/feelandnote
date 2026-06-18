@@ -65,6 +65,7 @@ type Args = {
   celebId: string
   commonsFile?: string
   imageUrl?: string
+  imageFile?: string
   sourceNote?: string
   slug: string
   faceDetect: boolean
@@ -101,6 +102,7 @@ function parseArgs(): Args {
   const celebId = get('--celeb-id')
   const commonsFile = get('--commons-file')
   const imageUrl = get('--image-url')
+  const imageFile = get('--image-file')
   const sourceNote = get('--source-note')
   const slug = get('--slug')
   const gravityRaw = (get('--crop-gravity') ?? 'attention').toLowerCase()
@@ -111,12 +113,13 @@ function parseArgs(): Args {
     console.error('필수 인자 누락: --celeb-id, --slug')
     process.exit(1)
   }
-  if (!commonsFile && !imageUrl) {
-    console.error('--commons-file 또는 --image-url 중 하나는 반드시 지정')
+  const sourceCount = [commonsFile, imageUrl, imageFile].filter(Boolean).length
+  if (sourceCount === 0) {
+    console.error('--commons-file / --image-url / --image-file 중 하나는 반드시 지정')
     process.exit(1)
   }
-  if (commonsFile && imageUrl) {
-    console.error('--commons-file 과 --image-url 은 동시에 쓸 수 없다')
+  if (sourceCount > 1) {
+    console.error('--commons-file / --image-url / --image-file 은 동시에 쓸 수 없다')
     process.exit(1)
   }
   if (!ALLOWED_GRAVITIES.includes(gravityRaw as CropGravity)) {
@@ -135,6 +138,7 @@ function parseArgs(): Args {
     celebId,
     commonsFile,
     imageUrl,
+    imageFile,
     sourceNote,
     slug,
     faceDetect,
@@ -445,12 +449,32 @@ async function main() {
 
   let meta: CommonsMeta
   let sourceLabel: string
+  let original: Buffer
   if (args.commonsFile) {
     console.log(`[1/6] 위키미디어 메타 조회: ${args.commonsFile}`)
     meta = await fetchCommonsMeta(args.commonsFile)
     sourceLabel = args.commonsFile
     console.log(`     원본 URL: ${meta.url}`)
     console.log(`     라이선스: ${meta.licenseShortName} | Artist: ${meta.artist}`)
+    console.log(`[2/6] 원본 이미지 다운로드`)
+    original = await downloadImage(meta.url)
+    console.log(`     ${original.length} bytes`)
+  } else if (args.imageFile) {
+    const filePath = resolve(args.imageFile)
+    const note = args.sourceNote ?? 'local file'
+    console.log(`[1/6] 로컬 파일 모드: ${filePath}`)
+    console.log(`     출처 노트: ${note}`)
+    if (!existsSync(filePath)) throw new Error(`로컬 파일 없음: ${filePath}`)
+    meta = {
+      url: filePath,
+      descriptionUrl: `local:${filePath}`,
+      licenseShortName: 'local-asset',
+      artist: note,
+    }
+    sourceLabel = filePath
+    console.log(`[2/6] 로컬 이미지 읽기`)
+    original = readFileSync(filePath)
+    console.log(`     ${original.length} bytes`)
   } else {
     const url = args.imageUrl as string
     const note = args.sourceNote ?? 'web search'
@@ -463,11 +487,10 @@ async function main() {
       artist: note,
     }
     sourceLabel = url
+    console.log(`[2/6] 원본 이미지 다운로드`)
+    original = await downloadImage(meta.url)
+    console.log(`     ${original.length} bytes`)
   }
-
-  console.log(`[2/6] 원본 이미지 다운로드`)
-  const original = await downloadImage(meta.url)
-  console.log(`     ${original.length} bytes`)
 
   console.log(
     `[3/6] webp 변환 (800x800, q=85, face-detect=${args.faceDetect}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`

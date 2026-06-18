@@ -6,7 +6,7 @@ import type { FactionPerson } from '@/lib/faction-types'
 import { factionVoiceFile } from '@/lib/faction-voice'
 import { imageSrc, initial } from './timing'
 import { FactionImagePicker } from './FactionImagePicker'
-import { FactionVoiceControls } from './FactionVoiceControls'
+import { FactionVoicePanel } from './FactionVoicePanel'
 import { useFactionVoice } from './FactionVoiceContext'
 
 type Props = {
@@ -38,10 +38,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
   // 이 인물 음성 파일명 — 렌더 인덱싱(vnPersonQuote)과 동일 규칙
   const voiceFile = factionVoiceFile(groupIndex, personIndex, solo, clusterIndex)
-  const voiceMeta = voice?.byFile.get(voiceFile)
   const hasQuote = !!(person.quoteChunks?.some(c => c.trim()) || person.quote?.trim())
-  // 길이: 파일 스캔 길이 우선, 없으면 data.json quoteDuration
-  const voiceDuration = voiceMeta?.duration ?? person.quoteDuration ?? 0
 
   return (
     <div
@@ -108,15 +105,15 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           <input type="text" placeholder="소속" value={person.org ?? ''} onChange={e => set('org', e.target.value)} className="w-full rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm focus:border-accent focus:outline-none" />
         </label>
 
-        {/* 대사 음성 — 재생·재생성 (대사가 있을 때만 노출) */}
+        {/* 대사 음성 — 북리커맨드 음성 패널 통복제(저장·트림·생성·미리듣기 일체) (대사가 있을 때만 노출) */}
         {voice && hasQuote && (
-          <FactionVoiceControls
-            voiceUrl={voiceMeta ? voice.voiceUrl(voiceFile) : null}
-            fileExists={!!voiceMeta}
-            duration={voiceDuration}
+          <FactionVoicePanel
+            person={person}
+            onChange={onChange}
+            series={series}
+            episodeName={episodeName}
+            voiceFile={voiceFile}
             hasQuote={hasQuote}
-            regenerating={voice.regeneratingFile === voiceFile}
-            onRegenerate={() => voice.regenerate(voiceFile)}
           />
         )}
       </div>

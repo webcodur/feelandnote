@@ -17,6 +17,7 @@ import { FONT } from '../../fonts'
 import { CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP, f } from '../../timing'
 import { safeImg, useIsPortrait, CELEB_VOICE_COLOR, CELEB_VOICE_HIGHLIGHT, expandSubTimings, sliceOriginalByTimings, isTimingsStale } from '../../utils'
 import { vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter, vnTimingKey } from '../../voice-names'
+import { bookFieldParts } from '../../field-parts'
 import type { QuotePairTiming } from '../../useTimeline'
 import type { BookRecommendScript } from '../../types'
 import { t } from '../../i18n'
@@ -162,13 +163,27 @@ function resolveImageTransitions(
   contextFrames: number,
   qpTimings: QuotePairTiming[],
   pairStarts: Array<{ sQuote: number; sAfter: number }>,
+  summaryPartStartsF: number[],
+  contextPartStartsF: number[],
 ): ImageTransition[] | undefined {
   if (!book.images?.length) return undefined
 
-  const sectionEntries: SectionEntry[] = [
-    { key: vnTimingKey(vnBookSummary(bookIndex)), baseFrame: sSummary, field: 'summary', origText: book.summary },
-    { key: vnTimingKey(vnBookContext(bookIndex)), baseFrame: sContext, field: 'context', origText: book.contextMain },
-  ]
+  // 토막별 섹션 — parseSection 캐시(parsedMulti)가 같은 field의 복수 섹션을 순서대로 탐색한다
+  const sectionEntries: SectionEntry[] = []
+  bookFieldParts(book.summary, book.summaryParts).forEach((partText, p) => {
+    sectionEntries.push({
+      key: vnTimingKey(vnBookSummary(bookIndex, p)),
+      baseFrame: sSummary + (summaryPartStartsF[p] ?? 0),
+      field: 'summary', origText: partText,
+    })
+  })
+  bookFieldParts(book.contextMain, book.contextMainParts).forEach((partText, p) => {
+    sectionEntries.push({
+      key: vnTimingKey(vnBookContext(bookIndex, p)),
+      baseFrame: sContext + (contextPartStartsF[p] ?? 0),
+      field: 'context', origText: partText,
+    })
+  })
   for (let pi = 0; pi < qpTimings.length; pi++) {
     const ps = pairStarts[pi]
     const pair = book.quotePairs?.[pi]
@@ -176,7 +191,14 @@ function resolveImageTransitions(
       sectionEntries.push({ key: vnTimingKey(vnBookQuote(bookIndex, pi)), baseFrame: ps.sQuote, field: 'quote', origText: pair?.quote })
     }
     if (qpTimings[pi].hasAfter) {
-      sectionEntries.push({ key: vnTimingKey(vnBookAfter(bookIndex, pi)), baseFrame: ps.sAfter, field: 'quote', origText: pair?.after })
+      // 후속 맥락 — 토막별 섹션(분할 없으면 1개 = 기존과 동일)
+      bookFieldParts(pair?.after, pair?.afterParts).forEach((partText, ap) => {
+        sectionEntries.push({
+          key: vnTimingKey(vnBookAfter(bookIndex, pi, ap)),
+          baseFrame: ps.sAfter + (qpTimings[pi].afterPartStartsF[ap] ?? 0),
+          field: 'quote', origText: partText,
+        })
+      })
     }
   }
 
@@ -301,6 +323,9 @@ type Props = {
   labelContextF: number
   titleSummaryGapF: number
   summaryContextGapF: number
+  /** 토막별 시작 프레임 (각 구간 시작 기준) — useTimeline BookTiming과 동일 출처 */
+  summaryPartStartsF: number[]
+  contextPartStartsF: number[]
   episodeName: string
   timings?: Record<string, VoiceTimingSegment[]>
   script: BookRecommendScript
@@ -309,7 +334,8 @@ type Props = {
 export const BookCardVisual: React.FC<Props> = ({
   book, host, index, totalFrames, titleFrames, summaryFrames,
   contextFrames, quotePairTimings,
-  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF, episodeName, timings, script,
+  labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF,
+  summaryPartStartsF, contextPartStartsF, episodeName, timings, script,
 }) => {
   const i18n = t(script)
   const frame = useCurrentFrame()
@@ -340,8 +366,8 @@ export const BookCardVisual: React.FC<Props> = ({
 
   // --- 이미지 전환 (텍스트 앵커 해석) ---
   const imageTransitions = React.useMemo(() => {
-    return resolveImageTransitions(book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts)
-  }, [book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts])
+    return resolveImageTransitions(book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts, summaryPartStartsF, contextPartStartsF)
+  }, [book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts, summaryPartStartsF, contextPartStartsF])
 
   // --- 공통 ---
   const fadeOut = interpolate(frame, [totalFrames - f(1), totalFrames], [1, 0], CLAMP)
@@ -382,31 +408,14 @@ export const BookCardVisual: React.FC<Props> = ({
             pointerEvents: 'none',
           }} />
 
-          {/* 좌상단 작은 표지 + 제목/저자 — 상단 설명 바(Breadcrumb) 아래로 내림 */}
+          {/* 좌상단 표지 — 상단 설명 바(Breadcrumb) 아래로 내림 */}
           <div style={{
             position: 'absolute', top: 116, left: CINEM_PAD,
-            display: 'flex', gap: 18, alignItems: 'flex-start',
+            width: 200, aspectRatio: '2 / 3', borderRadius: 8, overflow: 'hidden',
+            boxShadow: '0 10px 32px rgba(0,0,0,0.65), 0 0 22px rgba(200,164,110,0.08)',
             opacity: posterOp, transform: `translateY(${posterY}px)`,
           }}>
-            <div style={{
-              width: 132, aspectRatio: '2 / 3', borderRadius: 8, overflow: 'hidden', flexShrink: 0,
-              boxShadow: '0 10px 32px rgba(0,0,0,0.65), 0 0 22px rgba(200,164,110,0.08)',
-            }}>
-              <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div style={{ maxWidth: 560, paddingTop: 6 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                <span style={{ fontSize: 24, fontWeight: 700, color: 'rgba(200,164,110,0.7)', fontFamily: FONT.cinzel, letterSpacing: 2 }}>
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: 34, fontWeight: 700, color: '#e8e0d0', fontFamily: FONT.serif, lineHeight: 1.2, textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
-                  {book.title}
-                </span>
-              </div>
-              <div style={{ fontSize: 22, color: '#c0b29a', fontFamily: FONT.sans, marginTop: 8, textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
-                {book.creator}
-              </div>
-            </div>
+            <Img src={safeImg(book.thumbnail_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
       )}

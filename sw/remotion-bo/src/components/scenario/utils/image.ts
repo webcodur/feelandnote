@@ -1,5 +1,5 @@
 import type { CinematicImage, ImageField } from '../types'
-import { bookKey } from './index'
+import { bookKey, bookFieldParts, partPhase } from './index'
 
 export function matchImagesToField(
   images: CinematicImage[] | undefined,
@@ -136,14 +136,22 @@ export function distributeContextImages(
  *  quote 이미지의 경우 text 앵커로 quotePairs 세부 위치(quote/after)까지 식별. */
 export function locateImageSectionKey(
   fileName: string,
-  books: Array<{ images?: CinematicImage[]; quotePairs?: Array<{ quote?: string; after?: string }> }>,
+  books: Array<{ images?: CinematicImage[]; summary?: string; summaryParts?: string[]; contextMain?: string; contextMainParts?: string[]; quotePairs?: Array<{ quote?: string; after?: string }> }>,
 ): string | null {
+  // 토막 분할 필드 — 앵커 텍스트가 들어 있는 토막 행 키 반환 (못 찾으면 첫 토막)
+  const partRowKey = (bi: number, letter: 'b' | 'c', suffix: 'summary' | 'context', full?: string, parts?: string[], text?: string) => {
+    if (text) {
+      const p = bookFieldParts(full, parts).findIndex(pt => pt.includes(text))
+      if (p > 0) return bookKey(bi, partPhase(letter, suffix, p))
+    }
+    return bookKey(bi, partPhase(letter, suffix, 0))
+  }
   for (let bi = 0; bi < books.length; bi++) {
     const book = books[bi]
     const img = (book.images ?? []).find(i => i.file === fileName)
     if (!img) continue
-    if (img.field === 'summary' || !img.field) return bookKey(bi, 'b-summary')
-    if (img.field === 'context') return bookKey(bi, 'c-context')
+    if (img.field === 'summary' || !img.field) return partRowKey(bi, 'b', 'summary', book.summary, book.summaryParts, img.text)
+    if (img.field === 'context') return partRowKey(bi, 'c', 'context', book.contextMain, book.contextMainParts, img.text)
     if (img.field === 'quote') {
       const pairs = book.quotePairs ?? []
       if (img.text) {

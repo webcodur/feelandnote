@@ -307,6 +307,23 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
 
       {expanded && (
         <div className="space-y-3 border-t border-border p-3">
+          {/* 세력별 전환효과 — 이 세력만 다른 카메라 워크. 미지정이면 에피소드 전역 설정을 따른다 */}
+          <div className="flex items-center gap-2">
+            <label className="w-20 shrink-0 text-xs text-text-dim">전환효과 -</label>
+            <select
+              value={group.transition ?? ''}
+              onChange={e => onChange({ ...group, transition: (e.target.value || undefined) as FactionGroup['transition'] })}
+              className="rounded-md border border-border bg-bg-card px-3 py-1.5 text-sm focus:border-accent focus:outline-none"
+            >
+              <option value="">에피소드 설정 따름</option>
+              <option value="auto">자동 (인물마다 번갈아)</option>
+              <option value="zoomout">줌 아웃</option>
+              <option value="zoomin">줌 인</option>
+              <option value="kenburns">켄번스 (확대+이동)</option>
+              <option value="slide">슬라이드</option>
+            </select>
+            <span className="text-xs text-text-dim">이 세력만 다른 카메라 워크</span>
+          </div>
           {/* 한 줄 설명 + 색 + 로고 */}
           <div className="flex flex-wrap items-center gap-2">
             {/* 슬로건 + 슬로건(영문) — 한 줄 나란히 */}

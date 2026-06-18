@@ -13,6 +13,7 @@ import {
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
   vnShort, vnTimingKey, COMMON_VOICE_FILES,
 } from '../../../src/compositions/BookRecommend/voice-names'
+import { bookFieldParts } from '../../../src/compositions/BookRecommend/field-parts'
 import { SHORTS_INDEX } from './cli.js'
 import { VOICE, type Role, type Voice } from './config.js'
 import { ep, commonFiles } from './state.js'
@@ -141,14 +142,21 @@ export function buildJobs(): Job[] {
         file: vnBookTitle(i), voice: VOICE.narrator, text: ttsText('title', i), role: 'narrator',
         ...speakerFields(bX.titleSpeaker as string | undefined),
       })
-      jobs.push({
-        file: vnBookSummary(i), voice: VOICE.summary, text: ttsText('summary', i), role: 'summary',
-        ...speakerFields(bX.summarySpeaker as string | undefined),
-      })
-      jobs.push({
-        file: vnBookContext(i), voice: VOICE.narrator, text: ttsText('contextMain', i), role: 'narrator',
-        ...speakerFields(bX.contextMainSpeaker as string | undefined),
-      })
+      // 핵심 요약·감상 배경 — 토막 분할 시 토막마다 별도 wav (화자·스타일은 전 토막 공유)
+      const summaryParts = bookFieldParts(b.summary, b.summaryParts)
+      for (let p = 0; p < summaryParts.length; p++) {
+        jobs.push({
+          file: vnBookSummary(i, p), voice: VOICE.summary, text: ttsText(`summary:${p}`, i), role: 'summary',
+          ...speakerFields(bX.summarySpeaker as string | undefined),
+        })
+      }
+      const contextParts = bookFieldParts(b.contextMain, b.contextMainParts)
+      for (let p = 0; p < contextParts.length; p++) {
+        jobs.push({
+          file: vnBookContext(i, p), voice: VOICE.narrator, text: ttsText(`contextMain:${p}`, i), role: 'narrator',
+          ...speakerFields(bX.contextMainSpeaker as string | undefined),
+        })
+      }
       for (let pi = 0; pi < (b.quotePairs?.length ?? 0); pi++) {
         const pair = b.quotePairs![pi]
         const pairX = pair as Record<string, unknown>
@@ -159,9 +167,11 @@ export function buildJobs(): Job[] {
             ...speakerFields(pairX.quoteSpeaker as string | undefined),
           })
         }
-        if (pair.after) {
+        // 후속 맥락 — 토막 분할 시 토막마다 별도 wav (화자·스타일은 전 토막 공유)
+        const afterParts = bookFieldParts(pair.after, pair.afterParts)
+        for (let ap = 0; ap < afterParts.length; ap++) {
           jobs.push({
-            file: vnBookAfter(i, pi), voice: VOICE.narrator, text: ttsText(`after:${pi}`, i), role: 'narrator',
+            file: vnBookAfter(i, pi, ap), voice: VOICE.narrator, text: ttsText(`after:${pi}:${ap}`, i), role: 'narrator',
             ...speakerFields(pairX.afterSpeaker as string | undefined),
           })
         }
