@@ -38,12 +38,12 @@ export const ENTER_NAME_SEC = 0.2
 export const ENTER_FADE_SEC = 0.35
 
 /* ── 직함 읽기 시간(직함 글자 수 비례) — 렌더(PersonCard)와 컷 길이 계산이 공유 ── */
-/** 직함 글자당 프레임 — 대사 읽기 속도(4.2)보다 살짝 빠르게(직함은 짧고 단순) */
-export const CREDIT_READ_FRAMES_PER_CHAR = 3.6
+/** 직함 글자당 프레임 — 리스트는 통으로 훑는 라벨이라 빠르게 넘긴다 */
+export const CREDIT_READ_FRAMES_PER_CHAR = 2.0
 /** 직함 최소 노출 시간(초) — 짧은 직함(예 'CEO')도 너무 휙 사라지지 않게 */
 export const CREDIT_READ_MIN_SEC = 0.8
-/** 직함 최대 노출 시간(초) — 아주 긴 직함도 과하게 머물지 않게 상한 */
-export const CREDIT_READ_MAX_SEC = 2.4
+/** 직함 최대 노출 시간(초) — 리스트가 길어도 과하게 머물지 않게 상한 */
+export const CREDIT_READ_MAX_SEC = 1.3
 /** 대사를 다 띄운 뒤 읽고 머무는 최소 여유(초) */
 export const PERSON_HOLD_SEC = 1.2
 
@@ -80,7 +80,12 @@ export const PERSON_MIN_SEC = ENTER_NAME_SEC + ENTER_FADE_SEC + CREDIT_READ_MIN_
  * 대사가 없으면 직함이 계속 보이므로 최소 길이만 보장한다.
  */
 export function personDurationSec(p: FactionPerson): number {
-  // 렌더(PersonCard)와 같은 대사 소스 — 덩어리가 있으면 그걸 잇고, 없으면 통째 quote
+  // 음성이 있으면(파이프라인이 기록한 quoteDuration) 글자 수 대신 그 음성 길이에 컷을 맞춘다.
+  if (p.quoteDuration && p.quoteDuration > 0) {
+    const total = personQuoteEnterSec(p) + ENTER_FADE_SEC + p.quoteDuration + PERSON_HOLD_SEC
+    return Math.max(PERSON_MIN_SEC, total)
+  }
+  // 음성이 없으면 대사 글자 수 비례(기존 폴백) — 덩어리가 있으면 그걸 잇고, 없으면 통째 quote
   const quote = p.quoteChunks?.length ? p.quoteChunks.join('\n') : (p.quote ?? '')
   if (!quote) return PERSON_MIN_SEC
   const readSec = (quote.length * READ_FRAMES_PER_CHAR) / FPS
@@ -125,16 +130,21 @@ export function buildCues(script: FactionScript, portrait = false): TimedCue[] {
     // solo(무소속 개인군)는 화보 없이 인물 컷만
     if (group.solo) {
       group.people.forEach((person, pi) => {
+        if (person.disabled) return
         push({ kind: 'person', groupIndex: gi, personIndex: pi }, personDurationSec(person))
       })
       return
     }
     const clusterCount = group.clusters?.length ?? 1
     for (let ci = 0; ci < clusterCount; ci++) {
-      const people = group.clusters?.length ? group.clusters[ci].people : group.people
+      const cluster = group.clusters?.length ? group.clusters[ci] : undefined
+      // 세로 쇼츠는 롱폼 전용 묶음을 건너뛴다(쇼츠 길이 대응). 가로 롱폼에는 그대로 노출.
+      if (portrait && cluster?.longformOnly) continue
+      const people = cluster ? cluster.people : group.people
       // 화보 카드 — 묶음마다 진입(브릿지) 컷. 1명 묶음도 단독 화보로 진입한다.
       push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, CLUSTER_SEC)
       people.forEach((person, pi) => {
+        if (person.disabled) return
         push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci }, personDurationSec(person))
       })
     }

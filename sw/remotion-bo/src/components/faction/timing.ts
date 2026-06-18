@@ -24,10 +24,9 @@ function personDurationSec(p: FactionPerson): number {
 
 /** 한 세력의 인물 목록 (clusters가 있으면 묶음별 합산) */
 function groupPeople(g: FactionScript['groups'][number]): FactionPerson[] {
-  if (g.clusters?.length) {
-    return g.clusters.flatMap(c => c.people ?? [])
-  }
-  return g.people ?? []
+  const list = g.clusters?.length ? g.clusters.flatMap(c => c.people ?? []) : (g.people ?? [])
+  // 영상에서 제외된 인물은 길이·카운트 계산에서 뺀다 (렌더와 일치)
+  return list.filter(p => !p.disabled)
 }
 
 /** 한 세력의 인물 수 */

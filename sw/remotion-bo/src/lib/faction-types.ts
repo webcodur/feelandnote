@@ -36,6 +36,16 @@ export interface FactionPerson {
   image?: string
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
+  /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
+  disabled?: boolean
+  /** 대사 음성 길이(초). 파이프라인이 TTS 생성 후 기록한다. 있으면 인물 컷 길이를 이 음성에 맞춘다 */
+  quoteDuration?: number
+  /** 대사 음성 음량 dB 게인 (기본 0) */
+  quoteGainDb?: number
+  /** 대사 음성 재생 배속 (기본 1, 0.5~2) */
+  quotePlaybackRate?: number
+  /** 대사 음성 화자 ID (선택) — 인물별 목소리 지정용. 미지정이면 공용 기본 목소리 */
+  quoteSpeaker?: string
 }
 
 /**
@@ -55,6 +65,8 @@ export interface FactionCluster {
   image?: string
   /** 이 묶음 인물 (등장 순서) */
   people: FactionPerson[]
+  /** true면 이 묶음만 세로 쇼츠에서 제외하고 가로 롱폼에는 노출한다 (세력은 그대로, 묶음 단위 분기) */
+  longformOnly?: boolean
 }
 
 export interface FactionGroup {
@@ -86,23 +98,40 @@ export interface FactionGroup {
   clusters?: FactionCluster[]
   /** 소속 인물 (clusters가 없을 때 사용) */
   people: FactionPerson[]
+  /** 이 세력 구간 배경음악(public/music/ basename). 세력 진입 시 이전 곡 페이드아웃 후 교체(구간 반복 재생). 미지정이면 직전 곡 유지 */
+  music?: string
   /** true면 세로 쇼츠에서만 제외하고 가로 롱폼에는 노출한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
   /** true면 이 세력을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
   disabled?: boolean
 }
 
+/** 배경음악 트랙 한 곡 — 복수 곡 순차 재생(롱폼 길이 충당)용 */
+export interface FactionTrack {
+  /** public/music/ 하위 파일 basename */
+  file: string
+  /** 곡 길이(초). 순차 배치·순환 계산용. 음악 선택 시 자동 측정해 저장 */
+  durationSec?: number
+}
+
+/** 인물 컷 전환효과(세로 쇼츠 사진 모션). auto=인물마다 번갈아 */
+export type FactionTransition = 'zoomout' | 'zoomin' | 'kenburns' | 'slide' | 'auto'
+
 export interface FactionScript {
   /** 에피소드 제목 */
   title: string
+  /** 인물 컷 전환효과(세로 쇼츠). 미지정이면 zoomout */
+  transition?: FactionTransition
   /** 제목 영문 */
   titleEn?: string
   /** 부제 */
   subtitle?: string
   /** 부제 영문 */
   subtitleEn?: string
-  /** 배경음악 basename (public/music/ 하위) — 언어 공통 */
+  /** 배경음악 basename (public/music/ 하위) — 언어 공통. tracks가 있으면 무시 */
   music?: string
+  /** 배경음악 복수 곡 — 순서대로 이어 재생, 영상이 더 길면 순환. 롱폼 길이 충당용 — 언어 공통 */
+  tracks?: FactionTrack[]
   /** 인트로에 띄울 핵심 인물 slug 목록. 있으면 텍스트 대신 인물 그리드로 시작 — 언어 공통 */
   heroes?: string[]
   /** 마무리 화면 큰 제목 (한 편의 매듭). 없으면 title 사용 */
@@ -113,6 +142,8 @@ export interface FactionScript {
   outroNote?: string
   /** 마무리 화면 한 줄 안내 영문 */
   outroNoteEn?: string
+  /** 마무리(아웃트로) 엔딩 이미지 (선택) — 한 장 풀스크린 배경. 언어 공통 */
+  outroImage?: string
   /** 세력 목록 (등장 순서) */
   groups: FactionGroup[]
 }

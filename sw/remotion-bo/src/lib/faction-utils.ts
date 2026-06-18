@@ -212,6 +212,55 @@ export function factionImageAbsPath(name: string, filename: string): string {
   return path.join(imagesDir(name), safeFilename(filename))
 }
 
+/* ── 음성 (인물 대사 TTS) ── */
+
+/** 에피소드 음성 디렉토리 — public/factions/{name}/voice/ */
+export function factionVoiceDir(name: string): string {
+  return path.join(FACTIONS_DIR, safeFilename(name), 'voice')
+}
+
+/** 음성 파일 절대경로 — basename으로 경로 이탈 차단 */
+export function factionVoiceFilePath(name: string, file: string): string {
+  return path.join(factionVoiceDir(name), safeFilename(file))
+}
+
+const WAV_RE = /\.wav$/i
+
+export interface FactionVoiceFile {
+  /** 파일명 (예 F01P01-quote.wav) */
+  file: string
+  /** 파일 크기(바이트) */
+  size: number
+  /** 음성 길이(초) — WAV 헤더 byteRate 기반 */
+  duration: number
+}
+
+/** WAV 헤더(byteRate)로 길이(초) 계산. 실패 시 0 */
+function wavDurationSec(buf: Buffer): number {
+  if (buf.length < 44 || buf.slice(0, 4).toString('ascii') !== 'RIFF') return 0
+  const byteRate = buf.readUInt32LE(28)
+  if (byteRate <= 0) return 0
+  return +((buf.length - 44) / byteRate).toFixed(2)
+}
+
+/** 에피소드 voice/ 디렉토리의 인물 대사 wav 목록 (이름·크기·길이) */
+export async function listFactionVoices(name: string): Promise<FactionVoiceFile[]> {
+  const dir = factionVoiceDir(name)
+  let entries
+  try { entries = await readdir(dir, { withFileTypes: true }) }
+  catch { return [] }
+  const out: FactionVoiceFile[] = []
+  for (const e of entries) {
+    if (!e.isFile() || !WAV_RE.test(e.name)) continue
+    try {
+      const buf = await readFile(path.join(dir, e.name))
+      out.push({ file: e.name, size: buf.length, duration: wavDurationSec(buf) })
+    } catch { /* 손상 파일 건너뜀 */ }
+  }
+  out.sort((a, b) => a.file.localeCompare(b.file))
+  return out
+}
+
 /* ── 음악 ── */
 
 export async function listMusic(): Promise<string[]> {

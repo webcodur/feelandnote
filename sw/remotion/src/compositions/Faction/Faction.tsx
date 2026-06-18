@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react'
 import {
-  AbsoluteFill, Audio, Img,
+  AbsoluteFill, Img, Sequence, Audio,
   interpolate, useCurrentFrame, staticFile, Easing,
 } from 'remotion'
-import type { FactionScript, FactionGroup, FactionPerson, FactionCluster } from './types'
+import type { FactionScript, FactionGroup, FactionPerson, FactionCluster, FactionTransition } from './types'
 import { buildCues, CROSSFADE_SEC, CLUSTER_SEC, GROUP_SEC, INTRO_SEC, OUTRO_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, personCreditOutSec, personQuoteEnterSec, f, type TimedCue } from './timing'
+import { FactionBgm } from './FactionBgm'
+import { vnPersonQuote, voiceRelPath, dbToLinear, clampRate } from './voice-names'
 
 const FONT = "'Pretendard Variable', 'Pretendard', sans-serif"
 const BG = '#0a0a0f'
@@ -19,6 +21,11 @@ const QUOTE_COLOR = '#ffd24a'
 const QUOTE_PALETTE = ['#ffd24a', '#f2a93e', '#d98a35', '#bd6b2e']
 /** 상단 고정 빈 영역(블랙 프레임) 높이 — 북리커맨드 쇼츠 HEADER_H와 통일. 본문 컷은 이 아래에만 그린다 */
 const HEADER_H = 320
+
+/* ── 시작(인트로)·끝(아웃트로) 제목 공통 규격 — 시작과 끝이 같은 자리·같은 크기로 떠 수미상관처럼 이어지게 ── */
+const CAP_PAD = '0 70px'
+const CAP_TITLE: React.CSSProperties = { color: FG, fontFamily: FONT, fontSize: 90, fontWeight: 800, letterSpacing: 2, textAlign: 'center', lineHeight: 1.18, textShadow: '0 3px 18px rgba(0,0,0,0.85)' }
+const CAP_SUB: React.CSSProperties = { color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 46, fontWeight: 600, letterSpacing: 6, textAlign: 'center', lineHeight: 1.3, textShadow: '0 2px 12px rgba(0,0,0,0.85)' }
 
 /** 영상 방향 — 'portrait'(세로 9:16 쇼츠, 기존)·'landscape'(가로 16:9 롱폼) */
 export type Orientation = 'portrait' | 'landscape'
@@ -36,6 +43,12 @@ const PERSON_ZOOM_START = 1.1
 const PANEL_SLIDE_X = 520
 /** 세로 쇼츠 대사 박스 슬라이드 인 길이(초) */
 const PANEL_SLIDE_SEC = 0.4
+
+/** auto 전환에서 인물마다 번갈아 적용할 효과 순환 목록 */
+const TRANSITION_CYCLE: Exclude<FactionTransition, 'auto'>[] = ['zoomin', 'kenburns', 'slide', 'zoomout']
+/** 전환 설정 해석 — auto면 인물 순번으로 순환, 미지정이면 zoomout */
+const resolveTransition = (t: FactionTransition | undefined, idx: number): Exclude<FactionTransition, 'auto'> =>
+  t === 'auto' ? TRANSITION_CYCLE[idx % TRANSITION_CYCLE.length] : (t ?? 'zoomout')
 
 /**
  * 인물·로고·화보 이미지 경로.
@@ -68,7 +81,7 @@ const findPerson = (script: FactionScript, slug: string): FactionPerson | null =
   for (const g of script.groups) {
     if (g.disabled) continue
     const list = g.clusters?.length ? g.clusters.flatMap(c => c.people) : g.people
-    const p = list.find(x => x.slug === slug)
+    const p = list.find(x => x.slug === slug && !x.disabled)
     if (p) return p
   }
   return null
@@ -118,11 +131,9 @@ const IntroCard: React.FC<{ script: FactionScript; episodeName: string; orientat
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}cc 0%, transparent 22%, transparent 78%, ${BG}f5 100%)` }} />
       {/* 중앙 텍스트 가독성용 옅은 어둠 */}
       <AbsoluteFill style={{ background: `radial-gradient(ellipse 95% 34% at 50% 50%, ${BG}b3 0%, transparent 72%)` }} />
-      <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', padding: '0 60px' }}>
-        {script.subtitle && (
-          <div style={{ color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 48, fontWeight: 600, letterSpacing: 8, textShadow: '0 2px 12px rgba(0,0,0,0.9)' }}>{script.subtitle}</div>
-        )}
-        <div style={{ marginTop: 14, color: FG, fontFamily: FONT, fontSize: 92, fontWeight: 800, letterSpacing: 2, textAlign: 'center', lineHeight: 1.15, textShadow: '0 3px 18px rgba(0,0,0,0.9)' }}>{script.title}</div>
+      <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 22, padding: CAP_PAD }}>
+        <div style={CAP_TITLE}>{script.title}</div>
+        {script.subtitle && <div style={CAP_SUB}>{script.subtitle}</div>}
       </AbsoluteFill>
     </AbsoluteFill>
   )
@@ -176,6 +187,24 @@ const CardCaption: React.FC<{ accent: string; topLabel?: string; name: string; o
   )
 }
 
+/**
+ * 비율 유지(contain) 이미지 + 레터박스 여백 채움.
+ * 같은 이미지를 화면 가득(cover) 깔고 강하게 흐려 가장자리 색으로 번지게 한 뒤, 그 위에 본 이미지를 비율 유지로 얹는다.
+ * 로고·그룹샷처럼 가로세로비가 화면과 다른 이미지의 좌우·상하 검정 여백을 없앤다.
+ */
+const FilledImage: React.FC<{ src: string; objPos: string; scale: number; onError: () => void }> = ({ src, objPos, scale, onError }) => (
+  <AbsoluteFill style={{ overflow: 'hidden' }}>
+    {/* 배경 레이어 — 같은 이미지를 꽉 채워 흐리게(여백을 가장자리 색으로 채움) */}
+    <AbsoluteFill>
+      <Img src={src} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(60px) brightness(0.7)', transform: 'scale(1.15)' }} />
+    </AbsoluteFill>
+    {/* 본 이미지 레이어 — 비율 유지, 블러 없음 */}
+    <AbsoluteFill>
+      <Img src={src} onError={onError} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale})` }} />
+    </AbsoluteFill>
+  </AbsoluteFill>
+)
+
 const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; frame: number; cueStart: number; orientation: Orientation }> = ({ episodeName, group, frame, cueStart, orientation }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [artErr, setArtErr] = React.useState(false)
@@ -186,10 +215,8 @@ const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; frame: num
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       {group.titleArt && !artErr ? (
-        // 로고 컨셉아트 — 그룹샷과 동일하게 좌우 안 잘리게(contain) 상단 정렬
-        <AbsoluteFill style={{ overflow: 'hidden' }}>
-          <Img src={imgSrc(episodeName, group.titleArt)} onError={() => setArtErr(true)} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale})` }} />
-        </AbsoluteFill>
+        // 로고 컨셉아트 — 비율 유지(contain), 좌우 여백은 같은 이미지 블러로 채움
+        <FilledImage src={imgSrc(episodeName, group.titleArt)} objPos={objPos} scale={scale} onError={() => setArtErr(true)} />
       ) : group.logo ? (
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse 70% 45% at 50% 40%, ${accent}33 0%, transparent 70%)` }}>
           <Img src={imgSrc(episodeName, group.logo)} style={{ width: 320, height: 320, objectFit: 'contain' }} />
@@ -218,9 +245,7 @@ const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; cluster:
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       {cluster.image && !imgErr ? (
-        <AbsoluteFill style={{ overflow: 'hidden' }}>
-          <Img src={imgSrc(episodeName, cluster.image)} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale})` }} />
-        </AbsoluteFill>
+        <FilledImage src={imgSrc(episodeName, cluster.image)} objPos={objPos} scale={scale} onError={() => setImgErr(true)} />
       ) : (
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)` }}>
           <span style={{ color: `${accent}cc`, fontFamily: FONT, fontSize: 72, fontWeight: 700, letterSpacing: 6 }}>TEAM SHOT</span>
@@ -246,51 +271,105 @@ const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; cluster:
  * 색은 span(구절) 단위로만 바뀌어 글자별 깜빡임이 없다. 전체 페이드인은 부모 div에서 처리한다.
  */
 const QuotePhrases: React.FC<{ chunks: string[] }> = ({ chunks }) => {
-  // 각 덩어리를 구두점 직후에서 한 번 더 쪼개고(구두점은 앞 구절에 붙임), 평탄화. 덩어리 경계도 구절 경계가 된다.
-  const phrases = chunks
+  // 덩어리를 구두점 기준으로 다듬어 한 흐름으로 잇는다(구두점은 앞 구절에 붙임).
+  // 색은 구간별로 끊지 않고 텍스트 전체에 연속 그라데이션(노랑→갈색)을 입힌다(정지).
+  const text = chunks
     .flatMap(c => c.split(/(?<=[.,。，])/))
     .map(p => p.trim())
     .filter(p => p.length > 0)
+    .join(' ')
   return (
-    <>
-      {phrases.map((p, i) => (
-        <span key={i} style={{ color: QUOTE_PALETTE[i % QUOTE_PALETTE.length] }}>{i > 0 ? ' ' : ''}{p}</span>
-      ))}
-    </>
+    <span
+      style={{
+        backgroundImage: `linear-gradient(95deg, ${QUOTE_PALETTE.join(', ')})`,
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+      }}
+    >
+      {text}
+    </span>
   )
 }
 
-const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; orientation: Orientation }> = ({ episodeName, group, person, frame, cueStart, orientation }) => {
+// 인물 직함·이력 — 한 항목 = 한 줄. 여러 줄이면 세력 색 점 마커를 붙여 세로 리스트로 보인다(단일 줄은 마커 없이).
+const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number }> = ({ items, accent, fontSize }) => {
+  const isList = items.length > 1
+  const dot = Math.round(fontSize * 0.24)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: isList ? 14 : 0 }}>
+      {items.map((t, i) => (
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: dot }}>
+          {isList ? <span style={{ flexShrink: 0, width: dot, height: dot, borderRadius: '50%', background: accent }} /> : null}
+          <span style={{ color: '#a8a8b0', fontFamily: FONT, fontSize, fontWeight: 600, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left' }}>{t}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; transition?: FactionTransition }> = ({ episodeName, group, person, frame, cueStart, orientation, groupIndex, personIndex, clusterIndex, transition }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const lines = person.lines ?? []
-  // 인물 수식어 한 줄(설명 여러 줄은 가운뎃점으로 합친다)
-  const credit = lines.length ? lines.join(' · ') : (person.epithet ?? '')
+  // 직함·이력 — 한 항목 = 한 줄(여러 줄이면 리스트로 쌓는다). epithet은 legacy 단일 줄.
+  const creditItems = lines.length ? lines : (person.epithet ? [person.epithet] : [])
+  const hasCredit = creditItems.length > 0
   const local = frame - cueStart
+  // 롱폼은 사진을 기다리지 않고 텍스트가 컷과 거의 동시에 바로 등장 — 등장 타이밍을 ENTER_NAME_SEC만큼 앞당긴다(세로 쇼츠는 기존 그대로)
+  const lt = orientation === 'landscape' ? local + f(ENTER_NAME_SEC) : local
   // 대사 소스 — 덩어리(quoteChunks)가 있으면 그 배열을, 없으면 통째 quote를 단일 덩어리로.
   // 덩어리 경계는 줄바꿈이 아니라 색 전환점으로만 쓴다(화면에선 한 흐름으로 이어짐).
   const quoteChunks = person.quoteChunks?.length ? person.quoteChunks : (person.quote ? [person.quote] : [])
   const hasQuote = quoteChunks.length > 0
 
-  // ── 등장 시퀀스: 줌아웃 정지 → 박스+이름+직함 함께 등장 → 직함 사라지고 같은 자리에 대사 ──
-  // 도입 줌아웃 — 시작 시 살짝 크게(1.1) 잡았다가 빠르게 제자리(1.0)로 줄어든 뒤 정지
-  const kenScale = interpolate(local, [0, f(PERSON_ZOOM_OUT_SEC)], [PERSON_ZOOM_START, 1.0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  // ── 인물 사진 전환효과(세로 쇼츠 전용) — 전역 설정 또는 auto 순환. 가로 롱폼은 줌 없이 고정 ──
+  const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
+  const tk = resolveTransition(transition, personIndex)
+  const fxTransform = (() => {
+    if (orientation === 'landscape') return 'scale(1)'
+    if (tk === 'slide') {
+      const x = interpolate(local, [0, f(0.45)], [105, 0], { ...clamp, easing: Easing.out(Easing.cubic) })
+      return `translateX(${x}%)`
+    }
+    if (tk === 'zoomin') {
+      return `scale(${interpolate(local, [0, f(6)], [1.0, 1.09], clamp)})`
+    }
+    if (tk === 'kenburns') {
+      const s = interpolate(local, [0, f(6)], [1.03, 1.1], clamp)
+      const y = interpolate(local, [0, f(6)], [1.6, -1.6], clamp)
+      return `scale(${s}) translateY(${y}%)`
+    }
+    // zoomout (기본): 살짝 크게 잡았다 제자리로
+    return `scale(${interpolate(local, [0, f(PERSON_ZOOM_OUT_SEC)], [PERSON_ZOOM_START, 1.0], clamp)})`
+  })()
   // 1) 박스 + 이름 + 직함 함께 페이드인. 세로는 박스째 왼쪽에서 슬라이드 인(가로는 슬라이드 없이 페이드만)
-  const nameOp = interpolate(local, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const nameOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 세로 박스 슬라이드 — 왼쪽 밖(-PANEL_SLIDE_X)에서 제자리(0)로. 슬라이드와 페이드를 같은 구간에 묶는다
-  const panelSlideX = interpolate(local, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + PANEL_SLIDE_SEC)], [-PANEL_SLIDE_X, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
-  const panelOp = interpolate(local, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const panelSlideX = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + PANEL_SLIDE_SEC)], [-PANEL_SLIDE_X, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
+  const panelOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 2) 직함 — 이름과 같은 시점에 함께 페이드인 후, 글자 수 비례 시간(timing.ts 공유 공식) 보이다 페이드아웃.
   // 대사가 있으면 직함이 먼저 완전히 사라지고, 그 뒤 대사가 등장(순차). 직함 길이에 따라 대사 등장 시점이 동적으로 움직인다.
   const creditOutSec = personCreditOutSec(person)
   const quoteEnterSec = personQuoteEnterSec(person)
-  const creditIn = interpolate(local, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const creditIn = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   const creditOut = hasQuote
-    ? interpolate(local, [f(creditOutSec), f(creditOutSec + ENTER_FADE_SEC)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+    ? interpolate(lt, [f(creditOutSec), f(creditOutSec + ENTER_FADE_SEC)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
     : 1
   const creditOp = creditIn * creditOut
   // 3) 직함이 사라진 뒤 같은 자리에 대사 페이드인(겹치지 않음)
-  const quoteOp = interpolate(local, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const quoteOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+
+  // 대사 음성 — quoteDuration이 있으면(파이프라인 생성·기록 후) 대사 등장 시점에 맞춰 재생. 없으면 무음.
+  const audioEl = person.quoteDuration && person.quoteDuration > 0 ? (
+    <Sequence from={f(quoteEnterSec)} durationInFrames={f(person.quoteDuration)}>
+      <Audio
+        src={staticFile(voiceRelPath(episodeName, vnPersonQuote(groupIndex, personIndex, clusterIndex)))}
+        volume={dbToLinear(person.quoteGainDb)}
+        playbackRate={clampRate(person.quotePlaybackRate)}
+      />
+    </Sequence>
+  ) : null
 
   // 이미지 또는 이니셜 플레이스홀더(세로·가로 공용)
   const photo = person.image && !imgErr ? (
@@ -305,9 +384,10 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
   if (orientation === 'landscape') {
     return (
       <AbsoluteFill style={{ backgroundColor: BG, flexDirection: 'row' }}>
+        {audioEl}
         {/* 좌: 인물 사진 — 켄번스 줌(컷 동안 천천히 확대) */}
         <div style={{ width: L_PHOTO_W, height: '100%', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
-          <AbsoluteFill style={{ transform: `scale(${kenScale})` }}>{photo}</AbsoluteFill>
+          <AbsoluteFill style={{ transform: fxTransform }}>{photo}</AbsoluteFill>
           {/* 사진→텍스트 경계 부드럽게 */}
           <AbsoluteFill style={{ background: `linear-gradient(to right, transparent 70%, ${BG} 100%)` }} />
         </div>
@@ -316,13 +396,15 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0` }}>
           {/* 이름 — 박스+이름 함께 페이드인 후 계속 유지 */}
           <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
-          {/* 직함·대사 공유 슬롯 — 대사를 정상 흐름으로 두고 직함을 그 위에 겹쳐 opacity로 교차(레이아웃 안 밀림) */}
-          <div style={{ position: 'relative' }}>
+          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(리스트 여러 줄도 수용) */}
+          <div style={{ display: 'grid', alignItems: 'start' }}>
             {hasQuote ? (
-              <div style={{ color: QUOTE_COLOR, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.3, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
+              <div style={{ gridArea: '1 / 1', color: QUOTE_COLOR, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.3, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
             ) : null}
-            {credit ? (
-              <div style={{ position: hasQuote ? 'absolute' : 'static', top: 0, left: 0, right: 0, color: accent, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.3, textAlign: 'left', opacity: creditOp }}>{credit}</div>
+            {hasCredit ? (
+              <div style={{ gridArea: '1 / 1', opacity: creditOp }}>
+                <CreditLines items={creditItems} accent={accent} fontSize={creditItems.length > 1 ? 58 : 64} />
+              </div>
             ) : null}
           </div>
           {/* 영문 원문 보조 — 가로 롱폼에서만 표기(세로 쇼츠는 숨김), 대사와 함께 페이드인 */}
@@ -337,8 +419,9 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
   // ── 세로 쇼츠(기존): 풀스크린 사진 + 좌측 하단 텍스트 ──
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
+      {audioEl}
       {/* 인물 사진 — 켄번스 줌(컷 동안 천천히 확대) */}
-      <AbsoluteFill style={{ overflow: 'hidden', transform: `scale(${kenScale})` }}>{photo}</AbsoluteFill>
+      <AbsoluteFill style={{ overflow: 'hidden', transform: fxTransform }}>{photo}</AbsoluteFill>
       {/* 상단 살짝 어둡게 — 상단 헤더 영역 가독 */}
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 20%)` }} />
       {/* 텍스트 — 좌측, 이름 위치를 고정(상단 기준)하고 대사는 아래로만 확장. 인물마다 위아래로 흔들리지 않게 */}
@@ -354,13 +437,15 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
         }}>
           {/* 이름 — 박스에 실려 함께 들어온 뒤 계속 유지 */}
           <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 72, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left' }}>{person.name}</div>
-          {/* 직함·대사 공유 슬롯 — 대사를 정상 흐름으로 두고 직함을 그 위에 겹쳐 opacity로 교차(레이아웃 안 밀림) */}
-          <div style={{ position: 'relative', alignSelf: 'stretch' }}>
+          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(리스트 여러 줄도 수용) */}
+          <div style={{ display: 'grid', alignItems: 'start', alignSelf: 'stretch' }}>
             {hasQuote ? (
-              <div style={{ color: QUOTE_COLOR, fontFamily: FONT, fontSize: 58, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
+              <div style={{ gridArea: '1 / 1', color: QUOTE_COLOR, fontFamily: FONT, fontSize: 58, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
             ) : null}
-            {credit ? (
-              <div style={{ position: hasQuote ? 'absolute' : 'static', top: 0, left: 0, right: 0, color: accent, fontFamily: FONT, fontSize: 58, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left', opacity: creditOp }}>{credit}</div>
+            {hasCredit ? (
+              <div style={{ gridArea: '1 / 1', opacity: creditOp }}>
+                <CreditLines items={creditItems} accent={accent} fontSize={creditItems.length > 1 ? 54 : 58} />
+              </div>
             ) : null}
           </div>
           {/* 원문 보조 표기는 세로 쇼츠에서 띄우지 않는다(가로 롱폼 전용) */}
@@ -371,18 +456,23 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
 }
 
 /** 마무리(아웃트로) — 한 편의 매듭. 이번 편 제목·회차 안내만 중앙에 정적으로 표시. */
-const OutroCard: React.FC<{ script: FactionScript }> = ({ script }) => {
+const OutroCard: React.FC<{ script: FactionScript; episodeName: string }> = ({ script, episodeName }) => {
   const title = script.outroTitle ?? script.title
+  const [imgErr, setImgErr] = React.useState(false)
+  const hasImage = !!script.outroImage && !imgErr
   return (
-    <AbsoluteFill style={{ backgroundColor: BG, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '0 80px', gap: 28 }}>
-      <div style={{ color: FG, fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 2, textAlign: 'center', lineHeight: 1.18, textShadow: '0 3px 18px rgba(0,0,0,0.7)' }}>
-        {title}
-      </div>
-      {script.outroNote && (
-        <div style={{ color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 46, fontWeight: 600, letterSpacing: 4, textAlign: 'center', lineHeight: 1.3 }}>
-          {script.outroNote}
-        </div>
+    <AbsoluteFill style={{ backgroundColor: BG }}>
+      {/* 엔딩 이미지(있으면) 풀스크린 배경 + 제목 가독용 그라데이션 */}
+      {hasImage && (
+        <AbsoluteFill style={{ overflow: 'hidden' }}>
+          <Img src={imgSrc(episodeName, script.outroImage!)} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}99 0%, transparent 28%, transparent 58%, ${BG}e6 100%)` }} />
+        </AbsoluteFill>
       )}
+      <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 22, padding: CAP_PAD }}>
+        <div style={CAP_TITLE}>{title}</div>
+        {script.outroNote && <div style={CAP_SUB}>{script.outroNote}</div>}
+      </AbsoluteFill>
     </AbsoluteFill>
   )
 }
@@ -413,8 +503,8 @@ const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: str
     const person = cue.clusterIndex != null
       ? clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
       : g.people[cue.personIndex]
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} orientation={orientation} />
-  } else if (cue.kind === 'outro') content = <OutroCard script={script} />
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} transition={script.transition} />
+  } else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} />
 
   // 세로: 본문 컷(세력·화보·인물)은 상단 빈 영역 아래에만 그린다(인트로·아웃트로는 풀스크린).
   // 가로: 상단 띠가 없으므로 모든 컷이 풀스크린.
@@ -447,7 +537,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
   const showHeader = orientation === 'portrait' && headerOp > 0
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
-      {script.music && <Audio src={staticFile(`music/${script.music}`)} />}
+      <FactionBgm script={script} total={total} portrait={orientation === 'portrait'} />
       {cues.map((tc, i) => (
         <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} />
       ))}

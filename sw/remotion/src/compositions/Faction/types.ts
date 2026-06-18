@@ -42,6 +42,16 @@ export interface FactionPerson {
   image?: string
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
+  /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
+  disabled?: boolean
+  /** 대사 음성 길이(초). 파이프라인이 TTS 생성 후 기록한다. 있으면 인물 컷 길이를 이 음성에 맞춘다 */
+  quoteDuration?: number
+  /** 대사 음성 음량 dB 게인 (기본 0) */
+  quoteGainDb?: number
+  /** 대사 음성 재생 배속 (기본 1, 0.5~2) */
+  quotePlaybackRate?: number
+  /** 대사 음성 화자 ID (선택) — 인물별 목소리 지정용. 미지정이면 공용 기본 목소리 */
+  quoteSpeaker?: string
 }
 
 /**
@@ -61,6 +71,8 @@ export interface FactionCluster {
   image?: string
   /** 이 묶음 인물 목록 */
   people: FactionPerson[]
+  /** true면 이 묶음만 세로 쇼츠에서 제외하고 가로 롱폼에는 노출한다 (세력은 그대로, 묶음 단위 분기) */
+  longformOnly?: boolean
 }
 
 /** 세력(팀/기업) 하나 */
@@ -94,27 +106,58 @@ export interface FactionGroup {
   clusters?: FactionCluster[]
   /** 소속 인물 목록 (clusters가 없을 때 사용) */
   people: FactionPerson[]
+  /**
+   * 이 세력 구간 배경음악 (public/music/ basename).
+   * 세력 진입 시 이전 곡을 페이드아웃하고 이 곡으로 교체한다(구간 동안 반복 재생).
+   * 미지정이면 직전 세력의 곡을 그대로 이어간다 — 언어 공통.
+   */
+  music?: string
   /** true면 세로 쇼츠에서만 제외하고 가로 롱폼에는 노출한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
   /** true면 이 세력을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
   disabled?: boolean
 }
 
+/** 배경음악 트랙 한 곡 — 복수 곡 순차 재생(롱폼 길이 충당)용 */
+export interface FactionTrack {
+  /** public/music/ 하위 파일 basename (예: 'drive.mp3') */
+  file: string
+  /** 곡 길이(초). 순차 배치·순환 계산에 쓴다. BO에서 음악 선택 시 자동 측정해 저장 */
+  durationSec?: number
+}
+
 /**
  * 에피소드 한 편 (data.json).
  * 한국어 필드 + 영문 필드(*En)를 함께 담는다. 로더가 언어별로 펼쳐 ko/en 두 영상의 소스가 된다.
  */
+/**
+ * 인물 컷 전환효과(세로 쇼츠 사진 모션).
+ * - zoomout: 살짝 크게 잡았다 제자리로(기본)
+ * - zoomin: 컷 내내 천천히 확대
+ * - kenburns: 확대하며 위로 천천히 이동(다큐 느낌)
+ * - slide: 옆에서 밀고 들어옴
+ * - auto: 인물마다 위 효과를 번갈아 적용(지루함 방지)
+ */
+export type FactionTransition = 'zoomout' | 'zoomin' | 'kenburns' | 'slide' | 'auto'
+
 export interface FactionScript {
   /** 에피소드 제목 (예: 'AI를 만드는 사람들') */
   title: string
+  /** 인물 컷 전환효과(세로 쇼츠). 미지정이면 zoomout — 언어 공통 */
+  transition?: FactionTransition
   /** 제목 영문 */
   titleEn?: string
   /** 부제 (예: '1편 · LLM') */
   subtitle?: string
   /** 부제 영문 */
   subtitleEn?: string
-  /** 배경음악 파일 basename. public/music/ 하위 파일명 (예: 'drive.mp3'). 없으면 무음 — 언어 공통 */
+  /** 배경음악 파일 basename. public/music/ 하위 파일명 (예: 'drive.mp3'). 없으면 무음 — 언어 공통. tracks가 있으면 무시 */
   music?: string
+  /**
+   * 배경음악 복수 곡 — 순서대로 이어 재생하고, 영상이 더 길면 처음부터 순환해 끝까지 채운다.
+   * 롱폼이 길어 한 곡으로 부족할 때 쓴다. 있으면 music 대신 이걸 쓴다 — 언어 공통.
+   */
+  tracks?: FactionTrack[]
   /** 인트로에 띄울 핵심 인물 slug 목록. 있으면 텍스트 대신 인물 그리드로 시작한다 — 언어 공통 */
   heroes?: string[]
   /** 마무리 화면 큰 제목 (한 편의 매듭). 없으면 title 사용 (예: 'AI를 만드는 사람들') */
@@ -125,6 +168,8 @@ export interface FactionScript {
   outroNote?: string
   /** 마무리 화면 한 줄 안내 영문 */
   outroNoteEn?: string
+  /** 마무리(아웃트로) 엔딩 이미지 (선택) — 한 장 풀스크린 배경, 그 위에 제목. basename·폴더경로·URL — 언어 공통 */
+  outroImage?: string
   /** 세력 목록 (등장 순서) */
   groups: FactionGroup[]
 }

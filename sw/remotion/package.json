@@ -10,6 +10,7 @@
     "studio": "remotion studio",
     "voice:pronounce": "tsx scripts/voice/1-pronounce.ts",
     "voice:tts": "tsx scripts/voice/2-synthesize.ts",
+    "voice:faction": "tsx scripts/voice/faction-tts.ts",
     "voice:transcribe": "python scripts/voice/3-transcribe.py",
     "voice:align": "tsx scripts/voice/4-align.ts",
     "voice:chunk": "tsx scripts/voice/5-chunk.ts",

@@ -29,6 +29,15 @@ export function ChevronDown(p: IconProps) {
   return <Svg {...p}><path d="m6 9 6 6 6-6" /></Svg>
 }
 
+// 접기/펼치기 전용 — 이동 버튼(단일 꺾쇠)과 구분되는 이중 꺾쇠
+export function ChevronsUpDown(p: IconProps) {
+  return <Svg {...p}><path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" /></Svg>
+}
+
+export function ChevronsDownUp(p: IconProps) {
+  return <Svg {...p}><path d="m7 20 5-5 5 5" /><path d="m7 4 5 5 5-5" /></Svg>
+}
+
 export function Trash2(p: IconProps) {
   return (
     <Svg {...p}>
@@ -122,6 +131,37 @@ export function FolderOpen(p: IconProps) {
   return (
     <Svg {...p}>
       <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
+    </Svg>
+  )
+}
+
+export function Play(p: IconProps) {
+  return <Svg {...p}><polygon points="6 3 20 12 6 21 6 3" /></Svg>
+}
+
+export function Pause(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="6" y="4" width="4" height="16" rx="1" />
+      <rect x="14" y="4" width="4" height="16" rx="1" />
+    </Svg>
+  )
+}
+
+export function Mic(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <line x1="12" x2="12" y1="19" y2="22" />
+    </Svg>
+  )
+}
+
+export function Loader(p: IconProps) {
+  return (
+    <Svg {...p} className={`animate-spin${p.className ? ' ' + p.className : ''}`}>
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </Svg>
   )
 }

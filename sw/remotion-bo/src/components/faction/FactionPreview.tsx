@@ -2,11 +2,14 @@
 
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
 import { imageSrc, initial, totalSec, cueCount, formatMmss } from './timing'
+import { Eye, EyeOff } from './icons'
 
 type Props = {
   script: FactionScript
   series: string
   episodeName: string
+  /** 미리보기에서 세력 영상 제외/복원 토글 (groupIndex). 없으면 읽기 전용 */
+  onToggleDisabled?: (groupIndex: number) => void
 }
 
 // 렌더러 clustersOf와 동일 정규화: clusters 없으면 세력 전체를 단일 묶음으로
@@ -45,7 +48,10 @@ function PersonCell({ person, series, episodeName }: {
   const src = imageSrc(series, episodeName, person.image)
   const missing = !person.image
   return (
-    <div className="flex w-16 shrink-0 flex-col items-center gap-1">
+    <div
+      className="flex w-16 shrink-0 flex-col items-center gap-1"
+      style={person.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}
+    >
       {src ? (
         <img src={src} alt="" className={`h-14 w-14 rounded-full object-cover ${missing ? 'border-2 border-danger-text' : ''}`} />
       ) : (
@@ -64,7 +70,7 @@ function PersonCell({ person, series, episodeName }: {
   )
 }
 
-export function FactionPreview({ script, series, episodeName }: Props) {
+export function FactionPreview({ script, series, episodeName, onToggleDisabled }: Props) {
   const groups = script.groups ?? []
 
   return (
@@ -99,7 +105,16 @@ export function FactionPreview({ script, series, episodeName }: Props) {
                       <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: color }} />
                       <span className="truncate text-sm font-semibold text-text-primary">{g.name || '세력명 없음'}</span>
                       {g.tagline && <span className="truncate text-xs text-text-dim">{g.tagline}</span>}
-                      {g.disabled && <span className="ml-auto shrink-0 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text">영상 제외</span>}
+                      {g.disabled && <span className="shrink-0 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text">영상 제외</span>}
+                      {onToggleDisabled && (
+                        <button
+                          onClick={() => onToggleDisabled(gi)}
+                          className="ml-auto shrink-0 rounded border border-border p-1 text-text-secondary hover:bg-bg-hover"
+                          title={g.disabled ? '이 세력을 다시 영상에 포함' : '이 세력을 영상에서 제외'}
+                        >
+                          {g.disabled ? <Eye size={13} /> : <EyeOff size={13} />}
+                        </button>
+                      )}
                     </div>
                   )}
 
