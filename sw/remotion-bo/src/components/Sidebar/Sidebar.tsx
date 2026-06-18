@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { SERIES } from '@/lib/series-registry'
+import { SERIES, isFactionSeries } from '@/lib/series-registry'
 import { useSidebarState } from './useSidebarState'
 import { groupLabel } from './utils'
 import { SIDEBAR_COLLAPSED_KEY } from './constants'
 import { GroupList } from './sections/GroupList'
 import { DraftList } from './sections/DraftList'
+import { FactionList } from './sections/FactionList'
 import { UiLabel } from '@/components/ui-label'
 
 export function Sidebar() {
@@ -71,6 +72,10 @@ export function Sidebar() {
             </h2>
           </Link>
 
+          {isFactionSeries(activeSeries) ? (
+            <FactionList activeSeries={activeSeries} pathname={pathname} />
+          ) : (
+          <>
           <div className="flex flex-wrap gap-1 rounded overflow-hidden border border-border text-[10px] mb-2">
             {groupCounts.map(({ group, count }) => {
               const id = `g:${group}`
@@ -107,6 +112,8 @@ export function Sidebar() {
               pathname={pathname}
               candidatesLength={candidates.length}
             />
+          )}
+          </>
           )}
         </aside>
       )}

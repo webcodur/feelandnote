@@ -17,7 +17,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   if (!isValidSeries(series) || !isFactionSeries(series)) {
     return new NextResponse('not found', { status: 404 })
   }
-  const [ep, file] = parts
+  const [ep, ...rest] = parts
+  const file = rest.join('/') // 폴더 경로(예 '1/앨런 튜링.webp') 보존
   if (!ep || !file) return new NextResponse('bad request', { status: 400 })
   try {
     const buf = await readFile(factionImageAbsPath(ep, file))

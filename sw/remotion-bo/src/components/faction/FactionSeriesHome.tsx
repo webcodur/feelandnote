@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import type { FactionEpisodeListItem } from '@/lib/faction-types'
+import type { FactionEpisodeListItem, FactionStatus } from '@/lib/faction-types'
 import { Plus, Copy, Trash2 } from './icons'
+import { FACTION_STATUS_OPTIONS, FACTION_STATUS_DOT } from './status'
 import { UiLabel } from '@/components/ui-label'
 
 export function FactionSeriesHome({ series }: { series: string }) {
@@ -63,6 +64,16 @@ export function FactionSeriesHome({ series }: { series: string }) {
     load()
   }
 
+  // 진행 상태 변경
+  const changeStatus = async (id: string, status: FactionStatus) => {
+    setItems(prev => prev.map(ep => (ep.id === id ? { ...ep, status } : ep)))
+    await fetch(`/api/${series}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: id, status }),
+    }).catch(() => load())
+  }
+
   // 삭제
   const remove = async (id: string) => {
     if (!confirm(`"${id}" 세력도를 삭제하시겠습니까?`)) return
@@ -116,13 +127,26 @@ export function FactionSeriesHome({ series }: { series: string }) {
         {items.map(ep => (
           <div key={ep.id} className="relative rounded-lg border border-border bg-bg-card hover:border-accent">
             <Link href={`/${series}/${ep.id}`} className="block p-4">
-              <p className="mb-1 truncate font-semibold text-text-primary">{ep.title || ep.id}</p>
+              <p className="mb-1 flex items-center gap-1.5 truncate font-semibold text-text-primary">
+                <span className={`h-2 w-2 shrink-0 rounded-full ${FACTION_STATUS_DOT[ep.status]}`} title={ep.status} />
+                {ep.title || ep.id}
+              </p>
               {ep.subtitle && <p className="mb-2 truncate text-xs text-text-secondary">{ep.subtitle}</p>}
               <div className="flex items-center gap-2 text-xs text-text-secondary">
                 <span>세력 {ep.groupCount} · 인물 {ep.personCount}</span>
                 {ep.hasMusic && <span className="rounded bg-info px-1.5 py-px text-info-text">음악</span>}
               </div>
             </Link>
+            <div className="absolute bottom-2 end-2">
+              <select
+                value={ep.status}
+                onClick={e => e.stopPropagation()}
+                onChange={e => changeStatus(ep.id, e.target.value as FactionStatus)}
+                className="rounded border border-border/40 bg-bg-card px-1 py-0.5 text-[11px] text-text-secondary"
+              >
+                {FACTION_STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
             <div className="absolute end-2 top-2 flex gap-1">
               <button
                 onClick={e => { e.preventDefault(); e.stopPropagation(); duplicate(ep.id) }}

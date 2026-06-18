@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { listEpisodes, moveEpisode } from '@/lib/server-utils'
 import type { EpisodeStatus } from '@/lib/server-utils'
-import { isValidSeries } from '@/lib/series-registry'
+import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { writeFactionStatus } from '@/lib/faction-utils'
+import type { FactionStatus } from '@/lib/faction-types'
 
 const VALID_STATUSES: EpisodeStatus[] = ['todo', 'live', 'done']
 
@@ -25,7 +27,12 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
   if (!VALID_STATUSES.includes(status)) return NextResponse.json({ error: 'invalid status' }, { status: 400 })
 
   try {
-    await moveEpisode(name, status)
+    // 세력도는 폴더 이동 없이 _status.json 파일로 상태를 관리한다.
+    if (isFactionSeries(series)) {
+      await writeFactionStatus(name, status as FactionStatus)
+    } else {
+      await moveEpisode(name, status)
+    }
     return NextResponse.json({ ok: true, name, status })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : String(err) }, { status: 500 })

@@ -1,17 +1,24 @@
 import { NextResponse } from 'next/server'
 import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
-import { listFactionImages, saveFactionImage, deleteFactionImage } from '@/lib/faction-utils'
+import { listFactionImages, listFactionImageTree, saveFactionImage, deleteFactionImage } from '@/lib/faction-utils'
 
 function guard(series: string) {
   return isValidSeries(series) && isFactionSeries(series)
 }
 
-/** GET ?ep= : 에피소드 이미지 파일명 목록 */
+/**
+ * GET ?ep= : 에피소드 이미지 파일명 목록 (images/ 단일 배열, picker 호환)
+ * GET ?ep=&tree=1 : 폴더 트리 스캔 결과 { files, folders } (이미지 풀용)
+ */
 export async function GET(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!guard(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
-  const ep = new URL(req.url).searchParams.get('ep')
+  const url = new URL(req.url)
+  const ep = url.searchParams.get('ep')
   if (!ep) return NextResponse.json({ error: 'ep required' }, { status: 400 })
+  if (url.searchParams.get('tree') === '1') {
+    return NextResponse.json(await listFactionImageTree(ep))
+  }
   return NextResponse.json(await listFactionImages(ep))
 }
 

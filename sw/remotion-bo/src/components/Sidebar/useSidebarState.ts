@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
-import { SERIES } from '@/lib/series-registry'
+import { SERIES, isFactionSeries } from '@/lib/series-registry'
 import type { CandidateSummary, EpisodeSummary, PersonGroup, TabKey } from './types'
 import { groupByPerson, tabKeyId } from './utils'
 import { SIDEBAR_COLLAPSED_KEY } from './constants'
@@ -45,7 +45,9 @@ export function useSidebarState() {
   }, [pathname])
 
   const fetchList = useCallback(() => {
-    if (!activeSeries) { setEpisodes([]); setCandidates([]); return }
+    // 세력도(faction)는 데이터 모델이 달라 인물 묶음 로직을 쓰지 않는다.
+    // 별도 사이드바 목록 컴포넌트가 자체적으로 불러오므로 여기서는 건너뛴다.
+    if (!activeSeries || isFactionSeries(activeSeries)) { setEpisodes([]); setCandidates([]); return }
     fetch(`/api/${activeSeries}/episodes`).then(r => r.json()).then(setEpisodes).catch(() => setEpisodes([]))
     fetch(`/api/${activeSeries}/candidates`).then(r => r.json()).then(setCandidates).catch(() => setCandidates([]))
   }, [activeSeries])

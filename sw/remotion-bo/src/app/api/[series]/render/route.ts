@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { runTask, loadEpisode, toPascal } from '@/lib/server-utils'
-import { getSeriesById } from '@/lib/series-registry'
+import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series: seriesId } = await params
@@ -9,6 +9,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   const { episode, only, bookIndex } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
+
+  // 세력도 — 한 에피소드 = 세로 영상 1편(쇼츠). 책/쇼츠 슬롯/솔로 갈래 없음.
+  // 컴포지션 ID 규약은 Root.tsx 세력도 등록과 일치: `Faction-{KEY 대문자}`.
+  if (isFactionSeries(seriesId)) {
+    const compId = `Faction-${episode.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+    const t = runTask('render-faction', seriesId, episode, [
+      'render', '--', compId, `out/Faction/${episode}.mp4`, '--codec', series.render.codec,
+    ])
+    return NextResponse.json({ taskIds: [t.id] })
+  }
 
   const label = toPascal(episode)
   // episode 이름에서 KO/EN 구분 — '-en'로 끝나면 EN
