@@ -9,6 +9,7 @@ export function AudioWavePlayer({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
   trimStart, trimEnd, onTrimStart, onTrimEnd, onRegenerate, regenerating, pxPerSec, autoPlay, onHoverTime,
+  playbackRate, gainDb,
 }: Props) {
   const {
     canvasRef, containerRef, playing, playhead, dur,
@@ -19,6 +20,7 @@ export function AudioWavePlayer({
     audioUrl, duration,
     onClick, onTimeClick, onDoubleClick,
     trimStart, trimEnd, onTrimStart, onTrimEnd, pxPerSec, autoPlay,
+    playbackRate, gainDb,
   })
 
   return (

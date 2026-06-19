@@ -47,6 +47,12 @@ type GenerateSectionProps = {
   metaError: string | null
   handleSegmentMetaChange: (next: VoiceMeta) => void
   eleSendOpts: EleSendOpts
+  /** 미리듣기 재생 배속 (선택) — 세력도 인물 배속을 미리듣기에 반영. 미지정이면 1배속. */
+  previewPlaybackRate?: number
+  /** 미리듣기 음량 dB 게인 (선택) — 세력도 인물 게인을 미리듣기에 반영. 미지정이면 0dB. */
+  previewGainDb?: number
+  /** 엔진 선택 드롭다운을 이 섹션에서 숨긴다 (선택) — 호출 측이 엔진 선택을 상단에 따로 둘 때. 미지정이면 표시(기존 동작). */
+  hideEngineSelect?: boolean
 }
 
 export function GenerateSection({
@@ -58,6 +64,7 @@ export function GenerateSection({
   hasTempPreview, tempPreview, previewEngine, handleSavePreview, trimSaving, setTempPreview,
   handleGenerate, segmentPath, segmentMeta, metaSaving, metaError,
   handleSegmentMetaChange, eleSendOpts,
+  previewPlaybackRate, previewGainDb, hideEngineSelect,
 }: GenerateSectionProps) {
   return (
     <section className="rounded-md border border-border bg-bg-main/40 p-4 space-y-3">
@@ -78,21 +85,24 @@ export function GenerateSection({
         )}
       </div>
 
-      {/* 생성 엔진 토글(세그먼티드 컨트롤) + GEM 선택 시 캐릭터 보이스 · 스타일 인라인 */}
+      {/* 생성 엔진 토글(세그먼티드 컨트롤) + GEM 선택 시 캐릭터 보이스 · 스타일 인라인.
+          hideEngineSelect 면 엔진 드롭다운만 숨긴다(호출 측이 상단에 따로 둘 때). */}
       <div className="flex items-center gap-3 flex-wrap">
-        <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
-          <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">엔진</span>
-          <select
-            value={chosenEngine}
-            onChange={e => setChosenEngine(e.target.value as GenEngine)}
-            title="새 음원 합성에 쓸 엔진·모델. GEM 3.1은 audio tag 지원·단가 2배(GEM 슬롯 공유). ELE는 보이스 매핑 필요"
-            className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold focus:outline-none"
-          >
-            <option value="gemini">GEM 2.5</option>
-            <option value="gemini-v3">GEM 3.1</option>
-            <option value="elevenlabs" disabled={!eleSpec}>ELE</option>
-          </select>
-        </div>
+        {!hideEngineSelect && (
+          <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
+            <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">엔진</span>
+            <select
+              value={chosenEngine}
+              onChange={e => setChosenEngine(e.target.value as GenEngine)}
+              title="새 음원 합성에 쓸 엔진·모델. GEM 3.1은 audio tag 지원·단가 2배(GEM 슬롯 공유). ELE는 보이스 매핑 필요"
+              className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold focus:outline-none"
+            >
+              <option value="gemini">GEM 2.5</option>
+              <option value="gemini-v3">GEM 3.1</option>
+              <option value="elevenlabs" disabled={!eleSpec}>ELE</option>
+            </select>
+          </div>
+        )}
 
         {chosenEngine !== 'elevenlabs' && (
           <>
@@ -191,6 +201,8 @@ export function GenerateSection({
           autoPlay
           onRegenerate={() => { if (activeSpec) handleGenerate(activeSpec, secKey, ttsText) }}
           regenerating={generating}
+          playbackRate={previewPlaybackRate}
+          gainDb={previewGainDb}
         />
       )}
 

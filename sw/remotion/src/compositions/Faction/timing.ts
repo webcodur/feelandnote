@@ -1,8 +1,8 @@
 /**
  * 세력도(Faction) 타이밍 — 단일원천(SSoT)
  *
- * 무대사라 음성 길이에 매이지 않는다. 모든 컷이 고정 길이.
  * 영상 = 「컷(Cue)」의 시간순 나열. 빌더가 컷마다 시작 프레임·길이를 매긴다.
+ * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
 import type { FactionScript, FactionPerson } from './types'
@@ -29,7 +29,7 @@ export const CROSSFADE_SEC = 0.3
 export const READ_FRAMES_PER_CHAR = 3.0
 
 /* ── 인물 컷 등장 시퀀스(초) — 렌더러(PersonCard)와 공유 ──
- * 순서: 줌아웃 정지 → 박스+이름+직함(큰 글씨) 함께 슬라이드 인 → 직함이 글자 수 비례 시간 보인 뒤 완전히 사라짐 → 같은 자리에 대사 등장.
+ * 순서: 줌아웃 정지 → 박스+이름+직함(2행) 함께 슬라이드 인 → 직함이 글자 수 비례 시간 보인 뒤 완전히 사라짐 → 같은 자리에 대사 등장.
  * 직함과 대사는 이름 아래 같은 슬롯을 공유하며 순차 교체된다(겹치지 않음). 이름은 계속 떠 있다.
  */
 /** 박스+이름+직함 함께 슬라이드 인+페이드인 시작(초) — 줌아웃(0~0.15초)이 끝나는 즉시. 직함도 이름과 같은 시점에 함께 뜬다 */
@@ -76,16 +76,10 @@ export const PERSON_MIN_SEC = ENTER_NAME_SEC + ENTER_FADE_SEC + CREDIT_READ_MIN_
 /**
  * 인물 한 명 컷 길이(초).
  * 직함이 (글자 수 비례로) 보였다가 완전히 사라진 뒤(순차) 대사가 등장하고, 대사는 글자 수 비례 읽기 시간을 확보한다.
- * 길이 = 직함 길이 기반 대사 등장 시점 + 페이드 + 대사 읽기 시간 + 여유. 렌더(PersonCard)와 같은 공식.
+ * 음원을 쓰지 않으므로 quoteDuration이 있어도 무시하고 읽기 시간으로 길이를 잡는다.
  * 대사가 없으면 직함이 계속 보이므로 최소 길이만 보장한다.
  */
 export function personDurationSec(p: FactionPerson): number {
-  // 음성이 있으면(파이프라인이 기록한 quoteDuration) 글자 수 대신 그 음성 길이에 컷을 맞춘다.
-  if (p.quoteDuration && p.quoteDuration > 0) {
-    const total = personQuoteEnterSec(p) + ENTER_FADE_SEC + p.quoteDuration + PERSON_HOLD_SEC
-    return Math.max(PERSON_MIN_SEC, total)
-  }
-  // 음성이 없으면 대사 글자 수 비례(기존 폴백) — 덩어리가 있으면 그걸 잇고, 없으면 통째 quote
   const quote = p.quoteChunks?.length ? p.quoteChunks.join('\n') : (p.quote ?? '')
   if (!quote) return PERSON_MIN_SEC
   const readSec = (quote.length * READ_FRAMES_PER_CHAR) / FPS

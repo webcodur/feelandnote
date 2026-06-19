@@ -3,6 +3,7 @@ import type { SegmentEngineSpec, VoiceFile } from '../../voice-utils'
 import { encodeWAV, abToBase64 } from '../../voice-utils'
 import type { TempPreview, GenEngine } from '../../scenario-voice/ExpandedVoicePanel/types'
 import { playDing } from '../../scenario-voice/ExpandedVoicePanel/audio'
+import { buildEleText } from '../../scenario-voice/types'
 
 /**
  * 북리커맨드 useVoiceGeneration 의 세력도 어댑터(통째 복제 후 데이터 연결부만 교체).
@@ -29,15 +30,25 @@ type UseFactionVoiceGenerationArgs = {
   styleEdit: string
   /** ELE 감정/강도 (인물 quoteEleOptions) — elevenlabs preview/save 호출에 settings 로 전달. 미지정 필드는 라우트 기본값. */
   eleOptions?: { stability?: number; style?: number }
+  /** ELE 감정 태그 (인물 quoteEleEmotions, 0~2개) — 본문 앞에 "[tag1, tag2] " 로 삽입. 비면 미삽입. */
+  eleEmotions?: string[]
+  /** ELE 끝 패딩 (인물 quoteEleTrail) — 본문 끝에 ' ... ... ...' 추가. 미지정이면 추가(기본 켜짐). */
+  eleTrail?: boolean
   error: string | null
   setError: (e: string | null) => void
   /** 미리듣기/트림 저장 후 음성 목록 재조회(존재·길이 갱신) */
   onRefresh: () => void
+  /**
+   * 음원 저장 직후 호출 — 저장된 wav 실측 길이(초)를 전달한다.
+   * 호출 측이 인물 quoteDuration 에 기록해 렌더(컷 길이·음성 재생)를 이 음원에 맞춘다.
+   * 이 값이 없으면 렌더가 음성을 띄우지 못하고 컷을 글자 수로만 잡아 "안 읽고 넘어가는" 증상이 난다.
+   */
+  onSaved?: (durationSec: number) => void
 }
 
 export function useFactionVoiceGeneration({
   series, episodeName, voiceFile, activeFile, chosenEngine, styleEdit, eleOptions,
-  error, setError, onRefresh,
+  eleEmotions, eleTrail, error, setError, onRefresh, onSaved,
 }: UseFactionVoiceGenerationArgs) {
   const [trimStart, setTrimStart] = useState(0)
   const [trimEnd, setTrimEnd] = useState(() => activeFile?.duration ?? 0)
@@ -63,9 +74,17 @@ export function useFactionVoiceGeneration({
         const settings = eleOptions && (typeof eleOptions.stability === 'number' || typeof eleOptions.style === 'number')
           ? { stability: eleOptions.stability, style: eleOptions.style }
           : undefined
+        // 감정 태그·끝 패딩은 본문 text 에 삽입(북리커맨드 buildEleText 와 동일 규칙).
+        // 감정은 태그가 1개 이상일 때만 켜고, 끝 패딩은 인물 quoteEleTrail(미지정=켜짐)을 따른다.
+        const emotions = eleEmotions ?? []
+        const eleText = buildEleText(text, {
+          emotionEnabled: emotions.length > 0,
+          emotions,
+          trailEnabled: eleTrail ?? true,
+        })
         res = await fetch(`/api/${series}/voice/elevenlabs/preview`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
-          body: JSON.stringify({ voiceId: spec.voiceParam, text, settings }),
+          body: JSON.stringify({ voiceId: spec.voiceParam, text: eleText, settings }),
         })
         format = 'mp3'
       } else {
@@ -91,6 +110,7 @@ export function useFactionVoiceGeneration({
         })
         const saveData = await saveRes.json()
         if (!saveData.success) { setError(saveData.error ?? '저장 실패'); return }
+        if (typeof saveData.duration === 'number' && saveData.duration > 0) onSaved?.(saveData.duration)
         if (tempPreview) { URL.revokeObjectURL(tempPreview.blobUrl); setTempPreview(null) }
         setReloadTick(Date.now())
         playDing()
@@ -143,6 +163,7 @@ export function useFactionVoiceGeneration({
       })
       const data = await res.json()
       if (!data.success) { setError(data.error ?? '저장 실패'); return }
+      if (typeof data.duration === 'number' && data.duration > 0) onSaved?.(data.duration)
       URL.revokeObjectURL(tempPreview.blobUrl)
       setTempPreview(null)
       setReloadTick(Date.now())
@@ -169,10 +190,13 @@ export function useFactionVoiceGeneration({
       const wavBuf = encodeWAV(audioBuf, trimStart, trimEnd)
       const base64 = abToBase64(wavBuf)
       await audioCtx.close()
-      await fetch(`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/save`, {
+      const saveRes = await fetch(`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/save`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ file: f.name, base64 }),
       })
+      const saveData = await saveRes.json().catch(() => ({}))
+      // 트림으로 길이가 줄었으니 인물 quoteDuration 도 새 길이로 갱신한다(컷 길이·음성 재생 동기화).
+      if (typeof saveData.duration === 'number' && saveData.duration > 0) onSaved?.(saveData.duration)
       setTrimStart(0)
       setTrimEnd(trimEnd - trimStart)
       setReloadTick(Date.now())

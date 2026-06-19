@@ -24,12 +24,16 @@ type FactionSavedVoiceSectionProps = {
   trimSaving: boolean
   reloadTick: number
   saveTrimmed: () => void
+  /** 저장 음원 재생에 적용할 배속 — 인물 quotePlaybackRate. 미지정이면 1배속. */
+  playbackRate?: number
+  /** 저장 음원 재생에 적용할 dB 게인 — 인물 quoteGainDb. 미지정이면 0dB. */
+  gainDb?: number
 }
 
 export function FactionSavedVoiceSection({
   series, episodeName, activeFile, engineLabel,
   trimStart, setTrimStart, trimEnd, setTrimEnd,
-  trimSaving, reloadTick, saveTrimmed,
+  trimSaving, reloadTick, saveTrimmed, playbackRate, gainDb,
 }: FactionSavedVoiceSectionProps) {
   const slotCount = activeFile ? 1 : 0
   const activeDur = activeFile?.duration ?? 0
@@ -103,6 +107,8 @@ export function FactionSavedVoiceSection({
                 onTrimEnd={(t) => setTrimEnd(t)}
                 trimStart={engHasTrim ? trimStart : undefined}
                 trimEnd={engHasTrim ? trimEnd : undefined}
+                playbackRate={playbackRate}
+                gainDb={gainDb}
               />
             </div>
           </div>

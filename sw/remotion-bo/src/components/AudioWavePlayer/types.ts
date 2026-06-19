@@ -35,4 +35,8 @@ export type Props = {
   autoPlay?: boolean
   /** 파형 위 마우스 시간(초)을 보고 — children(경계선 등)의 hover 안내용. 영역을 벗어나면 null. */
   onHoverTime?: (t: number | null) => void
+  /** 재생 배속 — 지정 시 audio.playbackRate 에 반영. 미지정이면 1배속(기존 동작). */
+  playbackRate?: number
+  /** 음량 dB 게인 — 지정 시 audio.volume = dbToLinear(gainDb) 로 반영. 미지정이면 0dB(기존 동작). */
+  gainDb?: number
 }

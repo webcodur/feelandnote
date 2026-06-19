@@ -231,6 +231,31 @@ export function FactionEditor({ series, name }: { series: string; name: string }
     setTracks(next)
   }
   const removeTrack = (i: number) => setTracks(tracks.filter((_, idx) => idx !== i))
+  // 곡 음량 배율(0~1) 변경 — 1(원음)이면 필드를 지워 data.json 을 깔끔히 둔다(렌더가 미지정=원음 처리).
+  const setTrackVolume = (i: number, volume: number) =>
+    setTracks(tracks.map((t, idx) => (idx === i ? { ...t, volume: volume === 1 ? undefined : volume } : t)))
+
+  // ── 시작·마무리 화면 인물(heroes) — 인트로/아웃트로 그리드에 띄울 핵심 인물(slug 순서대로). ──
+  // 전체 세력 인물에서 slug 가 있는 인물만 후보로 모은다(셀럽 DB 연동 인물).
+  const heroCandidates: { slug: string; name: string }[] = []
+  for (const g of script?.groups ?? []) {
+    const ppl = g.clusters?.length ? g.clusters.flatMap(c => c.people) : g.people
+    for (const p of ppl) if (p.slug) heroCandidates.push({ slug: p.slug, name: p.name })
+  }
+  const heroes = script?.heroes ?? []
+  const heroNameOf = (slug: string) => heroCandidates.find(c => c.slug === slug)?.name ?? slug
+  const addHero = (slug: string) => { if (slug && !heroes.includes(slug)) update({ heroes: [...heroes, slug] }) }
+  const removeHero = (slug: string) => {
+    const next = heroes.filter(s => s !== slug)
+    update({ heroes: next.length ? next : undefined })
+  }
+  const moveHero = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= heroes.length) return
+    const next = [...heroes]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    update({ heroes: next })
+  }
 
   // 길이 미측정 트랙 자동 보정 — 곡 길이가 없으면 영상에서 순차 재생이 안 되므로 채워둔다
   useEffect(() => {
@@ -367,6 +392,16 @@ export function FactionEditor({ series, name }: { series: string; name: string }
                 <span className="text-text-dim">{i + 1}.</span>
                 <span className="max-w-[11rem] truncate" title={t.file}>{t.file}</span>
                 <span className="text-text-dim">{t.durationSec ? formatMmss(t.durationSec) : '측정중…'}</span>
+                {/* 곡 음량 배율. 100%=원음, 왼쪽으로 줄인다(50%·40%…). */}
+                <span className="flex items-center gap-1 border-l border-border pl-1.5" title="이 곡 음량. 100%가 원음, 왼쪽으로 줄인다">
+                  <input
+                    type="range" min={0} max={1} step={0.05}
+                    value={t.volume ?? 1}
+                    onChange={e => setTrackVolume(i, Number(e.target.value))}
+                    className="w-16 accent-accent"
+                  />
+                  <span className="w-9 text-right font-mono text-[10px] text-text-secondary">{Math.round((t.volume ?? 1) * 100)}%</span>
+                </span>
                 <button onClick={() => moveTrack(i, -1)} disabled={i === 0} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="앞으로">↑</button>
                 <button onClick={() => moveTrack(i, 1)} disabled={i === tracks.length - 1} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="뒤로">↓</button>
                 <button onClick={() => removeTrack(i)} className="px-0.5 text-danger-text hover:underline" title="제거">×</button>
@@ -541,6 +576,30 @@ export function FactionEditor({ series, name }: { series: string; name: string }
                   제거
                 </button>
               )}
+            </div>
+            {/* 시작·끝 인물 (heroes) — 시작/마무리 화면 인물 그리드. 순서대로 좌→우(가로)·격자(세로)로 배치된다. */}
+            <div className="flex items-start gap-2">
+              <label className="w-20 shrink-0 pt-1.5 text-xs text-text-dim">시작·끝 인물 -</label>
+              <div className="flex flex-1 flex-wrap items-center gap-1.5">
+                {heroes.map((slug, i) => (
+                  <span key={slug} className="flex items-center gap-1 rounded-md border border-border bg-bg-card px-2 py-1 text-xs">
+                    <span className="text-text-dim">{i + 1}.</span>
+                    <span>{heroNameOf(slug)}</span>
+                    <button onClick={() => moveHero(i, -1)} disabled={i === 0} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="앞으로">↑</button>
+                    <button onClick={() => moveHero(i, 1)} disabled={i === heroes.length - 1} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="뒤로">↓</button>
+                    <button onClick={() => removeHero(slug)} className="px-0.5 text-danger-text hover:underline" title="제거">×</button>
+                  </span>
+                ))}
+                {heroes.length === 0 && <span className="text-xs text-text-dim">없음 (제목 텍스트로 시작·마무리)</span>}
+                <select
+                  value=""
+                  onChange={e => { addHero(e.target.value); e.target.value = '' }}
+                  className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm"
+                >
+                  <option value="">+ 인물 추가</option>
+                  {heroCandidates.filter(c => !heroes.includes(c.slug)).map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                </select>
+              </div>
             </div>
           </div>
           {outroPickerOpen && (

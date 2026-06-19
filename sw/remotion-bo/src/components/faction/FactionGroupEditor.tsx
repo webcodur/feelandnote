@@ -416,6 +416,22 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
                 {(musicList ?? []).map(m => <option key={m} value={m}>{m}</option>)}
               </select>
             </label>
+            {/* 세력 곡 음량 — 곡을 지정한 세력만. 100%=원음, 곡마다 음량 편차를 잡는다(50%·40%…). */}
+            {group.music && (
+              <label
+                className="flex items-center gap-1.5 text-sm text-text-secondary"
+                title="이 세력 곡 음량. 100%가 원음, 왼쪽으로 줄인다"
+              >
+                <span className="text-text-dim">음량</span>
+                <input
+                  type="range" min={0} max={1} step={0.05}
+                  value={group.musicVolume ?? 1}
+                  onChange={e => { const v = Number(e.target.value); onChange({ ...group, musicVolume: v === 1 ? undefined : v }) }}
+                  className="w-20 accent-accent"
+                />
+                <span className="w-10 text-right font-mono text-xs">{Math.round((group.musicVolume ?? 1) * 100)}%</span>
+              </label>
+            )}
             {!group.solo && (
               <div className="ml-auto flex items-center gap-2">
                 <span className="text-xs text-text-dim">

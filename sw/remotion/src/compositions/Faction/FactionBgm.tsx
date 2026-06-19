@@ -3,6 +3,9 @@ import { Audio, Sequence, interpolate, staticFile, useVideoConfig } from 'remoti
 import type { FactionScript, FactionTrack } from './types'
 import { f, OUTRO_SEC, buildCues } from './timing'
 
+/** 음량 배율 정규화 — 미지정이면 1(원음). 0~1.5 로 제한(과증폭 방지) */
+const vol01 = (v?: number) => (v == null ? 1 : Math.min(1.5, Math.max(0, v)))
+
 /** 곡 경계 크로스 구간(초) — 한 곡 끝과 다음 곡 시작에 짧은 페이드를 줘 끊김을 막는다 */
 const EDGE_FADE_SEC = 0.6
 /** 세력 전환 크로스페이드(초) — 새 곡이 세력 경계보다 이만큼 일찍 들어와 이전 곡과 겹치며 교차한다 */
@@ -35,16 +38,20 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
     }
     // 곡 전환 경계 — 미지정 세력은 직전 곡을 이어간다. 첫 곡은 영상 시작(0)부터.
     const fallback = script.music || script.tracks?.[0]?.file
-    const segs: { file: string; from: number }[] = []
+    // 곡 음량 우선순위: 세력별 musicVolume → 같은 곡의 전역 tracks volume → 1(원음).
+    // 같은 곡이 전역 재생목록에도 등록돼 있으면, BO 전역 곡 음량 슬라이더로 조절한 값이 세력 모드에서도 반영된다.
+    const trackVolOf = (file?: string) => (file ? script.tracks?.find(t => t.file === file)?.volume : undefined)
+    const segs: { file: string; from: number; vol: number }[] = []
     let cur: string | undefined
     starts.forEach(({ gi, start }, idx) => {
       const m = script.groups[gi]?.music
+      const gv = script.groups[gi]?.musicVolume
       if (idx === 0) {
         cur = m || fallback
-        if (cur) segs.push({ file: cur, from: 0 })
+        if (cur) segs.push({ file: cur, from: 0, vol: vol01((m ? gv : undefined) ?? trackVolOf(cur)) })
       } else if (m && m !== cur) {
         cur = m
-        segs.push({ file: m, from: start })
+        segs.push({ file: m, from: start, vol: vol01(gv ?? trackVolOf(m)) })
       }
     })
     if (!segs.length) return null
@@ -60,13 +67,14 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
           const end = isLast ? total : segs[i + 1].from
           const dur = end - playFrom
           if (dur <= 0) return null
+          const baseVol = s.vol // 곡 음량 배율(세력 musicVolume). 미지정 시 1(원음).
           const volume = (lf: number) => {
             const globalF = playFrom + lf
             const fadeIn = isFirst ? 1 : interpolate(lf, [0, crossF], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
             // 마지막 곡은 다음 곡이 없으니 끝 크로스페이드 없이 아웃트로 페이드만 받는다
             const fadeOut = isLast ? 1 : interpolate(lf, [dur - crossF, dur], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
             const outro = interpolate(globalF, [total - outroFadeF, total], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-            return Math.min(fadeIn, fadeOut, outro)
+            return Math.min(fadeIn, fadeOut, outro) * baseVol
           }
           return (
             <Sequence key={i} from={playFrom} durationInFrames={dur}>
@@ -90,6 +98,7 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
   // 단일 곡이거나 길이 정보가 없는 곡이 섞여 있으면 순차 배치 불가 → 첫 곡 한 장만 전체에 깐다(기존 동작)
   const canSequence = tracks.length > 1 && tracks.every(t => t.durationSec && t.durationSec > 0)
   if (!canSequence) {
+    const baseVol = vol01(tracks[0].volume)
     return (
       <Audio
         src={staticFile(`music/${tracks[0].file}`)}
@@ -97,21 +106,21 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
           interpolate(fr, [total - outroFadeF, total], [1, 0], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
-          })
+          }) * baseVol
         }
       />
     )
   }
 
   // 순차 + 순환 — total을 채울 때까지 곡을 돌려가며 배치
-  const segs: { file: string; from: number; dur: number }[] = []
+  const segs: { file: string; from: number; dur: number; vol: number }[] = []
   let cursor = 0
   let idx = 0
   while (cursor < total) {
     const t = tracks[idx % tracks.length]
     const clipF = Math.round((t.durationSec as number) * fps)
     if (clipF <= 0) break
-    segs.push({ file: t.file, from: cursor, dur: Math.min(clipF, total - cursor) })
+    segs.push({ file: t.file, from: cursor, dur: Math.min(clipF, total - cursor), vol: vol01(t.volume) })
     cursor += clipF
     idx++
   }
@@ -119,6 +128,7 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
   return (
     <>
       {segs.map((s, i) => {
+        const baseVol = s.vol // 곡 음량 배율(트랙 volume). 미지정 시 1(원음).
         const volume = (lf: number) => {
           const globalF = s.from + lf
           // 곡 시작 페이드인(첫 곡 제외), 곡 끝 페이드아웃, 영상 끝 아웃트로 페이드 — 셋 중 가장 낮은 값
@@ -134,7 +144,7 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
           })
-          return Math.min(fadeIn, fadeOut, outro)
+          return Math.min(fadeIn, fadeOut, outro) * baseVol
         }
         return (
           <Sequence key={i} from={s.from} durationInFrames={s.dur}>

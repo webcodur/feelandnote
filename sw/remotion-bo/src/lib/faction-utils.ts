@@ -245,7 +245,7 @@ export interface FactionVoiceFile {
 }
 
 /** WAV 헤더(byteRate)로 길이(초) 계산. 실패 시 0 */
-function wavDurationSec(buf: Buffer): number {
+export function wavDurationSec(buf: Buffer): number {
   if (buf.length < 44 || buf.slice(0, 4).toString('ascii') !== 'RIFF') return 0
   const byteRate = buf.readUInt32LE(28)
   if (byteRate <= 0) return 0

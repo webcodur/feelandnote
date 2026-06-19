@@ -39,6 +39,8 @@ const L_TEXT_PAD = 96
 const PERSON_ZOOM_OUT_SEC = 0.15
 /** 줌아웃 시작 배율(1.0보다 큼) */
 const PERSON_ZOOM_START = 1.1
+/** 빠른 줌아웃이 끝난 뒤(1.0) 컷 끝까지 천천히 다시 줌인해 도달할 배율 — 정지 대신 미세하게 다가간다 */
+const PERSON_SLOW_ZOOM_END = 1.06
 /** 세로 쇼츠 대사 박스 — 화면 왼쪽 밖에서 슬라이드 인하는 시작 거리(px). 음수=왼쪽 */
 const PANEL_SLIDE_X = 520
 /** 세로 쇼츠 대사 박스 슬라이드 인 길이(초) */
@@ -308,7 +310,7 @@ const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number 
   )
 }
 
-const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; transition?: FactionTransition }> = ({ episodeName, group, person, frame, cueStart, orientation, groupIndex, personIndex, clusterIndex, transition }) => {
+const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; cueDuration: number; orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; transition?: FactionTransition }> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, transition }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const lines = person.lines ?? []
@@ -342,8 +344,12 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
       const y = interpolate(local, [0, f(0.55)], [1.6, -1.6], { ...clamp, easing: Easing.out(Easing.cubic) })
       return `scale(${s}) translateY(${y}%)`
     }
-    // zoomout (기본): 살짝 크게 잡았다 제자리로
-    return `scale(${interpolate(local, [0, f(PERSON_ZOOM_OUT_SEC)], [PERSON_ZOOM_START, 1.0], clamp)})`
+    // zoomout (기본): 빠르게 뒤로 빠진 뒤(0~0.15초, 1.1→1.0) 멈추지 않고, 컷 끝까지 천천히 다시 줌인(1.0→1.06)한다.
+    // 두 구간 경계(0.15초)에서 둘 다 1.0이라 매끄럽게 이어진다.
+    const s = local < f(PERSON_ZOOM_OUT_SEC)
+      ? interpolate(local, [0, f(PERSON_ZOOM_OUT_SEC)], [PERSON_ZOOM_START, 1.0], clamp)
+      : interpolate(local, [f(PERSON_ZOOM_OUT_SEC), cueDuration], [1.0, PERSON_SLOW_ZOOM_END], clamp)
+    return `scale(${s})`
   })()
   // 1) 박스 + 이름 + 직함 함께 페이드인. 세로는 박스째 왼쪽에서 슬라이드 인(가로는 슬라이드 없이 페이드만)
   const nameOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -362,9 +368,12 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
   // 3) 직함이 사라진 뒤 같은 자리에 대사 페이드인(겹치지 않음)
   const quoteOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
 
-  // 대사 음성 — quoteDuration이 있으면(파이프라인 생성·기록 후) 대사 등장 시점에 맞춰 재생. 없으면 무음.
-  const audioEl = person.quoteDuration && person.quoteDuration > 0 ? (
-    <Sequence from={cueStart + f(quoteEnterSec)} durationInFrames={f(person.quoteDuration)}>
+  // 음원 사용 중단 — 대사 음성 재생을 끈다(예전 방식 복귀). 데이터·wav 파일은 보존하고 재생만 차단한다.
+  // 다시 켜려면 VOICE_ENABLED = true 로 바꾼다(컷 길이는 timing.ts에서 읽기 시간 기준으로 계산됨).
+  const VOICE_ENABLED = false
+  const audioPlaySec = person.quoteDuration ? person.quoteDuration / clampRate(person.quotePlaybackRate) : 0
+  const audioEl = VOICE_ENABLED && person.quoteDuration && person.quoteDuration > 0 ? (
+    <Sequence from={cueStart + f(quoteEnterSec)} durationInFrames={f(audioPlaySec)}>
       <Audio
         src={staticFile(voiceRelPath(episodeName, vnPersonQuote(groupIndex, personIndex, clusterIndex)))}
         volume={dbToLinear(person.quoteGainDb)}
@@ -394,11 +403,11 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
           <AbsoluteFill style={{ background: `linear-gradient(to right, transparent 70%, ${BG} 100%)` }} />
         </div>
         {/* 우: 텍스트 — 이름 위치를 고정(상단 기준)하고 아래 슬롯만 확장. 인물마다 위아래로 흔들리지 않게 */}
-        {/* 이름(고정) → 같은 슬롯에서 직함(큰 글씨) → 대사로 교차 */}
+        {/* 이름(고정) → 같은 슬롯에서 직함(2행) → 대사로 교차 */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0` }}>
           {/* 이름 — 박스+이름 함께 페이드인 후 계속 유지 */}
           <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
-          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(리스트 여러 줄도 수용) */}
+          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(직함 2행도 수용) */}
           <div style={{ display: 'grid', alignItems: 'start' }}>
             {hasQuote ? (
               <div style={{ gridArea: '1 / 1', color: QUOTE_COLOR, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.3, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
@@ -426,11 +435,10 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
       <AbsoluteFill style={{ overflow: 'hidden', transform: fxTransform }}>{photo}</AbsoluteFill>
       {/* 상단 살짝 어둡게 — 상단 헤더 영역 가독 */}
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 20%)` }} />
-      {/* 텍스트 — 좌측, 이름 위치를 고정(상단 기준)하고 대사는 아래로만 확장. 인물마다 위아래로 흔들리지 않게 */}
-      {/* 이름 → (아래) 직책 → (아래) 대사 순으로 세로로 쌓고, 단계별로 차례차례 페이드인 */}
-      <AbsoluteFill style={{ justifyContent: 'flex-start', alignItems: 'flex-start', padding: '920px 0 0 0' }}>
+      {/* 텍스트 — 좌측. 박스(이름+직함 한 줄 + 대사)를 한 덩어리로 왼쪽에서 슬라이드 인 */}
+      <AbsoluteFill style={{ justifyContent: 'flex-start', alignItems: 'flex-start', padding: '830px 0 0 0' }}>
         {/* 박스+이름을 한 덩어리로 왼쪽에서 슬라이드 인. 박스 높이는 이름 + 직함/대사 슬롯으로 처음부터 확보되어, */}
-        {/* 슬라이드로 한 번 들어온 뒤엔 박스가 가만히 있고 그 안에서 직함→대사 교차만 일어난다(들썩임 없음). */}
+        {/* 슬라이드로 한 번 들어온 뒤엔 박스가 가만히 있고 그 안에서 직함(2행)→대사 교차만 일어난다(들썩임 없음). */}
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 16,
           width: 'fit-content', maxWidth: 970,
@@ -439,10 +447,10 @@ const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: F
         }}>
           {/* 이름 — 박스에 실려 함께 들어온 뒤 계속 유지 */}
           <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 72, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left' }}>{person.name}</div>
-          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(리스트 여러 줄도 수용) */}
+          {/* 직함·대사 공유 슬롯 — 같은 격자 칸에 겹쳐 opacity로 교차. 칸 높이는 둘 중 큰 쪽으로 자동(직함 2행도 수용) */}
           <div style={{ display: 'grid', alignItems: 'start', alignSelf: 'stretch' }}>
             {hasQuote ? (
-              <div style={{ gridArea: '1 / 1', color: QUOTE_COLOR, fontFamily: FONT, fontSize: 58, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
+              <div style={{ gridArea: '1 / 1', color: QUOTE_COLOR, fontFamily: FONT, fontSize: 66, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.25, textAlign: 'left', opacity: quoteOp, whiteSpace: 'normal' }}><QuotePhrases chunks={quoteChunks} /></div>
             ) : null}
             {hasCredit ? (
               <div style={{ gridArea: '1 / 1', opacity: creditOp }}>
@@ -471,7 +479,7 @@ const OutroCard: React.FC<{ script: FactionScript; episodeName: string; orientat
       {hasImage ? (
         <AbsoluteFill style={{ overflow: 'hidden' }}>
           <Img src={imgSrc(episodeName, script.outroImage!)} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}99 0%, transparent 28%, transparent 58%, ${BG}e6 100%)` }} />
+          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}80 0%, transparent 28%, transparent 62%, ${BG}cc 100%)` }} />
         </AbsoluteFill>
       ) : heroes.length ? (
         <>
@@ -481,9 +489,9 @@ const OutroCard: React.FC<{ script: FactionScript; episodeName: string; orientat
               <HeroCell key={i} episodeName={episodeName} person={p} />
             ))}
           </div>
-          {/* 매듭 톤 — 시작보다 짙게 덮어 인물을 가라앉히고 제목을 띄운다 */}
-          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}e6 0%, ${BG}b3 38%, ${BG}b3 62%, ${BG}f2 100%)` }} />
-          <AbsoluteFill style={{ background: `radial-gradient(ellipse 95% 40% at 50% 50%, ${BG}cc 0%, transparent 72%)` }} />
+          {/* 제목 가독용 옅은 톤만 — 끝 페이드아웃이 화면을 닫으므로 어둡게 누르지 않고 시작 화면과 같은 밝기로 둔다 */}
+          <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}cc 0%, transparent 22%, transparent 78%, ${BG}f5 100%)` }} />
+          <AbsoluteFill style={{ background: `radial-gradient(ellipse 95% 34% at 50% 50%, ${BG}b3 0%, transparent 72%)` }} />
         </>
       ) : null}
       <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 22, padding: CAP_PAD }}>
@@ -520,7 +528,7 @@ const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: str
     const person = cue.clusterIndex != null
       ? clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
       : g.people[cue.personIndex]
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} transition={script.transition} />
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} transition={script.transition} />
   } else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} orientation={orientation} />
 
   // 세로: 본문 컷(세력·화보·인물)은 상단 빈 영역 아래에만 그린다(인트로·아웃트로는 풀스크린).
@@ -555,6 +563,16 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
     : 0
   // 상단 검정 띠 헤더는 세로 전용. 가로에선 생략한다.
   const showHeader = orientation === 'portrait' && headerOp > 0
+  // 영상 전체 시작 페이드인 · 끝 페이드아웃 — 검정에서 떠오르고 검정으로 잠긴다(롱폼·쇼츠 공통).
+  const FADE_SEC = 0.7
+  const fadeOp = total > 0
+    ? interpolate(
+        frame,
+        [0, f(FADE_SEC), total - f(FADE_SEC), total],
+        [1, 0, 0, 1],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
+      )
+    : 0
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       <FactionBgm script={script} total={total} portrait={isShorts} />
@@ -562,6 +580,10 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
         <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} />
       ))}
       {showHeader && <TopHeader script={script} opacity={headerOp} />}
+      {/* 시작·끝 검정 페이드 — 모든 컷·헤더 위에 덮는다 */}
+      {fadeOp > 0 && (
+        <AbsoluteFill style={{ background: BG, opacity: fadeOp, zIndex: 999, pointerEvents: 'none' }} />
+      )}
     </AbsoluteFill>
   )
 }

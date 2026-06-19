@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useHoverTime } from '../TimeRuler'
+import { dbToLinear } from '../scenario/gain'
 import { BAR_COLOR, BAR_GAP, BAR_W } from './constants'
 import type { Props } from './types'
 
@@ -19,12 +20,15 @@ type Args = Pick<
   | 'onTrimEnd'
   | 'pxPerSec'
   | 'autoPlay'
+  | 'playbackRate'
+  | 'gainDb'
 >
 
 export function useAudioWavePlayer({
   audioUrl, duration,
   onClick, onTimeClick, onDoubleClick,
   trimStart, trimEnd, onTrimStart, onTrimEnd, pxPerSec, autoPlay,
+  playbackRate, gainDb,
 }: Args) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,6 +39,17 @@ export function useAudioWavePlayer({
   const [realDuration, setRealDuration] = useState(duration)
   const dur = realDuration > 0 ? realDuration : duration
   const { onMouseMove, onMouseLeave, HoverOverlay } = useHoverTime(containerRef, dur)
+
+  // 배속·게인은 ref 로 들고 playFrom 의존성에서 뺀다 — 값이 바뀔 때마다 playFrom 이 재생성돼
+  // 재생이 끊기는 일을 막는다. 새 Audio 생성 시 적용 + 재생 중 라이브 반영(아래 effect).
+  const rate = playbackRate && Number.isFinite(playbackRate) && playbackRate > 0 ? playbackRate : 1
+  // HTMLMediaElement.volume 은 0~1 만 허용한다(범위 밖이면 예외). +게인으로 1을 넘으면 1로 자른다.
+  // 렌더(Remotion Audio)는 1 초과를 허용하므로 실제 증폭은 렌더에 그대로 반영된다(여기선 미리듣기 한계).
+  const vol = Math.min(1, Math.max(0, dbToLinear(gainDb)))
+  const rateRef = useRef(rate)
+  const volRef = useRef(vol)
+  rateRef.current = rate
+  volRef.current = vol
 
   // 파형 그리기
   useEffect(() => {
@@ -74,6 +89,8 @@ export function useAudioWavePlayer({
     if (audioRef.current) { audioRef.current.pause(); cancelAnimationFrame(animRef.current) }
     const a = new Audio(audioUrl)
     audioRef.current = a
+    a.playbackRate = rateRef.current
+    a.volume = volRef.current
     a.onended = () => { setPlaying(false); setPlayhead(0) }
     a.addEventListener('loadedmetadata', () => {
       // 메타데이터 대기 중 정지/교체됐으면(audioRef가 a가 아님) 재생하지 않는다.
@@ -92,6 +109,14 @@ export function useAudioWavePlayer({
       }).catch(() => {})
     }, { once: true })
   }, [audioUrl])
+
+  // 배속·게인 라이브 반영 — 재생 중에 슬라이더를 움직이면 즉시 들리게.
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = rate
+      audioRef.current.volume = vol
+    }
+  }, [rate, vol])
 
   // 자동 재생 — autoPlay이면 오디오(URL) 준비 시 처음부터 1회 재생. 브라우저 정책상 막히면 조용히 무시.
   useEffect(() => {

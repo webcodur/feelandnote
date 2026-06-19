@@ -70,6 +70,17 @@ export interface FactionPerson {
     /** 스타일 과장 (0~1). 높을수록 감정·억양이 강조된다 */
     style?: number
   }
+  /**
+   * 대사 ElevenLabs 감정 태그 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 북리커맨드 ELE send options 의 emotions[] 에 대응. 0~2개. 비면 감정 태그 없이 합성한다.
+   * 합성 시 본문 앞에 "[tag1, tag2] " 형태로 붙는다(북리커맨드 buildEleText 규칙 그대로).
+   */
+  quoteEleEmotions?: string[]
+  /**
+   * 대사 ElevenLabs 끝 패딩 (선택) — 본문 끝에 ' ... ... ...' 추가 여부. 미지정이면 추가(기본 켜짐).
+   * 끝 음절이 잘리는 현상을 줄인다. 명시적으로 false 일 때만 미적용.
+   */
+  quoteEleTrail?: boolean
 }
 
 /**
@@ -126,6 +137,8 @@ export interface FactionGroup {
   people: FactionPerson[]
   /** 이 세력 구간 배경음악(public/music/ basename). 세력 진입 시 이전 곡 페이드아웃 후 교체(구간 반복 재생). 미지정이면 직전 곡 유지 */
   music?: string
+  /** 이 세력 곡 음량 배율 (0~1, 미지정이면 1 = 원음). 0.5 면 50%. 곡마다 음량 편차를 잡는 데 쓴다 */
+  musicVolume?: number
   /** true면 세로 쇼츠에서만 제외하고 가로 롱폼에는 노출한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
   /** true면 이 세력을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
@@ -138,6 +151,8 @@ export interface FactionTrack {
   file: string
   /** 곡 길이(초). 순차 배치·순환 계산용. 음악 선택 시 자동 측정해 저장 */
   durationSec?: number
+  /** 이 곡 음량 배율 (0~1, 미지정이면 1 = 원음). 0.5 면 50%. 곡마다 음량 편차를 잡는 데 쓴다 */
+  volume?: number
 }
 
 /** 인물 컷 전환효과(세로 쇼츠 사진 모션). auto=인물마다 번갈아 */

@@ -77,8 +77,11 @@ export function useFactionVoiceSpec({ person, onPersonChange }: UseFactionVoiceS
   const eleVoiceId = person.quoteElevenlabsVoiceId ?? ''
   const setEleVoiceId = (v: string) =>
     onPersonChange({ ...person, quoteElevenlabsVoiceId: v.trim() || undefined })
-  const eleSpec: SegmentEngineSpec | null = useMemo(
-    () => (eleVoiceId ? { engine: 'elevenlabs', voiceParam: eleVoiceId } : null),
+  // ELE 보이스 ID가 비어 있어도 spec 을 만들어 ELE 옵션·생성 버튼을 활성화한다.
+  // (ID 입력칸은 ELE 선택 시에만 뜨므로, eleSpec 을 voiceId 의존으로 두면 ELE 를 영영 못 고르는 데드락이 된다.)
+  // voiceId 가 빈 채로 생성하면 라우트가 막아 안내한다.
+  const eleSpec: SegmentEngineSpec = useMemo(
+    () => ({ engine: 'elevenlabs', voiceParam: eleVoiceId }),
     [eleVoiceId],
   )
 
@@ -89,6 +92,54 @@ export function useFactionVoiceSpec({ person, onPersonChange }: UseFactionVoiceS
     if (typeof next.stability === 'number') cleaned.stability = next.stability
     if (typeof next.style === 'number') cleaned.style = next.style
     onPersonChange({ ...person, quoteEleOptions: Object.keys(cleaned).length ? cleaned : undefined })
+  }
+
+  // ── ELE 감정 태그 / 끝 패딩 — 북리커맨드 EleSendOpts 의 emotions[]·trailEnabled 에 대응. ──
+  // 인물 quoteEleEmotions(0~2개)·quoteEleTrail 에 영속. 미리듣기·생성 호출에서 buildEleText 로 본문에 삽입.
+  const eleEmotions = person.quoteEleEmotions ?? []
+  // 끝 패딩은 미지정이면 켜짐(기본값). 명시적 false 일 때만 끈다.
+  const eleTrail = person.quoteEleTrail ?? true
+  const [emotionDraft, setEmotionDraft] = useState('')
+
+  const setEleEmotions = (next: string[]) =>
+    onPersonChange({ ...person, quoteEleEmotions: next.length ? next : undefined })
+
+  // 감정 토글 — 최대 2개. 초과 시 가장 오래된 것을 밀어낸다(북리커맨드 toggleEmotion 동일 규칙).
+  const toggleEmotion = (em: string) => {
+    if (eleEmotions.includes(em)) {
+      setEleEmotions(eleEmotions.filter(e => e !== em))
+    } else if (eleEmotions.length >= 2) {
+      setEleEmotions([eleEmotions[1], em])
+    } else {
+      setEleEmotions([...eleEmotions, em])
+    }
+  }
+
+  // 직접 입력 감정 추가 — 중복 무시, 최대 2개 유지(북리커맨드 addCustomEmotion 동일 규칙).
+  const addCustomEmotion = () => {
+    const v = emotionDraft.trim()
+    if (!v) return
+    if (eleEmotions.includes(v)) { setEmotionDraft(''); return }
+    const next = eleEmotions.length >= 2 ? [eleEmotions[1], v] : [...eleEmotions, v]
+    setEleEmotions(next)
+    setEmotionDraft('')
+  }
+
+  // 끝 패딩 토글 — 켜짐이 기본이라, 끌 때만 false 를 저장하고 다시 켜면 필드를 지운다.
+  const setEleTrail = (on: boolean) =>
+    onPersonChange({ ...person, quoteEleTrail: on ? undefined : false })
+
+  // ── 배속·게인 — 엔진 공통(렌더 적용값). 인물 quotePlaybackRate / quoteGainDb 에 영속. ──
+  // 기본값(배속 1, 게인 0)이면 필드를 지워 data.json 을 깔끔히 둔다(렌더 헬퍼가 미지정=기본 처리).
+  const playbackRate = person.quotePlaybackRate ?? 1
+  const gainDb = person.quoteGainDb ?? 0
+  const setPlaybackRate = (rate: number) => {
+    const r = Number.isFinite(rate) ? Math.min(2, Math.max(0.5, rate)) : 1
+    onPersonChange({ ...person, quotePlaybackRate: Math.abs(r - 1) < 1e-6 ? undefined : r })
+  }
+  const setGainDb = (db: number) => {
+    const d = Number.isFinite(db) ? db : 0
+    onPersonChange({ ...person, quoteGainDb: Math.abs(d) < 1e-6 ? undefined : d })
   }
 
   const activeSpec: SegmentEngineSpec | null = chosenEngine === 'elevenlabs' ? eleSpec : geminiSpec
@@ -121,5 +172,10 @@ export function useFactionVoiceSpec({ person, onPersonChange }: UseFactionVoiceS
     eleVoiceId, setEleVoiceId,
     stylePrefix, saveQuoteStyle,
     eleOptions, setEleOptions,
+    eleEmotions, toggleEmotion, addCustomEmotion,
+    emotionDraft, setEmotionDraft,
+    eleTrail, setEleTrail,
+    playbackRate, setPlaybackRate,
+    gainDb, setGainDb,
   }
 }

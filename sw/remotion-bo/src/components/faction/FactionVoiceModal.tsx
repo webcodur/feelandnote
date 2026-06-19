@@ -63,7 +63,7 @@ export function FactionVoiceModal({ onClose, onGenerate }: Props) {
             >
               <option value="gemini">Gemini 2.5</option>
               <option value="gemini-v3">Gemini 3.1</option>
-              <option value="elevenlabs" disabled>ElevenLabs (인물 패널에서 직접)</option>
+              <option value="elevenlabs">ElevenLabs</option>
             </select>
           </div>
 
