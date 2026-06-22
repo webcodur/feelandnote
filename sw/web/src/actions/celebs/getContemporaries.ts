@@ -14,13 +14,43 @@ export interface ContemporaryCeleb {
   nationality: string | null
 }
 
-async function fetchContemporaries(
+interface CelebDateRow {
+  id: string
+  nickname: string
+  nickname_en: string | null
+  avatar_url: string | null
+  profession: string | null
+  birth_date: string | null
+  death_date: string | null
+  slug: string | null
+  nationality: string | null
+}
+
+// 생몰일 보유 셀럽 전체를 셀럽·locale 무관 단일 캐시 키로 1회만 조회한다.
+// 동시대 인물 필터는 이 공유 캐시 위에서 수행하므로, 크롤러가 모든 셀럽
+// 페이지를 순회해도 전체 프로필 전송은 1시간당 1회로 묶인다.
+async function fetchAllCelebsWithDates(): Promise<CelebDateRow[]> {
+  const supabase = createStaticClient()
+  const { data } = await supabase
+    .from('profiles')
+    .select('id, nickname, nickname_en, avatar_url, profession, birth_date, death_date, slug, nationality')
+    .eq('profile_type', 'CELEB')
+    .not('birth_date', 'is', null)
+  return (data as CelebDateRow[] | null) ?? []
+}
+
+const getAllCelebsWithDatesCached = unstable_cache(
+  fetchAllCelebsWithDates,
+  ['celebs-with-dates'],
+  { revalidate: 3600, tags: ['celebs'] }
+)
+
+export async function getContemporaries(
   celebId: string,
   birthDate: string,
   deathDate: string | null,
-  locale: string,
+  locale: string = 'ko',
 ): Promise<ContemporaryCeleb[]> {
-  const supabase = createStaticClient()
   const isEn = locale === 'en'
 
   const birth = parseInt(birthDate)
@@ -29,18 +59,11 @@ async function fetchContemporaries(
   const death = deathDate ? parseInt(deathDate) : new Date().getFullYear()
   if (isNaN(death)) return []
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, nickname, nickname_en, avatar_url, profession, birth_date, death_date, slug, nationality')
-    .eq('profile_type', 'CELEB')
-    .neq('id', celebId)
-    .not('birth_date', 'is', null)
-
-  if (error || !data) return []
-
+  const all = await getAllCelebsWithDatesCached()
   const results: ContemporaryCeleb[] = []
 
-  for (const row of data) {
+  for (const row of all) {
+    if (row.id === celebId) continue
     const b = parseInt(row.birth_date!)
     if (isNaN(b)) continue
     const d = row.death_date ? parseInt(row.death_date) : new Date().getFullYear()
@@ -67,19 +90,4 @@ async function fetchContemporaries(
   })
 
   return results
-}
-
-const getContemporariesCached = unstable_cache(
-  fetchContemporaries,
-  ['contemporaries'],
-  { revalidate: 3600, tags: ['celebs'] }
-)
-
-export async function getContemporaries(
-  celebId: string,
-  birthDate: string,
-  deathDate: string | null,
-  locale: string = 'ko',
-): Promise<ContemporaryCeleb[]> {
-  return getContemporariesCached(celebId, birthDate, deathDate, locale)
 }

@@ -12,7 +12,7 @@ export interface SimilarByCelebResult {
   similarCelebs: SimilarCeleb[]
 }
 
-// celeb_persona + profiles 조인 행 (두 select의 합집합, 두 번째 조회는 생몰일·title 미포함)
+// celeb_persona + profiles 조인 행
 interface PersonaJoinProfile {
   nickname: string | null
   nickname_en: string | null
@@ -29,91 +29,71 @@ interface PersonaJoinRow {
   profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
 }
 
-async function fetchSimilarByCelebId(
-  celebId: string,
-  limit: number,
-  locale: string,
-): Promise<SimilarByCelebResult> {
+// 전체 celeb_persona를 셀럽·locale 무관 단일 캐시 키로 1회만 조회한다.
+// 셀럽별 유사도 계산은 이 공유 캐시 위에서 수행하므로, 크롤러가 모든
+// 셀럽 페이지를 순회해도 전체 테이블 전송은 1시간당 1회로 묶인다.
+async function fetchAllPersonas(): Promise<PersonaJoinRow[]> {
   const supabase = createStaticClient()
-
-  const { data: target, error: targetError } = await supabase
+  const { data } = await supabase
     .from('celeb_persona')
     .select(`
       celeb_id, persona,
       profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title)
     `)
-    .eq('celeb_id', celebId)
-    .single()
-
-  if (targetError || !target) {
-    return { targetPersona: null, targetPersonaJsonb: null, similarCelebs: [] }
-  }
-
-  const isEn = locale === 'en'
-  const resolveNick = (en: string | null | undefined, ko: string) => isEn && en ? en : ko
-
-  const tRow: PersonaJoinRow = target
-  const tProfile = Array.isArray(tRow.profiles) ? tRow.profiles[0] : tRow.profiles
-  const tJsonb = tRow.persona
-  const tStats = parsePersonaJsonb(tJsonb)
-
-  const targetPersona: PersonaProfile = {
-    celeb_id: tRow.celeb_id,
-    nickname: resolveNick(tProfile?.nickname_en, tProfile?.nickname ?? ''),
-    nickname_en: tProfile?.nickname_en ?? null,
-    profession: tProfile?.profession ?? null,
-    avatar_url: tProfile?.avatar_url ?? null,
-    birth_date: tProfile?.birth_date ?? null,
-    death_date: tProfile?.death_date ?? null,
-    title: tProfile?.title ?? null,
-    ...tStats,
-  }
-
-  const { data: all, error: allError } = await supabase
-    .from('celeb_persona')
-    .select(`
-      celeb_id, persona,
-      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url)
-    `)
-    .neq('celeb_id', celebId)
-
-  if (allError || !all) {
-    return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs: [] }
-  }
-
-  const similarCelebs: SimilarCeleb[] = (all as PersonaJoinRow[])
-    .map((row) => {
-      const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
-      const stats = parsePersonaJsonb(row.persona)
-      const vec: PersonaProfile = {
-        celeb_id: row.celeb_id,
-        nickname: resolveNick(profile?.nickname_en, profile?.nickname ?? ''),
-        nickname_en: profile?.nickname_en ?? null,
-        profession: profile?.profession ?? null,
-        avatar_url: profile?.avatar_url ?? null,
-        birth_date: null,
-        death_date: null,
-        title: null,
-        ...stats,
-      }
-      return { ...vec, distance: calcDistance(targetPersona, vec) }
-    })
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, limit)
-
-  return { targetPersona, targetPersonaJsonb: tJsonb, similarCelebs }
+  return (data as PersonaJoinRow[] | null) ?? []
 }
 
-const getSimilarByCelebIdCached = unstable_cache(
-  fetchSimilarByCelebId,
-  ['similar-by-celeb'],
+const getAllPersonasCached = unstable_cache(
+  fetchAllPersonas,
+  ['all-personas'],
   { revalidate: 3600, tags: ['celebs'] }
 )
+
+function toProfile(row: PersonaJoinRow, isEn: boolean): PersonaProfile {
+  const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
+  const stats = parsePersonaJsonb(row.persona)
+  const nickEn = profile?.nickname_en ?? null
+  return {
+    celeb_id: row.celeb_id,
+    nickname: isEn && nickEn ? nickEn : (profile?.nickname ?? ''),
+    nickname_en: nickEn,
+    profession: profile?.profession ?? null,
+    avatar_url: profile?.avatar_url ?? null,
+    birth_date: profile?.birth_date ?? null,
+    death_date: profile?.death_date ?? null,
+    title: profile?.title ?? null,
+    ...stats,
+  }
+}
 
 export async function getSimilarByCelebId(
   celebId: string,
   limit: number = 5,
   locale: string = 'ko'
 ): Promise<SimilarByCelebResult> {
-  return getSimilarByCelebIdCached(celebId, limit, locale)
+  const isEn = locale === 'en'
+  const allRows = await getAllPersonasCached()
+
+  const targetRow = allRows.find((r) => r.celeb_id === celebId)
+  if (!targetRow) {
+    return { targetPersona: null, targetPersonaJsonb: null, similarCelebs: [] }
+  }
+
+  const targetPersona = toProfile(targetRow, isEn)
+  const targetPersonaJsonb = targetRow.persona
+
+  const similarCelebs: SimilarCeleb[] = allRows
+    .filter((r) => r.celeb_id !== celebId)
+    .map((row) => {
+      const vec = toProfile(row, isEn)
+      // 유사 카드에는 생몰일·title을 노출하지 않던 기존 동작 유지
+      vec.birth_date = null
+      vec.death_date = null
+      vec.title = null
+      return { ...vec, distance: calcDistance(targetPersona, vec) }
+    })
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, limit)
+
+  return { targetPersona, targetPersonaJsonb, similarCelebs }
 }
