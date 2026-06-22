@@ -6,6 +6,7 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
+import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -73,18 +74,6 @@ interface TagJoinRow {
   tag: { id: string; name: string; name_en: string | null; color: string } | null
 }
 
-// lines/lines_en JSONB 중 홈에서 쓰는 키만 표현
-interface DialogueLinesBrief {
-  greeting?: string[] | null
-  quote?: string | null
-}
-
-interface DialogueRow {
-  celeb_id: string
-  lines: DialogueLinesBrief | null
-  lines_en: DialogueLinesBrief | null
-}
-
 // --- 공개 데이터 캐싱 (1시간) ---
 
 async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
@@ -110,7 +99,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 2. 모든 태그의 assignments 한 번에 조회
   const { data: allAssignments } = await supabase
     .from('celeb_tag_assignments')
-    .select('*')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
     .in('tag_id', tagIds)
     .order('sort_order', { ascending: true })
 
@@ -143,7 +132,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIdArray),
     supabase.rpc('count_contents_by_users', { user_ids: celebIdArray }),
-    supabase.from('celeb_dialogues').select('celeb_id, lines, lines_en').in('celeb_id', celebIdArray),
+    supabase.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT_WITH_ID).in('celeb_id', celebIdArray),
   ])
 
   // 맵 구성
@@ -175,12 +164,12 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   }
 
   const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null; quote?: string | null; quote_en?: string | null }>()
-  ;((dialoguesResult.data ?? []) as DialogueRow[]).forEach(d => {
+  ;((dialoguesResult.data ?? []) as unknown as DialogueBriefWithId[]).forEach(d => {
     dialogueMap.set(d.celeb_id, {
-      greeting: d.lines?.greeting ?? null,
-      greeting_en: d.lines_en?.greeting ?? null,
-      quote: d.lines?.quote ?? null,
-      quote_en: d.lines_en?.quote ?? null,
+      greeting: d.greeting ?? null,
+      greeting_en: d.greeting_en ?? null,
+      quote: d.quote ?? null,
+      quote_en: d.quote_en ?? null,
     })
   })
 
