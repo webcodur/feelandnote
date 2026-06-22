@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useMemo } from "react";
 import DialogueSubtitle from "../DialogueSubtitle";
 import type { DialogueSubtitleData } from "../hooks/useDialogue";
 import { useVoiceMuted } from "@/hooks/useVoiceMuted";
@@ -24,8 +24,13 @@ export function GlobalDialogueProvider({ children }: { children: React.ReactNode
     setSubtitle(sub);
   }, []);
 
+  const value = useMemo(
+    () => ({ subtitle, handleSubtitle, voiceMuted, toggleVoiceMuted }),
+    [subtitle, handleSubtitle, voiceMuted, toggleVoiceMuted],
+  );
+
   return (
-    <GlobalDialogueContext.Provider value={{ subtitle, handleSubtitle, voiceMuted, toggleVoiceMuted }}>
+    <GlobalDialogueContext.Provider value={value}>
       {children}
       <DialogueSubtitle
         subtitle={subtitle}

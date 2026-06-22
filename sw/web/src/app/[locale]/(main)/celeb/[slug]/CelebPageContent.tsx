@@ -48,6 +48,26 @@ const formatYear = (year: string | null | undefined) => {
   return num < 0 ? `BC ${Math.abs(num)}` : `${num}`;
 };
 
+/* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ──
+   주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
+   정의하면 부모가 리렌더될 때마다 새 컴포넌트 타입이 되어 내부 자식
+   (서가·동시대 인물 등)이 통째로 언마운트→재마운트된다. */
+const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <>
+    {/* 모바일: HR + 여백 최소화 */}
+    <div className={`md:hidden ${className}`}>
+      <hr className="border-accent-dim/30 mb-5" />
+      {children}
+    </div>
+    {/* PC: 기존 ClassicalBox */}
+    <div className="hidden md:block">
+      <ClassicalBox hover={false} className={`p-6 ${className}`}>
+        {children}
+      </ClassicalBox>
+    </div>
+  </>
+);
+
 export default function CelebPageContent({
   profile,
   userId,
@@ -103,23 +123,6 @@ export default function CelebPageContent({
   const handleQuotePlay = useCallback(() => {
     fireQuote(celebForGreeting);
   }, [fireQuote, celebForGreeting]);
-
-  /* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ── */
-  const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
-    <>
-      {/* 모바일: HR + 여백 최소화 */}
-      <div className={`md:hidden ${className}`}>
-        <hr className="border-accent-dim/30 mb-5" />
-        {children}
-      </div>
-      {/* PC: 기존 ClassicalBox */}
-      <div className="hidden md:block">
-        <ClassicalBox hover={false} className={`p-6 ${className}`}>
-          {children}
-        </ClassicalBox>
-      </div>
-    </>
-  );
 
   return (
     <div className="space-y-10 md:space-y-16">
