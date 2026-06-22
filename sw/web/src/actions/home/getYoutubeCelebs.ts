@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface YoutubeVideoEntry {
   videoId: string
@@ -41,7 +42,7 @@ async function fetchYoutubeCelebsPublic(): Promise<YoutubeCeleb[]> {
 const getYoutubeCelebsCached = unstable_cache(
   fetchYoutubeCelebsPublic,
   ['youtube-celebs'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 /** 유튜브 영상(서재 탐방)을 보유한 활성 셀럽 목록 */

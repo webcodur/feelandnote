@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache';
 import { createStaticClient } from '@/lib/supabase/static';
+import { STATIC_REVALIDATE } from '@/lib/cache';
 import { parsePersonaJsonb, parsePersonaJsonbWithReasons, type PersonaStats, type PersonaStatsWithReasons, type PersonaJsonb } from '@/lib/persona/types';
 
 export interface PersonaQuickViewData {
@@ -60,5 +61,5 @@ async function fetchPersonaQuickViewData(celebId: string): Promise<PersonaQuickV
 export const getPersonaQuickViewData = unstable_cache(
   fetchPersonaQuickViewData,
   ['persona-quick-view'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 );

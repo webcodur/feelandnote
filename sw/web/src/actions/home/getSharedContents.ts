@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface SharedContent {
   content_id: string
@@ -38,7 +39,7 @@ async function fetchSharedContents(
 const getCachedSharedContents = unstable_cache(
   fetchSharedContents,
   ['shared-contents'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getSharedContents(

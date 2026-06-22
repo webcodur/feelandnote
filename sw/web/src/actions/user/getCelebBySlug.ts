@@ -2,6 +2,7 @@
 
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
@@ -114,7 +115,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
   ['celeb-by-slug'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup

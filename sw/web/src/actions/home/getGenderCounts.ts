@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 interface GenderCount {
@@ -31,5 +32,5 @@ async function fetchGenderCounts(): Promise<GenderCounts> {
 export const getGenderCounts = unstable_cache(
   fetchGenderCounts,
   ['gender-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

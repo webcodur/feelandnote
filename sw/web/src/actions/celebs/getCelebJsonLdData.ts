@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { CL_SELECT_LIST, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface JsonLdContentRow {
@@ -28,7 +29,7 @@ async function fetchJsonLdContents(celebId: string): Promise<JsonLdContentRow[]>
 export const getCelebJsonLdContents = unstable_cache(
   fetchJsonLdContents,
   ['celeb-jsonld-contents'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export interface CelebDialogueFull {
@@ -55,5 +56,5 @@ async function fetchCelebDialogueFull(celebId: string): Promise<CelebDialogueFul
 export const getCelebDialogueFull = unstable_cache(
   fetchCelebDialogueFull,
   ['celeb-dialogue-full'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

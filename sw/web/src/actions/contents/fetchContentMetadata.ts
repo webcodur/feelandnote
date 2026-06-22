@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { searchBooks as searchNaverBooks } from '@feelandnote/content-search/naver-books'
 import { getGoogleBookByIsbn } from '@feelandnote/content-search/google-books'
 import { getVideoById } from '@feelandnote/content-search/tmdb'
@@ -76,7 +77,7 @@ async function fetchMetadataFromApi(
 const getCachedMetadata = unstable_cache(
   fetchMetadataFromApi,
   ['content-metadata'],
-  { revalidate: 3600 }
+  { revalidate: STATIC_REVALIDATE }
 )
 
 // 단일 콘텐츠 metadata 조회

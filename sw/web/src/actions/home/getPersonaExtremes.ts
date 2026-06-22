@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaStatsWithReasons } from '@/lib/persona/types'
 
@@ -96,7 +97,7 @@ async function fetchPersonaExtremes(runnersUpLimit: number): Promise<PersonaExtr
 const getCachedPersonaExtremes = unstable_cache(
   fetchPersonaExtremes,
   ['persona-extremes'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getPersonaExtremes(options?: { runnersUpLimit?: number }): Promise<PersonaExtremeEntry[]> {

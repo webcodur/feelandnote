@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
 
@@ -118,6 +119,7 @@ export async function bumpVoiceVersion(celebId: string): Promise<number> {
     .single()
   const newV = ((data as Record<string, unknown>)?.voice_v as number ?? 0) + 1
   await supabase.from('profiles').update({ voice_v: newV }).eq('id', celebId)
+  await revalidateWebCache()
   return newV
 }
 
@@ -191,6 +193,7 @@ export async function saveQuote(
     .upsert({ celeb_id: celebId, [linesCol]: updatedLines }, { onConflict: 'celeb_id' })
   if (error) return { success: false, error: error.message }
 
+  await revalidateWebCache()
   return { success: true }
 }
 
@@ -198,6 +201,7 @@ export async function saveQuote(
 export async function enableHasVoice(celebId: string): Promise<void> {
   const supabase = await createClient()
   await supabase.from('profiles').update({ has_voice: true }).eq('id', celebId)
+  await revalidateWebCache()
 }
 
 /** voice_id 저장 */
@@ -213,5 +217,6 @@ export async function saveVoiceId(
     .update({ [col]: voiceId })
     .eq('id', celebId)
   if (error) return { success: false, error: error.message }
+  await revalidateWebCache()
   return { success: true }
 }

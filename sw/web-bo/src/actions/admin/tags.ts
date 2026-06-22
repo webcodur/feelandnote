@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 // #region Types
 export interface CelebTag {
@@ -157,6 +158,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
   }
 
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { id: data.id }
 }
 // #endregion
@@ -193,6 +195,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   }
 
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion
@@ -212,6 +215,7 @@ export async function deleteTag(tagId: string): Promise<{ success: boolean; erro
   }
 
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion
@@ -237,6 +241,7 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
   }
 
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion
@@ -346,6 +351,7 @@ export async function updateCelebTags(
   revalidatePath(`/members/${celebId}`)
   revalidatePath('/members')
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion
@@ -384,6 +390,7 @@ export async function updateTagAssignmentDesc(
 
   revalidatePath(`/members/${celebId}`)
   revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion

@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface CelebDirectoryRow {
   slug: string
@@ -27,5 +28,5 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
 export const getCelebDirectory = unstable_cache(
   fetchCelebDirectory,
   ['celeb-directory'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

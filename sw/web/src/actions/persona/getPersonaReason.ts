@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { parsePersonaJsonbWithReasons } from '@/lib/persona/types'
 import type { PersonaJsonb } from '@/lib/persona/types'
@@ -30,7 +31,7 @@ async function fetchPersonaReason(celebId: string, axis: string): Promise<Person
 }
 
 const getPersonaReasonCached = unstable_cache(fetchPersonaReason, ['persona-reason'], {
-  revalidate: 3600,
+  revalidate: STATIC_REVALIDATE,
   tags: ['celebs'],
 })
 

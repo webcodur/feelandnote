@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface ContemporaryCeleb {
   id: string
@@ -42,7 +43,7 @@ async function fetchAllCelebsWithDates(): Promise<CelebDateRow[]> {
 const getAllCelebsWithDatesCached = unstable_cache(
   fetchAllCelebsWithDates,
   ['celebs-with-dates'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getContemporaries(

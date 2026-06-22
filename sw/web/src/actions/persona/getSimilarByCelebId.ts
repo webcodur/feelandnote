@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
@@ -46,7 +47,7 @@ async function fetchAllPersonas(): Promise<PersonaJoinRow[]> {
 const getAllPersonasCached = unstable_cache(
   fetchAllPersonas,
   ['all-personas'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 function toProfile(row: PersonaJoinRow, isEn: boolean): PersonaProfile {

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import type { ContentType } from '@/types/database'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getVideoTrailer } from '@feelandnote/content-search/tmdb'
@@ -59,7 +60,7 @@ async function fetchMediaEmbed(
 const getCachedMediaEmbed = unstable_cache(
   fetchMediaEmbed,
   ['media-embed'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getMediaEmbed(

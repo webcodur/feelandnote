@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from "next-intl/server";
@@ -134,7 +135,7 @@ async function fetchSuikodenDialogues(locale: string): Promise<Record<string, Su
 const loadSuikodenDialoguesCached = unstable_cache(
   fetchSuikodenDialogues,
   ['suikoden-dialogues'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function loadSuikodenDialogues(): Promise<Record<string, SuikodenLines>> {

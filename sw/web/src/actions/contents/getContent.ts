@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType } from '@/types/database'
@@ -56,7 +57,7 @@ async function fetchContentPublic(
 const fetchContentPublicCached = unstable_cache(
   fetchContentPublic,
   ['content-public-brief'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 // 본인 기록 + 콘텐츠 정보 조회 (독서 모드 페이지용)

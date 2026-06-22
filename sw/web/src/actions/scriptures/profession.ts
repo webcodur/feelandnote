@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
@@ -85,7 +86,7 @@ async function fetchProfessionAggregate(
 const getProfessionAggregateCached = unstable_cache(
   fetchProfessionAggregate,
   ['scriptures-profession-agg'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getScripturesByProfession(params?: {
@@ -147,6 +148,6 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
 export const getProfessionContentCounts = unstable_cache(
   fetchProfessionContentCounts,
   ['profession-content-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 // #endregion

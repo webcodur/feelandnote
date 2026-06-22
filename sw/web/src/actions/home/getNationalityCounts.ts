@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCountryNamesMap } from '@/lib/countries'
 
@@ -75,5 +76,5 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
 export const getNationalityCounts = unstable_cache(
   fetchNationalityCounts,
   ['nationality-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 
 export type ProfessionCounts = Record<string, number>
@@ -52,5 +53,5 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
 export const getProfessionCounts = unstable_cache(
   fetchProfessionCounts,
   ['profession-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export type ContentTypeCounts = Record<string, number>
 
@@ -31,5 +32,5 @@ async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
 export const getContentTypeCounts = unstable_cache(
   fetchContentTypeCounts,
   ['content-type-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

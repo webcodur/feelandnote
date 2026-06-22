@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 import type { PersonaJsonb } from './members'
 
 export interface PersonaData {
@@ -58,6 +59,8 @@ export async function saveCelebPersona(
     .upsert(payload, { onConflict: 'celeb_id' })
 
   if (error) throw error
+
+  await revalidateWebCache()
 }
 
 export async function getPersonaVectors(): Promise<PersonaData[]> {

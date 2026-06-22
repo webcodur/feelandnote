@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
@@ -139,5 +140,5 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 export const getTagSharedLibrary = unstable_cache(
   fetchTagSharedLibrary,
   ['tag-shared-library'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 );

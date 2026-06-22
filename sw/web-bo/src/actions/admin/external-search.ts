@@ -3,6 +3,7 @@
 import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -95,6 +96,8 @@ export async function createContentFromExternal(
       sources: { primary: input.externalSource || 'unknown' },
       verified: true,
     })
+
+    await revalidateWebCache()
 
     return { success: true, contentId: newContent.id }
   } catch (err) {

@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
@@ -179,7 +180,7 @@ const getCachedTrackerCandidates = unstable_cache(
     return data ?? [];
   },
   ["tracker-candidates"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 export async function getTrackerRound(
@@ -293,7 +294,7 @@ const getCachedFallbackEligible = unstable_cache(
     );
   },
   ["tracker-fallback-eligible"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 async function getTrackerRoundFallback(
@@ -348,7 +349,7 @@ const getCachedDistractorPool = unstable_cache(
     return (data ?? []) as DistractorRow[];
   },
   ["tracker-distractor-pool"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 async function buildRound(

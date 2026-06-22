@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
@@ -129,7 +130,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 const getCelebCardsCached = unstable_cache(
   fetchCelebCards,
   ["celeb-cards"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
@@ -169,7 +170,7 @@ async function fetchCardDialogues(
 const getCardDialoguesCached = unstable_cache(
   fetchCardDialogues,
   ["card-dialogues"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, DialogueLines>> {

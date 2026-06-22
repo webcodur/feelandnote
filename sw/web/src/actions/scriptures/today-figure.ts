@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
@@ -81,7 +82,7 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 const getTodayFigureCached = unstable_cache(
   fetchTodayFigure,
   ['today-figure'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getTodayFigure(): Promise<TodayFigureResult> {

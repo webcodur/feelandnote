@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 export interface AffiliateLink {
   platform: string
@@ -178,6 +179,7 @@ export async function updateContent(
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
+  await revalidateWebCache()
 }
 
 export async function updateAffiliateLinks(
@@ -199,6 +201,7 @@ export async function updateAffiliateLinks(
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
+  await revalidateWebCache()
 }
 
 /** 단일 플랫폼 링크를 upsert(추가/수정)하거나 삭제한다. url이 빈 문자열이면 해당 플랫폼 제거. */
@@ -260,4 +263,5 @@ export async function deleteContent(contentId: string): Promise<void> {
   if (error) throw error
 
   revalidatePath('/contents')
+  await revalidateWebCache()
 }

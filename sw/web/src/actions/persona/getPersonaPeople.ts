@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 export interface PersonaPersonSummary {
@@ -64,7 +65,7 @@ async function fetchPersonaPeople(limit: number): Promise<PersonaPersonSummary[]
 const getPersonaPeopleCached = unstable_cache(
   fetchPersonaPeople,
   ['persona-people'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getPersonaPeople(limit: number = 200): Promise<PersonaPersonSummary[]> {

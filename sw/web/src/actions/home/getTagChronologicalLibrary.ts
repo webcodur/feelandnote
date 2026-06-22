@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
@@ -120,5 +121,5 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
 export const getTagChronologicalLibrary = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 );

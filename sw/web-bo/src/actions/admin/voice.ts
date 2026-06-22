@@ -6,6 +6,7 @@ import {
   DIALOGUE_TYPES, TYPE_PREFIX, VARIANTS, LOCALES,
   voiceR2Key,
 } from '@/lib/voice-path'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 /** 음성 파일 업로드 (단일, VoiceSection 수동 업로드용) */
 export async function uploadVoiceFile(
@@ -34,6 +35,7 @@ export async function toggleHasVoice(
     .update({ has_voice: value })
     .eq('id', celebId)
   if (error) return { success: false, error: error.message }
+  await revalidateWebCache()
   return { success: true }
 }
 
@@ -102,5 +104,6 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
   const supabase = await createClient()
   await supabase.from('profiles').update({ has_voice: false, voice_v: 0 }).eq('id', celebId)
 
+  await revalidateWebCache()
   return { success: true }
 }

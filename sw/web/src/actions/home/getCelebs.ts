@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCelebLevelByRanking } from '@/constants/materials'
@@ -186,7 +187,7 @@ async function fetchCelebsPublic(
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
   ['celebs-public'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getCelebs(

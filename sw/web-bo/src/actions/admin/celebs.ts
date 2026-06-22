@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 import { notifyIndexNow } from '@/lib/indexnow'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 // #region Types
 export interface Celeb {
@@ -675,6 +676,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
   }
 
   revalidatePath('/celebs')
+  await revalidateWebCache()
 
   return { id: userId }
 }
@@ -759,6 +761,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath(`/celebs/${input.id}`)
   revalidatePath(`/members/${input.id}`)
+  await revalidateWebCache()
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
   const { data: profile } = await adminClient
@@ -786,6 +789,7 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
   if (error) throw error
 
   revalidatePath('/celebs')
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -820,6 +824,7 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
   }
 
   revalidatePath('/celebs')
+  await revalidateWebCache()
   return newStatus
 }
 // #endregion
@@ -840,6 +845,7 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath('/members')
   revalidatePath('/members/titles')
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1001,6 +1007,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
   if (error) throw error
 
   revalidatePath(`/celebs/${input.celeb_id}/contents`)
+  await revalidateWebCache()
 
   return { id: data.id }
 }
@@ -1069,6 +1076,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   }
 
   revalidatePath(`/celebs/${input.celeb_id}/contents`)
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1082,6 +1090,7 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
   if (error) throw error
 
   revalidatePath(`/celebs/${celebId}/contents`)
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1198,6 +1207,7 @@ export async function updateCelebQuotes(celebId: string, quotes: string | null):
   revalidatePath('/celebs')
   revalidatePath('/celebs/quotes')
   revalidatePath(`/celebs/${celebId}`)
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1216,6 +1226,7 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
   revalidatePath('/members')
   revalidatePath('/members/titles')
   revalidatePath(`/members/${celebId}`)
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1234,6 +1245,7 @@ export async function updateCelebProfession(celebId: string, profession: string 
   revalidatePath('/members')
   revalidatePath('/members/professions')
   revalidatePath(`/members/${celebId}`)
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -1252,6 +1264,7 @@ export async function updateCelebJourney(celebId: string, journey: string | null
   revalidatePath('/members')
   revalidatePath('/members/journeys')
   revalidatePath(`/members/${celebId}`)
+  await revalidateWebCache()
 }
 // #endregion
 

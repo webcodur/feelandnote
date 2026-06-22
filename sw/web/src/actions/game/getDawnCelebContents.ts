@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
@@ -84,7 +85,7 @@ async function fetchDawnCelebContents(
 const getCachedDawnCelebContents = unstable_cache(
   fetchDawnCelebContents,
   ["dawn-celeb-contents"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 export async function getDawnCelebContents(

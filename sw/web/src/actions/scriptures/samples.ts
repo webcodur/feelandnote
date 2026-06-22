@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
@@ -67,7 +68,7 @@ async function fetchContentSamplesForCelebs(
 const getContentSamplesForCelebsCached = unstable_cache(
   fetchContentSamplesForCelebs,
   ['content-samples-for-celebs'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 // 미사용 — unstable_cache 래퍼 구조 보존을 위해 export만 해제
@@ -127,7 +128,7 @@ async function fetchContentSamplesByProfession(
 const getContentSamplesByProfessionCached = unstable_cache(
   fetchContentSamplesByProfession,
   ['content-samples-by-profession'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {

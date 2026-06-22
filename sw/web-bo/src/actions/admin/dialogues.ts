@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { revalidateWebCache } from '@/lib/revalidate-web'
 
 export interface DialogueLines {
   greeting: [string, string, string]
@@ -93,6 +94,7 @@ export async function updateSpeechTone(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -112,6 +114,7 @@ export async function updateVoiceSpeed(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
+  await revalidateWebCache()
 }
 // #endregion
 
@@ -171,5 +174,6 @@ export async function saveCelebDialogues(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
+  await revalidateWebCache()
 }
 // #endregion

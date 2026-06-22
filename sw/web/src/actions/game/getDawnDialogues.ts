@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 
@@ -68,7 +69,7 @@ async function fetchDawnDialogues(
 const getDawnDialoguesCached = unstable_cache(
   fetchDawnDialogues,
   ["dawn-dialogues"],
-  { revalidate: 3600, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
 );
 
 export async function getDawnDialogues(

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
@@ -83,7 +84,7 @@ async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicD
 const getCelebModalCached = unstable_cache(
   fetchCelebModalPublic,
   ['celeb-modal'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {

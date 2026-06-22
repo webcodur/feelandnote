@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import type { TopCeleb } from './types'
@@ -49,7 +50,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
 export const getCelebsForContent = unstable_cache(
   fetchCelebsForContent,
   ['celebs-for-content'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 // #endregion
 
@@ -87,7 +88,7 @@ async function fetchTopCelebsAcrossAllEras(locale: string): Promise<TopCeleb[]> 
 const getTopCelebsAcrossAllErasCached = unstable_cache(
   fetchTopCelebsAcrossAllEras,
   ['top-celebs-across-eras'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {

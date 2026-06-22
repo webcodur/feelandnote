@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import {
   type Aura,
   AURA_ORDER_DESC, // 9 -> 1 순서
@@ -146,5 +147,5 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
 export const getInfluenceDistribution = unstable_cache(
   fetchInfluenceDistribution,
   ['influence-distribution'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

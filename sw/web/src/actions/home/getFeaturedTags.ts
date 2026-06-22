@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
@@ -256,7 +257,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
   ['featured-tags'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {

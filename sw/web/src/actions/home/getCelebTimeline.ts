@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
@@ -121,5 +122,5 @@ async function fetchCelebTimeline(): Promise<TimelineData> {
 export const getCelebTimeline = unstable_cache(
   fetchCelebTimeline,
   ['celeb-timeline'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )

@@ -97,6 +97,21 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - [ ] `getFeedActivities` contentType 필터가 해당 타입 contents id 전량 수신 — FK 추가 또는 RPC 이관 필요
 - [ ] INFO 5건: 캐시 적용된 lines 통째 select → DIALOGUE_BRIEF_SELECT 계열로 추가 절감 여지
 
+### 사고 후속 6차 정리 — 셀럽 정적 데이터 온디맨드 캐싱 (2026-06-22)
+
+탐색·라이브러리의 셀럽 집계가 1시간 시간만료에만 의존해, 데이터 변경이 없어도 크롤러가 만료 틈마다 재조회하던 구조를 온디맨드 무효화로 전환.
+
+**캐시 만료 7일로 연장 (안전망)**:
+- 새 상수 `STATIC_REVALIDATE = 604800`(7일, `sw/web/src/lib/cache.ts`). 셀럽 정적 집계 49곳의 `revalidate: 3600` → `STATIC_REVALIDATE` 교체.
+- 대상: persona 계열, influence/influenceDistribution, celebTimeline, 인구통계 counts(nationality/gender/profession/contentType), scriptures 전체, getCelebDirectory/getCelebs/getContemporaries/getFeaturedTags, 태그 라이브러리(getTagSharedLibrary/getTagChronologicalLibrary), getCelebBySlug/getCelebForModal/getCelebJsonLdData, getCelebInfluence, getYoutubeCelebs, getSharedContents, getProfileShowcase, 콘텐츠 메타(getContent 공개·getMediaEmbed·fetchContentMetadata), 게임 풀(getTrackerRound/getCelebCards/getDawn*/suikoden).
+- **제외(3600 유지)**: 일반 사용자 활동으로 변하는 데이터 — 유저 프로필·통계·팔로우(getMiniProfile/getDetailedStats/getFollowers), 전체 기록 카운트(getContentUserCounts/getCelebCounts/getContentCounts), 리뷰/최근/방명록/댓글/공지/피드백 피드, 검색. celebs 태그 무효화로 안 비워지고 사용자 새 활동 반영이 늦어지기 때문.
+
+**web-bo 변경 시 즉시 무효화 (3차 잔여작업 해소)**:
+- 셀럽/콘텐츠 변경 server action 30개 함수에 `revalidateWebCache()` 호출 추가(DB 변경 성공 경로에만): celebs.ts 12 + contents.ts 3(deleteContent 포함) + external-search.ts 1 + persona.ts 1 + dialogues.ts 3 + voice-gen.ts 4 + voice.ts 2(deleteAllVoiceFiles 포함) + tags.ts 6.
+- 운영자가 백오피스에서 데이터를 넣는 즉시 web 앱 `celebs` 태그가 비워져 탐색·라이브러리에 반영된다. 7일 만료는 무효화 누락 대비 백업.
+
+**효과**: 데이터 미변경 기간에는 셀럽 집계 DB 재조회가 사실상 0. 크롤러가 만료 틈을 때려 발생하던 반복 재조회를 제거한다.
+
 ### 사고 후속 3차 정리 (2026-05-09)
 
 전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
@@ -115,7 +130,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **잔여 작업**:
 - [ ] Supabase Storage 구 avatar 파일 852개 정리 (Googlebot 크롤링 중)
-- [ ] web-bo mutation 8개 파일에 `revalidateWebCache()` 점진 적용 (현 시점 미적용 — UX 이슈, egress와 무관)
+- [x] web-bo mutation에 `revalidateWebCache()` 적용 (2026-06-22, 6차 정리 — 셀럽/콘텐츠 변경 30개 함수)
 - [x] `20260509_egress_optimization.sql` 마이그레이션 적용 (2026-06-12, uuid→text 교정본)
 - [x] 클라이언트 코드 RPC 교체 (scriptures/index.ts, getCelebBySlug.ts) — 5차 정리 참조
 - [ ] daily_figures cron 동작 모니터링/실패 알림 (실패하면 `getTodayFigure` seed fallback 풀스캔으로 떨어짐)

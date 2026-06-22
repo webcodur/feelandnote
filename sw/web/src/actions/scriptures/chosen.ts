@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import type { ScriptureContent, ScripturesResult } from './types'
@@ -63,7 +64,7 @@ async function fetchChosenScriptures(
 const getChosenScripturesCached = unstable_cache(
   fetchChosenScriptures,
   ['chosen-scriptures'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 )
 
 export async function getChosenScriptures(params?: {
