@@ -215,8 +215,11 @@
       "collection": "Spotlight Collection",
       "tabs": {
         "spotlight": "Spotlight",
-        "shared": "Shared Library",
-        "timeline": "Timeline"
+        "library": "Library"
+      },
+      "library": {
+        "sharedTitle": "Shared Library",
+        "peopleTitle": "By Figure"
       },
       "shared": {
         "celebCount": "{count} shared",

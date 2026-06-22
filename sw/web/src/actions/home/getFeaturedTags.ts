@@ -14,6 +14,7 @@ export type FeaturedCeleb = CelebProfile & {
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
+  spotlight_image_url: string | null
 }
 
 export interface FeaturedTag {
@@ -23,6 +24,8 @@ export interface FeaturedTag {
   description: string | null
   description_en: string | null
   color: string
+  slug: string | null
+  team_images: string[]
   celebs: FeaturedCeleb[]
   is_featured: boolean
 }
@@ -39,7 +42,14 @@ interface FeaturedTagRow {
   description: string | null
   description_en: string | null
   color: string
+  slug: string | null
+  team_images: unknown
   is_featured: boolean | null
+}
+
+// team_images Json → string[]
+function toImageArray(v: unknown): string[] {
+  return Array.isArray(v) ? (v.filter((x): x is string => typeof x === 'string')) : []
 }
 
 interface FeaturedProfileRow {
@@ -83,7 +93,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 1. 모든 태그 조회
   const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, is_featured')
+    .select('id, name, name_en, description, description_en, color, slug, team_images, is_featured')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -100,7 +110,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 2. 모든 태그의 assignments 한 번에 조회
   const { data: allAssignments } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, spotlight_image_url, sort_order')
     .in('tag_id', tagIds)
     .order('sort_order', { ascending: true })
 
@@ -110,14 +120,14 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   activeTags.forEach(tag => {
     const tagAssignments = ((allAssignments ?? []) as TagAssignmentRow[])
       .filter(a => a.tag_id === tag.id)
-      .slice(0, 8)
+      .slice(0, 12)
     assignmentsByTag[tag.id] = tagAssignments
     tagAssignments.forEach(a => allCelebIds.add(a.celeb_id))
   })
 
   const celebIdArray = Array.from(allCelebIds)
   if (celebIdArray.length === 0) {
-    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, celebs: [], is_featured: true }))
+    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images), celebs: [], is_featured: true }))
   }
 
   // 3. 모든 셀럽 데이터 병렬 조회
@@ -229,6 +239,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,
           long_desc_en: a.long_desc_en,
+          spotlight_image_url: a.spotlight_image_url ?? null,
         }
       })
       .filter((c): c is FeaturedCeleb => c !== null)
@@ -237,7 +248,8 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       result.push({
         id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
         description: tag.description, description_en: tag.description_en ?? null,
-        color: tag.color, celebs, is_featured: true,
+        color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
+        celebs, is_featured: true,
       })
     }
   }
@@ -247,7 +259,8 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     result.push({
       id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
       description: tag.description, description_en: tag.description_en ?? null,
-      color: tag.color, celebs: [], is_featured: false,
+      color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
+      celebs: [], is_featured: false,
     })
   }
 

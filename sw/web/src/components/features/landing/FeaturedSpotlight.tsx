@@ -23,9 +23,10 @@ import type { TimelineCeleb, TimelineContent } from "@/components/features/game/
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 
 import SpotlightIntroView from "./SpotlightIntroView";
+import SpotlightTeamBanner from "./SpotlightTeamBanner";
 
 export type SpotlightLocation = "main" | "explore-pc" | "explore-mb";
-type ViewMode = "spotlight" | "shared" | "timeline";
+type ViewMode = "spotlight" | "library";
 
 interface FeaturedSpotlightProps {
   tags: FeaturedTag[];
@@ -59,10 +60,11 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
     if (tagParam) {
       const idx = tags.findIndex((t) => t.id === tagParam);
       if (idx !== -1) setActiveTagIndex(idx);
-    } else if (isExplore) {
+    } else if (isExplore && !initialTagId) {
+      // slug로 들어온 경우(initialTagId 존재)는 해당 테마를 유지. 쿼리·slug 없을 때만 컬렉션 화면으로.
       setActiveTagIndex(-1);
     }
-  }, [tagParam, isExplore, tags]);
+  }, [tagParam, isExplore, tags, initialTagId]);
 
   const handleTagChange = (idx: number) => {
     setActiveTagIndex(idx);
@@ -70,6 +72,20 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
   };
 
   const activeTag = activeTagIndex >= 0 && tags.length > 0 ? tags[activeTagIndex] : null;
+
+  // 선택된 테마를 주소창에 반영(공유 가능한 고유 주소). 페이지 이동 없이 주소만 갱신한다.
+  useEffect(() => {
+    if (!isExplore || typeof window === "undefined") return;
+    const m = window.location.pathname.match(/^(.*\/explore\/spotlight)(?:\/[^/?#]+)?$/);
+    if (!m) return;
+    const base = m[1];
+    const target = activeTag?.slug ? `${base}/${activeTag.slug}` : base;
+    if (window.location.pathname !== target) {
+      window.history.replaceState(window.history.state, "", target);
+    }
+    // 상단 배너 breadcrumb가 테마 변경을 따라오도록 알린다(replaceState는 라우터 갱신을 일으키지 않음).
+    window.dispatchEvent(new CustomEvent("spotlight:theme", { detail: activeTag?.slug ?? null }));
+  }, [activeTag?.slug, isExplore]);
 
   return (
     <div className="w-full relative">
@@ -169,6 +185,16 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
         <>
           {viewMode === "spotlight" && (
             <>
+              {/* 단체 이미지 배너 (상단) */}
+              {activeTag && activeTag.team_images.length > 0 && (
+                <div className="relative z-10">
+                  <SpotlightTeamBanner
+                    images={activeTag.team_images}
+                    alt={locale === "en" ? (activeTag.name_en ?? activeTag.name) : activeTag.name}
+                  />
+                </div>
+              )}
+
               {/* Mobile (< 768px) */}
               <div className="block md:hidden relative z-10">
                 <FeaturedSpotlightMobile
@@ -189,14 +215,13 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
             </>
           )}
 
-          {viewMode === "shared" && activeTag && (
-            <div className="max-w-3xl mx-auto px-4 py-6">
-              <SharedLibraryView tagId={activeTag.id} />
+          {viewMode === "library" && activeTag && (
+            <div className="max-w-3xl mx-auto px-4 py-6 space-y-10">
+              {/* 함께 본 서재 (겹치는 콘텐츠, 있을 때만) */}
+              <SharedLibraryView tagId={activeTag.id} embedded heading={t("library.sharedTitle")} />
+              {/* 인물별 서재 (항상) */}
+              <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
             </div>
-          )}
-
-          {viewMode === "timeline" && activeTag && (
-            <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
           )}
         </>
       )}
@@ -215,7 +240,7 @@ function ViewModeTabs({
   onChange: (mode: ViewMode) => void;
   t: ReturnType<typeof useTranslations>;
 }) {
-  const modes: ViewMode[] = ["spotlight", "shared", "timeline"];
+  const modes: ViewMode[] = ["spotlight", "library"];
 
   return (
     <div className="flex justify-center mb-8 px-4 relative z-10 w-full">
@@ -267,9 +292,9 @@ function TimelineSection({
   }, [tagId]);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6">
+    <div>
       <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-5">
-        {t("timeline.title")}
+        {t("library.peopleTitle")}
       </h4>
 
       <CelebContentTimeline

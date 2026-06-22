@@ -12,6 +12,8 @@ export interface CelebTag {
   description: string | null
   description_en: string | null
   color: string
+  slug: string | null
+  team_images: string[]
   sort_order: number
   is_featured: boolean
   start_date: string | null
@@ -28,6 +30,7 @@ export interface CelebTagAssignment {
   long_desc: string | null
   short_desc_en: string | null
   long_desc_en: string | null
+  spotlight_image_url: string | null
   sort_order: number
   celeb?: {
     id: string
@@ -43,6 +46,7 @@ interface CreateTagInput {
   description?: string
   description_en?: string | null
   color?: string
+  slug?: string | null
   is_featured?: boolean
   start_date?: string | null
   end_date?: string | null
@@ -55,10 +59,21 @@ interface UpdateTagInput {
   description?: string
   description_en?: string | null
   color?: string
+  slug?: string | null
   sort_order?: number
   is_featured?: boolean
   start_date?: string | null
   end_date?: string | null
+}
+
+// DB 행 → CelebTag 정규화 (team_images Json → string[])
+function normalizeTag(row: Record<string, unknown>): CelebTag {
+  const images = Array.isArray(row.team_images) ? (row.team_images as string[]) : []
+  return {
+    ...(row as unknown as CelebTag),
+    slug: (row.slug as string | null) ?? null,
+    team_images: images,
+  }
 }
 
 export interface TagsResponse {
@@ -92,7 +107,7 @@ export async function getTags(): Promise<TagsResponse> {
   })
 
   const tags: CelebTag[] = (data ?? []).map(tag => ({
-    ...tag,
+    ...normalizeTag(tag),
     celeb_count: countMap.get(tag.id) ?? 0,
   }))
 
@@ -115,7 +130,7 @@ export async function getTag(tagId: string): Promise<CelebTag | null> {
     return null
   }
 
-  return data
+  return normalizeTag(data)
 }
 // #endregion
 
@@ -141,6 +156,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
       description: input.description?.trim() || null,
       description_en: input.description_en?.trim() || null,
       color: input.color || '#7c4dff',
+      slug: input.slug?.trim() || null,
       sort_order: nextSortOrder,
       is_featured: input.is_featured ?? false,
       start_date: input.start_date || null,
@@ -151,7 +167,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
 
   if (error) {
     if (error.code === '23505') {
-      return { error: '이미 존재하는 태그 이름이다.' }
+      return { error: error.message.includes('slug') ? '이미 사용 중인 주소(slug)다.' : '이미 존재하는 태그 이름이다.' }
     }
     console.error('태그 생성 에러:', error)
     return { error: error.message }
@@ -176,6 +192,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   if (input.description !== undefined) updateData.description = input.description?.trim() || null
   if (input.description_en !== undefined) updateData.description_en = input.description_en?.trim() || null
   if (input.color !== undefined) updateData.color = input.color
+  if (input.slug !== undefined) updateData.slug = input.slug?.trim() || null
   if (input.sort_order !== undefined) updateData.sort_order = input.sort_order
   if (input.is_featured !== undefined) updateData.is_featured = input.is_featured
   if (input.start_date !== undefined) updateData.start_date = input.start_date || null
@@ -188,7 +205,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
 
   if (error) {
     if (error.code === '23505') {
-      return { success: false, error: '이미 존재하는 태그 이름이다.' }
+      return { success: false, error: error.message.includes('slug') ? '이미 사용 중인 주소(slug)다.' : '이미 존재하는 태그 이름이다.' }
     }
     console.error('태그 수정 에러:', error)
     return { success: false, error: error.message }
@@ -285,7 +302,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, spotlight_image_url, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
 
@@ -299,8 +316,9 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     tag_id: item.tag_id,
     short_desc: item.short_desc,
     long_desc: item.long_desc,
-    short_desc_en: (item as any).short_desc_en ?? null,
-    long_desc_en: (item as any).long_desc_en ?? null,
+    short_desc_en: item.short_desc_en ?? null,
+    long_desc_en: item.long_desc_en ?? null,
+    spotlight_image_url: item.spotlight_image_url ?? null,
     sort_order: item.sort_order ?? 0,
     celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
   }))
@@ -551,6 +569,54 @@ export async function updateTagCelebOrder(
   }
 
   revalidatePath('/members/tags')
+  return { success: true }
+}
+// #endregion
+
+// #region setTagTeamImages - 단체 이미지 배열 저장 (업로드/삭제/재정렬 결과)
+export async function setTagTeamImages(
+  tagId: string,
+  urls: string[]
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('celeb_tags')
+    .update({ team_images: urls, updated_at: new Date().toISOString() })
+    .eq('id', tagId)
+
+  if (error) {
+    console.error('단체 이미지 저장 에러:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/members/tags')
+  await revalidateWebCache()
+  return { success: true }
+}
+// #endregion
+
+// #region setTagCelebImage - 인물 전용 화보 URL 저장 (null이면 해제)
+export async function setTagCelebImage(
+  tagId: string,
+  celebId: string,
+  url: string | null
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('celeb_tag_assignments')
+    .update({ spotlight_image_url: url })
+    .eq('tag_id', tagId)
+    .eq('celeb_id', celebId)
+
+  if (error) {
+    console.error('전용 화보 저장 에러:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/members/tags')
+  await revalidateWebCache()
   return { success: true }
 }
 // #endregion

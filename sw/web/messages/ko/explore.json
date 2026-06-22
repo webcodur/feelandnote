@@ -215,8 +215,11 @@
       "collection": "스포트라이트 컬렉션",
       "tabs": {
         "spotlight": "스포트라이트",
-        "shared": "공유 서재",
-        "timeline": "연대기"
+        "library": "서재"
+      },
+      "library": {
+        "sharedTitle": "함께 본 서재",
+        "peopleTitle": "인물별 서재"
       },
       "shared": {
         "celebCount": "{count}명이 감상",

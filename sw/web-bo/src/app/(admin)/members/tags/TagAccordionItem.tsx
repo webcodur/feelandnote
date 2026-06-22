@@ -11,6 +11,9 @@ import {
   Plus,
   X,
   User,
+  ImagePlus,
+  Loader2,
+  Wand2,
 } from 'lucide-react'
 import {
   type CelebTag,
@@ -24,7 +27,22 @@ import {
   removeCelebFromTag,
   updateTagAssignmentDesc,
   updateTagCelebOrder,
+  setTagTeamImages,
+  setTagCelebImage,
 } from '@/actions/admin/tags'
+import {
+  uploadTagTeamImage,
+  deleteTagTeamImage,
+  uploadTagCelebImage,
+  deleteTagCelebImage,
+} from '@/actions/admin/storage'
+import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
+import ImageCropModal from '@/components/ui/ImageCropModal'
+
+// name_en → slug 후보 (소문자·하이픈)
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+}
 
 const PRESET_COLORS = [
   '#7c4dff', '#ef4444', '#f97316', '#eab308', '#22c55e',
@@ -53,6 +71,7 @@ export default function TagAccordionItem(props: Props) {
     description: tag.description ?? '',
     description_en: tag.description_en ?? '',
     color: tag.color,
+    slug: tag.slug ?? '',
     is_featured: tag.is_featured,
     start_date: tag.start_date ?? '',
     end_date: tag.end_date ?? '',
@@ -66,9 +85,18 @@ export default function TagAccordionItem(props: Props) {
     form.description !== (tag.description ?? '') ||
     form.description_en !== (tag.description_en ?? '') ||
     form.color !== tag.color ||
+    form.slug !== (tag.slug ?? '') ||
     form.is_featured !== tag.is_featured ||
     form.start_date !== (tag.start_date ?? '') ||
     form.end_date !== (tag.end_date ?? '')
+  // #endregion
+
+  // #region 단체 이미지 + 전용 화보 상태
+  const [teamImages, setTeamImages] = useState<string[]>(tag.team_images ?? [])
+  const [cropSrc, setCropSrc] = useState<string | null>(null)
+  const [cropTarget, setCropTarget] = useState<{ kind: 'team' } | { kind: 'celeb'; celebId: string } | null>(null)
+  const [imgBusy, setImgBusy] = useState(false)
+  const [teamDraggedIndex, setTeamDraggedIndex] = useState<number | null>(null)
   // #endregion
 
   // #region 셀럽 관리 상태
@@ -124,6 +152,7 @@ export default function TagAccordionItem(props: Props) {
       description: form.description,
       description_en: form.description_en,
       color: form.color,
+      slug: form.slug || null,
       is_featured: form.is_featured,
       start_date: form.start_date || null,
       end_date: form.end_date || null,
@@ -135,6 +164,8 @@ export default function TagAccordionItem(props: Props) {
         ...form,
         name_en: form.name_en || null,
         description_en: form.description_en || null,
+        slug: form.slug || null,
+        team_images: teamImages,
         start_date: form.start_date || null,
         end_date: form.end_date || null,
         celeb_count: celebs.length,
@@ -164,6 +195,7 @@ export default function TagAccordionItem(props: Props) {
         long_desc: null,
         short_desc_en: null,
         long_desc_en: null,
+        spotlight_image_url: null,
         sort_order: result.sort_order ?? prev.length,
         celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
       }])
@@ -213,6 +245,75 @@ export default function TagAccordionItem(props: Props) {
     setCelebs(prev => prev.map(c =>
       c.celeb_id === celebId ? { ...c, [field]: value } : c
     ))
+  }
+  // #endregion
+
+  // #region 이미지 핸들러 (단체 / 전용 화보)
+  const pickImage = async (target: { kind: 'team' } | { kind: 'celeb'; celebId: string }, file: File) => {
+    if (!file.type.startsWith('image/')) return
+    const preview = await createPreviewUrl(file)
+    setCropTarget(target)
+    setCropSrc(preview)
+  }
+
+  const handleCropDone = async (dataUrl: string) => {
+    const target = cropTarget
+    setCropSrc(null)
+    setCropTarget(null)
+    if (!target) return
+
+    setImgBusy(true)
+    try {
+      const blob = await (await fetch(dataUrl)).blob()
+      const file = new File([blob], 'spotlight.webp', { type: 'image/webp' })
+      const resized = await resizeSingleImage(file, 'spotlight')
+
+      if (target.kind === 'team') {
+        const up = await uploadTagTeamImage({ tagId: tag.id, image: resized })
+        if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
+        const next = [...teamImages, up.url]
+        setTeamImages(next)
+        await setTagTeamImages(tag.id, next)
+      } else {
+        const up = await uploadTagCelebImage({ tagId: tag.id, celebId: target.celebId, image: resized })
+        if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
+        await setTagCelebImage(tag.id, target.celebId, up.url)
+        setCelebs(prev => prev.map(c => c.celeb_id === target.celebId ? { ...c, spotlight_image_url: up.url! } : c))
+      }
+    } catch (e) {
+      alert(e instanceof Error ? e.message : '이미지 업로드 실패')
+    } finally {
+      setImgBusy(false)
+    }
+  }
+
+  const handleRemoveTeamImage = async (url: string) => {
+    const next = teamImages.filter(u => u !== url)
+    setTeamImages(next)
+    await setTagTeamImages(tag.id, next)
+    await deleteTagTeamImage(url)
+  }
+
+  const handleTeamDragStart = (index: number) => setTeamDraggedIndex(index)
+  const handleTeamDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault()
+    if (teamDraggedIndex === null || teamDraggedIndex === index) return
+    const next = [...teamImages]
+    const [dragged] = next.splice(teamDraggedIndex, 1)
+    next.splice(index, 0, dragged)
+    setTeamImages(next)
+    setTeamDraggedIndex(index)
+  }
+  const handleTeamDragEnd = async () => {
+    if (teamDraggedIndex === null) return
+    setTeamDraggedIndex(null)
+    await setTagTeamImages(tag.id, teamImages)
+  }
+
+  const handleRemoveCelebImage = async (celebId: string) => {
+    await setTagCelebImage(tag.id, celebId, null)
+    await deleteTagCelebImage({ tagId: tag.id, celebId })
+    setCelebs(prev => prev.map(c => c.celeb_id === celebId ? { ...c, spotlight_image_url: null } : c))
   }
   // #endregion
 
@@ -282,6 +383,29 @@ export default function TagAccordionItem(props: Props) {
                 />
               </div>
             </FormRow>
+            <FormRow label="주소(slug)">
+              <div className="flex-1 flex items-center gap-2">
+                <div className="flex items-center flex-1 px-3 bg-bg-secondary border border-border rounded-lg focus-within:ring-1 focus-within:ring-accent/50">
+                  <span className="text-sm text-text-tertiary shrink-0">/explore/spotlight/</span>
+                  <input
+                    type="text"
+                    value={form.slug}
+                    onChange={(e) => setForm({ ...form, slug: slugify(e.target.value) })}
+                    placeholder="xai"
+                    className="flex-1 py-2.5 bg-transparent text-base text-text-primary placeholder:text-text-tertiary focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, slug: slugify(form.name_en || form.name) })}
+                  disabled={!form.name_en && !form.name}
+                  className="flex items-center gap-1 px-3 py-2.5 text-sm text-text-secondary bg-bg-secondary border border-border rounded-lg hover:text-text-primary disabled:opacity-50"
+                  title="영문 이름에서 자동 생성"
+                >
+                  <Wand2 className="w-4 h-4" /> 자동
+                </button>
+              </div>
+            </FormRow>
             <FormRow label="설명">
               <div className="flex-1 space-y-1.5">
                 <input
@@ -343,6 +467,37 @@ export default function TagAccordionItem(props: Props) {
                     />
                   </>
                 )}
+              </div>
+            </FormRow>
+            <FormRow label="단체 이미지">
+              <div className="flex-1 space-y-1.5">
+                <div className="flex flex-wrap gap-2">
+                  {teamImages.map((url, index) => (
+                    <div
+                      key={url}
+                      draggable
+                      onDragStart={() => handleTeamDragStart(index)}
+                      onDragOver={(e) => handleTeamDragOver(e, index)}
+                      onDragEnd={handleTeamDragEnd}
+                      className={`relative w-24 h-24 rounded-lg overflow-hidden border border-border group ${teamDraggedIndex === index ? 'opacity-50' : ''}`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt="" className="w-full h-full object-cover" draggable={false} />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTeamImage(url)}
+                        className="absolute top-1 right-1 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                  <ImagePickerButton
+                    busy={imgBusy}
+                    onPick={(file) => pickImage({ kind: 'team' }, file)}
+                  />
+                </div>
+                <p className="text-xs text-text-tertiary">테마 단체샷. 여러 장 등록 가능, 드래그로 순서 변경. 상단 배너에 표시된다.</p>
               </div>
             </FormRow>
             <div className="flex items-center justify-end gap-3 pt-3">
@@ -453,6 +608,12 @@ export default function TagAccordionItem(props: Props) {
                           <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
                           <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} size="md" />
                           <p className="flex-1 text-base font-medium text-text-primary truncate">{item.celeb?.nickname}</p>
+                          <CelebSpotlightImage
+                            url={item.spotlight_image_url}
+                            busy={imgBusy}
+                            onPick={(file) => pickImage({ kind: 'celeb', celebId: item.celeb_id }, file)}
+                            onRemove={() => handleRemoveCelebImage(item.celeb_id)}
+                          />
                           <button onClick={() => handleRemoveCeleb(item.celeb_id)} className="p-1.5 text-text-tertiary hover:text-red-500">
                             <X className="w-5 h-5" />
                           </button>
@@ -504,6 +665,15 @@ export default function TagAccordionItem(props: Props) {
           </div>
         </div>
       )}
+
+      {cropSrc && (
+        <ImageCropModal
+          imageSrc={cropSrc}
+          aspectRatio={1}
+          onComplete={handleCropDone}
+          onCancel={() => { setCropSrc(null); setCropTarget(null) }}
+        />
+      )}
     </div>
   )
 }
@@ -527,6 +697,48 @@ function Avatar({ url, name, size = 'sm' }: { url?: string | null; name?: string
     <div className={`${sizeClass} rounded-full bg-bg-tertiary flex items-center justify-center shrink-0`}>
       <User className={`${iconSize} text-text-tertiary`} />
     </div>
+  )
+}
+
+// 단체 이미지 추가 버튼 (드래그/클릭)
+function ImagePickerButton({ busy, onPick }: { busy: boolean; onPick: (file: File) => void }) {
+  const [dragging, setDragging] = useState(false)
+  return (
+    <label
+      onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+      onDragLeave={(e) => { e.preventDefault(); setDragging(false) }}
+      onDrop={(e) => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files?.[0]; if (f) onPick(f) }}
+      className={`w-24 h-24 rounded-lg border border-dashed flex items-center justify-center cursor-pointer transition-colors ${dragging ? 'border-accent bg-accent/10' : 'border-border hover:border-accent/50'}`}
+    >
+      <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onPick(f); e.target.value = '' }} />
+      {busy ? <Loader2 className="w-5 h-5 text-accent animate-spin" /> : <ImagePlus className="w-6 h-6 text-text-tertiary" />}
+    </label>
+  )
+}
+
+// 인물 전용 화보 썸네일 (추가/교체/삭제)
+function CelebSpotlightImage({ url, busy, onPick, onRemove }: { url: string | null; busy: boolean; onPick: (file: File) => void; onRemove: () => void }) {
+  if (url) {
+    return (
+      <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-accent/50 group shrink-0" title="기획전 전용 화보">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={url} alt="" className="w-full h-full object-cover" />
+        <button
+          type="button"
+          onClick={onRemove}
+          className="absolute inset-0 flex items-center justify-center bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+          title="전용 화보 삭제"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    )
+  }
+  return (
+    <label className="w-10 h-10 rounded-lg border border-dashed border-border flex items-center justify-center cursor-pointer hover:border-accent/50 shrink-0" title="기획전 전용 화보 추가">
+      <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onPick(f); e.target.value = '' }} />
+      {busy ? <Loader2 className="w-4 h-4 text-accent animate-spin" /> : <ImagePlus className="w-5 h-5 text-text-tertiary" />}
+    </label>
   )
 }
 // #endregion

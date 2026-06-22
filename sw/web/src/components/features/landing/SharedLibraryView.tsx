@@ -28,9 +28,12 @@ const FILTER_TYPES = ["ALL", "BOOK", "VIDEO", "GAME", "MUSIC"] as const;
 
 interface SharedLibraryViewProps {
   tagId: string;
+  // 서재 통합 뷰에 끼워 넣을 때: 겹치는 콘텐츠가 없으면 섹션을 통째로 감추고, 있으면 제목을 붙인다.
+  embedded?: boolean;
+  heading?: string;
 }
 
-export default function SharedLibraryView({ tagId }: SharedLibraryViewProps) {
+export default function SharedLibraryView({ tagId, embedded = false, heading }: SharedLibraryViewProps) {
   const t = useTranslations("explore.spotlight");
   const locale = useLocale();
   const isEn = locale === 'en';
@@ -49,8 +52,16 @@ export default function SharedLibraryView({ tagId }: SharedLibraryViewProps) {
   const filtered =
     filter === "ALL" ? items : items.filter((i) => i.type === filter);
 
+  // 통합 뷰: 로딩 중이거나 겹치는 콘텐츠가 없으면 섹션 자체를 숨긴다.
+  if (embedded && (isLoading || items.length === 0)) return null;
+
   return (
     <div className="space-y-4">
+      {heading && (
+        <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center">
+          {heading}
+        </h4>
+      )}
       {/* 타입 필터 */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
         {FILTER_TYPES.map((type) => {

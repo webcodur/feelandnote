@@ -8,10 +8,12 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname, Link, useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
+import { getSpotlightTagName } from "@/actions/home";
 
 const SUBPAGE_KEY: Record<string, string> = {
   // 현재 경로
@@ -35,6 +37,7 @@ export default function ExploreBanner() {
   const router = useRouter();
   const t = useTranslations();
   const hubT = useTranslations("explore.hub");
+  const locale = useLocale();
 
   const hubTitle = t("nav.explore");
   const hubEnglish = t("home.explore.englishTitle");
@@ -45,6 +48,35 @@ export default function ExploreBanner() {
   const isSubpage = !!subKey;
 
   const pageTitle = isSubpage ? hubT(subKey!) : hubTitle;
+
+  // 스포트라이트 테마(slug) 진입 시 3단계 breadcrumb: 탐색 > 스포트라이트 > 테마명
+  const pathSlug = subSegment === "spotlight" && segments[2] ? segments[2] : undefined;
+  const [themeSlug, setThemeSlug] = useState<string | undefined>(pathSlug);
+  const [themeName, setThemeName] = useState<string | null>(null);
+
+  // 경로 변경(직접 진입) 반영
+  useEffect(() => { setThemeSlug(pathSlug); }, [pathSlug]);
+
+  // 앱 내 테마 전환(replaceState) 반영 — FeaturedSpotlight가 쏘는 이벤트 수신
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const slug = (e as CustomEvent<string | null>).detail;
+      setThemeSlug(slug || undefined);
+    };
+    window.addEventListener("spotlight:theme", handler);
+    return () => window.removeEventListener("spotlight:theme", handler);
+  }, []);
+
+  useEffect(() => {
+    if (!themeSlug) { setThemeName(null); return; }
+    let active = true;
+    getSpotlightTagName(themeSlug).then((r) => {
+      if (active) setThemeName(r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null);
+    });
+    return () => { active = false; };
+  }, [themeSlug, locale]);
+
+  const hasTheme = !!(themeSlug && themeName);
 
   const handleRefresh = () => {
     router.refresh();
@@ -61,7 +93,7 @@ export default function ExploreBanner() {
         </div>
 
         {isSubpage ? (
-          <h1 className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center">
+          <h1 className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
             <Link
               href="/explore"
               className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
@@ -69,12 +101,30 @@ export default function ExploreBanner() {
               {hubTitle}
             </Link>
             <ChevronRight size={20} className="text-white/30 shrink-0" />
-            <button
-              onClick={handleRefresh}
-              className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
-            >
-              {pageTitle}
-            </button>
+            {hasTheme ? (
+              <>
+                <Link
+                  href="/explore/spotlight"
+                  className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
+                >
+                  {pageTitle}
+                </Link>
+                <ChevronRight size={20} className="text-white/30 shrink-0" />
+                <button
+                  onClick={handleRefresh}
+                  className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                >
+                  {themeName}
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={handleRefresh}
+                className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+              >
+                {pageTitle}
+              </button>
+            )}
           </h1>
         ) : (
           <>
@@ -96,7 +146,7 @@ export default function ExploreBanner() {
       <div className="hidden md:block">
         <ConstellationBanner compact>
           {isSubpage ? (
-            <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center">
+            <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
               <Link
                 href="/explore"
                 className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300"
@@ -104,12 +154,30 @@ export default function ExploreBanner() {
                 {hubTitle}
               </Link>
               <ChevronRight size={36} className="text-white/30 shrink-0" strokeWidth={1.5} />
-              <button
-                onClick={handleRefresh}
-                className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
-              >
-                {pageTitle}
-              </button>
+              {hasTheme ? (
+                <>
+                  <Link
+                    href="/explore/spotlight"
+                    className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300"
+                  >
+                    {pageTitle}
+                  </Link>
+                  <ChevronRight size={36} className="text-white/30 shrink-0" strokeWidth={1.5} />
+                  <button
+                    onClick={handleRefresh}
+                    className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                  >
+                    {themeName}
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleRefresh}
+                  className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                >
+                  {pageTitle}
+                </button>
+              )}
             </h1>
           ) : (
             <>

@@ -10,6 +10,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { useCuratedSpotlight, SWIPE_THRESHOLD } from "./useCuratedSpotlight";
 import CelebThumbnails from "./CelebThumbnails";
 import SpotlightDetailModal from "./SpotlightDetailModal";
+import SpotlightHeroImage from "../SpotlightHeroImage";
 
 interface CuratedSpotlightDesktopProps {
   activeTag: FeaturedTag;
@@ -148,6 +149,9 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
             </div>
           </div>
 
+          {/* 전용 인물 화보 */}
+          <SpotlightHeroImage celeb={heroCeleb} />
+
           {/* 인물 배열 썸네일 */}
           {celebThumbnails}
         </div>
@@ -261,6 +265,9 @@ export default function CuratedSpotlightDesktop({ activeTag, location = "main", 
         </div>
 
       </div>
+
+      {/* 전용 인물 화보 */}
+      <SpotlightHeroImage celeb={heroCeleb} />
 
       {/* Grid Content - 썸네일 리스트 */}
       {celebThumbnails}

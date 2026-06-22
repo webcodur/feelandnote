@@ -556,6 +556,7 @@ export type Database = {
           short_desc: string | null
           short_desc_en: string | null
           sort_order: number | null
+          spotlight_image_url: string | null
           tag_id: string
         }
         Insert: {
@@ -567,6 +568,7 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
+          spotlight_image_url?: string | null
           tag_id: string
         }
         Update: {
@@ -578,6 +580,7 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
+          spotlight_image_url?: string | null
           tag_id?: string
         }
         Relationships: [
@@ -615,8 +618,10 @@ export type Database = {
           is_featured: boolean | null
           name: string
           name_en: string | null
+          slug: string | null
           sort_order: number | null
           start_date: string | null
+          team_images: Json
           updated_at: string | null
         }
         Insert: {
@@ -629,8 +634,10 @@ export type Database = {
           is_featured?: boolean | null
           name: string
           name_en?: string | null
+          slug?: string | null
           sort_order?: number | null
           start_date?: string | null
+          team_images?: Json
           updated_at?: string | null
         }
         Update: {
@@ -643,8 +650,10 @@ export type Database = {
           is_featured?: boolean | null
           name?: string
           name_en?: string | null
+          slug?: string | null
           sort_order?: number | null
           start_date?: string | null
+          team_images?: Json
           updated_at?: string | null
         }
         Relationships: []

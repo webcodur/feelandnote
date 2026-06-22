@@ -12,6 +12,8 @@
 | `description` | text | - | - | 태그 설명 (한국어). 한두 문장, 운문체 권장 |
 | `description_en` | text | - | - | 태그 설명 (영문) |
 | `color` | text | - | `#7c4dff` | HEX 색상. 태그 pill UI에 사용 |
+| `slug` | text | - | - | 테마별 고유 주소. `/explore/spotlight/<slug>` (예: `xai`). UNIQUE(null 허용). BO에서 입력 |
+| `team_images` | jsonb | - | `[]` | 단체 이미지 URL 배열(표시 순서대로). 스포트라이트 상단 가로 배너에 노출. R2: `spotlight/{tagId}/team/{uuid}.webp` |
 | `sort_order` | integer | - | `0` | 태그 목록 정렬 순서 (낮을수록 먼저) |
 | `is_featured` | boolean | - | `false` | `true`면 스포트라이트에 노출, `false`면 예고편(Soon) 표시 |
 | `start_date` | date | - | - | 기간 한정 태그 시작일 (미사용) |
@@ -30,6 +32,7 @@
 | `short_desc_en` | text | - | - | 한줄 소개 (영문) |
 | `long_desc` | text | - | - | 이 태그에서 이 인물의 상세 설명 (한국어, 1~2문장) |
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
+| `spotlight_image_url` | text | - | - | 이 태그 전용 인물 화보 1장 URL. 아바타와 별개로 추가 노출(Hero 카드 아래). R2: `spotlight/{tagId}/celeb-{celebId}.webp` |
 | `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저) |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
 
@@ -64,7 +67,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
   - 예: "공화정을 끝낸 독재관", "원자폭탄의 아버지"
 - `long_desc`: 1~2문장 상세 설명. 이 인물이 왜 이 태그에 속하는지
 - `sort_order`: 시간순(출생순), 중요도순, 또는 서사 흐름순 중 태그 성격에 맞게 결정
-- 태그당 권장 인원: **5~8명**. 최소 3명, 최대 8명 (UI 제약)
+- 태그당 권장 인원: **5~8명**. 최소 3명, 최대 12명 (`getFeaturedTags`의 `slice(0, 12)` 상한)
 
 ---
 
@@ -72,7 +75,9 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 ### 페이지
 
-`/explore/spotlight` — 스포트라이트 메인 페이지
+- `/explore/spotlight` — 스포트라이트 메인 페이지 (테마 미선택 시 소개 화면)
+- `/explore/spotlight/<slug>` — 테마별 고유 주소. 해당 테마를 펼친 채 진입 (예: `/explore/spotlight/xai`). slug 미등록 태그는 404
+- `/explore/spotlight?tag=<id>` — 구버전 쿼리 진입(하위호환 유지). 앱 내 테마 변경 시 주소창은 `history.replaceState`로 `/explore/spotlight/<slug>`로 갱신
 
 ### 서버 액션
 
@@ -91,6 +96,17 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 | `CuratedSpotlightDesktop` | `components/features/landing/CuratedSpotlightDesktop.tsx` | Spotlight 뷰 (Hero Card + 드래그) |
 | `CuratedSpotlightMobile` | `components/features/landing/FeaturedSpotlightMobile.tsx` | 모바일 Spotlight 뷰 |
 | `SharedLibraryView` | `components/features/landing/SharedLibraryView.tsx` | 공유 서재 뷰 |
+| `SpotlightTeamBanner` | `components/features/landing/SpotlightTeamBanner.tsx` | 단체 이미지 상단 가로 배너(여러 장 넘김) |
+| `SpotlightHeroImage` | `components/features/landing/SpotlightHeroImage.tsx` | 전용 인물 화보. Hero 카드 아래, 인물 전환 시 함께 전환 |
+
+### 백오피스 관리 (web-bo)
+
+- 태그 관리: `/celebs/tags` (`app/(admin)/members/tags/TagAccordionItem.tsx`, `TagFormModal.tsx`)
+  - **주소(slug)**: 입력 + `name_en` 기반 자동 생성 버튼
+  - **단체 이미지**: 다중 업로드(크롭)·삭제·드래그 순서변경
+  - **전용 인물 화보**: 셀럽 행마다 1장 업로드·교체·삭제
+- 서버 액션: `actions/admin/tags.ts`(`setTagTeamImages`, `setTagCelebImage`, slug 처리), `actions/admin/storage.ts`(`uploadTagTeamImage`/`deleteTagTeamImage`/`uploadTagCelebImage`/`deleteTagCelebImage`)
+- 이미지 처리: `lib/image.ts`의 `spotlight`(1080×1080) 사이즈, `components/ui/ImageCropModal.tsx` 재사용. R2 업로드는 `lib/r2.ts`
 
 ### 뷰 모드
 
@@ -115,7 +131,9 @@ interface FeaturedTag {
   name: string
   description: string | null
   color: string
-  celebs: FeaturedCeleb[]  // 최대 8명
+  slug: string | null
+  team_images: string[]   // 단체 이미지 URL 배열
+  celebs: FeaturedCeleb[]  // 최대 8명, 각 FeaturedCeleb에 spotlight_image_url 포함
   is_featured: boolean
 }
 ```

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
+import SpotlightHeroImage from "./SpotlightHeroImage";
 
 interface CuratedSpotlightMobileProps {
   activeTag: FeaturedTag;
@@ -165,6 +166,11 @@ export default function CuratedSpotlightMobile({ activeTag, onCelebClick, onSubt
               })}
             </div>
          </div>
+      </div>
+
+      {/* 전용 인물 화보 */}
+      <div className="mb-4">
+        <SpotlightHeroImage celeb={heroCeleb} />
       </div>
 
       {/* 전체 인물 수직 리스트 */}

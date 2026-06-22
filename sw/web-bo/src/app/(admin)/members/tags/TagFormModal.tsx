@@ -30,6 +30,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
   const [description, setDescription] = useState(tag?.description ?? '')
   const [descriptionEn, setDescriptionEn] = useState(tag?.description_en ?? '')
   const [color, setColor] = useState(tag?.color ?? '#7c4dff')
+  const [slug, setSlug] = useState(tag?.slug ?? '')
   const [isFeatured, setIsFeatured] = useState(tag?.is_featured ?? false)
   const [startDate, setStartDate] = useState(tag?.start_date ?? '')
   const [endDate, setEndDate] = useState(tag?.end_date ?? '')
@@ -52,6 +53,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
       description,
       description_en: descriptionEn || null,
       color,
+      slug: slug.trim() || null,
       is_featured: isFeatured,
       start_date: startDate || null,
       end_date: endDate || null,
@@ -79,6 +81,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
           ...tagData,
           name_en: nameEn || null,
           description_en: descriptionEn || null,
+          team_images: [],
           sort_order: 999,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -149,6 +152,24 @@ export default function TagFormModal({ tag, onClose }: Props) {
               placeholder="EN description (optional)"
               className="mt-1.5 w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
+          </div>
+
+          {/* 주소(slug) */}
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-1.5">
+              주소 (slug, 선택)
+            </label>
+            <div className="flex items-center px-3 bg-bg-secondary border border-border rounded-lg focus-within:ring-2 focus-within:ring-accent/50">
+              <span className="text-sm text-text-tertiary shrink-0">/explore/spotlight/</span>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, ''))}
+                placeholder="xai"
+                className="flex-1 py-2 bg-transparent text-text-primary placeholder:text-text-tertiary focus:outline-none"
+              />
+            </div>
+            <p className="mt-1 text-xs text-text-tertiary">테마별 고유 주소. 비우면 주소로 접근할 수 없습니다.</p>
           </div>
 
           {/* 색상 */}
