@@ -178,24 +178,42 @@ export const RemotionRoot: React.FC = () => {
           // 한국어 키만 (영문 키 '-en'은 지금 미사용). EN 컴포지션은 아래 주석 참고.
           .filter(([key]) => !key.endsWith('-en'))
           .map(([key, script]) => {
-            // S(쇼츠)=롱폼 전용 세력 제외해 짧다. LV/LH(롱폼)=전체 세력.
-            const durS = calcFactionFrames(script, true)
             const durLong = calcFactionFrames(script, false)
             if (!Number.isFinite(durLong) || durLong <= 0) return null
             const base = `Faction-${key.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
             const ep = factionEpisodeNames[key]
+            // 쇼츠 편(part) — 진영 part 의 실제 편 수만큼 등록. 편이 없으면 전체 진영을 담은 단일 쇼츠(part 미지정).
+            // 접미사 규칙(KO-S{part})은 @feelandnote/shared 의 factionVariants 와 일치한다.
+            const parts = Array.from(
+              new Set(
+                script.groups
+                  .filter((g) => !g.disabled && g.part != null && g.part > 0)
+                  .map((g) => g.part as number),
+              ),
+            ).sort((a, b) => a - b)
+            const shortsVariants: { suffix: string; part: number | undefined }[] =
+              parts.length === 0
+                ? [{ suffix: 'S1', part: undefined }]
+                : parts.map((p) => ({ suffix: `S${p}`, part: p }))
             return (
               <React.Fragment key={key}>
-                {/* KO-S — 한국어 세로 쇼츠 (1080x1920, 롱폼 전용 세력 제외) */}
-                <Composition
-                  id={`${base}-KO-S`}
-                  component={Faction}
-                  durationInFrames={durS}
-                  fps={FACTION_FPS}
-                  width={1080}
-                  height={1920}
-                  defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: true }}
-                />
+                {/* KO-S{n} — 한국어 세로 쇼츠. 진영 part 별로 분리(편 없으면 전체 1편). */}
+                {shortsVariants.map(({ suffix, part }) => {
+                  const durS = calcFactionFrames(script, true, part)
+                  if (!Number.isFinite(durS) || durS <= 0) return null
+                  return (
+                    <Composition
+                      key={`${base}-KO-${suffix}`}
+                      id={`${base}-KO-${suffix}`}
+                      component={Faction}
+                      durationInFrames={durS}
+                      fps={FACTION_FPS}
+                      width={1080}
+                      height={1920}
+                      defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: true, part }}
+                    />
+                  )
+                })}
                 {/* KO-LV — 한국어 세로 롱폼 (1080x1920, 전체 세력) */}
                 <Composition
                   id={`${base}-KO-LV`}

@@ -1,0 +1,22 @@
+{
+  "total": 1,
+  "success": 1,
+  "failures": 0,
+  "successSlugs": [
+    "hyung-won-chung"
+  ],
+  "byReason": {},
+  "details": [
+    {
+      "slug": "hyung-won-chung",
+      "profileId": "c27a64c4-ca46-4b7b-9c22-af2c643fd04b",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/c27a64c4-ca46-4b7b-9c22-af2c643fd04b/avatar.webp?v=1781490657632",
+        "sourceType": "wikipedia_body",
+        "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/ChungWonShik1991PM.png",
+        "faceScore": 0.9999083280563354
+      }
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "total": 12,
+  "success": 12,
+  "failures": 0,
+  "successSlugs": [
+    "christian-szegedy",
+    "daniel-de-freitas",
+    "greg-yang",
+    "guillaume-lample",
+    "igor-babuschkin",
+    "jimmy-ba",
+    "julien-chaumond",
+    "koray-kavukcuoglu",
+    "oriol-vinyals",
+    "sam-mccandlish",
+    "timothee-lacroix",
+    "tony-wu"
+  ],
+  "byReason": {},
+  "details": [
+    {
+      "slug": "christian-szegedy",
+      "profileId": "e9ca6194-2a3a-4689-a3b3-2f97297d7282",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/e9ca6194-2a3a-4689-a3b3-2f97297d7282/avatar.webp?v=1781454938230",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://i.ytimg.com/vi/_p4vDN_cM88/maxresdefault.jpg",
+        "faceScore": 0.9835516810417175
+      }
+    },
+    {
+      "slug": "daniel-de-freitas",
+      "profileId": "edc2e751-e7e2-4512-a4eb-f7e9fa8e7609",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/edc2e751-e7e2-4512-a4eb-f7e9fa8e7609/avatar.webp?v=1781454944659",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://kabum.digital/wp-content/uploads/2023/10/Daniel-de-Freitas-scaled.jpg",
+        "faceScore": 0.9931535124778748
+      }
+    },
+    {
+      "slug": "greg-yang",
+      "profileId": "c114ed68-3a22-4378-85a9-1cbca3e628f4",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/c114ed68-3a22-4378-85a9-1cbca3e628f4/avatar.webp?v=1781454949382",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://uwaterloo.ca/artificial-intelligence-institute/sites/default/files/styles/large/public/uploads/images/3_4-500x281.png?itok=GNRiIgNL",
+        "faceScore": 0.9942979216575623
+      }
+    },
+    {
+      "slug": "guillaume-lample",
+      "profileId": "cc1b6ad3-5140-4fbc-9ace-f753cdc9ad71",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/cc1b6ad3-5140-4fbc-9ace-f753cdc9ad71/avatar.webp?v=1781454955829",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://c8.alamy.com/comp/2TCCC6W/photo-dated-september-15-2023-shows-co-founder-of-mistral-ai-guillaume-lample-poses-during-a-photo-session-in-paris-france-mistral-ai-a-paris-start-up-founded-seven-months-ago-by-researchers-from-meta-and-google-has-raised-385-million-euros-or-about-415-million-in-yet-another-sign-of-feverish-interest-in-a-new-kind-of-artificial-intelligence-that-drives-online-chatbots-the-deal-values-the-22-person-company-at-about-2-billion-two-people-familiar-with-the-deal-said-investors-include-the-silicon-valley-venture-capital-firms-andreessen-horowitz-and-lightspeed-venture-partners-the-s-2TCCC6W.jpg",
+        "faceScore": 0.9967985153198242
+      }
+    },
+    {
+      "slug": "igor-babuschkin",
+      "profileId": "8e338e26-272c-4bc7-8b9b-92a6f2bafe73",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/8e338e26-272c-4bc7-8b9b-92a6f2bafe73/avatar.webp?v=1781454960570",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://images.squarespace-cdn.com/content/v1/62ec2bc76a27db7b37a2b32f/297d9121-db41-4112-95e9-bc2c794c4571/people-in-ai-igor-babuschkin.jpg",
+        "faceScore": 0.9996779561042786
+      }
+    },
+    {
+      "slug": "jimmy-ba",
+      "profileId": "78466f22-c3d8-4609-9060-75b476bb8eda",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/78466f22-c3d8-4609-9060-75b476bb8eda/avatar.webp?v=1781454963647",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://jimmylba.github.io/assets/images/jimmy_ba.jpg",
+        "faceScore": 0.9969339966773987
+      }
+    },
+    {
+      "slug": "julien-chaumond",
+      "profileId": "20b6fde1-e354-4ebf-8b7a-6e4d783478b0",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/20b6fde1-e354-4ebf-8b7a-6e4d783478b0/avatar.webp?v=1781454967559",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://d92co48ro6fll.cloudfront.net/gradual/videos/scale/speakers/Julien-Chaumond.jpg",
+        "faceScore": 0.9998197555541992
+      }
+    },
+    {
+      "slug": "koray-kavukcuoglu",
+      "profileId": "61b9d449-01cc-4a7b-9d59-138ddfc71d2c",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/61b9d449-01cc-4a7b-9d59-138ddfc71d2c/avatar.webp?v=1781454972659",
+        "sourceType": "wikipedia_body",
+        "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Laura_Chaubard_%26_Yann_Le_Cun_-_2024_%2853814052697%29_%28cropped%29.jpg",
+        "faceScore": 0.9998570680618286
+      }
+    },
+    {
+      "slug": "oriol-vinyals",
+      "profileId": "666644ca-a6b8-4bef-9582-5df2d3bab33f",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/666644ca-a6b8-4bef-9582-5df2d3bab33f/avatar.webp?v=1781454978161",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://lexfridman.com/wordpress/wp-content/uploads/2022/07/thumb_oriol_vinyals_2.png",
+        "faceScore": 0.9998370409011841
+      }
+    },
+    {
+      "slug": "sam-mccandlish",
+      "profileId": "8ec52192-4f45-4748-82cf-1a5b07fe59e7",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/8ec52192-4f45-4748-82cf-1a5b07fe59e7/avatar.webp?v=1781454983148",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://assets.anakin.ai/blog/2024/03/Sam-McCandlish-research-scientist-at-anthropic.png",
+        "faceScore": 0.9827647805213928
+      }
+    },
+    {
+      "slug": "timothee-lacroix",
+      "profileId": "449e4d6d-bed1-41c8-b375-efd77d29fdd2",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/449e4d6d-bed1-41c8-b375-efd77d29fdd2/avatar.webp?v=1781454987749",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://frbio.fr/wp-content/uploads/2026/01/unnamed-2026-01-03T122001.403-1012x675.jpg",
+        "faceScore": 0.9863771796226501
+      }
+    },
+    {
+      "slug": "tony-wu",
+      "profileId": "d7ba5738-211e-4620-a85f-aab82289e65b",
+      "outcome": {
+        "kind": "uploaded",
+        "url": "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/d7ba5738-211e-4620-a85f-aab82289e65b/avatar.webp?v=1781455002564",
+        "sourceType": "duckduckgo",
+        "sourceUrl": "https://alom.jloa-conference.org/wp-content/themes/37jloa-alom/src/img/common/photo-tony.webp",
+        "faceScore": 0.9980299472808838
+      }
+    }
+  ]
+}

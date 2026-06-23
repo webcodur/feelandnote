@@ -5,7 +5,12 @@ import type { FactionScript, FactionPerson } from '@/lib/faction-types'
 export const INTRO_SEC = 2.5
 export const GROUP_SEC = 1.8
 export const CLUSTER_SEC = 1.8
-export const OUTRO_SEC = 3.0
+/** 마지막 인물 컷 뒤 페이드아웃 여운(초) — 렌더러(Faction/timing.ts)와 동일. 별도 엔딩 카드 없음 */
+export const ENDING_FADE_SEC = 1.6
+/** 대사 후 대기 기본값(초) — 마지막 인물 대사 끝 ~ 전환까지 정지 유지. 렌더러(DEFAULT_END_HOLD_SEC)와 동일 */
+export const DEFAULT_END_HOLD_SEC = 4
+/** 마지막 화면(종료 화면) 대기 기본값(초) — 렌더러(DEFAULT_OUTRO_HOLD_SEC)와 동일. 시작 화면과 같은 길이 */
+export const DEFAULT_OUTRO_HOLD_SEC = INTRO_SEC
 
 // 인물 컷 길이 — 렌더러(Faction/timing.ts)와 동일 규칙: 타이핑 시간 + 읽기 시간, 최소 보장
 const FPS = 60
@@ -59,15 +64,20 @@ export function totalSec(script: FactionScript): number {
     const peopleSec = groupPeople(g).reduce((s, p) => s + personDurationSec(p), 0)
     return sum + head + clusterCardsSec + peopleSec
   }, 0)
-  return INTRO_SEC + groupsSec + OUTRO_SEC
+  // 엔딩 카드 없음. 마지막 인물 컷은 대사 끝부터 대사 후 대기(endHold)만큼 유지된다.
+  // 추정: 인물 합산에는 PERSON_HOLD가 이미 포함되므로, 마지막 인물 hold를 대사 후 대기로 치환한다(렌더와 근사).
+  // 종료 화면(outroSameAsIntro)을 쓰면 그 뒤에 마지막 화면 대기(outroHold)만큼 한 컷이 더 붙는다.
+  const endHold = Math.max(0, script.endHoldSec ?? DEFAULT_END_HOLD_SEC)
+  const outroHold = script.outroSameAsIntro ? Math.max(0, script.outroHoldSec ?? DEFAULT_OUTRO_HOLD_SEC) : 0
+  return Math.max(INTRO_SEC, INTRO_SEC + groupsSec - PERSON_HOLD_SEC + endHold + outroHold)
 }
 
-/** 컷 수 추정 (인트로 + 타이틀 + 화보 + 인물 + 엔딩). 타이틀은 모든 묶음에, 화보는 2명 이상 묶음만 */
+/** 컷 수 추정 (인트로 + 타이틀 + 화보 + 인물). 타이틀은 모든 묶음에, 화보는 2명 이상 묶음만. 엔딩 카드는 없다 */
 export function cueCount(script: FactionScript): number {
   const groups = (script.groups ?? []).filter(g => !g.disabled)
   const groupCards = groups.filter(g => g.titleArt).length
   const clusterCards = groups.reduce((s, g) => s + groupClusterCards(g), 0)
-  return 1 + groupCards + clusterCards + totalPeople(script) + 1
+  return 1 + groupCards + clusterCards + totalPeople(script)
 }
 
 /** 초 → mm:ss */

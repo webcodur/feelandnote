@@ -11,6 +11,7 @@
     "voice:pronounce": "tsx scripts/voice/1-pronounce.ts",
     "voice:tts": "tsx scripts/voice/2-synthesize.ts",
     "voice:faction": "tsx scripts/voice/faction-tts.ts",
+    "voice:faction-align": "tsx scripts/voice/faction-align.ts",
     "voice:transcribe": "python scripts/voice/3-transcribe.py",
     "voice:align": "tsx scripts/voice/4-align.ts",
     "voice:chunk": "tsx scripts/voice/5-chunk.ts",
@@ -19,6 +20,7 @@
     "render:short": "remotion render BookRecommendShort",
     "render:all": "tsx scripts/render/render-all.ts",
     "srt": "tsx scripts/srt/generate-srt.ts",
+    "faction:srt": "tsx scripts/srt/faction-srt.ts",
     "youtube:auth": "tsx scripts/youtube/youtube-upload.ts auth",
     "youtube:upload": "tsx scripts/youtube/youtube-upload.ts upload",
     "youtube:patch-meta": "tsx scripts/youtube/youtube-upload.ts patch-meta",
@@ -26,8 +28,8 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
-    "@feelandnote/shared": "workspace:*",
     "@aws-sdk/client-s3": "^3.997.0",
+    "@feelandnote/shared": "workspace:*",
     "@google-cloud/text-to-speech": "^6.4.0",
     "@google/genai": "^1.44.0",
     "@remotion/cli": "4.0.434",

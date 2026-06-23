@@ -15,7 +15,7 @@ export const args = process.argv.slice(2)
 // --- 허용 플래그 검증 — 오타·미지원 플래그 유입 방지 ---
 const KNOWN_FLAGS = new Set([
   '--episode', '--engine', '--only', '--force', '--shorts', '--long',
-  '--update-json', '--include-common', '--normalize', '--list',
+  '--update-json', '--include-common', '--normalize', '--normalize-only', '--list',
   '--init-manifest', '--start-key', '--role',
   '--default-tags', '--default-trail', '--include-locked',
 ])

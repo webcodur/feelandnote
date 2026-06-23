@@ -16,8 +16,9 @@ import { VOICE, MODEL_GEMINI_25, MODEL_GEMINI_31 } from '../2-synthesize/config.
 import { normalizeWav, normalizeAll } from '../2-synthesize/normalize.js'
 import {
   EPISODE_NAME, DATA_PATH, VOICE_DIR, LANG, GEMINI_MODEL,
-  DRY_RUN, LIST_ONLY, FORCE_ALL, NORMALIZE, INIT_MANIFEST, UPDATE_JSON, ONLY_TARGETS,
+  DRY_RUN, LIST_ONLY, FORCE_ALL, NORMALIZE, NORMALIZE_ONLY, INIT_MANIFEST, UPDATE_JSON, VERIFY, ONLY_TARGETS,
 } from './cli.js'
+import { analyzeTiming } from '../../../src/compositions/Faction/timing.js'
 import { loadFactionData, buildVoiceJobs, writeQuoteDurations, type FactionVoiceJob } from './data.js'
 import { jobHash, loadManifest, saveManifest } from './manifest.js'
 import { synthesizeGemini, measureWavDuration } from './engine.js'
@@ -49,10 +50,28 @@ export async function main(): Promise<void> {
     process.exit(1)
   }
 
-  const script = await loadFactionData()
-  let jobs = buildVoiceJobs(script)
+  // 생성 없이 voice/ 의 모든 wav(ElevenLabs 포함)를 라우드니스 일괄 정규화만 하고 종료
+  if (NORMALIZE_ONLY) {
+    console.log(`라우드니스 일괄 정규화만 실행 — ${EPISODE_NAME}`)
+    await normalizeAll(VOICE_DIR)
+    return
+  }
 
-  // ElevenLabs 인물은 자동 생성 대상이 아니다(사용자 전담). BO 미리듣기 패널에서 직접 생성·저장한다.
+  const script = await loadFactionData()
+
+  // --verify: 합성 없이 타이밍 산식 ↔ 실제 wav 길이를 대조해 검증 리포트만 출력하고 종료.
+  // 「영상이 몇 초에 끝나야 하는지」와 「음성이 컷 안에 온전히 들어가는지(끝 씹힘)」를 한곳에서 확인한다.
+  if (VERIFY) {
+    await runVerify(script)
+    return
+  }
+
+  // 엔진 무관 전체 잡 — wav 길이 측정(--update-json)은 ElevenLabs 포함 전부 대상이다.
+  const allJobs = buildVoiceJobs(script)
+  let jobs = allJobs
+
+  // ElevenLabs 인물은 자동 "생성" 대상이 아니다(사용자 전담). BO 미리듣기 패널에서 직접 생성·저장한다.
+  // 단, 이미 존재하는 wav 의 길이 측정은 엔진과 무관하므로 여기서 제외해도 --update-json 은 allJobs 를 쓴다.
   const eleSkipped = jobs.filter(j => j.engine === 'elevenlabs').length
   if (eleSkipped > 0) {
     jobs = jobs.filter(j => j.engine !== 'elevenlabs')
@@ -83,11 +102,12 @@ export async function main(): Promise<void> {
     return
   }
 
-  // --update-json 단독: 합성 없이 기존 wav 길이만 다시 측정해 quoteDuration 갱신
+  // --update-json 단독: 합성 없이 기존 wav 길이만 다시 측정해 quoteDuration 갱신.
+  // 엔진 무관 전체 잡(allJobs)을 대상으로 한다 — ElevenLabs 음원을 잘라도 길이가 반영되도록.
   if (UPDATE_JSON && !FORCE_ALL) {
     const durations: Record<string, number> = {}
     let measured = 0
-    for (const j of jobs) {
+    for (const j of allJobs) {
       const fp = path.join(VOICE_DIR, j.file)
       if (!existsSync(fp)) continue
       durations[j.file] = await measureWavDuration(fp)
@@ -166,4 +186,55 @@ export async function main(): Promise<void> {
     console.log(`${file.padEnd(22)} ${dur.toFixed(2)}s`)
   }
   console.log(`\n✓ data.json quoteDuration ${changed}개 기록 (${path.relative(process.cwd(), DATA_PATH)})`)
+}
+
+/**
+ * 타이밍 검증 리포트 — 산식(analyzeTiming)과 실제 wav 길이를 대조한다.
+ * - 총 길이: 롱폼 / 쇼츠 1편 / 쇼츠 2편 각각 「몇 초에 끝나는지」.
+ * - voice 인물별: quoteDuration(data) ↔ wav 실측 일치 여부, 음성이 컷에 온전히 들어가는 여유(tailRoom).
+ *   tailRoom<0 = 컷이 음성을 못 담아 끝이 잘림. qDur≠wav = data 가 실제 음원 길이와 어긋남(트림 미반영 등).
+ */
+async function runVerify(script: Awaited<ReturnType<typeof loadFactionData>>): Promise<void> {
+  const p2 = (n: number) => n.toFixed(2).padStart(6)
+  // 스튜디오 타임코드(m:ss:ff @ 60fps)와 같은 형식 — 스튜디오 표시와 1:1 대조용
+  const tc = (frames: number) => {
+    const t = Math.round(frames)
+    const ff = t % 60, ss = Math.floor(t / 60) % 60, mm = Math.floor(t / 3600)
+    return `${mm}:${String(ss).padStart(2, '0')}:${String(ff).padStart(2, '0')}`
+  }
+  const long = analyzeTiming(script, false)
+  const s1 = analyzeTiming(script, true, 1)
+  const s2 = analyzeTiming(script, true, 2)
+
+  // 스튜디오 타임코드는 0-base 마지막 프레임(totalFrames-1)을 표시한다 — 같은 기준으로 찍어 1:1 대조.
+  console.log(`\n=== 타이밍 검증: ${EPISODE_NAME} ===`)
+  console.log(`총 길이 (스튜디오 타임코드 = 마지막 프레임 m:ss:ff)`)
+  console.log(`  롱폼     ${tc(long.totalFrames - 1)}  (총 ${long.totalFrames}f · ${long.totalSec.toFixed(1)}s · ${long.cueCount}컷)`)
+  console.log(`  쇼츠1편  ${tc(s1.totalFrames - 1)}  (총 ${s1.totalFrames}f · ${s1.totalSec.toFixed(1)}s)`)
+  console.log(`  쇼츠2편  ${tc(s2.totalFrames - 1)}  (총 ${s2.totalFrames}f · ${s2.totalSec.toFixed(1)}s)\n`)
+  console.log(`[voice 인물 — 음성 ↔ 컷 정합성]  (단위 초)`)
+  console.log(`${'파일'.padEnd(18)} ${'인물'.padEnd(12)} ${'qDur'.padStart(6)} ${'wav'.padStart(6)} ${'차이'.padStart(6)} ${'배속'.padStart(5)} ${'재생'.padStart(6)} ${'컷'.padStart(6)} ${'여유'.padStart(6)}  상태`)
+
+  let mismatch = 0, choke = 0, missing = 0, longerWav = 0
+  for (const c of long.voiceChecks) {
+    const fp = path.join(VOICE_DIR, c.file)
+    let wav = -1
+    if (existsSync(fp)) { try { wav = await measureWavDuration(fp) } catch { /* 손상 */ } }
+    const qd = c.quoteDuration ?? 0
+    const diff = wav >= 0 ? wav - qd : NaN
+    const flags: string[] = []
+    if (wav < 0) { flags.push('wav없음'); missing++ }
+    else if (Math.abs(diff) > 0.05) { flags.push('qDur≠wav'); mismatch++; if (diff > 0.05) longerWav++ }
+    if (c.tailRoomSec < 0) { flags.push('씹힘'); choke++ }
+    const status = flags.length ? '⚠ ' + flags.join(',') : 'OK'
+    console.log(`${c.file.padEnd(18)} ${c.name.slice(0, 12).padEnd(12)} ${p2(qd)} ${wav >= 0 ? p2(wav) : '     -'} ${Number.isNaN(diff) ? '     -' : p2(diff)} ${c.rate.toFixed(2).padStart(5)} ${p2(c.audioPlaySec)} ${p2(c.cutSec)} ${p2(c.tailRoomSec)}  ${status}`)
+  }
+  console.log(`\n요약: voice ${long.voiceChecks.length}명`
+    + ` · quoteDuration≠wav ${mismatch}건${longerWav ? `(wav가 더 김 ${longerWav}건=트림 미반영 의심)` : ''}`
+    + ` · 끝 씹힘위험 ${choke}건 · wav없음 ${missing}건`)
+  if (mismatch === 0 && choke === 0 && missing === 0) {
+    console.log('✓ 모든 voice 음성이 data·컷과 정합. 영상 길이는 위 「총 길이」가 정답이다.')
+  } else {
+    console.log('※ quoteDuration≠wav 는 `--update-json` 으로 data 를 실제 wav 에 맞춰 해소한다.')
+  }
 }

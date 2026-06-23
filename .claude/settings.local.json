@@ -49,7 +49,9 @@
       "Skill(deep-research)",
       "Bash(printf -- '- [feedback_no_pet_words.md]\\(feedback_no_pet_words.md\\) — AI 단골 문예 어휘\\(포개다·벼리다·~한 셈입니다 등\\) 금지. 모든 한국어 글쓰기에 no-trash-prose 스킬 적용\\\\n')",
       "Read(//c/Users/webco/.claude/projects/C--project-feelandnote/memory/**)",
-      "Bash([ -s \"$f\" ])"
+      "Bash([ -s \"$f\" ])",
+      "Bash([ -s \"$d/a5180823a4c8df3c2.output\" ])",
+      "Bash([ -s \"$d/ab1e07da314ac0b7e.output\" ])"
     ],
     "deny": [],
     "ask": []

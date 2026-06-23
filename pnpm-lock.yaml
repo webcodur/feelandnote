@@ -154,7 +154,7 @@ importers:
         version: 1.44.0
       '@remotion/cli':
         specifier: 4.0.434
-        version: 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/media-utils':
         specifier: 4.0.434
         version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -8390,12 +8390,12 @@ snapshots:
       react: 19.2.0
       react-redux: 9.2.0(@types/react@19.2.9)(react@19.2.0)(redux@5.0.1)
 
-  '@remotion/bundler@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/bundler@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@remotion/media-parser': 4.0.434
       '@remotion/studio': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@rspack/core': 1.7.6(@swc/helpers@0.5.15)
+      '@rspack/core': 1.7.6
       '@rspack/plugin-react-refresh': 1.6.1(react-refresh@0.18.0)
       css-loader: 5.2.7(webpack@5.105.0)
       esbuild: 0.25.0
@@ -8416,14 +8416,14 @@ snapshots:
       - webpack-cli
       - webpack-hot-middleware
 
-  '@remotion/cli@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/cli@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@remotion/bundler': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/bundler': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/media-utils': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/player': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/renderer': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@remotion/studio-server': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/studio-server': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       dotenv: 17.3.1
       minimist: 1.2.6
@@ -8507,10 +8507,10 @@ snapshots:
 
   '@remotion/streaming@4.0.434': {}
 
-  '@remotion/studio-server@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/studio-server@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/parser': 7.24.1
-      '@remotion/bundler': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/bundler': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/renderer': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       memfs: 3.4.3
@@ -8706,13 +8706,11 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': 1.7.6
       '@rspack/binding-win32-x64-msvc': 1.7.6
 
-  '@rspack/core@1.7.6(@swc/helpers@0.5.15)':
+  '@rspack/core@1.7.6':
     dependencies:
       '@module-federation/runtime-tools': 0.22.0
       '@rspack/binding': 1.7.6
       '@rspack/lite-tapable': 1.1.0
-    optionalDependencies:
-      '@swc/helpers': 0.5.15
 
   '@rspack/lite-tapable@1.1.0': {}
 
@@ -10907,7 +10905,7 @@ snapshots:
       '@next/eslint-plugin-next': 16.1.1
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.2(jiti@2.6.1))
@@ -10927,6 +10925,21 @@ snapshots:
       debug: 3.2.7
       is-core-module: 2.16.1
       resolve: 1.22.11
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      '@nolyfill/is-core-module': 1.0.39
+      debug: 4.4.3
+      eslint: 9.39.2(jiti@2.6.1)
+      get-tsconfig: 4.13.0
+      is-bun-module: 2.0.0
+      stable-hash: 0.0.5
+      tinyglobby: 0.2.15
+      unrs-resolver: 1.11.1
+    optionalDependencies:
+      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -10953,6 +10966,16 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-module-utils@2.12.1(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      debug: 3.2.7
+    optionalDependencies:
+      eslint: 9.39.2(jiti@2.6.1)
+      eslint-import-resolver-node: 0.3.9
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -10996,7 +11019,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
+      eslint-module-utils: 2.12.1(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3

@@ -29,6 +29,18 @@ export function ChevronDown(p: IconProps) {
   return <Svg {...p}><path d="m6 9 6 6 6-6" /></Svg>
 }
 
+export function ChevronLeft(p: IconProps) {
+  return <Svg {...p}><path d="m15 18-6-6 6-6" /></Svg>
+}
+
+export function ChevronRight(p: IconProps) {
+  return <Svg {...p}><path d="m9 18 6-6-6-6" /></Svg>
+}
+
+export function X(p: IconProps) {
+  return <Svg {...p}><path d="M18 6 6 18" /><path d="m6 6 12 12" /></Svg>
+}
+
 // 접기/펼치기 전용 — 이동 버튼(단일 꺾쇠)과 구분되는 이중 꺾쇠
 export function ChevronsUpDown(p: IconProps) {
   return <Svg {...p}><path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" /></Svg>

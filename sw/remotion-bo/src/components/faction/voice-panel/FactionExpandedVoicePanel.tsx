@@ -11,6 +11,7 @@ import { UiLabel } from '@/components/ui-label'
 import { useFactionVoiceSpec } from './useFactionVoiceSpec'
 import { useFactionVoiceGeneration } from './useFactionVoiceGeneration'
 import { FactionSavedVoiceSection } from './FactionSavedVoiceSection'
+import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { EleVoiceCombobox } from './EleVoiceCombobox'
 
@@ -55,8 +56,8 @@ export function FactionExpandedVoicePanel({
   // error 는 양쪽 hook(spec·생성)이 공유하므로 orchestrator 가 소유한다.
   const [error, setError] = useState<string | null>(null)
 
-  // 들숨 제거 패널 펼침 — 저장된 음원이 있을 때만 의미. 공간 절약 위해 기본 접힘.
-  const [breathOpen, setBreathOpen] = useState(false)
+  // 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거). 기본 생성·트림.
+  const [mode, setMode] = useState<'main' | 'sync' | 'breath'>('main')
 
   // ElevenLabs 워크스페이스 보이스 목록 — 북리커맨드 화자 선택처럼 드롭다운으로 고른다.
   const [eleVoices, setEleVoices] = useState<{ voice_id: string; name: string; category?: string | null }[]>([])
@@ -121,6 +122,22 @@ export function FactionExpandedVoicePanel({
     <div className="relative space-y-3" onClick={e => e.stopPropagation()}>
       <UiLabel ko="음성 편집 패널" code="FactionExpandedVoicePanel" />
 
+      {/* 모드 탭 — 생성·트림 / 싱크 보정 / 들숨 제거. 한 세로 스크롤을 셋으로 나눠 작업 단위를 분리한다. */}
+      <div className="flex gap-1">
+        {([['main', '생성·트림'], ['sync', '싱크 보정'], ['breath', '들숨 제거']] as const).map(([m, l]) => (
+          <button
+            key={m}
+            type="button"
+            onClick={e => { e.stopPropagation(); setMode(m) }}
+            className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${mode === m ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+          >
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {/* ── 생성·트림 모드 ── */}
+      {mode === 'main' && (<>
       {/* 저장된 음원 — 디스크 wav + 트림 */}
       <FactionSavedVoiceSection
         series={series}
@@ -330,32 +347,28 @@ export function FactionExpandedVoicePanel({
         // 엔진 선택은 위쪽에 따로 두었으므로 이 섹션의 엔진 드롭다운은 숨긴다(중복 제거).
         hideEngineSelect
       />
+      </>)}
 
-      {/* 들숨 제거 — 저장된 음원이 있을 때만. 펼침 토글로 공간 절약. 라우트만 세력도 경로로 갈아끼운다. */}
-      {activeFile && (
-        <div className="rounded-md border border-border bg-bg-main/40">
-          <button
-            type="button"
-            onClick={() => setBreathOpen(v => !v)}
-            className="flex w-full items-center gap-2 px-3 py-2 text-left"
-            title="저장된 음원에서 들숨·잡소리 구간을 무음 처리한다 (길이·자막 타이밍 유지)"
-          >
-            <span className="text-xs font-semibold text-text-secondary">들숨 제거</span>
-            <span className="text-[10px] text-text-dim">저장된 음원에서 숨소리를 비운다</span>
-            <span className="ml-auto text-[10px] text-text-dim">{breathOpen ? '접기 ▲' : '펼치기 ▼'}</span>
-          </button>
-          {breathOpen && (
-            <div className="border-t border-border p-2">
-              <BreathModeContent
-                series={series}
-                name={episodeName}
-                file={activeFile}
-                onRefresh={onRefresh}
-                endpoints={breathEndpoints}
-              />
-            </div>
-          )}
-        </div>
+      {/* ── 싱크 보정 모드 — whisper 오차를 음원 들으며 드래그로 교정 ── */}
+      {mode === 'sync' && (
+        activeFile
+          ? <FactionSyncContent series={series} episodeName={episodeName} voiceFile={voiceFile} person={person} />
+          : <div className="px-1 py-2 text-xs text-text-dim">저장된 음원이 없다. 「생성·트림」에서 먼저 음원을 만든다.</div>
+      )}
+
+      {/* ── 들숨 제거 모드 — 저장된 음원의 들숨·잡소리 구간 무음 처리 ── */}
+      {mode === 'breath' && (
+        activeFile
+          ? (
+            <BreathModeContent
+              series={series}
+              name={episodeName}
+              file={activeFile}
+              onRefresh={onRefresh}
+              endpoints={breathEndpoints}
+            />
+          )
+          : <div className="px-1 py-2 text-xs text-text-dim">저장된 음원이 없다. 「생성·트림」에서 먼저 음원을 만든다.</div>
       )}
 
       {error && <div className="text-xs text-danger-text">{error}</div>}

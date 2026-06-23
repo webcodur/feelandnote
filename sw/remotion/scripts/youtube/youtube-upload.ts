@@ -11,95 +11,24 @@
 
 import { google } from 'googleapis'
 import { readFile, writeFile } from 'fs/promises'
-import { createServer, type IncomingMessage, type ServerResponse } from 'http'
-import { execSync } from 'child_process'
-import { createReadStream, existsSync, statSync } from 'fs'
+import { existsSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { lineup, buildTitle, buildDescription, buildTags, calcChapterTimestamps, buildYouTubeSnippet, type EpisodeMeta } from './youtube-lineup.js'
 import { buildSoloTitle, buildSoloDescription } from '@feelandnote/shared/lib/youtube-meta'
 import { ROOT, findEpisodeDir, parseEpName, resolveEpisodePath, loadEpisode } from '../lib/episode.js'
+import {
+  OUT_DIR,
+  authenticate,
+  getAuthedClient,
+  uploadVideoWithSnippet,
+  uploadCaption,
+  upsertCaption,
+  setThumbnail,
+} from './youtube-core.js'
+import { uploadFaction, patchFactionMetadata } from './youtube-faction.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const CREDENTIALS_DIR = path.join(__dirname, '..', '..', 'credentials')
-const CLIENT_SECRET_PATH = path.join(CREDENTIALS_DIR, 'client_secret.json')
-const OUT_DIR = path.join(__dirname, '..', '..', 'out')
-
-/** 채널별 토큰 경로: ko → youtube_token.json, en → youtube_token_en.json */
-function tokenPath(channel: 'ko' | 'en' = 'ko') {
-  return path.join(CREDENTIALS_DIR, channel === 'en' ? 'youtube_token_en.json' : 'youtube_token.json')
-}
-
-const SCOPES = [
-  'https://www.googleapis.com/auth/youtube.upload',
-  'https://www.googleapis.com/auth/youtube.force-ssl',
-]
-
-// ─── OAuth2 ─────────────────────────────────────────────
-
-async function createOAuth2() {
-  const raw = JSON.parse(await readFile(CLIENT_SECRET_PATH, 'utf-8'))
-  const creds = raw.installed ?? raw.web
-  return new google.auth.OAuth2(creds.client_id, creds.client_secret, 'http://localhost:9876')
-}
-
-async function authenticate(channel: 'ko' | 'en' = 'ko') {
-  const oauth2 = await createOAuth2()
-  const authUrl = oauth2.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-    prompt: 'consent',
-  })
-
-  const label = channel === 'en' ? 'EN 채널' : 'KO 채널'
-  console.log(`${label} 인증 — 브라우저에서 Google 인증 진행...`)
-
-  const code = await new Promise<string>((resolve, reject) => {
-    const server = createServer((req: IncomingMessage, res: ServerResponse) => {
-      const url = new URL(req.url!, 'http://localhost:9876')
-      const code = url.searchParams.get('code')
-      if (code) {
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-        res.end(`<h1>${label} 인증 완료. 이 창을 닫아도 됩니다.</h1>`)
-        server.close()
-        resolve(code)
-      } else {
-        res.writeHead(400)
-        res.end('code 파라미터 없음')
-      }
-    })
-    server.listen(9876, () => {
-      try { execSync(`start "" "${authUrl}"`, { stdio: 'ignore' }) }
-      catch { console.log(`브라우저에서 열기:\n${authUrl}`) }
-    })
-    server.on('error', reject)
-  })
-
-  const tp = tokenPath(channel)
-  const { tokens } = await oauth2.getToken(code)
-  await writeFile(tp, JSON.stringify(tokens, null, 2), 'utf-8')
-  console.log(`토큰 저장 완료: ${tp}`)
-}
-
-async function getAuthedClient(channel: 'ko' | 'en' = 'ko') {
-  const tp = tokenPath(channel)
-  const oauth2 = await createOAuth2()
-  let tokens: Record<string, unknown>
-  try {
-    tokens = JSON.parse(await readFile(tp, 'utf-8'))
-  } catch {
-    console.error(`토큰 없음 (${channel}). pnpm youtube:auth -- --channel ${channel} 먼저 실행.`)
-    process.exit(1)
-  }
-  oauth2.setCredentials(tokens)
-
-  // 토큰 갱신 시 자동 저장
-  oauth2.on('tokens', async (newTokens) => {
-    const existing = JSON.parse(await readFile(tp, 'utf-8'))
-    await writeFile(tp, JSON.stringify({ ...existing, ...newTokens }, null, 2), 'utf-8')
-  })
-  return oauth2
-}
 
 // ─── 파일 탐색 ──────────────────────────────────────────
 
@@ -155,114 +84,6 @@ function findFiles(label: string, lang: 'ko' | 'en', variant: Variant) {
     video: existsSync(video) ? video : null,
     srt: existsSync(srt) ? srt : null,
     thumb: existsSync(thumb) ? thumb : null,
-  }
-}
-
-// ─── 업로드 ─────────────────────────────────────────────
-
-async function uploadVideo(
-  yt: ReturnType<typeof google.youtube>,
-  filePath: string,
-  title: string,
-  description: string,
-  tags: string[],
-  lang: 'ko' | 'en',
-  privacyStatus: string,
-) {
-  const fileSize = statSync(filePath).size
-  const snippet = buildYouTubeSnippet({ title, description, tags, lang })
-
-  console.log(`  업로드 중: ${path.basename(filePath)} (${(fileSize / 1024 / 1024).toFixed(0)}MB)`)
-
-  const res = await yt.videos.insert({
-    part: ['snippet', 'status'],
-    requestBody: {
-      snippet,
-      status: {
-        privacyStatus,
-        selfDeclaredMadeForKids: false,
-      },
-    },
-    media: {
-      body: createReadStream(filePath),
-    },
-  })
-
-  const videoId = res.data.id!
-  console.log(`  완료: https://youtu.be/${videoId}`)
-  return videoId
-}
-
-async function uploadCaption(
-  yt: ReturnType<typeof google.youtube>,
-  videoId: string,
-  srtPath: string,
-  lang: 'ko' | 'en',
-) {
-  console.log(`  자막 업로드: ${path.basename(srtPath)}`)
-  await yt.captions.insert({
-    part: ['snippet'],
-    requestBody: {
-      snippet: {
-        videoId,
-        language: lang === 'ko' ? 'ko' : 'en',
-        name: lang === 'ko' ? '한국어' : 'English',
-      },
-    },
-    media: {
-      mimeType: 'application/x-subrip',
-      body: createReadStream(srtPath),
-    },
-  })
-  console.log('  자막 완료')
-}
-
-/**
- * 동일 언어 캡션이 이미 있으면 update, 없으면 insert.
- * 업로드 시 자막이 누락됐거나 자막만 다시 올릴 때 사용.
- */
-async function upsertCaption(
-  yt: ReturnType<typeof google.youtube>,
-  videoId: string,
-  srtPath: string,
-  lang: 'ko' | 'en',
-) {
-  const targetLang = lang === 'ko' ? 'ko' : 'en'
-  const list = await yt.captions.list({ videoId, part: ['snippet'] })
-  // YouTube 가 만든 asr 트랙은 외부 API 로 update 불가 — trackKind === 'standard' 만 후보로 삼는다.
-  const existing = (list.data.items ?? []).find(it =>
-    it.snippet?.language === targetLang && it.snippet?.trackKind === 'standard'
-  )
-  if (existing?.id) {
-    console.log(`  자막 갱신(update): ${path.basename(srtPath)} → caption=${existing.id}`)
-    await yt.captions.update({
-      part: ['snippet'],
-      requestBody: { id: existing.id },
-      media: { mimeType: 'application/x-subrip', body: createReadStream(srtPath) },
-    })
-    console.log('  자막 갱신 완료')
-    return
-  }
-  await uploadCaption(yt, videoId, srtPath, lang)
-}
-
-async function setThumbnail(
-  yt: ReturnType<typeof google.youtube>,
-  videoId: string,
-  thumbPath: string,
-) {
-  console.log(`  썸네일 설정: ${path.basename(thumbPath)}`)
-  try {
-    await yt.thumbnails.set({
-      videoId,
-      media: {
-        mimeType: 'image/png',
-        body: createReadStream(thumbPath),
-      },
-    })
-    console.log('  썸네일 완료')
-  } catch (e: any) {
-    console.warn(`  썸네일 실패 (채널 인증 필요할 수 있음): ${e.message}`)
   }
 }
 
@@ -412,7 +233,7 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
 
     const yt = await getYt(variant.lang)
     if (!yt) continue
-    const videoId = await uploadVideo(yt, files.video, title, description, tags, variant.lang, 'private')
+    const videoId = await uploadVideoWithSnippet(yt, files.video, buildYouTubeSnippet({ title, description, tags, lang: variant.lang }), 'private')
     if (files.srt) {
       // 영상 처리 대기 후 자막 업로드 (즉시 시도 시 거부될 수 있음)
       console.log('  자막 업로드 대기 (10초)...')
@@ -604,7 +425,15 @@ if (command === 'auth') {
 
   const dry = args.includes('--dry')
 
-  upload(episode, lang, type, shortsIndex, bookIndex, dry).catch(console.error)
+  const seriesIdx = args.indexOf('--series')
+  const series = seriesIdx >= 0 ? args[seriesIdx + 1] : undefined
+
+  // 세력도 — 데이터 모델·출력 경로가 달라 별도 진입점으로 위임 (한국어 세로 전용)
+  if (series === 'faction') {
+    uploadFaction(episode, type, dry).catch(e => { console.error(e); process.exit(1) })
+  } else {
+    upload(episode, lang, type, shortsIndex, bookIndex, dry).catch(console.error)
+  }
 } else if (command === 'patch-meta') {
   const epIdx = args.indexOf('--episode')
   const episode = epIdx >= 0 ? args[epIdx + 1] : null
@@ -622,7 +451,14 @@ if (command === 'auth') {
   const dry = args.includes('--dry')
   const withCaption = !args.includes('--no-caption')
 
-  patchMetadata(episode, lang, type, shortsIndex, dry, withCaption).catch(e => { console.error(e); process.exit(1) })
+  const seriesIdx = args.indexOf('--series')
+  const series = seriesIdx >= 0 ? args[seriesIdx + 1] : undefined
+
+  if (series === 'faction') {
+    patchFactionMetadata(episode, type, dry).catch(e => { console.error(e); process.exit(1) })
+  } else {
+    patchMetadata(episode, lang, type, shortsIndex, dry, withCaption).catch(e => { console.error(e); process.exit(1) })
+  }
 } else {
   console.log(`사용법:
   pnpm youtube:auth                                            KO 채널 인증

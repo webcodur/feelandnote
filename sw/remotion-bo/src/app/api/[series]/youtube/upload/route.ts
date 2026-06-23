@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { queueTask, cancelTask } from '@/lib/server-utils'
-import { getSeriesById } from '@/lib/series-registry'
+import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series: seriesId } = await params
@@ -11,6 +11,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   const args = ['youtube:upload', '--', '--episode', episode]
+  // 세력도 — CLI 가 별도 진입점으로 위임하도록 시리즈 플래그를 넘긴다.
+  if (isFactionSeries(seriesId)) args.push('--series', 'faction')
   if (lang) args.push('--lang', lang)
   if (type) args.push('--type', type)
   if (typeof shortsIndex === 'number') args.push('--shorts-index', String(shortsIndex))

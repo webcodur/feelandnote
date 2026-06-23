@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 import { writeFile, mkdir, unlink, readFile } from 'fs/promises'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
-import path from 'path'
 import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
 import { factionVoiceDir, factionVoiceFilePath, wavDurationSec } from '@/lib/faction-utils'
+import { normalizeWavInPlace } from '@/lib/voice-normalize'
 
 // ── 세력도 인물 대사 음성 저장 라우트 (미리듣기 → 인물 음원 확정)
 //
@@ -49,12 +49,18 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       await writeFile(filePath, buf)
     }
 
-    // 저장된 최종 wav 길이(초) 측정 → 응답. 호출 측이 인물 quoteDuration 에 기록해
-    // 렌더(컷 길이·음성 재생)가 이 음원에 맞춰진다. (MP3 변환분은 변환된 wav 를 다시 읽어 측정)
-    const finalBuf = isMp3 ? await readFile(filePath) : buf
+    // 라우드니스 정규화 — 저장 즉시 음량 균일화(ElevenLabs 음원 편차 해소). 원본은 .raw 백업.
+    // 실패해도 원본 저장은 유지(정규화는 독립 단계).
+    let normalized = false
+    try { normalized = await normalizeWavInPlace(filePath) }
+    catch (e) { console.error('[faction-voice/save] 라우드니스 정규화 실패(원본 저장은 유지):', e) }
+
+    // 길이(초)는 정규화 후 wav 기준으로 측정 → 응답. 호출 측이 인물 quoteDuration 에 기록해
+    // 렌더(컷 길이·음성 재생)가 이 음원에 맞춰진다.
+    const finalBuf = await readFile(filePath)
     const duration = wavDurationSec(finalBuf)
 
-    return NextResponse.json({ success: true, bytes: buf.length, duration })
+    return NextResponse.json({ success: true, bytes: buf.length, duration, normalized })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) })
   }

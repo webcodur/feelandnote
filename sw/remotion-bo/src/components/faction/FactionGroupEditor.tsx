@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import type { FactionGroup, FactionPerson, FactionCluster } from '@/lib/faction-types'
+import { factionVoiceFile } from '@/lib/faction-voice'
 import { imageSrc } from './timing'
 import { ChevronUp, ChevronDown, Trash2, Search, UserPlus, ImageIcon, Plus, Eye, EyeOff } from './icons'
 import { FactionPersonRow } from './FactionPersonRow'
+import { useFactionVoice } from './FactionVoiceContext'
 import { FactionImagePicker } from './FactionImagePicker'
 import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchModal'
 
@@ -95,15 +97,50 @@ function PersonList({
   /** 무소속 개인군 여부 — 파일명에 C 부착 여부 결정 */
   solo: boolean
 }) {
+  const voiceCtx = useFactionVoice()
   const setPerson = (i: number, p: FactionPerson) =>
     onPeopleChange(people.map((x, idx) => (idx === i ? p : x)))
   const deletePerson = (i: number) => onPeopleChange(people.filter((_, idx) => idx !== i))
-  const movePerson = (i: number, dir: -1 | 1) => {
+  // 인물 순서 변경 — 음원 파일은 "인물 위치" 기반이라, 인물만 바꾸면 옛 음원이 그대로 남아
+  // 다른 사람 목소리가 나온다. 그래서 음원을 먼저 swap 하고, 성공하면 인물 배열을 바꾼다.
+  const movePerson = async (i: number, dir: -1 | 1) => {
     const j = i + dir
     if (j < 0 || j >= people.length) return
+
+    // i번째 음원 ↔ j번째 음원 swap. solo·clusterIndex 분기는 factionVoiceFile 이 그대로 처리.
+    const fileI = factionVoiceFile(groupIndex, i, solo, clusterIndex)
+    const fileJ = factionVoiceFile(groupIndex, j, solo, clusterIndex)
+    try {
+      const res = await fetch(
+        `/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/reorder`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            renames: [
+              { from: fileI, to: fileJ },
+              { from: fileJ, to: fileI },
+            ],
+          }),
+        },
+      )
+      if (!res.ok) {
+        const msg = await res.text().catch(() => '')
+        throw new Error(`음원 위치 변경 실패 (${res.status}) ${msg}`)
+      }
+    } catch (e) {
+      // 음원 swap 실패 시 인물 순서도 바꾸지 않는다(음성·인물 정합 유지).
+      console.error('[FactionGroupEditor] 인물 음원 재배치 실패:', e)
+      alert('인물 순서를 바꾸지 못했습니다. 음성 파일 이동에 실패했습니다.')
+      return
+    }
+
+    // 음원 swap 성공 — 인물 배열도 swap(인물 객체째 옮겨 quoteDuration 등 음성 메타도 함께 이동)
     const next = [...people]
     ;[next[i], next[j]] = [next[j], next[i]]
     onPeopleChange(next)
+    // 디스크 음원이 swap 됐으니 음원 캐시(byFile)도 다시 읽어 패널 표시 길이를 새 위치에 맞춘다.
+    voiceCtx?.reload?.()
   }
   const addBlank = () => onPeopleChange([...people, { name: '', role: '', org: '' }])
 
@@ -164,16 +201,17 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
   const disabled = !!group.disabled
   // 영상 제외 토글: disabled: true ↔ undefined
   const toggleDisabled = () => onChange({ ...group, disabled: disabled ? undefined : true })
-  const logoSrc = imageSrc(series, episodeName, group.logo)
+  // 로고 = 타이틀 카드 풀스크린 배경(titleArt). 렌더는 titleArt만 보고 타이틀 컷을 만든다(group.logo는 미사용 사장 필드).
+  const logoSrc = imageSrc(series, episodeName, group.titleArt)
   const split = !!group.clusters?.length
   const clusters = group.clusters ?? []
   const people = group.people ?? []
   const totalCount = split
     ? clusters.reduce((s, c) => s + (c.people?.length ?? 0), 0)
     : people.length
-  // 접힌 상태에서 보여줄 팀 비주얼 — 로고샷(titleArt)이 있으면 먼저, 그 뒤 그룹샷(화보).
+  // 접힌 상태에서 보여줄 팀 비주얼 — 그룹샷(화보)들. 로고(titleArt)는 logoSrc로 따로 표시한다.
   // 분할 세력은 묶음별 화보, 단일은 세력 화보.
-  const covers = [group.titleArt, ...(split ? clusters.map(c => c.image) : [group.image])].filter(Boolean) as string[]
+  const covers = [...(split ? clusters.map(c => c.image) : [group.image])].filter(Boolean) as string[]
 
   // region 모드 전환 (단일 ↔ 분할) — clusters와 people이 동시에 차지 않게 한다
   const toSplit = () => {
@@ -239,25 +277,37 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
         onClick={() => setExpanded(v => !v)}
         title={expanded ? '클릭하면 접기' : '클릭하면 펼치기'}
       >
-        {/* 세력 이름 + 세력 이름(영문) — 한 줄 나란히 */}
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          <label className="w-20 shrink-0 text-xs" style={{ color: onColorDim }}>세력 이름 -</label>
+        {/* 미리보기 이미지들 — 로고·로고아트·화보 전부 헤더에. 공간 넘치면 잘린다 */}
+        <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden">
+          {logoSrc && (
+            <div className="h-14 w-14 shrink-0 overflow-hidden rounded border bg-bg-card/30 p-0.5" style={{ borderColor: onColorDim }}>
+              <img src={logoSrc} alt="" className="h-full w-full object-contain" />
+            </div>
+          )}
+          {covers.map((img, i) => (
+            <img key={i} src={imageSrc(series, episodeName, img)} alt="" className="h-14 w-20 shrink-0 rounded border object-cover" style={{ borderColor: onColorDim }} />
+          ))}
+          {!logoSrc && covers.length === 0 && (
+            <span className="text-[10px]" style={{ color: onColorDim }}>이미지 없음</span>
+          )}
+        </div>
+        {/* 세력명 — 국문/영문 두 행 */}
+        <div className="flex shrink-0 flex-col gap-1">
           <input
             type="text"
             placeholder="세력명"
             value={group.name}
             onChange={e => onChange({ ...group, name: e.target.value })}
             onClick={e => e.stopPropagation()}
-            className="min-w-0 flex-1 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm font-semibold focus:border-accent focus:outline-none"
+            className="w-44 rounded-md border border-border bg-bg-card px-2 py-1 text-sm font-semibold focus:border-accent focus:outline-none"
           />
-          <label className="w-12 shrink-0 text-xs" style={{ color: onColorDim }}>(영문) -</label>
           <input
             type="text"
             placeholder="EN 세력명 (영문)"
             value={group.nameEn ?? ''}
             onChange={e => onChange({ ...group, nameEn: e.target.value })}
             onClick={e => e.stopPropagation()}
-            className="min-w-0 flex-1 rounded-md border border-border/60 bg-bg-card/50 px-2 py-1.5 text-xs text-text-secondary focus:border-accent focus:outline-none"
+            className="w-44 rounded-md border border-border/60 bg-bg-card/50 px-2 py-1 text-xs text-text-secondary focus:border-accent focus:outline-none"
           />
         </div>
         {disabled && (
@@ -270,40 +320,43 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
             롱폼 전용
           </span>
         )}
-        <span className="shrink-0 text-xs" style={{ color: onColorDim }}>인물 {totalCount}</span>
-        <button
-          onClick={e => { e.stopPropagation(); toggleDisabled() }}
-          className={`shrink-0 rounded-md border p-1.5 ${
-            disabled
-              ? 'border-accent bg-accent/10 text-accent'
-              : 'border-border text-text-secondary hover:bg-bg-hover'
-          }`}
-          title={disabled ? '이 세력을 다시 영상에 포함' : '이 세력을 영상에서 제외 (데이터는 보존)'}
+        {/* 편 배정 — 이 세력을 어느 쇼츠 편에 넣을지 (헤더에서 바로 변경) */}
+        <select
+          value={group.part ?? 0}
+          onChange={e => { const v = Number(e.target.value); onChange({ ...group, part: v === 0 ? undefined : v }) }}
+          onClick={e => e.stopPropagation()}
+          className="shrink-0 rounded-md border border-border bg-bg-card px-1.5 py-1 text-xs focus:border-accent focus:outline-none"
+          title="이 세력이 들어갈 쇼츠 편 (공통 = 모든 편)"
         >
-          {disabled ? <Eye size={15} /> : <EyeOff size={15} />}
-        </button>
-        <button onClick={e => { e.stopPropagation(); onMoveUp() }} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="위로">
-          <ChevronUp size={15} />
-        </button>
-        <button onClick={e => { e.stopPropagation(); onMoveDown() }} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="아래로">
-          <ChevronDown size={15} />
-        </button>
-        <button onClick={e => { e.stopPropagation(); onDelete() }} className="rounded-md border border-border p-1.5 text-danger-text hover:bg-danger" title="세력 삭제">
-          <Trash2 size={15} />
-        </button>
-      </div>
-
-      {!expanded && (
-        <div className="flex items-center gap-2 border-t border-border px-3 py-2">
-          {covers.length ? (
-            covers.map((img, i) => (
-              <img key={i} src={imageSrc(series, episodeName, img)} alt="" className="h-16 w-28 shrink-0 rounded object-cover" style={{ border: `1px solid ${color}` }} />
-            ))
-          ) : (
-            <span className="text-xs text-text-dim">화보 이미지 없음</span>
-          )}
+          <option value={0}>공통</option>
+          <option value={1}>1편</option>
+          <option value={2}>2편</option>
+        </select>
+        <span className="shrink-0 text-xs" style={{ color: onColorDim }}>인물 {totalCount}</span>
+        {/* 조작 버튼 2×2 — 상단: 눈/위로, 하단: 삭제/아래로 */}
+        <div className="grid shrink-0 grid-cols-2 gap-1">
+          <button
+            onClick={e => { e.stopPropagation(); toggleDisabled() }}
+            className={`rounded-md border p-1.5 ${
+              disabled
+                ? 'border-accent bg-accent/10 text-accent'
+                : 'border-border text-text-secondary hover:bg-bg-hover'
+            }`}
+            title={disabled ? '이 세력을 다시 영상에 포함' : '이 세력을 영상에서 제외 (데이터는 보존)'}
+          >
+            {disabled ? <Eye size={15} /> : <EyeOff size={15} />}
+          </button>
+          <button onClick={e => { e.stopPropagation(); onMoveUp() }} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="위로">
+            <ChevronUp size={15} />
+          </button>
+          <button onClick={e => { e.stopPropagation(); onDelete() }} className="rounded-md border border-border p-1.5 text-danger-text hover:bg-danger" title="세력 삭제">
+            <Trash2 size={15} />
+          </button>
+          <button onClick={e => { e.stopPropagation(); onMoveDown() }} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="아래로">
+            <ChevronDown size={15} />
+          </button>
         </div>
-      )}
+      </div>
 
       {expanded && (
         <div className="space-y-3 border-t border-border p-3">
@@ -319,8 +372,17 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
               <option value="auto">자동 (인물마다 번갈아)</option>
               <option value="zoomout">줌 아웃</option>
               <option value="zoomin">줌 인</option>
-              <option value="kenburns">켄번스 (확대+이동)</option>
-              <option value="slide">슬라이드</option>
+              <option value="kenburns">확대하며 위로 이동</option>
+              <option value="slideLeft">슬라이드 (오른쪽에서 등장)</option>
+              <option value="slideRight">슬라이드 (왼쪽에서 등장)</option>
+              <option value="glitch">TV 지직거림</option>
+              <option value="tear">찢기 (가운데 갈라짐)</option>
+              <option value="crt">옛 TV 켜지듯</option>
+              <option value="zoompunch">확 다가오기</option>
+              <option value="whip">빠르게 스쳐 지나기</option>
+              <option value="filmburn">필름 타들어가듯</option>
+              <option value="pixelate">모자이크로 흩어지기</option>
+              <option value="shutter">블라인드 열리기</option>
             </select>
             <span className="text-xs text-text-dim">이 세력만 다른 카메라 워크</span>
           </div>
@@ -573,8 +635,8 @@ export function FactionGroupEditor({ groupIndex, group, onChange, onDelete, onMo
 
       {logoOpen && (
         <FactionImagePicker
-          value={group.logo}
-          onChange={next => onChange({ ...group, logo: next })}
+          value={group.titleArt}
+          onChange={next => onChange({ ...group, titleArt: next })}
           series={series}
           episodeName={episodeName}
           onClose={() => setLogoOpen(false)}

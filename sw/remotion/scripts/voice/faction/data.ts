@@ -24,6 +24,8 @@ export type FactionVoiceJob = {
    * 'elevenlabs' 는 사용자 전담이라 자동 생성에서 제외된다(buildVoiceJobs 단계에서 거른다).
    */
   engine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 대사 의미 덩어리(원문, 발화 스타일 prefix 제외) — 발화 시각 정렬·자막 페이지 단위. 없으면 통대사 1개 */
+  chunks: string[]
   /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다 */
   groupIndex: number
   personIndex: number
@@ -61,9 +63,10 @@ function styledTextOf(p: FactionPerson, text: string): string {
  * portrait=false(가로 롱폼)로 컷을 만든다 — longformOnly 세력/묶음까지 모두 포함해
  * 음성을 빠짐없이 생성한다. 세로 쇼츠 컷은 이 집합의 부분집합이라 별도 생성이 불필요하다.
  */
-export function buildVoiceJobs(script: FactionScript): FactionVoiceJob[] {
+export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
   const jobs: FactionVoiceJob[] = []
-  const cues = buildCues(script, false)
+  // part 지정 시 그 편 세력 인물만(buildCues 가 group.part 로 필터). 미지정이면 전체.
+  const cues = buildCues(script, false, part)
   for (const tc of cues) {
     const cue: Cue = tc.cue
     if (cue.kind !== 'person') continue
@@ -74,10 +77,13 @@ export function buildVoiceJobs(script: FactionScript): FactionVoiceJob[] {
     if (!person) continue
     const text = quoteTextOf(person)
     if (!text) continue
+    const rawChunks = (LANG === 'en' ? person.quoteEnChunks : person.quoteChunks)?.filter(c => c.trim())
     jobs.push({
       file: vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex),
       // 발화 스타일 prefix 를 텍스트에 합쳐 합성·해시 양쪽에 반영한다(BO 미리듣기와 동일 규칙).
       text: styledTextOf(person, text),
+      // 자막 덩어리는 원문(prefix 제외) 기준 — 빈 덩어리(연속 개행=페이지 경계)는 제외해 발화 시각 정렬과 1:1. 없으면 통대사 1개.
+      chunks: rawChunks?.length ? rawChunks : [text],
       speaker: person.quoteSpeaker,
       engine: person.quoteEngine,
       groupIndex: cue.groupIndex,

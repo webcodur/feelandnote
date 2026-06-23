@@ -388,16 +388,9 @@ export interface ShortsConfig {
 }
 
 /** 파형 분석 기반 음성 타이밍 */
-export type VoiceTimingSegment = {
-  start: number; end: number; text?: string
-  /** 자막 표시용 의미 단위 분할 — LLM이 지정. 없으면 text 그대로 사용 */
-  sub?: string[]
-  /** sub 경계 시점 (초) — analyze가 단어 타이밍에서 산출. sub.length - 1개. 없으면 글자수 비례 폴백 */
-  subTimings?: number[]
-  /** 단어 단위 타이밍 — imageChangeAt anchor의 word-level 매칭에 사용. analyze가 자동 채움 */
-  words?: { text: string; start: number; end: number }[]
-}
-export type VoiceTimings = Record<string, VoiceTimingSegment[]>
+// 음성 타이밍 타입은 공통 모듈(src/lib/voice-timing)로 이관됨. 기존 import 경로 유지를 위해 재export.
+import type { VoiceTimingSegment, VoiceTimings } from '../../lib/voice-timing'
+export type { VoiceTimingSegment, VoiceTimings }
 
 /** 시리즈 정보 — 2부 이상 에피소드에만 존재 */
 export interface SeriesInfo {

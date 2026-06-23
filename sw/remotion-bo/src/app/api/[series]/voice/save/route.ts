@@ -5,6 +5,7 @@ import { promisify } from 'util'
 import path from 'path'
 import { voiceDir } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
+import { normalizeWavInPlace } from '@/lib/voice-normalize'
 
 // ── 엔진 무관 segment 음성 저장 라우트
 //
@@ -42,7 +43,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       await writeFile(filePath, buf)
     }
 
-    return NextResponse.json({ success: true, bytes: buf.length })
+    // 라우드니스 정규화 — 저장 즉시 음량 균일화(ElevenLabs 포함, 엔진 무관). 원본은 .raw 백업.
+    // 실패해도 원본 저장은 유지(정규화는 독립 단계).
+    let normalized = false
+    if (filePath.endsWith('.wav')) {
+      try { normalized = await normalizeWavInPlace(filePath) }
+      catch (e) { console.error('[voice/save] 라우드니스 정규화 실패(원본 저장은 유지):', e) }
+    }
+
+    return NextResponse.json({ success: true, bytes: buf.length, normalized })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) })
   }

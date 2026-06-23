@@ -25,6 +25,14 @@ export function voiceRelPath(episodeName: string, file: string): string {
   return `factions/${episodeName}/voice/${file}`
 }
 
+/**
+ * 음성 파일명 → 발화 시각 맵(voiceTimings) 키. 파일명에서 .wav 확장자만 뗀 stem.
+ * data.timing.<locale>.json 생성(faction-align)과 렌더 조회(Faction.tsx)가 이 키를 공유한다.
+ */
+export function vnTimingKey(file: string): string {
+  return file.replace(/\.wav$/i, '')
+}
+
 /** dB 게인 → 선형 볼륨 배율 (0dB=1.0) */
 export function dbToLinear(db?: number): number {
   return db == null ? 1 : Math.pow(10, db / 20)

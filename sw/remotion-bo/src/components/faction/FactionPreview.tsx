@@ -40,13 +40,25 @@ function CoverChip({ image, label, note, color, series, episodeName }: {
 }
 
 // 인물 한 명 셀
-function PersonCell({ person, series, episodeName }: {
+function PersonCell({ person, series, episodeName, isLeader }: {
   person: FactionPerson
   series: string
   episodeName: string
+  /** 세력 첫 인물(수장) 여부 — quoteMode 자동(미지정) 판정용 */
+  isLeader?: boolean
 }) {
   const src = imageSrc(series, episodeName, person.image)
   const missing = !person.image
+  const hasQuote = !!(person.quoteChunks?.some(c => c.trim()) || person.quote?.trim())
+  // 대사 처리 단계 — 미지정이면 수장=voice / 나머지=text / 대사 없으면 credit
+  const mode = person.quoteMode ?? (hasQuote ? (isLeader ? 'voice' : 'text') : 'credit')
+  const badge = mode === 'voice'
+    ? { t: '음성', c: 'bg-accent/20 text-accent' }
+    : mode === 'full'
+      ? { t: '통합', c: 'bg-accent/15 text-accent' }
+      : mode === 'text'
+        ? { t: '대사', c: 'bg-sky-500/15 text-sky-400' }
+        : { t: '직함', c: 'bg-bg-secondary text-text-dim' }
   return (
     <div
       className="flex w-16 shrink-0 flex-col items-center gap-1"
@@ -59,6 +71,7 @@ function PersonCell({ person, series, episodeName }: {
           {initial(person.name)}
         </span>
       )}
+      <span className={`rounded px-1 text-[9px] font-semibold ${badge.c}`} title={`대사 처리: ${badge.t}${person.quoteMode ? '' : ' (자동)'}`}>{badge.t}</span>
       <span className="w-full truncate text-center text-[11px] text-text-secondary">{person.name || '?'}</span>
       {person.lines?.length ? (
         <span className="w-full truncate text-center text-[10px] text-text-dim">{person.lines.filter(Boolean).join(' · ')}</span>
@@ -90,6 +103,7 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
             <div className="rounded-md bg-bg-secondary p-4 text-center">
               <p className="text-base font-bold text-text-primary">{script.title || '제목 없음'}</p>
               {script.subtitle && <p className="text-xs text-text-secondary">{script.subtitle}</p>}
+              {(script.logline || script.loglineByPart?.[1]) && <p className="mt-1 text-xs text-accent">{script.logline || script.loglineByPart?.[1]}</p>}
             </div>
 
             {/* 세력별 흐름 */}
@@ -128,7 +142,7 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
                         )}
                         <div className="flex gap-2 overflow-x-auto pb-1">
                           {people.map((p, pi) => (
-                            <PersonCell key={pi} person={p} series={series} episodeName={episodeName} />
+                            <PersonCell key={pi} person={p} series={series} episodeName={episodeName} isLeader={ci === 0 && pi === 0} />
                           ))}
                           {people.length === 0 && <span className="text-xs text-text-dim">인물 없음</span>}
                         </div>
@@ -139,10 +153,9 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
               )
             })}
 
-            {/* 마무리 — 한 편의 매듭 */}
-            <div className="rounded-md bg-bg-secondary p-4 text-center">
-              <p className="text-sm font-bold text-text-primary">{script.outroTitle || script.title || '마무리'}</p>
-              {script.outroNote && <p className="mt-1 text-xs text-text-secondary">{script.outroNote}</p>}
+            {/* 마무리 — 별도 종료 화면 없이 마지막 인물 컷에서 서서히 어두워지며 끝난다 */}
+            <div className="rounded-md border border-dashed border-border bg-bg-main/40 p-3 text-center">
+              <p className="text-xs text-text-dim">마지막 인물에서 서서히 어두워지며 종료</p>
             </div>
           </div>
         </div>

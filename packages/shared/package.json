@@ -10,6 +10,7 @@
     "./lib/countries": "./src/lib/countries.ts",
     "./lib/voice-policy": "./src/lib/voice-policy.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
+    "./lib/youtube-faction-meta": "./src/lib/youtube-faction-meta.ts",
     "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts"

@@ -1,0 +1,12 @@
+{
+  "//": "youtube 업로드 + 세력도 자막(faction-srt) 타입검증. googleapis 가 @types/node 를 끌어와 node 내장 모듈 타입이 유입되므로, node 타입이 필요한 srt 빌더도 여기서 함께 검증한다.",
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "./**/*.ts",
+    "../lib/**/*.ts",
+    "../srt/faction-srt.ts"
+  ]
+}

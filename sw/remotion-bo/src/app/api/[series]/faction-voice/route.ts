@@ -21,17 +21,22 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!guard(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  const { episode, engine, only, normalize, force } = await req.json().catch(() => ({}))
+  const { episode, engine, only, normalize, force, normalizeOnly } = await req.json().catch(() => ({}))
   if (!episode || typeof episode !== 'string') {
     return NextResponse.json({ error: 'episode required' }, { status: 400 })
   }
 
   const args = ['voice:faction', '--', '--episode', episode]
-  if (engine === 'gemini-v3' || engine === 'gemini') args.push('--engine', engine)
-  // 라우드니스 균일화 — 미지정(undefined)이면 기본 on, 명시적 false 일 때만 끈다 (메모리 규칙)
-  if (normalize !== false) args.push('--normalize')
-  if (only && typeof only === 'string') args.push('--only', only)
-  if (force) args.push('--force')
+  if (normalizeOnly) {
+    // 생성 없이 voice/ 의 모든 wav(ElevenLabs 포함) 라우드니스 일괄 정규화만
+    args.push('--normalize-only')
+  } else {
+    if (engine === 'gemini-v3' || engine === 'gemini') args.push('--engine', engine)
+    // 라우드니스 균일화 — 미지정(undefined)이면 기본 on, 명시적 false 일 때만 끈다 (메모리 규칙)
+    if (normalize !== false) args.push('--normalize')
+    if (only && typeof only === 'string') args.push('--only', only)
+    if (force) args.push('--force')
+  }
 
   const task = runTask('voice:faction', series, episode, args)
   return NextResponse.json({ taskId: task.id })

@@ -52,13 +52,17 @@ export function FactionVoicePanel({
     ? { name: voiceFile, sizeKB: Math.round(meta.size / 1024), duration: meta.duration, engine: 'gemini' }
     : undefined
 
-  // 디스크에 음원이 있는데 인물 quoteDuration 이 비었거나 실제 길이와 어긋나면 자동 보정한다.
-  // 이번 수정 전(또는 파이프라인 밖)에서 만든 기존 음원도 패널이 뜨는 즉시 길이가 채워져 렌더에서 재생된다.
-  // 가드(0.05초 차)로 일치 시엔 재저장하지 않아 무한 갱신을 막는다. trim 으로 줄인 길이도 실제 파일 기준이라 충돌 없다.
+  // 디스크에 음원이 있는데 인물 quoteDuration 이 아직 「없을 때만」 디스크 길이로 채운다.
+  // 파이프라인 밖에서 만든 기존 음원도 패널이 뜨는 즉시 길이가 채워져 렌더에서 재생된다.
+  //
+  // ⚠ 이미 값이 있으면 덮어쓰지 않는다. 인물 위치 변경(reorder) 직후엔 음원 파일은 swap 됐지만
+  //   voiceByFile 캐시(meta)가 아직 옛 길이를 들고 있어, 「어긋나면 보정」을 켜두면 방금 인물과 함께
+  //   따라온 정확한 길이를 옛 인물 길이로 잘못 덮어쓴다(앤드루↔제이슨 6.97 사고). 생성·트림은
+  //   onSaved 로 명시 갱신하고, 외부 교체로 어긋난 길이는 `voice:faction --update-json` 으로 일괄 정정한다.
   useEffect(() => {
     if (!meta || meta.duration <= 0) return
     const cur = person.quoteDuration ?? 0
-    if (Math.abs(cur - meta.duration) > 0.05) onChange({ ...person, quoteDuration: meta.duration })
+    if (cur <= 0) onChange({ ...person, quoteDuration: meta.duration })
   }, [meta?.duration, person, onChange])
 
   // 모달 열림 중 Esc 로 닫기.

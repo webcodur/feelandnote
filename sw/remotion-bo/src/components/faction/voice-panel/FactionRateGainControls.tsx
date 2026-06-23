@@ -16,6 +16,10 @@ import { GAIN_DB_MIN, GAIN_DB_MAX, GAIN_DB_STEP, isUnityGain } from '../../scena
 
 // 배속 선택지 — 북리커맨드 PLAYBACK_RATES 와 같은 결이되, 렌더 허용 범위(0.5~2)로 좁힌다.
 const FACTION_RATES = [0.5, 0.75, 1, 1.25, 1.5, 2] as const
+// 슬라이더·숫자 미세 조정 범위(렌더 clampRate 와 동일) — 칩으로 못 잡는 중간값을 0.05 단위로.
+const RATE_MIN = 0.5
+const RATE_MAX = 2
+const RATE_STEP = 0.05
 
 type FactionRateGainControlsProps = {
   playbackRate: number
@@ -32,28 +36,58 @@ export function FactionRateGainControls({
 
   return (
     <div className="space-y-2">
-      {/* 배속 — 칩 선택. 1배속이 아니면 강조. */}
+      {/* 배속 — 칩 빠른선택 + 슬라이더·숫자 미세조정. 1배속이 아니면 강조. */}
       <div className="flex items-stretch rounded border border-border overflow-hidden">
         <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">배속</span>
-        <div className="flex flex-1 flex-wrap items-center gap-1.5 bg-white px-3 py-1.5">
-          {FACTION_RATES.map(r => {
-            const active = Math.abs(playbackRate - r) < 1e-6
-            return (
-              <button
-                key={r}
-                type="button"
-                onClick={e => { e.stopPropagation(); setPlaybackRate(r) }}
-                className={`px-2 py-0.5 rounded text-xs font-mono tabular-nums border ${
-                  active
-                    ? 'bg-slate-800 text-white border-slate-800 font-extrabold shadow-sm'
-                    : 'bg-white border-slate-300 text-slate-900 font-bold hover:border-slate-600 hover:bg-slate-50'
+        <div className="flex flex-1 flex-col gap-1.5 bg-white px-3 py-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {FACTION_RATES.map(r => {
+              const active = Math.abs(playbackRate - r) < 1e-6
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={e => { e.stopPropagation(); setPlaybackRate(r) }}
+                  className={`px-2 py-0.5 rounded text-xs font-mono tabular-nums border ${
+                    active
+                      ? 'bg-slate-800 text-white border-slate-800 font-extrabold shadow-sm'
+                      : 'bg-white border-slate-300 text-slate-900 font-bold hover:border-slate-600 hover:bg-slate-50'
+                  }`}
+                >×{r}</button>
+              )
+            })}
+            <span className={`ml-auto text-[11px] font-mono font-bold ${rateActive ? 'text-slate-900' : 'text-slate-400'}`}>
+              현재 ×{playbackRate.toFixed(2)}
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <input
+              type="range"
+              min={RATE_MIN}
+              max={RATE_MAX}
+              step={RATE_STEP}
+              value={playbackRate}
+              onChange={e => setPlaybackRate(Number(e.target.value))}
+              onClick={e => e.stopPropagation()}
+              className="flex-1 accent-slate-700"
+              title="대사 재생 배속 (×1 이 원속)"
+            />
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-[11px] text-slate-500 font-bold">×</span>
+              <input
+                type="number"
+                min={RATE_MIN}
+                max={RATE_MAX}
+                step={RATE_STEP}
+                value={playbackRate}
+                onChange={e => setPlaybackRate(Number(e.target.value))}
+                onClick={e => e.stopPropagation()}
+                className={`w-14 text-right text-xs font-mono tabular-nums bg-white border rounded px-1.5 py-0.5 outline-none focus:border-slate-600 ${
+                  rateActive ? 'text-slate-900 font-extrabold border-slate-400' : 'text-slate-500 font-bold border-slate-300'
                 }`}
-              >×{r}</button>
-            )
-          })}
-          <span className={`ml-auto text-[11px] font-mono font-bold ${rateActive ? 'text-slate-900' : 'text-slate-400'}`}>
-            현재 ×{playbackRate.toFixed(2)}
-          </span>
+              />
+            </div>
+          </div>
         </div>
       </div>
 

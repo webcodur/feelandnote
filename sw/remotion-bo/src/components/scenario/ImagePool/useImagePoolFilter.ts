@@ -12,7 +12,7 @@ import { sortBy, type FieldFilter, type SortMode, type UsageFilter, type Group }
  * 출력: 검색·필터·뷰모드 상태와 setter, 그리고 필터/정렬 적용 후의 그룹·폴더별 파일 목록.
  */
 export function useImagePoolFilter({
-  allImages, usedFiles, fileBookMap, fileFieldMap, fileFolders, subFolders, view, bookTitles,
+  allImages, usedFiles, fileBookMap, fileFieldMap, fileFolders, subFolders, bookTitles,
 }: {
   allImages: string[]
   usedFiles: Set<string>
@@ -28,11 +28,12 @@ export function useImagePoolFilter({
   const [sortMode, setSortMode] = useState<SortMode>('default')
   const [usageFilter, setUsageFilter] = useState<UsageFilter>('all')
 
-  // 롱폼 뷰에서는 shorts- prefix 파일을 기본 제외 (쇼츠 뷰에서는 전체 노출)
-  const scoped = useMemo(() => {
-    if (!view.startsWith('shorts')) return allImages.filter(f => !f.startsWith('shorts'))
-    return allImages
-  }, [allImages, view])
+  // ⚠️ 롱폼·쇼츠는 "동일한 이미지군"을 공유한다. 롱폼에서 쓰는 이미지를 쇼츠에서, 쇼츠에서 쓰는
+  //    이미지를 롱폼에서 그대로 끌어다 써야 하므로, view(롱폼/쇼츠)에 따라 풀의 이미지를 숨기면 안 된다.
+  //    → view 와 무관하게 항상 전체를 노출한다. 사용 중인 파일은 used 뱃지로만 구분한다.
+  //    (과거 'shorts-' 접두 파일을 롱폼 뷰에서 일괄 숨겨, 쇼츠용 이미지가 롱폼 풀에서 0개로 사라지는
+  //     회귀가 있었다. 다시 view 기준 필터를 넣지 마라.)
+  const scoped = allImages
 
   /** 공통 필터 — 검색·필드·사용여부 */
   const matchesFilters = useMemo(() => {

@@ -583,6 +583,129 @@ def path_to_key(wav_path, default_dir):
     return rel.replace('\\', '/').removesuffix('.wav')
 
 
+# ─── 세력도(Faction) 모드 ───
+
+def faction_quote_text(person, lang):
+    """인물 원대사(발화 스타일 prefix 제외) — 의미 덩어리(chunks) join 우선, 없으면 통대사.
+       faction-align.ts 의 chunks 와 동일 텍스트라 단어 매핑이 어긋나지 않는다."""
+    if lang == 'en':
+        chunks = person.get('quoteEnChunks')
+        if chunks:
+            return ' '.join(c.strip() for c in chunks if c and c.strip())
+        return (person.get('quoteEn') or person.get('quote') or '').strip()
+    chunks = person.get('quoteChunks')
+    if chunks:
+        return ' '.join(c.strip() for c in chunks if c and c.strip())
+    return (person.get('quote') or '').strip()
+
+
+def faction_quote_targets(data, lang, part=None):
+    """data.json → {stem: 원대사}. buildCues/vnPersonQuote 인덱싱을 재현한다(렌더·faction-align 과 동일 키).
+       solo 세력: F{gi}P{pi}-quote. 비-solo: F{gi}C{ci}P{pi}-quote (clusters 없으면 ci=0 → C01).
+       part 지정 시 그 편 세력만(group.part 로 필터). disabled 제외."""
+    out = {}
+    for gi, g in enumerate(data.get('groups', [])):
+        if g.get('disabled'):
+            continue
+        if part is not None and g.get('part') is not None and g.get('part') != part:
+            continue
+        if g.get('solo'):
+            for pi, p in enumerate(g.get('people', [])):
+                if p.get('disabled'):
+                    continue
+                q = faction_quote_text(p, lang)
+                if q:
+                    out[f'F{gi + 1:02d}P{pi + 1:02d}-quote'] = q
+            continue
+        clusters = g.get('clusters')
+        cluster_list = clusters if clusters else [None]
+        for ci, cluster in enumerate(cluster_list):
+            people = cluster.get('people', []) if cluster else g.get('people', [])
+            for pi, p in enumerate(people):
+                if p.get('disabled'):
+                    continue
+                q = faction_quote_text(p, lang)
+                if q:
+                    out[f'F{gi + 1:02d}C{ci + 1:02d}P{pi + 1:02d}-quote'] = q
+    return out
+
+
+def run_faction(args):
+    """세력도 전사 — factions/<ep>/voice/*.wav 를 WhisperX 로 전사하고, 인물 대사(원문)에 단어 타이밍을
+       매핑해 voice/2-word-timings.json(키=wav stem)에 쓴다. 이후 pnpm voice:faction-align 이 이 파일을 읽는다."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    root = os.path.join(script_dir, '..', '..')
+    ep_name = args.episode
+    lang = 'en' if args.lang == 'en' else 'ko'
+    faction_dir = os.path.join(root, 'public', 'factions', ep_name)
+    voice_dir = os.path.join(faction_dir, 'voice')
+    data_path = os.path.join(faction_dir, 'data.json')
+    if not os.path.isfile(data_path):
+        print(f'✗ data.json 없음: {data_path}', file=sys.stderr)
+        sys.exit(1)
+    with open(data_path, encoding='utf-8') as f:
+        data = json.load(f)
+    targets_text = faction_quote_targets(data, lang, args.part)
+
+    # part 지정 시 그 편 인물 wav 만 전사 — targets_text 키(stem)에 있는 wav 만 남긴다
+    wav_files = sorted(glob.glob(os.path.join(voice_dir, '*.wav')))
+    wav_files = [f for f in wav_files if os.path.splitext(os.path.basename(f))[0] in targets_text]
+    if args.only:
+        filters = [s.strip() for s in args.only.split(',') if s.strip()]
+        wav_files = [f for f in wav_files if any(flt in os.path.basename(f) for flt in filters)]
+
+    part_label = f' {args.part}편' if args.part is not None else ''
+    print(f'세력도: {ep_name}{part_label} ({lang}) · 모델 {args.model} (whisperx + diff-match-patch)')
+    print(f'{len(wav_files)}개 WAV 분석\n')
+
+    import whisperx
+    import torch
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    compute = 'float16' if device == 'cuda' else 'int8'
+    asr_model = whisperx.load_model(args.model, device, compute_type=compute)
+
+    results = {}
+    for wav_path in wav_files:
+        stem = os.path.splitext(os.path.basename(wav_path))[0]
+        display_text = targets_text.get(stem)
+        if not display_text:
+            print(f'[{stem}] 건너뜀 — data.json 에 대사 없음')
+            continue
+        try:
+            audio = whisperx.load_audio(wav_path)
+            asr_result = asr_model.transcribe(audio, language=lang)
+            if not asr_result['segments']:
+                print(f'[{stem}] 건너뜀 — 세그먼트 없음')
+                continue
+            duration = asr_result['segments'][-1]['end']
+            align_model, metadata = whisperx.load_align_model(language_code=lang, device=device)
+            aligned = whisperx.align(asr_result['segments'], align_model, metadata, audio, device)
+            whisper_words = []
+            for w in aligned.get('word_segments', []):
+                if 'start' in w and 'end' in w:
+                    whisper_words.append({'word': w['word'], 'start': round(w['start'], 3), 'end': round(w['end'], 3)})
+            words = map_whisper_to_display(whisper_words, display_text, duration) if whisper_words else []
+            results[stem] = words
+            preview = ' '.join(w['word'] for w in words[:8]) + ('...' if len(words) > 8 else '')
+            print(f'[{stem}] {len(whisper_words)}w→{len(words)}w: {preview}')
+        except Exception as e:
+            print(f'[{stem}] 건너뜀 — {e}')
+
+    out_path = os.path.join(voice_dir, '2-word-timings.json')
+    existing_targets = {}
+    if os.path.exists(out_path):
+        try:
+            with open(out_path, encoding='utf-8') as f:
+                existing_targets = json.load(f).get('targets', {})
+        except Exception:
+            existing_targets = {}
+    merged = {**existing_targets, **results}
+    out_data = {'episode': ep_name, 'lang': lang, 'model': args.model, 'engine': 'whisperx+diff', 'targets': merged}
+    with open(out_path, 'w', encoding='utf-8') as f:
+        json.dump(out_data, f, indent=2, ensure_ascii=False)
+    print(f'\n-> {out_path}')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--episode', required=True)
@@ -591,7 +714,15 @@ def main():
     parser.add_argument('--shorts', type=int, default=None, help='쇼츠 번호 (1-based). --long/--solo 와 동시 지정 불가')
     parser.add_argument('--solo', type=int, default=None, help='1권 모드 책 번호 (1-based). --long/--shorts 와 동시 지정 불가')
     parser.add_argument('--long', action='store_true', help='롱폼만 처리. --shorts/--solo 와 동시 지정 불가')
+    parser.add_argument('--faction', action='store_true', help='세력도(factions/) 모드. --episode 는 폴더명, --lang 로 ko|en')
+    parser.add_argument('--lang', default='ko', help='세력도 모드 언어 (ko|en). --faction 일 때만 사용')
+    parser.add_argument('--part', type=int, default=None, help='세력도 편(part) — 그 편 인물만 전사. --faction 모드')
     args = parser.parse_args()
+
+    # 세력도 모드 — 북리커맨드 에피소드 구조와 무관하게 factions/ 를 직접 처리하고 종료
+    if args.faction:
+        run_faction(args)
+        return
 
     # 단일 타겟 스코프 — --long / --shorts / --solo 중 정확히 하나 필수
     is_long = bool(args.long)

@@ -17,9 +17,9 @@ export const args = process.argv.slice(2)
 
 // --- 허용 플래그 검증 — 오타·미지원 플래그 유입 방지 ---
 const KNOWN_FLAGS = new Set([
-  '--episode', '--engine', '--only', '--force', '--normalize',
-  '--list', '--dry-run', '--init-manifest', '--update-json',
-  '--start-key', '--lang',
+  '--episode', '--engine', '--only', '--force', '--normalize', '--normalize-only',
+  '--list', '--dry-run', '--init-manifest', '--update-json', '--verify',
+  '--start-key', '--lang', '--part',
 ])
 for (const arg of args) {
   if (arg === '--') continue
@@ -45,6 +45,11 @@ const langIdx = args.indexOf('--lang')
 const RAW_LANG = langIdx >= 0 ? args[langIdx + 1] : 'ko'
 export const LANG: 'ko' | 'en' = RAW_LANG === 'en' ? 'en' : 'ko'
 
+// --- 편(part) — 쇼츠 편 분리. faction-align 이 그 편 인물만 처리하고 data.timing.p<N>.<lang>.json 으로 분리 저장 ---
+const partIdx = args.indexOf('--part')
+const partArg = partIdx >= 0 ? args[partIdx + 1] : undefined
+export const PART: number | undefined = partArg && !partArg.startsWith('--') ? Number(partArg) : undefined
+
 // --- 엔진: Faction 은 Gemini 전용 (ElevenLabs 는 사용자 전담) ---
 // --engine 을 받긴 하되 gemini / gemini-v3 만 인정한다. elevenlabs 지정 시 거부.
 const engineIdx = args.indexOf('--engine')
@@ -68,9 +73,13 @@ export const VOICE_DIR = path.join(FACTION_DIR, 'voice')
 export const DRY_RUN = args.includes('--dry-run')
 export const LIST_ONLY = args.includes('--list')
 export const FORCE_ALL = args.includes('--force')
-export const NORMALIZE = args.includes('--normalize')
+export const NORMALIZE = args.includes('--normalize') || args.includes('--normalize-only')
+/** 생성 없이 voice/ 의 모든 wav(ElevenLabs 포함)를 라우드니스 일괄 정규화만 한다 */
+export const NORMALIZE_ONLY = args.includes('--normalize-only')
 export const INIT_MANIFEST = args.includes('--init-manifest')
 export const UPDATE_JSON = args.includes('--update-json')
+/** 합성 없이 타이밍 산식 ↔ 실제 wav 길이를 대조해 검증 리포트만 출력 */
+export const VERIFY = args.includes('--verify')
 
 const onlyIdx = args.indexOf('--only')
 const onlyArgValue = onlyIdx >= 0 ? args[onlyIdx + 1] : undefined

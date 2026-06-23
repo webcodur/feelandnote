@@ -16,6 +16,7 @@ const VALID_STATUSES: FactionStatus[] = ['todo', 'live', 'done']
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
 export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 export const MUSIC_DIR = path.join(REMOTION_ROOT, 'public', 'music')
+export const SFX_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'sfx')
 
 const IMAGE_RE = /\.(png|jpe?g|webp|gif)$/i
 
@@ -282,4 +283,10 @@ export async function saveMusic(filename: string, buf: Buffer): Promise<string> 
   const safe = safeFilename(filename)
   await writeFile(path.join(MUSIC_DIR, safe), buf)
   return safe
+}
+
+/** 효과음(SFX) 파일 목록 — public/common/sfx/ (시리즈 공통) */
+export async function listSfx(): Promise<string[]> {
+  try { return (await readdir(SFX_DIR)).filter(f => /\.(mp3|wav|m4a|ogg)$/i.test(f)).sort() }
+  catch { return [] }
 }

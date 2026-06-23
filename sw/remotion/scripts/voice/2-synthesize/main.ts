@@ -135,6 +135,29 @@ export async function main(): Promise<void> {
     return manifestCache.get(dir)!
   }
 
+  // --normalize-only: TTS 생성 없이 스코프 내 모든 wav(gemini·elevenlabs)를 라우드니스 일괄 정규화만 하고 종료
+  if (args.includes('--normalize-only')) {
+    const { existsSync, readdirSync, statSync } = await import('fs')
+    for (const eng of ['gemini', 'elevenlabs']) {
+      const engRoot = path.join(BASE_DIR, eng)
+      if (!existsSync(engRoot)) continue
+      if (SHORTS_INDEX !== null) {
+        // 쇼츠 스코프: 해당 쇼츠 서브디렉토리만
+        const shortDir = path.join(engRoot, `shorts-${SHORTS_INDEX}`)
+        if (existsSync(shortDir)) await normalizeAll(shortDir)
+      } else {
+        // 전체 스코프: 롱폼(최상위 wav) + 모든 쇼츠 서브디렉토리. normalizeAll 은 최상위만 보므로 서브를 따로 순회.
+        await normalizeAll(engRoot)
+        for (const d of readdirSync(engRoot)) {
+          if (!d.startsWith('shorts-')) continue
+          const sd = path.join(engRoot, d)
+          if (statSync(sd).isDirectory()) await normalizeAll(sd)
+        }
+      }
+    }
+    return
+  }
+
   if (!forceAll && !onlyFiles) {
     const before = jobs.length
     const filtered: Job[] = []

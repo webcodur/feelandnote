@@ -59,11 +59,18 @@ export function GenerateToolsSection({
               쇼츠 음성
             </button>
           )}
+          <button
+            onClick={() => { if (confirm('이 에피소드의 모든 음성(GEM·ELE)을 같은 음량으로 균일화합니다. 원본은 .raw 에 백업됩니다. 진행할까요?')) post(`/api/${series}/voice/generate`, { episode: name, normalizeOnly: true }) }}
+            title="모든 대사 음성(ElevenLabs 포함)을 같은 라우드니스(-17 LUFS)로 일괄 균일화 (생성 없이 정규화만)"
+            className="px-3 py-1.5 rounded text-xs font-black bg-white border border-slate-300 text-slate-900 hover:border-accent hover:text-accent hover:bg-slate-50 transition-colors shadow-sm">
+            음량 균일화
+          </button>
         </div>
       </div>
 
       <p className="text-xs text-slate-600 font-bold leading-relaxed px-1">
         선택한 옵션에 따라 TTS 음성을 일괄 생성합니다. 셀럽의 고품질 음성은 각 행의 설정에서 ELE를 통해 개별 생성하는 것을 권장합니다.
+        ELE 음원은 저장 시 자동으로 음량이 맞춰지며, 기존 음원은 「음량 균일화」로 한 번에 맞출 수 있습니다.
       </p>
     </div>
   )
