@@ -81,8 +81,8 @@ sw/remotion/scripts/voice/test-voices.ts
 /최고 쇼츠.txt
 /프롬프트_*.txt
 
-# 외부 AI 에이전트 설정 (로컬 보관용)
-/.agents/
+# 외부 AI 에이전트 설정
+# .agents = 멀티툴 공용 스킬·문서 (git 추적)
 /.codex/
 /scratch/
 /sw/scripts/
