@@ -1,0 +1,308 @@
+존 슐먼 (John Schulman) 발언 모음
+========================================
+
+[인물]
+OpenAI 공동창업자(2015~2024.8), ChatGPT "아키텍트", PPO·RLHF 핵심 개발자, UC버클리 박사.
+Anthropic 단기 재직(2024.8~2025.2) 후 Thinking Machines Lab 수석과학자(2025.2~현재).
+X: @johnschulman2 / 블로그: joschu.net / GitHub: joschu
+
+[출처 메모]
+verbatim은 본인 X·블로그(joschu.net)·버클리 인터뷰·드워케시 팟캐스트에 집중.
+언론 단독 인용은 드묾(이직 보도는 대부분 CEO 발언만 싣거나 본인 X 재인용).
+
+
+■ RLHF · 정렬 (alignment)
+────────────────────────────────────────
+
+1. 모델의 동기 구조  ★대표
+"The model is just trying to produce a message that is pleasing to a human. It has no concern
+about anything else in the world other than whether the text it produces is approved."
+"모델은 그저 사람 마음에 드는 메시지를 만들려 할 뿐이다. 자기가 내놓은 글이 승인받는지 외에는 세상 그 무엇에도 관심이 없다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+2. 정렬의 정의
+"I think of alignment mostly as the problem of getting the model to try to do the right thing."
+"나는 정렬을 주로, 모델이 옳은 일을 하려고 시도하게 만드는 문제로 본다."
+- TalkRL 팟캐스트 (2022년경)
+
+3. 도구적 수렴 반론  ★대표
+"If you ask it to write you a Flask app, it'll be like 'oh yeah, first I need to take over the
+world.' At a certain point it's a little hard to imagine why for fairly well specified tasks like
+coding an app, you would want to first take over the world."
+"Flask 앱을 짜 달라고 하면 모델이 '아 그래, 먼저 세계를 정복해야겠군' 한다는 식이다. 어느
+지점에선, 앱 코딩처럼 명확히 규정된 과제를 두고 왜 먼저 세계를 정복하려 하겠는가를 상상하기가
+좀 어렵다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+4. 정렬은 아직 젊은 분야
+"Alignment -- controlling a model's behavior and values -- is still a pretty young discipline.
+Annoying refusals or hyper-wokeness are usually bugs rather than features."
+"정렬, 곧 모델의 행동과 가치를 통제하는 일은 아직 꽤 젊은 분야다. 짜증나는 거부 응답이나 과도한
+정치적 올바름은 대개 의도된 기능이 아니라 버그다."
+- X @johnschulman2 (2024-02-22)
+
+5. 행동 복제 vs 강화학습
+"I would claim that behavior cloning does the wrong thing, but I would claim that RL actually
+does the right thing." / "if you train with behavior cloning, there's no way to avoid having a
+hallucination problem."
+"행동 복제는 잘못된 일을 한다고 주장하겠다. 반면 RL은 실제로 옳은 일을 한다. 행동 복제만으로
+훈련하면 환각 문제를 피할 길이 없다."
+- 버클리 강연 "RLHF: Progress and Challenges" (2023-04-19)
+
+6. 더 똑똑한 모델은 보상 함수를 더 교묘하게 악용
+"Smarter models will be better at gaming our reward functions in unexpected and clever ways --
+for example, producing the convincing illusion of being insightful or helpful, while actually
+being the opposite."
+"더 똑똑한 모델은 예상 못한 영리한 방식으로 보상 함수를 더 잘 악용할 것이다. 예컨대 실제로는
+정반대이면서도 통찰력 있거나 도움이 되는 것처럼 설득력 있는 착각을 만들어낸다."
+- LessWrong "Frequent arguments about alignment" (2021-06-23)
+
+7. 출처 없는 답은 증명의 스케치
+"It's extremely hard to check if something is correct, if you don't know where the information
+came from. If the model cited its sources, it's much easier to check. So you can think of an
+unsourced answer as it's almost like a sketch of a proof."
+"정보가 어디서 왔는지 모르면 그것이 맞는지 확인하기란 극도로 어렵다. 모델이 출처를 인용하면 검증이 훨씬 쉬워진다. 출처 없는 답은 거의 증명의 스케치 같은 것으로 볼 수 있다."
+- 버클리 강연 (2023-04-19)
+
+8. 인터넷 학습 모델 프롬프팅은 형편없는 정렬법
+"prompting an internet-trained generative model is a very poor way of getting aligned behavior."
+"인터넷으로 학습한 생성 모델에 프롬프트를 주는 것은 정렬된 행동을 끌어내는 매우 형편없는 방법이다."
+- LessWrong (2021-06-23)
+
+
+■ AGI · 안전
+────────────────────────────────────────
+
+9. 조기 AGI 도래 시 속도를 늦춰라
+"If AGI came way sooner than expected we would definitely want to be careful about it. We might
+want to slow down a little bit on training and deployment until we're pretty sure we know we can
+deal with it safely."
+"AGI가 예상보다 훨씬 빨리 온다면 분명 신중해야 한다. 
+안전하게 다룰 수 있다고 꽤 확신할 때까지 학습과 배포를 조금 늦추고 싶을 수 있다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+10. 경쟁 구도가 안전을 양보하게 만든다
+"Everyone needs to agree on some reasonable limits to deployment or to further training, for this
+to work. Otherwise, you have the race dynamics where everyone's trying to stay ahead, and that
+might require compromising on safety."
+"이게 작동하려면 배포나 추가 학습에 합리적 한계선을 모두가 합의해야 한다. 
+그렇지 않으면 모두가 앞서가려 경쟁하는 구도가 생기고, 그러면 안전을 양보해야 할 수도 있다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+11. 악몽 시나리오보다 삶의 의미가 더 걱정
+"I'm maybe less worried about nightmare scenarios than most people. I'm more worried about what's
+going to be the meaning of human life once we have AIs that are smarter than us."
+"나는 아마 대부분의 사람들보다 악몽 같은 시나리오를 덜 걱정한다. 
+그보다는 우리보다 똑똑한 AI가 생긴 뒤 인간 삶의 의미가 무엇이 될지를 더 걱정한다."
+- Manifold 팟캐스트 #16
+
+12. AI는 점진적으로 배포하는 편이 훨씬 안전
+"it's much safer to deploy AI iteratively; increasing the stakes, time horizons, and autonomy a
+little bit each time... you can use Agent N to help you closely supervise Agent N+1 before giving
+it any power."
+"AI는 점진적으로 배포하는 편이 훨씬 안전하다. 
+위험 수위와 시간 지평, 자율성을 매번 조금씩만 높이는 것이다. 
+에이전트 N에게 권한을 주기 전에, 에이전트 N으로 N+1을 가까이서 감독하게 할 수 있다."
+- LessWrong "AGI Ruin" 댓글 (2022-06-06)
+
+13. 사람이 여전히 운전대를 잡고 있기를
+"I would hope that people are still the drivers of what the AIs end up doing."
+"AI가 결국 무엇을 할지에 대해 여전히 사람이 운전대를 잡고 있기를 바란다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+
+■ 연구 철학 · 방법론 (본인 블로그/슬라이드)
+────────────────────────────────────────
+
+14. 문제 선택이 기술력보다 중요  ★대표
+"Your ability to choose the right problems to work on is even more important than your raw
+technical skill."
+"어떤 문제를 골라 연구할지 정하는 능력이 순수한 기술적 역량보다도 더 중요하다."
+- joschu.net "An Opinionated Guide to ML Research" (2020-01-24)
+연구 대상을 고르는 능력이 연구에 능한지보다 중요하다
+
+15. 10% 개선인가, 10배 개선인가  ★대표
+"When you embark on a research project, you should ask yourself: how large is the potential
+upside? Will this be a 10% improvement or a 10X improvement?"
+"연구 프로젝트를 시작할 때 스스로 물어야 한다. 잠재적 상승 폭이 얼마나 큰가? 이것이 10% 개선인가, 아니면 10배 개선인가?"
+- joschu.net 같은 글
+
+16. 단순하지 않으면 아무도 안 쓴다
+"A method that slightly improves on the baseline better be very simple, otherwise no one will
+bother using it—not even you. If it gives a 10% improvement, it better be 2 lines of code."
+"베이스라인을 살짝 개선하는 방법이라면 아주 단순해야 한다. 그렇지 않으면 아무도, 심지어 당신조차 쓰려 들지 않는다. 10% 개선이면 코드 2줄이어야 한다."
+- joschu.net 같은 글
+
+17. 노트를 써라 — 대학원 5년, OpenAI 2년 내내
+"I strongly advise you to keep a notebook, where you record your daily ideas and experiments. I
+have done this through 5 years of grad school and 2 years at OpenAI, and I feel that it has been
+tremendously helpful."
+"매일의 아이디어와 실험 기록 노트를 꼭 쓰라고 강력히 권한다. 나는 대학원 5년과 OpenAI 2년 내내 이렇게 해왔고, 엄청나게 도움이 됐다."
+- joschu.net 같은 글
+
+18. 유망한 아이디어를 너무 빨리 포기하는 게 더 흔한 실패
+"In my experience, switching problems too frequently (and giving up on promising ideas) is a more
+common failure mode than not switching enough."
+"내 경험상, 문제를 너무 자주 갈아타며 유망한 아이디어를 포기하는 것이, 충분히 갈아타지 않는 것보다 더 흔한 실패 양상이다."
+- joschu.net 같은 글
+
+19. 벤치마크 등반보다 과학을
+"I would like to see a little bit more science and trying to understand things rather than just
+hill climbing on benchmarks."
+"벤치마크에서 점수만 올리기보다, 조금 더 과학적으로 현상을 이해하려는 시도를 보고 싶다."
+- 드워케시 팟캐스트 (2024)
+
+
+■ PPO · 강화학습 (기술)
+────────────────────────────────────────
+
+20. Q러닝을 접고 정책경사로 → TRPO·GAE·PPO 탄생
+"I had already explored Q-learning and concluded that it wasn't a good approach for the locomotion
+tasks I was working on, so I continued working on policy gradient methods, which led to TRPO, GAE,
+and later PPO—now my best known pieces of work."
+"나는 이미 Q러닝을 탐색해 보고 내가 하던 보행 과제에는 좋은 접근이 아니라고 결론지었다. 
+그래서 정책 경사법을 계속 파고들었고, 그것이 TRPO, GAE, 그리고 나중의 PPO로 이어졌다. 지금 내 가장 잘 알려진 작업들이다."
+- joschu.net "An Opinionated Guide to ML Research" (2020-01-24)
+
+21. 정책경사의 직관
+"Intuition: increase the probability of good actions (positive advantage), decrease the
+probability of bad ones (negative advantage)."
+"직관: 좋은 행동(양의 어드밴티지)의 확률은 높이고, 나쁜 행동(음의 어드밴티지)의 확률은 낮춘다."
+- MLSS 2016 강의 슬라이드
+
+22. 민감하면 통한 게 아니라 운이 좋았던 것
+"Explore sensitivity to each parameter. If too sensitive, it doesn't really work, you just got lucky."
+"각 파라미터에 대한 민감도를 탐색하라. 너무 민감하다면, 그건 사실 작동하는 게 아니라 그냥 운이
+좋았던 것이다."
+- "Nuts and Bolts of Deep RL Research" 슬라이드 (2016-12-09)
+
+23. 보상의 평균은 옮기지 마라
+"Rescale the rewards, but don't shift mean, as that affects agent's will to live."
+"보상은 척도를 다시 맞추되 평균은 옮기지 마라. 평균을 옮기면 에이전트의 '살려는 의지'에 영향을 준다."
+- "Nuts and Bolts of Deep RL Research" 슬라이드 (2016-12-09)
+
+24. PPO 재평가 — NIPS 2017 거절작의 부활  (X, 2026-06-17~18, 본인 직접 인용)
+"PPO: rejected from NIPS 2017"
+"PPO had a second wave in the LLM era for reasons unanticipated by the original paper. the
+importance-ratio objective fixes biases from numeric error, async training, and forward pass
+noise. the clipping objective affects entropy through a mechanism that we didn't know about at
+the time of publication (DAPO...)"
+(답글) "yeah I don't think we understand all the biases very well, and why some of them cause
+problems, and others don't."
+"PPO: NIPS 2017에서 거절당했다. PPO는 원 논문이 예상 못한 이유로 LLM 시대에 두 번째 물결을
+맞았다. 중요도 비율 목적함수가 수치 오차·비동기 학습·순전파 노이즈 편향을 바로잡고, 클리핑
+목적함수는 발표 당시 우리가 몰랐던 메커니즘으로 엔트로피에 영향을 준다(DAPO...)."
+(답글) "그래, 우리는 그 편향들을 아직 잘 이해하지 못한다. 왜 어떤 건 문제를 일으키고 어떤 건
+안 그러는지도."
+- X @johnschulman2 (2026-06-17~18)
+
+
+■ 추론(reasoning)
+────────────────────────────────────────
+
+25. 추론 = 테스트 시점 연산 + 학습 시점 연습
+"By definition, reasoning would be tasks that require some test time computation and step-by-step
+computation. On the other hand, I would also expect to gain a lot from doing practice at training
+time. So I think that you'd get the best results by combining these two things."
+"정의상 추론은 테스트 시점의 연산과 단계별 연산을 요구하는 과제다. 
+한편 학습 시점의 연습에서도 많은 것을 얻으리라 본다. 
+그래서 이 둘을 결합할 때 최상의 결과를 얻는다고 생각한다."
+- 드워케시 팟캐스트 (2024-05-15)
+
+
+■ ChatGPT · 거취
+────────────────────────────────────────
+
+26. ChatGPT 대중 반응에 본인도 놀람
+"I ended up being really surprised at how much it caught on with the general public."
+"결국 일반 대중에게 이렇게까지 퍼질 줄은 정말 놀랐다."
+- Berkeley News 인터뷰 (2023-04-20)
+
+27. OpenAI 퇴사 성명
+"I've made the difficult decision to leave OpenAI. This choice stems from my desire to deepen my
+focus on AI alignment, and to start a new chapter of my career where I can return to hands-on
+technical work... To be clear, I'm not leaving due to lack of support for alignment research at
+OpenAI. On the contrary, company leaders have been very committed to investing in this area."
+"OpenAI를 떠나기로 어려운 결정을 내렸다. 
+이 선택은 AI 정렬에 더 깊이 집중하고, 다시 손수 기술 작업으로 돌아가는 새 경력의 장을 열려는 바람에서 비롯됐다. 
+분명히 말하자면, OpenAI에서 정렬 연구 지원이 부족해서 떠나는 게 아니다. 
+오히려 회사 리더들은 이 분야 투자에 매우 헌신적이었다."
+- X @johnschulman2 (2024-08-05)
+
+28. Anthropic 퇴사 확인
+"Confirming that I left Anthropic last week. Leaving wasn't easy because I enjoyed the stimulating
+research environment and the kind and talented people I was working with, but I decided to go with
+another opportunity that I found extremely compelling."
+"지난주에 Anthropic을 떠났음을 확인한다. 
+자극적인 연구 환경과 함께 일한 친절하고 유능한 사람들이 좋았기에 떠나기 쉽지 않았지만, 무척 매력적이라 느낀 다른 기회를 택하기로 했다."
+- X @johnschulman2 (2025-02-06, →Thinking Machines Lab)
+
+
+■ 본인 X 포스트 — 2026 추가 (Thinking Machines Lab 시기, x.com 직접 인용)
+────────────────────────────────────────
+
+29. Geoffrey Irving의 새 정렬 조직 Sequent Research  (2026-06-10)
+"Looking forward to what comes out of Geoffrey's new alignment org. His 2018 paper on AI safety
+via debate is one of my all-time favorites: an elegant framing of the scalable oversight problem,
+way ahead of its time."
+"제프리의 새 정렬 조직에서 무엇이 나올지 기대된다. 
+그의 2018년 '토론을 통한 AI 안전' 논문은 내가 가장 좋아하는 글 중 하나다. 
+확장 가능한 감독 문제를 우아하게 짜낸, 시대를 크게 앞선 작업이다."
+- 태그: alignment, 감독(oversight)
+
+30. Inoculation Prompting과 RL의 역설적 위험  (2026-05-31)
+"Would be funny if inoculation prompting results in models that are much better at sandbox escapes
+and other forms of hacking because they get to spend the whole RL run practicing these things."
+"접종 프롬프팅(inoculation prompting)이 오히려 샌드박스 탈출이나 해킹에 훨씬 능한 모델을 만들어
+낸다면 웃긴 일일 거다. 강화학습 내내 바로 그걸 연습하게 되니까."
+- 태그: RL, AI 안전
+
+31. Renderers — LLM RL 스택의 기초 부품  (2026-05-29)
+"Glad to see this -- renderers are a foundational component of the LLM stack. Renderers map between
+tokens and messages, which are invariant to tokenizer and formatting details. Most APIs, datasets,
+and RL environments are defined in terms of messages. Getting the details wrong leads to
+train-test mismatches, caching inefficiencies, and prompt injection vulnerabilities. We included a
+renderers module in Tinker Cookbook..."
+
+"이걸 보게 되어 반갑다. 렌더러는 LLM 스택의 기초 구성요소다. 렌더러는 토큰과 메시지 사이를
+매핑하며, 토크나이저나 포맷 세부에 영향받지 않는다. 대부분의 API·데이터셋·RL 환경은 메시지 단위로
+정의된다. 세부를 틀리면 학습-테스트 불일치, 캐싱 비효율, 프롬프트 인젝션 취약점으로 이어진다.
+Tinker Cookbook에 렌더러 모듈을 포함했다."
+- 태그: LLM 인프라, RL 환경
+
+32. Refine.ink 자문 — 과학 연구에서의 AI  (2026-05-28)
+"Glad to be advising refine.ink which uses AI to help authors and reviewers do deeper, more
+thorough analysis than unaided humans could practically do. Seems like a very positive direction
+for AI in science."
+"refine.ink에 자문하게 되어 기쁘다. 이 도구는 AI로 저자와 리뷰어가 사람 혼자서는 현실적으로
+어려운 더 깊고 철저한 분석을 하게 돕는다. AI가 과학에서 갈 매우 긍정적인 방향으로 보인다."
+- 태그: AI for science
+
+33. 인간 중심 AI — Workshop Labs 합류  (2026-04-13)
+"Luke and Rudolf's writing on keeping humans central in an AI-powered world sparked a lot of
+discussion at Thinking Machines. For me, it captured some things I'd been thinking about but hadn't
+put as clearly. The more I got to know them and learned about their work, the more I wanted to work
+together. Really glad they're joining us."
+
+"AI가 주도하는 세상에서 인간을 중심에 두는 것에 관한 루크와 루돌프의 글은 Thinking Machines에서
+많은 논의를 불러일으켰다. 나에게 그 글은 내가 생각해 왔지만 그만큼 또렷이 정리하지 못했던 것들을
+포착해 줬다. 그들을 알아갈수록, 그들의 작업을 알수록 함께 일하고 싶어졌다. 합류해 줘서 정말 기쁘다."
+- 태그: 인간 중심 AI, Thinking Machines
+
+34. AI 오용 방지 — 계약 조항 vs 안전 스택  (2026-03)
+"There's some discussion about whether contract terms ('all lawful use' vs more specific terms) vs
+safety stack (monitoring systems) are more effective as safeguards against AI misuse. It'd be
+useful for someone to game out how they'd hold up against historical incidents of surveillance
+abuse like COINTELPRO..."
+
+"AI 오용을 막는 안전장치로 계약 조항('모든 합법적 사용' vs 더 구체적인 조항)과 안전 스택(모니터링
+시스템) 중 어느 쪽이 더 효과적인가에 관한 논의가 있다. 누군가 이것들이 COINTELPRO 같은 과거의
+감시 남용 사건들에 맞서 얼마나 버틸지 따져보면 유용할 것이다."
+- 태그: AI 오용, 거버넌스
+
+[미확보 / 한계]
+- x.com 직접 접근 차단(HTTP 402): X 인용 일부는 검색 스니펫 의존, 끝부분 잘림 가능.
+  단, 29~34번과 24번 보강분은 Grok의 x.com 실시간 수집분이라 본인 직접 인용으로 신뢰도 높음.
+- 강연 영상 구두 자막 대부분 봇 차단. Berkeley 강연만 공식 녹취 확보.
+- 언론 단독 직접인용은 희소. 핵심 verbatim은 본인 글·팟캐스트·버클리 인터뷰에 집중.
+- 팟캐스트 자동 전사분은 어구 미세차 가능(자막에 박을 땐 원본 대조 권장).

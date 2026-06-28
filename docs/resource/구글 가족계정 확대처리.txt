@@ -1,0 +1,9 @@
+구글 가족계정 확대처리
+
+- 01. 국가 동일 확인 : 부모 및 자녀가 될 계정의 한국 또는 특정 국가로 한 국가로 통일
+ㄴ https://payments.google.com/gp/w/u/6/home/settings
+- 02. 가족 계정 생성 : 부모가 될 계정 로그인 후 다음 링크에서 “Google 내 가족 시작하기” 하여 가족 생성 및 가족 이메일 초대
+ㄴ https://myaccount.google.com/u/8/people-and-sharing?hl=ko
+- 03. 가족공유 설정
+ㄴ https://one.google.com/u/2/settings?expand=upgrade&g1_last_touchpoint=64&g1_landing_page=0
+ㄴ 좌측 manage membership > manage family settings > share google one with family 

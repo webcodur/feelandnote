@@ -6,7 +6,7 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
 
 - 한 에피소드 = 한 분야(예: LLM). 분야 안에 「세력(팀/기업)」 여러 개, 세력마다 「인물」 여러 명.
 - 톤: 어둡고 시네마틱한 저조도 + 강한 명암. 팀 영웅/패밀리 화보 무드(PayPal 마피아 / 매트릭스 / 블레이드). 음악은 badass.
-- 인물 표기 = 직함(한글) + 이름 + **강렬한 영어 별칭 한 줄**(epithet). 예: OpenAI / 샘 알트만 / CEO / "the herald of the machine age".
+- 인물 표기 = 직함(한글) + 이름 + 핵심 이력 줄(`lines`, 최대 3줄). 예: OpenAI / 샘 알트만 / CEO.
 
 ## 영상 흐름
 
@@ -20,18 +20,18 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
  → 아웃트로(로고)
 ```
 
-- **인물 컷**: 영화 포스터식. 시네마틱 인물 이미지가 화면을 가득 채우고(켄번스 줌), 하단 어두운 그라데이션 위에 직함 + 이름(순백) + 별칭(팀색 이탤릭)을 얹는다. 이미지가 없으면 이니셜.
-- **팀 타이틀 카드**: 로고 컨셉아트(`titleArt`)를 풀스크린 배경으로 깔고 그 위에 세력명 + tagline. 회사 등장 직전 진입(브릿지) 비주얼. titleArt가 없으면 색 그라데이션 배경.
-- **화보 카드**: 팀 그룹샷 이미지(`cluster.image` 또는 `group.image`) + 세력명 + 묶음 소제목(label). 이미지가 없으면 **"TEAM SHOT (이미지 없음)" 플레이스홀더 박스**로 화보 자리를 표시한다.
+- **인물 컷**: 영화 포스터식. 시네마틱 인물 이미지가 화면을 가득 채우고(켄번스 줌), 하단 어두운 그라데이션 위에 직함 + 이름(순백) + 핵심 이력 줄(`lines`)을 얹는다. 이미지가 없으면 이니셜.
+- **팀 타이틀 카드**: 로고 컨셉아트(`titleArt`)를 풀스크린 배경으로 깔고 그 위에 세력 명칭을 얹는다. 앞부분(첫 줄)은 흰색으로 세력을 식별하고, 뒷부분은 세력색으로 표시한다. 회사 등장 직전 진입(브릿지) 비주얼. titleArt가 없으면 색 그라데이션 배경.
+- **화보 카드**: 팀 그룹샷 이미지(`cluster.image` 또는 `group.image`) + 세력 명칭(앞부분 흰색 식별 / 뒷부분 세력색) + 단체 명칭(`label`의 앞부분\n뒷부분). 이미지가 없으면 **"TEAM SHOT (이미지 없음)" 플레이스홀더 박스**로 화보 자리를 표시한다.
 
 ## 편성 원칙
 
 1. **현직 기준** — 인물은 그 세력의 현직자만 싣는다(에피소드 기준 시점). 이탈자는 제외하거나 현 소속으로 옮긴다. 변동이 잦은 영역이므로 등재 전 웹으로 현직 여부를 교차 확인한다.
-2. **화보 묶음(`clusters`)** — 인원이 많은 세력은 한 화보에 몰지 않고 여러 묶음으로 나눈다. 팀 타이틀은 1회만 뜨고, 묶음마다 화보 카드 + 인물 컷이 이어진다. (예: Google DeepMind = 「창업자」 + 「딥마인드」)
+2. **화보 묶음(`clusters`)** — 인원이 많은 세력은 한 화보에 몰지 않고 여러 묶음으로 나눈다. 팀 타이틀은 1회만 뜨고, 묶음마다 화보 카드 + 인물 컷이 이어진다. 각 묶음의 단체 명칭은 `label`(앞부분\n뒷부분)에 담는다. (예: Google DeepMind = 「창업자」 + 「딥마인드」)
 3. **모든 일반 세력에 화보 자리** — clusters가 없는 팀도 단일 화보 묶음으로 정규화되어 화보 카드 구간을 갖는다. 화보 이미지가 아직 없으면 플레이스홀더가 뜬다. (1명뿐인 팀·solo는 화보 없이 개인 컷)
 4. **독립(`solo`)** — 무소속 개인들의 모음(예: 재야)은 팀이 아니다. `solo: true`면 팀 타이틀·화보를 생략하고 인물 컷만 노출한다.
 5. **인물 사진** — 본서비스(셀럽 DB) 아바타(`avatar_url`, R2 URL)는 임시 표시용이고, 최종은 vanity 시네마틱 개인샷으로 교체한다. 에피소드 폴더의 로컬 이미지(폴더 경로·basename)로 연결한다.
-6. **설명(`lines`)** — 한글 최대 3줄(영어 `linesEn` 분리). 작성·표시 원칙은 아래 「인물 문구 작성 원칙」을 따른다. (구버전 `epithet` 한 줄 별칭은 폐기)
+6. **인물 이력(`lines`)** — 한글 최대 3줄(영어 `linesEn` 분리). 작성·표시 원칙은 아래 「인물 문구 작성 원칙」을 따른다.
 
 ## 인물 문구(lines) 작성 원칙
 
@@ -55,13 +55,37 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
 
 **언어**: 한국어 `lines` + 영어 `linesEn` 분리. 로더(`script.ts`)가 en판에서 `linesEn ?? lines`로 펼친다.
 
+## 대사 처리 스텝 (직함·수식어·음성)
+
+인물 컷 구성은 **3개 독립 토글**로 정한다(BO 「대사 처리」 체크박스 = `stepCredit`·`stepEpithet`·`stepVoice`). 켜진 스텝이 **직함 2·3줄 → 수식어 → 대사** 순서로 나오고, 이름 옆 직함 1줄(`lines[0]`)은 항상 노출된다.
+
+- **직함 스텝**(`stepCredit`): 직함 2·3번 줄을 순차로 띄운다(타이핑 사운드 동반).
+- **수식어 스텝**(`stepEpithet`): `epithet`(한 문장 수식어)을 띄우고 나레이터가 낭독한다(세로 쇼츠 전용).
+- **음성 스텝**(`stepVoice`): 대사(`quote`)를 표시하고 음원이 있으면 재생한다. **꺼지면 대사 자체가 안 뜨고** 켜진 리드 스텝만 보이고 끝난다.
+
+세 값이 모두 없으면(레거시 데이터) `quoteMode`(voice/text/credit/full) + 수장 자동 규칙에서 환산한다(`personSteps`). 타이밍·길이 산식은 `personLeadTiming`(SSoT).
+
+### 수식어 나레이션
+
+`epithet`은 나레이터가 낭독한다. 음원 파일은 대사와 같은 자리 규칙에 접미사만 다르게 — `FxxCxxPxx-epithet.wav`(`vnPersonEpithet`). 길이는 `epithetDuration`에 기록되며, 있으면 그 길이에 맞춰 재생·정지 후 대사로 교차한다(없으면 글자 수 읽기 추정·무음). 음량·배속은 `epithetGainDb`/`epithetPlaybackRate`.
+
+BO는 인물 행에 **「수식어」 음성 패널**을 둔다(대사 음성 패널과 동일 — 엔진·보이스·스타일·감정·미리듣기·트림·들숨 제거). 패널은 슬롯(`QUOTE_SLOT`/`EPITHET_SLOT`)으로 같은 컴포넌트를 공유하며, 읽고 쓰는 인물 필드(`quote*`/`epithet*`)와 음원 파일만 다르다. 합성 설정은 `epithetEngine`·`epithetSpeaker`·`epithetStyle`·`epithetElevenlabsVoiceId`·`epithetEleOptions`·`epithetEleEmotions`·`epithetEleTrail`.
+
 ## 데이터 모델 (SSoT: `sw/remotion/src/compositions/Faction/types.ts`)
 
+화면에 뜨는 텍스트 명칭은 모두 **하나의 필드 안에 개행으로 앞부분과 뒷부분을 담는 통합 방식**을 따른다. 첫 줄이 앞부분, 둘째 줄부터가 뒷부분이다.
+
+- **영상 명칭** = `title`(+`titleEn`, 편별 `titleByPart`). 첫 줄=앞부분, 둘째 줄부터=뒷부분.
+- **세력 명칭** = `name`(+`nameEn`). 앞부분(첫 줄)은 식별용·흰색, 뒷부분은 세력색.
+- **단체 명칭** = `label`(+`labelEn`). 앞부분(첫 줄)·뒷부분(둘째 줄)을 한 필드에 담는다.
+- **시작문구** = `logline`(+`loglineEn`, 편별 `loglineByPart`). 단일 한 줄, 화면에서 황금색.
+
 ```ts
-FactionScript { title; subtitle?; music?; groups: FactionGroup[] }
+FactionScript { title; titleEn?; titleByPart?; logline?; loglineEn?; loglineByPart?; music?; groups: FactionGroup[] }
 
 FactionGroup {
-  name; tagline?; color?; logo?;
+  name; nameEn?;               // 세력 명칭 (앞부분\n뒷부분)
+  color?; logo?;
   image?;                      // clusters 없는 팀의 전체 화보 (화보 카드에 표시)
   titleArt?;                   // 로고 컨셉아트 (타이틀 카드 풀스크린 배경)
   solo?: boolean;              // 무소속 개인군 — 팀 타이틀·화보 생략
@@ -69,13 +93,27 @@ FactionGroup {
   people: FactionPerson[];     // clusters 없을 때 사용
 }
 
-FactionCluster { label?; image?; people: FactionPerson[] }
+FactionCluster { label?; labelEn?; image?; people: FactionPerson[] }  // label = 단체 명칭 (앞부분\n뒷부분)
 
-FactionPerson { name; role?; epithet?; org?; image?; slug? }
+FactionPerson { name; role?; org?; image?; slug? }
 ```
 
 - **무결성 규칙**: clusters와 people이 동시에 차 있으면 안 된다. clusters가 있으면 인물은 각 cluster.people에 두고 group.people은 빈 배열. (렌더러가 clusters 우선이라 people에 든 인물은 영상에 안 나오는 유령이 됨.)
+- **폐기된 필드**: `subtitle`/`subtitleEn`/`subtitleByPart`(→ `title`로 흡수), `tagline`/`taglineEn`(→ `name` 뒷부분으로 흡수), `note`/`noteEn`(→ `label` 뒷부분으로 흡수). 통합 전에는 앞부분·뒷부분이 별도 필드였으나 지금은 한 필드 개행으로 합쳤다.
 - BO 측 동일 정의: `sw/remotion-bo/src/lib/faction-types.ts` (구조 동기화 유지).
+
+## 인물 컷 모션 — 진입 효과 · 지속 효과 (두 축, 세로 쇼츠 전용)
+
+인물 컷의 움직임은 **독립된 두 축**이다. 둘은 따로 설정하며 동시에 적용된다.
+
+- **진입 효과 `transition`** — 컷이 **바뀌는 순간**의 모션. 바깥 레이어(`CueLayer`·`CutEnter`)가 담당. 미지정이면 크로스페이드. `slideLeft/slideRight/glitch/tear/crt/zoompunch/whip/filmburn/pixelate/shutter`.
+- **지속 효과 `holdMotion`** — 컷이 **떠 있는 동안** 사진에 계속 거는 카메라 움직임(`PersonCard`의 `fxTransform`). 인물→세력→에피소드 계승, **미지정 기본 = `none`(정지)**. `none/zoomin/zoomout/kenburns/panLeft/panRight/zoomPulse/handheld`.
+  - 속도·진폭은 `constants.ts`의 `HOLD_*` 상수(컷 길이 무관 정속, 상한 클램프). 1.1초 컷에서도 체감되게 잡았다.
+  - 계승 해석은 `utils.ts`의 `resolveHoldMotion`. **레거시 호환**: `holdMotion`이 한 단계도 없고 `transition`이 명시적 zoom류(`zoomin/zoomout/kenburns`, auto가 그 순번에서 zoom으로 풀릴 때 포함)면 그 zoom을 지속 효과로 승계한다(`transition` 미지정 기본값 `zoomout`은 타지 않음 — 신규 인물은 정지로 시작).
+- **전역 정지 스위치 `noZoom`** — true면 지속 효과를 전부 무시하고 정지. 떨림 점검·정적 연출용.
+- **단체샷도 동일 적용**: 화보 카드(`ClusterCard`)·팀 로고 카드(`GroupCard`)도 같은 지속 효과를 쓴다. 단체샷엔 개인이 없으므로 세력→에피소드만 계승(`resolveGroupHoldMotion`), 미지정이면 정지. 단체샷 이미지는 비율 유지(여백 블러)라 이동(패닝·흔들림)은 `FilledImage`의 `tx`·`ty`로 전달한다. 줌·이동 계산은 인물 컷과 같은 공유 함수(`utils.ts`의 `holdMotionParts`/`holdMotionTransform`).
+- **편집(BO)**: 인물·세력·전역 각 드롭다운(`holdMotion.ts` 공유 옵션). 세력 드롭다운 하나가 그 세력의 인물 컷·단체샷을 함께 제어한다. 전역에는 일괄 도구 2개 — **모두 끄기**(개별 설정 제거 + 전역 정지), **전체 통일 덮어쓰기**(개별 제거 + 전역값으로 통일 + `noZoom` 해제).
+- (후속) 화면 오버레이(필름 그레인·비네팅·스캔라인 등 `holdOverlay`)는 미구현. 카메라 움직임축만 우선 적용.
 
 ## 타이밍 (SSoT: `Faction/timing.ts`)
 
@@ -117,7 +155,7 @@ sw/remotion/public/music/  # 배경음악
 |------|------|
 | 영상 컴포지션 | `sw/remotion/src/compositions/Faction/` (Faction.tsx · types.ts · timing.ts · script.ts) |
 | 데이터 I/O(서버) | `sw/remotion-bo/src/lib/faction-utils.ts` |
-| 편집 UI | `sw/remotion-bo/src/components/faction/` (별칭·solo·화보 묶음 단일/분할 전환·팀 화보 편집, 미리보기 렌더 일치) |
+| 편집 UI | `sw/remotion-bo/src/components/faction/` (인물 이력·solo·화보 묶음 단일/분할 전환·팀 화보 편집, 미리보기 렌더 일치) |
 | API 라우트 | `sw/remotion-bo/src/app/api/[series]/faction-*` |
 | 미리보기 타이밍 | `sw/remotion-bo/src/components/faction/timing.ts` |
 
@@ -125,7 +163,7 @@ sw/remotion/public/music/  # 배경음악
 
 1. **인물 선정** — 진영별로 추리고, 현직 여부를 웹으로 검증한다.
 2. **본서비스 확보** — 미등록 인물은 셀럽으로 신규 등록(celeb-1) 후 아바타 자동수집(`sw/web-bo/scripts/upload-celeb-image-from-url.ts` 또는 `batch-celeb-wikimedia-avatars.ts`). 동명이인 주의 — 수집 후 얼굴을 육안 검증한다.
-3. **데이터 작성** — `data.ko.json`에 세력·묶음·인물·별칭·solo를 채운다(BO 편집기 또는 직접).
+3. **데이터 작성** — `data.ko.json`에 세력 명칭·단체 명칭·인물·이력 줄(`lines`)·solo를 채운다(BO 편집기 또는 직접).
 4. **개인샷** — `person-prompts.md`의 인물별 프롬프트로, 각 인물 아바타를 REF로 넣어 시네마틱 개인샷을 생성한다(Gemini). 자세·복식이 그 팀 그룹샷 컨셉과 맞물리게 설계돼 있다.
 5. **그룹샷** — `group-prompts.md`의 화보 단위 프롬프트로, 개인샷들을 합성해 그룹 화보를 만든다.
 6. **이미지 연결** — vanity 폴더에 규칙대로 넣거나 BO 편집기에서 인물·화보 이미지를 지정한다.
@@ -150,14 +188,14 @@ sw/remotion/public/music/  # 배경음악
 | `ko-shorts-1` | 세로 쇼츠 1편 | `KO-S1` | 1 |
 | `ko-shorts-2` | 세로 쇼츠 2편 | `KO-S2` | 2 |
 
-쇼츠는 진영의 `part`(1·2)로 갈린다. `part` 미지정/0 진영은 모든 편 공통. 편별 부제는 `subtitleByPart`, 대표 인물은 `heroesByPart`. 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
+쇼츠는 진영의 `part`(1·2)로 갈린다. `part` 미지정/0 진영은 모든 편 공통. 편별 영상 명칭은 `titleByPart`, 편별 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`. 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
 
 ## 유튜브 업로드
 
 **한국어 세로 영상 3종**(위 표)을 서재 탐방과 **같은 채널(KO)에 비공개**로 올린다.
 
 ### 구성 요소
-- **메타 생성(SSoT)**: `packages/shared/src/lib/youtube-faction-meta.ts` — 제목/설명/태그. 서재 탐방의 책 기반 빌더와 분리. 쇼츠는 편(part)별로 제목 부제·등장 진영·대표 인물이 갈린다. 인물 태그는 한국어 영상 = 국문명 + 영문명, 영문 영상 = 영문명만. heroes 우선, 태그 총량 500자 예산. 진영 구분자는 한국어 가운뎃점·영문 em dash.
+- **메타 생성(SSoT)**: `packages/shared/src/lib/youtube-faction-meta.ts` — 제목/설명/태그. 서재 탐방의 책 기반 빌더와 분리. 쇼츠는 편(part)별로 영상 명칭(`titleByPart`)·등장 진영·대표 인물이 갈린다. 인물 태그는 한국어 영상 = 국문명 + 영문명, 영문 영상 = 영문명만. heroes 우선, 태그 총량 500자 예산. 진영 구분자는 한국어 가운뎃점·영문 em dash.
 - **업로드 실행기**: `sw/remotion/scripts/youtube/youtube-faction.ts` — 데이터 로드(`public/factions/{ep}/data.json`) → variant별 `out/Faction/{ep}-{접미사}.mp4` 업로드 → 기록 저장. 공통 인프라(OAuth·영상/자막/썸네일 업로드)는 `youtube-core.ts` 공유.
 - **CLI 분기**: `youtube-upload.ts` 가 `--series faction` 이면 위 진입점으로 위임.
 - **업로드 기록**: `sw/remotion/scripts/youtube/faction-lineup.json` (서재 탐방의 `youtube-lineup.json` 과 별개).
