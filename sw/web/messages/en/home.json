@@ -155,7 +155,12 @@
     "selectTheme": "Select Theme",
     "viewAllThemes": "View All Themes",
     "comingSoon": "Coming Soon",
-    "contentInPreparation": "Content in preparation"
+    "contentInPreparation": "Content in preparation",
+    "viewDetail": "View detail",
+    "groupShot": "Group",
+    "figureCount": "{count} figures",
+    "playLine": "Play line",
+    "photoCount": "{count} pics"
   },
   "quickRecord": {
     "section": {

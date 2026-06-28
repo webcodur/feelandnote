@@ -155,7 +155,12 @@
     "selectTheme": "테마 선택",
     "viewAllThemes": "전체 테마 보기",
     "comingSoon": "오픈 예정",
-    "contentInPreparation": "곧 멋진 콘텐츠로 찾아오겠습니다"
+    "contentInPreparation": "곧 멋진 콘텐츠로 찾아오겠습니다",
+    "viewDetail": "자세히 보기",
+    "groupShot": "단체",
+    "figureCount": "{count}인",
+    "playLine": "대사 듣기",
+    "photoCount": "{count}장"
   },
   "quickRecord": {
     "section": {

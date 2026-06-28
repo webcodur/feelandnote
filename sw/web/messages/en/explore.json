@@ -233,7 +233,8 @@
       "intro": {
         "title": "Trajectories of Appreciation Across Eras",
         "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir recorded lines draw out new echoes within you.",
-        "select": "Select Theme"
+        "select": "Select Theme",
+        "openInNewTab": "Open in new tab"
       }
     }
   },

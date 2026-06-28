@@ -1,8 +1,12 @@
 /**
- * LLM 팩션(01-llm) 4팀의 단체샷·인물 화보를 스포트라이트에 채운다.
- *   - 단체샷(_group/_deepmind/_founders/_hires) → celeb_tags.team_images (상단 배너)
- *   - 인물 전용 화보(인물명.png) → celeb_tag_assignments.spotlight_image_url
- *   - _step*(미완성 마네킹)·_logo·보관/복사본/번호변형 파일은 제외
+ * AI 패권 전쟁 팩션(01-AI패권전쟁) 진영별 단체샷·인물 화보를 스포트라이트에 채운다.
+ *   - 1편(BIG-4): openai · google-deepmind · anthropic · xai
+ *   - 2편(오픈 프론티어): ai-pioneers · meta · mistral · hugging-face · deepseek · thinking-machines · ssi
+ *   - 단체샷 → celeb_tags.team_images (상단 배너)
+ *   - 인물 전용 화보 → celeb_tag_assignments.spotlight_image_url
+ *   - 파일명이 인물명과 다른 진영은 personFiles로 명시 매핑
+ *   - 점증 업로드: 이미 채워진 팀/인물은 건너뜀 (재실행 안전)
+ *   - _logo·보관/복사본/번호변형 파일은 제외
  *
  * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-spotlight-llm.ts
  */
@@ -25,6 +29,9 @@ function loadEnv() {
 }
 loadEnv()
 
+// --force: 인물 전용 화보를 이미 있어도 폴더값으로 강제 재업로드(덮어쓰기). 단체화보는 항상 점증.
+const FORCE_PERSON = process.argv.includes('--force')
+
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL!
 const BUCKET = process.env.R2_BUCKET_NAME!
 const r2 = new S3Client({
@@ -40,14 +47,47 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 )
 
-const FACTION_ROOT = resolve(process.cwd(), '../remotion/public/factions/01-llm')
+const FACTION_ROOT = resolve(process.cwd(), '../remotion/public/factions/01-AI패권전쟁')
 
-// 팀별 설정: slug + 폴더 + 단체샷 파일(순서)
-const TEAMS: { slug: string; dir: string; teamFiles: string[] }[] = [
+// 팀별 설정: slug + 폴더 + 단체샷 파일(순서) + (선택) 인물 파일 명시 매핑
+// personFiles: 파일명이 DB nickname과 다른 진영(영어·숫자 파일명)에만 지정. 없으면 파일명=nickname 자동 매칭.
+const TEAMS: { slug: string; dir: string; teamFiles: string[]; personFiles?: Record<string, string> }[] = [
+  // ── 1편 BIG-4 (이미 업로드 완료 — 점증 로직으로 건너뜀) ──
   { slug: 'openai', dir: '03-openai', teamFiles: ['_group.png'] },
   { slug: 'google-deepmind', dir: '02-google-deepmind', teamFiles: ['_deepmind.png', '_founders.png'] },
   { slug: 'anthropic', dir: '04-anthropic', teamFiles: ['_group.png', '_founders.png', '_hires.png'] },
   { slug: 'xai', dir: '05-xai', teamFiles: ['_group.png'] },
+  // ── 2편 오픈 프론티어 ──
+  {
+    slug: 'ai-pioneers', dir: '01-pioneers',
+    teamFiles: ['ai_origin_group_shot.png', 'ai_masters_group_shot_same_depth.png'],
+    personFiles: {
+      '앨런 튜링': 'origin_solo_turing_v3.png',
+      '존 매카시': 'origin_solo_mccarthy.png',
+      '제프리 힌턴': 'masters_solo_hinton.png',
+      '요슈아 벤지오': 'masters_solo_bengio.png',
+      '얀 르쿤': 'masters_solo_lecun_v3.png',
+    },
+  },
+  { slug: 'meta', dir: '06-meta', teamFiles: ['_group.png'] }, // 인물 파일명=nickname 자동
+  {
+    slug: 'mistral', dir: '07-mistral', teamFiles: ['0.png'],
+    personFiles: {
+      '아르투르 멘쉬': '1.png',
+      '기욤 람플': '2.png',
+      '티모테 라크루아': '3.png',
+    },
+  },
+  { slug: 'hugging-face', dir: '08-huggingface', teamFiles: ['_group.png'] }, // 자동
+  { slug: 'deepseek', dir: '10-china', teamFiles: ['_duo.png'] }, // 자동(량원펑·뤄푸리)
+  {
+    slug: 'thinking-machines', dir: '11-tml', teamFiles: ['tml_group_shot.png'],
+    personFiles: {
+      '미라 무라티': 'tml_solo_murati.png',
+      '존 슐만': 'tml_solo_schulman.png',
+    },
+  },
+  { slug: 'ssi', dir: '10-ssi', teamFiles: ['_group.png'] }, // 자동(일리야 수츠케버·다니엘 레비)
 ]
 
 // 파일명 표기 → DB nickname 보정
@@ -120,9 +160,12 @@ async function run() {
     }
 
     // 2) 인물 화보 → spotlight_image_url (이미 있으면 건너뜀)
-    const fileMap = personFileMap(dir)
+    //    personFiles 명시 매핑 우선, 없으면 파일명=nickname 자동 매칭
+    const fileMap = team.personFiles
+      ? Object.fromEntries(Object.entries(team.personFiles).map(([nick, f]) => [nick, resolve(dir, f)]))
+      : personFileMap(dir)
     for (const person of people) {
-      if (person.hasImage) continue
+      if (person.hasImage && !FORCE_PERSON) continue
       const path = fileMap[person.nickname]
       if (!path) { console.log(`  [인물] 파일 없음: ${person.nickname}`); continue }
       const url = await upload(`spotlight/${tag.id}/celeb-${person.celeb_id}.webp`, await toWebp(path))

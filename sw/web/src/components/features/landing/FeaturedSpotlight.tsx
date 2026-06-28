@@ -11,8 +11,7 @@ import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
-import FeaturedSpotlightDesktop from "./FeaturedSpotlightDesktop";
-import FeaturedSpotlightMobile from "./FeaturedSpotlightMobile";
+import SpotlightShowcase from "./SpotlightShowcase";
 import SharedLibraryView from "./SharedLibraryView";
 import SpotlightTagDrawerDesktop from "./SpotlightTagDrawerDesktop";
 import SpotlightTagSheetMobile from "./SpotlightTagSheetMobile";
@@ -23,7 +22,6 @@ import type { TimelineCeleb, TimelineContent } from "@/components/features/game/
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 
 import SpotlightIntroView from "./SpotlightIntroView";
-import SpotlightTeamBanner from "./SpotlightTeamBanner";
 
 export type SpotlightLocation = "main" | "explore-pc" | "explore-mb";
 type ViewMode = "spotlight" | "library";
@@ -183,36 +181,15 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
         />
       ) : (
         <>
-          {viewMode === "spotlight" && (
-            <>
-              {/* 단체 이미지 배너 (상단) */}
-              {activeTag && activeTag.team_images.length > 0 && (
-                <div className="relative z-10">
-                  <SpotlightTeamBanner
-                    images={activeTag.team_images}
-                    alt={locale === "en" ? (activeTag.name_en ?? activeTag.name) : activeTag.name}
-                  />
-                </div>
-              )}
-
-              {/* Mobile (< 768px) */}
-              <div className="block md:hidden relative z-10">
-                <FeaturedSpotlightMobile
-                  activeTag={activeTag}
-                  onSubtitle={setSubtitleData}
-                />
-              </div>
-
-              {/* Desktop (>= 768px) */}
-              <div className="hidden md:block relative z-10">
-                <FeaturedSpotlightDesktop
-                  activeTag={activeTag}
-                  location={location === "explore-mb" ? "main" : location}
-                  onSubtitle={setSubtitleData}
-                />
-              </div>
-
-            </>
+          {viewMode === "spotlight" && activeTag && (
+            <div className="relative z-10">
+              <SpotlightShowcase
+                key={activeTag.id}
+                activeTag={activeTag}
+                locale={locale}
+                onSubtitle={setSubtitleData}
+              />
+            </div>
           )}
 
           {viewMode === "library" && activeTag && (

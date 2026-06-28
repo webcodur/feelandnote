@@ -2,11 +2,12 @@
 
 import { useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
-import { Lock } from "lucide-react";
+import { Lock, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 import Avatar from "@/components/ui/Avatar";
+import { Link } from "@/i18n/navigation";
 
 interface SpotlightIntroViewProps {
   tags: FeaturedTag[];
@@ -75,30 +76,25 @@ export default function SpotlightIntroView({
                   ),
                 ]
               : [];
-            return (
-              <button
-                key={tag.id}
-                onClick={() => {
-                  if (!isUpcoming) onSelect(idx);
-                }}
-                disabled={isUpcoming}
-                className={cn(
-                  "relative flex flex-col items-start justify-between min-h-[160px] md:min-h-[170px] p-6 rounded-2xl border text-left overflow-hidden group transition-all duration-500 will-change-transform",
-                  isUpcoming
-                    ? "bg-black/40 border-white/5 opacity-50 cursor-not-allowed"
-                    : "backdrop-blur-md border-white/10 hover:border-transparent hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1.5"
-                )}
-                style={{
-                  ...(!isUpcoming && { 
-                    "--tag-color": tag.color,
-                    "--text-base": `color-mix(in srgb, ${tag.color} 20%, white)`,
-                    "--text-hover": `color-mix(in srgb, ${tag.color} 70%, white)`,
-                  } as React.CSSProperties),
-                  background: isUpcoming
-                    ? undefined
-                    : `linear-gradient(135deg, color-mix(in srgb, var(--tag-color) 12%, rgba(255,255,255,0.03)) 0%, color-mix(in srgb, var(--tag-color) 3%, rgba(255,255,255,0.01)) 100%)`,
-                }}
-              >
+            const cardClassName = cn(
+              "relative flex flex-col items-start justify-between min-h-[160px] md:min-h-[170px] p-6 rounded-2xl border text-left overflow-hidden group transition-all duration-500 will-change-transform",
+              isUpcoming
+                ? "bg-black/40 border-white/5 opacity-50 cursor-not-allowed"
+                : "backdrop-blur-md border-white/10 hover:border-transparent hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1.5"
+            );
+            const cardStyle = {
+              ...(!isUpcoming && {
+                "--tag-color": tag.color,
+                "--text-base": `color-mix(in srgb, ${tag.color} 20%, white)`,
+                "--text-hover": `color-mix(in srgb, ${tag.color} 70%, white)`,
+              }),
+              background: isUpcoming
+                ? undefined
+                : `linear-gradient(135deg, color-mix(in srgb, var(--tag-color) 12%, rgba(255,255,255,0.03)) 0%, color-mix(in srgb, var(--tag-color) 3%, rgba(255,255,255,0.01)) 100%)`,
+            } as React.CSSProperties;
+
+            const cardInner = (
+              <>
                 {/* Border Glow Layer */}
                 {!isUpcoming && (
                   <div 
@@ -222,7 +218,54 @@ export default function SpotlightIntroView({
                     </span>
                   </div>
                 )}
-              </button>
+              </>
+            );
+
+            // 공개 전 테마: 클릭 불가, 단순 박스로 표시
+            if (isUpcoming) {
+              return (
+                <div key={tag.id} className={cardClassName} style={cardStyle} aria-disabled="true">
+                  {cardInner}
+                </div>
+              );
+            }
+
+            // 공개 테마: 카드 자체를 해당 스포트라이트 주소의 링크로 만든다.
+            // 좌클릭은 기존처럼 같은 화면에서 테마를 전환하고(빠른 전환),
+            // 가운데 클릭·Ctrl/⌘ 클릭은 브라우저 기본 동작으로 새 탭에서 연다.
+            const detailHref = tag.slug
+              ? `/explore/spotlight/${tag.slug}`
+              : `/explore/spotlight?tag=${tag.id}`;
+            const externalHref = (locale === "en" ? "/en" : "") + detailHref;
+            return (
+              <Link
+                key={tag.id}
+                href={detailHref}
+                onClick={(e) => {
+                  // 수식 키가 눌린 경우는 브라우저에 맡겨 새 탭/새 창으로 열리게 둔다.
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                  e.preventDefault();
+                  onSelect(idx);
+                }}
+                className={cardClassName}
+                style={cardStyle}
+              >
+                {cardInner}
+                {/* 새 탭에서 열기 버튼 */}
+                <button
+                  type="button"
+                  aria-label={t("openInNewTab")}
+                  title={t("openInNewTab")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(externalHref, "_blank", "noopener,noreferrer");
+                  }}
+                  className="absolute top-2.5 right-2.5 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white/70 backdrop-blur-md transition-all opacity-70 hover:border-[color:var(--tag-color)] hover:text-[color:var(--text-hover)] md:opacity-0 md:group-hover:opacity-100"
+                >
+                  <ExternalLink size={13} />
+                </button>
+              </Link>
             );
           })}
         </div>
