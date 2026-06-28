@@ -7,12 +7,13 @@
  *
  * 자막에 담는 것:
  *  - 인물 대사: 의미 덩어리별 실제 발화 시각으로 분할(splitSub) — 영상 점등과 같은 단위·시각.
- *  - 화면 텍스트: 시작/끝 제목(+부제·로그라인), 세력명(+슬로건), 묶음 소제목(+설명).
+ *  - 화면 텍스트: 시작/끝 영상 명칭 앞부분(+영상 명칭 뒷부분·시작문구), 세력 명칭 앞부분(+세력 명칭 뒷부분), 단체 명칭 앞부분(+뒷부분).
  *  - credit(직함만) 컷은 대사가 없어 자막을 만들지 않는다.
  */
 import type { FactionScript } from './types'
 import { buildCues, f, personQuoteEnterSec, personQuoteEndSec } from './timing'
 import { vnPersonQuote, vnTimingKey } from './voice-names'
+import { nameTail } from './utils'
 import { splitSub, type Sub } from '../../lib/voice-timing'
 
 /** part 우선 필드 — 쇼츠 편(part) 지정 시 그 편 값, 없으면 공통 값. */
@@ -33,13 +34,11 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
     const cutStart = tc.start
     const cutEnd = tc.start + tc.duration
 
-    // ── 시작/끝 제목 화면 — 제목(+부제), 시작 화면엔 로그라인도 ──
+    // ── 시작/끝 영상 명칭 화면 — 영상 명칭 앞부분(+뒷부분), 시작 화면엔 시작문구도 ──
     if (c.kind === 'intro' || c.kind === 'outro') {
-      const title = pick(script.title, script.titleByPart, part)
-      const subtitle = pick(script.subtitle, script.subtitleByPart, part)
-      const titleText = subtitle ? `${title}\n${subtitle}` : (title ?? '')
+      const titleText = pick(script.title, script.titleByPart, part) ?? ''
       if (titleText.trim()) subs.push({ start: cutStart, end: cutEnd, speaker: '', text: titleText })
-      // 로그라인은 시작 화면에만(영상 IntroCard 도 아웃트로에는 띄우지 않음). 제목보다 살짝 늦게 떠오른다.
+      // 시작문구는 시작 화면에만(영상 IntroCard 도 아웃트로에는 띄우지 않음). 영상 명칭 앞부분보다 살짝 늦게 떠오른다.
       if (c.kind === 'intro') {
         const logline = pick(script.logline, script.loglineByPart, part)
         if (logline?.trim()) subs.push({ start: cutStart + f(1.0), end: cutEnd, speaker: '', text: logline })
@@ -47,28 +46,26 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
       continue
     }
 
-    // ── 세력 타이틀(로고) 카드 — 세력명(+슬로건) ──
+    // ── 세력 타이틀(로고) 카드 — 세력 명칭(앞부분\n뒷부분) ──
     if (c.kind === 'group') {
       const g = script.groups[c.groupIndex]
-      const text = g.tagline?.trim() ? `${g.name}\n${g.tagline}` : g.name
+      const text = g.name
       if (text.trim()) subs.push({ start: cutStart, end: cutEnd, speaker: '', text })
       continue
     }
 
-    // ── 화보 묶음 카드 — 소제목(label)·묶음 설명(note). 묶음이 없는 세력은 슬로건을 note 로(영상 clustersOf 와 동일) ──
+    // ── 화보 묶음 카드 — 단체 명칭(앞부분\n뒷부분). 묶음이 없는 세력은 세력 명칭 뒷부분을 쓴다(영상 clustersOf 와 동일) ──
     if (c.kind === 'cluster') {
       const g = script.groups[c.groupIndex]
       const cluster = g.clusters?.length ? g.clusters[c.clusterIndex] : undefined
-      const label = cluster?.label
-      const note = cluster ? cluster.note : g.tagline
-      const text = [label, note].filter(t => t && t.trim()).join('\n')
+      const text = cluster ? (cluster.label ?? '') : nameTail(g.name)
       if (text.trim()) subs.push({ start: cutStart, end: cutEnd, speaker: '', text })
       continue
     }
 
     // ── 인물 대사 ──
     if (c.kind === 'person') {
-      if (c.quoteMode === 'credit') continue // 직함만 — 대사 없음
+      if (!c.steps.voice) continue // 음성 스텝 꺼짐 — 대사 없음(자막 없음)
       const g = script.groups[c.groupIndex]
       const person = c.clusterIndex != null
         ? (g.clusters?.[c.clusterIndex]?.people[c.personIndex] ?? g.people[c.personIndex])
@@ -79,9 +76,9 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
       if (!text.trim()) continue
       const stem = vnTimingKey(vnPersonQuote(c.groupIndex, c.personIndex, c.clusterIndex))
       const timings = script.voiceTimings?.[stem]
-      // 영상과 동일 — 대사(음성) 등장 시점부터. full(통합)은 직함을 다 보여준 뒤라 더 늦게 시작.
-      const startFrame = cutStart + f(personQuoteEnterSec(person, c.quoteMode))
-      const endFrame = cutStart + f(personQuoteEndSec(person, c.quoteMode))
+      // 영상과 동일 — 대사 등장 시점부터. 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤라 그만큼 늦게 시작.
+      const startFrame = cutStart + f(personQuoteEnterSec(person, c.steps, isShorts))
+      const endFrame = cutStart + f(personQuoteEndSec(person, c.steps, isShorts))
       subs.push(...splitSub(startFrame, endFrame, person.name, text, timings))
     }
   }

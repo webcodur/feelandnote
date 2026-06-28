@@ -8,7 +8,6 @@ import { ResetControls } from './sections/ResetControls'
 import { GuideAccordion } from './sections/GuideAccordion'
 import { SegmentList } from './sections/SegmentList'
 import { JsonEditor } from './sections/JsonEditor'
-import { UiLabel } from '@/components/ui-label'
 
 export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSentences, timings, onChange, onSegmentsChange, segmentsRef }: Props) {
   const pct = usePct(duration)
@@ -16,7 +15,6 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
 
   return (
     <div className="relative space-y-2">
-      <UiLabel ko="자막 타이밍 편집" code="VoiceTimingEditor" />
       <AudioWavePlayer
         audioUrl={audioUrl}
         duration={duration}

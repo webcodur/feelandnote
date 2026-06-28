@@ -26,6 +26,19 @@ export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIn
 }
 
 /**
+ * 인물 수식어 나레이션 음성 파일명 — 대사(quote)와 같은 자리 규칙, 접미사만 -epithet.
+ * 예: F01P01-epithet.wav / 분할 세력 F02C01P03-epithet.wav.
+ *
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnPersonEpithet 와 규칙이 일치해야 한다.
+ */
+export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex?: number): string {
+  const g = `F${String(groupIndex + 1).padStart(2, '0')}`
+  const c = clusterIndex != null ? `C${String(clusterIndex + 1).padStart(2, '0')}` : ''
+  const p = `P${String(personIndex + 1).padStart(2, '0')}`
+  return `${g}${c}${p}-epithet.wav`
+}
+
+/**
  * 세력·묶음·인물 좌표로 음성 파일명을 만든다.
  *
  * @param groupIndex  세력 인덱스 (0-based)
@@ -38,8 +51,10 @@ export function factionVoiceFile(
   personIndex: number,
   solo: boolean,
   clusterIndex?: number,
+  kind: 'quote' | 'epithet' = 'quote',
 ): string {
-  if (solo) return vnPersonQuote(groupIndex, personIndex)
+  const fn = kind === 'epithet' ? vnPersonEpithet : vnPersonQuote
+  if (solo) return fn(groupIndex, personIndex)
   // 비-solo 세력은 묶음이 없어도 렌더가 단일 묶음(C01)으로 정규화한다.
-  return vnPersonQuote(groupIndex, personIndex, clusterIndex ?? 0)
+  return fn(groupIndex, personIndex, clusterIndex ?? 0)
 }

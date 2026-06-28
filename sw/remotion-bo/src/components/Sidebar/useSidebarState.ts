@@ -23,7 +23,8 @@ export function useSidebarState() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 'b') {
+      // 물리적 키 위치(KeyB)로 판정한다. e.key는 CapsLock·한영 전환·Shift에 따라 'B'/'ㅠ'로 바뀌어 빗나간다.
+      if (e.ctrlKey && e.code === 'KeyB') {
         e.preventDefault()
         setCollapsed(prev => {
           const next = !prev

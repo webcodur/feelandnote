@@ -5,7 +5,8 @@ import { TabNav } from '@/components/TabNav'
 import { isFactionSeries } from '@/lib/series-registry'
 
 export async function generateMetadata({ params }: { params: Promise<{ series: string; name: string }> }): Promise<Metadata> {
-  const { name } = await params
+  const { name: rawName } = await params
+  const name = decodeURIComponent(rawName)
   const label = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
   return { title: label }
 }
@@ -17,7 +18,8 @@ export default async function EpisodeLayout({
   params: Promise<{ series: string; name: string }>
   children: React.ReactNode
 }) {
-  const { series, name } = await params
+  const { series, name: rawName } = await params
+  const name = decodeURIComponent(rawName)
 
   // 세력도: 음성·책 기반 래퍼(EpisodeProvider/TabNav)를 거치지 않고 자체 편집 화면을 띄운다.
   if (isFactionSeries(series)) {

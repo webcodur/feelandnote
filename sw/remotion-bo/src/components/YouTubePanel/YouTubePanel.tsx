@@ -6,7 +6,6 @@ import { useYouTubePanel } from './useYouTubePanel'
 import { LineupHeader } from './sections/LineupHeader'
 import { VariantRow } from './sections/VariantRow'
 import { SoloUploadBox } from './sections/SoloUploadBox'
-import { UiLabel } from '@/components/ui-label'
 
 export function YouTubePanel({ series, name }: Props) {
   const {
@@ -36,7 +35,6 @@ export function YouTubePanel({ series, name }: Props) {
 
   return (
     <div className="relative space-y-4">
-      <UiLabel ko="유튜브 업로드" code="YouTubePanel" />
       {/* 인증 + 편성 정보 */}
       <LineupHeader
         auth={auth}

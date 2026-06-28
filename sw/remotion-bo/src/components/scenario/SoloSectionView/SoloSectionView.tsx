@@ -8,7 +8,6 @@ import type { EpisodeData } from '../../EpisodeEditor'
 import { EMPTY_FILE_BOOK_MAP, EMPTY_FILE_FIELD_MAP } from './utils'
 import { useSoloSections } from './useSoloSections'
 import { SectionCard } from './sections/SectionCard'
-import { UiLabel } from '@/components/ui-label'
 
 /**
  * 솔로 자유섹션 편집기.
@@ -57,7 +56,6 @@ export function SoloSectionView({
 
   return (
     <div className="relative space-y-3">
-      <UiLabel ko="1권모드 편집" code="SoloSectionView" />
       {/* 헤더 — 안내 + 내용 복사 (저장은 우하단 플로팅 버튼) */}
       <div className="rounded border border-border/70 bg-bg-card px-3 py-2 flex items-center justify-between gap-2">
         <div className="text-[12px] text-text-secondary">

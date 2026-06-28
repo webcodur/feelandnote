@@ -9,6 +9,10 @@ const MIME: Record<string, string> = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.gif': 'image/gif',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
+  '.mov': 'video/quicktime',
+  '.m4v': 'video/x-m4v',
 }
 
 /** GET /api/{series}/faction-image/{ep}/{file} : 이미지 파일 서빙 */

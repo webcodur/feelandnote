@@ -1,30 +1,58 @@
 import React from 'react'
-import { interpolate, Easing } from 'remotion'
+import { AbsoluteFill, interpolate, Easing } from 'remotion'
 import type { FactionScript, Orientation } from '../types'
-import { CROSSFADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
-import { HEADER_H, SAFE_BOTTOM } from '../constants'
-import { clustersOf, personCutKind } from '../utils'
+import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
+import { HEADER_H, SAFE_BOTTOM, BG } from '../constants'
+import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion } from '../utils'
 import { CutEnter, transitionEnterSec, isSlideKind, slideDir } from '../transitions'
 import { vnPersonQuote, vnTimingKey } from '../voice-names'
 import { IntroCard } from './IntroCard'
 import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
+import { FilledImage } from './FilledImage'
+import { BrandLogo } from '../../BookRecommend/utils'
 
-export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; nextCutKind?: string | null; isLast?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, nextCutKind, isLast, isShorts = false }) => {
+/** 마지막 화면(아웃트로) — outroImage 가 있으면 그 이미지를 화면 가득(비율 유지+여백 블러), 없으면 브랜드 로고(FEEL & NOTE). */
+const OutroCard: React.FC<{ script: FactionScript; episodeName: string }> = ({ script, episodeName }) => {
+  const [err, setErr] = React.useState(false)
+  if (script.outroImage && !err) {
+    return (
+      <AbsoluteFill style={{ background: BG }}>
+        <FilledImage src={imgSrc(episodeName, script.outroImage)} objPos="center center" scale={1} onError={() => setErr(true)} />
+      </AbsoluteFill>
+    )
+  }
+  return (
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <BrandLogo variant="full" fontSize={96} />
+    </div>
+  )
+}
+
+export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; nextCutKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, nextCutKind, isLast, isLastPerson, isShorts = false }) => {
   const { start, duration, cue } = tc
   const end = start + duration
-  const cf = f(CROSSFADE_SEC)
+  // 최종화면(outro) 진입은 더 완만한 크로스페이드, 그 외 컷 전환은 기본값.
+  const crossSec = cue.kind === 'outro' ? OUTRO_CROSSFADE_SEC : CROSSFADE_SEC
+  const cf = f(crossSec)
   const clampLR = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
 
   // 자기 컷 전환(진입 효과) 종류 — 세로 쇼츠 인물 컷만.
   const cutKind = personCutKind(script, cue, orientation)
 
+  const noZoom = !!script.noZoom
   let content: React.ReactNode = null
-  if (cue.kind === 'intro' || cue.kind === 'outro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} isOutro={cue.kind === 'outro'} />
-  else if (cue.kind === 'group') content = <GroupCard episodeName={episodeName} group={script.groups[cue.groupIndex]} frame={frame} cueStart={start} orientation={orientation} />
-  else if (cue.kind === 'cluster') {
+  if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} />
+  else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} />
+
+  else if (cue.kind === 'group') {
     const g = script.groups[cue.groupIndex]
-    content = <ClusterCard episodeName={episodeName} group={g} cluster={clustersOf(g)[cue.clusterIndex]} frame={frame} cueStart={start} orientation={orientation} />
+    content = <GroupCard episodeName={episodeName} group={g} frame={frame} cueStart={start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script)} shake={resolveHoldShake(undefined, g, script)} zoomSpeed={resolveZoomSpeed(undefined, g, script)} />
+  } else if (cue.kind === 'cluster') {
+    const g = script.groups[cue.groupIndex]
+    const cl = clustersOf(g)[cue.clusterIndex]
+    // 그룹샷 지지직 — 미지정이면 전 세력 기본 켜짐
+    content = <ClusterCard episodeName={episodeName} group={g} cluster={cl} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script, cl)} shake={resolveHoldShake(cl.holdShake, g, script)} enter={resolveEnterMotion(cl.enterMotion, g, script)} glitch={resolveGlitchHold(cl.holdGlitch, g, script, true)} zoomSpeed={resolveZoomSpeed(cl.zoomSpeed, g, script)} />
   } else if (cue.kind === 'person') {
     const g = script.groups[cue.groupIndex]
     const person = cue.clusterIndex != null
@@ -32,12 +60,19 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
       : g.people[cue.personIndex]
     const stem = vnTimingKey(vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex))
     // 마지막 인물 컷이면 대사 끝 시점부터 줌인을 멈추고 종료 꼬리 동안 정지시킨다.
-    const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.quoteMode) : undefined
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} transition={script.transition} quoteMode={cue.quoteMode} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} />
+    const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.steps, isShorts) : undefined
+    // 지속 효과 — 인물→세력→에피소드 계승(레거시 zoom 승계 포함)을 여기서 풀어 카드에 넘긴다.
+    const hold = resolveHoldMotion(person, g, script)
+    // 개인샷 지지직 — 미지정이면 기본 꺼짐(데이터로 켤 수 있음)
+    const glitch = resolveGlitchHold(person.holdGlitch, g, script, false)
+    const shake = resolveHoldShake(person.holdShake, g, script)
+    const zoomSpeed = resolveZoomSpeed(person.zoomSpeed, g, script)
+    const enter = resolveEnterMotion(person.enterMotion, g, script)
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} />
   }
 
   // 진입: 자기 컷 전환이면 이전 컷 끝보다 앞당겨 시작(이전 인물 위로). 아니면 크로스페이드.
-  const enterSec = cutKind ? transitionEnterSec(cutKind) : CROSSFADE_SEC
+  const enterSec = cutKind ? transitionEnterSec(cutKind) : crossSec
   const enterStart = start - f(enterSec)
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).
   const nextSlide = isSlideKind(nextCutKind)
@@ -65,8 +100,11 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   const fadeOut = nextSlide ? 1 : interpolate(frame, [end, end + cf], [1, 0], clampLR)
   const opacity = Math.min(fadeIn, fadeOut)
 
-  // 세로: 모든 컷(인트로·아웃트로 포함)을 상·하단 블랙바 사이(MID)에 그려 위아래 잘림을 통일한다.
-  const useHeader = orientation === 'portrait'
+  // 세로: 본문 컷은 상·하단 블랙바 사이(MID)에 그려 위아래 잘림을 통일한다.
+  // 종료 화면도 이미지를 쓰면 시작 화면과 똑같이 MID에 가둬 위아래 블러가 블랙바 밖으로 새지 않게 한다.
+  // 이미지 없는 브랜드 로고 엔딩만 예외로 풀스크린에 그려 로고를 화면 정중앙에 둔다.
+  const isBrandOutro = cue.kind === 'outro' && !script.outroImage
+  const useHeader = orientation === 'portrait' && !isBrandOutro
 
   // 슬라이드는 transform(이동)으로만 — A·B 원본은 흐리지 않는다(선명 유지).
   // 두 컷 경계의 완충(ab) 블러 띠는 화면 좌표에서 단일 레이어로 MAIN이 따로 얹는다.

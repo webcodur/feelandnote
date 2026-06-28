@@ -63,12 +63,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  // 세력도: 빈 에피소드 생성 (제목·부제·음악만 받고 세력은 편집기에서 채운다)
+  // 세력도: 빈 에피소드 생성 (영상 명칭·음악만 받고 세력은 편집기에서 채운다)
   if (isFactionSeries(series)) {
-    const { name, title, subtitle, music } = await req.json()
+    const { name, title, music } = await req.json()
     if (!name?.trim()) return NextResponse.json({ error: 'name required' }, { status: 400 })
     try {
-      await createFactionEpisode(name.trim(), { title, subtitle, music })
+      await createFactionEpisode(name.trim(), { title, music })
       return NextResponse.json({ ok: true, name: name.trim() })
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e)
@@ -149,6 +149,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       title: profile.title ?? '',
       featuredQuote: '',
       philosophy: '', // AI 초안 대상
+      // 불변 셀럽 ID — slug·표기가 바뀌어도 보이스·셀럽 정보를 다시 잇는 열쇠
+      celebId: profile.id,
       elevenlabsVoiceId: profile.voice_id_ko ?? '',
     },
     books,

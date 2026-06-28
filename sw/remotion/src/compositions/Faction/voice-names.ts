@@ -18,6 +18,20 @@ export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIn
 }
 
 /**
+ * 인물 수식어 나레이션 음성 파일명 — 대사(quote)와 같은 자리 규칙, 접미사만 -epithet.
+ * 예: F01P01-epithet.wav / 분할 세력은 F02C01P03-epithet.wav.
+ * 나레이터가 그 인물의 수식어 한 문장을 낭독한 음원. 없으면 렌더는 글자 수 읽기 추정으로 정지만 한다.
+ *
+ * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
+ */
+export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex?: number): string {
+  const g = `F${String(groupIndex + 1).padStart(2, '0')}`
+  const c = clusterIndex != null ? `C${String(clusterIndex + 1).padStart(2, '0')}` : ''
+  const p = `P${String(personIndex + 1).padStart(2, '0')}`
+  return `${g}${c}${p}-epithet.wav`
+}
+
+/**
  * 음성 파일 상대 경로 (staticFile 기준) — public/factions/<에피소드>/voice/<파일>.
  * locale·engine 분기는 추후 확장(현재는 단일 폴더).
  */

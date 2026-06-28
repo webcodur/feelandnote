@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { runTask, loadEpisode, toPascal } from '@/lib/server-utils'
 import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 import { loadFactionEpisode } from '@/lib/faction-utils'
-import { factionVariants } from '@feelandnote/shared/lib/youtube-faction-meta'
+import { factionVariants, factionCompBase } from '@feelandnote/shared/lib/youtube-faction-meta'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series: seriesId } = await params
@@ -15,7 +15,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   // 세력도 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
   // 세로 롱폼(KO-LV) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
   if (isFactionSeries(seriesId)) {
-    const base = `Faction-${episode.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+    const base = factionCompBase(episode)
     const factionData = await loadFactionEpisode(episode)
     // only 미지정=전체 / 'longform'·'shorts' 로 거를 수 있다.
     const targets = factionVariants(factionData.groups)

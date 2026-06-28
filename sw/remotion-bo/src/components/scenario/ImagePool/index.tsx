@@ -1,12 +1,13 @@
 ﻿'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { DraggableImage, ListImage } from '../ImageThumb'
 import type { ImageField } from '../types'
 import {
-  FILTER_BUTTONS, IMAGE_POOL_COLLAPSED_KEY, POOL_STYLES, SORT_OPTIONS, USAGE_BUTTONS,
+  FILTER_BUTTONS, POOL_STYLES, SORT_OPTIONS, USAGE_BUTTONS,
   type ViewMode,
 } from './constants'
+import { useImagePoolToggle } from '@/lib/useImagePoolToggle'
 import { useImagePoolFilter } from './useImagePoolFilter'
 import { useImagePoolSelection } from './useImagePoolSelection'
 import { CollapsedPool, PoolHeader } from './PoolHeader'
@@ -61,23 +62,9 @@ export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, vie
 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [opened, setOpened] = useState<Set<string>>(new Set())
-  const [collapsed, setCollapsed] = useState(false)
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    setCollapsed(window.localStorage.getItem(IMAGE_POOL_COLLAPSED_KEY) === '1')
-  }, [])
-  const toggleCollapsed = () => {
-    setCollapsed(prev => {
-      const next = !prev
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(IMAGE_POOL_COLLAPSED_KEY, next ? '1' : '0')
-      }
-      // 접힘 → 펼침 전환 시 디스크 상태 새로고침
-      if (prev && !next) onRefresh?.()
-      return next
-    })
-  }
+  // 진입 시 기본 펼침 + Ctrl+Q 토글(팩션과 공통). 펼칠 때 디스크 새로고침.
+  const { open, toggle: toggleCollapsed } = useImagePoolToggle({ onOpen: onRefresh })
+  const collapsed = !open
 
   const toggleOpen = (key: string) => {
     setOpened(prev => {

@@ -14,7 +14,6 @@ import { SpeakerPanel } from '../scenario/SpeakerPanel'
 import { RowCollapseProvider } from '../scenario/RowCollapseContext'
 import { CollapseAllBar } from './sections/CollapseAllBar'
 import { useScenarioState } from './useScenarioState'
-import { UiLabel } from '@/components/ui-label'
 
 /* ── 메인 ── */
 export function ScenarioView({ episode }: { episode: EpisodeData }) {
@@ -42,7 +41,6 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
     <AudioPreviewProvider value={audioCtl}>
     <RowCollapseProvider>
     <div className="relative space-y-3 p-4">
-      <UiLabel ko="시나리오 편집" code="ScenarioView" />
       <VoiceToolbar
         episode={episode} series={series} name={name}
         voiceSummary={voiceSummary} mode={mode} hasELVoiceId={hasELVoiceId}

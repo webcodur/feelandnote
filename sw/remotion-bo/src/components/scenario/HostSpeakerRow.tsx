@@ -42,10 +42,14 @@ export function HostSpeakerRow() {
   const host = episode.host as {
     nickname?: string
     nickname_en?: string
+    celebId?: string
     elevenlabsVoiceId?: string
     geminiVoice?: string
     voiceEngine?: SpeakerEngine
   }
+
+  // DB 연동 키 — 불변 셀럽 ID 우선, 없으면(기존 에피소드) slug. voice 라우트가 둘 다 받는다.
+  const celebKey = host.celebId || slug
 
   // 활성 엔진 — speakerHelpers의 추론 규칙과 같은 자리에서 결정한다.
   const engine: SpeakerEngine = inferHostEngine(host)
@@ -68,7 +72,7 @@ export function HostSpeakerRow() {
       const messages: string[] = []
 
       if (scope === 'db' || scope === 'both') {
-        const res = await fetch(`/api/celebs/${slug}/voice`, {
+        const res = await fetch(`/api/celebs/${celebKey}/voice`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ locale, voiceId: newId }),
@@ -131,7 +135,7 @@ export function HostSpeakerRow() {
       {/* 펼침 — ELE 엔진일 때만. 보이스 목록·DB 동기화. */}
       {open && engine === 'elevenlabs' && (
         <HostVoiceMapping
-          slug={slug}
+          slug={celebKey}
           locale={locale}
           currentEleId={currentEleId}
           dirty={dirty}

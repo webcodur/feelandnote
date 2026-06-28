@@ -23,7 +23,7 @@ export function PoolHeader({
       <span className="flex items-center gap-1">
         <button
           onClick={onCollapse}
-          title="이미지 풀 접기"
+          title="이미지 풀 접기 · Ctrl+Q"
           className="text-sm font-black text-text-secondary hover:text-accent mr-1"
         >▶</button>
         <span className="text-text-primary">ImagePool</span>
@@ -65,7 +65,7 @@ export function CollapsedPool({ count, onExpand }: { count: number; onExpand: ()
     <div className={POOL_STYLES.sidebarCollapsed}>
       <button
         onClick={onExpand}
-        title="이미지 풀 펼치기"
+        title="이미지 풀 펼치기 · Ctrl+Q"
         className="w-full h-full flex flex-col items-center justify-start gap-2 py-2 text-text-secondary hover:text-accent hover:bg-bg-hover transition-colors"
       >
         <span className="text-[14px]">◀</span>

@@ -40,13 +40,13 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
   if (duck < 1) {
     for (const tc of buildCues(script, portrait, part)) {
       const c = tc.cue
-      // voice·full 둘 다 음성을 재생하므로 BGM 덕킹(음량 낮추기) 대상.
-      if (c.kind !== 'person' || (c.quoteMode !== 'voice' && c.quoteMode !== 'full')) continue
+      // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
+      if (c.kind !== 'person' || !c.steps.voice) continue
       const g = script.groups[c.groupIndex]
       const ppl = c.clusterIndex != null && g.clusters ? g.clusters[c.clusterIndex].people : g.people
       const p = ppl?.[c.personIndex]
       if (!p?.quoteDuration || p.quoteDuration <= 0) continue
-      const s = tc.start + f(personQuoteEnterSec(p, c.quoteMode))
+      const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait))
       const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))
       rawWindows.push([s, s + playF])
     }

@@ -11,7 +11,6 @@ import { useSegmentMeta } from './useSegmentMeta'
 import { useVoiceGeneration } from './useVoiceGeneration'
 import { SavedVoiceSection } from './sections/SavedVoiceSection'
 import { GenerateSection } from './sections/GenerateSection'
-import { UiLabel } from '@/components/ui-label'
 
 export function ExpandedVoicePanel({
   sectionKey: secKey, section, episode, series, name,
@@ -47,7 +46,6 @@ export function ExpandedVoicePanel({
 
   return (
     <div className="relative space-y-3" onClick={e => e.stopPropagation()}>
-      <UiLabel ko="음성 편집 패널" code="ExpandedVoicePanel" />
       {/* TRIM | SYNC 탭은 모달 헤더로 이동. ENGINE 토글(default/override 시각화)도 헤더로 이동. */}
 
       {/* SYNC mode */}

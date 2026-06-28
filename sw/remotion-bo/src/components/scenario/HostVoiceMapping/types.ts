@@ -5,6 +5,8 @@ export type ElevenVoice = {
   labels: Record<string, string> | null
   preview_url: string | null
   description: string | null
+  /** 음성이 속한 ElevenLabs 계정(목록 API가 음성마다 붙여준다). */
+  account?: { id: string; label: string } | null
 }
 
 export type DbVoice = {

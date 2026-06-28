@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useEpisode } from '@/lib/episode-context'
 import type { DbVoice, ElevenVoice, SaveScope } from './types'
-import { nameToSlug } from './utils'
+import type { SortKey } from './constants'
+import { collectFacets, matchesFacets, sortVoices, nameToSlug } from './utils'
 
 export function useVoiceMapping() {
   const { episode, name, isEn, updateEpisode, save, dirty } = useEpisode()
@@ -16,6 +17,11 @@ export function useVoiceMapping() {
 
   const [open, setOpen] = useState(false)
   const [filter, setFilter] = useState('')
+  // 패싯 필터: { 패싯키: [선택값…] }. 패싯 간 AND, 같은 패싯 값 사이 OR.
+  const [activeFacets, setActiveFacets] = useState<Record<string, string[]>>({})
+  const [sortKey, setSortKey] = useState<SortKey>('default')
+  // 미리듣기 음원이 있는 보이스만 보기.
+  const [previewOnly, setPreviewOnly] = useState(false)
   const [scope, setScope] = useState<SaveScope>('both')
   const [savingScope, setSavingScope] = useState(false)
   const [saveStatus, setSaveStatus] = useState<string | null>(null)
@@ -62,16 +68,39 @@ export function useVoiceMapping() {
     return m
   }, [voices])
 
+  // 거를 수 있는 묶음(성별·나이·억양·언어·용도·분류 등)을 보이스 목록에서 자동 수집.
+  const facets = useMemo(() => collectFacets(voices), [voices])
+
   const filtered = useMemo(() => {
     const q = filter.trim().toLowerCase()
-    if (!q) return voices
-    return voices.filter(v => {
+    const byText = (v: ElevenVoice) => {
+      if (!q) return true
       if (v.name.toLowerCase().includes(q)) return true
       if (v.voice_id.toLowerCase().includes(q)) return true
       const lab = v.labels ? Object.values(v.labels).join(' ').toLowerCase() : ''
       return lab.includes(q)
+    }
+    const result = voices.filter(v =>
+      byText(v) && matchesFacets(v, activeFacets) && (!previewOnly || !!v.preview_url))
+    return sortVoices(result, sortKey)
+  }, [voices, filter, activeFacets, previewOnly, sortKey])
+
+  // 패싯 값 하나를 켜고 끈다(같은 패싯 안에서 다중 선택).
+  const toggleFacet = (key: string, value: string) => {
+    setActiveFacets(prev => {
+      const cur = prev[key] ?? []
+      const next = cur.includes(value) ? cur.filter(x => x !== value) : [...cur, value]
+      const out = { ...prev, [key]: next }
+      if (!next.length) delete out[key]
+      return out
     })
-  }, [voices, filter])
+  }
+
+  const clearFacets = () => { setActiveFacets({}); setPreviewOnly(false) }
+
+  const activeFacetCount = useMemo(
+    () => Object.values(activeFacets).reduce((n, vs) => n + vs.length, 0) + (previewOnly ? 1 : 0),
+    [activeFacets, previewOnly])
 
   const playPreview = (v: ElevenVoice) => {
     if (audioRef.current) {
@@ -142,6 +171,16 @@ export function useVoiceMapping() {
     setOpen,
     filter,
     setFilter,
+    facets,
+    activeFacets,
+    toggleFacet,
+    clearFacets,
+    activeFacetCount,
+    sortKey,
+    setSortKey,
+    previewOnly,
+    setPreviewOnly,
+    totalCount: voices.length,
     scope,
     setScope,
     savingScope,

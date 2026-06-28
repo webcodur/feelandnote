@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, use } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 import { TaskPanel } from '@/components/TaskPanel'
 import { VoiceStorage } from '@/components/VoiceStorage'
@@ -94,7 +95,7 @@ const STATUS_DOT_COLOR: Record<EpisodeStatus, string> = {
   done: 'bg-green-500',
 }
 
-function PersonCard({ person, series, onStatusChange, changingStatus }: {
+function PersonTableRow({ person, series, onStatusChange, changingStatus }: {
   person: PersonGroup
   series: string
   onStatusChange: (baseName: string, status: EpisodeStatus) => void
@@ -103,39 +104,20 @@ function PersonCard({ person, series, onStatusChange, changingStatus }: {
   const [selectedIdx, setSelectedIdx] = useState(0)
   const part = person.parts[selectedIdx] ?? person.parts[0]
   const primary = part.ko ?? part.en!
+  const router = useRouter()
 
   return (
-    <div className="bg-bg-secondary border border-border rounded-lg p-4 hover:border-accent/30 transition-colors">
-      <div className="flex items-center gap-2 mb-2">
-        <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT_COLOR[part.status]}`} title={part.status} />
-        <Link href={`/${series}/${primary.name}`} className="font-semibold hover:text-accent transition-colors">
-          {person.nickname}
-        </Link>
-        {person.parts.length > 1 && (
-          <div className="flex gap-0.5">
-            {person.parts.map((p, i) => (
-              <button key={p.baseName} onClick={() => setSelectedIdx(i)}
-                className={`text-[11px] px-1.5 py-0.5 rounded font-bold transition-colors ${i === selectedIdx ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
-                {p.partNum}편
-              </button>
-            ))}
-          </div>
-        )}
-        <div className="ml-auto flex items-center gap-2">
-          <div className="flex gap-1">
-            {part.ko ? (
-              <Link href={`/${series}/${part.ko.name}`}
-                className="text-[11px] px-1.5 py-px rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30 transition-colors">KO</Link>
-            ) : (
-              <span className="text-[11px] px-1.5 py-px rounded bg-bg-main text-text-dim border border-border">KO</span>
-            )}
-            {part.en ? (
-              <Link href={`/${series}/${part.en.name}`}
-                className="text-[11px] px-1.5 py-px rounded bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30 transition-colors">EN</Link>
-            ) : (
-              <span className="text-[11px] px-1.5 py-px rounded bg-bg-main text-text-dim border border-border">EN</span>
-            )}
-          </div>
+    <tr 
+      className="group border-b border-border/50 hover:bg-bg-card cursor-pointer"
+      onClick={(e) => {
+        const target = e.target as HTMLElement
+        if (target.closest('button, a, select')) return
+        router.push(`/${series}/${primary.name}`)
+      }}
+    >
+      <td className="py-2 px-3 align-middle w-24">
+        <div className="flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT_COLOR[part.status]}`} title={part.status} />
           <select
             value={part.status}
             onChange={e => onStatusChange(part.baseName, e.target.value as EpisodeStatus)}
@@ -144,15 +126,46 @@ function PersonCard({ person, series, onStatusChange, changingStatus }: {
             {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </div>
-      </div>
-      <div className="text-xs text-text-secondary space-y-1">
-        <div>{primary.booksCount}권{primary.hasShorts ? ' · Shorts' : ''}</div>
-        <div className="flex items-center gap-3">
-          {part.ko && <span>KO {part.ko.voiceCount} wav · {part.ko.voiceSizeMB}MB</span>}
-          {part.en && <span>EN {part.en.voiceCount} wav · {part.en.voiceSizeMB}MB</span>}
+      </td>
+      <td className="py-2 px-3 align-middle">
+        <Link href={`/${series}/${primary.name}`} className="font-semibold group-hover:text-accent transition-colors">
+          {person.nickname}
+        </Link>
+      </td>
+      <td className="py-2 px-3 align-middle w-32">
+        {person.parts.length > 1 ? (
+          <div className="flex gap-0.5 flex-wrap">
+            {person.parts.map((p, i) => (
+              <button key={p.baseName} onClick={() => setSelectedIdx(i)}
+                className={`text-[11px] px-1.5 py-0.5 rounded font-bold transition-colors ${i === selectedIdx ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
+                {p.partNum}편
+              </button>
+            ))}
+          </div>
+        ) : (
+          <span className="text-text-dim text-[11px]">1편</span>
+        )}
+      </td>
+      <td className="py-2 px-3 align-middle w-24">
+        <div className="flex gap-1">
+          {part.ko ? (
+            <Link href={`/${series}/${part.ko.name}`} className="text-[11px] px-1.5 py-px rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30 transition-colors">KO</Link>
+          ) : <span className="text-[11px] px-1.5 py-px rounded bg-bg-main text-text-dim border border-border">KO</span>}
+          {part.en ? (
+            <Link href={`/${series}/${part.en.name}`} className="text-[11px] px-1.5 py-px rounded bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30 transition-colors">EN</Link>
+          ) : <span className="text-[11px] px-1.5 py-px rounded bg-bg-main text-text-dim border border-border">EN</span>}
         </div>
-      </div>
-    </div>
+      </td>
+      <td className="py-2 px-3 align-middle text-xs text-text-secondary w-24">
+        {primary.booksCount}권{primary.hasShorts ? ' · Shorts' : ''}
+      </td>
+      <td className="py-2 px-3 align-middle text-xs text-text-secondary">
+        {part.ko ? <span>{part.ko.voiceCount} wav · {part.ko.voiceSizeMB}MB</span> : '-'}
+      </td>
+      <td className="py-2 px-3 align-middle text-xs text-text-secondary">
+        {part.en ? <span>{part.en.voiceCount} wav · {part.en.voiceSizeMB}MB</span> : '-'}
+      </td>
+    </tr>
   )
 }
 
@@ -184,6 +197,7 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
   const [episodes, setEpisodes] = useState<EpisodeSummary[]>([])
   const [candidates, setCandidates] = useState<CandidateSummary[]>([])
   const [search, setSearch] = useState('')
+  const [sortOption, setSortOption] = useState<'name' | 'books-desc' | 'voice-desc' | 'status'>('name')
   const [tab, setTab] = useState<TabKey>({ kind: 'group', group: '' })
   const [promoting, setPromoting] = useState<string | null>(null)
   const [changingStatus, setChangingStatus] = useState<string | null>(null)
@@ -226,10 +240,27 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
   if (!seriesDef) return <div className="text-text-dim">시리즈를 찾을 수 없다.</div>
 
   const filteredPersons = tab.kind === 'group'
-    ? persons.filter(p => p.group === tab.group).filter(p => {
-        const q = search.toLowerCase()
-        return p.personKey.includes(q) || p.nickname.includes(search)
-      })
+    ? persons
+        .filter(p => p.group === tab.group)
+        .filter(p => {
+          const q = search.toLowerCase()
+          return p.personKey.includes(q) || p.nickname.includes(search)
+        })
+        .sort((a, b) => {
+          if (sortOption === 'name') return a.nickname.localeCompare(b.nickname)
+          const aPrimary = a.parts[0]?.ko ?? a.parts[0]?.en
+          const bPrimary = b.parts[0]?.ko ?? b.parts[0]?.en
+          if (sortOption === 'books-desc') return (bPrimary?.booksCount ?? 0) - (aPrimary?.booksCount ?? 0)
+          if (sortOption === 'voice-desc') return (bPrimary?.voiceCount ?? 0) - (aPrimary?.voiceCount ?? 0)
+          if (sortOption === 'status') {
+            const statusWeight = { todo: 0, live: 1, done: 2 }
+            const wA = statusWeight[a.status] ?? 0
+            const wB = statusWeight[b.status] ?? 0
+            if (wA !== wB) return wA - wB
+            return a.nickname.localeCompare(b.nickname)
+          }
+          return 0
+        })
     : []
 
   const filteredCandidates = candidates
@@ -237,6 +268,10 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
     .filter(d => {
       const q = search.toLowerCase()
       return d.name.includes(q) || d.nickname.includes(search)
+    })
+    .sort((a, b) => {
+      if (sortOption === 'books-desc') return (b.booksCount ?? 0) - (a.booksCount ?? 0)
+      return a.nickname.localeCompare(b.nickname)
     })
 
   const groupCounts = groupKeys.map(g => ({
@@ -322,41 +357,79 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
         </button>
       </div>
 
-      <input type="text" placeholder="인물 검색..." value={search} onChange={e => setSearch(e.target.value)}
-        className="w-full max-w-sm bg-bg-card border border-border rounded-md px-3 py-2 text-sm mb-6 focus:outline-none focus:border-accent" />
+      <div className="flex items-center gap-2 mb-6">
+        <input type="text" placeholder="인물 검색..." value={search} onChange={e => setSearch(e.target.value)}
+          className="w-full max-w-sm bg-bg-card border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-accent" />
+        <select value={sortOption} onChange={e => setSortOption(e.target.value as any)}
+          className="bg-bg-card border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-accent text-text-secondary cursor-pointer">
+          <option value="name">가나다순</option>
+          <option value="books-desc">책 많은 순</option>
+          <option value="voice-desc">음성 많은 순</option>
+          <option value="status">상태순 (Todo 우선)</option>
+        </select>
+      </div>
 
       {tab.kind === 'storage' && <VoiceStorage series={series} />}
 
       {tab.kind === 'group' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {filteredPersons.map(p => (
-            <PersonCard key={`${p.personKey}`} person={p} series={series}
-              onStatusChange={handleStatusChange} changingStatus={changingStatus} />
-          ))}
-          {filteredPersons.length === 0 && <p className="text-sm text-text-dim col-span-full">이 그룹에 속한 인물이 없다.</p>}
+        <div className="mb-8 overflow-x-auto border border-border rounded-lg bg-bg-secondary/20">
+          <table className="w-full text-left border-collapse text-sm whitespace-nowrap">
+            <thead>
+              <tr className="border-b border-border text-text-secondary bg-bg-secondary/50">
+                <th className="py-2 px-3 font-semibold">상태</th>
+                <th className="py-2 px-3 font-semibold">인물명</th>
+                <th className="py-2 px-3 font-semibold">편수</th>
+                <th className="py-2 px-3 font-semibold">언어</th>
+                <th className="py-2 px-3 font-semibold">책 권수</th>
+                <th className="py-2 px-3 font-semibold">음성 (KO)</th>
+                <th className="py-2 px-3 font-semibold">음성 (EN)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredPersons.map(p => (
+                <PersonTableRow key={`${p.personKey}`} person={p} series={series}
+                  onStatusChange={handleStatusChange} changingStatus={changingStatus} />
+              ))}
+              {filteredPersons.length === 0 && (
+                <tr><td colSpan={7} className="py-8 text-center text-sm text-text-dim">이 그룹에 속한 인물이 없다.</td></tr>
+              )}
+            </tbody>
+          </table>
         </div>
       )}
 
       {tab.kind === 'candidate-pool' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {filteredCandidates.map(d => (
-            <div key={d.name} className="bg-bg-secondary border border-border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-semibold">{d.nickname}</span>
-                <button
-                  onClick={() => handlePromote(d.name)}
-                  disabled={promoting === d.name}
-                  className="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30 font-semibold disabled:opacity-50 transition-colors">
-                  {promoting === d.name ? 'Promoting...' : 'Promote'}
-                </button>
-              </div>
-              <div className="text-xs text-text-secondary">
-                <span>{d.booksCount}권</span>
-                <span className="text-text-dim ml-2 text-[11px]">{d.name}</span>
-              </div>
-            </div>
-          ))}
-          {filteredCandidates.length === 0 && <p className="text-sm text-text-dim col-span-full">검색 결과 없음</p>}
+        <div className="mb-8 overflow-x-auto border border-border rounded-lg bg-bg-secondary/20">
+          <table className="w-full text-left border-collapse text-sm whitespace-nowrap">
+            <thead>
+              <tr className="border-b border-border text-text-secondary bg-bg-secondary/50">
+                <th className="py-2 px-3 font-semibold">인물명</th>
+                <th className="py-2 px-3 font-semibold">ID</th>
+                <th className="py-2 px-3 font-semibold">책 권수</th>
+                <th className="py-2 px-3 font-semibold text-right">액션</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCandidates.map(d => (
+                <tr key={d.name} className="border-b border-border/50 hover:bg-bg-card">
+                  <td className="py-3 px-3 font-semibold">{d.nickname}</td>
+                  <td className="py-3 px-3 text-xs text-text-dim">{d.name}</td>
+                  <td className="py-3 px-3 text-xs text-text-secondary">{d.booksCount}권</td>
+                  <td className="py-3 px-3 text-right">
+                    <button
+                      onClick={() => handlePromote(d.name)}
+                      disabled={promoting === d.name}
+                      className="text-[11px] px-2 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30 font-semibold disabled:opacity-50 transition-colors">
+                      {promoting === d.name ? 'Promoting...' : 'Promote'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {filteredCandidates.length === 0 && (
+                <tr><td colSpan={4} className="py-8 text-center text-sm text-text-dim">검색 결과 없음</td></tr>
+              )}
+            </tbody>
+          </table>
         </div>
       )}
 

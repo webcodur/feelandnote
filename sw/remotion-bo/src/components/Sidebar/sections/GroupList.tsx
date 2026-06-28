@@ -35,7 +35,7 @@ export function GroupList({ filteredPersons, activeSeries, pathname, episodesLen
                 return (
                   <Link key={p.baseName} href={`/${activeSeries}/${ep.name}`}
                     onClick={e => e.stopPropagation()}
-                    className={`text-[9px] w-4 h-4 flex items-center justify-center rounded font-bold transition-colors ${isActivePart ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
+                    className={`text-[9px] w-4 h-4 flex items-center justify-center rounded font-bold ${isActivePart ? 'bg-accent text-bg-main' : 'bg-bg-main border border-border text-text-dim hover:text-accent hover:border-accent/40'}`}>
                     {p.partNum}
                   </Link>
                 )
@@ -48,7 +48,7 @@ export function GroupList({ filteredPersons, activeSeries, pathname, episodesLen
         if (isSingle) {
           return (
             <Link key={person.personKey} href={`/${activeSeries}/${primary.name}`}
-              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
+              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs ${isActive ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
               {content}
             </Link>
           )

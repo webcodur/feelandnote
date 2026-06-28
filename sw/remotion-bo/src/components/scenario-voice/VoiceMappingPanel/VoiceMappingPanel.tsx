@@ -2,10 +2,10 @@
 
 import { SAVE_SCOPE_LABEL } from './constants'
 import { StatusGrid } from './sections/StatusGrid'
+import { VoiceFilterBar } from './sections/VoiceFilterBar'
 import { VoiceList } from './sections/VoiceList'
 import type { SaveScope } from './types'
 import { useVoiceMapping } from './useVoiceMapping'
-import { UiLabel } from '@/components/ui-label'
 
 export function VoiceMappingPanel() {
   const {
@@ -15,6 +15,16 @@ export function VoiceMappingPanel() {
     setOpen,
     filter,
     setFilter,
+    facets,
+    activeFacets,
+    toggleFacet,
+    clearFacets,
+    activeFacetCount,
+    sortKey,
+    setSortKey,
+    previewOnly,
+    setPreviewOnly,
+    totalCount,
     scope,
     setScope,
     savingScope,
@@ -35,7 +45,6 @@ export function VoiceMappingPanel() {
 
   return (
     <div className="relative border border-border/40 rounded-lg overflow-hidden">
-      <UiLabel ko="보이스 매핑" code="VoiceMappingPanel" />
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
@@ -89,6 +98,23 @@ export function VoiceMappingPanel() {
             onChange={e => setFilter(e.target.value)}
             className="w-full bg-bg-main border border-border rounded px-2 py-1 text-sm focus:outline-none focus:border-accent"
           />
+
+          {/* 필터·정렬 — 성별·나이·억양·언어·용도·분류 묶음 칩 + 정렬 + 미리듣기 토글 */}
+          {!voicesLoading && !voicesError && facets.length > 0 && (
+            <VoiceFilterBar
+              facets={facets}
+              activeFacets={activeFacets}
+              toggleFacet={toggleFacet}
+              clearFacets={clearFacets}
+              activeFacetCount={activeFacetCount}
+              sortKey={sortKey}
+              setSortKey={setSortKey}
+              previewOnly={previewOnly}
+              setPreviewOnly={setPreviewOnly}
+              shownCount={filtered.length}
+              totalCount={totalCount}
+            />
+          )}
 
           {/* 보이스 목록 */}
           <VoiceList

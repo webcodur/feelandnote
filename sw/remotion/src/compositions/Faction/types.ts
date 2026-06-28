@@ -12,6 +12,30 @@ import type { VoiceTimings } from '../../lib/voice-timing'
 export type Orientation = 'portrait' | 'landscape'
 
 /**
+ * 사진 맞춤 — 화면 비율과 안 맞는 사진(가로 사진 등)을 화면에 채울(cover) 때
+ * 잘릴 위치(초점)와 확대 정도를 정한다. 미지정이면 가운데 채움(기존 동작과 동일).
+ */
+export interface FactionImageCrop {
+  /** 가로 초점 % (0=왼쪽 끝, 50=가운데 기본, 100=오른쪽 끝). cover로 좌우가 잘릴 때 보일 위치 */
+  x?: number
+  /** 세로 초점 % (0=위 끝, 50=가운데 기본, 100=아래 끝). cover로 위아래가 잘릴 때 보일 위치 */
+  y?: number
+  /** 확대 배율 (1=화면에 꼭 맞게 채움 기본, >1 더 당겨 확대). 켄번스 줌 모션 위에 곱해진다 */
+  scale?: number
+}
+
+/**
+ * 줌 푸시인 목표점 — zoomin 지속 효과가 화면 중앙 쪽으로 끌어당길 지점(0~100%).
+ * 카메라가 이 지점으로 다가가는 느낌을 낸다. 미지정 축은 사진맞춤(imageCrop) 위치 → 가운데(50)로 폴백.
+ */
+export interface ZoomFocus {
+  /** 가로 목표 % (0=왼쪽, 50=가운데, 100=오른쪽) */
+  x?: number
+  /** 세로 목표 % (0=위, 50=가운데, 100=아래) */
+  y?: number
+}
+
+/**
  * 인물 한 명.
  * 한 파일(data.json)에 한국어 필드 + 영문 필드(*En)를 함께 둔다. 로더가 언어에 맞춰 펼친다.
  * 영문판: name←nameEn, lines←linesEn, quote←quoteEn 식으로 치환(없으면 한국어 값으로 폴백).
@@ -23,15 +47,60 @@ export interface FactionPerson {
   nameEn?: string
   /** 수식어·직책 (예: 'CEO', '딥러닝의 대부') */
   role?: string
-  /** 이 인물 컷 전환효과(세로 쇼츠 사진 모션). 미지정이면 세력→에피소드 설정을 따른다 */
+  /** 이 인물 컷 진입 전환효과(세로 쇼츠). 미지정이면 세력→에피소드 설정을 따른다 */
   transition?: FactionTransition
-  /** 강렬한 한 줄 별칭 (legacy). lines가 있으면 무시 */
+  /** 이 인물 컷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다 */
+  holdMotion?: HoldMotion
+  /** 이 인물 컷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
+  enterMotion?: EnterMotion
+  /** 이 인물 컷 지지직 글리치(줌과 별개 축, 머무는 동안 지직거림). 미지정이면 세력→에피소드 설정→개인샷 기본 꺼짐 */
+  holdGlitch?: GlitchSetting
+  /** 이 인물 컷 흔들림(핸드헬드, 줌과 별개 축. 줌·이동 효과 위에 겹쳐 건다). 미지정이면 세력→에피소드 설정→꺼짐 */
+  holdShake?: boolean
+  /** 줌인(zoomin) 푸시인 목표점 — 카메라가 다가갈 지점. 미지정이면 사진맞춤 위치→가운데 */
+  zoomFocus?: ZoomFocus
+  /** 이 인물 줌·이동 속도 배수(1=기본). 미지정이면 세력→에피소드→1 */
+  zoomSpeed?: number
+  /**
+   * 수식어 — 인물을 규정하는 한 문장(문장형 서술). 직함(lines)과는 별개 값이다.
+   * 예: '1988년 사이퍼펑크 선언문을 세상에 던져, 암호로 국가의 감시를 끝내려 한 예언자'.
+   * 세로 쇼츠에서 대사 인물의 이름 아래에 먼저 떠올라 읽힌 뒤, 직함 통합 연출처럼 대사로 교차된다.
+   * (롱폼은 음성 소개로 따로 처리하므로 노출하지 않는다)
+   */
   epithet?: string
-  /** 별칭 영문 (legacy) */
+  /** 수식어 영문 (영문판에서 epithet 대체) */
   epithetEn?: string
-  /** 인물 설명 줄 (3줄 권장). 한 줄씩 수직 회전하며 순차 등장한다 */
+  /**
+   * 수식어 나레이션 음성 길이(초) — 나레이터가 수식어를 낭독한 음원(FxxCxxPxx-epithet.wav)의 길이.
+   * 파이프라인이 생성 후 기록한다. 있으면 수식어 노출 구간을 이 음원에 맞추고 재생한다. 없으면 글자 수 읽기 추정(무음).
+   */
+  epithetDuration?: number
+  /** 수식어 나레이션 음량 dB 게인 (기본 0) */
+  epithetGainDb?: number
+  /** 수식어 나레이션 재생 배속 (기본 1, 0.5~2) */
+  epithetPlaybackRate?: number
+  /** 수식어 나레이션 합성 엔진 (BO 생성용 — 렌더는 저장된 wav만 재생) */
+  epithetEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 수식어 나레이션 Gemini 보이스명 (BO 생성용) */
+  epithetSpeaker?: string
+  /** 수식어 나레이션 ElevenLabs 보이스 ID (BO 생성용) */
+  epithetElevenlabsVoiceId?: string
+  /** 수식어 나레이션 발화 스타일 prefix (BO 생성용) */
+  epithetStyle?: string
+  /** 수식어 나레이션 ELE 감정/강도 (BO 생성용) */
+  epithetEleOptions?: { stability?: number; style?: number }
+  /** 수식어 나레이션 ELE 감정 태그 (BO 생성용) */
+  epithetEleEmotions?: string[]
+  /** 수식어 나레이션 ELE 끝 패딩 (BO 생성용) */
+  epithetEleTrail?: boolean
+  /**
+   * 수식어 표시 방식 — true=나레이터 낭독(음원 재생), false=타이핑 소리와 함께 글자만 표시(음원 무시).
+   * 미지정이면 기존 동작(음원 epithetDuration이 있으면 낭독, 없으면 타이핑)을 따른다.
+   */
+  epithetNarrate?: boolean
+  /** 인물 직함·이력 줄 (3줄 권장). 한 줄씩 순차 등장한다 */
   lines?: string[]
-  /** 인물 설명 줄 영문 (영문판에서 lines 대체) */
+  /** 인물 직함·이력 줄 영문 (영문판에서 lines 대체) */
   linesEn?: string[]
   /** 인물 한마디 대사 (선택) — 한국어 의역. 인물 컷 메인 대사 */
   quote?: string
@@ -47,23 +116,43 @@ export interface FactionPerson {
   org?: string
   /** 인물 이미지. images/ 하위 파일명(basename) 또는 외부 URL(http로 시작) */
   image?: string
+  /** 인물 이미지 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
+  imageCrop?: FactionImageCrop
   /**
    * 대사 도중 사진 교체 (선택) — 특정 의미 덩어리(quoteChunks 인덱스, 0-based)부터 다른 사진으로 부드럽게 전환.
    * 예: [{ chunk: 3, image: 'musk-2.webp' }] → 4번째 덩어리부터 musk-2 로 크로스페이드. image 가 컷 시작(0번째) 사진.
    * 전환 시각은 발화 시각(voiceTiming) 기준, 없으면 글자수 비례 폴백. 경로 규칙은 image 와 동일. 언어 공통.
+   * crop 은 그 교체 사진의 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움.
    */
-  imageChanges?: { chunk: number; image: string }[]
+  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop }[]
+  /**
+   * 대사 시작 시점 사진 교체 (선택) — 직함을 소개하는 도입 구간에는 image(직함용)를 보이다가,
+   * 대사가 시작되는 순간(quoteEnterSec) quoteImage(대사용)로 부드럽게 전환한다. 인물당 사진을
+   * 두 장(예: 정면 소개컷 / 발화컷) 준비해 도입↔대사를 시각으로 구분할 때 쓴다.
+   * imageChanges(대사 도중 덩어리별 교체)와 독립적으로 함께 적용된다. 경로 규칙은 image 와 동일. 언어 공통.
+   */
+  quoteImage?: string
+  /** quoteImage 의 사진 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움 */
+  quoteImageCrop?: FactionImageCrop
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
   /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
   disabled?: boolean
   /**
-   * 대사 처리 단계 (선택).
-   * - 'voice': 음성 재생 + 대사 표시(발음/대표급). 직함 1번 줄만 이름 옆에 고정.
-   * - 'text': 대사 텍스트만 뜨고 읽을 시간 확보(무음).
-   * - 'credit': 직함만 보고 대사 없이 짧게 넘어감(직함 2·3번 줄까지 순차 노출).
-   * - 'full': 직함 2·3번 줄을 순차로 다 보여준 뒤 → 같은 자리에서 음성 재생 + 대사로 교차(통합).
-   * 미지정이면 세력 수장(세력 첫 인물)=voice, 나머지=text, 대사 자체가 없으면 credit.
+   * 대사 처리 스텝 (신모델) — 3개 독립 토글. 켜진 스텝이 순서대로 나오고 마지막에 대사로 교차한다.
+   * 흐름: (직함 2·3줄) → (수식어 타이핑) → (대사). 음성 스텝이 꺼지면 대사는 뜨지 않고 켜진 리드 스텝만 보이고 끝난다.
+   * 세 값 중 하나라도 정의돼 있으면 신모델로 간주하고 quoteMode(레거시)는 무시한다.
+   */
+  /** 직함 스텝 — 직함 2·3번 줄을 순차로 보여준 뒤 다음으로 교차 */
+  stepCredit?: boolean
+  /** 수식어 스텝 — 수식어를 타이핑으로 보여준 뒤 다음으로 교차(세로 롱폼 전용) */
+  stepEpithet?: boolean
+  /** 음성 스텝 — 대사를 표시하고 음원이 있으면 재생. 꺼지면 대사 자체가 안 뜬다 */
+  stepVoice?: boolean
+  /**
+   * 대사 처리 단계 (레거시 — 신모델 스텝이 없을 때만 환산에 사용).
+   * - 'voice': 음성 재생 + 대사. - 'text': 대사만(무음). - 'credit': 직함만. - 'full': 직함 다 보여준 뒤 음성+대사.
+   * 미지정이면 세력 수장=voice, 나머지=text, 대사 없으면 credit.
    */
   quoteMode?: 'voice' | 'text' | 'credit' | 'full'
   /** 대사 음성 길이(초). 파이프라인이 TTS 생성 후 기록한다. 있으면 인물 컷 길이를 이 음성에 맞춘다 */
@@ -119,42 +208,83 @@ export interface FactionPerson {
  * 예: Google DeepMind를 '창업자' 화보와 '딥마인드' 화보로 분리.
  */
 export interface FactionCluster {
-  /** 묶음 소제목 (예: '창업자', '딥마인드'). 생략 시 미표시 */
+  /** 단체 명칭 — 통합 한 필드. 앞부분\n뒷부분(개행) 형태. 생략 시 미표시 */
   label?: string
-  /** 묶음 소제목 영문 */
+  /** 단체 명칭 영문 (통합형, 앞부분\n뒷부분) */
   labelEn?: string
-  /** 묶음 설명 한 줄 — 화보 카드에서 세력명 아래에 표시 (예: '딥러닝 혁명을 일으킨 3대 석학') */
-  note?: string
-  /** 묶음 설명 영문 */
-  noteEn?: string
   /** 묶음 그룹 화보 이미지. images/ 하위 파일명(basename) 또는 외부 URL */
   image?: string
+  /** 화보 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬(가로 가운데·세로 위) */
+  imageCrop?: FactionImageCrop
   /** 이 묶음 인물 목록 */
   people: FactionPerson[]
+  /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
+  holdMotion?: HoldMotion
+  /** 이 그룹샷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
+  enterMotion?: EnterMotion
+  /** 이 묶음(그룹샷) 지지직 글리치. 미지정이면 세력→에피소드 설정→그룹샷 기본 켜짐 */
+  holdGlitch?: GlitchSetting
+  /** 이 묶음(그룹샷) 흔들림(핸드헬드, 줌과 별개 축). 미지정이면 세력→에피소드 설정→꺼짐 */
+  holdShake?: boolean
+  /** 이 그룹샷 줌인 푸시인 목표점 — 카메라가 다가갈 지점. 미지정이면 사진맞춤 위치→가운데 */
+  zoomFocus?: ZoomFocus
+  /** 이 그룹샷 줌·이동 속도 배수(1=기본). 미지정이면 세력→에피소드→1 */
+  zoomSpeed?: number
   /** true면 이 묶음만 세로 쇼츠에서 제외하고 가로 롱폼에는 노출한다 (세력은 그대로, 묶음 단위 분기) */
   longformOnly?: boolean
 }
 
 /** 세력(팀/기업) 하나 */
 export interface FactionGroup {
-  /** 세력명 (예: 'OpenAI', '선구자') */
+  /** 세력 명칭 — 통합 한 필드. 앞부분\n뒷부분(개행) 형태 (예: 'OpenAI\n모든 것의 시작') */
   name: string
-  /** 이 세력 인물 컷 전환효과(세로 쇼츠). 미지정이면 에피소드 전역(script.transition)을 따른다 */
+  /**
+   * 그룹명 — 그룹(clusters)을 따로 나누지 않는 세력의 단일 그룹샷 카드에 띄울 명칭. 통합 한 필드(앞부분\n뒷부분).
+   * 비우면 세력 명칭 둘째 줄(설명)을 그룹샷 카드에 그대로 쓴다(기존 동작). 폴백은 clustersOf 가 처리한다.
+   * 그룹을 여러 개로 나눈 세력은 이 값 대신 각 그룹(FactionCluster)의 label 을 쓴다.
+   */
+  label?: string
+  /** 그룹명 영문 (통합형, 앞부분\n뒷부분) */
+  labelEn?: string
+  /** 이 세력 인물 컷 진입 전환효과(세로 쇼츠). 미지정이면 에피소드 전역(script.transition)을 따른다 */
   transition?: FactionTransition
-  /** 세력명 영문 */
+  /** 이 세력 인물 컷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 에피소드 전역(script.holdMotion)을 따른다 */
+  holdMotion?: HoldMotion
+  /** 이 세력 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 에피소드 전역(script.enterMotion)을 따른다 */
+  enterMotion?: EnterMotion
+  /** 이 세력 지지직 글리치(줌과 별개 축). 미지정이면 에피소드 전역(script.holdGlitch)을 따른다 */
+  holdGlitch?: GlitchSetting
+  /** 이 세력 흔들림(핸드헬드, 줌과 별개 축). 미지정이면 에피소드 전역(script.holdShake)을 따른다 */
+  holdShake?: boolean
+  /** 이 세력 줌·이동 속도 배수(1=기본). 미지정이면 에피소드 전역(script.zoomSpeed)을 따른다 */
+  zoomSpeed?: number
+  /**
+   * 그룹샷 전용 움직임 효과 — 그룹을 따로 나누지 않은 세력의 단체사진(그룹샷) 화면에만 거는 효과.
+   * 비면 세력 효과(위 holdMotion 등)를 따른다. clustersOf 가 단일 그룹샷에 펼쳐 넣어 적용한다.
+   * 그룹을 여러 개로 나눈 세력은 각 그룹(FactionCluster)이 자기 효과를 직접 가지므로 이 필드를 안 쓴다.
+   */
+  shotEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdGlitch?: GlitchSetting
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
+  /** 세력 명칭 영문 (통합형, 앞부분\n뒷부분) */
   nameEn?: string
-  /** 한 줄 설명 (예: '모든 것의 시작') */
-  tagline?: string
-  /** 한 줄 설명 영문 */
-  taglineEn?: string
   /** 테마 색 (hex). 세력 카드·인물 컷 강조색으로 사용 */
   color?: string
   /** 로고 이미지 basename (optional). images/ 하위 파일명 */
   logo?: string
   /** 세력 전체 그룹 화보 (clusters가 없는 팀의 화보 카드에 표시). basename·폴더경로·외부 URL */
   image?: string
+  /** 세력 화보(image) 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
+  imageCrop?: FactionImageCrop
   /** 세력 로고 컨셉아트 (타이틀 카드 풀스크린 배경). 회사 등장 직전 진입 비주얼. basename·폴더경로·URL */
   titleArt?: string
+  /** 로고 컨셉아트(titleArt) 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
+  titleArtCrop?: FactionImageCrop
   /**
    * 무소속 개인 모음 여부. true면 팀이 아니라 독립 인물군이다.
    * 세력 카드(팀 등장)를 생략하고 인물 컷만 순차 노출한다. (예: '재야')
@@ -227,28 +357,70 @@ export type FactionTransition =
   | 'slide' | 'slideLeft' | 'slideRight'
   | 'glitch' | 'tear' | 'crt' | 'zoompunch' | 'whip' | 'filmburn' | 'pixelate' | 'shutter'
 
+/**
+ * 인물 컷 "지속 효과" — 컷이 떠 있는 동안(진입 전환이 끝난 뒤) 사진에 계속 거는 카메라 움직임.
+ * 진입 전환(transition)과 별개 축이다. 컷 진입은 transition, 머무는 동안은 holdMotion이 담당한다.
+ * 인물→세력→에피소드 순으로 계승하며, 어느 단계에서도 미지정이면 'none'(정지)이 기본이다.
+ * (단, 레거시 호환: holdMotion이 전혀 없고 transition이 zoom류면 그 zoom을 지속 효과로 승계한다.)
+ *   - none:      움직임 없이 고정
+ *   - zoomin:    천천히 확대(집중·긴장)
+ *   - zoomout:   천천히 축소(여운·물러남)
+ *   - kenburns:  확대하며 위로 천천히 이동(다큐)
+ *   - panLeft:   살짝 확대한 채 왼쪽으로 천천히 이동
+ *   - panRight:  살짝 확대한 채 오른쪽으로 천천히 이동
+ *   - zoomPulse: 심장박동처럼 미세하게 확대·축소를 반복(긴장)
+ *   - handheld:  사람이 든 카메라처럼 미세하게 흔들림(현장감)
+ */
+export type HoldMotion =
+  | 'none' | 'zoomin' | 'zoomout' | 'kenburns'
+  | 'panLeft' | 'panRight' | 'zoomPulse' | 'handheld'
+
+/**
+ * 인물 컷 "시작 효과" — 컷이 등장한 직후 짧은 도입 임팩트(약 0.15초). 끝나면 제자리(1.0)로 정착해
+ * 지속 효과(holdMotion)로 매끄럽게 이어진다. 전환(컷 교체 순간)·지속(컷 내내)과 구분되는 별개 축이다.
+ *   - none:    도입 임팩트 없음
+ *   - zoomout: 살짝 크게(1.1) 잡았다가 팍 빠지며 제자리로(예전 줌아웃 도입). 뒤에 지속 'zoomin'을 붙이면 예전 '줌아웃 후 줌인'.
+ *   - zoomin:  살짝 작게 잡았다가 팍 다가오며 제자리로
+ */
+export type EnterMotion = 'none' | 'zoomin' | 'zoomout'
+
+/** 지지직 모드 — light(내내 은은) / heavy(내내 강함, 기존) / tail(컷 끝 1초만 강하게, 전환 직전). */
+export type GlitchLevel = 'light' | 'heavy' | 'tail'
+/** 지지직 설정값 — 레거시 boolean 호환(true=heavy, false=끄기) + 강도 명시. */
+export type GlitchSetting = boolean | GlitchLevel
+
 export interface FactionScript {
-  /** 에피소드 제목 (예: 'AI를 만드는 사람들') */
+  /** 영상 명칭 — 통합 한 필드. 앞부분\n뒷부분(개행) 형태 (예: 'AI를 만드는 사람들\n1편 · LLM') */
   title: string
-  /** 인물 컷 전환효과(세로 쇼츠). 미지정이면 zoomout — 언어 공통 */
+  /** 인물 컷 진입 전환효과(세로 쇼츠) — 컷이 바뀌는 순간만. 미지정이면 크로스페이드 — 언어 공통 */
   transition?: FactionTransition
+  /** 인물 컷 지속 효과 — 컷이 떠 있는 동안의 카메라 움직임(에피소드 전역 기본). 세력·인물이 덮어쓴다. 미지정이면 none(정지) — 언어 공통 */
+  holdMotion?: HoldMotion
+  /** 인물 컷 시작 효과 — 등장 직후 짧은 도입 임팩트(에피소드 전역 기본). 세력·인물·묶음이 덮어쓴다. 미지정이면 none — 언어 공통 */
+  enterMotion?: EnterMotion
+  /** 지지직 글리치 전역 기본(줌과 별개 축). 세력·인물·묶음이 덮어쓴다. 미지정이면 그룹샷 켜짐·개인샷 꺼짐 — 언어 공통 */
+  holdGlitch?: GlitchSetting
+  /** 흔들림(핸드헬드) 전역 기본(줌과 별개 축). 세력·인물·묶음이 덮어쓴다. 미지정이면 꺼짐 — 언어 공통 */
+  holdShake?: boolean
+  /** 줌·이동 속도 배수 전역 기본(1=기본). 세력·인물·묶음이 덮어쓴다 — 언어 공통 */
+  zoomSpeed?: number
+  /** true면 모든 컷의 효과(전환·시작·지속·지지직·속도)를 전역값으로 고정한다. 세력·인물·묶음 개별값은 보존되지만 무시된다(줌 목표점 제외) */
+  lockEffects?: boolean
+  /** true면 모든 컷의 지속 효과(줌·패닝 등)를 끄고 정지 화면으로 둔다. 영상 컷 떨림 점검·정적 연출용 — 언어 공통 */
+  noZoom?: boolean
   /**
    * 한 편(쇼츠 part·롱폼) 종료 처리 — 마지막 인물 대사가 끝난 뒤 영상이 꺼지기까지.
    * endHoldSec:  (대사 후 대기) 마지막 인물 대사 끝 ~ 다음으로 넘어가기까지 그 인물 화면을 정지(줌인 멈춤)한 채 유지하는 시간(초). 기본 4.
-   * outroHoldSec:(마지막 화면 대기) 종료 화면(outroSameAsIntro)이 떠 있는 시간(초). 종료 화면을 쓸 때만 의미. 기본 2.5.
+   * outroHoldSec:(종료 화면 대기) 영상 끝 화면(브랜드 엔딩 또는 outroImage 종료 이미지)이 떠 있는 시간(초). 기본 2.5.
    * endFadeSec:  종료 직전 검정 페이드아웃 길이(초). 기본 3. 마지막에 보이는 화면(종료 화면이 있으면 그것, 없으면 마지막 인물 대기) 안에서 끝나도록, 그 화면 대기시간보다 길면 거기에 맞춘다.
    */
   endHoldSec?: number
   outroHoldSec?: number
   endFadeSec?: number
-  /** 제목 영문 */
+  /** 영상 명칭 영문 (통합형, 앞부분\n뒷부분) */
   titleEn?: string
-  /** 쇼츠 편(part)별 제목. 해당 part 렌더 시 title 대신 쓴다. 미지정이면 title */
+  /** 쇼츠 편별 영상 명칭(통합형, 앞부분\n뒷부분). 해당 part 렌더 시 title 대신 쓴다. 미지정이면 title */
   titleByPart?: Record<number, string>
-  /** 부제 (예: '1편 · LLM') */
-  subtitle?: string
-  /** 부제 영문 */
-  subtitleEn?: string
   /** 배경음악 파일 basename. public/music/ 하위 파일명 (예: 'drive.mp3'). 없으면 무음 — 언어 공통. tracks가 있으면 무시 */
   music?: string
   /**
@@ -268,27 +440,27 @@ export interface FactionScript {
    * 롱폼이 길어 한 곡으로 부족할 때 쓴다. 있으면 music 대신 이걸 쓴다 — 언어 공통.
    */
   tracks?: FactionTrack[]
-  /** 인트로에 띄울 핵심 인물 slug 목록. 있으면 텍스트 대신 인물 그리드로 시작한다 — 언어 공통 */
+  /** 인트로에 띄울 핵심 인물 slug 목록. 있으면 텍스트 대신 인물 그리드(통합화면)로 시작한다 — 언어 공통 */
   heroes?: string[]
-  /** 시작 화면(인트로)을 마지막 화면(아웃트로)에도 동일하게 재사용한다. */
-  outroSameAsIntro?: boolean
+  /** 시작 화면(인트로)을 이 이미지 한 장으로 덮는다(경로·basename·http). 있으면 통합화면(heroes) 대신 이 이미지를 화면 가득 띄운다 — 언어 공통 */
+  introImage?: string
+  /** 마지막 화면(아웃트로)에 깔 이미지 한 장(경로·basename·http). 있으면 브랜드 로고 대신 이 이미지를 화면 가득 띄운다 — 언어 공통 */
+  outroImage?: string
   /** 쇼츠 편(part)별 인트로 핵심 인물 slug. 해당 part 렌더 시 heroes 대신 쓴다. 미지정이면 heroes */
   heroesByPart?: Record<number, string[]>
   /** 시작/마지막 화면 배치 — 'row'(가로 한 줄·각 칸 세로로 김, 기본) | 'column'(세로 한 줄·각 칸 가로로 김) | 'grid'(2열 그리드) */
   heroLayout?: 'row' | 'column' | 'grid'
-  /** 쇼츠 편(part)별 부제(인트로에 표시). 해당 part 렌더 시 subtitle 대신 쓴다. 미지정이면 subtitle */
-  subtitleByPart?: Record<number, string>
-  /** 인트로에 띄울 한 줄 설명(로그라인). 제목·부제 아래에 표시해 영상 주제를 먼저 알린다 — 언어 공통(en은 loglineEn) */
+  /** 인트로에 띄울 시작문구. 영상 명칭 앞부분·뒷부분 아래에 표시해 영상 주제를 먼저 알린다 — 언어 공통(en은 loglineEn) */
   logline?: string
-  /** 로그라인 영문 */
+  /** 시작문구 영문 */
   loglineEn?: string
-  /** 쇼츠 편(part)별 로그라인. 해당 part 렌더 시 logline 대신 쓴다. 미지정이면 logline */
+  /** 쇼츠 편별 시작문구. 해당 part 렌더 시 logline 대신 쓴다. 미지정이면 logline */
   loglineByPart?: Record<number, string>
-  /** 쇼츠 편(part)별 로그라인 영문 */
+  /** 쇼츠 편별 시작문구 영문 */
   loglineByPartEn?: Record<number, string>
-  /** 인트로(시작 화면) 지속 시간(초). 미지정이면 INTRO_SEC 기본값. 로그라인을 읽을 여유가 필요할 때 늘린다 */
+  /** 인트로(시작 화면) 지속 시간(초). 미지정이면 INTRO_SEC 기본값. 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
-  /** 시작 효과음 파일명(public/common/sfx/ 하위). 로그라인과 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
+  /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
   startSfx?: string
   /** 세력 로고(타이틀 카드) 등장 효과음 파일명(public/common/sfx/ 하위). 미지정이면 효과음 없음 */
   groupSfx?: string

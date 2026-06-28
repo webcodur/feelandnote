@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { VoiceFile } from '../../voice-utils'
-import { parseWav, channelToFloat, muteRegions, toAudioBuffer, toBase64, type ParsedWav, type Region } from './wav'
+import { parseWav, channelToFloat, muteRegions, applyRegions, toAudioBuffer, toEditedBuffer, toBase64, type ParsedWav, type Region, type RegionMode } from './wav'
 
 /**
  * 음원 로드 URL·저장 호출을 주입하는 어댑터.
@@ -98,17 +98,22 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     ctxRef.current?.close().catch(() => {})
   }, [])
 
-  /** from~to 재생. applyMute=true 면 지정 구간이 무음으로 들린다 */
-  const play = useCallback((from: number, to?: number, applyMute = true) => {
+  /**
+   * 재생.
+   *  - edited=true: mute·cut 을 모두 적용한 완성 결과를 처음부터 재생(cut 으로 길이가 줄어든 음원).
+   *  - edited=false: 원본 시간축 그대로. applyMute=true 면 지정 구간(무음·잘라낼 부분 모두)이 0으로 들린다.
+   */
+  const play = useCallback((from: number, to?: number, applyMute = true, edited = false) => {
     if (!wav) return
     stop()
     const ctx = ctxRef.current ?? (ctxRef.current = new AudioContext())
     if (ctx.state === 'suspended') void ctx.resume()
-    const buffer = toAudioBuffer(ctx, wav, regions, applyMute)
+    const buffer = edited ? toEditedBuffer(ctx, wav, regions) : toAudioBuffer(ctx, wav, regions, applyMute)
+    const total = buffer.duration
     const src = ctx.createBufferSource()
     src.buffer = buffer
     src.connect(ctx.destination)
-    const dur = (to ?? wav.duration) - from
+    const dur = (to ?? total) - from
     src.onended = () => {
       if (srcRef.current !== src) return
       srcRef.current = null
@@ -122,22 +127,29 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     const tick = () => {
       if (srcRef.current !== src) return
       const t = from + (ctx.currentTime - startCtxTime)
-      setPlayhead(Math.min(t, to ?? wav.duration))
+      setPlayhead(Math.min(t, to ?? total))
       animRef.current = requestAnimationFrame(tick)
     }
     tick()
   }, [wav, regions, stop])
 
-  const addRegion = useCallback((start: number, end: number) => {
+  const addRegion = useCallback((start: number, end: number, mode: RegionMode = 'mute') => {
     if (!wav) return
     const s = Math.max(0, Math.min(start, end))
     const e = Math.min(wav.duration, Math.max(start, end))
     if (e - s < 0.01) return  // 10ms 미만 드래그는 클릭으로 간주
-    setRegions(prev => [...prev, { id: regionIdRef.current++, start: s, end: e }].sort((a, b) => a.start - b.start))
+    setRegions(prev => [...prev, { id: regionIdRef.current++, start: s, end: e, mode }].sort((a, b) => a.start - b.start))
   }, [wav])
 
   const removeRegion = useCallback((id: number) => {
     setRegions(prev => prev.filter(r => r.id !== id))
+  }, [])
+
+  // 구간의 처리 방식 전환 — 무음 ↔ 잘라내기
+  const toggleRegionMode = useCallback((id: number) => {
+    setRegions(prev => prev.map(r => r.id === id
+      ? { ...r, mode: (r.mode ?? 'mute') === 'cut' ? 'mute' : 'cut' }
+      : r))
   }, [])
 
   const saveBytes = useCallback(async (bytes: ArrayBuffer) => {
@@ -149,14 +161,16 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     onRefresh()
   }, [series, name, file.name, onRefresh])
 
-  /** 지정 구간을 무음 처리한 결과를 디스크에 덮어쓴다 */
-  const saveMuted = useCallback(async () => {
+  /** 지정 구간(무음·잘라내기)을 적용한 결과를 디스크에 덮어쓴다.
+   *  cut 이 하나도 없으면 원본 바이트 복사 기반 무손실 무음 처리(muteRegions)를, 있으면 재구성(applyRegions)을 쓴다. */
+  const saveApplied = useCallback(async () => {
     if (!wav || regions.length === 0) return
     stop()
     setSaving(true)
     setError(null)
     try {
-      await saveBytes(muteRegions(wav, regions))
+      const hasCut = regions.some(r => (r.mode ?? 'mute') === 'cut')
+      await saveBytes(hasCut ? applyRegions(wav, regions) : muteRegions(wav, regions))
       setSavedCount(c => c + 1)
     } catch (e) {
       setError(String((e as Error)?.message ?? e))
@@ -183,8 +197,8 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
 
   return {
     wav, samples, loading, error,
-    regions, addRegion, removeRegion,
+    regions, addRegion, removeRegion, toggleRegionMode,
     playing, playhead, play, stop,
-    saving, savedCount, saveMuted, restoreOriginal,
+    saving, savedCount, saveApplied, restoreOriginal,
   }
 }

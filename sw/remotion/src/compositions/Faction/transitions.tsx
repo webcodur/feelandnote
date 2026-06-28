@@ -14,7 +14,7 @@
 import React from 'react'
 import { interpolate, Easing } from 'remotion'
 
-/** 컷 전환 효과 종류(이어지는 전환). 나머지(zoom류)는 크로스페이드. */
+/** 컷 전환 효과 종류(이어지는 전환). 나머지(zoomin·kenburns)는 크로스페이드. */
 export const CUT_TRANSITIONS = new Set<string>([
   'slide', 'slideLeft', 'slideRight',
   'glitch', 'tear', 'crt', 'zoompunch', 'whip', 'filmburn', 'pixelate', 'shutter',
@@ -28,7 +28,7 @@ export const slideDir = (k: string | null | undefined): -1 | 1 => (k === 'slideR
 /** 효과별 진입 시간(초) — 이전 컷 끝보다 이만큼 앞당겨 시작한다. */
 export function transitionEnterSec(kind: string): number {
   switch (kind) {
-    case 'slide': case 'slideLeft': case 'slideRight': return 0.62
+    case 'slide': case 'slideLeft': case 'slideRight': return 0.42
     case 'glitch': return 0.45
     case 'tear': return 0.55
     case 'crt': return 0.5
@@ -44,9 +44,60 @@ export function transitionEnterSec(kind: string): number {
 const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
 const easeOut = { ...clamp, easing: Easing.out(Easing.cubic) }
 /** 결정적 의사난수 — frame·seed 기반(Math.random 금지: 렌더 재현성). -1~1 */
-const noise = (frame: number, seed: number) => {
+export const noise = (frame: number, seed: number) => {
   const v = Math.sin(frame * 12.9898 + seed * 78.233) * 43758.5453
   return (v - Math.floor(v)) * 2 - 1
+}
+
+/* ── 지속 글리치 — 그룹샷이 머무는 내내 옅게 지직거리고 불규칙하게 확 튄다(아날로그 TV) ──
+ * 컷 전환용 GlitchEnter와 달리 진행도 없이 시간 내내 유지된다.
+ * 평상시: 미세 떨림 + 옅은 색수차 + 늘 깔린 스캔라인.
+ * 스파이크: 난수가 임계를 넘는 순간에만 색수차·가로 찢김·노이즈가 확 강해진다. */
+export const HoldGlitch: React.FC<{ frame: number; startFrame: number; level?: 'light' | 'heavy' | 'tail'; gateFromLocal?: number; children: React.ReactNode }> = ({ frame, startFrame, level = 'heavy', gateFromLocal = 0, children }) => {
+  const t = Math.max(0, frame - startFrame)
+  // gateFromLocal>0이면 그 로컬프레임 전까지는 지직 없이 화면만 — 라이트가 컷 끝나기 직전 구간에만 지직거리게.
+  if (t < gateFromLocal) return <div style={{ position: 'absolute', inset: 0 }}>{children}</div>
+  // 라이트는 떨림·밀림·색번짐·찢김을 확 줄여 내내 은은하게, 헤비·막판은 기존 강도.
+  // 전역 30% 축소(0.7배) — 떨림·밀림·색번짐·찢김(스파이크 밴드 포함) 일괄.
+  const k = (level === 'light' ? 0.3 : 1) * 0.7
+  // 2프레임마다 갱신되는 거친 난수가 0.5를 넘는 순간만 0→1로 솟구친다(불규칙 지직).
+  const burst = Math.max(0, noise(Math.floor(t / 2), 42) - 0.5) / 0.5
+  const amp = (0.35 + burst * 1.0) * k
+  // 스파이크 순간 화면 전체가 한쪽으로 확 밀린다(가로 슬립). 2프레임 단위로 유지돼 "밀렸다 돌아온다"가 보인다.
+  const shove = burst * noise(Math.floor(t / 2), 71) * 24 * k
+  const jitterX = noise(t, 1) * 1.4 * amp + shove
+  const jitterY = noise(t, 7) * 0.7 * amp
+  const rgb = 0.7 + burst * 6 * k
+  const bands = burst > (level === 'light' ? 0.25 : 0.03)
+    ? [0, 1, 2].map(i => ({
+        top: (noise(t, i * 13 + 3) + 1) * 45,
+        h: 3 + (noise(t, i * 5 + 2) + 1) * 3,
+        dx: noise(t, i * 17 + 9) * 26 * burst * k,
+        i,
+      }))
+    : []
+  return (
+    <div style={{ position: 'absolute', inset: 0 }}>
+      <div style={{
+        position: 'absolute', inset: 0,
+        transform: `translate(${jitterX.toFixed(2)}px, ${jitterY.toFixed(2)}px)`,
+        filter: `drop-shadow(${rgb.toFixed(2)}px 0 0 rgba(255,0,60,0.35)) drop-shadow(${(-rgb).toFixed(2)}px 0 0 rgba(0,225,255,0.35))`,
+      }}>
+        {children}
+      </div>
+      {bands.map(b => (
+        <div key={b.i} style={{
+          position: 'absolute', left: 0, right: 0, top: `${b.top}%`, height: `${b.h}%`,
+          transform: `translateX(${b.dx.toFixed(2)}px)`, background: 'rgba(255,255,255,0.05)',
+          mixBlendMode: 'screen', borderTop: '1px solid rgba(255,255,255,0.14)', borderBottom: '1px solid rgba(0,0,0,0.3)',
+        }} />
+      ))}
+      {/* 스캔라인 — 늘 옅게 깔린다 */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.18, background: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.32) 0 2px, rgba(255,255,255,0.015) 2px 4px)', mixBlendMode: 'multiply' }} />
+      {/* 노이즈 플래시 — 스파이크 순간만 */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: '#ffffff', opacity: burst * Math.max(0, noise(t, 99)) * 0.08, mixBlendMode: 'screen' }} />
+    </div>
+  )
 }
 
 /* ── 글리치(아날로그 TV) — 색수차·가로 찢김·스캔라인·떨림으로 지직거리다 안정 ── */

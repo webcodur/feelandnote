@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { VoiceFile } from '../../voice-utils'
-import { UiLabel } from '@/components/ui-label'
 import { useBreathEditor, type BreathEndpoints } from './useBreathEditor'
 
 const CANVAS_H = 160
@@ -87,7 +86,8 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
     dragRef.current = null
     if (!d) return
     if (d.dragging) {
-      ed.addRegion(d.startT, xToTime(e.clientX))
+      // 드래그하면 일단 잘라내기 구간으로 만든다. 무음으로 바꿀 건 구간 칩에서 누른다.
+      ed.addRegion(d.startT, xToTime(e.clientX), 'cut')
       setTempSel(null)
     } else {
       ed.play(d.startT)
@@ -97,14 +97,18 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
   const pct = (t: number) => dur > 0 ? `${(t / dur) * 100}%` : '0%'
   const widthPct = (a: number, b: number) => dur > 0 ? `${(Math.abs(b - a) / dur) * 100}%` : '0%'
 
+  // 구간 처리 방식별 집계 — 저장 버튼 문구·결과 길이 안내에 쓴다.
+  const cutCount = ed.regions.filter(r => (r.mode ?? 'mute') === 'cut').length
+  const muteCount = ed.regions.length - cutCount
+  const cutSec = ed.regions.filter(r => (r.mode ?? 'mute') === 'cut').reduce((s, r) => s + (r.end - r.start), 0)
+
   return (
     <section className="rounded-md border border-border bg-bg-main/40 p-4 space-y-3 relative">
-      <UiLabel ko="들숨 제거 패널" code="BreathModeContent" />
 
       <div className="flex items-center gap-3 flex-wrap">
-        <h3 className="text-sm font-semibold text-text-primary">들숨 제거</h3>
+        <h3 className="text-sm font-semibold text-text-primary">들숨 제거·구간 잘라내기</h3>
         <span className="text-xs text-text-secondary">
-          파형을 드래그해 들숨·잡소리 구간을 지정한다. 클릭하면 그 위치부터 재생. 길이는 그대로, 소리만 비운다.
+          파형을 드래그해 구간을 지정한다. 무음은 소리만 비우고(길이 유지), 잘라내기는 그 구간을 없애고 앞뒤를 붙인다(길이 단축). 클릭하면 그 위치부터 재생.
         </span>
         <div className="ml-auto flex items-center gap-3 text-xs text-text-secondary">
           <span>{file.name}</span>
@@ -118,10 +122,10 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
       <div className="flex items-center gap-4 flex-wrap text-xs">
         <div role="group" className="inline-flex items-stretch rounded border border-border overflow-hidden">
           <button
-            onClick={() => ed.playing ? ed.stop() : ed.play(0)}
+            onClick={() => ed.playing ? ed.stop() : ed.play(0, undefined, true, true)}
             disabled={!ed.wav}
             className="px-3 py-1.5 bg-bg-card hover:bg-bg-hover text-text-primary disabled:opacity-40"
-            title="지정 구간이 무음 처리된 상태로 처음부터 재생"
+            title="무음·잘라내기를 모두 적용한 완성본을 처음부터 재생"
           >
             {ed.playing ? '정지' : '결과 미리듣기'}
           </button>
@@ -129,7 +133,7 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
             onClick={() => ed.play(0, undefined, false)}
             disabled={!ed.wav}
             className="px-3 py-1.5 bg-bg-card hover:bg-bg-hover text-text-secondary border-l border-border disabled:opacity-40"
-            title="무음 처리 없이 원본 그대로 재생"
+            title="편집 없이 원본 그대로 재생"
           >
             원본 듣기
           </button>
@@ -147,13 +151,19 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
         </label>
 
         <div className="ml-auto flex items-center gap-2">
-          <span className="text-text-secondary">구간 {ed.regions.length}개</span>
+          <span className="text-text-secondary">
+            {cutCount > 0 && <span className="text-sky-300">잘라 {cutCount}</span>}
+            {cutCount > 0 && muteCount > 0 && <span className="text-border"> · </span>}
+            {muteCount > 0 && <span className="text-red-300">무음 {muteCount}</span>}
+            {ed.regions.length === 0 && '구간 0개'}
+          </span>
           <button
-            onClick={ed.saveMuted}
+            onClick={ed.saveApplied}
             disabled={ed.saving || ed.regions.length === 0}
             className="px-3 py-1.5 rounded bg-accent text-bg-primary text-sm font-semibold hover:opacity-90 disabled:opacity-40 disabled:bg-bg-card disabled:text-text-secondary"
+            title={cutSec > 0 ? `잘라내기 ${cutSec.toFixed(2)}초만큼 길이가 줄어든다` : undefined}
           >
-            {ed.saving ? '저장 중…' : ed.regions.length > 0 ? `무음 처리 저장 (${ed.regions.length})` : '무음 처리 저장 (구간 지정 필요)'}
+            {ed.saving ? '저장 중…' : ed.regions.length > 0 ? `적용 저장 (${ed.regions.length})` : '적용 저장 (구간 지정 필요)'}
           </button>
           <button
             onClick={ed.restoreOriginal}
@@ -180,18 +190,21 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
             onPointerUp={onPointerUp}
           >
             <canvas ref={canvasRef} width={canvasW} height={CANVAS_H} className="block" />
-            {/* 확정된 무음 구간 */}
-            {ed.regions.map(r => (
-              <div
-                key={r.id}
-                className="absolute top-0 bottom-0 bg-red-500/25 border-x border-red-400/60 pointer-events-none"
-                style={{ left: pct(r.start), width: widthPct(r.start, r.end) }}
-              />
-            ))}
+            {/* 확정된 구간 — 잘라내기(파랑) / 무음(빨강) */}
+            {ed.regions.map(r => {
+              const isCut = (r.mode ?? 'mute') === 'cut'
+              return (
+                <div
+                  key={r.id}
+                  className={`absolute top-0 bottom-0 pointer-events-none border-x ${isCut ? 'bg-sky-500/25 border-sky-400/60' : 'bg-red-500/25 border-red-400/60'}`}
+                  style={{ left: pct(r.start), width: widthPct(r.start, r.end) }}
+                />
+              )
+            })}
             {/* 드래그 중 임시 선택 */}
             {tempSel && (
               <div
-                className="absolute top-0 bottom-0 bg-red-400/15 border-x border-red-300/50 pointer-events-none"
+                className="absolute top-0 bottom-0 pointer-events-none border-x bg-sky-400/15 border-sky-300/50"
                 style={{ left: pct(Math.min(tempSel.a, tempSel.b)), width: widthPct(tempSel.a, tempSel.b) }}
               />
             )}
@@ -209,25 +222,38 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
       {/* 구간 목록 */}
       {ed.regions.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
-          {ed.regions.map(r => (
-            <span key={r.id} className="inline-flex items-center gap-1.5 rounded border border-red-400/40 bg-red-500/10 px-2 py-1 text-xs text-text-primary">
-              {r.start.toFixed(2)}–{r.end.toFixed(2)} ({(r.end - r.start).toFixed(2)}초)
-              <button
-                onClick={() => ed.play(Math.max(0, r.start - 0.3), Math.min(dur, r.end + 0.3), false)}
-                className="text-text-secondary hover:text-text-primary"
-                title="지워질 소리를 앞뒤 0.3초 여유와 함께 원본 그대로 들어본다"
+          {ed.regions.map(r => {
+            const isCut = (r.mode ?? 'mute') === 'cut'
+            return (
+              <span
+                key={r.id}
+                className={`inline-flex items-center gap-1.5 rounded border px-2 py-1 text-xs text-text-primary ${isCut ? 'border-sky-400/40 bg-sky-500/10' : 'border-red-400/40 bg-red-500/10'}`}
               >
-                듣기
-              </button>
-              <button
-                onClick={() => ed.removeRegion(r.id)}
-                className="text-text-secondary hover:text-red-300"
-                title="이 구간 지정 해제"
-              >
-                ✕
-              </button>
-            </span>
-          ))}
+                <button
+                  onClick={() => ed.toggleRegionMode(r.id)}
+                  className={`rounded px-1.5 font-semibold ${isCut ? 'bg-sky-500/25 text-sky-200' : 'bg-red-500/25 text-red-200'}`}
+                  title="처리 방식 전환 (잘라내기 ↔ 무음)"
+                >
+                  {isCut ? '잘라' : '무음'}
+                </button>
+                {r.start.toFixed(2)}–{r.end.toFixed(2)} ({(r.end - r.start).toFixed(2)}초)
+                <button
+                  onClick={() => ed.play(Math.max(0, r.start - 0.3), Math.min(dur, r.end + 0.3), false)}
+                  className="text-text-secondary hover:text-text-primary"
+                  title="이 구간 소리를 앞뒤 0.3초 여유와 함께 원본 그대로 들어본다"
+                >
+                  듣기
+                </button>
+                <button
+                  onClick={() => ed.removeRegion(r.id)}
+                  className="text-text-secondary hover:text-red-300"
+                  title="이 구간 지정 해제"
+                >
+                  ✕
+                </button>
+              </span>
+            )
+          })}
         </div>
       )}
 
@@ -238,27 +264,30 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
         <div className="text-sm font-semibold text-text-primary">사용법</div>
         <ol className="list-decimal list-inside space-y-1.5">
           <li>
-            <span className="text-text-primary font-semibold">숨소리 찾기</span> — 파형을 클릭하면 그 위치부터 재생됩니다.
-            들숨은 말과 말 사이의 <span className="text-text-primary">작고 낮은 봉우리</span>로 보입니다.
-            잘 안 보이면 위의 「증폭」을 올려 파형을 키우고, 「확대」로 가로를 늘려 주세요. (소리 자체는 변하지 않습니다)
+            <span className="text-text-primary font-semibold">구간 지정</span> — 파형 위를 <span className="text-text-primary">드래그</span>하면 그 구간이 잡힙니다(처음엔 <span className="text-sky-300">잘라내기</span>=파랑).
+            여러 군데를 연달아 지정할 수 있습니다. 파형을 클릭하면 그 위치부터 들어볼 수 있고, 잘 안 보이면 「증폭」·「확대」로 키우세요.
           </li>
           <li>
-            <span className="text-text-primary font-semibold">구간 지정</span> — 숨소리 위를 마우스로 <span className="text-text-primary">드래그</span>하면 빨간 구간이 생깁니다.
-            여러 군데를 연달아 지정할 수 있습니다.
+            <span className="text-text-primary font-semibold">방식 바꾸기</span> — 잡은 구간을 그대로 두면 <span className="text-sky-300">잘라내기</span>(빈 구간을 없애고 앞뒤를 붙임)입니다.
+            소리만 비우려면 아래 구간 칩 맨 앞의 <span className="text-sky-300">「잘라」</span>를 눌러 <span className="text-red-300">「무음」</span>(들숨·잡소리 죽이기)으로 바꿉니다.
           </li>
           <li>
-            <span className="text-text-primary font-semibold">확인</span> — 아래 빨간 칩의 「듣기」는 지워질 소리만 앞뒤 여유를 두고 들려줍니다.
-            숨소리가 맞는지 확인하고, 잘못 잡았으면 ✕로 해제하세요.
-            「결과 미리듣기」는 무음이 적용된 완성본을 들려줍니다.
+            <span className="text-text-primary font-semibold">확인</span> — 칩의 「듣기」는 그 구간 소리만 앞뒤 여유를 두고 들려줍니다.
+            잘못 잡았으면 ✕로 해제하세요. 「결과 미리듣기」는 잘라내기·무음을 모두 적용한 완성본을 들려줍니다.
           </li>
           <li>
-            <span className="text-text-primary font-semibold">저장</span> — 「무음 처리 저장」을 누르면 파일이 덮어써집니다.
+            <span className="text-text-primary font-semibold">저장</span> — 「적용 저장」을 누르면 파일이 덮어써집니다.
             실수했다면 「원본 복원」으로 되돌릴 수 있지만, <span className="text-amber-300">이 창을 닫으면 복원할 수 없습니다.</span>
           </li>
         </ol>
-        <div className="pt-1 border-t border-border/60">
-          구간을 잘라내는 것이 아니라 <span className="text-text-primary">소리만 비우는</span> 방식이라 전체 길이가 변하지 않습니다.
-          따라서 이미 맞춰 둔 자막 타이밍(싱크 탭)은 그대로 유효하며, 다시 만들 필요가 없습니다.
+        <div className="pt-1 border-t border-border/60 space-y-1.5">
+          <div>
+            <span className="text-red-300">무음</span>은 소리만 비워 전체 길이가 그대로이므로, 이미 맞춰 둔 자막 타이밍(싱크 탭)이 유효합니다.
+          </div>
+          <div>
+            <span className="text-sky-300">잘라내기</span>는 그만큼 <span className="text-amber-300">전체 길이가 줄어듭니다.</span>
+            저장한 뒤에는 음성 동기화를 다시 돌려 자막 점등 타이밍을 새 길이에 맞춰 주세요.
+          </div>
         </div>
       </div>
     </section>

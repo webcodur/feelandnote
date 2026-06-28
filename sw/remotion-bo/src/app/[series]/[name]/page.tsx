@@ -3,7 +3,8 @@ import { isFactionSeries } from '@/lib/series-registry'
 import { FactionEditor } from '@/components/faction/FactionEditor'
 
 export default async function EpisodePage({ params }: { params: Promise<{ series: string; name: string }> }) {
-  const { series, name } = await params
+  const { series, name: rawName } = await params
+  const name = decodeURIComponent(rawName)
   if (isFactionSeries(series)) return <FactionEditor series={series} name={name} />
-  redirect(`/${series}/${name}/scenario`)
+  redirect(`/${series}/${encodeURIComponent(name)}/scenario`)
 }

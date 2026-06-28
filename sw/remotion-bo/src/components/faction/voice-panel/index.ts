@@ -1,1 +1,0 @@
-export { FactionExpandedVoicePanel } from './FactionExpandedVoicePanel'

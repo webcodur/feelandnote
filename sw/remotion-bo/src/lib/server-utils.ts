@@ -636,16 +636,35 @@ export function cancelTask(id: string): boolean {
   const qIdx = g.__uploadQueue!.findIndex(q => q.task.id === id)
   if (qIdx >= 0) g.__uploadQueue!.splice(qIdx, 1)
 
-  // 실행 중이면 프로세스 종료
+  // 실행 중이면 프로세스 종료 — 자식 트리까지(pnpm → node → remotion-cli → chrome)
   const child = g.__childProcesses!.get(id)
   if (child) {
-    child.kill('SIGTERM')
+    killProcessTree(child)
     g.__childProcesses!.delete(id)
     g.__uploadRunning = false
     drainUploadQueue()
   }
 
   return true
+}
+
+/**
+ * 프로세스를 자식 트리까지 강제 종료한다.
+ *
+ * `child.kill()`은 spawn한 최상위 셸(Windows: cmd.exe)만 죽인다. 렌더는
+ * pnpm → node → remotion-cli → chrome-headless-shell 로 손자·증손자가 이어져
+ * 셸만 죽이면 나머지가 고아로 살아남아 CPU·메모리를 계속 점유한다.
+ *   - Windows: `taskkill /PID <pid> /T /F` 로 트리 전체 종료(/T = 자식 포함).
+ *     인자를 배열로 넘기므로 한국어 로케일 파싱 문제 없음.
+ *   - POSIX: 프로세스 그룹(-pid) 전체에 SIGKILL.
+ */
+function killProcessTree(child: ChildProcess) {
+  if (child.pid == null) { child.kill('SIGKILL'); return }
+  if (process.platform === 'win32') {
+    spawn('taskkill', ['/PID', String(child.pid), '/T', '/F'])
+  } else {
+    try { process.kill(-child.pid, 'SIGKILL') } catch { child.kill('SIGKILL') }
+  }
 }
 
 export function toPascal(name: string) {

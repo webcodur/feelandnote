@@ -14,7 +14,9 @@ export type ParsedWav = {
   duration: number
 }
 
-export type Region = { id: number; start: number; end: number }
+/** 구간 처리 방식 — 'mute' 소리만 0으로(길이 유지), 'cut' 잘라내고 앞뒤 이어붙임(길이 단축) */
+export type RegionMode = 'mute' | 'cut'
+export type Region = { id: number; start: number; end: number; mode?: RegionMode }
 
 function chunkId(view: DataView, off: number): string {
   return String.fromCharCode(view.getUint8(off), view.getUint8(off + 1), view.getUint8(off + 2), view.getUint8(off + 3))
@@ -108,6 +110,95 @@ export function muteRegions(wav: ParsedWav, regions: Region[], fadeMs = 5): Arra
     }
   }
   return out
+}
+
+/** 표준 44바이트 PCM 16-bit WAV 헤더를 쓴다 */
+function writeWavHeader(v: DataView, sampleRate: number, channels: number, dataLen: number) {
+  const bps = 2
+  const ws = (o: number, s: string) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)) }
+  ws(0, 'RIFF'); v.setUint32(4, 36 + dataLen, true); ws(8, 'WAVE')
+  ws(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true)
+  v.setUint16(22, channels, true); v.setUint32(24, sampleRate, true)
+  v.setUint32(28, sampleRate * channels * bps, true); v.setUint16(32, channels * bps, true)
+  v.setUint16(34, 16, true); ws(36, 'data'); v.setUint32(40, dataLen, true)
+}
+
+/**
+ * regions 를 한 번에 적용한 새 WAV 바이트(표준 44B 헤더)를 만든다.
+ *  - mode='mute' 구간: 소리를 0으로 깎는다(자리·길이 유지).
+ *  - mode='cut'  구간: 잘라내고 앞뒤 프레임을 이어붙인다(전체 길이가 줄어든다).
+ * cut 이음매에는 짧은 페이드를 줘 잘라 붙인 자리의 클릭음을 막는다.
+ * (mode 미지정은 'mute' 로 간주 — 기존 들숨 제거 동작과 호환)
+ */
+export function applyRegions(wav: ParsedWav, regions: Region[], fadeMs = 5): ArrayBuffer {
+  const sr = wav.sampleRate
+  const ch = wav.channels
+  const srcView = new DataView(wav.bytes)
+  const stride = 2 * ch
+  const fade = Math.max(1, Math.round((fadeMs / 1000) * sr))
+
+  // cut 구간 → 프레임, 정렬·병합(겹침 제거)
+  const rawCuts = regions
+    .filter(r => (r.mode ?? 'mute') === 'cut')
+    .map(r => ({ s: Math.max(0, Math.floor(r.start * sr)), e: Math.min(wav.frameCount, Math.ceil(r.end * sr)) }))
+    .filter(r => r.e > r.s)
+    .sort((a, b) => a.s - b.s)
+  const cuts: { s: number; e: number }[] = []
+  for (const c of rawCuts) {
+    const last = cuts[cuts.length - 1]
+    if (last && c.s <= last.e) last.e = Math.max(last.e, c.e)
+    else cuts.push({ ...c })
+  }
+
+  // 남길 세그먼트 = 전체에서 cut 구간을 뺀 나머지
+  const keep: { s: number; e: number }[] = []
+  let cursor = 0
+  for (const c of cuts) {
+    if (c.s > cursor) keep.push({ s: cursor, e: c.s })
+    cursor = Math.max(cursor, c.e)
+  }
+  if (cursor < wav.frameCount) keep.push({ s: cursor, e: wav.frameCount })
+
+  // mute 구간(프레임) — gain 계산용
+  const mutes = toFrameRegions(wav, regions.filter(r => (r.mode ?? 'mute') === 'mute'), fadeMs)
+
+  const outFrames = keep.reduce((n, k) => n + (k.e - k.s), 0)
+  const dataLen = outFrames * stride
+  const ab = new ArrayBuffer(44 + dataLen)
+  const ov = new DataView(ab)
+  writeWavHeader(ov, sr, ch, dataLen)
+
+  let off = 44
+  for (const k of keep) {
+    for (let f = k.s; f < k.e; f++) {
+      let g = mutes.length ? frameGain(f, mutes) : 1
+      // 잘라 붙인 이음매(앞·뒤에 cut 이 있던 경계)에서만 짧게 페이드
+      if (k.s > 0 && f < k.s + fade) g *= (f - k.s) / fade
+      if (k.e < wav.frameCount && f >= k.e - fade) g *= (k.e - f) / fade
+      const base = wav.dataOffset + f * stride
+      for (let c = 0; c < ch; c++) {
+        const sample = srcView.getInt16(base + c * 2, true)
+        ov.setInt16(off, g === 1 ? sample : Math.round(sample * g), true)
+        off += 2
+      }
+    }
+  }
+  return ab
+}
+
+/** 미리듣기용 AudioBuffer — mute·cut 을 모두 반영한 '완성 결과'(cut 으로 길이가 줄어든다) */
+export function toEditedBuffer(ctx: BaseAudioContext, wav: ParsedWav, regions: Region[], fadeMs = 5): AudioBuffer {
+  const edited = parseWav(applyRegions(wav, regions, fadeMs))
+  const buf = ctx.createBuffer(edited.channels, Math.max(1, edited.frameCount), edited.sampleRate)
+  const view = new DataView(edited.bytes)
+  const stride = 2 * edited.channels
+  for (let c = 0; c < edited.channels; c++) {
+    const chData = buf.getChannelData(c)
+    for (let f = 0; f < edited.frameCount; f++) {
+      chData[f] = view.getInt16(edited.dataOffset + f * stride + c * 2, true) / 32768
+    }
+  }
+  return buf
 }
 
 /** 미리듣기용 AudioBuffer — applyMute 시 regions 구간을 무음으로 */

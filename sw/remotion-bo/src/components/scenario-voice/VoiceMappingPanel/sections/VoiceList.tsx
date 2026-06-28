@@ -1,3 +1,4 @@
+import { facetValueLabel } from '../constants'
 import type { ElevenVoice } from '../types'
 
 type Props = {
@@ -35,6 +36,8 @@ export function VoiceList({
         const isDb = v.voice_id === currentDbId
         const isPlaying = previewingId === v.voice_id
         const lang = v.labels?.language ?? v.labels?.accent ?? null
+        const gender = v.labels?.gender ?? null
+        const age = v.labels?.age ?? null
         return (
           <div
             key={v.voice_id}
@@ -58,8 +61,21 @@ export function VoiceList({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="font-medium text-text-primary truncate">{v.name}</span>
+                {gender && (
+                  <span className={`text-[9px] px-1 rounded ${
+                    gender === 'female' ? 'bg-pink-500/15 text-pink-300'
+                      : gender === 'male' ? 'bg-sky-500/15 text-sky-300'
+                      : 'bg-bg-main text-text-dim'
+                  }`}>{facetValueLabel(gender)}</span>
+                )}
+                {age && <span className="text-[9px] text-text-dim">{facetValueLabel(age)}</span>}
+                {v.account && (
+                  <span className={`text-[9px] px-1 rounded ${
+                    v.account.id === 'default' ? 'bg-bg-main text-text-dim' : 'bg-amber-500/15 text-amber-300'
+                  }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
+                )}
                 {lang && <span className="text-[9px] text-text-dim">[{lang}]</span>}
-                {v.category && <span className="text-[9px] text-text-dim">({v.category})</span>}
+                {v.category && <span className="text-[9px] text-text-dim">({facetValueLabel(v.category)})</span>}
                 {isCurrent && <span className="text-[9px] text-purple-300">현재</span>}
                 {isDb && !isCurrent && <span className="text-[9px] text-blue-300">DB</span>}
               </div>

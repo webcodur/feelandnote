@@ -5,7 +5,7 @@ import {
   getRemotionEnvironment,
 } from 'remotion'
 import type { FactionScript, Orientation } from './types'
-import { buildCues, CROSSFADE_SEC, INTRO_SEC, endFadeSecOf, f, type TimedCue } from './timing'
+import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import { FactionBgm } from './FactionBgm'
 import { buildFactionSubs } from './subs'
 import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
@@ -31,10 +31,27 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
   const srtSubs = useMemo(() => (showSrt ? buildFactionSubs(script, isShorts, activePart) : []), [showSrt, script, isShorts, activePart])
   const last = cues[cues.length - 1]
   const total = last ? last.start + last.duration : 0
+  // 마지막 인물 컷 인덱스 — 최종화면(outro)은 보통 그 뒤에 붙으므로 cues 끝과 다르다.
+  const lastPersonIdx = (() => {
+    for (let i = cues.length - 1; i >= 0; i--) if (cues[i].cue.kind === 'person') return i
+    return -1
+  })()
   // 종료 페이드아웃 길이(프레임) — BO 지정(endFadeSec), 미지정 시 기본값. 헤더·검정 페이드가 공유한다.
   const endFadeF = f(endFadeSecOf(script))
   // 헤더(제목)는 첫 프레임부터 떠 있다 — 시작 화면·제목은 처음부터 보이고, 로그라인만 뒤늦게 차오른다.
-  const headerOp = total > 0 ? 1 : 0
+  // 단, 마지막 인물 컷이 빠지고 아웃트로(브랜드)로 넘어가는 전환에서 제목도 함께 사라진다 — 아웃트로엔 제목 없이 필앤노트만 남는다.
+  const outroCue = cues.find(tc => tc.cue.kind === 'outro')
+  // 최종화면에 단일 이미지를 쓰면 상단 제목도 그 화면과 함께 떠 있다가, 잠시 뒤 제목만 사라진다.
+  // 브랜드 로고 엔딩은 기존대로 최종화면 직전에 제목을 거둔다(로고만 남게).
+  const outroWithImage = !!outroCue && !!script.outroImage
+  const headerFadeEnd = outroWithImage
+    ? Math.min(outroCue!.start + outroCue!.duration, outroCue!.start + f(OUTRO_CROSSFADE_SEC + 1.0))
+    : outroCue ? outroCue.start : total
+  // 단일 이미지 최종화면이면 제목만 짧게 거두고(최종화면은 남음), 그 외엔 전환 크로스페이드에 맞춰 완만하게.
+  const headerFadeSec = outroWithImage ? CROSSFADE_SEC : outroCue ? OUTRO_CROSSFADE_SEC : CROSSFADE_SEC
+  const headerOp = total > 0
+    ? interpolate(frame, [headerFadeEnd - f(headerFadeSec), headerFadeEnd], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+    : 0
   // 상단 검정 띠 헤더는 세로 전용. 가로에선 생략한다.
   const showHeader = orientation === 'portrait' && headerOp > 0
   // 헤더 강조색(부제·언더라인) — 현재 컷의 세력색을 따라가되, 세력이 바뀌는 경계에서 직전 색→현재 색으로 부드럽게 섞는다(휙 바뀌지 않게).
@@ -111,7 +128,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
         </Sequence>
       ) : null)}
       {cues.map((tc, i) => (
-        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} isLast={i === cues.length - 1} isShorts={isShorts} />
+        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
       ))}
       {/* 슬라이드 완충(a x b) — 경계 위에 얹는 블러 띠. 마스크로 가장자리(a·b)는 블러가 0에서 천천히
           살아나고 가운데(x)에서 최대 → A·B 본체에는 영향이 없고 경계만 흐려 잇는다 */}
@@ -127,7 +144,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
           zIndex: 60, pointerEvents: 'none',
         }} />
       )}
-      {showHeader && <TopHeader title={(activePart != null && script.titleByPart?.[activePart]) || script.title} opacity={headerOp} subtitle={(activePart != null && script.subtitleByPart?.[activePart]) || script.subtitle} accent={headerAccent} />}
+      {showHeader && <TopHeader caption={(activePart != null && script.titleByPart?.[activePart]) || script.title} opacity={headerOp} accent={headerAccent} />}
       {/* 하단 고정 빈 영역(블랙 프레임) — 상단 헤더와 같은 규격으로 통일(북리커맨드 쇼츠와 동일). 자막은 이 위 MID 영역 하단에 얹힌다. */}
       {showHeader && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: SAFE_BOTTOM, background: BG, zIndex: 50, opacity: headerOp }} />}
       {/* 시작·끝 검정 페이드 — 모든 컷·헤더 위에 덮는다 */}

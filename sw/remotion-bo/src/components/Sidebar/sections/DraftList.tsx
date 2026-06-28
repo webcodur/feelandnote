@@ -16,7 +16,7 @@ export function DraftList({ filteredCandidates, activeSeries, pathname, candidat
         const active = pathname.startsWith(`/${activeSeries}/${d.name}`)
         return (
           <Link key={d.name} href={`/${activeSeries}/${d.name}`}
-            className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs transition-colors ${active ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
+            className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs ${active ? 'bg-bg-card border border-border-active' : 'hover:bg-bg-hover'}`}>
             <span className="text-zinc-500 text-[10px]">◇</span>
             <span className="font-semibold truncate">{d.nickname}</span>
             <span className="ml-auto text-[10px] text-text-dim shrink-0">{fmtYear(d.birthYear)}</span>

@@ -47,6 +47,11 @@ export interface CelebHost {
   philosophyGainDb?: number
   /** 감상철학 재생 배속 (1=원본, 0.5~2) */
   philosophyPlaybackRate?: number
+  /**
+   * 셀럽 DB 인물 식별자(profiles.id, 불변 UUID) — slug·표기가 바뀌어도 보이스·셀럽 정보를 다시 잇는 열쇠.
+   * 에피소드 생성 시 셀럽 프로필에서 박힌다.
+   */
+  celebId?: string
   /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
   elevenlabsVoiceId?: string
   /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */

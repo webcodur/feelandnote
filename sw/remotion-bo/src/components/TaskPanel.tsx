@@ -1,20 +1,27 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { UiLabel } from '@/components/ui-label'
+import { useState, useEffect, useRef, useCallback, type MouseEvent } from 'react'
 
 type Task = {
   id: string; type: string; series: string; episode: string
-  status: 'queued' | 'running' | 'done' | 'error'
+  status: 'queued' | 'running' | 'done' | 'error' | 'cancelled'
   log: string[]
 }
 
-function TaskRow({ task }: { task: Task }) {
+function TaskRow({ task, onCancel }: { task: Task; onCancel: (id: string) => void }) {
   const [open, setOpen] = useState(task.status === 'running')
+  const [cancelling, setCancelling] = useState(false)
   const isRunning = task.status === 'running' || task.status === 'queued'
   // running은 마지막 10줄만, 완료는 접혀 있다가 펼치면 마지막 20줄
   const tailLines = isRunning ? 10 : 20
   const logTail = task.log.slice(-tailLines).join('\n') || '(waiting...)'
+
+  const handleCancel = (e: MouseEvent) => {
+    e.stopPropagation()
+    if (cancelling) return
+    setCancelling(true)
+    onCancel(task.id)
+  }
 
   return (
     <div>
@@ -23,9 +30,18 @@ function TaskRow({ task }: { task: Task }) {
           task.status === 'queued' ? 'bg-amber-900/40 text-amber-400' :
           task.status === 'running' ? 'bg-info text-info-text' :
           task.status === 'done' ? 'bg-success text-success-text' :
+          task.status === 'cancelled' ? 'bg-amber-900/40 text-amber-400' :
           'bg-danger text-danger-text'
         }`}>{task.status}</span>
         <span className="text-xs text-text-secondary flex-1">{task.type} — {task.episode}</span>
+        {isRunning && (
+          <button
+            type="button"
+            onClick={handleCancel}
+            disabled={cancelling}
+            className="text-[11px] font-semibold px-2 py-0.5 rounded bg-danger text-danger-text hover:opacity-80 disabled:opacity-50"
+          >{cancelling ? '중지 중…' : '중지'}</button>
+        )}
         <span className="text-text-dim text-xs">{open ? '▼' : '▶'}</span>
       </div>
       {(open || isRunning) && (
@@ -44,6 +60,10 @@ export function TaskPanel() {
   const poll = useCallback(() => {
     fetch('/api/tasks').then(r => r.json()).then(setTasks).catch(() => {})
   }, [])
+
+  const cancel = useCallback((id: string) => {
+    fetch(`/api/tasks/${id}`, { method: 'DELETE' }).then(() => poll()).catch(() => {})
+  }, [poll])
 
   useEffect(() => {
     poll()
@@ -70,9 +90,8 @@ export function TaskPanel() {
 
   return (
     <div className="relative space-y-2">
-      <UiLabel ko="작업 큐" code="TaskPanel" />
       {visible.map(task => (
-        <TaskRow key={task.id} task={task} />
+        <TaskRow key={task.id} task={task} onCancel={cancel} />
       ))}
     </div>
   )

@@ -1,20 +1,33 @@
 import React from 'react'
-import { AbsoluteFill, Img } from 'remotion'
+import { AbsoluteFill } from 'remotion'
+import { FactionMedia } from './FactionMedia'
+import { isVideoSrc } from '../utils'
 
 /**
  * 비율 유지(contain) 이미지 + 레터박스 여백 채움.
  * 같은 이미지를 화면 가득(cover) 깔고 강하게 흐려 가장자리 색으로 번지게 한 뒤, 그 위에 본 이미지를 비율 유지로 얹는다.
  * 로고·그룹샷처럼 가로세로비가 화면과 다른 이미지의 좌우·상하 검정 여백을 없앤다.
+ *
+ * 영상은 FactionMedia 가 비율을 유지한 채 화면을 빈틈없이 채우므로(objectFit: cover) 흐린 배경이 가려져 보이지 않는다.
+ * 따라서 영상일 때는 배경 블러 레이어를 그리지 않는다 — 같은 영상을 두 번 디코딩하는 낭비를 없앤다.
  */
-export const FilledImage: React.FC<{ src: string; objPos: string; scale: number; onError: () => void }> = ({ src, objPos, scale, onError }) => (
-  <AbsoluteFill style={{ overflow: 'hidden' }}>
-    {/* 배경 레이어 — 같은 이미지를 꽉 채워 흐리게(여백을 가장자리 색으로 채움) */}
-    <AbsoluteFill>
-      <Img src={src} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(60px) brightness(0.7)', transform: 'scale(1.15)' }} />
+export const FilledImage: React.FC<{ src: string; objPos: string; scale: number; onError: () => void; startFrame?: number; transformOrigin?: string; tx?: number; ty?: number }> = ({ src, objPos, scale, onError, startFrame, transformOrigin, tx = 0, ty = 0 }) => {
+  const isVid = isVideoSrc(src)
+  return (
+    <AbsoluteFill style={{ overflow: 'hidden' }}>
+      {/* 배경 레이어 — 같은 이미지를 꽉 채워 흐리게(여백을 가장자리 색으로 채움). 영상은 cover 로 꽉 차므로 생략. */}
+      {/* 흐림(blur)은 요소 가장자리에서 투명과 섞여 밝은 1px 라인을 남긴다. 흐림 요소를 화면보다 키우고(112%) 음수 위치로 밀어 */}
+      {/* 그 라인을 바깥 overflow:hidden 클립 영역 밖으로 내보낸다(transform scale 은 라인이 요소 안쪽에 남아 가려지지 않음). */}
+      {!isVid && (
+        <div style={{ position: 'absolute', top: '-6%', left: '-6%', width: '112%', height: '112%' }}>
+          <FactionMedia src={src} startFrame={startFrame} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(60px) brightness(0.7)' }} />
+        </div>
+      )}
+      {/* 본 이미지 레이어 — 이미지는 비율 유지+여백(contain), 영상은 비율 유지+채움(cover, FactionMedia 가 덮어씀) */}
+      {/* 사진 맞춤(crop): objPos·transformOrigin 으로 보일 위치를, scale 로 확대(켄번스 줌에 곱)를 잡는다 */}
+      <AbsoluteFill>
+        <FactionMedia src={src} startFrame={startFrame} onError={onError} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale}) translate(${tx}%, ${ty}%)`, transformOrigin }} />
+      </AbsoluteFill>
     </AbsoluteFill>
-    {/* 본 이미지 레이어 — 비율 유지, 블러 없음 */}
-    <AbsoluteFill>
-      <Img src={src} onError={onError} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale})` }} />
-    </AbsoluteFill>
-  </AbsoluteFill>
-)
+  )
+}

@@ -3,7 +3,6 @@
 import type { SaveScope } from './types'
 import { SAVE_SCOPE_LABEL } from './constants'
 import { useHostVoiceMapping } from './useHostVoiceMapping'
-import { UiLabel } from '@/components/ui-label'
 
 /**
  * host ELE 보이스 매핑 펼침 영역 — HostSpeakerRow 의 본문.
@@ -41,7 +40,6 @@ export function HostVoiceMapping({
 
   return (
     <div className="relative border border-purple-400 bg-bg-card rounded-lg p-3.5 space-y-3 shadow-md">
-      <UiLabel ko="화자 보이스 설정" code="HostVoiceMapping" />
       {/* 현황 — host 는 에피소드/DB 2칸, 추가 화자는 에피소드 1칸만 */}
       <div className={`grid gap-2 text-sm font-bold ${showDbMirror ? 'grid-cols-2' : 'grid-cols-1'}`}>
         <div className="bg-bg-main rounded px-2 py-1.5 border border-border">
@@ -130,6 +128,11 @@ export function HostVoiceMapping({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold text-text-primary truncate">{v.name}</span>
+                  {v.account && (
+                    <span className={`text-sm font-bold px-1 rounded-sm ${
+                      v.account.id === 'default' ? 'bg-slate-100 text-slate-500' : 'bg-amber-100 text-amber-800'
+                    }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
+                  )}
                   {lang && <span className="text-sm font-bold text-text-dim font-semibold">[{lang}]</span>}
                   {v.category && <span className="text-sm font-bold text-text-dim font-semibold">({v.category})</span>}
                   {isCurrent && <span className="text-sm font-bold text-purple-800 font-extrabold bg-purple-100 px-1 rounded-sm">현재</span>}

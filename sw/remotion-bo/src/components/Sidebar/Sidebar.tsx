@@ -8,7 +8,6 @@ import { SIDEBAR_COLLAPSED_KEY } from './constants'
 import { GroupList } from './sections/GroupList'
 import { DraftList } from './sections/DraftList'
 import { FactionList } from './sections/FactionList'
-import { UiLabel } from '@/components/ui-label'
 
 export function Sidebar() {
   const {
@@ -32,7 +31,7 @@ export function Sidebar() {
   if (collapsed) {
     return (
       <div className="flex h-full shrink-0">
-        <aside className="w-10 border-r border-border flex flex-col items-center py-4 gap-1">
+        <aside className="relative w-10 border-r border-border flex flex-col items-center py-4 gap-1">
           {SERIES.map(s => (
             <button key={s.id} title={s.label}
               onClick={() => {
@@ -51,9 +50,8 @@ export function Sidebar() {
   }
 
   return (
-    <div className="relative flex h-full shrink-0">
-      <UiLabel ko="사이드바" code="Sidebar" />
-      <aside className="w-12 border-r border-border flex flex-col items-center py-4 gap-1">
+    <div className="flex h-full shrink-0">
+      <aside className="relative w-12 border-r border-border flex flex-col items-center py-4 gap-1">
         {SERIES.map(s => (
           <button key={s.id} title={s.label}
             onClick={() => setActiveSeries(activeSeries === s.id ? null : s.id)}
@@ -65,7 +63,7 @@ export function Sidebar() {
       </aside>
 
       {activeSeries && (
-        <aside className="w-56 border-r border-border overflow-y-auto p-3">
+        <aside className="relative w-56 border-r border-border overflow-y-auto p-3">
           <Link href={`/${activeSeries}`}>
             <h2 className="text-xs font-bold text-accent tracking-widest mb-2">
               {SERIES.find(s => s.id === activeSeries)?.label}

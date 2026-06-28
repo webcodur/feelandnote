@@ -7,6 +7,7 @@
  * - episodeNames: key → 폴더명(이미지 경로 factions/{폴더명}/images/ 구성용)
  *
  * 영문판 치환: name←nameEn, lines←linesEn 등. 영문 값이 없으면 한국어 값으로 폴백한다.
+ * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from './types'
@@ -57,8 +58,8 @@ function resolvePerson(p: FactionPerson, en: boolean): FactionPerson {
 function resolveCluster(c: FactionCluster, en: boolean): FactionCluster {
   return {
     ...c,
+    // 단체 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 labelEn 폴백.
     label: en ? (c.labelEn ?? c.label) : c.label,
-    note: en ? (c.noteEn ?? c.note) : c.note,
     people: c.people?.map(p => resolvePerson(p, en)) ?? [],
   }
 }
@@ -66,8 +67,8 @@ function resolveCluster(c: FactionCluster, en: boolean): FactionCluster {
 function resolveGroup(g: FactionGroup, en: boolean): FactionGroup {
   return {
     ...g,
+    // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
     name: en ? (g.nameEn ?? g.name) : g.name,
-    tagline: en ? (g.taglineEn ?? g.tagline) : g.tagline,
     clusters: g.clusters?.map(c => resolveCluster(c, en)),
     people: g.people?.map(p => resolvePerson(p, en)) ?? [],
   }
@@ -113,9 +114,11 @@ function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings): VoiceTimings
 function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
   return {
     ...data,
+    // 영상 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 titleEn 폴백.
     title: en ? (data.titleEn ?? data.title) : data.title,
-    subtitle: en ? (data.subtitleEn ?? data.subtitle) : data.subtitle,
-    // 로그라인은 영문 슬롯이 채워졌을 때만 노출 — 비어 있으면 표시하지 않는다(한글 누출 차단).
+    // titleByPart 는 데이터에 통합형으로 들어 있으니 그대로 둔다(영문 폴백은 해당 part 키 부재 시 렌더가 title 로 폴백).
+    titleByPart: data.titleByPart,
+    // 시작문구는 영문 슬롯이 채워졌을 때만 노출 — 비어 있으면 표시하지 않는다(한글 누출 차단).
     logline: en ? data.loglineEn : data.logline,
     loglineByPart: en ? data.loglineByPartEn : data.loglineByPart,
     groups: data.groups.map(g => resolveGroup(g, en)),

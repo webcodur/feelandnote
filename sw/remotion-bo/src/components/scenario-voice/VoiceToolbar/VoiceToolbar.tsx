@@ -6,7 +6,6 @@ import { type EleSettings, type EleSendOpts, type VoiceSelect } from '../types'
 import { useVoiceToolbar } from './useVoiceToolbar'
 import { GenerateToolsSection } from './sections/GenerateToolsSection'
 import { EleSettingsSection } from './sections/EleSettingsSection'
-import { UiLabel } from '@/components/ui-label'
 
 // ── VoiceToolbar ──
 
@@ -52,7 +51,6 @@ export function VoiceToolbar({
 
   return (
     <div className="relative bg-bg-card border border-border/50 rounded-lg mb-4 overflow-hidden">
-      <UiLabel ko="음성 도구막대" code="VoiceToolbar" />
       <button
         type="button"
         className={`w-full flex items-center gap-2 px-3 py-2 text-left cursor-pointer select-none outline-none hover:bg-bg-hover transition-colors ${expanded ? 'border-b border-border/40' : ''}`}

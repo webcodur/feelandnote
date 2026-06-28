@@ -23,10 +23,10 @@ export interface FactionPersonMeta {
 }
 
 export interface FactionGroupMeta {
+  /** 세력 명칭 — 통합형(앞부분\n뒷부분). 메타에는 첫 줄(앞부분)만 노출한다. */
   name: string
+  /** 세력 명칭 영문 (통합형) */
   nameEn?: string
-  tagline?: string
-  taglineEn?: string
   /** 속한 쇼츠 편(1·2). 미지정/0 = 모든 편 공통. */
   part?: number
   /** 영상 제외(데이터만 보관) */
@@ -39,12 +39,12 @@ export interface FactionGroupMeta {
 
 /** 팩션 메타 생성 입력 — data.json 의 상위 필드 일부만 추린 경량 형태 */
 export interface FactionMetaInput {
+  /** 영상 명칭 — 통합형(앞부분\n뒷부분). 메타에는 첫 줄(앞부분)만 노출한다. */
   title: string
+  /** 영상 명칭 영문 (통합형) */
   titleEn?: string
-  subtitle?: string
-  subtitleEn?: string
-  /** 쇼츠 편별 부제. JSON 키는 문자열('1','2'). */
-  subtitleByPart?: Record<string, string>
+  /** 쇼츠 편별 영상 명칭(통합형). JSON 키는 문자열('1','2'). 메타에는 첫 줄만. */
+  titleByPart?: Record<string, string>
   heroes?: string[]
   /** 쇼츠 편별 대표 인물(slug). JSON 키는 문자열. */
   heroesByPart?: Record<string, string[]>
@@ -113,6 +113,32 @@ export interface FactionYouTubeSnippet {
   defaultAudioLanguage: string
 }
 
+// ─── 컴포지션 ID ────────────────────────────────────────
+
+/**
+ * 같은 숫자 접두사를 쓰는 다폴더 에피소드의 ID 충돌 오버라이드.
+ * 폴더명이 한글이라 정규화하면 숫자 접두사만 남아 뭉개진다
+ * (05-천하대란-사상·군웅·쟁패 3편 → 모두 Faction-05 로 충돌).
+ * 충돌하는 폴더에만 고유 영문코드를 명시한다.
+ */
+const FACTION_ID_OVERRIDES: Record<string, string> = {
+  '05-천하대란-사상': '05A',
+  '05-천하대란-군웅': '05B',
+  '05-천하대란-쟁패': '05C',
+}
+
+/**
+ * 세력도 컴포지션 ID의 base(`Faction-…`).
+ * Root.tsx 등록과 렌더 API가 공유하는 단일원천이다(예전엔 양쪽에 같은 정규식이 복붙돼 규칙이 어긋났다).
+ * 폴더명을 영문·숫자·하이픈만 남겨 만들되, 한글 폴더가 같은 숫자로 충돌하면 오버라이드 코드를 쓴다.
+ */
+export function factionCompBase(folder: string): string {
+  const slug =
+    FACTION_ID_OVERRIDES[folder] ??
+    folder.toUpperCase().replace(/[^A-Z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+  return `Faction-${slug}`
+}
+
 // ─── 상수 ──────────────────────────────────────────────
 
 const CATEGORY_EDUCATION = '27'
@@ -122,6 +148,19 @@ const TAGS_BUDGET = 450
 const SERIES_LABEL = { ko: '세력도', en: 'Faction Map' } as const
 
 // ─── 내부 헬퍼 ─────────────────────────────────────────
+
+/**
+ * 통합 명칭(앞부분\n뒷부분)에서 첫 줄(앞부분)만 — 유튜브 제목·설명·태그에 개행이 새지 않게.
+ * 개행이 없으면 전체를 그대로 반환.
+ */
+function nameHead(s?: string): string {
+  return (s ?? '').split('\n')[0].trim()
+}
+
+/** 통합 명칭의 둘째 줄(뒷부분). 없으면 빈 문자열. 설명문 진영 소개 부제로 쓴다. */
+function nameTail(s?: string): string {
+  return (s ?? '').split('\n').slice(1).join(' ').trim()
+}
 
 /**
  * 그룹의 직속 people + cluster people 을 평탄화한다.
@@ -175,23 +214,30 @@ function peopleHeroesFirst(input: FactionMetaInput, part?: number): FactionPerso
   return ordered
 }
 
+/** 영상 명칭 앞부분(첫 줄) — 통합형에서 개행 앞만. 제목 본문에 쓴다. */
 function localTitle(input: FactionMetaInput, lang: 'ko' | 'en'): string {
-  return lang === 'en' ? (input.titleEn || input.title) : input.title
+  const raw = lang === 'en' ? (input.titleEn || input.title) : input.title
+  return nameHead(raw)
 }
 
-/** 쇼츠 편별 부제. 영문 부제 데이터가 없으면 공통 subtitle 로 폴백. */
+/**
+ * 쇼츠 편별 부제 — 그 편 통합 명칭(titleByPart)의 뒷부분(둘째 줄).
+ * 편별 명칭이 없으면 공통 title 의 뒷부분으로 폴백. 영문 슬롯은 현재 한국어 메타 전용이라 미사용.
+ */
 function partSubtitle(input: FactionMetaInput, part?: number): string | undefined {
   if (part == null) return undefined
-  return input.subtitleByPart?.[String(part)] || input.subtitle || undefined
+  const byPart = input.titleByPart?.[String(part)]
+  return nameTail(byPart) || nameTail(input.title) || undefined
 }
 
 function groupLabel(g: FactionGroupMeta, lang: 'ko' | 'en'): string {
-  const name = lang === 'en' ? (g.nameEn || g.name) : g.name
-  const tagline = lang === 'en' ? (g.taglineEn || g.tagline) : g.tagline
-  if (!tagline || !tagline.trim()) return name
+  const raw = lang === 'en' ? (g.nameEn || g.name) : g.name
+  const head = nameHead(raw)
+  const tail = nameTail(raw)
+  if (!tail) return head
   // 한국어 설명문에는 em dash 대신 가운뎃점. 영문은 em dash 유지.
   const sep = lang === 'ko' ? ' · ' : ' — '
-  return `${name}${sep}${tagline.trim()}`
+  return `${head}${sep}${tail}`
 }
 
 /** 해시태그·태그용 안전 토큰 — 공백·기호 제거 */
@@ -203,9 +249,10 @@ function tagToken(s: string): string {
 
 /**
  * 영상 제목.
- *   롱폼 KO: "[세력도] {title}"  EN: "[Faction Map] {titleEn}"  (시리즈 라벨 부착)
- *   쇼츠 KO: "{title}: {편 부제}"  (시리즈 라벨 없이, 부제 없으면 부제 생략)
- *   part 가 주어지면 그 편 부제(subtitleByPart)를 붙여 편끼리 제목이 겹치지 않게 한다.
+ *   롱폼 KO: "[세력도] {제목 앞부분}"  EN: "[Faction Map] {제목 앞부분}"  (시리즈 라벨 부착)
+ *   쇼츠 KO: "{제목 앞부분}: {편 부제}"  (시리즈 라벨 없이, 부제 없으면 부제 생략)
+ *   제목·부제는 통합 명칭(앞부분\n뒷부분)에서 앞부분=본문, 뒷부분=부제로 푼다(개행 누출 차단).
+ *   part 가 주어지면 그 편 명칭(titleByPart)의 뒷부분을 부제로 붙여 편끼리 제목이 겹치지 않게 한다.
  *   #Shorts 는 붙이지 않는다 — 세로 9:16·3분 이하면 YouTube 가 자동으로 쇼츠 분류.
  */
 export function buildFactionTitle(
@@ -267,13 +314,14 @@ export function buildFactionTags(
   push(epTitle)
   push(tagToken(epTitle))
 
-  // 3) 진영명 (해당 편)
+  // 3) 진영명 (해당 편) — 통합 명칭에서 앞부분(세력명)만 태그로. 뒷부분(부제)도 토큰화해 추가.
   for (const g of visibleGroups(input, part)) {
-    const name = lang === 'en' ? (g.nameEn || g.name) : g.name
-    push(name)
-    push(tagToken(name))
-    const tagline = lang === 'en' ? (g.taglineEn || g.tagline) : g.tagline
-    if (tagline) push(tagToken(tagline))
+    const raw = lang === 'en' ? (g.nameEn || g.name) : g.name
+    const head = nameHead(raw)
+    push(head)
+    push(tagToken(head))
+    const tail = nameTail(raw)
+    if (tail) push(tagToken(tail))
   }
 
   // 4) 인물명 — heroes 우선. ko: 국문만(영문명까지 넣으면 500자 예산을 금방 소진해 뒤쪽 인물이 누락된다), en: 영문만
@@ -293,7 +341,7 @@ export function buildFactionTags(
 /**
  * 영상 설명문.
  *   인트로 → 등장 진영 목록 → 링크 → 해시태그
- *   진영은 "이름 · 한 줄 소개(tagline)" 형태. 쇼츠는 해시태그에 #Shorts 추가.
+ *   진영은 "앞부분 · 뒷부분" 형태(통합 명칭을 가운뎃점으로 풀어 한 줄로). 쇼츠는 해시태그에 #Shorts 추가.
  *   part 지정 시 그 편 진영·대표 인물만.
  */
 export function buildFactionDescription(
@@ -305,7 +353,7 @@ export function buildFactionDescription(
   const title = localTitle(input, lang)
   const sub = partSubtitle(input, part)
   const heading = sub ? `${title}: ${sub}` : title
-  // 진영마다 [● 진영명 · tagline] + [그 진영 인물 이름 줄]. 진영 사이는 빈 줄로 띄운다.
+  // 진영마다 [● 앞부분 · 뒷부분] + [그 진영 인물 이름 줄]. 진영 사이는 빈 줄로 띄운다.
   // 인물이 없는 진영(AI의 시조 등)은 라벨만. 이름은 lang 에 맞춰 국문/영문.
   const groups = visibleGroups(input, part).flatMap((g, i) => {
     const label = groupLabel(g, lang)

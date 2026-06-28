@@ -27,6 +27,7 @@ import {
 } from "./compositions/Faction";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
+import { factionCompBase } from "@feelandnote/shared/lib/youtube-faction-meta";
 
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
@@ -180,7 +181,7 @@ export const RemotionRoot: React.FC = () => {
           .map(([key, script]) => {
             const durLong = calcFactionFrames(script, false)
             if (!Number.isFinite(durLong) || durLong <= 0) return null
-            const base = `Faction-${key.toUpperCase().replace(/[^A-Z0-9-]/g, '-')}`
+            const base = factionCompBase(key)
             const ep = factionEpisodeNames[key]
             // 쇼츠 편(part) — 진영 part 의 실제 편 수만큼 등록. 편이 없으면 전체 진영을 담은 단일 쇼츠(part 미지정).
             // 접미사 규칙(KO-S{part})은 @feelandnote/shared 의 factionVariants 와 일치한다.
