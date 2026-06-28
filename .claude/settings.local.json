@@ -51,7 +51,12 @@
       "Read(//c/Users/webco/.claude/projects/C--project-feelandnote/memory/**)",
       "Bash([ -s \"$f\" ])",
       "Bash([ -s \"$d/a5180823a4c8df3c2.output\" ])",
-      "Bash([ -s \"$d/ab1e07da314ac0b7e.output\" ])"
+      "Bash([ -s \"$d/ab1e07da314ac0b7e.output\" ])",
+      "Bash(rmdir \"/d/AI\")",
+      "Bash(echo \"D:\\\\\\\\AI 남음: $\\([ -d /d/AI ] && echo yes || echo no\\)\")",
+      "Bash(rm -f \"/c/Users/webco/.claude/projects/C--project-feelandnote/memory/reference_talkinghead_comfyui_env.md\")",
+      "Bash(git mv *)",
+      "Bash(mkdir -p .claude/skills/three-kingdoms)"
     ],
     "deny": [],
     "ask": []
