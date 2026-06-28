@@ -590,6 +590,58 @@ async function main() {
     },
   })
 
+  // ─── _refs 일괄 모드: LLM 기획전 인물 아바타를 팩션 _refs 이미지로 갱신 ──
+  //   대상은 LLM 11개 진영 태그에 배정된 인물만(역매칭). _refs의 잉여 파일은 자동 제외.
+  if (argv.includes('--refs')) {
+    const refsDir = getFlag('--refs-dir') || resolve(__dirname, '..', '..', 'remotion', 'public', 'factions', '01-AI패권전쟁', '_refs')
+    const LLM_TAG_SLUGS = ['openai', 'anthropic', 'google-deepmind', 'xai', 'ai-pioneers', 'meta', 'mistral', 'hugging-face', 'deepseek', 'thinking-machines', 'ssi']
+    // nickname → _refs 파일 basename (표기 변형·접두어 보정)
+    const REF_ALIAS: Record<string, string> = {
+      '피터 스타인버거': '피터 스타인버그',
+      '량원펑': '딥시크 량원평',
+      '뤄푸리': '딥시크 뤄푸리',
+    }
+    const EXTS = ['webp', 'png', 'jpg', 'jpeg']
+
+    const { data: tags } = await supabase.from('celeb_tags').select('id, slug').in('slug', LLM_TAG_SLUGS)
+    const tagIds = (tags ?? []).map((t: { id: string }) => t.id)
+    const { data: assigns } = await supabase
+      .from('celeb_tag_assignments')
+      .select('celeb_id, profiles!celeb_tag_assignments_celeb_id_fkey(id, slug, nickname, nickname_en, profession, nationality)')
+      .in('tag_id', tagIds)
+
+    const seen = new Set<string>()
+    const people: ProfileRow[] = []
+    for (const a of (assigns ?? [])) {
+      const p = (a as { profiles: unknown }).profiles as ProfileRow
+      if (!p || seen.has(p.id)) continue
+      seen.add(p.id)
+      people.push(p)
+    }
+    console.log(`[refs] 대상 ${people.length}명 / refsDir=${refsDir}`)
+
+    let ok = 0, miss = 0, fail = 0
+    for (let i = 0; i < people.length; i++) {
+      const p = people[i]
+      const base = REF_ALIAS[p.nickname ?? ''] ?? p.nickname ?? ''
+      let file: string | null = null
+      for (const ext of EXTS) {
+        const cand = resolve(refsDir, `${base}.${ext}`)
+        if (existsSync(cand)) { file = cand; break }
+      }
+      if (!file) { console.log(`[${i + 1}/${people.length}] ${p.nickname} → REF 파일 없음`); miss++; continue }
+      try {
+        const out = await processOne({ profile: p, env, supabase, r2, manualFile: file, sourceNote: 'faction_ref' })
+        if (out.kind === 'uploaded') { console.log(`[${i + 1}/${people.length}] ${p.nickname} → OK (face=${out.faceScore.toFixed(2)})`); ok++ }
+        else { console.log(`[${i + 1}/${people.length}] ${p.nickname} → SKIP ${out.reason}`); fail++ }
+      } catch (e) {
+        console.log(`[${i + 1}/${people.length}] ${p.nickname} → ERR ${e instanceof Error ? e.message : e}`); fail++
+      }
+    }
+    console.log(`\n[refs] 완료: OK=${ok}, REF없음=${miss}, 실패=${fail}`)
+    return
+  }
+
   // ─── 단일 모드 ──────────────────────────────
   if (!batch) {
     if (!manualCelebId || !manualSlug || (!manualUrl && !manualFile)) {

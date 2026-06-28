@@ -4,8 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
-
-const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
+import { resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
 
 export interface VoiceGenCeleb {
   id: string
@@ -74,14 +73,20 @@ export async function generateVoicePreview(params: {
   voiceId: string
   text: string
   settings: VoiceGenSettings
+  accountId?: string | null
 }): Promise<{ success: boolean; base64?: string; bytes?: number; error?: string }> {
-  const { voiceId, text, settings } = params
+  const { voiceId, text, settings, accountId } = params
+
+  const account = await resolveEleAccountForVoice(voiceId, accountId)
+  if (!account) {
+    return { success: false, error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}` }
+  }
 
   try {
     const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
-        'xi-api-key': ELEVENLABS_API_KEY,
+        'xi-api-key': account.apiKey,
         'Content-Type': 'application/json',
         Accept: 'audio/mpeg',
       },
