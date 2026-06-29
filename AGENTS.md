@@ -114,9 +114,11 @@ pnpm build:bo
 | 문서 | 내용 |
 |------|------|
 | `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡, egress 사고 이력 |
+| `docs/project/openai-usage.md` | OpenAI/GPT API — 모델 선택, 이미지 생성 해상도·품질·비용 기준 |
 | `docs/project/web-egress-audit-2026-06-29.md` | web egress 전수 재점검 보고서(2026-06-29) — 원인 정정·적용 조치·복구 후 과제 |
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
+| `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
 
 ### 영상 (`docs/project/remotion/`)
 
@@ -128,6 +130,8 @@ pnpm build:bo
 | `book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 | `faction.md` | 세력도 — AI 인물 진영별 세로 영상. 컨셉·데이터 모델·편성 원칙·제작 워크플로우 |
 | `faction-ideas.md` | 세력도 에피소드 아이디어 뱅크 — 후보 30종 진영·출연 명단(주제 선정은 스킬 faction-series-concept) |
+| `faction-hackers-plan.md` | 세력도 「위대한 해커들」 3부작 — 조사 원자료(후보 161건) + 확정 기획(1편 얼굴 있는 자들 / 2편 민간의 가면 / 3편 국가의 군단) |
+| `faction-social-streaming-plan.md` | 세력도 「소셜 네트워크 / 스트리밍」 통합 재설계 — 플랫폼 150종+ 전수 조사 + 2시리즈(소셜·스트리밍) 진영 기획. 기존 보류 3에피소드(social-network·streaming·streaming-media) 통합 |
 
 ### 영상 관리 대시보드
 
