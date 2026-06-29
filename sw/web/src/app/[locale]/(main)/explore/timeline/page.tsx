@@ -10,7 +10,7 @@ import { getCelebTimeline } from "@/actions/home";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TimelineSection from "@/components/features/user/explore/sections/TimelineSection";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.timelinePage");

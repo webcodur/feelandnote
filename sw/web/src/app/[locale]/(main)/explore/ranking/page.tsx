@@ -11,7 +11,7 @@ import { getTopByContentTypeFull } from "@/actions/home/getTopByContentTypeFull"
 import { getSharedContents } from "@/actions/home/getSharedContents";
 import TopByTypeSection from "@/components/features/user/explore/sections/TopByTypeSection";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.topByType");
