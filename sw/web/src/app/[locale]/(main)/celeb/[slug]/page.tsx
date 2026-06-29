@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
@@ -13,8 +12,12 @@ import { flattenLocales } from "@/lib/utils/content-locale";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
+
+// 정적/ISR 렌더링: 로그인 의존 요소(방명록 본인 판정)를 클라이언트로 분리해
+// 페이지 본문은 쿠키를 읽지 않는다. 봇 크롤이 HTML 캐시에 적중해 DB 조회가 발생하지 않는다.
+export const revalidate = 3600;
 
 // SEO h1/description 생성
 /** 마지막 글자의 받침 유무로 '이/가' 반환 */
@@ -100,8 +103,8 @@ function buildMetaDescription(
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const result = await getCelebBySlug(slug, locale);
 
   if (!result.success || !result.data) {
@@ -138,10 +141,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function CelebPage({ params }: PageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
-  const supabase = await createClient();
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
 
   const result = await getCelebBySlug(slug, locale);
   if (!result.success || !result.data) {
@@ -180,10 +181,6 @@ export default async function CelebPage({ params }: PageProps) {
           [k, typeof v === "string" ? [v] : v]
         ).filter(([, v]) => Array.isArray(v))
       ) as Record<string, string[]>
-    : null;
-
-  const guestbookCurrentUser = currentUser
-    ? { id: currentUser.id, nickname: profile.nickname, avatar_url: profile.avatar_url }
     : null;
 
   // JSON-LD 구조화 데이터: Person + ItemList
@@ -239,7 +236,6 @@ export default async function CelebPage({ params }: PageProps) {
         personaData={personaData}
         guestbookEntries={guestbookResult.entries}
         guestbookTotal={guestbookResult.total}
-        guestbookCurrentUser={guestbookCurrentUser}
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}

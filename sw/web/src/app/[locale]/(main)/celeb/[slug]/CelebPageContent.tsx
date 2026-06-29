@@ -31,11 +31,6 @@ interface CelebPageContentProps {
   personaData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
-  guestbookCurrentUser: {
-    id: string;
-    nickname: string | null;
-    avatar_url: string | null;
-  } | null;
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
@@ -74,7 +69,6 @@ export default function CelebPageContent({
   personaData,
   guestbookEntries,
   guestbookTotal,
-  guestbookCurrentUser,
   greeting,
   dialogueLines,
   contemporaries,
@@ -341,7 +335,6 @@ export default function CelebPageContent({
         <SectionWrap>
           <GuestbookContent
             profileId={userId}
-            currentUser={guestbookCurrentUser}
             isOwner={false}
             initialEntries={guestbookEntries}
             initialTotal={guestbookTotal}
