@@ -14,6 +14,11 @@ export async function updateUserContentRating({
 }: UpdateRatingParams): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { success: false, error: '로그인이 필요하다.' }
+  }
+
   // 별점 검증: 0.5~5, 0.5 단위
   if (rating !== null) {
     if (rating < 0.5 || rating > 5) {
@@ -28,6 +33,7 @@ export async function updateUserContentRating({
     .from('user_contents')
     .update({ rating, updated_at: new Date().toISOString() })
     .eq('id', userContentId)
+    .eq('user_id', user.id)
     .select('user_id, content_id')
     .single()
 

@@ -33,12 +33,16 @@ export default function HeaderNotifications() {
   const locale = useLocale();
 
   useEffect(() => {
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+    let cancelled = false;
+
     const init = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
       }
+      if (cancelled) return;
 
       // Fetch initial data — 필요 컬럼만 select
       const { data } = await supabase
@@ -48,6 +52,8 @@ export default function HeaderNotifications() {
         .order("created_at", { ascending: false })
         .limit(20);
 
+      if (cancelled) return;
+
       if (data) {
         setNotifications(data as Notification[]);
         setUnreadCount((data as Notification[]).filter((n) => !n.is_read).length);
@@ -55,8 +61,8 @@ export default function HeaderNotifications() {
       setLoading(false);
 
       // Realtime subscription
-      const channel = supabase
-        .channel("header-notifications")
+      channel = supabase
+        .channel(`header-notifications:${user.id}`)
         .on(
           "postgres_changes",
           {
@@ -81,12 +87,19 @@ export default function HeaderNotifications() {
         )
         .subscribe();
 
-      return () => {
+      // await 도중 언마운트됐다면 즉시 정리
+      if (cancelled) {
         supabase.removeChannel(channel);
-      };
+        channel = null;
+      }
     };
 
     init();
+
+    return () => {
+      cancelled = true;
+      if (channel) supabase.removeChannel(channel);
+    };
   }, []);
 
   useEffect(() => {

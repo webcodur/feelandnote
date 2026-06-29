@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { isAdmin } from '@/lib/auth/checkAdmin'
 import type { BoardType } from '@/types/database'
 
 interface DeleteCommentParams {
@@ -18,6 +19,21 @@ export async function deleteComment(params: DeleteCommentParams): Promise<Action
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
+  }
+
+  // 작성자 또는 관리자만 삭제 가능
+  const { data: comment, error: fetchError } = await supabase
+    .from('board_comments')
+    .select('author_id')
+    .eq('id', commentId)
+    .single()
+
+  if (fetchError || !comment) {
+    return failure('NOT_FOUND')
+  }
+
+  if (comment.author_id !== user.id && !(await isAdmin(supabase))) {
+    return failure('FORBIDDEN')
   }
 
   const { error } = await supabase

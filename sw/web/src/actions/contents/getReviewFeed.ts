@@ -64,6 +64,7 @@ async function fetchReviewFeed(
       user:profiles!user_contents_user_id_fkey(id, nickname, nickname_en, avatar_url, profile_type)
     `)
     .eq('content_id', contentId)
+    .eq('visibility', 'public')
     .not('review', 'is', null)
     .order('updated_at', { ascending: false })
 
