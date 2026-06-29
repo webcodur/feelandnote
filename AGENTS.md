@@ -113,7 +113,8 @@ pnpm build:bo
 
 | 문서 | 내용 |
 |------|------|
-| `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡 |
+| `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡, egress 사고 이력 |
+| `docs/project/web-egress-audit-2026-06-29.md` | web egress 전수 재점검 보고서(2026-06-29) — 원인 정정·적용 조치·복구 후 과제 |
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 
@@ -148,6 +149,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
+| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | 봇 차단·보안 5건·무효화 주소 잠금 적용(main). CRON_SECRET 설정·셀럽 정적화 머지·태그 국소화·egress 분해 측정은 DB 복구 후 |
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | **완료** | 26.06.12 재생성 + any 캐스팅 148건 전량 제거 |

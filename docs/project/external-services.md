@@ -112,6 +112,23 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **효과**: 데이터 미변경 기간에는 셀럽 집계 DB 재조회가 사실상 0. 크롤러가 만료 틈을 때려 발생하던 반복 재조회를 제거한다.
 
+### 사고 후속 7차 — 전수 재점검 (2026-06-29)
+
+상세 보고서: **`docs/project/web-egress-audit-2026-06-29.md`**. 멀티에이전트 코드 전수 점검 2회(점검 시점 프로젝트 정지 상태라 실측 불가, 추정은 코드 구조 기반).
+
+**핵심 정정 2건**:
+- 이미지는 Supabase egress와 **무관**(아바타·음성=R2, 표지=외부 URL). Storage 다운로드 호출 0건. egress 본체는 DB REST/RPC 응답이다.
+- **프로덕션 `CRON_SECRET` 미설정** 확인. `revalidate-web.ts`가 키 없으면 호출을 스킵하므로 **자동 무효화가 안 돌고 있다** → "저장마다 전역 퍼지로 터진다"는 현재 주범이 아니다. 대신 `/api/revalidate`가 무방비(`undefined===undefined` 통과)라 외부 무단 퍼지가 가능했다.
+
+**적용 (main)**:
+- `robots.ts` AI 크롤러(GPTBot·ClaudeBot·Bytespider 등) 전면 차단 + 검색봇 `crawlDelay 10`; `explore` persona·ranking·timeline `revalidate` 300→3600 (`b1155cea`)
+- 보안·데이터 노출 5건: `updateRating` 인증·소유권, `getReviewFeed` `visibility='public'`, 방명록·댓글 삭제 소유권, `HeaderNotifications` Realtime cleanup (`4c745494`)
+- `/api/revalidate` `CRON_SECRET` 미설정 시 503 거부 (`79ad292b`)
+
+**브랜치 대기**: `feat/celeb-page-static` (`06a1f602`) — 셀럽 상세 정적/ISR 전환(방명록 로그인 판정 클라이언트 이관). 복구 후 동작·빌드 정적 판정 검증하고 머지.
+
+**복구 후 과제(우선순위)**: ① DB 한도 복구 → ② egress 분해 측정으로 주범 확정 → ③ 정적화 브랜치 검증·머지 → ④ `CRON_SECRET` 설정(web·web-bo 동일) → ⑤ 캐시 태그 셀럽·도메인 단위 국소화 → ⑥ per-miss 페이로드 축소(persona 점수만 RPC·timeline bio 절단·ko에서 review_en 제외). 과거 잔여 중 `HeaderNotifications` Realtime 점검은 이번에 cleanup 버그 수정으로 해소, `CelebPageContent` 슬림화는 정적화 브랜치로 일부 해소.
+
 ### 사고 후속 3차 정리 (2026-05-09)
 
 전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
