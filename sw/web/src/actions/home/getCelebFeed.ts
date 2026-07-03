@@ -41,7 +41,7 @@ interface FeedRow {
   id: string
   rating: number | null
   review: string | null
-  review_en: string | null
+  review_en?: string | null
   is_spoiler: boolean | null
   source_url: string | null
   updated_at: string
@@ -57,13 +57,16 @@ async function fetchCelebFeed(
 ): Promise<CelebFeedResponse> {
   const supabase = createStaticClient()
 
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
+
   let query = supabase
     .from('user_contents')
     .select(`
       id,
       rating,
       review,
-      review_en,
+      ${reviewEnSelect}
       is_spoiler,
       source_url,
       updated_at,
@@ -109,7 +112,7 @@ async function fetchCelebFeed(
     return EMPTY_RESPONSE
   }
 
-  const rows = data as FeedRow[]
+  const rows = data as unknown as FeedRow[]
   const hasMore = rows.length > limit
   const sliced = hasMore ? rows.slice(0, limit) : rows
 

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 
@@ -33,7 +34,7 @@ interface ReviewFeedRow {
   id: string
   rating: number | null
   review: string | null
-  review_en: string | null
+  review_en?: string | null
   is_spoiler: boolean
   updated_at: string
   source_url: string | null
@@ -47,8 +48,12 @@ async function fetchReviewFeed(
   offset: number,
   excludeUserId: string | null,
   currentUserId: string | null,
+  locale: string,
 ): Promise<ReviewFeedItem[]> {
   const supabase = createStaticClient()
+
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   let query = supabase
     .from('user_contents')
@@ -56,7 +61,7 @@ async function fetchReviewFeed(
       id,
       rating,
       review,
-      review_en,
+      ${reviewEnSelect}
       is_spoiler,
       updated_at,
       source_url,
@@ -91,7 +96,7 @@ async function fetchReviewFeed(
     return []
   }
 
-  return ((data || []) as ReviewFeedRow[]).map((record): ReviewFeedItem => ({
+  return ((data || []) as unknown as ReviewFeedRow[]).map((record): ReviewFeedItem => ({
     id: record.id,
     rating: record.rating,
     review: record.review as string,
@@ -112,6 +117,7 @@ const getReviewFeedCached = unstable_cache(
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  const locale = await getLocale()
 
   return getReviewFeedCached(
     params.contentId,
@@ -119,5 +125,6 @@ export async function getReviewFeed(params: GetReviewFeedParams): Promise<Review
     params.offset ?? 0,
     params.excludeUserId ?? null,
     user?.id ?? null,
+    locale,
   )
 }

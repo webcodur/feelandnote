@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { getLocale } from "next-intl/server";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
@@ -29,7 +30,7 @@ interface ChronoUserContentRow {
   user_id: string;
   content_id: string;
   review: string | null;
-  review_en: string | null;
+  review_en?: string | null;
   source_url: string | null;
   contents: {
     id: string;
@@ -38,7 +39,7 @@ interface ChronoUserContentRow {
   };
 }
 
-async function fetchTagChronologicalLibrary(tagId: string): Promise<{
+async function fetchTagChronologicalLibrary(tagId: string, locale: string): Promise<{
   celebs: TimelineCeleb[];
   contentsMap: Record<string, TimelineContent[]>;
 }> {
@@ -76,10 +77,12 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
     .sort((a, b) => a.birthYear - b.birthYear);
 
   // 3. user_contents + contents JOIN (셀럽당 최대 4개)
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const reviewEnSelect = locale === "en" ? "review_en, " : "";
   const { data, error } = await supabase
     .from("user_contents")
     .select(
-      `user_id, content_id, review, review_en, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `user_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("user_id", celebIds)
     .eq("visibility", "public");
@@ -118,8 +121,13 @@ async function fetchTagChronologicalLibrary(tagId: string): Promise<{
   return { celebs, contentsMap };
 }
 
-export const getTagChronologicalLibrary = unstable_cache(
+const getTagChronologicalLibraryCached = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
   { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
 );
+
+export async function getTagChronologicalLibrary(tagId: string) {
+  const locale = await getLocale();
+  return getTagChronologicalLibraryCached(tagId, locale);
+}

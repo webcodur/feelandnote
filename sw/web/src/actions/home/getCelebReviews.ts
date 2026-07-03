@@ -33,7 +33,7 @@ interface ReviewRow {
   id: string
   rating: number | null
   review: string | null
-  review_en: string | null
+  review_en?: string | null
   is_spoiler: boolean | null
   source_url: string | null
   updated_at: string
@@ -45,13 +45,16 @@ interface ReviewRow {
 async function fetchCelebReviews(celebId: string, locale: string): Promise<CelebReview[]> {
   const supabase = createStaticClient()
 
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
+
   const { data, error } = await supabase
     .from('user_contents')
     .select(`
       id,
       rating,
       review,
-      review_en,
+      ${reviewEnSelect}
       is_spoiler,
       source_url,
       updated_at,
@@ -85,7 +88,7 @@ async function fetchCelebReviews(celebId: string, locale: string): Promise<Celeb
     return []
   }
 
-  const rows = data as ReviewRow[]
+  const rows = data as unknown as ReviewRow[]
   const contentIds = [...new Set(rows.map(row => row.content_id))]
   const contentCounts = await getContentCountsForContents(supabase, contentIds)
 
