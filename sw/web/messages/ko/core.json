@@ -421,5 +421,10 @@
   "popularBooks": {
     "title": "추천 도서",
     "buyOnCoupang": "쿠팡에서 보기"
+  },
+  "share": {
+    "label": "공유",
+    "copyLink": "링크 복사",
+    "copied": "복사됨"
   }
 }

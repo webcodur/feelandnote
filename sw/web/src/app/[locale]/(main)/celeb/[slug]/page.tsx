@@ -235,6 +235,8 @@ export default async function CelebPage({ params }: PageProps) {
 
       <CelebPageContent
         profile={profile}
+        slug={slug}
+        shareTitle={pageTitle}
         userId={userId}
         personaData={personaData}
         guestbookEntries={guestbookResult.entries}

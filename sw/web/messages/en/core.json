@@ -421,5 +421,10 @@
   "popularBooks": {
     "title": "Most Read Books",
     "buyOnCoupang": "View on Coupang"
+  },
+  "share": {
+    "label": "Share",
+    "copyLink": "Copy link",
+    "copied": "Copied"
   }
 }

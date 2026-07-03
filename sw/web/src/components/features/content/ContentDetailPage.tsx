@@ -10,6 +10,7 @@ import { useRouter } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import Button from "@/components/ui/Button";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
+import ShareButtons from "@/components/ui/ShareButtons";
 import AccordionSection from "./AccordionSection";
 import ContentInfoSection from "./ContentInfoSection";
 import MyReviewSection from "./MyReviewSection";
@@ -50,15 +51,18 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* 뒤로가기 */}
-      <Button
-        variant="ghost"
-        className="flex items-center gap-2 text-text-secondary text-sm font-semibold mb-4"
-        onClick={() => router.back()}
-      >
-        <ArrowLeft size={16} />
-        <span>{t("back")}</span>
-      </Button>
+      {/* 뒤로가기 + SNS 공유 */}
+      <div className="flex items-center justify-between gap-2 mb-4">
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2 text-text-secondary text-sm font-semibold"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft size={16} />
+          <span>{t("back")}</span>
+        </Button>
+        <ShareButtons title={content.title} path={`/content/${content.id}`} />
+      </div>
 
       {/* 최근 본 콘텐츠 */}
       <RecentContentsSection items={recentItems} />

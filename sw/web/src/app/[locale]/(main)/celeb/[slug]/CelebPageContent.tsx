@@ -16,6 +16,7 @@ import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import ShareButtons from "@/components/ui/ShareButtons";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
@@ -27,6 +28,8 @@ import VideosSection, { type CelebVideoItem } from "./VideosSection";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
+  slug: string;
+  shareTitle: string;
   userId: string;
   personaData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
@@ -70,6 +73,8 @@ const SectionWrap = ({ children, className = "" }: { children: ReactNode; classN
 
 export default function CelebPageContent({
   profile,
+  slug,
+  shareTitle,
   userId,
   personaData,
   guestbookEntries,
@@ -266,6 +271,11 @@ export default function CelebPageContent({
             </div>
           </div>
         </ClassicalBox>
+
+        {/* SNS 공유 */}
+        <div className="flex justify-end">
+          <ShareButtons title={shareTitle} path={`/celeb/${slug}`} />
+        </div>
       </section>
 
       {/* 동시대 인물 */}

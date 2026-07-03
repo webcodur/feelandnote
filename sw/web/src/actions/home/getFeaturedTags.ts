@@ -120,7 +120,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   activeTags.forEach(tag => {
     const tagAssignments = ((allAssignments ?? []) as TagAssignmentRow[])
       .filter(a => a.tag_id === tag.id)
-      .slice(0, 12)
+      .slice(0, 16)
     assignmentsByTag[tag.id] = tagAssignments
     tagAssignments.forEach(a => allCelebIds.add(a.celeb_id))
   })
