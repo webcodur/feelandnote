@@ -6,14 +6,14 @@
 
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("policy");
   return {
     title: t("contact"),
     description: t("contactDescription"),
-    alternates: getAlternates("/contact"),
+    alternates: await getLocalizedAlternates("/contact"),
   };
 }
 

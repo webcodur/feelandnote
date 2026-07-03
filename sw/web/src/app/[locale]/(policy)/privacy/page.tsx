@@ -5,14 +5,14 @@
 */
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("policy");
   return {
     title: t("privacy"),
     description: t("privacyDescription"),
-    alternates: getAlternates("/privacy"),
+    alternates: await getLocalizedAlternates("/privacy"),
   };
 }
 

@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages, getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: t("description"),
     alternates: {
-      ...getAlternates("/"),
+      ...await getLocalizedAlternates("/"),
       types: {
         'application/rss+xml': 'https://feelandnote.com/feed.xml',
       },

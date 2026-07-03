@@ -9,7 +9,7 @@ import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getFeaturedTags } from "@/actions/home";
 import FeaturedSpotlight from "@/components/features/landing/FeaturedSpotlight";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: tag ? `${tag.name} · ${t("metaTitle")}` : t("metaTitle"),
-    alternates: getAlternates(`/explore/spotlight/${slug}`),
+    alternates: await getLocalizedAlternates(`/explore/spotlight/${slug}`),
   };
 }
 

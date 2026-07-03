@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations, getLocale } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getPersonaDistribution } from "@/actions/persona/getPersonaDistribution";
@@ -24,7 +24,7 @@ export async function generateMetadata() {
   return {
     title: t("title"),
     description: t("description"),
-    alternates: getAlternates("/explore"),
+    alternates: await getLocalizedAlternates("/explore"),
     openGraph: {
       title: t("title"),
       description: t("description"),

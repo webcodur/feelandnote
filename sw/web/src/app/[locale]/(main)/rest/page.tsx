@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { Clock, Crosshair, Swords, Crown } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
@@ -14,7 +14,7 @@ import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/su
 
 export async function generateMetadata() {
   const t = await getTranslations("rest.meta");
-  return { title: t("title"), description: t("description"), alternates: getAlternates("/rest") };
+  return { title: t("title"), description: t("description"), alternates: await getLocalizedAlternates("/rest") };
 }
 
 // #region 게임 정의

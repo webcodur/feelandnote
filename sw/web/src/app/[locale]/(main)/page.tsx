@@ -1,13 +1,13 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("site");
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: getAlternates("/"),
+    alternates: await getLocalizedAlternates("/"),
   };
 }
 import { getUserContents } from "@/actions/contents/getUserContents";

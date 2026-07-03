@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
 import { SCRIPTURES_GROUP_ID, SCRIPTURES_SECTIONS, scripturesSection } from "@/components/shared/hubSectionUtils";
@@ -21,7 +21,7 @@ import AcademyPreview from "@/components/features/scriptures/hub/AcademyPreview"
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.meta");
-  return { title: t("title"), description: t("description"), alternates: getAlternates("/library") };
+  return { title: t("title"), description: t("description"), alternates: await getLocalizedAlternates("/library") };
 }
 
 async function ScripturesHubContent() {

@@ -11,7 +11,7 @@ import { getContentDetail } from "@/actions/contents/getContentDetail";
 import type { CategoryId } from "@/constants/categories";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 const getContentDetailCached = cache(getContentDetail);
 
@@ -37,7 +37,7 @@ export async function generateMetadata(
     return {
       title,
       description: desc,
-      alternates: getAlternates(`/content/${contentId}`),
+      alternates: await getLocalizedAlternates(`/content/${contentId}`),
       openGraph: {
         title,
         description: desc,

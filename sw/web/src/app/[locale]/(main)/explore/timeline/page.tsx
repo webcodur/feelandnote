@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations, getLocale } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { getCelebTimeline } from "@/actions/home";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TimelineSection from "@/components/features/user/explore/sections/TimelineSection";
@@ -17,7 +17,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: getAlternates("/explore/timeline"),
+    alternates: await getLocalizedAlternates("/explore/timeline"),
   };
 }
 

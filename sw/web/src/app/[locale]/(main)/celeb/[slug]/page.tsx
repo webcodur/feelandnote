@@ -7,7 +7,7 @@ import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import CelebPageContent from "./CelebPageContent";
 
@@ -125,7 +125,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: pageTitle,
     description,
-    alternates: getAlternates(`/celeb/${slug}`),
+    alternates: await getLocalizedAlternates(`/celeb/${slug}`),
     openGraph: {
       title: pageTitle,
       description,

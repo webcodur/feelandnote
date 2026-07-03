@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations, getLocale } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { getYoutubeCelebs } from "@/actions/home/getYoutubeCelebs";
 import YoutubeChannelContent from "@/components/features/user/explore/youtube/YoutubeChannelContent";
 
@@ -14,7 +14,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: getAlternates("/explore/youtube"),
+    alternates: await getLocalizedAlternates("/explore/youtube"),
   };
 }
 

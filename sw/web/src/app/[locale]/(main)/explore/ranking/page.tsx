@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getTopByContentTypeFull } from "@/actions/home/getTopByContentTypeFull";
 import { getSharedContents } from "@/actions/home/getSharedContents";
@@ -18,7 +18,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: getAlternates("/explore/ranking"),
+    alternates: await getLocalizedAlternates("/explore/ranking"),
   };
 }
 

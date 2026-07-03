@@ -5,14 +5,14 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import { getTodayFigure } from "@/actions/scriptures";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.today");
-  return { title: t("metaTitle"), description: t("metaDescription"), alternates: getAlternates("/explore/today") };
+  return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/explore/today") };
 }
 
 async function FigureContent() {

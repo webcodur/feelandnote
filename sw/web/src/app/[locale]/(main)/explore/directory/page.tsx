@@ -7,7 +7,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 
@@ -16,7 +16,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: getAlternates("/explore/directory"),
+    alternates: await getLocalizedAlternates("/explore/directory"),
   };
 }
 

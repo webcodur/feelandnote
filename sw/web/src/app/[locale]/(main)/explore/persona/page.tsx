@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { getAlternates } from "@/lib/seo";
+import { getLocalizedAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
 import PersonaFullSection from "@/components/features/user/explore/sections/PersonaFullSection";
@@ -17,7 +17,7 @@ export async function generateMetadata() {
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: getAlternates("/explore/persona"),
+    alternates: await getLocalizedAlternates("/explore/persona"),
   };
 }
 
