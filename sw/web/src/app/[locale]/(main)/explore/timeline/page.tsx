@@ -4,7 +4,7 @@
   책임: 국가별로 셀럽을 시간순으로 보여준다. 별도 태그 없이 기존 데이터(nationality, birth_date)를 활용.
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { getAlternates } from "@/lib/seo";
 import { getCelebTimeline } from "@/actions/home";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
@@ -22,7 +22,8 @@ export async function generateMetadata() {
 }
 
 async function TimelineContent() {
-  const { celebs, countries } = await getCelebTimeline();
+  const locale = (await getLocale()) === "en" ? "en" : "ko";
+  const { celebs, countries } = await getCelebTimeline(locale);
 
   return (
     <AsyncIntlProvider>

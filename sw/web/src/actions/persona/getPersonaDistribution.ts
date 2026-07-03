@@ -3,8 +3,12 @@
 import { unstable_cache } from 'next/cache'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import { parsePersonaJsonb } from '@/lib/persona/types'
-import type { PersonaJsonb } from '@/lib/persona/types'
+import {
+  ABILITY_KEYS,
+  INNER_VIRTUE_KEYS,
+  OUTER_VIRTUE_KEYS,
+  TENDENCY_KEYS,
+} from '@/lib/persona/constants'
 
 /** 분포 차트에 찍히는 인물 (16축 flat 수치 + 영향력 점수) — 근거는 별도 조회 */
 export interface PersonaPerson {
@@ -24,11 +28,27 @@ interface ProfileRow {
   avatar_url: string | null
 }
 
-interface PersonaRow {
+// JSONB에서 score만 JSON path로 수신한다.
+// persona 통째 select는 행마다 reason_ko/reason_en/rationale 본문(~4.5KB)을 실어
+// 갱신 1회에 수 MB가 나간다. 점수 16개만 받으면 행당 수백 바이트다.
+const PERSONA_SCORE_KEYS = [
+  ...ABILITY_KEYS,
+  ...INNER_VIRTUE_KEYS,
+  ...OUTER_VIRTUE_KEYS,
+  ...TENDENCY_KEYS,
+] as const
+
+const SCORE_SELECT = [
+  ...ABILITY_KEYS.map((k) => `${k}:persona->abilities->${k}->score`),
+  ...INNER_VIRTUE_KEYS.map((k) => `${k}:persona->inner_virtues->${k}->score`),
+  ...OUTER_VIRTUE_KEYS.map((k) => `${k}:persona->outer_virtues->${k}->score`),
+  ...TENDENCY_KEYS.map((k) => `${k}:persona->dispositions->${k}->score`),
+].join(', ')
+
+type PersonaScoreRow = {
   celeb_id: string
-  persona: PersonaJsonb
   profiles: ProfileRow | ProfileRow[] | null
-}
+} & Partial<Record<(typeof PERSONA_SCORE_KEYS)[number], number | null>>
 
 async function fetchPersonaDistribution(limit: number): Promise<PersonaPerson[]> {
   const supabase = createStaticClient()
@@ -51,11 +71,11 @@ async function fetchPersonaDistribution(limit: number): Promise<PersonaPerson[]>
   }
   const reviewers = new Set((reviewIds as { celeb_id: string }[]).map((r) => r.celeb_id))
 
-  // 성향 전체 조회
+  // 성향 점수 전체 조회 (score만, 근거 텍스트 미수신)
   const { data, error } = await supabase
     .from('celeb_persona')
     .select(`
-      celeb_id, persona,
+      celeb_id, ${SCORE_SELECT},
       profiles!celeb_persona_celeb_id_fkey (
         slug, nickname, nickname_en, avatar_url
       )
@@ -67,11 +87,13 @@ async function fetchPersonaDistribution(limit: number): Promise<PersonaPerson[]>
     return []
   }
 
-  return (data as unknown as PersonaRow[])
+  return (data as unknown as PersonaScoreRow[])
     .filter((row) => reviewers.has(row.celeb_id))
     .map((row) => {
       const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
-      const stats = parsePersonaJsonb(row.persona) as unknown as Record<string, number>
+      const stats = Object.fromEntries(
+        PERSONA_SCORE_KEYS.map((k) => [k, row[k] ?? 0])
+      ) as Record<string, number>
       return {
         id: row.celeb_id,
         slug: profile?.slug ?? null,

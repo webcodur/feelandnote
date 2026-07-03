@@ -40,12 +40,18 @@ export interface TimelineData {
   countries: CountryGroup[]
 }
 
-async function fetchCelebTimeline(): Promise<TimelineData> {
+const TIMELINE_BASE_SELECT =
+  'id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, celeb_tier, has_voice, voice_v'
+
+async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
   const supabase = createStaticClient()
+
+  // bio는 본문급 텍스트라 필요한 locale만 받는다 (en은 ko 폴백 때문에 둘 다)
+  const bioSelect = locale === 'en' ? ', bio, bio_en' : ', bio'
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, celeb_tier, has_voice, voice_v')
+    .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .not('nationality', 'is', null)
@@ -57,7 +63,9 @@ async function fetchCelebTimeline(): Promise<TimelineData> {
     return { celebs: [], countries: [] }
   }
 
-  const rows = (data || []) as Array<Omit<TimelineCeleb, 'greeting' | 'greeting_en' | 'quotes' | 'quotes_en'> & { id: string }>
+  const rows = (data || []) as unknown as Array<
+    Omit<TimelineCeleb, 'greeting' | 'greeting_en' | 'quotes' | 'quotes_en' | 'bio_en'> & { id: string; bio_en?: string | null }
+  >
   const celebIds = rows.map(r => r.id)
 
   // 대사 조회 (greeting + quote, JSON path만 100개씩 배치)
@@ -89,6 +97,7 @@ async function fetchCelebTimeline(): Promise<TimelineData> {
 
   const celebs: TimelineCeleb[] = rows.map(row => ({
     ...row,
+    bio_en: row.bio_en ?? null,
     quotes: quoteMap.get(row.id) ?? null,
     quotes_en: quoteEnMap.get(row.id) ?? null,
     has_voice: row.has_voice ?? false,
@@ -119,6 +128,7 @@ async function fetchCelebTimeline(): Promise<TimelineData> {
   return { celebs, countries }
 }
 
+// locale 인자가 캐시 키에 포함되어 ko/en 별도 캐시로 갈라진다
 export const getCelebTimeline = unstable_cache(
   fetchCelebTimeline,
   ['celeb-timeline'],
