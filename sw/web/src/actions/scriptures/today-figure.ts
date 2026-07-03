@@ -103,7 +103,7 @@ interface FigureUserContentRow {
   content_id: string
   rating: number | null
   review: string | null
-  review_en: string | null
+  review_en?: string | null
   is_spoiler: boolean | null
   source_url: string | null
   contents: ContentJoinRow | ContentJoinRow[] | null
@@ -124,7 +124,8 @@ async function fetchFigureContents(
       .single(),
     supabase
       .from('user_contents')
-      .select(`id, content_id, rating, review, review_en, is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
+      // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+      .select(`id, content_id, rating, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
       .eq('user_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -142,7 +143,7 @@ async function fetchFigureContents(
   }
 
   const profileRow: FigureProfileRow = profile
-  const ucRows: FigureUserContentRow[] = userContents || []
+  const ucRows = (userContents || []) as unknown as FigureUserContentRow[]
 
   const contents: ScriptureContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents

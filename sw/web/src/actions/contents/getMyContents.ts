@@ -64,10 +64,11 @@ export interface GetMyContentsResponse {
 }
 
 // user_contents에서 실제 사용하는 컬럼만 (contributor_id, review_presets 제외)
-const UC_SELECT = 'id, user_id, content_id, status, is_recommended, is_spoiler, rating, review, review_en, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
+const UC_SELECT_BASE = 'id, user_id, content_id, status, is_recommended, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
+  const locale = await getLocale()
   const { page = 1, limit = 20, type, status, excludeStatus, search, hasReview, sortBy = 'recent' } = params
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -97,10 +98,12 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
   // egress-allow: 본인 서재 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (컬럼 슬림화 적용)
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const ucSelect = locale === 'en' ? `${UC_SELECT_BASE}, review_en` : UC_SELECT_BASE
   let query = supabase
     .from('user_contents')
     .select(`
-      ${UC_SELECT},
+      ${ucSelect},
       ${contentJoin}
     `, { count: 'exact' })
     .eq('user_id', user.id)
@@ -152,8 +155,8 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   }
 
   // content가 null인 항목 필터링 + content_locales 플래튼
-  const locale = await getLocale()
-  const items = (data || []).filter((item) =>
+  const rows = (data || []) as unknown as Record<string, unknown>[]
+  const items = rows.filter((item) =>
     item.content !== null
   ).map(item => {
     const c = item.content as unknown as Record<string, unknown>
@@ -161,6 +164,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
     const flat = flattenLocales(locales, locale)
     return {
       ...item,
+      review_en: (item.review_en as string | undefined) ?? null,
       content: {
         id: c.id as string,
         type: c.type as ContentType,
@@ -180,7 +184,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
         has_en_edition: flat.has_en_edition,
       },
     }
-  }) as UserContentWithContent[]
+  }) as unknown as UserContentWithContent[]
 
   const total = count || 0
 

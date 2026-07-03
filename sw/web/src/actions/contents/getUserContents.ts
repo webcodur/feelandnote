@@ -100,6 +100,9 @@ async function queryUserContents(
   const needsInnerJoin = !!type
   const contentJoin = needsInnerJoin ? `content:contents!inner(${contentFields})` : `content:contents(${contentFields})`
 
+  // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
+  const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
+
   let query = supabase
     .from('user_contents')
     .select(`
@@ -109,7 +112,7 @@ async function queryUserContents(
       is_recommended,
       rating,
       review,
-      review_en,
+      ${reviewEnSelect}
       review_presets,
       is_spoiler,
       visibility,
@@ -163,7 +166,8 @@ async function queryUserContents(
   }
 
   // content가 null인 항목 필터링 + content_locales 플래튼
-  const validContents = (userContents || []).filter(item => item.content !== null)
+  const validContents = ((userContents || []) as unknown as Record<string, unknown>[])
+    .filter(item => item.content !== null)
 
   const items: UserContentPublic[] = validContents.map(item => {
     const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
@@ -197,7 +201,7 @@ async function queryUserContents(
       public_record: (raw.rating || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
         rating: raw.rating as number | null,
         content_preview: (raw.review as string) || null,
-        content_preview_en: (raw.review_en as string) || null,
+        content_preview_en: (raw.review_en as string | undefined) || null,
         review_presets: (raw.review_presets as string[]) || null,
         is_spoiler: raw.is_spoiler as boolean,
       } : null,
