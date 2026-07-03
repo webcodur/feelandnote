@@ -7,6 +7,7 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -85,10 +86,11 @@ async function queryUserContents(
   // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
   const contentFields = `id, type, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
-  // 검색 필터 - content_locales에서 2-step 검색
+  // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
-  if (search && search.trim().length >= 2) {
-    const searchTerm = `%${search.trim()}%`
+  const safeSearch = search ? sanitizeSearchTerm(search) : ''
+  if (safeSearch.length >= 2) {
+    const searchTerm = `%${safeSearch}%`
     const { data: matchIds } = await supabase
       .from('content_locales')
       .select('content_id')

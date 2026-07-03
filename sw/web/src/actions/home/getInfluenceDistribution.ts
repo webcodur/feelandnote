@@ -37,21 +37,21 @@ export interface InfluenceDistribution {
 async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
   const supabase = createStaticClient()
 
-  // 영향력 데이터와 프로필 조인
+  // 영향력 데이터와 프로필 조인 — 비활성 셀럽은 DB단에서 걸러 수신 자체를 차단
   const { data } = await supabase
     .from('celeb_influence')
     .select(`
       celeb_id,
       total_score,
-      profiles!celeb_influence_celeb_id_fkey (
+      profiles!celeb_influence_celeb_id_fkey!inner (
         id,
         slug,
         nickname,
         avatar_url,
-        profession,
-        status
+        profession
       )
     `)
+    .eq('profiles.status', 'active')
     .order('total_score', { ascending: false })
 
   // 초기값 설정 (1~9 오라 모두 0으로 초기화)
@@ -68,18 +68,9 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
 
   if (!data) return distribution
 
-  // 활성 셀럽만 필터링
-  const activeCelebs = data.filter(row => {
-    const profile = row.profiles as unknown as {
-      id: string
-      slug: string | null
-      nickname: string
-      avatar_url: string | null
-      profession: string | null
-      status: string
-    }
-    return profile && profile.status === 'active'
-  })
+  // 활성 필터는 쿼리에서 완료 — 조인 누락 행만 방어
+  const activeCelebs = (data as unknown as { celeb_id: string; total_score: number | null; profiles: unknown }[])
+    .filter(row => row.profiles)
 
   const total = activeCelebs.length
   distribution.total = total
@@ -96,7 +87,6 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
       nickname: string
       avatar_url: string | null
       profession: string | null
-      status: string
     }
 
     // 순위 기반 percentile (참고용)

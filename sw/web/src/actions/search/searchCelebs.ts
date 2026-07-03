@@ -3,6 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
+import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 
 interface CelebSearchResult {
   id: string
@@ -35,12 +36,18 @@ async function fetchSearchCelebs(
   const supabase = createStaticClient()
   const offset = (page - 1) * limit
 
+  // .or() 필터 보간 인젝션 차단
+  const safeQuery = sanitizeSearchTerm(query)
+  if (!safeQuery) {
+    return { items: [], total: 0, hasMore: false }
+  }
+
   const { data, count, error } = await supabase
     .from('profiles')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
-    .or(`nickname.ilike.%${query}%,nickname_en.ilike.%${query}%`)
+    .or(`nickname.ilike.%${safeQuery}%,nickname_en.ilike.%${safeQuery}%`)
     .range(offset, offset + limit - 1)
     .order(isEn ? 'nickname_en' : 'nickname', { ascending: true, nullsFirst: false })
 

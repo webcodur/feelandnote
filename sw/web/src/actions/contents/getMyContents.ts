@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -81,10 +82,11 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
   const contentFields = `id, type, release_date, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
-  // 검색 필터 - content_locales에서 2-step 검색
+  // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
-  if (search && search.trim().length >= 2) {
-    const searchTerm = `%${search.trim()}%`
+  const safeSearch = search ? sanitizeSearchTerm(search) : ''
+  if (safeSearch.length >= 2) {
+    const searchTerm = `%${safeSearch}%`
     // egress-allow: 본인 서재 검색 1단계 — content_id만 송출
     const { data: matchIds } = await supabase
       .from('content_locales')
