@@ -36,12 +36,11 @@ export interface TrackerOption {
   voiceSpeed?: number;
 }
 
-// fallback 경로 profiles 조회 행
+// fallback 경로 profiles 조회 행 — 본문(여정·소개)은 선정된 1명만 별도 수신
 type FallbackCelebRow = Pick<
   Tables<"profiles">,
   | "id" | "slug" | "nickname" | "nickname_en" | "profession" | "avatar_url"
-  | "cultural_journey" | "cultural_journey_en" | "death_date" | "nationality"
-  | "birth_date" | "bio" | "bio_en"
+  | "death_date" | "nationality" | "birth_date"
 >;
 
 // 오답 보기 profiles 조회 행
@@ -238,12 +237,14 @@ const getCachedFallbackEligible = unstable_cache(
     const supabase = createStaticClient();
 
     // 자격 있는 셀럽 목록: persona 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
+    // 여정·소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
     const { data: allCelebs } = await supabase
       .from("profiles")
-      .select("id, slug, nickname, nickname_en, profession, avatar_url, cultural_journey, cultural_journey_en, death_date, nationality, birth_date, bio, bio_en")
+      .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
       .eq("profile_type", "CELEB")
       .eq("status", "active")
       .not("cultural_journey", "is", null)
+      .neq("cultural_journey", "")
       .not("death_date", "is", null);
 
     if (!allCelebs || allCelebs.length === 0) return [];
@@ -285,12 +286,9 @@ const getCachedFallbackEligible = unstable_cache(
       [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
     );
 
+    // cultural_journey 존재·비어있지 않음은 DB 필터로 보장됨
     return publicDomain.filter(
-      (c) =>
-        personaSet.has(c.id) &&
-        reviewSet.has(c.id) &&
-        !!c.cultural_journey &&
-        c.cultural_journey.trim() !== ""
+      (c) => personaSet.has(c.id) && reviewSet.has(c.id)
     );
   },
   ["tracker-fallback-eligible"],
@@ -314,12 +312,19 @@ async function getTrackerRoundFallback(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote만 JSON path로 조회
-  const { data: chosenDialogue } = await supabase
-    .from("celeb_dialogues")
-    .select("quote:lines->quote, quote_en:lines_en->quote")
-    .eq("celeb_id", chosen.id)
-    .maybeSingle();
+  // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
+  const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
+    supabase
+      .from("celeb_dialogues")
+      .select("quote:lines->quote, quote_en:lines_en->quote")
+      .eq("celeb_id", chosen.id)
+      .maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("cultural_journey, cultural_journey_en, bio, bio_en")
+      .eq("id", chosen.id)
+      .maybeSingle(),
+  ]);
   const chosenQuote = resolve(
     (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
     (chosenDialogue as { quote?: string | null } | null)?.quote
@@ -328,9 +333,9 @@ async function getTrackerRoundFallback(
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
-    resolve(chosen.cultural_journey_en, chosen.cultural_journey),
+    resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
-    resolve(chosen.bio_en, chosen.bio),
+    resolve(chosenTexts?.bio_en, chosenTexts?.bio),
     chosenQuote,
     preferKo);
 }
