@@ -129,6 +129,21 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **복구 후 과제(우선순위)**: ① DB 한도 복구 → ② egress 분해 측정으로 주범 확정 → ③ 정적화 브랜치 검증·머지 → ④ `CRON_SECRET` 설정(web·web-bo 동일) → ⑤ 캐시 태그 셀럽·도메인 단위 국소화 → ⑥ per-miss 페이로드 축소(persona 점수만 RPC·timeline bio 절단·ko에서 review_en 제외). 과거 잔여 중 `HeaderNotifications` Realtime 점검은 이번에 cleanup 버그 수정으로 해소, `CelebPageContent` 슬림화는 정적화 브랜치로 일부 해소.
 
+### 사고 후속 8차 — Pro 결제·복구 후 페이로드 다이어트 (2026-07-03)
+
+**실측 확정 (대시보드)**: 기간 사용 29.40GB 중 **PostgREST 100.0% / Storage 0.0%** — 7차의 "egress 본체는 DB REST 응답" 결론이 실측으로 확정됨. 6/28 하루 4.61GB 스파이크(수정 배포 전날), 평시에도 0.5~1.5GB/일로 기초 대사량 자체가 무료 한도 초과 수준. Pro 결제로 한도 복구(2026-07-03).
+
+**적용 (main)**:
+- `getPersonaDistribution` persona JSONB 통째 수신 → JSON path 점수 16개 select. 갱신 1회 **약 7MB → 560KB (92% 절감, 1,494행 실측)** (`48089db0`)
+- `getCelebTimeline` locale 인자화 — ko 캐시는 `bio_en` 미수신, en은 폴백 유지 (`48089db0`)
+- ko 응답에서 `review_en` 수신 제외(en은 폴백 유지) 7곳: `getCelebFeed`·`getCelebReviews`·`getReviewFeed`·`getTagChronologicalLibrary` (`4afa1f49`) + `getUserContents`·`getMyContents`·`today-figure` (`dcdec0f1`)
+- `getTrackerRound` 폴백 후보 목록에서 `cultural_journey`/`bio` 전문 수신 차단 — 선정 1명만 1행 별도 수신, 비어있지 않음 필터는 DB단 `neq`로 이동 (`4464ab07`)
+- `feat/celeb-page-static` 머지 완료 — 셀럽 상세 정적/ISR 전환 (`c39465ed`)
+
+**발견 결함**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 **항상 실패** → 게임 등용은 그간 폴백 경로로만 동작. DB 함수 수정 필요하나 `SUPABASE_ACCESS_TOKEN` 만료로 DDL 불가. **토큰 갱신 후 함수 교정 + 1차 경로도 후보 본문 미수신으로 정리 필요.**
+
+**잔여 과제**: ④ `CRON_SECRET` 설정(유저 액션, Vercel 대시보드) → ⑤ 캐시 태그 국소화 → 해제 후 일별 egress 관찰(평시 1GB/일 미만이 수정 효과 판정 기준).
+
 ### 사고 후속 3차 정리 (2026-05-09)
 
 전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.

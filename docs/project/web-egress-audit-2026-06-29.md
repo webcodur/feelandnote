@@ -85,3 +85,18 @@
 - 미들웨어 `auth.getUser()`는 쿠키 없는 봇에 네트워크 호출 없이 즉시 반환 → 봇 크롤이 Auth egress를 만들지 않는다.
 - 주기적 폴링(setInterval/refetchInterval) 없음. Realtime 구독은 로그인 세션 한정(비로그인·봇 무영향).
 - 셀럽 상세를 ISR로 되돌려도 Supabase egress 순절감은 제한적(데이터가 이미 `unstable_cache`로 게이트). 정적화의 주 이득은 Vercel 컴퓨트 절감 + robots 무시 봇 방어 + 키 설정 후 무효화 결합.
+
+## 8. 복구 후 적용 결과 (2026-07-03)
+
+Pro 결제로 한도 복구. 대시보드 실측으로 **PostgREST 100.0% / Storage 0.0%** 확정(3절 정정 1 입증). 6/28 스파이크 4.61GB는 수정 배포 전날 발생. 적용 내역·잔여 과제는 `external-services.md`의 "사고 후속 8차" 절이 정본.
+
+| 과제(6절) | 상태 |
+|------|------|
+| ① DB 한도 복구 | 완료 (Pro 결제) |
+| ② egress 분해 측정 | 완료 — PostgREST 100% |
+| ③ `feat/celeb-page-static` 머지 | 머지 완료(`c39465ed`). 단 빌드 판정은 여전히 동적(ƒ) — `[locale]` 트리 전체가 동적이며 next-intl 정적 렌더 요건(레이아웃 generateMetadata의 요청 컨텍스트 의존 등) 후속 필요. per-request `auth.getUser()` 제거 효과는 유효 |
+| ④ `CRON_SECRET` 설정 | 대기 — 유저 액션(Vercel 대시보드, web·web-bo 동일 값) |
+| ⑤ 캐시 태그 국소화 | 미착수 |
+| ⑥ per-miss 페이로드 축소 | 완료 — persona 점수만(7MB→560KB 실측), timeline bio locale 분리, ko에서 review_en 제외 7곳, 게임 후보 목록 본문 차단 |
+
+추가 발견: RPC `get_tracker_candidates`가 제거된 열(`p.quotes`) 참조로 항상 실패 — 게임 등용은 폴백 경로로만 동작 중. `SUPABASE_ACCESS_TOKEN` 만료로 DDL 불가, 토큰 갱신 후 교정 필요.

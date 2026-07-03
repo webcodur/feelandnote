@@ -57,6 +57,8 @@ pnpm build:bo
 
 **일괄 진입점**: 2단계(TTS) 후 **`/voice-sync <에피소드명>`** 한 번 호출로 3·4·5 자동. 상세 규격: `docs/todo/voice-timing-gap-pipeline.md`
 
+**발화속도 통일**: 책별 음성의 체감 자/초를 목표값(기본 6.5)으로 맞추는 영상 배속(`*PlaybackRate`) 자동 산출. **`/remo-voice-cps-match <에피소드명>`** 또는 `voice:match-cps`. 제목 제외·dry-run 기본·`--apply` 저장. 원본 wav 불변, book.ko.json 배속 필드만 기록.
+
 ## 기술 스택
 
 - Next.js 16.1 (App Router, Server Components)
@@ -119,6 +121,7 @@ pnpm build:bo
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 | `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
+| `docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(remotion-bo Cards 탭)·편성 저장(cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT |
 
 ### 영상 (`docs/project/remotion/`)
 
@@ -153,7 +156,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
-| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | 봇 차단·보안 5건·무효화 주소 잠금 적용(main). CRON_SECRET 설정·셀럽 정적화 머지·태그 국소화·egress 분해 측정은 DB 복구 후 |
+| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. 잔여: CRON_SECRET(유저)·태그 국소화·tracker RPC 교정(토큰 갱신 필요)·[locale] 정적 렌더 |
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | **완료** | 26.06.12 재생성 + any 캐스팅 148건 전량 제거 |
