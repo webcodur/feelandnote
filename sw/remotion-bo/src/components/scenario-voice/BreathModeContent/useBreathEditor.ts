@@ -145,11 +145,16 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     setRegions(prev => prev.filter(r => r.id !== id))
   }, [])
 
-  // 구간의 처리 방식 전환 — 무음 ↔ 잘라내기
+  // 구간의 처리 방식 전환 — 무음 ↔ 잘라내기 (자율 모드에서 칩 단위 전환용)
   const toggleRegionMode = useCallback((id: number) => {
     setRegions(prev => prev.map(r => r.id === id
       ? { ...r, mode: (r.mode ?? 'mute') === 'cut' ? 'mute' : 'cut' }
       : r))
+  }, [])
+
+  // 모든 구간을 한 방식으로 강제 — 전역 모드(잘라/무음) 전환용
+  const setAllRegionsMode = useCallback((mode: RegionMode) => {
+    setRegions(prev => prev.map(r => ({ ...r, mode })))
   }, [])
 
   const saveBytes = useCallback(async (bytes: ArrayBuffer) => {
@@ -197,7 +202,7 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
 
   return {
     wav, samples, loading, error,
-    regions, addRegion, removeRegion, toggleRegionMode,
+    regions, addRegion, removeRegion, toggleRegionMode, setAllRegionsMode,
     playing, playhead, play, stop,
     saving, savedCount, saveApplied, restoreOriginal,
   }

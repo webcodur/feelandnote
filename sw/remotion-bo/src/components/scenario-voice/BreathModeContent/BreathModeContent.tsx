@@ -22,6 +22,8 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
   const ed = useBreathEditor({ series, name, file, onRefresh, endpoints })
   const [pxPerSec, setPxPerSec] = useState(200)
   const [gain, setGain] = useState(3)
+  // 전역 처리 방식 — mute/cut 이면 모든 구간을 그 방식으로 강제, free 면 구간별 개별 지정
+  const [regionMode, setRegionMode] = useState<'mute' | 'cut' | 'free'>('mute')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
   // 드래그 중 임시 선택 구간 [시작, 현재] (초)
@@ -86,13 +88,19 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
     dragRef.current = null
     if (!d) return
     if (d.dragging) {
-      // 드래그하면 일단 잘라내기 구간으로 만든다. 무음으로 바꿀 건 구간 칩에서 누른다.
-      ed.addRegion(d.startT, xToTime(e.clientX), 'cut')
+      // 새 구간은 전역 모드를 따른다(자율 모드는 일단 무음으로, 칩에서 개별 전환).
+      ed.addRegion(d.startT, xToTime(e.clientX), regionMode === 'cut' ? 'cut' : 'mute')
       setTempSel(null)
     } else {
       ed.play(d.startT)
     }
-  }, [ed, xToTime])
+  }, [ed, xToTime, regionMode])
+
+  // 전역 모드 전환 — mute/cut 선택 시 기존 구간 전체를 그 방식으로 강제 정렬한다.
+  const changeRegionMode = useCallback((m: 'mute' | 'cut' | 'free') => {
+    setRegionMode(m)
+    if (m !== 'free') ed.setAllRegionsMode(m)
+  }, [ed])
 
   const pct = (t: number) => dur > 0 ? `${(t / dur) * 100}%` : '0%'
   const widthPct = (a: number, b: number) => dur > 0 ? `${(Math.abs(b - a) / dur) * 100}%` : '0%'
@@ -108,7 +116,7 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
       <div className="flex items-center gap-3 flex-wrap">
         <h3 className="text-sm font-semibold text-text-primary">들숨 제거·구간 잘라내기</h3>
         <span className="text-xs text-text-secondary">
-          파형을 드래그해 구간을 지정한다. 무음은 소리만 비우고(길이 유지), 잘라내기는 그 구간을 없애고 앞뒤를 붙인다(길이 단축). 클릭하면 그 위치부터 재생.
+          위쪽 「방식」으로 무음·잘라를 정하고 파형을 드래그해 구간을 지정한다. 무음은 소리만 비우고(길이 유지), 잘라내기는 그 구간을 없애고 앞뒤를 붙인다(길이 단축). 클릭하면 그 위치부터 재생.
         </span>
         <div className="ml-auto flex items-center gap-3 text-xs text-text-secondary">
           <span>{file.name}</span>
@@ -137,6 +145,31 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
           >
             원본 듣기
           </button>
+        </div>
+
+        {/* 전역 처리 방식 — 무음 / 잘라 / 자율 */}
+        <div className="flex items-center gap-2 text-text-secondary">
+          방식
+          <div role="group" className="inline-flex items-stretch rounded border border-border overflow-hidden">
+            {([
+              { key: 'mute', label: '무음', title: '모든 구간을 무음 처리 (길이 유지)' },
+              { key: 'cut', label: '잘라', title: '모든 구간을 잘라내기 (길이 단축)' },
+              { key: 'free', label: '자율', title: '구간마다 무음·잘라를 개별 지정' },
+            ] as const).map(m => (
+              <button
+                key={m.key}
+                onClick={() => changeRegionMode(m.key)}
+                title={m.title}
+                className={`px-3 py-1.5 border-l border-border first:border-l-0 ${
+                  regionMode === m.key
+                    ? 'bg-accent text-bg-primary font-semibold'
+                    : 'bg-bg-card text-text-secondary hover:bg-bg-hover'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <label className="flex items-center gap-2 text-text-secondary">
@@ -231,8 +264,9 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
               >
                 <button
                   onClick={() => ed.toggleRegionMode(r.id)}
-                  className={`rounded px-1.5 font-semibold ${isCut ? 'bg-sky-500/25 text-sky-200' : 'bg-red-500/25 text-red-200'}`}
-                  title="처리 방식 전환 (잘라내기 ↔ 무음)"
+                  disabled={regionMode !== 'free'}
+                  className={`rounded px-1.5 font-semibold disabled:cursor-default ${isCut ? 'bg-sky-500/25 text-sky-200' : 'bg-red-500/25 text-red-200'}`}
+                  title={regionMode === 'free' ? '처리 방식 전환 (잘라내기 ↔ 무음)' : '방식을 「자율」로 두면 구간마다 바꿀 수 있다'}
                 >
                   {isCut ? '잘라' : '무음'}
                 </button>
@@ -264,16 +298,24 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
         <div className="text-sm font-semibold text-text-primary">사용법</div>
         <ol className="list-decimal list-inside space-y-1.5">
           <li>
-            <span className="text-text-primary font-semibold">구간 지정</span> — 파형 위를 <span className="text-text-primary">드래그</span>하면 그 구간이 잡힙니다(처음엔 <span className="text-sky-300">잘라내기</span>=파랑).
+            <span className="text-text-primary font-semibold">방식 정하기</span> — 위쪽 「방식」에서 <span className="text-red-300">무음</span>·<span className="text-sky-300">잘라</span>·자율 중 하나를 고릅니다.
+            <span className="text-red-300">무음</span>이면 잡는 구간이 모두 무음, <span className="text-sky-300">잘라</span>면 모두 잘라내기로 처리됩니다. 기본은 <span className="text-red-300">무음</span>입니다.
+          </li>
+          <li>
+            <span className="text-text-primary font-semibold">구간 지정</span> — 파형 위를 <span className="text-text-primary">드래그</span>하면 그 구간이 잡힙니다.
             여러 군데를 연달아 지정할 수 있습니다. 파형을 클릭하면 그 위치부터 들어볼 수 있고, 잘 안 보이면 「증폭」·「확대」로 키우세요.
           </li>
           <li>
-            <span className="text-text-primary font-semibold">방식 바꾸기</span> — 잡은 구간을 그대로 두면 <span className="text-sky-300">잘라내기</span>(빈 구간을 없애고 앞뒤를 붙임)입니다.
-            소리만 비우려면 아래 구간 칩 맨 앞의 <span className="text-sky-300">「잘라」</span>를 눌러 <span className="text-red-300">「무음」</span>(들숨·잡소리 죽이기)으로 바꿉니다.
+            <span className="text-text-primary font-semibold">섞어 쓰기</span> — 구간마다 다르게 처리하려면 방식을 <span className="text-text-primary">「자율」</span>로 두고,
+            아래 구간 칩 맨 앞의 <span className="text-red-300">「무음」</span>↔<span className="text-sky-300">「잘라」</span> 버튼으로 구간별로 전환합니다.
           </li>
           <li>
             <span className="text-text-primary font-semibold">확인</span> — 칩의 「듣기」는 그 구간 소리만 앞뒤 여유를 두고 들려줍니다.
             잘못 잡았으면 ✕로 해제하세요. 「결과 미리듣기」는 잘라내기·무음을 모두 적용한 완성본을 들려줍니다.
+          </li>
+          <li>
+            <span className="text-text-primary font-semibold">보기 조절</span> — <span className="text-text-primary">「확대」</span>는 파형을 가로로 늘려 짧은 구간도 정확히 집을 수 있게 합니다.
+            <span className="text-text-primary">「증폭」</span>은 파형의 세로 높이만 키워 작은 들숨·잡소리를 눈에 띄게 합니다(소리 크기는 그대로, 보기에만 영향).
           </li>
           <li>
             <span className="text-text-primary font-semibold">저장</span> — 「적용 저장」을 누르면 파일이 덮어써집니다.

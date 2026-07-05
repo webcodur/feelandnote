@@ -1,7 +1,7 @@
 /**
  * 세력도(Faction) 에피소드 로더
  *
- * public/factions/{name}/data.json 한 파일을 스캔한다(한국어 필드 + 영문 필드 *En 병기).
+ * public/factions/{name}/faction-data.json 한 파일을 스캔한다(한국어 필드 + 영문 필드 *En 병기).
  * 한 파일에서 ko/en 두 벌의 스크립트를 펼친다.
  * - episodes:     key → 펼친 스크립트 (en은 key 뒤에 '-en')
  * - episodeNames: key → 폴더명(이미지 경로 factions/{폴더명}/images/ 구성용)
@@ -13,12 +13,12 @@
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from './types'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
-// 등록 에피소드 화이트리스트 — 폴더에 data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
+// 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
 import episodeRegistry from '../../../public/factions/_episodes.json'
 
 const ALLOW = new Set(episodeRegistry as string[])
-const ctx = require.context('../../../public/factions', true, /\/data\.json$/)
-const KEY_RE = /^\.\/(.+)\/data\.json$/
+const ctx = require.context('../../../public/factions', true, /\/faction-data\.json$/)
+const KEY_RE = /^\.\/(.+)\/faction-data\.json$/
 
 // 발화 시각 맵 — 편별 data.timing.p<N>.<lang>.json + 통합 data.timing.<lang>.json(레거시) 모두 로드해
 // 에피소드·언어별로 병합한다(없어도 무방, 폴백). key: `${name}__${locale}`
@@ -69,8 +69,7 @@ function resolveGroup(g: FactionGroup, en: boolean): FactionGroup {
     ...g,
     // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
     name: en ? (g.nameEn ?? g.name) : g.name,
-    clusters: g.clusters?.map(c => resolveCluster(c, en)),
-    people: g.people?.map(p => resolvePerson(p, en)) ?? [],
+    clusters: g.clusters.map(c => resolveCluster(c, en)),
   }
 }
 
@@ -100,17 +99,15 @@ function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings): VoiceTimings
   }
   data.groups.forEach((g, gi) => {
     if (g.disabled) return
-    if (g.solo) { (g.people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi)))); return }
-    const cl = g.clusters ?? [null]
-    cl.forEach((c, ci) => {
-      const people = c ? c.people : g.people
-      ;(people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
+    // 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 키는 항상 FxxCxxPxx (solo 포함).
+    ;(g.clusters ?? []).forEach((c, ci) => {
+      ;(c.people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
     })
   })
   return out ?? vt
 }
 
-/** data.json → 단일 언어 스크립트. en=false는 원본 그대로 반환한다. */
+/** faction-data.json → 단일 언어 스크립트. en=false는 원본 그대로 반환한다. */
 function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
   return {
     ...data,
@@ -121,6 +118,11 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
     // 시작문구는 영문 슬롯이 채워졌을 때만 노출 — 비어 있으면 표시하지 않는다(한글 누출 차단).
     logline: en ? data.loglineEn : data.logline,
     loglineByPart: en ? data.loglineByPartEn : data.loglineByPart,
+    loglineByLvPart: en ? data.loglineByLvPartEn : data.loglineByLvPart,
+    // 롱폼 배치 — 영문판은 시대 문구를 labelEn으로 치환(없으면 한국어 폴백). 세력 참조·편 경계(cut)는 그대로.
+    longformLayout: data.longformLayout?.map(it =>
+      'era' in it ? { era: { ...it.era, label: en ? (it.era.labelEn ?? it.era.label) : it.era.label } } : it,
+    ),
     groups: data.groups.map(g => resolveGroup(g, en)),
     voiceTimings,
   }

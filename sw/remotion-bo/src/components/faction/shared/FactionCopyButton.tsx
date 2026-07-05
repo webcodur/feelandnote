@@ -19,20 +19,16 @@ function flatName(v?: string): string {
   return lines.length > 1 ? `${lines[0]} — ${lines.slice(1).join(' ')}` : lines[0]
 }
 
-// 세력 한 블록: 헤더 + (묶음 라벨 + 인물들)
+// 세력 한 블록: 헤더 + (그룹 라벨 + 인물들)
 function groupBlock(group: FactionGroup, index: number): string {
   const lines: string[] = []
   lines.push(`[${index}] ${flatName(group.name)}`)
 
-  if (group.clusters?.length) {
-    group.clusters.forEach(cluster => {
-      const label = flatName(cluster.label)
-      if (label) lines.push(`(${label})`)
-      ;(cluster.people ?? []).forEach(p => lines.push(personLine(p)))
-    })
-  } else {
-    ;(group.people ?? []).forEach(p => lines.push(personLine(p)))
-  }
+  ;(group.clusters ?? []).forEach(cluster => {
+    const label = flatName(cluster.label)
+    if (label) lines.push(`(${label})`)
+    ;(cluster.people ?? []).forEach(p => lines.push(personLine(p)))
+  })
   return lines.join('\n')
 }
 

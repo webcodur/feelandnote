@@ -107,6 +107,9 @@ export function LongformView({ episode, sectionMap, onUpdate, onToggleExpand, ac
                   addAnchor={addAnchor}
                   handlePick={handlePick}
                   updateQuotePair={state.updateQuotePair}
+                  updateAfterSplit={state.updateAfterSplit}
+                  updateBookPartSetting={state.updateBookPartSetting}
+                  updateAfterPartSetting={state.updateAfterPartSetting}
                   addQuotePair={state.addQuotePair}
                   removeQuotePair={state.removeQuotePair}
                   saveField={state.saveField}

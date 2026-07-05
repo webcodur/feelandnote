@@ -569,6 +569,34 @@ export function runTask(type: string, series: string, episode: string, args: str
   return task
 }
 
+/**
+ * 순차 실행 태스크 — 명령들을 앞에서부터 차례로 실행한다. 직전 단계가 성공(done)했을
+ * 때만 다음 단계로 넘어가고, 실패(error)·취소(cancelled) 시 체인을 중단한다.
+ * 여러 단계를 하나의 Task 로 묶어 로그를 누적한다. (예: 음성 생성 → 받아쓰기 → 발화시각)
+ */
+export function runTaskSequence(type: string, series: string, episode: string, argsList: string[][]): Task {
+  const id = `${type}-${nextTaskId()}`
+  const task: Task = { id, type, series, episode, status: 'running', log: [], startedAt: new Date().toISOString() }
+  tasks.set(id, task)
+  let i = 0
+  const runNext = () => {
+    if (i >= argsList.length) return
+    const args = argsList[i]
+    task.log.push(`[seq ${i + 1}/${argsList.length}] pnpm ${args.join(' ')}`)
+    spawnTask(task, args, () => {
+      // 직전 단계가 성공하지 못했으면(error/cancelled) 체인 중단 — 그 status 가 최종값으로 남는다
+      if (task.status !== 'done') return
+      i += 1
+      if (i < argsList.length) {
+        task.status = 'running' // 다음 단계 진행 (마지막 단계의 done 은 그대로 유지됨)
+        runNext()
+      }
+    })
+  }
+  runNext()
+  return task
+}
+
 /** FIFO 업로드 큐 — 한 번에 하나, 누른 순서대로 */
 export function queueTask(type: string, series: string, episode: string, args: string[]): Task {
   const id = `${type}-${nextTaskId()}`

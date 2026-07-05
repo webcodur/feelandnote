@@ -29,7 +29,58 @@ export interface ZoomFocus {
   y?: number
 }
 
-export interface FactionPerson {
+/**
+ * 카드뉴스(SNS) 전용 필드 — 영상 렌더는 쓰지 않고, 세력도 카드 미리보기·출고에만 쓴다.
+ * 영상 데이터(faction-data.json)와 분리해 person-cards/<인물>.json 에 저장하고,
+ * mergeFactionCards 가 인물 이름 키로 영상 인물에 병합한다.
+ * remotion Faction/types.ts 의 인물 카드 필드와 구조 동기화.
+ */
+export interface FactionCardFields {
+  /** 카드뉴스용 짧은 대사 — 카드 한 장에 들어갈 축약 대사. 없으면 quote 를 쓴다 */
+  quoteCard?: string
+  /** 카드뉴스 물음표 카드 큰 문구(headline). 비우면 대표 직함(lines[0])으로 폴백. 영상 미사용 */
+  cardHeadline?: string
+  /** 카드뉴스 물음표 카드 소개글 본문. 비우면 epithet 으로 폴백. 영상 미사용 */
+  cardBody?: string
+  /** 카드뉴스 연표 카드 — 인물별 연도·사건 (영상 미사용, SNS 카드 전용) */
+  cardTimeline?: { title?: string; items: { year: string; text: string }[] }
+  /**
+   * 카드뉴스 스토리 — 인물 캐러셀 중심부(인물당 3장 기준). 한 항목 = 카드 한 장.
+   * image 는 그 장의 배경 컨셉샷(없으면 개인샷 폴백). 영상 미사용, SNS 카드 전용.
+   */
+  cardStory?: { text: string; image?: string }[]
+  /**
+   * 카드뉴스 안내 서사 — 각 장 하단 안내 구간 문구. 키는 장 종류:
+   * brief(첫 장)·quote(말)·identity(신원)·logo(소속 세력)·shot(소속 그룹)·map(도감 위치)·about(안내).
+   * 비운 키는 그 장에서 안내 구간을 생략한다. 영상 미사용, SNS 카드 전용.
+   */
+  cardGuides?: { brief?: string; quote?: string; identity?: string; logo?: string; shot?: string; map?: string; about?: string }
+  /** 카드뉴스 얼굴 사진 — 신원·말 카드의 작은 원형 얼굴 전용(없으면 개인샷 얼굴 크롭 폴백). 영상 미사용 */
+  cardFace?: string
+  /** 카드뉴스 게시 캡션 — feed=인스타·틱톡 캐러셀, threads=쓰레드 본문, x=X 트윗. 렌더 미사용(게시 시 복사용) */
+  cardCaptions?: { feed?: string; threads?: string; x?: string }
+  /** 카드뉴스 대사 장 배경 사진 — 비면 카드에 「대사 이미지 없음」 표시(폴백 없음). 영상 미사용 */
+  cardQuoteImage?: string
+}
+
+/**
+ * 세력 중심 카드뉴스 전용 필드 — 세력 철학, 스토리 등을 저장.
+ * person-cards 와 유사하게 faction-cards.json 내 groups 에 저장된다.
+ */
+export interface FactionGroupCardFields {
+  /** 세력 카드뉴스 표제(철학/모토) */
+  cardHeadline?: string
+  /** 세력 카드뉴스 소개/강령 본문 */
+  cardBody?: string
+  /** 세력 카드뉴스 스토리 (주요 갈등, 연혁 등) */
+  cardStory?: { text: string; image?: string }[]
+  /** 세력 카드뉴스 하단 안내 문구 */
+  cardGuides?: { brief?: string; quote?: string; identity?: string; logo?: string; shot?: string; map?: string; about?: string }
+  /** 세력 카드뉴스 게시 캡션 */
+  cardCaptions?: { feed?: string; threads?: string; x?: string }
+}
+
+export interface FactionPerson extends FactionCardFields {
   /** 이름 (예: '샘 알트만') */
   name: string
   /** 이름 영문 (영문판에서 name 대체) */
@@ -76,6 +127,8 @@ export interface FactionPerson {
   epithetEleTrail?: boolean
   /** 수식어 표시 방식 — true=낭독(음원 재생), false=타이핑 소리+글자만(음원 무시). 미지정이면 음원 있으면 낭독·없으면 타이핑 */
   epithetNarrate?: boolean
+  /** 직함 표시 방식 — true=타이핑 효과(글자씩 점등), false/미지정=순차 등장(기존) */
+  linesTyping?: boolean
   /** 인물 직함·이력 줄 (3줄 권장). 한 줄씩 순차 등장 */
   lines?: string[]
   /** 인물 직함·이력 줄 영문 */
@@ -119,6 +172,8 @@ export interface FactionPerson {
   celebId?: string
   /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
   disabled?: boolean
+  /** 켜면 이 인물만 세로 쇼츠에서 빠지고 가로 롱폼에는 그대로 나온다 */
+  longformOnly?: boolean
   /**
    * 대사 처리 스텝 (신모델) — 3개 독립 토글. 켜진 스텝이 순서대로 나오고 마지막에 대사로 교차한다.
    * 흐름: (직함 2·3줄) → (수식어 타이핑) → (대사). 음성이 꺼지면 대사는 안 뜨고 켜진 리드 스텝만 보이고 끝.
@@ -211,7 +266,7 @@ export interface FactionCluster {
   longformOnly?: boolean
 }
 
-export interface FactionGroup {
+export interface FactionGroup extends Partial<FactionGroupCardFields> {
   /** 세력 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=명칭(식별자), 나머지=설명(세력색) */
   name: string
   /**
@@ -249,16 +304,16 @@ export interface FactionGroup {
   nameEn?: string
   /** 테마 색 (hex) */
   color?: string
-  /** 로고 이미지 basename 또는 URL */
-  logo?: string
+  /** 영상 로고 (타이틀 카드 풀스크린 배경, mp4 등). 있으면 logoImg보다 우선. basename·폴더경로·URL */
+  logoVid?: string
   /** 세력 전체 그룹 화보 (clusters가 없는 팀의 화보 카드에 표시). basename·폴더경로·URL */
   image?: string
   /** 세력 화보(image) 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
   imageCrop?: FactionImageCrop
-  /** 세력 로고 컨셉아트 (타이틀 카드 풀스크린 배경). 회사 등장 직전 진입 비주얼 */
-  titleArt?: string
-  /** 로고 컨셉아트(titleArt) 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
-  titleArtCrop?: FactionImageCrop
+  /** 이미지 로고 (타이틀 카드 영상 없을 때 풀스크린·카드뉴스 공용). basename·폴더경로·URL */
+  logoImg?: string
+  /** 로고(logoVid·logoImg) 타이틀 카드 표시 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
+  logoCrop?: FactionImageCrop
   /**
    * 무소속 개인 모음 여부. true면 팀이 아니라 독립 인물군이다.
    * 세력 카드(팀 등장)를 생략하고 인물 컷만 순차 노출한다. (예: '재야')
@@ -322,9 +377,34 @@ export type GlitchLevel = 'light' | 'heavy' | 'tail'
 /** 지지직 설정값 — 레거시 boolean 호환(true=heavy, false=끄기) + 강도 명시. */
 export type GlitchSetting = boolean | GlitchLevel
 
+/**
+ * 시대 문구 카드 — 롱폼 배치(longformLayout)에서 세력 블록 사이에 끼우는 장(章) 표지 텍스트.
+ * label 은 통합형 '앞부분\n뒷부분'(개행). 앞부분 크게·흰색, 뒷부분 강조색. 예: '4강\n패권을 다투다'.
+ */
+export interface FactionEra {
+  /** 시대 문구 — 통합 한 필드(앞부분\n뒷부분) */
+  label: string
+  /** 시대 문구 영문 (통합형, 앞부분\n뒷부분) */
+  labelEn?: string
+}
+
+/**
+ * 롱폼 배치 한 칸 — 세력 블록(group: 원래 세력 인덱스) 또는 시대 문구 카드(era) 또는 편 경계(cut).
+ * longformLayout 항목 순서대로 롱폼이 흐른다. cut 을 꽂으면 그 지점에서 여러 편으로 갈라진다.
+ */
+export type FactionLongformItem =
+  | { group: number }
+  | { era: FactionEra }
+  | { cut: true }
+
 export interface FactionScript {
   /** 영상 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=앞부분(흰색), 나머지=뒷부분(세력색) */
   title: string
+  /**
+   * 롱폼(쇼츠 아님) 전용 배치 — 세력 블록 순서를 직접 큐레이션하고 사이사이 시대 문구 카드를 끼운다.
+   * 항목 순서대로 롱폼이 흐른다(group=세력 블록, era=시대 문구, cut=편 경계). 비면 기존 동작(세력 배열 순서). 언어 공통.
+   */
+  longformLayout?: FactionLongformItem[]
   /** 인물 컷 진입 전환효과(세로 쇼츠). 미지정이면 크로스페이드 */
   transition?: FactionTransition
   /** 인물 컷 지속 효과(머무는 동안 카메라 움직임) — 에피소드 전역 기본. 세력·인물이 덮어쓴다. 미지정이면 none(정지) */
@@ -404,4 +484,41 @@ export interface FactionEpisodeListItem {
   personCount: number
   hasMusic: boolean
   status: FactionStatus
+}
+
+/**
+ * 카드뉴스 대본 파일 — 인물 이름을 키로 카드 전용 필드(FactionCardFields)를 담는다.
+ * 디스크에는 person-cards/<인물>.json 들로 흩어져 있고, API 응답에서 이름 키로 병합한 형태다.
+ */
+export interface FactionCardsFile {
+  people?: Record<string, Partial<FactionCardFields>>
+  groups?: Record<string, Partial<FactionGroupCardFields>>
+}
+
+/**
+ * 영상 데이터(FactionScript) 위에 카드 대본(FactionCardsFile)을 병합한다.
+ * 각 인물(세력 people·묶음 clusters.people)에 이름이 일치하는 카드 필드를 덮어씌워
+ * 카드 미리보기·출고의 단일 원본을 만든다. 원본 script 는 바뀌지 않는다(복사본 반환).
+ */
+export function mergeFactionCards(script: FactionScript, cards: FactionCardsFile): FactionScript {
+  const byPersonName = cards.people ?? {}
+  const byGroupName = cards.groups ?? {}
+
+  const mergePerson = (p: FactionPerson): FactionPerson => {
+    const card = byPersonName[p.name]
+    return card ? { ...p, ...card } : p
+  }
+
+  return {
+    ...script,
+    groups: (script.groups ?? []).map(g => {
+      const gCard = byGroupName[g.name] ?? {}
+      return {
+        ...g,
+        ...gCard,
+        people: (g.people ?? []).map(mergePerson),
+        ...(g.clusters ? { clusters: g.clusters.map(c => ({ ...c, people: (c.people ?? []).map(mergePerson) })) } : {}),
+      }
+    }),
+  }
 }

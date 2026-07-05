@@ -396,6 +396,18 @@ const targetEpisodes = Object.fromEntries(
 )
 
 async function main() {
+  // 렌더 중 시스템 유휴 대기(Modern Standby) 진입 차단 — 밤샘 렌더 동결 방지.
+  // 잠금은 자식 프로세스에 걸리며, 렌더 종료(정상·강제 모두) 시 자동 해제된다.
+  if (process.platform === 'win32') {
+    const keepAwake = spawn('powershell.exe', [
+      '-NoProfile', '-ExecutionPolicy', 'Bypass',
+      '-File', join(__dirname, 'keep-awake.ps1'),
+      '-RenderPid', String(process.pid),
+    ], { stdio: 'ignore', windowsHide: true })
+    keepAwake.unref()
+    process.on('exit', () => { try { keepAwake.kill() } catch { /* 이미 종료 */ } })
+  }
+
   const entries = Object.entries(targetEpisodes)
   const totalJobs: string[] = []
 
@@ -404,7 +416,7 @@ async function main() {
     if (!script) continue
     const { label, lang } = toCompId(name)
     const p = `${label}-${lang}`
-    if (!only || only === 'longform') totalJobs.push(`${p}-LH-VID`, `${p}-LH-THUMB`)
+    if (!only || only === 'longform') totalJobs.push(`${p}-L-VID`, `${p}-LH-THUMB`)
     if (!only || only === 'shorts') {
       const shortsArr = (script.shorts ?? []) as any[]
       for (let i = 0; i < shortsArr.length; i++) {
@@ -442,7 +454,7 @@ async function main() {
 
     // 롱폼
     if (!only || only === 'longform') {
-      const compId = `${compPrefix}-LH-VID`
+      const compId = `${compPrefix}-L-VID`
       jobIdx++
       if (!srtOnly) {
         console.log(`\n${'─'.repeat(60)}`)

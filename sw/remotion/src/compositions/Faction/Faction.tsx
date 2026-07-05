@@ -12,6 +12,7 @@ import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
 import { personCutKind } from './utils'
 import { transitionEnterSec, isSlideKind, slideDir } from './transitions'
 import { TopHeader } from './sections/TopHeader'
+import { FactionProgress } from './sections/FactionProgress'
 import { CueLayer } from './sections/CueLayer'
 import { SrtPreview } from './studio/SrtPreview'
 
@@ -19,16 +20,17 @@ import { SrtPreview } from './studio/SrtPreview'
 
 // shorts: true면 쇼츠(롱폼 전용 세력 제외, 짧게). 미지정이면 세로=쇼츠로 간주(기존 동작).
 // orientation은 화면 레이아웃(세로/가로), shorts는 컷 구성 — 둘을 분리해 'LV(세로인데 전체)' 같은 조합을 만든다.
-export const Faction: React.FC<{ script: FactionScript; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number }> = ({ script, episodeName, orientation = 'portrait', shorts, part }) => {
+export const Faction: React.FC<{ script: FactionScript; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number; lvPart?: number }> = ({ script, episodeName, orientation = 'portrait', shorts, part, lvPart }) => {
   const frame = useCurrentFrame()
   const isShorts = shorts ?? (orientation === 'portrait')
-  // 쇼츠일 때만 편(part) 분할 적용. 롱폼은 전체 노출.
+  // 쇼츠일 때만 편(part) 분할 적용. 롱폼은 편 경계(cut) 기반 lvPart 분할(경계 없으면 전체 통짜).
   const activePart = isShorts ? part : undefined
-  const cues = useMemo(() => buildCues(script, isShorts, activePart), [script, isShorts, activePart])
+  const activeLvPart = isShorts ? undefined : lvPart
+  const cues = useMemo(() => buildCues(script, isShorts, activePart, activeLvPart), [script, isShorts, activePart, activeLvPart])
   // 별도 자막(.srt) 미리보기 — Studio 토글 전용. 렌더 결과물에는 들어가지 않는다.
   const isStudio = getRemotionEnvironment().isStudio
   const [showSrt, setShowSrt] = useState(false)
-  const srtSubs = useMemo(() => (showSrt ? buildFactionSubs(script, isShorts, activePart) : []), [showSrt, script, isShorts, activePart])
+  const srtSubs = useMemo(() => (showSrt ? buildFactionSubs(script, isShorts, activePart, activeLvPart) : []), [showSrt, script, isShorts, activePart, activeLvPart])
   const last = cues[cues.length - 1]
   const total = last ? last.start + last.duration : 0
   // 마지막 인물 컷 인덱스 — 최종화면(outro)은 보통 그 뒤에 붙으므로 cues 끝과 다르다.
@@ -108,9 +110,9 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
     : 0
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
-      <FactionBgm script={script} total={total} portrait={isShorts} part={activePart} />
+      <FactionBgm script={script} total={total} portrait={isShorts} part={activePart} lvPart={activeLvPart} />
       {/* 시작 효과음 — 로그라인이 떠오르는 시점에 함께 울리고, 로그라인이 사라지는 구간에 같이 페이드아웃된다. BO에서 음원 선택. */}
-      {script.startSfx && ((activePart != null && script.loglineByPart?.[activePart]) || script.logline) && (() => {
+      {script.startSfx && ((activePart != null && script.loglineByPart?.[activePart]) || (activeLvPart != null && script.loglineByLvPart?.[activeLvPart]) || script.logline) && (() => {
         const introSec = script.introSec ?? INTRO_SEC
         return (
           <Sequence from={f(1.0)} durationInFrames={f(introSec - 1.0)}>
@@ -128,7 +130,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
         </Sequence>
       ) : null)}
       {cues.map((tc, i) => (
-        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
+        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} lvPart={activeLvPart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
       ))}
       {/* 슬라이드 완충(a x b) — 경계 위에 얹는 블러 띠. 마스크로 가장자리(a·b)는 블러가 0에서 천천히
           살아나고 가운데(x)에서 최대 → A·B 본체에는 영향이 없고 경계만 흐려 잇는다 */}
@@ -144,7 +146,9 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
           zIndex: 60, pointerEvents: 'none',
         }} />
       )}
-      {showHeader && <TopHeader caption={(activePart != null && script.titleByPart?.[activePart]) || script.title} opacity={headerOp} accent={headerAccent} />}
+      {/* 가로 롱폼 전용 진행 표시 — 하단 세력색 타임라인 + 우상단 현재 세력/카운트 */}
+      {orientation === 'landscape' && <FactionProgress script={script} cues={cues} frame={frame} total={total} />}
+      {showHeader && <TopHeader caption={(activePart != null && script.titleByPart?.[activePart]) || (activeLvPart != null && script.titleByLvPart?.[activeLvPart]) || script.title} opacity={headerOp} accent={headerAccent} />}
       {/* 하단 고정 빈 영역(블랙 프레임) — 상단 헤더와 같은 규격으로 통일(북리커맨드 쇼츠와 동일). 자막은 이 위 MID 영역 하단에 얹힌다. */}
       {showHeader && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: SAFE_BOTTOM, background: BG, zIndex: 50, opacity: headerOp }} />}
       {/* 시작·끝 검정 페이드 — 모든 컷·헤더 위에 덮는다 */}

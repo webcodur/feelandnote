@@ -112,6 +112,29 @@ export function useVoiceGeneration({
   // 생성 중 취소 — 진행 중인 미리듣기 합성 요청을 중단한다.
   const handleCancelGenerate = () => genAbortRef.current?.abort()
 
+  // ── 발화시각 정렬 (on-demand) ──
+  // 저장된 음원이 마음에 들 때 눌러, 그 음원에 맞춰 받아쓰기·발화시각을 다시 잡는다.
+  // 자막 분할(chunk)은 건드리지 않아 기존 분할이 유지된다. whisper 라 수 초~수십 초 걸린다.
+  const [aligning, setAligning] = useState(false)
+  const alignCurrent = async (key: string) => {
+    if (aligning) return
+    setAligning(true)
+    setError(null)
+    try {
+      const ar = await fetch(`/api/${series}/voice/analyze`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ episode: name, only: key }),
+      })
+      const ad = await ar.json().catch(() => ({}))
+      if (!ad.ok) setError('정렬 실패: ' + (ad.error ?? ar.statusText))
+      else { playDing(); onRefresh() }
+    } catch (e) {
+      setError('정렬 에러: ' + String(e))
+    } finally {
+      setAligning(false)
+    }
+  }
+
   // ── 미리듣기 저장 (엔진별 슬롯 폴더 분기) ──
   const handleSavePreview = async (key: string) => {
     if (!tempPreview || tempPreview.key !== key) return
@@ -186,6 +209,8 @@ export function useVoiceGeneration({
     tempPreview, setTempPreview,
     handleGenerate,
     handleCancelGenerate,
+    aligning,
+    alignCurrent,
     handleSavePreview,
     saveTrimmed,
   }

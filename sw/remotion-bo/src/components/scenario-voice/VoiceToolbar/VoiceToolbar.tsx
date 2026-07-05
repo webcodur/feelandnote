@@ -36,6 +36,7 @@ export function VoiceToolbar({
     engine, setEngine,
     role, setRole,
     only, setOnly,
+    thenAlign, setThenAlign,
     eleSettingsOpen, setEleSettingsOpen,
     eleBatchRunning,
     eleBatchStatus,
@@ -77,6 +78,8 @@ export function VoiceToolbar({
           setRole={setRole}
           only={only}
           setOnly={setOnly}
+          thenAlign={thenAlign}
+          setThenAlign={setThenAlign}
           hasShorts={hasShorts}
           post={post}
         />

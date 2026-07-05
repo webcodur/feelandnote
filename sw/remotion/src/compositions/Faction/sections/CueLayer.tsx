@@ -9,6 +9,7 @@ import { vnPersonQuote, vnTimingKey } from '../voice-names'
 import { IntroCard } from './IntroCard'
 import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
+import { EraCard } from './EraCard'
 import { FilledImage } from './FilledImage'
 import { BrandLogo } from '../../BookRecommend/utils'
 
@@ -29,7 +30,7 @@ const OutroCard: React.FC<{ script: FactionScript; episodeName: string }> = ({ s
   )
 }
 
-export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; nextCutKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, nextCutKind, isLast, isLastPerson, isShorts = false }) => {
+export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; lvPart?: number; nextCutKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, lvPart, nextCutKind, isLast, isLastPerson, isShorts = false }) => {
   const { start, duration, cue } = tc
   const end = start + duration
   // 최종화면(outro) 진입은 더 완만한 크로스페이드, 그 외 컷 전환은 기본값.
@@ -40,10 +41,17 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // 자기 컷 전환(진입 효과) 종류 — 세로 쇼츠 인물 컷만.
   const cutKind = personCutKind(script, cue, orientation)
 
+  // 진입: 자기 컷 전환이면 이전 컷 끝보다 앞당겨 시작(이전 인물 위로). 아니면 크로스페이드.
+  const enterSec = cutKind ? transitionEnterSec(cutKind) : crossSec
+  const enterStart = start - f(enterSec)
+  // 화면 밖 컷은 내용을 만들기 전에 즉시 종료 — 매 프레임 전체 컷을 돌므로 여기서 끊어야 싸다.
+  if (frame < enterStart || frame > end + cf) return null
+
   const noZoom = !!script.noZoom
   let content: React.ReactNode = null
-  if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} />
+  if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} lvPart={lvPart} />
   else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} />
+  else if (cue.kind === 'era') content = <EraCard label={cue.label} />
 
   else if (cue.kind === 'group') {
     const g = script.groups[cue.groupIndex]
@@ -55,9 +63,7 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     content = <ClusterCard episodeName={episodeName} group={g} cluster={cl} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script, cl)} shake={resolveHoldShake(cl.holdShake, g, script)} enter={resolveEnterMotion(cl.enterMotion, g, script)} glitch={resolveGlitchHold(cl.holdGlitch, g, script, true)} zoomSpeed={resolveZoomSpeed(cl.zoomSpeed, g, script)} />
   } else if (cue.kind === 'person') {
     const g = script.groups[cue.groupIndex]
-    const person = cue.clusterIndex != null
-      ? clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
-      : g.people[cue.personIndex]
+    const person = clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
     const stem = vnTimingKey(vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex))
     // 마지막 인물 컷이면 대사 끝 시점부터 줌인을 멈추고 종료 꼬리 동안 정지시킨다.
     const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.steps, isShorts) : undefined
@@ -71,13 +77,9 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} />
   }
 
-  // 진입: 자기 컷 전환이면 이전 컷 끝보다 앞당겨 시작(이전 인물 위로). 아니면 크로스페이드.
-  const enterSec = cutKind ? transitionEnterSec(cutKind) : crossSec
-  const enterStart = start - f(enterSec)
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).
   const nextSlide = isSlideKind(nextCutKind)
   const exitStart = nextSlide ? end - f(transitionEnterSec(nextCutKind!)) : end
-  if (frame < enterStart || frame > end + cf) return null
 
   // ── 슬라이드 transform(두 컷이 함께 미끄러짐) ──
   let slideX = 0

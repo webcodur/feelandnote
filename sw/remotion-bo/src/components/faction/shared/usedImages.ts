@@ -2,7 +2,7 @@ import type { FactionScript } from '@/lib/faction-types'
 
 /**
  * FactionScript 데이터에서 영상에 연결된 이미지 경로를 모두 수집한다.
- * 수집 대상: group.titleArt·image·logo, cluster.image, person.image,
+ * 수집 대상: group.logoVid·logoImg·image, cluster.image, person.image,
  *   시작 화면 이미지(heroes/heroesByPart 의 'logo:<경로>'), 종료 이미지(outroImage).
  * heroes 의 인물 slug 는 person.image 로 이미 잡히므로 'logo:' 항목만 별도로 더한다.
  * 외부 URL(http로 시작)은 풀(로컬 파일)과 무관하므로 제외한다.
@@ -34,14 +34,12 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   add(script.outroImage)
 
   for (const group of script.groups ?? []) {
-    add(group.titleArt)
-    add(group.image)
-    add(group.logo)
+    add(group.logoVid)
+    add(group.logoImg)
     for (const cluster of group.clusters ?? []) {
       add(cluster.image)
       for (const person of cluster.people ?? []) addPerson(person)
     }
-    for (const person of group.people ?? []) addPerson(person)
   }
 
   return used
@@ -70,11 +68,9 @@ export function remapFactionImages(script: FactionScript, map: (path: string) =>
 
   const groups = (script.groups ?? []).map(g => ({
     ...g,
-    titleArt: m(g.titleArt),
-    image: m(g.image),
-    logo: m(g.logo),
-    clusters: g.clusters?.map(c => ({ ...c, image: m(c.image), people: (c.people ?? []).map(mapPerson) })),
-    people: (g.people ?? []).map(mapPerson),
+    logoVid: m(g.logoVid),
+    logoImg: m(g.logoImg),
+    clusters: (g.clusters ?? []).map(c => ({ ...c, image: m(c.image), people: (c.people ?? []).map(mapPerson) })),
   }))
 
   const next: FactionScript = { ...script, groups }

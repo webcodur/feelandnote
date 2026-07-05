@@ -12,19 +12,29 @@ import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
-import { randomUUID } from 'crypto'
 
 const TAG_ID = 'e4a87099-b467-4d2d-a7d8-77e7e16aeb87'
 const FACTION_ROOT = resolve(process.cwd(), '../remotion/public/factions/02-페이팔마피아')
 
 const CELEBS = [
-  { id: '66b5640e-e37a-40cd-aece-56bf6e6cf638', name: '리드 호프먼', file: '03-social-empire/reid-hoffman_1.png' },
+  // 마피아 본가
   { id: 'fbdf6dda-c4cd-416d-8a9b-a2a5fc7d30e1', name: '피터 틸', file: '01-the-dons/peter-thiel_1.png' },
   { id: 'c8ac8c9d-c229-4570-ad5f-0b68a59153c0', name: '일론 머스크', file: '01-the-dons/elon-musk_1.png' },
   { id: '703ab957-8a6d-41b2-955f-9b957029e152', name: '맥스 레브친', file: '01-the-dons/max-levchin_1.png' },
-  { id: 'e8c50145-ccf6-4440-8ee8-1580626f29be', name: '채드 헐리', file: '02-media-empire/chad-hurley_1.png' },
+  // 유튜브 제국
   { id: '4386088a-d061-46e7-b3a0-6bdc3911c1d9', name: '스티브 첸', file: '02-media-empire/steve-chen_1.png' },
+  { id: 'e8c50145-ccf6-4440-8ee8-1580626f29be', name: '채드 헐리', file: '02-media-empire/chad-hurley_1.png' },
   { id: '722ef671-9203-4978-a2d9-617438695e06', name: '자베드 카림', file: '02-media-empire/jawed_karim_1.png' },
+  // 소셜 제국
+  { id: '66b5640e-e37a-40cd-aece-56bf6e6cf638', name: '리드 호프먼', file: '03-social-empire/reid-hoffman_1.png' },
+  { id: 'ef117e5d-e66c-433b-bc40-1874ee7b5f0b', name: '제레미 스토플먼', file: '03-social-empire/jeremy-stoppelman_1.png' },
+  { id: 'f0c9450b-9423-48a7-bf9e-14204f5fd67a', name: '러셀 시몬스', file: '03-social-empire/russel-simmons.png' },
+  // 킹메이커
+  { id: 'f61f1bc5-1a34-4c21-b22d-ca65c406ef7e', name: '로엘로프 보타', file: '04-kingmakers/roelof-botha_1.png' },
+  { id: 'e8b962ac-f0de-482c-a994-130be4ce8bfc', name: '키스 라보이스', file: '04-kingmakers/keith-rabois_1.png' },
+  { id: 'de012c28-ba65-499d-abf6-5c7200ad6013', name: '데이비드 색스', file: '04-kingmakers/david-sacks_1.png' },
+  { id: '87be84f8-e19c-4995-b3d8-18a934e9ad47', name: '켄 하워리', file: '04-kingmakers/ken-howery_1.png' },
+  { id: 'cc7309e1-aa46-4b04-b424-897892246ac3', name: '루크 노섹', file: '04-kingmakers/luke-nosek_1.png' },
 ]
 
 const TEAM = [
@@ -62,11 +72,11 @@ async function main() {
 
   // 2) 단체 배너
   const teamUrls: string[] = []
-  for (const rel of TEAM) {
+  for (const [i, rel] of TEAM.entries()) {
     const path = resolve(FACTION_ROOT, rel)
     if (!existsSync(path)) { console.log(`  단체샷 없음: ${rel}`); continue }
     const body = await toWebp(path)
-    const key = `spotlight/${TAG_ID}/team/${randomUUID()}.webp`
+    const key = `spotlight/${TAG_ID}/team/${i}.webp`
     await r2.send(new PutObjectCommand({ Bucket, Key: key, Body: body, ContentType: 'image/webp', CacheControl: 'no-cache, must-revalidate' }))
     teamUrls.push(`${R2_PUBLIC_URL}/${key}`)
     console.log(`  단체샷 업로드: ${rel}`)

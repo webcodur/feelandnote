@@ -29,6 +29,17 @@ export function unmatchedImages(
   })
 }
 
+/** 한 필드의 이미지들을 토막별로 분배 — 앵커 텍스트가 든 토막에 붙인다.
+ *  앵커(text) 없는 이미지는 첫 토막. 토막이 1개면 전부 그대로. 요약·감상 배경·후속 맥락 공용. */
+export function imagesForPart(imgs: CinematicImage[], parts: string[], p: number): CinematicImage[] {
+  if (parts.length <= 1) return imgs
+  return imgs.filter(img => {
+    if (!img.text) return p === 0
+    const owner = parts.findIndex(pt => pt.includes(img.text!))
+    return owner < 0 ? p === 0 : owner === p
+  })
+}
+
 // --- Image prefix system ---
 
 /** Image prefix format: {bookNum}-{fieldCode}-{baseName}.{ext} */

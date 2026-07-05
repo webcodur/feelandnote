@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>09 디지털저항군 — 카드 테스트 (실데이터·실이미지)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cy:#00ff00;--fs:#3366ff;--wb:#ffb300;--gold:#c0a062;--ink:#0c0d11}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  background:#0a0b0e;color:#e8e6e0;padding:34px 22px 100px;-webkit-font-smoothing:antialiased;line-height:1.5}
+h1{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:5px}
+.lead{color:#8a8c93;font-size:13px;margin-bottom:8px;line-height:1.65}
+.note{color:#7e8088;font-size:12px;padding:11px 14px;background:#14161c;border-radius:8px;border-left:3px solid #2e3742;margin:14px 0}
+
+.sec{font-size:13px;font-weight:800;letter-spacing:1.5px;margin:54px 0 6px;padding-bottom:8px;border-bottom:1px solid #21232a;color:var(--gold)}
+.secsub{color:#8a8c93;font-size:12.5px;margin:8px 0 20px;line-height:1.6}
+.ratio{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:5px;
+  background:rgba(127,166,192,.16);color:#9ab8ef;margin-left:8px;vertical-align:middle}
+
+/* 캐러셀 */
+.carousel{display:flex;gap:15px;overflow-x:auto;padding:6px 2px 20px;scroll-snap-type:x mandatory}
+.carousel::-webkit-scrollbar{height:8px}
+.carousel::-webkit-scrollbar-thumb{background:#34373f;border-radius:8px}
+.card{flex:0 0 auto;border-radius:18px;overflow:hidden;position:relative;scroll-snap-align:center;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.c45{width:296px;aspect-ratio:4/5}
+.c11{width:320px;aspect-ratio:1/1}
+.pageno{position:absolute;top:12px;right:13px;z-index:8;font-size:10.5px;font-weight:700;letter-spacing:.5px;
+  padding:4px 9px;border-radius:999px;background:rgba(0,0,0,.45);color:#fff;backdrop-filter:blur(4px)}
+.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%}
+
+/* ── 팀 표지 ── */
+.cover .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover .ov{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:26px 22px;background:linear-gradient(180deg,transparent 22%,rgba(6,7,5,.55) 55%,rgba(6,7,5,.95) 100%)}
+.cover .kick{font-size:11px;font-weight:700;letter-spacing:3px;margin-bottom:11px;text-transform:uppercase}
+.cover .tt{font-size:31px;font-weight:900;line-height:1.12;letter-spacing:-1px}
+.cover .ln{width:42px;height:3px;margin:14px 0 11px}
+.cover .sub{color:#d4ccbb;font-size:13px;line-height:1.5}
+
+/* ── 대사 풀블리드 (메인) ── */
+.qcard{background:#0c0b08}
+.qcard .grad{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(6,6,4,.15) 0%,transparent 30%,rgba(8,8,6,.55) 60%,rgba(8,8,6,.97) 100%)}
+.qcard .mk{position:absolute;z-index:3;top:16px;left:18px;font-family:Georgia,serif;font-size:60px;line-height:.6;opacity:.85}
+.qcard .info{position:absolute;z-index:4;left:0;right:0;bottom:0;padding:22px 20px}
+.qcard .q{font-size:19px;font-weight:800;line-height:1.4;letter-spacing:-.4px;color:#fff;margin-bottom:16px}
+.qcard .who{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.qcard .nm{font-size:18px;font-weight:900}
+.qcard .role{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:5px}
+
+/* ── D 거대 타이포 명언 (1:1) ── */
+.dcard{overflow:hidden}
+.dcard .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(13px) brightness(.4) saturate(1.1);transform:scale(1.15)}
+.dcard .tint{position:absolute;inset:0;z-index:2}
+.dcard .body{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;padding:30px 26px}
+.dcard .mk{font-family:Georgia,serif;font-size:62px;line-height:.5;margin-bottom:14px}
+.dcard .q{font-size:22px;font-weight:800;line-height:1.42;letter-spacing:-.5px;color:#fff}
+.dcard .who{margin-top:22px;display:flex;align-items:center;gap:11px}
+.dcard .av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5)}
+.dcard .nm{font-size:15px;font-weight:800}.dcard .nm small{display:block;font-size:10.5px;font-weight:600;opacity:.7;letter-spacing:.5px;margin-top:2px}
+
+/* ── 세력 격자 (FC1) ── */
+.grid{display:grid;grid-template-rows:auto 1fr;padding:0}
+.grid .hd{padding:20px 20px 12px}
+.grid .hd .kk{font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.grid .hd .tt{font-size:22px;font-weight:900;letter-spacing:-.5px}
+.grid .faces{display:grid;gap:3px;padding:0 12px 14px}
+.grid.g4 .faces{grid-template-columns:1fr 1fr}
+.grid .face{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:1}
+.grid .face img{width:100%;height:100%;object-fit:cover}
+.grid .face .fn{position:absolute;left:0;right:0;bottom:0;padding:14px 9px 7px;font-size:11px;font-weight:700;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.88));color:#fff}
+
+/* ── 숫자 훅 (K) ── */
+.kcard{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;
+  background:radial-gradient(120% 90% at 50% 0,#16241a,#070a08)}
+.kcard .num{font-size:96px;font-weight:900;line-height:.85;letter-spacing:-4px;color:var(--cy)}
+.kcard .unit{font-size:15px;font-weight:700;margin-top:8px}
+.kcard .desc{font-size:13px;color:#9fb0a4;margin-top:16px;line-height:1.55}
+.kcard .tag{margin-top:20px;font-size:11px;letter-spacing:1px;color:var(--cy);opacity:.8}
+
+/* ── CTA ── */
+.cta{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;gap:14px;
+  background:linear-gradient(160deg,#1a1d17,#0a0b08)}
+.cta .logo{width:58px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#111;font-size:23px}
+.cta h3{font-size:20px;font-weight:800}
+.cta p{color:#b6bdac;font-size:12.5px;line-height:1.6}
+.cta .pill{margin-top:4px;font-size:11.5px;font-weight:700;color:#111;padding:9px 17px;border-radius:999px}
+
+.dots{display:flex;gap:6px;justify-content:center;margin-top:2px}
+.dots i{width:6px;height:6px;border-radius:50%;background:#34373f}.dots i.on{width:18px;border-radius:3px;background:#cfc4b2}
+
+/* X 격자 미리보기 */
+.xgrid{display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:560px;border-radius:14px;overflow:hidden}
+.xtweet{max-width:560px;background:#15171c;border:1px solid #23262e;border-radius:14px;padding:16px 18px;margin-bottom:10px;font-size:14px;line-height:1.6;color:#dfe2e8;white-space:pre-wrap}
+.xtweet .h{font-size:12px;color:#7e8088;margin-bottom:9px}
+</style>
+</head>
+<body>
+
+<h1>09 디지털저항군 — 카드 테스트</h1>
+<p class="lead">실제 <code>faction-data.json</code> 텍스트 + 영상용 실이미지(정사각). 팀이 한 목소리로 이어 말하는 구조가 메인 축.</p>
+<div class="note"><b>읽는 법:</b> 가로로 밀면 캐러셀(인스타 게시물 1건처럼) 넘어간다. 각 섹션 우측 라벨이 출력 비율. 같은 데이터를 비율만 바꿔 여러 플랫폼에 먹인다.</div>
+
+<!-- ============================================================ -->
+<div class="sec">A · 팀 한 목소리 캐러셀 <span class="ratio">4:5 · 인스타·쓰레드</span></div>
+<p class="secsub">메인 포맷. <b>세력 1개 = 게시물 1건.</b> 표지(그룹샷) → 인물 대사 카드(대사가 주인공, 직함은 한 줄만) → 팀 마무리. 한 팀의 대사들이 하나의 선언처럼 흐른다.</p>
+
+<!-- 사이퍼펑크 -->
+<div class="carousel">
+  <div class="card c45 cover">
+    <div class="pageno">1 / 6</div>
+    <img class="ph" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/_group.png" alt="">
+    <div class="ov">
+      <div class="kick" style="color:var(--cy)">Digital Resistance · 01</div>
+      <div class="tt">사이퍼펑크</div>
+      <div class="ln" style="background:var(--cy)"></div>
+      <div class="sub">암호로 국가의 통제 밖에 서다</div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">2 / 6</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/timothy-c-may.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--cy)">“</div>
+    <div class="info">
+      <div class="q">암호로 무장한 개인 앞에서, 국가의 감시는 더 이상 통하지 않는다.</div>
+      <div class="who"><span class="nm">티모시 C. 메이</span><span class="role" style="background:rgba(0,255,0,.16);color:#9affb0">크립토 아나키스트</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">3 / 6</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/john-perry-barlow.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--cy)">“</div>
+    <div class="info">
+      <div class="q">산업 시대의 낡은 정부들이여. 미래의 이름으로 청한다, 우리에게서 물러나라.</div>
+      <div class="who"><span class="nm">존 페리 발로우</span><span class="role" style="background:rgba(0,255,0,.16);color:#9affb0">EFF 공동설립</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">4 / 6</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/phil-zimmermann.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--cy)">“</div>
+    <div class="info">
+      <div class="q">당신이 무엇을 쓰고 누구에게 보내는지, 그건 당신 말고 누구의 일도 아니다.</div>
+      <div class="who"><span class="nm">필 짐머만</span><span class="role" style="background:rgba(0,255,0,.16);color:#9affb0">PGP 개발</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">5 / 6</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/satoshi-nakamoto.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--cy)">“</div>
+    <div class="info">
+      <div class="q">나는 모든 것을 신뢰가 아니라 암호 증명 위에 세웠다.</div>
+      <div class="who"><span class="nm">사토시 나카모토</span><span class="role" style="background:rgba(0,255,0,.16);color:#9affb0">비트코인 창시자</span></div>
+    </div>
+  </div>
+  <div class="card c45 cta">
+    <div class="pageno">6 / 6</div>
+    <div class="logo" style="background:var(--cy)">感</div>
+    <h3>사이퍼펑크의 전부</h3>
+    <p>국가의 감시에 코드로 맞선 사람들<br>유튜브 「디지털 저항군」 풀버전</p>
+    <div class="pill" style="background:var(--cy)">@feelandnote · 프로필 링크</div>
+  </div>
+</div>
+<div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- 자유 소프트웨어 -->
+<div class="carousel">
+  <div class="card c45 cover">
+    <div class="pageno">1 / 5</div>
+    <img class="ph" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/_group.png" alt="">
+    <div class="ov">
+      <div class="kick" style="color:var(--fs)">Digital Resistance · 02</div>
+      <div class="tt">자유 소프트웨어</div>
+      <div class="ln" style="background:var(--fs)"></div>
+      <div class="sub">독점에 맞선 코드와 지식의 해방</div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">2 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/richard-stallman.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--fs)">“</div>
+    <div class="info">
+      <div class="q">내가 프로그램을 통제하지 못하면, 프로그램이 나를 통제한다.</div>
+      <div class="who"><span class="nm">리처드 스톨먼</span><span class="role" style="background:rgba(51,102,255,.2);color:#9ab4ff">GNU 시작</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">3 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/linus-torvalds.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--fs)">“</div>
+    <div class="info">
+      <div class="q">닫힌 코드는 마법이다. 열린 코드는 과학이다. 그래서 열린 것이 닫힌 것을 이긴다.</div>
+      <div class="who"><span class="nm">리누스 토르발스</span><span class="role" style="background:rgba(51,102,255,.2);color:#9ab4ff">리눅스 개발</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">4 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/aaron-swartz.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--fs)">“</div>
+    <div class="info">
+      <div class="q">정보는 권력이다. 하지만 나누는 것은 나쁜 짓이 아니라 마땅히 해야 할 일이다.</div>
+      <div class="who"><span class="nm">애런 슈워츠</span><span class="role" style="background:rgba(51,102,255,.2);color:#9ab4ff">Reddit 공동설립</span></div>
+    </div>
+  </div>
+  <div class="card c45 cta">
+    <div class="pageno">5 / 5</div>
+    <div class="logo" style="background:var(--fs)">感</div>
+    <h3>자유 소프트웨어의 전부</h3>
+    <p>독점에 맞서 코드를 푼 사람들<br>유튜브 「디지털 저항군」 풀버전</p>
+    <div class="pill" style="background:var(--fs);color:#fff">@feelandnote · 프로필 링크</div>
+  </div>
+</div>
+<div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+
+<!-- 폭로자 -->
+<div class="carousel">
+  <div class="card c45 cover">
+    <div class="pageno">1 / 5</div>
+    <img class="ph" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/_group.png" alt="">
+    <div class="ov">
+      <div class="kick" style="color:var(--wb)">Digital Resistance · 03</div>
+      <div class="tt">진실의 폭로자들</div>
+      <div class="ln" style="background:var(--wb)"></div>
+      <div class="sub">기밀의 장막을 찢다</div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">2 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/julian-assange.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--wb)">“</div>
+    <div class="info">
+      <div class="q">목표는 정의이고 방법은 투명성입니다. 권력이 클수록 더 투명해야 합니다.</div>
+      <div class="who"><span class="nm">줄리언 어산지</span><span class="role" style="background:rgba(255,179,0,.18);color:#ffd27a">WikiLeaks 설립</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">3 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/edward-snowden.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--wb)">“</div>
+    <div class="info">
+      <div class="q">숨길 게 없으니 감시당해도 된다는 말은, 할 말이 없으니 표현의 자유도 필요 없다는 말과 같다.</div>
+      <div class="who"><span class="nm">에드워드 스노든</span><span class="role" style="background:rgba(255,179,0,.18);color:#ffd27a">NSA 감시 폭로</span></div>
+    </div>
+  </div>
+  <div class="card c45 qcard">
+    <div class="pageno">4 / 5</div>
+    <img class="photo" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/chelsea-manning.png" alt="">
+    <div class="grad"></div><div class="mk" style="color:var(--wb)">“</div>
+    <div class="info">
+      <div class="q">사람들이 진실을 봐야 합니다. 정보가 없으면, 대중은 아무것도 제대로 판단할 수 없으니까요.</div>
+      <div class="who"><span class="nm">첼시 매닝</span><span class="role" style="background:rgba(255,179,0,.18);color:#ffd27a">전쟁기록 제보</span></div>
+    </div>
+  </div>
+  <div class="card c45 cta">
+    <div class="pageno">5 / 5</div>
+    <div class="logo" style="background:var(--wb)">感</div>
+    <h3>폭로자들의 전부</h3>
+    <p>숨겨진 진실을 세상에 꺼낸 사람들<br>유튜브 「디지털 저항군」 풀버전</p>
+    <div class="pill" style="background:var(--wb);color:#111">@feelandnote · 프로필 링크</div>
+  </div>
+</div>
+<div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+
+
+<!-- ============================================================ -->
+<div class="sec">B · 거대 타이포 명언 카드 <span class="ratio">1:1 · X·인스타 정사각</span></div>
+<p class="secsub">대사가 화면 전부. 개인샷은 blur 배경으로 깔고 작은 원형 얼굴만. 단독 공유에 제일 강하다. X는 한 게시물에 4장 격자로 묶인다(아래 §C).</p>
+<div class="carousel">
+  <div class="card c11 dcard">
+    <img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/edward-snowden.png" alt="">
+    <div class="tint" style="background:radial-gradient(120% 90% at 50% 30%,rgba(255,179,0,.12),rgba(8,7,4,.6))"></div>
+    <div class="body">
+      <div class="mk" style="color:var(--wb)">“</div>
+      <div class="q">내 모든 행동과 말이 기록되는 세상에서 살고 싶지 않습니다.</div>
+      <div class="who"><img class="av" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/edward-snowden.png"><div class="nm">에드워드 스노든<small>EDWARD SNOWDEN · NSA 감시 폭로</small></div></div>
+    </div>
+  </div>
+  <div class="card c11 dcard">
+    <img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/satoshi-nakamoto.png" alt="">
+    <div class="tint" style="background:radial-gradient(120% 90% at 50% 30%,rgba(0,255,0,.1),rgba(6,8,6,.62))"></div>
+    <div class="body">
+      <div class="mk" style="color:var(--cy)">“</div>
+      <div class="q">나는 모든 것을 신뢰가 아니라 암호 증명 위에 세웠다.</div>
+      <div class="who"><img class="av" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/satoshi-nakamoto.png"><div class="nm">사토시 나카모토<small>SATOSHI NAKAMOTO · 비트코인 창시자</small></div></div>
+    </div>
+  </div>
+  <div class="card c11 dcard">
+    <img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/richard-stallman.png" alt="">
+    <div class="tint" style="background:radial-gradient(120% 90% at 50% 30%,rgba(51,102,255,.13),rgba(6,7,10,.62))"></div>
+    <div class="body">
+      <div class="mk" style="color:var(--fs)">“</div>
+      <div class="q">내가 프로그램을 통제하지 못하면, 프로그램이 나를 통제한다.</div>
+      <div class="who"><img class="av" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/richard-stallman.png"><div class="nm">리처드 스톨먼<small>RICHARD STALLMAN · GNU 시작</small></div></div>
+    </div>
+  </div>
+  <div class="card c11 dcard">
+    <img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/john-perry-barlow.png" alt="">
+    <div class="tint" style="background:radial-gradient(120% 90% at 50% 30%,rgba(0,255,0,.1),rgba(6,8,6,.62))"></div>
+    <div class="body">
+      <div class="mk" style="color:var(--cy)">“</div>
+      <div class="q">산업 시대의 낡은 정부들이여, 우리에게서 물러나라.</div>
+      <div class="who"><img class="av" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/john-perry-barlow.png"><div class="nm">존 페리 발로우<small>JOHN PERRY BARLOW · EFF 공동설립</small></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<div class="sec">C · 세력 격자 — 도감 한 장 <span class="ratio">4:5 · 캐러셀 표지 대안</span></div>
+<p class="secsub">팀 전원의 얼굴을 한 장에. 캐러셀 첫 장(표지) 또는 X 단독 이미지로 강하다. 100% 자동 — 인물 사진만 격자에 깐다.</p>
+<div class="carousel">
+  <div class="card c45 grid g4" style="background:linear-gradient(180deg,#101810,#070a08)">
+    <div class="hd"><div class="kk" style="color:var(--cy)">DIGITAL RESISTANCE · 01</div><div class="tt">사이퍼펑크 <span style="font-size:13px;color:var(--cy);font-weight:700">4인</span></div></div>
+    <div class="faces">
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/timothy-c-may.png"><div class="fn">티모시 메이</div></div>
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/john-perry-barlow.png"><div class="fn">존 페리 발로우</div></div>
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/phil-zimmermann.png"><div class="fn">필 짐머만</div></div>
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/satoshi-nakamoto.png"><div class="fn">사토시 나카모토</div></div>
+    </div>
+  </div>
+  <div class="card c45 grid g4" style="background:linear-gradient(180deg,#0e1018,#070809)">
+    <div class="hd"><div class="kk" style="color:var(--fs)">DIGITAL RESISTANCE · 02</div><div class="tt">자유 소프트웨어 <span style="font-size:13px;color:var(--fs);font-weight:700">3인</span></div></div>
+    <div class="faces">
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/richard-stallman.png"><div class="fn">리처드 스톨먼</div></div>
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/linus-torvalds.png"><div class="fn">리누스 토르발스</div></div>
+      <div class="face" style="grid-column:span 2;aspect-ratio:2/1"><img src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/aaron-swartz.png" style="object-position:center 30%"><div class="fn">애런 슈워츠</div></div>
+    </div>
+  </div>
+  <div class="card c45 grid g4" style="background:linear-gradient(180deg,#181308,#0a0805)">
+    <div class="hd"><div class="kk" style="color:var(--wb)">DIGITAL RESISTANCE · 03</div><div class="tt">진실의 폭로자들 <span style="font-size:13px;color:var(--wb);font-weight:700">3인</span></div></div>
+    <div class="faces">
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/julian-assange.png"><div class="fn">줄리언 어산지</div></div>
+      <div class="face"><img src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/edward-snowden.png"><div class="fn">에드워드 스노든</div></div>
+      <div class="face" style="grid-column:span 2;aspect-ratio:2/1"><img src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/chelsea-manning.png" style="object-position:center 30%"><div class="fn">첼시 매닝</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<div class="sec">D · 숫자 훅 <span class="ratio">4:5 · 캐러셀 1번 / 단독</span></div>
+<p class="secsub">큰 숫자로 스크롤을 멈춘다. 캐러셀 맨 앞 또는 단독 후크. 숫자는 데이터에서 자동(인원수·세력수).</p>
+<div class="carousel">
+  <div class="card c45 kcard">
+    <div class="num">10</div>
+    <div class="unit">명의 디지털 저항군</div>
+    <div class="desc">국가의 감시와 거대 독점에 맞서<br>코드로 자유를 지킨 사람들</div>
+    <div class="tag">3개 세력 · 사이퍼펑크 / 자유SW / 폭로자</div>
+  </div>
+  <div class="card c45 kcard" style="background:radial-gradient(120% 90% at 50% 0,#241808,#0a0805)">
+    <div class="num" style="color:var(--wb)">25만</div>
+    <div class="unit">건의 기밀 외교문서</div>
+    <div class="desc">줄리언 어산지가 세상에 공개한<br>감춰진 권력의 기록</div>
+    <div class="tag" style="color:var(--wb)">진실의 폭로자들 · WikiLeaks</div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<div class="sec">E · X 출고 미리보기 <span class="ratio">텍스트 + 1:1 격자 4장</span></div>
+<p class="secsub">X는 명언 텍스트가 본문, 카드 4장이 한 게시물에 격자로 붙는다. 링크는 첫 답글에. 제작비 0(텍스트는 그대로).</p>
+
+<div class="xtweet"><div class="h">▸ 트윗 본문 (텍스트만)</div>"숨길 게 없으니 감시당해도 된다"는 말은,
+"할 말이 없으니 표현의 자유도 필요 없다"는 말과 같다.
+
+— 에드워드 스노든, NSA 전 요원
+
+코드로 자유를 지킨 사람들 →🧵</div>
+
+<div class="xtweet" style="padding-bottom:14px"><div class="h">▸ 카드 묶음 트윗 (1:1 명언 카드 4장 격자)</div>
+<div class="xgrid">
+  <div class="card dcard" style="border-radius:0;aspect-ratio:1"><img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/edward-snowden.png"><div class="tint" style="background:rgba(8,7,4,.55)"></div><div class="body" style="padding:18px"><div class="q" style="font-size:14px">내 모든 행동과 말이 기록되는 세상에서 살고 싶지 않다.</div><div class="who" style="margin-top:12px"><div class="nm" style="font-size:12px">에드워드 스노든</div></div></div></div>
+  <div class="card dcard" style="border-radius:0;aspect-ratio:1"><img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/03-whistleblowers/julian-assange.png"><div class="tint" style="background:rgba(8,7,4,.55)"></div><div class="body" style="padding:18px"><div class="q" style="font-size:14px">권력이 클수록 더 투명해야 한다.</div><div class="who" style="margin-top:12px"><div class="nm" style="font-size:12px">줄리언 어산지</div></div></div></div>
+  <div class="card dcard" style="border-radius:0;aspect-ratio:1"><img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/02-free-software/aaron-swartz.png"><div class="tint" style="background:rgba(8,7,4,.55)"></div><div class="body" style="padding:18px"><div class="q" style="font-size:14px">정보는 권력이다. 나누는 것은 마땅히 해야 할 일이다.</div><div class="who" style="margin-top:12px"><div class="nm" style="font-size:12px">애런 슈워츠</div></div></div></div>
+  <div class="card dcard" style="border-radius:0;aspect-ratio:1"><img class="bg" src="../../../sw/remotion/public/factions/09-디지털저항군/01-cypherpunks/timothy-c-may.png"><div class="tint" style="background:rgba(8,7,4,.55)"></div><div class="body" style="padding:18px"><div class="q" style="font-size:14px">암호로 무장한 개인 앞에서, 국가의 감시는 끝났다.</div><div class="who" style="margin-top:12px"><div class="nm" style="font-size:12px">티모시 메이</div></div></div></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -404,6 +404,10 @@ export function FactionExpandedVoicePanel({
         previewGainDb={spec.gainDb}
         // 엔진 선택은 위쪽에 따로 두었으므로 이 섹션의 엔진 드롭다운은 숨긴다(중복 제거).
         hideEngineSelect
+        // 발화시각 정렬 — 음원이 확정되면 눌러 자막 타이밍을 맞춘다(백그라운드 작업).
+        onAlign={() => gen.alignCurrent()}
+        aligning={gen.aligning}
+        canAlign={!!activeFile}
       />
       </>)}
 

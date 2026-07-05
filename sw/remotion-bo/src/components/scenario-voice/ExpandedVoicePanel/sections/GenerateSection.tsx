@@ -41,6 +41,12 @@ type GenerateSectionProps = {
   trimSaving: boolean
   setTempPreview: (p: TempPreview | null) => void
   handleGenerate: (spec: SegmentEngineSpec, key: string, text: string, opts?: { saveImmediately?: boolean }) => void
+  /** 저장된 음원이 마음에 들 때 눌러 발화시각 정렬을 실행 (on-demand). 미지정이면 정렬 버튼 숨김. */
+  onAlign?: () => void
+  /** 정렬 실행 중 여부 — 버튼 로딩 표시 */
+  aligning?: boolean
+  /** 정렬 가능 여부 — 저장된 음원이 있을 때만 활성 */
+  canAlign?: boolean
   segmentPath: string | null
   segmentMeta: VoiceMeta | undefined
   metaSaving: boolean
@@ -65,6 +71,7 @@ export function GenerateSection({
   handleGenerate, segmentPath, segmentMeta, metaSaving, metaError,
   handleSegmentMetaChange, eleSendOpts,
   previewPlaybackRate, previewGainDb, hideEngineSelect,
+  onAlign, aligning, canAlign,
 }: GenerateSectionProps) {
   return (
     <section className="rounded-md border border-border bg-bg-main/40 p-4 space-y-3">
@@ -290,6 +297,24 @@ export function GenerateSection({
         <span className="text-[11px] text-text-dim">「생성」은 미리듣기, 「생성 및 저장」은 바로 슬롯 반영.</span>
       </div>
     )}
+
+      {/* 발화시각 정렬 (on-demand) — 저장된 음원이 마음에 들 때 눌러 자막 타이밍을 이 음원에 맞춘다.
+          매 생성마다 자동으로 돌리지 않는다(여러 번 다시 만들어보고 확정된 음원에만 적용). 분할은 유지된다. */}
+      {onAlign && !hasTempPreview && (
+        <div className="flex items-center gap-2 pt-1 border-t border-border/40">
+          <button
+            onClick={() => onAlign()}
+            disabled={aligning || !canAlign}
+            title={canAlign
+              ? '저장된 이 음원에 맞춰 받아쓰기·발화시각 정렬을 실행합니다. 자막 분할은 그대로 유지됩니다. whisper 처리라 잠시 걸립니다.'
+              : '저장된 음원이 없습니다. 먼저 「생성 및 저장」으로 음원을 만드세요.'}
+            className={`${BTN_SM} bg-white border border-slate-300 text-slate-900 hover:border-accent hover:text-accent disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            {aligning ? '정렬 중…' : '발화시각 정렬'}
+          </button>
+          <span className="text-[11px] text-text-dim">음원이 확정되면 눌러 자막 타이밍을 맞춘다 (분할 유지).</span>
+        </div>
+      )}
 
       {/* 단일 생성 미지원 안내 — 나레이터/요약 등 도구막대 일괄 생성 대상. 솔로는 GEM 단일 생성이 정상이므로 제외 */}
       {!engineSpec && !hasTempPreview && !secKey.startsWith('solo-B') && (

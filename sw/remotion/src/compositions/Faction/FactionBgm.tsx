@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
-import type { FactionScript, FactionTrack } from './types'
+import type { FactionScript, FactionTrack, FactionGroup } from './types'
 import { f, buildCues, personQuoteEnterSec } from './timing'
 import { clampRate } from './voice-names'
 
@@ -16,17 +16,15 @@ const END_FADE_SEC = 2.0
 
 /**
  * 팩션 배경음악.
- * - 세력별 음원(group.music)이 하나라도 있으면 「세력 단위 모드」: 세력 진입 시 곡을 갈아끼우고(이전 곡 페이드아웃) 구간을 반복 재생으로 채운다.
+ * - 세력별 음원(롱폼=group.musicLongform / 쇼츠=group.musicShorts)이 하나라도 있으면 「세력 단위 모드」: 세력 진입 시 곡을 갈아끼우고(이전 곡 페이드아웃) 구간을 반복 재생으로 채운다.
  * - 없으면 「전역 모드」: tracks를 순서대로 이어 깔고 영상이 더 길면 순환. tracks도 없으면 music 한 곡.
  * - 영상 끝(마지막 인물 컷 페이드아웃 구간)에서 함께 페이드아웃.
  */
-export const FactionBgm: React.FC<{ script: FactionScript; total: number; portrait?: boolean; part?: number }> = ({ script, total, portrait = false, part }) => {
+const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait?: boolean; part?: number; lvPart?: number }> = ({ script, total, portrait = false, part, lvPart }) => {
   const { fps } = useVideoConfig()
 
-  if (total <= 0) return null
-
-  const outroFadeF = f(END_FADE_SEC)
-  const edgeF = Math.round(EDGE_FADE_SEC * fps)
+  // 컷 목록 — 덕킹 구간·세력 전환점 계산이 공유한다. 프레임마다 재계산하지 않게 캐시.
+  const cues = useMemo(() => buildCues(script, portrait, part, lvPart), [script, portrait, part, lvPart])
 
   // ── 대사 덕킹 ── voice 인물 음성 구간엔 BGM을 musicDuckVolume(예 0.4)으로 낮추고 평소엔 원음(1).
   const duck = script.musicDuckVolume != null ? Math.min(1, Math.max(0, script.musicDuckVolume)) : 1
@@ -36,56 +34,56 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
   // 음성 구간 사이 간격이 이 값 이하로 가까우면 한 덩어리로 묶는다 — 대사가 연달아 나올 때
   // 대사 사이마다 음악이 원음으로 확 올라왔다 다시 내려가는 펌핑(들썩임)을 막는다.
   const DUCK_MERGE_GAP = Math.round(2.6 * fps)
-  const rawWindows: [number, number][] = []
-  if (duck < 1) {
-    for (const tc of buildCues(script, portrait, part)) {
-      const c = tc.cue
-      // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
-      if (c.kind !== 'person' || !c.steps.voice) continue
-      const g = script.groups[c.groupIndex]
-      const ppl = c.clusterIndex != null && g.clusters ? g.clusters[c.clusterIndex].people : g.people
-      const p = ppl?.[c.personIndex]
-      if (!p?.quoteDuration || p.quoteDuration <= 0) continue
-      const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait))
-      const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))
-      rawWindows.push([s, s + playF])
+  const duckWindows = useMemo(() => {
+    const rawWindows: [number, number][] = []
+    if (duck < 1) {
+      for (const tc of cues) {
+        const c = tc.cue
+        // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
+        if (c.kind !== 'person' || !c.steps.voice) continue
+        const g = script.groups[c.groupIndex]
+        const p = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
+        if (!p?.quoteDuration || p.quoteDuration <= 0) continue
+        const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait))
+        const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))
+        rawWindows.push([s, s + playF])
+      }
     }
-  }
-  // 인접 음성 구간 병합 — 시작순 정렬 후 간격이 좁은 것끼리 하나로 합친다.
-  rawWindows.sort((a, b) => a[0] - b[0])
-  const duckWindows: [number, number][] = []
-  for (const w of rawWindows) {
-    const last = duckWindows[duckWindows.length - 1]
-    if (last && w[0] - last[1] <= DUCK_MERGE_GAP) last[1] = Math.max(last[1], w[1])
-    else duckWindows.push([w[0], w[1]])
-  }
+    // 인접 음성 구간 병합 — 시작순 정렬 후 간격이 좁은 것끼리 하나로 합친다.
+    rawWindows.sort((a, b) => a[0] - b[0])
+    const merged: [number, number][] = []
+    for (const w of rawWindows) {
+      const last = merged[merged.length - 1]
+      if (last && w[0] - last[1] <= DUCK_MERGE_GAP) last[1] = Math.max(last[1], w[1])
+      else merged.push([w[0], w[1]])
+    }
+    return merged
+  }, [duck, cues, script, portrait, DUCK_MERGE_GAP])
   // 전역 프레임의 덕킹 배율 — 음성 구간이면 duck, 가장자리 RAMP로 부드럽게.
-  const duckAt = (gf: number): number => {
+  // 병합 간격(2.6s) > attack+release(2.0s) 이므로 확장 구간끼리 겹치지 않는다 —
+  // 전 구간을 훑지 않고 gf가 속한 구간 하나만 보간한다(Studio가 음량 곡선을 그리며 수만 번 호출해도 가볍게).
+  const duckAt = useCallback((gf: number): number => {
     if (duck >= 1 || !duckWindows.length) return 1
-    let m = 1
     for (const [s, e] of duckWindows) {
-      m = Math.min(m, interpolate(gf, [s - DUCK_ATTACK, s, e, e + DUCK_RELEASE], [1, duck, duck, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.ease) }))
+      if (gf < s - DUCK_ATTACK) break
+      if (gf <= e + DUCK_RELEASE) {
+        return interpolate(gf, [s - DUCK_ATTACK, s, e, e + DUCK_RELEASE], [1, duck, duck, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.ease) })
+      }
     }
-    return m
-  }
+    return 1
+  }, [duck, duckWindows, DUCK_ATTACK, DUCK_RELEASE])
 
-  // ── 편(part)별 곡 ── 지정되면 그 편은 이 곡만 전체 반복(세력별·전역 곡 무시). 덕킹·아웃트로 페이드 적용.
-  const partMusic = part != null ? script.musicByPart?.[part] : undefined
-  if (partMusic) {
-    const partVol = vol01(part != null ? script.musicVolumeByPart?.[part] : undefined)
-    return (
-      <Audio
-        src={staticFile(`music/${partMusic}`)}
-        loop
-        volume={fr => interpolate(fr, [total - outroFadeF, total], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }) * partVol * duckAt(fr)}
-      />
-    )
-  }
+  if (total <= 0) return null
 
-  // ── 세력 단위 모드 ── 하나라도 group.music이 지정되면 세력 전환점에서 곡을 갈아끼운다
-  const hasGroupMusic = (script.groups ?? []).some(g => g.music)
+  const outroFadeF = f(END_FADE_SEC)
+  const edgeF = Math.round(EDGE_FADE_SEC * fps)
+
+  // ── 세력 단위 모드 ── 세력마다 방향(롱폼/쇼츠)에 맞는 곡을 골라, 세력 전환점에서 갈아끼운다.
+  //    롱폼은 musicLongform, 세로 쇼츠는 musicShorts 를 본다. 하나라도 있으면 세력 모드로 진입.
+  const groupMusicOf = (g?: FactionGroup) => (portrait ? g?.musicShorts : g?.musicLongform)
+  const groupVolOf = (g?: FactionGroup) => (portrait ? g?.musicShortsVolume : g?.musicLongformVolume)
+  const hasGroupMusic = (script.groups ?? []).some(g => groupMusicOf(g))
   if (hasGroupMusic) {
-    const cues = buildCues(script, portrait)
     // 세력별 첫 등장 프레임(등장 순서). intro/outro는 groupIndex가 없어 건너뛴다.
     const starts: { gi: number; start: number }[] = []
     const seen = new Set<number>()
@@ -101,8 +99,8 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
     const segs: { file: string; from: number; vol: number }[] = []
     let cur: string | undefined
     starts.forEach(({ gi, start }, idx) => {
-      const m = script.groups[gi]?.music
-      const gv = script.groups[gi]?.musicVolume
+      const m = groupMusicOf(script.groups[gi])
+      const gv = groupVolOf(script.groups[gi])
       if (idx === 0) {
         cur = m || fallback
         if (cur) segs.push({ file: cur, from: 0, vol: vol01((m ? gv : undefined) ?? trackVolOf(cur)) })
@@ -212,3 +210,7 @@ export const FactionBgm: React.FC<{ script: FactionScript; total: number; portra
     </>
   )
 }
+
+// 부모(Faction)가 useCurrentFrame으로 매 프레임 재렌더되지만, BGM 배치는 프레임과 무관하다.
+// memo로 재렌더를 끊어 음량 콜백의 참조를 고정한다(Studio 타임라인 음량 곡선 캐시가 살아난다).
+export const FactionBgm = React.memo(FactionBgmInner)

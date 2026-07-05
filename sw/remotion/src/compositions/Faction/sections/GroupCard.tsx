@@ -5,7 +5,6 @@ import { f } from '../timing'
 import { BG, FONT, FONT_SERIF, DEFAULT_ACCENT } from '../constants'
 import { imgSrc, nameHead, nameTail, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { FilledImage } from './FilledImage'
-import { FactionMedia } from './FactionMedia'
 import { HoldGlitch } from '../transitions'
 
 /**
@@ -90,7 +89,8 @@ function cropProps(crop: FactionImageCrop | undefined, fallbackPos: string, hold
 
 export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; frame: number; cueStart: number; orientation: Orientation; noZoom?: boolean; hold?: HoldMotion; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, frame, cueStart, orientation, noZoom = false, hold = 'none', shake = false, zoomSpeed = 1 }) => {
   const accent = group.color ?? DEFAULT_ACCENT
-  const [artErr, setArtErr] = React.useState(false)
+  // 로고 로드 실패 횟수 — 0=1차(logoVid 우선), 1=이미지 로고 재시도, 2+=색 배경 폴백
+  const [artErrCount, setArtErrCount] = React.useState(0)
   // 화보 카드가 생략되는 1인 진영(노출 1명 + cluster.image 없음)의 소제목을 로고 카드가 흡수한다.
   // buildCues 의 화보 카드 생략 조건과 동일하게 판정한다.
   const soloSub = React.useMemo(() => {
@@ -105,18 +105,19 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
   // 가로는 이미지를 중앙 정렬(세로는 상단 정렬)
   const fallbackPos = orientation === 'landscape' ? 'center center' : 'center top'
   // 인물 컷과 동일한 지속 효과 (noZoom이면 정지). 세력·전역에서 계승한 hold 를 카드 등장 기준(frame-cueStart)으로 적용.
-  const art = cropProps(group.titleArtCrop, fallbackPos, noZoom ? 'none' : hold, frame - cueStart, undefined, zoomSpeed, 'none', noZoom ? false : shake)
+  const art = cropProps(group.logoCrop, fallbackPos, noZoom ? 'none' : hold, frame - cueStart, undefined, zoomSpeed, 'none', noZoom ? false : shake)
+  // 타이틀 카드 비주얼 — 영상 로고(logoVid) 우선, 없으면 이미지 로고(logoImg).
+  // 1차 소스 로드 에러 시 이미지 로고가 따로 있으면 그걸로 한 번 더 시도, 그마저 실패하면 색 배경 폴백.
+  const primarySrc = group.logoVid ?? group.logoImg
+  const retrySrc = group.logoImg !== primarySrc ? group.logoImg : undefined
+  const artSrc = artErrCount === 0 ? primarySrc : artErrCount === 1 ? retrySrc : undefined
   // 인트로가 천천히 닫히는 것과 균형 — 세력 로고도 급격히 뜨지 않게 자체 페이드인
   const enterOp = interpolate(frame - cueStart, [0, f(0.8)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   return (
     <AbsoluteFill style={{ backgroundColor: BG, opacity: enterOp }}>
-      {group.titleArt && !artErr ? (
-        // 로고 컨셉아트 — 비율 유지(contain), 좌우 여백은 같은 이미지 블러로 채움
-        <FilledImage src={imgSrc(episodeName, group.titleArt)} objPos={art.objPos} scale={art.scale} tx={art.tx} ty={art.ty} transformOrigin={art.transformOrigin} startFrame={cueStart} onError={() => setArtErr(true)} />
-      ) : group.logo ? (
-        <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse 70% 45% at 50% 40%, ${accent}33 0%, transparent 70%)` }}>
-          <FactionMedia src={imgSrc(episodeName, group.logo)} startFrame={cueStart} style={{ width: 320, height: 320, objectFit: 'contain' }} />
-        </AbsoluteFill>
+      {artSrc ? (
+        // 로고 — 비율 유지(contain), 좌우 여백은 같은 이미지 블러로 채움
+        <FilledImage src={imgSrc(episodeName, artSrc)} objPos={art.objPos} scale={art.scale} tx={art.tx} ty={art.ty} transformOrigin={art.transformOrigin} startFrame={cueStart} onError={() => setArtErrCount(c => c + 1)} />
       ) : (
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)` }}>
           <span style={{ color: `${accent}cc`, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 6 }}>LOGO ART</span>

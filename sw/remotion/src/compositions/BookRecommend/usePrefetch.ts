@@ -39,7 +39,7 @@ export function usePrefetch(
         ...bookFieldParts(b.contextMain, b.contextMainParts).map((_, p) => vf(vnBookContext(i, p))),
         ...(books[i].quotePairs ?? []).flatMap((p, pi) => [
           ...(p.quoteDuration ? [vf(vnBookQuote(i, pi))] : []),
-          ...(p.afterDuration ? [vf(vnBookAfter(i, pi))] : []),
+          ...(p.afterDuration ? bookFieldParts(p.after, p.afterParts).map((_, ap) => vf(vnBookAfter(i, pi, ap))) : []),
         ]),
       ]),
     ]

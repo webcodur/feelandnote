@@ -5,7 +5,7 @@
  * 공통 인프라(OAuth·업로드)는 youtube-core 를, 메타 생성은 youtube-faction-meta 를 쓴다.
  *
  * 현재 범위: 한국어 세로 영상만. 서재 탐방과 같은 채널(KO)에 비공개로 올린다.
- *   - 세로 롱폼:   out/Faction/{episode}-KO-LV.mp4   (ko-longform)
+ *   - 세로 롱폼:   out/Faction/{episode}-KO-LV.mp4   (ko-longform) — 편 경계(cut) 있으면 KO-LV{N}.mp4 (ko-longform-{N}, lvPart N)
  *   - 세로 쇼츠 N편: out/Faction/{episode}-KO-S{N}.mp4 (ko-shorts-{N}, part N) — 진영 part 의 편 수만큼. 편 없으면 KO-S1 하나.
  * 영상 종류(컴포지션·출력 접미사)는 factionVariants(@feelandnote/shared, 진영 part 기반) 단일원천을 따른다.
  * 가로(LH)·영문(EN)은 렌더가 켜지면 그 표에 추가한다.
@@ -40,12 +40,12 @@ const LINEUP_PATH = path.join(__dirname, 'faction-lineup.json')
 // ─── 데이터 ─────────────────────────────────────────────
 
 async function loadFactionData(episode: string): Promise<FactionMetaInput> {
-  const dataPath = path.join(FACTIONS_DIR, episode, 'data.json')
+  const dataPath = path.join(FACTIONS_DIR, episode, 'faction-data.json')
   if (!existsSync(dataPath)) {
     throw new Error(`세력도 데이터 없음: ${dataPath}`)
   }
   const raw = JSON.parse(await readFile(dataPath, 'utf-8'))
-  // data.json 상위 필드가 FactionMetaInput 과 동일 구조다(title/titleEn/heroes/groups...).
+  // faction-data.json 상위 필드가 FactionMetaInput 과 동일 구조다(title/titleEn/heroes/groups...).
   return raw as FactionMetaInput
 }
 
@@ -92,9 +92,9 @@ async function saveUploadRecord(episode: string, variantKey: string, videoId: st
 // ─── 메타 ───────────────────────────────────────────────
 
 function buildSnippetFor(data: FactionMetaInput, v: FactionVariantDef) {
-  const title = buildFactionTitle(data, 'ko', v.isShorts, v.part)
-  const description = buildFactionDescription(data, 'ko', v.isShorts, v.part)
-  const tags = buildFactionTags(data, 'ko', v.isShorts, v.part)
+  const title = buildFactionTitle(data, 'ko', v.isShorts, v.part, v.lvPart)
+  const description = buildFactionDescription(data, 'ko', v.isShorts, v.part, v.lvPart)
+  const tags = buildFactionTags(data, 'ko', v.isShorts, v.part, v.lvPart)
   return { title, description, tags, snippet: buildFactionSnippet({ title, description, tags, lang: 'ko' }) }
 }
 
@@ -103,7 +103,7 @@ function buildSnippetFor(data: FactionMetaInput, v: FactionVariantDef) {
 export async function uploadFaction(episode: string, filterType?: string, dry = false) {
   const data = await loadFactionData(episode)
 
-  const variants = factionVariants(data.groups).filter(v => matchType(v, filterType))
+  const variants = factionVariants(data.groups, data.longformLayout).filter(v => matchType(v, filterType))
 
   let yt: ReturnType<typeof google.youtube> | null = null
   async function getYt() {
@@ -167,7 +167,7 @@ export async function patchFactionMetadata(episode: string, filterType?: string,
     process.exit(1)
   }
 
-  const variants = factionVariants(data.groups).filter(v => uploads[v.key] && matchType(v, filterType))
+  const variants = factionVariants(data.groups, data.longformLayout).filter(v => uploads[v.key] && matchType(v, filterType))
 
   let yt: ReturnType<typeof google.youtube> | null = null
   async function getYt() {

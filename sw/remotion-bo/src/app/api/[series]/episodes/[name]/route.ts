@@ -3,7 +3,9 @@ import { loadEpisode, loadCandidate, saveEpisode, type SaveScope } from '@/lib/s
 import { isValidSeries } from '@/lib/series-registry'
 
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
-  const { series, name } = await params
+  const { series, name: rawName } = await params
+  // 라우트 파라미터는 URL 인코딩된 채 온다 — 한글 에피소드명(세력도)을 파일 경로로 쓰기 전에 디코드
+  const name = decodeURIComponent(rawName)
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   try {
     let ep
@@ -14,7 +16,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
 }
 
 export async function PUT(req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
-  const { series, name } = await params
+  const { series, name: rawName } = await params
+  // 디코드 없이 저장하면 인코딩된 이름의 새 폴더가 생긴다 — GET 과 동일하게 디코드
+  const name = decodeURIComponent(rawName)
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   try {
     // scope — 어떤 파일군만 기록할지 한정. 미지정/이상값은 'all'(현행 전체 저장).

@@ -1,7 +1,11 @@
 /**
  * 세력도(Faction) 데이터·이미지 IO — 서버 전용.
  *
- * 데이터는 sw/remotion/public/factions/{name}/data.json (한국어 + 영문 *En 병기),
+ * 데이터는 sw/remotion/public/factions/{name}/faction-data.json (한국어 + 영문 *En 병기),
+/**
+ * 세력도(Faction) 데이터·이미지 IO — 서버 전용.
+ *
+ * 데이터는 sw/remotion/public/factions/{name}/faction-data.json (한국어 + 영문 *En 병기),
  * 이미지는 sw/remotion/public/factions/{name}/images/ 에 둔다.
  * BookRecommend(episodes/)와 완전히 분리된 경로다.
  */
@@ -9,7 +13,7 @@
 import { readFile, readdir, writeFile, mkdir, rm, rename } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import type { FactionScript, FactionEpisodeListItem, FactionStatus } from './faction-types'
+import type { FactionScript, FactionEpisodeListItem, FactionStatus, FactionCardFields, FactionGroupCardFields, FactionCardsFile } from './faction-types'
 
 const VALID_STATUSES: FactionStatus[] = ['todo', 'live', 'done']
 
@@ -38,7 +42,7 @@ export function safeDirName(name: string): string {
 }
 
 function dataPath(name: string): string {
-  return path.join(FACTIONS_DIR, safeDirName(name), 'data.json')
+  return path.join(FACTIONS_DIR, safeDirName(name), 'faction-data.json')
 }
 
 function imagesDir(name: string): string {
@@ -86,11 +90,11 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeListItem[]> {
     if (!existsSync(fp)) continue
     try {
       const data = JSON.parse(await readFile(fp, 'utf-8')) as FactionScript
-      // 인물은 묶음(clusters)으로 나뉘면 cluster.people 에, 아니면 group.people 에 담긴다. 둘 다 합산해야 누락이 없다.
-      const personCount = (data.groups ?? []).reduce((s, g) => {
-        const ppl = g.clusters?.length ? g.clusters.flatMap(c => c.people ?? []) : (g.people ?? [])
-        return s + ppl.length
-      }, 0)
+      // 인물은 항상 그룹(clusters) 안에 담긴다 — 그룹별 인원을 합산한다.
+      const personCount = (data.groups ?? []).reduce(
+        (s, g) => s + (g.clusters ?? []).reduce((x, c) => x + (c.people?.length ?? 0), 0),
+        0,
+      )
       items.push({
         id: e.name,
         title: data.title ?? e.name,
@@ -190,7 +194,7 @@ function safeRelSegs(p: string): string[] {
 
 /**
  * 에피소드 폴더(public/factions/{name}/) 하위를 재귀 스캔해 이미지만 모은다.
- * data.json·md 등 비이미지는 제외. 경로 이탈(..) 차단.
+ * faction-data.json·md 등 비이미지는 제외. 경로 이탈(..) 차단.
  * 기존 listFactionImages(images/ 단일 배열)와 별개 — picker 호환 위해 그대로 둔다.
  */
 export async function listFactionImageTree(name: string): Promise<FactionImageTree> {
@@ -380,4 +384,194 @@ export async function saveMusic(filename: string, buf: Buffer): Promise<string> 
 export async function listSfx(): Promise<string[]> {
   try { return (await readdir(SFX_DIR)).filter(f => /\.(mp3|wav|m4a|ogg)$/i.test(f)).sort() }
   catch { return [] }
+}
+
+/* ── 팩션 인물 카드 대본 (person-cards/<person>.json) ── */
+
+function cardsPath(name: string): string {
+  return path.join(FACTIONS_DIR, safeDirName(name), 'faction-cards.json')
+}
+
+function cardsDirPath(name: string): string {
+  return path.join(FACTIONS_DIR, safeDirName(name), 'person-cards')
+}
+
+function groupCardsDirPath(name: string): string {
+  return path.join(FACTIONS_DIR, safeDirName(name), 'group-cards')
+}
+
+function legacyCardsDirPath(name: string): string {
+  return path.join(FACTIONS_DIR, safeDirName(name), 'faction-cards')
+}
+
+function safePersonCardFilename(personName: string): string {
+  const safe = personName
+    .trim()
+    .normalize('NFKC')
+    .replace(/[<>:"/\\|?*\x00-\x1F]/g, '_')
+    .replace(/[. ]+$/g, '')
+  return `${safe || 'person'}.json`
+}
+
+type SplitFactionCardFile =
+  | { personName?: string; card?: Partial<FactionCardFields> }
+  | (Partial<FactionCardFields> & { personName?: string })
+
+function splitCardPayload(raw: SplitFactionCardFile): { personName?: string; card: Partial<FactionCardFields> } {
+  const personName = typeof raw.personName === 'string' ? raw.personName : undefined
+  if ('card' in raw && raw.card && typeof raw.card === 'object' && !Array.isArray(raw.card)) {
+    return { personName, card: raw.card }
+  }
+  const { personName: _personName, ...card } = raw as Partial<FactionCardFields> & { personName?: string }
+  return { personName, card }
+}
+
+async function loadSplitFactionCards(name: string): Promise<FactionCardsFile | null> {
+  const preferredDir = cardsDirPath(name)
+  const dir = existsSync(preferredDir) ? preferredDir : legacyCardsDirPath(name)
+  const gDir = groupCardsDirPath(name)
+  
+  if (!existsSync(dir) && !existsSync(gDir)) return null
+
+  const people: NonNullable<FactionCardsFile['people']> = {}
+  if (existsSync(dir)) {
+    const files = (await readdir(dir)).filter(f => f.endsWith('.json')).sort((a, b) => a.localeCompare(b, 'ko-KR'))
+    for (const file of files) {
+      const raw = JSON.parse(await readFile(path.join(dir, file), 'utf-8')) as SplitFactionCardFile
+      const { personName, card } = splitCardPayload(raw)
+      const nameFromFile = path.basename(file, '.json')
+      people[personName || nameFromFile] = card
+    }
+  }
+
+  const groups: NonNullable<FactionCardsFile['groups']> = {}
+  if (existsSync(gDir)) {
+    const files = (await readdir(gDir)).filter(f => f.endsWith('.json')).sort((a, b) => a.localeCompare(b, 'ko-KR'))
+    for (const file of files) {
+      const raw = JSON.parse(await readFile(path.join(gDir, file), 'utf-8')) as any
+      // Group cards will save under { groupName, card }
+      const groupName = typeof raw.groupName === 'string' ? raw.groupName : path.basename(file, '.json')
+      const card = raw.card || raw
+      // omit groupName from card just in case
+      const { groupName: _omit, ...rest } = card
+      groups[groupName] = rest
+    }
+  }
+
+  if (Object.keys(people).length === 0 && Object.keys(groups).length === 0) return { people: {}, groups: {} }
+  return { people, groups }
+}
+
+async function writeJsonIfChanged(file: string, value: unknown): Promise<void> {
+  const text = `${JSON.stringify(value, null, 2)}\n`
+  try {
+    if ((await readFile(file, 'utf-8')) === text) return
+  } catch {
+    // New file.
+  }
+  await writeFile(file, text, 'utf-8')
+}
+
+async function personCardPath(name: string, personName: string): Promise<string> {
+  const dir = cardsDirPath(name)
+  const files = await readdir(dir).catch(() => [])
+  const fallbackFilename = safePersonCardFilename(personName)
+  const used = new Set(files.filter(f => f.endsWith('.json')).map(f => f.toLocaleLowerCase('ko-KR')))
+
+  for (const file of files) {
+    if (!file.endsWith('.json')) continue
+    try {
+      const raw = JSON.parse(await readFile(path.join(dir, file), 'utf-8')) as SplitFactionCardFile
+      const { personName: existingName } = splitCardPayload(raw)
+      if ((existingName || path.basename(file, '.json')) === personName) return path.join(dir, file)
+    } catch {
+      // Ignore malformed card files while choosing a save target.
+    }
+  }
+
+  if (!used.has(fallbackFilename.toLocaleLowerCase('ko-KR'))) return path.join(dir, fallbackFilename)
+
+  const base = path.basename(fallbackFilename, '.json')
+  let index = 2
+  let filename = `${base}-${index}.json`
+  while (used.has(filename.toLocaleLowerCase('ko-KR'))) {
+    index += 1
+    filename = `${base}-${index}.json`
+  }
+  return path.join(dir, filename)
+}
+
+function removeUndefinedCardFields(card: Partial<FactionCardFields>): Partial<FactionCardFields> {
+  return Object.fromEntries(Object.entries(card).filter(([, value]) => value !== undefined)) as Partial<FactionCardFields>
+}
+
+/** 에피소드 카드 대본 읽기 — 새 인물별 폴더 우선, 없으면 예전 통합 파일을 호환 로드 */
+export async function loadFactionCards(name: string): Promise<FactionCardsFile> {
+  const split = await loadSplitFactionCards(name)
+  if (split) return split
+  try {
+    return JSON.parse(await readFile(cardsPath(name), 'utf-8')) as FactionCardsFile
+  } catch {
+    return { people: {}, groups: {} }
+  }
+}
+
+/** 인물 하나의 카드 대본 저장 — person-cards/<인물>.json 하나만 기록 */
+export async function saveFactionCardPerson(name: string, personName: string, card: Partial<FactionCardFields>): Promise<void> {
+  const cleanName = personName.trim()
+  if (!cleanName) throw new Error('personName is required')
+
+  const dir = cardsDirPath(name)
+  await mkdir(dir, { recursive: true })
+  const file = await personCardPath(name, cleanName)
+  const cleanCard = removeUndefinedCardFields(card)
+  if (!Object.keys(cleanCard).length) {
+    await rm(file, { force: true })
+    return
+  }
+  await writeJsonIfChanged(file, { personName: cleanName, card: cleanCard })
+}
+
+/** 그룹 하나의 카드 대본 저장 — group-cards/<그룹>.json 하나만 기록 */
+export async function saveFactionCardGroup(name: string, groupName: string, card: Partial<FactionGroupCardFields>): Promise<void> {
+  const cleanName = groupName.trim()
+  if (!cleanName) throw new Error('groupName is required')
+
+  const dir = groupCardsDirPath(name)
+  await mkdir(dir, { recursive: true })
+  const filename = `${safePersonCardFilename(cleanName)}`
+  const file = path.join(dir, filename)
+  const cleanCard = removeUndefinedCardFields(card as Partial<FactionCardFields>)
+  if (!Object.keys(cleanCard).length) {
+    await rm(file, { force: true })
+    return
+  }
+  await writeJsonIfChanged(file, { groupName: cleanName, card: cleanCard })
+}
+
+/** 에피소드 카드 대본 저장 — 인물별 파일로만 기록 */
+export async function saveFactionCards(name: string, data: FactionCardsFile): Promise<void> {
+  const dir = cardsDirPath(name)
+  await mkdir(dir, { recursive: true })
+
+  const people = data.people ?? {}
+  const planned = new Set<string>()
+  for (const [personName, card] of Object.entries(people)) {
+    let filename = safePersonCardFilename(personName)
+    if (planned.has(filename.toLocaleLowerCase('ko-KR'))) {
+      const base = path.basename(filename, '.json')
+      let index = 2
+      do {
+        filename = `${base}-${index}.json`
+        index += 1
+      } while (planned.has(filename.toLocaleLowerCase('ko-KR')))
+    }
+    planned.add(filename.toLocaleLowerCase('ko-KR'))
+    await writeJsonIfChanged(path.join(dir, filename), { personName, card })
+  }
+
+  for (const file of await readdir(dir).catch(() => [])) {
+    if (!file.endsWith('.json')) continue
+    if (!planned.has(file.toLocaleLowerCase('ko-KR'))) await rm(path.join(dir, file), { force: true })
+  }
 }

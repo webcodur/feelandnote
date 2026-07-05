@@ -288,16 +288,8 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, ...p } : g)) })
   const patchCluster = (gi: number, ci: number, p: Partial<EffectFields>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, ...p } : c)) } : g)) })
-  const patchGroupPerson = (gi: number, pi: number, p: Partial<EffectFields>) =>
-    onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, people: g.people.map((pp, j) => (j === pi ? { ...pp, ...p } : pp)) } : g)) })
   const patchClusterPerson = (gi: number, ci: number, pi: number, p: Partial<EffectFields>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, people: c.people.map((pp, k) => (k === pi ? { ...pp, ...p } : pp)) } : c)) } : g)) })
-  // 그룹을 안 나눈 세력의 단일 그룹샷 효과 — group.shotEffects 에 담는다(전환은 그룹샷에 적용 안 되므로 제외).
-  const patchGroupShot = (gi: number, p: Partial<EffectFields>) => {
-    const { transition: _transition, ...rest } = p
-    void _transition
-    onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, shotEffects: { ...(g.shotEffects ?? {}), ...rest } } : g)) })
-  }
 
   const nameHead = (s?: string) => (s ?? '').split('\n')[0] || '(이름 없음)'
 
@@ -331,7 +323,6 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
           ...stripEffects(c),
           people: (c.people ?? []).map(pp => stripEffects(pp)),
         })),
-        people: g.people.map(pp => stripEffects(pp)),
       })),
     })
   }
@@ -441,7 +432,8 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
           {/* 세력별 */}
           {groups.map((g, gi) => {
             const clusters = g.clusters ?? []
-            const split = clusters.length > 0
+            // 그룹을 나눈 세력(2개 이상)만 그룹 번호 라벨을 쓴다 — 1개짜리는 세력 이름으로
+            const split = clusters.length > 1
             const isCollapsed = collapsed[gi] ?? false
             const groupEff = groupEffOf(g)
             return (
@@ -474,15 +466,17 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                           value={g} kind="group" inherited={globalEff} locked={locked} onChange={p => patchGroup(gi, p)}
                         />
 
-                        {/* 그룹샷 및 인물 */}
-                        {split && clusters.map((c, ci) => (
+                        {/* 그룹샷 및 인물 — 인물은 항상 그룹(clusters) 안에 있다. solo 세력은 그룹샷 컷이 없어 그룹샷 줄을 생략 */}
+                        {clusters.map((c, ci) => (
                           <React.Fragment key={`c-${ci}`}>
-                            <EffectTableRow
-                              targetName={<span className="pl-4 font-semibold text-text-secondary">그룹샷 · {nameHead(c.label) || `그룹 ${ci + 1}`}</span>}
-                              value={c} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
-                              photoSrc={imageSrc(series, episodeName, c.image) ?? undefined}
-                              onChange={p => patchCluster(gi, ci, p)}
-                            />
+                            {!g.solo && (
+                              <EffectTableRow
+                                targetName={<span className="pl-4 font-semibold text-text-secondary">그룹샷 · {nameHead(c.label) || (split ? `그룹 ${ci + 1}` : nameHead(g.name))}</span>}
+                                value={c} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
+                                photoSrc={imageSrc(series, episodeName, c.image) ?? undefined}
+                                onChange={p => patchCluster(gi, ci, p)}
+                              />
+                            )}
                             {(c.people ?? []).map((pp, pi) => (
                               <EffectTableRow
                                 key={`cp-${ci}-${pi}`}
@@ -493,25 +487,6 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                               />
                             ))}
                           </React.Fragment>
-                        ))}
-
-                        {/* 그룹을 안 나눈 세력 — 단일 그룹샷(단체사진) 자체 효과 줄. group.shotEffects 에 저장 */}
-                        {!split && (
-                          <EffectTableRow
-                            targetName={<span className="pl-4 font-semibold text-text-secondary">그룹샷 · {nameHead(g.label) || nameHead(g.name)}</span>}
-                            value={g.shotEffects ?? {}} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
-                            photoSrc={imageSrc(series, episodeName, g.image) ?? undefined}
-                            onChange={p => patchGroupShot(gi, p)}
-                          />
-                        )}
-                        {!split && g.people.map((pp, pi) => (
-                          <EffectTableRow
-                            key={`p-${pi}`}
-                            targetName={<span className="pl-8 text-[12px] text-text-secondary">↳ {pp.name || '(이름 없음)'}</span>}
-                            value={pp} kind="person" inherited={locked ? globalEff : groupEff} locked={locked}
-                            photoSrc={imageSrc(series, episodeName, pp.image) ?? undefined}
-                            onChange={p => patchGroupPerson(gi, pi, p)}
-                          />
                         ))}
                       </tbody>
                     </table>

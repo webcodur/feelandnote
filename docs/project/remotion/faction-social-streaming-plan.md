@@ -190,9 +190,9 @@
 ## 8. 진행 현황
 
 - [x] 스트리밍 명단 최종 확정 (전원 인물·유튜브 3인방·실패의 전설 유지)
-- [x] 새 에피소드 폴더 생성: `factions/15-스트리밍제국/` (`data.json` + `_status.json` + `quote-research.md`)
+- [x] 새 에피소드 폴더 생성: `factions/15-스트리밍제국/` (`faction-data.json` + `_status.json` + `quote-research.md`)
 - [x] 5진영 19인 직함(`lines`) 작성
-- [x] 대사 채굴 — 19명 전수(인물당 3개 verbatim+출처), `quote-research.md`에 보존. best 1개씩 `data.json`에 자막 분할까지 반영. 최주희·이헌은 발언 희소로 직함만(credit)
+- [x] 대사 채굴 — 19명 전수(인물당 3개 verbatim+출처), `quote-research.md`에 보존. best 1개씩 `faction-data.json`에 자막 분할까지 반영. 최주희·이헌은 발언 희소로 직함만(credit)
 - [ ] 현직 재확인 (최주희·이헌 등 한국 OTT 대표 자리 변동 체크) — 사진·음성 전 필수
 - [ ] 인물 사진(개인샷·그룹샷) — 유료, 사전 승인 필요. 스킬 `faction-image`
 - [ ] 음성 합성 — 유료(ElevenLabs는 유저 전담), 사전 승인 필요

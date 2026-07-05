@@ -1,10 +1,10 @@
 /**
  * faction/main.ts — 세력도(Faction) TTS 파이프라인 오케스트레이션
  *
- * 1) data.json 로드 → buildCues 기준 인물 대사 잡 추출(렌더 인덱싱과 동일)
+ * 1) faction-data.json 로드 → buildCues 기준 인물 대사 잡 추출(렌더 인덱싱과 동일)
  * 2) 매니페스트(텍스트 해시)로 변경 없는 wav 스킵
  * 3) Gemini 합성 → wav 저장(+ --normalize 라우드니스 정규화)
- * 4) 각 wav 길이 측정 → data.json 의 quoteDuration 기록
+ * 4) 각 wav 길이 측정 → faction-data.json 의 quoteDuration 기록
  *
  * Faction 은 Gemini 전용(ElevenLabs 셀럽 보이스는 사용자 전담). --dry-run 으로 생성 없이 계획만 출력.
  */
@@ -45,8 +45,8 @@ function hashVoice(job: FactionVoiceJob): string {
 
 export async function main(): Promise<void> {
   if (!existsSync(DATA_PATH)) {
-    console.error(`✗ data.json 없음: ${DATA_PATH}`)
-    console.error(`  public/factions/${EPISODE_NAME}/data.json 경로를 확인하세요.`)
+    console.error(`✗ faction-data.json 없음: ${DATA_PATH}`)
+    console.error(`  public/factions/${EPISODE_NAME}/faction-data.json 경로를 확인하세요.`)
     process.exit(1)
   }
 
@@ -114,7 +114,7 @@ export async function main(): Promise<void> {
       measured++
     }
     const changed = await writeQuoteDurations(durations)
-    console.log(`✓ 기존 wav ${measured}개 측정 → data.json quoteDuration ${changed}개 갱신`)
+    console.log(`✓ 기존 wav ${measured}개 측정 → faction-data.json quoteDuration ${changed}개 갱신`)
     return
   }
 
@@ -154,7 +154,7 @@ export async function main(): Promise<void> {
       console.log(`  ${j.file.padEnd(22)} [${voiceFor(j)}] → ${path.relative(process.cwd(), out)}`)
       console.log(`    "${j.text}"`)
     }
-    console.log(`\n[dry-run] 합성 후 각 wav 길이를 측정해 data.json 의 quoteDuration 에 기록한다: ${path.relative(process.cwd(), DATA_PATH)}`)
+    console.log(`\n[dry-run] 합성 후 각 wav 길이를 측정해 faction-data.json 의 quoteDuration 에 기록한다: ${path.relative(process.cwd(), DATA_PATH)}`)
     return
   }
 
@@ -179,13 +179,13 @@ export async function main(): Promise<void> {
 
   await saveManifest(manifest)
 
-  // 길이 → data.json quoteDuration 기록
+  // 길이 → faction-data.json quoteDuration 기록
   const changed = await writeQuoteDurations(durations)
   console.log('\n=== duration 결과 ===')
   for (const [file, dur] of Object.entries(durations)) {
     console.log(`${file.padEnd(22)} ${dur.toFixed(2)}s`)
   }
-  console.log(`\n✓ data.json quoteDuration ${changed}개 기록 (${path.relative(process.cwd(), DATA_PATH)})`)
+  console.log(`\n✓ faction-data.json quoteDuration ${changed}개 기록 (${path.relative(process.cwd(), DATA_PATH)})`)
 }
 
 /**

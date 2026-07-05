@@ -121,7 +121,7 @@ pnpm build:bo
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 | `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
-| `docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(remotion-bo Cards 탭)·편성 저장(cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT |
+| `docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(remotion-bo Cards 탭)·편성 저장(faction-cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT |
 
 ### 영상 (`docs/project/remotion/`)
 

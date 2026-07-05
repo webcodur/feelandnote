@@ -54,6 +54,13 @@ export function partPhase(letter: 'b' | 'c', suffix: 'summary' | 'context', p: n
   return p === 0 ? `${letter}-${suffix}` : `${letter}${p + 1}-${suffix}`
 }
 
+/** 후속 맥락 토막 phase — 인용 쌍 pairIdx 의 후속 맥락 토막 part 키.
+ *  첫 토막은 d{2k+2}-after, 둘째부터 언더스코어 부착 d{2k+2}_2-after.
+ *  sw/remotion vnBookAfter 규약과 1:1 일치해야 음원 매핑이 깨지지 않는다. */
+export function afterPhase(pairIdx: number, part: number) {
+  return `d${pairIdx * 2 + 2}${part > 0 ? `_${part + 1}` : ''}-after`
+}
+
 /**
  * 옵션 2: 쇼츠 파일 키. shortsIndex는 1-based(필수 접두사).
  * 예: shorts-1/S01-hook, shorts-2/S03-book-title

@@ -45,6 +45,10 @@ type Props = {
   fadeOutFrames?: number
   /** true면 한 번 점등한 구절은 도로 흐려지지 않고 켜진 채 유지(읽기 전만 어둡게). 기본 false(읽은 뒤 옅어짐) */
   keepLit?: boolean
+  /** true면 어절(단어) 단위가 아니라 글자 한 자씩 순차로 점등한다.
+   *  timings 길이가 글자 수와 맞으면 그 시각을, 아니면 spreadFrames 균등 분배를 쓴다.
+   *  공유 slice(단어 경계 스냅)를 거치지 않으므로 짧은 문구(수식어)에서만 쓴다. */
+  charLevel?: boolean
 }
 
 const CL = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const }
@@ -66,14 +70,28 @@ export const Typewriter: React.FC<Props> = ({
   fadeInFrames = 12,
   fadeOutFrames = 15,
   keepLit = false,
+  charLevel = false,
 }) => {
   const frame = useCurrentFrame()
   const elapsed = frame - startFrame
 
   // 텍스트·타이밍이 불변이므로 한 번만 계산 — 매 프레임 문자열 분할 방지
   const { texts: sentences, ranges, paraBreakAfter } = useMemo(
-    () => buildHighlightSegments(text, timings, spreadFrames),
-    [text, timings, spreadFrames],
+    () => {
+      // 글자 단위 점등 — 공유 slice(단어 경계 스냅)를 건너뛰고 한 글자를 한 세그먼트로 둔다.
+      if (charLevel) {
+        const chars = Array.from(text)
+        const useT = timings && timings.length === chars.length
+          && timings.every(t => t.start != null && t.end != null)
+        const per = spreadFrames / Math.max(1, chars.length)
+        const ranges = chars.map((_, i) => useT
+          ? { start: Math.round(timings![i].start! * FPS), end: Math.round(timings![i].end! * FPS) }
+          : { start: Math.round(i * per), end: Math.round((i + 1) * per) })
+        return { texts: chars, ranges, paraBreakAfter: new Set<number>() }
+      }
+      return buildHighlightSegments(text, timings, spreadFrames)
+    },
+    [text, timings, spreadFrames, charLevel],
   )
 
   // paraBreakAfter를 이용해 문단 블록(startIdx, endIdx) 리스트로 변환
@@ -95,8 +113,9 @@ export const Typewriter: React.FC<Props> = ({
   const renderSentence = (i: number, isLastInBlock: boolean) => {
     const rawSentence = sentences[i]
     if (!rawSentence) return null // whisper "..." 아티팩트 등 빈 슬라이스 스킵
-    // 짧은 어절 widow 회피 — 라인 끝에 짧은 어절(2자 이하)이 단독으로 떨어지지 않게
-    const sentence = noShortPhraseBind ? rawSentence : bindShortPhrases(rawSentence)
+    // 짧은 어절 widow 회피 — 라인 끝에 짧은 어절(2자 이하)이 단독으로 떨어지지 않게.
+    // 글자 단위(charLevel)는 한 글자가 한 세그먼트라 묶음 처리를 건너뛴다.
+    const sentence = (charLevel || noShortPhraseBind) ? rawSentence : bindShortPhrases(rawSentence)
     const r = ranges[Math.min(i, ranges.length - 1)]
     const s0 = r.start
     const s2 = Math.max(r.end, s0 + 2)
@@ -113,7 +132,8 @@ export const Typewriter: React.FC<Props> = ({
     const FADE_OUT = fadeOutFrames // 부드러운 크로스페이드
     // 문단 경계·문단 내부 모두 공통 처리: 다음 문장이 존재하면 공백 1칸
     // 문단 경계는 부모 div의 marginBottom으로 시각 여백을 확보하므로 suffix에 개행을 넣지 않는다
-    const suffix = i < sentences.length - 1 && !isLastInBlock ? ' ' : ''
+    // 글자 단위(charLevel)는 각 글자에 공백이 이미 포함돼 있으므로 자동 공백을 넣지 않는다.
+    const suffix = !charLevel && i < sentences.length - 1 && !isLastInBlock ? ' ' : ''
 
     // ── 상태 판별 ──
     const isFuture = elapsed < s0 - BOOST

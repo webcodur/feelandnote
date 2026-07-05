@@ -1,17 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic } from '../../../shared/icons'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film } from '../../../shared/icons'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile } from '../../../../voice-utils'
 import { factionVoiceFile } from '@/lib/faction-voice'
 import { imageSrc, initial, cropToStyle, factionStepsOf, applyFactionSteps } from '../../../shared/timing'
 import { FactionMediaThumb } from '../../../shared/FactionMediaThumb'
+import { AutoResizeTextarea } from '../../../shared/AutoResizeTextarea'
 import { FactionImagePicker } from './FactionImagePicker/FactionImagePicker'
 import { FactionVoicePanel } from './FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionVoicePanel/voice-panel'
 import { QUOTE_SLOT, EPITHET_SLOT } from './FactionVoicePanel/voice-panel/voice-slots'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
+import { useFactionCeleb } from '../../../shared/FactionCelebContext'
 import { useFactionImageDrop } from '../../../shared/useFactionImageDrop'
 import type { EditLang } from '../../../FactionEditor'
 
@@ -25,16 +27,14 @@ type Props = {
   episodeName: string
   /** 세력 인덱스 (0-based) — 음성 파일명 계산용 */
   groupIndex: number
-  /** 묶음(또는 묶음 없을 때 세력) 내 로컬 인물 인덱스 (0-based) */
+  /** 그룹 내 로컬 인물 인덱스 (0-based) */
   personIndex: number
-  /** 묶음 인덱스 (분할 세력) — 단일 모드면 미지정 */
-  clusterIndex?: number
-  /** 무소속 개인군 여부 — 파일명에 C 부착 여부 결정 */
-  solo: boolean
+  /** 그룹 인덱스 (0-based) — 항상 존재(단일 모드·solo는 0) */
+  clusterIndex: number
   editLang: EditLang
 }
 
-export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, solo, editLang }: Props) {
+export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   // 인물 행 접기 — 기본 접힘(목록 조망). 펼치면 전체 편집 폼.
   const [collapsed, setCollapsed] = useState(true)
@@ -52,13 +52,33 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const src = imageSrc(series, episodeName, person.image)
   const quoteImgSrc = imageSrc(series, episodeName, person.quoteImage)
   const disabled = !!person.disabled
+  const longformOnly = !!(person as any).longformOnly
   const voice = useFactionVoice()
+  // 셀럽 DB 등록 배지 — slug가 실제 DB에 있으면 ✓, 적혀 있는데 DB에 없으면 경고, 없으면 미연결
+  const celeb = useFactionCeleb()
+  const celebBadge = (() => {
+    // 신화·전설 속 존재(fiction 티어) — 실존 인물과 구분. DB(fiction)에 연결되면 초록 '✓ 신화', 아직이면 회색 '신화'
+    if ((person as any).mythical) {
+      if (person.slug && celeb?.loaded && celeb.existing.has(person.slug)) {
+        return <span title={`신화·전설 존재 — fiction 티어 등록됨 (${person.slug})`} className="shrink-0 rounded bg-success px-1 text-[10px] font-bold text-success-text">✓ 신화</span>
+      }
+      return <span title="신화·전설 속 존재 — fiction 티어 등록 대상(아직 미등록)" className="shrink-0 rounded bg-bg-secondary px-1 text-[10px] text-text-dim">신화</span>
+    }
+    if (!celeb?.loaded) return null
+    if (person.slug && celeb.existing.has(person.slug)) {
+      return <span title={`셀럽 DB 등록됨 (${person.slug})`} className="shrink-0 rounded bg-success px-1 text-[10px] font-bold text-success-text">✓ DB</span>
+    }
+    if (person.slug) {
+      return <span title={`연결 키(${person.slug})가 DB에 없음 — 미등록이거나 slug 오기`} className="shrink-0 rounded bg-warning px-1 text-[10px] font-bold text-warning-text">⚠ 없음</span>
+    }
+    return <span title="셀럽 DB 미연결 — slug 없음" className="shrink-0 rounded bg-bg-secondary px-1 text-[10px] text-text-dim">미연결</span>
+  })()
 
   // 단일 필드 갱신 헬퍼
   const set = (key: keyof FactionPerson, val: string) => onChange({ ...person, [key]: val })
 
   // 이 인물 음성 파일명 — 렌더 인덱싱(vnPersonQuote)과 동일 규칙
-  const voiceFile = factionVoiceFile(groupIndex, personIndex, solo, clusterIndex)
+  const voiceFile = factionVoiceFile(groupIndex, personIndex, clusterIndex)
   const hasQuote = !!(person.quoteChunks?.some(c => c.trim()) || person.quote?.trim())
 
   // 저장된 음원 메타 → 북리커맨드 VoiceFile 형태로 어댑트(존재 시). 패널·모달 공용.
@@ -68,7 +88,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
     : undefined
 
   // 수식어 나레이션 슬롯 — 같은 자리 규칙, 파일만 -epithet. 수식어 텍스트가 있을 때만 패널 노출.
-  const epithetFile = factionVoiceFile(groupIndex, personIndex, solo, clusterIndex, 'epithet')
+  const epithetFile = factionVoiceFile(groupIndex, personIndex, clusterIndex, 'epithet')
   const hasEpithet = !!person.epithet?.trim()
   const epithetMeta = voice?.byFile.get(epithetFile)
   const epithetActiveFile: VoiceFile | undefined = epithetMeta
@@ -94,10 +114,14 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
     if (cur <= 0) onChange({ ...person, epithetDuration: epithetMeta.duration })
   }, [epithetMeta?.duration, person, onChange])
   // 대사 처리 스텝(직함·수식어·음성) — 신모델. 접힌 줄 배지/체크박스에 공유.
-  const steps = factionStepsOf(person)
-  const toggleStep = (key: keyof typeof steps) => onChange(applyFactionSteps(person, { ...steps, [key]: !steps[key] }))
-  const stepLabels = [steps.credit && '직함', steps.epithet && '수식어', steps.voice && '음성'].filter(Boolean)
-  const modeBadge = stepLabels.length ? stepLabels.join('·') : '없음'
+  const stepsShorts = factionStepsOf(person, true)
+  const stepsLongform = factionStepsOf(person, false)
+  const toggleStepShorts = (key: keyof typeof stepsShorts) => onChange(applyFactionSteps(person, { ...stepsShorts, [key]: !stepsShorts[key] }, true))
+  const toggleStepLongform = (key: keyof typeof stepsLongform) => onChange(applyFactionSteps(person, { ...stepsLongform, [key]: !stepsLongform[key] }, false))
+  const stepLabelsShorts = [stepsShorts.credit && '직함', stepsShorts.epithet && '수식어', stepsShorts.voice && '음성'].filter(Boolean)
+  const modeBadgeShorts = stepLabelsShorts.length ? stepLabelsShorts.join('·') : '없음'
+  const stepLabelsLongform = [stepsLongform.credit && '직함', stepsLongform.epithet && '수식어', stepsLongform.voice && '음성'].filter(Boolean)
+  const modeBadgeLongform = stepLabelsLongform.length ? stepLabelsLongform.join('·') : '없음'
   const summary = person.lines?.filter(Boolean).join(' · ') || person.quote?.trim() || ''
 
   // 영상 제외(눈) 버튼 — 접힘·펼침 공용
@@ -108,6 +132,16 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
       title={disabled ? '이 인물을 다시 영상에 포함' : '이 인물을 영상에서 제외 (데이터는 보존)'}
     >
       {disabled ? <Eye size={15} /> : <EyeOff size={15} />}
+    </button>
+  )
+  // 롱폼 전용(필름) 버튼 — 켜면 이 인물만 세로 쇼츠에서 빠지고 가로 롱폼에는 그대로 나온다
+  const longformButton = (
+    <button
+      onClick={() => onChange({ ...person, longformOnly: longformOnly ? undefined : true })}
+      className={`rounded-md border p-1.5 ${longformOnly ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+      title={longformOnly ? '이 인물을 쇼츠에도 다시 포함' : '이 인물을 가로 롱폼에만 노출 (세로 쇼츠에서 제외)'}
+    >
+      <Film size={15} />
     </button>
   )
   // 위/아래 이동 + 삭제 — 접힘·펼침 공용
@@ -174,7 +208,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
   return (
     <div
-      className="rounded-md border border-border bg-bg-card"
+      className={`rounded-md border bg-bg-card ${longformOnly && !disabled ? 'border-accent/40' : 'border-border'}`}
       style={disabled ? { opacity: 0.5, filter: 'saturate(0.4)' } : undefined}
     >
       {/* 헤더 — 항상 보임. 헤더(빈 영역·이름)를 누르면 접기/펼치기 */}
@@ -207,7 +241,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="flex items-center gap-1.5">
             <span className="text-sm font-semibold">{person.name || '이름 없음'}</span>
-            <span className="rounded bg-bg-secondary px-1 text-[9px] text-text-dim">{modeBadge}</span>
+            {celebBadge}
+            <span className="flex flex-col gap-0.5">
+              <span className="rounded bg-bg-secondary px-1 text-[9px] text-text-dim">S: {modeBadgeShorts}</span>
+              <span className="rounded bg-bg-secondary px-1 text-[9px] text-text-dim">L: {modeBadgeLongform}</span>
+            </span>
           </span>
           {summary && <span className="line-clamp-1 text-xs text-text-dim">{summary}</span>}
         </div>
@@ -236,6 +274,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               {epithetMeta && <span className="font-mono text-[10px] text-accent">{epithetMeta.duration.toFixed(1)}s</span>}
             </button>
           )}
+          {longformButton}
           {eyeButton}
           {moveDeleteButtons}
         </div>
@@ -263,14 +302,70 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         <div className="flex items-start gap-2">
           {editLang !== 'en' && (
             <>
-              <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">직함·이력 -</span>
-              <textarea placeholder="줄바꿈으로 줄 구분 (최대 3줄)" value={person.lines?.join('\n') ?? ''} onChange={e => onChange({ ...person, lines: e.target.value.split('\n') })} rows={3} className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
+              <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">직함(3줄) -</span>
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <input
+                  type="text"
+                  placeholder="1번째 직함 (이름 옆 고정)"
+                  value={person.lines?.[0] ?? ''}
+                  onChange={e => {
+                    const lines = [...(person.lines ?? ['', '', ''])]
+                    lines[0] = e.target.value
+                    onChange({ ...person, lines })
+                  }}
+                  className="w-full rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm font-semibold focus:border-accent focus:outline-none"
+                />
+                {[1, 2].map(idx => (
+                  <div key={idx} className="flex items-start gap-1.5 w-full">
+                    <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-border" />
+                    <AutoResizeTextarea
+                      placeholder={`${idx + 1}번째 이력`}
+                      value={person.lines?.[idx] ?? ''}
+                      onChange={e => {
+                        const lines = [...(person.lines ?? ['', '', ''])]
+                        lines[idx] = e.target.value.replace(/\n/g, ' ')
+                        onChange({ ...person, lines })
+                      }}
+                      rows={1}
+                      className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1 text-sm leading-snug focus:border-accent focus:outline-none"
+                    />
+                  </div>
+                ))}
+              </div>
             </>
           )}
           {editLang !== 'ko' && (
             <>
               <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <textarea placeholder="EN 직함·이력 (줄바꿈 구분)" value={person.linesEn?.join('\n') ?? ''} onChange={e => onChange({ ...person, linesEn: e.target.value.split('\n') })} rows={3} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <input
+                  type="text"
+                  placeholder="1st Credit"
+                  value={person.linesEn?.[0] ?? ''}
+                  onChange={e => {
+                    const lines = [...(person.linesEn ?? ['', '', ''])]
+                    lines[0] = e.target.value
+                    onChange({ ...person, linesEn: lines })
+                  }}
+                  className="w-full rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs text-text-secondary focus:border-accent focus:outline-none"
+                />
+                {[1, 2].map(idx => (
+                  <div key={idx} className="flex items-start gap-1.5 w-full">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-border/60" />
+                    <AutoResizeTextarea
+                      placeholder={idx === 1 ? '2nd Credit' : '3rd Credit'}
+                      value={person.linesEn?.[idx] ?? ''}
+                      onChange={e => {
+                        const lines = [...(person.linesEn ?? ['', '', ''])]
+                        lines[idx] = e.target.value.replace(/\n/g, ' ')
+                        onChange({ ...person, linesEn: lines })
+                      }}
+                      rows={1}
+                      className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none"
+                    />
+                  </div>
+                ))}
+              </div>
             </>
           )}
         </div>
@@ -279,13 +374,15 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           {editLang !== 'en' && (
             <>
               <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">수식어 -</span>
-              <textarea placeholder="대사 전에 띄울 한 문장 (예: 1988년 사이퍼펑크 선언문을 세상에 던져, 암호로 국가의 감시를 끝내려 한 예언자)" value={person.epithet ?? ''} onChange={e => set('epithet', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
+              <div className="min-w-0 flex-1 flex flex-col gap-1.5">
+                <AutoResizeTextarea placeholder="대사 전에 띄울 한 문장 (예: 1988년 사이퍼펑크 선언문을 세상에 던져, 암호로 국가의 감시를 끝내려 한 예언자)" value={person.epithet ?? ''} onChange={e => set('epithet', e.target.value.replace(/\n/g, ' '))} rows={2} className="w-full resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
+              </div>
             </>
           )}
           {editLang !== 'ko' && (
             <>
               <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <textarea placeholder="EN epithet (one sentence)" value={person.epithetEn ?? ''} onChange={e => set('epithetEn', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+              <AutoResizeTextarea placeholder="EN epithet (one sentence)" value={person.epithetEn ?? ''} onChange={e => set('epithetEn', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
             </>
           )}
         </div>
@@ -294,13 +391,13 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           {editLang !== 'en' && (
             <>
               <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">한마디 대사 -</span>
-              <textarea placeholder="줄바꿈으로 의미 덩어리 구분" value={person.quoteChunks?.join('\n') ?? person.quote ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteChunks: ch, quote: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm italic leading-snug focus:border-accent focus:outline-none" />
+              <AutoResizeTextarea placeholder="줄바꿈으로 의미 덩어리 구분" value={person.quoteChunks?.join('\n') ?? person.quote ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteChunks: ch, quote: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm italic leading-snug focus:border-accent focus:outline-none" />
             </>
           )}
           {editLang !== 'ko' && (
             <>
               <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <textarea placeholder="EN 대사 (줄바꿈으로 덩어리)" value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+              <AutoResizeTextarea placeholder="EN 대사 (줄바꿈으로 덩어리)" value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
             </>
           )}
         </div>
@@ -360,7 +457,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         {editLang !== 'ko' && (
           <div className="flex items-start gap-2">
             <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">대사 원문 -</span>
-            <textarea placeholder="실제 발언 영어 원문" value={person.quoteOrigin ?? ''} onChange={e => set('quoteOrigin', e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+            <AutoResizeTextarea placeholder="실제 발언 영어 원문" value={person.quoteOrigin ?? ''} onChange={e => set('quoteOrigin', e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
           </div>
         )}
         {/* 소속 — 라벨·값 수평 */}
@@ -371,10 +468,9 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
         {/* 전환효과는 헤더에서 선택한다 */}
 
-        {/* 대사 처리 스텝 — 직함·수식어·음성 3개 독립 체크박스. 수식어를 켜면 그 칸이 펼쳐져
-            음성 해설(낭독/타이핑)을 그 안에서 고른다. 켜진 스텝이 직함→수식어→대사 순서로 나온다. 음성을 끄면 대사는 안 뜬다 */}
-        <div className="flex items-start gap-2">
-          <span className="mt-1 w-24 shrink-0 text-xs text-text-dim">대사 처리 -</span>
+        {/* 대사 처리 스텝 (쇼츠) */}
+        <div className="flex items-start gap-2 mt-2">
+          <span className="mt-1 w-24 shrink-0 text-xs text-text-dim">쇼츠(S) 처리 -</span>
           <div className="flex flex-1 items-start gap-1">
             {([
               { k: 'credit', l: '직함' },
@@ -384,14 +480,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               <div key={o.k} className="flex flex-1 flex-col gap-1">
                 <button
                   type="button"
-                  onClick={() => toggleStep(o.k)}
-                  className={`rounded-md border px-2 py-1 text-xs ${steps[o.k] ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                  onClick={() => toggleStepShorts(o.k)}
+                  className={`rounded-md border px-2 py-1 text-xs ${stepsShorts[o.k] ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                 >
-                  {steps[o.k] ? '☑ ' : '☐ '}{o.l}
+                  {stepsShorts[o.k] ? '☑ ' : '☐ '}{o.l}
                 </button>
-                {/* 수식어를 켠 인물만 — 음성 해설 켜기(낭독: 나레이터 음성 재생) / 끄기(타이핑: 음원 없이 글자만).
-                    미지정이면 음원이 있으면 낭독으로 동작하므로, 음원이 있어도 끄려면 타이핑을 명시한다. */}
-                {o.k === 'epithet' && steps.epithet && person.epithet && (
+                {o.k === 'epithet' && stepsShorts.epithet && person.epithet && (
                   <div className="flex gap-1">
                     {([['🔊 낭독', true], ['⌨ 타이핑', false]] as const).map(([label, val]) => {
                       const narrated = person.epithetNarrate !== undefined ? person.epithetNarrate : !!(person.epithetDuration && person.epithetDuration > 0)
@@ -399,9 +493,81 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                         <button
                           key={label}
                           type="button"
-                          title={val ? '낭독 — 나레이터 음성 재생' : '타이핑 — 음원 없이 글자만'}
                           onClick={() => onChange({ ...person, epithetNarrate: val })}
-                          className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-xs ${narrated === val ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                          className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${narrated === val ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                        >
+                          {label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+                {o.k === 'credit' && stepsShorts.credit && (person.lines?.length ?? 0) > 0 && (
+                  <div className="flex gap-1">
+                    {([['순차등장', false], ['⌨ 타이핑', true]] as const).map(([label, val]) => {
+                      const active = !!person.linesTyping === val
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => onChange({ ...person, linesTyping: val })}
+                          className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                        >
+                          {label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 대사 처리 스텝 (롱폼) */}
+        <div className="flex items-start gap-2">
+          <span className="mt-1 w-24 shrink-0 text-xs text-text-dim">롱폼(L) 처리 -</span>
+          <div className="flex flex-1 items-start gap-1">
+            {([
+              { k: 'credit', l: '직함' },
+              { k: 'epithet', l: '수식어' },
+              { k: 'voice', l: '음성' },
+            ] as const).map(o => (
+              <div key={o.k} className="flex flex-1 flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => toggleStepLongform(o.k)}
+                  className={`rounded-md border px-2 py-1 text-xs ${stepsLongform[o.k] ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                >
+                  {stepsLongform[o.k] ? '☑ ' : '☐ '}{o.l}
+                </button>
+                {o.k === 'epithet' && stepsLongform.epithet && person.epithet && (
+                  <div className="flex gap-1">
+                    {([['🔊 낭독', true], ['⌨ 타이핑', false]] as const).map(([label, val]) => {
+                      const narrated = person.epithetNarrate !== undefined ? person.epithetNarrate : !!(person.epithetDuration && person.epithetDuration > 0)
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => onChange({ ...person, epithetNarrate: val })}
+                          className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${narrated === val ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                        >
+                          {label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+                {o.k === 'credit' && stepsLongform.credit && (person.lines?.length ?? 0) > 0 && (
+                  <div className="flex gap-1">
+                    {([['순차등장', false], ['⌨ 타이핑', true]] as const).map(([label, val]) => {
+                      const active = !!person.linesTyping === val
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => onChange({ ...person, linesTyping: val })}
+                          className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                         >
                           {label}
                         </button>

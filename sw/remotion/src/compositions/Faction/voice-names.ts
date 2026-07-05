@@ -4,8 +4,9 @@
  */
 
 /**
- * 인물 대사 음성 파일명 — 세력·(묶음)·인물 인덱스로 유일하게. 0패딩으로 재생 정렬 순서 보장.
- * 예: F01P01-quote.wav / 분할 세력은 F02C01P03-quote.wav
+ * 인물 대사 음성 파일명 — 세력·그룹·인물 인덱스로 유일하게. 0패딩으로 재생 정렬 순서 보장.
+ * 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 파일명은 항상 FxxCxxPxx 형태다(solo 세력 포함).
+ * 예: F01C01P01-quote.wav. clusterIndex 파라미터가 옵셔널인 것은 시그니처 호환용일 뿐, 렌더·파이프라인은 항상 넘긴다.
  *
  * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 의 vnPersonQuote 와 규칙이 100% 일치해야 한다.
  *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
@@ -19,7 +20,7 @@ export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIn
 
 /**
  * 인물 수식어 나레이션 음성 파일명 — 대사(quote)와 같은 자리 규칙, 접미사만 -epithet.
- * 예: F01P01-epithet.wav / 분할 세력은 F02C01P03-epithet.wav.
+ * 대사와 마찬가지로 항상 FxxCxxPxx 형태(예: F01C01P01-epithet.wav, solo 세력 포함).
  * 나레이터가 그 인물의 수식어 한 문장을 낭독한 음원. 없으면 렌더는 글자 수 읽기 추정으로 정지만 한다.
  *
  * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).

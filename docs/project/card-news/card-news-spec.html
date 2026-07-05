@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>카드뉴스 컨셉 + 제작 명세</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  background:#0f1014;color:#e8e6e0;padding:36px 28px 90px;-webkit-font-smoothing:antialiased;line-height:1.5}
+h1{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.lead{color:#8a8c93;font-size:13px;margin-bottom:14px;line-height:1.65}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:11.5px}
+.legend span{padding:4px 10px;border-radius:6px;font-weight:700}
+.lg-code{background:rgba(110,190,130,.16);color:#8fd6a4;border:1px solid rgba(110,190,130,.3)}
+.lg-img{background:rgba(180,140,230,.16);color:#c4a6ef;border:1px solid rgba(180,140,230,.3)}
+.lg-edit{background:rgba(230,200,110,.16);color:#e6cb6e;border:1px solid rgba(230,200,110,.3)}
+.assetnote{color:#7e8088;font-size:11.5px;margin:10px 0 4px;line-height:1.6;padding:12px 14px;background:#16181d;border-radius:8px;border-left:3px solid #2e3742}
+.sec{font-size:14px;font-weight:800;letter-spacing:1px;margin:42px 0 4px;padding-bottom:8px;border-bottom:1px solid #23252c}
+.sec.f{color:#c0a062}.sec.b{color:#d8b08c}.sec.x{color:#7fa6c0}
+
+.item{display:flex;gap:22px;align-items:flex-start;margin-top:26px;padding-bottom:26px;border-bottom:1px solid #1a1c22}
+.item>.card{flex:0 0 250px}
+.spec{flex:1;min-width:280px}
+.spec .htitle{font-size:15px;font-weight:800;margin-bottom:3px}
+.spec .htitle b{color:#fff}
+.spec .one{font-size:12px;color:#9a9ca3;margin-bottom:12px;line-height:1.5}
+.bars{display:inline-flex;gap:3px;vertical-align:middle;margin-left:8px}
+.bars i{width:9px;height:9px;border-radius:2px;background:#2a2d35}
+.bars i.on{background:#8fd6a4}
+.auto{font-size:11px;color:#8fd6a4;font-weight:700;margin-left:6px;vertical-align:middle}
+.blk{display:flex;gap:10px;margin:9px 0;font-size:12px;line-height:1.55}
+.blk .lab{flex:0 0 76px;font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 0;text-align:center;border-radius:5px;height:fit-content}
+.blk.code .lab{background:rgba(110,190,130,.16);color:#8fd6a4}
+.blk.img .lab{background:rgba(180,140,230,.16);color:#c4a6ef}
+.blk.edit .lab{background:rgba(230,200,110,.16);color:#e6cb6e}
+.blk .txt{flex:1;color:#c5c7cd}
+.blk .txt code{background:#1c1e24;padding:1px 5px;border-radius:4px;font-size:11px;color:#a9d6c0}
+.pill2{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:99px;margin-left:4px}
+.reuse{background:rgba(110,190,130,.18);color:#8fd6a4}
+.new{background:rgba(230,120,120,.18);color:#eb9a9a}
+.css{background:rgba(130,170,230,.18);color:#9ab8ef}
+.cost{font-size:11px;color:#7e8088;margin-top:10px;padding-top:9px;border-top:1px dashed #23262e}
+.cost b{color:#c5c7cd}
+
+/* ===== 카드 비주얼 (갤러리에서 가져옴) ===== */
+.card{width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;position:relative;box-shadow:0 8px 22px rgba(0,0,0,.45);background:#14130e}
+.imgslot{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.4);text-align:center;padding:10px}
+.gp{background:linear-gradient(180deg,#2c281d,#0b0a07)}.q{font-weight:700;line-height:1.45}
+.A .photo{position:absolute;inset:0;background:linear-gradient(160deg,#3a3221,#0a0906)}
+.A .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,7,5,.94) 90%)}
+.A .info{position:absolute;left:0;right:0;bottom:0;padding:18px 16px}
+.A .nm{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.A .roles{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 10px}
+.A .roles span{font-size:9.5px;color:#e8dcbf;padding:3px 7px;border-radius:5px;background:rgba(192,160,98,.16);border:1px solid rgba(192,160,98,.3)}
+.A .q{font-size:12px;color:#fff;padding-left:10px;border-left:3px solid #c0a062}
+.B{background:#100f0b}
+.B .photo{position:absolute;top:0;left:0;right:0;height:62%;background:linear-gradient(135deg,#43381f,#15110a);clip-path:polygon(0 0,100% 0,100% 82%,0 100%)}
+.B .big{position:absolute;top:12px;left:14px;font-size:56px;font-weight:900;color:rgba(192,160,98,.85);line-height:.8}
+.B .info{position:absolute;bottom:0;left:0;right:0;padding:16px}
+.B .nm{font-size:19px;font-weight:900}.B .sub{font-size:10px;color:#c0a062;letter-spacing:1px;margin:3px 0 9px}.B .q{font-size:11.5px;color:#d8d2c2}
+.C{background:radial-gradient(120% 80% at 50% 0,#352c1a,#0c0b07);padding:12px;border:2px solid rgba(192,160,98,.4)}
+.C .frame{height:56%;border-radius:9px;background:linear-gradient(160deg,#4a3d22,#181308);position:relative;overflow:hidden;border:1px solid rgba(192,160,98,.35)}
+.C .rank{position:absolute;top:7px;left:7px;width:28px;height:28px;border-radius:50%;background:#c0a062;color:#16130c;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.C .nm{font-size:17px;font-weight:900;margin-top:10px;text-align:center}
+.C .stats{display:flex;justify-content:center;gap:5px;margin:8px 0}.C .stats span{font-size:9px;color:#e8dcbf;padding:3px 7px;border-radius:99px;background:rgba(192,160,98,.16)}
+.C .q{font-size:10.5px;color:#cfc7b3;text-align:center;line-height:1.4;font-weight:600}
+.D{background:radial-gradient(130% 100% at 30% 20%,#2a2418,#080705)}
+.D .face{position:absolute;right:-30px;bottom:-20px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#4a3d22,transparent 70%);opacity:.5}
+.D .mark{position:absolute;top:12px;left:16px;font-size:64px;color:#c0a062;line-height:.7;font-family:Georgia,serif}
+.D .q{position:absolute;top:66px;left:18px;right:16px;font-size:19px;font-weight:800;line-height:1.3;color:#fff}
+.D .who{position:absolute;bottom:20px;left:18px;font-size:11px;color:#c0a062;letter-spacing:1px}.D .who b{display:block;font-size:15px;color:#fff}
+.E{display:flex;flex-direction:column}
+.E .half{flex:1;position:relative;display:flex;align-items:flex-end;padding:13px}
+.E .h1{background:linear-gradient(180deg,#3a3221,#1a160d)}.E .h2{background:linear-gradient(0deg,#241d12,#0c0a07)}
+.E .vs{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;width:32px;height:32px;border-radius:50%;background:#c0a062;color:#16130c;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center;border:3px solid #0f0d09}
+.E .nm{font-size:15px;font-weight:900;position:relative;z-index:2}.E .nm small{display:block;font-size:9.5px;color:#c0a062;font-weight:600}
+.F{background:#0e0c0a}.F .cv{position:absolute;inset:0;background:linear-gradient(150deg,#5a4632,#241a12)}
+.F .band{position:absolute;left:0;right:0;bottom:0;background:rgba(10,8,6,.92);padding:14px 16px;border-top:2px solid #d8b08c}
+.F .bt{font-size:16px;font-weight:800;line-height:1.2}.F .ba{font-size:10px;color:#a99883;margin:3px 0 7px}.F .tg{font-size:11px;color:#e6cba8;line-height:1.45}
+.G{background:linear-gradient(180deg,#241b14,#0e0b08);padding:18px 14px;display:flex;flex-direction:column}
+.G h4{font-size:14px;font-weight:800;margin-bottom:3px}.G .who{font-size:10px;color:#d8b08c;letter-spacing:1px;margin-bottom:12px}
+.G .shelf{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.G .bk{border-radius:5px;background:linear-gradient(150deg,#4a3a2c,#221a13);display:flex;align-items:flex-end;padding:7px;font-size:9px;font-weight:700;color:#f0e3cf;box-shadow:0 4px 9px rgba(0,0,0,.4)}
+.G .foot{font-size:9px;color:#9a8f7e;text-align:center;margin-top:10px}
+.H{background:#f3ead8;color:#241a12;display:flex;flex-direction:column;justify-content:center;padding:22px 18px}
+.H .mk{font-size:44px;color:#b88a5e;font-family:Georgia,serif;line-height:.6;margin-bottom:7px}.H .q{font-size:16px;font-weight:700;line-height:1.4;color:#2a1f15}
+.H .src{margin-top:15px;font-size:10px;color:#8a7257;border-top:1px solid #d9c7a8;padding-top:9px}.H .src b{color:#241a12}
+.I{background:#161310;display:flex;align-items:center;justify-content:center;padding:16px}
+.I .pola{background:#fafafa;padding:9px 9px 0;border-radius:3px;transform:rotate(-3deg);box-shadow:0 9px 22px rgba(0,0,0,.6);width:78%}
+.I .ph{aspect-ratio:1;background:linear-gradient(150deg,#6a5236,#2a2017);border-radius:1px}
+.I .note{color:#2a2a2a;font-family:"Comic Sans MS",cursive;font-size:11px;padding:8px 4px 11px;text-align:center;line-height:1.3}
+.I .pin{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:#d8b08c;box-shadow:0 2px 5px rgba(0,0,0,.5)}
+.J{background:#e8dcc2;color:#2a2014;padding:16px 14px;display:flex;flex-direction:column;border:1px solid #c9b48c}
+.J .hd{border-bottom:2px solid #8a6f48;padding-bottom:7px;margin-bottom:9px}.J .hd .lib{font-size:8.5px;letter-spacing:2px;color:#8a6f48}.J .hd .bt{font-size:15px;font-weight:800;margin-top:3px;font-family:Georgia,serif}
+.J .rows{flex:1;font-size:10px}.J .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #bfa980}.J .row span:first-child{color:#8a6f48}
+.J .stamp{align-self:flex-end;margin-top:7px;border:2px solid #a8482e;color:#a8482e;font-weight:800;font-size:10px;padding:3px 9px;border-radius:4px;transform:rotate(-6deg);opacity:.8}
+.K{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:22px;background:radial-gradient(120% 90% at 50% 0,#26303a,#0a0d10)}
+.K .num{font-size:78px;font-weight:900;line-height:.9;color:#7fa6c0;letter-spacing:-3px}.K .unit{font-size:13px;font-weight:700;color:#cfd8df;margin-top:5px}
+.K .desc{font-size:11px;color:#8fa3b0;margin-top:12px;line-height:1.5}.K .who{margin-top:15px;font-size:10px;color:#7fa6c0;letter-spacing:1px}
+.L{background:#0e1014;display:flex;flex-direction:column}
+.L .row2{flex:1;padding:16px;position:relative;display:flex;flex-direction:column;justify-content:center}
+.L .b4{background:linear-gradient(180deg,#1c1f26,#0e1014);color:#8a93a0}.L .af{background:linear-gradient(0deg,#22303a,#0e1014);color:#dfe8ef}
+.L .lbl{font-size:8.5px;letter-spacing:2px;margin-bottom:7px;opacity:.7}.L .tx{font-size:12px;font-weight:700;line-height:1.4}
+.L .arr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;font-size:16px;color:#7fa6c0;background:#0e1014;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid #2a3a44}
+
+/* ===== 모드 토글 바 ===== */
+.modebar{position:sticky;top:0;z-index:80;display:flex;gap:8px;flex-wrap:wrap;
+  padding:14px 0 13px;margin:0 0 6px;background:rgba(15,16,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid #23252c}
+.modebar button{font-family:inherit;cursor:pointer;font-size:13px;font-weight:700;
+  padding:9px 18px;border-radius:99px;border:1px solid #2a2d35;background:#16181d;color:#9a9ca3;transition:.15s}
+.modebar button:hover{border-color:#3a3d45;color:#cfd1d6}
+.modebar button.active[data-target="all"]{background:#e8e6e0;color:#0f1014;border-color:#e8e6e0}
+.modebar button.active[data-target="faction"]{background:rgba(192,160,98,.2);color:#e6cb8a;border-color:#c0a062}
+.modebar button.active[data-target="book"]{background:rgba(216,176,140,.2);color:#e8c4a2;border-color:#d8b08c}
+.modebar button.active[data-target="common"]{background:rgba(127,166,192,.2);color:#a6c4dc;border-color:#7fa6c0}
+.modebar .count{font-size:10px;opacity:.7;margin-left:5px;font-weight:600}
+body.m-faction section:not([data-mode="faction"]),
+body.m-book section:not([data-mode="book"]),
+body.m-common section:not([data-mode="common"]){display:none}
+</style>
+</head>
+<body>
+
+<h1>카드뉴스 컨셉 + 제작 명세</h1>
+<p class="lead">카드 한 장마다 옆에 <b>어디까지 코드로 자동 채우고, 어떤 이미지를 쓰며(재활용/신규), 사람이 무엇을 편집하는지</b>를 붙였다.</p>
+<div class="legend">
+  <span class="lg-code">CODE = faction-data.json → 코드 자동</span>
+  <span class="lg-img">IMAGE = 이미지 에셋</span>
+  <span class="lg-edit">EDIT = 사람 손(발췌·큐레이션·카피)</span>
+</div>
+<div class="assetnote">
+  <b>전제 — 이미 가진 에셋:</b> 팩션 개인샷·그룹샷(<code>person.image</code>), 책 장면 이미지(<code>LF/SH PNG</code>), 책 표지(<code>thumbnail_url</code>), 저자/인물 사진(<code>images/</code>)은 영상 제작 때 <b>이미 확보돼 있다.</b>
+  → 카드뉴스에서 <b>새 이미지 생성기를 돌릴 일은 거의 없다.</b> 대부분 비율 크롭(4:5)·blur·텍스처는 CSS로 처리한다. 신규 생성이 필요한 곳만 빨간 태그로 표시했다.
+</div>
+
+<div class="modebar">
+  <button data-target="all" class="active">전체 <span class="count">12</span></button>
+  <button data-target="faction">⚔ 팩션 <span class="count">5</span></button>
+  <button data-target="book">📖 북리커맨드 <span class="count">5</span></button>
+  <button data-target="common">✦ 공용 <span class="count">2</span></button>
+</div>
+
+<section data-mode="faction">
+<!-- ===================== 팩션 ===================== -->
+<div class="sec f">⚔ 팩션 · 세력도 (단위: 인물 1명 = 카드 1장)</div>
+
+<!-- A -->
+<div class="item">
+  <div class="card A gp"><div class="photo"><div class="imgslot">개인샷</div></div><div class="grad"></div>
+    <div class="info"><div class="nm">앨런 튜링</div><div class="roles"><span>종군 암호학자</span><span>에니그마 해독</span><span>튜링 머신</span></div>
+    <div class="q">인간이 기계에게 통제를 넘길 날이 머지않았습니다.</div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>A.</b> 풀블리드 영웅 <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="auto">≈95% 자동</span></div>
+    <div class="one">얼굴이 카드를 꽉 채우는 가장 단순·안정적인 본문 카드.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">이름·<code>lines[]</code> 태그 3개·<code>quote</code>를 그대로 배치. 하단 그라데이션·텍스트 레이아웃 전부 코드. 세력 색은 <code>group.color</code> 자동.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt"><code>person.image</code> 개인샷 그대로 배경 <span class="pill2 reuse">♻ 재활용</span>. 4:5 안 맞는 가로 여백만 CSS object-fit 크롭 <span class="pill2 css">CSS</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">거의 없음. <code>quote</code>가 길면(2줄 초과) 카드용으로 한 번만 짧게 다듬으면 끝.</div></div>
+    <div class="cost"><b>제작:</b> 컴포지션 1개 만들면 세력 전원 자동 양산. 인물별 추가 작업 0.</div>
+  </div>
+</div>
+
+<!-- B -->
+<div class="item">
+  <div class="card B"><div class="photo"><div class="imgslot" style="color:rgba(192,160,98,.5)">개인샷</div></div><div class="big">02</div>
+    <div class="info"><div class="nm">존 매카시</div><div class="sub">AI 창시 · LISP 설계</div><div class="q">AI라고 부르지도 않게 될 거요. 결국 인간과 하나가 될 테니.</div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>B.</b> 사선 매거진 <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="auto">≈95% 자동</span></div>
+    <div class="one">A와 데이터 동일, 편집 감각만 잡지풍. 대각선 컷·거대 번호.</div>
+    <div class="blk code"><div class="txt"><div class="lab" style="display:inline-block">CODE</div> 사선 컷은 <code>clip-path</code>, 번호는 카드 순번 자동, 직함은 <code>lines[]</code> 앞 2개만.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">개인샷 그대로 <span class="pill2 reuse">♻ 재활용</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">없음. A와 같은 데이터, 레이아웃만 교체.</div></div>
+    <div class="cost"><b>제작:</b> A의 CSS 변형. 같은 데이터로 톤만 바꿔 A·B 둘 다 뽑을 수 있음.</div>
+  </div>
+</div>
+
+<!-- C -->
+<div class="item">
+  <div class="card C"><div class="frame"><div class="rank">1</div><div class="imgslot">개인샷</div></div>
+    <div class="nm">앨런 튜링</div><div class="stats"><span>암호학</span><span>계산이론</span><span>1936</span></div>
+    <div class="q">인간이 기계에게 통제를<br>넘길 날이 머지않았습니다.</div></div>
+  <div class="spec">
+    <div class="htitle"><b>C.</b> 트레이딩 카드 <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="auto" style="color:#e6cb6e">≈70% 자동</span></div>
+    <div class="one">게임 수집 카드. 팩션만의 시그니처로 키울 만함.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">프레임·배지·랭크 동그라미 전부 CSS. 능력치 태그는 <code>lines[]</code>에서 키워드 추출.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">개인샷 프레임 안에 끼움 <span class="pill2 reuse">♻ 재활용</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><code>lines[]</code>는 문장형이라 <b>능력치 키워드(암호학·계산이론)로 줄이는 큐레이션 필요</b>. 랭크 번호도 사람이 순서 정함.</div></div>
+    <div class="cost"><b>제작:</b> 컴포넌트는 1개지만 인물마다 키워드 다듬기 30초씩.</div>
+  </div>
+</div>
+
+<!-- D -->
+<div class="item">
+  <div class="card D"><div class="face"></div><div class="mark">"</div>
+    <div class="q">결국 인간과 하나가 될 테니, AI라고 부르지도 않게 될 거요.</div>
+    <div class="who">JOHN McCARTHY<b>존 매카시</b></div></div>
+  <div class="spec">
+    <div class="htitle"><b>D.</b> 거대 타이포 명언 <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="auto">≈90% 자동</span></div>
+    <div class="one">대사가 주인공. 단독 공유용으로 피드에서 제일 강함.</div>
+    <div class="blk code"><div class="txt"><div class="lab" style="display:inline-block">CODE</div> <code>quote</code> 한가운데 크게, <code>nameEn</code>+이름 하단. 글자 크기는 길이 따라 자동 조절.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">개인샷을 blur+원형 마스크로 배경에 흐릿하게 <span class="pill2 reuse">♻ 재활용</span> <span class="pill2 css">CSS blur</span> · 또는 사진 빼고 단색도 가능</div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><code>quote</code>가 카드의 전부라 <b>임팩트 있는 한 문장인지 검수</b>. 밋밋하면 다른 발언으로 교체.</div></div>
+    <div class="cost"><b>제작:</b> 자동 양산 가능. 단 "이 인물의 대표 한마디" 고르는 안목이 품질 좌우.</div>
+  </div>
+</div>
+
+<!-- E -->
+<div class="item">
+  <div class="card E"><div class="half h1"><div class="vs">VS</div><div class="nm">앨런 튜링<small>기계가 인간을 넘는다</small></div></div>
+    <div class="half h2"><div class="nm">존 매카시<small>기계가 인간과 하나된다</small></div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>E.</b> 듀얼 대비 <span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="auto" style="color:#eb9a9a">≈40% 자동</span></div>
+    <div class="one">두 인물의 사상 대조. 손이 제일 많이 감.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">상하 분할·VS 배지 레이아웃은 코드. 인물 2명 슬롯만 채움.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">개인샷 2장 <span class="pill2 reuse">♻ 재활용</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><b>누구 vs 누구를 묶을지 사람이 큐레이션</b> + 대조 카피("넘는다 ↔ 하나된다")를 <b>새로 써야 함</b>. data에 없는 텍스트.</div></div>
+    <div class="cost"><b>제작:</b> 자동 양산 불가. 흥미로운 대립쌍 골라 카피 쓰는 기획 작업. 시리즈당 1~2장만.</div>
+  </div>
+</div>
+
+</section>
+
+<section data-mode="book">
+<!-- ===================== 북리커맨드 ===================== -->
+<div class="sec b">📖 북리커맨드 · 책장 (단위: 인물–책 매칭 = 카드 1장)</div>
+
+<!-- F -->
+<div class="item">
+  <div class="card F"><div class="cv"><div class="imgslot">책 표지 / 장면</div></div>
+    <div class="band"><div class="bt">낭만적 거짓과 소설적 진실</div><div class="ba">르네 지라르</div><div class="tg">스탠퍼드 강의실에서 세상을 보는 시각을 통째로 뒤바꾼 책.</div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>F.</b> 표지 풀블리드 + 띠지 <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="auto" style="color:#e6cb6e">≈75% 자동</span></div>
+    <div class="one">책 물성 강조. 표지가 배경, 띠에 제목·계기.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt"><code>title</code>·<code>creator</code> 자동. 띠지·테두리 CSS.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt"><code>thumbnail_url</code> 표지 <span class="pill2 reuse">♻ 재활용</span>. 표지가 밋밋하면 책 장면 이미지 <code>LF-01</code>를 배경으로 <span class="pill2 reuse">♻ 재활용</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><code>contextMain</code>이 두세 문단이라 <b>"계기 한 줄"로 압축 발췌 필요</b>(첫 문장 자동 절단 or LLM 한 줄 요약).</div></div>
+    <div class="cost"><b>제작:</b> 계기 발췌만 자동화(LLM)하면 책 전권 양산. 표지 화질만 권별 점검.</div>
+  </div>
+</div>
+
+<!-- G -->
+<div class="item">
+  <div class="card G"><h4>피터 틸의 책장</h4><div class="who">8 BOOKS</div>
+    <div class="shelf"><div class="bk">낭만적 거짓과<br>소설적 진실</div><div class="bk">주권적 개인</div><div class="bk">세븐 파워</div><div class="bk">150세 시대</div></div>
+    <div class="foot">→ 캐러셀 넘기면 한 권씩</div></div>
+  <div class="spec">
+    <div class="htitle"><b>G.</b> 책장 그리드 (목차 카드) <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="auto">100% 자동</span></div>
+    <div class="one">한 카드 = 인물의 책장 전체. 캐러셀 첫 장으로 강력.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt"><code>books[].title</code> 전부 그리드에 자동 나열. 권수도 <code>books.length</code> 자동.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">없어도 됨(책등 색상 CSS) <span class="pill2 css">CSS</span>. 표지 미니 썸네일 넣으면 더 좋음 <span class="pill2 reuse">♻</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">없음. 완전 자동.</div></div>
+    <div class="cost"><b>제작:</b> 인물 데이터만 있으면 즉시 생성. 가장 싼 카드.</div>
+  </div>
+</div>
+
+<!-- H -->
+<div class="item">
+  <div class="card H"><div class="mk">"</div><div class="q">남들이 피 터지게 싸우는 시장을 피해, 아무도 보지 않는 곳에 홀로 제국을 세운다.</div>
+    <div class="src">피터 틸이 읽은 <b>『낭만적 거짓과 소설적 진실』</b></div></div>
+  <div class="spec">
+    <div class="htitle"><b>H.</b> 인용 미니멀 (밝은 톤) <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="auto" style="color:#e6cb6e">≈70% 자동</span></div>
+    <div class="one">책 속 한 문장만. 밝은 종이톤이라 어두운 피드에서 튄다.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">밝은 배경·따옴표·출처 줄 CSS. 인물명+책제목 자동 결합.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">이미지 없음. 순수 타이포 <span class="pill2 css">CSS</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><code>quotePairs[]</code>·<code>summary</code>에서 <b>인용할 한 문장 선별</b>. 핵심 통찰 골라내는 큐레이션이 관건.</div></div>
+    <div class="cost"><b>제작:</b> <code>quotePairs</code>가 이미 책별로 있어 후보는 풍부. 문장 고르기만 사람 몫.</div>
+  </div>
+</div>
+
+<!-- I -->
+<div class="item">
+  <div class="card I"><div class="pin"></div><div class="pola"><div class="ph"></div><div class="note">"이 교실에서<br>내 모든 게 시작됐다"<br>— 피터 틸</div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>I.</b> 폴라로이드 핀보드 <span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="auto" style="color:#eb9a9a">≈45% 자동</span></div>
+    <div class="one">손글씨 메모 감성. "그가 이 책에 남긴 한마디" 컨셉.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">폴라로이드 액자·핀·회전 각도 CSS.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">표지나 장면 이미지 <span class="pill2 reuse">♻ 재활용</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">손글씨 메모는 <b>1인칭 카피를 새로 작성</b>. data에 없는 감성 문구라 사람/LLM이 인물 말투로 지어야 함.</div></div>
+    <div class="cost"><b>제작:</b> 감성 카피가 핵심이라 양산보다 엄선 소수 장.</div>
+  </div>
+</div>
+
+<!-- J -->
+<div class="item">
+  <div class="card J"><div class="hd"><div class="lib">FEELANDNOTE LIBRARY</div><div class="bt">주권적 개인</div></div>
+    <div class="rows"><div class="row"><span>읽은 이</span><span>피터 틸</span></div><div class="row"><span>시기</span><span>페이팔 창업기</span></div><div class="row"><span>영향</span><span>국가 권력 탈피</span></div></div>
+    <div class="stamp">READ</div></div>
+  <div class="spec">
+    <div class="htitle"><b>J.</b> 도서관 대출카드 (빈티지) <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="auto" style="color:#e6cb6e">≈65% 자동</span></div>
+    <div class="one">아날로그 도서카드 패러디. 컨셉이 신선하고 시리즈 정체성 됨.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">카드 양식·점선·도장 전부 CSS. 제목·인물 자동.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">없음(종이 질감 CSS) <span class="pill2 css">CSS</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">"시기·영향" 항목은 <code>contextMain</code>에서 <b>짧은 라벨로 뽑는 요약 편집</b> 필요(LLM 키워드 추출).</div></div>
+    <div class="cost"><b>제작:</b> 요약 필드만 LLM으로 채우면 전권 양산.</div>
+  </div>
+</div>
+
+</section>
+
+<section data-mode="common">
+<!-- ===================== 공용 ===================== -->
+<div class="sec x">✦ 공용 · 실험 포맷 (팩션·북리 색만 바꿔 돌려쓰기)</div>
+
+<!-- K -->
+<div class="item">
+  <div class="card K"><div class="num">8</div><div class="unit">권의 책</div><div class="desc">경쟁을 경멸한 사내를<br>제국의 설계자로 만든</div><div class="who">피터 틸의 책장</div></div>
+  <div class="spec">
+    <div class="htitle"><b>K.</b> 숫자 통계 (훅 카드) <span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="auto" style="color:#e6cb6e">≈70% 자동</span></div>
+    <div class="one">큰 숫자로 스크롤 멈춤. 캐러셀 1번 또는 단독.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">숫자는 <code>books.length</code>/세력 인원수 자동. 거대 타이포 레이아웃 CSS.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">없음 <span class="pill2 css">CSS</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt">숫자 밑 <b>후킹 카피 한 줄을 새로 작성</b>("제국의 설계자로 만든"). 인물별 1줄 카피.</div></div>
+    <div class="cost"><b>제작:</b> 레이아웃 자동, 카피 한 줄만 손. 팩션·북리 공용.</div>
+  </div>
+</div>
+
+<!-- L -->
+<div class="item">
+  <div class="card L"><div class="row2 b4"><div class="lbl">BEFORE</div><div class="tx">남들처럼 경쟁에 뛰어들던 스탠퍼드 학부생</div></div>
+    <div class="arr">↓</div><div class="row2 af"><div class="lbl">AFTER · 지라르를 읽고</div><div class="tx">아무도 안 보는 곳에 홀로 제국을 세우는 역발상 투자자</div></div></div>
+  <div class="spec">
+    <div class="htitle"><b>L.</b> Before → After 내러티브 <span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="auto" style="color:#eb9a9a">≈40% 자동</span></div>
+    <div class="one">책 한 권이 인물을 어떻게 바꿨나. 가장 스토리 강함.</div>
+    <div class="blk code"><div class="lab">CODE</div><div class="txt">상하 대비 레이아웃·화살표 CSS.</div></div>
+    <div class="blk img"><div class="lab">IMAGE</div><div class="txt">없어도 됨. 넣으면 before=흑백 / after=컬러 개인샷 <span class="pill2 reuse">♻</span> <span class="pill2 css">filter</span></div></div>
+    <div class="blk edit"><div class="lab">EDIT</div><div class="txt"><b>before/after 두 문장을 새로 써야 함</b>. <code>contextMain</code> 내러티브에서 변화 지점을 뽑아 대비 카피로 재작성(LLM 보조).</div></div>
+    <div class="cost"><b>제작:</b> 카피 작성이 핵심. 임팩트 큰 책만 엄선.</div>
+  </div>
+</div>
+
+</section>
+
+<div class="assetnote" style="margin-top:34px;border-left-color:#8fd6a4">
+  <b>요약 — 제작 전략:</b><br>
+  · <b>거의 자동(G·A·B·D·K):</b> 컴포지션 1개 만들면 인물/책 전체를 코드로 양산. <b>여기부터 시작하면 즉시 대량 생산.</b><br>
+  · <b>발췌만 자동화하면 양산(F·H·J):</b> 긴 <code>contextMain</code>을 LLM으로 "한 줄 계기/라벨"로 압축하는 단계만 한 번 만들면 전권 적용.<br>
+  · <b>장당 손이 필요(C·E·I·L):</b> 큐레이션·카피라이팅이 핵심. 양산 말고 <b>엄선 소수 장</b>으로.<br>
+  · <b>신규 이미지 생성:</b> <span style="color:#eb9a9a;font-weight:700">사실상 없음.</span> 전부 영상용 에셋 재활용 + CSS 가공.
+</div>
+
+<script>
+  const bar = document.querySelector('.modebar');
+  const modes = ['faction','book','common'];
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    bar.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    const t = btn.dataset.target;
+    document.body.classList.remove('m-faction','m-book','m-common');
+    if(t !== 'all') document.body.classList.add('m-' + t);
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>

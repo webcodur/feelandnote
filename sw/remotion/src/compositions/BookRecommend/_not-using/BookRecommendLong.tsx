@@ -23,6 +23,7 @@ import { PreIntro } from './sections/PreIntro'
 import { BookCarousel } from './sections/BookCarousel'
 import { Breadcrumb } from './sections/Breadcrumb'
 import { LongSubtitles } from './sections/LongSubtitles'
+import { ChapterTimeline } from './sections/ChapterTimeline'
 import { GuideVoice } from './sections/GuideVoice'
 import { PromptPanel } from './studio/PromptPanel'
 import { SubEditor } from './studio/SubEditor'
@@ -626,6 +627,9 @@ export const BookRecommend: React.FC<Props> = ({ script, episodeName }) => {
 
       {/* 하단 자막 — 가로·세로 공용, 렌더·스튜디오 공통 표시 */}
       <LongSubtitles script={script} tl={tl} portrait={portrait} />
+
+      {/* 가로 롱폼 하단 챕터 타임라인 — 책별 색 구간 + 눈금 + 진행 마커 */}
+      {!portrait && <ChapterTimeline tl={tl} />}
 
       {/* 가이드 음성 — 음성 미생성 구간을 브라우저 읽기로 재생 (Studio 프리뷰 전용) */}
       {!getRemotionEnvironment().isRendering && <GuideVoice script={script} tl={tl} />}

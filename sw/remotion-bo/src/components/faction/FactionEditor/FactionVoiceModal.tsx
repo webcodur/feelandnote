@@ -9,6 +9,7 @@ export type FactionVoiceOptions = {
   only?: string
   normalize: boolean
   force: boolean
+  thenAlign?: boolean
 }
 
 type Props = {
@@ -21,14 +22,19 @@ export function FactionVoiceModal({ onClose, onGenerate }: Props) {
   const [engine, setEngine] = useState('gemini')
   const [only, setOnly] = useState('')
   const [normalize, setNormalize] = useState(true)
+  const [thenAlign, setThenAlign] = useState(false)
   const [busy, setBusy] = useState(false)
+
+  // 정렬 이어 실행은 특정 인물(only) 지정 시에만 의미가 있다 (정렬은 인물 단위 스코프)
+  const alignEnabled = !!only.trim()
+  const align = alignEnabled && thenAlign
 
   // force = true 전체 재생성, false 누락분만
   const run = async (force: boolean) => {
     if (busy) return
     setBusy(true)
     try {
-      await onGenerate({ engine, only: only.trim() || undefined, normalize, force })
+      await onGenerate({ engine, only: only.trim() || undefined, normalize, force, thenAlign: align })
       onClose()
     } finally {
       setBusy(false)
@@ -95,6 +101,25 @@ export function FactionVoiceModal({ onClose, onGenerate }: Props) {
                 className="h-4 w-4 accent-accent"
               />
               라우드니스 균일화 (권장)
+            </label>
+          </div>
+
+          {/* 정렬까지 수행 — 특정 인물 지정 시에만 활성. 생성 직후 받아쓰기·발화시각(ko)까지 이어 실행 */}
+          <div className="flex items-center gap-2">
+            <label className="w-24 shrink-0 text-xs text-text-dim">정렬까지 -</label>
+            <label
+              title={alignEnabled
+                ? '생성 직후 받아쓰기·발화시각 정렬(한국어)을 같은 작업으로 이어 실행합니다. 자막 타이밍이 새 음원에 맞춰집니다.'
+                : '특정 인물을 지정해야 정렬을 이어 실행할 수 있습니다 (정렬은 인물 단위로 처리).'}
+              className={`flex flex-1 items-center gap-2 text-sm ${alignEnabled ? 'cursor-pointer text-text-secondary' : 'cursor-not-allowed text-text-dim'}`}>
+              <input
+                type="checkbox"
+                checked={align}
+                disabled={!alignEnabled}
+                onChange={e => setThenAlign(e.target.checked)}
+                className="h-4 w-4 accent-accent disabled:cursor-not-allowed"
+              />
+              발화시각 정렬 이어 실행 (한국어)
             </label>
           </div>
 

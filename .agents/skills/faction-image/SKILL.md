@@ -80,6 +80,8 @@ description: 팩션(세력도, factions/) 시리즈 영상 이미지 — 단체�
 고정한다. 프롬프트는 **크롭을 그대로 유지**하라고만 박고(새 배경·복식·톤 만들지 말 것), **시네마틱 강도만
 한 단계 강화**한다 — 더 또렷한 키라이트·깊은 그림자·강한 눈빛·풍부한 피부 디테일.
 
+**단독 포커스 (타인 노출 차단)**: 개인샷은 화면에 **오직 그 인물 혼자만** 단독으로 나와야 한다. 단체샷에서 크롭하거나 줌할 때, 옆에 있던 **다른 사람의 신체(어깨, 팔, 머리 등)가 화면 가장자리에 잘려 들어오지 않게** 완전히 지우거나 프레임 밖으로 밀어낸다. 프롬프트에 `ONLY this one person in the frame, completely remove any parts of other people (arms, shoulders, faces) that might be visible at the edges`를 명시하여 오롯이 혼자 있는 컷을 보장한다.
+
 **프레이밍 — 허벅지 중간 위(cowboy shot)**: `framed from the mid-thigh up (a cowboy shot)`. 바지
 주머니가 보이는 높이다(허리 위보다 한 단계 더 내려감). **자르는 라인은 신체 부위어로만 지정한다** —
 `belt`·`pocket` 같은 의류 소품어를 라인 지정에 쓰면 벨트·주머니가 새로 생긴다(`no belt` 부정문도 모델이

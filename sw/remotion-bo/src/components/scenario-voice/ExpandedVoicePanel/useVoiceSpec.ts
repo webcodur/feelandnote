@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SegmentEngineSpec } from '../../voice-utils'
-import { resolveSegmentEngine, shortsArrIndexBySlot } from '../../voice-utils'
+import { resolveSegmentEngine, shortsArrIndexBySlot, longformQuoteSpeakerId } from '../../voice-utils'
 import { getTextsForSection } from '../utils'
 import { roleForLongformKey, geminiVoiceForRole, stylePrefixForRole, type Role } from '@feelandnote/shared/lib/voice-policy'
 import type { GenEngine } from './types'
@@ -39,7 +39,11 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     })() : undefined
     const speakers: SpeakerLite[] = Array.isArray((episode as { speakers?: unknown }).speakers)
       ? (episode as { speakers: SpeakerLite[] }).speakers : []
-    const speakerObj = seg?.speaker ? speakers.find(sp => sp.id === seg.speaker) : undefined
+    // 쇼츠는 segment.speaker, 롱폼 인용/후속은 quotePairs 화자 지정.
+    const longformSpeakerId = m ? undefined : longformQuoteSpeakerId(secKey, (episode as { books?: unknown }).books as readonly unknown[] | undefined)
+    const speakerObj = seg?.speaker
+      ? speakers.find(sp => sp.id === seg.speaker)
+      : (longformSpeakerId ? speakers.find(sp => sp.id === longformSpeakerId) : undefined)
     const speakerVoice = speakerObj
       ? (speakerObj.engine === 'elevenlabs' && speakerObj.voiceId ? speakerObj.voiceId : speakerObj.elevenlabsVoiceId)
       : undefined
@@ -59,7 +63,11 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     })() : undefined
     const speakers: SpeakerLite[] = Array.isArray((episode as { speakers?: unknown }).speakers)
       ? (episode as { speakers: SpeakerLite[] }).speakers : []
-    const speakerObj = seg?.speaker ? speakers.find(sp => sp.id === seg.speaker) : undefined
+    // 쇼츠는 segment.speaker, 롱폼 인용/후속은 quotePairs 화자 지정.
+    const longformSpeakerId = m ? undefined : longformQuoteSpeakerId(secKey, (episode as { books?: unknown }).books as readonly unknown[] | undefined)
+    const speakerObj = seg?.speaker
+      ? speakers.find(sp => sp.id === seg.speaker)
+      : (longformSpeakerId ? speakers.find(sp => sp.id === longformSpeakerId) : undefined)
     const speakerGeminiVoice = speakerObj?.engine === 'gemini' ? speakerObj.voiceId : undefined
 
     // 역할 판정 — 쇼츠는 segment.role(SSoT), 롱폼은 구간키 규칙. 이후 공유 정책으로

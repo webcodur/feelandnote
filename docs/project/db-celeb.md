@@ -5,7 +5,9 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 ## 셀럽 테이블
 
 - **`profiles`**: 셀럽 기본 프로필. `profile_type = 'CELEB'`
-  - `celeb_tier`: `'full'` / `'light'` — 파이프라인 차이는 `celeb-pipeline.md` 참조
+  - `celeb_tier`: `'full'` / `'light'` / `'relation'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
+    - `relation` = 관계 실존 인물(2026-07 신설). 다른 셀럽·영상(팩션 등)과의 관계 때문에 등록. basic 최소 + 아바타만, 홈·검색·탐색 비노출(연결로만)
+    - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 등록 수준은 relation과 동일, 비노출. 승격 대상 아님
   - `speech_tone` (text): 말투 6종 (loyal/composed/bold/humble/gentle/free). **profiles 테이블에 직접 존재** (celeb_persona 아님)
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
   - `slug`: `nickname_en` 기반 generated column (아래 참조)

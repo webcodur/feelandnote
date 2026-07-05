@@ -76,19 +76,21 @@ export function getTextsForSection(key: string, ep: EpisodeData): { original: st
     return phaseMap[phase]?.() ?? { original: '', tts: '' }
   }
 
-  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}-after
-  const pairMatch = key.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}(_p)-after (후속 맥락은 토막 분할 시 _p 부착)
+  const pairMatch = key.match(/^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)$/)
   if (pairMatch) {
     const idx = parseInt(pairMatch[1]) - 1
     const dn = parseInt(pairMatch[2])
+    const partIdx = pairMatch[3] ? parseInt(pairMatch[3]) - 1 : 0  // _2 → 토막 1
     const pi = Math.floor((dn - 1) / 2)
-    const isQuote = pairMatch[3] === 'quote'
+    const isQuote = pairMatch[4] === 'quote'
     const book = bks[idx]
     if (!book) return { original: '', tts: '' }
     const pair = (book as any).quotePairs?.[pi]
     if (!pair) return { original: '', tts: '' }
     if (isQuote) return { original: pair.quote ?? '', tts: r(pair.quote ?? '') }
-    return { original: pair.after ?? '', tts: r(pair.after ?? '') }
+    const t = bookFieldParts(pair.after, pair.afterParts)[partIdx] ?? ''
+    return { original: t, tts: r(t) }
   }
 
   // 옵션 2: shorts-{N}/S{NN}-{id} 필수 (N은 1-based)
@@ -147,17 +149,29 @@ export function setTextForSection(key: string, value: string, ep: EpisodeData): 
     return next
   }
 
-  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}-after
-  const pairMatch = key.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  // quotePairs: D{nn}d{N}-quote / D{nn}d{N}(_p)-after (후속 맥락 토막 분할 시 _p)
+  const pairMatch = key.match(/^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)$/)
   if (pairMatch) {
     const idx = parseInt(pairMatch[1]) - 1
     const dn = parseInt(pairMatch[2])
+    const partIdx = pairMatch[3] ? parseInt(pairMatch[3]) - 1 : 0
     const pi = Math.floor((dn - 1) / 2)
-    const isQuote = pairMatch[3] === 'quote'
+    const isQuote = pairMatch[4] === 'quote'
     if (bks[idx]) {
       const pairs = [...((bks[idx] as any).quotePairs ?? [])]
       if (pairs[pi]) {
-        pairs[pi] = { ...pairs[pi], [isQuote ? 'quote' : 'after']: value }
+        if (isQuote) {
+          pairs[pi] = { ...pairs[pi], quote: value }
+        } else {
+          const parts = bookFieldParts(pairs[pi].after, pairs[pi].afterParts)
+          if (parts.length > 1 && partIdx < parts.length) {
+            const nextParts = [...parts]
+            nextParts[partIdx] = value
+            pairs[pi] = { ...pairs[pi], afterParts: nextParts, after: nextParts.join('\n\n') }
+          } else {
+            pairs[pi] = { ...pairs[pi], after: value }
+          }
+        }
         ;(bks[idx] as any).quotePairs = pairs
       }
     }

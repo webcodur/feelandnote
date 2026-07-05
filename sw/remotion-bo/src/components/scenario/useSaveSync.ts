@@ -19,17 +19,11 @@ export function useSaveSync(params: {
   // scope — 현재 보는 뷰가 정한다. 'shorts'는 쇼츠 파일만, 'longform'은 책 파일만 기록.
   const handleSave = useCallback(async (scope: SaveScope = 'all') => {
     const books = (episode.books ?? []) as any[]
-    const errors: string[] = []
     let cleaned = false
-    // 책 인용 검증·이미지 필드 자동지정은 책을 기록하는 scope 에서만 수행
-    // (쇼츠 저장은 책 파일을 건드리지 않으므로 롱폼 인용 오류로 막히지 않는다)
+    // 이미지 필드 자동지정은 책을 기록하는 scope 에서만 수행
+    // (쇼츠 저장은 책 파일을 건드리지 않는다)
     if (scope !== 'shorts') {
-      books.forEach((b: any, i: number) => {
-        for (const [pi, pair] of ((b.quotePairs ?? []) as any[]).entries()) {
-          if (!pair.quote && pair.after) {
-            errors.push(`책 ${i + 1} "${b.title}": 인용 ${pi + 1}에 직접 인용 없이 후속 맥락이 존재합니다.`)
-          }
-        }
+      books.forEach((b: any) => {
         if (b.images?.length) {
           // quote 우선 판별 (quote/after 텍스트에 앵커 매칭) → 없으면 summary → context 순 폴백
           const quoteAfterText = ((b.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? '']).join(' ')
@@ -53,10 +47,6 @@ export function useSaveSync(params: {
           })
         }
       })
-    }
-    if (errors.length) {
-      alert('저장 불가:\n\n' + errors.join('\n'))
-      return
     }
 
     // 쇼츠 이미지 경로 동기화: 롱폼 이미지 rename(prefix 부착/제거) 후 쇼츠 경로도 갱신

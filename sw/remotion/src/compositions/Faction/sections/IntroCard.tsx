@@ -36,21 +36,21 @@ const LogoCell: React.FC<{ episodeName: string; image: string }> = ({ episodeNam
 /** 시작 화면 항목 — 인물 또는 세력 로고. heroes 슬러그가 'logo:<이미지>' 면 로고. */
 type IntroItem = { kind: 'person'; person: FactionPerson } | { kind: 'logo'; image: string }
 
-export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; orientation: Orientation; part?: number }> = ({ script, episodeName, orientation, part }) => {
+export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; orientation: Orientation; part?: number; lvPart?: number }> = ({ script, episodeName, orientation, part, lvPart }) => {
   void orientation
   const frame = useCurrentFrame()
-  const heroSlugs = (part != null && script.heroesByPart?.[part]) || script.heroes || []
+  const heroSlugs = (part != null && script.heroesByPart?.[part]) || (lvPart != null && script.heroesByLvPart?.[lvPart]) || script.heroes || []
   const items = heroSlugs.map((s): IntroItem | null => {
     if (s.startsWith('logo:')) return { kind: 'logo', image: s.slice(5) }
     const p = findPerson(script, s)
     return p ? { kind: 'person', person: p } : null
   }).filter(Boolean) as IntroItem[]
   // 영상 명칭 — 통합 한 필드(앞부분\n뒷부분). 앞부분은 크게 흰색, 뒷부분은 세력색.
-  const titleCap = (part != null && script.titleByPart?.[part]) || script.title
+  const titleCap = (part != null && script.titleByPart?.[part]) || (lvPart != null && script.titleByLvPart?.[lvPart]) || script.title
   const titleHead = nameHead(titleCap)
   const titleTail = nameTail(titleCap)
   // 시작문구 — 영상 명칭보다 살짝 늦게 떠오른다(황금색).
-  const logline = (part != null && script.loglineByPart?.[part]) || script.logline
+  const logline = (part != null && script.loglineByPart?.[part]) || (lvPart != null && script.loglineByLvPart?.[lvPart]) || script.logline
   // FIFO 흐름 — 배경(A)이 먼저 빠지고, 문구·효과음(B)이 나중에 빠진다. 둘 다 빠진 뒤 짧은 검정을 거쳐 첫 세력 로고로 넘어간다.
   const introSec = script.introSec ?? INTRO_SEC
   // A(배경) 아웃 — 먼저.

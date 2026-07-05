@@ -34,8 +34,11 @@ import { FactionYouTubePanel } from './FactionEditor/FactionYouTubePanel'
 import { FactionCommentPanel } from './FactionEditor/FactionCommentPanel'
 import { FactionEffectsSheet } from './FactionEditor/FactionEffectsSheet'
 import { useImagePoolToggle } from '@/lib/useImagePoolToggle'
+import { FactionCardPanel } from './FactionEditor/FactionCardPanel'
+import type { FactionCardInitialTarget } from './FactionEditor/FactionCardPanel/utils'
 
-const EMPTY_GROUP: FactionGroup = { name: '', color: '#92400e', people: [] }
+/** 신규 세력 기본형 — 항상 그룹(clusters) 1개를 갖는다. 호출마다 새 객체(참조 공유 방지) */
+const newGroup = (): FactionGroup => ({ name: '', color: '#92400e', clusters: [{ people: [] }], people: [] })
 
 /** 세력 색 위에 얹을 글자색 — 밝은 색이면 어두운 글자, 어두운 색이면 밝은 글자(라이트모드 가독성) */
 function contrastText(hex: string): string {
@@ -55,7 +58,7 @@ const PART_SECTIONS: { key: number; label: string; hint: string }[] = [
 /** 편집 언어 모드 — 입력칸의 노출 언어를 가린다(한국어만 / 영어만 / 둘 다) */
 export type EditLang = 'ko' | 'en' | 'both'
 
-export function FactionEditor({ series, name }: { series: string; name: string }) {
+export function FactionEditor({ series, name, cardTarget }: { series: string; name: string; cardTarget?: FactionCardInitialTarget }) {
   const [script, setScript] = useState<FactionScript | null>(null)
   const [dirty, setDirty] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -76,6 +79,25 @@ export function FactionEditor({ series, name }: { series: string; name: string }
   const [collapsedParts, setCollapsedParts] = useState<Record<number, boolean>>({})
   // 편집 언어 — 입력칸의 노출 언어를 한국어/영어/둘 다로 가린다(하위 입력칸 전체가 따른다)
   const [editLang, setEditLang] = useState<EditLang>('both')
+  const [showCards, setShowCards] = useState(false)
+  const appliedCardTargetOpen = useRef(false)
+
+  useEffect(() => {
+    if (appliedCardTargetOpen.current) return
+    if (cardTarget) {
+      setShowCards(true)
+      appliedCardTargetOpen.current = true
+    }
+  }, [cardTarget])
+
+  const infoPath = `/${series}/${encodeURIComponent(name)}/${editLang}/info`
+  const cardBoardPath = `${infoPath}/card`
+  const toggleCards = useCallback(() => {
+    const nextOpen = !showCards
+    window.history.pushState(null, '', nextOpen ? cardBoardPath : infoPath)
+    setShowCards(nextOpen)
+  }, [showCards, cardBoardPath, infoPath])
+
   const musicRef = useRef<HTMLInputElement | null>(null)
   const scriptRef = useRef<FactionScript | null>(null)
   scriptRef.current = script
@@ -305,8 +327,8 @@ export function FactionEditor({ series, name }: { series: string; name: string }
       const files: FactionVoiceMeta[] = Array.isArray(d?.files) ? d.files : []
       const byFile = new Map(files.map(v => [v.file, v]))
       let changed = 0
-      const fix = (p: FactionPerson, gi: number, pi: number, solo: boolean, ci?: number): FactionPerson => {
-        const meta = byFile.get(factionVoiceFile(gi, pi, solo, ci))
+      const fix = (p: FactionPerson, gi: number, pi: number, ci: number): FactionPerson => {
+        const meta = byFile.get(factionVoiceFile(gi, pi, ci))
         if (meta && meta.duration > 0 && Math.abs((p.quoteDuration ?? 0) - meta.duration) > 0.05) {
           changed++
           return { ...p, quoteDuration: meta.duration }
@@ -314,11 +336,10 @@ export function FactionEditor({ series, name }: { series: string; name: string }
         return p
       }
       const groups = cur.groups.map((g, gi) => {
-        const solo = !!g.solo
         if (g.clusters?.length) {
-          return { ...g, clusters: g.clusters.map((c, ci) => ({ ...c, people: c.people.map((p, pi) => fix(p, gi, pi, solo, ci)) })) }
+          return { ...g, clusters: g.clusters.map((c, ci) => ({ ...c, people: c.people.map((p, pi) => fix(p, gi, pi, ci)) })) }
         }
-        return { ...g, people: (g.people ?? []).map((p, pi) => fix(p, gi, pi, solo, undefined)) }
+        return { ...g, people: (g.people ?? []).map((p, pi) => fix(p, gi, pi, 0)) }
       })
       setVoiceFiles(files)
       if (changed > 0) {
@@ -388,8 +409,8 @@ export function FactionEditor({ series, name }: { series: string; name: string }
   // ── 시작·마무리 화면 인물(heroes) 후보 — slug 있는 인물만(셀럽 DB 연동). 썸네일용 image 포함 ──
   const heroCandidates: HeroCandidate[] = []
   for (const g of script?.groups ?? []) {
-    // 세력 로고도 시작 화면에 넣을 수 있게 후보로 — slug 'logo:<이미지>' 로 식별. logo 없으면 titleArt(타이틀 로고아트) 사용
-    const logoImg = g.logo ?? g.titleArt
+    // 세력 로고도 시작 화면에 넣을 수 있게 후보로 — slug 'logo:<이미지>' 로 식별. 영상 로고(logoVid) 없으면 이미지 로고(logoImg) 사용
+    const logoImg = g.logoVid ?? g.logoImg
     if (logoImg) heroCandidates.push({ slug: `logo:${logoImg}`, name: `${g.name} 로고`, image: logoImg })
     const ppl = g.clusters?.length ? g.clusters.flatMap(c => c.people) : g.people
     for (const p of ppl) if (p.slug) heroCandidates.push({ slug: p.slug, name: p.name, image: p.image })
@@ -474,7 +495,7 @@ export function FactionEditor({ series, name }: { series: string; name: string }
     ;[next[i], next[target]] = [next[target], next[i]]
     updateGroups(next)
   }
-  const addGroup = () => updateGroups([...groups, { ...EMPTY_GROUP, people: [] }])
+  const addGroup = () => updateGroups([...groups, newGroup()])
 
   // 헤더의 세력 알약 클릭 — 그 편을 (접혀 있으면) 펼치고 해당 세력 카드로 스크롤 이동
   const jumpToGroup = (partKey: number, groupIdx: number) => {
@@ -717,6 +738,14 @@ export function FactionEditor({ series, name }: { series: string; name: string }
               <Upload size={15} /> 유튜브
             </button>
             <button
+              onClick={toggleCards}
+              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
+                showCards ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
+              }`}
+            >
+              카드/도감
+            </button>
+            <button
               onClick={save}
               disabled={saving || !dirty}
               className={`fixed bottom-6 right-6 z-50 flex items-center gap-1.5 rounded-full px-5 py-3 text-sm font-semibold shadow-lg ${
@@ -738,6 +767,13 @@ export function FactionEditor({ series, name }: { series: string; name: string }
           series={series}
           episodeName={name}
           onToggleDisabled={gi => setGroup(gi, { ...groups[gi], disabled: groups[gi].disabled ? undefined : true })}
+        />
+      ) : showCards ? (
+        <FactionCardPanel
+          script={script}
+          series={series}
+          episodeName={name}
+          initialTarget={cardTarget}
         />
       ) : (
         <div className="space-y-5">

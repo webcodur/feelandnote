@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { AbsoluteFill, Sequence, Audio, interpolate, useCurrentFrame, staticFile, Easing } from 'remotion'
 import type { FactionGroup, FactionPerson, FactionImageCrop, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
-import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditAppearSec, epithetIsNarrated, epithetSpeakSec, f, type PersonSteps } from '../timing'
+import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, f, type PersonSteps } from '../timing'
 import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC } from '../constants'
 import { imgSrc, initials, sliceLocalTimings, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { vnPersonQuote, vnPersonEpithet, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
@@ -9,6 +9,11 @@ import { Typewriter } from '../../../components/caption/Typewriter'
 import { expandSubTimings, type VoiceTimingSegment } from '../../../lib/voice-timing'
 import { FactionMedia } from './FactionMedia'
 import { HoldGlitch } from '../transitions'
+
+// 직함 마커 효과음(가로 롱폼) — 직함 줄이 하나씩 리스팅될 때마다 마커(점)가 톡 찍히는 소리.
+// 전용 합성 자산(짧은 상승 블립). 톤 교체 시 이 파일명만 바꾼다.
+const CREDIT_MARKER_SFX = 'common/sfx/credit-marker.wav'
+const CREDIT_MARKER_VOL = 0.5
 
 /**
  * 수식어 타이핑용 발화 시각 — 음원 없이 낱말(어절) 단위로 글자가 차오르게 가짜 시각을 만든다.
@@ -40,6 +45,66 @@ function epithetWordTimings(text: string, totalSec: number): VoiceTimingSegment[
     const dur = (speakSec * lens[i]) / total
     const seg: VoiceTimingSegment = { start: cur, end: cur + dur, text: w }
     cur += dur + pauseAfter[i] // 구두점 뒤 휴지만큼 다음 어절 점등을 미룬다
+    return seg
+  })
+}
+
+/**
+ * 수식어 글자 단위 점등 시각 — 어절 단위(epithetWordTimings) 대신 한 글자씩 순차 점등용.
+ * 전체 노출 시간을 글자 수 비례로 나누되, 구두점 뒤에는 짧은 휴지를 둬 읽는 호흡을 준다.
+ * 공백은 점등 시간 0으로 두고(다음 글자와 함께 넘어감), 휴지 합만큼 점등 시간에서 빼 전체 길이를 유지한다.
+ * Typewriter가 charLevel 모드에서 이 시각을 받아 글자를 하나씩 점등한다.
+ */
+function epithetCharTimings(text: string, totalSec: number): VoiceTimingSegment[] {
+  const chars = Array.from(text)
+  if (chars.length <= 1) return []
+  const PAUSE_SENTENCE = 0.3
+  const PAUSE_COMMA = 0.16
+  const pauseAfter = chars.map((c, i): number => {
+    if (i === chars.length - 1) return 0
+    if (/[.?!。]/.test(c)) return PAUSE_SENTENCE
+    if (/[,，、]/.test(c)) return PAUSE_COMMA
+    return 0
+  })
+  const pauseTotal = pauseAfter.reduce((a, b) => a + b, 0)
+  const speakSec = Math.max(totalSec * 0.4, totalSec - pauseTotal)
+  // 공백은 가중치 0(즉시 통과), 그 외 글자는 균등 가중치.
+  const weights = chars.map((c): number => (/\s/.test(c) ? 0 : 1))
+  const wTotal = weights.reduce((a, b) => a + b, 0) || 1
+  let cur = 0
+  return chars.map((c, i) => {
+    const dur = (speakSec * weights[i]) / wTotal
+    const seg: VoiceTimingSegment = { start: cur, end: cur + dur, text: c }
+    cur += dur + pauseAfter[i]
+    return seg
+  })
+}
+
+/**
+ * 직함 타이핑용 글자 점등 시각 — 마커(줄)별로 살짝 끊어 치는 분리감을 준다.
+ * 줄 경계(`\n`)마다 짧은 휴지를 넣어, 한 줄을 다 친 뒤 잠깐 쉬고 다음 마커로 넘어가게 한다.
+ * 공백·마커점(·)·개행은 점등 시간 0(즉시 통과)으로 두고, 나머지 글자에 시간을 균등 배분한다.
+ * 휴지 합만큼을 점등 시간에서 빼 전체 길이(totalSec)를 유지한다.
+ * Typewriter가 charLevel 모드에서 이 시각을 받아 글자를 하나씩 점등한다.
+ */
+function creditTypingTimings(text: string, totalSec: number): VoiceTimingSegment[] {
+  const chars = Array.from(text)
+  if (chars.length <= 1) return []
+  const LINE_PAUSE = 0.26 // 줄(마커) 사이 끊고 가는 휴지
+  const pauseAfter = chars.map((c, i): number => {
+    if (i === chars.length - 1) return 0
+    return c === '\n' ? LINE_PAUSE : 0
+  })
+  const pauseTotal = pauseAfter.reduce((a, b) => a + b, 0)
+  const speakSec = Math.max(totalSec * 0.4, totalSec - pauseTotal)
+  // 공백·개행·마커점은 가중치 0(즉시 통과), 그 외 글자만 점등 시간 배분.
+  const weights = chars.map((c): number => (/\s/.test(c) || c === '·' ? 0 : 1))
+  const wTotal = weights.reduce((a, b) => a + b, 0) || 1
+  let cur = 0
+  return chars.map((c, i) => {
+    const dur = (speakSec * weights[i]) / wTotal
+    const seg: VoiceTimingSegment = { start: cur, end: cur + dur, text: c }
+    cur += dur + pauseAfter[i]
     return seg
   })
 }
@@ -144,22 +209,22 @@ const QuotePages: React.FC<{
 
 // 인물 직함·이력 — 한 항목 = 한 줄. 여러 줄이면 세력 색 점 마커를 붙여 세로 리스트로 보인다(단일 줄은 마커 없이).
 // 각 줄은 밑에서 한 줄씩 순차로 떠오른다(startFrame부터 staggerFrames 간격). frame은 컷 로컬 프레임(lt).
-const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number; frame: number; startFrame: number; staggerFrames: number }> = ({ items, accent, fontSize, frame, startFrame, staggerFrames }) => {
+const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number; frame: number; startFrame: number; offsetsFrames: number[]; emphasizeFirst?: boolean }> = ({ items, accent, fontSize, frame, startFrame, offsetsFrames, emphasizeFirst = false }) => {
   const isList = items.length > 1
-  const dot = Math.round(fontSize * 0.2)
-  const gap = Math.round(fontSize * 0.3)
+  const dot = Math.round(fontSize * 0.25)
+  const gap = Math.round(fontSize * 0.4)
   const rise = Math.round(fontSize * 0.55)
   const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: isList ? Math.round(fontSize * 0.32) : 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: isList ? Math.round(fontSize * 0.4) : 0 }}>
       {items.map((t, i) => {
-        const ls = startFrame + i * staggerFrames
+        const ls = startFrame + (offsetsFrames[i] ?? 0)
         const op = interpolate(frame, [ls, ls + f(ENTER_FADE_SEC)], [0, 1], clamp)
         const ty = interpolate(frame, [ls, ls + f(ENTER_FADE_SEC)], [rise, 0], { ...clamp, easing: Easing.out(Easing.cubic) })
         return (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap, opacity: op, transform: `translateY(${ty}px)` }}>
-            {isList ? <span style={{ flexShrink: 0, width: dot, height: dot, borderRadius: '50%', background: accent, marginTop: Math.round(fontSize * 0.46) }} /> : null}
-            <span style={{ color: '#e8e8ee', fontFamily: FONT, fontSize, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.28, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}>{t}</span>
+            {isList ? <span style={{ flexShrink: 0, width: dot, height: dot, borderRadius: '50%', background: accent, marginTop: Math.round(fontSize * 0.5) }} /> : null}
+            <span style={{ color: emphasizeFirst && i === 0 ? accent : '#e8e8ee', fontFamily: FONT, fontSize, fontWeight: emphasizeFirst && i === 0 ? 800 : 700, letterSpacing: 0.3, lineHeight: 1.4, textAlign: 'left', wordBreak: 'keep-all', overflowWrap: 'break-word', ...TEXT_PAINT }}>{t}</span>
           </div>
         )
       })}
@@ -212,6 +277,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   const pushin = !holdOff && isPushinZoom(hold)
   // 1) 박스 + 이름 + 직함 함께 페이드인. 세로는 박스째 왼쪽에서 슬라이드 인(가로는 슬라이드 없이 페이드만)
   const nameOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  // 가로 롱폼 이름 등장 — 직함 줄처럼 아래에서 살짝 떠오르며 들어온다(정적으로 미리 떠 있지 않게).
+  const nameRise = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [30, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
   // 세로 박스 슬라이드 — 왼쪽 밖(-PANEL_SLIDE_X)에서 제자리(0)로. 슬라이드와 페이드를 같은 구간에 묶는다
   const panelSlideX = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + PANEL_SLIDE_SEC)], [-PANEL_SLIDE_X, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
   const panelOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -240,6 +307,22 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   const creditRestOp = Number.isFinite(creditExitSec)
     ? interpolate(lt, [f(creditExitSec - ENTER_FADE_SEC), f(creditExitSec)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
     : 1
+  // 가로 롱폼: 직함 리드가 뜨는 인물은 1번째 줄까지 아래 리스트로 내려 전 줄을 리스트형으로 보인다(대사·수식어 인물 포함).
+  // 첫 줄은 세력색으로 강조(이름 옆에 붙던 직함과 동일 색). 리드가 끝나면 리스트가 사라지며 수식어·대사로 넘어간다.
+  const creditListFull = showCreditRest
+  const creditListItems = creditListFull ? creditItems : creditRest
+  // 리스트 첫 줄 등장 시각(초, 컷 로컬) — 이름(ENTER_NAME_SEC)이 먼저 뜬 뒤 한 박자(stagger) 늦게 첫 항목이 이어 뜬다.
+  // (이름과 첫 항목이 동시에 튀지 않게 분리.)
+  const creditListStartSec = ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC
+  // 줄별 등장 시각(리스트 시작 기준) — 긴 줄일수록 다음 줄까지 더 오래 머문다(읽을 시간). timing과 동일 산식.
+  // 리스트 줄 집합은 렌더 분기 기준: 가로는 전체, 세로(롱폼·쇼츠)는 1줄이 이름 옆이라 나머지만.
+  const creditListOffsetsSec = creditLineOffsetsSec(person, orientation !== 'landscape')
+
+  // 직함 타이핑(linesTyping) — 마커(줄)별 텍스트. 가로는 전체 줄, 세로는 이름 옆 1번 줄을 뺀 나머지.
+  const creditTypedTextLandscape = creditListItems.map(t => (creditListItems.length > 1 ? `· ${t}` : t)).join('\n')
+  const creditTypedTextPortrait = creditRest.map(t => (creditRest.length > 1 ? `· ${t}` : t)).join('\n')
+  // 타이핑 총 길이 — 리드 종료(대사 교차·페이드아웃) 전에 완주하도록 페이드 여유를 뺀다.
+  const creditTypingSpanSec = Math.max(0.4, creditListSpanSec(person, true) - ENTER_FADE_SEC - 0.15)
 
   // 음성 스텝이 켜지고 음원이 있을 때만 재생.
   const audioPlaySec = personAudioPlaySec(person)
@@ -297,12 +380,39 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 직함 리드 타자 효과음 — 직함 2·3줄이 순차로 떠오르는 동안 타이핑 사운드를 깐다(세로 쇼츠).
   const creditTypingEl = (() => {
     if (!isShorts || !showCreditRest) return null
-    const dur = f(creditAppearSec(person))
+    const dur = f(CREDIT_LINE_STAGGER_SEC + creditListSpanSec(person, true))
     if (dur <= 0) return null
     return (
       <Sequence from={cueStart + f(ENTER_NAME_SEC)} durationInFrames={dur}>
         <Audio src={staticFile('common/sfx/typing.mp3')} loop volume={0.6} />
       </Sequence>
+    )
+  })()
+  // 직함 마커 효과음(가로 롱폼) — 직함 줄(2·3번)이 하나씩 순차로 떠오를 때마다 마커 소리를 낸다.
+  // i번째 줄은 컷 로컬 (i+1)*CREDIT_LINE_STAGGER_SEC 시점에 등장(CreditLines의 stagger와 동일).
+  // 줄 텍스트가 길수록 소리도 그만큼 길게(원본의 저음 여운을 더 길게 남긴다). 끝은 살짝 페이드해 끊김음 방지.
+  // 쇼츠는 타자 루프(creditTypingEl)를 쓰므로 여기선 롱폼 전용.
+  const creditPopEl = (() => {
+    if (orientation !== 'landscape' || !showCreditRest) return null
+    // 글자 수 → 재생 길이(초). 짧은 줄은 짧게, 긴 줄은 원본 길이(약 1.1초)까지 늘린다.
+    const markerSec = (t: string) => Math.min(1.05, Math.max(0.45, 0.4 + t.trim().length * 0.032))
+    // 리스트에 실제로 뜨는 줄마다 마커 소리. i번째 줄은 컷 로컬 (리스트 시작 - ENTER_NAME + 줄 오프셋) 시점에 등장.
+    const baseOffsetSec = creditListStartSec - ENTER_NAME_SEC
+    return (
+      <>
+        {creditListItems.map((line, i) => {
+          const durF = f(markerSec(line))
+          const fadeF = Math.min(f(0.1), Math.floor(durF / 4))
+          return (
+            <Sequence key={i} from={cueStart + f(baseOffsetSec + (creditListOffsetsSec[i] ?? 0))} durationInFrames={durF}>
+              <Audio
+                src={staticFile(CREDIT_MARKER_SFX)}
+                volume={(fr) => CREDIT_MARKER_VOL * interpolate(fr, [durF - fadeF, durF], [1, 0], clamp)}
+              />
+            </Sequence>
+          )
+        })}
+      </>
     )
   })()
 
@@ -374,6 +484,9 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
     return (
       <AbsoluteFill style={{ backgroundColor: BG, flexDirection: 'row' }}>
         {audioEl}
+        {epithetEl}
+        {epithetTypingEl}
+        {creditPopEl}
         {/* 좌: 인물 사진 — 켄번스 줌(컷 동안 천천히 확대) */}
         <div style={{ width: L_PHOTO_W, height: '100%', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
           <AbsoluteFill>{photoEl}</AbsoluteFill>
@@ -383,18 +496,61 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
         {/* 우: 텍스트 — 이름 위치를 고정(상단 기준)하고 아래 슬롯만 확장. 인물마다 위아래로 흔들리지 않게 */}
         {/* 이름(고정) → 같은 슬롯에서 직함(2행) → 대사로 교차 */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp }}>
-          {/* 이름 + 직함 1번(이름 옆 고정, 전원) */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap' }}>
+          {/* 이름 + 직함 1번(이름 옆 고정) — 아래에서 떠오르며 등장. 직함만 있는 인물은 1번째 줄도 아래 리스트로 내린다. */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)` }}>
             <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
-            {creditHead ? (
+            {creditHead && !creditListFull ? (
               <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap' }}>{creditHead}</div>
             ) : null}
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)은 직함 순차 → 대사로 교차(겹쳐 두고 페이드) */}
           <div style={{ display: 'grid', alignItems: 'start' }}>
+            {hasEpithet ? (
+              <div style={{ gridArea: '1 / 1', opacity: epithetOp }}>
+                <div style={{ opacity: epithetInOp, transform: `translateY(${epithetInTy}px)` }}>
+                  {epithetNarrated ? (
+                    <div style={{
+                      color: '#f0f0f4', fontFamily: FONT_SERIF,
+                      fontSize: 60, fontWeight: 600,
+                      letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left',
+                      wordBreak: 'keep-all',
+                      ...TEXT_PAINT,
+                    }}>{epithet}</div>
+                  ) : (
+                    <Typewriter
+                      text={epithet}
+                      startFrame={cueStart + epithetStartF}
+                      spreadFrames={f(epithetSpeakSec(person))}
+                      timings={epithetCharTimings(epithet, epithetSpeakSec(person))}
+                      charLevel
+                      fontSize={60}
+                      color="#7c818c"
+                      highlightColor="#f0f0f4"
+                      style={{ fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}
+                      keepLit
+                    />
+                  )}
+                </div>
+              </div>
+            ) : null}
             {showCreditRest ? (
               <div style={{ gridArea: '1 / 1', opacity: creditRestOp }}>
-                <CreditLines items={creditRest} accent={accent} fontSize={52} frame={lt} startFrame={f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)} staggerFrames={f(CREDIT_LINE_STAGGER_SEC)} />
+                {person.linesTyping ? (
+                  <Typewriter
+                    text={creditTypedTextLandscape}
+                    startFrame={cueStart + f(creditListStartSec) - f(ENTER_NAME_SEC)}
+                    spreadFrames={f(creditTypingSpanSec)}
+                    timings={creditTypingTimings(creditTypedTextLandscape, creditTypingSpanSec)}
+                    charLevel
+                    fontSize={60}
+                    color="#e8e8ee"
+                    highlightColor="#ffffff"
+                    style={{ fontFamily: FONT, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}
+                    keepLit
+                  />
+                ) : (
+                  <CreditLines items={creditListItems} accent={accent} fontSize={60} frame={lt} startFrame={f(creditListStartSec)} offsetsFrames={creditListOffsetsSec.map(f)} emphasizeFirst={creditListFull} />
+                )}
               </div>
             ) : null}
             {hasQuote ? (
@@ -473,7 +629,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                       text={epithet}
                       startFrame={cueStart + epithetStartF}
                       spreadFrames={f(epithetSpeakSec(person))}
-                      timings={epithetWordTimings(epithet, epithetSpeakSec(person))}
+                      timings={epithetCharTimings(epithet, epithetSpeakSec(person))}
+                      charLevel
                       fontSize={50}
                       color="#7c818c"
                       highlightColor="#f0f0f4"
@@ -486,7 +643,22 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
             ) : null}
             {showCreditRest ? (
               <div style={{ gridArea: '1 / 1', opacity: creditRestOp }}>
-                <CreditLines items={creditRest} accent={accent} fontSize={40} frame={lt} startFrame={f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)} staggerFrames={f(CREDIT_LINE_STAGGER_SEC)} />
+                {person.linesTyping ? (
+                  <Typewriter
+                    text={creditTypedTextPortrait}
+                    startFrame={cueStart + f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)}
+                    spreadFrames={f(creditTypingSpanSec)}
+                    timings={creditTypingTimings(creditTypedTextPortrait, creditTypingSpanSec)}
+                    charLevel
+                    fontSize={48}
+                    color="#e8e8ee"
+                    highlightColor="#ffffff"
+                    style={{ fontFamily: FONT, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.4, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}
+                    keepLit
+                  />
+                ) : (
+                  <CreditLines items={creditRest} accent={accent} fontSize={48} frame={lt} startFrame={f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)} offsetsFrames={creditListOffsetsSec.map(f)} />
+                )}
               </div>
             ) : null}
             {hasQuote ? (

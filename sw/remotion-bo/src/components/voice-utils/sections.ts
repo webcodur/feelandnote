@@ -34,13 +34,14 @@ export function describeFile(name: string): string {
     const part = bookMatch[3] ? ` ${bookMatch[3]}` : ''  // b2 = 토막 2
     return `책${n} ${phase[bookMatch[2]] ?? ''}${part}`
   }
-  const pairMatch = base.match(/^D(\d{2})d(\d+)-(quote|after)$/)
+  const pairMatch = base.match(/^D(\d{2})d(\d+)(?:_(\d+))?-(quote|after)$/)
   if (pairMatch) {
     const n = parseInt(pairMatch[1])
     const dn = parseInt(pairMatch[2])
     const pi = Math.floor((dn - 1) / 2)
-    const label = pairMatch[3] === 'quote' ? '인용' : '후속'
-    return `책${n} ${label}${pi > 0 ? ` ${pi + 1}` : ''}`
+    const part = pairMatch[3] ? ` ${pairMatch[3]}` : ''  // _2 = 토막 2
+    const label = pairMatch[4] === 'quote' ? '인용' : '후속'
+    return `책${n} ${label}${pi > 0 ? ` ${pi + 1}` : ''}${part}`
   }
   const shortMatch = base.match(/^S\d{2}-(.+)$/)
   if (shortMatch) return `쇼츠: ${shortMatch[1]}`
@@ -95,11 +96,15 @@ export function expectedSections(ep: { narrator?: Record<string, unknown>; host?
     for (let p = 0; p < partCount(b.contextMain, b.contextMainParts); p++) {
       add(p === 0 ? `D${bn}c-context` : `D${bn}c${p + 1}-context`)
     }
-    // quotePairs: 동적 인용+후속맥락
+    // quotePairs: 동적 인용+후속맥락 (후속맥락은 afterParts 토막 수만큼 _p 부착)
     for (let pi = 0; pi < ((b.quotePairs as any[])?.length ?? 0); pi++) {
       const pair = (b.quotePairs as any[])[pi]
       if (pair.quote) add(`D${bn}d${pi * 2 + 1}-quote`)
-      if (pair.after) add(`D${bn}d${pi * 2 + 2}-after`)
+      if (pair.after) {
+        for (let ap = 0; ap < partCount(pair.after, pair.afterParts); ap++) {
+          add(ap === 0 ? `D${bn}d${pi * 2 + 2}-after` : `D${bn}d${pi * 2 + 2}_${ap + 1}-after`)
+        }
+      }
     }
   }
 

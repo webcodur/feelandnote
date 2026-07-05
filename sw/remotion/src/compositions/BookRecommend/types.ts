@@ -127,6 +127,15 @@ export interface QuotePair {
   afterGainDb?: number
   /** 후속 맥락 재생 배속 (1=원본, 0.5~2) */
   afterPlaybackRate?: number
+  /** 후속 맥락 토막별 화자 — afterParts와 1:1 대응. 토막 2개↑ 분할 시에만 생성.
+   *  읽기 폴백: afterPartSpeakers?.[p] ?? afterSpeaker */
+  afterPartSpeakers?: string[]
+  /** 후속 맥락 토막별 음량 dB 게인 — 읽기 폴백: afterPartGainDbs?.[p] ?? afterGainDb */
+  afterPartGainDbs?: number[]
+  /** 후속 맥락 토막별 재생 배속 — 읽기 폴백: afterPartPlaybackRates?.[p] ?? afterPlaybackRate */
+  afterPartPlaybackRates?: number[]
+  /** 후속 맥락 토막별 SFX — 읽기 폴백: afterPartSfxs?.[p] ?? afterSfx */
+  afterPartSfxs?: SfxItem[][]
 }
 
 export interface BookEntry {
@@ -152,6 +161,15 @@ export interface BookEntry {
   summaryGainDb?: number
   /** 핵심 요약 재생 배속 (1=원본, 0.5~2) */
   summaryPlaybackRate?: number
+  /** 핵심 요약 토막별 화자 — summaryParts와 1:1 대응. 토막 2개↑ 분할 시에만 생성.
+   *  읽기 폴백: summaryPartSpeakers?.[p] ?? summarySpeaker */
+  summaryPartSpeakers?: string[]
+  /** 핵심 요약 토막별 음량 dB 게인 — 읽기 폴백: summaryPartGainDbs?.[p] ?? summaryGainDb */
+  summaryPartGainDbs?: number[]
+  /** 핵심 요약 토막별 재생 배속 — 읽기 폴백: summaryPartPlaybackRates?.[p] ?? summaryPlaybackRate */
+  summaryPartPlaybackRates?: number[]
+  /** 핵심 요약 토막별 SFX — 읽기 폴백: summaryPartSfxs?.[p] ?? summarySfx */
+  summaryPartSfxs?: SfxItem[][]
   /** 나레이터 3인칭: 감상 배경. 토막 분할 시에도 전체 글(join('\n\n'))을 항상 유지 */
   contextMain: string
   /** 감상 배경 토막 분할 — 2개 이상이면 토막별 wav(D{NN}c-context, D{NN}c2-context, ...)로 처리.
@@ -169,6 +187,15 @@ export interface BookEntry {
   contextMainGainDb?: number
   /** 감상 배경 재생 배속 (1=원본, 0.5~2) */
   contextMainPlaybackRate?: number
+  /** 감상 배경 토막별 화자 — contextMainParts와 1:1 대응. 토막 2개↑ 분할 시에만 생성.
+   *  읽기 폴백: contextMainPartSpeakers?.[p] ?? contextMainSpeaker */
+  contextMainPartSpeakers?: string[]
+  /** 감상 배경 토막별 음량 dB 게인 — 읽기 폴백: contextMainPartGainDbs?.[p] ?? contextMainGainDb */
+  contextMainPartGainDbs?: number[]
+  /** 감상 배경 토막별 재생 배속 — 읽기 폴백: contextMainPartPlaybackRates?.[p] ?? contextMainPlaybackRate */
+  contextMainPartPlaybackRates?: number[]
+  /** 감상 배경 토막별 SFX — 읽기 폴백: contextMainPartSfxs?.[p] ?? contextMainSfx */
+  contextMainPartSfxs?: SfxItem[][]
   /** 인용+후속맥락 쌍 배열 (동적 N개). voice: d1-quote, d2-after, d3-quote, d4-after, ... */
   quotePairs?: QuotePair[]
   /** 섹션별 BGM — summary/contextMain 구간에 배경 음악 배정 */

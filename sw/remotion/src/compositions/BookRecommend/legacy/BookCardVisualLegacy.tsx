@@ -310,7 +310,7 @@ type Props = {
 }
 
 export const BookCardVisual: React.FC<Props> = ({
-  book, host, index, totalFrames, titleFrames, summaryFrames, summaryEnd,
+  book, index, totalFrames, titleFrames, summaryFrames, summaryEnd,
   contextFrames, contextEnd, quotePairTimings,
   labelSummaryF, labelContextF, titleSummaryGapF, summaryContextGapF,
   summaryPartStartsF, contextPartStartsF, episodeName, timings, script,
@@ -359,6 +359,14 @@ export const BookCardVisual: React.FC<Props> = ({
   const contextParts = bookFieldParts(book.contextMain, book.contextMainParts)
   const summaryAllTimings = mergePartTimings(vnBookSummary, summaryParts, summaryPartStartsF)
   const contextAllTimings = mergePartTimings(vnBookContext, contextParts, contextPartStartsF)
+  // 후속 맥락도 토막별 음성 타이밍을 이어붙여, 통짜 본문 위 글자 점등·스크롤·이미지 앵커를
+  // 전 토막(D01d2·D01d2_2…)에 걸쳐 정확히 맞춘다. 분할 없으면 [0] 하나로 기존과 동일.
+  const afterAllTimingsByPair = quotePairTimings.map((pt, pi) => {
+    const pair = book.quotePairs?.[pi]
+    if (!pt.hasAfter || !pair?.after) return undefined
+    const afterParts = bookFieldParts(pair.after, pair.afterParts)
+    return mergePartTimings((idx, ap) => vnBookAfter(idx, pi, ap), afterParts, pt.afterPartStartsF)
+  })
 
   // --- refs ---
   const summaryContentRef = useRef<HTMLDivElement>(null)
@@ -453,9 +461,25 @@ export const BookCardVisual: React.FC<Props> = ({
   }
 
   // --- 이미지 전환 (텍스트 앵커 해석) ---
+  // 다토막 책: 토막별 음성 타이밍을 전체 구간 기준으로 병합한 결과를 summary/context 키에
+  // 덮어써, 통짜 origText 기준 앵커 매칭이 전 토막(D01b2·D01b3…)에 걸쳐 동작하게 한다.
+  // (병합 없이 원본 timings를 넘기면 첫 토막 음성만 잡혀 뒤 토막 이미지가 전부 스킵된다.)
+  const mergedTimings = React.useMemo(() => {
+    const afterEntries: Record<string, VoiceTimingSegment[]> = {}
+    afterAllTimingsByPair.forEach((m, pi) => {
+      if (m) afterEntries[vnTimingKey(vnBookAfter(index, pi))] = m
+    })
+    if (!summaryAllTimings && !contextAllTimings && Object.keys(afterEntries).length === 0) return timings
+    return {
+      ...timings,
+      ...(summaryAllTimings ? { [vnTimingKey(vnBookSummary(index))]: summaryAllTimings } : {}),
+      ...(contextAllTimings ? { [vnTimingKey(vnBookContext(index))]: contextAllTimings } : {}),
+      ...afterEntries,
+    }
+  }, [timings, summaryAllTimings, contextAllTimings, afterAllTimingsByPair, index])
   const imageTransitions = React.useMemo(() => {
-    return resolveImageTransitions(book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts)
-  }, [book, index, timings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts])
+    return resolveImageTransitions(book, index, mergedTimings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts)
+  }, [book, index, mergedTimings, sSummary, sContext, summaryFrames, contextFrames, quotePairTimings, pairStarts])
 
   // --- 공통 ---
   const fadeOut = interpolate(frame, [totalFrames - f(1), totalFrames], [1, 0], CLAMP)
@@ -603,7 +627,7 @@ export const BookCardVisual: React.FC<Props> = ({
     const qGeom = geom[`quote-${pi}`]
     const aGeom = geom[`after-${pi}`]
     if (pt.hasQuote && qGeom) ctxSegs.push({ s: ps.sQuote, e: ps.sQuote + pt.quoteFrames, top: qGeom.top, height: qGeom.height, timings: timings?.[vnTimingKey(vnBookQuote(index, pi))] })
-    if (pt.hasAfter && aGeom) ctxSegs.push({ s: ps.sAfter, e: ps.sAfter + pt.afterFrames, top: aGeom.top, height: aGeom.height, timings: timings?.[vnTimingKey(vnBookAfter(index, pi))] })
+    if (pt.hasAfter && aGeom) ctxSegs.push({ s: ps.sAfter, e: ps.sAfter + pt.afterFrames, top: aGeom.top, height: aGeom.height, timings: afterAllTimingsByPair[pi] })
   }
   
   const contextScrollY = scrollPiecewise(contextH, ctxSegs)
@@ -672,12 +696,7 @@ export const BookCardVisual: React.FC<Props> = ({
                       timings={timings?.[vnTimingKey(vnBookQuote(index, pi))]} />
                     {pair.quoteSource && (
                       <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
-                        — {host.nickname}, {pair.quoteSource}
-                      </div>
-                    )}
-                    {!pair.quoteSource && (
-                      <div style={{ color: '#888', fontSize: 22, fontFamily: FONT.sans, marginTop: 4 }}>
-                        — {host.nickname}
+                        — {pair.quoteSource}
                       </div>
                     )}
                   </div>
@@ -686,7 +705,7 @@ export const BookCardVisual: React.FC<Props> = ({
                   <div data-id={`after-${pi}`} style={{ opacity: afterOpacities[pi], marginTop: 40, fontFamily: FONT.sans }}>
                     <Typewriter text={pair.after} startFrame={ps.sAfter} spreadFrames={pt.afterFrames - f(0.5)}
                       color="#bbb" fontSize={BODY_FONT} style={{ lineHeight: BODY_LH }}
-                      timings={timings?.[vnTimingKey(vnBookAfter(index, pi))]} />
+                      timings={afterAllTimingsByPair[pi]} />
                   </div>
                 )}
               </React.Fragment>
@@ -808,9 +827,11 @@ export const BookCardVisual: React.FC<Props> = ({
                   style={{ fontWeight: 700, fontFamily: FONT.serif, lineHeight: 1.7, wordBreak: 'keep-all' }}
                   timings={timings?.[vnTimingKey(vnBookQuote(index, pi))]}
                 />
-                <div style={{ color: '#888', fontSize: 24, fontFamily: FONT.sans, marginTop: 12 }}>
-                  — {host.nickname}{pair.quoteSource ? `, ${pair.quoteSource}` : ''}
-                </div>
+                {pair.quoteSource && (
+                  <div style={{ color: '#888', fontSize: 24, fontFamily: FONT.sans, marginTop: 12 }}>
+                    — {pair.quoteSource}
+                  </div>
+                )}
               </div>
             </div>
             )

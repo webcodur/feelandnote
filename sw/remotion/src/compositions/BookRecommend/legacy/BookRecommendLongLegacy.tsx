@@ -3,6 +3,7 @@ import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence
 import { freshAvatarUrl } from '../../../lib/avatar'
 import type { BookRecommendScript } from '../types'
 import { sf, fadeInOut, BrandLogo, makeVf, useIsPortrait, safeImg, dbToLinear } from '../utils'
+import { clampRate } from '../playback-rate'
 import { DARK, DARK_BG } from '../../theme'
 import { BrandIntro } from '../sections/BrandIntro'
 import { HostIntro } from '../sections/HostIntro'
@@ -11,6 +12,7 @@ import { BookRecap } from '../sections/BookRecap'
 import { Typewriter } from '../sections/Typewriter'
 import { FONT } from '../fonts'
 import { Overlay } from '../sections/Overlay'
+import { ChapterTimeline } from '../sections/ChapterTimeline'
 import {
   toFrames, BRAND_FRAMES, CELEB_VISUAL_DELAY,
   CONTEXT_QUOTE_GAP, QUOTE_CONTEXTAFTER_GAP,
@@ -290,7 +292,7 @@ export const BookRecommendLegacy: React.FC<Props> = ({ script, episodeName }) =>
               {hasVoice && (
                 <Series>
                   <Series.Sequence durationInFrames={bt.titleFrames}>
-                    <Audio src={vf(vnBookTitle(i))} volume={dbToLinear(book.titleGainDb)} />
+                    <Audio src={vf(vnBookTitle(i))} volume={dbToLinear(book.titleGainDb)} playbackRate={clampRate(book.titlePlaybackRate)} />
                   </Series.Sequence>
                   <Series.Sequence offset={tl.TITLE_SUMMARY_GAP_F} durationInFrames={tl.LABEL_SUMMARY_F}>
                     <Audio src={vf(VN_LABEL_SUMMARY)} />
@@ -304,7 +306,8 @@ export const BookRecommendLegacy: React.FC<Props> = ({ script, episodeName }) =>
                         from={startF}
                         durationInFrames={p + 1 < bt.summaryPartStartsF.length ? bt.summaryPartStartsF[p + 1] - startF : bt.summaryFrames - startF}
                       >
-                        <Audio src={vf(vnBookSummary(i, p))} volume={dbToLinear(book.summaryGainDb)} />
+                        {/* 음량·배속은 토막별 우선(*PartGainDbs/*PartPlaybackRates?.[p]), 없으면 필드 단위 폴백 */}
+                        <Audio src={vf(vnBookSummary(i, p))} volume={dbToLinear(book.summaryPartGainDbs?.[p] ?? book.summaryGainDb)} playbackRate={clampRate(book.summaryPartPlaybackRates?.[p] ?? book.summaryPlaybackRate)} />
                       </Sequence>
                     ))}
                   </Series.Sequence>
@@ -319,7 +322,8 @@ export const BookRecommendLegacy: React.FC<Props> = ({ script, episodeName }) =>
                         from={startF}
                         durationInFrames={p + 1 < bt.contextPartStartsF.length ? bt.contextPartStartsF[p + 1] - startF : bt.contextFrames - startF}
                       >
-                        <Audio src={vf(vnBookContext(i, p))} volume={dbToLinear(book.contextMainGainDb)} />
+                        {/* 음량·배속은 토막별 우선(contextMainPart*?.[p]), 없으면 필드 단위 폴백 */}
+                        <Audio src={vf(vnBookContext(i, p))} volume={dbToLinear(book.contextMainPartGainDbs?.[p] ?? book.contextMainGainDb)} playbackRate={clampRate(book.contextMainPartPlaybackRates?.[p] ?? book.contextMainPlaybackRate)} />
                       </Sequence>
                     ))}
                   </Series.Sequence>
@@ -328,12 +332,22 @@ export const BookRecommendLegacy: React.FC<Props> = ({ script, episodeName }) =>
                       {pt.hasQuote && pt.quoteFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookQuote(i, pi))] && (
                         <Series.Sequence offset={CONTEXT_QUOTE_GAP} durationInFrames={pt.quoteFrames}>
                           <Audio src={sf('common/sfx/whoosh.wav')} volume={0.3} />
-                          <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} />
+                          <Audio src={vf(vnBookQuote(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.quoteGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.quotePlaybackRate)} />
                         </Series.Sequence>
                       )}
                       {pt.hasAfter && pt.afterFrames > 0 && script.voiceTimings?.[vnTimingKey(vnBookAfter(i, pi))] && (
                         <Series.Sequence offset={QUOTE_CONTEXTAFTER_GAP} durationInFrames={pt.afterFrames}>
-                          <Audio src={vf(vnBookAfter(i, pi))} volume={dbToLinear(book.quotePairs?.[pi]?.afterGainDb)} />
+                          {/* 토막별 음원 — 분할 없으면 [0] 하나로 기존과 동일 */}
+                          {pt.afterPartStartsF.map((startF, ap) => (
+                            <Sequence
+                              key={`aft-part-${ap}`}
+                              from={startF}
+                              durationInFrames={ap + 1 < pt.afterPartStartsF.length ? pt.afterPartStartsF[ap + 1] - startF : pt.afterFrames - startF}
+                            >
+                              {/* 음량·배속은 토막별 우선(afterPart*?.[ap]), 없으면 페어 단위 폴백 */}
+                              <Audio src={vf(vnBookAfter(i, pi, ap))} volume={dbToLinear(book.quotePairs?.[pi]?.afterPartGainDbs?.[ap] ?? book.quotePairs?.[pi]?.afterGainDb)} playbackRate={clampRate(book.quotePairs?.[pi]?.afterPartPlaybackRates?.[ap] ?? book.quotePairs?.[pi]?.afterPlaybackRate)} />
+                            </Sequence>
+                          ))}
                         </Series.Sequence>
                       )}
                     </React.Fragment>
@@ -612,6 +626,9 @@ export const BookRecommendLegacy: React.FC<Props> = ({ script, episodeName }) =>
       {/* 하단 세이프존 — 진행바만 표시 (돌판 텍스처 제거) */}
 
       <Overlay script={script} />
+
+      {/* 가로 롱폼 하단 챕터 타임라인 — 책별 색 구간 + 눈금 + 진행 마커 */}
+      {!portrait && <ChapterTimeline tl={tl} />}
 
       {/* Portrait 자막 — 세로 영상 렌더링 시에도 표시 */}
       {portrait && <PortraitSubtitles script={script} tl={tl} />}

@@ -600,8 +600,8 @@ def faction_quote_text(person, lang):
 
 
 def faction_quote_targets(data, lang, part=None):
-    """data.json → {stem: 원대사}. buildCues/vnPersonQuote 인덱싱을 재현한다(렌더·faction-align 과 동일 키).
-       solo 세력: F{gi}P{pi}-quote. 비-solo: F{gi}C{ci}P{pi}-quote (clusters 없으면 ci=0 → C01).
+    """faction-data.json → {stem: 원대사}. buildCues/vnPersonQuote 인덱싱을 재현한다(렌더·faction-align 과 동일 키).
+       모든 세력이 clusters 를 가지므로 키는 항상 F{gi}C{ci}P{pi}-quote 다(solo 세력 포함).
        part 지정 시 그 편 세력만(group.part 로 필터). disabled 제외."""
     out = {}
     for gi, g in enumerate(data.get('groups', [])):
@@ -609,19 +609,8 @@ def faction_quote_targets(data, lang, part=None):
             continue
         if part is not None and g.get('part') is not None and g.get('part') != part:
             continue
-        if g.get('solo'):
-            for pi, p in enumerate(g.get('people', [])):
-                if p.get('disabled'):
-                    continue
-                q = faction_quote_text(p, lang)
-                if q:
-                    out[f'F{gi + 1:02d}P{pi + 1:02d}-quote'] = q
-            continue
-        clusters = g.get('clusters')
-        cluster_list = clusters if clusters else [None]
-        for ci, cluster in enumerate(cluster_list):
-            people = cluster.get('people', []) if cluster else g.get('people', [])
-            for pi, p in enumerate(people):
+        for ci, cluster in enumerate(g.get('clusters') or []):
+            for pi, p in enumerate(cluster.get('people', [])):
                 if p.get('disabled'):
                     continue
                 q = faction_quote_text(p, lang)
@@ -639,9 +628,9 @@ def run_faction(args):
     lang = 'en' if args.lang == 'en' else 'ko'
     faction_dir = os.path.join(root, 'public', 'factions', ep_name)
     voice_dir = os.path.join(faction_dir, 'voice')
-    data_path = os.path.join(faction_dir, 'data.json')
+    data_path = os.path.join(faction_dir, 'faction-data.json')
     if not os.path.isfile(data_path):
-        print(f'✗ data.json 없음: {data_path}', file=sys.stderr)
+        print(f'✗ faction-data.json 없음: {data_path}', file=sys.stderr)
         sys.exit(1)
     with open(data_path, encoding='utf-8') as f:
         data = json.load(f)
@@ -669,7 +658,7 @@ def run_faction(args):
         stem = os.path.splitext(os.path.basename(wav_path))[0]
         display_text = targets_text.get(stem)
         if not display_text:
-            print(f'[{stem}] 건너뜀 — data.json 에 대사 없음')
+            print(f'[{stem}] 건너뜀 — faction-data.json 에 대사 없음')
             continue
         try:
             audio = whisperx.load_audio(wav_path)
@@ -717,7 +706,10 @@ def main():
     parser.add_argument('--faction', action='store_true', help='세력도(factions/) 모드. --episode 는 폴더명, --lang 로 ko|en')
     parser.add_argument('--lang', default='ko', help='세력도 모드 언어 (ko|en). --faction 일 때만 사용')
     parser.add_argument('--part', type=int, default=None, help='세력도 편(part) — 그 편 인물만 전사. --faction 모드')
-    args = parser.parse_args()
+    # pnpm 이 스크립트로 넘기는 구분자 `--` 를 제거한다(4-align.ts 와 동일 규약).
+    # 남겨두면 argparse 가 `--` 이후를 positional 로 처리해 --episode 를 못 읽는다.
+    argv = [a for a in sys.argv[1:] if a != '--']
+    args = parser.parse_args(argv)
 
     # 세력도 모드 — 북리커맨드 에피소드 구조와 무관하게 factions/ 를 직접 처리하고 종료
     if args.faction:

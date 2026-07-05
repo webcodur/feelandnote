@@ -5,8 +5,9 @@ import path from 'path'
 import { listEpisodes, loadEpisode, toPascal } from '@/lib/server-utils'
 import { getSeriesById } from '@/lib/series-registry'
 
-const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
-const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
+// 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ 을 fs로 스캔). 빌드 타임 정적 분석·prerender 대상이 아님.
+// 경로 상수를 모듈 최상위에 두면 Turbopack이 out/ 디렉토리를 번들 자산으로 추적하다 깨진다 → 핸들러 내부에서 런타임 계산.
+export const dynamic = 'force-dynamic'
 
 type VariantStatus = {
   lang: 'ko' | 'en'
@@ -22,6 +23,9 @@ type VariantStatus = {
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
+
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
+  const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
 
   // lineup.json 전체 로드
   let lineupAll: Record<string, unknown> = {}

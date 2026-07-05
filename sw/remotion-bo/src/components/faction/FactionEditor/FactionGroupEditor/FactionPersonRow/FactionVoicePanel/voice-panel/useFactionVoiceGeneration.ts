@@ -142,6 +142,29 @@ export function useFactionVoiceGeneration({
 
   const handleCancelGenerate = () => genAbortRef.current?.abort()
 
+  // ── 발화시각 정렬 (on-demand) ──
+  // 저장된 음원이 마음에 들 때 눌러, 그 음원에 맞춰 받아쓰기·발화시각(ko)을 다시 잡는다.
+  // 백그라운드 작업으로 돌아가며 진행은 작업 패널에 표시된다.
+  const [aligning, setAligning] = useState(false)
+  const alignCurrent = async () => {
+    if (aligning) return
+    setAligning(true)
+    setError(null)
+    try {
+      const ar = await fetch(`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/analyze`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ only: voiceFile, lang: 'ko' }),
+      })
+      const ad = await ar.json().catch(() => ({}))
+      if (!ar.ok) setError('정렬 실패: ' + (ad.error ?? ar.statusText))
+      else playDing()
+    } catch (e) {
+      setError('정렬 에러: ' + String(e))
+    } finally {
+      setAligning(false)
+    }
+  }
+
   // ── 미리듣기 저장 (인물 파일 하나) ──
   const handleSavePreview = async () => {
     if (!tempPreview) return
@@ -218,6 +241,8 @@ export function useFactionVoiceGeneration({
     tempPreview, setTempPreview,
     handleGenerate,
     handleCancelGenerate,
+    aligning,
+    alignCurrent,
     handleSavePreview,
     saveTrimmed,
   }

@@ -122,7 +122,8 @@ export function collectLongformSections(script: BookRecommendScript, tl: Timelin
           timingsKey: vnTimingKey(vnBookSummary(bi, p)), text: partText,
           startFrame: bookStart + sSummary + (sumStarts[p] ?? 0),
           durationFrames: p + 1 < sumStarts.length ? sumStarts[p + 1] - sumStarts[p] : summaryFrames - (sumStarts[p] ?? 0),
-          sfx: book.summarySfx, keyPrefix: `sfx-book${bi}-summary${p > 0 ? `-${p + 1}` : ''}`,
+          // 토막별 SFX 우선(summaryPartSfxs?.[p]), 없으면 필드 단위 폴백
+          sfx: book.summaryPartSfxs?.[p] ?? book.summarySfx, keyPrefix: `sfx-book${bi}-summary${p > 0 ? `-${p + 1}` : ''}`,
         })
       })
     }
@@ -133,7 +134,8 @@ export function collectLongformSections(script: BookRecommendScript, tl: Timelin
           timingsKey: vnTimingKey(vnBookContext(bi, p)), text: partText,
           startFrame: bookStart + sContext + (ctxStarts[p] ?? 0),
           durationFrames: p + 1 < ctxStarts.length ? ctxStarts[p + 1] - ctxStarts[p] : contextFrames - (ctxStarts[p] ?? 0),
-          sfx: book.contextMainSfx, keyPrefix: `sfx-book${bi}-context${p > 0 ? `-${p + 1}` : ''}`,
+          // 토막별 SFX 우선(contextMainPartSfxs?.[p]), 없으면 필드 단위 폴백
+          sfx: book.contextMainPartSfxs?.[p] ?? book.contextMainSfx, keyPrefix: `sfx-book${bi}-context${p > 0 ? `-${p + 1}` : ''}`,
         })
       })
     }
@@ -158,10 +160,16 @@ export function collectLongformSections(script: BookRecommendScript, tl: Timelin
       if (pt.hasAfter) {
         const sAfter = cursor + QUOTE_CONTEXTAFTER_GAP
         if (pt.afterFrames > 0) {
-          out.push({
-            timingsKey: vnTimingKey(vnBookAfter(bi, pi)), text: pair.after ?? '',
-            startFrame: bookStart + sAfter, durationFrames: pt.afterFrames,
-            sfx: pair.afterSfx, keyPrefix: `sfx-book${bi}-after${pi}`,
+          // 후속 맥락 토막별 항목 — 앵커는 토막 본문에서 매칭. 분할 없으면 1개 = 기존과 동일.
+          // SFX는 토막별 우선(afterPartSfxs?.[ap]), 없으면 페어 단위 폴백.
+          const afterStarts = pt.afterPartStartsF ?? [0]
+          bookFieldParts(pair.after, pair.afterParts).forEach((partText, ap) => {
+            out.push({
+              timingsKey: vnTimingKey(vnBookAfter(bi, pi, ap)), text: partText,
+              startFrame: bookStart + sAfter + (afterStarts[ap] ?? 0),
+              durationFrames: ap + 1 < afterStarts.length ? afterStarts[ap + 1] - afterStarts[ap] : pt.afterFrames - (afterStarts[ap] ?? 0),
+              sfx: pair.afterPartSfxs?.[ap] ?? pair.afterSfx, keyPrefix: `sfx-book${bi}-after${pi}${ap > 0 ? `-${ap + 1}` : ''}`,
+            })
           })
         }
         cursor = sAfter + pt.afterFrames

@@ -196,19 +196,19 @@ export const nameTail = (s?: string): string => {
 }
 
 /**
- * 세력의 그룹 목록. clusters가 없으면 세력 전체를 단일 그룹으로 정규화한다.
- * 단일 그룹의 그룹명은 group.label(전용) 우선, 없으면 세력 명칭 뒷부분으로 폴백한다.
+ * 세력의 그룹 목록(clusters 그대로).
+ * 그룹이 1개뿐이고 그룹명(label)이 없으면 세력 명칭 뒷부분을 그룹명으로 폴백한다 — 이 폴백의 단일 지점.
  */
-export const clustersOf = (g: FactionGroup): FactionCluster[] =>
-  g.clusters?.length ? g.clusters : [{ image: g.image, imageCrop: g.imageCrop, people: g.people, label: g.label ?? (nameTail(g.name) || undefined), labelEn: g.labelEn, ...(g.shotEffects ?? {}) }]
+export const clustersOf = (g: FactionGroup): FactionCluster[] => {
+  const cs = g.clusters ?? []
+  return cs.length === 1 && !cs[0].label ? [{ ...cs[0], label: nameTail(g.name) || undefined }] : cs
+}
 
 /** 인물 컷의 컷 전환 종류 — 세로 쇼츠 인물 컷이고 전환이 컷 전환류면 그 kind, 아니면 null */
 export const personCutKind = (script: FactionScript, cue: TimedCue['cue'], orientation: Orientation): string | null => {
   if (cue.kind !== 'person' || orientation !== 'portrait') return null
   const g = script.groups[cue.groupIndex]
-  const person = cue.clusterIndex != null
-    ? clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
-    : g.people[cue.personIndex]
+  const person = clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
   // 전환을 한 단계도 지정하지 않으면 크로스페이드(기본). 잠금(lockEffects) 시엔 전역 전환만 따른다.
   const raw = script.lockEffects ? script.transition : (person.transition ?? g.transition ?? script.transition)
   if (raw == null) return null
@@ -220,7 +220,7 @@ export const personCutKind = (script: FactionScript, cue: TimedCue['cue'], orien
 export const findPerson = (script: FactionScript, slug: string): FactionPerson | null => {
   for (const g of script.groups) {
     if (g.disabled) continue
-    const list = g.clusters?.length ? g.clusters.flatMap(c => c.people) : g.people
+    const list = g.clusters.flatMap(c => c.people)
     const p = list.find(x => x.slug === slug && !x.disabled)
     if (p) return p
   }

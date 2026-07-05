@@ -5,7 +5,9 @@ import path from 'path'
 import { getSeriesById } from '@/lib/series-registry'
 import { toPascal } from '@/lib/server-utils'
 
-const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
+// 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ 을 fs로 읽고 씀). 빌드 타임 정적 분석·prerender 대상이 아님.
+// 경로 상수를 모듈 최상위에 두면 Turbopack이 out/ 디렉토리를 번들 자산으로 추적하다 깨진다 → 핸들러 내부에서 런타임 계산.
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -15,6 +17,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   const episode = url.searchParams.get('episode')
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const label = toPascal(episode)
   const metaPath = path.join(REMOTION_ROOT, 'out', label, 'youtube-meta.json')
 
@@ -36,6 +39,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   const body = await req.json()
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const label = toPascal(episode)
   const outDir = path.join(REMOTION_ROOT, 'out', label)
   await mkdir(outDir, { recursive: true })

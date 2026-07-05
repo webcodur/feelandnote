@@ -12,5 +12,6 @@
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] }
   },
-  "include": ["src", "episodes"]
+  "include": ["src", "episodes"],
+  "exclude": ["src/compositions/BookRecommend/_not-using"]
 }

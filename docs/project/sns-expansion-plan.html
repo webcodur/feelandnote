@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>feelandnote · 세력확장 사업계획</title>
+<style>
+  :root{
+    --ink:#1a1d24; --sub:#5a6270; --line:#e4e7ec; --bg:#f6f7f9; --card:#fff;
+    --indigo:#3b4fb0; --indigo-soft:#eef1fb;
+    --go:#1f9d6b; --go-bg:#e6f6ef;
+    --cond:#c8841a; --cond-bg:#fcf3e2;
+    --no:#9aa1ac; --no-bg:#eef0f2;
+    --hot:#c0392b; --hot-bg:#fbecea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 80px;}
+  header.hero{
+    background:linear-gradient(135deg,#2b3576,#3b4fb0 60%,#4a73c9);
+    color:#fff; padding:54px 20px 46px; margin-bottom:34px;
+  }
+  header.hero .inner{max-width:1080px; margin:0 auto;}
+  .eyebrow{font-size:13px; letter-spacing:.18em; text-transform:uppercase; opacity:.8; margin:0 0 10px;}
+  header.hero h1{font-size:34px; margin:0 0 12px; font-weight:800; letter-spacing:-.01em;}
+  header.hero p.lede{font-size:17px; max-width:760px; margin:0; opacity:.95;}
+  .meta{margin-top:22px; font-size:13px; opacity:.82;}
+
+  section{margin:0 0 40px;}
+  h2{font-size:21px; margin:0 0 6px; display:flex; align-items:center; gap:10px;}
+  h2 .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:9px; background:var(--indigo); color:#fff;
+    font-size:14px; font-weight:700; flex:none;
+  }
+  .lead{color:var(--sub); margin:2px 0 18px; font-size:15px;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+  .card h3{margin:0 0 8px; font-size:16px;}
+  .card p{margin:0; color:var(--sub); font-size:14px;}
+  .card .big{font-size:26px; font-weight:800; color:var(--indigo); margin:0 0 2px;}
+
+  .weapon{background:var(--indigo-soft); border:1px solid #d9e0f7; border-radius:14px; padding:22px 24px;}
+  .weapon strong{color:var(--indigo);}
+  .principle{
+    margin-top:14px; padding:14px 18px; background:#fff; border:1px dashed var(--indigo);
+    border-radius:10px; font-weight:600;
+  }
+  .keybox{
+    background:#eaf7f0; border:1px solid #bfe6d2; border-left:4px solid var(--go);
+    border-radius:12px; padding:18px 22px; margin-top:18px;
+  }
+  .keybox b{color:var(--go);}
+
+  table{width:100%; border-collapse:collapse; background:var(--card);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden; font-size:13.5px;}
+  thead th{background:#2b3576; color:#fff; text-align:left; padding:12px 13px; font-weight:600; font-size:13px; vertical-align:middle;}
+  tbody td{padding:12px 13px; border-top:1px solid var(--line); vertical-align:top;}
+  tbody tr:nth-child(even){background:#fafbfc;}
+  td.plat{font-weight:700; white-space:nowrap;}
+  td.plat small{display:block; font-weight:400; color:var(--sub); margin-top:2px;}
+  ul.tight{margin:0; padding-left:16px;}
+  ul.tight li{margin:2px 0;}
+
+  .badge{display:inline-block; padding:3px 9px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap;}
+  .b-go{background:var(--go-bg); color:var(--go);}
+  .b-cond{background:var(--cond-bg); color:var(--cond);}
+  .b-no{background:var(--no-bg); color:var(--no);}
+  .lang{font-weight:700; white-space:nowrap;}
+  .lang small{display:block; font-weight:400; color:var(--sub); margin-top:2px; white-space:normal;}
+  .diff{display:inline-block; padding:2px 8px; border-radius:6px; font-size:12px; font-weight:700;}
+  .d-low{background:var(--go-bg); color:var(--go);}
+  .d-mid{background:var(--cond-bg); color:var(--cond);}
+  .d-high{background:var(--hot-bg); color:var(--hot);}
+  .d-now{background:#e7ecfb; color:var(--indigo);}
+
+  .road{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .road .col{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px;}
+  .road .col h4{margin:0 0 4px; font-size:15px;}
+  .road .col .tag{font-size:12px; color:var(--indigo); font-weight:700; letter-spacing:.04em;}
+  .road .col ul{margin:10px 0 0; padding-left:16px; font-size:13.5px; color:var(--ink);}
+  .road .col ul li{margin:5px 0;}
+
+  .risk{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--hot); border-radius:10px; padding:14px 18px; margin:0 0 10px;}
+  .risk b{color:var(--hot);}
+  .note{font-size:12.5px; color:var(--sub); margin-top:10px;}
+
+  table.track th{font-size:11px; padding:8px 5px; text-align:center;}
+  table.track td{text-align:center; padding:7px 5px; font-size:11px;}
+  table.track td.platc{text-align:left; font-weight:700; white-space:nowrap; font-size:12.5px;}
+  table.track td.off{color:#ccd1d9;}
+  table.track .pill{display:inline-block; padding:2px 9px; margin:1px; border-radius:6px; font-size:11px; font-weight:700; color:#fff;}
+  table.track .pill.ko{background:var(--indigo);}
+  table.track .pill.en{background:var(--go);}
+
+  .pintro{margin:0 0 24px;}
+  .pi{border-left:3px solid var(--line); padding:2px 0 2px 14px; margin-bottom:14px;}
+  .pi.go{border-color:var(--go);}
+  .pi.cond{border-color:var(--cond);}
+  .pi.no{border-color:var(--no);}
+  .pi h4{margin:0 0 3px; font-size:15px;}
+  .pi h4 .pl{font-weight:600; font-size:11px; padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:1px;}
+  .pi h4 .pl.go{background:var(--go-bg); color:var(--go);}
+  .pi h4 .pl.cond{background:var(--cond-bg); color:var(--cond);}
+  .pi h4 .pl.no{background:var(--no-bg); color:var(--no);}
+  .pi p{margin:0; color:var(--sub); font-size:14px;}
+
+  footer{color:var(--sub); font-size:13px; border-top:1px solid var(--line); padding-top:18px; margin-top:40px;}
+
+  @media (max-width:760px){
+    .grid2,.grid3,.road{grid-template-columns:1fr;}
+    header.hero h1{font-size:26px;}
+    table{font-size:12.5px;}
+    .scroll{overflow-x:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow">SNS Multi-Channel Expansion · 세력확장</p>
+    <h1>feelandnote 세력확장 사업계획</h1>
+    <p class="lede">보유한 영상·데이터 자산을 여러 SNS로 확산해 feelandnote.com 유입과 인지도를 키운다. 각 플랫폼(회사)별로 무엇을 어떤 언어로 올릴지 정리한다.</p>
+    <div class="meta">작성 2026-06-30 · 근거: 콘텐츠·파이프라인·웹 + 플랫폼 8종 + 영문 자산 전수 검수 · 라이브 보드 docs/project/sns-expansion.md</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. 우리가 파는 것 -->
+  <section>
+    <h2><span class="num">1</span>우리가 파는 것</h2>
+    <p class="lead">feelandnote는 명언 카탈로그가 아니다. 인물이 무엇을 읽고 어떻게 빚어졌는가, 그 맥락을 시네마틱한 서사로 엮어 보여준다.</p>
+    <div class="weapon">
+      <p style="margin:0 0 10px;">차별점은 <strong>명언이 아니라 「맥락」</strong>이다. 명언은 검색하면 누구나 얻지만, 맥락은 우리가 엮어야만 나온다. 콘텐츠 축은 둘이다.</p>
+      <div class="grid2" style="margin-top:6px;">
+        <div class="card">
+          <h3>서재 탐방</h3>
+          <p>유명인의 생애 한 장면을 음악 깔린 시네마틱 내레이션으로 풀고, 그 동력이 된 책을 서사에 엮는다. <b>인물이 중심, 책은 열쇠.</b> 단순 추천이 아니다.</p>
+        </div>
+        <div class="card">
+          <h3>세력도감</h3>
+          <p>인물을 진영별로 묶어 한눈에 보여주는 <b>도감</b>. 한 분야의 판도를 한 화면에 펼친다.</p>
+        </div>
+      </div>
+      <div class="principle">운영 원칙 — ① 나누지 말고 겹쳐서 넣는다. 한 소재에서 영상·카드·글을 뽑아 여러 채널에 중복 투입한다(단 시네마틱 영상을 빠른 쇼츠로 갈아엎는 무리한 형식 변환은 안 함). ② 채널은 콘텐츠가 아니라 언어(한·영)로만 나눈다. 북리커맨드와 팩션은 "책과 인물" 한 컨셉 아래 같은 계정에서 자유롭게 낸다. 한·영 분리만으로도 운영이 벅찬데 콘텐츠까지 나누면 채널이 네 배가 된다. 통합 운영 시 "인물"을 채널 정체성 전면에 내세워 일관 신호를 준다.</div>
+    </div>
+  </section>
+
+  <!-- 2. 보유 자산 -->
+  <section>
+    <h2><span class="num">2</span>보유 자산</h2>
+    <p class="lead">확장의 밑천. 영상은 코드로 데이터에서 생성되고, 재료가 전부 구조화돼 있다.</p>
+    <div class="grid3">
+      <div class="card"><p class="big">162권</p><p>서재 탐방 책 (인물 20명). 기본 단위는 인물 서사 시네마틱 미니 다큐(세로 ~3분)</p></div>
+      <div class="card"><p class="big">1편</p><p>세력도 완성(AI 패권전쟁). 나머지 15편 대기. 외연 확장 여지</p></div>
+      <div class="card"><p class="big">데이터화</p><p>표지·인물 사진·감상 배경·직함이 전부 구조화 데이터. 한·영 분리</p></div>
+    </div>
+    <div class="grid2" style="margin-top:16px;">
+      <div class="card"><h3>유튜브 채널</h3><p>이미 공개 운영 중. 업로드 자동화 완비. 다음은 신규 에피소드 추가(새 에피소드는 재렌더 필요)</p></div>
+      <div class="card"><h3>feelandnote.com</h3><p>공개 페이지·미리보기 이미지 보유. 한국어·영문 모두 라이브. 단 공유 버튼·수익화는 보강 필요(§9)</p></div>
+    </div>
+  </section>
+
+  <!-- 3. 언어 전략 · 영문 준비도 -->
+  <section>
+    <h2><span class="num">3</span>언어 전략 · 영문 준비도</h2>
+    <p class="lead">영어권 확장의 난이도는 콘텐츠 종류마다 갈린다. 텍스트·카드는 번역만 하면 되어 쉽지만, 영상은 성우 문제로 부담이 크다.</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:26%">자산</th><th style="width:16%">영문 난이도</th><th style="width:58%">실태</th></tr></thead>
+      <tbody>
+        <tr><td class="plat">사이트 (feelandnote.com)</td><td><span class="diff d-now">즉시</span></td><td>영문 페이지가 이미 라이브. 셀럽·책·탐색·홈이 /en/ 경로에서 영문 렌더, 검색 태그·미리보기·언어 전환까지 완성(약 95%). 텍스트·카드 유입을 바로 받는다</td></tr>
+        <tr><td class="plat">텍스트 (서사·감상 배경)</td><td><span class="diff d-mid">중간</span></td><td>14명 영문 완성(잡스·다빈치·저커버그 등) → 즉시 가능. 10명 미작성 → 번역. 순수 번역 분량 문제지 기술 장벽 아님</td></tr>
+        <tr><td class="plat">세력도 텍스트</td><td><span class="diff d-low">낮음</span></td><td>직함·세력명 영문 거의 완성, 명언 일부만 추가</td></tr>
+        <tr><td class="plat">카드 이미지 (영문)</td><td><span class="diff d-low">낮음</span></td><td>영문 글만 있으면 한국어 카드와 똑같이 거의 자동 생성</td></tr>
+        <tr><td class="plat">영상 (음성까지 영문)</td><td><span class="diff d-high">높음</span></td><td>핵심 정정. 파이프라인은 영어를 받지만, 셀럽 보이스(ElevenLabs)를 언어마다 다시 골라 다시 만들어야 하고 시네마틱 톤도 다시 살려야 한다. 번역만으로 안 되는 수작업이라 자동화 불가</td></tr>
+        <tr><td class="plat">영상 (자막만 영문)</td><td><span class="diff d-mid">애매</span></td><td>기술은 쉬우나 한국어 음성에 영문 자막이라 어정쩡한 결과물. 실효 낮음</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="keybox">
+      <p style="margin:0 0 8px;"><b>권고 — 영어권은 텍스트·카드로 간다. 영상은 한국어 유튜브 중심.</b></p>
+      <p style="margin:0; color:var(--ink);">텍스트·카드 영문화는 번역만 하면 되어 진짜 쉽고, 사이트도 이미 영문 손님을 받는다. 반면 시네마틱 영상은 성우를 언어마다 다시 만들어야 해 부담이 크니, 영어 영상은 후순위로 두고 반응을 본 뒤 결정한다. 무리해서 모든 채널에 영상을 욱여넣지 않는다.</p>
+    </div>
+    <p class="note">남은 작업: 미작성 10명 영문 텍스트 번역(병렬 시 2~3주), 책 메타 영문 오류 정리(품질용 후순위). 영어 영상은 당분간 만들지 않는다.</p>
+  </section>
+
+  <!-- 4. 두 레버 -->
+  <section>
+    <h2><span class="num">4</span>확장을 떠받치는 두 레버</h2>
+    <p class="lead">새로 만들 것은 사실상 둘뿐이다. 시네마틱 영상은 그대로 두고, 그 서사에서 카드와 글을 파생시킨다.</p>
+    <div class="grid2">
+      <div class="card" style="border-top:3px solid var(--indigo);">
+        <h3>레버 1 · 카드 생성기</h3>
+        <p>책·인물 데이터와 영상 서사의 결정 장면으로 이미지 카드를 자동 생성한다. 비율(1:1·4:5·16:9)만 바꾸면 인스타·쓰레드·X·네이버를 한 코드로 먹인다. 영문 글만 있으면 영문 카드도 같은 코드로 나온다. 정지 이미지 렌더는 이미 가동 중(썸네일)이라 신규 코드는 적다.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--indigo);">
+        <h3>레버 2 · 서사 텍스트화</h3>
+        <p>시네마틱 미니 다큐의 서사를 짧은 글·스레드로 옮긴다. 영상을 만들 때 쓴 내레이션이 그대로 좋은 글타래가 된다. 영상 변환 없이 텍스트가 강한 X·쓰레드·네이버를 채운다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 제작물 카탈로그 + 배치 -->
+  <section>
+    <h2><span class="num">5</span>제작물 카탈로그</h2>
+    <p class="lead">두 콘텐츠를 어떤 산출물로 만들지 정의한다. 코드는 [소스 B북·F팩] + [형식 V영상·C카드·T텍스트] + 숫자. ✔는 보유한 것.</p>
+
+    <h3 style="font-size:16px; margin:18px 0 8px; color:var(--indigo);">북리커맨드 · 서재 탐방</h3>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:8%">코드</th><th style="width:20%">제작물</th><th style="width:52%">무엇인가 · 어떠해야 하는가</th><th style="width:20%">형식 · 규격</th></tr></thead>
+      <tbody>
+        <tr><td class="plat">BV1</td><td>인물 서사 미니 다큐 (쇼츠) <small>✔ 보유</small></td><td>한 인물의 생애 한 장면을 음악 깔린 시네마틱 내레이션으로 푼다. 책은 추천 대상이 아니라 그 서사의 열쇠로 등장한다. 미스터리·야망 후크 → 시간순 서사 → 책을 동력으로 삽입 → 수미상관 클로징. 이 영상이 모든 파생물의 원본(마스터)이다.</td><td>세로 9:16<br>약 3분<br>시네마틱·음악</td></tr>
+        <tr><td class="plat">BV2</td><td>솔로 롱폼 (책 1권당)</td><td>책 한 권을 깊게 다루는 롱폼. 인물의 모든 책을 한 편에 묶는 통합본은 제작이 무거워, 책 한 권 = 영상 한 편의 솔로로 쪼갠다. (예외: 머스크만 마지막에 1시간짜리 통합 대표작 1편)</td><td>가로 16:9<br>3분 이상</td></tr>
+        <tr><td class="plat">BC1</td><td>인생책 카드 묶음</td><td>한 인물의 인생책 여러 권을 넘기는 카드 세트. 1장은 표지(인물 + "인생책 N권") 후크, 2장부터 권별 표지 + 한 줄 이유, 마지막은 사이트 안내. 저장 욕구를 노린다.</td><td>4:5<br>7~10장</td></tr>
+        <tr><td class="plat">BC2</td><td>서사 한 컷 카드</td><td>미니 다큐 서사의 결정적 장면이나 대사를 한 장에 담는다. (예: "알렉산더의 영혼이 환생한 사람입니다") 캡처·공유·인용용 단발 카드.</td><td>1:1 또는 4:5<br>1장</td></tr>
+        <tr><td class="plat">BT1</td><td>서사 스레드</td><td>미니 다큐의 서사를 글로 옮긴 글타래. 영상을 만들 때 쓴 내레이션이 그대로 좋은 스레드가 된다. 1번은 강한 후크, 이어지는 글은 서사 전개, 마지막은 링크(첫 답글에).</td><td>텍스트 연속<br>8~12개</td></tr>
+        <tr><td class="plat">BT2</td><td>한 줄 후크</td><td>멈추게 하는 한 문장. 인물 + 책 + 의외성(예: "9살에 읽은 SF 한 권이 스페이스X의 씨앗이 됐다"). 단독 게시물·캡션·스레드 도입에 두루.</td><td>텍스트<br>1~2문장</td></tr>
+        <tr><td class="plat">BT3</td><td>독서 정리 글</td><td>한 인물의 독서 여정을 정리한 블로그 글. 검색형 제목, 표지·카드 이미지·영상 1개 삽입. 기계 문체 금지, 관점과 맥락을 담는다. 하단에 사이트 링크.</td><td>블로그<br>1,500자+</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 style="font-size:16px; margin:24px 0 8px; color:var(--indigo);">팩션 · 세력도</h3>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:8%">코드</th><th style="width:20%">제작물</th><th style="width:52%">무엇인가 · 어떠해야 하는가</th><th style="width:20%">형식 · 규격</th></tr></thead>
+      <tbody>
+        <tr><td class="plat">FV1</td><td>진영 쇼츠 <small>✔ 보유</small></td><td>한 분야의 인물을 진영별로 묶어 보여주는 세로 영상. 진영 → 인물 컷이 흐르듯 이어지며 판도를 한 흐름에 담는다. 음성 없이 자막, 진영이 많으면 여러 편으로 나눈다.</td><td>세로 9:16<br>진영 수 비례<br>자막</td></tr>
+        <tr><td class="plat">FC1</td><td>진영 카드 격자</td><td>한 진영을 4인 격자(2×2)로 한 장에 담은 이미지. "○○ 진영" 표제 + 인물 사진·직함. 한 화면에 판도가 보인다. 진영 수만큼 시리즈로.</td><td>1:1 또는 4:5<br>4인 격자</td></tr>
+        <tr><td class="plat">FT1</td><td>세력 도감 스레드</td><td>한 분야의 판도를 진영별로 펼치는 글타래. 1번은 분야 후크, 게시물 하나가 진영 하나(격자 카드 첨부). 영상으로는 못 주는 "한눈에 펼치기" 맛을 낸다.</td><td>텍스트 연속<br>진영 수만큼</td></tr>
+        <tr><td class="plat">FT2</td><td>분야 판도 글</td><td>한 분야의 세력 판도를 해설하는 블로그 글. 진영별 정리 + 인물 직함, 검색형 제목, 격자 카드 이미지 삽입.</td><td>블로그<br>분야 1편</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 style="font-size:17px; margin:32px 0 4px;">플랫폼별 제작물 · 언어 배치</h3>
+    <p class="lead" style="margin-bottom:14px;">영상(BV·FV)은 한국어 유튜브 중심이다. 영어권과 다른 채널은 텍스트·카드로 간다.</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:14%">플랫폼</th><th style="width:43%">한국어</th><th style="width:43%">영어</th></tr></thead>
+      <tbody>
+        <tr><td class="plat">유튜브</td><td>BV1 · BV2 · FV1</td><td><span style="color:var(--sub)">영상 영문화는 후순위(성우 부담)</span></td></tr>
+        <tr><td class="plat">인스타</td><td>BV1 · BC1 · BC2 · FV1 · FC1</td><td>BC1 · BC2 <small style="color:var(--sub)">(카드만)</small></td></tr>
+        <tr><td class="plat">X</td><td>BT1 · BT2 · FC1 · FT1</td><td><b>BT1 · BT2 · FC1 · FT1</b> <small style="color:var(--sub)">(영어 우선)</small></td></tr>
+        <tr><td class="plat">쓰레드</td><td>BC1 · BT1 · BT2 · FC1</td><td>BC1 · BT1 · BT2 <small style="color:var(--sub)">(병행)</small></td></tr>
+        <tr><td class="plat">네이버</td><td>BT3 · FT2</td><td><span style="color:var(--no)">— 없음(한국어 전용)</span></td></tr>
+        <tr><td class="plat">틱톡</td><td>BC1 · BC2 <small style="color:var(--sub)">(사진 카드, 영상 접음)</small></td><td>BC1 · BC2 <small style="color:var(--sub)">(실험)</small></td></tr>
+        <tr><td class="plat">페이스북</td><td>인스타 동승(BV1·BC1·BC2)</td><td>BC1 · BC2 동승</td></tr>
+        <tr><td class="plat">카카오스토리</td><td>BC1 · BC2 <small style="color:var(--sub)">(수동·선택)</small></td><td><span style="color:var(--no)">—</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">읽는 법 — 코드는 [소스 B북·F팩] + [형식 V영상·C카드·T텍스트] + 숫자. 영상(BV1·BV2·FV1)은 한국어 유튜브가 본진이고, 시네마틱은 다른 채널로 억지로 옮기지 않는다. 영어권은 텍스트·카드(BT·BC·FC·FT)로만 간다.</p>
+
+    <h3 style="font-size:16px; margin:32px 0 4px;">플랫폼 × 제작물 × 언어 한눈에</h3>
+    <p class="lead" style="margin-bottom:12px;">빛나는 칩은 그 플랫폼에 그 제작물을 그 언어로 낸다는 뜻이다. <span class="pill ko" style="font-size:10px;">한</span> 한국어 · <span class="pill en" style="font-size:10px;">영</span> 영어. 흐린 점(·)은 쓰지 않는 제작물. 영상(BV·FV)에 영어 칩이 없는 건 영상 영문화를 후순위로 두기 때문.</p>
+    <div class="scroll">
+    <table class="track">
+      <thead><tr>
+        <th style="text-align:left;">플랫폼</th>
+        <th>BV1</th><th>BV2</th><th>BC1</th><th>BC2</th><th>BT1</th><th>BT2</th><th>BT3</th>
+        <th>FV1</th><th>FC1</th><th>FT1</th><th>FT2</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="platc">유튜브</td>
+          <td><span class="pill ko">한</span></td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">인스타</td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">X</td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td>
+          <td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">쓰레드</td>
+          <td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td>
+          <td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">네이버</td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+        </tr>
+        <tr>
+          <td class="platc">틱톡</td>
+          <td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">페이스북</td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td><span class="pill ko">한</span><span class="pill en">영</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+        </tr>
+        <tr>
+          <td class="platc">카카오스토리</td>
+          <td class="off">·</td><td class="off">·</td>
+          <td><span class="pill ko">한</span></td>
+          <td><span class="pill ko">한</span></td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td>
+          <td class="off">·</td><td class="off">·</td><td class="off">·</td><td class="off">·</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- 6. 플랫폼별 사업 계획 -->
+  <section>
+    <h2><span class="num">6</span>플랫폼별 사업 계획</h2>
+    <p class="lead">각 플랫폼이 어떤 곳이고 그래서 어떻게 갈지 먼저 짚고, 아래 표로 우선순위·언어·콘텐츠·전략·주의점을 정리한다.</p>
+
+    <div class="pintro">
+      <div class="pi go"><h4>유튜브 <span class="pl go">높음</span></h4><p>시네마틱 미니 다큐의 천연 자리다. 느린 호흡과 깊이가 환영받고, 구독자가 0이어도 알고리즘이 밀어준다. 영상도 자동 업로드도 갖춰져 한국어 영상은 제작비가 사실상 0이다. 채널은 이미 공개 운영 중이라, 다음은 신규 에피소드를 꾸준히 더하는 것이다. 쇼츠(BV1)와 책별 솔로 롱폼(BV2)을 올리고, 머스크 1시간 통합본은 마지막에 대표작으로. 영어 영상은 성우 부담 때문에 당분간 만들지 않는다.</p></div>
+      <div class="pi go"><h4>인스타그램 <span class="pl go">높음</span></h4><p>책 이야기 커뮤니티가 두텁고 한국 사용자가 거대하다. 한국어는 릴스(영상)와 카드를 함께, 영어는 카드만 낸다(영상 영문화는 안 함). 프로필에 대표 카드 묶음을 미리 깔아 첫인상을 만든다.</p></div>
+      <div class="pi go"><h4>X (트위터) <span class="pl go">높음 · 텍스트·카드</span></h4><p>영상은 약하고 텍스트가 왕인 곳이다. 유명인이 직접 책과 문장을 추천하는 문화가 토착이라 우리 서사 텍스트와 정확히 맞물리고, 영어권 시장이 특히 크다. 그래서 서사 스레드와 세력 도감을 글·카드로, 영어를 앞세워 낸다. 링크는 본문이 아니라 첫 답글에 둔다.</p></div>
+      <div class="pi go"><h4>쓰레드 <span class="pl go">높음</span></h4><p>인스타와 묶여 함께 자라고, 짧은 글과 리스트형이 잘 먹히며, 답글이 확산의 엔진이다. 인스타 계정을 연동해 시작하고, 첫 줄 후크 글과 카드를 내며 매일 책 이야기 대화에 낀다.</p></div>
+      <div class="pi go"><h4>네이버 블로그 <span class="pl go">높음</span></h4><p>한국에서 책을 검색하는 사람이 모이는 본진이고, 검색 유입이 시간이 갈수록 쌓인다. 정리된 글이 어울린다. 인물별 정리 글로 검색 자산을 축적하고 사이트로 흘려보낸다. 한국어 전용으로 둔다.</p></div>
+      <div class="pi cond"><h4>틱톡 <span class="pl cond">조건부 · 영상 접음</span></h4><p>시네마틱 3분 다큐는 틱톡의 빠른 후크·완주율 구조와 안 맞아 들이는 품 대비 도달이 안 난다. 그래서 영상은 접는다. 가더라도 사진 카드(사진 모드)만 영어권 대상으로 실험하는 정도로 둔다.</p></div>
+      <div class="pi no"><h4>페이스북 <span class="pl no">비추</span></h4><p>한국 사용자가 5년 사이 크게 줄고 고령화됐다. 전용으로 투자할 가치는 낮다. 페이지만 만들어 인스타 결과물을 무료로 흘려보내는 데 그친다.</p></div>
+      <div class="pi no"><h4>카카오스토리 <span class="pl no">비추</span></h4><p>이용자가 급감했고 외부 연동이 끊겨 자동화도 막혔다. 본격 투자는 하지 않는다. 여력이 있을 때 카드만 손으로 얹는 정도로 둔다.</p></div>
+    </div>
+
+    <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:11%">플랫폼</th>
+          <th style="width:8%">우선순위</th>
+          <th style="width:15%">언어</th>
+          <th style="width:16%">콘텐츠 · 형식</th>
+          <th style="width:31%">핵심 전략</th>
+          <th style="width:19%">주의점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="plat">유튜브<small>계정 보유</small></td>
+          <td><span class="badge b-go">높음</span></td>
+          <td class="lang">한국어 영상 중심<small>영어 영상은 성우 부담으로 후순위</small></td>
+          <td>쇼츠(BV1) + 책별 솔로 롱폼(BV2) + 세력도(FV1)</td>
+          <td>
+            <ul class="tight">
+              <li>시네마틱 그대로, 느린 호흡이 강점인 유일한 곳</li>
+              <li>인기 인물부터 매일~격일 게시</li>
+              <li>책 한 권 = 솔로 롱폼 한 편으로 꾸준히</li>
+              <li>머스크 1시간 통합본은 마지막 대표작</li>
+            </ul>
+          </td>
+          <td>제목·설명에 인물명+책명 검색어</td>
+        </tr>
+        <tr>
+          <td class="plat">인스타그램<small>신규</small></td>
+          <td><span class="badge b-go">높음</span></td>
+          <td class="lang">한·영 병행<small>영어는 카드만(영상 영문화 안 함)</small></td>
+          <td>릴스(한국어) + 카드 캐러셀</td>
+          <td>
+            <ul class="tight">
+              <li>한국어 릴스로 발견, 카드로 저장·팔로우</li>
+              <li>대표 카드 5~8개 프로필 선제작</li>
+              <li>영어권엔 카드만 꾸준히</li>
+            </ul>
+          </td>
+          <td>AI 생성 이미지 표기, 세로 안전 영역 점검</td>
+        </tr>
+        <tr>
+          <td class="plat">X (트위터)<small>신규</small></td>
+          <td><span class="badge b-go">높음</span></td>
+          <td class="lang">영어 우선<small>+ 한국어. 텍스트·카드라 영문화 쉬움</small></td>
+          <td>서사 스레드·후크·도감 + 카드</td>
+          <td>
+            <ul class="tight">
+              <li>서사 스레드가 주력, 명언은 미끼만</li>
+              <li>"누가 무슨 책" 리스트로 확산</li>
+              <li>게시 후 첫 30분 답글 응대</li>
+            </ul>
+          </td>
+          <td>본문 링크 도달 50~90% 억제 → 첫 답글에. 해시태그 1~2개</td>
+        </tr>
+        <tr>
+          <td class="plat">쓰레드<small>신규</small></td>
+          <td><span class="badge b-go">높음</span></td>
+          <td class="lang">한국어 우선<small>영문 병행 가능</small></td>
+          <td>텍스트 후크 글 + 카드</td>
+          <td>
+            <ul class="tight">
+              <li>인스타 연동 교차 성장</li>
+              <li>첫 줄 후크 + 카드 묶음</li>
+              <li>하루 1~2회 + 매일 답글</li>
+            </ul>
+          </td>
+          <td>본문 링크 도달 약함 → 바이오·답글에</td>
+        </tr>
+        <tr>
+          <td class="plat">네이버 블로그<small>신규</small></td>
+          <td><span class="badge b-go">높음</span></td>
+          <td class="lang">한국어 전용<small>한국 검색 본진</small></td>
+          <td>정리 긴 글 + 이미지 + 영상 삽입</td>
+          <td>
+            <ul class="tight">
+              <li>주제를 "유명인 독서·책 추천"으로 단일화</li>
+              <li>인물 1명 = 정리 글 1편(1,500자+)</li>
+              <li>검색형 제목, 경쟁 낮은 인물부터</li>
+              <li>글 하단 사이트 링크로 환류</li>
+            </ul>
+          </td>
+          <td>기계 문체는 저품질 필터. 인용 저작권 유의</td>
+        </tr>
+        <tr>
+          <td class="plat">틱톡<small>신규</small></td>
+          <td><span class="badge b-cond">조건부</span></td>
+          <td class="lang">영상 접음<small>사진 카드만, 영어권 실험</small></td>
+          <td>사진 카드(사진 모드)</td>
+          <td>
+            <ul class="tight">
+              <li>시네마틱 3분은 틱톡 도달과 안 맞음 → 영상 제외</li>
+              <li>여력 있으면 영어권 사진 카드만 테스트</li>
+            </ul>
+          </td>
+          <td>지정학 리스크. 본격 투자 안 함</td>
+        </tr>
+        <tr>
+          <td class="plat">페이스북<small>신규</small></td>
+          <td><span class="badge b-no">비추</span></td>
+          <td class="lang">한국어 동승<small>전용 제작 없음</small></td>
+          <td>인스타 결과물 동승</td>
+          <td>
+            <ul class="tight">
+              <li>페이지만 만들어 인스타 자동 전달</li>
+              <li>한계비용 0이라 끄지는 않음</li>
+            </ul>
+          </td>
+          <td>한국 사용자 5년간 35% 감소·고령화</td>
+        </tr>
+        <tr>
+          <td class="plat">카카오스토리<small>신규</small></td>
+          <td><span class="badge b-no">비추</span></td>
+          <td class="lang">한국어<small>본격 투자 안 함</small></td>
+          <td>1:1 카드(선택적 수동)</td>
+          <td>
+            <ul class="tight">
+              <li>여력 있을 때만 카드 수동 교차 게시</li>
+            </ul>
+          </td>
+          <td>이용자 급감, 외부 연동 종료로 자동화 불가</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- 7. 한 소재 다채널 -->
+  <section>
+    <h2><span class="num">7</span>한 소재 → 다채널 파생</h2>
+    <p class="lead">한 인물의 시네마틱 미니 다큐(마스터)에서 나머지가 갈려 나온다. 영상은 옮기지 않고, 서사를 카드·글로 푼다.</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:16%">채널</th><th style="width:54%">나가는 것</th><th style="width:30%">언어 · 가공</th></tr></thead>
+      <tbody>
+        <tr><td class="plat">유튜브</td><td>미니 다큐 쇼츠(BV1) + 책별 솔로 롱폼(BV2) + 세력도(FV1)</td><td>한국어 · 원본 그대로</td></tr>
+        <tr><td class="plat">인스타</td><td>한국어 릴스 + 인생책·서사 카드(BC1·BC2)</td><td>한·영 · 카드 자동 생성</td></tr>
+        <tr><td class="plat">X</td><td>서사 스레드(BT1) + 후크(BT2) + 도감(FC1·FT1)</td><td>한·영 · 영상 안 만듦</td></tr>
+        <tr><td class="plat">쓰레드</td><td>후크 글 + 서사 스레드 + 카드</td><td>한·영 · 카드 재사용</td></tr>
+        <tr><td class="plat">네이버</td><td>정리 글(BT3) + 분야 글(FT2) + 이미지·영상 삽입</td><td>한국어 · 글만 작성</td></tr>
+        <tr><td class="plat">틱톡</td><td>사진 카드(BC1·BC2)</td><td>영어 실험 · 영상 없음</td></tr>
+        <tr><td class="plat">페북·카스</td><td>인스타 결과물 동승</td><td>무료</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">시네마틱 영상은 유튜브에 두고, 같은 서사를 카드·글로 옮겨 나머지 채널을 채운다. 영상을 다른 형식으로 갈아엎거나 영어로 다시 만드는 부담을 지지 않는다.</p>
+  </section>
+
+  <!-- 8. 로드맵 -->
+  <section>
+    <h2><span class="num">8</span>로드맵</h2>
+    <p class="lead">유튜브 시네마틱을 본진으로 켜고, 카드·글로 다른 채널을 채운다. 영어권은 텍스트·카드로만 연다.</p>
+    <div class="road">
+      <div class="col">
+        <span class="tag">30일</span>
+        <h4>본진 가동 + 토대</h4>
+        <ul>
+          <li>유튜브: 이미 공개 운영 중 → 신규 에피소드 꾸준히(새 에피소드 재렌더)</li>
+          <li>책별 솔로 롱폼 제작 라인 시작</li>
+          <li>카드 양산 연결(컴포넌트 완성, 정지이미지 출력+전권 배치 — 다른 쪽 진행 중)</li>
+          <li>X 영어 트랙: 서사 스레드·카드 시작</li>
+          <li>인스타·쓰레드 개설·연동, 대표 카드 선제작</li>
+          <li>네이버 주제 단일화, 글 발행 시작</li>
+          <li>웹: 셀럽 페이지 공유 버튼 추가</li>
+        </ul>
+      </div>
+      <div class="col">
+        <span class="tag">60일</span>
+        <h4>본격 운영 + 영어권(텍스트·카드)</h4>
+        <ul>
+          <li>인스타 릴스·카드, 쓰레드·X 매일 답글</li>
+          <li>영어권 텍스트·카드 확장(영상 아님)</li>
+          <li>미작성 10명 영문 텍스트 번역 병렬</li>
+          <li>책별 솔로 롱폼 꾸준히 누적</li>
+          <li>네이버 누적, 유입 키워드로 다음 인물 선정</li>
+          <li>웹: 검색 노출·수익화 재점검</li>
+        </ul>
+      </div>
+      <div class="col">
+        <span class="tag">90일</span>
+        <h4>선별 집중 + 대표작</h4>
+        <ul>
+          <li>저장·공유·완주율로 터지는 형식만 남김</li>
+          <li>카드 전 에피소드 일괄 생성(한·영)</li>
+          <li>머스크 1시간 통합본 제작</li>
+          <li>영어 영상은 반응 보고 그때 결정</li>
+          <li>비회원 전환 동선 보강</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 리스크 -->
+  <section>
+    <h2><span class="num">9</span>운영 기준 · 성공 측정</h2>
+    <p class="lead">화려한 채널 전략보다 이 셋이 확장의 진짜 토대다. "확장하면 알아서 되겠지"로 미루지 않는다.</p>
+    <div class="grid3">
+      <div class="card" style="border-top:3px solid var(--hot);">
+        <h3>① 영상 생산 캐파 (제1 제약)</h3>
+        <p>시네마틱 서사 한 편이 제일 무겁고, 그 속도가 전체 페이스를 정한다. <b>"월 몇 편 만들 수 있나"를 먼저 못 박고 채널 수를 거기 맞춘다.</b> 캐파를 넘는 채널은 빈 깡통이 된다.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--hot);">
+        <h3>② 성공 측정 · 중단선</h3>
+        <p>채널별 한두 지표(저장·공유·완주율·사이트 유입)와 점검 주기(예: 4주), 접거나 집중할 기준선을 미리 정한다. 0팔로우 초기엔 노이즈가 크니 "느낌" 아닌 숫자로 판단한다.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--hot);">
+        <h3>③ 전환 목표</h3>
+        <p>SNS → 사이트 → <b>무엇</b>. 사이트에서 이룰 한 가지(회원가입·서재 저장 등)를 정의해야 유입이 의미를 가진다. 수익(제휴·광고)은 그 전환 위에 얹는다.</p>
+      </div>
+    </div>
+    <div class="keybox" style="background:#fcf3e2; border:1px solid #e8d3a8; border-left:4px solid var(--cond);">
+      <p style="margin:0; color:var(--ink);"><b style="color:var(--cond);">초기 형식 테스트</b> — 시네마틱 3분 영상을 유튜브 "쇼츠"로 낼지 "일반 영상"으로 낼지 아직 미검증이다(쇼츠는 빠른 완주를 선호해 느린 영상이 불리할 수 있다). 한 인물로 둘 다 올려 어느 쪽이 도달이 나는지 초기에 가른다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">10</span>리스크 · 먼저 막을 구멍</h2>
+    <p class="lead">검수와 제작 현장에서 나온 내용. 수익화·검색 노출 상태는 착수 전 재확인한다.</p>
+    <div class="risk"><b>유입 동선 (공유 버튼 추가 완료)</b> · 셀럽·책 페이지에 공유 버튼을 붙였다(X·페이스북·링크 복사). 카카오는 앱키 확보 후. 방문자 0명 단계라 당장 효과는 없고, 유입이 생긴 뒤 빛나는 장치다.</div>
+    <div class="risk"><b>영상 영문화 = 성우 부담</b> · 셀럽 보이스를 언어마다 다시 만들고 시네마틱 톤도 다시 살려야 한다. 자동화 불가라 영어 영상은 후순위. 영어권은 텍스트·카드로 간다.</div>
+    <div class="risk"><b>롱폼 제작 부담 → 솔로 전환</b> · 인물 통합 롱폼은 한 편에 몰아 만들기 무거워 책 한 권당 솔로 롱폼으로 쪼갠다. 통합본은 머스크 1편만 예외.</div>
+    <div class="risk"><b>트래픽이 와도 돈이 안 된다</b> · 제휴 링크 꺼져 있고 광고 승인 대기. 확장과 병행해 수익 파이프 재가동.</div>
+    <div class="risk"><b>자산 편중</b> · 세력도 1편뿐. 당분간 서재 탐방이 주력. 영상 이미지 백업 상태도 점검.</div>
+    <div class="risk"><b>저작권·노출</b> · 카드를 대량 배포하면 책 표지·인물 사진 사용이 영상보다 노출·검열 위험이 커진다. 사용 범위를 한번 점검한다.</div>
+  </section>
+
+  <footer>
+    feelandnote · 세력확장 사업계획 · 2026-06-30 · 상세 라이브 보드: docs/project/sns-expansion.md (트리거 키워드 [세력확장])
+  </footer>
+
+</div>
+</body>
+</html>

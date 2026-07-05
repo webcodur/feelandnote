@@ -17,6 +17,32 @@ export function isEleSection(key: string): boolean {
   return base === 'A3-featured-quote' || base === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(base) || /^S\d{2}-celeb-/.test(base) || /^S\d{2}-book-quote/.test(base)
 }
 
+/**
+ * 롱폼 인용/후속 구간키에서 지정 화자 id 를 역추적한다.
+ *   quote: `D{NN}d{2k+1}-quote`   → books[NN-1].quotePairs[k].quoteSpeaker
+ *   after: `D{NN}d{2k+2}(_p)?-after` → books[NN-1].quotePairs[k].afterSpeaker
+ * 화자 미지정이면 undefined 를 돌려줘 host 폴백을 유지한다.
+ * (쇼츠는 segment.speaker 가 SSoT 라 이 경로 대상이 아니다.)
+ */
+export function longformQuoteSpeakerId(
+  key: string,
+  books: readonly unknown[] | undefined,
+): string | undefined {
+  if (!Array.isArray(books)) return undefined
+  const mq = key.match(/^D(\d{2})d(\d+)-quote$/)
+  const ma = key.match(/^D(\d{2})d(\d+)(?:_\d+)?-after$/)
+  const m = mq ?? ma
+  if (!m) return undefined
+  const bookIdx = parseInt(m[1], 10) - 1
+  const slot = parseInt(m[2], 10)
+  const pairIdx = mq ? (slot - 1) / 2 : (slot - 2) / 2
+  if (!Number.isInteger(pairIdx) || pairIdx < 0) return undefined
+  const pair = (books[bookIdx] as { quotePairs?: Array<{ quoteSpeaker?: string; afterSpeaker?: string }> } | undefined)
+    ?.quotePairs?.[pairIdx]
+  if (!pair) return undefined
+  return mq ? pair.quoteSpeaker : pair.afterSpeaker
+}
+
 export type EngineKind = 'gemini' | 'elevenlabs'
 
 export type SegmentEngineSpec = {
@@ -41,7 +67,7 @@ export type SegmentEngineSpec = {
  */
 export function resolveSegmentEngine(
   key: string,
-  episode: { host?: { elevenlabsVoiceId?: string; geminiVoice?: string } | null; shorts?: unknown; speakers?: unknown },
+  episode: { host?: { elevenlabsVoiceId?: string; geminiVoice?: string } | null; shorts?: unknown; speakers?: unknown; books?: unknown },
 ): SegmentEngineSpec | null {
   type SegLite = { id: string; geminiVoice?: string; style?: string; elevenlabsVoiceId?: string; speaker?: string }
   type SpeakerLite = { id: string; engine?: 'gemini' | 'elevenlabs'; voiceId?: string; elevenlabsVoiceId?: string }
@@ -64,7 +90,11 @@ export function resolveSegmentEngine(
     : []
   const findSpeaker = (id: string): SpeakerLite | undefined =>
     epSpeakers.find(s => s.id === id) ?? shortCfg?.speakers?.find(s => s.id === id)
-  const speakerObj = seg?.speaker ? findSpeaker(seg.speaker) : undefined
+  // 쇼츠는 segment.speaker, 롱폼 인용/후속은 quotePairs 의 화자 지정을 따른다.
+  const longformSpeakerId = m ? undefined : longformQuoteSpeakerId(key, (episode as { books?: unknown }).books as readonly unknown[] | undefined)
+  const speakerObj = seg?.speaker
+    ? findSpeaker(seg.speaker)
+    : (longformSpeakerId ? findSpeaker(longformSpeakerId) : undefined)
 
   // 1. Gemini 캐릭터 보이스 — segment 직접 > 화자(gemini 엔진)
   if (seg?.geminiVoice) {

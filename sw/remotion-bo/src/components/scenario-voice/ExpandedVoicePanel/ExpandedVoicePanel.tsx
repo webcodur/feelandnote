@@ -120,6 +120,9 @@ export function ExpandedVoicePanel({
           metaError={meta.metaError}
           handleSegmentMetaChange={meta.handleSegmentMetaChange}
           eleSendOpts={eleSendOpts}
+          onAlign={() => gen.alignCurrent(secKey)}
+          aligning={gen.aligning}
+          canAlign={!!activeFile}
         />
 
         {error && <div className="text-xs text-danger-text">{error}</div>}

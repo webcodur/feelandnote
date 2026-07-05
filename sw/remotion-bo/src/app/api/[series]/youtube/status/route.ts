@@ -7,7 +7,9 @@ import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
 import { loadFactionEpisode } from '@/lib/faction-utils'
 import { factionVariants } from '@feelandnote/shared/lib/youtube-faction-meta'
 
-const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
+// 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ 을 fs로 스캔). 빌드 타임 정적 분석·prerender 대상이 아님.
+// 경로 상수를 모듈 최상위에 두면 Turbopack이 out/ 디렉토리를 번들 자산으로 추적하다 깨진다 → 사용처 함수 내부에서 런타임 계산.
+export const dynamic = 'force-dynamic'
 
 /**
  * 인증 토큰 확인 — KO/EN 채널 각각.
@@ -18,6 +20,7 @@ const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
  * 그래서 hasRefreshToken 을 함께 내려 화면이 만료시각 대신 이 값을 보여주게 한다.
  */
 function checkToken(fileName: string) {
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const tp = path.join(REMOTION_ROOT, 'credentials', fileName)
   try {
     if (existsSync(tp)) {
@@ -33,11 +36,12 @@ function checkToken(fileName: string) {
 }
 
 /**
- * 세력도 업로드 상태 — 한국어 세로 영상. 세로 롱폼(KO-LV) + 세로 쇼츠 N편(에피소드 데이터의 진영 part 수만큼).
- * 출력: out/Faction/{ep}-KO-LV.mp4 (롱폼) · {ep}-KO-S{N}.mp4 (쇼츠)
+ * 세력도 업로드 상태 — 한국어 세로 영상. 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(에피소드 데이터의 진영 part 수만큼).
+ * 출력: out/Faction/{ep}-KO-LV.mp4 또는 {ep}-KO-LV{N}.mp4 (롱폼) · {ep}-KO-S{N}.mp4 (쇼츠)
  * 기록: scripts/youtube/faction-lineup.json
  */
 async function factionStatus(episode: string) {
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const auth = { ko: checkToken('youtube_token.json'), en: checkToken('youtube_token_en.json') }
 
   const lineupPath = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'faction-lineup.json')
@@ -49,7 +53,7 @@ async function factionStatus(episode: string) {
 
   // 영상 종류 — 에피소드 데이터의 진영 part 에서 편 수를 산출한다(편 없으면 단일 쇼츠).
   const factionData = await loadFactionEpisode(episode).catch(() => null)
-  const epVariants = factionData ? factionVariants(factionData.groups) : []
+  const epVariants = factionData ? factionVariants(factionData.groups, factionData.longformLayout) : []
 
   const factionOut = path.join(REMOTION_ROOT, 'out', 'Faction')
 
@@ -105,6 +109,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   // 세력도 — 출력 경로·기록 파일이 달라 별도 분기
   if (isFactionSeries(seriesId)) return factionStatus(episode)
 
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const auth = { ko: checkToken('youtube_token.json'), en: checkToken('youtube_token_en.json') }
 
   // lineup 읽기

@@ -1,4 +1,4 @@
-export { BookRecommend, calcTotalFrames } from './BookRecommendLong'
+export { calcTotalFrames } from './useTimeline'
 export { BookRecommendShort, calcShortTotalFrames } from './BookRecommendShort'
 export { BookRecommendSolo, calcSoloTotalFrames } from './BookRecommendSolo'
 export { episodes, soloEpisodes, EPISODE_NAME, isVoiceReady, isContinuation, episodeStatus, episodeDir, getEpisodeGroup } from './script'

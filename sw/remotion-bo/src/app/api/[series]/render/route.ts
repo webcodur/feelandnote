@@ -13,12 +13,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   // 세력도 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
-  // 세로 롱폼(KO-LV) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
+  // 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
   if (isFactionSeries(seriesId)) {
     const base = factionCompBase(episode)
     const factionData = await loadFactionEpisode(episode)
     // only 미지정=전체 / 'longform'·'shorts' 로 거를 수 있다.
-    const targets = factionVariants(factionData.groups)
+    const targets = factionVariants(factionData.groups, factionData.longformLayout)
       .filter(v => !only || (only === 'shorts' ? v.isShorts : only === 'longform' ? !v.isShorts : true))
       .map(v => ({ comp: `${base}-${v.fileSuffix}`, out: `out/Faction/${episode}-${v.fileSuffix}.mp4` }))
     const taskIds = targets.map(t =>

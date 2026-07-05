@@ -23,6 +23,7 @@ export function useVoiceToolbar({
   const [engine, setEngine] = useState('gemini')
   const [role, setRole] = useState('')
   const [only, setOnly] = useState('')
+  const [thenAlign, setThenAlign] = useState(false)
   const [eleSettingsOpen, setEleSettingsOpen] = useState(false)
   const [eleBatchRunning, setEleBatchRunning] = useState(false)
   const [eleBatchStatus, setEleBatchStatus] = useState<string | null>(null)
@@ -113,6 +114,7 @@ export function useVoiceToolbar({
     engine, setEngine,
     role, setRole,
     only, setOnly,
+    thenAlign, setThenAlign,
     eleSettingsOpen, setEleSettingsOpen,
     eleBatchRunning,
     eleBatchStatus,

@@ -1,5 +1,5 @@
 /**
- * faction/data.ts — data.json 로드 + 인물 음성 잡 추출 + quoteDuration 안전 기록
+ * faction/data.ts — faction-data.json 로드 + 인물 음성 잡 추출 + quoteDuration 안전 기록
  *
  * 잡 인덱싱(groupIndex·clusterIndex·personIndex)은 렌더의 buildCues 와 100% 동일해야
  * 파일명(vnPersonQuote)이 렌더 cue 의 staticFile 경로와 일치한다. 그래서 직접 순회하지 않고
@@ -13,7 +13,7 @@ import { vnPersonQuote } from '../../../src/compositions/Faction/voice-names.js'
 import { DATA_PATH, LANG } from './cli.js'
 
 export type FactionVoiceJob = {
-  /** 출력 파일명 (vnPersonQuote 규칙) — 예 F01P01-quote.wav */
+  /** 출력 파일명 (vnPersonQuote 규칙) — 예 F01C01P01-quote.wav */
   file: string
   /** 합성 대상 텍스트 (선택 언어의 대사) */
   text: string
@@ -26,13 +26,13 @@ export type FactionVoiceJob = {
   engine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** 대사 의미 덩어리(원문, 발화 스타일 prefix 제외) — 발화 시각 정렬·자막 페이지 단위. 없으면 통대사 1개 */
   chunks: string[]
-  /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다 */
+  /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다. 인물 컷은 항상 그룹 소속이라 clusterIndex 도 항상 있다 */
   groupIndex: number
   personIndex: number
-  clusterIndex?: number
+  clusterIndex: number
 }
 
-/** data.json 원본을 그대로 읽는다(가공 없음). 기록 시 이 객체를 수정해 되쓴다. */
+/** faction-data.json 원본을 그대로 읽는다(가공 없음). 기록 시 이 객체를 수정해 되쓴다. */
 export async function loadFactionData(): Promise<FactionScript> {
   const raw = await readFile(DATA_PATH, 'utf-8')
   return JSON.parse(raw) as FactionScript
@@ -71,9 +71,7 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
     const cue: Cue = tc.cue
     if (cue.kind !== 'person') continue
     const g = script.groups[cue.groupIndex]
-    const person: FactionPerson | undefined = cue.clusterIndex != null
-      ? g.clusters?.[cue.clusterIndex]?.people[cue.personIndex] ?? g.people[cue.personIndex]
-      : g.people[cue.personIndex]
+    const person: FactionPerson | undefined = g.clusters?.[cue.clusterIndex]?.people[cue.personIndex]
     if (!person) continue
     const text = quoteTextOf(person)
     if (!text) continue
@@ -96,16 +94,11 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
 
 /** 잡 인덱스로 data 안의 실제 인물 객체를 찾는다(quoteDuration 기록 대상). */
 function findPerson(script: FactionScript, job: FactionVoiceJob): FactionPerson | undefined {
-  const g = script.groups[job.groupIndex]
-  if (!g) return undefined
-  if (job.clusterIndex != null) {
-    return g.clusters?.[job.clusterIndex]?.people[job.personIndex] ?? g.people[job.personIndex]
-  }
-  return g.people[job.personIndex]
+  return script.groups[job.groupIndex]?.clusters?.[job.clusterIndex]?.people[job.personIndex]
 }
 
 /**
- * 측정한 음성 길이를 data.json 의 해당 인물 quoteDuration 에 기록한다.
+ * 측정한 음성 길이를 faction-data.json 의 해당 인물 quoteDuration 에 기록한다.
  * 읽기→수정→쓰기. 다른 필드·구조는 보존한다. 변경이 없으면 파일을 건드리지 않는다.
  *
  * @param durations file → 길이(초)

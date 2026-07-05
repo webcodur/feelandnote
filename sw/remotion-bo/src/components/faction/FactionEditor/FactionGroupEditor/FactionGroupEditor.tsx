@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import type { FactionGroup, FactionPerson, FactionCluster, FactionImageCrop, ZoomFocus } from '@/lib/faction-types'
-import { factionVoiceFile } from '@/lib/faction-voice'
+import type { FactionGroup, FactionPerson, FactionCluster } from '@/lib/faction-types'
+import { buildClusterMoveRenames, reorderFactionVoice } from '@/lib/faction-voice'
 import { imageSrc } from '../../shared/timing'
-import { ChevronUp, ChevronDown, Trash2, Search, UserPlus, ImageIcon, Plus, Eye, EyeOff } from '../../shared/icons'
+import { ChevronUp, ChevronDown, Trash2, ImageIcon, Plus, Eye, EyeOff } from '../../shared/icons'
 import { FactionPersonRow } from './FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../shared/FactionVoiceContext'
 import { FactionImagePicker } from './FactionPersonRow/FactionImagePicker/FactionImagePicker'
@@ -26,8 +26,7 @@ type Props = {
   onMoveDown: () => void
   series: string
   episodeName: string
-  /** 선택 가능한 음악 목록 (세력별 곡 지정용) */
-  musicList?: string[]
+  musicList: string[]
   editLang: EditLang
 }
 
@@ -49,17 +48,20 @@ function celebToPerson(c: CelebResult): FactionPerson {
 }
 
 export function FactionGroupEditor({
-  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, musicList, editLang,
+  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang,
 }: Props) {
   const [expanded, setExpanded] = useState(false)
   const [logoOpen, setLogoOpen] = useState(false)
+  const [logoImgOpen, setLogoImgOpen] = useState(false)
   const [expandedClusters, setExpandedClusters] = useState<Record<number, boolean>>({})
-  // 단일 모드(묶음 안 나눈 세력)도 묶음 하나짜리 아코디언으로 보여준다 — 묶음 나눈 세력과 모양 통일. 기본 열림.
+  // 단일 모드(그룹 1개짜리 세력)도 그룹 하나짜리 아코디언으로 보여준다 — 나눈 세력과 모양 통일. 기본 열림.
   const [singleExpanded, setSingleExpanded] = useState(true)
-  // 셀럽 검색 대상: null=단일 people, 숫자=해당 묶음 인덱스
-  const [celebTarget, setCelebTarget] = useState<number | null | undefined>(undefined)
-  // 이미지 풀에서 끌어온 이미지를 로고 칸에 놓으면 연결 (로고 = titleArt)
-  const { dragOver: logoDragOver, dropProps: logoDropProps } = useFactionImageDrop(path => onChange({ ...group, titleArt: path }))
+  // 셀럽 검색 대상 그룹 인덱스 (undefined=닫힘). 단일 모드는 0
+  const [celebTarget, setCelebTarget] = useState<number | undefined>(undefined)
+  // 이미지 풀에서 끌어온 파일을 각 로고 칸에 놓으면 연결 — 영상 칸(logoVid)·이미지 칸(logoImg) 별개
+  const { dragOver: logoDragOver, dropProps: logoDropProps } = useFactionImageDrop(path => onChange({ ...group, logoVid: path }))
+  const { dragOver: logoImgDragOver, dropProps: logoImgDropProps } = useFactionImageDrop(path => onChange({ ...group, logoImg: path }))
+  const voiceCtx = useFactionVoice()
 
   const color = group.color ?? DEFAULT_COLOR
   // 헤더 배경(세력 색)의 명도로 위에 얹을 글자 색을 정한다 — 밝은 배경엔 어두운 글자, 어두운 배경엔 밝은 글자
@@ -74,68 +76,67 @@ export function FactionGroupEditor({
   const disabled = !!group.disabled
   // 영상 제외 토글: disabled: true ↔ undefined
   const toggleDisabled = () => onChange({ ...group, disabled: disabled ? undefined : true })
-  // 로고 = 타이틀 카드 풀스크린 배경(titleArt). 렌더는 titleArt만 보고 타이틀 컷을 만든다(group.logo는 미사용 사장 필드).
-  const logoSrc = imageSrc(series, episodeName, group.titleArt)
-  const split = !!group.clusters?.length
+  // 로고 두 칸 — 영상(타이틀 카드 우선)·이미지(타이틀 카드 폴백 + 카드뉴스). 썸네일은 각자 제 것만 보여준다.
+  const logoVidSrc = imageSrc(series, episodeName, group.logoVid)
+  const logoImgSrc = imageSrc(series, episodeName, group.logoImg)
   const clusters = group.clusters ?? []
-  const people = group.people ?? []
-  const totalCount = split
-    ? clusters.reduce((s, c) => s + (c.people?.length ?? 0), 0)
-    : people.length
-  // 접힌 상태에서 보여줄 팀 비주얼 — 그룹샷(화보)들. 로고(titleArt)는 logoSrc로 따로 표시한다.
-  // 분할 세력은 묶음별 화보, 단일은 세력 화보.
-  const covers = [...(split ? clusters.map(c => c.image) : [group.image])].filter(Boolean) as string[]
+  // "그룹 나누기" 판정 — 그룹(clusters)이 2개 이상일 때만 분할 UI. 1개짜리는 단순 UI(내부적으로 clusters[0] 편집)
+  const split = clusters.length > 1
+  // 단일 모드에서 편집하는 그룹 — 항상 clusters[0]
+  const c0: FactionCluster = clusters[0] ?? { people: [] }
+  const totalCount = clusters.reduce((s, c) => s + (c.people?.length ?? 0), 0)
+  // 접힌 상태에서 보여줄 팀 비주얼 — 그룹샷(화보)들만. 로고(logoVid·logoImg)는 logoSrc로 따로 표시한다.
+  const covers = clusters.map(c => c.image).filter(Boolean) as string[]
 
-  // region 모드 전환 (단일 ↔ 분할) — clusters와 people이 동시에 차지 않게 한다
-  const toSplit = () => {
-    // 단일 → 분할: group.people를 clusters[0]로 옮기고 people 비움
-    onChange({
-      ...group,
-      clusters: [{ label: '', image: group.image, people }],
-      people: [],
-      image: undefined,
-    })
-  }
-  const toSingle = () => {
-    // 분할 → 단일: 모든 묶음 인물을 순서대로 합치고 clusters 제거
-    const merged = clusters.flatMap(c => c.people ?? [])
-    const firstImage = clusters.find(c => c.image)?.image
-    onChange({
-      ...group,
-      people: merged,
-      image: group.image ?? firstImage,
-      clusters: undefined,
-    })
-  }
-  // endregion
-
-  // region 묶음 조작
+  // region 그룹 조작
   const setClusters = (next: FactionCluster[]) => onChange({ ...group, clusters: next })
   const setCluster = (i: number, c: FactionCluster) =>
     setClusters(clusters.map((x, idx) => (idx === i ? c : x)))
+  // 단일 모드용 — clusters[0] 갱신 (혹시 그룹이 비어 있으면 새로 만든다)
+  const setC0 = (c: FactionCluster) =>
+    setClusters(clusters.length ? clusters.map((x, idx) => (idx === 0 ? c : x)) : [c])
   const addCluster = () => setClusters([...clusters, { label: '', people: [] }])
   const deleteCluster = (i: number) => {
+    if (clusters.length <= 1) return // 그룹은 최소 1개 — 마지막 그룹은 지울 수 없다
     if (!confirm('이 그룹을 삭제하시겠습니까? (그룹 내 인물도 함께 삭제됩니다)')) return
     setClusters(clusters.filter((_, idx) => idx !== i))
   }
-  const moveCluster = (i: number, dir: -1 | 1) => {
+
+  // 모드 전환 (단일 ↔ 분할)
+  // 나누기 시작: 빈 그룹을 하나 더 붙인다(2개가 되면 분할 UI로 전환)
+  const toSplit = () => addCluster()
+  // 나누기 해제(합치기): 모든 그룹 인물을 순서대로 clusters[0] 하나로 합친다
+  const toSingle = () => {
+    const merged = clusters.flatMap(c => c.people ?? [])
+    setClusters([{ ...c0, people: merged }])
+  }
+  // 묶음 순서 변경 — 음원은 묶음 위치(C번호) 기반이라, 인물 이동과 똑같이 wav를 먼저 재배치하고
+  // 성공하면 묶음 배열을 바꾼다(quote+epithet·발화시각 키 모두 reorder API가 함께 옮긴다).
+  const moveCluster = async (i: number, dir: -1 | 1) => {
     const j = i + dir
     if (j < 0 || j >= clusters.length) return
+    const renames = [
+      ...buildClusterMoveRenames(group, groupIndex, i, j),
+      ...buildClusterMoveRenames(group, groupIndex, j, i),
+    ]
+    const { ok, error } = await reorderFactionVoice(series, episodeName, renames)
+    if (!ok) {
+      console.error('[FactionGroupEditor] 묶음 음원 재배치 실패:', error)
+      alert('그룹 순서를 바꾸지 못했습니다. 음성 파일 이동에 실패했습니다.')
+      return
+    }
     const next = [...clusters]
     ;[next[i], next[j]] = [next[j], next[i]]
     setClusters(next)
+    voiceCtx?.reload?.()
   }
   // endregion
 
-  // 셀럽 선택 반영 — 대상 모드에 맞게 인물 추가
+  // 셀럽 선택 반영 — 대상 그룹에 인물 추가
   const addCeleb = (c: CelebResult) => {
-    const person = celebToPerson(c)
-    if (typeof celebTarget === 'number') {
-      const target = clusters[celebTarget]
-      if (target) setCluster(celebTarget, { ...target, people: [...(target.people ?? []), person] })
-    } else {
-      onChange({ ...group, people: [...people, person] })
-    }
+    if (celebTarget === undefined) return
+    const target = clusters[celebTarget]
+    if (target) setCluster(celebTarget, { ...target, people: [...(target.people ?? []), celebToPerson(c)] })
   }
 
   return (
@@ -157,17 +158,39 @@ export function FactionGroupEditor({
             {...logoDropProps}
             className={`group relative flex w-16 shrink-0 flex-col items-center justify-center overflow-hidden rounded border bg-bg-card/30 p-0.5 transition-all ${logoDragOver ? 'ring-2 ring-accent' : 'hover:brightness-110 hover:shadow-sm'}`}
             style={{ borderColor: logoDragOver ? undefined : onColorDim }}
-            title="클릭: 로고 선택 · 풀에서 끌어다 놓기: 연결"
+            title="클릭: 로고 영상 선택(영상 타이틀 카드 배경, 우선) · 풀에서 끌어다 놓기: 연결"
           >
-            {logoSrc ? (
-              <FactionMediaThumb src={logoSrc} alt="" showExt fit="contain" className="h-full w-full" />
+            {logoVidSrc ? (
+              <FactionMediaThumb src={logoVidSrc} alt="" showExt fit="contain" className="h-full w-full" />
             ) : (
               <div style={{ color: onColorDim }} className="flex flex-col items-center">
                 <ImageIcon size={18} className="opacity-70 group-hover:opacity-100" />
-                <span className="mt-0.5 text-[9px] font-bold opacity-70 group-hover:opacity-100">로고</span>
+                <span className="mt-0.5 text-[9px] font-bold opacity-70 group-hover:opacity-100">로고 영상</span>
               </div>
             )}
             {logoDragOver && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-accent/30 text-[10px] font-bold text-white">
+                연결
+              </div>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLogoImgOpen(true) }}
+            {...logoImgDropProps}
+            className={`group relative flex w-16 shrink-0 flex-col items-center justify-center overflow-hidden rounded border bg-bg-card/30 p-0.5 transition-all ${logoImgDragOver ? 'ring-2 ring-accent' : 'hover:brightness-110 hover:shadow-sm'}`}
+            style={{ borderColor: logoImgDragOver ? undefined : onColorDim }}
+            title="클릭: 로고 이미지 선택(카드뉴스 표지·소속 배지, 로고 영상 없으면 타이틀 카드도) · 풀에서 끌어다 놓기: 연결"
+          >
+            {logoImgSrc ? (
+              <FactionMediaThumb src={logoImgSrc} alt="" showExt fit="contain" className="h-full w-full" />
+            ) : (
+              <div style={{ color: onColorDim }} className="flex flex-col items-center">
+                <ImageIcon size={18} className="opacity-70 group-hover:opacity-100" />
+                <span className="mt-0.5 text-[9px] font-bold opacity-70 group-hover:opacity-100">로고 이미지</span>
+              </div>
+            )}
+            {logoImgDragOver && (
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-accent/30 text-[10px] font-bold text-white">
                 연결
               </div>
@@ -214,18 +237,7 @@ export function FactionGroupEditor({
             롱폼 전용
           </span>
         )}
-        {/* 편 배정 — 이 세력을 어느 쇼츠 편에 넣을지 (헤더에서 바로 변경) */}
-        <select
-          value={group.part ?? 0}
-          onChange={e => { const v = Number(e.target.value); onChange({ ...group, part: v === 0 ? undefined : v }) }}
-          onClick={e => e.stopPropagation()}
-          className={`shrink-0 self-center rounded-md border border-border bg-bg-card px-1.5 py-1 text-xs focus:border-accent focus:outline-none ${disabled ? 'opacity-40 saturate-50' : ''}`}
-          title="이 세력이 들어갈 쇼츠 편 (공통 = 모든 편)"
-        >
-          <option value={0}>공통</option>
-          <option value={1}>1편</option>
-          <option value={2}>2편</option>
-        </select>
+        {/* 편 배정(part)은 편성 탭에서 관리한다 — 정보 탭 세력 카드에서는 편을 다루지 않는다 */}
         <span className={`shrink-0 self-center text-xs ${disabled ? 'opacity-40 saturate-50' : ''}`} style={{ color: onColorDim }}>인물 {totalCount}</span>
         {/* 조작 버튼 2×2 — 상단: 눈/위로, 하단: 삭제/아래로 */}
         <div className="grid shrink-0 self-center grid-cols-2 gap-1">
@@ -312,32 +324,9 @@ export function FactionGroupEditor({
               </div>
             </div>
 
-            {/* 필드: 등장 음악 */}
-            <div className="flex items-center gap-3">
-              <span className="w-16 shrink-0 text-right text-xs font-semibold text-text-dim">등장 음악 -</span>
-              <div className="flex flex-wrap items-center gap-4">
-                <select
-                  value={group.music ?? ''}
-                  onChange={e => onChange({ ...group, music: e.target.value || undefined })}
-                  className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
-                >
-                  <option value="">이전 곡 유지</option>
-                  {(musicList ?? []).map(m => <option key={m} value={m}>{m}</option>)}
-                </select>
-                {group.music && (
-                  <label className="flex items-center gap-2 text-sm text-text-secondary">
-                    <span className="text-[10px] text-text-dim">음량</span>
-                    <input
-                      type="range" min={0} max={1} step={0.05}
-                      value={group.musicVolume ?? 1}
-                      onChange={e => { const v = Number(e.target.value); onChange({ ...group, musicVolume: v === 1 ? undefined : v }) }}
-                      className="w-20 accent-accent"
-                    />
-                    <span className="w-8 text-right font-mono text-xs">{Math.round((group.musicVolume ?? 1) * 100)}%</span>
-                  </label>
-                )}
-              </div>
-            </div>
+            {/* 세력 배경음악(롱폼용·쇼츠용)은 편성 탭에서 지정한다 — 곡 전환은 영상 흐름(편성)의 문제라 롱폼 편성/쇼츠 편성 각 맥락에 둔다. */}
+
+            {/* 로고 영상·로고 이미지는 헤더의 두 칸에서 편집한다 — 영상 타이틀 카드=로고 영상 우선, 카드뉴스=로고 이미지 */}
 
             {/* 필드: 화보 구조 */}
             {!group.solo && (
@@ -359,21 +348,21 @@ export function FactionGroupEditor({
             )}
           </div>
 
-          {/* 단일 모드(무소속 개인군): 화보 없이 인물 목록만 */}
+          {/* 단일 모드(무소속 개인군): 화보 없이 인물 목록만 — clusters[0] 편집 */}
           {!split && group.solo && (
             <PersonList
-              people={people}
-              onPeopleChange={next => onChange({ ...group, people: next })}
-              onAddCeleb={() => setCelebTarget(null)}
+              people={c0.people ?? []}
+              onPeopleChange={next => setC0({ ...c0, people: next })}
+              onAddCeleb={() => setCelebTarget(0)}
               series={series}
               episodeName={episodeName}
               groupIndex={groupIndex}
-              solo
+              clusterIndex={0}
               editLang={editLang}
             />
           )}
 
-          {/* 단일 모드(묶음 안 나눈 일반 세력): 묶음 하나짜리 아코디언으로 — 묶음 나눈 세력과 모양 통일 */}
+          {/* 단일 모드(그룹 안 나눈 일반 세력): 그룹 하나짜리 아코디언으로 — 나눈 세력과 모양 통일. 대상은 clusters[0] */}
           {!split && !group.solo && (
             <div className={`rounded-lg border transition-all duration-200 overflow-hidden ${singleExpanded ? 'border-border bg-bg-card shadow-sm' : 'border-border bg-bg-main'}`}>
               {/* 상단 헤더: 팀 화보 + 인물 수 (아코디언 토글) */}
@@ -387,17 +376,17 @@ export function FactionGroupEditor({
                   <ChevronDown size={20} className={`transition-transform duration-200 ${singleExpanded ? '' : '-rotate-90'}`} />
                 </div>
                 <CoverPickerButton
-                  value={group.image}
-                  onChange={next => onChange({ ...group, image: next })}
-                  crop={group.imageCrop}
-                  onCropChange={c => onChange({ ...group, imageCrop: c })}
+                  value={c0.image}
+                  onChange={next => setC0({ ...c0, image: next })}
+                  crop={c0.imageCrop}
+                  onCropChange={c => setC0({ ...c0, imageCrop: c })}
                   series={series}
                   episodeName={episodeName}
                   className="h-20 w-36 shrink-0"
                 />
                 <div className="flex w-16 shrink-0 flex-col gap-0.5">
                   <span className="text-sm font-bold text-text-primary">팀 화보</span>
-                  <span className="text-[10px] text-text-dim">인물 {people.length}</span>
+                  <span className="text-[10px] text-text-dim">인물 {c0.people?.length ?? 0}</span>
                 </div>
                 {/* 그룹명 — 분할 모드의 각 그룹 행과 같은 위치·위계. 비우면 세력 명칭 둘째 줄을 그룹샷 카드에 그대로 쓴다 */}
                 <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -407,8 +396,8 @@ export function FactionGroupEditor({
                       <textarea
                         rows={2}
                         placeholder={'그룹명 (비우면 세력 명칭 둘째 줄)\n첫 줄=명칭, 둘째 줄부터=설명(세력색)'}
-                        value={group.label ?? ''}
-                        onChange={e => onChange({ ...group, label: e.target.value || undefined })}
+                        value={c0.label ?? ''}
+                        onChange={e => setC0({ ...c0, label: e.target.value || undefined })}
                         className="min-w-0 flex-1 resize-y rounded-md border border-border bg-bg-card px-2 py-1 text-sm font-semibold focus:border-accent focus:outline-none"
                       />
                     </div>
@@ -419,8 +408,8 @@ export function FactionGroupEditor({
                       <textarea
                         rows={2}
                         placeholder={'EN 그룹명 (영문)\n첫 줄=명칭, 둘째 줄부터=설명'}
-                        value={group.labelEn ?? ''}
-                        onChange={e => onChange({ ...group, labelEn: e.target.value || undefined })}
+                        value={c0.labelEn ?? ''}
+                        onChange={e => setC0({ ...c0, labelEn: e.target.value || undefined })}
                         className="min-w-0 flex-1 resize-y rounded-md border border-border/60 bg-bg-card/50 px-2 py-1 text-xs text-text-secondary focus:border-accent focus:outline-none"
                       />
                     </div>
@@ -431,13 +420,13 @@ export function FactionGroupEditor({
               {singleExpanded && (
                 <div className="space-y-3 border-t border-border/50 p-3">
                   <PersonList
-                    people={people}
-                    onPeopleChange={next => onChange({ ...group, people: next })}
-                    onAddCeleb={() => setCelebTarget(null)}
+                    people={c0.people ?? []}
+                    onPeopleChange={next => setC0({ ...c0, people: next })}
+                    onAddCeleb={() => setCelebTarget(0)}
                     series={series}
                     episodeName={episodeName}
                     groupIndex={groupIndex}
-                    solo={false}
+                    clusterIndex={0}
                     editLang={editLang}
                   />
                 </div>
@@ -537,7 +526,6 @@ export function FactionGroupEditor({
                         episodeName={episodeName}
                         groupIndex={groupIndex}
                         clusterIndex={ci}
-                        solo={false}
                         editLang={editLang}
                       />
                     </div>
@@ -557,14 +545,26 @@ export function FactionGroupEditor({
 
       {logoOpen && (
         <FactionImagePicker
-          value={group.titleArt}
-          onChange={next => onChange({ ...group, titleArt: next })}
-          crop={group.titleArtCrop}
-          onCropChange={c => onChange({ ...group, titleArtCrop: c })}
+          value={group.logoVid}
+          onChange={next => onChange({ ...group, logoVid: next })}
+          crop={group.logoCrop}
+          onCropChange={c => onChange({ ...group, logoCrop: c })}
           cropFit="contain"
           series={series}
           episodeName={episodeName}
           onClose={() => setLogoOpen(false)}
+        />
+      )}
+      {logoImgOpen && (
+        <FactionImagePicker
+          value={group.logoImg}
+          onChange={next => onChange({ ...group, logoImg: next })}
+          crop={group.logoCrop}
+          onCropChange={c => onChange({ ...group, logoCrop: c })}
+          cropFit="contain"
+          series={series}
+          episodeName={episodeName}
+          onClose={() => setLogoImgOpen(false)}
         />
       )}
 

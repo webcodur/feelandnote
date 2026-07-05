@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
-import { imageSrc, initial, totalSec, cueCount, formatMmss, cropToStyle, factionStepsOf } from '../shared/timing'
+import { imageSrc, initial, totalSec, cueCount, formatMmss, cropToStyle, factionStepsOf, longformPartCount, longformSegments, ERA_SEC } from '../shared/timing'
 import { FactionMediaThumb } from '../shared/FactionMediaThumb'
 import { Eye, EyeOff } from '../shared/icons'
 
@@ -13,9 +14,9 @@ type Props = {
   onToggleDisabled?: (groupIndex: number) => void
 }
 
-// 렌더러 clustersOf와 동일 정규화: clusters 없으면 세력 전체를 단일 묶음으로
+// 렌더러 clustersOf 미러 — 인물은 항상 그룹(clusters) 안에 있다
 function clustersOf(g: FactionGroup): FactionCluster[] {
-  return g.clusters?.length ? g.clusters : [{ image: g.image, people: g.people ?? [] }]
+  return g.clusters ?? []
 }
 
 // 통합 명칭(앞부분\n뒷부분)을 첫 줄(앞부분)·나머지(뒷부분)로 분리
@@ -58,7 +59,7 @@ function PersonCell({ person, series, episodeName, isLeader }: {
   const src = imageSrc(series, episodeName, person.image)
   const missing = !person.image
   // 대사 처리 스텝(직함·수식어·음성) — 켜진 것만 배지로. 음성 켜지면 강조색.
-  const steps = factionStepsOf(person, isLeader)
+  const steps = factionStepsOf(person, true, isLeader)
   const stepLabels = [steps.credit && '직함', steps.epithet && '수식', steps.voice && '음성'].filter(Boolean)
   const badge = {
     t: stepLabels.length ? stepLabels.join('·') : '없음',
@@ -76,7 +77,10 @@ function PersonCell({ person, series, episodeName, isLeader }: {
           {initial(person.name)}
         </span>
       )}
-      <span className={`rounded px-1 text-[9px] font-semibold ${badge.c}`} title={`대사 처리: ${badge.t}`}>{badge.t}</span>
+      <span className="flex items-center gap-0.5">
+        <span className={`rounded px-1 text-[9px] font-semibold ${badge.c}`} title={`대사 처리: ${badge.t}`}>{badge.t}</span>
+        {(person as any).longformOnly && <span className="rounded bg-accent/20 px-1 text-[9px] font-semibold text-accent" title="롱폼 전용 — 세로 쇼츠에서 제외">L</span>}
+      </span>
       <span className="w-full truncate text-center text-[11px] text-text-secondary">{person.name || '?'}</span>
       {person.lines?.length ? (
         <span className="w-full truncate text-center text-[10px] text-text-dim">{person.lines.filter(Boolean).join(' · ')}</span>
@@ -88,26 +92,124 @@ function PersonCell({ person, series, episodeName, isLeader }: {
   )
 }
 
+// 세력 한 블록(타이틀 + 묶음별 화보·인물) — 전체 흐름·롱폼 편 흐름이 공유
+function GroupBlock({ g, gi, series, episodeName, onToggleDisabled }: {
+  g: FactionGroup
+  gi: number
+  series: string
+  episodeName: string
+  onToggleDisabled?: (groupIndex: number) => void
+}) {
+  const color = g.color ?? '#92400e'
+  const clusters = clustersOf(g)
+  // 비활성화 세력은 영상에서 빠진다 — 흐리게 표시하고 배지를 단다
+  return (
+    <div className="space-y-2" style={g.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}>
+      {/* solo가 아니면 세력 타이틀 표시 */}
+      {!g.solo && (
+        <div className="flex items-center gap-2 rounded-md bg-bg-secondary px-3 py-2">
+          <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+          {(() => {
+            const { head, rest } = splitName(g.name)
+            return (
+              <>
+                <span className="truncate text-sm font-semibold text-text-primary">{head || '세력명 없음'}</span>
+                {rest && <span className="truncate text-xs" style={{ color }}>{rest}</span>}
+              </>
+            )
+          })()}
+          {g.disabled && <span className="shrink-0 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text">영상 제외</span>}
+          {onToggleDisabled && (
+            <button
+              onClick={() => onToggleDisabled(gi)}
+              className="ml-auto shrink-0 rounded border border-border p-1 text-text-secondary hover:bg-bg-hover"
+              title={g.disabled ? '이 세력을 다시 영상에 포함' : '이 세력을 영상에서 제외'}
+            >
+              {g.disabled ? <Eye size={13} /> : <EyeOff size={13} />}
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* 묶음마다: (비-solo면) 화보 카드 → 인물 컷 */}
+      {clusters.map((c, ci) => {
+        const people = c.people ?? []
+        return (
+          <div key={ci} className="space-y-1.5 rounded-md bg-bg-main/40 p-2">
+            {!g.solo && (
+              <CoverChip image={c.image} label={c.label} color={color} series={series} episodeName={episodeName} />
+            )}
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {people.map((p, pi) => (
+                <PersonCell key={pi} person={p} series={series} episodeName={episodeName} isLeader={ci === 0 && pi === 0} />
+              ))}
+              {people.length === 0 && <span className="text-xs text-text-dim">인물 없음</span>}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function FactionPreview({ script, series, episodeName, onToggleDisabled }: Props) {
   const groups = script.groups ?? []
 
+  // 롱폼 편 선택 — 편 경계(cut)가 있을 때만 선택 버튼 노출. null = 전체(쇼츠·통짜 롱폼) 흐름
+  const [lvPartSel, setLvPartSel] = useState<number | null>(null)
+  const lvCount = longformPartCount(script)
+  const lvPart = lvCount > 1 ? lvPartSel : null
+  // 선택한 편의 구간(세력 블록·시대 문구 나열) — 렌더(buildCues)와 동일 규칙으로 가른다
+  const steps = lvPart != null ? longformSegments(script)[lvPart - 1] ?? [] : null
+
+  // 요약 — 편 선택 시 그 편 세력만으로 계산(시대 문구 카드 시간 포함). 각 편은 자체 인트로·아웃트로
+  const partGroups = steps ? steps.flatMap(s => ('gi' in s ? [groups[s.gi]].filter(Boolean) : [])) : groups
+  const eraN = steps ? steps.filter(s => 'era' in s).length : 0
+  const scoped = steps ? { ...script, groups: partGroups } : script
+  // 타이틀·시작문구 — 편 선택 시 편별 값(비우면 공통)
+  const title = (lvPart != null ? script.titleByPart?.[lvPart] : undefined) || script.title
+  const logline = lvPart != null
+    ? (script.loglineByPart?.[lvPart] || script.logline)
+    : (script.logline || script.loglineByPart?.[1])
+
   return (
     <div>
+      {/* 롱폼 편 선택 — 경계가 있을 때만 */}
+      {lvCount > 1 && (
+        <div className="mb-3 flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => setLvPartSel(null)}
+            className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${lvPart == null ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'}`}
+          >
+            전체
+          </button>
+          {Array.from({ length: lvCount }, (_, k) => k + 1).map(p => (
+            <button
+              key={p}
+              onClick={() => setLvPartSel(p)}
+              className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${lvPart === p ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'}`}
+            >
+              롱폼 {p}편
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* 요약 */}
       <div className="mb-3 flex items-center gap-3 text-xs text-text-secondary">
-        <span>총 길이 {formatMmss(totalSec(script))}</span>
+        <span>총 길이 {formatMmss(totalSec(scoped) + eraN * ERA_SEC)}</span>
         <span>·</span>
-        <span>컷 {cueCount(script)}개</span>
+        <span>컷 {cueCount(scoped) + eraN}개</span>
       </div>
 
       {/* 9:16 흐름 박스 */}
       <div className="mx-auto w-full max-w-[360px] overflow-hidden rounded-lg border border-border bg-bg-card">
         <div className="flex flex-col" style={{ aspectRatio: '9 / 16', minHeight: 480 }}>
           <div className="flex-1 space-y-3 overflow-y-auto p-3">
-            {/* 타이틀 카드 — 영상 명칭 통합(첫 줄=앞부분, 나머지=뒷부분) */}
+            {/* 타이틀 카드 — 영상 명칭 통합(첫 줄=앞부분, 나머지=뒷부분). 편 선택 시 편별 명칭 */}
             <div className="rounded-md bg-bg-secondary p-4 text-center">
               {(() => {
-                const { head, rest } = splitName(script.title)
+                const { head, rest } = splitName(title)
                 return (
                   <>
                     <p className="text-base font-bold text-text-primary">{head || '영상 명칭 없음'}</p>
@@ -115,62 +217,30 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
                   </>
                 )
               })()}
-              {(script.logline || script.loglineByPart?.[1]) && <p className="mt-1 text-xs text-accent">{script.logline || script.loglineByPart?.[1]}</p>}
+              {logline && <p className="mt-1 text-xs text-accent">{logline}</p>}
             </div>
 
-            {/* 세력별 흐름 */}
-            {groups.map((g, gi) => {
-              const color = g.color ?? '#92400e'
-              const clusters = clustersOf(g)
-              // 비활성화 세력은 영상에서 빠진다 — 흐리게 표시하고 배지를 단다
-              return (
-                <div key={gi} className="space-y-2" style={g.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}>
-                  {/* solo가 아니면 세력 타이틀 표시 */}
-                  {!g.solo && (
-                    <div className="flex items-center gap-2 rounded-md bg-bg-secondary px-3 py-2">
-                      <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: color }} />
-                      {(() => {
-                        const { head, rest } = splitName(g.name)
-                        return (
-                          <>
-                            <span className="truncate text-sm font-semibold text-text-primary">{head || '세력명 없음'}</span>
-                            {rest && <span className="truncate text-xs" style={{ color }}>{rest}</span>}
-                          </>
-                        )
-                      })()}
-                      {g.disabled && <span className="shrink-0 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text">영상 제외</span>}
-                      {onToggleDisabled && (
-                        <button
-                          onClick={() => onToggleDisabled(gi)}
-                          className="ml-auto shrink-0 rounded border border-border p-1 text-text-secondary hover:bg-bg-hover"
-                          title={g.disabled ? '이 세력을 다시 영상에 포함' : '이 세력을 영상에서 제외'}
-                        >
-                          {g.disabled ? <Eye size={13} /> : <EyeOff size={13} />}
-                        </button>
-                      )}
+            {/* 흐름 — 전체는 세력 배열 순서, 롱폼 편 선택 시 그 편 구간(시대 문구 카드 포함) 순서 */}
+            {steps ? (
+              steps.map((st, k) => {
+                if ('era' in st) {
+                  const { head, rest } = splitName(st.era.label)
+                  return (
+                    <div key={k} className="rounded-md border-s-2 border-amber-500 bg-amber-500/10 p-3 text-center">
+                      <p className="text-sm font-bold text-text-primary">{head || '시대 문구'}</p>
+                      {rest && <p className="text-xs text-amber-600">{rest}</p>}
                     </div>
-                  )}
-
-                  {/* 묶음마다: (비-solo면) 화보 카드 → 인물 컷 */}
-                  {clusters.map((c, ci) => {
-                    const people = c.people ?? []
-                    return (
-                      <div key={ci} className="space-y-1.5 rounded-md bg-bg-main/40 p-2">
-                        {!g.solo && (
-                          <CoverChip image={c.image} label={c.label} color={color} series={series} episodeName={episodeName} />
-                        )}
-                        <div className="flex gap-2 overflow-x-auto pb-1">
-                          {people.map((p, pi) => (
-                            <PersonCell key={pi} person={p} series={series} episodeName={episodeName} isLeader={ci === 0 && pi === 0} />
-                          ))}
-                          {people.length === 0 && <span className="text-xs text-text-dim">인물 없음</span>}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )
-            })}
+                  )
+                }
+                const g = groups[st.gi]
+                if (!g) return null
+                return <GroupBlock key={k} g={g} gi={st.gi} series={series} episodeName={episodeName} onToggleDisabled={onToggleDisabled} />
+              })
+            ) : (
+              groups.map((g, gi) => (
+                <GroupBlock key={gi} g={g} gi={gi} series={series} episodeName={episodeName} onToggleDisabled={onToggleDisabled} />
+              ))
+            )}
 
             {/* 마무리 — 별도 종료 화면 없이 마지막 인물 컷에서 서서히 어두워지며 끝난다 */}
             <div className="rounded-md border border-dashed border-border bg-bg-main/40 p-3 text-center">

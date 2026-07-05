@@ -152,13 +152,19 @@ importers:
       '@google/genai':
         specifier: ^1.44.0
         version: 1.44.0
+      '@remotion/bundler':
+        specifier: 4.0.434
+        version: 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/cli':
         specifier: 4.0.434
-        version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/media-utils':
         specifier: 4.0.434
         version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/player':
+        specifier: 4.0.434
+        version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/renderer':
         specifier: 4.0.434
         version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@supabase/supabase-js':
@@ -213,12 +219,18 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.997.0
         version: 3.997.0
+      '@feelandnote/remotion':
+        specifier: workspace:*
+        version: link:../remotion
       '@feelandnote/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       '@google/genai':
         specifier: ^1.44.0
         version: 1.44.0
+      '@remotion/player':
+        specifier: 4.0.434
+        version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@supabase/supabase-js':
         specifier: ^2.91.1
         version: 2.91.1
@@ -231,6 +243,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      remotion:
+        specifier: 4.0.434
+        version: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.7
@@ -8390,21 +8405,21 @@ snapshots:
       react: 19.2.0
       react-redux: 9.2.0(@types/react@19.2.9)(react@19.2.0)(redux@5.0.1)
 
-  '@remotion/bundler@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/bundler@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@remotion/media-parser': 4.0.434
       '@remotion/studio': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@rspack/core': 1.7.6
+      '@rspack/core': 1.7.6(@swc/helpers@0.5.15)
       '@rspack/plugin-react-refresh': 1.6.1(react-refresh@0.18.0)
-      css-loader: 5.2.7(webpack@5.105.0)
+      css-loader: 5.2.7(webpack@5.105.0(esbuild@0.25.0))
       esbuild: 0.25.0
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
       react-refresh: 0.18.0
       remotion: 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       source-map: 0.7.3
-      style-loader: 4.0.0(webpack@5.105.0)
+      style-loader: 4.0.0(webpack@5.105.0(esbuild@0.25.0))
       webpack: 5.105.0(esbuild@0.25.0)
     transitivePeerDependencies:
       - '@swc/core'
@@ -8416,14 +8431,14 @@ snapshots:
       - webpack-cli
       - webpack-hot-middleware
 
-  '@remotion/cli@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/cli@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@remotion/bundler': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/bundler': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/media-utils': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/player': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/renderer': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@remotion/studio-server': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/studio-server': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       dotenv: 17.3.1
       minimist: 1.2.6
@@ -8507,10 +8522,10 @@ snapshots:
 
   '@remotion/streaming@4.0.434': {}
 
-  '@remotion/studio-server@4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@remotion/studio-server@4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/parser': 7.24.1
-      '@remotion/bundler': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@remotion/bundler': 4.0.434(@swc/helpers@0.5.15)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/renderer': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@remotion/studio-shared': 4.0.434(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       memfs: 3.4.3
@@ -8706,11 +8721,13 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': 1.7.6
       '@rspack/binding-win32-x64-msvc': 1.7.6
 
-  '@rspack/core@1.7.6':
+  '@rspack/core@1.7.6(@swc/helpers@0.5.15)':
     dependencies:
       '@module-federation/runtime-tools': 0.22.0
       '@rspack/binding': 1.7.6
       '@rspack/lite-tapable': 1.1.0
+    optionalDependencies:
+      '@swc/helpers': 0.5.15
 
   '@rspack/lite-tapable@1.1.0': {}
 
@@ -10321,7 +10338,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@5.2.7(webpack@5.105.0):
+  css-loader@5.2.7(webpack@5.105.0(esbuild@0.25.0)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.6)
       loader-utils: 2.0.4
@@ -13261,7 +13278,7 @@ snapshots:
 
   stubs@3.0.0: {}
 
-  style-loader@4.0.0(webpack@5.105.0):
+  style-loader@4.0.0(webpack@5.105.0(esbuild@0.25.0)):
     dependencies:
       webpack: 5.105.0(esbuild@0.25.0)
 

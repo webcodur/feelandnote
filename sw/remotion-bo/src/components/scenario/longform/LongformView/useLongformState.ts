@@ -71,6 +71,26 @@ export function useLongformState({
     onUpdate({ ...episode, books: newBooks })
   }
 
+  /** 후속 맥락 토막 분할 갱신 — afterParts(2개↑)와 after(join '\n\n')를 함께 바꾼다.
+   *  1개로 줄면 분할 해제(afterParts 제거). 빈 목록이면 후속 맥락 자체를 제거(삭제).
+   *  불변식: afterParts.join('\n\n') === after (sw/remotion types.ts와 동일 규약). */
+  const updateAfterSplit = (bookIdx: number, pairIdx: number, parts: string[]) => {
+    const clean = parts.map(p => (p ?? '').trim()).filter(Boolean)
+    const newBooks = [...allBooks]
+    const book = { ...newBooks[bookIdx] }
+    const pairs = [...((book as any).quotePairs ?? [])]
+    const prevText = pairs[pairIdx]?.after ?? ''
+    const joined = clean.join('\n\n')
+    let pair = setField(pairs[pairIdx] ?? {}, 'afterParts', clean.length > 1 ? clean : undefined)
+    pair = setField(pair, 'after', clean.length ? joined : undefined)
+    pairs[pairIdx] = pair
+    ;(book as any).quotePairs = pairs
+    // 본문이 바뀔 때만 이미지 앵커 이전. 삭제(clean=0)는 기존 동작대로 앵커를 건드리지 않는다.
+    if (clean.length) remapBookImages(book, prevText, joined, `책${bookIdx + 1}/인용${pairIdx + 1}/after`)
+    newBooks[bookIdx] = book
+    onUpdate({ ...episode, books: newBooks })
+  }
+
   const updateQuotePair = (bookIdx: number, pairIdx: number, field: string, value: any, prev?: string) => {
     const newBooks = [...allBooks]
     const book = { ...newBooks[bookIdx] }
@@ -81,6 +101,65 @@ export function useLongformState({
     if ((field === 'quote' || field === 'after') && typeof value === 'string' && typeof prev === 'string') {
       remapBookImages(book, prev, value, `책${bookIdx + 1}/인용${pairIdx + 1}/${field}`)
     }
+    newBooks[bookIdx] = book
+    onUpdate({ ...episode, books: newBooks })
+  }
+
+  /**
+   * 요약/감상 배경 토막별 설정(화자·음량·배속·SFX) 저장.
+   * - partCount===1(분할 없음): 기존 단일 필드(summarySpeaker 등)에 저장 → JSON·동작 불변.
+   * - partCount>1(분할됨): 대응 배열 필드(summaryPartSpeakers 등)의 partIdx 위치에 저장.
+   *   value=undefined면 그 자리를 비우고, 배열에 유효값이 하나도 없으면 배열 키 자체를 제거한다.
+   */
+  const updateBookPartSetting = (
+    bookIdx: number,
+    section: 'summary' | 'contextMain',
+    partIdx: number,
+    which: 'Speaker' | 'GainDb' | 'PlaybackRate' | 'Sfx',
+    value: unknown,
+    partCount: number,
+  ) => {
+    if (partCount <= 1) {
+      uB(bookIdx, `${section}${which}`, value)
+      return
+    }
+    const arrKey = `${section}Part${which}s`
+    const newBooks = [...allBooks]
+    const book = { ...(newBooks[bookIdx] ?? {}) } as Record<string, unknown>
+    const arr = Array.isArray(book[arrKey]) ? [...(book[arrKey] as unknown[])] : []
+    arr[partIdx] = value
+    const hasValue = arr.some(v => v !== undefined && v !== null)
+    newBooks[bookIdx] = setField(book, arrKey, hasValue ? arr : undefined)
+    onUpdate({ ...episode, books: newBooks })
+  }
+
+  /**
+   * 후속 맥락(quotePairs[].after) 토막별 설정 저장.
+   * - partCount===1: 단일 필드(afterSpeaker 등)에 저장(updateQuotePair 재사용).
+   * - partCount>1: 배열 필드(afterPartSpeakers 등)의 partIdx 위치에 저장. 규약은 updateBookPartSetting과 동일.
+   */
+  const updateAfterPartSetting = (
+    bookIdx: number,
+    pairIdx: number,
+    partIdx: number,
+    which: 'Speaker' | 'GainDb' | 'PlaybackRate' | 'Sfx',
+    value: unknown,
+    partCount: number,
+  ) => {
+    if (partCount <= 1) {
+      updateQuotePair(bookIdx, pairIdx, `after${which}`, value)
+      return
+    }
+    const arrKey = `afterPart${which}s`
+    const newBooks = [...allBooks]
+    const book = { ...(newBooks[bookIdx] ?? {}) } as Record<string, unknown>
+    const pairs = [...((book.quotePairs as unknown[]) ?? [])]
+    const pair = { ...((pairs[pairIdx] as Record<string, unknown>) ?? {}) }
+    const arr = Array.isArray(pair[arrKey]) ? [...(pair[arrKey] as unknown[])] : []
+    arr[partIdx] = value
+    const hasValue = arr.some(v => v !== undefined && v !== null)
+    pairs[pairIdx] = setField(pair, arrKey, hasValue ? arr : undefined)
+    book.quotePairs = pairs
     newBooks[bookIdx] = book
     onUpdate({ ...episode, books: newBooks })
   }
@@ -160,7 +239,8 @@ export function useLongformState({
 
   return {
     uN, uH, uB, uBSplit,
-    updateQuotePair, addQuotePair, removeQuotePair,
+    updateQuotePair, updateAfterSplit, addQuotePair, removeQuotePair,
+    updateBookPartSetting, updateAfterPartSetting,
     saveField,
     musicFiles, setBookBgm,
     locateImage,

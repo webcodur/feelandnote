@@ -39,7 +39,7 @@ function wavDurationSec(wavPath: string): number {
 
 export async function main(): Promise<void> {
   if (!existsSync(DATA_PATH)) {
-    console.error(`✗ data.json 없음: ${DATA_PATH}`)
+    console.error(`✗ faction-data.json 없음: ${DATA_PATH}`)
     process.exit(1)
   }
   if (!existsSync(WORD_TIMINGS_PATH)) {

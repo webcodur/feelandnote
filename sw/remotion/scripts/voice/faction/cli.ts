@@ -2,7 +2,7 @@
  * faction/cli.ts — 세력도(Faction) TTS CLI 인자 파싱·환경 상수
  *
  * BookRecommend 의 2-synthesize/cli.ts 와 동일한 "모듈 로드 시 argv 1회 파싱" 패턴.
- * 다만 Faction 은 입력이 public/factions/<에피소드>/data.json 한 파일이라
+ * 다만 Faction 은 입력이 public/factions/<에피소드>/faction-data.json 한 파일이라
  * locale 접미사·--long/--shorts 스코프가 없다. 별도 CLI 로 격리해 BookRecommend 경로를 건드리지 않는다.
  *
  * 사용:
@@ -66,7 +66,7 @@ export const START_KEY_INDEX = startKeyIdx >= 0 ? Number(args[startKeyIdx + 1]) 
 
 // --- 경로 ---
 export const FACTION_DIR = path.join(ROOT, 'public', 'factions', EPISODE_NAME)
-export const DATA_PATH = path.join(FACTION_DIR, 'data.json')
+export const DATA_PATH = path.join(FACTION_DIR, 'faction-data.json')
 export const VOICE_DIR = path.join(FACTION_DIR, 'voice')
 
 // --- 플래그 ---

@@ -13,7 +13,7 @@
 import type { FactionScript } from './types'
 import { buildCues, f, personQuoteEnterSec, personQuoteEndSec } from './timing'
 import { vnPersonQuote, vnTimingKey } from './voice-names'
-import { nameTail } from './utils'
+import { clustersOf } from './utils'
 import { splitSub, type Sub } from '../../lib/voice-timing'
 
 /** part 우선 필드 — 쇼츠 편(part) 지정 시 그 편 값, 없으면 공통 값. */
@@ -22,11 +22,11 @@ function pick<T>(common: T | undefined, byPart: Record<number, T> | undefined, p
 }
 
 /**
- * 한 영상(롱폼/쇼츠 part)의 자막. 영상과 동일하게 isShorts·part 로 컷을 구성한다.
+ * 한 영상(롱폼 lvPart/쇼츠 part)의 자막. 영상과 동일하게 isShorts·part·lvPart 로 컷을 구성한다.
  * 발화 시각은 script.voiceTimings(로더가 배속까지 반영해 주입) 를 stem 으로 조회한다.
  */
-export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?: number): Sub[] {
-  const cues = buildCues(script, isShorts, part)
+export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?: number, lvPart?: number): Sub[] {
+  const cues = buildCues(script, isShorts, part, lvPart)
   const subs: Sub[] = []
 
   for (const tc of cues) {
@@ -36,11 +36,11 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
 
     // ── 시작/끝 영상 명칭 화면 — 영상 명칭 앞부분(+뒷부분), 시작 화면엔 시작문구도 ──
     if (c.kind === 'intro' || c.kind === 'outro') {
-      const titleText = pick(script.title, script.titleByPart, part) ?? ''
+      const titleText = pick(pick(script.title, script.titleByLvPart, lvPart), script.titleByPart, part) ?? ''
       if (titleText.trim()) subs.push({ start: cutStart, end: cutEnd, speaker: '', text: titleText })
       // 시작문구는 시작 화면에만(영상 IntroCard 도 아웃트로에는 띄우지 않음). 영상 명칭 앞부분보다 살짝 늦게 떠오른다.
       if (c.kind === 'intro') {
-        const logline = pick(script.logline, script.loglineByPart, part)
+        const logline = pick(pick(script.logline, script.loglineByLvPart, lvPart), script.loglineByPart, part)
         if (logline?.trim()) subs.push({ start: cutStart + f(1.0), end: cutEnd, speaker: '', text: logline })
       }
       continue
@@ -54,11 +54,10 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
       continue
     }
 
-    // ── 화보 묶음 카드 — 단체 명칭(앞부분\n뒷부분). 묶음이 없는 세력은 세력 명칭 뒷부분을 쓴다(영상 clustersOf 와 동일) ──
+    // ── 그룹 화보 카드 — 그룹 명칭(앞부분\n뒷부분). 단일 그룹 무명 폴백은 clustersOf 가 처리(영상과 동일) ──
     if (c.kind === 'cluster') {
       const g = script.groups[c.groupIndex]
-      const cluster = g.clusters?.length ? g.clusters[c.clusterIndex] : undefined
-      const text = cluster ? (cluster.label ?? '') : nameTail(g.name)
+      const text = clustersOf(g)[c.clusterIndex]?.label ?? ''
       if (text.trim()) subs.push({ start: cutStart, end: cutEnd, speaker: '', text })
       continue
     }
@@ -67,9 +66,7 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
     if (c.kind === 'person') {
       if (!c.steps.voice) continue // 음성 스텝 꺼짐 — 대사 없음(자막 없음)
       const g = script.groups[c.groupIndex]
-      const person = c.clusterIndex != null
-        ? (g.clusters?.[c.clusterIndex]?.people[c.personIndex] ?? g.people[c.personIndex])
-        : g.people[c.personIndex]
+      const person = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
       if (!person) continue
       // 화면은 덩어리를 한 흐름으로 이어 표시 — 자막 원고도 공백으로 잇는다(분할은 발화 시각이 담당).
       const text = person.quoteChunks?.length ? person.quoteChunks.join(' ') : (person.quote ?? '')

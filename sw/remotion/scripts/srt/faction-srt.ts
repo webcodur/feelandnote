@@ -9,10 +9,10 @@
  *  - 화면 텍스트: 시작/끝 제목(+부제·로그라인), 세력명(+슬로건), 묶음 소제목(+설명).
  *  - credit(직함만) 컷은 대사가 없어 자막을 만들지 않는다.
  *
- * 변형별(KO-LV/KO-S1/KO-S2)로 영상과 같은 isShorts·part 로 컷을 구성한다
- * (롱폼은 longformOnly 세력을 포함, 쇼츠는 편별 세력만).
+ * 변형별(KO-LV/KO-LV1·LV2…/KO-S1/KO-S2)로 영상과 같은 isShorts·part·lvPart 로 컷을 구성한다
+ * (롱폼은 longformOnly 세력을 포함, 쇼츠는 편별 세력만, 롱폼 편(lvPart)은 편 경계(cut) 구간 세력만).
  *
- * 출력: out/Faction/{episode}-{KO-LV|KO-S1|KO-S2…}.srt (factionVariants 기준, 진영 part 의 편 수만큼)
+ * 출력: out/Faction/{episode}-{KO-LV|KO-LV1…|KO-S1|KO-S2…}.srt (factionVariants 기준, 진영 part·롱폼 편 경계의 편 수만큼)
  *
  * Usage: pnpm faction:srt -- --episode 01-llm
  */
@@ -67,11 +67,9 @@ function scaleVoiceTimings(script: FactionScript, vt: VoiceTimings): VoiceTiming
   }
   script.groups.forEach((g, gi) => {
     if (g.disabled) return
-    if (g.solo) { g.people.forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi)))); return }
-    const cl = g.clusters ?? [null]
-    cl.forEach((c, ci) => {
-      const people = c ? c.people : g.people
-      people.forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
+    // 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 키는 항상 FxxCxxPxx (solo 포함).
+    ;(g.clusters ?? []).forEach((c, ci) => {
+      ;(c.people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
     })
   })
   return out ?? vt
@@ -86,15 +84,15 @@ function main() {
   const episode = arg('--episode')
   if (!episode) { console.error('--episode 필수 (예: pnpm faction:srt -- --episode 01-llm)'); process.exit(1) }
   const episodeDir = path.join(FACTIONS_DIR, episode)
-  const dataPath = path.join(episodeDir, 'data.json')
+  const dataPath = path.join(episodeDir, 'faction-data.json')
   if (!existsSync(dataPath)) { console.error(`세력도 데이터 없음: ${dataPath}`); process.exit(1) }
   const script = JSON.parse(readFileSync(dataPath, 'utf-8')) as FactionScript
   // 발화 시각 로드 + 배속 반영 후 스크립트에 주입 — buildFactionSubs 가 stem 으로 조회한다.
   script.voiceTimings = scaleVoiceTimings(script, loadVoiceTimings(episodeDir))
   mkdirSync(OUT_DIR, { recursive: true })
 
-  for (const v of factionVariants(script.groups)) {
-    const subs = buildFactionSubs(script, v.isShorts, v.part)
+  for (const v of factionVariants(script.groups, script.longformLayout)) {
+    const subs = buildFactionSubs(script, v.isShorts, v.part, v.lvPart)
     const srt = subsToSrt(subs)
     const outPath = path.join(OUT_DIR, `${episode}-${v.fileSuffix}.srt`)
     writeFileSync(outPath, srt, 'utf-8')

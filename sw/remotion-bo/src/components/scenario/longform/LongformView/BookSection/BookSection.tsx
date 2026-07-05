@@ -10,7 +10,7 @@ import { PlaybackRateInput } from '../../../PlaybackRateInput'
 import { InlineImageRow } from '../../../ImageThumb'
 import { BgmSelect } from '../../BgmSelect'
 import { BookCopyButton } from '../../CopyButton'
-import { bookKey, bookFieldParts, partPhase, lookupVoice, matchImagesToField, unmatchedImages, distributeContextImages } from '../../../utils'
+import { bookKey, bookFieldParts, partPhase, lookupVoice, matchImagesToField, unmatchedImages, distributeContextImages, imagesForPart } from '../../../utils'
 import type { CinematicImage } from '../../../types'
 import { QuotePairRow } from './sections/QuotePairRow'
 import type { BookSectionProps } from './types'
@@ -27,7 +27,8 @@ export function BookSection({
   allImgs, anchorPick, setAnchorPick, confirmAnchor,
   imageBaseUrl, replaceImage, removeImage, removeImageOnly, crossUsage,
   uB, uBSplit, dropImage, addAnchor, handlePick,
-  updateQuotePair, addQuotePair, removeQuotePair, saveField,
+  updateQuotePair, updateAfterSplit, updateBookPartSetting, updateAfterPartSetting,
+  addQuotePair, removeQuotePair, saveField,
   activeEngine, playingKey, onTogglePlay, onToggleExpand,
   musicFiles, setBookBgm,
   sfxFiles, sfxBase, speakers,
@@ -41,16 +42,6 @@ export function BookSection({
   const allCtxTexts = [book.contextMain ?? '', ...((book.quotePairs ?? []) as any[]).flatMap((p: any) => [p.quote ?? '', p.after ?? ''])].join(' ')
   const fieldTexts = [book.summary ?? '', allCtxTexts]
   const imgsSummary = [...imgsBase, ...unmatchedImages(allImgs, fieldTexts)]
-
-  /** 한 필드 이미지들을 토막별로 분배 — 앵커 텍스트가 든 토막에 붙인다. 앵커 없는 이미지는 첫 토막. */
-  const imagesForPart = (imgs: CinematicImage[], parts: string[], p: number): CinematicImage[] => {
-    if (parts.length <= 1) return imgs
-    return imgs.filter(img => {
-      if (!img.text) return p === 0
-      const owner = parts.findIndex(pt => pt.includes(img.text!))
-      return owner < 0 ? p === 0 : owner === p
-    })
-  }
 
   const imgRowProps = {
     allImages: allImgs, imageBaseUrl, itemIdx: i, picking, anchorPick,
@@ -113,7 +104,7 @@ export function BookSection({
           )}
 
           <div style={accentStyle(book.titleSpeaker)}>
-            <ScenarioRow label="제목 읽기" role="narrator" value={`${book.title}, ${book.creator}`}
+            <ScenarioRow label="제목 읽기" role="narrator" value={`${book.title}, ${book.creator}${book.stats?.publishYear ? `, ${book.stats.publishYear}` : ''}`}
               voiceInfo={vi(bookKey(i, 'a-title'), book.titleDuration)} onCommit={() => {}}
               sectionKey={bookKey(i, 'a-title')} audioUrl={vUrl(bookKey(i, 'a-title'))}
               playbackRate={typeof book.titlePlaybackRate === 'number' ? book.titlePlaybackRate : undefined}
@@ -141,8 +132,13 @@ export function BookSection({
             return parts.map((partText: string, p: number) => {
               const key = bookKey(i, partPhase('b', 'summary', p))
               const partImgs = imagesForPart(imgsSummary, parts, p)
+              // 토막별 유효 설정 — 배열값 우선, 없으면 단일값 폴백(토막 1개면 단일값 그대로).
+              const spk = book.summaryPartSpeakers?.[p] ?? book.summarySpeaker
+              const sfx = book.summaryPartSfxs?.[p] ?? book.summarySfx
+              const gain = typeof book.summaryPartGainDbs?.[p] === 'number' ? book.summaryPartGainDbs[p] : book.summaryGainDb
+              const rate = typeof book.summaryPartPlaybackRates?.[p] === 'number' ? book.summaryPartPlaybackRates[p] : book.summaryPlaybackRate
               return (
-                <div key={key} style={accentStyle(book.summarySpeaker)}>
+                <div key={key} style={accentStyle(spk)}>
                   <ScenarioRow label={n > 1 ? `핵심 요약 ${p + 1}/${n}` : '핵심 요약'} role="summary" value={partText}
                     leadStyle={{ backgroundColor: `rgba(16,185,129,${(0.08 + 0.05 * p).toFixed(3)})` }}
                     barColor="rgba(16,185,129,0.75)"
@@ -159,8 +155,8 @@ export function BookSection({
                     pickMode={picking} onPick={(t) => handlePick(t, 'summary')}
                     highlights={partImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
                     sectionKey={key} audioUrl={vUrl(key)}
-                    playbackRate={typeof book.summaryPlaybackRate === 'number' ? book.summaryPlaybackRate : undefined}
-                    activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, book.summaryGainDb, book.summaryPlaybackRate)}
+                    playbackRate={typeof rate === 'number' ? rate : undefined}
+                    activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, gain, rate)}
                     onToggleExpand={() => onToggleExpand(key)}
                     onDrop={fn => dropImage(i, fn, 'summary')} onAddAnchor={t => addAnchor(i, t, 'summary')}
                     images={<InlineImageRow images={partImgs} {...imgRowProps} />}
@@ -180,21 +176,25 @@ export function BookSection({
                         <SaveButton onSave={async () => {
                           await saveField(['books', i, 'summaryParts'], n > 1 ? parts : undefined)
                           await saveField(['books', i, 'summary'], parts.join('\n\n'))
+                          await saveField(['books', i, 'summaryPartSpeakers'], n > 1 ? book.summaryPartSpeakers : undefined)
+                          await saveField(['books', i, 'summaryPartGainDbs'], n > 1 ? book.summaryPartGainDbs : undefined)
+                          await saveField(['books', i, 'summaryPartPlaybackRates'], n > 1 ? book.summaryPartPlaybackRates : undefined)
+                          await saveField(['books', i, 'summaryPartSfxs'], n > 1 ? book.summaryPartSfxs : undefined)
                         }} />
                       </>
                     }
-                    footer={p === 0 ? (
+                    footer={
                       <>
-                        <RowSpeakerSelect value={book.summarySpeaker} speakers={speakers} name={`spk-b${i}-summary`}
-                          onChange={next => uB(i, 'summarySpeaker', next)} />
-                        <SegmentSfxEditor sfx={book.summarySfx} files={sfxFiles} basePath={sfxBase}
-                          onChange={next => uB(i, 'summarySfx', next)} />
-                        <GainDbInput value={typeof book.summaryGainDb === 'number' ? book.summaryGainDb : undefined}
-                          onChange={next => uB(i, 'summaryGainDb', next)} sectionKey={key} />
-                        <PlaybackRateInput value={typeof book.summaryPlaybackRate === 'number' ? book.summaryPlaybackRate : undefined}
-                          onChange={next => uB(i, 'summaryPlaybackRate', next)} sectionKey={key} />
+                        <RowSpeakerSelect value={spk} speakers={speakers} name={`spk-b${i}-summary-${p}`}
+                          onChange={next => updateBookPartSetting(i, 'summary', p, 'Speaker', next, n)} />
+                        <SegmentSfxEditor sfx={sfx} files={sfxFiles} basePath={sfxBase}
+                          onChange={next => updateBookPartSetting(i, 'summary', p, 'Sfx', next, n)} />
+                        <GainDbInput value={typeof gain === 'number' ? gain : undefined}
+                          onChange={next => updateBookPartSetting(i, 'summary', p, 'GainDb', next, n)} sectionKey={key} />
+                        <PlaybackRateInput value={typeof rate === 'number' ? rate : undefined}
+                          onChange={next => updateBookPartSetting(i, 'summary', p, 'PlaybackRate', next, n)} sectionKey={key} />
                       </>
-                    ) : undefined}
+                    }
                   />
                 </div>
               )
@@ -212,8 +212,13 @@ export function BookSection({
             return parts.map((partText: string, p: number) => {
               const key = bookKey(i, partPhase('c', 'context', p))
               const partImgs = imagesForPart(imgsCtxMain, parts, p)
+              // 토막별 유효 설정 — 배열값 우선, 없으면 단일값 폴백(토막 1개면 단일값 그대로).
+              const spk = book.contextMainPartSpeakers?.[p] ?? book.contextMainSpeaker
+              const sfx = book.contextMainPartSfxs?.[p] ?? book.contextMainSfx
+              const gain = typeof book.contextMainPartGainDbs?.[p] === 'number' ? book.contextMainPartGainDbs[p] : book.contextMainGainDb
+              const rate = typeof book.contextMainPartPlaybackRates?.[p] === 'number' ? book.contextMainPartPlaybackRates[p] : book.contextMainPlaybackRate
               return (
-                <div key={key} style={accentStyle(book.contextMainSpeaker)}>
+                <div key={key} style={accentStyle(spk)}>
                   <ScenarioRow label={n > 1 ? `감상 배경 ${p + 1}/${n}` : '감상 배경'} role="narrator" value={partText}
                     leadStyle={{ backgroundColor: `rgba(245,158,11,${(0.08 + 0.05 * p).toFixed(3)})` }}
                     barColor="rgba(245,158,11,0.85)"
@@ -230,8 +235,8 @@ export function BookSection({
                     pickMode={picking} onPick={(t) => handlePick(t, 'context')}
                     highlights={partImgs.map((img: CinematicImage) => img.text).filter((t: string | undefined): t is string => !!t)}
                     sectionKey={key} audioUrl={vUrl(key)}
-                    playbackRate={typeof book.contextMainPlaybackRate === 'number' ? book.contextMainPlaybackRate : undefined}
-                    activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, book.contextMainGainDb, book.contextMainPlaybackRate)}
+                    playbackRate={typeof rate === 'number' ? rate : undefined}
+                    activeEngine={activeEngine(key)} isPlaying={playingKey === key} onTogglePlay={() => onTogglePlay(key, gain, rate)}
                     onToggleExpand={() => onToggleExpand(key)}
                     onDrop={fn => dropImage(i, fn, 'context')} onAddAnchor={t => addAnchor(i, t, 'context')}
                     images={<InlineImageRow images={partImgs} {...imgRowProps} />}
@@ -251,21 +256,25 @@ export function BookSection({
                         <SaveButton onSave={async () => {
                           await saveField(['books', i, 'contextMainParts'], n > 1 ? parts : undefined)
                           await saveField(['books', i, 'contextMain'], parts.join('\n\n'))
+                          await saveField(['books', i, 'contextMainPartSpeakers'], n > 1 ? book.contextMainPartSpeakers : undefined)
+                          await saveField(['books', i, 'contextMainPartGainDbs'], n > 1 ? book.contextMainPartGainDbs : undefined)
+                          await saveField(['books', i, 'contextMainPartPlaybackRates'], n > 1 ? book.contextMainPartPlaybackRates : undefined)
+                          await saveField(['books', i, 'contextMainPartSfxs'], n > 1 ? book.contextMainPartSfxs : undefined)
                         }} />
                       </>
                     }
-                    footer={p === 0 ? (
+                    footer={
                       <>
-                        <RowSpeakerSelect value={book.contextMainSpeaker} speakers={speakers} name={`spk-b${i}-context`}
-                          onChange={next => uB(i, 'contextMainSpeaker', next)} />
-                        <SegmentSfxEditor sfx={book.contextMainSfx} files={sfxFiles} basePath={sfxBase}
-                          onChange={next => uB(i, 'contextMainSfx', next)} />
-                        <GainDbInput value={typeof book.contextMainGainDb === 'number' ? book.contextMainGainDb : undefined}
-                          onChange={next => uB(i, 'contextMainGainDb', next)} sectionKey={key} />
-                        <PlaybackRateInput value={typeof book.contextMainPlaybackRate === 'number' ? book.contextMainPlaybackRate : undefined}
-                          onChange={next => uB(i, 'contextMainPlaybackRate', next)} sectionKey={key} />
+                        <RowSpeakerSelect value={spk} speakers={speakers} name={`spk-b${i}-context-${p}`}
+                          onChange={next => updateBookPartSetting(i, 'contextMain', p, 'Speaker', next, n)} />
+                        <SegmentSfxEditor sfx={sfx} files={sfxFiles} basePath={sfxBase}
+                          onChange={next => updateBookPartSetting(i, 'contextMain', p, 'Sfx', next, n)} />
+                        <GainDbInput value={typeof gain === 'number' ? gain : undefined}
+                          onChange={next => updateBookPartSetting(i, 'contextMain', p, 'GainDb', next, n)} sectionKey={key} />
+                        <PlaybackRateInput value={typeof rate === 'number' ? rate : undefined}
+                          onChange={next => updateBookPartSetting(i, 'contextMain', p, 'PlaybackRate', next, n)} sectionKey={key} />
                       </>
-                    ) : undefined}
+                    }
                   />
                 </div>
               )
@@ -288,6 +297,8 @@ export function BookSection({
               vi={vi}
               vUrl={vUrl}
               updateQuotePair={updateQuotePair}
+              updateAfterSplit={updateAfterSplit}
+              updateAfterPartSetting={updateAfterPartSetting}
               handlePick={handlePick}
               onTogglePlay={onTogglePlay}
               onToggleExpand={onToggleExpand}

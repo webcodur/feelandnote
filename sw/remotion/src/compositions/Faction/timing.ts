@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import type { FactionScript, FactionPerson } from './types'
+import type { FactionScript, FactionPerson, FactionEra } from './types'
 import { clampRate, vnPersonQuote } from './voice-names'
 
 export const FPS = 60
@@ -20,6 +20,8 @@ export const INTRO_SEC = 2.5
 export const GROUP_SEC = 2.8
 /** 화보 묶음 카드 1장 — 4명 이상 기준 길이 (묶음 화면 +1s) */
 export const CLUSTER_SEC = 3.3
+/** 시대 구분 카드 1장 (연도순 롱폼) — 시대 명칭을 읽고 넘어갈 시간 */
+export const ERA_SEC = 2.6
 
 /**
  * 그룹샷(화보 묶음) 카드 길이(초) — 등장 인물 수(disabled 제외)에 따라 가변.
@@ -127,16 +129,55 @@ export function creditReadSec(credit: string): number {
   return Math.min(CREDIT_READ_MAX_SEC, Math.max(CREDIT_READ_MIN_SEC, raw))
 }
 
-/** 직함이 한 줄씩 다 떠오르는 데 걸리는 시간(초) — ENTER_NAME_SEC 기준 0. 줄 수 비례 */
+/** 직함이 한 줄씩 다 떠오르는 데 걸리는 시간(초) — ENTER_NAME_SEC 기준 0. 줄 수 비례 (레거시/폴백용) */
 export function creditAppearSec(p: FactionPerson): number {
   const n = creditLinesOf(p).length
   return n > 0 ? (n - 1) * CREDIT_LINE_STAGGER_SEC + ENTER_FADE_SEC : 0
 }
 
+/* ── 직함 줄별 가변 체류 — 긴 줄일수록 다음 줄이 뜨기까지 더 오래 머문다(읽을 시간) ── */
+/** 직함 줄 최소 체류(초) — 짧은 줄도 이만큼은 머문다. 기존 고정 간격과 비슷하게 */
+export const CREDIT_LINE_DWELL_MIN_SEC = 0.45
+/** 직함 줄 최대 체류(초) — 아주 긴 줄이라도 이 이상은 안 머문다 */
+export const CREDIT_LINE_DWELL_MAX_SEC = 1.3
+/** 직함 줄 글자당 추가 체류(초) */
+export const CREDIT_LINE_DWELL_PER_CHAR = 0.03
+
+/** 직함 한 줄의 체류 시간(초) — 다음 줄이 뜨기까지의 간격. 글자 수에 비례(최소·최대 클램프). */
+export function creditLineDwellSec(text: string): number {
+  const len = text?.trim().length ?? 0
+  const raw = CREDIT_LINE_DWELL_MIN_SEC + len * CREDIT_LINE_DWELL_PER_CHAR
+  return Math.min(CREDIT_LINE_DWELL_MAX_SEC, Math.max(CREDIT_LINE_DWELL_MIN_SEC, raw))
+}
+
+/** 직함 리스트에 실제로 뜨는 줄들. 세로 쇼츠는 1번째 줄이 이름 옆에 붙으므로 2·3줄만, 가로 롱폼은 전체. */
+export function creditListLinesOf(p: FactionPerson, shorts: boolean): string[] {
+  const all = creditLinesOf(p)
+  return shorts ? all.slice(1) : all
+}
+
+/** 리스트 각 줄의 등장 시각(초, 리스트 시작 기준) — 앞 줄들의 체류 합. */
+export function creditLineOffsetsSec(p: FactionPerson, shorts: boolean): number[] {
+  const lines = creditListLinesOf(p, shorts)
+  const offs: number[] = []
+  let cur = 0
+  for (let i = 0; i < lines.length; i++) {
+    offs.push(cur)
+    cur += creditLineDwellSec(lines[i])
+  }
+  return offs
+}
+
+/** 직함 리스트 전체 시간(초) — 리스트 시작부터 마지막 줄 읽기까지. = 모든 줄 체류 합 + 초기 페이드. */
+export function creditListSpanSec(p: FactionPerson, shorts: boolean): number {
+  const lines = creditListLinesOf(p, shorts)
+  if (!lines.length) return 0
+  const sum = lines.reduce((s: number, t) => s + creditLineDwellSec(t), 0)
+  return sum + ENTER_FADE_SEC
+}
+
 /** 직함만 있고 대사가 없는 인물 — 직함이 안 사라지고 보이는 최소 컷 길이(초) */
 export const PERSON_MIN_SEC = ENTER_NAME_SEC + ENTER_FADE_SEC + CREDIT_READ_MIN_SEC + 0.8
-
-export type QuoteMode = 'voice' | 'text' | 'credit' | 'full'
 
 /** 대사 처리 스텝(신모델) — 직함·수식어·음성 3개 독립 토글 */
 export interface PersonSteps {
@@ -153,17 +194,31 @@ export interface PersonSteps {
  * - 신모델: step* 불린이 하나라도 정의돼 있으면 그대로 사용.
  * - 레거시: quoteMode(미지정이면 수장=voice·나머지=text·무대사=credit)에서 환산.
  */
-export function personSteps(p: FactionPerson, isLeader: boolean): PersonSteps {
-  if (p.stepVoice !== undefined || p.stepCredit !== undefined || p.stepEpithet !== undefined) {
-    return { credit: !!p.stepCredit, epithet: !!p.stepEpithet, voice: !!p.stepVoice }
+export function personSteps(p: FactionPerson, portrait = false, isLeader = false): PersonSteps {
+  const hasNew = p.stepCreditShorts !== undefined || p.stepEpithetShorts !== undefined || p.stepVoiceShorts !== undefined || p.stepCreditLongform !== undefined || p.stepEpithetLongform !== undefined || p.stepVoiceLongform !== undefined
+  if (hasNew) {
+    if (portrait) {
+      return {
+        credit: !!p.stepCreditShorts,
+        epithet: !!p.stepEpithetShorts,
+        voice: !!p.stepVoiceShorts
+      }
+    } else {
+      return {
+        credit: !!p.stepCreditLongform,
+        epithet: !!p.stepEpithetLongform,
+        voice: !!p.stepVoiceLongform
+      }
+    }
   }
-  const hasQuote = !!(p.quoteChunks?.length || p.quote)
-  const mode: QuoteMode = p.quoteMode ?? (hasQuote ? (isLeader ? 'voice' : 'text') : 'credit')
-  switch (mode) {
-    case 'credit': return { credit: true, epithet: false, voice: false }
-    case 'full': return { credit: true, epithet: false, voice: true }
-    // voice·text — 대사 표시(음원 있으면 재생). 수식어는 텍스트가 있으면 보여준다(기존 자동 동작 보존).
-    default: return { credit: false, epithet: !!p.epithet, voice: hasQuote }
+
+  // legacy fallback
+  const hasQuote = !!(p.quoteChunks?.some(c => c.trim()) || p.quote?.trim())
+  const mode = p.quoteMode ?? (isLeader ? 'voice' : (hasQuote ? 'text' : 'credit'))
+  return {
+    credit: mode === 'credit' || mode === 'text' || mode === 'voice',
+    epithet: mode === 'text' || mode === 'voice',
+    voice: mode === 'voice'
   }
 }
 
@@ -186,12 +241,12 @@ export interface LeadTiming {
 export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = false): LeadTiming {
   const creditRestN = Math.max(0, creditLinesOf(p).length - 1) // 직함 2·3번 줄
   const creditOn = steps.credit && creditRestN > 0
-  // 수식어 리드는 세로 롱폼(LV) 전용 — 쇼츠(S)에서는 띄우지 않는다.
-  const epiOn = !shorts && steps.epithet && !!p.epithet
+  // 수식어 리드는 이제 명시적 스텝 설정(steps.epithet)을 따른다.
+  const epiOn = steps.epithet && !!p.epithet
 
-  // 직함 리드 — 이름 등장(ENTER_NAME) 직후 2·3줄 순차 노출 + 읽기
+  // 직함 리드 — 이름 등장(ENTER_NAME) 뒤 한 박자(stagger) 늦게 리스트 시작, 줄마다 가변 체류(긴 줄=길게).
   const creditEndSec = creditOn
-    ? ENTER_NAME_SEC + creditAppearSec(p) + creditReadSec(creditTextOf(p))
+    ? ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC + creditListSpanSec(p, shorts)
     : ENTER_NAME_SEC
   // 수식어 리드 — 직함 리드(있으면) 뒤를 이어 등장. 나레이터 낭독 시간 + 낭독 후 정지(HOLD)
   const epithetStartSec = (creditOn ? creditEndSec : ENTER_NAME_SEC) + CREDIT_LINE_STAGGER_SEC
@@ -291,7 +346,8 @@ export type Cue =
   | { kind: 'intro' }
   | { kind: 'group'; groupIndex: number }
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
-  | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex?: number; steps: PersonSteps }
+  | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
+  | { kind: 'era'; label: string }
   | { kind: 'outro' }
 
 export interface TimedCue {
@@ -302,11 +358,35 @@ export interface TimedCue {
   duration: number
 }
 
+/** 롱폼 편 개수 — longformLayout의 편 경계(cut) 수 + 1. 경계가 없으면 1(통짜 한 편). */
+export function longformPartCount(script: Pick<FactionScript, 'longformLayout'>): number {
+  const cuts = (script.longformLayout ?? []).filter((it) => 'cut' in it).length
+  return cuts + 1
+}
+
+/**
+ * 롱폼 배치를 편 경계(cut)로 가른 편 구간들 — 각 구간은 세력 블록·시대 문구 카드의 나열.
+ * 배치에 빠진 활성 세력은 누락 방지로 마지막 구간 맨 뒤에 자동으로 붙는다(기존 규칙 유지).
+ */
+export function longformSegments(script: FactionScript): Array<Array<{ era: FactionEra } | { gi: number }>> {
+  type Step = { era: FactionEra } | { gi: number }
+  const segments: Step[][] = [[]]
+  for (const it of script.longformLayout ?? []) {
+    if ('cut' in it) { segments.push([]); continue }
+    segments[segments.length - 1].push('group' in it ? { gi: it.group } : { era: it.era })
+  }
+  const placed = new Set((script.longformLayout ?? []).flatMap((it) => ('group' in it ? [it.group] : [])))
+  script.groups.forEach((g, gi) => { if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push({ gi }) })
+  return segments
+}
+
 /**
  * 스크립트 → 시간순 컷 배열. 각 컷에 start·duration을 부여한다.
  * part가 지정되면(쇼츠 편 분할) 그 part 세력만 포함한다. 미지정이면 전체.
+ * lvPart가 지정되면(롱폼 편 분할, 1-based) longformLayout의 편 경계(cut)로 가른 그 편 구간만 포함한다.
+ * 경계가 없으면 lvPart는 무시된다(전체). 각 편은 자체 인트로·아웃트로를 갖는다.
  */
-export function buildCues(script: FactionScript, portrait = false, part?: number): TimedCue[] {
+export function buildCues(script: FactionScript, portrait = false, part?: number, lvPart?: number): TimedCue[] {
   const cues: TimedCue[] = []
   let cursor = 0
   const push = (cue: Cue, sec: number) => {
@@ -315,45 +395,60 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   }
 
   push({ kind: 'intro' }, script.introSec ?? INTRO_SEC)
-  script.groups.forEach((group, gi) => {
+
+  // ── 롱폼 배치 — 롱폼이고 longformLayout이 있으면 그 순서대로(세력 블록 + 시대 문구 카드)를 따른다.
+  //    쇼츠·미설정 롱폼은 세력 배열 순서. 항목 한 칸 = 시대 문구 카드(era) 또는 세력 블록(gi) 또는 편 경계(cut).
+  //    세력은 원래 인덱스를 보존하므로 세력도감 구도·음원·자막 키가 그대로 유효하다. ──
+  type Step = { era: FactionEra } | { gi: number }
+  let steps: Step[]
+  if (!portrait && script.longformLayout?.length) {
+    const segments = longformSegments(script)
+    // 롱폼 편 지정 + 경계가 실제로 있을 때만 그 편 구간으로 좁힌다. 그 외엔 전체(경계 무시하고 이어붙임).
+    steps = segments.length > 1 && lvPart != null
+      ? segments[lvPart - 1] ?? []
+      : segments.flat()
+  } else {
+    steps = script.groups.map((_, gi): Step => ({ gi }))
+  }
+
+  steps.forEach((step) => {
+    // 시대 문구 카드 — 세력 블록 사이에 끼우는 장(章) 표지.
+    if ('era' in step) { push({ kind: 'era', label: step.era.label }, ERA_SEC); return }
+    const gi = step.gi
+    const group = script.groups[gi]
     // 비활성화 세력은 컷을 아예 만들지 않는다 — 타이틀·화보·인물 전부 스킵. 데이터는 보존된다.
-    if (group.disabled) return
+    if (!group || group.disabled) return
     // 세로 쇼츠는 롱폼 전용 세력을 건너뛴다(쇼츠 3분 제한 대응). 가로 롱폼에는 그대로 노출.
     if (portrait && group.longformOnly) return
-    // 쇼츠 편 분할 — part 지정 시 다른 편 세력은 제외(세력 part 미지정이면 모든 편에 노출)
-    if (part != null && group.part != null && group.part !== part) return
-    // 타이틀 카드(로고) — titleArt가 있는 세력만 진입 컷을 둔다. 없으면 화보(그룹샷)부터 시작.
-    if (group.titleArt) push({ kind: 'group', groupIndex: gi }, GROUP_SEC)
+    // 쇼츠 편 분할 — part 지정 시 다른 편 세력은 제외(세력 part 미지정이면 모든 편에 노출). 롱폼 편(lvPart)과 무관.
+    if (portrait && part != null && group.part != null && group.part !== part) return
+    // 타이틀 카드(로고) — 로고(logoVid 또는 logoImg)가 있는 세력만 진입 컷을 둔다. 없으면 화보(그룹샷)부터 시작.
+    if (group.logoVid || group.logoImg) push({ kind: 'group', groupIndex: gi }, GROUP_SEC)
     // 세력별 수장(첫 등장 인물) 자동 voice 판정용. 그룹 단위로 추적.
     let leaderAssigned = false
-    // solo(무소속 개인군)는 화보 없이 인물 컷만
-    if (group.solo) {
-      ;(group.people ?? []).forEach((person, pi) => {
-        if (person.disabled) return
-        const isLeader = !leaderAssigned; leaderAssigned = true
-        const steps = personSteps(person, isLeader)
-        push({ kind: 'person', groupIndex: gi, personIndex: pi, steps }, personDurationSec(person, steps, portrait))
-      })
-      return
-    }
-    const clusterCount = group.clusters?.length ?? 1
-    for (let ci = 0; ci < clusterCount; ci++) {
-      const cluster = group.clusters?.length ? group.clusters[ci] : undefined
-      // 세로 쇼츠는 롱폼 전용 묶음을 건너뛴다(쇼츠 길이 대응). 가로 롱폼에는 그대로 노출.
-      if (portrait && cluster?.longformOnly) continue
-      const people = cluster ? cluster.people : group.people
-      // 화보 카드 — 묶음마다 진입(브릿지) 컷. 1명 묶음도 단독 화보로 진입한다.
+    // 모든 세력이 그룹(clusters)을 돈다. solo(무소속 개인군)는 화보 컷만 생략하고 인물 컷은 동일.
+    // (clustersOf 를 쓰지 않는다 — utils↔timing 순환 참조 방지. 그룹명 폴백은 여기 불필요)
+    const clusters = group.clusters ?? []
+    for (let ci = 0; ci < clusters.length; ci++) {
+      const cluster = clusters[ci]
+      // 세로 쇼츠는 롱폼 전용 그룹을 건너뛴다(쇼츠 길이 대응). 가로 롱폼에는 그대로 노출.
+      if (portrait && cluster.longformOnly) continue
+      const people = cluster.people
+      // 화보 카드 — 그룹마다 진입(브릿지) 컷. 1명 그룹도 단독 화보로 진입한다.
       // 등장 인물 수(disabled 제외)에 따라 길이를 줄인다 — 인원이 적으면 짧게.
-      const shotCount = (people ?? []).filter((p) => !p.disabled).length
-      // 노출 인물 1명 + 단체 화보(cluster.image) 없음 → 화보(브릿지) 카드를 생략한다.
-      // 로고(titleArt)로 진입해 바로 인물 컷으로 넘어간다. 소제목(label)은 로고 카드가 흡수(GroupCard).
-      if (!(shotCount === 1 && !cluster?.image)) {
+      const shotCount = (people ?? []).filter((p) => !p.disabled && !(portrait && p.longformOnly)).length
+      // solo 세력은 화보 컷을 생략한다(인물 컷만 순차 노출).
+      // 노출 인물 1명 + 단체 화보(cluster.image) 없음 → 역시 화보(브릿지) 카드를 생략한다.
+      // 로고(logoVid·logoImg)로 진입해 바로 인물 컷으로 넘어간다. 소제목(label)은 로고 카드가 흡수(GroupCard).
+      if (!group.solo && !(shotCount === 1 && !cluster.image)) {
         push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterDurationSec(shotCount))
       }
       ;(people ?? []).forEach((person, pi) => {
         if (person.disabled) return
+        // 인물 단위 롱폼 전용 — 세로 쇼츠에서만 제외, 가로 롱폼에는 노출
+        if (portrait && person.longformOnly) return
         const isLeader = !leaderAssigned; leaderAssigned = true
-        const steps = personSteps(person, isLeader)
+        const steps = personSteps(person, portrait, isLeader)
         push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci, steps }, personDurationSec(person, steps, portrait))
       })
     }
@@ -366,11 +461,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     if (lastCue.cue.kind === 'person') {
       const c = lastCue.cue
       const g = script.groups[c.groupIndex]
-      const clusterPeople = c.clusterIndex != null ? g.clusters?.[c.clusterIndex]?.people ?? [] : []
-      const groupPeople = g.people ?? []
-      const person = c.clusterIndex != null
-        ? clusterPeople[c.personIndex] ?? groupPeople[c.personIndex]
-        : groupPeople[c.personIndex]
+      const person = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
       // 대사 끝 시점 + 종료 꼬리. (person 못 찾는 예외 시엔 기존 길이에 꼬리만 덧댄다)
       lastCue.duration = person ? f(personQuoteEndSec(person, c.steps, portrait)) + holdF : lastCue.duration + holdF
     } else {
@@ -391,8 +482,8 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
 }
 
 /** 영상 총 프레임 수 */
-export function calcTotalFrames(script: FactionScript, portrait = false, part?: number): number {
-  const cues = buildCues(script, portrait, part)
+export function calcTotalFrames(script: FactionScript, portrait = false, part?: number, lvPart?: number): number {
+  const cues = buildCues(script, portrait, part, lvPart)
   const last = cues[cues.length - 1]
   return last ? last.start + last.duration : f(INTRO_SEC + ENDING_FADE_SEC)
 }
@@ -436,19 +527,15 @@ export interface TimingReport {
  * 각 voice 인물 컷에 대해 음성이 컷 안에 온전히 들어가는지(tailRoom)를 계산한다.
  * wav 실측과의 대조는 호출 측(CLI)에서 quoteDuration 과 비교해 수행한다.
  */
-export function analyzeTiming(script: FactionScript, portrait = false, part?: number): TimingReport {
-  const cues = buildCues(script, portrait, part)
+export function analyzeTiming(script: FactionScript, portrait = false, part?: number, lvPart?: number): TimingReport {
+  const cues = buildCues(script, portrait, part, lvPart)
   const voiceChecks: PersonAudioCheck[] = []
   for (const tc of cues) {
     // 음성 스텝이 켜진 컷만 정합성 검사 대상.
     if (tc.cue.kind !== 'person' || !tc.cue.steps.voice) continue
     const c = tc.cue
     const g = script.groups[c.groupIndex]
-    const clusterPeople = c.clusterIndex != null ? g.clusters?.[c.clusterIndex]?.people ?? [] : []
-    const groupPeople = g.people ?? []
-    const person: FactionPerson | undefined = c.clusterIndex != null
-      ? clusterPeople[c.personIndex] ?? groupPeople[c.personIndex]
-      : groupPeople[c.personIndex]
+    const person: FactionPerson | undefined = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
     if (!person) continue
     const cutSec = tc.duration / FPS
     const audioPlaySec = personAudioPlaySec(person)

@@ -23,8 +23,8 @@ export interface EleAccount {
 
 /** 계정 정의표 — 환경변수명 ↔ 식별자 ↔ 라벨. 계정 추가는 여기 한 줄. */
 const ACCOUNT_DEFS: ReadonlyArray<{ id: string; label: string; envVar: string }> = [
-  { id: 'feelandnote', label: 'feelandnote', envVar: 'ELEVENLABS_API_KEY_FEELANDNOTE' },
   { id: 'default', label: '기본', envVar: 'ELEVENLABS_API_KEY' },
+  { id: 'feelandnote', label: 'feelandnote', envVar: 'ELEVENLABS_API_KEY_FEELANDNOTE' },
 ]
 
 /**

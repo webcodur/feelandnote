@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 const TABS = [
   { label: 'Scenario', segment: 'scenario' },
   { label: 'YouTube', segment: 'youtube' },
+  { label: 'Cards', segment: 'cards' },
 ] as const
 
 export function TabNav({ basePath }: { basePath: string }) {

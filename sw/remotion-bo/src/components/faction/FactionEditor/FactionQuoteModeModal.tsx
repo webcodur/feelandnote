@@ -1,6 +1,6 @@
 'use client'
 
-import type { FactionScript } from '@/lib/faction-types'
+import type { FactionScript, FactionPerson } from '@/lib/faction-types'
 import { factionVoiceFile } from '@/lib/faction-voice'
 import { factionStepsOf, applyFactionSteps, type FactionSteps } from '../shared/timing'
 
@@ -25,27 +25,25 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
   onChange: (next: FactionScript) => void
   onClose: () => void
 }) {
-  const toggleStep = (gi: number, ci: number | null, pi: number, key: keyof FactionSteps, isLeader: boolean) => {
+  const toggleStep = (gi: number, ci: number, pi: number, key: keyof FactionSteps, isLeader: boolean) => {
     const next = JSON.parse(JSON.stringify(script)) as FactionScript
-    const g = next.groups[gi]
-    const ppl = ci != null && g.clusters ? g.clusters[ci].people : g.people
+    const ppl = next.groups[gi]?.clusters?.[ci]?.people
     if (!ppl?.[pi]) return
-    const cur = factionStepsOf(ppl[pi], isLeader)
-    ppl[pi] = applyFactionSteps(ppl[pi], { ...cur, [key]: !cur[key] })
+    const cur = factionStepsOf(ppl[pi], false, isLeader)
+    ppl[pi] = applyFactionSteps(ppl[pi], { ...cur, [key]: !cur[key] }, false)
     onChange(next)
   }
 
   // 수식어 표시 방식 — 낭독(나레이터 음성) / 타이핑(소리+글자) 중 선택
-  const setEpithetNarrate = (gi: number, ci: number | null, pi: number, val: boolean) => {
+  const setEpithetNarrate = (gi: number, ci: number, pi: number, val: boolean) => {
     const next = JSON.parse(JSON.stringify(script)) as FactionScript
-    const g = next.groups[gi]
-    const ppl = ci != null && g.clusters ? g.clusters[ci].people : g.people
+    const ppl = next.groups[gi]?.clusters?.[ci]?.people
     if (!ppl?.[pi]) return
     ppl[pi] = { ...ppl[pi], epithetNarrate: val }
     onChange(next)
   }
   // 현재 표시 방식 — 명시값 우선, 미지정이면 음원 있으면 낭독·없으면 타이핑(렌더 epithetIsNarrated와 동일)
-  const isNarrated = (p: FactionScript['groups'][number]['people'][number]) =>
+  const isNarrated = (p: FactionPerson) =>
     p.epithetNarrate !== undefined ? p.epithetNarrate : !!(p.epithetDuration && p.epithetDuration > 0)
 
   return (
@@ -60,9 +58,7 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
         <div className="space-y-4">
           {(script.groups ?? []).map((g, gi) => {
             if (g.disabled) return null
-            const clusters = g.clusters?.length
-              ? g.clusters.map((c, ci) => ({ people: c.people ?? [], ci: ci as number | null }))
-              : [{ people: g.people ?? [], ci: null as number | null }]
+            const clusters = (g.clusters ?? []).map((c, ci) => ({ people: c.people ?? [], ci }))
             let leaderSeen = false
             return (
               <div key={gi}>
@@ -73,9 +69,9 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
                       if (p.disabled) return null
                       const isLeader = !leaderSeen
                       leaderSeen = true
-                      const steps = factionStepsOf(p, isLeader)
+                      const steps = factionStepsOf(p, false, isLeader)
                       const quoteText = p.quoteChunks?.filter(c => c.trim()).join(' ') || p.quote || ''
-                      const voiceFile = factionVoiceFile(gi, pi, !!g.solo, ci ?? undefined)
+                      const voiceFile = factionVoiceFile(gi, pi, ci)
                       const audioUrl = `/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}`
                       return (
                         <div key={`${ci}-${pi}`} className="space-y-1 rounded-md bg-bg-main/40 px-2 py-1.5">
@@ -103,6 +99,29 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
                                       key={label}
                                       type="button"
                                       onClick={() => setEpithetNarrate(gi, ci, pi, val)}
+                                      className={`rounded border px-2 py-0.5 text-xs ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+                                    >
+                                      {label}
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                            ) : null}
+                            {/* 직함 스텝이 켜진 인물만 — 순차등장(페이드인) / 타이핑 선택 */}
+                            {steps.credit && (p.lines?.length ?? 0) > 0 ? (
+                              <div className="ml-1 flex items-center gap-1 border-l border-border pl-2">
+                                {([['순차등장', false], ['⌨ 타이핑', true]] as const).map(([label, val]) => {
+                                  const active = !!p.linesTyping === val
+                                  return (
+                                    <button
+                                      key={label}
+                                      type="button"
+                                      onClick={() => {
+                                        const next = JSON.parse(JSON.stringify(script)) as FactionScript
+                                        const ppl = next.groups[gi]?.clusters?.[ci]?.people
+                                        if (ppl?.[pi]) ppl[pi] = { ...ppl[pi], linesTyping: val }
+                                        onChange(next)
+                                      }}
                                       className={`rounded border px-2 py-0.5 text-xs ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                                     >
                                       {label}

@@ -6,55 +6,130 @@
  * 계산해 재생·재생성할 수 있게 한다.
  *
  * 핵심 규칙(렌더와 동일):
- *   - solo(무소속 개인군) 세력  → F{gi+1}P{pi+1}-quote.wav        (C 없음)
- *   - 그 외 세력(묶음 유무 무관) → F{gi+1}C{ci+1}P{pi+1}-quote.wav (묶음 없으면 C01)
- *   - personIndex 는 묶음별(또는 묶음 없을 때 세력) 로컬 인덱스다.
+ *   - 모든 세력(solo 포함) → F{gi+1}C{ci+1}P{pi+1}-quote.wav — 인물은 항상 그룹(clusters) 안에 있으므로 C 자리가 항상 있다.
+ *   - personIndex 는 그룹(cluster) 내 로컬 인덱스다.
  */
+
+import type { FactionGroup } from './faction-types'
 
 /**
  * 인물 대사 음성 파일명. 0패딩으로 정렬 순서 보장.
- * 예: F01P01-quote.wav / 분할 세력 F02C01P03-quote.wav
+ * 예: F01C01P01-quote.wav
  *
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnPersonQuote 와 규칙이 100% 일치해야 한다.
  *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
  */
-export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIndex?: number): string {
+export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIndex: number): string {
   const g = `F${String(groupIndex + 1).padStart(2, '0')}`
-  const c = clusterIndex != null ? `C${String(clusterIndex + 1).padStart(2, '0')}` : ''
+  const c = `C${String(clusterIndex + 1).padStart(2, '0')}`
   const p = `P${String(personIndex + 1).padStart(2, '0')}`
   return `${g}${c}${p}-quote.wav`
 }
 
 /**
  * 인물 수식어 나레이션 음성 파일명 — 대사(quote)와 같은 자리 규칙, 접미사만 -epithet.
- * 예: F01P01-epithet.wav / 분할 세력 F02C01P03-epithet.wav.
+ * 예: F01C01P01-epithet.wav.
  *
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnPersonEpithet 와 규칙이 일치해야 한다.
  */
-export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex?: number): string {
+export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex: number): string {
   const g = `F${String(groupIndex + 1).padStart(2, '0')}`
-  const c = clusterIndex != null ? `C${String(clusterIndex + 1).padStart(2, '0')}` : ''
+  const c = `C${String(clusterIndex + 1).padStart(2, '0')}`
   const p = `P${String(personIndex + 1).padStart(2, '0')}`
   return `${g}${c}${p}-epithet.wav`
 }
 
 /**
- * 세력·묶음·인물 좌표로 음성 파일명을 만든다.
+ * 세력·그룹·인물 좌표로 음성 파일명을 만든다.
  *
- * @param groupIndex  세력 인덱스 (0-based)
- * @param personIndex 묶음 내(또는 묶음 없을 때 세력 내) 로컬 인물 인덱스 (0-based)
- * @param solo        무소속 개인군 세력 여부 — true면 C 미부착
- * @param clusterIndex 묶음 인덱스 (분할 세력) — 미지정이고 비-solo면 C01(=0)로 정규화
+ * @param groupIndex   세력 인덱스 (0-based)
+ * @param personIndex  그룹 내 로컬 인물 인덱스 (0-based)
+ * @param clusterIndex 그룹 인덱스 (0-based) — 항상 존재(안 나눈 세력·solo 포함 clusters[0])
  */
 export function factionVoiceFile(
   groupIndex: number,
   personIndex: number,
-  solo: boolean,
-  clusterIndex?: number,
+  clusterIndex: number,
   kind: 'quote' | 'epithet' = 'quote',
 ): string {
   const fn = kind === 'epithet' ? vnPersonEpithet : vnPersonQuote
-  if (solo) return fn(groupIndex, personIndex)
-  // 비-solo 세력은 묶음이 없어도 렌더가 단일 묶음(C01)으로 정규화한다.
-  return fn(groupIndex, personIndex, clusterIndex ?? 0)
+  return fn(groupIndex, personIndex, clusterIndex)
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * 위치(F·C·P) 기반 음원 재배치 — 세력·묶음·인물을 옮기면 그 자리의 wav 파일명도 함께 옮겨야
+ * 옛 음원이 다른 인물 목소리로 새지 않는다. reorder API(/faction-voice/<ep>/reorder)에 넘길
+ * rename 목록을 만든다. quote·epithet 두 음원을 모두 포함한다(둘 다 위치 기반).
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/** 음원 재배치 한 쌍 — from 파일명을 to 파일명으로 옮긴다. */
+export type FactionRename = { from: string; to: string }
+
+const KINDS = ['quote', 'epithet'] as const
+
+/** 한 세력의 모든 인물 음원 슬롯 — (clusterIndex, personIndex). 항상 clusters 경유. */
+function groupSlots(group: FactionGroup): { clusterIndex: number; personIndex: number }[] {
+  const slots: { clusterIndex: number; personIndex: number }[] = []
+  ;(group.clusters ?? []).forEach((c, ci) => (c.people ?? []).forEach((_, pi) => slots.push({ clusterIndex: ci, personIndex: pi })))
+  return slots
+}
+
+/**
+ * 세력 블록 하나를 fromG 자리에서 toG 자리로 옮길 때의 음원 rename 목록(quote+epithet).
+ * 세력 내부 구성(그룹·인물 위치)은 그대로라 C·P는 유지되고 F(세력 번호)만 바뀐다.
+ */
+export function buildGroupMoveRenames(group: FactionGroup, fromG: number, toG: number): FactionRename[] {
+  if (fromG === toG) return []
+  return groupSlots(group).flatMap(s =>
+    KINDS.map(kind => ({
+      from: factionVoiceFile(fromG, s.personIndex, s.clusterIndex, kind),
+      to: factionVoiceFile(toG, s.personIndex, s.clusterIndex, kind),
+    })),
+  )
+}
+
+/**
+ * 한 세력(groupIndex) 안에서 그룹 fromCi 의 인물들을 그룹 toCi 자리로 옮길 때의 rename 목록.
+ * (그룹 swap 은 두 방향을 합쳐 넘긴다.) F·P는 유지되고 C(그룹 번호)만 바뀐다.
+ */
+export function buildClusterMoveRenames(group: FactionGroup, groupIndex: number, fromCi: number, toCi: number): FactionRename[] {
+  if (fromCi === toCi) return []
+  const people = group.clusters?.[fromCi]?.people ?? []
+  return people.flatMap((_, pi) =>
+    KINDS.map(kind => ({
+      from: factionVoiceFile(groupIndex, pi, fromCi, kind),
+      to: factionVoiceFile(groupIndex, pi, toCi, kind),
+    })),
+  )
+}
+
+/**
+ * 같은 세력·그룹 안에서 인물 pi ↔ pj 음원을 맞바꾸는 rename 목록(quote+epithet 양방향).
+ */
+export function buildPersonSwapRenames(groupIndex: number, pi: number, pj: number, clusterIndex: number): FactionRename[] {
+  return KINDS.flatMap(kind => [
+    { from: factionVoiceFile(groupIndex, pi, clusterIndex, kind), to: factionVoiceFile(groupIndex, pj, clusterIndex, kind) },
+    { from: factionVoiceFile(groupIndex, pj, clusterIndex, kind), to: factionVoiceFile(groupIndex, pi, clusterIndex, kind) },
+  ])
+}
+
+/**
+ * reorder API 호출 — 디스크 wav + 발화시각(data.timing·2-word-timings) 키를 한꺼번에 안전 재배치한다.
+ * 겹치는 from/to(swap)는 서버가 임시명 경유로 처리한다. 없는 파일은 조용히 skip.
+ * @returns ok=true 면 성공(또는 옮길 게 없음). 실패 시 error 메시지.
+ */
+export async function reorderFactionVoice(series: string, episode: string, renames: FactionRename[]): Promise<{ ok: boolean; error?: string }> {
+  const valid = renames.filter(r => r.from !== r.to)
+  if (valid.length === 0) return { ok: true }
+  try {
+    const res = await fetch(`/api/${series}/faction-voice/${encodeURIComponent(episode)}/reorder`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ renames: valid }),
+    })
+    if (!res.ok) return { ok: false, error: `${res.status} ${await res.text().catch(() => '')}` }
+    return { ok: true }
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : String(e) }
+  }
 }

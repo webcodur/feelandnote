@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { runTask } from '@/lib/server-utils'
+import { runTask, runTaskSequence } from '@/lib/server-utils'
 import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
 
 function guard(series: string) {
@@ -21,7 +21,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!guard(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  const { episode, engine, only, normalize, force, normalizeOnly } = await req.json().catch(() => ({}))
+  const { episode, engine, only, normalize, force, normalizeOnly, thenAlign, lang } = await req.json().catch(() => ({}))
   if (!episode || typeof episode !== 'string') {
     return NextResponse.json({ error: 'episode required' }, { status: 400 })
   }
@@ -36,6 +36,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     if (normalize !== false) args.push('--normalize')
     if (only && typeof only === 'string') args.push('--only', only)
     if (force) args.push('--force')
+  }
+
+  // 「정렬까지 수행」 토글: 특정 인물(only) 생성 직후 받아쓰기·발화시각 정렬을 같은 작업으로
+  // 이어 실행한다. 팩션엔 의미 분할(chunk)이 없다. 정렬 산출물은 ko 기준(음원이 ko 기준).
+  if (thenAlign && only && typeof only === 'string' && !normalizeOnly) {
+    const locale = lang === 'en' ? 'en' : 'ko'
+    const onlyKey = only.replace(/\.wav$/i, '')
+    const transcribeArgs = ['voice:transcribe', '--', '--episode', episode, '--faction', '--lang', locale, '--only', onlyKey]
+    const alignArgs = ['voice:faction-align', '--', '--episode', episode, '--lang', locale, '--only', onlyKey]
+    const task = runTaskSequence('voice:faction', series, episode, [args, transcribeArgs, alignArgs])
+    return NextResponse.json({ taskId: task.id })
   }
 
   const task = runTask('voice:faction', series, episode, args)

@@ -16,9 +16,9 @@ import {
 import { loadEpisode, toPascal } from '@/lib/server-utils'
 import { loadFactionEpisode } from '@/lib/faction-utils'
 
-const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
-const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
-const FACTION_LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'faction-lineup.json')
+// 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ · scripts/ 를 fs로 읽고 씀). 빌드 타임 정적 분석·prerender 대상이 아님.
+// 경로 상수를 모듈 최상위에 두면 Turbopack이 out/ 디렉토리를 번들 자산으로 추적하다 깨진다 → 사용처 함수 내부에서 런타임 계산.
+export const dynamic = 'force-dynamic'
 
 type YTVideoItem = {
   id: string
@@ -50,6 +50,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
   if (isFactionSeries(series)) return factionSyncGet()
+
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
+  const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
 
   // lineup.json 로드
   let lineupAll: Record<string, EpisodeMeta> = {}
@@ -172,6 +175,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
   if (isFactionSeries(series)) return factionSyncPost(req)
+
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
+  const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
 
   const { action, episode, variant } = await req.json() as {
     action: 'push' | 'push-all' | 'preview' | 'preview-all' | 'remove' | 'purge'
@@ -333,6 +339,7 @@ type VariantPushData = {
  * 실제 API 호출은 하지 않는다. push/preview 양쪽에서 공유.
  */
 async function buildVariantPushData(series: string, episode: string, variant: string, meta: EpisodeMeta): Promise<VariantPushData> {
+  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   // 옵션 2: variant 키 파싱 — ko-longform | ko-shorts-1 | ko-shorts-2 … (1-based)
   const parts = variant.split('-')
   const lang = parts[0] as 'ko' | 'en'
@@ -417,25 +424,27 @@ async function previewVariant(series: string, episode: string, variant: string, 
 type FactionLineup = Record<string, { uploads?: Record<string, { videoId: string; uploadedAt: string }> }>
 
 async function readFactionLineup(): Promise<FactionLineup> {
+  const FACTION_LINEUP_PATH = path.join(process.cwd(), '..', 'remotion', 'scripts', 'youtube', 'faction-lineup.json')
   try {
     if (existsSync(FACTION_LINEUP_PATH)) return JSON.parse(await readFile(FACTION_LINEUP_PATH, 'utf-8'))
   } catch { /* ignore */ }
   return {}
 }
 
-function factionVariantOf(groups: ReadonlyArray<{ part?: number; disabled?: boolean }>, variantKey: string) {
-  return factionVariants(groups).find(v => v.key === variantKey)
+function factionVariantOf(data: FactionMetaInput, variantKey: string) {
+  return factionVariants(data.groups, data.longformLayout).find(v => v.key === variantKey)
 }
 
-/** 에피소드 data.json + variant 로 YouTube 에 PUT 할 snippet 조립 */
+/** 에피소드 faction-data.json + variant 로 YouTube 에 PUT 할 snippet 조립 */
 async function factionSnippetFor(episode: string, variantKey: string) {
   const data = await loadFactionEpisode(episode) as unknown as FactionMetaInput
-  const v = factionVariantOf(data.groups, variantKey)
+  const v = factionVariantOf(data, variantKey)
   const isShorts = v?.isShorts ?? variantKey.includes('shorts')
   const part = v?.part
-  const title = buildFactionTitle(data, 'ko', isShorts, part)
-  const description = buildFactionDescription(data, 'ko', isShorts, part)
-  const tags = buildFactionTags(data, 'ko', isShorts, part)
+  const lvPart = v?.lvPart
+  const title = buildFactionTitle(data, 'ko', isShorts, part, lvPart)
+  const description = buildFactionDescription(data, 'ko', isShorts, part, lvPart)
+  const tags = buildFactionTags(data, 'ko', isShorts, part, lvPart)
   return buildFactionSnippet({ title, description, tags, lang: 'ko' })
 }
 
@@ -471,8 +480,8 @@ async function factionSyncGet() {
       let localTitle = ''
       try {
         const data = await loadFactionEpisode(name) as unknown as FactionMetaInput
-        const v = factionVariantOf(data.groups, item.variant)
-        localTitle = buildFactionTitle(data, 'ko', v?.isShorts ?? item.variant.includes('shorts'), v?.part)
+        const v = factionVariantOf(data, item.variant)
+        localTitle = buildFactionTitle(data, 'ko', v?.isShorts ?? item.variant.includes('shorts'), v?.part, v?.lvPart)
       } catch { localTitle = '?' }
       const diffs: string[] = []
       if (ytVideo.snippet.title !== localTitle) diffs.push('title')
@@ -499,6 +508,7 @@ async function factionSyncPost(req: Request) {
   }
   if (!action) return NextResponse.json({ error: 'action required' }, { status: 400 })
 
+  const FACTION_LINEUP_PATH = path.join(process.cwd(), '..', 'remotion', 'scripts', 'youtube', 'faction-lineup.json')
   const lineupAll = await readFactionLineup()
 
   if (action === 'purge') {
