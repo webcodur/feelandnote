@@ -241,3 +241,4 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 - **태그 아이디어 후보**: `docs/todo/tag-ideas.md`
 - **스포트라이트 페이지**: `sw/web/src/app/[locale]/(main)/explore/spotlight/page.tsx`
 - **getFeaturedTags 액션**: `sw/web/src/actions/home/getFeaturedTags.ts`
+- **팩션 인물 반영·이미지 3종(아바타·개인샷·그룹샷)·상위 그룹·캐시 무효화**: 스킬 `spotlight-celeb-sync` (`.agents/skills/spotlight-celeb-sync/SKILL.md`). 상위 그룹 개편 기록은 `docs/project/spotlight-ai-group-refactor.md`.

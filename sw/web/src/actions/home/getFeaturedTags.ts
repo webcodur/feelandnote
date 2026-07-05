@@ -8,6 +8,7 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
+import { SPOTLIGHT_GROUP_SLUGS, SPOTLIGHT_CHILD_TO_GROUP } from '@/constants/spotlightGroups'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -28,6 +29,10 @@ export interface FeaturedTag {
   team_images: string[]
   celebs: FeaturedCeleb[]
   is_featured: boolean
+  /** 이 태그가 속한 상위 그룹 slug (자식이면 'ai', 최상위면 null) */
+  parentSlug?: string | null
+  /** 이 태그가 그룹 헤더인지 (자식을 접었다 펴는 상위 카드) */
+  isGroup?: boolean
 }
 
 // --- 조회 행 타입 (select 문자열과 1:1 대응) ---
@@ -188,8 +193,11 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   const result: FeaturedTag[] = []
 
   for (const tag of activeTags) {
+    const tagSlug = tag.slug ?? ''
+    const isGroup = SPOTLIGHT_GROUP_SLUGS.has(tagSlug)
+    const parentSlug = SPOTLIGHT_CHILD_TO_GROUP[tagSlug] ?? null
     const assignments = assignmentsByTag[tag.id] ?? []
-    if (!assignments.length) continue
+    if (!assignments.length && !isGroup) continue // 그룹 헤더는 배정이 없어도 목록에 포함한다
 
     const celebs: FeaturedCeleb[] = assignments
       .map((a): FeaturedCeleb | null => {
@@ -244,23 +252,26 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       })
       .filter((c): c is FeaturedCeleb => c !== null)
 
-    if (celebs.length > 0) {
+    if (celebs.length > 0 || isGroup) {
       result.push({
         id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
         description: tag.description, description_en: tag.description_en ?? null,
         color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
-        celebs, is_featured: true,
+        celebs, is_featured: true, parentSlug, isGroup,
       })
     }
   }
 
   // 비활성 태그 추가
   for (const tag of upcomingTags) {
+    const tagSlug = tag.slug ?? ''
     result.push({
       id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
       description: tag.description, description_en: tag.description_en ?? null,
       color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
       celebs: [], is_featured: false,
+      parentSlug: SPOTLIGHT_CHILD_TO_GROUP[tagSlug] ?? null,
+      isGroup: SPOTLIGHT_GROUP_SLUGS.has(tagSlug),
     })
   }
 

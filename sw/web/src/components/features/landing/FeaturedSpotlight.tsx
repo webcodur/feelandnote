@@ -40,11 +40,12 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
 
   const isExplore = location === "explore-pc" || location === "explore-mb";
   
-  const initialIndex = initialTagId
-    ? Math.max(0, tags.findIndex(t => t.id === initialTagId))
-    : 0;
+  const initialFound = initialTagId ? tags.findIndex(t => t.id === initialTagId) : -1;
+  // 그룹 헤더 태그로 진입한 경우(예: /spotlight/ai)는 개별 테마가 아니므로 컬렉션 화면으로 연다.
+  const initialIsGroup = initialFound >= 0 && !!tags[initialFound]?.isGroup;
+  const initialIndex = initialFound >= 0 && !initialIsGroup ? initialFound : 0;
 
-  const startIdx = isExplore && !initialTagId ? -1 : initialIndex;
+  const startIdx = (isExplore && !initialTagId) || initialIsGroup ? -1 : initialIndex;
   const [activeTagIndex, setActiveTagIndex] = useState(startIdx);
   const { handleSubtitle: setSubtitleData } = useDialogueSubtitle();
   const [viewMode, setViewMode] = useState<ViewMode>("spotlight");
@@ -57,7 +58,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
   useEffect(() => {
     if (tagParam) {
       const idx = tags.findIndex((t) => t.id === tagParam);
-      if (idx !== -1) setActiveTagIndex(idx);
+      if (idx !== -1) setActiveTagIndex(tags[idx]?.isGroup ? -1 : idx);
     } else if (isExplore && !initialTagId) {
       // slug로 들어온 경우(initialTagId 존재)는 해당 테마를 유지. 쿼리·slug 없을 때만 컬렉션 화면으로.
       setActiveTagIndex(-1);
