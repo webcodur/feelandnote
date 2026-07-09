@@ -16,7 +16,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, voice_id_ko, voice_id_en')
+    .select('id, slug, nickname, gender, voice_id_ko, voice_id_en')
     .eq(keyColumn(slug), slug)
     .eq('profile_type', 'CELEB')
     .maybeSingle()

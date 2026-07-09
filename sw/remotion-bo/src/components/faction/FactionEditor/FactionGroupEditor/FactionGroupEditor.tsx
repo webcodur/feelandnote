@@ -28,6 +28,7 @@ type Props = {
   episodeName: string
   musicList: string[]
   editLang: EditLang
+  onMoveCrossGroup?: (clusterIndex: number, personIndex: number) => void
 }
 
 const DEFAULT_COLOR = '#92400e'
@@ -48,7 +49,7 @@ function celebToPerson(c: CelebResult): FactionPerson {
 }
 
 export function FactionGroupEditor({
-  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang,
+  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang, onMoveCrossGroup
 }: Props) {
   const [expanded, setExpanded] = useState(false)
   const [logoOpen, setLogoOpen] = useState(false)
@@ -87,6 +88,9 @@ export function FactionGroupEditor({
   const totalCount = clusters.reduce((s, c) => s + (c.people?.length ?? 0), 0)
   // 접힌 상태에서 보여줄 팀 비주얼 — 그룹샷(화보)들만. 로고(logoVid·logoImg)는 logoSrc로 따로 표시한다.
   const covers = clusters.map(c => c.image).filter(Boolean) as string[]
+  // 공간이 남을 때 그룹샷 뒤에 이어서 보여줄 인물 개인샷(아바타). 최대 20명
+  const avatars = clusters.flatMap(c => c.people ?? []).map(p => p.image).filter(Boolean).slice(0, 20) as string[]
+
 
   // region 그룹 조작
   const setClusters = (next: FactionCluster[]) => onChange({ ...group, clusters: next })
@@ -145,7 +149,7 @@ export function FactionGroupEditor({
     >
       {/* 헤더 — 줄 전체가 세력 색 띠 + 어코디언 토글(클릭하면 펼치기/접기). 입력·버튼은 전파 차단 */}
       <div
-        className="flex min-h-24 cursor-pointer items-stretch gap-2 rounded-t-lg p-3"
+        className="flex min-h-24 cursor-pointer items-stretch gap-2 rounded-t-lg p-3 hover:brightness-[1.15] hover:shadow-md transition-all z-10 relative"
         style={{ backgroundColor: color }}
         onClick={() => setExpanded(v => !v)}
         title={expanded ? '클릭하면 접기' : '클릭하면 펼치기'}
@@ -198,6 +202,9 @@ export function FactionGroupEditor({
           </button>
           {covers.map((img, i) => (
             <FactionMediaThumb key={i} src={imageSrc(series, episodeName, img)!} alt="" showExt className="w-24 shrink-0 rounded border" style={{ borderColor: onColorDim }} />
+          ))}
+          {avatars.map((img, i) => (
+            <FactionMediaThumb key={`avatar-${i}`} src={imageSrc(series, episodeName, img)!} alt="" className="w-14 shrink-0 rounded border bg-bg-main object-cover" style={{ borderColor: onColorDim }} />
           ))}
         </div>
         {/* 세력 명칭 — 한 칸(개행 입력). 첫 줄=명칭(식별자), 둘째 줄부터=설명(세력색). 국문/영문 두 행. 라벨은 입력칸 왼쪽에 한 줄 가로 배치 */}
@@ -359,6 +366,7 @@ export function FactionGroupEditor({
               groupIndex={groupIndex}
               clusterIndex={0}
               editLang={editLang}
+              onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
             />
           )}
 
@@ -367,7 +375,8 @@ export function FactionGroupEditor({
             <div className={`rounded-lg border transition-all duration-200 overflow-hidden ${singleExpanded ? 'border-border bg-bg-card shadow-sm' : 'border-border bg-bg-main'}`}>
               {/* 상단 헤더: 팀 화보 + 인물 수 (아코디언 토글) */}
               <div
-                className={`flex cursor-pointer select-none items-center gap-3 p-2.5 hover:bg-bg-secondary ${singleExpanded ? 'border-b border-border/50 bg-bg-main/40' : ''}`}
+                id={`cluster-header-${groupIndex}-0`}
+                className={`flex cursor-pointer select-none items-center gap-3 p-2.5 hover:bg-bg-secondary hover:shadow-inner transition-colors duration-200 z-10 relative ${singleExpanded ? 'border-b border-border/50 bg-bg-main/40' : ''}`}
                 onClick={() => setSingleExpanded(v => !v)}
                 title={singleExpanded ? '클릭하면 접기' : '클릭하면 펼치기'}
               >
@@ -428,6 +437,7 @@ export function FactionGroupEditor({
                     groupIndex={groupIndex}
                     clusterIndex={0}
                     editLang={editLang}
+                    onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
                   />
                 </div>
               )}
@@ -443,7 +453,8 @@ export function FactionGroupEditor({
                 <div key={ci} className={`rounded-lg border transition-all duration-200 overflow-hidden ${isClusterExpanded ? 'border-border bg-bg-card shadow-sm' : 'border-border bg-bg-main'}`}>
                   {/* 상단 헤더: 제목 및 순서/삭제 컨트롤 (아코디언 토글) */}
                   <div 
-                    className={`flex cursor-pointer select-none items-center gap-3 p-2.5 transition-none hover:bg-bg-secondary ${isClusterExpanded ? 'border-b border-border/50 bg-bg-main/40' : ''}`}
+                    id={`cluster-header-${groupIndex}-${ci}`}
+                    className={`flex cursor-pointer select-none items-center gap-3 p-2.5 hover:bg-bg-secondary hover:shadow-inner transition-colors duration-200 z-10 relative ${isClusterExpanded ? 'border-b border-border/50 bg-bg-main/40' : ''} ${c.disabled ? 'opacity-40 saturate-50' : ''}`}
                     onClick={() => setExpandedClusters(prev => ({ ...prev, [ci]: !isClusterExpanded }))}
                     title={isClusterExpanded ? '클릭하면 접기' : '클릭하면 펼치기'}
                   >
@@ -463,6 +474,7 @@ export function FactionGroupEditor({
                     <div className="flex w-16 shrink-0 flex-col gap-0.5">
                       <span className="text-sm font-bold text-text-primary">그룹 {ci + 1}</span>
                       <span className="text-[10px] text-text-dim">인물 {c.people?.length ?? 0}{c.longformOnly ? '·롱폼' : ''}</span>
+                      {c.disabled && <span className="rounded bg-danger/20 px-1 py-0.5 text-center text-[9px] font-semibold text-danger-text w-fit">영상 제외</span>}
                     </div>
 
                     <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -499,6 +511,9 @@ export function FactionGroupEditor({
                       <button onClick={() => moveCluster(ci, 1)} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="아래로">
                         <ChevronDown size={15} />
                       </button>
+                      <button onClick={() => setCluster(ci, { ...c, disabled: c.disabled ? undefined : true })} className={`rounded-md border p-1.5 ${c.disabled ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`} title={c.disabled ? '이 그룹을 다시 영상에 포함' : '이 그룹을 영상에서 제외'}>
+                        {c.disabled ? <Eye size={15} /> : <EyeOff size={15} />}
+                      </button>
                       <button onClick={() => deleteCluster(ci)} className="rounded-md border border-border p-1.5 text-danger-text hover:bg-danger" title="그룹 삭제">
                         <Trash2 size={15} />
                       </button>
@@ -527,6 +542,7 @@ export function FactionGroupEditor({
                         groupIndex={groupIndex}
                         clusterIndex={ci}
                         editLang={editLang}
+                        onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(ci, pi) : undefined}
                       />
                     </div>
                   )}

@@ -7,6 +7,8 @@ export type Props = {
   boundaries?: number[]
   /** 파형 위에 겹칠 children (경계선, 구간 배경 등) */
   children?: React.ReactNode
+  /** 상단에 표시할 제목 — 클릭 시 파형 활성화(포커스) 기능 제공 */
+  headerTitle?: React.ReactNode
   /** 클릭 시 콜백 (시간) — 기본: 해당 위치부터 재생 */
   onClick?: (time: number) => void
   /** 클릭 시 추가 콜백 — 기본 재생/onClick과 별도로 항상 호출 */
@@ -35,6 +37,8 @@ export type Props = {
   autoPlay?: boolean
   /** 파형 위 마우스 시간(초)을 보고 — children(경계선 등)의 hover 안내용. 영역을 벗어나면 null. */
   onHoverTime?: (t: number | null) => void
+  /** 실제 디코드된 오디오 길이(초)를 부모에 보고 — prop duration이 메타 부정확일 때 위치 배율을 실제 길이로 맞추는 용도. */
+  onDurationResolved?: (dur: number) => void
   /** 재생 배속 — 지정 시 audio.playbackRate 에 반영. 미지정이면 1배속(기존 동작). */
   playbackRate?: number
   /** 음량 dB 게인 — 지정 시 audio.volume = dbToLinear(gainDb) 로 반영. 미지정이면 0dB(기존 동작). */

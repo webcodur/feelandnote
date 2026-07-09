@@ -86,13 +86,8 @@ export function SavedVoiceSection({
           return (
             <div
               key={eng.label}
-              className={`rounded border p-2 ${isActive ? 'bg-bg-card border-border' : 'bg-bg-card/40 border-border/40 opacity-70 hover:opacity-100'}`}
+              className={`rounded border ${isActive ? 'bg-bg-card border-border' : 'bg-bg-card/40 border-border/40 opacity-70 hover:opacity-100'}`}
             >
-              <div className="flex items-center gap-2 mb-1 text-xs">
-                <span className="font-semibold text-text-primary">{eng.label}</span>
-                <span className="text-text-secondary">{engDur.toFixed(2)}초</span>
-                {isActive && <span className="ml-auto text-accent font-semibold">사용 중</span>}
-              </div>
               <AudioWavePlayer
                 audioUrl={url}
                 duration={engDur}
@@ -102,6 +97,10 @@ export function SavedVoiceSection({
                 onTrimEnd={(t) => setTrimEnd(t)}
                 trimStart={engHasTrim ? trimStart : undefined}
                 trimEnd={engHasTrim ? trimEnd : undefined}
+                headerTitle={<>
+                  {eng.label}
+                  {isActive && <span className="ml-2 text-accent font-semibold">사용 중</span>}
+                </>}
               />
             </div>
           )

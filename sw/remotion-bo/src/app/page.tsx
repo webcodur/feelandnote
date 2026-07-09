@@ -60,15 +60,13 @@ export default function DashboardPage() {
           </thead>
           <tbody>
             {stats.map(s => (
-              <tr key={s.id} className="group border-b border-border/50 hover:bg-bg-card cursor-pointer"
-                  onClick={(e) => {
-                    const target = e.target as HTMLElement
-                    if (target.closest('a')) return
-                    router.push(`/${s.id}`)
-                  }}>
-                <td className="py-3 px-3 align-middle text-lg">{s.icon}</td>
-                <td className="py-3 px-3 align-middle font-semibold group-hover:text-accent transition-colors">
-                  <Link href={`/${s.id}`}>{s.label}</Link>
+              <tr key={s.id} className="group border-b border-border/50 hover:bg-bg-card relative">
+                <td className="py-3 px-3 align-middle text-lg">
+                  <Link href={`/${s.id}`} className="absolute inset-0 z-10" aria-label={s.label}></Link>
+                  <span className="relative z-0">{s.icon}</span>
+                </td>
+                <td className="py-3 px-3 align-middle font-semibold group-hover:text-accent transition-colors relative z-0">
+                  {s.label}
                 </td>
                 <td className="py-3 px-3 align-middle text-right">
                   <span className="text-accent font-bold">{s.synced}</span> / {s.total}

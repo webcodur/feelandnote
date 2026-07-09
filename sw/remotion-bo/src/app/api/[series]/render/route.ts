@@ -24,6 +24,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     const taskIds = targets.map(t =>
       runTask('render-faction', seriesId, episode, ['render', '--', t.comp, t.out, '--codec', series.render.codec]).id,
     )
+    // 세로 롱폼 썸네일 — TH-SPLIT 스틸을 각 롱폼 variant 이름의 THUMB.png 로 출고한다.
+    // 유튜브 업로드(variantFiles)가 `{episode}-{suffix}-THUMB.png` 를 자동 인식해 붙인다.
+    if (only !== 'shorts') {
+      const lvVariants = factionVariants(factionData.groups, factionData.longformLayout).filter(v => !v.isShorts)
+      for (const v of lvVariants) {
+        taskIds.push(runTask('faction-thumb', seriesId, episode,
+          ['still', '--', `${base}-KO-LV-TH-SPLIT`, `out/Faction/${episode}-${v.fileSuffix}-THUMB.png`]).id)
+      }
+    }
     // 자막(SRT)도 함께 — 데이터 기반이라 즉시 생성된다(롱폼·쇼츠 1·2편 한 번에).
     taskIds.push(runTask('faction-srt', seriesId, episode, ['faction:srt', '--', '--episode', episode]).id)
     return NextResponse.json({ taskIds })

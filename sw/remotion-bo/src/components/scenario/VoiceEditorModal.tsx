@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import React, { useEffect, useState } from 'react'
 
@@ -37,7 +37,13 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
     setMode('trim')
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current() }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+      if (e.key === 'Escape') onCloseRef.current()
+      if (e.key === '1') setMode('trim')
+      if (e.key === '2') setMode('sync')
+      if (e.key === '3') setMode('breath')
+    }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
   }, [openKey])

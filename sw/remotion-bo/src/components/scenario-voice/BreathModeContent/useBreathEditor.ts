@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { VoiceFile } from '../../voice-utils'
-import { parseWav, channelToFloat, muteRegions, applyRegions, toAudioBuffer, toEditedBuffer, toBase64, type ParsedWav, type Region, type RegionMode } from './wav'
+import { parseWav, channelToFloat, muteRegions, applyRegions, applyEdits, toAudioBuffer, toEditedBuffer, toBase64, type ParsedWav, type Region, type RegionMode, type Insert } from './wav'
 
 /**
  * 음원 로드 URL·저장 호출을 주입하는 어댑터.
@@ -48,11 +48,13 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [regions, setRegions] = useState<Region[]>([])
+  const [inserts, setInserts] = useState<Insert[]>([])
   const [playing, setPlaying] = useState(false)
   const [playhead, setPlayhead] = useState(0)
   const [saving, setSaving] = useState(false)
   const [savedCount, setSavedCount] = useState(0)  // 저장 횟수 — 0이면 복원 버튼 비활성
   const regionIdRef = useRef(1)
+  const insertIdRef = useRef(1)
 
   // 최초 로드한 원본 바이트 — 저장 후에도 유지, 「원본 복원」용. 패널을 닫으면 사라진다.
   const originalRef = useRef<ArrayBuffer | null>(null)
@@ -69,6 +71,7 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     setWav(null)
     setSamples(null)
     setRegions([])
+    setInserts([])
     fetch(epRef.current.loadUrl(series, name, file.name))
       .then(r => {
         if (!r.ok) throw new Error(`음원 로드 실패 (${r.status})`)
@@ -80,6 +83,8 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
         if (!originalRef.current) originalRef.current = buf
         setWav(parsed)
         setSamples(channelToFloat(parsed))
+        setRegions([])
+        setInserts([])
         setLoading(false)
       })
       .catch(e => { if (alive) { setError(String(e?.message ?? e)); setLoading(false) } })
@@ -100,15 +105,15 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
 
   /**
    * 재생.
-   *  - edited=true: mute·cut 을 모두 적용한 완성 결과를 처음부터 재생(cut 으로 길이가 줄어든 음원).
-   *  - edited=false: 원본 시간축 그대로. applyMute=true 면 지정 구간(무음·잘라낼 부분 모두)이 0으로 들린다.
+   *  - edited=true: mute·cut + insert(넓히기)를 모두 적용한 완성 결과를 재생 (길이 변동 반영).
+   *  - edited=false: 원본 시간축 그대로. applyMute=true 면 지정 구간(무음·잘라낼 부분)이 0으로 들린다.
    */
   const play = useCallback((from: number, to?: number, applyMute = true, edited = false) => {
     if (!wav) return
     stop()
     const ctx = ctxRef.current ?? (ctxRef.current = new AudioContext())
     if (ctx.state === 'suspended') void ctx.resume()
-    const buffer = edited ? toEditedBuffer(ctx, wav, regions) : toAudioBuffer(ctx, wav, regions, applyMute)
+    const buffer = edited ? toEditedBuffer(ctx, wav, regions, inserts) : toAudioBuffer(ctx, wav, regions, applyMute)
     const total = buffer.duration
     const src = ctx.createBufferSource()
     src.buffer = buffer
@@ -157,32 +162,56 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
     setRegions(prev => prev.map(r => ({ ...r, mode })))
   }, [])
 
+  // === 간격 넓히기 (삽입) ===
+  const addInsert = useCallback((at: number, duration: number) => {
+    if (!wav) return
+    const a = Math.max(0, Math.min(wav.duration, at))
+    const d = Math.max(0.01, duration)
+    setInserts(prev => [...prev, { id: insertIdRef.current++, at: a, duration: d }].sort((x, y) => x.at - y.at))
+  }, [wav])
+
+  const removeInsert = useCallback((id: number) => {
+    setInserts(prev => prev.filter(x => x.id !== id))
+  }, [])
+
+  const updateInsertDuration = useCallback((id: number, duration: number) => {
+    setInserts(prev => prev.map(x => x.id === id ? { ...x, duration: Math.max(0.01, duration) } : x))
+  }, [])
+
   const saveBytes = useCallback(async (bytes: ArrayBuffer) => {
     await epRef.current.save(series, name, file.name, toBase64(bytes))
     const parsed = parseWav(bytes)
     setWav(parsed)
     setSamples(channelToFloat(parsed))
     setRegions([])
+    setInserts([])
     onRefresh()
   }, [series, name, file.name, onRefresh])
 
-  /** 지정 구간(무음·잘라내기)을 적용한 결과를 디스크에 덮어쓴다.
-   *  cut 이 하나도 없으면 원본 바이트 복사 기반 무손실 무음 처리(muteRegions)를, 있으면 재구성(applyRegions)을 쓴다. */
+  /** 지정 구간(무음·잘라내기) + 삽입(넓히기)을 적용한 결과를 디스크에 덮어쓴다.
+   *  편집이 있으면 applyEdits로 재구성. */
   const saveApplied = useCallback(async () => {
-    if (!wav || regions.length === 0) return
+    if (!wav || (regions.length === 0 && inserts.length === 0)) return
     stop()
     setSaving(true)
     setError(null)
     try {
       const hasCut = regions.some(r => (r.mode ?? 'mute') === 'cut')
-      await saveBytes(hasCut ? applyRegions(wav, regions) : muteRegions(wav, regions))
+      const hasInsert = inserts.length > 0
+      let bytes: ArrayBuffer
+      if (!hasCut && !hasInsert) {
+        bytes = muteRegions(wav, regions)
+      } else {
+        bytes = applyEdits(wav, regions, inserts)
+      }
+      await saveBytes(bytes)
       setSavedCount(c => c + 1)
     } catch (e) {
       setError(String((e as Error)?.message ?? e))
     } finally {
       setSaving(false)
     }
-  }, [wav, regions, stop, saveBytes])
+  }, [wav, regions, inserts, stop, saveBytes])
 
   /** 패널을 연 시점의 원본으로 되돌린다 */
   const restoreOriginal = useCallback(async () => {
@@ -203,6 +232,7 @@ export function useBreathEditor({ series, name, file, onRefresh, endpoints }: Ar
   return {
     wav, samples, loading, error,
     regions, addRegion, removeRegion, toggleRegionMode, setAllRegionsMode,
+    inserts, addInsert, removeInsert, updateInsertDuration,
     playing, playhead, play, stop,
     saving, savedCount, saveApplied, restoreOriginal,
   }

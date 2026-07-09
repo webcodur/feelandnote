@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
-import { imageSrc, initial, totalSec, cueCount, formatMmss, cropToStyle, factionStepsOf, longformPartCount, longformSegments, ERA_SEC } from '../shared/timing'
+import { imageSrc, initial, totalSec, cueCount, formatMmss, cropToStyle, factionStepsOf, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
 import { FactionMediaThumb } from '../shared/FactionMediaThumb'
 import { Eye, EyeOff } from '../shared/icons'
 
@@ -135,7 +135,8 @@ function GroupBlock({ g, gi, series, episodeName, onToggleDisabled }: {
       {clusters.map((c, ci) => {
         const people = c.people ?? []
         return (
-          <div key={ci} className="space-y-1.5 rounded-md bg-bg-main/40 p-2">
+          <div key={ci} className="space-y-1.5 rounded-md bg-bg-main/40 p-2 relative" style={c.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}>
+            {c.disabled && <div className="absolute top-2 right-2 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text z-10">영상 제외</div>}
             {!g.solo && (
               <CoverChip image={c.image} label={c.label} color={color} series={series} episodeName={episodeName} />
             )}
@@ -165,6 +166,7 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
   // 요약 — 편 선택 시 그 편 세력만으로 계산(시대 문구 카드 시간 포함). 각 편은 자체 인트로·아웃트로
   const partGroups = steps ? steps.flatMap(s => ('gi' in s ? [groups[s.gi]].filter(Boolean) : [])) : groups
   const eraN = steps ? steps.filter(s => 'era' in s).length : 0
+  const chapterN = steps ? steps.filter(s => 'chapter' in s).length : 0
   const scoped = steps ? { ...script, groups: partGroups } : script
   // 타이틀·시작문구 — 편 선택 시 편별 값(비우면 공통)
   const title = (lvPart != null ? script.titleByPart?.[lvPart] : undefined) || script.title
@@ -197,9 +199,9 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
 
       {/* 요약 */}
       <div className="mb-3 flex items-center gap-3 text-xs text-text-secondary">
-        <span>총 길이 {formatMmss(totalSec(scoped) + eraN * ERA_SEC)}</span>
+        <span>총 길이 {formatMmss(totalSec(scoped) + eraN * ERA_SEC + chapterN * (CHAPTER_BLACK_SEC + CHAPTER_COVER_SEC))}</span>
         <span>·</span>
-        <span>컷 {cueCount(scoped) + eraN}개</span>
+        <span>컷 {cueCount(scoped) + eraN + chapterN * 2}개</span>
       </div>
 
       {/* 9:16 흐름 박스 */}
@@ -229,6 +231,16 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
                     <div key={k} className="rounded-md border-s-2 border-amber-500 bg-amber-500/10 p-3 text-center">
                       <p className="text-sm font-bold text-text-primary">{head || '시대 문구'}</p>
                       {rest && <p className="text-xs text-amber-600">{rest}</p>}
+                    </div>
+                  )
+                }
+                if ('chapter' in st) {
+                  const { head, rest } = splitName(st.chapter.title)
+                  return (
+                    <div key={k} className="rounded-md border-s-2 border-purple-500 bg-purple-500/10 p-3 text-center">
+                      <p className="text-[10px] font-bold text-purple-500">챕터 전환 · 검정 브릿지 + 챕터 표지</p>
+                      <p className="text-sm font-bold text-text-primary">{head || '챕터'}</p>
+                      {rest && <p className="text-xs text-purple-400">{rest}</p>}
                     </div>
                   )
                 }

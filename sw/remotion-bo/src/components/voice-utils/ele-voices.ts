@@ -14,6 +14,7 @@ export type EleVoiceLike = {
   category?: string | null
   labels?: Record<string, string> | null
   preview_url?: string | null
+  description?: string | null
   account?: EleVoiceAccount | null
 }
 

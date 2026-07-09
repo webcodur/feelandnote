@@ -35,24 +35,37 @@ export function CoverPickerButton({
   
   return (
     <>
-      <button
-        onClick={(e) => { e.stopPropagation(); setOpen(true) }}
-        {...dropProps}
-        className={`group relative shrink-0 overflow-hidden rounded-md border bg-bg-card ${sizeClass} ${dragOver ? 'border-accent ring-2 ring-accent' : 'border-border hover:border-accent'}`}
-        title="클릭: 화보 선택 · 풀에서 끌어다 놓기: 연결"
-      >
-        {src ? (
-          <FactionMediaThumb src={src} alt="" showExt className="h-full w-full object-cover" />
-        ) : (
-          <span className="flex h-full w-full flex-col items-center justify-center gap-1 px-1 text-sm text-text-secondary">
-            <ImageIcon size={24} />
-            <span className="text-center text-[10px] leading-tight">{emptyText ?? label}</span>
+      <div className={`relative shrink-0 ${sizeClass}`}>
+        <button
+          onClick={(e) => { e.stopPropagation(); setOpen(true) }}
+          {...dropProps}
+          className={`group relative h-full w-full overflow-hidden rounded-md border bg-bg-card ${dragOver ? 'border-accent ring-2 ring-accent' : 'border-border hover:border-accent'}`}
+          title="클릭: 화보 선택 · 풀에서 끌어다 놓기: 연결"
+        >
+          {src ? (
+            <FactionMediaThumb src={src} alt="" showExt className="h-full w-full object-cover" />
+          ) : (
+            <span className="flex h-full w-full flex-col items-center justify-center gap-1 px-1 text-sm text-text-secondary">
+              <ImageIcon size={24} />
+              <span className="text-center text-[10px] leading-tight">{emptyText ?? label}</span>
+            </span>
+          )}
+          <span className="absolute bottom-0 left-0 right-0 bg-black/50 py-0.5 text-center text-[10px] font-semibold text-white">
+            {dragOver ? '여기에 연결' : label}
           </span>
+        </button>
+        {/* 비우기 — 설정된 화보를 지운다(값 있을 때만). 종료 화면 등 '설정 해제' 용도 */}
+        {value && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onChange(undefined) }}
+            className="absolute right-1 top-1 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs font-bold leading-none text-white hover:bg-red-600"
+            title="비우기"
+          >
+            ×
+          </button>
         )}
-        <span className="absolute bottom-0 left-0 right-0 bg-black/50 py-0.5 text-center text-[10px] font-semibold text-white">
-          {dragOver ? '여기에 연결' : label}
-        </span>
-      </button>
+      </div>
       {open && (
         <FactionImagePicker
           value={value}

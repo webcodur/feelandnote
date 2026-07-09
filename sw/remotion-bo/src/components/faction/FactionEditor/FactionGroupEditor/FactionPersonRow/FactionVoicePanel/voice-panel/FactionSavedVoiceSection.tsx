@@ -95,12 +95,7 @@ export function FactionSavedVoiceSection({
         const engHasTrim = trimStart > 0.01 || (trimEnd > 0 && trimEnd < engDur - 0.01)
         return (
           <div className="space-y-2">
-            <div className="rounded border p-2 bg-bg-card border-border">
-              <div className="flex items-center gap-2 mb-1 text-xs">
-                <span className="font-semibold text-text-primary">{engineLabel}</span>
-                <span className="text-text-secondary">{engDur.toFixed(2)}초</span>
-                <span className="ml-auto text-accent font-semibold">사용 중</span>
-              </div>
+            <div className="rounded border bg-bg-card border-border">
               <AudioWavePlayer
                 audioUrl={url}
                 duration={engDur}
@@ -112,6 +107,10 @@ export function FactionSavedVoiceSection({
                 trimEnd={engHasTrim ? trimEnd : undefined}
                 playbackRate={playbackRate}
                 gainDb={gainDb}
+                headerTitle={<>
+                  {engineLabel}
+                  <span className="ml-2 text-accent font-semibold">사용 중</span>
+                </>}
               />
             </div>
           </div>

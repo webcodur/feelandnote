@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { isFactionSeries } from '@/lib/series-registry'
-import { FACTION_EDIT_LANGS, FACTION_EDIT_TABS } from '@/lib/faction-edit-route'
+import { FACTION_EDIT_LANGS, FACTION_EDIT_TABS, toFactionEditTab } from '@/lib/faction-edit-route'
 import { FactionEditor } from '@/components/faction/FactionEditor'
 
 type Params = { series: string; name: string; lang: string; tab: string }
@@ -29,5 +29,5 @@ export default async function EpisodeLangTabPage({
     }
     : undefined
 
-  return <FactionEditor series={series} name={name} cardTarget={cardTarget} />
+  return <FactionEditor series={series} name={name} initialTab={toFactionEditTab(tab)} cardTarget={cardTarget} />
 }

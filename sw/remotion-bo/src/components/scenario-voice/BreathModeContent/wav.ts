@@ -18,6 +18,9 @@ export type ParsedWav = {
 export type RegionMode = 'mute' | 'cut'
 export type Region = { id: number; start: number; end: number; mode?: RegionMode }
 
+/** 삽입 — 지정 시각(at)에 duration 초 만큼 무음(공백)을 끼워넣는다. (길이 증가) */
+export type Insert = { id: number; at: number; duration: number }
+
 function chunkId(view: DataView, off: number): string {
   return String.fromCharCode(view.getUint8(off), view.getUint8(off + 1), view.getUint8(off + 2), view.getUint8(off + 3))
 }
@@ -186,9 +189,101 @@ export function applyRegions(wav: ParsedWav, regions: Region[], fadeMs = 5): Arr
   return ab
 }
 
-/** 미리듣기용 AudioBuffer — mute·cut 을 모두 반영한 '완성 결과'(cut 으로 길이가 줄어든다) */
-export function toEditedBuffer(ctx: BaseAudioContext, wav: ParsedWav, regions: Region[], fadeMs = 5): AudioBuffer {
-  const edited = parseWav(applyRegions(wav, regions, fadeMs))
+/**
+ * regions(제거/무음) + inserts(간격 넓히기)를 모두 적용한 새 WAV를 만든다.
+ * - cut: 해당 구간 삭제 + 이어붙이기 (길이 ↓)
+ * - mute: 해당 구간 소리만 0 (길이 유지)
+ * - insert: at 시점에 duration 초 무음 삽입 (길이 ↑)
+ * 결과 길이는 원본 ± 편집량.
+ */
+export function applyEdits(wav: ParsedWav, regions: Region[], inserts: Insert[] = [], fadeMs = 5): ArrayBuffer {
+  const sr = wav.sampleRate
+  const ch = wav.channels
+  const srcView = new DataView(wav.bytes)
+  const stride = 2 * ch
+  const fade = Math.max(1, Math.round((fadeMs / 1000) * sr))
+
+  // cut 구간 병합
+  const rawCuts = regions
+    .filter(r => (r.mode ?? 'mute') === 'cut')
+    .map(r => ({ s: Math.max(0, Math.floor(r.start * sr)), e: Math.min(wav.frameCount, Math.ceil(r.end * sr)) }))
+    .filter(r => r.e > r.s)
+    .sort((a, b) => a.s - b.s)
+  const cuts: { s: number; e: number }[] = []
+  for (const c of rawCuts) {
+    const last = cuts[cuts.length - 1]
+    if (last && c.s <= last.e) last.e = Math.max(last.e, c.e)
+    else cuts.push({ ...c })
+  }
+
+  // mute 구간
+  const mutes = toFrameRegions(wav, regions.filter(r => (r.mode ?? 'mute') === 'mute'), fadeMs)
+
+  // inserts (원본 시간 기준, 정렬)
+  const ins = (inserts || [])
+    .map(i => ({
+      atF: Math.max(0, Math.floor(Math.min(wav.duration, i.at) * sr)),
+      durF: Math.max(1, Math.round(Math.max(0.01, i.duration) * sr)),
+    }))
+    .sort((a, b) => a.atF - b.atF)
+
+  // 결과 프레임 수 계산
+  const totalCutF = cuts.reduce((n, c) => n + (c.e - c.s), 0)
+  const totalInsF = ins.reduce((n, i) => n + i.durF, 0)
+  const outFrameCount = wav.frameCount - totalCutF + totalInsF
+
+  const dataLen = outFrameCount * stride
+  const ab = new ArrayBuffer(44 + dataLen)
+  const ov = new DataView(ab)
+  writeWavHeader(ov, sr, ch, dataLen)
+
+  let outOff = 44
+  let o = 0 // 원본 프레임 커서
+  let iidx = 0
+
+  while (o < wav.frameCount || iidx < ins.length) {
+    // 현재 o 이전/이 시점의 삽입 먼저 처리
+    while (iidx < ins.length && ins[iidx].atF <= o) {
+      for (let k = 0; k < ins[iidx].durF; k++) {
+        for (let c = 0; c < ch; c++) {
+          ov.setInt16(outOff + c * 2, 0, true)
+        }
+        outOff += stride
+      }
+      iidx++
+    }
+    if (o >= wav.frameCount) break
+
+    // cut 스킵
+    let cutEnd: number | null = null
+    for (const c of cuts) {
+      if (o >= c.s && o < c.e) {
+        cutEnd = c.e
+        break
+      }
+    }
+    if (cutEnd != null) {
+      o = cutEnd
+      continue
+    }
+
+    // 복사 + mute gain
+    let g = mutes.length ? frameGain(o, mutes) : 1
+    const base = wav.dataOffset + o * stride
+    for (let c = 0; c < ch; c++) {
+      const sample = srcView.getInt16(base + c * 2, true)
+      ov.setInt16(outOff + c * 2, g === 1 ? sample : Math.round(sample * g), true)
+    }
+    outOff += stride
+    o += 1
+  }
+
+  return ab
+}
+
+/** 미리듣기용 AudioBuffer — mute·cut·insert 를 모두 반영한 '완성 결과' */
+export function toEditedBuffer(ctx: BaseAudioContext, wav: ParsedWav, regions: Region[], inserts: Insert[] = [], fadeMs = 5): AudioBuffer {
+  const edited = parseWav(applyEdits(wav, regions, inserts, fadeMs))
   const buf = ctx.createBuffer(edited.channels, Math.max(1, edited.frameCount), edited.sampleRate)
   const view = new DataView(edited.bytes)
   const stride = 2 * edited.channels

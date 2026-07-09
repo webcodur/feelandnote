@@ -114,6 +114,40 @@ export function buildPersonSwapRenames(groupIndex: number, pi: number, pj: numbe
 }
 
 /**
+ * 한 세력 내의 특정 그룹(fromCi)에서 다른 그룹(toCi)으로, 또는 다른 세력(toGi)의 특정 그룹(toCi)으로
+ * 인물을 이동시킬 때의 음원 rename 목록.
+ * fromGi/fromCi 의 fromPi 위치 인물을 toGi/toCi 의 맨 끝(toPi)으로 이동하며,
+ * fromGi/fromCi 의 fromPi 이후 인물들은 인덱스가 1씩 당겨진다.
+ */
+export function buildPersonCrossMoveRenames(
+  fromGi: number,
+  fromCi: number,
+  fromPi: number,
+  toGi: number,
+  toCi: number,
+  sourcePeopleCount: number,
+  targetPeopleCount: number
+): FactionRename[] {
+  const renames: FactionRename[] = []
+
+  // 1. 옮기는 사람 (fromGi, fromCi, fromPi) -> (toGi, toCi, targetPeopleCount)
+  renames.push(...KINDS.map(kind => ({
+    from: factionVoiceFile(fromGi, fromPi, fromCi, kind),
+    to: factionVoiceFile(toGi, targetPeopleCount, toCi, kind),
+  })))
+
+  // 2. 소스 그룹의 뒤쪽 사람들 당기기 (fromGi, fromCi, fromPi+1 ~ sourcePeopleCount-1)
+  for (let i = fromPi + 1; i < sourcePeopleCount; i++) {
+    renames.push(...KINDS.map(kind => ({
+      from: factionVoiceFile(fromGi, i, fromCi, kind),
+      to: factionVoiceFile(fromGi, i - 1, fromCi, kind),
+    })))
+  }
+
+  return renames
+}
+
+/**
  * reorder API 호출 — 디스크 wav + 발화시각(data.timing·2-word-timings) 키를 한꺼번에 안전 재배치한다.
  * 겹치는 from/to(swap)는 서버가 임시명 경유로 처리한다. 없는 파일은 조용히 skip.
  * @returns ok=true 면 성공(또는 옮길 게 없음). 실패 시 error 메시지.

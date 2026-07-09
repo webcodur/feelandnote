@@ -1,10 +1,11 @@
 'use client'
 
-import type { FactionScript, FactionLongformItem, FactionGroup } from '../../../lib/faction-types'
+import type { FactionScript, FactionLongformItem, FactionChapter } from '../../../lib/faction-types'
 import type { EditLang } from '../FactionEditor'
-import { totalPeople, formatMmss, totalSec, longformPartCount, longformSegments, ERA_SEC } from '../shared/timing'
+import { totalPeople, formatMmss, totalSec, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
 import { FactionMusicPicker } from '../shared/FactionMusicPicker'
 import { PartTextField } from './sections/PartTextField'
+import { CoverPickerButton } from './FactionGroupEditor/CoverPickerButton/CoverPickerButton'
 
 /** 세력 색 위 글자색 — 밝으면 검정, 어두우면 흰색 */
 function contrast(hex?: string): string {
@@ -25,12 +26,16 @@ const head = (s?: string) => (s ?? '').split('\n')[0]?.trim() ?? ''
  */
 export function FactionLongformPanel({
   script,
+  series,
+  episodeName,
   onChange,
   onJump,
   musicList,
   editLang,
 }: {
   script: FactionScript
+  series: string
+  episodeName: string
   onChange: (patch: Partial<FactionScript>) => void
   onJump: (groupIndex: number) => void
   musicList: string[]
@@ -41,9 +46,6 @@ export function FactionLongformPanel({
 
   const setLayout = (next: FactionLongformItem[]) =>
     onChange({ longformLayout: next.length ? next : undefined })
-  // 세력 한 개 필드 갱신 — 롱폼 곡 지정에 쓴다
-  const setGroupPatch = (gi: number, patch: Partial<FactionGroup>) =>
-    onChange({ groups: script.groups.map((g, idx) => (idx === gi ? { ...g, ...patch } : g)) })
   const move = (i: number, dir: -1 | 1) => {
     const j = i + dir
     if (j < 0 || j >= layout.length) return
@@ -55,8 +57,12 @@ export function FactionLongformPanel({
   const addGroup = (gi: number) => setLayout([...layout, { group: gi }])
   const addEra = () => setLayout([...layout, { era: { label: '시대\n문구' } }])
   const addCut = () => setLayout([...layout, { cut: true }])
+  const addChapter = () => setLayout([...layout, { chapter: { title: '챕터 2\n부제' } }])
   const setEra = (i: number, label: string) =>
     setLayout(layout.map((it, k) => (k === i && 'era' in it ? { era: { ...it.era, label } } : it)))
+  // 챕터 전환 한 항목 필드 갱신 — 제목·미디어·곡·효과음
+  const setChapter = (i: number, patch: Partial<FactionChapter>) =>
+    setLayout(layout.map((it, k) => (k === i && 'chapter' in it ? { chapter: { ...it.chapter, ...patch } } : it)))
 
   // 편 경계(cut) 유무·편 개수 — 경계가 있으면 롱폼이 여러 편으로 갈라진다
   const lvCount = longformPartCount(script)
@@ -67,7 +73,8 @@ export function FactionLongformPanel({
     const steps = segments[p - 1] ?? []
     const gs = steps.flatMap(s => ('gi' in s ? [script.groups[s.gi]].filter(Boolean) : []))
     const eraN = steps.filter(s => 'era' in s).length
-    return totalSec({ ...script, groups: gs }) + eraN * ERA_SEC
+    const chapterN = steps.filter(s => 'chapter' in s).length
+    return totalSec({ ...script, groups: gs }) + eraN * ERA_SEC + chapterN * (CHAPTER_BLACK_SEC + CHAPTER_COVER_SEC)
   }
 
   // 직접 배치 시작 — 현재 활성 세력을 배열 순서대로 깔아준다.
@@ -95,6 +102,53 @@ export function FactionLongformPanel({
       </div>
 
       <div className="space-y-2 border-t border-border bg-bg-main/20 p-3">
+        {/* 롱폼 전용 시작·종료 화면 — 비우면 쇼츠와 같은 화면(공용 introImage/outroImage)이 나간다. 여기에 넣으면 롱폼만 다른 화면(영상 mp4 가능). */}
+        <div className="space-y-1.5 rounded-md border border-amber-500/40 bg-amber-500/5 p-2.5">
+          <div className="text-[11px] font-bold text-amber-600">롱폼 전용 시작·종료 화면</div>
+          <div className="flex flex-wrap items-start gap-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-xs text-text-dim">시작 화면 (롱폼)</span>
+              <CoverPickerButton
+                value={script.introImageLong}
+                onChange={next => onChange({ introImageLong: next })}
+                label="시작 화면"
+                emptyText="쇼츠와 동일"
+                series={series}
+                episodeName={episodeName}
+                className="h-28 w-48"
+              />
+              <span className="w-48 text-[10px] leading-tight text-text-dim">비우면 쇼츠 시작 화면과 동일하게 나갑니다. 영상(mp4)도 넣을 수 있습니다</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-xs text-text-dim">종료 화면 (롱폼)</span>
+              <CoverPickerButton
+                value={script.outroImageLong}
+                onChange={next => onChange({ outroImageLong: next })}
+                label="종료 화면"
+                emptyText="쇼츠와 동일"
+                series={series}
+                episodeName={episodeName}
+                className="h-28 w-48"
+              />
+              <span className="w-48 text-[10px] leading-tight text-text-dim">비우면 쇼츠 종료 화면과 동일하게 나갑니다. 영상(mp4)도 넣을 수 있습니다</span>
+            </div>
+            
+            <div className="flex flex-col gap-1 ml-4 border-l border-amber-500/20 pl-4">
+              <span className="text-xs text-text-dim">LV 썸네일 (롱폼 전용)</span>
+              <CoverPickerButton
+                value={script.lvThumbnailImage}
+                onChange={next => onChange({ lvThumbnailImage: next })}
+                label="LV 썸네일"
+                emptyText="첫 번째 인물"
+                series={series}
+                episodeName={episodeName}
+                className="h-28 w-48"
+              />
+              <span className="w-48 text-[10px] leading-tight text-text-dim">롱폼 세로 썸네일에 띄울 핵심 이미지를 넣습니다. 미지정 시 첫 번째 인물 사진.</span>
+            </div>
+          </div>
+        </div>
+
         {layout.length === 0 ? (
           <button onClick={initFromGroups} className="w-full rounded-md border border-dashed border-amber-500/60 px-3 py-2 text-xs font-bold text-amber-600 hover:bg-amber-500/10">
             직접 배치 시작 — 현재 세력 순서로 깔기
@@ -138,6 +192,50 @@ export function FactionLongformPanel({
                     </div>
                   )
                 }
+                if ('chapter' in it) {
+                  const a = it.chapter
+                  const titleVal = editLang === 'en' ? (a.titleEn ?? '') : a.title
+                  return (
+                    <div key={i} className="space-y-1.5 rounded border-l-2 border-purple-500 bg-purple-500/10 px-2 py-2">
+                      <div className="flex items-start gap-1.5">
+                        <span className="shrink-0 pt-1 text-[10px] font-bold text-purple-500">챕터 전환</span>
+                        <textarea
+                          value={titleVal}
+                          onChange={e => setChapter(i, editLang === 'en' ? { titleEn: e.target.value } : { title: e.target.value })}
+                          rows={2}
+                          placeholder={'챕터 2\n감시에 맞서다'}
+                          className="min-w-0 flex-1 resize-none rounded border border-border bg-bg-card px-2 py-1 text-xs leading-tight focus:border-accent focus:outline-none"
+                          title="챕터 제목 (첫 줄=챕터 표식/크게, 둘째 줄=부제/강조색)"
+                        />
+                        <MoveBtns onUp={() => move(i, -1)} onDown={() => move(i, 1)} onRemove={() => removeAt(i)} />
+                      </div>
+                      <input
+                        value={a.media ?? ''}
+                        onChange={e => setChapter(i, { media: e.target.value || undefined })}
+                        placeholder="배경 이미지·영상 경로 (예: _chapters/ch2.mp4)"
+                        className="w-full rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
+                        title="챕터 표지 배경 미디어 — 이미지 또는 영상(mp4). 시작·종료 화면과 같은 경로 규칙"
+                      />
+                      <div className="flex items-center gap-2">
+                        <span className="w-8 shrink-0 text-[10px] text-text-dim">챕터 곡</span>
+                        <FactionMusicPicker
+                          file={a.music}
+                          vol={a.musicVolume}
+                          musicList={musicList}
+                          onFile={v => setChapter(i, { music: v })}
+                          onVol={v => setChapter(i, { musicVolume: v })}
+                        />
+                      </div>
+                      <input
+                        value={a.sfx ?? ''}
+                        onChange={e => setChapter(i, { sfx: e.target.value || undefined })}
+                        placeholder="전환 효과음 파일 (예: chapter-break.wav)"
+                        className="w-full rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
+                        title="검정 브릿지 진입 시 1회 울리는 효과음 (public/common/sfx/ 하위)"
+                      />
+                    </div>
+                  )
+                }
                 const g = script.groups[it.group]
                 const color = g?.color ?? '#92400e'
                 return (
@@ -161,6 +259,7 @@ export function FactionLongformPanel({
             <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2">
               <button onClick={addEra} className="rounded border border-amber-500/60 px-2 py-1 text-[11px] font-bold text-amber-600 hover:bg-amber-500/10">+ 시대 문구</button>
               <button onClick={addCut} title="편 경계 — 롱폼을 이 지점에서 다음 편으로 가른다 (각 편은 자체 시작·종료 화면)" className="rounded border border-sky-500/60 px-2 py-1 text-[11px] font-bold text-sky-600 hover:bg-sky-500/10">+ 편 경계</button>
+              <button onClick={addChapter} title="챕터 전환 — 한 영상 안에서 다음 챕터로 넘긴다. 검정 브릿지 + 챕터 표지(배경 미디어 + 챕터 제목), 이 지점에서 배경음악도 새 곡으로 교체" className="rounded border border-purple-500/60 px-2 py-1 text-[11px] font-bold text-purple-500 hover:bg-purple-500/10">+ 챕터 전환</button>
               {unplaced.length > 0 && <span className="text-[11px] text-text-dim">안 든 세력:</span>}
               {unplaced.map(x => (
                 <button
@@ -194,25 +293,10 @@ export function FactionLongformPanel({
           </>
         )}
 
-        {/* 세력별 배경음악 (롱폼) — 세력 진입 시 곡 교체(미지정=직전 곡 유지). 순서 배치와 무관하게 항상 지정 가능 */}
-        {active.length > 0 && (
-          <div className="space-y-1 border-t border-border/60 pt-2">
-            <div className="text-[10px] font-semibold text-text-dim">세력별 배경음악 (롱폼)</div>
-            {active.map(({ g, i }) => (
-              <div key={i} className="flex items-center gap-2">
-                <span className="h-3 w-3 shrink-0 rounded-sm" style={{ backgroundColor: g.color ?? '#92400e' }} />
-                <span className="w-28 shrink-0 truncate text-[11px] font-semibold text-text-primary" title={head(g.name)}>{head(g.name)}</span>
-                <FactionMusicPicker
-                  file={g.music}
-                  vol={g.musicVolume}
-                  musicList={musicList}
-                  onFile={v => setGroupPatch(i, { music: v })}
-                  onVol={v => setGroupPatch(i, { musicVolume: v })}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        {/* 롱폼 배경음악 안내 — 곡은 챕터 단위로 흐른다. 첫 챕터(시작) 곡은 정보 탭의 전역 배경음악, 이후 챕터 곡은 각 챕터 전환에서 지정한다. */}
+        <div className="border-t border-border/60 pt-2 text-[10px] leading-relaxed text-text-dim">
+          롱폼 배경음악은 챕터 단위로 흐른다. 첫 챕터(시작) 곡은 정보 탭의 전역 배경음악에서 정하고, 이후 챕터의 곡은 각 「챕터 전환」 항목에서 지정한다. 챕터 전환 지점에서 이전 곡을 닫고 잠시 숨을 고른 뒤 새 곡을 연다.
+        </div>
       </div>
     </div>
   )

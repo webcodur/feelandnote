@@ -22,13 +22,13 @@ type Args = Pick<
   | 'autoPlay'
   | 'playbackRate'
   | 'gainDb'
->
+> & { visualGain?: number }
 
 export function useAudioWavePlayer({
   audioUrl, duration,
   onClick, onTimeClick, onDoubleClick,
   trimStart, trimEnd, onTrimStart, onTrimEnd, pxPerSec, autoPlay,
-  playbackRate, gainDb,
+  playbackRate, gainDb, visualGain = 1,
 }: Args) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -76,13 +76,13 @@ export function useAudioWavePlayer({
           let sum = 0
           for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
           const avg = sum / step
-          const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4)
+          const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4 * visualGain)
           ctx.fillStyle = BAR_COLOR
           ctx.fillRect(i * BAR_GAP, amp - h / 2, BAR_W, h)
         }
       })
       .catch(() => {})
-  }, [audioUrl])
+  }, [audioUrl, visualGain])
 
   // 지정 위치부터 재생
   const playFrom = useCallback((t: number) => {
@@ -154,11 +154,27 @@ export function useAudioWavePlayer({
   // 이 플레이어를 active로 등록 — 상호작용 시 호출
   const playerHandleRef = useRef({ toggle: togglePlay })
   playerHandleRef.current.toggle = togglePlay
-  const activate = useCallback(() => { _activePlayer = playerHandleRef.current }, [])
+  const [isActive, setIsActive] = useState(false)
+  
+  const activate = useCallback(() => { 
+    _activePlayer = playerHandleRef.current 
+    window.dispatchEvent(new CustomEvent('audioPlayerActivated', { detail: playerHandleRef.current }))
+  }, [])
+  
   // 언마운트 시 자신이 active면 해제
   useEffect(() => {
     const handle = playerHandleRef.current
     return () => { if (_activePlayer === handle) _activePlayer = null }
+  }, [])
+
+  // 전역 활성 상태 구독
+  useEffect(() => {
+    const onActivated = (e: Event) => {
+      setIsActive((e as CustomEvent).detail === playerHandleRef.current)
+    }
+    window.addEventListener('audioPlayerActivated', onActivated)
+    setIsActive(_activePlayer === playerHandleRef.current)
+    return () => window.removeEventListener('audioPlayerActivated', onActivated)
   }, [])
 
   // 전역 Space — 오직 active player만 반응 (이중 호출·다중 인스턴스 충돌 방지)
@@ -231,6 +247,7 @@ export function useAudioWavePlayer({
     stop,
     handleClick,
     activate,
+    isActive,
     handleDblClick,
     handleTrimDown,
     trimEndHandlePct,

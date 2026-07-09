@@ -1,13 +1,18 @@
 // 세력도 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
 import type { CSSProperties } from 'react'
-import type { FactionScript, FactionPerson, FactionImageCrop, FactionEra } from '@/lib/faction-types'
+import type { FactionScript, FactionPerson, FactionImageCrop, FactionEra, FactionChapter } from '@/lib/faction-types'
 
 export const INTRO_SEC = 2.5
-export const GROUP_SEC = 1.8
+/** BO 미리보기 기본값 — 실제 렌더와 일치시키기 위해 4로 맞춤. script.groupSec가 있으면 우선 */
+export const GROUP_SEC = 4
 export const CLUSTER_SEC = 1.8
 /** 시대 문구 카드 1장(초) — 렌더러(Faction/timing.ts ERA_SEC)와 동일 */
 export const ERA_SEC = 2.6
+/** 챕터 전환 검정 브릿지 1장(초) — 렌더러(Faction/timing.ts CHAPTER_BLACK_SEC)와 동일 */
+export const CHAPTER_BLACK_SEC = 1.2
+/** 챕터 표지 카드 1장(초) — 렌더러(Faction/timing.ts CHAPTER_COVER_SEC)와 동일 */
+export const CHAPTER_COVER_SEC = 5.5
 /** 마지막 인물 컷 뒤 페이드아웃 여운(초) — 렌더러(Faction/timing.ts)와 동일. 별도 엔딩 카드 없음 */
 export const ENDING_FADE_SEC = 1.6
 /** 대사 후 대기 기본값(초) — 마지막 인물 대사 끝 ~ 전환까지 정지 유지. 렌더러(DEFAULT_END_HOLD_SEC)와 동일 */
@@ -23,12 +28,20 @@ export interface FactionSteps { credit: boolean; epithet: boolean; voice: boolea
  * step* 불린이 하나라도 정의돼 있으면 그대로, 아니면 레거시 quoteMode에서 환산.
  */
 export function factionStepsOf(p: FactionPerson, portrait = false, isLeader = false): FactionSteps {
-  const hasNew = p.stepCredit !== undefined || p.stepEpithet !== undefined || p.stepVoice !== undefined
+  const hasNew = p.stepCreditShorts !== undefined || p.stepEpithetShorts !== undefined || p.stepVoiceShorts !== undefined || p.stepCreditLongform !== undefined || p.stepEpithetLongform !== undefined || p.stepVoiceLongform !== undefined
   if (hasNew) {
-    return {
-      credit: !!p.stepCredit,
-      epithet: !!p.stepEpithet,
-      voice: !!p.stepVoice
+    if (portrait) {
+      return {
+        credit: !!p.stepCreditShorts,
+        epithet: !!p.stepEpithetShorts,
+        voice: !!p.stepVoiceShorts
+      }
+    } else {
+      return {
+        credit: !!p.stepCreditLongform,
+        epithet: !!p.stepEpithetLongform,
+        voice: !!p.stepVoiceLongform
+      }
     }
   }
   const hasQuote = !!(p.quoteChunks?.some(c => c.trim()) || p.quote?.trim())
@@ -40,14 +53,35 @@ export function factionStepsOf(p: FactionPerson, portrait = false, isLeader = fa
   }
 }
 
-/** 신모델 스텝 저장 — 셋 다 명시하고 레거시 quoteMode는 제거한다(이후 신모델로 인식). */
+/** 신모델 스텝 저장 — 레거시 quoteMode는 제거한다(이후 신모델로 인식). */
 export function applyFactionSteps(p: FactionPerson, steps: FactionSteps, portrait = false): FactionPerson {
   const next: FactionPerson = { ...p }
-  next.stepCredit = steps.credit
-  next.stepEpithet = steps.epithet
-  next.stepVoice = steps.voice
+  if (portrait) {
+    next.stepCreditShorts = steps.credit
+    next.stepEpithetShorts = steps.epithet
+    next.stepVoiceShorts = steps.voice
+  } else {
+    next.stepCreditLongform = steps.credit
+    next.stepEpithetLongform = steps.epithet
+    next.stepVoiceLongform = steps.voice
+  }
   delete next.quoteMode
   return next
+}
+
+/** 낭독 여부 — orientation 맞춤 우선. 없으면 공통. 미지정이면 음원 있으면 낭독 */
+export function epithetIsNarrated(p: FactionPerson, shorts = false): boolean {
+  const spec = shorts ? p.epithetNarrateShorts : p.epithetNarrateLongform
+  if (spec !== undefined) return spec
+  if (p.epithetNarrate !== undefined) return p.epithetNarrate
+  return !!(p.epithetDuration && p.epithetDuration > 0)
+}
+
+/** 직함 타이핑 여부 — orientation 맞춤 우선. 없으면 공통 */
+export function linesTypingOf(p: FactionPerson, shorts = false): boolean {
+  const spec = shorts ? p.linesTypingShorts : p.linesTypingLongform
+  if (spec !== undefined) return spec
+  return !!p.linesTyping
 }
 
 // 인물 컷 길이 — 렌더러(Faction/timing.ts)와 동일 규칙: 타이핑 시간 + 읽기 시간, 최소 보장
@@ -97,11 +131,15 @@ function groupClusterCards(g: FactionScript['groups'][number]): number {
 }
 
 /** 영상 총 길이(초) 추정 */
+export function groupSecOf(script: FactionScript): number {
+  return script.groupSec ?? GROUP_SEC
+}
+
 export function totalSec(script: FactionScript): number {
   const groups = (script.groups ?? []).filter(g => !g.disabled)
   const groupsSec = groups.reduce((sum, g) => {
-    // 타이틀 카드(로고)는 로고(logoVid 또는 logoImg)가 있는 세력만
-    const head = (g.logoVid || g.logoImg) ? GROUP_SEC : 0
+    // 타이틀 카드(로고)는 로고(logoVid 또는 logoImg)가 있는 세력만. groupSec 오버라이드 지원
+    const head = (g.logoVid || g.logoImg) ? groupSecOf(script) : 0
     // 화보(그룹샷) 카드 — solo 생략, 1명+화보 없음 그룹 생략
     const clusterCardsSec = groupClusterCards(g) * CLUSTER_SEC
     // 인물 컷은 텍스트 양에 따라 길이가 다르다 — 사람마다 합산
@@ -132,14 +170,14 @@ export function longformPartCount(script: FactionScript): number {
 
 /**
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들 — 렌더(Faction/timing.ts longformSegments)와 동일 규칙.
- * 각 구간은 세력 블록(gi)·시대 문구 카드(era)의 나열. 배치에 빠진 활성 세력은 마지막 구간 맨 뒤에 자동으로 붙는다.
+ * 각 구간은 세력 블록(gi)·시대 문구 카드(era)·챕터 전환(chapter)의 나열. 배치에 빠진 활성 세력은 마지막 구간 맨 뒤에 자동으로 붙는다.
  */
-export function longformSegments(script: FactionScript): Array<Array<{ era: FactionEra } | { gi: number }>> {
-  type Step = { era: FactionEra } | { gi: number }
+export function longformSegments(script: FactionScript): Array<Array<{ era: FactionEra } | { gi: number } | { chapter: FactionChapter }>> {
+  type Step = { era: FactionEra } | { gi: number } | { chapter: FactionChapter }
   const segments: Step[][] = [[]]
   for (const it of script.longformLayout ?? []) {
     if ('cut' in it) { segments.push([]); continue }
-    segments[segments.length - 1].push('group' in it ? { gi: it.group } : { era: it.era })
+    segments[segments.length - 1].push('group' in it ? { gi: it.group } : 'chapter' in it ? { chapter: it.chapter } : { era: it.era })
   }
   const placed = new Set((script.longformLayout ?? []).flatMap(it => ('group' in it ? [it.group] : [])))
   script.groups.forEach((g, gi) => { if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push({ gi }) })

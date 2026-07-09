@@ -41,7 +41,18 @@ export function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose, la
   return (
     <div className={`space-y-1.5 p-2 rounded-lg ${toneCls.bg} border ${toneCls.border}`}>
       <div className={`text-[10px] ${toneCls.text} font-semibold`}>{label}</div>
-      <AudioWavePlayer audioUrl={blobUrl} duration={duration} heightClass="h-12" showRuler={false} autoPlay={autoPlay} onRegenerate={onRegenerate} regenerating={regenerating} playbackRate={playbackRate} gainDb={gainDb} />
+      <AudioWavePlayer 
+        audioUrl={blobUrl} 
+        duration={duration} 
+        heightClass="h-12" 
+        showRuler={false} 
+        autoPlay={autoPlay} 
+        onRegenerate={onRegenerate} 
+        regenerating={regenerating} 
+        playbackRate={playbackRate} 
+        gainDb={gainDb} 
+        headerTitle="미리듣기 (단기 보관)"
+      />
       <div className="flex items-center gap-2">
         <button onClick={onSave} disabled={saving}
           className={`px-2 py-0.5 rounded ${toneCls.btn} text-white text-[10px] font-semibold disabled:opacity-50`}>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   type EleVoiceLike,
   type EleSortKey,
@@ -11,6 +11,9 @@ import {
   facetLabel,
   facetValueLabel,
 } from '../../../../../../voice-utils'
+import { ELE_VOICE_STATUS_LABEL, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
+import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
+import type { FactionEleVoiceRecommendation } from './faction-voice-recommendations'
 
 /**
  * ElevenLabs 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색 + 거르기·정렬)과 직접 입력을 한 위젯에 합친다.
@@ -27,9 +30,21 @@ import {
  */
 
 type Voice = EleVoiceLike
+type VoiceQuickFilter = 'good' | 'maybe' | 'noted' | 'used' | 'unused'
+
+const QUICK_FILTER_LABEL: Record<VoiceQuickFilter, string> = {
+  good: '좋음',
+  maybe: '보류',
+  noted: '메모 있음',
+  used: '기존 사용',
+  unused: '미사용',
+}
+const QUICK_FILTERS: VoiceQuickFilter[] = ['good', 'maybe', 'noted', 'used', 'unused']
 
 export function EleVoiceCombobox({
-  voices, value, onChange, loading, error,
+  voices, value, onChange, loading, error, recommendations = [],
+  voiceNotes = {}, notesLoading = false, notesError = null, savingVoiceId = null, onUpdateVoiceNote,
+  voiceHistory = {}, historyLoading = false, historyError = null, historyUsageCount = 0,
 }: {
   voices: Voice[]
   /** 현재 voiceId */
@@ -38,6 +53,16 @@ export function EleVoiceCombobox({
   onChange: (voiceId: string) => void
   loading: boolean
   error: string | null
+  recommendations?: FactionEleVoiceRecommendation[]
+  voiceNotes?: Record<string, EleVoiceNote>
+  notesLoading?: boolean
+  notesError?: string | null
+  savingVoiceId?: string | null
+  onUpdateVoiceNote?: (voice: Voice, patch: { status?: EleVoiceNoteStatus | null; note?: string }) => void
+  voiceHistory?: Record<string, FactionVoiceHistoryEntry>
+  historyLoading?: boolean
+  historyError?: string | null
+  historyUsageCount?: number
 }) {
   const [open, setOpen] = useState(false)
   // 편집(검색) 중 여부 — 켜지면 입력칸이 query 를, 꺼지면 선택된 보이스 이름을 보여준다.
@@ -47,6 +72,10 @@ export function EleVoiceCombobox({
   const [activeFacets, setActiveFacets] = useState<Record<string, string[]>>({})
   const [sortKey, setSortKey] = useState<EleSortKey>('default')
   const [previewOnly, setPreviewOnly] = useState(false)
+  const [recommendationOnly, setRecommendationOnly] = useState(false)
+  const [showBlocked, setShowBlocked] = useState(false)
+  const [quickFilters, setQuickFilters] = useState<VoiceQuickFilter[]>([])
+  const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({})
   const wrapRef = useRef<HTMLDivElement>(null)
   // 보이스 샘플 미리듣기 — ElevenLabs preview_url 을 재생. 한 번에 하나만.
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -71,6 +100,42 @@ export function EleVoiceCombobox({
   }, [open])
 
   const selected = voices.find(v => v.voice_id === value)
+  useEffect(() => {
+    setNoteDrafts(prev => {
+      let changed = false
+      const next = { ...prev }
+      for (const note of Object.values(voiceNotes)) {
+        if (!(note.voiceId in next)) {
+          next[note.voiceId] = note.note ?? ''
+          changed = true
+        }
+      }
+      return changed ? next : prev
+    })
+  }, [voiceNotes])
+  const voiceById = useMemo(
+    () => new Map(voices.map(v => [v.voice_id, v])),
+    [voices],
+  )
+  const recommendationById = useMemo(
+    () => new Map(recommendations.map((r, index) => [r.voiceId, { ...r, rank: index + 1 }])),
+    [recommendations],
+  )
+  const recommendationIdSet = useMemo(
+    () => new Set(recommendations.map(r => r.voiceId)),
+    [recommendations],
+  )
+  const topRecommendations = useMemo(
+    () => recommendations
+      .map((rec, index) => ({ rec, rank: index + 1, voice: voiceById.get(rec.voiceId) }))
+      .filter((item): item is { rec: FactionEleVoiceRecommendation; rank: number; voice: Voice } => !!item.voice)
+      .slice(0, 3),
+    [recommendations, voiceById],
+  )
+  const blockedCount = useMemo(
+    () => Object.values(voiceNotes).filter(n => n.status === 'blocked').length,
+    [voiceNotes],
+  )
   // 표시값: 검색 중이면 입력 query, 아니면 선택된 이름(목록에 없으면 raw voiceId).
   const display = editing ? query : (selected?.name ?? value)
 
@@ -88,17 +153,39 @@ export function EleVoiceCombobox({
 
   const facets = useMemo(() => collectFacets(voices), [voices])
   const activeFacetCount = useMemo(
-    () => Object.values(activeFacets).reduce((n, vs) => n + vs.length, 0) + (previewOnly ? 1 : 0),
-    [activeFacets, previewOnly])
+    () => Object.values(activeFacets).reduce((n, vs) => n + vs.length, 0)
+      + (previewOnly ? 1 : 0)
+      + (recommendationOnly ? 1 : 0)
+      + (showBlocked ? 1 : 0)
+      + quickFilters.length,
+    [activeFacets, previewOnly, recommendationOnly, showBlocked, quickFilters.length])
 
   const q = query.trim().toLowerCase()
+  const matchesQuickFilters = useCallback((voiceId: string) => quickFilters.every(filter => {
+    const note = voiceNotes[voiceId]
+    const history = voiceHistory[voiceId]
+    if (filter === 'good') return note?.status === 'good'
+    if (filter === 'maybe') return note?.status === 'maybe'
+    if (filter === 'noted') return !!note?.note
+    if (filter === 'used') return !!history?.count
+    return !history?.count
+  }), [quickFilters, voiceHistory, voiceNotes])
   const filtered = useMemo(() => {
     const result = voices.filter(v =>
+      (showBlocked || voiceNotes[v.voice_id]?.status !== 'blocked')
+      &&
+      (!recommendationOnly || recommendationIdSet.has(v.voice_id))
+      &&
+      matchesQuickFilters(v.voice_id)
+      &&
       (!q || v.name.toLowerCase().includes(q))
       && matchesFacets(v, activeFacets)
       && (!previewOnly || !!v.preview_url))
-    return sortVoices(result, sortKey)
-  }, [voices, q, activeFacets, previewOnly, sortKey])
+    const sorted = sortVoices(result, sortKey)
+    if (!recommendationOnly) return sorted
+    return sorted.sort((a, b) =>
+      (recommendationById.get(a.voice_id)?.rank ?? 999) - (recommendationById.get(b.voice_id)?.rank ?? 999))
+  }, [voices, q, activeFacets, previewOnly, recommendationOnly, showBlocked, voiceNotes, recommendationIdSet, recommendationById, sortKey, matchesQuickFilters])
 
   // 검색어가 어느 보이스 이름과도 정확히 안 맞고, 이미 등록된 id 도 아니면 "직접 지정" 항목을 띄운다.
   const rawQuery = query.trim()
@@ -119,7 +206,36 @@ export function EleVoiceCombobox({
       return out
     })
   }
-  const clearFacets = () => { setActiveFacets({}); setPreviewOnly(false) }
+  const toggleQuickFilter = (filter: VoiceQuickFilter) => {
+    setQuickFilters(prev => {
+      if (prev.includes(filter)) return prev.filter(item => item !== filter)
+
+      let next = [...prev, filter]
+      if (filter === 'good') next = next.filter(item => item !== 'maybe')
+      if (filter === 'maybe') next = next.filter(item => item !== 'good')
+      if (filter === 'used') next = next.filter(item => item !== 'unused')
+      if (filter === 'unused') next = next.filter(item => item !== 'used')
+      return next
+    })
+  }
+  const clearFacets = () => {
+    setActiveFacets({})
+    setPreviewOnly(false)
+    setRecommendationOnly(false)
+    setShowBlocked(false)
+    setQuickFilters([])
+  }
+  const showRecommendations = () => {
+    setOpen(true)
+    setEditing(false)
+    setQuery('')
+    setRecommendationOnly(true)
+  }
+  const historyLabel = (entry: FactionVoiceHistoryEntry | undefined) => {
+    if (!entry?.count) return null
+    const names = entry.usages.slice(0, 3).map(usage => usage.personName).join(', ')
+    return `사용 ${entry.count}회${names ? ` · ${names}` : ''}`
+  }
 
   return (
     <div ref={wrapRef} className="relative" onClick={e => e.stopPropagation()}>
@@ -128,8 +244,8 @@ export function EleVoiceCombobox({
         <input
           type="text"
           value={display}
-          onFocus={() => { setEditing(true); setQuery(''); setOpen(true) }}
-          onChange={e => { setEditing(true); setQuery(e.target.value); setOpen(true) }}
+          onFocus={() => { setEditing(true); setQuery(''); setRecommendationOnly(false); setOpen(true) }}
+          onChange={e => { setEditing(true); setQuery(e.target.value); setRecommendationOnly(false); setOpen(true) }}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               e.preventDefault()
@@ -145,11 +261,70 @@ export function EleVoiceCombobox({
         <button
           type="button"
           onMouseDown={e => e.preventDefault()}
-          onClick={() => { setOpen(o => !o); setEditing(false); setQuery('') }}
+          onClick={() => { setOpen(o => !o); setEditing(false); setQuery(''); setRecommendationOnly(false) }}
           className="px-2 flex items-center bg-white text-slate-500 hover:text-slate-800 border-l border-slate-200 shrink-0"
           title="목록 펼치기"
         >▼</button>
       </div>
+
+      {topRecommendations.length > 0 && (
+        <div className="mt-1.5 rounded border border-amber-300 bg-amber-50 px-2 py-1.5">
+          <div className="mb-1 flex items-center gap-2">
+            <span className="text-[11px] font-black text-amber-800">추천 후보</span>
+            <span className="font-mono text-[10px] text-amber-700">{recommendations.length}</span>
+            <button
+              type="button"
+              onClick={showRecommendations}
+              className="ml-auto rounded border border-amber-300 bg-white px-2 py-0.5 text-[10px] font-bold text-amber-800 hover:bg-amber-100"
+            >
+              후보만 보기
+            </button>
+          </div>
+          <div className="grid gap-1 sm:grid-cols-3">
+            {topRecommendations.map(({ rec, rank, voice }) => {
+              const isPlaying = previewingId === voice.voice_id
+              const history = voiceHistory[voice.voice_id]
+              return (
+                <div key={voice.voice_id} className="flex min-w-0 items-center gap-1 rounded border border-amber-200 bg-white px-1.5 py-1">
+                  <button
+                    type="button"
+                    onClick={e => { e.stopPropagation(); playPreview(voice) }}
+                    disabled={!voice.preview_url}
+                    title={voice.preview_url ? '미리듣기' : '미리듣기 없음'}
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded text-[10px] ${
+                      voice.preview_url
+                        ? 'border border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100'
+                        : 'border border-slate-200 bg-white text-slate-300 cursor-not-allowed'
+                    }`}
+                  >
+                    {isPlaying ? '■' : '▶'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => pick(voice.voice_id)}
+                    title={rec.reasons.join(' · ')}
+                    className="min-w-0 flex-1 text-left"
+                  >
+                    <span className="block truncate text-[11px] font-extrabold text-slate-900">{rank}. {voice.name}</span>
+                    <span className="block truncate text-[10px] font-semibold text-amber-700">{rec.reasons.slice(0, 2).join(' · ')}</span>
+                    {history && <span className="block truncate text-[10px] font-semibold text-slate-500">{historyLabel(history)}</span>}
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+      {(notesLoading || notesError || blockedCount > 0 || historyLoading || historyError || historyUsageCount > 0) && (
+        <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
+          {notesLoading && <span>보이스 메모 불러오는 중…</span>}
+          {notesError && <span className="text-danger-text">메모 저장소 오류: {notesError}</span>}
+          {blockedCount > 0 && <span className="font-semibold text-slate-600">제외 {blockedCount}개</span>}
+          {historyLoading && <span>기존 매칭 읽는 중…</span>}
+          {historyError && <span className="text-danger-text">매칭 이력 오류: {historyError}</span>}
+          {historyUsageCount > 0 && <span className="font-semibold text-slate-600">기존 매칭 {historyUsageCount}건</span>}
+        </div>
+      )}
 
       {open && (
         <>
@@ -185,6 +360,48 @@ export function EleVoiceCombobox({
                       : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
                   }`}
                 >▶ 미리듣기만</button>
+                {recommendations.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setRecommendationOnly(!recommendationOnly)}
+                    className={`px-1.5 py-0.5 rounded border text-[10px] font-bold ${
+                      recommendationOnly
+                        ? 'bg-amber-100 text-amber-800 border-amber-300'
+                        : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                    }`}
+                  >추천 {recommendations.length}</button>
+                )}
+                {blockedCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowBlocked(!showBlocked)}
+                    className={`px-1.5 py-0.5 rounded border text-[10px] font-bold ${
+                      showBlocked
+                        ? 'bg-rose-100 text-rose-700 border-rose-300'
+                        : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                    }`}
+                  >제외 {showBlocked ? '표시' : '숨김'}</button>
+                )}
+                {QUICK_FILTERS.map(filter => {
+                  const active = quickFilters.includes(filter)
+                  const tone = filter === 'good'
+                    ? active ? 'bg-emerald-100 text-emerald-700 border-emerald-300' : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                    : filter === 'maybe'
+                      ? active ? 'bg-amber-100 text-amber-700 border-amber-300' : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                      : filter === 'used'
+                        ? active ? 'bg-sky-100 text-sky-700 border-sky-300' : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                        : active ? 'bg-slate-200 text-slate-800 border-slate-400' : 'bg-white border-slate-300 text-slate-500 hover:text-slate-800'
+                  return (
+                    <button
+                      key={filter}
+                      type="button"
+                      onClick={() => toggleQuickFilter(filter)}
+                      className={`px-1.5 py-0.5 rounded border text-[10px] font-bold ${tone}`}
+                    >
+                      {QUICK_FILTER_LABEL[filter]}
+                    </button>
+                  )
+                })}
                 <span className="ml-auto text-slate-400 font-mono">{filtered.length}/{voices.length}</span>
                 {activeFacetCount > 0 && (
                   <button
@@ -242,6 +459,13 @@ export function EleVoiceCombobox({
                 const gender = v.labels?.gender ?? null
                 const age = v.labels?.age ?? null
                 const isPlaying = previewingId === v.voice_id
+                const rec = recommendationById.get(v.voice_id)
+                const note = voiceNotes[v.voice_id]
+                const history = voiceHistory[v.voice_id]
+                const historyText = historyLabel(history)
+                const noteDraft = noteDrafts[v.voice_id] ?? note?.note ?? ''
+                const status = note?.status
+                const blocked = status === 'blocked'
                 return (
                   <div
                     key={v.voice_id}
@@ -249,8 +473,8 @@ export function EleVoiceCombobox({
                     tabIndex={0}
                     onClick={() => pick(v.voice_id)}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(v.voice_id) } }}
-                    className={`grid w-full cursor-pointer grid-cols-[24px_1fr_auto_148px] items-center gap-3 px-3 py-1.5 text-left ${
-                      sel ? 'bg-emerald-50 text-emerald-800' : 'text-slate-900 hover:bg-slate-100'
+                    className={`grid w-full cursor-pointer grid-cols-[24px_1fr_auto_148px] items-center gap-3 px-3 py-2 text-left ${
+                      sel ? 'bg-emerald-50 text-emerald-800' : blocked ? 'bg-rose-50/70 text-slate-700 hover:bg-rose-50' : 'text-slate-900 hover:bg-slate-100'
                     }`}
                   >
                     <button
@@ -264,22 +488,83 @@ export function EleVoiceCombobox({
                           : 'border border-slate-200 bg-white text-slate-300 cursor-not-allowed'
                       }`}
                     >{isPlaying ? '■' : '▶'}</button>
-                    <span className="flex min-w-0 items-center gap-1.5">
-                      <span className={`truncate text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
-                      {gender && (
-                        <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
-                          gender === 'female' ? 'bg-pink-100 text-pink-700'
-                            : gender === 'male' ? 'bg-sky-100 text-sky-700'
-                            : 'bg-slate-100 text-slate-500'
-                        }`}>{facetValueLabel(gender)}</span>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        <span className={`truncate text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
+                        {rec && <span className="shrink-0 rounded bg-amber-100 px-1 text-[9px] font-black text-amber-800">추천 {rec.rank}</span>}
+                        {history && <span className="shrink-0 rounded bg-slate-100 px-1 text-[9px] font-black text-slate-600">사용 {history.count}</span>}
+                        {status && <span className={`shrink-0 rounded px-1 text-[9px] font-black ${
+                          status === 'good' ? 'bg-emerald-100 text-emerald-700'
+                            : status === 'maybe' ? 'bg-amber-100 text-amber-700'
+                              : 'bg-rose-100 text-rose-700'
+                        }`}>{ELE_VOICE_STATUS_LABEL[status]}</span>}
+                        {gender && (
+                          <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
+                            gender === 'female' ? 'bg-pink-100 text-pink-700'
+                              : gender === 'male' ? 'bg-sky-100 text-sky-700'
+                              : 'bg-slate-100 text-slate-500'
+                          }`}>{facetValueLabel(gender)}</span>
+                        )}
+                        {age && <span className="shrink-0 text-[9px] text-slate-400">{facetValueLabel(age)}</span>}
+                        {v.account && (
+                          <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
+                            v.account.id === 'default'
+                              ? 'bg-slate-100 text-slate-500'
+                              : 'bg-amber-100 text-amber-700'
+                          }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
+                        )}
+                      </span>
+                      {rec && (
+                        <span className="truncate text-[10px] font-semibold text-amber-700">{rec.reasons.slice(0, 3).join(' · ')}</span>
                       )}
-                      {age && <span className="shrink-0 text-[9px] text-slate-400">{facetValueLabel(age)}</span>}
-                      {v.account && (
-                        <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
-                          v.account.id === 'default'
-                            ? 'bg-slate-100 text-slate-500'
-                            : 'bg-amber-100 text-amber-700'
-                        }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
+                      {historyText && (
+                        <span className="truncate text-[10px] font-semibold text-slate-500">{historyText}</span>
+                      )}
+                      {onUpdateVoiceNote && (
+                        <span className="mt-1 flex min-w-0 items-center gap-1">
+                          {(['good', 'maybe', 'blocked'] as const).map(s => (
+                            <button
+                              key={s}
+                              type="button"
+                              onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: s }) }}
+                              disabled={savingVoiceId === v.voice_id}
+                              className={`shrink-0 rounded border px-1.5 py-0.5 text-[10px] font-bold disabled:opacity-50 ${
+                                status === s
+                                  ? s === 'good'
+                                    ? 'border-emerald-300 bg-emerald-100 text-emerald-700'
+                                    : s === 'maybe'
+                                      ? 'border-amber-300 bg-amber-100 text-amber-700'
+                                      : 'border-rose-300 bg-rose-100 text-rose-700'
+                                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-800'
+                              }`}
+                            >
+                              {ELE_VOICE_STATUS_LABEL[s]}
+                            </button>
+                          ))}
+                          {status && (
+                            <button
+                              type="button"
+                              onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: null }) }}
+                              disabled={savingVoiceId === v.voice_id}
+                              className="shrink-0 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-400 hover:border-slate-400 hover:text-slate-700 disabled:opacity-50"
+                            >
+                              해제
+                            </button>
+                          )}
+                          <input
+                            value={noteDraft}
+                            onChange={e => setNoteDrafts(prev => ({ ...prev, [v.voice_id]: e.target.value }))}
+                            onClick={e => e.stopPropagation()}
+                            onMouseDown={e => e.stopPropagation()}
+                            onKeyDown={e => e.stopPropagation()}
+                            onBlur={e => {
+                              const next = e.currentTarget.value.trim()
+                              if (next !== (note?.note ?? '')) onUpdateVoiceNote(v, { note: next })
+                            }}
+                            placeholder="메모"
+                            className="h-6 min-w-0 flex-1 rounded border border-slate-200 bg-white px-1.5 text-[11px] text-slate-800 outline-none focus:border-amber-400"
+                          />
+                        </span>
                       )}
                     </span>
                     <span className="text-center text-[10px] font-semibold text-slate-400">{v.category ? facetValueLabel(v.category) : '—'}</span>

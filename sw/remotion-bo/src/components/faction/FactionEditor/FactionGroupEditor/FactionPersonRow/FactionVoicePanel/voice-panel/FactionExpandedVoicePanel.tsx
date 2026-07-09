@@ -14,6 +14,9 @@ import { FactionSavedVoiceSection } from './FactionSavedVoiceSection'
 import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { EleVoiceCombobox } from './EleVoiceCombobox'
+import { buildFactionEleVoiceRecommendations } from './faction-voice-recommendations'
+import { useEleVoiceNotes } from './useEleVoiceNotes'
+import { useEleVoiceHistory } from './useEleVoiceHistory'
 
 /**
  * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도 인물 1명용.
@@ -61,11 +64,28 @@ export function FactionExpandedVoicePanel({
   // 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거). 기본 생성·트림.
   const [mode, setMode] = useState<'main' | 'sync' | 'breath'>('main')
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+      if (e.key === '1') setMode('main')
+      if (e.key === '2') setMode('sync')
+      if (e.key === '3') setMode('breath')
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   // ElevenLabs 워크스페이스 보이스 목록 — 북리커맨드 화자 선택처럼 드롭다운으로 고른다.
   // 성별·나이·억양 등 꼬리표(labels)와 미리듣기(preview_url)까지 받아 콤보박스에서 거르기·정렬에 쓴다.
   const [eleVoices, setEleVoices] = useState<EleVoiceLike[]>([])
   const [eleVoicesLoading, setEleVoicesLoading] = useState(false)
   const [eleVoicesError, setEleVoicesError] = useState<string | null>(null)
+  const eleVoiceNotes = useEleVoiceNotes()
+  const eleVoiceHistory = useEleVoiceHistory()
+  // 셀럽 DB 연동 — 불변 셀럽 ID(celebId) 우선, 없으면 slug 로 같은 인물을 가리킨다.
+  // celebId 가 둘 다 없으면 DB에 등록된 인물이 아니라 연동 불가(버튼 비활성).
+  const celebKey = person.celebId || person.slug || null
+  const [personGender, setPersonGender] = useState<'male' | 'female' | null>(null)
 
   // BreathModeContent 의 로드·저장 라우트를 세력도 경로로 갈아끼우는 어댑터.
   // (북리커맨드는 /voice/play·/voice/save, 세력도는 /faction-voice/{episode}/...)
@@ -83,6 +103,37 @@ export function FactionExpandedVoicePanel({
   }), [episodeName])
 
   const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot })
+  useEffect(() => {
+    if (slot.id !== 'quote' || !celebKey) {
+      setPersonGender(null)
+      return
+    }
+
+    let alive = true
+    fetch(`/api/celebs/${encodeURIComponent(celebKey)}/voice`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!alive) return
+        setPersonGender(data?.gender === true ? 'male' : data?.gender === false ? 'female' : null)
+      })
+      .catch(() => { if (alive) setPersonGender(null) })
+    return () => { alive = false }
+  }, [celebKey, slot.id])
+
+  const eleVoiceRecommendations = useMemo(
+    () => buildFactionEleVoiceRecommendations({
+      person,
+      voices: eleVoices,
+      currentVoiceId: spec.eleVoiceId,
+      targetGender: slot.id === 'quote' ? personGender : null,
+      style: spec.stylePrefix,
+      emotions: spec.eleEmotions,
+      voiceNotes: eleVoiceNotes.notes,
+      voiceHistory: eleVoiceHistory.history,
+      blockedVoiceIds: eleVoiceNotes.blockedVoiceIds,
+    }),
+    [person, eleVoices, spec.eleVoiceId, slot.id, personGender, spec.stylePrefix, spec.eleEmotions, eleVoiceNotes.notes, eleVoiceNotes.blockedVoiceIds, eleVoiceHistory.history],
+  )
 
   // Gemini 발화 스타일 — 인물 quoteStyle(spec.stylePrefix)을 초기값으로 받아 입력칸과 묶는다.
   // 매 키스트로크는 로컬 state 만 갱신하고, blur 시 GenerateSection 이 saveQuoteStyle 로 영속한다.
@@ -115,9 +166,6 @@ export function FactionExpandedVoicePanel({
     onSaved: dur => onChange({ ...person, [slot.fields.duration]: dur }),
   })
 
-  // 셀럽 DB 연동 — 불변 셀럽 ID(celebId) 우선, 없으면 slug 로 같은 인물을 가리킨다.
-  // celebId 가 둘 다 없으면 DB에 등록된 인물이 아니라 연동 불가(버튼 비활성).
-  const celebKey = person.celebId || person.slug || null
   const [dbBusy, setDbBusy] = useState(false)
   const [dbNotice, setDbNotice] = useState<string | null>(null)
 
@@ -232,6 +280,16 @@ export function FactionExpandedVoicePanel({
             onChange={spec.setEleVoiceId}
             loading={eleVoicesLoading}
             error={eleVoicesError}
+            recommendations={eleVoiceRecommendations}
+            voiceNotes={eleVoiceNotes.notes}
+            notesLoading={eleVoiceNotes.loading}
+            notesError={eleVoiceNotes.error}
+            savingVoiceId={eleVoiceNotes.savingVoiceId}
+            onUpdateVoiceNote={eleVoiceNotes.updateVoiceNote}
+            voiceHistory={eleVoiceHistory.history}
+            historyLoading={eleVoiceHistory.loading}
+            historyError={eleVoiceHistory.error}
+            historyUsageCount={eleVoiceHistory.usageCount}
           />
 
           {/* 셀럽 DB 보이스 연동 — 같은 인물(celebId)의 국문 보이스를 끌어오거나 현재 값을 DB에 올린다.

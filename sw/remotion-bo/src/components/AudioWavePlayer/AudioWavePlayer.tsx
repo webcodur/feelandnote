@@ -4,27 +4,56 @@ import React from 'react'
 import { TimeRuler, PlayheadOverlay } from '../TimeRuler'
 import type { Props } from './types'
 import { useAudioWavePlayer } from './useAudioWavePlayer'
+import { WaveDisplayControls } from './WaveDisplayControls'
 
 export function AudioWavePlayer({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
-  trimStart, trimEnd, onTrimStart, onTrimEnd, onRegenerate, regenerating, pxPerSec, autoPlay, onHoverTime,
-  playbackRate, gainDb,
-}: Props) {
+  trimStart, trimEnd, onTrimStart, onTrimEnd, onRegenerate, regenerating, pxPerSec: initialPxPerSec, autoPlay, onHoverTime, onDurationResolved,
+  playbackRate, gainDb, autoActivate, headerTitle,
+}: Props & { autoActivate?: boolean }) {
+  const [zoom, setZoom] = React.useState(initialPxPerSec ?? 0)
+  const [visualGain, setVisualGain] = React.useState(1)
+
   const {
     canvasRef, containerRef, playing, playhead, dur,
     onMouseMove, onMouseLeave, HoverOverlay,
-    togglePlay, stop, handleClick, activate, handleDblClick, handleTrimDown,
+    togglePlay, stop, handleClick, activate, isActive, handleDblClick, handleTrimDown,
     trimEndHandlePct, trimStartHandlePct, absWidth,
   } = useAudioWavePlayer({
     audioUrl, duration,
     onClick, onTimeClick, onDoubleClick,
-    trimStart, trimEnd, onTrimStart, onTrimEnd, pxPerSec, autoPlay,
-    playbackRate, gainDb,
+    trimStart, trimEnd, onTrimStart, onTrimEnd, pxPerSec: zoom, autoPlay,
+    playbackRate, gainDb, visualGain,
   })
 
+  React.useEffect(() => {
+    if (autoActivate) activate()
+  }, [autoActivate, activate])
+
+  // 실제 디코드된 오디오 길이를 부모에 보고 — 오버레이·경계 좌표 배율을 파형(실제 길이)에 맞춘다.
+  React.useEffect(() => {
+    if (dur > 0) onDurationResolved?.(dur)
+  }, [dur, onDurationResolved])
+
   return (
-    <div>
+    <div className={`rounded border transition-colors ${isActive ? 'border-accent shadow-[0_0_0_1px_var(--color-accent)]' : 'border-transparent'}`}>
+    {headerTitle && (
+      <div 
+        onClick={() => activate()}
+        className={`px-3 py-1.5 border-b rounded-t flex items-center justify-between cursor-pointer transition-colors ${
+          isActive ? 'bg-accent/10 border-accent/30' : 'bg-bg-card border-border hover:bg-bg-hover'
+        }`}
+      >
+        <div className={`text-xs font-semibold flex items-center gap-2 ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+          <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent' : 'bg-border'}`} />
+          {headerTitle}
+        </div>
+        <span className="text-[10px] text-text-secondary font-mono">
+          {playhead.toFixed(2)}s / {dur.toFixed(2)}s
+        </span>
+      </div>
+    )}
     <div className={absWidth ? 'overflow-x-auto' : ''}>
     <div className="space-y-0" style={absWidth ? { width: `${absWidth}px` } : undefined}>
       {/* 눈금자 */}
@@ -33,7 +62,7 @@ export function AudioWavePlayer({
           duration={dur}
           containerRef={containerRef}
           boundaries={boundaries}
-          className="rounded-t border-b border-border"
+          className={`${headerTitle ? '' : 'rounded-t'} border-b border-border`}
         />
       )}
 
@@ -112,26 +141,36 @@ export function AudioWavePlayer({
     </div>
 
       {/* 컨트롤 — 가로스크롤 영역 밖에 둬 긴 파형(가로 스크롤)에서도 좌하단에 항상 보인다 */}
-      <div className="flex items-center gap-2 mt-1">
-        <button onClick={togglePlay}
-          className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover">
-          {playing ? '⏸ 일시정지' : '▶ 재생'}
-        </button>
-        {(playing || playhead > 0) && (
-          <button onClick={stop}
+      <div className="flex items-center gap-4 mt-2 px-1 flex-wrap">
+        <div className="flex items-center gap-2">
+          <button onClick={togglePlay}
             className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover">
-            ■ 정지
+            {playing ? '⏸ 일시정지' : '▶ 재생'}
           </button>
-        )}
-        {onRegenerate && (
-          <button onClick={onRegenerate} disabled={regenerating}
-            className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover disabled:opacity-50 disabled:cursor-not-allowed">
-            {regenerating ? '↻ 생성 중…' : '↻ 재생성'}
-          </button>
-        )}
-        <span className="text-[10px] text-text-secondary font-mono">
-          {playhead.toFixed(2)}s / {dur.toFixed(2)}s
-        </span>
+          {(playing || playhead > 0) && (
+            <button onClick={stop}
+              className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover">
+              ■ 정지
+            </button>
+          )}
+          {onRegenerate && (
+            <button onClick={onRegenerate} disabled={regenerating}
+              className="px-2 py-0.5 rounded text-xs bg-bg-card border border-border hover:bg-bg-hover disabled:opacity-50 disabled:cursor-not-allowed">
+              {regenerating ? '↻ 생성 중…' : '↻ 재생성'}
+            </button>
+          )}
+          {!headerTitle && (
+            <span className="text-[10px] text-text-secondary font-mono ml-1">
+              {playhead.toFixed(2)}s / {dur.toFixed(2)}s
+            </span>
+          )}
+        </div>
+        <div className="ml-auto">
+          <WaveDisplayControls
+            zoom={zoom} setZoom={setZoom}
+            visualGain={visualGain} setVisualGain={setVisualGain}
+          />
+        </div>
       </div>
     </div>
   )

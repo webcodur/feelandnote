@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { AudioWavePlayer, usePct } from '../AudioWavePlayer'
 import type { Props } from './types'
 import { useTimingEditor } from './useTimingEditor'
@@ -10,8 +11,11 @@ import { SegmentList } from './sections/SegmentList'
 import { JsonEditor } from './sections/JsonEditor'
 
 export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSentences, timings, onChange, onSegmentsChange, segmentsRef }: Props) {
-  const pct = usePct(duration)
-  const editor = useTimingEditor({ timings, duration, initialSentences, onChange, onSegmentsChange, segmentsRef })
+  // 파형·오버레이·경계 드래그의 위치 배율은 실제 디코드된 오디오 길이로 통일한다.
+  // prop duration(메타)이 실제 파일 길이와 다르면 오버레이(주황선·경계)가 마우스와 어긋나므로 실측 길이를 단일 기준으로 삼는다.
+  const [realDur, setRealDur] = useState(duration)
+  const pct = usePct(realDur)
+  const editor = useTimingEditor({ timings, duration: realDur, initialSentences, onChange, onSegmentsChange, segmentsRef })
 
   return (
     <div className="relative space-y-2">
@@ -22,8 +26,11 @@ export function VoiceTimingEditor({ audioUrl, duration, sentences: initialSenten
         onDoubleClick={editor.handleDblClick}
         onTimeClick={editor.handleWaveTimeClick}
         onHoverTime={editor.setHoverT}
+        onDurationResolved={setRealDur}
+        headerTitle="자막 타이밍 보정 영역"
         heightClass="h-56"
         pxPerSec={120}
+        autoActivate
       >
         <WaveOverlay
           timings={timings}

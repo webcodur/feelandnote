@@ -18,10 +18,11 @@ type Props = {
   /** 그룹 인덱스 (0-based) — 항상 존재(단일 모드·solo는 0) */
   clusterIndex: number
   editLang: EditLang
+  onMoveCrossGroup?: (personIndex: number) => void
 }
 
 export function PersonList({
-  people, onPeopleChange, onAddCeleb, series, episodeName, groupIndex, clusterIndex, editLang,
+  people, onPeopleChange, onAddCeleb, series, episodeName, groupIndex, clusterIndex, editLang, onMoveCrossGroup
 }: Props) {
   const voiceCtx = useFactionVoice()
   const setPerson = (i: number, p: FactionPerson) =>
@@ -70,6 +71,8 @@ export function PersonList({
           personIndex={i}
           clusterIndex={clusterIndex}
           editLang={editLang}
+          totalPeople={people.length}
+          onMoveCrossGroup={onMoveCrossGroup ? () => onMoveCrossGroup(i) : undefined}
         />
       ))}
       {people.length === 0 && <p className="text-xs text-text-dim">아직 인물이 없습니다.</p>}

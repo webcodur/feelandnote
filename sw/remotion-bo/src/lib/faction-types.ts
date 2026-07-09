@@ -127,8 +127,12 @@ export interface FactionPerson extends FactionCardFields {
   epithetEleTrail?: boolean
   /** 수식어 표시 방식 — true=낭독(음원 재생), false=타이핑 소리+글자만(음원 무시). 미지정이면 음원 있으면 낭독·없으면 타이핑 */
   epithetNarrate?: boolean
+  epithetNarrateShorts?: boolean
+  epithetNarrateLongform?: boolean
   /** 직함 표시 방식 — true=타이핑 효과(글자씩 점등), false/미지정=순차 등장(기존) */
   linesTyping?: boolean
+  linesTypingShorts?: boolean
+  linesTypingLongform?: boolean
   /** 인물 직함·이력 줄 (3줄 권장). 한 줄씩 순차 등장 */
   lines?: string[]
   /** 인물 직함·이력 줄 영문 */
@@ -179,12 +183,18 @@ export interface FactionPerson extends FactionCardFields {
    * 흐름: (직함 2·3줄) → (수식어 타이핑) → (대사). 음성이 꺼지면 대사는 안 뜨고 켜진 리드 스텝만 보이고 끝.
    * 세 값 중 하나라도 정의돼 있으면 신모델로 간주(quoteMode 무시).
    */
-  /** 직함 스텝 — 직함 2·3번 줄을 순차로 보여준 뒤 다음으로 교차 */
-  stepCredit?: boolean
-  /** 수식어 스텝 — 수식어를 타이핑으로 보여준 뒤 다음으로 교차(세로 쇼츠 전용) */
-  stepEpithet?: boolean
-  /** 음성 스텝 — 대사를 표시하고 음원이 있으면 재생. 꺼지면 대사 자체가 안 뜬다 */
-  stepVoice?: boolean
+  /**
+   * 세로 쇼츠 전용 대사 처리 스텝
+   */
+  stepCreditShorts?: boolean
+  stepEpithetShorts?: boolean
+  stepVoiceShorts?: boolean
+  /**
+   * 가로 롱폼 전용 대사 처리 스텝
+   */
+  stepCreditLongform?: boolean
+  stepEpithetLongform?: boolean
+  stepVoiceLongform?: boolean
   /**
    * 대사 처리 단계 (레거시 — 신모델 스텝이 없을 때만 환산).
    * - 'voice': 음성+대사. - 'text': 대사만(무음). - 'credit': 직함만. - 'full': 직함 뒤 음성+대사. 미지정이면 자동.
@@ -264,6 +274,8 @@ export interface FactionCluster {
   zoomSpeed?: number
   /** true면 이 묶음만 세로 쇼츠에서 제외하고 가로 롱폼에는 노출한다 (세력은 그대로, 묶음 단위 분기) */
   longformOnly?: boolean
+  /** true면 이 묶음을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
+  disabled?: boolean
 }
 
 export interface FactionGroup extends Partial<FactionGroupCardFields> {
@@ -326,10 +338,6 @@ export interface FactionGroup extends Partial<FactionGroupCardFields> {
   clusters?: FactionCluster[]
   /** 소속 인물 (clusters가 없을 때 사용) */
   people: FactionPerson[]
-  /** 이 세력 구간 배경음악(public/music/ basename). 세력 진입 시 이전 곡 페이드아웃 후 교체(구간 반복 재생). 미지정이면 직전 곡 유지 */
-  music?: string
-  /** 이 세력 곡 음량 배율 (0~1, 미지정이면 1 = 원음). 0.5 면 50%. 곡마다 음량 편차를 잡는 데 쓴다 */
-  musicVolume?: number
   /** true면 세로 쇼츠에서만 제외하고 가로 롱폼에는 노출한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
   /**
@@ -389,13 +397,42 @@ export interface FactionEra {
 }
 
 /**
- * 롱폼 배치 한 칸 — 세력 블록(group: 원래 세력 인덱스) 또는 시대 문구 카드(era) 또는 편 경계(cut).
+ * 챕터 전환(Chapter break) — 롱폼에서 여러 쇼츠 주제(챕터)를 한 영상에 이을 때 챕터 사이에 두는 전환 연출.
+ * 편 경계(cut)와 달리 영상을 가르지 않고 한 영상 안에서 챕터를 넘긴다(쇼츠 미적용, 롱폼 전용).
+ * 흐름: 이전 챕터 마지막 → [검정 브릿지: 이전 곡 페이드아웃 + 효과음 1회] → [챕터 표지: 배경 미디어 + 챕터 제목, 이 챕터 곡 페이드인] → 다음 챕터.
+ * 배경음악 곡 경계도 이 지점에서 갈린다(챕터 표지 등장에 맞춰 새 곡이 열림).
+ */
+export interface FactionChapter {
+  /** 챕터 제목 — 통합형(앞부분\n뒷부분). 앞부분(예 '챕터 2') 크게 흰색, 뒷부분(예 '감시에 맞서다') 강조색 */
+  title: string
+  /** 챕터 제목 영문 (통합형, 앞부분\n뒷부분) */
+  titleEn?: string
+  /** 챕터 표지 배경 미디어 — 이미지 또는 비디오 한 장(경로·basename·http). 시작·종료 화면 미디어와 같은 규칙. mp4 등 비디오 지원 */
+  media?: string
+  /** 챕터 표지 배경 미디어 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
+  mediaCrop?: FactionImageCrop
+  /** 이 챕터부터 재생할 배경음악(public/music/ basename). 챕터 표지 등장에 맞춰 페이드인. 미지정이면 이전 곡을 이어간다 — 언어 공통 */
+  music?: string
+  /** 이 챕터 곡 음량 배율 (0~1, 미지정이면 1 = 원음) */
+  musicVolume?: number
+  /** 챕터 전환 효과음(public/common/sfx/ 하위). 검정 브릿지 진입 시 1회. 미지정이면 무음 */
+  sfx?: string
+  /** 검정 브릿지를 챕터 표지 앞에 둔다(미지정이면 켜짐). 이전 챕터를 검정으로 닫고 숨 고른 뒤 표지로 진입 */
+  blackBefore?: boolean
+  /** 검정 브릿지를 챕터 표지 뒤에 둔다(미지정이면 꺼짐, 확장용). 표지를 검정으로 닫고 다음 챕터로 진입 */
+  blackAfter?: boolean
+}
+
+/**
+ * 롱폼 배치 한 칸 — 세력 블록(group: 원래 세력 인덱스) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
  * longformLayout 항목 순서대로 롱폼이 흐른다. cut 을 꽂으면 그 지점에서 여러 편으로 갈라진다.
+ * 챕터 전환(chapter)은 영상을 가르지 않고 한 영상 안에서 챕터를 넘긴다(음악 곡 경계 겸용).
  */
 export type FactionLongformItem =
   | { group: number }
   | { era: FactionEra }
   | { cut: true }
+  | { chapter: FactionChapter }
 
 export interface FactionScript {
   /** 영상 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=앞부분(흰색), 나머지=뒷부분(세력색) */
@@ -444,6 +481,8 @@ export interface FactionScript {
   loglineByPartEn?: Record<number, string>
   /** 시작 화면 지속 시간(초). 미지정이면 기본값(2.5). 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
+  /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 4. BO에서 조정하여 스튜디오/렌더에 적용 */
+  groupSec?: number
   /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
   startSfx?: string
   /** 세력 로고(타이틀 카드) 등장 효과음 파일명(public/common/sfx/ 하위). 미지정이면 효과음 없음 */
@@ -464,10 +503,22 @@ export interface FactionScript {
   introImage?: string
   /** 마지막 화면(아웃트로)에 깔 이미지 한 장(경로·basename·http). 있으면 브랜드 로고 대신 이 이미지를 화면 가득 띄운다 — 언어 공통 */
   outroImage?: string
+  /** 롱폼 전용 시작 화면(이미지·영상). 롱폼 렌더 시 introImage 대신 쓴다. 미지정이면 introImage(=쇼츠와 동일) — 언어 공통 */
+  introImageLong?: string
+  /** 롱폼 전용 마지막 화면(이미지·영상). 롱폼 렌더 시 outroImage 대신 쓴다. 미지정이면 outroImage(=쇼츠와 동일) — 언어 공통 */
+  outroImageLong?: string
+  /** 쇼츠 편(part)별 시작 화면(이미지·영상). 해당 편 렌더 시 introImage 대신 쓴다. 미지정 편은 공용 introImage — 언어 공통 */
+  introImageByPart?: Record<number, string>
+  /** 쇼츠 편(part)별 마지막 화면(이미지·영상). 해당 편 렌더 시 outroImage 대신 쓴다. 미지정 편은 공용 outroImage — 언어 공통 */
+  outroImageByPart?: Record<number, string>
+  /** true면 종료 화면(브랜드 로고·종료 이미지)을 두지 않고 마지막 인물 화면에서 검정으로 페이드아웃하며 끝낸다 — 언어 공통 */
+  noOutro?: boolean
   /** 쇼츠 편(part)별 시작 화면 핵심 인물 slug. 해당 편 렌더 시 heroes 대신 쓴다. 미지정 편은 공통 heroes */
   heroesByPart?: Record<number, string[]>
   /** 시작/마지막 화면 배치 — 'row'(가로 한 줄·각 칸 세로로 김, 기본) | 'column'(세로 한 줄·각 칸 가로로 김) | 'grid'(2열 그리드) */
   heroLayout?: 'row' | 'column' | 'grid'
+  /** 롱폼(LV) 썸네일 전용 이미지(DND 등록용). 미지정이면 첫 번째 인물 이미지로 폴백 */
+  lvThumbnailImage?: string
   /** 세력 목록 (등장 순서) */
   groups: FactionGroup[]
 }

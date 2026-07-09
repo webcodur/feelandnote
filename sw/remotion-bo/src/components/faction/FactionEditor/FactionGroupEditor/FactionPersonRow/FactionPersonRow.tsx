@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film } from '../../../shared/icons'
-import type { FactionPerson } from '@/lib/faction-types'
+import { useState, useEffect, useRef, Fragment } from 'react'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft } from '../../../shared/icons'
+import type { FactionPerson, FactionImageCrop } from '@/lib/faction-types'
 import type { VoiceFile } from '../../../../voice-utils'
 import { factionVoiceFile } from '@/lib/faction-voice'
-import { imageSrc, initial, cropToStyle, factionStepsOf, applyFactionSteps } from '../../../shared/timing'
+import { imageSrc, initial, cropToStyle, factionStepsOf, applyFactionSteps, epithetIsNarrated, linesTypingOf } from '../../../shared/timing'
 import { FactionMediaThumb } from '../../../shared/FactionMediaThumb'
 import { AutoResizeTextarea } from '../../../shared/AutoResizeTextarea'
 import { FactionImagePicker } from './FactionImagePicker/FactionImagePicker'
@@ -16,6 +16,7 @@ import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { useFactionCeleb } from '../../../shared/FactionCelebContext'
 import { useFactionImageDrop } from '../../../shared/useFactionImageDrop'
 import type { EditLang } from '../../../FactionEditor'
+import { EditorPanel } from '@/components/scenario/EditorPanel'
 
 type Props = {
   person: FactionPerson
@@ -32,12 +33,22 @@ type Props = {
   /** 그룹 인덱스 (0-based) — 항상 존재(단일 모드·solo는 0) */
   clusterIndex: number
   editLang: EditLang
+  /** 그룹 내 인물 총 수 (이전/다음 스크롤 버튼용) */
+  totalPeople?: number
+  /** 다른 그룹으로 이동 (cross-move 모달 열기) */
+  onMoveCrossGroup?: () => void
 }
 
-export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang }: Props) {
+import { ImageChangeSlot } from './sections/ImageChangeSlot'
+import { FactionQuoteEditor } from './sections/FactionQuoteEditor'
+import { PersonBasicInfo } from './sections/PersonBasicInfo'
+import { ChevronLeft, ChevronRight } from '../../../shared/icons'
+
+export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   // 인물 행 접기 — 기본 접힘(목록 조망). 펼치면 전체 편집 폼.
   const [collapsed, setCollapsed] = useState(true)
+  const [quoteExpanded, setQuoteExpanded] = useState(true)
   // 음성 설정 모달 — 접힘·펼침 무관하게 헤더 버튼으로 바로 연다. 대사·수식어 각각.
   const [voiceModalOpen, setVoiceModalOpen] = useState(false)
   const [epithetModalOpen, setEpithetModalOpen] = useState(false)
@@ -124,6 +135,19 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const modeBadgeLongform = stepLabelsLongform.length ? stepLabelsLongform.join('·') : '없음'
   const summary = person.lines?.filter(Boolean).join(' · ') || person.quote?.trim() || ''
 
+  const hasQuoteImage = !!person.quoteImage
+  const imageChangeCount = person.imageChanges?.length ?? 0
+  const hasQuoteImages = hasQuoteImage || imageChangeCount > 0
+
+  // 이미지 연결된 청크 (0-based). quoteImage는 대사 시작(첫 청크) 표시
+  const attachedQuoteLines = new Set<number>(
+    (person.imageChanges ?? []).map((ic) => ic.chunk)
+  )
+  if (hasQuoteImage) attachedQuoteLines.add(0)
+
+  const currentChunkCount = person.quoteChunks?.length || 0
+  const maxChunk = Math.max(0, currentChunkCount - 1)
+
   // 영상 제외(눈) 버튼 — 접힘·펼침 공용
   const eyeButton = (
     <button
@@ -147,6 +171,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   // 위/아래 이동 + 삭제 — 접힘·펼침 공용
   const moveDeleteButtons = (
     <>
+      {onMoveCrossGroup && (
+        <button onClick={onMoveCrossGroup} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="다른 세력/그룹으로 이동">
+          <ArrowRightLeft size={15} />
+        </button>
+      )}
       <button onClick={onMoveUp} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="위로">
         <ChevronUp size={15} />
       </button>
@@ -208,12 +237,34 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
   return (
     <div
-      className={`rounded-md border bg-bg-card ${longformOnly && !disabled ? 'border-accent/40' : 'border-border'}`}
+      id={`person-${groupIndex}-${clusterIndex}-${personIndex}`}
+      className={`group flex items-stretch rounded-md border overflow-hidden bg-bg-card ${longformOnly && !disabled ? 'border-accent/40' : 'border-border'}`}
       style={disabled ? { opacity: 0.5, filter: 'saturate(0.4)' } : undefined}
     >
-      {/* 헤더 — 항상 보임. 헤더(빈 영역·이름)를 누르면 접기/펼치기 */}
+      {/* 좌측 스크롤 이동 버튼 (독립 영역) */}
+      {!collapsed && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation()
+            if (personIndex === 0) {
+              document.getElementById(`cluster-header-${groupIndex}-${clusterIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            } else {
+              document.getElementById(`person-${groupIndex}-${clusterIndex}-${personIndex - 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          }}
+          className="w-10 shrink-0 flex items-center justify-center border-r border-border transition-colors hover:bg-slate-200/60 text-text-dim hover:text-text-secondary cursor-pointer"
+          title={personIndex === 0 ? "팀 화보로 이동" : "이전 인물로 이동"}
+        >
+          <ChevronLeft size={24} />
+        </button>
+      )}
+
+      {/* 메인 콘텐츠 영역 */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        {/* 헤더 — 항상 보임. 헤더(빈 영역·이름)를 누르면 접기/펼치기 */}
       <div
-        className={`flex cursor-pointer items-center gap-2 p-2 transition-none hover:bg-bg-secondary ${collapsed ? 'rounded-md' : 'rounded-t-md'}`}
+        className={`flex cursor-pointer items-center gap-2 p-2 transition-none hover:bg-bg-secondary`}
         onClick={() => setCollapsed(v => !v)}
         title={collapsed ? '펼쳐서 편집' : '접기'}
       >
@@ -283,176 +334,172 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
       {/* 펼침 폼 — 헤더 아래로 자연스럽게 늘어난다(세로 균형 안정) */}
       {!collapsed && (
       <div className="flex min-w-0 flex-col gap-2 border-t border-border p-2">
-        {/* 이름 + 이름(영문) — 라벨·값 수평 */}
-        <div className="flex items-center gap-2">
-          {editLang !== 'en' && (
+        <PersonBasicInfo person={person} onChange={onChange} editLang={editLang} />
+        {/* BookRecommend 스타일 시나리오 행 (한마디 대사 + 비주얼 트랙 통폐합) */}
+        <div className="mb-2 rounded-lg border border-slate-400 bg-bg-card shadow-sm overflow-hidden">
+          <div 
+            className="flex items-center justify-between px-3 py-1.5 bg-bg-secondary border-b border-slate-400 text-sm text-text-primary cursor-pointer hover:bg-bg-hover transition-colors"
+            onClick={() => setQuoteExpanded(!quoteExpanded)}
+            title={quoteExpanded ? '클릭하면 접기' : '클릭하면 펼치기'}
+          >
+            <div className="flex items-center gap-1.5 font-bold">
+              <span className="text-xs font-black text-text-dim transition-transform duration-200" style={{ transform: quoteExpanded ? 'none' : 'rotate(-90deg)' }}>▼</span>
+              <span className="bg-bg-hover border border-slate-400 text-text-primary font-bold text-xs px-1.5 py-0.5 rounded leading-none shrink-0">음성</span>
+              인물 대사
+            </div>
+            <div className="text-xs text-text-dim">
+              {hasQuoteImages && '이미지 연결됨'}
+            </div>
+          </div>
+          
+          {quoteExpanded && (
             <>
-              <span className="w-24 shrink-0 text-xs text-text-dim">이름 -</span>
-              <input type="text" placeholder="이름" value={person.name} onChange={e => set('name', e.target.value)} className="min-w-0 flex-1 rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm focus:border-accent focus:outline-none" />
-            </>
-          )}
-          {editLang !== 'ko' && (
-            <>
-              <span className="w-12 shrink-0 text-xs text-text-dim">(영문) -</span>
-              <input type="text" placeholder="EN 이름" value={person.nameEn ?? ''} onChange={e => set('nameEn', e.target.value)} className="min-w-0 flex-1 rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs text-text-secondary focus:border-accent focus:outline-none" />
-            </>
-          )}
-        </div>
-        {/* 직함·이력 + (영문) — 라벨·값 수평 */}
-        <div className="flex items-start gap-2">
-          {editLang !== 'en' && (
-            <>
-              <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">직함(3줄) -</span>
-              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                <input
-                  type="text"
-                  placeholder="1번째 직함 (이름 옆 고정)"
-                  value={person.lines?.[0] ?? ''}
-                  onChange={e => {
-                    const lines = [...(person.lines ?? ['', '', ''])]
-                    lines[0] = e.target.value
-                    onChange({ ...person, lines })
-                  }}
-                  className="w-full rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm font-semibold focus:border-accent focus:outline-none"
-                />
-                {[1, 2].map(idx => (
-                  <div key={idx} className="flex items-start gap-1.5 w-full">
-                    <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-border" />
-                    <AutoResizeTextarea
-                      placeholder={`${idx + 1}번째 이력`}
-                      value={person.lines?.[idx] ?? ''}
-                      onChange={e => {
-                        const lines = [...(person.lines ?? ['', '', ''])]
-                        lines[idx] = e.target.value.replace(/\n/g, ' ')
-                        onChange({ ...person, lines })
-                      }}
-                      rows={1}
-                      className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1 text-sm leading-snug focus:border-accent focus:outline-none"
-                    />
-                  </div>
-                ))}
+          
+          <div className="p-2 flex gap-3 overflow-x-auto items-start bg-bg-main/30 border-b border-border">
+            {/* #1 대사 사진 (기본) */}
+            <div className="flex flex-col w-28 shrink-0 rounded border border-border bg-bg-card shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-1.5 py-1 bg-bg-hover border-b border-border">
+                <span className="text-[10px] font-black text-accent">#1 기본</span>
+                {person.quoteImage && (
+                  <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
+                    <Trash2 size={12} />
+                  </button>
+                )}
               </div>
-            </>
-          )}
-          {editLang !== 'ko' && (
-            <>
-              <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                <input
-                  type="text"
-                  placeholder="1st Credit"
-                  value={person.linesEn?.[0] ?? ''}
-                  onChange={e => {
-                    const lines = [...(person.linesEn ?? ['', '', ''])]
-                    lines[0] = e.target.value
-                    onChange({ ...person, linesEn: lines })
-                  }}
-                  className="w-full rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs text-text-secondary focus:border-accent focus:outline-none"
-                />
-                {[1, 2].map(idx => (
-                  <div key={idx} className="flex items-start gap-1.5 w-full">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-border/60" />
-                    <AutoResizeTextarea
-                      placeholder={idx === 1 ? '2nd Credit' : '3rd Credit'}
-                      value={person.linesEn?.[idx] ?? ''}
-                      onChange={e => {
-                        const lines = [...(person.linesEn ?? ['', '', ''])]
-                        lines[idx] = e.target.value.replace(/\n/g, ' ')
-                        onChange({ ...person, linesEn: lines })
-                      }}
-                      rows={1}
-                      className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none"
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-        {/* 수식어(문장형) + (영문) — 직함과 별개 값. 세로 쇼츠에서 대사 직전 먼저 떠오른다 */}
-        <div className="flex items-start gap-2">
-          {editLang !== 'en' && (
-            <>
-              <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">수식어 -</span>
-              <div className="min-w-0 flex-1 flex flex-col gap-1.5">
-                <AutoResizeTextarea placeholder="대사 전에 띄울 한 문장 (예: 1988년 사이퍼펑크 선언문을 세상에 던져, 암호로 국가의 감시를 끝내려 한 예언자)" value={person.epithet ?? ''} onChange={e => set('epithet', e.target.value.replace(/\n/g, ' '))} rows={2} className="w-full resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
-              </div>
-            </>
-          )}
-          {editLang !== 'ko' && (
-            <>
-              <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <AutoResizeTextarea placeholder="EN epithet (one sentence)" value={person.epithetEn ?? ''} onChange={e => set('epithetEn', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
-            </>
-          )}
-        </div>
-        {/* 한마디 대사 + 대사(영문) — 라벨·값 수평 */}
-        <div className="flex items-start gap-2">
-          {editLang !== 'en' && (
-            <>
-              <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">한마디 대사 -</span>
-              <AutoResizeTextarea placeholder="줄바꿈으로 의미 덩어리 구분" value={person.quoteChunks?.join('\n') ?? person.quote ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteChunks: ch, quote: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm italic leading-snug focus:border-accent focus:outline-none" />
-            </>
-          )}
-          {editLang !== 'ko' && (
-            <>
-              <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-              <AutoResizeTextarea placeholder="EN 대사 (줄바꿈으로 덩어리)" value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''} onChange={e => { const ch = e.target.value.split('\n'); onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map(s => s.trim()).filter(Boolean).join(' ') }) }} rows={4} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
-            </>
-          )}
-        </div>
-        {/* 대사 사진 — 직함 소개 동안엔 헤더 사진, 대사가 시작되는 순간 이 두 번째 사진으로 크로스페이드 */}
-        <div className="flex items-center gap-2">
-          <span className="w-24 shrink-0 text-xs text-text-dim">대사 사진 -</span>
-          <div className="flex min-w-0 flex-1 items-center gap-1.5">
-            {quoteImgSrc && (
-              <FactionMediaThumb src={quoteImgSrc} alt="" className="h-10 w-8 shrink-0 rounded border border-border object-cover" style={cropToStyle(person.quoteImageCrop)} />
-            )}
-            <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
-              title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
-              className={`min-w-0 flex-1 truncate rounded-md border bg-bg-main px-2 py-1 text-left text-xs hover:bg-bg-hover ${quoteImgDragOver ? 'border-accent ring-2 ring-accent' : 'border-border'}`}>
-              {quoteImgDragOver ? '여기에 놓기' : (person.quoteImage || '대사 시작 시 바뀔 사진 선택…')}
-            </button>
-            {person.quoteImage && (
-              <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined }) }}
-                className="shrink-0 rounded-md border border-border p-1 text-danger-text hover:bg-danger" title="삭제">
-                <Trash2 size={13} />
+              <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
+                title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
+                className={`relative aspect-[4/3] w-full flex items-center justify-center group bg-black/5 overflow-hidden ${quoteImgDragOver ? 'border-accent ring-2 ring-accent' : ''}`}>
+                {quoteImgSrc ? (
+                  <FactionMediaThumb src={quoteImgSrc} alt="" className="h-full w-full object-cover" style={cropToStyle(person.quoteImageCrop)} />
+                ) : src ? (
+                  <>
+                    <FactionMediaThumb src={src} alt="" className="h-full w-full object-cover opacity-40 grayscale-[0.5]" style={cropToStyle(person.imageCrop)} />
+                    <span className="absolute text-[10px] text-white font-bold bg-black/60 px-1.5 py-0.5 rounded shadow-sm pointer-events-none">
+                      {quoteImgDragOver ? '여기에 놓기' : '프로필 상속'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[10px] text-text-dim">{quoteImgDragOver ? '여기에 놓기' : '사진 선택…'}</span>
+                )}
               </button>
-            )}
-          </div>
-        </div>
-        {/* 대사 중 사진 전환 — 특정 의미 덩어리부터 다른 사진으로 크로스페이드 */}
-        <div className="flex items-start gap-2">
-          <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">사진 전환 -</span>
-          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-            {(person.imageChanges ?? []).map((ic, idx) => (
-              <div key={idx} className="flex items-center gap-1.5">
-                <input
-                  type="number" min={1} value={ic.chunk + 1}
-                  onChange={e => { const list = [...(person.imageChanges ?? [])]; list[idx] = { ...list[idx], chunk: Math.max(0, Number(e.target.value) - 1) }; onChange({ ...person, imageChanges: list }) }}
-                  onClick={e => e.stopPropagation()}
-                  className="w-14 shrink-0 rounded-md border border-border bg-bg-main px-1.5 py-1 text-xs focus:border-accent focus:outline-none"
-                  title="이 덩어리(번째)부터 아래 사진으로 전환"
-                />
-                <span className="shrink-0 text-[11px] text-text-dim">번째부터</span>
-                <button type="button" onClick={e => { e.stopPropagation(); setImgChangeEdit(idx) }}
-                  className="min-w-0 flex-1 truncate rounded-md border border-border bg-bg-main px-2 py-1 text-left text-xs hover:bg-bg-hover">
-                  {ic.image || '이미지 선택…'}
-                </button>
-                <button type="button" onClick={e => { e.stopPropagation(); const list = (person.imageChanges ?? []).filter((_, i) => i !== idx); onChange({ ...person, imageChanges: list.length ? list : undefined }) }}
-                  className="shrink-0 rounded-md border border-border p-1 text-danger-text hover:bg-danger" title="삭제">
-                  <Trash2 size={13} />
-                </button>
+              <div className="flex flex-col p-1 bg-bg-main border-t border-border">
+                <div className="text-[10px] font-bold text-yellow-600 truncate px-1 pb-1">
+                  &quot;{person.quoteChunks?.[0] || person.quote || '대사 시작'}&quot;
+                </div>
+                <div className="flex items-center gap-1 min-h-[20px] px-1 bg-bg-hover rounded py-0.5">
+                  <span className="text-[9px] text-text-dim truncate leading-none">대사 시작점 고정</span>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* 대사 중 사진 전환 */}
+            {[...(person.imageChanges ?? [])]
+              .map((ic, originalIdx) => ({ ic, originalIdx }))
+              .sort((a, b) => a.ic.chunk - b.ic.chunk)
+              .map(({ ic, originalIdx }) => (
+                <ImageChangeSlot
+                  key={originalIdx}
+                  ic={ic}
+                  chunks={person.quoteChunks ?? []}
+                  chunkText={person.quoteChunks?.[ic.chunk]}
+                  onChunkChange={(chunk) => {
+                    const list = [...(person.imageChanges ?? [])]
+                    list[originalIdx] = { ...list[originalIdx], chunk }
+                    onChange({ ...person, imageChanges: list })
+                  }}
+                  onImageChange={(image) => {
+                    const list = [...(person.imageChanges ?? [])]
+                    list[originalIdx] = { ...list[originalIdx], image, crop: undefined }
+                    onChange({ ...person, imageChanges: list })
+                  }}
+                  onRemove={() => {
+                    const list = (person.imageChanges ?? []).filter((_, i) => i !== originalIdx)
+                    onChange({ ...person, imageChanges: list.length ? list : undefined })
+                  }}
+                  onOpenPicker={() => setImgChangeEdit(originalIdx)}
+                  series={series}
+                  episodeName={episodeName}
+                />
+              ))}
+
             <button type="button"
-              onClick={e => { e.stopPropagation(); onChange({ ...person, imageChanges: [...(person.imageChanges ?? []), { chunk: 0, image: '' }] }) }}
-              className="self-start rounded-md border border-border px-2 py-1 text-xs text-text-secondary hover:bg-bg-hover">+ 사진 전환 추가</button>
-            {!!person.quoteChunks?.length && (
-              <span className="text-[10px] text-text-dim">의미 덩어리 {person.quoteChunks.length}개 — 1~{person.quoteChunks.length}번째 중 어디서 바꿀지 지정</span>
+              onClick={e => { e.stopPropagation(); onChange({ ...person, imageChanges: [...(person.imageChanges ?? []), { chunk: maxChunk, image: '' }] }) }}
+              className="flex flex-col items-center justify-center w-24 shrink-0 aspect-[4/3] rounded-md border border-dashed border-border text-xs text-text-dim hover:text-text-secondary hover:bg-bg-hover hover:border-text-secondary transition-colors mt-6">
+              <span className="text-lg leading-none">+</span>
+              <span className="mt-1 text-[10px]">전환 추가</span>
+            </button>
+          </div>
+
+          <div className="p-3 bg-bg-main/30 flex gap-3">
+            {editLang !== 'en' && (
+              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                <span className="text-xs text-text-dim flex items-center gap-1 mb-1 font-bold pl-1">
+                  한국어 본문
+                  {hasQuoteImages && (
+                    <span className="text-[10px] text-text-dim font-normal ml-2">※ 윗줄의 시점(번호)대로 이미지 전환 연결됨</span>
+                  )}
+                </span>
+                <div className="rounded-lg border border-border bg-white shadow-inner p-1">
+                  <FactionQuoteEditor
+                    placeholder="엔터를 치면 덩어리가 분리됩니다"
+                    value={person.quoteChunks?.join('\n') ?? person.quote ?? ''}
+                    onChange={(raw) => {
+                      const ch = raw.split('\n')
+                      onChange({ ...person, quoteChunks: ch, quote: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
+                    }}
+                    highlights={attachedQuoteLines}
+                    onAddAnchor={(chunkIndex) => {
+                      const list = [...(person.imageChanges ?? [])]
+                      const existingIdx = list.findIndex(ic => ic.chunk === chunkIndex)
+                      if (existingIdx !== -1) {
+                        setImgChangeEdit(existingIdx)
+                      } else {
+                        const nextList = [...list, { chunk: chunkIndex, image: '' }]
+                        onChange({ ...person, imageChanges: nextList })
+                        setImgChangeEdit(nextList.length - 1)
+                      }
+                    }}
+                    onRemoveAnchor={(chunkIndex) => {
+                      const list = (person.imageChanges ?? []).filter(ic => ic.chunk !== chunkIndex)
+                      onChange({ ...person, imageChanges: list })
+                    }}
+                    onMoveAnchor={(fromIdx, toIdx) => {
+                      const list = [...(person.imageChanges ?? [])]
+                      const target = list.find(ic => ic.chunk === fromIdx)
+                      if (target) {
+                        const dest = list.find(ic => ic.chunk === toIdx)
+                        if (dest) dest.chunk = fromIdx
+                        target.chunk = toIdx
+                        onChange({ ...person, imageChanges: list })
+                      }
+                    }}
+                    className="text-text-primary"
+                  />
+                </div>
+              </div>
+            )}
+            {editLang !== 'ko' && (
+              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                <span className="text-xs text-text-dim mb-1 font-bold pl-1">(영문)</span>
+                <div className="rounded-lg border border-border bg-slate-50 shadow-inner p-1">
+                  <FactionQuoteEditor
+                    placeholder="EN 대사 (엔터로 분리)"
+                    value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''}
+                    onChange={(raw) => {
+                      const ch = raw.split('\n')
+                      onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
+                    }}
+                    highlights={attachedQuoteLines}
+                    className="italic text-text-secondary"
+                  />
+                </div>
+              </div>
             )}
           </div>
+            </>
+          )}
         </div>
+
         {/* 대사 원문 — 라벨·값 수평 (영문 또는 통합 모드에서만 노출) */}
         {editLang !== 'ko' && (
           <div className="flex items-start gap-2">
@@ -488,12 +535,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {o.k === 'epithet' && stepsShorts.epithet && person.epithet && (
                   <div className="flex gap-1">
                     {([['🔊 낭독', true], ['⌨ 타이핑', false]] as const).map(([label, val]) => {
-                      const narrated = person.epithetNarrate !== undefined ? person.epithetNarrate : !!(person.epithetDuration && person.epithetDuration > 0)
+                      const narrated = epithetIsNarrated(person, true)
                       return (
                         <button
                           key={label}
                           type="button"
-                          onClick={() => onChange({ ...person, epithetNarrate: val })}
+                          onClick={() => onChange({ ...person, epithetNarrateShorts: val })}
                           className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${narrated === val ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                         >
                           {label}
@@ -505,12 +552,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {o.k === 'credit' && stepsShorts.credit && (person.lines?.length ?? 0) > 0 && (
                   <div className="flex gap-1">
                     {([['순차등장', false], ['⌨ 타이핑', true]] as const).map(([label, val]) => {
-                      const active = !!person.linesTyping === val
+                      const active = linesTypingOf(person, true) === val
                       return (
                         <button
                           key={label}
                           type="button"
-                          onClick={() => onChange({ ...person, linesTyping: val })}
+                          onClick={() => onChange({ ...person, linesTypingShorts: val })}
                           className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                         >
                           {label}
@@ -544,12 +591,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {o.k === 'epithet' && stepsLongform.epithet && person.epithet && (
                   <div className="flex gap-1">
                     {([['🔊 낭독', true], ['⌨ 타이핑', false]] as const).map(([label, val]) => {
-                      const narrated = person.epithetNarrate !== undefined ? person.epithetNarrate : !!(person.epithetDuration && person.epithetDuration > 0)
+                      const narrated = epithetIsNarrated(person, false)
                       return (
                         <button
                           key={label}
                           type="button"
-                          onClick={() => onChange({ ...person, epithetNarrate: val })}
+                          onClick={() => onChange({ ...person, epithetNarrateLongform: val })}
                           className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${narrated === val ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                         >
                           {label}
@@ -561,12 +608,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {o.k === 'credit' && stepsLongform.credit && (person.lines?.length ?? 0) > 0 && (
                   <div className="flex gap-1">
                     {([['순차등장', false], ['⌨ 타이핑', true]] as const).map(([label, val]) => {
-                      const active = !!person.linesTyping === val
+                      const active = linesTypingOf(person, false) === val
                       return (
                         <button
                           key={label}
                           type="button"
-                          onClick={() => onChange({ ...person, linesTyping: val })}
+                          onClick={() => onChange({ ...person, linesTypingLongform: val })}
                           className={`flex-1 whitespace-nowrap rounded-md border px-1 py-1 text-[10px] ${active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
                         >
                           {label}
@@ -642,6 +689,27 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           onClose={() => setEpithetModalOpen(false)}
           slot={EPITHET_SLOT}
         />
+      )}
+      </div>
+
+      {/* 우측 스크롤 이동 버튼 (독립 영역) */}
+      {!collapsed && (
+        <button
+          type="button"
+          disabled={personIndex >= (totalPeople ?? 1) - 1}
+          onClick={(e) => {
+            e.stopPropagation()
+            document.getElementById(`person-${groupIndex}-${clusterIndex}-${personIndex + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }}
+          className={`w-10 shrink-0 flex items-center justify-center border-l border-border transition-colors ${
+            personIndex >= (totalPeople ?? 1) - 1
+              ? 'opacity-30 cursor-not-allowed bg-bg-secondary text-text-dim' 
+              : 'hover:bg-slate-200/60 text-text-dim hover:text-text-secondary cursor-pointer'
+          }`}
+          title={personIndex >= (totalPeople ?? 1) - 1 ? "마지막 인물입니다" : "다음 인물로 이동"}
+        >
+          <ChevronRight size={24} />
+        </button>
       )}
     </div>
   )
