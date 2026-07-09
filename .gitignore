@@ -61,11 +61,19 @@ sw/remotion/_scan_shorts.mjs
 sw/remotion/fix-json.cjs
 sw/remotion/scripts/voice/_test-*.ts
 sw/remotion/scripts/voice/test-voices.ts
+sw/remotion/scripts/voice/subs-*.json
+sw/remotion/.old_*
+sw/remotion/.render-check/
+sw/remotion/_dbg_*
+
+# sw/ 작업 메모 (로컬 보관용)
+sw/인물-*.txt
 
 # Root-level temp scripts
 /cp-*.cjs
 /copy-*.cjs
 /copy_images.js
+/copy-*.ps1
 /map-*.cjs
 /scan-*.cjs
 /survey*.cjs
@@ -74,12 +82,24 @@ sw/remotion/scripts/voice/test-voices.ts
 /tmp_*
 /clean-symlinks.ps1
 /scripts/update-*.js
+/anthropic_script_dump.*
+
+# Root-level MCP 툴 스키마 덤프 & 산출물 (로컬 재생성)
+/mcps/
+/output/
 
 # Root-level 작업 메모 (로컬 보관용)
 /CELEB_QUEUE.md
 /SHORTS_EXAMPLE.txt
 /최고 쇼츠.txt
 /프롬프트_*.txt
+/all-refs.txt
+/plan-draft.md
+/이미지-재료쓰기.md
+/정복군주.txt
+/보이스 에디터.txt
+/조사요구서-*.md
+/이미지분석.txt
 
 # 외부 AI 에이전트 설정
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
