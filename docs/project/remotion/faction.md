@@ -71,6 +71,10 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
 
 BO는 인물 행에 **「수식어」 음성 패널**을 둔다(대사 음성 패널과 동일 — 엔진·보이스·스타일·감정·미리듣기·트림·들숨 제거). 패널은 슬롯(`QUOTE_SLOT`/`EPITHET_SLOT`)으로 같은 컴포넌트를 공유하며, 읽고 쓰는 인물 필드(`quote*`/`epithet*`)와 음원 파일만 다르다. 합성 설정은 `epithetEngine`·`epithetSpeaker`·`epithetStyle`·`epithetElevenlabsVoiceId`·`epithetEleOptions`·`epithetEleEmotions`·`epithetEleTrail`.
 
+### ELE 보이스 캐스팅
+
+인물별 ElevenLabs 보이스는 BO 음성 설정 모달에서 추천 후보를 먼저 듣고 확정한다. 보이스별 청취 메모와 `좋음`/`보류`/`제외` 판단은 전역 보이스 도감에 저장되며, `제외` 보이스는 다음 추천에서 빠진다. 운영 방식과 향후 자동화 계획은 [faction-voice-casting.md](faction-voice-casting.md)를 따른다.
+
 ## 데이터 모델 (SSoT: `sw/remotion/src/compositions/Faction/types.ts`)
 
 화면에 뜨는 텍스트 명칭은 모두 **하나의 필드 안에 개행으로 앞부분과 뒷부분을 담는 통합 방식**을 따른다. 첫 줄이 앞부분, 둘째 줄부터가 뒷부분이다.

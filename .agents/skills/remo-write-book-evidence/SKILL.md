@@ -1,5 +1,5 @@
 ---
-name: remo-book-evidence
+name: remo-write-book-evidence
 description: Remotion book-recommend 시리즈에서 한 권의 책이 그 인물의 책장에 들어갈 자격이 있는지를 정하는 스킬. 인물이 그 책을 「읽었음」을 결정짓는 증거 한 줄을 contextMain 첫 단락에 사실 진술로 박고, 결정 증거가 약한 권은 폐기한다. 「감상배경」, 「책과 인물 연결」, 「이 책 살릴지 폐기할지」 같은 호출에 적용.
 ---
 
@@ -118,7 +118,7 @@ quotePairs:
 - 「이 책 살릴까 폐기할까」
 - 「인물과 책 연결 부분 다시」
 - 「book 권 다시 짜기」
-- `/remo-book-evidence`
+- `/remo-write-book-evidence`
 
 ## 흔한 함정
 

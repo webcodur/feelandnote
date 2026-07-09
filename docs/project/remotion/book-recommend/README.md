@@ -146,7 +146,7 @@ public/episodes/
 
 - 한국어 본이 라이브로 나간 뒤 썸네일·자막·이미지·내러티브 구조에 큰 수정이 없다는 게 확인되면 그때 en을 생성·동기화한다.
 - 그 전에 en을 미리 만들면 ko 개편이 있을 때마다 en을 재작업해야 해서 비용만 중복된다.
-- 적용 범위: `/episode-translate`, `/image-anchor-sync`의 en 동기화, en 이미지 앵커, en voice 등 모든 en 관련 파이프라인.
+- 적용 범위: `/remo-i18n-episode`, `/image-anchor-sync`의 en 동기화, en 이미지 앵커, en voice 등 모든 en 관련 파이프라인.
 - 따라서 `live/` 단계에서 en.json이 ko.json과 책 수·이미지 수가 맞지 않는 상태는 **정상이며 의도된 상태**다. done 이후에 맞춘다.
 
 ---

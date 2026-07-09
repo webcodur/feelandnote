@@ -1,5 +1,5 @@
 ---
-name: remo-text-clean
+name: remo-write-text-clean
 description: 에피소드 쇼츠/롱폼 JSON의 텍스트를 청정 톤으로 재작문한다. 의미·인과·분량은 유지하되 공격적·비속적·구어적·비아냥 표현을 중립·정갈한 어휘로 치환한다. imageChangeAt 앵커 텍스트도 동기화한다. "깨끗하게 해줘", "청정한 느낌", "순화해줘", "거친 표현 빼줘" 등으로 호출.
 ---
 
@@ -131,7 +131,7 @@ node -e "JSON.parse(require('fs').readFileSync('<파일>','utf8')); console.log(
 
 ## en.json 병행 처리
 
-ko를 수정한 경우 en.json 대응 텍스트도 동일 톤으로 수정하거나 `/remo-episode-translate`로 재번역 권장을 보고한다. 자동 재번역은 금지 (유저 승인 필수).
+ko를 수정한 경우 en.json 대응 텍스트도 동일 톤으로 수정하거나 `/remo-i18n-episode`로 재번역 권장을 보고한다. 자동 재번역은 금지 (유저 승인 필수).
 
 ## 체크리스트 (보고 전)
 

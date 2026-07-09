@@ -1,5 +1,5 @@
 ---
-name: celeb-i18n
+name: celeb-7-i18n
 description: "셀럽 데이터 영문 번역 전문 에이전트. profiles, celeb_influence, celeb_dialogues의 한국어 데이터를 영문으로 번역하여 DB에 등록한다.\n\n<example>\nuser: \"이사도라 덩컨 영문 번역해줘\"\nassistant: \"이사도라 덩컨의 영문 번역을 시작한다.\"\n</example>\n\n<example>\nuser: \"셀럽 영문 데이터 일괄 번역\"\nassistant: \"영문 번역을 일괄 실행한다.\"\n</example>"
 model: sonnet
 color: green

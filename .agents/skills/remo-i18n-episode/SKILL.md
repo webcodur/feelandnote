@@ -1,6 +1,6 @@
 ---
-name: remo-episode-translate
-description: ko 에피소드(ko.json)를 영문 번역하여 en.json을 생성/갱신한다. 롱폼(narrator, host, books)과 쇼츠(shorts.segments) 텍스트를 번역하고, 구조·메타데이터·이미지는 보존한다. /episode-translate <에피소드명> 으로 실행.
+name: remo-i18n-episode
+description: ko 에피소드(ko.json)를 영문 번역하여 en.json을 생성/갱신한다. 롱폼(narrator, host, books)과 쇼츠(shorts.segments) 텍스트를 번역하고, 구조·메타데이터·이미지는 보존한다. /remo-i18n-episode <에피소드명> 으로 실행.
 ---
 
 # 에피소드 번역 (ko → en)
@@ -10,10 +10,10 @@ ko.json의 모든 텍스트를 영문 번역하여 en.json을 생성하거나 �
 ## 실행
 
 ```
-/episode-translate <에피소드명>
+/remo-i18n-episode <에피소드명>
 ```
 
-예: `/episode-translate alexander-the-great`
+예: `/remo-i18n-episode alexander-the-great`
 
 ## 전제 조건
 

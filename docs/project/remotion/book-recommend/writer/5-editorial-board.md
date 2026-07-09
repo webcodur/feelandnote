@@ -217,7 +217,7 @@ LLM 산출물은 영어로 사고한 결과를 한국어로 옮긴 흔적이 자
 
 1. ko.json 경로 확정 — `sw/remotion/public/episodes/{stage}/{person}/ko.json`
 2. 셀럽 직업 추출 → 직업군 전문가 1인 결정
-3. `node sw/remotion/scripts/extract-story.mjs <person>` 으로 평문 markdown 추출 (remo-story-dump 스킬 활용)
+3. `node sw/remotion/scripts/extract-story.mjs <person>` 으로 평문 markdown 추출 (remo-write-story-dump 스킬 활용)
 4. 평문을 4인이 공유 (실제로는 한 에이전트가 4인 역할 수행)
 5. 사용자에게 "라운드 0: 직업군 전문가는 X로 결정. 평문 추출 완료. 라운드 1 시작" 안내
 
@@ -350,7 +350,7 @@ LLM 산출물은 영어로 사고한 결과를 한국어로 옮긴 흔적이 자
 
 ## 다른 스킬과의 관계
 
-- 입력: `remo-story-dump` (평문 추출)
+- 입력: `remo-write-story-dump` (평문 추출)
 - 단일 렌즈 스킬 (개별 호출 가능): `remo-write-3-story-power` (서사 등급 판정 SSoT) · `remo-write-1-fact-check` (사료) · `remo-write-4-prose` (문장 다듬기)
 - 음성 후처리: `remo-voice-sync` (3-5단계 파이프라인)
 

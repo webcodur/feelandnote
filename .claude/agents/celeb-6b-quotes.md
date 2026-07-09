@@ -1,5 +1,5 @@
 ---
-name: celeb-9-quotes
+name: celeb-6b-quotes
 description: "셀럽 명언(quotes/quotes_en) 검수·교정·품질개선 전문 에이전트. 기존 명언의 오류 교정 및 밋밋한 명언의 임팩트 개선을 수행한다.\n\n<example>\nuser: \"셀럽 명언 검수해줘\"\nassistant: \"셀럽 명언을 검수한다.\"\n</example>\n\n<example>\nuser: \"명언 품질 정리해줘\"\nassistant: \"명언 품질을 검수·교정한다.\"\n</example>\n\n<example>\nuser: \"밋밋한 명언 개선해줘\"\nassistant: \"명언 임팩트를 개선한다.\"\n</example>"
 model: opus
 color: orange

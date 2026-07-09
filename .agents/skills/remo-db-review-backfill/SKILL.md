@@ -1,6 +1,6 @@
 ---
-name: remo-review-backfill
-description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(user_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-review-backfill <인물명|slug> 으로 실행.
+name: remo-db-review-backfill
+description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(user_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-db-review-backfill <인물명|slug> 으로 실행.
 ---
 
 # 감상경위 백필 (Remotion → DB)
@@ -11,10 +11,10 @@ Remotion 영상 제작 과정에서 새로 다듬어진 일화·디테일을 DB 
 ## 실행
 
 ```
-/remo-review-backfill <인물명|slug>
+/remo-db-review-backfill <인물명|slug>
 ```
 
-예: `/remo-review-backfill 알렉산더 대왕`, `/remo-review-backfill alexander-the-great`
+예: `/remo-db-review-backfill 알렉산더 대왕`, `/remo-db-review-backfill alexander-the-great`
 
 ## 필수 사전 읽기
 

@@ -1,5 +1,5 @@
 ---
-name: celeb-7-speech
+name: celeb-6-speech
 description: "셀럽 발화 데이터(speech_tone, quotes, dialogue) 통합 관리 에이전트. speech_tone 배정, 명언 작성/검수, 고유 대사 생성을 순차 실행한다.\n\n<example>\nuser: \"셀럽 스피치 톤 배정해줘\"\nassistant: \"speech_tone을 배정한다.\"\n</example>\n\n<example>\nuser: \"이 인물들 발화 데이터 채워줘\"\nassistant: \"발화 데이터를 생성한다.\"\n</example>\n\n<example>\nuser: \"스피치 트랙 실행해줘\"\nassistant: \"speech 트랙을 실행한다.\"\n</example>"
 model: opus
 color: cyan
