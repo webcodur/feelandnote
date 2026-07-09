@@ -1,9 +1,9 @@
 import React from 'react'
-import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion'
 import type { FactionScript, FactionPerson, Orientation } from '../types'
 import { INTRO_SEC, f } from '../timing'
 import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT } from '../constants'
-import { imgSrc, initials, findPerson, nameHead, nameTail } from '../utils'
+import { imgSrc, initials, findPerson, nameHead, nameTail, resolveIntroImage } from '../utils'
 import { FilledImage } from './FilledImage'
 import { FactionMedia } from './FactionMedia'
 
@@ -36,8 +36,124 @@ const LogoCell: React.FC<{ episodeName: string; image: string }> = ({ episodeNam
 /** 시작 화면 항목 — 인물 또는 세력 로고. heroes 슬러그가 'logo:<이미지>' 면 로고. */
 type IntroItem = { kind: 'person'; person: FactionPerson } | { kind: 'logo'; image: string }
 
-export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; orientation: Orientation; part?: number; lvPart?: number }> = ({ script, episodeName, orientation, part, lvPart }) => {
-  void orientation
+const OpeningLogline: React.FC<{
+  text: string
+  frame: number
+  opacity: number
+  enterStart: number
+  enterEnd: number
+  fadeOutStart: number
+  isPortrait: boolean
+}> = ({ text, frame, opacity, enterStart, enterEnd, fadeOutStart, isPortrait }) => {
+  const enter = interpolate(frame, [enterStart, enterEnd], [0, 1], {
+    easing: Easing.out(Easing.quad),
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  })
+  const lift = interpolate(enter, [0, 1], [30, 0])
+  const scale = interpolate(enter, [0, 1], [0.985, 1])
+  const shake = interpolate(frame, [enterStart, enterStart + 8, enterStart + 30], [0, 1, 0], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  })
+  // 기본 셰이크 (배경 포함 전체 래퍼용)
+  const shakeX = (Math.sin(frame * 2.7) + Math.sin(frame * 7.1)) * 0.9 * shake
+  const shakeY = lift + Math.sin(frame * 5.3) * 0.45 * shake
+
+  // 페이드아웃 시작 시 글리치 중단
+  const isFadingOut = frame >= fadeOutStart
+
+  // 지지직(Glitch)은 로그라인이 온전히 떠 있는 동안 딱 두 번, 각 5프레임(약 0.17초)짜리 짧은 펄스로만 발동한다.
+  // 예전엔 파동이 임계를 넘는 구간 내내 계속 떨려 눈이 아팠다 — 짧은 펄스 + 소수 글자 + 약한 세기로 절제한다.
+  const glitchPulse = (center: number) => frame >= center && frame < center + 5
+  const g1 = enterEnd + 12
+  const g2 = Math.round((enterEnd + fadeOutStart) / 2) + 20
+  const isGlitchWindow = !isFadingOut && (glitchPulse(g1) || glitchPulse(g2))
+  
+  const padX = isPortrait ? 80 : 130
+  const baseTextShadow = '0 2px 30px rgba(0,0,0,0.92), 0 0 34px rgba(0,0,0,0.86), 0 0 10px rgba(0,0,0,0.96)'
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      padding: `0 ${padX}px`,
+      opacity, // 전체 투명도
+      transform: `translate(${shakeX.toFixed(2)}px, ${shakeY.toFixed(2)}px) scale(${scale})`, // 셰이크
+      textAlign: 'center',
+      color: '#E8B84B',
+      fontFamily: FONT_SERIF,
+      fontSize: 66,
+      fontWeight: 800,
+      letterSpacing: 1,
+      lineHeight: 1.3,
+      whiteSpace: 'pre-line',
+      textShadow: baseTextShadow, // 기본 그림자는 상위에서 상속
+      paintOrder: 'stroke fill',
+    }}>
+      <span style={{
+        position: 'relative',
+        display: 'inline-block',
+        padding: '20px 58px 26px',
+        margin: '-20px -58px -26px',
+      }}>
+        {/* 어두운 배경(그림자) 영역은 제자리에 고정 */}
+        <span style={{
+          position: 'absolute',
+          left: -32,
+          right: -32,
+          top: -18,
+          bottom: -24,
+          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.68) 42%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0) 86%)',
+          filter: 'blur(10px)',
+        }} />
+        
+        {/* 앞의 텍스트에만 훨씬 가끔씩, 소수의 글자에만 독립적인 지지직 효과 적용 */}
+        <span style={{ position: 'relative' }}>
+          {text.split('\n').map((line, lineIdx, linesArray) => (
+            <React.Fragment key={lineIdx}>
+              {line.split(/(\s+)/).map((token, tokenIdx) => {
+                if (!token.trim()) return <span key={tokenIdx}>{token}</span>
+                
+                return (
+                  <span key={tokenIdx} style={{ display: 'inline-block' }}>
+                    {token.split('').map((char, charIdx) => {
+                      const i = lineIdx * 1000 + tokenIdx * 100 + charIdx
+                      // 펄스 순간에도 한두 글자만 임계를 넘게(0.9) — 전체가 아니라 소수 글자만 살짝 일그러진다.
+                      const isCharGlitch = isGlitchWindow && Math.sin(frame * 4.3 + i * 2.1) > 0.9
+
+                      const cGlX = isCharGlitch ? Math.sin(frame * 13.3 + i) * 1.6 : 0
+                      const cGlY = isCharGlitch ? Math.sin(frame * 21.7 - i) * 1.0 : 0
+                      const cChroma = isCharGlitch ? 1.5 : 0
+                      
+                      return (
+                        <span key={charIdx} style={{
+                          position: 'relative',
+                          display: 'inline-block',
+                          transform: `translate(${cGlX.toFixed(2)}px, ${cGlY.toFixed(2)}px)`,
+                          opacity: isCharGlitch ? 0.82 : 1,
+                          textShadow: isCharGlitch 
+                            ? `${cChroma}px 0px 0px rgba(255,0,0,0.9), -${cChroma}px 0px 0px rgba(0,255,255,0.9), ${baseTextShadow}`
+                            : 'inherit',
+                        }}>
+                          {char}
+                        </span>
+                      )
+                    })}
+                  </span>
+                )
+              })}
+              {lineIdx < linesArray.length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </span>
+      </span>
+    </div>
+  )
+}
+
+export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; orientation: Orientation; part?: number; lvPart?: number; isShorts?: boolean }> = ({ script, episodeName, orientation, part, lvPart, isShorts = false }) => {
+  const isPortrait = orientation === 'portrait'
   const frame = useCurrentFrame()
   const heroSlugs = (part != null && script.heroesByPart?.[part]) || (lvPart != null && script.heroesByLvPart?.[lvPart]) || script.heroes || []
   const items = heroSlugs.map((s): IntroItem | null => {
@@ -68,21 +184,16 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
   // const glX = (Math.sin(frame * 13.3) + Math.sin(frame * 29.1)) * 1.2 * glAmp
   // const glY = Math.sin(frame * 21.7) * 0.9 * glAmp
   // const chroma = (1.5 + Math.sin(frame * 4.7) * 1.5) * glAmp
-  const Logline = logline ? (
-    <div style={{
-      opacity: loglineOp, color: '#E8B84B', fontFamily: FONT_SERIF, fontSize: 66, fontWeight: 800, letterSpacing: 1, textAlign: 'center', padding: '24px 130px', lineHeight: 1.3,
-      whiteSpace: 'pre-line', // 개행하면 위·아래 두 줄로 뜬다
-      // transform: `translate(${glX.toFixed(2)}px, ${glY.toFixed(2)}px)`,
-      textShadow: '0 2px 30px rgba(0,0,0,0.92)',
-      // 글자 뒤를 살짝 어둡게 — 밝은 배경 위에서도 황금색 문구가 또렷하게.
-      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.42) 55%, transparent 100%)',
-    }}>{logline}</div>
-  ) : null
+  const Logline = logline ? <OpeningLogline text={logline} frame={frame} opacity={loglineOp} enterStart={llIn0} enterEnd={llIn1} fadeOutStart={llOut0} isPortrait={isPortrait} /> : null
   // 시작 화면 이미지 한 장으로 덮기 — 있으면 통합화면(인물 그리드)·텍스트 대신 이 이미지를 화면 가득.
-  if (script.introImage) {
+  // 롱폼이면 롱폼 전용(introImageLong) 우선, 없으면 공용(introImage).
+  const introMedia = resolveIntroImage(script, isShorts, part)
+  if (introMedia) {
     return (
-      <AbsoluteFill style={{ backgroundColor: BG, opacity: introOutOp }}>
-        <FilledImage src={imgSrc(episodeName, script.introImage)} objPos="center center" scale={1} onError={() => {}} />
+      <AbsoluteFill style={{ backgroundColor: BG }}>
+        <AbsoluteFill style={{ opacity: introOutOp }}>
+          <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={1} fit="contain" onError={() => {}} />
+        </AbsoluteFill>
         {Logline && (
           <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 150, pointerEvents: 'none' }}>
             {Logline}

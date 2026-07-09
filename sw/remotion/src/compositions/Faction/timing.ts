@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import type { FactionScript, FactionPerson, FactionEra } from './types'
+import type { FactionScript, FactionPerson, FactionEra, FactionChapter } from './types'
 import { clampRate, vnPersonQuote } from './voice-names'
 
 export const FPS = 60
@@ -16,12 +16,20 @@ export const f = (sec: number) => Math.round(sec * FPS)
 /* ── 컷 길이 (초) ── */
 /** 오프닝 타이틀 */
 export const INTRO_SEC = 2.5
-/** 세력 카드 1장 — 페이드인(0.8s) 동안 또렷한 시간을 까먹지 않게 넉넉히 잡는다 */
-export const GROUP_SEC = 2.8
+/** 세력 로고 타이틀 카드 1장 (logoVid / logoImg 풀스크린). 기본 4초 */
+export const GROUP_SEC = 4
 /** 화보 묶음 카드 1장 — 4명 이상 기준 길이 (묶음 화면 +1s) */
 export const CLUSTER_SEC = 3.3
 /** 시대 구분 카드 1장 (연도순 롱폼) — 시대 명칭을 읽고 넘어갈 시간 */
 export const ERA_SEC = 2.6
+/** 챕터 전환 검정 브릿지 1장(초) — 이전 챕터 곡을 닫고 숨 고르는 검정 화면. 효과음이 여기서 1회 울린다 */
+export const CHAPTER_BLACK_SEC = 0.25
+/** 챕터 표지 카드 1장(초) — 배경 미디어 + 챕터 제목이 뜨는 시간. 새 챕터 곡이 여기서 열린다 */
+export const CHAPTER_COVER_SEC = 3.5
+/** 챕터 전환 직전 인물 여운(초) — 챕터 마지막 인물의 대사가 끝난 뒤, 검정 브릿지로 넘어가기 전 그 인물 화면을 더 유지하는 시간(뒷부분은 검정 페이드로 덮인다) */
+export const CHAPTER_HOLD_SEC = 2.0
+/** 챕터 전환 직전 인물이 검정으로 서서히 덮이는 시간(초) — 검정 브릿지가 이 길이로 페이드인해 마지막 인물이 검정으로 페이드아웃된다 */
+export const CHAPTER_FADE_SEC = 0.4
 
 /**
  * 그룹샷(화보 묶음) 카드 길이(초) — 등장 인물 수(disabled 제외)에 따라 가변.
@@ -48,6 +56,11 @@ export const DEFAULT_END_HOLD_SEC = 4
 export const DEFAULT_OUTRO_HOLD_SEC = INTRO_SEC
 /** 종료 페이드아웃 기본 길이(초). script.endFadeSec 미지정 시 */
 export const DEFAULT_END_FADE_SEC = 3
+
+/** 로고 타이틀 카드(그룹 카드) 길이(초) — script.groupSec 우선, 없으면 GROUP_SEC */
+export function groupSecOf(script: FactionScript): number {
+  return script.groupSec ?? GROUP_SEC
+}
 /** 컷 전환 크로스페이드 */
 export const CROSSFADE_SEC = 0.3
 /** 마지막 인물 컷 → 최종화면 전환 크로스페이드 — 마무리는 더 완만하게 떠오른다 */
@@ -58,10 +71,11 @@ export const OUTRO_CROSSFADE_SEC = 0.8
 export const READ_FRAMES_PER_CHAR = 3.0
 
 /* ── 인물 컷 등장 시퀀스(초) — 렌더러(PersonCard)와 공유 ──
- * 순서: 줌아웃 정지 → 박스+이름+직함(2행) 함께 슬라이드 인 → 직함이 글자 수 비례 시간 보인 뒤 완전히 사라짐 → 같은 자리에 대사 등장.
- * 직함과 대사는 이름 아래 같은 슬롯을 공유하며 순차 교체된다(겹치지 않음). 이름은 계속 떠 있다.
+ * 순서: 줌아웃 정지 → 박스+이름+1번직함 슬라이드 인 → (직함 스텝 시) 박스 도착 후 2·3번 직함 순차 등장(타이핑 등) →
+ * 직함 리드 종료 → 수식어/대사로 교차. 직함과 대사는 같은 슬롯 공유, 이름은 계속.
+ * (직함 스텝 아닐 때는 직함 1번만 이름 옆에 함께 등장)
  */
-/** 박스+이름+직함 함께 슬라이드 인+페이드인 시작(초) — 줌아웃(0~0.15초)이 끝나는 즉시. 직함도 이름과 같은 시점에 함께 뜬다 */
+/** 박스+이름+1번 직함 슬라이드 인 시작(초). 직함 스텝일 때 2·3번 직함은 박스 슬라이드 종료 후 별도 등장. */
 export const ENTER_NAME_SEC = 0.2
 /** 각 단계 페이드인/아웃 길이(초) */
 export const ENTER_FADE_SEC = 0.35
@@ -101,18 +115,29 @@ export function creditLinesOf(p: FactionPerson): string[] {
  * - epithetNarrate 가 명시되면 그대로(true=낭독·false=타이핑).
  * - 미지정이면 기존 동작: 낭독 음원(epithetDuration)이 있으면 낭독, 없으면 타이핑.
  */
-export function epithetIsNarrated(p: FactionPerson): boolean {
+export function epithetIsNarrated(p: FactionPerson, shorts = false): boolean {
+  const spec = shorts ? p.epithetNarrateShorts : p.epithetNarrateLongform
+  if (spec !== undefined) return spec
   if (p.epithetNarrate !== undefined) return p.epithetNarrate
   return !!(p.epithetDuration && p.epithetDuration > 0)
+}
+
+/**
+ * 직함 타이핑 표시 방식 — orientation 맞춤 우선. 없으면 공통
+ */
+export function linesTypingOf(p: FactionPerson, shorts = false): boolean {
+  const spec = shorts ? p.linesTypingShorts : p.linesTypingLongform
+  if (spec !== undefined) return spec
+  return !!p.linesTyping
 }
 
 /**
  * 수식어 노출 시간(초). 낭독이고 음원이 있으면 그 길이(배속 반영), 그 외(타이핑·음원 없음)는 글자 수 추정.
  * 수식어가 없으면 0.
  */
-export function epithetSpeakSec(p: FactionPerson): number {
+export function epithetSpeakSec(p: FactionPerson, shorts = false): number {
   if (!p.epithet) return 0
-  if (epithetIsNarrated(p) && p.epithetDuration && p.epithetDuration > 0) return p.epithetDuration / clampRate(p.epithetPlaybackRate)
+  if (epithetIsNarrated(p, shorts) && p.epithetDuration && p.epithetDuration > 0) return p.epithetDuration / clampRate(p.epithetPlaybackRate)
   const raw = (p.epithet.length * EPITHET_READ_FRAMES_PER_CHAR) / FPS
   return Math.min(EPITHET_READ_MAX_SEC, Math.max(EPITHET_READ_MIN_SEC, raw))
 }
@@ -136,12 +161,12 @@ export function creditAppearSec(p: FactionPerson): number {
 }
 
 /* ── 직함 줄별 가변 체류 — 긴 줄일수록 다음 줄이 뜨기까지 더 오래 머문다(읽을 시간) ── */
-/** 직함 줄 최소 체류(초) — 짧은 줄도 이만큼은 머문다. 기존 고정 간격과 비슷하게 */
-export const CREDIT_LINE_DWELL_MIN_SEC = 0.45
+/** 직함 줄 최소 체류(초) — 짧은 줄도 이만큼은 머문다. 읽을 여유를 늘려 순차 등장을 천천히. */
+export const CREDIT_LINE_DWELL_MIN_SEC = 0.68
 /** 직함 줄 최대 체류(초) — 아주 긴 줄이라도 이 이상은 안 머문다 */
-export const CREDIT_LINE_DWELL_MAX_SEC = 1.3
+export const CREDIT_LINE_DWELL_MAX_SEC = 1.8
 /** 직함 줄 글자당 추가 체류(초) */
-export const CREDIT_LINE_DWELL_PER_CHAR = 0.03
+export const CREDIT_LINE_DWELL_PER_CHAR = 0.045
 
 /** 직함 한 줄의 체류 시간(초) — 다음 줄이 뜨기까지의 간격. 글자 수에 비례(최소·최대 클램프). */
 export function creditLineDwellSec(text: string): number {
@@ -175,6 +200,9 @@ export function creditListSpanSec(p: FactionPerson, shorts: boolean): number {
   const sum = lines.reduce((s: number, t) => s + creditLineDwellSec(t), 0)
   return sum + ENTER_FADE_SEC
 }
+
+/** 직함 줄이 다 뜬 뒤 다음(수식어·대사)으로 넘어가기 전 정지 시간(초) — 마지막 줄을 읽을 여유 */
+export const CREDIT_HOLD_SEC = 0.7
 
 /** 직함만 있고 대사가 없는 인물 — 직함이 안 사라지고 보이는 최소 컷 길이(초) */
 export const PERSON_MIN_SEC = ENTER_NAME_SEC + ENTER_FADE_SEC + CREDIT_READ_MIN_SEC + 0.8
@@ -245,13 +273,14 @@ export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = 
   const epiOn = steps.epithet && !!p.epithet
 
   // 직함 리드 — 이름 등장(ENTER_NAME) 뒤 한 박자(stagger) 늦게 리스트 시작, 줄마다 가변 체류(긴 줄=길게).
+  // 마지막 줄까지 다 뜬 뒤 CREDIT_HOLD_SEC 만큼 멈췄다 다음(수식어·대사)으로 넘어간다.
   const creditEndSec = creditOn
-    ? ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC + creditListSpanSec(p, shorts)
+    ? ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC + creditListSpanSec(p, shorts) + CREDIT_HOLD_SEC
     : ENTER_NAME_SEC
   // 수식어 리드 — 직함 리드(있으면) 뒤를 이어 등장. 나레이터 낭독 시간 + 낭독 후 정지(HOLD)
   const epithetStartSec = (creditOn ? creditEndSec : ENTER_NAME_SEC) + CREDIT_LINE_STAGGER_SEC
   const epithetEndSec = epiOn
-    ? epithetStartSec + epithetSpeakSec(p) + EPITHET_HOLD_SEC
+    ? epithetStartSec + epithetSpeakSec(p, shorts) + EPITHET_HOLD_SEC
     : epithetStartSec
   // 대사 등장 — 마지막 리드(수식어→직함→없음) 종료 시점. 리드가 없으면 등장 페이드 직후.
   const quoteEnterSec = epiOn ? epithetEndSec : (creditOn ? creditEndSec : ENTER_NAME_SEC + ENTER_FADE_SEC)
@@ -335,8 +364,9 @@ export function outroHoldSecOf(script: FactionScript): number {
  */
 export function endFadeSecOf(script: FactionScript): number {
   const fade = Math.max(0, script.endFadeSec ?? DEFAULT_END_FADE_SEC)
-  // 마지막에 보이는 화면은 항상 브랜드 엔딩 — 그 대기(outroHold) 안에서 페이드가 끝나야 한다.
-  const lastHold = outroHoldSecOf(script)
+  // 페이드는 마지막에 보이는 화면 대기 안에서 끝나야 한다 —
+  // 종료 화면을 쓰면 그 대기(outroHold), noOutro면 마지막 인물 대기(endHold)를 넘지 못한다.
+  const lastHold = script.noOutro ? endHoldSecOf(script) : outroHoldSecOf(script)
   return Math.min(fade, lastHold)
 }
 
@@ -348,6 +378,8 @@ export type Cue =
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
   | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
   | { kind: 'era'; label: string }
+  | { kind: 'chapterBlack'; chapter: FactionChapter }
+  | { kind: 'chapter'; chapter: FactionChapter }
   | { kind: 'outro' }
 
 export interface TimedCue {
@@ -368,12 +400,12 @@ export function longformPartCount(script: Pick<FactionScript, 'longformLayout'>)
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들 — 각 구간은 세력 블록·시대 문구 카드의 나열.
  * 배치에 빠진 활성 세력은 누락 방지로 마지막 구간 맨 뒤에 자동으로 붙는다(기존 규칙 유지).
  */
-export function longformSegments(script: FactionScript): Array<Array<{ era: FactionEra } | { gi: number }>> {
-  type Step = { era: FactionEra } | { gi: number }
+export function longformSegments(script: FactionScript): Array<Array<{ era: FactionEra } | { gi: number } | { chapter: FactionChapter }>> {
+  type Step = { era: FactionEra } | { gi: number } | { chapter: FactionChapter }
   const segments: Step[][] = [[]]
   for (const it of script.longformLayout ?? []) {
     if ('cut' in it) { segments.push([]); continue }
-    segments[segments.length - 1].push('group' in it ? { gi: it.group } : { era: it.era })
+    segments[segments.length - 1].push('group' in it ? { gi: it.group } : 'chapter' in it ? { chapter: it.chapter } : { era: it.era })
   }
   const placed = new Set((script.longformLayout ?? []).flatMap((it) => ('group' in it ? [it.group] : [])))
   script.groups.forEach((g, gi) => { if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push({ gi }) })
@@ -399,7 +431,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   // ── 롱폼 배치 — 롱폼이고 longformLayout이 있으면 그 순서대로(세력 블록 + 시대 문구 카드)를 따른다.
   //    쇼츠·미설정 롱폼은 세력 배열 순서. 항목 한 칸 = 시대 문구 카드(era) 또는 세력 블록(gi) 또는 편 경계(cut).
   //    세력은 원래 인덱스를 보존하므로 세력도감 구도·음원·자막 키가 그대로 유효하다. ──
-  type Step = { era: FactionEra } | { gi: number }
+  type Step = { era: FactionEra } | { gi: number } | { chapter: FactionChapter }
   let steps: Step[]
   if (!portrait && script.longformLayout?.length) {
     const segments = longformSegments(script)
@@ -414,6 +446,24 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   steps.forEach((step) => {
     // 시대 문구 카드 — 세력 블록 사이에 끼우는 장(章) 표지.
     if ('era' in step) { push({ kind: 'era', label: step.era.label }, ERA_SEC); return }
+    // 챕터 전환 — 검정 브릿지(옵션) + 챕터 표지. 롱폼 전용(쇼츠는 longformLayout을 타지 않음).
+    if ('chapter' in step) {
+      // 챕터 전환 직전 인물 컷에 여운 — 마지막 대사가 끝난 뒤 그 인물을 잠시 더 유지했다가 넘어간다(급한 전환 방지).
+      const prevCue = cues[cues.length - 1]
+      if (prevCue?.cue.kind === 'person') {
+        const pc = prevCue.cue
+        const person = script.groups[pc.groupIndex]?.clusters?.[pc.clusterIndex]?.people[pc.personIndex]
+        if (person) {
+          const held = f(personQuoteEndSec(person, pc.steps, portrait)) + f(CHAPTER_HOLD_SEC)
+          if (held > prevCue.duration) { cursor += held - prevCue.duration; prevCue.duration = held }
+        }
+      }
+      const chapter = step.chapter
+      if (chapter.blackBefore !== false) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
+      push({ kind: 'chapter', chapter }, CHAPTER_COVER_SEC)
+      if (chapter.blackAfter) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
+      return
+    }
     const gi = step.gi
     const group = script.groups[gi]
     // 비활성화 세력은 컷을 아예 만들지 않는다 — 타이틀·화보·인물 전부 스킵. 데이터는 보존된다.
@@ -423,7 +473,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     // 쇼츠 편 분할 — part 지정 시 다른 편 세력은 제외(세력 part 미지정이면 모든 편에 노출). 롱폼 편(lvPart)과 무관.
     if (portrait && part != null && group.part != null && group.part !== part) return
     // 타이틀 카드(로고) — 로고(logoVid 또는 logoImg)가 있는 세력만 진입 컷을 둔다. 없으면 화보(그룹샷)부터 시작.
-    if (group.logoVid || group.logoImg) push({ kind: 'group', groupIndex: gi }, GROUP_SEC)
+    if (group.logoVid || group.logoImg) push({ kind: 'group', groupIndex: gi }, groupSecOf(script))
     // 세력별 수장(첫 등장 인물) 자동 voice 판정용. 그룹 단위로 추적.
     let leaderAssigned = false
     // 모든 세력이 그룹(clusters)을 돈다. solo(무소속 개인군)는 화보 컷만 생략하고 인물 컷은 동일.
@@ -431,6 +481,8 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     const clusters = group.clusters ?? []
     for (let ci = 0; ci < clusters.length; ci++) {
       const cluster = clusters[ci]
+      // 비활성화 묶음(그룹)은 컷을 아예 만들지 않는다 — 화보·인물 전부 스킵.
+      if (cluster.disabled) continue
       // 세로 쇼츠는 롱폼 전용 그룹을 건너뛴다(쇼츠 길이 대응). 가로 롱폼에는 그대로 노출.
       if (portrait && cluster.longformOnly) continue
       const people = cluster.people
@@ -470,9 +522,10 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     }
   }
 
-  // 브랜드 엔딩 — 모든 에피소드 마지막에 FEEL & NOTE 화면을 둔다(시리즈 통일).
+  // 브랜드 엔딩 — 기본은 모든 에피소드 마지막에 FEEL & NOTE 화면을 둔다(시리즈 통일).
   // 마지막 인물 컷(대사 후 대기 포함) 뒤에 붙여 마지막 화면 대기(outroHold)만큼 유지한다.
-  {
+  // noOutro면 종료 화면을 두지 않고 마지막 인물 컷에서 검정 페이드아웃으로 끝낸다.
+  if (!script.noOutro) {
     const tail = cues[cues.length - 1]
     const startF = tail ? tail.start + tail.duration : cursor
     cues.push({ cue: { kind: 'outro' }, start: startF, duration: f(outroHoldSecOf(script)) })

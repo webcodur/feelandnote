@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { AbsoluteFill, Sequence, Audio, interpolate, useCurrentFrame, staticFile, Easing } from 'remotion'
 import type { FactionGroup, FactionPerson, FactionImageCrop, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
-import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, f, type PersonSteps } from '../timing'
+import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, linesTypingOf, f, type PersonSteps } from '../timing'
 import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC } from '../constants'
 import { imgSrc, initials, sliceLocalTimings, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { vnPersonQuote, vnPersonEpithet, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
@@ -82,7 +82,7 @@ function epithetCharTimings(text: string, totalSec: number): VoiceTimingSegment[
 
 /**
  * 직함 타이핑용 글자 점등 시각 — 마커(줄)별로 살짝 끊어 치는 분리감을 준다.
- * 줄 경계(`\n`)마다 짧은 휴지를 넣어, 한 줄을 다 친 뒤 잠깐 쉬고 다음 마커로 넘어가게 한다.
+ * 줄 경계(`\n`)마다 미세한 휴지(LINE_PAUSE)를 넣어, 1행 끝난 후 + 2·3행 사이에 약간의 텀.
  * 공백·마커점(·)·개행은 점등 시간 0(즉시 통과)으로 두고, 나머지 글자에 시간을 균등 배분한다.
  * 휴지 합만큼을 점등 시간에서 빼 전체 길이(totalSec)를 유지한다.
  * Typewriter가 charLevel 모드에서 이 시각을 받아 글자를 하나씩 점등한다.
@@ -90,7 +90,7 @@ function epithetCharTimings(text: string, totalSec: number): VoiceTimingSegment[
 function creditTypingTimings(text: string, totalSec: number): VoiceTimingSegment[] {
   const chars = Array.from(text)
   if (chars.length <= 1) return []
-  const LINE_PAUSE = 0.26 // 줄(마커) 사이 끊고 가는 휴지
+  const LINE_PAUSE = 0.15 // 줄(마커) 사이 미세한 텀 — 1행 끝난 후 + 2·3행 사이에 약간의 여유
   const pauseAfter = chars.map((c, i): number => {
     if (i === chars.length - 1) return 0
     return c === '\n' ? LINE_PAUSE : 0
@@ -268,17 +268,46 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 도입 동안은 시작 배율이 1.0으로 정착하고, 지속 효과는 도입이 끝난 시점(local-도입길이)부터 누적해 1.0에서 매끄럽게 이어진다.
   // 푸시인 목표점 — 줌 전용 목표점 → 그 사진의 사진맞춤 위치 → 가운데 순으로 폴백. 속도는 계승값(zoomSpeed) 배수.
   const enterFrames = f(enterMotionSec(enter))
-  const holdTf = (extraScale = 1, crop?: FactionImageCrop) => {
-    const enterS = enterOff ? 1 : enterMotionScale(enter, holdZ)
+  // 줌 기준 구간 끝 — 마지막 컷은 대사 종료(zoomFreezeSec), 그 외는 컷 끝.
+  // 단일 사진 + 긴 대사: spanFrames로 전체 구간에 줌을 늘린다(상한 조기 소진 방지).
+  // 다중 사진 전환: 사진마다 줌 재시작 + 정속(span 없음) — 체류가 짧아 상한까지 갈 염려가 없다.
+  const holdSpanEnd = zoomFreezeSec != null ? f(zoomFreezeSec) : cueDuration
+  const holdSpanFrames = Math.max(1, holdSpanEnd - enterFrames)
+  /**
+   * 지속 줌 transform.
+   * @param holdLocalStart 이 사진이 뜨는 컷 로컬 프레임(0=첫 사진). 교체 사진마다 줌을 여기서 재시작한다.
+   * @param stretchSpan 줌을 늘릴 총 프레임. 있으면 긴 대사 완주 모드, 없으면 기본 정속.
+   */
+  const holdTf = (extraScale = 1, crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number) => {
+    // 시작 효과(enter)는 컷 첫 사진에만. 교체 사진은 1.0에서 지속 줌만 다시 깐다.
+    const enterS = enterOff || holdLocalStart > 0 ? 1 : enterMotionScale(enter, holdZ)
     if (holdOff) return `scale(${enterS * extraScale})`
-    const { scale, tx, ty } = holdAndShakeParts(hold, shake, Math.max(0, holdZ - enterFrames), { focusX: person.zoomFocus?.x ?? crop?.x, focusY: person.zoomFocus?.y ?? crop?.y, speedMul: zoomSpeed })
+    const zForHold = holdLocalStart > 0
+      ? Math.max(0, holdZ - holdLocalStart)
+      : Math.max(0, holdZ - enterFrames)
+    const { scale, tx, ty } = holdAndShakeParts(hold, shake, zForHold, {
+      focusX: person.zoomFocus?.x ?? crop?.x,
+      focusY: person.zoomFocus?.y ?? crop?.y,
+      speedMul: zoomSpeed,
+      // stretchSpan 있을 때만 대사 길이 늘림. 다중 사진은 인자 생략 → 정속.
+      ...(stretchSpan != null && stretchSpan > 0 ? { spanFrames: stretchSpan } : {}),
+    })
     return `scale(${enterS * scale * extraScale}) translate(${tx}%, ${ty}%)`
   }
   const pushin = !holdOff && isPushinZoom(hold)
-  // 1) 박스 + 이름 + 직함 함께 페이드인. 세로는 박스째 왼쪽에서 슬라이드 인(가로는 슬라이드 없이 페이드만)
+  // 1) 박스 슬라이드. 이름 먼저 (박히게, box와 함께).
+  // 1행 직함값 지연(0.45s + 0.30s rise)은 롱폼 + showCreditRest(직함 따로 처리)일 때만 적용.
+  // 바로 대사(voice/text) 케이스는 이름과 같이 즉시.
+  // (그 다음 2·3번 순차 타이핑)
+  // 세로는 박스째 왼쪽 슬라이드(가로는 페이드만).
   const nameOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 가로 롱폼 이름 등장 — 직함 줄처럼 아래에서 살짝 떠오르며 들어온다(정적으로 미리 떠 있지 않게).
   const nameRise = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [30, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
+
+  // 롱폼 + showCreditRest(직함 따로)에서만 사용하는 1번 직함 지연 값.
+  // 그 외는 이름과 함께 즉시 표시.
+  const creditHeadStart = ENTER_NAME_SEC + 0.45
+  const creditHeadFadeSec = 0.30
   // 세로 박스 슬라이드 — 왼쪽 밖(-PANEL_SLIDE_X)에서 제자리(0)로. 슬라이드와 페이드를 같은 구간에 묶는다
   const panelSlideX = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + PANEL_SLIDE_SEC)], [-PANEL_SLIDE_X, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
   const panelOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -287,8 +316,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   const boxExitOp = isLast
     ? interpolate(local, [cueDuration - f(OUTRO_CROSSFADE_SEC + BOX_EXIT_SEC), cueDuration - f(OUTRO_CROSSFADE_SEC)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
     : 1
-  // 2) 직함 — 대사 인물의 이름 옆 직함(creditHead)은 이름과 함께 페이드인해 상시 표기.
-  //   대사 없는 인물의 아래 직함 줄별 순차 등장은 CreditLines가 담당.
+  // 2) 직함 — 1행 직함값 지연은 useDelayedHead (!isShorts && showCreditRest)일 때만.
+  //   그 외(바로 대사)는 이름과 동시 표시. showCreditRest일 때 2·3번은 1행 이후 시작.
   const quoteEnterSec = lead.quoteEnterSec
   const creditOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 3) 대사 — 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤(quoteEnterSec) 등장.
@@ -307,22 +336,63 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   const creditRestOp = Number.isFinite(creditExitSec)
     ? interpolate(lt, [f(creditExitSec - ENTER_FADE_SEC), f(creditExitSec)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
     : 1
+
+  // 직함1번 지연은 "직함을 따로 출력처리" (showCreditRest) + 롱폼(!isShorts)인 경우에만.
+  // 바로 대사(voice/text) 케이스는 이름과 같이 즉시 띄움.
+  const useDelayedHead = !isShorts && showCreditRest  // 롱폼에서 직함 따로 출력(credit step)할 때만 1번 직함 지연. 바로 대사는 이름과 함께.
   // 가로 롱폼: 직함 리드가 뜨는 인물은 1번째 줄까지 아래 리스트로 내려 전 줄을 리스트형으로 보인다(대사·수식어 인물 포함).
   // 첫 줄은 세력색으로 강조(이름 옆에 붙던 직함과 동일 색). 리드가 끝나면 리스트가 사라지며 수식어·대사로 넘어간다.
   const creditListFull = showCreditRest
   const creditListItems = creditListFull ? creditItems : creditRest
+
+  // 직함 타이핑용 텍스트와 전체 span은 여기서 미리 계산 (creditRestAvailableSec 등에서 참조되므로 선언 순서 중요)
+  const creditTypedTextLandscape = creditListItems.map(t => (creditListItems.length > 1 ? `· ${t}` : t)).join('\n')
+  const creditTypedTextPortrait = creditRest.map(t => (creditRest.length > 1 ? `· ${t}` : t)).join('\n')
+  // 타이핑 총 길이 — 리드 종료 전에 완주하도록.
+  const creditTypingSpanSec = Math.max(0.4, creditListSpanSec(person, true) - ENTER_FADE_SEC - 0.15)
+
   // 리스트 첫 줄 등장 시각(초, 컷 로컬) — 이름(ENTER_NAME_SEC)이 먼저 뜬 뒤 한 박자(stagger) 늦게 첫 항목이 이어 뜬다.
   // (이름과 첫 항목이 동시에 튀지 않게 분리.)
   const creditListStartSec = ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC
+
+  // 세로 대사박스(쇼츠/LV 포트레이트) 직함 스텝(showCreditRest)일 때:
+  // 1행(이름+직함1) 끝난 후 미세한 텀 두고 2·3번 직함 순차 등장.
+  // (portraitCreditRestStartSec = creditHeadEnd + 0.12)
+  const boxSlideEndSec = ENTER_NAME_SEC + PANEL_SLIDE_SEC
+  const effectiveHeadEndSec = useDelayedHead
+    ? (creditHeadStart + creditHeadFadeSec)
+    : (ENTER_NAME_SEC + ENTER_FADE_SEC)
+  // 1행 직함 끝난 후 미세한 텀(0.12s) 두고 2·3행 시작. 그 사이(줄 간)에도 미세한 텀.
+  const portraitCreditRestStartSec = showCreditRest
+    ? Math.max(boxSlideEndSec, effectiveHeadEndSec + 0.12)
+    : ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC
+
+  // 직함 스텝일 때 1행 끝 + 미세 텀 후 시작하므로, 실제 사용 가능한 시간을 계산해
+  // 타이핑 spread와 SFX 지속시간이 fade-out 전에 마무리되도록 맞춘다.
+  const creditRestAvailableSec = (showCreditRest && Number.isFinite(creditExitSec))
+    ? Math.max(0.4, creditExitSec - portraitCreditRestStartSec - 0.08)
+    : creditTypingSpanSec
+
+  const headStartSec = useDelayedHead ? creditHeadStart : ENTER_NAME_SEC
+  const headFadeSec = useDelayedHead ? creditHeadFadeSec : ENTER_FADE_SEC
+  const creditHeadOp = interpolate(
+    lt,
+    [f(headStartSec), f(headStartSec + headFadeSec)],
+    [0, 1],
+    clamp
+  )
+  const creditHeadTy = useDelayedHead
+    ? interpolate(
+        lt,
+        [f(headStartSec), f(headStartSec + headFadeSec)],
+        [10, 0],
+        { ...clamp, easing: Easing.out(Easing.cubic) }
+      )
+    : 0
+
   // 줄별 등장 시각(리스트 시작 기준) — 긴 줄일수록 다음 줄까지 더 오래 머문다(읽을 시간). timing과 동일 산식.
   // 리스트 줄 집합은 렌더 분기 기준: 가로는 전체, 세로(롱폼·쇼츠)는 1줄이 이름 옆이라 나머지만.
   const creditListOffsetsSec = creditLineOffsetsSec(person, orientation !== 'landscape')
-
-  // 직함 타이핑(linesTyping) — 마커(줄)별 텍스트. 가로는 전체 줄, 세로는 이름 옆 1번 줄을 뺀 나머지.
-  const creditTypedTextLandscape = creditListItems.map(t => (creditListItems.length > 1 ? `· ${t}` : t)).join('\n')
-  const creditTypedTextPortrait = creditRest.map(t => (creditRest.length > 1 ? `· ${t}` : t)).join('\n')
-  // 타이핑 총 길이 — 리드 종료(대사 교차·페이드아웃) 전에 완주하도록 페이드 여유를 뺀다.
-  const creditTypingSpanSec = Math.max(0.4, creditListSpanSec(person, true) - ENTER_FADE_SEC - 0.15)
 
   // 음성 스텝이 켜지고 음원이 있을 때만 재생.
   const audioPlaySec = personAudioPlaySec(person)
@@ -340,7 +410,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
     </Sequence>
   ) : null
   // 수식어 표시 방식 — 낭독(나레이터 음성)인가 타이핑(소리+글자만)인가. 미지정이면 음원 있으면 낭독.
-  const epithetNarrated = epithetIsNarrated(person)
+  const epithetNarrated = epithetIsNarrated(person, isShorts)
   // 수식어 낭독 — 낭독 모드 + 음원이 있을 때만 수식어 등장 시점에 맞춰 나레이터 낭독을 재생한다.
   const epithetEl = (() => {
     if (!hasEpithet || !epithetNarrated || !person.epithetDuration || person.epithetDuration <= 0) return null
@@ -359,7 +429,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 구두점 휴지(낱말 사이 쉬는 구간)에는 소리도 끊어, 글자가 멈추면 타자 소리도 함께 멈춘다.
   const epithetTypingEl = (() => {
     if (!hasEpithet || epithetNarrated) return null
-    const speak = epithetSpeakSec(person)
+    const speak = epithetSpeakSec(person, isShorts)
     const segs = epithetWordTimings(epithet, speak)
     // 낱말 타이밍이 있으면 각 낱말 구간에, 없으면(어절 하나) 전체 구간에 한 번.
     const spans = segs.length
@@ -377,15 +447,34 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
       </>
     )
   })()
-  // 직함 리드 타자 효과음 — 직함 2·3줄이 순차로 떠오르는 동안 타이핑 사운드를 깐다(세로 쇼츠).
+  // 직함 리드 타자 효과음 — 직함 2·3줄을 타이핑 방식(linesTyping)으로 내보낼 때,
+  // 실제 글자가 차오르는 구간(seg)에만 typing.mp3 루프.
+  // \n 줄 사이 LINE_PAUSE(쉬는 시간)에는 Sequence가 없어서 SFX 완전 중지.
   const creditTypingEl = (() => {
-    if (!isShorts || !showCreditRest) return null
-    const dur = f(CREDIT_LINE_STAGGER_SEC + creditListSpanSec(person, true))
-    if (dur <= 0) return null
+    if (orientation !== 'portrait' || !showCreditRest || !linesTypingOf(person, isShorts)) return null
+    const base = cueStart + f(portraitCreditRestStartSec)
+    const text = creditTypedTextPortrait
+    const listSpan = creditListSpanSec(person, true)
+    const avail = Number.isFinite(creditExitSec)
+      ? Math.max(0.4, creditExitSec - portraitCreditRestStartSec - 0.08)
+      : listSpan
+    const spanSec = Math.max(0.4, Math.min(listSpan - ENTER_FADE_SEC - 0.15, avail))
+    const segs = creditTypingTimings(text, spanSec)
+    const playable = segs
+      .map(s => ({
+        from: s.start ?? 0,
+        dur: Math.max(0, (s.end ?? 0) - (s.start ?? 0))
+      }))
+      .filter(sp => sp.dur > 0)
+    if (!playable.length) return null
     return (
-      <Sequence from={cueStart + f(ENTER_NAME_SEC)} durationInFrames={dur}>
-        <Audio src={staticFile('common/sfx/typing.mp3')} loop volume={0.6} />
-      </Sequence>
+      <>
+        {playable.map((sp, i) => (
+          <Sequence key={i} from={base + f(sp.from)} durationInFrames={f(sp.dur)}>
+            <Audio src={staticFile('common/sfx/typing.mp3')} loop volume={0.6} />
+          </Sequence>
+        ))}
+      </>
     )
   })()
   // 직함 마커 효과음(가로 롱폼) — 직함 줄(2·3번)이 하나씩 순차로 떠오를 때마다 마커 소리를 낸다.
@@ -420,7 +509,11 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 영상(<video>)에 상위 transform 이 걸리면 Chrome 이 별도 합성 레이어로 떼어내 사방으로 떨린다 — 요소 자체에 걸면 단일 레이어라 매끄럽다.
   // 사진 맞춤(crop): cover로 잘릴 위치를 objectPosition·transformOrigin 으로 잡고, 확대(scale)는 줌 모션 위에 곱한다.
   // 미지정이면 가운데(50% 50%)·1배 → 기존 동작 그대로.
-  const styleFor = (crop?: FactionImageCrop): React.CSSProperties => {
+  /**
+   * @param holdLocalStart 사진 등장 컷 로컬 프레임(다중 전환 시 줌 재시작).
+   * @param stretchSpan 단일 사진 긴 대사 늘림 프레임. 다중 사진은 생략 → 정속.
+   */
+  const styleFor = (crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number): React.CSSProperties => {
     const x = crop?.x ?? 50
     const y = crop?.y ?? 50
     const sc = crop?.scale ?? 1
@@ -429,35 +522,51 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
       objectPosition: `${x}% ${y}%`,
       // 푸시인 줌은 목표점으로 이동하는 모드라 확대 기준점을 화면 중앙에 둔다(이동량 계산과 일치). 그 외엔 사진맞춤 위치.
       transformOrigin: pushin ? '50% 50%' : `${x}% ${y}%`,
-      transform: holdTf(sc, crop),
+      transform: holdTf(sc, crop, holdLocalStart, stretchSpan),
     }
   }
   // 이미지(세로·가로 공용) — imageChanges가 있으면 대사 도중 발화 시각에 맞춰 사진을 크로스페이드로 교체. 없으면 단일. 둘 다 없으면 이니셜.
+  // 단일 사진: 긴 대사면 줌을 구간 전체에 늘림. 다중 사진: 사진마다 줌 재시작 + 기본 정속(상한 조기 소진 염려 없음).
   const initialsFallback = (
-    <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)`, transform: holdTf() }}>
+    <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)`, transform: holdTf(1, undefined, 0, holdSpanFrames) }}>
       <span style={{ color: accent, fontFamily: FONT, fontSize: orientation === 'landscape' ? 220 : 320, fontWeight: 800 }}>{initials(person.name)}</span>
     </AbsoluteFill>
   )
   const imgChanges = person.imageChanges?.length ? [...person.imageChanges].sort((a, b) => a.chunk - b.chunk) : []
   const photo = !person.image || imgErr ? initialsFallback : (() => {
-    const base = <FactionMedia src={imgSrc(episodeName, person.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(person.imageCrop)} />
-    // 덩어리 시작 프레임 — 발화 시각(voiceTiming) 우선, 없으면 글자수 비례
+    // 덩어리 시작 프레임 — 발화 시각(voiceTiming) 우선, 없으면 글자수 비례.
+    // 발화 시각·글자수는 자막(QuotePages)과 동일하게 '빈 덩어리(연속 개행)를 뺀 실제 덩어리' 기준으로 센다.
+    // imageChanges[].chunk 는 BO에서 quoteChunks(빈 덩어리 포함) 인덱스로 저장되므로, 실제 덩어리 인덱스로 환산해야
+    // 자막과 같은 발화 시각을 타 컷 전환이 음성에 정확히 맞는다(환산 없이 쓰면 개수 불일치로 폴백에 떨어져 한 박자 늦음).
     const audioStart = cueStart + f(quoteEnterSec)
     const spread = Math.max(1, cueDuration - f(quoteEnterSec))
     const expanded = voiceTiming ? expandSubTimings(voiceTiming) : undefined
-    const useT = !!expanded && expanded.length === quoteChunks.length && expanded.every(t => t.start != null)
-    const totalChars = quoteChunks.join(' ').length || 1
+    const realChunks = quoteChunks.filter(c => c && c.trim())
+    const useT = !!expanded && expanded.length === realChunks.length && expanded.every(t => t.start != null)
+    const totalChars = realChunks.join(' ').length || 1
+    // quoteChunks 인덱스 → 그 앞의 실제(비어있지 않은) 덩어리 개수 = 실제 덩어리 인덱스
+    const realIndexOf = (ci: number): number => {
+      let r = 0
+      for (let i = 0; i < ci && i < quoteChunks.length; i++) if (quoteChunks[i]?.trim()) r++
+      return r
+    }
     const chunkFrame = (ci: number): number => {
-      if (ci <= 0) return cueStart
-      if (useT) return audioStart + f(expanded![Math.min(ci, expanded!.length - 1)].start!)
-      const before = quoteChunks.slice(0, ci).join(' ').length
+      const ri = realIndexOf(ci)
+      if (ri <= 0) return audioStart
+      if (useT) return audioStart + f(expanded![Math.min(ri, expanded!.length - 1)].start!)
+      const before = realChunks.slice(0, ri).join(' ').length
       return audioStart + Math.round(spread * before / totalChars)
     }
     // 사진 전환 목록 — quoteImage(직함→대사, 대사 시작 시점) + imageChanges(대사 도중 덩어리별 교체)를 합쳐 한 번에 깐다.
     const changes: { start: number; image: string; crop?: FactionImageCrop }[] = []
     if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop })
     for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop })
-    if (!changes.length) return base
+    const localOf = (abs: number) => Math.max(0, abs - cueStart)
+    // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
+    if (!changes.length) {
+      return <FactionMedia src={imgSrc(episodeName, person.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(person.imageCrop, 0, holdSpanFrames)} />
+    }
+    const base = <FactionMedia src={imgSrc(episodeName, person.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(person.imageCrop, 0)} />
     const cf = f(CROSSFADE_SEC)
     return (
       <>
@@ -465,9 +574,11 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
         {changes.map((c, idx) => {
           const op = interpolate(frame, [c.start - cf, c.start], [0, 1], clamp)
           if (op <= 0) return null
+          // 교체 사진 — 뜬 시점부터 줌 재시작, 기본 정속(stretch 없음).
+          const ls = localOf(c.start)
           return (
             <AbsoluteFill key={idx} style={{ opacity: op }}>
-              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop)} />
+              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop, ls)} />
             </AbsoluteFill>
           )
         })}
@@ -520,8 +631,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                     <Typewriter
                       text={epithet}
                       startFrame={cueStart + epithetStartF}
-                      spreadFrames={f(epithetSpeakSec(person))}
-                      timings={epithetCharTimings(epithet, epithetSpeakSec(person))}
+                      spreadFrames={f(epithetSpeakSec(person, isShorts))}
+                      timings={epithetCharTimings(epithet, epithetSpeakSec(person, isShorts))}
                       charLevel
                       fontSize={60}
                       color="#7c818c"
@@ -535,7 +646,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
             ) : null}
             {showCreditRest ? (
               <div style={{ gridArea: '1 / 1', opacity: creditRestOp }}>
-                {person.linesTyping ? (
+                {linesTypingOf(person, isShorts) ? (
                   <Typewriter
                     text={creditTypedTextLandscape}
                     startFrame={cueStart + f(creditListStartSec) - f(ENTER_NAME_SEC)}
@@ -590,8 +701,10 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
       {/* 텍스트 — 박스(이름+직함 한 줄 + 대사)를 한 덩어리로 화면 하단에 둔다. 왼쪽 끝에 붙지 않게 좌우 여백. */}
       {/* 북리커맨드 쇼츠 하단 자막의 위치·크기 감각에 맞춤(하단·여백·작은 글씨). */}
       <AbsoluteFill style={{ justifyContent: 'flex-end', alignItems: 'stretch', padding: `0 ${CONTENT_PAD}px ${CONTENT_PAD}px` }}>
-        {/* 박스를 한 덩어리로 왼쪽에서 슬라이드 인. 박스 높이는 이름 + 직함/대사 슬롯으로 처음부터 확보되어, */}
-        {/* 슬라이드로 한 번 들어온 뒤엔 박스가 가만히 있고 그 안에서 직함(2행)→대사 교차만 일어난다(들썩임 없음). */}
+        {/* 박스 슬라이드 인. 이름 먼저 (박히게). */}
+        {/* 1행 직함값 지연은 롱폼 + showCreditRest(직함 따로 출력)일 때만. 바로 대사 케이스는 이름과 동시. */}
+        {/* 1행 끝난 후 미세한 텀(0.12s) + 줄 간 미세 텀(0.15s) 두고 2·3행 순차 타이핑. */}
+        {/* 박스 내부에서만 교차하므로 레이아웃 들썩임 없음. */}
         <div style={{
           position: 'relative',
           display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12,
@@ -604,9 +717,9 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
         }}>
           {/* 이름(세력색) + 직함 1번(이름 옆 고정, 전원) */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-            <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', ...TEXT_PAINT }}>{person.name}</div>
+            <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp, ...TEXT_PAINT }}>{person.name}</div>
             {creditHead ? (
-              <div style={{ color: FG, fontFamily: FONT, fontSize: 32, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap', ...TEXT_PAINT }}>{creditHead}</div>
+              <div style={{ color: FG, fontFamily: FONT, fontSize: 36, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditHeadOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT }}>{creditHead}</div>
             ) : null}
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)·수식어 리드인은 앞 내용 순차 → 대사로 교차(겹쳐 두고 페이드) */}
@@ -628,8 +741,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                     <Typewriter
                       text={epithet}
                       startFrame={cueStart + epithetStartF}
-                      spreadFrames={f(epithetSpeakSec(person))}
-                      timings={epithetCharTimings(epithet, epithetSpeakSec(person))}
+                      spreadFrames={f(epithetSpeakSec(person, isShorts))}
+                      timings={epithetCharTimings(epithet, epithetSpeakSec(person, isShorts))}
                       charLevel
                       fontSize={50}
                       color="#7c818c"
@@ -643,12 +756,12 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
             ) : null}
             {showCreditRest ? (
               <div style={{ gridArea: '1 / 1', opacity: creditRestOp }}>
-                {person.linesTyping ? (
+                {linesTypingOf(person, isShorts) ? (
                   <Typewriter
                     text={creditTypedTextPortrait}
-                    startFrame={cueStart + f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)}
-                    spreadFrames={f(creditTypingSpanSec)}
-                    timings={creditTypingTimings(creditTypedTextPortrait, creditTypingSpanSec)}
+                    startFrame={cueStart + f(portraitCreditRestStartSec)}
+                    spreadFrames={f(Math.min(creditTypingSpanSec, creditRestAvailableSec))}
+                    timings={creditTypingTimings(creditTypedTextPortrait, Math.min(creditTypingSpanSec, creditRestAvailableSec))}
                     charLevel
                     fontSize={48}
                     color="#e8e8ee"
@@ -657,7 +770,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                     keepLit
                   />
                 ) : (
-                  <CreditLines items={creditRest} accent={accent} fontSize={48} frame={lt} startFrame={f(ENTER_NAME_SEC + CREDIT_LINE_STAGGER_SEC)} offsetsFrames={creditListOffsetsSec.map(f)} />
+                  <CreditLines items={creditRest} accent={accent} fontSize={48} frame={lt} startFrame={f(portraitCreditRestStartSec)} offsetsFrames={creditListOffsetsSec.map(f)} />
                 )}
               </div>
             ) : null}

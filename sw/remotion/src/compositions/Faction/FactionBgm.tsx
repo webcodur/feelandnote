@@ -1,16 +1,14 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
-import type { FactionScript, FactionTrack, FactionGroup } from './types'
+import type { FactionScript, FactionTrack } from './types'
 import { f, buildCues, personQuoteEnterSec } from './timing'
 import { clampRate } from './voice-names'
 
 /** 음량 배율 정규화 — 미지정이면 1(원음). 0~1.5 로 제한(과증폭 방지) */
 const vol01 = (v?: number) => (v == null ? 1 : Math.min(1.5, Math.max(0, v)))
 
-/** 곡 경계 크로스 구간(초) — 한 곡 끝과 다음 곡 시작에 짧은 페이드를 줘 끊김을 막는다 */
+/** 곡 경계 크로스 구간(초) — 한 곡 끝과 다음 곡 시작에 짧은 페이드를 줘 끊김을 막는다(전역 모드) */
 const EDGE_FADE_SEC = 0.6
-/** 세력 전환 크로스페이드(초) — 새 곡이 세력 경계보다 이만큼 일찍 들어와 이전 곡과 겹치며 교차한다 */
-const CROSS_SEC = 1.2
 /** 영상 끝 음악 페이드아웃(초) — 마지막 인물 컷에서 화면이 검정으로 잠기는 동안 음악도 함께 감쇠한다 */
 const END_FADE_SEC = 2.0
 
@@ -78,61 +76,75 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
   const outroFadeF = f(END_FADE_SEC)
   const edgeF = Math.round(EDGE_FADE_SEC * fps)
 
-  // ── 세력 단위 모드 ── 세력마다 방향(롱폼/쇼츠)에 맞는 곡을 골라, 세력 전환점에서 갈아끼운다.
-  //    롱폼은 musicLongform, 세로 쇼츠는 musicShorts 를 본다. 하나라도 있으면 세력 모드로 진입.
-  const groupMusicOf = (g?: FactionGroup) => (portrait ? g?.musicShorts : g?.musicLongform)
-  const groupVolOf = (g?: FactionGroup) => (portrait ? g?.musicShortsVolume : g?.musicLongformVolume)
-  const hasGroupMusic = (script.groups ?? []).some(g => groupMusicOf(g))
-  if (hasGroupMusic) {
-    // 세력별 첫 등장 프레임(등장 순서). intro/outro는 groupIndex가 없어 건너뛴다.
-    const starts: { gi: number; start: number }[] = []
-    const seen = new Set<number>()
-    for (const tc of cues) {
-      const gi = (tc.cue as { groupIndex?: number }).groupIndex
-      if (gi != null && !seen.has(gi)) { seen.add(gi); starts.push({ gi, start: tc.start }) }
+  // ── 챕터 단위 모드 ── 롱폼에서 챕터 전환(챕터 표지)마다 곡을 교체한다. 곡 경계 = 챕터 표지 등장.
+  //    이전 챕터 곡은 검정 브릿지에서 페이드아웃하고(숨 고르기 공백), 새 챕터 곡은 챕터 표지 등장에서 페이드인한다.
+  //    겹쳐 섞는 크로스페이드가 아니라 사이를 벌려 장이 바뀌는 느낌을 준다. 쇼츠·챕터 없는 롱폼은 아래 전역 모드.
+  const IN_F = f(2.5)  // 새 챕터 곡 페이드인 길이 — 챕터 표지 위에서 천천히 차오른다(급격한 전환 방지)
+  const OUT_F = f(1.2) // 이전 챕터 곡 페이드아웃 꼬리 — 검정 브릿지 끝(챕터 표지 등장)에서 무음에 닿는다
+  const LEAD_OUT = f(2.0) // 페이드아웃을 검정 진입 전(챕터 마지막 인물 여운)부터 미리 시작하는 선행 시간
+  // 챕터 표지(chapter) 컷과 그 앞 검정 브릿지(chapterBlack)를 찾아 곡 경계를 만든다.
+  const chapterBounds: { blackStart: number | null; coverStart: number; music?: string; vol?: number }[] = []
+  for (let i = 0; i < cues.length; i++) {
+    const c = cues[i].cue
+    if (c.kind === 'chapter') {
+      const prev = cues[i - 1]
+      const blackStart = prev && prev.cue.kind === 'chapterBlack' ? prev.start : null
+      chapterBounds.push({ blackStart, coverStart: cues[i].start, music: c.chapter.music, vol: c.chapter.musicVolume })
     }
-    // 곡 전환 경계 — 미지정 세력은 직전 곡을 이어간다. 첫 곡은 영상 시작(0)부터.
-    const fallback = script.music || script.tracks?.[0]?.file
-    // 곡 음량 우선순위: 세력별 musicVolume → 같은 곡의 전역 tracks volume → 1(원음).
-    // 같은 곡이 전역 재생목록에도 등록돼 있으면, BO 전역 곡 음량 슬라이더로 조절한 값이 세력 모드에서도 반영된다.
-    const trackVolOf = (file?: string) => (file ? script.tracks?.find(t => t.file === file)?.volume : undefined)
-    const segs: { file: string; from: number; vol: number }[] = []
-    let cur: string | undefined
-    starts.forEach(({ gi, start }, idx) => {
-      const m = groupMusicOf(script.groups[gi])
-      const gv = groupVolOf(script.groups[gi])
-      if (idx === 0) {
-        cur = m || fallback
-        if (cur) segs.push({ file: cur, from: 0, vol: vol01((m ? gv : undefined) ?? trackVolOf(cur)) })
-      } else if (m && m !== cur) {
-        cur = m
-        segs.push({ file: m, from: start, vol: vol01(gv ?? trackVolOf(m)) })
+  }
+  if (!portrait && chapterBounds.length) {
+    // 시작곡 — 시작 화면(intro)부터 첫 챕터 표지 이전까지 채운다.
+    // 전역 music > tracks 첫 곡 > (둘 다 없으면) 첫 챕터 곡 순으로 고른다.
+    // 첫 챕터 곡을 승격하면 첫 챕터 경계에서 곡이 바뀌지 않으므로, 시작 화면부터 그 곡이 끊김 없이 이어진다.
+    const firstChap = chapterBounds[0]
+    let startFile: string | undefined
+    let startVol: number
+    if (script.music) {
+      startFile = script.music
+      startVol = vol01(script.tracks?.find(t => t.file === script.music)?.volume)
+    } else if (script.tracks?.length) {
+      startFile = script.tracks[0].file
+      startVol = vol01(script.tracks[0].volume)
+    } else {
+      // 전역 곡이 전혀 없는 챕터 전용 편성 — 첫 챕터 곡을 시작 화면부터 흐르게 한다.
+      startFile = firstChap.music
+      startVol = vol01(firstChap.vol)
+    }
+    // 곡 세그먼트 — 챕터 표지에서 곡을 바꾸되, 챕터 곡 미지정이면 직전 곡을 이어간다.
+    const segs: { file: string; from: number; fadeOutAt: number; vol: number }[] = []
+    let curFile = startFile
+    let curVol = startVol
+    let curFrom = 0
+    for (const a of chapterBounds) {
+      if (a.music && a.music !== curFile) {
+        // 이전 곡 마감 지점 = 검정 브릿지 시작(없으면 챕터 표지 시작). 거기서 페이드아웃한다.
+        const cutAt = a.blackStart ?? a.coverStart
+        if (curFile) segs.push({ file: curFile, from: curFrom, fadeOutAt: cutAt, vol: curVol })
+        curFile = a.music
+        curVol = vol01(a.vol)
+        curFrom = a.coverStart // 새 곡은 챕터 표지 등장부터
       }
-    })
+    }
+    if (curFile) segs.push({ file: curFile, from: curFrom, fadeOutAt: total, vol: curVol })
     if (!segs.length) return null
-    const crossF = Math.round(CROSS_SEC * fps)
     return (
       <>
         {segs.map((s, i) => {
           const isFirst = i === 0
-          const isLast = i + 1 >= segs.length
-          // 새 곡은 세력 경계보다 crossF 일찍 들어와(playFrom) 이전 곡 끝과 겹치며 교차한다.
-          // 같은 crossF 구간에서 이전 곡은 페이드아웃, 새 곡은 페이드인 → 진짜 크로스페이드.
-          const playFrom = isFirst ? 0 : s.from - crossF
-          const end = isLast ? total : segs[i + 1].from
-          const dur = end - playFrom
+          const dur = Math.min(total, s.fadeOutAt + OUT_F) - s.from
           if (dur <= 0) return null
-          const baseVol = s.vol // 곡 음량 배율(세력 musicVolume). 미지정 시 1(원음).
+          const baseVol = s.vol // 곡 음량 배율(챕터 musicVolume). 미지정 시 1(원음).
           const volume = (lf: number) => {
-            const globalF = playFrom + lf
-            const fadeIn = isFirst ? 1 : interpolate(lf, [0, crossF], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-            // 마지막 곡은 다음 곡이 없으니 끝 크로스페이드 없이 아웃트로 페이드만 받는다
-            const fadeOut = isLast ? 1 : interpolate(lf, [dur - crossF, dur], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-            const outro = interpolate(globalF, [total - outroFadeF, total], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-            return Math.min(fadeIn, fadeOut, outro) * baseVol * duckAt(globalF)
+            const gf = s.from + lf
+            const fadeIn = isFirst ? 1 : interpolate(gf, [s.from, s.from + IN_F], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+            // 챕터 경계로 끝나는 곡은 검정 진입 전(마지막 인물 여운)부터 미리 빠지기 시작한다. 영상 끝(마지막 곡)은 아웃트로 페이드에 맡긴다.
+            const foStart = s.fadeOutAt >= total ? s.fadeOutAt : s.fadeOutAt - LEAD_OUT
+            const fadeOut = interpolate(gf, [foStart, s.fadeOutAt + OUT_F], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+            const outro = interpolate(gf, [total - outroFadeF, total], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+            return Math.min(fadeIn, fadeOut, outro) * baseVol * duckAt(gf)
           }
           return (
-            <Sequence key={i} from={playFrom} durationInFrames={dur}>
+            <Sequence key={i} from={s.from} durationInFrames={dur}>
               <Audio src={staticFile(`music/${s.file}`)} volume={volume} loop />
             </Sequence>
           )
@@ -142,11 +154,16 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
   }
 
   // ── 전역 모드 ── 재생 목록 정규화 — tracks 우선, 없으면 legacy music 한 곡
-  const tracks: FactionTrack[] = script.tracks?.length
-    ? script.tracks
-    : script.music
-      ? [{ file: script.music }]
-      : []
+  const partMusic = part != null ? script.musicByPart?.[part] : undefined
+  const partVol = part != null ? script.musicVolumeByPart?.[part] : undefined
+
+  const tracks: FactionTrack[] = partMusic
+    ? [{ file: partMusic, volume: partVol }]
+    : script.tracks?.length
+      ? script.tracks
+      : script.music
+        ? [{ file: script.music }]
+        : []
 
   if (!tracks.length) return null
 

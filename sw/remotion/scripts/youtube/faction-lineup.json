@@ -18,5 +18,21 @@
         "uploadedAt": "2026-06-28T09:16:06.157Z"
       }
     }
+  },
+  "Digital-Resistance": {
+    "uploads": {
+      "ko-longform": {
+        "videoId": "YqfQIbHbsUQ",
+        "uploadedAt": "2026-07-09T11:37:12.220Z"
+      },
+      "ko-shorts-1": {
+        "videoId": "wwHrAnXlZI4",
+        "uploadedAt": "2026-07-09T11:37:34.433Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "l9lG_tMTXOM",
+        "uploadedAt": "2026-07-09T11:37:54.454Z"
+      }
+    }
   }
 }

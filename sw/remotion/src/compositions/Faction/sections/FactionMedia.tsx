@@ -25,9 +25,11 @@ export const FactionMedia: React.FC<{
   onError?: () => void
   /** 이 미디어가 속한 컷의 시작 프레임 — 영상이 컷 시작부터 재생되게 한다. 미지정이면 0(컴포지션 시작=인트로). */
   startFrame?: number
-}> = ({ src, style, onError, startFrame = 0 }) => {
+  /** 영상 채움 방식 — 'cover'(기본, 비율 유지 꽉 채움·화면비 넘는 부분 잘림) | 'contain'(비율 유지·잘림 없이 여백). 이미지는 style로 제어 */
+  fit?: 'cover' | 'contain'
+}> = ({ src, style, onError, startFrame = 0, fit = 'cover' }) => {
   if (!isVideoSrc(src)) return <Img src={src} style={style} onError={onError} />
-  const videoStyle: React.CSSProperties = { ...style, objectFit: 'cover' }
+  const videoStyle: React.CSSProperties = { ...style, objectFit: fit }
   return (
     <Sequence from={startFrame} layout="none">
       <OffthreadVideo src={src} muted style={videoStyle} onError={onError ? () => onError() : undefined} />

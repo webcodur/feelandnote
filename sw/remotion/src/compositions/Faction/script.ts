@@ -119,9 +119,11 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
     logline: en ? data.loglineEn : data.logline,
     loglineByPart: en ? data.loglineByPartEn : data.loglineByPart,
     loglineByLvPart: en ? data.loglineByLvPartEn : data.loglineByLvPart,
-    // 롱폼 배치 — 영문판은 시대 문구를 labelEn으로 치환(없으면 한국어 폴백). 세력 참조·편 경계(cut)는 그대로.
+    // 롱폼 배치 — 영문판은 시대 문구(era)·챕터 제목(chapter)을 영문으로 치환(없으면 한국어 폴백). 세력 참조·편 경계(cut)는 그대로.
     longformLayout: data.longformLayout?.map(it =>
-      'era' in it ? { era: { ...it.era, label: en ? (it.era.labelEn ?? it.era.label) : it.era.label } } : it,
+      'era' in it ? { era: { ...it.era, label: en ? (it.era.labelEn ?? it.era.label) : it.era.label } }
+      : 'chapter' in it ? { chapter: { ...it.chapter, title: en ? (it.chapter.titleEn ?? it.chapter.title) : it.chapter.title } }
+      : it,
     ),
     groups: data.groups.map(g => resolveGroup(g, en)),
     voiceTimings,

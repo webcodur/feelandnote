@@ -12,6 +12,8 @@ const SFX_GROUP = 'common/sfx/chime.wav'
 const SFX_PERSON = 'common/sfx/whoosh.wav'
 const GROUP_VOL = 0.5
 const PERSON_VOL = 0.32
+/** 챕터 전환 효과음 음량 — 장 전환 임팩트라 세력 등장보다 살짝 크게 */
+const CHAPTER_VOL = 0.6
 
 export const FactionSfx: React.FC<{ cues: TimedCue[] }> = ({ cues }) => (
   <>
@@ -28,6 +30,21 @@ export const FactionSfx: React.FC<{ cues: TimedCue[] }> = ({ cues }) => (
         return (
           <Sequence key={`sfx-p-${i}`} from={tc.start + f(ENTER_NAME_SEC)} durationInFrames={f(1.2)}>
             <Audio src={staticFile(SFX_PERSON)} volume={PERSON_VOL} />
+          </Sequence>
+        )
+      }
+      // 챕터 전환 효과음 — 그 챕터의 첫 컷(검정 브릿지, 없으면 표지)에서 1회. 사용자 지정 파일만.
+      if (tc.cue.kind === 'chapterBlack' && tc.cue.chapter.sfx) {
+        return (
+          <Sequence key={`sfx-a-${i}`} from={tc.start} durationInFrames={f(4)}>
+            <Audio src={staticFile(`common/sfx/${tc.cue.chapter.sfx}`)} volume={CHAPTER_VOL} />
+          </Sequence>
+        )
+      }
+      if (tc.cue.kind === 'chapter' && tc.cue.chapter.sfx && tc.cue.chapter.blackBefore === false) {
+        return (
+          <Sequence key={`sfx-a-${i}`} from={tc.start} durationInFrames={f(4)}>
+            <Audio src={staticFile(`common/sfx/${tc.cue.chapter.sfx}`)} volume={CHAPTER_VOL} />
           </Sequence>
         )
       }

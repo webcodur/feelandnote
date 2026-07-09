@@ -84,8 +84,10 @@ export const enterMotionScale = (enter: EnterMotion, z: number): number => {
   return start + (1 - start) * e
 }
 
-/** 지속 효과 옵션 — 줌인 푸시인 목표점(focusX·focusY %)과 줌·이동 속도 배수(speedMul). */
-export type HoldOpts = { focusX?: number; focusY?: number; speedMul?: number }
+/** 지속 효과 옵션 — 줌인 푸시인 목표점(focusX·focusY %)과 줌·이동 속도 배수(speedMul).
+ *  spanFrames: 줌이 상한까지 걸쳐 진행할 총 프레임(대사·컷 길이). 긴 단일 사진 컷에서 상한 조기 소진을 막기 위해 속도를 늘린다.
+ *  미지정(다중 사진 전환 등)이면 기본 정속(HOLD_ZOOMIN_RATE)만 쓴다 — 사진이 바뀌어 상한 걱정이 없을 때. */
+export type HoldOpts = { focusX?: number; focusY?: number; speedMul?: number; spanFrames?: number }
 
 /** 줌인 푸시인 목표점을 향한 한 프레임 이동량(요소 % 기준). 목표점이 화면 중앙으로 끌려온다. */
 const pushinShift = (focus: number | undefined, progress: number): number =>
@@ -116,8 +118,12 @@ export const holdMotionParts = (hold: HoldMotion, z: number, opts: HoldOpts = {}
   switch (hold) {
     case 'zoomin': {
       // 줌인은 전용 속도·상한으로 더 약하게(줌아웃·켄번스와 분리).
+      // spanFrames 있음 = 긴 단일 사진 컷: 대사 길이에 맞춰 상한까지 균등 완주(조기 정지 방지, 속도 느려짐).
+      // spanFrames 없음 = 기본 정속. 다중 사진 전환처럼 구간이 짧아 상한 걱정이 없을 때 쓴다.
       const zir = HOLD_ZOOMIN_RATE * spd
-      const scale = Math.min(HOLD_ZOOMIN_MAX, 1 + zir * zz)
+      const scale = opts.spanFrames && opts.spanFrames > 0
+        ? 1 + (HOLD_ZOOMIN_MAX - 1) * Math.min(1, (zz / opts.spanFrames) * spd)
+        : Math.min(HOLD_ZOOMIN_MAX, 1 + zir * zz)
       // 확대 진행도(0~1)에 맞춰 목표점을 중앙으로 끌어당긴다 — 상한 도달 시 최대치.
       const p = HOLD_ZOOMIN_MAX > 1 ? (scale - 1) / (HOLD_ZOOMIN_MAX - 1) : 0
       return { scale, tx: pushinShift(opts.focusX, p), ty: pushinShift(opts.focusY, p) }
@@ -176,6 +182,23 @@ export const imgSrc = (episodeName: string, image: string) =>
 /** 영상 파일 여부 — 확장자 기준(쿼리스트링·해시 무시). 이미지/영상 공용 src 분기에 쓴다 */
 export const isVideoSrc = (src: string): boolean =>
   /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(src)
+
+/**
+ * 시작 화면 소스 — 우선순위: 쇼츠 편별(introImageByPart[part]) → 롱폼 전용(introImageLong) → 공용(introImage).
+ * 쇼츠는 편별 지정이 있으면 그 편만 다른 화면, 없으면 공용. 롱폼은 롱폼 전용, 없으면 공용.
+ */
+export const resolveIntroImage = (script: FactionScript, isShorts: boolean, part?: number): string | undefined =>
+  (isShorts && part != null && script.introImageByPart?.[part])
+  || (!isShorts && script.introImageLong)
+  || script.introImage
+
+/**
+ * 마지막 화면 소스 — 우선순위: 쇼츠 편별(outroImageByPart[part]) → 롱폼 전용(outroImageLong) → 공용(outroImage).
+ */
+export const resolveOutroImage = (script: FactionScript, isShorts: boolean, part?: number): string | undefined =>
+  (isShorts && part != null && script.outroImageByPart?.[part])
+  || (!isShorts && script.outroImageLong)
+  || script.outroImage
 
 /** 이름 → 이니셜(이미지 없는 인물 플레이스홀더) */
 export const initials = (name: string) => {

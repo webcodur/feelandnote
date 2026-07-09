@@ -28,6 +28,8 @@ import {
 import { FactionCard, type FactionCardSpec } from "./compositions/FactionCard";
 import { BookCard, type BookCardSpec, josa } from "./compositions/BookCard";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
+import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail";
+import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
 import { factionCompBase, factionLongformPartNumbers } from "@feelandnote/shared/lib/youtube-faction-meta";
 
@@ -214,7 +216,7 @@ export const RemotionRoot: React.FC = () => {
                       fps={FACTION_FPS}
                       width={1080}
                       height={1920}
-                      defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: true, part }}
+                      defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: true, part }}
                     />
                   )
                 })}
@@ -237,11 +239,31 @@ export const RemotionRoot: React.FC = () => {
                         fps={FACTION_FPS}
                         width={1080}
                         height={1920}
-                        defaultProps={{ script, episodeName: ep, orientation: 'portrait' as const, shorts: false, lvPart }}
+                        defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: false, lvPart }}
                       />
                     )
                   })
                 })()}
+                {/* KO-LV-GEM — 한국어 세로 롱폼 썸네일 */}
+                <Composition
+                  id={`${base}-KO-LV-GEM`}
+                  component={FactionLVThumbnail}
+                  durationInFrames={1}
+                  fps={1}
+                  width={1080}
+                  height={1920}
+                  defaultProps={{ script, episodeName: ep }}
+                />
+                {/* KO-LV 썸네일 (SPLIT 채택안) */}
+                <Composition
+                  id={`${base}-KO-LV-TH-SPLIT`}
+                  component={FactionLVThumbCandidate}
+                  durationInFrames={1}
+                  fps={1}
+                  width={1080}
+                  height={1920}
+                  defaultProps={{ script, episodeName: ep }}
+                />
                 {/* KO-LH — 한국어 가로 롱폼 (1920x1080, 전체) */}
                 <Composition
                   id={`${base}-KO-LH`}
@@ -250,7 +272,7 @@ export const RemotionRoot: React.FC = () => {
                   fps={FACTION_FPS}
                   width={1920}
                   height={1080}
-                  defaultProps={{ script, episodeName: ep, orientation: 'landscape' as const, shorts: false }}
+                  defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'landscape' as const, shorts: false }}
                 />
                 {/* EN(영문) — 지금 미사용. 영문 스크립트는 factionEpisodes[`${key}-en`]. 필요 시 주석 해제
                 <Composition id={`${base}-EN-S`}  component={Faction} durationInFrames={durS}    fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: true  }} />

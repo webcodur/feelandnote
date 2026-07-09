@@ -41,7 +41,7 @@ export interface FactionGroupMeta {
  * 롱폼 배치 한 칸(경량) — 세력 블록(group)·시대 문구 카드(era)·편 경계(cut).
  * faction-data.json 의 longformLayout 을 그대로 받는다. remotion 측 FactionLongformItem 과 구조 동기화.
  */
-export type FactionLongformLayoutItem = { group: number } | { era: unknown } | { cut: true }
+export type FactionLongformLayoutItem = { group: number } | { era: unknown } | { cut: true } | { chapter: unknown }
 
 /** 팩션 메타 생성 입력 — faction-data.json 의 상위 필드 일부만 추린 경량 형태 */
 export interface FactionMetaInput {
@@ -173,7 +173,7 @@ const CATEGORY_EDUCATION = '27'
 /** YouTube 태그 총량 제한은 500자. 쉼표·따옴표 오버헤드를 감안해 보수적으로 예산을 잡는다. */
 const TAGS_BUDGET = 450
 
-const SERIES_LABEL = { ko: '세력도', en: 'Faction Map' } as const
+const SERIES_LABEL = { ko: '세력도감', en: 'Faction Map' } as const
 
 // ─── 내부 헬퍼 ─────────────────────────────────────────
 
@@ -367,7 +367,7 @@ export function buildFactionTags(
   // 1) 시리즈·브랜드 (쇼츠는 세로·3분 이하로 YouTube 가 자동 분류 — 'Shorts' 태그 불필요)
   void isShorts
   if (lang === 'ko') {
-    ;['세력도', '인물관계도', 'AI', '테크', 'FeelAndNote', '필앤노트'].forEach(push)
+    ;['세력도감', '세력도', '인물관계도', 'AI', '테크', 'FeelAndNote', '필앤노트'].forEach(push)
   } else {
     ;['FactionMap', 'PowerMap', 'AI', 'Tech', 'FeelAndNote'].forEach(push)
   }
@@ -441,7 +441,7 @@ export function buildFactionDescription(
     .map(tagToken)
 
   if (lang === 'ko') {
-    const hashtags = ['#세력도', `#${tagToken(title)}`, ...heroNames.map(n => `#${n}`)]
+    const hashtags = ['#세력도감', `#${tagToken(title)}`, ...heroNames.map(n => `#${n}`)]
     const lines = [
       `${heading}의 세력 지도.`,
       '',

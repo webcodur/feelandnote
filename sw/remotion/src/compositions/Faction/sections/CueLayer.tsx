@@ -1,40 +1,47 @@
 import React from 'react'
 import { AbsoluteFill, interpolate, Easing } from 'remotion'
 import type { FactionScript, Orientation } from '../types'
-import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
+import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, CHAPTER_FADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
 import { HEADER_H, SAFE_BOTTOM, BG } from '../constants'
-import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion } from '../utils'
+import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion, resolveOutroImage } from '../utils'
 import { CutEnter, transitionEnterSec, isSlideKind, slideDir } from '../transitions'
 import { vnPersonQuote, vnTimingKey } from '../voice-names'
 import { IntroCard } from './IntroCard'
 import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
 import { EraCard } from './EraCard'
+import { ChapterCard } from './ChapterCard'
 import { FilledImage } from './FilledImage'
-import { BrandLogo } from '../../BookRecommend/utils'
+// import { BrandLogo } from '../../BookRecommend/utils' // 종료 화면 브랜드 로고 미노출(주석 처리)
 
-/** 마지막 화면(아웃트로) — outroImage 가 있으면 그 이미지를 화면 가득(비율 유지+여백 블러), 없으면 브랜드 로고(FEEL & NOTE). */
-const OutroCard: React.FC<{ script: FactionScript; episodeName: string }> = ({ script, episodeName }) => {
+/** 마지막 화면(아웃트로) — 종료 화면(이미지·영상)이 있으면 화면 가득(비율 유지+여백 블러), 없으면 브랜드 로고(FEEL & NOTE). 롱폼이면 롱폼 전용(outroImageLong) 우선. */
+const OutroCard: React.FC<{ script: FactionScript; episodeName: string; isShorts: boolean; part?: number; startFrame?: number }> = ({ script, episodeName, isShorts, part, startFrame }) => {
   const [err, setErr] = React.useState(false)
-  if (script.outroImage && !err) {
+  const outroMedia = resolveOutroImage(script, isShorts, part)
+  if (outroMedia && !err) {
     return (
       <AbsoluteFill style={{ background: BG }}>
-        <FilledImage src={imgSrc(episodeName, script.outroImage)} objPos="center center" scale={1} onError={() => setErr(true)} />
+        {/* 종료 화면이 영상이면 이 컷이 뜨는 시점(startFrame)부터 0초로 재생 — 안 넘기면 영상 끝 프레임에 멈춰 사진처럼 보인다 */}
+        <FilledImage src={imgSrc(episodeName, outroMedia)} objPos="center center" scale={1} startFrame={startFrame} fit="contain" onError={() => setErr(true)} />
       </AbsoluteFill>
     )
   }
-  return (
-    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <BrandLogo variant="full" fontSize={96} />
-    </div>
-  )
+  // 종료 화면(이미지·영상) 미설정 시 — FEEL & NOTE 브랜드 로고는 노출하지 않는다(주석 처리). 검정 화면으로 둔다.
+  // return (
+  //   <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+  //     <BrandLogo variant="full" fontSize={96} />
+  //   </div>
+  // )
+  return <AbsoluteFill style={{ background: BG }} />
 }
 
 export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; lvPart?: number; nextCutKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, lvPart, nextCutKind, isLast, isLastPerson, isShorts = false }) => {
   const { start, duration, cue } = tc
   const end = start + duration
-  // 최종화면(outro) 진입은 더 완만한 크로스페이드, 그 외 컷 전환은 기본값.
-  const crossSec = cue.kind === 'outro' ? OUTRO_CROSSFADE_SEC : CROSSFADE_SEC
+  // 최종화면(outro) 진입은 더 완만한 크로스페이드, 챕터 검정 브릿지는 마지막 인물이 검정으로 서서히 덮이도록 길게, 그 외는 기본값.
+  const crossSec = cue.kind === 'outro' ? OUTRO_CROSSFADE_SEC
+    : cue.kind === 'chapterBlack' ? CHAPTER_FADE_SEC
+    : CROSSFADE_SEC
   const cf = f(crossSec)
   const clampLR = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const
 
@@ -49,9 +56,14 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
 
   const noZoom = !!script.noZoom
   let content: React.ReactNode = null
-  if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} lvPart={lvPart} />
-  else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} />
+  if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} lvPart={lvPart} isShorts={isShorts} />
+  // 종료 화면 영상은 크로스페이드가 시작되는 시점(enterStart)부터 재생·존재하게 해야 교차가 보인다.
+  // start부터로 잡으면 페이드인 구간엔 영상이 아직 없어 교차 없이 툭 나타난다.
+  else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} />
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
+  // 챕터 전환 검정 브릿지 — 순수 검정 컷. 앞뒤 크로스페이드가 이전 챕터를 검정으로 닫고 표지를 검정에서 연다(검정 경유 전환).
+  else if (cue.kind === 'chapterBlack') content = <AbsoluteFill style={{ background: BG }} />
+  else if (cue.kind === 'chapter') content = <ChapterCard chapter={cue.chapter} episodeName={episodeName} cueStart={start} cueDuration={duration} />
 
   else if (cue.kind === 'group') {
     const g = script.groups[cue.groupIndex]

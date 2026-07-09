@@ -5,11 +5,12 @@ import {
   getRemotionEnvironment,
 } from 'remotion'
 import type { FactionScript, Orientation } from './types'
+import { episodes } from './script'
 import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import { FactionBgm } from './FactionBgm'
 import { buildFactionSubs } from './subs'
 import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
-import { personCutKind } from './utils'
+import { personCutKind, resolveOutroImage } from './utils'
 import { transitionEnterSec, isSlideKind, slideDir } from './transitions'
 import { TopHeader } from './sections/TopHeader'
 import { FactionProgress } from './sections/FactionProgress'
@@ -20,7 +21,13 @@ import { SrtPreview } from './studio/SrtPreview'
 
 // shorts: true면 쇼츠(롱폼 전용 세력 제외, 짧게). 미지정이면 세로=쇼츠로 간주(기존 동작).
 // orientation은 화면 레이아웃(세로/가로), shorts는 컷 구성 — 둘을 분리해 'LV(세로인데 전체)' 같은 조합을 만든다.
-export const Faction: React.FC<{ script: FactionScript; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number; lvPart?: number }> = ({ script, episodeName, orientation = 'portrait', shorts, part, lvPart }) => {
+// script 는 무거운 스크립트 객체(수십만 자) — Studio 컴포지션 전환마다 이 객체를 직렬화하면 UI가 멈춘다.
+// 그래서 defaultProps 에는 가벼운 episodeKey 만 싣고, 실제 스크립트는 번들에 이미 로드된 episodes 에서 조회한다.
+// script 를 직접 넘기는 호출(하위호환·외부 렌더 override)이 있으면 그쪽을 우선한다.
+export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number; lvPart?: number }> = ({ script: scriptProp, episodeKey, episodeName, orientation = 'portrait', shorts, part, lvPart }) => {
+  const resolvedScript = scriptProp ?? (episodeKey ? episodes[episodeKey] : undefined)
+  if (!resolvedScript) throw new Error(`Faction: 스크립트를 찾을 수 없다 (episodeKey=${episodeKey ?? '없음'})`)
+  const script = resolvedScript
   const frame = useCurrentFrame()
   const isShorts = shorts ?? (orientation === 'portrait')
   // 쇼츠일 때만 편(part) 분할 적용. 롱폼은 편 경계(cut) 기반 lvPart 분할(경계 없으면 전체 통짜).
@@ -45,7 +52,7 @@ export const Faction: React.FC<{ script: FactionScript; episodeName: string; ori
   const outroCue = cues.find(tc => tc.cue.kind === 'outro')
   // 최종화면에 단일 이미지를 쓰면 상단 제목도 그 화면과 함께 떠 있다가, 잠시 뒤 제목만 사라진다.
   // 브랜드 로고 엔딩은 기존대로 최종화면 직전에 제목을 거둔다(로고만 남게).
-  const outroWithImage = !!outroCue && !!script.outroImage
+  const outroWithImage = !!outroCue && !!resolveOutroImage(script, isShorts, activePart)
   const headerFadeEnd = outroWithImage
     ? Math.min(outroCue!.start + outroCue!.duration, outroCue!.start + f(OUTRO_CROSSFADE_SEC + 1.0))
     : outroCue ? outroCue.start : total

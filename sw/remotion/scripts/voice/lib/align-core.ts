@@ -378,19 +378,27 @@ export function computeSubTimings(
   const phraseWords = words.filter(w =>
     w.start >= seg.start - 0.05 && w.end <= seg.end + 0.05 && w.text)
   if (phraseWords.length === 0) return undefined
-  // sub별 단어 수를 세어 경계 시점 결정
+  // sub별 "글자 수"(공백 제거)를 누적해 경계 단어를 찾는다.
+  // WhisperX 한국어 분절은 조사·어미까지 쪼개 공백 단어 수와 어긋나므로(예: 공백 29단어 vs WhisperX 35단어),
+  // 단어 수 대신 글자 수 누적으로 경계를 잡아 분절 방식과 무관하게 맞춘다.
+  const norm = (s?: string) => (s || '').replace(/[^가-힣a-zA-Z0-9]/g, '')
+  const wordCumChars: number[] = []
+  let acc = 0
+  for (const w of phraseWords) { acc += norm(w.text).length; wordCumChars.push(acc) }
   const boundaries: number[] = []
-  let wi = 0
+  let subAcc = 0
   for (let si = 0; si < sub.length - 1; si++) {
-    const subWordCount = sub[si].split(/\s+/).length
-    wi += subWordCount
-    if (wi > 0 && wi <= phraseWords.length) {
-      const lastWord = phraseWords[wi - 1]
-      const nextWord = wi < phraseWords.length ? phraseWords[wi] : null
-      boundaries.push(nextWord
-        ? r3((lastWord.end + nextWord.start) / 2)
-        : lastWord.end)
-    }
+    subAcc += norm(sub[si]).length
+    let wi = wordCumChars.findIndex(c => c >= subAcc)
+    if (wi < 0) wi = phraseWords.length - 1
+    const lastWord = phraseWords[wi]
+    const nextWord = wi + 1 < phraseWords.length ? phraseWords[wi + 1] : null
+    // 경계는 조각 사이 무음의 3/4 지점 — 뒤 조각 시작 쪽에 바짝 붙이되 앞에 1/4 만 리드로 남긴다.
+    // (화면 페이지가 다음 대사 시작보다 살짝 먼저 넘어가 읽을 여유를 준다. 중간점(1/2)이면 무음 한복판에 떠 어색.)
+    const NEXT_START_BIAS = 0.75
+    boundaries.push(nextWord
+      ? r3(lastWord.end + (nextWord.start - lastWord.end) * NEXT_START_BIAS)
+      : lastWord.end)
   }
   return boundaries.length === sub.length - 1 ? boundaries : undefined
 }

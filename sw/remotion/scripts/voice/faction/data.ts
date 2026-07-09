@@ -71,6 +71,10 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
     const cue: Cue = tc.cue
     if (cue.kind !== 'person') continue
     const g = script.groups[cue.groupIndex]
+    // buildCues 의 part 필터(timing.ts)는 portrait 모드에서만 걸린다. 정렬은 buildCues(script, false, part)
+    // 로 호출해 portrait=false 이므로 편 필터가 통과된다 → 여기서 편(part) 필터를 직접 적용한다.
+    // 안 하면 p1·p2 양쪽에 전 세력 인물이 섞여 편별 data.timing 이 오염된다.
+    if (part != null && g.part != null && g.part !== part) continue
     const person: FactionPerson | undefined = g.clusters?.[cue.clusterIndex]?.people[cue.personIndex]
     if (!person) continue
     const text = quoteTextOf(person)
