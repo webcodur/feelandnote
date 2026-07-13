@@ -49,12 +49,12 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/:locale/scriptures',
+        source: '/:locale(ko|en)/scriptures',
         destination: '/:locale/library',
         permanent: true,
       },
       {
-        source: '/:locale/scriptures/:path*',
+        source: '/:locale(ko|en)/scriptures/:path*',
         destination: '/:locale/library/:path*',
         permanent: true,
       },
