@@ -36,7 +36,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
           <Link
             key={tag.id}
             href={`/explore/spotlight?tag=${tag.id}`}
-            className="group relative flex flex-col gap-3 rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:brightness-110 overflow-hidden ring-1 ring-inset ring-white/5 shadow-lg"
+            className="group relative flex flex-col gap-3 rounded-2xl border p-5 hover:brightness-110 overflow-hidden ring-1 ring-inset ring-white/5 shadow-lg"
             style={{
               borderColor: `${tag.color}40`,
               backgroundColor: `${tag.color}08`,
@@ -44,7 +44,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
           >
             {/* Background subtle gradient glow based on tag color */}
             <div 
-              className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] opacity-20 pointer-events-none transition-opacity duration-700 group-hover:opacity-50"
+              className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] opacity-20 pointer-events-none group-hover:opacity-50"
               style={{ backgroundColor: tag.color }}
             />
 
@@ -80,7 +80,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
                       </div>
                     ))}
                   </div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-white transition-colors duration-300">
+                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-white">
                     {locale === "en" ? "Explore" : "탐색하기"}
                   </div>
                 </div>

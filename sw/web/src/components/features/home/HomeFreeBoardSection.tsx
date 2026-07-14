@@ -1,16 +1,27 @@
+import { createClient } from '@/lib/supabase/server'
+import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getFreePosts } from '@/actions/board/free'
-import FreePostList from '@/components/features/board/free/FreePostList'
+import HomeFreeBoardList from './HomeFreeBoardList'
 
 const ITEMS_PER_PAGE = 20
 
-// 홈 탭에 자유게시판 목록을 그대로 펼쳐 보여준다 (별도 페이지로 넘기지 않음)
+// 홈 탭에 자유게시판을 그대로 펼쳐 보여준다 (글 클릭 시 페이지 이동 없이 아코디언 확장)
 export default async function HomeFreeBoardSection() {
-  const { posts, total } = await getFreePosts({ limit: ITEMS_PER_PAGE, offset: 0 })
-  const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
+  const supabase = await createClient()
+  const [{ posts }, { data: { user } }, admin] = await Promise.all([
+    getFreePosts({ limit: ITEMS_PER_PAGE, offset: 0 }),
+    supabase.auth.getUser(),
+    isAdmin(supabase),
+  ])
 
   return (
     <div className="max-w-2xl mx-auto px-4">
-      <FreePostList posts={posts} total={total} currentPage={1} totalPages={totalPages} />
+      <HomeFreeBoardList
+        posts={posts}
+        currentUserId={user?.id}
+        isAdmin={admin}
+        isLoggedIn={!!user}
+      />
     </div>
   )
 }

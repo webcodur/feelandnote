@@ -148,10 +148,10 @@ function GroupSection({
       >
         <span className="flex items-center gap-2.5 flex-shrink-0">
           <span
-            className="w-2.5 h-2.5 rounded-sm rotate-45 transition-transform duration-300 group-hover:scale-125"
+            className="w-2.5 h-2.5 rounded-sm rotate-45"
             style={{ backgroundColor: "var(--tag-color)" }}
           />
-          <h3 className="text-lg md:text-2xl font-serif font-bold text-white group-hover:text-[color:var(--tag-color)] transition-colors duration-300 tracking-wide">
+          <h3 className="text-lg md:text-2xl font-serif font-bold text-white group-hover:text-[color:var(--tag-color)] tracking-wide">
             {tagName}
           </h3>
         </span>
@@ -168,9 +168,11 @@ function GroupSection({
         />
       </button>
 
-      {/* 접힌 상태에서도 무엇인지 알 수 있도록 헤더 아래 한 줄 설명 */}
-      {!expanded && tagDesc && (
-        <p className="text-[12px] md:text-[13px] text-white/35 mt-0.5 ml-5 line-clamp-1">{tagDesc}</p>
+      {/* 컨텍스트 유지를 위해 카테고리 설명글을 항상 표시합니다. */}
+      {tagDesc && (
+        <p className="text-sm md:text-[15px] text-white/70 mt-2 ml-6 line-clamp-2 leading-relaxed tracking-wide">
+          {tagDesc}
+        </p>
       )}
 
       {/* 펼침: 자식 테마 카드 그리드 */}
@@ -224,11 +226,11 @@ function TagCard({
       ]
     : [];
   const cardClassName = cn(
-    "relative flex flex-col items-start justify-between min-h-[160px] md:min-h-[170px] p-6 rounded-2xl border text-left overflow-hidden group transition-all duration-500 will-change-transform",
+    "relative flex flex-col items-start justify-between min-h-[160px] md:min-h-[170px] p-6 rounded-2xl border text-left overflow-hidden group",
     isChild && "ring-1 ring-[color:var(--tag-color)]/25",
     isUpcoming
       ? "bg-black/40 border-white/5 opacity-50 cursor-not-allowed"
-      : "backdrop-blur-md border-white/10 hover:border-transparent hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1.5"
+      : "backdrop-blur-md border-white/10 hover:border-transparent hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)]"
   );
   const cardStyle = {
     ...(!isUpcoming && {
@@ -246,7 +248,7 @@ function TagCard({
       {/* Border Glow Layer */}
       {!isUpcoming && (
         <div
-          className="absolute inset-0 rounded-2xl border border-[color:var(--tag-color)] opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none z-20"
+          className="absolute inset-0 rounded-2xl border border-[color:var(--tag-color)] opacity-0 group-hover:opacity-40 pointer-events-none z-20"
           style={{
             boxShadow: "inset 0 0 20px color-mix(in srgb, var(--tag-color) 20%, transparent)",
           }}
@@ -256,7 +258,7 @@ function TagCard({
       {/* Immediate Background Hover Overlay */}
       {!isUpcoming && (
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-0 transition-opacity duration-500"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-0"
           style={{
             background: `linear-gradient(135deg, color-mix(in srgb, var(--tag-color) 25%, transparent) 0%, color-mix(in srgb, var(--tag-color) 5%, transparent) 100%)`,
           }}
@@ -266,16 +268,34 @@ function TagCard({
       {/* Ambient Glow Effects (Delayed) */}
       {!isUpcoming && (
         <div
-          className="absolute -top-12 -right-12 w-48 h-48 rounded-[100%] blur-[60px] opacity-20 pointer-events-none transition-all duration-700 delay-100 group-hover:opacity-70 group-hover:scale-[1.8] z-0"
+          className="absolute -top-12 -right-12 w-48 h-48 rounded-[100%] blur-[60px] opacity-20 pointer-events-none group-hover:opacity-70 z-0 transition-opacity duration-500"
           style={{ backgroundColor: "var(--tag-color)" }}
         />
+      )}
+
+      {/* Group Shot (단체 화보) */}
+      {!isUpcoming && tag.team_images && tag.team_images.length > 0 && (
+        <div 
+          className="absolute inset-y-0 right-0 w-2/3 pointer-events-none z-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300"
+          style={{
+            maskImage: "linear-gradient(to right, transparent, black 80%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 80%)",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src={tag.team_images[0]} 
+            alt="Group Shot" 
+            className="w-full h-full object-cover object-right mix-blend-luminosity grayscale group-hover:grayscale-0 transition-all duration-300" 
+          />
+        </div>
       )}
 
       <div className="flex flex-col items-start w-full relative z-10 gap-2 mb-4 md:mb-6">
         <div className="flex justify-between items-start w-full gap-4">
           <span
             className={cn(
-              "font-sans font-bold tracking-wide text-lg md:text-xl line-clamp-2 drop-shadow-sm transition-colors duration-300",
+              "font-sans font-bold tracking-wide text-lg md:text-xl line-clamp-2 drop-shadow-sm",
               isUpcoming
                 ? "text-white/70"
                 : "text-[color:var(--text-base)] group-hover:text-[color:var(--text-hover)]"
@@ -291,11 +311,11 @@ function TagCard({
             <Lock size={16} className="text-text-tertiary/60 flex-shrink-0 mt-1" />
           ) : (
             /* 데스크탑만 우측 상단 아바타 */
-            <div className="hidden md:flex -space-x-3 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
+            <div className="hidden md:flex -space-x-3">
               {displayCelebs.map((celeb, i) => (
                 <div
                   key={celeb.id}
-                  className="relative z-10 transition-transform duration-500"
+                  className="relative z-10"
                   style={{
                     zIndex: 10 - i,
                     transform: `translateY(${i * 2}px)`,
@@ -330,14 +350,14 @@ function TagCard({
         )}
 
         {!isUpcoming && tagDesc && (
-          <p className="text-[13px] md:text-sm line-clamp-2 mt-1 transition-colors duration-300 font-medium text-white/50 group-hover:text-[color:var(--text-base)]">
+          <p className="text-sm md:text-[15px] line-clamp-2 mt-2 font-medium text-white/70 leading-relaxed group-hover:text-[color:var(--text-base)]">
             {tagDesc}
           </p>
         )}
       </div>
 
       <div className="flex items-end justify-between w-full relative z-10 mt-auto">
-        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1">
+        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100">
           {professions.slice(0, 4).map((p) => {
             const Icon = PROFESSION_ICONS[p as keyof typeof PROFESSION_ICONS];
             if (!Icon) return null;
@@ -356,7 +376,7 @@ function TagCard({
           </span>
         ) : (
           /* 데스크탑만 Figures 표시 */
-          <span className="hidden md:inline text-sm font-semibold text-white/40 group-hover:text-[color:var(--tag-color)] transition-colors duration-300">
+          <span className="hidden md:inline text-sm font-semibold text-white/40 group-hover:text-[color:var(--tag-color)]">
             {celebCount} Figures
           </span>
         )}
@@ -411,7 +431,7 @@ function TagCard({
           e.stopPropagation();
           window.open(externalHref, "_blank", "noopener,noreferrer");
         }}
-        className="absolute top-2.5 right-2.5 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white/70 backdrop-blur-md transition-all opacity-70 hover:border-[color:var(--tag-color)] hover:text-[color:var(--text-hover)] md:opacity-0 md:group-hover:opacity-100"
+        className="absolute top-2.5 right-2.5 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white/70 backdrop-blur-md opacity-70 hover:border-[color:var(--tag-color)] hover:text-[color:var(--text-hover)] md:opacity-0 md:group-hover:opacity-100"
       >
         <ExternalLink size={13} />
       </button>

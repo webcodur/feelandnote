@@ -93,6 +93,7 @@
   html {
     scrollbar-gutter: stable;
     scroll-behavior: smooth;
+    overflow-anchor: none;
   }
 
   body {
