@@ -10,6 +10,7 @@ import {
   sortVoices,
   facetLabel,
   facetValueLabel,
+  voiceFacetValue,
 } from '../../../../../../voice-utils'
 import { ELE_VOICE_STATUS_LABEL, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
 import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
@@ -22,7 +23,7 @@ import type { FactionEleVoiceRecommendation } from './faction-voice-recommendati
  * 드롭다운을 다시 열면 그 id 와 매칭되는 항목만 떠 사실상 목록이 사라진다. 그래서 직접 구현한다.
  *
  * 동작:
- *  - 입력칸 클릭/포커스 → 드롭다운 펼침. 검색어가 비면 전체 목록, 입력하면 이름으로 필터.
+ *  - 입력칸 클릭/포커스 → 드롭다운 펼침. 검색어가 비면 전체 목록, 입력하면 이름·voiceId 로 필터.
  *  - 성별·나이·억양·언어·용도·분류 칩으로 거르고, 이름·분류·미리듣기 기준으로 정렬한다.
  *  - 목록 항목 클릭 → 그 보이스 voiceId 를 저장(입력칸엔 이름 표시).
  *  - 목록에 없는 보이스 → 검색어를 그대로 voiceId 로 지정하는 항목이 맨 아래에 뜬다(공유 보이스 등 대응).
@@ -65,16 +66,18 @@ export function EleVoiceCombobox({
   historyUsageCount?: number
 }) {
   const [open, setOpen] = useState(false)
-  // 편집(검색) 중 여부 — 켜지면 입력칸이 query 를, 꺼지면 선택된 보이스 이름을 보여준다.
-  const [editing, setEditing] = useState(false)
+  // 검색어 — 선택 창 안의 검색 입력칸이 소유한다(진입부는 단순 버튼).
   const [query, setQuery] = useState('')
-  // 거르기·정렬 상태.
+  // 거르기·정렬 상태. activeFacets=포함(그 값만 남김), excludedFacets=제외(그 값을 뺌, 칩 Alt+클릭).
   const [activeFacets, setActiveFacets] = useState<Record<string, string[]>>({})
+  const [excludedFacets, setExcludedFacets] = useState<Record<string, string[]>>({})
   const [sortKey, setSortKey] = useState<EleSortKey>('default')
   const [previewOnly, setPreviewOnly] = useState(false)
   const [recommendationOnly, setRecommendationOnly] = useState(false)
   const [showBlocked, setShowBlocked] = useState(false)
   const [quickFilters, setQuickFilters] = useState<VoiceQuickFilter[]>([])
+  // 기타 필터(억양·언어·용도·느낌·분류 등) 펼침 여부 — 평소엔 접어둔다(성별·나이만 상시 노출).
+  const [showEtcFacets, setShowEtcFacets] = useState(false)
   const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({})
   const wrapRef = useRef<HTMLDivElement>(null)
   // 보이스 샘플 미리듣기 — ElevenLabs preview_url 을 재생. 한 번에 하나만.
@@ -136,15 +139,12 @@ export function EleVoiceCombobox({
     () => Object.values(voiceNotes).filter(n => n.status === 'blocked').length,
     [voiceNotes],
   )
-  // 표시값: 검색 중이면 입력 query, 아니면 선택된 이름(목록에 없으면 raw voiceId).
-  const display = editing ? query : (selected?.name ?? value)
-
-  // 바깥 클릭 시 닫기 + 검색 종료(표시값을 선택 이름으로 되돌린다).
+  // 바깥 클릭 시 닫기.
   useEffect(() => {
     if (!open) return
     const onDoc = (e: MouseEvent) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setOpen(false); setEditing(false); setQuery('')
+        setOpen(false); setQuery('')
       }
     }
     document.addEventListener('mousedown', onDoc)
@@ -154,11 +154,12 @@ export function EleVoiceCombobox({
   const facets = useMemo(() => collectFacets(voices), [voices])
   const activeFacetCount = useMemo(
     () => Object.values(activeFacets).reduce((n, vs) => n + vs.length, 0)
+      + Object.values(excludedFacets).reduce((n, vs) => n + vs.length, 0)
       + (previewOnly ? 1 : 0)
       + (recommendationOnly ? 1 : 0)
       + (showBlocked ? 1 : 0)
       + quickFilters.length,
-    [activeFacets, previewOnly, recommendationOnly, showBlocked, quickFilters.length])
+    [activeFacets, excludedFacets, previewOnly, recommendationOnly, showBlocked, quickFilters.length])
 
   const q = query.trim().toLowerCase()
   const matchesQuickFilters = useCallback((voiceId: string) => quickFilters.every(filter => {
@@ -170,6 +171,24 @@ export function EleVoiceCombobox({
     if (filter === 'used') return !!history?.count
     return !history?.count
   }), [quickFilters, voiceHistory, voiceNotes])
+  // 제외 필터 — 어느 한 제외 값에라도 걸리면 목록에서 뺀다.
+  const matchesExcluded = useCallback((v: Voice) => {
+    for (const [key, vals] of Object.entries(excludedFacets)) {
+      if (!vals.length) continue
+      const cur = voiceFacetValue(v, key)
+      if (cur && vals.includes(cur)) return false
+    }
+    return true
+  }, [excludedFacets])
+  // 이름·보이스 ID 부분일치. ID 를 붙여넣으면 이름 검색만 할 때 목록이 비고,
+  // 동시에 목록에 이미 있는 ID 라 "직접 지정" 도 숨겨져 선택이 막히던 문제를 막는다.
+  const matchesQuery = useCallback((v: Voice) => {
+    if (!q) return true
+    if (v.name.toLowerCase().includes(q)) return true
+    if (v.voice_id.toLowerCase().includes(q)) return true
+    return false
+  }, [q])
+
   const filtered = useMemo(() => {
     const result = voices.filter(v =>
       (showBlocked || voiceNotes[v.voice_id]?.status !== 'blocked')
@@ -178,33 +197,46 @@ export function EleVoiceCombobox({
       &&
       matchesQuickFilters(v.voice_id)
       &&
-      (!q || v.name.toLowerCase().includes(q))
+      matchesQuery(v)
       && matchesFacets(v, activeFacets)
+      && matchesExcluded(v)
       && (!previewOnly || !!v.preview_url))
     const sorted = sortVoices(result, sortKey)
     if (!recommendationOnly) return sorted
     return sorted.sort((a, b) =>
       (recommendationById.get(a.voice_id)?.rank ?? 999) - (recommendationById.get(b.voice_id)?.rank ?? 999))
-  }, [voices, q, activeFacets, previewOnly, recommendationOnly, showBlocked, voiceNotes, recommendationIdSet, recommendationById, sortKey, matchesQuickFilters])
+  }, [voices, matchesQuery, activeFacets, previewOnly, recommendationOnly, showBlocked, voiceNotes, recommendationIdSet, recommendationById, sortKey, matchesQuickFilters, matchesExcluded])
 
-  // 검색어가 어느 보이스 이름과도 정확히 안 맞고, 이미 등록된 id 도 아니면 "직접 지정" 항목을 띄운다.
+  // 검색어가 어느 보이스 이름/ID 와도 안 맞고, 이미 등록된 id 도 아니면 "직접 지정" 항목을 띄운다.
   const rawQuery = query.trim()
   const showRaw = !!rawQuery
-    && !voices.some(v => v.name.toLowerCase() === q || v.voice_id === rawQuery)
+    && !voices.some(v => v.name.toLowerCase() === q || v.voice_id.toLowerCase() === q)
 
   const pick = (voiceId: string) => {
     onChange(voiceId)
-    setEditing(false); setOpen(false); setQuery('')
+    setOpen(false); setQuery('')
   }
 
-  const toggleFacet = (key: string, val: string) => {
-    setActiveFacets(prev => {
-      const cur = prev[key] ?? []
-      const next = cur.includes(val) ? cur.filter(x => x !== val) : [...cur, val]
-      const out = { ...prev, [key]: next }
-      if (!next.length) delete out[key]
-      return out
-    })
+  // 한 값은 포함/제외 중 하나만 — 반대쪽에 켜져 있으면 끄고 넘어온다.
+  const toggleIn = (map: Record<string, string[]>, key: string, val: string) => {
+    const cur = map[key] ?? []
+    const next = cur.includes(val) ? cur.filter(x => x !== val) : [...cur, val]
+    const out = { ...map, [key]: next }
+    if (!next.length) delete out[key]
+    return out
+  }
+  const removeFrom = (map: Record<string, string[]>, key: string, val: string) => {
+    if (!map[key]?.includes(val)) return map
+    return toggleIn(map, key, val)
+  }
+  const toggleFacet = (key: string, val: string, exclude = false) => {
+    if (exclude) {
+      setActiveFacets(prev => removeFrom(prev, key, val))
+      setExcludedFacets(prev => toggleIn(prev, key, val))
+    } else {
+      setExcludedFacets(prev => removeFrom(prev, key, val))
+      setActiveFacets(prev => toggleIn(prev, key, val))
+    }
   }
   const toggleQuickFilter = (filter: VoiceQuickFilter) => {
     setQuickFilters(prev => {
@@ -220,6 +252,7 @@ export function EleVoiceCombobox({
   }
   const clearFacets = () => {
     setActiveFacets({})
+    setExcludedFacets({})
     setPreviewOnly(false)
     setRecommendationOnly(false)
     setShowBlocked(false)
@@ -227,7 +260,6 @@ export function EleVoiceCombobox({
   }
   const showRecommendations = () => {
     setOpen(true)
-    setEditing(false)
     setQuery('')
     setRecommendationOnly(true)
   }
@@ -237,34 +269,152 @@ export function EleVoiceCombobox({
     return `사용 ${entry.count}회${names ? ` · ${names}` : ''}`
   }
 
-  return (
-    <div ref={wrapRef} className="relative" onClick={e => e.stopPropagation()}>
-      <div className="flex items-stretch rounded border border-border overflow-hidden">
-        <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">ELE 보이스</span>
-        <input
-          type="text"
-          value={display}
-          onFocus={() => { setEditing(true); setQuery(''); setRecommendationOnly(false); setOpen(true) }}
-          onChange={e => { setEditing(true); setQuery(e.target.value); setRecommendationOnly(false); setOpen(true) }}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
-              if (filtered.length) pick(filtered[0].voice_id)
-              else if (rawQuery) pick(rawQuery)
-            } else if (e.key === 'Escape') {
-              setOpen(false); setEditing(false); setQuery('')
-            }
-          }}
-          placeholder={loading ? '불러오는 중…' : selected ? selected.name : '보이스 검색 또는 voiceId 입력'}
-          className="h-8 flex-1 text-sm bg-white px-3 text-slate-950 font-bold focus:outline-none"
-        />
+  // 보이스 한 줄 — 아래 목록과 상단 고정(지금 선택된 보이스) 양쪽에서 같은 모양으로 쓴다.
+  const renderVoiceRow = (v: Voice) => {
+    const sel = v.voice_id === value
+    const gender = v.labels?.gender ?? null
+    const age = v.labels?.age ?? null
+    const isPlaying = previewingId === v.voice_id
+    const rec = recommendationById.get(v.voice_id)
+    const note = voiceNotes[v.voice_id]
+    const history = voiceHistory[v.voice_id]
+    const historyText = historyLabel(history)
+    const noteDraft = noteDrafts[v.voice_id] ?? note?.note ?? ''
+    const status = note?.status
+    const blocked = status === 'blocked'
+    return (
+      <div
+        key={v.voice_id}
+        className={`grid w-full grid-cols-[44px_56px_minmax(0,1fr)_auto_auto_148px] items-center gap-3 border-b border-slate-200 px-3 py-1.5 text-left ${
+          sel ? 'bg-emerald-50 text-emerald-800' : blocked ? 'bg-rose-50/70 text-slate-700' : 'text-slate-900 hover:bg-slate-50'
+        }`}
+      >
         <button
           type="button"
-          onMouseDown={e => e.preventDefault()}
-          onClick={() => { setOpen(o => !o); setEditing(false); setQuery(''); setRecommendationOnly(false) }}
-          className="px-2 flex items-center bg-white text-slate-500 hover:text-slate-800 border-l border-slate-200 shrink-0"
-          title="목록 펼치기"
-        >▼</button>
+          onClick={e => { e.stopPropagation(); playPreview(v) }}
+          disabled={!v.preview_url}
+          title={v.preview_url ? '미리듣기' : '미리듣기 없음'}
+          className={`flex h-full w-full items-center justify-center self-stretch rounded text-xs ${
+            v.preview_url
+              ? 'border border-slate-300 bg-white text-slate-600 hover:border-purple-400 hover:text-purple-700'
+              : 'border border-slate-200 bg-white text-slate-300 cursor-not-allowed'
+          }`}
+        >{isPlaying ? '■' : '▶'}</button>
+        {/* 선택 전용 버튼 — 줄 전체 클릭 선택은 오클릭이 잦아 폐기 */}
+        <button
+          type="button"
+          onClick={e => { e.stopPropagation(); pick(v.voice_id) }}
+          disabled={sel}
+          className={`h-full w-full self-stretch rounded text-[11px] font-extrabold ${
+            sel
+              ? 'bg-emerald-600 text-white'
+              : 'border border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50'
+          }`}
+        >{sel ? '선택됨' : '선택'}</button>
+        {/* 이름·배지·추천 사유·사용 이력 — 한 줄. 길면 이 칸 안에서만 가로 스크롤(막대는 숨김). */}
+        <span className="scrollbar-hide flex min-w-0 items-center gap-1.5 overflow-x-auto whitespace-nowrap">
+          <span className={`shrink-0 text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
+          {rec && <span className="shrink-0 rounded bg-amber-100 px-1 text-[9px] font-black text-amber-800">추천 {rec.rank}</span>}
+          {history && <span className="shrink-0 rounded bg-slate-100 px-1 text-[9px] font-black text-slate-600">사용 {history.count}</span>}
+          {status && <span className={`shrink-0 rounded px-1 text-[9px] font-black ${
+            status === 'good' ? 'bg-emerald-100 text-emerald-700'
+              : status === 'maybe' ? 'bg-amber-100 text-amber-700'
+                : 'bg-rose-100 text-rose-700'
+          }`}>{ELE_VOICE_STATUS_LABEL[status]}</span>}
+          {gender && (
+            <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
+              gender === 'female' ? 'bg-pink-100 text-pink-700'
+                : gender === 'male' ? 'bg-sky-100 text-sky-700'
+                : 'bg-slate-100 text-slate-500'
+            }`}>{facetValueLabel(gender)}</span>
+          )}
+          {age && <span className="shrink-0 text-[9px] text-slate-400">{facetValueLabel(age)}</span>}
+          {v.account && (
+            <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
+              v.account.id === 'default'
+                ? 'bg-slate-100 text-slate-500'
+                : 'bg-amber-100 text-amber-700'
+            }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
+          )}
+          {rec && (
+            <span className="shrink-0 text-[10px] font-semibold text-amber-700">{rec.reasons.slice(0, 3).join(' · ')}</span>
+          )}
+          {historyText && (
+            <span className="shrink-0 text-[10px] font-semibold text-slate-500">{historyText}</span>
+          )}
+        </span>
+        {/* 판정·메모 — 같은 줄 오른쪽 고정 */}
+        {onUpdateVoiceNote ? (
+          <span className="flex shrink-0 items-center gap-1">
+            {(['good', 'maybe', 'blocked'] as const).map(s => (
+              <button
+                key={s}
+                type="button"
+                onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: s }) }}
+                disabled={savingVoiceId === v.voice_id}
+                className={`shrink-0 rounded border px-1.5 py-0.5 text-[10px] font-bold disabled:opacity-50 ${
+                  status === s
+                    ? s === 'good'
+                      ? 'border-emerald-300 bg-emerald-100 text-emerald-700'
+                      : s === 'maybe'
+                        ? 'border-amber-300 bg-amber-100 text-amber-700'
+                        : 'border-rose-300 bg-rose-100 text-rose-700'
+                    : 'border-slate-200 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-800'
+                }`}
+              >
+                {ELE_VOICE_STATUS_LABEL[s]}
+              </button>
+            ))}
+            {status && (
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: null }) }}
+                disabled={savingVoiceId === v.voice_id}
+                className="shrink-0 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-400 hover:border-slate-400 hover:text-slate-700 disabled:opacity-50"
+              >
+                해제
+              </button>
+            )}
+            <input
+              value={noteDraft}
+              onChange={e => setNoteDrafts(prev => ({ ...prev, [v.voice_id]: e.target.value }))}
+              onClick={e => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
+              onKeyDown={e => e.stopPropagation()}
+              onBlur={e => {
+                const next = e.currentTarget.value.trim()
+                if (next !== (note?.note ?? '')) onUpdateVoiceNote(v, { note: next })
+              }}
+              placeholder="메모"
+              className="h-6 w-80 rounded border border-slate-200 bg-white px-1.5 text-[11px] text-slate-800 outline-none focus:border-amber-400"
+            />
+          </span>
+        ) : <span />}
+        <span className="text-center text-[10px] font-semibold text-slate-400">{v.category ? facetValueLabel(v.category) : '—'}</span>
+        <span className="truncate font-mono text-[10px] text-slate-400">{v.voice_id}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div ref={wrapRef} className="relative" onClick={e => e.stopPropagation()}>
+      {/* 진입부 — 단순 버튼. 현재 선택만 보여주고, 누르면 선택 창이 열린다(검색은 창 안에서). */}
+      <div className="flex items-stretch rounded border border-border overflow-hidden">
+        <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">ELE 보이스</span>
+        <button
+          type="button"
+          onClick={() => { setOpen(o => !o); setQuery(''); setRecommendationOnly(false) }}
+          title="보이스 선택 창 열기"
+          className="h-8 flex-1 flex items-center gap-2 bg-white px-3 text-left hover:bg-slate-50"
+        >
+          <span className={`min-w-0 flex-1 truncate text-sm font-bold ${selected || value ? 'text-slate-950' : 'text-slate-400'}`}>
+            {loading ? '불러오는 중…' : (selected?.name ?? (value || '보이스 선택'))}
+          </span>
+          {!loading && selected && (
+            <span className="shrink-0 font-mono text-[10px] text-slate-400">{selected.voice_id}</span>
+          )}
+          <span className="shrink-0 text-slate-500">▼</span>
+        </button>
       </div>
 
       {topRecommendations.length > 0 && (
@@ -331,11 +481,33 @@ export function EleVoiceCombobox({
         {/* 뒤 배경 — 클릭 시 닫기. 큰 목록 패널을 뒤 화면과 분리한다 */}
         <div
           className="fixed inset-0 z-40 bg-black/40"
-          onMouseDown={() => { setOpen(false); setEditing(false); setQuery('') }}
+          onMouseDown={() => { setOpen(false); setQuery('') }}
         />
-        <div className="fixed left-1/2 top-1/2 z-50 flex h-[88vh] w-[min(48rem,92vw)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-2xl">
+        <div className="fixed left-1/2 top-1/2 z-50 flex h-[90vh] w-[min(92vw,1700px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-2xl">
           {loading && <div className="px-3 py-2 text-xs text-slate-500 font-bold">불러오는 중…</div>}
           {error && <div className="px-3 py-2 text-xs text-danger-text font-bold">목록 로드 실패 — voiceId 직접 입력: {error}</div>}
+
+          {/* 검색 — 이름 검색 또는 voiceId 직접 입력. Enter=첫 결과 선택, Escape=창 닫기. */}
+          <div className="shrink-0 border-b border-slate-200 bg-white px-3 py-2">
+            <input
+              autoFocus
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  if (filtered.length) pick(filtered[0].voice_id)
+                  else if (rawQuery) pick(rawQuery)
+                } else if (e.key === 'Escape') {
+                  e.stopPropagation()
+                  setOpen(false); setQuery('')
+                }
+              }}
+              placeholder="이름·voiceId 검색 (목록에 없으면 직접 지정)"
+              className="h-8 w-full rounded border border-slate-300 bg-white px-3 text-sm font-bold text-slate-950 outline-none focus:border-emerald-500"
+            />
+          </div>
 
           {/* 거르기·정렬 막대 — 칩이 많아도 목록을 밀어내지 않게 최대 높이를 두고 자체 스크롤한다 */}
           {!loading && !error && (facets.length > 0 || voices.length > 0) && (
@@ -412,31 +584,80 @@ export function EleVoiceCombobox({
                 )}
               </div>
 
-              {facets.map(f => {
-                const sel = activeFacets[f.key] ?? []
-                return (
-                  <div key={f.key} className="flex items-start gap-1.5">
-                    <span className="w-8 shrink-0 pt-0.5 text-[10px] font-bold text-slate-500">{facetLabel(f.key)}</span>
-                    <div className="flex flex-1 flex-wrap items-center gap-1">
-                      {f.values.map(val => {
-                        const on = sel.includes(val)
-                        return (
-                          <button
-                            key={val}
-                            type="button"
-                            onClick={() => toggleFacet(f.key, val)}
-                            className={`px-1.5 py-0.5 rounded text-[10px] border font-bold ${
-                              on
-                                ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
-                                : 'bg-white border-slate-200 text-slate-500 hover:border-slate-400 hover:text-slate-700'
-                            }`}
-                          >{facetValueLabel(val)}</button>
-                        )
-                      })}
+              <div className="text-[10px] text-slate-400 font-semibold">칩 클릭=그 값만 남김 · Alt+클릭=그 값 제외</div>
+              {(() => {
+                // 성별·나이만 상시 노출, 나머지(억양·언어·용도·느낌·분류…)는 「기타 필터」로 묶어 접어둔다.
+                const PRIMARY_KEYS = ['gender', 'age']
+                const primaryFacets = facets.filter(f => PRIMARY_KEYS.includes(f.key))
+                const etcFacets = facets.filter(f => !PRIMARY_KEYS.includes(f.key))
+                const etcActiveCount = etcFacets.reduce(
+                  (n, f) => n + (activeFacets[f.key]?.length ?? 0) + (excludedFacets[f.key]?.length ?? 0), 0)
+                const facetRow = (f: { key: string; values: string[] }) => {
+                  const sel = activeFacets[f.key] ?? []
+                  const exc = excludedFacets[f.key] ?? []
+                  return (
+                    <div key={f.key} className="flex items-start gap-1.5">
+                      <span className="w-8 shrink-0 pt-0.5 text-[10px] font-bold text-slate-500">{facetLabel(f.key)}</span>
+                      <div className="flex flex-1 flex-wrap items-center gap-1">
+                        {f.values.map(val => {
+                          const on = sel.includes(val)
+                          const excluded = exc.includes(val)
+                          return (
+                            <button
+                              key={val}
+                              type="button"
+                              onClick={e => toggleFacet(f.key, val, e.altKey)}
+                              title="클릭=그 값만 남김 / Alt+클릭=그 값 제외"
+                              className={`px-1.5 py-0.5 rounded text-[10px] border font-bold ${
+                                on
+                                  ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
+                                  : excluded
+                                    ? 'bg-rose-100 text-rose-700 border-rose-300 line-through'
+                                    : 'bg-white border-slate-200 text-slate-500 hover:border-slate-400 hover:text-slate-700'
+                              }`}
+                            >{excluded ? '✕ ' : ''}{facetValueLabel(val)}</button>
+                          )
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )
+                }
+                return (
+                  <>
+                    {primaryFacets.map(facetRow)}
+                    {etcFacets.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEtcFacets(v => !v)}
+                        className="flex items-center gap-1 text-[10px] font-bold text-slate-500 hover:text-slate-800"
+                      >
+                        <span>{showEtcFacets ? '▾' : '▸'}</span>
+                        기타 필터
+                        {etcActiveCount > 0 && (
+                          <span className="rounded bg-emerald-100 px-1 font-black text-emerald-700">{etcActiveCount}</span>
+                        )}
+                      </button>
+                    )}
+                    {showEtcFacets && etcFacets.map(facetRow)}
+                  </>
                 )
-              })}
+              })()}
+            </div>
+          )}
+
+          {/* 지금 선택된 보이스 — 목록 위 고정. 같은 보이스가 아래 목록의 원래 위치에도 그대로 나온다. */}
+          {!loading && !error && (
+            <div className="shrink-0 border-b-2 border-slate-300 bg-emerald-50/50">
+              <div className="px-3 pt-1.5 text-[10px] font-extrabold uppercase tracking-wide text-emerald-700">지금 선택된 보이스</div>
+              {selected
+                ? renderVoiceRow(selected)
+                : value
+                  ? (
+                    <div className="px-3 py-2 text-xs font-bold text-slate-700">
+                      목록에 없는 보이스 ID 지정됨 — <span className="font-mono font-semibold text-slate-500">{value}</span>
+                    </div>
+                  )
+                  : <div className="px-3 py-2 text-xs font-bold text-slate-400">아직 선택된 보이스 없음</div>}
             </div>
           )}
 
@@ -448,130 +669,15 @@ export function EleVoiceCombobox({
           {!loading && !error && filtered.length > 0 && (
             <>
               {/* 헤더 행 — 컬럼: 듣기 · 이름 · 분류 · 보이스 ID */}
-              <div className="sticky top-0 z-10 grid grid-cols-[24px_1fr_auto_148px] gap-3 border-b border-slate-200 bg-slate-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
+              <div className="sticky top-0 z-10 grid grid-cols-[44px_56px_minmax(0,1fr)_auto_auto_148px] gap-3 border-b border-slate-200 bg-slate-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
+                <span />
                 <span />
                 <span>이름</span>
+                <span className="text-center">판정 · 메모</span>
                 <span className="text-center">분류</span>
                 <span>보이스 ID</span>
               </div>
-              {filtered.map(v => {
-                const sel = v.voice_id === value
-                const gender = v.labels?.gender ?? null
-                const age = v.labels?.age ?? null
-                const isPlaying = previewingId === v.voice_id
-                const rec = recommendationById.get(v.voice_id)
-                const note = voiceNotes[v.voice_id]
-                const history = voiceHistory[v.voice_id]
-                const historyText = historyLabel(history)
-                const noteDraft = noteDrafts[v.voice_id] ?? note?.note ?? ''
-                const status = note?.status
-                const blocked = status === 'blocked'
-                return (
-                  <div
-                    key={v.voice_id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => pick(v.voice_id)}
-                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(v.voice_id) } }}
-                    className={`grid w-full cursor-pointer grid-cols-[24px_1fr_auto_148px] items-center gap-3 px-3 py-2 text-left ${
-                      sel ? 'bg-emerald-50 text-emerald-800' : blocked ? 'bg-rose-50/70 text-slate-700 hover:bg-rose-50' : 'text-slate-900 hover:bg-slate-100'
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={e => { e.stopPropagation(); playPreview(v) }}
-                      disabled={!v.preview_url}
-                      title={v.preview_url ? '미리듣기' : '미리듣기 없음'}
-                      className={`flex h-5 w-5 items-center justify-center rounded text-[10px] ${
-                        v.preview_url
-                          ? 'border border-slate-300 bg-white text-slate-600 hover:border-purple-400 hover:text-purple-700'
-                          : 'border border-slate-200 bg-white text-slate-300 cursor-not-allowed'
-                      }`}
-                    >{isPlaying ? '■' : '▶'}</button>
-                    <span className="flex min-w-0 flex-col">
-                      <span className="flex min-w-0 items-center gap-1.5">
-                        <span className={`truncate text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
-                        {rec && <span className="shrink-0 rounded bg-amber-100 px-1 text-[9px] font-black text-amber-800">추천 {rec.rank}</span>}
-                        {history && <span className="shrink-0 rounded bg-slate-100 px-1 text-[9px] font-black text-slate-600">사용 {history.count}</span>}
-                        {status && <span className={`shrink-0 rounded px-1 text-[9px] font-black ${
-                          status === 'good' ? 'bg-emerald-100 text-emerald-700'
-                            : status === 'maybe' ? 'bg-amber-100 text-amber-700'
-                              : 'bg-rose-100 text-rose-700'
-                        }`}>{ELE_VOICE_STATUS_LABEL[status]}</span>}
-                        {gender && (
-                          <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
-                            gender === 'female' ? 'bg-pink-100 text-pink-700'
-                              : gender === 'male' ? 'bg-sky-100 text-sky-700'
-                              : 'bg-slate-100 text-slate-500'
-                          }`}>{facetValueLabel(gender)}</span>
-                        )}
-                        {age && <span className="shrink-0 text-[9px] text-slate-400">{facetValueLabel(age)}</span>}
-                        {v.account && (
-                          <span className={`shrink-0 rounded px-1 text-[9px] font-bold ${
-                            v.account.id === 'default'
-                              ? 'bg-slate-100 text-slate-500'
-                              : 'bg-amber-100 text-amber-700'
-                          }`} title={`ElevenLabs 계정: ${v.account.label}`}>{v.account.label}</span>
-                        )}
-                      </span>
-                      {rec && (
-                        <span className="truncate text-[10px] font-semibold text-amber-700">{rec.reasons.slice(0, 3).join(' · ')}</span>
-                      )}
-                      {historyText && (
-                        <span className="truncate text-[10px] font-semibold text-slate-500">{historyText}</span>
-                      )}
-                      {onUpdateVoiceNote && (
-                        <span className="mt-1 flex min-w-0 items-center gap-1">
-                          {(['good', 'maybe', 'blocked'] as const).map(s => (
-                            <button
-                              key={s}
-                              type="button"
-                              onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: s }) }}
-                              disabled={savingVoiceId === v.voice_id}
-                              className={`shrink-0 rounded border px-1.5 py-0.5 text-[10px] font-bold disabled:opacity-50 ${
-                                status === s
-                                  ? s === 'good'
-                                    ? 'border-emerald-300 bg-emerald-100 text-emerald-700'
-                                    : s === 'maybe'
-                                      ? 'border-amber-300 bg-amber-100 text-amber-700'
-                                      : 'border-rose-300 bg-rose-100 text-rose-700'
-                                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-800'
-                              }`}
-                            >
-                              {ELE_VOICE_STATUS_LABEL[s]}
-                            </button>
-                          ))}
-                          {status && (
-                            <button
-                              type="button"
-                              onClick={e => { e.stopPropagation(); onUpdateVoiceNote(v, { status: null }) }}
-                              disabled={savingVoiceId === v.voice_id}
-                              className="shrink-0 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-400 hover:border-slate-400 hover:text-slate-700 disabled:opacity-50"
-                            >
-                              해제
-                            </button>
-                          )}
-                          <input
-                            value={noteDraft}
-                            onChange={e => setNoteDrafts(prev => ({ ...prev, [v.voice_id]: e.target.value }))}
-                            onClick={e => e.stopPropagation()}
-                            onMouseDown={e => e.stopPropagation()}
-                            onKeyDown={e => e.stopPropagation()}
-                            onBlur={e => {
-                              const next = e.currentTarget.value.trim()
-                              if (next !== (note?.note ?? '')) onUpdateVoiceNote(v, { note: next })
-                            }}
-                            placeholder="메모"
-                            className="h-6 min-w-0 flex-1 rounded border border-slate-200 bg-white px-1.5 text-[11px] text-slate-800 outline-none focus:border-amber-400"
-                          />
-                        </span>
-                      )}
-                    </span>
-                    <span className="text-center text-[10px] font-semibold text-slate-400">{v.category ? facetValueLabel(v.category) : '—'}</span>
-                    <span className="truncate font-mono text-[10px] text-slate-400">{v.voice_id}</span>
-                  </div>
-                )
-              })}
+              {filtered.map(v => renderVoiceRow(v))}
             </>
           )}
           {showRaw && (

@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/agora/page.tsx
   기능: 광장 기본 페이지
-  책임: 기본값으로 피드 페이지로 리다이렉트한다.
+  책임: 기본값으로 자유게시판으로 리다이렉트한다.
 */ // ------------------------------
 
 import { redirect } from "@/i18n/navigation";
@@ -19,5 +19,5 @@ export async function generateMetadata() {
 
 export default async function Page() {
   const locale = await getLocale();
-  redirect({ href: "/agora/social", locale });
+  redirect({ href: "/agora/board/free", locale });
 }

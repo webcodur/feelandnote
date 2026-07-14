@@ -78,7 +78,7 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     const person = clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
     const stem = vnTimingKey(vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex))
     // 마지막 인물 컷이면 대사 끝 시점부터 줌인을 멈추고 종료 꼬리 동안 정지시킨다.
-    const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.steps, isShorts) : undefined
+    const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.steps, isShorts, { script }) : undefined
     // 지속 효과 — 인물→세력→에피소드 계승(레거시 zoom 승계 포함)을 여기서 풀어 카드에 넘긴다.
     const hold = resolveHoldMotion(person, g, script)
     // 개인샷 지지직 — 미지정이면 기본 꺼짐(데이터로 켤 수 있음)
@@ -86,7 +86,10 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     const shake = resolveHoldShake(person.holdShake, g, script)
     const zoomSpeed = resolveZoomSpeed(person.zoomSpeed, g, script)
     const enter = resolveEnterMotion(person.enterMotion, g, script)
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} />
+    // 대사 표시 방식 — 인물 단위가 있으면 우선, 없으면 에피소드 전역 기본, 둘 다 없으면 박스.
+    const quoteDisplay = person.quoteDisplay ?? script.quoteDisplay ?? 'box'
+    const quoteCaptionPos = person.quoteCaptionPos ?? script.quoteCaptionPos ?? 'bottom'
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} />
   }
 
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).

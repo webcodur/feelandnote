@@ -2,10 +2,11 @@ import React from 'react'
 import { AbsoluteFill, interpolate } from 'remotion'
 import type { FactionGroup, FactionCluster, FactionImageCrop, HoldMotion, EnterMotion, Orientation, ZoomFocus, GlitchLevel } from '../types'
 import { f } from '../timing'
-import { BG, FONT, FONT_SERIF, DEFAULT_ACCENT } from '../constants'
+import { BG, FONT, FONT_SERIF, DEFAULT_ACCENT, accentClarityPaint } from '../constants'
 import { imgSrc, nameHead, nameTail, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { FilledImage } from './FilledImage'
 import { HoldGlitch } from '../transitions'
+import { CaptionBackdrop } from './CaptionBackdrop'
 
 /**
  * 세력 전환(로고)·그룹샷 카드 공통 하단 캡션.
@@ -37,30 +38,31 @@ import { HoldGlitch } from '../transitions'
  */
 const CardCaption: React.FC<{ accent: string; caption: string; orientation: Orientation; sub?: string }> = ({ accent, caption, orientation, sub }) => {
   const isLand = orientation === 'landscape'
-  // 세로는 하단 블랙바(SAFE_BOTTOM)에 닿지 않게 그 바로 위에 둔다. 가로는 16:9 하단 여백.
-  const pad = isLand ? '0 80px 120px' : '0 60px 56px'
-  // 앞부분·뒷부분 글씨 크기 통일 — 대형 캡션이라 살짝만 줄이고 임팩트는 유지.
-  const size = isLand ? 55 : 62
+  // [개편] 중앙 배치(대사 중앙 자막 슬롯과 동일: 정중앙 + 56px 아래) + 중앙자막 크기로 축소.
+  // [기존-하단배치 롤백용] pad = isLand ? '0 80px 120px' : '0 60px 56px' / size = isLand ? 55 : 62 / subSize = isLand ? 34 : 40 / justifyContent: 'flex-end'
+  const pad = isLand ? '0 80px' : '0 60px'
+  const size = isLand ? 44 : 48
   // 흡수된 소제목(sub)은 명칭보다 한 단계 작게.
-  const subSize = isLand ? 34 : 40
+  const subSize = isLand ? 30 : 34
   const head = nameHead(caption)
   const tail = nameTail(caption)
   return (
-    <AbsoluteFill style={{ justifyContent: 'flex-end', alignItems: 'center', padding: pad }}>
+    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', padding: pad, transform: 'translateY(56px)' }}>
       {/* 앞부분(위, 흰색) / 뒷부분(아래, 세력색) — 개행 기준으로 갈린다 */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', gap: 14 }}>
-        <div style={{ color: '#ffffff', fontFamily: FONT_SERIF, fontSize: size, fontWeight: 800, letterSpacing: 1, lineHeight: 1.15, textAlign: 'center' }}>
-          {head}
+        {/* 시작문구와 동일한 글로우를 텍스트 단위로 — 각 글줄 뒤만 어둡게 */}
+        <div style={{ color: '#ffffff', fontFamily: FONT_SERIF, fontSize: size, fontWeight: 800, letterSpacing: 1, lineHeight: 1.15, textAlign: 'center', textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)', WebkitTextStroke: '1px rgba(0,0,0,0.85)', paintOrder: 'stroke fill' }}>
+          <CaptionBackdrop>{head}</CaptionBackdrop>
         </div>
         {tail && (
-          <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: size, fontWeight: 700, letterSpacing: 2, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'pre-line' }}>
-            {tail}
+          <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: size, fontWeight: 700, letterSpacing: 2, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'pre-line', textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)', WebkitTextStroke: '1px rgba(0,0,0,0.85)', paintOrder: 'stroke fill', ...accentClarityPaint(accent) }}>
+            <CaptionBackdrop>{tail}</CaptionBackdrop>
           </div>
         )}
         {/* 화보 카드를 생략한 1인 진영의 소제목 — 명칭 아래 작게 흡수 */}
         {sub && (
-          <div style={{ color: `${accent}e6`, fontFamily: FONT, fontSize: subSize, fontWeight: 600, letterSpacing: 1, lineHeight: 1.25, textAlign: 'center', whiteSpace: 'pre-line', marginTop: 6 }}>
-            {sub}
+          <div style={{ color: `${accent}e6`, fontFamily: FONT, fontSize: subSize, fontWeight: 600, letterSpacing: 1, lineHeight: 1.25, textAlign: 'center', whiteSpace: 'pre-line', marginTop: 6, textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)', WebkitTextStroke: '0.8px rgba(0,0,0,0.85)', paintOrder: 'stroke fill', ...accentClarityPaint(accent) }}>
+            <CaptionBackdrop>{sub}</CaptionBackdrop>
           </div>
         )}
       </div>
@@ -135,6 +137,10 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
 export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; cluster: FactionCluster; frame: number; cueStart: number; cueDuration?: number; orientation: Orientation; noZoom?: boolean; hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, cluster, frame, cueStart, cueDuration, orientation, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1 }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
+  // 그룹샷 시작 0.5초 뒤부터 절반 시간에 걸쳐 자막을 페이드아웃
+  const captionOp = cueDuration
+    ? interpolate(frame - cueStart, [f(0.5), f(0.5) + cueDuration * 0.5], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+    : 1
   // 가로는 이미지를 중앙 정렬(세로는 상단 정렬)
   const fallbackPos = orientation === 'landscape' ? 'center center' : 'center top'
   // 인물 컷과 동일한 지속 효과 (noZoom이면 정지). 세력·전역에서 계승한 hold 를 카드 등장 기준으로 적용. 줌인은 목표점으로 푸시인. 시작 효과는 도입에 결합.
@@ -145,10 +151,10 @@ export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; c
         // 지지직 글리치. 줌과 별개 축으로 토글(미지정 시 그룹샷 기본 켜짐). 막판(tail)은 컷 끝 1초에만, 라이트·헤비는 내내.
         glitch ? (
           <HoldGlitch frame={frame} startFrame={cueStart} level={glitch || 'heavy'} gateFromLocal={glitch === 'tail' && cueDuration ? Math.max(0, cueDuration - f(1.0)) : 0}>
-            <FilledImage src={imgSrc(episodeName, cluster.image)} objPos={cov.objPos} scale={cov.scale} tx={cov.tx} ty={cov.ty} transformOrigin={cov.transformOrigin} startFrame={cueStart} onError={() => setImgErr(true)} />
+            <FilledImage src={imgSrc(episodeName, cluster.image)} objPos={cov.objPos} scale={cov.scale} tx={cov.tx} ty={cov.ty} transformOrigin={cov.transformOrigin} startFrame={cueStart} fit="cover" onError={() => setImgErr(true)} />
           </HoldGlitch>
         ) : (
-          <FilledImage src={imgSrc(episodeName, cluster.image)} objPos={cov.objPos} scale={cov.scale} tx={cov.tx} ty={cov.ty} transformOrigin={cov.transformOrigin} startFrame={cueStart} onError={() => setImgErr(true)} />
+          <FilledImage src={imgSrc(episodeName, cluster.image)} objPos={cov.objPos} scale={cov.scale} tx={cov.tx} ty={cov.ty} transformOrigin={cov.transformOrigin} startFrame={cueStart} fit="cover" onError={() => setImgErr(true)} />
         )
       ) : (
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)` }}>
@@ -159,10 +165,9 @@ export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; c
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 20%)` }} />
       {/* 묶음 캡션 — 단체 명칭 한 필드(앞부분\n뒷부분). 명칭이 있을 때만 (로고 세력도 표시) */}
       {cluster.label?.trim() && (
-        <>
-          <AbsoluteFill style={{ background: `linear-gradient(to top, ${BG}e6 0%, ${BG}b3 22%, ${BG}66 40%, transparent 58%)` }} />
+        <div style={{ opacity: captionOp }}>
           <CardCaption accent={accent} caption={cluster.label} orientation={orientation} />
-        </>
+        </div>
       )}
     </AbsoluteFill>
   )

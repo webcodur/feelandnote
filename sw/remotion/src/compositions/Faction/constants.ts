@@ -14,6 +14,19 @@ export const TEXT_PAINT: React.CSSProperties = {
   paintOrder: 'stroke fill',
   textShadow: '0 0 8px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.7), 0 3px 10px rgba(0,0,0,0.6)',
 }
+/** 어두운 세력색은 번지는 광택 없이 렌더링 선명도만 보강한다. */
+export const accentClarityPaint = (accent: string): React.CSSProperties => {
+  const hex = accent.match(/^#([0-9a-f]{6})$/i)?.[1]
+  if (!hex) return {}
+  const r = Number.parseInt(hex.slice(0, 2), 16)
+  const g = Number.parseInt(hex.slice(2, 4), 16)
+  const b = Number.parseInt(hex.slice(4, 6), 16)
+  const luma = (r * 299 + g * 587 + b * 114) / 1000
+  if (luma >= 92) return {}
+  return {
+    filter: 'brightness(1.16) saturate(1.1)',
+  }
+}
 export const BG = '#0a0a0f'
 export const FG = '#f5f2ea'
 export const DEFAULT_ACCENT = '#d4a828'

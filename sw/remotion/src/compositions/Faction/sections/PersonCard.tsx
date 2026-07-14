@@ -1,14 +1,17 @@
 import React, { useMemo } from 'react'
 import { AbsoluteFill, Sequence, Audio, interpolate, useCurrentFrame, staticFile, Easing } from 'remotion'
 import type { FactionGroup, FactionPerson, FactionImageCrop, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
+import type { ImageFilter } from '../image-filters'
 import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, linesTypingOf, f, type PersonSteps } from '../timing'
-import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC } from '../constants'
+import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC, accentClarityPaint } from '../constants'
 import { imgSrc, initials, sliceLocalTimings, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { vnPersonQuote, vnPersonEpithet, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
 import { Typewriter } from '../../../components/caption/Typewriter'
+import { ShortCaption } from '../../../components/caption/ShortCaption'
 import { expandSubTimings, type VoiceTimingSegment } from '../../../lib/voice-timing'
 import { FactionMedia } from './FactionMedia'
 import { HoldGlitch } from '../transitions'
+import { CaptionBackdrop } from './CaptionBackdrop'
 
 // 직함 마커 효과음(가로 롱폼) — 직함 줄이 하나씩 리스팅될 때마다 마커(점)가 톡 찍히는 소리.
 // 전용 합성 자산(짧은 상승 블립). 톤 교체 시 이 파일명만 바꾼다.
@@ -232,7 +235,16 @@ const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number;
   )
 }
 
-export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; cueDuration: number; orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; steps: PersonSteps; voiceTiming?: VoiceTimingSegment[]; zoomFreezeSec?: number; isShorts?: boolean; isLast?: boolean; noZoom?: boolean; hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1 }) => {
+export const PersonCard: React.FC<{
+  episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; cueDuration: number
+  orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; steps: PersonSteps
+  voiceTiming?: VoiceTimingSegment[]; zoomFreezeSec?: number; isShorts?: boolean; isLast?: boolean; noZoom?: boolean
+  hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number
+  /** 대사 화면 표시 — CueLayer 가 인물→에피소드 기본을 풀어 넘긴다. 'box'(기본) | 'caption'(작은 자막) */
+  quoteDisplay?: 'box' | 'caption'
+  /** 작은 자막 세로 위치 — 'bottom'(기본) | 'center'(중하단 밴드) */
+  quoteCaptionPos?: 'bottom' | 'center'
+}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom' }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
@@ -242,11 +254,14 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 덩어리 경계는 줄바꿈이 아니라 색 전환점으로만 쓴다(화면에선 한 흐름으로 이어짐).
   const quoteChunks = person.quoteChunks?.length ? person.quoteChunks : (person.quote ? [person.quote] : [])
   // 리드 시퀀스(직함→수식어→대사) 시각 — 길이 계산(timing)과 동일 SSoT
-  const lead = personLeadTiming(person, steps, isShorts)
+  // 작은 자막 모드는 이름·직함1 최소 1초 홀드를 타이밍 SSoT에 반영(quoteDisplay prop = CueLayer 해석값)
+  const lead = personLeadTiming(person, steps, isShorts, { captionMode: quoteDisplay === 'caption' })
   // 음성 스텝이 켜져야 대사가 뜬다(꺼지면 대사 없음).
   const hasQuote = steps.voice && quoteChunks.length > 0
   // 음원이 없는 무음 대사(읽기 전용)는 자막을 살짝 흐리게 — 음원 재생 대사와 톤 구분.
   const silentQuote = !(person.quoteDuration && person.quoteDuration > 0)
+  // 작은 자막 모드 — 박스 안 Typewriter 대신 ShortCaption(글래스 태블릿)으로 대사를 띄운다.
+  const useCaption = quoteDisplay === 'caption'
   // 직함·이력 — 최대 3행. 1번 줄은 (전원) 이름 옆에 고정. 2·3번 줄은 직함 스텝이 켜졌을 때 순차 노출.
   const creditItems = creditLinesOf(person)
   const creditHead = creditItems[0]       // 이름 옆 고정(전원)
@@ -311,17 +326,21 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   // 세로 박스 슬라이드 — 왼쪽 밖(-PANEL_SLIDE_X)에서 제자리(0)로. 슬라이드와 페이드를 같은 구간에 묶는다
   const panelSlideX = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + PANEL_SLIDE_SEC)], [-PANEL_SLIDE_X, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
   const panelOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  // 마지막 인물 컷 — 최종화면으로 넘어가기 직전에 대사 박스를 먼저 거둔다(인물 사진은 CueLayer 크로스페이드로 뒤이어 사라진다).
+  // 텍스트 선퇴장 — 인물 컷이 끝나기 전에 이름·직함·자막을 미리 페이드아웃.
+  // (컷 경계에서 펑 하고 사라지지 않게. 사진은 CueLayer 전환이 담당.)
+  // 마지막 인물은 최종화면 크로스페이드 직전 구간에서 거둔다.
   const BOX_EXIT_SEC = 0.5
   const boxExitOp = isLast
     ? interpolate(local, [cueDuration - f(OUTRO_CROSSFADE_SEC + BOX_EXIT_SEC), cueDuration - f(OUTRO_CROSSFADE_SEC)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    : 1
+    : interpolate(local, [Math.max(0, cueDuration - f(BOX_EXIT_SEC)), cueDuration], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 2) 직함 — 1행 직함값 지연은 useDelayedHead (!isShorts && showCreditRest)일 때만.
   //   그 외(바로 대사)는 이름과 동시 표시. showCreditRest일 때 2·3번은 1행 이후 시작.
   const quoteEnterSec = lead.quoteEnterSec
   const creditOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 3) 대사 — 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤(quoteEnterSec) 등장.
   const quoteOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  // 대사 시작 시 이름·직함을 어둡게 — 처음은 밝음(1), 대사 시작 후 3초에 걸쳐 완만하게 시작해 푹 깎이게 어둠(0.3)으로 전환
+  const nameDimOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + 3)], [1, 0.3], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.cubic) })
   // 수식어 리드인 — 대사가 있으면 그 직전에 페이드아웃(교차), 대사가 없으면(마지막 리드) 켜진 채 유지.
   const epithetOp = hasQuote
     ? interpolate(lt, [f(quoteEnterSec - ENTER_FADE_SEC), f(quoteEnterSec)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -558,9 +577,9 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
       return audioStart + Math.round(spread * before / totalChars)
     }
     // 사진 전환 목록 — quoteImage(직함→대사, 대사 시작 시점) + imageChanges(대사 도중 덩어리별 교체)를 합쳐 한 번에 깐다.
-    const changes: { start: number; image: string; crop?: FactionImageCrop }[] = []
-    if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop })
-    for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop })
+    const changes: { start: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter }[] = []
+    if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop, filter: person.quoteImageFilter })
+    for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop, filter: ic.filter })
     const localOf = (abs: number) => Math.max(0, abs - cueStart)
     // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
     if (!changes.length) {
@@ -578,7 +597,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
           const ls = localOf(c.start)
           return (
             <AbsoluteFill key={idx} style={{ opacity: op }}>
-              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop, ls)} />
+              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop, ls)} filter={c.filter} />
             </AbsoluteFill>
           )
         })}
@@ -590,6 +609,205 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
   const glitchGate = glitch === 'tail' ? Math.max(0, cueDuration - f(1.0)) : 0
   const photoEl = glitch ? <HoldGlitch frame={frame} startFrame={cueStart} level={glitch || 'heavy'} gateFromLocal={glitchGate}>{photo}</HoldGlitch> : photo
 
+  // 작은 자막 모드 — 대사 박스(통합)와 분리한다.
+  // 박스 모드: 이름·직함·대사를 한 하단 패널에 묶는다.
+  // 자막 모드:
+  //   - 신원(이름·직함1): 로고/그룹명 CardCaption 과 동일 위치·형태(하단 중앙). 컷 내내 유지. 등장 애니메이션.
+  //   - 대사: 중앙/중하단 음영 자막.
+  const quoteText = quoteChunks.filter(c => c && c.trim()).join(' ')
+  const quoteSpread = Math.max(1, cueDuration - f(quoteEnterSec))
+  // landscape 우측 텍스트 컬럼만 대사 때 거둘 때 사용. 세로 신원 앵커는 퇴장하지 않는다.
+  const captionLeadExitOp = useCaption && hasQuote && orientation === 'landscape'
+    ? interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [1, 0], clamp)
+    : 1
+  const isMidLow = quoteCaptionPos === 'center'
+  // 대사 자막 슬롯 — MID 중앙 기준으로 살짝 아래(translateY). bottom 모드는 하단 여백.
+  // 좌하 이름·직함 때문에 bottom을 비우면 중앙값이 위로 밀리므로, center는 inset 0 + 하향 오프셋.
+  const CAPTION_CENTER_NUDGE_Y = 56 // px — 중앙보다 아래로 (미세조정)
+  const captionSlotPos: React.CSSProperties = isMidLow
+    ? {
+        top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
+      }
+    : { bottom: orientation === 'portrait' ? 200 : 80, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }
+  const captionFont = orientation === 'landscape' ? 44 : 48
+  const captionMinH = Math.round(captionFont * 1.35 * 2 + 28)
+  // 신원 — 로고/그룹명 CardCaption 과 동일 위치·형태.
+  // [개편] 중앙 배치 + 중앙자막 크기로 축소. [기존] idCaptionSize 62 / idExtraSize 40 / flex-end + pad '0 60px 56px'
+  const idCaptionSize = 48
+  const idExtraSize = 34
+  // 등장 — 컷 시작부터 미리 배치. 컷 전환(크로스페이드·슬라이드)이 등장을 담당하므로 자체 지연 없음.
+  const idOp = 1
+  const idTagOp = 1
+  // [개편] 신원 퇴장 — 대사와 같은 중앙 자리를 쓰므로 대사 등장 직전에 교차 퇴장. 대사 없으면 컷 내내 유지.
+  // [기존 롤백용] 퇴장 없이 nameDimOp(대사 중 어둡게)로 상시 유지: opacity: boxExitOp * idOp * nameDimOp
+  const idExitOp = hasQuote
+    ? interpolate(lt, [f(quoteEnterSec - ENTER_FADE_SEC), f(quoteEnterSec)], [1, 0], clamp)
+    : 1
+  const captionEl = useCaption && orientation === 'portrait' ? (
+    <>
+      {/* 1) 신원 — 중앙 배치(대사 자막 슬롯과 동일: 정중앙 + 56px 아래) */}
+      <AbsoluteFill style={{
+        zIndex: 42,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '0 60px',
+        transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
+        pointerEvents: 'none',
+        opacity: boxExitOp * idOp * idExitOp,
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 14,
+        }}>
+          {/* 직함 2·3·수식어 리드 — 이름 위. 대사 구간에선 각자 타이밍으로 자연 퇴장. */}
+          {showCreditRest ? (
+            <div style={{ opacity: creditRestOp, maxWidth: 920, width: '100%' }}>
+              {linesTypingOf(person, isShorts) ? (
+                <Typewriter
+                  text={creditTypedTextPortrait}
+                  startFrame={cueStart + f(portraitCreditRestStartSec)}
+                  spreadFrames={f(Math.min(creditTypingSpanSec, creditRestAvailableSec))}
+                  timings={creditTypingTimings(creditTypedTextPortrait, Math.min(creditTypingSpanSec, creditRestAvailableSec))}
+                  charLevel
+                  fontSize={idExtraSize}
+                  color="rgba(255,255,255,0.9)"
+                  highlightColor="#ffffff"
+                  style={{
+                    fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: 1, lineHeight: 1.25,
+                    textAlign: 'center', wordBreak: 'keep-all',
+                  }}
+                  keepLit
+                />
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <CreditLines items={creditRest} accent={accent} fontSize={idExtraSize} frame={lt} startFrame={f(portraitCreditRestStartSec)} offsetsFrames={creditListOffsetsSec.map(f)} />
+                </div>
+              )}
+            </div>
+          ) : null}
+          {hasEpithet ? (
+            <div style={{
+              opacity: epithetOp * epithetInOp,
+              maxWidth: 920,
+              transform: `translateY(${epithetInTy}px)`,
+            }}>
+              {epithetNarrated ? (
+                <div style={{
+                  color: `${accent}e6`, fontFamily: FONT, fontSize: idExtraSize, fontWeight: 600,
+                  letterSpacing: 1, lineHeight: 1.25, textAlign: 'center', wordBreak: 'keep-all',
+                }}>{epithet}</div>
+              ) : (
+                <Typewriter
+                  text={epithet}
+                  startFrame={cueStart + epithetStartF}
+                  spreadFrames={f(epithetSpeakSec(person, isShorts))}
+                  timings={epithetCharTimings(epithet, epithetSpeakSec(person, isShorts))}
+                  charLevel
+                  fontSize={idExtraSize}
+                  color={`${accent}cc`}
+                  highlightColor={accent}
+                  style={{
+                    fontFamily: FONT, fontWeight: 600, letterSpacing: 1, lineHeight: 1.25,
+                    textAlign: 'center', wordBreak: 'keep-all',
+                  }}
+                  keepLit
+                />
+              )}
+            </div>
+          ) : null}
+          {/* 이름(앞부분·흰색) / 직함(뒷부분·세력색) — GroupCard CardCaption 과 동일 규격·정렬 */}
+          <div style={{
+            color: '#ffffff',
+            fontFamily: FONT_SERIF,
+            fontSize: idCaptionSize,
+            fontWeight: 800,
+            letterSpacing: 1,
+            lineHeight: 1.15,
+            textAlign: 'center',
+            wordBreak: 'keep-all',
+            textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)',
+            WebkitTextStroke: '1px rgba(0,0,0,0.85)',
+            paintOrder: 'stroke fill',
+          }}><CaptionBackdrop>{person.name}</CaptionBackdrop></div>
+          {creditHead ? (
+            <div style={{
+              color: accent,
+              fontFamily: FONT_SERIF,
+              fontSize: idCaptionSize,
+              fontWeight: 700,
+              letterSpacing: 2,
+              lineHeight: 1.15,
+              textAlign: 'center',
+              whiteSpace: 'pre-line',
+              wordBreak: 'keep-all',
+              opacity: idTagOp,
+              textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)',
+              WebkitTextStroke: '1px rgba(0,0,0,0.85)',
+              paintOrder: 'stroke fill',
+              ...accentClarityPaint(accent),
+            }}><CaptionBackdrop>{creditHead}</CaptionBackdrop></div>
+          ) : null}
+        </div>
+      </AbsoluteFill>
+      {/* 2) 대사 자막 — 옵션 위치. 하단 신원과 분리 */}
+      {hasQuote ? (
+        <div style={{
+          position: 'absolute',
+          zIndex: 40,
+          left: CONTENT_PAD,
+          right: CONTENT_PAD,
+          ...captionSlotPos,
+          pointerEvents: 'none',
+          opacity: boxExitOp * quoteOp,
+          minHeight: captionMinH,
+        }}>
+          <ShortCaption
+            text={quoteText}
+            startFrame={cueStart + f(quoteEnterSec)}
+            spreadFrames={quoteSpread}
+            timings={voiceTiming}
+            fontSize={captionFont}
+            color={silentQuote ? '#b8bcc4' : '#f2ebe0'}
+            fontFamily={FONT}
+            fontWeight={700}
+            maxPanelWidth={760}
+            chrome="shadow"
+          />
+        </div>
+      ) : null}
+    </>
+  ) : (useCaption && hasQuote && quoteOp > 0 ? (
+    // 가로 롱폼 자막 모드 — 대사만 중하단(신 mid-low) 음영 자막
+    <div style={{
+      position: 'absolute',
+      zIndex: 40,
+      left: CONTENT_PAD,
+      right: CONTENT_PAD,
+      bottom: isMidLow ? '28%' : 56,
+      display: 'flex',
+      justifyContent: 'center',
+      opacity: quoteOp * boxExitOp,
+      pointerEvents: 'none',
+    }}>
+      <ShortCaption
+        text={quoteText}
+        startFrame={cueStart + f(quoteEnterSec)}
+        spreadFrames={quoteSpread}
+        timings={voiceTiming}
+        fontSize={captionFont}
+        color={silentQuote ? '#b8bcc4' : '#f2ebe0'}
+        fontFamily={FONT}
+        fontWeight={700}
+        maxPanelWidth={900}
+        chrome="shadow"
+      />
+    </div>
+  ) : null)
+
   // ── 가로 롱폼: 좌측 세로 사진 + 우측 텍스트(잡지 스프레드) ──
   if (orientation === 'landscape') {
     return (
@@ -598,6 +816,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
         {epithetEl}
         {epithetTypingEl}
         {creditPopEl}
+        {captionEl}
         {/* 좌: 인물 사진 — 켄번스 줌(컷 동안 천천히 확대) */}
         <div style={{ width: L_PHOTO_W, height: '100%', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
           <AbsoluteFill>{photoEl}</AbsoluteFill>
@@ -605,13 +824,13 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
           <AbsoluteFill style={{ background: `linear-gradient(to right, transparent 70%, ${BG} 100%)` }} />
         </div>
         {/* 우: 텍스트 — 이름 위치를 고정(상단 기준)하고 아래 슬롯만 확장. 인물마다 위아래로 흔들리지 않게 */}
-        {/* 이름(고정) → 같은 슬롯에서 직함(2행) → 대사로 교차 */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp }}>
+        {/* 이름(고정) → 같은 슬롯에서 직함(2행) → 대사로 교차. 작은 자막 모드에선 대사 시작 시 우측 리드도 함께 거둔다. */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp * captionLeadExitOp }}>
           {/* 이름 + 직함 1번(이름 옆 고정) — 아래에서 떠오르며 등장. 직함만 있는 인물은 1번째 줄도 아래 리스트로 내린다. */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)` }}>
-            <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
+            <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp * nameDimOp }}>{person.name}</div>
             {creditHead && !creditListFull ? (
-              <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap' }}>{creditHead}</div>
+              <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp * nameDimOp, whiteSpace: 'nowrap', ...accentClarityPaint(accent) }}>{creditHead}</div>
             ) : null}
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)은 직함 순차 → 대사로 교차(겹쳐 두고 페이드) */}
@@ -664,12 +883,13 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                 )}
               </div>
             ) : null}
-            {hasQuote ? (
+            {/* 박스 모드일 때만 우측 슬롯에 큰 대사. 작은 자막 모드는 captionEl 로 별도 출력 */}
+            {hasQuote && !useCaption ? (
               <div style={{ gridArea: '1 / 1' }}>
                 <QuotePages
                   chunks={quoteChunks} timings={voiceTiming}
                   startFrame={cueStart + f(quoteEnterSec)}
-                  spreadFrames={Math.max(1, cueDuration - f(quoteEnterSec))}
+                  spreadFrames={quoteSpread}
                   fontSize={64}
                   color={silentQuote ? '#9da6b2' : '#d8dce2'}
                   highlightColor={silentQuote ? '#dfe4ea' : '#ffffff'}
@@ -678,8 +898,8 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
               </div>
             ) : null}
           </div>
-          {/* 영문 원문 보조 — 가로 롱폼에서만 표기(세로 쇼츠는 숨김), 대사와 함께 페이드인 */}
-          {person.quoteEn ? (
+          {/* 영문 원문 보조 — 가로 롱폼·박스 모드에서만 표기, 대사와 함께 페이드인 */}
+          {person.quoteEn && !useCaption ? (
             <div style={{ color: `${FG}66`, fontFamily: FONT, fontSize: 36, fontWeight: 500, letterSpacing: 0.3, lineHeight: 1.35, textAlign: 'left', opacity: quoteOp, whiteSpace: 'pre-line' }}>{person.quoteEn}</div>
           ) : null}
         </div>
@@ -694,12 +914,13 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
       {epithetEl}
       {epithetTypingEl}
       {creditTypingEl}
+      {captionEl}
       {/* 인물 사진 — 켄번스 줌(컷 동안 천천히 확대). 줌은 미디어 요소 자체에 걸려 있다(영상 떨림 방지) */}
       <AbsoluteFill style={{ overflow: 'hidden' }}>{photoEl}</AbsoluteFill>
       {/* 상단 살짝 어둡게 — 상단 헤더 영역 가독 */}
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 20%)` }} />
-      {/* 텍스트 — 박스(이름+직함 한 줄 + 대사)를 한 덩어리로 화면 하단에 둔다. 왼쪽 끝에 붙지 않게 좌우 여백. */}
-      {/* 북리커맨드 쇼츠 하단 자막의 위치·크기 감각에 맞춤(하단·여백·작은 글씨). */}
+      {/* 박스 모드: 이름·직함·대사를 한 덩어리로 하단. 작은 자막 모드는 captionIdEl(좌하단 큰 타이포)+captionEl. */}
+      {!useCaption ? (
       <AbsoluteFill style={{ justifyContent: 'flex-end', alignItems: 'stretch', padding: `0 ${CONTENT_PAD}px ${CONTENT_PAD}px` }}>
         {/* 박스 슬라이드 인. 이름 먼저 (박히게). */}
         {/* 1행 직함값 지연은 롱폼 + showCreditRest(직함 따로 출력)일 때만. 바로 대사 케이스는 이름과 동시. */}
@@ -710,22 +931,31 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
           display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12,
           // 쇼츠는 우측을 비워 인물 사진·우측 요소와 안 겹치게 좁게(864), 세로 롱폼은 우측 끝까지(984)
           width: 'fit-content', maxWidth: isShorts ? 864 : 984,
-          background: 'rgba(0,0,0,0.4)', padding: '22px 28px', borderRadius: 4,
-          borderLeft: `4px solid ${accent}`, // 좌측바만 세력색으로 — 색상 조금 활용
-          fontFamily: FONT_SERIF, // 박스 전체 serif — 이름·직함·대사 통일
-          transform: `translateX(${panelSlideX}px)`, opacity: panelOp * boxExitOp,
+          background: 'rgba(0,0,0,0.4)',
+          padding: '22px 28px',
+          borderRadius: 4,
+          borderLeft: `4px solid ${accent}`,
+          fontFamily: FONT_SERIF,
+          transform: `translateX(${panelSlideX}px)`,
+          opacity: panelOp * boxExitOp,
         }}>
           {/* 이름(세력색) + 직함 1번(이름 옆 고정, 전원) */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-            <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp, ...TEXT_PAINT }}>{person.name}</div>
+            <div style={{
+              color: accent, fontFamily: FONT_SERIF,
+              fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1,
+              textAlign: 'left', opacity: nameOp * nameDimOp, ...TEXT_PAINT, ...accentClarityPaint(accent),
+            }}>{person.name}</div>
             {creditHead ? (
-              <div style={{ color: FG, fontFamily: FONT, fontSize: 36, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditHeadOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT }}>{creditHead}</div>
+              <div style={{
+                color: FG, fontFamily: FONT,
+                fontSize: 36, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1,
+                opacity: creditHeadOp * nameDimOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT,
+              }}>{creditHead}</div>
             ) : null}
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)·수식어 리드인은 앞 내용 순차 → 대사로 교차(겹쳐 두고 페이드) */}
           <div style={{ display: 'grid', alignItems: 'start', alignSelf: 'stretch' }}>
-            {/* 수식어(문장형) — 한 문장으로 떠 있다가 대사로 교차. 같은 슬롯에서 페이드아웃.
-                낭독 모드는 음성이 읽으므로 글자를 통째로 띄우고, 타이핑 모드는 글자가 속도에 맞춰 한 구절씩 점등된다. */}
             {hasEpithet ? (
               <div style={{ gridArea: '1 / 1', opacity: epithetOp }}>
                 <div style={{ opacity: epithetInOp, transform: `translateY(${epithetInTy}px)` }}>
@@ -779,7 +1009,7 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
                 <QuotePages
                   chunks={quoteChunks} timings={voiceTiming}
                   startFrame={cueStart + f(quoteEnterSec)}
-                  spreadFrames={Math.max(1, cueDuration - f(quoteEnterSec))}
+                  spreadFrames={quoteSpread}
                   fontSize={50}
                   color="#c8a46e"
                   highlightColor="#f5e6c8"
@@ -788,9 +1018,9 @@ export const PersonCard: React.FC<{ episodeName: string; group: FactionGroup; pe
               </div>
             ) : null}
           </div>
-          {/* 원문 보조 표기는 세로 쇼츠에서 띄우지 않는다(가로 롱폼 전용) */}
         </div>
       </AbsoluteFill>
+      ) : null}
     </AbsoluteFill>
   )
 }

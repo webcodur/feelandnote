@@ -254,9 +254,9 @@ export const RemotionRoot: React.FC = () => {
                   height={1920}
                   defaultProps={{ script, episodeName: ep }}
                 />
-                {/* KO-LV 썸네일 (SPLIT 채택안) */}
+                {/* KO-LV-TH — 한국어 세로 롱폼 썸네일 (채택안) */}
                 <Composition
-                  id={`${base}-KO-LV-TH-SPLIT`}
+                  id={`${base}-KO-LV-TH`}
                   component={FactionLVThumbCandidate}
                   durationInFrames={1}
                   fps={1}

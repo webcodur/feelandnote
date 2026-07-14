@@ -34,5 +34,17 @@
         "uploadedAt": "2026-07-09T11:37:54.454Z"
       }
     }
+  },
+  "korea-football-best11": {
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "uEBAY0w-aGc",
+        "uploadedAt": "2026-07-13T09:38:34.284Z"
+      },
+      "ko-longform": {
+        "videoId": "O1FemPuGk08",
+        "uploadedAt": "2026-07-13T09:38:13.744Z"
+      }
+    }
   }
 }

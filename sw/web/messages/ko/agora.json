@@ -2,6 +2,10 @@
   "agora": {
     "section": "광장",
     "items": {
+      "free": {
+        "label": "자유게시판",
+        "description": "누구나 익명으로 자유롭게 이야기를 나누는 공간"
+      },
       "celebFeed": {
         "label": "인물 피드",
         "description": "인물들의 아카이브를 확인하세요"
@@ -127,6 +131,30 @@
       "deleteConfirm": "정말 삭제하시겠습니까?",
       "createSubmit": "작성하기",
       "updateSubmit": "수정하기"
+    },
+    "free": {
+      "write": "글쓰기",
+      "viewAll": "전체 보기",
+      "emptyTitle": "아직 글이 없습니다",
+      "emptySubtitle": "가장 먼저 이야기를 남겨보세요",
+      "createTitle": "글쓰기",
+      "editTitle": "글 수정",
+      "createSubmit": "등록",
+      "updateSubmit": "수정",
+      "anonymous": "익명",
+      "anonymousToggle": "익명으로 작성",
+      "nicknameLabel": "닉네임 (선택)",
+      "nicknamePlaceholder": "비우면 익명으로 표시됩니다",
+      "passwordLabel": "비밀번호",
+      "passwordPlaceholder": "숫자 4자리",
+      "passwordHint": "수정·삭제할 때 필요합니다. 숫자 4자리로 입력하세요.",
+      "deleteConfirm": "이 글을 삭제하시겠습니까?",
+      "passwordPrompt": "비밀번호 확인",
+      "passwordPromptDesc": "글을 쓸 때 입력한 비밀번호를 입력하세요.",
+      "confirm": "확인",
+      "commentPlaceholder": "댓글을 입력하세요",
+      "commentEmpty": "가장 먼저 댓글을 남겨보세요",
+      "commentDeleteConfirm": "이 댓글을 삭제하시겠습니까?"
     }
   }
 }

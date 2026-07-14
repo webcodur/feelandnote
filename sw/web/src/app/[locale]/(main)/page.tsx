@@ -14,6 +14,7 @@ import { getUserContents } from "@/actions/contents/getUserContents";
 import { getRecentContents } from "@/actions/contents/getRecentContents";
 import HomeRecordSection from "@/components/features/quickRecord/HomeRecordSection";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
+import HomeFreeBoardSection from "@/components/features/home/HomeFreeBoardSection";
 import HomeTabSection from "@/components/features/home/HomeTabSection";
 import { HomeNavigationLinks } from "@/components/features/home/HomeNavigationLinks";
 
@@ -107,11 +108,13 @@ export default async function MainPage() {
       <HomeTabSection
         recordSection={RecordSection}
         figureSection={FigureSectionContent}
+        freeSection={<HomeFreeBoardSection />}
         labels={{
           intro: t("intro"),
           introSub: t("introSub"),
           todayFigure: t("todayFigure"),
           quickRecord: t("quickRecord"),
+          freeBoard: t("freeBoard"),
         }}
       />
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}

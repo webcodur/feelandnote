@@ -34,20 +34,23 @@ function renderHighlighted(text: string): ReactNode[] {
 interface HomeTabSectionProps {
   recordSection: React.ReactNode;
   figureSection: React.ReactNode;
+  freeSection: React.ReactNode;
   labels: {
     intro: string;
     introSub: string;
     todayFigure: string;
     quickRecord: string;
+    freeBoard: string;
   };
 }
 
 export default function HomeTabSection({
   recordSection,
   figureSection,
+  freeSection,
   labels,
 }: HomeTabSectionProps) {
-  const [activeTab, setActiveTab] = useState<"record" | "figure">("figure");
+  const [activeTab, setActiveTab] = useState<"record" | "figure" | "free">("figure");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleScrollDown = () => {
@@ -121,13 +124,19 @@ export default function HomeTabSection({
             onClick={() => setActiveTab("record")}
             className="flex-1 justify-center"
           />
+          <Tab
+            label={<span className="text-lg md:text-xl px-4 py-2">{labels.freeBoard}</span>}
+            active={activeTab === "free"}
+            onClick={() => setActiveTab("free")}
+            className="flex-1 justify-center"
+          />
         </Tabs>
       </div>
 
       {/* 3. Content */}
       <div className="w-full animate-in fade-in duration-500">
         <div className="w-full max-w-5xl mx-auto px-0 py-4 md:px-4 md:py-8">
-            {activeTab === "figure" ? figureSection : recordSection}
+            {activeTab === "figure" ? figureSection : activeTab === "record" ? recordSection : freeSection}
         </div>
       </div>
     </div>

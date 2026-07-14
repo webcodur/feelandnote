@@ -1,7 +1,7 @@
 import React from 'react'
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion'
 import type { FactionScript, FactionPerson, Orientation } from '../types'
-import { INTRO_SEC, f } from '../timing'
+import { INTRO_SEC, INTRO_FADE_OUT_SEC, f } from '../timing'
 import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT } from '../constants'
 import { imgSrc, initials, findPerson, nameHead, nameTail, resolveIntroImage } from '../utils'
 import { FilledImage } from './FilledImage'
@@ -83,7 +83,7 @@ const OpeningLogline: React.FC<{
       textAlign: 'center',
       color: '#E8B84B',
       fontFamily: FONT_SERIF,
-      fontSize: 66,
+      fontSize: 48, // [개편] 중앙자막 크기로 축소. [기존] 66
       fontWeight: 800,
       letterSpacing: 1,
       lineHeight: 1.3,
@@ -165,52 +165,64 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
   const titleCap = (part != null && script.titleByPart?.[part]) || (lvPart != null && script.titleByLvPart?.[lvPart]) || script.title
   const titleHead = nameHead(titleCap)
   const titleTail = nameTail(titleCap)
-  // 시작문구 — 영상 명칭보다 살짝 늦게 떠오른다(황금색).
+  // 시작문구(황금색) — 시작 화면(배경)과 같은 타이밍으로 켜지고 꺼진다.
   const logline = (part != null && script.loglineByPart?.[part]) || (lvPart != null && script.loglineByLvPart?.[lvPart]) || script.logline
-  // FIFO 흐름 — 배경(A)이 먼저 빠지고, 문구·효과음(B)이 나중에 빠진다. 둘 다 빠진 뒤 짧은 검정을 거쳐 첫 세력 로고로 넘어간다.
+  // 배경·문구 동기 — 같은 페이드아웃. 컷 끝에 맞춰 꺼져 첫 로고 크로스페이드와 겹친다(검정 텀 최소화).
   const introSec = script.introSec ?? INTRO_SEC
-  // A(배경) 아웃 — 먼저.
-  const introOutOp = interpolate(frame, [f(introSec - 2.2), f(introSec - 1.4)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  // B(문구) — 떠오른 뒤(페이드인) 배경이 빠진 다음에 사라진다(페이드아웃).
-  // introSec이 짧으면(기본 2.5초) 페이드인 끝이 페이드아웃 시작을 추월해 inputRange가 비단조가 된다.
-  // 네 지점을 누적 max(+1프레임)로 강제 단조화해 항상 strictly increasing을 보장한다.
-  const llIn0 = f(1.0)
-  const llIn1 = Math.max(llIn0 + 1, f(1.8))
-  const llOut0 = Math.max(llIn1 + 1, f(introSec - 1.2))
-  const llOut1 = Math.max(llOut0 + 1, f(introSec - 0.4))
-  const loglineOp = interpolate(frame, [llIn0, llIn1, llOut0, llOut1], [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const fadeOut0 = f(Math.max(0, introSec - INTRO_FADE_OUT_SEC))
+  const fadeOut1 = Math.max(fadeOut0 + 1, f(introSec))
+  const introOutOp = interpolate(frame, [fadeOut0, fadeOut1], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  // 문구 등장 모션 — 전역 검정 페이드인(0~0.7s)과 맞춤. 투명도는 배경과 동일(introOutOp).
+  const llIn0 = 0
+  const llIn1 = Math.max(1, f(0.7))
   // 지지직 글리치(미세 떨림 + 색수차) — 비활성화. 시작 문구는 페이드인/아웃으로만 떴다가 사라진다.
   // const glAmp = interpolate(frame, [f(1.0), f(introSec / 2), f(introSec - 0.4)], [0.08, 1, 0.08], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // const glX = (Math.sin(frame * 13.3) + Math.sin(frame * 29.1)) * 1.2 * glAmp
   // const glY = Math.sin(frame * 21.7) * 0.9 * glAmp
   // const chroma = (1.5 + Math.sin(frame * 4.7) * 1.5) * glAmp
-  const Logline = logline ? <OpeningLogline text={logline} frame={frame} opacity={loglineOp} enterStart={llIn0} enterEnd={llIn1} fadeOutStart={llOut0} isPortrait={isPortrait} /> : null
+  // opacity는 부모가 introOutOp로 묶으므로 1. 등장 lift/scale만 enter 구간에서 돌린다.
+  const Logline = logline ? <OpeningLogline text={logline} frame={frame} opacity={1} enterStart={llIn0} enterEnd={llIn1} fadeOutStart={fadeOut0} isPortrait={isPortrait} /> : null
   // 시작 화면 이미지 한 장으로 덮기 — 있으면 통합화면(인물 그리드)·텍스트 대신 이 이미지를 화면 가득.
   // 롱폼이면 롱폼 전용(introImageLong) 우선, 없으면 공용(introImage).
   const introMedia = resolveIntroImage(script, isShorts, part)
+  // 시작문구 위치 — [개편] 중앙 배치(대사 중앙 자막 슬롯과 동일: 정중앙 + 56px 아래). 로고/그룹명·인물 신원과 같은 자리.
+  // [기존-하단배치 롤백용] justifyContent: 'flex-end', padding: isPortrait ? '0 60px 56px' : '0 80px 120px'
+  const loglineWrap = Logline ? (
+    <AbsoluteFill style={{
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: isPortrait ? '0 60px' : '0 80px',
+      transform: 'translateY(56px)',
+      pointerEvents: 'none',
+    }}>
+      {Logline}
+    </AbsoluteFill>
+  ) : null
+
   if (introMedia) {
     return (
       <AbsoluteFill style={{ backgroundColor: BG }}>
+        {/* 배경 영상·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
         <AbsoluteFill style={{ opacity: introOutOp }}>
           <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={1} fit="contain" onError={() => {}} />
+          {loglineWrap}
         </AbsoluteFill>
-        {Logline && (
-          <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 150, pointerEvents: 'none' }}>
-            {Logline}
-          </AbsoluteFill>
-        )}
       </AbsoluteFill>
     )
   }
   // 항목이 있으면 그리드, 아니면 기존 텍스트 인트로
   if (!items.length) {
     return (
-      <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 28, opacity: introOutOp }}>
-        {titleTail && (
-          <div style={{ color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 44, fontWeight: 600, letterSpacing: 8 }}>{titleTail}</div>
-        )}
-        <div style={{ color: FG, fontFamily: FONT, fontSize: 96, fontWeight: 800, letterSpacing: 2, textAlign: 'center', padding: '0 80px', lineHeight: 1.2 }}>{titleHead}</div>
-        {Logline}
+      <AbsoluteFill style={{ backgroundColor: BG }}>
+        <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 28, opacity: introOutOp }}>
+          {titleTail && (
+            <div style={{ color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 44, fontWeight: 600, letterSpacing: 8 }}>{titleTail}</div>
+          )}
+          <div style={{ color: FG, fontFamily: FONT, fontSize: 96, fontWeight: 800, letterSpacing: 2, textAlign: 'center', padding: '0 80px', lineHeight: 1.2 }}>{titleHead}</div>
+        </AbsoluteFill>
+        <AbsoluteFill style={{ opacity: introOutOp }}>
+          {loglineWrap}
+        </AbsoluteFill>
       </AbsoluteFill>
     )
   }
@@ -223,20 +235,18 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
     : { gridTemplateColumns: `repeat(${items.length}, 1fr)` }
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
-      {/* 배경(A) — 얼굴 그리드. FIFO에서 먼저 빠진다(introOutOp). 검정 배경은 그대로 남아 문구만 떠 있게 한다. */}
-      <div style={{ display: 'grid', width: '100%', height: '100%', opacity: introOutOp, ...gridStyle }}>
-        {items.map((it, i) => it.kind === 'logo'
-          ? <LogoCell key={i} episodeName={episodeName} image={it.image} />
-          : <HeroCell key={i} episodeName={episodeName} person={it.person} />)}
-      </div>
-      {/* 제목은 상단 헤더가 담당(중복 제거). 그리드 위아래 경계만 부드럽게 — 배경과 함께 빠진다. */}
-      <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}cc 0%, transparent 22%, transparent 70%, ${BG}f5 100%)`, opacity: introOutOp }} />
-      {/* 로그라인 — 그리드 하단(어두운 띠) 위에 얹어 제목 헤더와 겹치지 않게 한다. */}
-      {Logline && (
-        <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 150, pointerEvents: 'none' }}>
-          {Logline}
-        </AbsoluteFill>
-      )}
+      {/* 얼굴 그리드·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
+      <AbsoluteFill style={{ opacity: introOutOp }}>
+        <div style={{ display: 'grid', width: '100%', height: '100%', ...gridStyle }}>
+          {items.map((it, i) => it.kind === 'logo'
+            ? <LogoCell key={i} episodeName={episodeName} image={it.image} />
+            : <HeroCell key={i} episodeName={episodeName} person={it.person} />)}
+        </div>
+        {/* 제목은 상단 헤더가 담당(중복 제거). 그리드 위아래 경계만 부드럽게. */}
+        <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}cc 0%, transparent 22%, transparent 70%, ${BG}f5 100%)` }} />
+        {/* 로그라인 — 그룹명/인물 신원과 같은 하단 중앙 자리 */}
+        {loglineWrap}
+      </AbsoluteFill>
     </AbsoluteFill>
   )
 }

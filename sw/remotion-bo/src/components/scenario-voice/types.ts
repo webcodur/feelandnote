@@ -9,7 +9,7 @@ export type EleSendOpts = { emotionEnabled: boolean; emotions: string[]; trailEn
 export const DEFAULT_ELE_SETTINGS: EleSettings = { stability: 0.5, similarity_boost: 0.75, style: 0.3, speed: 1.0, volumeBoost: 0 }
 export const DEFAULT_ELE_SEND_OPTS: EleSendOpts = { emotionEnabled: true, emotions: [], trailEnabled: true }
 
-export const ELE_EMOTIONS = ['calm', 'warm', 'gentle', 'kind', 'serious', 'confident', 'passionate', 'reflective', 'sad', 'melancholic', 'dramatic', 'playful']
+export const ELE_EMOTIONS = ['calm', 'warm', 'serious', 'confident', 'passionate', 'reflective', 'sad', 'playful', 'seamless', 'angry', 'fast']
 
 // Gemini TTS 보이스 목록 (sw/remotion/scripts/voice/test-voices.ts 기준)
 // segment.geminiVoice 오버라이드 / 캐릭터 보이스 단일 생성 양쪽에서 공용.

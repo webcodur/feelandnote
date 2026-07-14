@@ -74,8 +74,8 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
       const stem = vnTimingKey(vnPersonQuote(c.groupIndex, c.personIndex, c.clusterIndex))
       const timings = script.voiceTimings?.[stem]
       // 영상과 동일 — 대사 등장 시점부터. 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤라 그만큼 늦게 시작.
-      const startFrame = cutStart + f(personQuoteEnterSec(person, c.steps, isShorts))
-      const endFrame = cutStart + f(personQuoteEndSec(person, c.steps, isShorts))
+      const startFrame = cutStart + f(personQuoteEnterSec(person, c.steps, isShorts, { script }))
+      const endFrame = cutStart + f(personQuoteEndSec(person, c.steps, isShorts, { script }))
       subs.push(...splitSub(startFrame, endFrame, person.name, text, timings))
     }
   }

@@ -34,6 +34,12 @@ type UseFactionVoiceGenerationArgs = {
   eleEmotions?: string[]
   /** ELE 끝 패딩 (인물 quoteEleTrail) — 본문 끝에 ' ... ... ...' 추가. 미지정이면 추가(기본 켜짐). */
   eleTrail?: boolean
+  /**
+   * ELE 음성이 속한 계정 id (목록 API 의 account.id).
+   * 있으면 서버가 계정 소속 조회를 건너뛰고 그 키로 바로 합성한다.
+   * 미지정이면 서버가 연결된 계정을 순서대로 조회해 고른다.
+   */
+  eleAccountId?: string | null
   error: string | null
   setError: (e: string | null) => void
   /** 미리듣기/트림 저장 후 음성 목록 재조회(존재·길이 갱신) */
@@ -48,7 +54,7 @@ type UseFactionVoiceGenerationArgs = {
 
 export function useFactionVoiceGeneration({
   series, episodeName, voiceFile, activeFile, chosenEngine, styleEdit, eleOptions,
-  eleEmotions, eleTrail, error, setError, onRefresh, onSaved,
+  eleEmotions, eleTrail, eleAccountId, error, setError, onRefresh, onSaved,
 }: UseFactionVoiceGenerationArgs) {
   const [trimStart, setTrimStart] = useState(0)
   const [trimEnd, setTrimEnd] = useState(() => activeFile?.duration ?? 0)
@@ -84,7 +90,13 @@ export function useFactionVoiceGeneration({
         })
         res = await fetch(`/api/${series}/voice/elevenlabs/preview`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
-          body: JSON.stringify({ voiceId: spec.voiceParam, text: eleText, settings }),
+          body: JSON.stringify({
+            voiceId: String(spec.voiceParam ?? '').trim(),
+            text: eleText,
+            settings,
+            // 목록에서 아는 소속 계정이 있으면 힌트로 넘겨 오탐 조회를 막는다.
+            ...(eleAccountId ? { accountId: eleAccountId } : {}),
+          }),
         })
         format = 'mp3'
       } else {
@@ -238,6 +250,8 @@ export function useFactionVoiceGeneration({
     generating,
     error,
     reloadTick,
+    // 훅 밖에서 wav 를 바꾼 경우(들숨 제거 저장 등) 호출 — 저장 음원 URL 캐시버스터를 갱신해 재로드시킨다.
+    bumpReload: () => setReloadTick(Date.now()),
     tempPreview, setTempPreview,
     handleGenerate,
     handleCancelGenerate,

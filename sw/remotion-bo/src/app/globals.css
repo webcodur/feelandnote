@@ -118,3 +118,10 @@ button:not(:disabled), select:not(:disabled), [role="button"], summary {
 button:disabled, select:disabled {
   cursor: not-allowed;
 }
+
+/* 8. 스크롤바 숨김 — 스크롤 동작은 유지하되 막대만 보이지 않게 (보이스 명단 이름 칸 등) */
+.scrollbar-hide {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* 구형 Edge */
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; } /* Chrome/Safari */

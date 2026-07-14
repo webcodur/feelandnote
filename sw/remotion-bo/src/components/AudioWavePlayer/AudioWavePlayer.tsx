@@ -15,6 +15,10 @@ export function AudioWavePlayer({
   const [zoom, setZoom] = React.useState(initialPxPerSec ?? 0)
   const [visualGain, setVisualGain] = React.useState(1)
 
+  // 부모가 pxPerSec 을 바꾸면(예: 축약↔확장 모드 토글) 내부 확대값도 따라간다.
+  // 내부 확대 슬라이더 조작은 그대로 유효 — 다음 prop 변경 때까지 유지된다.
+  React.useEffect(() => { setZoom(initialPxPerSec ?? 0) }, [initialPxPerSec])
+
   const {
     canvasRef, containerRef, playing, playhead, dur,
     onMouseMove, onMouseLeave, HoverOverlay,
@@ -88,7 +92,24 @@ export function AudioWavePlayer({
           ref={containerRef}
           tabIndex={-1}
           className={`relative w-full ${heightClass} bg-bg-main overflow-hidden select-none touch-none cursor-crosshair ${showRuler ? 'rounded-b' : 'rounded'}`}
-          onClick={(e) => { activate(); handleClick(e) }}
+          onClick={(e) => {
+            activate()
+            // Alt+클릭 — 클릭 지점에서 더 가까운 트림 경계(시작/끝)를 그 자리로 끌어온다.
+            // 일반 클릭(탐색·재생)과 겹치지 않게 Alt 로 분리하고, 드래그와 같은 0.05초 간격 clamp 를 지킨다.
+            if (e.altKey && (onTrimStart || onTrimEnd) && dur > 0) {
+              const r = containerRef.current?.getBoundingClientRect()
+              if (r) {
+                const t = Math.round(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * dur * 1000) / 1000
+                const start = trimStart ?? 0
+                const end = trimEnd ?? dur
+                const nearStart = Math.abs(t - start) <= Math.abs(t - end)
+                if (nearStart && onTrimStart) onTrimStart(Math.max(0, Math.min(t, end - 0.05)))
+                else if (onTrimEnd) onTrimEnd(Math.min(dur, Math.max(t, start + 0.05)))
+              }
+              return
+            }
+            handleClick(e)
+          }}
           onPointerDown={activate}
           onMouseEnter={activate}
           onDoubleClick={onDoubleClick ? handleDblClick : undefined}

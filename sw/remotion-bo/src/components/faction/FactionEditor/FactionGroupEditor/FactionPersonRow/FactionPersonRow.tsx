@@ -215,6 +215,12 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         list[imgChangeEdit] = { ...editIc, crop: c }
         onChange({ ...person, imageChanges: list })
       }}
+      filter={editIc.filter}
+      onFilterChange={f => {
+        const list = [...(person.imageChanges ?? [])]
+        list[imgChangeEdit] = { ...editIc, filter: f }
+        onChange({ ...person, imageChanges: list })
+      }}
       series={series}
       episodeName={episodeName}
       slug={person.slug}
@@ -228,6 +234,8 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
       onChange={next => onChange({ ...person, quoteImage: next })}
       crop={person.quoteImageCrop}
       onCropChange={c => onChange({ ...person, quoteImageCrop: c })}
+      filter={person.quoteImageFilter}
+      onFilterChange={f => onChange({ ...person, quoteImageFilter: f })}
       series={series}
       episodeName={episodeName}
       slug={person.slug}
@@ -360,11 +368,28 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             <div className="flex flex-col w-28 shrink-0 rounded border border-border bg-bg-card shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-1.5 py-1 bg-bg-hover border-b border-border">
                 <span className="text-[10px] font-black text-accent">#1 기본</span>
-                {person.quoteImage && (
-                  <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
-                    <Trash2 size={12} />
-                  </button>
-                )}
+                <div className="flex items-center gap-1">
+                  {person.quoteImage && (
+                    <select
+                      value={person.quoteImageFilter ?? ''}
+                      onChange={e => onChange({ ...person, quoteImageFilter: e.target.value || undefined })}
+                      className="text-[9px] px-1 py-0.5 rounded border border-border bg-bg-main text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+                      title="이미지 필터"
+                    >
+                      <option value="">원본</option>
+                      <option value="vintage">필름</option>
+                      <option value="sepia">세피아</option>
+                      <option value="grayscale">흑백</option>
+                      <option value="duotone">투톤</option>
+                      <option value="fade">페이드</option>
+                    </select>
+                  )}
+                  {person.quoteImage && (
+                    <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined, quoteImageFilter: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
+                      <Trash2 size={12} />
+                    </button>
+                  )}
+                </div>
               </div>
               <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
                 title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
@@ -410,6 +435,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   onImageChange={(image) => {
                     const list = [...(person.imageChanges ?? [])]
                     list[originalIdx] = { ...list[originalIdx], image, crop: undefined }
+                    onChange({ ...person, imageChanges: list })
+                  }}
+                  onFilterChange={(filter) => {
+                    const list = [...(person.imageChanges ?? [])]
+                    list[originalIdx] = { ...list[originalIdx], filter }
                     onChange({ ...person, imageChanges: list })
                   }}
                   onRemove={() => {
@@ -514,6 +544,42 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         </div>
 
         {/* 전환효과는 헤더에서 선택한다 */}
+
+        {/* 대사 화면 표시 — 에피소드 기본을 인물 단위로 덮어쓴다. 빈 값(기본)이면 에피소드 설정을 따른다 */}
+        <div className="flex items-start gap-2 mt-2">
+          <span className="mt-1 w-24 shrink-0 text-xs text-text-dim">대사 표시 -</span>
+          <div className="flex flex-1 flex-wrap items-center gap-2">
+            <select
+              value={person.quoteDisplay ?? ''}
+              onChange={e => {
+                const v = e.target.value
+                onChange({
+                  ...person,
+                  quoteDisplay: v === 'box' || v === 'caption' ? v : undefined,
+                  // 박스로 돌리면 위치 지정은 의미 없음
+                  ...(v !== 'caption' ? { quoteCaptionPos: undefined } : {}),
+                })
+              }}
+              className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
+              title="비우면 에피소드 기본(정비 탭)을 따른다. 박스는 큰 글씨 대사, 작은 자막은 글래스 태블릿"
+            >
+              <option value="">에피소드 기본</option>
+              <option value="box">박스 (기존)</option>
+              <option value="caption">작은 자막</option>
+            </select>
+            {person.quoteDisplay === 'caption' && (
+              <select
+                value={person.quoteCaptionPos ?? 'bottom'}
+                onChange={e => onChange({ ...person, quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
+                className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
+                title="작은 자막 세로 위치 — 하단 또는 중하단 밴드"
+              >
+                <option value="bottom">하단</option>
+                <option value="center">중하단</option>
+              </select>
+            )}
+          </div>
+        </div>
 
         {/* 대사 처리 스텝 (쇼츠) */}
         <div className="flex items-start gap-2 mt-2">

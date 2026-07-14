@@ -56,7 +56,8 @@
       "Bash(echo \"D:\\\\\\\\AI 남음: $\\([ -d /d/AI ] && echo yes || echo no\\)\")",
       "Bash(rm -f \"/c/Users/webco/.claude/projects/C--project-feelandnote/memory/reference_talkinghead_comfyui_env.md\")",
       "Bash(git mv *)",
-      "Bash(mkdir -p .claude/skills/three-kingdoms)"
+      "Bash(mkdir -p .claude/skills/three-kingdoms)",
+      "Bash(git check-ignore *)"
     ],
     "deny": [],
     "ask": []

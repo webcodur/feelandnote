@@ -1,0 +1,11 @@
+'use client'
+
+import { AlertTriangle, Clock3, GraduationCap } from 'lucide-react'
+import type { AudioJob } from '@/lib/types'
+
+export function TrainingConfirmDialog({ job, onCancel, onConfirm }: { job: AudioJob; onCancel: () => void; onConfirm: () => void }) {
+  const speaker = job.trainingSpeaker ?? 'A'
+  const count = job.segments?.filter((item) => item.enabled && item.speaker === speaker && item.text.trim() && item.end - item.start >= 3 && item.end - item.start <= 10).length ?? 0
+  const retraining = Boolean(job.model)
+  return <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 p-4" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onCancel() }}><section role="dialog" aria-modal="true" aria-labelledby="training-confirm-title" className="w-full max-w-lg border border-signal bg-panel shadow-2xl shadow-black"><header className="flex items-start gap-4 border-b border-line p-5"><span className="grid size-11 shrink-0 place-items-center bg-signal text-ink"><GraduationCap size={21} /></span><div><p className="text-sm text-signal">실행 전 확인</p><h2 id="training-confirm-title" className="mt-1 font-display text-xl">{retraining ? '목소리를 다시 학습할까요?' : '목소리 학습을 시작할까요?'}</h2></div></header><div className="space-y-4 p-5"><div className="grid gap-3 bg-ink p-4 sm:grid-cols-2"><p><span className="block text-sm text-muted">학습 대상</span><b className="mt-1 block">{job.name} · 화자 {speaker}</b></p><p><span className="block text-sm text-muted">사용할 발언</span><b className="mt-1 block">{count}개</b></p></div><p className="flex gap-3 text-sm leading-6 text-muted"><Clock3 className="mt-1 shrink-0 text-signal" size={17} />몇 분 동안 컴퓨터 자원을 사용합니다. 화면을 닫아도 학습은 계속됩니다.</p>{retraining && <p className="flex gap-3 border border-danger/60 bg-ink p-3 text-sm leading-6 text-danger"><AlertTriangle className="mt-1 shrink-0" size={17} />완료되면 현재 목소리 모델이 새 학습 결과로 교체됩니다.</p>}</div><footer className="grid grid-cols-2 gap-3 border-t border-line p-5"><button autoFocus onClick={onCancel} className="border border-line px-4 py-3 text-sm font-semibold text-muted hover:border-cream hover:text-cream">취소</button><button onClick={onConfirm} className="bg-signal px-4 py-3 text-sm font-semibold text-ink">{retraining ? '다시 학습하기' : '학습 시작'}</button></footer></section></div>
+}

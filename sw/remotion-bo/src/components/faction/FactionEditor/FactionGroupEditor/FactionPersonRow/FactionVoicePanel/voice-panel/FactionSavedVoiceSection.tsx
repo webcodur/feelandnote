@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { VoiceFile } from '../../../../../../voice-utils'
 import { AudioWavePlayer } from '../../../../../../AudioWavePlayer'
 
@@ -38,6 +38,8 @@ export function FactionSavedVoiceSection({
 }: FactionSavedVoiceSectionProps) {
   const slotCount = activeFile ? 1 : 0
   const activeDur = activeFile?.duration ?? 0
+  // 파형 표시 모드 — 축약(길이 무관 가로폭에 맞춤) / 확장(초당 200px 고정, 들숨 제거처럼 가로 스크롤).
+  const [wide, setWide] = useState(false)
   const trimmed = !!activeFile && (trimStart > 0.01 || (trimEnd > 0 && trimEnd < activeFile.duration - 0.01))
   // 인물(파일)이 바뀌면 트림 값을 전체로 리셋 — 이전 인물의 트림 선이 남아 엉뚱한 위치에 보이는 것을 막는다.
   useEffect(() => {
@@ -49,7 +51,22 @@ export function FactionSavedVoiceSection({
     <section className="rounded-md border border-border bg-bg-main/40 p-4 space-y-3">
       <div className="flex items-center gap-3 flex-wrap">
         <h3 className="text-sm font-semibold text-text-primary">저장된 음원</h3>
+        {activeFile && (
+          <span className="rounded border border-border bg-bg-card px-1.5 py-0.5 font-mono text-[11px] text-text-secondary">{activeFile.name}</span>
+        )}
         <span className="text-xs text-text-secondary">양끝 드래그로 구간 선택</span>
+        <div role="group" className="inline-flex items-center gap-0.5 rounded border border-border bg-bg-main p-0.5" title="파형 표시 모드. 축약=가로폭에 맞춤 / 확장=초당 200px 고정, 가로 스크롤">
+          {([[false, '축약'], [true, '확장']] as const).map(([w, label]) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => setWide(w)}
+              className={`rounded px-2 py-0.5 text-[11px] font-semibold transition-colors ${
+                wide === w ? 'bg-bg-card text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >{label}</button>
+          ))}
+        </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-text-secondary">
           <span>슬롯 {slotCount}</span>
           <span className="text-border">·</span>
@@ -107,6 +124,7 @@ export function FactionSavedVoiceSection({
                 trimEnd={engHasTrim ? trimEnd : undefined}
                 playbackRate={playbackRate}
                 gainDb={gainDb}
+                pxPerSec={wide ? 200 : 0}
                 headerTitle={<>
                   {engineLabel}
                   <span className="ml-2 text-accent font-semibold">사용 중</span>

@@ -51,38 +51,52 @@ export function useAudioWavePlayer({
   rateRef.current = rate
   volRef.current = vol
 
-  // 파형 그리기
+  // 파형 그리기 — 디코드 샘플을 URL 별로 캐시한다. 캔버스 폭이 바뀌면(확대 슬라이더·축약↔확장 토글로
+  // width 속성이 갱신되면) 브라우저가 캔버스를 비우므로, 폭·증폭 변경 때마다 캐시로 다시 그린다.
+  const sampleCacheRef = useRef<{ url: string; data: Float32Array } | null>(null)
   useEffect(() => {
     if (!audioUrl || !canvasRef.current) return
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+    let alive = true
+
+    const render = (data: Float32Array) => {
+      const barCount = Math.floor(canvas.width / BAR_GAP)
+      const step = Math.floor(data.length / barCount)
+      const amp = canvas.height / 2
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      ctx.fillStyle = 'rgba(200, 164, 110, 0.1)'
+      ctx.fillRect(0, amp, canvas.width, 1)
+
+      for (let i = 0; i < barCount; i++) {
+        let sum = 0
+        for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
+        const avg = sum / step
+        const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4 * visualGain)
+        ctx.fillStyle = BAR_COLOR
+        ctx.fillRect(i * BAR_GAP, amp - h / 2, BAR_W, h)
+      }
+    }
+
+    const cached = sampleCacheRef.current
+    if (cached && cached.url === audioUrl) { render(cached.data); return }
 
     fetch(audioUrl)
       .then(r => r.arrayBuffer())
       .then(buf => new AudioContext().decodeAudioData(buf))
       .then(audioBuffer => {
+        if (!alive) return
         setRealDuration(audioBuffer.duration)
         const data = audioBuffer.getChannelData(0)
-        const barCount = Math.floor(canvas.width / BAR_GAP)
-        const step = Math.floor(data.length / barCount)
-        const amp = canvas.height / 2
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-        ctx.fillStyle = 'rgba(200, 164, 110, 0.1)'
-        ctx.fillRect(0, amp, canvas.width, 1)
-
-        for (let i = 0; i < barCount; i++) {
-          let sum = 0
-          for (let j = 0; j < step; j++) sum += Math.abs(data[i * step + j] || 0)
-          const avg = sum / step
-          const h = Math.max(2, Math.pow(avg, 0.6) * amp * 4 * visualGain)
-          ctx.fillStyle = BAR_COLOR
-          ctx.fillRect(i * BAR_GAP, amp - h / 2, BAR_W, h)
-        }
+        sampleCacheRef.current = { url: audioUrl, data }
+        render(data)
       })
       .catch(() => {})
-  }, [audioUrl, visualGain])
+    return () => { alive = false }
+    // dur — 디코드로 실제 길이가 확정되면 absWidth(캔버스 폭)가 갱신되므로 그때도 다시 그린다.
+  }, [audioUrl, visualGain, pxPerSec, dur])
 
   // 지정 위치부터 재생
   const playFrom = useCallback((t: number) => {

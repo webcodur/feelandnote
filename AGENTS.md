@@ -13,6 +13,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기�
 | 3 | remotion | `sw/remotion` | 3002 + 8001 | 영상 제작 (Studio + serve) |
 | 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) |
 | 5 | lab | `sw/lab` | 3004 | 실험 공간 — 2D/3D, 게임 (Vite) |
+| 6 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원 정리·받아쓰기·화자 학습·음성 합성 작업실 (Next.js) |
 
 **공유 패키지** (`packages/`):
 - `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify, Google Books, Q-Net)
@@ -30,6 +31,7 @@ pnpm dev:bo           # 2. 관리자 백오피스 (:3001)
 pnpm dev:remotion     # 3. Remotion Studio (:3002) + serve (:8001)
 pnpm dev:remotion-bo  # 4. Remotion 관리 대시보드 (:3003)
 pnpm dev:lab          # 5. 실험 공간 (:3004)
+pnpm dev:audio-bo     # 6. 음성 작업실 (:3005)
 ```
 
 ### 빌드
@@ -37,6 +39,7 @@ pnpm dev:lab          # 5. 실험 공간 (:3004)
 ```bash
 pnpm build:web
 pnpm build:bo
+pnpm build:audio-bo
 ```
 
 ### Remotion
@@ -66,6 +69,16 @@ pnpm build:bo
 - TailwindCSS 4.1 (@theme CSS Variables)
 - Supabase (PostgreSQL, 인증, SSR)
 - TypeScript 5, pnpm
+
+## UI 상호작용 원칙 (전 앱 공통)
+
+조작용 요소의 hover는 **즉각 반응**이 기본이다. 사용자가 손을 올린 즉시 상태가 바뀌어야 한다.
+
+1. **버튼·카드·칩 등 클릭·조작용 요소의 hover/active에는 `transition`·`delay`를 얹지 않는다.** 배경·색·이동값을 지연 없이 곧바로 적용한다.
+2. **애니메이션 자체를 금지하는 규칙이 아니다.** 공간·레이아웃이 실제로 열리고 닫히는 전환(사이드바 여닫기, 아코디언, 모달 등장, 페이지 전환)은 애니메이션이 본질이므로 `transition`을 그대로 쓴다.
+3. **판별**: 요소가 자기 상태를 강조하면 즉각, 공간이 이동·개폐하면 애니메이션.
+
+상세 규칙·클래스 예시는 `docs/project/code-rules.md`의 "상호작용" 절 참조.
 
 ## 데이터 동기화 원칙 (DB ↔ Remotion)
 
@@ -133,6 +146,7 @@ pnpm build:bo
 | `book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 | `faction.md` | 세력도 — AI 인물 진영별 세로 영상. 컨셉·데이터 모델·편성 원칙·제작 워크플로우 |
 | `faction-ideas.md` | 세력도 에피소드 아이디어 뱅크 — 후보 30종 진영·출연 명단(주제 선정은 스킬 faction-series-concept) |
+| `faction-korea/` | 세력도 **한국 소재 전용** 아이디어 뱅크 — 6개 카테고리(역사·기업·스포츠·과학·문화·군사) 44편 진영·명단·톤·약점. README에 종합 큐레이션 |
 | `faction-hackers-plan.md` | 세력도 「위대한 해커들」 3부작 — 조사 원자료(후보 161건) + 확정 기획(1편 얼굴 있는 자들 / 2편 민간의 가면 / 3편 국가의 군단) |
 | `faction-social-streaming-plan.md` | 세력도 「소셜 네트워크 / 스트리밍」 통합 재설계 — 플랫폼 150종+ 전수 조사 + 2시리즈(소셜·스트리밍) 진영 기획. 기존 보류 3에피소드(social-network·streaming·streaming-media) 통합 |
 

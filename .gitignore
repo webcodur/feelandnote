@@ -6,6 +6,9 @@ nul
 .env.*
 !.env.example
 
+# MCP 설정 — access token이 평문으로 들어가므로 커밋 금지 (노출 시 토큰 자동 폐기)
+.mcp.json
+
 # Google credentials (GA, YouTube OAuth)
 ga-credentials.json
 **/credentials/

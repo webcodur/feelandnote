@@ -1,0 +1,4 @@
+interface:
+  display_name: "인터뷰 음원 파이프라인"
+  short_description: "영상 추출부터 잡음 감소·자막·음성 합성 준비까지"
+  default_prompt: "Use $interview-audio-pipeline to extract an interview, reduce noise, create subtitles, and prepare it for voice synthesis."

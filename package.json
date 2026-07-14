@@ -7,8 +7,10 @@
     "dev:remotion": "pnpm --filter @feelandnote/remotion dev",
     "dev:remotion-bo": "pnpm --filter @feelandnote/remotion-bo dev",
     "dev:lab": "pnpm --filter @feelandnote/lab dev",
+    "dev:audio-bo": "pnpm --filter @feelandnote/audio-bo dev",
     "build:web": "pnpm --filter @feelandnote/web build",
     "build:bo": "pnpm --filter @feelandnote/web-bo build",
+    "build:audio-bo": "pnpm --filter @feelandnote/audio-bo build",
     "voice": "pnpm --filter @feelandnote/remotion voice",
     "voice:list": "pnpm --filter @feelandnote/remotion voice:list"
   },

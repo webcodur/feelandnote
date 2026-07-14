@@ -76,20 +76,26 @@ export async function generateVoicePreview(params: {
   accountId?: string | null
 }): Promise<{ success: boolean; base64?: string; bytes?: number; error?: string }> {
   const { voiceId, text, settings, accountId } = params
+  const id = voiceId.trim()
+  if (!id) return { success: false, error: 'voiceId 가 비어 있다' }
 
-  const account = await resolveEleAccountForVoice(voiceId, accountId)
+  const account = await resolveEleAccountForVoice(id, accountId)
   if (!account) {
-    return { success: false, error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}` }
+    return {
+      success: false,
+      error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${id} (연결된 계정 라이브러리에 없거나, 무료 계정은 라이브러리 음성을 API로 쓸 수 없음)`,
+    }
   }
 
   try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(id)}`, {
       method: 'POST',
       headers: {
         'xi-api-key': account.apiKey,
         'Content-Type': 'application/json',
         Accept: 'audio/mpeg',
       },
+      cache: 'no-store',
       body: JSON.stringify({
         text,
         model_id: 'eleven_v3',

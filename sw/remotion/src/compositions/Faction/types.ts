@@ -7,6 +7,7 @@
  */
 
 import type { VoiceTimings } from '../../lib/voice-timing'
+import type { ImageFilter } from './image-filters'
 
 /** 영상 방향 — 'portrait'(세로 9:16 쇼츠, 기존)·'landscape'(가로 16:9 롱폼) */
 export type Orientation = 'portrait' | 'landscape'
@@ -153,8 +154,9 @@ export interface FactionPerson {
    * 예: [{ chunk: 3, image: 'musk-2.webp' }] → 4번째 덩어리부터 musk-2 로 크로스페이드. image 가 컷 시작(0번째) 사진.
    * 전환 시각은 발화 시각(voiceTiming) 기준, 없으면 글자수 비례 폴백. 경로 규칙은 image 와 동일. 언어 공통.
    * crop 은 그 교체 사진의 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움.
+   * filter 는 그 교체 사진의 필터 효과.
    */
-  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop }[]
+  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter }[]
   /**
    * 대사 시작 시점 사진 교체 (선택) — 직함을 소개하는 도입 구간에는 image(직함용)를 보이다가,
    * 대사가 시작되는 순간(quoteEnterSec) quoteImage(대사용)로 부드럽게 전환한다. 인물당 사진을
@@ -164,6 +166,8 @@ export interface FactionPerson {
   quoteImage?: string
   /** quoteImage 의 사진 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움 */
   quoteImageCrop?: FactionImageCrop
+  /** 대사 사진 필터 효과. 미지정이면 원본. 옵션: 'vintage'(옛날 필름), 'sepia'(세피아), 'grayscale'(흑백) 등 */
+  quoteImageFilter?: 'vintage' | 'sepia' | 'grayscale' | 'duotone' | 'fade'
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
   /** true면 신화·전설 속 존재(실존 인물 아님) — 셀럽 DB 등록 대상이 아니다. BO 배지에서 '신화'로 구분(미등록 경고 아님) */
@@ -237,6 +241,18 @@ export interface FactionPerson {
    * 끝 음절이 잘리는 현상을 줄인다. 명시적으로 false 일 때만 미적용.
    */
   quoteEleTrail?: boolean
+  /**
+   * 대사 화면 표시 방식 (인물 단위). 미지정이면 에피소드 기본(quoteDisplay) → 'box'.
+   * - 'box': 기존 대사 박스(이름·직함 + 좌측 강조선 + Typewriter 큰 글씨)
+   * - 'caption': 북리커맨드 쇼츠 작은 자막(글래스 태블릿). 이름·직함 리드는 유지, 대사만 작은 자막
+   */
+  quoteDisplay?: 'box' | 'caption'
+  /**
+   * 작은 자막 세로 위치 (quoteDisplay==='caption' 일 때). 미지정이면 에피소드 기본 → 'bottom'.
+   * - 'bottom': MID 영역 하단 가운데
+   * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
+   */
+  quoteCaptionPos?: 'bottom' | 'center'
 }
 
 /**
@@ -473,6 +489,18 @@ export interface FactionScript {
   zoomSpeed?: number
   /** true면 모든 컷의 효과(전환·시작·지속·지지직·속도)를 전역값으로 고정한다. 세력·인물·묶음 개별값은 보존되지만 무시된다(줌 목표점 제외) */
   lockEffects?: boolean
+  /**
+   * 대사 화면 표시 방식 — 에피소드 전역 기본. 인물 quoteDisplay 가 있으면 그쪽이 우선.
+   * - 'box'(기본): 기존 대사 박스
+   * - 'caption': 북리커맨드 쇼츠 작은 자막(글래스 태블릿)
+   */
+  quoteDisplay?: 'box' | 'caption'
+  /**
+   * 작은 자막 세로 위치 — 에피소드 전역 기본. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
+   * - 'bottom'(기본): MID 영역 하단
+   * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
+   */
+  quoteCaptionPos?: 'bottom' | 'center'
   /** true면 모든 컷의 지속 효과(줌·패닝 등)를 끄고 정지 화면으로 둔다. 영상 컷 떨림 점검·정적 연출용 — 언어 공통 */
   noZoom?: boolean
   /** 가로 롱폼 우상단 상태표시줄의 세력명 표기. true면 세력 명칭을 개행 포함 전체(앞부분+뒷부분)로, 미지정/false면 앞부분만 — 언어 공통 */

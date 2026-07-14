@@ -13,16 +13,18 @@ export function ImageChangeSlot({
   onImageChange,
   onRemove,
   onOpenPicker,
+  onFilterChange,
   series,
   episodeName,
 }: {
-  ic: { chunk: number; image: string; crop?: FactionImageCrop }
+  ic: { chunk: number; image: string; crop?: FactionImageCrop; filter?: string }
   chunkText?: string
   chunks?: string[]
   onChunkChange: (chunk: number) => void
   onImageChange: (image: string) => void
   onRemove: () => void
   onOpenPicker: () => void
+  onFilterChange?: (filter: string | undefined) => void
   series: string
   episodeName: string
 }) {
@@ -35,9 +37,27 @@ export function ImageChangeSlot({
     <div className="flex flex-col w-28 shrink-0 rounded border border-border bg-bg-card shadow-sm overflow-hidden">
       <div className="flex items-center justify-between px-1.5 py-1 bg-bg-hover border-b border-border">
         <span className="text-[10px] font-black text-text-secondary">#{ic.chunk + 1} 전환</span>
-        <button type="button" onClick={(e) => { e.stopPropagation(); onRemove() }} className="text-text-dim hover:text-danger-text p-0.5">
-          <Trash2 size={12} />
-        </button>
+        <div className="flex items-center gap-1">
+          {onFilterChange && (
+            <select
+              value={ic.filter ?? ''}
+              onChange={e => onFilterChange(e.target.value || undefined)}
+              onClick={e => e.stopPropagation()}
+              className="text-[9px] px-1 py-0.5 rounded border border-border bg-bg-main text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+              title="이미지 필터"
+            >
+              <option value="">원본</option>
+              <option value="vintage">필름</option>
+              <option value="sepia">세피아</option>
+              <option value="grayscale">흑백</option>
+              <option value="duotone">투톤</option>
+              <option value="fade">페이드</option>
+            </select>
+          )}
+          <button type="button" onClick={(e) => { e.stopPropagation(); onRemove() }} className="text-text-dim hover:text-danger-text p-0.5">
+            <Trash2 size={12} />
+          </button>
+        </div>
       </div>
       
       <button

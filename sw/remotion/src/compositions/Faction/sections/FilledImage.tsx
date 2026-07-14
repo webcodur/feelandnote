@@ -13,20 +13,22 @@ import { isVideoSrc } from '../utils'
  */
 export const FilledImage: React.FC<{ src: string; objPos: string; scale: number; onError: () => void; startFrame?: number; transformOrigin?: string; tx?: number; ty?: number; fit?: 'cover' | 'contain' }> = ({ src, objPos, scale, onError, startFrame, transformOrigin, tx = 0, ty = 0, fit }) => {
   const isVid = isVideoSrc(src)
+  // 이미지 기본은 contain(비율 유지+여백 블러). cover 지정 시 화면을 꽉 채우므로 여백이 없어 블러 배경도 그리지 않는다.
+  const imgFit = fit ?? 'contain'
   return (
     <AbsoluteFill style={{ overflow: 'hidden' }}>
-      {/* 배경 레이어 — 같은 이미지를 꽉 채워 흐리게(여백을 가장자리 색으로 채움). 영상은 cover 로 꽉 차므로 생략. */}
+      {/* 배경 레이어 — 같은 이미지를 꽉 채워 흐리게(여백을 가장자리 색으로 채움). 영상·cover 는 꽉 차므로 생략. */}
       {/* 흐림(blur)은 요소 가장자리에서 투명과 섞여 밝은 1px 라인을 남긴다. 흐림 요소를 화면보다 키우고(112%) 음수 위치로 밀어 */}
       {/* 그 라인을 바깥 overflow:hidden 클립 영역 밖으로 내보낸다(transform scale 은 라인이 요소 안쪽에 남아 가려지지 않음). */}
-      {!isVid && (
+      {!isVid && imgFit !== 'cover' && (
         <div style={{ position: 'absolute', top: '-6%', left: '-6%', width: '112%', height: '112%' }}>
           <FactionMedia src={src} startFrame={startFrame} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(60px) brightness(0.7)' }} />
         </div>
       )}
-      {/* 본 이미지 레이어 — 이미지는 비율 유지+여백(contain), 영상은 비율 유지+채움(cover, FactionMedia 가 덮어씀) */}
+      {/* 본 이미지 레이어 — 이미지는 fit(기본 contain), 영상은 비율 유지+채움(cover, FactionMedia 가 덮어씀) */}
       {/* 사진 맞춤(crop): objPos·transformOrigin 으로 보일 위치를, scale 로 확대(켄번스 줌에 곱)를 잡는다 */}
       <AbsoluteFill>
-        <FactionMedia src={src} startFrame={startFrame} fit={fit} onError={onError} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: objPos, transform: `scale(${scale}) translate(${tx}%, ${ty}%)`, transformOrigin }} />
+        <FactionMedia src={src} startFrame={startFrame} fit={fit} onError={onError} style={{ width: '100%', height: '100%', objectFit: imgFit, objectPosition: objPos, transform: `scale(${scale}) translate(${tx}%, ${ty}%)`, transformOrigin }} />
       </AbsoluteFill>
     </AbsoluteFill>
   )

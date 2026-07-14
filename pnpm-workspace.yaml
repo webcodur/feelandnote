@@ -4,6 +4,7 @@ packages:
   - 'sw/lab'
   - 'sw/remotion'
   - 'sw/remotion-bo'
+  - 'sw/audio-bo'
   - 'packages/*'
 
 overrides:

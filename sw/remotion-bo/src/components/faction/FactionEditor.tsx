@@ -20,6 +20,7 @@ function measureDuration(url: string): Promise<number> {
 import { Plus, Save, Eye, Upload, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp } from './shared/icons'
 import { FactionGroupEditor } from './FactionEditor/FactionGroupEditor/FactionGroupEditor'
 import { FactionCopyButton } from './shared/FactionCopyButton'
+import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
 import { FactionPreview } from './FactionEditor/FactionPreview'
 import { FactionImagePool } from './FactionEditor/FactionImagePool'
 import { PartTextField } from './FactionEditor/sections/PartTextField'
@@ -492,6 +493,41 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
     update({ groups: groups.map(stripHold), holdMotion: m, noZoom: undefined })
   }
 
+  // 대사 화면 표시 일괄 — 세력 people·clusters.people 모두 순회.
+  const mapAllPeople = (fn: (p: FactionPerson) => FactionPerson): FactionGroup[] =>
+    groups.map(g => ({
+      ...g,
+      people: (g.people ?? []).map(fn),
+      clusters: g.clusters?.map(c => ({ ...c, people: (c.people ?? []).map(fn) })),
+    }))
+  // 인물 개별 설정을 비워 에피소드 기본만 쓰게 한다.
+  const bulkClearQuoteDisplay = () => {
+    if (!confirm('모든 인물의 대사 표시 개별 설정을 지웁니다. 이후 에피소드 기본값만 따릅니다. 계속할까요?')) return
+    update({
+      groups: mapAllPeople(p => {
+        const next = { ...p }
+        delete next.quoteDisplay
+        delete next.quoteCaptionPos
+        return next
+      }),
+    })
+  }
+  // 현재 에피소드 기본값을 전 인물 필드에 직접 박는다(개별 덮어쓰기도 같은 값으로 통일).
+  const bulkStampQuoteDisplay = () => {
+    const display = script.quoteDisplay ?? 'box'
+    const pos = script.quoteCaptionPos ?? 'bottom'
+    const displayLabel = display === 'caption' ? '작은 자막' : '박스'
+    const posLabel = display === 'caption' ? (pos === 'center' ? ' · 중하단' : ' · 하단') : ''
+    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
+    update({
+      groups: mapAllPeople(p => ({
+        ...p,
+        quoteDisplay: display,
+        quoteCaptionPos: display === 'caption' ? pos : undefined,
+      })),
+    })
+  }
+
   // 세력 조작
   const setGroup = (i: number, g: FactionGroup) => updateGroups(groups.map((x, idx) => (idx === i ? g : x)))
   const deleteGroup = (i: number) => {
@@ -779,6 +815,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
           </div>
 
           <div className="ml-auto flex items-center gap-2">
+            <FactionNameCopyButton script={script} />
             <FactionCopyButton script={script} />
             <button
               onClick={() => setShowPool(v => !v)}
@@ -891,6 +928,55 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
           {/* 정비 — 세력·인물 데이터 그 자체 (편 구분 없이 평면 나열). 편 배정·구성은 편성 탭에서 */}
           {tab === 'info' && (
             <div className="space-y-4">
+              {/* 대사 자막 표시 — 북리커맨드 쇼츠 작은 자막을 팩션에도 적용. 일괄 도구로 전 인물 통일 */}
+              <div className="rounded-lg border border-border bg-bg-card/50 p-3">
+                <div className="mb-1.5 text-xs font-semibold text-text-dim">대사 화면 표시 (에피소드 기본)</div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="박스는 이름·직함과 함께 큰 글씨 대사. 작은 자막은 북리커맨드 쇼츠처럼 글래스 태블릿으로 대사만 띄운다">
+                    표시 방식
+                    <select
+                      value={script.quoteDisplay ?? 'box'}
+                      onChange={e => update({ quoteDisplay: e.target.value === 'caption' ? 'caption' : 'box' })}
+                      className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                    >
+                      <option value="box">박스 (기존)</option>
+                      <option value="caption">작은 자막</option>
+                    </select>
+                  </span>
+                  {(script.quoteDisplay ?? 'box') === 'caption' && (
+                    <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="작은 자막이 화면 어디에 붙을지. 하단은 아래쪽, 중하단은 화면 세로 아래쪽 중간 밴드">
+                      자막 위치
+                      <select
+                        value={script.quoteCaptionPos ?? 'bottom'}
+                        onChange={e => update({ quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
+                        className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                      >
+                        <option value="bottom">하단</option>
+                        <option value="center">중하단</option>
+                      </select>
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={bulkStampQuoteDisplay}
+                    className="rounded-md border border-border bg-bg-card px-2.5 py-1.5 text-xs hover:bg-bg-hover"
+                    title="위 에피소드 기본값을 모든 인물 필드에 직접 기록한다. 인물별 개별 설정도 이 값으로 덮어쓴다"
+                  >
+                    전 인물에 박기
+                  </button>
+                  <button
+                    type="button"
+                    onClick={bulkClearQuoteDisplay}
+                    className="rounded-md border border-border bg-bg-card px-2.5 py-1.5 text-xs hover:bg-bg-hover"
+                    title="모든 인물의 대사 표시 개별 설정을 지운다. 이후 에피소드 기본만 따른다"
+                  >
+                    개별 설정 비우기
+                  </button>
+                </div>
+                <p className="mt-1.5 text-[11px] text-text-dim">
+                  인물이 따로 지정한 값이 있으면 그쪽이 우선한다. 「전 인물에 박기」는 전부 같은 값으로 덮고, 「개별 설정 비우기」는 전역 기본만 쓰게 한다.
+                </p>
+              </div>
               {/* 전역 타이밍 오버라이드 — 로고 재생시간, 인트로/아웃트로 등. /info 에서 바로 보이게 배치 */}
               <div className="rounded-lg border border-border bg-bg-card/50 p-3">
                 <div className="mb-1.5 text-xs font-semibold text-text-dim">전역 타이밍 (기본값은 코드 상수)</div>

@@ -42,7 +42,7 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
         const g = script.groups[c.groupIndex]
         const p = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
         if (!p?.quoteDuration || p.quoteDuration <= 0) continue
-        const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait))
+        const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait, { script }))
         const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))
         rawWindows.push([s, s + playF])
       }

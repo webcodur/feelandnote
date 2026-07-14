@@ -1,5 +1,5 @@
 import React from 'react'
-import { HEADER_H, BG, FG, FONT_SERIF } from '../constants'
+import { HEADER_H, BG, FG, FONT_SERIF, accentClarityPaint } from '../constants'
 import { nameHead, nameTail } from '../utils'
 
 /**
@@ -25,13 +25,13 @@ export const TopHeader: React.FC<{ caption: string; opacity: number; accent: str
           {tail ? `${head}:` : head}
         </div>
         {tail && (
-          <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 80, fontWeight: 700, letterSpacing: 2, textAlign: 'center', lineHeight: 1.1 }}>
+          <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 80, fontWeight: 700, letterSpacing: 2, textAlign: 'center', lineHeight: 1.1, ...accentClarityPaint(accent) }}>
             {tail}
           </div>
         )}
       </div>
       {/* 가는 언더라인 — 텍스트 너비에 맞춤(100%), 현재 세력색, 양끝 페이드 */}
-      <div style={{ width: '100%', height: 3, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
+      <div style={{ width: '100%', height: 3, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${accent}, transparent)`, ...accentClarityPaint(accent) }} />
     </div>
   </div>
   )

@@ -2,6 +2,10 @@
   "agora": {
     "section": "Agora",
     "items": {
+      "free": {
+        "label": "Free Board",
+        "description": "An open space to chat freely and anonymously"
+      },
       "celebFeed": {
         "label": "Figure Feed",
         "description": "Explore figure archives"
@@ -127,6 +131,30 @@
       "deleteConfirm": "Are you sure you want to delete this?",
       "createSubmit": "Submit",
       "updateSubmit": "Update"
+    },
+    "free": {
+      "write": "New Post",
+      "viewAll": "View all",
+      "emptyTitle": "No posts yet",
+      "emptySubtitle": "Be the first to start a conversation",
+      "createTitle": "New Post",
+      "editTitle": "Edit Post",
+      "createSubmit": "Post",
+      "updateSubmit": "Update",
+      "anonymous": "Anonymous",
+      "anonymousToggle": "Post anonymously",
+      "nicknameLabel": "Nickname (optional)",
+      "nicknamePlaceholder": "Leave blank to post as Anonymous",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "4 digits",
+      "passwordHint": "Required to edit or delete. Enter 4 digits.",
+      "deleteConfirm": "Delete this post?",
+      "passwordPrompt": "Confirm password",
+      "passwordPromptDesc": "Enter the password you set when posting.",
+      "confirm": "Confirm",
+      "commentPlaceholder": "Write a comment",
+      "commentEmpty": "Be the first to comment",
+      "commentDeleteConfirm": "Delete this comment?"
     }
   }
 }

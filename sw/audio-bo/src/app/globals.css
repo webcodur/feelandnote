@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #090b0d;
+  --color-panel: #111519;
+  --color-panel-raised: #171d22;
+  --color-line: #293138;
+  --color-cream: #e8e2d2;
+  --color-muted: #8d969d;
+  --color-signal: #e6a84b;
+  --color-live: #6dc89b;
+  --color-danger: #e16f63;
+  --font-body: 'Noto Sans KR', sans-serif;
+  --font-display: 'Noto Serif KR', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--color-ink); }
+body { margin: 0; color: var(--color-cream); font-family: var(--font-body); }
+button, input, textarea { font: inherit; }
+button:not(:disabled) { cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--color-signal); outline-offset: 2px; }
+::selection { background: var(--color-signal); color: var(--color-ink); }
+
+.studio-grid {
+  background-color: var(--color-ink);
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.meter {
+  background: repeating-linear-gradient(90deg, var(--color-live) 0 5px, transparent 5px 8px);
+}
+
+.step-card { box-shadow: inset 0 1px rgba(255,255,255,.03); }
+.step-card:not(:disabled):active { border-color: var(--color-live); }
+.mode-tab[aria-current="step"] { box-shadow: inset 0 -3px var(--color-signal); }
+
+audio { color-scheme: light; min-height: 42px; }
+.waveform-editor { cursor: crosshair; touch-action: none; }
+
+@media (max-width: 767px) {
+  .studio-grid { background-size: 18px 18px; }
+  .step-card { min-height: 0; }
+  .mode-tab { min-height: 88px; }
+}

@@ -7,6 +7,15 @@ import { FactionMediaThumb } from '../../../../shared/FactionMediaThumb'
 import { FactionImageCropEditor } from './FactionImageCropEditor'
 import { FactionZoomFocusPicker } from './FactionZoomFocusPicker'
 
+const FILTER_OPTIONS = [
+  { value: '', label: '원본' },
+  { value: 'vintage', label: '옛날 필름' },
+  { value: 'sepia', label: '세피아' },
+  { value: 'grayscale', label: '흑백' },
+  { value: 'duotone', label: '투톤' },
+  { value: 'fade', label: '페이드' },
+]
+
 type Props = {
   value?: string
   onChange: (next: string | undefined) => void
@@ -22,9 +31,12 @@ type Props = {
   /** 줌 푸시인 목표점 — 있으면 보일 위치 편집기 아래에 「다가갈 지점」 클릭 picker를 띄운다 */
   zoomFocus?: ZoomFocus
   onZoomFocusChange?: (focus: ZoomFocus | undefined) => void
+  /** 이미지 필터 효과 (선택) */
+  filter?: string
+  onFilterChange?: (filter: string | undefined) => void
 }
 
-export function FactionImagePicker({ value, onChange, series, episodeName, slug, onClose, crop, onCropChange, cropFit = 'cover', zoomFocus, onZoomFocusChange }: Props) {
+export function FactionImagePicker({ value, onChange, series, episodeName, slug, onClose, crop, onCropChange, cropFit = 'cover', zoomFocus, onZoomFocusChange, filter, onFilterChange }: Props) {
   const [images, setImages] = useState<string[]>([])
   const [urlInput, setUrlInput] = useState('')
   const [busy, setBusy] = useState(false)
@@ -129,6 +141,18 @@ export function FactionImagePicker({ value, onChange, series, episodeName, slug,
               </div>
               <div className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate text-xs text-text-secondary">{value}</span>
+                {onFilterChange && (
+                  <select
+                    value={filter ?? ''}
+                    onChange={e => onFilterChange(e.target.value || undefined)}
+                    className="shrink-0 rounded-md border border-border bg-bg-main px-2 py-1 text-xs text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+                    title="이미지 필터 효과"
+                  >
+                    {FILTER_OPTIONS.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                )}
                 <button onClick={() => onChange(undefined)} className="shrink-0 rounded-md border border-border px-2 py-1 text-xs text-danger-text hover:bg-danger">
                   제거
                 </button>
@@ -138,6 +162,18 @@ export function FactionImagePicker({ value, onChange, series, episodeName, slug,
             <div className="flex items-center gap-3 rounded-md border border-border bg-bg-secondary p-2">
               <FactionMediaThumb src={imageSrc(series, episodeName, value)!} alt="" className="h-14 w-14 rounded-md object-cover" />
               <span className="min-w-0 flex-1 truncate text-xs text-text-secondary">{value}</span>
+              {onFilterChange && (
+                <select
+                  value={filter ?? ''}
+                  onChange={e => onFilterChange(e.target.value || undefined)}
+                  className="shrink-0 rounded-md border border-border bg-bg-main px-2 py-1 text-xs text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+                  title="이미지 필터 효과"
+                >
+                  {FILTER_OPTIONS.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              )}
               <button onClick={() => onChange(undefined)} className="rounded-md border border-border px-2 py-1 text-xs text-danger-text hover:bg-danger">
                 제거
               </button>

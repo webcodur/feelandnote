@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile, EleVoiceLike } from '../../../../../../voice-utils'
 import type { GenEngine } from '../../../../../../scenario-voice/ExpandedVoicePanel/types'
@@ -37,6 +37,13 @@ import { useEleVoiceHistory } from './useEleVoiceHistory'
  * 같은 스타일을 쓴다. ELE 인물은 감정/강도(quoteEleOptions)도 입력받아 미리듣기에 반영한다.
  */
 
+/** 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거). */
+export type FactionVoiceMode = 'main' | 'sync' | 'breath'
+
+export const FACTION_VOICE_MODE_LABEL: Record<FactionVoiceMode, string> = {
+  main: '생성·트림', sync: '싱크 보정', breath: '들숨 제거',
+}
+
 type FactionExpandedVoicePanelProps = {
   person: FactionPerson
   onChange: (next: FactionPerson) => void
@@ -50,30 +57,18 @@ type FactionExpandedVoicePanelProps = {
   onRefresh: () => void
   /** 음성 슬롯 — 대사(QUOTE_SLOT) 또는 수식어(EPITHET_SLOT) */
   slot: FactionVoiceSlot
+  /** 작업 모드 — 모달 헤더의 모드 탭이 소유한다(FactionVoiceSettingsModal). */
+  mode: FactionVoiceMode
 }
 
 // 인물 대사는 한 줄이라 구간키가 따로 없다 — 미리듣기 캐시 키로 인물 파일명을 쓴다.
 export function FactionExpandedVoicePanel({
-  person, onChange, series, episodeName, voiceFile, activeFile, onRefresh, slot,
+  person, onChange, series, episodeName, voiceFile, activeFile, onRefresh, slot, mode,
 }: FactionExpandedVoicePanelProps) {
   const secKey = voiceFile
 
   // error 는 양쪽 hook(spec·생성)이 공유하므로 orchestrator 가 소유한다.
   const [error, setError] = useState<string | null>(null)
-
-  // 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거). 기본 생성·트림.
-  const [mode, setMode] = useState<'main' | 'sync' | 'breath'>('main')
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
-      if (e.key === '1') setMode('main')
-      if (e.key === '2') setMode('sync')
-      if (e.key === '3') setMode('breath')
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
 
   // ElevenLabs 워크스페이스 보이스 목록 — 북리커맨드 화자 선택처럼 드롭다운으로 고른다.
   // 성별·나이·억양 등 꼬리표(labels)와 미리듣기(preview_url)까지 받아 콤보박스에서 거르기·정렬에 쓴다.
@@ -87,6 +82,12 @@ export function FactionExpandedVoicePanel({
   const celebKey = person.celebId || person.slug || null
   const [personGender, setPersonGender] = useState<'male' | 'female' | null>(null)
 
+  // 들숨 저장 콜백이 항상 최신 인물 데이터를 쓰도록 ref 경유 — endpoints 재생성 없이 stale closure 를 피한다.
+  const personRef = useRef(person)
+  personRef.current = person
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
+
   // BreathModeContent 의 로드·저장 라우트를 세력도 경로로 갈아끼우는 어댑터.
   // (북리커맨드는 /voice/play·/voice/save, 세력도는 /faction-voice/{episode}/...)
   const breathEndpoints: BreathEndpoints = useMemo(() => ({
@@ -99,8 +100,12 @@ export function FactionExpandedVoicePanel({
       })
       const data = await res.json()
       if (!data.success) throw new Error(data.error ?? '저장 실패')
+      // 자르기(cut)로 wav 길이가 변한다 — 슬롯 길이 필드를 새 실측 길이로 갱신해야
+      // 렌더 컷 길이·재생과 생성·트림 화면 표기가 옛 길이에 머물지 않는다.
+      if (typeof data.duration === 'number' && data.duration > 0)
+        onChangeRef.current({ ...personRef.current, [slot.fields.duration]: data.duration })
     },
-  }), [episodeName])
+  }), [episodeName, slot])
 
   const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot })
   useEffect(() => {
@@ -153,6 +158,9 @@ export function FactionExpandedVoicePanel({
       .finally(() => setEleVoicesLoading(false))
   }, [spec.chosenEngine, eleVoices.length, eleVoicesLoading])
 
+  // 현재 선택 보이스의 소속 계정 — 목록에 있으면 생성 API 에 힌트로 넘긴다(계정 오탐 방지).
+  const eleAccountId = eleVoices.find(v => v.voice_id === spec.eleVoiceId)?.account?.id ?? null
+
   const gen = useFactionVoiceGeneration({
     series, episodeName, voiceFile, activeFile,
     chosenEngine: spec.chosenEngine,
@@ -160,6 +168,7 @@ export function FactionExpandedVoicePanel({
     eleOptions: spec.eleOptions,
     eleEmotions: spec.eleEmotions,
     eleTrail: spec.eleTrail,
+    eleAccountId,
     error, setError, onRefresh,
     // 저장된 음원 실측 길이를 슬롯 길이 필드(quoteDuration / epithetDuration)에 기록 → 렌더가 컷 길이·재생을 맞춘다.
     // (이 한 줄이 없으면 BO 에서 만든 음원은 길이가 비어 렌더에서 재생되지 않고 컷이 그냥 넘어간다.)
@@ -208,22 +217,11 @@ export function FactionExpandedVoicePanel({
   return (
     <div className="relative space-y-3" onClick={e => e.stopPropagation()}>
 
-      {/* 모드 탭 — 생성·트림 / 싱크 보정 / 들숨 제거. 한 세로 스크롤을 셋으로 나눠 작업 단위를 분리한다. */}
-      <div className="flex gap-1">
-        {([['main', '생성·트림'], ['sync', '싱크 보정'], ['breath', '들숨 제거']] as const).filter(([m]) => slot.hasSync || m !== 'sync').map(([m, l]) => (
-          <button
-            key={m}
-            type="button"
-            onClick={e => { e.stopPropagation(); setMode(m) }}
-            className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${mode === m ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
-          >
-            {l}
-          </button>
-        ))}
-      </div>
-
-      {/* ── 생성·트림 모드 ── */}
-      {mode === 'main' && (<>
+      {/* ── 생성·트림 모드 — 두 기둥. 좌: 해당(저장된) 음원 설정 / 우: 음원 만들기 설정. 넓은 모달 폭을 활용한다. ── */}
+      {mode === 'main' && (
+      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
+      <div className="min-w-0 space-y-3">
+      <h3 className="border-b border-border pb-1.5 text-sm font-bold text-text-primary">해당 음원 설정</h3>
       {/* 저장된 음원 — 디스크 wav + 트림 */}
       <FactionSavedVoiceSection
         series={series}
@@ -250,48 +248,56 @@ export function FactionExpandedVoicePanel({
         gainDb={spec.gainDb}
         setGainDb={spec.setGainDb}
       />
-
-      {/* 엔진 선택 — 이 값이 아래 ELE 보이스 설정·생성 동작을 좌우하므로 맨 위(설정의 기준)에 둔다.
-          아래 「새 음원 생성」 섹션의 엔진 드롭다운은 hideEngineSelect 로 숨겨 중복을 없앤다. */}
-      <div className="flex items-stretch rounded border border-border overflow-hidden">
-        <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">엔진</span>
-        <select
-          value={spec.chosenEngine}
-          onChange={e => spec.setChosenEngine(e.target.value as GenEngine)}
-          onClick={e => e.stopPropagation()}
-          title="음성 합성 엔진. GEM=Gemini, ELE=ElevenLabs. 이 선택에 따라 아래 보이스·옵션이 달라진다"
-          className="h-8 flex-1 text-sm bg-white px-3 cursor-pointer text-slate-950 font-bold focus:outline-none"
-        >
-          <option value="gemini">GEM 2.5</option>
-          <option value="gemini-v3">GEM 3.1</option>
-          <option value="elevenlabs">ELE</option>
-        </select>
       </div>
 
-      {/* ELE 보이스 ID + 감정/강도 — 북리커맨드는 상위 VOICE 패널에서 화자별로 보유하지만, 세력도는 그
+      <div className="min-w-0 space-y-3">
+      <h3 className="border-b border-border pb-1.5 text-sm font-bold text-text-primary">음원 만들기 설정</h3>
+      {/* 엔진 선택 + ELE 보이스 — 한 행. 엔진은 좁게 두고, ELE 선택 시 보이스 콤보박스가 남는 폭을 채운다.
+          아래 「새 음원 생성」 섹션의 엔진 드롭다운은 hideEngineSelect 로 숨겨 중복을 없앤다. */}
+      <div className="flex items-stretch gap-2">
+        <div className="flex items-stretch rounded border border-border overflow-hidden shrink-0">
+          <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300 shrink-0">엔진</span>
+          <select
+            value={spec.chosenEngine}
+            onChange={e => spec.setChosenEngine(e.target.value as GenEngine)}
+            onClick={e => e.stopPropagation()}
+            title="음성 합성 엔진. GEM=Gemini, ELE=ElevenLabs. 이 선택에 따라 아래 보이스·옵션이 달라진다"
+            className="h-8 text-sm bg-white px-2 cursor-pointer text-slate-950 font-bold focus:outline-none"
+          >
+            <option value="gemini">GEM 2.5</option>
+            <option value="gemini-v3">GEM 3.1</option>
+            <option value="elevenlabs">ELE</option>
+          </select>
+        </div>
+        {/* 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색) + voiceId 직접 지정을 한 위젯에. */}
+        {spec.chosenEngine === 'elevenlabs' && (
+          <div className="min-w-0 flex-1">
+            <EleVoiceCombobox
+              voices={eleVoices}
+              value={spec.eleVoiceId}
+              onChange={spec.setEleVoiceId}
+              loading={eleVoicesLoading}
+              error={eleVoicesError}
+              recommendations={eleVoiceRecommendations}
+              voiceNotes={eleVoiceNotes.notes}
+              notesLoading={eleVoiceNotes.loading}
+              notesError={eleVoiceNotes.error}
+              savingVoiceId={eleVoiceNotes.savingVoiceId}
+              onUpdateVoiceNote={eleVoiceNotes.updateVoiceNote}
+              voiceHistory={eleVoiceHistory.history}
+              historyLoading={eleVoiceHistory.loading}
+              historyError={eleVoiceHistory.error}
+              historyUsageCount={eleVoiceHistory.usageCount}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* ELE 감정/강도·DB 연동 — 북리커맨드는 상위 VOICE 패널에서 화자별로 보유하지만, 세력도는 그
           패널이 없으므로 인물 단위로 여기서 입력받는다(데이터 연결부). ELE 선택 시에만, 북리커맨드
           ENGINE 행 입력칸과 같은 슬레이트 인라인 박스 스타일로 노출한다. */}
       {spec.chosenEngine === 'elevenlabs' && (
         <div className="space-y-2">
-          {/* 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색) + voiceId 직접 지정을 한 위젯에. */}
-          <EleVoiceCombobox
-            voices={eleVoices}
-            value={spec.eleVoiceId}
-            onChange={spec.setEleVoiceId}
-            loading={eleVoicesLoading}
-            error={eleVoicesError}
-            recommendations={eleVoiceRecommendations}
-            voiceNotes={eleVoiceNotes.notes}
-            notesLoading={eleVoiceNotes.loading}
-            notesError={eleVoiceNotes.error}
-            savingVoiceId={eleVoiceNotes.savingVoiceId}
-            onUpdateVoiceNote={eleVoiceNotes.updateVoiceNote}
-            voiceHistory={eleVoiceHistory.history}
-            historyLoading={eleVoiceHistory.loading}
-            historyError={eleVoiceHistory.error}
-            historyUsageCount={eleVoiceHistory.usageCount}
-          />
-
           {/* 셀럽 DB 보이스 연동 — 같은 인물(celebId)의 국문 보이스를 끌어오거나 현재 값을 DB에 올린다.
               DB에 등록된 인물(celebId·slug 보유)일 때만 활성. 충돌 시 저장은 BO 값이 DB를 덮는다. */}
           <div className="flex items-center gap-2">
@@ -350,6 +356,17 @@ export function FactionExpandedVoicePanel({
                 <span className="text-[11px] font-mono text-purple-700 font-black">[{spec.eleEmotions.join(', ')}]</span>
               )}
               <span className="ml-auto text-[10px] text-slate-500 font-bold">최대 2개</span>
+              {/* 끝 패딩 — 본문 끝에 ' ... ... ...' 을 붙여 끝 음절 잘림을 줄인다. 기본 켜짐. */}
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); spec.setEleTrail(!spec.eleTrail) }}
+                title="본문 끝에 ' ... ... ...' 을 붙여 끝 음절이 잘리는 현상을 줄인다"
+                className={`px-2 py-0.5 rounded text-[11px] border font-extrabold ${
+                  spec.eleTrail
+                    ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
+                    : 'bg-white border-slate-300 text-slate-500 hover:border-purple-500 hover:bg-purple-50'
+                }`}
+              >끝 패딩</button>
             </div>
             <div className="flex flex-col gap-1.5 bg-white px-3 py-2">
               <div className="flex flex-wrap items-center gap-1.5">
@@ -403,18 +420,6 @@ export function FactionExpandedVoicePanel({
                   ))}
                 </div>
               )}
-              {/* 끝 패딩 — 기본 켜짐. 끝 음절이 잘리는 현상을 줄인다. */}
-              <label className="flex items-center gap-2 cursor-pointer select-none pt-1">
-                <input
-                  type="checkbox"
-                  checked={spec.eleTrail}
-                  onChange={e => spec.setEleTrail(e.target.checked)}
-                  onClick={e => e.stopPropagation()}
-                  className="w-4 h-4 accent-purple-600 cursor-pointer"
-                />
-                <span className="text-xs text-slate-800 font-extrabold">끝 패딩 추가</span>
-                <span className="text-[11px] font-mono text-slate-500 font-extrabold">... ... ...</span>
-              </label>
             </div>
           </div>
         </div>
@@ -467,7 +472,9 @@ export function FactionExpandedVoicePanel({
         aligning={gen.aligning}
         canAlign={!!activeFile}
       />
-      </>)}
+      </div>
+      </div>
+      )}
 
       {/* ── 싱크 보정 모드 — whisper 오차를 음원 들으며 드래그로 교정 ── */}
       {mode === 'sync' && (
@@ -484,7 +491,9 @@ export function FactionExpandedVoicePanel({
               series={series}
               name={episodeName}
               file={activeFile}
-              onRefresh={onRefresh}
+              // 들숨 저장은 생성 훅 밖에서 wav 를 바꾼다 — 목록 재조회에 더해 저장 음원 캐시버스터도 갱신해야
+              // 생성·트림 화면이 브라우저에 캐시된 옛 파형을 다시 그리지 않는다.
+              onRefresh={() => { gen.bumpReload(); onRefresh() }}
               endpoints={breathEndpoints}
             />
           )

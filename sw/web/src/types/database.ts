@@ -200,3 +200,34 @@ interface BoardComment {
 export interface BoardCommentWithAuthor extends BoardComment {
   author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
 }
+
+// ===== Board: Free (자유게시판 — 로그인·익명 혼합) =====
+// 읽기 응답 타입에는 민감 컬럼(password_hash, ip_hash)을 절대 포함하지 않는다.
+// author_id 있고 is_anonymous=false → 계정(author) 표시. 그 외 → nickname || "익명".
+export interface FreePost {
+  id: string
+  title: string
+  content: string
+  nickname: string | null
+  author_id: string | null
+  is_anonymous: boolean
+  view_count: number
+  is_deleted: boolean
+  created_at: string
+  updated_at: string
+  comment_count?: number
+  author?: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+}
+
+export interface FreePostComment {
+  id: string
+  post_id: string
+  content: string
+  nickname: string | null
+  author_id: string | null
+  is_anonymous: boolean
+  is_deleted: boolean
+  created_at: string
+  updated_at: string
+  author?: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+}

@@ -33,6 +33,7 @@ import {
   Target,
   Flame,
   Volume2,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -90,6 +91,7 @@ const menuGroups: MenuGroup[] = [
     children: [
       { href: '/today-figure', label: '오늘의 인물', icon: Calendar },
       { href: '/guestbooks', label: '방명록', icon: BookOpen },
+      { href: '/free-board', label: '자유게시판', icon: MessageSquare },
       { href: '/reports', label: '신고 관리', icon: Flag },
       { href: '/titles', label: '칭호 관리', icon: Award },
     ],

@@ -60,6 +60,8 @@ export interface FactionMetaInput {
   heroesByLvPart?: Record<string, string[]>
   /** 롱폼 배치(편 경계 포함) — 롱폼 편(lvPart)별 세력 소속 판정에 쓴다 */
   longformLayout?: FactionLongformLayoutItem[]
+  /** 에피소드별 추가 태그(주제 특화 키워드). 공통 브랜드 태그 뒤에 붙는다. 없으면 붙지 않는다. */
+  tags?: string[]
   groups: FactionGroupMeta[]
 }
 
@@ -321,7 +323,21 @@ export function buildFactionTitle(
 ): string {
   const base = localTitle(input, lang)
   if (!base || !base.trim()) throw new Error('buildFactionTitle: title 누락 (조용한 폴백 금지)')
-  const sub = lvPart != null ? lvPartSubtitle(input, lvPart) : partSubtitle(input, part)
+  // 공통 title 뒷부분(부제 폴백). 편 분할이 없어도 통합 명칭 둘째 줄을 부제로 살린다.
+  const commonTail = nameTail(input.title) || undefined
+  // 쇼츠가 단편(편 미지정 또는 1편)이면 롱폼은 그 쇼츠를 늘린 것이라 제목이 같아진다.
+  const singleShorts = factionPartNumbers(input.groups).length <= 1
+  let sub: string | undefined
+  if (isShorts) {
+    // 쇼츠: 편별 부제 우선, 없으면(단편) 공통 title 뒷부분을 부제로.
+    sub = partSubtitle(input, part) ?? commonTail
+  } else if (lvPart != null) {
+    // 롱폼 편 분할: 그 편 부제(기존).
+    sub = lvPartSubtitle(input, lvPart)
+  } else {
+    // 통짜 롱폼: 쇼츠가 단편일 때만 공통 title 뒷부분을 부제로.
+    sub = singleShorts ? commonTail : undefined
+  }
   let body = sub ? `${base.trim()}: ${sub.trim()}` : base.trim()
   // 롱폼 편 분할인데 편별 명칭이 따로 없으면 편 번호를 덧붙여 제목 중복을 막는다.
   if (lvPart != null && !input.titleByLvPart?.[String(lvPart)]) {
@@ -367,24 +383,25 @@ export function buildFactionTags(
   // 1) 시리즈·브랜드 (쇼츠는 세로·3분 이하로 YouTube 가 자동 분류 — 'Shorts' 태그 불필요)
   void isShorts
   if (lang === 'ko') {
-    ;['세력도감', '세력도', '인물관계도', 'AI', '테크', 'FeelAndNote', '필앤노트'].forEach(push)
+    ;['세력도감', '세력도', '인물관계도', 'FeelAndNote', '필앤노트'].forEach(push)
   } else {
-    ;['FactionMap', 'PowerMap', 'AI', 'Tech', 'FeelAndNote'].forEach(push)
+    ;['FactionMap', 'PowerMap', 'FeelAndNote'].forEach(push)
   }
+
+  // 1b) 에피소드별 추가 태그(주제 특화) — 주제가 AI·테크면 여기에 명시한다.
+  input.tags?.forEach(push)
 
   // 2) 에피소드 제목
   const epTitle = localTitle(input, lang)
   push(epTitle)
   push(tagToken(epTitle))
 
-  // 3) 진영명 (해당 편) — 통합 명칭에서 앞부분(세력명)만 태그로. 뒷부분(부제)도 토큰화해 추가.
+  // 3) 진영명 (해당 편) — 통합 명칭에서 앞부분(세력명)만 태그로. 뒷부분(슬로건)은 검색 가치가 없어 제외.
   for (const g of visibleGroups(input, part, lvPart)) {
     const raw = lang === 'en' ? (g.nameEn || g.name) : g.name
     const head = nameHead(raw)
     push(head)
     push(tagToken(head))
-    const tail = nameTail(raw)
-    if (tail) push(tagToken(tail))
   }
 
   // 4) 인물명 — heroes 우선. ko: 국문만(영문명까지 넣으면 500자 예산을 금방 소진해 뒤쪽 인물이 누락된다), en: 영문만

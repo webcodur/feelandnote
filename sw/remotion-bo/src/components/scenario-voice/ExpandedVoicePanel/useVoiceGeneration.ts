@@ -49,7 +49,11 @@ export function useVoiceGeneration({
       if (spec.engine === 'elevenlabs') {
         res = await fetch(`/api/${series}/voice/elevenlabs/preview`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
-          body: JSON.stringify({ voiceId: spec.voiceParam, text: buildEleText(text, effectiveOpts), settings: eleSettings }),
+          body: JSON.stringify({
+            voiceId: String(spec.voiceParam ?? '').trim(),
+            text: buildEleText(text, effectiveOpts),
+            settings: eleSettings,
+          }),
         })
         format = 'mp3'
       } else {

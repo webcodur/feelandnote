@@ -30,6 +30,18 @@ constants/             # agora, archive, arena, board, categories, celebProfessi
 
 ## 디렉토리 구조 (sw/web-bo/src)
 ```
+
+## 디렉토리 구조 (sw/audio-bo)
+
+로컬 GPU와 D드라이브 모델을 사용하는 독립 음성 작업실. 공개 웹 라우팅·사이트맵과 분리한다.
+
+```text
+src/app/                  # 단일 작업실 화면 + 작업 API
+src/components/           # 새 작업, 단계 실행, 대본, 결과 비교
+src/lib/                  # D드라이브 작업 저장소, 경로, 백그라운드 실행
+scripts/audio-worker.ps1  # 단계별 로컬 작업자
+scripts/*.py              # 받아쓰기, 학습, 합성
+```
 app/(admin)/           # activity-logs, api-usage, blind-game, celebs, contents, guestbooks, members, notes, playlists, records, reports, scores, settings, tier-lists, titles, users
   api/contents/search/ # 콘텐츠 검색 API
   login/

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Img, OffthreadVideo, Sequence } from 'remotion'
 import { isVideoSrc } from '../utils'
+import { getFilterCSS, type ImageFilter } from '../image-filters'
 
 /**
  * 이미지/영상 공용 렌더. src 확장자가 영상이면 OffthreadVideo(무음), 아니면 Img.
@@ -27,9 +28,13 @@ export const FactionMedia: React.FC<{
   startFrame?: number
   /** 영상 채움 방식 — 'cover'(기본, 비율 유지 꽉 채움·화면비 넘는 부분 잘림) | 'contain'(비율 유지·잘림 없이 여백). 이미지는 style로 제어 */
   fit?: 'cover' | 'contain'
-}> = ({ src, style, onError, startFrame = 0, fit = 'cover' }) => {
-  if (!isVideoSrc(src)) return <Img src={src} style={style} onError={onError} />
-  const videoStyle: React.CSSProperties = { ...style, objectFit: fit }
+  /** 이미지 필터 효과 */
+  filter?: ImageFilter
+}> = ({ src, style, onError, startFrame = 0, fit = 'cover', filter }) => {
+  const filterCSS = getFilterCSS(filter)
+  const styleWithFilter = filterCSS ? { ...style, filter: filterCSS } : style
+  if (!isVideoSrc(src)) return <Img src={src} style={styleWithFilter} onError={onError} />
+  const videoStyle: React.CSSProperties = { ...styleWithFilter, objectFit: fit }
   return (
     <Sequence from={startFrame} layout="none">
       <OffthreadVideo src={src} muted style={videoStyle} onError={onError ? () => onError() : undefined} />

@@ -6,7 +6,7 @@ import {
 } from 'remotion'
 import type { FactionScript, Orientation } from './types'
 import { episodes } from './script'
-import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, endFadeSecOf, f, type TimedCue } from './timing'
+import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, INTRO_FADE_OUT_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import { FactionBgm } from './FactionBgm'
 import { buildFactionSubs } from './subs'
 import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
@@ -104,8 +104,7 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
     }
     return null
   })()
-  // 시작 페이드인(검정→화면)과 끝 페이드아웃 — 시작 화면이 검정에서 떠오르고(배경·제목 함께), 끝에 검정으로 잠긴다.
-  // 문구(B)는 이 검정이 걷힌 뒤(1초) 자체 페이드인으로 뒤따라 등장한다(FIFO).
+  // 시작 페이드인(검정→화면)과 끝 페이드아웃 — 시작 화면이 검정에서 떠오르고(배경·문구 함께), 끝에 검정으로 잠긴다.
   const FADE_SEC = 0.7
   const fadeOp = total > 0
     ? interpolate(
@@ -118,14 +117,16 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       <FactionBgm script={script} total={total} portrait={isShorts} part={activePart} lvPart={activeLvPart} />
-      {/* 시작 효과음 — 로그라인이 떠오르는 시점에 함께 울리고, 로그라인이 사라지는 구간에 같이 페이드아웃된다. BO에서 음원 선택. */}
+      {/* 시작 효과음 — 시작 화면·문구와 같이 켜지고, 같은 페이드아웃 구간에서 같이 꺼진다. BO에서 음원 선택. */}
       {script.startSfx && ((activePart != null && script.loglineByPart?.[activePart]) || (activeLvPart != null && script.loglineByLvPart?.[activeLvPart]) || script.logline) && (() => {
         const introSec = script.introSec ?? INTRO_SEC
+        const sfxOut0 = f(Math.max(0, introSec - INTRO_FADE_OUT_SEC))
+        const sfxOut1 = Math.max(sfxOut0 + 1, f(introSec))
         return (
-          <Sequence from={f(1.0)} durationInFrames={f(introSec - 1.0)}>
+          <Sequence from={0} durationInFrames={f(introSec)}>
             <Audio
               src={staticFile(`common/sfx/${script.startSfx}`)}
-              volume={fr => interpolate(fr, [f(introSec - 2.2), f(introSec - 1.4)], [0.7, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
+              volume={fr => interpolate(fr, [sfxOut0, sfxOut1], [0.7, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
             />
           </Sequence>
         )

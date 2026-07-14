@@ -16,6 +16,12 @@ export const f = (sec: number) => Math.round(sec * FPS)
 /* ── 컷 길이 (초) ── */
 /** 오프닝 타이틀 */
 export const INTRO_SEC = 2.5
+/**
+ * 시작 화면(배경·문구) 페이드아웃 길이(초).
+ * 컷 끝(introSec)에 맞춰 꺼져 첫 로고 크로스페이드(CROSSFADE_SEC)와 겹친다.
+ * 예전(끝 1.4초 전부터 완전 소멸)은 검정만 남는 텀이 길었다.
+ */
+export const INTRO_FADE_OUT_SEC = 0.7
 /** 세력 로고 타이틀 카드 1장 (logoVid / logoImg 풀스크린). 기본 4초 */
 export const GROUP_SEC = 4
 /** 화보 묶음 카드 1장 — 4명 이상 기준 길이 (묶음 화면 +1s) */
@@ -32,21 +38,18 @@ export const CHAPTER_HOLD_SEC = 2.0
 export const CHAPTER_FADE_SEC = 0.4
 
 /**
- * 그룹샷(화보 묶음) 카드 길이(초) — 등장 인물 수(disabled 제외)에 따라 가변.
- * 인원이 많으면 훑을 게 많아 길게, 적으면 짧게 넘긴다.
- * - 4명 이상: CLUSTER_SEC(3.3)
- * - 3명: -0.3 (3.0)
- * - 2명: -1.1 (2.2, 적은 인원은 빨리 넘김)
- * - 1명: -1.3 (2.0)
+ * 그룹샷(화보 묶음) 카드 길이(초) — 등장 인원 수(disabled 제외)에 따라 가변.
+ * 최소 2.6초 고정, 인원이 많으면 추가 시간 할당.
+ * - 4명 이상: 3.2초
+ * - 3명: 3.0초
+ * - 2명: 2.8초
+ * - 1명: 2.6초 (최소)
  */
 export function clusterDurationSec(personCount: number): number {
-  const base =
-    personCount >= 4 ? CLUSTER_SEC
-    : personCount === 3 ? CLUSTER_SEC - 0.3
-    : personCount === 2 ? CLUSTER_SEC - 1.1
-    : CLUSTER_SEC - 1.3
-  // 그룹샷(화보) 카드 시간 20% 축소
-  return base * 0.8
+  return personCount >= 4 ? 3.2
+    : personCount === 3 ? 3.0
+    : personCount === 2 ? 2.8
+    : 2.6
 }
 /** 마지막 인물 컷 뒤 페이드아웃 여운(초) — 별도 엔딩 카드 없이 마지막 인물 위로 검정이 서서히 덮인다. 비-인물 컷으로 끝날 때의 폴백 */
 export const ENDING_FADE_SEC = 1.6
@@ -62,7 +65,7 @@ export function groupSecOf(script: FactionScript): number {
   return script.groupSec ?? GROUP_SEC
 }
 /** 컷 전환 크로스페이드 */
-export const CROSSFADE_SEC = 0.3
+export const CROSSFADE_SEC = 0.6
 /** 마지막 인물 컷 → 최종화면 전환 크로스페이드 — 마무리는 더 완만하게 떠오른다 */
 export const OUTRO_CROSSFADE_SEC = 0.8
 
@@ -266,7 +269,26 @@ export interface LeadTiming {
   quoteEnterSec: number
 }
 
-export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = false): LeadTiming {
+/**
+ * 작은 자막 모드 — 이름·직함(1행)을 대사 전에 최소 이 시간(초) 노출한다.
+ * 리드 스텝이 없어도 무조건 이 구간을 확보한다(0초 신원 스킵 방지).
+ */
+export const CAPTION_ID_HOLD_SEC = 1.0
+
+/** 인물·에피소드 설정에서 대사 표시 방식 해석 — 인물 우선, 없으면 에피소드, 기본 box */
+export function resolveQuoteDisplay(p: FactionPerson, script?: FactionScript): 'box' | 'caption' {
+  return p.quoteDisplay ?? script?.quoteDisplay ?? 'box'
+}
+
+/** personLeadTiming 부가 옵션 */
+export type LeadTimingOpts = {
+  /** 에피소드 스크립트 — quoteDisplay 에피소드 기본 해석용 */
+  script?: FactionScript
+  /** true면 작은 자막 모드로 간주(인물/에피소드 필드 무시하고 신원 최소 홀드 강제) */
+  captionMode?: boolean
+}
+
+export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): LeadTiming {
   const creditRestN = Math.max(0, creditLinesOf(p).length - 1) // 직함 2·3번 줄
   const creditOn = steps.credit && creditRestN > 0
   // 수식어 리드는 이제 명시적 스텝 설정(steps.epithet)을 따른다.
@@ -283,13 +305,21 @@ export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = 
     ? epithetStartSec + epithetSpeakSec(p, shorts) + EPITHET_HOLD_SEC
     : epithetStartSec
   // 대사 등장 — 마지막 리드(수식어→직함→없음) 종료 시점. 리드가 없으면 등장 페이드 직후.
-  const quoteEnterSec = epiOn ? epithetEndSec : (creditOn ? creditEndSec : ENTER_NAME_SEC + ENTER_FADE_SEC)
+  let quoteEnterSec = epiOn ? epithetEndSec : (creditOn ? creditEndSec : ENTER_NAME_SEC + ENTER_FADE_SEC)
+  // 작은 자막 모드: 이름·직함1행이 페이드인 끝난 뒤 CAPTION_ID_HOLD_SEC 동안 완전 표시 → 그다음 대사.
+  // (이름 등장 직후 페이드인·대사 직전 페이드아웃을 홀드에 넣지 않는다 — 넣으면 체감 0.3~0.4초로 줄어든다)
+  // 음성 스텝이 꺼져 대사가 없으면 적용 불필요.
+  const captionMode = opts?.captionMode ?? resolveQuoteDisplay(p, opts?.script) === 'caption'
+  if (captionMode && steps.voice) {
+    const minEnter = ENTER_NAME_SEC + ENTER_FADE_SEC + CAPTION_ID_HOLD_SEC
+    quoteEnterSec = Math.max(quoteEnterSec, minEnter)
+  }
   return { creditOn, epiOn, creditEndSec, epithetStartSec, epithetEndSec, quoteEnterSec }
 }
 
 /** 대사 등장 시점(초) — 켜진 리드 스텝을 다 보여준 뒤. */
-export function personQuoteEnterSec(p: FactionPerson, steps: PersonSteps, shorts = false): number {
-  return personLeadTiming(p, steps, shorts).quoteEnterSec
+export function personQuoteEnterSec(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): number {
+  return personLeadTiming(p, steps, shorts, opts).quoteEnterSec
 }
 
 /**
@@ -308,9 +338,9 @@ export function personAudioPlaySec(p: FactionPerson): number {
  * - credit: 직함만 보고 짧게 넘어감.
  * - full(통합): 직함 다 보여준 뒤 대사 — 직함 노출 시간(personQuoteEnterSec)에 음성/읽기 시간을 더한다.
  */
-export function personDurationSec(p: FactionPerson, steps: PersonSteps, shorts = false): number {
+export function personDurationSec(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): number {
   const quoteText = p.quoteChunks?.length ? p.quoteChunks.join('\n') : (p.quote ?? '')
-  const lead = personLeadTiming(p, steps, shorts)
+  const lead = personLeadTiming(p, steps, shorts, opts)
   const showQuote = steps.voice && !!quoteText
   if (!showQuote) {
     // 대사 없음 — 켜진 리드 스텝(수식어→직함→없으면 직함 최소) 종료까지 + 여유
@@ -331,9 +361,9 @@ export function personDurationSec(p: FactionPerson, steps: PersonSteps, shorts =
  * 인물 컷에서 대사(또는 직함)가 화면에서 다 끝나는 시점(초, 컷 로컬). PERSON_HOLD_SEC 여유 직전.
  * 마지막 컷의 종료 꼬리(endHold)·줌인 정지 시점 계산에 쓴다.
  */
-export function personQuoteEndSec(p: FactionPerson, steps: PersonSteps, shorts = false): number {
+export function personQuoteEndSec(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): number {
   const quoteText = p.quoteChunks?.length ? p.quoteChunks.join('\n') : (p.quote ?? '')
-  const lead = personLeadTiming(p, steps, shorts)
+  const lead = personLeadTiming(p, steps, shorts, opts)
   const showQuote = steps.voice && !!quoteText
   if (!showQuote) {
     return lead.epiOn ? lead.epithetEndSec
@@ -454,7 +484,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
         const pc = prevCue.cue
         const person = script.groups[pc.groupIndex]?.clusters?.[pc.clusterIndex]?.people[pc.personIndex]
         if (person) {
-          const held = f(personQuoteEndSec(person, pc.steps, portrait)) + f(CHAPTER_HOLD_SEC)
+          const held = f(personQuoteEndSec(person, pc.steps, portrait, { script })) + f(CHAPTER_HOLD_SEC)
           if (held > prevCue.duration) { cursor += held - prevCue.duration; prevCue.duration = held }
         }
       }
@@ -501,7 +531,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
         if (portrait && person.longformOnly) return
         const isLeader = !leaderAssigned; leaderAssigned = true
         const steps = personSteps(person, portrait, isLeader)
-        push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci, steps }, personDurationSec(person, steps, portrait))
+        push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci, steps }, personDurationSec(person, steps, portrait, { script }))
       })
     }
   })
@@ -515,7 +545,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       const g = script.groups[c.groupIndex]
       const person = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
       // 대사 끝 시점 + 종료 꼬리. (person 못 찾는 예외 시엔 기존 길이에 꼬리만 덧댄다)
-      lastCue.duration = person ? f(personQuoteEndSec(person, c.steps, portrait)) + holdF : lastCue.duration + holdF
+      lastCue.duration = person ? f(personQuoteEndSec(person, c.steps, portrait, { script })) + holdF : lastCue.duration + holdF
     } else {
       // 인물 아닌 컷으로 끝나면(드묾) 기존처럼 꼬리만 덧댄다
       lastCue.duration += holdF
@@ -592,7 +622,7 @@ export function analyzeTiming(script: FactionScript, portrait = false, part?: nu
     if (!person) continue
     const cutSec = tc.duration / FPS
     const audioPlaySec = personAudioPlaySec(person)
-    const audioStartSec = personQuoteEnterSec(person, c.steps, portrait)
+    const audioStartSec = personQuoteEnterSec(person, c.steps, portrait, { script })
     const audioEndSec = audioStartSec + audioPlaySec
     voiceChecks.push({
       name: person.name ?? '?',

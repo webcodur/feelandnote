@@ -9,6 +9,7 @@
 import { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { MessagesSquare } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
 import HeaderNotifications from "./HeaderNotifications";
 import HeaderProfileMenu from "./HeaderProfileMenu";
@@ -108,6 +109,18 @@ export default function Header({ isMobile }: HeaderProps) {
 
         {/* 우측 영역 */}
         <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
+          {/* 광장 진입 */}
+          <Link
+            href="/agora"
+            aria-label={t("agora.section")}
+            title={t("agora.section")}
+            className={`${ICON_BUTTON_CLASS} ${
+              isNavActive("/agora") ? "text-accent" : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            <MessagesSquare size={ICON_SIZE} />
+          </Link>
+
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />
 

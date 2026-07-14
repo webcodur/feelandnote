@@ -56,9 +56,6 @@ export function FactionRateGainControls({
                 >×{r}</button>
               )
             })}
-            <span className={`ml-auto text-[11px] font-mono font-bold ${rateActive ? 'text-slate-900' : 'text-slate-400'}`}>
-              현재 ×{playbackRate.toFixed(2)}
-            </span>
           </div>
           <div className="flex items-center gap-3">
             <input

@@ -11,7 +11,7 @@
 
 ## 컴포넌트
 - left/right 대신 start/end
-- transition, delay 금지 (즉각 반응)
+- **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
 
 ## Suspense + i18n (필수)
@@ -78,7 +78,17 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 ```
 
 ## 상호작용
-- 호버: `hover:bg-white/5`, `hover:-translate-y-0.5`
+
+### 즉각 반응 원칙 (필수)
+조작용 요소는 **손을 올린 즉시** 상태가 바뀌어야 한다. 클릭·조작을 유도하는 요소에 hover 지연·전환을 얹으면 반응이 굼떠 보인다.
+
+- **대상**: 버튼, 카드, 칩 등 클릭·조작용 요소의 hover/active 피드백
+- **금지**: 위 대상의 hover에 `transition-*`·`duration-*`·`delay-*` 부여 금지. 배경·색·이동값은 곧바로 적용
+- **허용(오해 주의)**: 애니메이션 자체를 막는 규칙이 아니다. **공간·레이아웃이 실제로 열리고 닫히는 전환**(사이드바 여닫기, 아코디언 펼침, 모달 등장, 페이지 전환)은 애니메이션이 본질이므로 `transition`을 그대로 쓴다
+- **판별 기준**: "요소가 자기 상태를 강조하는가(→ 즉각)" vs "공간이 이동·개폐하는가(→ 애니메이션)"
+
+### 값
+- 호버: `hover:bg-white/5`, `hover:-translate-y-0.5` (transition 없이 즉시)
 - 활성: `bg-accent/10 text-accent`
 - 비활성: `opacity-50 cursor-not-allowed`
 - 반응형: 모바일 우선, `md:`(768px) 데스크톱

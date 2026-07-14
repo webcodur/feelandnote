@@ -157,8 +157,9 @@ export interface FactionPerson extends FactionCardFields {
    * 대사 도중 사진 교체 (선택) — 특정 의미 덩어리(quoteChunks 인덱스, 0-based)부터 다른 사진으로 부드럽게 전환.
    * 예: [{ chunk: 3, image: 'musk-2.webp' }] → 4번째 덩어리부터 전환. image 가 컷 시작(0번째) 사진. 언어 공통.
    * crop 은 그 교체 사진의 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움.
+   * filter 는 그 교체 사진의 필터 효과.
    */
-  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop }[]
+  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: string }[]
   /**
    * 대사 시작 시점 사진 교체 (선택) — 도입(직함 소개) 구간엔 image(직함용)를 보이다가,
    * 대사가 시작되는 순간 quoteImage(대사용)로 부드럽게 전환한다. imageChanges 와 독립적으로 함께 적용.
@@ -167,6 +168,8 @@ export interface FactionPerson extends FactionCardFields {
   quoteImage?: string
   /** quoteImage 의 사진 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움 */
   quoteImageCrop?: FactionImageCrop
+  /** 대사 사진 필터 효과. 미지정이면 원본 */
+  quoteImageFilter?: string
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
   /**
@@ -243,6 +246,18 @@ export interface FactionPerson extends FactionCardFields {
    * 끝 음절이 잘리는 현상을 줄인다. 명시적으로 false 일 때만 미적용.
    */
   quoteEleTrail?: boolean
+  /**
+   * 대사 화면 표시 방식 (인물 단위). 미지정이면 에피소드 기본(quoteDisplay) → 'box'.
+   * - 'box': 기존 대사 박스(이름·직함 + 좌측 강조선 + Typewriter 큰 글씨)
+   * - 'caption': 북리커맨드 쇼츠 작은 자막(글래스 태블릿). 이름·직함 리드는 유지, 대사만 작은 자막
+   */
+  quoteDisplay?: 'box' | 'caption'
+  /**
+   * 작은 자막 세로 위치 (quoteDisplay==='caption' 일 때). 미지정이면 에피소드 기본 → 'bottom'.
+   * - 'bottom': MID 영역 하단 가운데
+   * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
+   */
+  quoteCaptionPos?: 'bottom' | 'center'
 }
 
 /**
@@ -458,6 +473,18 @@ export interface FactionScript {
   lockEffects?: boolean
   /** true면 모든 컷의 지속 효과(줌·패닝 등)를 끄고 정지 화면으로 둔다. 영상 컷 떨림 점검·정적 연출용 */
   noZoom?: boolean
+  /**
+   * 대사 화면 표시 방식 — 에피소드 전역 기본. 인물 quoteDisplay 가 있으면 그쪽이 우선.
+   * - 'box'(기본): 기존 대사 박스
+   * - 'caption': 북리커맨드 쇼츠 작은 자막(글래스 태블릿)
+   */
+  quoteDisplay?: 'box' | 'caption'
+  /**
+   * 작은 자막 세로 위치 — 에피소드 전역 기본. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
+   * - 'bottom'(기본): MID 영역 하단
+   * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
+   */
+  quoteCaptionPos?: 'bottom' | 'center'
   /**
    * 한 편(쇼츠 part·롱폼) 종료 처리 — 마지막 인물 대사가 끝난 뒤 영상이 꺼지기까지.
    * endHoldSec:  (대사 후 대기) 마지막 인물 대사 끝 ~ 다음으로 넘어가기까지 그 인물 화면을 정지(줌인 멈춤)한 채 유지하는 시간(초). 기본 4.
