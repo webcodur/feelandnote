@@ -53,8 +53,11 @@ Portrait(9:16)은 전면 제거됨. DB 컬럼(`portrait_url`)만 잔류.
 ## profiles.slug
 
 `slug`는 `nickname_en` 기반 **generated column** (직접 UPDATE 불가).
-- 표현식: `lower(replace(trim(nickname_en), ' ', '-')) || COALESCE('-' || slug_suffix, '')`
+- 표현식: `lower(replace(trim(translate(nickname_en, <diacritics>, <ascii>)), ' ', '-')) || COALESCE('-' || slug_suffix, '')`
 - `nickname_en`이 NULL이면 slug도 NULL → **셀럽 생성 시 `nickname_en` 필수**
+- **강세부호(diacritics)는 ASCII로 자동 변환된다** (`José`→`jose`, `André`→`andre`, `Müller`→`muller`, `Shōwa`→`showa` 등). URL에 비ASCII가 새어나가 페이지가 404 나던 문제를 원천 차단(2026-07-14 마이그레이션 `slug_strip_diacritics`).
+  - 변환은 `translate()` 문자 대치 방식(생성 컬럼이 요구하는 IMMUTABLE 보장). 라틴 확장 강세부호를 커버. 점(`.`)·어퍼스트로피(`'`)는 URL에서 정상 동작하므로 보존한다(`dr.-dre`, `shaquille-o'neal`).
+  - 매핑 테이블에 없는 희귀 문자(예: `ß`, `æ`)가 새 인물에서 나오면 slug에 그대로 남아 404가 재발할 수 있다. 그때 `translate` 대치쌍을 추가한다.
 
 ---
 

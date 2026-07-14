@@ -5,7 +5,7 @@
 ```json
 {
   "nickname": "셀럽 이름 (한국어로 작성, 예: 슬라보예 지젝)",
-  "nickname_en": "영문 이름 (slug 자동 생성에 필수, 예: Slavoj Zizek)",
+  "nickname_en": "영문 이름 (slug 자동 생성에 필수, 예: Slavoj Zizek). 강세부호는 원어대로 써도 됨 — slug는 ASCII로 자동 변환됨(José→jose)",
   "profession": "직군 코드",
   "title": "수식어 (2~8자, 대표작명/호칭/업적 중 하나)",
   "nationality": "국가 코드 (ISO 3166-1 alpha-2, 예: US, KR, GB, JP)",
