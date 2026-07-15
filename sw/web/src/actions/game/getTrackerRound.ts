@@ -158,6 +158,30 @@ function censorName(text: string, nickname: string, safeWords: string[] = []): s
   return result;
 }
 
+/**
+ * id 목록을 나눠 in() 조회한다.
+ * PostgREST는 in() 목록을 쿼리스트링에 싣는다 — id가 수백 개면 URL 길이 한도를 넘겨
+ * 요청 자체가 실패(fetch failed)하므로 반드시 나눠 보낸다. 실측 한계는 300~460개 사이.
+ */
+const IN_CHUNK_SIZE = 200;
+
+async function selectInChunks<T>(
+  ids: string[],
+  query: (chunk: string[]) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>
+): Promise<T[]> {
+  const chunks: string[][] = [];
+  for (let i = 0; i < ids.length; i += IN_CHUNK_SIZE) {
+    chunks.push(ids.slice(i, i + IN_CHUNK_SIZE));
+  }
+  const results = await Promise.all(chunks.map((chunk) => query(chunk)));
+  const rows: T[] = [];
+  for (const { data, error } of results) {
+    if (error) throw new Error(error.message);
+    if (data) rows.push(...data);
+  }
+  return rows;
+}
+
 /** next-intl 로케일 기반 한국어 우선 여부 판별 */
 async function isKoreanLocale(): Promise<boolean> {
   try {
@@ -212,12 +236,19 @@ export async function getTrackerRound(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote만 JSON path로 조회
-  const { data: chosenDialogue } = await supabase
-    .from("celeb_dialogues")
-    .select("quote:lines->quote, quote_en:lines_en->quote")
-    .eq("celeb_id", chosen.id)
-    .maybeSingle();
+  // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
+  const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
+    supabase
+      .from("celeb_dialogues")
+      .select("quote:lines->quote, quote_en:lines_en->quote")
+      .eq("celeb_id", chosen.id)
+      .maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("cultural_journey, cultural_journey_en, bio, bio_en")
+      .eq("id", chosen.id)
+      .maybeSingle(),
+  ]);
   const chosenQuote = resolve(
     (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
     (chosenDialogue as { quote?: string | null } | null)?.quote
@@ -226,9 +257,9 @@ export async function getTrackerRound(
   return buildRound(supabase, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession, chosen.avatar_url,
-    resolve(chosen.cultural_journey_en, chosen.cultural_journey),
+    resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
-    resolve(chosen.bio_en, chosen.bio),
+    resolve(chosenTexts?.bio_en, chosenTexts?.bio),
     chosenQuote,
     preferKo);
 }
@@ -263,25 +294,24 @@ const getCachedFallbackEligible = unstable_cache(
 
     // persona 존재 확인
     const celebIds = publicDomain.map((c) => c.id);
-    const { data: personas } = await supabase
-      .from("celeb_persona")
-      .select("celeb_id")
-      .in("celeb_id", celebIds);
-
-    const personaSet = new Set(
-      ((personas ?? []) as { celeb_id: string }[]).map((p) => p.celeb_id)
+    const personas = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
+      supabase.from("celeb_persona").select("celeb_id").in("celeb_id", chunk)
     );
 
+    const personaSet = new Set(personas.map((p) => p.celeb_id));
+
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
-    const { data: reviewRows } = await supabase
-      .from("user_contents")
-      .select("user_id")
-      .in("user_id", celebIds)
-      .not("review", "is", null)
-      .neq("review", "");
+    const reviewRows = await selectInChunks<{ user_id: string }>(celebIds, (chunk) =>
+      supabase
+        .from("user_contents")
+        .select("user_id")
+        .in("user_id", chunk)
+        .not("review", "is", null)
+        .neq("review", "")
+    );
 
     const reviewCountMap = new Map<string, number>();
-    for (const r of (reviewRows ?? []) as { user_id: string }[]) {
+    for (const r of reviewRows) {
       reviewCountMap.set(r.user_id, (reviewCountMap.get(r.user_id) ?? 0) + 1);
     }
     const reviewSet = new Set(

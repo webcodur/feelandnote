@@ -29,7 +29,7 @@ export default function GameGate({ icon, gameName, subtitle, onEnter }: GameGate
         </div>
         <button
           onClick={onEnter}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95 transition-all"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 active:scale-95"
         >
           <Volume2 size={16} className="text-accent" />
           <span className="font-serif font-bold text-accent text-base">{t("enterGame")}</span>

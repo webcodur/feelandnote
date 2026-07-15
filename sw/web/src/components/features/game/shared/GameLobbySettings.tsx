@@ -32,7 +32,7 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
         <button
           onClick={toggleBgmMuted}
           data-lobby-item
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] transition-colors outline-none data-[focused=true]:ring-1 data-[focused=true]:ring-accent/30 data-[focused=true]:bg-white/[0.06]"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] outline-none data-[focused=true]:ring-1 data-[focused=true]:ring-accent/30 data-[focused=true]:bg-white/[0.06]"
         >
           <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
             <Music size={16} className="text-accent/70" />
@@ -47,7 +47,7 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
         <button
           onClick={toggleSfxMuted}
           data-lobby-item
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] transition-colors outline-none data-[focused=true]:ring-1 data-[focused=true]:ring-accent/30 data-[focused=true]:bg-white/[0.06]"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] outline-none data-[focused=true]:ring-1 data-[focused=true]:ring-accent/30 data-[focused=true]:bg-white/[0.06]"
         >
           <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
             <Volume2 size={16} className="text-accent/70" />

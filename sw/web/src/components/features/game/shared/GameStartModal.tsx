@@ -82,7 +82,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
                 <button
                   key={opt.value}
                   onClick={() => onStart(opt.value)}
-                  className={`group w-full text-left px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] active:scale-[0.97] transition-all ${c.button}`}
+                  className={`group w-full text-left px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] active:scale-[0.97] ${c.button}`}
                 >
                   <div className="flex items-center gap-2.5">
                     <div className={`w-9 h-9 rounded-lg border flex items-center justify-center shrink-0 ${c.iconWrap}`}>
@@ -95,7 +95,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
                       </div>
                       <p className="text-[10px] text-text-secondary mt-0.5 leading-relaxed">{opt.desc}</p>
                     </div>
-                    <ChevronRight size={14} className={`text-white/10 transition-colors shrink-0 ${c.chevron}`} />
+                    <ChevronRight size={14} className={`text-white/10 shrink-0 ${c.chevron}`} />
                   </div>
                 </button>
               );
@@ -103,7 +103,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
           ) : (
             <button
               onClick={() => onStart()}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent/10 border border-accent/20 text-accent font-bold text-sm hover:bg-accent/[0.15] active:scale-[0.97] transition-all"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent/10 border border-accent/20 text-accent font-bold text-sm hover:bg-accent/[0.15] active:scale-[0.97]"
             >
               <Play size={14} />
               {t("start")}
@@ -115,7 +115,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
         <div className="px-4 pb-4">
           <button
             onClick={onClose}
-            className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary transition-colors"
+            className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary"
           >
             {t("cancel")}
           </button>

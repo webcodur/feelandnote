@@ -94,7 +94,7 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
             <div className="px-4 pb-4">
               <button
                 onClick={() => setDevModalOpen(false)}
-                className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary transition-colors"
+                className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary"
               >
                 {t("ui.cancel")}
               </button>

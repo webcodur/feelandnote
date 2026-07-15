@@ -24,11 +24,12 @@ const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/sui
 
 type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden";
 
+// image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/project/game-card-images.md)
 const GAME_SECTIONS = [
-  { valueKey: "dawn" as const, label: "DAWN", icon: Clock },
-  { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair },
-  { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords },
-  { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown },
+  { valueKey: "dawn" as const, label: "DAWN", icon: Clock, image: "/images/games/dawn-card.webp" },
+  { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp" },
+  { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp" },
+  { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp" },
 ] as const;
 
 interface GameLabel {
@@ -72,6 +73,7 @@ export default function RestGameGrid({
               description={gameLabels[game.valueKey].description}
               label={game.label}
               icon={<Icon className="h-5 w-5" />}
+              backgroundImage={game.image}
             />
           );
         })}

@@ -2680,19 +2680,13 @@ export type Database = {
         Args: { exclude_ids?: string[] }
         Returns: {
           avatar_url: string
-          bio: string
-          bio_en: string
           birth_date: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
           death_date: string
           id: string
           nationality: string
           nickname: string
           nickname_en: string
           profession: string
-          quotes: string
-          quotes_en: string
           slug: string
         }[]
       }

@@ -59,13 +59,13 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
               <button
                 key={scenario.id}
                 onClick={() => onSelectScenario(scenario)}
-                className="w-full text-left p-4 rounded-lg border border-stone-700 bg-stone-800/50 hover:border-amber-500/50 hover:bg-stone-800 transition-all group"
+                className="w-full text-left p-4 rounded-lg border border-stone-700 bg-stone-800/50 hover:border-amber-500/50 hover:bg-stone-800 group"
               >
                 <div className="flex items-start gap-3">
                   <div className="text-2xl flex-shrink-0 mt-0.5">{ERA_ICONS[scenario.era]}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-text-primary font-bold group-hover:text-amber-300 transition-colors">
+                      <span className="text-text-primary font-bold group-hover:text-amber-300">
                         {tS(`scenario.${scenario.id}.name`)}
                       </span>
                       <span className={`text-[10px] font-bold ${dc}`}>{tS(`setup.diff${scenario.difficulty.charAt(0).toUpperCase()}${scenario.difficulty.slice(1)}` as 'setup.diffEasy')}</span>
@@ -159,7 +159,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                 <button
                   key={pc.profileId}
                   onClick={() => setSelectedCandidateId(pc.profileId)}
-                  className={`w-full text-left p-4 rounded-lg border transition-all ${
+                  className={`w-full text-left p-4 rounded-lg border ${
                     isSelected
                       ? 'border-amber-400 bg-amber-500/10 shadow-lg shadow-amber-500/5'
                       : 'border-stone-700 hover:border-stone-500 bg-stone-800/50'
@@ -207,7 +207,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                 <div className="px-3 pb-3">
                   <button
                     onClick={() => onComplete(selectedCandidate.profileId)}
-                    className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded transition-colors"
+                    className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded"
                   >
                     {tS('setup.startAs', { name: selectedCandidate.character.nickname })}
                   </button>

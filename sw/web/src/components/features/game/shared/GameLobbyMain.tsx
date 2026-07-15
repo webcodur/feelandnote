@@ -90,14 +90,14 @@ export default function GameLobbyMain({
           <button
             onClick={cta.onClick}
             data-lobby-item
-            className="group w-full flex items-center gap-2.5 sm:gap-3 px-4 py-2.5 sm:py-3 rounded-xl bg-white/[0.12] backdrop-blur-md border border-white/[0.08] text-left outline-none text-accent hover:bg-white/[0.18] active:scale-[0.97] cursor-pointer transition-all duration-75 data-[focused=true]:border-accent/30"
+            className="group w-full flex items-center gap-2.5 sm:gap-3 px-4 py-2.5 sm:py-3 rounded-xl bg-white/[0.12] backdrop-blur-md border border-white/[0.08] text-left outline-none text-accent hover:bg-white/[0.18] active:scale-[0.97] cursor-pointer data-[focused=true]:border-accent/30"
           >
-            <span className="shrink-0 opacity-70 group-hover:opacity-100 group-hover:drop-shadow-[0_0_6px_rgba(212,175,55,0.4)] transition-all duration-75">{cta.icon}</span>
+            <span className="shrink-0 opacity-70 group-hover:opacity-100 group-hover:drop-shadow-[0_0_6px_rgba(212,175,55,0.4)]">{cta.icon}</span>
             <span className="flex-1 min-w-0">
               <span className="text-xs sm:text-sm font-serif font-bold block leading-tight">{cta.label}</span>
               <span className="text-[9px] font-cinzel uppercase tracking-widest block mt-px text-accent/30 group-hover:text-accent/50">{cta.sub}</span>
             </span>
-            <CornerDownLeft size={14} className="text-accent/0 group-data-[focused=true]:text-accent/50 transition-all duration-75 shrink-0" />
+            <CornerDownLeft size={14} className="text-accent/0 group-data-[focused=true]:text-accent/50 shrink-0" />
           </button>
         </div>
 
