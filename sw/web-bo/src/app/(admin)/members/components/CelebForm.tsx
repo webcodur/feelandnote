@@ -171,6 +171,7 @@ export default function CelebForm({ mode, celeb }: Props) {
     basicInfo: true,
     influence: false,
     journey: false,
+    monologue: false,
     tags: false,
   })
 
@@ -712,6 +713,30 @@ export default function CelebForm({ mode, celeb }: Props) {
             </div>
           )}
         </div>
+        )}
+      </div>
+
+      {/* Virtual Monologue (읽기 전용 — 가상 독백 생성 스크립트가 채움) */}
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+        <button type="button" onClick={() => toggleSection('monologue')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+          <h2 className="text-base font-semibold text-text-primary">가상 독백</h2>
+          <div className="flex items-center gap-3">
+            {!openSections.monologue && celeb?.virtual_monologue && (
+              <span className="text-xs text-text-secondary">{celeb.virtual_monologue.length}자</span>
+            )}
+            {openSections.monologue ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
+          </div>
+        </button>
+        {openSections.monologue && (
+          <div className="px-4 pb-4">
+            {celeb?.virtual_monologue ? (
+              <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
+                {celeb.virtual_monologue.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
+              </div>
+            ) : (
+              <p className="text-sm text-text-secondary">아직 생성되지 않았습니다.</p>
+            )}
+          </div>
         )}
       </div>
 

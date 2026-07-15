@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# codex 생성 임시 수신 파일
+.tmp-gpt-mono/

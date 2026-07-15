@@ -89,6 +89,7 @@ export interface Member {
   bio_en?: string | null
   cultural_journey?: string | null
   cultural_journey_en?: string | null
+  virtual_monologue?: string | null
   celeb_tier?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
@@ -354,6 +355,7 @@ export async function getMember(id: string): Promise<Member | null> {
     bio_en: data.bio_en ?? null,
     cultural_journey: data.cultural_journey,
     cultural_journey_en: data.cultural_journey_en ?? null,
+    virtual_monologue: data.virtual_monologue ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
@@ -443,6 +445,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     bio_en: data.bio_en ?? null,
     cultural_journey: data.cultural_journey,
     cultural_journey_en: data.cultural_journey_en ?? null,
+    virtual_monologue: data.virtual_monologue ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',

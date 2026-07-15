@@ -317,6 +317,9 @@ export default function CelebPageContent({
         <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
           <DecorativeLabel label={t("virtualMonologue")} />
           <SectionWrap>
+            <p className="text-xs text-text-tertiary leading-relaxed break-keep mb-4">
+              {t("virtualMonologueNote")}
+            </p>
             <div className="space-y-4 font-serif text-[15px] md:text-base text-text-secondary leading-loose break-keep">
               {profile.virtual_monologue.split(/\n\n+/).map((para, i) => (
                 <p key={i}>{para}</p>
