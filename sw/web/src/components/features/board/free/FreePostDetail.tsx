@@ -12,6 +12,7 @@ import { deleteFreePost } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import PasswordPromptModal from './PasswordPromptModal'
 import FreeCommentSection from './FreeCommentSection'
+import FreeAvatar from './FreeAvatar'
 
 interface FreePostDetailProps {
   post: FreePost
@@ -110,7 +111,10 @@ export default function FreePostDetail({
 
         {/* 메타 */}
         <div className="flex items-center gap-3 text-sm text-text-tertiary pb-4 border-b border-accent-dim/20">
-          <span className="font-serif text-text-secondary">{freeDisplayName(post, t('free.anonymous'))}</span>
+          <div className="flex items-center gap-2">
+            <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={32} />
+            <span className="font-serif text-text-secondary">{freeDisplayName(post, t('free.anonymous'))}</span>
+          </div>
           <span className="text-accent-dim/50">·</span>
           <span>{format(new Date(post.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}</span>
           <span className="text-accent-dim/50">·</span>

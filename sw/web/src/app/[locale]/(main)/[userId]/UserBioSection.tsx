@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Pencil, Check, X, MapPin, Calendar, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type PublicUserProfile, updateProfile } from "@/actions/user";
@@ -10,6 +9,7 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 import { useCountries } from "@/hooks/useCountries";
 import SearchableSelect from "@/components/ui/SearchableSelect";
+import AvatarUploader from "./AvatarUploader";
 
 interface UserBioSectionProps {
   profile: PublicUserProfile;
@@ -25,6 +25,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
   const [nationality, setNationality] = useState(profile.nationality || "");
   const [birthDate, setBirthDate] = useState(profile.birth_date || "");
   const [isSaving, setIsSaving] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const hasInfo = profile.nationality || profile.birth_date;
 
@@ -46,14 +47,15 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
 
   const handleCancel = () => {
     setNickname(profile.nickname);
-    setAvatarUrl(profile.avatar_url || "");
+    // 사진은 선택 즉시 저장되므로 취소로 되돌리지 않는다
     setBioValue(profile.bio || "");
     setNationality(profile.nationality || "");
     setBirthDate(profile.birth_date || "");
+    setUploadError("");
     setIsEditing(false);
   };
 
-  const displayAvatar = isEditing ? avatarUrl : (profile.avatar_url || "");
+  // 사진은 선택 즉시 반영되므로 읽기 모드에서도 최신 상태를 쓴다
   const displayNickname = isEditing ? nickname : profile.nickname;
 
   return (
@@ -64,15 +66,13 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
 
       {/* 아바타 + 닉네임 + 액션 버튼 */}
       <div className="flex items-center gap-3 mb-3">
-        {displayAvatar ? (
-          <div className="relative w-14 h-14 shrink-0">
-            <Image src={displayAvatar} alt="프로필" fill unoptimized className="rounded-full object-cover ring-2 ring-accent/30" />
-          </div>
-        ) : (
-          <div className="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center text-xl font-bold text-accent ring-2 ring-accent/30 shrink-0">
-            {displayNickname.charAt(0).toUpperCase()}
-          </div>
-        )}
+        <AvatarUploader
+          avatarUrl={avatarUrl}
+          nickname={displayNickname}
+          isEditing={isEditing && isOwner}
+          onUploaded={setAvatarUrl}
+          onError={setUploadError}
+        />
         <div className="flex-1 min-w-0">
           {isEditing ? (
             <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} className="w-full h-8 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm font-semibold text-text-primary outline-none focus:border-accent/50" />
@@ -117,6 +117,11 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
         )}
       </div>
 
+      {/* 사진 업로드 오류 */}
+      {isEditing && uploadError && (
+        <p className="text-sm text-status-paused mb-3">{uploadError}</p>
+      )}
+
       {/* 국적/생일 (편집 모드) */}
       {isEditing && <MetaEditFields nationality={nationality} setNationality={setNationality} birthDate={birthDate} setBirthDate={setBirthDate} />}
 
@@ -132,12 +137,9 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
         <p className="text-sm text-text-secondary/50 mb-3">{t("bioEmpty")}</p>
       ) : null}
 
-      {/* 아바타 URL (편집 모드에서만) */}
+      {/* 사진 변경 안내 (편집 모드에서만) */}
       {isEditing && (
-        <div>
-          <label className="text-xs text-text-secondary mb-1 block">{t("avatarUrlLabel")}</label>
-          <input type="url" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="https://..." className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
-        </div>
+        <p className="text-sm text-text-secondary">{t("avatarHint")}</p>
       )}
     </ClassicalBox>
   );

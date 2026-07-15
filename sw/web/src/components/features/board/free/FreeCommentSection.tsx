@@ -12,6 +12,7 @@ import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
 import { loadRememberedNickname, rememberNickname } from './useFreePostDraft'
 import PasswordPromptModal from './PasswordPromptModal'
+import FreeAvatar from './FreeAvatar'
 
 interface FreeCommentSectionProps {
   postId: string
@@ -130,6 +131,7 @@ export default function FreeCommentSection({
             <div className="flex gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
+                  <FreeAvatar item={comment} anonymousLabel={t('free.anonymous')} size={28} />
                   <span className="text-sm font-serif font-medium text-text-primary">
                     {freeDisplayName(comment, t('free.anonymous'))}
                   </span>

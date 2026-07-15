@@ -7,6 +7,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { formatKST } from '@/lib/utils/date'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
+import FreeAvatar from './FreeAvatar'
 import type { FreePost } from '@/types/database'
 
 interface FreePostItemProps {
@@ -40,7 +41,10 @@ export default function FreePostItem({ post }: FreePostItemProps) {
           )}
         </h3>
         <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
-          <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
+          <div className="flex items-center gap-1.5">
+            <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={20} />
+            <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
+          </div>
           <span className="text-accent-dim/50">·</span>
           <span>
             {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}
