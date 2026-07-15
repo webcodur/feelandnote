@@ -21,9 +21,9 @@
 
    > **🔴 2026-07-15 정정 — 이 판정은 더 이상 유효하지 않다. 다시 참이 됐다.**
    > 유저가 잔여 과제 ④를 이행해 **프로덕션 web·web-bo 양쪽에 `CRON_SECRET`을 동일 값으로 설정했다**(실측: 라이브 `POST /api/revalidate`가 401 반환 — 키 미설정이면 코드상 503이므로 설정 확정. 로컬 `.env` 양쪽 값 해시 일치).
-   > 따라서 **지금은 BO 저장 1회마다 `revalidateTag('celebs', {expire:0})`가 실제로 실행된다.** 그런데 잔여 과제 ⑤(태그 국소화)가 미착수라 캐시 약 70곳이 전부 단일 태그 `['celebs']`를 공유한다 → **저장 1회가 7일 캐시를 포함한 전 캐시를 즉시 전멸시킨다.** 호출부는 `sw/web-bo/src/actions/admin/`의 celebs·contents·dialogues 등 **42곳**이라 셀럽 대량 작업 시 저장마다 반복된다.
+   > 따라서 **BO 저장 1회마다 `revalidateTag('celebs', {expire:0})`가 실제로 실행되고 있었다.** 그런데 당시 잔여 과제 ⑤(태그 국소화)가 미착수라 캐시 약 70곳이 전부 단일 태그 `['celebs']`를 공유했다 → **저장 1회가 7일 캐시를 포함한 전 캐시를 즉시 전멸**시켰다. 호출부는 `sw/web-bo/src/actions/admin/`의 celebs·contents·dialogues 등 **42곳**이라 셀럽 대량 작업 시 저장마다 반복됐다.
    > 퍼지 1회 직후 크롤·방문의 콜드 비용: 셀럽별 캐시 1,257 × 약 31.7KB + 전역 단일키(`all-persona-vectors` 5.32MB + `celebs-with-dates` 530KB) ≈ **약 46MB/퍼지**.
-   > **④를 ⑤ 없이 켠 상태가 현재 구성이며, 이것이 egress 재폭발의 활성 경로다.** ⑤가 최우선 과제다.
+   > **④를 ⑤ 없이 켠 상태가 egress 재폭발의 활성 경로였다. → 같은 날 ⑤를 완료해 해소했다(10절).** 이제 BO 저장은 해당 도메인만 비운다.
 
 3. **그 대신 `/api/revalidate`가 무방비였다.** `secret !== process.env.CRON_SECRET` 단일 비교는 키 미설정 시 `undefined === undefined`로 통과되어, 외부 누구나 `{tag:'celebs'}`(secret 생략) POST로 전체 캐시를 하드 퍼지할 수 있었다. **egress의 인위적 방아쇠 후보**다.
 
@@ -72,7 +72,7 @@
 - **`/api/celeb-works`** — 무인증 공개 엔드포인트가 임의 qid로 외부 SPARQL 다단 대행. 인메모리 캐시가 서버리스에서 무효. (영속 캐시 + qid 화이트리스트)
 
 ### 정합성 / 기능
-- **`/api/cron/today-figure` 시각·시간대 어긋남** — 크론이 15:05 UTC(00:05 KST)라 daily_figures가 한국 주간 내내 부재, 읽기는 seed 폴백으로만 동작 → 생일 기반 선정이 사실상 노출 안 됨. (`CRON_SECRET` 미설정으로 크론 자체도 매일 401 실패 중일 가능성. 읽기 seed 폴백이 기능은 유지)
+- **`/api/cron/today-figure` 시각·시간대 어긋남** — 크론이 15:05 UTC(00:05 KST)라 daily_figures가 한국 주간 내내 부재, 읽기는 seed 폴백으로만 동작 → 생일 기반 선정이 사실상 노출 안 됨. ~~(`CRON_SECRET` 미설정으로 크론 자체도 매일 401 실패 중일 가능성.~~ **2026-07-15 정정: `CRON_SECRET`이 설정돼 크론 인증 실패는 해소됐다.** 시각·시간대 어긋남 자체는 미교정. 읽기 seed 폴백이 기능은 유지)
 - **다국어 canonical 고정(`seo.ts`)** — `getAlternates`가 항상 ko URL을 canonical로 선언 → 영어판 색인 손실. (현재 locale 받아 self-canonical)
 - **빈 서재 노출** — 콘텐츠 0개 셀럽이 "오늘의 인물"에 선정되면 책 없는 프로필 + 빈 자리 표시. (크론 후보를 콘텐츠 보유 기준으로 필터)
 

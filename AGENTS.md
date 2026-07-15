@@ -149,6 +149,7 @@ pnpm build:audio-bo
 | `faction-ideas.md` | 세력도 에피소드 아이디어 뱅크 — 후보 30종 진영·출연 명단(주제 선정은 스킬 faction-series-concept) |
 | `faction-korea/` | 세력도 **한국 소재 전용** 아이디어 뱅크 — 6개 카테고리(역사·기업·스포츠·과학·문화·군사) 44편 진영·명단·톤·약점. README에 종합 큐레이션 |
 | `faction-hackers-plan.md` | 세력도 「위대한 해커들」 3부작 — 조사 원자료(후보 161건) + 확정 기획(1편 얼굴 있는 자들 / 2편 민간의 가면 / 3편 국가의 군단) |
+| `sw/remotion/public/factions/world-best-2026/resume.md` | 세력도 「2026 월드 베스트 11」 **보류 — 「작업 재개」 시 이 문서만 읽고 착수**(재조사 불필요). 2026 월드컵 대회 기록 조사 완료본·확정 인물·발언 채굴본·미결 결정. **FIFA 공식 베스트 11은 2010년 폐지되어 나오지 않음**(개인상 4종만 7/19 결승 직후 발표) |
 | `faction-social-streaming-plan.md` | 세력도 「소셜 네트워크 / 스트리밍」 통합 재설계 — 플랫폼 150종+ 전수 조사 + 2시리즈(소셜·스트리밍) 진영 기획. 기존 보류 3에피소드(social-network·streaming·streaming-media) 통합 |
 
 **[팩션 REF 이미지 세팅 원칙]**
@@ -178,7 +179,8 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
-| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. 잔여: CRON_SECRET(유저)·태그 국소화·tracker RPC 교정(토큰 갱신 필요)·[locale] 정적 렌더 |
+| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. **CRON_SECRET(④)·태그 국소화(⑤) 완료(26.07.15)** — BO 저장 1회가 캐시 74곳을 전멸시키던 구조 해소. 잔여: tracker RPC 교정(토큰 갱신 필요)·`[locale]` 정적 렌더(**⚠️ 착수 전 `adsense-audit-2026-07-15.md` 6절 필독 — 셀럽 서가 SSR이 CSR로 빠져 색인 재파손**)·all-persona-vectors 5.32MB RPC화 |
+| AdSense 승인 | `docs/project/adsense-audit-2026-07-15.md` | **재신청 대기** | 반복 거절 원인=색인 붕괴(제출 2,196 대비 노출 45면)로 확정. 조치 8종 배포·라이브 검증 완료(26.07.15, `2c1aa1ad`). 사이트맵 재제출 완료. **다음: 2주 색인 회복 확인 → AdSense 검토 요청**(색인 미회복 상태 재신청은 거절 반복+쿨다운만 누적) |
 | BOOK en 데이터 전량 재검증 | `docs/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/todo/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | **완료** | 26.06.12 재생성 + any 캐스팅 148건 전량 제거 |

@@ -118,7 +118,8 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **핵심 정정 2건**:
 - 이미지는 Supabase egress와 **무관**(아바타·음성=R2, 표지=외부 URL). Storage 다운로드 호출 0건. egress 본체는 DB REST/RPC 응답이다.
-- **프로덕션 `CRON_SECRET` 미설정** 확인. `revalidate-web.ts`가 키 없으면 호출을 스킵하므로 **자동 무효화가 안 돌고 있다** → "저장마다 전역 퍼지로 터진다"는 현재 주범이 아니다. 대신 `/api/revalidate`가 무방비(`undefined===undefined` 통과)라 외부 무단 퍼지가 가능했다.
+- ~~**프로덕션 `CRON_SECRET` 미설정** 확인. `revalidate-web.ts`가 키 없으면 호출을 스킵하므로 **자동 무효화가 안 돌고 있다** → "저장마다 전역 퍼지로 터진다"는 현재 주범이 아니다.~~ 대신 `/api/revalidate`가 무방비(`undefined===undefined` 통과)라 외부 무단 퍼지가 가능했다.
+  > **🔴 2026-07-15 정정 — 이 판정은 폐기됐다.** 유저가 ④를 이행해 프로덕션 web·web-bo 양쪽에 `CRON_SECRET`을 동일 값으로 설정했다(실측: 라이브 `POST /api/revalidate` 401 — 미설정이면 코드상 503). **따라서 "저장마다 전역 퍼지"는 다시 참이 됐고, ⑤ 태그 국소화 전까지 활성 상태였다.** 9차에서 해소. 상세는 `web-egress-audit-2026-06-29.md` 3절 발견 2 정정·10절.
 
 **적용 (main)**:
 - `robots.ts` AI 크롤러(GPTBot·ClaudeBot·Bytespider 등) 전면 차단 + 검색봇 `crawlDelay 10`; `explore` persona·ranking·timeline `revalidate` 300→3600 (`b1155cea`)
@@ -142,7 +143,25 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **발견 결함**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 **항상 실패** → 게임 등용은 그간 폴백 경로로만 동작. DB 함수 수정 필요하나 `SUPABASE_ACCESS_TOKEN` 만료로 DDL 불가. **토큰 갱신 후 함수 교정 + 1차 경로도 후보 본문 미수신으로 정리 필요.**
 
-**잔여 과제**: ④ `CRON_SECRET` 설정(유저 액션, Vercel 대시보드) → ⑤ 캐시 태그 국소화 → 해제 후 일별 egress 관찰(평시 1GB/일 미만이 수정 효과 판정 기준).
+**잔여 과제**: ~~④ `CRON_SECRET` 설정(유저 액션, Vercel 대시보드) → ⑤ 캐시 태그 국소화~~ → **둘 다 완료(9차 참조).** 일별 egress 관찰은 계속(평시 1GB/일 미만이 수정 효과 판정 기준).
+
+### 사고 후속 9차 — AdSense 색인 교정 + 태그 국소화 (2026-07-15)
+
+상세: **`docs/project/adsense-audit-2026-07-15.md`**(4-1·4-2절), `web-egress-audit-2026-06-29.md`(9·10절). 커밋 `2c1aa1ad`·`2ba74f02` 배포 완료.
+
+**계기**: AdSense 반복 거절의 원인이 색인 붕괴(사이트맵 2,196 URL 제출 대비 3개월 노출 45면, 색인률 2%)로 확정돼 크롤 노출을 크게 늘렸다(사이트맵 → 15,884 URL, robots `/*?` 차단 해제, crawlDelay 10→1, 셀럽 서가 SSR 전환). egress 재폭발 여부를 재감사한 결과:
+
+- **egress는 URL 수에 비례하지 않는다.** 봇 요청도 캐시 히트도 0바이트다. Supabase에 도달하는 건 캐시 미스뿐이고 미스 상한은 `revalidate` 값이 정한다. 셀럽·콘텐츠 상세의 서버 렌더 경로는 캐시 밖 조회 0건(캐시 밖은 로그인 전용이라 봇은 스킵).
+- **7차의 두 대책은 방어에 기여한 적이 없었다.** Google은 `crawl-delay`를 공식 무시하며(Search Central 명시), 7차가 지목한 주범 AI 크롤러는 `Disallow: /` 전면 차단 그룹이라 crawlDelay 대상이 아니었다 — 실효는 Bing·네이버 색인 지연뿐. `/*?`의 "캐시 키 폭발"도 다중 필터 조합 링크가 애초에 없어 과잉 방어였다(크롤 도달 조합 ≈ 64 URL, 그마저 7일 캐시). **주력 방어(AI 크롤러 차단·공유 단일키 캐시화)는 유지.**
+
+**적용 (main)**:
+- **④ `CRON_SECRET` 완료 확인** — 유저가 이미 설정했음이 실측으로 드러남(라이브 401). 7차 기록이 낡아 있었다(위 정정).
+- **⑤ 캐시 태그 국소화 완료** — SSoT `packages/shared/src/constants/cache-tags.ts`(`CACHE_TAGS` 5종: CELEBS·CONTENTS·DIALOGUES·PERSONA·TAGS). web 캐시 72곳 재태깅(62곳 도메인 배정, 10곳 태그 제거 — 업적·팔로워·게시판 등 BO 수정 액션 부재 확인), web-bo 호출부 34곳을 실제 수정 테이블 기준 매핑, `revalidateWebCache` 기본값 제거로 인자 누락을 타입 에러로 차단, `/api/revalidate` 배열 수용. **BO 저장 1회 = 캐시 74곳 전멸(약 46MB/퍼지) → 해당 도메인만 무효화.**
+- **`revalidate` 격차 교정** — 셀럽 서재 SSR 캐시를 일반 사용자 열람용과 키 분리해 7일로(이웃 6개 조회가 전부 7일인데 이것만 1시간, 순증 717MB/월이었다), 콘텐츠 메타 `content-data-public` 3600→`STATIC_REVALIDATE`(BO 편집 시에만 변경. 감상문 피드는 사용자 활동 반영이라 3600 유지), 사이트맵 재생성 3600→86400.
+
+**결과**: 최악 시나리오(시간당 전수 스윕) 약 78GB/월 → **약 1GB/월**. 현실 시나리오(하루 2,000 URL 크롤) 약 660MB/월 = Pro 250GB의 0.26%.
+
+**잔여**: `all-persona-vectors` 5.32MB/미스(persona JSONB 전수 수신 후 JS에서 16개 점수만 추출 — 8차가 분포 쪽만 RPC화했고 `getSimilarByCelebId`에 같은 결함 잔존), `CL_SELECT`가 미사용 locale `description` 수신, `?category=` 무검증 캐스트로 캐시 키 분화. tracker RPC 교정은 8차 그대로.
 
 ### 사고 후속 3차 정리 (2026-05-09)
 
