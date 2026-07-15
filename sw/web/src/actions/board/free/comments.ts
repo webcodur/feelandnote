@@ -60,6 +60,9 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
   if (user) {
     authorId = user.id
     isAnon = anonymous === true
+    // 익명으로 쓸 때만 필명을 남긴다(비우면 "익명"으로 표시).
+    // 계정 댓글은 프로필 닉네임을 쓰므로 저장하지 않는다.
+    if (isAnon) nicknameToSave = nickname?.trim() || null
   } else {
     if (!password || !isValidAnonPassword(password)) {
       return failure('VALIDATION_ERROR', '비밀번호는 숫자 4자리로 입력해달라.')

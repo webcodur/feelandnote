@@ -35,9 +35,12 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
   let nicknameToSave: string | null = null
 
   if (user) {
-    // 로그인: 계정으로. 비밀번호 불필요. 익명 선택 시 화면에만 "익명"으로 표시.
+    // 로그인: 계정으로. 비밀번호 불필요.
     authorId = user.id
     isAnon = anonymous === true
+    // 익명으로 쓸 때만 필명을 남긴다(비우면 "익명"으로 표시).
+    // 계정 글은 프로필 닉네임을 쓰므로 저장하지 않는다.
+    if (isAnon) nicknameToSave = nickname?.trim() || null
   } else {
     // 비로그인: 익명 + 4자리 비밀번호 필수
     if (!password || !isValidAnonPassword(password)) {

@@ -1,21 +1,23 @@
 'use client'
 
-import { Link, useRouter } from '@/i18n/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Plus, FileText } from 'lucide-react'
-import { Button, Pagination } from '@/components/ui'
+import { FileText } from 'lucide-react'
+import { Pagination } from '@/components/ui'
 import type { FreePost } from '@/types/database'
 import FreePostItem from './FreePostItem'
+import FreePostComposer from './FreePostComposer'
 
 interface FreePostListProps {
   posts: FreePost[]
   total: number
   currentPage: number
   totalPages: number
+  isLoggedIn: boolean
 }
 
-export default function FreePostList({ posts, currentPage, totalPages }: FreePostListProps) {
+export default function FreePostList({ posts, currentPage, totalPages, isLoggedIn }: FreePostListProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const t = useTranslations('board')
@@ -33,14 +35,9 @@ export default function FreePostList({ posts, currentPage, totalPages }: FreePos
 
   return (
     <div>
-      {/* 글쓰기 (누구나) */}
-      <div className="flex justify-end mb-6">
-        <Link href="/agora/board/free/write">
-          <Button size="sm" className="gap-2">
-            <Plus size={16} />
-            <span className="font-serif">{t('free.write')}</span>
-          </Button>
-        </Link>
+      {/* 글쓰기 (누구나) — 이 자리에서 펼쳐 쓴다 */}
+      <div className="mb-6">
+        <FreePostComposer isLoggedIn={isLoggedIn} />
       </div>
 
       {posts.length === 0 ? (

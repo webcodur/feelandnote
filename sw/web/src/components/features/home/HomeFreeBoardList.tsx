@@ -12,6 +12,7 @@ import type { FreePost, FreePostComment } from '@/types/database'
 import { getFreeComments, deleteFreePost } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import FreeCommentSection from '@/components/features/board/free/FreeCommentSection'
+import FreePostComposer from '@/components/features/board/free/FreePostComposer'
 import PasswordPromptModal from '@/components/features/board/free/PasswordPromptModal'
 
 interface HomeFreeBoardListProps {
@@ -91,15 +92,8 @@ export default function HomeFreeBoardList({
 
   return (
     <div className="space-y-3">
-      {/* 글쓰기 */}
-      <div className="flex justify-end">
-        <Link href="/agora/board/free/write">
-          <Button size="sm" className="gap-2">
-            <Plus size={16} />
-            <span className="font-serif">{t('free.write')}</span>
-          </Button>
-        </Link>
-      </div>
+      {/* 글쓰기 — 홈은 둘러보는 자리라 등록 후에도 페이지를 옮기지 않는다 */}
+      <FreePostComposer isLoggedIn={isLoggedIn} stayOnPage />
 
       {posts.length === 0 ? (
         <div className="text-center py-16">

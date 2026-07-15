@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
@@ -10,6 +10,7 @@ import type { FreePostComment } from '@/types/database'
 import { createFreeComment, deleteFreeComment } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
+import { loadRememberedNickname, rememberNickname } from './useFreePostDraft'
 import PasswordPromptModal from './PasswordPromptModal'
 
 interface FreeCommentSectionProps {
@@ -36,6 +37,14 @@ export default function FreeCommentSection({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // 직전에 쓴 필명을 기본값으로 — 글쓰기와 같은 값을 공유한다.
+  // localStorage는 서버에 없으므로 마운트 후에 읽는다(하이드레이션 불일치 방지).
+  useEffect(() => {
+    const remembered = loadRememberedNickname()
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 외부 저장소(localStorage) 동기화. 초기값으로 옮기면 SSR과 값이 갈린다
+    if (remembered) setNickname(remembered)
+  }, [])
+
   // 삭제 모달 (익명 댓글용)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
@@ -54,7 +63,7 @@ export default function FreeCommentSection({
     setIsSubmitting(true)
     const result = await createFreeComment(
       isLoggedIn
-        ? { postId, content: newComment, anonymous }
+        ? { postId, content: newComment, anonymous, nickname: anonymous ? nickname.trim() || undefined : undefined }
         : { postId, content: newComment, nickname: nickname.trim() || undefined, password },
     )
 
@@ -62,7 +71,8 @@ export default function FreeCommentSection({
       setComments((prev) => [...prev, result.data])
       setNewComment('')
       setPassword('')
-      setNickname('')
+      // 필명은 비우지 않고 기억한다 — 연달아 댓글을 달 때 다시 치지 않게
+      if (!isLoggedIn || anonymous) rememberNickname(nickname)
     } else {
       setError(result.message)
     }
@@ -184,6 +194,17 @@ export default function FreeCommentSection({
             />
             {t('free.anonymousToggle')}
           </label>
+        )}
+        {/* 익명 선택 시 필명 입력 — 비우면 "익명"으로 표시 */}
+        {isLoggedIn && anonymous && (
+          <input
+            type="text"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            placeholder={t('free.nicknamePlaceholder')}
+            maxLength={20}
+            className={`sm:w-48 ${fieldClass}`}
+          />
         )}
         <div className="flex gap-3">
           <input
