@@ -11,6 +11,7 @@ import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
 import { getFreeComments, deleteFreePost } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
+import FreeAvatar from '@/components/features/board/free/FreeAvatar'
 import FreeCommentSection from '@/components/features/board/free/FreeCommentSection'
 import FreePostComposer from '@/components/features/board/free/FreePostComposer'
 import PasswordPromptModal from '@/components/features/board/free/PasswordPromptModal'
@@ -135,7 +136,10 @@ export default function HomeFreeBoardList({
                       )}
                     </h3>
                     <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
-                      <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
+                      <div className="flex items-center gap-1.5">
+                        <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={20} />
+                        <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
+                      </div>
                       <span className="text-accent-dim/50">·</span>
                       <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
                       <span className="text-accent-dim/30">

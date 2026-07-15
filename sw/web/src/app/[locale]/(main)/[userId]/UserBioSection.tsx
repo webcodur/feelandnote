@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Pencil, Check, X, MapPin, Calendar, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { type PublicUserProfile, updateProfile } from "@/actions/user";
 import NationalityText from "@/components/ui/NationalityText";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -18,6 +19,7 @@ interface UserBioSectionProps {
 
 export default function UserBioSection({ profile, isOwner }: UserBioSectionProps) {
   const t = useTranslations("userBio");
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState(profile.nickname);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
@@ -27,9 +29,11 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
   const [isSaving, setIsSaving] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
-  const hasInfo = profile.nationality || profile.birth_date;
+  // 표시는 저장된 로컬 상태를 기준으로 한다. profile은 서버가 처음 준 값이라
+  // 저장 후에도 옛 값을 그대로 들고 있어, 지운 항목이 되살아나 보인다.
+  const hasInfo = nationality || birthDate;
 
-  if (!hasInfo && !profile.bio && !isOwner) return null;
+  if (!hasInfo && !bioValue && !isOwner) return null;
 
   const handleSave = async () => {
     if (isSaving) return;
@@ -41,7 +45,11 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       nationality: nationality || null,
       birth_date: birthDate || null,
     });
-    if (result.success) setIsEditing(false);
+    if (result.success) {
+      setIsEditing(false);
+      // 헤더·다른 화면이 쓰는 서버 데이터도 맞춰둔다
+      router.refresh();
+    }
     setIsSaving(false);
   };
 
@@ -55,8 +63,8 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
     setIsEditing(false);
   };
 
-  // 사진은 선택 즉시 반영되므로 읽기 모드에서도 최신 상태를 쓴다
-  const displayNickname = isEditing ? nickname : profile.nickname;
+  // 사진·닉네임 모두 저장된 로컬 상태를 쓴다(위 hasInfo 주석 참조)
+  const displayNickname = nickname;
 
   return (
     <ClassicalBox as="section" className="p-0 md:p-6 bg-bg-card/40 border-accent/20 shadow-xl">
@@ -77,21 +85,21 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
           {isEditing ? (
             <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={20} className="w-full h-8 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm font-semibold text-text-primary outline-none focus:border-accent/50" />
           ) : (
-            <span className="text-sm font-semibold text-text-primary block truncate">{profile.nickname}</span>
+            <span className="text-sm font-semibold text-text-primary block truncate">{displayNickname}</span>
           )}
           {/* 국적/생일 (읽기 모드) */}
-          {!isEditing && (profile.nationality || profile.birth_date) && (
+          {!isEditing && hasInfo && (
             <div className="flex flex-wrap gap-3 mt-1">
-              {profile.nationality && (
+              {nationality && (
                 <div className="flex items-center gap-1.5 text-xs text-text-secondary">
                   <MapPin size={12} className="text-accent/60" />
-                  <NationalityText code={profile.nationality} />
+                  <NationalityText code={nationality} />
                 </div>
               )}
-              {profile.birth_date && (
+              {birthDate && (
                 <div className="flex items-center gap-1.5 text-xs text-text-secondary">
                   <Calendar size={12} className="text-accent/60" />
-                  <span>{profile.birth_date}</span>
+                  <span>{birthDate}</span>
                 </div>
               )}
             </div>
@@ -131,8 +139,8 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
           <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-secondary/50" rows={3} maxLength={200} />
           <span className="text-xs text-text-secondary">{bioValue.length} / 200</span>
         </div>
-      ) : profile.bio ? (
-        <p className="text-sm text-text-primary leading-relaxed mb-3">{profile.bio}</p>
+      ) : bioValue ? (
+        <p className="text-sm text-text-primary leading-relaxed mb-3">{bioValue}</p>
       ) : isOwner ? (
         <p className="text-sm text-text-secondary/50 mb-3">{t("bioEmpty")}</p>
       ) : null}
