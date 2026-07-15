@@ -79,6 +79,7 @@
     "birthdateLabel": "Date of birth",
     "loading": "Loading...",
     "select": "Select",
+    "clear": "Clear",
     "cancel": "Cancel",
     "editProfile": "Edit profile"
   },

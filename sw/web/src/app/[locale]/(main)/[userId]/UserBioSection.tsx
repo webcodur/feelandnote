@@ -168,7 +168,7 @@ function MetaEditFields({ nationality, setNationality, birthDate, setBirthDate }
   return (
     <div className="grid grid-cols-2 gap-2 mb-3">
       <div>
-        <label className="text-xs text-text-secondary mb-1 block">{t("nationalityLabel")}</label>
+        <FieldLabel label={t("nationalityLabel")} clearLabel={t("clear")} value={nationality} onClear={() => setNationality("")} />
         <SearchableSelect
           options={countries.map((c) => ({ value: c.code, label: c.name }))}
           value={nationality}
@@ -178,9 +178,34 @@ function MetaEditFields({ nationality, setNationality, birthDate, setBirthDate }
         />
       </div>
       <div>
-        <label className="text-xs text-text-secondary mb-1 block">{t("birthdateLabel")}</label>
+        <FieldLabel label={t("birthdateLabel")} clearLabel={t("clear")} value={birthDate} onClear={() => setBirthDate("")} />
         <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full h-9 bg-black/30 border border-accent/20 rounded-sm px-2 text-sm text-text-primary outline-none focus:border-accent/50" />
       </div>
+    </div>
+  );
+}
+
+/**
+ * 라벨 + 비우기 버튼.
+ * 날짜 입력칸은 브라우저 기본 UI라 값을 지우는 방법이 직관적이지 않고,
+ * 국적 선택칸은 한번 고르면 해제할 수단이 아예 없었다. 값이 있을 때만 버튼을 낸다.
+ */
+interface FieldLabelProps {
+  label: string;
+  clearLabel: string;
+  value: string;
+  onClear: () => void;
+}
+
+function FieldLabel({ label, clearLabel, value, onClear }: FieldLabelProps) {
+  return (
+    <div className="flex items-center justify-between mb-1 min-h-4">
+      <label className="text-xs text-text-secondary">{label}</label>
+      {value && (
+        <button type="button" onClick={onClear} className="text-xs text-text-tertiary hover:text-accent">
+          {clearLabel}
+        </button>
+      )}
     </div>
   );
 }

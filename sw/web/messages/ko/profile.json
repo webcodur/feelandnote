@@ -79,6 +79,7 @@
     "birthdateLabel": "생년월일",
     "loading": "로딩 중...",
     "select": "선택",
+    "clear": "비우기",
     "cancel": "취소",
     "editProfile": "프로필 수정"
   },
