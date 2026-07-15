@@ -34,9 +34,18 @@ export async function generateMetadata(
 
     const canonicalUrl = `https://feelandnote.com/content/${contentId}`;
 
+    // 감상문이 하나도 없는 콘텐츠는 외부에서 가져온 소개문만 남아 독창성이 없다 → 색인 제외.
+    // 링크는 따라가게 두어(follow) 감상문이 달린 다른 콘텐츠로 크롤러가 이동할 수 있게 한다.
+    // 현재 감상문은 전량 셀럽이 작성한 것이라 "감상문 유무 = 셀럽 감상문 유무"다.
+    // 셀럽 여부를 따로 가리지 않는 이유: 여기 실린 목록은 최근 10건까지만이라
+    // 일반 사용자 감상문이 앞을 채우면 셀럽 감상문이 밀려 사이트맵 등재 페이지를
+    // 색인 거부하는 모순이 생긴다. 감상문 존재 여부로 판별하면 그 모순이 원천 차단된다.
+    const hasReview = data.initialReviews.length > 0;
+
     return {
       title,
       description: desc,
+      ...(!hasReview && { robots: { index: false, follow: true } }),
       alternates: await getLocalizedAlternates(`/content/${contentId}`),
       openGraph: {
         title,

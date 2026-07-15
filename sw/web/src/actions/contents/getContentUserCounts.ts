@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 
 // 여러 콘텐츠 ID에 대한 user_count를 조회한다.
@@ -32,7 +33,7 @@ async function fetchContentUserCounts(idsKey: string): Promise<Record<string, nu
 const getCachedContentUserCounts = unstable_cache(
   fetchContentUserCounts,
   ['content-user-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getContentUserCounts(contentIds: string[]): Promise<Record<string, number>> {

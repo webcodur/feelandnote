@@ -1,6 +1,7 @@
 'use server';
 
-import { unstable_cache } from 'next/cache';
+import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { createStaticClient } from '@/lib/supabase/static';
 import { STATIC_REVALIDATE } from '@/lib/cache';
 import { parsePersonaJsonb, parsePersonaJsonbWithReasons, type PersonaStats, type PersonaStatsWithReasons, type PersonaJsonb } from '@/lib/persona/types';
@@ -61,5 +62,6 @@ async function fetchPersonaQuickViewData(celebId: string): Promise<PersonaQuickV
 export const getPersonaQuickViewData = unstable_cache(
   fetchPersonaQuickViewData,
   ['persona-quick-view'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // celeb_persona + celeb_dialogues
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA, CACHE_TAGS.DIALOGUES] }
 );

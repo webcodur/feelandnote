@@ -8,7 +8,6 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages, getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { getLocalizedAlternates } from "@/lib/seo";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
@@ -30,8 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s",
     },
     description: t("description"),
+    // canonical/languages는 레이아웃에서 선언하지 않는다 — 자체 alternates 없는 모든 하위 페이지가 canonical=홈을 상속하는 결함. 각 page.tsx가 자기 경로로 선언한다.
     alternates: {
-      ...await getLocalizedAlternates("/"),
       types: {
         'application/rss+xml': 'https://feelandnote.com/feed.xml',
       },

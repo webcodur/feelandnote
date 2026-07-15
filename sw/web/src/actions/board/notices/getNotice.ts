@@ -30,7 +30,8 @@ async function fetchNoticeData(id: string): Promise<NoticeWithAuthor | null> {
 const getNoticeDataCached = unstable_cache(
   fetchNoticeData,
   ['notice-data'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 공지(notices)는 web 관리자 화면에서 직접 쓰며 BO에 수정 액션이 없다. 태그를 두지 않는다.
+  { revalidate: 3600 }
 )
 
 export async function getNotice(id: string) {

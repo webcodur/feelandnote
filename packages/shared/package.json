@@ -7,6 +7,7 @@
     "./constants/celeb-professions": "./src/constants/celeb-professions.ts",
     "./constants/statuses": "./src/constants/statuses.ts",
     "./constants/explore-presets": "./src/constants/explore-presets.ts",
+    "./constants/cache-tags": "./src/constants/cache-tags.ts",
     "./lib/countries": "./src/lib/countries.ts",
     "./lib/voice-policy": "./src/lib/voice-policy.ts",
     "./lib/ele-accounts": "./src/lib/ele-accounts.ts",

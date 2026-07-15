@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CATEGORIES } from '@/constants/categories'
@@ -63,7 +64,7 @@ async function fetchUserContentsStats(uid: string): Promise<UserContentStatRow[]
 const getUserContentsStatsCached = unstable_cache(
   fetchUserContentsStats,
   ['detailed-stats-contents'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getDetailedStats(targetUserId?: string): Promise<DetailedStats> {

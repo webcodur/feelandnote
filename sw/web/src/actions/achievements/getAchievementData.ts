@@ -80,7 +80,9 @@ async function fetchAchievementDataInner(userId: string): Promise<AchievementDat
 const fetchAchievementDataCached = unstable_cache(
   fetchAchievementDataInner,
   ['achievement-data'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 특정 사용자의 활동 점수·칭호(score_logs·user_scores·본인 서고 집계)만 읽는다.
+  // BO에 이 데이터를 수정하는 액션이 없어 무효화 태그를 두지 않는다 — 시간 만료로만 갱신한다.
+  { revalidate: 3600 }
 )
 
 export async function getAchievementData(targetUserId?: string): Promise<AchievementData | null> {

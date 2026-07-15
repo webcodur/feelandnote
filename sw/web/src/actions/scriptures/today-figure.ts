@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CategoryId } from '@/constants/categories'
@@ -82,7 +83,8 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 const getTodayFigureCached = unstable_cache(
   fetchTodayFigure,
   ['today-figure'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // daily_figures(BO 오늘의 인물 편성) + profiles + user_contents + celeb_dialogues
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
 )
 
 export async function getTodayFigure(): Promise<TodayFigureResult> {

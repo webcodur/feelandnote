@@ -8,10 +8,11 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ACADEMY_CATEGORY_IDS } from "@/constants/scripturesMuseum";
 import { BookOpen, Film, Music, GraduationCap } from "lucide-react";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.academy");
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/academy") };
 }
 
 const CATEGORY_ICONS = {

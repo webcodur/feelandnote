@@ -147,3 +147,17 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   6. 영문 메뉴명 "Scriptures" → "Library" 변경
   7. URL 경로 `/scriptures` → `/library` 변경 + 301 리다이렉트 (next.config.ts)
 - **교훈**: `loading.tsx`뿐 아니라 컴포넌트 레벨 `<Suspense>`도 동일한 SEO 문제를 유발한다. SEO 대상 페이지에서는 Suspense를 사용하지 않는다
+
+### 색인률 2% — AdSense 반복 거절 (2026-07-15)
+
+**전수 감사 보고서: `docs/project/adsense-audit-2026-07-15.md` (원인·조치·검증·재신청 절차의 SSoT)**
+
+- **증상**: 사이트맵 2,196 URL 제출 대비 3개월간 검색 노출된 고유 페이지 45개, 클릭 11회. AdSense 반복 거절.
+- **원인 1**: `robots.ts`의 `Disallow: /*?` 가 쿼리 URL을 전면 차단하는데 콘텐츠 상세 내부 링크 16곳이 전부 `?category=` 부착 + 사이트맵에 `/content/` 미등재 → contents 7,568건 전체가 크롤 불가
+- **원인 2**: 셀럽 페이지(표면적 96%)의 책 목록·리뷰·감상 여정이 클라이언트 fetch → 서버 HTML에 책 0권 (스켈레톤 사고 3번째 재발, 이번엔 컴포넌트 레벨)
+- **원인 3**: `[locale]/layout.tsx`가 canonical=홈을 레이아웃 레벨 선언 → 자체 alternates 없는 허브 20 URL이 "정본=홈" 신고
+- **해결**: robots 쿼리 차단 해제 / 셀럽 서가·리뷰·감상 여정 SSR 전환 / canonical 상속 제거 + 개별 페이지 자기참조 부여 / 사이트맵에 리뷰 보유 콘텐츠 6,665건 등재(2,196 → 15,884 URL) / 얇은 티어·리뷰 0건·아고라 noindex / 스텁 6종 사이트맵 제거 + 308 승격
+- **검증**: 셀럽 페이지 가시 텍스트 3,309자 → 10,415자, 책 제목·감상 배경·출처가 서버 HTML에 노출
+- **교훈 1**: 표면 SEO(메타·canonical·JSON-LD·ads.txt) 전부 정상이어도, 크롤러가 따라갈 링크가 없고 본문이 JS 뒤에 있으면 색인은 0이다. **`loading.tsx` 제거만으로 스켈레톤 문제가 끝나지 않는다 — 컴포넌트의 `useEffect` 클라이언트 fetch도 동일 결과다.**
+- **교훈 2**: 사이트맵 등재 기준과 noindex 기준은 반드시 일치시킨다(등재 후 색인 거부 = 모순 신호). 현재 둘 다 `celeb_tier=full`.
+- **⚠️ 정적 렌더 전환 시 재파손 주의**: `ContentLibrary`가 `useSearchParams()`를 쓴다. 현재는 `getCelebBySlug`의 쿠키 접근으로 셀럽 라우트가 동적 렌더(ƒ)라 SSR이 유지되지만, egress 감사의 `[locale]` 정적 렌더 전환 과제를 수행하면 Suspense 경계에서 이 서브트리가 CSR로 빠져 **책 목록이 HTML에서 다시 사라진다.** 정적화 시 `q` 검색어를 서버 prop으로 내리는 조치를 함께 해야 한다.

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { parsePersonaJsonbWithReasons } from '@/lib/persona/types'
@@ -32,7 +33,7 @@ async function fetchPersonaReason(celebId: string, axis: string): Promise<Person
 
 const getPersonaReasonCached = unstable_cache(fetchPersonaReason, ['persona-reason'], {
   revalidate: STATIC_REVALIDATE,
-  tags: ['celebs'],
+  tags: [CACHE_TAGS.PERSONA],
 })
 
 export async function getPersonaReason(celebId: string, axis: string): Promise<PersonaReason | null> {

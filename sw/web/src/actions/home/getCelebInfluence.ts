@@ -1,7 +1,8 @@
 "use server";
 
 import { cache } from "react";
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache"
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { createStaticClient } from "@/lib/supabase/static";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { type CelebLevel, getCelebLevelByRanking, calculatePercentile } from "@/constants/materials";
@@ -114,7 +115,7 @@ async function fetchCelebInfluence(celebId: string): Promise<CelebInfluenceDetai
 const getCelebInfluenceCached = unstable_cache(
   fetchCelebInfluence,
   ["celeb-influence-detail"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 
 // React.cache로 같은 RSC 요청 안의 중복 호출 dedup + unstable_cache로 cross-request 캐시

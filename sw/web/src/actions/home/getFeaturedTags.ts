@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -281,7 +282,12 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
   ['featured-tags'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // celeb_tags·celeb_tag_assignments(편성) + profiles·celeb_influence + celeb_dialogues +
+  // 콘텐츠 수 집계(user_contents)를 함께 읽는다
+  {
+    revalidate: STATIC_REVALIDATE,
+    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES],
+  }
 )
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {

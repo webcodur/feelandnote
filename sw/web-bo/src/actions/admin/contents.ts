@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 export interface AffiliateLink {
   platform: string
@@ -179,7 +180,8 @@ export async function updateContent(
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
-  await revalidateWebCache()
+  // contents.release_date + content_locales(제목·저자·설명)
+  await revalidateWebCache(CACHE_TAGS.CONTENTS)
 }
 
 export async function updateAffiliateLinks(
@@ -201,7 +203,8 @@ export async function updateAffiliateLinks(
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
-  await revalidateWebCache()
+  // content_locales.affiliate_url
+  await revalidateWebCache(CACHE_TAGS.CONTENTS)
 }
 
 /** 단일 플랫폼 링크를 upsert(추가/수정)하거나 삭제한다. url이 빈 문자열이면 해당 플랫폼 제거. */
@@ -263,5 +266,6 @@ export async function deleteContent(contentId: string): Promise<void> {
   if (error) throw error
 
   revalidatePath('/contents')
-  await revalidateWebCache()
+  // contents + user_contents + records 연쇄 삭제 — 셀럽 서고에서도 사라져야 한다
+  await revalidateWebCache([CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS])
 }

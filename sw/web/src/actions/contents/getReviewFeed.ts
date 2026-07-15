@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -111,7 +112,8 @@ async function fetchReviewFeed(
 const getReviewFeedCached = unstable_cache(
   fetchReviewFeed,
   ['review-feed'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // user_contents(감상문) + profiles(작성자 표시 정보) 조인
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {

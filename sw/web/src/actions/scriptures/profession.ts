@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -86,7 +87,8 @@ async function fetchProfessionAggregate(
 const getProfessionAggregateCached = unstable_cache(
   fetchProfessionAggregate,
   ['scriptures-profession-agg'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // profiles(직업별 셀럽)+user_contents(서고 집계)+celeb_influence를 함께 읽는다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getScripturesByProfession(params?: {
@@ -148,6 +150,7 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
 export const getProfessionContentCounts = unstable_cache(
   fetchProfessionContentCounts,
   ['profession-content-counts'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // profiles만 센다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )
 // #endregion

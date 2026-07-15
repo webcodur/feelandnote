@@ -31,7 +31,8 @@ async function fetchFeedbackData(id: string): Promise<FeedbackWithDetails | null
 const getFeedbackDataCached = unstable_cache(
   fetchFeedbackData,
   ['feedback-data'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 사용자 의견(feedbacks)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
+  { revalidate: 3600 }
 )
 
 export async function getFeedback(id: string) {

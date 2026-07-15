@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
 
 export interface VoiceGenCeleb {
@@ -130,7 +131,8 @@ export async function bumpVoiceVersion(celebId: string): Promise<number> {
     .single()
   const newV = ((data as Record<string, unknown>)?.voice_v as number ?? 0) + 1
   await supabase.from('profiles').update({ voice_v: newV }).eq('id', celebId)
-  await revalidateWebCache()
+  // profiles.voice_v — 음성 파일 캐시 버스터, 대사 음성 URL에 붙는다
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return newV
 }
 
@@ -204,7 +206,8 @@ export async function saveQuote(
     .upsert({ celeb_id: celebId, [linesCol]: updatedLines }, { onConflict: 'celeb_id' })
   if (error) return { success: false, error: error.message }
 
-  await revalidateWebCache()
+  // celeb_dialogues.lines.quote — 명언은 대사 테이블에 저장된다
+  await revalidateWebCache(CACHE_TAGS.DIALOGUES)
   return { success: true }
 }
 
@@ -212,7 +215,8 @@ export async function saveQuote(
 export async function enableHasVoice(celebId: string): Promise<void> {
   const supabase = await createClient()
   await supabase.from('profiles').update({ has_voice: true }).eq('id', celebId)
-  await revalidateWebCache()
+  // profiles.has_voice — 대사 음성 재생 여부를 가른다
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 
 /** voice_id 저장 */
@@ -228,6 +232,7 @@ export async function saveVoiceId(
     .update({ [col]: voiceId })
     .eq('id', celebId)
   if (error) return { success: false, error: error.message }
-  await revalidateWebCache()
+  // profiles.voice_id_ko/en — 대사 음성 합성에 쓰이는 프로필 컬럼
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }

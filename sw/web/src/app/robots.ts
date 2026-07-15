@@ -33,27 +33,38 @@ const COMMON_DISALLOW = [
   '/admin/',
   '/api/',
   '/notifications',
+  '/en/notifications',
   '/login',
+  '/en/login',
   '/signup',
+  '/en/signup',
   '/reset-password',
+  '/en/reset-password',
   '/search',
+  '/en/search',
   '/lab',
   '/reading',
   '/*/reading',
   '/*/chamber',
   '/*/merits',
-  '/*?', // 필터·검색 쿼리스트링 조합 크롤링 차단 (캐시 미스 폭증 방지)
+  // 무한 조합을 만드는 파라미터만 차단한다. '/*?' 전면 차단은 ?category= 붙은
+  // 콘텐츠 상세 내부 링크까지 전부 크롤 불가로 만들어 색인 실패의 원인이 됐다(2026-07-14)
+  '/*?*search=',
+  '/*?*sortBy=',
+  '/*?*sort=',
+  '/*?*page=',
 ]
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       // 일반 검색 크롤러: 콘텐츠는 열되 과도한 크롤 속도는 늦춘다(crawlDelay 준수 봇 한정)
+      // 10은 2,996 URL 사이트의 Bing·네이버 색인을 지나치게 늦춰 1로 완화(2026-07-14)
       {
         userAgent: '*',
         allow: '/',
         disallow: COMMON_DISALLOW,
-        crawlDelay: 10,
+        crawlDelay: 1,
       },
       // AI 학습·수집 크롤러: 전 경로 차단
       {

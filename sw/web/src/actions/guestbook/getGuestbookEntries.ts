@@ -42,7 +42,8 @@ async function fetchGuestbookEntries(
 const getGuestbookEntriesCached = unstable_cache(
   fetchGuestbookEntries,
   ['guestbook-entries'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 사용자 활동(guestbook_entries)이다. BO 방명록 화면은 신고 삭제만 하며 셀럽·콘텐츠 저장과 무관하다.
+  { revalidate: 3600 }
 )
 
 export async function getGuestbookEntries(params: GetGuestbookEntriesParams) {

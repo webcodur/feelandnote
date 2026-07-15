@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
+import { useState, useEffect, useCallback, useTransition, useMemo, useRef } from "react";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getUserContents } from "@/actions/contents/getUserContents";
@@ -18,7 +18,7 @@ import { updateVisibility } from "@/actions/contents/updateVisibility";
 import { updateDate } from "@/actions/contents/updateDate";
 import { removeContent } from "@/actions/contents/removeContent";
 import { getFlowsContainingContent } from "@/actions/flows";
-import type { ContentType, ContentStatus, VisibilityType } from "@/types/database";
+import type { ContentStatus, VisibilityType } from "@/types/database";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import {
   type SortOption,
@@ -29,24 +29,36 @@ import {
   filterAndSortContents,
   groupByMonth,
   formatMonthLabel,
+  mapPublicToUserContent,
 } from "./contentLibraryTypes";
 
 export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
-  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode } = options;
+  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode, initialContents } = options;
   const isViewer = mode === 'viewer';
+
+  // 서버가 첫 화면 데이터를 내려준 경우에만 초기 상태를 채운다.
+  // 이러면 첫 렌더가 스켈레톤이 아니라 목록이므로 서버 HTML에 서가 마크업이 실린다.
+  // 검색어가 붙은 진입(?q=)은 서버 데이터가 그 조건으로 조회된 게 아니므로 seed 대상에서 제외한다.
+  const seed = isViewer && targetUserId && initialContents && initialSearchQuery.trim().length < 2
+    ? {
+        contents: mapPublicToUserContent(initialContents.items, targetUserId),
+        totalPages: initialContents.totalPages,
+        total: initialContents.total,
+      }
+    : null;
 
   // #region 상태
   const [activeTab, setActiveTab] = useState<CategoryId>("all");
-  const [contents, setContents] = useState<UserContentWithContent[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [contents, setContents] = useState<UserContentWithContent[]>(seed?.contents ?? []);
+  const [isLoading, setIsLoading] = useState(!seed);
   const [error, setError] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(seed?.totalPages ?? 1);
+  const [total, setTotal] = useState(seed?.total ?? 0);
   const [pageSize, setPageSize] = useState(10);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
@@ -150,44 +162,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           hasReview: hasReviewParam,
           sortBy: sortByParam,
         });
-        // UserContentPublic을 UserContentWithContent 형태로 매핑
-        const mapped: UserContentWithContent[] = result.items.map((item) => ({
-          id: item.id,
-          content_id: item.content_id,
-          user_id: targetUserId,
-          status: item.status as ContentStatus,
-          visibility: item.visibility ?? 'public',
-          created_at: item.created_at,
-          updated_at: item.created_at, // viewer 모드에서는 created_at으로 대체
-          completed_at: null,
-          rating: item.public_record?.rating ?? null,
-          review: item.public_record?.content_preview ?? null,
-          review_en: item.public_record?.content_preview_en ?? null,
-          is_recommended: false,
-          is_spoiler: item.public_record?.is_spoiler ?? false,
-          is_pinned: false,
-          pinned_at: null,
-          source_url: item.source_url,
-          content: {
-            id: item.content.id,
-            type: item.content.type as ContentType,
-            title: item.content.title,
-            creator: item.content.creator,
-            thumbnail_url: item.content.thumbnail_url,
-            description: null,
-            publisher: null,
-            release_date: null,
-            metadata: item.content.metadata,
-            user_count: item.content.user_count ?? null,
-            title_ko: item.content.title_ko ?? null,
-            title_en: item.content.title_en ?? null,
-            creator_en: item.content.creator_en ?? null,
-            isbn_en: item.content.isbn_en ?? null,
-            thumbnail_en: item.content.thumbnail_en ?? null,
-            has_en_edition: item.content.has_en_edition ?? null,
-          },
-        }));
-        setContents(mapped);
+        setContents(mapPublicToUserContent(result.items, targetUserId));
         setTotalPages(result.totalPages);
         setTotal(result.total);
       } else {
@@ -212,8 +187,16 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     }
   }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption]);
 
+  // 서버가 내려준 첫 화면은 이미 그려져 있으므로 최초 1회 재조회를 건너뛴다(중복 페치 방지).
+  // 이후 탭·검색·정렬·페이지 변경으로 loadContents가 새로 만들어지면 정상 조회한다.
+  const skipInitialLoad = useRef(seed !== null);
+
   useEffect(() => {
-    loadContents();
+    if (skipInitialLoad.current) {
+      skipInitialLoad.current = false;
+    } else {
+      loadContents();
+    }
     loadTypeCounts();
   }, [loadContents, loadTypeCounts]);
 

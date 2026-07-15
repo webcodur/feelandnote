@@ -2,11 +2,12 @@
 
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
-import { type PublicUserProfile } from './getUserProfile'
+import { type PublicUserProfile, type CelebTier } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
 import { DIALOGUE_PROFILE_SELECT, type DialogueProfile } from '@/lib/utils/celeb-dialogues'
 
@@ -33,6 +34,7 @@ interface PublicCelebBySlugData {
     title_en: string | null
     cultural_journey: string | null
     cultural_journey_en: string | null
+    virtual_monologue: string | null
     nationality: string | null
     birth_date: string | null
     death_date: string | null
@@ -58,7 +60,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, virtual_monologue, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -115,7 +117,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
   ['celeb-by-slug'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
 )
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
@@ -183,6 +186,7 @@ async function getCelebBySlugInner(
       title_en: profile.title_en,
       title_ko: profile.title,
       cultural_journey: resolve(profile.cultural_journey_en, profile.cultural_journey),
+      virtual_monologue: profile.virtual_monologue,
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
@@ -204,7 +208,7 @@ async function getCelebBySlugInner(
       voice_v: profile.voice_v ?? 0,
       voice_speed: profile.voice_speed ?? 1.0,
       wikidata_qid: profile.wikidata_qid ?? null,
-      celeb_tier: ((profile.celeb_tier as 'full' | 'light') ?? 'full'),
+      celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
       youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
     },

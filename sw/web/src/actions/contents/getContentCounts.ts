@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -63,7 +64,7 @@ export async function getContentCounts(): Promise<ContentTypeCounts> {
 const getCachedUserContentCounts = unstable_cache(
   async (userId: string) => countByType(createStaticClient(), userId, true),
   ['user-content-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getUserContentCounts(userId: string): Promise<ContentTypeCounts> {

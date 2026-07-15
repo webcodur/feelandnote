@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
+import { ALL_CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
-const ALLOWED_TAGS = ['celebs']
+const ALLOWED_TAGS: readonly string[] = ALL_CACHE_TAGS
 
 /**
  * 캐시 무효화 API — web-bo 등 외부에서 호출
  * POST /api/revalidate
- * Body: { tag: "celebs", secret: "..." }
+ * Body: { tag: "celebs" | ["celebs", "dialogues"], secret: "..." }
+ *
+ * tag는 단일 문자열·배열 모두 받는다. BO의 한 저장이 여러 도메인에 걸칠 때
+ * (예: 셀럽 프로필+대사 동시 수정) 한 번의 호출로 해당 도메인만 비우기 위함이다.
  */
 export async function POST(request: NextRequest) {
   const expected = process.env.CRON_SECRET
@@ -27,11 +31,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  if (!tag || !ALLOWED_TAGS.includes(tag)) {
+  // 단일 문자열·배열 모두 허용(하위호환). 중복은 제거한다.
+  const requested: unknown[] = Array.isArray(tag) ? tag : [tag]
+  const tags = [...new Set(requested)]
+
+  const invalid = tags.length === 0 || tags.some(t => typeof t !== 'string' || !ALLOWED_TAGS.includes(t))
+  if (invalid) {
     return NextResponse.json({ error: `Invalid tag. Allowed: ${ALLOWED_TAGS.join(', ')}` }, { status: 400 })
   }
 
-  revalidateTag(tag, { expire: 0 })
+  for (const t of tags as string[]) {
+    revalidateTag(t, { expire: 0 })
+  }
 
-  return NextResponse.json({ revalidated: true, tag })
+  return NextResponse.json({ revalidated: true, tags })
 }

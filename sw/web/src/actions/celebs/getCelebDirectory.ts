@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -28,5 +29,5 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
 export const getCelebDirectory = unstable_cache(
   fetchCelebDirectory,
   ['celeb-directory'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )

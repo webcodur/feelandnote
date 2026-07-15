@@ -24,6 +24,7 @@ export default function GuestbookContent({
   isOwner,
   initialEntries,
   initialTotal,
+  hideEmptyState = false,
 }: GuestbookContentProps) {
   const t = useTranslations("profileSection.guestbook");
 
@@ -127,7 +128,7 @@ export default function GuestbookContent({
             </div>
           )}
         </div>
-      ) : (
+      ) : !hideEmptyState && (
         <div className="text-center py-10">
           <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2 text-text-tertiary/15" />
           <p className="text-xs text-text-tertiary/40 font-sans">{t("empty")}</p>

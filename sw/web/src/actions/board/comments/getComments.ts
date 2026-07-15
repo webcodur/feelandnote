@@ -30,7 +30,8 @@ async function fetchComments(boardType: BoardType, postId: string): Promise<Boar
 const getCommentsCached = unstable_cache(
   fetchComments,
   ['board-comments'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 게시판 댓글(board_comments)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
+  { revalidate: 3600 }
 )
 
 export async function getComments({ boardType, postId }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {

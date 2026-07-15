@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { PersonaJsonb } from './members'
 
 export interface PersonaData {
@@ -60,7 +61,8 @@ export async function saveCelebPersona(
 
   if (error) throw error
 
-  await revalidateWebCache()
+  // celeb_persona만 수정
+  await revalidateWebCache(CACHE_TAGS.PERSONA)
 }
 
 export async function getPersonaVectors(): Promise<PersonaData[]> {

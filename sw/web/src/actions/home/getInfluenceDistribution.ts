@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import {
@@ -137,5 +138,5 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
 export const getInfluenceDistribution = unstable_cache(
   fetchInfluenceDistribution,
   ['influence-distribution'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )

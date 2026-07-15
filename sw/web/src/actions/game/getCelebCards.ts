@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
@@ -130,7 +131,8 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 const getCelebCardsCached = unstable_cache(
   fetchCelebCards,
   ["celeb-cards"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  // profiles + celeb_dialogues
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 );
 
 export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
@@ -170,7 +172,8 @@ async function fetchCardDialogues(
 const getCardDialoguesCached = unstable_cache(
   fetchCardDialogues,
   ["card-dialogues"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  // celeb_dialogues만 읽는다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.DIALOGUES] }
 );
 
 export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, DialogueLines>> {

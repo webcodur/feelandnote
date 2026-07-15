@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
@@ -85,7 +86,7 @@ async function fetchDawnCelebContents(
 const getCachedDawnCelebContents = unstable_cache(
   fetchDawnCelebContents,
   ["dawn-celeb-contents"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 );
 
 export async function getDawnCelebContents(

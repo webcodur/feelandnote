@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 export interface DialogueLines {
   greeting: [string, string, string]
@@ -94,7 +95,8 @@ export async function updateSpeechTone(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
-  await revalidateWebCache()
+  // profiles.speech_tone — 프로필 컬럼이지만 대사 재생에 쓰이므로 둘 다
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
 
@@ -114,7 +116,8 @@ export async function updateVoiceSpeed(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
-  await revalidateWebCache()
+  // profiles.voice_speed — 프로필 컬럼이자 대사 재생 속도
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
 
@@ -174,6 +177,7 @@ export async function saveCelebDialogues(
 
   revalidatePath('/celebs/dialogues')
   revalidatePath('/celebs/voice-gen', 'layout')
-  await revalidateWebCache()
+  // celeb_dialogues만 수정
+  await revalidateWebCache(CACHE_TAGS.DIALOGUES)
 }
 // #endregion

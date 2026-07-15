@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import {
@@ -110,7 +111,8 @@ async function fetchPersonaDistribution(limit: number): Promise<PersonaPerson[]>
 const getPersonaDistributionCached = unstable_cache(
   fetchPersonaDistribution,
   ['persona-distribution'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // celeb_persona + celeb_influence + 감상문 보유 셀럽 목록(user_contents)을 함께 읽는다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getPersonaDistribution(limit: number = 3000): Promise<PersonaPerson[]> {

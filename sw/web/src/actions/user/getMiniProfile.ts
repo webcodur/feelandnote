@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
@@ -43,7 +44,8 @@ async function fetchMiniProfilePublic(userId: string): Promise<PublicMiniProfile
 const getMiniProfilePublicCached = unstable_cache(
   fetchMiniProfilePublic,
   ['mini-profile'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // profiles(셀럽도 대상) + user_contents 수
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getMiniProfile(userId: string): Promise<ActionResult<MiniProfile>> {

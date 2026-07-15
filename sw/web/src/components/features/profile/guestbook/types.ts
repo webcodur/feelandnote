@@ -10,6 +10,9 @@ export interface GuestbookContentProps {
   isOwner: boolean;
   initialEntries: GuestbookEntryWithAuthor[];
   initialTotal: number;
+  /** 방명록이 0건일 때 빈 상태 안내를 그리지 않는다.
+   *  셀럽 페이지처럼 색인 대상 화면에서 같은 문구가 전 페이지에 반복 노출되는 것을 막는다. */
+  hideEmptyState?: boolean;
 }
 
 export interface EntryItemProps {

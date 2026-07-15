@@ -4,7 +4,6 @@
   책임: HTML 기본 구조와 폰트를 적용한다. locale/metadata는 [locale]/layout.tsx에서 처리.
 */ // ------------------------------
 
-import Script from "next/script";
 import { Cinzel, Inter, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
 import localFont from "next/font/local";
 import { getLocale } from "next-intl/server";
@@ -67,14 +66,16 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" className={`${inter.variable} ${cinzel.variable} ${cormorant.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}>
-      <head />
-      <body>
-        <Script
-          id="adsbygoogle-init"
+      <head>
+        {/* AdSense: 정적 코드 검출기가 초기 HTML에서 읽도록 head에 원시 태그로 배치 (next/script afterInteractive는 초기 HTML에 미포함) */}
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
+        <meta name="google-adsense-account" content="ca-pub-3751045783335791" />
+      </head>
+      <body>
         {children}
       </body>
     </html>

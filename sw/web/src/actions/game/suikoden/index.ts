@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -135,7 +136,7 @@ async function fetchSuikodenDialogues(locale: string): Promise<Record<string, Su
 const loadSuikodenDialoguesCached = unstable_cache(
   fetchSuikodenDialogues,
   ['suikoden-dialogues'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 )
 
 export async function loadSuikodenDialogues(): Promise<Record<string, SuikodenLines>> {

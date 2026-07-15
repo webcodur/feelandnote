@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 
 export interface ContentCounts {
@@ -32,7 +33,8 @@ async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentC
 const getCachedCelebCounts = unstable_cache(
   fetchCelebCounts,
   ['content-celeb-counts'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // get_content_celeb_user_counts: 콘텐츠별 셀럽(profiles)·사용자 보유 수(user_contents)
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getCelebCountsForContents(

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -84,7 +85,11 @@ async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicD
 const getCelebModalCached = unstable_cache(
   fetchCelebModalPublic,
   ['celeb-modal'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // profiles·celeb_influence + user_contents(서고 수) + celeb_tag_assignments + celeb_dialogues
+  {
+    revalidate: STATIC_REVALIDATE,
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+  }
 )
 
 export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {

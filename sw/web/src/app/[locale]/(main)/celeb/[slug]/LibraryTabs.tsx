@@ -7,6 +7,8 @@ import ContentLibrary from "@/components/features/user/contentLibrary/ContentLib
 import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
 import { FormattedText } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import type { CelebTier } from "@/actions/user/getUserProfile";
 
 type Tab = "consume" | "journey" | "create";
 
@@ -16,7 +18,8 @@ interface LibraryTabsProps {
   emptyMessage: string;
   wikidataQid?: string | null;
   culturalJourney?: string | null;
-  celebTier?: 'full' | 'light';
+  celebTier?: CelebTier;
+  initialContents?: GetUserContentsResponse;
 }
 
 export default function LibraryTabs({
@@ -26,6 +29,7 @@ export default function LibraryTabs({
   wikidataQid,
   culturalJourney,
   celebTier = 'full',
+  initialContents,
 }: LibraryTabsProps) {
   const isLight = celebTier === 'light';
   const defaultTab: Tab = isLight ? "journey" : "consume";
@@ -78,7 +82,9 @@ export default function LibraryTabs({
         );
       })()}
 
-      {tab === "consume" && (
+      {/* 감상 기록·감상 여정은 탭 선택과 무관하게 항상 DOM에 둔다(비활성 탭은 CSS로만 숨김).
+          조건부 마운트로 빼면 초기 HTML에서 본문 텍스트가 통째로 빠진다. */}
+      <div className={cn(tab !== "consume" && "hidden")}>
         <ContentLibrary
           mode="viewer"
           targetUserId={userId}
@@ -87,13 +93,18 @@ export default function LibraryTabs({
           ownerNickname={nickname}
           defaultViewMode="list"
           hideControlWrapper
+          initialContents={initialContents}
         />
-      )}
-      {tab === "journey" && culturalJourney && (
-        <div className="font-serif text-sm md:text-[15px] text-text-secondary leading-[1.9] break-keep">
+      </div>
+      {culturalJourney && (
+        <div className={cn(
+          "font-serif text-sm md:text-[15px] text-text-secondary leading-[1.9] break-keep",
+          tab !== "journey" && "hidden",
+        )}>
           <FormattedText text={culturalJourney} />
         </div>
       )}
+      {/* 창작물은 외부 Wikidata 조회를 유발하므로 선택 시에만 마운트한다 */}
       {tab === "create" && (
         <CreativeLibrary
           celebId={userId}

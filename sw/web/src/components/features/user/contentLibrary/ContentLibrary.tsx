@@ -33,10 +33,11 @@ export default function ContentLibrary({
   ownerNickname,
   defaultViewMode,
   hideControlWrapper = false,
+  initialContents,
 }: ContentLibraryProps) {
   const searchParams = useSearchParams();
   const initialSearchQuery = searchParams.get("q") || "";
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode });
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode, initialContents });
   const isViewer = lib.isViewer;
   const t = useTranslations("celebPage");
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import type { ContentType } from '@/types/database'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -60,7 +61,7 @@ async function fetchMediaEmbed(
 const getCachedMediaEmbed = unstable_cache(
   fetchMediaEmbed,
   ['media-embed'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getMediaEmbed(

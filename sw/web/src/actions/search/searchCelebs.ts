@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
@@ -75,7 +76,7 @@ async function fetchSearchCelebs(
 const searchCelebsCached = unstable_cache(
   fetchSearchCelebs,
   ['search-celebs'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS] }
 )
 
 export async function searchCelebs({

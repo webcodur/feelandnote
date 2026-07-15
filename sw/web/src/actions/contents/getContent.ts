@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -57,7 +58,7 @@ async function fetchContentPublic(
 const fetchContentPublicCached = unstable_cache(
   fetchContentPublic,
   ['content-public-brief'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 // 본인 기록 + 콘텐츠 정보 조회 (독서 모드 페이지용)

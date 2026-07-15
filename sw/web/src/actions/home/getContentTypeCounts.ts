@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -32,5 +33,6 @@ async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
 export const getContentTypeCounts = unstable_cache(
   fetchContentTypeCounts,
   ['content-type-counts'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // get_celeb_feed_type_counts: 셀럽(profiles) 서고(user_contents)의 타입별 집계
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )

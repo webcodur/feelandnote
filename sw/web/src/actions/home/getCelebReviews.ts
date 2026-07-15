@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
@@ -168,7 +169,8 @@ async function getContentCountsForContents(
 const getCelebReviewsCached = unstable_cache(
   fetchCelebReviews,
   ['celeb-reviews'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales)
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {

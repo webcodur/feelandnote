@@ -8,10 +8,11 @@ import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import EraSection from "@/components/features/scriptures/sections/EraSection";
 import { getScripturesByEra, getChosenScriptures, getTopCelebsAcrossAllEras } from "@/actions/scriptures";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.era");
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/era") };
 }
 
 async function EraContent() {

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -39,7 +40,8 @@ async function fetchSharedContents(
 const getCachedSharedContents = unstable_cache(
   fetchSharedContents,
   ['shared-contents'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // get_shared_contents_by_celebs: 셀럽(profiles) 간 공유 콘텐츠(user_contents·contents)
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getSharedContents(

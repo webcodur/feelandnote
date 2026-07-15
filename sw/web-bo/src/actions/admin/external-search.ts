@@ -4,6 +4,7 @@ import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-
 import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -97,7 +98,8 @@ export async function createContentFromExternal(
       verified: true,
     })
 
-    await revalidateWebCache()
+    // contents + content_locales 신규 등록 (셀럽 연결은 여기서 하지 않는다)
+    await revalidateWebCache(CACHE_TAGS.CONTENTS)
 
     return { success: true, contentId: newContent.id }
   } catch (err) {

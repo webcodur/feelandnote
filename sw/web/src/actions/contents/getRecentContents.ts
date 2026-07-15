@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
@@ -46,7 +47,7 @@ async function fetchRecentContents(limit: number, locale: string): Promise<Recen
 const getRecentContentsCached = unstable_cache(
   fetchRecentContents,
   ['recent-contents'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getRecentContents(limit: number = 10): Promise<RecentContent[]> {

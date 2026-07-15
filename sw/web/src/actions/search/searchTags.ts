@@ -59,7 +59,8 @@ async function fetchSearchTags(
 const searchTagsCached = unstable_cache(
   fetchSearchTags,
   ['search-tags'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 게시글 태그(tags 테이블)다. 스포트라이트 편성(celeb_tags)과 다른 테이블이며 BO 수정 액션이 없다.
+  { revalidate: 3600 }
 )
 
 export async function searchTags({

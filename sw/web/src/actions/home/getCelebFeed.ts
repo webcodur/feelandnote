@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
@@ -189,7 +190,8 @@ async function fetchCelebFeed(
 const getCelebFeedCached = unstable_cache(
   fetchCelebFeed,
   ['celeb-feed'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // user_contents·contents + profiles(셀럽 필터·표시 정보) 조인
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getCelebFeed(

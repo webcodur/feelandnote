@@ -25,18 +25,33 @@ const nextConfig: NextConfig = {
       {
         source: '/archive/explore',
         destination: '/explore',
-        permanent: false,
+        permanent: true,
       },
+      // 목적지 /play 라우트가 존재하지 않아 404로 이어지던 것을 /rest로 교정 (2026-07-14)
       {
         source: '/archive/lounge',
-        destination: '/play',
-        permanent: false,
+        destination: '/rest',
+        permanent: true,
       },
       {
         source: '/archive/feed',
         destination: '/',
-        permanent: false,
+        permanent: true,
       },
+      // 폐기 경로 → 실제 목적지 영구 리다이렉트 (2026-07-14)
+      // page.tsx의 redirect()는 307(임시)라 구글이 정규화 신호로 쓰지 못한다. 308로 영구화
+      { source: '/explore/celebs', destination: '/explore/figures', permanent: true },
+      { source: '/:locale(ko|en)/explore/celebs', destination: '/:locale/explore/figures', permanent: true },
+      { source: '/explore/people', destination: '/agora/social', permanent: true },
+      { source: '/:locale(ko|en)/explore/people', destination: '/:locale/agora/social', permanent: true },
+      { source: '/explore/figure', destination: '/explore/today', permanent: true },
+      { source: '/:locale(ko|en)/explore/figure', destination: '/:locale/explore/today', permanent: true },
+      { source: '/explore/celeb-feed', destination: '/explore/feed', permanent: true },
+      { source: '/:locale(ko|en)/explore/celeb-feed', destination: '/:locale/explore/feed', permanent: true },
+      { source: '/explore/top-by-type', destination: '/explore/ranking', permanent: true },
+      { source: '/:locale(ko|en)/explore/top-by-type', destination: '/:locale/explore/ranking', permanent: true },
+      { source: '/library/figure', destination: '/explore/today', permanent: true },
+      { source: '/:locale(ko|en)/library/figure', destination: '/:locale/explore/today', permanent: true },
       // /scriptures → /library 경로 변경 (2026-03-26)
       {
         source: '/scriptures',

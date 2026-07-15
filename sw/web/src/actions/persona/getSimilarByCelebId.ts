@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile, PersonaStats } from '@/lib/persona/types'
@@ -77,7 +78,7 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
 const getAllPersonaVectorsCached = unstable_cache(
   fetchAllPersonaVectors,
   ['all-persona-vectors'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA] }
 )
 
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 persona jsonb 원본과
@@ -99,7 +100,7 @@ function getPersonaByCelebIdCached(celebId: string): Promise<PersonaJoinRow | nu
   return unstable_cache(
     () => fetchPersonaByCelebId(celebId),
     ['persona-by-id', celebId],
-    { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+    { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA] }
   )()
 }
 

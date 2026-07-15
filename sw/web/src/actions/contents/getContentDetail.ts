@@ -2,6 +2,7 @@
 
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getContentById } from './getContentById'
@@ -13,6 +14,7 @@ import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { STATIC_REVALIDATE } from '@/lib/cache'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -183,10 +185,14 @@ async function fetchContentDataPublic(
   }
 }
 
+// 콘텐츠 자체 정보(제목·저자·소개문)는 BO에서 편집할 때만 바뀐다. 사용자 활동으로 변하지 않으므로
+// 셀럽 프로필과 같은 수명을 준다. 사이트맵에 콘텐츠 상세 13,330면을 등재(2026-07-15)한 뒤로는
+// 크롤러 스윕마다 이 조회가 콜드 미스를 내던 구간이라 1시간 수명이 그대로 egress가 됐다.
+// 감상문 피드(getReviewFeed)는 사용자 활동으로 변하므로 1시간을 유지한다.
 const fetchContentDataPublicCached = unstable_cache(
   fetchContentDataPublic,
   ['content-data-public'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 )
 // #endregion
 

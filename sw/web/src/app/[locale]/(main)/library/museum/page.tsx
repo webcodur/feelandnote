@@ -7,10 +7,11 @@
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import MuseumTimeline from "@/components/features/scriptures/museum/MuseumTimeline";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
   const t = await getTranslations("scriptures.museum");
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/museum") };
 }
 
 async function MuseumContent({ cat, sub }: { cat?: string; sub?: string }) {

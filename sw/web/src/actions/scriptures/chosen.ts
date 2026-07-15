@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
@@ -64,7 +65,7 @@ async function fetchChosenScriptures(
 const getChosenScripturesCached = unstable_cache(
   fetchChosenScriptures,
   ['chosen-scriptures'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getChosenScriptures(params?: {

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaStatsWithReasons } from '@/lib/persona/types'
@@ -97,7 +98,8 @@ async function fetchPersonaExtremes(runnersUpLimit: number): Promise<PersonaExtr
 const getCachedPersonaExtremes = unstable_cache(
   fetchPersonaExtremes,
   ['persona-extremes'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // get_persona_extremes: celeb_persona 극단값 + 인물 표시 정보(profiles)
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA, CACHE_TAGS.CELEBS] }
 )
 
 export async function getPersonaExtremes(options?: { runnersUpLimit?: number }): Promise<PersonaExtremeEntry[]> {

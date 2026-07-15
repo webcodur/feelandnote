@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
@@ -132,5 +133,6 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
 export const getCelebTimeline = unstable_cache(
   fetchCelebTimeline,
   ['celeb-timeline'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // profiles + celeb_dialogues
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 )

@@ -11,6 +11,12 @@ interface SelectedTitle {
   grade: string
 }
 
+/**
+ * 셀럽 등급. full만 색인·전면 노출 대상이고, 나머지는 연결용 최소 등록이다.
+ * relation = 관계 실존 인물, fiction = 신화·허구 속 존재.
+ */
+export type CelebTier = 'full' | 'light' | 'relation' | 'fiction'
+
 export interface PublicUserProfile {
   id: string
   slug: string | null
@@ -46,8 +52,9 @@ export interface PublicUserProfile {
   voice_v?: number
   voice_speed?: number
   wikidata_qid?: string | null
-  celeb_tier?: 'full' | 'light' | null
+  celeb_tier?: CelebTier | null
   monologue?: string | null
+  virtual_monologue?: string | null
   youtube_videos?: Record<string, { videoId: string; uploadedAt: string }> | null
 }
 

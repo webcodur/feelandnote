@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache"
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
@@ -140,5 +141,6 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 export const getTagSharedLibrary = unstable_cache(
   fetchTagSharedLibrary,
   ['tag-shared-library'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // celeb_tag_assignments(편성) + profiles + user_contents
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

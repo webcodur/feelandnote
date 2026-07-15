@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -42,7 +43,7 @@ async function fetchYoutubeCelebsPublic(): Promise<YoutubeCeleb[]> {
 const getYoutubeCelebsCached = unstable_cache(
   fetchYoutubeCelebsPublic,
   ['youtube-celebs'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )
 
 /** 유튜브 영상(서재 탐방)을 보유한 활성 셀럽 목록 */

@@ -5,6 +5,7 @@ import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
+import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getLocalizedAlternates } from "@/lib/seo";
@@ -18,6 +19,10 @@ interface PageProps {
 // 정적/ISR 렌더링: 로그인 의존 요소(방명록 본인 판정)를 클라이언트로 분리해
 // 페이지 본문은 쿠키를 읽지 않는다. 봇 크롤이 HTML 캐시에 적중해 DB 조회가 발생하지 않는다.
 export const revalidate = 3600;
+
+// 서버에서 미리 그릴 서가 첫 화면 항목 수. 서재 훅의 기본 페이지 크기와 같아야
+// 초기 HTML과 클라이언트 첫 페이지가 어긋나지 않는다.
+const LIBRARY_FIRST_PAGE_SIZE = 10;
 
 // SEO h1/description 생성
 /** 마지막 글자의 받침 유무로 '이/가' 반환 */
@@ -121,10 +126,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     : buildMetaDescription(nickname, title, contentTypeCounts);
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
 
+  // full 등급만 색인 대상이다. light/relation/fiction은 연결용 최소 등록이라
+  // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
+  // (사이트맵도 full 등급만 등재한다 — 같은 기준)
+  const isIndexable = result.data.celeb_tier === 'full';
+
   // OG 이미지는 opengraph-image.tsx에서 자동 생성 (Next.js file convention)
   return {
     title: pageTitle,
     description,
+    robots: isIndexable ? undefined : { index: false, follow: true },
     alternates: await getLocalizedAlternates(`/celeb/${slug}`),
     openGraph: {
       title: pageTitle,
@@ -154,7 +165,7 @@ export default async function CelebPage({ params }: PageProps) {
     ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
     : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
 
-  const [guestbookResult, personaData, contentList, dialogueData, contemporaries] = await Promise.all([
+  const [guestbookResult, personaData, contentList, dialogueData, contemporaries, initialContents] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getSimilarByCelebId(userId, 3, locale),
     getCelebJsonLdContents(userId),
@@ -162,6 +173,14 @@ export default async function CelebPage({ params }: PageProps) {
     profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
+    // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
+    // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
+    getPublicUserContents({
+      userId,
+      page: 1,
+      limit: LIBRARY_FIRST_PAGE_SIZE,
+      sortBy: 'recent',
+    }),
   ]);
 
   const greetingFromLines = (lines: Record<string, string[] | string> | null | undefined) => {
@@ -241,6 +260,7 @@ export default async function CelebPage({ params }: PageProps) {
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
+        initialContents={initialContents}
       />
     </>
   );

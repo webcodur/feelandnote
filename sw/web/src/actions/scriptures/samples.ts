@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
@@ -68,7 +69,7 @@ async function fetchContentSamplesForCelebs(
 const getContentSamplesForCelebsCached = unstable_cache(
   fetchContentSamplesForCelebs,
   ['content-samples-for-celebs'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 // 미사용 — unstable_cache 래퍼 구조 보존을 위해 export만 해제
@@ -128,7 +129,7 @@ async function fetchContentSamplesByProfession(
 const getContentSamplesByProfessionCached = unstable_cache(
   fetchContentSamplesByProfession,
   ['content-samples-by-profession'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {

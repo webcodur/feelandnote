@@ -18,5 +18,6 @@ async function fetchProfileShowcase(userId: string): Promise<string[]> {
 export const getProfileShowcase = unstable_cache(
   fetchProfileShowcase,
   ['profile-showcase'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // 사용자가 직접 고른 칭호 진열(profiles.showcase_titles)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
+  { revalidate: STATIC_REVALIDATE }
 )

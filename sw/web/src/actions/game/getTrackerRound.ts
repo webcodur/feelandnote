@@ -6,6 +6,7 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
@@ -179,7 +180,8 @@ const getCachedTrackerCandidates = unstable_cache(
     return data ?? [];
   },
   ["tracker-candidates"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  // get_tracker_candidates: profiles + celeb_persona 보유 + 감상문 있는 user_contents 조건
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
 );
 
 export async function getTrackerRound(
@@ -292,7 +294,8 @@ const getCachedFallbackEligible = unstable_cache(
     );
   },
   ["tracker-fallback-eligible"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  // profiles + celeb_persona + user_contents(감상문 수)
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
 );
 
 async function getTrackerRoundFallback(
@@ -354,7 +357,8 @@ const getCachedDistractorPool = unstable_cache(
     return (data ?? []) as DistractorRow[];
   },
   ["tracker-distractor-pool"],
-  { revalidate: STATIC_REVALIDATE, tags: ["celebs"] }
+  // profiles만 읽는다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 
 async function buildRound(

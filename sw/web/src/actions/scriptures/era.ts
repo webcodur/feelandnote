@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
@@ -132,7 +133,7 @@ async function fetchScripturesByEra(locale: string): Promise<EraScriptures[]> {
 const getScripturesByEraCached = unstable_cache(
   fetchScripturesByEra,
   ['scriptures-by-era'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getScripturesByEra(): Promise<EraScriptures[]> {
@@ -204,7 +205,7 @@ async function fetchEraContents(
 const getEraContentsCached = unstable_cache(
   fetchEraContents,
   ['era-contents'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
 export async function getEraContents(params: {

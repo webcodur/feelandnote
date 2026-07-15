@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
@@ -21,7 +22,7 @@ const getCached = unstable_cache(
     return data ?? null
   },
   ['spotlight-tag-name'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS] }
 )
 
 export async function getSpotlightTagName(slug: string): Promise<SpotlightTagName | null> {

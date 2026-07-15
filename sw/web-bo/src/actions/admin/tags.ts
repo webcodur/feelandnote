@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 // #region Types
 export interface CelebTag {
@@ -174,7 +175,8 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tags 신규 — 태그 편성과 태그명을 품은 셀럽 목록 캐시 모두 갱신
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { id: data.id }
 }
 // #endregion
@@ -212,7 +214,8 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tags 수정(이름·색·slug) — 태그명이 셀럽 목록 캐시에 박혀 있어 함께 갱신
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -232,7 +235,8 @@ export async function deleteTag(tagId: string): Promise<{ success: boolean; erro
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tags 삭제 — 배정(celeb_tag_assignments)까지 연쇄 제거되므로 셀럽 캐시도 갱신
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -258,7 +262,8 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tags.sort_order — 노출 순서만 바뀌므로 태그 편성 캐시만
+  await revalidateWebCache(CACHE_TAGS.TAGS)
   return { success: true }
 }
 // #endregion
@@ -369,7 +374,8 @@ export async function updateCelebTags(
   revalidatePath(`/members/${celebId}`)
   revalidatePath('/members')
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tag_assignments 전면 교체 — 셀럽 목록·모달이 배정 태그를 함께 담는다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -408,7 +414,8 @@ export async function updateTagAssignmentDesc(
 
   revalidatePath(`/members/${celebId}`)
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tag_assignments 설명문 — 스포트라이트 소개글이 셀럽 캐시에도 실린다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -591,7 +598,8 @@ export async function setTagTeamImages(
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tags.team_images — 태그 편성 화면 전용
+  await revalidateWebCache(CACHE_TAGS.TAGS)
   return { success: true }
 }
 // #endregion
@@ -616,7 +624,8 @@ export async function setTagCelebImage(
   }
 
   revalidatePath('/members/tags')
-  await revalidateWebCache()
+  // celeb_tag_assignments.spotlight_image_url — 셀럽 카드 이미지에도 반영된다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion

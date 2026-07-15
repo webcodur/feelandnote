@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getTitleInfo } from '@/constants/titles'
@@ -73,7 +74,7 @@ async function fetchSearchUsersPublic(
 const getSearchUsersPublicCached = unstable_cache(
   fetchSearchUsersPublic,
   ['search-users'],
-  { revalidate: 3600, tags: ['celebs'] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS] }
 )
 
 export async function searchUsers({

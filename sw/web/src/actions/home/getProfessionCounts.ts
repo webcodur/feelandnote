@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -53,5 +54,5 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
 export const getProfessionCounts = unstable_cache(
   fetchProfessionCounts,
   ['profession-counts'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )

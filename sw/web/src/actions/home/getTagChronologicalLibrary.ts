@@ -5,7 +5,8 @@
 */
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache"
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getLocale } from "next-intl/server";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
@@ -124,7 +125,8 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 const getTagChronologicalLibraryCached = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
-  { revalidate: STATIC_REVALIDATE, tags: ['celebs'] }
+  // celeb_tag_assignments(편성) + profiles + user_contents
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 
 export async function getTagChronologicalLibrary(tagId: string) {

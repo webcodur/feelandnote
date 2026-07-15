@@ -7,6 +7,7 @@ import {
   voiceR2Key,
 } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 /** 음성 파일 업로드 (단일, VoiceSection 수동 업로드용) */
 export async function uploadVoiceFile(
@@ -35,7 +36,8 @@ export async function toggleHasVoice(
     .update({ has_voice: value })
     .eq('id', celebId)
   if (error) return { success: false, error: error.message }
-  await revalidateWebCache()
+  // profiles.has_voice — 대사 음성 재생 여부를 가르므로 대사 캐시도 함께
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }
 
@@ -104,6 +106,7 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
   const supabase = await createClient()
   await supabase.from('profiles').update({ has_voice: false, voice_v: 0 }).eq('id', celebId)
 
-  await revalidateWebCache()
+  // profiles.has_voice/voice_v — 음성 전량 삭제, 대사 재생 경로도 무효
+  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }

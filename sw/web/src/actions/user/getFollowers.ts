@@ -55,7 +55,8 @@ async function fetchFollowersPublic(userId: string): Promise<PublicFollowerRow[]
 const getFollowersPublicCached = unstable_cache(
   fetchFollowersPublic,
   ['followers'],
-  { revalidate: 3600, tags: ['celebs'] }
+  // 팔로우 관계(follows)와 팔로워인 일반 사용자 표시 정보만 읽는다. BO 수정 대상이 아니다.
+  { revalidate: 3600 }
 )
 
 export async function getFollowers(userId: string): Promise<GetFollowersResult> {

@@ -13,6 +13,7 @@ import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { type PublicUserProfile } from "@/actions/user";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
+import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { DecorativeLabel, FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
@@ -37,6 +38,8 @@ interface CelebPageContentProps {
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
+  /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
+  initialContents: GetUserContentsResponse;
 }
 
 const formatYear = (year: string | null | undefined) => {
@@ -77,6 +80,7 @@ export default function CelebPageContent({
   greeting,
   dialogueLines,
   contemporaries,
+  initialContents,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -303,9 +307,24 @@ export default function CelebPageContent({
             wikidataQid={wikidataQid}
             culturalJourney={profile.cultural_journey}
             celebTier={profile.celeb_tier ?? 'full'}
+            initialContents={initialContents}
           />
         </SectionWrap>
       </section>
+
+      {/* 가상 독백 */}
+      {profile.virtual_monologue && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("virtualMonologue")} />
+          <SectionWrap>
+            <div className="space-y-4 font-serif text-[15px] md:text-base text-text-secondary leading-loose break-keep">
+              {profile.virtual_monologue.split(/\n\n+/).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </SectionWrap>
+        </section>
+      )}
 
       {/* 고유 대사 */}
       {dialogueLines && Object.keys(dialogueLines).length > 0 && (
@@ -348,6 +367,7 @@ export default function CelebPageContent({
             isOwner={false}
             initialEntries={guestbookEntries}
             initialTotal={guestbookTotal}
+            hideEmptyState
           />
         </SectionWrap>
       </section>
