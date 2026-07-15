@@ -92,8 +92,13 @@ export default function HomeFreeBoardList({
 
   return (
     <div className="space-y-3">
-      {/* 글쓰기 — 홈은 둘러보는 자리라 등록 후에도 페이지를 옮기지 않는다 */}
-      <FreePostComposer isLoggedIn={isLoggedIn} stayOnPage />
+      {/* 글쓰기 — 홈은 둘러보는 자리라 등록 후에도 페이지를 옮기지 않는다.
+          목록을 자체 상태로 들고 있으므로 새 글을 직접 얹어야 바로 보인다(최신순이라 맨 앞) */}
+      <FreePostComposer
+        isLoggedIn={isLoggedIn}
+        stayOnPage
+        onCreated={(post) => setPosts((prev) => [post, ...prev])}
+      />
 
       {posts.length === 0 ? (
         <div className="text-center py-16">
