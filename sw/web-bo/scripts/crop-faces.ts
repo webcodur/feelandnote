@@ -8,7 +8,6 @@
  *   pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [옵션]
  *
  * 옵션:
- *   --cutout            배경을 지운다(rembg). 인물만 남은 투명 PNG가 된다
  *   --frame-ratio <n>   정사각 변 대비 얼굴 비율. 기본 0.55 = 정수리 위 여백~쇄골
  *                       (작을수록 아래로 더 내려간다. 0.45면 겨드랑이까지 들어온다)
  *   --size <n>          출력 한 변 픽셀. 기본 800
@@ -16,7 +15,7 @@
  *
  * 산출물: <원본명>_face.png (--all-faces면 <원본명>_face_<번호>.png)
  *
- * 누끼는 얼굴을 자르기 "전에" 한다. 먼저 자르면 목 단면을 배경으로 오인해 함께 지워진다.
+ * 배경 제거(누끼)는 이 스크립트가 하지 않는다. nobg 프로젝트를 쓴다(nobg-cutout 스킬 참조).
  * 산출물을 그대로 upload-celeb-image-from-wikimedia.ts --image-file 에 넘겨 등록한다
  * (그 스크립트는 알파를 보존하며, 이미 얼굴 크롭된 이미지도 그대로 통과한다).
  */
@@ -24,7 +23,6 @@ import sharp from 'sharp'
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'fs'
 import { resolve, dirname, basename, extname, join } from 'path'
 import { fileURLToPath } from 'url'
-import { spawnSync } from 'child_process'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { createRequire } from 'module'
@@ -142,32 +140,6 @@ function computeSquareCrop(
   return { left, top, size }
 }
 
-// ─── 누끼(rembg) ───────────────────────────────────────────
-
-/** rembg로 배경 제거. 실패하면 던진다 — 조용히 원본을 흘려보내면 누끼된 줄 알고 등록된다 */
-function removeBackground(srcPath: string, outPath: string): void {
-  const py = `from rembg import remove, new_session
-from PIL import Image
-im = Image.open(r"${srcPath}")
-out = remove(im, session=new_session("u2net"))
-out.save(r"${outPath}")`
-
-  const candidates = [
-    { cmd: 'py', args: ['-3.12', '-c', py] },
-    { cmd: 'python', args: ['-c', py] },
-  ]
-
-  const errors: string[] = []
-  for (const { cmd, args } of candidates) {
-    const r = spawnSync(cmd, args, { encoding: 'utf-8' })
-    if (r.status === 0 && existsSync(outPath)) return
-    errors.push(`${cmd}: ${r.error?.message ?? r.stderr?.slice(-300) ?? `exit ${r.status}`}`)
-  }
-  throw new Error(
-    `rembg 배경 제거 실패. python에 rembg가 설치돼 있어야 한다(pip install rembg).\n${errors.join('\n')}`
-  )
-}
-
 // ─── 인자 ──────────────────────────────────────────────────
 
 function parseArgs() {
@@ -182,7 +154,7 @@ function parseArgs() {
       continue
     }
     const key = a.slice(2)
-    if (key === 'cutout' || key === 'all-faces') {
+    if (key === 'all-faces') {
       flags.set(key, 'true')
     } else {
       flags.set(key, argv[++i] ?? '')
@@ -201,7 +173,6 @@ function parseArgs() {
   return {
     input: positional[0],
     outDir: positional[1],
-    cutout: flags.has('cutout'),
     allFaces: flags.has('all-faces'),
     frameRatio,
     size,
@@ -213,19 +184,10 @@ function parseArgs() {
 async function processOne(
   imagePath: string,
   outDir: string,
-  opts: { cutout: boolean; allFaces: boolean; frameRatio: number; size: number }
+  opts: { allFaces: boolean; frameRatio: number; size: number }
 ): Promise<{ done: number; skipped: boolean }> {
   const name = basename(imagePath, extname(imagePath))
-
-  // 1) 누끼는 얼굴을 자르기 전에. 순서를 바꾸면 목 단면이 배경으로 오인돼 지워진다
-  let workPath = imagePath
-  if (opts.cutout) {
-    const cutPath = resolve(outDir, `${name}_cut.png`)
-    removeBackground(imagePath, cutPath)
-    workPath = cutPath
-  }
-
-  const rotated = await sharp(readFileSync(workPath)).rotate().toBuffer()
+  const rotated = await sharp(readFileSync(imagePath)).rotate().toBuffer()
   const meta = await sharp(rotated).metadata()
   const W = meta.width ?? 0
   const H = meta.height ?? 0
@@ -264,7 +226,7 @@ async function main() {
   const args = parseArgs()
 
   if (!args.input) {
-    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--cutout] [--frame-ratio 0.45] [--size 800] [--all-faces]')
+    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--frame-ratio 0.55] [--size 800] [--all-faces]')
     process.exit(1)
   }
   if (!existsSync(args.input)) {
@@ -291,7 +253,7 @@ async function main() {
   const outDir = args.outDir ?? (isDir ? args.input : dirname(args.input))
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
 
-  console.log(`초기화 중 (TF, FaceAPI)... 대상 ${targets.length}장, 누끼=${args.cutout}`)
+  console.log(`초기화 중 (TF, FaceAPI)... 대상 ${targets.length}장`)
   await ensureTf()
   await ensureFaceModels()
 
