@@ -9,7 +9,8 @@
  *
  * 옵션:
  *   --cutout            배경을 지운다(rembg). 인물만 남은 투명 PNG가 된다
- *   --frame-ratio <n>   정사각 변 대비 얼굴 비율. 기본 0.45 (작을수록 얼굴이 작게=여백 넓게)
+ *   --frame-ratio <n>   정사각 변 대비 얼굴 비율. 기본 0.55 = 정수리 위 여백~쇄골
+ *                       (작을수록 아래로 더 내려간다. 0.45면 겨드랑이까지 들어온다)
  *   --size <n>          출력 한 변 픽셀. 기본 800
  *   --all-faces         한 장에서 검출된 얼굴을 전부 뽑는다(기본: 가장 큰 얼굴 1개)
  *
@@ -107,7 +108,19 @@ async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
   }
 }
 
-/** 얼굴을 감싸는 정사각 영역. frameRatio = 정사각 변 대비 얼굴 크기 */
+/**
+ * 검출 상자 위로 확보하는 여백. 얼굴 높이 기준 배수.
+ * face-api 상자는 눈썹~턱이라 정수리가 빠진다. 0.5면 정수리가 들어오고 위로 약간 남는다.
+ */
+const HEADROOM = 0.5
+
+/**
+ * 얼굴을 감싸는 정사각 영역. 위는 HEADROOM으로 고정하고 frameRatio가 아래 경계를 정한다.
+ * frameRatio = 정사각 변 대비 얼굴 크기 — 작을수록 정사각이 커져 아래로 더 내려간다.
+ *
+ * 기본 0.55에서 아래 경계는 턱 밑 얼굴 높이의 약 0.3배, 곧 쇄골 언저리다.
+ * (0.45로 두면 0.56배까지 내려가 겨드랑이가 들어온다)
+ */
 function computeSquareCrop(
   face: DetectedFace,
   imgW: number,
@@ -119,11 +132,10 @@ function computeSquareCrop(
   size = Math.min(size, imgW, imgH)
 
   const cx = face.x + face.width / 2
-  // 눈높이가 가운데 오도록 얼굴 중심보다 살짝 위를 기준으로 잡는다(정수리 여백 확보)
-  const cy = face.y + face.height * 0.45
-
   let left = Math.round(cx - size / 2)
-  let top = Math.round(cy - size / 2)
+  // 정수리 여백을 먼저 확정한다. 아래 경계는 남는 만큼 따라온다
+  let top = Math.round(face.y - faceSize * HEADROOM)
+
   left = Math.max(0, Math.min(left, imgW - size))
   top = Math.max(0, Math.min(top, imgH - size))
 
@@ -177,7 +189,7 @@ function parseArgs() {
     }
   }
 
-  const frameRatio = Number(flags.get('frame-ratio') ?? '0.45')
+  const frameRatio = Number(flags.get('frame-ratio') ?? '0.55')
   const size = Number(flags.get('size') ?? '800')
   if (!(frameRatio > 0 && frameRatio <= 1)) {
     throw new Error(`--frame-ratio 는 0~1 사이여야 한다: ${flags.get('frame-ratio')}`)
