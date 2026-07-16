@@ -2,6 +2,9 @@
 
 import type { ContentType } from './database'
 import type { CelebLevel } from '@/constants/materials'
+import type { CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
+
+export type { CelebTier }
 
 // region: 셀럽 관련 타입
 
@@ -57,7 +60,7 @@ export interface CelebProfile {
   has_voice?: boolean  // R2 음성 파일 보유 여부
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
   voice_speed?: number  // 음성 재생 속도 (기본 1.0)
-  celeb_tier?: 'full' | 'light'  // full: 감상 기록 보유, light: 감상 여정만
+  celeb_tier?: CelebTier  // full: 감상 기록 보유, light: 감상 여정만, relation: 관계 실존 인물, fiction: 신화·허구
 }
 
 export interface CelebReview {

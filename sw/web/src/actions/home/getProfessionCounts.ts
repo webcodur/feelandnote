@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -11,12 +12,13 @@ export type ProfessionCounts = Record<string, number>
 async function fetchProfessionCounts(): Promise<ProfessionCounts> {
   const supabase = createStaticClient()
 
-  // 전체 셀럽 수
+  // 전체 셀럽 수 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
   const { count: totalCount } = await supabase
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
   const counts: ProfessionCounts = {
     all: totalCount ?? 0,
@@ -30,6 +32,7 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
     .select('profession')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .in('profession', professionValues)
 
   // 직군별로 그룹핑

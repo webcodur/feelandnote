@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 
 /** seed 기반 fallback */
 function calcSeed(dateStr: string): number {
@@ -27,6 +28,8 @@ export async function GET(request: Request) {
     .select('id, nickname')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    // 신화·관계 인물은 목록에서 제외
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .like('birth_date', `%-${monthDay}`)
 
   let selectedId: string
@@ -65,6 +68,8 @@ export async function GET(request: Request) {
       .select('id')
       .eq('profile_type', 'CELEB')
       .eq('status', 'active')
+      // 신화·관계 인물은 목록에서 제외
+      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
     if (!celebProfiles?.length) {
       return NextResponse.json({ message: 'No celebs found' })

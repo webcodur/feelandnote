@@ -22,10 +22,12 @@ import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
 import LibraryTabs from "./LibraryTabs";
+import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
 import DialogueSection from "./DialogueSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
+import VirtualMonologueSection from "./VirtualMonologueSection";
 
 interface CelebPageContentProps {
   profile: PublicUserProfile;
@@ -99,6 +101,9 @@ export default function CelebPageContent({
   const hasVoice = profile.has_voice ?? false;
   const nickname = profile.nickname;
   const wikidataQid = profile.wikidata_qid ?? null;
+  const celebTier = profile.celeb_tier ?? 'full';
+  // 신화·관계 인물은 감상 기록·감상 여정·창작물이 없다. 빈 서가를 띄우지 않는다.
+  const showLibrary = celebTier !== 'fiction' && celebTier !== 'relation';
 
   const celebForGreeting = { ...profile, greeting, nickname };
 
@@ -173,12 +178,14 @@ export default function CelebPageContent({
                   </span>
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
+                <CelebTierBadge tier={celebTier} />
               </div>
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep text-left">
                   {profile.bio}
                 </p>
               )}
+              <CelebTierNotice tier={celebTier} />
               {profile.quotes && (
                 <div className="flex items-start justify-center gap-1.5 pt-1">
                   <p className="font-serif text-[15px] text-accent/80 leading-relaxed break-keep italic text-left">
@@ -241,12 +248,14 @@ export default function CelebPageContent({
                   </span>
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
+                <CelebTierBadge tier={celebTier} />
               </div>
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep">
                   {profile.bio}
                 </p>
               )}
+              <CelebTierNotice tier={celebTier} />
               {profile.quotes && (
                 <div className="flex items-start gap-1.5 pt-1">
                   <p className="font-serif text-[15px] text-accent/80 leading-relaxed break-keep italic">
@@ -297,34 +306,32 @@ export default function CelebPageContent({
       )}
 
       {/* 기록 서가 (감상 기록 / 감상 여정 / 창작물) */}
-      <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-        <DecorativeLabel label={t("library")} />
-        <SectionWrap>
-          <LibraryTabs
-            userId={userId}
-            nickname={nickname}
-            emptyMessage={t("libraryEmpty")}
-            wikidataQid={wikidataQid}
-            culturalJourney={profile.cultural_journey}
-            celebTier={profile.celeb_tier ?? 'full'}
-            initialContents={initialContents}
-          />
-        </SectionWrap>
-      </section>
+      {showLibrary && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("library")} />
+          <SectionWrap>
+            <LibraryTabs
+              userId={userId}
+              nickname={nickname}
+              emptyMessage={t("libraryEmpty")}
+              wikidataQid={wikidataQid}
+              culturalJourney={profile.cultural_journey}
+              celebTier={celebTier}
+              initialContents={initialContents}
+            />
+          </SectionWrap>
+        </section>
+      )}
 
-      {/* 가상 독백 */}
+      {/* 가상 독백 — 원문은 한국어. 영어 화면에서는 브라우저 내장 번역 버튼을 곁들인다 */}
       {profile.virtual_monologue && (
         <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
           <DecorativeLabel label={t("virtualMonologue")} />
           <SectionWrap>
-            <p className="text-xs text-text-tertiary leading-relaxed break-keep mb-4">
-              {t("virtualMonologueNote")}
-            </p>
-            <div className="space-y-4 font-serif text-[15px] md:text-base text-text-secondary leading-loose break-keep">
-              {profile.virtual_monologue.split(/\n\n+/).map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
+            <VirtualMonologueSection
+              text={profile.virtual_monologue}
+              showTranslate={locale === "en"}
+            />
           </SectionWrap>
         </section>
       )}

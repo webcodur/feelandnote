@@ -375,7 +375,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
-    p_celeb_tier: null,
+    p_celeb_tiers: null, // 관리자 목록은 등급 제한 없음
   })
   const total = countData ?? 0
 
@@ -399,7 +399,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
-    p_celeb_tier: null,
+    p_celeb_tiers: null, // 관리자 목록은 등급 제한 없음
   })
 
   if (error) {
@@ -761,8 +761,8 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   }
 
   revalidatePath('/celebs')
-  revalidatePath(`/celebs/${input.id}`)
-  revalidatePath(`/members/${input.id}`)
+  // 상세는 slug로 주소가 잡힌다(/celebs/[slug]). id로 짚으면 빗나가므로 라우트 패턴으로 지정
+  revalidatePath('/celebs/[slug]', 'page')
   // profiles·celeb_influence 수정 + 명언(quotes)이 오면 celeb_dialogues까지 건드린다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 
@@ -854,8 +854,8 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   if (error) throw error
 
   revalidatePath('/celebs')
-  revalidatePath('/members')
-  revalidatePath('/members/titles')
+  revalidatePath('/celebs/titles')
+  revalidatePath('/celebs/[slug]', 'page')
   // profiles.status='deleted' 소프트 삭제 — 인물이 사이트 전역에서 사라져야 한다
   await revalidateWebCache([
     CACHE_TAGS.CELEBS,
@@ -1023,7 +1023,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 
   if (error) throw error
 
-  revalidatePath(`/celebs/${input.celeb_id}/contents`)
+  revalidatePath('/celebs/[slug]/contents', 'page')
   // user_contents 신규 — 셀럽 서고에 책이 꽂히고 콘텐츠 쪽 보유자 목록도 바뀐다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
 
@@ -1093,7 +1093,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
     }
   }
 
-  revalidatePath(`/celebs/${input.celeb_id}/contents`)
+  revalidatePath('/celebs/[slug]/contents', 'page')
   // user_contents(감상문·평점) + contents.type + content_locales(제목·저자)
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
 }
@@ -1108,7 +1108,7 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
 
   if (error) throw error
 
-  revalidatePath(`/celebs/${celebId}/contents`)
+  revalidatePath('/celebs/[slug]/contents', 'page')
   // user_contents 삭제 — 셀럽 서고와 콘텐츠 보유자 목록 양쪽에서 빠진다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
 }
@@ -1165,72 +1165,9 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
 }
 // #endregion
 
-// #region getCelebsForQuotesEdit / updateCelebQuotes - 명언 편집
-export interface CelebQuotesItem {
-  id: string
-  nickname: string | null
-  avatar_url: string | null
-  profession: string | null
-  quotes: string | null
-  quotes_en: string | null
-}
-
-export async function getCelebsForQuotesEdit(): Promise<CelebQuotesItem[]> {
-  const supabase = await createClient()
-
-  const [profilesResult, dialoguesResult] = await Promise.all([
-    supabase
-      .from('profiles')
-      .select('id, nickname, avatar_url, profession')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
-      .order('nickname', { ascending: true }),
-    supabase
-      .from('celeb_dialogues')
-      .select('celeb_id, lines, lines_en'),
-  ])
-
-  if (profilesResult.error) throw profilesResult.error
-
-  const quoteMap = new Map<string, { quotes: string | null; quotes_en: string | null }>()
-  for (const d of dialoguesResult.data ?? []) {
-    quoteMap.set(d.celeb_id, {
-      quotes: (d.lines as any)?.quote ?? null,
-      quotes_en: (d.lines_en as any)?.quote ?? null,
-    })
-  }
-
-  return (profilesResult.data || []).map(p => ({
-    ...p,
-    quotes: quoteMap.get(p.id)?.quotes ?? null,
-    quotes_en: quoteMap.get(p.id)?.quotes_en ?? null,
-  }))
-}
-
-export async function updateCelebQuotes(celebId: string, quotes: string | null): Promise<void> {
-  const supabase = createAdminClient()
-
-  // celeb_dialogues.lines.quote 업데이트
-  const { data: existing } = await supabase
-    .from('celeb_dialogues')
-    .select('lines')
-    .eq('celeb_id', celebId)
-    .maybeSingle()
-
-  const updatedLines = { ...(existing?.lines as Record<string, any> ?? {}), quote: quotes ?? '' }
-  const { error } = await supabase
-    .from('celeb_dialogues')
-    .upsert({ celeb_id: celebId, lines: updatedLines }, { onConflict: 'celeb_id' })
-
-  if (error) throw error
-
-  revalidatePath('/celebs')
-  revalidatePath('/celebs/quotes')
-  revalidatePath(`/celebs/${celebId}`)
-  // celeb_dialogues.lines.quote — 명언 SSoT는 대사 테이블이다
-  await revalidateWebCache(CACHE_TAGS.DIALOGUES)
-}
-// #endregion
+// 명언 편집(getCelebsForQuotesEdit / updateCelebQuotes)은 제거했다.
+// 명언은 /celebs/voice-gen에서 대사와 함께 편집한다 — 목록은 getCelebsForVoiceGen,
+// 저장은 voice-gen.ts의 saveQuote(ko·en 둘 다)가 맡는다. 여기 있던 짝은 ko만 저장했다.
 
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
@@ -1244,9 +1181,9 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
 
   if (error) throw error
 
-  revalidatePath('/members')
-  revalidatePath('/members/titles')
-  revalidatePath(`/members/${celebId}`)
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/titles')
+  revalidatePath('/celebs/[slug]', 'page')
   // profiles.title
   await revalidateWebCache(CACHE_TAGS.CELEBS)
 }
@@ -1264,9 +1201,9 @@ export async function updateCelebProfession(celebId: string, profession: string 
 
   if (error) throw error
 
-  revalidatePath('/members')
-  revalidatePath('/members/professions')
-  revalidatePath(`/members/${celebId}`)
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/professions')
+  revalidatePath('/celebs/[slug]', 'page')
   // profiles.profession
   await revalidateWebCache(CACHE_TAGS.CELEBS)
 }
@@ -1284,9 +1221,9 @@ export async function updateCelebJourney(celebId: string, journey: string | null
 
   if (error) throw error
 
-  revalidatePath('/members')
-  revalidatePath('/members/journeys')
-  revalidatePath(`/members/${celebId}`)
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/journeys')
+  revalidatePath('/celebs/[slug]', 'page')
   // profiles.cultural_journey
   await revalidateWebCache(CACHE_TAGS.CELEBS)
 }
@@ -1299,9 +1236,10 @@ export interface CelebStats {
   uniqueProfessions: number
   uniqueNationalities: number
   professionDistribution: { profession: string; count: number }[]
-  topFollowerCelebs: { id: string; nickname: string; profession: string | null; follower_count: number }[]
-  topContentCelebs: { id: string; nickname: string; profession: string | null; content_count: number }[]
-  recentCelebs: { id: string; nickname: string; profession: string | null; created_at: string }[]
+  // 상세 화면 주소가 slug로 잡히므로(/celebs/[slug]) 목록마다 slug를 함께 싣는다.
+  topFollowerCelebs: { id: string; slug: string | null; nickname: string; profession: string | null; follower_count: number }[]
+  topContentCelebs: { id: string; slug: string | null; nickname: string; profession: string | null; content_count: number }[]
+  recentCelebs: { id: string; slug: string | null; nickname: string; profession: string | null; created_at: string }[]
 }
 
 export async function getCelebStats(): Promise<CelebStats> {
@@ -1334,7 +1272,7 @@ export async function getCelebStats(): Promise<CelebStats> {
   // 상위 팔로워 셀럽
   const { data: followerData } = await supabase
     .from('profiles')
-    .select('id, nickname, profession, user_social(follower_count)')
+    .select('id, slug, nickname, profession, user_social(follower_count)')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('user_social(follower_count)', { ascending: false })
@@ -1344,6 +1282,7 @@ export async function getCelebStats(): Promise<CelebStats> {
     const social = Array.isArray(c.user_social) ? c.user_social[0] : c.user_social
     return {
       id: c.id,
+      slug: c.slug || null,
       nickname: c.nickname || '',
       profession: c.profession,
       follower_count: social?.follower_count || 0,
@@ -1371,7 +1310,7 @@ export async function getCelebStats(): Promise<CelebStats> {
 
   const { data: topContentProfiles } = await supabase
     .from('profiles')
-    .select('id, nickname, profession')
+    .select('id, slug, nickname, profession')
     .in('id', top10ContentIds)
 
   const profileMap = new Map((topContentProfiles || []).map((p) => [p.id, p]))
@@ -1379,6 +1318,7 @@ export async function getCelebStats(): Promise<CelebStats> {
     const profile = profileMap.get(id)
     return {
       id,
+      slug: profile?.slug || null,
       nickname: profile?.nickname || '',
       profession: profile?.profession || null,
       content_count: contentCountMap[id] || 0,
@@ -1388,7 +1328,7 @@ export async function getCelebStats(): Promise<CelebStats> {
   // 최근 등록 셀럽
   const { data: recentData } = await supabase
     .from('profiles')
-    .select('id, nickname, profession, created_at')
+    .select('id, slug, nickname, profession, created_at')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
@@ -1396,6 +1336,7 @@ export async function getCelebStats(): Promise<CelebStats> {
 
   const recentCelebs = (recentData || []).map((c) => ({
     id: c.id,
+    slug: c.slug || null,
     nickname: c.nickname || '',
     profession: c.profession,
     created_at: c.created_at,

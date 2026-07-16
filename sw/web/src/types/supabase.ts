@@ -2441,7 +2441,7 @@ export type Database = {
       }
       count_celebs_filtered: {
         Args: {
-          p_celeb_tier?: string
+          p_celeb_tiers?: string[]
           p_content_type?: string
           p_gender?: string
           p_include_inactive?: boolean
@@ -2499,7 +2499,7 @@ export type Database = {
       }
       get_celebs_sorted: {
         Args: {
-          p_celeb_tier?: string
+          p_celeb_tiers?: string[]
           p_content_type?: string
           p_gender?: string
           p_include_inactive?: boolean

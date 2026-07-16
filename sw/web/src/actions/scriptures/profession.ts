@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -41,6 +42,8 @@ async function fetchProfessionAggregate(
     .select('id')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    // 신화·관계 인물은 목록에서 제외
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .eq('profession', profession)
 
   if (profileError || !celebProfiles?.length) return null
@@ -136,6 +139,8 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
         .select('id', { count: 'exact', head: true })
         .eq('profile_type', 'CELEB')
         .eq('status', 'active')
+        // 신화·관계 인물은 목록에서 제외
+        .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
         .eq('profession', key)
 
       return count && count > 0 ? { profession: key, label, count } : null

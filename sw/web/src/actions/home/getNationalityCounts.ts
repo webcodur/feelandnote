@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getCountryNamesMap } from '@/lib/countries'
@@ -17,12 +18,13 @@ export type NationalityCounts = NationalityCount[]
 async function fetchNationalityCounts(): Promise<NationalityCounts> {
   const supabase = createStaticClient()
 
-  // 전체 셀럽 수
+  // 전체 셀럽 수 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
   const { count: totalCount } = await supabase
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
   // 국적 정보 없는 셀럽 수
   const { count: noNationalityCount } = await supabase
@@ -30,6 +32,7 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
     .select('*', { count: 'exact', head: true })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .is('nationality', null)
 
   // 모든 국적 데이터 조회
@@ -38,6 +41,7 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
     .select('nationality')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .not('nationality', 'is', null)
 
   // 국적별로 그룹핑

@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -24,7 +25,7 @@ interface GetCelebsParams {
   tagId?: string  // 태그 필터
   minContentCount?: number // 최소 컨텐츠 개수
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
-  tier?: 'full' | 'light' // celeb_tier 필터
+  tiers?: readonly CelebTier[] // 노출 등급 필터. 미지정 시 LISTING_DEFAULT_TIERS(full·light)
 }
 
 interface GetCelebsResult {
@@ -92,7 +93,7 @@ async function fetchCelebsPublic(
   page: number, limit: number, profession: string | null, nationality: string | null,
   contentType: string | null, gender: string | null, sortBy: string,
   search: string | null, tagId: string | null, minContentCount: number,
-  includeInactive: boolean, tier: string | null
+  includeInactive: boolean, tiers: string[]
 ): Promise<PublicCelebData> {
   const supabase = createStaticClient()
   const offset = (page - 1) * limit
@@ -101,7 +102,7 @@ async function fetchCelebsPublic(
   const { data: countData } = await supabase.rpc('count_celebs_filtered', {
     p_profession: profession, p_nationality: nationality, p_content_type: contentType,
     p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
-    p_gender: gender, p_include_inactive: includeInactive, p_celeb_tier: tier,
+    p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
   })
   const total = countData ?? 0
   const totalPages = Math.ceil(total / limit)
@@ -111,7 +112,7 @@ async function fetchCelebsPublic(
     p_profession: profession, p_nationality: nationality, p_content_type: contentType,
     p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
     p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
-    p_include_inactive: includeInactive, p_celeb_tier: tier,
+    p_include_inactive: includeInactive, p_celeb_tiers: tiers,
   })
 
   const rows = (data || []) as CelebRow[]
@@ -199,14 +200,14 @@ const getCelebsCached = unstable_cache(
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tier } = params
+  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tiers } = params
 
   // 1. 캐싱된 공개 데이터 조회
   const pub = await getCelebsCached(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, minContentCount,
-    includeInactive, tier ?? null
+    includeInactive, [...(tiers ?? LISTING_DEFAULT_TIERS)]
   )
 
   if (pub.rows.length === 0) {
@@ -280,7 +281,7 @@ export async function getCelebs(
       has_voice: !!voice,
       voice_v: voice?.voice_v ?? 0,
       voice_speed: voice?.voice_speed ?? 1.0,
-      celeb_tier: (row.celeb_tier as 'full' | 'light') ?? 'full',
+      celeb_tier: (row.celeb_tier as CelebTier) ?? 'full',
     }
   })
 

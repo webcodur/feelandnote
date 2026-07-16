@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import {
@@ -38,7 +39,7 @@ export interface InfluenceDistribution {
 async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
   const supabase = createStaticClient()
 
-  // 영향력 데이터와 프로필 조인 — 비활성 셀럽은 DB단에서 걸러 수신 자체를 차단
+  // 영향력 데이터와 프로필 조인 — 비활성·목록 비노출 등급 셀럽은 DB단에서 걸러 수신 자체를 차단
   const { data } = await supabase
     .from('celeb_influence')
     .select(`
@@ -53,6 +54,7 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
       )
     `)
     .eq('profiles.status', 'active')
+    .in('profiles.celeb_tier', [...LISTING_DEFAULT_TIERS])
     .order('total_score', { ascending: false })
 
   // 초기값 설정 (1~9 오라 모두 0으로 초기화)

@@ -1,6 +1,10 @@
 {
   "celebPage": {
     "intro": "인물 소개",
+    "tierFictionBadge": "신화 속 인물",
+    "tierFictionNotice": "실제로 살았던 사람이 아니라 신화와 서사시에 등장하는 인물입니다. 그래도 이 인물의 말과 선택에는 오랜 세월 사람들이 쌓아 온 생각이 담겨 있습니다. 한 사람의 생애가 아니라 그를 만들어 낸 사람들의 세계관을 읽는 자리로 삼아 주세요.",
+    "tierRelationBadge": "관계로 만나는 인물",
+    "tierRelationNotice": "다른 인물이나 영상에 함께 등장해 소개하는 인물입니다. 감상 기록 대신 기본 소개만 담았습니다.",
     "library": "기록 서가",
     "libraryEmpty": "아직 공개된 기록의 서가가 비어있습니다.",
     "analysis": "인물 분석",
@@ -16,6 +20,12 @@
     "monologue": "독백",
     "virtualMonologue": "가상 독백",
     "virtualMonologueNote": "인물의 저서와 공개된 발언을 바탕으로 사상과 신념을 재구성한 글입니다. 본인이 실제로 남긴 말은 아닙니다.",
+    "virtualMonologueKoNotice": "이 글은 한국어 원문입니다.",
+    "virtualMonologueTranslate": "영어로 번역",
+    "virtualMonologueShowOriginal": "원문 보기",
+    "virtualMonologueTranslating": "번역 중...",
+    "virtualMonologueTranslateError": "번역에 실패했습니다. 원문을 표시합니다.",
+    "virtualMonologueMachineNote": "브라우저에서 자동 번역한 글입니다.",
     "contemporaries": "동시대 인물",
     "videos": "영상",
     "videosLongform": "본편",

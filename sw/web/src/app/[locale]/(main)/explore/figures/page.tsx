@@ -11,6 +11,7 @@ import CelebsSection from "@/components/features/user/explore/sections/CelebsSec
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import { getCelebs, getProfessionCounts, getNationalityCounts, getContentTypeCounts, getGenderCounts, getCelebsByProfession } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
+import { parseCelebTiers } from "@feelandnote/shared/constants/celeb-tiers";
 
 export const revalidate = 3600;
 
@@ -52,8 +53,9 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
   const pageSizeRaw = parseInt(parseParam(searchParams, "pageSize") || "24", 10);
   const pageSize = [12, 24, 48, 96].includes(pageSizeRaw) ? pageSizeRaw : 24;
-  const tierRaw = parseParam(searchParams, "tier");
-  const tier = (tierRaw === "full" || tierRaw === "light") ? tierRaw : undefined;
+  // 등급 필터. 미지정이면 getCelebs가 기본 등급(full·light)만 노출한다.
+  const tiers = parseCelebTiers(parseParam(searchParams, "tier"));
+  const tagId = parseParam(searchParams, "tagId");
 
   const notAll = (v?: string) => v && v !== "all" ? v : undefined;
 
@@ -68,7 +70,8 @@ async function CelebsFilterContent({ searchParams }: { searchParams: Record<stri
       contentType: notAll(contentType),
       gender: notAll(gender),
       search: search || undefined,
-      tier,
+      tagId: notAll(tagId),
+      tiers,
     }),
     getProfessionCounts(),
     getNationalityCounts(),

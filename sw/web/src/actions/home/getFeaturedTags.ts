@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -138,11 +139,15 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   // 3. 모든 셀럽 데이터 병렬 조회
   const [profilesResult, followsResult, influencesResult, tagDataResult, contentCountsResult, dialoguesResult] = await Promise.all([
+    // 편성에 배정됐어도 비활성이거나 목록 노출 등급이 아니면 제외한다
+    // (여기서 빠진 셀럽은 profileMap에 없어 아래 조합 단계에서 자연히 걸러진다)
     supabase.from('profiles').select(`
       id, slug, nickname, nickname_en, avatar_url, title, title_en, profession,
       cultural_journey, cultural_journey_en, nationality, birth_date, death_date,
       bio, bio_en, is_verified, claimed_by, speech_tone, has_voice, voice_v, voice_speed
-    `).in('id', celebIdArray),
+    `).in('id', celebIdArray)
+      .eq('status', 'active')
+      .in('celeb_tier', [...LISTING_DEFAULT_TIERS]),
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
     supabase.from('celeb_influence').select('celeb_id, total_score').in('celeb_id', celebIdArray),
     supabase.from('celeb_tag_assignments')

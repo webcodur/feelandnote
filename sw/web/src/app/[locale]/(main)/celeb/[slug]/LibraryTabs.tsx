@@ -31,9 +31,6 @@ export default function LibraryTabs({
   celebTier = 'full',
   initialContents,
 }: LibraryTabsProps) {
-  const isLight = celebTier === 'light';
-  const defaultTab: Tab = isLight ? "journey" : "consume";
-  const [tab, setTab] = useState<Tab>(defaultTab);
   const t = useTranslations("celebPage");
 
   const tabs: { key: Tab; label: string; desc: string; show: boolean }[] = [
@@ -43,6 +40,10 @@ export default function LibraryTabs({
   ];
 
   const visibleTabs = tabs.filter((t) => t.show);
+
+  // light는 감상 여정이 주역이라 그 탭을 먼저 연다. 다만 여정이 없으면 빈 화면이 되므로 감상 기록으로 되돌린다.
+  const defaultTab: Tab = celebTier === 'light' && culturalJourney ? "journey" : "consume";
+  const [tab, setTab] = useState<Tab>(defaultTab);
 
   return (
     <div>

@@ -8,6 +8,7 @@ import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
+import { LISTING_DEFAULT_TIERS, parseCelebTiers, type CelebTier } from "@feelandnote/shared/constants/celeb-tiers";
 
 // #region 상수
 export const SORT_VALUES: CelebSortBy[] = [
@@ -15,7 +16,7 @@ export const SORT_VALUES: CelebSortBy[] = [
   "content_count", "name_asc", "birth_date_desc", "birth_date_asc",
 ];
 
-export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort";
+export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort" | "tier";
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
@@ -82,10 +83,10 @@ export function useCelebFilters({
     const ps = parseInt(searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE), 10);
     return PAGE_SIZE_OPTIONS.includes(ps) ? ps : DEFAULT_PAGE_SIZE;
   });
-  const [tier] = useState<'full' | 'light' | undefined>(() => {
+  // 등급 필터. 미지정이면 getCelebs가 기본 등급(full·light)만 노출한다.
+  const [tiers, setTiers] = useState<CelebTier[] | undefined>(() => {
     if (!syncToUrl) return undefined;
-    const t = searchParams.get("tier");
-    return (t === 'full' || t === 'light') ? t : undefined;
+    return parseCelebTiers(searchParams.get("tier"));
   });
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -128,7 +129,8 @@ export function useCelebFilters({
     page: number,
     searchTerm: string,
     inactive?: boolean,
-    limitOverride?: number
+    limitOverride?: number,
+    tiersOverride?: CelebTier[]
   ) => {
     setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
@@ -143,13 +145,13 @@ export function useCelebFilters({
       search: searchTerm || undefined,
       minContentCount: 0,
       includeInactive: isInactive,
-      tier,
+      tiers: tiersOverride ?? tiers,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive, pageSize, tier]);
+  }, [includeInactive, pageSize, tiers]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
@@ -185,6 +187,16 @@ export function useCelebFilters({
     loadCelebs(profession, nationality, contentType, gender, sort, 1, search);
     updateUrlParams({ sortBy: sort, page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, search, updateUrlParams]);
+
+  // 등급 필터 변경. 기본 등급과 같으면 URL에서 지운다.
+  const handleTiersChange = useCallback((next: CelebTier[]) => {
+    const value = next.length > 0 ? next : undefined;
+    setTiers(value);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, value);
+    const isDefault = !value || (value.length === LISTING_DEFAULT_TIERS.length && LISTING_DEFAULT_TIERS.every(t => value.includes(t)));
+    updateUrlParams({ tier: isDefault ? null : value.join(","), page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
@@ -239,6 +251,8 @@ export function useCelebFilters({
     gender,
     sortBy,
     search,
+    tiers: tiers ?? [...LISTING_DEFAULT_TIERS],
+    handleTiersChange,
     contentUnit,
     activeFilter,
     setActiveFilter,

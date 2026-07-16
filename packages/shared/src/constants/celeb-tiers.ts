@@ -1,0 +1,28 @@
+// 셀럽 등급(celeb_tier) 상수 — Single Source of Truth
+// profiles.celeb_tier에 CHECK 제약이 없으므로 이 파일이 유일한 규약이다.
+
+export type CelebTier = 'full' | 'light' | 'relation' | 'fiction'
+
+export const CELEB_TIERS: readonly CelebTier[] = ['full', 'light', 'relation', 'fiction'] as const
+
+// 목록(홈·검색·탐색·타임라인·사이트맵)의 기본 노출 등급.
+// relation·fiction은 기본에서 빠지고 필터로 명시할 때만 등장한다. 상세 페이지는 등급과 무관하게 열린다.
+export const LISTING_DEFAULT_TIERS: readonly CelebTier[] = ['full', 'light'] as const
+
+// 색인 대상. full만 sitemap 등재·robots index.
+export const INDEXABLE_TIERS: readonly CelebTier[] = ['full'] as const
+
+// 실존 인물이 아닌 등급
+export const FICTIONAL_TIERS: readonly CelebTier[] = ['fiction'] as const
+
+export function isCelebTier(value: string | null | undefined): value is CelebTier {
+  return !!value && (CELEB_TIERS as readonly string[]).includes(value)
+}
+
+// 문자열/URL 파라미터를 등급 배열로. 쉼표 구분(`fiction,light`), 'all'은 전체 등급.
+export function parseCelebTiers(raw: string | null | undefined): CelebTier[] | undefined {
+  if (!raw) return undefined
+  if (raw === 'all') return [...CELEB_TIERS]
+  const tiers = raw.split(',').map(s => s.trim()).filter(isCelebTier)
+  return tiers.length > 0 ? [...new Set(tiers)] : undefined
+}

@@ -1,10 +1,17 @@
 import type { MetadataRoute } from 'next'
+import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 
 // 사이트맵이 1시간 단위로 신선할 이유가 없다. 재생성 1회가 Supabase에서 약 1MB를 끌어오므로
 // (셀럽 1,257행 + user_contents 11,230행 스캔) 주기를 하루로 둔다 — 이론 최대 750MB/월 → 30MB/월
 export const revalidate = 86400
 
 const BASE_URL = 'https://feelandnote.com'
+
+// 색인 등급을 PostgREST 필터 문자열로 — 1개면 eq, 여러 개면 in
+const INDEXABLE_TIER_FILTER =
+  INDEXABLE_TIERS.length === 1
+    ? `eq.${INDEXABLE_TIERS[0]}`
+    : `in.(${INDEXABLE_TIERS.join(',')})`
 
 /** Supabase REST API로 직접 fetch (supabase-js 의존 제거) */
 async function fetchCelebs(): Promise<{ slug: string; created_at: string | null }[]> {
@@ -21,9 +28,9 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
       select: 'slug,created_at',
       profile_type: 'eq.CELEB',
       status: 'eq.active',
-      // full 티어만 등재한다 — 얇은 티어(light/relation/fiction)는 콘텐츠가 없어
+      // 색인 등급(full)만 등재한다 — 얇은 등급(light/relation/fiction)은 콘텐츠가 없어
       // noindex 처리되므로 사이트맵 등재가 모순 신호(등재↔색인거부)를 만든다
-      celeb_tier: 'eq.full',
+      celeb_tier: INDEXABLE_TIER_FILTER,
       slug: 'not.is.null',
       order: 'created_at.asc',
       offset: String(offset),

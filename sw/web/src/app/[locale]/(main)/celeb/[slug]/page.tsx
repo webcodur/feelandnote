@@ -10,6 +10,7 @@ import { getGuestbookEntries } from "@/actions/guestbook";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
+import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
 
 interface PageProps {
@@ -129,7 +130,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // full 등급만 색인 대상이다. light/relation/fiction은 연결용 최소 등록이라
   // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
   // (사이트맵도 full 등급만 등재한다 — 같은 기준)
-  const isIndexable = result.data.celeb_tier === 'full';
+  const isIndexable = (INDEXABLE_TIERS as readonly string[]).includes(result.data.celeb_tier ?? 'full');
 
   // OG 이미지는 opengraph-image.tsx에서 자동 생성 (Next.js file convention)
   return {

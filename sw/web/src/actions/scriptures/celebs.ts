@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
@@ -34,6 +35,8 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
     .in('id', userIds)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    // 신화·관계 인물은 목록에서 제외
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
   if (profileError) {
     console.error('getCelebsForContent error:', profileError)

@@ -1,6 +1,10 @@
 {
   "celebPage": {
     "intro": "Introduction",
+    "tierFictionBadge": "Mythic figure",
+    "tierFictionNotice": "This figure never lived; they belong to myth and epic. Even so, their words and choices carry ideas that generations of people shaped and passed on. Read this page as a window into the worldview that made them, rather than a record of one life.",
+    "tierRelationBadge": "Featured through others",
+    "tierRelationNotice": "This figure appears alongside other people and films on the site. Only a basic introduction is kept here, with no viewing records.",
     "library": "Library",
     "libraryEmpty": "No public records in the library yet.",
     "analysis": "Persona Analysis",
@@ -16,6 +20,12 @@
     "monologue": "Monologue",
     "virtualMonologue": "In Their Own Words",
     "virtualMonologueNote": "A reconstruction of this figure's ideas and beliefs, drawn from their writings and public remarks. Not an actual quotation.",
+    "virtualMonologueKoNotice": "This passage is written in Korean.",
+    "virtualMonologueTranslate": "Translate to English",
+    "virtualMonologueShowOriginal": "Show Korean original",
+    "virtualMonologueTranslating": "Translating...",
+    "virtualMonologueTranslateError": "Translation failed. Showing the original text.",
+    "virtualMonologueMachineNote": "Machine-translated in your browser.",
     "contemporaries": "Contemporaries",
     "videos": "Videos",
     "videosLongform": "Feature",

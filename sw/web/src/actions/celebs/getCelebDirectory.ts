@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -20,6 +21,8 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
     .select('slug, nickname, nickname_en, profession')
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    // 신화·관계 인물은 목록에서 제외
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .not('slug', 'is', null)
     .order('nickname', { ascending: true })
 

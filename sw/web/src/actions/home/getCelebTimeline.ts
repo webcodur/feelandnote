@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
@@ -55,6 +56,8 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
     .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
+    // 신화·관계 인물은 타임라인에서 제외
+    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .not('nationality', 'is', null)
     .not('birth_date', 'is', null)
     .order('birth_date', { ascending: true })

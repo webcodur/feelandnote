@@ -41,7 +41,7 @@ async function HubContent() {
     getCelebs({ sortBy: "content_count", minContentCount: 30, limit: 6 }),
     getTopByContentType(),
     getPersonaDistribution(),
-    getCelebs({ sortBy: "daily_recommend", limit: 12, tier: "full" }),
+    getCelebs({ sortBy: "daily_recommend", limit: 12, tiers: ["full"] }),
     getFeaturedTags(),
   ]);
 
