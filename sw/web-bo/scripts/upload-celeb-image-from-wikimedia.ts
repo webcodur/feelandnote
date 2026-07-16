@@ -9,14 +9,15 @@
  *     [--face-detect true|false]              (기본 true)
  *     [--face-frame-ratio 0.45]               (얼굴이 결과에서 차지할 비율, 기본 0.45 ≈ 박스의 2.2배 외곽)
  *     [--crop-gravity attention|entropy|...]  (face detection 비활성 또는 fallback 시 사용)
+ *     [--size 800]                            (저장 정사각 한 변, 기본 800. 고해상도 원본이면 올린다)
  *     [--preview-path C:\...\avatar.webp]
  *
  * 절차:
  *  1) 위키미디어 imageinfo API로 원본 URL + 라이선스 메타 조회
  *  2) 원본 이미지 다운로드
  *  3) face detection(SSD MobileNet, vladmandic face-api + tfjs-wasm)
- *     얼굴 박스 중심 좌표를 800×800 결과의 정중앙에 두는 정사각형 영역 산출
- *  4) sharp.extract로 좌표 크롭 → 800×800 resize → webp(q=85), EXIF에 출처/라이선스 박음
+ *     얼굴 박스 중심 좌표를 결과의 정중앙에 두는 정사각형 영역 산출
+ *  4) sharp.extract로 좌표 크롭 → --size 정사각 resize → webp(q=85), EXIF에 출처/라이선스 박음
  *  5) 얼굴 미감지 시 cropGravity(기본 attention) entropy fallback + 로그 경고
  *  6) R2 PUT: celebs/{celebId}/avatar.webp
  *  7) Supabase profiles.avatar_url 갱신 (캐시 버스터 ?v={timestamp})
@@ -72,6 +73,8 @@ type Args = {
   faceFrameRatio: number
   cropGravity: CropGravity
   previewPath?: string
+  /** 저장할 정사각 한 변(px). 원본이 이보다 크면 줄이고, 작으면 늘린다 */
+  outSize: number
 }
 
 const ALLOWED_GRAVITIES: ReadonlyArray<CropGravity> = [
@@ -109,6 +112,7 @@ function parseArgs(): Args {
   const previewPath = get('--preview-path')
   const faceDetectRaw = (get('--face-detect') ?? 'true').toLowerCase()
   const faceFrameRatioRaw = get('--face-frame-ratio')
+  const outSizeRaw = get('--size')
   if (!celebId || !slug) {
     console.error('필수 인자 누락: --celeb-id, --slug')
     process.exit(1)
@@ -134,6 +138,11 @@ function parseArgs(): Args {
     console.error(`--face-frame-ratio 값 부적절: ${faceFrameRatioRaw}. (0, 1) 범위 필요`)
     process.exit(1)
   }
+  const outSize = outSizeRaw ? Number(outSizeRaw) : 800
+  if (!Number.isInteger(outSize) || outSize < 64 || outSize > 4096) {
+    console.error(`--size 값 부적절: ${outSizeRaw}. 64~4096 정수 필요`)
+    process.exit(1)
+  }
   return {
     celebId,
     commonsFile,
@@ -145,6 +154,7 @@ function parseArgs(): Args {
     faceFrameRatio,
     cropGravity: gravityRaw as CropGravity,
     previewPath,
+    outSize,
   }
 }
 
@@ -379,7 +389,7 @@ async function toAvatarWebp(
           width: cropBox.size,
           height: cropBox.size,
         })
-        .resize(800, 800, { fit: 'cover' })
+        .resize(args.outSize, args.outSize, { fit: 'cover' })
         .withMetadata(exifBlock)
         .webp({ quality: 85 })
         .toBuffer()
@@ -400,7 +410,7 @@ async function toAvatarWebp(
     // 얼굴 미감지: fallback (entropy 가 attention 보다 인물 사진에서 안전)
     const fallback: CropGravity = args.cropGravity === 'attention' ? 'entropy' : args.cropGravity
     const buf = await sharp(rotated)
-      .resize(800, 800, { fit: 'cover', position: fallback })
+      .resize(args.outSize, args.outSize, { fit: 'cover', position: fallback })
       .withMetadata(exifBlock)
       .webp({ quality: 85 })
       .toBuffer()
@@ -416,7 +426,7 @@ async function toAvatarWebp(
 
   // face detection 비활성: cropGravity 그대로
   const buf = await sharp(rotated)
-    .resize(800, 800, { fit: 'cover', position: args.cropGravity })
+    .resize(args.outSize, args.outSize, { fit: 'cover', position: args.cropGravity })
     .withMetadata(exifBlock)
     .webp({ quality: 85 })
     .toBuffer()
@@ -493,7 +503,7 @@ async function main() {
   }
 
   console.log(
-    `[3/6] webp 변환 (800x800, q=85, face-detect=${args.faceDetect}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
+    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=85, face-detect=${args.faceDetect}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
   )
   const conv = await toAvatarWebp(original, meta, sourceLabel, args)
   if (conv.faceDetected) {
