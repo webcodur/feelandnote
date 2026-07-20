@@ -15,6 +15,8 @@ import { ThumbBrand } from './ThumbBrand'
 
 const DARK = '#090807'
 const GOLD = '#c8a46e'
+/** 제목 줄별 색 — 두 줄 이상이면 위는 순백, 아래는 살짝 따뜻하게 낮춰 층을 준다(번갈아 반복). */
+const TITLE_TONES = ['#ffffff', '#d9cdba']
 
 type Props = { script: FactionScript; episodeName: string }
 
@@ -60,7 +62,7 @@ export const FactionLVThumbCandidate: React.FC<Props> = ({ script, episodeName }
         display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 64, paddingRight: 16,
       }}>
         {title.map((l, i) => (
-          <div key={i} style={{ fontFamily: FONT.sans, fontWeight: 900, fontSize: 128, color: '#fff', lineHeight: 1.06, letterSpacing: '-3px', textAlign: 'left', whiteSpace: 'nowrap', textShadow: '0 4px 26px rgba(0,0,0,0.9)' }}>{l}</div>
+          <div key={i} style={{ fontFamily: FONT.sans, fontWeight: 900, fontSize: 128, color: TITLE_TONES[i % TITLE_TONES.length], lineHeight: 1.06, letterSpacing: '-3px', textAlign: 'left', whiteSpace: 'nowrap', textShadow: '0 4px 26px rgba(0,0,0,0.9)' }}>{l}</div>
         ))}
         {log.length ? (
           <div style={{ marginTop: 40, fontFamily: FONT.sans, fontWeight: 700, fontSize: 58, color: pc, lineHeight: 1.4, whiteSpace: 'nowrap', textShadow: '0 3px 20px rgba(0,0,0,0.9)' }}>

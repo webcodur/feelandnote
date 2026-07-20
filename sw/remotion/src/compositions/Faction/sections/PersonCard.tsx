@@ -708,6 +708,7 @@ export const PersonCard: React.FC<{
                 <div style={{
                   color: `${accent}e6`, fontFamily: FONT, fontSize: idExtraSize, fontWeight: 600,
                   letterSpacing: 1, lineHeight: 1.25, textAlign: 'center', wordBreak: 'keep-all',
+                  whiteSpace: 'pre-line',
                 }}>{epithet}</div>
               ) : (
                 <Typewriter
@@ -819,6 +820,60 @@ export const PersonCard: React.FC<{
 
   // ── 가로 롱폼: 좌측 세로 사진 + 우측 텍스트(잡지 스프레드) ──
   if (orientation === 'landscape') {
+    // 수식어가 떠 있는 정도(0~1). 등장하면 1, 대사로 넘어가며 0.
+    // 이 값만큼 이름·직함을 거두고 수식어를 우측 화면 한가운데에 세운다.
+    const epiVis = epithetInOp * epithetOp
+    // 수식어 글자 크기 — 우측 영역 안에 세로로 다 담기게 길이에 따라 줄인다(넘쳐 잘리지 않도록).
+    const EPI_COL_W = 1920 * 0.58 - L_TEXT_PAD * 2 // 우측 텍스트 폭
+    const EPI_MAX_H = 1080 - 160                   // 위아래 여백 뺀 사용 높이
+    const epithetFontSize = (() => {
+      // 줄바꿈으로 나눈 문단을 각각 접어 실제 줄 수를 센다. 빈 줄(연속 개행)도 한 줄로 친다.
+      const paras = epithet.trim().split('\n')
+      for (const size of [60, 54, 48, 44, 40]) {
+        const perLine = Math.max(1, Math.floor(EPI_COL_W / (size * 1.02)))
+        const lines = paras.reduce((n, p) => n + Math.max(1, Math.ceil(p.trim().length / perLine)), 0)
+        if (lines * size * 1.5 <= EPI_MAX_H) return size
+      }
+      return 40
+    })()
+    // 수식어 화면 — 우측 영역 세로 한가운데. 이름과 같은 자리를 쓰지 않고 통째로 중앙에 선다.
+    const epithetStage = hasEpithet ? (
+      <div style={{
+        position: 'absolute', left: L_PHOTO_W, right: 0, top: 0, bottom: 0,
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        padding: `0 ${L_TEXT_PAD}px`,
+        opacity: boxExitOp * captionLeadExitOp * epiVis,
+        pointerEvents: 'none',
+      }}>
+        <div style={{ transform: `translateY(${epithetInTy}px)` }}>
+          {epithetNarrated ? (
+            <div style={{
+              color: '#f0f0f4', fontFamily: FONT_SERIF,
+              fontSize: epithetFontSize, fontWeight: 600,
+              letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left',
+              // 줄바꿈을 살려 문단을 나눈다(글자 점등 방식과 동일하게 보이도록).
+              whiteSpace: 'pre-line',
+              wordBreak: 'keep-all',
+              ...TEXT_PAINT,
+            }}>{epithet}</div>
+          ) : (
+            <Typewriter
+              text={epithet}
+              startFrame={cueStart + epithetStartF}
+              spreadFrames={f(epithetSpeakSec(person, isShorts))}
+              timings={epithetCharTimings(epithet, epithetSpeakSec(person, isShorts))}
+              charLevel
+              fontSize={epithetFontSize}
+              color="#7c818c"
+              highlightColor="#f0f0f4"
+              style={{ fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}
+              keepLit
+            />
+          )}
+        </div>
+      </div>
+    ) : null
+
     return (
       <AbsoluteFill style={{ backgroundColor: BG, flexDirection: 'row' }}>
         {audioEl}
@@ -826,6 +881,7 @@ export const PersonCard: React.FC<{
         {epithetTypingEl}
         {creditPopEl}
         {captionEl}
+        {epithetStage}
         {/* 좌: 인물 사진 — 켄번스 줌(컷 동안 천천히 확대) */}
         <div style={{ width: L_PHOTO_W, height: '100%', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
           <AbsoluteFill>{photoEl}</AbsoluteFill>
@@ -836,7 +892,8 @@ export const PersonCard: React.FC<{
         {/* 이름(고정) → 같은 슬롯에서 직함(2행) → 대사로 교차. 작은 자막 모드에선 대사 시작 시 우측 리드도 함께 거둔다. */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp * captionLeadExitOp }}>
           {/* 이름 + 직함 1번(이름 옆 고정) — 아래에서 떠오르며 등장. 직함만 있는 인물은 1번째 줄도 아래 리스트로 내린다. */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)` }}>
+          {/* 수식어가 뜨는 동안에는 이름·직함을 거둔다(수식어가 화면 한가운데를 통째로 쓴다). */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)`, opacity: 1 - epiVis }}>
             <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
             {creditHead && !creditListFull ? (
               <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap', ...accentClarityPaint(accent) }}>{creditHead}</div>
@@ -844,34 +901,7 @@ export const PersonCard: React.FC<{
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)은 직함 순차 → 대사로 교차(겹쳐 두고 페이드) */}
           <div style={{ display: 'grid', alignItems: 'start' }}>
-            {hasEpithet ? (
-              <div style={{ gridArea: '1 / 1', opacity: epithetOp }}>
-                <div style={{ opacity: epithetInOp, transform: `translateY(${epithetInTy}px)` }}>
-                  {epithetNarrated ? (
-                    <div style={{
-                      color: '#f0f0f4', fontFamily: FONT_SERIF,
-                      fontSize: 60, fontWeight: 600,
-                      letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left',
-                      wordBreak: 'keep-all',
-                      ...TEXT_PAINT,
-                    }}>{epithet}</div>
-                  ) : (
-                    <Typewriter
-                      text={epithet}
-                      startFrame={cueStart + epithetStartF}
-                      spreadFrames={f(epithetSpeakSec(person, isShorts))}
-                      timings={epithetCharTimings(epithet, epithetSpeakSec(person, isShorts))}
-                      charLevel
-                      fontSize={60}
-                      color="#7c818c"
-                      highlightColor="#f0f0f4"
-                      style={{ fontFamily: FONT_SERIF, fontWeight: 600, letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left', wordBreak: 'keep-all', ...TEXT_PAINT }}
-                      keepLit
-                    />
-                  )}
-                </div>
-              </div>
-            ) : null}
+            {/* 수식어는 이 슬롯이 아니라 우측 화면 한가운데(epithetStage)에 따로 선다. */}
             {showCreditRest ? (
               <div style={{ gridArea: '1 / 1', opacity: creditRestOp }}>
                 {linesTypingOf(person, isShorts) ? (
@@ -973,6 +1003,7 @@ export const PersonCard: React.FC<{
                       color: '#f0f0f4', fontFamily: FONT_SERIF,
                       fontSize: 50, fontWeight: 600,
                       letterSpacing: 0.2, lineHeight: 1.5, textAlign: 'left',
+                      whiteSpace: 'pre-line',
                       wordBreak: 'keep-all',
                       ...TEXT_PAINT,
                     }}>{epithet}</div>
