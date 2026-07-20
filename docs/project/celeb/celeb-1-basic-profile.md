@@ -1,5 +1,7 @@
 # 1. 기본 정보
 
+> **최종 실측 체크: 26.07.16** — 부분 대조: 부재 컬럼 `quotes` 키만 실 DB로 확인해 제거, 문서 전체는 미대조
+
 ## JSON 출력 형식
 
 ```json
@@ -13,7 +15,6 @@
   "birth_date": "출생일 (YYYY-MM-DD 또는 -356 같은 기원전 연도)",
   "death_date": "사망일 (생존시 빈 문자열)",
   "bio": "인물 소개글 (2줄 분량, 한국어)",
-  "quotes": "대표 명언 (한 문장)",
   "is_verified": false,
   "status": "inactive"
 }
@@ -118,7 +119,7 @@
    - 정확한 날짜를 알 수 없으면 연도만 작성
    - 기원전은 음수로 표기 (예: -356)
 
-5. **quotes**: Speech 트랙에서 별도 관리. basic 단계에서는 대표 명언이 **확실히** 떠오르는 경우만 임시 기록, 아니면 빈 문자열. 최종 품질은 `celeb-speech.md` §6.2에서 보장
+5. **명언**: basic 단계에서 다루지 않는다. `profiles`에는 명언 컬럼이 없다 — `quotes`·`quotes_en`은 2026-03-23 `drop_profiles_quotes_and_recreate_compat_view`로 DROP됐고, 위 JSON에 이 키를 넣으면 INSERT가 즉시 실패한다. 명언 정본은 `celeb_dialogues.lines.quote`·`lines_en.quote`이며 Speech 트랙이 작성한다 → `celeb-speech.md` §6.2
 
 6. **문자열 처리**
    - 큰따옴표는 작은따옴표로 대체

@@ -92,7 +92,7 @@ export default function SearchModeDropdown({
               unstyled
               key={cat.id}
               onClick={() => handleCategorySelect(cat.id)}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm
                 ${mode === "content" && contentCategory === cat.id ? "bg-accent/10 text-accent font-medium pl-2 border-l-2 border-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary border-l-2 border-transparent"}`}
             >
               <span>{tc(cat.id)}</span>
@@ -106,7 +106,7 @@ export default function SearchModeDropdown({
               unstyled
               key={id}
               onClick={() => handleModeSelect(id)}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm
                 ${mode === id ? "bg-accent/10 text-accent font-medium pl-2 border-l-2 border-accent" : "text-text-secondary hover:bg-white/5 hover:text-text-primary border-l-2 border-transparent"}`}
             >
               <span>{t(`mode.${id}`)}</span>

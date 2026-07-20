@@ -55,7 +55,7 @@ export function ContentTypeSummary({ items, value, onChange, size = "sm", classN
           <button
             key={item.type}
             onClick={() => onChange(isActive ? null : item.type)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border ${
               isActive
                 ? "border-accent/60 bg-accent/15 text-accent"
                 : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10"

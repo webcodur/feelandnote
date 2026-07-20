@@ -3,9 +3,10 @@ import { readFile, stat } from 'fs/promises'
 import { existsSync, readFileSync } from 'fs'
 import path from 'path'
 import { loadEpisode, toPascal } from '@/lib/server-utils'
-import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
+import { getSeriesById } from '@/lib/series-registry'
 import { loadFactionEpisode } from '@/lib/faction-utils'
 import { factionVariants } from '@feelandnote/shared/lib/youtube-faction-meta'
+import { checkUploadsLive } from '@/lib/youtube-liveness'
 
 // 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ 을 fs로 스캔). 빌드 타임 정적 분석·prerender 대상이 아님.
 // 경로 상수를 모듈 최상위에 두면 Turbopack이 out/ 디렉토리를 번들 자산으로 추적하다 깨진다 → 사용처 함수 내부에서 런타임 계산.
@@ -80,7 +81,10 @@ async function factionStatus(episode: string) {
     })
   }
 
-  return NextResponse.json({ auth, lineup: episodeMeta, variants, meta: null })
+  // 기록된 영상이 유튜브에 아직 있는지 대조 — 세력도는 KO 채널 하나뿐이라 1 unit.
+  const live = await checkUploadsLive(episodeMeta?.uploads, () => 'ko')
+
+  return NextResponse.json({ auth, lineup: episodeMeta, variants, meta: null, live })
 }
 
 type VariantInfo = {
@@ -107,7 +111,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
   // 세력도 — 출력 경로·기록 파일이 달라 별도 분기
-  if (isFactionSeries(seriesId)) return factionStatus(episode)
+  if (series.dataModel === 'faction') return factionStatus(episode)
+  // 출고 기록(lineup)이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  if (series.dataModel !== 'book') {
+    return NextResponse.json({ error: `youtube status not implemented: ${series.dataModel}` }, { status: 501 })
+  }
 
   const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const auth = { ko: checkToken('youtube_token.json'), en: checkToken('youtube_token_en.json') }
@@ -204,5 +212,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
     if (existsSync(metaPath)) meta = JSON.parse(await readFile(metaPath, 'utf-8'))
   } catch { /* ignore */ }
 
-  return NextResponse.json({ auth, lineup: episodeMeta, variants, meta })
+  // 기록된 영상이 유튜브에 아직 있는지 대조.
+  // 이 패널이 유저가 실제로 여는 화면이라, 여기서 걸러야 삭제가 자동으로 드러난다.
+  // 쿼터는 채널당 1 unit(기록 50건까지 한 번에) — 한 에피소드 열면 최대 2 unit.
+  const live = await checkUploadsLive((episodeMeta as { uploads?: Record<string, { videoId: string; uploadedAt: string }> } | null)?.uploads)
+
+  return NextResponse.json({ auth, lineup: episodeMeta, variants, meta, live })
 }

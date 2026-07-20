@@ -1,5 +1,5 @@
 import { stat, open } from 'fs/promises'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { factionVoiceFilePath } from '@/lib/faction-utils'
 
 /**
@@ -12,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ series: string; episode: string; file: string }> },
 ) {
   const { series, episode, file } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return Response.json({ error: 'invalid series' }, { status: 404 })
   }
   const abs = factionVoiceFilePath(decodeURIComponent(episode), decodeURIComponent(file))

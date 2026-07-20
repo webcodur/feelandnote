@@ -1,4 +1,46 @@
 {
+  "archiveTabs": {
+    "intro": {
+      "label": "Profile",
+      "title": "Profile",
+      "description": "Meet the keeper of this archive.",
+      "subDescription": "Leave a line in the guestbook to mark your visit.",
+      "ownerDescription": "This is the first thing visitors see.",
+      "ownerSubDescription": "Review your profile and guestbook."
+    },
+    "records": {
+      "label": "Library",
+      "title": "Library",
+      "description": "Where taste and experience settle in.",
+      "subDescription": "Look into someone's library, and you begin to see who they are.",
+      "ownerDescription": "Your own space, where taste and experience settle in.",
+      "ownerSubDescription": "The more you fill your library, the more it resembles you."
+    },
+    "collections": {
+      "label": "Collections",
+      "title": "Collections",
+      "description": "Collections you curated yourself.",
+      "subDescription": "When taste becomes curation, a record becomes a work of its own.",
+      "ownerDescription": "Collections woven together by your own standards.",
+      "ownerSubDescription": "Give context to your scattered records."
+    },
+    "merits": {
+      "label": "Merits",
+      "title": "Merits",
+      "description": "Milestones of the journey you've built.",
+      "subDescription": "A trace only those who keep recording can leave behind.",
+      "ownerDescription": "Milestones of the journey you've walked.",
+      "ownerSubDescription": "A new title may be waiting for you."
+    },
+    "chamber": {
+      "label": "Settings",
+      "title": "Settings",
+      "description": "A space just for you.",
+      "subDescription": "Manage your stats and settings.",
+      "ownerDescription": "A space just for you.",
+      "ownerSubDescription": "Check your stats and manage account settings."
+    }
+  },
   "userProfile": {
     "records": "Records",
     "followers": "Followers",

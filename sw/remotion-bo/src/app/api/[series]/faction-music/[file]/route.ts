@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { readFile } from 'fs/promises'
 import path from 'path'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { MUSIC_DIR } from '@/lib/faction-utils'
 
 const MIME: Record<string, string> = {
@@ -14,7 +14,7 @@ const MIME: Record<string, string> = {
 /** GET /api/{series}/faction-music/{file} : 음악 파일 서빙 (재생·길이 측정용) */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string; file: string }> }) {
   const { series, file: raw } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return new NextResponse('not found', { status: 404 })
   }
   // basename으로 경로 이탈 차단 (한글·공백 파일명은 그대로 보존)

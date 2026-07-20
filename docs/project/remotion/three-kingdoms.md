@@ -2,10 +2,11 @@
 
 후한 말 ~ 삼국 시대 인물을 묶어 관리하는 인덱스 문서. 시리즈와 직교하는 인물 그룹 축이다.
 
-- **book-recommend**: 셀럽 추천 도서 시리즈에 삼국지 인물이 개별 에피소드로 등장
-- **hell-bar**: 저승 술집 토크쇼는 사실상 삼국지 인물 페어 매치 전용 시리즈 (`hell-bar/README.md` 참조)
+- **book-recommend**(서재 탐방): 삼국지 인물이 개별 에피소드로 등장한다. **현재 이 명단을 쓰는 유일한 시리즈다.** 인물 폴더 `sw/remotion/public/episodes/three-kingdoms/<slug>/`, 컴포지션 `BookRecommend`.
 
-두 시리즈 모두 같은 인물 슬러그를 공유한다. 본 문서가 그 명단의 단일원천이며, 시리즈별 진행 상태는 각 시리즈 lineup 문서가 관리한다.
+> 「저승 술집(hell-bar)」은 폐기됐다(2026-07-16). 삼국지 인물 페어 매치 전용 시리즈로 기획됐으나 구현된 적이 없다(컴포지션·데이터 전무). 기획 보존본은 `docs/archive/hell-bar/README.md`. 인물끼리 사상을 부딪치는 자리는 「가상 담화」(`discourse.md`)가 대신하며, 담화는 2026-07-16 기준 삼국지 인물을 아직 쓰지 않는다(`qin-shi-huang`·`musk-altman` 2편).
+
+본 문서가 명단의 단일원천이며, 시리즈별 진행 상태는 각 시리즈 lineup 문서가 관리한다. 명단은 시리즈와 직교하므로 담화 등 다른 시리즈가 같은 슬러그를 쓰게 되면 위 목록에 행을 추가한다.
 
 ## 슬러그 명단
 
@@ -39,7 +40,7 @@
 | `chen-shou` | 진수 | 233-297 | 「삼국지」 저자 | 사가 |
 
 > 2026-05 보충: `lu-su`·`zhou-yu`·`deng-ai` 사료 조사로 user_contents 등록 완료(노숙 3권, 주유 3권, 등애 2권). 명단·폴더·코드 SSoT 모두 갱신.
-> hell-bar 기획서에 페어 후보로 적힌 마속·위연·장비·조운 등은 DB 미등록이라 명단에서 제외. 등록 시점에 추가.
+> 마속·위연·장비·조운 등은 DB 미등록이라 명단에서 제외. 등록 시점에 추가. (폐기된 hell-bar 기획서에 페어 후보로 적혀 있던 인물들이다 — `docs/archive/hell-bar/README.md`)
 > `yi-sun-sin`(이순신)은 조선 인물이라 삼국지 그룹에 포함하지 않는다.
 
 ## 진행 상태 (시리즈 무관 합산)
@@ -60,7 +61,7 @@
 | `lu-su`·`zhou-yu`·`deng-ai` | todo | — | 2026-05 사료 조사 후 user_contents 등록. ko.json 미작성 |
 | `liu-bei`·`sun-quan`·`lu-meng`·`lu-xun`·`cao-pi`·`cao-zhi`·`jiang-wei`·`cai-wenji`·`wang-bi`·`chen-shou` | todo | — | 빈 폴더 + `_status`만 (DB 스캐폴딩 대기) |
 
-상세 편성 순서는 `book-recommend/lineup/lineup.md`, `hell-bar/README.md`의 에피소드 인덱스를 본다.
+상세 편성 순서는 `book-recommend/lineup/lineup.md`를 본다.
 
 ## 유튜브 메타 시그널 규약
 

@@ -7,6 +7,7 @@ import type { GenEngine } from '../../../../../../scenario-voice/ExpandedVoicePa
 import { DEFAULT_ELE_SEND_OPTS, ELE_EMOTIONS } from '../../../../../../scenario-voice/types'
 import { GenerateSection } from '../../../../../../scenario-voice/ExpandedVoicePanel/sections/GenerateSection'
 import { BreathModeContent, type BreathEndpoints } from '../../../../../../scenario-voice/BreathModeContent'
+import { AgeModeContent, type AgeEndpoints } from '../../../../../../scenario-voice/AgeModeContent'
 import { useFactionVoiceSpec } from './useFactionVoiceSpec'
 import { useFactionVoiceGeneration } from './useFactionVoiceGeneration'
 import type { FactionVoiceSlot } from './voice-slots'
@@ -37,11 +38,11 @@ import { useEleVoiceHistory } from './useEleVoiceHistory'
  * 같은 스타일을 쓴다. ELE 인물은 감정/강도(quoteEleOptions)도 입력받아 미리듣기에 반영한다.
  */
 
-/** 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거). */
-export type FactionVoiceMode = 'main' | 'sync' | 'breath'
+/** 작업 모드 — 'main'(생성·트림) / 'sync'(발화 시각 수동 교정) / 'breath'(들숨 제거) / 'age'(연령 변형). */
+export type FactionVoiceMode = 'main' | 'sync' | 'breath' | 'age'
 
 export const FACTION_VOICE_MODE_LABEL: Record<FactionVoiceMode, string> = {
-  main: '생성·트림', sync: '싱크 보정', breath: '들숨 제거',
+  main: '생성·트림', sync: '싱크 보정', breath: '들숨 제거', age: '연령 변형',
 }
 
 type FactionExpandedVoicePanelProps = {
@@ -106,6 +107,27 @@ export function FactionExpandedVoicePanel({
         onChangeRef.current({ ...personRef.current, [slot.fields.duration]: data.duration })
     },
   }), [episodeName, slot])
+
+  // 연령 변형 라우트 — 서버 ffmpeg 로 늙게/젊게 변형. 원본은 voice/ori/ 에 보관.
+  const ageEndpoints: AgeEndpoints = useMemo(() => {
+    const post = async (s: string, action: string, fileName: string, age: number) => {
+      const res = await fetch(`/api/${s}/faction-voice/${encodeURIComponent(episodeName)}/age`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: fileName, age, action }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error ?? '요청 실패')
+      return data
+    }
+    return {
+      loadUrl: (s, _name, fileName) =>
+        `/api/${s}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
+      preview: (s, _name, fileName, age) => post(s, 'preview', fileName, age),
+      commit: (s, _name, fileName, age) => post(s, 'commit', fileName, age),
+      restore: (s, _name, fileName) => post(s, 'restore', fileName, 0),
+      status: (s, _name, fileName) => post(s, 'status', fileName, 0),
+    }
+  }, [episodeName])
 
   const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot })
   useEffect(() => {
@@ -495,6 +517,23 @@ export function FactionExpandedVoicePanel({
               // 생성·트림 화면이 브라우저에 캐시된 옛 파형을 다시 그리지 않는다.
               onRefresh={() => { gen.bumpReload(); onRefresh() }}
               endpoints={breathEndpoints}
+            />
+          )
+          : <div className="px-1 py-2 text-xs text-text-dim">저장된 음원이 없다. 「생성·트림」에서 먼저 음원을 만든다.</div>
+      )}
+
+      {/* ── 연령 변형 모드 — 저장된 음원을 늙게/젊게 변형(원본 보관·되돌리기 가능) ── */}
+      {mode === 'age' && (
+        activeFile
+          ? (
+            <AgeModeContent
+              series={series}
+              name={episodeName}
+              file={activeFile}
+              // 연령 변형은 길이를 유지하지만, 저장 음원 캐시버스터를 갱신해 생성·트림 화면이 옛 파형을 다시 그리지 않게 한다.
+              onRefresh={() => { gen.bumpReload(); onRefresh() }}
+              onCommitted={dur => onChange({ ...person, [slot.fields.duration]: dur })}
+              endpoints={ageEndpoints}
             />
           )
           : <div className="px-1 py-2 text-xs text-text-dim">저장된 음원이 없다. 「생성·트림」에서 먼저 음원을 만든다.</div>

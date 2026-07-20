@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/scriptures/museum/page.tsx
+  파일명: /app/(main)/library/museum/page.tsx
   기능: 지혜의 서가 - 전시관 페이지
   책임: 타임라인 컴포넌트를 호출하여 매체 역사 정보를 표시한다.
 */ // ------------------------------

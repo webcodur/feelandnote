@@ -1,5 +1,7 @@
 # 0. 파이프라인
 
+> **최종 실측 체크: 26.07.16** — 실 DB 조회로 큐 함수 5종·task_type 확인, 실재하지 않는 `cultural_journey_rewrite` 계열 서술 교정
+
 ## 티어
 
 `profiles.celeb_tier`: `'full'` (기본값) / `'light'` / `'relation'` / `'fiction'`
@@ -14,6 +16,8 @@
 **relation** = 본인의 감상 기록이 목적이 아니라 **다른 셀럽·영상·에피소드와의 관계 때문에 등록되는 실존 인물**(팩션 출연자, 에피소드 조연 등). basic 최소 항목(국·영문 이름, 직군, 생몰, 국적, 한 줄 소개)과 아바타만 채우고 나머지 트랙(콘텐츠·감상 여정·영향력·페르소나·speech·i18n)은 전부 생략한다.
 
 **fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 등록 수준은 relation과 동일(basic 최소)이되, "실존 아님"을 티어로 명확히 구분해 실존 인물(relation)과 섞이지 않게 한다. 생몰·국적은 특정 불가하면 비운다. 감상 여정·영향력·페르소나 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 콘텐츠 연결(팩션 영상 등)로만 도달한다.
+
+fiction은 basic과 함께 `profiles.virtual_monologue`를 작성한다. 이 독백이 영상 대사의 상위 원천이며, 팩션은 여기서 핵심 갈등을 압축한다. 작성·등록 절차와 반복 비판 검토는 스킬 `fiction-profile-monologue`를 따른다. 얼굴은 등록 시 비워도 된다.
 
 relation·fiction 공통: 홈 캐러셀·검색·탐색·타임라인에서 제외하며, 팩션 영상·다른 셀럽 페이지의 연결을 통해서만 도달한다.
 
@@ -140,34 +144,40 @@ SKIPPED가 배치의 30% 이상이면 경고. SKIPPED 건은 재시도하지 않
 
 ### 에이전트 순서
 
+현재 DB에 실재하는 큐 함수는 `philosophy_rewrite` 5종뿐이다. 아래는 그 실제 이름이다.
+
 ```sql
 -- 1. 선점 (60분 lease)
-SELECT * FROM public.claim_next_celeb_cultural_journey_rewrite('agent-01', 60);
+SELECT * FROM public.claim_next_celeb_philosophy_rewrite('agent-01', 60);
 
 -- 2. lease 연장 (장시간 작업 시)
-SELECT public.renew_celeb_cultural_journey_rewrite_lease('celeb-id', 'agent-01', 60);
+SELECT public.renew_celeb_philosophy_rewrite_lease('celeb-id', 'agent-01', 60);
 
 -- 3. 완료 — 직접 UPDATE profiles 금지. 이 함수가 profiles + 큐 동시 처리
-SELECT public.complete_celeb_cultural_journey_rewrite('celeb-id', 'agent-01', '한국어', 'English');
+SELECT public.complete_celeb_philosophy_rewrite('celeb-id', 'agent-01', '한국어', 'English');
 
 -- 4. 실패 (true=pending 복귀, false=failed 유지)
-SELECT public.fail_celeb_cultural_journey_rewrite('celeb-id', 'agent-01', 'reason', true);
+SELECT public.fail_celeb_philosophy_rewrite('celeb-id', 'agent-01', 'reason', true);
 ```
 
+> `*_celeb_cultural_journey_rewrite` 계열 함수와 `cultural_journey_rewrite_v2` task_type은 **DB에 존재하지 않는다.** 호출하면 에러가 난다. 다른 트랙을 큐로 돌리려면 그 트랙 전용 함수·task_type을 먼저 만들어야 한다.
+
 ### 운영 쿼리
+
+`celeb_task_queue`에 실재하는 task_type은 `philosophy_rewrite_v2` 하나뿐이다(2026-07-16 실측: completed 913건, 다른 상태 0건).
 
 ```sql
 -- 진행 현황
 SELECT status, count(*) FROM celeb_task_queue
-WHERE task_type = 'cultural_journey_rewrite_v2' GROUP BY status;
+WHERE task_type = 'philosophy_rewrite_v2' GROUP BY status;
 
 -- 현재 작업자
 SELECT q.claimed_by, q.lease_expires_at, p.slug
 FROM celeb_task_queue q JOIN profiles p ON p.id = q.celeb_id
-WHERE task_type = 'cultural_journey_rewrite_v2' AND q.status = 'in_progress';
+WHERE task_type = 'philosophy_rewrite_v2' AND q.status = 'in_progress';
 
 -- 초기 동기화
-SELECT public.enqueue_missing_celeb_cultural_journey_rewrite_jobs();
+SELECT public.enqueue_missing_celeb_philosophy_rewrite_jobs();
 ```
 
 Worker 이름은 짧고 고유하게: `codex-a`, `claude-01` 등. 큐 함수는 **service_role 전용**.

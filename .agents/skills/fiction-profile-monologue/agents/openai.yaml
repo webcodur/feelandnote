@@ -1,0 +1,4 @@
+interface:
+  display_name: "fiction 인물 가상 독백"
+  short_description: "신화·전설 인물을 등록하고 가상 독백을 정교하게 검토합니다"
+  default_prompt: "Use $fiction-profile-monologue to register a fiction-tier character and build a critically reviewed virtual monologue before deriving faction dialogue."

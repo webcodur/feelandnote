@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { PersonaJsonb } from './members'
@@ -65,26 +66,45 @@ export async function saveCelebPersona(
   await revalidateWebCache(CACHE_TAGS.PERSONA)
 }
 
+interface PersonaQueryRow {
+  id: string
+  celeb_id: string
+  persona: PersonaJsonb | null
+  temperance: number; diligence: number; reflection: number; courage: number
+  loyalty: number; benevolence: number; fairness: number; humility: number
+  command: number; martial: number; intellect: number; charm: number
+  pessimism_optimism: number; conservative_progressive: number
+  individual_social: number; cautious_bold: number
+  profiles: { nickname: string | null; profession: string | null } | null
+}
+
 export async function getPersonaVectors(): Promise<PersonaData[]> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('celeb_persona')
-    .select(`
-      id,
-      celeb_id,
-      persona,
-      temperance, diligence, reflection, courage,
-      loyalty, benevolence, fairness, humility,
-      command, martial, intellect, charm,
-      pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
-      profiles!celeb_persona_celeb_id_fkey (nickname, profession)
-    `)
-    .order('created_at', { ascending: false })
+  // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 페르소나 다수가 목록에서 빠진다.
+  // created_at은 동시각 등록이 겹칠 수 있어 고유키 id를 2차 정렬키로 고정한다.
+  const data = await selectAllPages<PersonaQueryRow>((from, to) =>
+    supabase
+      .from('celeb_persona')
+      .select(`
+        id,
+        celeb_id,
+        persona,
+        temperance, diligence, reflection, courage,
+        loyalty, benevolence, fairness, humility,
+        command, martial, intellect, charm,
+        pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
+        profiles!celeb_persona_celeb_id_fkey (nickname, profession)
+      `)
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true })
+      .range(from, to) as unknown as PromiseLike<{
+        data: PersonaQueryRow[] | null
+        error: { message: string } | null
+      }>
+  )
 
-  if (error) throw error
-
-  return (data ?? []).map((row: any) => ({
+  return data.map((row) => ({
     id: row.id,
     celeb_id: row.celeb_id,
     nickname: row.profiles?.nickname ?? '',

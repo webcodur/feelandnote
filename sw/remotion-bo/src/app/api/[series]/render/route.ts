@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { runTask, loadEpisode, toPascal } from '@/lib/server-utils'
-import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
+import { getSeriesById } from '@/lib/series-registry'
 import { loadFactionEpisode } from '@/lib/faction-utils'
 import { factionVariants, factionCompBase } from '@feelandnote/shared/lib/youtube-faction-meta'
 
@@ -14,7 +14,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   // 세력도 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
   // 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
-  if (isFactionSeries(seriesId)) {
+  if (series.dataModel === 'faction') {
     const base = factionCompBase(episode)
     const factionData = await loadFactionEpisode(episode)
     // only 미지정=전체 / 'longform'·'shorts' 로 거를 수 있다.
@@ -36,6 +36,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     // 자막(SRT)도 함께 — 데이터 기반이라 즉시 생성된다(롱폼·쇼츠 1·2편 한 번에).
     taskIds.push(runTask('faction-srt', seriesId, episode, ['faction:srt', '--', '--episode', episode]).id)
     return NextResponse.json({ taskIds })
+  }
+
+  // 렌더 파이프라인이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  if (series.dataModel !== 'book') {
+    return NextResponse.json({ error: `render not implemented: ${series.dataModel}` }, { status: 501 })
   }
 
   const label = toPascal(episode)

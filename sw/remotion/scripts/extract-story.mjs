@@ -1,191 +1,184 @@
 #!/usr/bin/env node
 /**
- * extract-story.mjs — 에피소드 ko/en JSON 에서 스토리 평문만 추출
+ * 에피소드 JSON에서 검토용 Markdown 원고를 추출한다.
  *
- * JSON 필드 구조 노이즈를 빼고 narrator·host·books·shorts 의 텍스트를
- * markdown 으로 출력한다. 비판적 검토·사료 검증·결말 매듭 평가 입력으로 사용.
+ * 기본: 롱폼 + 쇼츠
+ * --solo: SOLO 전체
+ * --solo=N: SOLO N번째 책만
  *
- * Usage:
- *   node sw/remotion/scripts/extract-story.mjs <person>
- *   node sw/remotion/scripts/extract-story.mjs vincent-van-gogh
- *   node sw/remotion/scripts/extract-story.mjs vincent-van-gogh-en
- *   node sw/remotion/scripts/extract-story.mjs vincent-van-gogh --no-shorts
- *
- * 출력: stdout markdown.
+ * Markdown은 편집용 원고다. 제작 SSoT는 JSON이며 SOLO 원고 반영은
+ * sync-solo-story.mjs가 section marker 안의 본문만 안전하게 되돌린다.
  */
-import { readFileSync, existsSync, readdirSync } from 'fs'
-import { join, dirname } from 'path'
+import { existsSync, readFileSync, readdirSync } from 'fs'
+import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 function findEpisodeDir(person) {
   const episodesRoot = join(ROOT, 'public', 'episodes')
-  const INACTIVE = new Set(['excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'])
-  const STATUSES = ['todo', 'live', 'done']
-  function walk(dir, depth) {
+  const ignored = new Set(['excluded', 'pre-todo', 'todo-easy', 'todo-normal', 'todo-hard'])
+
+  function walk(dir, depth = 0) {
     let entries
     try { entries = readdirSync(dir, { withFileTypes: true }) } catch { return null }
-    for (const e of entries) {
-      if (!e.isDirectory()) continue
-      if (e.name.startsWith('_')) continue
-      if (depth === 0 && INACTIVE.has(e.name)) continue
-      if (depth === 0 && STATUSES.includes(e.name)) {
-        const found = walk(join(dir, e.name), depth + 1)
-        if (found) return found
-        continue
-      }
-      const sub = join(dir, e.name)
-      if (existsSync(join(sub, '_status.json'))) {
-        if (e.name === person) return sub
-      } else {
-        const found = walk(sub, depth + 1)
-        if (found) return found
-      }
+    for (const entry of entries) {
+      if (!entry.isDirectory() || entry.name.startsWith('_')) continue
+      if (depth === 0 && ignored.has(entry.name)) continue
+      const sub = join(dir, entry.name)
+      if (entry.name === person && existsSync(join(sub, '_status.json'))) return sub
+      const found = walk(sub, depth + 1)
+      if (found) return found
     }
     return null
   }
-  const hit = walk(episodesRoot, 0)
-  if (hit) return hit
-  // 옛 구조 폴백
-  for (const status of STATUSES) {
-    const dir = join(episodesRoot, status, person)
-    if (existsSync(dir)) return dir
-  }
-  throw new Error(`Episode not found: ${person}`)
+
+  const found = walk(episodesRoot)
+  if (!found) throw new Error(`Episode not found: ${person}`)
+  return found
 }
 
-const args = process.argv.slice(2)
-if (!args[0]) {
-  console.error('Usage: node sw/remotion/scripts/extract-story.mjs <person>[--no-shorts]')
-  process.exit(1)
+function readJson(file) {
+  return JSON.parse(readFileSync(file, 'utf8'))
 }
 
-const raw = args[0]
-const isEn = raw.endsWith('-en')
-const isKo = raw.endsWith('-ko')
-const person = isEn || isKo ? raw.slice(0, -3) : raw
-const locale = isEn ? 'en' : 'ko'
-const includeShorts = !args.includes('--no-shorts')
-
-const dir = findEpisodeDir(person)
-const c = JSON.parse(readFileSync(join(dir, `${locale}.json`), 'utf-8'))
-
-const lines = []
-const push = (s = '') => lines.push(s)
-
-// ─── 헤더 ───
-const title = c.host?.nickname || person
-push(`# ${title}`)
-if (c.host?.title) push(`*${c.host.title}*`)
-push()
-
-// ─── 도입 ───
-push('## 도입')
-push()
-if (c.narrator?.serviceGreeting) push(`- 인사: ${c.narrator.serviceGreeting}`)
-if (c.narrator?.serviceIntro) push(`- 안내: ${c.narrator.serviceIntro}`)
-if (c.narrator?.celebIntro) {
-  push()
-  push('**셀럽 소개**')
-  push()
-  push(c.narrator.celebIntro)
-}
-if (c.host?.featuredQuote) {
-  push()
-  push('**대표 명언**')
-  push()
-  push(`> ${c.host.featuredQuote}`)
-}
-if (c.narrator?.bridge) {
-  push()
-  push(`- 브릿지: ${c.narrator.bridge}`)
-}
-push()
-
-// ─── 감상철학 ───
-if (c.host?.philosophy) {
-  push('## 감상철학 (호스트 1인칭 독백)')
-  push()
-  push(c.host.philosophy)
-  push()
+function bookFolders(dir) {
+  const root = join(dir, 'books')
+  if (!existsSync(root)) return []
+  return readdirSync(root, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() && /^\d+-/.test(entry.name))
+    .map(entry => entry.name)
+    .sort((a, b) => a.localeCompare(b, 'ko', { numeric: true }))
 }
 
-// ─── 책별 ───
-;(c.books || []).forEach((b, i) => {
-  push('---')
-  push()
-  push(`## 책 ${i + 1}. ${b.title}`)
-  if (b.creator) push(`**저자**: ${b.creator}`)
-  if (b.stats?.publishYear) push(`**출간**: ${b.stats.publishYear}`)
-  if (b.source) push(`**source**: ${b.source}`)
-  push()
+function loadEpisode(dir, locale) {
+  const legacy = join(dir, `${locale}.json`)
+  if (existsSync(legacy)) return { data: readJson(legacy), folders: [] }
 
-  if (b.summary) {
-    push('### 책 소개 (summary)')
-    push()
-    push(b.summary)
-    push()
-  }
-  if (b.contextMain) {
-    push('### 감상 경위 (contextMain)')
-    push()
-    push(b.contextMain)
-    push()
-  }
-  ;(b.quotePairs || []).forEach((p, j) => {
-    push(`### 인용 ${j + 1}`)
-    if (p.quoteSource) push(`*출처: ${p.quoteSource}*`)
-    push()
-    if (p.quote) {
-      p.quote.split('\n').forEach(l => push('> ' + l))
-      push()
-    }
-    if (p.after) {
-      push('#### 후속 (after)')
-      push()
-      push(p.after)
-      push()
-    }
+  const metaFile = join(dir, `meta.${locale}.json`)
+  if (!existsSync(metaFile)) throw new Error(`Missing episode data: ${metaFile}`)
+  const folders = bookFolders(dir)
+  const books = folders.map(folder => {
+    const file = join(dir, 'books', folder, `book.${locale}.json`)
+    if (!existsSync(file)) throw new Error(`Missing book data: ${file}`)
+    return readJson(file)
   })
-})
-
-// ─── 마무리 ───
-if (c.narrator?.outro) {
-  push('---')
-  push()
-  push('## 마무리 (outro)')
-  push()
-  push(c.narrator.outro)
-  push()
+  return { data: { ...readJson(metaFile), books }, folders }
 }
 
-// ─── 쇼츠 ───
-if (includeShorts) {
-  const shortsDir = join(dir, 'shorts')
-  if (existsSync(shortsDir)) {
-    const shFiles = readdirSync(shortsDir)
-      .filter(f => new RegExp(`^${locale}-\\d+\\.json$`).test(f))
-      .sort()
-    shFiles.forEach((f, idx) => {
-      const sh = JSON.parse(readFileSync(join(shortsDir, f), 'utf-8'))
-      push('═══════════════════════════════════════════')
+function parseArgs(argv) {
+  if (!argv[0]) throw new Error('Usage: extract-story.mjs <person> [--no-shorts] [--solo|--solo=N]')
+  const raw = argv[0]
+  const locale = raw.endsWith('-en') ? 'en' : 'ko'
+  const person = raw.endsWith('-en') || raw.endsWith('-ko') ? raw.slice(0, -3) : raw
+  const soloArg = argv.find(arg => arg === '--solo' || arg.startsWith('--solo='))
+  const solo = soloArg ? (soloArg.includes('=') ? Number(soloArg.split('=')[1]) : 'all') : null
+  if (typeof solo === 'number' && (!Number.isInteger(solo) || solo < 1)) {
+    throw new Error('--solo=N의 N은 1 이상의 정수여야 한다.')
+  }
+  return { person, locale, solo, includeShorts: !argv.includes('--no-shorts') }
+}
+
+function displayKind(section) {
+  if (section.kind === 'quote') return '인용'
+  if (section.kind === 'actor') return '인물 대사'
+  return '해설'
+}
+
+function extractSolo({ dir, person, locale, solo, episode, folders }) {
+  if (folders.length === 0) throw new Error('SOLO 추출은 books/ 신구조 에피소드에서만 지원한다.')
+  const selected = typeof solo === 'number' ? [solo - 1] : folders.map((_, index) => index)
+  const lines = [
+    `<!-- SOLO_STORY person="${person}" locale="${locale}" -->`,
+    `# ${episode.host?.nickname || person} — SOLO 편집 원고`,
+    '',
+    '> 이 파일에서는 SOLO_SECTION 표식 사이의 본문만 고친다. 장면 번호·화자·출처·음성·이미지는 JSON에서 관리한다.',
+    '',
+  ]
+
+  for (const index of selected) {
+    const folder = folders[index]
+    if (!folder) throw new Error(`Book ${index + 1} not found`)
+    const soloFile = join(dir, 'books', folder, `solo.${locale}.json`)
+    if (!existsSync(soloFile)) continue
+    const doc = readJson(soloFile)
+    const sections = Array.isArray(doc) ? doc : doc.sections
+    if (!Array.isArray(sections)) throw new Error(`Invalid SOLO sections: ${soloFile}`)
+    const book = episode.books[index]
+    lines.push('---', '', `## B${String(index + 1).padStart(2, '0')}. ${book?.title || folder}`, `<!-- SOLO_BOOK folder="${folder}" -->`, '')
+
+    for (const section of sections) {
+      const details = [displayKind(section)]
+      if (section.speaker) details.push(`화자: ${section.speaker}`)
+      details.push(section.voice === 'actor' ? '배우 음성' : '기본 음성')
+      lines.push(`### ${section.id} · ${details.join(' · ')}`)
+      lines.push(`<!-- SOLO_SECTION folder="${folder}" id="${section.id}" -->`)
+      lines.push(section.text || '')
+      lines.push('<!-- /SOLO_SECTION -->')
+      if (section.quoteSource) lines.push(`> 출처: ${section.quoteSource}`)
+      lines.push('')
+    }
+  }
+  return lines.join('\n') + '\n'
+}
+
+function extractLongform({ dir, locale, includeShorts, episode, folders, person }) {
+  const lines = []
+  const push = (...values) => lines.push(...(values.length ? values : ['']))
+  push(`# ${episode.host?.nickname || person}`)
+  if (episode.host?.title) push(`*${episode.host.title}*`)
+  push('', '## 도입', '')
+  if (episode.narrator?.serviceGreeting) push(`- 인사: ${episode.narrator.serviceGreeting}`)
+  if (episode.narrator?.serviceIntro) push(`- 안내: ${episode.narrator.serviceIntro}`)
+  if (episode.narrator?.celebIntro) push('', '**셀럽 소개**', '', episode.narrator.celebIntro)
+  if (episode.host?.featuredQuote) push('', '**대표 명언**', '', `> ${episode.host.featuredQuote}`)
+  if (episode.narrator?.bridge) push('', `- 브릿지: ${episode.narrator.bridge}`)
+  push()
+  if (episode.host?.philosophy) push('## 감상철학 (호스트 1인칭 독백)', '', episode.host.philosophy, '')
+
+  ;(episode.books || []).forEach((book, index) => {
+    push('---', '', `## 책 ${index + 1}. ${book.title}`)
+    if (book.creator) push(`**저자**: ${book.creator}`)
+    if (book.stats?.publishYear) push(`**출간**: ${book.stats.publishYear}`)
+    if (book.source) push(`**source**: ${book.source}`)
+    push()
+    if (book.summary) push('### 책 소개 (summary)', '', book.summary, '')
+    if (book.contextMain) push('### 감상 경위 (contextMain)', '', book.contextMain, '')
+    ;(book.quotePairs || []).forEach((pair, pairIndex) => {
+      push(`### 인용 ${pairIndex + 1}`)
+      if (pair.quoteSource) push(`*출처: ${pair.quoteSource}*`)
       push()
-      push(`# 쇼츠 ${idx + 1} (${f})`)
-      if (sh.featuredBookIndex != null) {
-        const linked = c.books?.[sh.featuredBookIndex]
-        push(`**연결 책**: book[${sh.featuredBookIndex}]${linked ? ' — ' + linked.title : ''}`)
-      }
-      push()
-      ;(sh.segments || []).forEach((s, i) => {
-        push(`## [${i}] ${s.id} (${s.role || 'unknown'})`)
-        push()
-        if (s.text) push(s.text)
-        else push('*(텍스트 없음)*')
-        push()
-      })
+      if (pair.quote) push(...pair.quote.split('\n').map(line => `> ${line}`), '')
+      if (pair.after) push('#### 후속 (after)', '', pair.after, '')
+    })
+  })
+
+  if (episode.narrator?.outro) push('---', '', '## 마무리 (outro)', '', episode.narrator.outro, '')
+  if (includeShorts) {
+    const modularShorts = folders.flatMap((folder, index) => {
+      const file = join(dir, 'books', folder, `shorts.${locale}.json`)
+      return existsSync(file) ? [{ file, label: folder, bookIndex: index }] : []
+    })
+    const legacyDir = join(dir, 'shorts')
+    const legacyShorts = existsSync(legacyDir)
+      ? readdirSync(legacyDir).filter(file => new RegExp(`^${locale}-\\d+\\.json$`).test(file)).sort().map(file => ({ file: join(legacyDir, file), label: file }))
+      : []
+    ;[...modularShorts, ...legacyShorts].forEach((item, index) => {
+      const short = readJson(item.file)
+      push('═══════════════════════════════════════════', '', `# 쇼츠 ${index + 1} (${item.label})`, '')
+      ;(short.segments || []).forEach((segment, segmentIndex) => push(`## [${segmentIndex}] ${segment.id} (${segment.role || 'unknown'})`, '', segment.text || '*(텍스트 없음)*', ''))
     })
   }
+  return lines.join('\n') + '\n'
 }
 
-process.stdout.write(lines.join('\n') + '\n')
+try {
+  const options = parseArgs(process.argv.slice(2))
+  const dir = findEpisodeDir(options.person)
+  const loaded = loadEpisode(dir, options.locale)
+  const context = { ...options, dir, episode: loaded.data, folders: loaded.folders }
+  process.stdout.write(options.solo ? extractSolo(context) : extractLongform(context))
+} catch (error) {
+  console.error(error instanceof Error ? error.message : error)
+  process.exit(1)
+}

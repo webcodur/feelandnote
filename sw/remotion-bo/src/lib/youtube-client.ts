@@ -87,21 +87,54 @@ export async function getAccessToken(channel: 'ko' | 'en'): Promise<string | nul
   return tokens.access_token
 }
 
-/** YouTube Data API GET */
-export async function ytGet<T = unknown>(
+/** YouTube API 호출 실패 — 인증 없음·HTTP 오류. "응답이 비었다"와 구별하기 위한 타입. */
+export class YouTubeApiError extends Error {
+  constructor(message: string, readonly status?: number) {
+    super(message)
+    this.name = 'YouTubeApiError'
+  }
+}
+
+/**
+ * YouTube Data API GET — 실패 시 예외를 던진다.
+ *
+ * ytGet 은 실패를 null 로 뭉개므로 "영상이 없다"와 "조회에 실패했다"가 구별되지 않는다.
+ * 존재 여부로 판정하는 쪽(삭제 감지·기록 정리)은 반드시 이 함수를 써야 한다 —
+ * 토큰 만료 한 번에 전 기록이 '삭제됨'으로 뒤집히는 사고를 막는다.
+ */
+export async function ytGetStrict<T = unknown>(
   channel: 'ko' | 'en',
   endpoint: string,
   params: Record<string, string>,
-): Promise<T | null> {
+): Promise<T> {
   const token = await getAccessToken(channel)
-  if (!token) return null
+  if (!token) throw new YouTubeApiError(`${channel.toUpperCase()} 채널 인증 토큰이 없거나 갱신에 실패했다`)
 
   const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`)
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v)
 
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
-  if (!res.ok) return null
-  return res.json()
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    throw new YouTubeApiError(
+      `${channel.toUpperCase()} ${endpoint} 조회 실패 (HTTP ${res.status})${body ? ` — ${body.slice(0, 200)}` : ''}`,
+      res.status,
+    )
+  }
+  return res.json() as Promise<T>
+}
+
+/** YouTube Data API GET — 실패 시 null. 기존 호출부 호환용. 존재 판정에는 쓰지 마라(ytGetStrict 사용). */
+export async function ytGet<T = unknown>(
+  channel: 'ko' | 'en',
+  endpoint: string,
+  params: Record<string, string>,
+): Promise<T | null> {
+  try {
+    return await ytGetStrict<T>(channel, endpoint, params)
+  } catch {
+    return null
+  }
 }
 
 /** YouTube Data API PUT */

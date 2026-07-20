@@ -17,7 +17,7 @@ color: cyan
 ## 실행 순서
 
 1. **Phase 1: speech_tone 배정** — `profiles.speech_tone` 설정
-2. **Phase 2: quotes 작성/검수** — `celeb-speech.md` §6.2 참조
+2. **Phase 2: 명언 작성/검수** — `celeb_dialogues.lines.quote`·`lines_en.quote`. `celeb-speech.md` §6.2 참조
 3. **Phase 3: dialogue 생성** — `celeb-speech.md` §6.3 참조, 전원 21개 전체 생성
 
 ## 핵심 원칙
@@ -25,7 +25,7 @@ color: cyan
 1. **순차 실행**: tone → quotes → dialogue 순서 준수
 2. **speech_tone 독립**: persona 의존 없이 basic만 완료되면 배정 가능
 3. **어조 일관성**: quotes·dialogue 모두 speech_tone과 일치해야 한다
-4. **KO+EN 동시**: quotes와 quotes_en을 항상 함께 처리
+4. **KO+EN 동시**: 명언은 `celeb_dialogues.lines.quote`(한국어)와 `lines_en.quote`(영문)를 항상 함께 처리. `profiles.quotes`·`quotes_en` 컬럼은 존재하지 않는다(2026-03-23 DROP) — 읽거나 쓰면 즉시 에러
 5. **배치 처리**: CASE문으로 일괄 UPDATE
 
 ## 언어

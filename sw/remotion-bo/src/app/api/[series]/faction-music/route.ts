@@ -1,26 +1,32 @@
 import { NextResponse } from 'next/server'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
-import { listMusic, saveMusic } from '@/lib/faction-utils'
+import { existsSync, mkdirSync } from 'fs'
+import { spawn } from 'child_process'
+import path from 'path'
+import { isSeriesModel } from '@/lib/series-registry'
+import { listMusicWithUsage, MUSIC_DIR } from '@/lib/faction-utils'
 
 function guard(series: string) {
-  return isValidSeries(series) && isFactionSeries(series)
+  return isSeriesModel(series, 'faction')
 }
 
-/** GET : public/music/ 의 음악 파일 목록 */
+/** GET : public/music/ 의 음악 파일 목록 + 각 곡의 연결처(세력명) */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!guard(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
-  return NextResponse.json(await listMusic())
+  return NextResponse.json(await listMusicWithUsage())
 }
 
-/** POST multipart(file) : 음악 업로드 → basename 반환 */
-export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
+/** POST : 음악 폴더(public/music)를 OS 탐색기로 연다. 없으면 만들어 둔다. */
+export async function POST(_req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!guard(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
-  const form = await req.formData()
-  const file = form.get('file')
-  if (!(file instanceof File)) return NextResponse.json({ error: 'file required' }, { status: 400 })
-  const buf = Buffer.from(await file.arrayBuffer())
-  const saved = await saveMusic(file.name, buf)
-  return NextResponse.json({ ok: true, file: saved })
+  if (!existsSync(MUSIC_DIR)) {
+    try { mkdirSync(MUSIC_DIR, { recursive: true }) } catch { /* ignore */ }
+  }
+  const platform = process.platform
+  const cmd = platform === 'win32' ? 'explorer' : platform === 'darwin' ? 'open' : 'xdg-open'
+  // 탐색기는 띄우고 즉시 분리한다(explorer 는 정상이어도 종료 코드 1을 반환할 수 있어 무시).
+  const child = spawn(cmd, [path.normalize(MUSIC_DIR)], { detached: true, stdio: 'ignore' })
+  child.unref()
+  return NextResponse.json({ ok: true })
 }

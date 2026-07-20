@@ -1,0 +1,24 @@
+{
+  "episode": "Example-Episode",
+  "people": [
+    {
+      "slug": "example-character",
+      "nickname": "예시 인물",
+      "nickname_en": "Example Character",
+      "profession": "other",
+      "title": "짧은 수식어",
+      "nationality": null,
+      "gender": null,
+      "birth_date": null,
+      "death_date": null,
+      "bio": "허구 작품 속 인물. 핵심 역할과 갈등을 100자 안에 설명한다.",
+      "speech_tone": "composed",
+      "virtual_monologue": "검토를 통과한 1인칭 가상 독백 전문",
+      "review": {
+        "status": "candidate",
+        "cycles": 2,
+        "blocking": 0
+      }
+    }
+  ]
+}

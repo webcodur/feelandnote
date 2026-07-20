@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
-import { isFactionSeries } from '@/lib/series-registry'
+import { notFound, redirect } from 'next/navigation'
+import { episodeHomePath, isSeriesModel } from '@/lib/series-registry'
 import { FACTION_EDIT_LANGS, FACTION_EDIT_TABS } from '@/lib/faction-edit-route'
 import { FactionEditor } from '@/components/faction/FactionEditor'
 
@@ -18,7 +18,12 @@ export default async function FactionPersonCardDeepLinkPage({ params }: { params
   const name = decodeURIComponent(rawName)
   const personName = decodeURIComponent(rawPerson)
 
-  if (!isFactionSeries(series)) redirect(`/${series}/${encodeURIComponent(name)}/scenario`)
+  // 카드뉴스 편성은 세력도 전용 화면이다
+  if (!isSeriesModel(series, 'faction')) {
+    const home = episodeHomePath(series, name)
+    if (!home) notFound()
+    redirect(home)
+  }
   if (!FACTION_EDIT_LANGS.has(lang) || !FACTION_EDIT_TABS.has(tab)) {
     redirect(`/${series}/${encodeURIComponent(name)}/both/info/card/${encodeURIComponent(personName)}/${card.map(encodeURIComponent).join('/')}`)
   }

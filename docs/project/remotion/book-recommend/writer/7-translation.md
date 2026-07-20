@@ -1,5 +1,7 @@
 # 7. 영문본 원전 보존 검증·교정 (Translation Audit)
 
+> **최종 실측 체크: 26.07.16** — 대상 파일 경로와 `scripts/remotion/publication-gate.py` 실존·동작 대조. 스크립트는 같은 날 신 구조 기준으로 재작성해 실행 검증까지 마쳤고, 이어서 출판 안전 검사 8~10(ko/en 책 정렬·고아 업로드 기록·`_status` 모순)을 추가해 en 보유 16개 에피소드 전량 스윕으로 재검증했다(크래시 0, 1~7 판정 무변동, 8~10 오탐 0 / abraham-lincoln 7/10 — 09↔10 책 뒤바뀜·`ko-shorts-7` 고아 기록 적발, jensen-huang 7/10 — `done`인데 업로드 기록 0건, yi-sun-sin 9/10 — 8~10 전부 PASS). 번역 원칙·register 매트릭스·예시 등 내용 판단은 검증 범위 밖(경로와 스크립트만 확인)
+
 ## 핵심 원리 세 기둥
 
 번역 작업은 세 개의 함정을 동시에 피해야 한다.
@@ -193,20 +195,25 @@ ko.json을 en.json으로 번역하는 과정에서 **영문 1차 사료가 존�
 
 ## 적용 대상 파일
 
-- `episodes/live/<slug>/en.json` (longform)
-- `episodes/live/<slug>/shorts/en-*.json` (shorts 1~N)
+에피소드는 `sw/remotion/public/episodes/<인물>/` 아래에 있고 **단계(stage) 폴더는 없다**. `live/`·`done/`은 존재하지 않는다.
+
+- `<인물>/meta.en.json` — narrator·host
+- `<인물>/books/{NN-책제목}/book.en.json` — 책 본문 (longform)
+- `<인물>/books/{NN-책제목}/shorts.en.json` — 쇼츠
+
+`en.json` 단일 파일과 `shorts/en-*.json`은 폐기된 레거시 레이아웃이다 (`peter-thiel`만 잔존).
 
 ## 적용 대상 필드
 
 | 위치 | 검사 포인트 |
 |---|---|
-| `host.featuredQuote` | KO featuredQuote의 영문 원본이 있다면 원문 사용 |
-| `host.philosophy` | 1인칭 발화 안에 인용된 사료·격언은 원문 |
-| `books[].quotePairs[].quote` | 인용 본체. 가장 핵심 |
-| `books[].quotePairs[].after` | 본문 안에 다시 인용된 한 줄(예: 성경 구절)이 있으면 원문 |
-| `books[].contextMain` | 산문 안에 끼어 있는 직접인용은 원문 |
-| `narrator.celebIntro/outro` | 인용 끼어 있을 시 원문 |
-| `shorts segments[].text` | 동일 원칙 적용 |
+| `meta.en.json` → `host.featuredQuote` | KO featuredQuote의 영문 원본이 있다면 원문 사용 |
+| `meta.en.json` → `host.philosophy` | 1인칭 발화 안에 인용된 사료·격언은 원문 |
+| `book.en.json` → `quotePairs[].quote` | 인용 본체. 가장 핵심 |
+| `book.en.json` → `quotePairs[].after` | 본문 안에 다시 인용된 한 줄(예: 성경 구절)이 있으면 원문 |
+| `book.en.json` → `contextMain` | 산문 안에 끼어 있는 직접인용은 원문 |
+| `meta.en.json` → `narrator.celebIntro/outro` | 인용 끼어 있을 시 원문 |
+| `shorts.en.json` → `segments[].text` | 동일 원칙 적용 |
 
 ## 핵심 규칙
 
@@ -361,22 +368,22 @@ KO 본문이 "실제 인물 발언이 아니다"라고 명시한 격언(예: 링
 ### Step 0 — 사전 자료 확인
 
 작업 시작 전 다음을 Read tool로 읽는다.
-- `episodes/live/<slug>/ko.json` — 한국어 원본
-- `episodes/live/<slug>/en.json` — 검증 대상 longform
-- `episodes/live/<slug>/shorts/ko-*.json` 전체
-- `episodes/live/<slug>/shorts/en-*.json` 전체
+- `episodes/<인물>/meta.ko.json`·`meta.en.json` — narrator·host
+- `episodes/<인물>/books/*/book.ko.json` — 한국어 원본
+- `episodes/<인물>/books/*/book.en.json` — 검증 대상 longform
+- `episodes/<인물>/books/*/shorts.ko.json`·`shorts.en.json` 전체
 - 본 문서(7-translation.md)
 - 0-draft.md (필드 정의 참조)
 
 ### Step 1 — 인용·발화 분류
 
-ko.json·shorts/ko-*.json에서 다음을 모두 추출한다.
+`meta.ko.json`·`books/*/book.ko.json`·`books/*/shorts.ko.json`에서 다음을 모두 추출한다.
 
 1. 모든 `quotePairs[].quote` (KO 인용)
 2. `host.featuredQuote`
 3. `host.philosophy` 안의 인용·격언
 4. `contextMain`·`after`·`celebIntro`·`outro` 안에 직접인용으로 끼어 있는 한 줄
-5. shorts segments[].text 중 role=celeb 또는 quoteSource 포함 segment
+5. shorts `segments[].text` 중 role=celeb 또는 quoteSource 포함 segment
 
 각 항목에 대해 분류:
 - A. 인물의 영어 발화/문헌 → 기둥 1, 영문 원본 필수
@@ -398,7 +405,7 @@ WebSearch·WebFetch로 다음 우선순위로 검증:
 
 ### Step 3 — en.json 대조
 
-각 ko 항목에 대해 en.json·shorts/en-*.json의 해당 위치를 찾아 다음을 검사:
+각 ko 항목에 대해 `book.en.json`·`shorts.en.json`·`meta.en.json`의 해당 위치를 찾아 다음을 검사:
 
 - ❌ **누락**: KO에 있는 quotePair가 EN에서 통째로 사라짐 → 원문으로 추가
 - ❌ **재번역**: EN이 KO의 한→영 직역으로 보임 → 원문으로 교체
@@ -409,7 +416,7 @@ WebSearch·WebFetch로 다음 우선순위로 검증:
 
 ### Step 4 — 교정 적용
 
-Edit tool로 en.json·shorts/en-*.json을 직접 수정한다. 분류별로 처리:
+Edit tool로 `book.en.json`·`shorts.en.json`·`meta.en.json`을 직접 수정한다. 분류별로 처리:
 
 1. **A~D 분류** (기둥 1): 정확한 영문 원문으로 quote 본체 교체/추가, 누락 시 신규 quotePair 생성
 2. **E 분류** (기둥 3 + 기둥 2 = R2-B): Register 매칭 → 형식 자질 보존 → 5축 + 맛 5질문 검증 후 채택
@@ -425,50 +432,71 @@ Edit tool로 en.json·shorts/en-*.json을 직접 수정한다. 분류별로 처�
 
 ### Step 5 — 영미권 출판 게이트 (Publication Gate)
 
-영문 단행본·학술지·박물관 도록 등 **영문 출판물 등급**을 목표로 할 때 통과해야 하는 12개 항목. 한 항목이라도 ❌이면 출판 불가, 정정 후 재검증.
+영문 단행본·학술지·박물관 도록 등 **영문 출판물 등급**을 목표로 할 때 통과해야 하는 15개 항목. 한 항목이라도 ❌이면 출판 불가, 정정 후 재검증.
 
-#### 자동 검증 (스크립트로 가능, 7개)
+#### 자동 검증 (스크립트로 가능, 10개)
+
+1~7은 영문 텍스트 품질, 8~10은 **출판 안전**(ko/en 정렬·업로드 중복·상태 정합)을 본다.
 
 | # | 항목 | 검증 방법 | 통과 기준 |
 |---|---|---|---|
-| 1 | quotePair 출처 결락 | 모든 `books[].quotePairs[].quoteSource` 존재 확인 | 누락 quote 0건 |
-| 2 | JSON 파싱 | `JSON.parse` | 4개 파일(ko/en longform, ko/en shorts) 모두 OK |
+| 1 | quotePair 출처 결락 | 모든 `book.*.json`의 `quotePairs[].quoteSource` 존재 확인 | 누락 quote 0건 |
+| 2 | JSON 파싱 | `JSON.parse` | meta·book·shorts의 ko/en 전 파일 OK |
 | 3 | image anchor 정합 | 각 image의 `text`가 본문에 존재 | NOT FOUND 0건 (longform images + shorts imageChangeAt) |
 | 4 | 한자 본문 노출 | `[一-鿿]` 정규식 검사 (quote 본체·contextMain·after·summary·narrator·philosophy) | 한자 0건. quoteSource·tts.replace는 예외 허용. 메모리 `feedback_no_raw_classical_chinese` 적용 |
 | 5 | 음역 dense | 한 단락(`\n\n` 분리) 내 음역 토큰 수 카운트. 일반 영문 합성어(twenty-six·well-known 등) 블랙리스트 제외 | ≤ 2개/단락 |
 | 6 | shorts↔longform 동일 인용 일치 | 같은 quote가 양쪽에 등장 시 wording 비교 | 1자도 다르지 않음 (공백 정규화 후) |
 | 7 | 50단어 초과 문장 | **필드별로** 분할(summary/contextMain/quote/after) 후 문장 단위 단어 수 검사 | 한 문장 ≤ 50단어 (필드 경계 합치지 말 것) |
+| 8 | ko/en 책 정렬 | 같은 책 폴더의 `book.ko.json`과 `book.en.json`이 같은 책인지 대조. 제목은 번역돼 있어 비교 불가 → 언어 무관 신호만 사용 (아래 판정 규칙) | 어긋난 폴더 0건 |
+| 9 | 고아 업로드 기록 | `youtube-lineup.json`의 `<slug>.uploads` 중 현재 슬롯 집합에 없는 `*-shorts-N` 색출. 슬롯 산출은 `sw/remotion/scripts/lib/episode.ts:186-190`과 동일 | 고아 기록 0건 |
+| 10 | `_status` ↔ 업로드 기록 | `_status.json`과 lineup 기록 대조. `done`=게시 완료(README.md:141) | `done`인데 기록 0건, `todo`/`live`인데 기록 존재 — 둘 다 0건 |
 
 #### 수동 검증 (영문 검수자 1회 패스, 5개)
 
 | # | 항목 | 점검 포인트 | 통과 기준 |
 |---|---|---|---|
-| 8 | minimal gloss 누락 | 첫 등장 한국 고유 용어(60갑자·행정구역·직책·사료) 부연 여부 | R7 매트릭스 모든 카테고리 충족 |
-| 9 | lexicon 일관성 | 같은 인물·지명·직책·사료의 episode 전체 단일 표기 | 변종 표기 0건. R8 lexicon 일치 |
-| 10 | register tier 일관성 | 같은 인물 같은 상황 발화의 tier 통일 | 한 quote 안 혼용 0건. 같은 상황 quote 묶음 단일 tier (R9) |
-| 11 | 격언·시구 wording | 영문 격언 표준(antithesis·chiasmus·meter) 부합 | 맛 5질문(무게·시대격·압축대구·칼날압축미·문화무게) 모두 충족 |
-| 12 | 일반 영미 독자 가독성 | 한국사 사전 없이 1회 통독 시 이해 가능 | 모르는 용어가 부연 없이 등장 0건 |
+| 11 | minimal gloss 누락 | 첫 등장 한국 고유 용어(60갑자·행정구역·직책·사료) 부연 여부 | R7 매트릭스 모든 카테고리 충족 |
+| 12 | lexicon 일관성 | 같은 인물·지명·직책·사료의 episode 전체 단일 표기 | 변종 표기 0건. R8 lexicon 일치 |
+| 13 | register tier 일관성 | 같은 인물 같은 상황 발화의 tier 통일 | 한 quote 안 혼용 0건. 같은 상황 quote 묶음 단일 tier (R9) |
+| 14 | 격언·시구 wording | 영문 격언 표준(antithesis·chiasmus·meter) 부합 | 맛 5질문(무게·시대격·압축대구·칼날압축미·문화무게) 모두 충족 |
+| 15 | 일반 영미 독자 가독성 | 한국사 사전 없이 1회 통독 시 이해 가능 | 모르는 용어가 부연 없이 등장 0건 |
 
-#### 검증 스크립트 (실사용)
+#### 검증 스크립트
 
-자동 검증 1~7번을 한 번에 돌리는 Python 스크립트:
+자동 검증 1~10번을 한 번에 돌리는 Python 스크립트:
 
 ```
-python scripts/remotion/publication-gate.py <stage> <slug>
-# 예: python scripts/remotion/publication-gate.py live abraham-lincoln
-# 7/7 PASS → 자동 게이트 통과 / 그 외 → 결함 위치 출력
+py -3.12 scripts/remotion/publication-gate.py <인물>
+# 예: py -3.12 scripts/remotion/publication-gate.py abraham-lincoln
+# 10/10 PASS(exit 0) → 자동 게이트 통과 / 그 외(exit 1) → 결함 위치 출력
 ```
 
-**스크립트 경로**: `scripts/remotion/publication-gate.py`
+**스크립트 경로**: `scripts/remotion/publication-gate.py` (신 구조 대응 완료, 26.07.16 재작성·실행 검증 / 같은 날 8~10 추가·전 에피소드 스윕 검증)
 
-다음 7개 항목을 자동 검사한다:
-1. quotePair·celeb segment의 `quoteSource` 결락
-2. JSON 파싱 (4개 파일)
+- 인자는 **인물 slug 하나뿐**이다. 단계(stage) 인자는 폴더 구조에서 사라졌으므로 폐지했다(옛 `<stage> <slug>` 호출은 stage를 무시하고 계속 동작).
+- 파이썬은 `py -3.12`로 실행한다.
+- 검사 대상은 `<인물>/meta.{ko,en}.json` + `books/*/book.{ko,en}.json` + `books/*/shorts.{ko,en}.json` 전량이다. 책·쇼츠 개수는 자동 탐색하며, 실행 헤더에 탐지된 개수를 찍는다. 8~10은 추가로 `_status.json`과 `sw/remotion/scripts/youtube/youtube-lineup.json`을 **읽기만** 한다(쓰기 없음).
+- `meta.en.json`이 없는 ko 전용 에피소드는 게이트 대상이 아니다(즉시 종료).
+
+다음 10개 항목을 자동 검사한다:
+1. quotePair·celeb segment의 `quoteSource` 결락 (전 `book.en.json` + 전 `shorts.en.json`)
+2. JSON 파싱 (meta·book·shorts의 ko/en 전 파일 — 파싱 실패도 크래시 없이 결함으로 보고)
 3. image anchor `text` 본문 매칭 (longform `images` + shorts `imageChangeAt`)
-4. 한자 본문 노출 (quote·after·contextMain·summary·narrator·philosophy·segments[].text)
+4. 한자 본문 노출 (quote·after·contextMain·contextAfter·summary·narrator·host.philosophy/featuredQuote·segments[].text)
 5. 음역 dense (단락당 ≤ 2 — 영문 합성어 blacklist 적용)
 6. shorts↔longform 동일 인용 wording 일치 (정규화 후 substring 비교)
 7. 50단어 초과 문장 (필드별 정밀 분할, 인용 본체 verbatim은 면제)
+8. ko/en 책 정렬 (같은 폴더의 ko/en이 같은 책인가)
+9. 고아 업로드 기록 (lineup에만 남은 슬롯 → 렌더 시 중복 게시 위험)
+10. `_status` ↔ 업로드 기록 모순
+
+**#8 판정 규칙** — 제목은 번역되므로(성경 ↔ The Bible) 문자열 비교가 불가능하다. 오탐이 나면 게이트 신뢰도가 무너지므로 **언어 무관 신호 2개만** 쓴다. 전 에피소드 스윕으로 오탐 0을 확인한 조합이다.
+
+- **A. `stats.publishYear`** — 양쪽 모두 3~4자리 숫자일 때만 비교한다. 초판 연도는 언어를 타지 않는다. `"기원전 3세기"` ↔ `"c. 300 BC"` 같은 서술형은 지역화된 문장이라 비교 대상에서 뺀다.
+- **B. `thumbnail_url`** — 양쪽 모두 **저장소 내부 경로**(`episodes/…`)일 때만 비교한다. 표지 파일은 두 언어가 공유한다. 외부 URL(naver·openlibrary·goodreads)은 ko가 한국어판, en이 영문판 표지를 가리키는 게 정상이라 제외한다.
+- **연도 일치는 거부권을 갖는다**: 연도가 같으면 표지가 달라도 어긋난 책으로 보지 않는다(같은 책에 표지 자산만 잘못 붙은 것 — jensen-huang `05-하이 아웃풋 매니지먼트`가 실제 사례).
+- 연도 비교가 불가능할 때만 표지로 판정하되, **그 en 표지가 같은 에피소드 다른 폴더의 ko 표지와 일치**해야(= 폴더 간 순열의 증거) 어긋남으로 본다. 여러 책이 공유하는 플레이스홀더 표지(galileo-galilei의 `cover-default.jpg`)는 식별력이 없어 제외한다.
+- 신호가 약해 판정을 못 하면 침묵한다. **놓치는 건 허용, 오탐은 불가.**
 
 **확장 시**: 인물 episode의 새 음역어가 false positive로 잡히면 스크립트 내 `blacklist` set에 추가한다.
 
@@ -487,7 +515,7 @@ python scripts/remotion/publication-gate.py <stage> <slug>
 
 - **번역하지 말 것**: A~D 분류 항목은 원전을 가져오는 것이지 KO를 번역하는 게 아니다. 영문 검색 실패 시 작업 보류·보고.
 - **E 분류는 정보 번역 금지**: 한문/한국어 1차 사료는 평이한 정보 영어로 옮기지 말 것. 반드시 register 매칭과 형식 자질 보존을 거친다. 맛 5질문 통과 못하면 register 한 단계 올려 재시도.
-- **한자·한문 영문 노출 금지**: en.json·shorts/en-*.json 본문(quote·after·contextMain 등)에 한자 직접 노출 금지. quoteSource 메타 표기에서만 인물명 영문 표기와 함께 보조적으로 가능.
+- **한자·한문 영문 노출 금지**: `book.en.json`·`shorts.en.json` 본문(quote·after·contextMain 등)에 한자 직접 노출 금지. quoteSource 메타 표기에서만 인물명 영문 표기와 함께 보조적으로 가능.
 - **인물 이름·고유명사 표기**: 영문권 인물·기관·장소는 영문 정식 표기. 한국어 음차를 그대로 옮기지 않는다.
 - **시대 일치 성경 번역**: 19세기 미국 인물 → KJV. 16세기 영국 인물 → Geneva Bible/Tyndale 등. 인물 시대에 맞춘다.
 - **셰익스피어 인용**: 행 단위(line)와 구두점은 First Folio 또는 표준 학술판(Arden, Oxford, Folger) 표기 따른다.
@@ -502,6 +530,6 @@ python scripts/remotion/publication-gate.py <stage> <slug>
 
 ## 본 작업 외 사항
 
-- ko.json은 손대지 않는다 (영문 원전 보존은 EN 측 책임)
+- ko 파일(`meta.ko.json`·`book.ko.json`·`shorts.ko.json`)은 손대지 않는다 (영문 원전 보존은 EN 측 책임)
 - 이미지·음성·타이밍 파일은 손대지 않는다
 - 새 quotePair 추가 시 images 배열 동기화는 별도 작업으로 분리

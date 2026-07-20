@@ -1,11 +1,21 @@
 ---
 name: remo-write-4-prose
-description: 에피소드 텍스트의 문장 부드러움을 검토·리라이트한다. 주어, 연결어, 리듬, TTS 친화성, 어순을 점검한다. /remo-write-4-prose <에피소드명> 으로 실행.
+description: 서재탐방 롱폼·쇼츠·SOLO 한국어 원고의 번역투, AI식 추상어, 평론투, 부자연스러운 어순과 TTS 호흡을 검토하고 필요한 문장만 고친다. 원고 전체를 같은 말투로 덮어쓰지 않는다. /remo-write-4-prose 에피소드명.
 ---
 
-# 글 부드러움 검토
+# 한국어 문장 검토
 
-실행 전 반드시 아래 문서를 Read tool로 읽는다:
+반드시 다음을 읽는다.
 
-- `docs/project/remotion/book-recommend/writer/0-draft.md` — 초안 작성 가이드 (작성 기준)
-- `docs/project/remotion/book-recommend/writer/4-prose.md` — 문장 부드러움 규칙 (SSoT)
+- `docs/project/remotion/book-recommend/writer/4-prose.md`
+
+먼저 `remo-write-story-dump`로 Markdown 원고를 읽는다. 분석 중에는 JSON을 직접 고치지 않는다.
+
+- 구체적인 사람과 행동을 추상 명사보다 앞세운다.
+- 주어와 연결어를 문장마다 기계적으로 넣지 않는다.
+- 좋은 문장은 보존하고 손상된 낱말이나 어순만 고친다.
+- 실제 인용문, 사실, 숫자, 고유명사는 문체를 이유로 바꾸지 않는다.
+- 어린 학생이나 할머니도 한 번에 알아들을 수 있는지 소리 내어 점검한다.
+- 문장 길이보다 한 호흡 안에서 뜻이 잡히는지를 본다.
+
+확정 뒤 제작 데이터의 텍스트만 반영하고, 화자·출처·이미지·음성·타이밍은 보존한다.

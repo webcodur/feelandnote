@@ -64,6 +64,17 @@ export const DEFAULT_END_FADE_SEC = 3
 export function groupSecOf(script: FactionScript): number {
   return script.groupSec ?? GROUP_SEC
 }
+/**
+ * 빈 챕터 판정 — 챕터 제목(title)·배경 미디어(media)가 둘 다 비었으면 true.
+ * 빈 챕터는 표지 카드를 그리지 않고 검정 브릿지만 둬 화면 전환 없이 음악(BGM)만 바꾼다.
+ */
+export function isEmptyChapter(chapter: FactionChapter): boolean {
+  return !chapter.title?.trim() && !chapter.media?.trim()
+}
+/** 그룹샷(화보 묶음) 카드 길이(초) — script.clusterSec 우선(인원 수 무관 고정), 없으면 인원 수별 자동 */
+export function clusterSecOf(script: FactionScript, personCount: number): number {
+  return script.clusterSec ?? clusterDurationSec(personCount)
+}
 /** 컷 전환 크로스페이드 */
 export const CROSSFADE_SEC = 0.6
 /** 마지막 인물 컷 → 최종화면 전환 크로스페이드 — 마무리는 더 완만하게 떠오른다 */
@@ -489,6 +500,10 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
         }
       }
       const chapter = step.chapter
+      // 제목·배경 미디어가 둘 다 없는 챕터 — 표지 카드를 생략하고 검정 브릿지만 둔다.
+      // 화면에는 짧은 검정만 스치고, 여기서 음악(BGM)만 다음 곡으로 전환된다.
+      // 검정 브릿지는 음악 전환 경계이자 효과음 앵커라 blackBefore 설정과 무관하게 강제로 둔다.
+      if (isEmptyChapter(chapter)) { push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC); return }
       if (chapter.blackBefore !== false) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
       push({ kind: 'chapter', chapter }, CHAPTER_COVER_SEC)
       if (chapter.blackAfter) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
@@ -523,7 +538,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       // 노출 인물 1명 + 단체 화보(cluster.image) 없음 → 역시 화보(브릿지) 카드를 생략한다.
       // 로고(logoVid·logoImg)로 진입해 바로 인물 컷으로 넘어간다. 소제목(label)은 로고 카드가 흡수(GroupCard).
       if (!group.solo && !(shotCount === 1 && !cluster.image)) {
-        push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterDurationSec(shotCount))
+        push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterSecOf(script, shotCount))
       }
       ;(people ?? []).forEach((person, pi) => {
         if (person.disabled) return

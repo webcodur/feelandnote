@@ -66,8 +66,8 @@ export const BookRecommendSolo: React.FC<Props> = ({ script }) => {
     () => makeVf(epName, loadVoiceSelect(epName), locale, hasElevenlabs),
     [epName, locale, hasElevenlabs],
   )
-  // 성우(actor) 마디는 elevenlabs 하위 경로로 강제. solo 파일명은 -quote/-celeb 패턴이 아니라
-  // isCelebVoiceFile에 안 걸리므로(voice-select default=gemini로 새 버림) 직접 구성한다.
+  // ElevenLabs 화자만 elevenlabs 하위 경로를 쓴다. Gemini 캐릭터는 일반 vf가
+  // voice-select의 gemini 슬롯을 해소한다. actor라는 이유만으로 ElevenLabs를 강제하지 않는다.
   const elevenVf = React.useMemo(() => {
     const { person, locale: voiceLocale } = parseEpName(epName)
     const epDir = episodeDir[epName] ?? person
@@ -75,7 +75,16 @@ export const BookRecommendSolo: React.FC<Props> = ({ script }) => {
   }, [epName])
   const audioSrc = (seg: SoloSegment): string => {
     const file = vnSolo(script.bookIndex, seg.segIndex, seg.id)
-    return seg.voice === 'actor' ? elevenVf(file) : vf(file)
+    if (seg.voice !== 'actor') return vf(file)
+    if (!seg.speaker || seg.speaker === 'host') {
+      const hostEngine = (script.host as { voiceEngine?: 'gemini' | 'elevenlabs' }).voiceEngine
+      return hostEngine === 'elevenlabs' || !!script.host.elevenlabsVoiceId ? elevenVf(file) : vf(file)
+    }
+    const speaker = script.speakers?.find(s => s.id === seg.speaker) as
+      | ({ engine?: 'gemini' | 'elevenlabs'; voiceId?: string; elevenlabsVoiceId?: string })
+      | undefined
+    const speakerEngine = speaker?.engine ?? (speaker?.elevenlabsVoiceId ? 'elevenlabs' : 'gemini')
+    return speakerEngine === 'elevenlabs' ? elevenVf(file) : vf(file)
   }
 
   // 현재 마디 인덱스

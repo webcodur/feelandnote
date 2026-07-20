@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
@@ -22,23 +23,47 @@ export interface VoiceGenCeleb {
   voice_speed: number
 }
 
+interface VoiceGenQueryRow {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  slug: string | null
+  speech_tone: string | null
+  has_voice: boolean | null
+  voice_id_ko: string | null
+  voice_id_en: string | null
+  voice_v: number | null
+  voice_speed: number | null
+  celeb_dialogues:
+    | { lines: unknown; lines_en: unknown }
+    | { lines: unknown; lines_en: unknown }[]
+    | null
+}
+
 /** 음성 생성 대상 셀럽 목록 (대사 보유자만) */
 export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(`
-      id, nickname, avatar_url, slug, speech_tone, has_voice,
-      voice_id_ko, voice_id_en, voice_v, voice_speed,
-      celeb_dialogues(lines, lines_en)
-    `)
-    .eq('profile_type', 'CELEB')
-    .order('nickname', { ascending: true })
+  // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 셀럽 다수가 음성 생성 목록에서 빠진다.
+  // nickname은 동명·null이 겹칠 수 있어 고유키 id를 2차 정렬키로 고정한다.
+  const data = await selectAllPages<VoiceGenQueryRow>((from, to) =>
+    supabase
+      .from('profiles')
+      .select(`
+        id, nickname, avatar_url, slug, speech_tone, has_voice,
+        voice_id_ko, voice_id_en, voice_v, voice_speed,
+        celeb_dialogues(lines, lines_en)
+      `)
+      .eq('profile_type', 'CELEB')
+      .order('nickname', { ascending: true })
+      .order('id', { ascending: true })
+      .range(from, to) as unknown as PromiseLike<{
+        data: VoiceGenQueryRow[] | null
+        error: { message: string } | null
+      }>
+  )
 
-  if (error) throw error
-
-  return (data || [])
+  return data
     .map((row) => {
       const dlg = Array.isArray(row.celeb_dialogues)
         ? row.celeb_dialogues[0]
@@ -52,12 +77,12 @@ export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
         slug: row.slug,
         speech_tone: row.speech_tone,
         has_voice: row.has_voice ?? false,
-        voice_id_ko: (row as Record<string, unknown>).voice_id_ko as string | null,
-        voice_id_en: (row as Record<string, unknown>).voice_id_en as string | null,
+        voice_id_ko: row.voice_id_ko,
+        voice_id_en: row.voice_id_en,
         dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
         dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
-        voice_v: (row as Record<string, unknown>).voice_v as number ?? 0,
-        voice_speed: (row as Record<string, unknown>).voice_speed as number ?? 1.0,
+        voice_v: row.voice_v ?? 0,
+        voice_speed: row.voice_speed ?? 1.0,
       }
     })
 }
@@ -199,7 +224,8 @@ export async function saveQuote(
     .eq('celeb_id', celebId)
     .maybeSingle()
 
-  const currentLines = (existing as any)?.[linesCol] as Record<string, any> ?? {}
+  const currentLines =
+    ((existing as Record<string, unknown> | null)?.[linesCol] as Record<string, unknown>) ?? {}
   const updatedLines = { ...currentLines, quote: quote || '' }
   const { error } = await supabase
     .from('celeb_dialogues')

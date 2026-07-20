@@ -18,6 +18,6 @@ export interface SoloFreeSection {
   voice?: 'tts' | 'actor'
   kind?: 'narration' | 'quote'
   quoteSource?: string
-  /** 캐릭터 보이스 — Gemini 보이스명. 음성 편집 창에서 선택, TTS 화자일 때 적용 (기본 Kore) */
+  /** 캐릭터 보이스 — Gemini 보이스명. 음성 편집 창에서 선택, TTS 화자일 때 적용 (SOLO 기본 Charon) */
   geminiVoice?: string
 }

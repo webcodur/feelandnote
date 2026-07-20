@@ -3,6 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface ContemporaryCeleb {
@@ -33,12 +34,18 @@ interface CelebDateRow {
 // 페이지를 순회해도 전체 프로필 전송은 1시간당 1회로 묶인다.
 async function fetchAllCelebsWithDates(): Promise<CelebDateRow[]> {
   const supabase = createStaticClient()
-  const { data } = await supabase
-    .from('profiles')
-    .select('id, nickname, nickname_en, avatar_url, profession, birth_date, death_date, slug, nationality')
-    .eq('profile_type', 'CELEB')
-    .not('birth_date', 'is', null)
-  return (data as CelebDateRow[] | null) ?? []
+  // 1,000행 상한에 걸리므로 나눠 받는다. 자르면 동시대 인물 후보 자체가 줄어
+  // 모든 셀럽의 동시대 목록이 조용히 부실해진다.
+  return await selectAllPages<CelebDateRow>((from, to) =>
+    supabase
+      .from('profiles')
+      .select('id, nickname, nickname_en, avatar_url, profession, birth_date, death_date, slug, nationality')
+      .eq('profile_type', 'CELEB')
+      .not('birth_date', 'is', null)
+      .order('id')
+      .range(from, to)
+      .overrideTypes<CelebDateRow[], { merge: false }>()
+  )
 }
 
 const getAllCelebsWithDatesCached = unstable_cache(

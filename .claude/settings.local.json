@@ -57,7 +57,16 @@
       "Bash(rm -f \"/c/Users/webco/.claude/projects/C--project-feelandnote/memory/reference_talkinghead_comfyui_env.md\")",
       "Bash(git mv *)",
       "Bash(mkdir -p .claude/skills/three-kingdoms)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(rm -f .claude/skills/codex-gpt/scripts/example.py .claude/skills/codex-gpt/references/api_reference.md .claude/skills/codex-gpt/assets/example_asset.txt)",
+      "Bash(rmdir .claude/skills/codex-gpt/references .claude/skills/codex-gpt/assets)",
+      "Bash(node -e ' *)",
+      "mcp__google-search-console__submit_sitemap",
+      "Bash(seq 1 120)",
+      "Bash(sleep 5)",
+      "Bash(echo \"wait window elapsed\")",
+      "Bash(seq 1 30)",
+      "Bash(echo \"wait elapsed\")"
     ],
     "deny": [],
     "ask": []

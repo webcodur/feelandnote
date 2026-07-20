@@ -73,12 +73,9 @@ export default async function OverviewPage({ params }: PageProps) {
     await markGuestbookAsRead();
   }
 
-  // 현재 유저 정보 (방명록 작성용)
-  const guestbookCurrentUser = currentUser ? {
-    id: currentUser.id,
-    nickname: profile.nickname,
-    avatar_url: profile.avatar_url,
-  } : null;
+  // 방명록은 작성 폼 노출·본인 글 수정/삭제 판정에 로그인 사용자 id만 쓴다.
+  // 작성자 표시는 서버가 내려주는 entry.author가 담당한다.
+  const guestbookCurrentUserId = currentUser?.id ?? null;
 
   // 셀럽 영향력 데이터
   const influenceData = profile.profile_type === "CELEB"
@@ -97,7 +94,7 @@ export default async function OverviewPage({ params }: PageProps) {
       isOwner={isOwner}
       guestbookEntries={guestbookResult.entries}
       guestbookTotal={guestbookResult.total}
-      guestbookCurrentUser={guestbookCurrentUser}
+      guestbookCurrentUserId={guestbookCurrentUserId}
       influenceData={influenceData}
       personaData={personaData}
     />

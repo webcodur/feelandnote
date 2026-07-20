@@ -35,6 +35,7 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
       const params = new URLSearchParams()
       if (q) params.set('q', q)
       params.set('limit', '100')
+      params.set('includeFiction', '1')
       const res = await fetch(`/api/celebs/search?${params}`)
       const data = await res.json()
       setResults(Array.isArray(data) ? data : [])

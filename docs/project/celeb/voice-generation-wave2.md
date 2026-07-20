@@ -1,5 +1,7 @@
 # 부록 B. 보이스 생성 Wave 2
 
+> **최종 실측 체크: 26.07.16** — 부분 대조: 명언 등록처 표기만 교정, 음성 규격·대사 목록은 미대조
+
 > Wave 1 완료: 칭기즈칸, 알렉산더 대왕, 이순신
 > Wave 2 대상: 10인 (전원 1920년 이전 사망, 퍼블리시티권 안전)
 
@@ -473,7 +475,7 @@ Mid 50s male military strategist. Cold, restrained mid-low voice. Reveals almost
 
 ## 작업 체크리스트
 
-- [ ] 클레오파트라 명언(quotes) DB 등록
+- [ ] 클레오파트라 명언 DB 등록 (`celeb_dialogues.lines.quote` / `lines_en.quote`)
 - [ ] ElevenLabs에서 각 인물 Voice Clone/Design 생성
 - [ ] KO 22파일 × 10인 = 220파일 녹음
 - [ ] EN 22파일 × 10인 = 220파일 녹음

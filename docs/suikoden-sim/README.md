@@ -1,7 +1,12 @@
 # 천도 (天導) — 셀럽 전략 시뮬레이션
 
+> ⚠️ **현재 비활성 (26.07.16 기준).** 개발이 멈춘 상태다. 재개 전에는 이 디렉토리 문서를 근거로 작업하지 않는다 —
+> 기획서와 실제 코드가 갈라진 지점이 많다. **재개 시 `10-implementation-status.md`의 대조표부터 읽는다.**
+
 > 수호지 천도 108성에서 영감을 받은 턴제 전략 시뮬레이션 웹게임.
 > 역사 속 실존 인물들로 세력을 키우고, 문명을 통일한다.
+
+**이 디렉토리는 게임 설계(기획서)의 단일원천이다.** 개발 규칙·코드 경로·작업 절차는 `docs/project/suikoden-dev.md`(룰북)에 있다.
 
 ---
 
@@ -9,25 +14,33 @@
 
 | 파일 | 내용 |
 |------|------|
-| [01-overview.md](./01-overview.md) | 게임 컨셉, 목표, 핵심 루프 |
-| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (페르소나 스탯, 병과, 동적 로딩) |
-| [03-combat.md](./03-combat.md) | 전투 시스템 (카드/전술 선택형) |
-| [04-management.md](./04-management.md) | 거점 경영 (건물, 자원, 내정) |
-| [05-items.md](./05-items.md) | 아이템 시스템 (콘텐츠 기반 장비) |
-| [06-campaign.md](./06-campaign.md) | 캠페인 (맵, 세력, 승리 조건) |
-| [07-assets.md](./07-assets.md) | 에셋 명세 (도트, 음악, UI, 효과음) |
+| [01-overview.md](./01-overview.md) | 게임 컨셉, 목표, 핵심 루프, 승패 조건, 난이도 |
+| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (페르소나 스탯, Grade, 병과, 영입, 메커니즘 매핑) |
+| [03-combat.md](./03-combat.md) | 전투 시스템 (그리드 턴제. 구 전술 카드 설계는 부록) |
+| [04-management.md](./04-management.md) | 거점 경영 (건물 15종, 자원, 내정, 민심) |
+| [05-items.md](./05-items.md) | 장비 시스템 (수량제 4종) |
+| [06-campaign.md](./06-campaign.md) | 캠페인 (맵, 시나리오, 세력, 외교, 이벤트) |
+| [07-assets.md](./07-assets.md) | 에셋 명세 (보유 현황 + 목표 명세) |
 | [08-tech.md](./08-tech.md) | 기술 스택, DB 연동, 아키텍처 |
 | [09-feature-roadmap.md](./09-feature-roadmap.md) | 기능 로드맵 (구현 완료/미구현/우선순위) |
-| [10-implementation-status.md](./10-implementation-status.md) | 구현 현황 상세 (파일별, 시스템별, 재개 가이드) |
+| [10-implementation-status.md](./10-implementation-status.md) | **구현 현황 상세 — 작업 재개 시 여기부터 읽는다** |
+
+---
+
+## 문서 읽는 법
+
+01~09는 **설계**다. 설계와 코드가 갈라진 지점에는 「구현됨/미구현/설계안」을 병기해 뒀다.
+10은 **코드 실측 결과**다. 설계와 코드가 충돌하면 10이 사실이고, 01~09는 의도다.
 
 ---
 
 ## 데이터 소스
 
-- **캐릭터**: Supabase `profiles` + `celeb_influence` + `celeb_persona` (사망 120년 이상 인물)
-- **아이템**: Supabase `contents` + `user_contents`
-- **대사**: Supabase `celeb_dialogues`
+- **캐릭터**: Supabase `profiles` + `celeb_influence` + `celeb_persona` (사망 120년 이상, `status='active'`, 직군 보유)
+- **대사·명언**: Supabase `celeb_dialogues`
 - **게임 시작 시 DB에서 동적 로딩** — 캐릭터는 사전 정의되지 않음
+- 단, 시나리오(`scenarios.ts`)는 등장 인물을 프로필 UUID로 지정한다
+- **아이템 DB 연동은 폐기됐다.** 콘텐츠(`contents`/`user_contents`) 기반 아이템 시스템은 2026-03에 수량제 장비로 교체됐다
 
 ---
 

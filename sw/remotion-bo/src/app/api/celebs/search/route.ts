@@ -14,15 +14,19 @@ export async function GET(req: Request) {
   const q = url.searchParams.get('q')?.trim() ?? ''
   const profession = url.searchParams.get('profession')
   const hasVoice = url.searchParams.get('hasVoice')
+  const includeFiction = url.searchParams.get('includeFiction') === '1'
   const limit = Math.min(Number(url.searchParams.get('limit') ?? 50), 100)
 
   let query = supabase
     .from('profiles')
     .select(SELECT)
     .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
     .order('nickname')
     .limit(limit)
+
+  query = includeFiction
+    ? query.or('status.eq.active,celeb_tier.eq.fiction')
+    : query.eq('status', 'active')
 
   if (q) {
     query = query.or(`nickname.ilike.%${q}%,nickname_en.ilike.%${q}%,slug.ilike.%${q}%`)

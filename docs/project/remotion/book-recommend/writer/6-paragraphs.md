@@ -9,10 +9,10 @@
 ## 에피소드 파일 경로
 
 ```
-sw/remotion/public/episodes/{stage}/{person}/{locale}.json
+sw/remotion/public/episodes/{person}/meta.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/book.{locale}.json
 ```
 
-- `{stage}`: `pre-todo` | `todo` | `live` | `done`
 - `{locale}`: `ko` | `en`
 
 ---

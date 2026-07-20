@@ -244,7 +244,9 @@ export const PersonCard: React.FC<{
   quoteDisplay?: 'box' | 'caption'
   /** 작은 자막 세로 위치 — 'bottom'(기본) | 'center'(중하단 밴드) */
   quoteCaptionPos?: 'bottom' | 'center'
-}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom' }) => {
+  /** 작은 자막 폰트 스타일 — 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
+  quoteCaptionStyle?: 'default' | 'serif-large'
+}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionStyle = 'default' }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
@@ -307,7 +309,14 @@ export const PersonCard: React.FC<{
       // stretchSpan 있을 때만 대사 길이 늘림. 다중 사진은 인자 생략 → 정속.
       ...(stretchSpan != null && stretchSpan > 0 ? { spanFrames: stretchSpan } : {}),
     })
-    return `scale(${enterS * scale * extraScale}) translate(${tx}%, ${ty}%)`
+    const totalScale = enterS * scale * extraScale
+    // 푸시인(줌인)은 확대하며 목표점을 화면 중앙으로 끌어당긴다. 목표점을 가장자리로 잡으면 이동량이
+    // 확대 여유분을 넘어 사진 밖(검정)이 드러난다. 확대 기준점이 중앙(transform-origin 50% 50%)이므로
+    // 각 방향 안전 이동폭 = 50·(S−1)/S %. 그 밖으로는 잘라내 목표점을 극단으로 찍어도 검정이 안 보이게 한다.
+    const maxShift = isPushinZoom(hold) && totalScale > 1 ? (50 * (totalScale - 1)) / totalScale : Infinity
+    const cx = Math.max(-maxShift, Math.min(maxShift, tx))
+    const cy = Math.max(-maxShift, Math.min(maxShift, ty))
+    return `scale(${totalScale}) translate(${cx}%, ${cy}%)`
   }
   const pushin = !holdOff && isPushinZoom(hold)
   // 1) 박스 슬라이드. 이름 먼저 (박히게, box와 함께).
@@ -339,8 +348,6 @@ export const PersonCard: React.FC<{
   const creditOp = interpolate(lt, [f(ENTER_NAME_SEC), f(ENTER_NAME_SEC + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 3) 대사 — 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤(quoteEnterSec) 등장.
   const quoteOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  // 대사 시작 시 이름·직함을 어둡게 — 처음은 밝음(1), 대사 시작 후 3초에 걸쳐 완만하게 시작해 푹 깎이게 어둠(0.3)으로 전환
-  const nameDimOp = interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + 3)], [1, 0.3], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.cubic) })
   // 수식어 리드인 — 대사가 있으면 그 직전에 페이드아웃(교차), 대사가 없으면(마지막 리드) 켜진 채 유지.
   const epithetOp = hasQuote
     ? interpolate(lt, [f(quoteEnterSec - ENTER_FADE_SEC), f(quoteEnterSec)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -630,7 +637,10 @@ export const PersonCard: React.FC<{
         transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
       }
     : { bottom: orientation === 'portrait' ? 200 : 80, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }
-  const captionFont = orientation === 'landscape' ? 44 : 48
+  const captionFont = quoteCaptionStyle === 'serif-large'
+    ? (orientation === 'landscape' ? 52 : 56)
+    : (orientation === 'landscape' ? 44 : 48)
+  const captionFontFamily = quoteCaptionStyle === 'serif-large' ? FONT_SERIF : FONT
   const captionMinH = Math.round(captionFont * 1.35 * 2 + 28)
   // 신원 — 로고/그룹명 CardCaption 과 동일 위치·형태.
   // [개편] 중앙 배치 + 중앙자막 크기로 축소. [기존] idCaptionSize 62 / idExtraSize 40 / flex-end + pad '0 60px 56px'
@@ -640,7 +650,6 @@ export const PersonCard: React.FC<{
   const idOp = 1
   const idTagOp = 1
   // [개편] 신원 퇴장 — 대사와 같은 중앙 자리를 쓰므로 대사 등장 직전에 교차 퇴장. 대사 없으면 컷 내내 유지.
-  // [기존 롤백용] 퇴장 없이 nameDimOp(대사 중 어둡게)로 상시 유지: opacity: boxExitOp * idOp * nameDimOp
   const idExitOp = hasQuote
     ? interpolate(lt, [f(quoteEnterSec - ENTER_FADE_SEC), f(quoteEnterSec)], [1, 0], clamp)
     : 1
@@ -772,7 +781,7 @@ export const PersonCard: React.FC<{
             timings={voiceTiming}
             fontSize={captionFont}
             color={silentQuote ? '#b8bcc4' : '#f2ebe0'}
-            fontFamily={FONT}
+            fontFamily={captionFontFamily}
             fontWeight={700}
             maxPanelWidth={760}
             chrome="shadow"
@@ -800,7 +809,7 @@ export const PersonCard: React.FC<{
         timings={voiceTiming}
         fontSize={captionFont}
         color={silentQuote ? '#b8bcc4' : '#f2ebe0'}
-        fontFamily={FONT}
+        fontFamily={captionFontFamily}
         fontWeight={700}
         maxPanelWidth={900}
         chrome="shadow"
@@ -828,9 +837,9 @@ export const PersonCard: React.FC<{
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp * captionLeadExitOp }}>
           {/* 이름 + 직함 1번(이름 옆 고정) — 아래에서 떠오르며 등장. 직함만 있는 인물은 1번째 줄도 아래 리스트로 내린다. */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)` }}>
-            <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp * nameDimOp }}>{person.name}</div>
+            <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
             {creditHead && !creditListFull ? (
-              <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp * nameDimOp, whiteSpace: 'nowrap', ...accentClarityPaint(accent) }}>{creditHead}</div>
+              <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap', ...accentClarityPaint(accent) }}>{creditHead}</div>
             ) : null}
           </div>
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)은 직함 순차 → 대사로 교차(겹쳐 두고 페이드) */}
@@ -944,13 +953,13 @@ export const PersonCard: React.FC<{
             <div style={{
               color: accent, fontFamily: FONT_SERIF,
               fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1,
-              textAlign: 'left', opacity: nameOp * nameDimOp, ...TEXT_PAINT, ...accentClarityPaint(accent),
+              textAlign: 'left', opacity: nameOp, ...TEXT_PAINT, ...accentClarityPaint(accent),
             }}>{person.name}</div>
             {creditHead ? (
               <div style={{
                 color: FG, fontFamily: FONT,
                 fontSize: 36, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1,
-                opacity: creditHeadOp * nameDimOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT,
+                opacity: creditHeadOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT,
               }}>{creditHead}</div>
             ) : null}
           </div>

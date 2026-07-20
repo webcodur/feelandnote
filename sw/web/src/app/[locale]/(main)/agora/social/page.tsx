@@ -43,7 +43,7 @@ export default async function Page() {
 
   const friends = friendsResult.success ? friendsResult.data : [];
   const following = followingResult.success
-    ? followingResult.data.map(f => ({ ...f, is_friend: false })).filter(f => !f.is_friend)
+    ? followingResult.data.filter(f => !f.is_friend)
     : [];
   const followers = followersResult.success
     ? followersResult.data.filter(f => !f.is_following)

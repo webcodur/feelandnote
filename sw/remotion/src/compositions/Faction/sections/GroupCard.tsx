@@ -41,9 +41,9 @@ const CardCaption: React.FC<{ accent: string; caption: string; orientation: Orie
   // [개편] 중앙 배치(대사 중앙 자막 슬롯과 동일: 정중앙 + 56px 아래) + 중앙자막 크기로 축소.
   // [기존-하단배치 롤백용] pad = isLand ? '0 80px 120px' : '0 60px 56px' / size = isLand ? 55 : 62 / subSize = isLand ? 34 : 40 / justifyContent: 'flex-end'
   const pad = isLand ? '0 80px' : '0 60px'
-  const size = isLand ? 44 : 48
+  const size = isLand ? 56 : 62
   // 흡수된 소제목(sub)은 명칭보다 한 단계 작게.
-  const subSize = isLand ? 30 : 34
+  const subSize = isLand ? 38 : 42
   const head = nameHead(caption)
   const tail = nameTail(caption)
   return (

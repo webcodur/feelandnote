@@ -1,0 +1,117 @@
+[
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/01.png",
+    "imageChanges": [
+      {
+        "chunk": 1,
+        "image": "cast/jensen-huang/02.png"
+      }
+    ],
+    "text": "\"스탠퍼드 학생 여러분 모두에게, 충분한 양의 고통과 시련이 닥치기를 바랍니다.\"",
+    "chunks": [
+      "\"스탠퍼드 학생 여러분 모두에게,",
+      "충분한 양의 고통과 시련이 닥치기를 바랍니다.\""
+    ],
+    "origin": "For all of you Stanford students, I wish upon you ample doses of pain and suffering.",
+    "originRef": "Stanford SIEPR Economic Summit, 2024-03-01 · 공식 영상 38:15"
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/03.png",
+    "text": "잔인하게 들립니까. 나는 아홉 살 때 켄터키의 기숙학교에서 화장실을 청소했습니다. 백 명 가까운 형들이 쓰던 곳이었습니다. 그때는 그것이 성공 훈련인 줄 몰랐습니다. 그냥 내 일이었으니 했습니다.",
+    "chunks": [
+      "잔인하게 들립니까.",
+      "나는 아홉 살 때 켄터키의 기숙학교에서 화장실을 청소했습니다.",
+      "백 명 가까운 형들이 쓰던 곳이었습니다.",
+      "그때는 그것이 성공 훈련인 줄 몰랐습니다.",
+      "그냥 내 일이었으니 했습니다."
+    ]
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/04.png",
+    "imageChanges": [
+      {
+        "chunk": 2,
+        "image": "cast/jensen-huang/05.png"
+      }
+    ],
+    "text": "\"나는 설거지를 했고, 테이블을 치웠고, 웨이터로 일했습니다. 나보다 커피잔을 많이 나를 수 있는 사람은 없습니다.\"",
+    "chunks": [
+      "\"나는 설거지를 했고,",
+      "테이블을 치웠고, 웨이터로 일했습니다.",
+      "나보다 커피잔을 많이 나를 수 있는 사람은 없습니다.\""
+    ],
+    "origin": "I was a dishwasher, I was a busboy, I waited tables. No one can carry more coffee cups than I can.",
+    "originRef": "NVIDIA Blog, NVIDIA, Denny's and the Trillion-Dollar Company, 2024-07-12"
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/06.png",
+    "text": "\"내게 하찮은 일은 없습니다. 기억하세요. 나는 설거지를 했고, 정말로 화장실도 청소했습니다.\"",
+    "chunks": [
+      "\"내게 하찮은 일은 없습니다.",
+      "기억하세요. 나는 설거지를 했고,",
+      "정말로 화장실도 청소했습니다.\""
+    ],
+    "origin": "To me, no task is beneath me because, remember, I used to be a dishwasher, and I mean that. I used to clean toilets.",
+    "originRef": "Stanford Graduate School of Business, View From The Top, 2024-03-01"
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/07.png",
+    "imageChanges": [
+      {
+        "chunk": 2,
+        "image": "cast/jensen-huang/08.png"
+      }
+    ],
+    "text": "\"엔비디아에서 나는 큰 실패들을 겪었습니다. 모두 굴욕적이고 창피했습니다. 그중 많은 실패가 우리를 거의 끝장낼 뻔했습니다.\"",
+    "chunks": [
+      "\"엔비디아에서 나는 큰 실패들을 겪었습니다.",
+      "모두 굴욕적이고 창피했습니다.",
+      "그중 많은 실패가 우리를 거의 끝장낼 뻔했습니다.\""
+    ],
+    "origin": "At NVIDIA, I experienced failures — great big ones. All humiliating and embarrassing. Many nearly doomed us.",
+    "originRef": "NVIDIA Blog, NTU Commencement Address, 2023-05-27"
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/09.png",
+    "text": "\"내가 가진 큰 장점 중 하나는 기대치가 아주 낮다는 것입니다. 기대가 높은 사람은 회복력이 매우 낮습니다.\"",
+    "chunks": [
+      "\"내가 가진 큰 장점 중 하나는 기대치가 아주 낮다는 것입니다.",
+      "기대가 높은 사람은 회복력이 매우 낮습니다.\""
+    ],
+    "origin": "One of my great advantages is that I have very low expectations. People with very high expectations have very low resilience.",
+    "originRef": "Stanford SIEPR Economic Summit, 2024-03-01 · 공식 영상 36:16, 36:58"
+  },
+  {
+    "cast": 0,
+    "kind": "monologue",
+    "part": 1,
+    "image": "cast/jensen-huang/10.png",
+    "text": "\"위대함은 지능이 아닙니다. 위대함은 인격에서 나옵니다. 인격은 똑똑한 사람에게서 만들어지는 것이 아닙니다. 고통을 겪은 사람에게서 만들어집니다.\"",
+    "chunks": [
+      "\"위대함은 지능이 아닙니다.",
+      "위대함은 인격에서 나옵니다.",
+      "인격은 똑똑한 사람에게서 만들어지는 것이 아닙니다.",
+      "고통을 겪은 사람에게서 만들어집니다.\""
+    ],
+    "origin": "Greatness is not intelligence. Greatness comes from character. And character isn't formed out of smart people. It's formed out of people who suffered.",
+    "originRef": "Stanford SIEPR Economic Summit, 2024-03-01 · 공식 영상 37:57"
+  }
+]

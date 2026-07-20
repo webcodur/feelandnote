@@ -140,6 +140,16 @@ function getInitialInfluence(celeb?: Member): GeneratedInfluence {
 }
 // #endregion
 
+/**
+ * 취소·삭제 후 돌아갈 목록.
+ *
+ * 이 폼은 파일 위치만 members/ 아래일 뿐 celebs/new·celebs/[slug] 두 곳에서만
+ * 쓴다(users/ 쪽 사용처 없음). 따라서 복귀 목록은 셀럽 목록 하나로 확정된다.
+ * 예전 값 '/members?tab=celeb'은 /members 스텁이 쿼리를 버리고 /users로
+ * 넘기는 탓에 셀럽을 편집하다 취소하면 유저 목록에 떨어졌다.
+ */
+const CELEB_LIST_PATH = '/celebs'
+
 export default function CelebForm({ mode, celeb }: Props) {
   const router = useRouter()
   const { showToast } = useToast()
@@ -469,7 +479,7 @@ export default function CelebForm({ mode, celeb }: Props) {
 
     try {
       await deleteCeleb(celeb.id)
-      router.push('/members?tab=celeb')
+      router.push(CELEB_LIST_PATH)
     } catch (err) {
       setError(err instanceof Error ? err.message : '삭제에 실패했습니다.')
       setDeleteLoading(false)
@@ -774,7 +784,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         </Button>
       )}
       {mode === 'create' && (
-        <Button type="button" variant="secondary" onClick={() => router.push('/members?tab=celeb')}>취소</Button>
+        <Button type="button" variant="secondary" onClick={() => router.push(CELEB_LIST_PATH)}>취소</Button>
       )}
       <Button type="submit" form="celeb-form" disabled={loading}>
         {loading ? <><Loader2 className="w-4 h-4 animate-spin" />{mode === 'create' ? '생성 중...' : '저장 중...'}</> : mode === 'create' ? '생성' : '저장'}

@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/scriptures/era/page.tsx
+  파일명: /app/(main)/library/era/page.tsx
   기능: 불후의 명작 페이지 (통합)
   책임: 전체 시대 + 시대별 인물들의 선택을 보여준다.
 */ // ------------------------------

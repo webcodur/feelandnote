@@ -9,7 +9,7 @@
  *
  * 음성 wav는 아직 없으므로 텍스트 길이 기반 폴백 시간을 사용한다.
  */
-import type { BookEntry, BookRecommendScript, CelebHost, NarratorLines, VoiceTimingSegment } from './types'
+import type { BookEntry, BookRecommendScript, CelebHost, NarratorLines, Speaker, VoiceTimingSegment } from './types'
 import { resolveImageFile } from './script'
 import { vnSolo, vnTimingKey } from './voice-names'
 
@@ -40,6 +40,8 @@ export interface SoloFreeSection {
   kind?: 'narration' | 'quote'
   /** 인용 출처 — kind가 quote일 때 작게 표기 (선택) */
   quoteSource?: string
+  /** 직접 발화자 — 'host' 또는 episode.speakers[].id. actor 마디의 음색 라우팅에 사용. */
+  speaker?: string
 }
 
 /** Solo 마디 — buildSoloScript가 자유섹션·정형부에서 조립하는 내부 렌더 단위. */
@@ -54,6 +56,8 @@ export interface SoloSegment {
   kind: 'brand' | 'greeting' | 'title' | 'free' | 'quote' | 'outro'
   duration: number
   quoteSource?: string
+  /** 직접 발화자 — 'host' 또는 episode.speakers[].id. */
+  speaker?: string
   /** 이 마디의 전체 인덱스 (마디 배열 순서, 0-based) — 음성 파일·키 생성용 */
   segIndex: number
   /** 음성 정렬 결과 — 있으면 정확한 타이밍, 없으면 글자수 추정 폴백 */
@@ -68,6 +72,8 @@ export interface SoloScript {
   book: BookEntry
   /** 인사·아웃트로 등 회차 공통 텍스트 (기존 narrator에서 차용) */
   narrator: NarratorLines
+  /** SOLO 직접 발화에 쓰는 에피소드 공통 화자 카드. */
+  speakers?: Speaker[]
   /** 마디 배열 — 정형부 + 자유섹션 */
   segments: SoloSegment[]
   /** 회차 총 길이(초) */
@@ -174,6 +180,7 @@ function buildSoloSegments(
       imageChangeAt: fs.imageChangeAt,
       voice: fs.voice ?? 'tts',
       quoteSource: fs.quoteSource,
+      speaker: fs.speaker,
       voiceTimings: t,
       duration: resolveDuration(fs.text, locale, t, fs.kind === 'quote' ? 1 : 0),
     })
@@ -222,6 +229,7 @@ export function buildSoloScript(
     host: source.host,
     book,
     narrator: source.narrator,
+    speakers: source.speakers,
     segments,
     totalDuration,
     locale,

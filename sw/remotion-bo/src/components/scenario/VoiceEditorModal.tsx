@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-export type ExpandMode = 'trim' | 'sync' | 'breath'
+export type ExpandMode = 'trim' | 'sync' | 'breath' | 'age'
 
 /** 헤더 엔진 토글 상태 — 모달이 직접 받아 헤더에 그린다. */
 export type ModalEngineState = {
@@ -43,6 +43,7 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
       if (e.key === '1') setMode('trim')
       if (e.key === '2') setMode('sync')
       if (e.key === '3') setMode('breath')
+      if (e.key === '4') setMode('age')
     }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
@@ -140,6 +141,7 @@ export function VoiceEditorModal({ openKey, onClose, renderExpanded, engineState
               {segBtn('trim', mode === 'trim', () => setMode('trim'), '생성')}
               {segBtn('sync', mode === 'sync', () => setMode('sync'), '싱크')}
               {segBtn('breath', mode === 'breath', () => setMode('breath'), '들숨')}
+              {segBtn('age', mode === 'age', () => setMode('age'), '연령')}
             </div>
             <button
               onClick={onClose}

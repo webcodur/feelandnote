@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { ScenarioRow, AddFieldButton } from '../../../ScenarioRow'
 import { SaveButton } from '../../../SaveButton'
 import { SegmentSfxEditor } from '../../../SegmentSfxEditor'
@@ -9,7 +10,7 @@ import { GainDbInput } from '../../../GainDbInput'
 import { PlaybackRateInput } from '../../../PlaybackRateInput'
 import { InlineImageRow } from '../../../ImageThumb'
 import { BgmSelect } from '../../BgmSelect'
-import { BookCopyButton } from '../../CopyButton'
+import { BookCopyButton, BookJsonPanel } from '../../CopyButton'
 import { bookKey, bookFieldParts, partPhase, lookupVoice, matchImagesToField, unmatchedImages, distributeContextImages, imagesForPart } from '../../../utils'
 import type { CinematicImage } from '../../../types'
 import { QuotePairRow } from './sections/QuotePairRow'
@@ -28,13 +29,14 @@ export function BookSection({
   imageBaseUrl, replaceImage, removeImage, removeImageOnly, crossUsage,
   uB, uBSplit, dropImage, addAnchor, handlePick,
   updateQuotePair, updateAfterSplit, updateBookPartSetting, updateAfterPartSetting,
-  addQuotePair, removeQuotePair, saveField,
+  addQuotePair, removeQuotePair, applyBookText, saveField,
   activeEngine, playingKey, onTogglePlay, onToggleExpand,
   musicFiles, setBookBgm,
   sfxFiles, sfxBase, speakers,
 }: BookSectionProps) {
   const i = realIdx
   const picking = anchorPick?.itemIdx === i
+  const [jsonOpen, setJsonOpen] = useState(false)
 
   const imgsBase = matchImagesToField(allImgs, 'summary', book.summary ?? '', true)
   const ctxBuckets = distributeContextImages(allImgs, book)
@@ -85,10 +87,25 @@ export function BookSection({
           {book.stats?.publishYear && <span className="text-text-secondary text-xs">{book.stats.publishYear}</span>}
           {allImgs.length > 0 && <span className="text-text-secondary text-sm font-bold ml-1">{allImgs.length}장</span>}
           <span className="ml-auto flex items-center gap-2">
-            <BookCopyButton book={book} index={i} total={totalBooks} />
+            <BookCopyButton
+              book={book}
+              index={i}
+              total={totalBooks}
+              jsonOpen={jsonOpen}
+              onToggleJson={() => setJsonOpen(v => !v)}
+            />
           </span>
         </div>
       </HeaderTag>
+
+      {jsonOpen && (
+        <BookJsonPanel
+          book={book}
+          open={jsonOpen}
+          onClose={() => setJsonOpen(false)}
+          onApplyText={patch => applyBookText(i, patch)}
+        />
+      )}
 
       <div className="border-t border-border/40">
         <div className="p-4 space-y-0">

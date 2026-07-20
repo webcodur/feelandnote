@@ -18,66 +18,8 @@ export interface DialogueLines {
   monologue?: string
 }
 
-export interface CelebDialogueItem {
-  id: string
-  nickname: string | null
-  avatar_url: string | null
-  profession: string | null
-  speech_tone: string | null
-  voice_speed: number
-  dialogue_lines: DialogueLines | null
-  dialogue_lines_en: DialogueLines | null
-}
-
-// #region getCelebsForDialogueEdit
-export async function getCelebsForDialogueEdit(
-  page: number = 1,
-  limit: number = 50,
-): Promise<{ celebs: CelebDialogueItem[]; total: number }> {
-  const supabase = await createClient()
-  const offset = (page - 1) * limit
-
-  const { data, error, count } = await supabase
-    .from('profiles')
-    .select(
-      `id, nickname, avatar_url, profession, speech_tone, voice_speed,
-       celeb_dialogues(lines, lines_en)`,
-      { count: 'exact' },
-    )
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .not('death_date', 'is', null)
-    .order('nickname', { ascending: true })
-    .range(offset, offset + limit - 1)
-
-  if (error) throw error
-
-  const celebs: CelebDialogueItem[] = (data || []).map((row) => {
-    const dlg = Array.isArray(row.celeb_dialogues)
-      ? row.celeb_dialogues[0]
-      : row.celeb_dialogues
-
-    return {
-      id: row.id,
-      nickname: row.nickname,
-      avatar_url: row.avatar_url,
-      profession: row.profession,
-      speech_tone: row.speech_tone ?? null,
-      voice_speed: (row as Record<string, unknown>).voice_speed as number ?? 1.0,
-      dialogue_lines:
-        dlg?.lines && Object.keys(dlg.lines).length > 0
-          ? (dlg.lines as DialogueLines)
-          : null,
-      dialogue_lines_en:
-        dlg?.lines_en && Object.keys(dlg.lines_en).length > 0
-          ? (dlg.lines_en as DialogueLines)
-          : null,
-    }
-  })
-
-  return { celebs, total: count || 0 }
-}
-// #endregion
+// 대사 편집 목록(getCelebsForDialogueEdit)은 제거했다. 호출부가 한 번도 없었고,
+// /celebs/voice-gen이 쓰는 getCelebsForVoiceGen이 같은 자리를 채운다.
 
 // #region updateSpeechTone
 export async function updateSpeechTone(
@@ -93,7 +35,7 @@ export async function updateSpeechTone(
 
   if (error) throw error
 
-  revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
   // profiles.speech_tone — 프로필 컬럼이지만 대사 재생에 쓰이므로 둘 다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
@@ -114,7 +56,7 @@ export async function updateVoiceSpeed(
 
   if (error) throw error
 
-  revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
   // profiles.voice_speed — 프로필 컬럼이자 대사 재생 속도
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
@@ -175,7 +117,7 @@ export async function saveCelebDialogues(
 
   if (error) throw error
 
-  revalidatePath('/celebs/dialogues')
+  revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
   // celeb_dialogues만 수정
   await revalidateWebCache(CACHE_TAGS.DIALOGUES)

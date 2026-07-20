@@ -1,11 +1,13 @@
 # SEO 설정 현황
 
+> **최종 실측 체크: 26.07.16** — `sitemap.ts`·`robots.ts`·`feed.xml/route.ts`·`middleware.ts`·`[locale]/layout.tsx`·`manifest.ts`·IndexNow 유틸·MCP 설정을 라이브 코드와 대조. 검색엔진 콘솔 쪽 등록 상태(GSC·네이버·Bing·Daum 제출 이력)는 외부 서비스라 미확인.
+
 ## 검색엔진 등록 현황
 
 | 서비스 | 상태 | 인증 방식 | 제출 항목 | 비고 |
 |--------|------|----------|----------|------|
 | Google Search Console | ✅ 완료 | 메타태그 (`google` verification) | 사이트맵 | MCP 연결됨 (`mcp__google-search-console__*`) |
-| Google Analytics (GA4) | ✅ 수집 중 | — | — | MCP 연결됨. Property ID: `526353156` |
+| Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
 | 네이버 서치어드바이저 | ✅ 완료 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 |
 | Bing Webmaster Tools | ✅ 완료 | Google SC 연동 | 사이트맵 | IndexNow 자동 연동. 2026-03-12 |
 | Daum 검색등록 | ✅ 제출 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 |
@@ -27,11 +29,13 @@ verification: {
 - **파일**: `sw/web/src/app/sitemap.ts`
 - **URL**: `https://feelandnote.com/sitemap.xml`
 - **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
-- **캐시**: `revalidate = 3600` (ISR 1시간)
-- **URL 구성**: 정적 경로 27개 + 셀럽 동적 경로 ~1,070개 = 약 1,098개
+- **캐시**: `revalidate = 86400` (ISR 하루. 재생성 1회가 Supabase에서 약 1MB를 끌어오므로 1시간 → 하루로 완화, 2026-07-15)
+- **URL 구성**(2026-07-15 확장): 정적 20경로 + 셀럽(`celeb_tier=eq.full`) + 감상문 보유 콘텐츠 `/content/{id}` — 각 경로가 ko·en 2 URL로 나가 총 **약 15,884개** (정적 40 + 셀럽 2,514 + 콘텐츠 13,330)
+- **등재 기준**: 셀럽은 full 티어만, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 페이지 noindex 기준과 일치시킨다(등재↔색인거부 모순 방지)
+- **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default
-- **lastModified**: `profiles.created_at` 사용 (`updated_at` 컬럼 없음)
+- **lastModified**: 셀럽만 `profiles.created_at` 사용 (`updated_at` 컬럼 없음). 정적 경로·콘텐츠는 **기록하지 않는다** — `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 구글이 lastmod 신호를 무시하게 만든다
 
 ## RSS 피드
 
@@ -46,7 +50,7 @@ verification: {
 
 - **키**: `4f3c45379c68dc5a57ad8927e92dda93`
 - **키 파일**: `sw/web/public/4f3c45379c68dc5a57ad8927e92dda93.txt`
-- **유틸**: `sw/web/src/lib/indexnow.ts` → `notifyIndexNow(['/celeb/slug'])`
+- **유틸**: `sw/web-bo/src/lib/indexnow.ts` → `notifyIndexNow(['/celeb/slug'])` (호출 주체가 BO이므로 web이 아니라 web-bo에 있다)
 - **대상 엔진**: 네이버, Bing, Yandex 등 IndexNow 지원 엔진
 - production 환경에서만 동작 (dev 환경 skip)
 - 셀럽 등록/수정 등 콘텐츠 변경 시 호출하면 즉시 색인 요청됨
@@ -56,18 +60,20 @@ verification: {
 
 - **파일**: `sw/web/src/app/robots.ts`
 - **URL**: `https://feelandnote.com/robots.txt`
-- **Disallow**:
+- **일반 크롤러(`*`)**: `allow: /` + `crawlDelay: 1`. Disallow는 아래.
   - 시스템: `/private/`, `/admin/`, `/api/`
-  - 인증: `/login`, `/signup`, `/reset-password`
+  - 인증: `/login`, `/signup`, `/reset-password` (각각 `/en` 접두 변형 포함)
   - 개인: `/reading`, `/*/reading`, `/*/chamber`, `/*/merits`
-  - 기타: `/notifications`, `/search`, `/lab`
+  - 기타: `/notifications`, `/search`, `/lab` (`/en` 접두 변형 포함)
+  - 쿼리: `/*?*search=`, `/*?*sortBy=`, `/*?*sort=`, `/*?*page=` — **무한 조합을 만드는 파라미터만** 차단한다. `/*?` 전면 차단은 `?category=`가 붙은 콘텐츠 상세 내부 링크까지 크롤 불가로 만들어 색인 붕괴를 일으켰다(2026-07-15 해제)
+- **AI 학습·수집 크롤러 20종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider` 등): `Disallow: /` 전 경로 차단. egress 방어의 주력이므로 손대지 않는다
 
 ## 미들웨어 SEO 경로 제외
 
 `sw/web/src/middleware.ts`에서 SEO 경로를 코드 가드로 제외한다:
 
 ```ts
-const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml']
+const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image']
 
 if (SEO_PATHS.includes(request.nextUrl.pathname)) {
   return NextResponse.next()
@@ -76,12 +82,14 @@ if (SEO_PATHS.includes(request.nextUrl.pathname)) {
 
 matcher 패턴의 dot 이스케이프가 불안정하므로, 코드 가드가 SSoT이다. 새 SEO 경로 추가 시 `SEO_PATHS` 배열에 추가한다.
 
+아이콘은 이제 규약 파일이 아니라 `public/icon.png`·`public/apple-icon.png` 정적 파일로 서빙되므로 `SEO_PATHS`에 넣지 않는다. `[locale]/layout.tsx`의 `icons`와 `manifest.ts`가 이 경로를 가리킨다.
+
 ## MCP 도구
 
 | MCP | 용도 | 주요 도구 |
 |-----|------|----------|
 | `google-search-console` | 검색 성과 분석, 색인 상태 확인, 사이트맵 제출 | `search_analytics`, `index_inspect`, `submit_sitemap`, `detect_quick_wins` |
-| `google-analytics` | 트래픽·사용자 행동 분석 | `get_ga4_data`, `search_schema` |
+| ~~`google-analytics`~~ | 트래픽·사용자 행동 분석 | **현재 `.mcp.json`에 미등록.** 쓰려면 서버 정의부터 되살려야 한다 |
 
 ## 로컬 검증 방법
 
@@ -91,12 +99,12 @@ matcher 패턴의 dot 이스케이프가 불안정하므로, 코드 가드가 SS
 cd sw/web && source .env.local
 
 # 사이트맵 쿼리 테스트
-curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles?select=slug,created_at&profile_type=eq.CELEB&status=eq.active&slug=not.is.null&order=created_at.asc&limit=3" \
+curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles?select=slug,created_at&profile_type=eq.CELEB&status=eq.active&celeb_tier=eq.full&slug=not.is.null&order=created_at.asc&limit=3" \
   -H "apikey: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}" \
   -H "Authorization: Bearer ${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
 
 # 배포 후 검증
-curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<url>"   # 예상: ~1098
+curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<url>"   # 예상: ~15884
 curl -s -I "https://feelandnote.com/feed.xml" | grep Content-Type  # 예상: application/rss+xml
 curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: text/plain
 ```
@@ -123,6 +131,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   4. `manifest.ts` icons에 PNG 192×192 추가, 크기 선언 수정
   5. JSON-LD Organization `logo`를 `/icon`(PNG)으로 변경
 - **교훈**: Next.js 메타데이터 규약 파일(`opengraph-image`, `apple-icon`, `icon` 등)이 `app/` 루트에 있으면 확장자 없는 경로로 서빙되므로, 미들웨어 matcher의 확장자 제외 패턴에 걸리지 않는다. 새 메타데이터 규약 파일 추가 시 반드시 `SEO_PATHS`에도 추가할 것
+- **이후 현행화(26.07.16 실측)**: 아이콘 두 종은 규약 파일에서 정적 파일로 옮겨졌다 — `app/icon.tsx`·`app/apple-icon.tsx`는 없고 `public/icon.png`(192×192)·`public/apple-icon.png`가 그 자리를 대신한다. 따라서 `SEO_PATHS`에 남은 규약 파일 경로는 `/opengraph-image` 하나뿐이다
 - **참고**: [Google 파비콘 요구사항](https://developers.google.com/search/docs/appearance/favicon-in-search) — 48px 배수 필수, SVG/PNG 선호
 
 ### 네이버 색인 1건 (2026-03-13)
@@ -145,7 +154,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   4. `sitemap.ts` — `entry()`가 ko/en 2개 URL을 각각 생성하도록 변경 (~2,196개)
   5. `content_locales` en 행의 한국어 creator 70건 → 영문으로 일괄 수정
   6. 영문 메뉴명 "Scriptures" → "Library" 변경
-  7. URL 경로 `/scriptures` → `/library` 변경 + 301 리다이렉트 (next.config.ts)
+  7. URL 경로 `/scriptures` → `/library` 변경 + 영구 리다이렉트 (next.config.ts `permanent: true` → 308)
 - **교훈**: `loading.tsx`뿐 아니라 컴포넌트 레벨 `<Suspense>`도 동일한 SEO 문제를 유발한다. SEO 대상 페이지에서는 Suspense를 사용하지 않는다
 
 ### 색인률 2% — AdSense 반복 거절 (2026-07-15)

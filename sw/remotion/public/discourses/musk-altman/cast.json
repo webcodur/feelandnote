@@ -1,0 +1,52 @@
+[
+  {
+    "name": "일론 머스크",
+    "nameEn": "Elon Musk",
+    "slug": "elon-musk",
+    "image": "cast/elon-musk/00.png",
+    "living": true,
+    "lines": [
+      "테슬라 · 스페이스X · xAI CEO",
+      "PayPal 공동설립 · OpenAI 공동설립",
+      "재사용 로켓 · 전기차 대중화"
+    ],
+    "linesEn": [
+      "CEO, Tesla · SpaceX · xAI",
+      "PayPal co-founder · OpenAI co-founder",
+      "Reusable rockets · Electric vehicles"
+    ],
+    "epithet": "전기차와 로켓을 산업으로 증명한 뒤, 자신이 세운 인공지능 연구소를 법정에 세운 창업자",
+    "epithetEn": "The founder who proved electric cars and rockets as industries, then took the AI lab he founded to court",
+    "era": "1971 ~",
+    "color": "#e05c5c",
+    "voice": {
+      "engine": "gemini",
+      "style": "낮고 건조하게, 말끝을 눌러"
+    }
+  },
+  {
+    "name": "샘 알트만",
+    "nameEn": "Sam Altman",
+    "slug": "sam-altman",
+    "image": "cast/sam-altman/00.png",
+    "living": true,
+    "lines": [
+      "OpenAI CEO",
+      "Y Combinator 대표 · OpenAI 공동설립",
+      "ChatGPT 공개"
+    ],
+    "linesEn": [
+      "CEO, OpenAI",
+      "Y Combinator president · OpenAI co-founder",
+      "Released ChatGPT"
+    ],
+    "epithet": "ChatGPT로 인공지능을 연구실 밖으로 꺼낸 뒤, 비영리로 시작한 조직을 영리 법인으로 바꾼 경영자",
+    "epithetEn": "The executive who brought AI out of the lab with ChatGPT, then converted a nonprofit into a for-profit entity",
+    "era": "1985 ~",
+    "color": "#5aa9e6",
+    "voice": {
+      "engine": "gemini",
+      "style": "차분하고 고르게, 설득하듯"
+    }
+  }
+]

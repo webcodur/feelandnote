@@ -2,6 +2,7 @@ import type { Speaker } from '../../../SpeakerPanel'
 import type { VoiceSection } from '../../../../voice-utils'
 import type { CinematicImage, AnchorPick, ImageField } from '../../../types'
 import type { MusicFile } from '../useLongformState'
+import type { BookTextPatch } from '../../../jsonImport'
 
 /** BookSection orchestrator props — 단일 책 섹션 렌더에 필요한 전부. */
 export type BookSectionProps = {
@@ -51,6 +52,8 @@ export type BookSectionProps = {
   ) => void
   addQuotePair: (bookIdx: number) => void
   removeQuotePair: (bookIdx: number, pairIdx: number) => void
+  /** 외부 JSON 책 본문 패치 적용 */
+  applyBookText: (bookIdx: number, patch: BookTextPatch) => void
   saveField: (path: Array<string | number>, value: unknown) => Promise<void>
   activeEngine: (key: string) => string
   playingKey: string | null

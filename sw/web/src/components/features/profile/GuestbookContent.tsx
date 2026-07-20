@@ -14,13 +14,13 @@ import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from 
 import { createClient } from "@/lib/supabase/client";
 import EntryItem from "./guestbook/EntryItem";
 import WriteForm from "./guestbook/WriteForm";
-import type { GuestbookContentProps, CurrentUser } from "./guestbook/types";
+import type { GuestbookContentProps, CurrentUserId } from "./guestbook/types";
 
 const PAGE_SIZE = 10;
 
 export default function GuestbookContent({
   profileId,
-  currentUser: currentUserProp,
+  currentUserId: currentUserIdProp,
   isOwner,
   initialEntries,
   initialTotal,
@@ -29,17 +29,16 @@ export default function GuestbookContent({
   const t = useTranslations("profileSection.guestbook");
 
   // 서버가 사용자를 주입하지 않은 경우(정적 렌더 화면) 클라이언트에서 본인 id를 조회한다.
-  // 방명록은 작성 폼 노출 여부와 본인 글 수정/삭제 판정에 id만 사용한다(닉네임·아바타 미사용).
-  const [selfUser, setSelfUser] = useState<CurrentUser>(null);
-  const currentUser: CurrentUser = currentUserProp !== undefined ? currentUserProp : selfUser;
+  const [selfUserId, setSelfUserId] = useState<CurrentUserId>(null);
+  const currentUserId: CurrentUserId = currentUserIdProp !== undefined ? currentUserIdProp : selfUserId;
 
   useEffect(() => {
-    if (currentUserProp !== undefined) return;
+    if (currentUserIdProp !== undefined) return;
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setSelfUser({ id: user.id, nickname: null, avatar_url: null });
+      if (user) setSelfUserId(user.id);
     });
-  }, [currentUserProp]);
+  }, [currentUserIdProp]);
   const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
   const [total, setTotal] = useState(initialTotal);
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,7 +99,7 @@ export default function GuestbookContent({
   return (
     <>
       {/* 작성 폼 (로그인 사용자만) */}
-      {currentUser && <WriteForm profileId={profileId} onSubmit={handleAddEntry} />}
+      {currentUserId && <WriteForm profileId={profileId} onSubmit={handleAddEntry} />}
 
       {/* 방명록 목록 */}
       {entries.length > 0 ? (
@@ -110,7 +109,7 @@ export default function GuestbookContent({
               <EntryItem
                 key={entry.id}
                 entry={entry}
-                currentUser={currentUser}
+                currentUserId={currentUserId}
                 isOwner={isOwner}
                 onDelete={handleDeleteEntry}
                 onUpdate={handleUpdateEntry}

@@ -85,7 +85,7 @@ export default function Logo({
   // #region 컨테이너 래퍼
   const containerContent = (
     <div
-      className={`flex flex-col items-center select-none group ${className}`}
+      className={`flex flex-col items-center select-none group hover:opacity-80 ${className}`}
     >
       {logoContent}
       {subtitle && (

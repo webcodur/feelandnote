@@ -5,6 +5,7 @@ import type { EpisodeData } from '../../../EpisodeEditor'
 import { locateImageSectionKey, setField } from '../../utils'
 import { remapAnchorsInField } from '../../anchorSync'
 import type { CinematicImage } from '../../types'
+import { mergeBookTextPatch, type BookTextPatch } from '../../jsonImport'
 
 /** 본문 필드명 — 이 필드를 고치면 같은 책의 이미지 앵커(book.images[].text)를 옛→새 본문 위치로 이전한다. */
 const TEXT_FIELDS = new Set(['summary', 'contextMain'])
@@ -183,6 +184,25 @@ export function useLongformState({
     onUpdate({ ...episode, books: newBooks })
   }
 
+  /**
+   * 외부 JSON 텍스트 패치 적용 — summary/contextMain/quotePairs 만 병합.
+   * 이미지·BGM·화자 설정은 유지. 본문이 바뀌면 이미지 앵커를 이전한다.
+   */
+  const applyBookText = (bookIdx: number, patch: BookTextPatch) => {
+    const newBooks = [...allBooks]
+    const prev = (newBooks[bookIdx] ?? {}) as Record<string, unknown>
+    const next = mergeBookTextPatch(prev, patch)
+    // 본문 축이 바뀌면 앵커 이전 (summary·contextMain·인용 after/quote 합본 기준)
+    const prevSummary = typeof prev.summary === 'string' ? prev.summary : ''
+    const nextSummary = typeof next.summary === 'string' ? next.summary : ''
+    if (prevSummary !== nextSummary) remapBookImages(next, prevSummary, nextSummary, `책${bookIdx + 1}/summary`)
+    const prevCtx = typeof prev.contextMain === 'string' ? prev.contextMain : ''
+    const nextCtx = typeof next.contextMain === 'string' ? next.contextMain : ''
+    if (prevCtx !== nextCtx) remapBookImages(next, prevCtx, nextCtx, `책${bookIdx + 1}/contextMain`)
+    newBooks[bookIdx] = next
+    onUpdate({ ...episode, books: newBooks })
+  }
+
   const saveField = async (path: Array<string | number>, value: unknown) => {
     const res = await fetch(`/api/${series}/episodes/${name}/field`, {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
@@ -241,6 +261,7 @@ export function useLongformState({
     uN, uH, uB, uBSplit,
     updateQuotePair, updateAfterSplit, addQuotePair, removeQuotePair,
     updateBookPartSetting, updateAfterPartSetting,
+    applyBookText,
     saveField,
     musicFiles, setBookBgm,
     locateImage,

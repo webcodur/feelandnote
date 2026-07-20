@@ -78,11 +78,20 @@ function buildUpsertSql(batch) {
     return `('${item.celeb_id}', '${linesStr}'::jsonb)`;
   }).join(',\n  ');
 
+  // lines는 통째 교체가 아니라 병합한다(`||` = 오른쪽 우선 얕은 병합).
+  //
+  // 왜: 원고 JSON(docs/celeb-data/dialogue/*.json)의 lines에는 대사 7키만 있고 `quote`가 없다.
+  //     통째 교체(`lines = EXCLUDED.lines`)로 덮으면 DB에 있던 명언(lines.quote)이 소멸한다.
+  //     실제로 2026-06-02 일괄 작업에서 이 방식으로 579명분 한국어 명언이 유실됐고,
+  //     시점 복구 한도(28일)를 넘겨 복구가 불가능했다. 같은 사고를 되풀이하지 않는다.
+  //
+  // 병합이면 원고에 있는 7키는 갱신되고, 원고에 없는 quote는 기존 값이 남는다.
+  // 명언 정본은 celeb_dialogues.lines.quote / lines_en.quote 두 곳뿐이다(profiles.quotes는 부재).
   return `INSERT INTO celeb_dialogues (celeb_id, lines)
 VALUES
   ${values}
 ON CONFLICT (celeb_id) DO UPDATE SET
-  lines = EXCLUDED.lines,
+  lines = celeb_dialogues.lines || EXCLUDED.lines,
   updated_at = now();`;
 }
 

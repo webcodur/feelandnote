@@ -9,7 +9,18 @@ import { isThreeKingdomsMember, THREE_KINGDOMS_LABEL } from './three-kingdoms'
 
 // ─── 타입 ──────────────────────────────────────────────
 
-export type UploadRecord = { videoId: string; uploadedAt: string }
+export type UploadRecord = {
+  videoId: string
+  uploadedAt: string
+  /**
+   * 업로드된 책의 폴더명("09-성경"). 쇼츠·솔로 전용 — 롱폼은 책 하나가 아니므로 없다.
+   * 키(ko-shorts-3)의 슬롯 번호는 책 폴더 구성이 바뀌면 가리키는 책이 달라진다.
+   * 폴더명은 리네임되지 않는 한 안정적이라 videoId → 책 정체를 잇는 신뢰 가능한 고리다.
+   */
+  bookFolder?: string
+  /** 업로드 시점의 책 제목. 사후 대조용(폴더 리네임·제목 변경 탐지). */
+  titleAtUpload?: string
+}
 
 export type EpisodeMeta = {
   /**

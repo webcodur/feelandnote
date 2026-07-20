@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { readFactionComment, writeFactionComment } from '@/lib/faction-utils'
 
 // ── 세력도 편별 댓글(해설 텍스트) 읽기/쓰기 ──
@@ -11,7 +11,7 @@ import { readFactionComment, writeFactionComment } from '@/lib/faction-utils'
 
 export async function GET(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const part = Number(new URL(req.url).searchParams.get('part') || 0)
@@ -24,7 +24,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const { part, text } = await req.json().catch(() => ({}))

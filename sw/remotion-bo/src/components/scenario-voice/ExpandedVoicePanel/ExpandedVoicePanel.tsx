@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { VoiceFile } from '../../voice-utils'
 import { prodFile } from '../utils'
 import { SyncModeContent } from '../SyncModeContent'
 import { BreathModeContent } from '../BreathModeContent'
+import { AgeModeContent, type AgeEndpoints } from '../AgeModeContent'
 import type { ExpandedVoicePanelProps } from './types'
 import { useVoiceSpec } from './useVoiceSpec'
 import { useSegmentMeta } from './useSegmentMeta'
@@ -44,6 +45,26 @@ export function ExpandedVoicePanel({
   const hasTempPreview = gen.tempPreview?.key === secKey
   const previewEngine = gen.tempPreview?.engine ?? null
 
+  // 연령 변형 라우트 — 서버 ffmpeg 로 늙게/젊게 변형. 원본은 voice/{locale}/ori/ 에 보관.
+  const ageEndpoints: AgeEndpoints = useMemo(() => {
+    const post = async (s: string, action: string, fileName: string, age: number) => {
+      const res = await fetch(`/api/${s}/voice/age`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ episode: name, fileName, age, action }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error ?? '요청 실패')
+      return data
+    }
+    return {
+      loadUrl: (s, n, fileName) => `/api/${s}/voice/play/${n}/${fileName}?t=${Date.now()}`,
+      preview: (s, _n, fileName, age) => post(s, 'preview', fileName, age),
+      commit: (s, _n, fileName, age) => post(s, 'commit', fileName, age),
+      restore: (s, _n, fileName) => post(s, 'restore', fileName, 0),
+      status: (s, _n, fileName) => post(s, 'status', fileName, 0),
+    }
+  }, [name])
+
   return (
     <div className="relative space-y-3" onClick={e => e.stopPropagation()}>
       {/* TRIM | SYNC 탭은 모달 헤더로 이동. ENGINE 토글(default/override 시각화)도 헤더로 이동. */}
@@ -61,6 +82,17 @@ export function ExpandedVoicePanel({
       {expandMode === 'breath' && (
         activeFile ? (
           <BreathModeContent series={series} name={name} file={activeFile} onRefresh={onRefresh} />
+        ) : (
+          <div className="text-sm text-text-secondary italic px-1 py-2">
+            저장된 음원이 없다. 생성 탭에서 먼저 만든다.
+          </div>
+        )
+      )}
+
+      {/* AGE mode — 저장된 음원을 늙게/젊게 변형(원본 보관·되돌리기 가능) */}
+      {expandMode === 'age' && (
+        activeFile ? (
+          <AgeModeContent series={series} name={name} file={activeFile} onRefresh={onRefresh} endpoints={ageEndpoints} />
         ) : (
           <div className="text-sm text-text-secondary italic px-1 py-2">
             저장된 음원이 없다. 생성 탭에서 먼저 만든다.
@@ -98,6 +130,7 @@ export function ExpandedVoicePanel({
           generating={gen.generating}
           handleCancelGenerate={gen.handleCancelGenerate}
           engineSpec={spec.engineSpec}
+          personVoice={spec.personVoice}
           eleSpec={spec.eleSpec}
           geminiSpec={spec.geminiSpec}
           activeSpec={spec.activeSpec}

@@ -1,8 +1,10 @@
 import { ArrowRight, BookOpenCheck, Captions, Save, Sparkles } from 'lucide-react'
 import type { ReactNode } from 'react'
-import type { AudioJob, JobAction } from '@/lib/types'
+import type { AudioJob, JobAction, VoiceDirection } from '@/lib/types'
 import { AudioCompare } from '../AudioCompare'
 import { StageRail } from '../StageRail'
+import { CreationForm } from './CreationForm'
+import { OutputLibrary } from './OutputLibrary'
 import { MediaSegmentEditor } from './MediaSegmentEditor'
 import type { WorkflowMode } from './WorkflowModes'
 
@@ -12,7 +14,7 @@ type Props = {
   busy: boolean
   onModeChange: (mode: WorkflowMode) => void
   onRun: (action: JobAction) => void
-  onSave: (values: Partial<Pick<AudioJob, 'transcript' | 'synthesisText' | 'segments' | 'trainingSpeaker'>>) => Promise<void>
+  onSave: (values: Partial<Pick<AudioJob, 'transcript' | 'synthesisText' | 'voiceDirections' | 'segments' | 'trainingSpeaker'>>) => Promise<void>
 }
 
 export function ModePanel({ job, mode, busy, onModeChange, onRun, onSave }: Props) {
@@ -37,8 +39,8 @@ function Training({ job, busy, onModeChange, onRun, onSave }: Pick<Props, 'job' 
 }
 
 function Creation({ job, busy, onRun, onSave }: Pick<Props, 'job' | 'busy' | 'onRun' | 'onSave'>) {
-  async function generate(formData: FormData) { await onSave({ synthesisText: String(formData.get('synthesisText') ?? '') }); onRun('synthesize') }
-  return <div className="space-y-4"><ModeWorkspace icon={Sparkles} title="새 문장으로 음성 만들기" description="학습용 대본은 그대로 보존됩니다. 최종 음성에서 듣고 싶은 문장만 입력하고 한 번에 생성하세요."><TextForm action={generate} name="synthesisText" value={job.synthesisText ?? ''} label="새로 읽힐 문장" placeholder="예: 불가능이란 없다. 우린 우리 자신을 믿어야 합니다." button={busy ? '음성 만드는 중' : '저장하고 음성 만들기'} disabled={busy || !job.model} /></ModeWorkspace><AudioCompare job={job} /></div>
+  async function generate(synthesisText: string, voiceDirections: VoiceDirection[]) { await onSave({ synthesisText, voiceDirections }); onRun('synthesize') }
+  return <div className="space-y-4"><ModeWorkspace icon={Sparkles} title="새 문장으로 음성 만들기" description="문장을 입력하고 말하는 느낌을 고르세요. 여러 느낌을 함께 선택하면 속도·쉼·강약이 겹쳐 적용됩니다."><CreationForm job={job} busy={busy} onGenerate={generate} /></ModeWorkspace><AudioCompare job={job} /><OutputLibrary job={job} /></div>
 }
 
 function ModeWorkspace({ icon: Icon, title, description, children }: { icon: typeof Sparkles; title: string; description: string; children: ReactNode }) {

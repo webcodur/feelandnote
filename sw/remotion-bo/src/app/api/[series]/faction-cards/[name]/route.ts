@@ -3,7 +3,7 @@
  * 카드 전용 필드(스토리·나레이션·카드 문구)는 영상 데이터(faction-data.json)와 분리해 여기 담는다.
  */
 import { NextResponse } from 'next/server'
-import { isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { loadFactionCards, saveFactionCardPerson, saveFactionCardGroup, saveFactionCards } from '@/lib/faction-utils'
 import type { FactionCardFields, FactionGroupCardFields, FactionCardsFile } from '@/lib/faction-types'
 
@@ -15,14 +15,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const { series, name: rawName } = await params
   // 라우트 파라미터는 URL 인코딩된 채 온다 — 한글 에피소드명 디코드
   const name = decodeURIComponent(rawName)
-  if (!isFactionSeries(series)) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
+  if (!isSeriesModel(series, 'faction')) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
   return NextResponse.json(await loadFactionCards(name))
 }
 
 export async function PUT(req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
   const { series, name: rawName } = await params
   const name = decodeURIComponent(rawName)
-  if (!isFactionSeries(series)) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
+  if (!isSeriesModel(series, 'faction')) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
   try {
     const body = (await req.json()) as FactionCardsFile
     if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('잘못된 본문')
@@ -36,7 +36,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ series: 
 export async function PATCH(req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
   const { series, name: rawName } = await params
   const name = decodeURIComponent(rawName)
-  if (!isFactionSeries(series)) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
+  if (!isSeriesModel(series, 'faction')) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
   try {
     const body = (await req.json()) as { personName?: unknown; groupName?: unknown; card?: unknown }
     if (!isPlainObject(body)) throw new Error('잘못된 요청 본문')

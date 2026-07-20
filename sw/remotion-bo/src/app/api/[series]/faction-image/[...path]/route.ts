@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { readFile } from 'fs/promises'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { factionImageAbsPath } from '@/lib/faction-utils'
 
 const MIME: Record<string, string> = {
@@ -18,7 +18,7 @@ const MIME: Record<string, string> = {
 /** GET /api/{series}/faction-image/{ep}/{file} : 이미지 파일 서빙 */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string; path: string[] }> }) {
   const { series, path: parts } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return new NextResponse('not found', { status: 404 })
   }
   const [ep, ...rest] = parts

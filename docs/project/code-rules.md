@@ -1,5 +1,7 @@
 # 코드 규칙
 
+> **최종 실측 체크: 26.07.16** — 사용자 노출 용어 규칙만 회수(부분 점검. 문서 전체를 실측 대조하지는 않았다)
+
 ## 필수
 - 파일당 200줄 이하
 - if/else보다 삼항식, switch보다 객체 맵핑
@@ -100,3 +102,37 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 ## 명칭 규칙 (Thematic Naming)
 - 컬렉션 → 유산(Legacy), 방명록 → 방명석, 팔로우 → 지혜의 결속
 - 스타일: Pillar(기둥), Sarcophagus/Slab(석판)
+
+## 사용자 노출 용어 (필수)
+
+코드 내부와 사용자 노출 텍스트의 용어를 분리한다. 새 화면·문구 작성 시 매번 적용한다.
+
+**금지**
+- 코드 내부 변수명·함수명의 `celeb`은 **절대 변경하지 않는다** (`getCelebCards`, `celeb_tier` 등)
+- DB 테이블·컬럼명도 **변경하지 않는다**
+- 기존 URL 삭제 금지 — 반드시 리다이렉트로 남긴다
+
+**노출 용어**
+
+| 용도 | 한국어 | English |
+|------|--------|---------|
+| 모든 사용자 노출 텍스트 | **인물** | **Figures** |
+| Full 티어 구분이 필요할 때만 | 탐구자 | Seekers |
+| Light 티어 구분이 필요할 때만 | 사색가 | Thinkers |
+
+**대응표** (구용어 → 정본. 구용어를 새로 쓰지 않는다)
+
+| 구 (ko) | 정본 (ko) | 구 (en) | 정본 (en) |
+|----------|----------|----------|----------|
+| 셀럽 | 인물 목록 | Celebs | Figures |
+| 분야별 기록가 | 분야별 랭킹 | Top by Type | Ranking |
+| 비범한 기록가 | 인물 분석 | Extraordinary | Persona |
+| 셀럽 피드 | 인물 피드 | Celeb Feed | Feed |
+| 왕성한 기록가들 | 왕성한 감상가 | Prolific Chroniclers | Prolific Connoisseurs |
+| 전체 기록가 | 전체 감상가 | All Chroniclers | All Connoisseurs |
+| 전체 사색가 | 사색가 | All Thinkers | Philosophers |
+| 비범한 기록가 | 비범한 인물 | Extraordinary Chroniclers | Extraordinary Figures |
+| — | 오늘의 인물(유지) | Today's Figure | Today |
+| — | 스포트라이트(유지) | Spotlight | Spotlight |
+
+> 유래: 26.03 explore 용어 통폐합. 실행 이력은 `docs/archive/explore-restructure.md`.

@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
@@ -51,25 +52,29 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
   // bio는 본문급 텍스트라 필요한 locale만 받는다 (en은 ko 폴백 때문에 둘 다)
   const bioSelect = locale === 'en' ? ', bio, bio_en' : ', bio'
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    // 신화·관계 인물은 타임라인에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
-    .not('nationality', 'is', null)
-    .not('birth_date', 'is', null)
-    .order('birth_date', { ascending: true })
+  type TimelineRow = Omit<
+    TimelineCeleb,
+    'greeting' | 'greeting_en' | 'quotes' | 'quotes_en' | 'bio_en'
+  > & { id: string; bio_en?: string | null }
 
-  if (error) {
-    console.error('타임라인 데이터 조회 에러:', error)
-    return { celebs: [], countries: [] }
-  }
-
-  const rows = (data || []) as unknown as Array<
-    Omit<TimelineCeleb, 'greeting' | 'greeting_en' | 'quotes' | 'quotes_en' | 'bio_en'> & { id: string; bio_en?: string | null }
-  >
+  // 1,000행 상한에 걸리므로 나눠 받는다. 자르면 연표에서 사람이 조용히 빠지고
+  // 아래 국가별 집계도 함께 축소된다.
+  // birth_date는 중복이 많아 정렬키로 불충분 — id를 2차 키로 둬 페이지 경계를 고정한다.
+  const rows = await selectAllPages<TimelineRow>((from, to) =>
+    supabase
+      .from('profiles')
+      .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
+      // 신화·관계 인물은 타임라인에서 제외
+      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .not('nationality', 'is', null)
+      .not('birth_date', 'is', null)
+      .order('birth_date', { ascending: true })
+      .order('id', { ascending: true })
+      .range(from, to)
+      .overrideTypes<TimelineRow[], { merge: false }>()
+  )
   const celebIds = rows.map(r => r.id)
 
   // 대사 조회 (greeting + quote, JSON path만 100개씩 배치)

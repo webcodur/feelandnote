@@ -20,7 +20,7 @@ interface ProfileContentProps {
   isOwner: boolean;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
-  guestbookCurrentUser: { id: string; nickname: string | null; avatar_url: string | null } | null;
+  guestbookCurrentUserId: string | null;
   influenceData: CelebInfluenceDetail | null;
   personaData: SimilarByCelebResult | null;
 }
@@ -31,7 +31,7 @@ export default function ProfileContent({
   isOwner,
   guestbookEntries,
   guestbookTotal,
-  guestbookCurrentUser,
+  guestbookCurrentUserId,
   influenceData,
   personaData,
 }: ProfileContentProps) {
@@ -100,7 +100,7 @@ export default function ProfileContent({
           </div>
           <GuestbookContent
             profileId={userId}
-            currentUser={guestbookCurrentUser}
+            currentUserId={guestbookCurrentUserId}
             isOwner={isOwner}
             initialEntries={guestbookEntries}
             initialTotal={guestbookTotal}

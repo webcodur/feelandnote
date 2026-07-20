@@ -59,7 +59,9 @@ interface TroopEquipment {
 - 기본 생산량: 100/3 ≈ 33 (10일분)
 - 담당관 배치 시: ×1.5
 
-### 구매 비용
+### 구매 비용 (설계안 — 미구현)
+
+> `EQUIPMENT_COST` 상수가 없고 구매 경로도 없다. 현재 장비를 얻는 길은 무기고 생산뿐이며, 그마저 **무기만** 생산된다. 군마·조선·부적은 획득 수단이 없다.
 
 | 장비 | 금 | 재료 |
 |------|-----|------|
@@ -107,12 +109,9 @@ charmResist = 1 - charms / 1000 × 0.3
 
 → 부적 1,000 = -30% 피해
 
-### 레거시 전술 (6전술 상성)
+### 조선 (미구현)
 
-`calcTacticDamage()`에도 동일한 보정 적용:
-- 무기: `weapons/10000 × 0.3` → 공격력 +
-- 군마: 돌격 전술 시 `horses/1000 × 0.2` → 대미지 +
-- 부적: 계략/화공 대상 시 `charms/1000 × 0.3` → 피해 -
+`ships`는 배분·표시만 되고 전투에 반영되지 않는다. 수상전 자체가 없다.
 
 ---
 
@@ -136,8 +135,7 @@ charmResist = 1 - charms / 1000 × 0.3
 | 파일 | 내용 |
 |------|------|
 | `types.ts` | `TroopEquipment`, `Resources` 정의 |
-| `constants.ts` | `EQUIPMENT_MAX`, `EQUIPMENT_LABELS`, `EQUIPMENT_COST` |
-| `utils.ts` | `calcTacticDamage()` 장비 보정 |
+| `constants.ts` | `EQUIPMENT_MAX` (`EQUIPMENT_LABELS`·`EQUIPMENT_COST`는 없다) |
 | `battleEngine.ts` | `calcMeleeDamage()`, `calcStratagemDamage()`, `executeSkill()` 장비 보정 |
 | `turnEngine.ts` | `generateResources()` 무기고 생산, `commandEquip()` 배분 |
 | `aiTurn.ts` | `aiDistributeEquipment()` AI 자동 분배 |

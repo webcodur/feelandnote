@@ -1,5 +1,7 @@
 # 6. Speech 트랙
 
+> **최종 실측 체크: 26.07.16** — 실 DB 조회로 `profiles.quotes`·`quotes_en` 부재 확인, 정본을 `celeb_dialogues.lines.quote`로 교정
+
 ## 의존 관계
 
 ```
@@ -57,17 +59,19 @@ WHERE id IN ('{id1}', '{id2}', ...);
 
 ### quote SSoT
 
-- **SSoT**: `celeb_dialogues.lines.quote` / `celeb_dialogues.lines_en.quote`
-- `profiles.quotes/quotes_en`은 하위호환용 잔류 (일반 유저 프로필에서도 사용)
-- **읽기**: 셀럽 서버 액션이 celeb_dialogues에서 quote 추출
-- **쓰기**: celeb_dialogues 우선 업데이트 + profiles 동기
+- **SSoT**: `celeb_dialogues.lines.quote` (한국어) / `celeb_dialogues.lines_en.quote` (영문). 명언은 이 두 곳에만 있다.
+- **`profiles.quotes`·`profiles.quotes_en`은 존재하지 않는다.** 2026-03-23 마이그레이션 `drop_profiles_quotes_and_recreate_compat_view`로 DROP됐고 `profiles_compat` 뷰에도 없다. 두 컬럼을 읽거나 쓰는 SQL은 즉시 에러가 난다.
+- **읽기**: 셀럽 서버 액션이 `celeb_dialogues`에서 quote를 추출한다.
+- **쓰기**: `celeb_dialogues`의 `lines`·`lines_en` JSON을 갱신한다. profiles 동기화 단계는 없다.
+
+실측(2026-07-16): `celeb_dialogues` 1577행 중 한국어 quote 보유 902행, 영문 quote 보유 1431행.
 
 ### 포맷
 
 - **50자 이내**, 한 문장, 한국어
 - 따옴표로 감싸지 않음
 - 문자열 내 큰따옴표는 작은따옴표로 대체
-- quotes/quotes_en 동시 작성
+- `lines.quote`와 `lines_en.quote`를 동시에 작성
 
 ### 출처 허용/불허
 
@@ -156,17 +160,23 @@ WHERE id IN ('{id1}', '{id2}', ...);
 ### 검수 배치 처리
 
 ```sql
--- 30명씩 조회
-SELECT p.id, p.nickname, p.profession, p.quotes, p.quotes_en, p.speech_tone
-FROM profiles p WHERE p.profile_type = 'CELEB'
+-- 30명씩 조회 (quote는 celeb_dialogues에서 꺼낸다)
+SELECT p.id, p.nickname, p.profession, p.speech_tone,
+       d.lines->>'quote'    AS quote,
+       d.lines_en->>'quote' AS quote_en
+FROM profiles p
+JOIN celeb_dialogues d ON d.celeb_id = p.id
+WHERE p.profile_type = 'CELEB'
 ORDER BY p.nickname LIMIT 30 OFFSET {offset};
 
--- 교정 UPDATE (quotes/quotes_en 항상 동시)
-UPDATE profiles SET
-  quotes = CASE id WHEN '{id1}' THEN '{교정된}' ELSE quotes END,
-  quotes_en = CASE id WHEN '{id1}' THEN '{교정된_en}' ELSE quotes_en END
-WHERE id IN ('{id1}', ...);
+-- 교정 UPDATE (lines.quote / lines_en.quote 항상 동시)
+UPDATE celeb_dialogues SET
+  lines    = jsonb_set(lines,    '{quote}', to_jsonb('{교정된}'::text)),
+  lines_en = jsonb_set(lines_en, '{quote}', to_jsonb('{교정된_en}'::text))
+WHERE celeb_id = '{id1}';
 ```
+
+`profiles`에는 quote 컬럼이 없으므로 위 조회·갱신을 `profiles` 대상으로 바꿔 쓰지 않는다.
 
 ### 검수 보고 형식
 

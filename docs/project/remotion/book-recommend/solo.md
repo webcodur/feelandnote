@@ -1,90 +1,85 @@
-# 서재 탐방 — 1권 모드(SOLO)
+# 서재탐방 — 1권 모드(SOLO)
 
-한 인물·한 권을 16:9 자유 서술 영상으로 만드는 포맷. 롱폼·쇼츠와 평행한 세 번째 변형이지만, **별도 편집 데이터가 없다.** 책 본문 한 곳이 단일 SSoT.
+한 인물의 책 한 권을 16:9 자유 서술 영상으로 만드는 형식이다. 롱폼 책 정보는 공유하지만, 이야기 본문은 책 폴더의 SOLO 파일에 둔다.
 
-- 다른 변형과의 비교는 [longform.md](longform.md) · [shorts.md](shorts.md) 참조
-- 렌더 명령·출력 경로·컴포지션 ID·유튜브 변형 키는 [render.md](render.md)에 통합
-- 음성 합성은 [voice/tts.md](voice/tts.md)의 「1권 모드 향후 작업」 절 참조
+## 현재 데이터 구조
 
-## 개념
-
-- **롱폼**: 한 인물 × N권을 한 영상에 묶음
-- **쇼츠**: 한 인물 × 한 권 핵심을 60~90초로
-- **1권 모드(SOLO)**: 한 인물 × 한 권을 16:9 자유 서술로 깊이 다룸
-
-레이아웃은 단순하다. 화면 중앙에 시네마틱 이미지, 하단에 자막. 인용 마디는 자막 영역 안에서 색·크기·이탤릭으로 차별화한다.
-
-## 단일 데이터 원천
-
-**솔로 전용 데이터 파일은 없다.** 책 한 권의 본문(`book.{ko,en}.json`)이 그대로 솔로의 재료다:
-
-| book 필드 | 솔로에서 쓰임 |
-|----------|--------------|
-| `book.summary` | 핵심 요약 마디 |
-| `book.contextMain` | 감상 배경 마디 |
-| `book.quotePairs[]` | 인용 + 여운 마디 |
-| `book.images[]` (text 앵커 포함) | 화면 전환점 (롱폼·쇼츠와 동일 풀) |
-| `narrator.serviceGreeting` | 인사 마디 (자동 생성) |
-| `narrator.celebIntro` | 인물 소개 마디 (자동 생성, 첫 단락만) |
-| 자동 생성 | 책 표지 마디, 아웃트로 마디 |
-
-본문을 한 번 다듬으면 롱폼·솔로 둘 다 동시에 갱신된다.
-
-## 자동 변환 흐름
-
-```
-book.{ko,en}.json + meta.{ko,en}.json
-  ↓ (sw/remotion/src/compositions/BookRecommend/solo-build.ts)
-buildSoloSegments(book, host, narrator, locale)
-  → SoloSegment[] 자동 생성
-buildSoloScript(bookRecommendScript, bookIndex, epName, slug)
-  → SoloScript (마디 배열 + 본문 + 호스트 + 총 길이)
-  ↓
-soloEpisodes[`{person}-B{NN}`] (script.ts)
-  ↓
-BookRecommendSolo.tsx (16:9 컴포지션)
+```text
+episodes/<person>/
+  meta.ko.json
+  books/NN-책이름/
+    book.ko.json       책 정보와 롱폼 본문
+    solo.ko.json       SOLO 자유 원고
+    shorts.ko.json     쇼츠 원고가 있을 때
 ```
 
-호스트 측 작업·BO 편집 화면 없음. 책 본문이 곧 솔로 회차.
+`solo.ko.json`의 `sections`가 SOLO 이야기의 원본이다. 인사, 책 제목, 아웃트로는 인물·책 정보에서 자동으로 붙는다.
 
-## Remotion 컴포지션
-
-`BookRecommendSolo.tsx` (1920×1080). 중앙 이미지 + 하단 자막의 단순 레이아웃.
-
-- **음성 미연결**: wav가 아직 없으므로 마디 길이는 텍스트 글자 수 기반 추정(KO 0.18초/글자, EN 0.06초/글자)
-- **인용 강조**: `kind: 'quote'` 마디는 자막 영역에서 색 `#f0d9a8`, 크기 56px, 이탤릭 + 출처(`quoteSource`)는 작게
-- **이미지 전환**: 한 마디가 길 때 `imageChangeAt` 배열에 의해 마디 안에서 화면을 갈아 끼움. 텍스트 앵커는 마디 텍스트 안 구절 위치 → 글자수 비율 × 마디 길이로 산정 (wav 통합 시 voiceTimings 자연 승격)
-- **Studio 트리**: `BookRecommendSolo` 폴더 안 인물별 하위 폴더에 등록
-
-컴포지션 ID 규약·출력 경로·CLI 명령은 [render.md](render.md) 참조.
-
-## 음성 파일명 규약
-
-`vnSolo(bookIndex, segIndex, segId)` ([voice-names.ts](../../../../sw/remotion/src/compositions/BookRecommend/voice-names.ts))
-
-```
-voice/{locale}/solo-B{NN}/S{nn}-{segId}.wav
+```json
+{
+  "sections": [
+    {
+      "id": "s1",
+      "text": "본문",
+      "voice": "tts",
+      "kind": "narration"
+    }
+  ]
+}
 ```
 
-실제 wav 생성·정렬 파이프라인 통합은 [voice/tts.md](voice/tts.md) 향후 작업 절 참조.
+선택 정보:
 
-## 사용 흐름 한눈에
+- `voice: "actor"` — 인물 음성
+- `speaker: "host"` 또는 `meta.ko.json`의 등록 화자 ID
+- `kind: "quote"` — 인용 강조
+- `quoteSource` — 인용 출처
+- `image`, `imageChangeAt` — 이미지와 전환점
 
-1. **본문 작성** — 시나리오 페이지에서 책 탭(롱폼 작업)을 그대로 진행. 솔로 전용 단계 없음
-2. **확인** — Remotion Studio 트리에서 `BookRecommendSolo → {Person} → {Person}-KO-B01-VID` 재생
-3. **렌더** — [render.md](render.md) 「명령어」 참조 (`pnpm render:all -- --only solos` 또는 BO 렌더 페이지 「SOLO」 박스)
-4. **업로드** — [render.md](render.md) 「CLI 업로드」 참조 또는 BO 유튜브 페이지 「SOLO」 박스
+장면 `id`는 음성 파일과 시각 정보의 기준이므로 텍스트 편집 중 바꾸지 않는다.
 
-## 향후 작업 (미구현)
+## 원고와 음성 단위
 
-음성·자막은 [voice/tts.md](voice/tts.md) 「1권 모드(SOLO) 향후 작업」 절. 이 문서에는 BO·유튜브 영역만:
+- SOLO 기본 해설 성우는 `Charon`이다. 인물의 실제 발언은 `speaker`에 지정된 ELE 성우가 읽으며 Gemini로 대신하지 않는다.
+- 같은 화자가 이어서 설명하는 관련 문단은 대체로 **두 문단 전후를 한 장면·한 음성 파일**로 묶는다. 같은 논지를 잇는 짧은 셋째 문단은 따로 떼지 않고 앞 장면에 붙인다.
+- 화면을 자주 바꾸려고 문단마다 장면을 쪼개지 않는다. 이야기의 주제가 바뀌거나 화자가 바뀌거나, 별도 인용·연기가 필요할 때만 나눈다.
+- 인물의 실제 발언은 앞뒤 해설과 합치지 않고 독립된 배우 장면으로 둔다.
 
-- **patchMetadata 솔로** — `youtube-upload.ts`의 patch-meta는 현재 longform·shorts만 지원
-- **db-sync 솔로** — 업로드 기록을 DB(`profiles.youtube_videos`)로 옮기는 분기 필요
-- **YouTubePanel variant 그리드 통합** — 솔로는 별도 박스(`SoloUploadBox`). 메인 variant 그리드에 통합 + 메타 편집기 노출
-- **솔로 영상 썸네일** — 자동 썸네일 생성 단계 미구현
-- **솔로 전용 태그** — `buildTags` 분기 없음 (현재 롱폼 태그 셋 그대로)
+## 원고 작업
 
-## 폐기된 시도 (참고)
+JSON을 직접 읽으며 스토리를 다듬지 않는다.
 
-초기 설계에서는 솔로를 별도 데이터(`solo.{ko,en}.json` + `EpisodeData.solos`)로 분리하고, BO 시나리오 페이지에 「솔로」 3번째 탭과 자유 마디 편집기를 두었다. 같은 책 데이터가 두 곳(롱폼 슬롯 / 솔로 마디)으로 흩어져 동기화 부담이 커졌고, 인사·인물 소개·아웃트로 같은 정형 마디는 어차피 고정 변환이라 분리할 명분이 없었다. 따라서 책 본문 한 곳이 단일 SSoT가 되도록 솔로 데이터·편집 화면을 폐기하고, Remotion의 자동 변환 흐름만 남겨 두었다.
+```bash
+# 한 권을 Markdown 편집 원고로 추출
+node sw/remotion/scripts/extract-story.mjs <person> --solo=N
+
+# 수정본의 변경 예정 확인
+node sw/remotion/scripts/sync-solo-story.mjs <story.md>
+
+# 확정된 본문만 반영
+node sw/remotion/scripts/sync-solo-story.mjs <story.md> --apply
+```
+
+반영 도구는 장면 개수·번호·순서가 바뀌면 중단하며 `text`만 갱신한다. 화자·출처·이미지·음성 설정은 보존한다. 장면 추가나 배우 변경은 JSON 구조 작업으로 따로 처리한다.
+
+## 영상 조립
+
+`solo-build.ts`가 다음 순서로 영상을 만든다.
+
+```text
+인사 → 책 안내 → 제목·표지 → 자유 원고 → 아웃트로
+```
+
+음성이 있으면 실제 음성 시각을 사용하고, 없으면 글자 수로 길이를 추정한다. 자유 원고의 배우 대사는 `speaker`에 등록된 음색을 사용한다.
+
+## 텍스트 확정 뒤
+
+1. JSON 파싱과 장면 번호 중복 확인
+2. 배우 대사에 화자 지정이 있는지 확인
+3. 이미지 연결과 본문 앵커 확인
+4. 사용자 승인 뒤 음성 생성
+5. 같은 해설자가 읽는 장면이 한 문단씩 잘게 끊기지 않았는지 확인
+6. 받아쓰기·자막 시각·의미 단위 분할
+7. 렌더와 업로드 정보 확인
+
+텍스트를 바꾼 뒤 기존 음성이나 자막 시각이 자동으로 맞는다고 가정하지 않는다. 유료 음성 생성은 사용자 지시 없이 실행하지 않는다.

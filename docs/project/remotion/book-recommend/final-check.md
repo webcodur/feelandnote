@@ -1,6 +1,23 @@
 # 출품 전 최종 점검
 
+> **최종 실측 체크: 26.07.16** — 에피소드 디스크 구조, `voice-names.ts` 음성 파일명 규칙, `voice/{locale}/gemini/` 실물 대조. 1·3번 점검 스크립트는 폐기된 `ko.json` 단일 파일을 읽고 있어 신 구조(`meta.ko.json` + `books/*/book.ko.json`)로 재작성하고 실행 검증함
+
 에피소드 렌더·업로드 직전에 실행하는 품질 게이트. 롱폼·쇼츠·한영 전체를 대상으로 한다.
+
+## 대상 파일 구조
+
+점검 스크립트는 **인물 폴더에서** 실행한다 (예: `sw/remotion/public/episodes/abraham-lincoln/`).
+
+```
+meta.ko.json / meta.en.json           ← narrator·host·tts
+books/{NN-책제목}/
+  book.ko.json / book.en.json         ← summary·contextMain·quotePairs·images
+  shorts.ko.json / shorts.en.json     ← segments (쇼츠 있는 책만)
+  images/
+voice/{ko|en}/{gemini|elevenlabs}/
+```
+
+`ko.json`·`en.json` 단일 파일은 폐기된 레거시다 (`peter-thiel`만 잔존).
 
 ---
 
@@ -20,71 +37,75 @@
 
 ## 1. 한영 구조 정합성
 
-en.json은 ko.json에서 파생된다. 번역 과정에서 필드 누락·순서 뒤바뀜이 빈번하게 발생한다.
+en은 ko에서 파생된다. 번역 과정에서 필드 누락·순서 뒤바뀜이 빈번하게 발생한다.
 
 ### 자동 점검 스크립트
 
-에피소드 디렉토리에서 실행:
+**인물 디렉토리에서** 실행한다 (예: `sw/remotion/public/episodes/abraham-lincoln/`).
 
 ```python
-import json, sys
+import json, sys, glob, os, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-with open('ko.json', 'r', encoding='utf-8') as f: ko = json.load(f)
-with open('en.json', 'r', encoding='utf-8') as f: en = json.load(f)
+def load(p):
+    with open(p, encoding='utf-8') as f: return json.load(f)
 
 errors = []
+books = sorted(glob.glob('books/*/'))
 
-# 1-1. books 수 일치
-if len(ko['books']) != len(en['books']):
-    errors.append(f"book count: ko={len(ko['books'])}, en={len(en['books'])}")
+for bd in books:
+    name = os.path.basename(os.path.normpath(bd))
+    ko_p, en_p = f'{bd}book.ko.json', f'{bd}book.en.json'
+    if not os.path.exists(ko_p):
+        errors.append(f'{name}: book.ko.json 없음'); continue
+    if not os.path.exists(en_p):
+        errors.append(f'{name}: book.en.json 없음'); continue
+    k, e = load(ko_p), load(en_p)
 
-# 1-2. 각 book의 images 배열 일치 (file명 기준)
-for i, (k, e) in enumerate(zip(ko['books'], en['books'])):
-    ko_imgs = [img['file'] for img in k.get('images', [])]
-    en_imgs = [img['file'] for img in e.get('images', [])]
+    # 1-1. images 배열 일치 (file명 기준)
+    ko_imgs = [i['file'] for i in k.get('images', [])]
+    en_imgs = [i['file'] for i in e.get('images', [])]
     if ko_imgs != en_imgs:
-        errors.append(f"Book {i} ({k['title']}) images MISMATCH:\n  ko: {ko_imgs}\n  en: {en_imgs}")
+        errors.append(f'{name} images MISMATCH:\n  ko: {ko_imgs}\n  en: {en_imgs}')
 
-# 1-3. quotePairs 배열 길이 및 구조 일치
-for i, (k, e) in enumerate(zip(ko['books'], en['books'])):
-    ko_qp = k.get('quotePairs', [])
-    en_qp = e.get('quotePairs', [])
+    # 1-2. quotePairs 길이·구조 일치
+    ko_qp, en_qp = k.get('quotePairs', []), e.get('quotePairs', [])
     if len(ko_qp) != len(en_qp):
-        errors.append(f"Book {i} ({k['title']}) quotePairs count: ko={len(ko_qp)}, en={len(en_qp)}")
+        errors.append(f'{name} quotePairs count: ko={len(ko_qp)}, en={len(en_qp)}')
     for j, (kp, ep) in enumerate(zip(ko_qp, en_qp)):
         for field in ['quote', 'after']:
-            ko_has = field in kp
-            en_has = field in ep
-            if ko_has != en_has:
-                errors.append(f"Book {i} ({k['title']}) quotePairs[{j}].{field}: ko={ko_has}, en={en_has}")
+            if (field in kp) != (field in ep):
+                errors.append(f'{name} quotePairs[{j}].{field}: ko={field in kp}, en={field in ep}')
 
-# 1-4. shorts segments id/role 일치
-ko_segs = [(s['id'], s['role']) for s in ko['shorts']['segments']]
-en_segs = [(s['id'], s['role']) for s in en['shorts']['segments']]
-if ko_segs != en_segs:
-    errors.append(f"shorts segments MISMATCH:\n  ko: {ko_segs}\n  en: {en_segs}")
+    # 1-3. 쇼츠 segments id/role 일치 + imageChangeAt 존재 여부 일치
+    sko_p, sen_p = f'{bd}shorts.ko.json', f'{bd}shorts.en.json'
+    if os.path.exists(sko_p) and os.path.exists(sen_p):
+        sk, se = load(sko_p), load(sen_p)
+        ks = [(s.get('id'), s.get('role')) for s in sk.get('segments', [])]
+        es = [(s.get('id'), s.get('role')) for s in se.get('segments', [])]
+        if ks != es:
+            errors.append(f'{name} shorts segments MISMATCH:\n  ko: {ks}\n  en: {es}')
+        for a, b in zip(sk.get('segments', []), se.get('segments', [])):
+            if ('imageChangeAt' in a) != ('imageChangeAt' in b):
+                errors.append(f"{name} shorts '{a.get('id')}' imageChangeAt: ko={'imageChangeAt' in a}, en={'imageChangeAt' in b}")
+    elif os.path.exists(sko_p) != os.path.exists(sen_p):
+        errors.append(f'{name}: 쇼츠 ko/en 한쪽만 존재')
 
-# 1-5. narrator/host 필드 키 일치
+# 1-4. meta narrator/host 키 일치
+mko, men = load('meta.ko.json'), load('meta.en.json')
 for section in ['narrator', 'host']:
-    ko_keys = set(ko[section].keys())
-    en_keys = set(en[section].keys())
-    if ko_keys != en_keys:
-        errors.append(f"{section} keys differ: ko-only={ko_keys-en_keys}, en-only={en_keys-ko_keys}")
-
-# 1-6. shorts imageChangeAt 존재 여부 일치
-for i, (ks, es) in enumerate(zip(ko['shorts']['segments'], en['shorts']['segments'])):
-    ko_ic = 'imageChangeAt' in ks
-    en_ic = 'imageChangeAt' in es
-    if ko_ic != en_ic:
-        errors.append(f"shorts segment '{ks['id']}' imageChangeAt: ko={ko_ic}, en={en_ic}")
+    kk, ek = set(mko.get(section, {})), set(men.get(section, {}))
+    if kk != ek:
+        errors.append(f'meta {section} keys differ: ko-only={kk-ek}, en-only={ek-kk}')
 
 if errors:
-    print(f"FAIL — {len(errors)} issue(s):")
-    for e in errors: print(f"  ❌ {e}")
+    print(f'FAIL — {len(errors)} issue(s):')
+    for e in errors: print(f'  X {e}')
     sys.exit(1)
-else:
-    print("PASS — ko/en 구조 정합")
+print(f'PASS — ko/en 구조 정합 (books {len(books)})')
 ```
+
+책 수 일치 점검은 사라졌다. 책이 폴더 단위라 ko/en이 같은 폴더를 공유하므로 어긋날 수가 없고, 대신 폴더별 `book.en.json` 존재 여부를 본다.
 
 ### 대표 실패 패턴
 
@@ -100,16 +121,18 @@ else:
 
 ### 자동 점검
 
+인물 디렉토리에서 실행:
+
 ```bash
 # 한글 오타 패턴 — 존재하지 않는 한글 조합 탐지
 # 예: 영욷(×) → 영웅(○), 스스러(×) → 스스로(○)
-grep -Pn '[가-힣]*[욷, 읏, 뤃][가-힣]*' ko.json
+grep -Prn '[가-힣]*[욷읏뤃][가-힣]*' --include='*.ko.json' .
 
 # 이중 공백
-grep -Pn '  ' ko.json en.json
+grep -Prn '  ' --include='book.*.json' --include='shorts.*.json' --include='meta.*.json' .
 
 # 빈 text 필드
-grep -Pn '"text"\s*:\s*""' ko.json en.json
+grep -Prn '"text"\s*:\s*""' --include='*.json' books/ meta.ko.json meta.en.json
 ```
 
 ### 수동 점검
@@ -123,38 +146,51 @@ grep -Pn '"text"\s*:\s*""' ko.json en.json
 
 ## 3. 이미지 파일 존재
 
-ko.json과 en.json에서 참조하는 모든 이미지 파일이 `images/` 디렉토리에 존재하는지 확인.
+각 책의 `book.{locale}.json`이 참조하는 이미지가 **그 책의** `images/` 디렉토리에 존재하는지 확인. 인물 디렉토리에서 실행.
 
 ```python
-import json, os
+import json, os, glob, io, sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-for locale in ['ko', 'en']:
-    with open(f'{locale}.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    missing = []
-    
-    # books images
-    for i, book in enumerate(data['books']):
-        for img in book.get('images', []):
-            # file이 상대 경로(episodes/...)면 public/ 기준, 아니면 images/ 기준
-            path = img['file']
-            if not path.startswith('episodes/'):
-                path = f"images/{path}"
-            if not os.path.exists(path) and not os.path.exists(path.replace('/', os.sep)):
-                missing.append(f"Book {i}: {img['file']}")
-    
-    # shorts images
-    for seg in data.get('shorts', {}).get('segments', []):
-        if 'image' in seg:
-            # shorts image는 episodes/ 기준 절대 경로
-            pass  # 별도 체크 필요 시 추가
-    
-    if missing:
-        print(f"{locale} MISSING images: {missing}")
-    else:
-        print(f"{locale} — all images present")
+missing = []
+for bd in sorted(glob.glob('books/*/')):
+    name = os.path.basename(os.path.normpath(bd))
+    for locale in ['ko', 'en']:
+        p = f'{bd}book.{locale}.json'
+        if not os.path.exists(p): continue
+        data = json.load(open(p, encoding='utf-8'))
+        for img in data.get('images', []):
+            f = img['file']
+            # file이 episodes/ 로 시작하면 public/ 기준, 아니면 그 책의 images/ 기준
+            path = f if f.startswith('episodes/') else os.path.join(bd, 'images', f)
+            if not os.path.exists(path):
+                missing.append(f'{name} [{locale}]: {f}')
+
+    # 쇼츠 image·imageChangeAt — 경로는 episodes/ 기준
+    for locale in ['ko', 'en']:
+        p = f'{bd}shorts.{locale}.json'
+        if not os.path.exists(p): continue
+        data = json.load(open(p, encoding='utf-8'))
+        for seg in data.get('segments', []):
+            cands = []
+            if seg.get('image'): cands.append(seg['image'])
+            ic = seg.get('imageChangeAt')
+            if ic:
+                for c in (ic if isinstance(ic, list) else [ic]):
+                    if c.get('image'): cands.append(c['image'])
+            for f in cands:
+                path = os.path.join('../../', f) if f.startswith('episodes/') else os.path.join(bd, 'images', f)
+                if not os.path.exists(path):
+                    missing.append(f"{name} shorts [{locale}]: {f}")
+
+if missing:
+    print(f'MISSING {len(missing)}:')
+    for m in missing: print(f'  X {m}')
+else:
+    print('PASS — 참조 이미지 전부 존재')
 ```
+
+쇼츠의 `image`·`imageChangeAt[].image`는 `episodes/...` 전체 경로다. 위 스크립트는 인물 폴더 기준이라 `../../`로 `public/`까지 거슬러 푼다.
 
 ---
 
@@ -170,13 +206,18 @@ D{NN}d1-quote, D{NN}d2-after, D{NN}d3-quote, D{NN}d4-after, ... (quotePairs 배�
 E1-outro
 ```
 
+`A1-service-greeting`·`C1-label-summary`·`C2-label-context`는 에피소드 폴더가 아니라 **공통 음성**에서 온다. 여기 없다고 결락이 아니다. `E2-interlude`·`E3-return-intro`·`E4-prev-recap`은 여러 편으로 나뉜 인물만 쓴다.
+
 ### 필수 파일 목록 (쇼츠)
 
+쇼츠 음성은 **`shorts-{N}/` 접두사가 필수**다 (N = 쇼츠 번호, 1-based). 접두사 없는 레거시 경로는 더 이상 쓰지 않는다.
+
 ```
-S01-hook, S02-intro, S03-celeb-mid,
-S04-book-context-1, S05-book-context-2,
-S06-book-quote, S07-book-context-3
+shorts-{N}/S01-hook, shorts-{N}/S02-intro, shorts-{N}/S03-celeb-mid,
+shorts-{N}/S04-book-context-1, ...
 ```
+
+번호는 세그먼트 배열 순서(1-based)를 2자리로, 뒤에는 그 세그먼트의 id를 붙인다. 1권 모드는 `solo-B{NN}/S{nn}-{segId}.wav`.
 
 ### 점검 방법
 
@@ -196,11 +237,11 @@ cat voice/en/gemini/manifest.json | python -m json.tool | grep -c '"'
 
 ## 5. TTS 오버라이드
 
-ko.json `tts.replace` 맵이 본문의 모든 숫자·특수 발음을 커버하는지 확인.
+`tts.replace` 맵이 본문의 모든 숫자·특수 발음을 커버하는지 확인. `tts`는 `meta.ko.json`과 각 `book.ko.json`·`shorts.ko.json`에 모두 있을 수 있다.
 
 ```bash
 # 본문에서 숫자가 포함된 토큰 추출
-grep -oP '\d+[가-힣]*' ko.json | sort -u
+grep -ohPr '\d+[가-힣]*' --include='*.ko.json' . | sort -u
 ```
 
 커버 대상:
@@ -225,15 +266,15 @@ grep -oP '\d+[가-힣]*' ko.json | sort -u
 
 ### 감정 곡선
 
-8권 전체의 흐름이 기승전결을 이루는지:
+책 전체의 흐름이 기승전결을 이루는지 (권수는 인물마다 다르다. 아래는 8권 기준 예시):
 - 도입부(book 1~2): 인물의 핵심 특성 확립
 - 전개(book 3~5): 깊어지는 맥락, 다양한 면모
 - 절정(book 6~7): 가장 강렬한 에피소드
-- 마무리(book 8): 여운과 메시지
+- 마무리(마지막 book): 여운과 메시지
 
 ### 한영 분량 균형
 
-ko와 en의 contextMain/contextAfter 분량이 극단적으로 차이 나면 영상 길이가 달라진다. en이 지나치게 축약된 book이 있는지 비교.
+ko와 en의 `contextMain`·`quotePairs[].after` 분량이 극단적으로 차이 나면 영상 길이가 달라진다. en이 지나치게 축약된 book이 있는지 비교.
 
 ### 쇼츠 훅
 

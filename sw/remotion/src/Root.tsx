@@ -25,6 +25,15 @@ import {
   episodeNames as factionEpisodeNames,
   FPS as FACTION_FPS,
 } from "./compositions/Faction";
+import {
+  Discourse,
+  calcTotalFrames as calcDiscourseFrames,
+  longformPartNumbers as discourseLongformPartNumbers,
+  shortsPartNumbers as discourseShortsPartNumbers,
+  episodes as discourseEpisodes,
+  episodeNames as discourseEpisodeNames,
+  FPS as DISCOURSE_FPS,
+} from "./compositions/Discourse";
 import { FactionCard, type FactionCardSpec } from "./compositions/FactionCard";
 import { BookCard, type BookCardSpec, josa } from "./compositions/BookCard";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
@@ -32,6 +41,19 @@ import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail"
 import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
 import { factionCompBase, factionLongformPartNumbers } from "@feelandnote/shared/lib/youtube-faction-meta";
+
+/**
+ * 가상 담화 컴포지션 ID 앞머리 — `Discourse-<폴더명>`.
+ * 폴더명이 곧 컴포지션 ID이자 출고 파일명이므로 영문·숫자·하이픈만 허용한다(팩션 factionCompBase 와 같은 규칙).
+ * TODO: 유튜브 업로드까지 붙일 때 packages/shared 의 youtube-discourse-meta 로 옮겨 단일원천화한다
+ *       (팩션은 예전에 규칙이 양쪽에 복붙돼 어긋난 사고 이력이 있다).
+ */
+function discourseCompBase(folder: string): string {
+  if (!folder || /[^A-Za-z0-9-]/.test(folder)) {
+    throw new Error(`discourseCompBase: 폴더명 '${folder}' 은 영문·숫자·하이픈만 허용 — 에피소드 폴더를 영문으로 만들어라`)
+  }
+  return `Discourse-${folder}`
+}
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
 function parseEpMeta(name: string) {
@@ -279,6 +301,62 @@ export const RemotionRoot: React.FC = () => {
                 <Composition id={`${base}-EN-LV`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: false }} />
                 <Composition id={`${base}-EN-LH`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1920} height={1080} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'landscape' as const, shorts: false }} />
                 */}
+              </Folder>
+            )
+          })}
+      </Folder>
+
+      {/* === 가상 담화 === */}
+      <Folder name="Discourse">
+        {Object.entries(discourseEpisodes)
+          // 한국어 키만 — 원천(가상 독백)이 한국어 단일이라 영문('-en')은 후순위다.
+          .filter(([key]) => !key.endsWith('-en'))
+          .map(([key, script]) => {
+            const base = discourseCompBase(key)
+            const ep = discourseEpisodeNames[key]
+            return (
+              <Folder key={key} name={ep}>
+                {/* KO-S{n} — 한국어 세로 쇼츠. 발언에 배정된 편(part)만큼 등록(배정이 없으면 전체가 단일 쇼츠). */}
+                {discourseShortsPartNumbers(script).map((p) => {
+                  const durS = calcDiscourseFrames(script, true, p)
+                  if (!Number.isFinite(durS) || durS <= 0) return null
+                  return (
+                    <Composition
+                      key={`${base}-KO-S${p}`}
+                      id={`${base}-KO-S${p}`}
+                      component={Discourse}
+                      durationInFrames={durS}
+                      fps={DISCOURSE_FPS}
+                      width={1080}
+                      height={1920}
+                      defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: true, part: p }}
+                    />
+                  )
+                })}
+                {/* KO-LV — 한국어 세로 롱폼. 편 경계(cut)가 있으면 KO-LV1·KO-LV2… 로 갈리고, 없으면 통짜 KO-LV. */}
+                {(() => {
+                  const lvParts = discourseLongformPartNumbers(script.longformLayout)
+                  const lvVariants: { suffix: string; lvPart: number | undefined }[] =
+                    lvParts.length === 0
+                      ? [{ suffix: 'LV', lvPart: undefined }]
+                      : lvParts.map((p) => ({ suffix: `LV${p}`, lvPart: p }))
+                  return lvVariants.map(({ suffix, lvPart }) => {
+                    const durLv = calcDiscourseFrames(script, false, undefined, lvPart)
+                    if (!Number.isFinite(durLv) || durLv <= 0) return null
+                    return (
+                      <Composition
+                        key={`${base}-KO-${suffix}`}
+                        id={`${base}-KO-${suffix}`}
+                        component={Discourse}
+                        durationInFrames={durLv}
+                        fps={DISCOURSE_FPS}
+                        width={1080}
+                        height={1920}
+                        defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: false, lvPart }}
+                      />
+                    )
+                  })
+                })()}
               </Folder>
             )
           })}

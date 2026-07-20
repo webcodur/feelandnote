@@ -19,9 +19,10 @@ export const MODEL_GEMINI_25 = 'gemini-2.5-flash-preview-tts'
 export const MODEL_GEMINI_31 = 'gemini-3.1-flash-tts-preview'
 
 // --- 역할별 기본 보이스 ---
-// celeb 은 episode.host.geminiVoice 가 있으면 그것으로 대체된다.
+// celeb은 팩션·레거시 화면 호환용이다. 서재탐방 실제 인물은 ElevenLabs만 사용한다.
 export const VOICE = {
-  narrator: 'Kore' as Voice,
+  narrator: 'Charon' as Voice,
+  soloNarrator: 'Charon' as Voice,
   shortsNarrator: 'Charon' as Voice,
   shortsHook: 'Charon' as Voice,
   summary: 'Charon' as Voice,
@@ -40,7 +41,7 @@ export const NARRATOR_STYLE_DEFAULT = '편안하고 자연스럽게'
 export function roleForLongformKey(key: string): Role {
   // celeb 발화 — 명언·감상철학·책 인용
   if (key === 'A3-featured-quote') return 'celeb'
-  if (key === 'B2-philosophy') return 'celeb'
+  if (key === 'B2-philosophy') return 'narrator'
   if (/^D\d{2}d\d+-quote$/.test(key)) return 'celeb'
   // 책 요약
   if (/-summary$/.test(key)) return 'summary'

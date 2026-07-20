@@ -129,6 +129,6 @@ ORDER BY contents DESC
 ## 메모
 
 - 괴테·잔 다르크: 음성은 있으나 책 3권 미만으로 탈락. 콘텐츠 보강 시 편입 가능.
-- Phase 2 인물은 전원 `has_voice=false`. Gemini TTS로 셀럽 파트 처리.
+- Phase 2 인물은 전원 `has_voice=false`. 제작에 넣기 전에 ELE 후보를 캐스팅해야 하며 Gemini로 인물 파트를 대신하지 않는다.
 - 한국 정치 인물은 특히 균형 주의 — 진보·보수 교차 필수.
 - 모든 인물 최대 20권, 최대 2편. 20권 초과는 선별. 선별 기준은 `lineup.md` 제작 규칙 참조.

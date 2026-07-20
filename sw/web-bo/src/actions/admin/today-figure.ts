@@ -6,6 +6,8 @@ export interface TodayFigureScheduleItem {
   date: string
   celeb: {
     id: string
+    /** 상세 화면 주소는 slug로 잡힌다(/celebs/[slug]). id로는 404다. */
+    slug: string | null
     nickname: string | null
     avatar_url: string | null
     profession: string | null
@@ -148,7 +150,7 @@ export async function getTodayFigureSchedule(
   // 5. 필요한 프로필만 일괄 조회
   const { data: profiles } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession')
+    .select('id, slug, nickname, avatar_url, profession')
     .in('id', Array.from(selectedIds))
 
   const profileMap = new Map(
@@ -162,6 +164,7 @@ export async function getTodayFigureSchedule(
       celeb: profile
         ? {
             id: profile.id,
+            slug: profile.slug,
             nickname: profile.nickname,
             avatar_url: profile.avatar_url,
             profession: profile.profession,

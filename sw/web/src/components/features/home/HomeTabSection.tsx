@@ -14,6 +14,15 @@ function renderHighlighted(text: string): ReactNode[] {
   return text.split(/(\[\[.*?\]\]|《.*?》)/).map((seg, i) => {
     if (seg.startsWith("[[") && seg.endsWith("]]")) {
       const name = seg.slice(2, -2);
+      if (name === "Feel&Note") {
+        return (
+          <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-lg md:text-xl">
+            <span className="logo-text-cream">FEEL</span>
+            <span className="logo-text-sepia mx-1">&amp;</span>
+            <span className="logo-text-cream">NOTE</span>
+          </span>
+        );
+      }
       return (
         <span key={i} className="text-accent font-medium tracking-wide">
           {name}
@@ -75,7 +84,7 @@ export default function HomeTabSection({
             {/* Prose */}
             <div className="relative z-10 space-y-6 md:space-y-8 text-[15.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
               {labels.intro.split("\n\n").map((para, i) => (
-                <p key={i}>{renderHighlighted(para)}</p>
+                <p key={i} className="whitespace-pre-line">{renderHighlighted(para)}</p>
               ))}
             </div>
 
@@ -97,12 +106,12 @@ export default function HomeTabSection({
         <div className="mt-20 md:mt-32 flex flex-col items-center gap-6 animate-in fade-in delay-500 duration-1000 w-full">
             <button
                 onClick={handleScrollDown}
-                className="group flex flex-col items-center gap-3 text-text-tertiary hover:text-accent transition-all duration-300"
+                className="group flex flex-col items-center gap-3 text-text-tertiary hover:text-accent"
                 aria-label="Scroll down"
             >
-                <div className="relative p-2.5 rounded-full border border-white/10 group-hover:border-accent/40 bg-white/5 group-hover:bg-accent/10 transition-all duration-300">
+                <div className="relative p-2.5 rounded-full border border-white/10 group-hover:border-accent/40 bg-white/5 group-hover:bg-accent/10">
                     <ChevronDown size={22} strokeWidth={1.5} className="animate-bounce" />
-                    <div className="absolute inset-0 rounded-full border border-accent/0 group-hover:border-accent/30 group-hover:scale-125 transition-all duration-500 opacity-0 group-hover:opacity-100 pointer-events-none" />
+                    <div className="absolute -inset-1.5 rounded-full border border-transparent group-hover:border-accent/30 pointer-events-none" />
                 </div>
             </button>
             <div className="w-full max-w-[240px] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />

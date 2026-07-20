@@ -31,6 +31,7 @@ export function FactionLongformPanel({
   onChange,
   onJump,
   musicList,
+  musicLabel,
   editLang,
 }: {
   script: FactionScript
@@ -39,6 +40,7 @@ export function FactionLongformPanel({
   onChange: (patch: Partial<FactionScript>) => void
   onJump: (groupIndex: number) => void
   musicList: string[]
+  musicLabel?: (file: string) => string
   editLang: EditLang
 }) {
   const layout: FactionLongformItem[] = script.longformLayout ?? []
@@ -222,6 +224,7 @@ export function FactionLongformPanel({
                           file={a.music}
                           vol={a.musicVolume}
                           musicList={musicList}
+                          label={musicLabel}
                           onFile={v => setChapter(i, { music: v })}
                           onVol={v => setChapter(i, { musicVolume: v })}
                         />

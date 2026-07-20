@@ -1,5 +1,22 @@
 # 4. 영향력 평가
 
+> **최종 실측 체크: 26.07.16** — `packages/influence-constants` 상수·DB 저장 구조 대조, 랭크 체계·total_score 트리거 실측
+
+## 적용 대상
+
+| 티어 | 수행 |
+|------|------|
+| **full** | 필수 |
+| **light** | 필수 |
+| **relation** | 생략 |
+| **fiction** | 생략 |
+
+relation·fiction은 `celeb_influence` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+
+담당 에이전트는 `celeb-4-influence`. 의존 트랙은 basic뿐이다.
+
+---
+
 ## JSON 출력 형식
 
 ```json
@@ -13,6 +30,55 @@
   "transhistoricity": { "score": 0, "exp": "설명" }
 }
 ```
+
+---
+
+## DB 저장 구조
+
+`celeb_influence`는 **평면 컬럼** 구조다. 위 JSON을 그대로 jsonb로 넣지 않는다. 영역마다 점수 컬럼과 설명 컬럼이 분리되어 있다.
+
+| JSON 키 | 점수 컬럼 | 설명 컬럼 (ko) | 설명 컬럼 (en) |
+|---------|----------|---------------|---------------|
+| `political` | `political` | `political_exp` | `political_exp_en` |
+| `strategic` | `strategic` | `strategic_exp` | `strategic_exp_en` |
+| `tech` | `tech` | `tech_exp` | `tech_exp_en` |
+| `social` | `social` | `social_exp` | `social_exp_en` |
+| `economic` | `economic` | `economic_exp` | `economic_exp_en` |
+| `cultural` | `cultural` | `cultural_exp` | `cultural_exp_en` |
+| `transhistoricity` | `transhistoricity` | `transhistoricity_exp` | `transhistoricity_exp_en` |
+
+- 키 컬럼은 `celeb_id` (기존 `profiles.id` 사용, 신규 profiles INSERT 금지)
+- `*_exp_en` 7개는 **본 트랙에서 쓰지 않는다.** i18n 트랙(`celeb-i18n.md`)이 채운다
+- `total_score`는 7개 점수의 **단순 합**이다. 저장 시 함께 기록한다
+
+```sql
+INSERT INTO celeb_influence (
+  celeb_id, political, political_exp, strategic, strategic_exp,
+  tech, tech_exp, social, social_exp, economic, economic_exp,
+  cultural, cultural_exp, transhistoricity, transhistoricity_exp, total_score
+) VALUES ('{셀럽ID}', /* ... */)
+ON CONFLICT (celeb_id) DO NOTHING;
+```
+
+---
+
+## 총점·랭크
+
+총점 만점은 **100점** (6개 영역 각 10점 = 60점 + 통시성 40점).
+
+랭크는 DB에 저장하지 않는다. `total_score`로부터 코드가 계산한다(`calculateInfluenceRank`).
+
+| 랭크 | 라벨 | 총점 |
+|------|------|------|
+| **S** | Exalted | 80 이상 |
+| **A** | Elite | 60~79 |
+| **B** | Prominent | 50~59 |
+| **C** | Established | 40~49 |
+| **D** | Rising | 39 이하 |
+
+> **상수 SSoT**: 영역 목록·만점·랭크 임계값은 `packages/influence-constants/src/core.ts`가 정본이다. 평가 프롬프트 사본이 `packages/ai-services/src/prompts/influence-rulebook.ts`에 있다. 아래 점수 기준을 고칠 때 두 파일과 함께 맞춘다.
+>
+> 코드 라벨은 `transhistoricity`를 '시대초월성'으로 표기한다. 본 문서의 '통시성'과 같은 항목이다.
 
 ---
 

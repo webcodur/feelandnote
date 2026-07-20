@@ -13,9 +13,8 @@ import { COMMON_VOICE_FILES } from '../../../src/compositions/BookRecommend/voic
 import { loadEpisode as loadEpisodeMerged } from '../../lib/episode.js'
 import type { BookRecommendScript } from '../../../src/compositions/BookRecommend/types'
 import {
-  args, EPISODE_NAME, ENGINE, GEMINI_MODEL, OUT_DIR, SHORTS_INDEX, ROLE_FILTER, includeCommon, BASE_DIR,
+  args, EPISODE_NAME, ENGINE, GEMINI_MODEL, OUT_DIR, SHORTS_INDEX, SOLO_BOOK_INDEX, ROLE_FILTER, includeCommon, BASE_DIR,
 } from './cli.js'
-import { VOICE } from './config.js'
 import { setEpisode, setCommonFiles } from './state.js'
 import { buildJobs, type Job } from './jobs.js'
 import {
@@ -39,12 +38,7 @@ export async function main(): Promise<void> {
   // 공용 음성 — common/voice/{locale}/ 재사용. --include-common 시 보호 해제.
   setCommonFiles(includeCommon ? new Set<string>() : new Set(COMMON_VOICE_FILES))
 
-  // 셀럽 보이스 오버라이드 (geminiVoice → voice-actors.md 참조)
-  if (episode.host.geminiVoice) {
-    VOICE.celeb = episode.host.geminiVoice
-  }
   console.log(`에피소드: ${EPISODE_NAME}`)
-  if (VOICE.celeb !== 'Puck') console.log(`셀럽 보이스: ${VOICE.celeb}`)
 
   await mkdir(OUT_DIR, { recursive: true })
 
@@ -59,6 +53,8 @@ export async function main(): Promise<void> {
   let jobs = buildJobs()
   if (SHORTS_INDEX !== null) {
     console.log(`스코프: shorts-${SHORTS_INDEX} (${jobs.length}개 job)`)
+  } else if (SOLO_BOOK_INDEX !== null) {
+    console.log(`스코프: solo-B${String(SOLO_BOOK_INDEX).padStart(2, '0')} (${jobs.length}개 job)`)
   } else {
     console.log(`스코프: long (${jobs.length}개 job)`)
   }
@@ -85,23 +81,24 @@ export async function main(): Promise<void> {
     }
   }
 
-  // ElevenLabs 보이스가 있는 셀럽: Gemini 엔진일 때 celeb role 생성 차단
-  // ─── 왜 건너뛰는가 ───
-  // ElevenLabs 커스텀 보이스는 자동화·LLM 판단이 불가능하다.
-  // 생성된 음성을 사람이 직접 듣고 품질을 판단해야 하므로,
-  // 유저가 ElevenLabs 사이트에서 개별적으로 생성·선별한다.
-  // 따라서 elevenlabsVoiceId가 있는 에피소드의 celeb 음성은
-  // Gemini 파이프라인에서 제외하고 유저 수작업 영역으로 남긴다.
-  // 단, segment.geminiVoice 명시 오버라이드(forceGemini)는 캐릭터 보이스이므로 차단 우회.
-  // host 활성 엔진 판정 — 신규 voiceEngine 필드 우선, 없으면 elevenlabsVoiceId 존재로 추정.
-  const hostEngine: 'gemini' | 'elevenlabs' = (episode.host as { voiceEngine?: 'gemini' | 'elevenlabs' }).voiceEngine
-    ?? (episode.host.elevenlabsVoiceId ? 'elevenlabs' : 'gemini')
-  if (ENGINE === 'gemini' && hostEngine === 'elevenlabs' && episode.host.elevenlabsVoiceId) {
+  // 서재탐방의 Gemini는 해설(Charon) 전용이다. 실제 인물 대사는 ELE만 허용한다.
+  // 인물 대사는 별도의 ElevenLabs 실행으로 보낸다. geminiVoice 레거시 지정도 우회시키지 않는다.
+  if (ENGINE === 'gemini') {
     const before = jobs.length
-    // celeb 차단 — 단, geminiVoice 명시(forceGemini) 또는 화자별 elevenlabsVoiceId 오버라이드가 있으면 통과.
-    jobs = jobs.filter(j => j.role !== 'celeb' || j.forceGemini || !!j.elevenlabsVoiceId)
+    jobs = jobs.filter(j => j.role !== 'celeb')
     const skipped = before - jobs.length
-    if (skipped > 0) console.log(`ElevenLabs 보이스 존재 → celeb ${skipped}개 건너뜀 (Gemini 생성 차단, geminiVoice·화자 elevenlabsVoiceId 명시는 통과)`)
+    if (skipped > 0) console.log(`인물 대사 ${skipped}개 건너뜀 (GEM 금지, ELE 실행 대상)`)
+  } else {
+    // ElevenLabs 실행은 인물 대사만 대상으로 삼는다. 해설이 인물 음성으로 생성되는 사고를 막는다.
+    jobs = jobs.filter(j => j.role === 'celeb')
+    const invalidGemini = jobs.filter(j => j.forceGemini)
+    if (invalidGemini.length > 0) {
+      throw new Error(`인물 대사에 GEM 보이스가 지정됨: ${invalidGemini.map(j => j.file).join(', ')}`)
+    }
+    const missingEle = jobs.filter(j => !j.elevenlabsVoiceId && !episode.host.elevenlabsVoiceId)
+    if (missingEle.length > 0) {
+      throw new Error(`ELE 보이스 ID가 없는 인물 대사: ${missingEle.map(j => j.file).join(', ')}`)
+    }
   }
 
   if (onlyFiles) {
@@ -145,6 +142,9 @@ export async function main(): Promise<void> {
         // 쇼츠 스코프: 해당 쇼츠 서브디렉토리만
         const shortDir = path.join(engRoot, `shorts-${SHORTS_INDEX}`)
         if (existsSync(shortDir)) await normalizeAll(shortDir)
+      } else if (SOLO_BOOK_INDEX !== null) {
+        const soloDir = path.join(engRoot, `solo-B${String(SOLO_BOOK_INDEX).padStart(2, '0')}`)
+        if (existsSync(soloDir)) await normalizeAll(soloDir)
       } else {
         // 전체 스코프: 롱폼(최상위 wav) + 모든 쇼츠 서브디렉토리. normalizeAll 은 최상위만 보므로 서브를 따로 순회.
         await normalizeAll(engRoot)
@@ -183,6 +183,9 @@ export async function main(): Promise<void> {
             // 쇼츠 스코프: 해당 쇼츠 서브디렉토리만
             const shortDir = path.join(engRoot, `shorts-${SHORTS_INDEX}`)
             if (existsSync(shortDir)) await normalizeAll(shortDir)
+          } else if (SOLO_BOOK_INDEX !== null) {
+            const soloDir = path.join(engRoot, `solo-B${String(SOLO_BOOK_INDEX).padStart(2, '0')}`)
+            if (existsSync(soloDir)) await normalizeAll(soloDir)
           } else {
             // 롱폼 스코프: 엔진 루트 (normalizeAll 은 shorts-* 서브디렉토리도 포함하지만
             // 롱폼 단독 재정규화에서는 쇼츠 잔재까지 덩달아 처리돼도 무해)
@@ -201,7 +204,11 @@ export async function main(): Promise<void> {
     for (const j of jobs) {
       const m = await getManifest(manifestDir(j))
       const changed = jobHash(j.text, j.voice, j.elevenlabsVoiceId, j.stylePrefix) !== m[j.file]
-      console.log(`  ${j.file.padEnd(30)} [${j.voice}] ${changed ? '← 변경' : ''}`)
+      const routedEleId = ENGINE === 'elevenlabs'
+        ? (j.elevenlabsVoiceId ?? episode.host.elevenlabsVoiceId)
+        : j.elevenlabsVoiceId
+      const route = routedEleId ? `ELE:${routedEleId}` : `GEM:${j.voice}`
+      console.log(`  ${j.file.padEnd(30)} [${route}] ${changed ? '← 변경' : ''}`)
     }
     return
   }

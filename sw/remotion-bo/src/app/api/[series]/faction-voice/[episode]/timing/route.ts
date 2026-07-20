@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { readFile, writeFile, readdir } from 'fs/promises'
 import path from 'path'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { FACTIONS_DIR, safeDirName } from '@/lib/faction-utils'
 
 // ── 세력도 발화 시각(voiceTimings) 읽기/쓰기 ──
@@ -22,7 +22,7 @@ async function timingFiles(epDir: string, lang: string): Promise<string[]> {
 
 export async function GET(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const url = new URL(req.url)
@@ -42,7 +42,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const { stem, lang = 'ko', timings } = await req.json().catch(() => ({}))

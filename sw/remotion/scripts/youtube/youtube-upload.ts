@@ -91,13 +91,29 @@ function findFiles(label: string, lang: 'ko' | 'en', variant: Variant) {
 
 const LINEUP_PATH = path.join(__dirname, 'youtube-lineup.json')
 
-async function saveUploadRecord(episodeName: string, variantKey: string, videoId: string) {
+/**
+ * 업로드 기록 저장.
+ *
+ * 키(ko-shorts-3)의 슬롯 번호만으로는 어떤 책이 올라갔는지 사후 확인이 불가능하다.
+ * 책 폴더명·업로드 시점 제목을 함께 박아 videoId → 책 정체 고리를 남긴다.
+ * 롱폼은 책 하나가 아니므로 book 인자를 넘기지 않는다.
+ */
+async function saveUploadRecord(
+  episodeName: string,
+  variantKey: string,
+  videoId: string,
+  book?: { folder?: string; title?: string },
+) {
   const all = JSON.parse(await readFile(LINEUP_PATH, 'utf-8'))
   if (!all[episodeName]) all[episodeName] = {}
   if (!all[episodeName].uploads) all[episodeName].uploads = {}
-  all[episodeName].uploads[variantKey] = { videoId, uploadedAt: new Date().toISOString() }
+  const record: Record<string, string> = { videoId, uploadedAt: new Date().toISOString() }
+  if (book?.folder) record.bookFolder = book.folder
+  if (book?.title) record.titleAtUpload = book.title
+  all[episodeName].uploads[variantKey] = record
   await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
-  console.log(`  lineup.json 기록: ${variantKey} → ${videoId}`)
+  const suffix = book?.folder ? ` (${book.folder})` : ''
+  console.log(`  lineup.json 기록: ${variantKey} → ${videoId}${suffix}`)
 }
 
 // ─── 메인 ───────────────────────────────────────────────
@@ -182,6 +198,12 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     const shortsBookTitle = isShorts
       ? books[targetShortsCfg?.featuredBookIndex ?? 0]?.title
       : undefined
+    // 업로드 기록에 박을 책 정체 — 쇼츠·솔로만. 롱폼은 여러 권이라 특정 책이 없다.
+    // __folder 는 로더가 책 폴더명을 실어준 값(신구조 전용, 레거시 레이아웃은 undefined).
+    const recordBookIdx = isShorts ? (targetShortsCfg?.featuredBookIndex ?? 0) : isSolo ? soloBookIdx : undefined
+    const recordBook = recordBookIdx != null
+      ? { folder: books[recordBookIdx]?.__folder as string | undefined, title: books[recordBookIdx]?.title as string | undefined }
+      : undefined
     // 롱폼 신규 포맷 — 다부 에피소드면 totalBooks + part, 단일 부면 books.length
     const epSeries = (data as any).series as { part: number; totalParts: number; totalBooks: number } | undefined
     const isMultipart = (epSeries?.totalParts ?? 1) > 1
@@ -228,6 +250,8 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
       console.log(`  자막: ${files.srt ?? '없음'}`)
       console.log(`  썸네일: ${files.thumb ?? '없음'}`)
       console.log(`  공개: private (고정)`)
+      if (recordBook) console.log(`  기록 예정: bookFolder=${recordBook.folder ?? '(없음)'} · titleAtUpload=${recordBook.title ?? '(없음)'}`)
+      else console.log(`  기록 예정: 책 정체 없음 (롱폼)`)
       continue
     }
 
@@ -247,7 +271,7 @@ async function upload(episodeName: string, filterLang?: string, filterType?: str
     if (files.thumb) await setThumbnail(yt, videoId, files.thumb)
 
     // videoId를 lineup.json에 기록
-    await saveUploadRecord(episodeName, vKey, videoId)
+    await saveUploadRecord(episodeName, vKey, videoId, recordBook)
     console.log()
   }
 

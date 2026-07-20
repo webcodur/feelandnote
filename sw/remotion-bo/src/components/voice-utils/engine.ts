@@ -14,7 +14,7 @@ export function shortsArrIndexBySlot(shortsArr: readonly unknown[] | undefined, 
 /** ELE 대상 섹션인지 판별 (셀럽 음성 섹션). `shorts-N/` prefix가 붙어 있어도 동작한다. */
 export function isEleSection(key: string): boolean {
   const base = key.replace(/^shorts-\d+\//, '')
-  return base === 'A3-featured-quote' || base === 'B2-philosophy' || /^D\d{2}d\d+-quote$/.test(base) || /^S\d{2}-celeb-/.test(base) || /^S\d{2}-book-quote/.test(base)
+  return base === 'A3-featured-quote' || /^D\d{2}d\d+-quote$/.test(base) || /^S\d{2}-celeb-/.test(base) || /^S\d{2}-book-quote/.test(base)
 }
 
 /**
@@ -61,9 +61,9 @@ export type SegmentEngineSpec = {
  *  segment.elevenlabsVoiceId > speakers[seg.speaker].elevenlabsVoiceId > host.elevenlabsVoiceId
  *
  *  엔진 분기:
- *  1. shorts segment에 `geminiVoice` 오버라이드 → Gemini
- *  2. 셀럽 섹션(isEleSection) + 위 우선순위로 해소된 voiceId 존재 → ElevenLabs
- *  3. 그 외 → null
+ *  1. 실제 인물 섹션(isEleSection)은 ElevenLabs만 허용
+ *  2. 그 밖의 해설에만 Gemini 오버라이드 허용
+ *  3. 나머지 → null
  */
 export function resolveSegmentEngine(
   key: string,
@@ -96,21 +96,22 @@ export function resolveSegmentEngine(
     ? findSpeaker(seg.speaker)
     : (longformSpeakerId ? findSpeaker(longformSpeakerId) : undefined)
 
-  // 1. Gemini 캐릭터 보이스 — segment 직접 > 화자(gemini 엔진)
-  if (seg?.geminiVoice) {
-    return { engine: 'gemini', voiceParam: seg.geminiVoice, stylePrefix: seg.style }
-  }
-  if (speakerObj?.engine === 'gemini' && speakerObj.voiceId) {
-    return { engine: 'gemini', voiceParam: speakerObj.voiceId, stylePrefix: seg?.style }
-  }
-
-  // 2. ELE 셀럽 섹션 — voiceId 우선순위: segment 직접 > 화자(SSoT) > 옛 elevenlabsVoiceId > host
+  // 1. 실제 인물 섹션 — voiceId 우선순위: segment 직접 > 화자(SSoT) > 옛 elevenlabsVoiceId > host
   if (isEleSection(key)) {
     const speakerVoice = speakerObj
       ? (speakerObj.engine === 'elevenlabs' && speakerObj.voiceId ? speakerObj.voiceId : speakerObj.elevenlabsVoiceId)
       : undefined
     const voiceId = seg?.elevenlabsVoiceId ?? speakerVoice ?? episode.host?.elevenlabsVoiceId
     if (voiceId) return { engine: 'elevenlabs', voiceParam: voiceId }
+    return null
+  }
+
+  // 2. 해설의 Gemini 오버라이드 — 실제 인물 섹션에는 도달하지 않는다.
+  if (seg?.geminiVoice) {
+    return { engine: 'gemini', voiceParam: seg.geminiVoice, stylePrefix: seg.style }
+  }
+  if (speakerObj?.engine === 'gemini' && speakerObj.voiceId) {
+    return { engine: 'gemini', voiceParam: speakerObj.voiceId, stylePrefix: seg?.style }
   }
 
   return null

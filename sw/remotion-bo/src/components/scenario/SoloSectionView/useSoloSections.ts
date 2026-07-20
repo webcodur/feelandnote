@@ -7,7 +7,7 @@ import { type AnchorPick, type CinematicImage } from '../types'
 import type { VoiceSection } from '../../voice-utils'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SoloFreeSection } from './types'
-import { nextId } from './utils'
+import { nextId, parseSoloSectionsJson } from './utils'
 
 interface UseSoloSectionsArgs {
   series: string
@@ -31,6 +31,11 @@ export function useSoloSections({
   // 이미지 풀에서 「추가」 버튼을 눌렀을 때 이미지를 받을 대상 섹션. 카드 클릭 시 갱신.
   const [activeIdx, setActiveIdx] = useState(0)
   const [copied, setCopied] = useState(false)
+  // 외부 JSON 붙여넣기 패널
+  const [jsonOpen, setJsonOpen] = useState(false)
+  const [jsonText, setJsonText] = useState('')
+  const [jsonError, setJsonError] = useState<string | null>(null)
+  const [jsonApplied, setJsonApplied] = useState(false)
   // 앵커 픽업 상태 — 쇼츠와 동일. 본문에서 구절을 선택하면 그 슬롯의 text 앵커로 등록한다.
   const [anchorPick, setAnchorPick] = useState<AnchorPick>(null)
   const {
@@ -140,7 +145,7 @@ export function useSoloSections({
     const i = sectionKeys.indexOf(expandedKey)
     if (i < 0) return null
     return {
-      value: sections[i]?.geminiVoice ?? 'Kore',
+      value: sections[i]?.geminiVoice ?? 'Charon',
       onChange: (v: string) => patch(i, { geminiVoice: v || undefined }),
     }
   }, [expandedKey, sectionKeys, sections, patch])
@@ -192,9 +197,48 @@ export function useSoloSections({
     })
   }, [sections])
 
+  // JSON 패널 열기 — 현재 sections 를 미리 채워 복사·편집 겸용.
+  const openJsonPanel = useCallback(() => {
+    setJsonText(JSON.stringify({ sections }, null, 2))
+    setJsonError(null)
+    setJsonApplied(false)
+    setJsonOpen(true)
+  }, [sections])
+
+  const closeJsonPanel = useCallback(() => {
+    setJsonOpen(false)
+    setJsonError(null)
+    setJsonApplied(false)
+  }, [])
+
+  // 외부 JSON 적용 — 화면 상태만 교체. 디스크 저장은 「솔로 저장」.
+  const applyJson = useCallback(() => {
+    const result = parseSoloSectionsJson(jsonText)
+    if (!result.ok) {
+      setJsonError(result.error)
+      return
+    }
+    setSectionsState(result.sections)
+    setDirty(true)
+    setJsonError(null)
+    setJsonApplied(true)
+    setActiveIdx(0)
+    setTimeout(() => setJsonApplied(false), 1500)
+  }, [jsonText])
+
+  // JSON 그대로 클립보드 복사 (파일 백업·외부 편집용)
+  const copyJson = useCallback(() => {
+    const body = jsonOpen ? jsonText : JSON.stringify({ sections }, null, 2)
+    navigator.clipboard.writeText(body).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    })
+  }, [jsonOpen, jsonText, sections])
+
   return {
     // 상태
     sections, loading, saving, dirty, speakingId, expandedKey, activeIdx, copied, anchorPick,
+    jsonOpen, jsonText, jsonError, jsonApplied,
     // 이미지 풀
     folderImages, imageBaseUrl, subFolders, fileFolders, duplicates,
     refreshFolderImages, moveFileToFolder, createFolder, renameFolder, deleteFolder,
@@ -203,5 +247,8 @@ export function useSoloSections({
     // 세터·핸들러
     setSections, setExpandedKey, setActiveIdx, setAnchorPick,
     speak, patch, confirmAnchor, add, remove, move, save, copyAll,
+    openJsonPanel, closeJsonPanel,
+    setJsonText: (t: string) => { setJsonText(t); setJsonError(null); setJsonApplied(false) },
+    applyJson, copyJson,
   }
 }

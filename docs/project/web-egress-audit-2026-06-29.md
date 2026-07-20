@@ -107,6 +107,8 @@ Pro 결제로 한도 복구. 대시보드 실측으로 **PostgREST 100.0% / Stor
 
 추가 발견: RPC `get_tracker_candidates`가 제거된 열(`p.quotes`) 참조로 항상 실패 — 게임 등용은 폴백 경로로만 동작 중. `SUPABASE_ACCESS_TOKEN` 만료로 DDL 불가, 토큰 갱신 후 교정 필요.
 
+> **→ 해소됨(26.07.15).** RPC 재정의 완료. 26.07.16 실측 재확인 — 정의에 `quotes` 참조 없고 호출 시 후보 225건 정상 반환. 위 문단은 당시 기록으로 남긴다.
+
 ## 9. AdSense 색인 교정에 따른 egress 재검증 (2026-07-15)
 
 **상세: `docs/project/adsense-audit-2026-07-15.md` 4-1절**

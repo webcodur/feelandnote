@@ -12,7 +12,7 @@ export function useFactionData(series: string, episodeName: string) {
   const loadMusic = useCallback(() => {
     fetch(`/api/${series}/faction-music`)
       .then(r => r.json())
-      .then(d => setMusicList(Array.isArray(d) ? d : []))
+      .then(d => setMusicList(Array.isArray(d) ? d : (d?.files ?? [])))
       .catch(() => setMusicList([]))
   }, [series])
 

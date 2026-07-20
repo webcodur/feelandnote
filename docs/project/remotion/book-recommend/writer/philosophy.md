@@ -199,4 +199,4 @@ philosophy는 에피소드 초반에 나온다. 이 시점에 시청자는 해�
 |------|------|
 | [0-draft.md](0-draft.md) | 전체 필드 작성 가이드 (philosophy 기본 불릿) |
 | [3-story-power.md](3-story-power.md) | 도끼 테스트 — outro 도끼와 philosophy 관계 판정 근거 |
-| [5-editorial-board.md](5-editorial-board.md) | 5인 편집국 사이클 — philosophy의 "그래서 뭐?" 위생 검수 + 도끼 평가 기준 |
+| [5-editorial-board.md](5-editorial-board.md) | 편집국 검토 — philosophy의 사실·이야기·한국어 자연성 점검 |

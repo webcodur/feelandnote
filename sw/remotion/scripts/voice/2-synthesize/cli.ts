@@ -14,7 +14,7 @@ export const args = process.argv.slice(2)
 
 // --- 허용 플래그 검증 — 오타·미지원 플래그 유입 방지 ---
 const KNOWN_FLAGS = new Set([
-  '--episode', '--engine', '--only', '--force', '--shorts', '--long',
+  '--episode', '--engine', '--only', '--force', '--shorts', '--solo', '--long',
   '--update-json', '--include-common', '--normalize', '--normalize-only', '--list',
   '--init-manifest', '--start-key', '--role',
   '--default-tags', '--default-trail', '--include-locked',
@@ -26,27 +26,42 @@ for (const arg of args) {
   }
 }
 
-// --- 단일 타겟 스코프: --long 또는 --shorts <N> 정확히 하나 필수 ---
+// --- 단일 타겟 스코프: --long / --shorts <N> / --solo <N> 중 정확히 하나 필수 ---
 // --list, --init-manifest 등 메타 플래그만 사용할 때도 동일하게 강제한다
 const SHORTS_FLAG_IDX = args.indexOf('--shorts')
+const SOLO_FLAG_IDX = args.indexOf('--solo')
 const HAS_LONG_FLAG = args.includes('--long')
 let parsedShortsIndex: number | null = null
+let parsedSoloBookIndex: number | null = null
 if (SHORTS_FLAG_IDX >= 0) {
   const raw = args[SHORTS_FLAG_IDX + 1]
   const parsed = raw !== undefined ? Number(raw) : NaN
   if (!Number.isInteger(parsed) || parsed < 1) {
     console.error(`✗ --shorts 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
-    console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N>) [...옵션]')
+    console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N> | --solo <N>) [...옵션]')
     process.exit(1)
   }
   parsedShortsIndex = parsed
 }
-if (HAS_LONG_FLAG === (parsedShortsIndex !== null)) {
-  console.error('✗ --long 과 --shorts <N> 중 정확히 하나만 지정해야 한다.')
-  console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N>) [...옵션]')
+if (SOLO_FLAG_IDX >= 0) {
+  const raw = args[SOLO_FLAG_IDX + 1]
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    console.error(`✗ --solo 인자는 1 이상 정수여야 한다. 받은 값: ${raw ?? '(없음)'}`)
+    console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N> | --solo <N>) [...옵션]')
+    process.exit(1)
+  }
+  parsedSoloBookIndex = parsed
+}
+const scopeCount = Number(HAS_LONG_FLAG) + Number(parsedShortsIndex !== null) + Number(parsedSoloBookIndex !== null)
+if (scopeCount !== 1) {
+  console.error('✗ --long / --shorts <N> / --solo <N> 중 정확히 하나만 지정해야 한다.')
+  console.error('  사용: pnpm voice:tts -- --episode <name> (--long | --shorts <N> | --solo <N>) [...옵션]')
   process.exit(1)
 }
 export const SHORTS_INDEX: number | null = parsedShortsIndex
+/** SOLO 책 번호 (1-based). */
+export const SOLO_BOOK_INDEX: number | null = parsedSoloBookIndex
 
 // --- 에피소드 ---
 const epIdx = args.indexOf('--episode')

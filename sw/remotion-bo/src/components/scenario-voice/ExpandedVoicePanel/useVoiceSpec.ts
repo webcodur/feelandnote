@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
 import type { SegmentEngineSpec } from '../../voice-utils'
-import { resolveSegmentEngine, shortsArrIndexBySlot, longformQuoteSpeakerId } from '../../voice-utils'
+import { isEleSection, resolveSegmentEngine, shortsArrIndexBySlot, longformQuoteSpeakerId } from '../../voice-utils'
 import { getTextsForSection } from '../utils'
 import { roleForLongformKey, geminiVoiceForRole, stylePrefixForRole, type Role } from '@feelandnote/shared/lib/voice-policy'
 import type { GenEngine } from './types'
@@ -16,15 +16,18 @@ type UseVoiceSpecArgs = {
 export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: UseVoiceSpecArgs) {
   const sectionTexts = useMemo(() => getTextsForSection(secKey, episode), [secKey, episode])
   const [ttsText, setTtsText] = useState(() => overrideText ?? (sectionTexts.tts || sectionTexts.original))
+  const personVoice = isEleSection(secKey)
 
   // ── 엔진 결정 ──
-  // 자동 매핑은 default 추천일 뿐. 사용자가 chosenEngine 토글로 GEM/ELE 중 자유 선택.
+  // 실제 인물 대사는 ELE 고정. 그 밖의 해설만 GEM 모델을 고를 수 있다.
   const engineSpec = useMemo(() => resolveSegmentEngine(secKey, episode), [secKey, episode])
-  const [chosenEngine, setChosenEngine] = useState<GenEngine>(() => engineSpec?.engine ?? 'gemini')
+  const [chosenEngine, setChosenEngine] = useState<GenEngine>(() => personVoice ? 'elevenlabs' : (engineSpec?.engine ?? 'gemini'))
   // secKey 가 바뀌면 자동 매핑 기본값으로 리셋
   useEffect(() => {
-    if (engineSpec?.engine) setChosenEngine(engineSpec.engine)
-  }, [secKey, engineSpec?.engine])
+    if (personVoice) setChosenEngine('elevenlabs')
+    else if (engineSpec?.engine) setChosenEngine(engineSpec.engine)
+    else setChosenEngine('gemini')
+  }, [secKey, engineSpec?.engine, personVoice])
 
   // chosenEngine 별로 필요한 spec 매핑 (자동 매핑이 다른 엔진이면 폴백 매핑 시도)
   const eleSpec: SegmentEngineSpec | null = useMemo(() => {
@@ -71,7 +74,7 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     const speakerGeminiVoice = speakerObj?.engine === 'gemini' ? speakerObj.voiceId : undefined
 
     // 역할 판정 — 쇼츠는 segment.role(SSoT), 롱폼은 구간키 규칙. 이후 공유 정책으로
-    // 역할→보이스/스타일을 결정해 CLI 와 같은 결과를 보장한다(롱폼 나레이터=Kore, 요약=Charon).
+    // 역할→보이스/스타일을 결정해 CLI와 같은 결과를 보장한다(해설·요약=Charon).
     const role: Role = m ? ((seg?.role as Role) ?? 'narrator') : roleForLongformKey(secKey)
     const isHook = !!m && m[2] === 'hook'
 
@@ -106,6 +109,7 @@ export function useVoiceSpec({ secKey, episode, overrideText, voiceOverride }: U
     sectionTexts,
     ttsText, setTtsText,
     engineSpec,
+    personVoice,
     chosenEngine, setChosenEngine,
     eleSpec,
     geminiSpec,

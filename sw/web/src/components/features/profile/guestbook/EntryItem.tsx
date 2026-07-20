@@ -23,7 +23,7 @@ function cn(...classes: (string | undefined | null | false)[]) {
 
 const DATE_LOCALES = { ko, en: enUS } as const;
 
-export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpdate }: EntryItemProps) {
+export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onUpdate }: EntryItemProps) {
   const t = useTranslations("profileSection.guestbook");
   const locale = useLocale();
   const [showMenu, setShowMenu] = useState(false);
@@ -33,7 +33,7 @@ export default function EntryItem({ entry, currentUser, isOwner, onDelete, onUpd
   const [editContent, setEditContent] = useState(entry.content);
   const [editIsPrivate, setEditIsPrivate] = useState(entry.is_private);
 
-  const isAuthor = currentUser?.id === entry.author_id;
+  const isAuthor = !!currentUserId && currentUserId === entry.author_id;
   const canDelete = isOwner || isAuthor;
   const canEdit = isAuthor;
 

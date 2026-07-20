@@ -1,5 +1,7 @@
 # 이미지 앵커 동기화 파이프라인
 
+> **최종 실측 체크: 26.07.16** — 에피소드 디스크 구조(`sw/remotion/public/episodes/`), `types.ts`의 `CinematicImage`·`imageChangeAt`, `legacy/BookCardVisualLegacy.tsx` 앵커 함수, `scripts/voice/4-align.ts` 대조
+
 에피소드 `images/` 폴더의 이미지를 전수 분석하여 ko 앵커를 자동 부착하고, 이어서 en 에피소드에 대응 앵커를 동기화하는 파이프라인의 상세 가이드.
 
 실행은 `/image-anchor-sync <에피소드명>` 스킬로 한다. 스킬 요약은 `.claude/skills/remo-image-anchor-sync/SKILL.md`.
@@ -30,46 +32,65 @@ PASS 이미지 + REJECT 이미지
 
 ## 파일 경로
 
+에피소드는 인물 폴더 바로 아래에 있고, **본문·이미지는 책 단위로 쪼개져 있다**. 단계(stage) 폴더는 없다.
+
 ```
-sw/remotion/public/episodes/{done|live|todo|pre-todo}/{name}/
-  ko.json
-  en.json
-  images/
-    *.{jpg,jpeg,png,webp}
+sw/remotion/public/episodes/{인물}/
+  meta.ko.json / meta.en.json           ← narrator·host·tts (책 본문 없음)
+  meta.ko.timing.json / meta.en.timing.json
+  books/{NN-책제목}/
+    book.ko.json / book.en.json         ← summary·contextMain·quotePairs·images
+    book.ko.timing.json / book.en.timing.json
+    shorts.ko.json / shorts.en.json     ← segments·revealBg·bgm (쇼츠 있는 책만)
+    shorts.ko.timing.json
+    images/
+      *.{jpg,jpeg,png,webp}             ← 그 책 전용 이미지
+  voice/{ko|en}/{gemini|elevenlabs}/
 ```
 
-에피소드 위치는 `done → live → todo → pre-todo` 순서로 탐색한다.
+- **`ko.json`·`en.json` 단일 파일은 폐기된 레거시 레이아웃이다.** `peter-thiel`만 아직 남아 있다.
+- `episodes/todo/`·`pre-todo/`는 빈 폴더이고 `done/`·`live/`는 존재하지 않는다. 단계별 탐색은 하지 않는다.
+- 이미지는 에피소드 루트가 아니라 **책 폴더마다 따로** 있다. 루트의 `images_backup/`·`images_unused/`는 대상이 아니다.
 
 ## 전제 조건
 
-- `images/` 폴더에 이미지 파일이 존재한다 (파일명 자유).
-- `ko.json`의 본문(`books[].summary/contextMain/quotePairs[].quote/quotePairs[].after`, `shorts.segments[].text`)이 확정되어 있다.
-- `en.json`이 존재하고 번역이 완료되어 있다 (Phase B 필수).
+- 대상 책의 `images/` 폴더에 이미지 파일이 존재한다 (파일명 자유).
+- `book.ko.json`의 본문(`summary`/`contextMain`/`quotePairs[].quote`/`quotePairs[].after`)과 `shorts.ko.json`의 `segments[].text`가 확정되어 있다.
+- `book.en.json`이 존재하고 번역이 완료되어 있다 (Phase B 필수).
 
 ---
 
 ## 데이터 구조
 
-### 롱폼 이미지 (`book.images[]`)
+### 롱폼 이미지 (`book.ko.json` → `images[]`)
+
+`types.ts`의 `CinematicImage`:
 
 ```typescript
 type CinematicImage = {
-  file: string           // 파일명 (images/ 기준 상대)
-  field?: 'summary' | 'context'  // summary = summary 텍스트 배경, context = contextMain+quotePairs[].quote+quotePairs[].after 통합 배경
+  file: string           // 파일명 (그 책의 images/ 기준 상대)
+  field?: 'summary' | 'context' | 'quote'  // 귀속 필드
   text?: string          // 텍스트 앵커 — 이 문구가 나오는 시점에 이미지 전환
-  keyword?: string       // 대안 앵커 (deprecated, 일부 에피소드 잔존)
+  keyword?: string       // Studio 표시용 키워드
 }
 ```
 
-### 쇼츠 이미지 (`shorts.segments[].imageChangeAt[]`)
+`field` 값 셋:
+- `summary` — summary 텍스트 배경
+- `context` — contextMain + quotePairs[].quote + quotePairs[].after 통합 배경
+- `quote` — 직접 인용 전용. 레거시 데이터는 quote 이미지가 `context`로 들어가 있을 수 있다.
+
+### 쇼츠 이미지 (`shorts.ko.json` → `segments[].imageChangeAt[]`)
 
 ```typescript
 type ImageChange = {
-  t: number              // 오프셋 (초). 0으로 초기화, 3-timings가 text 기반 재계산
+  t: number              // 오프셋 (초). 0으로 초기화, voice:align(4-align.ts)이 text 기반 재계산
   image: string          // episodes/... 전체 경로
   text?: string          // 텍스트 앵커
 }
 ```
+
+단일 객체 또는 배열 둘 다 허용한다.
 
 ### 앵커란 무엇인가 (개념 설명)
 
@@ -140,9 +161,9 @@ type ImageChange = {
 
 ### A-1. 데이터 로드
 
-- `ko.json` 전문을 Read로 읽는다.
-- `images/` 폴더를 Glob(`**/*.{jpg,jpeg,png,webp}`)으로 스캔하여 이미지 파일 목록을 확보.
-- 기존 앵커가 `ko.json`에 이미 있는 경우:
+- 대상 책의 `book.ko.json` 전문을 Read로 읽는다 (쇼츠까지 다루면 같은 폴더의 `shorts.ko.json`도).
+- 그 책의 `images/` 폴더를 Glob(`**/*.{jpg,jpeg,png,webp}`)으로 스캔하여 이미지 파일 목록을 확보.
+- 기존 앵커가 `book.ko.json`에 이미 있는 경우:
   - **기본 정책**: 기존 앵커는 존중하고, 앵커가 없는 이미지만 추가 배치.
   - **전수 재배치**: 사용자가 명시적으로 승인한 경우에만 수행.
 
@@ -178,16 +199,16 @@ type ImageChange = {
 
 PASS된 이미지만 대상으로 한다.
 
-#### A-3-1. 롱폼 (`books[]`)
+#### A-3-1. 롱폼 (`book.ko.json`)
 
 각 PASS 이미지에 대해:
 
-1. 장면 묘사를 ko.json의 `books[].summary/contextMain/quotePairs[].quote/quotePairs[].after` 전 영역과 대조.
-2. 가장 의미적으로 맞아떨어지는 **(bookIndex, field)** 선정. field 값은 `'summary'` 또는 `'context'`(contextMain+quotePairs[].quote+quotePairs[].after 통합).
+1. 장면 묘사를 `book.ko.json`의 `summary`/`contextMain`/`quotePairs[].quote`/`quotePairs[].after` 전 영역과 대조.
+2. 가장 의미적으로 맞아떨어지는 **field** 선정 (`'summary'`/`'context'`/`'quote'`).
 3. 해당 field 본문에서 이미지가 "등장해야 할" 문장을 찾고, 반드시 그 **문장의 맨 첫 단어(중복 우려 시 2단어까지)**를 ko 앵커로 뽑는다.
 4. 같은 field 내에서 본문 등장 순서대로 정렬.
 
-#### A-3-2. 쇼츠 (`shorts.segments[]`)
+#### A-3-2. 쇼츠 (`shorts.ko.json` → `segments[]`)
 
 1. 각 segment의 `text`와 PASS 이미지를 대조.
 2. **배경 이미지 (`seg.image`)**: segment 전체 기간 유지되는 이미지. segment 주제의 대표 장면 1장.
@@ -209,12 +230,12 @@ PASS된 이미지만 대상으로 한다.
 2. **경고 출력**: 여전히 부족하면 해당 book을 "요수동배치" 목록에 올린다. 에피소드 제작자가 이미지를 추가 생성하거나 수동 배치해야 한다.
 3. Phase A는 완료하되, Phase B에서 해당 book은 건너뛸 수 있다.
 
-### A-5. ko.json 기록
+### A-5. ko 기록
 
-결과를 `ko.json`에 저장한다:
+결과를 저장한다:
 
-- `books[].images[]`: `[{ file, field, text?, keyword? }, ...]` (각 field 내 본문 등장 순서대로 정렬).
-- `shorts.segments[].image`, `shorts.segments[].imageChangeAt[]`: 위 규칙대로 작성.
+- `book.ko.json`의 `images[]`: `[{ file, field, text?, keyword? }, ...]` (각 field 내 본문 등장 순서대로 정렬).
+- `shorts.ko.json`의 `segments[].image`, `segments[].imageChangeAt[]`: 위 규칙대로 작성.
 
 **저장 전**: 기존 앵커가 있었던 경우 diff를 출력하고 사용자 승인을 받는다. 신규 작성(기존 앵커 0건)은 승인 없이 진행.
 
@@ -222,11 +243,11 @@ PASS된 이미지만 대상으로 한다.
 
 ## Phase B — en 앵커 동기화
 
-`ko.json`에 확정된 앵커를 `en.json`으로 옮긴다.
+`book.ko.json`에 확정된 앵커를 같은 폴더의 `book.en.json`으로 옮긴다 (쇼츠는 `shorts.ko.json` → `shorts.en.json`).
 
 ### B-1. 롱폼 동기화
 
-각 book에 대해 `ko.books[i].images[]`를 순회:
+각 책의 `book.ko.json`의 `images[]`를 순회:
 
 1. `file`, `field`, `keyword`(있으면) 그대로 복사.
 2. **모든 항목에 `text`가 존재해야 한다** (Phase A 시작 앵커 필수 규칙). en 앵커 생성(B-3 프롬프트).
@@ -264,9 +285,9 @@ en 필드({field}) 본문:
 - LLM이 생성한 en 앵커가 en 본문에 `includes()` 매칭되지 않으면 즉시 재시도 (최대 2회).
 - 재시도 실패 시 해당 앵커는 비우고 경고 출력. 수동 보정 대상으로 보고.
 
-### B-5. en.json 기록
+### B-5. en 기록
 
-결과를 `en.json`에 저장한다.
+결과를 `book.en.json`·`shorts.en.json`에 저장한다.
 
 ---
 
@@ -381,10 +402,13 @@ en 앵커 성공: 27장 / 실패: 1장
 
 | 파일 | 역할 |
 |------|------|
-| `sw/remotion/src/compositions/BookRecommend/BookRecommendShort.tsx` | 쇼츠 크로스페이드 렌더 (groups 배열 생성) |
-| `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx` | 롱폼 CinematicPanel 렌더, `findAnchorInSection`·`resolveImageTransitions` |
+| `sw/remotion/src/compositions/BookRecommend/BookRecommendShort.tsx` | 쇼츠 이미지 groups 배열 생성 (앵커 해소) |
+| `sw/remotion/src/compositions/BookRecommend/sections/ShortBackgroundLayer.tsx` | 쇼츠 크로스페이드 렌더 (groups 소비) |
+| `sw/remotion/src/compositions/BookRecommend/legacy/BookCardVisualLegacy.tsx` | **현역 롱폼** 렌더, `findAnchorInSection`·`estimateAnchorFrame`·`resolveImageTransitions` |
 | `sw/remotion/src/compositions/BookRecommend/timing.ts` | `shortSegLayout` |
 | `sw/remotion/scripts/voice/4-align.ts` | text 앵커 → voiceTimings 매핑, 쇼츠 `imageChangeAt.t` 자동 해소 |
+
+> **경로 함정**: 롱폼 현역 렌더는 `legacy/` 폴더에 있다. 이름과 정반대다. `_not-using/sections/BookCardVisual/BookCardVisual.tsx`는 같은 이름의 앵커 함수를 갖고 있지만 **아무 데서도 쓰지 않는 폐기 코드**다. 앵커 동작을 고치거나 읽을 때 이쪽을 보면 안 된다. Root.tsx가 롱폼에 물리는 컴포넌트는 `BookRecommendLegacy`다.
 
 ---
 
@@ -426,7 +450,7 @@ en 앵커 성공: 27장 / 실패: 1장
 | 작가가 적어야 할 정보 | text 어구 | text 단어 1개 + 본문 순서 정렬 |
 | 매칭 실패 가시성 | 폴백으로 묻힘 | `#N` occurrence 표기 경고 |
 
-**코드 변경 파일**
+**코드 변경 파일** (경로는 당시 기준. 현재 롱폼 현역 파일은 `legacy/BookCardVisualLegacy.tsx`이며 아래 함수 셋 모두 그쪽에 살아 있다)
 - `sw/remotion/src/compositions/BookRecommend/sections/BookCardVisual/BookCardVisual.tsx`
   - `findAnchorInSection(anchor, section, occurrenceIndex)` — N번째 등장 위치까지 순차 진행
   - `estimateAnchorFrame(...)` — 폴백 함수도 occurrence-aware로 통일

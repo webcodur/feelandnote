@@ -41,9 +41,9 @@ export function FactionVoiceSettingsModal({
 }) {
   // 작업 모드 — 헤더 탭이 소유하고 본체(FactionExpandedVoicePanel)에 내려준다.
   const [mode, setMode] = useState<FactionVoiceMode>('main')
-  const modes = (['main', 'sync', 'breath'] as const).filter(m => slot.hasSync || m !== 'sync')
+  const modes = (['main', 'sync', 'breath', 'age'] as const).filter(m => slot.hasSync || m !== 'sync')
 
-  // Esc 로 닫기, 1·2·3 으로 모드 전환
+  // Esc 로 닫기, 1·2·3·4 로 모드 전환
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { onClose(); return }
@@ -51,6 +51,7 @@ export function FactionVoiceSettingsModal({
       if (e.key === '1') setMode('main')
       if (e.key === '2' && slot.hasSync) setMode('sync')
       if (e.key === '3') setMode('breath')
+      if (e.key === '4') setMode('age')
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -87,7 +88,7 @@ export function FactionVoiceSettingsModal({
                 }`}
               >
                 <span className={`mr-1.5 font-mono text-[10px] ${mode === m ? 'opacity-80' : 'opacity-50'}`}>
-                  {m === 'main' ? '1' : m === 'sync' ? '2' : '3'}
+                  {m === 'main' ? '1' : m === 'sync' ? '2' : m === 'breath' ? '3' : '4'}
                 </span>
                 {FACTION_VOICE_MODE_LABEL[m]}
               </button>

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { rename, readFile, writeFile, readdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { factionVoiceDir } from '@/lib/faction-utils'
 
 // ── 세력도 인물 음원 재배치(swap) 라우트
@@ -40,7 +40,7 @@ function isSafeFile(f: unknown): f is string {
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
 

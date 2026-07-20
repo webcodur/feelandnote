@@ -1,0 +1,26 @@
+[
+  {
+    "name": "젠슨 황",
+    "nameEn": "Jensen Huang",
+    "slug": "jensen-huang",
+    "living": true,
+    "lines": [
+      "엔비디아 공동창업자 · CEO",
+      "1993년 창업부터 현재까지 회사를 이끈 엔지니어",
+      "GPU · CUDA · 가속 컴퓨팅"
+    ],
+    "linesEn": [
+      "Co-founder and CEO of NVIDIA",
+      "Led the company from its founding in 1993",
+      "GPU · CUDA · Accelerated computing"
+    ],
+    "epithet": "실패를 피하는 법보다 실패한 다음 날 다시 일하는 법을 먼저 배운 창업자",
+    "epithetEn": "The founder who learned how to return to work after failure before learning how to avoid it",
+    "era": "1963 ~",
+    "color": "#76b900",
+    "voice": {
+      "engine": "gemini",
+      "style": "낮고 차분하게, 건조한 유머를 섞되 마지막은 단단하게"
+    }
+  }
+]

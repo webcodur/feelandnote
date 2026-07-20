@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft } from '../../../shared/icons'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft, Play, Pause } from '../../../shared/icons'
 import type { FactionPerson, FactionImageCrop } from '@/lib/faction-types'
 import type { VoiceFile } from '../../../../voice-utils'
 import { factionVoiceFile } from '@/lib/faction-voice'
@@ -313,25 +313,35 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         <div className="flex shrink-0 items-center gap-1" onClick={e => e.stopPropagation()}>
           {/* 대사 음성 설정 — 아코디언을 펼치지 않고도 바로 연다 (대사 있는 인물만) */}
           {voice && hasQuote && (
-            <button
-              onClick={() => setVoiceModalOpen(true)}
-              className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
-              title="이 인물 대사 음성 설정 열기"
-            >
-              <Mic size={14} /> 음성
-              {meta && <span className="font-mono text-[10px] text-accent">{meta.duration.toFixed(1)}s</span>}
-            </button>
+            <div className="flex items-stretch rounded-md border border-border bg-bg-main overflow-hidden">
+              <button
+                onClick={() => setVoiceModalOpen(true)}
+                className={`flex items-center gap-1 px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover ${meta ? 'border-r border-border' : ''}`}
+                title="이 인물 대사 음성 설정 열기"
+              >
+                <Mic size={14} /> 음성
+                {meta && <span className="font-mono text-[10px] text-accent">{meta.duration.toFixed(1)}s</span>}
+              </button>
+              {meta && (
+                <MiniAudioPlayer url={`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={person[QUOTE_SLOT.fields.rate] as number | undefined} />
+              )}
+            </div>
           )}
           {/* 수식어 나레이션 설정 (수식어가 있는 인물만) */}
           {voice && hasEpithet && (
-            <button
-              onClick={() => setEpithetModalOpen(true)}
-              className="flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
-              title="이 인물 수식어 나레이션 설정 열기"
-            >
-              <Mic size={14} /> 수식어
-              {epithetMeta && <span className="font-mono text-[10px] text-accent">{epithetMeta.duration.toFixed(1)}s</span>}
-            </button>
+            <div className="flex items-stretch rounded-md border border-border bg-bg-main overflow-hidden">
+              <button
+                onClick={() => setEpithetModalOpen(true)}
+                className={`flex items-center gap-1 px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover ${epithetMeta ? 'border-r border-border' : ''}`}
+                title="이 인물 수식어 나레이션 설정 열기"
+              >
+                <Mic size={14} /> 수식어
+                {epithetMeta && <span className="font-mono text-[10px] text-accent">{epithetMeta.duration.toFixed(1)}s</span>}
+              </button>
+              {epithetMeta && (
+                <MiniAudioPlayer url={`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(epithetFile)}?t=${epithetMeta.size}`} rate={person[EPITHET_SLOT.fields.rate] as number | undefined} />
+              )}
+            </div>
           )}
           {longformButton}
           {eyeButton}
@@ -557,7 +567,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   ...person,
                   quoteDisplay: v === 'box' || v === 'caption' ? v : undefined,
                   // 박스로 돌리면 위치 지정은 의미 없음
-                  ...(v !== 'caption' ? { quoteCaptionPos: undefined } : {}),
+                  ...(v !== 'caption' ? { quoteCaptionPos: undefined, quoteCaptionStyle: undefined } : {}),
                 })
               }}
               className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
@@ -568,15 +578,26 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               <option value="caption">작은 자막</option>
             </select>
             {person.quoteDisplay === 'caption' && (
-              <select
-                value={person.quoteCaptionPos ?? 'bottom'}
-                onChange={e => onChange({ ...person, quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
-                className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
-                title="작은 자막 세로 위치 — 하단 또는 중하단 밴드"
-              >
-                <option value="bottom">하단</option>
-                <option value="center">중하단</option>
-              </select>
+              <>
+                <select
+                  value={person.quoteCaptionPos ?? 'bottom'}
+                  onChange={e => onChange({ ...person, quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
+                  className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
+                  title="작은 자막 세로 위치 — 하단 또는 중하단 밴드"
+                >
+                  <option value="bottom">하단</option>
+                  <option value="center">중하단</option>
+                </select>
+                <select
+                  value={person.quoteCaptionStyle ?? 'default'}
+                  onChange={e => onChange({ ...person, quoteCaptionStyle: e.target.value === 'serif-large' ? 'serif-large' : 'default' })}
+                  className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
+                  title="자막 폰트. 기본은 산세리프, 세리프는 크기가 좀 더 큰 명조체"
+                >
+                  <option value="default">기본 폰트</option>
+                  <option value="serif-large">큰 세리프</option>
+                </select>
+              </>
             )}
           </div>
         </div>
@@ -778,5 +799,48 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         </button>
       )}
     </div>
+  )
+}
+
+function MiniAudioPlayer({ url, rate }: { url: string; rate?: number }) {
+  const [playing, setPlaying] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+    }
+  }, [])
+
+  const toggle = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (playing) {
+      audioRef.current?.pause()
+      setPlaying(false)
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+      const a = new Audio(url)
+      if (rate) a.playbackRate = rate
+      a.onended = () => setPlaying(false)
+      a.onerror = () => setPlaying(false)
+      a.play().catch(() => setPlaying(false))
+      audioRef.current = a
+      setPlaying(true)
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      className={`px-2 py-1.5 flex items-center justify-center transition-colors ${playing ? 'text-accent bg-accent/10' : 'text-text-dim hover:text-text-secondary hover:bg-bg-hover'}`}
+      title={playing ? '정지' : '재생'}
+    >
+      {playing ? <Pause size={14} /> : <Play size={14} />}
+    </button>
   )
 }

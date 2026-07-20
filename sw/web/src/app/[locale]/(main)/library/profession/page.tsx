@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/scriptures/profession/page.tsx
+  파일명: /app/(main)/library/profession/page.tsx
   기능: 길의 갈래 페이지
   책임: 분야별 인물들의 필독서를 보여준다.
 */ // ------------------------------

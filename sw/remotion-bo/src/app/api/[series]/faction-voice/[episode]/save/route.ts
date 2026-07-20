@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { writeFile, mkdir, unlink, readFile } from 'fs/promises'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { factionVoiceDir, factionVoiceFilePath, wavDurationSec } from '@/lib/faction-utils'
 import { normalizeWavInPlace } from '@/lib/voice-normalize'
 
@@ -20,7 +20,7 @@ const execFileAsync = promisify(execFile)
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
 

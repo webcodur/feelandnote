@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { listFactionVoices } from '@/lib/faction-utils'
 
 /**
@@ -9,7 +9,7 @@ import { listFactionVoices } from '@/lib/faction-utils'
  */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
   const { series, episode } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const files = await listFactionVoices(decodeURIComponent(episode))

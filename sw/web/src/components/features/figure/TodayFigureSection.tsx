@@ -245,7 +245,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     <div className="flex justify-end mt-4">
                          <Link
                             href={`/${figure.id}`}
-                            className="text-xs text-accent hover:underline flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity"
+                            className="text-xs text-accent hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
                         >
                             {t("viewAll")} <ArrowRight size={12} />
                         </Link>

@@ -41,7 +41,7 @@ export const episodeNames: Record<string, string> = {}
  */
 function resolvePerson(p: FactionPerson, en: boolean): FactionPerson {
   if (!en) {
-    // 한국어판: 의역(quote) 아래 보조 표기를 가공 영문이 아니라 실제 원문(quoteOrigin)으로
+    // 한국어판: 가상 독백(quote) 아래에 원전의 사실과 재구성 방향(quoteOrigin)을 보조 표기로 노출한다.
     return { ...p, quoteEn: p.quoteOrigin }
   }
   return {

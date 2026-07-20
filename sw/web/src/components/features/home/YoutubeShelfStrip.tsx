@@ -73,7 +73,7 @@ export default function YoutubeShelfStrip({ items, moreLabel }: YoutubeShelfStri
       onPointerLeave={endDrag}
       onClickCapture={onClickCapture}
       onDragStart={(e) => e.preventDefault()}
-      className="flex gap-3 overflow-x-auto scrollbar-hide select-none cursor-grab active:cursor-grabbing"
+      className="flex gap-3 py-4 -my-4 px-4 -mx-4 overflow-x-auto scrollbar-hide select-none cursor-grab active:cursor-grabbing"
     >
       {shown.map((item) => (
         <Link
@@ -81,7 +81,7 @@ export default function YoutubeShelfStrip({ items, moreLabel }: YoutubeShelfStri
           href={`/celeb/${item.slug}`}
           className="group flex-shrink-0 w-[140px] sm:w-[160px] space-y-1.5"
         >
-          <div className="relative aspect-square rounded-md overflow-hidden bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/50 transition-all duration-300">
+          <div className="relative aspect-square rounded-md overflow-hidden bg-bg-secondary ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-accent/80 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
             {item.avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element -- 외부 저장소 이미지, 프로젝트 관례상 img 사용
               <img
@@ -100,7 +100,7 @@ export default function YoutubeShelfStrip({ items, moreLabel }: YoutubeShelfStri
               {item.videoCount}
             </span>
           </div>
-          <p className="text-xs text-text-secondary group-hover:text-accent transition-colors truncate text-center">
+          <p className="text-xs text-text-secondary group-hover:text-accent truncate text-center">
             {item.name}
           </p>
         </Link>
@@ -113,13 +113,13 @@ export default function YoutubeShelfStrip({ items, moreLabel }: YoutubeShelfStri
           aria-label={moreLabel}
           className="group flex-shrink-0 w-[140px] sm:w-[160px] space-y-1.5 cursor-pointer"
         >
-          <div className="aspect-square rounded-md bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/50 flex flex-col items-center justify-center gap-1 transition-all duration-300">
-            <span className="w-9 h-9 rounded-full border border-accent/40 flex items-center justify-center text-accent group-hover:bg-accent/10 transition-colors">
+          <div className="aspect-square rounded-md bg-bg-secondary ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-accent/80 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] flex flex-col items-center justify-center gap-1">
+            <span className="w-9 h-9 rounded-full border border-accent/40 flex items-center justify-center text-accent group-hover:bg-accent/10">
               <ChevronRight size={18} />
             </span>
             <span className="text-[11px] text-text-tertiary">+{remaining}</span>
           </div>
-          <p className="text-xs text-text-tertiary group-hover:text-accent transition-colors text-center">
+          <p className="text-xs text-text-tertiary group-hover:text-accent text-center">
             {moreLabel}
           </p>
         </button>

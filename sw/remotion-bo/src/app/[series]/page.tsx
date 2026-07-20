@@ -3,10 +3,11 @@
 import { useState, useEffect, useCallback, useMemo, use } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
+import { getSeriesById, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
 import { TaskPanel } from '@/components/TaskPanel'
 import { VoiceStorage } from '@/components/VoiceStorage'
 import { FactionSeriesHome } from '@/components/faction/FactionSeriesHome'
+import { DiscourseSeriesHome } from '@/components/discourse/DiscourseSeriesHome'
 
 type EpisodeStatus = 'todo' | 'live' | 'done'
 
@@ -186,9 +187,20 @@ function tabKeyId(t: TabKey): string {
   return t.kind
 }
 
+/**
+ * 시리즈 홈 등록표 — 데이터 계열별 전용 홈. 표에 없는 계열(book)은 아래 인물 카드 화면을 쓴다.
+ * 새 시리즈는 레지스트리에 정의를 얹고 여기에 한 줄 더한다.
+ */
+const SERIES_HOMES: Partial<Record<SeriesDataModel, (p: { series: string }) => React.ReactNode>> = {
+  faction: FactionSeriesHome,
+  discourse: DiscourseSeriesHome,
+}
+
 export default function SeriesHomePage({ params }: { params: Promise<{ series: string }> }) {
   const { series } = use(params)
-  if (isFactionSeries(series)) return <FactionSeriesHome series={series} />
+  const model = seriesDataModel(series)
+  const Home = model ? SERIES_HOMES[model] : undefined
+  if (Home) return <Home series={series} />
   return <BookRecommendSeriesHome series={series} />
 }
 

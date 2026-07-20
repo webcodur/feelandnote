@@ -1,0 +1,110 @@
+# 프로필·기록관 (`(main)/[userId]/*`)
+
+> **최종 실측 체크: 26.07.16** — 프로필·기록관 화면 실측
+
+한 사람의 기록을 모아 보여주는 영역이다. 네비게이션 라벨은 "내 기록", 코드 키는 `archive`다. `NAV_ITEMS`의 href는 `/{userId}` 자리표시자이며 실제 주소는 사용자 id로 채워진다.
+
+## 셀럽 우회
+
+`[userId]` 라우트는 일반 사용자와 셀럽을 함께 받지만, 셀럽에게는 정본 주소가 따로 있다. `layout.tsx`와 `page.tsx` 양쪽에서 `profile.profile_type === 'CELEB'`이고 `slug`가 있으면 `/celeb/{slug}`로 리다이렉트한다. 프로필이 없으면 `notFound()`다.
+
+슬러그가 없는 셀럽은 리다이렉트되지 않고 `[userId]` 화면에 그대로 남는다. 이때 소개 화면은 영향력(`getCelebInfluence`)과 인물 분석·유사 인물(`getSimilarByCelebId`) 데이터를 추가로 싣는다.
+
+## 화면 목록
+
+| 경로 | 역할 | 데이터 출처 |
+|---|---|---|
+| `/[userId]` | 소개. 프로필 + 방명록 | `getUserProfile`, `getGuestbookEntries`, (셀럽) `getCelebInfluence`, `getSimilarByCelebId` |
+| `/[userId]/reading` | 서재. 기록한 콘텐츠 | `RecordsContent` (클라이언트 페칭) |
+| `/[userId]/reading/collections` | 묶음 목록 | `getFlows` (`Flows`가 클라이언트 페칭) |
+| `/[userId]/reading/collections/[id]` | 묶음 상세 | `getFlow` (`FlowDetail`이 클라이언트 페칭) |
+| `/[userId]/reading/collections/[id]/tiers` | 묶음 티어 편집 | `getFlow`, `updateFlow` (`TierEditView`가 클라이언트 페칭) |
+| `/[userId]/merits` | 업적. 칭호·점수 | `getAchievementData`, `getProfileShowcase` |
+| `/[userId]/chamber` | 관리. 통계 + 설정 | `getProfile`, `getDetailedStats` |
+
+## 레이아웃·탭
+
+`[userId]/layout.tsx`가 배너(`PageBanner` + `PrismBanner`), 탭(`ArchiveTabs`), 섹션 헤더(`ArchiveSectionHeader`)를 씌우고 본문을 `max-w-3xl`로 잡는다. `RecentProfileTracker`가 방문한 프로필을 기록한다.
+
+탭 구성은 `sw/web/src/constants/archive.tsx`의 `ARCHIVE_TABS`가 단일원천이다. `buildArchiveTabs(userId, isOwner, isCeleb)`가 `ownerOnly`·`nonCeleb` 플래그로 거른 뒤 `/{userId}{href}` 형태의 전체 주소를 붙인다.
+
+| value | 라벨 | href | 제약 |
+|---|---|---|---|
+| `intro` | 소개 | `` (빈 문자열) | — |
+| `records` | 서재 | `/reading` | — |
+| `collections` | 묶음 | `/reading/collections` | — |
+| `merits` | 업적 | `/merits` | — |
+| `chamber` | 관리 | `/chamber` | `ownerOnly` |
+
+`ARCHIVE_TABS`의 각 항목은 라벨 외에 제목·영문 라벨·설명 4종(방문자용 `description`/`subDescription`, 본인용 `ownerDescription`/`ownerSubDescription`)을 함께 들고 있다. `ArchiveSectionHeader`가 본인 여부에 따라 어느 쪽을 쓸지 고른다.
+
+`nonCeleb` 플래그는 타입에 정의돼 있고 `buildArchiveTabs`가 필터링도 하지만, 현재 이 플래그를 켠 탭은 하나도 없다.
+
+**이 상수의 라벨·설명은 한국어 문자열로 코드에 박혀 있다.** 다른 화면들이 `next-intl` 네임스페이스를 쓰는 것과 다르다. 영문 로케일에서도 이 값들은 한국어로 나온다.
+
+## 소개 (`/[userId]`)
+
+`ProfileContent`가 받는 것은 프로필, 본인 여부, 방명록 항목·총계·작성자 정보, 그리고 셀럽일 때만 채워지는 영향력·인물 분석이다.
+
+방명록은 본인이 볼 때 `markGuestbookAsRead()`로 읽음 처리한다. 방명록 작성용 사용자 정보(`guestbookCurrentUser`)는 로그인 사용자의 id에 **조회 대상 프로필의 닉네임·아바타**를 붙여 만든다 — 남의 기록관을 볼 때 작성자 표시가 그 기록관 주인의 것으로 잡히므로, 의도가 불명확하다.
+
+소개 화면의 구성 요소는 `[userId]/` 아래 평면 파일로 있다. `ProfileBioSection`, `ProfileInfluenceSection`, `ProfilePersonaSection`, `ProfileStatsSection`, `ProfileSettingsSection`, `ProfileAchievementsSection`, `UserBioSection`, `AvatarUploader`다.
+
+메타는 셀럽이고 `bio`가 있으면 그 앞 160자를, 아니면 기본 문구를 설명으로 쓴다. 오픈그래프 `type`은 `profile`이다.
+
+## 업적 (`/[userId]/merits`)
+
+칭호 정의는 `sw/web/src/constants/titles.ts`의 `TITLES`가 단일원천이다. 17개이며 DB가 아니라 코드 상수다.
+
+각 칭호는 코드·이름·설명·분류·등급·조건·아이콘을 갖는다.
+
+- **분류(`category`)** 3종: `volume`(축적, 7개), `diversity`(다양성, 5개), `depth`(깊이, 5개).
+- **등급(`grade`)** 4종: `common`(6개), `uncommon`(6개), `rare`(4개), `epic`(1개).
+- **조건(`condition`)**: `{ type, value }` 꼴이다. `content_count`, `record_count`, `category_count`, `creator_count`, `avg_review_length`, `long_review_count`, `completed_count` 등이 쓰인다.
+
+`getAchievementData(userId)`가 사용자 통계를 모아 각 칭호의 `condition`을 검사하고 `unlocked` 플래그를 붙인다. 함께 내주는 것은 최근 점수 로그 20건(`score_logs`)과 점수 합계(`user_scores`의 `activity_score`·`title_bonus`·`total_score`)다. 이 조회는 `unstable_cache` + `createStaticClient` 패턴을 쓴다.
+
+전시할 칭호는 `getProfileShowcase(userId)`가 코드 배열로 내주고, `updateShowcase`로 바꾼다. 본인일 때만 편집 동선이 열린다(`isOwner`).
+
+등급별 시각 규칙은 `[userId]/achievementTierStyles.ts`의 `TIER_STYLES`에 있다. 키는 `common`·`uncommon`·`rare`·`epic` 넷으로 `TitleDefinition['grade']`와 일치한다. 배경·테두리·글자색·그림자에 더해 `rare` 이상은 `glow`(의사 요소 광택)를 얹는다.
+
+## 묶음 (컬렉션)
+
+**화면에서는 "묶음", 코드에서는 `flow`(플로우)다.** 서버 액션은 `actions/flows/`, 컴포넌트는 `components/features/user/flows/`와 `components/features/user/detail/`에 있다. 주소만 `collections`다.
+
+- **목록**: `Flows`가 `getFlows(userId)`로 채우는 클라이언트 컴포넌트다. 본인이면 생성 동선(`FlowEditor`)이 열린다.
+- **상세**: `FlowDetail`이 `flowId`만 받아 스스로 읽는다.
+- **티어 편집**: `TierEditView`가 `getFlow`로 읽고 `updateFlow`로 저장한다.
+
+### 티어 체계
+
+묶음 안의 항목을 5단으로 드래그해 배치한다. `TIER_LABELS`는 `S`·`A`·`B`·`C`·`D`이고, `TIER_CONFIG`가 각 단의 표시명·색·아이콘을 정한다.
+
+| 단 | 표시명 |
+|---|---|
+| S | MYTHIC |
+| A | LEGENDARY |
+| B | EPIC |
+| C | RARE |
+| D | COMMON |
+
+어디에도 넣지 않은 항목은 `unranked`로 남는다. 콘텐츠 타입(`selectedType`)으로 걸러 볼 수 있다.
+
+이 5단 티어는 업적의 4등급(`common`~`epic`)과 **다른 체계**다. 표시명이 겹치지만(EPIC·RARE·COMMON) 서로 무관하다.
+
+## 관리 (`/[userId]/chamber`)
+
+본인만 들어간다. 로그인하지 않았거나 id가 다르면 `notFound()`다. 메타에 `robots: { index: false, follow: false }`를 건다.
+
+`getProfile()`과 `getDetailedStats(userId)`를 읽어 통계 섹션과 설정 섹션을 세운다. 로그인 수단이 이메일인지(`app_metadata.provider === 'email'`)를 설정 섹션에 넘긴다 — 비밀번호 관련 동선을 가르는 값으로 보인다.
+
+## 파일 주석의 옛 경로
+
+`collections/[id]/tiers/page.tsx`의 머리말 주석은 `/app/(main)/archive/playlists/[id]/tiers/page.tsx`를 가리킨다. 실제 경로와 다르다. `collections/[id]/page.tsx`의 주석은 화면을 "플로우 상세"라 부른다.
+
+## 연계 문서
+
+- 화면 지도: [README.md](README.md)
+- 광장(팔로우·친구): [agora.md](agora.md)
+- 셀럽 상세·영향력: `docs/project/db-celeb.md`, `docs/project/celeb/celeb-4-influence.md`
+- 인물 분석(페르소나): `docs/project/celeb/celeb-5-persona.md`

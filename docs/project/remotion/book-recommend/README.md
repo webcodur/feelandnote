@@ -11,7 +11,7 @@
 | 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
 | 3b | [solo.md](solo.md) | 1권 모드(SOLO) — 16:9 자유 마디, 책 폴더 솔로 파일, 컴포지션·렌더·유튜브 |
 | 4 | [voice/tts.md](voice/tts.md) | 음성 생성 — 엔진, 보이스, 커맨드, **타이밍 파이프라인** |
-| 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Gemini TTS 목록, 셀럽별 매핑 |
+| 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Charon 해설과 인물별 ElevenLabs 등록 |
 | 5 | [lineup/lineup.md](lineup/lineup.md) | 편성표 — 배포 순서, 제작 진행 현황 |
 | 5b | [lineup/candidates.md](lineup/candidates.md) | 후보 전략 — 라이벌 묶음, 정치 교차 |
 | 5c | lineup/candidates-raw.md | 후보 전체 리스트 (DB 자동 생성, git 미추적) |
@@ -26,7 +26,7 @@
 | 9-2 | [writer/2-chronology.md](writer/2-chronology.md) | 인생 순서 배치 — 생애 연대기 기반 books 배열 |
 | 9-3 | [writer/3-story-power.md](writer/3-story-power.md) | 스토리 파워 — 중심축·감정곡선·S급 context·벤치마크 |
 | 9-4 | [writer/4-prose.md](writer/4-prose.md) | 글 부드러움 — 주어·연결어·리듬·TTS 친화성 |
-| 9-5 | [writer/5-editorial-board.md](writer/5-editorial-board.md) | 5인 편집국 사이클 — 위생·도끼·번역투·사료·직업 분야 단일 SSoT |
+| 9-5 | [writer/5-editorial-board.md](writer/5-editorial-board.md) | 편집국 검토 — 분야 정확성·사료·영상 이야기·한국어 자연성 |
 | 9-6 | [writer/6-paragraphs.md](writer/6-paragraphs.md) | 문단 분할 — 긴 서술 필드를 `\n\n` 기준으로 분할. 원문 보존 |
 | 10 | [final-check.md](final-check.md) | 출품 전 최종 점검 — 한영 정합성·텍스트·이미지·음성·윤리 |
 
@@ -94,7 +94,7 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 | 3 | **JSON 초안** — `public/episodes/pre-todo/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
 | 4 | **텍스트 검수** — 주어 규칙·말투·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup/lineup.md) § 품질 |
 | 5 | **표지 다운로드** — 외부 URL → 인물 디렉토리 `covers/` | [rules.md](rules.md) § 표지 이미지 |
-| 6 | **보이스 배정** — ElevenLabs(`voice_id_ko`) 또는 Gemini 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup/lineup.md) § 보이스 |
+| 6 | **보이스 배정** — 해설은 Gemini Charon, 실제 인물은 ElevenLabs 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup/lineup.md) § 보이스 |
 | 7 | **승격** — `pre-todo/<name>.json` → `todo/<name>/ko.json` 이동, `script.ts` 등록 | 아래 에피소드 상태 표 |
 | 8 | **음성 생성** — [음성 파이프라인 3단계](voice/tts.md) 실행 | [voice/tts.md](voice/tts.md) § 음성 타이밍 |
 | 9 | **프리뷰** — `pnpm reboot` | — |
@@ -153,6 +153,6 @@ public/episodes/
 
 ## 윤리 원칙
 
-- **셀럽 음성(Puck/ElevenLabs)은 검증된 직접 인용문에만 사용한다.** AI가 창작한 1인칭 발언을 셀럽 목소리로 읽지 않는다.
+- **실제 인물 음성은 ElevenLabs로만 만들고 검증된 직접 인용문에만 사용한다.** AI가 창작한 1인칭 발언을 인물 목소리로 읽지 않으며 Gemini 인물 음성으로 대체하지 않는다.
 - 감상 배경(contextMain)은 나레이터가 3인칭으로 전달한다. 출처(인터뷰, 기사 등)를 명시한다.
 - 직접 인용문이 없는 책은 quote 단계를 건너뛴다.

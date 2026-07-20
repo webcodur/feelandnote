@@ -88,11 +88,12 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     showInBottomNav: true,
     showInHomePage: false,
+    // 게임은 /rest 단일 허브에 앵커로 마운트된다. /rest/<게임> 경로에는 page.tsx가 없다.
     subLinks: [
-      { key: "dawn", href: "/rest/dawn", label: "여명" },
-      { key: "labyrinth", href: "/rest/labyrinth", label: "미궁" },
-      { key: "hegemony", href: "/rest/hegemony", label: "패권" },
-      { key: "suikoden", href: "/rest/suikoden", label: "천도" },
+      { key: "dawn", href: "/rest#dawn", label: "여명" },
+      { key: "labyrinth", href: "/rest#labyrinth", label: "미궁" },
+      { key: "hegemony", href: "/rest#hegemony", label: "패권" },
+      { key: "suikoden", href: "/rest#suikoden", label: "천도" },
     ],
   },
   {

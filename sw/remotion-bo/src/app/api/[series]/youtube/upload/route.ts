@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { queueTask, cancelTask } from '@/lib/server-utils'
-import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
+import { getSeriesById } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series: seriesId } = await params
@@ -10,9 +10,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { episode, lang, type, shortsIndex, bookIndex, dry } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
+  // 업로드 CLI 진입점이 아직 없는 계열(담화 등) — 책 기반 업로드로 조용히 새지 않게 막는다
+  if (series.dataModel === 'discourse') {
+    return NextResponse.json({ error: `youtube upload not implemented: ${series.dataModel}` }, { status: 501 })
+  }
+
   const args = ['youtube:upload', '--', '--episode', episode]
   // 세력도 — CLI 가 별도 진입점으로 위임하도록 시리즈 플래그를 넘긴다.
-  if (isFactionSeries(seriesId)) args.push('--series', 'faction')
+  if (series.dataModel === 'faction') args.push('--series', 'faction')
   if (lang) args.push('--lang', lang)
   if (type) args.push('--type', type)
   if (typeof shortsIndex === 'number') args.push('--shorts-index', String(shortsIndex))

@@ -5,6 +5,24 @@ import { revalidatePath } from 'next/cache'
 import { getUsers, type User } from './users'
 import { getCelebs, type Celeb } from './celebs'
 
+/**
+ * 상태 변경·삭제가 반영돼야 할 화면을 갱신한다.
+ *
+ * 이 액션들은 StatusToggle에서 오는데, 그 버튼이 셀럽 표(/celebs)와 유저 표(/users)
+ * 양쪽에 걸려 있어 대상이 어느 쪽인지 memberId만으로는 가릴 수 없다. 그래서 두 목록을
+ * 모두 갱신한다. 옛 대상이던 /members는 화면이 없는 리다이렉트 통로라 갱신해도 소용없었다.
+ *
+ * 셀럽 상세는 slug로 주소가 잡히므로(/celebs/[slug]) id로는 지정할 수 없다.
+ * 여기엔 slug가 없어 라우트 패턴으로 해당 상세 전체를 대상으로 삼는다.
+ * 이 갱신은 백오피스 자체 캐시에만 닿는다 — 서비스(web) 캐시는 revalidateWebCache가 따로 맡는다.
+ */
+function revalidateMemberPaths(memberId: string): void {
+  revalidatePath('/users')
+  revalidatePath(`/users/${memberId}`)
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/[slug]', 'page')
+}
+
 // #region Types
 export type ProfileType = 'USER' | 'CELEB'
 
@@ -473,8 +491,10 @@ export async function promoteToCeleb(userId: string): Promise<void> {
 
   if (error) throw error
 
-  revalidatePath('/members')
-  revalidatePath(`/members/${userId}`)
+  // USER → CELEB 승격. 유저 목록·상세에서 빠지고 셀럽 목록에 나타난다
+  revalidatePath('/users')
+  revalidatePath(`/users/${userId}`)
+  revalidatePath('/celebs')
 }
 // #endregion
 
@@ -489,7 +509,7 @@ export async function softDeleteMember(memberId: string): Promise<void> {
 
   if (error) throw error
 
-  revalidatePath('/members')
+  revalidateMemberPaths(memberId)
 }
 // #endregion
 
@@ -547,6 +567,6 @@ export async function hardDeleteMember(memberId: string): Promise<void> {
 
   if (error) throw error
 
-  revalidatePath('/members')
+  revalidateMemberPaths(memberId)
 }
 // #endregion

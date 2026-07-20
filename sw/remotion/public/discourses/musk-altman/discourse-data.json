@@ -1,0 +1,56 @@
+{
+  "title": "머스크 vs 알트만\n오픈이라는 말",
+  "titleEn": "Musk vs Altman\nThe Word Open",
+  "topic": "지능을 누가 쥐어야 하는가",
+  "topicEn": "Who Should Hold Intelligence",
+  "logline": "두 사람 다, 자기가 남긴 말이 자기를 겨눈다.",
+  "loglineEn": "Each is cornered by his own words.",
+  "notice": "두 사람의 공개된 발언과 사상을 바탕으로 재구성한 가상 담화입니다. 이 대화는 실제로 열린 적이 없습니다. 큰따옴표로 표시한 문장만 실제 발언이며 출처를 함께 밝힙니다.",
+  "noticeEn": "A fictional exchange reconstructed from public statements. This conversation never took place. Only quoted lines are actual statements, shown with sources.",
+  "titleByPart": {
+    "1": "머스크 vs 알트만\n당신이 먼저 그러자고 했다"
+  },
+  "loglineByPart": {
+    "1": "2015년의 이메일이 2026년의 그를 겨눈다."
+  },
+  "holdMotion": "zoomin",
+  "musicDuckVolume": 0.35,
+  "longformLayout": [
+    {
+      "turn": 0
+    },
+    {
+      "era": {
+        "label": "2015\n오픈AI, 비영리로 태어나다",
+        "labelEn": "2015\nOpenAI Is Born a Nonprofit"
+      }
+    },
+    {
+      "turn": 5
+    },
+    {
+      "era": {
+        "label": "2018\n머스크, 이사회를 떠나다",
+        "labelEn": "2018\nMusk Leaves the Board"
+      }
+    },
+    {
+      "turn": 8
+    },
+    {
+      "era": {
+        "label": "2024\n머스크, 자신이 세운 회사를 고소하다",
+        "labelEn": "2024\nMusk Sues the Company He Founded"
+      }
+    },
+    {
+      "turn": 13
+    },
+    {
+      "era": {
+        "label": "2026\n1심은 시효로 끝났다. 옳고 그름은 끝내 묻지 않았다.",
+        "labelEn": "2026\nDismissed on the statute. The merits were never heard."
+      }
+    }
+  ]
+}
