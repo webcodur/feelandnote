@@ -141,6 +141,18 @@ pnpm build:audio-bo
 | A | `celeb-tag-system.md` | 부록: 스포트라이트 태그 |
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 (2026-03 회차 스냅샷) |
 | S | `../spotlight-ai-group-refactor.md` | 스포트라이트 AI 그룹 구조 (구현 완료. `spotlight-celeb-sync` 스킬이 참조) |
+| G | `celeb-gotchas.md` | **셀럽 데이터 함정 모음** — 목록 노출 기준, 페이지 안 뜰 때 증상별 원인, 대사 3대 결함, 등급 승격 조건, 선정 기준, 책 메타 출처 제한, 등록 우회 |
+
+**가상 독백 (`profiles.virtual_monologue`)** — 셀럽 상세 페이지의 1인칭 독백. 규격은 문서가 아니라 코드에 있다.
+
+| 경로 | 내용 |
+|------|------|
+| `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts` | **실존 인물 독백의 SSoT.** `buildPrompt`가 규격 전문을 쥔다 — 재료는 `bio`+생몰만(감상 여정·페르소나·대사는 오염 우려로 금지), 백지 생성이 아니라 기존 글 개선, 분량은 영향력 등급 연동(65+ 1200자 / 50+ 1000자 / 35+ 850자 / 그 외 800자), 말투는 `commander` 직군 + 지정 4명만 평어체. GPT-5.6(codex 구독, 종량 비용 없음)으로 생성. `--no-force`면 독백 없는 인물만 |
+| `sw/web-bo/docs/todo/korean-writing-quality.md` | 모델별 한국어 작문 실력 실측(GPT-5.6 60 / GLM-5.2 40 / Claude Opus 15). **이 작업을 Claude가 직접 쓰지 않고 GPT에 발주하는 근거** |
+| `.agents/skills/fiction-profile-monologue/` | 신화·허구(`fiction` 티어) 인물 전용 트랙 — 원전 근거·반복 비판 검토·manifest 반영 |
+
+> 옛 규격 문서 `sw/web-bo/docs/todo/virtual-monologue-plan.md`는 26.07.20 `c493cad1`에서 삭제됐다(GLM 시대 규격이라 이미 낡음). 회수하려면 `git show c493cad1^:<경로>`.
+> 독백을 고친 뒤 서비스 반영이 안 보이면 캐시 7일이 남은 것이다 — `/api/revalidate`에 `celebs` 태그를 던지면 즉시 갱신된다(전량 갱신 비용 실측 10MB 미만).
 
 **셀럽 자료 디렉토리**
 
@@ -163,6 +175,16 @@ pnpm build:audio-bo
 | `docs/project/adsense-audit-2026-07-15.md` | **AdSense 반복 거절 감사·교정 보고서(26.07.15)** — 원인 규명(색인률 2%)·조치 8종·검증 실측·재신청 절차·남은 과제. AdSense 관련 작업의 SSoT |
 | `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
 | `sw/remotion/docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(remotion-bo Cards 탭)·편성 저장(faction-cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT. (`docs/project/card-news/`에는 시안 html만 있다) |
+| `docs/project/tooling-gotchas.md` | **개발 환경·도구 함정 모음** — 인증 토큰이 죽는 원인, server action 캐시 규칙, 조용한 폴백 금지, 권한 설정, 환경 탓 금지, 다른 CLI의 훅 상속, 모델 상태 점검 |
+
+### 제작 규칙 (글쓰기 · 이미지)
+
+작업물의 품질 기준이다. 코드 규칙(`code-rules.md`)과 별개로, **텍스트를 쓰거나 이미지를 발주할 때 항상 참조한다.**
+
+| 문서 | 내용 |
+|------|------|
+| `docs/project/writing-rules.md` | **한국어 글쓰기 규칙 SSoT** — 문장 규칙(어순·연결어·종결·번역투), 어휘와 톤(단골 어휘·사극투·설교조 마무리·가난 프레임 금지), 구조와 분량(두괄식·압축·호흡), 인용과 사료(직접인용 자격·부재 단정 금지·모국어 검색), 유저 원고 다루기, 영상 대본 각색 |
+| `docs/project/image-generation.md` | **이미지 생성·발주 SSoT** — 프롬프트 작성 원칙, 행동·시선·몸방향 결합, 텍스트 수사의 구도 라임, 시그니처 컷, 구도 찍어내기 금지, 얼굴 REF 사용 규칙, 생성 도구별 함정과 회수법 |
 
 ### 영상 (`docs/project/remotion/` + `sw/remotion/public/factions/`)
 
@@ -171,8 +193,10 @@ pnpm build:audio-bo
 | 경로 | 내용 |
 |------|------|
 | `docs/project/remotion/README.md` | 공통 — 코드 구조, 명령어, 음성 파이프라인 |
+| `docs/project/remotion/gotchas.md` | **영상·음성 제작 함정 모음** — 음성 합성 엔진별 한계·키 로테이션, 정렬과 자막 타이밍(**폐기된 접근 3종** 재제안 금지), 렌더와 미리보기, 데이터 구조 함정, 환경, 작업 규칙 |
 | `docs/project/remotion/book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 | `docs/project/remotion/faction.md` | 세력도 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
+| `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
 | `docs/project/remotion/discourse.md` | 가상 담화 — **기획 단계(코드 미착수)**. 독백·난입 반박·대담을 한 엔진으로(인원·대화 여부는 편별 데이터). 원천=`profiles.virtual_monologue`. 팩션 엔진 계승, 뼈대는 발언 순서 |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
 | `docs/project/remotion/discourse.md` | **가상 담화** — 독백 + 난입 반박 + 대담. 저승 술집을 대체한다 |
