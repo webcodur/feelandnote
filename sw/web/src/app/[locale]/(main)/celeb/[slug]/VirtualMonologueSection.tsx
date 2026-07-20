@@ -98,7 +98,7 @@ export default function VirtualMonologueSection({ text, showTranslate }: Props) 
 
   return (
     <>
-      <p className="text-xs text-text-tertiary leading-relaxed break-keep mb-4">
+      <p className="text-xs text-text-tertiary leading-relaxed break-keep text-center mb-4">
         {t("virtualMonologueNote")}
       </p>
 
