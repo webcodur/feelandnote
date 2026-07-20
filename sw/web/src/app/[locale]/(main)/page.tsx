@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getLocalizedAlternates } from "@/lib/seo";
+import { getProfilesBySlugs } from "@/actions/celebs/getProfilesBySlugs";
 
 export async function generateMetadata() {
   const t = await getTranslations("site");
@@ -89,15 +90,8 @@ export default async function MainPage() {
     slugSet.add(step.author);
   }));
 
-  const { data: profilesData } = await supabase
-    .from('profiles')
-    .select('slug, nickname, nickname_en, avatar_url')
-    .in('slug', Array.from(slugSet));
-
-  const profileMap = (profilesData || []).reduce((acc, p) => {
-    if (p.slug) acc[p.slug] = p;
-    return acc;
-  }, {} as Record<string, any>);
+  // 캐시 키 안정화 — 명단 순서가 흔들려도 같은 캐시를 쓴다
+  const profileMap = await getProfilesBySlugs(Array.from(slugSet).sort());
 
   const isEn = locale === 'en';
   const inspirationChains = rawChains.map(chain => 
@@ -106,8 +100,8 @@ export default async function MainPage() {
       const a = profileMap[step.author];
       return {
         text: step.text,
-        reader: r ? { avatar_url: r.avatar_url, name: isEn ? r.nickname_en || r.nickname : r.nickname } : null,
-        author: a ? { avatar_url: a.avatar_url, name: isEn ? a.nickname_en || a.nickname : a.nickname } : null,
+        reader: r ? { avatar_url: r.avatar_url, name: (isEn ? r.nickname_en || r.nickname : r.nickname) ?? step.reader } : null,
+        author: a ? { avatar_url: a.avatar_url, name: (isEn ? a.nickname_en || a.nickname : a.nickname) ?? step.author } : null,
       };
     })
   );
