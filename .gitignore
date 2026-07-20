@@ -131,3 +131,9 @@ tmp/
 *.njsproj
 *.sln
 *.sw?
+
+# Remotion 번들 캐시 (고정 outDir)
+.cache/
+
+# Claude Code 개인 설정 (로컬 전용 — 키·경로가 섞이므로 추적하지 않는다)
+.claude/settings.local.json
