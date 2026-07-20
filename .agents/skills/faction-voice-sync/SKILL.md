@@ -14,13 +14,13 @@ description: 팩션(세력도, factions/) 음성 후처리 — 받아쓰기(Whis
 | 경로 | `episodes/<인물>/` | `public/factions/<에피소드>/` |
 | 인자 | `--episode <인물>-ko` + `--long`/`--shorts` | `--episode <폴더명>` + `--faction` / `--lang` |
 | 단계 | 3 transcribe → 4 align → 5 **chunk(LLM 의미분할)** | transcribe(--faction) → faction-align **2단계** |
-| 의미 단위(sub) | 5단계가 LLM으로 분할 | `data.json` 의 `quoteChunks` 가 곧 sub (사람이 미리 끊어둠) |
+| 의미 단위(sub) | 5단계가 LLM으로 분할 | `faction-data.json` 의 `quoteChunks` 가 곧 sub (사람이 미리 끊어둠) |
 
 **핵심**: 북리커맨드처럼 LLM이 자동 분할하는 별도 단계는 없다. 대신 의미 덩어리(`quoteChunks`)는 **Step 0 에서 Claude 가 손으로 끊는다**. 이 스킬은 그 덩어리에 발화 시각을 입힌다(Step 1·2).
 
 ## 사전 조건
 
-- `public/factions/<에피소드>/data.json` 존재. 대사 인물에 `quote`(통대사) 채워짐. `quoteChunks` 는 Step 0 에서 끊는다.
+- `public/factions/<에피소드>/faction-data.json` 존재. 대사 인물에 `quote`(통대사) 채워짐. `quoteChunks` 는 Step 0 에서 끊는다.
 - `public/factions/<에피소드>/voice/*.wav` 존재(`pnpm voice:faction` 으로 합성됨).
 - wav 파일명 = 인물 자리 stem(`F01C01P01-quote.wav` 등). `vnPersonQuote` 규칙.
 
@@ -42,7 +42,7 @@ description: 팩션(세력도, factions/) 음성 후처리 — 받아쓰기(Whis
 ## 인자 규약
 
 - `--episode <폴더명>` — 예 `01-llm`. **locale 접미사(-ko/-en) 없음**(북리커맨드와 다름).
-- `--part <N>` — **편(쇼츠 편) 번호. faction-align 에서 필수**. 그 편 세력(`group.part`) 인물만 처리하고 산출을 `data.timing.p<N>.<lang>.json` 으로 분리 저장한다. 전사(`3-transcribe`)도 같은 편만 받아쓴다. **에피소드는 편으로 나뉘므로 항상 편을 지정해 그 편만 돌린다**(다른 편 파일·작업을 안 건드린다). 편 구성은 `data.json` 의 `group.part` · `subtitleByPart` 로 확인한다.
+- `--part <N>` — **편(쇼츠 편) 번호. faction-align 에서 필수**. 그 편 세력(`group.part`) 인물만 처리하고 산출을 `data.timing.p<N>.<lang>.json` 으로 분리 저장한다. 전사(`3-transcribe`)도 같은 편만 받아쓴다. **에피소드는 편으로 나뉘므로 항상 편을 지정해 그 편만 돌린다**(다른 편 파일·작업을 안 건드린다). 편 구성은 `faction-data.json` 의 `group.part` · `titleByPart` 로 확인한다.
 - `--lang ko|en` — 기본 `ko`.
 - `--only <stem-부분일치,…>` — 특정 인물만. 콤마 다중. 예: `--only F03C01P01`.
   - **변경 인물만 좁혀 실행**(필수 원칙): 사용자가 "한 인물만 바꿨다"고 알리면 `--only` 로 좁힌다.
@@ -63,7 +63,7 @@ py scripts/voice/3-transcribe.py --episode <에피소드> --faction --part <N> -
 ```
 
 - 출력: `public/factions/<에피소드>/voice/2-word-timings.json` (키 = wav stem, 기존 결과 보존+병합)
-- 텍스트는 `data.json` 의 인물 대사(원문, 발화 스타일 prefix 제외)에 매핑된다.
+- 텍스트는 `faction-data.json` 의 인물 대사(원문, 발화 스타일 prefix 제외)에 매핑된다.
 
 ## Step 2: 발화 시각 산출 (faction-align) — Claude 실행
 

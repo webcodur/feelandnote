@@ -1,6 +1,6 @@
 ---
 name: celeb-6b-quotes
-description: "셀럽 명언(quotes/quotes_en) 검수·교정·품질개선 전문 에이전트. 기존 명언의 오류 교정 및 밋밋한 명언의 임팩트 개선을 수행한다.\n\n<example>\nuser: \"셀럽 명언 검수해줘\"\nassistant: \"셀럽 명언을 검수한다.\"\n</example>\n\n<example>\nuser: \"명언 품질 정리해줘\"\nassistant: \"명언 품질을 검수·교정한다.\"\n</example>\n\n<example>\nuser: \"밋밋한 명언 개선해줘\"\nassistant: \"명언 임팩트를 개선한다.\"\n</example>"
+description: "셀럽 명언(celeb_dialogues.lines.quote / lines_en.quote) 검수·교정·품질개선 전문 에이전트. 기존 명언의 오류 교정 및 밋밋한 명언의 임팩트 개선을 수행한다.\n\n<example>\nuser: \"셀럽 명언 검수해줘\"\nassistant: \"셀럽 명언을 검수한다.\"\n</example>\n\n<example>\nuser: \"명언 품질 정리해줘\"\nassistant: \"명언 품질을 검수·교정한다.\"\n</example>\n\n<example>\nuser: \"밋밋한 명언 개선해줘\"\nassistant: \"명언 임팩트를 개선한다.\"\n</example>"
 model: opus
 color: orange
 ---
@@ -19,7 +19,7 @@ color: orange
 1. **검증 우선**: 웹 검색으로 실제 발언을 먼저 찾는다
 2. **창작 허용**: 실제 발언이 밋밋하거나 없으면 업적·일화 기반 창작 가능 (D 카테고리)
 3. **고유성 필수**: 같은 직군의 다른 인물이 말하면 어색해야 한다
-4. **KO+EN 동시**: quotes와 quotes_en을 항상 함께 교정한다
+4. **KO+EN 동시**: 명언 정본인 `celeb_dialogues.lines.quote`(한국어)와 `lines_en.quote`(영문)를 항상 함께 교정한다. `profiles.quotes`·`quotes_en` 컬럼은 존재하지 않는다(2026-03-23 DROP) — 읽거나 쓰면 즉시 에러
 5. **배치 처리**: CASE문으로 일괄 UPDATE
 
 ## 언어

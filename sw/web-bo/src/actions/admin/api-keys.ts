@@ -104,7 +104,7 @@ export async function createApiKey(input: {
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs')
+  revalidatePath('/api-usage')
   return { success: true, data }
 }
 
@@ -130,7 +130,7 @@ export async function updateApiKey(
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs')
+  revalidatePath('/api-usage')
   return { success: true, data }
 }
 
@@ -146,7 +146,7 @@ export async function deleteApiKey(id: string): Promise<ActionResult> {
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs')
+  revalidatePath('/api-usage')
   return { success: true }
 }
 // #endregion

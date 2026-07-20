@@ -10,12 +10,12 @@ export function HomeNavigationLinks() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Link
         href="/explore"
-        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
+        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5"
       >
-        <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300">
+        <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent">
           <Users size={24} strokeWidth={1.5} />
         </div>
-        <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent transition-colors">
+        <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent">
           {t("moreCelebs")}
         </h3>
         <p className="text-sm text-text-tertiary">
@@ -25,12 +25,12 @@ export function HomeNavigationLinks() {
 
       <Link
         href="/library"
-        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
+        className="group flex flex-col items-center justify-center p-6 rounded-xl bg-card border border-white/5 hover:border-accent/30 hover:bg-accent/5"
       >
-        <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent group-hover:scale-110 transition-all duration-300">
+        <div className="p-3 rounded-full bg-main mb-3 text-text-secondary group-hover:text-accent">
           <BookOpen size={24} strokeWidth={1.5} />
         </div>
-        <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent transition-colors">
+        <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent">
           {t("moreResources")}
         </h3>
         <p className="text-sm text-text-tertiary">

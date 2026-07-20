@@ -11,10 +11,13 @@ import {
   VN_LABEL_SUMMARY, VN_LABEL_CONTEXT,
   vnBookTitle, vnBookSummary, vnBookContext, vnBookQuote, vnBookAfter,
   VN_OUTRO, VN_INTERLUDE, VN_RETURN_INTRO, VN_PREV_RECAP,
-  vnShort, vnTimingKey, COMMON_VOICE_FILES,
+  vnShort, vnSolo, vnTimingKey, COMMON_VOICE_FILES,
 } from '../../../src/compositions/BookRecommend/voice-names'
+import { existsSync, readFileSync, readdirSync } from 'fs'
+import { join } from 'path'
+import { findEpisodeDir } from '../../lib/episode.js'
 import { bookFieldParts } from '../../../src/compositions/BookRecommend/field-parts'
-import { SHORTS_INDEX } from './cli.js'
+import { EP_LOCALE, EP_PERSON, SHORTS_INDEX, SOLO_BOOK_INDEX } from './cli.js'
 import { VOICE, type Role, type Voice } from './config.js'
 import { ep, commonFiles } from './state.js'
 import { ttsText, applyReplacements, type VoiceMeta } from './tts.js'
@@ -66,6 +69,88 @@ export function buildJobs(): Job[] {
   const N = episode.narrator as Record<string, unknown>
   const H = episode.host as Record<string, unknown>
 
+  // SOLO 단일 책 — 렌더 빌더와 같은 순서로 고정 마디 + 자유 마디를 음성 job으로 만든다.
+  if (SOLO_BOOK_INDEX !== null) {
+    const bookIdx0 = SOLO_BOOK_INDEX - 1
+    const book = episode.books[bookIdx0]
+    if (!book) throw new Error(`--solo ${SOLO_BOOK_INDEX}: 해당 책이 없다 (총 ${episode.books.length}권)`)
+
+    const episodeDir = findEpisodeDir(EP_PERSON)
+    const booksDir = join(episodeDir, 'books')
+    const folders = readdirSync(booksDir, { withFileTypes: true })
+      .filter(e => e.isDirectory() && /^\d+-/.test(e.name))
+      .map(e => e.name)
+      .sort()
+    const folder = folders[bookIdx0]
+    if (!folder) throw new Error(`--solo ${SOLO_BOOK_INDEX}: 책 폴더를 찾지 못했다`)
+    const soloPath = join(booksDir, folder, `solo.${EP_LOCALE}.json`)
+    if (!existsSync(soloPath)) throw new Error(`SOLO 원고 없음: ${soloPath}`)
+    const soloRaw = JSON.parse(readFileSync(soloPath, 'utf-8'))
+    const sections = (Array.isArray(soloRaw) ? soloRaw : soloRaw.sections) as Array<{
+      id: string
+      text?: string
+      voice?: 'tts' | 'actor'
+      speaker?: string
+      geminiVoice?: string
+      elevenlabsVoiceId?: string
+      voiceLock?: boolean
+    }>
+    const replace = (episode.tts as { replace?: Record<string, string> } | undefined)?.replace
+    let segIndex = 0
+    const pushSolo = (
+      id: string,
+      text: string,
+      role: Role,
+      voice: Voice,
+      extra: Partial<Job> = {},
+    ) => {
+      jobs.push({
+        file: vnSolo(bookIdx0, segIndex, id),
+        text: applyReplacements(text, replace),
+        role,
+        voice,
+        ...extra,
+      })
+      segIndex++
+    }
+
+    if (episode.narrator.serviceGreeting) {
+      pushSolo('greeting', episode.narrator.serviceGreeting, 'narrator', VOICE.soloNarrator)
+    }
+    const introText = EP_LOCALE === 'en'
+      ? `Today's book — ${book.title} by ${book.creator}, brought to you by ${episode.host.nickname_en}.`
+      : `오늘의 한 권은 ${episode.host.nickname}의 서재에서 꺼낸 ${book.title}입니다.`
+    pushSolo('intro', introText, 'narrator', VOICE.soloNarrator)
+    pushSolo('title', `${book.title} ${book.creator}`, 'narrator', VOICE.soloNarrator)
+
+    for (const section of sections) {
+      if (!section.text?.trim()) continue
+      const isActor = section.voice === 'actor'
+      if (section.speaker && section.speaker !== 'host' && !longSpeakers.some(s => s.id === section.speaker)) {
+        throw new Error(`${folder}/${section.id}: 등록되지 않은 SOLO 화자 "${section.speaker}"`)
+      }
+      const speakerFs = section.speaker && section.speaker !== 'host'
+        ? speakerFields(section.speaker)
+        : {}
+      const explicitGemini = section.geminiVoice as Voice | undefined
+      const forceGemini = !!explicitGemini || !!speakerFs.forceGemini
+      const voice = explicitGemini ?? speakerFs.voice ?? (isActor ? VOICE.celeb : VOICE.soloNarrator)
+      pushSolo(section.id, section.text, isActor ? 'celeb' : 'narrator', voice, {
+        forceGemini,
+        elevenlabsVoiceId: forceGemini
+          ? undefined
+          : (speakerFs.elevenlabsVoiceId ?? section.elevenlabsVoiceId),
+        voiceLock: !!section.voiceLock,
+      })
+    }
+
+    const outroText = EP_LOCALE === 'en'
+      ? `That was ${book.title}, one book from ${episode.host.nickname_en}'s shelf.`
+      : `이상으로 ${episode.host.nickname}의 한 권, ${book.title}이었습니다.`
+    pushSolo('outro', outroText, 'narrator', VOICE.soloNarrator)
+    return jobs.filter(j => j.text.trim().length > 0)
+  }
+
   // 단일 타겟 스코프
   // - --long: 롱폼(공통/도서/아웃트로) job만 생성, 쇼츠 job 0개
   // - --shorts <N>: 해당 쇼츠 1개 job만 생성, 롱폼 job 0개
@@ -116,11 +201,10 @@ export function buildJobs(): Job[] {
         file: VN_CELEB_INTRO, voice: VOICE.narrator, text: ttsText('celebIntro'), role: 'narrator',
         ...speakerFields(N.celebIntroSpeaker as string | undefined),
       })
-      // 셀럽 감상철학
+      // 감상철학은 AI 작성 서술이므로 실제 인물 음성이 아닌 나레이터가 읽는다.
       if (episode.host.philosophy) {
         jobs.push({
-          file: VN_PHILOSOPHY, voice: VOICE.celeb, text: ttsText('philosophy'), role: 'celeb',
-          voiceMeta: (episode.host as any).philosophyVoice as VoiceMeta | undefined,
+          file: VN_PHILOSOPHY, voice: VOICE.narrator, text: ttsText('philosophy'), role: 'narrator',
           ...speakerFields(H.philosophySpeaker as string | undefined),
         })
       }

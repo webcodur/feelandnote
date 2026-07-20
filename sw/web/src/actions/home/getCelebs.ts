@@ -6,6 +6,7 @@ import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/const
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/supabase'
@@ -123,7 +124,7 @@ async function fetchCelebsPublic(
   }
 
   // 병렬 조회: 태그, 대사, 음성, 영향력
-  const [tagResult, dialogueResult, voiceResult, influenceResult] = await Promise.all([
+  const [tagResult, dialogueResult, voiceResult, influenceRows] = await Promise.all([
     supabase.from('celeb_tag_assignments')
       .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIds),
@@ -134,10 +135,17 @@ async function fetchCelebsPublic(
       .select('id, voice_v, voice_speed')
       .in('id', celebIds)
       .eq('has_voice', true),
-    supabase.from('celeb_influence')
-      .select('celeb_id, total_score')
-      .gt('total_score', 0)
-      .order('total_score', { ascending: false }),
+    // 전체 순위를 매기는 목록이라 전수가 필요하다. 1,000행 상한에 걸리므로 나눠 받는다 —
+    // 자르면 1,001위부터가 순위 없음으로 떨어지고 influenceTotal(분모)도 함께 축소된다.
+    // total_score는 동점이 많아 정렬키로 불충분 — celeb_id를 2차 키로 둬 페이지 경계를 고정한다.
+    selectAllPages<Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>>((from, to) =>
+      supabase.from('celeb_influence')
+        .select('celeb_id, total_score')
+        .gt('total_score', 0)
+        .order('total_score', { ascending: false })
+        .order('celeb_id', { ascending: true })
+        .range(from, to)
+    ),
   ])
 
   // 태그 맵
@@ -174,14 +182,14 @@ async function fetchCelebsPublic(
 
   // 영향력 랭킹 맵
   const rankingMap: Record<string, number> = {}
-  ;((influenceResult.data ?? []) as Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>[]).forEach((item, index) => {
+  influenceRows.forEach((item, index) => {
     rankingMap[item.celeb_id] = index + 1
   })
 
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
-    voiceMap, rankingMap, influenceTotal: influenceResult.data?.length ?? 0,
+    voiceMap, rankingMap, influenceTotal: influenceRows.length,
   }
 }
 

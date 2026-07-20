@@ -135,13 +135,18 @@ export function groupSecOf(script: FactionScript): number {
   return script.groupSec ?? GROUP_SEC
 }
 
+/** 그룹샷(화보 묶음) 카드 길이(초) 추정 — script.clusterSec 우선, 없으면 미리보기 추정치 CLUSTER_SEC */
+export function clusterSecOf(script: FactionScript): number {
+  return script.clusterSec ?? CLUSTER_SEC
+}
+
 export function totalSec(script: FactionScript): number {
   const groups = (script.groups ?? []).filter(g => !g.disabled)
   const groupsSec = groups.reduce((sum, g) => {
     // 타이틀 카드(로고)는 로고(logoVid 또는 logoImg)가 있는 세력만. groupSec 오버라이드 지원
     const head = (g.logoVid || g.logoImg) ? groupSecOf(script) : 0
-    // 화보(그룹샷) 카드 — solo 생략, 1명+화보 없음 그룹 생략
-    const clusterCardsSec = groupClusterCards(g) * CLUSTER_SEC
+    // 화보(그룹샷) 카드 — solo 생략, 1명+화보 없음 그룹 생략. clusterSec 오버라이드 지원
+    const clusterCardsSec = groupClusterCards(g) * clusterSecOf(script)
     // 인물 컷은 텍스트 양에 따라 길이가 다르다 — 사람마다 합산
     const peopleSec = groupPeople(g).reduce((s, p) => s + personDurationSec(p), 0)
     return sum + head + clusterCardsSec + peopleSec

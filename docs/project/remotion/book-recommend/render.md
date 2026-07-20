@@ -1,14 +1,19 @@
 # 렌더 출력
 
+> **최종 실측 체크: 26.07.16** — `sw/remotion/package.json` 스크립트, `scripts/render/render-all.ts`, `src/Root.tsx` 컴포지션 ID, `scripts/youtube/youtube-upload.ts`, `packages/shared/src/lib/youtube-meta.ts` 대조
+
 ## 명령어
 
 ```bash
 pnpm render:all                                              # 전체 에피소드
-pnpm render:all -- --episode jensen-huang                    # 특정 에피소드
+pnpm render:all -- --episode jensen-huang                    # 특정 에피소드 (한·영 모두)
+pnpm render:all -- --episode jensen-huang --lang ko          # 한국어만
 pnpm render:all -- --episode jensen-huang --only longform    # 롱폼만
 pnpm render:all -- --episode jensen-huang --only shorts      # 쇼츠만
 pnpm render:all -- --episode jensen-huang --only solos       # 1권 모드(SOLO)만
 pnpm render:all -- --episode elon-musk --only solos --book-index 0   # 특정 책의 솔로만
+pnpm render:all -- --episode abraham-lincoln --only shorts --shorts-index 2            # 특정 슬롯 쇼츠만
+pnpm render:all -- --episode abraham-lincoln --only shorts --shorts-index 2 --srt-only # 영상 없이 SRT만 재생성
 ```
 
 ## 출력 구조
@@ -73,7 +78,7 @@ out/ElonMusk/             ← 솔로 회차 보유 인물
 
 ### PNG 무손실이 필요한 이유
 
-BookCardVisual의 배경 이미지는 `brightness(0.2) saturate(0.7)` 필터로 매우 어둡게 처리된다. JPEG 중간 프레임을 사용하면 어두운 영역의 색상 정보가 손실되어 렌더 결과가 스튜디오 프리뷰보다 훨씬 어둡게 나온다. PNG 무손실 프레임으로 이 문제를 해결한다.
+롱폼 배경 이미지(`legacy/BookCardVisualLegacy.tsx`)는 어둡게 눌러 처리된다. JPEG 중간 프레임을 사용하면 어두운 영역의 색상 정보가 손실되어 렌더 결과가 스튜디오 프리뷰보다 훨씬 어둡게 나온다. PNG 무손실 프레임으로 이 문제를 해결한다.
 
 ```json
 // package.json — 기본 render 스크립트
@@ -86,11 +91,16 @@ Root.tsx에서 등록하는 컴포지션 ID:
 
 | 타입 | ID 패턴 | 해상도 | 비고 |
 |------|---------|--------|------|
-| 롱폼 영상 | `{Label}-{Lang}-LH-VID` | 1920×1080 | |
+| 롱폼 영상 | `{Label}-{Lang}-L-VID` | 1920×1080 | **ID는 `L-VID`, 출력 파일명만 `LH-VID.mp4`** |
 | 롱폼 썸네일 | `{Label}-{Lang}-LH-THUMB` | 1280×720 | 1프레임 |
-| 쇼츠 영상 | `{Label}-{Lang}-S{N}-VID` | 1080×1920 | N=1-based |
-| 쇼츠 썸네일 | `{Label}-{Lang}-S{N}-THUMB` | 1080×1920 | 1프레임 |
+| 쇼츠 영상 | `{Label}-{Lang}-S{slot}-VID` | 1080×1920 | slot = 쇼츠 고정 출력 번호 (아래 참조) |
 | 1권 모드 영상 | `{Label}-{Lang}-B{NN}-VID` | 1920×1080 | NN=책번호 2자리 (1-based) |
+
+- 롱폼 영상 ID와 출력 파일명이 어긋난다. 컴포지션은 `...-L-VID`인데 mp4는 `LH-VID.mp4`로 떨어진다. Studio에서 컴포지션을 찾을 때 `LH-VID`로 검색하면 썸네일만 나온다.
+- **쇼츠 썸네일 컴포지션은 없다.** 쇼츠는 영상만 출고한다.
+- **파트 접미사**: 한 인물이 2편 이상으로 나뉘면 Lang 뒤에 `-P{N}`이 붙는다 (1편은 접미사 없음). 예: `AbrahamLincoln-KO-P2-L-VID`.
+
+`slot`은 각 `shorts.{locale}.json`에 박힌 고정 번호다. 없으면 `max+폴더순`으로 부여되며, slot이 하나도 없는 에피소드만 폴더순 1..N으로 폴백한다. 배열 인덱스와 다를 수 있으므로 렌더 전 슬롯 매핑을 확인한다.
 
 EN 에피소드(`-en` 접미사)는 baseName에서 `-en`을 제거한 후 PascalCase로 변환하여 KO와 같은 Label을 공유한다.
 
@@ -129,12 +139,12 @@ variant 키 규약:
 render-all.ts (에피소드 slug)
   → toCompId("jensen-huang")    = { label: "JensenHuang", lang: "KO" }
   → toCompId("jensen-huang-en") = { label: "JensenHuang", lang: "EN" }
-  → out/JensenHuang/KO/LH-VID.mp4, out/JensenHuang/EN/LH-VID.mp4
+  → 컴포지션 JensenHuang-KO-L-VID → out/JensenHuang/KO/LH-VID.mp4
+  → 컴포지션 JensenHuang-EN-L-VID → out/JensenHuang/EN/LH-VID.mp4
 
 youtube-upload.ts (에피소드 slug)
-  → toCompLabel("jensen-huang") = "JensenHuang"
   → out/JensenHuang/KO/, out/JensenHuang/EN/ 에서 변형 스캔
-    (롱폼 LH-VID + 쇼츠 S{N}-VID + 솔로 B{NN}-VID)
+    (롱폼 LH-VID + 쇼츠 S{slot}-VID + 솔로 B{NN}-VID)
   → youtube-meta.json 있으면 override 적용
   → Google YouTube API 업로드
 ```
@@ -158,4 +168,4 @@ pnpm youtube:upload -- --episode elon-musk --type solo
 pnpm youtube:upload -- --episode elon-musk --type solo --book-index 0 --dry
 ```
 
-`patch-meta`·`db-sync`는 현재 솔로 미지원 — 음성 파이프라인 통합 이후 정비.
+`patch-meta`(`pnpm youtube:patch-meta`)는 현재 솔로 미지원 — 음성 파이프라인 통합 이후 정비.

@@ -149,13 +149,13 @@ export function FactionGroupEditor({
     >
       {/* 헤더 — 줄 전체가 세력 색 띠 + 어코디언 토글(클릭하면 펼치기/접기). 입력·버튼은 전파 차단 */}
       <div
-        className="flex min-h-24 cursor-pointer items-stretch gap-2 rounded-t-lg p-3 hover:brightness-[1.15] hover:shadow-md transition-all z-10 relative"
+        className="flex min-h-24 cursor-pointer select-none items-stretch gap-2 rounded-t-lg p-3 hover:brightness-[1.15] hover:shadow-md transition-all z-10 relative"
         style={{ backgroundColor: color }}
         onClick={() => setExpanded(v => !v)}
         title={expanded ? '클릭하면 접기' : '클릭하면 펼치기'}
       >
-        {/* 미리보기 — 로고·로고아트·화보 전부 헤더 세로폭에 꽉 차게. 영상/이미지는 확장자 배지로 구분 */}
-        <div className={`flex min-w-0 flex-1 items-stretch gap-1.5 overflow-hidden py-1 ${disabled ? 'opacity-40 saturate-50' : ''}`}>
+        {/* 미리보기 — 로고·로고아트·화보 전부 헤더 세로폭에 꽉 차게. 넘치면 가로 스크롤(바는 숨김) */}
+        <div className={`flex min-w-0 flex-1 items-stretch gap-1.5 overflow-x-auto scrollbar-hide py-1 ${disabled ? 'opacity-40 saturate-50' : ''}`}>
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); setLogoOpen(true) }}
@@ -211,25 +211,23 @@ export function FactionGroupEditor({
         <div className={`flex shrink-0 flex-col gap-1 ${disabled ? 'opacity-40 saturate-50' : ''}`}>
           {editLang !== 'en' && (
             <label className="flex items-start gap-2" onClick={e => e.stopPropagation()}>
-              <span className="mt-1.5 w-20 shrink-0 whitespace-nowrap text-right text-xs" style={{ color: onColorDim }}>세력 명칭 -</span>
               <textarea
                 rows={2}
                 placeholder={'첫 줄=명칭, 둘째 줄부터=설명(세력색)'}
                 value={group.name}
                 onChange={e => onChange({ ...group, name: e.target.value })}
-                className="w-[22rem] resize-y rounded-md border border-border bg-bg-card px-2 py-1 text-sm font-semibold focus:border-accent focus:outline-none"
+                className="w-[18rem] resize-y rounded-md border border-border bg-bg-card px-2 py-1 text-sm font-semibold focus:border-accent focus:outline-none"
               />
             </label>
           )}
           {editLang !== 'ko' && (
             <label className="flex items-start gap-2" onClick={e => e.stopPropagation()}>
-              <span className="mt-1.5 w-20 shrink-0 whitespace-nowrap text-right text-xs" style={{ color: onColorDim }}>세력 명칭 (영문) -</span>
               <textarea
                 rows={2}
                 placeholder={'첫 줄=명칭, 둘째 줄부터=설명'}
                 value={group.nameEn ?? ''}
                 onChange={e => onChange({ ...group, nameEn: e.target.value || undefined })}
-                className="w-[22rem] resize-y rounded-md border border-border/60 bg-bg-card/50 px-2 py-1 text-xs text-text-secondary focus:border-accent focus:outline-none"
+                className="w-[18rem] resize-y rounded-md border border-border/60 bg-bg-card/50 px-2 py-1 text-xs text-text-secondary focus:border-accent focus:outline-none"
               />
             </label>
           )}

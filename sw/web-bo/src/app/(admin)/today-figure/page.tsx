@@ -91,15 +91,21 @@ export default async function TodayFigurePage() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    {item.celeb ? (
+                    {!item.celeb ? (
+                      <span className="text-sm text-text-secondary">-</span>
+                    ) : item.celeb.slug ? (
+                      // 상세 주소는 slug로 잡힌다(/celebs/[slug]). 예전엔 id를 끼워 넣어 전부 404였다.
                       <Link
-                        href={`/celebs/${item.celeb.id}`}
+                        href={`/celebs/${item.celeb.slug}`}
                         className="text-sm text-accent hover:underline font-medium"
                       >
                         {item.celeb.nickname || '(이름 없음)'}
                       </Link>
                     ) : (
-                      <span className="text-sm text-text-secondary">-</span>
+                      // slug가 없는 인물은 갈 곳이 없으므로 링크를 걸지 않는다.
+                      <span className="text-sm text-text-primary font-medium">
+                        {item.celeb.nickname || '(이름 없음)'}
+                      </span>
                     )}
                   </td>
                   <td className="px-4 py-3">

@@ -2,9 +2,11 @@ import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } fro
 import { existsSync, readFileSync, readdirSync, type Dirent } from 'fs'
 import { spawn, type ChildProcess } from 'child_process'
 import path from 'path'
-import { isFactionSeries } from './series-registry'
+import { seriesDataModel, type SeriesDataModel } from './series-registry'
 import { listFactionEpisodes, loadFactionEpisode, saveFactionEpisode } from './faction-utils'
 import type { FactionScript } from './faction-types'
+import { listDiscourseEpisodes, loadDiscourseEpisode, saveDiscourseEpisode } from './discourse-utils'
+import type { DiscourseScript } from './discourse-types'
 
 const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
 const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
@@ -12,13 +14,17 @@ const COMMON_VOICE_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'voice')
 export const VOICE_ARCHIVE = path.join(REMOTION_ROOT, 'voice-archive')
 
 /**
- * 작업 완료된 인물 보관소 — D:\done_people
+ * 작업 완료된 인물 보관소 — D:\remotion_done
  *
  * 사용자가 작업을 끝낸 셀럽 폴더를 통째로 이 경로로 옮긴다. 표준 episodes 디렉토리와
- * 동일한 구조({person}/{ko,en}.json …)이며, findEpisodeDir/listEpisodes 가 이 경로도
+ * 동일한 구조이며 신·구 레이아웃이 섞여 있다: 신구조 {person}/meta.{ko,en}.json +
+ * books/, 옛 구조 {person}/{ko,en}.json. findEpisodeDir/listEpisodes 가 이 경로도
  * 폴백으로 스캔한다. 메타 푸시·로드는 정상 동작하고, status는 'done' 으로 노출된다.
+ *
+ * 같은 폴더에 렌더 산출물이 PascalCase 폴더(AlexKarp/{KO,EN}/*.mp4)로 함께 들어 있다.
+ * 인물 JSON 이 없어 listPersonEpisodes 가 빈 배열을 돌려주므로 목록에서 자연히 빠진다.
  */
-const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/done_people'
+const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/remotion_done'
 
 /** export — API 라우트에서 직접 사용 */
 export { EPISODES_DIR, COMMON_VOICE_DIR, ARCHIVED_EPISODES_DIR }
@@ -118,7 +124,7 @@ export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir
     const dir = path.join(EPISODES_DIR, s, person)
     if (existsSync(dir)) return { status: s, dir }
   }
-  // 4. 아카이브 폴백 — D:/done_people/{person}. status 는 'done' 으로 통일.
+  // 4. 아카이브 폴백 — D:/remotion_done/{person}. status 는 'done' 으로 통일.
   const archivedDir = path.join(ARCHIVED_EPISODES_DIR, person)
   if (existsSync(archivedDir)) return { status: 'done', dir: archivedDir }
   return null
@@ -163,6 +169,39 @@ function buildEpisodeId(personDir: string, filename: string): string {
 
 export type EpisodeListItem = { id: string; status: EpisodeStatus; group: string }
 
+/* ── 시리즈별 에피소드 IO 등록표 ────────────────────────────────────────────
+ * 책 기반(book)이 아닌 시리즈는 각자 자기 디렉토리(factions/·discourses/)에 에피소드 한 편이
+ * 파일 하나로 들어 있어 IO가 단순하다. 아래 표에 항목을 얹으면 목록·로드·저장이 함께 붙는다.
+ * 표에 없는 계열(book)만 episodes/ 재귀 스캔·분할 저장 경로를 탄다.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type SeriesEpisodeIO = {
+  list: () => Promise<{ id: string; status: EpisodeStatus }[]>
+  load: (name: string) => Promise<any>
+  save: (name: string, data: unknown) => Promise<void>
+}
+
+const SERIES_EPISODE_IO: Partial<Record<SeriesDataModel, SeriesEpisodeIO>> = {
+  faction: {
+    list: async () => (await listFactionEpisodes()).map(f => ({ id: f.id, status: f.status as EpisodeStatus })),
+    load: loadFactionEpisode,
+    save: (name, data) => saveFactionEpisode(name, data as FactionScript),
+  },
+  discourse: {
+    list: async () => (await listDiscourseEpisodes()).map(d => ({ id: d.id, status: d.status as EpisodeStatus })),
+    load: loadDiscourseEpisode,
+    save: (name, data) => saveDiscourseEpisode(name, data as DiscourseScript),
+  },
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+/** 시리즈 전용 에피소드 IO — 없으면(=책 기반) undefined */
+function episodeIO(series?: string): SeriesEpisodeIO | undefined {
+  const model = seriesDataModel(series ?? '')
+  return model ? SERIES_EPISODE_IO[model] : undefined
+}
+
 /** 한 인물 폴더에서 ko / en 에피소드 ID 목록을 추출. 신구조(meta.{locale}.json) · 옛 구조(ko.json) 둘 다 인식. */
 async function listPersonEpisodes(personName: string, personDir: string): Promise<string[]> {
   let files: string[]
@@ -183,11 +222,9 @@ async function listPersonEpisodes(personName: string, personDir: string): Promis
 }
 
 export async function listEpisodes(series?: string): Promise<EpisodeListItem[]> {
-  // 세력도: factions/ 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
-  if (isFactionSeries(series ?? '')) {
-    const fx = await listFactionEpisodes()
-    return fx.map(f => ({ id: f.id, status: f.status as EpisodeStatus, group: '' }))
-  }
+  // 세력도·담화: 자기 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
+  const io = episodeIO(series)
+  if (io) return (await io.list()).map(e => ({ ...e, group: '' }))
 
   const items: EpisodeListItem[] = []
   const seen = new Set<string>()
@@ -332,10 +369,9 @@ async function loadExternalShorts(episodeDir: string, locale: string): Promise<a
 }
 
 export async function loadEpisode(series: string, name: string) {
-  if (isFactionSeries(series)) {
-    const { person } = parseEpisodeId(name)
-    return loadFactionEpisode(person)
-  }
+  const io = episodeIO(series)
+  if (io) return io.load(parseEpisodeId(name).person)
+
   const { person, locale } = parseEpisodeId(name)
   const found = findEpisodeDir(person)
   const episodeDir = found ? found.dir : path.join(EPISODES_DIR, 'todo', person)
@@ -433,9 +469,9 @@ export async function saveShorts(_series: string, name: string, shortsArr: any[]
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function saveEpisode(series: string, name: string, data: unknown, scope: SaveScope = 'all', bookIndices?: number[]) {
-  if (isFactionSeries(series)) {
-    const { person } = parseEpisodeId(name)
-    await saveFactionEpisode(person, data as FactionScript)
+  const io = episodeIO(series)
+  if (io) {
+    await io.save(parseEpisodeId(name).person, data)
     return
   }
   // 신구조: meta + 책별 + 쇼츠별 파일을 한꺼번에 분해 저장. 외부 shorts/{locale}-N.json 폴백 경로는 사용 안 함.

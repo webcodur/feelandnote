@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { saveFactionImage, safeFilename } from '@/lib/faction-utils'
 
 /**
@@ -8,7 +8,7 @@ import { saveFactionImage, safeFilename } from '@/lib/faction-utils'
  */
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
-  if (!isValidSeries(series) || !isFactionSeries(series)) {
+  if (!isSeriesModel(series, 'faction')) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   }
   const { ep, url, slug } = await req.json()

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export const metadata: Metadata = {
   title: '점수 관리',
@@ -35,11 +36,15 @@ export default async function ScoresPage({
   const total = tab === 'ranking' ? (rankingCount || 0) : (logCount || 0)
   const totalPages = Math.ceil(total / perPage)
 
-  // 통계
-  const { data: statsData } = await supabase.from('user_scores').select('total_score')
-  const totalScoreSum = statsData ? statsData.reduce((sum, s) => sum + s.total_score, 0) : 0
-  const avgScore = statsData?.length ? Math.round(totalScoreSum / statsData.length) : 0
-  const maxScore = statsData ? Math.max(...statsData.map((s) => s.total_score), 0) : 0
+  // 통계: 합계·평균·최대는 전체 사용자를 대상으로 해야 한다. 정렬·페이징 없이 조회하면
+  // 1,000행에서 잘려 임의의 일부만 집계되고, 볼 때마다 값이 달라진다. 고유키(user_id)로
+  // 정렬해 전량을 받아 결정적으로 집계한다.
+  const statsData = await selectAllPages<{ total_score: number | null }>((from, to) =>
+    supabase.from('user_scores').select('total_score').order('user_id').range(from, to)
+  )
+  const totalScoreSum = statsData.reduce((sum, s) => sum + (s.total_score ?? 0), 0)
+  const avgScore = statsData.length ? Math.round(totalScoreSum / statsData.length) : 0
+  const maxScore = statsData.length ? Math.max(...statsData.map((s) => s.total_score ?? 0), 0) : 0
 
   const tabOptions = [
     { value: 'ranking', label: '랭킹', count: rankingCount || 0 },

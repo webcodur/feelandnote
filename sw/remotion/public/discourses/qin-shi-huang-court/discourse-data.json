@@ -1,0 +1,34 @@
+{
+  "title": "진시황과 세 사람\n짐은 만세를 명했다",
+  "titleEn": "Qin Shi Huang and Three Men\nI Decreed Ten Thousand Generations",
+  "topic": "제국은 무엇으로 무너졌는가",
+  "topicEn": "What Brought the Empire Down",
+  "logline": "넷 다, 자기가 남긴 말이 자기를 겨눈다.",
+  "loglineEn": "All four are cornered by their own words.",
+  "notice": "사기에 남은 발언과 사상을 바탕으로 재구성한 가상 담화입니다. 이 대화는 실제로 열린 적이 없습니다. 큰따옴표로 표시한 문장만 사료에 실제로 있는 말이며 출처를 함께 밝힙니다.",
+  "noticeEn": "A fictional exchange reconstructed from the Records of the Grand Historian. This conversation never took place. Only quoted lines appear in the sources, shown with citations.",
+  "titleByPart": {
+    "1": "진시황\n저를 죽인 것은 아버지의 이름이었습니다"
+  },
+  "loglineByPart": {
+    "1": "황제가 남긴 글은 아홉 자였다."
+  },
+  "holdMotion": "zoomin",
+  "musicDuckVolume": 0.35,
+  "longformLayout": [
+    { "turn": 10 },
+    {
+      "era": {
+        "label": "상채의 쥐\n곳간에 오른 자는 두려워하지 않았다",
+        "labelEn": "The Rat of Shangcai\nThe one in the granary feared nothing"
+      }
+    },
+    { "turn": 21 },
+    {
+      "era": {
+        "label": "땅에서 나온 다른 죽간\n이사가 청했고 황제가 가하다 했다고 적혀 있다",
+        "labelEn": "Another Text Unearthed\nIt records that Li Si asked, and the emperor said: permitted"
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # 롱폼 제작
 
+> **최종 실측 체크: 26.07.16** — 부분 대조: 부재 컬럼(`profiles.quotes`) 서술만 실 DB로 확인해 교정, 문서 전체는 미대조
+
 ## 섹션 순서
 
 ```
@@ -14,7 +16,7 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 ### 섹션 상세
 
 - **ServiceGreeting**: 고정 인사 — "안녕하세요, feelandnote 서재 탐방 시간입니다." (ko) / "Welcome to the Feelandnote Library Tour." (en). 모든 에피소드 동일 텍스트, 공용 오디오(`voice/common/A1-service-greeting.wav`).
-- **FeaturedQuote**: 셀럽 대표 명언. 아바타 160px + 인용문 중앙 배치. **DB 등록 명언(`celeb_dialogues.lines.quote` 또는 `profiles.quotes`)을 우선 사용한다.**
+- **FeaturedQuote**: 셀럽 대표 명언. 아바타 160px + 인용문 중앙 배치. **DB 등록 명언(`celeb_dialogues.lines.quote` / 영문 `celeb_dialogues.lines_en.quote`)을 우선 사용한다.** 명언은 이 두 곳에만 있다 — `profiles.quotes`·`quotes_en` 컬럼은 존재하지 않는다.
 - **HostIntro**: 좌측 아바타 + 우측 셀럽 소개(Phase 1) → 감상철학(Phase 2) 크로스페이드. 좌상단 라벨 "서재 탐방".
 - **Book Gap**: 세로 묶음 — 소형 표지(100×150) + 번호(`N/M`) + 제목. 중앙 배치.
 - **Outro → Logo**: 나레이션(outroFrames)과 로고(LOGO_FRAMES=90)가 순차 재생. 치임 SFX는 로고 페이즈에서만.
@@ -24,15 +26,15 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 인용문(`quotePairs[].quote`)·후속맥락(`quotePairs[].after`)은 선택. `quotePairs` 배열로 인용문+후속맥락 쌍을 여러 개 나열할 수 있다. category가 BOOK이 아닌 항목(VIDEO, GAME, MUSIC)은 포스터 우상단에 아이콘 뱃지, 타이틀 영역에 카테고리명이 표시된다 (BOOK은 표시 없음).
 
 ```
-나레이터(Kore): 제목+저자+년도 (팩트만)
+해설(Charon): 제목+저자+년도 (팩트만)
            → TITLE_SUMMARY_GAP →
-요약맨(Charon): 핵심 요약
+해설(Charon): 핵심 요약
            → SUMMARY_CONTEXT_GAP →
-나레이터(Kore): 감상 배경 (3인칭, DB review 기반)
+해설(Charon): 감상 배경 (3인칭, DB review 기반)
            → CONTEXT_QUOTE_GAP → (quotePairs가 있을 때만)
-셀럽(Puck):     인용문 (검증된 발언만) — quotePairs[0].quote
+인물(ELE):      인용문 (검증된 발언만) — quotePairs[0].quote
            → QUOTE_AFTER_GAP → (after가 있을 때만)
-나레이터(Kore): 후속 맥락 — quotePairs[0].after
+해설(Charon): 후속 맥락 — quotePairs[0].after
            → (추가 quotePairs가 있으면 반복)
 ```
 
@@ -42,11 +44,10 @@ Brand(2.5s) → ServiceGreeting(고정 인사 ~2s) → FeaturedQuote(대표명�
 
 | 역할 | 담당 | 내용 |
 |------|------|------|
-| 나레이터 | Kore (여성) | 팩트(제목/저자/년도) + 감상 배경(3인칭) + 후속맥락 |
-| 요약맨 | Charon (남성) | 책 핵심 요약 |
-| 셀럽 | Puck (남성) | 직접 인용문만 (없으면 생략) |
+| 해설 | Charon (Gemini) | 팩트(제목/저자/년도) + 책 핵심 요약 + 감상 배경(3인칭) + 후속맥락 |
+| 실제 인물 | 인물별 ElevenLabs | 검증된 직접 인용문만 (없으면 생략) |
 
-나레이터는 설명하지 않는다. 요약은 요약맨의 역할. 셀럽 음성은 실제 발언 인용에만 사용.
+Charon은 모든 설명과 요약을 맡는다. 인물 음성은 검증된 실제 발언에만 사용하며 Gemini로 대체하지 않는다.
 
 ### 말투·텍스트 규칙
 
@@ -251,4 +252,3 @@ sw/remotion/public/images/{에피소드명}/
 
 - **summary 이미지**: 책의 핵심 주제/내용을 시각화. 예) 아이네이스 → 고대 로마 함선, 지중해 항해
 - **context 이미지**: 셀럽이 그 책과 만난 맥락을 시각화. 예) 아이네이스 context → 고등학교 교실, 라틴어 교과서
-

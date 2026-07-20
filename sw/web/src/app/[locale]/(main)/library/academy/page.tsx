@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/scriptures/academy/page.tsx
+  파일명: /app/(main)/library/academy/page.tsx
   기능: 지혜의 서가 - 학당 카테고리 허브
   책임: 카테고리 3종(도서/영상/음악) 카드를 표시하고 각 레슨 페이지로 연결한다.
 */ // ------------------------------

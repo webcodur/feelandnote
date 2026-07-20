@@ -43,11 +43,13 @@ export function SoloSectionView({
 }) {
   const {
     sections, loading, saving, dirty, speakingId, expandedKey, activeIdx, copied, anchorPick,
+    jsonOpen, jsonText, jsonError, jsonApplied,
     folderImages, imageBaseUrl, subFolders, fileFolders, duplicates,
     refreshFolderImages, moveFileToFolder, createFolder, renameFolder, deleteFolder,
     ops, sectionKeys, expandedText, usedFiles, voiceOverride,
     setSections, setExpandedKey, setActiveIdx, setAnchorPick,
     speak, patch, confirmAnchor, add, remove, move, save, copyAll,
+    openJsonPanel, closeJsonPanel, setJsonText, applyJson, copyJson,
   } = useSoloSections({ series, name, bookIndex, episode, sectionMap, activeEngine })
 
   if (loading) {
@@ -56,18 +58,73 @@ export function SoloSectionView({
 
   return (
     <div className="relative space-y-3">
-      {/* 헤더 — 안내 + 내용 복사 (저장은 우하단 플로팅 버튼) */}
-      <div className="rounded border border-border/70 bg-bg-card px-3 py-2 flex items-center justify-between gap-2">
-        <div className="text-[12px] text-text-secondary">
-          1권 모드 자유 구성 · <span className="text-text-primary font-bold">{sections.length}개 섹션</span>
-          <span className="ml-2 opacity-70">인사·책 표지·마무리는 자동으로 붙습니다.</span>
+      {/* 헤더 — 안내 + 내용 복사·JSON 입출력 (저장은 우하단 플로팅 버튼) */}
+      <div className="rounded border border-border/70 bg-bg-card px-3 py-2 space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="text-[12px] text-text-secondary">
+            1권 모드 자유 구성 · <span className="text-text-primary font-bold">{sections.length}개 섹션</span>
+            <span className="ml-2 opacity-70">인사·책 표지·마무리는 자동으로 붙습니다.</span>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <button
+              onClick={copyAll}
+              className="px-2.5 py-1 text-sm font-bold text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40"
+              title="섹션 본문을 평문으로 복사"
+            >
+              {copied ? '복사됨' : '내용 복사'}
+            </button>
+            <button
+              onClick={jsonOpen ? closeJsonPanel : openJsonPanel}
+              className="px-2.5 py-1 text-sm font-bold text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40"
+              title="외부 JSON 붙여넣기 또는 현재 섹션 JSON 편집"
+            >
+              {jsonOpen ? 'JSON 닫기' : 'JSON 넣기'}
+            </button>
+          </div>
         </div>
-        <button
-          onClick={copyAll}
-          className="shrink-0 px-2.5 py-1 text-sm font-bold text-text-secondary hover:text-accent border border-border/40 rounded hover:border-accent/40"
-        >
-          {copied ? '복사됨' : '내용 복사'}
-        </button>
+
+        {jsonOpen && (
+          <div className="space-y-1.5 border-t border-border/50 pt-2">
+            <div className="text-[11px] text-text-secondary">
+              외부 JSON을 붙여넣은 뒤 「적용」하면 섹션이 교체됩니다. 디스크 저장은 「솔로 저장」.
+              <span className="ml-1 opacity-70">형식: {'{ "sections": [...] }'} · 배열 · 문자열 배열</span>
+            </div>
+            <textarea
+              value={jsonText}
+              onChange={e => setJsonText(e.target.value)}
+              spellCheck={false}
+              className="w-full h-48 bg-bg-main border border-border rounded px-2 py-1.5 font-mono text-[11px] font-bold resize-y focus:outline-none focus:border-accent text-text-primary"
+              placeholder='{ "sections": [ { "id": "s1", "text": "..." } ] }'
+            />
+            {jsonError && (
+              <div className="text-[11px] font-bold text-red-400">{jsonError}</div>
+            )}
+            {jsonApplied && !jsonError && (
+              <div className="text-[11px] font-bold text-emerald-500">적용됨 · 우하단 「솔로 저장」으로 확정</div>
+            )}
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                onClick={applyJson}
+                className="px-2.5 py-1 rounded text-[12px] font-bold bg-emerald-600 text-white hover:bg-emerald-500"
+              >
+                적용
+              </button>
+              <button
+                onClick={copyJson}
+                className="px-2.5 py-1 rounded text-[12px] font-bold text-text-secondary border border-border/60 hover:border-accent/40 hover:text-accent"
+                title="현재 텍스트 영역의 JSON을 클립보드에 복사"
+              >
+                JSON 복사
+              </button>
+              <button
+                onClick={closeJsonPanel}
+                className="px-2.5 py-1 rounded text-[12px] font-bold text-text-secondary border border-border/60 hover:border-accent/40 hover:text-accent"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex gap-0">

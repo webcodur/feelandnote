@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 import { Users, Library, FileText, TrendingUp, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
+import { CONTENT_TYPE_CONFIG, CONTENT_TYPES, type ContentType } from '@/constants/contentTypes'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     { count: recordCount },
     { count: userContentCount },
     { data: recentUsers },
-    { data: contentTypeStats },
+    typeCounts,
     { data: recentActivities },
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
@@ -27,15 +27,23 @@ export default async function DashboardPage() {
     supabase.from('records').select('*', { count: 'exact', head: true }),
     supabase.from('user_contents').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('id, nickname, email, avatar_url, created_at').order('created_at', { ascending: false }).limit(5),
-    supabase.from('contents').select('type'),
+    // 유형별 수는 DB에서 센다. 행을 끌어와 세면 PostgREST 1,000행 상한에 걸려
+    // 위 '총 콘텐츠'(head 카운트라 정확)와 합이 어긋난다(실측 7,568행).
+    Promise.all(
+      CONTENT_TYPES.map(async type => {
+        const { count } = await supabase
+          .from('contents')
+          .select('*', { count: 'exact', head: true })
+          .eq('type', type)
+        return [type, count ?? 0] as const
+      })
+    ),
     supabase.from('activity_logs').select('*, profiles:user_id (nickname, avatar_url)').order('created_at', { ascending: false }).limit(10),
   ])
 
-  // 콘텐츠 유형별 통계 계산
-  const typeCountMap = (contentTypeStats || []).reduce((acc, item) => {
-    acc[item.type] = (acc[item.type] || 0) + 1
-    return acc
-  }, {} as Record<string, number>)
+  // 콘텐츠 유형별 통계
+  const typeCountMap = Object.fromEntries(typeCounts) as Record<string, number>
+
 
   const stats = [
     {

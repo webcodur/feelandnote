@@ -9,6 +9,7 @@ import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 import type { Tables } from "@/types/supabase";
@@ -271,17 +272,22 @@ const getCachedFallbackEligible = unstable_cache(
 
     // 자격 있는 셀럽 목록: persona 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
     // 여정·소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
-    const { data: allCelebs } = await supabase
-      .from("profiles")
-      .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
-      .eq("profile_type", "CELEB")
-      .eq("status", "active")
-      .not("cultural_journey", "is", null)
-      .neq("cultural_journey", "")
-      .not("death_date", "is", null);
+    // 1,000행 상한에 걸리므로 나눠 받는다(실측 1,148행 — 자르면 후보 148명이 조용히 탈락).
+    const celebRows = await selectAllPages<FallbackCelebRow>((from, to) =>
+      supabase
+        .from("profiles")
+        .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
+        .eq("profile_type", "CELEB")
+        .eq("status", "active")
+        .not("cultural_journey", "is", null)
+        .neq("cultural_journey", "")
+        .not("death_date", "is", null)
+        .order("id")
+        .range(from, to)
+        .overrideTypes<FallbackCelebRow[], { merge: false }>()
+    );
 
-    if (!allCelebs || allCelebs.length === 0) return [];
-    const celebRows: FallbackCelebRow[] = allCelebs;
+    if (celebRows.length === 0) return [];
 
     // 퍼블릭 도메인 필터 (1920년 이전 사망)
     const publicDomain = celebRows.filter((c) => {

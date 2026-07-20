@@ -9,7 +9,7 @@ import { createHash } from 'crypto'
 import { readFile, writeFile } from 'fs/promises'
 import path from 'path'
 import { COMMON_VOICE_FILES } from '../../../src/compositions/BookRecommend/voice-names'
-import { OUT_DIR, COMMON_DIR } from './cli.js'
+import { OUT_DIR, COMMON_DIR, BASE_DIR } from './cli.js'
 import type { Job } from './jobs.js'
 
 export type Manifest = Record<string, string> // file → sha256(text+voice)
@@ -52,7 +52,9 @@ export function isCommonFile(file: string): boolean {
 
 /** job의 출력 디렉토리 — 공용 파일은 common/, 나머지는 episode/engine/ */
 export function jobOutDir(job: Job): string {
-  return isCommonFile(job.file) ? COMMON_DIR : OUT_DIR
+  if (isCommonFile(job.file)) return COMMON_DIR
+  if (job.elevenlabsVoiceId && !job.forceGemini) return path.join(BASE_DIR, 'elevenlabs')
+  return OUT_DIR
 }
 
 /** job의 매니페스트 디렉토리 (= 출력 디렉토리) */

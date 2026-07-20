@@ -21,8 +21,12 @@ export function Studio() {
     const response = await fetch('/api/jobs', { cache: 'no-store' })
     if (!response.ok) return
     const next = await response.json() as AudioJob[]
+    const params = new URLSearchParams(window.location.search)
+    const requestedJob = params.get('job')
+    const requestedMode = params.get('mode') as WorkflowMode | null
     setJobs(next)
-    setSelectedId((current) => current || next[0]?.id || '')
+    setSelectedId((current) => current || next.find((job) => job.id === requestedJob)?.id || next[0]?.id || '')
+    if (requestedMode && ['select', 'edit', 'train', 'create'].includes(requestedMode)) setMode(requestedMode)
   }, [])
 
   useEffect(() => {

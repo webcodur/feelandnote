@@ -1,18 +1,22 @@
 # 사료 검증 규칙
 
 에피소드 텍스트에 등장하는 역사적 사실, 인용문, 일화의 진위를 검증하는 기준.
-책 한권 당 서브에이전트 하나씩 붙여서 검토할 것
+책별로 검증 대상을 나누되, 검토 인원이나 도구 수를 할당량처럼 강제하지 않는다. 서로 독립된 주장은 검색을 병렬로 진행할 수 있다.
 
 ---
 
 ## 에피소드 파일 경로
 
 ```
-sw/remotion/public/episodes/{stage}/{person}/{locale}.json
+sw/remotion/public/episodes/{person}/meta.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/book.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/solo.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/shorts.{locale}.json
 ```
 
-- `{stage}`: `pre-todo` | `todo` | `live` | `done`
 - `{locale}`: `ko` | `en`
+
+먼저 Markdown 편집 원고에서 검증할 문장을 표시하고, 결과가 확정된 뒤 제작 데이터에 반영한다.
 
 ---
 

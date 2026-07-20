@@ -1,5 +1,25 @@
 # 07. 에셋 명세
 
+> **이 문서는 목표 명세다. 실제 제작된 에셋은 아래 「현재 보유 에셋」뿐이다.**
+> 픽셀 아트 노선은 착수되지 않았다. 현재 화면은 DOM/Tailwind + 실사 배경 이미지 + DB 초상(`avatar_url`)으로 굴러간다.
+
+## 현재 보유 에셋 (2026-07-16 실측)
+
+| 항목 | 경로 | 수량 | 비고 |
+|------|------|------|------|
+| 거점 배경 | `public/images/game/suikoden/territories/*.png` | 19 | **22개 거점 중 19개.** 뉴욕·테노치티틀란·시드니 없음 → 404 |
+| 지역 배경 | `public/images/game/suikoden/regions/*.png` | 8 | **10개 지역 중 8개.** 아메리카·오세아니아 없음. 현재 미사용 |
+| 게임 카드 | `public/images/games/suikoden-card.webp` | 1 | 쉼터 화면 진입 카드 |
+| BGM | `public/assets/suikoden/suikoden-main--name-of-gangho.mp3` | 1 | 「강호의 이름으로」 — 로비·결과 |
+| BGM | `public/assets/suikoden/suikoden-ingame--words-of-wind.mp3` | 1 | 「바람이 전한 말」 — 인게임 |
+| 효과음 | — | 0 | `sfxFiles`가 빈 배열이다 |
+| 캐릭터 초상 | DB `avatar_url` | 동적 | 도트 아님. 없으면 병과 아이콘 폴백(`assetManager.getCharacterFallback`) |
+| 병과·자원·전술 아이콘 | 코드 내 이모지 | — | 이미지 파일 아님 |
+
+> 아래 명세는 **병과 6종** 기준으로 쓰였으나 실제 병과는 **7종**이다(성인 누락). 착수 시 수량을 다시 잡아야 한다.
+
+---
+
 ## 개요
 
 모든 비주얼 에셋은 **픽셀 아트(도트)** 스타일로 통일한다.

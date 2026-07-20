@@ -27,9 +27,9 @@ description: 팩션(factions/) 영상 인물을 스포트라이트(/explore/spot
 
 ## 팩션 이미지 소스
 
-`sw/remotion/public/factions/<에피소드>/<NN-slug>/` :
-- 개인샷 원본: 인물 폴더의 `*.png`(body/solo 등). faction-data.json의 `person.image`가 가리킴.
-- 그룹샷: `<NN-회사>/<clusterN>/group.png`. 한 회사에 cluster 여러 개면 그룹샷도 여러 장 → team_images에 전부 넣는다(일부만 넣으면 "충전 안 됨").
+`sw/remotion/public/factions/<에피소드>/<NN-slug>/` (정본: `factions/_docs/folder-rules.md`):
+- 개인샷 원본: `<NN-slug>/<cluster>/<slug>.png` (또는 레거시 인물 하위 폴더). **`faction-data.json`의 `person.image`가 가리키는 파일**이 진실.
+- 그룹샷: `<NN-slug>/<cluster>/_group.png` (레거시 `group.png`·`group_shot.png` = 같은 역할). 클러스터가 여러 개면 그룹샷도 여러 장 → team_images에 전부 넣는다(일부만 넣으면 "충전 안 됨").
 
 ## 상위 그룹 계층 (코드 상수)
 
@@ -58,7 +58,7 @@ curl.exe -X POST "http://localhost:3000/api/revalidate" -H "Content-Type: applic
 2. `celeb_tag_assignments` INSERT(short_desc/long_desc 작성).
 3. **아바타**(얼굴) — celeb-avatar-wikimedia 또는 upload-celeb-image-from-wikimedia.ts.
 4. **개인샷**(원본 전신) — upload-spotlight-celeb-images.ts (얼굴 크롭 금지).
-5. **그룹샷**(단체) — upload-tag-team-images.ts (faction group.png 전부).
+5. **그룹샷**(단체) — upload-tag-team-images.ts (faction `_group.png` 전부 · 레거시 `group.png` 포함 시 동일).
 6. **캐시 무효화** (`/api/revalidate` celebs).
 
 관련: `celeb-avatar-wikimedia`(아바타), `faction-image`(팩션 발주), `celeb-tag-system.md`(태그 SSoT).

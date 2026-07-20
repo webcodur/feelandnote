@@ -73,7 +73,9 @@ BO는 인물 행에 **「수식어」 음성 패널**을 둔다(대사 음성 �
 
 ### ELE 보이스 캐스팅
 
-인물별 ElevenLabs 보이스는 BO 음성 설정 모달에서 추천 후보를 먼저 듣고 확정한다. 보이스별 청취 메모와 `좋음`/`보류`/`제외` 판단은 전역 보이스 도감에 저장되며, `제외` 보이스는 다음 추천에서 빠진다. 운영 방식과 향후 자동화 계획은 [faction-voice-casting.md](faction-voice-casting.md)를 따른다.
+인물별 ElevenLabs 보이스는 BO 음성 설정 모달에서 추천 후보를 먼저 듣고 확정한다. 보이스별 청취 메모와 `좋음`/`보류`/`제외` 판단은 전역 보이스 도감에 저장되며, `제외` 보이스는 다음 추천에서 빠진다. 운영 방식은 `sw/remotion/public/factions/_voice-casting/README.md`를 따른다.
+
+**폴더·파일·작업 단계(아이디어→발주→음성) 규격 SSoT**: `sw/remotion/public/factions/_docs/folder-rules.md` — 신규 시리즈·문서·에셋 경로는 여기만 본다.
 
 ## 데이터 모델 (SSoT: `sw/remotion/src/compositions/Faction/types.ts`)
 
@@ -144,24 +146,33 @@ FPS 60. 해상도 1080×1920(9:16). 컷마다 시작·길이를 `buildCues()`가
 
 ## 경로
 
+**폴더·파일명·단계 상세 SSoT**: `sw/remotion/public/factions/_docs/folder-rules.md`
+아래는 엔진이 읽는 최소 트리 요약이다. 신규 작업은 folder-rules만 따른다.
+
 ```
 sw/remotion/public/factions/<에피소드>/
-  data.ko.json        # FactionScript (SSoT 데이터)
-  _status.json        # 진행 상태 todo|live|done
-  person-prompts.md   # 개인샷 프롬프트 (REF 아바타 → 시네마틱 변환, 비율 미지정)
-  group-prompts.md    # 그룹샷(화보) 프롬프트 (개인샷 합성, 화보 단위)
-  NN-<slug>/          # 팀 vanity 폴더 (예: '01-pioneers/앨런 튜링.webp', '02-google-deepmind/_founders.png')
-  _refs/              # 개인샷 생성용 REF 아바타 (<인물명>.webp)
-  images/             # BO 업로드 이미지 (basename 참조)
+  faction-data.json   # SSoT 데이터 (한국어 + *En 병기). data.ko.json / data.json 폐기
+  _status.json        # todo | live | done  (BO VALID_STATUSES)
+  00-발주서-인덱스.md  # 이미지 착수 시 (스킬 faction-image)
+  00-<group-slug>.md  # 세력별 발주서 (또는 NN-slug/00-발주서.md)
+  NN-<slug>/          # 세력 폴더 (groups[] 순서 = 01, 02 …)
+    _logo.png         # 세력 로고 → group.logoImg
+    _logo.mp4         # 선택 → group.logoVid
+    <cluster>/        # 1, 2, … (묶음 1개여도 1/ 필수)
+      _group.png      # 단체 화보 → cluster.image
+      <slug>.png      # 개인샷 → person.image
+  _refs/              # 생성용 REF
+  voice/              # TTS 산출
+  data.timing.pN.ko.json  # 쇼츠 편별 발화 시각
 sw/remotion/public/music/  # 배경음악
 ```
 
-- Remotion 등록: `sw/remotion/src/Root.tsx` Faction Folder. composition id = `Faction-<KEY>`(폴더명 대문자화). `public/factions/*/data.{ko|en}.json` 자동 스캔(`Faction/script.ts`).
+- Remotion 등록: `sw/remotion/src/Root.tsx` Faction Folder. composition id = `Faction-<KEY>`(폴더명 대문자화). `public/factions/*/faction-data.json` 자동 스캔(`Faction/script.ts`).
 - **이미지 경로 규칙** (`Faction.tsx`의 `imgSrc`):
   - `http`로 시작 → 외부 URL 그대로
-  - 슬래시 포함(폴더 경로, 예 `1/앨런 튜링.webp`) → `factions/<에피소드>/<경로>` 직접
-  - basename(예 `logo.png`) → `factions/<에피소드>/images/<basename>` (BO 업로드 호환)
-- **vanity 폴더 규칙**: 팀 폴더는 `NN-<영문슬러그>/`(영상 순서, 매핑은 `person-prompts.md` 팀 폴더표). 인물샷 `NN-slug/<인물명>.png`, 단일 팀 화보 `NN-slug/_group.png`, 구글 묶음 화보 `02-google-deepmind/_founders.png`·`_deepmind.png`. 개인샷 생성용 REF 아바타는 `_refs/<인물명>.webp`.
+  - 슬래시 포함(폴더 경로, 예 `01-greeks/1/agamemnon.png`) → `factions/<에피소드>/<경로>` 직접
+  - basename만(레거시 BO 업로드) → `factions/<에피소드>/images/<basename>` (신규 비권장)
+- **세력 폴더 규칙**: `NN-<영문슬러그>/` = `groups[]` 배열 순서와 1:1. 인물·단체 파일명 정본은 folder-rules §3·§8 (`_group.png`, `_logo.png`, `<slug>.png`). 레거시 별칭(`group.png`, `group_shot.png`)은 §12 대응표.
 
 ## 코드 위치
 
@@ -185,15 +196,15 @@ sw/remotion/public/music/  # 배경음악
 ## 제작 워크플로우
 
 1. **인물 선정** — 진영별로 추리고, 현직 여부를 웹으로 검증한다.
-2. **본서비스 확보** — 미등록 인물은 티어를 나눠 신규 등록 후 아바타 자동수집(`sw/web-bo/scripts/upload-celeb-image-from-url.ts` 또는 `batch-celeb-wikimedia-avatars.ts`). 동명이인 주의 — 수집 후 얼굴을 육안 검증한다. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
+2. **본서비스 확보** — 미등록 인물은 티어를 나눠 신규 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
    - 감상 기록이 있을 만한 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격)
    - 관계 때문에 나오는 단순 실존 인물 → `relation`(basic 최소)
-   - **신화·전설·허구 속 존재**(일리아스의 신·영웅 등) → `fiction`(basic 최소, 실존 아님). 인물 데이터에는 `mythical: true`를 함께 박는다.
+   - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 스킬 `fiction-profile-monologue`로 기본 정보와 `profiles.virtual_monologue`를 먼저 완성한다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
    등록 여부·티어는 BO 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).
-3. **데이터 작성** — `data.ko.json`에 세력 명칭·단체 명칭·인물·이력 줄(`lines`)·solo를 채운다(BO 편집기 또는 직접).
-4. **개인샷** — `person-prompts.md`의 인물별 프롬프트로, 각 인물 아바타를 REF로 넣어 시네마틱 개인샷을 생성한다(Gemini). 자세·복식이 그 팀 그룹샷 컨셉과 맞물리게 설계돼 있다.
-5. **그룹샷** — `group-prompts.md`의 화보 단위 프롬프트로, 개인샷들을 합성해 그룹 화보를 만든다.
-6. **이미지 연결** — vanity 폴더에 규칙대로 넣거나 BO 편집기에서 인물·화보 이미지를 지정한다.
+3. **데이터 작성** — `faction-data.json`에 세력 명칭·단체 명칭·인물·이력 줄(`lines`)·solo를 채운다(BO 편집기 또는 직접). fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. 어록은 인물 필드(`quote`/`quoteOrigin`/`minedQuotes`).
+4. **대사 순환 검토** — 스킬 `faction-dialogue-review`. 작성·수정은 완성이 아니라 새 판이다. 현재 문장에서 검토 렌즈를 4~7개 새로 만들고, 최소 3개로 따로 읽은 뒤 수정한다. 수정안은 이전 평가를 보지 않는 새 순환을 한 번 더 거친다. 두 순환을 통과해야 승인 후보이며, 최종 승인은 사용자만 한다. 이력은 `_docs/dialogue-review/`에 둔다.
+5. **이미지 발주** — 스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지.
+6. **이미지 연결** — 세력 폴더 정본 경로로 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
 7. **렌더** — Remotion Studio에서 `Faction-<KEY>` 확인 후 렌더. BO 편집기 「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`.
 8. **유튜브 업로드** — 아래 참조.
 

@@ -141,8 +141,11 @@ export interface FactionPerson extends FactionCardFields {
   quote?: string
   /** 대사 점등 덩어리 (선택) — 순차 하이라이팅 단위. 없으면 quote를 통째로 처리 */
   quoteChunks?: string[]
-  /** 대사 실제 원문(verbatim) — 한국어판에서 의역 아래 보조로 띄운다(신뢰·고증용) */
+  /** 대사 근거 — 원전의 핵심 내용과 가상 독백으로 재구성한 방향. 한국어판 대사 아래 보조로 띄운다 */
   quoteOrigin?: string
+  /** 어록 채굴 뱅크 { ref, en, ko }[] — 조사 md 이관. 영상 quote와 별개 */
+  minedQuotes?: { ref: string; en: string; ko: string }[]
+  minedNote?: string
   /** 대사 다듬은 영문 — 영문판에서 quote를 대체하는 대사로 쓴다 */
   quoteEn?: string
   /** 영문 대사 점등 덩어리 (선택) — 영문판에서 quoteChunks를 대체 */
@@ -172,6 +175,10 @@ export interface FactionPerson extends FactionCardFields {
   quoteImageFilter?: string
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
+  /** 관할 그룹 소속(신 팩션 Gods-*). 화면 묶음과 별개로 논리적 소속을 명시해 그룹 재배치를 추적한다. 그리스: sovereignty·dominion·war·order·desire·craft */
+  domain?: string
+  /** 신화·전설·허구 인물. 본서비스 fiction 프로필과 가상 독백 연결 대상으로 쓴다 */
+  mythical?: boolean
   /**
    * 셀럽 DB 인물 식별자(profiles.id, 불변 UUID) — 보이스·셀럽 정보 연동의 단일 열쇠.
    * slug·이름이 바뀌어도 안 끊긴다. 셀럽 검색으로 추가하면 자동으로 박힌다.
@@ -258,6 +265,8 @@ export interface FactionPerson extends FactionCardFields {
    * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
    */
   quoteCaptionPos?: 'bottom' | 'center'
+  /** 작은 자막 폰트 스타일 — 에피소드 전역 기본을 덮어쓴다. 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
+  quoteCaptionStyle?: 'default' | 'serif-large'
 }
 
 /**
@@ -481,10 +490,11 @@ export interface FactionScript {
   quoteDisplay?: 'box' | 'caption'
   /**
    * 작은 자막 세로 위치 — 에피소드 전역 기본. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
-   * - 'bottom'(기본): MID 영역 하단
-   * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
+   * - 'bottom'(기본): 화면 최하단(이름·직함과 동일 선상) / 'center': 화면 중하단 밴드(이름과 떨어진 독립 블록).
    */
   quoteCaptionPos?: 'bottom' | 'center'
+  /** 작은 자막 폰트 스타일 — 에피소드 전역 기본. 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
+  quoteCaptionStyle?: 'default' | 'serif-large'
   /**
    * 한 편(쇼츠 part·롱폼) 종료 처리 — 마지막 인물 대사가 끝난 뒤 영상이 꺼지기까지.
    * endHoldSec:  (대사 후 대기) 마지막 인물 대사 끝 ~ 다음으로 넘어가기까지 그 인물 화면을 정지(줌인 멈춤)한 채 유지하는 시간(초). 기본 4.
@@ -510,6 +520,8 @@ export interface FactionScript {
   introSec?: number
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 4. BO에서 조정하여 스튜디오/렌더에 적용 */
   groupSec?: number
+  /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(2.6~3.2). 지정하면 인원 수 무관 고정. BO에서 조정하여 스튜디오/렌더에 적용 */
+  clusterSec?: number
   /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
   startSfx?: string
   /** 세력 로고(타이틀 카드) 등장 효과음 파일명(public/common/sfx/ 하위). 미지정이면 효과음 없음 */

@@ -82,7 +82,7 @@ export function vnTimingKey(fileName: string) { return fileName.replace('.wav', 
  *  솔로는 `solo-B{NN}/` 접두사 안에서 ID에 `-quote-`·`-celeb-`가 들어가면 셀럽 보이스. */
 export function isCelebVoiceFile(file: string): boolean {
   const key = file.replace('.wav', '')
-  return key === 'A3-featured-quote' || key === 'B2-philosophy'
+  return key === 'A3-featured-quote'
     || /^D\d{2}d\d+-quote$/.test(key)
     || /^shorts-\d+\/S\d{2}-celeb-/.test(key)
     || /^shorts-\d+\/S\d{2}-book-quote/.test(key)

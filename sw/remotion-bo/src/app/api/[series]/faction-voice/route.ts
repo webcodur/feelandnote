@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { runTask, runTaskSequence } from '@/lib/server-utils'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 
 function guard(series: string) {
-  return isValidSeries(series) && isFactionSeries(series)
+  return isSeriesModel(series, 'faction')
 }
 
 /**

@@ -26,6 +26,8 @@ type GenerateSectionProps = {
   generating: boolean
   handleCancelGenerate: () => void
   engineSpec: SegmentEngineSpec | null
+  /** 서재탐방 실제 인물 대사일 때 ELE만 허용. 다른 시리즈는 기존 선택을 유지한다. */
+  personVoice?: boolean
   eleSpec: SegmentEngineSpec | null
   geminiSpec: SegmentEngineSpec
   activeSpec: SegmentEngineSpec | null
@@ -65,7 +67,7 @@ type GenerateSectionProps = {
 export function GenerateSection({
   secKey, sectionTexts, overrideText, ttsText, setTtsText,
   chosenEngine, setChosenEngine, generating, handleCancelGenerate,
-  engineSpec, eleSpec, geminiSpec, activeSpec,
+  engineSpec, personVoice = false, eleSpec, geminiSpec, activeSpec,
   voiceOverride, segmentLocator, handleSegmentFieldChange,
   styleEdit, setStyleEdit, handleLongformStyleChange,
   hasTempPreview, tempPreview, previewEngine, handleSavePreview, trimSaving, setTempPreview,
@@ -103,14 +105,14 @@ export function GenerateSection({
               title="새 음원 합성에 쓸 엔진·모델. GEM 3.1은 audio tag 지원·단가 2배(GEM 슬롯 공유). ELE는 보이스 매핑 필요"
               className="h-8 text-sm bg-white border-l border-slate-300 px-3 cursor-pointer text-slate-950 font-bold focus:outline-none"
             >
-              <option value="gemini">GEM 2.5</option>
-              <option value="gemini-v3">GEM 3.1</option>
+              <option value="gemini" disabled={personVoice}>GEM 2.5</option>
+              <option value="gemini-v3" disabled={personVoice}>GEM 3.1</option>
               <option value="elevenlabs" disabled={!eleSpec}>ELE</option>
             </select>
           </div>
         )}
 
-        {chosenEngine !== 'elevenlabs' && (
+        {!personVoice && chosenEngine !== 'elevenlabs' && (
           <>
             <div className="inline-flex items-stretch rounded border border-border overflow-hidden shrink-0">
               <span className="px-2 flex items-center text-sm text-text-secondary bg-slate-100 text-slate-800 font-extrabold border-r border-slate-300">캐릭터 보이스</span>
@@ -158,6 +160,9 @@ export function GenerateSection({
           <span className="text-xs text-amber-300 shrink-0">
             기본 매핑({engineSpec.engine === 'gemini' ? 'Gemini' : 'ElevenLabs'})과 다름
           </span>
+        )}
+        {personVoice && !eleSpec && (
+          <span className="text-xs text-amber-300 shrink-0">인물의 ELE 음성 ID를 먼저 설정해야 합니다.</span>
         )}
       </div>
 
@@ -285,7 +290,7 @@ export function GenerateSection({
       )}
 
       {/* Generate area — Gemini(2.5/3.1). 캐릭터 보이스·스타일은 위 ENGINE 행에 인라인. */}
-      {chosenEngine !== 'elevenlabs' && !hasTempPreview && (
+      {!personVoice && chosenEngine !== 'elevenlabs' && !hasTempPreview && (
         <div className="flex items-stretch gap-2">
           <button
             onClick={() => handleGenerate(geminiSpec, secKey, ttsText)}

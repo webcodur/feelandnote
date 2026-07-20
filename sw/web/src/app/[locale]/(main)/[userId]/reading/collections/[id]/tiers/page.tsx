@@ -1,5 +1,5 @@
 /*
-  파일명: /app/(main)/archive/playlists/[id]/tiers/page.tsx
+  파일명: /app/(main)/[userId]/reading/collections/[id]/tiers/page.tsx
   기능: 티어 편집 페이지
   책임: 재생목록의 티어 설정 UI를 제공한다.
 */ // ------------------------------

@@ -10,6 +10,7 @@
     "./constants/explore-presets": "./src/constants/explore-presets.ts",
     "./constants/cache-tags": "./src/constants/cache-tags.ts",
     "./lib/countries": "./src/lib/countries.ts",
+    "./lib/paginate": "./src/lib/paginate.ts",
     "./lib/voice-policy": "./src/lib/voice-policy.ts",
     "./lib/ele-accounts": "./src/lib/ele-accounts.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",

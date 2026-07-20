@@ -1,5 +1,7 @@
 # 2. 콘텐츠 수집
 
+> **최종 실측 체크: 26.07.16** — 부분 대조: 아카이브 참조 제거만, 수집 규칙·컬럼은 미대조
+
 ## 핵심 원칙
 
 1. **품질 우선**: 검색을 반복해도 새로운 콘텐츠가 나오지 않을 때까지 수집
@@ -250,7 +252,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **메타데이터(title/creator/ISBN)와 표지(thumbnail)를 별도 출처로 분리한다.** 자가출판본·번역본은 메타데이터 보유 사이트에 표지가 비어있는 경우가 많아 단일 출처 강제는 비효율이다. `sources` JSONB로 출처를 분리 표기한다.
 
-#### 표준 4단계 파이프라인 (`docs/en-book-data-quality.md` 정합)
+#### 표준 4단계 파이프라인
 
 1. **소넷 에이전트 판단**: ko_title + ko_creator → en_title + en_creator 변환
 2. **OpenLibrary**: 실존 확인 + ISBN 확보 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`
@@ -345,7 +347,7 @@ VALUES
 - MUSIC: `spotify`
 
 **금지**:
-- `google_books` 사용 금지 (위 "영문판 매칭 분기" 참조). 시스템 제약상 기존 데이터 보존 위해 enum에는 남아있으나 신규 등록 사용 금지.
+- `google_books` 사용 금지 — **일일 호출 한도 1,000건이라 대량 수집에 못 쓴다.** `sw/web-bo/.env`에 키가 `GOOGLE_BOOKS_API_KEY_0`~`_4`로 5개 있는 것이 한도를 늘리려 키를 돌려쓴 흔적이고, 그렇게 해도 부족해 폐기했다. 무료라고 되살리지 마라 — 한도가 문제지 비용이 문제가 아니다. 시스템 제약상 기존 데이터 보존을 위해 enum과 잔존 데이터(`external_source='google_books'` 249건)는 남아 있으나 신규 등록 사용 금지. (위 "영문판 매칭 분기" 참조)
 - `amazon` 사용 금지 (공식 API 부재·접근권 제한·실사용 0건).
 - `wikipedia` 사용 금지 (ISBN 없는 책을 외부에 연결할 길이 없음 — 영역본 미존재 시 영문 줄 등록 폐기).
 

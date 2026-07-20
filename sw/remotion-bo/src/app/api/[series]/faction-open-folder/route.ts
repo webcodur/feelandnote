@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server'
 import { spawn } from 'child_process'
 import { existsSync } from 'fs'
 import path from 'path'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { FACTIONS_DIR, safeDirName } from '@/lib/faction-utils'
 
 function guard(series: string) {
-  return isValidSeries(series) && isFactionSeries(series)
+  return isSeriesModel(series, 'faction')
 }
 
 /**

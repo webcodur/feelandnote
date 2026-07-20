@@ -1,5 +1,7 @@
 # 콘텐츠 데이터 감사
 
+> **최종 실측 체크: 26.07.16** — 실 DB 조회로 `user_contents`(review·review_en·source_url) · `content_locales`(title·creator·thumbnail_url·isbn) · `contents`(metadata·external_source·user_count) · `profiles`(`cultural_journey`·`cultural_journey_en` = generated, 쓰기는 `consumption_philosophy`·`_en`) 전량 대조. Phase 5 커버 출처를 프로젝트 규칙(네이버·OpenLibrary 전용)에 맞춰 교정. 출처 링크 검증 절차(Phase 2~3)는 실행 대조하지 않았다.
+
 `celeb-content-collector`가 수집한 데이터(user_contents, content_locales)의 품질을 검증하고 보완한다.
 
 ---
@@ -73,18 +75,20 @@ WHERE id = '{celeb_id}';
 
 | 타입 | ko locale 소스 | en locale 소스 |
 |------|---------------|---------------|
-| BOOK | 네이버 북 (ISBN 검색) | Google Books API 또는 Open Library |
+| BOOK | 네이버 북 (ISBN 검색) | Open Library |
 | VIDEO | TMDB (한국어 포스터) | TMDB (영문 포스터) |
 
-**Google Books API** (프로젝트 내장):
-- 키: `sw/web-bo/.env`의 `GOOGLE_BOOKS_API_KEY_0` ~ `_4` (0번부터 순서대로 시도, 만료 시 다음 키)
-- 엔드포인트: `https://www.googleapis.com/books/v1/volumes?q=isbn:{ISBN}&key={KEY}`
-- 커버 URL: 응답의 `items[0].volumeInfo.imageLinks.thumbnail`에서 `zoom=1` → `zoom=2`, `http://` → `https://`로 변환
+**책 메타 출처 제한(중요)**: 책의 메타·커버 출처(`contents.external_source`)는 **네이버 북·OpenLibrary만** 허용한다. `google_books`·amazon·wikipedia는 금지다.
+
+> **왜 Google Books를 뗐나** — 일일 호출 한도가 1,000건이라 대량 수집을 감당하지 못한다. `.env`에 키가 `GOOGLE_BOOKS_API_KEY_0`~`_4`로 5개 있는 것이 한도를 늘리려 키를 돌려쓴 흔적이고, 그렇게 해도 부족해 폐기했다. **무료라는 이유로 되살리지 마라 — 비용이 아니라 한도가 문제였다.**
+
+`.env`에 키가 남아 있고 `fetchContentMetadata`·`content-locale` 등 코드가 `google_books` 소스를 아직 읽지만(2026-07-16 실측: `external_source='google_books'` 249건 잔존), 이는 **규칙 제정 이전의 레거시**다. 신규 수집·커버 보완에 Google Books를 쓰지 않는다.
 
 **Open Library 커버**:
 - URL: `https://covers.openlibrary.org/b/isbn/{ISBN}-L.jpg`
-- 1x1 GIF(GIF89a)가 반환되면 커버 없음 → Google Books로 폴백
+- 1x1 GIF(GIF89a)가 반환되면 커버 없음 → **폴백 없음. 미해결로 보고**한다(Google Books 폴백 금지).
 - 리다이렉트(302)가 발생하면 커버 있음 → URL 그대로 사용 가능
+- ISBN이 없는 외국 서적은 영문 등록 자체를 폐기한다.
 
 **번역본 없는 외국 서적**: ko/en 양쪽에 동일한 커버 이미지를 사용한다.
 

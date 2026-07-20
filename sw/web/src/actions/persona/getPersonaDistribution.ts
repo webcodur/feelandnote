@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
@@ -54,41 +55,43 @@ type PersonaScoreRow = {
 async function fetchPersonaDistribution(limit: number): Promise<PersonaPerson[]> {
   const supabase = createStaticClient()
 
-  // 영향력 점수 맵 (분포는 일부만 보이고 검색은 전체이므로 점수를 인물마다 싣는다)
-  const { data: inflData, error: inflErr } = await supabase
-    .from('celeb_influence')
-    .select('celeb_id, total_score')
+  // 영향력 점수 맵 (분포는 일부만 보이고 검색은 전체이므로 점수를 인물마다 싣는다).
+  // 이것도 1,000행에서 잘렸다 — 1,581명 중 581명이 맵에 없어 영향력이 조용히 0으로
+  // 찍혔다(실측). 점수가 없는 게 아니라 못 받은 것이라 눈에 띄지도 않았다.
+  const inflData = await selectAllPages<{ celeb_id: string; total_score: number }>((from, to) =>
+    supabase.from('celeb_influence').select('celeb_id, total_score').order('celeb_id').range(from, to)
+  )
+  const inflMap = new Map(inflData.map((r) => [r.celeb_id, r.total_score]))
 
-  if (inflErr) {
-    console.error('[getPersonaDistribution] influence 조회 실패:', inflErr.message)
-  }
-  const inflMap = new Map((inflData ?? []).map((r) => [r.celeb_id, r.total_score]))
+  // 감상 경위(review) 보유 셀럽만 성향 분석 대상에 넣는다.
+  // 이 RPC도 1,000행에서 잘린다 — 1,281명 중 281명이 빠져 성향 점수가 멀쩡히 도착해도
+  // 이 명단에 없다는 이유로 걸러졌다(실측). 페이징 없이는 필터가 곧 손실이다.
+  const reviewIds = await selectAllPages<{ celeb_id: string }>((from, to) =>
+    supabase.rpc('get_review_celeb_ids').order('celeb_id').range(from, to)
+  )
+  const reviewers = new Set(reviewIds.map((r) => r.celeb_id))
 
-  // 감상 경위(review) 보유 셀럽만 성향 분석 대상에 넣는다
-  const { data: reviewIds, error: reviewErr } = await supabase.rpc('get_review_celeb_ids')
-  if (reviewErr || !reviewIds) {
-    console.error('[getPersonaDistribution] review id 조회 실패:', reviewErr?.message ?? 'unknown error')
-    return []
-  }
-  const reviewers = new Set((reviewIds as { celeb_id: string }[]).map((r) => r.celeb_id))
+  // 성향 점수 전체 조회 (score만, 근거 텍스트 미수신).
+  // .limit(limit)은 1,000행 상한을 못 뚫는다 — limit을 상한으로 넘겨 페이징한다.
+  const data = await selectAllPages<PersonaScoreRow>(
+    (from, to) =>
+      supabase
+        .from('celeb_persona')
+        .select(`
+          celeb_id, ${SCORE_SELECT},
+          profiles!celeb_persona_celeb_id_fkey (
+            slug, nickname, nickname_en, avatar_url
+          )
+        `)
+        .order('celeb_id')
+        .range(from, to) as unknown as PromiseLike<{
+        data: PersonaScoreRow[] | null
+        error: { message: string } | null
+      }>,
+    limit
+  )
 
-  // 성향 점수 전체 조회 (score만, 근거 텍스트 미수신)
-  const { data, error } = await supabase
-    .from('celeb_persona')
-    .select(`
-      celeb_id, ${SCORE_SELECT},
-      profiles!celeb_persona_celeb_id_fkey (
-        slug, nickname, nickname_en, avatar_url
-      )
-    `)
-    .limit(limit)
-
-  if (error || !data) {
-    console.error('[getPersonaDistribution] failed:', error?.message ?? 'unknown error')
-    return []
-  }
-
-  return (data as unknown as PersonaScoreRow[])
+  return data
     .filter((row) => reviewers.has(row.celeb_id))
     .map((row) => {
       const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles

@@ -1,0 +1,18 @@
+{
+  "title": "진시황\n하나의 법으로 천하를 묶다",
+  "titleEn": "Qin Shi Huang\nOne Law to Bind All Under Heaven",
+  "topic": "질서는 무엇으로 세우는가",
+  "topicEn": "What Holds an Empire Together",
+  "logline": "그는 자신의 폭정을 변명하지 않는다.",
+  "loglineEn": "He does not excuse his own tyranny.",
+  "notice": "저서와 사료에 남은 사상을 바탕으로 재구성한 독백입니다. 본인이 실제로 남긴 말은 아닙니다.",
+  "noticeEn": "A monologue reconstructed from historical records. Not an actual quotation.",
+  "titleByPart": {
+    "1": "진시황\n두려움 때문이었습니다"
+  },
+  "loglineByPart": {
+    "1": "폭군이 스스로 폭정을 말한다."
+  },
+  "holdMotion": "zoomin",
+  "musicDuckVolume": 0.35
+}

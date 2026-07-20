@@ -12,6 +12,14 @@ type SeriesStats = {
   icon: string
   total: number
   voiced: number
+  /**
+   * TODO(26.07.16): 죽은 지표. 항상 0이다.
+   * R2 음성 동기화는 26.03.23 폐기됐고 src/에 R2 코드가 없다(영상 음성은 로컬 전용).
+   * 따라서 episodes API가 synced를 채우지 않아 아래 filter가 늘 빈 배열을 센다.
+   * 걷어내거나 음성 저장소 상태(VOICE_ARCHIVE / getVoiceStorageStatus)로 갈아끼운다.
+   * 함께 정리할 곳: guide/page.tsx의 "● = R2 동기화 완료" 설명문.
+   * 상세: docs/project/remotion-bo-plan.md
+   */
   synced: number
 }
 

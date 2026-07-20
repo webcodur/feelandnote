@@ -5,6 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getCountryNamesMap } from '@/lib/countries'
 
 interface NationalityCount {
@@ -35,22 +36,25 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .is('nationality', null)
 
-  // 모든 국적 데이터 조회
-  const { data } = await supabase
-    .from('profiles')
-    .select('nationality')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
-    .not('nationality', 'is', null)
+  // 모든 국적 데이터 조회 — 1,000행 상한에 걸리므로 나눠 받는다.
+  // 자르면 국가별 합이 위 totalCount(head 카운트라 정확)와 어긋나 화면에서 바로 모순이 된다.
+  const data = await selectAllPages<{ nationality: string | null }>((from, to) =>
+    supabase
+      .from('profiles')
+      .select('nationality')
+      .eq('profile_type', 'CELEB')
+      .eq('status', 'active')
+      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .not('nationality', 'is', null)
+      .order('id')
+      .range(from, to)
+  )
 
   // 국적별로 그룹핑
   const nationalityMap: Record<string, number> = {}
-  if (data) {
-    for (const row of data) {
-      if (row.nationality) {
-        nationalityMap[row.nationality] = (nationalityMap[row.nationality] ?? 0) + 1
-      }
+  for (const row of data) {
+    if (row.nationality) {
+      nationalityMap[row.nationality] = (nationalityMap[row.nationality] ?? 0) + 1
     }
   }
 

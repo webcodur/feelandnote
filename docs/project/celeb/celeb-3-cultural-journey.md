@@ -1,6 +1,27 @@
 # 3. 감상 여정
 
-뭘 보고 읽고 들었는지, 왜 좋아했는지, 그것이 인생에 어떤 영향을 줬는지 이야기로 풀어쓴 글. DB 컬럼: `profiles.cultural_journey`. 500자 이내.
+> **최종 실측 체크: 26.07.16** — 티어 체계·DB 트리거·i18n 소관 경계 실측 대조
+
+뭘 보고 읽고 들었는지, 왜 좋아했는지, 그것이 인생에 어떤 영향을 줬는지 이야기로 풀어쓴 글. 500자 이내.
+
+## 산출물
+
+| 항목 | 값 |
+|------|-----|
+| 테이블·컬럼 | `profiles.cultural_journey` (한국어 정본) |
+| 영문 | `profiles.cultural_journey_en` — 본 트랙에서 쓰지 않는다. i18n 트랙(`celeb-i18n.md`)이 채운다 |
+| 담당 에이전트 | `celeb-3-cultural-journey` |
+
+## 적용 대상
+
+| 티어 | 수행 | 자료원 |
+|------|------|--------|
+| **full** | 필수 | DB `user_contents.review` 기반. 콘텐츠 수집(트랙 A) 선행 필수 |
+| **light** | 필수 | 웹 리서치 기반 |
+| **relation** | 생략 | — |
+| **fiction** | 생략 | — |
+
+relation·fiction은 basic 최소 항목만 채우는 티어다. 감상 여정을 쓰지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
 
 ---
 
@@ -46,9 +67,11 @@ ORDER BY c.type;
 
 review 필드가 핵심 소스. DB 기록이 있으면 웹 검색은 불필요하다.
 
+`celeb_tier = 'full'`은 `user_contents` 1건 이상을 DB 트리거(`trg_celeb_full_requires_content`)가 강제한다. full 셀럽은 위 쿼리가 반드시 1건 이상을 반환한다. 0건이면 티어가 잘못 지정된 상태이므로 작성하지 말고 보고한다.
+
 ### light 셀럽 (celeb_tier = 'light')
 
-웹 리서치만 사용.
+웹 리서치만 사용. `user_contents`가 비어 있는 것이 정상이다.
 
 ---
 
@@ -57,9 +80,14 @@ review 필드가 핵심 소스. DB 기록이 있으면 웹 검색은 불필요�
 작성이 끝나면 아래를 확인한다:
 1. 주어 없는 문장이 있는가?
 2. 마지막 문장이 앞 내용과 관계없는 감상적 마무리인가?
+3. 500자를 넘는가?
 
 위반이 있으면 고친 뒤 최종본을 확정한다.
 
 ---
 
-변경 작업 시 `celeb-pipeline.md` §0 업데이트 가드를 따른다.
+## 일괄 재작성
+
+복수 에이전트가 동시에 재작성할 때는 `celeb-pipeline.md` §작업 큐(`celeb_task_queue`)의 선점·완료·실패 절차를 따른다. 큐 함수는 `task_type`별로 존재하므로, 착수 전 대상 `task_type`의 함수가 실제로 있는지 확인한다.
+
+변경 작업 시 `celeb-pipeline.md` §업데이트 가드(백지 재작성, UPDATE 전 변경 검증)를 따른다.

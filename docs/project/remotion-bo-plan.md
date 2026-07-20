@@ -1,8 +1,12 @@
 # remotion-bo 기획서
 
+> **최종 실측 체크: 26.07.16** — `sw/remotion-bo/src/` 전체(라우트·API·컴포넌트·lib), `sw/remotion/scripts/`(voice·render·youtube), `sw/remotion/src/Root.tsx`·`compositions/BookRecommend/`, `sw/remotion/public/episodes|factions|discourses/` 실파일 대조
+
 영상 제작 관리 대시보드. Remotion 영상의 기획·제작·관리 전 과정을 한 곳에서 다룬다.
 
-> **NOTE (26.03.23):** R2 음성 동기화 시스템 폐기. 이 문서의 R2 관련 기획(R2 현황 페이지, R2 동기화 UI, R2 상태 표시)은 더 이상 유효하지 않다. 영상 음성 파일은 로컬 전용으로 관리한다.
+> **NOTE (26.03.23):** R2 음성 동기화 시스템 폐기. 이 문서의 R2 관련 기획(R2 현황 페이지, R2 동기화 UI, R2 상태 표시)은 더 이상 유효하지 않다. 영상 음성 파일은 로컬 전용으로 관리한다. 26.07.16 실측 기준 `src/` 안에 R2 코드는 남아 있지 않다(가이드 페이지 설명문과 대시보드의 `synced` 지표만 잔재 — 항상 0으로 표시된다). 아래 본문의 R2 서술은 폐기된 기획으로 읽어야 한다.
+>
+> **대체 기획 — 음성 저장소(voice-archive)**: R2 대신 로컬 보관소로 대체 구현됐다(26.04.01, `84f06090`). `sw/remotion/voice-archive/`로 에피소드 음성을 통째 옮겼다 되돌리는 방식이며, 시리즈 홈의 "저장소" 탭에서 다룬다. 상세는 아래 "음성 저장소" 절.
 
 ## 정체성
 
@@ -24,6 +28,8 @@ web-bo의 셀럽 데이터를 읽기 전용으로 참조하되, 영상 제작에
 ---
 
 ## IA (Information Architecture)
+
+> **실측 (26.07.16)**: 헤더의 R2 표시기와 1단 사이드바의 "인프라 > R2 현황·렌더 큐"는 구현되지 않았다(R2 폐기). 현재 헤더는 `Remotion BO · 인물 검색 · 가이드` 3개 링크뿐이고, 인프라 라우트(`/infra/*`)는 존재하지 않는다. 아래는 원 기획 그대로 남긴다.
 
 ```
 ┌─ 헤더 ──────────────────────────────────────────┐
@@ -65,47 +71,70 @@ web-bo의 셀럽 데이터를 읽기 전용으로 참조하되, 영상 제작에
 - **상단**: 검색/필터 (시대, 직군, 제작 상태)
 - **최근 작업**: 최근 편집한 에피소드 3~5개 핀
 - **편성표**: 해당 시리즈의 편성표 링크
-- **에피소드 목록**: 가상 스크롤 (수백 개 대응). 상태 아이콘(●/◐/○) 표시
+- **에피소드 목록**: 가상 스크롤 (수백 개 대응). 상태 아이콘(●/◐/○) 표시 — 상태 아이콘은 구현(`components/Sidebar/StatusIcon.tsx`), 가상 스크롤은 미구현(전량 렌더)
 
 ### 시리즈 레지스트리
 
-시리즈마다 구조가 다르므로, 각 시리즈는 레지스트리에 등록한다:
+시리즈마다 구조가 다르므로, 각 시리즈는 레지스트리에 등록한다.
+
+**구현됨 (`sw/remotion-bo/src/lib/series-registry.ts`, 실측 26.07.16)** — 아래가 실제 형태다. 기획안의 `jsonSchema`·`scenarioView`·`ttsJobBuilder` 필드는 채택되지 않았고, 대신 **`dataModel` 축**(book | faction | discourse)이 그 역할을 대신한다. 에피소드 저장 형식·IO·편집 화면이 이 값 하나로 갈린다.
 
 ```typescript
+type SeriesDataModel = 'book' | 'faction' | 'discourse'
+
 interface SeriesDefinition {
-  id: string                      // 'book-recommend'
-  label: string                   // '서재 탐방'
-  icon: string                    // '📺'
-  composition: string             // 'BookRecommend'
-  episodeDir: string              // 'book-recommend' (episodes/ 하위)
-  jsonSchema: ZodSchema           // 에피소드 JSON 검증
-  scenarioView: React.ComponentType  // 시나리오 뷰 컴포넌트
-  ttsJobBuilder: (ep) => Job[]    // TTS 작업 목록 생성
-  renderConfig: RenderConfig      // 코덱, 해상도 등
+  id: string
+  label: string
+  icon: string
+  composition: string      // remotion Composition 이름
+  episodeDir: string       // 에피소드 디렉토리명
+  dataModel: SeriesDataModel
+  episodeHome: string      // /[series]/[name] 아래 진입 기본 경로
+  langTabEditor: boolean   // /[lang]/[tab] 세부 경로를 쓰는가
+  render: { codec: string; proresProfile?: string; shortsSuffix?: string }
 }
 ```
 
-새 시리즈 추가 = 레지스트리에 정의 1개 추가. UI/라우팅은 자동 생성.
+**등록된 시리즈 3종**:
+
+| id | label | dataModel | episodeDir | episodeHome | langTabEditor |
+|----|-------|-----------|------------|-------------|---------------|
+| `book-recommend` | 서재 탐방 📚 | book | `book-recommend` | `scenario` | false |
+| `faction` | 세력도 🏛️ | faction | `factions` | `both/info` | true |
+| `discourse` | 가상 담화 🗣️ | discourse | `discourses` | `both/shorts` | true |
+
+기획 시점의 "라이벌 대담"·"서비스 소개"는 등록되지 않았다. 실제로 늘어난 시리즈는 세력도·가상 담화다.
+
+새 시리즈 추가 = 레지스트리에 정의 1개 추가. UI/라우팅은 자동 생성. `id === 'faction'` 같은 하드코딩 분기는 두지 않는다.
 
 ---
 
 ## 라우팅
 
+**실측 (26.07.16)** — 실제 라우트는 다음과 같다:
+
 ```
-/                                    → 대시보드 (전체 현황)
-/search?q=알렉산더                    → 인물 검색 결과
+/                                    → 대시보드 (시리즈 현황 카드)
+/search                              → 인물 검색 (Supabase 셀럽)
+/guide                               → 사용 가이드
 
 ── 시리즈 공통 패턴 (/[series]/...) ──
-/[series]                            → 시리즈 홈 (편성표 + 에피소드 목록)
-/[series]/lineup                     → 편성표 상세
-/[series]/new                        → 새 에피소드 스캐폴딩
-/[series]/[name]                     → 에피소드 관리 (시나리오+음성+렌더+JSON)
-/[series]/[name]/scenario            → 시나리오 전용 뷰
-
-── 인프라 ──
-/infra/r2                            → R2 스토리지 현황
-/infra/render-queue                  → 렌더 큐
+/[series]                            → 시리즈 홈 (에피소드 목록 + 후보 풀 + 저장소 탭)
+/[series]/youtube                    → 유튜브 업로드 현황판 (시리즈 전체)
+/[series]/[name]                     → 에피소드 진입 (episodeHome 으로 리다이렉트)
+/[series]/[name]/scenario            → 시나리오 (책 기반 시리즈)
+/[series]/[name]/voice               → 음성
+/[series]/[name]/render              → 렌더
+/[series]/[name]/youtube             → 유튜브 (에피소드 단위)
+/[series]/[name]/cards               → 카드뉴스
+/[series]/[name]/[lang]/[tab]        → 언어·탭 편집 (langTabEditor 시리즈: 세력도·담화)
+/[series]/[name]/[lang]/[tab]/card/… → 카드 상세 편집
 ```
+
+기획 대비 차이:
+- `/[series]/lineup`(편성표), `/[series]/new`(스캐폴딩 전용 페이지), `/infra/r2`, `/infra/render-queue` — **모두 미구현**. 스캐폴딩은 페이지 없이 `POST /api/[series]/episodes`와 시리즈 홈 UI로 처리한다. 인프라 라우트는 R2 폐기·렌더 큐 인메모리 유지로 불필요해졌다.
+- 에피소드 관리는 "단일 페이지 섹션 스크롤"이 아니라 **탭 분리**(scenario/voice/render/youtube/cards)로 갔다.
+- `[lang]/[tab]` 축이 추가됐다 — 언어별 편집 화면을 쓰는 시리즈(세력도·담화)만 탄다.
 
 `[series]`가 동적 세그먼트. 레지스트리에 등록된 시리즈만 유효. 시리즈별 별도 라우트 파일이 불필요하다.
 
@@ -113,37 +142,33 @@ interface SeriesDefinition {
 
 ## 에피소드 디렉토리 구조
 
-### 현재 (플랫)
+### 실측 (26.07.16)
+
+기획의 `episodes/{series}/` 단일 트리는 채택되지 않았다. 실제로는 **시리즈마다 자기 최상위 디렉토리를 갖는다**. `episodeDir` 필드가 그 이름을 담지만, 책 기반 시리즈는 `public/episodes/`를 직접 쓴다(`episodeDir: 'book-recommend'` 값은 현재 참조되지 않는 잔재).
 
 ```
-episodes/
-  alexander-the-great.json
-  elon-musk.json
+sw/remotion/public/
+  episodes/                        ← 서재 탐방 (dataModel: book)
+    <인물>/
+      _status.json                 ← 진척도 SSoT (todo | live | done)
+      meta.ko.json / meta.en.json
+      meta.ko.timing.json / meta.en.timing.json
+      books/    <책>.{locale}.json
+      shorts/   {locale}-{N}.json
+      voice/{locale}/  images/  music/  ref/
+  factions/                        ← 세력도 (dataModel: faction)
+    <에피소드>/faction-data.json
+  discourses/                      ← 가상 담화 (dataModel: discourse)
+    <에피소드>/discourse-data.json
 ```
 
-### 확장 후 (시리즈별)
+- **인물 폴더 위치는 자유**다. `episodes/three-kingdoms/` 처럼 그룹 축으로 묶어도 되고, 진척도는 폴더 위치가 아니라 `_status.json`이 정한다. 옛 구조 `episodes/{status}/{person}/` 도 호환 인식한다.
+- **로케일 축은 파일명**이다: `meta.{locale}.json`. 에피소드 ID는 `{person}` (ko) / `{person}-en` (en) 접미사 규칙으로 표현한다.
+- **작업 완료 보관소**: `D:/remotion_done` (`REMOTION_ARCHIVED_EPISODES_DIR`). 폴백 스캔된다. 26.07.16까지 기본값이 `D:/done_people`이었으나 **그 폴더는 존재하지 않아** 보관 인물 3명(alex-karp·dario-amodei·marcus-aurelius)이 현황판에서 통째로 누락됐다. 교정 완료.
+  - 내용물이 두 종류로 섞여 있다 — **인물 데이터**(소문자 slug: `alex-karp`는 신구조, `dario-amodei`·`marcus-aurelius`는 옛 통짜 `ko.json`)와 **렌더 산출물**(PascalCase: `AlexKarp/{KO,EN}/*.mp4`). 스캔은 인물 JSON이 있는 폴더만 잡으므로 산출물 폴더는 자연히 빠진다.
+- **음성 보관소**: `sw/remotion/voice-archive/` — 아래 "음성 저장소" 절.
 
-```
-episodes/
-  book-recommend/
-    alexander-the-great.json
-    elon-musk.json
-  rival-talk/
-    davinci-vs-michelangelo.json
-  service-intro/
-    main.json
-```
-
-### 마이그레이션 계획
-
-1. `episodes/book-recommend/` 디렉토리 생성, 기존 JSON 이동
-2. `2-synthesize.ts`에 `--series` 플래그 추가 (기본값 `book-recommend`)
-3. `voice-r2.ts`의 R2 경로에 시리즈 프리픽스 추가: `remotion/voice/{series}/{name}/`
-4. `render-all.ts`에 시리즈 인식 추가
-5. `script.ts`의 episodes import를 시리즈별 동적 로드로 전환
-6. Root.tsx의 Composition 자동 등록에 시리즈 프리픽스 추가
-
-**호환성**: 마이그레이션 완료 전까지 `--series` 미지정 시 기존 플랫 경로 폴백.
+기획의 마이그레이션 계획(`--series` 플래그, `voice-r2.ts` 시리즈 프리픽스, Composition 시리즈 프리픽스)은 실행되지 않았다. 시리즈 구분이 경로 프리픽스가 아니라 `dataModel` 축으로 해결됐고, R2는 폐기됐기 때문이다.
 
 ---
 
@@ -160,12 +185,13 @@ episodes/
 │ │ ●2 ◐1 ○1│ │          │ │          │     │
 │ └──────────┘ └──────────┘ └──────────┘     │
 │                                             │
-│ R2 현황        최근 작업                     │
-│ 129 files      voice alexander  2분 전 done │
-│ 56.1MB / 10GB  render napoleon  진행 중...  │
-│ 3 unsynced                                  │
+│ (R2 현황 — 폐기)  최근 작업                  │
+│                 voice alexander  2분 전 done │
+│                 render napoleon  진행 중...  │
 └─────────────────────────────────────────────┘
 ```
+
+**실측 (26.07.16)**: 시리즈 현황 카드와 작업 패널(`TaskPanel`)은 구현됐다. 카드의 `● synced` 지표는 R2 동기화 수를 세던 것이라 폐기 후 **항상 0**으로 나온다(죽은 표시). R2 요약 블록은 만들어지지 않았다.
 
 ### 인물 검색 (`/search`)
 
@@ -209,9 +235,15 @@ DB 데이터 → JSON 뼈대 생성 → AI 초안 → 수동 검수.
 | `shorts.segments` | 훅/CTA 등 크리에이티브 |
 | `narrator.serviceIntro` | 에피소드별 커스텀 |
 
-### 편성표 (`/[series]/lineup`)
+### 편성표 (`/[series]/lineup`) — 미구현
 
-#### 데이터 소스: lineup.json
+**실측 (26.07.16)**: 아래 기획(Phase/라이벌 묶음/정치 균형 슬롯)은 착수되지 않았다. 라우트 `/[series]/lineup`도 없다.
+
+**이름 충돌 주의**: 실재하는 `scripts/youtube/youtube-lineup.json`·`faction-lineup.json`은 **편성표가 아니라 유튜브 업로드 기록**이다. 구조가 전혀 다르다 — 에피소드명을 키로 `hook`(제목 훅 ko/en)·`shortsRelation`·`uploads`(`ko-longform`·`ko-shorts-1` 등 variant별 `videoId`·`uploadedAt`)를 담아 중복 업로드를 막는다. 아래의 `phases`·`rivalGroups`·`politicalBalance`와는 무관하다.
+
+편성 대신 실제로 구현된 화면은 **`/[series]/youtube` 업로드 현황판**이다: 에피소드별 variant(ko/en × longform/shorts N편) 행에 영상·자막·썸네일 보유 여부와 업로드·동기화 상태(`synced`/`drift`/`deleted`/`not_uploaded`)를 표시한다.
+
+#### 데이터 소스: lineup.json (기획 — 미착수)
 
 `lineup.md` → `lineup.json` 구조화. 시리즈별 1개 파일.
 
@@ -248,7 +280,7 @@ interface RivalGroup {
 }
 ```
 
-#### 편성표 UI
+#### 편성표 UI (기획 — 미착수)
 
 - Phase별 진행률 바
 - 라이벌 묶음: 양쪽 인물 카드 쌍. 한쪽만 완료면 경고
@@ -257,7 +289,9 @@ interface RivalGroup {
 
 ### 에피소드 관리 (`/[series]/[name]`)
 
-단일 페이지, 섹션 스크롤. 시나리오만 별도 페이지.
+기획: 단일 페이지, 섹션 스크롤. 시나리오만 별도 페이지.
+
+**실측 (26.07.16)**: 단일 스크롤이 아니라 **탭 분리**로 구현됐다 — Scenario / Voice / Render / YouTube / Cards. `R2 STORAGE` 섹션은 만들어지지 않았다(R2 폐기). 아래 스케치는 원 기획이다.
 
 ```
 ┌─────────────────────────────────────────┐
@@ -284,25 +318,30 @@ interface RivalGroup {
 └─────────────────────────────────────────┘
 ```
 
-### R2 현황 (`/infra/r2`)
+### ~~R2 현황 (`/infra/r2`)~~ — 폐기 (26.03.23)
 
-#### 소규모 (현재)
-- 에피소드별: 로컬 WAV 수, R2 업로드 수, unsynced 수, 용량
-- 일괄 동기화 버튼
+R2 음성 동기화를 접으면서 이 페이지 기획 전체가 무효가 됐다. 라우트·API·코드 모두 존재하지 않는다. 아래 항목은 실행되지 않은 채 폐기됐다: 에피소드별 unsynced 집계, 일괄 동기화 버튼, 시리즈별 용량 집계, 월별 용량 추이, `r2-manifest.json` 해시 캐싱, 무료 한도(10GB) 초과 알림.
 
-#### 대규모 (18,000+ 파일)
-- **시리즈별 집계**: 시리즈당 총 파일 수, 용량
-- **용량 추이**: 월별 누적 그래프 (R2 무료 10GB 한도 대비)
-- **해시 캐싱**: `r2-manifest.json`의 해시를 신뢰하고, 전체 재검증은 `--force` 옵션으로만
-- **무료 한도 초과 알림**: 8GB 도달 시 경고
+용량 문제는 R2 대신 아래 **음성 저장소**로 해결했다.
 
-### 렌더 큐 (`/infra/render-queue`)
+### 음성 저장소 (시리즈 홈 "저장소" 탭) — 구현 완료 (26.04.01, `84f06090`)
 
-#### 소규모 (현재): 인메모리
+로컬 디스크 압박을 R2 업로드가 아니라 **로컬 보관소 이동**으로 푼다. 에피소드 음성 폴더를 `sw/remotion/voice-archive/<에피소드>/`로 통째 옮겼다가(Archive) 필요할 때 되돌린다(Load).
+
+- **구현 위치**: `src/lib/server-utils.ts`의 `VOICE_ARCHIVE` 상수 · `getVoiceStorageStatus()` · `loadVoiceFiles()` · `unloadVoiceFiles()`, `src/app/api/[series]/voice/storage/route.ts`(GET 현황 / POST 이동), `src/components/VoiceStorage.tsx`, `src/app/[series]/page.tsx`의 저장소 탭
+- **에피소드 상태 4종**: `loaded`(전량 로컬) / `unloaded`(보관소로 이동) / `partial`(섞임) / `none`(음성 없음)
+- **집계**: 로컬 총량 / 보관소 총량 (파일 수 + 용량)
+- **선택 이동**: 목록에서 다중 선택 → 일괄 Archive/Load. 필터 `all | loaded | unloaded`
+
+### 렌더 큐 — 인메모리 유지 (전용 페이지 없음)
+
+**실측 (26.07.16)**: 작업 큐는 `server-utils.ts`의 `globalThis.__tasks: Map<string, Task>` 인메모리이며, `GET /api/tasks`·`/api/tasks/[id]`로 폴링해 `TaskPanel`이 표시한다. `/infra/render-queue` 전용 페이지는 없다.
+
+#### 현재: 인메모리
 - 진행 중/완료/실패 작업 목록
 - stdout 로그 실시간 표시
 
-#### 대규모 전환 기준: 큐 파일 영속화
+#### 대규모 전환 기준: 큐 파일 영속화 — 미착수
 - 전환 시점: 배치 렌더링(10개+) 도입 시
 - `remotion/render-queue.json`에 상태 저장
 - 서버 재시작 후 미완료 작업 재개
@@ -312,51 +351,64 @@ interface RivalGroup {
 
 ## 헤더
 
+**실측 (26.07.16)** — 실제 헤더:
+
 ```
-[Remotion BO]  [인물 검색 입력...]  [R2 ● synced | ▲ 3 unsynced]
+[Remotion BO]  [인물 검색]                              [가이드]
 ```
 
-- **인물 검색**: 글로벌. 결과에서 에피소드 이동/스캐폴딩 생성
-- **R2 아이콘**: 전체 동기화 상태 (초록=전부 synced, 노랑=unsynced 있음)
-- 시리즈 전환은 사이드바 1단에서만 (헤더와 중복 제거)
+- **인물 검색**: `/search`로 가는 링크. 헤더 내 입력창이 아니라 전용 페이지다
+- **R2 아이콘**: 미구현 (R2 폐기)
+- 시리즈 전환은 사이드바 1단에서만 (헤더와 중복 제거) — 유지됨
 
 ---
 
 ## API
 
-### 기존 (유지, 시리즈 대응 확장)
+**실측 (26.07.16)** — 시리즈는 쿼리 파라미터가 아니라 **경로 세그먼트** `/api/[series]/…`로 갔다. 주요 라우트:
 
 ```
-GET     /api/episodes?series=          에피소드 목록 (시리즈 필터)
-GET/PUT /api/episodes/:series/:name    에피소드 CRUD
-POST    /api/episodes/:series          새 에피소드 생성 (스캐폴딩)
+── 에피소드 ──
+GET     /api/[series]/episodes             목록 (dataModel별 분기)
+POST    /api/[series]/episodes             생성 — 책 기반은 DB 스캐폴딩, 세력도·담화는 폴더 생성
+GET/PUT /api/[series]/episodes/[name]      에피소드 CRUD
+        …/[name]/meta · /book/[slug] · /field · /segment · /material · /solo/[index]
+GET     /api/[series]/candidates           후보 풀
+GET     /api/[series]/status               진척도
 
-GET     /api/voice/files/:series/:ep   음성 파일 목록
-GET     /api/voice/play/[...path]      음성 재생
-POST    /api/voice/generate            TTS 생성 (series 파라미터 추가)
-POST    /api/voice/upload              R2 업로드
-POST    /api/voice/pull                R2 다운로드
-GET     /api/voice/status              R2 동기화 현황
+── 음성 ──
+GET  /api/[series]/voice/files/[episode]   음성 파일 목록
+GET  /api/[series]/voice/play/[...path]    음성 재생
+POST /api/[series]/voice/generate          TTS 생성
+GET  /api/[series]/voice/storage           음성 저장소 현황  ← R2 대체
+POST /api/[series]/voice/storage           보관/복원 이동
+     …/voice/analyze · /rename · /save · /style · /meta · /pipeline-status · /voice-select
+     …/voice/{gemini,gemini-v3,elevenlabs}/preview
+     /api/[series]/faction-voice/…  ·  /api/[series]/discourse-voice/…
 
-POST    /api/render                    렌더링 트리거
-GET     /api/tasks                     작업 큐
-GET     /api/tasks/:id                 작업 상세
-```
+── 렌더 · 작업 ──
+POST /api/[series]/render                  렌더링 트리거
+GET  /api/tasks · /api/tasks/[id]          작업 큐 (인메모리)
 
-### 추가
-
-```
 ── 인물 (Supabase 읽기 전용) ──
-GET  /api/celebs/search?q=&era=&profession=  셀럽 검색
-GET  /api/celebs/:slug                       셀럽 상세 (프로필+콘텐츠)
+GET  /api/celebs/search  ·  /api/celebs/[slug]  ·  /api/celebs/exists  ·  /api/celebs/[slug]/voice
 
-── 편성 ──
-GET  /api/lineup/:series                     편성표 데이터
-PUT  /api/lineup/:series                     편성 저장
+── 유튜브 ──
+GET/PUT /api/[series]/youtube/lineup       업로드 기록(youtube-lineup.json)
+        …/youtube/{meta,status,status-all,sync,db-sync,upload,thumb}
 
-── 인프라 ──
-GET  /api/infra/r2/summary                   R2 전체 현황 (시리즈별 집계)
+── 세력도 전용 ──
+/api/[series]/faction-{episode,cards,image,image-folder,avatar,music,sfx,comment,card-export,open-folder}
+/api/[series]/cards/[name]
+
+── 미디어 ──
+/api/[series]/{images,videos,music,soundeffect,folders}/[...path]  ·  /api/rm-asset/[...path]  ·  /api/open-folder
+/api/elevenlabs/{voices,voice-history,voice-notes}
 ```
+
+**폐기·미구현**:
+- `POST /api/voice/upload` · `POST /api/voice/pull` · `GET /api/voice/status` · `GET /api/infra/r2/summary` — R2 폐기로 전부 무효
+- `GET/PUT /api/lineup/:series`(편성 데이터) — 미구현. 같은 이름의 `/api/[series]/youtube/lineup`은 **편성이 아니라 유튜브 업로드 기록**이다. 아래 편성표 절 참조
 
 ---
 
@@ -375,11 +427,18 @@ GET  /api/infra/r2/summary                   R2 전체 현황 (시리즈별 집�
 
 ### 파일 구조
 
+**실측 (26.07.16)** — 로케일별 별도 파일 원칙은 채택됐으나, 파일명이 `{name}.en.json`이 아니라 **인물 폴더 안의 `{종류}.{locale}.json`**이다:
+
 ```
-episodes/book-recommend/
-  alexander-the-great.json        ← 한국어 (기본)
-  alexander-the-great.en.json     ← 영어
+public/episodes/alexander-the-great/
+  meta.ko.json / meta.ko.timing.json      ← 한국어 (기본)
+  meta.en.json / meta.en.timing.json      ← 영어
+  books/<책>.ko.json / <책>.en.json
+  shorts/ko-1.json / en-1.json
+  voice/ko/ · voice/en/
 ```
+
+에피소드 ID는 `alexander-the-great`(ko) / `alexander-the-great-en`(en)으로 표현하고, `parseEpisodeId()`가 person·locale로 분해한다. 옛 구조 `{person}/ko.json`·`{person}/en.json`도 호환 인식한다. 영문 메타는 26.07.16 기준 12개 인물에 실재한다.
 
 로케일별 별도 파일. 한 파일에 통합하지 않는다:
 - 한국어/영어의 문장 수, 길이, TTS duration이 전혀 다르다
@@ -418,19 +477,21 @@ episodes/book-recommend/
 
 ### Remotion 코드 변경
 
-최소한의 변경. 에피소드 JSON이 이미 모든 텍스트를 담고 있으므로:
+최소한의 변경. 에피소드 JSON이 이미 모든 텍스트를 담고 있으므로 — **실측 (26.07.16): 아래 4건 모두 구현됨** (형태는 일부 다름):
 
-- `BookRecommend.tsx`: `locale` prop 추가. 라벨/CTA만 분기
-- `Root.tsx`: 로케일별 Composition 자동 등록 (`{Label}En`)
-- `2-synthesize.ts`: `--locale en` → 영문 보이스 매핑
-- `render-all.ts`: 로케일별 출력 파일 분리
+- ✅ 라벨/CTA 분기 — `compositions/BookRecommend/i18n.ts`에 UI 문자열 사전(`labelSummary`·`labelContext`·`brandSubtitle`·섹션 명칭 등)을 두고 로케일로 고른다. `BookRecommend.tsx`의 `locale` prop이 아니라 스크립트의 로케일을 따르는 방식
+- ✅ `Root.tsx`: 로케일별 Composition 자동 등록 — `{Label}En`이 아니라 **`{label}-{KO|EN}-…-VID`** 명명. 에피소드 키의 `-en` 접미사로 `lang`을 뽑아 KO/EN을 함께 등록한다. **단, 세력도(Faction) EN 컴포지션은 주석 처리된 미사용 상태**다(한국어만 렌더)
+- ✅ TTS 영문 분기 — `--locale en` 플래그가 아니라 **`--episode {name}-en`** 으로 받는다. `2-synthesize/cli.ts`가 `EP_LOCALE`을 뽑아 `voice/{locale}/`·`common/voice/{locale}/`로 가르고, `jobs.ts`가 `EP_LOCALE === 'en'`으로 인트로·아웃트로·보이스를 분기한다
+- ✅ `render-all.ts`: 로케일별 출력 분리 — `meta.{locale}.json` 로드 + 로케일별 출력 파일
 
 ### remotion-bo 반영
 
-- 사이드바 에피소드 목록에 로케일 배지 (🇰🇷/🇺🇸)
-- 에피소드 관리에서 "영문 버전 생성" 버튼
-- 편성표에 로케일별 진행 상태 표시
-- R2 경로: `remotion/voice/{series}/{name}.{locale}/`
+**실측 (26.07.16)**:
+
+- ✅ 로케일 배지 — 시리즈 홈 에피소드 행에 `EN` 배지. 영문판이 있으면 링크(초록), 없으면 흐리게. 사이드바는 ko/en을 한 인물로 묶되 배지는 두지 않는다(🇰🇷/🇺🇸 국기 대신 `EN` 텍스트)
+- ⏸ "영문 버전 생성" 버튼 — 미구현. 영문판 생성은 스킬(`remo-i18n-episode`)로 처리한다
+- ⏸ 편성표 로케일 진행 상태 — 편성표 자체가 미착수. 다만 `/[series]/youtube` 현황판이 ko/en variant별 상태를 보여줘 실질을 대신한다
+- ❌ R2 경로 — 폐기
 
 ---
 
@@ -440,98 +501,126 @@ episodes/book-recommend/
 |------|------|------|
 | DB 접근 | Supabase 직접 연결 (anon key, 읽기 전용) | web-bo와 동일 URL/키. 환경변수 공유, 타입은 독립 정의 |
 | 상태 관리 | React state + fetch | 로컬 도구. 복잡한 상태관리 불필요 |
-| 에피소드 저장 | 파일 기반 (`episodes/{series}/{person}/{locale}.json`) | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
-| 편성 데이터 | `episodes/{series}/lineup.json` | lineup.md를 구조화. DB 불필요 (편성은 로컬 판단) |
-| 렌더 큐 | 인메모리 → 파일 영속화 (배치 도입 시 전환) | 초기는 간단하게, 규모 커지면 전환 |
-| 시리즈 확장 | 레지스트리 패턴 | 새 시리즈 = 정의 1개 추가. UI/라우팅 자동 |
-| AI 초안 | `@feelandnote/ai-services` 연동 | 수백 에피소드를 수동 작성하는 건 비현실적 |
-| 다국어 | 로케일별 별도 JSON (`{name}.en.json`) | 번역이 아니라 재작성. duration/문장 구조가 달라 통합 불가 |
+| 에피소드 저장 | 파일 기반 — 실제: `public/episodes/{person}/meta.{locale}.json` (책 기반) · `public/{factions,discourses}/{ep}/*-data.json` | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
+| 편성 데이터 | ⏸ 미착수 (`lineup.json` 구조화 안 됨) | 편성표 자체가 미착수. 실재하는 `youtube-lineup.json`은 업로드 기록이라 별개 |
+| 렌더 큐 | 인메모리 유지 (`globalThis.__tasks`) — 파일 영속화 미착수 | 초기는 간단하게, 규모 커지면 전환 |
+| 시리즈 확장 | 레지스트리 패턴 + `dataModel` 축 | 새 시리즈 = 정의 1개 추가. UI/라우팅/IO 자동. 하드코딩 id 분기 금지 |
+| AI 초안 | ⏸ BO 내 연동 미착수 — 실제는 Claude 스킬(`remo-write-*`·`remo-i18n-episode`)이 담당 | 수백 에피소드를 수동 작성하는 건 비현실적 |
+| 다국어 | 로케일별 별도 파일 — 실제 명명은 `meta.{locale}.json`, 에피소드 ID는 `{person}-en` | 번역이 아니라 재작성. duration/문장 구조가 달라 통합 불가 |
+| 음성 보관 | 로컬 보관소 `voice-archive/` 이동·복원 (R2 폐기 대체) | 클라우드 동기화 대신 디스크 압박만 해소 |
 | 유튜브 채널 | 언어별 분리 (KR + EN) | 알고리즘 최적화. 영상 내 텍스트가 렌더링되므로 CC 자막 대체 불가 |
 
 ---
 
 ## 구현 현황
 
+> **26.07.16 전면 재실측.** 이전 판정은 Phase 4·5를 "미착수"로 적어 두고 있었으나 실제로는 대부분 완료였다. 아래는 코드 대조 결과다.
+>
+> 범례: ✅ 완료 · 🔀 다른 형태로 완료(기획안과 구현 형태가 다름) · ⏸ 미착수 · ❌ 폐기
+
 ### Phase 1: 구조 잡기 ✅ 완료
 
-1. ✅ 헤더 + 2단 사이드바 (1단: 시리즈 아이콘, 2단: 에피소드 목록)
-2. ✅ 시리즈 레지스트리 (`lib/series-registry.ts` — BookRecommend 등록)
+1. ✅ 헤더 + 2단 사이드바 (1단: 시리즈 아이콘, 2단: 에피소드 목록) — 헤더의 R2 표시기만 ❌ 폐기
+2. ✅ 시리즈 레지스트리 (`lib/series-registry.ts`)
 3. ✅ 라우팅 재구성 (`/[series]/[name]` 패턴)
-4. ✅ 에피소드 디렉토리 마이그레이션 (`episodes/book-recommend/`)
-5. ✅ 대시보드 시리즈 현황 카드 (●/◐/○ 상태 표시)
+4. 🔀 에피소드 디렉토리 — `episodes/book-recommend/` 하위 이동은 **하지 않았다**. 실제는 `public/episodes/<인물>/meta.{locale}.json` + `_status.json` 진척도, 세력도·담화는 `public/factions/`·`public/discourses/` 각자 최상위. 시리즈 구분은 경로 프리픽스가 아니라 `dataModel` 축이 맡는다
+5. ✅ 대시보드 시리즈 현황 카드 — ◐(음성)은 동작. ●(R2 동기화 수)는 폐기 후 항상 0인 죽은 표시
 
-### Phase 2: 인물 연동 ✅ 완료 (AI 초안 미구현)
+### Phase 2: 인물 연동 ✅ 완료 (AI 초안 미착수)
 
 6. ✅ Supabase 연결 (anon key 읽기 전용)
-7. ✅ 셀럽 검색 API (`/api/celebs/search`, `/api/celebs/[slug]`)
+7. ✅ 셀럽 검색 API (`/api/celebs/search`, `/api/celebs/[slug]`, `/api/celebs/exists`, `/api/celebs/[slug]/voice`)
 8. ✅ 인물 검색 페이지 (`/search` — 직군·음성 필터, 에피소드 존재 여부 표시)
-9. ✅ 에피소드 스캐폴딩 (`POST /api/[series]/episodes` — DB→JSON 뼈대 생성)
-10. ⏸ AI 초안 (philosophy, summary, contextMain, celebIntro) — LLM 연동 시 별도 작업
+9. ✅ 에피소드 스캐폴딩 (`POST /api/[series]/episodes` — DB→JSON 뼈대 생성). 전용 페이지 `/[series]/new`는 두지 않고 시리즈 홈에서 호출
+10. ⏸ AI 초안 (philosophy, summary, contextMain, celebIntro) — 스캐폴딩이 해당 필드를 빈 문자열로 두는 상태 그대로. 실제 초안은 Claude 스킬(`remo-write-*`)이 맡고 있어 BO 내 LLM 연동은 여전히 미착수
 
-### Phase 3: 편성 관리 — 미착수
+### Phase 3: 편성 관리 — 대부분 미착수
 
-11. lineup.json 구조화 (lineup.md → JSON 전환)
-12. 편성표 UI
-13. 에피소드 상태 추적 (사이드바 상태 아이콘) — 사이드바에 ●/◐/○ 아이콘은 이미 구현
+11. ⏸ lineup.json 구조화 (phases / rivalGroups / politicalBalance) — 미착수. 동명의 `youtube-lineup.json`은 **유튜브 업로드 기록**이라 이 항목과 무관
+12. 🔀 편성표 UI — 기획된 편성표(`/[series]/lineup`)는 미착수. 대신 `/[series]/youtube` 업로드 현황판이 구현돼 ko/en × 롱폼/쇼츠 variant별 영상·자막·썸네일 보유와 업로드·동기화 상태를 보여준다
+13. ✅ 에피소드 상태 추적 (사이드바 ●/◐/○) — 구현 완료 (`components/Sidebar/StatusIcon.tsx`)
 
-### Phase 4: 시리즈 확장 — 미착수
+### Phase 4: 시리즈 확장 ✅ 대부분 완료
 
-14. 서비스 소개 레지스트리 등록
-16. 사이드바 2단 에피소드 목록 가상 스크롤
+**판정 정정 (26.07.16)**: 종전 "미착수" 표기는 오류였다. 26.06.04 "시리즈 다중화·Faction·Solo 백오피스 개편"으로 레지스트리가 `dataModel` 축까지 갖춰 다중 시리즈를 굴리고 있다.
 
-### Phase 5: 다국어 — 미착수
+14. 🔀 시리즈 레지스트리 확장 — **서비스 소개는 등록되지 않았고**, 대신 **세력도(`faction`)·가상 담화(`discourse`)** 2종이 등록돼 운영 중이다. 각 정의가 `dataModel`·`episodeHome`·`langTabEditor`·`render.codec`을 갖고, 시리즈별 편집기(`FactionEditor`·`DiscourseEditor`)·전용 API·전용 IO가 붙어 있다. 기획의 "새 시리즈 = 정의 1개 추가" 원칙은 실제로 성립
+16. ⏸ 사이드바 2단 에피소드 목록 가상 스크롤 — 미착수. 윈도잉 없이 전량 렌더한다
 
-17. 에피소드 JSON 로케일 체계 (`{name}.en.json`)
-18. Composition locale prop + 라벨/CTA 분기
-19. 영문 TTS 보이스 매핑 + 2-synthesize.ts --locale 플래그
-20. 영문 에피소드 AI 재작성 파이프라인 (quotePairs[].quote 원전 조회 포함)
-21. remotion-bo 로케일 배지 + "영문 버전 생성" 버튼
+### Phase 5: 다국어 ✅ 대부분 완료
 
-### Phase 6: 인프라 고도화 — 미착수
+**판정 정정 (26.07.16)**: 종전 "미착수" 표기는 오류였다. 영문 에피소드(`meta.en.json`)가 12개 인물에 실재하고, 로케일 축이 파일·스크립트·Composition·BO 전반에 관통해 있다.
 
-22. R2 시리즈별 집계 + 용량 추이 + 한도 알림
-23. 렌더 큐 파일 영속화 + 배치 렌더링
-24. 해시 캐싱 (대규모 R2 동기화 성능)
+17. 🔀 에피소드 JSON 로케일 체계 — 완료. 단 파일명은 `{name}.en.json`이 아니라 `meta.{locale}.json` / `books/<책>.{locale}.json` / `shorts/{locale}-{N}.json`. 에피소드 ID는 `-en` 접미사
+18. 🔀 라벨/CTA 분기 — 완료. `compositions/BookRecommend/i18n.ts` 문자열 사전. `locale` prop이 아니라 스크립트 로케일 기반. `Root.tsx`가 `{label}-{KO|EN}-…-VID`로 KO/EN Composition을 자동 등록. **세력도 EN Composition은 주석 처리된 미사용 상태**
+19. 🔀 영문 TTS — 완료. `--locale` 플래그가 아니라 `--episode {name}-en`으로 받아 `cli.ts`의 `EP_LOCALE`이 `voice/{locale}/`·`common/voice/{locale}/`를 가르고, `jobs.ts`가 영문 인트로·아웃트로·보이스를 분기
+20. 🔀 영문 재작성 파이프라인 — BO 기능이 아니라 Claude 스킬 `remo-i18n-episode`(+`remo-write-7-translation`)로 구현. quotePairs 원전 조회 원칙 포함
+21. 🔀 로케일 배지 ✅ / "영문 버전 생성" 버튼 ⏸ — 시리즈 홈 행에 `EN` 배지(있으면 링크·없으면 흐리게). 버튼은 없고 스킬로 생성
+
+### Phase 6: 인프라 고도화 — 미착수·폐기
+
+22. ❌ R2 시리즈별 집계 + 용량 추이 + 한도 알림 — 폐기(26.03.23). **대체 구현**: 음성 저장소(`voice-archive`) — 로컬/보관소 집계, 상태 4종, 선택 일괄 이동. 26.04.01 `84f06090` 완료
+23. ⏸ 렌더 큐 파일 영속화 + 배치 렌더링 — 미착수. 작업 큐는 `globalThis.__tasks` 인메모리 Map 유지
+24. ❌ 해시 캐싱 (대규모 R2 동기화 성능) — 폐기(R2 종속)
+
+### 기획서에 없던 구현 (26.07.16 실측)
+
+문서가 따라잡지 못한 실제 기능들:
+
+- **음성 저장소** — `voice-archive` 보관/복원 (Phase 6-22 대체)
+- **유튜브 파이프라인** — 업로드·메타 갱신·동기화 검사(drift 탐지)·DB 동기화·썸네일 (`/[series]/youtube`, `/[series]/[name]/youtube`)
+- **카드뉴스** — `/[series]/[name]/cards`, 세력도 카드 편집·내보내기
+- **음성 정밀 편집** — 발화 시각 편집기(`VoiceTimingEditor`), 파형 재생기, 호흡 편집, ElevenLabs 보이스 이력·메모, Gemini/ElevenLabs 미리보기
+- **세력도·담화 전용 편집기** — 인물 명단·그룹·이미지 풀·음성 패널 / 발언 순서·덩어리 편집
+- **작업 완료 인물 보관소** — `D:/remotion_done` 폴백 스캔 (26.07.16 교정. 옛 기본값 `D:/done_people`는 실재하지 않는 폴더였다)
+- **가이드 페이지** — `/guide` (내용에 R2 설명이 남아 있어 실제와 어긋난다)
 
 ---
 
 ## 코드 구조
 
-### 디렉토리
+### 디렉토리 (실측 26.07.16 — 골자만)
 
 ```
 sw/remotion-bo/src/
 ├── app/
-│   ├── layout.tsx               ← 루트 레이아웃 (헤더 + 사이드바 + main)
-│   ├── page.tsx                 ← 대시보드 (시리즈 현황 카드)
-│   ├── search/page.tsx          ← 인물 검색 (Supabase 셀럽 검색)
+│   ├── layout.tsx                    ← 루트 레이아웃 (헤더 + 사이드바 + main)
+│   ├── page.tsx                      ← 대시보드 (시리즈 현황 카드)
+│   ├── search/page.tsx               ← 인물 검색 (Supabase 셀럽)
+│   ├── guide/page.tsx                ← 사용 가이드 (R2 설명 잔존 — 실제와 어긋남)
 │   ├── [series]/
-│   │   ├── page.tsx             ← 시리즈 홈 (에피소드 그리드)
+│   │   ├── page.tsx                  ← 시리즈 홈 (에피소드 목록 · 후보 풀 · 저장소 탭)
+│   │   ├── youtube/page.tsx          ← 유튜브 업로드 현황판
 │   │   └── [name]/
-│   │       ├── page.tsx         ← 에피소드 관리 (음성/R2/렌더/JSON)
-│   │       └── scenario/page.tsx ← 시나리오 뷰 (롱폼/쇼츠)
+│   │       ├── layout.tsx            ← EpisodeProvider + TabNav (책 기반)
+│   │       ├── page.tsx              ← episodeHome 리다이렉트
+│   │       ├── scenario|voice|render|youtube|cards/page.tsx
+│   │       └── [lang]/[tab]/…        ← 세력도·담화 편집 (card/[person] 하위 포함)
 │   └── api/
-│       ├── [series]/            ← 시리즈별 API
-│       │   ├── episodes/        ← GET 목록 / POST 스캐폴딩
-│       │   ├── render/          ← POST 렌더링
-│       │   └── voice/           ← generate/files/play/upload/pull/status
-│       ├── celebs/              ← Supabase 셀럽 (시리즈 무관)
-│       │   ├── search/          ← GET 검색
-│       │   └── [slug]/          ← GET 상세+도서
-│       └── tasks/               ← GET 작업 큐
+│       ├── [series]/                 ← episodes · voice(+storage) · render · youtube
+│       │                                faction-* · discourse-voice · cards · 미디어
+│       ├── celebs/                   ← search · [slug] · exists · [slug]/voice
+│       ├── elevenlabs/               ← voices · voice-history · voice-notes
+│       └── tasks/                    ← GET 작업 큐
 ├── components/
-│   ├── Header.tsx               ← 헤더 바 (로고 + 검색 링크)
-│   ├── Sidebar.tsx              ← 2단 사이드바 (시리즈 + 에피소드)
-│   └── TaskPanel.tsx            ← 작업 상태 패널 (폴링)
+│   ├── Header.tsx · Sidebar/ · TabNav.tsx · TaskPanel.tsx
+│   ├── VoiceStorage.tsx              ← 음성 저장소 (R2 대체)
+│   ├── ScenarioView/ · scenario/ · scenario-voice/ · EpisodeEditor/
+│   ├── VoiceTimingEditor/ · AudioWavePlayer/ · YouTubePanel/
+│   ├── faction/                      ← 세력도 편집기
+│   └── discourse/                    ← 가상 담화 편집기
 └── lib/
-    ├── series-registry.ts       ← 시리즈 정의 + 레지스트리
-    ├── server-utils.ts          ← 파일 I/O + 작업 큐
-    └── supabase.ts              ← Supabase anon 클라이언트
+    ├── series-registry.ts            ← 시리즈 정의 + dataModel 축
+    ├── server-utils.ts               ← 파일 I/O · 작업 큐 · VOICE_ARCHIVE
+    ├── faction-*.ts · discourse-*.ts ← 시리즈별 타입·IO·음성
+    ├── episode-context.tsx · episode-data.ts
+    └── supabase.ts                   ← Supabase anon 클라이언트
 ```
 
 ### 핵심 설계
 
-- **시리즈 확장**: `series-registry.ts`에 정의 1개 추가 → UI/라우팅/API 자동 대응
-- **에피소드 파일 기반**: `episodes/{series}/{person}/{locale}.json` (DB 아닌 파일)
+- **시리즈 확장**: `series-registry.ts`에 정의 1개 추가 → UI/라우팅/API 자동 대응. 시리즈별 차이는 코드 분기가 아니라 정의 필드(`dataModel`·`episodeHome`·`langTabEditor`)로 표현한다
+- **에피소드 파일 기반**: `public/episodes/{person}/meta.{locale}.json` 외 (DB 아닌 파일). 진척도는 폴더 위치가 아니라 `_status.json`
 - **Supabase 읽기 전용**: 셀럽 프로필·도서만 조회. 쓰기는 JSON 파일로
-- **스캐폴딩**: DB → JSON 뼈대 자동 생성. AI 초안 필드는 빈 문자열 (LLM 연동 시 채움)
+- **스캐폴딩**: DB → JSON 뼈대 자동 생성. AI 초안 필드는 빈 문자열 (Claude 스킬이 채운다)
+- **음성은 로컬 전용**: 클라우드 동기화 없음. 용량은 `voice-archive` 보관으로 관리

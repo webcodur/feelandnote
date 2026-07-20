@@ -27,6 +27,32 @@ const professionLabels: Record<string, string> = {
   unknown: 'unknown',
 }
 
+/**
+ * 셀럽 상세로 가는 줄.
+ *
+ * 상세 화면 주소는 slug로 잡힌다(/celebs/[slug]). 예전엔 id를 끼워 넣어 전부
+ * 404로 떨어졌다. slug가 없는 인물은 갈 곳이 없으므로 링크를 걸지 않는다.
+ */
+function CelebRow({
+  slug,
+  children,
+}: {
+  slug: string | null
+  children: React.ReactNode
+}) {
+  const className = 'flex items-center justify-between p-2 rounded-lg'
+
+  if (!slug) {
+    return <div className={className}>{children}</div>
+  }
+
+  return (
+    <Link href={`/celebs/${slug}`} className={`${className} hover:bg-white/5`}>
+      {children}
+    </Link>
+  )
+}
+
 export default async function CelebStatsPage() {
   const stats = await getCelebStats()
 
@@ -107,11 +133,7 @@ export default async function CelebStatsPage() {
           <h2 className="text-lg font-semibold text-text-primary mb-4">follower_count TOP 10</h2>
           <div className="space-y-2">
             {stats.topFollowerCelebs.map((celeb, idx) => (
-              <Link
-                key={celeb.id}
-                href={`/celebs/${celeb.id}`}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5"
-              >
+              <CelebRow key={celeb.id} slug={celeb.slug}>
                 <div className="flex items-center gap-3">
                   <span className="w-6 h-6 flex items-center justify-center text-sm font-medium text-accent">
                     {idx + 1}
@@ -124,7 +146,7 @@ export default async function CelebStatsPage() {
                   </div>
                 </div>
                 <span className="text-sm text-text-secondary">{celeb.follower_count}명</span>
-              </Link>
+              </CelebRow>
             ))}
           </div>
         </div>
@@ -134,11 +156,7 @@ export default async function CelebStatsPage() {
           <h2 className="text-lg font-semibold text-text-primary mb-4">content_count TOP 10</h2>
           <div className="space-y-2">
             {stats.topContentCelebs.map((celeb, idx) => (
-              <Link
-                key={celeb.id}
-                href={`/celebs/${celeb.id}`}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5"
-              >
+              <CelebRow key={celeb.id} slug={celeb.slug}>
                 <div className="flex items-center gap-3">
                   <span className="w-6 h-6 flex items-center justify-center text-sm font-medium text-accent">
                     {idx + 1}
@@ -151,7 +169,7 @@ export default async function CelebStatsPage() {
                   </div>
                 </div>
                 <span className="text-sm text-text-secondary">{celeb.content_count}개</span>
-              </Link>
+              </CelebRow>
             ))}
           </div>
         </div>
@@ -161,11 +179,7 @@ export default async function CelebStatsPage() {
           <h2 className="text-lg font-semibold text-text-primary mb-4">최근 등록</h2>
           <div className="space-y-2">
             {stats.recentCelebs.map((celeb) => (
-              <Link
-                key={celeb.id}
-                href={`/celebs/${celeb.id}`}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5"
-              >
+              <CelebRow key={celeb.id} slug={celeb.slug}>
                 <div>
                   <p className="text-sm font-medium text-text-primary">{celeb.nickname}</p>
                   <p className="text-xs text-text-secondary">
@@ -175,7 +189,7 @@ export default async function CelebStatsPage() {
                 <span className="text-xs text-text-secondary">
                   {new Date(celeb.created_at).toLocaleDateString('ko-KR')}
                 </span>
-              </Link>
+              </CelebRow>
             ))}
           </div>
         </div>

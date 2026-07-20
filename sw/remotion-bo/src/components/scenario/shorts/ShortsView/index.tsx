@@ -7,7 +7,7 @@ import type { EpisodeData } from '../../../EpisodeEditor'
 import type { ImageEditorProps } from '../../types'
 import { AddFieldButton } from '../../ScenarioRow'
 import { ImagePool } from '../../ImagePool'
-import { ShortsCopyButton } from '../CopyButton'
+import { ShortsCopyButton, ShortsJsonPanel } from '../CopyButton'
 import { RevealBgSlot } from '../RevealBgSlot'
 import { SegmentInsertBar } from './SegmentInsertBar'
 import { SegmentRow } from './SegmentRow'
@@ -39,6 +39,7 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
   // ── DND 상태 — fromIdx: 드래그 시작 위치 / overIdx: 현재 hover 위치
   const [dragFromIdx, setDragFromIdx] = useState<number | null>(null)
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null)
+  const [jsonOpen, setJsonOpen] = useState(false)
   if (!currentShorts) return null
 
   const speakerById = useMemo(() => new Map(speakers.map(s => [s.id, s])), [speakers])
@@ -176,12 +177,25 @@ export function ShortsView({ episode, shortsIndex, sectionMap, onUpdate, onToggl
                 <span className="text-text-dim"> · 구간 {countSegs.length}</span>
               </span>
               <span onClick={e => e.preventDefault()}>
-                <ShortsCopyButton segments={segments} shortsName={shortsName} />
+                <ShortsCopyButton
+                  segments={segments}
+                  shortsName={shortsName}
+                  jsonOpen={jsonOpen}
+                  onToggleJson={() => setJsonOpen(v => !v)}
+                />
               </span>
             </span>
           }
           contentClassName="p-3"
         >
+          <ShortsJsonPanel
+            segments={segments}
+            open={jsonOpen}
+            onClose={() => setJsonOpen(false)}
+            onApplySegments={next => {
+              state.writeShorts({ ...currentShorts, segments: next })
+            }}
+          />
           <SegmentTimingPanel
             segments={segments}
             hasBgm={!!(currentShorts as { bgm?: unknown[] })?.bgm?.length}

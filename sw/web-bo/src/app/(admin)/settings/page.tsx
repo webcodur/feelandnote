@@ -6,30 +6,33 @@ export const metadata: Metadata = {
 }
 import { getSupabaseStats } from '@/actions/admin/supabase-stats'
 
-const settingSections = [
+/**
+ * 아직 만들지 않은 설정 화면들.
+ *
+ * 예전엔 각자 이동할 주소(href)를 달고 있었지만 그 주소에 화면이 없었고,
+ * 카드 자체도 링크가 아니라 눌러도 아무 일이 없었다. 주소를 지우고 준비 중임을
+ * 겉으로 드러낸다. 화면을 만들 때 여기에 링크를 다시 건다.
+ */
+const plannedSettingSections = [
   {
     title: '알림 설정',
     description: '이메일 및 푸시 알림 설정을 관리합니다',
     icon: Bell,
-    href: '/settings/notifications',
   },
   {
     title: '보안 설정',
     description: '비밀번호 및 2단계 인증을 관리합니다',
     icon: Shield,
-    href: '/settings/security',
   },
   {
     title: '데이터 관리',
     description: '백업 및 데이터 내보내기를 관리합니다',
     icon: Database,
-    href: '/settings/data',
   },
   {
     title: '테마 설정',
     description: '관리자 페이지 테마를 설정합니다',
     icon: Palette,
-    href: '/settings/theme',
   },
 ]
 
@@ -44,23 +47,29 @@ export default async function SettingsPage() {
         <p className="text-sm text-text-secondary mt-1">관리자 설정을 관리합니다</p>
       </div>
 
-      {/* Settings Grid */}
+      {/* Settings Grid — 전부 준비 중이라 누를 수 없음을 겉으로 드러낸다 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-        {settingSections.map((section) => {
+        {plannedSettingSections.map((section) => {
           const Icon = section.icon
           return (
             <div
               key={section.title}
-              className="bg-bg-card border border-border rounded-xl p-4 md:p-6 hover:border-accent/50 cursor-pointer"
+              aria-disabled
+              className="bg-bg-card border border-border border-dashed rounded-xl p-4 md:p-6 opacity-60"
             >
               <div className="flex items-start gap-3 md:gap-4">
-                <div className="p-2.5 md:p-3 rounded-lg bg-accent/10">
-                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+                <div className="p-2.5 md:p-3 rounded-lg bg-text-secondary/10">
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-text-secondary" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-base md:text-lg font-semibold text-text-primary">
-                    {section.title}
-                  </h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base md:text-lg font-semibold text-text-secondary">
+                      {section.title}
+                    </h3>
+                    <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium bg-text-secondary/10 text-text-secondary">
+                      준비 중
+                    </span>
+                  </div>
                   <p className="text-xs md:text-sm text-text-secondary mt-1">
                     {section.description}
                   </p>
@@ -212,7 +221,7 @@ export default async function SettingsPage() {
                 <span className="text-sm font-medium text-text-primary">250 GB / 월</span>
               </div>
               <div className="pt-2 p-2 bg-amber-500/5 border border-amber-500/20 rounded text-amber-300 text-[11px]">
-                ⚠️ 2026-03-18 Egress 초과 사고 (15.59GB/5.5GB). SSR 캐싱 미적용이 원인. unstable_cache 적용으로 해결 완료.
+                ⚠️ 2026-03-18 Egress 초과 사고 (15.59GB/5.5GB). SSR 캐싱 미적용이 원인.
               </div>
             </div>
           </div>

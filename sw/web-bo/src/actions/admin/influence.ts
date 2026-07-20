@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export interface InfluenceData {
   celeb_id: string
@@ -32,28 +33,48 @@ export interface InfluenceData {
 
 export type InfluenceAxis = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural'
 
+interface InfluenceQueryRow {
+  celeb_id: string
+  political: number | null; political_exp: string | null; political_exp_en: string | null
+  strategic: number | null; strategic_exp: string | null; strategic_exp_en: string | null
+  tech: number | null; tech_exp: string | null; tech_exp_en: string | null
+  social: number | null; social_exp: string | null; social_exp_en: string | null
+  economic: number | null; economic_exp: string | null; economic_exp_en: string | null
+  cultural: number | null; cultural_exp: string | null; cultural_exp_en: string | null
+  transhistoricity: number | null; transhistoricity_exp: string | null; transhistoricity_exp_en: string | null
+  total_score: number | null
+  profiles: { nickname: string | null; profession: string | null } | null
+}
+
 export async function getInfluenceList(): Promise<InfluenceData[]> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('celeb_influence')
-    .select(`
-      celeb_id,
-      political, political_exp, political_exp_en,
-      strategic, strategic_exp, strategic_exp_en,
-      tech, tech_exp, tech_exp_en,
-      social, social_exp, social_exp_en,
-      economic, economic_exp, economic_exp_en,
-      cultural, cultural_exp, cultural_exp_en,
-      transhistoricity, transhistoricity_exp, transhistoricity_exp_en,
-      total_score,
-      profiles!celeb_influence_celeb_id_fkey (nickname, profession)
-    `)
-    .order('total_score', { ascending: false })
+  // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 하위 순위 인물이 통째로 사라진다.
+  // total_score는 동점이 많아 페이징 사이 순서가 흔들리므로 celeb_id를 2차 정렬키로 고정한다.
+  const data = await selectAllPages<InfluenceQueryRow>((from, to) =>
+    supabase
+      .from('celeb_influence')
+      .select(`
+        celeb_id,
+        political, political_exp, political_exp_en,
+        strategic, strategic_exp, strategic_exp_en,
+        tech, tech_exp, tech_exp_en,
+        social, social_exp, social_exp_en,
+        economic, economic_exp, economic_exp_en,
+        cultural, cultural_exp, cultural_exp_en,
+        transhistoricity, transhistoricity_exp, transhistoricity_exp_en,
+        total_score,
+        profiles!celeb_influence_celeb_id_fkey (nickname, profession)
+      `)
+      .order('total_score', { ascending: false })
+      .order('celeb_id', { ascending: true })
+      .range(from, to) as unknown as PromiseLike<{
+        data: InfluenceQueryRow[] | null
+        error: { message: string } | null
+      }>
+  )
 
-  if (error) throw error
-
-  return (data ?? []).map((row: any) => ({
+  return data.map((row) => ({
     celeb_id: row.celeb_id,
     nickname: row.profiles?.nickname ?? '',
     profession: row.profiles?.profession ?? null,

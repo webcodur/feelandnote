@@ -1,98 +1,56 @@
 ---
 name: remo-write-story-dump
-description: 에피소드 ko/en JSON에서 스토리 평문만 markdown으로 추출한다. JSON 구조 노이즈를 빼고 narrator·host·books·shorts 텍스트를 영상 흐름 순서대로 한 호흡에 읽도록 돕는다. 편집국 사이클(/remo-write-5-editorial-board), 사료 검증, 결말 매듭 평가의 입력으로 사용한다. /remo-write-story-dump <에피소드명> 으로 실행.
+description: 서재탐방 롱폼·쇼츠·SOLO JSON에서 이야기만 Markdown 편집 원고로 추출한다. JSON 구조를 보지 않고 통독·자료검증·문장수정을 할 때 사용한다. SOLO는 확정된 Markdown 본문만 원래 JSON에 안전하게 되돌릴 수 있다. /remo-write-story-dump 에피소드명.
 ---
 
-# 에피소드 스토리 추출
+# 서재탐방 편집 원고
 
-## 동기
+스토리 작업은 JSON에서 시작하지 않는다. 먼저 Markdown을 뽑아 전체를 읽고, 텍스트가 확정된 뒤 제작 데이터에 반영한다.
 
-JSON 필드 구조에서 본문을 직접 분석하면 다음 문제가 생긴다.
-
-- `summary`/`contextMain`/`quotePairs[N].quote`/`after` 같은 키 노이즈에 시선이 분산
-- 책 간 흐름이 트리 구조에 묻혀 한 호흡으로 안 읽힘
-- 쇼츠가 별도 파일이라 영상 전체 흐름을 한 자리에서 못 봄
-
-이 skill은 모든 텍스트 영역만 평문 markdown 으로 뽑아 검토자가 영상을 처음부터 끝까지 라디오처럼 읽게 한다.
-
-## 실행
+## 추출
 
 ```bash
+# 롱폼과 쇼츠
 node sw/remotion/scripts/extract-story.mjs <person>
+
+# SOLO 전체 또는 한 권
+node sw/remotion/scripts/extract-story.mjs <person> --solo
+node sw/remotion/scripts/extract-story.mjs <person> --solo=2
+
+# 영문
+node sw/remotion/scripts/extract-story.mjs <person>-en --solo
 ```
 
-옵션:
+출력은 검토용 Markdown이다. 파일로 보관할 때는 에피소드의 `_writer/` 또는 작업 중인 임시 위치를 사용한다. 책 폴더에 제2의 원본처럼 상시 보관하지 않는다.
 
-- `<person>-en` 또는 `<person>-ko` 접미사로 로케일 선택 (기본: ko)
-- `--no-shorts`: 쇼츠 영역 제외 (기본은 포함)
+## SOLO 편집 규칙
 
-출력은 stdout markdown. 파일로 저장하거나 less 등으로 페이지 처리.
+- `SOLO_SECTION` 표식 사이의 본문만 고친다.
+- 제목, 장면 번호, 표식, 화자, 출처 설명은 고치지 않는다.
+- 같은 화자의 관련된 해설은 대체로 두 문단 전후를 한 장면·한 음성 파일로 묶는다. 두 문단은 상한이 아니며, 같은 논지를 잇는 짧은 셋째 문단은 앞 장면에 붙인다. 문단마다 잘게 나누지 않는다.
+- 인물의 실제 발언은 앞뒤 해설과 합치지 않고 독립된 배우 장면으로 유지한다.
+- 장면 추가·삭제·순서 변경, 배우 지정, 출처, 이미지 연결은 JSON 구조 작업으로 따로 처리한다.
+- 자료조사와 사실검증이 끝나기 전에는 반영하지 않는다.
+
+## SOLO 반영
 
 ```bash
-# 빈센트 반 고흐 ko 전체 (롱폼+쇼츠)
-node sw/remotion/scripts/extract-story.mjs vincent-van-gogh
+# 변경 예정 확인
+node sw/remotion/scripts/sync-solo-story.mjs <story.md>
 
-# 영문 롱폼만
-node sw/remotion/scripts/extract-story.mjs vincent-van-gogh-en --no-shorts
-
-# 파일로 저장 후 정독
-node sw/remotion/scripts/extract-story.mjs vincent-van-gogh > /tmp/story.md
+# 확정본 반영
+node sw/remotion/scripts/sync-solo-story.mjs <story.md> --apply
 ```
 
-## 출력 구조
+반영 도구는 다음을 보장한다.
 
-```
-# {호스트 닉네임}
-*{수식어}*
+- 기존 장면 번호·개수·순서가 달라지면 중단
+- `text`만 변경
+- 화자·음성·출처·이미지 정보 보존
+- 기본 동작은 미리보기이며 `--apply` 없이는 쓰지 않음
 
-## 도입
-  - 인사 / 안내
-  **셀럽 소개**
-  **대표 명언**
-  - 브릿지
+반영 후 JSON 파싱, 중복 장면 번호, 배우 화자 누락, 이미지 앵커, 음성 재생성 필요 여부를 별도로 검사한다.
 
-## 감상철학 (호스트 1인칭 독백)
+## 역할 경계
 
----
-## 책 N. {제목}
-  **저자** / **출간** / **source**
-  ### 책 소개 (summary)
-  ### 감상 경위 (contextMain)
-  ### 인용 N
-    *출처*
-    > quote 본문
-    #### 후속 (after)
-
----
-## 마무리 (outro)
-
-═══════════════════════════════
-# 쇼츠 N (ko-N.json)
-  **연결 책**: book[N] — {제목}
-  ## [i] {segId} ({role})
-    text
-```
-
-## 사용 시나리오
-
-1. **편집국 사이클 사전 통독** — `/remo-write-5-editorial-board` 실행 전 한 번 추출하여 영상 전체 흐름·도끼 후보·이탈 지점을 메모하고, 그 메모를 들고 4인 검토 진행
-2. **사료 검증 통독** — `/remo-write-1-fact-check` 실행 전 인명·연도·일화를 평문으로 정독해 의심 지점 미리 표식
-3. **결말 매듭 평가** — host.philosophy(도입) → 책 9~10권 흐름 → outro 마무리를 한 자리에서 읽어 매듭 강도 점검
-4. **쇼츠↔롱폼 일치성 점검** — 쇼츠 segments 텍스트와 롱폼 책 본문이 동일 흐름인지 같은 출력 안에서 비교
-
-## 사용하지 않는 경우
-
-- 단순 텍스트 한 곳만 보고 싶을 때: `node -e` 또는 직접 JSON 읽기가 더 빠르다
-- 변경 사항만 비교: git diff 가 더 적합
-
-## 후속 트랙과의 연결
-
-이 skill 자체는 **읽기 전용 추출만** 담당한다. 추출 결과로 흐름을 파악한 뒤에는:
-
-- 위생·도끼 검토 + 4인 비판 사이클 → `remo-write-5-editorial-board`
-- 사료 검증 → `remo-write-1-fact-check`
-- 비약·과장 정리 → `remo-write-4-prose`
-- 시간 흐름 → `remo-write-2-chronology`
-- 서사 강도 → `remo-write-3-story-power`
-
-각 후속 skill 의 SKILL.md 가이드대로 진행한다.
+이 스킬은 원고 추출과 SOLO 본문 반영만 담당한다. 서사 평가는 `remo-write-3-story-power`, 사실검증은 `remo-write-1-fact-check`, 한국어 문장은 `remo-write-4-prose`를 사용한다.

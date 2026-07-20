@@ -7,6 +7,7 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { buildArchiveTabs } from "@/constants/archive";
 import SectionHeader from "@/components/shared/SectionHeader";
 
@@ -18,6 +19,7 @@ interface Props {
 
 export default function ArchiveSectionHeader({ userId, isOwner, isCeleb }: Props) {
   const pathname = usePathname();
+  const t = useTranslations("archiveTabs");
   const tabs = buildArchiveTabs(userId, isOwner, isCeleb);
 
   // 가장 긴 경로 매치 우선
@@ -29,12 +31,12 @@ export default function ArchiveSectionHeader({ userId, isOwner, isCeleb }: Props
 
   if (!activeTab) return null;
 
-  const desc = isOwner ? activeTab.ownerDescription : activeTab.description;
-  const subDesc = isOwner ? activeTab.ownerSubDescription : activeTab.subDescription;
+  const desc = t(`${activeTab.value}.${isOwner ? "ownerDescription" : "description"}`);
+  const subDesc = t(`${activeTab.value}.${isOwner ? "ownerSubDescription" : "subDescription"}`);
 
   return (
     <SectionHeader
-      title={activeTab.title}
+      title={t(`${activeTab.value}.title`)}
       label={activeTab.englishLabel}
       description={
         <>

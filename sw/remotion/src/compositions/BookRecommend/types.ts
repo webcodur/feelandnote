@@ -52,9 +52,9 @@ export interface CelebHost {
    * 에피소드 생성 시 셀럽 프로필에서 박힌다.
    */
   celebId?: string
-  /** ElevenLabs 보이스 ID (셀럽 음성용, 없으면 Gemini/Cloud 사용) */
+  /** ElevenLabs 보이스 ID (실제 인물 음성용, 없으면 인물 음성 설정 미완료) */
   elevenlabsVoiceId?: string
-  /** Gemini TTS 셀럽 보이스 (없으면 기본 Puck) — voice-actors.md 참조 */
+  /** @deprecated 서재탐방 인물 음성에는 사용하지 않는다. 레거시 데이터 읽기 전용. */
   geminiVoice?: string
   /** 셀럽 발화 스타일 prefix (한·영 공통) — 롱폼 celeb + 쇼츠 celeb-mid에 적용. 정속 prefix. */
   voiceStyle?: string
@@ -363,7 +363,7 @@ export interface ShortSegment {
   playbackRate?: number
   /** Gemini TTS 발화 스타일 prefix (예: "낮고 간절하게 속삭이듯"). narrator/summary 우선 적용, celeb는 host.voiceStyle 대체. */
   style?: string
-  /** Gemini TTS 보이스 명시 오버라이드 (예: "Sulafat"). 지정 시 role과 무관하게 Gemini로 합성하며 ElevenLabs 셀럽 차단도 우회한다. 캐릭터 보이스(다중 화자) 용도. */
+  /** @deprecated 서재탐방 실제 인물에는 사용 금지. 레거시 해설 오버라이드 읽기 전용. */
   geminiVoice?: string
   /** ElevenLabs 보이스 ID 세그먼트 단위 오버라이드. 지정 시 host.elevenlabsVoiceId 대신 이 값을 사용한다. 다중 화자(예: 손권 별도 보이스) 용도.
    *  speaker 참조보다 우선한다. */
@@ -389,6 +389,10 @@ export interface Speaker {
   label: string
   /** 색상 (hex, 예: '#3b82f6'). 시나리오 행 좌측 색띠·드롭다운 칩 등에 사용. */
   color: string
+  /** 활성 합성 엔진. voiceId와 함께 쓰며, 생략 시 옛 elevenlabsVoiceId 규격으로 폴백. */
+  engine?: 'gemini' | 'elevenlabs'
+  /** engine에 대응하는 Gemini 보이스명 또는 ElevenLabs 보이스 ID. */
+  voiceId?: string
   /** ElevenLabs 보이스 ID — 이 화자 라인 합성 시 host.elevenlabsVoiceId 대신 사용. */
   elevenlabsVoiceId?: string
 }

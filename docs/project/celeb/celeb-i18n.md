@@ -1,15 +1,39 @@
 # 7. 영문 번역
 
+> **최종 실측 체크: 26.07.16** — 번역 대상 컬럼 실 DB 대조(부재 컬럼 제거, `consumption_philosophy_en` 추가)
+
+## 적용 대상
+
+| 티어 | 수행 |
+|------|------|
+| **full** | 필수 |
+| **light** | 필수 |
+| **relation** | 생략 |
+| **fiction** | 생략 |
+
+relation·fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+
+담당 에이전트는 `celeb-7-i18n`. **모든 트랙 완료 후** 실행한다.
+
 ## 번역 대상
 
 | # | 테이블 | 소스 컬럼 | 번역 컬럼 | 비고 |
 |---|--------|----------|----------|------|
 | 1 | `profiles` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
 | 2 | `profiles` | `bio` | `bio_en` | 소개글 (2줄 분량) |
-| 3 | `profiles` | `quotes` | `quotes_en` | 명언 (원문이 외국어면 원어 복원) |
-| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 여정 (700~900자 에세이) |
+| 3 | `profiles` | `consumption_philosophy` | `consumption_philosophy_en` | 감상 철학 |
+| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 여정 (500자 이내) |
 | 5 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
-| 6 | `celeb_dialogues` | `lines` (21개 대사) | 별도 locale 구조 | 고유 대사 (i18n.md 참조) |
+| 6 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
+
+### 번역 대상이 아닌 것
+
+| 항목 | 이유 |
+|------|------|
+| `profiles.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #6에 포함된다 |
+| `profiles.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
+| `profiles.virtual_monologue` | 대응하는 영문 컬럼이 없다 |
+| `celeb_persona`의 `reason_en` / `rationale_en` | 페르소나 트랙(`celeb-5-persona.md`)이 작성한다 |
 
 ---
 
@@ -18,11 +42,13 @@
 ### 1. 대상 셀럽 데이터 조회
 
 ```sql
-SELECT p.id, p.nickname, p.nickname_en, p.title, p.bio, p.quotes,
-       p.cultural_journey, p.death_date, p.profession
+SELECT p.id, p.nickname, p.nickname_en, p.title, p.bio,
+       p.consumption_philosophy, p.cultural_journey,
+       p.death_date, p.profession
 FROM profiles p
 WHERE p.id = '{celebId}'
-  AND p.profile_type = 'CELEB';
+  AND p.profile_type = 'CELEB'
+  AND p.celeb_tier IN ('full', 'light');
 ```
 
 ### 2. 영향력 데이터 조회
@@ -39,6 +65,23 @@ WHERE celeb_id = '{celebId}';
 ```sql
 SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 ```
+
+`lines`는 jsonb 객체다. 구조는 아래와 같다.
+
+```json
+{
+  "quote": "대표 명언 (문자열 1개)",
+  "greeting":     ["[emotion, emotion] 대사1", "대사2", "대사3"],
+  "roll_call":    ["...", "...", "..."],
+  "deploy":       ["...", "...", "..."],
+  "battle_win":   ["...", "...", "..."],
+  "battle_draw":  ["...", "...", "..."],
+  "battle_lose":  ["...", "...", "..."],
+  "clash_attack": ["...", "...", "..."]
+}
+```
+
+7개 상황 × 3개 변형 = 21개 대사에 `quote` 1개가 더해진다. `lines_en`은 **동일한 키 구조**를 그대로 유지한 영문 객체다. 키를 바꾸거나 배열 길이를 줄이지 않는다.
 
 ### 4. 번역 실행 → DB UPDATE
 
@@ -67,19 +110,28 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 - 주어 없이 시작하는 한국어 문체 → 영문에서는 주어 추가 가능
 - 예: "미국 출신 무용가." → "An American dancer."
 
-### quotes (명언)
+### consumption_philosophy (감상 철학)
+
+- 원문의 1인칭 시점과 격식 수준을 영문에서도 유지
+- 추측 표현 금지는 영문에서도 동일 적용
+
+### cultural_journey (감상 여정)
+
+- 500자 이내 한국어 글을 동등 분량의 영문으로 번역
+- 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
+- 추측 표현 금지는 영문에서도 동일 적용
+- 작품명 `『』` → 영문 *Title* (이탤릭)
+
+### lines.quote (명언)
+
+명언은 `celeb_dialogues.lines.quote` → `lines_en.quote`로 번역한다.
 
 - **원문 복원 원칙**: 원래 외국어로 발화된 명언은 해당 언어 원문을 복원
   - 예: "나는 생각한다, 고로 존재한다" → "I think, therefore I am"
   - 예: 일본어 원문 명언 → 영어 번역본 중 가장 통용되는 버전
 - **한국어 원문 명언**: 영어로 번역 (한국 인물의 경우)
 - 웹 검색으로 공인된 영문 번역을 확인한 후 사용
-
-### cultural_journey (감상 여정)
-
-- 700~900자 한국어 에세이를 동등 분량의 영문으로 번역
-- 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
-- 추측 표현 금지는 영문에서도 동일 적용
+- 따옴표로 감싸지 않는다
 
 ### celeb_influence *_exp (영향력 설명)
 
@@ -88,6 +140,7 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 
 ### celeb_dialogues lines (고유 대사)
 
+- 7개 상황 키와 각 3개 배열 구조를 그대로 유지. 키 추가·삭제 금지
 - `[emotion, emotion]` 태그는 그대로 유지
 - speech_tone의 뉘앙스를 영문에서도 반영
   - `free` → casual, informal English
@@ -116,9 +169,9 @@ UPDATE profiles SET
     WHEN '{id1}' THEN '{bio_en_1}'
     WHEN '{id2}' THEN '{bio_en_2}'
   END,
-  quotes_en = CASE id
-    WHEN '{id1}' THEN '{quotes_en_1}'
-    WHEN '{id2}' THEN '{quotes_en_2}'
+  consumption_philosophy_en = CASE id
+    WHEN '{id1}' THEN '{consumption_philosophy_en_1}'
+    WHEN '{id2}' THEN '{consumption_philosophy_en_2}'
   END,
   cultural_journey_en = CASE id
     WHEN '{id1}' THEN '{cultural_journey_en_1}'
@@ -135,6 +188,15 @@ UPDATE celeb_influence SET
   economic_exp_en = CASE celeb_id ... END,
   cultural_exp_en = CASE celeb_id ... END,
   transhistoricity_exp_en = CASE celeb_id ... END
+WHERE celeb_id IN ('{id1}', '{id2}');
+
+-- celeb_dialogues 배치 (lines_en 전체를 jsonb로 교체)
+UPDATE celeb_dialogues SET
+  lines_en = CASE celeb_id
+    WHEN '{id1}' THEN '{...}'::jsonb
+    WHEN '{id2}' THEN '{...}'::jsonb
+  END,
+  updated_at = now()
 WHERE celeb_id IN ('{id1}', '{id2}');
 ```
 

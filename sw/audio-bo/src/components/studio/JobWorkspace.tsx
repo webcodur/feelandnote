@@ -19,7 +19,7 @@ export function JobWorkspace({ job, mode, onModeChange, onRun, onSaved }: Props)
   if (!job) return <Empty onSelect={() => onModeChange('select')} />
   const currentJob = job
 
-  async function save(values: Partial<Pick<AudioJob, 'transcript' | 'synthesisText' | 'segments' | 'trainingSpeaker'>>) {
+  async function save(values: Partial<Pick<AudioJob, 'transcript' | 'synthesisText' | 'voiceDirections' | 'segments' | 'trainingSpeaker'>>) {
     const response = await fetch(`/api/jobs/${currentJob.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

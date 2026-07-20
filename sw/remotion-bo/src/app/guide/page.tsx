@@ -30,6 +30,12 @@ export default function GuidePage() {
       </Section>
 
       {/* 대시보드 */}
+      {/*
+        TODO(26.07.16): 아래 R2 설명문은 거짓이다. R2 음성 동기화는 26.03.23 폐기됐고
+        src/에 R2 코드가 없어 ● 지표는 항상 0이다(영상 음성은 로컬 전용).
+        대시보드 지표(app/page.tsx의 synced)와 함께 걷어내거나 음성 저장소 상태로 갈아끼운다.
+        상세: docs/project/remotion-bo-plan.md
+      */}
       <Section title="대시보드" path="/">
         <Desc>
           시리즈별 제작 현황을 한눈에 보여준다.
@@ -149,7 +155,9 @@ export default function GuidePage() {
       <Section title="시리즈 확장 방법">
         <Desc>
           새 시리즈를 추가하려면 <code className="text-accent">lib/series-registry.ts</code>에 정의 1개를 추가한다.
-          UI, 라우팅, API가 자동으로 대응된다.
+          사이드바·라우팅·API 가 이 정의를 읽어 대응한다. 시리즈별 차이는 코드 분기가 아니라
+          <code className="text-accent">dataModel</code>·<code className="text-accent">episodeHome</code>·
+          <code className="text-accent">langTabEditor</code> 필드로 표현한다.
         </Desc>
         <pre className="bg-bg-card border border-border rounded-lg p-4 text-xs font-mono leading-relaxed overflow-x-auto mt-2">{`// lib/series-registry.ts
 SERIES.push({
@@ -158,10 +166,16 @@ SERIES.push({
   icon: '🎭',
   composition: 'RivalTalk',
   episodeDir: 'rival-talk',
+  dataModel: 'book',       // 데이터 구조 계열 (book | faction | discourse)
+  episodeHome: 'scenario', // /[series]/[name] 진입 시 보낼 경로
+  langTabEditor: false,    // true 면 /[lang]/[tab] 자체 편집 화면
   render: { codec: 'prores', proresProfile: '4444' },
 })`}</pre>
         <Desc>
-          추가 후 <code className="text-accent">episodes/rival-talk/</code> 디렉토리를 만들면 즉시 사용 가능하다.
+          기존 계열을 그대로 쓰면 추가 후 <code className="text-accent">episodes/rival-talk/</code> 디렉토리만 만들면 된다.
+          데이터 구조가 다른 시리즈는 <code className="text-accent">dataModel</code>을 새로 하나 만들고
+          IO(<code className="text-accent">server-utils</code>) · 목록(<code className="text-accent">Sidebar</code>) ·
+          홈 · 편집기 등록표에 한 줄씩 얹는다.
         </Desc>
       </Section>
 

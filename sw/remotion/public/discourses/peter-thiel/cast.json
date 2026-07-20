@@ -1,0 +1,26 @@
+[
+  {
+    "name": "피터 틸",
+    "nameEn": "Peter Thiel",
+    "slug": "peter-thiel",
+    "living": true,
+    "lines": [
+      "페이팔 공동창업자 · 전 CEO",
+      "팔란티어 공동창업자 · 회장",
+      "페이스북 최초 외부 투자자 · 파운더스 펀드 파트너"
+    ],
+    "linesEn": [
+      "Co-founder and former CEO of PayPal",
+      "Co-founder and chairman of Palantir",
+      "Facebook's first outside investor · Partner at Founders Fund"
+    ],
+    "epithet": "경쟁에서 이기는 법보다 아무도 만들지 않은 세계를 찾는 법을 묻는 투자자",
+    "epithetEn": "The investor who asks how to find a world no one has built instead of how to win a crowded race",
+    "era": "1967 ~",
+    "color": "#9bb0c9",
+    "voice": {
+      "engine": "gemini",
+      "style": "낮고 느리게, 단어 사이에 여백을 두고, 도발적인 문장도 감정 없이 논증하듯"
+    }
+  }
+]

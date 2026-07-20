@@ -83,7 +83,7 @@ const OpeningLogline: React.FC<{
       textAlign: 'center',
       color: '#E8B84B',
       fontFamily: FONT_SERIF,
-      fontSize: 48, // [개편] 중앙자막 크기로 축소. [기존] 66
+      fontSize: isPortrait ? 62 : 56, // 로고·그룹샷 명칭 캡션과 크기 통일. [기존] 48
       fontWeight: 800,
       letterSpacing: 1,
       lineHeight: 1.3,

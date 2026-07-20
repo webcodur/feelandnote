@@ -1,6 +1,6 @@
 ---
 name: remo-write-0-draft
-description: 에피소드 초안을 작성한다. 테마 설계부터 필드별 텍스트, 감정 곡선, 책 간 연결까지. /remo-write-0-draft <에피소드명> 으로 실행.
+description: 에피소드 초안을 작성한다. 테마 설계부터 필드별 텍스트, 감정 곡선, 책 간 연결까지. /remo-write-0-draft 에피소드명으로 실행.
 ---
 
 # 초안 작성
@@ -10,9 +10,18 @@ description: 에피소드 초안을 작성한다. 테마 설계부터 필드별 
 - `docs/project/remotion/book-recommend/writer/0-draft.md` — 초안 작성 가이드 (SSoT)
 - `docs/project/remotion/book-recommend/rules.md` — 불변 규칙
 
+초안은 JSON 안에서 쓰지 않는다. 기존 에피소드는 `remo-write-story-dump`로 Markdown 원고를 만든 뒤 작업하고, 새 에피소드도 먼저 Markdown으로 이야기와 자료를 확정한다. 확정 후에만 필드별 JSON으로 옮긴다.
+
+## SOLO 장면과 발화 단위
+
+- 기본 해설 성우는 `Charon`이다.
+- 같은 화자의 관련된 해설은 대체로 두 문단 전후를 한 장면·한 음성 파일로 묶는다. 두 문단은 상한이 아니다. 같은 논지를 잇는 짧은 셋째 문단은 앞 장면에 붙이고, 화면 전환만을 위해 문단마다 쪼개지 않는다.
+- 주제나 화자가 바뀌거나 독립된 인용·연기가 필요할 때만 장면을 나눈다.
+- 인물의 실제 발언은 해설과 합치지 않고 `voice: "actor"`와 명시적인 `speaker`를 둔다.
+
 ## 초안 제출 직전 필수 체크
 
-본문에 `N,NNN명`/`NN척`/`NNNN년` 등 `숫자+단위` 패턴이 있으면, **반드시 `tts.replace`에 단위까지 포함해 선등록한 뒤 제출**한다. 숫자만 매핑하면 whisper diff 경계가 꼬여 세그먼트 `duration`이 0.5초대로 망가진다.
+확정 원고를 JSON에 반영할 때 `N,NNN명`/`NN척`/`NNNN년` 등 `숫자+단위` 패턴이 있으면, **`tts.replace`에 단위까지 포함해 등록한다.** 초안 단계에서는 음성 설정을 만지지 않는다. 숫자만 매핑하면 whisper diff 경계가 꼬여 음성 시각이 지나치게 짧아질 수 있다.
 
 ```json
 "tts": {

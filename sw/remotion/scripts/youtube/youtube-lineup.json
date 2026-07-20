@@ -11,7 +11,9 @@
       },
       "ko-shorts-1": {
         "videoId": "wR010IDwLpI",
-        "uploadedAt": "2026-04-03T06:21:05.709Z"
+        "uploadedAt": "2026-04-03T06:21:05.709Z",
+        "bookFolder": "01-일리아스",
+        "titleAtUpload": "일리아스"
       },
       "en-longform": {
         "videoId": "xld230KRQZ8",
@@ -19,7 +21,9 @@
       },
       "en-shorts-1": {
         "videoId": "fz_RNmoXfLg",
-        "uploadedAt": "2026-04-03T06:21:48.226Z"
+        "uploadedAt": "2026-04-03T06:21:48.226Z",
+        "bookFolder": "01-일리아스",
+        "titleAtUpload": "The Iliad"
       }
     }
   },
@@ -61,31 +65,45 @@
     "uploads": {
       "ko-shorts-1": {
         "videoId": "hxtfvykc_Pw",
-        "uploadedAt": "2026-05-10T08:27:40.543Z"
+        "uploadedAt": "2026-05-10T08:27:40.543Z",
+        "bookFolder": "02-낯선 땅 이방인",
+        "titleAtUpload": "낯선 땅 이방인"
       },
       "ko-shorts-2": {
         "videoId": "5JtRGGW6rn4",
-        "uploadedAt": "2026-05-15T10:04:21.950Z"
+        "uploadedAt": "2026-05-15T10:04:21.950Z",
+        "bookFolder": "06-파운데이션",
+        "titleAtUpload": "파운데이션"
       },
       "ko-shorts-3": {
         "videoId": "riIXYk-oS6g",
-        "uploadedAt": "2026-05-16T11:08:36.861Z"
+        "uploadedAt": "2026-05-16T11:08:36.861Z",
+        "bookFolder": "07-구조_ 구조물은 왜 무너지지 않는가_",
+        "titleAtUpload": "구조: 구조물은 왜 무너지지 않는가?"
       },
       "ko-shorts-4": {
         "videoId": "nG1L-RY1J64",
-        "uploadedAt": "2026-05-20T09:11:26.132Z"
+        "uploadedAt": "2026-05-20T09:11:26.132Z",
+        "bookFolder": "08-슈퍼인텔리전스",
+        "titleAtUpload": "슈퍼인텔리전스"
       },
       "ko-shorts-5": {
         "videoId": "u9I2uxPbXdQ",
-        "uploadedAt": "2026-05-28T09:27:53.656Z"
+        "uploadedAt": "2026-05-28T09:27:53.656Z",
+        "bookFolder": "10-반지의 제왕",
+        "titleAtUpload": "반지의 제왕"
       },
       "ko-shorts-6": {
         "videoId": "yHXvq3ryCBw",
-        "uploadedAt": "2026-06-06T09:10:15.537Z"
+        "uploadedAt": "2026-06-06T09:10:15.537Z",
+        "bookFolder": "05-신에 맞선 12인",
+        "titleAtUpload": "신에 맞선 12인"
       },
       "ko-shorts-8": {
         "videoId": "JtZqClec7-4",
-        "uploadedAt": "2026-06-12T05:08:14.963Z"
+        "uploadedAt": "2026-06-12T05:08:14.963Z",
+        "bookFolder": "09-아틀라스",
+        "titleAtUpload": "아틀라스"
       },
       "ko-longform": {
         "videoId": "K0i-k9Q2CR8",
@@ -147,7 +165,9 @@
       },
       "ko-shorts-1": {
         "videoId": "hCt1sr7ebtM",
-        "uploadedAt": "2026-04-11T09:20:14.756Z"
+        "uploadedAt": "2026-04-11T09:20:14.756Z",
+        "bookFolder": "05-오자병법",
+        "titleAtUpload": "오자병법"
       }
     }
   },
@@ -225,7 +245,9 @@
     "uploads": {
       "ko-shorts-2": {
         "videoId": "I2JCY7iPspY",
-        "uploadedAt": "2026-04-12T12:00:00.698Z"
+        "uploadedAt": "2026-04-12T12:00:00.698Z",
+        "bookFolder": "07-유클리드 원론",
+        "titleAtUpload": "유클리드 원론"
       },
       "ko-shorts-7": {
         "videoId": "HG9WPEgGJJU",
@@ -251,15 +273,21 @@
     "uploads": {
       "ko-shorts-1": {
         "videoId": "4GOT2ZOszv8",
-        "uploadedAt": "2026-04-25T12:27:27.099Z"
+        "uploadedAt": "2026-04-25T12:27:27.099Z",
+        "bookFolder": "04-제르미날",
+        "titleAtUpload": "제르미날"
       },
       "ko-shorts-2": {
         "videoId": "GWs02Q0Wv3w",
-        "uploadedAt": "2026-04-25T12:28:00.421Z"
+        "uploadedAt": "2026-04-25T12:28:00.421Z",
+        "bookFolder": "06-풀잎",
+        "titleAtUpload": "풀잎"
       },
       "ko-shorts-3": {
         "videoId": "Q5V6f_avYbE",
-        "uploadedAt": "2026-04-27T08:40:39.970Z"
+        "uploadedAt": "2026-04-27T08:40:39.970Z",
+        "bookFolder": "07-크리스마스 캐럴",
+        "titleAtUpload": "크리스마스 캐럴"
       },
       "ko-longform": {
         "videoId": "SSLsoYdZEYE",
@@ -271,15 +299,21 @@
     "uploads": {
       "ko-shorts-1": {
         "videoId": "7rHfNd0J8rg",
-        "uploadedAt": "2026-04-30T11:54:58.221Z"
+        "uploadedAt": "2026-04-30T11:54:58.221Z",
+        "bookFolder": "01-춘추좌씨전",
+        "titleAtUpload": "춘추좌씨전"
       },
       "ko-shorts-2": {
         "videoId": "fTAU5vNK1ic",
-        "uploadedAt": "2026-05-02T04:18:01.951Z"
+        "uploadedAt": "2026-05-02T04:18:01.951Z",
+        "bookFolder": "02-손자병법",
+        "titleAtUpload": "손자병법"
       },
       "ko-shorts-3": {
         "videoId": "ellCF1NGxX8",
-        "uploadedAt": "2026-05-06T13:30:44.435Z"
+        "uploadedAt": "2026-05-06T13:30:44.435Z",
+        "bookFolder": "03-한비자",
+        "titleAtUpload": "한비자"
       },
       "ko-longform": {
         "videoId": "xKoRJTSiQBk",

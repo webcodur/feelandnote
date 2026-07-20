@@ -57,7 +57,7 @@ export default async function YoutubeShelf() {
         <span className="h-px flex-1 bg-gradient-to-r from-accent-dim/30 to-transparent" />
         <Link
           href="/explore/youtube"
-          className="text-xs text-accent/80 hover:text-accent transition-colors shrink-0"
+          className="text-xs text-accent/80 hover:text-accent shrink-0"
         >
           {t("viewAll")} →
         </Link>
@@ -72,7 +72,7 @@ export default async function YoutubeShelf() {
         href={channel.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-accent transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-accent"
       >
         <Youtube size={13} />
         {t("channel")} {channel.handle}

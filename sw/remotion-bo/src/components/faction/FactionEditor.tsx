@@ -12,12 +12,24 @@ function measureDuration(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
     const a = new Audio()
     a.preload = 'metadata'
-    a.onloadedmetadata = () => resolve(a.duration)
-    a.onerror = () => reject(new Error('음악 메타데이터 로드 실패'))
+    let settled = false
+    const finish = (fn: () => void) => { if (settled) return; settled = true; a.ontimeupdate = null; fn() }
+    a.onloadedmetadata = () => {
+      if (Number.isFinite(a.duration)) { finish(() => resolve(a.duration)); return }
+      // 일부 mp3(VBR 등)는 메타데이터 단계에서 duration=Infinity 를 준다.
+      // 파일 끝으로 seek 하면 실제 길이가 확정된다(브라우저 공통 우회).
+      a.ontimeupdate = () => {
+        if (Number.isFinite(a.duration)) { a.currentTime = 0; finish(() => resolve(a.duration)) }
+      }
+      a.currentTime = 1e101
+    }
+    a.onerror = () => finish(() => reject(new Error('음악 메타데이터 로드 실패')))
+    // seek 우회가 응답하지 않는 경우 대비 — 길이 없이 진행시킨다.
+    setTimeout(() => finish(() => reject(new Error('음악 길이 측정 시간 초과'))), 8000)
     a.src = url
   })
 }
-import { Plus, Save, Eye, Upload, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp } from './shared/icons'
+import { Plus, Save, Eye, Upload, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from './shared/icons'
 import { FactionGroupEditor } from './FactionEditor/FactionGroupEditor/FactionGroupEditor'
 import { FactionCopyButton } from './shared/FactionCopyButton'
 import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
@@ -72,6 +84,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
   const [showYouTube, setShowYouTube] = useState(false)
   const [rendering, setRendering] = useState(false)
   const [musicList, setMusicList] = useState<string[]>([])
+  const [musicUsage, setMusicUsage] = useState<Record<string, string[]>>({})
   const [sfxList, setSfxList] = useState<string[]>([])
   const [voiceModalOpen, setVoiceModalOpen] = useState(false)
   const [quoteModeOpen, setQuoteModeOpen] = useState(false)
@@ -115,7 +128,6 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
     window.history.pushState(null, '', `/${series}/${encodeURIComponent(name)}/${editLang}/${next}`)
   }, [series, name, editLang])
 
-  const musicRef = useRef<HTMLInputElement | null>(null)
   const scriptRef = useRef<FactionScript | null>(null)
   scriptRef.current = script
 
@@ -138,15 +150,31 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
       .catch(() => { setScript({ title: name, groups: [] }); setCollapsedParts({}) })
   }, [series, name])
 
-  // 음악 목록 로드
+  // 음악 목록 로드 — 곡별 연결처(어느 세력에 쓰이는지)도 함께 받는다
   const loadMusic = useCallback(() => {
     fetch(`/api/${series}/faction-music`)
       .then(r => r.json())
-      .then(d => setMusicList(Array.isArray(d) ? d : []))
-      .catch(() => setMusicList([]))
+      .then(d => {
+        // 신형 응답 { files, usage } · 구형(배열) 모두 허용
+        const files: string[] = Array.isArray(d) ? d : (d?.files ?? [])
+        setMusicList(files)
+        setMusicUsage(Array.isArray(d) ? {} : (d?.usage ?? {}))
+      })
+      .catch(() => { setMusicList([]); setMusicUsage({}) })
   }, [series])
 
   useEffect(() => { loadMusic() }, [loadMusic])
+
+  // 음악 폴더(public/music)를 OS 탐색기로 열기 — 곡은 폴더에 직접 넣고 새로고침으로 목록에 반영
+  const openMusicFolder = useCallback(() => {
+    fetch(`/api/${series}/faction-music`, { method: 'POST' }).catch(() => {})
+  }, [series])
+
+  // 드롭다운 옵션 라벨 — 곡명 뒤에 연결된 세력을 붙인다(미연결이면 표시)
+  const musicLabel = useCallback((file: string) => {
+    const used = musicUsage[file]
+    return used?.length ? `${file} — ${used.join(' · ')}에 연결됨` : `${file} · 미연결`
+  }, [musicUsage])
 
   // 효과음 목록 로드
   const loadSfx = useCallback(() => {
@@ -404,7 +432,10 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
   const addTrack = useCallback(async (file: string) => {
     if (!file) return
     let durationSec: number | undefined
-    try { durationSec = Math.round(await measureDuration(musicUrl(file))) } catch { /* 측정 실패 시 길이 없이 추가 */ }
+    try {
+      const d = Math.round(await measureDuration(musicUrl(file)))
+      if (Number.isFinite(d) && d > 0) durationSec = d // 비유한(Infinity)·0 은 저장하지 않는다
+    } catch { /* 측정 실패 시 길이 없이 추가 */ }
     const cur = scriptRef.current
     const curTracks: FactionTrack[] = cur?.tracks?.length
       ? cur.tracks
@@ -435,39 +466,29 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
 
   // 길이 미측정 트랙 자동 보정 — 곡 길이가 없으면 영상에서 순차 재생이 안 되므로 채워둔다
   useEffect(() => {
-    const missing = (script?.tracks ?? []).filter(t => t.file && (t.durationSec == null || t.durationSec <= 0))
+    const missing = (script?.tracks ?? []).filter(t => t.file && (!Number.isFinite(t.durationSec) || (t.durationSec ?? 0) <= 0))
     if (!missing.length) return
     let cancelled = false
     ;(async () => {
       const measured: Record<string, number> = {}
       for (const t of missing) {
-        try { measured[t.file] = Math.round(await measureDuration(musicUrl(t.file))) } catch { /* skip */ }
+        try {
+          const d = Math.round(await measureDuration(musicUrl(t.file)))
+          if (Number.isFinite(d) && d > 0) measured[t.file] = d
+        } catch { /* skip */ }
       }
       if (cancelled || !Object.keys(measured).length) return
       const cur = scriptRef.current
       if (!cur?.tracks) return
       update({
+        // 길이 없음(null)뿐 아니라 비유한(Infinity)으로 저장된 기존 트랙도 덮어쓴다
         tracks: cur.tracks.map(t =>
-          t.durationSec == null && measured[t.file] != null ? { ...t, durationSec: measured[t.file] } : t,
+          !Number.isFinite(t.durationSec) && measured[t.file] != null ? { ...t, durationSec: measured[t.file] } : t,
         ),
       })
     })()
     return () => { cancelled = true }
   }, [script?.tracks, musicUrl, update])
-
-  // 음악 업로드 — 저장 후 트랙으로 추가(길이 측정 포함)
-  const uploadMusic = async (file: File) => {
-    const form = new FormData()
-    form.append('file', file)
-    const res = await fetch(`/api/${series}/faction-music`, { method: 'POST', body: form })
-    const data = await res.json()
-    if (res.ok && data.file) {
-      loadMusic()
-      await addTrack(data.file)
-    } else {
-      alert('음악 업로드 실패: ' + (data.error ?? ''))
-    }
-  }
 
   if (!script) return <div className="p-6 text-text-dim">불러오는 중...</div>
 
@@ -508,6 +529,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
         const next = { ...p }
         delete next.quoteDisplay
         delete next.quoteCaptionPos
+        delete next.quoteCaptionStyle
         return next
       }),
     })
@@ -516,14 +538,17 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
   const bulkStampQuoteDisplay = () => {
     const display = script.quoteDisplay ?? 'box'
     const pos = script.quoteCaptionPos ?? 'bottom'
+    const style = script.quoteCaptionStyle ?? 'default'
     const displayLabel = display === 'caption' ? '작은 자막' : '박스'
     const posLabel = display === 'caption' ? (pos === 'center' ? ' · 중하단' : ' · 하단') : ''
-    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
+    const styleLabel = display === 'caption' ? (style === 'serif-large' ? ' · 큰 세리프' : '') : ''
+    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}${styleLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
     update({
       groups: mapAllPeople(p => ({
         ...p,
         quoteDisplay: display,
         quoteCaptionPos: display === 'caption' ? pos : undefined,
+        quoteCaptionStyle: display === 'caption' ? style : undefined,
       })),
     })
   }
@@ -779,7 +804,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                 <span key={i} className="flex items-center gap-1 rounded-md border border-border bg-bg-card px-2 py-1 text-xs">
                   <span className="text-text-dim">{i + 1}.</span>
                   <span className="max-w-[11rem] truncate" title={t.file}>{t.file}</span>
-                  <span className="text-text-dim">{t.durationSec ? formatMmss(t.durationSec) : '측정중…'}</span>
+                  <span className="text-text-dim">{Number.isFinite(t.durationSec) && (t.durationSec ?? 0) > 0 ? formatMmss(t.durationSec!) : '측정중…'}</span>
                   <span className="flex items-center gap-1 border-l border-border pl-1.5" title="이 곡 음량. 100%가 원음">
                     <input type="range" min={0} max={1} step={0.05} value={t.volume ?? 1} onChange={e => setTrackVolume(i, Number(e.target.value))} className="w-16 accent-accent" />
                     <span className="w-9 text-right font-mono text-[10px] text-text-secondary">{Math.round((t.volume ?? 1) * 100)}%</span>
@@ -792,7 +817,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
               {tracks.length === 0 && <span className="text-xs text-text-dim">없음</span>}
               <select value="" onChange={e => { addTrack(e.target.value); e.target.value = '' }} className="rounded-md border border-border bg-bg-card px-2 py-1 text-xs">
                 <option value="">+ 곡 추가</option>
-                {musicList.map(m => <option key={m} value={m}>{m}</option>)}
+                {musicList.map(m => <option key={m} value={m}>{musicLabel(m)}</option>)}
               </select>
               {tracks.length > 1 && (
                 <span className="text-[10px] text-text-dim">합 {formatMmss(tracks.reduce((s, t) => s + (t.durationSec ?? 0), 0))} · 영상 {formatMmss(totalSec(script))}</span>
@@ -801,15 +826,18 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
 
             {/* 편별 BGM은 아래 편 묶음(1편·2편)에서 다룬다. 여기 공통 곡은 편별 미지정 편에 쓰인다 */}
 
-            {/* 대사 중 음량(덕킹) + 업로드 */}
+            {/* 대사 중 음량(덕킹) */}
             <div className="flex items-center gap-2">
               <span className="w-24 shrink-0 text-xs text-text-dim">대사 중 음량</span>
               <input type="range" min={0} max={1} step={0.05} value={script.musicDuckVolume ?? 1} onChange={e => { const v = Number(e.target.value); update({ musicDuckVolume: v === 1 ? undefined : v }) }} className="w-24 accent-accent" />
               <span className="w-9 text-right font-mono text-[10px] text-text-secondary">{Math.round((script.musicDuckVolume ?? 1) * 100)}%</span>
               <span className="text-[10px] text-text-dim">대사(음성) 나올 때만 낮춤 · 평소 100%</span>
-              <input ref={musicRef} type="file" accept="audio/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) uploadMusic(f); e.target.value = '' }} />
-              <button onClick={() => musicRef.current?.click()} className="ml-auto flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover">
-                <Upload size={14} /> 음악 업로드
+              <button
+                onClick={openMusicFolder}
+                title="음악 폴더를 파일 탐색기로 연다. 곡을 여기에 넣고 새로고침하면 목록에 나타난다"
+                className="ml-auto flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
+              >
+                <FolderOpen size={14} /> 음악 폴더 열기
               </button>
             </div>
           </div>
@@ -944,17 +972,30 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                     </select>
                   </span>
                   {(script.quoteDisplay ?? 'box') === 'caption' && (
-                    <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="작은 자막이 화면 어디에 붙을지. 하단은 아래쪽, 중하단은 화면 세로 아래쪽 중간 밴드">
-                      자막 위치
-                      <select
-                        value={script.quoteCaptionPos ?? 'bottom'}
-                        onChange={e => update({ quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
-                        className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                      >
-                        <option value="bottom">하단</option>
-                        <option value="center">중하단</option>
-                      </select>
-                    </span>
+                    <>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="작은 자막이 화면 어디에 붙을지. 하단은 아래쪽, 중하단은 화면 세로 아래쪽 중간 밴드">
+                        자막 위치
+                        <select
+                          value={script.quoteCaptionPos ?? 'bottom'}
+                          onChange={e => update({ quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
+                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                        >
+                          <option value="bottom">하단</option>
+                          <option value="center">중하단</option>
+                        </select>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 폰트. 기본은 산세리프, 세리프는 크기가 좀 더 큰 명조체">
+                        폰트
+                        <select
+                          value={script.quoteCaptionStyle ?? 'default'}
+                          onChange={e => update({ quoteCaptionStyle: e.target.value === 'serif-large' ? 'serif-large' : 'default' })}
+                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                        >
+                          <option value="default">기본</option>
+                          <option value="serif-large">큰 세리프</option>
+                        </select>
+                      </span>
+                    </>
                   )}
                   <button
                     type="button"
@@ -1012,6 +1053,16 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                     />
                     초
                   </span>
+                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="그룹샷(단체사진) 카드 재생 시간 — 그룹명이 뜨는 화면 길이. 비우면 인원 수에 맞춰 자동(2.6~3.2초). 지정하면 인원 수와 무관하게 이 값으로 고정">
+                    그룹명 출력
+                    <input
+                      type="number" min={0.5} max={8} step={0.1} placeholder="자동"
+                      value={script.clusterSec ?? ''}
+                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ clusterSec: v != null && Number.isFinite(v) ? v : undefined }) }}
+                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                    />
+                    초
+                  </span>
                   <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="마지막 인물 대사가 끝난 뒤, 그 화면을 멈춘 채 기다리는 시간. 비우면 4초">
                     대사 후 대기
                     <input
@@ -1033,7 +1084,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                     초
                   </span>
                 </div>
-                <div className="mt-1 text-[10px] text-text-dim">이 값들은 스크립트에 저장되어 Remotion Studio / 렌더에서 buildCues 시 groupSec로 로고 재생시간을 덮어씀</div>
+                <div className="mt-1 text-[10px] text-text-dim">이 값들은 스크립트에 저장되어 Remotion Studio / 렌더에서 buildCues 시 groupSec(로고)·clusterSec(그룹샷) 재생시간을 덮어씀</div>
               </div>
 
               {groups.map((g, i) => (
@@ -1077,6 +1128,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                 ))
               }}
               musicList={musicList}
+              musicLabel={musicLabel}
               editLang={editLang}
             />
           )}
@@ -1189,6 +1241,16 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                               type="number" min={0.5} max={8} step={0.1} placeholder="4"
                               value={script.groupSec ?? ''}
                               onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ groupSec: v != null && Number.isFinite(v) ? v : undefined }) }}
+                              className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                            />
+                            초
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="그룹샷(단체사진) 카드 재생 시간 — 그룹명이 뜨는 화면 길이. 비우면 인원 수에 맞춰 자동(2.6~3.2초). 지정하면 인원 수와 무관하게 이 값으로 고정">
+                            그룹명 출력
+                            <input
+                              type="number" min={0.5} max={8} step={0.1} placeholder="자동"
+                              value={script.clusterSec ?? ''}
+                              onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ clusterSec: v != null && Number.isFinite(v) ? v : undefined }) }}
                               className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
                             />
                             초
@@ -1357,7 +1419,7 @@ export function FactionEditor({ series, name, initialTab = 'info', cardTarget }:
                             className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm"
                           >
                             <option value="">공통 곡 사용</option>
-                            {musicList.map(m => <option key={m} value={m}>{m}</option>)}
+                            {musicList.map(m => <option key={m} value={m}>{musicLabel(m)}</option>)}
                           </select>
                           {/* 이 편 곡 음량 — 곡을 지정한 편만. 100%가 원음 */}
                           {script.musicByPart?.[sec.key] && (

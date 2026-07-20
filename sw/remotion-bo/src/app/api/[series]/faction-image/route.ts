@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { listFactionImages, listFactionImageTree, saveFactionImage, deleteFactionImage } from '@/lib/faction-utils'
 
 function guard(series: string) {
-  return isValidSeries(series) && isFactionSeries(series)
+  return isSeriesModel(series, 'faction')
 }
 
 /**

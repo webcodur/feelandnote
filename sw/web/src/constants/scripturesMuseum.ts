@@ -77,8 +77,13 @@ export interface SheetExample {
 
 export type ViewType = 'timeline' | 'catalog' | 'comparison' | 'lesson';
 
+// timeline·catalog는 MuseumTimeline이, lesson은 AcademyLessonView가 그린다.
+// comparison을 그리는 코드는 없다 — 아래 book/reading 참조.
 export const SUB_CATEGORY_VIEW_TYPE: Record<string, ViewType> = {
   "book/typography": "catalog",
+  // 미완성. MUSEUM_CATEGORY_IDS·ACADEMY_CATEGORY_IDS 어디에도 reading 서브카테고리가 없어 도달 불가하고,
+  // comparison 뷰 구현도 없다. 데이터(BOOK_READING_HISTORY_TIMELINE)는 2개 era만 있다.
+  // 살리려면 comparison 뷰 신규 구현 + 메뉴 등록 + 데이터 확충이 필요하다.
   "book/reading": "comparison",
   "book/system": "lesson",
   "music/harmony": "lesson",

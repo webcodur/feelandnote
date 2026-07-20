@@ -89,7 +89,8 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     // 대사 표시 방식 — 인물 단위가 있으면 우선, 없으면 에피소드 전역 기본, 둘 다 없으면 박스.
     const quoteDisplay = person.quoteDisplay ?? script.quoteDisplay ?? 'box'
     const quoteCaptionPos = person.quoteCaptionPos ?? script.quoteCaptionPos ?? 'bottom'
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} />
+    const quoteCaptionStyle = person.quoteCaptionStyle ?? script.quoteCaptionStyle ?? 'default'
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} quoteCaptionStyle={quoteCaptionStyle} />
   }
 
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).

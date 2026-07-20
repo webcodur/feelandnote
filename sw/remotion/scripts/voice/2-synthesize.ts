@@ -18,6 +18,7 @@
  * 사용법:
  *   pnpm voice:tts -- --episode <name> --long                           → 롱폼 전체
  *   pnpm voice:tts -- --episode <name> --shorts <N>                     → 쇼츠 N번 전체
+ *   pnpm voice:tts -- --episode <name> --solo <N>                      → SOLO N번 책 전체
  *   pnpm voice:tts -- --episode <name> --long --only D05b-summary       → 특정 세그먼트만
  *   pnpm voice:tts -- --episode <name> --engine elevenlabs --long       → ElevenLabs (셀럽 커스텀 보이스)
  *   pnpm voice:tts -- --episode <name> --long --list                    → 생성 대상 목록만 출력
@@ -26,7 +27,7 @@
  * 주의: voice는 반드시 2-whisper.py → 3-timings.ts 까지 세트로 완주한다.
  * 1단계만 돌리면 wav와 voiceTimings가 어긋난다.
  *
- * 보이스: Kore(나레이터), Charon(요약맨)
+ * 보이스: Charon(롱폼·쇼츠·SOLO 나레이터와 요약)
  *
  * ────────────────────────────────────────────────────────────────────
  * 발화 스타일 정책 (2026-04-17 개편)

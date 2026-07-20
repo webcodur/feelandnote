@@ -7,11 +7,15 @@
 ## 에피소드 파일 경로
 
 ```
-sw/remotion/public/episodes/{stage}/{person}/{locale}.json
+sw/remotion/public/episodes/{person}/meta.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/book.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/solo.{locale}.json
+sw/remotion/public/episodes/{person}/books/NN-책이름/shorts.{locale}.json
 ```
 
-- `{stage}`: `pre-todo` | `todo` | `live` | `done`
 - `{locale}`: `ko` | `en`
+
+초안은 Markdown에서 먼저 완성하고, 확정 뒤 해당 제작 파일에 나누어 반영한다.
 
 ---
 

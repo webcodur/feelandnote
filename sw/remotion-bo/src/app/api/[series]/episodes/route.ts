@@ -1,17 +1,34 @@
 import { NextResponse } from 'next/server'
 import { listEpisodes, loadEpisode, saveEpisode, scanLocalWavs } from '@/lib/server-utils'
-import { isValidSeries, isFactionSeries } from '@/lib/series-registry'
+import { isValidSeries, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
 import { listFactionEpisodes, createFactionEpisode } from '@/lib/faction-utils'
+import { listDiscourseEpisodes, createDiscourseEpisode } from '@/lib/discourse-utils'
 import { supabase } from '@/lib/supabase'
+
+/**
+ * 책 기반이 아닌 시리즈의 목록·생성 — 에피소드 한 편이 파일 하나라 폴더명·영상 명칭만 받는다.
+ * 책 기반(서재 탐방)은 DB 셀럽에서 뼈대를 뽑는 스캐폴딩이라 아래 본문 경로를 탄다.
+ */
+const FILE_SERIES: Partial<Record<SeriesDataModel, {
+  list: () => Promise<unknown>
+  create: (name: string, init: { title?: string; music?: string }) => Promise<unknown>
+}>> = {
+  faction: { list: listFactionEpisodes, create: createFactionEpisode },
+  discourse: { list: listDiscourseEpisodes, create: createDiscourseEpisode },
+}
+
+function fileSeries(series: string) {
+  const model = seriesDataModel(series)
+  return model ? FILE_SERIES[model] : undefined
+}
 
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  // 세력도: 세력·인물 수 중심의 목록 카드
-  if (isFactionSeries(series)) {
-    return NextResponse.json(await listFactionEpisodes())
-  }
+  // 세력도·담화: 각자 자기 디렉토리의 에피소드 파일을 그대로 목록화한다
+  const fs = fileSeries(series)
+  if (fs) return NextResponse.json(await fs.list())
 
   const items = await listEpisodes(series)
 
@@ -63,12 +80,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  // 세력도: 빈 에피소드 생성 (영상 명칭·음악만 받고 세력은 편집기에서 채운다)
-  if (isFactionSeries(series)) {
+  // 세력도·담화: 빈 에피소드 생성 (영상 명칭·음악만 받고 내용은 편집기에서 채운다)
+  const fs = fileSeries(series)
+  if (fs) {
     const { name, title, music } = await req.json()
     if (!name?.trim()) return NextResponse.json({ error: 'name required' }, { status: 400 })
     try {
-      await createFactionEpisode(name.trim(), { title, music })
+      await fs.create(name.trim(), { title, music })
       return NextResponse.json({ ok: true, name: name.trim() })
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e)

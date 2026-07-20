@@ -8,7 +8,7 @@ import { NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
 import { runTask } from '@/lib/server-utils'
-import { isFactionSeries } from '@/lib/series-registry'
+import { isSeriesModel } from '@/lib/series-registry'
 import { loadFactionEpisode, loadFactionCards } from '@/lib/faction-utils'
 import { mergeFactionCards } from '@/lib/faction-types'
 
@@ -34,7 +34,7 @@ function cardSlug(card: Record<string, unknown>, i: number): string {
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
-  if (!isFactionSeries(series)) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
+  if (!isSeriesModel(series, 'faction')) return NextResponse.json({ error: 'faction series only' }, { status: 400 })
 
   const { episode, ratio, cards } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })

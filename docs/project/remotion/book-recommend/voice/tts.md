@@ -7,11 +7,12 @@
 
 ## 음성 역할
 
-| 역할 | Gemini 보이스 | ElevenLabs | 성별 | 색상 코드 |
-|------|---------------|-----------|------|-----------|
-| 나레이터 | `Kore` | — | 여성 | `#888` (회색) |
-| 요약맨 | `Charon` | — | 남성 | `#8bb8a8` (민트) |
-| 셀럽 | `Puck` (기본) | `elevenlabsVoiceId` | 남성 | `#c8a46e` (골드) |
+| 역할 | Gemini 보이스 | ElevenLabs | 색상 코드 |
+|------|---------------|------------|-----------|
+| 롱폼·쇼츠·SOLO 해설과 요약 | `Charon` | — | `#888` / `#8bb8a8` |
+| 실제 인물의 검증된 발언 | 사용 금지 | 인물별 ELE ID 필수 | `#c8a46e` |
+
+실제 인물은 진행 인물과 조연을 가리지 않고 ELE만 쓴다. ELE ID가 없으면 음성 설정 미완료이며 Gemini로 대체하지 않는다.
 
 ## 속도 설계
 
@@ -29,31 +30,16 @@
 
 - 배속 지시는 2026-04-17 전면 폐기. 모든 셀럽이 원속 재생이다.
 - `NARRATOR_STYLE_DEFAULT`는 한·영 공통 적용되지만 "편안하고 자연스럽게"는 한국어 지시라 영문 TTS에서는 실효가 제한된다. 영문에 별도 스타일이 필요하면 `segment.style`에 영문 지시문을 넣는다 (경고 로그 발생).
-- 셀럽별 오버라이드는 `episode.host.shortsSpeed` 필드(레거시 이름, 실제는 스타일 문자열)에 저장한다.
+- 해설 스타일 오버라이드는 `episode.host.shortsSpeed` 필드(레거시 이름, 실제는 스타일 문자열)에 저장한다.
 - **ElevenLabs는 텍스트 prefix가 적용되지 않는다.** 커스텀 보이스 자체 특성을 따른다.
 
-### 셀럽 보이스 오버라이드
+### 인물 보이스 등록
 
-에피소드 JSON의 `host.geminiVoice`로 Gemini 셀럽 보이스를 인물별로 지정할 수 있다.
-전체 보이스 목록과 배정 현황은 [`actors.md`](actors.md) 참조.
+진행 인물은 `host.voiceEngine: "elevenlabs"`와 `host.elevenlabsVoiceId`를, 조연은 `speakers[].engine: "elevenlabs"`와 `speakers[].voiceId`를 지정한다. `host.geminiVoice`, 장면별 `geminiVoice`, Gemini 화자 등록은 서재탐방 인물 음성에 사용하지 않는다. 자세한 형식은 [`actors.md`](actors.md) 참조.
 
-```json
-{ "host": { "geminiVoice": "Orus" } }
-```
+### 발화 스타일
 
-### 셀럽 보이스 스타일 지시 (voiceStyle)
-
-Gemini TTS는 보이스가 음색만 결정하고 어조·감정은 텍스트 프롬프트로 제어한다. `host.voiceStyle`을 지정하면 셀럽 역할(`celeb`) 음성 생성 시 텍스트 앞에 지시가 자동 삽입된다.
-
-```json
-{ "host": { "voiceStyle": "무게감 있는 목소리로, 권위적이고 위엄 있는 어조로 말한다" } }
-```
-
-**주의사항:**
-- "천천히", "무게감 있게" 등의 지시는 속도를 크게 늦출 수 있다. 속도 균형이 필요하면 "보통 빠르기로" 등을 병기한다.
-- ElevenLabs 엔진에는 적용되지 않는다 (커스텀 보이스 자체에 캐릭터 내장).
-- 쇼츠에서도 celeb에는 voiceStyle만 적용되고 속도 지시는 삽입되지 않는다.
-- 인물별 voiceStyle 배정 현황은 [`actors.md`](actors.md) 참조.
+Gemini의 스타일 지시는 `Charon` 해설에만 적용한다. ElevenLabs 인물 대사의 감정·톤은 ELE 전용 설정을 사용하며 Gemini용 `host.voiceStyle`이나 장면별 `style`로 대신하지 않는다.
 
 ### 짧은 narrator/summary 문장 특수 톤 (tail padding)
 
@@ -111,8 +97,8 @@ pnpm voice:chunk -- --check -- --episode <name>
 
 | 엔진 | 플래그 | 비고 |
 |------|--------|------|
-| Gemini Flash TTS | `--engine gemini` (기본) | LLM 기반, 변조 가능. 키당 10회/일 |
-| ElevenLabs | `--engine elevenlabs` | 인물별 커스텀 보이스. **명시적 지정 시에만 사용** |
+| Gemini Flash TTS | `--engine gemini` (기본) | `Charon` 해설 전용. 키당 10회/일 |
+| ElevenLabs | `--engine elevenlabs` | 실제 인물 대사 전용. 인물별 ELE ID 필수 |
 
 - **ElevenLabs는 `--engine elevenlabs` 명시 시에만 동작한다.** 자동 호출 없음.
 - ElevenLabs 모델: `eleven_multilingual_v2`, 출력: `pcm_24000`
@@ -120,7 +106,7 @@ pnpm voice:chunk -- --check -- --episode <name>
 
 ### ElevenLabs와 Gemini 파이프라인의 관계
 
-에피소드에 `host.elevenlabsVoiceId`가 있으면, Gemini 파이프라인(`pnpm voice`)은 **celeb 역할을 자동 스킵**한다. ElevenLabs 커스텀 보이스는 자동화·LLM 판단이 불가능하다. 생성된 음성을 사람이 직접 듣고 품질을 판단해야 하므로, 유저가 ElevenLabs 사이트에서 개별적으로 생성·선별한다. 따라서 celeb 음성은 Gemini 파이프라인 밖의 유저 수작업 영역이며, 3단계 파이프라인에 포함되지 않는다.
+Gemini 실행은 해설만 만들고 인물 대사는 건너뛴다. ElevenLabs 실행은 반대로 인물 대사만 대상으로 삼으며, ELE ID가 없는 대사는 오류로 중단한다. 이 분리는 해설이 인물 음색으로 생성되거나 인물 대사가 Gemini 대체 음성으로 생성되는 사고를 막는다. 실제 합성은 반드시 사람이 지시했을 때만 한다.
 
 ## 공통 음성
 
@@ -558,16 +544,20 @@ WAV 파일은 git에서 제외하고 로컬 `public/voice/` 디렉토리에서 �
 "(天只)": ""
 ```
 
-## 1권 모드(SOLO) 향후 작업
+## 1권 모드(SOLO)
 
-[solo.md](../solo.md)의 자유 마디 배열은 현재 wav가 합성되지 않은 상태다. 음성 파이프라인 통합 시 추가할 항목:
+SOLO는 책 번호를 지정해 음성 목록 확인과 합성을 실행한다. 기본 해설은 `Charon`이 읽는다. 같은 흐름의 해설은 대체로 두 문단 전후를 한 음성 파일로 묶는다. 같은 논지를 잇는 짧은 셋째 문단은 앞 파일에 붙이고, 인물의 실제 발언만 별도 ELE 성우 파일로 분리한다.
 
-- **마디 음성 파일명 규약** — `voice-names.ts` 의 `vnSolo(bookIndex, segIndex, segId)` → `voice/{locale}/solo-B{NN}/S{nn}-{segId}.wav`
-- **2-synthesize 분기** — `episode.solos[].segments[]` 순회. ID에 `-quote-`·`-celeb-` 포함 마디는 셀럽 보이스 라우팅(`isCelebVoiceFile` 솔로 패턴 이미 적용)
-- **3-transcribe 분기** — 솔로 마디도 `tts.replace` 치환 후 WhisperX 매핑
-- **4-align 분기** — 마디별 `voiceTimings` + `solo.<locale>.timing.json`의 `segments[].duration` 갱신
-- **5-chunk 분기** — sub 의미 단위 분할 (자막용)
-- **SRT 빌더** — `render-all.ts` 솔로 분기에 `buildSoloSubs` 추가
-- **BookRecommendSolo `<Audio>` 통합** — 현재 무음 재생. 마디별 wav 시퀀스 부착
+```bash
+# 비용 없이 생성 목록과 화자 확인
+pnpm voice:tts -- --episode jensen-huang-ko --solo 2 --list
 
-이 작업은 wav가 생기는 시점에 한 번에 들어간다. 솔로 마디 ID는 BO 편집기 발급 형식(`s12-quote-foo`)을 그대로 받아 안정성이 보장된다.
+# 사용자 승인 뒤 실제 합성
+pnpm voice:tts -- --episode jensen-huang-ko --solo 2
+```
+
+파일명은 `voice/{locale}/solo-B{NN}/S{nn}-{segId}.wav`다. `voice: "actor"`인 장면은 `speaker`가 가리키는 ELE 인물 음색을 사용하며, `host`는 진행 인물의 ELE 음색을 사용한다. 배우 장면에 Gemini를 지정하지 않는다.
+
+합성 뒤에는 일반 서재탐방과 같이 받아쓰기·정렬·의미 단위 분할을 진행한다. 영상은 음성과 단어 시각이 있는 장면에 해당 wav를 붙이고, 아직 음성이 없는 장면은 글자 수로 길이를 추정한다.
+
+텍스트가 확정되기 전에는 유료 합성을 실행하지 않는다. 장면 `id`나 순서를 바꾸면 파일명과 시각 연결이 달라지므로 원고 편집 단계에서는 본문만 수정한다.

@@ -88,9 +88,9 @@ try {
 
   elseif ($Operation -eq 'synthesize') {
     if (-not $Job.synthesisText) { throw '새로 읽힐 문장을 입력하고 저장하세요.' }
-    Set-State 'synthesizing' 88 '기본·학습·성우형 음성을 만드는 중'
+    Set-State 'synthesizing' 88 '기본·학습·듣기 보정 음성을 만드는 중'
     Invoke-Native { & $Python (Join-Path $PSScriptRoot 'synthesize.py') --job $JobFile --tool-root $ToolRoot 1>> $LogFile 2>> $ErrorLog }
-    Set-State 'complete' 100 '세 가지 음성 생성 완료'
+    Set-State 'complete' 100 '검사를 통과한 세 가지 음성 생성 완료'
   }
 } catch {
   $_ | Out-String | Add-Content -LiteralPath $LogFile -Encoding UTF8

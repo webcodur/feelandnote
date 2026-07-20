@@ -373,11 +373,40 @@ export async function listMusic(): Promise<string[]> {
   catch { return [] }
 }
 
-export async function saveMusic(filename: string, buf: Buffer): Promise<string> {
-  await mkdir(MUSIC_DIR, { recursive: true })
-  const safe = safeFilename(filename)
-  await writeFile(path.join(MUSIC_DIR, safe), buf)
-  return safe
+/**
+ * 음악 파일 목록 + 각 곡이 어느 세력에 연결됐는지 집계.
+ * 활성 세력(_episodes.json 등록분)의 faction-data.json을 훑어,
+ * 값이 실재 음원 파일명과 일치하는 모든 위치(공통 곡·편별·startSfx 등)를 필드 불문 수집한다.
+ */
+export async function listMusicWithUsage(): Promise<{ files: string[]; usage: Record<string, string[]> }> {
+  const files = await listMusic()
+  const fileSet = new Set(files)
+  const usage: Record<string, string[]> = {}
+
+  let entries
+  try { entries = await readdir(FACTIONS_DIR, { withFileTypes: true }) }
+  catch { return { files, usage } }
+  const allow = await readRegistry()
+
+  for (const e of entries) {
+    if (!e.isDirectory() || e.name.startsWith('_')) continue
+    if (allow && !allow.has(e.name)) continue // 등록 목록에 없는(비활성) 세력은 제외
+    const fp = dataPath(e.name)
+    if (!existsSync(fp)) continue
+    let data: unknown
+    try { data = JSON.parse(await readFile(fp, 'utf-8')) } catch { continue }
+    const title = (data as FactionScript)?.title ?? e.name
+
+    const hits = new Set<string>()
+    const walk = (v: unknown) => {
+      if (typeof v === 'string') { if (fileSet.has(v)) hits.add(v); return }
+      if (Array.isArray(v)) { v.forEach(walk); return }
+      if (v && typeof v === 'object') for (const k in v as Record<string, unknown>) walk((v as Record<string, unknown>)[k])
+    }
+    walk(data)
+    for (const f of hits) (usage[f] ??= []).push(title)
+  }
+  return { files, usage }
 }
 
 /** 효과음(SFX) 파일 목록 — public/common/sfx/ (시리즈 공통) */

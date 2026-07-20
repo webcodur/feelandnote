@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
 import type { FactionScript, FactionTrack } from './types'
-import { f, buildCues, personQuoteEnterSec } from './timing'
+import { f, buildCues, personQuoteEnterSec, isEmptyChapter } from './timing'
 import { clampRate } from './voice-names'
 
 /** 음량 배율 정규화 — 미지정이면 1(원음). 0~1.5 로 제한(과증폭 방지) */
@@ -90,6 +90,9 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
       const prev = cues[i - 1]
       const blackStart = prev && prev.cue.kind === 'chapterBlack' ? prev.start : null
       chapterBounds.push({ blackStart, coverStart: cues[i].start, music: c.chapter.music, vol: c.chapter.musicVolume })
+    } else if (c.kind === 'chapterBlack' && isEmptyChapter(c.chapter)) {
+      // 표지 없는 빈 챕터(제목·미디어 없음) — 검정 브릿지가 곧 음악 전환 경계다. 곡은 이 검정 시작부터 페이드인.
+      chapterBounds.push({ blackStart: cues[i].start, coverStart: cues[i].start, music: c.chapter.music, vol: c.chapter.musicVolume })
     }
   }
   if (!portrait && chapterBounds.length) {

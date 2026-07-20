@@ -161,7 +161,9 @@ async function loadNewLayoutEpisode(episodeDir: string, locale: string): Promise
     if (!book) continue
     const bookT = (await readJsonOrNull(join(bd, `book.${locale}.timing.json`))) ?? {}
 
-    const merged: any = { ...book, ...bookT }
+    // __folder — 책 폴더명("09-성경")을 원소에 실어 슬롯 번호에 의존하지 않는 책 정체 식별자를 제공한다.
+    // 소비자: youtube-upload 의 업로드 기록(bookFolder). 렌더는 별도 로더를 쓰므로 영향 없다.
+    const merged: any = { ...book, ...bookT, __folder: folders[i] }
     if (bookT.quotePairDurations && Array.isArray(merged.quotePairs)) {
       merged.quotePairs = merged.quotePairs.map((p: any, pi: number) => ({
         ...p, ...(bookT.quotePairDurations[pi] ?? {}),

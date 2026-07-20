@@ -137,8 +137,15 @@ export interface FactionPerson {
   cardQuoteImage?: string
   /** 대사 의미 덩어리(줄바꿈 단위, 선택) — 렌더는 이걸 \n으로 이어 표시한다. 없으면 quote를 통째로 쓴다 */
   quoteChunks?: string[]
-  /** 대사 실제 원문(verbatim) — 한국어판에서 의역 아래 보조로 띄운다(신뢰·고증용) */
+  /** 대사 근거 — 원전의 핵심 내용과 가상 독백으로 재구성한 방향. 한국어판 대사 아래 보조로 띄운다 */
   quoteOrigin?: string
+  /**
+   * 어록 채굴 뱅크 — 후보 원문·번역·출처. 영상 채택 대사(quote)와 별개.
+   * 조사 md 이관 결과. BO에서 후보 고를 때 참조.
+   */
+  minedQuotes?: { ref: string; en: string; ko: string }[]
+  /** 어록 채굴 메모 */
+  minedNote?: string
   /** 대사 다듬은 영문 — 영문판에서 quote를 대체하는 대사로 쓴다 */
   quoteEn?: string
   /** 영문 대사 의미 덩어리(줄바꿈 단위, 선택) — 영문판에서 quoteChunks를 대체. 렌더는 \n으로 이어 표시 */
@@ -170,6 +177,13 @@ export interface FactionPerson {
   quoteImageFilter?: 'vintage' | 'sepia' | 'grayscale' | 'duotone' | 'fade'
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
   slug?: string
+  /**
+   * 관할 그룹 소속 — 신 팩션(Gods-*)에서 인물이 속한 관할 분류. 화면 묶음(clusters)과 별개로
+   * 논리적 소속을 데이터로 명시해, 그룹 재배치(예: 제우스 주권→영역)를 클러스터 이동 없이 추적·검증한다.
+   * 그리스 신 6종: 'sovereignty'(주권)·'dominion'(영역)·'war'(전쟁)·'order'(질서)·'desire'(욕망)·'craft'(기술과 전달).
+   * 신화 아닌 시리즈에는 미사용.
+   */
+  domain?: string
   /** true면 신화·전설 속 존재(실존 인물 아님) — 셀럽 DB 등록 대상이 아니다. BO 배지에서 '신화'로 구분(미등록 경고 아님) */
   mythical?: boolean
   /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
@@ -253,6 +267,12 @@ export interface FactionPerson {
    * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
    */
   quoteCaptionPos?: 'bottom' | 'center'
+  /**
+   * 작은 자막 폰트 및 스타일 (quoteDisplay==='caption' 일 때). 미지정이면 에피소드 기본 → 'default'.
+   * - 'default': 기본 크기의 산세리프 폰트
+   * - 'serif-large': 조금 더 큰 크기의 세리프(명조) 폰트
+   */
+  quoteCaptionStyle?: 'default' | 'serif-large'
 }
 
 /**
@@ -501,6 +521,12 @@ export interface FactionScript {
    * - 'center': MID 영역 중하단 밴드(정중앙이 아니라 아래쪽 중간)
    */
   quoteCaptionPos?: 'bottom' | 'center'
+  /**
+   * 작은 자막 폰트 및 스타일 — 에피소드 전역 기본. 인물 quoteCaptionStyle 이 있으면 그쪽이 우선.
+   * - 'default'(기본): 기본 크기의 산세리프 폰트
+   * - 'serif-large': 조금 더 큰 크기의 세리프(명조) 폰트
+   */
+  quoteCaptionStyle?: 'default' | 'serif-large'
   /** true면 모든 컷의 지속 효과(줌·패닝 등)를 끄고 정지 화면으로 둔다. 영상 컷 떨림 점검·정적 연출용 — 언어 공통 */
   noZoom?: boolean
   /** 가로 롱폼 우상단 상태표시줄의 세력명 표기. true면 세력 명칭을 개행 포함 전체(앞부분+뒷부분)로, 미지정/false면 앞부분만 — 언어 공통 */
@@ -576,6 +602,8 @@ export interface FactionScript {
   introSec?: number
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 GROUP_SEC(4). BO에서 오버라이드용 */
   groupSec?: number
+  /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(clusterDurationSec, 2.6~3.2). 지정하면 인원 수와 무관하게 이 값으로 고정. BO에서 오버라이드용 */
+  clusterSec?: number
   /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
   startSfx?: string
   /** 세력 로고(타이틀 카드) 등장 효과음 파일명(public/common/sfx/ 하위). 미지정이면 효과음 없음 */

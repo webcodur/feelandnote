@@ -1,5 +1,26 @@
 # 5. 페르소나
 
+> **최종 실측 체크: 26.07.16** — persona jsonb 구조·점수 범위 실측 대조
+
+## 적용 대상
+
+| 티어 | 수행 |
+|------|------|
+| **full** | 필수 |
+| **light** | 필수 |
+| **relation** | 생략 |
+| **fiction** | 생략 |
+
+relation·fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+
+담당 에이전트는 `celeb-5-persona`. 의존 트랙은 basic뿐이다.
+
+## 영문 처리
+
+본 트랙은 **한국어와 영문을 함께 쓴다.** 각 항목의 `reason_en`과 `rationale_en`을 여기서 작성한다. i18n 트랙(`celeb-i18n.md`)은 `celeb_persona`를 건드리지 않는다. 영문을 비워두고 i18n으로 넘기지 않는다.
+
+---
+
 ## DB 구조
 
 `celeb_persona.persona` jsonb 단일 컬럼이 정본이다. 4그룹 위계 구조:
@@ -45,6 +66,8 @@
 | `dispositions` | pessimism_optimism, conservative_progressive, individual_social, cautious_bold | -50~+50 | 위와 동일 |
 | `rationale_ko` | — | 텍스트 | 인물 종합 해설 한국어 (아래 참조) |
 | `rationale_en` | — | 텍스트 | 인물 종합 해설 영문 |
+
+> `celeb_persona`에는 `command`·`martial`·`temperance` 등 16개 평면 컬럼이 아직 남아 있다. **폐기된 구 구조이며 읽지도 쓰지도 않는다.** 정본은 `persona` jsonb 하나뿐이다.
 
 ---
 

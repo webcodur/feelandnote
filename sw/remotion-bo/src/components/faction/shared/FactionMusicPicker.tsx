@@ -9,12 +9,15 @@ export function FactionMusicPicker({
   file,
   vol,
   musicList,
+  label,
   onFile,
   onVol,
 }: {
   file?: string
   vol?: number
   musicList: string[]
+  /** 옵션 라벨 커스터마이즈 — 곡명 뒤에 연결처 표기 등. 없으면 파일명 그대로 */
+  label?: (file: string) => string
   onFile: (v?: string) => void
   onVol: (v?: number) => void
 }) {
@@ -27,7 +30,7 @@ export function FactionMusicPicker({
         title="이 세력부터 나올 곡 (이전 곡 유지 = 직전 곡 그대로)"
       >
         <option value="">이전 곡 유지</option>
-        {musicList.map(m => <option key={m} value={m}>{m}</option>)}
+        {musicList.map(m => <option key={m} value={m}>{label ? label(m) : m}</option>)}
       </select>
       {file && (
         <span className="flex shrink-0 items-center gap-1" title="이 곡 음량. 100%가 원음">

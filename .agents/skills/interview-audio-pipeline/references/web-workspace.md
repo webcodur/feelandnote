@@ -26,6 +26,12 @@ Actions are intentionally independent:
 4. `train` uses only enabled 3–10 second regions belonging to the selected speaker (`A` or `B`); exclude `overlap` regions.
 5. `synthesize` creates base, trained, and polished WAV files and verifies all three with Whisper.
 
+During synthesis, treat the newest GPT checkpoint as a candidate, not automatically as the best result. If it produces an empty or abnormally short utterance, try earlier checkpoints from the same training run and keep the first one that produces recognizable speech. Do not expose a player merely because a WAV path exists: only show outputs with non-empty speech verification. Create the listening-polished output only from a verified trained output, force mono 32 kHz PCM, and verify it again after filtering.
+
+Before synthesis, offer visible, multi-select delivery directions such as calm, firm, energetic, urgent, relaxed, gentle, clear, and weighty. Persist the selected directions on the job. Combine their speed and pause adjustments with safe bounds, then layer compatible EQ and dynamics filters. Describe these as approximate delivery shaping, not text-understood emotion acting; opposing choices may partially cancel each other.
+
+Keep successful synthesis runs under `output/runs/<timestamp>/` instead of overwriting the previous run. Record the sentence, delivery directions, verification text, and selected checkpoint in each run's `run.json`. Expose an in-app output library with playback, duration, file size, download, and an Explorer button for the output directory. Treat generation as a transaction: do not clear the job's current output pointers until a complete new run passes verification.
+
 If a stage fails, inspect `worker.log`, `worker-error.log`, and `launcher.log` in the job directory. Correct the cause and rerun only that action. A new training attempt clears only its job-specific GPT-SoVITS log directory.
 
 ## Editing contract

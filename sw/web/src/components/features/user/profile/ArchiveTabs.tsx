@@ -7,6 +7,7 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { buildArchiveTabs } from "@/constants/archive";
 import PageTabs from "@/components/shared/PageTabs";
 
@@ -18,11 +19,12 @@ interface ArchiveTabsProps {
 
 export default function ArchiveTabs({ userId, isOwner, isCeleb }: ArchiveTabsProps) {
   const pathname = usePathname();
+  const t = useTranslations("archiveTabs");
   const tabs = buildArchiveTabs(userId, isOwner, isCeleb);
 
   const pageTabs = tabs.map((tab) => ({
     value: tab.value,
-    label: tab.label,
+    label: t(`${tab.value}.label`),
     href: tab.fullHref,
   }));
 

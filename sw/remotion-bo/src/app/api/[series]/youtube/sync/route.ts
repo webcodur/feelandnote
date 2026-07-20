@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server'
 import { readFile, writeFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { getSeriesById, isFactionSeries } from '@/lib/series-registry'
-import { ytGet, ytPut } from '@/lib/youtube-client'
+import { getSeriesById, seriesDataModel } from '@/lib/series-registry'
+import { ytGet, ytPut, YouTubeApiError } from '@/lib/youtube-client'
+import { fetchPrivacyStatuses } from '@/lib/youtube-liveness'
 import { buildTitle, buildDescription, buildTags, calcChapterTimestamps, buildYouTubeSnippet, type EpisodeMeta } from '@feelandnote/shared/lib/youtube-meta'
 import {
   factionVariants,
@@ -49,7 +50,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  if (isFactionSeries(series)) return factionSyncGet()
+  const model = seriesDataModel(series)
+  if (model === 'faction') return factionSyncGet()
+  // 출고 기록(lineup)이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  if (model !== 'book') return NextResponse.json({ error: `youtube sync not implemented: ${model}` }, { status: 501 })
 
   const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
@@ -123,9 +127,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         const ep = await loadEpisode(series, epName)
         const celebName = ep.host?.nickname ?? name
 
-        // 쇼츠 타이틀 조립용 대표 책 제목 — shortsIndex 1-based, 배열 접근은 -1
+        // 쇼츠 타이틀 조립용 대표 책 제목.
+        // shortsIndex는 고정 slot이지 배열 위치가 아니다 — 배열 순서로 집으면 엉뚱한 책이 잡힌다.
+        // (실측: elon-musk의 shorts 배열 순서는 slot 1,6,2,3,4,8,5. shortsArr[1]은 slot 2가 아니라 6이다.)
+        // CLI(youtube-upload.ts:180)·팩션(아래 440행)이 이미 slot 조회를 쓴다. 같은 방식으로 맞춘다.
         const shortsArr = Array.isArray(ep.shorts) ? ep.shorts : (ep.shorts ? [ep.shorts] : [])
-        const targetShorts = isShorts ? shortsArr[shortsIndex - 1] : undefined
+        const targetShorts = isShorts ? shortsArr.find((s: any) => s?.slot === shortsIndex) : undefined
         const shortsBookTitle = isShorts
           ? ep.books?.[targetShorts?.featuredBookIndex ?? 0]?.title
           : undefined
@@ -174,7 +181,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  if (isFactionSeries(series)) return factionSyncPost(req)
+  const model = seriesDataModel(series)
+  if (model === 'faction') return factionSyncPost(req)
+  if (model !== 'book') return NextResponse.json({ error: `youtube sync not implemented: ${model}` }, { status: 501 })
 
   const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
   const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
@@ -205,7 +214,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     }
     if (toCheck.length === 0) return NextResponse.json({ purged: 0 })
 
-    // YouTube API로 존재 확인
+    // YouTube API로 존재 확인.
+    // ⚠️ 조회가 실패하면 반드시 중단한다 — 실패를 "없음"으로 읽으면 전 기록이 한 번에 지워진다.
     const existing = new Set<string>()
     const byChannel: Record<string, typeof toCheck> = { ko: [], en: [] }
     for (const item of toCheck) byChannel[item.channel].push(item)
@@ -213,11 +223,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     for (const channel of ['ko', 'en'] as const) {
       const items = byChannel[channel]
       if (items.length === 0) continue
-      for (let i = 0; i < items.length; i += 50) {
-        const batch = items.slice(i, i + 50)
-        const ids = batch.map(b => b.videoId).join(',')
-        const data = await ytGet<YTListResponse>(channel, 'videos', { part: 'id', id: ids })
-        if (data?.items) for (const v of data.items) existing.add(v.id)
+      try {
+        const found = await fetchPrivacyStatuses(channel, items.map(b => b.videoId))
+        for (const id of found.keys()) existing.add(id)
+      } catch (e) {
+        const msg = e instanceof YouTubeApiError ? e.message : String(e)
+        return NextResponse.json({ error: `기록 정리 중단 — 유튜브 조회 실패로 삭제 여부를 확정할 수 없다: ${msg}` }, { status: 502 })
       }
     }
 
@@ -351,9 +362,11 @@ async function buildVariantPushData(series: string, episode: string, variant: st
   const ep = await loadEpisode(series, epName)
   const celebName = ep.host?.nickname ?? episode
 
-  // 쇼츠 타이틀 조립용 대표 책 제목 — shortsIndex 1-based, 배열 접근은 -1
+  // 쇼츠 타이틀 조립용 대표 책 제목.
+  // shortsIndex는 고정 slot이지 배열 위치가 아니다(위 131행 주석 참조).
+  // 이 값이 메타 푸시로 실제 유튜브 영상 제목·설명에 박히므로 어긋나면 잘못된 메타가 나간다.
   const shortsArr = Array.isArray(ep.shorts) ? ep.shorts : (ep.shorts ? [ep.shorts] : [])
-  const targetShorts = isShorts ? shortsArr[shortsIndex - 1] : undefined
+  const targetShorts = isShorts ? shortsArr.find((s: any) => s?.slot === shortsIndex) : undefined
   const shortsBookTitle = isShorts
     ? ep.books?.[targetShorts?.featuredBookIndex ?? 0]?.title
     : undefined

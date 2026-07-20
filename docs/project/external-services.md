@@ -1,5 +1,7 @@
 # 외부 서비스
 
+> **최종 실측 체크: 26.07.16** — `get_tracker_candidates` RPC 실측 재확인(정상 동작, 후보 225건). 이 RPC 건만 확인했고 문서의 나머지는 실측 대조하지 않았다
+
 ## Supabase (MCP 서버)
 DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
@@ -141,7 +143,9 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - `getTrackerRound` 폴백 후보 목록에서 `cultural_journey`/`bio` 전문 수신 차단 — 선정 1명만 1행 별도 수신, 비어있지 않음 필터는 DB단 `neq`로 이동 (`4464ab07`)
 - `feat/celeb-page-static` 머지 완료 — 셀럽 상세 정적/ISR 전환 (`c39465ed`)
 
-**발견 결함**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 **항상 실패** → 게임 등용은 그간 폴백 경로로만 동작. DB 함수 수정 필요하나 `SUPABASE_ACCESS_TOKEN` 만료로 DDL 불가. **토큰 갱신 후 함수 교정 + 1차 경로도 후보 본문 미수신으로 정리 필요.**
+**발견 결함 → 해소(26.07.15)**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 항상 실패했고, 게임 등용이 폴백 경로로만 동작했다. 당시 `SUPABASE_ACCESS_TOKEN` 만료로 DDL이 막혀 미조치로 남았으나 26.07.15에 RPC를 재정의해 교정했다.
+
+> **26.07.16 실측 재확인**: RPC 정의에 `quotes` 참조 없음, 호출 시 후보 225건 정상 반환. 이 문서가 26.07.16까지 "항상 실패·토큰 갱신 후 교정 필요"로 남아 있어 정정했다.
 
 **잔여 과제**: ~~④ `CRON_SECRET` 설정(유저 액션, Vercel 대시보드) → ⑤ 캐시 태그 국소화~~ → **둘 다 완료(9차 참조).** 일별 egress 관찰은 계속(평시 1GB/일 미만이 수정 효과 판정 기준).
 
