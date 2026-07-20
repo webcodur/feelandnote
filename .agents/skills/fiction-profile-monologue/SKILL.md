@@ -10,7 +10,7 @@ description: 본 서비스에 신화·전설·허구 인물을 `fiction`형 셀�
 ## 시작 전
 
 1. 사용자가 지정한 에피소드만 범위에 넣고 보류한 에피소드는 명단 조회부터 제외한다.
-2. `docs/project/db-celeb.md`, `docs/project/celeb/celeb-pipeline.md`, `sw/web-bo/docs/todo/virtual-monologue-plan.md`의 현행 규칙을 확인한다.
+2. `docs/project/db-celeb.md`, `docs/project/celeb/celeb-pipeline.md`의 현행 규칙을 확인한다. 실존 인물 독백의 작성 규격은 `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts`(`buildPrompt`)가 SSoT다 — fiction 인물에도 문체·금지 규칙은 그대로 준용한다.
 3. 아래 명령으로 에피소드 명단과 DB를 대조한다.
 
 ```bash
