@@ -156,6 +156,65 @@ export async function uploadFaction(episode: string, filterType?: string, dry = 
   console.log('완료.')
 }
 
+// ─── 삭제 (YouTube 영상 삭제 + 업로드 기록 제거) ─────────
+
+async function removeUploadRecord(episode: string, variantKey: string) {
+  const all = await readLineup()
+  const uploads = all[episode]?.uploads
+  if (!uploads?.[variantKey]) return
+  delete uploads[variantKey]
+  await writeFile(LINEUP_PATH, JSON.stringify(all, null, 2) + '\n', 'utf-8')
+  console.log(`  faction-lineup.json 기록 제거: ${variantKey}`)
+}
+
+/**
+ * 업로드된 세력도 영상을 YouTube 에서 삭제하고 업로드 기록도 지운다.
+ * 되돌릴 수 없다 — 호출부(스킬·BO)에서 사용자 확인을 받은 뒤 실행한다.
+ */
+export async function deleteFactionUploads(episode: string, filterType?: string, dry = false) {
+  const data = await loadFactionData(episode)
+  const lineup = await readLineup()
+  const uploads = lineup[episode]?.uploads
+  if (!uploads || Object.keys(uploads).length === 0) {
+    console.error(`업로드 기록 없음: faction-lineup.json 의 ${episode}.uploads 가 비어 있다.`)
+    process.exit(1)
+  }
+
+  const variants = factionVariants(data.groups, data.longformLayout).filter(v => uploads[v.key] && matchType(v, filterType))
+  if (variants.length === 0) {
+    console.error(`대상 없음: ${episode} 에 삭제할 업로드가 없다(--type 필터 확인).`)
+    process.exit(1)
+  }
+
+  let yt: ReturnType<typeof google.youtube> | null = null
+  async function getYt() {
+    if (dry) return null
+    if (!yt) yt = google.youtube({ version: 'v3', auth: await getAuthedClient('ko') })
+    return yt
+  }
+
+  console.log(`\n세력도 에피소드: ${episode} (삭제 모드)`)
+  console.log(`대상: ${variants.map(v => v.key).join(', ')}\n`)
+
+  for (const v of variants) {
+    const videoId = uploads[v.key]!.videoId
+    const { title } = buildSnippetFor(data, v)
+    console.log(`── ${v.label} (${v.key}, videoId=${videoId}) ──`)
+    console.log(`  제목: ${title}`)
+    console.log(`  https://youtu.be/${videoId}`)
+
+    if (dry) { console.log('  (dry: 삭제 호출 생략)'); continue }
+
+    const client = await getYt()
+    if (!client) continue
+    await client.videos.delete({ id: videoId })
+    console.log('  YouTube 삭제 완료')
+    await removeUploadRecord(episode, v.key)
+  }
+
+  console.log('완료.')
+}
+
 // ─── 메타 패치 (영상 그대로, 제목·설명·태그만 갱신) ──────
 
 export async function patchFactionMetadata(episode: string, filterType?: string, dry = false) {

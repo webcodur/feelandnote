@@ -46,5 +46,21 @@
         "uploadedAt": "2026-07-13T09:38:13.744Z"
       }
     }
+  },
+  "Homer-Iliad": {
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "NGEViNgjhKU",
+        "uploadedAt": "2026-07-20T08:20:29.629Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "3gvDczmwT-s",
+        "uploadedAt": "2026-07-20T08:20:51.771Z"
+      },
+      "ko-longform": {
+        "videoId": "ltgz8ksoiUw",
+        "uploadedAt": "2026-07-20T10:35:03.768Z"
+      }
+    }
   }
 }

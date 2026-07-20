@@ -138,7 +138,7 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
         </Sequence>
       ) : null)}
       {cues.map((tc, i) => (
-        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} lvPart={activeLvPart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
+        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} lvPart={activeLvPart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} nextKind={cues[i + 1]?.cue.kind ?? null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
       ))}
       {/* 슬라이드 완충(a x b) — 경계 위에 얹는 블러 띠. 마스크로 가장자리(a·b)는 블러가 0에서 천천히
           살아나고 가운데(x)에서 최대 → A·B 본체에는 영향이 없고 경계만 흐려 잇는다 */}
