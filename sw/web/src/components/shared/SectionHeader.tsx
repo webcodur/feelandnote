@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 
 interface Props {
-  title: string;          // 한글 메인 타이틀 (예: 공통 서가)
+  title: ReactNode;       // 한글 메인 타이틀 (예: 공통 서가)
   label?: string;         // 영문 서브 라벨 (예: CHOSEN ONES) - 선택사항
   description: ReactNode; // 설명 문구 (줄바꿈 가능)
   className?: string;
@@ -27,14 +27,14 @@ export default function SectionHeader({ title, label, description, className = "
       </div>
 
       {/* 영문 라벨 */}
-      {label && label.toLowerCase() !== title.toLowerCase() && (
+      {label && (typeof title !== "string" || label.toLowerCase() !== title.toLowerCase()) && (
         <span className="block text-xs sm:text-sm font-cinzel font-bold text-accent tracking-[0.2em] uppercase mb-1">
           {label}
         </span>
       )}
 
       {/* 메인 타이틀 */}
-      <Tag className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-3">
+      <Tag className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-5 md:mb-6 whitespace-pre-line leading-[1.4]">
         {title}
       </Tag>
 

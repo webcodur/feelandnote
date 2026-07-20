@@ -3,20 +3,22 @@
 import { useState, useRef, Fragment, type ReactNode } from "react";
 import Logo from "@/components/ui/Logo";
 import { Tabs, Tab } from "@/components/ui/Tab";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Info } from "lucide-react";
+import Modal, { ModalBody } from "@/components/ui/Modal";
+import InspirationChainGraphic from "./InspirationChainGraphic";
 
 /**
  * [[인물명]] → 엑센트 색상 
  * 《작품명》 → 텍스트 프라이머리 
  * 나머지    → 기본 회색
  */
-function renderHighlighted(text: string): ReactNode[] {
+export function renderHighlighted(text: string): ReactNode[] {
   return text.split(/(\[\[.*?\]\]|《.*?》)/).map((seg, i) => {
     if (seg.startsWith("[[") && seg.endsWith("]]")) {
       const name = seg.slice(2, -2);
       if (name === "Feel&Note") {
         return (
-          <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-lg md:text-xl">
+          <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-lg md:text-xl whitespace-nowrap">
             <span className="logo-text-cream">FEEL</span>
             <span className="logo-text-sepia mx-1">&amp;</span>
             <span className="logo-text-cream">NOTE</span>
@@ -30,9 +32,10 @@ function renderHighlighted(text: string): ReactNode[] {
       );
     }
     if (seg.startsWith("《") && seg.endsWith("》")) {
+      const book = seg.slice(1, -1);
       return (
         <span key={i} className="text-text-primary/95 font-medium tracking-wide">
-          {seg}
+          《{book}》
         </span>
       );
     }
@@ -50,6 +53,13 @@ interface HomeTabSectionProps {
     todayFigure: string;
     quickRecord: string;
     freeBoard: string;
+    inspirationChainTitle: string;
+    inspirationChains: {
+      text: string;
+      reader: { name: string; avatar_url: string | null } | null;
+      author: { name: string; avatar_url: string | null } | null;
+    }[][];
+    inspirationConclusion: string;
   };
 }
 
@@ -61,6 +71,7 @@ export default function HomeTabSection({
 }: HomeTabSectionProps) {
   const [activeTab, setActiveTab] = useState<"record" | "figure" | "free">("figure");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showRelayInfo, setShowRelayInfo] = useState(false);
 
   const handleScrollDown = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -81,6 +92,15 @@ export default function HomeTabSection({
             <div className="absolute bottom-0 left-0 w-5 h-5 md:w-7 md:h-7 border-b border-l border-accent/20" />
             <div className="absolute bottom-0 right-0 w-5 h-5 md:w-7 md:h-7 border-b border-r border-accent/20" />
 
+            {/* Info Icon */}
+            <button 
+              onClick={() => setShowRelayInfo(true)}
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 text-text-tertiary hover:text-accent bg-white/5 hover:bg-accent/10 rounded-full"
+              title={labels.inspirationChainTitle}
+            >
+              <Info size={16} />
+            </button>
+
             {/* Prose */}
             <div className="relative z-10 space-y-6 md:space-y-8 text-[15.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
               {labels.intro.split("\n\n").map((para, i) => (
@@ -95,9 +115,20 @@ export default function HomeTabSection({
                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 rotate-45 bg-accent shadow-[0_0_10px_theme(colors.accent)]" />
                 <div className="h-[1px] w-16 md:w-24 bg-gradient-to-l from-transparent via-accent/50 to-accent/80" />
               </div>
-              <p className="text-sm md:text-base tracking-[0.2em] text-accent/90 font-medium drop-shadow-sm">
-                {labels.introSub}
-              </p>
+              <div className="flex flex-col items-center gap-2 md:gap-3 text-center drop-shadow-sm tracking-[0.2em]">
+                {typeof labels.introSub === 'string' ? labels.introSub.split('\n').map((line, i) => (
+                  <span key={i} className={i === 0 
+                    ? "text-sm md:text-base text-text-primary font-medium" 
+                    : "text-sm md:text-base text-[#E6D5A7] font-medium"
+                  }>
+                    {line}
+                  </span>
+                )) : (
+                  <p className="text-sm md:text-base text-accent/90 font-medium whitespace-pre-line">
+                    {labels.introSub}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -148,6 +179,20 @@ export default function HomeTabSection({
             {activeTab === "figure" ? figureSection : activeTab === "record" ? recordSection : freeSection}
         </div>
       </div>
+
+      <Modal
+        isOpen={showRelayInfo}
+        onClose={() => setShowRelayInfo(false)}
+        title={labels.inspirationChainTitle}
+        icon={Info}
+      >
+        <ModalBody className="py-4 px-3 md:py-5 md:px-5">
+          <InspirationChainGraphic 
+            chains={labels.inspirationChains} 
+            conclusion={labels.inspirationConclusion} 
+          />
+        </ModalBody>
+      </Modal>
     </div>
   );
 }

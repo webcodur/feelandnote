@@ -101,7 +101,13 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
             return t("libraryLabelEmpty", { profession: professionLabel, nickname: displayName });
         }
         const particle = locale === "ko" ? subjectParticle(displayName) : "";
-        return t("libraryLabelFull", { profession: professionLabel, nickname: displayName, particle, items: parts.join(", ") });
+        return t.rich("libraryLabelFull", { 
+            profession: professionLabel, 
+            nickname: displayName, 
+            particle, 
+            items: parts.join(", "),
+            colored: (chunks) => <span className="text-[#E6D5A7] font-medium text-[19px] sm:text-[22px] tracking-wide inline-block pt-2 pb-1">{chunks}</span>
+        });
     }, [contents, displayName, professionLabel, locale, t]);
 
     return (

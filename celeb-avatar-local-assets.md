@@ -19,9 +19,12 @@
 
 ## 분류표
 
+> **진행 현황 (2026-07-20 DB 실측)**: 얼굴 없는 인물 **129명** / CELEB 전체 1,692명.
+> 일리아스 편 19명 전원 등록 완료. 올림포스 신 7명은 이전(7/16)에 등록돼 있었다.
+
 | 그룹 | 인원 | 자산 |
 |------|-----:|------|
-| **A** 완성 개인샷 보유 | 57 | 우리 그림 |
+| **A** 완성 개인샷 보유 | 57 | 우리 그림 (일리아스 17 등록 완료) |
 | **B** REF — 옛 인물 초상 | 37 | 외부 초상화·조각 사진 |
 | **C** REF — 오디세이아 신화 | 5 | 고전 회화 |
 | **D** REF — 현대 실사 | 3 | 인물 사진 |
@@ -38,30 +41,48 @@
 
 등록 수단: `sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts` 로컬 파일 모드(`--image-file`) — 얼굴 자동 크롭 · R2 업로드 · 인물 정보 갱신 일괄 처리.
 
-## A-1. 일리아스 편 18명 · `factions/Homer-Iliad/`
+## A-1. 일리아스 편 — ✅ **등록 완료 (2026-07-20, 17명)**
 
-| 인물 | slug | 파일 |
-|------|------|------|
-| 아가멤논 | `agamemnon` | `01-greeks/1/agamemnon.png` |
-| 메넬라오스 | `menelaus` | `01-greeks/1/menelaus.png` |
-| 네스토르 | `nestor` | `01-greeks/1/nestor.png` |
-| 아킬레우스 | `achilles` | `01-greeks/2/achilles.png` |
-| 대 아이아스 | `ajax-the-great` | `01-greeks/2/ajax-the-great.png` |
-| 디오메데스 | `diomedes` | `01-greeks/2/diomedes.png` |
-| 파트로클로스 | `patroclus` | `01-greeks/2/patroclus.png` ⚠️ 별도 `patroclus-solo-v1.png` |
-| 소 아이아스 | `ajax-the-lesser` | `01-greeks/3/ajax-the-lesser.png` |
-| 오디세우스 | `odysseus` | `01-greeks/3/odysseus.png` |
-| 시논 | `sinon` | `01-greeks/3/sinon.png` |
-| 헥토르 | `hector` | `02-trojans/1/hector-front.png` |
-| 파리스 | `paris` | `02-trojans/1/paris.png` |
-| 프리아모스 | `priam` | `02-trojans/1/priam.png` |
-| 카산드라 | `cassandra` | `02-trojans/1/cassandra.png` |
-| 아이네이아스 | `aeneas` | `02-trojans/2/aeneas.png` |
-| 사르페돈 | `sarpedon` | `02-trojans/2/sarpedon.png` |
-| 멤논 | `memnon` | `02-trojans/2/memnon.png` |
-| 펜테실레이아 | `penthesilea` | `02-trojans/2/penthesilea.png` ⚠️ 별도 `penthesilea_old.png` |
+**소스는 `Homer-Iliad/_refs/` 의 얼굴 완성본이다**(개인샷 폴더 아님). 전량 육안 검수 후 등록했고 얼굴 인식 점수는 17명 모두 0.90 이상이었다.
 
-## A-2. 올림포스 신 편 7명 · `factions/Gods-Greek/01-olympus/`
+| 인물 | slug | 소스 파일 | 얼굴점수 |
+|------|------|-----------|---------:|
+| 아가멤논 | `agamemnon` | `_refs/01-greeks/아가멤논.png` | 0.957 |
+| 메넬라오스 | `menelaus` | `_refs/01-greeks/메넬라오스.png` | 0.998 |
+| 네스토르 | `nestor` | `_refs/01-greeks/네스토르.png` | 0.998 |
+| 아킬레우스 | `achilles` | `_refs/01-greeks/아킬레우스2.png` | 0.998 |
+| 대 아이아스 | `ajax-the-great` | `_refs/01-greeks/대 아이아스.png` | 0.984 |
+| 디오메데스 | `diomedes` | `_refs/01-greeks/디오메데스.png` | 0.995 |
+| 파트로클로스 | `patroclus` | `_refs/01-greeks/파트로클로스.png` | 0.998 |
+| 오디세우스 | `odysseus` | `_refs/01-greeks/odysseus_face.png` | 0.909 |
+| 헥토르 | `hector` | `_refs/02-trojans/헥토르.png` | 0.981 |
+| 파리스 | `paris` | `_refs/02-trojans/파리스.png` | 0.993 |
+| 프리아모스 | `priam` | `_refs/02-trojans/프리아모스.png` | 0.996 |
+| 카산드라 | `cassandra` | `_refs/02-trojans/카산드라.png` | 0.998 |
+| 아이네이아스 | `aeneas` | `_refs/02-trojans/아이네이아스.png` | 1.000 |
+| 사르페돈 | `sarpedon` | `_refs/02-trojans/사르페돈.png` | 0.999 |
+| 멤논 | `memnon` | `_refs/02-trojans/멤논.png` | 0.993 |
+| 펜테실레이아 | `penthesilea` | `_refs/02-trojans/펜테실레이아.png` | 1.000 |
+| 헬레나 | `helen` | `_refs/02-trojans/헬레나.png` | 0.998 |
+
+- 헬레나는 원래 누락 명단에 없었으나(이미 등록돼 있었음) 같은 편이라 최신본으로 함께 교체했다.
+- `_refs/02-trojans/트로이갑투.png`는 인물이 아니라 갑옷이라 제외했다.
+- 소스 원본이 배경 없는 이미지라 등록 결과도 배경이 비어 있다. 서비스 배경색이 그대로 비친다.
+
+### 나머지 2명 (얼굴본 추가분으로 재등록 완료)
+
+| 인물 | slug | 소스 파일 | 얼굴점수 |
+|------|------|-----------|---------:|
+| 소 아이아스 | `ajax-the-lesser` | `_refs/01-greeks/소 아이아스.png` | 0.999 |
+| 시논 | `sinon` | `_refs/01-greeks/시논.png` | 0.996 |
+
+처음에는 얼굴본이 없어 전신 연출컷에서 잘라 썼으나(배경 혼입), 얼굴본이 추가돼(2026-07-20 11:55) 그것으로 교체했다. 이제 19명 전원 배경 없는 얼굴본으로 통일됐다.
+
+> **일리아스 편 19명 전원 등록 완료 — 소스는 모두 `_refs` 얼굴 완성본이다.** 출연 명단은 `faction-data.json` 기준 19명.
+
+## A-2. 올림포스 신 편 7명 · `factions/Gods-Greek/01-olympus/` — ✅ 등록돼 있음(2026-07-16)
+
+⚠️ 아래 경로는 개인샷 폴더다. 실제 등록에 쓰인 소스는 미확인이며, `Gods-Greek/_refs/01-olympus-new/`에도 얼굴본으로 보이는 파일이 있다. 교체 필요 시 일리아스와 같은 방식으로 `_refs` 쪽을 먼저 확인할 것.
 
 제우스 `1/zeus.png` · 헤라 `1/hera.png` · 포세이돈 `2/poseidon.png` · 아테나 `3/athena.png` · 아레스 `3/ares.png` · 아폴론 `4/apollo.png` · 아프로디테 `5/aphrodite.png`
 

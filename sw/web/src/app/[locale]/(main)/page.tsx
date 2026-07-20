@@ -82,6 +82,36 @@ export default async function MainPage() {
     getQuickRecordSuggestions('BOOK')
   ]);
 
+  const rawChains = t.raw("inspirationChains") as { reader: string; author: string; text: string }[][];
+  const slugSet = new Set<string>();
+  rawChains.forEach(chain => chain.forEach(step => {
+    slugSet.add(step.reader);
+    slugSet.add(step.author);
+  }));
+
+  const { data: profilesData } = await supabase
+    .from('profiles')
+    .select('slug, nickname, nickname_en, avatar_url')
+    .in('slug', Array.from(slugSet));
+
+  const profileMap = (profilesData || []).reduce((acc, p) => {
+    if (p.slug) acc[p.slug] = p;
+    return acc;
+  }, {} as Record<string, any>);
+
+  const isEn = locale === 'en';
+  const inspirationChains = rawChains.map(chain => 
+    chain.map(step => {
+      const r = profileMap[step.reader];
+      const a = profileMap[step.author];
+      return {
+        text: step.text,
+        reader: r ? { avatar_url: r.avatar_url, name: isEn ? r.nickname_en || r.nickname : r.nickname } : null,
+        author: a ? { avatar_url: a.avatar_url, name: isEn ? a.nickname_en || a.nickname : a.nickname } : null,
+      };
+    })
+  );
+
   const RecordSection = (
     <HomeRecordSection
         unreviewedList={unreviewedResult.items}
@@ -115,6 +145,9 @@ export default async function MainPage() {
           todayFigure: t("todayFigure"),
           quickRecord: t("quickRecord"),
           freeBoard: t("freeBoard"),
+          inspirationChainTitle: t("inspirationChainTitle"),
+          inspirationChains: inspirationChains,
+          inspirationConclusion: t("inspirationConclusion"),
         }}
       />
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
