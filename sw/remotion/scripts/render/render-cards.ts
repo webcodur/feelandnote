@@ -196,8 +196,12 @@ async function main() {
   console.log(`${'═'.repeat(60)}`)
 
   // 번들은 한 번만 — 이후 모든 카드는 같은 번들에서 selectComposition + renderStill
+  // outDir 고정: 미지정 시 매 실행마다 Temp/remotion-*가 새로 쌓여 디스크를 채운다.
   console.log(`  📦 번들링… [${ts()}]`)
-  const serveUrl = await bundle({ entryPoint: ENTRY })
+  const serveUrl = await bundle({
+    entryPoint: ENTRY,
+    outDir: join(REMOTION_ROOT, '.cache', 'bundle-cards'),
+  })
   console.log(`  ✓ 번들 완료 [${ts()}]`)
 
   let done = 0

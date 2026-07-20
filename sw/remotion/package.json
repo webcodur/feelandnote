@@ -28,6 +28,7 @@
     "youtube:auth": "tsx scripts/youtube/youtube-upload.ts auth",
     "youtube:upload": "tsx scripts/youtube/youtube-upload.ts upload",
     "youtube:patch-meta": "tsx scripts/youtube/youtube-upload.ts patch-meta",
+    "youtube:delete": "tsx scripts/youtube/youtube-upload.ts delete",
     "youtube": "tsx scripts/youtube/youtube-upload.ts",
     "upgrade": "remotion upgrade"
   },

@@ -26,7 +26,7 @@ import {
   upsertCaption,
   setThumbnail,
 } from './youtube-core.js'
-import { uploadFaction, patchFactionMetadata } from './youtube-faction.js'
+import { uploadFaction, patchFactionMetadata, deleteFactionUploads } from './youtube-faction.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -458,6 +458,29 @@ if (command === 'auth') {
   } else {
     upload(episode, lang, type, shortsIndex, bookIndex, dry).catch(console.error)
   }
+} else if (command === 'delete') {
+  const epIdx = args.indexOf('--episode')
+  const episode = epIdx >= 0 ? args[epIdx + 1] : null
+  if (!episode) { console.error('--episode 필수'); process.exit(1) }
+
+  const typeIdx = args.indexOf('--type')
+  const type = typeIdx >= 0 ? args[typeIdx + 1] : undefined
+
+  const dry = args.includes('--dry')
+
+  const seriesIdx = args.indexOf('--series')
+  const series = seriesIdx >= 0 ? args[seriesIdx + 1] : undefined
+
+  if (series !== 'faction') {
+    console.error('현재 삭제는 --series faction 만 지원한다.')
+    process.exit(1)
+  }
+  // 되돌릴 수 없다 — 확인 없이 실행하지 않는다(--yes 없으면 드라이런 강제).
+  if (!dry && !args.includes('--yes')) {
+    console.error('실제 삭제에는 --yes 가 필요하다. 먼저 --dry 로 대상을 확인하라.')
+    process.exit(1)
+  }
+  deleteFactionUploads(episode, type, dry).catch(e => { console.error(e); process.exit(1) })
 } else if (command === 'patch-meta') {
   const epIdx = args.indexOf('--episode')
   const episode = epIdx >= 0 ? args[epIdx + 1] : null
@@ -496,5 +519,9 @@ if (command === 'auth') {
   pnpm youtube:patch-meta -- --episode <name>                  업로드된 영상의 제목·설명·자막 fresh 재생성하여 갱신
   pnpm youtube:patch-meta -- --episode <name> --type longform  롱폼만 메타 패치
   pnpm youtube:patch-meta -- --episode <name> --no-caption     자막 단계 건너뛰기 (제목·설명만)
-  pnpm youtube:patch-meta -- --episode <name> --dry            드라이런`)
+  pnpm youtube:patch-meta -- --episode <name> --dry            드라이런
+
+  pnpm youtube:delete -- --episode <name> --series faction --dry          삭제 대상 미리보기(기본)
+  pnpm youtube:delete -- --episode <name> --series faction --yes          실제 삭제(되돌릴 수 없음)
+  pnpm youtube:delete -- --episode <name> --series faction --type longform --yes  롱폼만 삭제`)
 }

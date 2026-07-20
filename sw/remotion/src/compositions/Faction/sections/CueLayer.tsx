@@ -35,7 +35,7 @@ const OutroCard: React.FC<{ script: FactionScript; episodeName: string; isShorts
   return <AbsoluteFill style={{ background: BG }} />
 }
 
-export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; lvPart?: number; nextCutKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, lvPart, nextCutKind, isLast, isLastPerson, isShorts = false }) => {
+export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeName: string; frame: number; orientation: Orientation; part?: number; lvPart?: number; nextCutKind?: string | null; nextKind?: string | null; isLast?: boolean; isLastPerson?: boolean; isShorts?: boolean }> = ({ tc, script, episodeName, frame, orientation, part, lvPart, nextCutKind, nextKind, isLast, isLastPerson, isShorts = false }) => {
   const { start, duration, cue } = tc
   const end = start + duration
   // 최종화면(outro) 진입은 더 완만한 크로스페이드, 챕터 검정 브릿지는 마지막 인물이 검정으로 서서히 덮이도록 길게, 그 외는 기본값.
@@ -51,8 +51,12 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // 진입: 자기 컷 전환이면 이전 컷 끝보다 앞당겨 시작(이전 인물 위로). 아니면 크로스페이드.
   const enterSec = cutKind ? transitionEnterSec(cutKind) : crossSec
   const enterStart = start - f(enterSec)
+  // 챕터 검정 브릿지 직전 컷 — 브릿지가 시작되기 전에 완전히 사라져야 한다.
+  // 기본 크로스페이드(컷이 끝난 뒤 cf 동안 서서히 소멸)를 그대로 두면, 검정 브릿지(0.25초)가 이 컷보다 먼저 걷혀
+  // 아직 남아 있던 이전 화면이 되살아나 보인다(전환점에서 이전 챕터 마지막 화면이 잠깐 되돌아오는 현상).
+  const toBlack = nextKind === 'chapterBlack'
   // 화면 밖 컷은 내용을 만들기 전에 즉시 종료 — 매 프레임 전체 컷을 돌므로 여기서 끊어야 싸다.
-  if (frame < enterStart || frame > end + cf) return null
+  if (frame < enterStart || frame > (toBlack ? end : end + cf)) return null
 
   const noZoom = !!script.noZoom
   let content: React.ReactNode = null
@@ -115,7 +119,9 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
 
   // 불투명도 — 컷 전환/슬라이드는 효과·이동이 담당(불투명 유지), 그 외는 크로스페이드.
   const fadeIn = cutKind ? 1 : interpolate(frame, [start - cf, start], [0, 1], clampLR)
-  const fadeOut = nextSlide ? 1 : interpolate(frame, [end, end + cf], [1, 0], clampLR)
+  const fadeOut = nextSlide ? 1
+    : toBlack ? interpolate(frame, [end - f(CHAPTER_FADE_SEC), end], [1, 0], clampLR)
+    : interpolate(frame, [end, end + cf], [1, 0], clampLR)
   const opacity = Math.min(fadeIn, fadeOut)
 
   // 세로: 본문 컷은 상·하단 블랙바 사이(MID)에 그려 위아래 잘림을 통일한다.
