@@ -16,6 +16,11 @@
  *   위키데이터에 라이벌 개념이 거의 없으므로 rivalry 는 얇다. 수동 보강은 source='manual' 로
  *   같은 테이블에 넣는다. 이 스크립트는 source='wikidata' 행만 지우고 다시 쓴다(수동분 보존).
  *
+ * [명단 밖 가족 — celeb_relations_external]
+ *   가족은 대부분 셀럽이 아니라서 명단 안 짝만 남기면 혈연이 텅 빈다(실측 148간선).
+ *   가족 속성(부모·배우자·자녀·형제·동반자)의 명단 밖 상대는 이름만 받아
+ *   celeb_relations_external 에 넣고, 화면은 이동 불가 노드로 띄운다.
+ *
  * [실행]  sw/web-bo 에서
  *   node --env-file=.env --import tsx scripts/sync-celeb-relations.ts          # 실측만(DB 미반영)
  *   node --env-file=.env --import tsx scripts/sync-celeb-relations.ts --apply  # 적재까지
@@ -70,24 +75,41 @@ const PROPS: Record<string, PropDef> = {
 /** 모호해서 노이즈가 많은 속성 — 실측에는 세지만 적재하지 않는다. */
 const MEASURE_ONLY = new Set(['P1038'])
 
+/** 명단 밖 상대도 이름 노드로 수집하는 속성(가족만). 사상·영향까지 열면 노드가 폭발한다. */
+const EXTERNAL_PROPS = new Set(['P22', 'P25', 'P26', 'P40', 'P3373', 'P451'])
+
 const BATCH = 250
 const SLEEP_MS = 1100
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
+/** WDQS 는 부하에 따라 산발적으로 502/429 를 뱉는다 — 3회까지 물러났다 재시도한다. */
+async function wdqsFetch(query: string): Promise<Record<string, { value: string }>[]> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const res = await fetch('https://query.wikidata.org/sparql?format=json', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'user-agent': 'feelandnote-relations-sync/1.0 (webcodur@gmail.com)',
+          accept: 'application/sparql-results+json',
+        },
+        body: `query=${encodeURIComponent(query)}`,
+        signal: AbortSignal.timeout(90000),
+      })
+      if (!res.ok) throw new Error(`WDQS ${res.status}`)
+      const json = (await res.json()) as { results: { bindings: Record<string, { value: string }>[] } }
+      return json.results.bindings
+    } catch (e) {
+      if (attempt >= 3) throw e
+      console.log(`  재시도 ${attempt}/3 — ${(e as Error).message}`)
+      await sleep(5000 * attempt)
+    }
+  }
+}
+
 async function sparql(query: string): Promise<{ a: string; p: string; b: string }[]> {
-  const res = await fetch('https://query.wikidata.org/sparql?format=json', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'user-agent': 'feelandnote-relations-sync/1.0 (webcodur@gmail.com)',
-      accept: 'application/sparql-results+json',
-    },
-    body: `query=${encodeURIComponent(query)}`,
-    signal: AbortSignal.timeout(90000),
-  })
-  if (!res.ok) throw new Error(`WDQS ${res.status}: ${(await res.text()).slice(0, 200)}`)
-  const json = (await res.json()) as { results: { bindings: Record<string, { value: string }>[] } }
-  return json.results.bindings.map((r) => ({
+  const bindings = await wdqsFetch(query)
+  return bindings.map((r) => ({
     a: r.a.value.split('/').pop()!,
     p: r.p ? r.p.value.split('/').pop()! : '',
     b: r.b.value.split('/').pop()!,
@@ -160,6 +182,39 @@ async function run() {
   const inSet = triples.filter((t) => byQid.has(t.b) && t.a !== t.b)
   const outSet = triples.length - inSet.length
 
+  // ── 명단 밖 가족: 이름 노드용 수집 ──
+  type ExtEdge = { from: string; qid: string; type: string; group: Group }
+  const extEdges = new Map<string, ExtEdge>()
+  for (const t of triples) {
+    if (byQid.has(t.b) || t.a === t.b) continue
+    if (!EXTERNAL_PROPS.has(t.p)) continue
+    const def = PROPS[t.p]
+    const A = byQid.get(t.a)
+    if (!def || !A) continue
+    const key = `${A.id}|${t.b}|${def.type}`
+    if (!extEdges.has(key)) extEdges.set(key, { from: A.id, qid: t.b, type: def.type, group: def.group })
+  }
+  // 이름 조회 (ko·en 라벨)
+  const extQids = [...new Set([...extEdges.values()].map((e) => e.qid))]
+  const labels = new Map<string, { ko?: string; en?: string }>()
+  for (let i = 0; i < extQids.length; i += BATCH) {
+    const values = extQids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
+    const lq = `SELECT ?a ?ko ?en WHERE { VALUES ?a { ${values} }
+      OPTIONAL { ?a rdfs:label ?ko . FILTER(lang(?ko)='ko') }
+      OPTIONAL { ?a rdfs:label ?en . FILTER(lang(?en)='en') } }`
+    for (const r of await wdqsFetch(lq)) {
+      const qid = r.a.value.split('/').pop()!
+      labels.set(qid, { ko: r.ko?.value, en: r.en?.value })
+    }
+    console.log(`  이름 조회 ${Math.min(i + BATCH, extQids.length)}/${extQids.length}`)
+    if (i + BATCH < extQids.length) await sleep(SLEEP_MS)
+  }
+  // 이름이 아예 없는 항목은 띄울 방법이 없다
+  const extFinal = [...extEdges.values()].filter((e) => {
+    const l = labels.get(e.qid)
+    return l && (l.ko || l.en)
+  })
+
   type Edge = { from: string; to: string; type: string; group: Group }
   const edgeKey = (e: Edge) => `${e.from}|${e.to}|${e.type}`
   const edges = new Map<string, Edge>()
@@ -214,6 +269,9 @@ async function run() {
   console.log(`  최종 방향 간선 ${final.length} (논리 쌍 약 ${Math.round(final.length / 2)})`)
   console.log(`  그룹별:`, Object.fromEntries(perGroup))
   console.log(`  관계 1개 이상 보유 셀럽 ${persons.size}/${celebs.length} (${Math.round((100 * persons.size) / celebs.length)}%)`)
+  const extPersons = new Set(extFinal.map((e) => e.from))
+  const extKo = extFinal.filter((e) => labels.get(e.qid)?.ko).length
+  console.log(`  명단 밖 가족 노드 ${extFinal.length} (한국어 이름 ${extKo}, ${Math.round((100 * extKo) / Math.max(1, extFinal.length))}%) · 보유 셀럽 ${extPersons.size}`)
   const hubs = [...degree.entries()].sort((x, y) => y[1] - x[1]).slice(0, 12)
   console.log(`  허브 상위:`, hubs.map(([id, n]) => `${idToRow.get(id)?.nickname}(${n})`).join(', '))
 
@@ -230,8 +288,22 @@ async function run() {
       .upsert(chunk, { onConflict: 'from_id,to_id,rel_type', ignoreDuplicates: true })
     if (error) throw error
   }
+  // 명단 밖 가족도 wikidata 출처 전량 교체
+  const { error: extDelErr } = await supabase.from('celeb_relations_external').delete().eq('source', 'wikidata')
+  if (extDelErr) throw extDelErr
+  for (let i = 0; i < extFinal.length; i += 500) {
+    const chunk = extFinal.slice(i, i + 500).map((e) => ({
+      from_id: e.from, qid: e.qid, rel_type: e.type, rel_group: e.group, source: 'wikidata',
+      name_ko: labels.get(e.qid)?.ko ?? null, name_en: labels.get(e.qid)?.en ?? null,
+    }))
+    const { error } = await supabase.from('celeb_relations_external')
+      .upsert(chunk, { onConflict: 'from_id,qid,rel_type', ignoreDuplicates: true })
+    if (error) throw error
+  }
+
   const { count } = await supabase.from('celeb_relations').select('*', { count: 'exact', head: true })
-  console.log(`\n적재 완료. celeb_relations 총 ${count}행`)
+  const { count: extCount } = await supabase.from('celeb_relations_external').select('*', { count: 'exact', head: true })
+  console.log(`\n적재 완료. celeb_relations ${count}행 · celeb_relations_external ${extCount}행`)
 }
 
 run().catch((e) => { console.error(e); process.exit(1) })

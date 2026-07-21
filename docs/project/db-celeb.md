@@ -27,6 +27,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 실측(2026-07-22): 방향 간선 1,722 · 보유 셀럽 631/1,692(37%) — thought 1,110 / rivalry 346 / family 148 / career(공동 창업, P112 조직 매개) 118
   - rivalry는 위키데이터에 사실상 없어(2건) GPT 제안 → 병렬 검증(178쌍 중 173쌍 통과) → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
   - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
+- **`celeb_relations_external`**: 명단 밖 가족 (2026-07-22 `add_celeb_relations_external`). 가족은 대부분 셀럽이 아니라 명단 안 짝만으로는 혈연이 텅 빈다(148간선) — 위키데이터 등재 가족을 이름만 받아 이동 불가 노드로 띄운다
+  - 실측: 7,435명(한국어 이름 44%) · 보유 셀럽 1,116명. 가족 속성만 수집(사상·영향은 폭발해서 제외) · UNIQUE(from_id, qid, rel_type)
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다

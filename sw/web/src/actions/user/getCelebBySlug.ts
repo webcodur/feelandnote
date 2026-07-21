@@ -62,7 +62,8 @@ export interface CelebRelationItem {
   relType: string
   relGroup: 'family' | 'thought' | 'rivalry' | 'career'
   id: string
-  slug: string
+  /** null이면 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이름 노드로만 띄운다 */
+  slug: string | null
   nickname: string
   nickname_en: string | null
   avatar_url: string | null
@@ -148,6 +149,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     typeCountsResult,
     spotlightTagsResult,
     relationsResult,
+    externalRelationsResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -176,6 +178,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_relations')
       .select('rel_type, rel_group, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, status)')
       .eq('from_id', userId),
+    supabase
+      .from('celeb_relations_external')
+      .select('rel_type, rel_group, qid, name_ko, name_en')
+      .eq('from_id', userId),
   ])
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
@@ -203,7 +209,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     }))
 
   // 비활성·슬러그 없는 상대는 이동할 곳이 없으므로 제외한다
-  const relations: CelebRelationItem[] = ((relationsResult.data ?? []) as unknown as CelebRelationRow[])
+  const internalRelations: CelebRelationItem[] = ((relationsResult.data ?? []) as unknown as CelebRelationRow[])
     .filter((r): r is CelebRelationRow & { target: NonNullable<CelebRelationRow['target']> } =>
       !!r.target?.slug && r.target.status === 'active')
     .map((r) => ({
@@ -216,9 +222,26 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       avatar_url: r.target.avatar_url,
       profession: r.target.profession,
     }))
-    .sort((a, b) =>
-      REL_TYPE_ORDER.indexOf(a.relType) - REL_TYPE_ORDER.indexOf(b.relType)
-      || a.nickname.localeCompare(b.nickname))
+
+  // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
+  const externalRelations: CelebRelationItem[] = ((externalRelationsResult.data ?? []) as unknown as
+    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null }[])
+    .filter((r) => r.name_ko || r.name_en)
+    .map((r) => ({
+      relType: r.rel_type,
+      relGroup: r.rel_group,
+      id: `ext-${r.qid}`,
+      slug: null,
+      nickname: r.name_ko || (r.name_en as string),
+      nickname_en: r.name_en,
+      avatar_url: null,
+      profession: null,
+    }))
+
+  const byTypeThenName = (a: CelebRelationItem, b: CelebRelationItem) =>
+    REL_TYPE_ORDER.indexOf(a.relType) - REL_TYPE_ORDER.indexOf(b.relType)
+    || a.nickname.localeCompare(b.nickname)
+  const relations = [...internalRelations.sort(byTypeThenName), ...externalRelations.sort(byTypeThenName)]
 
   return {
     profile: profile as PublicCelebBySlugData['profile'],
