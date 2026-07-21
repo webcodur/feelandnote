@@ -180,7 +180,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .eq('from_id', userId),
     supabase
       .from('celeb_relations_external')
-      .select('rel_type, rel_group, qid, name_ko, name_en')
+      .select('rel_type, rel_group, qid, name_ko, name_en, image_url')
       .eq('from_id', userId),
   ])
 
@@ -225,7 +225,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
   const externalRelations: CelebRelationItem[] = ((externalRelationsResult.data ?? []) as unknown as
-    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null }[])
+    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null; image_url: string | null }[])
     .filter((r) => r.name_ko || r.name_en)
     .map((r) => ({
       relType: r.rel_type,
@@ -234,7 +234,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       slug: null,
       nickname: r.name_ko || (r.name_en as string),
       nickname_en: r.name_en,
-      avatar_url: null,
+      avatar_url: r.image_url,
       profession: null,
     }))
 
