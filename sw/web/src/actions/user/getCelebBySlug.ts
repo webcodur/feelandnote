@@ -56,6 +56,36 @@ interface SpotlightTagAssignmentRow {
   } | null
 }
 
+// 인물 관계망 한 줄 = "이 인물(target)이 페이지 주인에게 무엇인가"(relType).
+// 방향 규약·수집은 sw/web-bo/scripts/sync-celeb-relations.ts (위키데이터 사실 관계만, 창작 없음)
+export interface CelebRelationItem {
+  relType: string
+  relGroup: 'family' | 'thought' | 'rivalry' | 'career'
+  id: string
+  slug: string
+  nickname: string
+  nickname_en: string | null
+  avatar_url: string | null
+  profession: string | null
+}
+
+interface CelebRelationRow {
+  rel_type: string
+  rel_group: 'family' | 'thought' | 'rivalry' | 'career'
+  target: {
+    id: string
+    slug: string | null
+    nickname: string | null
+    nickname_en: string | null
+    avatar_url: string | null
+    profession: string | null
+    status: string | null
+  } | null
+}
+
+// 표시 순서: 혈연 → 사상 → 대립, 그 안에서 가까운 관계부터
+const REL_TYPE_ORDER = ['father', 'mother', 'parent', 'child', 'spouse', 'partner', 'sibling', 'relative', 'teacher', 'student', 'influence', 'influenced', 'cofounder', 'rival']
+
 interface PublicCelebBySlugData {
   profile: {
     id: string
@@ -91,6 +121,7 @@ interface PublicCelebBySlugData {
   contentTypeCounts: ContentTypeCounts
   dialogue: DialogueProfile | null
   spotlightTags: SpotlightTagItem[]
+  relations: CelebRelationItem[]
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
@@ -116,6 +147,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     dialogueResult,
     typeCountsResult,
     spotlightTagsResult,
+    relationsResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -140,6 +172,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en)')
       .eq('celeb_id', userId)
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('celeb_relations')
+      .select('rel_type, rel_group, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, status)')
+      .eq('from_id', userId),
   ])
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
@@ -166,6 +202,24 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       roleLongEn: a.long_desc_en ?? null,
     }))
 
+  // 비활성·슬러그 없는 상대는 이동할 곳이 없으므로 제외한다
+  const relations: CelebRelationItem[] = ((relationsResult.data ?? []) as unknown as CelebRelationRow[])
+    .filter((r): r is CelebRelationRow & { target: NonNullable<CelebRelationRow['target']> } =>
+      !!r.target?.slug && r.target.status === 'active')
+    .map((r) => ({
+      relType: r.rel_type,
+      relGroup: r.rel_group,
+      id: r.target.id,
+      slug: r.target.slug as string,
+      nickname: r.target.nickname || 'Unknown',
+      nickname_en: r.target.nickname_en,
+      avatar_url: r.target.avatar_url,
+      profession: r.target.profession,
+    }))
+    .sort((a, b) =>
+      REL_TYPE_ORDER.indexOf(a.relType) - REL_TYPE_ORDER.indexOf(b.relType)
+      || a.nickname.localeCompare(b.nickname))
+
   return {
     profile: profile as PublicCelebBySlugData['profile'],
     contentCount: contentCountResult.count || 0,
@@ -174,6 +228,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     contentTypeCounts,
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
     spotlightTags,
+    relations,
   }
 }
 
@@ -190,7 +245,7 @@ export const getCelebBySlug = cache(getCelebBySlugInner);
 async function getCelebBySlugInner(
   slug: string,
   locale: string = 'ko'
-): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts; spotlightTags: SpotlightTagItem[] }>> {
+): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts; spotlightTags: SpotlightTagItem[]; relations: CelebRelationItem[] }>> {
   const pub = await getCelebBySlugCached(slug)
 
   if (!pub) {
@@ -276,6 +331,7 @@ async function getCelebBySlugInner(
       contentTypeCounts: pub.contentTypeCounts,
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
       spotlightTags: pub.spotlightTags ?? [],
+      relations: pub.relations ?? [],
     },
   }
 }
