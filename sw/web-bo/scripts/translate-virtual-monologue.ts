@@ -138,13 +138,21 @@ function runClaude(prompt: string): Promise<string> {
   })
 }
 
-/** 본문 대신 작업 선언("I'll write the monologue directly...")이나 화자 표기("Name: ...")로 시작한 응답. */
-const PREAMBLE = /^(here (is|goes)|sure|certainly|below is|okay|i'?ll (write|do|shift|render|give|keep|stay))\b|^[A-Z][A-Za-z.'-]+(?: [A-Z][A-Za-z.'-]+){0,3}:\s/
+/**
+ * 본문이 아니라 작업 자체를 말하는 문구. 첫 줄만 검사했더니 본문 중간·끝에 박힌 것을 놓쳐
+ * 20편이 서비스에 그대로 나갔다("Let me finalize the full piece and present the complete monologue.").
+ * 전문에서 찾는다.
+ */
+const META_LEAK = /\b(let me (write|finalize|present|give|do|now)|i'?ll (write|finalize|present|give|do|keep|stay|shift|render)\b(?![^.]*\b(my|the) (life|work|name|story)\b)|per (the )?instructions|the (complete|full) monologue|here is the (monologue|piece|rewritten|english)|as requested|i will now (write|present))/i
+/** 화자 표기("Egon Schiele: people usually...")로 시작한 응답. */
+const SPEAKER_TAG = /^[A-Z][A-Za-z.'-]+(?: [A-Z][A-Za-z.'-]+){0,3}:\s/
 
 async function translate(m: Material): Promise<string> {
   const text = (await runClaude(buildPrompt(m))).trim()
   if (!text) throw new Error('빈 응답')
-  if (PREAMBLE.test(text.split('\n')[0])) throw new Error(`서두 잔재: ${text.slice(0, 60)}`)
+  const leak = text.match(META_LEAK)
+  if (leak) throw new Error(`작업 문구 혼입: ${leak[0]}`)
+  if (SPEAKER_TAG.test(text.split('\n')[0])) throw new Error(`화자 표기: ${text.slice(0, 60)}`)
   if (hasHangul(text)) throw new Error('한글 잔존')
   if (hasHanzi(text)) throw new Error('한자 혼입')
   if (text.length < m.ko.length * 0.5) throw new Error(`분량 미달(${text.length}자)`)
