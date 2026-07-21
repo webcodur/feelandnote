@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { Baby, Heart, User, Users, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 /** 관계 그룹별 간선·라벨 색. 페이지의 저채도 고전 팔레트에 맞춘 뮤트 톤. */
@@ -31,6 +32,18 @@ const BAND_OF: Record<string, Band> = {
 
 /** 띠별로 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
 const BAND_CAP = 8;
+
+/** 사진이 없는 인물의 자리 — 관계 종류별 색·상징으로 채운다(빈 원 금지). */
+const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
+  father: { color: "#7e8aa0", Icon: User },
+  mother: { color: "#a07e8a", Icon: User },
+  parent: { color: "#7e8aa0", Icon: User },
+  spouse: { color: "#a07e8a", Icon: Heart },
+  partner: { color: "#a07e8a", Icon: Heart },
+  child: { color: "#7f9a7d", Icon: Baby },
+  sibling: { color: "#9a916b", Icon: Users },
+};
+const typeVisual = (types: string[]) => TYPE_VISUAL[types[0]] ?? { color: "#8a8f98", Icon: User };
 
 interface PersonNode {
   id: string;
@@ -161,10 +174,19 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
                 unoptimized
               />
-            ) : (
-              <div className={`w-full h-full flex items-center justify-center text-sm font-serif ${p.slug ? "text-text-tertiary" : "text-text-tertiary/60"}`}>
+            ) : p.slug ? (
+              <div className="w-full h-full flex items-center justify-center text-sm font-serif text-text-tertiary">
                 {p.name.charAt(0)}
               </div>
+            ) : (
+              (() => {
+                const v = typeVisual(p.types);
+                return (
+                  <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
+                    <v.Icon size={size === "md" ? 20 : 17} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+                  </div>
+                );
+              })()
             )}
           </div>
         </div>
@@ -306,10 +328,19 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                     <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
                       {p.avatar_url ? (
                         <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
-                      ) : (
+                      ) : p.slug ? (
                         <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">
                           {p.name.charAt(0)}
                         </div>
+                      ) : (
+                        (() => {
+                          const v = typeVisual(p.types);
+                          return (
+                            <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
+                              <v.Icon size={13} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+                            </div>
+                          );
+                        })()
                       )}
                     </div>
                     <span className={`text-xs font-serif ${p.slug ? "text-text-primary group-hover:text-accent transition-colors" : "text-text-secondary"}`}>

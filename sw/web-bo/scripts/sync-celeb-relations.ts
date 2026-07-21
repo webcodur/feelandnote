@@ -194,17 +194,19 @@ async function run() {
     const key = `${A.id}|${t.b}|${def.type}`
     if (!extEdges.has(key)) extEdges.set(key, { from: A.id, qid: t.b, type: def.type, group: def.group })
   }
-  // 이름 조회 (ko·en 라벨)
+  // 이름(ko·en 라벨)과 사진(P18) 조회. 항목 하나가 여러 행으로 올 수 있어 병합한다.
   const extQids = [...new Set([...extEdges.values()].map((e) => e.qid))]
-  const labels = new Map<string, { ko?: string; en?: string }>()
+  const labels = new Map<string, { ko?: string; en?: string; img?: string }>()
   for (let i = 0; i < extQids.length; i += BATCH) {
     const values = extQids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
-    const lq = `SELECT ?a ?ko ?en WHERE { VALUES ?a { ${values} }
+    const lq = `SELECT ?a ?ko ?en ?img WHERE { VALUES ?a { ${values} }
       OPTIONAL { ?a rdfs:label ?ko . FILTER(lang(?ko)='ko') }
-      OPTIONAL { ?a rdfs:label ?en . FILTER(lang(?en)='en') } }`
+      OPTIONAL { ?a rdfs:label ?en . FILTER(lang(?en)='en') }
+      OPTIONAL { ?a wdt:P18 ?img } }`
     for (const r of await wdqsFetch(lq)) {
       const qid = r.a.value.split('/').pop()!
-      labels.set(qid, { ko: r.ko?.value, en: r.en?.value })
+      const cur = labels.get(qid) ?? {}
+      labels.set(qid, { ko: cur.ko ?? r.ko?.value, en: cur.en ?? r.en?.value, img: cur.img ?? r.img?.value })
     }
     console.log(`  이름 조회 ${Math.min(i + BATCH, extQids.length)}/${extQids.length}`)
     if (i + BATCH < extQids.length) await sleep(SLEEP_MS)
@@ -271,7 +273,8 @@ async function run() {
   console.log(`  관계 1개 이상 보유 셀럽 ${persons.size}/${celebs.length} (${Math.round((100 * persons.size) / celebs.length)}%)`)
   const extPersons = new Set(extFinal.map((e) => e.from))
   const extKo = extFinal.filter((e) => labels.get(e.qid)?.ko).length
-  console.log(`  명단 밖 가족 노드 ${extFinal.length} (한국어 이름 ${extKo}, ${Math.round((100 * extKo) / Math.max(1, extFinal.length))}%) · 보유 셀럽 ${extPersons.size}`)
+  const extImg = extFinal.filter((e) => labels.get(e.qid)?.img).length
+  console.log(`  명단 밖 가족 노드 ${extFinal.length} (한국어 이름 ${extKo}, ${Math.round((100 * extKo) / Math.max(1, extFinal.length))}% · 사진 ${extImg}, ${Math.round((100 * extImg) / Math.max(1, extFinal.length))}%) · 보유 셀럽 ${extPersons.size}`)
   const hubs = [...degree.entries()].sort((x, y) => y[1] - x[1]).slice(0, 12)
   console.log(`  허브 상위:`, hubs.map(([id, n]) => `${idToRow.get(id)?.nickname}(${n})`).join(', '))
 
@@ -292,10 +295,15 @@ async function run() {
   const { error: extDelErr } = await supabase.from('celeb_relations_external').delete().eq('source', 'wikidata')
   if (extDelErr) throw extDelErr
   for (let i = 0; i < extFinal.length; i += 500) {
-    const chunk = extFinal.slice(i, i + 500).map((e) => ({
-      from_id: e.from, qid: e.qid, rel_type: e.type, rel_group: e.group, source: 'wikidata',
-      name_ko: labels.get(e.qid)?.ko ?? null, name_en: labels.get(e.qid)?.en ?? null,
-    }))
+    const chunk = extFinal.slice(i, i + 500).map((e) => {
+      const l = labels.get(e.qid)
+      return {
+        from_id: e.from, qid: e.qid, rel_type: e.type, rel_group: e.group, source: 'wikidata',
+        name_ko: l?.ko ?? null, name_en: l?.en ?? null,
+        // Commons Special:FilePath 는 ?width= 로 썸네일을 준다. https 로 통일.
+        image_url: l?.img ? `${l.img.replace(/^http:\/\//, 'https://')}?width=112` : null,
+      }
+    })
     const { error } = await supabase.from('celeb_relations_external')
       .upsert(chunk, { onConflict: 'from_id,qid,rel_type', ignoreDuplicates: true })
     if (error) throw error
