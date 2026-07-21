@@ -24,16 +24,21 @@ const SOURCE_LANG = "ko";
 const TARGET_LANG = "en";
 
 interface Props {
-  /** 한국어 원문 */
+  /** 화면 언어에 맞춰 고른 본문. 영문본이 아직 없는 인물은 한국어 원문이 그대로 온다 */
   text: string;
   /** 영어 화면에서만 번역 버튼을 노출한다 */
   showTranslate: boolean;
 }
 
+const isKorean = (s: string) => /[가-힣]/.test(s);
+
 type State = "idle" | "translating" | "done" | "error";
 
-export default function VirtualMonologueSection({ text, showTranslate }: Props) {
+export default function VirtualMonologueSection({ text, showTranslate: showTranslateProp }: Props) {
   const t = useTranslations("celebPage");
+  // 영문본이 실린 인물은 번역할 것이 없다. 한국어 원문이 온 인물에게만 번역 수단을 붙인다.
+  const koreanBody = isKorean(text);
+  const showTranslate = showTranslateProp && koreanBody;
   const [supported, setSupported] = useState(false);
   const [state, setState] = useState<State>("idle");
   const [translated, setTranslated] = useState<string | null>(null);
@@ -125,7 +130,7 @@ export default function VirtualMonologueSection({ text, showTranslate }: Props) 
       )}
 
       <div
-        lang={isShowingTranslation ? TARGET_LANG : SOURCE_LANG}
+        lang={isShowingTranslation || !koreanBody ? TARGET_LANG : SOURCE_LANG}
         className="space-y-4 font-serif text-[15px] md:text-base text-text-secondary leading-loose break-keep"
       >
         {body.split(/\n\n+/).map((para, i) => (

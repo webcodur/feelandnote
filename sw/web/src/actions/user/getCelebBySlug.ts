@@ -20,6 +20,42 @@ export interface ContentTypeCounts {
 
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
+// 셀럽이 배정된 스포트라이트 태그. 그룹 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
+// 상위 그룹 계층(constants/spotlightGroups)은 참조하지 않는다.
+export interface SpotlightTagItem {
+  id: string
+  name: string
+  name_en: string | null
+  slug: string
+  color: string
+  spotlightImageUrl: string | null
+  description: string | null
+  description_en: string | null
+  roleShort: string | null
+  roleShortEn: string | null
+  roleLong: string | null
+  roleLongEn: string | null
+}
+
+interface SpotlightTagAssignmentRow {
+  tag_id: string
+  spotlight_image_url: string | null
+  sort_order: number | null
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  tag: {
+    id: string
+    name: string
+    name_en: string | null
+    slug: string | null
+    color: string | null
+    description: string | null
+    description_en: string | null
+  } | null
+}
+
 interface PublicCelebBySlugData {
   profile: {
     id: string
@@ -35,6 +71,7 @@ interface PublicCelebBySlugData {
     cultural_journey: string | null
     cultural_journey_en: string | null
     virtual_monologue: string | null
+    virtual_monologue_en: string | null
     nationality: string | null
     birth_date: string | null
     death_date: string | null
@@ -53,6 +90,7 @@ interface PublicCelebBySlugData {
   guestbookCount: number
   contentTypeCounts: ContentTypeCounts
   dialogue: DialogueProfile | null
+  spotlightTags: SpotlightTagItem[]
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
@@ -60,7 +98,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, virtual_monologue, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -77,6 +115,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookResult,
     dialogueResult,
     typeCountsResult,
+    spotlightTagsResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -96,6 +135,11 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .eq('celeb_id', userId)
       .maybeSingle(),
     supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
+    supabase
+      .from('celeb_tag_assignments')
+      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en)')
+      .eq('celeb_id', userId)
+      .order('sort_order', { ascending: true }),
   ])
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
@@ -104,6 +148,24 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     if (CONTENT_TYPES.includes(type)) contentTypeCounts[type] = Number(row.total)
   }
 
+  // 슬러그 없는 태그는 스포트라이트 딥링크로 이동할 수 없어 제외한다
+  const spotlightTags: SpotlightTagItem[] = ((spotlightTagsResult.data ?? []) as unknown as SpotlightTagAssignmentRow[])
+    .filter((a): a is SpotlightTagAssignmentRow & { tag: NonNullable<SpotlightTagAssignmentRow['tag']> } => !!a.tag?.slug)
+    .map((a) => ({
+      id: a.tag.id,
+      name: a.tag.name,
+      name_en: a.tag.name_en,
+      slug: a.tag.slug as string,
+      color: a.tag.color ?? '#b4965a',
+      spotlightImageUrl: a.spotlight_image_url ?? null,
+      description: a.tag.description ?? null,
+      description_en: a.tag.description_en ?? null,
+      roleShort: a.short_desc ?? null,
+      roleShortEn: a.short_desc_en ?? null,
+      roleLong: a.long_desc ?? null,
+      roleLongEn: a.long_desc_en ?? null,
+    }))
+
   return {
     profile: profile as PublicCelebBySlugData['profile'],
     contentCount: contentCountResult.count || 0,
@@ -111,14 +173,15 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookCount: guestbookResult.count || 0,
     contentTypeCounts,
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
+    spotlightTags,
   }
 }
 
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
   ['celeb-by-slug'],
-  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
+  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 스포트라이트)
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
@@ -127,7 +190,7 @@ export const getCelebBySlug = cache(getCelebBySlugInner);
 async function getCelebBySlugInner(
   slug: string,
   locale: string = 'ko'
-): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts }>> {
+): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts; spotlightTags: SpotlightTagItem[] }>> {
   const pub = await getCelebBySlugCached(slug)
 
   if (!pub) {
@@ -186,7 +249,7 @@ async function getCelebBySlugInner(
       title_en: profile.title_en,
       title_ko: profile.title,
       cultural_journey: resolve(profile.cultural_journey_en, profile.cultural_journey),
-      virtual_monologue: profile.virtual_monologue,
+      virtual_monologue: resolve(profile.virtual_monologue_en, profile.virtual_monologue),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
@@ -211,6 +274,8 @@ async function getCelebBySlugInner(
       celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
       youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
+      // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
+      spotlightTags: pub.spotlightTags ?? [],
     },
   }
 }

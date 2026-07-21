@@ -25,6 +25,7 @@ relation·fiction은 basic 최소 항목만 채우는 티어다. 번역하지 �
 | 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 여정 (500자 이내) |
 | 5 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
 | 6 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
+| 7 | `profiles` | `virtual_monologue` | `virtual_monologue_en` | 가상 독백. **문장·문단·순서 1:1 대응을 하지 않는다** — 사실과 감정만 지키고 영어 산문으로 다시 짠다. 전량 일괄 생성은 `sw/web-bo/scripts/translate-virtual-monologue.ts`(Claude Sonnet, claude CLI headless)가 담당하며 규격은 그 스크립트의 `buildPrompt`가 단일원천 |
 
 ### 번역 대상이 아닌 것
 
@@ -32,7 +33,6 @@ relation·fiction은 basic 최소 항목만 채우는 티어다. 번역하지 �
 |------|------|
 | `profiles.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #6에 포함된다 |
 | `profiles.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
-| `profiles.virtual_monologue` | 대응하는 영문 컬럼이 없다 |
 | `celeb_persona`의 `reason_en` / `rationale_en` | 페르소나 트랙(`celeb-5-persona.md`)이 작성한다 |
 
 ---

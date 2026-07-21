@@ -11,6 +11,7 @@ import {
 } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { type PublicUserProfile } from "@/actions/user";
+import { type SpotlightTagItem } from "@/actions/user/getCelebBySlug";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
@@ -26,11 +27,12 @@ import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
 import DialogueSection from "./DialogueSection";
+import SpotlightSection from "./SpotlightSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 import VirtualMonologueSection from "./VirtualMonologueSection";
 
 interface CelebPageContentProps {
-  profile: PublicUserProfile;
+  profile: PublicUserProfile & { spotlightTags: SpotlightTagItem[] };
   slug: string;
   shareTitle: string;
   userId: string;
@@ -295,6 +297,16 @@ export default function CelebPageContent({
         </section>
       )}
 
+      {/* 소속 스포트라이트 */}
+      {profile.spotlightTags.length > 0 && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("spotlight")} />
+          <SectionWrap>
+            <SpotlightSection tags={profile.spotlightTags} />
+          </SectionWrap>
+        </section>
+      )}
+
       {/* 영상 (롱폼 + 쇼츠) */}
       {hasAnyVideo && (
         <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
@@ -323,7 +335,7 @@ export default function CelebPageContent({
         </section>
       )}
 
-      {/* 가상 독백 — 원문은 한국어. 영어 화면에서는 브라우저 내장 번역 버튼을 곁들인다 */}
+      {/* 가상 독백 — 영어 화면에서는 영문본을 싣는다. 영문본이 아직 없는 인물만 브라우저 내장 번역 버튼을 곁들인다 */}
       {profile.virtual_monologue && (
         <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
           <DecorativeLabel label={t("virtualMonologue")} />
