@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -16,18 +16,34 @@ const GROUP_COLOR: Record<CelebRelationItem["relGroup"], string> = {
 
 const GROUP_ORDER: CelebRelationItem["relGroup"][] = ["family", "thought", "career", "rivalry"];
 
-/** 원판에 한 번에 올리는 최대 인원. 넘치면 아래 목록으로 편다. */
-const GRAPH_CAP = 12;
+/**
+ * 배치가 관계를 말한다 — 세로축이 계보다.
+ * 위 = 물려받은 곳(부모·스승·영향 준 인물), 아래 = 물려준 곳(자녀·제자·영향 받은 인물),
+ * 옆 = 동렬(왼쪽 혈연, 오른쪽 동료·맞수). 가계도와 학맥 계보가 공유하는 문법.
+ */
+type Band = "up" | "sideL" | "sideR" | "down";
+const BAND_OF: Record<string, Band> = {
+  father: "up", mother: "up", parent: "up", teacher: "up", influence: "up",
+  spouse: "sideL", partner: "sideL", sibling: "sideL", relative: "sideL",
+  cofounder: "sideR", rival: "sideR",
+  child: "down", student: "down", influenced: "down",
+};
+
+/** 띠별로 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
+const BAND_CAP = 8;
 
 interface PersonNode {
   id: string;
   slug: string;
   name: string;
   avatar_url: string | null;
-  /** 한 사람이 여러 관계를 겸할 수 있다(배우자이자 조력자 등) — 라벨은 병기한다 */
+  /** 한 사람이 여러 관계를 겸할 수 있다(형제이자 공동 창업 등) — 라벨은 병기한다 */
   types: string[];
   group: CelebRelationItem["relGroup"];
+  band: Band;
 }
+
+interface Edge { x1: number; y1: number; x2: number; y2: number; color: string; dashed: boolean }
 
 interface Props {
   centerName: string;
@@ -41,8 +57,13 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const t = useTranslations("celebPage");
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [expanded, setExpanded] = useState(false);
+  const [edges, setEdges] = useState<Edge[]>([]);
 
-  // 사람 단위로 묶는다. 대표 그룹은 관계 정렬 순서상 첫 관계의 그룹.
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const centerRef = useRef<HTMLDivElement | null>(null);
+  const nodeRefs = useRef(new Map<string, HTMLButtonElement>());
+
+  // 사람 단위로 묶는다. 관계가 여럿이면 정렬상 첫 관계가 띠와 그룹을 정한다.
   const people = useMemo(() => {
     const map = new Map<string, PersonNode>();
     for (const r of relations) {
@@ -52,8 +73,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
       } else {
         map.set(r.id, {
-          id: r.id, slug: r.slug, name,
-          avatar_url: r.avatar_url, types: [r.relType], group: r.relGroup,
+          id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
+          types: [r.relType], group: r.relGroup, band: BAND_OF[r.relType] ?? "sideR",
         });
       }
     }
@@ -62,28 +83,103 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   }, [relations, locale]);
 
-  const groupCounts = useMemo(() => {
+  const { bands, overflow, groupCounts, groupById } = useMemo(() => {
     const counts = new Map<string, number>();
     for (const p of people) counts.set(p.group, (counts.get(p.group) ?? 0) + 1);
-    return counts;
-  }, [people]);
 
-  const visible = filter === "all" ? people : people.filter((p) => p.group === filter);
-  const onGraph = visible.slice(0, GRAPH_CAP);
-  const overflow = visible.slice(GRAPH_CAP);
+    const visibleList = filter === "all" ? people : people.filter((p) => p.group === filter);
+    const raw: Record<Band, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
+    for (const p of visibleList) raw[p.band].push(p);
+
+    const over: PersonNode[] = [];
+    const capped = {} as Record<Band, PersonNode[]>;
+    for (const b of Object.keys(raw) as Band[]) {
+      capped[b] = raw[b].slice(0, BAND_CAP);
+      over.push(...raw[b].slice(BAND_CAP));
+    }
+    const byId = new Map<string, CelebRelationItem["relGroup"]>();
+    for (const b of Object.keys(capped) as Band[]) for (const p of capped[b]) byId.set(p.id, p.group);
+    return { bands: capped, overflow: over, groupCounts: counts, groupById: byId };
+  }, [people, filter]);
 
   const label = (p: PersonNode) => p.types.map((ty) => t(`relType_${ty}`)).join(" · ");
 
-  // 원판 배치: 위(-90°)에서 시계 방향 균등 분할. 그룹 정렬이 돼 있어 색이 부채꼴로 모인다.
-  const pos = (i: number, n: number) => {
-    const rad = ((-90 + (360 / n) * i) * Math.PI) / 180;
-    return { x: 50 + 40 * Math.cos(rad), y: 50 + 37 * Math.sin(rad) };
+  // 간선은 실제 화면 좌표를 재서 긋는다. 띠가 줄바꿈돼도 선이 따라간다.
+  const measure = useCallback(() => {
+    const box = containerRef.current?.getBoundingClientRect();
+    const c = centerRef.current?.getBoundingClientRect();
+    if (!box || !c) return;
+    const cx = c.left - box.left + c.width / 2;
+    const cy = c.top - box.top + c.height / 2;
+    const next: Edge[] = [];
+    for (const [id, el] of nodeRefs.current) {
+      const group = groupById.get(id);
+      if (!group) continue;
+      // 노드 쪽 끝점은 아바타 원 중심 — 버튼 상단의 원(첫 자식) 기준
+      const avatar = el.firstElementChild?.getBoundingClientRect() ?? el.getBoundingClientRect();
+      next.push({
+        x1: cx, y1: cy,
+        x2: avatar.left - box.left + avatar.width / 2,
+        y2: avatar.top - box.top + avatar.height / 2,
+        color: GROUP_COLOR[group],
+        dashed: group === "rivalry",
+      });
+    }
+    setEdges(next);
+  }, [groupById]);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(measure);
+    const ro = new ResizeObserver(() => measure());
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, [measure]);
+
+  const setNodeRef = (id: string) => (el: HTMLButtonElement | null) => {
+    if (el) nodeRefs.current.set(id, el);
+    else nodeRefs.current.delete(id);
   };
 
   const filters: ("all" | CelebRelationItem["relGroup"])[] = [
     "all",
     ...GROUP_ORDER.filter((g) => groupCounts.has(g)),
   ];
+
+  const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => (
+    <button
+      key={p.id}
+      ref={setNodeRef(p.id)}
+      type="button"
+      onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
+      className="group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer"
+      aria-label={`${p.name} — ${label(p)}`}
+    >
+      <div className={`${size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12"} rounded-full overflow-hidden p-[2px] bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30 transition-all duration-500 shadow-lg bg-bg-primary`}>
+        <div className="w-full h-full rounded-full overflow-hidden bg-bg-secondary border border-white/10">
+          {p.avatar_url ? (
+            <Image
+              src={p.avatar_url}
+              alt={p.name}
+              width={56}
+              height={56}
+              className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+              unoptimized
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-sm text-text-tertiary font-serif">
+              {p.name.charAt(0)}
+            </div>
+          )}
+        </div>
+      </div>
+      <span className="block text-[11px] text-text-primary group-hover:text-accent transition-colors font-serif font-bold leading-tight text-center break-keep">
+        {p.name}
+      </span>
+      <span className="block text-[10px] font-medium leading-tight text-center" style={{ color: GROUP_COLOR[p.group] }}>
+        {label(p)}
+      </span>
+    </button>
+  );
 
   return (
     <div className="space-y-4">
@@ -110,96 +206,70 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         </div>
       )}
 
-      {/* 관계 원판 — 필터가 바뀌면 새로 그려지며 은은히 등장한다 */}
-      <div key={filter} className="relative h-[340px] md:h-[420px] animate-fade-in select-none">
-        {/* 간선 층 */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          {onGraph.map((p, i) => {
-            const { x, y } = pos(i, onGraph.length);
-            return (
-              <line
-                key={p.id}
-                x1={50} y1={50} x2={x} y2={y}
-                stroke={GROUP_COLOR[p.group]}
-                strokeWidth={1}
-                strokeOpacity={0.45}
-                vectorEffect="non-scaling-stroke"
-              />
-            );
-          })}
+      {/* 계보 배치: 위 = 물려받은 곳, 아래 = 물려준 곳, 옆 = 동렬 */}
+      <div ref={containerRef} key={filter} className="relative animate-fade-in select-none py-2">
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
+          {edges.map((e, i) => (
+            <line
+              key={i}
+              x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2}
+              stroke={e.color}
+              strokeWidth={1}
+              strokeOpacity={0.4}
+              strokeDasharray={e.dashed ? "4 3" : undefined}
+            />
+          ))}
         </svg>
 
-        {/* 중심: 본인 */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-10">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
-            {centerAvatarUrl ? (
-              <Image
-                src={centerAvatarUrl}
-                alt={centerName}
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-                unoptimized
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">
-                {centerName.charAt(0)}
-              </div>
-            )}
+        {bands.up.length > 0 && (
+          <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mb-10 md:mb-12">
+            {bands.up.map((p) => nodeCard(p))}
           </div>
-          <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
+        )}
+
+        <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
+          {bands.sideL.length > 0 && (
+            <div className="flex flex-wrap justify-end gap-x-2 gap-y-3 flex-1 max-w-[38%]">
+              {bands.sideL.map((p) => nodeCard(p, "sm"))}
+            </div>
+          )}
+
+          {/* 중심: 본인 */}
+          <div ref={centerRef} className="relative z-10 flex flex-col items-center gap-1 shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
+              {centerAvatarUrl ? (
+                <Image
+                  src={centerAvatarUrl}
+                  alt={centerName}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">
+                  {centerName.charAt(0)}
+                </div>
+              )}
+            </div>
+            <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
+          </div>
+
+          {bands.sideR.length > 0 && (
+            <div className="flex flex-wrap justify-start gap-x-2 gap-y-3 flex-1 max-w-[38%]">
+              {bands.sideR.map((p) => nodeCard(p, "sm"))}
+            </div>
+          )}
         </div>
 
-        {/* 관계 인물 */}
-        {onGraph.map((p, i) => {
-          const { x, y } = pos(i, onGraph.length);
-          return (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
-              className="group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 w-20 cursor-pointer z-10"
-              style={{ left: `${x}%`, top: `${y}%` }}
-              aria-label={`${p.name} — ${label(p)}`}
-            >
-              <div className="w-11 h-11 md:w-14 md:h-14 rounded-full overflow-hidden p-[2px] bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30 transition-all duration-500 shadow-lg">
-                <div className="w-full h-full rounded-full overflow-hidden bg-bg-secondary border border-white/10">
-                  {p.avatar_url ? (
-                    <Image
-                      src={p.avatar_url}
-                      alt={p.name}
-                      width={56}
-                      height={56}
-                      className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-                      unoptimized
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-sm text-text-tertiary font-serif">
-                      {p.name.charAt(0)}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <span className="block text-[11px] text-text-primary group-hover:text-accent transition-colors font-serif font-bold leading-tight text-center break-keep">
-                {p.name}
-              </span>
-              <span
-                className="block text-[10px] font-medium leading-tight text-center"
-                style={{ color: GROUP_COLOR[p.group] }}
-              >
-                {label(p)}
-              </span>
-            </button>
-          );
-        })}
+        {bands.down.length > 0 && (
+          <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mt-10 md:mt-12">
+            {bands.down.map((p) => nodeCard(p))}
+          </div>
+        )}
       </div>
 
-      {/* 원판에 못 올린 인원 — 접이식 목록 */}
+      {/* 띠에 못 올린 인원 — 접이식 목록 */}
       {overflow.length > 0 && (
         <div className="space-y-3">
           <div className="flex justify-center">
