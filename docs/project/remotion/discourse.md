@@ -49,12 +49,12 @@
 
 | 항목 | 현황 |
 |------|------|
-| 저장 | `profiles.virtual_monologue` (text 단일 컬럼) |
-| 보유 | 1,673명 (`profile_type='CELEB'` AND `bio` 존재 전량) |
-| 언어 | **한국어 전용** (`virtual_monologue_en` 없음) |
+| 저장 | `profiles.virtual_monologue`(한국어 원문) · `virtual_monologue_en`(영문본) |
+| 보유 | 1,692명 (`profile_type='CELEB'` 전량, 2026-07-21 실측) |
+| 언어 | 한국어 원문 + 영문본. 영문본은 직역이 아니라 영어 산문으로 재작성한 것이라 문장 수가 원문과 다르다 |
 | 문체 | 1인칭. `profession='commander'`만 평어체, 나머지 정중체 |
 | 분량 | `celeb_influence.total_score` 등급별 — S(65+) 1,200자 / A(50~64) 1,000자 / B(35~49) 850자 / 그 외 800자 |
-| 생성 | `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts` (GPT-5.6, codex CLI 구독 인증) |
+| 생성 | 한국어 `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts` (GPT-5.6, codex CLI) · 영문 `sw/web-bo/scripts/translate-virtual-monologue.ts` (Claude Sonnet, claude CLI) |
 | 노출 | 웹 셀럽 상세 `CelebPageContent.tsx` — 서가와 고유 대사 사이 |
 
 **영상에 그대로 못 쓴다.** 800~1,200자 산문은 낭독 2분 분량이고, 문어체라 대담 발화로 어색하다. 서비스 독백은 **그 인물이 무엇을 믿는지에 대한 확정된 원천**으로 쓰고, 영상 대사는 여기서 뽑아 재작문한다. 즉 사상은 이미 확보돼 있고 새로 쓰는 것은 **말투와 주고받음**이다.

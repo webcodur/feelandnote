@@ -148,6 +148,7 @@ pnpm build:audio-bo
 | 경로 | 내용 |
 |------|------|
 | `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts` | **실존 인물 독백의 SSoT.** `buildPrompt`가 규격 전문을 쥔다 — 재료는 `bio`+생몰만(감상 여정·페르소나·대사는 오염 우려로 금지), 백지 생성이 아니라 기존 글 개선, 분량은 영향력 등급 연동(65+ 1200자 / 50+ 1000자 / 35+ 850자 / 그 외 800자), 말투는 `commander` 직군 + 지정 4명만 평어체. GPT-5.6(codex 구독, 종량 비용 없음)으로 생성. `--no-force`면 독백 없는 인물만 |
+| `sw/web-bo/scripts/translate-virtual-monologue.ts` | **영문본(`virtual_monologue_en`)의 SSoT.** 번역이 아니라 같은 사람이 영어로 다시 쓴 독백이다. 지키는 것은 사실·이름·연대·주장과 감정의 무게뿐, **문장 경계·문단 구분·서술 순서는 영어 산문이 원하는 대로 다시 짠다**(문단 수가 원문과 달라도 됨. 프로젝트 번역 원칙 1:1 매핑 금지=`remo-write-7-translation` 기둥 2). 사극체·고전 register는 같은 무게의 영문 register로 옮긴다(기둥 3). 정중/평어 구분은 영어에 없으므로 어휘·리듬으로 대체, 본인이 실제 영어로 남긴 표현은 원문 복원, em dash 금지. "남들이 나를 이렇게 부른다"로 여는 틀이 반복되지 않게 오프닝은 인물마다 새로 잡는다. Claude Sonnet을 `claude -p` headless로 호출(구독 인증, 종량 비용 없음). `--no-force`(빈 인물만)·`--resume`(중단분)·`--slugs a,b`(지정 인물만) |
 | `sw/web-bo/docs/todo/korean-writing-quality.md` | 모델별 한국어 작문 실력 실측(GPT-5.6 60 / GLM-5.2 40 / Claude Opus 15). **이 작업을 Claude가 직접 쓰지 않고 GPT에 발주하는 근거** |
 | `.agents/skills/fiction-profile-monologue/` | 신화·허구(`fiction` 티어) 인물 전용 트랙 — 원전 근거·반복 비판 검토·manifest 반영 |
 
@@ -223,7 +224,7 @@ pnpm build:audio-bo
 
 | 문서 | 내용 |
 |------|------|
-| `docs/project/remotion-bo-plan.md` | remotion-bo 기획서 — IA, 라우팅, API, 구현 우선순위 |
+| `docs/project/remotion-bo-plan.md` | remotion-bo 기획서 — IA, 라우팅, API, 구현 우선순위, **공용 부품(26.07.20 통합)** |
 
 ### 게임 (천도)
 

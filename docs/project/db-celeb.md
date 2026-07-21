@@ -17,6 +17,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
   - `virtual_monologue` (text): 가상 독백 (2026-07-14 `add_virtual_monologue_column`)
+  - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`). 생성기 `sw/web-bo/scripts/translate-virtual-monologue.ts`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨
