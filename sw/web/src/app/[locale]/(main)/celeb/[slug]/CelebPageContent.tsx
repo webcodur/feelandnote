@@ -11,7 +11,7 @@ import {
 } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { type PublicUserProfile } from "@/actions/user";
-import { type SpotlightTagItem } from "@/actions/user/getCelebBySlug";
+import { type SpotlightTagItem, type CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
@@ -30,9 +30,10 @@ import DialogueSection from "./DialogueSection";
 import SpotlightSection from "./SpotlightSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 import VirtualMonologueSection from "./VirtualMonologueSection";
+import RelationGraphSection from "./RelationGraphSection";
 
 interface CelebPageContentProps {
-  profile: PublicUserProfile & { spotlightTags: SpotlightTagItem[] };
+  profile: PublicUserProfile & { spotlightTags: SpotlightTagItem[]; relations: CelebRelationItem[] };
   slug: string;
   shareTitle: string;
   userId: string;
@@ -286,6 +287,20 @@ export default function CelebPageContent({
           <ShareButtons title={shareTitle} path={`/celeb/${slug}`} />
         </div>
       </section>
+
+      {/* 인물 관계망 — 위키데이터 사실 관계(혈연·사상·대립). 관계가 없으면 섹션 자체를 띄우지 않는다 */}
+      {profile.relations.length > 0 && (
+        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
+          <DecorativeLabel label={t("relationGraph")} />
+          <SectionWrap>
+            <RelationGraphSection
+              centerName={nickname}
+              centerAvatarUrl={profile.avatar_url}
+              relations={profile.relations}
+            />
+          </SectionWrap>
+        </section>
+      )}
 
       {/* 동시대 인물 */}
       {contemporaries.length > 0 && (

@@ -21,6 +21,11 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨
+- **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
+  - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
+  - `rel_group`: family(혈연)/thought(사상)/rivalry(대립) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
+  - 실측(2026-07-22): 방향 간선 1,260 · 보유 셀럽 415/1,692(25%) · rivalry는 위키데이터에 거의 없어 manual 보강 대상
+  - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
