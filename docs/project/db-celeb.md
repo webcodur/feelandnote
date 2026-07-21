@@ -24,7 +24,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
   - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
   - `rel_group`: family(혈연)/thought(사상)/rivalry(대립) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
-  - 실측(2026-07-22): 방향 간선 1,260 · 보유 셀럽 415/1,692(25%) · rivalry는 위키데이터에 거의 없어 manual 보강 대상
+  - 실측(2026-07-22): 방향 간선 1,722 · 보유 셀럽 631/1,692(37%) — thought 1,110 / rivalry 346 / family 148 / career(공동 창업, P112 조직 매개) 118
+  - rivalry는 위키데이터에 사실상 없어(2건) GPT 제안 → 병렬 검증(178쌍 중 173쌍 통과) → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
   - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
