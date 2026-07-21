@@ -34,7 +34,8 @@ const BAND_CAP = 8;
 
 interface PersonNode {
   id: string;
-  slug: string;
+  /** null = 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이동 불가 이름 노드로 띄운다 */
+  slug: string | null;
   name: string;
   avatar_url: string | null;
   /** 한 사람이 여러 관계를 겸할 수 있다(형제이자 공동 창업 등) — 라벨은 병기한다 */
@@ -61,7 +62,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const centerRef = useRef<HTMLDivElement | null>(null);
-  const nodeRefs = useRef(new Map<string, HTMLButtonElement>());
+  const nodeRefs = useRef(new Map<string, HTMLElement>());
 
   // 사람 단위로 묶는다. 관계가 여럿이면 정렬상 첫 관계가 띠와 그룹을 정한다.
   const people = useMemo(() => {
@@ -135,7 +136,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     return () => { cancelAnimationFrame(raf); ro.disconnect(); };
   }, [measure]);
 
-  const setNodeRef = (id: string) => (el: HTMLButtonElement | null) => {
+  const setNodeRef = (id: string) => (el: HTMLElement | null) => {
     if (el) nodeRefs.current.set(id, el);
     else nodeRefs.current.delete(id);
   };
@@ -145,41 +146,57 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     ...GROUP_ORDER.filter((g) => groupCounts.has(g)),
   ];
 
-  const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => (
-    <button
-      key={p.id}
-      ref={setNodeRef(p.id)}
-      type="button"
-      onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
-      className="group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer"
-      aria-label={`${p.name} — ${label(p)}`}
-    >
-      <div className={`${size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12"} rounded-full overflow-hidden p-[2px] bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30 transition-all duration-500 shadow-lg bg-bg-primary`}>
-        <div className="w-full h-full rounded-full overflow-hidden bg-bg-secondary border border-white/10">
-          {p.avatar_url ? (
-            <Image
-              src={p.avatar_url}
-              alt={p.name}
-              width={56}
-              height={56}
-              className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-              unoptimized
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-sm text-text-tertiary font-serif">
-              {p.name.charAt(0)}
-            </div>
-          )}
+  const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => {
+    const avatarSize = size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12";
+    const inner = (
+      <>
+        <div className={`${avatarSize} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg bg-bg-primary`}>
+          <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10" : "border-dashed border-white/15"}`}>
+            {p.avatar_url ? (
+              <Image
+                src={p.avatar_url}
+                alt={p.name}
+                width={56}
+                height={56}
+                className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+                unoptimized
+              />
+            ) : (
+              <div className={`w-full h-full flex items-center justify-center text-sm font-serif ${p.slug ? "text-text-tertiary" : "text-text-tertiary/60"}`}>
+                {p.name.charAt(0)}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <span className="block text-[11px] text-text-primary group-hover:text-accent transition-colors font-serif font-bold leading-tight text-center break-keep">
-        {p.name}
-      </span>
-      <span className="block text-[10px] font-medium leading-tight text-center" style={{ color: GROUP_COLOR[p.group] }}>
-        {label(p)}
-      </span>
-    </button>
-  );
+        <span className={`block text-[11px] font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent transition-colors font-bold" : "text-text-secondary"}`}>
+          {p.name}
+        </span>
+        <span className="block text-[10px] font-medium leading-tight text-center" style={{ color: GROUP_COLOR[p.group] }}>
+          {label(p)}
+        </span>
+      </>
+    );
+    // 명단 밖 인물은 페이지가 없다 — 이름 노드로만 세운다
+    if (!p.slug) {
+      return (
+        <div key={p.id} ref={setNodeRef(p.id)} className="relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 opacity-80" aria-label={`${p.name} — ${label(p)}`}>
+          {inner}
+        </div>
+      );
+    }
+    return (
+      <button
+        key={p.id}
+        ref={setNodeRef(p.id)}
+        type="button"
+        onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
+        className="group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer"
+        aria-label={`${p.name} — ${label(p)}`}
+      >
+        {inner}
+      </button>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -283,30 +300,44 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           </div>
           {expanded && (
             <div className="flex gap-3 flex-wrap justify-center animate-fade-in">
-              {overflow.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
-                  className="group flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-white/10 hover:border-accent/40 transition-colors"
-                >
-                  <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
-                    {p.avatar_url ? (
-                      <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">
-                        {p.name.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-xs text-text-primary group-hover:text-accent transition-colors font-serif">
-                    {p.name}
-                  </span>
-                  <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>
-                    {label(p)}
-                  </span>
-                </button>
-              ))}
+              {overflow.map((p) => {
+                const chip = (
+                  <>
+                    <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
+                      {p.avatar_url ? (
+                        <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">
+                          {p.name.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <span className={`text-xs font-serif ${p.slug ? "text-text-primary group-hover:text-accent transition-colors" : "text-text-secondary"}`}>
+                      {p.name}
+                    </span>
+                    <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>
+                      {label(p)}
+                    </span>
+                  </>
+                );
+                if (!p.slug) {
+                  return (
+                    <div key={p.id} className="flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-dashed border-white/10 opacity-80">
+                      {chip}
+                    </div>
+                  );
+                }
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
+                    className="group flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-white/10 hover:border-accent/40 transition-colors"
+                  >
+                    {chip}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
