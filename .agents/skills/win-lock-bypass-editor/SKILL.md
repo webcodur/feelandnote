@@ -1,4 +1,4 @@
-﻿---
+---
 name: win-lock-bypass-editor
 description: Windows 환경에서 Next.js 개발 서버, Linter 등의 프로세스로 인해 파일 락(Lock)이 생겨 replace_file_content나 write_to_file 같은 기본 IDE 편집 API가 무한 대기(Working...)에 빠져 뻗을 때, PowerShell Here-String 구문과 Set-Content을 이용해 파일 락을 0.1초 만에 강제로 우회하여 안전하게 수정 및 생성하는 전문 안티그래비티 스킬입니다.
 ---
