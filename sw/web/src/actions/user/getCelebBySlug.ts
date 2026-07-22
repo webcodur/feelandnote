@@ -60,7 +60,7 @@ interface SpotlightTagAssignmentRow {
 // 방향 규약·수집은 sw/web-bo/scripts/sync-celeb-relations.ts (위키데이터 사실 관계만, 창작 없음)
 export interface CelebRelationItem {
   relType: string
-  relGroup: 'family' | 'thought' | 'rivalry' | 'career'
+  relGroup: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
   id: string
   /** null이면 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이름 노드로만 띄운다 */
   slug: string | null
@@ -79,7 +79,7 @@ export interface CelebRelationItem {
 
 interface CelebRelationRow {
   rel_type: string
-  rel_group: 'family' | 'thought' | 'rivalry' | 'career'
+  rel_group: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
   note: string | null
   target: {
     id: string
@@ -96,7 +96,7 @@ interface CelebRelationRow {
 }
 
 // 표시 순서: 혈연 → 사상 → 대립, 그 안에서 가까운 관계부터
-const REL_TYPE_ORDER = ['father', 'mother', 'parent', 'child', 'spouse', 'partner', 'sibling', 'relative', 'teacher', 'student', 'influence', 'influenced', 'cofounder', 'rival']
+const REL_TYPE_ORDER = ['father', 'mother', 'parent', 'child', 'spouse', 'partner', 'sibling', 'relative', 'teacher', 'student', 'influence', 'influenced', 'cofounder', 'friend', 'rival']
 
 interface PublicCelebBySlugData {
   profile: {
