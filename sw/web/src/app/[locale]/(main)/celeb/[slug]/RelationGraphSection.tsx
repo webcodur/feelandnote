@@ -55,6 +55,8 @@ interface PersonNode {
   types: string[];
   group: CelebRelationItem["relGroup"];
   band: Band;
+  /** 관계의 근거 한 줄 — 마우스를 올리면 보여준다(수동 수록 라이벌 보유) */
+  note: string | null;
 }
 
 interface Edge { x1: number; y1: number; x2: number; y2: number; color: string; dashed: boolean }
@@ -85,10 +87,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       const cur = map.get(r.id);
       if (cur) {
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
+        if (!cur.note && r.note) cur.note = r.note;
       } else {
         map.set(r.id, {
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
           types: [r.relType], group: r.relGroup, band: BAND_OF[r.relType] ?? "sideR",
+          note: r.note,
         });
       }
     }
@@ -198,10 +202,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         </span>
       </>
     );
+    const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
     // 명단 밖 인물은 페이지가 없다 — 이름 노드로만 세운다
     if (!p.slug) {
       return (
-        <div key={p.id} ref={setNodeRef(p.id)} className="relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 opacity-80" aria-label={`${p.name} — ${label(p)}`}>
+        <div key={p.id} ref={setNodeRef(p.id)} className="relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 opacity-80" aria-label={`${p.name} — ${label(p)}`} title={hoverNote}>
           {inner}
         </div>
       );
@@ -213,7 +218,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         type="button"
         onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
         className="group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer"
-        aria-label={`${p.name} — ${label(p)}`}
+        aria-label={hoverNote ?? `${p.name} — ${label(p)}`}
+        title={hoverNote}
       >
         {inner}
       </button>

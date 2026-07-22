@@ -68,11 +68,14 @@ export interface CelebRelationItem {
   nickname_en: string | null
   avatar_url: string | null
   profession: string | null
+  /** 관계의 근거 한 줄(사건·시기). 수동 수록 라이벌에만 있다 */
+  note: string | null
 }
 
 interface CelebRelationRow {
   rel_type: string
   rel_group: 'family' | 'thought' | 'rivalry' | 'career'
+  note: string | null
   target: {
     id: string
     slug: string | null
@@ -176,7 +179,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .order('sort_order', { ascending: true }),
     supabase
       .from('celeb_relations')
-      .select('rel_type, rel_group, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, status)')
+      .select('rel_type, rel_group, note, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, status)')
       .eq('from_id', userId),
     supabase
       .from('celeb_relations_external')
@@ -221,6 +224,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nickname_en: r.target.nickname_en,
       avatar_url: r.target.avatar_url,
       profession: r.target.profession,
+      note: r.note,
     }))
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
@@ -236,6 +240,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nickname_en: r.name_en,
       avatar_url: r.image_url,
       profession: null,
+      note: null,
     }))
 
   const byTypeThenName = (a: CelebRelationItem, b: CelebRelationItem) =>
