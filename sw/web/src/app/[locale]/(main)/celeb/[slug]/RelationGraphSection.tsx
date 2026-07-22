@@ -87,7 +87,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       const cur = map.get(r.id);
       if (cur) {
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
-        if (!cur.note && r.note) cur.note = r.note;
+        // 공동 창업이자 맞수 같은 겹관계는 설명도 병기한다
+        if (r.note && cur.note !== r.note) cur.note = cur.note ? `${cur.note} / ${r.note}` : r.note;
       } else {
         map.set(r.id, {
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
