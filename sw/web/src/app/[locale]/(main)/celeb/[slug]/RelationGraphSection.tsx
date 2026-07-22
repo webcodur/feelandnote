@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Baby, ExternalLink, Heart, Swords, User, Users, X, type LucideIcon } from "lucide-react";
+import { Baby, ExternalLink, Handshake, Heart, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
@@ -21,6 +21,7 @@ const GROUP_COLOR: Record<CelebRelationItem["relGroup"], string> = {
   family: "#8a8f98",
   thought: "#6b8cae",
   career: "#8f9a6b",
+  friendship: "#a2905e",
   rivalry: "#a65b5b",
 };
 
@@ -34,6 +35,7 @@ const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
   child: { color: "#7f9a7d", Icon: Baby },
   sibling: { color: "#9a916b", Icon: Users },
   rival: { color: "#a65b5b", Icon: Swords },
+  friend: { color: "#a2905e", Icon: Handshake },
 };
 const typeVisual = (types: string[]) => TYPE_VISUAL[types[0]] ?? { color: "#8a8f98", Icon: User };
 
@@ -52,9 +54,10 @@ const SOCIAL_BAND_OF: Record<string, SocialBand> = {
   teacher: "up", influence: "up",
   student: "down", influenced: "down",
   cofounder: "sideL",
+  friend: "sideL",
   rival: "sideR",
 };
-const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "rivalry"];
+const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "friendship", "rivalry"];
 
 /** 한 줄(띠)에 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
 const ROW_CAP = 8;
