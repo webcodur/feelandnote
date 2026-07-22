@@ -59,7 +59,8 @@ interface PersonNode {
   note: string | null;
 }
 
-interface Edge { x1: number; y1: number; x2: number; y2: number; color: string; dashed: boolean }
+/** 직교 연결선 한 벌 — 모선(가로/세로 버스)과 가지·줄기를 SVG 경로로 담는다 */
+interface Connector { d: string; color: string; dashed: boolean; opacity: number }
 
 interface Props {
   centerName: string;
@@ -73,7 +74,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const t = useTranslations("celebPage");
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [expanded, setExpanded] = useState(false);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const [connectors, setConnectors] = useState<Connector[]>([]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const centerRef = useRef<HTMLDivElement | null>(null);
@@ -102,7 +103,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   }, [relations, locale]);
 
-  const { bands, overflow, groupCounts, groupById } = useMemo(() => {
+  const { bands, overflow, groupCounts, metaById } = useMemo(() => {
     const counts = new Map<string, number>();
     for (const p of people) counts.set(p.group, (counts.get(p.group) ?? 0) + 1);
 
@@ -116,36 +117,115 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       capped[b] = raw[b].slice(0, BAND_CAP);
       over.push(...raw[b].slice(BAND_CAP));
     }
-    const byId = new Map<string, CelebRelationItem["relGroup"]>();
-    for (const b of Object.keys(capped) as Band[]) for (const p of capped[b]) byId.set(p.id, p.group);
-    return { bands: capped, overflow: over, groupCounts: counts, groupById: byId };
+    const byId = new Map<string, { group: CelebRelationItem["relGroup"]; band: Band }>();
+    for (const b of Object.keys(capped) as Band[]) for (const p of capped[b]) byId.set(p.id, { group: p.group, band: b });
+    return { bands: capped, overflow: over, groupCounts: counts, metaById: byId };
   }, [people, filter]);
 
   const label = (p: PersonNode) => p.types.map((ty) => t(`relType_${ty}`)).join(" · ");
 
-  // 간선은 실제 화면 좌표를 재서 긋는다. 띠가 줄바꿈돼도 선이 따라간다.
+  /**
+   * 연결선은 실제 화면 좌표를 재서 가계도식 직교선으로 긋는다.
+   * 중심에서 줄기가 나가 그룹별 모선에서 직각으로 꺾이고, 모선에서 각 노드로 가지가 뻗는다.
+   * 같은 띠에 그룹이 여럿이면 모선을 7px씩 층지게 쌓아 색이 섞이지 않게 한다.
+   */
   const measure = useCallback(() => {
     const box = containerRef.current?.getBoundingClientRect();
-    const c = centerRef.current?.getBoundingClientRect();
-    if (!box || !c) return;
-    const cx = c.left - box.left + c.width / 2;
-    const cy = c.top - box.top + c.height / 2;
-    const next: Edge[] = [];
+    const cAv = centerRef.current?.firstElementChild?.getBoundingClientRect();
+    if (!box || !cAv) return;
+    const C = {
+      cx: cAv.left - box.left + cAv.width / 2,
+      cy: cAv.top - box.top + cAv.height / 2,
+      top: cAv.top - box.top,
+      bottom: cAv.bottom - box.top,
+      left: cAv.left - box.left,
+      right: cAv.right - box.left,
+    };
+
+    type Geo = { avCx: number; avCy: number; elTop: number; elBottom: number; elLeft: number; elRight: number };
+    const clusters = new Map<Band, Map<CelebRelationItem["relGroup"], Geo[]>>();
     for (const [id, el] of nodeRefs.current) {
-      const group = groupById.get(id);
-      if (!group) continue;
-      // 노드 쪽 끝점은 아바타 원 중심 — 버튼 상단의 원(첫 자식) 기준
-      const avatar = el.firstElementChild?.getBoundingClientRect() ?? el.getBoundingClientRect();
-      next.push({
-        x1: cx, y1: cy,
-        x2: avatar.left - box.left + avatar.width / 2,
-        y2: avatar.top - box.top + avatar.height / 2,
-        color: GROUP_COLOR[group],
-        dashed: group === "rivalry",
+      const meta = metaById.get(id);
+      if (!meta) continue;
+      const elR = el.getBoundingClientRect();
+      const avR = el.firstElementChild?.getBoundingClientRect() ?? elR;
+      const g: Geo = {
+        avCx: avR.left - box.left + avR.width / 2,
+        avCy: avR.top - box.top + avR.height / 2,
+        elTop: elR.top - box.top, elBottom: elR.bottom - box.top,
+        elLeft: elR.left - box.left, elRight: elR.right - box.left,
+      };
+      const perGroup = clusters.get(meta.band) ?? new Map<CelebRelationItem["relGroup"], Geo[]>();
+      const list = perGroup.get(meta.group) ?? [];
+      list.push(g);
+      perGroup.set(meta.group, list);
+      clusters.set(meta.band, perGroup);
+    }
+
+    const TRUNK = "#8a8f98";
+    const STEP = 7;
+    const next: Connector[] = [];
+    const sortGroups = (m: Map<CelebRelationItem["relGroup"], Geo[]>) =>
+      [...m.entries()].sort((a, b) => GROUP_ORDER.indexOf(a[0]) - GROUP_ORDER.indexOf(b[0]));
+
+    const up = clusters.get("up");
+    if (up?.size) {
+      const all = [...up.values()].flat();
+      const base = (Math.max(...all.map((n) => n.elBottom)) + C.top) / 2;
+      next.push({ d: `M ${C.cx} ${C.top} V ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
+      sortGroups(up).forEach(([g, nodes], i) => {
+        const busY = base + i * STEP;
+        const xs = nodes.map((n) => n.avCx);
+        const d = `M ${Math.min(...xs, C.cx)} ${busY} H ${Math.max(...xs, C.cx)}`
+          + nodes.map((n) => ` M ${n.avCx} ${busY} V ${n.elBottom + 2}`).join("");
+        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
       });
     }
-    setEdges(next);
-  }, [groupById]);
+
+    const down = clusters.get("down");
+    if (down?.size) {
+      const all = [...down.values()].flat();
+      const base = (Math.min(...all.map((n) => n.elTop)) + C.bottom) / 2;
+      next.push({ d: `M ${C.cx} ${C.bottom} V ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
+      sortGroups(down).forEach(([g, nodes], i) => {
+        const busY = base - i * STEP;
+        const xs = nodes.map((n) => n.avCx);
+        const d = `M ${Math.min(...xs, C.cx)} ${busY} H ${Math.max(...xs, C.cx)}`
+          + nodes.map((n) => ` M ${n.avCx} ${busY} V ${n.elTop - 2}`).join("");
+        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
+      });
+    }
+
+    const sideL = clusters.get("sideL");
+    if (sideL?.size) {
+      const all = [...sideL.values()].flat();
+      const base = (Math.max(...all.map((n) => n.elRight)) + C.left) / 2;
+      next.push({ d: `M ${C.left} ${C.cy} H ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
+      sortGroups(sideL).forEach(([g, nodes], i) => {
+        const busX = base + i * STEP;
+        const ys = nodes.map((n) => n.avCy);
+        const d = `M ${busX} ${Math.min(...ys, C.cy)} V ${Math.max(...ys, C.cy)}`
+          + nodes.map((n) => ` M ${busX} ${n.avCy} H ${n.elRight + 2}`).join("");
+        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
+      });
+    }
+
+    const sideR = clusters.get("sideR");
+    if (sideR?.size) {
+      const all = [...sideR.values()].flat();
+      const base = (Math.min(...all.map((n) => n.elLeft)) + C.right) / 2;
+      next.push({ d: `M ${C.right} ${C.cy} H ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
+      sortGroups(sideR).forEach(([g, nodes], i) => {
+        const busX = base - i * STEP;
+        const ys = nodes.map((n) => n.avCy);
+        const d = `M ${busX} ${Math.min(...ys, C.cy)} V ${Math.max(...ys, C.cy)}`
+          + nodes.map((n) => ` M ${busX} ${n.avCy} H ${n.elLeft - 2}`).join("");
+        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
+      });
+    }
+
+    setConnectors(next);
+  }, [metaById]);
 
   useEffect(() => {
     const raf = requestAnimationFrame(measure);
@@ -255,14 +335,15 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       {/* 계보 배치: 위 = 물려받은 곳, 아래 = 물려준 곳, 옆 = 동렬 */}
       <div ref={containerRef} key={filter} className="relative animate-fade-in select-none py-2">
         <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
-          {edges.map((e, i) => (
-            <line
+          {connectors.map((c, i) => (
+            <path
               key={i}
-              x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2}
-              stroke={e.color}
+              d={c.d}
+              fill="none"
+              stroke={c.color}
               strokeWidth={1}
-              strokeOpacity={0.4}
-              strokeDasharray={e.dashed ? "4 3" : undefined}
+              strokeOpacity={c.opacity}
+              strokeDasharray={c.dashed ? "4 3" : undefined}
             />
           ))}
         </svg>
