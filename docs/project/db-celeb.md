@@ -23,12 +23,14 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
   - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
-  - `rel_group`: family(혈연)/thought(사상)/rivalry(대립) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
-  - 실측(2026-07-22): 방향 간선 1,722 · 보유 셀럽 631/1,692(37%) — thought 1,110 / rivalry 346 / family 148 / career(공동 창업, P112 조직 매개) 118
-  - rivalry는 위키데이터에 사실상 없어(2건) GPT 제안 → 병렬 검증(178쌍 중 173쌍 통과) → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
+  - `rel_group`: family(혈연)/thought(사상)/career(공동 창업)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
+  - 실측(2026-07-22): 방향 간선 1,972 — thought 1,110 / rivalry 456 / family 148 / friendship 140 / career(P112 조직 매개) 118
+  - rivalry·friendship은 위키데이터에 사실상 없어 GPT 제안+전수 훑기(1,692명) → 병렬 검증 → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
   - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
-- **`celeb_relations_external`**: 명단 밖 가족 (2026-07-22 `add_celeb_relations_external`). 가족은 대부분 셀럽이 아니라 명단 안 짝만으로는 혈연이 텅 빈다(148간선) — 위키데이터 등재 가족을 이름만 받아 이동 불가 노드로 띄운다
-  - 실측: 7,435명(한국어 이름 44%) · 보유 셀럽 1,116명. 가족 속성만 수집(사상·영향은 폭발해서 제외) · UNIQUE(from_id, qid, rel_type)
+- **`celeb_relations_external`**: 명단 밖 인물 (2026-07-22 `add_celeb_relations_external`). 짝이 셀럽이 아니면 명단 안 간선만으로는 텅 빈다 — 위키데이터 등재 인물을 이름·사진만 받아 이동 불가 노드로 띄운다
+  - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
+  - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)
+  - 실측 커버리지(내부+외부 합산): 관계 보유 셀럽 1,303/1,692(77%)
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
