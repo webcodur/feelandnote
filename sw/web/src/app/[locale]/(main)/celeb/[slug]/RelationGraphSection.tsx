@@ -123,11 +123,18 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     }
 
     // ── 사회 관계: 그룹 필터 + 띠 배치 ──
+    // 맞수는 흡수되지 않는다 — 공동 창업이자 맞수인 인물(머스크-틸)은 맞수 쪽에 세운다.
+    // 대립이 더 희소하고 특징적인 관계라 우선한다. 딱지는 병기된다.
+    const socialResolved = social.map((p) =>
+      p.types.includes("rival") ? { ...p, group: "rivalry" as const } : p);
     const socialCounts = new Map<string, number>();
-    for (const p of social) socialCounts.set(p.group, (socialCounts.get(p.group) ?? 0) + 1);
-    const filtered = filter === "all" ? social : social.filter((p) => p.group === filter);
+    for (const p of socialResolved) socialCounts.set(p.group, (socialCounts.get(p.group) ?? 0) + 1);
+    const filtered = filter === "all" ? socialResolved : socialResolved.filter((p) => p.group === filter);
     const bands: Record<SocialBand, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
-    for (const p of filtered) bands[SOCIAL_BAND_OF[p.types[0]] ?? "sideR"].push(p);
+    for (const p of filtered) {
+      const band = p.types.includes("rival") ? "sideR" : (SOCIAL_BAND_OF[p.types[0]] ?? "sideR");
+      bands[band].push(p);
+    }
     const socialMeta = new Map<string, { group: CelebRelationItem["relGroup"]; band: SocialBand }>();
     for (const b of Object.keys(bands) as SocialBand[]) {
       overflowAll.push(...bands[b].slice(ROW_CAP));
