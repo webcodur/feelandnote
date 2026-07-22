@@ -348,11 +348,18 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => {
     const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
-    // 글씨는 노드 밖에 두지 않는다 — 작아서 안 읽힌다. 이름·사연은 클릭 카드가 보여준다.
-    const inner = avatarCircle(
-      p,
-      size === "md" ? "w-12 h-12 md:w-16 md:h-16" : "w-11 h-11 md:w-14 md:h-14",
-      size === "md" ? 22 : 19,
+    // 노드에는 얼굴과 이름만 — 관계 딱지·사연은 클릭 카드가 보여준다(작아서 안 읽히던 것).
+    const inner = (
+      <>
+        {avatarCircle(
+          p,
+          size === "md" ? "w-12 h-12 md:w-16 md:h-16" : "w-11 h-11 md:w-14 md:h-14",
+          size === "md" ? 22 : 19,
+        )}
+        <span className={`block text-[11px] font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent transition-colors font-bold" : "text-text-secondary"}`}>
+          {p.name}
+        </span>
+      </>
     );
     // 클릭 = 이동이 아니라 상세 카드 열기. 명단 밖 인물도 카드는 열린다(이동 단추만 다르다).
     return (
@@ -370,9 +377,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   };
 
-  /** 본인 노드 — 가계도와 사회 허브 양쪽에 선다. 글씨 없이 강조 테두리로만 구분한다 */
+  /** 본인 노드 — 가계도와 사회 허브 양쪽에 선다 */
   const selfNode = (ref: React.RefObject<HTMLDivElement | null>) => (
-    <div ref={ref} className="relative z-10 flex flex-col items-center shrink-0" aria-label={centerName}>
+    <div ref={ref} className="relative z-10 flex flex-col items-center gap-1 shrink-0" aria-label={centerName}>
       <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
         {centerAvatarUrl ? (
           <Image src={centerAvatarUrl} alt={centerName} width={80} height={80} className="w-full h-full object-cover" unoptimized />
@@ -380,6 +387,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">{centerName.charAt(0)}</div>
         )}
       </div>
+      <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
     </div>
   );
 
