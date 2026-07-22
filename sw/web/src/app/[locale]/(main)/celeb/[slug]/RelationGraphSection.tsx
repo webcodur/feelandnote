@@ -390,10 +390,18 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 {view.kinRows.parents.map((p) => nodeCard(p))}
               </div>
             )}
-            <div className="relative flex flex-wrap items-end justify-center gap-x-3 gap-y-3 mt-10">
+            <div className="relative flex flex-wrap items-start justify-center gap-x-3 gap-y-3 mt-10">
               {view.kinRows.siblings.map((p) => nodeCard(p, "sm"))}
-              {selfNode(selfRef)}
-              {view.kinRows.spouses.map((p) => nodeCard(p, "sm"))}
+              {/* 본인은 형제 줄보다 반 층 낮게 — 모선에서 본인에게 오는 선만 길게 뻗어 시선이 떨어진다 */}
+              <div className={`flex items-start gap-x-3 ${view.kinRows.parents.length > 0 || view.kinRows.siblings.length > 0 ? "mt-6 md:mt-8" : ""}`}>
+                {selfNode(selfRef)}
+                {/* 배우자 아바타 중심을 본인 아바타 중심 높이에 맞춘다 */}
+                {view.kinRows.spouses.length > 0 && (
+                  <div className="flex items-start gap-x-3 mt-3 md:mt-4">
+                    {view.kinRows.spouses.map((p) => nodeCard(p, "sm"))}
+                  </div>
+                )}
+              </div>
             </div>
             {view.kinRows.children.length > 0 && (
               <div className="relative flex flex-wrap justify-center gap-x-3 gap-y-3 mt-10">
