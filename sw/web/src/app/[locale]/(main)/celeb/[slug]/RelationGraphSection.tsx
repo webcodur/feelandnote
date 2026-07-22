@@ -4,8 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Baby, Heart, User, Users, type LucideIcon } from "lucide-react";
+import { Baby, ExternalLink, Heart, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import { useCountries } from "@/hooks/useCountries";
+import { getCountryNameByLocale } from "@/lib/countries";
 
 /**
  * 인물 관계망 — 도표 두 장.
@@ -67,6 +69,11 @@ interface PersonNode {
   note: string | null;
   /** 관계 종류별 근거 원문 — 짧은 것(공동 창업 조직명)은 딱지에 직접 노출한다 */
   notesByType: Record<string, string>;
+  profession: string | null;
+  nationality: string | null;
+  birth_date: string | null;
+  death_date: string | null;
+  qid: string | null;
 }
 
 interface Connector { d: string; color: string; dashed: boolean; opacity: number }
@@ -81,9 +88,13 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("celebPage");
+  const tp = useTranslations("profession");
+  useCountries();
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [expanded, setExpanded] = useState(false);
   const [connectors, setConnectors] = useState<Connector[]>([]);
+  /** 클릭한 인물 — 상세 카드로 관계 사연·기본 정보·이동 단추를 보여준다 */
+  const [selected, setSelected] = useState<PersonNode | null>(null);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const selfRef = useRef<HTMLDivElement | null>(null);
@@ -105,6 +116,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
           types: [r.relType], group: r.relGroup, note: r.note,
           notesByType: r.note ? { [r.relType]: r.note } : {},
+          profession: r.profession, nationality: r.nationality,
+          birth_date: r.birth_date, death_date: r.death_date, qid: r.qid,
         });
       }
     }
@@ -346,20 +359,14 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         </span>
       </>
     );
-    if (!p.slug) {
-      return (
-        <div key={p.id} ref={setNodeRef(p.id)} className="relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 opacity-80" aria-label={`${p.name} — ${label(p)}`} title={hoverNote}>
-          {inner}
-        </div>
-      );
-    }
+    // 클릭 = 이동이 아니라 상세 카드 열기. 명단 밖 인물도 카드는 열린다(이동 단추만 다르다).
     return (
       <button
         key={p.id}
         ref={setNodeRef(p.id)}
         type="button"
-        onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
-        className="group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer"
+        onClick={() => setSelected(p)}
+        className={`group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer ${p.slug ? "" : "opacity-80"}`}
         aria-label={hoverNote ?? `${p.name} — ${label(p)}`}
         title={hoverNote}
       >
@@ -514,19 +521,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                     <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>{label(p)}</span>
                   </>
                 );
-                if (!p.slug) {
-                  return (
-                    <div key={p.id} className="flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-dashed border-white/10 opacity-80">
-                      {chip}
-                    </div>
-                  );
-                }
                 return (
                   <button
                     key={p.id}
                     type="button"
-                    onClick={() => router.push(`/${locale}/celeb/${p.slug}`)}
-                    className="group flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-white/10 hover:border-accent/40 transition-colors"
+                    onClick={() => setSelected(p)}
+                    className={`group flex items-center gap-2 px-2.5 py-1.5 rounded-full border transition-colors ${p.slug ? "border-white/10 hover:border-accent/40" : "border-dashed border-white/10 opacity-80 hover:border-accent/30"}`}
                   >
                     {chip}
                   </button>
@@ -541,6 +541,101 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       <p className="text-[11px] text-text-tertiary text-center leading-relaxed break-keep">
         {t("relationGraphNote")}
       </p>
+
+      {/* 인물 상세 카드 — 관계 사연·기본 정보·이동. 노드가 작아 안 보이는 것을 여기서 크게 보여준다 */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-label={selected.name}
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="w-full max-w-sm rounded-lg border border-accent-dim/40 bg-bg-primary shadow-2xl p-5 space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-16 h-16 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0 ring-1 ring-accent/30">
+                  {selected.avatar_url ? (
+                    <Image src={selected.avatar_url} alt={selected.name} width={64} height={64} className="object-cover w-full h-full" unoptimized />
+                  ) : (
+                    (() => {
+                      const v = typeVisual(selected.types);
+                      return (
+                        <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
+                          <v.Icon size={26} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+                        </div>
+                      );
+                    })()
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-serif font-bold text-base text-text-primary break-keep">{selected.name}</p>
+                  <p className="text-xs font-medium mt-0.5" style={{ color: GROUP_COLOR[selected.group] }}>
+                    {selected.types.map((ty) => t(`relType_${ty}`)).join(" · ")}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelected(null)}
+                className="p-1 rounded text-text-tertiary hover:text-accent transition-colors"
+                aria-label={t("hideDetail")}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* 관계 사연 — 맞수의 근거, 공동 창업 조직 */}
+            {selected.note && (
+              <p className="text-sm text-text-secondary leading-relaxed break-keep border-l-2 pl-3" style={{ borderColor: GROUP_COLOR[selected.group] }}>
+                {selected.note}
+              </p>
+            )}
+
+            {/* 기본 정보 */}
+            <div className="flex items-center gap-2 text-xs text-text-tertiary flex-wrap">
+              {selected.profession && <span className="text-accent/80 font-medium">{tp(selected.profession)}</span>}
+              {selected.nationality && <span>{getCountryNameByLocale(selected.nationality, locale)}</span>}
+              {selected.birth_date && (
+                <span className="font-mono">
+                  {formatYear(selected.birth_date)}–{selected.death_date ? formatYear(selected.death_date) : ""}
+                </span>
+              )}
+              {!selected.slug && <span>{t("relExternalNote")}</span>}
+            </div>
+
+            {/* 이동 — 셀럽은 인물 페이지, 명단 밖 인물은 위키데이터 원본 */}
+            {selected.slug ? (
+              <button
+                type="button"
+                onClick={() => router.push(`/${locale}/celeb/${selected.slug}`)}
+                className="w-full py-2 text-sm rounded border border-accent/40 text-accent hover:bg-accent/10 transition-colors"
+              >
+                {t("relGoToProfile")}
+              </button>
+            ) : selected.qid ? (
+              <a
+                href={`https://www.wikidata.org/wiki/${selected.qid}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 text-sm rounded border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent transition-colors flex items-center justify-center gap-1.5"
+              >
+                {t("relViewWikidata")}
+                <ExternalLink size={13} />
+              </a>
+            ) : null}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+const formatYear = (year: string) => {
+  const num = parseInt(year);
+  if (isNaN(num)) return year;
+  return num < 0 ? `BC ${Math.abs(num)}` : `${num}`;
+};

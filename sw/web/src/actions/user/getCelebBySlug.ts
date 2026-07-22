@@ -68,7 +68,12 @@ export interface CelebRelationItem {
   nickname_en: string | null
   avatar_url: string | null
   profession: string | null
-  /** 관계의 근거 한 줄(사건·시기). 수동 수록 라이벌에만 있다 */
+  nationality: string | null
+  birth_date: string | null
+  death_date: string | null
+  /** 명단 밖 인물의 위키데이터 항목 — 상세 카드에서 원본 연결에 쓴다 */
+  qid: string | null
+  /** 관계의 근거 한 줄(사건·시기). 수동 수록 라이벌·공동 창업에 있다 */
   note: string | null
 }
 
@@ -83,6 +88,9 @@ interface CelebRelationRow {
     nickname_en: string | null
     avatar_url: string | null
     profession: string | null
+    nationality: string | null
+    birth_date: string | null
+    death_date: string | null
     status: string | null
   } | null
 }
@@ -179,7 +187,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .order('sort_order', { ascending: true }),
     supabase
       .from('celeb_relations')
-      .select('rel_type, rel_group, note, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, status)')
+      .select('rel_type, rel_group, note, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, status)')
       .eq('from_id', userId),
     supabase
       .from('celeb_relations_external')
@@ -224,6 +232,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nickname_en: r.target.nickname_en,
       avatar_url: r.target.avatar_url,
       profession: r.target.profession,
+      nationality: r.target.nationality,
+      birth_date: r.target.birth_date,
+      death_date: r.target.death_date,
+      qid: null,
       note: r.note,
     }))
 
@@ -240,6 +252,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nickname_en: r.name_en,
       avatar_url: r.image_url,
       profession: null,
+      nationality: null,
+      birth_date: null,
+      death_date: null,
+      qid: r.qid,
       note: null,
     }))
 
