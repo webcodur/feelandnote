@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Baby, ExternalLink, Heart, User, Users, X, type LucideIcon } from "lucide-react";
+import { Baby, ExternalLink, Heart, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
@@ -33,6 +33,7 @@ const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
   partner: { color: "#a07e8a", Icon: Heart },
   child: { color: "#7f9a7d", Icon: Baby },
   sibling: { color: "#9a916b", Icon: Users },
+  rival: { color: "#a65b5b", Icon: Swords },
 };
 const typeVisual = (types: string[]) => TYPE_VISUAL[types[0]] ?? { color: "#8a8f98", Icon: User };
 
