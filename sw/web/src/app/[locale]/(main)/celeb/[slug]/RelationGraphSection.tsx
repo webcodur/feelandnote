@@ -7,7 +7,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { Baby, Heart, User, Users, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
-/** 관계 그룹별 간선·라벨 색. 페이지의 저채도 고전 팔레트에 맞춘 뮤트 톤. */
+/**
+ * 인물 관계망 — 도표 두 장.
+ * 1) 가계도: 부모 부부선 → 중앙 강하선 → 형제 모선(본인 포함) → 본인 아래 자식.
+ *    혈연은 세대 구조가 생명이라 허브(방사) 문법을 쓰지 않는다.
+ * 2) 사회 관계: 본인 허브 — 위 스승·영향줌 / 아래 제자·영향받음 / 왼쪽 동료 / 오른쪽 맞수.
+ * 연결선은 전부 실측 좌표 기반 직교선(모선에서 직각 꺾임)이다.
+ */
+
 const GROUP_COLOR: Record<CelebRelationItem["relGroup"], string> = {
   family: "#8a8f98",
   thought: "#6b8cae",
@@ -15,25 +22,7 @@ const GROUP_COLOR: Record<CelebRelationItem["relGroup"], string> = {
   rivalry: "#a65b5b",
 };
 
-const GROUP_ORDER: CelebRelationItem["relGroup"][] = ["family", "thought", "career", "rivalry"];
-
-/**
- * 배치가 관계를 말한다 — 세로축이 계보다.
- * 위 = 물려받은 곳(부모·스승·영향 준 인물), 아래 = 물려준 곳(자녀·제자·영향 받은 인물),
- * 옆 = 동렬(왼쪽 혈연, 오른쪽 동료·맞수). 가계도와 학맥 계보가 공유하는 문법.
- */
-type Band = "up" | "sideL" | "sideR" | "down";
-const BAND_OF: Record<string, Band> = {
-  father: "up", mother: "up", parent: "up", teacher: "up", influence: "up",
-  spouse: "sideL", partner: "sideL", sibling: "sideL", relative: "sideL",
-  cofounder: "sideR", rival: "sideR",
-  child: "down", student: "down", influenced: "down",
-};
-
-/** 띠별로 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
-const BAND_CAP = 8;
-
-/** 사진이 없는 인물의 자리 — 관계 종류별 색·상징으로 채운다(빈 원 금지). */
+/** 사진이 없는 명단 밖 인물의 자리 — 관계 종류별 색·상징으로 채운다(빈 원 금지). */
 const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
   father: { color: "#7e8aa0", Icon: User },
   mother: { color: "#a07e8a", Icon: User },
@@ -45,21 +34,39 @@ const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
 };
 const typeVisual = (types: string[]) => TYPE_VISUAL[types[0]] ?? { color: "#8a8f98", Icon: User };
 
+/** 가계도 세대 자리 */
+type KinRank = "parents" | "siblings" | "spouses" | "children";
+const KIN_RANK_OF: Record<string, KinRank> = {
+  father: "parents", mother: "parents", parent: "parents",
+  sibling: "siblings",
+  spouse: "spouses", partner: "spouses",
+  child: "children",
+};
+
+/** 사회 관계 허브의 띠 */
+type SocialBand = "up" | "sideL" | "sideR" | "down";
+const SOCIAL_BAND_OF: Record<string, SocialBand> = {
+  teacher: "up", influence: "up",
+  student: "down", influenced: "down",
+  cofounder: "sideL",
+  rival: "sideR",
+};
+const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "rivalry"];
+
+/** 한 줄(띠)에 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
+const ROW_CAP = 8;
+
 interface PersonNode {
   id: string;
-  /** null = 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이동 불가 이름 노드로 띄운다 */
+  /** null = 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이동 불가 이름 노드 */
   slug: string | null;
   name: string;
   avatar_url: string | null;
-  /** 한 사람이 여러 관계를 겸할 수 있다(형제이자 공동 창업 등) — 라벨은 병기한다 */
   types: string[];
   group: CelebRelationItem["relGroup"];
-  band: Band;
-  /** 관계의 근거 한 줄 — 마우스를 올리면 보여준다(수동 수록 라이벌 보유) */
   note: string | null;
 }
 
-/** 직교 연결선 한 벌 — 모선(가로/세로 버스)과 가지·줄기를 SVG 경로로 담는다 */
 interface Connector { d: string; color: string; dashed: boolean; opacity: number }
 
 interface Props {
@@ -77,10 +84,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const [connectors, setConnectors] = useState<Connector[]>([]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const centerRef = useRef<HTMLDivElement | null>(null);
+  const selfRef = useRef<HTMLDivElement | null>(null);
+  const hubRef = useRef<HTMLDivElement | null>(null);
   const nodeRefs = useRef(new Map<string, HTMLElement>());
 
-  // 사람 단위로 묶는다. 관계가 여럿이면 정렬상 첫 관계가 띠와 그룹을 정한다.
+  // 사람 단위로 묶는다. 겹관계(형제이자 공동 창업)는 라벨·설명을 병기한다.
   const people = useMemo(() => {
     const map = new Map<string, PersonNode>();
     for (const r of relations) {
@@ -88,144 +96,190 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       const cur = map.get(r.id);
       if (cur) {
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
-        // 공동 창업이자 맞수 같은 겹관계는 설명도 병기한다
         if (r.note && cur.note !== r.note) cur.note = cur.note ? `${cur.note} / ${r.note}` : r.note;
       } else {
         map.set(r.id, {
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
-          types: [r.relType], group: r.relGroup, band: BAND_OF[r.relType] ?? "sideR",
-          note: r.note,
+          types: [r.relType], group: r.relGroup, note: r.note,
         });
       }
     }
-    return [...map.values()].sort(
-      (a, b) => GROUP_ORDER.indexOf(a.group) - GROUP_ORDER.indexOf(b.group)
-    );
+    return [...map.values()];
   }, [relations, locale]);
 
-  const { bands, overflow, groupCounts, metaById } = useMemo(() => {
-    const counts = new Map<string, number>();
-    for (const p of people) counts.set(p.group, (counts.get(p.group) ?? 0) + 1);
-
-    const visibleList = filter === "all" ? people : people.filter((p) => p.group === filter);
-    const raw: Record<Band, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
-    for (const p of visibleList) raw[p.band].push(p);
-
-    const over: PersonNode[] = [];
-    const capped = {} as Record<Band, PersonNode[]>;
-    for (const b of Object.keys(raw) as Band[]) {
-      capped[b] = raw[b].slice(0, BAND_CAP);
-      over.push(...raw[b].slice(BAND_CAP));
+  const view = useMemo(() => {
+    // ── 가계도: 세대별 줄 ──
+    const kinRows: Record<KinRank, PersonNode[]> = { parents: [], siblings: [], spouses: [], children: [] };
+    const social: PersonNode[] = [];
+    for (const p of people) {
+      const rank = KIN_RANK_OF[p.types[0]];
+      if (p.group === "family" && rank) kinRows[rank].push(p);
+      else social.push(p);
     }
-    const byId = new Map<string, { group: CelebRelationItem["relGroup"]; band: Band }>();
-    for (const b of Object.keys(capped) as Band[]) for (const p of capped[b]) byId.set(p.id, { group: p.group, band: b });
-    return { bands: capped, overflow: over, groupCounts: counts, metaById: byId };
+    const overflowAll: PersonNode[] = [];
+    for (const r of Object.keys(kinRows) as KinRank[]) {
+      overflowAll.push(...kinRows[r].slice(ROW_CAP));
+      kinRows[r] = kinRows[r].slice(0, ROW_CAP);
+    }
+
+    // ── 사회 관계: 그룹 필터 + 띠 배치 ──
+    const socialCounts = new Map<string, number>();
+    for (const p of social) socialCounts.set(p.group, (socialCounts.get(p.group) ?? 0) + 1);
+    const filtered = filter === "all" ? social : social.filter((p) => p.group === filter);
+    const bands: Record<SocialBand, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
+    for (const p of filtered) bands[SOCIAL_BAND_OF[p.types[0]] ?? "sideR"].push(p);
+    const socialMeta = new Map<string, { group: CelebRelationItem["relGroup"]; band: SocialBand }>();
+    for (const b of Object.keys(bands) as SocialBand[]) {
+      overflowAll.push(...bands[b].slice(ROW_CAP));
+      bands[b] = bands[b].slice(0, ROW_CAP);
+      for (const p of bands[b]) socialMeta.set(p.id, { group: p.group, band: b });
+    }
+    const kinIds: Record<KinRank, string[]> = {
+      parents: kinRows.parents.map((p) => p.id),
+      siblings: kinRows.siblings.map((p) => p.id),
+      spouses: kinRows.spouses.map((p) => p.id),
+      children: kinRows.children.map((p) => p.id),
+    };
+    const hasKin = Object.values(kinRows).some((r) => r.length > 0);
+    const hasSocial = Object.values(bands).some((r) => r.length > 0) || social.length > 0;
+    return { kinRows, kinIds, hasKin, bands, socialMeta, socialCounts, hasSocial, overflow: overflowAll };
   }, [people, filter]);
 
   const label = (p: PersonNode) => p.types.map((ty) => t(`relType_${ty}`)).join(" · ");
 
-  /**
-   * 연결선은 실제 화면 좌표를 재서 가계도식 직교선으로 긋는다.
-   * 중심에서 줄기가 나가 그룹별 모선에서 직각으로 꺾이고, 모선에서 각 노드로 가지가 뻗는다.
-   * 같은 띠에 그룹이 여럿이면 모선을 7px씩 층지게 쌓아 색이 섞이지 않게 한다.
-   */
+  /** 요소의 컨테이너 기준 좌표 */
+  const geoOf = useCallback((el: Element | null | undefined, box: DOMRect) => {
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    const av = (el.firstElementChild ?? el).getBoundingClientRect();
+    return {
+      avCx: av.left - box.left + av.width / 2,
+      avCy: av.top - box.top + av.height / 2,
+      avTop: av.top - box.top, avBottom: av.bottom - box.top,
+      elTop: r.top - box.top, elBottom: r.bottom - box.top,
+      elLeft: r.left - box.left, elRight: r.right - box.left,
+    };
+  }, []);
+
   const measure = useCallback(() => {
     const box = containerRef.current?.getBoundingClientRect();
-    const cAv = centerRef.current?.firstElementChild?.getBoundingClientRect();
-    if (!box || !cAv) return;
-    const C = {
-      cx: cAv.left - box.left + cAv.width / 2,
-      cy: cAv.top - box.top + cAv.height / 2,
-      top: cAv.top - box.top,
-      bottom: cAv.bottom - box.top,
-      left: cAv.left - box.left,
-      right: cAv.right - box.left,
-    };
-
-    type Geo = { avCx: number; avCy: number; elTop: number; elBottom: number; elLeft: number; elRight: number };
-    const clusters = new Map<Band, Map<CelebRelationItem["relGroup"], Geo[]>>();
-    for (const [id, el] of nodeRefs.current) {
-      const meta = metaById.get(id);
-      if (!meta) continue;
-      const elR = el.getBoundingClientRect();
-      const avR = el.firstElementChild?.getBoundingClientRect() ?? elR;
-      const g: Geo = {
-        avCx: avR.left - box.left + avR.width / 2,
-        avCy: avR.top - box.top + avR.height / 2,
-        elTop: elR.top - box.top, elBottom: elR.bottom - box.top,
-        elLeft: elR.left - box.left, elRight: elR.right - box.left,
-      };
-      const perGroup = clusters.get(meta.band) ?? new Map<CelebRelationItem["relGroup"], Geo[]>();
-      const list = perGroup.get(meta.group) ?? [];
-      list.push(g);
-      perGroup.set(meta.group, list);
-      clusters.set(meta.band, perGroup);
-    }
-
-    const TRUNK = "#8a8f98";
-    const STEP = 7;
+    if (!box) return;
     const next: Connector[] = [];
-    const sortGroups = (m: Map<CelebRelationItem["relGroup"], Geo[]>) =>
-      [...m.entries()].sort((a, b) => GROUP_ORDER.indexOf(a[0]) - GROUP_ORDER.indexOf(b[0]));
+    const KIN = GROUP_COLOR.family;
+    const push = (d: string, color: string, dashed = false, opacity = 0.5) => next.push({ d, color, dashed, opacity });
+    const g = (id: string) => geoOf(nodeRefs.current.get(id), box);
 
-    const up = clusters.get("up");
-    if (up?.size) {
-      const all = [...up.values()].flat();
-      const base = (Math.max(...all.map((n) => n.elBottom)) + C.top) / 2;
-      next.push({ d: `M ${C.cx} ${C.top} V ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
-      sortGroups(up).forEach(([g, nodes], i) => {
-        const busY = base + i * STEP;
-        const xs = nodes.map((n) => n.avCx);
-        const d = `M ${Math.min(...xs, C.cx)} ${busY} H ${Math.max(...xs, C.cx)}`
-          + nodes.map((n) => ` M ${n.avCx} ${busY} V ${n.elBottom + 2}`).join("");
-        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
-      });
+    // ── 가계도 ──
+    const self = geoOf(selfRef.current, box);
+    if (self) {
+      const parents = view.kinIds.parents.map(g).filter(Boolean) as NonNullable<ReturnType<typeof geoOf>>[];
+      const siblings = view.kinIds.siblings.map(g).filter(Boolean) as NonNullable<ReturnType<typeof geoOf>>[];
+      const spouses = view.kinIds.spouses.map(g).filter(Boolean) as NonNullable<ReturnType<typeof geoOf>>[];
+      const children = view.kinIds.children.map(g).filter(Boolean) as NonNullable<ReturnType<typeof geoOf>>[];
+
+      // 부모 부부선 — 부모끼리 일자로 잇는다
+      let trunkX = self.avCx;
+      let trunkTopY: number | null = null;
+      if (parents.length > 0) {
+        const y = parents.reduce((s, p) => s + p.avCy, 0) / parents.length;
+        const xs = parents.map((p) => p.avCx);
+        if (parents.length > 1) push(`M ${Math.min(...xs)} ${y} H ${Math.max(...xs)}`, KIN);
+        trunkX = (Math.min(...xs) + Math.max(...xs)) / 2;
+        trunkTopY = parents.length > 1 ? y : parents[0].avBottom;
+      }
+      // 형제 모선 — 부모 중앙 강하선이 여기서 갈라지고, 본인도 이 줄에 매달린다
+      const rank1 = [...siblings, self];
+      if (trunkTopY !== null || siblings.length > 0) {
+        const rowTop = Math.min(...rank1.map((n) => n.elTop));
+        const parentsBottom = parents.length ? Math.max(...parents.map((n) => n.elBottom)) : rowTop - 28;
+        const busY = (parentsBottom + rowTop) / 2;
+        const xs = rank1.map((n) => n.avCx);
+        if (trunkTopY !== null) push(`M ${trunkX} ${trunkTopY} V ${busY}`, KIN);
+        push(
+          `M ${Math.min(...xs, trunkX)} ${busY} H ${Math.max(...xs, trunkX)}`
+          + rank1.map((n) => ` M ${n.avCx} ${busY} V ${n.avTop - 2}`).join(""),
+          KIN,
+        );
+      }
+      // 본인-배우자 부부선
+      if (spouses.length > 0) {
+        const xs = [self.avCx, ...spouses.map((s) => s.avCx)];
+        push(`M ${Math.min(...xs)} ${self.avCy} H ${Math.max(...xs)}`, KIN);
+      }
+      // 자식 — 본인 밑에서 내려간다
+      if (children.length > 0) {
+        const rowTop = Math.min(...children.map((n) => n.elTop));
+        const busY = (self.elBottom + rowTop) / 2;
+        const xs = children.map((n) => n.avCx);
+        push(`M ${self.avCx} ${self.elBottom + 2} V ${busY}`, KIN);
+        push(
+          `M ${Math.min(...xs, self.avCx)} ${busY} H ${Math.max(...xs, self.avCx)}`
+          + children.map((n) => ` M ${n.avCx} ${busY} V ${n.avTop - 2}`).join(""),
+          KIN,
+        );
+      }
     }
 
-    const down = clusters.get("down");
-    if (down?.size) {
-      const all = [...down.values()].flat();
-      const base = (Math.min(...all.map((n) => n.elTop)) + C.bottom) / 2;
-      next.push({ d: `M ${C.cx} ${C.bottom} V ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
-      sortGroups(down).forEach(([g, nodes], i) => {
-        const busY = base - i * STEP;
-        const xs = nodes.map((n) => n.avCx);
-        const d = `M ${Math.min(...xs, C.cx)} ${busY} H ${Math.max(...xs, C.cx)}`
-          + nodes.map((n) => ` M ${n.avCx} ${busY} V ${n.elTop - 2}`).join("");
-        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
-      });
-    }
-
-    const sideL = clusters.get("sideL");
-    if (sideL?.size) {
-      const all = [...sideL.values()].flat();
-      const base = (Math.max(...all.map((n) => n.elRight)) + C.left) / 2;
-      next.push({ d: `M ${C.left} ${C.cy} H ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
-      sortGroups(sideL).forEach(([g, nodes], i) => {
-        const busX = base + i * STEP;
-        const ys = nodes.map((n) => n.avCy);
-        const d = `M ${busX} ${Math.min(...ys, C.cy)} V ${Math.max(...ys, C.cy)}`
-          + nodes.map((n) => ` M ${busX} ${n.avCy} H ${n.elRight + 2}`).join("");
-        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
-      });
-    }
-
-    const sideR = clusters.get("sideR");
-    if (sideR?.size) {
-      const all = [...sideR.values()].flat();
-      const base = (Math.min(...all.map((n) => n.elLeft)) + C.right) / 2;
-      next.push({ d: `M ${C.right} ${C.cy} H ${base}`, color: TRUNK, dashed: false, opacity: 0.3 });
-      sortGroups(sideR).forEach(([g, nodes], i) => {
-        const busX = base - i * STEP;
-        const ys = nodes.map((n) => n.avCy);
-        const d = `M ${busX} ${Math.min(...ys, C.cy)} V ${Math.max(...ys, C.cy)}`
-          + nodes.map((n) => ` M ${busX} ${n.avCy} H ${n.elLeft - 2}`).join("");
-        next.push({ d, color: GROUP_COLOR[g], dashed: g === "rivalry", opacity: 0.5 });
-      });
+    // ── 사회 관계 허브 ──
+    const hub = geoOf(hubRef.current, box);
+    if (hub) {
+      const C = {
+        cx: hub.avCx, cy: hub.avCy,
+        top: hub.avTop, bottom: hub.avBottom,
+        left: hub.avCx - (hub.avBottom - hub.avTop) / 2, right: hub.avCx + (hub.avBottom - hub.avTop) / 2,
+      };
+      const TRUNK = "#8a8f98";
+      const clusters = new Map<SocialBand, Map<CelebRelationItem["relGroup"], NonNullable<ReturnType<typeof geoOf>>[]>>();
+      for (const [id, meta] of view.socialMeta) {
+        const geo = g(id);
+        if (!geo) continue;
+        const perGroup = clusters.get(meta.band) ?? new Map();
+        const list = perGroup.get(meta.group) ?? [];
+        list.push(geo);
+        perGroup.set(meta.group, list);
+        clusters.set(meta.band, perGroup);
+      }
+      const STEP = 7;
+      const draw = (band: SocialBand) => {
+        const perGroup = clusters.get(band);
+        if (!perGroup?.size) return;
+        const all = [...perGroup.values()].flat();
+        const entries = [...perGroup.entries()];
+        if (band === "up" || band === "down") {
+          const base = band === "up"
+            ? (Math.max(...all.map((n) => n.elBottom)) + C.top) / 2
+            : (Math.min(...all.map((n) => n.elTop)) + C.bottom) / 2;
+          push(`M ${C.cx} ${band === "up" ? C.top : C.bottom} V ${base}`, TRUNK, false, 0.3);
+          entries.forEach(([grp, nodes], i) => {
+            const busY = band === "up" ? base + i * STEP : base - i * STEP;
+            const xs = nodes.map((n) => n.avCx);
+            push(
+              `M ${Math.min(...xs, C.cx)} ${busY} H ${Math.max(...xs, C.cx)}`
+              + nodes.map((n) => ` M ${n.avCx} ${busY} V ${band === "up" ? n.elBottom + 2 : n.elTop - 2}`).join(""),
+              GROUP_COLOR[grp], grp === "rivalry",
+            );
+          });
+        } else {
+          const base = band === "sideL"
+            ? (Math.max(...all.map((n) => n.elRight)) + C.left) / 2
+            : (Math.min(...all.map((n) => n.elLeft)) + C.right) / 2;
+          push(`M ${band === "sideL" ? C.left : C.right} ${C.cy} H ${base}`, TRUNK, false, 0.3);
+          entries.forEach(([grp, nodes], i) => {
+            const busX = band === "sideL" ? base + i * STEP : base - i * STEP;
+            const ys = nodes.map((n) => n.avCy);
+            push(
+              `M ${busX} ${Math.min(...ys, C.cy)} V ${Math.max(...ys, C.cy)}`
+              + nodes.map((n) => ` M ${busX} ${n.avCy} H ${band === "sideL" ? n.elRight + 2 : n.elLeft - 2}`).join(""),
+              GROUP_COLOR[grp], grp === "rivalry",
+            );
+          });
+        }
+      };
+      (["up", "down", "sideL", "sideR"] as SocialBand[]).forEach(draw);
     }
 
     setConnectors(next);
-  }, [metaById]);
+  }, [view, geoOf]);
 
   useEffect(() => {
     const raf = requestAnimationFrame(measure);
@@ -239,42 +293,32 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     else nodeRefs.current.delete(id);
   };
 
-  const filters: ("all" | CelebRelationItem["relGroup"])[] = [
-    "all",
-    ...GROUP_ORDER.filter((g) => groupCounts.has(g)),
-  ];
+  const avatarCircle = (p: PersonNode, sizeClass: string, iconSize: number) => (
+    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg bg-bg-primary`}>
+      <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10" : "border-dashed border-white/15"}`}>
+        {p.avatar_url ? (
+          <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110" unoptimized />
+        ) : p.slug ? (
+          <div className="w-full h-full flex items-center justify-center text-sm font-serif text-text-tertiary">{p.name.charAt(0)}</div>
+        ) : (
+          (() => {
+            const v = typeVisual(p.types);
+            return (
+              <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
+                <v.Icon size={iconSize} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+              </div>
+            );
+          })()
+        )}
+      </div>
+    </div>
+  );
 
   const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => {
-    const avatarSize = size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12";
+    const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
     const inner = (
       <>
-        <div className={`${avatarSize} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg bg-bg-primary`}>
-          <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10" : "border-dashed border-white/15"}`}>
-            {p.avatar_url ? (
-              <Image
-                src={p.avatar_url}
-                alt={p.name}
-                width={56}
-                height={56}
-                className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-                unoptimized
-              />
-            ) : p.slug ? (
-              <div className="w-full h-full flex items-center justify-center text-sm font-serif text-text-tertiary">
-                {p.name.charAt(0)}
-              </div>
-            ) : (
-              (() => {
-                const v = typeVisual(p.types);
-                return (
-                  <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
-                    <v.Icon size={size === "md" ? 20 : 17} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
-                  </div>
-                );
-              })()
-            )}
-          </div>
-        </div>
+        {avatarCircle(p, size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12", size === "md" ? 20 : 17)}
         <span className={`block text-[11px] font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent transition-colors font-bold" : "text-text-secondary"}`}>
           {p.name}
         </span>
@@ -283,8 +327,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         </span>
       </>
     );
-    const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
-    // 명단 밖 인물은 페이지가 없다 — 이름 노드로만 세운다
     if (!p.slug) {
       return (
         <div key={p.id} ref={setNodeRef(p.id)} className="relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 opacity-80" aria-label={`${p.name} — ${label(p)}`} title={hoverNote}>
@@ -307,97 +349,118 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   };
 
-  return (
-    <div className="space-y-4">
-      {/* 필터: 존재하는 그룹만 */}
-      {groupCounts.size > 1 && (
-        <div className="flex justify-center gap-2 flex-wrap">
-          {filters.map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => { setFilter(f); setExpanded(false); }}
-              className={`px-3 py-1 text-xs rounded-full border transition-colors ${
-                filter === f
-                  ? "border-accent/60 text-accent bg-accent/10"
-                  : "border-white/10 text-text-tertiary hover:border-accent/30 hover:text-text-secondary"
-              }`}
-            >
-              {t(`relFilter_${f}`)}
-              <span className="ml-1 font-mono text-[10px] opacity-70">
-                {f === "all" ? people.length : groupCounts.get(f)}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
+  /** 본인 노드 — 가계도와 사회 허브 양쪽에 선다 */
+  const selfNode = (ref: React.RefObject<HTMLDivElement | null>) => (
+    <div ref={ref} className="relative z-10 flex flex-col items-center gap-1 shrink-0">
+      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
+        {centerAvatarUrl ? (
+          <Image src={centerAvatarUrl} alt={centerName} width={80} height={80} className="w-full h-full object-cover" unoptimized />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">{centerName.charAt(0)}</div>
+        )}
+      </div>
+      <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
+    </div>
+  );
 
-      {/* 계보 배치: 위 = 물려받은 곳, 아래 = 물려준 곳, 옆 = 동렬 */}
-      <div ref={containerRef} key={filter} className="relative animate-fade-in select-none py-2">
+  const subHeading = (text: string) => (
+    <p className="text-[11px] tracking-[0.2em] text-text-tertiary text-center">{text}</p>
+  );
+
+  const socialFilters: ("all" | CelebRelationItem["relGroup"])[] = [
+    "all",
+    ...SOCIAL_GROUPS.filter((grp) => view.socialCounts.has(grp)),
+  ];
+
+  return (
+    <div className="space-y-5">
+      <div ref={containerRef} className="relative select-none">
         <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
           {connectors.map((c, i) => (
-            <path
-              key={i}
-              d={c.d}
-              fill="none"
-              stroke={c.color}
-              strokeWidth={1}
-              strokeOpacity={c.opacity}
-              strokeDasharray={c.dashed ? "4 3" : undefined}
-            />
+            <path key={i} d={c.d} fill="none" stroke={c.color} strokeWidth={1} strokeOpacity={c.opacity} strokeDasharray={c.dashed ? "4 3" : undefined} />
           ))}
         </svg>
 
-        {bands.up.length > 0 && (
-          <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mb-10 md:mb-12">
-            {bands.up.map((p) => nodeCard(p))}
+        {/* ── 가계도 ── */}
+        {view.hasKin && (
+          <div className="space-y-0">
+            {subHeading(t("relSubFamily"))}
+            {view.kinRows.parents.length > 0 && (
+              <div className="relative flex flex-wrap justify-center gap-x-3 gap-y-3 mt-4">
+                {view.kinRows.parents.map((p) => nodeCard(p))}
+              </div>
+            )}
+            <div className="relative flex flex-wrap items-end justify-center gap-x-3 gap-y-3 mt-10">
+              {view.kinRows.siblings.map((p) => nodeCard(p, "sm"))}
+              {selfNode(selfRef)}
+              {view.kinRows.spouses.map((p) => nodeCard(p, "sm"))}
+            </div>
+            {view.kinRows.children.length > 0 && (
+              <div className="relative flex flex-wrap justify-center gap-x-3 gap-y-3 mt-10">
+                {view.kinRows.children.map((p) => nodeCard(p))}
+              </div>
+            )}
           </div>
         )}
 
-        <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
-          {bands.sideL.length > 0 && (
-            <div className="flex flex-wrap justify-end gap-x-2 gap-y-3 flex-1 max-w-[38%]">
-              {bands.sideL.map((p) => nodeCard(p, "sm"))}
-            </div>
-          )}
+        {view.hasKin && view.hasSocial && <hr className="border-accent-dim/20 my-8" />}
 
-          {/* 중심: 본인 */}
-          <div ref={centerRef} className="relative z-10 flex flex-col items-center gap-1 shrink-0">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
-              {centerAvatarUrl ? (
-                <Image
-                  src={centerAvatarUrl}
-                  alt={centerName}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">
-                  {centerName.charAt(0)}
+        {/* ── 사회 관계 (사상·동료·대립) ── */}
+        {view.hasSocial && (
+          <div className="space-y-4">
+            {subHeading(t("relSubSocial"))}
+            {view.socialCounts.size > 1 && (
+              <div className="flex justify-center gap-2 flex-wrap">
+                {socialFilters.map((f) => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => setFilter(f)}
+                    className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                      filter === f
+                        ? "border-accent/60 text-accent bg-accent/10"
+                        : "border-white/10 text-text-tertiary hover:border-accent/30 hover:text-text-secondary"
+                    }`}
+                  >
+                    {t(`relFilter_${f}`)}
+                    <span className="ml-1 font-mono text-[10px] opacity-70">
+                      {f === "all"
+                        ? [...view.socialCounts.values()].reduce((a, b) => a + b, 0)
+                        : view.socialCounts.get(f)}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {view.bands.up.length > 0 && (
+              <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mb-10">
+                {view.bands.up.map((p) => nodeCard(p))}
+              </div>
+            )}
+            <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
+              {view.bands.sideL.length > 0 && (
+                <div className="flex flex-wrap justify-end gap-x-2 gap-y-3 flex-1 max-w-[38%]">
+                  {view.bands.sideL.map((p) => nodeCard(p, "sm"))}
+                </div>
+              )}
+              {selfNode(hubRef)}
+              {view.bands.sideR.length > 0 && (
+                <div className="flex flex-wrap justify-start gap-x-2 gap-y-3 flex-1 max-w-[38%]">
+                  {view.bands.sideR.map((p) => nodeCard(p, "sm"))}
                 </div>
               )}
             </div>
-            <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
-          </div>
-
-          {bands.sideR.length > 0 && (
-            <div className="flex flex-wrap justify-start gap-x-2 gap-y-3 flex-1 max-w-[38%]">
-              {bands.sideR.map((p) => nodeCard(p, "sm"))}
-            </div>
-          )}
-        </div>
-
-        {bands.down.length > 0 && (
-          <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mt-10 md:mt-12">
-            {bands.down.map((p) => nodeCard(p))}
+            {view.bands.down.length > 0 && (
+              <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mt-10">
+                {view.bands.down.map((p) => nodeCard(p))}
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* 띠에 못 올린 인원 — 접이식 목록 */}
-      {overflow.length > 0 && (
+      {/* 줄에 못 올린 인원 — 접이식 목록 */}
+      {view.overflow.length > 0 && (
         <div className="space-y-3">
           <div className="flex justify-center">
             <button
@@ -405,38 +468,23 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               onClick={() => setExpanded((v) => !v)}
               className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
             >
-              {expanded ? t("hideDetail") : `+${overflow.length}`}
+              {expanded ? t("hideDetail") : `+${view.overflow.length}`}
             </button>
           </div>
           {expanded && (
             <div className="flex gap-3 flex-wrap justify-center animate-fade-in">
-              {overflow.map((p) => {
+              {view.overflow.map((p) => {
                 const chip = (
                   <>
                     <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
                       {p.avatar_url ? (
                         <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
-                      ) : p.slug ? (
-                        <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">
-                          {p.name.charAt(0)}
-                        </div>
                       ) : (
-                        (() => {
-                          const v = typeVisual(p.types);
-                          return (
-                            <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
-                              <v.Icon size={13} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
-                            </div>
-                          );
-                        })()
+                        <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">{p.name.charAt(0)}</div>
                       )}
                     </div>
-                    <span className={`text-xs font-serif ${p.slug ? "text-text-primary group-hover:text-accent transition-colors" : "text-text-secondary"}`}>
-                      {p.name}
-                    </span>
-                    <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>
-                      {label(p)}
-                    </span>
+                    <span className={`text-xs font-serif ${p.slug ? "text-text-primary group-hover:text-accent transition-colors" : "text-text-secondary"}`}>{p.name}</span>
+                    <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>{label(p)}</span>
                   </>
                 );
                 if (!p.slug) {
