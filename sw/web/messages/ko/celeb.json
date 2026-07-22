@@ -28,6 +28,8 @@
     "virtualMonologueMachineNote": "브라우저에서 자동 번역한 글입니다.",
     "spotlight": "소속 스포트라이트",
     "relationGraph": "인물 관계망",
+    "relSubFamily": "가계",
+    "relSubSocial": "사상 · 동료 · 대립",
     "relationGraphNote": "혈연·사제·영향 관계는 위키데이터에 기록된 사실을 기준으로 합니다.",
     "relFilter_all": "전체",
     "relFilter_family": "혈연",
