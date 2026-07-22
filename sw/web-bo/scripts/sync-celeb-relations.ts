@@ -163,7 +163,7 @@ async function run() {
   const propList = Object.keys(PROPS).map((p) => `wdt:${p}`).join(' ')
   const allValues = qids.map((q) => `wd:${q}`).join(' ')
   const triples: { a: string; p: string; b: string }[] = []
-  const cofounder: { a: string; b: string }[] = []
+  const cofounder: { a: string; b: string; org?: string }[] = []
   for (let i = 0; i < qids.length; i += BATCH) {
     const values = qids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
     const q = `SELECT ?a ?p ?b WHERE { VALUES ?a { ${values} } VALUES ?p { ${propList} } ?a ?p ?b . FILTER(isIRI(?b)) }`
@@ -171,9 +171,18 @@ async function run() {
     await sleep(SLEEP_MS)
     // 현대 인물의 관계는 가족이 아니라 조직에 있다 — 같은 조직을 공동 창업한 쌍(P112 founded by)을
     // 조직을 매개로 잇는다. 위키데이터 사실이므로 창작이 아니다. (페이팔: 머스크·틸 / 구글: 페이지·브린)
-    const cq = `SELECT ?a ?b WHERE { VALUES ?a { ${values} } VALUES ?b { ${allValues} } ?org wdt:P112 ?a . ?org wdt:P112 ?b . FILTER(?a != ?b) }`
-    const co = await sparql(cq)
-    cofounder.push(...co.map((r) => ({ a: r.a, b: r.b })))
+    // 조직 이름도 함께 받아 근거(note)로 남긴다 — "공동 창업"만으로는 어느 회사인지 화면이 말하지 못한다.
+    const cq = `SELECT ?a ?b ?ko ?en WHERE { VALUES ?a { ${values} } VALUES ?b { ${allValues} }
+      ?org wdt:P112 ?a . ?org wdt:P112 ?b . FILTER(?a != ?b)
+      OPTIONAL { ?org rdfs:label ?ko . FILTER(lang(?ko)='ko') }
+      OPTIONAL { ?org rdfs:label ?en . FILTER(lang(?en)='en') } }`
+    for (const r of await wdqsFetch(cq)) {
+      cofounder.push({
+        a: r.a.value.split('/').pop()!,
+        b: r.b.value.split('/').pop()!,
+        org: r.ko?.value ?? r.en?.value,
+      })
+    }
     console.log(`  조회 ${Math.min(i + BATCH, qids.length)}/${qids.length} (관계 ${triples.length} · 공동창업 ${cofounder.length})`)
     if (i + BATCH < qids.length) await sleep(SLEEP_MS)
   }
@@ -217,7 +226,7 @@ async function run() {
     return l && (l.ko || l.en)
   })
 
-  type Edge = { from: string; to: string; type: string; group: Group }
+  type Edge = { from: string; to: string; type: string; group: Group; note?: string }
   const edgeKey = (e: Edge) => `${e.from}|${e.to}|${e.type}`
   const edges = new Map<string, Edge>()
   const addEdge = (e: Edge) => { if (!edges.has(edgeKey(e))) edges.set(edgeKey(e), e) }
@@ -244,14 +253,29 @@ async function run() {
     if (edges.has(`${e.from}|${e.to}|teacher`) || edges.has(`${e.from}|${e.to}|student`)) edges.delete(edgeKey(e))
   }
 
-  // 공동 창업 간선 — 이미 더 가까운 관계(가족·사제)가 있는 쌍에는 얹지 않는다
+  // 공동 창업 간선 — 이미 더 가까운 관계(가족·사제)가 있는 쌍에는 얹지 않는다.
+  // 같은 쌍이 여러 회사를 함께 세웠으면 조직 이름을 병기한다(머스크·틸: 페이팔 + OpenAI 후원 등).
+  const orgOf = new Map<string, Set<string>>()
+  for (const c of cofounder) {
+    if (!c.org) continue
+    const key = [c.a, c.b].sort().join('|')
+    const set = orgOf.get(key) ?? new Set<string>()
+    set.add(c.org)
+    orgOf.set(key, set)
+  }
+  const seenPairs = new Set<string>()
   for (const c of cofounder) {
     const A = byQid.get(c.a), B = byQid.get(c.b)
     if (!A || !B || A.id === B.id) continue
+    const pairKey = [c.a, c.b].sort().join('|')
+    if (seenPairs.has(pairKey)) continue
+    seenPairs.add(pairKey)
     const hasCloser = [...edges.values()].some((e) => e.from === A.id && e.to === B.id)
     if (hasCloser) continue
-    addEdge({ from: A.id, to: B.id, type: 'cofounder', group: 'career' })
-    addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career' })
+    const orgs = [...(orgOf.get(pairKey) ?? [])].slice(0, 3).join(' · ')
+    const note = orgs ? `${orgs} 공동 창업` : undefined
+    addEdge({ from: A.id, to: B.id, type: 'cofounder', group: 'career', note })
+    addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career', note })
   }
 
   const final = [...edges.values()]
@@ -286,6 +310,7 @@ async function run() {
   for (let i = 0; i < final.length; i += 500) {
     const chunk = final.slice(i, i + 500).map((e) => ({
       from_id: e.from, to_id: e.to, rel_type: e.type, rel_group: e.group, source: 'wikidata',
+      note: e.note ?? null,
     }))
     const { error } = await supabase.from('celeb_relations')
       .upsert(chunk, { onConflict: 'from_id,to_id,rel_type', ignoreDuplicates: true })
