@@ -326,7 +326,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   };
 
   const avatarCircle = (p: PersonNode, sizeClass: string, iconSize: number) => (
-    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg bg-bg-primary`}>
+    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg`}>
       <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10" : "border-dashed border-white/15"}`}>
         {p.avatar_url ? (
           <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110" unoptimized />
@@ -348,16 +348,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => {
     const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
-    const inner = (
-      <>
-        {avatarCircle(p, size === "md" ? "w-11 h-11 md:w-14 md:h-14" : "w-10 h-10 md:w-12 md:h-12", size === "md" ? 20 : 17)}
-        <span className={`block text-[11px] font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent transition-colors font-bold" : "text-text-secondary"}`}>
-          {p.name}
-        </span>
-        <span className="block text-[10px] font-medium leading-tight text-center" style={{ color: GROUP_COLOR[p.group] }}>
-          {label(p)}
-        </span>
-      </>
+    // 글씨는 노드 밖에 두지 않는다 — 작아서 안 읽힌다. 이름·사연은 클릭 카드가 보여준다.
+    const inner = avatarCircle(
+      p,
+      size === "md" ? "w-12 h-12 md:w-16 md:h-16" : "w-11 h-11 md:w-14 md:h-14",
+      size === "md" ? 22 : 19,
     );
     // 클릭 = 이동이 아니라 상세 카드 열기. 명단 밖 인물도 카드는 열린다(이동 단추만 다르다).
     return (
@@ -375,9 +370,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   };
 
-  /** 본인 노드 — 가계도와 사회 허브 양쪽에 선다 */
+  /** 본인 노드 — 가계도와 사회 허브 양쪽에 선다. 글씨 없이 강조 테두리로만 구분한다 */
   const selfNode = (ref: React.RefObject<HTMLDivElement | null>) => (
-    <div ref={ref} className="relative z-10 flex flex-col items-center gap-1 shrink-0">
+    <div ref={ref} className="relative z-10 flex flex-col items-center shrink-0" aria-label={centerName}>
       <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
         {centerAvatarUrl ? (
           <Image src={centerAvatarUrl} alt={centerName} width={80} height={80} className="w-full h-full object-cover" unoptimized />
@@ -385,7 +380,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">{centerName.charAt(0)}</div>
         )}
       </div>
-      <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
     </div>
   );
 
@@ -545,35 +539,36 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       {/* 인물 상세 카드 — 관계 사연·기본 정보·이동. 노드가 작아 안 보이는 것을 여기서 크게 보여준다 */}
       {selected && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
           role="dialog"
           aria-modal="true"
           aria-label={selected.name}
           onClick={() => setSelected(null)}
         >
+          {/* 바탕은 완전 불투명(#0a0a0a) — 뒤 화면이 비치면 글이 안 읽힌다 */}
           <div
-            className="w-full max-w-sm rounded-lg border border-accent-dim/40 bg-bg-primary shadow-2xl p-5 space-y-4"
+            className="w-full max-w-md rounded-xl border border-accent/25 bg-bg-secondary shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-6 space-y-5"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0 ring-1 ring-accent/30">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-20 h-20 rounded-full overflow-hidden bg-black/40 flex-shrink-0 ring-2 ring-accent/40 shadow-lg">
                   {selected.avatar_url ? (
-                    <Image src={selected.avatar_url} alt={selected.name} width={64} height={64} className="object-cover w-full h-full" unoptimized />
+                    <Image src={selected.avatar_url} alt={selected.name} width={80} height={80} className="object-cover w-full h-full" unoptimized />
                   ) : (
                     (() => {
                       const v = typeVisual(selected.types);
                       return (
                         <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
-                          <v.Icon size={26} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+                          <v.Icon size={32} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
                         </div>
                       );
                     })()
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="font-serif font-bold text-base text-text-primary break-keep">{selected.name}</p>
-                  <p className="text-xs font-medium mt-0.5" style={{ color: GROUP_COLOR[selected.group] }}>
+                  <p className="font-serif font-bold text-lg md:text-xl text-text-primary break-keep leading-tight">{selected.name}</p>
+                  <p className="text-sm font-semibold mt-1" style={{ color: GROUP_COLOR[selected.group] }}>
                     {selected.types.map((ty) => t(`relType_${ty}`)).join(" · ")}
                   </p>
                 </div>
@@ -581,30 +576,33 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="p-1 rounded text-text-tertiary hover:text-accent transition-colors"
+                className="p-1.5 -mt-1 -mr-1 rounded-full text-text-tertiary hover:text-accent hover:bg-white/5 transition-colors"
                 aria-label={t("hideDetail")}
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
             {/* 관계 사연 — 맞수의 근거, 공동 창업 조직 */}
             {selected.note && (
-              <p className="text-sm text-text-secondary leading-relaxed break-keep border-l-2 pl-3" style={{ borderColor: GROUP_COLOR[selected.group] }}>
+              <p
+                className="text-[15px] text-text-primary/90 leading-relaxed break-keep border-l-[3px] pl-4 py-1 rounded-r bg-white/[0.03]"
+                style={{ borderColor: GROUP_COLOR[selected.group] }}
+              >
                 {selected.note}
               </p>
             )}
 
             {/* 기본 정보 */}
-            <div className="flex items-center gap-2 text-xs text-text-tertiary flex-wrap">
-              {selected.profession && <span className="text-accent/80 font-medium">{tp(selected.profession)}</span>}
+            <div className="flex items-center gap-x-3 gap-y-1 text-sm text-text-secondary flex-wrap">
+              {selected.profession && <span className="text-accent font-medium">{tp(selected.profession)}</span>}
               {selected.nationality && <span>{getCountryNameByLocale(selected.nationality, locale)}</span>}
               {selected.birth_date && (
-                <span className="font-mono">
+                <span className="font-mono text-text-tertiary">
                   {formatYear(selected.birth_date)}–{selected.death_date ? formatYear(selected.death_date) : ""}
                 </span>
               )}
-              {!selected.slug && <span>{t("relExternalNote")}</span>}
+              {!selected.slug && <span className="text-text-tertiary">{t("relExternalNote")}</span>}
             </div>
 
             {/* 이동 — 셀럽은 인물 페이지, 명단 밖 인물은 위키데이터 원본 */}
@@ -612,7 +610,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <button
                 type="button"
                 onClick={() => router.push(`/${locale}/celeb/${selected.slug}`)}
-                className="w-full py-2 text-sm rounded border border-accent/40 text-accent hover:bg-accent/10 transition-colors"
+                className="w-full py-2.5 text-sm font-medium rounded-lg border border-accent/50 text-accent hover:bg-accent/15 transition-colors"
               >
                 {t("relGoToProfile")}
               </button>
@@ -621,10 +619,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 href={`https://www.wikidata.org/wiki/${selected.qid}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2 text-sm rounded border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent transition-colors flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 text-sm font-medium rounded-lg border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent transition-colors flex items-center justify-center gap-1.5"
               >
                 {t("relViewWikidata")}
-                <ExternalLink size={13} />
+                <ExternalLink size={14} />
               </a>
             ) : null}
           </div>
