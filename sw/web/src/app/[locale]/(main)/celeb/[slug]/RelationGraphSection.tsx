@@ -65,6 +65,8 @@ interface PersonNode {
   types: string[];
   group: CelebRelationItem["relGroup"];
   note: string | null;
+  /** 관계 종류별 근거 원문 — 짧은 것(공동 창업 조직명)은 딱지에 직접 노출한다 */
+  notesByType: Record<string, string>;
 }
 
 interface Connector { d: string; color: string; dashed: boolean; opacity: number }
@@ -97,10 +99,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       if (cur) {
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
         if (r.note && cur.note !== r.note) cur.note = cur.note ? `${cur.note} / ${r.note}` : r.note;
+        if (r.note && !cur.notesByType[r.relType]) cur.notesByType[r.relType] = r.note;
       } else {
         map.set(r.id, {
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
           types: [r.relType], group: r.relGroup, note: r.note,
+          notesByType: r.note ? { [r.relType]: r.note } : {},
         });
       }
     }
@@ -152,7 +156,15 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     return { kinRows, kinIds, hasKin, bands, socialMeta, socialCounts, hasSocial, overflow: overflowAll };
   }, [people, filter]);
 
-  const label = (p: PersonNode) => p.types.map((ty) => t(`relType_${ty}`)).join(" · ");
+  // 짧은 근거(공동 창업 조직명)는 딱지에 직접 쓴다 — "공동 창업"이 아니라 "페이팔 공동 창업".
+  // 긴 근거(맞수의 사건 한 줄)는 딱지를 유지하고 호버 설명으로 남긴다.
+  const label = (p: PersonNode) =>
+    p.types
+      .map((ty) => {
+        const n = p.notesByType[ty];
+        return ty === "cofounder" && n && n.length <= 24 ? n : t(`relType_${ty}`);
+      })
+      .join(" · ");
 
   /** 요소의 컨테이너 기준 좌표 */
   const geoOf = useCallback((el: Element | null | undefined, box: DOMRect) => {
