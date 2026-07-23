@@ -69,8 +69,6 @@ export default function TrackerResult({
     profession,
     title: null,
     title_en: null,
-    cultural_journey: null,
-    cultural_journey_en: null,
     nationality: null,
     birth_date: null,
     death_date: null,
