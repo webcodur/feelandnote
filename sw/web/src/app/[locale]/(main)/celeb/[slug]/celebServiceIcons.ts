@@ -1,0 +1,32 @@
+import {
+  AudioLines,
+  BookOpen,
+  Brain,
+  Film,
+  Headphones,
+  MessageSquare,
+  Network,
+  PenLine,
+  Radar,
+  ScrollText,
+  Sparkles,
+  User,
+  Users,
+} from "lucide-react";
+
+export const CELEB_SERVICE_ICONS = {
+  introduction: User,
+  library: BookOpen,
+  works: PenLine,
+  relations: Network,
+  contemporaries: Users,
+  influence: Radar,
+  persona: Brain,
+  virtualMonologue: ScrollText,
+  dialogues: MessageSquare,
+  dialogueVoice: AudioLines,
+  virtualMonologueVoice: Headphones,
+  videos: Film,
+  spotlight: Sparkles,
+  guestbook: PenLine,
+} as const;

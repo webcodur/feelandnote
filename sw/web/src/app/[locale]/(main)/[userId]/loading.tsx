@@ -16,20 +16,6 @@ export default function Loading() {
         </div>
       </div>
 
-      {/* 감상 여정 섹션 스켈레톤 */}
-      <div className="rounded-xl border border-white/5 bg-bg-card/40 p-4 sm:p-6 md:p-8">
-        <div className="flex justify-center mb-6 sm:mb-8">
-          <div className="h-4 w-20 bg-white/5 rounded" />
-        </div>
-        <div className="max-w-3xl mx-auto space-y-3">
-          <div className="h-4 w-full bg-white/5 rounded" />
-          <div className="h-4 w-full bg-white/5 rounded" />
-          <div className="h-4 w-5/6 bg-white/5 rounded" />
-          <div className="h-4 w-full bg-white/5 rounded" />
-          <div className="h-4 w-3/4 bg-white/5 rounded" />
-        </div>
-      </div>
-
       {/* 방명록 섹션 스켈레톤 */}
       <div className="rounded-xl border border-white/5 bg-bg-card/40 p-4 sm:p-6 md:p-8">
         <div className="flex justify-center mb-6 sm:mb-8">

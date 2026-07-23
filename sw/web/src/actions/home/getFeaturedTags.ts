@@ -37,7 +37,38 @@ export interface FeaturedTag {
   isGroup?: boolean
 }
 
+export interface SpotlightPreviewMember {
+  id: string
+  slug: string | null
+  nickname: string
+  nicknameEn: string | null
+  avatarUrl: string | null
+  roleShort: string | null
+  roleShortEn: string | null
+}
+
+export interface SpotlightTagPreview {
+  tagId: string
+  teamImages: string[]
+  members: SpotlightPreviewMember[]
+}
+
 // --- 조회 행 타입 (select 문자열과 1:1 대응) ---
+
+interface SpotlightPreviewAssignmentRow {
+  tag_id: string
+  celeb_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+}
+
+interface SpotlightPreviewProfileRow {
+  id: string
+  slug: string | null
+  nickname: string
+  nickname_en: string | null
+  avatar_url: string | null
+}
 
 type TagAssignmentRow = Tables<'celeb_tag_assignments'>
 type ContentCountRow = Database['public']['Functions']['count_contents_by_users']['Returns'][number]
@@ -68,8 +99,6 @@ interface FeaturedProfileRow {
   title: string | null
   title_en: string | null
   profession: string | null
-  cultural_journey: string | null
-  cultural_journey_en: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -143,7 +172,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     // (여기서 빠진 셀럽은 profileMap에 없어 아래 조합 단계에서 자연히 걸러진다)
     supabase.from('profiles').select(`
       id, slug, nickname, nickname_en, avatar_url, title, title_en, profession,
-      cultural_journey, cultural_journey_en, nationality, birth_date, death_date,
+      nationality, birth_date, death_date,
       bio, bio_en, is_verified, claimed_by, speech_tone, has_voice, voice_v, voice_speed
     `).in('id', celebIdArray)
       .eq('status', 'active')
@@ -221,8 +250,6 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           title: c.title,
           title_en: c.title_en ?? null,
           profession: c.profession,
-          cultural_journey: c.cultural_journey,
-          cultural_journey_en: c.cultural_journey_en ?? null,
           nationality: c.nationality,
           birth_date: c.birth_date,
           death_date: c.death_date,
@@ -294,6 +321,92 @@ const getCachedFeaturedTags = unstable_cache(
     tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES],
   }
 )
+
+async function fetchSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTagPreview[]> {
+  const supabase = createStaticClient()
+  const [tagsResult, assignmentsResult] = await Promise.all([
+    supabase
+      .from('celeb_tags')
+      .select('id, team_images')
+      .in('id', tagIds),
+    supabase
+      .from('celeb_tag_assignments')
+      .select('tag_id, celeb_id, short_desc, short_desc_en')
+      .in('tag_id', tagIds)
+      .order('sort_order', { ascending: true })
+      .order('celeb_id', { ascending: true }),
+  ])
+
+  if (tagsResult.error) {
+    throw new Error(`Failed to load spotlight tags: ${tagsResult.error.message}`)
+  }
+  if (assignmentsResult.error) {
+    throw new Error(`Failed to load spotlight assignments: ${assignmentsResult.error.message}`)
+  }
+
+  const assignments = (assignmentsResult.data ?? []) as SpotlightPreviewAssignmentRow[]
+  const celebIds = [...new Set(assignments.map((assignment) => assignment.celeb_id))]
+  let profiles: SpotlightPreviewProfileRow[] = []
+
+  if (celebIds.length > 0) {
+    const profilesResult = await supabase
+      .from('profiles')
+      .select('id, slug, nickname, nickname_en, avatar_url')
+      .in('id', celebIds)
+      .eq('status', 'active')
+
+    if (profilesResult.error) {
+      throw new Error(`Failed to load spotlight members: ${profilesResult.error.message}`)
+    }
+    profiles = (profilesResult.data ?? []) as SpotlightPreviewProfileRow[]
+  }
+
+  const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
+  const assignmentsByTag = new Map<string, SpotlightPreviewAssignmentRow[]>()
+
+  for (const assignment of assignments) {
+    const current = assignmentsByTag.get(assignment.tag_id) ?? []
+    current.push(assignment)
+    assignmentsByTag.set(assignment.tag_id, current)
+  }
+
+  const teamImagesByTag = new Map(
+    (tagsResult.data ?? []).map((tag) => [tag.id, toImageArray(tag.team_images)]),
+  )
+
+  return tagIds.map((tagId) => ({
+    tagId,
+    teamImages: teamImagesByTag.get(tagId) ?? [],
+    members: (assignmentsByTag.get(tagId) ?? []).flatMap((assignment) => {
+      const profile = profileById.get(assignment.celeb_id)
+      if (!profile) return []
+
+      return [{
+        id: profile.id,
+        slug: profile.slug,
+        nickname: profile.nickname,
+        nicknameEn: profile.nickname_en,
+        avatarUrl: profile.avatar_url,
+        roleShort: assignment.short_desc,
+        roleShortEn: assignment.short_desc_en,
+      }]
+    }),
+  }))
+}
+
+const getCachedSpotlightTagPreviews = unstable_cache(
+  fetchSpotlightTagPreviews,
+  ['spotlight-tag-previews'],
+  {
+    revalidate: STATIC_REVALIDATE,
+    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
+  },
+)
+
+export async function getSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTagPreview[]> {
+  if (tagIds.length === 0) return []
+  return getCachedSpotlightTagPreviews([...new Set(tagIds)].sort())
+}
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   const cachedTags = await getCachedFeaturedTags()

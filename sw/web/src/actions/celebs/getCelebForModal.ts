@@ -14,7 +14,7 @@ import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dia
 type ProfileModalRow = Pick<
   Tables<'profiles'>,
   | 'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession'
-  | 'title' | 'title_en' | 'cultural_journey' | 'cultural_journey_en'
+  | 'title' | 'title_en'
   | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
   | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
 >
@@ -33,10 +33,10 @@ interface CelebModalPublicData {
 async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicData | null> {
   const supabase = createStaticClient()
 
-  // 프로필 조회 (CelebProfile에 매핑되는 필드만 — bio/cultural_journey 등 대형 TEXT 포함하지만 모두 UI에서 사용됨)
+  // 프로필 조회 (인물 미리보기에 필요한 필드만)
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier')
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -133,8 +133,6 @@ export async function getCelebForModal(celebId: string): Promise<CelebProfile | 
     profession: profile.profession,
     title: profile.title,
     title_en: profile.title_en ?? null,
-    cultural_journey: profile.cultural_journey,
-    cultural_journey_en: profile.cultural_journey_en ?? null,
     nationality: profile.nationality,
     birth_date: profile.birth_date,
     death_date: profile.death_date,

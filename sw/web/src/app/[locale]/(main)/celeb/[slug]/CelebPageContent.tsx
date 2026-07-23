@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useCallback, useRef } from "react";
+import { type ReactNode, useCallback } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
@@ -10,19 +10,25 @@ import {
   useDialogueSubtitle,
 } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
-import { type PublicUserProfile } from "@/actions/user";
-import { type SpotlightTagItem, type CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import { type CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
+import { type SpotlightTagPreview } from "@/actions/home/getFeaturedTags";
+import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
-import { DecorativeLabel, FormattedText } from "@/components/ui";
+import { FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import ShareButtons from "@/components/ui/ShareButtons";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
 import LibraryTabs from "./LibraryTabs";
+import CelebServiceNavigator, {
+  type CelebServiceAvailability,
+  type ServiceTarget,
+} from "./CelebServiceNavigator";
+import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
 import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
@@ -31,18 +37,23 @@ import SpotlightSection from "./SpotlightSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 import VirtualMonologueSection from "./VirtualMonologueSection";
 import RelationGraphSection from "./RelationGraphSection";
+import CelebInfluenceSection from "./CelebInfluenceSection";
+import CelebSectionHeading from "./CelebSectionHeading";
+import { CELEB_SERVICE_CHAPTERS } from "./celebSectionChapters";
 
 interface CelebPageContentProps {
-  profile: PublicUserProfile & { spotlightTags: SpotlightTagItem[]; relations: CelebRelationItem[] };
+  profile: CelebBySlugProfile;
   slug: string;
   shareTitle: string;
   userId: string;
+  influenceData: CelebInfluenceDetail | null;
   personaData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
+  spotlightPreviews: SpotlightTagPreview[];
   /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
   initialContents: GetUserContentsResponse;
 }
@@ -53,6 +64,9 @@ const formatYear = (year: string | null | undefined) => {
   if (isNaN(num)) return year;
   return num < 0 ? `BC ${Math.abs(num)}` : `${num}`;
 };
+
+const SECTION_CLASS_NAME =
+  "animate-fade-in max-w-3xl mx-auto space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none";
 
 /* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ──
    주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
@@ -79,12 +93,14 @@ export default function CelebPageContent({
   slug,
   shareTitle,
   userId,
+  influenceData,
   personaData,
   guestbookEntries,
   guestbookTotal,
   greeting,
   dialogueLines,
   contemporaries,
+  spotlightPreviews,
   initialContents,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
@@ -105,10 +121,8 @@ export default function CelebPageContent({
   const nickname = profile.nickname;
   const wikidataQid = profile.wikidata_qid ?? null;
   const celebTier = profile.celeb_tier ?? 'full';
-  // 신화·관계 인물은 감상 기록·감상 여정·창작물이 없다. 빈 서가를 띄우지 않는다.
-  const showLibrary = celebTier !== 'fiction' && celebTier !== 'relation';
-
-  const celebForGreeting = { ...profile, greeting, nickname };
+  // full 등급만 감상 기록 기반 서가를 제공한다.
+  const showLibrary = celebTier === 'full';
 
   /* ── 유튜브 영상: 현재 locale에 맞춰 longform/shorts 분리 ── */
   const youtubeVideos = profile.youtube_videos ?? {};
@@ -126,20 +140,57 @@ export default function CelebPageContent({
     })
     .map(([, v]) => ({ videoId: v.videoId }));
   const hasAnyVideo = longform.length > 0 || shorts.length > 0;
+  const hasDialogues = !!dialogueLines && Object.keys(dialogueLines).length > 0;
+  const serviceAvailability: CelebServiceAvailability = {
+    relations: profile.relations.length > 0,
+    contemporaries: contemporaries.length > 0,
+    spotlight: profile.spotlightTags.length > 0,
+    videos: hasAnyVideo,
+    virtualMonologue: !!profile.virtual_monologue,
+    dialogues: hasDialogues,
+    dialogueVoice: hasDialogues && hasVoice,
+    // 기존 monologue.mp3는 고유 대사의 짧은 독백이며 가상 독백 전문 낭독이 아니다.
+    virtualMonologueVoice: false,
+    influence: !!influenceData,
+    persona: !!personaData?.targetPersona,
+  };
 
   const handleAvatarClick = useCallback(() => {
-    fireGreeting(celebForGreeting);
-  }, [fireGreeting, celebForGreeting]);
+    fireGreeting({ ...profile, greeting, nickname });
+  }, [fireGreeting, greeting, nickname, profile]);
 
   const handleQuotePlay = useCallback(() => {
-    fireQuote(celebForGreeting);
-  }, [fireQuote, celebForGreeting]);
+    fireQuote({ ...profile, greeting, nickname });
+  }, [fireQuote, greeting, nickname, profile]);
+
+  const handleServiceNavigate = useCallback((target: ServiceTarget) => {
+    window.history.replaceState(null, "", `#${target.sectionId}`);
+    window.requestAnimationFrame(() => {
+      const section = document.getElementById(target.sectionId);
+      if (!section) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      section.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+      section.focus({ preventScroll: true });
+    });
+  }, []);
 
   return (
     <div className="space-y-10 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
-      <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-        <DecorativeLabel label={t("intro")} />
+      <section
+        id="introduction"
+        tabIndex={-1}
+        className={SECTION_CLASS_NAME}
+      >
+        <CelebSectionHeading
+          chapter={CELEB_SERVICE_CHAPTERS.introduction}
+          label={t("intro")}
+          icon={CELEB_SERVICE_ICONS.introduction}
+        />
 
         {/* 모바일: 세로 스택 */}
         <div className="md:hidden">
@@ -282,16 +333,47 @@ export default function CelebPageContent({
           </div>
         </ClassicalBox>
 
+        <CelebServiceNavigator
+          tier={celebTier}
+          showLibrary={showLibrary}
+          availability={serviceAvailability}
+          onNavigate={handleServiceNavigate}
+        />
+
         {/* SNS 공유 */}
         <div className="flex justify-end">
           <ShareButtons title={shareTitle} path={`/celeb/${slug}`} />
         </div>
       </section>
 
+      {/* 기록 서가 (감상 기록 / 창작물) */}
+      {showLibrary && (
+        <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.library}
+            label={t("library")}
+            icon={CELEB_SERVICE_ICONS.library}
+          />
+          <SectionWrap>
+            <LibraryTabs
+              userId={userId}
+              nickname={nickname}
+              emptyMessage={t("libraryEmpty")}
+              wikidataQid={wikidataQid}
+              initialContents={initialContents}
+            />
+          </SectionWrap>
+        </section>
+      )}
+
       {/* 인물 관계망 — 위키데이터 사실 관계(혈연·사상·대립). 관계가 없으면 섹션 자체를 띄우지 않는다 */}
       {profile.relations.length > 0 && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("relationGraph")} />
+        <section id="relations" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.relations}
+            label={t("relationGraph")}
+            icon={CELEB_SERVICE_ICONS.relations}
+          />
           <SectionWrap>
             <RelationGraphSection
               centerName={nickname}
@@ -304,47 +386,45 @@ export default function CelebPageContent({
 
       {/* 동시대 인물 */}
       {contemporaries.length > 0 && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("contemporaries")} />
+        <section id="contemporaries" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.contemporaries}
+            label={t("contemporaries")}
+            icon={CELEB_SERVICE_ICONS.contemporaries}
+          />
           <SectionWrap>
             <ContemporariesSection contemporaries={contemporaries} />
           </SectionWrap>
         </section>
       )}
 
-      {/* 소속 스포트라이트 */}
-      {profile.spotlightTags.length > 0 && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("spotlight")} />
+      {/* 영향력 */}
+      {influenceData && (
+        <section id="influence" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.influence}
+            label={t("influence")}
+            icon={CELEB_SERVICE_ICONS.influence}
+          />
           <SectionWrap>
-            <SpotlightSection tags={profile.spotlightTags} />
+            <CelebInfluenceSection data={influenceData} />
           </SectionWrap>
         </section>
       )}
 
-      {/* 영상 (롱폼 + 쇼츠) */}
-      {hasAnyVideo && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("videos")} />
+      {/* 인물 분석 */}
+      {personaData?.targetPersona && (
+        <section id="persona" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.persona}
+            label={t("analysis")}
+            icon={CELEB_SERVICE_ICONS.persona}
+          />
           <SectionWrap>
-            <VideosSection longform={longform} shorts={shorts} />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 기록 서가 (감상 기록 / 감상 여정 / 창작물) */}
-      {showLibrary && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("library")} />
-          <SectionWrap>
-            <LibraryTabs
-              userId={userId}
-              nickname={nickname}
-              emptyMessage={t("libraryEmpty")}
-              wikidataQid={wikidataQid}
-              culturalJourney={profile.cultural_journey}
-              celebTier={celebTier}
-              initialContents={initialContents}
+            <PersonaSection
+              persona={personaData.targetPersona}
+              personaJsonb={personaData.targetPersonaJsonb}
+              similarCelebs={personaData.similarCelebs}
             />
           </SectionWrap>
         </section>
@@ -352,8 +432,12 @@ export default function CelebPageContent({
 
       {/* 가상 독백 — 영어 화면에서는 영문본을 싣는다. 영문본이 아직 없는 인물만 브라우저 내장 번역 버튼을 곁들인다 */}
       {profile.virtual_monologue && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("virtualMonologue")} />
+        <section id="virtual-monologue" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.virtualMonologue}
+            label={t("virtualMonologue")}
+            icon={CELEB_SERVICE_ICONS.virtualMonologue}
+          />
           <SectionWrap>
             <VirtualMonologueSection
               text={profile.virtual_monologue}
@@ -364,9 +448,13 @@ export default function CelebPageContent({
       )}
 
       {/* 고유 대사 */}
-      {dialogueLines && Object.keys(dialogueLines).length > 0 && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("dialogues")} />
+      {hasDialogues && dialogueLines && (
+        <section id="dialogues" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.dialogues}
+            label={t("dialogues")}
+            icon={CELEB_SERVICE_ICONS.dialogues}
+          />
           <SectionWrap>
             <DialogueSection
               lines={dialogueLines}
@@ -381,23 +469,45 @@ export default function CelebPageContent({
         </section>
       )}
 
-      {/* 인물 분석 */}
-      {personaData?.targetPersona && (
-        <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-          <DecorativeLabel label={t("analysis")} />
+      {/* 영상 (롱폼 + 쇼츠) */}
+      {hasAnyVideo && (
+        <section id="videos" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.videos}
+            label={t("videos")}
+            icon={CELEB_SERVICE_ICONS.videos}
+          />
           <SectionWrap>
-            <PersonaSection
-              persona={personaData.targetPersona}
-              personaJsonb={personaData.targetPersonaJsonb}
-              similarCelebs={personaData.similarCelebs}
+            <VideosSection longform={longform} shorts={shorts} />
+          </SectionWrap>
+        </section>
+      )}
+
+      {/* 소속 스포트라이트 */}
+      {profile.spotlightTags.length > 0 && (
+        <section id="spotlight" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.spotlight}
+            label={t("spotlight")}
+            icon={CELEB_SERVICE_ICONS.spotlight}
+          />
+          <SectionWrap>
+            <SpotlightSection
+              tags={profile.spotlightTags}
+              previews={spotlightPreviews}
+              currentCelebId={profile.id}
             />
           </SectionWrap>
         </section>
       )}
 
       {/* 방명록 */}
-      <section className="animate-fade-in max-w-3xl mx-auto space-y-4">
-        <DecorativeLabel label={t("guestbook")} />
+      <section id="guestbook" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        <CelebSectionHeading
+          chapter={CELEB_SERVICE_CHAPTERS.guestbook}
+          label={t("guestbook")}
+          icon={CELEB_SERVICE_ICONS.guestbook}
+        />
         <SectionWrap>
           <GuestbookContent
             profileId={userId}

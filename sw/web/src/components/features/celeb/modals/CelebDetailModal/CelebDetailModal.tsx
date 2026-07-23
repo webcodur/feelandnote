@@ -23,7 +23,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 import { CelebReviewCard } from "./sections/CelebReviewCard";
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, context, hideBirthDate = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tProf = useTranslations("profession");
   const locale = useLocale();
@@ -33,7 +33,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
-  const displayJourney = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
 
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
@@ -224,6 +223,29 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
     );
   };
 
+  const ContextBanner = () => {
+    if (!context) return null;
+
+    return (
+      <div
+        className="mx-4 mt-4 border-l-2 bg-white/[0.035] px-3.5 py-3 text-left md:mx-6"
+        style={{ borderColor: context.color ?? "var(--color-accent)" }}
+      >
+        <p
+          className="text-[11px] font-bold tracking-wide"
+          style={{ color: context.color ?? "var(--color-accent)" }}
+        >
+          {context.label}
+        </p>
+        {context.description && (
+          <p className="mt-1 text-xs leading-relaxed text-text-secondary">
+            {context.description}
+          </p>
+        )}
+      </div>
+    );
+  };
+
   const ReviewView = () => {
     const filteredReviews = categoryFilter
       ? reviews.filter(r => r.content.type === categoryFilter)
@@ -247,6 +269,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             <ArrowLeft size={14} className="rotate-180" />
           </button>
         </div>
+
+        <ContextBanner />
 
         {/* 타입별 개수 요약 (클릭 시 필터) */}
         <ContentTypeSummary
@@ -304,6 +328,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         </button>
       </div>
 
+      <ContextBanner />
+
       {/* Avatar + 이름 + 메타 */}
       <div className="flex flex-col items-center px-6 pb-4 shrink-0">
         <Avatar
@@ -343,21 +369,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           <p className="text-xs md:text-sm text-text-secondary leading-relaxed text-left break-all">
             <User size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
             <FormattedText text={displayBio} />
-          </p>
-        </div>
-      )}
-
-      {/* 구분선 */}
-      {(displayBio || displayQuotes) && displayJourney && (
-        <div className="w-full h-px bg-accent/20 my-2 mx-auto max-w-[calc(100%-3rem)]" />
-      )}
-
-      {/* 감상 여정 */}
-      {displayJourney && (
-        <div className="px-6 md:px-8 pt-4 pb-2">
-          <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">
-            <Feather size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={displayJourney} />
           </p>
         </div>
       )}

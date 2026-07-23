@@ -1,97 +1,193 @@
 "use client";
 
+import { useCallback, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { useLocale } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { ArrowRight } from "lucide-react";
+import type { SpotlightTagPreview } from "@/actions/home/getFeaturedTags";
 import type { SpotlightTagItem } from "@/actions/user/getCelebBySlug";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
+import SpotlightPreviewModal from "./SpotlightPreviewModal";
+import { useCelebPreview } from "./useCelebPreview";
 
 interface SpotlightSectionProps {
   tags: SpotlightTagItem[];
+  previews: SpotlightTagPreview[];
+  currentCelebId: string;
 }
 
-export default function SpotlightSection({ tags }: SpotlightSectionProps) {
+export default function SpotlightSection({
+  tags,
+  previews,
+  currentCelebId,
+}: SpotlightSectionProps) {
   const locale = useLocale();
+  const t = useTranslations("celebPage");
   const isEn = locale === "en";
+  const [selectedTag, setSelectedTag] = useState<SpotlightTagItem | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const {
+    celeb: previewCeleb,
+    loadingId: loadingMemberId,
+    openCelebPreview,
+    closeCelebPreview,
+  } = useCelebPreview();
+  const previewByTag = useMemo(
+    () => new Map(previews.map((preview) => [preview.tagId, preview])),
+    [previews],
+  );
 
   const resolveName = (tag: SpotlightTagItem) =>
     isEn && tag.name_en ? tag.name_en : tag.name;
   const resolve = (en: string | null, ko: string | null) => (isEn && en ? en : ko);
 
+  const closePreview = useCallback(() => {
+    closeCelebPreview();
+    setSelectedTag(null);
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [closeCelebPreview]);
+
+  const handleMemberSelect = useCallback(async (memberId: string) => {
+    const member = await openCelebPreview(memberId);
+    if (member) setSelectedTag(null);
+  }, [openCelebPreview]);
+
+  const closeMemberPreview = useCallback(() => {
+    closeCelebPreview();
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [closeCelebPreview]);
+
   return (
-    <div className="space-y-4">
-      {tags.map((tag) => {
-        const name = resolveName(tag);
-        const description = resolve(tag.description_en, tag.description);
-        const roleShort = resolve(tag.roleShortEn, tag.roleShort);
-        const roleLong = resolve(tag.roleLongEn, tag.roleLong);
+    <>
+      <div className="space-y-4">
+        {tags.map((tag) => {
+          const name = resolveName(tag);
+          const description = resolve(tag.description_en, tag.description);
+          const roleShort = resolve(tag.roleShortEn, tag.roleShort);
+          const roleLong = resolve(tag.roleLongEn, tag.roleLong);
+          const preview = previewByTag.get(tag.id);
 
-        return (
-          <div
-            key={tag.id}
-            className="flex flex-col sm:flex-row gap-4 p-4 rounded-[2px] border border-white/10"
-          >
-            {/* 화보 — 배정마다 있는 경우만 노출 */}
-            {tag.spotlightImageUrl && (
-              <Link
-                href={`/explore/spotlight/${tag.slug}`}
-                className="group relative aspect-[3/4] sm:w-[168px] flex-shrink-0 rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 hover:ring-accent/60"
-              >
-                {/* 배경: 흐린 확대 카피로 여백을 메운다 */}
-                <Image
-                  src={tag.spotlightImageUrl}
-                  alt=""
-                  fill
-                  unoptimized
-                  aria-hidden
-                  className="object-cover scale-110 blur-xl opacity-40"
-                />
-                <div className="absolute inset-0 bg-black/20" />
-                {/* 전경: 원본 비율 그대로 노출 */}
-                <Image
-                  src={tag.spotlightImageUrl}
-                  alt={name}
-                  fill
-                  unoptimized
-                  sizes="168px"
-                  className="object-contain transition-transform duration-500 group-hover:scale-105"
-                />
-              </Link>
-            )}
-
-            {/* 소속 정보 */}
-            <div className="flex-1 min-w-0 space-y-1.5">
-              <Link
-                href={`/explore/spotlight/${tag.slug}`}
-                style={{ "--tag-color": tag.color } as React.CSSProperties}
-                className="inline-flex items-center gap-1.5 text-text-primary hover:text-[color:var(--tag-color)]"
-              >
-                <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: tag.color }}
-                  aria-hidden
-                />
-                <span className="font-serif text-sm sm:text-base font-bold">{name}</span>
-              </Link>
-
-              {description && (
-                <p className="text-xs text-text-secondary line-clamp-2">{description}</p>
+          return (
+            <button
+              key={tag.id}
+              type="button"
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setSelectedTag(tag);
+              }}
+              style={{ "--tag-color": tag.color } as CSSProperties}
+              className="group flex w-full flex-col gap-4 rounded-[2px] border border-white/10 p-4 text-left hover:border-[color:var(--tag-color)] hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tag-color)] sm:flex-row"
+              aria-label={t("spotlightPreviewAria", { name })}
+            >
+              {tag.spotlightImageUrl && (
+                <div className="relative aspect-[3/4] w-full flex-shrink-0 overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 sm:w-[168px]">
+                  <Image
+                    src={tag.spotlightImageUrl}
+                    alt=""
+                    fill
+                    unoptimized
+                    aria-hidden
+                    className="object-cover scale-110 blur-xl opacity-40"
+                  />
+                  <div className="absolute inset-0 bg-black/20" />
+                  <Image
+                    src={tag.spotlightImageUrl}
+                    alt={name}
+                    fill
+                    unoptimized
+                    sizes="168px"
+                    className="object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
               )}
 
-              {roleShort && (
-                <p className="font-serif text-sm sm:text-base font-medium text-text-primary pt-1">
-                  {roleShort}
-                </p>
-              )}
+              <div className="flex min-w-0 flex-1 flex-col space-y-1.5">
+                <div className="inline-flex items-center gap-1.5 text-text-primary group-hover:text-[color:var(--tag-color)]">
+                  <span
+                    className="h-2 w-2 flex-shrink-0 rounded-full"
+                    style={{ backgroundColor: tag.color }}
+                    aria-hidden
+                  />
+                  <span className="font-serif text-sm font-bold sm:text-base">{name}</span>
+                </div>
 
-              {roleLong && (
-                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                  {roleLong}
-                </p>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
+                {description && (
+                  <p className="line-clamp-2 text-xs text-text-secondary">{description}</p>
+                )}
+                {roleShort && (
+                  <p className="pt-1 font-serif text-sm font-medium text-text-primary sm:text-base">
+                    {roleShort}
+                  </p>
+                )}
+                {roleLong && (
+                  <p className="text-xs leading-relaxed text-text-secondary sm:text-sm">
+                    {roleLong}
+                  </p>
+                )}
+
+                {preview && (preview.members.length > 0 || preview.teamImages.length > 0) && (
+                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/10 pt-3">
+                    {preview.members.length > 0 && (
+                      <div className="flex -space-x-2" aria-hidden>
+                        {preview.members.slice(0, 5).map((member) => (
+                          <div
+                            key={member.id}
+                            className="relative h-7 w-7 overflow-hidden rounded-full border-2 border-bg-main bg-bg-secondary"
+                          >
+                            {member.avatarUrl ? (
+                              <Image
+                                src={member.avatarUrl}
+                                alt=""
+                                fill
+                                unoptimized
+                                sizes="28px"
+                                className="object-cover"
+                              />
+                            ) : (
+                              <span className="flex h-full w-full items-center justify-center font-serif text-[9px] text-text-tertiary">
+                                {(isEn && member.nicknameEn ? member.nicknameEn : member.nickname).charAt(0)}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <span className="inline-flex items-center gap-1.5 text-[11px] text-text-tertiary">
+                      {preview.members.length > 0 && t("spotlightMemberCount", { count: preview.members.length })}
+                      {preview.members.length > 0 && preview.teamImages.length > 0 && <span aria-hidden>·</span>}
+                      {preview.teamImages.length > 0 && t("spotlightPhotoCount", { count: preview.teamImages.length })}
+                    </span>
+                  </div>
+                )}
+
+                <span className="mt-auto inline-flex items-center gap-1 self-start pt-2 text-xs font-medium text-text-tertiary group-hover:text-[color:var(--tag-color)]">
+                  {t("spotlightPreview")}
+                  <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {selectedTag && (
+        <SpotlightPreviewModal
+          tag={selectedTag}
+          preview={previewByTag.get(selectedTag.id)}
+          currentCelebId={currentCelebId}
+          loadingMemberId={loadingMemberId}
+          onMemberSelect={(memberId) => void handleMemberSelect(memberId)}
+          onClose={closePreview}
+        />
+      )}
+
+      {previewCeleb && (
+        <CelebDetailModal
+          celeb={previewCeleb}
+          isOpen
+          onClose={closeMemberPreview}
+        />
+      )}
+    </>
   );
 }

@@ -47,8 +47,6 @@ interface CelebRow {
   profession: string | null
   title: string | null
   title_en: string | null
-  cultural_journey: string | null
-  cultural_journey_en: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -260,8 +258,6 @@ export async function getCelebs(
       profession: row.profession,
       title: row.title,
       title_en: row.title_en ?? null,
-      cultural_journey: row.cultural_journey,
-      cultural_journey_en: row.cultural_journey_en ?? null,
       nationality: row.nationality,
       birth_date: row.birth_date,
       death_date: row.death_date,

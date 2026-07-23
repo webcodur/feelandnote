@@ -33,7 +33,6 @@ export interface PublicUserProfile {
   title: string | null
   title_en?: string | null
   title_ko?: string | null
-  cultural_journey: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null
@@ -71,7 +70,7 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
     .eq('id', userId)
     .single()
 
@@ -172,7 +171,6 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
-      cultural_journey: resolve(profile.cultural_journey_en, profile.cultural_journey),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,

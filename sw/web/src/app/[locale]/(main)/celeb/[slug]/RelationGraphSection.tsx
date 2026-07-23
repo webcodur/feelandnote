@@ -4,10 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Baby, ExternalLink, Handshake, Heart, Swords, User, Users, X, type LucideIcon } from "lucide-react";
+import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
+
+import { useCelebPreview } from "./useCelebPreview";
 
 /**
  * 인물 관계망 — 도표 두 장.
@@ -97,6 +100,13 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [expanded, setExpanded] = useState(false);
   const [connectors, setConnectors] = useState<Connector[]>([]);
+  const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
+  const {
+    celeb: previewCeleb,
+    loadingId,
+    openCelebPreview,
+    closeCelebPreview,
+  } = useCelebPreview();
   /** 클릭한 인물 — 상세 카드로 관계 사연·기본 정보·이동 단추를 보여준다 */
   const [selected, setSelected] = useState<PersonNode | null>(null);
 
@@ -183,6 +193,27 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       })
       .join(" · ");
 
+  const handlePersonSelect = async (person: PersonNode) => {
+    if (!person.slug) {
+      setSelected(person);
+      return;
+    }
+
+    setPreviewRelation(person);
+    const nextCeleb = await openCelebPreview(person.id);
+    if (!nextCeleb) {
+      setPreviewRelation(null);
+      setSelected(person);
+    }
+  };
+
+  const closePersonPreview = () => {
+    const personId = previewRelation?.id;
+    closeCelebPreview();
+    setPreviewRelation(null);
+    if (personId) requestAnimationFrame(() => nodeRefs.current.get(personId)?.focus());
+  };
+
   /** 요소의 컨테이너 기준 좌표 */
   const geoOf = useCallback((el: Element | null | undefined, box: DOMRect) => {
     if (!el) return null;
@@ -202,7 +233,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     if (!box) return;
     const next: Connector[] = [];
     const KIN = GROUP_COLOR.family;
-    const push = (d: string, color: string, dashed = false, opacity = 0.5) => next.push({ d, color, dashed, opacity });
+    const push = (d: string, color: string, dashed = false, opacity = 0.72) => next.push({ d, color, dashed, opacity });
     const g = (id: string) => geoOf(nodeRefs.current.get(id), box);
 
     // ── 가계도 ──
@@ -285,7 +316,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           const base = band === "up"
             ? (Math.max(...all.map((n) => n.elBottom)) + C.top) / 2
             : (Math.min(...all.map((n) => n.elTop)) + C.bottom) / 2;
-          push(`M ${C.cx} ${band === "up" ? C.top : C.bottom} V ${base}`, TRUNK, false, 0.3);
+          push(`M ${C.cx} ${band === "up" ? C.top : C.bottom} V ${base}`, TRUNK, false, 0.56);
           entries.forEach(([grp, nodes], i) => {
             const busY = band === "up" ? base + i * STEP : base - i * STEP;
             const xs = nodes.map((n) => n.avCx);
@@ -299,7 +330,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           const base = band === "sideL"
             ? (Math.max(...all.map((n) => n.elRight)) + C.left) / 2
             : (Math.min(...all.map((n) => n.elLeft)) + C.right) / 2;
-          push(`M ${band === "sideL" ? C.left : C.right} ${C.cy} H ${base}`, TRUNK, false, 0.3);
+          push(`M ${band === "sideL" ? C.left : C.right} ${C.cy} H ${base}`, TRUNK, false, 0.56);
           entries.forEach(([grp, nodes], i) => {
             const busX = band === "sideL" ? base + i * STEP : base - i * STEP;
             const ys = nodes.map((n) => n.avCy);
@@ -330,10 +361,14 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   };
 
   const avatarCircle = (p: PersonNode, sizeClass: string, iconSize: number) => (
-    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30" : "bg-white/5"} transition-all duration-500 shadow-lg`}>
-      <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10" : "border-dashed border-white/15"}`}>
-        {p.avatar_url ? (
-          <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110" unoptimized />
+    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/25 to-transparent group-hover:from-accent/70 group-hover:to-accent/35" : "bg-white/5"} shadow-lg`}>
+      <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10 group-hover:border-accent/35" : "border-dashed border-white/15"}`}>
+        {loadingId === p.id ? (
+          <div className="flex h-full w-full items-center justify-center text-accent">
+            <LoaderCircle size={19} className="animate-spin" aria-hidden />
+          </div>
+        ) : p.avatar_url ? (
+          <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" unoptimized />
         ) : p.slug ? (
           <div className="w-full h-full flex items-center justify-center text-sm font-serif text-text-tertiary">{p.name.charAt(0)}</div>
         ) : (
@@ -360,7 +395,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           size === "md" ? "w-12 h-12 md:w-16 md:h-16" : "w-11 h-11 md:w-14 md:h-14",
           size === "md" ? 22 : 19,
         )}
-        <span className={`block text-[11px] font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent transition-colors font-bold" : "text-text-secondary"}`}>
+        <span className={`block text-xs font-serif leading-tight text-center break-keep ${p.slug ? "text-text-primary group-hover:text-accent font-bold" : "text-text-secondary"}`}>
           {p.name}
         </span>
       </>
@@ -371,8 +406,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         key={p.id}
         ref={setNodeRef(p.id)}
         type="button"
-        onClick={() => setSelected(p)}
-        className={`group relative z-10 flex flex-col items-center gap-1 w-[72px] md:w-20 cursor-pointer ${p.slug ? "" : "opacity-80"}`}
+        onClick={() => void handlePersonSelect(p)}
+        disabled={loadingId === p.id}
+        aria-busy={loadingId === p.id}
+        className={`group relative z-10 flex w-[72px] cursor-pointer flex-col items-center gap-1 rounded-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:w-20 ${p.slug ? "" : "opacity-80"}`}
         aria-label={hoverNote ?? `${p.name} — ${label(p)}`}
         title={hoverNote}
       >
@@ -391,12 +428,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">{centerName.charAt(0)}</div>
         )}
       </div>
-      <span className="text-xs font-serif font-bold text-text-primary">{centerName}</span>
+      <span className="text-[13px] font-serif font-bold text-text-primary">{centerName}</span>
     </div>
   );
 
   const subHeading = (text: string) => (
-    <p className="text-[11px] tracking-[0.2em] text-text-tertiary text-center">{text}</p>
+    <p className="text-xs tracking-[0.2em] text-text-tertiary text-center">{text}</p>
   );
 
   const socialFilters: ("all" | CelebRelationItem["relGroup"])[] = [
@@ -409,7 +446,16 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       <div ref={containerRef} className="relative select-none">
         <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
           {connectors.map((c, i) => (
-            <path key={i} d={c.d} fill="none" stroke={c.color} strokeWidth={1} strokeOpacity={c.opacity} strokeDasharray={c.dashed ? "4 3" : undefined} />
+            <path
+              key={i}
+              d={c.d}
+              fill="none"
+              stroke={c.color}
+              strokeWidth={1.25}
+              strokeOpacity={c.opacity}
+              strokeLinecap="round"
+              strokeDasharray={c.dashed ? "5 3" : undefined}
+            />
           ))}
         </svg>
 
@@ -456,14 +502,14 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                     key={f}
                     type="button"
                     onClick={() => setFilter(f)}
-                    className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                    className={`px-3 py-1 text-[13px] rounded-full border transition-colors ${
                       filter === f
                         ? "border-accent/60 text-accent bg-accent/10"
                         : "border-white/10 text-text-tertiary hover:border-accent/30 hover:text-text-secondary"
                     }`}
                   >
                     {t(`relFilter_${f}`)}
-                    <span className="ml-1 font-mono text-[10px] opacity-70">
+                    <span className="ml-1 font-mono text-[11px] opacity-70">
                       {f === "all"
                         ? [...view.socialCounts.values()].reduce((a, b) => a + b, 0)
                         : view.socialCounts.get(f)}
@@ -506,7 +552,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[13px] text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
             >
               {expanded ? t("hideDetail") : `+${view.overflow.length}`}
             </button>
@@ -520,19 +566,21 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                       {p.avatar_url ? (
                         <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[11px] text-text-tertiary font-serif">{p.name.charAt(0)}</div>
+                        <div className="w-full h-full flex items-center justify-center text-xs text-text-tertiary font-serif">{p.name.charAt(0)}</div>
                       )}
                     </div>
-                    <span className={`text-xs font-serif ${p.slug ? "text-text-primary group-hover:text-accent transition-colors" : "text-text-secondary"}`}>{p.name}</span>
-                    <span className="text-[10px]" style={{ color: GROUP_COLOR[p.group] }}>{label(p)}</span>
+                    <span className={`text-[13px] font-serif ${p.slug ? "text-text-primary group-hover:text-accent" : "text-text-secondary"}`}>{p.name}</span>
+                    <span className="text-[11px]" style={{ color: GROUP_COLOR[p.group] }}>{label(p)}</span>
                   </>
                 );
                 return (
                   <button
                     key={p.id}
                     type="button"
-                    onClick={() => setSelected(p)}
-                    className={`group flex items-center gap-2 px-2.5 py-1.5 rounded-full border transition-colors ${p.slug ? "border-white/10 hover:border-accent/40" : "border-dashed border-white/10 opacity-80 hover:border-accent/30"}`}
+                    onClick={() => void handlePersonSelect(p)}
+                    disabled={loadingId === p.id}
+                    aria-busy={loadingId === p.id}
+                    className={`group flex items-center gap-2 rounded-full border px-2.5 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${p.slug ? "border-white/10 hover:border-accent/40 hover:bg-white/[0.025]" : "border-dashed border-white/10 opacity-80 hover:border-accent/30"}`}
                   >
                     {chip}
                   </button>
@@ -544,9 +592,22 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       )}
 
       {/* 출처 고지 — 사실 관계는 위키데이터 기준 */}
-      <p className="text-[11px] text-text-tertiary text-center leading-relaxed break-keep">
+      <p className="text-xs text-text-tertiary text-center leading-relaxed break-keep">
         {t("relationGraphNote")}
       </p>
+
+      {previewCeleb && previewRelation && (
+        <CelebDetailModal
+          celeb={previewCeleb}
+          isOpen
+          context={{
+            label: label(previewRelation),
+            description: previewRelation.note,
+            color: GROUP_COLOR[previewRelation.group],
+          }}
+          onClose={closePersonPreview}
+        />
+      )}
 
       {/* 인물 상세 카드 — 관계 사연·기본 정보·이동. 노드가 작아 안 보이는 것을 여기서 크게 보여준다 */}
       {selected && (
@@ -588,7 +649,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="p-1.5 -mt-1 -mr-1 rounded-full text-text-tertiary hover:text-accent hover:bg-white/5 transition-colors"
+                className="p-1.5 -mt-1 -mr-1 rounded-full text-text-tertiary hover:text-accent hover:bg-white/5"
                 aria-label={t("hideDetail")}
               >
                 <X size={20} />
@@ -622,7 +683,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <button
                 type="button"
                 onClick={() => router.push(`/${locale}/celeb/${selected.slug}`)}
-                className="w-full py-2.5 text-sm font-medium rounded-lg border border-accent/50 text-accent hover:bg-accent/15 transition-colors"
+                className="w-full py-2.5 text-sm font-medium rounded-lg border border-accent/50 text-accent hover:bg-accent/15"
               >
                 {t("relGoToProfile")}
               </button>
@@ -631,7 +692,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 href={`https://www.wikidata.org/wiki/${selected.qid}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 text-sm font-medium rounded-lg border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent transition-colors flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 text-sm font-medium rounded-lg border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent flex items-center justify-center gap-1.5"
               >
                 {t("relViewWikidata")}
                 <ExternalLink size={14} />

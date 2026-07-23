@@ -1,0 +1,84 @@
+.heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 11px;
+  padding-block: 2px 4px;
+}
+
+.chapter {
+  display: block;
+  min-width: 46px;
+  flex: 0 0 auto;
+  color: color-mix(in srgb, var(--color-accent) 62%, var(--color-stone-heavy));
+  font-family: var(--font-cinzel);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-indent: 0.04em;
+  text-shadow:
+    -1px -1px 1px color-mix(in srgb, black 88%, transparent),
+    1px 1px 0 color-mix(in srgb, white 10%, transparent);
+}
+
+.chapterRange {
+  min-width: 68px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-primary);
+}
+
+.seal {
+  display: inline-flex;
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-dim);
+  filter:
+    drop-shadow(-1px -1px 0 color-mix(in srgb, black 82%, transparent))
+    drop-shadow(1px 1px 0 color-mix(in srgb, white 8%, transparent));
+}
+
+.label {
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-overflow: ellipsis;
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, black 62%, transparent),
+    1px 1px 0 color-mix(in srgb, white 5%, transparent);
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .heading {
+    gap: 13px;
+  }
+
+  .chapter {
+    min-width: 54px;
+    font-size: 29px;
+  }
+
+  .chapterRange {
+    min-width: 78px;
+    font-size: 16px;
+  }
+
+  .label {
+    font-size: 18px;
+    letter-spacing: 0.14em;
+  }
+}

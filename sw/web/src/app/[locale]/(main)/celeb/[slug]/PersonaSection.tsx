@@ -1,13 +1,10 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Info, ChevronDown, ChevronUp } from "lucide-react";
 
-import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import type { CelebProfile } from "@/types/home";
 import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import {
   ABILITY_KEYS,
@@ -18,6 +15,9 @@ import {
 import type { PersonaJsonb, PersonaField } from "@/lib/persona/types";
 import { distanceToMatchPercent, type SimilarCeleb } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
+
+import CelebPersonPreviewButton from "./CelebPersonPreviewButton";
+import { useCelebPreview } from "./useCelebPreview";
 
 // ─── 유틸 ───────────────────────────────────────────
 
@@ -240,8 +240,12 @@ export default function PersonaSection({
   const ts = useTranslations("shared.persona.stat");
   const tl = useTranslations("shared.persona.tendency_label");
   const locale = useLocale();
-  const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
-  const [loadingId, setLoadingId] = useState<string | null>(null);
+  const {
+    celeb: previewCeleb,
+    loadingId,
+    openCelebPreview,
+    closeCelebPreview,
+  } = useCelebPreview();
   const [showDetail, setShowDetail] = useState(false);
 
   const tendencyLabels: Record<string, [string, string]> = {
@@ -250,13 +254,6 @@ export default function PersonaSection({
     individual_social: [tl("individual"), tl("social")],
     cautious_bold: [tl("cautious"), tl("bold")],
   };
-
-  const handleCelebClick = useCallback(async (celebId: string) => {
-    setLoadingId(celebId);
-    const data = await getCelebForModal(celebId);
-    setLoadingId(null);
-    if (data) setModalCeleb(data);
-  }, []);
 
   const isEn = locale === "en";
   const rationale = getRationale(personaJsonb, locale);
@@ -371,54 +368,29 @@ export default function PersonaSection({
           <SimilarFiguresHeader />
           <div className="flex justify-center gap-3 md:gap-8 flex-wrap">
             {similarCelebs.map((celeb) => (
-              <button
+              <CelebPersonPreviewButton
                 key={celeb.celeb_id}
-                type="button"
-                onClick={() => handleCelebClick(celeb.celeb_id)}
-                disabled={loadingId === celeb.celeb_id}
-                className="group flex flex-col items-center gap-2 w-20 md:w-24 cursor-pointer"
+                name={celeb.nickname}
+                avatarUrl={celeb.avatar_url}
+                loading={loadingId === celeb.celeb_id}
+                onClick={() => void openCelebPreview(celeb.celeb_id)}
+                size="large"
+                className="gap-2"
               >
-                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-[2px] bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30 transition-all duration-500 shadow-lg">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-bg-secondary relative border border-white/10">
-                    {loadingId === celeb.celeb_id ? (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-5 h-5 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-                      </div>
-                    ) : celeb.avatar_url ? (
-                      <Image
-                        src={celeb.avatar_url}
-                        alt={celeb.nickname}
-                        width={80}
-                        height={80}
-                        className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-lg text-text-tertiary font-serif">
-                        {celeb.nickname.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="text-center space-y-0.5">
-                  <span className="block text-xs text-text-primary group-hover:text-accent transition-colors font-serif font-bold">
-                    {celeb.nickname}
-                  </span>
-                  <span className="block text-xs font-mono text-accent/60 tracking-wider">
-                    {distanceToMatchPercent(celeb.distance)}%
-                  </span>
-                </div>
-              </button>
+                <span className="block font-mono text-xs tracking-wider text-accent/60">
+                  {distanceToMatchPercent(celeb.distance)}%
+                </span>
+              </CelebPersonPreviewButton>
             ))}
           </div>
         </div>
       )}
 
-      {modalCeleb && (
+      {previewCeleb && (
         <CelebDetailModal
-          celeb={modalCeleb}
+          celeb={previewCeleb}
           isOpen
-          onClose={() => setModalCeleb(null)}
+          onClose={closeCelebPreview}
         />
       )}
     </div>

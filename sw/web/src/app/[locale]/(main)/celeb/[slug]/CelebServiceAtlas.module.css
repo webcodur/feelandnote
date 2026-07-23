@@ -1,0 +1,304 @@
+.atlas {
+  position: relative;
+  overflow: hidden;
+  gap: 10px;
+  margin: 0 5px 5px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--color-accent-dim) 58%, var(--color-stone-border));
+  background:
+    var(--pattern-noise),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, black 18%, var(--color-stone-heavy)),
+      color-mix(in srgb, var(--color-accent-dim) 4%, var(--color-stone-heavy))
+    );
+  box-shadow:
+    inset 2px 2px 7px color-mix(in srgb, black 74%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 7%, transparent);
+}
+
+.tile {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-stone-border) 82%, black);
+  background:
+    var(--pattern-noise),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, white 4%, var(--color-stone-light)) 0%,
+      var(--color-stone-heavy) 58%,
+      color-mix(in srgb, black 15%, var(--color-stone-heavy)) 100%
+    );
+}
+
+.tile > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ready {
+  cursor: pointer;
+  box-shadow:
+    inset 1px 1px 0 color-mix(in srgb, white 13%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, black 76%, transparent),
+    0 2px 0 color-mix(in srgb, black 68%, transparent),
+    0 4px 8px color-mix(in srgb, black 28%, transparent);
+}
+
+.ready::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 22%,
+    color-mix(in srgb, var(--color-accent) 12%, transparent) 45%,
+    transparent 68%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-72%);
+  transition:
+    transform 320ms ease-out,
+    opacity 160ms ease-out;
+}
+
+.ready:hover {
+  border-color: var(--color-accent-dim);
+  background:
+    var(--pattern-noise),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-accent) 9%, var(--color-stone-light)) 0%,
+      color-mix(in srgb, var(--color-accent) 5%, var(--color-stone-heavy)) 62%,
+      color-mix(in srgb, black 13%, var(--color-stone-heavy)) 100%
+    );
+}
+
+.ready:hover::after {
+  opacity: 1;
+  transform: translateX(72%);
+}
+
+.ready:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ready:active {
+  border-color: color-mix(in srgb, var(--color-accent-dim) 68%, black);
+  box-shadow:
+    inset 2px 2px 5px color-mix(in srgb, black 76%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 7%, transparent);
+}
+
+.pending {
+  border-color: color-mix(in srgb, var(--color-stone-border) 54%, black);
+  background:
+    var(--pattern-noise),
+    color-mix(in srgb, black 8%, var(--color-stone-heavy));
+  box-shadow:
+    inset 2px 2px 5px color-mix(in srgb, black 68%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 5%, transparent);
+}
+
+.copy {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  text-align: start;
+}
+
+.titleLine {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.chapter {
+  flex: 0 0 auto;
+  color: color-mix(in srgb, var(--color-accent-dim) 82%, var(--color-text-tertiary));
+  font-family: var(--font-cinzel);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, black 82%, transparent),
+    1px 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+.label {
+  display: block;
+  line-height: 1.35;
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, black 68%, transparent),
+    1px 1px 0 color-mix(in srgb, white 7%, transparent);
+  word-break: keep-all;
+}
+
+.ready:hover .chapter,
+.ready:hover .label {
+  color: var(--color-accent);
+}
+
+.primaryPending {
+  color: var(--color-text-tertiary);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.companion {
+  display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 2px 0;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, black 78%, transparent),
+    1px 1px 0 color-mix(in srgb, white 6%, transparent);
+}
+
+.companion > svg {
+  filter:
+    drop-shadow(-1px -1px 0 color-mix(in srgb, black 78%, transparent))
+    drop-shadow(1px 1px 0 color-mix(in srgb, white 7%, transparent));
+}
+
+.companionReady {
+  color: var(--color-accent);
+}
+
+.companionPending {
+  color: var(--color-text-tertiary);
+}
+
+.seal {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-accent-dim);
+  border-radius: 999px;
+  color: var(--color-accent-dim);
+  outline: 1px solid color-mix(in srgb, var(--color-accent-dim) 45%, black);
+  outline-offset: 2px;
+  background:
+    var(--pattern-noise),
+    radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, white 8%, var(--color-stone-light)),
+      var(--color-stone-heavy) 62%
+    );
+  box-shadow:
+    inset 1px 1px 0 color-mix(in srgb, white 14%, transparent),
+    inset -2px -2px 3px color-mix(in srgb, black 74%, transparent),
+    0 2px 3px color-mix(in srgb, black 58%, transparent);
+  text-shadow:
+    -1px -1px 0 color-mix(in srgb, black 88%, transparent),
+    1px 1px 0 color-mix(in srgb, white 9%, transparent);
+}
+
+.ready:hover .seal {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  outline-color: color-mix(in srgb, var(--color-accent) 65%, black);
+  background:
+    var(--pattern-noise),
+    radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--color-accent) 16%, var(--color-stone-light)),
+      var(--color-stone-heavy) 64%
+    );
+}
+
+.pending .seal {
+  border-color: color-mix(in srgb, var(--color-text-tertiary) 45%, black);
+  color: var(--color-text-tertiary);
+  outline-color: color-mix(in srgb, var(--color-text-tertiary) 20%, black);
+  box-shadow:
+    inset 2px 2px 4px color-mix(in srgb, black 72%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 5%, transparent);
+}
+
+.destination {
+  display: inline-flex;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-inline: 2px;
+  rotate: 45deg;
+}
+
+.destination > svg {
+  rotate: -45deg;
+}
+
+.destinationReady {
+  border: 1px solid var(--color-accent-dim);
+  color: var(--color-text-secondary);
+  background:
+    var(--pattern-noise),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, white 6%, var(--color-stone-light)),
+      var(--color-stone-heavy)
+    );
+  box-shadow:
+    inset 1px 1px 0 color-mix(in srgb, white 14%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, black 82%, transparent),
+    2px 2px 2px color-mix(in srgb, black 55%, transparent);
+}
+
+.ready:hover .destinationReady {
+  border-color: var(--color-accent);
+  color: color-mix(in srgb, black 78%, var(--color-stone-heavy));
+  background: var(--color-accent);
+  box-shadow:
+    inset 1px 1px 0 color-mix(in srgb, white 36%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, black 45%, transparent),
+    2px 2px 3px color-mix(in srgb, black 65%, transparent);
+}
+
+.ready:active .destinationReady {
+  box-shadow:
+    inset 2px 2px 3px color-mix(in srgb, black 56%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 20%, transparent);
+}
+
+.destinationPending {
+  border: 1px solid color-mix(in srgb, var(--color-text-tertiary) 34%, black);
+  color: color-mix(in srgb, var(--color-text-tertiary) 70%, black);
+  background: color-mix(in srgb, black 9%, var(--color-stone-heavy));
+  box-shadow:
+    inset 2px 2px 4px color-mix(in srgb, black 70%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, white 4%, transparent);
+}
+
+@media (min-width: 768px) {
+  .atlas {
+    margin: 0 7px 7px;
+    padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ready::after {
+    transition: none;
+  }
+}
