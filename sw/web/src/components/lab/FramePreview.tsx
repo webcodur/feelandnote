@@ -24,8 +24,6 @@ const createMockCeleb = (mat: MaterialConfig): CelebProfile => ({
   profession: "PREVIEW",
   title: null,
   title_en: null,
-  cultural_journey: null,
-  cultural_journey_en: null,
   nationality: null,
   birth_date: null,
   death_date: null,
