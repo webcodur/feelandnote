@@ -27,6 +27,7 @@ interface PersonaJoinProfile {
   nickname_en: string | null
   profession: string | null
   avatar_url: string | null
+  status: string | null
   birth_date?: string | null
   death_date?: string | null
   title?: string | null
@@ -105,7 +106,7 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
       .from('celeb_persona')
       .select(`
         celeb_id, ${PERSONA_STAT_KEYS.join(', ')},
-        profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url)
+        profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, status)
       `)
       .order('celeb_id')
       .range(from, to) as unknown as PromiseLike<{
@@ -113,16 +114,17 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
       error: { message: string } | null
     }>
   )
-  return rows.map((row) => {
+  return rows.flatMap((row) => {
     const profile = pickProfile(row.profiles)
-    return {
+    if (profile?.status !== 'active') return []
+    return [{
       celeb_id: row.celeb_id,
       stats: columnsToStats(row),
       nickname: profile?.nickname ?? null,
       nickname_en: profile?.nickname_en ?? null,
       profession: profile?.profession ?? null,
       avatar_url: profile?.avatar_url ?? null,
-    }
+    }]
   })
 }
 
@@ -140,7 +142,7 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaJoinRow | 
     .from('celeb_persona')
     .select(`
       celeb_id, persona,
-      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title)
+      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title, status)
     `)
     .eq('celeb_id', celebId)
     .maybeSingle()

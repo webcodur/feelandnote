@@ -17,6 +17,11 @@ export interface CelebDetailModalProps {
   celeb: CelebProfile;
   isOpen: boolean;
   onClose: () => void;
+  context?: {
+    label: string;
+    description?: string | null;
+    color?: string;
+  };
   hideBirthDate?: boolean;
   hideQuotes?: boolean;
   // 리스트 컨텍스트 네비게이션 (선택)

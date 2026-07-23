@@ -37,8 +37,6 @@ export interface CelebProfile {
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
   title_en: string | null
-  cultural_journey: string | null  // 감상 여정 (3~4 문단)
-  cultural_journey_en: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일
   death_date: string | null   // 사망연일
@@ -60,7 +58,7 @@ export interface CelebProfile {
   has_voice?: boolean  // R2 음성 파일 보유 여부
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
   voice_speed?: number  // 음성 재생 속도 (기본 1.0)
-  celeb_tier?: CelebTier  // full: 감상 기록 보유, light: 감상 여정만, relation: 관계 실존 인물, fiction: 신화·허구
+  celeb_tier?: CelebTier  // full: 감상 기록 보유, 나머지 등급은 연결용 최소 인물
 }
 
 export interface CelebReview {

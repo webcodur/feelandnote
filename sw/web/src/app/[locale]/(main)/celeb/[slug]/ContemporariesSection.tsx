@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
+
+import CelebPersonPreviewButton from "./CelebPersonPreviewButton";
+import { useCelebPreview } from "./useCelebPreview";
 
 const formatYear = (year: string | null | undefined) => {
   if (!year) return "";
@@ -16,6 +18,17 @@ const formatYear = (year: string | null | undefined) => {
   return num < 0 ? `BC ${Math.abs(num)}` : `${num}`;
 };
 
+const MOBILE_QUERY = "(max-width: 767px)";
+
+const subscribeToMobileViewport = (onChange: () => void) => {
+  const mediaQuery = window.matchMedia(MOBILE_QUERY);
+  mediaQuery.addEventListener("change", onChange);
+  return () => mediaQuery.removeEventListener("change", onChange);
+};
+
+const getMobileViewportSnapshot = () => window.matchMedia(MOBILE_QUERY).matches;
+const getServerMobileViewportSnapshot = () => false;
+
 interface ContemporariesSectionProps {
   contemporaries: ContemporaryCeleb[];
 }
@@ -23,18 +36,24 @@ interface ContemporariesSectionProps {
 export default function ContemporariesSection({
   contemporaries,
 }: ContemporariesSectionProps) {
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
+  const {
+    celeb: previewCeleb,
+    loadingId,
+    openCelebPreview,
+    closeCelebPreview,
+  } = useCelebPreview();
   useCountries();
 
   const [expanded, setExpanded] = useState(false);
-  const [initialCount, setInitialCount] = useState(6);
-
-  useEffect(() => {
-    setInitialCount(window.innerWidth < 768 ? 3 : 6);
-  }, []);
+  const isMobile = useSyncExternalStore(
+    subscribeToMobileViewport,
+    getMobileViewportSnapshot,
+    getServerMobileViewportSnapshot,
+  );
+  const initialCount = isMobile ? 3 : 6;
   const hasMore = contemporaries.length > initialCount;
   const visible = expanded ? contemporaries : contemporaries.slice(0, initialCount);
 
@@ -51,57 +70,29 @@ export default function ContemporariesSection({
           : "";
 
         return (
-          <button
+          <CelebPersonPreviewButton
             key={celeb.id}
-            type="button"
-            onClick={() =>
-              celeb.slug && router.push(`/${locale}/celeb/${celeb.slug}`)
-            }
-            className="group flex flex-col items-center gap-1.5 w-20 md:w-24 cursor-pointer"
+            name={celeb.nickname}
+            avatarUrl={celeb.avatar_url}
+            loading={loadingId === celeb.id}
+            onClick={() => void openCelebPreview(celeb.id)}
           >
-            <div className="relative w-14 h-14 md:w-18 md:h-18 rounded-full overflow-hidden p-[2px] bg-gradient-to-b from-accent/20 to-transparent group-hover:from-accent/60 group-hover:to-accent/30 transition-all duration-500 shadow-lg">
-              <div className="w-full h-full rounded-full overflow-hidden bg-bg-secondary relative border border-white/10">
-                {celeb.avatar_url ? (
-                  <Image
-                    src={celeb.avatar_url}
-                    alt={celeb.nickname}
-                    width={72}
-                    height={72}
-                    className="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-base text-text-tertiary font-serif">
-                    {celeb.nickname.charAt(0)}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="text-center space-y-0.5">
-              {/* 이름: 강조, serif */}
-              <span className="block text-xs text-text-primary group-hover:text-accent transition-colors font-serif font-bold leading-tight">
-                {celeb.nickname}
+            {celeb.nationality && (
+              <span className="block text-[11px] leading-tight text-text-secondary">
+                {getCountryNameByLocale(celeb.nationality, locale)}
               </span>
-              {/* 국적: 이탤릭, secondary */}
-              {celeb.nationality && (
-                <span className="block text-[11px] text-text-secondary leading-tight">
-                  {getCountryNameByLocale(celeb.nationality, locale)}
-                </span>
-              )}
-              {/* 직군: accent 톤 */}
-              {celeb.profession && (
-                <span className="block text-[11px] text-accent/70 font-medium leading-tight">
-                  {tp(celeb.profession)}
-                </span>
-              )}
-              {/* 생몰년: 모노, 작게 */}
-              {period && (
-                <span className="block text-[10px] font-mono text-text-tertiary tracking-wide leading-tight">
-                  {period}
-                </span>
-              )}
-            </div>
-          </button>
+            )}
+            {celeb.profession && (
+              <span className="block text-[11px] font-medium leading-tight text-accent/70">
+                {tp(celeb.profession)}
+              </span>
+            )}
+            {period && (
+              <span className="block font-mono text-[10px] leading-tight tracking-wide text-text-tertiary">
+                {period}
+              </span>
+            )}
+          </CelebPersonPreviewButton>
         );
       })}
       </div>
@@ -111,7 +102,7 @@ export default function ContemporariesSection({
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-1.5 text-xs text-text-secondary hover:border-accent/30 hover:text-accent"
           >
             {expanded
               ? t("hideDetail")
@@ -119,6 +110,14 @@ export default function ContemporariesSection({
             {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
         </div>
+      )}
+
+      {previewCeleb && (
+        <CelebDetailModal
+          celeb={previewCeleb}
+          isOpen
+          onClose={closeCelebPreview}
+        />
       )}
     </div>
   );

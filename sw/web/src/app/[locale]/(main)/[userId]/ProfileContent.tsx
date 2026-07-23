@@ -7,7 +7,7 @@ import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { useTranslations } from "next-intl";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import ClassicalBox from "@/components/ui/ClassicalBox";
-import { DecorativeLabel, FormattedText } from "@/components/ui";
+import { DecorativeLabel } from "@/components/ui";
 import ProfileBioSection from "./ProfileBioSection";
 import UserBioSection from "./UserBioSection";
 import ProfileInfluenceSection from "./ProfileInfluenceSection";
@@ -46,30 +46,14 @@ export default function ProfileContent({
         <UserBioSection profile={profile} isOwner={isOwner} />
       )}
 
-      {/* 2. Cultural Journey (셀럽 전용) */}
-      {profile.profile_type === "CELEB" && profile.cultural_journey && (
-        <section className="animate-fade-in" style={{ animationDelay: "0.05s" }}>
-          <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">
-            <div className="flex justify-center mb-6 sm:mb-8">
-              <DecorativeLabel label={t("culturalJourney")} />
-            </div>
-            <div className="max-w-3xl mx-auto">
-              <p className="text-sm md:text-base text-text-primary font-serif leading-relaxed md:leading-loose whitespace-pre-line text-center">
-                <FormattedText text={profile.cultural_journey} />
-              </p>
-            </div>
-          </ClassicalBox>
-        </section>
-      )}
-
-      {/* 3. Influence (셀럽 전용) */}
+      {/* 2. Influence (셀럽 전용) */}
       {profile.profile_type === "CELEB" && influenceData && (
         <section className="animate-fade-in" style={{ animationDelay: "0.075s" }}>
           <ProfileInfluenceSection data={influenceData} />
         </section>
       )}
 
-      {/* 4. 인물 분석 + 유사 인물 (셀럽 전용) */}
+      {/* 3. 인물 분석 + 유사 인물 (셀럽 전용) */}
       {profile.profile_type === "CELEB" && personaData?.targetPersona && (
         <section className="animate-fade-in" style={{ animationDelay: "0.088s" }}>
           <ProfilePersonaSection
@@ -80,7 +64,7 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 5. Image Gallery (셀럽 전용) */}
+      {/* 4. Image Gallery (셀럽 전용) */}
       {profile.profile_type === "CELEB" && (
         <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <ClassicalBox className="p-0 md:p-8 bg-bg-card/40 shadow-2xl border-accent-dim/20">

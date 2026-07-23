@@ -1,6 +1,6 @@
 /*
   Light 셀럽 상세 모달
-  - 감상 기록 없이 감상 여정·명언·프로필 중심
+  - 감상 기록 없이 명언·프로필 중심
   - PC: 중앙 모달, 모바일: Bottom Sheet
 */
 "use client";
@@ -8,7 +8,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, Feather } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
@@ -47,10 +47,16 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
-  const displayJourney = (isEn && celeb.cultural_journey_en) || celeb.cultural_journey;
 
-  const [isFollowing, setIsFollowing] = useState(celeb.is_following);
+  const [followingOverride, setFollowingOverride] = useState<{
+    celebId: string;
+    value: boolean;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const isFollowing =
+    followingOverride?.celebId === celeb.id
+      ? followingOverride.value
+      : celeb.is_following;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -58,10 +64,6 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = prev; };
   }, [isOpen]);
-
-  useEffect(() => {
-    setIsFollowing(celeb.is_following);
-  }, [celeb.id]);
 
   const aura: Aura = celeb.influence?.total_score != null
     ? getAuraByScore(celeb.influence.total_score)
@@ -72,9 +74,11 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     if (isLoading) return;
     setIsLoading(true);
     const prevState = isFollowing;
-    setIsFollowing(!isFollowing);
+    setFollowingOverride({ celebId: celeb.id, value: !isFollowing });
     const result = await toggleFollow(celeb.id);
-    if (!result.success) setIsFollowing(prevState);
+    if (!result.success) {
+      setFollowingOverride({ celebId: celeb.id, value: prevState });
+    }
     setIsLoading(false);
   };
 
@@ -134,28 +138,13 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
         </blockquote>
       )}
 
-      {/* 감상 여정 */}
-      {displayJourney && (
-        <div className="px-6 md:px-8 pt-4 pb-2">
-          <p className="text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-all text-left">
-            <Feather size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={displayJourney} />
-          </p>
-        </div>
-      )}
-
       {/* 바이오 */}
       {displayBio && (
-        <>
-          {displayJourney && (
-            <div className="w-full h-px bg-accent/20 my-2 mx-auto max-w-[calc(100%-3rem)]" />
-          )}
-          <div className="px-6 md:px-8 pt-4 pb-2">
-            <p className="text-xs md:text-sm text-text-secondary leading-relaxed text-left break-all">
-              <FormattedText text={displayBio} />
-            </p>
-          </div>
-        </>
+        <div className="px-6 md:px-8 pt-4 pb-2">
+          <p className="text-xs md:text-sm text-text-secondary leading-relaxed text-left break-all">
+            <FormattedText text={displayBio} />
+          </p>
+        </div>
       )}
 
       {/* 하단 액션 */}

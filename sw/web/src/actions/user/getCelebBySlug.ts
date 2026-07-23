@@ -110,8 +110,6 @@ interface PublicCelebBySlugData {
     profession: string | null
     title: string | null
     title_en: string | null
-    cultural_journey: string | null
-    cultural_journey_en: string | null
     virtual_monologue: string | null
     virtual_monologue_en: string | null
     nationality: string | null
@@ -141,7 +139,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, cultural_journey, cultural_journey_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -286,10 +284,16 @@ const getCelebBySlugCached = unstable_cache(
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
 export const getCelebBySlug = cache(getCelebBySlugInner);
 
+export type CelebBySlugProfile = PublicUserProfile & {
+  contentTypeCounts: ContentTypeCounts
+  spotlightTags: SpotlightTagItem[]
+  relations: CelebRelationItem[]
+}
+
 async function getCelebBySlugInner(
   slug: string,
   locale: string = 'ko'
-): Promise<ActionResult<PublicUserProfile & { contentTypeCounts: ContentTypeCounts; spotlightTags: SpotlightTagItem[]; relations: CelebRelationItem[] }>> {
+): Promise<ActionResult<CelebBySlugProfile>> {
   const pub = await getCelebBySlugCached(slug)
 
   if (!pub) {
@@ -347,7 +351,6 @@ async function getCelebBySlugInner(
       title: resolve(profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
-      cultural_journey: resolve(profile.cultural_journey_en, profile.cultural_journey),
       virtual_monologue: resolve(profile.virtual_monologue_en, profile.virtual_monologue),
       nationality: profile.nationality,
       birth_date: profile.birth_date,

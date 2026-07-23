@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
+import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
+import { getSpotlightTagPreviews } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
@@ -83,9 +85,9 @@ function buildMetaDescriptionEn(
   if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
 
   if (parts.length === 0) {
-    return `Discover ${prefix} ${nickname}'s book recommendations, favorite movies, music, and cultural journey on Feel&Note.`.replace(/  +/g, ' ');
+    return `Discover ${prefix} ${nickname}'s book recommendations, favorite movies, music, and sources of inspiration on Feel&Note.`.replace(/  +/g, ' ');
   }
-  return `${prefix} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste, cultural journey, and personal recommendations.`.replace(/  +/g, ' ');
+  return `${prefix} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste and personal recommendations.`.replace(/  +/g, ' ');
 }
 
 /** 120~160자 분량의 SEO description 생성 */
@@ -102,10 +104,10 @@ function buildMetaDescription(
   if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
 
   if (parts.length === 0) {
-    return `${prefix} ${nickname}${subjectParticle(nickname)} 추천한 책, 영화, 음악, 게임 목록과 감상 여정. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`.trim();
+    return `${prefix} ${nickname}${subjectParticle(nickname)} 추천한 책, 영화, 음악, 게임 목록. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`.trim();
   }
 
-  return `${prefix} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}${subjectParticle(nickname)} 직접 추천하거나 즐겨본 작품과 감상 여정을 확인하세요.`.trim();
+  return `${prefix} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}${subjectParticle(nickname)} 직접 추천하거나 즐겨본 작품을 확인하세요.`.trim();
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -166,14 +168,16 @@ export default async function CelebPage({ params }: PageProps) {
     ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
     : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
 
-  const [guestbookResult, personaData, contentList, dialogueData, contemporaries, initialContents] = await Promise.all([
+  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, spotlightPreviews, initialContents] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
+    getCelebInfluence(userId),
     getSimilarByCelebId(userId, 3, locale),
     getCelebJsonLdContents(userId),
     getCelebDialogueFull(userId),
     profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
+    getSpotlightTagPreviews(profile.spotlightTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     getPublicUserContents({
@@ -255,12 +259,14 @@ export default async function CelebPage({ params }: PageProps) {
         slug={slug}
         shareTitle={pageTitle}
         userId={userId}
+        influenceData={influenceData}
         personaData={personaData}
         guestbookEntries={guestbookResult.entries}
         guestbookTotal={guestbookResult.total}
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
+        spotlightPreviews={spotlightPreviews}
         initialContents={initialContents}
       />
     </>
