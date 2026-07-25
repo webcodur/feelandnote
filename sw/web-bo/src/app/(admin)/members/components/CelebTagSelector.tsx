@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { X, Plus, Tag, Edit2, Check } from 'lucide-react'
 import { getTags, type CelebTag, type CelebTagInput } from '@/actions/admin/tags'
 
@@ -232,11 +233,11 @@ export default function CelebTagSelector({ selectedTags, onTagsChange }: Props) 
 
       {allTags.length === 0 && (
         <p className="text-sm text-text-tertiary">
-          등록된 태그가 없다.{' '}
-          <a href="/members/tags" className="text-accent hover:underline">
-            태그 관리
-          </a>
-          에서 태그를 추가하자.
+          등록된 테마가 없습니다.{' '}
+          <Link href="/factions" className="text-accent hover:underline">
+            세력도
+          </Link>
+          화면에서 도감 테마를 만들 수 있습니다.
         </p>
       )}
     </div>

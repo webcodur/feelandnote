@@ -1,12 +1,20 @@
 'use client'
 
+/**
+ * 새 도감 테마 만들기 — 이름·설명·색·주소·노출만 받는다.
+ *
+ * 영상 편 없이 글만으로 테마를 세우는 창구다. 인물 배정과 사진은 만든 뒤
+ * 테마 편집 화면에서 채운다(여기서 다 받으면 화면이 두 벌이 된다).
+ */
+
 import { useState } from 'react'
 import { X, Sparkles } from 'lucide-react'
-import { type CelebTag, createTag, updateTag } from '@/actions/admin/tags'
+import { type CelebTag, createTag } from '@/actions/admin/tags'
 
 interface Props {
+  /** 지금은 만들기 전용이라 항상 null 이다 — 수정은 테마 편집 화면이 맡는다 */
   tag: CelebTag | null
-  onClose: (updatedTag?: CelebTag) => void
+  onClose: (newTag?: CelebTag) => void
 }
 
 const PRESET_COLORS = [
@@ -22,9 +30,7 @@ const PRESET_COLORS = [
   '#6b7280', // gray
 ]
 
-export default function TagFormModal({ tag, onClose }: Props) {
-  const isEdit = !!tag
-
+export default function ThemeFormModal({ tag, onClose }: Props) {
   const [name, setName] = useState(tag?.name ?? '')
   const [nameEn, setNameEn] = useState(tag?.name_en ?? '')
   const [description, setDescription] = useState(tag?.description ?? '')
@@ -40,7 +46,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim()) {
-      setError('태그 이름을 입력해야 한다.')
+      setError('테마 이름을 입력해야 합니다.')
       return
     }
 
@@ -59,38 +65,21 @@ export default function TagFormModal({ tag, onClose }: Props) {
       end_date: endDate || null,
     }
 
-    if (isEdit && tag) {
-      const result = await updateTag({ id: tag.id, ...tagData })
+    const result = await createTag(tagData)
 
-      if (result.success) {
-        onClose({
-          ...tag,
-          ...tagData,
-          updated_at: new Date().toISOString(),
-        })
-      } else {
-        setError(result.error ?? '수정 실패')
-        setIsSubmitting(false)
-      }
+    if ('id' in result) {
+      onClose({
+        id: result.id,
+        ...tagData,
+        team_images: [],
+        sort_order: 999,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        celeb_count: 0,
+      })
     } else {
-      const result = await createTag(tagData)
-
-      if ('id' in result) {
-        onClose({
-          id: result.id,
-          ...tagData,
-          name_en: nameEn || null,
-          description_en: descriptionEn || null,
-          team_images: [],
-          sort_order: 999,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          celeb_count: 0,
-        })
-      } else {
-        setError(result.error)
-        setIsSubmitting(false)
-      }
+      setError(result.error)
+      setIsSubmitting(false)
     }
   }
 
@@ -99,9 +88,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
       <div className="bg-bg-card border border-border rounded-2xl w-full max-w-md mx-4 overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
-          <h2 className="text-lg font-semibold text-text-primary">
-            {isEdit ? '태그 수정' : '태그 생성'}
-          </h2>
+          <h2 className="text-lg font-semibold text-text-primary">새 도감 테마</h2>
           <button
             onClick={() => onClose()}
             className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"
@@ -115,20 +102,20 @@ export default function TagFormModal({ tag, onClose }: Props) {
           {/* 이름 */}
           <div>
             <label className="block text-sm font-medium text-text-primary mb-1.5">
-              태그 이름 <span className="text-red-500">*</span>
+              테마 이름 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="예: 자수성가, 혁신가"
+              placeholder="예: 정복자, 실존주의자"
               className="w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
             <input
               type="text"
               value={nameEn}
               onChange={(e) => setNameEn(e.target.value)}
-              placeholder="EN (e.g. Self-made, Innovator)"
+              placeholder="EN (e.g. Conquerors, Existentialists)"
               className="mt-1.5 w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
           </div>
@@ -142,7 +129,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="태그에 대한 간단한 설명"
+              placeholder="테마에 대한 간단한 설명"
               className="w-full px-3 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
             <input
@@ -198,12 +185,12 @@ export default function TagFormModal({ tag, onClose }: Props) {
             </div>
           </div>
 
-          {/* 세력도감 설정 */}
+          {/* 세력도감 노출 */}
           <div className="border border-border rounded-lg p-3 space-y-3 bg-bg-secondary/50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium text-text-primary">메인 세력도감 노출</span>
+                <span className="text-sm font-medium text-text-primary">세력도감에 노출</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -256,7 +243,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium"
               style={{ backgroundColor: `${color}20`, color: color }}
             >
-              {name || '태그 이름'}
+              {name || '테마 이름'}
             </span>
             {isFeatured && (
               <span className="ml-2 text-xs text-accent">⭐ 세력도감 노출</span>
@@ -282,7 +269,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               disabled={isSubmitting}
               className="flex-1 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50"
             >
-              {isSubmitting ? '저장 중...' : isEdit ? '수정' : '생성'}
+              {isSubmitting ? '만드는 중...' : '만들기'}
             </button>
           </div>
         </form>

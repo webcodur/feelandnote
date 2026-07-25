@@ -137,5 +137,5 @@ DB 변경(Phase 1)은 되돌리기 번거로우니 착수 직전 한 번 더 확
 - 태그 시스템 SSoT: `docs/project/celeb/celeb-tag-system.md`
 - 조회 액션: `sw/web/src/actions/home/getFeaturedTags.ts`
 - 목록 UI: `sw/web/src/components/features/landing/{FactionIntroView,FactionTagDrawerDesktop,FactionTagSheetMobile,FeaturedFaction}.tsx`
-- 백오피스: `sw/web-bo/src/app/(admin)/members/tags/`, `sw/web-bo/src/actions/admin/tags.ts`
+- 백오피스: `sw/web-bo/src/app/(admin)/factions/`(테마 목록·편집. 26.07.25에 `members/tags/`에서 이관), `sw/web-bo/src/actions/admin/tags.ts`
 - faction 데이터: `sw/remotion/public/factions/AI-Supremacy/faction-data.json`
