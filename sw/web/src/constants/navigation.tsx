@@ -58,7 +58,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "ranking", href: "/explore/ranking", label: "분야별 랭킹" },
       { key: "persona", href: "/explore/persona", label: "인물 분석" },
       { key: "today", href: "/explore/today", label: "오늘의 인물" },
-      { key: "spotlight", href: "/explore/spotlight", label: "스포트라이트" },
+      { key: "faction", href: "/explore/faction", label: "세력도감" },
       { key: "feed", href: "/explore/feed", label: "인물 피드" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
       { key: "youtube", href: "/explore/youtube", label: "유튜브 채널" },

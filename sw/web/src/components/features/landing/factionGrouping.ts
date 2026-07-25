@@ -1,12 +1,12 @@
 /*
-  파일명: components/features/landing/spotlightGrouping.ts
-  기능: 스포트라이트 태그 그룹핑 헬퍼
+  파일명: components/features/landing/factionGrouping.ts
+  기능: 세력도감 태그 그룹핑 헬퍼
   책임: 평면 태그 배열을 최상위(그룹 헤더 + 무소속)와 그룹별 자식으로 나눈다.
-        각 태그의 원래 index를 유지해 FeaturedSpotlight의 인덱스 선택 모델과 호환한다.
+        각 태그의 원래 index를 유지해 FeaturedFaction의 인덱스 선택 모델과 호환한다.
 */ // ------------------------------
 
 import type { FeaturedTag } from "@/actions/home"
-import { SPOTLIGHT_GROUP_CHILD_ORDER } from "@/constants/spotlightGroups"
+import { FACTION_GROUP_CHILD_ORDER } from "@/constants/factionGroups"
 
 export interface IndexedTag {
   tag: FeaturedTag
@@ -21,7 +21,7 @@ export function topLevelTags(tags: FeaturedTag[]): IndexedTag[] {
 
 /** 특정 그룹의 자식 태그들 (상수에 정의된 표시 순서대로). */
 export function childTags(tags: FeaturedTag[], groupSlug: string): IndexedTag[] {
-  const order = SPOTLIGHT_GROUP_CHILD_ORDER[groupSlug] ?? []
+  const order = FACTION_GROUP_CHILD_ORDER[groupSlug] ?? []
   return tags
     .map((tag, idx) => ({ tag, idx }))
     .filter(({ tag }) => tag.parentSlug === groupSlug)

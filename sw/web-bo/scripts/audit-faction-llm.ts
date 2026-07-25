@@ -1,9 +1,9 @@
 /**
- * AI 패권 전쟁 기획전(스포트라이트) 편성 현황 감사.
+ * AI 패권 전쟁 세력도감 편성 현황 감사.
  * 팩션 faction-data.json 인물 ↔ 세력별 태그 배정(celeb_tag_assignments) 대조.
  * 세력별로 [배정됨 / 미배정 / 미배정 중 DB 미등록]을 출력한다. 읽기 전용.
  *
- * 실행: sw/web-bo 에서  node --import tsx scripts/audit-spotlight-llm.ts
+ * 실행: sw/web-bo 에서  node --import tsx scripts/audit-faction-llm.ts
  */
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'

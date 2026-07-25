@@ -1,10 +1,10 @@
 /**
- * 페이팔 마피아 기획전 이미지 채우기.
- * 세력도(faction) 영상용 인물 개인샷 → 기획전 전용 화보(spotlight_image_url),
- * 진영 단체샷 → 기획전 상단 단체 배너(team_images)로 옮긴다.
+ * 페이팔 마피아 세력도감 이미지 채우기.
+ * 세력도(faction) 영상용 인물 개인샷 → 세력도감 전용 화보(spotlight_image_url),
+ * 진영 단체샷 → 세력도감 상단 단체 배너(team_images)로 옮긴다.
  * 정사각 1024 원본 → 1080 webp 변환 후 R2 업로드.
  *
- * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-paypal-mafia-spotlight.ts
+ * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-paypal-mafia-faction.ts
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'

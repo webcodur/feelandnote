@@ -73,6 +73,27 @@ const nextConfig: NextConfig = {
         destination: '/:locale/library/:path*',
         permanent: true,
       },
+      // 스포트라이트 → 세력도감(faction) 개명 (2026-07-25)
+      {
+        source: '/explore/spotlight',
+        destination: '/explore/faction',
+        permanent: true,
+      },
+      {
+        source: '/explore/spotlight/:path*',
+        destination: '/explore/faction/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:locale(ko|en)/explore/spotlight',
+        destination: '/:locale/explore/faction',
+        permanent: true,
+      },
+      {
+        source: '/:locale(ko|en)/explore/spotlight/:path*',
+        destination: '/:locale/explore/faction/:path*',
+        permanent: true,
+      },
     ];
   },
 };

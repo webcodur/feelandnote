@@ -35,7 +35,7 @@ app/
       agora/           # 광장 (social, social-feed, board/{notice,free,feedback})
       celeb/[slug]/    # 인물 상세
       content/[contentId]/
-      explore/         # 탐색 (figures, ranking, persona, today, spotlight/[slug],
+      explore/         # 탐색 (figures, ranking, persona, today, faction/[slug],
                        #       feed, timeline, youtube, directory)
       library/         # 서가 (era, profession, museum, academy/[category]/[course])
       notifications/
@@ -68,7 +68,7 @@ constants/             # affiliatePlatforms, agora, archive, board, categories,
                        # celebProfessions, filterStyles, image, influence, lab, materials/,
                        # navigation, platformLinks, professionIcons, review-presets,
                        # scriptures/, scriptures, scripturesMuseum, searchPresets,
-                       # spotlightGroups, statuses, titles, youtube, zIndex
+                       # factionGroups, statuses, titles, youtube, zIndex
 contexts/              # GameAudioContext, QuickRecordContext
 fonts/
 hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialoguePosition,
@@ -101,7 +101,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 | 상위 | 하위 링크 |
 |---|---|
-| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(인물 분석), `/explore/today`(오늘의 인물), `/explore/spotlight`(스포트라이트), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(유튜브 채널), `/explore/directory`(디렉토리) |
+| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(인물 분석), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(유튜브 채널), `/explore/directory`(디렉토리) |
 | scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
 | rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
 

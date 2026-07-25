@@ -25,7 +25,7 @@
         "followers": "Followers",
         "similar": "Similar Taste",
         "celebFeed": "Feed",
-        "spotlight": "Spotlight"
+        "faction": "Faction"
       },
       "empty": {
         "noFriends": "No friends yet",
@@ -146,8 +146,8 @@
       "topByTypeSub": "The most prolific seekers in Books, Film, Games, and Music.",
       "lightCelebs": "Thinkers",
       "lightCelebsSub": "Echoes beyond the record. Their thinking adds new depth to your own appreciation.",
-      "spotlight": "Spotlight",
-      "spotlightSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
+      "faction": "Faction",
+      "factionSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
       "allCelebs": "All Seekers",
       "allCelebsSub": "Freely explore the shelves of every seeker.",
       "personaExtremes": "Extraordinary Figures",
@@ -159,7 +159,7 @@
       "navTopByType": "Ranking",
       "navPersona": "Persona",
       "navFeed": "Feed",
-      "navSpotlight": "Spotlight",
+      "navFaction": "Faction",
       "navDirectory": "Directory",
       "navTimeline": "Timeline by Country",
       "navYoutube": "YouTube Channel",
@@ -210,11 +210,11 @@
       "metaTitle": "Today's Figure | Explore",
       "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
     },
-    "spotlight": {
-      "metaTitle": "Spotlight | Explore",
-      "collection": "Spotlight Collection",
+    "faction": {
+      "metaTitle": "Faction | Explore",
+      "collection": "Faction Collection",
       "tabs": {
-        "spotlight": "Spotlight",
+        "faction": "Faction",
         "library": "Library"
       },
       "library": {

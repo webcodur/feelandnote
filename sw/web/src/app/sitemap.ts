@@ -143,7 +143,7 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/explore/figures', 'daily', 0.8],
   ['/explore/ranking', 'daily', 0.7],
   ['/explore/timeline', 'weekly', 0.7],
-  ['/explore/spotlight', 'daily', 0.7],
+  ['/explore/faction', 'daily', 0.7],
   ['/explore/persona', 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],

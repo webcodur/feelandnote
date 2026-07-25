@@ -1,6 +1,6 @@
 /*
   파일명: actions/home/getTagChronologicalLibrary.ts
-  기능: 기획전 태그 내 셀럽들의 연대기 콘텐츠 조회
+  기능: 세력도감 태그 내 셀럽들의 연대기 콘텐츠 조회
   책임: 출생연도 순 정렬된 셀럽 목록과 셀럽별 감상 콘텐츠 반환
 */
 "use server";

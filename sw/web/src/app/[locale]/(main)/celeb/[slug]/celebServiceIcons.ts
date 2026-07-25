@@ -27,6 +27,6 @@ export const CELEB_SERVICE_ICONS = {
   dialogueVoice: AudioLines,
   virtualMonologueVoice: Headphones,
   videos: Film,
-  spotlight: Sparkles,
+  faction: Sparkles,
   guestbook: PenLine,
 } as const;

@@ -8,6 +8,6 @@ export const CELEB_SERVICE_CHAPTERS = {
   virtualMonologue: "07",
   dialogues: "08",
   videos: "09",
-  spotlight: "10",
+  faction: "10",
   guestbook: "11",
 } as const;

@@ -590,7 +590,7 @@ async function main() {
     },
   })
 
-  // ─── _refs 일괄 모드: LLM 기획전 인물 아바타를 팩션 _refs 이미지로 갱신 ──
+  // ─── _refs 일괄 모드: LLM 세력도감 인물 아바타를 팩션 _refs 이미지로 갱신 ──
   //   대상은 LLM 11개 진영 태그에 배정된 인물만(역매칭). _refs의 잉여 파일은 자동 제외.
   if (argv.includes('--refs')) {
     const refsDir = getFlag('--refs-dir') || resolve(__dirname, '..', '..', 'remotion', 'public', 'factions', '01-AI패권전쟁', '_refs')

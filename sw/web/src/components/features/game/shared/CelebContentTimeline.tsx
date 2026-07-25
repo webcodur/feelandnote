@@ -1,7 +1,7 @@
 /*
   파일명: components/features/game/shared/CelebContentTimeline.tsx
   기능: 셀럽 콘텐츠 수직 연대기 타임라인
-  책임: 셀럽들의 감상 콘텐츠를 출생연도 순 수직 타임라인으로 표시 (DawnResult, Spotlight 공유)
+  책임: 셀럽들의 감상 콘텐츠를 출생연도 순 수직 타임라인으로 표시 (DawnResult, Faction 공유)
 */
 "use client";
 

@@ -5,14 +5,14 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
-export interface SpotlightTagName {
+export interface FactionTagName {
   name: string
   name_en: string | null
 }
 
 // slug → 테마명 (상단 배너 breadcrumb용). 가벼운 단건 조회 + 캐싱.
 const getCached = unstable_cache(
-  async (slug: string): Promise<SpotlightTagName | null> => {
+  async (slug: string): Promise<FactionTagName | null> => {
     const supabase = createStaticClient()
     const { data } = await supabase
       .from('celeb_tags')
@@ -21,11 +21,11 @@ const getCached = unstable_cache(
       .maybeSingle()
     return data ?? null
   },
-  ['spotlight-tag-name'],
+  ['faction-tag-name'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS] }
 )
 
-export async function getSpotlightTagName(slug: string): Promise<SpotlightTagName | null> {
+export async function getFactionTagName(slug: string): Promise<FactionTagName | null> {
   if (!slug) return null
   return getCached(slug)
 }

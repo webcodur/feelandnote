@@ -1,4 +1,4 @@
-# 부록 A. 스포트라이트 태그
+# 부록 A. 세력도감 태그
 
 > **최종 실측 체크: 26.07.16** — DB 스키마(`celeb_tags`·`celeb_tag_assignments` 컬럼 전수), 서버 액션 4종, `components/features/landing/` 컴포넌트 7종, 타입 정의, 페이지 라우트, 백오피스 경로를 코드·DB와 대조해 교정.
 
@@ -14,10 +14,10 @@
 | `description` | text | - | - | 태그 설명 (한국어). 한두 문장, 운문체 권장 |
 | `description_en` | text | - | - | 태그 설명 (영문) |
 | `color` | text | - | `#7c4dff` | HEX 색상. 태그 pill UI에 사용 |
-| `slug` | text | - | - | 테마별 고유 주소. `/explore/spotlight/<slug>` (예: `xai`). UNIQUE(null 허용). BO에서 입력 |
-| `team_images` | jsonb | ✅ | `[]` | 단체 이미지 URL 배열(표시 순서대로). NOT NULL. 쇼케이스 좌측 사진 영역에 단체 항목으로 노출(여러 장이면 캐러셀). R2: `spotlight/{tagId}/team/{uuid}.webp` |
+| `slug` | text | - | - | 테마별 고유 주소. `/explore/faction/<slug>` (예: `xai`). UNIQUE(null 허용). BO에서 입력 |
+| `team_images` | jsonb | ✅ | `[]` | 단체 이미지 URL 배열(표시 순서대로). NOT NULL. 쇼케이스 좌측 사진 영역에 단체 항목으로 노출(여러 장이면 캐러셀). R2: `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) |
 | `sort_order` | integer | - | `0` | 태그 목록 정렬 순서 (낮을수록 먼저) |
-| `is_featured` | boolean | - | `false` | `true`면 스포트라이트에 노출, `false`면 예고편(Soon) 표시 |
+| `is_featured` | boolean | - | `false` | `true`면 세력도감에 노출, `false`면 예고편(Soon) 표시 |
 | `start_date` | date | - | - | 기간 한정 태그 시작일 (미사용) |
 | `end_date` | date | - | - | 기간 한정 태그 종료일 (미사용) |
 | `created_at` | timestamptz | - | `now()` | 생성 시각 |
@@ -34,7 +34,7 @@
 | `short_desc_en` | text | - | - | 한줄 소개 (영문) |
 | `long_desc` | text | - | - | 이 태그에서 이 인물의 상세 설명 (한국어, 1~2문장) |
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
-| `spotlight_image_url` | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `spotlight/{tagId}/celeb-{celebId}.webp` |
+| `spotlight_image_url`(물리 명칭은 옛 이름 유지) | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `spotlight/{tagId}/celeb-{celebId}.webp` |
 | `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저) |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
 
@@ -70,7 +70,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
   - 예: "공화정을 끝낸 독재관", "원자폭탄의 아버지"
 - `long_desc`: 1~2문장 상세 설명. 이 인물이 왜 이 태그에 속하는지
 - `sort_order`: 시간순(출생순), 중요도순, 또는 서사 흐름순 중 태그 성격에 맞게 결정
-- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **16명** (`getFeaturedTags`의 `assignments.slice(0, 16)`) — 초과 배정분은 스포트라이트에 안 뜬다
+- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **16명** (`getFeaturedTags`의 `assignments.slice(0, 16)`) — 초과 배정분은 세력도감에 안 뜬다
 
 ---
 
@@ -78,23 +78,23 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 ### 페이지
 
-- `/explore/spotlight` — 스포트라이트 메인 페이지 (테마 미선택 시 소개 화면)
-- `/explore/spotlight/<slug>` — 테마별 고유 주소. 해당 테마를 펼친 채 진입 (예: `/explore/spotlight/xai`). slug 미등록 태그는 404
-- `/explore/spotlight?tag=<id>` — 구버전 쿼리 진입(하위호환 유지). 앱 내 테마 변경 시 주소창은 `history.replaceState`로 `/explore/spotlight/<slug>`로 갱신
+- `/explore/faction` — 세력도감 메인 페이지 (테마 미선택 시 소개 화면)
+- `/explore/faction/<slug>` — 테마별 고유 주소. 해당 테마를 펼친 채 진입 (예: `/explore/faction/xai`). slug 미등록 태그는 404
+- `/explore/faction?tag=<id>` — 구버전 쿼리 진입(하위호환 유지). 앱 내 테마 변경 시 주소창은 `history.replaceState`로 `/explore/faction/<slug>`로 갱신
 
 ### 서버 액션
 
 | 액션 | 파일 | 역할 |
 |------|------|------|
 | `getFeaturedTags()` | `actions/home/getFeaturedTags.ts` | 태그 + 배정 셀럽(태그당 최대 16명) + 프로필·팔로워·영향력·콘텐츠 수·대사 병렬 조회. 각 태그에 `isGroup`/`parentSlug`를 붙여 반환. `unstable_cache`(태그: TAGS·CELEBS·CONTENTS·DIALOGUES) |
-| `getSpotlightTagName()` | `actions/home/getSpotlightTagName.ts` | slug → 테마명 단건 조회(상단 배너 breadcrumb용) |
+| `getFactionTagName()` | `actions/home/getFactionTagName.ts` | slug → 테마명 단건 조회(상단 배너 breadcrumb용) |
 | `getTagSharedLibrary()` | `actions/home/getTagSharedLibrary.ts` | 태그 내 셀럽 공유 콘텐츠 (2명 이상 겹침, celebCount 내림차순) |
 | `getTagChronologicalLibrary()` | `actions/home/getTagChronologicalLibrary.ts` | 태그 내 셀럽 콘텐츠를 출생 연도순 타임라인으로 (셀럽당 최대 4개, `birth_date` 없는 인물은 제외) |
 
 **태그별 인물 수 조회 경로** — web에는 카운트 전용 액션이 **없다**. 화면 숫자는 모두 `getFeaturedTags`가 실어온 `tag.celebs` 배열 길이에서 클라이언트가 센다.
 
-- 개별 테마 카드: `tag.celebs.length` (`SpotlightIntroView`의 `TagCard`, "N Figures")
-- 그룹 헤더: `groupCelebCount()` = 자식 태그들의 `celebs.length` 합 (`spotlightGrouping.ts`)
+- 개별 테마 카드: `tag.celebs.length` (`FactionIntroView`의 `TagCard`, "N Figures")
+- 그룹 헤더: `groupCelebCount()` = 자식 태그들의 `celebs.length` 합 (`factionGrouping.ts`)
 - RPC `get_tag_celeb_counts`는 살아 있으나 **백오피스 전용**이다 — `sw/web-bo/src/actions/admin/tags.ts`의 `getTags()`에서만 호출해 관리 목록의 `celeb_count`를 채운다. web 쪽에서 이 RPC를 부르는 코드는 없다
 
 ### 컴포넌트
@@ -103,35 +103,35 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 | 컴포넌트 | 파일 | 역할 |
 |----------|------|------|
-| `FeaturedSpotlight` | `FeaturedSpotlight.tsx` | 메인 컨테이너. `activeTagIndex` 인덱스 선택 모델(-1 = 컬렉션 화면), 뷰 모드 탭, slug `history.replaceState` 갱신 |
-| `SpotlightIntroView` | `SpotlightIntroView.tsx` | 컬렉션 화면(테마 미선택). 그룹 섹션 헤더 + 펼치면 자식 카드 그리드, 무소속 테마 카드 그리드 |
-| `SpotlightShowcase` | `SpotlightShowcase.tsx` | Spotlight 뷰. **좌측 큰 사진(단체샷 또는 개인샷) + 설명, 우측 단체·인물 리스트**. 단체샷 여러 장이면 좌측에서 캐러셀. 인물 스피커 버튼으로 인사 대사 재생 |
+| `FeaturedFaction` | `FeaturedFaction.tsx` | 메인 컨테이너. `activeTagIndex` 인덱스 선택 모델(-1 = 컬렉션 화면), 뷰 모드 탭, slug `history.replaceState` 갱신 |
+| `FactionIntroView` | `FactionIntroView.tsx` | 컬렉션 화면(테마 미선택). 그룹 섹션 헤더 + 펼치면 자식 카드 그리드, 무소속 테마 카드 그리드 |
+| `FactionShowcase` | `FactionShowcase.tsx` | Faction 뷰. **좌측 큰 사진(단체샷 또는 개인샷) + 설명, 우측 단체·인물 리스트**. 단체샷 여러 장이면 좌측에서 캐러셀. 인물 스피커 버튼으로 인사 대사 재생 |
 | `SharedLibraryView` | `SharedLibraryView.tsx` | 공유 서재 뷰. 콘텐츠 타입 필터(ALL 기본) |
-| `SpotlightTagDrawerDesktop` | `SpotlightTagDrawerDesktop.tsx` | 데스크탑 테마 전환 드로어(그룹 헤더 + 자식) |
-| `SpotlightTagSheetMobile` | `SpotlightTagSheetMobile.tsx` | 모바일 테마 전환 시트 |
-| `spotlightGrouping.ts` | `spotlightGrouping.ts` | 그룹핑 헬퍼(컴포넌트 아님). `topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount` |
+| `FactionTagDrawerDesktop` | `FactionTagDrawerDesktop.tsx` | 데스크탑 테마 전환 드로어(그룹 헤더 + 자식) |
+| `FactionTagSheetMobile` | `FactionTagSheetMobile.tsx` | 모바일 테마 전환 시트 |
+| `factionGrouping.ts` | `factionGrouping.ts` | 그룹핑 헬퍼(컴포넌트 아님). `topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount` |
 
-> **폐기된 옛 이름** — 과거 문서가 표에 박아둔 `CuratedSpotlightDesktop`·`CuratedSpotlightMobile`·`FeaturedSpotlightDesktop`·`FeaturedSpotlightMobile`·`SpotlightTeamBanner`·`SpotlightHeroImage`는 **저장소에 존재하지 않는다.** 전부 `326146f5`(2026-06-28, "기획전 노출 컴포넌트 단일화")에서 제거되고 그 자리에 `SpotlightShowcase.tsx`가 신설됐다. 대체 관계는 1:1 리네임이 아니라 **다수 → 하나로의 통합**이다:
+> **폐기된 옛 이름** — 과거 문서가 표에 박아둔 `CuratedSpotlightDesktop`·`CuratedSpotlightMobile`·`FeaturedSpotlightDesktop`·`FeaturedSpotlightMobile`·`SpotlightTeamBanner`·`SpotlightHeroImage`는 **저장소에 존재하지 않는다.** 전부 `326146f5`(2026-06-28, "기획전 노출 컴포넌트 단일화")에서 제거되고 그 자리에 `SpotlightShowcase.tsx`(현재는 `FactionShowcase.tsx`로 재개명)가 신설됐다. 대체 관계는 1:1 리네임이 아니라 **다수 → 하나로의 통합**이다:
 >
 > | 옛 이름 | 실제 |
 > |---------|------|
-> | `CuratedSpotlightDesktop`(+ `curatedSpotlightDesktop/` 하위 `CelebThumbnails`·`useCuratedSpotlight`) | `SpotlightShowcase` |
-> | `CuratedSpotlightMobile` / `FeaturedSpotlightMobile` / `FeaturedSpotlightDesktop` | `SpotlightShowcase` (데스크탑·모바일 분리 컴포넌트 자체가 없어짐. 반응형 한 벌로 처리하고, 테마 전환 UI만 드로어/시트로 나뉨) |
-> | `SpotlightTeamBanner` (단체 이미지 상단 가로 배너) | `SpotlightShowcase` 좌측 사진 영역의 단체 항목 (**상단 배너가 아니다**. 여러 장이면 그 자리에서 캐러셀) |
-> | `SpotlightHeroImage` (Hero 카드 아래 전용 화보) | `SpotlightShowcase` 좌측 큰 사진 그 자체 (`spotlight_image_url ?? avatar_url`. **Hero "아래"가 아니라 Hero 본체**) |
+> | `CuratedSpotlightDesktop`(+ `curatedSpotlightDesktop/` 하위 `CelebThumbnails`·`useCuratedSpotlight`) | `FactionShowcase` |
+> | `CuratedSpotlightMobile` / `FeaturedSpotlightMobile` / `FeaturedSpotlightDesktop` | `FactionShowcase` (데스크탑·모바일 분리 컴포넌트 자체가 없어짐. 반응형 한 벌로 처리하고, 테마 전환 UI만 드로어/시트로 나뉨) |
+> | `SpotlightTeamBanner` (단체 이미지 상단 가로 배너) | `FactionShowcase` 좌측 사진 영역의 단체 항목 (**상단 배너가 아니다**. 여러 장이면 그 자리에서 캐러셀) |
+> | `SpotlightHeroImage` (Hero 카드 아래 전용 화보) | `FactionShowcase` 좌측 큰 사진 그 자체 (`spotlight_image_url ?? avatar_url`. **Hero "아래"가 아니라 Hero 본체**) |
 >
-> 즉 단체샷·전용 화보를 그리는 별도 컴포넌트는 없다. 이미지 관련 화면 문제는 전부 `SpotlightShowcase.tsx` 한 곳을 본다.
+> 즉 단체샷·전용 화보를 그리는 별도 컴포넌트는 없다. 이미지 관련 화면 문제는 전부 `FactionShowcase.tsx` 한 곳을 본다.
 
 ### 상위 그룹 (코드 상수)
 
 `celeb_tags`에 계층 컬럼이 없어 그룹 소속을 코드로 관리한다.
 
-- SSoT: `sw/web/src/constants/spotlightGroups.ts` (`SPOTLIGHT_GROUPS`, 파생 `SPOTLIGHT_CHILD_TO_GROUP`·`SPOTLIGHT_GROUP_SLUGS`·`SPOTLIGHT_GROUP_CHILD_ORDER`)
+- SSoT: `sw/web/src/constants/factionGroups.ts` (`FACTION_GROUPS`, 파생 `FACTION_CHILD_TO_GROUP`·`FACTION_GROUP_SLUGS`·`FACTION_GROUP_CHILD_ORDER`)
 - 그룹 헤더도 `celeb_tags`의 **일반 태그 1행**이다(배정 0). `getFeaturedTags`는 배정이 없어도 그룹 헤더를 목록에 포함한다
 - 현재 그룹 8개: `ai`(자식 11) / `rulers-and-empires`(4) / `heroes-of-turbulent-times`(2) / `the-thinkers`(2) / `revolutions-and-founding`(3) / `art-movements`(4) / `self-made-innovators`(3) / `against-adversity`(2)
 - 컬렉션 최상위에는 그룹 헤더와 무소속 태그만 노출한다. 자식은 그룹을 펼쳐야 보인다
 - 그룹 추가·이동은 이 상수 파일만 고친다(백오피스에 그룹 편집 화면 없음)
-- 그룹 헤더 slug로 진입하면(예: `/explore/spotlight/ai`) 개별 테마가 아니므로 컬렉션 화면으로 연다
+- 그룹 헤더 slug로 진입하면(예: `/explore/faction/ai`) 개별 테마가 아니므로 컬렉션 화면으로 연다
 
 ### 백오피스 관리 (web-bo)
 
@@ -141,13 +141,13 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
   - **단체 이미지**: 다중 업로드(크롭)·삭제·드래그 순서변경
   - **전용 인물 화보**: 셀럽 행마다 1장 업로드·교체·삭제
 - 서버 액션: `actions/admin/tags.ts`(`setTagTeamImages`, `setTagCelebImage`, slug 처리), `actions/admin/storage.ts`(`uploadTagTeamImage`/`deleteTagTeamImage`/`uploadTagCelebImage`/`deleteTagCelebImage`)
-- 이미지 처리: `lib/image.ts`의 `spotlight`(1080×1080) 사이즈, `components/ui/ImageCropModal.tsx` 재사용. R2 업로드는 `lib/r2.ts`
+- 이미지 처리: `lib/image.ts`의 `faction`(1080×1080) 사이즈, `components/ui/ImageCropModal.tsx` 재사용. R2 업로드는 `lib/r2.ts`
 
 ### 뷰 모드
 
-탭은 **2개**다 (`ViewMode = "spotlight" | "library"`).
+탭은 **2개**다 (`ViewMode = "faction" | "library"`).
 
-1. **Spotlight** (기본) — `SpotlightShowcase`. 좌측 사진·설명 + 우측 리스트에서 항목을 골라 전환(드래그 아님). 인물 항목은 스피커 버튼으로 인사 대사 재생
+1. **Faction** (기본) — `FactionShowcase`. 좌측 사진·설명 + 우측 리스트에서 항목을 골라 전환(드래그 아님). 인물 항목은 스피커 버튼으로 인사 대사 재생
 2. **Library** — 한 화면에 두 블록을 세로로 쌓는다
    - 함께 본 서재 — 2명 이상이 공통 감상한 콘텐츠. 타입 필터 지원 (`SharedLibraryView`)
    - 인물별 서재 — 출생 연도순 타임라인. 셀럽당 콘텐츠 최대 4개 (`CelebContentTimeline`)
@@ -232,7 +232,7 @@ ORDER BY nickname;
 ```
 
 - DB 미등록 인물: `celeb-creation-rulebook` 에이전트로 먼저 등록
-- `status = 'inactive'`인 인물도 태그 배정 가능 (스포트라이트에 정상 노출됨)
+- `status = 'inactive'`인 인물도 태그 배정 가능 (세력도감에 정상 노출됨)
 
 ### 3단계: 인물 배정
 
@@ -300,8 +300,8 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
 - **태그 아이디어 후보**: `docs/todo/tag-ideas.md`
-- **스포트라이트 페이지**: `sw/web/src/app/[locale]/(main)/explore/spotlight/page.tsx`, 테마별 주소는 `.../spotlight/[slug]/page.tsx`(미등록 slug는 `notFound()`)
+- **세력도감 페이지**: `sw/web/src/app/[locale]/(main)/explore/faction/page.tsx`, 테마별 주소는 `.../faction/[slug]/page.tsx`(미등록 slug는 `notFound()`)
 - **getFeaturedTags 액션**: `sw/web/src/actions/home/getFeaturedTags.ts` (`FeaturedTag`·`FeaturedCeleb` 타입도 여기)
-- **상위 그룹 상수(SSoT)**: `sw/web/src/constants/spotlightGroups.ts`
-- **그룹핑 헬퍼**: `sw/web/src/components/features/landing/spotlightGrouping.ts`
-- **팩션 인물 반영·이미지 3종(아바타·개인샷·그룹샷)·상위 그룹·캐시 무효화**: 스킬 `spotlight-celeb-sync` (`.agents/skills/spotlight-celeb-sync/SKILL.md`). 상위 그룹 개편 기록은 `docs/project/spotlight-ai-group-refactor.md`.
+- **상위 그룹 상수(SSoT)**: `sw/web/src/constants/factionGroups.ts`
+- **그룹핑 헬퍼**: `sw/web/src/components/features/landing/factionGrouping.ts`
+- **팩션(영상 시리즈) 인물 반영·이미지 3종(아바타·개인샷·그룹샷)·상위 그룹·캐시 무효화**: 스킬 `faction-celeb-sync` (`.agents/skills/faction-celeb-sync/SKILL.md`). 상위 그룹 개편 기록은 `docs/project/faction-ai-group-refactor.md`.

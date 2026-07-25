@@ -7,21 +7,21 @@ import type { FeaturedTag } from "@/actions/home";
 import { useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
-import { topLevelTags, childTags, groupCelebCount } from "./spotlightGrouping";
+import { topLevelTags, childTags, groupCelebCount } from "./factionGrouping";
 
-interface SpotlightTagSheetMobileProps {
+interface FactionTagSheetMobileProps {
   tags: FeaturedTag[];
   activeIndex: number;
   onChange: (idx: number) => void;
   locale: Locale;
 }
 
-export default function SpotlightTagSheetMobile({
+export default function FactionTagSheetMobile({
   tags,
   activeIndex,
   onChange,
   locale,
-}: SpotlightTagSheetMobileProps) {
+}: FactionTagSheetMobileProps) {
   const t = useTranslations("landing");
   const [isOpen, setIsOpen] = useState(false);
   const activeTag = tags[activeIndex];

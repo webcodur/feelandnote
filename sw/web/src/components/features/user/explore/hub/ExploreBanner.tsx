@@ -13,14 +13,14 @@ import { usePathname, Link, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
-import { getSpotlightTagName } from "@/actions/home";
+import { getFactionTagName } from "@/actions/home";
 
 const SUBPAGE_KEY: Record<string, string> = {
   // 현재 경로
   figures: "navCelebs",
   ranking: "navTopByType",
   persona: "navPersona",
-  spotlight: "navSpotlight",
+  faction: "navFaction",
   feed: "navFeed",
   timeline: "navTimeline",
   directory: "navDirectory",
@@ -49,28 +49,28 @@ export default function ExploreBanner() {
 
   const pageTitle = isSubpage ? hubT(subKey!) : hubTitle;
 
-  // 스포트라이트 테마(slug) 진입 시 3단계 breadcrumb: 탐색 > 스포트라이트 > 테마명
-  const pathSlug = subSegment === "spotlight" && segments[2] ? segments[2] : undefined;
+  // 세력도감 테마(slug) 진입 시 3단계 breadcrumb: 탐색 > 세력도감 > 테마명
+  const pathSlug = subSegment === "faction" && segments[2] ? segments[2] : undefined;
   const [themeSlug, setThemeSlug] = useState<string | undefined>(pathSlug);
   const [themeName, setThemeName] = useState<string | null>(null);
 
   // 경로 변경(직접 진입) 반영
   useEffect(() => { setThemeSlug(pathSlug); }, [pathSlug]);
 
-  // 앱 내 테마 전환(replaceState) 반영 — FeaturedSpotlight가 쏘는 이벤트 수신
+  // 앱 내 테마 전환(replaceState) 반영 — FeaturedFaction이 쏘는 이벤트 수신
   useEffect(() => {
     const handler = (e: Event) => {
       const slug = (e as CustomEvent<string | null>).detail;
       setThemeSlug(slug || undefined);
     };
-    window.addEventListener("spotlight:theme", handler);
-    return () => window.removeEventListener("spotlight:theme", handler);
+    window.addEventListener("faction:theme", handler);
+    return () => window.removeEventListener("faction:theme", handler);
   }, []);
 
   useEffect(() => {
     if (!themeSlug) { setThemeName(null); return; }
     let active = true;
-    getSpotlightTagName(themeSlug).then((r) => {
+    getFactionTagName(themeSlug).then((r) => {
       if (active) setThemeName(r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null);
     });
     return () => { active = false; };
@@ -104,7 +104,7 @@ export default function ExploreBanner() {
             {hasTheme ? (
               <>
                 <Link
-                  href="/explore/spotlight"
+                  href="/explore/faction"
                   className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
                 >
                   {pageTitle}
@@ -157,7 +157,7 @@ export default function ExploreBanner() {
               {hasTheme ? (
                 <>
                   <Link
-                    href="/explore/spotlight"
+                    href="/explore/faction"
                     className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300"
                   >
                     {pageTitle}

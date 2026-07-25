@@ -1,10 +1,10 @@
 /**
- * 스포트라이트 태그 전용 인물 개인샷(celeb_tag_assignments.spotlight_image_url) 일괄 등록
+ * 세력도감 태그 전용 인물 개인샷(celeb_tag_assignments.spotlight_image_url) 일괄 등록
  * faction 인물 원본 이미지(전신/연출 화보) → 원본 비율 유지 webp → R2 spotlight/{tagId}/celeb-{celebId}.webp → assignment 갱신
  * ※ 아바타(avatar_url, 얼굴 크롭)와 별개. 여기서는 얼굴 크롭하지 않고 원본을 그대로 쓴다.
  *
- * 입력: scratchpad/spotlight_img_batch.json  [{slug, celeb_id, tag, tag_id, image}]
- * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/upload-spotlight-celeb-images.ts
+ * 입력: scratchpad/faction_img_batch.json  [{slug, celeb_id, tag, tag_id, image}]
+ * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/upload-faction-celeb-images.ts
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
@@ -27,7 +27,7 @@ function loadEnv(p: string) {
   }
 }
 
-const BATCH = 'C:/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/296147b2-68ac-47ef-abdd-0a2460cb2dc1/scratchpad/spotlight_img_batch.json'
+const BATCH = 'C:/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/296147b2-68ac-47ef-abdd-0a2460cb2dc1/scratchpad/faction_img_batch.json'
 
 async function main() {
   loadEnv(resolve(__dirname, '..', '.env'))
