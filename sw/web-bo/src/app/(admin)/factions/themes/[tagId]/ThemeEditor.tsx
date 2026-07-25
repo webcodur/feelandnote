@@ -38,7 +38,7 @@ import {
   setTagTeamImages,
   setTagCelebImage,
 } from '@/actions/admin/tags'
-import type { ThemeEpisodeLink } from '@/actions/admin/factions/themes'
+import type { ThemeEpisodeLink, ThemeParentOption } from '@/actions/admin/factions/themes'
 import {
   uploadTagTeamImage,
   deleteTagTeamImage,
@@ -63,9 +63,19 @@ interface Props {
   initialCelebs: CelebTagAssignment[]
   /** 이 테마를 세력으로 쓰는 영상 편 */
   episodes: ThemeEpisodeLink[]
+  /** 상위 묶음으로 고를 수 있는 테마 목록 */
+  parentOptions: ThemeParentOption[]
+  /** 이 테마가 아래에 거느린 테마 수 — 하나라도 있으면 스스로는 어디에도 못 들어간다 */
+  ownChildCount: number
 }
 
-export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }: Props) {
+export default function ThemeEditor({
+  tag: initialTag,
+  initialCelebs,
+  episodes,
+  parentOptions,
+  ownChildCount,
+}: Props) {
   const router = useRouter()
 
   // #region 테마 정보 상태 (저장된 값 ↔ 편집 중인 값)
@@ -78,6 +88,7 @@ export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }
     color: initialTag.color,
     slug: initialTag.slug ?? '',
     is_featured: initialTag.is_featured,
+    parent_id: initialTag.parent_id ?? '',
     start_date: initialTag.start_date ?? '',
     end_date: initialTag.end_date ?? '',
   })
@@ -92,6 +103,7 @@ export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }
     form.color !== tag.color ||
     form.slug !== (tag.slug ?? '') ||
     form.is_featured !== tag.is_featured ||
+    form.parent_id !== (tag.parent_id ?? '') ||
     form.start_date !== (tag.start_date ?? '') ||
     form.end_date !== (tag.end_date ?? '')
   // #endregion
@@ -142,6 +154,7 @@ export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }
       color: form.color,
       slug: form.slug || null,
       is_featured: form.is_featured,
+      parent_id: form.parent_id || null,
       start_date: form.start_date || null,
       end_date: form.end_date || null,
     })
@@ -154,10 +167,13 @@ export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }
         description: form.description || null,
         description_en: form.description_en || null,
         slug: form.slug || null,
+        parent_id: form.parent_id || null,
         start_date: form.start_date || null,
         end_date: form.end_date || null,
         updated_at: new Date().toISOString(),
       }))
+      // 위계가 바뀌면 목록·다른 테마의 선택지도 달라지므로 서버 데이터를 다시 받는다
+      router.refresh()
     } else {
       alert(result.error ?? '수정 실패')
     }
@@ -398,6 +414,28 @@ export default function ThemeEditor({ tag: initialTag, initialCelebs, episodes }
               placeholder="EN description (optional)"
               className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
             />
+          </div>
+        </FormRow>
+        <FormRow label="상위 묶음">
+          <div className="flex-1 space-y-1.5">
+            <select
+              value={form.parent_id}
+              onChange={(e) => setForm({ ...form, parent_id: e.target.value })}
+              disabled={ownChildCount > 0}
+              className="w-full px-4 py-2.5 bg-bg-secondary border border-border rounded-lg text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50"
+            >
+              <option value="">묶음 없음 (도감에 단독으로 실림)</option>
+              {parentOptions.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}{p.childCount > 0 ? ` — 테마 ${p.childCount}개를 거느림` : ' — 고르면 새 묶음이 됩니다'}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-text-tertiary">
+              {ownChildCount > 0
+                ? `이 테마는 아래에 테마 ${ownChildCount}개를 거느린 묶음입니다. 묶음은 다시 다른 묶음에 들어갈 수 없습니다.`
+                : '묶음을 고르면 도감에서 그 묶음을 펼쳤을 때 안쪽에 실립니다. 묶음을 새로 만들려면 테마를 하나 만든 뒤, 그 아래에 둘 테마들에서 여기로 그 테마를 고르면 됩니다.'}
+            </p>
           </div>
         </FormRow>
         <FormRow label="색상">

@@ -2,13 +2,13 @@
  * 출간 진단 — 제작 데이터를 서비스 도감·이미지 저장소 기록과 대조한다. 서버 전용, 읽기만 한다.
  *
  * **텍스트 대조는 없다.** 제작과 서비스가 같은 DB 안에 있어 견줄 상대가 없기 때문이다(문서 §4).
- * 남는 항목은 다섯이다.
+ * 남는 항목은 여섯이다.
  *   ① 셀럽이 해소되지 않은 인물 — 출간이 막힌다
  *   ② 태그가 지정되지 않은 세력 — 출간이 막힌다
  *   ③ 개인샷·그룹샷의 저장소 동기 상태 — 매니페스트 해시 대조
  *   ④ 얼굴 사진(아바타) 유무 — 도감 목록이 얼굴을 쓴다
  *   ⑤ 신화 표시 ↔ 셀럽 등급(fiction) 어긋남
- *   ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조 — 어긋남을 알리기만 한다
+ *   ⑥ 대사 목소리 ↔ 셀럽 목소리 대조 — 국문·영문 각각. 어긋남을 알리기만 한다
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js'
@@ -24,7 +24,8 @@ import {
 } from './supabase'
 import type {
   FactionSyncGroup, FactionSyncLinkState, FactionSyncPerson,
-  FactionSyncSoloShotState, FactionSyncStatus, FactionSyncVoiceState,
+  FactionSyncSoloShotState, FactionSyncStatus, FactionSyncVoiceState, FactionSyncVoicePair,
+  FactionVoiceLocale,
 } from './types'
 
 /** 서비스 쪽 현재 상태 한 벌 — 태그·배정·프로필. 인물마다 조회하지 않고 편 단위로 묶어 긁는다 */
@@ -141,7 +142,7 @@ function tierMismatchOf(mythical: boolean, tier: string | undefined): boolean {
 }
 
 /**
- * 대사 목소리 대조 — 제작 데이터의 대사 목소리와 셀럽 프로필의 국문 목소리를 견준다.
+ * 대사 목소리 대조 — 제작 데이터의 대사 목소리와 셀럽 프로필의 **같은 언어** 목소리를 견준다.
  * 어느 쪽이 맞는지는 사람이 정하므로 출간을 막지 않고 알리기만 한다(등급 어긋남과 같은 성격이다).
  */
 export function voiceStateOf(
@@ -153,6 +154,24 @@ export function voiceStateOf(
   if (!mine) return 'profile-only'
   if (!theirs) return 'person-only'
   return mine === theirs ? 'same' : 'different'
+}
+
+/** 국문·영문을 각각 대조한다 — 셀럽 프로필이 언어별 목소리를 따로 들고 있기 때문이다 */
+function voicePairOf(p: PublishPerson, profile: CelebProfileRow): FactionSyncVoicePair {
+  return {
+    ko: voiceStateOf(p.quoteVoiceIds.ko, profile.voice_id_ko),
+    en: voiceStateOf(p.quoteVoiceIds.en, profile.voice_id_en),
+  }
+}
+
+/** 언어별 인원 집계 — 셀럽이 안 이어진 인물은 값이 없어 자연히 빠진다 */
+function countByLocale(
+  people: FactionSyncPerson[], state: FactionSyncVoiceState,
+): Record<FactionVoiceLocale, number> {
+  return {
+    ko: people.filter(p => p.voice?.ko === state).length,
+    en: people.filter(p => p.voice?.en === state).length,
+  }
 }
 
 /** 에피소드 진단 — 읽기 전용 보고 */
@@ -191,7 +210,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
         tier,
         tierMismatch: tierMismatchOf(p.mythical, tier),
         // 셀럽이 이어져야 견줄 상대가 있다 — 미해소 인물은 아예 값을 두지 않는다
-        ...(profile ? { voice: voiceStateOf(p.quoteVoiceId, profile.voice_id_ko) } : {}),
+        ...(profile ? { voice: voicePairOf(p, profile) } : {}),
       })
     }
 
@@ -253,8 +272,8 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
       teamShotPending: groups.reduce((s, g) => s + Math.max(0, g.teamShots.local - g.teamShots.synced), 0),
       avatarMissing: allPeople.filter(p => p.link === 'linked' && !p.avatar).length,
       tierMismatch: allPeople.filter(p => p.tierMismatch).length,
-      voiceDifferent: allPeople.filter(p => p.voice === 'different').length,
-      voiceFillable: allPeople.filter(p => p.voice === 'profile-only').length,
+      voiceDifferent: countByLocale(allPeople, 'different'),
+      voiceFillable: countByLocale(allPeople, 'profile-only'),
     },
   }
 }

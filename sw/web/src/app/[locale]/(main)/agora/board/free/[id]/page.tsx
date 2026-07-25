@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
-import { getFreePost, getFreeComments, incrementFreePostView } from '@/actions/board/free'
+import { getFreePost, getFreeComments } from '@/actions/board/free'
 import FreePostDetail from '@/components/features/board/free/FreePostDetail'
 
 interface FreeDetailPageProps {
@@ -33,12 +33,10 @@ export default async function FreeDetailPage({ params }: FreeDetailPageProps) {
     notFound()
   }
 
-  // 조회수 증가 (1회)
-  await incrementFreePostView(id)
-
+  // 조회수 증가는 클라이언트(FreePostDetail)가 24시간 중복 방지 판정 후 수행한다
   return (
     <FreePostDetail
-      post={{ ...post, view_count: post.view_count + 1 }}
+      post={post}
       initialComments={comments}
       currentUserId={user?.id}
       isAdmin={admin}

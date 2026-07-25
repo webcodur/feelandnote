@@ -117,6 +117,10 @@ export interface FactionPerson extends FactionCardFields {
   epithetSpeaker?: string
   /** 수식어 나레이션 ElevenLabs 보이스 ID */
   epithetElevenlabsVoiceId?: string
+  /** 수식어 나레이션 합성 엔진 — 영문판. 국문(epithetEngine)과 따로 고른다 */
+  epithetEngineEn?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 수식어 나레이션 ElevenLabs 보이스 ID — 영문판. 셀럽 프로필의 voice_id_en 과 짝이다 */
+  epithetElevenlabsVoiceIdEn?: string
   /** 수식어 나레이션 발화 스타일 prefix (Gemini) */
   epithetStyle?: string
   /** 수식어 나레이션 ELE 감정/강도 */
@@ -228,6 +232,21 @@ export interface FactionPerson extends FactionCardFields {
   quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** 대사 음성 ElevenLabs 보이스 ID (선택) — quoteEngine='elevenlabs' 일 때 사용. 미리듣기·사용자 생성용 */
   quoteElevenlabsVoiceId?: string
+  /**
+   * 대사 음성 합성 엔진 — **영문판**. 국문(quoteEngine)과 따로 고른다.
+   *
+   * 국문과 한 칸을 나눠 쓰지 않는 이유: 영문 목소리를 채우며 엔진을 바꾸면 국문 합성 엔진까지
+   * 함께 바뀐다. 언어마다 잘 맞는 엔진이 다르므로(국문 GEM · 영문 ELE 같은 조합) 칸을 갈랐다.
+   *
+   * ⚠ 음성 합성 파이프라인은 아직 이 값을 읽지 않는다 — `--lang en` 으로 돌려도 국문 엔진(quoteEngine)을
+   *   따른다. 현재는 백오피스 편집기의 미리듣기·수동 생성과 셀럽 목소리 연동에만 쓰인다.
+   */
+  quoteEngineEn?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /**
+   * 대사 음성 ElevenLabs 보이스 ID — **영문판**. 셀럽 프로필의 `voice_id_en` 과 짝이다
+   * (국문 `quoteElevenlabsVoiceId` ↔ `voice_id_ko`). 위와 같은 이유로 파이프라인은 아직 안 읽는다.
+   */
+  quoteElevenlabsVoiceIdEn?: string
   /**
    * 대사 발화 스타일 지시 (선택) — Gemini 합성 시 텍스트 앞에 "<지시>: " prefix 로 붙는다.
    * 예: '강하고 단호하게', '낮고 간절하게'. 비면 기본 말투. 인물별로 톤을 저장해 같은 보이스라도

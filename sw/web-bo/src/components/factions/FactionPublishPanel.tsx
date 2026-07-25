@@ -11,6 +11,7 @@ import type {
   FactionSyncGroup,
   FactionSyncPerson,
   FactionSyncVoiceState,
+  FactionVoiceLocale,
   FactionPublishRequest,
   FactionPublishResult,
   FactionPublishItem,
@@ -60,30 +61,29 @@ const RESULT_STATUS_CLASS: Record<string, string> = {
   blocked: 'bg-danger/20 text-danger-text',
 }
 
+/** 언어 표시 — 칩·집계·버튼이 같은 낱말을 쓴다 */
+const LOCALE_LABEL: Record<FactionVoiceLocale, string> = { ko: '국문', en: '영문' }
+
 /**
- * 대사 목소리 대조 칩 — 인물 대사에 지정된 목소리와 셀럽 국문 목소리를 견준 결과.
+ * 대사 목소리 대조 칩 — 인물 대사에 지정된 목소리와 셀럽의 **같은 언어** 목소리를 견준 결과.
  * 「같음」은 굳이 알릴 일이 아니라 칩을 띄우지 않는다(칩이 많으면 어긋난 것이 안 보인다).
+ * 「양쪽 다 없음」도 띄우지 않는다 — 국문·영문 두 칩이 되면서 아직 손대지 않은 인물마다 칩 두 개가 붙는다.
  */
-const VOICE_CHIP: Partial<Record<FactionSyncVoiceState, { label: string; cls: string; hint: string }>> = {
+const VOICE_CHIP: Partial<Record<FactionSyncVoiceState, { label: string; cls: string; hint: (lang: string) => string }>> = {
   different: {
-    label: '목소리 다름',
+    label: '다름',
     cls: 'bg-warning/20 text-warning-text',
-    hint: '이 인물 대사에 지정된 목소리와 셀럽에 등록된 국문 목소리가 다르다. 어느 쪽이 맞는지는 사람이 정한다(출간은 막히지 않는다)',
+    hint: l => `이 인물 대사의 ${l} 목소리와 셀럽에 등록된 ${l} 목소리가 다르다. 어느 쪽이 맞는지는 사람이 정한다(출간은 막히지 않는다)`,
   },
   'profile-only': {
-    label: '셀럽에만 있음',
+    label: '셀럽에만',
     cls: 'bg-info/20 text-info-text',
-    hint: '셀럽에는 국문 목소리가 등록돼 있는데 이 인물 대사에는 비어 있다 — 위쪽 「목소리 물려받기」로 채울 수 있다',
+    hint: l => `셀럽에는 ${l} 목소리가 등록돼 있는데 이 인물 대사에는 비어 있다 — 위쪽 「목소리 물려받기」로 채울 수 있다`,
   },
   'person-only': {
     label: '셀럽에 없음',
     cls: 'bg-bg-main text-text-dim',
-    hint: '이 인물 대사에만 목소리가 있고 셀럽에는 등록되지 않았다 — 인물 음성 화면의 「DB에 저장」으로 올릴 수 있다',
-  },
-  'both-empty': {
-    label: '목소리 없음',
-    cls: 'bg-bg-main text-text-dim',
-    hint: '이 인물 대사와 셀럽 양쪽 모두 목소리가 지정되지 않았다',
+    hint: l => `이 인물 대사에만 ${l} 목소리가 있고 셀럽에는 등록되지 않았다 — 인물 음성 화면의 「셀럽 ${l}에 저장」으로 올릴 수 있다`,
   },
 }
 
@@ -164,7 +164,8 @@ export function FactionPublishPanel({
   const [busyGroup, setBusyGroup] = useState<number | null>(null)
   const [allProgress, setAllProgress] = useState<{ done: number; total: number } | null>(null)
   const [logs, setLogs] = useState<LogEntry[]>([])
-  // 목소리 물려받기 — 미리보기(명단만)와 실제 채우기가 같은 창구를 쓴다
+  // 목소리 물려받기 — 미리보기(명단만)와 실제 채우기가 같은 창구를 쓴다. 언어는 사람이 고른다
+  const [voiceLocales, setVoiceLocales] = useState<FactionVoiceLocale[]>(['ko', 'en'])
   const [voiceBusy, setVoiceBusy] = useState(false)
   const [voiceResult, setVoiceResult] = useState<InheritFactionVoicesResult | null>(null)
   const [voiceError, setVoiceError] = useState<string | null>(null)
@@ -228,7 +229,7 @@ export function FactionPublishPanel({
   }, [name, force, ensureSaved, fetchStatus])
 
   /**
-   * 대사 목소리 물려받기 — 셀럽에 등록된 국문 목소리를 **비어 있는 인물만** 채운다.
+   * 대사 목소리 물려받기 — 셀럽에 등록된 목소리를 **그 언어 칸이 비어 있는 인물만** 채운다(국문·영문 각각).
    * 미리보기는 아무것도 쓰지 않고 대상 명단만 돌려준다.
    */
   const runVoiceInherit = useCallback(async (dryRun: boolean) => {
@@ -236,7 +237,7 @@ export function FactionPublishPanel({
     setVoiceError(null)
     try {
       await ensureSaved()
-      const r = await inheritFactionVoices(name, dryRun)
+      const r = await inheritFactionVoices(name, dryRun, voiceLocales)
       setVoiceResult(r)
       if (!dryRun && r.filled) {
         await fetchStatus()
@@ -249,7 +250,7 @@ export function FactionPublishPanel({
     } finally {
       setVoiceBusy(false)
     }
-  }, [name, ensureSaved, fetchStatus, onDataChanged])
+  }, [name, voiceLocales, ensureSaved, fetchStatus, onDataChanged])
 
   /**
    * 개인샷을 그 셀럽의 얼굴 사진으로 승격한다 — 셀럽 본문을 건드리는 유일한 경로라 한 명씩,
@@ -311,6 +312,11 @@ export function FactionPublishPanel({
   const allUnlinked = status.groups.flatMap(g =>
     (g.people ?? []).filter(p => !isLinked(p)).map(p => ({ groupName: g.name, person: p })),
   )
+  // 고른 언어에 실제로 채울 인물이 있는지 — 없으면 「채우기」를 잠근다
+  const fillablePicked = voiceLocales.reduce((n, loc) => n + summary.voiceFillable[loc], 0)
+  const pickedLangLabel = voiceLocales.length
+    ? voiceLocales.map(l => LOCALE_LABEL[l]).join('·')
+    : '(언어 미선택)'
   const tierMismatched = status.groups.flatMap(g =>
     (g.people ?? []).filter(p => p.tierMismatch).map(p => ({ groupName: g.name, person: p })),
   )
@@ -366,25 +372,49 @@ export function FactionPublishPanel({
         <span title="태그가 지정되지 않아 출간할 수 없는 세력">
           태그 미지정 세력 <span className="font-semibold text-danger-text">{summary.groupsUnlinked}</span>
         </span>
-        <span title="이 인물 대사에 지정된 목소리와 셀럽에 등록된 국문 목소리가 서로 다른 인물 — 어느 쪽이 맞는지는 사람이 정한다">
-          목소리 다름 <span className="font-semibold text-warning-text">{summary.voiceDifferent}</span>
+        <span title="인물 대사에 지정된 목소리와 셀럽에 등록된 같은 언어 목소리가 서로 다른 인물 — 어느 쪽이 맞는지는 사람이 정한다">
+          목소리 다름 국문 <span className="font-semibold text-warning-text">{summary.voiceDifferent.ko}</span>
+          {' · '}영문 <span className="font-semibold text-warning-text">{summary.voiceDifferent.en}</span>
         </span>
-        <span title="셀럽에는 국문 목소리가 있는데 인물 대사에는 비어 있는 인물 — 아래 「목소리 물려받기」로 채울 수 있다">
-          목소리 물려받을 수 있음 <span className="font-semibold text-text-primary">{summary.voiceFillable}</span>
+        <span title="셀럽에는 그 언어 목소리가 있는데 인물 대사에는 비어 있는 인물 — 아래 「목소리 물려받기」로 채울 수 있다">
+          물려받을 수 있음 국문 <span className="font-semibold text-text-primary">{summary.voiceFillable.ko}</span>
+          {' · '}영문 <span className="font-semibold text-text-primary">{summary.voiceFillable.en}</span>
         </span>
       </div>
 
-      {/* 대사 목소리 물려받기 — 셀럽에 등록된 국문 목소리를 빈 인물에게만 내려 채운다 */}
+      {/* 대사 목소리 물려받기 — 셀럽에 등록된 목소리를 빈 칸에만 내려 채운다. 국문·영문 각각 */}
       <div className="space-y-2 rounded-md border border-border bg-bg-main/30 px-3 py-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs font-bold text-text-primary">대사 목소리 물려받기</span>
           <span className="text-[11px] text-text-dim">
-            셀럽에 등록된 국문 목소리를 <span className="font-semibold text-text-secondary">목소리가 비어 있는 인물에게만</span> 채웁니다. 이미 고른 목소리는 덮지 않습니다.
+            셀럽에 등록된 목소리를 <span className="font-semibold text-text-secondary">그 언어 칸이 비어 있는 인물에게만</span> 채웁니다. 이미 고른 목소리는 덮지 않습니다.
           </span>
+
+          {/* 언어 고르기 — 국문·영문은 셀럽 쪽도 인물 쪽도 칸이 따로라 각각 채운다 */}
+          <div className="flex items-center gap-1" role="group" aria-label="채울 언어">
+            {(['ko', 'en'] as const).map(loc => {
+              const on = voiceLocales.includes(loc)
+              return (
+                <button
+                  key={loc}
+                  onClick={() => setVoiceLocales(prev => (
+                    prev.includes(loc) ? prev.filter(l => l !== loc) : [...prev, loc]
+                  ))}
+                  disabled={voiceBusy}
+                  className={`rounded border px-2 py-0.5 text-[11px] font-semibold disabled:opacity-50 ${
+                    on ? 'border-accent bg-accent/15 text-accent' : 'border-border bg-bg-card text-text-dim hover:bg-bg-hover'
+                  }`}
+                  title={`셀럽 ${LOCALE_LABEL[loc]} 목소리를 채울 대상에 넣는다`}
+                >
+                  {LOCALE_LABEL[loc]}
+                </button>
+              )
+            })}
+          </div>
           <div className="ml-auto flex items-center gap-1.5">
             <button
               onClick={() => runVoiceInherit(true)}
-              disabled={voiceBusy || busyGroup !== null || !!allProgress}
+              disabled={voiceBusy || busyGroup !== null || !!allProgress || !voiceLocales.length}
               className={BTN_SMALL_DEFAULT}
               title="채울 대상 명단만 계산(실제 반영 없음)"
             >
@@ -392,12 +422,12 @@ export function FactionPublishPanel({
             </button>
             <button
               onClick={() => {
-                if (!confirm('셀럽에 등록된 국문 목소리를 비어 있는 인물에게 채웁니다. 계속할까요?')) return
+                if (!confirm(`셀럽에 등록된 ${pickedLangLabel} 목소리를 비어 있는 인물에게 채웁니다. 계속할까요?`)) return
                 runVoiceInherit(false)
               }}
-              disabled={voiceBusy || busyGroup !== null || !!allProgress || summary.voiceFillable === 0}
+              disabled={voiceBusy || busyGroup !== null || !!allProgress || !fillablePicked}
               className={BTN_SMALL_ACCENT}
-              title={summary.voiceFillable === 0 ? '채울 인물이 없습니다' : '비어 있는 인물의 대사 목소리를 채운다'}
+              title={!fillablePicked ? '고른 언어에 채울 인물이 없습니다' : `${pickedLangLabel} 목소리가 비어 있는 인물을 채운다`}
             >
               {voiceBusy ? <Loader size={13} /> : <Upload size={13} />} 채우기
             </button>
@@ -616,7 +646,6 @@ function PersonRow({
   onPromoteAvatar: (person: FactionSyncPerson, replace: boolean) => void
 }) {
   const p = person
-  const voice = p.voice ? VOICE_CHIP[p.voice] : undefined
   // 승격 재료는 로컬 개인샷이다 — 저장소에만 있거나(db-only) 아예 없으면(none) 올릴 파일이 없다
   const hasLocalShot = p.soloShot === 'synced' || p.soloShot === 'stale' || p.soloShot === 'local-only'
   const canPromote = isLinked(p) && hasLocalShot
@@ -633,11 +662,17 @@ function PersonRow({
         </span>
       )}
 
-      {voice && (
-        <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${voice.cls}`} title={voice.hint}>
-          {voice.label}
-        </span>
-      )}
+      {/* 목소리 대조 — 국문·영문을 각각 알린다. 같거나 양쪽 다 비었으면 칩을 띄우지 않는다 */}
+      {p.voice && (['ko', 'en'] as const).map(loc => {
+        const chip = VOICE_CHIP[p.voice![loc]]
+        if (!chip) return null
+        const langLabel = LOCALE_LABEL[loc]
+        return (
+          <span key={loc} className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${chip.cls}`} title={chip.hint(langLabel)}>
+            {langLabel} 목소리 {chip.label}
+          </span>
+        )
+      })}
 
       {isLinked(p) && !p.avatar && (
         <span className="rounded bg-warning/20 px-1.5 py-0.5 text-[10px] font-semibold text-warning-text" title="도감 목록이 쓰는 얼굴 사진이 셀럽에 없다">
@@ -668,19 +703,21 @@ function VoiceInheritReport({ r }: { r: InheritFactionVoicesResult }) {
     <div className="space-y-1 text-[11px]">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-text-secondary">
         <span className={`rounded px-1.5 py-0.5 font-semibold ${r.dryRun ? 'bg-bg-main text-text-dim' : 'bg-accent/20 text-accent'}`}>
-          {r.dryRun ? '대상 보기' : `채움 ${r.filled}명`}
+          {r.dryRun ? '대상 보기' : `채움 ${r.filled}건`}
         </span>
-        <span title="셀럽에 국문 목소리가 있고 인물 대사는 비어 있는 인물">대상 {r.targets.length}명</span>
-        <span title="이미 목소리가 지정돼 손대지 않은 인물">기존 유지 {r.skipped.alreadySet}</span>
-        <span title="셀럽에 국문 목소리가 등록되지 않아 물려받을 값이 없는 인물">셀럽 목소리 없음 {r.skipped.profileEmpty}</span>
-        <span title="셀럽이 이어지지 않아 대조할 수 없는 인물">셀럽 미해소 {r.skipped.unlinked}</span>
+        <span title="이번에 다룬 언어">언어 {r.locales.map(l => LOCALE_LABEL[l]).join('·')}</span>
+        <span title="셀럽에 그 언어 목소리가 있고 인물 대사는 비어 있는 자리">대상 {r.targets.length}건</span>
+        <span title="이미 목소리가 지정돼 손대지 않은 자리">기존 유지 {r.skipped.alreadySet}</span>
+        <span title="셀럽에 그 언어 목소리가 등록되지 않아 물려받을 값이 없는 자리">셀럽 목소리 없음 {r.skipped.profileEmpty}</span>
+        <span title="셀럽이 이어지지 않아 대조할 수 없는 자리">셀럽 미해소 {r.skipped.unlinked}</span>
       </div>
 
       {r.targets.length > 0 && (
         <ul className="flex flex-wrap gap-x-3 gap-y-0.5 text-text-secondary">
           {r.targets.map(t => (
-            <li key={t.personId}>
-              {t.name} <span className="font-mono text-text-dim">{t.voiceId}</span>
+            <li key={`${t.personId}-${t.locale}`}>
+              <span className="rounded bg-bg-main px-1 py-px text-[10px] font-semibold text-text-dim">{LOCALE_LABEL[t.locale]}</span>
+              {' '}{t.name} <span className="font-mono text-text-dim">{t.voiceId}</span>
               <span className="text-text-dim"> ({t.group}{t.setsEngine ? ' · 엔진도 함께' : ''})</span>
             </li>
           ))}
@@ -698,7 +735,7 @@ function VoiceInheritReport({ r }: { r: InheritFactionVoicesResult }) {
         </p>
       )}
       {!r.dryRun && r.filled > 0 && (
-        <p className="text-text-dim">편집 화면을 다시 불러왔습니다 — 인물 음성 설정에 목소리가 들어와 있습니다.</p>
+        <p className="text-text-dim">편집 화면을 다시 불러왔습니다 — 편집 언어를 국문·영문으로 바꿔 보면 각 언어의 목소리가 들어와 있습니다.</p>
       )}
     </div>
   )
@@ -750,7 +787,7 @@ function LogRow({ log }: { log: LogEntry }) {
 
           {!!r.constantHint?.length && (
             <p className="text-[11px] text-warning-text">
-              sw/web/src/constants/factionGroups.ts에 다음 연결 키 추가 필요: {r.constantHint.join(', ')}
+              새 테마가 만들어졌습니다 — 상위 묶음에 넣으려면 테마 편집(도감 테마 → 해당 테마 → 상위 묶음)에서 지정하세요: {r.constantHint.join(', ')}
             </p>
           )}
 

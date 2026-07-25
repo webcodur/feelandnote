@@ -108,7 +108,7 @@ export default function FreeCommentSection({
     !comment.author_id || comment.author_id === currentUserId || isAdmin
 
   const fieldClass =
-    'px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 transition-colors'
+    'px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40'
 
   return (
     <div className="relative">
@@ -126,7 +126,7 @@ export default function FreeCommentSection({
         {comments.map((comment) => (
           <div
             key={comment.id}
-            className="group relative p-4 rounded-lg bg-bg-card/40 border border-accent-dim/10 hover:border-accent-dim/20 transition-colors"
+            className="group relative p-4 rounded-lg bg-bg-card/40 border border-accent-dim/10 hover:border-accent-dim/20"
           >
             <div className="flex gap-3">
               <div className="flex-1">
@@ -146,7 +146,7 @@ export default function FreeCommentSection({
               {canDelete(comment) && (
                 <button
                   onClick={() => handleDeleteClick(comment)}
-                  className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-red-400 transition-all self-start"
+                  className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-red-400 self-start"
                 >
                   <Trash2 size={14} />
                 </button>

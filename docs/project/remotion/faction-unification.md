@@ -60,7 +60,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
             epithet·lines ────────┘            profiles — 불가침
 ```
 
-- 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 web 코드 상수 유지(범위 밖).
+- 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 출간 범위 밖이며 `celeb_tags.parent_id`가 정본이다(26.07.26 승격 — 아래 진행 로그).
 - **배치 충돌 규칙**: 같은 celeb·같은 tag에 여러 배치 → `(group.position, cluster.position, person.position)` 최소 배치 채택. sort_order는 태그 관통 전역 순번(기존 `assignTagOrder` 유지).
 - 이미지 R2 출간: 기존 `faction-sync/{r2,image,manifest}.ts` 배관 그대로(불변 캐시 + ?v= 정책 적용됨).
 
@@ -125,6 +125,8 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · 사문 필드 최종 폐기 여부(현재 보존) · fiction 티어 vs mythical 98건 정합.
 
 ## 진행 로그
+
+- 26.07.26 **상위 그룹 위계를 코드 상수에서 DB로 승격.** 마이그레이션 `add_celeb_tags_parent_id`(자기참조 FK + 인덱스) 후 옛 상수 8그룹·자식 31종을 slug 대조로 백필하고 `sort_order`를 그룹→자식 차례로 0~39 재부여했다(자식 표시 순서 보존). `sw/web/src/constants/factionGroups.ts` 삭제, `getFeaturedTags`는 자식 보유 여부로 그룹을 판정한다. web-bo `/factions` 목록에 들여쓰기 위계, 테마 편집에 「상위 묶음」 지정(두 단계 제한·자기참조·순환 차단) 신설.
 
 - 26.07.25 **Phase 5 완료 — 출간 개조 + remotion-bo 팩션 구역 폐기 + 문서 동기화.** 팩션 통합 종료.
   - **출간 배관을 옮기며 진단을 다시 정의했다.** `sw/web-bo/src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`). `image`·`manifest` 는 규격 그대로, 업로드는 이 앱에 이미 있던 `lib/r2.ts` 를 재사용하고 출간에만 필요한 `missingR2Env`·`publicUrl` 만 새로 뒀다.

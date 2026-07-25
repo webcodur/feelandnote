@@ -40,14 +40,16 @@ export interface CelebProfileRow {
   nickname: string | null
   avatar_url: string | null
   celeb_tier: string | null
-  /** 국문 대사에 쓰는 ElevenLabs 목소리 — 진단이 인물 대사 목소리와 견준다 */
+  /** 국문 대사에 쓰는 ElevenLabs 목소리 — 진단이 인물 국문 대사 목소리와 견준다 */
   voice_id_ko: string | null
+  /** 영문 대사에 쓰는 ElevenLabs 목소리 — 진단이 인물 영문 대사 목소리와 견준다 */
+  voice_id_en: string | null
 }
 
 export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, is_featured, sort_order'
 export const ASSIGNMENT_COLUMNS =
   'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, spotlight_image_url, sort_order'
-export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko'
+export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'
 
 /** 출간에 필요한 Supabase 환경변수 중 빈 것들 */
 export function missingSupabaseEnv(): string[] {

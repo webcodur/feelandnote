@@ -23,7 +23,7 @@ export default function FreePostItem({ post }: FreePostItemProps) {
   return (
     <Link
       href={`/agora/board/free/${post.id}`}
-      className="group block relative p-4 rounded-lg bg-bg-card/60 backdrop-blur-sm border border-accent-dim/20 hover:border-accent/40 hover:bg-bg-card/80 transition-all duration-200"
+      className="group block relative p-4 rounded-lg bg-bg-card/60 backdrop-blur-sm border border-accent-dim/20 hover:border-accent/40 hover:bg-bg-card/80"
     >
       {/* 호버 시 코너 장식 */}
       <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-tl" />
@@ -32,7 +32,7 @@ export default function FreePostItem({ post }: FreePostItemProps) {
       <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-br" />
 
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent transition-colors">
+        <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
           {post.title}
           {isNew(post.created_at) && (
             <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">

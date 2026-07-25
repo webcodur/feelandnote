@@ -15,6 +15,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import { factionEpisodeDir } from '@/lib/faction-paths'
+import { FACTION_VOICE_FIELDS, type FactionVoiceLocale } from './types'
 import { fileHash } from './manifest'
 
 type Row = Record<string, unknown>
@@ -46,10 +47,11 @@ export interface PublishPerson {
   celebId: string | null
   mythical: boolean
   /**
-   * 이 인물 대사에 지정된 ElevenLabs 목소리(`data.quoteElevenlabsVoiceId`).
-   * 셀럽 프로필의 국문 목소리와 견주는 진단 항목이다 — 출간이 쓰는 값은 아니다.
+   * 이 인물 대사에 지정된 ElevenLabs 목소리 — 언어별(국문 `quoteElevenlabsVoiceId` ·
+   * 영문 `quoteElevenlabsVoiceIdEn`). 셀럽 프로필의 같은 언어 목소리와 견주는 진단 항목이다 —
+   * 출간이 쓰는 값은 아니다.
    */
-  quoteVoiceId?: string
+  quoteVoiceIds: Partial<Record<FactionVoiceLocale, string>>
   place: Placement
   /**
    * 태그 안 등장 순번 — assignments.sort_order 로 그대로 들어간다.
@@ -156,14 +158,18 @@ function folderOfGroup(refs: (LocalImageRef | undefined)[]): string | undefined 
 }
 
 /**
- * 인물 롱테일(data jsonb)에서 대사 목소리만 꺼낸다 — 빈 문자열은 없는 것으로 본다.
- * 이 값의 짝인 `quoteEngine` 은 진단이 보지 않는다(대조는 목소리 하나만 한다).
+ * 인물 롱테일(data jsonb)에서 언어별 대사 목소리를 꺼낸다 — 빈 문자열은 없는 것으로 본다.
+ * 짝인 엔진 표기는 진단이 보지 않는다(대조는 목소리만 한다).
  */
-export function quoteVoiceIdOf(data: unknown): string | undefined {
-  if (!data || typeof data !== 'object') return undefined
-  const v = (data as Record<string, unknown>).quoteElevenlabsVoiceId
-  if (typeof v !== 'string') return undefined
-  return v.trim() || undefined
+export function quoteVoiceIdsOf(data: unknown): Partial<Record<FactionVoiceLocale, string>> {
+  const out: Partial<Record<FactionVoiceLocale, string>> = {}
+  if (!data || typeof data !== 'object') return out
+  const row = data as Record<string, unknown>
+  for (const loc of ['ko', 'en'] as const) {
+    const v = row[FACTION_VOICE_FIELDS[loc].person]
+    if (typeof v === 'string' && v.trim()) out[loc] = v.trim()
+  }
+  return out
 }
 
 /** 문자열 배열 컬럼(lines·lines_en) 정리 */
@@ -263,7 +269,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
           slug: typeof p.slug === 'string' && p.slug.trim() ? p.slug.trim() : undefined,
           celebId: (p.celeb_id as string | null) ?? null,
           mythical: p.mythical === true,
-          quoteVoiceId: quoteVoiceIdOf(p.data),
+          quoteVoiceIds: quoteVoiceIdsOf(p.data),
           place: [index, ci, pi] as const,
           order: 0, // assignTagOrder 가 태그 관통 번호로 다시 매긴다
           ...descsOf(p),

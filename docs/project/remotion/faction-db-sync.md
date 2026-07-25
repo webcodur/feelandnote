@@ -41,7 +41,7 @@
 | `clusters[].image` (로컬 `_group.png`) | `celeb_tags.team_images[]` | R2 `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp`(g=세력 번호·c=클러스터 번호, 각 2자리) | 1080 정사각(cover·attention). **재구성은 태그 단위** — 그 태그를 공유하는 전체 세력의 그룹샷을 세력→클러스터 순서로 모아 배열을 만든다(한 세력만 출간해도 다른 세력 몫 유지, 덮어쓰기 방지). 한 장이라도 파일 결손이면 배열 교체 보류 |
 | `person.mythical` | `profiles.celeb_tier = 'fiction'` 대조 | — | 진단 표시용 |
 
-**건드리지 않는 것**: `profiles`의 인물 본문(닉네임·bio·아바타 — celeb 파이프라인 소관), DB에서 사람이 다듬은 `short_desc`/`long_desc`(채움 전용 원칙), 상위 그룹 계층(web `constants/factionGroups.ts` 코드 상수 — 출간 결과에 "추가 필요 slug" 안내만 출력).
+**건드리지 않는 것**: `profiles`의 인물 본문(닉네임·bio·아바타 — celeb 파이프라인 소관), DB에서 사람이 다듬은 `short_desc`/`long_desc`(채움 전용 원칙), 상위 그룹 계층(**26.07.26부터 `celeb_tags.parent_id`가 정본** — 출간은 손대지 않고 "추가 필요 slug" 안내만 출력한다. ⚠️ 그 안내 문구는 아직 삭제된 옛 상수 파일을 가리킨다).
 
 ## 동작 3종
 
@@ -135,7 +135,7 @@ CRON_SECRET=<sw/web/.env와 동일값>
 
 ## 한계·후속 과제
 
-- **상위 그룹 계층** — web 코드 상수(`factionGroups.ts`) 유지. 출간이 안내만 한다. DB `parent_id` 이관은 별도 판단(DDL 가능해졌으므로 선택지는 열림).
+- **상위 그룹 계층** — **DB 이관 완료(26.07.26, `celeb_tags.parent_id`).** 지정은 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 사람이 한다. 출간은 여전히 안내만 하고 계층을 건드리지 않는다. **후속**: 출간 결과의 `constantHint` 문구가 아직 삭제된 `factionGroups.ts`를 가리키므로 「상위 묶음에서 지정하세요」로 바꿔야 한다(`sw/web-bo/src/lib/faction-sync/publish.ts`·`types.ts`·`FactionPublishPanel.tsx`).
 - **아바타** — 출간 범위 밖(celeb-avatar-wikimedia 스킬 소관). 진단에 유무만 표시.
 - **X-Empire slug 결손 3명**(제임스/앤드루 머스크·로스 노딘) — 진단이 unkeyed로 잡아준다. 데이터 보완은 콘텐츠 작업.
 - **북리커맨드·가상독백** — 같은 골격(진단→출간→역수입)으로 후속 통합. 이번 범위 밖.

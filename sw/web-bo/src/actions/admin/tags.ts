@@ -17,6 +17,8 @@ export interface CelebTag {
   team_images: string[]
   sort_order: number
   is_featured: boolean
+  /** 상위 그룹 테마의 id. null 이면 무소속(최상위). 자식을 가진 테마가 곧 그룹이다 */
+  parent_id: string | null
   start_date: string | null
   end_date: string | null
   created_at: string
@@ -63,6 +65,8 @@ interface UpdateTagInput {
   slug?: string | null
   sort_order?: number
   is_featured?: boolean
+  /** 상위 그룹 지정. null 이면 무소속으로 되돌린다 */
+  parent_id?: string | null
   start_date?: string | null
   end_date?: string | null
 }
@@ -73,6 +77,7 @@ function normalizeTag(row: Record<string, unknown>): CelebTag {
   return {
     ...(row as unknown as CelebTag),
     slug: (row.slug as string | null) ?? null,
+    parent_id: (row.parent_id as string | null) ?? null,
     team_images: images,
   }
 }
@@ -190,9 +195,52 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
 }
 // #endregion
 
+// #region 상위 그룹 검증
+/**
+ * 상위 그룹 지정이 성립하는지 본다. 어긋나면 사람이 읽을 이유를 돌려준다.
+ *
+ * 위계는 두 단계까지만 둔다. 세력도감 화면이 그룹 머리 하나 밑에 테마를 늘어놓는 구조라
+ * 손자 단계가 생기면 그릴 자리가 없다.
+ */
+async function checkParentAssignment(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  tagId: string,
+  parentId: string | null,
+): Promise<string | null> {
+  if (!parentId) return null
+  if (parentId === tagId) return '테마를 자기 자신의 상위 그룹으로 지정할 수 없습니다.'
+
+  const { data, error } = await supabase.from('celeb_tags').select('id, parent_id, name')
+  if (error) return `상위 그룹 확인 실패: ${error.message}`
+
+  const rows = (data ?? []) as { id: string; parent_id: string | null; name: string }[]
+  const byId = new Map(rows.map(r => [r.id, r]))
+
+  const parent = byId.get(parentId)
+  if (!parent) return '상위 그룹으로 지정한 테마를 찾을 수 없습니다.'
+  if (parent.parent_id) return `${parent.name}은(는) 이미 다른 그룹에 속해 있어 상위 그룹이 될 수 없습니다.`
+  if (rows.some(r => r.parent_id === tagId)) return '아래에 테마를 거느린 그룹은 다른 그룹 밑으로 넣을 수 없습니다.'
+
+  // 위 두 검사로 이미 막히지만, 데이터가 어긋나 있을 때 무한 순환을 도는 것만은 막는다
+  const seen = new Set<string>([tagId])
+  let cursor: string | null = parentId
+  while (cursor) {
+    if (seen.has(cursor)) return '상위 그룹이 서로를 가리키게 됩니다.'
+    seen.add(cursor)
+    cursor = byId.get(cursor)?.parent_id ?? null
+  }
+  return null
+}
+// #endregion
+
 // #region updateTag
 export async function updateTag(input: UpdateTagInput): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
+
+  if (input.parent_id !== undefined) {
+    const reason = await checkParentAssignment(supabase, input.id, input.parent_id)
+    if (reason) return { success: false, error: reason }
+  }
 
   const updateData: Record<string, unknown> = {
     updated_at: new Date().toISOString()
@@ -206,6 +254,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   if (input.slug !== undefined) updateData.slug = input.slug?.trim() || null
   if (input.sort_order !== undefined) updateData.sort_order = input.sort_order
   if (input.is_featured !== undefined) updateData.is_featured = input.is_featured
+  if (input.parent_id !== undefined) updateData.parent_id = input.parent_id || null
   if (input.start_date !== undefined) updateData.start_date = input.start_date || null
   if (input.end_date !== undefined) updateData.end_date = input.end_date || null
 

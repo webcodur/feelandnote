@@ -6,7 +6,6 @@
 */ // ------------------------------
 
 import type { FeaturedTag } from "@/actions/home"
-import { FACTION_GROUP_CHILD_ORDER } from "@/constants/factionGroups"
 
 export interface IndexedTag {
   tag: FeaturedTag
@@ -19,17 +18,16 @@ export function topLevelTags(tags: FeaturedTag[]): IndexedTag[] {
   return tags.map((tag, idx) => ({ tag, idx })).filter(({ tag }) => !tag.parentSlug)
 }
 
-/** 특정 그룹의 자식 태그들 (상수에 정의된 표시 순서대로). */
+/**
+ * 특정 그룹의 자식 태그들.
+ *
+ * 표시 순서는 넘어온 배열 순서를 그대로 쓴다 — `getFeaturedTags`가 이미 DB 노출 순서
+ * (`celeb_tags.sort_order`)대로 실어 오므로 여기서 다시 정렬할 근거가 없다.
+ */
 export function childTags(tags: FeaturedTag[], groupSlug: string): IndexedTag[] {
-  const order = FACTION_GROUP_CHILD_ORDER[groupSlug] ?? []
   return tags
     .map((tag, idx) => ({ tag, idx }))
     .filter(({ tag }) => tag.parentSlug === groupSlug)
-    .sort((a, b) => {
-      const ia = order.indexOf(a.tag.slug ?? "")
-      const ib = order.indexOf(b.tag.slug ?? "")
-      return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib)
-    })
 }
 
 /** 그룹 카드 미리보기 아바타: 자식 태그별 대표 인물을 모은다. */

@@ -203,6 +203,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - **오브젝트 경로**: `celebs/{celebId}/avatar.webp`
 - **URL 형식**: `{R2_PUBLIC_URL}/celebs/{celebId}/avatar.webp?v={timestamp}`
 - **환경변수**: `sw/web-bo/.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
+- **캐시 정책(26.07.25)**: 전 오브젝트 `Cache-Control: public, max-age=31536000, immutable`. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 성향 분석 등 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다(기존 2,461건 일괄 교체 완료, 업로드 코드 10곳 수정). `pub-*.r2.dev` 주소는 개발용이라 CDN 캐시 미적용·속도 제한이 있다 — 근본 개선은 커스텀 도메인 연결(DNS가 Vercel이라 Cloudflare 존 이전 필요, 미결정)
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 

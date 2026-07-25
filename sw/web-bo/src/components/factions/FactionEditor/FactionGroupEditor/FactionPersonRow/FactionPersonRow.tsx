@@ -809,6 +809,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             activeFile={activeFile}
             onOpenModal={() => setVoiceModalOpen(true)}
             slot={QUOTE_SLOT}
+            lang={editLang}
           />
         )}
         {/* 수식어 나레이션 — 대사 음성과 동일 패널, 슬롯만 수식어. (수식어가 있을 때만 노출) */}
@@ -823,6 +824,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             activeFile={epithetActiveFile}
             onOpenModal={() => setEpithetModalOpen(true)}
             slot={EPITHET_SLOT}
+            lang={editLang}
           />
         )}
       </div>
@@ -844,6 +846,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           onRefresh={() => voice.reload?.()}
           onClose={() => setVoiceModalOpen(false)}
           slot={QUOTE_SLOT}
+          lang={editLang}
         />
       )}
       {/* 수식어 나레이션 설정 모달 — 대사와 동일, 슬롯만 수식어. */}
@@ -858,6 +861,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           onRefresh={() => voice.reload?.()}
           onClose={() => setEpithetModalOpen(false)}
           slot={EPITHET_SLOT}
+          lang={editLang}
         />
       )}
       </div>

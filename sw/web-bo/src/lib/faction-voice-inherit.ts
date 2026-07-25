@@ -8,22 +8,28 @@
  * ## 지키는 규칙
  *
  * 1. **빈 칸만 채운다.** 인물에 이미 목소리가 지정돼 있으면 손대지 않는다 — 편에 맞춰 사람이 고른 값을
- *    프로필 값으로 되돌리면 배역이 무너진다. 덮어쓰기 경로는 두지 않았다(인물 화면의 「DB에서 가져오기」가
+ *    프로필 값으로 되돌리면 배역이 무너진다. 덮어쓰기 경로는 두지 않았다(인물 화면의 「셀럽 가져오기」가
  *    한 명씩 사람 손으로 덮는 자리다).
- * 2. **엔진 표기의 짝을 맞춘다.** 목소리를 채우면서 엔진 표기가 비어 있으면 `elevenlabs` 로 함께 세운다.
- *    실측 근거(26.07.25): 목소리를 가진 인물 309명 중 300명이 엔진 표기 `elevenlabs` 를 함께 갖는다.
- *    이미 다른 엔진이 적혀 있으면 그 표기는 건드리지 않는다(사람이 고른 값이다).
- * 3. **에피소드 갱신 시각을 직접 올린다.** 팩션 5테이블에는 트리거가 없다(실측 확인). 인물 행만 고치면
+ * 2. **언어를 가른다.** 셀럽 프로필이 국문·영문 목소리를 따로 들고 있으므로(`voice_id_ko`·`voice_id_en`)
+ *    제작 데이터도 언어별 칸에 따로 채운다. 한 언어를 채워도 다른 언어 칸은 건드리지 않는다.
+ * 3. **엔진 표기의 짝을 맞춘다.** 목소리를 채우면서 **같은 언어의** 엔진 표기가 비어 있으면 `elevenlabs` 로
+ *    함께 세운다. 실측 근거(26.07.25): 국문 목소리를 가진 인물 309명 중 300명이 엔진 표기 `elevenlabs` 를
+ *    함께 갖는다. 이미 다른 엔진이 적혀 있으면 그 표기는 건드리지 않는다(사람이 고른 값이다).
+ * 4. **에피소드 갱신 시각을 직접 올린다.** 팩션 5테이블에는 트리거가 없다(실측 확인). 인물 행만 고치면
  *    열려 있는 편집 화면의 저장 잠금이 그대로 유효해, 그 화면이 목소리가 빈 옛 내용으로 저장하며
  *    방금 채운 값을 지운다. 그래서 일부러 잠금을 무효화해 편집 화면이 다시 불러오게 만든다.
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
+import { FACTION_VOICE_FIELDS, type FactionVoiceLocale } from './faction-sync/types'
 
 type Row = Record<string, unknown>
 
-/** 채울 대상 한 명 */
+/** 다룰 수 있는 언어 — 아무것도 안 고르면 둘 다 */
+export const ALL_VOICE_LOCALES: FactionVoiceLocale[] = ['ko', 'en']
+
+/** 채울 대상 한 명(한 언어) — 같은 인물이 두 언어 모두 대상이면 두 줄로 나온다 */
 export interface FactionVoiceInheritTarget {
   /** faction_people.id */
   personId: string
@@ -31,9 +37,11 @@ export interface FactionVoiceInheritTarget {
   /** 세력 명칭 첫 줄 — 어디 있는 인물인지 알려 준다 */
   group: string
   celebId: string
+  /** 어느 언어의 목소리를 채우는가 */
+  locale: FactionVoiceLocale
   /** 셀럽 프로필에서 물려받는 목소리 */
   voiceId: string
-  /** 엔진 표기까지 함께 세우는가(비어 있던 인물만) */
+  /** 같은 언어의 엔진 표기까지 함께 세우는가(비어 있던 인물만) */
   setsEngine: boolean
 }
 
@@ -41,17 +49,19 @@ export interface FactionVoiceInheritResult {
   folder: string
   /** true면 아무것도 쓰지 않고 명단만 돌려준다 */
   dryRun: boolean
-  /** 채울(또는 채운) 인물 명단 */
+  /** 이번에 다룬 언어 */
+  locales: FactionVoiceLocale[]
+  /** 채울(또는 채운) 대상 명단 — 인물 × 언어 */
   targets: FactionVoiceInheritTarget[]
-  /** 실제로 채운 인원 — 미리보기면 0 */
+  /** 실제로 채운 칸 수 — 미리보기면 0 */
   filled: number
-  /** 손대지 않은 이유별 인원 */
+  /** 손대지 않은 이유별 칸 수(언어를 합산) */
   skipped: {
-    /** 인물에 이미 목소리가 있다 */
+    /** 인물에 이미 그 언어 목소리가 있다 */
     alreadySet: number
-    /** 셀럽 프로필에 국문 목소리가 없다 */
+    /** 셀럽 프로필에 그 언어 목소리가 없다 */
     profileEmpty: number
-    /** 셀럽이 이어지지 않은 인물 */
+    /** 셀럽이 이어지지 않은 인물(언어 수만큼 센다) */
     unlinked: number
   }
   /** 개별 실패 — 조용히 넘기지 않는다 */
@@ -87,12 +97,16 @@ const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as n
 /**
  * 한 편의 대사 목소리를 셀럽 프로필에서 물려받는다.
  *
- * @param dryRun 켜면 쓰기 직전까지 똑같이 계산하고 아무것도 쓰지 않는다
+ * @param dryRun  켜면 쓰기 직전까지 똑같이 계산하고 아무것도 쓰지 않는다
+ * @param locales 다룰 언어. 비우면 국문·영문 둘 다
  */
 export async function inheritVoicesFromProfiles(
-  db: SupabaseClient, folder: string, { dryRun = false }: { dryRun?: boolean } = {},
+  db: SupabaseClient, folder: string,
+  { dryRun = false, locales }: { dryRun?: boolean; locales?: FactionVoiceLocale[] } = {},
 ): Promise<FactionVoiceInheritResult> {
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
+  const langs = locales?.length ? ALL_VOICE_LOCALES.filter(l => locales.includes(l)) : ALL_VOICE_LOCALES
+  if (!langs.length) throw new Error('다룰 언어를 하나 이상 골라야 합니다')
 
   const { data: epRow, error: epErr } = await db
     .from('faction_episodes').select('id').eq('folder', folder).maybeSingle()
@@ -133,11 +147,16 @@ export async function inheritVoicesFromProfiles(
     || (a.position as number) - (b.position as number))
 
   const celebIds = [...new Set(ordered.map(p => p.celeb_id).filter((v): v is string => typeof v === 'string' && !!v))]
-  const voiceByCeleb = new Map<string, string>()
+  // 셀럽 id → 언어별 목소리. 언어를 골라도 두 컬럼을 함께 읽는다(왕복 수는 같다)
+  const voiceByCeleb = new Map<string, Partial<Record<FactionVoiceLocale, string>>>()
   if (celebIds.length) {
-    for (const row of await inChunks(db, 'profiles', 'id', celebIds, 'id, voice_id_ko')) {
-      const v = trimmed(row.voice_id_ko)
-      if (v) voiceByCeleb.set(row.id as string, v)
+    for (const row of await inChunks(db, 'profiles', 'id', celebIds, 'id, voice_id_ko, voice_id_en')) {
+      const entry: Partial<Record<FactionVoiceLocale, string>> = {}
+      for (const loc of ALL_VOICE_LOCALES) {
+        const v = trimmed(row[FACTION_VOICE_FIELDS[loc].profile])
+        if (v) entry[loc] = v
+      }
+      voiceByCeleb.set(row.id as string, entry)
     }
   }
 
@@ -146,33 +165,46 @@ export async function inheritVoicesFromProfiles(
 
   for (const p of ordered) {
     const celebId = typeof p.celeb_id === 'string' ? p.celeb_id : ''
-    if (!celebId) { skipped.unlinked += 1; continue }
+    if (!celebId) { skipped.unlinked += langs.length; continue }
     const data = (p.data ?? {}) as Row
-    if (trimmed(data.quoteElevenlabsVoiceId)) { skipped.alreadySet += 1; continue }
-    const voiceId = voiceByCeleb.get(celebId)
-    if (!voiceId) { skipped.profileEmpty += 1; continue }
-    targets.push({
-      personId: p.id as string,
-      name: (p.name as string) ?? '',
-      group: groupNameByCluster.get(p.cluster_id as string) ?? '',
-      celebId,
-      voiceId,
-      setsEngine: !trimmed(data.quoteEngine),
-    })
+    for (const locale of langs) {
+      const F = FACTION_VOICE_FIELDS[locale]
+      if (trimmed(data[F.person])) { skipped.alreadySet += 1; continue }
+      const voiceId = voiceByCeleb.get(celebId)?.[locale]
+      if (!voiceId) { skipped.profileEmpty += 1; continue }
+      targets.push({
+        personId: p.id as string,
+        name: (p.name as string) ?? '',
+        group: groupNameByCluster.get(p.cluster_id as string) ?? '',
+        celebId,
+        locale,
+        voiceId,
+        setsEngine: !trimmed(data[F.personEngine]),
+      })
+    }
   }
 
   const result: FactionVoiceInheritResult = {
-    folder, dryRun, targets, filled: 0, skipped, failures: [],
+    folder, dryRun, locales: langs, targets, filled: 0, skipped, failures: [],
   }
   if (dryRun || !targets.length) return result
 
+  // 같은 인물이 두 언어 모두 대상일 수 있다 — 한 번에 병합해 써야 뒤 갱신이 앞 갱신을 지우지 않는다
   const dataById = new Map(ordered.map(p => [p.id as string, (p.data ?? {}) as Row]))
+  const merged = new Map<string, { data: Row; count: number; name: string }>()
   for (const t of targets) {
-    const next: Row = { ...(dataById.get(t.personId) ?? {}), quoteElevenlabsVoiceId: t.voiceId }
-    if (t.setsEngine) next.quoteEngine = 'elevenlabs'
-    const { error } = await db.from('faction_people').update({ data: next }).eq('id', t.personId)
-    if (error) result.failures.push({ name: t.name, reason: error.message })
-    else result.filled += 1
+    const entry = merged.get(t.personId)
+      ?? { data: { ...(dataById.get(t.personId) ?? {}) }, count: 0, name: t.name }
+    const F = FACTION_VOICE_FIELDS[t.locale]
+    entry.data[F.person] = t.voiceId
+    if (t.setsEngine) entry.data[F.personEngine] = 'elevenlabs'
+    entry.count += 1
+    merged.set(t.personId, entry)
+  }
+  for (const [personId, entry] of merged) {
+    const { error } = await db.from('faction_people').update({ data: entry.data }).eq('id', personId)
+    if (error) result.failures.push({ name: entry.name, reason: error.message })
+    else result.filled += entry.count
   }
 
   // 편집 화면의 저장 잠금을 일부러 무효화한다 — 위 주석 3번 참조

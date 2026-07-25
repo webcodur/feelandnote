@@ -111,10 +111,10 @@
 - `/explore/faction`: 검색 파라미터 `?tag=`의 값을 `initialTagId`로 넘긴다.
 - `/explore/faction/[slug]`: `slug`로 태그를 찾아 그 `id`를 `initialTagId`로 넘긴다. 못 찾으면 `notFound()`다.
 
-**태그·그룹 체계는 여기서 다루지 않는다.** 그룹 상수 단일원천(`constants/factionGroups.ts`), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
+**태그·그룹 체계는 여기서 다루지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`, 26.07.26 코드 상수에서 승격), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
 
-- `docs/project/faction-ai-group-refactor.md` — 그룹 계층 설계·구현 결과
-- `docs/project/celeb/celeb-tag-system.md` — 셀럽 태그 체계
+- `docs/project/celeb/celeb-tag-system.md` — 셀럽 태그 체계·상위 그룹 현행 규격
+- `docs/project/faction-ai-group-refactor.md` — 그룹 계층 설계 경위(상수 시대 기록)
 
 ## 인물 피드 (`/explore/feed`)
 

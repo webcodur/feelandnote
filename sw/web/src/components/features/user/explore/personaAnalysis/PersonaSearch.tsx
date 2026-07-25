@@ -8,7 +8,8 @@
 
 import { useState } from "react";
 import { Search, X } from "lucide-react";
-import { SEARCH_LIMIT, initials } from "./constants";
+import { SEARCH_LIMIT } from "./constants";
+import FadeAvatar from "./FadeAvatar";
 import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
 
 interface PersonaSearchProps {
@@ -65,14 +66,7 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
                 className="flex w-full items-center gap-3 px-3 py-2 text-left transition-colors hover:bg-bg-card-hover"
               >
                 <div className="size-9 shrink-0 overflow-hidden rounded-full border border-border/60 bg-bg-card">
-                  {p.avatar_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={p.avatar_url} alt={p.nickname} className="size-full object-cover" />
-                  ) : (
-                    <div className="flex size-full items-center justify-center text-[10px] font-bold text-text-secondary">
-                      {initials(p.nickname)}
-                    </div>
-                  )}
+                  <FadeAvatar src={p.avatar_url} name={p.nickname} />
                 </div>
                 <span className="flex-1 truncate text-sm font-semibold text-text-primary">{p.nickname}</span>
                 <span className="shrink-0 text-xs tabular-nums text-text-secondary/60">영향력 {p.influence}</span>

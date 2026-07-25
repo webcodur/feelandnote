@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile, EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { DEFAULT_ELE_SEND_OPTS, buildEleText } from '../../../../../../scenario-voice/types'
 import {
   SavedVoiceSection, EleEmotionPicker, useVoiceGeneration,
@@ -13,7 +14,7 @@ import { GenerateSection } from '../../../../../../scenario-voice/ExpandedVoiceP
 import { BreathModeContent, type BreathEndpoints } from '../../../../../../scenario-voice/BreathModeContent'
 import { AgeModeContent, type AgeEndpoints } from '../../../../../../scenario-voice/AgeModeContent'
 import { useFactionVoiceSpec } from './useFactionVoiceSpec'
-import type { FactionVoiceSlot } from './voice-slots'
+import { voiceLangOf, type FactionVoiceSlot, type FactionVoiceLang } from './voice-slots'
 import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { EleVoiceCombobox } from './EleVoiceCombobox'
@@ -62,13 +63,24 @@ type FactionExpandedVoicePanelProps = {
   slot: FactionVoiceSlot
   /** 작업 모드 — 모달 헤더의 모드 탭이 소유한다(FactionVoiceSettingsModal). */
   mode: FactionVoiceMode
+  /**
+   * 편집 언어 — 합성 엔진·ElevenLabs 목소리를 이 언어의 칸에 읽고 쓰고,
+   * 셀럽 DB 연동도 이 언어의 목소리(voice_id_ko / voice_id_en)를 다룬다. 미지정이면 국문.
+   */
+  lang?: EditLang
 }
+
+/** 언어 표시 문구 — 버튼·안내에 어느 언어를 다루는 중인지 못박는다 */
+const LANG_LABEL: Record<FactionVoiceLang, string> = { ko: '국문', en: '영문' }
 
 // 인물 대사는 한 줄이라 구간키가 따로 없다 — 미리듣기 캐시 키로 인물 파일명을 쓴다.
 export function FactionExpandedVoicePanel({
-  person, onChange, series, episodeName, voiceFile, activeFile, onRefresh, slot, mode,
+  person, onChange, series, episodeName, voiceFile, activeFile, onRefresh, slot, mode, lang = 'ko',
 }: FactionExpandedVoicePanelProps) {
   const secKey = voiceFile
+  // 목소리는 한 언어만 고른다 — 「양쪽 함께 보기」는 국문으로 접는다
+  const voiceLang: FactionVoiceLang = voiceLangOf(lang)
+  const langLabel = LANG_LABEL[voiceLang]
 
   // error 는 양쪽 hook(spec·생성)이 공유하므로 orchestrator 가 소유한다.
   const [error, setError] = useState<string | null>(null)
@@ -131,7 +143,7 @@ export function FactionExpandedVoicePanel({
     }
   }, [episodeName])
 
-  const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot })
+  const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot, lang })
   useEffect(() => {
     if (slot.id !== 'quote' || !celebKey) {
       setPersonGender(null)
@@ -231,7 +243,7 @@ export function FactionExpandedVoicePanel({
   const [dbBusy, setDbBusy] = useState(false)
   const [dbNotice, setDbNotice] = useState<string | null>(null)
 
-  // 가져오기 — DB의 국문 보이스(voice_id_ko)를 끌어와 현재 보이스로 채운다.
+  // 가져오기 — 편집 중인 언어의 셀럽 보이스(voice_id_ko / voice_id_en)를 끌어와 그 언어 칸에 채운다.
   const pullVoiceFromDb = async () => {
     if (!celebKey) return
     setDbBusy(true); setDbNotice(null); setError(null)
@@ -239,24 +251,25 @@ export function FactionExpandedVoicePanel({
       const res = await fetch(`/api/celebs/${encodeURIComponent(celebKey)}/voice`)
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? '조회 실패')
-      if (data.voice_id_ko) { spec.setEleVoiceId(data.voice_id_ko); setDbNotice('DB 국문 보이스를 가져왔다') }
-      else setDbNotice('DB에 저장된 국문 보이스가 없다')
+      const dbVoice = voiceLang === 'en' ? data.voice_id_en : data.voice_id_ko
+      if (dbVoice) { spec.setEleVoiceId(dbVoice); setDbNotice(`셀럽 ${langLabel} 보이스를 가져왔다`) }
+      else setDbNotice(`셀럽에 저장된 ${langLabel} 보이스가 없다`)
     } catch (e) { setError(`DB 가져오기 실패: ${String(e)}`) }
     finally { setDbBusy(false) }
   }
 
-  // 저장 — 현재 보이스를 DB 국문 보이스(voice_id_ko)에 올린다(충돌 시 BO 값이 DB를 덮는다).
+  // 저장 — 현재 언어 칸의 보이스를 같은 언어의 셀럽 보이스에 올린다(충돌 시 BO 값이 DB를 덮는다).
   const pushVoiceToDb = async () => {
     if (!celebKey || !spec.eleVoiceId) return
     setDbBusy(true); setDbNotice(null); setError(null)
     try {
       const res = await fetch(`/api/celebs/${encodeURIComponent(celebKey)}/voice`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ locale: 'ko', voiceId: spec.eleVoiceId }),
+        body: JSON.stringify({ locale: voiceLang, voiceId: spec.eleVoiceId }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? '저장 실패')
-      setDbNotice('현재 보이스를 DB 국문에 저장했다')
+      setDbNotice(`현재 보이스를 셀럽 ${langLabel}에 저장했다`)
     } catch (e) { setError(`DB 저장 실패: ${String(e)}`) }
     finally { setDbBusy(false) }
   }
@@ -351,21 +364,26 @@ export function FactionExpandedVoicePanel({
         <div className="space-y-2">
           {/* 셀럽 DB 보이스 연동 — 같은 인물(celebId)의 국문 보이스를 끌어오거나 현재 값을 DB에 올린다.
               DB에 등록된 인물(celebId·slug 보유)일 때만 활성. 충돌 시 저장은 BO 값이 DB를 덮는다. */}
+          {/* 어느 언어를 다루는 중인지 못박는다 — 편집 언어를 바꾸면 이 줄과 아래 두 버튼이 함께 바뀐다 */}
+          <p className="text-[11px] text-text-dim">
+            지금 고르는 보이스는 <span className="font-semibold text-text-secondary">{langLabel} 대사</span>용이며,
+            셀럽 연동도 {langLabel} 보이스와 주고받는다. 다른 언어는 편집 언어를 바꾸면 따로 지정한다.
+          </p>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={e => { e.stopPropagation(); pullVoiceFromDb() }}
               disabled={!celebKey || dbBusy}
-              title={celebKey ? '셀럽 DB의 국문 보이스를 가져온다' : 'DB에 등록된 인물이 아니다(셀럽 검색으로 추가하면 연동된다)'}
+              title={celebKey ? `셀럽에 등록된 ${langLabel} 보이스를 가져온다` : 'DB에 등록된 인물이 아니다(셀럽 검색으로 추가하면 연동된다)'}
               className="flex-1 rounded border border-border px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-40 disabled:cursor-not-allowed"
-            >↓ DB에서 가져오기</button>
+            >↓ 셀럽 {langLabel} 가져오기</button>
             <button
               type="button"
               onClick={e => { e.stopPropagation(); pushVoiceToDb() }}
               disabled={!celebKey || !spec.eleVoiceId || dbBusy}
-              title={celebKey ? '현재 보이스를 셀럽 DB 국문에 저장한다(기존 값을 덮는다)' : 'DB에 등록된 인물이 아니다'}
+              title={celebKey ? `현재 보이스를 셀럽 ${langLabel}에 저장한다(기존 값을 덮는다)` : 'DB에 등록된 인물이 아니다'}
               className="flex-1 rounded border border-border px-2 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-40 disabled:cursor-not-allowed"
-            >↑ DB에 저장</button>
+            >↑ 셀럽 {langLabel}에 저장</button>
           </div>
           {dbNotice && <p className="text-[11px] text-text-dim">{dbNotice}</p>}
 

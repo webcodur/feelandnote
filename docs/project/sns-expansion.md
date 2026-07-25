@@ -43,7 +43,7 @@
 **레버 1 — 카드 생성기** (인스타·쓰레드·틱톡·네이버·X 캐러셀)
 - **무엇:** 기존 책·인물 데이터로 정지 이미지 카드(여러 장 넘기는 카드뉴스)를 자동으로 찍어낸다.
 - **왜:** 비율(1:1·4:5·9:16·16:9)만 바꾸면 다섯 채널을 **한 코드로 전부 먹인다.**
-- **현황(26.07.16 실측): 만들어졌다.** 카드 렌더러(`sw/remotion/src/compositions/BookCard/` 7종, `FactionCard/` 5종), 미리보기·편성 화면(remotion-bo Cards 탭), 출고 배치(`pnpm render:cards`)가 전부 있다. 남은 건 전권 양산·배포. 구현 SSoT: `sw/remotion/docs/project/card-news/IMPLEMENTATION.md`.
+- **현황(26.07.16 실측): 만들어졌다.** 카드 렌더러(`sw/remotion/src/compositions/BookCard/` 7종, `FactionCard/` 5종), 미리보기·편성 화면(서재 탐방은 remotion-bo Cards 탭, **팩션은 web-bo `/factions` 카드 화면** — 26.07.25 이관), 출고 배치(`pnpm render:cards`)가 전부 있다. 남은 건 전권 양산·배포. 구현 SSoT: `sw/remotion/docs/project/card-news/IMPLEMENTATION.md`.
 - **남은 제약:** 비율별 레이아웃(1:1·9:16)에서 책 많은 목차·긴 감상경위가 넘치는지 미점검. 세로 인물 사진을 가로/정사각에 맞추는 초점 정보가 대부분 미지정.
 
 **레버 2 — 감상 배경 스토리화** (텍스트 채널 무기)

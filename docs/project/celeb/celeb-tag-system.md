@@ -122,22 +122,26 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 >
 > 즉 단체샷·전용 화보를 그리는 별도 컴포넌트는 없다. 이미지 관련 화면 문제는 전부 `FactionShowcase.tsx` 한 곳을 본다.
 
-### 상위 그룹 (코드 상수)
+### 상위 그룹 (`celeb_tags.parent_id`)
 
-`celeb_tags`에 계층 컬럼이 없어 그룹 소속을 코드로 관리한다.
+**26.07.26부터 DB가 정본이다.** 옛 코드 상수 `sw/web/src/constants/factionGroups.ts`는 삭제됐다.
 
-- SSoT: `sw/web/src/constants/factionGroups.ts` (`FACTION_GROUPS`, 파생 `FACTION_CHILD_TO_GROUP`·`FACTION_GROUP_SLUGS`·`FACTION_GROUP_CHILD_ORDER`)
+- SSoT: `celeb_tags.parent_id`(자기참조 FK, `on delete set null`, 인덱스 `idx_celeb_tags_parent_id`). null이면 무소속
+- **그룹 헤더는 별도 표식이 아니라 판정 결과다** — 자식을 하나라도 가진 태그가 곧 그룹이다. `getFeaturedTags`가 태그 전량의 `parent_id`를 세어 `isGroup`(자식 보유)·`parentSlug`(부모의 slug)를 붙인다
 - 그룹 헤더도 `celeb_tags`의 **일반 태그 1행**이다(배정 0). `getFeaturedTags`는 배정이 없어도 그룹 헤더를 목록에 포함한다
-- 현재 그룹 8개: `ai`(자식 11) / `rulers-and-empires`(4) / `heroes-of-turbulent-times`(2) / `the-thinkers`(2) / `revolutions-and-founding`(3) / `art-movements`(4) / `self-made-innovators`(3) / `against-adversity`(2)
+- 현재 그룹 8개: `ai`(자식 11) / `rulers-and-empires`(4) / `heroes-of-turbulent-times`(2) / `the-thinkers`(2) / `revolutions-and-founding`(3) / `art-movements`(4) / `self-made-innovators`(3) / `against-adversity`(2). 무소속은 `manhattan-project` 하나
+- 자식 표시 순서는 `sort_order`다(별도 순서 컬럼 없음). 백필 때 `sort_order`를 그룹 → 그 자식 차례로 0~39 재부여해 옛 상수의 표시 순서를 그대로 옮겼다
+- 위계는 **두 단계까지**다. 이미 자식을 가진 태그는 다른 그룹에 들어갈 수 없고, 이미 어딘가에 속한 태그는 부모가 될 수 없다(`updateTag`가 막는다)
 - 컬렉션 최상위에는 그룹 헤더와 무소속 태그만 노출한다. 자식은 그룹을 펼쳐야 보인다
-- 그룹 추가·이동은 이 상수 파일만 고친다(백오피스에 그룹 편집 화면 없음)
+- 그룹 추가·이동은 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 한다. 새 그룹은 **일반 테마를 만든 뒤 다른 테마들이 그를 상위로 지정하면** 생긴다(그룹 전용 생성 화면 없음)
 - 그룹 헤더 slug로 진입하면(예: `/explore/faction/ai`) 개별 테마가 아니므로 컬렉션 화면으로 연다
 
 ### 백오피스 관리 (web-bo)
 
 - 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
   - `/factions` 아래쪽 절 = 「도감 테마」 전량 목록(`celeb_tags` 40종). 줄마다 인물 수·단체샷/개인샷 보유·도감 노출·**연결된 영상 편**(연결 없으면 「글 전용」)을 보이고, 끌어서 노출 순서를 바꾼다. 「새 테마 만들기」로 영상 없는 테마를 바로 만든다
-  - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다)
+  - **위계 표시(26.07.26)**: 자식을 가진 테마가 「묶음 N」 표식과 함께 머리로 뜨고 소속 테마가 한 칸 들여쓰기로 따라붙는다. 끌어 옮기기는 **같은 층끼리만** 된다(묶음 머리를 끌면 소속 테마가 통째로 따라간다). 다른 묶음으로 옮기는 일은 순서가 아니라 소속이므로 테마 편집 화면의 「상위 묶음」에서 한다
+  - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다). 「상위 묶음」 선택지는 무소속 테마 전량 + 「묶음 없음」이다
   - 구성 파일: `app/(admin)/factions/ThemeList.tsx`·`ThemeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`
   - 목록 조회 액션: `actions/admin/factions/themes.ts`(`listFactionThemes`·`getThemeEpisodeLinks`). 테마↔영상 연결의 근거는 `faction_groups.tag_id` 역조회뿐이다
   - **주소(slug)**: 입력 + `name_en` 기반 자동 생성 버튼
@@ -305,6 +309,6 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 - **태그 아이디어 후보**: `docs/todo/tag-ideas.md`
 - **세력도감 페이지**: `sw/web/src/app/[locale]/(main)/explore/faction/page.tsx`, 테마별 주소는 `.../faction/[slug]/page.tsx`(미등록 slug는 `notFound()`)
 - **getFeaturedTags 액션**: `sw/web/src/actions/home/getFeaturedTags.ts` (`FeaturedTag`·`FeaturedCeleb` 타입도 여기)
-- **상위 그룹 상수(SSoT)**: `sw/web/src/constants/factionGroups.ts`
+- **상위 그룹 SSoT**: `celeb_tags.parent_id` (DB). 편집 화면은 web-bo `/factions/themes/[tagId]`
 - **그룹핑 헬퍼**: `sw/web/src/components/features/landing/factionGrouping.ts`
 - **팩션(영상 시리즈) 인물 반영·이미지 3종(아바타·개인샷·그룹샷)·상위 그룹·캐시 무효화**: 스킬 `faction-celeb-sync` (`.agents/skills/faction-celeb-sync/SKILL.md`). 상위 그룹 개편 기록은 `docs/project/faction-ai-group-refactor.md`.

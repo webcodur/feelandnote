@@ -10,6 +10,7 @@ import {
   type FactionVoiceMode,
 } from './FactionExpandedVoicePanel'
 import { QUOTE_SLOT, type FactionVoiceSlot } from './voice-slots'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 /**
  * 인물 한 명의 음성 설정 창 — 공용 편집 창 껍데기(VoiceEditorShell)에 세력도 본체를 얹는다.
@@ -27,6 +28,7 @@ export function FactionVoiceSettingsModal({
   onRefresh,
   onClose,
   slot = QUOTE_SLOT,
+  lang,
 }: {
   person: FactionPerson
   onChange: (next: FactionPerson) => void
@@ -38,6 +40,8 @@ export function FactionVoiceSettingsModal({
   onClose: () => void
   /** 음성 슬롯 — 대사(기본) 또는 수식어 */
   slot?: FactionVoiceSlot
+  /** 편집 언어 — 엔진·목소리 칸과 셀럽 보이스 연동이 이 언어를 따른다 */
+  lang?: EditLang
 }) {
   // 수식어 슬롯에는 발화 시각 교정(싱크)이 없다 — 그 탭을 뺀다.
   const modes: VoiceEditorModeDef<FactionVoiceMode>[] = (['main', 'sync', 'breath', 'age'] as const)
@@ -63,6 +67,7 @@ export function FactionVoiceSettingsModal({
           onRefresh={onRefresh}
           slot={slot}
           mode={mode}
+          lang={lang}
         />
       )}
     </VoiceEditorShell>
