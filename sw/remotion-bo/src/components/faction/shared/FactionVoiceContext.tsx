@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext } from 'react'
+import type { FactionNarratorVoice } from '@/lib/faction-types'
 
 /** voice/ 폴더 스캔 결과 한 건 — 파일명·길이 */
 export interface FactionVoiceMeta {
@@ -24,6 +25,8 @@ export interface FactionVoiceCtx {
   episodeName?: string
   /** 시리즈 id — preview·save 라우트용 */
   series?: string
+  /** 제목·시작문구와 각 인물 수식어가 함께 상속하는 공용 낭독 목소리 */
+  commonNarrationVoice?: FactionNarratorVoice
 }
 
 const Ctx = createContext<FactionVoiceCtx | null>(null)

@@ -4,15 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { FactionEpisodeListItem, FactionStatus } from '@/lib/faction-types'
-import { Plus, Copy, Trash2 } from './shared/icons'
-import { FACTION_STATUS_OPTIONS, FACTION_STATUS_DOT } from './shared/status'
+import { Copy, Trash2 } from '@/components/icons'
+import {
+  EpisodeCreateForm, EpisodeStatusDot, EPISODE_STATUS_OPTIONS,
+} from '@/components/editor'
 
 export function FactionSeriesHome({ series }: { series: string }) {
   const router = useRouter()
   const [items, setItems] = useState<FactionEpisodeListItem[]>([])
-  const [slug, setSlug] = useState('')
-  const [title, setTitle] = useState('')
-  const [creating, setCreating] = useState(false)
 
   useEffect(() => { document.title = '세력도 — Remotion BO' }, [])
 
@@ -24,27 +23,6 @@ export function FactionSeriesHome({ series }: { series: string }) {
   }, [series])
 
   useEffect(() => { load() }, [load])
-
-  // 새 세력도 생성
-  const create = async () => {
-    const folder = slug.trim().toLowerCase()
-    if (!folder) { alert('폴더명을 입력하세요.'); return }
-    if (!/^[a-z0-9-]+$/.test(folder)) { alert('폴더명은 영문 소문자, 숫자, 하이픈만 가능합니다.'); return }
-    setCreating(true)
-    try {
-      const res = await fetch(`/api/${series}/episodes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: folder, title: title.trim() || folder }),
-      })
-      const data = await res.json()
-      if (res.status === 409) { alert('이미 존재하는 이름입니다.'); return }
-      if (!res.ok) { alert('생성 실패: ' + (data.error ?? '')); return }
-      router.push(`/${series}/${data.name ?? folder}`)
-    } finally {
-      setCreating(false)
-    }
-  }
 
   // 복제
   const duplicate = async (src: string) => {
@@ -85,32 +63,7 @@ export function FactionSeriesHome({ series }: { series: string }) {
       <h1 className="mb-4 text-xl font-bold">🏛️ 세력도</h1>
 
       {/* 새 세력도 폼 */}
-      <div className="mb-6 rounded-lg border border-border bg-bg-secondary p-4">
-        <p className="mb-3 text-sm font-semibold text-text-secondary">새 세력도</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <input
-            type="text"
-            placeholder="폴더명 (예: llm)"
-            value={slug}
-            onChange={e => setSlug(e.target.value)}
-            className="w-40 rounded-md border border-border bg-bg-card px-3 py-2 text-sm focus:border-accent focus:outline-none"
-          />
-          <input
-            type="text"
-            placeholder="영상 명칭"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            className="w-48 rounded-md border border-border bg-bg-card px-3 py-2 text-sm focus:border-accent focus:outline-none"
-          />
-          <button
-            onClick={create}
-            disabled={creating}
-            className="flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-bg-main hover:bg-accent-hover disabled:opacity-50"
-          >
-            <Plus size={15} /> {creating ? '생성 중...' : '만들기'}
-          </button>
-        </div>
-      </div>
+      <EpisodeCreateForm series={series} heading="새 세력도" slugPlaceholder="폴더명 (예: llm)" submitLabel="만들기" />
 
       {/* 에피소드 테이블 */}
       <div className="mb-8 overflow-x-auto border border-border rounded-lg bg-bg-secondary/20">
@@ -138,14 +91,14 @@ export function FactionSeriesHome({ series }: { series: string }) {
                     }}>
                   <td className="py-2 px-3 align-middle">
                     <div className="flex items-center gap-2">
-                      <span className={`h-2 w-2 shrink-0 rounded-full ${FACTION_STATUS_DOT[ep.status]}`} title={ep.status} />
+                      <EpisodeStatusDot status={ep.status} />
                       <select
                         value={ep.status}
                         onClick={e => e.stopPropagation()}
                         onChange={e => changeStatus(ep.id, e.target.value as FactionStatus)}
                         className="rounded border border-border/40 bg-bg-card px-1 py-0.5 text-[11px] text-text-secondary"
                       >
-                        {FACTION_STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                        {EPISODE_STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                       </select>
                     </div>
                   </td>

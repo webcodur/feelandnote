@@ -62,7 +62,7 @@ export const SERIES: SeriesDefinition[] = [
     composition: 'Faction',
     episodeDir: 'factions',
     dataModel: 'faction',
-    episodeHome: 'both/info',
+    episodeHome: 'ko/info',
     langTabEditor: true,
     render: {
       codec: 'h264',
@@ -76,8 +76,8 @@ export const SERIES: SeriesDefinition[] = [
     episodeDir: 'discourses',
     dataModel: 'discourse',
     // 담화는 발언이 주인공이다 — 에피소드를 열면 대사부터 보여야 한다.
-    // 팩션(both/info)처럼 인물 설정으로 들어가면 첫 화면에 대사가 없어 "대사가 안 보인다"가 된다(실제 신고).
-    episodeHome: 'both/shorts',
+    // 팩션(ko/info)처럼 인물 설정으로 들어가면 첫 화면에 대사가 없어 "대사가 안 보인다"가 된다(실제 신고).
+    episodeHome: 'ko/shorts',
     langTabEditor: true,
     render: {
       codec: 'h264',

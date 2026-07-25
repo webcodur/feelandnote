@@ -89,7 +89,7 @@ function cropProps(crop: FactionImageCrop | undefined, fallbackPos: string, hold
   return { objPos: pos, scale: enterS * m.scale * (crop.scale ?? 1), tx: m.tx, ty: m.ty, transformOrigin: pushin ? '50% 50%' : pos }
 }
 
-export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; frame: number; cueStart: number; orientation: Orientation; noZoom?: boolean; hold?: HoldMotion; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, frame, cueStart, orientation, noZoom = false, hold = 'none', shake = false, zoomSpeed = 1 }) => {
+export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; frame: number; cueStart: number; cueDuration?: number; orientation: Orientation; noZoom?: boolean; hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number; zoomFocus?: ZoomFocus }> = ({ episodeName, group, frame, cueStart, cueDuration, orientation, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, zoomFocus }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   // 로고 로드 실패 횟수 — 0=1차(logoVid 우선), 1=이미지 로고 재시도, 2+=색 배경 폴백
   const [artErrCount, setArtErrCount] = React.useState(0)
@@ -106,8 +106,8 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
   }, [group])
   // 가로는 이미지를 중앙 정렬(세로는 상단 정렬)
   const fallbackPos = orientation === 'landscape' ? 'center center' : 'center top'
-  // 인물 컷과 동일한 지속 효과 (noZoom이면 정지). 세력·전역에서 계승한 hold 를 카드 등장 기준(frame-cueStart)으로 적용.
-  const art = cropProps(group.logoCrop, fallbackPos, noZoom ? 'none' : hold, frame - cueStart, undefined, zoomSpeed, 'none', noZoom ? false : shake)
+  // 인물 컷과 동일한 지속 효과 (noZoom이면 정지). 세력·전역에서 계승한 hold 를 카드 등장 기준(frame-cueStart)으로 적용. 줌인은 목표점으로 푸시인. 시작 효과는 도입에 결합.
+  const art = cropProps(group.logoCrop, fallbackPos, noZoom ? 'none' : hold, frame - cueStart, zoomFocus, zoomSpeed, noZoom ? 'none' : enter, noZoom ? false : shake)
   // 타이틀 카드 비주얼 — 영상 로고(logoVid) 우선, 없으면 이미지 로고(logoImg).
   // 1차 소스 로드 에러 시 이미지 로고가 따로 있으면 그걸로 한 번 더 시도, 그마저 실패하면 색 배경 폴백.
   const primarySrc = group.logoVid ?? group.logoImg
@@ -118,8 +118,16 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
   return (
     <AbsoluteFill style={{ backgroundColor: BG, opacity: enterOp }}>
       {artSrc ? (
-        // 로고 — 비율 유지(contain), 좌우 여백은 같은 이미지 블러로 채움
-        <FilledImage src={imgSrc(episodeName, artSrc)} objPos={art.objPos} scale={art.scale} tx={art.tx} ty={art.ty} transformOrigin={art.transformOrigin} startFrame={cueStart} onError={() => setArtErrCount(c => c + 1)} />
+        // 로고 — 정사각 창으로만 연다(창 밖은 같은 이미지 블러로 가림). 정사각 로고는 기존 contain 표시와 동일하고,
+        // 세로 로고는 중단 영역만 노출된다(logoCrop 지정 시 그 위치 우선). 영상 로고는 기존 그대로.
+        // 지지직 글리치. 줌과 별개 축으로 토글. 막판(tail)은 컷 끝 1초에만, 라이트·헤비는 내내.
+        glitch ? (
+          <HoldGlitch frame={frame} startFrame={cueStart} level={glitch || 'heavy'} gateFromLocal={glitch === 'tail' && cueDuration ? Math.max(0, cueDuration - f(1.0)) : 0}>
+            <FilledImage src={imgSrc(episodeName, artSrc)} objPos={group.logoCrop ? art.objPos : 'center center'} scale={art.scale} tx={art.tx} ty={art.ty} transformOrigin={art.transformOrigin} startFrame={cueStart} onError={() => setArtErrCount(c => c + 1)} squareWindow={orientation === 'landscape' ? 'center' : 'top'} />
+          </HoldGlitch>
+        ) : (
+          <FilledImage src={imgSrc(episodeName, artSrc)} objPos={group.logoCrop ? art.objPos : 'center center'} scale={art.scale} tx={art.tx} ty={art.ty} transformOrigin={art.transformOrigin} startFrame={cueStart} onError={() => setArtErrCount(c => c + 1)} squareWindow={orientation === 'landscape' ? 'center' : 'top'} />
+        )
       ) : (
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: `linear-gradient(160deg, ${accent}22 0%, ${BG} 60%)` }}>
           <span style={{ color: `${accent}cc`, fontFamily: FONT, fontSize: 64, fontWeight: 700, letterSpacing: 6 }}>LOGO ART</span>

@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
 import type { FactionScript, FactionTrack } from './types'
-import { f, buildCues, personQuoteEnterSec, isEmptyChapter } from './timing'
+import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, isEmptyChapter, narratorVoicePlaySec, personQuoteEnterSec } from './timing'
 import { clampRate } from './voice-names'
 
 /** 음량 배율 정규화 — 미지정이면 1(원음). 0~1.5 로 제한(과증폭 방지) */
@@ -37,6 +37,15 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
     if (duck < 1) {
       for (const tc of cues) {
         const c = tc.cue
+        if (c.kind === 'chapter') {
+          const voice = chapterNarrationVoice(script, c.chapter)
+          const playSec = narratorVoicePlaySec(voice)
+          if (playSec > 0) {
+            const s = tc.start + f(CHAPTER_VOICE_DELAY_SEC)
+            rawWindows.push([s, s + f(playSec)])
+          }
+          continue
+        }
         // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
         if (c.kind !== 'person' || !c.steps.voice) continue
         const g = script.groups[c.groupIndex]

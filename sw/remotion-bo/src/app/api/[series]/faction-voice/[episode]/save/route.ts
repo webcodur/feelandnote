@@ -3,7 +3,8 @@ import { writeFile, mkdir, unlink, readFile } from 'fs/promises'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { isSeriesModel } from '@/lib/series-registry'
-import { factionVoiceDir, factionVoiceFilePath, wavDurationSec } from '@/lib/faction-utils'
+import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-utils'
+import { wavDurationSec } from '@/lib/episode-store'
 import { normalizeWavInPlace } from '@/lib/voice-normalize'
 
 // ── 세력도 인물 대사 음성 저장 라우트 (미리듣기 → 인물 음원 확정)

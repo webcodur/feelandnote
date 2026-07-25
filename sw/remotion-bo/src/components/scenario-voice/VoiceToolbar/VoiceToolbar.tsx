@@ -40,10 +40,7 @@ export function VoiceToolbar({
     eleSettingsOpen, setEleSettingsOpen,
     eleBatchRunning,
     eleBatchStatus,
-    emotionDraft, setEmotionDraft,
     expanded, setExpanded,
-    toggleEmotion,
-    addCustomEmotion,
     hasShorts,
     runEleBatch,
   } = useVoiceToolbar({
@@ -97,10 +94,6 @@ export function VoiceToolbar({
             onEleSettingsChange={onEleSettingsChange}
             eleSendOpts={eleSendOpts}
             onEleSendOptsChange={onEleSendOptsChange}
-            emotionDraft={emotionDraft}
-            setEmotionDraft={setEmotionDraft}
-            toggleEmotion={toggleEmotion}
-            addCustomEmotion={addCustomEmotion}
             eleBatchRunning={eleBatchRunning}
             eleBatchStatus={eleBatchStatus}
             runEleBatch={runEleBatch}

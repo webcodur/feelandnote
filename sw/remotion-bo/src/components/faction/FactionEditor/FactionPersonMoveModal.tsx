@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FactionGroup } from '@/lib/faction-types'
-import { X } from '../shared/icons'
+import { X } from '@/components/icons'
 
 type Props = {
   groups: FactionGroup[]

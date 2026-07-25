@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { isSeriesModel } from '@/lib/series-registry'
-import { saveFactionImage, safeFilename } from '@/lib/faction-utils'
+import { saveFactionImage } from '@/lib/faction-utils'
+import { safeFilename } from '@/lib/episode-store'
 
 /**
  * POST { ep, url, slug } : 셀럽 아바타(외부 URL)를 내려받아 에피소드 이미지로 저장.

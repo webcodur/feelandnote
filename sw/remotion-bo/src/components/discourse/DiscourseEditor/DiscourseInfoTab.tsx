@@ -10,12 +10,13 @@
 import { useMemo } from 'react'
 import type { DiscourseScript, Speaker } from '@/lib/discourse-types'
 import { DEFAULT_NOTICE } from '@feelandnote/remotion/src/compositions/Discourse/constants'
-import { Plus } from '@/components/faction/shared/icons'
-import type { EditLang } from '../shared/editLang'
+import { Plus } from '@/components/icons'
+import type { EditLang } from '@/components/editor'
 import { useCelebExists } from '../shared/CelebBadge'
 import { LangText, LangArea } from './sections/LangField'
 import { SpeakerCard } from './sections/SpeakerCard'
 import { CastColorBar } from './sections/CastColorBar'
+import { ImageSlot, DISCOURSE_IMAGE_DND } from '@/components/media'
 import { HOLD_MOTION_OPTIONS } from '@/components/faction/shared/holdMotion'
 
 type Props = {
@@ -23,6 +24,7 @@ type Props = {
   update: (patch: Partial<DiscourseScript>) => void
   setCast: (cast: Speaker[]) => void
   episodeName: string
+  series: string
   editLang: EditLang
   musicList: string[]
 }
@@ -32,7 +34,7 @@ const orUndef = (v: string) => (v.trim() ? v : undefined)
 
 const newSpeaker = (): Speaker => ({ name: '', lines: ['', '', ''] })
 
-export function DiscourseInfoTab({ script, update, setCast, episodeName, editLang, musicList }: Props) {
+export function DiscourseInfoTab({ script, update, setCast, episodeName, series, editLang, musicList }: Props) {
   const cast = script.cast ?? []
   const { existing, loaded } = useCelebExists(cast)
 
@@ -169,20 +171,53 @@ export function DiscourseInfoTab({ script, update, setCast, episodeName, editLan
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <label className="w-20 shrink-0 text-xs text-text-dim">시작 사진 -</label>
-          <input
-            value={script.introImage ?? ''} placeholder="images/intro.png (비우면 인물 그리드)"
-            onChange={e => update({ introImage: orUndef(e.target.value) })}
-            className="min-w-0 flex-1 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs focus:border-accent focus:outline-none"
-          />
-          <label className="w-20 shrink-0 text-xs text-text-dim">마지막 사진 -</label>
-          <input
-            value={script.outroImage ?? ''} placeholder="images/outro.png (비우면 로고)"
-            onChange={e => update({ outroImage: orUndef(e.target.value) })}
-            className="min-w-0 flex-1 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs focus:border-accent focus:outline-none"
-          />
+        <div className="flex flex-wrap items-start gap-5">
+          <div className="flex items-start gap-2">
+            <label className="mt-1 w-20 shrink-0 text-xs text-text-dim">시작 화면 -</label>
+            <ImageSlot
+              dnd={DISCOURSE_IMAGE_DND}
+              captionArea
+              value={script.introImage}
+              onChange={v => update({ introImage: v })}
+              series={series}
+              episodeName={episodeName}
+              size={88}
+              emptyText="인물 그리드"
+              pickerTitle="영상 시작 화면 사진"
+            />
+          </div>
+          <div className="flex items-start gap-2">
+            <label className="mt-1 w-20 shrink-0 text-xs text-text-dim">마지막 화면 -</label>
+            <ImageSlot
+              dnd={DISCOURSE_IMAGE_DND}
+              captionArea
+              value={script.outroImage}
+              onChange={v => update({ outroImage: v })}
+              series={series}
+              episodeName={episodeName}
+              size={88}
+              emptyText="브랜드 로고"
+              pickerTitle="영상 마지막 화면 사진"
+            />
+          </div>
+          <div className="flex items-start gap-2">
+            <label className="mt-1 w-20 shrink-0 text-xs text-text-dim">썸네일 -</label>
+            <ImageSlot
+              dnd={DISCOURSE_IMAGE_DND}
+              captionArea
+              value={script.lvThumbnailImage}
+              onChange={v => update({ lvThumbnailImage: v })}
+              series={series}
+              episodeName={episodeName}
+              size={88}
+              emptyText="첫 인물 사진"
+              pickerTitle="긴 영상 썸네일에 쓸 사진"
+            />
+          </div>
         </div>
+        <p className="text-[11px] text-text-dim">
+          비워 두면 각각 인물 얼굴을 늘어놓은 화면, 브랜드 로고, 첫 인물 사진이 대신 나갑니다.
+        </p>
       </section>
 
       {/* ── 인물 ── */}
@@ -208,6 +243,7 @@ export function DiscourseInfoTab({ script, update, setCast, episodeName, editLan
             total={cast.length}
             turnCount={turnCounts.get(i) ?? 0}
             episodeName={episodeName}
+            series={series}
             editLang={editLang}
             celebExisting={existing}
             celebLoaded={loaded}

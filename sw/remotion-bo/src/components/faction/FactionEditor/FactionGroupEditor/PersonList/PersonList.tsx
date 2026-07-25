@@ -4,8 +4,8 @@ import type { FactionPerson } from '@/lib/faction-types'
 import { FactionPersonRow } from '../FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { buildPersonSwapRenames, reorderFactionVoice } from '@/lib/faction-voice'
-import { Search, UserPlus } from '../../../shared/icons'
-import type { EditLang } from '../../../FactionEditor'
+import { Search, UserPlus } from '@/components/icons'
+import type { EditLang } from '@/components/editor'
 
 type Props = {
   people: FactionPerson[]
@@ -19,10 +19,14 @@ type Props = {
   clusterIndex: number
   editLang: EditLang
   onMoveCrossGroup?: (personIndex: number) => void
+  /** 셀럽 DB 등록 배지용 대조 결과 — 에피소드 레벨에서 배치 조회한 것을 그대로 내려받는다 */
+  celebExisting: Set<string>
+  celebLoaded: boolean
 }
 
 export function PersonList({
-  people, onPeopleChange, onAddCeleb, series, episodeName, groupIndex, clusterIndex, editLang, onMoveCrossGroup
+  people, onPeopleChange, onAddCeleb, series, episodeName, groupIndex, clusterIndex, editLang, onMoveCrossGroup,
+  celebExisting, celebLoaded,
 }: Props) {
   const voiceCtx = useFactionVoice()
   const setPerson = (i: number, p: FactionPerson) =>
@@ -73,6 +77,8 @@ export function PersonList({
           editLang={editLang}
           totalPeople={people.length}
           onMoveCrossGroup={onMoveCrossGroup ? () => onMoveCrossGroup(i) : undefined}
+          celebExisting={celebExisting}
+          celebLoaded={celebLoaded}
         />
       ))}
       {people.length === 0 && <p className="text-xs text-text-dim">아직 인물이 없습니다.</p>}

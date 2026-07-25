@@ -1,6 +1,6 @@
 import { AutoResizeTextarea } from '../../../../shared/AutoResizeTextarea'
 import type { FactionPerson } from '@/lib/faction-types'
-import type { EditLang } from '../../../../FactionEditor'
+import type { EditLang } from '@/components/editor'
 
 export function PersonBasicInfo({
   person,

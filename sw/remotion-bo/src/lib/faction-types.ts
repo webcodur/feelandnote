@@ -161,8 +161,9 @@ export interface FactionPerson extends FactionCardFields {
    * 예: [{ chunk: 3, image: 'musk-2.webp' }] → 4번째 덩어리부터 전환. image 가 컷 시작(0번째) 사진. 언어 공통.
    * crop 은 그 교체 사진의 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움.
    * filter 는 그 교체 사진의 필터 효과.
+   * zoomFocus 는 그 교체 사진 전용 줌 목표점. 미지정이면 인물 zoomFocus → crop 위치 → 가운데.
    */
-  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: string }[]
+  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: string; zoomFocus?: ZoomFocus }[]
   /**
    * 대사 시작 시점 사진 교체 (선택) — 도입(직함 소개) 구간엔 image(직함용)를 보이다가,
    * 대사가 시작되는 순간 quoteImage(대사용)로 부드럽게 전환한다. imageChanges 와 독립적으로 함께 적용.
@@ -171,6 +172,8 @@ export interface FactionPerson extends FactionCardFields {
   quoteImage?: string
   /** quoteImage 의 사진 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움 */
   quoteImageCrop?: FactionImageCrop
+  /** quoteImage 전용 줌 목표점. 미지정이면 인물 zoomFocus → quoteImageCrop 위치 → 가운데 */
+  quoteZoomFocus?: ZoomFocus
   /** 대사 사진 필터 효과. 미지정이면 원본 */
   quoteImageFilter?: string
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
@@ -336,8 +339,25 @@ export interface FactionGroup extends Partial<FactionGroupCardFields> {
     zoomSpeed?: number
     zoomFocus?: ZoomFocus
   }
+  /**
+   * 로고(타이틀 카드) 전용 움직임 효과 — 로고 화면에만 거는 효과.
+   * 비면 세력 전역 효과를 따르며, 줌 목표점(zoomFocus)을 지정할 수 있다.
+   */
+  logoEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdGlitch?: GlitchSetting
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
   /** 세력 명칭 영문 (한 필드, 개행) */
   nameEn?: string
+  /**
+   * 본서비스 세력도감 연결 키 — celeb_tags.slug. 이 값이 있어야 출간(DB·R2 반영)이 된다.
+   * 미지정이면 진단이 세력 폴더(NN-<slug>)에서 뽑은 제안값을 알려준다. 영상 렌더는 쓰지 않는다.
+   */
+  tagSlug?: string
   /** 테마 색 (hex) */
   color?: string
   /** 영상 로고 (타이틀 카드 풀스크린 배경, mp4 등). 있으면 logoImg보다 우선. basename·폴더경로·URL */
@@ -431,6 +451,10 @@ export interface FactionChapter {
   title: string
   /** 챕터 제목 영문 (통합형, 앞부분\n뒷부분) */
   titleEn?: string
+  /** 챕터명을 공용 낭독 목소리로 읽을지. 미지정이면 narrator.readChapterTitle 전역값을 따른다 */
+  narrate?: boolean
+  /** 챕터명 음원의 길이·재생 설정. 목소리 설정은 공용 낭독값을 상속하고 여기 값만 우선한다 */
+  voice?: FactionNarratorVoice
   /** 챕터 표지 배경 미디어 — 이미지 또는 비디오 한 장(경로·basename·http). 시작·종료 화면 미디어와 같은 규칙. mp4 등 비디오 지원 */
   media?: string
   /** 챕터 표지 배경 미디어 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
@@ -457,6 +481,55 @@ export type FactionLongformItem =
   | { era: FactionEra }
   | { cut: true }
   | { chapter: FactionChapter }
+
+/**
+ * 나레이터 낭독 한 벌 — 텍스트 + 음성 설정. 필드명을 인물 대사(quote*)와 동일하게 맞춰
+ * 음성 패널(FactionExpandedVoicePanel + QUOTE_SLOT)을 무수정 재사용한다.
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionNarratorVoice.
+ */
+export type FactionNarratorVoice = Pick<FactionPerson,
+  | 'quote' | 'quoteEn' | 'quoteChunks' | 'quoteEnChunks'
+  | 'quoteDuration' | 'quoteGainDb' | 'quotePlaybackRate'
+  | 'quoteEngine' | 'quoteSpeaker' | 'quoteElevenlabsVoiceId' | 'quoteStyle'
+  | 'quoteEleOptions' | 'quoteEleEmotions' | 'quoteEleTrail'
+>
+
+/**
+ * 공용 낭독자(옵션) — 화면에 등장하는 인물이 아니라 제목·시작문구·수식어를 읽는 목소리.
+ * logline 음성 설정은 모든 인물 수식어의 기본값이며, 인물 epithet* 값이 있으면 그쪽이 우선한다.
+ * name·label·image·intro·show*는 인격형 나레이터 초기 데이터의 하위 호환 필드다.
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionNarrator.
+ */
+export interface FactionNarrator {
+  /** 레거시 나레이터 이름. 공용 낭독자는 이름을 갖지 않는다 */
+  name?: string
+  /** 나레이터 이름 영문 */
+  nameEn?: string
+  /** 한 줄 소개 — 소개 컷에서 이름 아래 작게 표시 */
+  label?: string
+  /** 한 줄 소개 영문 */
+  labelEn?: string
+  /** 나레이터 이미지 — 인물 image와 같은 경로 규칙. 소개 컷 배경 */
+  image?: string
+  /** 이미지 맞춤 — 잘릴 위치·확대 */
+  imageCrop?: FactionImageCrop
+  /** 시작 화면에서 영상 제목을 읽는다 (미지정=꺼짐) */
+  readTitle?: boolean
+  /** 시작 화면에서 시작문구를 읽는다 (미지정=켜짐, 기존 데이터 호환) */
+  readLogline?: boolean
+  /** 롱폼 챕터 표지에서 챕터명을 읽는다 (미지정=꺼짐) */
+  readChapterTitle?: boolean
+  /** 공용 낭독 음성 설정 + 시작 낭독 음원 길이. 인물 수식어 음성의 기본값 */
+  logline?: FactionNarratorVoice
+  /** 마무리 낭독 — 닫는 한마디. 마무리 화면에 문구가 뜨고 음원이 재생된다 */
+  outro?: FactionNarratorVoice
+  /** 소개 컷 대사 — 비면 소개 컷 자체가 생략된다 */
+  intro?: FactionNarratorVoice
+  /** 세로 쇼츠에서 소개 컷 노출 (미지정=꺼짐) */
+  showShorts?: boolean
+  /** 롱폼에서 소개 컷 노출 (미지정=켜짐) */
+  showLongform?: boolean
+}
 
 export interface FactionScript {
   /** 영상 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=앞부분(흰색), 나머지=뒷부분(세력색) */
@@ -506,6 +579,8 @@ export interface FactionScript {
   endFadeSec?: number
   /** 영상 명칭 영문 (한 필드, 개행) */
   titleEn?: string
+  /** 편성 화면에서 관리할 쇼츠 편 수. 미지정이면 기존 호환값 2 */
+  shortsPartCount?: number
   /** 쇼츠 편(part)별 영상 명칭 (한 필드, 개행). 해당 편 렌더 시 title 대신 쓴다. 미지정 편은 공통 값 */
   titleByPart?: Record<number, string>
   /** 시작 화면에 띄울 시작문구. 영상 명칭 아래에 천천히 떠올라 영상 주제를 먼저 알린다 — 언어 공통(en은 loglineEn) */
@@ -518,6 +593,8 @@ export interface FactionScript {
   loglineByPartEn?: Record<number, string>
   /** 시작 화면 지속 시간(초). 미지정이면 기본값(2.5). 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
+  /** 공용 낭독자(옵션) — 제목·시작문구와 인물 수식어에 같은 기본 목소리를 쓴다 */
+  narrator?: FactionNarrator
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 4. BO에서 조정하여 스튜디오/렌더에 적용 */
   groupSec?: number
   /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(2.6~3.2). 지정하면 인원 수 무관 고정. BO에서 조정하여 스튜디오/렌더에 적용 */

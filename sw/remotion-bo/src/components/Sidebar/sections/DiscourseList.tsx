@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import type { DiscourseEpisodeListItem } from '@/lib/discourse-types'
-import { FACTION_STATUS_DOT } from '@/components/faction/shared/status'
+import { EpisodeStatusDot } from '@/components/editor'
 
 type DiscourseListProps = {
   activeSeries: string
@@ -28,7 +28,7 @@ export function DiscourseList({ activeSeries, pathname }: DiscourseListProps) {
         return (
           <Link key={ep.id} href={`/${activeSeries}/${ep.id}`}
             className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs ${active ? 'bg-bg-card border border-border-active !text-accent' : 'hover:bg-bg-card hover:shadow-sm text-text-secondary'}`}>
-            <span className={`h-2 w-2 shrink-0 rounded-full ${FACTION_STATUS_DOT[ep.status]}`} title={ep.status} />
+            <EpisodeStatusDot status={ep.status} />
             <span className="font-semibold truncate">{ep.title || ep.id}</span>
             <span className="ml-auto text-[10px] text-text-dim shrink-0">{ep.turnCount}발언</span>
           </Link>

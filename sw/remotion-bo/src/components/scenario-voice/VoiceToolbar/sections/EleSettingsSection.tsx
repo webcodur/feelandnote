@@ -1,7 +1,8 @@
 'use client'
 
 import type { EpisodeData } from '../../../EpisodeEditor'
-import { type EleSettings, type EleSendOpts, DEFAULT_ELE_SETTINGS, ELE_EMOTIONS } from '../../types'
+import { type EleSettings, type EleSendOpts, DEFAULT_ELE_SETTINGS } from '../../types'
+import { EleEmotionPicker } from '@/components/voice'
 import { ELE_SLIDER_KEYS, ELE_SLIDER_CFG } from '../constants'
 
 // ── ELEVENLABS 설정 ──
@@ -14,10 +15,6 @@ type EleSettingsSectionProps = {
   onEleSettingsChange: (s: EleSettings) => void
   eleSendOpts: EleSendOpts
   onEleSendOptsChange: (o: EleSendOpts) => void
-  emotionDraft: string
-  setEmotionDraft: (v: string) => void
-  toggleEmotion: (em: string) => void
-  addCustomEmotion: () => void
   eleBatchRunning: boolean
   eleBatchStatus: string | null
   runEleBatch: () => void
@@ -25,8 +22,7 @@ type EleSettingsSectionProps = {
 
 export function EleSettingsSection({
   episode, eleSettingsOpen, setEleSettingsOpen, eleSettings, onEleSettingsChange,
-  eleSendOpts, onEleSendOptsChange, emotionDraft, setEmotionDraft,
-  toggleEmotion, addCustomEmotion, eleBatchRunning, eleBatchStatus, runEleBatch,
+  eleSendOpts, onEleSendOptsChange, eleBatchRunning, eleBatchStatus, runEleBatch,
 }: EleSettingsSectionProps) {
   return (
     <div>
@@ -79,53 +75,11 @@ export function EleSettingsSection({
               )}
             </label>
             {eleSendOpts.emotionEnabled && (
-              <div className="flex flex-col gap-1.5 pl-5">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {ELE_EMOTIONS.map(em => {
-                    const idx = eleSendOpts.emotions.indexOf(em)
-                    const sel = idx >= 0
-                    return (
-                      <button key={em} onClick={() => toggleEmotion(em)}
-                        className={`px-2 py-0.5 rounded text-[11px] border transition-colors ${
-                          sel ? 'bg-purple-600 text-white border-purple-600 font-extrabold shadow-sm'
-                              : 'bg-white border-slate-300 text-slate-900 font-bold hover:border-purple-500 hover:bg-purple-50'
-                        }`}
-                      >
-                        {sel ? `${idx + 1}. ` : ''}{em}
-                      </button>
-                    )
-                  })}
-                  <input
-                    type="text"
-                    value={emotionDraft}
-                    onChange={e => setEmotionDraft(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomEmotion() } }}
-                    placeholder="직접 입력"
-                    className="bg-white border border-slate-300 rounded px-2 py-0.5 text-xs w-[110px] text-slate-950 font-bold outline-none focus:border-purple-600"
-                  />
-                  <button
-                    type="button"
-                    onClick={addCustomEmotion}
-                    disabled={!emotionDraft.trim()}
-                    className="text-xs px-2 py-0.5 rounded border border-purple-500 text-purple-700 hover:bg-purple-100 font-black disabled:opacity-40 disabled:cursor-not-allowed"
-                  >+</button>
-                </div>
-                {eleSendOpts.emotions.some(t => !ELE_EMOTIONS.includes(t)) && (
-                  <div className="flex flex-wrap gap-1.5">
-                    {eleSendOpts.emotions.filter(t => !ELE_EMOTIONS.includes(t)).map(t => (
-                      <button
-                        key={t}
-                        onClick={() => onEleSendOptsChange({ ...eleSendOpts, emotions: eleSendOpts.emotions.filter(x => x !== t) })}
-                        title="삭제"
-                        className="text-[11px] px-2 py-0.5 rounded border bg-purple-600 text-white border-purple-600 font-extrabold flex items-center gap-1.5 shadow-sm"
-                      >
-                        <span>{t}</span>
-                        <span className="opacity-80">×</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <EleEmotionPicker
+                className="pl-5"
+                value={eleSendOpts.emotions}
+                onChange={next => onEleSendOptsChange({ ...eleSendOpts, emotions: next })}
+              />
             )}
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input type="checkbox" checked={eleSendOpts.trailEnabled}

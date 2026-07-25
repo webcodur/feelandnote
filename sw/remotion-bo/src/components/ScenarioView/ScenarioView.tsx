@@ -5,8 +5,9 @@ import { VoiceToolbar } from '../scenario-voice'
 import { VoicePipelineStatus } from '../VoicePipelineStatus'
 import {
   LongformView, ShortsView, SoloSectionView,
-  BgmPanel, VoiceEditorModal, MaterialModal, TtsReplaceModal,
+  BgmPanel, MaterialModal, TtsReplaceModal,
 } from '../scenario'
+import { VoiceEditorShell, VoiceEngineToggle, BOOK_VOICE_MODES } from '../voice'
 import { PlaybackRateControl } from '../scenario/PlaybackRatePanel'
 import { AudioPreviewProvider } from '../scenario/AudioPreviewContext'
 import { BookTabsBar } from '../scenario/BookTabsBar'
@@ -166,12 +167,16 @@ export function ScenarioView({ episode }: { episode: EpisodeData }) {
       )}
 
       {/* 음성 편집 전역 모달 — 아코디언 대체 */}
-      <VoiceEditorModal
-        openKey={expandedKey}
-        onClose={() => setExpandedKey(null)}
-        renderExpanded={renderExpanded}
-        engineState={modalEngineState}
-      />
+      {expandedKey && (
+        <VoiceEditorShell
+          subtitle={expandedKey}
+          modes={BOOK_VOICE_MODES}
+          onClose={() => setExpandedKey(null)}
+          headerExtra={modalEngineState ? <VoiceEngineToggle {...modalEngineState} /> : null}
+        >
+          {mode => renderExpanded(expandedKey, mode)}
+        </VoiceEditorShell>
+      )}
 
       {/* 재료.txt 뷰어 — 책 폴더의 원자료 메모 */}
       <MaterialModal

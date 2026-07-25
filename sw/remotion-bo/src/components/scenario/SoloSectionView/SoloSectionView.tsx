@@ -1,6 +1,6 @@
 'use client'
 
-import { VoiceEditorModal } from '../VoiceEditorModal'
+import { VoiceEditorShell, BOOK_VOICE_MODES } from '../../voice'
 import { ImagePool } from '../ImagePool'
 import { ExpandedVoicePanel, type EleSettings, type EleSendOpts } from '../../scenario-voice'
 import type { VoiceSection } from '../../voice-utils'
@@ -205,13 +205,16 @@ export function SoloSectionView({
       </div>
 
       {/* 음성 편집 모달 — 쇼츠와 동일한 ExpandedVoicePanel 재사용. 솔로 본문을 합성 원문으로 주입한다. */}
-      <VoiceEditorModal
-        openKey={expandedKey}
-        onClose={() => setExpandedKey(null)}
-        renderExpanded={(key, mode) => (
+      {expandedKey && (
+        <VoiceEditorShell
+          subtitle={expandedKey}
+          modes={BOOK_VOICE_MODES}
+          onClose={() => setExpandedKey(null)}
+        >
+          {mode => (
           <ExpandedVoicePanel
-            sectionKey={key}
-            section={sectionMap.get(key) ?? { key, description: '' }}
+            sectionKey={expandedKey}
+            section={sectionMap.get(expandedKey) ?? { key: expandedKey, description: '' }}
             episode={episode}
             series={series}
             name={name}
@@ -219,7 +222,7 @@ export function SoloSectionView({
             eleSettings={eleSettings}
             eleSendOpts={eleSendOpts}
             onEleSendOptsChange={onEleSendOptsChange}
-            activeEngine={activeEngine(key)}
+            activeEngine={activeEngine(expandedKey)}
             onEpisodeChange={onEpisodeChange}
             onSave={onSave}
             onRefresh={onRefreshFiles}
@@ -227,8 +230,9 @@ export function SoloSectionView({
             overrideText={expandedText}
             voiceOverride={voiceOverride}
           />
-        )}
-      />
+          )}
+        </VoiceEditorShell>
+      )}
 
       {/* 전역 플로팅 저장 — 스크롤 위치와 무관하게 항시 노출. 저장할 변경이 없으면 회색 「저장됨」. */}
       <button

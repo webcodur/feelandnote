@@ -47,22 +47,8 @@ export function totalSec(script: DiscourseScript, isShorts: boolean, part?: numb
   return last ? (last.start + last.duration) / FPS : 0
 }
 
-/** 초 → mm:ss */
-export function formatMmss(sec: number): string {
-  const total = Math.max(0, Math.round(sec))
-  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`
-}
-
-/**
- * 이미지 표시 경로 — 렌더(Discourse/utils.ts imgSrc)와 같은 규칙을 BO 자산 통로로 옮긴 것.
- * 외부 URL은 그대로, 슬래시가 있으면 에피소드 폴더 하위, 파일명만 있으면 images/ 하위.
- */
-export function imageSrc(episodeName: string, image?: string): string | undefined {
-  if (!image) return undefined
-  if (/^https?:\/\//.test(image)) return image
-  const rel = image.includes('/') ? image : `images/${image}`
-  return `/api/rm-asset/discourses/${episodeName}/${rel}`
-}
+/** 사진 표시 주소 — 세력도와 규칙이 같아 lib/media-src 한 곳에만 둔다 */
+export { imageSrc } from '@/lib/media-src'
 
 /** 통합 명칭(앞부분\n뒷부분) 분해 — 첫 줄이 앞부분, 나머지가 뒷부분 */
 export function splitName(v?: string): { head: string; rest: string } {

@@ -2,19 +2,17 @@
 
 import { useState } from 'react'
 import type { FactionGroup, FactionPerson, FactionCluster } from '@/lib/faction-types'
-import { buildClusterMoveRenames, reorderFactionVoice } from '@/lib/faction-voice'
+import { buildClusterMoveRenames, reorderFactionVoice, factionVoiceFile } from '@/lib/faction-voice'
 import { imageSrc } from '../../shared/timing'
-import { ChevronUp, ChevronDown, Trash2, ImageIcon, Plus, Eye, EyeOff } from '../../shared/icons'
-import { FactionPersonRow } from './FactionPersonRow/FactionPersonRow'
+import { ChevronUp, ChevronDown, Trash2, ImageIcon, Plus, Eye, EyeOff } from '@/components/icons'
+import { FactionPersonRow, MiniAudioPlayer } from './FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../shared/FactionVoiceContext'
-import { FactionImagePicker } from './FactionPersonRow/FactionImagePicker/FactionImagePicker'
-import { FactionMediaThumb } from '../../shared/FactionMediaThumb'
+import { ImagePicker, MediaThumb, useImageDrop, FACTION_IMAGE_DND } from '@/components/media'
 import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchModal'
-import { useFactionImageDrop } from '../../shared/useFactionImageDrop'
 import { PersonList } from './PersonList/PersonList'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
 
-import type { EditLang } from '../../FactionEditor'
+import type { EditLang } from '@/components/editor'
 
 type Props = {
   /** 세력 인덱스 (0-based) — 음성 파일명 계산용 */
@@ -29,6 +27,9 @@ type Props = {
   musicList: string[]
   editLang: EditLang
   onMoveCrossGroup?: (clusterIndex: number, personIndex: number) => void
+  /** 셀럽 DB 등록 배지용 대조 결과 — 에피소드 레벨에서 인물 전체 slug를 배치 조회한 것을 그대로 내려받는다 */
+  celebExisting: Set<string>
+  celebLoaded: boolean
 }
 
 const DEFAULT_COLOR = '#92400e'
@@ -49,7 +50,8 @@ function celebToPerson(c: CelebResult): FactionPerson {
 }
 
 export function FactionGroupEditor({
-  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang, onMoveCrossGroup
+  groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang, onMoveCrossGroup,
+  celebExisting, celebLoaded,
 }: Props) {
   const [expanded, setExpanded] = useState(false)
   const [logoOpen, setLogoOpen] = useState(false)
@@ -60,8 +62,8 @@ export function FactionGroupEditor({
   // 셀럽 검색 대상 그룹 인덱스 (undefined=닫힘). 단일 모드는 0
   const [celebTarget, setCelebTarget] = useState<number | undefined>(undefined)
   // 이미지 풀에서 끌어온 파일을 각 로고 칸에 놓으면 연결 — 영상 칸(logoVid)·이미지 칸(logoImg) 별개
-  const { dragOver: logoDragOver, dropProps: logoDropProps } = useFactionImageDrop(path => onChange({ ...group, logoVid: path }))
-  const { dragOver: logoImgDragOver, dropProps: logoImgDropProps } = useFactionImageDrop(path => onChange({ ...group, logoImg: path }))
+  const { dragOver: logoDragOver, dropProps: logoDropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...group, logoVid: path }))
+  const { dragOver: logoImgDragOver, dropProps: logoImgDropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...group, logoImg: path }))
   const voiceCtx = useFactionVoice()
 
   const color = group.color ?? DEFAULT_COLOR
@@ -87,9 +89,41 @@ export function FactionGroupEditor({
   const c0: FactionCluster = clusters[0] ?? { people: [] }
   const totalCount = clusters.reduce((s, c) => s + (c.people?.length ?? 0), 0)
   // 접힌 상태에서 보여줄 팀 비주얼 — 그룹샷(화보)들만. 로고(logoVid·logoImg)는 logoSrc로 따로 표시한다.
-  const covers = clusters.map(c => c.image).filter(Boolean) as string[]
-  // 공간이 남을 때 그룹샷 뒤에 이어서 보여줄 인물 개인샷(아바타). 최대 20명
-  const avatars = clusters.flatMap(c => c.people ?? []).map(p => p.image).filter(Boolean).slice(0, 20) as string[]
+  // 클릭하면 해당 그룹 헤더로 이동해야 하므로 그룹 순번을 함께 든다
+  const covers = clusters
+    .map((c, ci) => ({ image: c.image, ci }))
+    .filter(c => c.image) as { image: string; ci: number }[]
+  // 공간이 남을 때 그룹샷 뒤에 이어서 보여줄 인물 개인샷(아바타). 최대 20명 — 클릭하면 그 인물 행으로 이동해야 하므로 소속 그룹·순번을 함께 든다
+  const avatars = clusters
+    .flatMap((c, ci) => (c.people ?? []).map((p, pi) => ({ image: p.image, name: p.name, ci, pi })))
+    .filter(a => a.image)
+    .slice(0, 20) as { image: string; name: string; ci: number; pi: number }[]
+
+  // 헤더 썸네일 클릭 공통 — 세력 카드와 해당 그룹을 펼치고, 펼침이 DOM에 반영된 다음 프레임에
+  // 대상 요소를 화면 중앙으로 스크롤(접혀 있던 경우 그제야 그려진다)
+  const jumpTo = (ci: number, elementId: string) => {
+    setExpanded(true)
+    if (split) setExpandedClusters(prev => ({ ...prev, [ci]: true }))
+    else setSingleExpanded(true)
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }),
+    )
+  }
+  // 헤더의 개인샷 클릭 — 그 인물 행으로
+  const jumpToPerson = (ci: number, pi: number) => {
+    const id = `person-${groupIndex}-${ci}-${pi}`
+    jumpTo(ci, id)
+    // 약간의 딜레이 후(DOM 렌더링 이후) 커스텀 이벤트를 발생시켜 아코디언도 열도록 함
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('faction-person-open', { detail: { id } }))
+      })
+    })
+  }
+  // 헤더의 그룹샷 클릭 — 그 그룹 헤더로
+  const jumpToCluster = (ci: number) => jumpTo(ci, `cluster-header-${groupIndex}-${ci}`)
 
 
   // region 그룹 조작
@@ -165,7 +199,7 @@ export function FactionGroupEditor({
             title="클릭: 로고 영상 선택(영상 타이틀 카드 배경, 우선) · 풀에서 끌어다 놓기: 연결"
           >
             {logoVidSrc ? (
-              <FactionMediaThumb src={logoVidSrc} alt="" showExt fit="contain" className="h-full w-full" />
+              <MediaThumb src={logoVidSrc} alt="" showExt fit="contain" className="h-full w-full" />
             ) : (
               <div style={{ color: onColorDim }} className="flex flex-col items-center">
                 <ImageIcon size={18} className="opacity-70 group-hover:opacity-100" />
@@ -187,7 +221,7 @@ export function FactionGroupEditor({
             title="클릭: 로고 이미지 선택(카드뉴스 표지·소속 배지, 로고 영상 없으면 타이틀 카드도) · 풀에서 끌어다 놓기: 연결"
           >
             {logoImgSrc ? (
-              <FactionMediaThumb src={logoImgSrc} alt="" showExt fit="contain" className="h-full w-full" />
+              <MediaThumb src={logoImgSrc} alt="" showExt fit="contain" className="h-full w-full" />
             ) : (
               <div style={{ color: onColorDim }} className="flex flex-col items-center">
                 <ImageIcon size={18} className="opacity-70 group-hover:opacity-100" />
@@ -200,12 +234,43 @@ export function FactionGroupEditor({
               </div>
             )}
           </button>
-          {covers.map((img, i) => (
-            <FactionMediaThumb key={i} src={imageSrc(series, episodeName, img)!} alt="" showExt className="w-24 shrink-0 rounded border" style={{ borderColor: onColorDim }} />
+          {covers.map((c, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={e => { e.stopPropagation(); jumpToCluster(c.ci) }}
+              className="shrink-0 cursor-pointer rounded transition-transform hover:scale-105 hover:ring-2 hover:ring-accent"
+              title="그룹 화보 — 클릭하면 그룹 헤더로 이동"
+            >
+              <MediaThumb src={imageSrc(series, episodeName, c.image)!} alt="" showExt className="h-full w-24 rounded border" style={{ borderColor: onColorDim }} />
+            </button>
           ))}
-          {avatars.map((img, i) => (
-            <FactionMediaThumb key={`avatar-${i}`} src={imageSrc(series, episodeName, img)!} alt="" className="w-14 shrink-0 rounded border bg-bg-main object-cover" style={{ borderColor: onColorDim }} />
-          ))}
+          {avatars.map((a, i) => {
+            const voiceFile = factionVoiceFile(groupIndex, a.pi, a.ci)
+            const meta = voiceCtx?.byFile.get(voiceFile)
+            const person = clusters[a.ci]?.people?.[a.pi]
+            const rate = person ? (person as any).quotePlaybackRate : undefined
+            
+            return (
+              <div key={`avatar-${i}`} className="relative h-full shrink-0 group">
+                <button
+                  type="button"
+                  onClick={e => { e.stopPropagation(); jumpToPerson(a.ci, a.pi) }}
+                  className="block h-full w-14 shrink-0 cursor-pointer rounded transition-transform hover:scale-105 hover:ring-2 hover:ring-accent"
+                  title={`${a.name} — 클릭하면 인물 행으로 이동`}
+                >
+                  <MediaThumb src={imageSrc(series, episodeName, a.image)!} alt={a.name} className="h-full w-full rounded border bg-bg-main object-cover" style={{ borderColor: onColorDim }} />
+                </button>
+                {meta && (
+                  <div className="absolute bottom-0.5 right-0.5 z-10 scale-75 origin-bottom-right pointer-events-auto opacity-80 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                    <div className="rounded-full bg-bg-main/90 backdrop-blur-sm shadow-sm border border-border overflow-hidden">
+                      <MiniAudioPlayer url={`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={rate as number | undefined} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
         {/* 세력 명칭 — 한 칸(개행 입력). 첫 줄=명칭(식별자), 둘째 줄부터=설명(세력색). 국문/영문 두 행. 라벨은 입력칸 왼쪽에 한 줄 가로 배치 */}
         <div className={`flex shrink-0 flex-col gap-1 ${disabled ? 'opacity-40 saturate-50' : ''}`}>
@@ -365,6 +430,8 @@ export function FactionGroupEditor({
               clusterIndex={0}
               editLang={editLang}
               onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
+              celebExisting={celebExisting}
+              celebLoaded={celebLoaded}
             />
           )}
 
@@ -436,6 +503,8 @@ export function FactionGroupEditor({
                     clusterIndex={0}
                     editLang={editLang}
                     onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
+                    celebExisting={celebExisting}
+                    celebLoaded={celebLoaded}
                   />
                 </div>
               )}
@@ -541,6 +610,8 @@ export function FactionGroupEditor({
                         clusterIndex={ci}
                         editLang={editLang}
                         onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(ci, pi) : undefined}
+                        celebExisting={celebExisting}
+                        celebLoaded={celebLoaded}
                       />
                     </div>
                   )}
@@ -558,7 +629,7 @@ export function FactionGroupEditor({
       )}
 
       {logoOpen && (
-        <FactionImagePicker
+        <ImagePicker
           value={group.logoVid}
           onChange={next => onChange({ ...group, logoVid: next })}
           crop={group.logoCrop}
@@ -570,7 +641,7 @@ export function FactionGroupEditor({
         />
       )}
       {logoImgOpen && (
-        <FactionImagePicker
+        <ImagePicker
           value={group.logoImg}
           onChange={next => onChange({ ...group, logoImg: next })}
           crop={group.logoCrop}

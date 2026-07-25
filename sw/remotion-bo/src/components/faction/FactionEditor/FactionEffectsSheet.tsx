@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import type { FactionScript, FactionTransition, HoldMotion, EnterMotion, ZoomFocus, GlitchSetting, GlitchLevel } from '@/lib/faction-types'
+import type { FactionScript, FactionGroup, FactionPerson, FactionTransition, HoldMotion, EnterMotion, ZoomFocus, GlitchSetting, GlitchLevel } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from '../shared/holdMotion'
 import { imageSrc } from '../shared/timing'
-import { FactionZoomFocusPicker } from './FactionGroupEditor/FactionPersonRow/FactionImagePicker/FactionZoomFocusPicker'
+import { ImageFocusPicker } from '@/components/media'
 
 /**
  * 세력도 "움직임 효과" 통합 관리 시트.
@@ -47,6 +47,18 @@ type EffectFields = {
   zoomSpeed?: number
 }
 type Kind = 'global' | 'group' | 'cluster' | 'person'
+
+/**
+ * 줌 목표점 지정 대상 한 장 — 한 컷에 사진이 여러 장(기본·대사·교체)일 때
+ * 사진마다 따로 목표점을 찍도록 대상 목록으로 넘긴다.
+ */
+type FocusTarget = {
+  /** 버튼에 띄울 짧은 이름 (기본·대사·교체1…) */
+  label: string
+  src: string
+  focus?: ZoomFocus
+  onChange: (zf?: ZoomFocus) => void
+}
 
 /** 상위에서 내려온 effective 값(계승값) — "상위 따름" 라벨에 실제 값을 보여주기 위한 것 */
 type Inherited = {
@@ -96,16 +108,19 @@ function TableHead() {
 }
 
 // 효과 컨트롤 한 줄 — 모든 대상에 동일하게 재사용한다.
-function EffectTableRow({ targetName, value, onChange, kind, photoSrc, inherited, locked }: {
+function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inherited, locked }: {
   targetName: React.ReactNode
   value: EffectFields
   onChange: (patch: Partial<EffectFields>) => void
   kind: Kind
-  photoSrc?: string
+  /** 줌 목표점을 찍을 사진 목록 — 컷에 들어가는 사진(기본·대사·교체)마다 한 항목 */
+  focusTargets?: FocusTarget[]
   inherited?: Inherited
   locked?: boolean
 }) {
-  const [focusOpen, setFocusOpen] = useState(false)
+  const [focusIdx, setFocusIdx] = useState<number | null>(null)
+  const targets = focusTargets ?? []
+  const openTarget = focusIdx != null ? targets[focusIdx] : undefined
   const showTransition = kind !== 'cluster'
   const glitchDefaultOn = kind === 'cluster'
   const shownTransition = locked ? value.transition ?? inherited?.transition : value.transition
@@ -114,7 +129,6 @@ function EffectTableRow({ targetName, value, onChange, kind, photoSrc, inherited
   const shownGlitch = locked ? value.holdGlitch ?? inherited?.holdGlitch : value.holdGlitch
   const shownShake = locked ? value.holdShake ?? inherited?.holdShake : value.holdShake
   const shownSpeed = locked ? value.zoomSpeed ?? inherited?.zoomSpeed : value.zoomSpeed
-  const hasFocus = value.zoomFocus?.x != null || value.zoomFocus?.y != null
 
   const followWith = (effLabel: string | undefined, globalDefault: string) =>
     kind === 'global' ? `기본(${globalDefault})` : effLabel ? `상위 따름 (${effLabel})` : '상위 따름'
@@ -220,24 +234,36 @@ function EffectTableRow({ targetName, value, onChange, kind, photoSrc, inherited
           </div>
         </td>
         <td className="p-1 align-middle">
-          {photoSrc ? (
-            <button
-              type="button"
-              disabled={locked}
-              onClick={() => setFocusOpen(v => !v)}
-              className={`w-full flex items-center justify-center gap-1 rounded px-2 py-1 text-[11px] font-medium transition-colors disabled:opacity-50 border ${hasFocus ? 'border-amber-400/60 bg-amber-400/10 text-amber-500' : 'border-border/30 bg-bg-main/50 text-text-secondary hover:bg-bg-hover hover:text-text-primary'}`}
-              title="줌인(다가가는 줌)이 다가갈 지점을 이미지에서 클릭해 정한다"
-            >
-              {hasFocus ? <span className="font-bold">{value.zoomFocus!.x ?? 50}·{value.zoomFocus!.y ?? 50}</span> : <span>목표점 지정</span>}
-            </button>
+          {targets.length ? (
+            <div className="flex flex-wrap gap-1 justify-center">
+              {targets.map((t, i) => {
+                const has = t.focus?.x != null || t.focus?.y != null
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={locked}
+                    onClick={() => setFocusIdx(v => (v === i ? null : i))}
+                    className={`flex items-center justify-center gap-1 rounded px-2 py-1 text-[11px] font-medium transition-colors disabled:opacity-50 border ${has ? 'border-amber-400/60 bg-amber-400/10 text-amber-500' : 'border-border/30 bg-bg-main/50 text-text-secondary hover:bg-bg-hover hover:text-text-primary'} ${focusIdx === i ? 'ring-1 ring-accent/60' : ''}`}
+                    title="줌인(다가가는 줌)이 다가갈 지점을 이미지에서 클릭해 정한다"
+                  >
+                    {targets.length > 1 && <span className="shrink-0 text-[10px] text-text-dim">{t.label}</span>}
+                    {has ? <span className="font-bold">{t.focus!.x ?? 50}·{t.focus!.y ?? 50}</span> : <span>{targets.length > 1 ? '지정' : '목표점 지정'}</span>}
+                  </button>
+                )
+              })}
+            </div>
           ) : <div className="text-center text-xs text-text-dim">-</div>}
         </td>
       </tr>
-      {photoSrc && focusOpen && (
+      {openTarget && (
         <tr>
           <td colSpan={8} className="p-0 border-b border-border/30 bg-bg-main/10">
-            <div className="p-2">
-              <FactionZoomFocusPicker src={photoSrc} focus={value.zoomFocus} onChange={zf => onChange({ zoomFocus: zf })} />
+            <div className="space-y-1 p-2">
+              {targets.length > 1 && (
+                <div className="text-[11px] font-semibold text-text-secondary">{openTarget.label} 사진의 줌 목표점</div>
+              )}
+              <ImageFocusPicker src={openTarget.src} focus={openTarget.focus} onChange={openTarget.onChange} />
             </div>
           </td>
         </tr>
@@ -254,9 +280,16 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 const EFFECT_KEYS = ['transition', 'holdMotion', 'enterMotion', 'holdGlitch', 'holdShake', 'zoomFocus', 'zoomSpeed'] as const
 
 // 객체에서 6개 효과 필드를 모두 비운다(상위를 따르게).
+// 사진별 줌 목표점(quoteZoomFocus·imageChanges[].zoomFocus)도 개별 설정이므로 함께 비운다.
 function stripEffects<T extends EffectFields>(obj: T): T {
   const next = { ...obj }
-  for (const k of EFFECT_KEYS) delete (next as Record<string, unknown>)[k]
+  const r = next as Record<string, unknown>
+  for (const k of EFFECT_KEYS) delete r[k]
+  delete r.quoteZoomFocus
+  delete r.logoEffects
+  if (Array.isArray(r.imageChanges)) {
+    r.imageChanges = (r.imageChanges as Record<string, unknown>[]).map(({ zoomFocus: _zf, ...rest }) => rest)
+  }
   return next
 }
 
@@ -284,12 +317,39 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
   const sectionRefs = useRef<Record<number, HTMLElement | null>>({})
 
   const patchScript = (p: Partial<EffectFields>) => onChange({ ...script, ...p })
-  const patchGroup = (gi: number, p: Partial<EffectFields>) =>
+  const patchGroup = (gi: number, p: Partial<FactionGroup>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, ...p } : g)) })
   const patchCluster = (gi: number, ci: number, p: Partial<EffectFields>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, ...p } : c)) } : g)) })
-  const patchClusterPerson = (gi: number, ci: number, pi: number, p: Partial<EffectFields>) =>
+  const patchClusterPerson = (gi: number, ci: number, pi: number, p: Partial<FactionPerson>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, people: c.people.map((pp, k) => (k === pi ? { ...pp, ...p } : pp)) } : c)) } : g)) })
+
+  // 인물 컷에 들어가는 사진 전부(기본 → 대사 → 교체 순)를 줌 목표점 지정 대상으로 편다.
+  const personFocusTargets = (gi: number, ci: number, pi: number, pp: FactionPerson): FocusTarget[] => {
+    const out: FocusTarget[] = []
+    const mainSrc = imageSrc(series, episodeName, pp.image)
+    if (mainSrc) out.push({ label: '기본', src: mainSrc, focus: pp.zoomFocus, onChange: zf => patchClusterPerson(gi, ci, pi, { zoomFocus: zf }) })
+    const quoteSrc = imageSrc(series, episodeName, pp.quoteImage)
+    if (quoteSrc) out.push({ label: '대사', src: quoteSrc, focus: pp.quoteZoomFocus, onChange: zf => patchClusterPerson(gi, ci, pi, { quoteZoomFocus: zf }) })
+    // 렌더러는 imageChanges 를 chunk 순으로 정렬해 틀므로(PersonCard), 여기서도 재생 순서로 정렬해서 보여준다.
+    // 배열 저장 순서대로 나열하면 "교체1"이 실제로는 뒤에 나오는 사진일 수 있어 줌 목표점을 엉뚱한 컷에 찍게 된다.
+    ;(pp.imageChanges ?? [])
+      .map((ic, ii) => ({ ic, ii }))
+      .sort((a, b) => a.ic.chunk - b.ic.chunk)
+      .forEach(({ ic, ii }, di) => {
+        const src = imageSrc(series, episodeName, ic.image)
+        if (!src) return
+        out.push({
+          label: `교체${di + 1}`,
+          src,
+          focus: ic.zoomFocus,
+          onChange: zf => patchClusterPerson(gi, ci, pi, {
+            imageChanges: (pp.imageChanges ?? []).map((c, k) => (k === ii ? { ...c, zoomFocus: zf } : c)),
+          }),
+        })
+      })
+    return out
+  }
 
   const nameHead = (s?: string) => (s ?? '').split('\n')[0] || '(이름 없음)'
 
@@ -466,6 +526,20 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                           value={g} kind="group" inherited={globalEff} locked={locked} onChange={p => patchGroup(gi, p)}
                         />
 
+                        {/* 로고 화면 설정 */}
+                        {(g.logoImg || g.logoVid) && (
+                          <EffectTableRow
+                            targetName={<span className="pl-4 font-semibold text-text-secondary">로고 (타이틀)</span>}
+                            value={g.logoEffects ?? {}} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
+                            focusTargets={(() => {
+                              // 영상 로고일 수도 있으나, 포커스 피커용으로는 일단 로고를 쓴다.
+                              const src = imageSrc(series, episodeName, g.logoVid ?? g.logoImg)
+                              return src ? [{ label: '로고', src, focus: g.logoEffects?.zoomFocus, onChange: (zf?: ZoomFocus) => patchGroup(gi, { logoEffects: { ...(g.logoEffects ?? {}), zoomFocus: zf } }) }] : []
+                            })()}
+                            onChange={p => patchGroup(gi, { logoEffects: { ...(g.logoEffects ?? {}), ...p } })}
+                          />
+                        )}
+
                         {/* 그룹샷 및 인물 — 인물은 항상 그룹(clusters) 안에 있다. solo 세력은 그룹샷 컷이 없어 그룹샷 줄을 생략 */}
                         {clusters.map((c, ci) => (
                           <React.Fragment key={`c-${ci}`}>
@@ -473,7 +547,10 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                               <EffectTableRow
                                 targetName={<span className="pl-4 font-semibold text-text-secondary">그룹샷 · {nameHead(c.label) || (split ? `그룹 ${ci + 1}` : nameHead(g.name))}</span>}
                                 value={c} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
-                                photoSrc={imageSrc(series, episodeName, c.image) ?? undefined}
+                                focusTargets={(() => {
+                                  const src = imageSrc(series, episodeName, c.image)
+                                  return src ? [{ label: '그룹샷', src, focus: c.zoomFocus, onChange: (zf?: ZoomFocus) => patchCluster(gi, ci, { zoomFocus: zf }) }] : []
+                                })()}
                                 onChange={p => patchCluster(gi, ci, p)}
                               />
                             )}
@@ -482,7 +559,7 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                                 key={`cp-${ci}-${pi}`}
                                 targetName={<span className="pl-8 text-[12px] text-text-secondary">↳ {pp.name || '(이름 없음)'}</span>}
                                 value={pp} kind="person" inherited={locked ? globalEff : groupEff} locked={locked}
-                                photoSrc={imageSrc(series, episodeName, pp.image) ?? undefined}
+                                focusTargets={personFocusTargets(gi, ci, pi, pp)}
                                 onChange={p => patchClusterPerson(gi, ci, pi, p)}
                               />
                             ))}

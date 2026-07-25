@@ -22,7 +22,7 @@ export default async function FactionCardBoardPage({ params }: { params: Promise
     redirect(home)
   }
   if (!FACTION_EDIT_LANGS.has(lang) || !FACTION_EDIT_TABS.has(tab)) {
-    redirect(`/${series}/${encodeURIComponent(name)}/both/info/card`)
+    redirect(`/${series}/${encodeURIComponent(name)}/ko/info/card`)
   }
   if (tab !== 'info') redirect(`/${series}/${encodeURIComponent(name)}/${lang}/info/card`)
 

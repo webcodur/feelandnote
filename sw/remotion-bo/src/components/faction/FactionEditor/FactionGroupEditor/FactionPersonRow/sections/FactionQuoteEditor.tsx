@@ -12,7 +12,7 @@ export function FactionQuoteEditor({
   onRemoveAnchor,
   onMoveAnchor,
   placeholder,
-  highlights = new Set<number>(),
+  anchors = new Map<number, { hasImage: boolean }>(),
   className = '',
 }: {
   value: string
@@ -21,7 +21,7 @@ export function FactionQuoteEditor({
   onRemoveAnchor?: (chunkIndex: number) => void
   onMoveAnchor?: (fromIndex: number, toIndex: number) => void
   placeholder?: string
-  highlights?: Set<number>
+  anchors?: Map<number, { hasImage: boolean; theme?: any }>
   className?: string
 }) {
   const [focused, setFocused] = useState(false)
@@ -30,7 +30,23 @@ export function FactionQuoteEditor({
   const [isDragging, setIsDragging] = useState(false)
   const ref = useRef<HTMLTextAreaElement>(null)
   const chunks = value ? value.split('\n') : ['']
-  
+
+  const chunkBgs: string[] = []
+  let currentBg = 'bg-transparent'
+  for (let i = 0; i < chunks.length; i++) {
+    const anchor = anchors?.get(i)
+    if (anchor) {
+      if (anchor.hasImage && anchor.theme) {
+        currentBg = anchor.theme.bg
+      } else {
+        currentBg = 'bg-slate-400/15'
+      }
+    } else if (i === 0) {
+      currentBg = 'bg-transparent'
+    }
+    chunkBgs.push(currentBg)
+  }
+
   const updateCursor = () => {
     if (!ref.current) return
     const { selectionStart } = ref.current
@@ -45,10 +61,39 @@ export function FactionQuoteEditor({
 
   return (
     <div className="relative">
-      {/* 오버레이 (Divider 및 액션 버튼 렌더링) */}
+      {/* 1. 배경 오버레이 (텍스트 뒤) */}
       <div
         aria-hidden
-        className={`absolute inset-0 px-2.5 py-1.5 font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words z-10 ${isDragging ? 'pointer-events-auto' : 'pointer-events-none'} ${className}`}
+        className={`absolute inset-0 px-2.5 py-1.5 font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words pointer-events-none z-0 ${className}`}
+      >
+        {chunks.map((chunk, i) => (
+          <div key={`bg-${i}`} className={`relative -mx-2.5 px-2.5 ${chunkBgs[i]} transition-colors duration-200`}>
+            <span className="text-transparent">{chunk || ' '}</span>
+            {i < chunks.length - 1 ? '\n' : ''}
+          </div>
+        ))}
+      </div>
+
+      {/* 2. 실제 입력창 */}
+      <textarea
+        ref={ref}
+        value={value}
+        onChange={e => { onChange(e.target.value); updateCursor() }}
+        onFocus={() => { setFocused(true); updateCursor() }}
+        onBlur={() => { setFocused(false); setCursorChunkIndex(null) }}
+        onKeyUp={updateCursor}
+        onMouseUp={updateCursor}
+        placeholder={placeholder}
+        rows={1}
+        spellCheck={false}
+        // 우측에 액션 버튼이 들어갈 공간(pr-16)을 확보하여 텍스트가 겹치지 않게 함
+        className={`relative z-10 w-full font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border border-transparent pl-2.5 pr-16 py-1.5 resize-none outline-none [field-sizing:content] caret-text-primary ${focused ? 'text-text-primary' : className} focus:ring-2 focus:ring-accent/20 rounded-md`}
+      />
+
+      {/* 3. 액션 오버레이 (Divider 및 액션 버튼 렌더링, 텍스트 앞) */}
+      <div
+        aria-hidden
+        className={`absolute inset-0 px-2.5 py-1.5 font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words z-20 ${isDragging ? 'pointer-events-auto' : 'pointer-events-none'} ${className}`}
         onDragLeave={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node)) {
             setDragOverIndex(null)
@@ -60,15 +105,16 @@ export function FactionQuoteEditor({
         }}
       >
         {chunks.map((chunk, i) => {
-          const hasAnchor = highlights.has(i)
+          const anchor = anchors?.get(i)
+          const hasAnchor = !!anchor
           const isCursorHere = focused && cursorChunkIndex === i
           const isDragOver = dragOverIndex === i
-          
+
           return (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="relative"
-              onDragOver={(e) => { 
+              onDragOver={(e) => {
                 e.preventDefault()
                 e.dataTransfer.dropEffect = 'move'
                 if (dragOverIndex !== i) setDragOverIndex(i)
@@ -89,8 +135,8 @@ export function FactionQuoteEditor({
 
               {/* 이미지가 걸린 청크: 상단에 굵은 가로선(Divider)과 라벨 표시 */}
               {hasAnchor && i > 0 && (
-                <div className="absolute top-0 left-0 right-14 border-t-2 border-amber-400 border-dashed pointer-events-auto">
-                  <div 
+                <div className={`absolute top-0 left-0 right-14 border-t-2 border-dashed pointer-events-auto transition-colors ${anchor.hasImage && anchor.theme ? anchor.theme.border : 'border-slate-400'}`}>
+                  <div
                     draggable
                     onDragStart={(e) => {
                       e.dataTransfer.setData('text/plain', i.toString())
@@ -101,15 +147,19 @@ export function FactionQuoteEditor({
                       setDragOverIndex(null)
                       setIsDragging(false)
                     }}
-                    className="absolute right-0 -top-2.5 flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 pl-1.5 pr-1 py-0.5 rounded-sm shadow-sm leading-tight cursor-grab active:cursor-grabbing hover:bg-amber-200 transition-colors"
+                    className={`absolute right-0 -top-2.5 flex items-center gap-1 text-[10px] font-bold pl-1.5 pr-1 py-0.5 rounded-sm shadow-sm leading-tight cursor-grab active:cursor-grabbing transition-colors ${anchor.hasImage && anchor.theme
+                      ? `${anchor.theme.badgeText} ${anchor.theme.badgeBg} hover:opacity-80`
+                      : 'text-slate-600 bg-slate-200 hover:bg-slate-300'
+                      }`}
                     title="드래그하여 다른 줄로 이동하거나, 클릭하여 삭제할 수 있습니다."
                   >
-                    <span>🖼 이미지 전환</span>
+                    <span>{anchor.hasImage ? '🖼 이미지 전환' : '🖼 사진 미지정'}</span>
                     {onRemoveAnchor && (
-                      <button 
+                      <button
                         type="button"
                         onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); onRemoveAnchor(i) }}
-                        className="ml-1 text-amber-500 hover:text-red-500 rounded-full hover:bg-white/50 w-3 h-3 flex items-center justify-center transition-colors"
+                        className={`ml-1 rounded-full flex items-center justify-center w-3 h-3 transition-colors hover:text-red-500 hover:bg-white/50 ${anchor.hasImage && anchor.theme ? anchor.theme.text : 'text-slate-500'
+                          }`}
                         title="전환 앵커 삭제"
                       >
                         ✕
@@ -118,7 +168,7 @@ export function FactionQuoteEditor({
                   </div>
                 </div>
               )}
-              
+
               {/* 이미지가 없는 청크 중, 현재 커서가 있는 줄: 우측에 추가 버튼 표시 */}
               {!hasAnchor && isCursorHere && onAddAnchor && i > 0 && (
                 <div className="absolute top-0 left-0 right-0 pointer-events-none group">
@@ -135,29 +185,13 @@ export function FactionQuoteEditor({
                   </div>
                 </div>
               )}
-              
+
               <span className="text-transparent">{chunk || ' '}</span>
               {i < chunks.length - 1 ? '\n' : ''}
             </div>
           )
         })}
       </div>
-      
-      {/* 실제 입력창 */}
-      <textarea
-        ref={ref}
-        value={value}
-        onChange={e => { onChange(e.target.value); updateCursor() }}
-        onFocus={() => { setFocused(true); updateCursor() }}
-        onBlur={() => { setFocused(false); setCursorChunkIndex(null) }}
-        onKeyUp={updateCursor}
-        onMouseUp={updateCursor}
-        placeholder={placeholder}
-        rows={1}
-        spellCheck={false}
-        // 우측에 액션 버튼이 들어갈 공간(pr-16)을 확보하여 텍스트가 겹치지 않게 함
-        className={`relative w-full font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border border-transparent pl-2.5 pr-16 py-1.5 resize-none outline-none [field-sizing:content] caret-text-primary ${focused ? 'text-text-primary' : className} focus:ring-2 focus:ring-accent/20 rounded-md`}
-      />
     </div>
   )
 }

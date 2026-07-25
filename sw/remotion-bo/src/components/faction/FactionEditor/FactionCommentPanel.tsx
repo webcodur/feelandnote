@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Save } from '../shared/icons'
+import { Save } from '@/components/icons'
 
 /**
  * 편별 댓글(해설 텍스트) — 영상 데이터와 별개인 comment.p<part>.txt 를 읽고 쓴다.

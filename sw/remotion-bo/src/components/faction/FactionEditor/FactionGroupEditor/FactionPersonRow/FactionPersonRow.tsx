@@ -1,21 +1,19 @@
 'use client'
 
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft, Play, Pause } from '../../../shared/icons'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft, Play, Pause } from '@/components/icons'
 import type { FactionPerson, FactionImageCrop } from '@/lib/faction-types'
 import type { VoiceFile } from '../../../../voice-utils'
-import { factionVoiceFile } from '@/lib/faction-voice'
-import { imageSrc, initial, cropToStyle, factionStepsOf, applyFactionSteps, epithetIsNarrated, linesTypingOf } from '../../../shared/timing'
-import { FactionMediaThumb } from '../../../shared/FactionMediaThumb'
+import { factionVoiceFile, stripCommonEpithetVoice, withCommonEpithetVoice } from '@/lib/faction-voice'
+import { imageSrc, initial, factionStepsOf, applyFactionSteps, epithetIsNarrated, linesTypingOf } from '../../../shared/timing'
+import { MediaThumb, ImagePicker, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@/components/media'
 import { AutoResizeTextarea } from '../../../shared/AutoResizeTextarea'
-import { FactionImagePicker } from './FactionImagePicker/FactionImagePicker'
 import { FactionVoicePanel } from './FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionVoicePanel/voice-panel'
 import { QUOTE_SLOT, EPITHET_SLOT } from './FactionVoicePanel/voice-panel/voice-slots'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
-import { useFactionCeleb } from '../../../shared/FactionCelebContext'
-import { useFactionImageDrop } from '../../../shared/useFactionImageDrop'
-import type { EditLang } from '../../../FactionEditor'
+import { CelebBadge } from '@/components/discourse/shared/CelebBadge'
+import type { EditLang } from '@/components/editor'
 import { EditorPanel } from '@/components/scenario/EditorPanel'
 
 type Props = {
@@ -37,25 +35,99 @@ type Props = {
   totalPeople?: number
   /** 다른 그룹으로 이동 (cross-move 모달 열기) */
   onMoveCrossGroup?: () => void
+  /** 셀럽 DB 등록 배지용 대조 결과 — 에피소드 레벨에서 인물 전체 slug를 배치 조회한 것을 그대로 내려받는다 */
+  celebExisting: Set<string>
+  celebLoaded: boolean
 }
 
 import { ImageChangeSlot } from './sections/ImageChangeSlot'
 import { FactionQuoteEditor } from './sections/FactionQuoteEditor'
-import { PersonBasicInfo } from './sections/PersonBasicInfo'
-import { ChevronLeft, ChevronRight } from '../../../shared/icons'
 
-export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup }: Props) {
+const ANCHOR_THEMES = [
+  { name: 'amber', bg: 'bg-amber-400/15', text: 'text-amber-600', border: 'border-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-800' },
+  { name: 'blue', bg: 'bg-blue-400/15', text: 'text-blue-600', border: 'border-blue-400', badgeBg: 'bg-blue-100', badgeText: 'text-blue-800' },
+  { name: 'emerald', bg: 'bg-emerald-400/15', text: 'text-emerald-600', border: 'border-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-800' },
+  { name: 'violet', bg: 'bg-violet-400/15', text: 'text-violet-600', border: 'border-violet-400', badgeBg: 'bg-violet-100', badgeText: 'text-violet-800' },
+  { name: 'rose', bg: 'bg-rose-400/15', text: 'text-rose-600', border: 'border-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-800' },
+  { name: 'cyan', bg: 'bg-cyan-400/15', text: 'text-cyan-600', border: 'border-cyan-400', badgeBg: 'bg-cyan-100', badgeText: 'text-cyan-800' },
+]
+
+function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newValue: string, imageChanges: T[]): T[] {
+  if (!imageChanges || imageChanges.length === 0) return imageChanges
+  
+  const oldChunks = oldValue.split('\n')
+  const newChunks = newValue.split('\n')
+  const diff = newChunks.length - oldChunks.length
+  
+  if (diff === 0) return imageChanges
+  
+  let startDiff = 0
+  while (startDiff < oldChunks.length && startDiff < newChunks.length && oldChunks[startDiff] === newChunks[startDiff]) {
+    startDiff++
+  }
+  
+  let oldEnd = oldChunks.length - 1
+  let newEnd = newChunks.length - 1
+  while (oldEnd >= startDiff && newEnd >= startDiff && oldChunks[oldEnd] === newChunks[newEnd]) {
+    oldEnd--
+    newEnd--
+  }
+  
+  const suffixStart = oldEnd + 1
+  
+  const adjusted = imageChanges.map(ic => {
+    let newChunk = ic.chunk
+    
+    if (ic.chunk >= suffixStart) {
+      newChunk = ic.chunk + diff
+    } else if (ic.chunk >= startDiff && ic.chunk <= oldEnd) {
+      if (diff > 0 && newChunks[ic.chunk] === '') {
+        newChunk = ic.chunk + diff
+      } else if (diff < 0) {
+        newChunk = startDiff
+      }
+    }
+    
+    newChunk = Math.max(0, Math.min(newChunk, newChunks.length - 1))
+    return { ...ic, chunk: newChunk }
+  })
+  
+  const seen = new Set<number>()
+  return adjusted.filter(ic => {
+    if (seen.has(ic.chunk)) return false
+    seen.add(ic.chunk)
+    return true
+  })
+}
+
+import { PersonBasicInfo } from './sections/PersonBasicInfo'
+import { ChevronLeft, ChevronRight } from '@/components/icons'
+
+export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup, celebExisting, celebLoaded }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   // 인물 행 접기 — 기본 접힘(목록 조망). 펼치면 전체 편집 폼.
   const [collapsed, setCollapsed] = useState(true)
+
+  // 외부(헤더 등)에서 이 인물로 스크롤 이동할 때 아코디언도 펼치기 위한 리스너
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const customEvent = e as CustomEvent
+      if (customEvent.detail.id === `person-${groupIndex}-${clusterIndex}-${personIndex}`) {
+        setCollapsed(false)
+      }
+    }
+    document.addEventListener('faction-person-open', handler)
+    return () => document.removeEventListener('faction-person-open', handler)
+  }, [groupIndex, clusterIndex, personIndex])
+
   const [quoteExpanded, setQuoteExpanded] = useState(true)
   // 음성 설정 모달 — 접힘·펼침 무관하게 헤더 버튼으로 바로 연다. 대사·수식어 각각.
   const [voiceModalOpen, setVoiceModalOpen] = useState(false)
   const [epithetModalOpen, setEpithetModalOpen] = useState(false)
   // 이미지 풀에서 끌어온 이미지를 사진 칸에 놓으면 연결 — 드래그 중 하이라이트
-  const { dragOver, dropProps } = useFactionImageDrop(path => onChange({ ...person, image: path }))
+  const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...person, image: path }))
   // 대사 사진 칸도 동일하게 풀에서 끌어다 놓기 지원
-  const { dragOver: quoteImgDragOver, dropProps: quoteImgDropProps } = useFactionImageDrop(path => onChange({ ...person, quoteImage: path }))
+  const { dragOver: quoteImgDragOver, dropProps: quoteImgDropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...person, quoteImage: path }))
   // imageChanges 항목별 이미지 선택 모달 — 편집 중 항목 인덱스(null=닫힘)
   const [imgChangeEdit, setImgChangeEdit] = useState<number | null>(null)
   // 대사 사진(quoteImage) 선택 모달 — 대사 시작 시점에 바뀔 두 번째 사진
@@ -65,25 +137,14 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const disabled = !!person.disabled
   const longformOnly = !!(person as any).longformOnly
   const voice = useFactionVoice()
-  // 셀럽 DB 등록 배지 — slug가 실제 DB에 있으면 ✓, 적혀 있는데 DB에 없으면 경고, 없으면 미연결
-  const celeb = useFactionCeleb()
-  const celebBadge = (() => {
-    // 신화·전설 속 존재(fiction 티어) — 실존 인물과 구분. DB(fiction)에 연결되면 초록 '✓ 신화', 아직이면 회색 '신화'
-    if ((person as any).mythical) {
-      if (person.slug && celeb?.loaded && celeb.existing.has(person.slug)) {
-        return <span title={`신화·전설 존재 — fiction 티어 등록됨 (${person.slug})`} className="shrink-0 rounded bg-success px-1 text-[10px] font-bold text-success-text">✓ 신화</span>
-      }
-      return <span title="신화·전설 속 존재 — fiction 티어 등록 대상(아직 미등록)" className="shrink-0 rounded bg-bg-secondary px-1 text-[10px] text-text-dim">신화</span>
-    }
-    if (!celeb?.loaded) return null
-    if (person.slug && celeb.existing.has(person.slug)) {
-      return <span title={`셀럽 DB 등록됨 (${person.slug})`} className="shrink-0 rounded bg-success px-1 text-[10px] font-bold text-success-text">✓ DB</span>
-    }
-    if (person.slug) {
-      return <span title={`연결 키(${person.slug})가 DB에 없음 — 미등록이거나 slug 오기`} className="shrink-0 rounded bg-warning px-1 text-[10px] font-bold text-warning-text">⚠ 없음</span>
-    }
-    return <span title="셀럽 DB 미연결 — slug 없음" className="shrink-0 rounded bg-bg-secondary px-1 text-[10px] text-text-dim">미연결</span>
-  })()
+  // 공용 낭독 목소리를 수식어 슬롯에만 펼친 편집용 객체.
+  // 저장할 때는 공용값과 같은 필드를 다시 걷어내 인물 JSON에 중복 기록하지 않는다.
+  const epithetPerson = withCommonEpithetVoice(person, voice?.commonNarrationVoice)
+  const onEpithetChange = (next: FactionPerson) =>
+    onChange(stripCommonEpithetVoice(next, voice?.commonNarrationVoice))
+  // 셀럽 DB 등록 배지 — slug가 실제 DB에 있으면 ✓, 적혀 있는데 DB에 없으면 경고, 없으면 미연결.
+  // 담화 인물 행과 같은 부품(CelebBadge)을 그대로 쓴다 — 대조 결과(celebExisting/celebLoaded)는 에피소드 레벨 배치 조회.
+  const celebBadge = <CelebBadge speaker={person} existing={celebExisting} loaded={celebLoaded} />
 
   // 단일 필드 갱신 헬퍼
   const set = (key: keyof FactionPerson, val: string) => onChange({ ...person, [key]: val })
@@ -140,10 +201,21 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const hasQuoteImages = hasQuoteImage || imageChangeCount > 0
 
   // 이미지 연결된 청크 (0-based). quoteImage는 대사 시작(첫 청크) 표시
-  const attachedQuoteLines = new Set<number>(
-    (person.imageChanges ?? []).map((ic) => ic.chunk)
-  )
-  if (hasQuoteImage) attachedQuoteLines.add(0)
+  const attachedQuoteLines = new Map<number, { hasImage: boolean; theme?: any }>()
+  let themeIndex = 0
+  
+  if (hasQuoteImage) {
+    attachedQuoteLines.set(0, { hasImage: true, theme: ANCHOR_THEMES[themeIndex++ % ANCHOR_THEMES.length] })
+  }
+  
+  const sortedChanges = [...(person.imageChanges ?? [])].sort((a, b) => a.chunk - b.chunk)
+  sortedChanges.forEach((ic) => {
+    if (ic.image) {
+      attachedQuoteLines.set(ic.chunk, { hasImage: true, theme: ANCHOR_THEMES[themeIndex++ % ANCHOR_THEMES.length] })
+    } else {
+      attachedQuoteLines.set(ic.chunk, { hasImage: false })
+    }
+  })
 
   const currentChunkCount = person.quoteChunks?.length || 0
   const maxChunk = Math.max(0, currentChunkCount - 1)
@@ -188,7 +260,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
     </>
   )
   const picker = pickerOpen && (
-    <FactionImagePicker
+    <ImagePicker
       value={person.image}
       onChange={next => onChange({ ...person, image: next })}
       crop={person.imageCrop}
@@ -202,7 +274,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   // imageChanges 항목 이미지 선택 모달 — person.image 와 같은 picker, 대상만 해당 항목.
   const editIc = imgChangeEdit != null ? person.imageChanges?.[imgChangeEdit] : undefined
   const imgChangePicker = imgChangeEdit != null && editIc != null && (
-    <FactionImagePicker
+    <ImagePicker
       value={editIc.image}
       onChange={next => {
         const list = [...(person.imageChanges ?? [])]
@@ -229,7 +301,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   )
   // 대사 사진(quoteImage) 선택 모달 — person.image 와 같은 picker, 대상만 quoteImage.
   const quoteImgPicker = quoteImgPickerOpen && (
-    <FactionImagePicker
+    <ImagePicker
       value={person.quoteImage}
       onChange={next => onChange({ ...person, quoteImage: next })}
       crop={person.quoteImageCrop}
@@ -284,7 +356,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           title="클릭: 이미지 변경 · 풀에서 끌어다 놓기: 연결"
         >
           {src ? (
-            <FactionMediaThumb src={src} alt="" className="h-14 w-11 object-cover" style={cropToStyle(person.imageCrop)} />
+            <MediaThumb src={src} alt="" className="h-14 w-11 object-cover" style={cropToStyle(person.imageCrop)} />
           ) : (
             <span className="flex h-14 w-11 items-center justify-center bg-bg-secondary text-base font-bold text-text-secondary">
               {initial(person.name)}
@@ -339,7 +411,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {epithetMeta && <span className="font-mono text-[10px] text-accent">{epithetMeta.duration.toFixed(1)}s</span>}
               </button>
               {epithetMeta && (
-                <MiniAudioPlayer url={`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(epithetFile)}?t=${epithetMeta.size}`} rate={person[EPITHET_SLOT.fields.rate] as number | undefined} />
+                <MiniAudioPlayer url={`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(epithetFile)}?t=${epithetMeta.size}`} rate={epithetPerson[EPITHET_SLOT.fields.rate] as number | undefined} />
               )}
             </div>
           )}
@@ -371,172 +443,183 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           </div>
           
           {quoteExpanded && (
-            <>
-          
-          <div className="p-2 flex gap-3 overflow-x-auto items-start bg-bg-main/30 border-b border-border">
-            {/* #1 대사 사진 (기본) */}
-            <div className="flex flex-col w-28 shrink-0 rounded border border-border bg-bg-card shadow-sm overflow-hidden">
-              <div className="flex items-center justify-between px-1.5 py-1 bg-bg-hover border-b border-border">
-                <span className="text-[10px] font-black text-accent">#1 기본</span>
-                <div className="flex items-center gap-1">
-                  {person.quoteImage && (
-                    <select
-                      value={person.quoteImageFilter ?? ''}
-                      onChange={e => onChange({ ...person, quoteImageFilter: e.target.value || undefined })}
-                      className="text-[9px] px-1 py-0.5 rounded border border-border bg-bg-main text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
-                      title="이미지 필터"
-                    >
-                      <option value="">원본</option>
-                      <option value="vintage">필름</option>
-                      <option value="sepia">세피아</option>
-                      <option value="grayscale">흑백</option>
-                      <option value="duotone">투톤</option>
-                      <option value="fade">페이드</option>
-                    </select>
-                  )}
-                  {person.quoteImage && (
-                    <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined, quoteImageFilter: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
-                      <Trash2 size={12} />
-                    </button>
-                  )}
-                </div>
-              </div>
-              <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
-                title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
-                className={`relative aspect-[4/3] w-full flex items-center justify-center group bg-black/5 overflow-hidden ${quoteImgDragOver ? 'border-accent ring-2 ring-accent' : ''}`}>
-                {quoteImgSrc ? (
-                  <FactionMediaThumb src={quoteImgSrc} alt="" className="h-full w-full object-cover" style={cropToStyle(person.quoteImageCrop)} />
-                ) : src ? (
-                  <>
-                    <FactionMediaThumb src={src} alt="" className="h-full w-full object-cover opacity-40 grayscale-[0.5]" style={cropToStyle(person.imageCrop)} />
-                    <span className="absolute text-[10px] text-white font-bold bg-black/60 px-1.5 py-0.5 rounded shadow-sm pointer-events-none">
-                      {quoteImgDragOver ? '여기에 놓기' : '프로필 상속'}
+            <div className="flex p-3 gap-4 bg-bg-main/30 items-start">
+              {/* 왼쪽: 텍스트 에디터 */}
+              <div className="flex-1 min-w-0 flex gap-3">
+                {editLang !== 'en' && (
+                  <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                    <span className="text-xs text-text-dim flex items-center gap-1 mb-1 font-bold pl-1">
+                      한국어 본문
+                      {hasQuoteImages && (
+                        <span className="text-[10px] text-text-dim font-normal ml-2">※ 번호(시점)에 따라 우측의 이미지 전환과 연결됨</span>
+                      )}
                     </span>
-                  </>
-                ) : (
-                  <span className="text-[10px] text-text-dim">{quoteImgDragOver ? '여기에 놓기' : '사진 선택…'}</span>
+                    <div className="rounded-lg border border-border bg-white shadow-inner p-1 h-full">
+                      <FactionQuoteEditor
+                        placeholder="엔터를 치면 덩어리가 분리됩니다"
+                        value={person.quoteChunks?.join('\n') ?? person.quote ?? ''}
+                        onChange={(raw) => {
+                          const oldRaw = person.quoteChunks?.join('\n') ?? person.quote ?? ''
+                          const ch = raw.split('\n')
+                          const nextImageChanges = adjustImageChanges(oldRaw, raw, person.imageChanges ?? [])
+                          onChange({ 
+                            ...person, 
+                            quoteChunks: ch, 
+                            quote: ch.map((s) => s.trim()).filter(Boolean).join(' '),
+                            imageChanges: nextImageChanges.length > 0 ? nextImageChanges : undefined
+                          })
+                        }}
+                        anchors={attachedQuoteLines}
+                        onAddAnchor={(chunkIndex) => {
+                          const list = [...(person.imageChanges ?? [])]
+                          const existingIdx = list.findIndex(ic => ic.chunk === chunkIndex)
+                          if (existingIdx !== -1) {
+                            setImgChangeEdit(existingIdx)
+                          } else {
+                            const nextList = [...list, { chunk: chunkIndex, image: '' }]
+                            onChange({ ...person, imageChanges: nextList })
+                            setImgChangeEdit(nextList.length - 1)
+                          }
+                        }}
+                        onRemoveAnchor={(chunkIndex) => {
+                          const list = (person.imageChanges ?? []).filter(ic => ic.chunk !== chunkIndex)
+                          onChange({ ...person, imageChanges: list })
+                        }}
+                        onMoveAnchor={(fromIdx, toIdx) => {
+                          const list = [...(person.imageChanges ?? [])]
+                          const target = list.find(ic => ic.chunk === fromIdx)
+                          if (target) {
+                            const dest = list.find(ic => ic.chunk === toIdx)
+                            if (dest) dest.chunk = fromIdx
+                            target.chunk = toIdx
+                            onChange({ ...person, imageChanges: list })
+                          }
+                        }}
+                        className="text-text-primary min-h-[84px]"
+                      />
+                    </div>
+                  </div>
                 )}
-              </button>
-              <div className="flex flex-col p-1 bg-bg-main border-t border-border">
-                <div className="text-[10px] font-bold text-yellow-600 truncate px-1 pb-1">
-                  &quot;{person.quoteChunks?.[0] || person.quote || '대사 시작'}&quot;
+                {editLang !== 'ko' && (
+                  <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                    <span className="text-xs text-text-dim mb-1 font-bold pl-1">(영문)</span>
+                    <div className="rounded-lg border border-border bg-slate-50 shadow-inner p-1 h-full">
+                      <FactionQuoteEditor
+                        placeholder="EN 대사 (엔터로 분리)"
+                        value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''}
+                        onChange={(raw) => {
+                          const ch = raw.split('\n')
+                          onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
+                        }}
+                        anchors={attachedQuoteLines}
+                        className="italic text-text-secondary min-h-[84px]"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 오른쪽: 이미지 앵커 수직 배열 (가로형 카드) */}
+              <div className="flex flex-col gap-3 shrink-0 border-l border-border/50 pl-4 w-[296px]">
+                {/* #1 대사 사진 (기본) */}
+                <div className={`flex flex-row w-[280px] shrink-0 rounded border bg-bg-card shadow-sm overflow-hidden ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.border : 'border-border'}`}>
+                  <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
+                    title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
+                    className={`relative aspect-[4/3] w-28 shrink-0 flex items-center justify-center group bg-black/5 overflow-hidden border-r ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.border : 'border-border'} ${quoteImgDragOver ? 'border-accent ring-2 ring-accent' : ''}`}>
+                    {quoteImgSrc ? (
+                      <MediaThumb src={quoteImgSrc} alt="" className="h-full w-full object-cover" style={cropToStyle(person.quoteImageCrop)} />
+                    ) : src ? (
+                      <>
+                        <MediaThumb src={src} alt="" className="h-full w-full object-cover opacity-40 grayscale-[0.5]" style={cropToStyle(person.imageCrop)} />
+                        <span className="absolute text-[10px] text-white font-bold bg-black/60 px-1.5 py-0.5 rounded shadow-sm pointer-events-none text-center leading-tight">
+                          {quoteImgDragOver ? '놓기' : '상속'}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-[10px] text-text-dim">{quoteImgDragOver ? '놓기' : '사진 선택'}</span>
+                    )}
+                  </button>
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <div className={`flex items-center justify-between px-1.5 py-1 border-b ${hasQuoteImage ? `${attachedQuoteLines.get(0)?.theme?.badgeBg} ${attachedQuoteLines.get(0)?.theme?.border}` : 'bg-bg-hover border-border'}`}>
+                      <span className={`text-[10px] font-black ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.badgeText : 'text-accent'}`}>#1 기본</span>
+                      <div className="flex items-center gap-1">
+                        {person.quoteImage && (
+                          <select
+                            value={person.quoteImageFilter ?? ''}
+                            onChange={e => onChange({ ...person, quoteImageFilter: e.target.value || undefined })}
+                            className="text-[9px] px-1 py-0.5 rounded border border-border bg-bg-main text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+                            title="이미지 필터"
+                          >
+                            <option value="">원본</option>
+                            <option value="vintage">필름</option>
+                            <option value="sepia">세피아</option>
+                            <option value="grayscale">흑백</option>
+                            <option value="duotone">투톤</option>
+                            <option value="fade">페이드</option>
+                          </select>
+                        )}
+                        {person.quoteImage && (
+                          <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined, quoteImageFilter: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
+                            <Trash2 size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col p-1.5 bg-bg-main flex-1 justify-center gap-1">
+                      <div className="text-[10px] font-bold text-yellow-600 truncate px-1" title={person.quoteChunks?.[0] || person.quote || '대사 시작'}>
+                        &quot;{person.quoteChunks?.[0] || person.quote || '대사 시작'}&quot;
+                      </div>
+                      <div className="flex items-center gap-1 px-1 bg-bg-hover rounded py-0.5">
+                        <span className="text-[9px] text-text-dim truncate leading-none">대사 시작점 고정</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 min-h-[20px] px-1 bg-bg-hover rounded py-0.5">
-                  <span className="text-[9px] text-text-dim truncate leading-none">대사 시작점 고정</span>
-                </div>
+
+                {/* 대사 중 사진 전환 */}
+                {[...(person.imageChanges ?? [])]
+                  .map((ic, originalIdx) => ({ ic, originalIdx }))
+                  .sort((a, b) => a.ic.chunk - b.ic.chunk)
+                  .map(({ ic, originalIdx }) => (
+                    <ImageChangeSlot
+                      key={originalIdx}
+                      ic={ic}
+                      theme={attachedQuoteLines.get(ic.chunk)?.theme}
+                      chunks={person.quoteChunks ?? []}
+                      chunkText={person.quoteChunks?.[ic.chunk]}
+                      onChunkChange={(chunk) => {
+                        const list = [...(person.imageChanges ?? [])]
+                        list[originalIdx] = { ...list[originalIdx], chunk }
+                        onChange({ ...person, imageChanges: list })
+                      }}
+                      onImageChange={(image) => {
+                        const list = [...(person.imageChanges ?? [])]
+                        list[originalIdx] = { ...list[originalIdx], image, crop: undefined }
+                        onChange({ ...person, imageChanges: list })
+                      }}
+                      onFilterChange={(filter) => {
+                        const list = [...(person.imageChanges ?? [])]
+                        list[originalIdx] = { ...list[originalIdx], filter }
+                        onChange({ ...person, imageChanges: list })
+                      }}
+                      onRemove={() => {
+                        const list = (person.imageChanges ?? []).filter((_, i) => i !== originalIdx)
+                        onChange({ ...person, imageChanges: list.length ? list : undefined })
+                      }}
+                      onOpenPicker={() => setImgChangeEdit(originalIdx)}
+                      series={series}
+                      episodeName={episodeName}
+                    />
+                  ))}
+
+                <button type="button"
+                  onClick={e => { e.stopPropagation(); onChange({ ...person, imageChanges: [...(person.imageChanges ?? []), { chunk: maxChunk, image: '' }] }) }}
+                  className="flex flex-row gap-2 items-center justify-center w-[280px] shrink-0 h-[84px] rounded-md border border-dashed border-border text-xs text-text-dim hover:text-text-secondary hover:bg-bg-hover hover:border-text-secondary transition-colors mt-2">
+                  <span className="text-lg leading-none">+</span>
+                  <span className="mt-0.5 text-[10px]">전환 추가</span>
+                </button>
               </div>
             </div>
-
-            {/* 대사 중 사진 전환 */}
-            {[...(person.imageChanges ?? [])]
-              .map((ic, originalIdx) => ({ ic, originalIdx }))
-              .sort((a, b) => a.ic.chunk - b.ic.chunk)
-              .map(({ ic, originalIdx }) => (
-                <ImageChangeSlot
-                  key={originalIdx}
-                  ic={ic}
-                  chunks={person.quoteChunks ?? []}
-                  chunkText={person.quoteChunks?.[ic.chunk]}
-                  onChunkChange={(chunk) => {
-                    const list = [...(person.imageChanges ?? [])]
-                    list[originalIdx] = { ...list[originalIdx], chunk }
-                    onChange({ ...person, imageChanges: list })
-                  }}
-                  onImageChange={(image) => {
-                    const list = [...(person.imageChanges ?? [])]
-                    list[originalIdx] = { ...list[originalIdx], image, crop: undefined }
-                    onChange({ ...person, imageChanges: list })
-                  }}
-                  onFilterChange={(filter) => {
-                    const list = [...(person.imageChanges ?? [])]
-                    list[originalIdx] = { ...list[originalIdx], filter }
-                    onChange({ ...person, imageChanges: list })
-                  }}
-                  onRemove={() => {
-                    const list = (person.imageChanges ?? []).filter((_, i) => i !== originalIdx)
-                    onChange({ ...person, imageChanges: list.length ? list : undefined })
-                  }}
-                  onOpenPicker={() => setImgChangeEdit(originalIdx)}
-                  series={series}
-                  episodeName={episodeName}
-                />
-              ))}
-
-            <button type="button"
-              onClick={e => { e.stopPropagation(); onChange({ ...person, imageChanges: [...(person.imageChanges ?? []), { chunk: maxChunk, image: '' }] }) }}
-              className="flex flex-col items-center justify-center w-24 shrink-0 aspect-[4/3] rounded-md border border-dashed border-border text-xs text-text-dim hover:text-text-secondary hover:bg-bg-hover hover:border-text-secondary transition-colors mt-6">
-              <span className="text-lg leading-none">+</span>
-              <span className="mt-1 text-[10px]">전환 추가</span>
-            </button>
-          </div>
-
-          <div className="p-3 bg-bg-main/30 flex gap-3">
-            {editLang !== 'en' && (
-              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                <span className="text-xs text-text-dim flex items-center gap-1 mb-1 font-bold pl-1">
-                  한국어 본문
-                  {hasQuoteImages && (
-                    <span className="text-[10px] text-text-dim font-normal ml-2">※ 윗줄의 시점(번호)대로 이미지 전환 연결됨</span>
-                  )}
-                </span>
-                <div className="rounded-lg border border-border bg-white shadow-inner p-1">
-                  <FactionQuoteEditor
-                    placeholder="엔터를 치면 덩어리가 분리됩니다"
-                    value={person.quoteChunks?.join('\n') ?? person.quote ?? ''}
-                    onChange={(raw) => {
-                      const ch = raw.split('\n')
-                      onChange({ ...person, quoteChunks: ch, quote: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
-                    }}
-                    highlights={attachedQuoteLines}
-                    onAddAnchor={(chunkIndex) => {
-                      const list = [...(person.imageChanges ?? [])]
-                      const existingIdx = list.findIndex(ic => ic.chunk === chunkIndex)
-                      if (existingIdx !== -1) {
-                        setImgChangeEdit(existingIdx)
-                      } else {
-                        const nextList = [...list, { chunk: chunkIndex, image: '' }]
-                        onChange({ ...person, imageChanges: nextList })
-                        setImgChangeEdit(nextList.length - 1)
-                      }
-                    }}
-                    onRemoveAnchor={(chunkIndex) => {
-                      const list = (person.imageChanges ?? []).filter(ic => ic.chunk !== chunkIndex)
-                      onChange({ ...person, imageChanges: list })
-                    }}
-                    onMoveAnchor={(fromIdx, toIdx) => {
-                      const list = [...(person.imageChanges ?? [])]
-                      const target = list.find(ic => ic.chunk === fromIdx)
-                      if (target) {
-                        const dest = list.find(ic => ic.chunk === toIdx)
-                        if (dest) dest.chunk = fromIdx
-                        target.chunk = toIdx
-                        onChange({ ...person, imageChanges: list })
-                      }
-                    }}
-                    className="text-text-primary"
-                  />
-                </div>
-              </div>
-            )}
-            {editLang !== 'ko' && (
-              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                <span className="text-xs text-text-dim mb-1 font-bold pl-1">(영문)</span>
-                <div className="rounded-lg border border-border bg-slate-50 shadow-inner p-1">
-                  <FactionQuoteEditor
-                    placeholder="EN 대사 (엔터로 분리)"
-                    value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''}
-                    onChange={(raw) => {
-                      const ch = raw.split('\n')
-                      onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
-                    }}
-                    highlights={attachedQuoteLines}
-                    className="italic text-text-secondary"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-            </>
           )}
         </div>
 
@@ -731,7 +814,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         {/* 수식어 나레이션 — 대사 음성과 동일 패널, 슬롯만 수식어. (수식어가 있을 때만 노출) */}
         {voice && hasEpithet && (
           <FactionVoicePanel
-            person={person}
+            person={epithetPerson}
             series={series}
             episodeName={episodeName}
             voiceFile={epithetFile}
@@ -766,8 +849,8 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
       {/* 수식어 나레이션 설정 모달 — 대사와 동일, 슬롯만 수식어. */}
       {voice && hasEpithet && epithetModalOpen && (
         <FactionVoiceSettingsModal
-          person={person}
-          onChange={onChange}
+          person={epithetPerson}
+          onChange={onEpithetChange}
           series={series}
           episodeName={episodeName}
           voiceFile={epithetFile}
@@ -802,17 +885,29 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   )
 }
 
-function MiniAudioPlayer({ url, rate }: { url: string; rate?: number }) {
+export function MiniAudioPlayer({ url, rate }: { url: string; rate?: number }) {
   const [playing, setPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const id = useRef(Math.random().toString(36).substring(7)).current
 
   useEffect(() => {
+    const handleOtherPlay = (e: Event) => {
+      const customEvent = e as CustomEvent
+      if (customEvent.detail.id !== id) {
+        if (audioRef.current) {
+          audioRef.current.pause()
+          setPlaying(false)
+        }
+      }
+    }
+    document.addEventListener('miniaudioplayer-play', handleOtherPlay)
     return () => {
+      document.removeEventListener('miniaudioplayer-play', handleOtherPlay)
       if (audioRef.current) {
         audioRef.current.pause()
       }
     }
-  }, [])
+  }, [id])
 
   const toggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -827,7 +922,9 @@ function MiniAudioPlayer({ url, rate }: { url: string; rate?: number }) {
       if (rate) a.playbackRate = rate
       a.onended = () => setPlaying(false)
       a.onerror = () => setPlaying(false)
-      a.play().catch(() => setPlaying(false))
+      a.play().then(() => {
+        document.dispatchEvent(new CustomEvent('miniaudioplayer-play', { detail: { id } }))
+      }).catch(() => setPlaying(false))
       audioRef.current = a
       setPlaying(true)
     }

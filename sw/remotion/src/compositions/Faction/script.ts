@@ -10,7 +10,7 @@
  * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
-import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from './types'
+import type { FactionScript, FactionGroup, FactionCluster, FactionPerson, FactionNarratorVoice } from './types'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
@@ -39,12 +39,32 @@ export const episodeNames: Record<string, string> = {}
  * 인물 펼치기. en=false면 원본 그대로(한국어판 — quoteEn은 렌더러가 보조 표기로 사용).
  * en=true면 영문 필드를 주 필드로 올리고 보조 영문(quoteEn)은 제거한다.
  */
-function resolvePerson(p: FactionPerson, en: boolean): FactionPerson {
+/**
+ * 공용 낭독 목소리를 인물 수식어 슬롯의 기본값으로 펼친다.
+ * 원본 JSON에는 중복 저장하지 않고, 렌더용 스크립트에서만 상속한다.
+ */
+function inheritEpithetVoice(p: FactionPerson, common?: FactionNarratorVoice): FactionPerson {
+  if (!common) return p
+  return {
+    ...p,
+    epithetEngine: p.epithetEngine ?? common.quoteEngine,
+    epithetSpeaker: p.epithetSpeaker ?? common.quoteSpeaker,
+    epithetStyle: p.epithetStyle ?? common.quoteStyle,
+    epithetElevenlabsVoiceId: p.epithetElevenlabsVoiceId ?? common.quoteElevenlabsVoiceId,
+    epithetEleOptions: p.epithetEleOptions ?? common.quoteEleOptions,
+    epithetEleEmotions: p.epithetEleEmotions ?? common.quoteEleEmotions,
+    epithetEleTrail: p.epithetEleTrail ?? common.quoteEleTrail,
+    epithetGainDb: p.epithetGainDb ?? common.quoteGainDb,
+    epithetPlaybackRate: p.epithetPlaybackRate ?? common.quotePlaybackRate,
+  }
+}
+
+function resolvePerson(p: FactionPerson, en: boolean, commonVoice?: FactionNarratorVoice): FactionPerson {
   if (!en) {
     // 한국어판: 가상 독백(quote) 아래에 원전의 사실과 재구성 방향(quoteOrigin)을 보조 표기로 노출한다.
-    return { ...p, quoteEn: p.quoteOrigin }
+    return inheritEpithetVoice({ ...p, quoteEn: p.quoteOrigin }, commonVoice)
   }
-  return {
+  return inheritEpithetVoice({
     ...p,
     name: p.nameEn ?? p.name,
     epithet: p.epithetEn ?? p.epithet,
@@ -52,24 +72,24 @@ function resolvePerson(p: FactionPerson, en: boolean): FactionPerson {
     quote: p.quoteEn ?? p.quote,
     quoteChunks: p.quoteEnChunks ?? p.quoteChunks,
     quoteEn: undefined,
-  }
+  }, commonVoice)
 }
 
-function resolveCluster(c: FactionCluster, en: boolean): FactionCluster {
+function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNarratorVoice): FactionCluster {
   return {
     ...c,
     // 단체 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 labelEn 폴백.
     label: en ? (c.labelEn ?? c.label) : c.label,
-    people: c.people?.map(p => resolvePerson(p, en)) ?? [],
+    people: c.people?.map(p => resolvePerson(p, en, commonVoice)) ?? [],
   }
 }
 
-function resolveGroup(g: FactionGroup, en: boolean): FactionGroup {
+function resolveGroup(g: FactionGroup, en: boolean, commonVoice?: FactionNarratorVoice): FactionGroup {
   return {
     ...g,
     // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
     name: en ? (g.nameEn ?? g.name) : g.name,
-    clusters: g.clusters.map(c => resolveCluster(c, en)),
+    clusters: g.clusters.map(c => resolveCluster(c, en, commonVoice)),
   }
 }
 
@@ -107,10 +127,26 @@ function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings): VoiceTimings
   return out ?? vt
 }
 
+/** 나레이터 낭독 한 벌 — 영문판은 quoteEn/quoteEnChunks 를 주 필드로 올린다(없으면 한국어 폴백). */
+function resolveNarratorVoice(v: FactionNarratorVoice | undefined, en: boolean): FactionNarratorVoice | undefined {
+  if (!v || !en) return v
+  return { ...v, quote: v.quoteEn ?? v.quote, quoteChunks: v.quoteEnChunks ?? v.quoteChunks, quoteEn: undefined }
+}
+
 /** faction-data.json → 단일 언어 스크립트. en=false는 원본 그대로 반환한다. */
 function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
+  const commonVoice = resolveNarratorVoice(data.narrator?.logline, en)
   return {
     ...data,
+    // 나레이터(옵션) — 이름·소개·낭독 3종의 영문 폴백 치환
+    narrator: data.narrator ? {
+      ...data.narrator,
+      name: en ? (data.narrator.nameEn ?? data.narrator.name) : data.narrator.name,
+      label: en ? (data.narrator.labelEn ?? data.narrator.label) : data.narrator.label,
+      logline: resolveNarratorVoice(data.narrator.logline, en),
+      outro: resolveNarratorVoice(data.narrator.outro, en),
+      intro: resolveNarratorVoice(data.narrator.intro, en),
+    } : undefined,
     // 영상 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 titleEn 폴백.
     title: en ? (data.titleEn ?? data.title) : data.title,
     // titleByPart 는 데이터에 통합형으로 들어 있으니 그대로 둔다(영문 폴백은 해당 part 키 부재 시 렌더가 title 로 폴백).
@@ -122,10 +158,16 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
     // 롱폼 배치 — 영문판은 시대 문구(era)·챕터 제목(chapter)을 영문으로 치환(없으면 한국어 폴백). 세력 참조·편 경계(cut)는 그대로.
     longformLayout: data.longformLayout?.map(it =>
       'era' in it ? { era: { ...it.era, label: en ? (it.era.labelEn ?? it.era.label) : it.era.label } }
-      : 'chapter' in it ? { chapter: { ...it.chapter, title: en ? (it.chapter.titleEn ?? it.chapter.title) : it.chapter.title } }
+      : 'chapter' in it ? {
+        chapter: {
+          ...it.chapter,
+          title: en ? (it.chapter.titleEn ?? it.chapter.title) : it.chapter.title,
+          voice: resolveNarratorVoice(it.chapter.voice, en),
+        },
+      }
       : it,
     ),
-    groups: data.groups.map(g => resolveGroup(g, en)),
+    groups: data.groups.map(g => resolveGroup(g, en, commonVoice)),
     voiceTimings,
   }
 }

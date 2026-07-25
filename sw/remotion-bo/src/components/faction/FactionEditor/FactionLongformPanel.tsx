@@ -1,11 +1,19 @@
 'use client'
 
-import type { FactionScript, FactionLongformItem, FactionChapter } from '../../../lib/faction-types'
-import type { EditLang } from '../FactionEditor'
-import { totalPeople, formatMmss, totalSec, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
+import { useState } from 'react'
+import type { FactionScript, FactionLongformItem, FactionChapter, FactionNarratorVoice, FactionPerson } from '../../../lib/faction-types'
+import type { VoiceFile } from '../../voice-utils'
+import type { EditLang } from '@/components/editor'
+import { totalPeople, totalSec, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, chapterCoverSecOf } from '../shared/timing'
+import { stripCommonNarrationVoice, vnChapterTitle } from '@/lib/faction-voice'
+import { useFactionVoice } from '../shared/FactionVoiceContext'
+import { formatMmss } from '@/components/editor'
 import { FactionMusicPicker } from '../shared/FactionMusicPicker'
 import { PartTextField } from './sections/PartTextField'
 import { CoverPickerButton } from './FactionGroupEditor/CoverPickerButton/CoverPickerButton'
+import { FactionVoicePanel } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/FactionVoicePanel'
+import { FactionVoiceSettingsModal } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/voice-panel/FactionVoiceSettingsModal'
+import { QUOTE_SLOT } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/voice-panel/voice-slots'
 
 /** 세력 색 위 글자색 — 밝으면 검정, 어두우면 흰색 */
 function contrast(hex?: string): string {
@@ -43,6 +51,8 @@ export function FactionLongformPanel({
   musicLabel?: (file: string) => string
   editLang: EditLang
 }) {
+  const voiceCtx = useFactionVoice()
+  const [chapterVoiceOpen, setChapterVoiceOpen] = useState<number | null>(null)
   const layout: FactionLongformItem[] = script.longformLayout ?? []
   const active = script.groups.map((g, i) => ({ g, i })).filter(x => !x.g.disabled)
 
@@ -66,6 +76,22 @@ export function FactionLongformPanel({
   const setChapter = (i: number, patch: Partial<FactionChapter>) =>
     setLayout(layout.map((it, k) => (k === i && 'chapter' in it ? { chapter: { ...it.chapter, ...patch } } : it)))
 
+  const chapterPerson = (chapter: FactionChapter, title: string) => {
+    const {
+      quote: _quote,
+      quoteEn: _quoteEn,
+      quoteChunks: _quoteChunks,
+      quoteEnChunks: _quoteEnChunks,
+      quoteDuration: _quoteDuration,
+      ...common
+    } = script.narrator?.logline ?? {}
+    return { ...common, ...(chapter.voice ?? {}), quote: title, name: '챕터명 낭독' }
+  }
+  const activeChapterFile = (file: string): VoiceFile | undefined => {
+    const meta = voiceCtx?.byFile.get(file)
+    return meta ? { name: file, sizeKB: Math.round(meta.size / 1024), duration: meta.duration, engine: 'gemini' } : undefined
+  }
+
   // 편 경계(cut) 유무·편 개수 — 경계가 있으면 롱폼이 여러 편으로 갈라진다
   const lvCount = longformPartCount(script)
   const hasCut = lvCount > 1
@@ -75,8 +101,10 @@ export function FactionLongformPanel({
     const steps = segments[p - 1] ?? []
     const gs = steps.flatMap(s => ('gi' in s ? [script.groups[s.gi]].filter(Boolean) : []))
     const eraN = steps.filter(s => 'era' in s).length
-    const chapterN = steps.filter(s => 'chapter' in s).length
-    return totalSec({ ...script, groups: gs }) + eraN * ERA_SEC + chapterN * (CHAPTER_BLACK_SEC + CHAPTER_COVER_SEC)
+    const chapterSec = steps
+      .filter((s): s is { chapter: FactionChapter } => 'chapter' in s)
+      .reduce((sum, s) => sum + CHAPTER_BLACK_SEC + chapterCoverSecOf(script, s.chapter), 0)
+    return totalSec({ ...script, groups: gs }) + eraN * ERA_SEC + chapterSec
   }
 
   // 직접 배치 시작 — 현재 활성 세력을 배열 순서대로 깔아준다.
@@ -197,6 +225,11 @@ export function FactionLongformPanel({
                 if ('chapter' in it) {
                   const a = it.chapter
                   const titleVal = editLang === 'en' ? (a.titleEn ?? '') : a.title
+                  const chapterFile = vnChapterTitle(titleVal)
+                  const chapterMeta = voiceCtx?.byFile.get(chapterFile)
+                  const chapterActiveFile = activeChapterFile(chapterFile)
+                  const person = chapterPerson(a, titleVal) as FactionPerson
+                  const narrated = a.narrate ?? script.narrator?.readChapterTitle ?? false
                   return (
                     <div key={i} className="space-y-1.5 rounded border-l-2 border-purple-500 bg-purple-500/10 px-2 py-2">
                       <div className="flex items-start gap-1.5">
@@ -211,6 +244,27 @@ export function FactionLongformPanel({
                         />
                         <MoveBtns onUp={() => move(i, -1)} onDown={() => move(i, 1)} onRemove={() => removeAt(i)} />
                       </div>
+                      <label className="inline-flex items-center gap-1.5 text-[11px] text-text-secondary">
+                        <input
+                          type="checkbox"
+                          checked={narrated}
+                          onChange={e => setChapter(i, { narrate: e.target.checked })}
+                        />
+                        팩션 낭독 음성으로 챕터명 읽기
+                      </label>
+                      {narrated && voiceCtx && titleVal.trim() && (
+                        <FactionVoicePanel
+                          person={person}
+                          series={series}
+                          episodeName={episodeName}
+                          voiceFile={chapterFile}
+                          hasContent
+                          meta={chapterMeta}
+                          activeFile={chapterActiveFile}
+                          onOpenModal={() => setChapterVoiceOpen(i)}
+                          slot={{ ...QUOTE_SLOT, label: '챕터명 낭독', hasSync: false }}
+                        />
+                      )}
                       <input
                         value={a.media ?? ''}
                         onChange={e => setChapter(i, { media: e.target.value || undefined })}
@@ -236,6 +290,24 @@ export function FactionLongformPanel({
                         className="w-full rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
                         title="검정 브릿지 진입 시 1회 울리는 효과음 (public/common/sfx/ 하위)"
                       />
+                      {chapterVoiceOpen === i && (
+                        <FactionVoiceSettingsModal
+                          person={person}
+                          onChange={next => {
+                            const { name: _name, ...rest } = next as FactionPerson & { name?: string }
+                            setChapter(i, {
+                              voice: stripCommonNarrationVoice(rest as FactionNarratorVoice, script.narrator?.logline),
+                            })
+                          }}
+                          series={series}
+                          episodeName={episodeName}
+                          voiceFile={chapterFile}
+                          activeFile={chapterActiveFile}
+                          onRefresh={() => voiceCtx?.reload?.()}
+                          onClose={() => setChapterVoiceOpen(null)}
+                          slot={{ ...QUOTE_SLOT, label: '챕터명 낭독', hasSync: false }}
+                        />
+                      )}
                     </div>
                   )
                 }

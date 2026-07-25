@@ -1,7 +1,7 @@
 import { Player } from '@remotion/player'
 import type { FactionScript as RmFactionScript } from '@feelandnote/remotion/src/compositions/Faction/types'
 import { FactionCard, type FactionCardSpec } from '@feelandnote/remotion/src/compositions/FactionCard'
-import { useFactionImageDrop } from '../../../shared/useFactionImageDrop'
+import { useImageDrop, FACTION_IMAGE_DND } from '@/components/media'
 import { ASSET_BASE, RATIOS } from '../utils'
 
 // 카드 한 칸 — 미리보기 + 클릭 편집. onDropImage 가 있으면(스토리 장) 이미지 풀 드롭존이 된다.
@@ -18,7 +18,7 @@ function CardCell({ label, card, rm, episodeName, ratio, previewW, previewH, onC
   /** 드롭 오버레이 문구 (기본: 배경 컨셉샷으로 연결) */
   dropLabel?: string
 }) {
-  const { dragOver, dropProps } = useFactionImageDrop(path => onDropImage?.(path))
+  const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, path => onDropImage?.(path))
   return (
     <div className="shrink-0 space-y-1.5">
       <div

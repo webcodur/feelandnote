@@ -62,5 +62,21 @@
         "uploadedAt": "2026-07-20T10:35:03.768Z"
       }
     }
+  },
+  "Gods-Greek": {
+    "uploads": {
+      "ko-shorts-1": {
+        "videoId": "Pg2U9UtDuvU",
+        "uploadedAt": "2026-07-25T00:54:32.433Z"
+      },
+      "ko-longform": {
+        "videoId": "79cA8fSuSNg",
+        "uploadedAt": "2026-07-25T02:03:49.105Z"
+      },
+      "ko-shorts-2": {
+        "videoId": "qtf4zHTUcxk",
+        "uploadedAt": "2026-07-25T02:18:17.598Z"
+      }
+    }
   }
 }

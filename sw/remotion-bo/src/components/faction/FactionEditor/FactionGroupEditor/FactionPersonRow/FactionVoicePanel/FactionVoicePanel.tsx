@@ -4,7 +4,7 @@ import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile } from '../../../../../voice-utils'
 import type { FactionVoiceMeta } from '../../../../shared/FactionVoiceContext'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
-import { Mic } from '../../../../shared/icons'
+import { Mic } from '@/components/icons'
 import { AudioWavePlayer } from '../../../../../AudioWavePlayer'
 import { QUOTE_SLOT, type FactionVoiceSlot } from './voice-panel/voice-slots'
 

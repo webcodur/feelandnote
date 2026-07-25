@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import type { FactionScript, FactionGroup, FactionPerson } from '@/lib/faction-types'
-import { Copy } from './icons'
+import { Copy } from '@/components/icons'
 
 // region 텍스트 직렬화
 // 인물 한 줄: "  인물명 · (lines를 ' / '로 연결)"

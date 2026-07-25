@@ -162,8 +162,9 @@ export interface FactionPerson {
    * 전환 시각은 발화 시각(voiceTiming) 기준, 없으면 글자수 비례 폴백. 경로 규칙은 image 와 동일. 언어 공통.
    * crop 은 그 교체 사진의 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움.
    * filter 는 그 교체 사진의 필터 효과.
+   * zoomFocus 는 그 교체 사진 전용 줌 목표점. 미지정이면 인물 zoomFocus → crop 위치 → 가운데.
    */
-  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter }[]
+  imageChanges?: { chunk: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter; zoomFocus?: ZoomFocus }[]
   /**
    * 대사 시작 시점 사진 교체 (선택) — 직함을 소개하는 도입 구간에는 image(직함용)를 보이다가,
    * 대사가 시작되는 순간(quoteEnterSec) quoteImage(대사용)로 부드럽게 전환한다. 인물당 사진을
@@ -173,6 +174,8 @@ export interface FactionPerson {
   quoteImage?: string
   /** quoteImage 의 사진 맞춤(잘릴 위치·확대). 미지정이면 가운데 채움 */
   quoteImageCrop?: FactionImageCrop
+  /** quoteImage 전용 줌 목표점. 미지정이면 인물 zoomFocus → quoteImageCrop 위치 → 가운데 */
+  quoteZoomFocus?: ZoomFocus
   /** 대사 사진 필터 효과. 미지정이면 원본. 옵션: 'vintage'(옛날 필름), 'sepia'(세피아), 'grayscale'(흑백) 등 */
   quoteImageFilter?: 'vintage' | 'sepia' | 'grayscale' | 'duotone' | 'fade'
   /** 셀럽 DB에서 추가한 경우 slug — 아바타 재동기화·중복 판정용 */
@@ -334,6 +337,11 @@ export interface FactionGroup {
   zoomSpeed?: number
   /** 세력 명칭 영문 (통합형, 앞부분\n뒷부분) */
   nameEn?: string
+  /**
+   * 본서비스 세력도감 연결 키 — celeb_tags.slug. BO 출간(DB·R2 반영)이 쓰는 값이다.
+   * 렌더는 이 값을 무시하지만 BO 타입(faction-types.ts)과 구조를 맞추기 위해 둔다.
+   */
+  tagSlug?: string
   /** 테마 색 (hex). 세력 카드·인물 컷 강조색으로 사용 */
   color?: string
   /** 영상 로고 (타이틀 카드 풀스크린 배경, mp4 등). 있으면 logoImg 보다 우선. basename·폴더경로·URL */
@@ -342,6 +350,18 @@ export interface FactionGroup {
   logoImg?: string
   /** 로고(logoVid·logoImg) 타이틀 카드 표시 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬 */
   logoCrop?: FactionImageCrop
+  /**
+   * 로고(타이틀 카드) 전용 움직임 효과 — 로고 화면에만 거는 효과.
+   * 비면 세력 전역 효과를 따르며, 줌 목표점(zoomFocus)을 지정할 수 있다.
+   */
+  logoEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdGlitch?: GlitchSetting
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
   /**
    * 무소속 개인 모음 여부. true면 팀이 아니라 독립 인물군이다.
    * 화보(그룹샷) 컷을 생략하고 인물 컷만 순차 노출한다(타이틀 카드는 logoVid·logoImg 있으면 그대로). (예: '재야')
@@ -457,6 +477,10 @@ export interface FactionChapter {
   title: string
   /** 챕터 제목 영문 (통합형, 앞부분\n뒷부분) */
   titleEn?: string
+  /** 챕터명을 공용 낭독 목소리로 읽을지. 미지정이면 narrator.readChapterTitle 전역값을 따른다 */
+  narrate?: boolean
+  /** 챕터명 음원의 길이·재생 설정. 목소리 설정은 공용 낭독값을 상속하고 여기 값만 우선한다 */
+  voice?: FactionNarratorVoice
   /** 챕터 표지 배경 미디어 — 이미지 또는 비디오 한 장(경로·basename·http). 시작·종료 화면 미디어와 같은 규칙. mp4 등 비디오 지원 */
   media?: string
   /** 챕터 표지 배경 미디어 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
@@ -485,6 +509,85 @@ export type FactionLongformItem =
   | { era: FactionEra }
   | { cut: true }
   | { chapter: FactionChapter }
+
+/**
+ * 나레이터 낭독 한 벌 — 텍스트 + 음성 설정. **필드명을 인물 대사(quote*)와 동일하게** 맞춰
+ * BO 음성 패널(FactionExpandedVoicePanel + QUOTE_SLOT)을 무수정 재사용한다.
+ * 렌더는 저장된 wav만 재생한다(인물 대사와 같은 규칙).
+ */
+export interface FactionNarratorVoice {
+  /** 낭독 텍스트. 시작문구 낭독은 script.logline 사본(BO가 동기화), 마무리·소개 컷은 이 필드가 원본 */
+  quote?: string
+  /** 낭독 텍스트 영문 */
+  quoteEn?: string
+  /** 낭독 텍스트 의미 덩어리(자막 페이지 단위, 선택). 없으면 quote 통째 */
+  quoteChunks?: string[]
+  /** 영문 의미 덩어리 */
+  quoteEnChunks?: string[]
+  /** 음성 길이(초) — BO 저장 후 기록. 있으면 화면 길이를 음성에 맞춘다 */
+  quoteDuration?: number
+  /** 음량 dB 게인 (기본 0) */
+  quoteGainDb?: number
+  /** 재생 배속 (기본 1, 0.5~2) */
+  quotePlaybackRate?: number
+  /** 합성 엔진 (BO 생성용 — 렌더는 저장된 wav만 재생) */
+  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** Gemini 보이스명 (BO 생성용) */
+  quoteSpeaker?: string
+  /** ElevenLabs 보이스 ID (BO 생성용) */
+  quoteElevenlabsVoiceId?: string
+  /** 발화 스타일 prefix (BO 생성용) */
+  quoteStyle?: string
+  /** ELE 감정/강도 (BO 생성용) */
+  quoteEleOptions?: { stability?: number; style?: number }
+  /** ELE 감정 태그 (BO 생성용) */
+  quoteEleEmotions?: string[]
+  /** ELE 끝 패딩 (BO 생성용) */
+  quoteEleTrail?: boolean
+}
+
+/**
+ * 공용 낭독자(옵션) — 화면에 등장하는 인물이 아니라 영상 제목·시작문구·수식어를 읽는 목소리다.
+ *
+ * logline의 음성 설정을 모든 인물 수식어의 기본값으로 물려준다. 인물의 epithet* 필드가 있으면
+ * 그 값만 우선하므로 일부 인물만 다른 목소리로 예외 처리할 수 있다.
+ *
+ * name·label·image·intro·show*는 인격형 나레이터를 쓰던 초기 데이터의 하위 호환 필드다.
+ * 새 편집 화면에서는 만들지 않으며, 기존 데이터에 intro가 남아 있을 때만 소개 컷을 보존한다.
+ */
+export interface FactionNarrator {
+  /** 레거시 나레이터 이름. 공용 낭독자는 이름을 갖지 않는다 */
+  name?: string
+  /** 나레이터 이름 영문 */
+  nameEn?: string
+  /** 한 줄 소개 — 소개 컷에서 이름 아래 작게 표시 (예: '신들의 전령') */
+  label?: string
+  /** 한 줄 소개 영문 */
+  labelEn?: string
+  /** 나레이터 이미지 — 인물 image와 같은 경로 규칙(폴더 경로·basename·http). 소개 컷 배경 */
+  image?: string
+  /** 이미지 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
+  imageCrop?: FactionImageCrop
+  /** 시작 화면에서 영상 제목을 읽는다 (미지정=꺼짐) */
+  readTitle?: boolean
+  /** 시작 화면에서 시작문구를 읽는다 (미지정=켜짐, 기존 데이터 호환) */
+  readLogline?: boolean
+  /** 롱폼 챕터 표지에서 챕터명을 읽는다 (미지정=꺼짐) */
+  readChapterTitle?: boolean
+  /**
+   * 공용 낭독 음성 설정 + 시작 낭독 음원의 길이.
+   * 같은 음성 설정이 인물별 수식어 음성의 기본값으로 상속된다.
+   */
+  logline?: FactionNarratorVoice
+  /** 마무리 낭독 — 닫는 한마디. 마무리 화면에 문구가 뜨고 음원이 재생된다 */
+  outro?: FactionNarratorVoice
+  /** 소개 컷 대사 — 비면 소개 컷 자체가 생략된다 */
+  intro?: FactionNarratorVoice
+  /** 세로 쇼츠에서 소개 컷 노출 (미지정=꺼짐 — 쇼츠는 시작문구 낭독만으로 연다) */
+  showShorts?: boolean
+  /** 롱폼에서 소개 컷 노출 (미지정=켜짐) */
+  showLongform?: boolean
+}
 
 export interface FactionScript {
   /** 영상 명칭 — 통합 한 필드. 앞부분\n뒷부분(개행) 형태 (예: 'AI를 만드는 사람들\n1편 · LLM') */
@@ -542,6 +645,8 @@ export interface FactionScript {
   endFadeSec?: number
   /** 영상 명칭 영문 (통합형, 앞부분\n뒷부분) */
   titleEn?: string
+  /** 편성 화면에서 관리할 쇼츠 편 수. 렌더 대상은 실제 group.part 값으로 결정한다. 미지정이면 기존 호환값 2 */
+  shortsPartCount?: number
   /** 쇼츠 편별 영상 명칭(통합형, 앞부분\n뒷부분). 해당 part 렌더 시 title 대신 쓴다. 미지정이면 title */
   titleByPart?: Record<number, string>
   /** 롱폼 편별 영상 명칭(통합형). 편 경계(cut)로 가른 롱폼 n편(lvPart) 렌더 시 title 대신 쓴다. 미지정이면 title */
@@ -600,6 +705,8 @@ export interface FactionScript {
   loglineByLvPartEn?: Record<number, string>
   /** 인트로(시작 화면) 지속 시간(초). 미지정이면 INTRO_SEC 기본값. 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
+  /** 공용 낭독자(옵션) — 제목·시작문구와 인물 수식어에 같은 기본 목소리를 쓴다 */
+  narrator?: FactionNarrator
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 GROUP_SEC(4). BO에서 오버라이드용 */
   groupSec?: number
   /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(clusterDurationSec, 2.6~3.2). 지정하면 인원 수와 무관하게 이 값으로 고정. BO에서 오버라이드용 */

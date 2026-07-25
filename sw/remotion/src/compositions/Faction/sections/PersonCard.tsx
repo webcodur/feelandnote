@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { AbsoluteFill, Sequence, Audio, interpolate, useCurrentFrame, staticFile, Easing } from 'remotion'
-import type { FactionGroup, FactionPerson, FactionImageCrop, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
+import type { FactionGroup, FactionPerson, FactionImageCrop, ZoomFocus, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
 import type { ImageFilter } from '../image-filters'
 import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, linesTypingOf, f, type PersonSteps } from '../timing'
 import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC, accentClarityPaint } from '../constants'
@@ -118,7 +118,7 @@ function creditTypingTimings(text: string, totalSec: number): VoiceTimingSegment
  * 덩어리 경계로만 끊으므로 단어가 잘리지 않고, 한 페이지 분량만 그려 박스가 무한정 늘어나지 않는다.
  * 발화 시각(timings)이 덩어리 수와 맞으면 실제 시각으로, 아니면 글자수 비례로 전환·점등한다(폴백).
  */
-const QuotePages: React.FC<{
+export const QuotePages: React.FC<{
   chunks: string[]
   timings?: VoiceTimingSegment[]
   startFrame: number
@@ -294,8 +294,9 @@ export const PersonCard: React.FC<{
    * 지속 줌 transform.
    * @param holdLocalStart 이 사진이 뜨는 컷 로컬 프레임(0=첫 사진). 교체 사진마다 줌을 여기서 재시작한다.
    * @param stretchSpan 줌을 늘릴 총 프레임. 있으면 긴 대사 완주 모드, 없으면 기본 정속.
+   * @param focus 이 사진 전용 줌 목표점. 미지정이면 인물 zoomFocus → 그 사진 crop 위치 → 가운데.
    */
-  const holdTf = (extraScale = 1, crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number) => {
+  const holdTf = (extraScale = 1, crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number, focus?: ZoomFocus) => {
     // 시작 효과(enter)는 컷 첫 사진에만. 교체 사진은 1.0에서 지속 줌만 다시 깐다.
     const enterS = enterOff || holdLocalStart > 0 ? 1 : enterMotionScale(enter, holdZ)
     if (holdOff) return `scale(${enterS * extraScale})`
@@ -303,8 +304,8 @@ export const PersonCard: React.FC<{
       ? Math.max(0, holdZ - holdLocalStart)
       : Math.max(0, holdZ - enterFrames)
     const { scale, tx, ty } = holdAndShakeParts(hold, shake, zForHold, {
-      focusX: person.zoomFocus?.x ?? crop?.x,
-      focusY: person.zoomFocus?.y ?? crop?.y,
+      focusX: focus?.x ?? person.zoomFocus?.x ?? crop?.x,
+      focusY: focus?.y ?? person.zoomFocus?.y ?? crop?.y,
       speedMul: zoomSpeed,
       // stretchSpan 있을 때만 대사 길이 늘림. 다중 사진은 인자 생략 → 정속.
       ...(stretchSpan != null && stretchSpan > 0 ? { spanFrames: stretchSpan } : {}),
@@ -539,7 +540,7 @@ export const PersonCard: React.FC<{
    * @param holdLocalStart 사진 등장 컷 로컬 프레임(다중 전환 시 줌 재시작).
    * @param stretchSpan 단일 사진 긴 대사 늘림 프레임. 다중 사진은 생략 → 정속.
    */
-  const styleFor = (crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number): React.CSSProperties => {
+  const styleFor = (crop?: FactionImageCrop, holdLocalStart = 0, stretchSpan?: number, focus?: ZoomFocus): React.CSSProperties => {
     const x = crop?.x ?? 50
     const y = crop?.y ?? 50
     const sc = crop?.scale ?? 1
@@ -548,7 +549,7 @@ export const PersonCard: React.FC<{
       objectPosition: `${x}% ${y}%`,
       // 푸시인 줌은 목표점으로 이동하는 모드라 확대 기준점을 화면 중앙에 둔다(이동량 계산과 일치). 그 외엔 사진맞춤 위치.
       transformOrigin: pushin ? '50% 50%' : `${x}% ${y}%`,
-      transform: holdTf(sc, crop, holdLocalStart, stretchSpan),
+      transform: holdTf(sc, crop, holdLocalStart, stretchSpan, focus),
     }
   }
   // 이미지(세로·가로 공용) — imageChanges가 있으면 대사 도중 발화 시각에 맞춰 사진을 크로스페이드로 교체. 없으면 단일. 둘 다 없으면 이니셜.
@@ -584,9 +585,9 @@ export const PersonCard: React.FC<{
       return audioStart + Math.round(spread * before / totalChars)
     }
     // 사진 전환 목록 — quoteImage(직함→대사, 대사 시작 시점) + imageChanges(대사 도중 덩어리별 교체)를 합쳐 한 번에 깐다.
-    const changes: { start: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter }[] = []
-    if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop, filter: person.quoteImageFilter })
-    for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop, filter: ic.filter })
+    const changes: { start: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter; zoomFocus?: ZoomFocus }[] = []
+    if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop, filter: person.quoteImageFilter, zoomFocus: person.quoteZoomFocus })
+    for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop, filter: ic.filter, zoomFocus: ic.zoomFocus })
     const localOf = (abs: number) => Math.max(0, abs - cueStart)
     // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
     if (!changes.length) {
@@ -604,7 +605,7 @@ export const PersonCard: React.FC<{
           const ls = localOf(c.start)
           return (
             <AbsoluteFill key={idx} style={{ opacity: op }}>
-              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop, ls)} filter={c.filter} />
+              <FactionMedia src={imgSrc(episodeName, c.image)} startFrame={c.start} style={styleFor(c.crop, ls, undefined, c.zoomFocus)} filter={c.filter} />
             </AbsoluteFill>
           )
         })}

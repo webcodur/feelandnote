@@ -11,7 +11,7 @@
  *  - credit(직함만) 컷은 대사가 없어 자막을 만들지 않는다.
  */
 import type { FactionScript } from './types'
-import { buildCues, f, personQuoteEnterSec, personQuoteEndSec } from './timing'
+import { buildCues, f, personQuoteEnterSec, personQuoteEndSec, narratorOutroVoice, narratorVoiceText, narratorSpeakSec, NARRATOR_ENTER_SEC } from './timing'
 import { vnPersonQuote, vnTimingKey } from './voice-names'
 import { clustersOf } from './utils'
 import { splitSub, type Sub } from '../../lib/voice-timing'
@@ -43,6 +43,30 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
         const logline = pick(pick(script.logline, script.loglineByLvPart, lvPart), script.loglineByPart, part)
         if (logline?.trim()) subs.push({ start: cutStart + f(1.0), end: cutEnd, speaker: '', text: logline })
       }
+      // 마무리 화면 — 나레이터 닫는 한마디(화면 문구와 동일)
+      if (c.kind === 'outro') {
+        const outroText = narratorVoiceText(narratorOutroVoice(script))
+        if (outroText.trim()) subs.push({ start: cutStart + f(0.3), end: cutEnd, speaker: '', text: outroText.replace(/\n/g, ' ') })
+      }
+      continue
+    }
+
+    // ── 나레이터 소개 컷 — 소개 대사(덩어리는 한 흐름으로 잇는다) ──
+    if (c.kind === 'narrator') {
+      const n = script.narrator
+      const text = narratorVoiceText(n?.intro).replace(/\n/g, ' ')
+      if (n && text.trim()) {
+        const startFrame = cutStart + f(NARRATOR_ENTER_SEC)
+        const endFrame = Math.min(cutEnd, startFrame + f(narratorSpeakSec(n.intro)))
+        subs.push({ start: startFrame, end: endFrame, speaker: n.name ?? '', text })
+      }
+      continue
+    }
+
+    // ── 챕터 표지 — 화면 제목과 공용 낭독문이 같은 텍스트다 ──
+    if (c.kind === 'chapter') {
+      const text = c.chapter.title.replace(/\n/g, ' ').trim()
+      if (text) subs.push({ start: cutStart, end: cutEnd, speaker: '', text })
       continue
     }
 

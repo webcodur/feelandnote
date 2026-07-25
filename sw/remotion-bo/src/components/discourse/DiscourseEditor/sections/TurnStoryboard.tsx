@@ -10,24 +10,24 @@
 
 import { useState } from 'react'
 import type { Speaker, Turn } from '@/lib/discourse-types'
-import { ImageIcon } from '@/components/faction/shared/icons'
-import { FactionMediaThumb } from '@/components/faction/shared/FactionMediaThumb'
+import { ImageIcon } from '@/components/icons'
 import { imageSrc, turnShots } from '../../shared/timing'
-import { ImageLightbox, type LightboxShot } from '../../shared/ImageLightbox'
+import { MediaThumb, ImageLightbox, type LightboxShot } from '@/components/media'
 
 /** 사진이 걸리는 시점 문구 — 0번 덩어리는 발언과 동시에 시작한다 */
 const whenLabel = (fromChunk: number) => (fromChunk === 0 ? '발언 시작' : `${fromChunk + 1}번째 덩어리부터`)
 
 export function TurnStoryboard({
-  turn, speaker, episodeName,
+  turn, speaker, series, episodeName,
 }: {
   turn: Turn
   speaker?: Speaker
+  series: string
   episodeName: string
 }) {
   const [zoom, setZoom] = useState<number | null>(null)
   const shots = turnShots(turn, speaker?.image)
-  const withSrc = shots.map(s => ({ ...s, src: imageSrc(episodeName, s.image) }))
+  const withSrc = shots.map(s => ({ ...s, src: imageSrc(series, episodeName, s.image) }))
 
   // 사진이 한 장도 안 걸린 발언 — 영상에서 인물 이름 첫 글자만 뜬다. 그 사실을 그대로 알린다.
   if (!withSrc.some(s => s.src)) {
@@ -57,7 +57,7 @@ export function TurnStoryboard({
                 className="group relative block w-56 overflow-hidden rounded-lg border border-border hover:border-accent"
                 title="원본 크기로 봅니다"
               >
-                <FactionMediaThumb src={shot.src} alt="" className="aspect-square w-full object-cover" />
+                <MediaThumb src={shot.src} alt="" className="aspect-square w-full object-cover" />
                 <span className="pointer-events-none absolute start-0 top-0 rounded-ee-md bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white">
                   {i + 1}
                 </span>

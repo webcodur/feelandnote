@@ -33,6 +33,40 @@ export function vnPersonEpithet(groupIndex: number, personIndex: number, cluster
 }
 
 /**
+ * 나레이터 낭독 음성 파일명 — 나레이터는 세력·인물 좌표(FxxCxxPxx) 밖의 에피소드 전역 엔티티라 고정명을 쓴다.
+ * 인물 이동·세력 재배치 rename 대상에서도 제외된다. 낭독 자리별 세 파일:
+ *  - narrator-logline.wav  시작 화면에서 시작문구 낭독
+ *  - narrator-outro.wav    마무리 화면에서 닫는 한마디 낭독
+ *  - narrator-intro.wav    나레이터 소개 컷 대사
+ *
+ * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
+ */
+export function vnNarratorLogline(): string {
+  return 'narrator-logline.wav'
+}
+export function vnNarratorOutro(): string {
+  return 'narrator-outro.wav'
+}
+export function vnNarratorIntro(): string {
+  return 'narrator-intro.wav'
+}
+
+/** 제목 기반 안정 키 — 챕터를 재배치해도 음성이 다른 챕터로 바뀌지 않고, 제목 수정 시 옛 음원을 재생하지 않는다. */
+function chapterTitleKey(title: string): string {
+  let hash = 0x811c9dc5
+  for (const ch of title.trim().replace(/\r\n/g, '\n')) {
+    hash ^= ch.charCodeAt(0)
+    hash = Math.imul(hash, 0x01000193)
+  }
+  return (hash >>> 0).toString(36)
+}
+
+/** 챕터명 낭독 음원. 언어별 제목이 다르면 파일도 자동 분리된다. */
+export function vnChapterTitle(title: string): string {
+  return `chapter-${chapterTitleKey(title)}.wav`
+}
+
+/**
  * 음성 파일 상대 경로 (staticFile 기준) — public/factions/<에피소드>/voice/<파일>.
  * locale·engine 분기는 추후 확장(현재는 단일 폴더).
  */

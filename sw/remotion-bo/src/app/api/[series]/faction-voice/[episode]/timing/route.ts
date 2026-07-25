@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { readFile, writeFile, readdir } from 'fs/promises'
 import path from 'path'
 import { isSeriesModel } from '@/lib/series-registry'
-import { FACTIONS_DIR, safeDirName } from '@/lib/faction-utils'
+import { FACTIONS_DIR, episodeDirOf } from '@/lib/episode-store'
 
 // ── 세력도 발화 시각(voiceTimings) 읽기/쓰기 ──
 //
@@ -30,7 +30,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   const lang = url.searchParams.get('lang') || 'ko'
   if (!stem) return NextResponse.json({ ok: false, error: 'stem required' }, { status: 400 })
 
-  const epDir = path.join(FACTIONS_DIR, safeDirName(decodeURIComponent(episode)))
+  const epDir = episodeDirOf(FACTIONS_DIR, decodeURIComponent(episode))
   for (const f of await timingFiles(epDir, lang)) {
     try {
       const data = JSON.parse(await readFile(path.join(epDir, f), 'utf8'))
@@ -50,7 +50,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
     return NextResponse.json({ ok: false, error: 'stem, timings required' }, { status: 400 })
   }
 
-  const epDir = path.join(FACTIONS_DIR, safeDirName(decodeURIComponent(episode)))
+  const epDir = episodeDirOf(FACTIONS_DIR, decodeURIComponent(episode))
   for (const f of await timingFiles(epDir, lang)) {
     const p = path.join(epDir, f)
     try {
