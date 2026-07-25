@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
-import { imageSrc, initial, totalSec, cueCount, formatMmss, cropToStyle, factionStepsOf, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
-import { FactionMediaThumb } from '../shared/FactionMediaThumb'
-import { Eye, EyeOff } from '../shared/icons'
+import { imageSrc, initial, totalSec, cueCount, factionStepsOf, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
+import { formatMmss } from '@/components/editor'
+import { MediaThumb, cropToStyle } from '@/components/media'
+import { Eye, EyeOff } from '@/components/icons'
 
 type Props = {
   script: FactionScript
@@ -38,7 +39,7 @@ function CoverChip({ image, label, color, series, episodeName }: {
   return (
     <div className="flex items-center gap-2">
       {src ? (
-        <FactionMediaThumb src={src} alt="" className="h-10 w-16 rounded object-cover" style={{ border: `1px solid ${color}` }} />
+        <MediaThumb src={src} alt="" className="h-10 w-16 rounded object-cover" style={{ border: `1px solid ${color}` }} />
       ) : (
         <span className="rounded border border-dashed border-border px-2 py-1 text-[11px] text-text-dim">화보 없음</span>
       )}
@@ -71,7 +72,7 @@ function PersonCell({ person, series, episodeName, isLeader }: {
       style={person.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}
     >
       {src ? (
-        <FactionMediaThumb src={src} alt="" className={`h-14 w-14 rounded-full object-cover ${missing ? 'border-2 border-danger-text' : ''}`} style={cropToStyle(person.imageCrop)} />
+        <MediaThumb src={src} alt="" className={`h-14 w-14 rounded-full object-cover ${missing ? 'border-2 border-danger-text' : ''}`} style={cropToStyle(person.imageCrop)} />
       ) : (
         <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-danger-text bg-bg-secondary text-sm font-bold text-text-secondary">
           {initial(person.name)}

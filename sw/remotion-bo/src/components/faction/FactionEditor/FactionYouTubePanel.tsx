@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Upload, Eye, Trash2, Loader, Film } from '../shared/icons'
+import { Upload, Eye, Trash2, Loader, Film } from '@/components/icons'
 
 // #region 타입 — youtube/status·youtube/sync 응답 형태(세력도 한국어 세로 2종 전용)
 
@@ -229,7 +229,7 @@ export function FactionYouTubePanel({ series, name }: { series: string; name: st
 
       {/* 상단 액션 */}
       <div className="flex flex-wrap items-center gap-2">
-        <button onClick={() => upload()} disabled={busy || !canUpload} className={BTN_ACCENT} title="세로 롱폼·쇼츠 1·2편 모두 비공개로 업로드">
+        <button onClick={() => upload()} disabled={busy || !canUpload} className={BTN_ACCENT} title="세로 롱폼과 현재 편성된 쇼츠를 모두 비공개로 업로드">
           {busy ? <Loader size={15} /> : <Upload size={15} />} 전체 업로드
         </button>
         <button onClick={previewMeta} disabled={busy || !hasUploads} className={BTN_DEFAULT} title="업로드된 영상에 적용될 제목·설명·태그 미리보기">

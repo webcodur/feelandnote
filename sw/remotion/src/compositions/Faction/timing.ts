@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import type { FactionScript, FactionPerson, FactionEra, FactionChapter } from './types'
+import type { FactionScript, FactionPerson, FactionEra, FactionChapter, FactionNarratorVoice } from './types'
 import { clampRate, vnPersonQuote } from './voice-names'
 
 export const FPS = 60
@@ -32,6 +32,10 @@ export const ERA_SEC = 2.6
 export const CHAPTER_BLACK_SEC = 0.25
 /** 챕터 표지 카드 1장(초) — 배경 미디어 + 챕터 제목이 뜨는 시간. 새 챕터 곡이 여기서 열린다 */
 export const CHAPTER_COVER_SEC = 3.5
+/** 챕터 표지 등장 뒤 챕터명 낭독 시작까지 */
+export const CHAPTER_VOICE_DELAY_SEC = 0.45
+/** 챕터명 낭독 종료 뒤 다음 컷까지 여유 */
+export const CHAPTER_VOICE_TAIL_SEC = 0.8
 /** 챕터 전환 직전 인물 여운(초) — 챕터 마지막 인물의 대사가 끝난 뒤, 검정 브릿지로 넘어가기 전 그 인물 화면을 더 유지하는 시간(뒷부분은 검정 페이드로 덮인다) */
 export const CHAPTER_HOLD_SEC = 2.0
 /** 챕터 전환 직전 인물이 검정으로 서서히 덮이는 시간(초) — 검정 브릿지가 이 길이로 페이드인해 마지막 인물이 검정으로 페이드아웃된다 */
@@ -406,15 +410,146 @@ export function outroHoldSecOf(script: FactionScript): number {
 export function endFadeSecOf(script: FactionScript): number {
   const fade = Math.max(0, script.endFadeSec ?? DEFAULT_END_FADE_SEC)
   // 페이드는 마지막에 보이는 화면 대기 안에서 끝나야 한다 —
-  // 종료 화면을 쓰면 그 대기(outroHold), noOutro면 마지막 인물 대기(endHold)를 넘지 못한다.
-  const lastHold = script.noOutro ? endHoldSecOf(script) : outroHoldSecOf(script)
+  // 종료 화면을 쓰면 그 대기(마무리 낭독 연장 포함), noOutro면 마지막 인물 대기(endHold)를 넘지 못한다.
+  const lastHold = script.noOutro ? endHoldSecOf(script) : outroSecOf(script)
   return Math.min(fade, lastHold)
+}
+
+/* ── 나레이터 낭독 — 시작문구(logline)·마무리(outro)·소개 컷(intro) 세 자리. 음원 없으면 전부 기존 동작 ── */
+/** 소개 컷 최소 길이(초) */
+export const NARRATOR_MIN_SEC = 2.4
+/** 소개 컷 신원(이름·소개) 등장 후 대사 시작까지(초) */
+export const NARRATOR_ENTER_SEC = 0.5
+/** 소개 컷 대사가 끝난 뒤 머무는 여유(초) */
+export const NARRATOR_HOLD_SEC = 1.0
+/** 시작 화면에서 시작문구 낭독이 시작되기까지(초) — 문구 등장 페이드와 맞춘다 */
+export const NARRATOR_LOGLINE_DELAY_SEC = 0.4
+/** 시작문구 낭독 끝 ~ 시작 화면 페이드아웃까지 여유(초) */
+export const NARRATOR_LOGLINE_TAIL_SEC = 1.0
+/** 마무리 화면에서 낭독이 시작되기까지(초) */
+export const NARRATOR_OUTRO_DELAY_SEC = 0.5
+
+/** 낭독 텍스트 — 덩어리(quoteChunks)가 있으면 개행으로 잇고, 없으면 quote 통째 */
+export function narratorVoiceText(v?: FactionNarratorVoice): string {
+  if (!v) return ''
+  return v.quoteChunks?.length ? v.quoteChunks.join('\n') : (v.quote ?? '')
+}
+
+/** 낭독 음성 실제 재생 시간(초) — quoteDuration을 배속으로 나눈 값. 음원이 없으면 0 */
+export function narratorVoicePlaySec(v?: FactionNarratorVoice): number {
+  if (!v?.quoteDuration || v.quoteDuration <= 0) return 0
+  return v.quoteDuration / clampRate(v.quotePlaybackRate)
+}
+
+/**
+ * 공용 낭독자가 시작 화면에서 읽을 문장.
+ * 기존 데이터(read* 미지정)는 종전처럼 시작문구만 읽는다.
+ */
+export function narratorOpeningText(
+  script: FactionScript,
+  title = script.title,
+  logline = script.logline,
+): string {
+  const n = script.narrator
+  if (!n) return ''
+  const readTitle = n.readTitle ?? false
+  const readLogline = n.readLogline ?? true
+  return [
+    readTitle ? title : undefined,
+    readLogline ? logline : undefined,
+  ].filter((v): v is string => !!v?.trim()).join('\n')
+}
+
+/** 시작 낭독이 켜져 있을 때만 공용 음성 설정을 반환한다. */
+export function narratorOpeningVoice(script: FactionScript): FactionNarratorVoice | undefined {
+  return narratorOpeningText(script).trim() ? script.narrator?.logline : undefined
+}
+
+/** 마무리 낭독은 공용 목소리를 기본으로 쓰고 outro에 적힌 값만 예외로 덮는다. */
+export function narratorOutroVoice(script: FactionScript): FactionNarratorVoice | undefined {
+  const n = script.narrator
+  if (!n?.outro) return undefined
+  return { ...(n.logline ?? {}), ...n.outro }
+}
+
+/** 챕터명 낭독 활성 여부 — 챕터별 값이 공용 설정보다 우선한다. */
+export function chapterNarrationOn(script: FactionScript, chapter: FactionChapter): boolean {
+  return !!chapter.title?.trim() && (chapter.narrate ?? script.narrator?.readChapterTitle ?? false)
+}
+
+/** 챕터별 길이·예외값에 공용 목소리 설정만 상속한다(시작 음원의 텍스트·길이는 상속 금지). */
+export function chapterNarrationVoice(script: FactionScript, chapter: FactionChapter): FactionNarratorVoice | undefined {
+  if (!chapterNarrationOn(script, chapter)) return undefined
+  const {
+    quote: _quote,
+    quoteEn: _quoteEn,
+    quoteChunks: _quoteChunks,
+    quoteEnChunks: _quoteEnChunks,
+    quoteDuration: _quoteDuration,
+    ...common
+  } = script.narrator?.logline ?? {}
+  return {
+    ...common,
+    ...(chapter.voice ?? {}),
+    quote: chapter.title,
+    quoteChunks: undefined,
+  }
+}
+
+/** 챕터명 음성이 있으면 끝까지 들리도록 표지 컷을 자동 연장한다. */
+export function chapterCoverSecOf(script: FactionScript, chapter: FactionChapter): number {
+  const play = narratorVoicePlaySec(chapterNarrationVoice(script, chapter))
+  return play > 0
+    ? Math.max(CHAPTER_COVER_SEC, CHAPTER_VOICE_DELAY_SEC + play + CHAPTER_VOICE_TAIL_SEC)
+    : CHAPTER_COVER_SEC
+}
+
+/** 소개 컷 존재 판정 — narrator 지정 + 방향별 노출(쇼츠 기본 꺼짐·롱폼 기본 켜짐) + 소개 대사 있음 */
+export function narratorOn(script: FactionScript, portrait = false): boolean {
+  const n = script.narrator
+  if (!n) return false
+  const show = portrait ? (n.showShorts ?? false) : (n.showLongform ?? true)
+  return show && !!narratorVoiceText(n.intro).trim()
+}
+
+/** 소개 컷 발화 시간(초) — 음원이 있으면 그 길이(배속 반영), 없으면 글자 수 읽기 추정 */
+export function narratorSpeakSec(v?: FactionNarratorVoice): number {
+  const audio = narratorVoicePlaySec(v)
+  if (audio > 0) return audio
+  return (narratorVoiceText(v).length * READ_FRAMES_PER_CHAR) / FPS
+}
+
+/** 소개 컷 길이(초) — 신원 등장 + 발화 + 여유. 최소 보장 */
+export function narratorDurationSec(v?: FactionNarratorVoice): number {
+  return Math.max(NARRATOR_MIN_SEC, NARRATOR_ENTER_SEC + ENTER_FADE_SEC + narratorSpeakSec(v) + NARRATOR_HOLD_SEC)
+}
+
+/**
+ * 시작 화면 길이(초) — script.introSec(없으면 기본값)에, 시작문구 낭독 음원이 있으면
+ * 낭독이 다 들리도록 자동 연장한다(수동 값보다 짧아지지는 않음). 컷 길이(buildCues)와
+ * 시작 화면 페이드아웃(IntroCard)이 이 함수를 공유해야 화면·소리가 안 어긋난다.
+ */
+export function introSecOf(script: FactionScript): number {
+  const base = script.introSec ?? INTRO_SEC
+  const play = narratorVoicePlaySec(narratorOpeningVoice(script))
+  return play > 0 ? Math.max(base, NARRATOR_LOGLINE_DELAY_SEC + play + NARRATOR_LOGLINE_TAIL_SEC) : base
+}
+
+/**
+ * 마무리 화면 길이(초) — outroHoldSec(없으면 기본값)에, 마무리 낭독 음원이 있으면
+ * 낭독이 다 들리도록 자동 연장한다.
+ */
+export function outroSecOf(script: FactionScript): number {
+  const base = outroHoldSecOf(script)
+  const play = narratorVoicePlaySec(narratorOutroVoice(script))
+  return play > 0 ? Math.max(base, NARRATOR_OUTRO_DELAY_SEC + play + 0.8) : base
 }
 
 /* ── 컷(Cue) 모델 ── */
 
 export type Cue =
   | { kind: 'intro' }
+  | { kind: 'narrator' }
   | { kind: 'group'; groupIndex: number }
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
   | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
@@ -467,7 +602,10 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     cursor += f(sec)
   }
 
-  push({ kind: 'intro' }, script.introSec ?? INTRO_SEC)
+  push({ kind: 'intro' }, introSecOf(script))
+
+  // 나레이터 소개 컷(옵션) — 지정된 에피소드만. 각 편(쇼츠 part·롱폼 lvPart)이 자체 인트로를 갖듯 나레이터도 편마다 붙는다.
+  if (narratorOn(script, portrait)) push({ kind: 'narrator' }, narratorDurationSec(script.narrator!.intro))
 
   // ── 롱폼 배치 — 롱폼이고 longformLayout이 있으면 그 순서대로(세력 블록 + 시대 문구 카드)를 따른다.
   //    쇼츠·미설정 롱폼은 세력 배열 순서. 항목 한 칸 = 시대 문구 카드(era) 또는 세력 블록(gi) 또는 편 경계(cut).
@@ -505,7 +643,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       // 검정 브릿지는 음악 전환 경계이자 효과음 앵커라 blackBefore 설정과 무관하게 강제로 둔다.
       if (isEmptyChapter(chapter)) { push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC); return }
       if (chapter.blackBefore !== false) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
-      push({ kind: 'chapter', chapter }, CHAPTER_COVER_SEC)
+      push({ kind: 'chapter', chapter }, chapterCoverSecOf(script, chapter))
       if (chapter.blackAfter) push({ kind: 'chapterBlack', chapter }, CHAPTER_BLACK_SEC)
       return
     }
@@ -573,7 +711,8 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   if (!script.noOutro) {
     const tail = cues[cues.length - 1]
     const startF = tail ? tail.start + tail.duration : cursor
-    cues.push({ cue: { kind: 'outro' }, start: startF, duration: f(outroHoldSecOf(script)) })
+    // 마무리 낭독 음원이 있으면 낭독이 다 들리도록 자동 연장(outroSecOf)
+    cues.push({ cue: { kind: 'outro' }, start: startF, duration: f(outroSecOf(script)) })
   }
 
   return cues

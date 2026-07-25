@@ -67,11 +67,11 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
   // 챕터 전환 검정 브릿지 — 순수 검정 컷. 앞뒤 크로스페이드가 이전 챕터를 검정으로 닫고 표지를 검정에서 연다(검정 경유 전환).
   else if (cue.kind === 'chapterBlack') content = <AbsoluteFill style={{ background: BG }} />
-  else if (cue.kind === 'chapter') content = <ChapterCard chapter={cue.chapter} episodeName={episodeName} cueStart={start} cueDuration={duration} />
+  else if (cue.kind === 'chapter') content = <ChapterCard script={script} chapter={cue.chapter} episodeName={episodeName} cueStart={start} cueDuration={duration} />
 
   else if (cue.kind === 'group') {
     const g = script.groups[cue.groupIndex]
-    content = <GroupCard episodeName={episodeName} group={g} frame={frame} cueStart={start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script)} shake={resolveHoldShake(undefined, g, script)} zoomSpeed={resolveZoomSpeed(undefined, g, script)} />
+    content = <GroupCard episodeName={episodeName} group={g} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script, g.logoEffects as any)} shake={resolveHoldShake(g.logoEffects?.holdShake, g, script)} enter={resolveEnterMotion(g.logoEffects?.enterMotion, g, script)} glitch={resolveGlitchHold(g.logoEffects?.holdGlitch, g, script, false)} zoomSpeed={resolveZoomSpeed(g.logoEffects?.zoomSpeed, g, script)} zoomFocus={g.logoEffects?.zoomFocus} />
   } else if (cue.kind === 'cluster') {
     const g = script.groups[cue.groupIndex]
     const cl = clustersOf(g)[cue.clusterIndex]

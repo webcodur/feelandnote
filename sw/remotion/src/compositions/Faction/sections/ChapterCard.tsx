@@ -1,10 +1,11 @@
 import React from 'react'
-import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion'
-import type { FactionChapter } from '../types'
-import { f } from '../timing'
+import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion'
+import type { FactionChapter, FactionScript } from '../types'
+import { CHAPTER_VOICE_DELAY_SEC, chapterNarrationVoice, f, narratorVoicePlaySec } from '../timing'
 import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT, TEXT_PAINT } from '../constants'
 import { imgSrc, nameHead, nameTail } from '../utils'
 import { FilledImage } from './FilledImage'
+import { clampRate, dbToLinear, vnChapterTitle, voiceRelPath } from '../voice-names'
 
 /**
  * 챕터 표지 카드 — 롱폼 챕터 전환에서 배경 미디어(이미지/비디오) 위에 챕터 제목을 얹는다.
@@ -13,7 +14,7 @@ import { FilledImage } from './FilledImage'
  * 검정→표지→(검정)→다음 챕터 전환은 CueLayer의 크로스페이드가 사이에 낀 검정 브릿지 컷을 경유하며 처리한다.
  * 여기선 배경 재생 + 제목 페이드인만 담당한다.
  */
-export const ChapterCard: React.FC<{ chapter: FactionChapter; episodeName: string; cueStart: number; cueDuration?: number }> = ({ chapter, episodeName, cueStart, cueDuration }) => {
+export const ChapterCard: React.FC<{ script: FactionScript; chapter: FactionChapter; episodeName: string; cueStart: number; cueDuration?: number }> = ({ script, chapter, episodeName, cueStart, cueDuration }) => {
   const frame = useCurrentFrame()
   const head = nameHead(chapter.title) // 앞부분 — 챕터 표식(예 '챕터 2')
   const tail = nameTail(chapter.title) // 뒷부분 — 챕터 부제(예 '감시에 맞서다')
@@ -26,8 +27,23 @@ export const ChapterCard: React.FC<{ chapter: FactionChapter; episodeName: strin
   // 컷 끝날 때 살짝 아래로 내려가는(slideY) 효과
   const slideY = cueDuration ? interpolate(frame, [cueStart + cueDuration - f(0.8), cueStart + cueDuration], [0, 80], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }) : 0
   const objPos = `${chapter.mediaCrop?.x ?? 50}% ${chapter.mediaCrop?.y ?? 50}%`
+  const voice = chapterNarrationVoice(script, chapter)
+  const playSec = narratorVoicePlaySec(voice)
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
+      {playSec > 0 && (
+        <Sequence
+          from={cueStart + f(CHAPTER_VOICE_DELAY_SEC)}
+          durationInFrames={f(playSec + 0.2)}
+          premountFor={f(0.5)}
+        >
+          <Audio
+            src={staticFile(voiceRelPath(episodeName, vnChapterTitle(chapter.title)))}
+            volume={dbToLinear(voice?.quoteGainDb)}
+            playbackRate={clampRate(voice?.quotePlaybackRate)}
+          />
+        </Sequence>
+      )}
       {chapter.media && (
         <FilledImage src={imgSrc(episodeName, chapter.media)} objPos={objPos} scale={chapter.mediaCrop?.scale ?? 1} onError={() => {}} startFrame={cueStart} />
       )}

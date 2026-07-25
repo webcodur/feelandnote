@@ -12,6 +12,6 @@ export default async function EpisodeLangPage({ params }: { params: Promise<{ se
     if (!home) notFound()
     redirect(home)
   }
-  const safeLang = FACTION_EDIT_LANGS.has(lang) ? lang : 'both'
+  const safeLang = FACTION_EDIT_LANGS.has(lang) ? lang : 'ko'
   redirect(`/${series}/${encodeURIComponent(name)}/${safeLang}/info`)
 }

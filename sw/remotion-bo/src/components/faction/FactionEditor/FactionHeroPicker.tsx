@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import type { FactionScript } from '@/lib/faction-types'
 import { imageSrc, initial } from '../shared/timing'
-import { FactionMediaThumb } from '../shared/FactionMediaThumb'
-import { ChevronLeft, ChevronRight, X, ImageIcon } from '../shared/icons'
-import { FactionImagePicker } from './FactionGroupEditor/FactionPersonRow/FactionImagePicker/FactionImagePicker'
+import { ChevronLeft, ChevronRight, ChevronDown, X, ImageIcon } from '@/components/icons'
+import { MediaThumb, ImagePicker } from '@/components/media'
 
 /** 시작 화면에 띄울 후보 인물 (slug 가 있는 인물만) */
 export type HeroCandidate = { slug: string; name: string; image?: string }
@@ -13,12 +12,13 @@ export type HeroCandidate = { slug: string; name: string; image?: string }
 /** 'logo:<경로>' 접두 — 인물이 아니라 임의 이미지 한 장을 시작 화면에 깐다 */
 const LOGO_PREFIX = 'logo:'
 
-/** 편 구역 정의 — key 0 = 공통(편별 미지정 시 폴백) */
-const PART_TABS: { key: number; label: string; hint: string }[] = [
-  { key: 0, label: '공통', hint: '편별로 지정 안 한 편이 이걸 쓴다' },
-  { key: 1, label: '1편', hint: '비우면 공통 사용' },
-  { key: 2, label: '2편', hint: '비우면 공통 사용' },
-]
+const DEFAULT_PART_COUNT = 2
+
+const partTab = (part: number) => ({
+  key: part,
+  label: part === 0 ? '공통' : `${part}편`,
+  hint: part === 0 ? '편별로 지정 안 한 편이 이걸 쓴다' : '비우면 공통 사용',
+})
 
 type Props = {
   script: FactionScript
@@ -26,16 +26,18 @@ type Props = {
   series: string
   episodeName: string
   onChange: (patch: Partial<FactionScript>) => void
-  /** 지정하면 그 편 한 줄만 그린다(편 묶음 안에서 사용). 미지정이면 공통·1편·2편 전체 */
+  /** 지정하면 그 편 한 줄만 그린다(편 묶음 안에서 사용). 미지정이면 공통·1편…N편 전체 */
   part?: number
+  /** 편 묶음을 한꺼번에 표시할 때 사용할 쇼츠 편 수 */
+  partCount?: number
 }
 
 /**
  * 시작 화면(인트로) 핵심 인물 편집.
- * 편별(공통·1편·2편)로 인물을 골라 좌→우 순서대로 배치한다. 인물은 사진 썸네일로 보여 누구인지 바로 안다.
+ * 편별(공통·1편…N편)로 인물을 골라 좌→우 순서대로 배치한다. 인물은 사진 썸네일로 보여 누구인지 바로 안다.
  * part를 주면 그 편 한 줄만 그려 편 묶음 안에 끼워 쓴다.
  */
-export function FactionHeroPicker({ script, candidates, series, episodeName, onChange, part }: Props) {
+export function FactionHeroPicker({ script, candidates, series, episodeName, onChange, part, partCount }: Props) {
   // 이미지 한 장 고르기 모달 — 어느 편(part)에 추가할지. null 이면 닫힘.
   const [pickPart, setPickPart] = useState<number | null>(null)
 
@@ -74,8 +76,11 @@ export function FactionHeroPicker({ script, candidates, series, episodeName, onC
   }
   const infoOf = (slug: string) => candidates.find(c => c.slug === slug)
 
-  // part 지정 시 그 편 한 줄만, 미지정이면 전체
-  const tabs = part != null ? PART_TABS.filter(t => t.key === part) : PART_TABS
+  // part 지정 시 그 편 한 줄만, 미지정이면 사용자가 정한 전체 편
+  const count = Math.max(1, partCount ?? script.shortsPartCount ?? DEFAULT_PART_COUNT)
+  const tabs = part != null
+    ? [partTab(part)]
+    : [partTab(0), ...Array.from({ length: count }, (_, index) => partTab(index + 1))]
   const single = part != null
 
   return (
@@ -117,7 +122,7 @@ export function FactionHeroPicker({ script, candidates, series, episodeName, onC
                     {/* 썸네일 — 인물샷 또는 임의 이미지 한 장 */}
                     <div className="h-24 w-full overflow-hidden bg-bg-secondary">
                       {src ? (
-                        <FactionMediaThumb src={src} alt="" className="h-full w-full object-cover" />
+                        <MediaThumb src={src} alt="" className="h-full w-full object-cover" />
                       ) : (
                         <span className="flex h-full w-full items-center justify-center text-xl font-bold text-text-secondary">
                           {initial(label)}
@@ -159,17 +164,23 @@ export function FactionHeroPicker({ script, candidates, series, episodeName, onC
               })}
 
               {/* 인물 추가 — 후보 중 아직 안 고른 인물 */}
-              <select
-                value=""
-                onChange={e => { addHero(tab.key, e.target.value); e.target.value = '' }}
-                className="h-24 w-20 shrink-0 rounded-md border border-dashed border-border bg-bg-card text-center text-xs text-text-secondary hover:border-accent"
+              <div
+                className="relative flex h-24 w-20 shrink-0 flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border bg-bg-card text-xs text-text-secondary hover:border-accent"
                 title="시작 화면에 넣을 인물 추가"
               >
-                <option value="">+ 인물</option>
-                {candidates.filter(c => !list.includes(c.slug)).map(c => (
-                  <option key={c.slug} value={c.slug}>{c.name}</option>
-                ))}
-              </select>
+                <span>+ 인물</span>
+                <ChevronDown size={14} className="text-text-dim" />
+                <select
+                  value=""
+                  onChange={e => { addHero(tab.key, e.target.value); e.target.value = '' }}
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                >
+                  <option value="">+ 인물</option>
+                  {candidates.filter(c => !list.includes(c.slug)).map(c => (
+                    <option key={c.slug} value={c.slug}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
 
               {/* 이미지 한 장 추가 — 인물 대신 임의 이미지로 시작 화면을 채운다 */}
               <button
@@ -210,7 +221,7 @@ export function FactionHeroPicker({ script, candidates, series, episodeName, onC
 
       {/* 이미지 한 장 고르기 — 이미지 풀에서 선택 또는 업로드. 고르면 'logo:<경로>' 항목으로 들어간다. */}
       {pickPart != null && (
-        <FactionImagePicker
+        <ImagePicker
           value={undefined}
           onChange={next => { if (next) { addImage(pickPart, next); setPickPart(null) } }}
           series={series}

@@ -3,16 +3,16 @@
 import { useState } from 'react'
 import type { FactionImageCrop, ZoomFocus } from '@/lib/faction-types'
 import { imageSrc } from '../../../shared/timing'
-import { useFactionImageDrop } from '../../../shared/useFactionImageDrop'
-import { FactionMediaThumb } from '../../../shared/FactionMediaThumb'
-import { ImageIcon } from '../../../shared/icons'
-import { FactionImagePicker } from '../FactionPersonRow/FactionImagePicker/FactionImagePicker'
+import { ImageIcon } from '@/components/icons'
+import { useImageDrop, MediaThumb, ImagePicker, FACTION_IMAGE_DND } from '@/components/media'
 
 export function CoverPickerButton({
-  value, onChange, series, episodeName, crop, onCropChange, zoomFocus, onZoomFocusChange, className,
+  value, previewValue, onChange, series, episodeName, crop, onCropChange, zoomFocus, onZoomFocusChange, className,
   label = '화보', emptyText,
 }: {
   value?: string
+  /** 저장값이 비었을 때만 보여주는 상속 미리보기. 비우기 버튼과 선택값에는 영향을 주지 않는다. */
+  previewValue?: string
   onChange: (next: string | undefined) => void
   series: string
   episodeName: string
@@ -27,9 +27,9 @@ export function CoverPickerButton({
   emptyText?: string
 }) {
   const [open, setOpen] = useState(false)
-  const src = imageSrc(series, episodeName, value)
+  const src = imageSrc(series, episodeName, value ?? previewValue)
   // 이미지 풀에서 끌어온 이미지를 화보 칸에 놓으면 연결
-  const { dragOver, dropProps } = useFactionImageDrop(path => onChange(path))
+  const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange(path))
   
   const sizeClass = className || "h-28 w-48"
   
@@ -43,7 +43,7 @@ export function CoverPickerButton({
           title="클릭: 화보 선택 · 풀에서 끌어다 놓기: 연결"
         >
           {src ? (
-            <FactionMediaThumb src={src} alt="" showExt className="h-full w-full object-cover" />
+            <MediaThumb src={src} alt="" showExt className="h-full w-full object-cover" />
           ) : (
             <span className="flex h-full w-full flex-col items-center justify-center gap-1 px-1 text-sm text-text-secondary">
               <ImageIcon size={24} />
@@ -67,14 +67,14 @@ export function CoverPickerButton({
         )}
       </div>
       {open && (
-        <FactionImagePicker
+        <ImagePicker
           value={value}
           onChange={onChange}
           crop={crop}
           onCropChange={onCropChange}
           cropFit="contain"
-          zoomFocus={zoomFocus}
-          onZoomFocusChange={onZoomFocusChange}
+          focus={zoomFocus}
+          onFocusChange={onZoomFocusChange}
           series={series}
           episodeName={episodeName}
           onClose={() => setOpen(false)}

@@ -24,7 +24,7 @@ export default async function FactionPersonCardPage({ params }: { params: Promis
     redirect(home)
   }
   if (!FACTION_EDIT_LANGS.has(lang) || !FACTION_EDIT_TABS.has(tab)) {
-    redirect(`/${series}/${encodeURIComponent(name)}/both/info/card/${encodeURIComponent(personName)}`)
+    redirect(`/${series}/${encodeURIComponent(name)}/ko/info/card/${encodeURIComponent(personName)}`)
   }
   if (tab !== 'info') {
     redirect(`/${series}/${encodeURIComponent(name)}/${lang}/info/card/${encodeURIComponent(personName)}`)

@@ -10,6 +10,7 @@
 
 import type { DiscourseVoice, DiscourseEngine } from '@/lib/discourse-types'
 import { GeminiVoiceSelect } from '@/components/scenario-voice/GeminiVoiceSelect'
+import { EleEmotionPicker } from '@/components/voice'
 
 type Props = {
   title: string
@@ -26,9 +27,6 @@ const ENGINES: { value: DiscourseEngine; label: string }[] = [
   { value: 'elevenlabs', label: 'ElevenLabs' },
 ]
 
-/** ElevenLabs 감정 표식 — 최대 2개. 문장 맨 앞 표식은 첫 구절을 삼키므로 화면에서 미리 일러둔다 */
-const EMOTIONS = ['angry', 'sad', 'excited', 'whispers', 'sarcastic', 'curious', 'sighs', 'laughs']
-
 export function VoiceFields({ title, hint, voice, onChange, inherited }: Props) {
   const v = voice ?? {}
   const engine = v.engine ?? inherited?.engine ?? 'gemini'
@@ -39,13 +37,6 @@ export function VoiceFields({ title, hint, voice, onChange, inherited }: Props) 
     const next = { ...v, ...patch }
     const empty = Object.values(next).every(x => x == null || x === '' || (Array.isArray(x) && x.length === 0))
     onChange(empty ? undefined : next)
-  }
-
-  const toggleEmotion = (e: string) => {
-    const cur = v.eleEmotions ?? []
-    if (cur.includes(e)) return set({ eleEmotions: cur.filter(x => x !== e) })
-    if (cur.length >= 2) return // 감정 표식은 2개까지
-    set({ eleEmotions: [...cur, e] })
   }
 
   return (
@@ -138,22 +129,13 @@ export function VoiceFields({ title, hint, voice, onChange, inherited }: Props) 
             </label>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="space-y-1.5">
             <span className="text-xs text-text-dim">감정 표식 (2개까지)</span>
-            {EMOTIONS.map(e => {
-              const on = (v.eleEmotions ?? []).includes(e)
-              return (
-                <button
-                  key={e}
-                  onClick={() => toggleEmotion(e)}
-                  className={`rounded-md border px-2 py-0.5 font-mono text-[11px] ${
-                    on ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:text-accent'
-                  }`}
-                >
-                  {e}
-                </button>
-              )
-            })}
+            <EleEmotionPicker
+              value={v.eleEmotions ?? []}
+              onChange={next => set({ eleEmotions: next.length ? next : undefined })}
+              tone="dark"
+            />
           </div>
           <p className="text-[11px] text-text-dim">
             감정 표식이 대사 맨 앞에 붙으면 첫 구절이 통째로 빠져 들립니다. 첫 마디가 잘리면 이 표식부터 확인하세요.

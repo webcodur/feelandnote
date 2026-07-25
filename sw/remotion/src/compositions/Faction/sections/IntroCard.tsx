@@ -1,9 +1,10 @@
 import React from 'react'
-import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion'
 import type { FactionScript, FactionPerson, Orientation } from '../types'
-import { INTRO_SEC, INTRO_FADE_OUT_SEC, f } from '../timing'
+import { INTRO_FADE_OUT_SEC, NARRATOR_LOGLINE_DELAY_SEC, introSecOf, narratorOpeningVoice, narratorVoicePlaySec, f } from '../timing'
 import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT } from '../constants'
 import { imgSrc, initials, findPerson, nameHead, nameTail, resolveIntroImage } from '../utils'
+import { vnNarratorLogline, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
 import { FilledImage } from './FilledImage'
 import { FactionMedia } from './FactionMedia'
 
@@ -168,7 +169,20 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
   // 시작문구(황금색) — 시작 화면(배경)과 같은 타이밍으로 켜지고 꺼진다.
   const logline = (part != null && script.loglineByPart?.[part]) || (lvPart != null && script.loglineByLvPart?.[lvPart]) || script.logline
   // 배경·문구 동기 — 같은 페이드아웃. 컷 끝에 맞춰 꺼져 첫 로고 크로스페이드와 겹친다(검정 텀 최소화).
-  const introSec = script.introSec ?? INTRO_SEC
+  // 길이는 컷 빌더(buildCues)와 같은 산식(introSecOf) — 시작문구 낭독 음원이 있으면 자동 연장분까지 포함.
+  const introSec = introSecOf(script)
+  // 시작문구 낭독(나레이터, 옵션) — 저장된 음원이 있을 때만. 문구 등장에 맞춰 반 박자 뒤 시작.
+  const openingVoice = narratorOpeningVoice(script)
+  const nlPlaySec = narratorVoicePlaySec(openingVoice)
+  const loglineAudio = nlPlaySec > 0 ? (
+    <Sequence from={f(NARRATOR_LOGLINE_DELAY_SEC)} durationInFrames={f(nlPlaySec + 0.4)}>
+      <Audio
+        src={staticFile(voiceRelPath(episodeName, vnNarratorLogline()))}
+        volume={dbToLinear(openingVoice?.quoteGainDb)}
+        playbackRate={clampRate(openingVoice?.quotePlaybackRate)}
+      />
+    </Sequence>
+  ) : null
   const fadeOut0 = f(Math.max(0, introSec - INTRO_FADE_OUT_SEC))
   const fadeOut1 = Math.max(fadeOut0 + 1, f(introSec))
   const introOutOp = interpolate(frame, [fadeOut0, fadeOut1], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
@@ -202,6 +216,7 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
   if (introMedia) {
     return (
       <AbsoluteFill style={{ backgroundColor: BG }}>
+        {loglineAudio}
         {/* 배경 영상·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
         <AbsoluteFill style={{ opacity: introOutOp }}>
           <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={1} fit="contain" onError={() => {}} />
@@ -214,6 +229,7 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
   if (!items.length) {
     return (
       <AbsoluteFill style={{ backgroundColor: BG }}>
+        {loglineAudio}
         <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 28, opacity: introOutOp }}>
           {titleTail && (
             <div style={{ color: DEFAULT_ACCENT, fontFamily: FONT, fontSize: 44, fontWeight: 600, letterSpacing: 8 }}>{titleTail}</div>
@@ -235,6 +251,7 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
     : { gridTemplateColumns: `repeat(${items.length}, 1fr)` }
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
+      {loglineAudio}
       {/* 얼굴 그리드·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
       <AbsoluteFill style={{ opacity: introOutOp }}>
         <div style={{ display: 'grid', width: '100%', height: '100%', ...gridStyle }}>

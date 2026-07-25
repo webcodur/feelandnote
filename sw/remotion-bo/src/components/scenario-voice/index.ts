@@ -10,7 +10,6 @@ export type {
 export {
   DEFAULT_ELE_SETTINGS,
   DEFAULT_ELE_SEND_OPTS,
-  ELE_EMOTIONS,
   buildEleText,
   BTN_SM,
   BTN_ELE,

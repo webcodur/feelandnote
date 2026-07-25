@@ -7,12 +7,11 @@
 
 import { useState } from 'react'
 import type { Speaker, DiscourseVoice } from '@/lib/discourse-types'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff } from '@/components/faction/shared/icons'
-import { FactionMediaThumb } from '@/components/faction/shared/FactionMediaThumb'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff } from '@/components/icons'
 import { CelebBadge } from '../../shared/CelebBadge'
-import { ImageLightbox } from '../../shared/ImageLightbox'
 import { imageSrc } from '../../shared/timing'
-import type { EditLang } from '../../shared/editLang'
+import { MediaThumb, ImageLightbox, ImageSlot, DISCOURSE_IMAGE_DND } from '@/components/media'
+import type { EditLang } from '@/components/editor'
 import { LangText } from './LangField'
 import { VoiceFields } from './VoiceFields'
 import { castColorOf } from './CastColorBar'
@@ -24,6 +23,7 @@ type Props = {
   /** 이 인물이 하는 발언 수 — 편성 탭 데이터 */
   turnCount: number
   episodeName: string
+  series: string
   editLang: EditLang
   celebExisting: Set<string>
   celebLoaded: boolean
@@ -39,13 +39,13 @@ const orUndef = (v: string) => (v.trim() ? v : undefined)
 const COLOR_PRESETS = ['#c9a227', '#5aa9e6', '#e05c5c', '#6fcf97', '#b07de0', '#e08c3c', '#4ecdc4', '#d96ba0']
 
 export function SpeakerCard({
-  speaker, index, total, turnCount, episodeName, editLang,
+  speaker, index, total, turnCount, episodeName, series, editLang,
   celebExisting, celebLoaded, onChange, onDelete, onMoveUp, onMoveDown,
 }: Props) {
   const [open, setOpen] = useState(false)
   const [zoom, setZoom] = useState<number | null>(null)
   const color = castColorOf(speaker, index)
-  const src = imageSrc(episodeName, speaker.image)
+  const src = imageSrc(series, episodeName, speaker.image)
 
   const set = (patch: Partial<Speaker>) => onChange({ ...speaker, ...patch })
   const setLine = (li: number, v: string) => {
@@ -68,7 +68,7 @@ export function SpeakerCard({
       <div className="flex items-center gap-2 p-2.5">
         <span className="w-5 shrink-0 text-center font-mono text-[11px] text-text-dim">{index + 1}</span>
         {src ? (
-          <FactionMediaThumb src={src} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
+          <MediaThumb src={src} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
         ) : (
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg-secondary text-xs font-bold text-text-secondary">
             {(speaker.name || '?').trim()[0] ?? '?'}
@@ -197,8 +197,20 @@ export function SpeakerCard({
             <span className="text-[11px] text-text-dim">이름·자막이 이 색으로 강조됩니다. 인물마다 갈려야 누가 말하는지 읽힙니다.</span>
           </div>
 
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-3">
             <label className="mt-1.5 w-20 shrink-0 text-xs text-text-dim">소개 사진 -</label>
+            <ImageSlot
+              dnd={DISCOURSE_IMAGE_DND}
+              captionArea
+              value={speaker.image}
+              onChange={v => set({ image: v })}
+              crop={speaker.imageCrop}
+              onCropChange={c => set({ imageCrop: c })}
+              series={series}
+              episodeName={episodeName}
+              size={112}
+              pickerTitle={`${speaker.name || '이 인물'}의 소개 사진`}
+            />
             <div className="min-w-0 flex-1 space-y-2">
               <input
                 value={speaker.image ?? ''} placeholder="cast/qin-shi-huang/01.png"
@@ -208,14 +220,15 @@ export function SpeakerCard({
               {src && (
                 <button
                   onClick={() => setZoom(0)}
-                  className="block overflow-hidden rounded-lg border border-border hover:border-accent"
+                  className="text-[11px] text-text-secondary underline hover:text-accent"
                   title="원본 크기로 봅니다"
                 >
-                  <FactionMediaThumb src={src} alt="" className="aspect-square w-44 object-cover" />
+                  원본 크기로 보기
                 </button>
               )}
               <p className="text-[11px] text-text-dim">
                 발언에 사진을 따로 걸지 않으면 이 사진이 그 발언 내내 화면에 뜹니다.
+                왼쪽 칸을 누르면 사진을 고르고 세로 화면에서 보일 자리를 잡습니다.
               </p>
             </div>
           </div>

@@ -40,10 +40,11 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
   const [chosenEngine, setChosenEngine] = useState<GenEngine>(personEngine)
   useEffect(() => { setChosenEngine(personEngine) }, [personEngine])
 
-  // chosenEngine 토글 → 인물 데이터(slot.engine)에 반영(일괄 생성·렌더와 일치). 'gemini'(기본)는 필드를 비운다.
+  // chosenEngine 토글 → 인물 데이터(slot.engine)에 명시적으로 반영한다.
+  // 공용 낭독 목소리를 상속하는 수식어에서는 'gemini'도 실제 인물별 예외값이 될 수 있다.
   const handleChosenEngine = (e: GenEngine) => {
     setChosenEngine(e)
-    setField(F.engine, e === 'gemini' ? undefined : e)
+    setField(F.engine, e)
   }
 
   // ── 보이스 spec ──
@@ -80,44 +81,23 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
   // ── ELE 감정 태그 / 끝 패딩 ──
   const eleEmotions = (person[F.eleEmotions] as string[] | undefined) ?? []
   const eleTrail = (person[F.eleTrail] as boolean | undefined) ?? true
-  const [emotionDraft, setEmotionDraft] = useState('')
 
+  // 고른 감정 표식 저장 — 고르기·직접 입력·최대 개수 규칙은 공용 부품(EleEmotionPicker)이 맡는다.
   const setEleEmotions = (next: string[]) => setField(F.eleEmotions, next.length ? next : undefined)
 
-  // 감정 토글 — 최대 2개. 초과 시 가장 오래된 것을 밀어낸다.
-  const toggleEmotion = (em: string) => {
-    if (eleEmotions.includes(em)) {
-      setEleEmotions(eleEmotions.filter(e => e !== em))
-    } else if (eleEmotions.length >= 2) {
-      setEleEmotions([eleEmotions[1], em])
-    } else {
-      setEleEmotions([...eleEmotions, em])
-    }
-  }
+  // 공용값 상속 상황에서도 명시적 예외가 유지되도록 true/false를 그대로 저장한다.
+  const setEleTrail = (on: boolean) => setField(F.eleTrail, on)
 
-  // 직접 입력 감정 추가 — 중복 무시, 최대 2개 유지.
-  const addCustomEmotion = () => {
-    const v = emotionDraft.trim()
-    if (!v) return
-    if (eleEmotions.includes(v)) { setEmotionDraft(''); return }
-    const next = eleEmotions.length >= 2 ? [eleEmotions[1], v] : [...eleEmotions, v]
-    setEleEmotions(next)
-    setEmotionDraft('')
-  }
-
-  // 끝 패딩 토글 — 켜짐이 기본이라 끌 때만 false 저장, 다시 켜면 필드 제거.
-  const setEleTrail = (on: boolean) => setField(F.eleTrail, on ? undefined : false)
-
-  // ── 배속·게인 — 엔진 공통(렌더 적용값). 기본값(배속 1·게인 0)이면 필드를 비운다. ──
+  // ── 배속·게인 — 엔진 공통(렌더 적용값). 기본값도 공용값을 덮는 명시적 예외가 될 수 있다. ──
   const playbackRate = (person[F.rate] as number | undefined) ?? 1
   const gainDb = (person[F.gain] as number | undefined) ?? 0
   const setPlaybackRate = (rate: number) => {
     const r = Number.isFinite(rate) ? Math.min(2, Math.max(0.5, rate)) : 1
-    setField(F.rate, Math.abs(r - 1) < 1e-6 ? undefined : r)
+    setField(F.rate, r)
   }
   const setGainDb = (db: number) => {
     const d = Number.isFinite(db) ? db : 0
-    setField(F.gain, Math.abs(d) < 1e-6 ? undefined : d)
+    setField(F.gain, d)
   }
 
   const activeSpec: SegmentEngineSpec | null = chosenEngine === 'elevenlabs' ? eleSpec : geminiSpec
@@ -147,8 +127,7 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
     eleVoiceId, setEleVoiceId,
     stylePrefix, saveQuoteStyle,
     eleOptions, setEleOptions,
-    eleEmotions, toggleEmotion, addCustomEmotion,
-    emotionDraft, setEmotionDraft,
+    eleEmotions, setEleEmotions,
     eleTrail, setEleTrail,
     playbackRate, setPlaybackRate,
     gainDb, setGainDb,

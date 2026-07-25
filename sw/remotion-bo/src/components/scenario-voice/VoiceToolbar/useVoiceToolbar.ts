@@ -27,30 +27,7 @@ export function useVoiceToolbar({
   const [eleSettingsOpen, setEleSettingsOpen] = useState(false)
   const [eleBatchRunning, setEleBatchRunning] = useState(false)
   const [eleBatchStatus, setEleBatchStatus] = useState<string | null>(null)
-  const [emotionDraft, setEmotionDraft] = useState('')
   const [expanded, setExpanded] = useState(true)
-
-  const toggleEmotion = useCallback((em: string) => {
-    const has = eleSendOpts.emotions.includes(em)
-    if (has) {
-      onEleSendOptsChange({ ...eleSendOpts, emotions: eleSendOpts.emotions.filter(e => e !== em) })
-    } else if (eleSendOpts.emotions.length >= 2) {
-      onEleSendOptsChange({ ...eleSendOpts, emotions: [eleSendOpts.emotions[1], em] })
-    } else {
-      onEleSendOptsChange({ ...eleSendOpts, emotions: [...eleSendOpts.emotions, em] })
-    }
-  }, [eleSendOpts, onEleSendOptsChange])
-
-  const addCustomEmotion = useCallback(() => {
-    const v = emotionDraft.trim()
-    if (!v) return
-    if (eleSendOpts.emotions.includes(v)) { setEmotionDraft(''); return }
-    const next = eleSendOpts.emotions.length >= 2
-      ? [eleSendOpts.emotions[1], v]
-      : [...eleSendOpts.emotions, v]
-    onEleSendOptsChange({ ...eleSendOpts, emotions: next })
-    setEmotionDraft('')
-  }, [emotionDraft, eleSendOpts, onEleSendOptsChange])
 
   // shorts 배열 정규화 (단일 객체 호환)
   const shortsArr: Array<{ segments: Array<{ id: string; role: string; text?: string }> }> =
@@ -118,10 +95,7 @@ export function useVoiceToolbar({
     eleSettingsOpen, setEleSettingsOpen,
     eleBatchRunning,
     eleBatchStatus,
-    emotionDraft, setEmotionDraft,
     expanded, setExpanded,
-    toggleEmotion,
-    addCustomEmotion,
     hasShorts,
     runEleBatch,
   }

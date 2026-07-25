@@ -9,15 +9,15 @@ type Params = { series: string; name: string; lang: string; tab: string }
 type SearchParams = { cardOpen?: string; cardPerson?: string; cardPath?: string }
 
 type CardTarget = { personName?: string; cardPath?: string[] }
-type EditorContext = { series: string; name: string; tab: FactionEditTab; cardTarget?: CardTarget }
+type EditorContext = { series: string; name: string; lang: string; tab: FactionEditTab; cardTarget?: CardTarget }
 
 /**
  * 편집 화면 등록표 — 시리즈의 데이터 계열이 어느 편집기를 띄울지 정한다.
  * 새 시리즈는 레지스트리에 정의를 얹고 여기에 한 줄 더한다(분기 추가 없음).
  */
 const EDITORS: Partial<Record<SeriesDataModel, (ctx: EditorContext) => ReactNode>> = {
-  faction: ({ series, name, tab, cardTarget }) => (
-    <FactionEditor series={series} name={name} initialTab={tab} cardTarget={cardTarget} />
+  faction: ({ series, name, lang, tab, cardTarget }) => (
+    <FactionEditor series={series} name={name} initialLang={lang as any} initialTab={tab} cardTarget={cardTarget} />
   ),
   discourse: ({ series, name, tab }) => (
     <DiscourseEditor series={series} name={name} initialTab={tab} />
@@ -42,7 +42,7 @@ export default async function EpisodeLangTabPage({
     redirect(home)
   }
   if (!FACTION_EDIT_LANGS.has(lang) || !FACTION_EDIT_TABS.has(tab)) {
-    redirect(`/${series}/${encodeURIComponent(name)}/both/info`)
+    redirect(`/${series}/${encodeURIComponent(name)}/ko/info`)
   }
 
   const model = seriesDataModel(series)
@@ -56,5 +56,5 @@ export default async function EpisodeLangTabPage({
     }
     : undefined
 
-  return renderEditor({ series, name, tab: toFactionEditTab(tab), cardTarget })
+  return renderEditor({ series, name, lang, tab: toFactionEditTab(tab), cardTarget })
 }

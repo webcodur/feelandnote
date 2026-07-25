@@ -14,6 +14,5 @@ export { parseViewParam, viewToParam, viewToBookIndex, VIEW_LONGFORM, VIEW_META 
 export { BgmPanel } from './BgmPanel'
 export { BookTabsBar } from './BookTabsBar'
 export { PlaybackRateControl } from './PlaybackRatePanel'
-export { VoiceEditorModal } from './VoiceEditorModal'
 export { MaterialModal } from './MaterialModal'
 export { TtsReplaceModal } from './TtsReplaceModal'

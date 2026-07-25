@@ -15,18 +15,20 @@
 import { useState } from 'react'
 import type { DiscourseScript } from '@/lib/discourse-types'
 import { KIND_LABEL } from '@feelandnote/remotion/src/compositions/Discourse/constants'
-import { FactionMediaThumb } from '@/components/faction/shared/FactionMediaThumb'
-import { buildCues, imageSrc, formatMmss, splitName, turnChunks, FPS } from '../shared/timing'
+import { MediaThumb } from '@/components/media'
+import { buildCues, imageSrc, splitName, turnChunks, FPS } from '../shared/timing'
+import { formatMmss } from '@/components/editor'
 import { castColorOf } from './sections/CastColorBar'
 
 type Props = {
   script: DiscourseScript
+  series: string
   episodeName: string
 }
 
 type Mode = { isShorts: boolean; part?: number; lvPart?: number; label: string }
 
-export function DiscoursePreview({ script, episodeName }: Props) {
+export function DiscoursePreview({ script, series, episodeName }: Props) {
   // 편 선택 — 롱폼 전체가 기본. 편이 갈리면 그 편만 따로 본다
   const lvCount = (script.longformLayout ?? []).filter(it => 'cut' in it).length + 1
   const shortsParts = [...new Set((script.turns ?? []).filter(t => !t.disabled && t.part != null).map(t => t.part as number))].sort((a, b) => a - b)
@@ -86,11 +88,11 @@ export function DiscoursePreview({ script, episodeName }: Props) {
               if (c.kind === 'cast') {
                 const sp = script.cast[c.castIndex]
                 const color = castColorOf(sp, c.castIndex)
-                const src = imageSrc(episodeName, sp?.image)
+                const src = imageSrc(series, episodeName, sp?.image)
                 return (
                   <div key={i} className="flex items-center gap-2 rounded-md bg-bg-main/40 p-2" style={{ borderInlineStart: `3px solid ${color}` }}>
                     {src
-                      ? <FactionMediaThumb src={src} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
+                      ? <MediaThumb src={src} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
                       : <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-bg-secondary text-xs font-bold">{(sp?.name || '?')[0]}</span>}
                     <span className="min-w-0 flex-1">
                       <span className="block text-[10px] text-text-dim">{at} · 인물 소개 {sec}초</span>
@@ -117,7 +119,7 @@ export function DiscoursePreview({ script, episodeName }: Props) {
                 const sp = script.cast[t.cast]
                 const color = castColorOf(sp, t.cast)
                 const lead = KIND_LABEL[t.kind]
-                const src = imageSrc(episodeName, t.image ?? sp?.image)
+                const src = imageSrc(series, episodeName, t.image ?? sp?.image)
                 const chunks = turnChunks(t)
                 const changeAt = new Map((t.imageChanges ?? []).map(x => [x.chunk, x.image]))
                 return (
@@ -133,15 +135,15 @@ export function DiscoursePreview({ script, episodeName }: Props) {
                       {!t.duration && <span className="rounded bg-warning px-1 text-[10px] font-semibold text-warning-text" title="음성이 없어 글자 수로 길이를 어림잡았습니다">추정</span>}
                     </div>
                     <div className="flex gap-2">
-                      {src && <FactionMediaThumb src={src} alt="" className="h-14 w-14 shrink-0 rounded object-cover" />}
+                      {src && <MediaThumb src={src} alt="" className="h-14 w-14 shrink-0 rounded object-cover" />}
                       <div className="min-w-0 flex-1 space-y-0.5">
                         {chunks.map((ch, ci) => {
                           const img = changeAt.get(ci)
-                          const chSrc = imageSrc(episodeName, img)
+                          const chSrc = imageSrc(series, episodeName, img)
                           return (
                             <div key={ci} className="flex items-center gap-1">
                               {img && (chSrc
-                                ? <FactionMediaThumb src={chSrc} alt="" className="h-5 w-5 shrink-0 rounded object-cover" />
+                                ? <MediaThumb src={chSrc} alt="" className="h-5 w-5 shrink-0 rounded object-cover" />
                                 : <span className="h-5 w-5 shrink-0 rounded bg-danger" title="연결된 사진을 찾을 수 없습니다" />)}
                               <span className={`min-w-0 flex-1 truncate text-[11px] ${img ? 'font-semibold text-text-primary' : 'text-text-secondary'}`} title={ch}>
                                 {ch}

@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from 'react'
 import type { VoiceFile } from '../../voice-utils'
+import { engineSlotPrefix } from '../../voice-utils'
+import { buildEleText } from '../types'
 import { prodFile } from '../utils'
 import { SyncModeContent } from '../SyncModeContent'
 import { BreathModeContent } from '../BreathModeContent'
@@ -9,8 +11,10 @@ import { AgeModeContent, type AgeEndpoints } from '../AgeModeContent'
 import type { ExpandedVoicePanelProps } from './types'
 import { useVoiceSpec } from './useVoiceSpec'
 import { useSegmentMeta } from './useSegmentMeta'
-import { useVoiceGeneration } from './useVoiceGeneration'
-import { SavedVoiceSection } from './sections/SavedVoiceSection'
+import {
+  SavedVoiceSection, useVoiceGeneration,
+  type SavedVoiceTrack, type VoiceGenEndpoints,
+} from '@/components/voice'
 import { GenerateSection } from './sections/GenerateSection'
 
 export function ExpandedVoicePanel({
@@ -23,6 +27,14 @@ export function ExpandedVoicePanel({
   const engineFile: Record<string, VoiceFile | undefined> = { gemini: section.gemini, elevenlabs: section.elevenlabs, common: section.common }
   const activeFile = engineFile[activeEngine] ?? prodFile(section)
 
+  // 저장된 음원 — 엔진 슬롯(GEM/ELE) 중 파일이 있는 것만 파형으로 그린다
+  const savedTracks: SavedVoiceTrack[] = [
+    { label: 'GEM', slot: 'gemini', file: section.gemini },
+    { label: 'ELE', slot: 'elevenlabs', file: section.elevenlabs },
+  ]
+    .filter((e): e is { label: string; slot: string; file: VoiceFile } => !!e.file)
+    .map(e => ({ label: e.label, file: e.file, active: activeEngine === e.slot }))
+
   // error 는 양쪽 hook(메타·생성)이 공유하므로 orchestrator 가 소유한다.
   const [error, setError] = useState<string | null>(null)
 
@@ -33,13 +45,35 @@ export function ExpandedVoicePanel({
     geminiSpec: spec.geminiSpec,
     onEpisodeChange, setError,
   })
+  // 서재 탐방 서버 창구 — 에피소드 단위 저장(엔진 폴더로 갈라 넣기)·재생·정렬.
+  const voiceEndpoints: VoiceGenEndpoints = {
+    previewUrl: route => `/api/${series}/voice/${route}/preview`,
+    save: async (fileName, base64) => {
+      const res = await fetch(`/api/${series}/voice/save`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ episode: name, fileName, base64 }),
+      })
+      return res.json()
+    },
+    sourceUrl: fileName => `/api/${series}/voice/play/${name}/${fileName}`,
+    analyze: key => fetch(`/api/${series}/voice/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ episode: name, only: key }),
+    }),
+  }
+
   const gen = useVoiceGeneration({
-    series, name, activeFile,
+    endpoints: voiceEndpoints,
+    activeFile,
     chosenEngine: spec.chosenEngine,
     styleEdit: meta.styleEdit,
-    effectiveOpts: meta.effectiveOpts,
-    eleSettings, error, setError,
+    buildText: t => buildEleText(t, meta.effectiveOpts),
+    eleSettings,
+    // 엔진마다 저장 폴더가 갈린다(gemini/ · elevenlabs/).
+    targetFile: (engine, key) => `${engineSlotPrefix(engine)}/${key}.wav`,
+    error, setError,
     onActivateEngine, onRefresh,
+    onAligned: onRefresh,
   })
 
   const hasTempPreview = gen.tempPreview?.key === secKey
@@ -104,17 +138,13 @@ export function ExpandedVoicePanel({
       {expandMode === 'trim' && (<>
         {/* 저장된 음원 — 디스크 wav + 트림 */}
         <SavedVoiceSection
-          section={section}
-          series={series}
-          name={name}
-          activeEngine={activeEngine}
-          activeFile={activeFile}
+          tracks={savedTracks}
+          playUrl={f => `/api/${series}/voice/play/${name}/${f.name}${gen.reloadTick ? `?t=${gen.reloadTick}` : ''}`}
           trimStart={gen.trimStart}
           setTrimStart={gen.setTrimStart}
           trimEnd={gen.trimEnd}
           setTrimEnd={gen.setTrimEnd}
           trimSaving={gen.trimSaving}
-          reloadTick={gen.reloadTick}
           saveTrimmed={gen.saveTrimmed}
         />
 

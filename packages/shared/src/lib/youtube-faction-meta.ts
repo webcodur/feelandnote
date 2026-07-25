@@ -27,7 +27,7 @@ export interface FactionGroupMeta {
   name: string
   /** 세력 명칭 영문 (통합형) */
   nameEn?: string
-  /** 속한 쇼츠 편(1·2). 미지정/0 = 모든 편 공통. */
+  /** 속한 쇼츠 편(1…N). 미지정/0 = 모든 편 공통. */
   part?: number
   /** 영상 제외(데이터만 보관) */
   disabled?: boolean

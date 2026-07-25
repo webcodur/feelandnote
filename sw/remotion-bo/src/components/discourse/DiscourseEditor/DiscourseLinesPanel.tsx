@@ -17,9 +17,9 @@
 
 import { useMemo, useState } from 'react'
 import type { Speaker, Turn } from '@/lib/discourse-types'
-import { X, Copy } from '@/components/faction/shared/icons'
+import { X, Copy } from '@/components/icons'
 import { splitName } from '../shared/timing'
-import type { EditLang } from '../shared/editLang'
+import type { EditLang } from '@/components/editor'
 
 /** 인물 표기 — 통합 명칭이면 앞부분만, 없으면 번호 */
 const nameOf = (s: Speaker, i: number) => splitName(s.name).head || s.name?.trim() || `${i + 1}번`

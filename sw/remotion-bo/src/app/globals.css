@@ -43,6 +43,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  overflow-anchor: none; /* UI Scroll - 방지: 동적으로 요소 높이 변경시 스크롤 점프 현상 제거 */
+}
+
 /* 폼 요소가 시스템 폰트로 떨어지지 않게 명시 상속 */
 input, select, textarea, button {
   font-family: inherit;

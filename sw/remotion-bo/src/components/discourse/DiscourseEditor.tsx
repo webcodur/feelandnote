@@ -1,29 +1,33 @@
 'use client'
 
 /**
- * 가상 담화(Discourse) 편집기 — 「정보」·「편성」 두 탭.
+ * 가상 담화(Discourse) 편집기 — 「원고」·「인물」 두 탭.
  *
  * 팩션 편집기(FactionEditor)의 골격을 그대로 따른다: 전체 스크립트를 통째로 PUT 하는 저장(부분 저장 없음),
  * 언어 모드(한국어/영어/둘 다), Ctrl+S, 탭 주소 동기화.
  *
  * 팩션과 갈리는 축은 하나다 — **뼈대가 인물 명단이 아니라 발언 순서(turns)** 다.
- * 그래서 「정보」는 인물의 실체를, 「편성」은 발언의 순서를 다룬다. 발언을 옮기면 음원 자리가 밀리므로
- * 편성 탭이 음원 파일과 발언 배열을 대조해 경고를 띄운다(discourse.md §5-1).
+ * 「원고」가 대본 전체를 글로 다루고(경계·발언 나누기·세부 패널), 「인물」이 말하는 사람의 실체를 다룬다.
+ * 발언을 옮기면 음원 자리가 밀리므로 원고 탭이 음원 파일과 발언 배열을 대조해 경고를 띄운다(discourse.md §5-1).
  *
  * 기획·완성 정의 SSoT: docs/project/remotion/discourse.md §7
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import type { DiscourseScript, Speaker, Turn } from '@/lib/discourse-types'
 import type { FactionEditTab } from '@/lib/faction-edit-route'
-import { Save, Eye, Film } from '@/components/faction/shared/icons'
-import { EDIT_LANGS, type EditLang } from './shared/editLang'
-import { totalSec, buildCues, formatMmss } from './shared/timing'
+import { Eye, Film } from '@/components/icons'
+import {
+  EditLangSwitch, FloatingSaveButton, formatMmss, useEpisodeEditor, type EditLang,
+} from '@/components/editor'
+import { totalSec, buildCues } from './shared/timing'
 import { DiscourseInfoTab } from './DiscourseEditor/DiscourseInfoTab'
-import { DiscourseTurnsTab } from './DiscourseEditor/DiscourseTurnsTab'
+import { DiscourseScriptTab } from './DiscourseEditor/DiscourseScriptTab'
 import { DiscourseLinesPanel } from './DiscourseEditor/DiscourseLinesPanel'
 import { DiscoursePreview } from './DiscourseEditor/DiscoursePreview'
+import { ImagePool, DISCOURSE_IMAGE_DND } from '@/components/media'
+import { collectUsedImages, remapDiscourseImages } from './shared/imageUsage'
 import type { DiscourseVoiceMeta } from './DiscourseEditor/voice-meta'
 
 type Props = {
@@ -32,16 +36,16 @@ type Props = {
   initialTab: FactionEditTab
 }
 
-/** 편집 탭 — 팩션의 정비(info)/편성(shorts·longform) 주소 어휘를 공유한다. 담화는 편성이 한 화면이다 */
-const toTab = (t: FactionEditTab): 'info' | 'turns' => (t === 'info' ? 'info' : 'turns')
+/** 편집 탭 — 원고(기본)·인물. 주소는 팩션 어휘를 빌린다(원고=shorts 자리, 구 발언 탭 주소도 원고로 연다) */
+type DiscourseTab = 'script' | 'info'
+const toTab = (t: FactionEditTab): DiscourseTab => (t === 'info' ? 'info' : 'script')
+const TAB_SEGMENT: Record<DiscourseTab, string> = { script: 'shorts', info: 'info' }
 
 export function DiscourseEditor({ series, name, initialTab }: Props) {
   const [script, setScript] = useState<DiscourseScript | null>(null)
-  const [dirty, setDirty] = useState(false)
-  const [saving, setSaving] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
   const [editLang, setEditLang] = useState<EditLang>('both')
-  const [tab, setTab] = useState<'info' | 'turns'>(toTab(initialTab))
+  const [tab, setTab] = useState<DiscourseTab>(toTab(initialTab))
   const [musicList, setMusicList] = useState<string[]>([])
   const [voiceFiles, setVoiceFiles] = useState<DiscourseVoiceMeta[]>([])
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -49,6 +53,20 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
 
   const scriptRef = useRef<DiscourseScript | null>(null)
   scriptRef.current = script
+
+  /**
+   * 편집기 뼈대 — 대본 전체 저장·손댐 표시·Ctrl+S·사진 폴더 조작. 세력도와 같은 부품을 쓴다.
+   * 담화가 갈리는 지점은 사진 경로 순회 하나뿐이다(인물·발언 구조).
+   */
+  const {
+    dirty, setDirty, saving, save, createFolder, deleteFolder, moveFile, renameFolder,
+  } = useEpisodeEditor({
+    series,
+    episodeName: name,
+    scriptRef,
+    setScript,
+    remapImages: remapDiscourseImages,
+  })
 
   // 에피소드 로드 — 시리즈 공용 창구(dataModel 로 담화 IO 가 선택된다)
   useEffect(() => {
@@ -80,6 +98,14 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
 
   useEffect(() => { loadVoices() }, [loadVoices])
 
+  // 미저장 이탈 경고 — 변경분이 있는 채로 페이지를 떠나면 브라우저가 한 번 붙잡는다
+  useEffect(() => {
+    if (!dirty) return
+    const handler = (e: BeforeUnloadEvent) => { e.preventDefault() }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [dirty])
+
   useEffect(() => {
     if (script) document.title = `${script.title?.split('\n')[0] || name} — 가상 담화`
   }, [script, name])
@@ -92,45 +118,13 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
   const setCast = useCallback((cast: Speaker[]) => update({ cast }), [update])
   const setTurns = useCallback((turns: Turn[]) => update({ turns }), [update])
 
-  // 저장 — 팩션과 동일하게 스크립트 전체를 한 번에 기록한다(부분 저장 없음)
-  const save = useCallback(async () => {
-    const current = scriptRef.current
-    if (!current) return
-    setSaving(true)
-    try {
-      const res = await fetch(`/api/${series}/episodes/${encodeURIComponent(name)}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(current),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err.error ?? res.statusText)
-      }
-      setDirty(false)
-    } catch (e) {
-      alert('저장 실패: ' + (e instanceof Error ? e.message : String(e)))
-    } finally {
-      setSaving(false)
-    }
-  }, [series, name])
+  // 대본이 실제로 쓰는 사진 — 목록에서 「쓰는 중 / 아직 안 씀」을 가른다
+  const usedImages = useMemo(() => collectUsedImages(script), [script])
 
-  // Ctrl+S 저장
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-        e.preventDefault()
-        if (dirty && !saving) save()
-      }
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [dirty, saving, save])
-
-  const goTab = useCallback((next: 'info' | 'turns') => {
+  const goTab = useCallback((next: DiscourseTab) => {
     setTab(next)
-    // 주소 어휘는 팩션과 공유한다 — 편성은 'shorts' 자리에 올린다
-    window.history.pushState(null, '', `/${series}/${encodeURIComponent(name)}/${editLang}/${next === 'info' ? 'info' : 'shorts'}`)
+    // 주소 어휘는 팩션과 공유한다 — 원고는 'shorts', 발언은 'longform' 자리에 올린다
+    window.history.pushState(null, '', `/${series}/${encodeURIComponent(name)}/${editLang}/${TAB_SEGMENT[next]}`)
   }, [series, name, editLang])
 
   if (loadError) {
@@ -153,27 +147,16 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
           <Link href={`/${series}`} className="text-sm text-text-secondary hover:text-accent">← 목록</Link>
 
           {/* 편집 언어 */}
-          <div className="flex items-center gap-0.5 rounded-md border border-border bg-bg-card p-0.5">
-            {EDIT_LANGS.map(([v, lbl]) => (
-              <button
-                key={v}
-                onClick={() => setEditLang(v)}
-                className={`rounded px-2 py-1 text-xs ${editLang === v ? 'bg-accent text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
-              >
-                {lbl}
-              </button>
-            ))}
-          </div>
+          <EditLangSwitch value={editLang} onChange={setEditLang} />
 
-          {/* 탭 — 발언=대사(주인공), 인물=말하는 사람의 실체.
-              팩션 어휘(정보/편성)를 그대로 쓰면 대사가 어디 있는지 읽히지 않는다(실제 신고). */}
+          {/* 탭 — 원고=대사와 순서(이 담화의 본문), 인물=말하는 사람의 실체 */}
           <div className="flex items-center gap-0.5 rounded-md border border-border bg-bg-card p-0.5">
             <button
-              onClick={() => goTab('turns')}
-              className={`rounded px-2.5 py-1 text-xs font-semibold ${tab === 'turns' && !showPreview ? 'bg-accent text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
-              title="대사와 순서 — 이 담화의 본문입니다"
+              onClick={() => goTab('script')}
+              className={`rounded px-2.5 py-1 text-xs font-semibold ${tab === 'script' && !showPreview ? 'bg-accent text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
+              title="원고 — 대본을 글로 읽고, 문장 사이 클릭으로 경계·발언 나누기를 지정합니다"
             >
-              발언 {script.turns.length}
+              원고 {script.turns.length}
             </button>
             <button
               onClick={() => goTab('info')}
@@ -216,15 +199,7 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
             >
               <Film size={15} /> 렌더 — 준비 중
             </button>
-            <button
-              onClick={save}
-              disabled={saving || !dirty}
-              className={`fixed bottom-6 right-6 z-50 flex items-center gap-1.5 rounded-full px-5 py-3 text-sm font-semibold shadow-lg ${
-                dirty ? 'bg-accent text-bg-main hover:bg-accent-hover' : 'border border-border bg-bg-card text-text-dim'
-              } disabled:opacity-50`}
-            >
-              <Save size={16} /> {saving ? '저장 중...' : '저장'}
-            </button>
+            <FloatingSaveButton dirty={dirty} saving={saving} onSave={save} />
           </div>
         </div>
         <p className="text-[11px] text-text-dim">
@@ -232,30 +207,50 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
         </p>
       </div>
 
-      {/* 본문 */}
-      {showPreview ? (
-        <DiscoursePreview script={script} episodeName={name} />
-      ) : tab === 'info' ? (
-        <DiscourseInfoTab
-          script={script}
-          update={update}
-          setCast={setCast}
-          episodeName={name}
-          editLang={editLang}
-          musicList={musicList}
-        />
-      ) : (
-        <DiscourseTurnsTab
-          script={script}
-          update={update}
-          setTurns={setTurns}
-          series={series}
-          episodeName={name}
-          editLang={editLang}
-          voiceFiles={voiceFiles}
-          reloadVoices={loadVoices}
-        />
-      )}
+      {/* 본문 — 넓은 화면에서는 오른쪽에 사진 목록을 붙여 둔 채로 대사를 손본다 */}
+      <div className={showPreview ? '' : 'flex flex-col gap-4 xl:flex-row xl:items-start'}>
+        <div className="min-w-0 flex-1">
+          {showPreview ? (
+            <DiscoursePreview script={script} series={series} episodeName={name} />
+          ) : tab === 'info' ? (
+            <DiscourseInfoTab
+              script={script}
+              update={update}
+              setCast={setCast}
+              episodeName={name}
+              series={series}
+              editLang={editLang}
+              musicList={musicList}
+            />
+          ) : (
+            <DiscourseScriptTab
+              script={script}
+              update={update}
+              setTurns={setTurns}
+              series={series}
+              episodeName={name}
+              editLang={editLang}
+              voiceFiles={voiceFiles}
+              reloadVoices={loadVoices}
+            />
+          )}
+        </div>
+
+        {!showPreview && (
+          <aside className="w-full shrink-0 rounded-lg border border-border bg-bg-card/40 p-3 xl:sticky xl:top-4 xl:max-h-[calc(100vh-2rem)] xl:w-[30rem] xl:overflow-y-auto">
+            <ImagePool
+              series={series}
+              episodeName={name}
+              usedImages={usedImages}
+              dnd={DISCOURSE_IMAGE_DND}
+              onMoveFile={moveFile}
+              onCreateFolder={createFolder}
+              onRenameFolder={renameFolder}
+              onDeleteFolder={deleteFolder}
+            />
+          </aside>
+        )}
+      </div>
 
       {showLines && (
         <DiscourseLinesPanel

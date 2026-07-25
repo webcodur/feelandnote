@@ -1,7 +1,6 @@
 // 세력도 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
-import type { CSSProperties } from 'react'
-import type { FactionScript, FactionPerson, FactionImageCrop, FactionEra, FactionChapter } from '@/lib/faction-types'
+import type { FactionScript, FactionPerson, FactionEra, FactionChapter } from '@/lib/faction-types'
 
 export const INTRO_SEC = 2.5
 /** BO 미리보기 기본값 — 실제 렌더와 일치시키기 위해 4로 맞춤. script.groupSec가 있으면 우선 */
@@ -10,9 +9,20 @@ export const CLUSTER_SEC = 1.8
 /** 시대 문구 카드 1장(초) — 렌더러(Faction/timing.ts ERA_SEC)와 동일 */
 export const ERA_SEC = 2.6
 /** 챕터 전환 검정 브릿지 1장(초) — 렌더러(Faction/timing.ts CHAPTER_BLACK_SEC)와 동일 */
-export const CHAPTER_BLACK_SEC = 1.2
+export const CHAPTER_BLACK_SEC = 0.25
 /** 챕터 표지 카드 1장(초) — 렌더러(Faction/timing.ts CHAPTER_COVER_SEC)와 동일 */
-export const CHAPTER_COVER_SEC = 5.5
+export const CHAPTER_COVER_SEC = 3.5
+export const CHAPTER_VOICE_DELAY_SEC = 0.45
+export const CHAPTER_VOICE_TAIL_SEC = 0.8
+
+/** 챕터명 음성이 있으면 실제 렌더와 같이 표지 컷을 음성 끝까지 연장한다. */
+export function chapterCoverSecOf(script: FactionScript, chapter: FactionChapter): number {
+  const on = !!chapter.title?.trim() && (chapter.narrate ?? script.narrator?.readChapterTitle ?? false)
+  const duration = chapter.voice?.quoteDuration ?? 0
+  if (!on || duration <= 0) return CHAPTER_COVER_SEC
+  const rate = Math.min(2, Math.max(0.5, chapter.voice?.quotePlaybackRate ?? script.narrator?.logline?.quotePlaybackRate ?? 1))
+  return Math.max(CHAPTER_COVER_SEC, CHAPTER_VOICE_DELAY_SEC + duration / rate + CHAPTER_VOICE_TAIL_SEC)
+}
 /** 마지막 인물 컷 뒤 페이드아웃 여운(초) — 렌더러(Faction/timing.ts)와 동일. 별도 엔딩 카드 없음 */
 export const ENDING_FADE_SEC = 1.6
 /** 대사 후 대기 기본값(초) — 마지막 인물 대사 끝 ~ 전환까지 정지 유지. 렌더러(DEFAULT_END_HOLD_SEC)와 동일 */
@@ -189,61 +199,11 @@ export function longformSegments(script: FactionScript): Array<Array<{ era: Fact
   return segments
 }
 
-/** 초 → mm:ss */
-export function formatMmss(sec: number): string {
-  const total = Math.max(0, Math.round(sec))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${m}:${String(s).padStart(2, '0')}`
-}
-
-/**
- * 이미지 표시 src 계산.
- * http로 시작하면 그대로, 아니면 에피소드 이미지 서빙 경로로 변환.
- */
-export function imageSrc(series: string, episodeName: string, image?: string): string | undefined {
-  if (!image) return undefined
-  if (image.startsWith('http')) return image
-  return `/api/${series}/faction-image/${episodeName}/${image}`
-}
-
-/**
- * 사진 맞춤(crop)을 썸네일·미리보기 CSS 로 변환 — 렌더(PersonCard styleFor)와 같은 규칙.
- * cover 위에서 보일 위치(objectPosition)와 확대(scale, 그 지점 중심)를 만든다. 미지정이면 빈 객체(가운데 채움).
- */
-export function cropToStyle(crop?: FactionImageCrop): CSSProperties {
-  if (!crop) return {}
-  const x = crop.x ?? 50
-  const y = crop.y ?? 50
-  const sc = crop.scale ?? 1
-  const style: CSSProperties = { objectPosition: `${x}% ${y}%` }
-  if (sc !== 1) {
-    style.transform = `scale(${sc})`
-    style.transformOrigin = `${x}% ${y}%`
-  }
-  return style
-}
-
-/** crop 값 정규화 — 기본값(가운데·1배)뿐이면 undefined 로 비워 데이터 오염을 막는다 */
-export function normalizeCrop(crop: FactionImageCrop): FactionImageCrop | undefined {
-  const x = Math.round(crop.x ?? 50)
-  const y = Math.round(crop.y ?? 50)
-  const scale = Math.round((crop.scale ?? 1) * 100) / 100
-  if (x === 50 && y === 50 && scale === 1) return undefined
-  const out: FactionImageCrop = {}
-  if (x !== 50) out.x = x
-  if (y !== 50) out.y = y
-  if (scale !== 1) out.scale = scale
-  return out
-}
+/** 사진 표시 주소 — 담화와 규칙이 같아 lib/media-src 한 곳에만 둔다 */
+export { imageSrc } from '@/lib/media-src'
 
 /** 이름에서 이니셜 한 글자 추출 */
 export function initial(name: string): string {
   const trimmed = (name ?? '').trim()
   return trimmed ? trimmed[0] : '?'
-}
-
-/** 영상 파일 여부 — 확장자 기준(쿼리스트링·해시 무시). 이미지/영상 썸네일 분기에 쓴다 */
-export function isVideoSrc(src?: string): boolean {
-  return !!src && /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(src)
 }

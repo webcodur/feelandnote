@@ -4,14 +4,16 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile, EleVoiceLike } from '../../../../../../voice-utils'
 import type { GenEngine } from '../../../../../../scenario-voice/ExpandedVoicePanel/types'
-import { DEFAULT_ELE_SEND_OPTS, ELE_EMOTIONS } from '../../../../../../scenario-voice/types'
+import { DEFAULT_ELE_SEND_OPTS, buildEleText } from '../../../../../../scenario-voice/types'
+import {
+  SavedVoiceSection, EleEmotionPicker, useVoiceGeneration,
+  type VoiceGenEndpoints,
+} from '@/components/voice'
 import { GenerateSection } from '../../../../../../scenario-voice/ExpandedVoicePanel/sections/GenerateSection'
 import { BreathModeContent, type BreathEndpoints } from '../../../../../../scenario-voice/BreathModeContent'
 import { AgeModeContent, type AgeEndpoints } from '../../../../../../scenario-voice/AgeModeContent'
 import { useFactionVoiceSpec } from './useFactionVoiceSpec'
-import { useFactionVoiceGeneration } from './useFactionVoiceGeneration'
 import type { FactionVoiceSlot } from './voice-slots'
-import { FactionSavedVoiceSection } from './FactionSavedVoiceSection'
 import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { EleVoiceCombobox } from './EleVoiceCombobox'
@@ -23,7 +25,7 @@ import { useEleVoiceHistory } from './useEleVoiceHistory'
  * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도 인물 1명용.
  *
  * 화면(레이아웃·섹션 구성·버튼·드롭다운·라벨·슬레이트 톤·여백)은 북리커맨드와 동일하다:
- *  - 저장된 음원 섹션(FactionSavedVoiceSection = SavedVoiceSection 복제) + 트림.
+ *  - 저장된 음원 섹션(공용 SavedVoiceSection) + 트림.
  *  - 새 음원 생성 섹션(GenerateSection 을 그대로 재사용) — 엔진 토글·캐릭터 보이스·스타일·
  *    입력 텍스트·미리듣기·생성/생성 및 저장 버튼까지 북리커맨드와 픽셀 동일.
  *
@@ -32,7 +34,7 @@ import { useEleVoiceHistory } from './useEleVoiceHistory'
  *
  * 데이터만 인물에 맞춰 교체했다:
  *  - 구간 spec → 인물 quote 음성 spec(useFactionVoiceSpec).
- *  - 저장/재생/생성 라우트 → 세력도 음원 경로(useFactionVoiceGeneration).
+ *  - 저장/재생/생성 라우트 → 공용 useVoiceGeneration 에 세력도 음원 경로(voiceEndpoints)를 넘긴다.
  *
  * 발화 스타일은 인물 quoteStyle 에 영속한다 — 입력칸 blur 시 저장되고, 미리듣기·일괄 생성·렌더가
  * 같은 스타일을 쓴다. ELE 인물은 감정/강도(quoteEleOptions)도 입력받아 미리듣기에 반영한다.
@@ -183,14 +185,43 @@ export function FactionExpandedVoicePanel({
   // 현재 선택 보이스의 소속 계정 — 목록에 있으면 생성 API 에 힌트로 넘긴다(계정 오탐 방지).
   const eleAccountId = eleVoices.find(v => v.voice_id === spec.eleVoiceId)?.account?.id ?? null
 
-  const gen = useFactionVoiceGeneration({
-    series, episodeName, voiceFile, activeFile,
+  // 세력도 서버 창구 — 인물 음원 파일 하나에 저장·재생하고, 정렬은 백그라운드 작업으로 돌린다.
+  // 미리듣기 합성 라우트만 서재 탐방과 같은 경로를 그대로 쓴다.
+  const voiceEndpoints: VoiceGenEndpoints = {
+    previewUrl: route => `/api/${series}/voice/${route}/preview`,
+    save: async (fileName, base64) => {
+      const res = await fetch(`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/save`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: fileName, base64 }),
+      })
+      return res.json()
+    },
+    sourceUrl: fileName =>
+      `/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(fileName)}`,
+    analyze: () => fetch(`/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ only: voiceFile, lang: 'ko' }),
+    }),
+  }
+
+  const gen = useVoiceGeneration({
+    endpoints: voiceEndpoints,
+    activeFile,
     chosenEngine: spec.chosenEngine,
     styleEdit,
-    eleOptions: spec.eleOptions,
-    eleEmotions: spec.eleEmotions,
-    eleTrail: spec.eleTrail,
+    // 감정 표식·끝 여백은 인물 설정을 따른다. 표식이 하나라도 있어야 켠다.
+    buildText: t => buildEleText(t, {
+      emotionEnabled: (spec.eleEmotions ?? []).length > 0,
+      emotions: spec.eleEmotions ?? [],
+      trailEnabled: spec.eleTrail ?? true,
+    }),
+    // 인물 감정/강도(quoteEleOptions) — 지정한 값만 보내고 나머지는 서버 기본값.
+    eleSettings: spec.eleOptions && (typeof spec.eleOptions.stability === 'number' || typeof spec.eleOptions.style === 'number')
+      ? { stability: spec.eleOptions.stability, style: spec.eleOptions.style }
+      : undefined,
     eleAccountId,
+    // 인물 음원은 파일 하나 — 엔진이 달라도 같은 자리에 덮는다.
+    targetFile: () => voiceFile,
     error, setError, onRefresh,
     // 저장된 음원 실측 길이를 슬롯 길이 필드(quoteDuration / epithetDuration)에 기록 → 렌더가 컷 길이·재생을 맞춘다.
     // (이 한 줄이 없으면 BO 에서 만든 음원은 길이가 비어 렌더에서 재생되지 않고 컷이 그냥 넘어간다.)
@@ -244,21 +275,19 @@ export function FactionExpandedVoicePanel({
       <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
       <div className="min-w-0 space-y-3">
       <h3 className="border-b border-border pb-1.5 text-sm font-bold text-text-primary">해당 음원 설정</h3>
-      {/* 저장된 음원 — 디스크 wav + 트림 */}
-      <FactionSavedVoiceSection
-        series={series}
-        episodeName={episodeName}
-        activeFile={activeFile}
-        engineLabel={engineLabel}
+      {/* 저장된 음원 — 디스크 wav + 트림. 인물은 한 파일에 한 엔진 결과만 저장되므로 파형 한 개. */}
+      <SavedVoiceSection
+        tracks={activeFile ? [{ label: engineLabel, file: activeFile, active: true }] : []}
+        playUrl={f => `/api/${series}/faction-voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(f.name)}${gen.reloadTick ? `?t=${gen.reloadTick}` : ''}`}
         trimStart={gen.trimStart}
         setTrimStart={gen.setTrimStart}
         trimEnd={gen.trimEnd}
         setTrimEnd={gen.setTrimEnd}
         trimSaving={gen.trimSaving}
-        reloadTick={gen.reloadTick}
         saveTrimmed={gen.saveTrimmed}
         playbackRate={spec.playbackRate}
         gainDb={spec.gainDb}
+        resetTrimOnFileChange
       />
 
       {/* 배속·게인 — 엔진(GEM/ELE) 공통. 렌더(Faction audioEl)에 그대로 적용되는 값이라 항상 노출한다.
@@ -390,58 +419,8 @@ export function FactionExpandedVoicePanel({
                 }`}
               >끝 패딩</button>
             </div>
-            <div className="flex flex-col gap-1.5 bg-white px-3 py-2">
-              <div className="flex flex-wrap items-center gap-1.5">
-                {ELE_EMOTIONS.map(em => {
-                  const idx = spec.eleEmotions.indexOf(em)
-                  const sel = idx >= 0
-                  return (
-                    <button
-                      key={em}
-                      type="button"
-                      onClick={e => { e.stopPropagation(); spec.toggleEmotion(em) }}
-                      className={`px-2 py-0.5 rounded text-[11px] border ${
-                        sel ? 'bg-purple-600 text-white border-purple-600 font-extrabold shadow-sm'
-                            : 'bg-white border-slate-300 text-slate-900 font-bold hover:border-purple-500 hover:bg-purple-50'
-                      }`}
-                    >
-                      {sel ? `${idx + 1}. ` : ''}{em}
-                    </button>
-                  )
-                })}
-                <input
-                  type="text"
-                  value={spec.emotionDraft}
-                  onChange={e => spec.setEmotionDraft(e.target.value)}
-                  onClick={e => e.stopPropagation()}
-                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); spec.addCustomEmotion() } }}
-                  placeholder="직접 입력"
-                  className="bg-white border border-slate-300 rounded px-2 py-0.5 text-xs w-[110px] text-slate-950 font-bold outline-none focus:border-purple-600"
-                />
-                <button
-                  type="button"
-                  onClick={e => { e.stopPropagation(); spec.addCustomEmotion() }}
-                  disabled={!spec.emotionDraft.trim()}
-                  className="text-xs px-2 py-0.5 rounded border border-purple-500 text-purple-700 hover:bg-purple-100 font-black disabled:opacity-40 disabled:cursor-not-allowed"
-                >+</button>
-              </div>
-              {/* 직접 입력으로 추가된(목록에 없는) 감정 — 칩으로 별도 표시, 클릭 시 제거 */}
-              {spec.eleEmotions.some(t => !ELE_EMOTIONS.includes(t)) && (
-                <div className="flex flex-wrap gap-1.5">
-                  {spec.eleEmotions.filter(t => !ELE_EMOTIONS.includes(t)).map(t => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={e => { e.stopPropagation(); spec.toggleEmotion(t) }}
-                      title="삭제"
-                      className="text-[11px] px-2 py-0.5 rounded border bg-purple-600 text-white border-purple-600 font-extrabold flex items-center gap-1.5 shadow-sm"
-                    >
-                      <span>{t}</span>
-                      <span className="opacity-80">×</span>
-                    </button>
-                  ))}
-                </div>
-              )}
+            <div className="bg-white px-3 py-2">
+              <EleEmotionPicker value={spec.eleEmotions} onChange={spec.setEleEmotions} />
             </div>
           </div>
         </div>
