@@ -22,6 +22,9 @@ import { analyzeTiming } from '../../../src/compositions/Faction/timing.js'
 import { loadFactionData, buildVoiceJobs, writeQuoteDurations, type FactionVoiceJob } from './data.js'
 import { jobHash, loadManifest, saveManifest } from './manifest.js'
 import { synthesizeGemini, measureWavDuration } from './engine.js'
+// DB↔JSON 음성 길이 감시 열(문서 §7 ③) — 조회는 전부 저 모듈이 하고 여기엔 훅만 둔다.
+import { tryLoadDbQuoteDurations } from '../../faction/db-durations.js'
+import { vnPersonQuote } from '../../../src/compositions/Faction/voice-names.js'
 
 /** 인물 화자 → Gemini 보이스명. quoteSpeaker 가 보이스명 오버라이드. 미지정이면 공용 셀럽 보이스. */
 function voiceFor(job: FactionVoiceJob): string {
@@ -212,10 +215,12 @@ async function runVerify(script: Awaited<ReturnType<typeof loadFactionData>>): P
   console.log(`  롱폼     ${tc(long.totalFrames - 1)}  (총 ${long.totalFrames}f · ${long.totalSec.toFixed(1)}s · ${long.cueCount}컷)`)
   console.log(`  쇼츠1편  ${tc(s1.totalFrames - 1)}  (총 ${s1.totalFrames}f · ${s1.totalSec.toFixed(1)}s)`)
   console.log(`  쇼츠2편  ${tc(s2.totalFrames - 1)}  (총 ${s2.totalFrames}f · ${s2.totalSec.toFixed(1)}s)\n`)
-  console.log(`[voice 인물 — 음성 ↔ 컷 정합성]  (단위 초)`)
-  console.log(`${'파일'.padEnd(18)} ${'인물'.padEnd(12)} ${'qDur'.padStart(6)} ${'wav'.padStart(6)} ${'차이'.padStart(6)} ${'배속'.padStart(5)} ${'재생'.padStart(6)} ${'컷'.padStart(6)} ${'여유'.padStart(6)}  상태`)
+  // DB 의 quote_duration — 파일(JSON)과 어긋나면 export 가 밀렸거나 durations-pull 이 안 돌았다는 신호다.
+  const { map: dbDur, note: dbNote } = await tryLoadDbQuoteDurations(EPISODE_NAME, vnPersonQuote)
+  console.log(`[voice 인물 — 음성 ↔ 컷 정합성]  (단위 초)   DB: ${dbNote}`)
+  console.log(`${'파일'.padEnd(18)} ${'인물'.padEnd(12)} ${'qDur'.padStart(6)} ${'DB'.padStart(6)} ${'wav'.padStart(6)} ${'차이'.padStart(6)} ${'배속'.padStart(5)} ${'재생'.padStart(6)} ${'컷'.padStart(6)} ${'여유'.padStart(6)}  상태`)
 
-  let mismatch = 0, choke = 0, missing = 0, longerWav = 0
+  let mismatch = 0, choke = 0, missing = 0, longerWav = 0, dbMismatch = 0
   for (const c of long.voiceChecks) {
     const fp = path.join(VOICE_DIR, c.file)
     let wav = -1
@@ -226,12 +231,19 @@ async function runVerify(script: Awaited<ReturnType<typeof loadFactionData>>): P
     if (wav < 0) { flags.push('wav없음'); missing++ }
     else if (Math.abs(diff) > 0.05) { flags.push('qDur≠wav'); mismatch++; if (diff > 0.05) longerWav++ }
     if (c.tailRoomSec < 0) { flags.push('씹힘'); choke++ }
+    // DB 대조 — 조회에 실패했으면(dbDur null) 판정하지 않는다
+    const db = dbDur ? dbDur.get(c.file) ?? null : undefined
+    if (dbDur && Math.abs((db ?? 0) - qd) > 0.05) { flags.push('qDur≠DB'); dbMismatch++ }
     const status = flags.length ? '⚠ ' + flags.join(',') : 'OK'
-    console.log(`${c.file.padEnd(18)} ${c.name.slice(0, 12).padEnd(12)} ${p2(qd)} ${wav >= 0 ? p2(wav) : '     -'} ${Number.isNaN(diff) ? '     -' : p2(diff)} ${c.rate.toFixed(2).padStart(5)} ${p2(c.audioPlaySec)} ${p2(c.cutSec)} ${p2(c.tailRoomSec)}  ${status}`)
+    console.log(`${c.file.padEnd(18)} ${c.name.slice(0, 12).padEnd(12)} ${p2(qd)} ${db != null ? p2(db) : '     -'} ${wav >= 0 ? p2(wav) : '     -'} ${Number.isNaN(diff) ? '     -' : p2(diff)} ${c.rate.toFixed(2).padStart(5)} ${p2(c.audioPlaySec)} ${p2(c.cutSec)} ${p2(c.tailRoomSec)}  ${status}`)
   }
   console.log(`\n요약: voice ${long.voiceChecks.length}명`
     + ` · quoteDuration≠wav ${mismatch}건${longerWav ? `(wav가 더 김 ${longerWav}건=트림 미반영 의심)` : ''}`
-    + ` · 끝 씹힘위험 ${choke}건 · wav없음 ${missing}건`)
+    + ` · 끝 씹힘위험 ${choke}건 · wav없음 ${missing}건`
+    + (dbDur ? ` · quoteDuration≠DB ${dbMismatch}건` : ' · DB 대조 생략'))
+  if (dbDur && dbMismatch > 0) {
+    console.log('※ quoteDuration≠DB 는 `pnpm faction:durations-pull` 로 DB 를 실측에 맞춘 뒤 `pnpm faction:export` 로 파일까지 맞춘다.')
+  }
   if (mismatch === 0 && choke === 0 && missing === 0) {
     console.log('✓ 모든 voice 음성이 data·컷과 정합. 영상 길이는 위 「총 길이」가 정답이다.')
   } else {

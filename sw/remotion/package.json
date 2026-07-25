@@ -26,6 +26,7 @@
     "faction:import": "tsx scripts/faction/import.ts",
     "faction:export": "tsx scripts/faction/export.ts",
     "faction:verify": "tsx scripts/faction/verify.ts",
+    "faction:durations-pull": "tsx scripts/faction/durations-pull.ts",
     "srt": "tsx scripts/srt/generate-srt.ts",
     "faction:srt": "tsx scripts/srt/faction-srt.ts",
     "youtube:auth": "tsx scripts/youtube/youtube-upload.ts auth",

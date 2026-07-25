@@ -19,12 +19,12 @@
  * 등록 에피소드(_episodes.json)는 전 항목을, 미등록분은 ①·⑥ 을 기준으로 판정한다.
  */
 
-import { diffPointers, findReplacementChars } from '@feelandnote/shared/lib/faction-schema'
+import { diffPointers, findReplacementChars, stripGenerated } from '@feelandnote/shared/lib/faction-schema'
 import { factionVariants } from '@feelandnote/shared/lib/youtube-faction-meta'
 import { readdirSync, readFileSync } from 'fs'
 import path from 'path'
 import { adminClient, readFactionData, parseArgs, selectEpisodes, pad } from './lib.js'
-import { exportEpisode } from './export.js'
+import { exportEpisode, inspectFile } from './export.js'
 
 import { analyzeTiming } from '../../src/compositions/Faction/timing.js'
 import { buildFactionSubs } from '../../src/compositions/Faction/subs.js'
@@ -198,19 +198,81 @@ function checkSrt(original: Script, roundtrip: Script, episodeDir: string): Chec
 
 /* ────────────────────────── main ────────────────────────── */
 
-const USAGE = '사용: pnpm faction:verify -- (--episode <폴더명> | --all)'
+const USAGE = '사용: pnpm faction:verify -- (--episode <폴더명> | --all) [--drift]'
 const LABELS = ['①JSON', '②종류', '③길이', '④음성', '⑤자막', '⑥한글']
+
+/**
+ * --drift — 파일 ↔ DB 대조만 한다(쓰기 없음).
+ *
+ * 파일이 내보낸 그대로인지(체크섬), 사람이 고쳤는지, DB 가 앞서 있어 재export 가 필요한지 본다.
+ * 상시 감시용이라 렌더 함수는 돌리지 않고 문서 비교만 한다.
+ */
+async function runDrift(db: ReturnType<typeof adminClient>, eps: ReturnType<typeof selectEpisodes>) {
+  type DriftRow = { folder: string; state: string; detail: string; ok: boolean }
+  const rows: DriftRow[] = []
+
+  for (const ep of eps) {
+    const st = inspectFile(ep.dataPath)
+    if (st.kind === 'absent') {
+      rows.push({ folder: ep.folder, state: '파일없음', detail: 'export 필요', ok: false })
+      continue
+    }
+    if (st.kind === 'pristine') {
+      // 마커가 없어 체크섬으로는 손 편집을 못 가린다 → 내용을 DB 와 직접 대조해
+      // 첫 export 로 덮어써도 안전한지(=파일에만 있는 변경이 없는지) 알려준다.
+      const fresh = await exportEpisode(db, ep.folder, st.doc)
+      const diffs = diffPointers(stripGenerated(st.doc), stripGenerated(fresh))
+      rows.push({
+        folder: ep.folder, state: '미발효',
+        detail: diffs.length
+          ? `⚠ 파일이 DB와 다르다 — 차이 ${diffs.length}곳. 덮어쓰면 파일 쪽 변경이 사라진다(먼저 faction:import)`
+          : 'DB와 내용 동일 — 첫 export 안전',
+        ok: false,
+      })
+      continue
+    }
+    if (st.kind === 'hand-edited') {
+      const fresh = await exportEpisode(db, ep.folder, st.doc)
+      const diffs = diffPointers(stripGenerated(st.doc), stripGenerated(fresh))
+      rows.push({
+        folder: ep.folder, state: '손편집',
+        detail: `체크섬 ${st.actual.slice(0, 8)} ≠ ${st.marker.checksum.slice(0, 8)}` +
+          (diffs.length ? ` · DB와 의미차 ${diffs.length}곳` : ' · DB와 의미차 없음(형식만 바뀜)'),
+        ok: false,
+      })
+      continue
+    }
+    // 체크섬 일치 — DB 가 그 사이 바뀌었는지 본다
+    const fresh = await exportEpisode(db, ep.folder, st.doc)
+    const diffs = diffPointers(stripGenerated(st.doc), stripGenerated(fresh))
+    rows.push(diffs.length
+      ? { folder: ep.folder, state: 'DB앞섬', detail: `재export 필요 — 차이 ${diffs.length}곳`, ok: false }
+      : { folder: ep.folder, state: '동일', detail: `내보낸 시각 ${st.marker.at}`, ok: true })
+  }
+
+  console.log('── 드리프트 점검 (쓰기 없음) ──')
+  console.log(`${pad('에피소드', 26)}${pad('상태', 12)}비고`)
+  for (const r of rows) {
+    console.log(`${r.ok ? ' ' : '⚠'} ${pad(r.folder, 25)}${pad(r.state, 12)}${r.detail}`)
+  }
+  const bad = rows.filter(r => !r.ok)
+  console.log(`\n동일 ${rows.length - bad.length}편 · 조치 필요 ${bad.length}편`)
+  if (bad.length) process.exitCode = 1
+}
 
 async function main() {
   const args = parseArgs(process.argv, USAGE)
   const eps = selectEpisodes(args)
   const db = adminClient()
+
+  if (args.drift) return runDrift(db, eps)
   const buildVoiceJobs = await loadVoiceJobBuilder()
 
   const rows: { folder: string; registered: boolean; checks: Check[] }[] = []
 
   for (const ep of eps) {
-    const original = readFactionData(ep.dataPath)
+    // 내보내기 마커는 DB 산출물에 없는 파일 전용 키다 — 비교 대상에서 뺀다.
+    const original = stripGenerated(readFactionData(ep.dataPath))
     let roundtrip: Script
     try {
       roundtrip = await exportEpisode(db, ep.folder, original)
