@@ -132,6 +132,8 @@
       }
     },
     "hub": {
+      "trending": "요즘 많이 본 인물",
+      "trendingSub": "최근 한 달 사이 사람들이 가장 많이 찾은 인물입니다.",
       "ranking": "랭킹",
       "rankingSub": "기록을 가장 많이 남긴 인물과 분야별 최고 기록가를 한자리에서.",
       "personaAnalysis": "성향 분석",

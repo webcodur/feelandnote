@@ -2,7 +2,7 @@
 
 import {
   Users, Rss, Sparkles, BarChart3, Fingerprint, BookOpenText, Clock,
-  Route, Scroll, GraduationCap, CalendarHeart, Youtube, UsersRound,
+  Route, Scroll, GraduationCap, CalendarHeart, Youtube, UsersRound, Flame,
 } from "lucide-react";
 
 // ────────────────────────────────────────────────────
@@ -40,6 +40,7 @@ function hubSection(sections: readonly HubSectionConfig[], groupId: string, key:
 export const EXPLORE_GROUP_ID = "explore";
 
 export const EXPLORE_SECTIONS = [
+  { key: "trending",        icon: <Flame size={14} />,        moreHref: "/explore/figures?tier=full",            titleKey: "trending",        subtitleKey: "trendingSub",        moreKey: "viewAll" },
   { key: "ranking",         icon: <BarChart3 size={14} />,    moreHref: "/explore/ranking",                      titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
   { key: "personaAnalysis", icon: <Fingerprint size={14} />,  moreHref: "/explore/persona",                      titleKey: "personaAnalysis", subtitleKey: "personaAnalysisSub", moreKey: "viewAll" },
   { key: "faction",         icon: <Sparkles size={14} />,     moreHref: "/explore/faction",                      titleKey: "faction",         subtitleKey: "factionSub",         moreKey: "viewAll" },

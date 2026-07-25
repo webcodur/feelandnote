@@ -55,6 +55,8 @@ export interface PublicUserProfile {
   voice_speed?: number
   wikidata_qid?: string | null
   celeb_tier?: CelebTier | null
+  /** 인물 화면 누적 조회수. 화면 캐시를 타므로 낡을 수 있고, 실제 값은 조회 반영 함수가 돌려준다. */
+  view_count?: number
   monologue?: string | null
   virtual_monologue?: string | null
   youtube_videos?: Record<string, { videoId: string; uploadedAt: string }> | null
