@@ -10,7 +10,6 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
-import { FACTION_GROUP_SLUGS, FACTION_CHILD_TO_GROUP } from '@/constants/factionGroups'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -83,6 +82,7 @@ interface FeaturedTagRow {
   slug: string | null
   team_images: unknown
   is_featured: boolean | null
+  parent_id: string | null
 }
 
 // team_images Json → string[]
@@ -129,7 +129,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 1. 모든 태그 조회
   const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, slug, team_images, is_featured')
+    .select('id, name, name_en, description, description_en, color, slug, team_images, is_featured, parent_id')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -138,6 +138,18 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   const tagRows = allTags as FeaturedTagRow[]
   const activeTags = tagRows.filter(t => t.is_featured)
   const upcomingTags = tagRows.filter(t => !t.is_featured)
+
+  // 상위 그룹 위계 — celeb_tags.parent_id 가 정본이다(26.07.26 코드 상수에서 승격).
+  // 그룹 헤더는 따로 표시하는 값이 아니라 "자식을 하나라도 가진 태그"로 판정한다.
+  // 노출 여부와 무관하게 전체 행으로 계산해야 숨긴 자식·숨긴 부모가 섞여도 위계가 유지된다.
+  const slugById = new Map<string, string>()
+  const childCountByParent = new Map<string, number>()
+  for (const t of tagRows) {
+    if (t.slug) slugById.set(t.id, t.slug)
+    if (t.parent_id) childCountByParent.set(t.parent_id, (childCountByParent.get(t.parent_id) ?? 0) + 1)
+  }
+  const isGroupTag = (t: FeaturedTagRow) => (childCountByParent.get(t.id) ?? 0) > 0
+  const parentSlugOf = (t: FeaturedTagRow) => (t.parent_id ? slugById.get(t.parent_id) ?? null : null)
 
   if (!activeTags.length) return []
 
@@ -228,9 +240,8 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   const result: FeaturedTag[] = []
 
   for (const tag of activeTags) {
-    const tagSlug = tag.slug ?? ''
-    const isGroup = FACTION_GROUP_SLUGS.has(tagSlug)
-    const parentSlug = FACTION_CHILD_TO_GROUP[tagSlug] ?? null
+    const isGroup = isGroupTag(tag)
+    const parentSlug = parentSlugOf(tag)
     const assignments = assignmentsByTag[tag.id] ?? []
     if (!assignments.length && !isGroup) continue // 그룹 헤더는 배정이 없어도 목록에 포함한다
 
@@ -297,14 +308,13 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   // 비활성 태그 추가
   for (const tag of upcomingTags) {
-    const tagSlug = tag.slug ?? ''
     result.push({
       id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
       description: tag.description, description_en: tag.description_en ?? null,
       color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
       celebs: [], is_featured: false,
-      parentSlug: FACTION_CHILD_TO_GROUP[tagSlug] ?? null,
-      isGroup: FACTION_GROUP_SLUGS.has(tagSlug),
+      parentSlug: parentSlugOf(tag),
+      isGroup: isGroupTag(tag),
     })
   }
 

@@ -1,4 +1,28 @@
 import type { FactionPerson } from '@/lib/faction-types'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
+
+/**
+ * 편집 언어에 따라 갈리는 필드 — 합성 엔진과 ElevenLabs 목소리 둘뿐이다.
+ *
+ * 나머지(발화 스타일·감정 표식·끝 패딩·길이·음량·배속)는 **가르지 않는다.** 음원 파일이 언어 공용
+ * (`voice/FxxCxxPxx-quote.wav` 한 자리)이라 길이·음량·배속은 언어를 나눌 자리 자체가 없고,
+ * 스타일·감정은 인물의 말투라 언어가 달라도 같은 값을 쓰는 편이 자연스럽다.
+ */
+export interface FactionVoiceLangFields {
+  engine: keyof FactionPerson
+  eleVoiceId: keyof FactionPerson
+}
+
+/**
+ * 목소리를 가르는 언어는 둘뿐이다. 편집 언어에는 「양쪽 함께 보기」가 있지만 목소리는 하나만 골라야 하므로
+ * 그 상태는 국문으로 본다(글은 양쪽을 나란히 고치되 목소리는 국문 칸을 만진다).
+ */
+export type FactionVoiceLang = 'ko' | 'en'
+
+/** 편집 언어 → 목소리 언어. 「양쪽 함께」는 국문으로 접는다 */
+export function voiceLangOf(lang: EditLang | undefined): FactionVoiceLang {
+  return lang === 'en' ? 'en' : 'ko'
+}
 
 /**
  * 음성 슬롯 — 한 인물의 '대사' 또는 '수식어' 나레이션 설정 한 벌.
@@ -28,6 +52,16 @@ export interface FactionVoiceSlot {
     gain: 'quoteGainDb' | 'epithetGainDb'
     rate: 'quotePlaybackRate' | 'epithetPlaybackRate'
   }
+  /**
+   * 언어별 필드 — 편집 언어(ko/en)에 따라 엔진·목소리를 다른 칸에 읽고 쓴다.
+   * `fields.engine`·`fields.eleVoiceId` 는 국문 칸과 같은 값이라, 언어를 모르는 옛 호출부는 그대로 국문을 본다.
+   */
+  langFields: Record<FactionVoiceLang, FactionVoiceLangFields>
+}
+
+/** 편집 언어에 맞는 엔진·목소리 칸 — 언어를 모르거나 「양쪽 함께」면 국문 칸 */
+export function langFieldsOf(slot: FactionVoiceSlot, lang: EditLang | undefined): FactionVoiceLangFields {
+  return slot.langFields[voiceLangOf(lang)]
 }
 
 export const QUOTE_SLOT: FactionVoiceSlot = {
@@ -42,6 +76,10 @@ export const QUOTE_SLOT: FactionVoiceSlot = {
     eleEmotions: 'quoteEleEmotions', eleTrail: 'quoteEleTrail',
     duration: 'quoteDuration', gain: 'quoteGainDb', rate: 'quotePlaybackRate',
   },
+  langFields: {
+    ko: { engine: 'quoteEngine', eleVoiceId: 'quoteElevenlabsVoiceId' },
+    en: { engine: 'quoteEngineEn', eleVoiceId: 'quoteElevenlabsVoiceIdEn' },
+  },
 }
 
 export const EPITHET_SLOT: FactionVoiceSlot = {
@@ -55,5 +93,9 @@ export const EPITHET_SLOT: FactionVoiceSlot = {
     eleVoiceId: 'epithetElevenlabsVoiceId', eleOptions: 'epithetEleOptions',
     eleEmotions: 'epithetEleEmotions', eleTrail: 'epithetEleTrail',
     duration: 'epithetDuration', gain: 'epithetGainDb', rate: 'epithetPlaybackRate',
+  },
+  langFields: {
+    ko: { engine: 'epithetEngine', eleVoiceId: 'epithetElevenlabsVoiceId' },
+    en: { engine: 'epithetEngineEn', eleVoiceId: 'epithetElevenlabsVoiceIdEn' },
   },
 }

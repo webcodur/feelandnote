@@ -9,8 +9,9 @@ import { ko } from 'date-fns/locale'
 import { formatKST } from '@/lib/utils/date'
 import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
-import { getFreeComments, deleteFreePost } from '@/actions/board/free'
+import { getFreeComments, deleteFreePost, incrementFreePostView } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
+import { shouldCountView } from '@/lib/board/viewDedup'
 import FreeAvatar from '@/components/features/board/free/FreeAvatar'
 import FreeCommentSection from '@/components/features/board/free/FreeCommentSection'
 import FreePostComposer from '@/components/features/board/free/FreePostComposer'
@@ -51,6 +52,13 @@ export default function HomeFreeBoardList({
       else next.add(post.id)
       return next
     })
+    // 펼칠 때만 조회수를 올린다 (24시간 중복 방지, best-effort)
+    if (isOpening && shouldCountView(post.id)) {
+      void incrementFreePostView(post.id)
+      setPosts((prev) =>
+        prev.map((p) => (p.id === post.id ? { ...p, view_count: p.view_count + 1 } : p))
+      )
+    }
     // 펼칠 때만 댓글을 불러온다
     if (isOpening && !commentsMap[post.id]) {
       setLoadingId(post.id)
@@ -123,11 +131,11 @@ export default function HomeFreeBoardList({
                 {/* 헤더 (클릭 → 아코디언) */}
                 <button
                   onClick={() => toggle(post)}
-                  className="group w-full text-left p-4 flex items-start gap-3 hover:bg-white/[0.03] rounded-lg transition-colors duration-150"
+                  className="group w-full text-left p-4 flex items-start gap-3 hover:bg-white/[0.03] rounded-lg"
                   aria-expanded={isOpen}
                 >
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent transition-colors duration-150">
+                    <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
                       {post.title}
                       {isNew(post.created_at) && (
                         <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
@@ -179,16 +187,15 @@ export default function HomeFreeBoardList({
                     {canManage(post) && (
                       <div className="flex items-center justify-end gap-2 mt-4">
                         <Link href={`/agora/board/free/${post.id}/edit`}>
-                          <Button variant="ghost" size="sm" className="font-serif">
+                          <Button size="sm" className="font-serif">
                             <Edit3 size={14} />
                             {t('edit')}
                           </Button>
                         </Link>
                         <Button
-                          variant="ghost"
                           size="sm"
                           onClick={() => handleDeleteClick(post)}
-                          className="text-red-400 hover:text-red-300 font-serif"
+                          className="text-red-400 hover:text-red-400 hover:border-red-400/50 hover:bg-red-400/10 font-serif"
                         >
                           <Trash2 size={14} />
                           {t('delete')}

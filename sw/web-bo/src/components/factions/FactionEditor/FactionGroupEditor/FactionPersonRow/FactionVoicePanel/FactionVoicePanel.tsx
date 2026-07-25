@@ -6,7 +6,8 @@ import type { FactionVoiceMeta } from '../../../../shared/FactionVoiceContext'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
 import { Mic } from '@feelandnote/shared/bo/icons'
 import { AudioWavePlayer } from '@feelandnote/shared/bo/audio-wave-player'
-import { QUOTE_SLOT, type FactionVoiceSlot } from './voice-panel/voice-slots'
+import { QUOTE_SLOT, langFieldsOf, type FactionVoiceSlot } from './voice-panel/voice-slots'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 /**
  * 인물 한 명의 대사 음성 패널 — 펼친 폼 안에 놓이는 음성 설정 진입부 + 인라인 재생바.
@@ -25,6 +26,7 @@ export function FactionVoicePanel({
   activeFile,
   onOpenModal,
   slot = QUOTE_SLOT,
+  lang,
 }: {
   person: FactionPerson
   series: string
@@ -41,14 +43,17 @@ export function FactionVoicePanel({
   onOpenModal: () => void
   /** 음성 슬롯 — 대사(기본) 또는 수식어 */
   slot?: FactionVoiceSlot
+  /** 편집 언어 — 요약에 보일 엔진·목소리를 이 언어 칸에서 읽는다 */
+  lang?: EditLang
 }) {
   if (!hasContent) return null
 
   const F = slot.fields
-  const engine = (person[F.engine] as string | undefined) ?? 'gemini'
+  const L = langFieldsOf(slot, lang)
+  const engine = (person[L.engine] as string | undefined) ?? 'gemini'
   const engineLabel = engine === 'elevenlabs' ? 'ELE' : engine === 'gemini-v3' ? 'GEM 3.1' : 'GEM 2.5'
   const voiceSummary = engine === 'elevenlabs'
-    ? ((person[F.eleVoiceId] as string | undefined) || 'ID 미설정')
+    ? ((person[L.eleVoiceId] as string | undefined) || 'ID 미설정')
     : ((person[F.speaker] as string | undefined) || VOICE.celeb)
 
   return (

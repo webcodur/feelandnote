@@ -124,16 +124,17 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 ---
 
-## 8. 세력도감 태그 상위 그룹 — 코드 상수 방식
+## 8. 세력도감 태그 상위 그룹 — `celeb_tags.parent_id`
 
-`/explore/faction` 태그는 상위 그룹으로 계층화돼 있다(2026-07-05 개편). `celeb_tags`에 `parent_id` 컬럼을 두는 게 정석이지만 **스키마 변경 권한이 막혀 있어**(Supabase MCP·관리 sbp_ 토큰 모두 401) 그룹 소속을 코드 상수로 관리한다.
+`/explore/faction` 태그는 상위 그룹으로 계층화돼 있다(2026-07-05 개편). 처음엔 코드 상수(`sw/web/src/constants/factionGroups.ts`)로 관리했으나 **26.07.26에 DB 컬럼 `celeb_tags.parent_id`로 승격했고 그 상수 파일은 삭제됐다.**
 
-- **SSoT**: `sw/web/src/constants/factionGroups.ts` — `FACTION_GROUPS`(그룹 slug + 자식 slug 표시순)와 파생 맵(`CHILD_TO_GROUP`·`GROUP_SLUGS`·`GROUP_CHILD_ORDER`). 그룹 추가·이동은 이 파일만 고친다(백오피스 관리 UI 없음).
-- **그룹 헤더**: `celeb_tags`에 배정 인물 0인 일반 태그 행으로 존재한다(slug = 그룹 slug). 8개 그룹 — `ai`, `rulers-and-empires`, `heroes-of-turbulent-times`, `the-thinkers`, `revolutions-and-founding`, `art-movements`, `self-made-innovators`, `against-adversity`. 맨해튼(`manhattan-project`)은 단독이다.
-- **조회**: `getFeaturedTags`가 그룹 헤더를 `if (!assignments.length && !isGroup) continue` 예외로 포함시키고 각 태그에 `isGroup`/`parentSlug`를 부착한다(평면 배열 유지).
-- **UI**: `factionGrouping.ts`(`topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount`) + 섹션 헤더형 렌더(`FactionIntroView`/Drawer/Sheet). 최상위엔 그룹과 무소속만 보이고 자식은 펼쳐야 나온다.
-- 상세 계획·진행은 `docs/project/faction-ai-group-refactor.md`. 인증이 복구되면 `parent_id` 컬럼으로 이관할 수 있다.
-- REST(service_role)로 DDL은 불가하다(임의 SQL RPC가 없고 `is_admin`뿐). Management API는 토큰이 있어도 `api.supabase.com` 전 엔드포인트가 401이었다. 데이터 CRUD는 REST로 가능하다.
+- **SSoT**: `celeb_tags.parent_id`(자기참조 FK, `on delete set null`, 인덱스 `idx_celeb_tags_parent_id`). 마이그레이션 `add_celeb_tags_parent_id`.
+- **그룹 헤더는 플래그가 아니라 판정 결과다** — 자식을 하나라도 가진 태그가 곧 그룹이다. 헤더 자신도 배정 인물 0인 일반 태그 행이다. 8개 그룹 — `ai`, `rulers-and-empires`, `heroes-of-turbulent-times`, `the-thinkers`, `revolutions-and-founding`, `art-movements`, `self-made-innovators`, `against-adversity`. 맨해튼(`manhattan-project`)은 단독이다.
+- **조회**: `getFeaturedTags`가 태그 전량의 `parent_id`를 세어 `isGroup`(자식 보유)·`parentSlug`(부모 slug)를 부착하고, 그룹 헤더는 `if (!assignments.length && !isGroup) continue` 예외로 목록에 남긴다(평면 배열 유지).
+- **자식 표시 순서는 `sort_order`뿐이다** — 별도 순서 컬럼이 없다. 그래서 `sort_order`는 그룹 → 그 자식 차례로 이어지게 유지해야 한다(승격 백필 때 0~39로 재부여). 이 규칙이 깨지면 자식이 엉뚱한 자리에 뜬다.
+- **위계는 두 단계까지**. 자식을 가진 태그는 다른 그룹에 못 들어가고, 이미 속한 태그는 부모가 못 된다 — `updateTag`가 막는다.
+- **UI**: web은 `factionGrouping.ts`(`topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount`) + 섹션 헤더형 렌더(`FactionIntroView`/Drawer/Sheet). 관리는 web-bo `/factions` 목록(들여쓰기 표시)과 `/factions/themes/[tagId]`의 「상위 묶음」.
+- 설계 경위는 `docs/project/faction-ai-group-refactor.md`(상수 시대 기록).
 
 ---
 

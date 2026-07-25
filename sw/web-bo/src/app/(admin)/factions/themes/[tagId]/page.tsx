@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTag, getTagCelebs } from '@/actions/admin/tags'
-import { getThemeEpisodeLinks } from '@/actions/admin/factions/themes'
+import { getThemeEpisodeLinks, getThemeParentOptions } from '@/actions/admin/factions/themes'
 import ThemeEditor from './ThemeEditor'
 
 export const metadata: Metadata = {
@@ -20,13 +20,22 @@ export default async function FactionThemePage({
 }) {
   const { tagId } = await params
 
-  const [tag, celebs, links] = await Promise.all([
+  const [tag, celebs, links, parents] = await Promise.all([
     getTag(tagId),
     getTagCelebs(tagId),
     getThemeEpisodeLinks(),
+    getThemeParentOptions(tagId),
   ])
 
   if (!tag) notFound()
 
-  return <ThemeEditor tag={tag} initialCelebs={celebs} episodes={links[tagId] ?? []} />
+  return (
+    <ThemeEditor
+      tag={tag}
+      initialCelebs={celebs}
+      episodes={links[tagId] ?? []}
+      parentOptions={parents.options}
+      ownChildCount={parents.ownChildCount}
+    />
+  )
 }

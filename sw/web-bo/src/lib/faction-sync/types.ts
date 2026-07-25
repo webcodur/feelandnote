@@ -36,8 +36,20 @@ export type FactionSyncLinkState = 'linked' | 'unresolved' | 'unkeyed'
 export type FactionSyncSoloShotState = 'synced' | 'stale' | 'local-only' | 'db-only' | 'none'
 
 /**
- * 대사 목소리 대조 상태 — 제작 데이터의 대사 목소리(`quoteElevenlabsVoiceId`)와
- * 셀럽 프로필의 국문 목소리(`profiles.voice_id_ko`)를 견준 결과. **셀럽이 이어진 인물만** 값이 있다.
+ * 목소리 언어 — 셀럽 프로필이 국문·영문 목소리를 따로 들고 있어(`voice_id_ko`·`voice_id_en`)
+ * 제작 데이터도 언어마다 따로 지정한다.
+ */
+export type FactionVoiceLocale = 'ko' | 'en'
+
+/** 언어별 제작 데이터 ↔ 셀럽 프로필 칸 대응 — 진단·상속이 같은 표를 본다 */
+export const FACTION_VOICE_FIELDS: Record<FactionVoiceLocale, { person: string; personEngine: string; profile: string; label: string }> = {
+  ko: { person: 'quoteElevenlabsVoiceId', personEngine: 'quoteEngine', profile: 'voice_id_ko', label: '국문' },
+  en: { person: 'quoteElevenlabsVoiceIdEn', personEngine: 'quoteEngineEn', profile: 'voice_id_en', label: '영문' },
+}
+
+/**
+ * 대사 목소리 대조 상태 — 제작 데이터의 대사 목소리와 셀럽 프로필의 같은 언어 목소리를 견준 결과.
+ * **셀럽이 이어진 인물만** 값이 있다.
  *
  * - same: 두 쪽이 같은 목소리다
  * - different: 서로 다른 목소리다 — 어느 쪽이 맞는지는 사람이 정한다
@@ -48,6 +60,9 @@ export type FactionSyncSoloShotState = 'synced' | 'stale' | 'local-only' | 'db-o
  * 어느 상태든 **출간을 막지 않는다.** 알리기만 한다.
  */
 export type FactionSyncVoiceState = 'same' | 'different' | 'person-only' | 'profile-only' | 'both-empty'
+
+/** 한 인물의 언어별 목소리 대조 결과 */
+export type FactionSyncVoicePair = Record<FactionVoiceLocale, FactionSyncVoiceState>
 
 export interface FactionSyncPerson {
   /** faction_people.id — 인물 단위 액션(개인샷 아바타 승격)이 가리키는 대상 */
@@ -72,8 +87,8 @@ export interface FactionSyncPerson {
    * 어느 쪽이 맞는지는 사람이 판단한다(출간을 막지는 않는다).
    */
   tierMismatch: boolean
-  /** 대사 목소리 대조 — 셀럽이 이어진 인물만 값이 있다(미해소 인물은 견줄 상대가 없다) */
-  voice?: FactionSyncVoiceState
+  /** 대사 목소리 대조(국문·영문 각각) — 셀럽이 이어진 인물만 값이 있다(미해소 인물은 견줄 상대가 없다) */
+  voice?: FactionSyncVoicePair
 }
 
 export interface FactionSyncGroup {
@@ -128,10 +143,10 @@ export interface FactionSyncStatus {
     avatarMissing: number
     /** 신화 표시와 셀럽 등급이 어긋난 인물 수 */
     tierMismatch: number
-    /** 대사 목소리가 셀럽 국문 목소리와 다른 인물 수 */
-    voiceDifferent: number
-    /** 대사 목소리가 비어 있고 셀럽 국문 목소리는 있는 인물 수 — 일괄 상속으로 채울 수 있는 인원 */
-    voiceFillable: number
+    /** 대사 목소리가 셀럽 목소리와 다른 인물 수 — 언어별 */
+    voiceDifferent: Record<FactionVoiceLocale, number>
+    /** 대사 목소리가 비었고 셀럽 목소리는 있는 인물 수 — 언어별. 일괄 상속으로 채울 수 있는 인원 */
+    voiceFillable: Record<FactionVoiceLocale, number>
   }
 }
 
@@ -184,7 +199,7 @@ export interface FactionPublishResult {
   items: FactionPublishItem[]
   summary: { created: number; updated: number; skipped: number; blocked: number }
   /**
-   * 새로 만든 태그 연결 키 — web 상수(constants/factionGroups.ts)의 상위 그룹에
+   * 새로 만든 태그 연결 키 — 상위 묶음(celeb_tags.parent_id, 26.07.26 DB 승격)에
    * 손으로 넣어야 도감에서 묶여 나온다는 안내용.
    */
   constantHint?: string[]

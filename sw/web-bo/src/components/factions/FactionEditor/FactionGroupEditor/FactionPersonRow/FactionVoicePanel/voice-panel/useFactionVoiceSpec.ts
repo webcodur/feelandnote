@@ -5,7 +5,8 @@ import type { FactionPerson } from '@/lib/faction-types'
 import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
-import type { FactionVoiceSlot } from './voice-slots'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
+import { langFieldsOf, type FactionVoiceSlot } from './voice-slots'
 
 /**
  * 북리커맨드 useVoiceSpec 의 세력도(인물 1명) 어댑터 — 슬롯(대사/수식어) 파라미터화.
@@ -20,10 +21,17 @@ type UseFactionVoiceSpecArgs = {
   onPersonChange: (next: FactionPerson) => void
   /** 음성 슬롯 — 대사(QUOTE_SLOT) 또는 수식어(EPITHET_SLOT) */
   slot: FactionVoiceSlot
+  /**
+   * 편집 언어 — 합성 엔진·ElevenLabs 목소리를 이 언어의 칸에 읽고 쓴다.
+   * 미지정이면 국문(옛 호출부 동작 그대로).
+   */
+  lang?: EditLang
 }
 
-export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFactionVoiceSpecArgs) {
+export function useFactionVoiceSpec({ person, onPersonChange, slot, lang }: UseFactionVoiceSpecArgs) {
   const F = slot.fields
+  // 엔진·목소리만 언어별 칸을 쓴다(스타일·감정·길이·음량·배속은 언어 공용 — voice-slots 주석 참조)
+  const L = langFieldsOf(slot, lang)
   // 한 필드 갱신 헬퍼 — 슬롯 키로 인물 데이터에 영속한다.
   const setField = (key: keyof FactionPerson, val: unknown) =>
     onPersonChange({ ...person, [key]: val } as FactionPerson)
@@ -36,7 +44,7 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
   useEffect(() => { setTtsText(original) }, [original])
 
   // ── 엔진 결정 ──
-  const personEngine: GenEngine = (person[F.engine] as GenEngine | undefined) ?? 'gemini'
+  const personEngine: GenEngine = (person[L.engine] as GenEngine | undefined) ?? 'gemini'
   const [chosenEngine, setChosenEngine] = useState<GenEngine>(personEngine)
   useEffect(() => { setChosenEngine(personEngine) }, [personEngine])
 
@@ -44,7 +52,7 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
   // 공용 낭독 목소리를 상속하는 수식어에서는 'gemini'도 실제 인물별 예외값이 될 수 있다.
   const handleChosenEngine = (e: GenEngine) => {
     setChosenEngine(e)
-    setField(F.engine, e)
+    setField(L.engine, e)
   }
 
   // ── 보이스 spec ──
@@ -62,8 +70,8 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot }: UseFaction
     setField(F.style, trimmed || undefined)
   }
 
-  const eleVoiceId = (person[F.eleVoiceId] as string | undefined) ?? ''
-  const setEleVoiceId = (v: string) => setField(F.eleVoiceId, v.trim() || undefined)
+  const eleVoiceId = (person[L.eleVoiceId] as string | undefined) ?? ''
+  const setEleVoiceId = (v: string) => setField(L.eleVoiceId, v.trim() || undefined)
   const eleSpec: SegmentEngineSpec = useMemo(
     () => ({ engine: 'elevenlabs', voiceParam: eleVoiceId }),
     [eleVoiceId],

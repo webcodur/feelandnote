@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { ArrowLeft, Eye, Edit3, Trash2 } from 'lucide-react'
@@ -8,8 +8,9 @@ import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
-import { deleteFreePost } from '@/actions/board/free'
+import { deleteFreePost, incrementFreePostView } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
+import { shouldCountView } from '@/lib/board/viewDedup'
 import PasswordPromptModal from './PasswordPromptModal'
 import FreeCommentSection from './FreeCommentSection'
 import FreeAvatar from './FreeAvatar'
@@ -34,6 +35,13 @@ export default function FreePostDetail({
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [viewCount, setViewCount] = useState(post.view_count)
+
+  // 조회수 증가 (24시간 중복 방지, best-effort)
+  useEffect(() => {
+    if (!shouldCountView(post.id)) return
+    incrementFreePostView(post.id).then(() => setViewCount((c) => c + 1))
+  }, [post.id])
 
   const isAnonPost = !post.author_id
   const isOwner = !!post.author_id && post.author_id === currentUserId
@@ -86,16 +94,15 @@ export default function FreePostDetail({
           <div className="flex items-center justify-end mb-4">
             <div className="flex items-center gap-2">
               <Link href={`/agora/board/free/${post.id}/edit`}>
-                <Button variant="ghost" size="sm" className="font-serif">
+                <Button size="sm" className="font-serif">
                   <Edit3 size={14} />
                   {t('edit')}
                 </Button>
               </Link>
               <Button
-                variant="ghost"
                 size="sm"
                 onClick={handleDeleteClick}
-                className="text-red-400 hover:text-red-300 font-serif"
+                className="text-red-400 hover:text-red-400 hover:border-red-400/50 hover:bg-red-400/10 font-serif"
               >
                 <Trash2 size={14} />
                 {t('delete')}
@@ -120,7 +127,7 @@ export default function FreePostDetail({
           <span className="text-accent-dim/50">·</span>
           <span className="flex items-center gap-1">
             <Eye size={14} className="text-accent-dim" />
-            {post.view_count}
+            {viewCount}
           </span>
         </div>
       </div>

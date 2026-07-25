@@ -68,7 +68,7 @@ constants/             # affiliatePlatforms, agora, archive, board, categories,
                        # celebProfessions, filterStyles, image, influence, lab, materials/,
                        # navigation, platformLinks, professionIcons, review-presets,
                        # scriptures/, scriptures, scripturesMuseum, searchPresets,
-                       # factionGroups, statuses, titles, youtube, zIndex
+                       # statuses, titles, youtube, zIndex
 contexts/              # GameAudioContext, QuickRecordContext
 fonts/
 hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialoguePosition,

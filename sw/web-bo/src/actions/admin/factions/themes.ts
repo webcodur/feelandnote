@@ -95,3 +95,39 @@ export async function listFactionThemes(): Promise<FactionThemeSummary[]> {
     episodes: links[tag.id] ?? [],
   }))
 }
+
+/** 상위 묶음으로 고를 수 있는 테마 한 건 */
+export interface ThemeParentOption {
+  id: string
+  name: string
+  color: string
+  /** 이미 거느리고 있는 테마 수. 0 이면 고르는 순간 새 묶음이 된다 */
+  childCount: number
+}
+
+/**
+ * 테마 편집 화면의 상위 묶음 선택지.
+ *
+ * 후보는 어디에도 속하지 않은 테마 전부다 — 이미 묶음인 테마는 물론, 아직 아무것도
+ * 거느리지 않은 테마도 고를 수 있다. 그래야 묶음 만들기용 화면을 따로 두지 않고도
+ * "테마를 하나 만들고 다른 테마들이 그를 상위로 지목하면 그게 묶음이 된다"가 성립한다.
+ *
+ * 위계는 두 단계까지다. 그래서 이미 아래에 테마를 거느린 테마는 스스로 어딘가에
+ * 속할 수 없고(`ownChildCount > 0`), 그 사실을 화면이 알 수 있게 함께 돌려준다.
+ */
+export async function getThemeParentOptions(
+  tagId: string,
+): Promise<{ options: ThemeParentOption[]; ownChildCount: number }> {
+  const { tags } = await getTags()
+
+  const childCounts = new Map<string, number>()
+  for (const t of tags) {
+    if (t.parent_id) childCounts.set(t.parent_id, (childCounts.get(t.parent_id) ?? 0) + 1)
+  }
+
+  const options = tags
+    .filter(t => t.id !== tagId && !t.parent_id)
+    .map(t => ({ id: t.id, name: t.name, color: t.color, childCount: childCounts.get(t.id) ?? 0 }))
+
+  return { options, ownChildCount: childCounts.get(tagId) ?? 0 }
+}

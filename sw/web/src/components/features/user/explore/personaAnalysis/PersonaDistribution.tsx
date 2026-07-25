@@ -11,7 +11,8 @@ import { useState } from "react";
 import { TENDENCY_KEYS, TENDENCY_LABELS } from "@/lib/persona/constants";
 import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
 import { getPersonaReason } from "@/actions/persona/getPersonaReason";
-import { AXIS_BOTTOM, AXIS_POLE_COLORS, DOT, GAP_Y, MAX_STACK, STEP, initials, lerpColor } from "./constants";
+import { AXIS_BOTTOM, AXIS_POLE_COLORS, DOT, GAP_Y, MAX_STACK, STEP, lerpColor } from "./constants";
+import FadeAvatar from "./FadeAvatar";
 import PersonaSearch from "./PersonaSearch";
 import PersonaReasonModal from "./PersonaReasonModal";
 
@@ -151,14 +152,7 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
                   borderColor: lerpColor(colors.neg, colors.pos, (v + 50) / 100),
                 }}
               >
-                {p.avatar_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.avatar_url} alt={p.nickname} className="size-full object-cover" />
-                ) : (
-                  <div className="flex size-full items-center justify-center text-[10px] font-bold text-text-secondary">
-                    {initials(p.nickname)}
-                  </div>
-                )}
+                <FadeAvatar src={p.avatar_url} name={p.nickname} />
               </div>
               {isHover && (
                 <div className="absolute bottom-full left-1/2 z-30 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-bg-card px-2 py-1 text-xs shadow-lg">

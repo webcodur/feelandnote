@@ -1,5 +1,7 @@
 # 세력도감 「AI」 상위 그룹 개편 계획서
 
+> ⚠️ **이 문서는 상수 시대의 기록이다(26.07.26 기준 낡음).** 상위 그룹 계층은 26.07.26에 DB 컬럼 `celeb_tags.parent_id`로 승격했고 `sw/web/src/constants/factionGroups.ts`는 삭제됐다. 아래 "코드 상수가 정본"이라는 서술은 전부 그 시점 이전의 사실이다. 현행 규격은 `docs/project/celeb/celeb-tag-system.md`의 「상위 그룹」 절을 본다.
+
 > **최종 실측 체크: 26.07.16** — 실 DB로 `celeb_tags` 전량(40행) 대조: `parent_id` 컬럼 부재·그룹 헤더 8행(sort 1~8, 배정 0명)·맨해튼 단독(sort 9)·`mapping-ai` 삭제·`Mistral` 개명 모두 확인. `constants/factionGroups.ts` 그룹 8개·자식 구성 대조. **구현 서술은 코드·DB와 일치**하며, 낡은 것은 아래 "스키마 변경 권한" 배경 서술 하나였다(교정함). UI 3곳 렌더 동작은 화면으로 확인하지 않았다.
 
 /explore/faction 태그 목록을 계층화하고, AI 회사 태그를 상위 그룹 하나로 묶는다. 겸사겸사 세력도감 AI 태그 인물을 faction(영상 시리즈) 최신 로스터에 맞춰 보강하고 faction(영상 시리즈) 쪽 결손을 메운다.

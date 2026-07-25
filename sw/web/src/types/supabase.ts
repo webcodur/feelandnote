@@ -618,6 +618,7 @@ export type Database = {
           is_featured: boolean | null
           name: string
           name_en: string | null
+          parent_id: string | null
           slug: string | null
           sort_order: number | null
           start_date: string | null
@@ -634,6 +635,7 @@ export type Database = {
           is_featured?: boolean | null
           name: string
           name_en?: string | null
+          parent_id?: string | null
           slug?: string | null
           sort_order?: number | null
           start_date?: string | null
@@ -650,13 +652,22 @@ export type Database = {
           is_featured?: boolean | null
           name?: string
           name_en?: string | null
+          parent_id?: string | null
           slug?: string | null
           sort_order?: number | null
           start_date?: string | null
           team_images?: Json
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "celeb_tags_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "celeb_tags"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       celeb_task_queue: {
         Row: {

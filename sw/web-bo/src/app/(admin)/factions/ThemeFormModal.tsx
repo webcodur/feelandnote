@@ -72,6 +72,8 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
         id: result.id,
         ...tagData,
         team_images: [],
+        // 새 테마는 언제나 무소속으로 시작한다 — 묶음 소속은 편집 화면에서 정한다
+        parent_id: null,
         sort_order: 999,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
