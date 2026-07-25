@@ -245,7 +245,7 @@ export default function PersonaSection({
     loadingId,
     openCelebPreview,
     closeCelebPreview,
-  } = useCelebPreview();
+  } = useCelebPreview("persona");
   const [showDetail, setShowDetail] = useState(false);
 
   const tendencyLabels: Record<string, [string, string]> = {
