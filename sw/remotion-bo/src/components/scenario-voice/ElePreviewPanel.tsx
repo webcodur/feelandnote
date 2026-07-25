@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { AudioWavePlayer } from '../AudioWavePlayer'
-import { dbToLinear } from '../scenario/gain'
+import { AudioWavePlayer } from '@feelandnote/shared/bo/audio-wave-player'
+import { dbToLinear } from '@feelandnote/shared/bo/gain'
 
 /** preview panel with playback and save (ELE/GEM 공용) */
 export function ElePreviewPanel({ blobUrl, duration, onSave, saving, onClose, label = 'ELE preview', tone = 'purple', autoPlay, onRegenerate, regenerating, playbackRate, gainDb }: {

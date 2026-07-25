@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { EpisodeCreateForm, EpisodeStatusDot } from '@/components/editor'
+import { EpisodeCreateForm, EpisodeStatusDot } from '@feelandnote/shared/bo/editor'
 import type { DiscourseEpisodeListItem } from '@/lib/discourse-types'
 
 /**

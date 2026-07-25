@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { VoiceFile } from '../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 
 /**
  * 연령 변형 로드·처리 라우트를 주입하는 어댑터.

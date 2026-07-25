@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { SegmentEngineSpec } from '../../../voice-utils'
+import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import {
   type EleSendOpts,
   type VoiceMeta,
@@ -10,8 +10,9 @@ import {
 } from '../../types'
 import { ElePreviewPanel } from '../../ElePreviewPanel'
 import { VoiceMetaEditor } from '../../VoiceMetaEditor'
-import { BTN_GEM, type GenEngine, type TempPreview } from '../types'
-import type { EngineKind } from '../../../voice-utils'
+import type { GenEngine, TempPreview } from '@feelandnote/shared/bo/voice-utils'
+import { BTN_GEM } from '../types'
+import type { EngineKind } from '@feelandnote/shared/bo/voice-utils'
 
 type SegmentLocator = { shortsIndex: number; segmentId: string } | null
 

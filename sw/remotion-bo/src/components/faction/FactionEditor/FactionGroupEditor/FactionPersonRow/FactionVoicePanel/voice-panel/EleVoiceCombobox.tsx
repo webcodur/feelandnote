@@ -11,7 +11,7 @@ import {
   facetLabel,
   facetValueLabel,
   voiceFacetValue,
-} from '../../../../../../voice-utils'
+} from '@feelandnote/shared/bo/voice-utils'
 import { ELE_VOICE_STATUS_LABEL, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
 import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
 import type { FactionEleVoiceRecommendation } from './faction-voice-recommendations'

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { EleVoiceNote, EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
-import type { EleVoiceLike } from '../../../../../../voice-utils'
+import type { EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 
 type UpdatePatch = {
   status?: EleVoiceNoteStatus | null

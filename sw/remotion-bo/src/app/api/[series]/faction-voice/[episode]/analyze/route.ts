@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { runTaskSequence } from '@/lib/server-utils'
+import { runTaskSequence } from '@feelandnote/shared/bo/task-queue'
 import { isSeriesModel } from '@/lib/series-registry'
 
 function guard(series: string) {

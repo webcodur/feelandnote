@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import type { VoiceFile } from '../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { parseWav, channelToFloat, muteRegions, applyRegions, applyEdits, toAudioBuffer, toEditedBuffer, toBase64, type ParsedWav, type Region, type RegionMode, type Insert } from './wav'
 
 /**

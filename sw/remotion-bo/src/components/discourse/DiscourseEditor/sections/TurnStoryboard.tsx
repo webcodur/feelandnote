@@ -10,9 +10,9 @@
 
 import { useState } from 'react'
 import type { Speaker, Turn } from '@/lib/discourse-types'
-import { ImageIcon } from '@/components/icons'
+import { ImageIcon } from '@feelandnote/shared/bo/icons'
 import { imageSrc, turnShots } from '../../shared/timing'
-import { MediaThumb, ImageLightbox, type LightboxShot } from '@/components/media'
+import { MediaThumb, ImageLightbox, type LightboxShot } from '@feelandnote/shared/bo/media'
 
 /** 사진이 걸리는 시점 문구 — 0번 덩어리는 발언과 동시에 시작한다 */
 const whenLabel = (fromChunk: number) => (fromChunk === 0 ? '발언 시작' : `${fromChunk + 1}번째 덩어리부터`)

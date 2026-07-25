@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { runTask, runTaskSequence } from '@/lib/server-utils'
+import { runTask, runTaskSequence } from '@feelandnote/shared/bo/task-queue'
 import { isValidSeries } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {

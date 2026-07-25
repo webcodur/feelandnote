@@ -10,13 +10,13 @@
 import { useMemo } from 'react'
 import type { DiscourseScript, Speaker } from '@/lib/discourse-types'
 import { DEFAULT_NOTICE } from '@feelandnote/remotion/src/compositions/Discourse/constants'
-import { Plus } from '@/components/icons'
-import type { EditLang } from '@/components/editor'
+import { Plus } from '@feelandnote/shared/bo/icons'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { useCelebExists } from '../shared/CelebBadge'
 import { LangText, LangArea } from './sections/LangField'
 import { SpeakerCard } from './sections/SpeakerCard'
 import { CastColorBar } from './sections/CastColorBar'
-import { ImageSlot, DISCOURSE_IMAGE_DND } from '@/components/media'
+import { ImageSlot, DISCOURSE_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { HOLD_MOTION_OPTIONS } from '@/components/faction/shared/holdMotion'
 
 type Props = {

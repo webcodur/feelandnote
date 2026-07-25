@@ -1,5 +1,5 @@
 import type { FactionScript } from '@/lib/faction-types'
-import { makePathRemapper } from '@/components/editor'
+import { makePathRemapper } from '@feelandnote/shared/bo/editor'
 
 /**
  * FactionScript 데이터에서 영상에 연결된 이미지 경로를 모두 수집한다.

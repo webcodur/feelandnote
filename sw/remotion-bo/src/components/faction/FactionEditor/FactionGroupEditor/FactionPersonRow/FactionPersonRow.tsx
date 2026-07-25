@@ -1,19 +1,19 @@
 'use client'
 
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft, Play, Pause } from '@/components/icons'
+import { ChevronUp, ChevronDown, Trash2, Eye, EyeOff, Mic, Film, ArrowRightLeft, Play, Pause } from '@feelandnote/shared/bo/icons'
 import type { FactionPerson, FactionImageCrop } from '@/lib/faction-types'
-import type { VoiceFile } from '../../../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { factionVoiceFile, stripCommonEpithetVoice, withCommonEpithetVoice } from '@/lib/faction-voice'
 import { imageSrc, initial, factionStepsOf, applyFactionSteps, epithetIsNarrated, linesTypingOf } from '../../../shared/timing'
-import { MediaThumb, ImagePicker, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@/components/media'
+import { MediaThumb, ImagePicker, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { AutoResizeTextarea } from '../../../shared/AutoResizeTextarea'
 import { FactionVoicePanel } from './FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionVoicePanel/voice-panel'
 import { QUOTE_SLOT, EPITHET_SLOT } from './FactionVoicePanel/voice-panel/voice-slots'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { CelebBadge } from '@/components/discourse/shared/CelebBadge'
-import type { EditLang } from '@/components/editor'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { EditorPanel } from '@/components/scenario/EditorPanel'
 
 type Props = {
@@ -101,7 +101,7 @@ function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newVa
 }
 
 import { PersonBasicInfo } from './sections/PersonBasicInfo'
-import { ChevronLeft, ChevronRight } from '@/components/icons'
+import { ChevronLeft, ChevronRight } from '@feelandnote/shared/bo/icons'
 
 export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup, celebExisting, celebLoaded }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)

@@ -19,7 +19,7 @@
 
 import { useCallback, useEffect, useState, type RefObject } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Save } from '@/components/icons'
+import { Plus, Save } from './icons'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 편집 언어

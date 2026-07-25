@@ -1,11 +1,11 @@
 'use client'
 
 import type { FactionPerson } from '@/lib/faction-types'
-import type { VoiceFile } from '../../../../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import type { FactionVoiceMeta } from '../../../../shared/FactionVoiceContext'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
-import { Mic } from '@/components/icons'
-import { AudioWavePlayer } from '../../../../../AudioWavePlayer'
+import { Mic } from '@feelandnote/shared/bo/icons'
+import { AudioWavePlayer } from '@feelandnote/shared/bo/audio-wave-player'
 import { QUOTE_SLOT, type FactionVoiceSlot } from './voice-panel/voice-slots'
 
 /**

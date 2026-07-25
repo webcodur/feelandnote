@@ -1,7 +1,7 @@
 import { Player } from '@remotion/player'
 import type { FactionScript as RmFactionScript } from '@feelandnote/remotion/src/compositions/Faction/types'
 import { FactionCard, type FactionCardSpec } from '@feelandnote/remotion/src/compositions/FactionCard'
-import { useImageDrop, FACTION_IMAGE_DND } from '@/components/media'
+import { useImageDrop, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { ASSET_BASE, RATIOS } from '../utils'
 
 // 카드 한 칸 — 미리보기 + 클릭 편집. onDropImage 가 있으면(스토리 장) 이미지 풀 드롭존이 된다.

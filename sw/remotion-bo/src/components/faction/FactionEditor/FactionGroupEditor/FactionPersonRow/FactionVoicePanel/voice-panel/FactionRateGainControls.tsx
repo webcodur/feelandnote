@@ -1,6 +1,6 @@
 'use client'
 
-import { GAIN_DB_MIN, GAIN_DB_MAX, GAIN_DB_STEP, isUnityGain } from '../../../../../../scenario/gain'
+import { GAIN_DB_MIN, GAIN_DB_MAX, GAIN_DB_STEP, isUnityGain } from '@feelandnote/shared/bo/gain'
 
 /**
  * 세력도 인물 음성 배속·게인 조절 줄.

@@ -1,7 +1,7 @@
 import path from 'path'
 import { existsSync, readFileSync } from 'fs'
 import { COMMON_VOICE_DIR, voiceDir } from '@/lib/server-utils'
-import { streamWav } from '@/lib/episode-store'
+import { streamWav } from '@feelandnote/shared/bo/episode-store'
 
 export async function GET(req: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path: segments } = await params

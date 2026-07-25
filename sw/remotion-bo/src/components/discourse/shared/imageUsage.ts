@@ -7,7 +7,7 @@
  */
 
 import type { DiscourseScript } from '@/lib/discourse-types'
-import { isLocalPath, makePathRemapper } from '@/components/editor'
+import { isLocalPath, makePathRemapper } from '@feelandnote/shared/bo/editor'
 
 /**
  * 대본에 연결된 사진 경로 전부.

@@ -1,4 +1,4 @@
-import type { EleSettings } from '../types'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
 
 // ── ELE 슬라이더 설정 ──
 

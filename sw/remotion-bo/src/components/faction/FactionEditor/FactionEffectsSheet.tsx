@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import type { FactionScript, FactionGroup, FactionPerson, FactionTransition, HoldMotion, EnterMotion, ZoomFocus, GlitchSetting, GlitchLevel } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from '../shared/holdMotion'
 import { imageSrc } from '../shared/timing'
-import { ImageFocusPicker } from '@/components/media'
+import { ImageFocusPicker } from '@feelandnote/shared/bo/media'
 
 /**
  * 세력도 "움직임 효과" 통합 관리 시트.

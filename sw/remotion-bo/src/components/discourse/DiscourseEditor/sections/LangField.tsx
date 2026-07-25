@@ -5,7 +5,7 @@
  * 팩션 편집기가 입력칸마다 editLang 삼항식을 되풀이하던 것을 담화에서는 이 한 겹으로 묶는다.
  */
 
-import type { EditLang } from '@/components/editor'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 type Base = {
   label: string

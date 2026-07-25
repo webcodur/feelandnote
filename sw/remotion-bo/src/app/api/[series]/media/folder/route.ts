@@ -10,7 +10,8 @@ import { NextResponse } from 'next/server'
 import { spawn } from 'child_process'
 import { existsSync } from 'fs'
 import path from 'path'
-import { mediaRootOf, createFolder, renameFolder, deleteFolder, moveImage, episodeDirOf, safeRelSegs } from '@/lib/episode-store'
+import { createFolder, renameFolder, deleteFolder, moveImage, episodeDirOf, safeRelSegs } from '@feelandnote/shared/bo/episode-store'
+import { mediaRootOf } from '@/lib/media-root'
 
 type Body = {
   ep?: string

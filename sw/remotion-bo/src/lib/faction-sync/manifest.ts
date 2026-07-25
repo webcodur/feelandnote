@@ -12,7 +12,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { createHash } from 'crypto'
 import path from 'path'
 import { FACTIONS_DIR } from '@/lib/faction-utils'
-import { episodeDirOf } from '@/lib/episode-store'
+import { episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 
 export interface FactionSyncManifestEntry {
   /** 로컬 원본 파일 sha1 앞 8자 */

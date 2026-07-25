@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { TimeRuler, PlayheadOverlay } from '../TimeRuler'
+import { TimeRuler, PlayheadOverlay } from '../time-ruler'
 import type { Props } from './types'
 import { useAudioWavePlayer } from './useAudioWavePlayer'
 import { WaveDisplayControls } from './WaveDisplayControls'

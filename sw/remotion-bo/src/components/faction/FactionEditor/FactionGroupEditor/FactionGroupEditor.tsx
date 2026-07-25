@@ -4,15 +4,15 @@ import { useState } from 'react'
 import type { FactionGroup, FactionPerson, FactionCluster } from '@/lib/faction-types'
 import { buildClusterMoveRenames, reorderFactionVoice, factionVoiceFile } from '@/lib/faction-voice'
 import { imageSrc } from '../../shared/timing'
-import { ChevronUp, ChevronDown, Trash2, ImageIcon, Plus, Eye, EyeOff } from '@/components/icons'
+import { ChevronUp, ChevronDown, Trash2, ImageIcon, Plus, Eye, EyeOff } from '@feelandnote/shared/bo/icons'
 import { FactionPersonRow, MiniAudioPlayer } from './FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../shared/FactionVoiceContext'
-import { ImagePicker, MediaThumb, useImageDrop, FACTION_IMAGE_DND } from '@/components/media'
+import { ImagePicker, MediaThumb, useImageDrop, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchModal'
 import { PersonList } from './PersonList/PersonList'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
 
-import type { EditLang } from '@/components/editor'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 type Props = {
   /** 세력 인덱스 (0-based) — 음성 파일명 계산용 */

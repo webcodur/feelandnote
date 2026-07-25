@@ -6,5 +6,5 @@ export function nameToSlug(name: string): string {
 }
 
 // 패싯 수집·필터·정렬은 공용 모듈에 둔다(세력도 콤보박스와 공유). 기존 호출부 이름 유지용 re-export.
-export { collectFacets, matchesFacets, sortVoices, voiceFacetValue } from '@/components/voice-utils'
-export type { Facet } from '@/components/voice-utils'
+export { collectFacets, matchesFacets, sortVoices, voiceFacetValue } from '@feelandnote/shared/bo/voice-utils'
+export type { Facet } from '@feelandnote/shared/bo/voice-utils'

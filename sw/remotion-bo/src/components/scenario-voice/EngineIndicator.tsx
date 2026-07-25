@@ -2,8 +2,8 @@
 
 import React from 'react'
 import type { EpisodeData } from '../EpisodeEditor'
-import type { VoiceFile, VoiceSection } from '../voice-utils'
-import { resolveSegmentEngine } from '../voice-utils'
+import type { VoiceFile, VoiceSection } from '@feelandnote/shared/bo/voice-utils'
+import { resolveSegmentEngine } from '@feelandnote/shared/bo/voice-utils'
 
 // ── EngineIndicator ──
 

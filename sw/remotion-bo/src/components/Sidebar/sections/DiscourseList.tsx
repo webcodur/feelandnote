@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import type { DiscourseEpisodeListItem } from '@/lib/discourse-types'
-import { EpisodeStatusDot } from '@/components/editor'
+import { EpisodeStatusDot } from '@feelandnote/shared/bo/editor'
 
 type DiscourseListProps = {
   activeSeries: string

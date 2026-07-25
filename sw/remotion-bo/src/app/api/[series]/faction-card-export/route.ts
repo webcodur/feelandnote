@@ -7,7 +7,7 @@
 import { NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
-import { runTask } from '@/lib/server-utils'
+import { runTask } from '@feelandnote/shared/bo/task-queue'
 import { isSeriesModel } from '@/lib/series-registry'
 import { loadFactionEpisode, loadFactionCards } from '@/lib/faction-utils'
 import { mergeFactionCards } from '@/lib/faction-types'

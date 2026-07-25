@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { readFile, writeFile, readdir } from 'fs/promises'
 import path from 'path'
 import { isSeriesModel } from '@/lib/series-registry'
-import { FACTIONS_DIR, episodeDirOf } from '@/lib/episode-store'
+import { FACTIONS_DIR, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 
 // ── 세력도 발화 시각(voiceTimings) 읽기/쓰기 ──
 //

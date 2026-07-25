@@ -199,8 +199,8 @@ export function longformSegments(script: FactionScript): Array<Array<{ era: Fact
   return segments
 }
 
-/** 사진 표시 주소 — 담화와 규칙이 같아 lib/media-src 한 곳에만 둔다 */
-export { imageSrc } from '@/lib/media-src'
+/** 사진 표시 주소 — 담화와 규칙이 같아 공용 부품 shared/bo/media-src 한 곳에만 둔다 */
+export { imageSrc } from '@feelandnote/shared/bo/media-src'
 
 /** 이름에서 이니셜 한 글자 추출 */
 export function initial(name: string): string {

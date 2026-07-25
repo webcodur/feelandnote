@@ -6,7 +6,7 @@ import { SaveButton } from '../../SaveButton'
 import { InlineImageRow } from '../../ImageThumb'
 import { SegmentToolbox } from './SegmentToolbox'
 import { shortsKey, lookupVoice } from '../../utils'
-import type { VoiceSection } from '../../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { Speaker } from '../../SpeakerPanel'
 
 /** 구간 식별자 인라인 편집기. blur 또는 Enter 시 onCommit 호출. */

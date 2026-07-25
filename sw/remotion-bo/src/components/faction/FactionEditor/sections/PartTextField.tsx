@@ -1,5 +1,5 @@
 import type { FactionScript } from '@/lib/faction-types'
-import type { EditLang } from '@/components/editor'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 export function PartTextField({
   part,

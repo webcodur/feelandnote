@@ -1,9 +1,10 @@
 'use client'
 
-import { VoiceEditorShell, BOOK_VOICE_MODES } from '../../voice'
+import { VoiceEditorShell, BOOK_VOICE_MODES } from '@feelandnote/shared/bo/voice'
 import { ImagePool } from '../ImagePool'
-import { ExpandedVoicePanel, type EleSettings, type EleSendOpts } from '../../scenario-voice'
-import type { VoiceSection } from '../../voice-utils'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { ExpandedVoicePanel, type EleSendOpts } from '../../scenario-voice'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { EpisodeData } from '../../EpisodeEditor'
 import { EMPTY_FILE_BOOK_MAP, EMPTY_FILE_FIELD_MAP } from './utils'
 import { useSoloSections } from './useSoloSections'

@@ -9,36 +9,22 @@
  * 그래서 폴더 스캔·사진 정리·음원 목록·진행 상태·노출 목록 규칙이 모두 같다.
  * **시리즈마다 복제하지 않고 뿌리 디렉토리만 인자로 받는다** — `series === 'faction'` 류 분기를 두지 않는다.
  *
- * 시리즈별 껍데기는 faction-utils.ts / discourse-utils.ts 에 얇게 남고, 실제 동작은 이 파일 한 곳에만 있다.
+ * 시리즈별 껍데기(faction-utils / discourse-utils)와 「시리즈 이름 → 뿌리 폴더」 대응표는 앱 쪽에 얇게 남고,
+ * 실제 동작은 이 파일 한 곳에만 있다. 이 파일은 시리즈 이름을 모른다 — 뿌리 폴더만 인자로 받는다.
  * 파일명 규칙(imageSrc)만 클라이언트도 쓰므로 media-src.ts 에 따로 둔다(이 파일은 fs 를 쓰므로 클라이언트에서 못 읽는다).
  */
 
 import { readFile, readdir, writeFile, mkdir, rm, rename, stat, open } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { seriesDataModel } from './series-registry'
+import { REMOTION_ROOT } from './remotion-root'
 
 /* ── 시리즈 뿌리 ── */
-
-const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
 
 /** 세력도 뿌리 — public/factions/ */
 export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 /** 가상 담화 뿌리 — public/discourses/ */
 export const DISCOURSES_DIR = path.join(REMOTION_ROOT, 'public', 'discourses')
-
-/**
- * 이 시리즈의 에피소드 폴더 뿌리 — 같은 구조를 쓰지 않는 시리즈면 undefined.
- * 새 시리즈가 같은 구조를 쓰면 여기 한 줄만 더한다.
- */
-export function mediaRootOf(series: string): string | undefined {
-  switch (seriesDataModel(series)) {
-    case 'faction': return FACTIONS_DIR
-    case 'discourse': return DISCOURSES_DIR
-    // 서재 탐방(book)은 책마다 폴더가 갈려 스캔 규칙이 다르다 — 자기 창구(api/[series]/images)를 쓴다
-    default: return undefined
-  }
-}
 
 /* ── 이름·경로 안전화 ── */
 

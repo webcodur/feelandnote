@@ -1,7 +1,7 @@
-import { Trash2 } from '@/components/icons'
+import { Trash2 } from '@feelandnote/shared/bo/icons'
 import type { FactionImageCrop } from '@/lib/faction-types'
 import { imageSrc } from '../../../../shared/timing'
-import { MediaThumb, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@/components/media'
+import { MediaThumb, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 
 /** 대사 중 사진 전환 슬롯 — 이미지 풀 DND + 썸네일 + 모달 picker 지원 (quoteImage와 동일 UX) */
 export function ImageChangeSlot({

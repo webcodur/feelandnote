@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import type { VoiceFile } from '../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { useBreathEditor, type BreathEndpoints } from './useBreathEditor'
-import { WaveDisplayControls } from '../../AudioWavePlayer'
+import { WaveDisplayControls } from '@feelandnote/shared/bo/audio-wave-player'
 
 const CANVAS_H = 160
 const BAR_COLOR = 'rgba(200, 164, 110, 0.85)'

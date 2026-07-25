@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Mic, Loader } from '@/components/icons'
+import { Mic, Loader } from '@feelandnote/shared/bo/icons'
 
 // 세력도 음성 생성 옵션 — 엔진·대상·정규화·생성 모드를 고른 뒤 생성한다.
 export type FactionVoiceOptions = {

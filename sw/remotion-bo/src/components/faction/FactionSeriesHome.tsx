@@ -4,10 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { FactionEpisodeListItem, FactionStatus } from '@/lib/faction-types'
-import { Copy, Trash2 } from '@/components/icons'
+import { Copy, Trash2 } from '@feelandnote/shared/bo/icons'
 import {
   EpisodeCreateForm, EpisodeStatusDot, EPISODE_STATUS_OPTIONS,
-} from '@/components/editor'
+} from '@feelandnote/shared/bo/editor'
 
 export function FactionSeriesHome({ series }: { series: string }) {
   const router = useRouter()

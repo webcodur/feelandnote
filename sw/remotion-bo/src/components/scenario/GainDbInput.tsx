@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { GAIN_DB_MAX, GAIN_DB_MIN, GAIN_DB_STEP, isUnityGain } from './gain'
+import { GAIN_DB_MAX, GAIN_DB_MIN, GAIN_DB_STEP, isUnityGain } from '@feelandnote/shared/bo/gain'
 import { useAudioPreviewCtx } from './AudioPreviewContext'
 
 /**

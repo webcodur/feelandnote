@@ -1,8 +1,9 @@
 'use client'
 
 import type { EpisodeData } from '../../../EpisodeEditor'
-import { type EleSettings, type EleSendOpts, DEFAULT_ELE_SETTINGS } from '../../types'
-import { EleEmotionPicker } from '@/components/voice'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { type EleSendOpts, DEFAULT_ELE_SETTINGS } from '../../types'
+import { EleEmotionPicker } from '@feelandnote/shared/bo/voice'
 import { ELE_SLIDER_KEYS, ELE_SLIDER_CFG } from '../constants'
 
 // ── ELEVENLABS 설정 ──

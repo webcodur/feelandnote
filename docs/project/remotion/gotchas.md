@@ -66,7 +66,7 @@ eleven_v3 모델은 문장 맨 앞에 붙은 대괄호 감정·톤 태그(예: `
 
 ### 백오피스 볼륨 부스트는 청감상 효과가 없다
 
-`sw/remotion-bo/src/components/voice-utils.ts`의 `applyGain`은 곱하기 직후 DynamicsCompressorNode를 limiter로 통과시킨다(threshold -6 dBFS, ratio 20:1, knee 6 dB). 이 강한 압축이 부스트한 신호를 즉시 평탄화해 1.5배를 주든 2배를 주든 결과가 같다.
+`packages/shared/src/bo/voice-utils/audio.ts`(26.07.25 승격 전 `sw/remotion-bo/src/components/voice-utils/`)의 `applyGain`은 곱하기 직후 DynamicsCompressorNode를 limiter로 통과시킨다(threshold -6 dBFS, ratio 20:1, knee 6 dB). 이 강한 압축이 부스트한 신호를 즉시 평탄화해 1.5배를 주든 2배를 주든 결과가 같다.
 
 2026-05-02 제갈량 쇼츠2 검증에서 발견했다. 측정상 RMS는 +2~3 dB 오른 것처럼 보여도 인지 라우드니스는 정체했고, 유저가 "1.5배든 2배든 그대로였다"고 명시 보고했다. 같은 wav를 ffmpeg `volume=1.3,alimiter=limit=0.891`로 처리하니 즉시 "압도적으로 더 크게" 들렸다.
 

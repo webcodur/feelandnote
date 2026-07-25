@@ -18,12 +18,31 @@
     "./lib/faction-schema": "./src/lib/faction-schema.ts",
     "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./bo/media": "./src/bo/media.tsx",
+    "./bo/media-src": "./src/bo/media-src.ts",
+    "./bo/editor": "./src/bo/editor.tsx",
+    "./bo/voice": "./src/bo/voice.tsx",
+    "./bo/voice-utils": "./src/bo/voice-utils/index.ts",
+    "./bo/audio-wave-player": "./src/bo/audio-wave-player/index.ts",
+    "./bo/icons": "./src/bo/icons.tsx",
+    "./bo/gain": "./src/bo/gain.ts",
+    "./bo/episode-store": "./src/bo/episode-store.ts",
+    "./bo/task-queue": "./src/bo/task-queue.ts",
+    "./bo/remotion-root": "./src/bo/remotion-root.ts"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "next": ">=15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": { "optional": true },
+    "react-dom": { "optional": true }
   },
   "devDependencies": {
-    "@types/react": "^19"
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "next": "16.1.1"
   }
 }

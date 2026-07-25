@@ -2,7 +2,7 @@
 
 import type { CinematicImage, ImageField } from '../types'
 import { segToImages, imagesToSeg, addImagePrefix, stripImagePrefix } from '../utils'
-import { shortsArrIndexBySlot } from '../../voice-utils'
+import { shortsArrIndexBySlot } from '@feelandnote/shared/bo/voice-utils'
 
 /** CinematicImage[] 를 seg(쇼츠 segment / 솔로 section) 의 image·imageChangeAt 키에 반영한다.
  *  imagesToSeg 결과를 seg 객체에 쓰되, undefined 인 필드는 키 자체를 제거한다. seg 를 직접 변형한다. */

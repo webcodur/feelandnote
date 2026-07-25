@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { loadEpisode, saveEpisode } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
-import { shortsArrIndexBySlot } from '@/components/voice-utils'
+import { shortsArrIndexBySlot } from '@feelandnote/shared/bo/voice-utils'
 
 /**
  * PATCH /api/[series]/episodes/[name]/segment

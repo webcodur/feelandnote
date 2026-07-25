@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { usePlaybackRate } from './usePlaybackRate'
-import { dbToLinear } from './gain'
+import { dbToLinear } from '@feelandnote/shared/bo/gain'
 
 /**
  * 단일 Audio 인스턴스를 ref로 관리하는 셀럽 미리듣기 훅.

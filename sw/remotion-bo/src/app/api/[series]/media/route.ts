@@ -3,11 +3,12 @@
  *
  * 시리즈가 갈리는 지점은 `mediaRootOf(series)` 하나뿐이다.
  * 값을 돌려주지 않는 시리즈(서재 탐방)는 이 창구를 쓰지 않으므로 그대로 404 다.
- * 실제 파일 조작은 `lib/episode-store.ts` 한 곳에만 있다.
+ * 실제 파일 조작은 공용 부품 `shared/bo/episode-store` 한 곳에만 있다.
  */
 
 import { NextResponse } from 'next/server'
-import { mediaRootOf, listImages, listImageTree, saveImage, deleteImage, saveImageFromUrl } from '@/lib/episode-store'
+import { listImages, listImageTree, saveImage, deleteImage, saveImageFromUrl } from '@feelandnote/shared/bo/episode-store'
+import { mediaRootOf } from '@/lib/media-root'
 
 /**
  * GET ?ep=        : images/ 직속 파일명 목록 (사진 고르기 모달용)

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import type { FactionEpisodeListItem } from '@/lib/faction-types'
-import { EpisodeStatusDot } from '@/components/editor'
+import { EpisodeStatusDot } from '@feelandnote/shared/bo/editor'
 
 type FactionListProps = {
   activeSeries: string

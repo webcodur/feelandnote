@@ -18,12 +18,11 @@ import {
   useEffect, useRef, useState,
   type ReactNode,
 } from 'react'
-import type { VoiceFile, EngineKind, SegmentEngineSpec } from '@/components/voice-utils'
-import { encodeWAV, abToBase64 } from '@/components/voice-utils'
-import type { EleSettings } from '@/components/scenario-voice/types'
-import type { TempPreview, GenEngine } from '@/components/scenario-voice/ExpandedVoicePanel/types'
-import { playDing } from '@/components/scenario-voice/ExpandedVoicePanel/audio'
-import { AudioWavePlayer } from '@/components/AudioWavePlayer'
+import type {
+  VoiceFile, EngineKind, SegmentEngineSpec, EleSettings, TempPreview, GenEngine,
+} from './voice-utils'
+import { encodeWAV, abToBase64, playDing } from './voice-utils'
+import { AudioWavePlayer } from './audio-wave-player'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 감정 어휘 (ElevenLabs 감정 표식)

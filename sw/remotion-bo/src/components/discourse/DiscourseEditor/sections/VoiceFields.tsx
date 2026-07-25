@@ -10,7 +10,7 @@
 
 import type { DiscourseVoice, DiscourseEngine } from '@/lib/discourse-types'
 import { GeminiVoiceSelect } from '@/components/scenario-voice/GeminiVoiceSelect'
-import { EleEmotionPicker } from '@/components/voice'
+import { EleEmotionPicker } from '@feelandnote/shared/bo/voice'
 
 type Props = {
   title: string

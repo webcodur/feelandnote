@@ -1,6 +1,6 @@
 import type { EpisodeData } from '../EpisodeEditor'
-import type { VoiceFile, VoiceSection } from '../voice-utils'
-import { shortsArrIndexBySlot } from '../voice-utils'
+import type { VoiceFile, VoiceSection } from '@feelandnote/shared/bo/voice-utils'
+import { shortsArrIndexBySlot } from '@feelandnote/shared/bo/voice-utils'
 import { bookFieldParts } from '../scenario/utils'
 import type { VoiceSelect, VoiceMeta } from './types'
 

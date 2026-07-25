@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
-import type { VoiceFile, EleVoiceLike } from '../../../../../../voice-utils'
-import type { GenEngine } from '../../../../../../scenario-voice/ExpandedVoicePanel/types'
+import type { VoiceFile, EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
+import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import { DEFAULT_ELE_SEND_OPTS, buildEleText } from '../../../../../../scenario-voice/types'
 import {
   SavedVoiceSection, EleEmotionPicker, useVoiceGeneration,
   type VoiceGenEndpoints,
-} from '@/components/voice'
+} from '@feelandnote/shared/bo/voice'
 import { GenerateSection } from '../../../../../../scenario-voice/ExpandedVoicePanel/sections/GenerateSection'
 import { BreathModeContent, type BreathEndpoints } from '../../../../../../scenario-voice/BreathModeContent'
 import { AgeModeContent, type AgeEndpoints } from '../../../../../../scenario-voice/AgeModeContent'
