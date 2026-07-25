@@ -6,7 +6,7 @@ import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import { langFieldsOf, type FactionVoiceSlot } from './voice-slots'
+import { buildVoiceAssignPatch, langFieldsOf, type FactionVoiceSlot } from './voice-slots'
 
 /**
  * 북리커맨드 useVoiceSpec 의 세력도(인물 1명) 어댑터 — 슬롯(대사/수식어) 파라미터화.
@@ -26,9 +26,19 @@ type UseFactionVoiceSpecArgs = {
    * 미지정이면 국문(옛 호출부 동작 그대로).
    */
   lang?: EditLang
+  /**
+   * 보이스 도감에 적힌 그 보이스의 추가 음량 — 인물에 값이 없을 때 대신 쓴다.
+   * 음량은 보이스 자체의 성질이라 인물마다 다시 맞추지 않는다.
+   */
+  gainDbFallback?: number
+  /**
+   * 보이스 하나의 도감 음량을 찾아 준다 — 보이스를 **배정하는 순간** 인물의 빈 음량 칸에 복사하는 데 쓴다.
+   * 복사해 두어야 렌더에 실린다(렌더는 대본 파일의 인물 값만 읽고 도감을 모른다).
+   */
+  gainDbOfVoice?: (voiceId: string) => number | undefined
 }
 
-export function useFactionVoiceSpec({ person, onPersonChange, slot, lang }: UseFactionVoiceSpecArgs) {
+export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDbFallback, gainDbOfVoice }: UseFactionVoiceSpecArgs) {
   const F = slot.fields
   // 엔진·목소리만 언어별 칸을 쓴다(스타일·감정·길이·음량·배속은 언어 공용 — voice-slots 주석 참조)
   const L = langFieldsOf(slot, lang)
@@ -71,7 +81,15 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang }: UseF
   }
 
   const eleVoiceId = (person[L.eleVoiceId] as string | undefined) ?? ''
-  const setEleVoiceId = (v: string) => setField(L.eleVoiceId, v.trim() || undefined)
+  /**
+   * 보이스 배정 — 인물의 음량 칸이 비어 있으면 도감에 적힌 그 보이스의 음량을 **함께** 적어 둔다.
+   * 도감 값을 내보내기가 몰래 끼워 넣는 방식은 쓰지 않으므로(왕복 검증이 깨진다) 이 순간 데이터에
+   * 명시적으로 남겨야 렌더가 같은 음량으로 재생한다. 이미 사람이 정한 값이 있으면 건드리지 않는다.
+   */
+  const setEleVoiceId = (v: string) => {
+    const patch = buildVoiceAssignPatch(person as unknown as Record<string, unknown>, slot, lang, v, gainDbOfVoice?.(v.trim()))
+    onPersonChange({ ...person, ...patch } as FactionPerson)
+  }
   const eleSpec: SegmentEngineSpec = useMemo(
     () => ({ engine: 'elevenlabs', voiceParam: eleVoiceId }),
     [eleVoiceId],
@@ -98,7 +116,11 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang }: UseF
 
   // ── 배속·게인 — 엔진 공통(렌더 적용값). 기본값도 공용값을 덮는 명시적 예외가 될 수 있다. ──
   const playbackRate = (person[F.rate] as number | undefined) ?? 1
-  const gainDb = (person[F.gain] as number | undefined) ?? 0
+  // 실효 음량 = 인물 개별값(있으면 우선) → 도감값 → 0dB
+  const personGainDb = person[F.gain] as number | undefined
+  const gainDb = personGainDb ?? gainDbFallback ?? 0
+  /** 인물에 값이 없어 도감값을 빌려 쓰는 중인가 — 화면이 그 사실을 알린다 */
+  const gainDbInherited = personGainDb == null && gainDbFallback != null
   const setPlaybackRate = (rate: number) => {
     const r = Number.isFinite(rate) ? Math.min(2, Math.max(0.5, rate)) : 1
     setField(F.rate, r)
@@ -138,6 +160,6 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang }: UseF
     eleEmotions, setEleEmotions,
     eleTrail, setEleTrail,
     playbackRate, setPlaybackRate,
-    gainDb, setGainDb,
+    gainDb, setGainDb, gainDbInherited,
   }
 }

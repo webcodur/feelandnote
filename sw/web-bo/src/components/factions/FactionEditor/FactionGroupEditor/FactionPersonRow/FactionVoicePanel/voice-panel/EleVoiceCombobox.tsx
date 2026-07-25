@@ -12,7 +12,7 @@ import {
   facetValueLabel,
   voiceFacetValue,
 } from '@feelandnote/shared/bo/voice-utils'
-import { ELE_VOICE_STATUS_LABEL, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
+import { ELE_VOICE_STATUS_LABEL, ELE_VOICE_GAIN_MIN, ELE_VOICE_GAIN_MAX, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
 import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
 import type { FactionEleVoiceRecommendation } from './faction-voice-recommendations'
 
@@ -45,6 +45,7 @@ const QUICK_FILTERS: VoiceQuickFilter[] = ['good', 'maybe', 'noted', 'used', 'un
 export function EleVoiceCombobox({
   voices, value, onChange, loading, error, recommendations = [],
   voiceNotes = {}, notesLoading = false, notesError = null, savingVoiceId = null, onUpdateVoiceNote,
+  onApplyVoiceGain, applyingGainVoiceId = null,
   voiceHistory = {}, historyLoading = false, historyError = null, historyUsageCount = 0,
 }: {
   voices: Voice[]
@@ -59,7 +60,11 @@ export function EleVoiceCombobox({
   notesLoading?: boolean
   notesError?: string | null
   savingVoiceId?: string | null
-  onUpdateVoiceNote?: (voice: Voice, patch: { status?: EleVoiceNoteStatus | null; note?: string }) => void
+  onUpdateVoiceNote?: (voice: Voice, patch: { status?: EleVoiceNoteStatus | null; note?: string; gainDb?: number | null }) => void
+  /** 이 보이스의 도감 음량을 그 보이스를 쓰는 인물들에게 내려보낸다(전 편) */
+  onApplyVoiceGain?: (voice: Voice) => void
+  /** 음량 내려보내기가 도는 중인 보이스 */
+  applyingGainVoiceId?: string | null
   voiceHistory?: Record<string, FactionVoiceHistoryEntry>
   historyLoading?: boolean
   historyError?: string | null
@@ -79,6 +84,8 @@ export function EleVoiceCombobox({
   // 기타 필터(억양·언어·용도·느낌·분류 등) 펼침 여부 — 평소엔 접어둔다(성별·나이만 상시 노출).
   const [showEtcFacets, setShowEtcFacets] = useState(false)
   const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({})
+  // 음량 입력 임시값 — 타자 중에는 저장하지 않고 칸을 떠날 때 한 번만 도감에 적는다
+  const [gainDrafts, setGainDrafts] = useState<Record<string, string>>({})
   const wrapRef = useRef<HTMLDivElement>(null)
   // 보이스 샘플 미리듣기 — ElevenLabs preview_url 을 재생. 한 번에 하나만.
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -280,6 +287,7 @@ export function EleVoiceCombobox({
     const history = voiceHistory[v.voice_id]
     const historyText = historyLabel(history)
     const noteDraft = noteDrafts[v.voice_id] ?? note?.note ?? ''
+    const gainDraft = gainDrafts[v.voice_id] ?? (note?.gainDb != null ? String(note.gainDb) : '')
     const status = note?.status
     const blocked = status === 'blocked'
     return (
@@ -375,6 +383,44 @@ export function EleVoiceCombobox({
                 해제
               </button>
             )}
+            {/* 추가 음량 — 보이스 자체의 성질이라 인물이 아니라 여기에 한 번만 적는다.
+                배정할 때 인물의 빈 음량 칸으로 복사되고, 값을 고치면 옆 버튼으로 다시 내려보낸다. */}
+            <span className="flex shrink-0 items-center gap-1" title={`이 보이스에 얹는 추가 음량(dB). 보이스마다 타고난 크기가 달라 여기서 한 번 맞춰 두면 배정되는 인물이 물려받는다 (${ELE_VOICE_GAIN_MIN}~${ELE_VOICE_GAIN_MAX})`}>
+              <span className="text-[10px] font-bold text-slate-500">음량</span>
+              <input
+                type="number"
+                step={0.5}
+                min={ELE_VOICE_GAIN_MIN}
+                max={ELE_VOICE_GAIN_MAX}
+                value={gainDraft}
+                onChange={e => setGainDrafts(prev => ({ ...prev, [v.voice_id]: e.target.value }))}
+                onClick={e => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onKeyDown={e => e.stopPropagation()}
+                onBlur={e => {
+                  const raw = e.currentTarget.value.trim()
+                  const next = raw === '' ? null : Number(raw)
+                  if (next !== null && !Number.isFinite(next)) return
+                  if ((next ?? 0) !== (note?.gainDb ?? 0)) onUpdateVoiceNote(v, { gainDb: next })
+                }}
+                placeholder="0"
+                className={`h-6 w-14 rounded border bg-white px-1 text-right text-[11px] font-semibold outline-none focus:border-amber-400 ${
+                  note?.gainDb ? 'border-amber-300 text-amber-800' : 'border-slate-200 text-slate-800'
+                }`}
+              />
+              <span className="text-[10px] text-slate-400">dB</span>
+              {onApplyVoiceGain && (
+                <button
+                  type="button"
+                  onClick={e => { e.stopPropagation(); onApplyVoiceGain(v) }}
+                  disabled={applyingGainVoiceId === v.voice_id}
+                  title="이 보이스를 쓰는 인물들의 음량 칸에 도감 값을 내려보낸다(빈 칸과 옛 도감값을 그대로 쓰던 인물만). 렌더는 인물 값만 읽는다"
+                  className="shrink-0 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 hover:border-amber-400 hover:text-amber-700 disabled:opacity-50"
+                >
+                  {applyingGainVoiceId === v.voice_id ? '적용 중…' : '인물에 적용'}
+                </button>
+              )}
+            </span>
             <input
               value={noteDraft}
               onChange={e => setNoteDrafts(prev => ({ ...prev, [v.voice_id]: e.target.value }))}
@@ -386,7 +432,7 @@ export function EleVoiceCombobox({
                 if (next !== (note?.note ?? '')) onUpdateVoiceNote(v, { note: next })
               }}
               placeholder="메모"
-              className="h-6 w-80 rounded border border-slate-200 bg-white px-1.5 text-[11px] text-slate-800 outline-none focus:border-amber-400"
+              className="h-6 w-56 rounded border border-slate-200 bg-white px-1.5 text-[11px] text-slate-800 outline-none focus:border-amber-400"
             />
           </span>
         ) : <span />}

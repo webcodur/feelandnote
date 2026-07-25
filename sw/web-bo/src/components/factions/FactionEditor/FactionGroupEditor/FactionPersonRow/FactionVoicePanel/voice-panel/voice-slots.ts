@@ -64,6 +64,31 @@ export function langFieldsOf(slot: FactionVoiceSlot, lang: EditLang | undefined)
   return slot.langFields[voiceLangOf(lang)]
 }
 
+/**
+ * 보이스를 배정할 때 인물에 적을 값 — 목소리 칸과, 비어 있으면 도감 음량까지.
+ *
+ * 음량을 함께 적는 이유: 영상 렌더는 대본 파일의 인물 음량만 읽고 보이스 도감을 모른다.
+ * 내보내기가 도감을 참조해 파일에 끼워 넣으면 DB에 없는 값이 파일에 생겨 왕복 검증이 깨지므로,
+ * **배정하는 이 순간 데이터에 명시적으로 남긴다.** 이미 사람이 정한 음량이 있으면 건드리지 않는다.
+ *
+ * 순수 함수로 뺀 이유는 화면 없이도 규칙을 검증할 수 있어야 하기 때문이다.
+ */
+export function buildVoiceAssignPatch(
+  person: Partial<Record<string, unknown>>,
+  slot: FactionVoiceSlot,
+  lang: EditLang | undefined,
+  voiceId: string,
+  catalogGainDb: number | undefined,
+): Record<string, unknown> {
+  const L = langFieldsOf(slot, lang)
+  const id = voiceId.trim()
+  const patch: Record<string, unknown> = { [L.eleVoiceId]: id || undefined }
+  if (id && catalogGainDb != null && person[slot.fields.gain] == null) {
+    patch[slot.fields.gain] = catalogGainDb
+  }
+  return patch
+}
+
 export const QUOTE_SLOT: FactionVoiceSlot = {
   id: 'quote',
   label: '대사 음성',
