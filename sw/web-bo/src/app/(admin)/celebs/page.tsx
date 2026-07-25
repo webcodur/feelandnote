@@ -96,9 +96,9 @@ export default async function CelebsPage({ searchParams }: PageProps) {
               <Volume2 className="w-4 h-4" />대사/음성
             </Button>
           </Link>
-          <Link href="/celebs/tags">
+          <Link href="/factions">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
-              <Tag className="w-4 h-4" />태그 관리
+              <Tag className="w-4 h-4" />도감 테마
             </Button>
           </Link>
           <Link href="/celebs/new">

@@ -58,7 +58,7 @@ pnpm dev:bo
 | `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `profiles` |
 | `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `profiles` |
 | `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `profiles` |
-| `/celebs/tags` | 셀럽 태그 관리 | 태그 마스터 CRUD 및 배정 | `celeb_tags`, `celeb_tag_assignments` |
+| `/celebs/tags` | → 리다이렉트 | `/factions`로 보낸다. 도감 테마 관리는 26.07.25에 세력도 화면으로 흡수됐다 | — |
 | `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `profiles` |
 | `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `profiles` |
 | `/celebs/vectors` | 페르소나 분석 | 덕목·능력·성향 16개 축 벡터 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
@@ -101,7 +101,8 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도 | 편 목록(한 편 = 카드 1장). 생성·복제·이름 변경·삭제, 상태(todo/live/done)·노출 여부·순서. 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes` |
+| `/factions` | 세력도 | **2절 구성.** 위=편 목록(한 편 = 카드 1장). 생성·복제·이름 변경·삭제, 상태(todo/live/done)·노출 여부·순서. 아래=**도감 테마 전량**(`celeb_tags` 40종, `sort_order` 순). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
 | `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
@@ -115,6 +116,7 @@ pnpm dev:bo
 | 파일 | 담는 것 |
 | --- | --- |
 | `episodes.ts` | 편 목록·생성·복제·이름 변경·삭제·상태·노출 여부·순서 |
+| `themes.ts` | 도감 테마 목록(`listFactionThemes`)·테마↔영상 편 역조회(`getThemeEpisodeLinks`, 근거는 `faction_groups.tag_id`). 테마 CRUD 자체는 `src/actions/admin/tags.ts`가 그대로 맡는다 |
 | `script.ts` | 대본 불러오기(`loadFactionScript`)·저장(`saveFactionScript`). 저장은 원자 RPC 하나로 묶이고 기준 시각이 어긋나면 거부한다. 저장 절차 본체는 `src/lib/faction-save.ts`에 있다(인증 밖에 둬서 Next 밖에서도 검증할 수 있게 했다) |
 | `export.ts` | `faction-data.json` 내보내기·노출 목록 재생성·파일 상태 조회. 저장 시 자동으로 따라 붙는다 |
 | `publish.ts` | 세력도감 출간 — 진단(`diagnoseFactionPublish`)·출간(`publishFactionEpisode`) |

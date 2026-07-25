@@ -83,6 +83,15 @@ export interface TagsResponse {
 }
 // #endregion
 
+/**
+ * 도감 테마 화면 갱신 — 목록(세력도)과 테마 편집 화면 두 곳.
+ * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에 세력도로 흡수됐다.
+ */
+function revalidateThemeScreens() {
+  revalidatePath('/factions')
+  revalidatePath('/factions/themes/[tagId]', 'page')
+}
+
 // #region getTags
 export async function getTags(): Promise<TagsResponse> {
   const supabase = await createClient()
@@ -174,7 +183,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
     return { error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tags 신규 — 태그 편성과 태그명을 품은 셀럽 목록 캐시 모두 갱신
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { id: data.id }
@@ -213,7 +222,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tags 수정(이름·색·slug) — 태그명이 셀럽 목록 캐시에 박혀 있어 함께 갱신
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
@@ -234,7 +243,7 @@ export async function deleteTag(tagId: string): Promise<{ success: boolean; erro
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tags 삭제 — 배정(celeb_tag_assignments)까지 연쇄 제거되므로 셀럽 캐시도 갱신
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
@@ -261,7 +270,7 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
     return { success: false, error: '태그 순서 변경에 실패했다.' }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tags.sort_order — 노출 순서만 바뀌므로 태그 편성 캐시만
   await revalidateWebCache(CACHE_TAGS.TAGS)
   return { success: true }
@@ -372,7 +381,7 @@ export async function updateCelebTags(
   }
 
   revalidatePath('/celebs/[slug]', 'page')
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tag_assignments 전면 교체 — 셀럽 목록·모달이 배정 태그를 함께 담는다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
@@ -412,7 +421,7 @@ export async function updateTagAssignmentDesc(
   }
 
   revalidatePath('/celebs/[slug]', 'page')
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tag_assignments 설명문 — 세력도감 소개글이 셀럽 캐시에도 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
@@ -520,7 +529,7 @@ export async function addCelebToTag(
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   revalidatePath('/celebs/[slug]', 'page')
   // celeb_tag_assignments 신규 — 셀럽 목록 카드에도 배정 태그가 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
@@ -546,7 +555,7 @@ export async function removeCelebFromTag(
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   revalidatePath('/celebs/[slug]', 'page')
   // celeb_tag_assignments 삭제 — 셀럽 목록 카드에서도 배정 태그가 빠져야 한다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
@@ -578,7 +587,7 @@ export async function updateTagCelebOrder(
     return { success: false, error: '셀럽 순서 변경에 실패했다.' }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tag_assignments.sort_order — 셀럽 목록 카드 노출 순서에도 반영된다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
@@ -602,7 +611,7 @@ export async function setTagTeamImages(
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tags.team_images — 태그 편성 화면 전용
   await revalidateWebCache(CACHE_TAGS.TAGS)
   return { success: true }
@@ -628,7 +637,7 @@ export async function setTagCelebImage(
     return { success: false, error: error.message }
   }
 
-  revalidatePath('/celebs/tags')
+  revalidateThemeScreens()
   // celeb_tag_assignments.spotlight_image_url — 셀럽 카드 이미지에도 반영된다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }

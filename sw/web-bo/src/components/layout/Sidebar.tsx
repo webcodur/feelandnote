@@ -56,7 +56,6 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs', label: '목록', icon: Star },
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
       { href: '/celebs/professions', label: '직군', icon: Target },
-      { href: '/celebs/tags', label: '태그', icon: Layers },
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
       { href: '/celebs/vectors', label: '페르소나', icon: Radar },
       { href: '/celebs/influence', label: '영향력', icon: Flame },
@@ -82,7 +81,7 @@ const menuGroups: MenuGroup[] = [
   {
     key: 'factions', label: '세력도', icon: Swords,
     children: [
-      { href: '/factions', label: '목록', icon: Swords },
+      { href: '/factions', label: '목록·도감 테마', icon: Swords },
     ],
   },
   {
