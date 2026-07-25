@@ -15,6 +15,7 @@
     "./lib/ele-accounts": "./src/lib/ele-accounts.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
     "./lib/youtube-faction-meta": "./src/lib/youtube-faction-meta.ts",
+    "./lib/faction-schema": "./src/lib/faction-schema.ts",
     "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts"
