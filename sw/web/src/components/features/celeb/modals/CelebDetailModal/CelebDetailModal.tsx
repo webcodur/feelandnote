@@ -12,6 +12,7 @@ import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Fe
 import { Z_INDEX } from "@/constants/zIndex";
 import { toggleFollow } from "@/actions/user";
 import { getCelebProfileUrl } from "@/lib/url";
+import { trackEvent } from "@/lib/analytics/track";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import CelebTagsModal from "../CelebTagsModal";
 import { FormattedText } from "@/components/ui";
@@ -140,6 +141,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const ProfileLink = ({ className = "" }: { className?: string }) => (
     <Link
       href={getCelebProfileUrl(celeb)}
+      onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
       className={`
         flex items-center justify-center gap-1.5
         border border-accent/30 hover:border-accent/60

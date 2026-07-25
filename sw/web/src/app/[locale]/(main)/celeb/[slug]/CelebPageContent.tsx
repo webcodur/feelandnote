@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useCallback } from "react";
+import { type ReactNode, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
@@ -17,6 +17,7 @@ import { type FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
+import { trackEvent, useSectionViewTracking } from "@/lib/analytics/track";
 import { FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import ShareButtons from "@/components/ui/ShareButtons";
@@ -109,6 +110,10 @@ export default function CelebPageContent({
   const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
   const { fireGreeting, fireQuote } = useCelebGreeting({ onSubtitle: setSubtitle, locale });
 
+  // 어느 칸까지 실제로 내려보는지 집계한다 — 인물 화면이 한 장에서 끝나는 원인 판별용
+  const contentRef = useRef<HTMLDivElement>(null);
+  useSectionViewTracking(contentRef);
+
   const professionLabel = profile.profession ? tp(profile.profession) : null;
   const birthYear = formatYear(profile.birth_date);
   const deathYear = profile.death_date ? formatYear(profile.death_date) : null;
@@ -156,14 +161,17 @@ export default function CelebPageContent({
   };
 
   const handleAvatarClick = useCallback(() => {
+    trackEvent("celeb_voice_play", { kind: "greeting" });
     fireGreeting({ ...profile, greeting, nickname });
   }, [fireGreeting, greeting, nickname, profile]);
 
   const handleQuotePlay = useCallback(() => {
+    trackEvent("celeb_voice_play", { kind: "quote" });
     fireQuote({ ...profile, greeting, nickname });
   }, [fireQuote, greeting, nickname, profile]);
 
   const handleServiceNavigate = useCallback((target: ServiceTarget) => {
+    trackEvent("celeb_guide_click", { section: target.sectionId });
     window.history.replaceState(null, "", `#${target.sectionId}`);
     window.requestAnimationFrame(() => {
       const section = document.getElementById(target.sectionId);
@@ -179,7 +187,7 @@ export default function CelebPageContent({
   }, []);
 
   return (
-    <div className="space-y-10 md:space-y-16">
+    <div ref={contentRef} className="space-y-10 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section
         id="introduction"

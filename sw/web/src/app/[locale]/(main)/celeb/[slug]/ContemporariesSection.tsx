@@ -44,7 +44,7 @@ export default function ContemporariesSection({
     loadingId,
     openCelebPreview,
     closeCelebPreview,
-  } = useCelebPreview();
+  } = useCelebPreview("contemporaries");
   useCountries();
 
   const [expanded, setExpanded] = useState(false);

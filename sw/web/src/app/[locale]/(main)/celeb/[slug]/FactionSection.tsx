@@ -31,7 +31,7 @@ export default function FactionSection({
     loadingId: loadingMemberId,
     openCelebPreview,
     closeCelebPreview,
-  } = useCelebPreview();
+  } = useCelebPreview("faction");
   const previewByTag = useMemo(
     () => new Map(previews.map((preview) => [preview.tagId, preview])),
     [previews],

@@ -106,7 +106,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     loadingId,
     openCelebPreview,
     closeCelebPreview,
-  } = useCelebPreview();
+  } = useCelebPreview("relations");
   /** 클릭한 인물 — 상세 카드로 관계 사연·기본 정보·이동 단추를 보여준다 */
   const [selected, setSelected] = useState<PersonNode | null>(null);
 
