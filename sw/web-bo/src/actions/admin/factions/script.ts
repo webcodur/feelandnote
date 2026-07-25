@@ -13,7 +13,7 @@
  */
 
 import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble'
-import { factionAdminClient, factionRowSource, requireFactionAdmin } from '@/lib/faction-db'
+import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
 import { replaceFactionEpisode } from '@/lib/faction-save'
 import { exportFactionEpisode } from './export'
@@ -31,11 +31,11 @@ export interface LoadedFactionScript {
   sortOrder: number
 }
 
-/** 편집기가 열 때 — DB 4계층을 대본 한 덩어리로 조립해 돌려준다 */
+/** 편집기가 열 때 — DB 4계층을 한 왕복(중첩 임베드)으로 받아 대본으로 조립한다 */
 export async function loadFactionScript(folder: string): Promise<LoadedFactionScript> {
   await requireFactionAdmin()
   const db = factionAdminClient()
-  const { script, row } = await assembleFactionEpisode(factionRowSource(db), folder)
+  const { script, row } = await assembleFactionEpisode(await factionTreeSource(db, folder), folder)
   return {
     folder,
     episodeId: row.id as string,

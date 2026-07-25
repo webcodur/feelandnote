@@ -10,9 +10,8 @@
  * DB 와 같은지 맞춰 둔다. 안 맞으면 화면에서 고친 내용이 영상에 안 들어간다.
  */
 
-import {
-  assembleFactionEpisode, type FactionRowSource,
-} from '@feelandnote/shared/lib/faction-assemble'
+import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble'
+import { factionTreeSource } from './faction-db'
 import {
   exportFactionEpisodeToFile, factionEpisodePaths,
 } from '@feelandnote/shared/bo/faction-export'
@@ -30,18 +29,10 @@ function db(): SupabaseClient {
   return createClient(url, key, { auth: { persistSession: false } })
 }
 
-function rowSource(client: SupabaseClient): FactionRowSource {
-  return async (table, col, values) => {
-    const { data, error } = await client.from(table).select('*').in(col, values)
-    if (error) throw new Error(`${table} 조회 실패(${col}): ${error.message}`)
-    return (data ?? []) as Record<string, unknown>[]
-  }
-}
-
-/** DB 에서 한 편을 대본 구조로 조립해 준다(파일을 읽지 않는다) */
+/** DB 에서 한 편을 대본 구조로 조립해 준다(파일을 읽지 않는다). 한 왕복 트리 조회 */
 export async function loadFactionScriptFromDb(folder: string): Promise<FactionScript> {
   const client = db()
-  const { script } = await assembleFactionEpisode(rowSource(client), folder)
+  const { script } = await assembleFactionEpisode(await factionTreeSource(client, folder), folder)
   return script as unknown as FactionScript
 }
 
@@ -55,7 +46,7 @@ export async function loadFactionEpisodeMeta(folder: string): Promise<{
   updatedAt: string
 }> {
   const client = db()
-  const { script, row } = await assembleFactionEpisode(rowSource(client), folder)
+  const { script, row } = await assembleFactionEpisode(await factionTreeSource(client, folder), folder)
   return {
     script: script as unknown as FactionScript,
     episodeId: row.id as string,
@@ -77,7 +68,7 @@ export async function loadFactionEpisodeMeta(folder: string): Promise<{
  */
 export async function ensureFactionExport(folder: string): Promise<string | null> {
   const client = db()
-  const src = rowSource(client)
+  const src = await factionTreeSource(client, folder)
   const { dir, dataPath } = factionEpisodePaths(FACTIONS_DIR, folder)
   const r = await exportFactionEpisodeToFile({
     folder,
