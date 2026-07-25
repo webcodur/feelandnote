@@ -139,10 +139,11 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 ### 백오피스 관리 (web-bo)
 
 - 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
-  - `/factions` 아래쪽 절 = 「도감 테마」 전량 목록(`celeb_tags` 40종). 줄마다 인물 수·단체샷/개인샷 보유·도감 노출·**연결된 영상 편**(연결 없으면 「글 전용」)을 보이고, 끌어서 노출 순서를 바꾼다. 「새 테마 만들기」로 영상 없는 테마를 바로 만든다
+  - `/factions` 아래쪽 표 = 「도감 테마」 전량(`celeb_tags` 40종). 열은 테마명·인물 수·도감 노출·단체샷/개인샷·연결 영상 편(없으면 「글 전용」)·순서이고, 끌어서 진열 순서를 바꾼다. 「새 테마 만들기」는 표 머리 오른쪽에 있다
+  - **표 통일(26.07.26)**: 위 「영상 편」 표와 생김새를 맞췄다(공용 부품 `components/factions/FactionTable.tsx`). 예전에는 영상 편이 카드, 테마가 줄이라 한 화면에서 서로 다른 물건처럼 보였다. 표 머리마다 정체를 한 줄로 적어 둔다 — 영상 편=유튜브로 나가는 제작 데이터, 도감 테마=서비스 세력도감 진열분
   - **위계 표시(26.07.26)**: 자식을 가진 테마가 「묶음 N」 표식과 함께 머리로 뜨고 소속 테마가 한 칸 들여쓰기로 따라붙는다. 끌어 옮기기는 **같은 층끼리만** 된다(묶음 머리를 끌면 소속 테마가 통째로 따라간다). 다른 묶음으로 옮기는 일은 순서가 아니라 소속이므로 테마 편집 화면의 「상위 묶음」에서 한다
   - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다). 「상위 묶음」 선택지는 무소속 테마 전량 + 「묶음 없음」이다
-  - 구성 파일: `app/(admin)/factions/ThemeList.tsx`·`ThemeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`
+  - 구성 파일: `app/(admin)/factions/ThemeTable.tsx`·`EpisodeTable.tsx`·`ThemeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`, 공용 표 부품 `components/factions/FactionTable.tsx`
   - 목록 조회 액션: `actions/admin/factions/themes.ts`(`listFactionThemes`·`getThemeEpisodeLinks`). 테마↔영상 연결의 근거는 `faction_groups.tag_id` 역조회뿐이다
   - **주소(slug)**: 입력 + `name_en` 기반 자동 생성 버튼
   - **단체 이미지**: 다중 업로드(크롭)·삭제·드래그 순서변경
