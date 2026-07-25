@@ -16,6 +16,7 @@
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
     "./lib/youtube-faction-meta": "./src/lib/youtube-faction-meta.ts",
     "./lib/faction-schema": "./src/lib/faction-schema.ts",
+    "./lib/faction-assemble": "./src/lib/faction-assemble.ts",
     "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts",
@@ -29,7 +30,10 @@
     "./bo/gain": "./src/bo/gain.ts",
     "./bo/episode-store": "./src/bo/episode-store.ts",
     "./bo/task-queue": "./src/bo/task-queue.ts",
-    "./bo/remotion-root": "./src/bo/remotion-root.ts"
+    "./bo/remotion-root": "./src/bo/remotion-root.ts",
+    "./bo/faction-export": "./src/bo/faction-export.ts",
+    "./bo/voice-age": "./src/bo/voice-age.ts",
+    "./bo/voice-normalize": "./src/bo/voice-normalize.ts"
   },
   "peerDependencies": {
     "next": ">=15",

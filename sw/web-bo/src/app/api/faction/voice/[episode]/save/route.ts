@@ -2,29 +2,27 @@ import { NextResponse } from 'next/server'
 import { writeFile, mkdir, unlink, readFile } from 'fs/promises'
 import { execFile } from 'child_process'
 import { promisify } from 'util'
-import { isSeriesModel } from '@/lib/series-registry'
-import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-utils'
 import { wavDurationSec } from '@feelandnote/shared/bo/episode-store'
 import { normalizeWavInPlace } from '@feelandnote/shared/bo/voice-normalize'
+import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
+import { guardFactionRoute } from '@/lib/faction-route'
 
-// ── 세력도 인물 대사 음성 저장 라우트 (미리듣기 → 인물 음원 확정)
+// ── 세력도 인물 대사 음성 저장 (미리듣기 → 인물 음원 확정)
 //
-// BookRecommend 의 /voice/save 는 episodes/ 경로(voiceDir)를 쓰므로 세력도엔 맞지 않다.
-// 세력도 음원은 public/factions/{episode}/voice/{file} 에 둔다. 이 라우트가 그 자리에 쓴다.
+// 음원은 public/factions/{에피소드}/voice/{파일} 에 둔다. 이 창구가 그 자리에 쓴다.
 //
-// 요청: { file: 'F01P01-quote.wav', base64 }
-//   - MP3(ElevenLabs preview) 자동 감지 → ffmpeg 로 WAV(mono 24kHz 16-bit) 변환 후 저장.
-//   - WAV(Gemini preview) 는 그대로 기록.
-// 인물 패널에서 미리듣기를 확정(저장)할 때 호출한다. 실제 합성은 호출 측(브라우저)이 이미 마쳤다.
+// 요청: { file: 'F01C01P01-quote.wav', base64 }
+//   - MP3(ElevenLabs 미리듣기) 자동 감지 → ffmpeg 로 WAV(mono 24kHz 16-bit) 변환 후 저장.
+//   - WAV(Gemini 미리듣기) 는 그대로 기록.
+// 인물 패널에서 미리듣기를 확정할 때 부른다. 실제 합성은 부르는 쪽(브라우저)이 이미 마쳤다.
 
 const execFileAsync = promisify(execFile)
 
-export async function POST(req: Request, { params }: { params: Promise<{ series: string; episode: string }> }) {
-  const { series, episode } = await params
-  if (!isSeriesModel(series, 'faction')) {
-    return NextResponse.json({ error: 'invalid series' }, { status: 404 })
-  }
+export async function POST(req: Request, { params }: { params: Promise<{ episode: string }> }) {
+  const denied = await guardFactionRoute()
+  if (denied) return denied
 
+  const { episode } = await params
   const { file, base64 } = await req.json().catch(() => ({}))
   if (!file || typeof file !== 'string' || !base64) {
     return NextResponse.json({ success: false, error: 'file, base64 required' }, { status: 400 })
@@ -50,14 +48,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       await writeFile(filePath, buf)
     }
 
-    // 라우드니스 정규화 — 저장 즉시 음량 균일화(ElevenLabs 음원 편차 해소). 원본은 .raw 백업.
-    // 실패해도 원본 저장은 유지(정규화는 독립 단계).
+    // 음량 균일화 — 저장 즉시 맞춘다(엔진별 편차 해소). 원본은 .raw 백업.
+    // 실패해도 원본 저장은 유지(균일화는 독립 단계).
     let normalized = false
     try { normalized = await normalizeWavInPlace(filePath) }
-    catch (e) { console.error('[faction-voice/save] 라우드니스 정규화 실패(원본 저장은 유지):', e) }
+    catch (e) { console.error('[faction/voice/save] 음량 균일화 실패(원본 저장은 유지):', e) }
 
-    // 길이(초)는 정규화 후 wav 기준으로 측정 → 응답. 호출 측이 인물 quoteDuration 에 기록해
-    // 렌더(컷 길이·음성 재생)가 이 음원에 맞춰진다.
+    /**
+     * 길이(초)는 균일화 후 wav 기준으로 재서 응답한다.
+     * ⚠ 이 값을 사람이 대본에 적어 넣게 만들지 마라 — 음성 길이는 음성 파이프라인 소유다(문서 §7).
+     *   DB 반영은 `pnpm faction:durations-pull` 이 wav 실측으로 한다. 응답값은 화면 표시용이다.
+     */
     const finalBuf = await readFile(filePath)
     const duration = wavDurationSec(finalBuf)
 

@@ -2,42 +2,41 @@ import { NextResponse } from 'next/server'
 import { mkdir, copyFile, readFile, rm } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { voiceDir } from '@/lib/server-utils'
-import { isValidSeries } from '@/lib/series-registry'
+import { safeFilename, wavDurationSec } from '@feelandnote/shared/bo/episode-store'
 import { applyAgeToFile } from '@feelandnote/shared/bo/voice-age'
+import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
+import { guardFactionRoute } from '@/lib/faction-route'
 
-// ── 북리커맨드 구간 음성 연령 변형 라우트 (세력도 faction-voice/age 와 대칭)
+// ── 세력도 인물 음성 연령 변형
 //
-// 원본을 두고 늙거나 젊게 변형한 예상안을 만들어 들어보고(preview), 마음에 들면 덮어쓴다(commit).
-// 진짜 원본은 voice/{locale}/ori/ 에 영구 보관해 예상안은 항상 원본 기준으로 생성한다(누적 왜곡 없음).
+// 원본을 두고 늙거나 젊게 변형한 예상안을 만들어 들어보고, 마음에 들면 덮어쓴다.
+// 진짜 원본은 voice/ori/ 에 영구 보관해 예상안은 항상 원본 기준으로 생성한다(누적 왜곡 없음).
 //
-// 요청: { episode, fileName (예 'gemini/S01-host-intro.wav'), age, action }
-//   action 'preview' | 'commit' | 'restore' | 'status'
+// 요청: { file, age, action }
+//   - action 'preview' : 원본 기준 변형본을 만들어 base64 로 돌려준다(디스크 미변경).
+//   - action 'commit'  : 원본을 ori/ 에 보관(최초 1회) + 변형본을 기존 이름에 기록.
+//   - action 'restore' : ori/ 원본을 기존 이름으로 되돌린다.
+//   - action 'status'  : 원본 보관(ori) 여부만 돌려준다.
 //   age ∈ [-1, 1] (양수=젊게, 음수=늙게). 변형은 전체 길이를 유지한다.
 
-/** WAV 헤더(byteRate)로 길이(초) 계산. 실패 시 0 */
-function wavDurationSec(buf: Buffer): number {
-  if (buf.length < 44 || buf.slice(0, 4).toString('ascii') !== 'RIFF') return 0
-  const byteRate = buf.readUInt32LE(28)
-  if (byteRate <= 0) return 0
-  return +((buf.length - 44) / byteRate).toFixed(2)
+/** 진짜 원본 백업 경로 — voice/ori/<파일명> */
+function oriPath(ep: string, file: string): string {
+  return path.join(factionVoiceDir(ep), 'ori', safeFilename(file))
 }
 
-export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
-  const { series } = await params
-  if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
+export async function POST(req: Request, { params }: { params: Promise<{ episode: string }> }) {
+  const denied = await guardFactionRoute()
+  if (denied) return denied
 
-  const { episode, fileName, age, action } = await req.json().catch(() => ({}))
-  if (!episode || !fileName || typeof fileName !== 'string' || !/\.wav$/i.test(fileName)) {
-    return NextResponse.json({ success: false, error: 'episode, fileName(.wav) required' }, { status: 400 })
-  }
-  if (fileName.includes('..')) {
-    return NextResponse.json({ success: false, error: 'invalid fileName' }, { status: 400 })
+  const { episode } = await params
+  const { file, age, action } = await req.json().catch(() => ({}))
+  if (!file || typeof file !== 'string' || !/\.wav$/i.test(file)) {
+    return NextResponse.json({ success: false, error: 'file(.wav) required' }, { status: 400 })
   }
 
-  const vDir = voiceDir(episode)
-  const target = path.join(vDir, fileName)
-  const backup = path.join(vDir, 'ori', fileName)
+  const ep = decodeURIComponent(episode)
+  const target = factionVoiceFilePath(ep, file)
+  const backup = oriPath(ep, file)
   const hasOri = existsSync(backup)
 
   try {
