@@ -7,6 +7,7 @@
  *     --commons-file "Fei-Fei Li at AI for Good 2017.jpg" \
  *     --slug fei-fei-li \
  *     [--face-detect true|false]              (기본 true)
+ *     [--require-face true|false]             (기본 false. 켜면 얼굴 미검출 시 업로드 전에 중단)
  *     [--face-frame-ratio 0.45]               (얼굴이 결과에서 차지할 비율, 기본 0.45 ≈ 박스의 2.2배 외곽)
  *     [--crop-gravity attention|entropy|...]  (face detection 비활성 또는 fallback 시 사용)
  *     [--size 800]                            (저장 정사각 한 변, 기본 800. 고해상도 원본이면 올린다)
@@ -19,6 +20,7 @@
  *     얼굴 박스 중심 좌표를 결과의 정중앙에 두는 정사각형 영역 산출
  *  4) sharp.extract로 좌표 크롭 → --size 정사각 resize → webp(q=85), EXIF에 출처/라이선스 박음
  *  5) 얼굴 미감지 시 cropGravity(기본 attention) entropy fallback + 로그 경고
+ *     (--require-face 를 켜면 이 fallback 없이 업로드 전에 실패한다)
  *  6) R2 PUT: celebs/{celebId}/avatar.webp
  *  7) Supabase profiles.avatar_url 갱신 (캐시 버스터 ?v={timestamp})
  *  8) scripts/celeb-image-credits.log 에 1줄 누적
@@ -70,6 +72,12 @@ type Args = {
   sourceNote?: string
   slug: string
   faceDetect: boolean
+  /**
+   * 얼굴을 못 찾으면 크롭 폴백 없이 즉시 실패시킨다(기본 꺼짐).
+   * 팩션 개인샷 승격처럼 "얼굴이 잡혔는지"가 결과의 합격 조건인 호출자가 켠다 —
+   * 조용히 entropy 크롭으로 대체해 올려 버리면 사람은 성공으로 오해한다.
+   */
+  requireFace: boolean
   faceFrameRatio: number
   cropGravity: CropGravity
   previewPath?: string
@@ -111,6 +119,7 @@ function parseArgs(): Args {
   const gravityRaw = (get('--crop-gravity') ?? 'attention').toLowerCase()
   const previewPath = get('--preview-path')
   const faceDetectRaw = (get('--face-detect') ?? 'true').toLowerCase()
+  const requireFaceRaw = (get('--require-face') ?? 'false').toLowerCase()
   const faceFrameRatioRaw = get('--face-frame-ratio')
   const outSizeRaw = get('--size')
   if (!celebId || !slug) {
@@ -133,6 +142,11 @@ function parseArgs(): Args {
     process.exit(1)
   }
   const faceDetect = faceDetectRaw === 'true' || faceDetectRaw === '1' || faceDetectRaw === 'yes'
+  const requireFace = requireFaceRaw === 'true' || requireFaceRaw === '1' || requireFaceRaw === 'yes'
+  if (requireFace && !faceDetect) {
+    console.error('--require-face 는 --face-detect true 와 함께만 쓸 수 있다')
+    process.exit(1)
+  }
   const faceFrameRatio = faceFrameRatioRaw ? Number(faceFrameRatioRaw) : 0.45
   if (Number.isNaN(faceFrameRatio) || faceFrameRatio <= 0 || faceFrameRatio >= 1) {
     console.error(`--face-frame-ratio 값 부적절: ${faceFrameRatioRaw}. (0, 1) 범위 필요`)
@@ -151,6 +165,7 @@ function parseArgs(): Args {
     sourceNote,
     slug,
     faceDetect,
+    requireFace,
     faceFrameRatio,
     cropGravity: gravityRaw as CropGravity,
     previewPath,
@@ -407,6 +422,14 @@ async function toAvatarWebp(
         fallbackGravity: null,
       }
     }
+    // 얼굴 미감지 + --require-face: 대체 크롭으로 올리지 않고 중단한다(호출자가 사유를 그대로 보여준다)
+    if (args.requireFace) {
+      throw new Error(
+        '얼굴을 찾지 못했다 (SSD MobileNet, minConfidence 0.4). '
+        + '--require-face 가 켜져 있어 대체 크롭으로 올리지 않고 중단한다. '
+        + '전신·측면·군집 사진이면 얼굴이 큰 다른 사진을 쓰거나 --require-face false 로 다시 실행하라.'
+      )
+    }
     // 얼굴 미감지: fallback (entropy 가 attention 보다 인물 사진에서 안전)
     const fallback: CropGravity = args.cropGravity === 'attention' ? 'entropy' : args.cropGravity
     const buf = await sharp(rotated)
@@ -503,7 +526,7 @@ async function main() {
   }
 
   console.log(
-    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=85, face-detect=${args.faceDetect}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
+    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=85, face-detect=${args.faceDetect}, require-face=${args.requireFace}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
   )
   const conv = await toAvatarWebp(original, meta, sourceLabel, args)
   if (conv.faceDetected) {

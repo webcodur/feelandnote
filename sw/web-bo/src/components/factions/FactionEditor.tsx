@@ -223,9 +223,12 @@ ${res.exported.reason}`)
 
   // 에피소드 로드 — 표시되는 편 묶음(공통·1편…N편) 섹션 수에 따라 접힘 기본값을 정한다.
   // 편이 1개뿐이면 펼친 상태, 2개 이상이면 접은 상태로 시작한다(개별 토글은 그대로 둔다).
-  useEffect(() => {
+  //
+  // 출간 패널의 「목소리 물려받기」처럼 이 화면 밖에서 DB 를 고치는 도구가 있어 다시 부를 수 있게 뺐다.
+  // 다시 부르지 않으면 화면이 쥔 옛 대본이 다음 저장에 실려 방금 채운 값을 지운다.
+  const reloadScript = useCallback(() => {
     // 글과 구성의 원본은 DB다(문서 §0) — 파일을 읽지 않고 서버 액션으로 조립해 받는다
-    loadFactionScript(name)
+    return loadFactionScript(name)
       .then((loaded) => {
         updatedAtRef.current = loaded.updatedAt
         const data = loaded.script as unknown as FactionScript
@@ -246,7 +249,9 @@ ${res.exported.reason}`)
         setScript({ title: name, groups: [] })
         setCollapsedParts({})
       })
-  }, [name])
+  }, [name, setDirty])
+
+  useEffect(() => { reloadScript() }, [reloadScript])
 
   // 음악 목록 로드 — 곡별 연결처(어느 세력에 쓰이는지)도 함께 받는다
   const loadMusic = useCallback(() => {
@@ -1048,6 +1053,7 @@ ${res.exported.reason}`)
               groups={groups}
               onChangeTagSlug={setGroupTagSlug}
               ensureSaved={ensurePublishSaved}
+              onDataChanged={reloadScript}
             />
           )}
 
