@@ -22,6 +22,24 @@
   --color-warning: #d29922;
   --color-danger: #da3633;
 
+  /* ── 세력도 편집 화면 이관분(26.07.25) ──
+     영상 관리 대시보드의 편집 화면을 이 앱으로 옮기면서, 그 쪽에만 있던 색 갈래를 채웠다.
+     원본은 밝은 배경 기준이라 값을 그대로 못 쓴다 — 이 앱의 어두운 계열에 맞춰 다시 잡았다.
+     · hover  : 카드 표면보다 한 단계 밝은 마우스오버 면
+     · dim    : 본문·보조 다음의 세 번째 글자 밝기(원본이 3단으로 쓴다)
+     · *-text : 어두운 배경 위에서 읽히는 상태 글자색. 배경 틴트는 `bg-danger/10` 처럼 투명도로 만든다
+     · info   : 안내 갈래. 이 앱엔 아예 없었다 */
+  --color-bg-hover: #30363d;
+  /* 기존 화면 4곳이 정의 없는 bg-bg-tertiary 를 쓰고 있었다 — 같은 값으로 함께 세운다 */
+  --color-bg-tertiary: #30363d;
+  --color-text-dim: #6e7681;
+  --color-border-active: #58a6ff;
+  --color-success-text: #3fb950;
+  --color-warning-text: #e3b341;
+  --color-danger-text: #ff7b72;
+  --color-info: #1f6feb;
+  --color-info-text: #79c0ff;
+
   /* Font */
   --font-family-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
@@ -161,4 +179,59 @@
 
 .animate-toast-in {
   animation: toastIn 0.2s ease-out;
+}
+
+/* ==========================================================================
+   세력도 편집 화면 전용 글자·선 보정 (26.07.25 이관)
+
+   영상 관리 대시보드는 아주 작은 글자(10~12px)를 화면 전체에서 키우고 굵게 만드는 전역 보정을
+   깔고 있었고, 세력도 편집 화면의 촘촘한 표·패널이 **그 보정에 기대어** 읽히도록 짜여 있다.
+   그 보정을 이 앱 전체에 깔면 다른 화면의 글자 크기가 전부 바뀌므로, `.faction-ui` 를 붙인
+   가지 안쪽에만 적용한다(편집 화면 뿌리에 그 클래스를 준다).
+
+   값은 원본과 동일하게 유지했다 — 편집 감각이 달라지면 그게 곧 기능 회귀다.
+   ========================================================================== */
+.faction-ui input,
+.faction-ui select,
+.faction-ui textarea,
+.faction-ui button {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.faction-ui .text-xs {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.faction-ui .text-\[10px\] {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.faction-ui .text-\[11px\] {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.faction-ui .text-sm {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.faction-ui .text-base {
+  font-size: 16.5px;
+  font-weight: 700;
+}
+
+.faction-ui .text-text-dim,
+.faction-ui .text-text-secondary {
+  font-weight: 700;
+}
+
+/* 선을 조금 더 두껍게 — 촘촘한 표의 칸 경계가 뭉개지지 않게 */
+.faction-ui .border,
+.faction-ui .border-border {
+  border-width: 1.5px;
 }

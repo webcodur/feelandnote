@@ -131,12 +131,27 @@ async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
 }
 
 /**
- * 기존 음성 길이를 자리(세력·묶음·인물 순번)로 찾을 수 있게 모은다.
+ * 기존 음성 길이를 **사람 기준으로** 모은다.
  *
- * 음성 길이는 **음성 파이프라인이 소유**하고 사람이 입력하지 않는다(문서 §7).
- * 편집기가 옛 값을 들고 있다가 저장으로 되돌려 놓는 사고를 막기 위해 DB 값을 그대로 유지한다.
+ * 음성 길이는 음성 파이프라인이 소유하고 사람이 입력하지 않는다(문서 §7). 그래서 저장할 때
+ * 편집기가 보낸 값으로 덮지 않고 DB 값을 유지한다.
+ *
+ * ⚠ 단 **자리(순번) 기준으로 유지하면 안 된다.** 인물 순서를 바꾸면 음원 파일은 인물을 따라
+ *   옮겨 가는데(음원 재배치 창구가 그렇게 한다) 길이를 자리에 붙여 두면 그 자리에 남는다.
+ *   그러면 옮겨온 음원과 길이가 어긋나 컷 길이가 틀어진다 — 실측으로 잡은 결함이다.
+ *   그래서 연결 키(slug), 없으면 이름을 사람의 신원으로 삼아 길이가 사람을 따라가게 한다.
+ *
+ * 같은 사람이 한 편에 두 번 나오는 경우가 실제로 있다(오디세우스). 그때는 같은 신원끼리
+ * **나온 순서대로** 짝지어 준다 — 그 이상 가릴 단서가 데이터에 없다.
+ *
  * numeric 컬럼은 PostgREST 가 문자열로 돌려주므로 숫자로 되돌린다.
  */
+type Durations = { quoteDuration: number | null; epithetDuration: number | null }
+
+/** 인물의 신원 — 연결 키가 있으면 그것, 없으면 이름 */
+const identityOf = (p: { slug?: unknown; name?: unknown }): string =>
+  (typeof p.slug === 'string' && p.slug) ? `s:${p.slug}` : `n:${String(p.name ?? '')}`
+
 async function loadExistingDurations(db: SupabaseClient, episodeId: string): Promise<DurationLookup> {
   const { data: groups, error: gErr } = await db
     .from('faction_groups').select('id,position').eq('episode_id', episodeId)
@@ -148,33 +163,42 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
     groupRows.map(g => g.id as string), 'id,group_id,position')
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
-        clusterRows.map(c => c.id as string), 'cluster_id,position,quote_duration,epithet_duration')
+        clusterRows.map(c => c.id as string),
+        'cluster_id,position,slug,name,quote_duration,epithet_duration')
     : []
-
-  const gPos = new Map(groupRows.map(g => [g.id as string, g.position as number]))
-  const cKey = new Map<string, string>() // cluster_id → "세력순번:묶음순번"
-  for (const c of clusterRows) {
-    const gi = gPos.get(c.group_id as string)
-    if (gi === undefined) continue
-    cKey.set(c.id as string, `${gi}:${c.position as number}`)
-  }
 
   const num = (v: unknown): number | null =>
     v === null || v === undefined ? null : typeof v === 'string' ? Number(v) : (v as number)
 
-  const byPath = new Map<string, { quoteDuration: number | null; epithetDuration: number | null }>()
-  for (const p of personRows) {
-    const k = cKey.get(p.cluster_id as string)
-    if (!k) continue
-    byPath.set(`${k}:${p.position as number}`, {
+  // 신원별로 자리 순서대로 줄을 세운다(같은 신원이 여러 번 나오면 나온 순서가 짝짓기 기준)
+  const gPos = new Map(groupRows.map(g => [g.id as string, g.position as number]))
+  const cOrder = new Map<string, number>() // cluster_id → 정렬용 값
+  for (const c of clusterRows) {
+    const gi = gPos.get(c.group_id as string) ?? 0
+    cOrder.set(c.id as string, gi * 1000 + (c.position as number))
+  }
+  const sorted = [...personRows].sort((a, b) =>
+    (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
+    || (a.position as number) - (b.position as number))
+
+  const byIdentity = new Map<string, Durations[]>()
+  for (const p of sorted) {
+    const k = identityOf(p)
+    if (!byIdentity.has(k)) byIdentity.set(k, [])
+    byIdentity.get(k)!.push({
       quoteDuration: num(p.quote_duration),
       epithetDuration: num(p.epithet_duration),
     })
   }
 
-  // 저장 키는 1-based 순번, 분해기 콜백은 0-based 인덱스로 부른다
-  return (gi, ci, pi) => {
-    const hit = byPath.get(`${gi + 1}:${ci + 1}:${pi + 1}`)
+  // 들어오는 대본에서도 같은 신원이 몇 번째로 나왔는지 세어 순서대로 짝짓는다
+  const seen = new Map<string, number>()
+  return (_gi, _ci, _pi, person) => {
+    const k = identityOf(person as { slug?: unknown; name?: unknown })
+    const list = byIdentity.get(k)
+    const n = seen.get(k) ?? 0
+    seen.set(k, n + 1)
+    const hit = list?.[n]
     if (!hit) return undefined
     return {
       quoteDuration: hit.quoteDuration ?? undefined,

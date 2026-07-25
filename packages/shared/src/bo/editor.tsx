@@ -108,7 +108,7 @@ export function FloatingSaveButton({ dirty, saving, onSave }: { dirty: boolean; 
  * 파일이 먼저 움직이므로, 대본이 가리키던 경로를 새 자리로 따라가게 한 뒤 **그 자리에서 바로 저장한다** —
  * 저장 전에 새로고침하면 사진 연결이 통째로 끊긴 채 남는다.
  */
-export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript, remapImages }: {
+export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript, remapImages, persist }: {
   series: string
   episodeName: string
   /** 편집 중인 대본 — 저장은 항상 이 참조의 최신값을 기록한다 */
@@ -119,6 +119,15 @@ export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript,
    * 바뀐 곳이 없으면 받은 대본을 그대로(같은 객체로) 돌려준다.
    */
   remapImages: (script: T, from: string, to: string) => T
+  /**
+   * 저장 실행부 갈아끼우기(선택). 주지 않으면 예전처럼 `/api/{시리즈}/episodes/{편}` 에 대본을 PUT 한다.
+   *
+   * 글의 원본이 파일이 아니라 DB 인 시리즈(세력도)는 이 자리에 자기 저장 절차를 넘긴다.
+   * 대본만 보내면 안 되기 때문이다 — 그 사이 다른 곳에서 먼저 저장했는지 대조할 기준 시각을
+   * 함께 실어 보내야 하고, 저장 뒤에는 새 기준 시각을 받아 들고 있어야 한다.
+   * 실패는 **던져야** 한다. 그래야 편집기가 손댐 표시를 지우지 않고 다시 저장하게 남겨 둔다.
+   */
+  persist?: (script: T) => Promise<void>
 }) {
   const [dirty, setDirty] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -129,14 +138,18 @@ export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript,
     if (!current) return false
     setSaving(true)
     try {
-      const res = await fetch(`/api/${series}/episodes/${encodeURIComponent(episodeName)}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(current),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err.error ?? res.statusText)
+      if (persist) {
+        await persist(current)
+      } else {
+        const res = await fetch(`/api/${series}/episodes/${encodeURIComponent(episodeName)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(current),
+        })
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.error ?? res.statusText)
+        }
       }
       setDirty(false)
       return true
@@ -146,7 +159,7 @@ export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript,
     } finally {
       setSaving(false)
     }
-  }, [series, episodeName, scriptRef])
+  }, [series, episodeName, scriptRef, persist])
 
   // Ctrl+S 저장
   useEffect(() => {

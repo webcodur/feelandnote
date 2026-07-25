@@ -12,7 +12,10 @@
     "@aws-sdk/client-s3": "^3.997.0",
     "@feelandnote/ai-services": "workspace:*",
     "@feelandnote/content-search": "workspace:*",
+    "@feelandnote/remotion": "workspace:*",
     "@feelandnote/shared": "workspace:*",
+    "@google/genai": "^1.44.0",
+    "@remotion/player": "4.0.434",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.86.2",
     "@tensorflow/tfjs": "^4.22.0",
@@ -23,7 +26,8 @@
     "next": "16.1.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-easy-crop": "^5.5.6"
+    "react-easy-crop": "^5.5.6",
+    "remotion": "4.0.434"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
