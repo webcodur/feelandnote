@@ -120,9 +120,15 @@ export function scanEpisodes(): EpisodeFolder[] {
   return out.sort((a, b) => a.folder.localeCompare(b.folder))
 }
 
-/** faction-data.json 을 원문 그대로 읽는다(가공 없음, utf8) */
+/**
+ * faction-data.json 을 읽는다(utf8). `_generated` 마커(export 산출 표식)는 내용이 아니므로
+ * 여기서 벗긴다 — 안 벗기면 발효된 파일을 재흡수(import)할 때 마커가 DB data 에 데이터로
+ * 저장돼 왕복 검증 ①이 깨진다(26.07.25 실측).
+ */
 export function readFactionData(dataPath: string): Record<string, unknown> {
-  return JSON.parse(readFileSync(dataPath, 'utf-8')) as Record<string, unknown>
+  const doc = JSON.parse(readFileSync(dataPath, 'utf-8')) as Record<string, unknown>
+  delete doc._generated
+  return doc
 }
 
 /** comment.p<N>.txt — 편별 유튜브 고정 댓글 원고 */

@@ -173,9 +173,16 @@ export interface FactionRowPayload {
   parts: { part: number; comment: string }[]
 }
 
-/** 기존 DB 음성 길이 — 자리(세력·묶음·인물 순번)로 조회한다 */
+/**
+ * 기존 DB 음성 길이 조회.
+ *
+ * ⚠ **자리(순번)만으로 찾으면 안 된다.** 인물 순서를 바꾸면 음원 파일은 인물을 따라 옮겨 가는데
+ *   길이를 자리에 붙여 두면 그 자리에 남아, 옮겨온 음원과 길이가 어긋난다(컷 길이가 틀어진다).
+ *   그래서 이 콜백은 인물 자체도 함께 받아 **사람을 기준으로** 찾을 수 있게 한다.
+ *   자리는 같은 사람이 한 편에 두 번 나오는 경우의 보조 단서로만 쓴다.
+ */
 export type DurationLookup = (
-  gi: number, ci: number, pi: number,
+  gi: number, ci: number, pi: number, person: Row,
 ) => { quoteDuration?: number | null; epithetDuration?: number | null } | undefined
 
 export interface BuildRowsOptions {
@@ -246,7 +253,7 @@ export function buildFactionRows(
         if (!pCols.name) throw new Error(`세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}의 이름이 비었다 — 저장할 수 없다`)
         const slug = p.slug as string | undefined
         // §7 — 음성 길이는 파이프라인 소유. DB 값이 있으면 그것을 신뢰한다.
-        const kept = durations?.(gi, ci, pi)
+        const kept = durations?.(gi, ci, pi, p)
         const quoteDuration = kept?.quoteDuration ?? (pCols.quote_duration as number | null) ?? null
         const epithetDuration = kept?.epithetDuration ?? (pCols.epithet_duration as number | null) ?? null
         people.push({
