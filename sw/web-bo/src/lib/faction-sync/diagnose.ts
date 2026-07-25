@@ -8,6 +8,7 @@
  *   ③ 개인샷·그룹샷의 저장소 동기 상태 — 매니페스트 해시 대조
  *   ④ 얼굴 사진(아바타) 유무 — 도감 목록이 얼굴을 쓴다
  *   ⑤ 신화 표시 ↔ 셀럽 등급(fiction) 어긋남
+ *   ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조 — 어긋남을 알리기만 한다
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js'
@@ -23,7 +24,7 @@ import {
 } from './supabase'
 import type {
   FactionSyncGroup, FactionSyncLinkState, FactionSyncPerson,
-  FactionSyncSoloShotState, FactionSyncStatus,
+  FactionSyncSoloShotState, FactionSyncStatus, FactionSyncVoiceState,
 } from './types'
 
 /** 서비스 쪽 현재 상태 한 벌 — 태그·배정·프로필. 인물마다 조회하지 않고 편 단위로 묶어 긁는다 */
@@ -139,6 +140,21 @@ function tierMismatchOf(mythical: boolean, tier: string | undefined): boolean {
   return mythical !== (tier === 'fiction')
 }
 
+/**
+ * 대사 목소리 대조 — 제작 데이터의 대사 목소리와 셀럽 프로필의 국문 목소리를 견준다.
+ * 어느 쪽이 맞는지는 사람이 정하므로 출간을 막지 않고 알리기만 한다(등급 어긋남과 같은 성격이다).
+ */
+export function voiceStateOf(
+  personVoiceId: string | undefined, profileVoiceId: string | null | undefined,
+): FactionSyncVoiceState {
+  const mine = personVoiceId?.trim() ?? ''
+  const theirs = profileVoiceId?.trim() ?? ''
+  if (!mine && !theirs) return 'both-empty'
+  if (!mine) return 'profile-only'
+  if (!theirs) return 'person-only'
+  return mine === theirs ? 'same' : 'different'
+}
+
 /** 에피소드 진단 — 읽기 전용 보고 */
 export async function buildStatus(db: SupabaseClient, folder: string): Promise<FactionSyncStatus> {
   const episode = await collectEpisode(db, folder)
@@ -156,6 +172,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
       const hash = p.image && !p.image.external ? await hashOfFile(p.image.abs) : null
       const tier = profile?.celeb_tier ?? undefined
       people.push({
+        id: p.id,
         name: p.name,
         slug: p.slug,
         celebId: p.celebId,
@@ -173,6 +190,8 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
         avatar: !!profile?.avatar_url,
         tier,
         tierMismatch: tierMismatchOf(p.mythical, tier),
+        // 셀럽이 이어져야 견줄 상대가 있다 — 미해소 인물은 아예 값을 두지 않는다
+        ...(profile ? { voice: voiceStateOf(p.quoteVoiceId, profile.voice_id_ko) } : {}),
       })
     }
 
@@ -234,6 +253,8 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
       teamShotPending: groups.reduce((s, g) => s + Math.max(0, g.teamShots.local - g.teamShots.synced), 0),
       avatarMissing: allPeople.filter(p => p.link === 'linked' && !p.avatar).length,
       tierMismatch: allPeople.filter(p => p.tierMismatch).length,
+      voiceDifferent: allPeople.filter(p => p.voice === 'different').length,
+      voiceFillable: allPeople.filter(p => p.voice === 'profile-only').length,
     },
   }
 }

@@ -11,8 +11,8 @@
  *
  * 제작과 서비스가 **같은 DB 안에** 있게 되면서 텍스트 대조 진단이 사라졌다. 예전에는 로컬 JSON 과
  * DB 를 견주어 "소개문을 채울 수 있는가"를 세었지만, 지금은 한 집이라 견줄 상대가 없다.
- * 남는 진단은 다섯이다 — ① 셀럽 미해소 인물 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
- * ④ 아바타 유무 ⑤ 신화 표시와 셀럽 등급(fiction) 어긋남.
+ * 남는 진단은 여섯이다 — ① 셀럽 미해소 인물 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
+ * ④ 아바타 유무 ⑤ 신화 표시와 셀럽 등급(fiction) 어긋남 ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조.
  */
 
 /* ── 진단 ── */
@@ -35,7 +35,23 @@ export type FactionSyncLinkState = 'linked' | 'unresolved' | 'unkeyed'
  */
 export type FactionSyncSoloShotState = 'synced' | 'stale' | 'local-only' | 'db-only' | 'none'
 
+/**
+ * 대사 목소리 대조 상태 — 제작 데이터의 대사 목소리(`quoteElevenlabsVoiceId`)와
+ * 셀럽 프로필의 국문 목소리(`profiles.voice_id_ko`)를 견준 결과. **셀럽이 이어진 인물만** 값이 있다.
+ *
+ * - same: 두 쪽이 같은 목소리다
+ * - different: 서로 다른 목소리다 — 어느 쪽이 맞는지는 사람이 정한다
+ * - person-only: 제작 데이터에만 있다(셀럽 프로필이 비었다 — 인물 화면의 「DB에 저장」으로 올릴 수 있다)
+ * - profile-only: 셀럽 프로필에만 있다 — 일괄 상속의 대상이다
+ * - both-empty: 양쪽 다 비었다
+ *
+ * 어느 상태든 **출간을 막지 않는다.** 알리기만 한다.
+ */
+export type FactionSyncVoiceState = 'same' | 'different' | 'person-only' | 'profile-only' | 'both-empty'
+
 export interface FactionSyncPerson {
+  /** faction_people.id — 인물 단위 액션(개인샷 아바타 승격)이 가리키는 대상 */
+  id: string
   name: string
   /** 연결 키 */
   slug?: string
@@ -56,6 +72,8 @@ export interface FactionSyncPerson {
    * 어느 쪽이 맞는지는 사람이 판단한다(출간을 막지는 않는다).
    */
   tierMismatch: boolean
+  /** 대사 목소리 대조 — 셀럽이 이어진 인물만 값이 있다(미해소 인물은 견줄 상대가 없다) */
+  voice?: FactionSyncVoiceState
 }
 
 export interface FactionSyncGroup {
@@ -110,6 +128,10 @@ export interface FactionSyncStatus {
     avatarMissing: number
     /** 신화 표시와 셀럽 등급이 어긋난 인물 수 */
     tierMismatch: number
+    /** 대사 목소리가 셀럽 국문 목소리와 다른 인물 수 */
+    voiceDifferent: number
+    /** 대사 목소리가 비어 있고 셀럽 국문 목소리는 있는 인물 수 — 일괄 상속으로 채울 수 있는 인원 */
+    voiceFillable: number
   }
 }
 

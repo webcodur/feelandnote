@@ -45,6 +45,11 @@ export interface PublishPerson {
   /** 해소된 셀럽 id — null 이면 미해소(출간 불가) */
   celebId: string | null
   mythical: boolean
+  /**
+   * 이 인물 대사에 지정된 ElevenLabs 목소리(`data.quoteElevenlabsVoiceId`).
+   * 셀럽 프로필의 국문 목소리와 견주는 진단 항목이다 — 출간이 쓰는 값은 아니다.
+   */
+  quoteVoiceId?: string
   place: Placement
   /**
    * 태그 안 등장 순번 — assignments.sort_order 로 그대로 들어간다.
@@ -150,6 +155,17 @@ function folderOfGroup(refs: (LocalImageRef | undefined)[]): string | undefined 
   return best
 }
 
+/**
+ * 인물 롱테일(data jsonb)에서 대사 목소리만 꺼낸다 — 빈 문자열은 없는 것으로 본다.
+ * 이 값의 짝인 `quoteEngine` 은 진단이 보지 않는다(대조는 목소리 하나만 한다).
+ */
+export function quoteVoiceIdOf(data: unknown): string | undefined {
+  if (!data || typeof data !== 'object') return undefined
+  const v = (data as Record<string, unknown>).quoteElevenlabsVoiceId
+  if (typeof v !== 'string') return undefined
+  return v.trim() || undefined
+}
+
 /** 문자열 배열 컬럼(lines·lines_en) 정리 */
 function textArray(v: unknown): string[] {
   if (!Array.isArray(v)) return []
@@ -187,7 +203,9 @@ async function inChunks(
 
 const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, data'
 const CLUSTER_SELECT = 'id, group_id, position, image'
-const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, image'
+// `data` 는 대사 목소리 대조(진단 ⑥) 때문에 함께 받는다. 큰 덩어리인 채굴 어록은 별도 컬럼(mined)이라
+// 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
+const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, image, data'
 
 const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as number)
 
@@ -245,6 +263,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
           slug: typeof p.slug === 'string' && p.slug.trim() ? p.slug.trim() : undefined,
           celebId: (p.celeb_id as string | null) ?? null,
           mythical: p.mythical === true,
+          quoteVoiceId: quoteVoiceIdOf(p.data),
           place: [index, ci, pi] as const,
           order: 0, // assignTagOrder 가 태그 관통 번호로 다시 매긴다
           ...descsOf(p),

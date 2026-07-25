@@ -4,10 +4,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { Upload, Eye, Loader } from '@feelandnote/shared/bo/icons'
 import type { FactionGroup } from '@/lib/faction-types'
 import { diagnoseFactionPublish, publishFactionEpisode } from '@/actions/admin/factions/publish'
+import { inheritFactionVoices, type InheritFactionVoicesResult } from '@/actions/admin/factions/voice-inherit'
+import { promoteFactionAvatar } from '@/actions/admin/factions/avatar'
 import type {
   FactionSyncStatus,
   FactionSyncGroup,
   FactionSyncPerson,
+  FactionSyncVoiceState,
   FactionPublishRequest,
   FactionPublishResult,
   FactionPublishItem,
@@ -55,6 +58,33 @@ const RESULT_STATUS_CLASS: Record<string, string> = {
   updated: 'bg-accent/10 text-accent',
   skipped: 'bg-bg-main text-text-dim',
   blocked: 'bg-danger/20 text-danger-text',
+}
+
+/**
+ * 대사 목소리 대조 칩 — 인물 대사에 지정된 목소리와 셀럽 국문 목소리를 견준 결과.
+ * 「같음」은 굳이 알릴 일이 아니라 칩을 띄우지 않는다(칩이 많으면 어긋난 것이 안 보인다).
+ */
+const VOICE_CHIP: Partial<Record<FactionSyncVoiceState, { label: string; cls: string; hint: string }>> = {
+  different: {
+    label: '목소리 다름',
+    cls: 'bg-warning/20 text-warning-text',
+    hint: '이 인물 대사에 지정된 목소리와 셀럽에 등록된 국문 목소리가 다르다. 어느 쪽이 맞는지는 사람이 정한다(출간은 막히지 않는다)',
+  },
+  'profile-only': {
+    label: '셀럽에만 있음',
+    cls: 'bg-info/20 text-info-text',
+    hint: '셀럽에는 국문 목소리가 등록돼 있는데 이 인물 대사에는 비어 있다 — 위쪽 「목소리 물려받기」로 채울 수 있다',
+  },
+  'person-only': {
+    label: '셀럽에 없음',
+    cls: 'bg-bg-main text-text-dim',
+    hint: '이 인물 대사에만 목소리가 있고 셀럽에는 등록되지 않았다 — 인물 음성 화면의 「DB에 저장」으로 올릴 수 있다',
+  },
+  'both-empty': {
+    label: '목소리 없음',
+    cls: 'bg-bg-main text-text-dim',
+    hint: '이 인물 대사와 셀럽 양쪽 모두 목소리가 지정되지 않았다',
+  },
 }
 
 /** 출간 범위 — 이번 패널은 항상 전 범위를 켠 채 호출한다(부분 범위 선택 UI는 범위 밖) */
@@ -111,6 +141,7 @@ export function FactionPublishPanel({
   groups,
   onChangeTagSlug,
   ensureSaved,
+  onDataChanged,
 }: {
   /** 에피소드 폴더명 */
   name: string
@@ -120,6 +151,11 @@ export function FactionPublishPanel({
   onChangeTagSlug: (groupIndex: number, tagSlug: string) => void
   /** 출간은 저장된 데이터를 읽는다 — 호출 전 미저장분을 먼저 저장 */
   ensureSaved: () => Promise<void>
+  /**
+   * 이 패널이 대본 자체를 고쳤을 때(목소리 물려받기) 편집기에 다시 불러오라고 알린다.
+   * 알리지 않으면 편집기가 쥔 옛 내용이 다음 저장에 그대로 실려 방금 채운 값을 지운다.
+   */
+  onDataChanged?: () => void
 }) {
   const [status, setStatus] = useState<FactionSyncStatus | null>(null)
   const [loading, setLoading] = useState(true)
@@ -128,6 +164,13 @@ export function FactionPublishPanel({
   const [busyGroup, setBusyGroup] = useState<number | null>(null)
   const [allProgress, setAllProgress] = useState<{ done: number; total: number } | null>(null)
   const [logs, setLogs] = useState<LogEntry[]>([])
+  // 목소리 물려받기 — 미리보기(명단만)와 실제 채우기가 같은 창구를 쓴다
+  const [voiceBusy, setVoiceBusy] = useState(false)
+  const [voiceResult, setVoiceResult] = useState<InheritFactionVoicesResult | null>(null)
+  const [voiceError, setVoiceError] = useState<string | null>(null)
+  // 개인샷 → 얼굴 사진 승격 — 한 명씩. 진행 중인 인물 id 와 마지막 결과만 들고 있는다
+  const [avatarBusy, setAvatarBusy] = useState<string | null>(null)
+  const [avatarNotice, setAvatarNotice] = useState<{ ok: boolean; text: string } | null>(null)
 
   const fetchStatus = useCallback(async () => {
     setLoading(true)
@@ -183,6 +226,55 @@ export function FactionPublishPanel({
     }
     return ok
   }, [name, force, ensureSaved, fetchStatus])
+
+  /**
+   * 대사 목소리 물려받기 — 셀럽에 등록된 국문 목소리를 **비어 있는 인물만** 채운다.
+   * 미리보기는 아무것도 쓰지 않고 대상 명단만 돌려준다.
+   */
+  const runVoiceInherit = useCallback(async (dryRun: boolean) => {
+    setVoiceBusy(true)
+    setVoiceError(null)
+    try {
+      await ensureSaved()
+      const r = await inheritFactionVoices(name, dryRun)
+      setVoiceResult(r)
+      if (!dryRun && r.filled) {
+        await fetchStatus()
+        // 편집기가 쥔 대본은 이제 낡았다 — 다시 불러와야 저장 잠금도 새 값으로 맞는다
+        onDataChanged?.()
+      }
+    } catch (e) {
+      setVoiceError(errText(e))
+      setVoiceResult(null)
+    } finally {
+      setVoiceBusy(false)
+    }
+  }, [name, ensureSaved, fetchStatus, onDataChanged])
+
+  /**
+   * 개인샷을 그 셀럽의 얼굴 사진으로 승격한다 — 셀럽 본문을 건드리는 유일한 경로라 한 명씩,
+   * 사람이 눌러야 돈다(문서 §4). 얼굴을 못 찾으면 실패 사유를 그대로 보여준다.
+   */
+  const promoteAvatar = useCallback(async (person: FactionSyncPerson, replace: boolean) => {
+    const what = replace
+      ? `"${person.name}" 의 얼굴 사진을 개인샷으로 갈아치웁니다. 기존 사진은 되돌릴 수 없습니다. 계속할까요?`
+      : `"${person.name}" 의 개인샷으로 셀럽 얼굴 사진을 만듭니다. 계속할까요?`
+    if (!confirm(what)) return
+    setAvatarBusy(person.id)
+    setAvatarNotice(null)
+    try {
+      const r = await promoteFactionAvatar(name, person.id, replace)
+      setAvatarNotice({
+        ok: true,
+        text: `${r.name} — 얼굴 사진을 ${r.replaced ? '갈아치웠다' : '만들었다'} (재료 ${r.imageRel})`,
+      })
+      await fetchStatus()
+    } catch (e) {
+      setAvatarNotice({ ok: false, text: errText(e) })
+    } finally {
+      setAvatarBusy(null)
+    }
+  }, [name, fetchStatus])
 
   // 전체 출간 — 세력을 순서대로 하나씩 호출한다(동시 호출 금지, 진행 표시)
   const publishAll = useCallback(async () => {
@@ -274,7 +366,57 @@ export function FactionPublishPanel({
         <span title="태그가 지정되지 않아 출간할 수 없는 세력">
           태그 미지정 세력 <span className="font-semibold text-danger-text">{summary.groupsUnlinked}</span>
         </span>
+        <span title="이 인물 대사에 지정된 목소리와 셀럽에 등록된 국문 목소리가 서로 다른 인물 — 어느 쪽이 맞는지는 사람이 정한다">
+          목소리 다름 <span className="font-semibold text-warning-text">{summary.voiceDifferent}</span>
+        </span>
+        <span title="셀럽에는 국문 목소리가 있는데 인물 대사에는 비어 있는 인물 — 아래 「목소리 물려받기」로 채울 수 있다">
+          목소리 물려받을 수 있음 <span className="font-semibold text-text-primary">{summary.voiceFillable}</span>
+        </span>
       </div>
+
+      {/* 대사 목소리 물려받기 — 셀럽에 등록된 국문 목소리를 빈 인물에게만 내려 채운다 */}
+      <div className="space-y-2 rounded-md border border-border bg-bg-main/30 px-3 py-2.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-bold text-text-primary">대사 목소리 물려받기</span>
+          <span className="text-[11px] text-text-dim">
+            셀럽에 등록된 국문 목소리를 <span className="font-semibold text-text-secondary">목소리가 비어 있는 인물에게만</span> 채웁니다. 이미 고른 목소리는 덮지 않습니다.
+          </span>
+          <div className="ml-auto flex items-center gap-1.5">
+            <button
+              onClick={() => runVoiceInherit(true)}
+              disabled={voiceBusy || busyGroup !== null || !!allProgress}
+              className={BTN_SMALL_DEFAULT}
+              title="채울 대상 명단만 계산(실제 반영 없음)"
+            >
+              {voiceBusy ? <Loader size={13} /> : <Eye size={13} />} 대상 보기
+            </button>
+            <button
+              onClick={() => {
+                if (!confirm('셀럽에 등록된 국문 목소리를 비어 있는 인물에게 채웁니다. 계속할까요?')) return
+                runVoiceInherit(false)
+              }}
+              disabled={voiceBusy || busyGroup !== null || !!allProgress || summary.voiceFillable === 0}
+              className={BTN_SMALL_ACCENT}
+              title={summary.voiceFillable === 0 ? '채울 인물이 없습니다' : '비어 있는 인물의 대사 목소리를 채운다'}
+            >
+              {voiceBusy ? <Loader size={13} /> : <Upload size={13} />} 채우기
+            </button>
+          </div>
+        </div>
+
+        {voiceError && <p className="text-[11px] text-danger-text">실패: {voiceError}</p>}
+        {voiceResult && <VoiceInheritReport r={voiceResult} />}
+      </div>
+
+      {avatarNotice && (
+        <div className={`rounded-md border px-3 py-2 text-[11px] whitespace-pre-wrap ${
+          avatarNotice.ok
+            ? 'border-accent/40 bg-accent/10 text-accent'
+            : 'border-danger/40 bg-danger/20 text-danger-text'
+        }`}>
+          {avatarNotice.text}
+        </div>
+      )}
 
       {force && (
         <div className="rounded-md border border-danger/40 bg-danger/20 px-3 py-2 text-xs text-danger-text">
@@ -329,6 +471,8 @@ export function FactionPublishPanel({
               if (!confirm(`"${g.name}" 세력을 도감에 출간합니다. 계속할까요?`)) return
               publishOne(g.index, g.name, false)
             }}
+            avatarBusyId={avatarBusy}
+            onPromoteAvatar={promoteAvatar}
           />
         ))}
         {status.groups.length === 0 && <p className="text-sm text-text-dim">진단된 세력이 없습니다.</p>}
@@ -347,9 +491,10 @@ export function FactionPublishPanel({
   )
 }
 
-// 세력 1행 — 태그 연결 키 편집 + 태그/인물/사진 진단 + 미리보기·출간 버튼
+// 세력 1행 — 태그 연결 키 편집 + 태그/인물/사진 진단 + 미리보기·출간 버튼 + 인물 낱개 상태
 function GroupRow({
   groupStatus, localGroup, busy, disabled, onChangeTagSlug, onPreview, onPublish,
+  avatarBusyId, onPromoteAvatar,
 }: {
   groupStatus: FactionSyncGroup
   localGroup: FactionGroup | undefined
@@ -358,7 +503,11 @@ function GroupRow({
   onChangeTagSlug: (groupIndex: number, tagSlug: string) => void
   onPreview: () => void
   onPublish: () => void
+  /** 얼굴 사진 만들기가 돌고 있는 인물 id */
+  avatarBusyId: string | null
+  onPromoteAvatar: (person: FactionSyncPerson, replace: boolean) => void
 }) {
+  const [showPeople, setShowPeople] = useState(false)
   const g = groupStatus
   const { linked, unlinked, unassigned } = peopleCounts(g.people ?? [])
   const solo = soloShotProgress(g.people ?? [])
@@ -425,7 +574,132 @@ function GroupRow({
         <span title="도감에 이미 실려 있는 단체사진 장수">
           도감 단체사진 <span className="font-semibold text-text-primary">{g.tag?.teamImagesCount ?? 0}</span>
         </span>
+        <button
+          onClick={() => setShowPeople(v => !v)}
+          className="ml-auto rounded border border-border px-2 py-0.5 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover"
+          title="인물별 목소리 대조·얼굴 사진 상태를 펼친다"
+        >
+          {showPeople ? '인물 접기' : `인물 ${g.people?.length ?? 0}명 보기`}
+        </button>
       </div>
+
+      {showPeople && (
+        <div className="divide-y divide-border/60 rounded border border-border bg-bg-card/40">
+          {(g.people ?? []).map(p => (
+            <PersonRow
+              key={p.id}
+              person={p}
+              busy={avatarBusyId === p.id}
+              disabled={disabled || (avatarBusyId !== null && avatarBusyId !== p.id)}
+              onPromoteAvatar={onPromoteAvatar}
+            />
+          ))}
+          {!(g.people ?? []).length && <p className="px-2 py-1.5 text-[11px] text-text-dim">인물이 없습니다.</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * 인물 1행 — 셀럽 연결·목소리 대조·얼굴 사진 상태를 칩으로 알리고, 개인샷 승격 버튼을 둔다.
+ *
+ * 승격 버튼은 **재료(로컬 개인샷)가 실제로 있는 인물**에만 뜬다. 얼굴 사진이 이미 있으면
+ * 「갈아치우기」로 문구를 바꿔 실수로 덮는 일을 줄인다(누르면 한 번 더 확인한다).
+ */
+function PersonRow({
+  person, busy, disabled, onPromoteAvatar,
+}: {
+  person: FactionSyncPerson
+  busy: boolean
+  disabled: boolean
+  onPromoteAvatar: (person: FactionSyncPerson, replace: boolean) => void
+}) {
+  const p = person
+  const voice = p.voice ? VOICE_CHIP[p.voice] : undefined
+  // 승격 재료는 로컬 개인샷이다 — 저장소에만 있거나(db-only) 아예 없으면(none) 올릴 파일이 없다
+  const hasLocalShot = p.soloShot === 'synced' || p.soloShot === 'stale' || p.soloShot === 'local-only'
+  const canPromote = isLinked(p) && hasLocalShot
+
+  return (
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 px-2 py-1.5">
+      <span className="min-w-0 max-w-[9rem] flex-1 truncate text-[11px] font-semibold text-text-primary" title={p.name}>
+        {p.name}
+      </span>
+
+      {!isLinked(p) && (
+        <span className="rounded bg-danger/20 px-1.5 py-0.5 text-[10px] font-semibold text-danger-text" title="서비스에 셀럽이 없어 출간에서 제외된다">
+          {linkReason(p)}
+        </span>
+      )}
+
+      {voice && (
+        <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${voice.cls}`} title={voice.hint}>
+          {voice.label}
+        </span>
+      )}
+
+      {isLinked(p) && !p.avatar && (
+        <span className="rounded bg-warning/20 px-1.5 py-0.5 text-[10px] font-semibold text-warning-text" title="도감 목록이 쓰는 얼굴 사진이 셀럽에 없다">
+          얼굴 사진 없음
+        </span>
+      )}
+
+      {canPromote && (
+        <button
+          onClick={() => onPromoteAvatar(p, p.avatar)}
+          disabled={disabled || busy}
+          className={`ml-auto ${BTN_SMALL_DEFAULT}`}
+          title={p.avatar
+            ? '개인샷에서 얼굴을 찾아 셀럽 얼굴 사진을 갈아치운다(기존 사진은 되돌릴 수 없다)'
+            : '개인샷에서 얼굴을 찾아 정사각형으로 잘라 셀럽 얼굴 사진으로 올린다'}
+        >
+          {busy ? <Loader size={13} /> : null}
+          {p.avatar ? '개인샷으로 갈아치우기' : '개인샷으로 아바타 생성'}
+        </button>
+      )}
+    </div>
+  )
+}
+
+/** 목소리 물려받기 결과 — 대상 명단과 집계, 그리고 실패는 감추지 않는다 */
+function VoiceInheritReport({ r }: { r: InheritFactionVoicesResult }) {
+  return (
+    <div className="space-y-1 text-[11px]">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-text-secondary">
+        <span className={`rounded px-1.5 py-0.5 font-semibold ${r.dryRun ? 'bg-bg-main text-text-dim' : 'bg-accent/20 text-accent'}`}>
+          {r.dryRun ? '대상 보기' : `채움 ${r.filled}명`}
+        </span>
+        <span title="셀럽에 국문 목소리가 있고 인물 대사는 비어 있는 인물">대상 {r.targets.length}명</span>
+        <span title="이미 목소리가 지정돼 손대지 않은 인물">기존 유지 {r.skipped.alreadySet}</span>
+        <span title="셀럽에 국문 목소리가 등록되지 않아 물려받을 값이 없는 인물">셀럽 목소리 없음 {r.skipped.profileEmpty}</span>
+        <span title="셀럽이 이어지지 않아 대조할 수 없는 인물">셀럽 미해소 {r.skipped.unlinked}</span>
+      </div>
+
+      {r.targets.length > 0 && (
+        <ul className="flex flex-wrap gap-x-3 gap-y-0.5 text-text-secondary">
+          {r.targets.map(t => (
+            <li key={t.personId}>
+              {t.name} <span className="font-mono text-text-dim">{t.voiceId}</span>
+              <span className="text-text-dim"> ({t.group}{t.setsEngine ? ' · 엔진도 함께' : ''})</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {r.exported && !r.exported.written && (
+        <p className="text-warning-text">
+          채우기는 됐지만 렌더용 파일을 새로 쓰지 못했습니다 — {r.exported.reason}
+        </p>
+      )}
+      {r.failures.length > 0 && (
+        <p className="text-danger-text">
+          실패 {r.failures.length}건: {r.failures.map(f => `${f.name}(${f.reason})`).join(' / ')}
+        </p>
+      )}
+      {!r.dryRun && r.filled > 0 && (
+        <p className="text-text-dim">편집 화면을 다시 불러왔습니다 — 인물 음성 설정에 목소리가 들어와 있습니다.</p>
+      )}
     </div>
   )
 }
