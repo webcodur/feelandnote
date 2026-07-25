@@ -732,6 +732,32 @@ export type Database = {
           },
         ]
       }
+      celeb_views_daily: {
+        Row: {
+          celeb_id: string
+          view_date: string
+          views: number
+        }
+        Insert: {
+          celeb_id: string
+          view_date: string
+          views?: number
+        }
+        Update: {
+          celeb_id?: string
+          view_date?: string
+          views?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_views_daily_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       content_locales: {
         Row: {
           affiliate_url: Json | null
@@ -1600,6 +1626,7 @@ export type Database = {
           suspended_reason: string | null
           title: string | null
           title_en: string | null
+          view_count: number
           voice_id_en: string | null
           voice_id_ko: string | null
           voice_speed: number
@@ -1643,6 +1670,7 @@ export type Database = {
           suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
+          view_count?: number
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -1686,6 +1714,7 @@ export type Database = {
           suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
+          view_count?: number
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -2551,6 +2580,36 @@ export type Database = {
           total_score: number
         }[]
       }
+      get_celebs_trending: {
+        Args: { p_days?: number; p_limit?: number }
+        Returns: {
+          avatar_url: string
+          bio: string
+          bio_en: string
+          birth_date: string
+          celeb_tier: string
+          claimed_by: string
+          consumption_philosophy: string
+          consumption_philosophy_en: string
+          content_count: number
+          created_at: string
+          death_date: string
+          follower_count: number
+          gender: boolean
+          id: string
+          is_verified: boolean
+          nationality: string
+          nickname: string
+          nickname_en: string
+          portrait_url: string
+          profession: string
+          slug: string
+          status: string
+          title: string
+          title_en: string
+          total_score: number
+        }[]
+      }
       get_chosen_scriptures: {
         Args: { p_category?: string; p_limit?: number; p_offset?: number }
         Returns: {
@@ -2707,6 +2766,14 @@ export type Database = {
           content_id: string
           user_count: number
         }[]
+      }
+      get_trending_celebs: {
+        Args: { p_days?: number; p_limit?: number }
+        Returns: { celeb_id: string; views: number }[]
+      }
+      increment_celeb_view: {
+        Args: { p_celeb_id: string }
+        Returns: undefined
       }
       increment_feedback_view_count: {
         Args: { feedback_id: string }

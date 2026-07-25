@@ -123,6 +123,7 @@ interface PublicCelebBySlugData {
     voice_speed: number | null
     wikidata_qid: string | null
     celeb_tier: string | null
+    view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
   }
   contentCount: number
@@ -139,7 +140,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, view_count, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -374,6 +375,7 @@ async function getCelebBySlugInner(
       voice_speed: profile.voice_speed ?? 1.0,
       wikidata_qid: profile.wikidata_qid ?? null,
       celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
+      view_count: profile.view_count ?? 0,
       youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다

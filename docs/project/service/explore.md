@@ -40,12 +40,15 @@
 
 | # | 섹션 | 컴포넌트 | 더보기 |
 |---|---|---|---|
-| 1 | 랭킹 | `RankingTabs` (왕성한 탐구자 · 분야별 최고 탭) | `/explore/ranking` |
-| 2 | 성향 분석 | `PersonaDistribution` | `/explore/persona` |
-| 3 | 세력도감 | `FactionCard` | `/explore/faction` |
-| 4 | 전체 탐구자 | `HubCelebGrid` | `/explore/figures?tier=full` |
+| 1 | 요즘 많이 본 인물 | `HubCelebGrid` (`sortBy: "trending"`) | `/explore/figures?tier=full` |
+| 2 | 랭킹 | `RankingTabs` (왕성한 탐구자 · 분야별 최고 탭) | `/explore/ranking` |
+| 3 | 성향 분석 | `PersonaDistribution` | `/explore/persona` |
+| 4 | 세력도감 | `FactionCard` | `/explore/faction` |
+| 5 | 전체 탐구자 | `HubCelebGrid` | `/explore/figures?tier=full` |
 
-랭킹 섹션만 `hideDivider`로 깔고 섹션 래퍼의 더보기를 뗀다 — 탭 내부에서 탭별 더보기를 따로 처리하기 때문이다.
+**1번은 영향력과 다른 축이다**(2026-07-26 신설). 영향력은 인류사 기준의 고정값이라 "지금 무엇이 읽히는가"를 담지 못하고, 누적 조회수로 세워도 앞자리가 영원히 고정된다. 그래서 **최근 30일 조회수**로 매긴다. 실측 차이 — 젠슨 황은 누적 1위·30일 2위, 리처드 파인만은 누적 18회인데 30일 17회로 최근 급등분이다. 데이터 구조·시딩 내역은 `db-celeb.md`의 「인물 조회수」 절.
+
+첫 섹션이 `hideDivider`를 쥔다(현재는 1번 트렌드). 랭킹 섹션은 래퍼의 더보기를 떼어 쓴다 — 탭 내부에서 탭별 더보기를 따로 처리하기 때문이다.
 
 허브 네비게이터에는 섹션과 별개로 `EXPLORE_STANDALONE` 5개가 붙는다.
 
@@ -57,7 +60,7 @@
 | `navDirectory` | `/explore/directory` |
 | `navOthers` | `/explore/figures?tier=light` |
 
-허브 데이터는 다섯 갈래를 병렬로 읽는다 — 콘텐츠 30건 이상 인물 6명(`content_count` 정렬), 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 중 앞 4개, 태그마다 인물 4명까지만 추려 넘긴다.
+허브 데이터는 여섯 갈래를 병렬로 읽는다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 콘텐츠 30건 이상 인물 6명(`content_count` 정렬), 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 중 앞 4개, 태그마다 인물 4명까지만 추려 넘긴다.
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 

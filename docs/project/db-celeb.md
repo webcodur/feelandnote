@@ -133,6 +133,24 @@ Portrait(9:16)은 전면 제거됨. DB 컬럼(`portrait_url`)만 잔류.
 | `get_review_celeb_ids` | — | |
 | `get_celeb_content_counts` / `get_content_celeb_user_counts` | p_content_ids text[] | |
 | `get_seed_eligible_celebs` | — | |
+| `increment_celeb_view` | p_celeb_id uuid, p_increment boolean=true | 조회 1회 반영 후 **갱신된 누적 조회수를 반환**. `p_increment=false`면 세지 않고 값만 준다(같은 브라우저 24시간 내 재방문). 아래 참조 |
+| `get_trending_celebs` | p_days integer=30, p_limit integer=12 | 최근 N일 조회 기준 인기 순위(id·조회수만). 누적으로 뽑으면 순위가 고정되므로 기간 창을 쓴다 |
+| `get_celebs_trending` | p_days integer=30, p_limit integer=12 | 위와 같은 순위를 **`get_celebs_sorted`와 동일한 반환 형태**로 준다. `getCelebs({ sortBy: 'trending' })`가 이걸 호출해 기존 카드 조립(태그·대사·음성·영향력 결합)을 그대로 재사용한다. ⚠️ 목록 단일 진입점인 `get_celebs_sorted`에 정렬 옵션을 더하지 않고 별도 함수로 뺐다 — 그 함수가 깨지면 셀럽 목록 전반이 함께 깨진다 |
+
+### 인물 조회수 (2026-07-26 신설)
+
+| 저장소 | 용도 |
+|--------|------|
+| `profiles.view_count` (integer, default 0) | **누적** 조회수. 인물 상세 화면에 표시한다. `increment_celeb_view`로만 증가 |
+| `celeb_views_daily` (celeb_id, view_date, views / PK 복합) | **일별** 집계. 최근 N일 인기 순위 산출용. RLS 활성·정책 없음 — 위 두 함수(security definer)로만 접근한다 |
+
+**설계 이유 두 가지.**
+1. **누적과 기간 창을 분리했다.** 누적만 있으면 앞에 세우는 순위가 영원히 고정된다(실측: 젠슨 황 누적 1위·30일 2위, 리처드 파인만 누적 18회인데 30일 17회로 최근 급등). 상세 화면은 누적, 목록·추천은 최근 30일을 쓴다.
+2. **반환값으로 화면을 갱신한다.** 인물 화면은 `unstable_cache`(최대 7일)를 타므로 서버가 준 `view_count`는 낡아 있다. 함수가 갱신값을 돌려주므로 조회수를 따로 물어보는 요청이 없다.
+
+**초기값은 GA4 90일 실적으로 시딩했다**(2026-07-26, 552명·일별 797행·누적 합계 2,809). 0부터 시작하면 순위가 한 달간 무의미하다. ⚠️ **시딩값은 GA 집계라 우리 중복 기준(브라우저당 24시간 1회)과 다르다** — 정확한 동일 기준 수치가 아니라 순위 출발점이다. 매칭 실패 1건(`joe-tsai`, 현재 DB에 없는 옛 주소)은 제외했다.
+
+중복 방지는 `sw/web/src/lib/celeb/viewDedup.ts`(브라우저 저장소 24시간). 저장소를 못 쓰는 환경은 세지 않으므로 크롤러가 자연히 걸러진다. 남용(반복 호출로 부풀리기)은 막지 않는다 — 게시판 조회수도 동일하며 현재 규모에서 방어 이득이 없다.
 
 ### get_tracker_candidates (2026-07-15 교정)
 

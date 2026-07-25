@@ -37,7 +37,9 @@ async function HubContent() {
   const t = await getTranslations("explore.hub");
 
   // 병렬 데이터 페칭
-  const [deepReadersResult, topByType, personaPeople, allResult, featuredTags] = await Promise.all([
+  const [trendingResult, deepReadersResult, topByType, personaPeople, allResult, featuredTags] = await Promise.all([
+    // 최근 30일 조회수 순 — 누적으로 뽑으면 앞자리가 영원히 고정된다
+    getCelebs({ sortBy: "trending", limit: 12 }),
     getCelebs({ sortBy: "content_count", minContentCount: 30, limit: 6 }),
     getTopByContentType(),
     getPersonaDistribution(),
@@ -45,6 +47,7 @@ async function HubContent() {
     getFeaturedTags(),
   ]);
 
+  const trendingCelebs = trendingResult.celebs;
   const deepReaders = deepReadersResult.celebs;
   const allCelebs = allResult.celebs;
   const factionTagNames = featuredTags
@@ -78,9 +81,16 @@ async function HubContent() {
         groupId={EXPLORE_GROUP_ID}
       />
 
-      {/* 1/4 랭킹 — 왕성한 탐구자 · 분야별 최고 탭 */}
+      {/* 1/5 요즘 많이 본 인물 — 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */}
+      {trendingCelebs.length > 0 && (
+        <HubSection {...exploreSection("trending", t)} hideDivider>
+          <HubCelebGrid celebs={trendingCelebs} />
+        </HubSection>
+      )}
+
+      {/* 2/5 랭킹 — 왕성한 탐구자 · 분야별 최고 탭 */}
       {(deepReaders.length > 0 || topByType.length > 0) && (
-        <HubSection {...rankingSection} hideDivider>
+        <HubSection {...rankingSection}>
           <RankingTabs deepReaders={deepReaders} topByType={topByType} />
         </HubSection>
       )}

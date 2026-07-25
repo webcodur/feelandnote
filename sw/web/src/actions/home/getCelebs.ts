@@ -12,7 +12,10 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/supabase'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
-export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count'
+export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending'
+
+/** 인기 순위 기간 창. 7일은 표본이 얇아 순위가 매일 뒤집힌다. */
+const TRENDING_DAYS = 30
 
 interface GetCelebsParams {
   page?: number
@@ -97,24 +100,38 @@ async function fetchCelebsPublic(
   const supabase = createStaticClient()
   const offset = (page - 1) * limit
 
-  // 전체 개수 조회
-  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
-    p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-    p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
-    p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
-  })
-  const total = countData ?? 0
+  let rows: CelebRow[]
+  let total: number
+
+  if (sortBy === 'trending') {
+    /* 최근 조회수 순 — 기간 창 순위라 필터·페이지 개념이 없다.
+       누적으로 뽑으면 앞에 세우는 인물이 영원히 고정되므로 창을 쓴다.
+       목록 단일 진입점(get_celebs_sorted)을 건드리지 않기 위해 별도 함수를 둔다. */
+    const { data } = await supabase.rpc('get_celebs_trending', {
+      p_days: TRENDING_DAYS, p_limit: limit,
+    })
+    rows = (data || []) as CelebRow[]
+    total = rows.length
+  } else {
+    // 전체 개수 조회
+    const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+      p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+      p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
+      p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+    })
+    total = countData ?? 0
+
+    // 정렬된 셀럽 목록 조회
+    const { data } = await supabase.rpc('get_celebs_sorted', {
+      p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+      p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
+      p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+      p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+    })
+    rows = (data || []) as CelebRow[]
+  }
+
   const totalPages = Math.ceil(total / limit)
-
-  // 정렬된 셀럽 목록 조회
-  const { data } = await supabase.rpc('get_celebs_sorted', {
-    p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-    p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
-    p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
-    p_include_inactive: includeInactive, p_celeb_tiers: tiers,
-  })
-
-  const rows = (data || []) as CelebRow[]
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
