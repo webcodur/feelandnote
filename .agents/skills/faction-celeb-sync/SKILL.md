@@ -1,11 +1,21 @@
 ---
 name: faction-celeb-sync
-description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)에 반영할 때 적용한다. 태그 배정, 상위 그룹 계층, 그리고 인물 이미지 3종(아바타·개인샷·그룹샷)을 구분해 채우는 규칙·스크립트·캐시 무효화를 담는다. "세력도감 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 세력도감 반영", "세력도감 이미지 안 뜸/얼굴만 뜸", "그룹 추가" 등에 호출.
+description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)에 반영할 때 적용한다. 표준 경로는 remotion-bo 「출간」 패널(진단→dry-run→출간). 데이터 매핑·이미지 3종 구분·캐시 규칙과, 파이프라인이 못 하는 예외 작업(신규 인물 등록·아바타·상위 그룹 상수)의 절차를 담는다. "세력도감 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 세력도감 반영", "세력도감 이미지 안 뜸/얼굴만 뜸", "출간 안 됨" 등에 호출.
 ---
 
 # 팩션 영상 → 세력도감 연동
 
-세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. 팩션 영상 인물을 여기에 반영할 때의 데이터·이미지·캐시 규칙이다. 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`(부록 A), 그룹 개편 기록은 `docs/project/faction-ai-group-refactor.md`.
+세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. **표준 경로는 remotion-bo 팩션 편집기의 「출간」 패널이다** — 수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 파이프라인 SSoT는 `docs/project/remotion/faction-db-sync.md`, 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`.
+
+## 표준 절차 (26.07.25 파이프라인 도입)
+
+1. **연결 키 확인** — 편집기에서 세력마다 `tagSlug`(celeb_tags.slug)를 지정한다. 여러 세력이 태그 하나를 공유할 수 있다(예: PayPal-Mafia 4세력 → `paypal-mafia`). 인물은 `celebId`/`slug`로 profiles와 연결(셀럽 검색으로 추가하면 자동).
+2. **진단** — 「출간」 패널을 열면 세력·인물 전수의 DB 대조 결과가 뜬다(태그 존재·배정·개인샷·그룹샷·소개문 채움 가능 여부·프로필 누락 명단).
+3. **미리보기(dry-run)** — 변경 예정 목록(created/updated/skipped/blocked)을 확인한다.
+4. **출간** — 태그 upsert → 배정 upsert(순번 재기록) → 개인샷·그룹샷 R2 업로드 → 운영 웹 캐시 자동 무효화까지 한 번에 돈다. 멱등(해시 매니페스트 `_db-sync.json`) — 재실행하면 skipped 전량이 정상.
+   - CLI 검증용: `GET /api/faction/db-sync/status?episode=<ep>` · `POST /api/faction/db-sync/publish`.
+
+**보호 규칙(파이프라인 내장)**: DB에서 사람이 다듬은 소개문은 덮지 않는다(채움 전용, force 시에만 덮음). 프로필 없는 인물은 blocked 명단으로 보고. 그룹샷 배열은 태그 단위로 재구성해 공유 태그의 다른 세력 몫을 보존.
 
 ## 데이터 구조
 
@@ -13,52 +23,38 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 - `celeb_tag_assignments` — (tag_id, celeb_id) 배정. 태그별 인물 소개(`short_desc`/`long_desc`)와 **개인샷**(`spotlight_image_url`, 물리 명칭은 옛 이름 유지)이 여기 붙는다.
 - `profiles.avatar_url` — 인물 공통 아바타(태그 무관).
 
-## 이미지 3종 — 절대 혼동 금지 (이번에 사고남)
+## 이미지 3종 — 절대 혼동 금지
 
 화면 소스: `FactionShowcase.tsx`에서 Hero = `spotlight_image_url ?? avatar_url`, 리스트 썸네일 = `avatar_url`, 단체샷 = `team_images`.
 
-| 종류 | 컬럼/필드 | 성격 | R2 경로 | 처리 |
+| 종류 | 컬럼/필드 | 성격 | R2 경로 | 채우는 경로 |
 |------|-----------|------|---------|------|
-| **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | 얼굴 검출 크롭. `celeb-avatar-wikimedia` 스킬 또는 `web-bo/scripts/upload-celeb-image-from-wikimedia.ts --image-file` |
-| **개인샷** | `celeb_tag_assignments.spotlight_image_url`(물리 명칭은 옛 이름 유지) | **원본 전신/연출 화보**(Hero 큰 사진) | `spotlight/{tagId}/celeb-{celebId}.webp`(물리 명칭은 옛 이름 유지) | **얼굴 크롭 금지**, 원본 비율 유지. `web-bo/scripts/upload-faction-celeb-images.ts` |
-| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(상단 배너 캐러셀) | `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) | 정사각 webp. `web-bo/scripts/upload-tag-team-images.ts` |
+| **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-wikimedia` 스킬 또는 `web-bo/scripts/upload-celeb-image-from-wikimedia.ts --image-file` |
+| **개인샷** | `assignments.spotlight_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) | `spotlight/{tagId}/celeb-{celebId}.webp` | 출간 패널(person.image → 원본 비율 유지, **얼굴 크롭 금지**) |
+| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
 
-**함정**: 개인샷(`spotlight_image_url`)을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼서 "얼굴이 Hero에 뜬다". 아바타와 개인샷은 **반드시 다른 이미지**로 채운다 — 아바타=얼굴, 개인샷=원본 전신.
+**함정**: 개인샷을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼 "얼굴이 Hero에 뜬다". 아바타=얼굴, 개인샷=원본 전신 — 반드시 다른 이미지.
 
-## 팩션 이미지 소스
+## 파이프라인이 못 하는 것 (예외 작업)
 
-`sw/remotion/public/factions/<에피소드>/<NN-slug>/` (정본: `factions/_docs/folder-rules.md`):
-- 개인샷 원본: `<NN-slug>/<cluster>/<slug>.png` (또는 레거시 인물 하위 폴더). **`faction-data.json`의 `person.image`가 가리키는 파일**이 진실.
-- 그룹샷: `<NN-slug>/<cluster>/_group.png` (레거시 `group.png`·`group_shot.png` = 같은 역할). 클러스터가 여러 개면 그룹샷도 여러 장 → team_images에 전부 넣는다(일부만 넣으면 "충전 안 됨").
+- **신규 인물 등록** — 프로필 없는 인물(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`celeb-creation-rulebook`)으로 먼저 등록. 신화·허구는 `fiction` 티어 + 인물 데이터 `mythical: true`.
+- **상위 그룹 계층** — `sw/web/src/constants/factionGroups.ts` 코드 상수가 SSoT(`celeb_tags`에 parent_id 없음). 신규 태그를 그룹에 넣으려면 이 상수에 slug 추가(출간 결과의 constantHint가 알려줌).
+- **태그 노출 결정** — 신규 태그는 `is_featured=false`로 생성된다. 노출 전환·설명문(`description`)·색은 web-bo 태그 화면에서 사람이 다듬는다.
+- **아바타** — 위 표 참조.
 
-## 상위 그룹 계층 (코드 상수)
+## 수동 REST 폴백 (파이프라인 장애 시에만)
 
-`sw/web/src/constants/factionGroups.ts`가 SSoT. `celeb_tags`에 `parent_id` 컬럼이 없어 그룹 소속을 코드로 관리(스키마 변경 권한 막힘). 그룹 헤더는 배정 0인 일반 태그 행. `getFeaturedTags`가 `isGroup`/`parentSlug` 부착, UI는 `factionGrouping.ts` + 섹션 헤더형. 그룹 추가/이동은 이 상수 파일만 고친다.
-
-## DB 접근 — REST만, DDL 불가
-
-Supabase MCP·관리 토큰(`sbp_`)이 401로 막혀 있다. **DDL(ALTER/CREATE) 불가.** 데이터 CRUD는 REST(PostgREST + `SUPABASE_SERVICE_ROLE_KEY`)로:
+데이터 CRUD는 REST(PostgREST + `SUPABASE_SERVICE_ROLE_KEY`)로 가능하다. Supabase MCP도 동작한다(26.07.25 실측 — 과거 "401 차단" 기록은 낡음, DDL도 가능).
 ```
 curl.exe "$URL/rest/v1/celeb_tags?..." -H "apikey: $SRK" -H "Authorization: Bearer $SRK"
 ```
-env: `sw/web/.env`(SERVICE_ROLE), R2 키는 `sw/web-bo/.env`(R2_* 7개). CRLF라 값 파싱 시 `\r` 제거.
+env: `sw/web/.env`(SERVICE_ROLE), R2 키는 `sw/web-bo/.env`·`sw/remotion-bo/.env`(R2_* — 동일). CRLF라 값 파싱 시 `\r` 제거.
 
-## 캐시 무효화 — REST 직접 수정 후 필수
-
-`getFeaturedTags`는 `unstable_cache`(태그 `celebs`, 7일). REST로 DB를 직접 고치면 백오피스 자동 무효화 경로를 안 타므로 **화면이 안 바뀐다(브라우저 새로고침으로도 안 풀림 — 서버 데이터 캐시)**. 반드시:
+**REST로 직접 고쳤으면 캐시 무효화 필수** — `getFeaturedTags`는 `unstable_cache` 7일이라 화면이 안 바뀐다:
 ```
-curl.exe -X POST "http://localhost:3000/api/revalidate" -H "Content-Type: application/json" \
-  -d '{"tag":"celebs","secret":"<CRON_SECRET>"}'
+curl.exe -X POST "https://feelandnote.com/api/revalidate" -H "Content-Type: application/json" \
+  -d '{"tag":"tags","secret":"<CRON_SECRET>"}'   # "celebs"도 한 번 더
 ```
-`CRON_SECRET`은 `sw/web/.env`. 미설정이면 503.
+`CRON_SECRET`은 `sw/web/.env`. (출간 패널은 이걸 자동으로 한다.)
 
-## 표준 절차 (팩션 인물 N명을 태그에 반영)
-
-1. 인물 `profiles.id`·slug 확보(없으면 celeb 등록 먼저).
-2. `celeb_tag_assignments` INSERT(short_desc/long_desc 작성).
-3. **아바타**(얼굴) — celeb-avatar-wikimedia 또는 upload-celeb-image-from-wikimedia.ts.
-4. **개인샷**(원본 전신) — upload-faction-celeb-images.ts (얼굴 크롭 금지).
-5. **그룹샷**(단체) — upload-tag-team-images.ts (faction `_group.png` 전부 · 레거시 `group.png` 포함 시 동일).
-6. **캐시 무효화** (`/api/revalidate` celebs).
-
-관련: `celeb-avatar-wikimedia`(아바타), `faction-image`(팩션 발주), `celeb-tag-system.md`(태그 SSoT).
+관련: `celeb-avatar-wikimedia`(아바타), `faction-image`(팩션 발주), `celeb-tag-system.md`(태그 SSoT), `faction-db-sync.md`(파이프라인 SSoT).

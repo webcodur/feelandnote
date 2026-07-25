@@ -522,6 +522,8 @@ export async function addCelebToTag(
 
   revalidatePath('/celebs/tags')
   revalidatePath('/celebs/[slug]', 'page')
+  // celeb_tag_assignments 신규 — 셀럽 목록 카드에도 배정 태그가 실린다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true, sort_order: nextSortOrder }
 }
 // #endregion
@@ -546,6 +548,8 @@ export async function removeCelebFromTag(
 
   revalidatePath('/celebs/tags')
   revalidatePath('/celebs/[slug]', 'page')
+  // celeb_tag_assignments 삭제 — 셀럽 목록 카드에서도 배정 태그가 빠져야 한다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -575,6 +579,8 @@ export async function updateTagCelebOrder(
   }
 
   revalidatePath('/celebs/tags')
+  // celeb_tag_assignments.sort_order — 셀럽 목록 카드 노출 순서에도 반영된다
+  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
