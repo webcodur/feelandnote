@@ -5,7 +5,7 @@ import { promisify } from 'util'
 import path from 'path'
 import { voiceDir } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
-import { normalizeWavInPlace } from '@/lib/voice-normalize'
+import { normalizeWavInPlace } from '@feelandnote/shared/bo/voice-normalize'
 
 // ── 엔진 무관 segment 음성 저장 라우트
 //

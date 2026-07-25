@@ -34,6 +34,7 @@ import {
   Flame,
   Volume2,
   MessageSquare,
+  Swords,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -76,6 +77,12 @@ const menuGroups: MenuGroup[] = [
       { href: '/records', label: '기록', icon: FileText },
       { href: '/notes', label: '노트', icon: StickyNote },
       { href: '/playlists', label: '플레이리스트', icon: ListMusic },
+    ],
+  },
+  {
+    key: 'factions', label: '세력도', icon: Swords,
+    children: [
+      { href: '/factions', label: '목록', icon: Swords },
     ],
   },
   {
