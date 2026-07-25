@@ -1,12 +1,14 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { EleVoiceNote, EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
+import { cleanVoiceGainDb, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
 import type { EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 
 type UpdatePatch = {
   status?: EleVoiceNoteStatus | null
   note?: string
+  /** 추가 음량(dB). null 이면 지움 */
+  gainDb?: number | null
 }
 
 export function useEleVoiceNotes() {
@@ -14,6 +16,8 @@ export function useEleVoiceNotes() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [savingVoiceId, setSavingVoiceId] = useState<string | null>(null)
+  // 음량을 고치기 직전 값 — 일괄 재적용이 「옛 도감값을 그대로 쓰던 인물」을 골라낼 때 쓴다
+  const [previousGainDb, setPreviousGainDb] = useState<Record<string, number | undefined>>({})
 
   useEffect(() => {
     let alive = true
@@ -48,6 +52,12 @@ export function useEleVoiceNotes() {
       updatedAt: new Date().toISOString(),
     }
     if (patch.note !== undefined) next.note = patch.note
+    if (patch.gainDb !== undefined) {
+      setPreviousGainDb(prev => ({ ...prev, [voiceId]: previous?.gainDb }))
+      const g = patch.gainDb === null ? undefined : cleanVoiceGainDb(patch.gainDb)
+      if (g === undefined) delete next.gainDb
+      else next.gainDb = g
+    }
     if (patch.status === null) delete next.status
     else if (patch.status !== undefined) next.status = patch.status
 
@@ -82,6 +92,7 @@ export function useEleVoiceNotes() {
     error,
     savingVoiceId,
     blockedVoiceIds,
+    previousGainDb,
     updateVoiceNote,
   }
 }

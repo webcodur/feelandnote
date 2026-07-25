@@ -26,10 +26,15 @@ type FactionRateGainControlsProps = {
   setPlaybackRate: (rate: number) => void
   gainDb: number
   setGainDb: (db: number) => void
+  /**
+   * 인물에 값이 없어 보이스 도감 값을 빌려 쓰는 중인가.
+   * 이때는 **대본에 그 숫자가 없어** 영상 렌더가 원음 그대로 재생한다 — 그 사실을 알려야 한다.
+   */
+  gainDbInherited?: boolean
 }
 
 export function FactionRateGainControls({
-  playbackRate, setPlaybackRate, gainDb, setGainDb,
+  playbackRate, setPlaybackRate, gainDb, setGainDb, gainDbInherited = false,
 }: FactionRateGainControlsProps) {
   const rateActive = Math.abs(playbackRate - 1) > 1e-6
   const gainActive = !isUnityGain(gainDb)
@@ -120,6 +125,12 @@ export function FactionRateGainControls({
           </div>
         </div>
       </div>
+      {gainDbInherited && (
+        <p className="px-1 text-[11px] text-warning-text">
+          이 값은 보이스 도감에 적힌 기본 음량이며 이 인물에는 아직 적혀 있지 않습니다 — 여기서 한 번 건드리거나
+          보이스 목록의 「인물에 적용」을 눌러야 영상에도 같은 크기로 나갑니다.
+        </p>
+      )}
     </div>
   )
 }

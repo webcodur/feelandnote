@@ -14,7 +14,9 @@ import { GenerateSection } from '../../../../../../scenario-voice/ExpandedVoiceP
 import { BreathModeContent, type BreathEndpoints } from '../../../../../../scenario-voice/BreathModeContent'
 import { AgeModeContent, type AgeEndpoints } from '../../../../../../scenario-voice/AgeModeContent'
 import { useFactionVoiceSpec } from './useFactionVoiceSpec'
-import { voiceLangOf, type FactionVoiceSlot, type FactionVoiceLang } from './voice-slots'
+import { langFieldsOf, voiceLangOf, type FactionVoiceSlot, type FactionVoiceLang } from './voice-slots'
+import { voiceGainDbOf } from '@/lib/ele-voice-notes'
+import { applyFactionVoiceGain } from '@/actions/admin/factions/voice-gain'
 import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { EleVoiceCombobox } from './EleVoiceCombobox'
@@ -68,6 +70,10 @@ type FactionExpandedVoicePanelProps = {
    * 셀럽 DB 연동도 이 언어의 목소리(voice_id_ko / voice_id_en)를 다룬다. 미지정이면 국문.
    */
   lang?: EditLang
+}
+
+function errText(e: unknown): string {
+  return e instanceof Error ? e.message : String(e)
 }
 
 /** 언어 표시 문구 — 버튼·안내에 어느 언어를 다루는 중인지 못박는다 */
@@ -143,7 +149,17 @@ export function FactionExpandedVoicePanel({
     }
   }, [episodeName])
 
-  const spec = useFactionVoiceSpec({ person, onPersonChange: onChange, slot, lang })
+  // 도감에 적힌 이 보이스의 추가 음량 — 인물에 값이 없을 때 재생·미리듣기가 대신 쓴다.
+  // 훅을 부르기 전에 인물 데이터에서 직접 읽는다(훅 결과에 기대면 순환한다).
+  const assignedVoiceId = person[langFieldsOf(slot, lang).eleVoiceId] as string | undefined
+  const usesEle = person[langFieldsOf(slot, lang).engine] === 'elevenlabs'
+  const catalogGainDb = usesEle ? voiceGainDbOf(eleVoiceNotes.notes, assignedVoiceId) : undefined
+
+  const spec = useFactionVoiceSpec({
+    person, onPersonChange: onChange, slot, lang,
+    gainDbFallback: catalogGainDb,
+    gainDbOfVoice: id => voiceGainDbOf(eleVoiceNotes.notes, id),
+  })
   useEffect(() => {
     if (slot.id !== 'quote' || !celebKey) {
       setPersonGender(null)
@@ -242,6 +258,52 @@ export function FactionExpandedVoicePanel({
 
   const [dbBusy, setDbBusy] = useState(false)
   const [dbNotice, setDbNotice] = useState<string | null>(null)
+  // 도감 음량을 인물들에게 내려보내는 중인 보이스 + 마지막 결과
+  const [gainApplyingId, setGainApplyingId] = useState<string | null>(null)
+  const [gainNotice, setGainNotice] = useState<{ ok: boolean; text: string } | null>(null)
+
+  /**
+   * 도감 음량 내려보내기 — 먼저 대상 명단을 뽑아 보여주고, 사람이 받아들이면 실제로 적는다.
+   * 렌더는 대본 파일의 인물 값만 읽으므로 이 복사를 거쳐야 영상에 반영된다.
+   */
+  const applyVoiceGain = async (voiceId: string) => {
+    const gainDb = voiceGainDbOf(eleVoiceNotes.notes, voiceId)
+    const previousGainDb = eleVoiceNotes.previousGainDb[voiceId]
+    setGainApplyingId(voiceId)
+    setGainNotice(null)
+    try {
+      const dry = await applyFactionVoiceGain(voiceId, gainDb, previousGainDb, true)
+      if (!dry.targets.length) {
+        setGainNotice({
+          ok: true,
+          text: `바꿀 인물이 없다 (이미 같음 ${dry.skipped.unchanged}명 · 따로 맞춰 둠 ${dry.skipped.customized}명)`,
+        })
+        return
+      }
+      const preview = dry.targets.slice(0, 12)
+        .map(t => `· ${t.name} (${t.folder}) ${t.currentGainDb ?? '없음'} → ${gainDb ?? '없음'}dB`)
+        .join('\n')
+      const more = dry.targets.length > preview.split('\n').length ? `\n… 외 ${dry.targets.length - 12}명` : ''
+      const ok = confirm(
+        `이 보이스를 쓰는 인물 ${dry.targets.length}명의 음량을 ${gainDb ?? '없음'}dB 로 맞춥니다.\n`
+        + `편 ${dry.folders.join(', ')}\n\n${preview}${more}\n\n`
+        + `따로 맞춰 둔 ${dry.skipped.customized}명은 건드리지 않습니다. 계속할까요?`,
+      )
+      if (!ok) return
+      const r = await applyFactionVoiceGain(voiceId, gainDb, previousGainDb, false)
+      const failed = r.failures.length ? ` · 실패 ${r.failures.length}건` : ''
+      const notWritten = (r.exported ?? []).filter(e => !e.written)
+      setGainNotice({
+        ok: !r.failures.length && !notWritten.length,
+        text: `인물 ${r.applied}명에 ${gainDb ?? '없음'}dB 적용 (편 ${r.folders.join(', ')})${failed}`
+          + (notWritten.length ? `\n렌더용 파일을 못 갈았습니다: ${notWritten.map(e => `${e.folder} — ${e.reason}`).join(' / ')}` : ''),
+      })
+    } catch (e) {
+      setGainNotice({ ok: false, text: `음량 적용 실패: ${errText(e)}` })
+    } finally {
+      setGainApplyingId(null)
+    }
+  }
 
   // 가져오기 — 편집 중인 언어의 셀럽 보이스(voice_id_ko / voice_id_en)를 끌어와 그 언어 칸에 채운다.
   const pullVoiceFromDb = async () => {
@@ -311,6 +373,7 @@ export function FactionExpandedVoicePanel({
         setPlaybackRate={spec.setPlaybackRate}
         gainDb={spec.gainDb}
         setGainDb={spec.setGainDb}
+        gainDbInherited={spec.gainDbInherited}
       />
       </div>
 
@@ -352,6 +415,8 @@ export function FactionExpandedVoicePanel({
               historyLoading={eleVoiceHistory.loading}
               historyError={eleVoiceHistory.error}
               historyUsageCount={eleVoiceHistory.usageCount}
+              onApplyVoiceGain={v => applyVoiceGain(v.voice_id)}
+              applyingGainVoiceId={gainApplyingId}
             />
           </div>
         )}
@@ -386,6 +451,9 @@ export function FactionExpandedVoicePanel({
             >↑ 셀럽 {langLabel}에 저장</button>
           </div>
           {dbNotice && <p className="text-[11px] text-text-dim">{dbNotice}</p>}
+          {gainNotice && (
+            <p className={`whitespace-pre-wrap text-[11px] ${gainNotice.ok ? 'text-text-dim' : 'text-danger-text'}`}>{gainNotice.text}</p>
+          )}
 
           {/* 인물 감정/강도(quoteEleOptions) — 미리듣기·생성 호출에 settings 로 전달. 비우면 라우트 기본값. */}
           <div className="flex items-stretch rounded border border-border overflow-hidden">
