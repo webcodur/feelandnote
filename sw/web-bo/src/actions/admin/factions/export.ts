@@ -17,7 +17,7 @@ import {
   inspectFactionDataFile,
 } from '@feelandnote/shared/bo/faction-export'
 import { FACTIONS_DIR } from '@feelandnote/shared/bo/episode-store'
-import { factionAdminClient, factionRowSource, requireFactionAdmin } from '@/lib/faction-db'
+import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/lib/faction-db'
 import { assertFactionLocal } from '@/lib/faction-local'
 
 export interface FactionExportResult {
@@ -45,7 +45,7 @@ export async function exportFactionEpisode(
   await requireFactionAdmin()
   assertFactionLocal()
   const db = factionAdminClient()
-  const src = factionRowSource(db)
+
   const { dir, dataPath } = factionEpisodePaths(FACTIONS_DIR, folder)
 
   const r = await exportFactionEpisodeToFile({
@@ -54,7 +54,7 @@ export async function exportFactionEpisode(
     dataPath,
     force: options.force,
     assemble: async (original) => {
-      const { script, row } = await assembleFactionEpisode(src, folder, original)
+      const { script, row } = await assembleFactionEpisode(await factionTreeSource(db, folder), folder, original)
       return { script, episodeId: row.id as string }
     },
   })

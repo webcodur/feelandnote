@@ -45,3 +45,48 @@ export function factionRowSource(db: SupabaseClient): FactionRowSource {
     return (data ?? []) as Record<string, unknown>[]
   }
 }
+
+/**
+ * 한 왕복 로드 — 4계층(에피소드→세력→클러스터→인물)을 PostgREST 중첩 임베드로
+ * 한 번에 받아 메모리에서 공급한다. 직렬 4왕복(AI-Supremacy 실측 ≈1.3초, 리전이
+ * 싱가포르라 왕복당 200~550ms)을 1왕복으로 줄인다. 조립기 계약(FactionRowSource)은
+ * 그대로라 조립·정렬·검증 로직은 아무것도 모른 채 빨라진다.
+ * 규모 상한: 최대 에피소드가 세력 16·인물 87이라 임베드 행수 제약과 무관하다.
+ */
+export async function factionTreeSource(db: SupabaseClient, folder: string): Promise<FactionRowSource> {
+  const { data, error } = await db
+    .from('faction_episodes')
+    .select('*, faction_groups(*, faction_clusters(*, faction_people(*)))')
+    .eq('folder', folder)
+  if (error) throw new Error(`faction_episodes 트리 조회 실패(${folder}): ${error.message}`)
+
+  const episodes: Record<string, unknown>[] = []
+  const groups: Record<string, unknown>[] = []
+  const clusters: Record<string, unknown>[] = []
+  const people: Record<string, unknown>[] = []
+  for (const epRaw of (data ?? []) as Record<string, unknown>[]) {
+    const { faction_groups: gs, ...ep } = epRaw as { faction_groups?: Record<string, unknown>[] } & Record<string, unknown>
+    episodes.push(ep)
+    for (const gRaw of gs ?? []) {
+      const { faction_clusters: cs, ...g } = gRaw as { faction_clusters?: Record<string, unknown>[] } & Record<string, unknown>
+      groups.push(g)
+      for (const cRaw of cs ?? []) {
+        const { faction_people: ps, ...c } = cRaw as { faction_people?: Record<string, unknown>[] } & Record<string, unknown>
+        clusters.push(c)
+        people.push(...(ps ?? []))
+      }
+    }
+  }
+  const byTable: Record<string, Record<string, unknown>[]> = {
+    faction_episodes: episodes,
+    faction_groups: groups,
+    faction_clusters: clusters,
+    faction_people: people,
+  }
+  return async (table, col, values) => {
+    const rows = byTable[table]
+    if (!rows) throw new Error(`트리 공급자가 모르는 테이블: ${table}`)
+    const want = new Set(values)
+    return rows.filter(r => want.has(r[col] as never))
+  }
+}

@@ -20,7 +20,7 @@ import { revalidatePath } from 'next/cache'
 import { assembleFactionEpisode, buildFactionRows } from '@feelandnote/shared/lib/faction-assemble'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { FACTIONS_DIR, episodeDirOf, safeDirName } from '@feelandnote/shared/bo/episode-store'
-import { factionAdminClient, factionRowSource, requireFactionAdmin } from '@/lib/faction-db'
+import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
 
 export type FactionEpisodeStatus = 'todo' | 'live' | 'done'
@@ -164,7 +164,7 @@ export async function duplicateFactionEpisode(
   const { data: dup } = await db.from('faction_episodes').select('id').eq('folder', to).maybeSingle()
   if (dup) throw new Error(`이미 있는 폴더명입니다: ${to}`)
 
-  const { script } = await assembleFactionEpisode(factionRowSource(db), from)
+  const { script } = await assembleFactionEpisode(await factionTreeSource(db, from), from)
   const payload = buildFactionRows(script, {
     newId: randomUUID,
     status: 'todo', registered: false, sortOrder: 0,
