@@ -1,12 +1,10 @@
 'use client'
 
 /**
- * 셀럽 DB 연결 배지 — 팩션 인물 행(FactionPersonRow)의 배지와 **같은 규격**이다.
- * 대조 창구(/api/celebs/exists)와 판정 규칙(✓DB / ⚠없음 / 미연결 / 신화)을 팩션에서 그대로 가져왔고,
- * 지금은 이 컴포넌트 자체를 팩션도 그대로 재사용한다(`FactionPersonRow`).
+ * 셀럽 DB 연결 배지 — 대조 창구(/api/celebs/exists)와 판정 규칙(✓DB / ⚠없음 / 미연결 / 신화).
  *
  * 담화는 인물이 본서비스 가상 독백(profiles.virtual_monologue)의 원천과 이어져야 하므로
- * slug 연결이 팩션보다 더 중요하다 — 유령 연결(slug 는 적혀 있는데 DB에 없음)을 화면에서 잡는다.
+ * slug 연결이 특히 중요하다 — 유령 연결(slug 는 적혀 있는데 DB에 없음)을 화면에서 잡는다.
  */
 
 import type { Speaker } from '@/lib/discourse-types'
@@ -18,7 +16,7 @@ export function useCelebExists(cast: Speaker[]): { existing: Set<string>; loaded
 }
 
 type Props = {
-  /** 배지 판정에 필요한 최소 필드만 — Speaker·FactionPerson 둘 다 만족한다 */
+  /** 배지 판정에 필요한 최소 필드만 */
   speaker: { slug?: string; mythical?: boolean }
   existing: Set<string>
   loaded: boolean

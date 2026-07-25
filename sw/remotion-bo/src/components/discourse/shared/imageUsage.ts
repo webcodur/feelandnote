@@ -34,7 +34,7 @@ export function collectUsedImages(script: DiscourseScript | null): Set<string> {
  * 폴더인 경우 그 아래 모든 파일 경로의 앞부분을 새 폴더로 바꾼다.
  * 바뀐 곳이 없으면 원래 대본을 그대로 돌려준다(불필요한 저장 방지).
  *
- * 갈아끼우기 규칙 자체는 세력도와 같아 공용(makePathRemapper)을 쓰고, 순회만 여기서 맡는다.
+ * 갈아끼우기 규칙 자체는 시리즈 공용(makePathRemapper)을 쓰고, 순회만 여기서 맡는다.
  */
 export function remapDiscourseImages(script: DiscourseScript, from: string, to: string): DiscourseScript {
   if (!from || from === to) return script

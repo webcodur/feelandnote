@@ -1,6 +1,6 @@
 # 팩션 ↔ 본서비스 동기화 (faction-db-sync)
 
-> ⚠️ **대체됨(26.07.25)** — 이 문서의 "다리(양방향 동기화)" 방식은 당일 폐기됐다. 현행 SSoT는 `faction-unification.md`(집 하나: DB 단일 원천 + web-bo 단일 편집기). 이 문서는 faction-sync 코드(이미지 배관·매핑 규칙)의 유래 기록으로만 남긴다. "스키마 변경 불필요" 서술도 무효 — faction_* 5테이블이 신설됐다.
+> ⚠️ **대체됨(26.07.25)** — 이 문서의 "다리(양방향 동기화)" 방식은 당일 폐기됐다. 코드도 옮겨졌다: 아래 「파일 배치」의 remotion-bo 경로 전부가 26.07.25 Phase 5 에서 삭제되고 `sw/web-bo/src/lib/faction-sync/`(진단·투영은 DB→DB 로 개조, 창구는 서버 액션 `actions/admin/factions/publish.ts`)로 대체됐다. 여기 적힌 진단 항목·`GET/POST /api/faction/db-sync` 규격은 무효다 — 현행은 `faction-unification.md` §4·§9 와 진행 로그. 현행 SSoT는 `faction-unification.md`(집 하나: DB 단일 원천 + web-bo 단일 편집기). 이 문서는 faction-sync 코드(이미지 배관·매핑 규칙)의 유래 기록으로만 남긴다. "스키마 변경 불필요" 서술도 무효 — faction_* 5테이블이 신설됐다.
 
 > 실측 대조: 26.07.25 — remotion-bo·web-bo·web 코드 전수 정찰 + Supabase DB 실측(celeb_tags 40종) + 로컬 팩션 재고(에피소드 22·인물 524·slug 연결 99.4%) 기반 설계.
 

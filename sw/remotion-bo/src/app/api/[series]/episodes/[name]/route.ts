@@ -4,7 +4,7 @@ import { isValidSeries } from '@/lib/series-registry'
 
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string; name: string }> }) {
   const { series, name: rawName } = await params
-  // 라우트 파라미터는 URL 인코딩된 채 온다 — 한글 에피소드명(세력도)을 파일 경로로 쓰기 전에 디코드
+  // 라우트 파라미터는 URL 인코딩된 채 온다 — 한글 에피소드명을 파일 경로로 쓰기 전에 디코드
   const name = decodeURIComponent(rawName)
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
   try {

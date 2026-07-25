@@ -3,7 +3,6 @@
 /**
  * 「정보」 탭 — 인물(cast)의 실체와 에피소드 전역 설정.
  *
- * 팩션 「정비」 탭의 자리이나 다루는 것이 다르다. 팩션은 세력 > 그룹 > 인물 계층을 세우지만
  * 담화는 인물이 평면이고 순서는 발언(편성 탭)이 정한다. 여기서는 인물이 **누구인지**만 정한다.
  */
 
@@ -17,7 +16,7 @@ import { LangText, LangArea } from './sections/LangField'
 import { SpeakerCard } from './sections/SpeakerCard'
 import { CastColorBar } from './sections/CastColorBar'
 import { ImageSlot, DISCOURSE_IMAGE_DND } from '@feelandnote/shared/bo/media'
-import { HOLD_MOTION_OPTIONS } from '@/components/faction/shared/holdMotion'
+import { HOLD_MOTION_OPTIONS } from '@/components/discourse/shared/holdMotion'
 
 type Props = {
   script: DiscourseScript

@@ -3,10 +3,10 @@
 /**
  * 가상 담화(Discourse) 편집기 — 「원고」·「인물」 두 탭.
  *
- * 팩션 편집기(FactionEditor)의 골격을 그대로 따른다: 전체 스크립트를 통째로 PUT 하는 저장(부분 저장 없음),
+ * 편집 골격: 전체 스크립트를 통째로 PUT 하는 저장(부분 저장 없음),
  * 언어 모드(한국어/영어/둘 다), Ctrl+S, 탭 주소 동기화.
  *
- * 팩션과 갈리는 축은 하나다 — **뼈대가 인물 명단이 아니라 발언 순서(turns)** 다.
+ * 뼈대가 인물 명단이 아니라 **발언 순서(turns)** 라는 점이 이 편집기의 축이다.
  * 「원고」가 대본 전체를 글로 다루고(경계·발언 나누기·세부 패널), 「인물」이 말하는 사람의 실체를 다룬다.
  * 발언을 옮기면 음원 자리가 밀리므로 원고 탭이 음원 파일과 발언 배열을 대조해 경고를 띄운다(discourse.md §5-1).
  *
@@ -36,7 +36,7 @@ type Props = {
   initialTab: FactionEditTab
 }
 
-/** 편집 탭 — 원고(기본)·인물. 주소는 팩션 어휘를 빌린다(원고=shorts 자리, 구 발언 탭 주소도 원고로 연다) */
+/** 편집 탭 — 원고(기본)·인물. 주소 어휘는 공용 상수(faction-edit-route)를 따른다(원고=shorts 자리, 구 발언 탭 주소도 원고로 연다) */
 type DiscourseTab = 'script' | 'info'
 const toTab = (t: FactionEditTab): DiscourseTab => (t === 'info' ? 'info' : 'script')
 const TAB_SEGMENT: Record<DiscourseTab, string> = { script: 'shorts', info: 'info' }
@@ -55,7 +55,7 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
   scriptRef.current = script
 
   /**
-   * 편집기 뼈대 — 대본 전체 저장·손댐 표시·Ctrl+S·사진 폴더 조작. 세력도와 같은 부품을 쓴다.
+   * 편집기 뼈대 — 대본 전체 저장·손댐 표시·Ctrl+S·사진 폴더 조작. 시리즈 공용 부품을 쓴다.
    * 담화가 갈리는 지점은 사진 경로 순회 하나뿐이다(인물·발언 구조).
    */
   const {
@@ -80,9 +80,9 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
       .catch(e => setLoadError(e instanceof Error ? e.message : String(e)))
   }, [series, name])
 
-  // 배경음악 목록 — 팩션과 같은 public/music/ 을 공유한다
+  // 배경음악 목록 — 시리즈 공용 public/music/ 을 그대로 읽는다
   useEffect(() => {
-    fetch(`/api/${series}/faction-music`)
+    fetch(`/api/${series}/music`)
       .then(r => r.json())
       .then(d => setMusicList(Array.isArray(d) ? d : (d?.files ?? [])))
       .catch(() => setMusicList([]))
@@ -123,7 +123,7 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
 
   const goTab = useCallback((next: DiscourseTab) => {
     setTab(next)
-    // 주소 어휘는 팩션과 공유한다 — 원고는 'shorts', 발언은 'longform' 자리에 올린다
+    // 주소 어휘는 공용 상수를 따른다 — 원고는 'shorts', 발언은 'longform' 자리에 올린다
     window.history.pushState(null, '', `/${series}/${encodeURIComponent(name)}/${editLang}/${TAB_SEGMENT[next]}`)
   }, [series, name, editLang])
 

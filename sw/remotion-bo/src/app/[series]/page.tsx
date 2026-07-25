@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useCallback, useMemo, use } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, notFound } from 'next/navigation'
 import { getSeriesById, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
 import { TaskPanel } from '@/components/TaskPanel'
 import { VoiceStorage } from '@/components/VoiceStorage'
-import { FactionSeriesHome } from '@/components/faction/FactionSeriesHome'
 import { DiscourseSeriesHome } from '@/components/discourse/DiscourseSeriesHome'
 
 type EpisodeStatus = 'todo' | 'live' | 'done'
@@ -192,12 +191,13 @@ function tabKeyId(t: TabKey): string {
  * 새 시리즈는 레지스트리에 정의를 얹고 여기에 한 줄 더한다.
  */
 const SERIES_HOMES: Partial<Record<SeriesDataModel, (p: { series: string }) => React.ReactNode>> = {
-  faction: FactionSeriesHome,
   discourse: DiscourseSeriesHome,
 }
 
 export default function SeriesHomePage({ params }: { params: Promise<{ series: string }> }) {
   const { series } = use(params)
+  // 레지스트리에 없는 시리즈(폐기된 세력도 등)는 없는 주소다 — 빈 목록 화면을 보여주지 않는다
+  if (!getSeriesById(series)) notFound()
   const model = seriesDataModel(series)
   const Home = model ? SERIES_HOMES[model] : undefined
   if (Home) return <Home series={series} />

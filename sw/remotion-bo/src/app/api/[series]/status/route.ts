@@ -2,19 +2,16 @@ import { NextResponse } from 'next/server'
 import { listEpisodes, moveEpisode } from '@/lib/server-utils'
 import type { EpisodeStatus } from '@/lib/server-utils'
 import { isValidSeries, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
-import { writeFactionStatus } from '@/lib/faction-utils'
-import type { FactionStatus } from '@/lib/faction-types'
 import { writeDiscourseStatus } from '@/lib/discourse-utils'
 import type { DiscourseStatus } from '@/lib/discourse-types'
 
 const VALID_STATUSES: EpisodeStatus[] = ['todo', 'live', 'done']
 
 /**
- * 세력도·담화는 폴더 이동 없이 _status.json 파일로 상태를 관리한다.
+ * 담화는 폴더 이동 없이 _status.json 파일로 상태를 관리한다.
  * 표에 없는 계열(book)만 인물 폴더를 옛 status 폴더로 옮긴다.
  */
 const STATUS_WRITERS: Partial<Record<SeriesDataModel, (name: string, status: EpisodeStatus) => Promise<void>>> = {
-  faction: (name, status) => writeFactionStatus(name, status as FactionStatus),
   discourse: (name, status) => writeDiscourseStatus(name, status as DiscourseStatus),
 }
 

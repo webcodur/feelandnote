@@ -1044,7 +1044,6 @@ ${res.exported.reason}`)
           {/* 세력도감(본서비스) DB 출간 — 헤더 「출간」 버튼으로 펼친다 */}
           {showPublish && (
             <FactionPublishPanel
-              series={series}
               name={name}
               groups={groups}
               onChangeTagSlug={setGroupTagSlug}

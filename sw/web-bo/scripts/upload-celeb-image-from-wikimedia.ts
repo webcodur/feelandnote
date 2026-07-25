@@ -537,7 +537,7 @@ async function main() {
       Key: key,
       Body: conv.buf,
       ContentType: 'image/webp',
-      CacheControl: 'no-cache, must-revalidate',
+      CacheControl: 'public, max-age=31536000, immutable',
     })
   )
   const publicUrl = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`

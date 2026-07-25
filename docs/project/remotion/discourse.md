@@ -8,7 +8,7 @@
 |----|------|
 | 엔진 (`sw/remotion/src/compositions/Discourse/`) | ✅ types·timing·script·voice-names·constants·utils·Discourse.tsx·sections 7종·subs.ts |
 | Studio 등록 | ✅ `Discourse-<ep>-KO-S{n}` / `KO-LV{n}` — 4개 컴포지션 실측 확인 |
-| BO (`sw/remotion-bo`) | ✅ 시리즈 분기 데이터화(`isFactionSeries` 제거) · lib 3종 · 편집기 본체(정보/편성 탭·음원 자리 검증) |
+| BO (`sw/remotion-bo`) | ✅ 시리즈 분기 데이터화(`isFactionSeries` 제거) · lib 3종 · 편집기(**원고 중심 전면 개편 26.07.21** — 원고/인물 탭·세부 패널·음원 자리 검증) |
 | 에피소드 | ✅ `qin-shi-huang`(독백 1인·발언 10) · `musk-altman`(대담 2인·발언 14) · `jensen-huang`(독백 1인·발언 7) — 모두 `_status: todo`(미공개) |
 | 이미지 | 🟡 젠슨 황 1:1 고유 컷 10장 생성·연결. 기존 2편은 미착수 |
 | 음성 | ❌ 0개. TTS 파이프라인(`voice:discourse`) 미착수 |
@@ -324,11 +324,15 @@ sw/remotion/public/discourses/
   - **의도적으로 안 넣은 것**: `editorKind`(현재 `dataModel`과 1:1이라 중복·드리프트 위험 — 갈리는 날 쪼갠다) · `dataFile`(읽는 범용 코드가 없어 즉시 데드필드)
   - **유일하게 남긴 하드코딩**: `middleware.ts`의 `series !== 'faction'`. Next `matcher`가 정적 리터럴을 요구해 `/faction/:path*`가 이미 박혀 있고, 그 리터럴을 반영하는 검사라 손대지 않았다
   - 담화 렌더·유튜브 라우트는 CLI 미구현이라 **501 명시 응답**을 둔다(조용한 폴백 금지 — 책 경로로 새면 안 된다)
-- [x] `components/discourse/DiscourseEditor` — **본체 완료(26.07.16).** 「정보」(인물 실체·인물색·음성 기본값·전역 설정·고지·셀럽 DB 배지) + 「편성」(발언 순서 이동·삽입·복제·삭제, 대사·의미 덩어리·이미지 교체 지점, origin/originRef, 롱폼 배치) + 미리보기 + 렌더 버튼(501 명시).
-  - **음원 자리 경고**: `GET /api/[series]/discourse-voice/[episode]` 가 실제 wav 목록을 읽고 `vnVerify` 로 대조 → 편성 탭 상단 배너(밀림/누락 구분) + 발언 행 배지. 발언 이동·삽입·복제 전에 밀림 예고 확인창.
+- [x] `components/discourse/DiscourseEditor` — **원고 중심 전면 개편(26.07.21).** 유저 지적(조각 카드 편집이 어렵다 — 한 덩어리로 쓰고 나서 오디오·이미지·화자 구획을 정해야 한다)으로 「정보/편성」 2탭을 철거하고 **「원고 | 인물」 2탭**으로 재편. 구 발언 탭 주소로 들어와도 원고가 열린다.
+  - **원고 탭(기본) — 팩션 대사 에디터(`FactionQuoteEditor`) 패턴의 연속 에디터**(`shared/ManuscriptEditor.tsx`, 팩션 파일 무수정 이식·확장). 대본 전체가 **입력창 하나**에 놓여 처음부터 끝까지 이어 쓴다. 줄 규칙 두 단이 곧 데이터 단위다: **빈 줄 = 발언(turn) 경계 = 음원 단위** · **엔터 = 덩어리(chunk) 경계 = 이미지·자막 전환 단위**. 덩어리 줄 위에 점선 전환 라인(＋전환·드래그 이동·✕ — 팩션 동일), 발언 첫 줄에 인물색 화자 칩(클릭 교체). `text`는 chunks에서 파생(`join(' ')`, 팩션 quote 파생과 동일 — 이중 입력 소멸). 타이핑으로 문단이 늘고 줄면 `manuscript.ts`의 `remapTurns`가 기존 발언 속성(화자·사진·음성·origin·textEn)을 짝지어 보존한다(무수정 발언은 동일 객체 유지). ⚠️ **첫 설계는 문장 자동 분할 + gap 클릭 방식이었다가 전면 폐기** — 팩션 선례를 안 보고 발명한 결과였다. 재발 방지 원칙: 새 편집 UI는 앞 시리즈 동종 화면부터 대조.
+  - **세부 패널**: 커서가 놓인 발언이 곧 선택 — 우측 패널에 종류·대상·쇼츠 편·시작 사진·덩어리별 사진 교체(imageChanges)·콘티·origin/originRef·음성 메타·미리듣기·음성 덮어쓰기·진입/지속 효과·제외 토글. xl에서 원고|세부|사진 목록 3열.
+  - **편집 방어(26.07.21)**: 발언 수 변경 시 스냅샷 10단계 되돌리기(Ctrl+Z) · dirty 상태 beforeunload 경고 · 발언 소멸 시 배너 알림(사진·음성 붙은 발언은 명시) + undo 복구 · 범위 밖 to 인덱스에도 화면 생존 · duration 보유 발언 내용 변경 시 「음원 재생성 필요」 배너(세션 한정 — 데이터에 원문 지문이 없다). ⚠️ 대사가 빈 발언은 원고에 표현 자리가 없어(빈 줄=경계) 편집 시 소멸한다 — undo·배너로만 방어.
+  - **철거**: `DiscourseTurnsTab`·`TurnRow`·`ChunkEditor` 삭제(참조 4범주 검색으로 무참조 확인). `textEn`/`chunksEn`은 편집 UI 없이 **보존만** 한다(엔진이 ko만 등록 — 어떤 편집 경로에서도 파생·삭제하지 않음).
+  - **음원 자리 경고**: `GET /api/[series]/discourse-voice/[episode]` 가 실제 wav 목록을 읽고 `vnVerify` 로 대조 → 원고 탭 상단 배너(밀림/누락 구분) + 발언 행 배지. 분할·병합·삭제 전에 밀림 예고 확인창(wav 0개면 생략).
   - **타이밍**: BO가 산식을 복제하지 않는다. 렌더의 `Discourse/timing.ts` 가 순수 모듈이라 `buildCues` 를 **직접 import** 한다(`components/discourse/shared/timing.ts`). 팩션(BO 근사치 복제)보다 엄격하다.
   - **미리보기는 팩션과 동형(컷 흐름 도식)**. `@remotion/player` 로 `Discourse` 컴포넌트를 직접 물릴 수 없다 — `script.ts` 가 `require.context` 로 에피소드를 빌드 시점에 훑어 담는 구조라 BO 번들에 실리지 않는다(tsc 실측: `Property 'context' does not exist on type 'Require'`). 팩션 카드 미리보기가 Player를 쓰는 것은 `FactionCard` 가 로더를 거치지 않고 `assetBase` prop 을 받기 때문이다. 담화도 Player를 쓰려면 로더 비의존 진입점이 필요하다(엔진 변경 사안).
-  - 잔여: 음성 생성·정규화 패널(담화 TTS CLI 부재), 이미지 업로드·크롭 UI(경로 직접 입력만), 유튜브 패널, 카드/도감
+  - 잔여: 음성 생성·정규화 패널(담화 TTS CLI 부재), 유튜브 패널, 카드/도감, 「음원 재생성 필요」 배지 영구화(저장 형식에 원문 지문 추가 필요)
 
 **문서**
 - [x] `docs/project/remotion/README.md` 시리즈 표에 행 추가 (26.07.16 — 폐기된 hell-bar 행을 이 시리즈가 대체)
@@ -384,3 +388,4 @@ sw/remotion/public/discourses/
 — 작성 2026-07-16: 기획 착수. 데이터 모델·연출 미확정.
 — 개정 2026-07-16b: 시리즈 이름 확정 (가상 담화 / `Discourse`). 독백·대담 통합 — 인원·대화 여부는 편별 데이터. 이미지 교체(`imageChanges`) 팩션 계승 명시 · 인물당 다수 이미지 경로 논점 추가.
 — 개정 2026-07-16c: 코드 실측 대조. §5 데이터 모델 확정 표기(음원 명명·턴 길이 산식 결론 반영) · §8 경로 실재/예정 구분 · §9 remotion·문서 항목 완료 표기, `youtube-discourse-meta.ts` 미착수 명시. 폐기된 hell-bar 자리를 이 시리즈가 대체함을 `README.md`·`three-kingdoms.md`에 반영.
+— 개정 2026-07-21: BO 편집기 원고 중심 전면 개편 — §9 반영. 1차 설계(문장 자동 분할 + gap 클릭)는 유저 반려로 전면 폐기하고, 팩션 대사 에디터 패턴(연속 입력·엔터=덩어리·이미지 전환 라인)을 이식·확장(빈 줄=발언 경계·화자 칩·`remapTurns` 실시간 재분배)으로 확정.

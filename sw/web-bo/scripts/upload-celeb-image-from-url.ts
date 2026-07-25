@@ -520,7 +520,7 @@ async function processOne(args: {
       Key: key,
       Body: result.buf,
       ContentType: 'image/webp',
-      CacheControl: 'no-cache, must-revalidate',
+      CacheControl: 'public, max-age=31536000, immutable',
     })
   )
   const publicUrl = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`

@@ -30,7 +30,7 @@
 
 따라서 팩션 파일의 삭제·덮어쓰기는 **git으로 복구할 수 없다.** 삭제·이동 전에 반드시 백업 복사부터 한다. "git이 추적하니 복구 가능"이라는 가정을 팩션에 적용하지 마라.
 
-단 소스코드(`sw/remotion/src/**`, `sw/remotion-bo/src/**`)는 정상 추적된다. 타입 정의(`Faction/types.ts`·`faction-types.ts`) 등은 커밋 대상이다.
+단 소스코드(`sw/remotion/src/**`, `sw/web-bo/src/**`)는 정상 추적된다. 타입 정의(`Faction/types.ts`·`sw/web-bo/src/lib/faction-types.ts`) 등은 커밋 대상이다.
 
 데이터 파일 위치: `sw/remotion/public/factions/<ep>/faction-data.json` (2026-07에 폴더명 한글→영문, 파일명 `data.json`→`faction-data.json`으로 변경됨).
 
@@ -118,6 +118,15 @@
 3. **처음 듣는 사람도 이해** — 곁가지 고유명사(측근·부하·지명) 나열을 제거하고 핵심만 짧은 설명을 붙여 쓴다.
 4. **압축**(200~320자), em dash 금지, 번역투·설교·다큐 마무리 금지.
 
+**신화 인물 대사 원칙**(2026-07-22 그리스 신화편 13신 전면 개편에서 확정)
+
+1. **유니크부터 짠다.** 배울점을 먼저 정하고 신화를 붙이면 일반론이 된다. 그 인물만 말할 수 있는 소재 후보를 먼저 나열하고 가장 센 것을 고른 뒤, 함의는 그 이야기에서 저절로 나오게 한다. (실패 사례: 데메테르 "기다림을 줬다" — 농사 일반론, 누구든 할 수 있는 말)
+2. **답을 때린다.** "무엇을 보여줬는지는 말하지 않겠다"류 회피 금지 — 대사는 핵심 통찰을 직접 말해야 한다. 의식·기능·인과는 처음 듣는 사람이 배경지식 없이 따라오게 순서대로 편다.
+3. **함의는 시청자 몫.** 현대 사물(AI·기계·로봇) 직접 언급 금지 — 고대의 사실(황금 하녀·자동 세발솥)만 놓으면 시청자가 알아서 겹쳐 본다. 일반화 문장("너희 삶도 같다")도 빼는 쪽이 낫다.
+4. **고대 실명 호출 장치.** 낯선 고대 발음(아타나 포트니아·엘레우시스)을 첫 소리로 감탄사·용어처럼 던지고 바로 본론으로 간다. "내 가장 오래된 이름이다" 같은 설명 늘어놓기는 늘어진다. 21세기에서 회고하는 어투("삼천 년 전") 금지 — 신의 시간축에서 말한다. 선형문자 B 실증 이름(포세다온·디워누소·에라 등)은 다른 신에게도 확장 가능(사용 전 검증).
+5. **품격 유지.** 동료 신을 들러리로 깎지 않는다(포세이돈 바닷물 샘 바보 만들기 실패). 특수 일화 공략(메두사 거울)보다 보편 원리를, 다만 타 문화 고전 복제(손자병법 선승이후구전)는 금지. 흑막·야심은 협박이 아니라 "이미 셈해 봤다"는 서늘함으로 — 태업 선언은 품격을 깎고, 겸양 마무리("왕좌는 필요 없다")는 견실한 일꾼으로 만든다.
+6. **어체.** 여신은 정중체(1인칭 '저'), 남신은 단정체 유지(2026-07-22 유저 지시). 분량은 100~180자대(초과 시 겹치는 문장부터 제거).
+
 ### 3.3 간결체는 축약이 아니다
 
 유저가 말하는 "간결체"는 **종결을 정중체가 아니게** 하는 것이다(~습니다 → ~다/~한다/~이다, 외침체). **글자 수를 줄이거나 정보를 축약하라는 뜻이 아니다.**
@@ -153,9 +162,11 @@
 
 ### 4.1 wav 파일명은 위치 기반이다
 
-인물 대사 음성은 `public/factions/<ep>/voice/F{세력+1}C{그룹+1}P{인물+1}-quote.wav` 형식의 **위치 기반 파일명**이다(0패딩). 규칙 SSoT는 `sw/remotion/src/compositions/Faction/voice-names.ts`의 `vnPersonQuote`이고, BO 쪽 복제본이 `sw/remotion-bo/src/lib/faction-voice.ts`다. 데이터 파일에는 음성 파일명이 없고 인덱스로 계산된다(`quoteElevenlabsVoiceId`·`quoteDuration`만 있음).
+인물 대사 음성은 `public/factions/<ep>/voice/F{세력+1}C{그룹+1}P{인물+1}-quote.wav` 형식의 **위치 기반 파일명**이다(0패딩). 규칙 SSoT는 `sw/remotion/src/compositions/Faction/voice-names.ts`의 `vnPersonQuote`이고, BO 쪽 복제본이 `sw/web-bo/src/lib/faction-voice.ts`다. 데이터 파일에는 음성 파일명이 없고 인덱스로 계산된다(`quoteElevenlabsVoiceId`·`quoteDuration`만 있음).
 
 **함정:** 데이터에서 인물을 옮기거나 **세력을 병합·삭제·순서변경**하면 음성이 자동으로 따라오지 않는다. BO에서 "음성 확인 안 됨"이 뜨거나, 영상에서 **엉뚱한 인물 음성이 재생**된다(F 인덱스가 밀려 옛 좌표의 wav가 다른 인물에 매칭). F번호는 `groups` 배열의 raw 인덱스+1이며 **disabled 세력도 번호를 소비한다.**
+
+> BO 편집기의 이동 버튼은 26.07.24부터 전부 재배치 API(`/faction-voice/<ep>/reorder`)를 경유한다 — 인물 이동·그룹(cluster) 이동에만 있던 wav 자동 재배치를 세력 ▲▼(`moveGroup`·`moveGroupInPart`)에도 붙였다(그 전까지 세력 순서변경은 배열만 바꿔 음원이 어긋났다. Gods-Greek F04↔F05 사고가 이 결함). **병합·삭제·JSON 직접 편집은 여전히 수동 rename 대상이다.**
 
 **세력 레벨 변경이 더 위험하다.** 두 세력을 하나로 병합하면 그 뒤 모든 세력의 F번호가 1씩 당겨져 수십 개 wav가 한꺼번에 어긋난다. 데이터 구조(세력 병합·삭제·이동)를 건드리기 전에 음성 좌표 영향을 먼저 점검한다.
 
@@ -247,7 +258,7 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 - **공통 브랜딩** = `ThumbBrand.tsx`. SeriesBadge 「세력도감」이 상단 중앙, BrandFooter 「FEEL&NOTE」가 하단이다. 배지 배경은 불투명(rgba(12,10,8,0.96)), 자간 0.16em.
 - **예비 시안 GEM** = `FactionLVThumbnail.tsx`(컴포지션 id `-KO-LV-GEM`). 유저가 병행 테스트하는 것이라 건드리지 않는다.
 - **컴포지션 등록**: Root.tsx의 Faction 폴더, id는 `${base}-KO-LV-TH-SPLIT`(base=`Faction-<폴더>`). `durationInFrames` 1, fps 1, 1080×1920.
-- **자동 배선**: `sw/remotion-bo/.../api/[series]/render/route.ts`의 팩션 분기가 롱폼 렌더 시(only!=='shorts') `pnpm still -- <comp> out/Faction/{episode}-{suffix}-THUMB.png` 태스크를 건다. suffix는 롱폼 variant(KO-LV, 편이 있으면 KO-LV1·KO-LV2). 유튜브 업로드(`youtube-faction.ts`의 variantFiles)가 `{episode}-{suffix}-THUMB.png`가 있으면 자동으로 썸네일을 설정한다 — 이미 배선돼 있어 파일만 만들면 된다.
+- **자동 배선**: web-bo `api/faction/render` 창구가 롱폼 렌더 시(only!=='shorts') `pnpm still -- <comp> out/Faction/{episode}-{suffix}-THUMB.png` 태스크를 건다. suffix는 롱폼 variant(KO-LV, 편이 있으면 KO-LV1·KO-LV2). 유튜브 업로드(`youtube-faction.ts`의 variantFiles)가 `{episode}-{suffix}-THUMB.png`가 있으면 자동으로 썸네일을 설정한다 — 이미 배선돼 있어 파일만 만들면 된다.
 - `pnpm still`은 entry 인자 없이 컴포지션 id만으로 렌더된다(remotion 자동 탐색). blur 필터가 무거워 한 장에 수 분이 걸려 blur를 14로 낮췄다. `renderStill` 이미지에는 Remotion `Img`가 필수다.
 
 ---
@@ -260,7 +271,7 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 ## 8. 셀럽 DB·아바타 연동
 
-팩션 인물이 DB(profiles)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 스포트라이트 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 이미지(`sw/remotion/public/factions/<ep>/<vanity>/*.png`, 정사각 상반신·전신 실사)를 아바타로 재활용하면 된다.
+팩션 인물이 DB(profiles)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 이미지(`sw/remotion/public/factions/<ep>/<vanity>/*.png`, 정사각 상반신·전신 실사)를 아바타로 재활용하면 된다.
 
 **기존 스크립트를 재사용한다(코드 수정 불필요):** `sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{profiles.id}/avatar.webp` PUT → `profiles.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
 

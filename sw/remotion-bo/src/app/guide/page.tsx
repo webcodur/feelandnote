@@ -166,7 +166,7 @@ SERIES.push({
   icon: '🎭',
   composition: 'RivalTalk',
   episodeDir: 'rival-talk',
-  dataModel: 'book',       // 데이터 구조 계열 (book | faction | discourse)
+  dataModel: 'book',       // 데이터 구조 계열 (book | discourse)
   episodeHome: 'scenario', // /[series]/[name] 진입 시 보낼 경로
   langTabEditor: false,    // true 면 /[lang]/[tab] 자체 편집 화면
   render: { codec: 'prores', proresProfile: '4444' },

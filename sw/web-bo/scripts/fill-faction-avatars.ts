@@ -110,7 +110,7 @@ async function main() {
     const key = `celebs/${tgt.id}/avatar.webp`
     await r2.send(new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME!, Key: key, Body: out,
-      ContentType: 'image/webp', CacheControl: 'no-cache, must-revalidate',
+      ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
     await supabase.from('profiles').update({ avatar_url: url }).eq('id', tgt.id)

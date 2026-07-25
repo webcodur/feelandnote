@@ -104,7 +104,7 @@ async function toWebp(path: string): Promise<Buffer> {
 async function upload(key: string, body: Buffer): Promise<string> {
   await r2.send(new PutObjectCommand({
     Bucket: BUCKET, Key: key, Body: body, ContentType: 'image/webp',
-    CacheControl: 'no-cache, must-revalidate',
+    CacheControl: 'public, max-age=31536000, immutable',
   }))
   return `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
 }

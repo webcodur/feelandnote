@@ -208,6 +208,23 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 
 **결함 이력(2026-07-03 전수정 완료)**: 현역 legacy 렌더에는 롱폼 오디오의 물리적 `playbackRate`가 아예 빠져 있었다(`_not-using` 쪽에는 있었다). applyPlaybackRates가 타임라인과 자막 시각만 1/r로 줄이고 오디오는 원속으로 재생해 배속 지정 구간이 뒤에서 잘려나갔다("대사가 끝까지 안 나오고 끊긴다"). 요약·감상배경·후속맥락 세 구간을 먼저 배선했고, 제목과 인용 오디오도 2026-07-03에 배선을 마쳤다(BookRecommendLongLegacy.tsx 제목 Audio에 `clampRate(book.titlePlaybackRate)`, 인용 Audio에 `clampRate(book.quotePairs[pi].quotePlaybackRate)`). elon-musk 롱폼은 10권 전 인용에 quotePlaybackRate 1.01~1.35가 걸려 있어 전권 인용이 잘리던 상태였다. 배속 미설정이면 `clampRate(undefined)=1`이라 동작은 불변이다.
 
+### `faction-data.json`을 직접 편집하지 마라
+
+팩션의 `sw/remotion/public/factions/<편>/faction-data.json`은 **원천이 아니라 산출물**이다(26.07.25 통합). 텍스트·구성의 단일 원천은 Supabase 5테이블이고, 이 파일은 `pnpm faction:export`가 DB에서 만들어 낸다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 못 읽어서 파일을 남기는 것이다.
+
+- 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다. **checksum이 안 맞으면 다음 내보내기가 중단되고 diff를 뿜는다**(`--force`로만 강행). 즉 손으로 고치면 그 편의 저장·렌더 흐름이 멈춘다.
+- 수정은 web-bo `/factions` 편집 화면에서 한다. 저장하면 내보내기가 자동으로 따라 붙는다.
+- 이미 손으로 고쳐 버렸으면 `pnpm faction:import -- --episode <편>`으로 DB에 재흡수한다. **임의로 실행하지 않는다** — DB가 더 새로울 수도 있어 반대 방향으로 덮어쓸 위험이 있다. 어느 쪽이 최신인지 확인하고 사람이 판단해 실행한다.
+- 드리프트 상시 확인은 `pnpm faction:verify --drift`, 편별 검증은 `--episode <편>`.
+- 실사례: `Gods-Greek-Compact`는 이관 뒤 사람이 JSON을 더 고쳐(대사 148곳 차이) 파일이 DB보다 새로운 상태로 남았다. 가드가 이 편의 내보내기를 막아 되돌림 사고는 안 났다.
+
+### remotion-bo에서 팩션을 편집하려 하지 마라
+
+팩션 편집·렌더·유튜브·카드·출간은 26.07.25에 web-bo로 옮겼고 remotion-bo의 팩션 구역은 전량 삭제됐다. **remotion-bo(3003)의 팩션 주소·창구는 404다.** 편집은 web-bo(3001) `/factions`에서 한다. remotion-bo에 남은 것은 담화·서재 탐방이다.
+
+- 이름만 팩션인 잔존물에 속지 않는다 — `lib/faction-edit-route.ts`는 담화가 쓰는 공용 상수이고, `api/[series]/cards/[name]`은 서재 탐방 카드뉴스다(디스크 파일명이 `faction-cards.json`이라 개명하면 데이터가 끊긴다).
+- 사진·음성 같은 로컬 자산은 그대로 `sw/remotion/` 디스크에 있다. web-bo의 팩션 자산 창구는 `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 503과 사유를 낸다.
+
 ### 현역 롱폼 컴포넌트가 legacy라는 함정
 
 sw/remotion BookRecommend 롱폼은 이름이 거꾸로 붙어 있다. 디버깅 전에 반드시 확인한다.
@@ -239,7 +256,7 @@ dead 코드 판별은 `Root.tsx`부터 import 그래프 BFS로 reachable을 계�
 
 `sw/remotion-bo`의 프로덕션 빌드는 webpack으로 한다. package.json에 `"build": "next build --webpack"`.
 
-Next 16 기본 빌더 Turbopack이, youtube 관리 route들(`youtube/meta`·`status`·`status-all`·`sync`·`thumb`·`faction-card-export`)이 `path.join(process.cwd(),'..','remotion','out',...)`으로 렌더 산출물 `out/`을 fs 스캔하는 것을 정적 분석하다 `out/` 디렉토리를 번들 자산으로 추적하고, 한글명 파일 `out/Faction/02-페이팔마피아-KO-LV.srt`를 심볼릭 링크로 오인해(`points out of filesystem root`) 빌드를 중단시킨다. 경로 상수를 핸들러 내부로 옮기거나 force-dynamic을 붙여도 일관되게 풀리지 않는다. webpack 빌드가 이 버그를 회피한다.
+Next 16 기본 빌더 Turbopack이, youtube 관리 route들(`youtube/meta`·`status`·`status-all`·`sync`·`thumb`, 그리고 26.07.25에 삭제된 `faction-card-export`)이 `path.join(process.cwd(),'..','remotion','out',...)`으로 렌더 산출물 `out/`을 fs 스캔하는 것을 정적 분석하다 `out/` 디렉토리를 번들 자산으로 추적하고, 한글명 파일 `out/Faction/02-페이팔마피아-KO-LV.srt`를 심볼릭 링크로 오인해(`points out of filesystem root`) 빌드를 중단시킨다. 경로 상수를 핸들러 내부로 옮기거나 force-dynamic을 붙여도 일관되게 풀리지 않는다. webpack 빌드가 이 버그를 회피한다.
 
 dev(`next dev`, turbopack)는 lazy 컴파일이라 해당 route를 호출하지 않으면 터지지 않는다. dev는 그대로 두고 build만 webpack으로 한다. 빌드가 `.next`를 덮으므로 떠 있던 dev 서버는 한 번 재시작해야 한다.
 

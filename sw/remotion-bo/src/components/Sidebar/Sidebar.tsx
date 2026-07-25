@@ -7,7 +7,6 @@ import { groupLabel } from './utils'
 import { SIDEBAR_COLLAPSED_KEY } from './constants'
 import { GroupList } from './sections/GroupList'
 import { DraftList } from './sections/DraftList'
-import { FactionList } from './sections/FactionList'
 import { DiscourseList } from './sections/DiscourseList'
 
 /**
@@ -15,7 +14,6 @@ import { DiscourseList } from './sections/DiscourseList'
  * 표에 없는 계열(book)은 아래 인물 묶음·검색 UI를 그대로 쓴다. 새 시리즈는 여기에 한 줄 얹는다.
  */
 const EPISODE_LISTS: Partial<Record<SeriesDataModel, React.ComponentType<{ activeSeries: string; pathname: string }>>> = {
-  faction: FactionList,
   discourse: DiscourseList,
 }
 

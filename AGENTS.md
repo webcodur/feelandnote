@@ -11,7 +11,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기�
 | 1 | web | `sw/web` | 3000 | 사용자용 웹 (Next.js) |
 | 2 | web-bo | `sw/web-bo` | 3001 | 관리자 백오피스 (Next.js) |
 | 3 | remotion | `sw/remotion` | 3002 + 8001 | 영상 제작 (Studio + serve) |
-| 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) |
+| 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) — 서재 탐방·가상 담화만. **팩션 구역 폐기 26.07.25, web-bo로 통합** |
 | 5 | lab | `sw/lab` | 3004 | 실험 공간 — 2D/3D, 게임 (Vite) |
 | 6 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원 정리·받아쓰기·화자 학습·음성 합성 작업실 (Next.js) |
 
@@ -108,7 +108,7 @@ pnpm build:audio-bo
 | `docs/project/service/library.md` | 서가(`/library`) — 시대별·직군별·박물관·학당 |
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
-| `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·스포트라이트·타임라인 외 |
+| `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
 | `docs/project/audio-bo.md` | 음성 작업실(audio-bo) — 음원 정리·받아쓰기·화자 학습·합성 |
 | `docs/project/audio-bo-tts-engine-research.md` | audio-bo TTS 엔진 조사 |
@@ -138,9 +138,9 @@ pnpm build:audio-bo
 | 6 | `celeb-speech.md` | Speech 트랙 (tone → quotes → dialogue) |
 | 7 | `celeb-i18n.md` | 영문 번역 |
 | C | `celeb-content-audit.md` | 콘텐츠 데이터 감사 (출처·locale·thumbnail 검증) |
-| A | `celeb-tag-system.md` | 부록: 스포트라이트 태그 |
+| A | `celeb-tag-system.md` | 부록: 세력도감 태그 |
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 (2026-03 회차 스냅샷) |
-| S | `../spotlight-ai-group-refactor.md` | 스포트라이트 AI 그룹 구조 (구현 완료. `spotlight-celeb-sync` 스킬이 참조) |
+| S | `../faction-ai-group-refactor.md` | 세력도감 AI 그룹 구조 (구현 완료. `faction-celeb-sync` 스킬이 참조) |
 | G | `celeb-gotchas.md` | **셀럽 데이터 함정 모음** — 목록 노출 기준, 페이지 안 뜰 때 증상별 원인, 대사 3대 결함, 등급 승격 조건, 선정 기준, 책 메타 출처 제한, 등록 우회 |
 
 **가상 독백 (`profiles.virtual_monologue`)** — 셀럽 상세 페이지의 1인칭 독백. 규격은 문서가 아니라 코드에 있다.
@@ -154,6 +154,17 @@ pnpm build:audio-bo
 
 > 옛 규격 문서 `sw/web-bo/docs/todo/virtual-monologue-plan.md`는 26.07.20 `c493cad1`에서 삭제됐다(GLM 시대 규격이라 이미 낡음). 회수하려면 `git show c493cad1^:<경로>`.
 > 독백을 고친 뒤 서비스 반영이 안 보이면 캐시 7일이 남은 것이다 — `/api/revalidate`에 `celebs` 태그를 던지면 즉시 갱신된다(전량 갱신 비용 실측 10MB 미만).
+
+**셀럽 아바타 정비 (진행 중, 26.07.20 기준)** — 작업 문서는 **저장소 루트**의 `celeb-avatar-*.md` 4종이다.
+
+| 문서 | 내용 · 상태 |
+|------|------|
+| `celeb-avatar-defects.md` | 등록분 1,563명 불량 검수(흑백·얼굴 미검출 등) — **26.07.20 완료, 28명 교체**. 재검사 스크립트(`sw/web-bo/scripts/audit-celeb-avatars.ts`)·교체 파이프라인 포함. 동명이인 전수 대조는 미착수 |
+| `celeb-avatar-missing.md` | 미등록 138명 명단(역사·신화 80 / 현대 58, 26.07.15) + 옛 인물 외형 프롬프트 기작성 |
+| `celeb-avatar-local-assets.md` | 미등록자 로컬 자산 전수 대조(26.07.20) — 완성 개인샷 보유 38 / REF만 45 / 자산 없음 34 |
+| `celeb-avatar-modern-targets.md` | 현대 25명 실사 조사(쉬움 15·동명이인 고위험 8 경고). 조사만, 등록 미실행 |
+
+남은 작업: 미등록 ~129명 채우기(완성샷 보유 38명이 최우선 덩어리). 등록 자동화는 `.agents/skills/celeb-avatar-wikimedia/SKILL.md`, 규격은 `docs/project/db-celeb.md`(800×800 webp, 26.03.24 이전분은 300×300 구버전).
 
 **셀럽 자료 디렉토리**
 
@@ -175,7 +186,7 @@ pnpm build:audio-bo
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 | `docs/project/adsense-audit-2026-07-15.md` | **AdSense 반복 거절 감사·교정 보고서(26.07.15)** — 원인 규명(색인률 2%)·조치 8종·검증 실측·재신청 절차·남은 과제. AdSense 관련 작업의 SSoT |
 | `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
-| `sw/remotion/docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(remotion-bo Cards 탭)·편성 저장(faction-cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT. (`docs/project/card-news/`에는 시안 html만 있다) |
+| `sw/remotion/docs/project/card-news/IMPLEMENTATION.md` | 카드뉴스 생성기 — 인물·책 카드 7종(BookCard), 편성 A·B, 미리보기(서재 탐방=remotion-bo Cards 탭 / 팩션=web-bo `/factions` 카드 화면, 26.07.25 이관)·편성 저장(faction-cards.json)·출고(render:cards). SNS 카드 출고의 구현 SSoT. (`docs/project/card-news/`에는 시안 html만 있다) |
 | `docs/project/tooling-gotchas.md` | **개발 환경·도구 함정 모음** — 인증 토큰이 죽는 원인, server action 캐시 규칙, 조용한 폴백 금지, 권한 설정, 환경 탓 금지, 다른 CLI의 훅 상속, 모델 상태 점검 |
 
 ### 제작 규칙 (글쓰기 · 이미지)
@@ -197,6 +208,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/gotchas.md` | **영상·음성 제작 함정 모음** — 음성 합성 엔진별 한계·키 로테이션, 정렬과 자막 타이밍(**폐기된 접근 3종** 재제안 금지), 렌더와 미리보기, 데이터 구조 함정, 환경, 작업 규칙 |
 | `docs/project/remotion/book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 | `docs/project/remotion/faction.md` | 세력도 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
+| `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
 | `docs/project/remotion/discourse.md` | 가상 담화 — **기획 단계(코드 미착수)**. 독백·난입 반박·대담을 한 엔진으로(인원·대화 여부는 편별 데이터). 원천=`profiles.virtual_monologue`. 팩션 엔진 계승, 뼈대는 발언 순서 |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
@@ -241,7 +253,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
 | web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. **CRON_SECRET(④)·태그 국소화(⑤) 완료(26.07.15)** — BO 저장 1회가 캐시 74곳을 전멸시키던 구조 해소. **tracker RPC 교정 완료(26.07.15)** — `get_tracker_candidates`가 부재 컬럼(`quotes`) 참조로 100% 실패 → 매번 fallback → fallback은 462개 id를 단일 `in()`에 실어 URL 한도 초과(실측 300 OK / 462 fail)로 후보 0 → 미궁 게임 진입 불가였다. RPC 재정의(cultural_journey 기준·본문 제외·전체 후보 반환) + `selectInChunks`(200개 단위) 적용. **잔여 (26.07.16 실측 재조사)**: ① ~~all-persona-vectors 경량화~~ → **완료(26.07.16).** RPC화는 불필요했다 — `celeb_persona`에 이미 flat smallint 16컬럼이 있고 트리거 `trg_sync_persona_columns`가 동기화한다(16축 × 1577행 전수 대조 불일치 0). `getSimilarByCelebId.ts`의 select만 교체. **실측 gzip 2.0MB→0.11MB(18.7배)**, 셀럽 1,000명 top-5 전원 동일·거리값 불일치 0으로 결과 동일성 확인. 조용한 실패(에러 미수신)도 함께 해소. ② **`[locale]` 정적 렌더 — 착수 금지.** ⚠️ 전역 차단자는 셀럽 페이지가 아니라 **루트 `app/layout.tsx`의 `await getLocale()`**이다(locale param이 없어 `setRequestLocale` 불가 → headers 폴백 → 전 라우트 동적 확정). 그 결과 셀럽 page의 `revalidate=3600`은 **죽은 코드**이고(prerender-manifest의 dynamicRoutes 0건, `[locale]` 하위 .html 0건) 그 옆 "쿠키를 읽지 않는다" 주석은 거짓이다(`getCelebBySlug`가 `auth.getUser()` 호출). 게다가 체인에 Suspense 경계가 없어 정적화 시 CSR 이탈이 아니라 빌드 실패/라우트 통째 이탈이다. 착수하려면 루트 레이아웃 구조 변경 + Suspense 신설 + 5개소 연쇄 수정이 선행돼야 하고, 색인 회복 관측 중인 지금은 위험 대비 이득이 안 맞는다 |
-| AdSense 승인 | `docs/project/adsense-audit-2026-07-15.md` | **재신청 대기** | 반복 거절 원인=색인 붕괴(제출 2,196 대비 노출 45면)로 확정. 조치 8종 배포·라이브 검증 완료(26.07.15, `2c1aa1ad`). 사이트맵 재제출 완료. **다음: 07-29 전후 재평가 → 회복 확인 후 AdSense 검토 요청**(색인 미회복 상태 재신청은 거절 반복+쿨다운만 누적).<br>**26.07.16 GSC 실측 — 아직 기다려야 한다.** 배포 후 하루라 구글이 재크롤을 **시작조차 안 했다**: 사이트맵 submitted 15,884·오류 0이나 **indexed 0**, `/celeb/elon-musk`의 `lastCrawlTime`이 **26-05-19 그대로 고정**, 고유 노출 페이지 **45개로 진단치와 동일**(회복 신호 0). 07-04 이후 노출 거의 0. **재신청 가부 판정 지표 2개**: ① `lastCrawlTime`이 07-15 이후로 이동 ② 색인 페이지 수가 45에서 유의미 상승. 둘 다 충족 전엔 신청 금지.<br>참고: GSC가 `/about`을 404로 표시하나 **마지막 크롤이 06-30**(복원 이전)이라 낡은 캐시일 뿐이다 — 라이브는 ko/en 둘 다 200. 07-15 조치는 라이브에서 그대로 유지 중 확인 |
+| AdSense 승인 | `docs/project/adsense-audit-2026-07-15.md` | **재신청 대기·콘텐츠 기준 재검토** | **과거 거절의 가장 강한 설명은 색인·접근 붕괴지만 유일 원인으로 확정하지 않는다.** AdSense 화면의 정확한 거절 문구가 보존되지 않았고, 색인만 회복되면 승인된다는 보장도 없다. 조치 8종 배포·라이브 잔존 확인(26.07.15~22, `2c1aa1ad`).<br>**26.07.22 GSC 실측 — 회복 신호 없음.** 사이트맵 15,884·오류 0·07-17 재다운로드, `/celeb/elon-musk` `lastCrawlTime`은 05-19 그대로, `/about`은 06-30의 404 기록(라이브 200), 신규 콘텐츠 상세 표본 3건은 Google 미발견. 04-15~07-20 검색 노출 고유 페이지 44·노출 183·클릭 10.<br>**신규 위험 전수 집계**: 콘텐츠 6,665건 중 감상문 1건 5,140건(77.1%), 한국어 감상문 중앙값 158자. MUSIC은 1건 비율 88.6%·중앙값 108자. 이는 “얇은 페이지 확정 비율”이 아니라 콘텐츠 가치 위험 지표다.<br>**재신청 게이트**: ① 실제 AdSense 거절 문구·문제 코드 확보 ② 대표 URL `lastCrawlTime` 07-15 이후 이동 + 검색 노출 페이지 44~45 기준선에서 유의미 상승 ③ 감상문 1건·짧은 외부 요약 상세의 색인/출판 기준 결정. 세 조건 충족 전에는 재신청하지 않는다. |
 | BOOK en 데이터 전량 재검증 | `docs/archive/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/archive/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |
 | Supabase 타입 재생성 | — | **완료** | 26.06.12 재생성 + any 캐스팅 148건 전량 제거 |
@@ -272,7 +284,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | web-bo 결함 정리 | `docs/project/web-bo.md` | **완료(26.07.16)** | **image-proxy SSRF 차단** — 이 창구는 `proxy.ts`가 로그인 검사를 건너뛰어 인증 없이 호출되던 무방비 상태였다. 실측 11종 허용 목록·내부망 차단·리다이렉트 검사 적용, 실서버 검증 완료 · 1x1 픽셀 폴백 제거(실패를 404/502로) · CelebForm 이탈 · 캐시 무효화 경로 교정(slug 키 어긋남 포함) · `/celebs/stats`·`/today-figure`의 id 링크 404 교정(셀럽 1,674명 전원 slug 보유) · 고아 라우트·컴포넌트·액션 정리 |
 | web-bo 유저→셀럽 승격 화면 부활 | `docs/project/web-bo.md` (미해결 절) | **판단 대기** | 죽은 컴포넌트 정리 중 `ProfileTypeSwitch`가 제거되며 **승격 기능이 사라졌다.** 액션 `promoteToCeleb`은 살아 있어 화면만 되살리면 복구된다. 대체 경로 없음(`createCeleb`은 더미 계정 신규 생성이라 다른 일). 되살릴지 결정 필요 |
 | 음성 파일 매니저 | `docs/archive/voice-file-manager.md` | **완료(26.04.01)** | **표가 틀렸었다.** 계획서를 쓴 당일 같은 흐름(`84f06090`)에서 구현하고 표만 안 고쳤다. remotion-bo에 실재 — `server-utils.ts`의 `getVoiceStorageStatus`/`loadVoiceFiles`/`unloadVoiceFiles`, `api/[series]/voice/storage/route.ts`, `VoiceStorage.tsx`, `[series]/page.tsx` 탭 연결(참조 4건). audio-bo 흡수도 R2 의존도 아니다 |
-| 스포트라이트 태그 후보 풀 | `docs/todo/tag-ideas.md` | **부분 소진(6/14)** | 후보 6종이 이미 등록·노출 중(26.07.16 DB 실측) — 르네상스 마에스트로 7명·전국삼걸 6·왕좌의 독서가 8·실존주의자 8·프랑스 혁명 8·망명자 8. **기준선이 낡았다** — 계획서의 "현재 태그 13개"에 있는 `mapping-ai`는 DB에서 삭제됐고(현재 `AI 선구자들` 14명), 실제는 40종 + 8개 상위 그룹 계층이다. 살아있는 후보 9종. 계획서 내부 결함: Tier 1 "조선의 지식인"은 우선순위 목록에만 있고 본문 정의가 없다 |
+| 세력도감 태그 후보 풀 | `docs/todo/tag-ideas.md` | **부분 소진(6/14)** | 후보 6종이 이미 등록·노출 중(26.07.16 DB 실측) — 르네상스 마에스트로 7명·전국삼걸 6·왕좌의 독서가 8·실존주의자 8·프랑스 혁명 8·망명자 8. **기준선이 낡았다** — 계획서의 "현재 태그 13개"에 있는 `mapping-ai`는 DB에서 삭제됐고(현재 `AI 선구자들` 14명), 실제는 40종 + 8개 상위 그룹 계층이다. 살아있는 후보 9종. 계획서 내부 결함: Tier 1 "조선의 지식인"은 우선순위 목록에만 있고 본문 정의가 없다 |
 | 쇼츠 이미지 규격 3중 중복 정리 | `docs/project/remotion/book-recommend/image-requirements.md` | **완료(26.07.16)** | 정본으로 통합, todo 2건 아카이브. 흡수 시 코드 실측으로 죽은 규칙 다수 폐기(`images/shorts/{slug}.png` 경로·`CINEMATIC_EPISODES`·`prompts.json` 전부 부재). 필터값은 두 문서 다 틀렸고 실측 `brightness(0.35) saturate(0.5)`가 정답 |
 
 * 마지막 작업 시각: 26.07.16
@@ -306,7 +318,7 @@ grep -rl "최종 실측 체크" --include="*.md" docs   # 점검 완료
 grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/celeb-data   # 미점검(다음 대상)
 ```
 
-주요 영역: 아키텍처·서비스 화면 5종·백오피스·DB 2종·셀럽 파이프라인 9종·스포트라이트 2종·인프라 운영 6종(seo·adsense·monetization·openai·game-card·sns)·영상 4종·셀럽 데이터·태그 후보 풀.
+주요 영역: 아키텍처·서비스 화면 5종·백오피스·DB 2종·셀럽 파이프라인 9종·세력도감 2종·인프라 운영 6종(seo·adsense·monetization·openai·game-card·sns)·영상 4종·셀럽 데이터·태그 후보 풀.
 
 **미점검 — 다음 재개 대상**. 아래는 이번에 **손대지 않았다.** 낡았는지 아닌지도 모르는 상태다.
 
@@ -326,7 +338,7 @@ grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/cel
 - **"미착수"인데 이미 완료** — `voice-file-manager`(계획서 쓴 당일 구현), remotion-bo Phase 4·5. 믿으면 있는 걸 또 만든다. 반대 방향(`안 고쳤는데 완료`)보다 흔했다.
 - **고친 뒤 문서를 안 고친 것** — tracker RPC를 교정하고도 "여전히 깨짐"으로 남아 있었다.
 - **수치가 낡음** — 사이트맵 URL 1,098→실제 15,884, 셀럽 1,073→1,472, 태그 13종/1,086명→40종/1,674명. **문서의 수치는 기본적으로 의심하라.**
-- **리네임/통합 후 옛 이름** — 서고 `/scriptures`→서가 `/library`, 스포트라이트 컴포넌트 6개→`SpotlightShowcase` 통합. **1:1 리네임으로 추정하지 마라** — 실제로는 통합·소멸인 경우가 있다.
+- **리네임/통합 후 옛 이름** — 서고 `/scriptures`→서가 `/library`, 세력도감(옛 스포트라이트) 컴포넌트 6개→`FactionShowcase`(당시 `SpotlightShowcase`) 통합. **1:1 리네임으로 추정하지 마라** — 실제로는 통합·소멸인 경우가 있다.
 - **규칙끼리 충돌** — `celeb-content-audit`이 Google Books를 권장했으나 프로젝트 규칙은 네이버·OpenLibrary만 허용. **규칙 쪽이 정본이다.**
 - **완료 보고서 안에 현행 규칙 혼입** — 아카이브로 옮겼다가 회수한 적 있다(sources 스키마·verified 정의). 완료 표시만 믿고 격리하지 마라.
 - **집계 기준 함정** — 빈 문자열을 세면 명언 904, 제외하면 902. 문서에 수치를 쓸 땐 기준을 함께 적어라.

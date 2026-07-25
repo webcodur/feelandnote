@@ -47,7 +47,7 @@ export function totalSec(script: DiscourseScript, isShorts: boolean, part?: numb
   return last ? (last.start + last.duration) / FPS : 0
 }
 
-/** 사진 표시 주소 — 세력도와 규칙이 같아 공용 부품 shared/bo/media-src 한 곳에만 둔다 */
+/** 사진 표시 주소 — 시리즈 공용 규칙이라 부품 shared/bo/media-src 한 곳에만 둔다 */
 export { imageSrc } from '@feelandnote/shared/bo/media-src'
 
 /** 통합 명칭(앞부분\n뒷부분) 분해 — 첫 줄이 앞부분, 나머지가 뒷부분 */

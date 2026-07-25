@@ -6,7 +6,7 @@ import { voiceDir } from '@/lib/server-utils'
 import { isValidSeries } from '@/lib/series-registry'
 import { applyAgeToFile } from '@feelandnote/shared/bo/voice-age'
 
-// ── 북리커맨드 구간 음성 연령 변형 라우트 (세력도 faction-voice/age 와 대칭)
+// ── 북리커맨드 구간 음성 연령 변형 라우트
 //
 // 원본을 두고 늙거나 젊게 변형한 예상안을 만들어 들어보고(preview), 마음에 들면 덮어쓴다(commit).
 // 진짜 원본은 voice/{locale}/ori/ 에 영구 보관해 예상안은 항상 원본 기준으로 생성한다(누적 왜곡 없음).
