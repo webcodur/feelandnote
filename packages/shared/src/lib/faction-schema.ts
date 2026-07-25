@@ -340,6 +340,62 @@ function brief(v: unknown): string {
   return JSON.stringify(v) ?? String(v)
 }
 
+/* ────────────────────────── 내보내기 마커·체크섬 ────────────────────────── */
+
+/**
+ * 내보내기 마커 키 — 파일 첫 키로 박는다.
+ * 렌더 로더(Faction/script.ts)는 미지의 최상위 키를 그대로 흘려보내므로 무해하다.
+ */
+export const GENERATED_KEY = '_generated'
+
+export interface GeneratedMarker {
+  /** 산출 원천 — 항상 'db' */
+  from: string
+  /** 산출 시각(ISO) */
+  at: string
+  /** faction_episodes.id */
+  episodeId: string
+  /** 마커 자신을 뺀 문서의 정규 직렬화 sha1 */
+  checksum: string
+}
+
+/**
+ * 체크섬용 정규 직렬화 — 키를 정렬해 순서에 흔들리지 않게 만든다.
+ *
+ * ⚠ 여기서는 **값을 손대지 않는다**(normalizeForCompare 와 다르다). 빈 배열·false 를 지우면
+ * 사람이 그런 값을 넣은 손 편집을 놓치기 때문이다. 체크섬은 "글자 한 자라도 바뀌었나"를 봐야 한다.
+ */
+export function canonicalJson(value: unknown): string {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value) ?? 'null'
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`
+  const src = value as Record<string, unknown>
+  const parts = Object.keys(src).sort()
+    .filter(k => src[k] !== undefined)
+    .map(k => `${JSON.stringify(k)}:${canonicalJson(src[k])}`)
+  return `{${parts.join(',')}}`
+}
+
+/** 마커를 제외한 문서 사본 */
+export function stripGenerated(doc: Record<string, unknown>): Record<string, unknown> {
+  const { [GENERATED_KEY]: _omit, ...rest } = doc
+  return rest
+}
+
+/**
+ * 마커를 뺀 문서의 체크섬. sha1 계산은 호출 측에서 주입한다
+ * (packages/shared 는 node:crypto 에 의존하지 않는다 — 브라우저 번들에도 실린다).
+ */
+export function checksumPayload(doc: Record<string, unknown>): string {
+  return canonicalJson(stripGenerated(doc))
+}
+
+/** 문서 맨 앞에 마커를 박는다(키 순서 = 첫 키) */
+export function withGenerated(
+  doc: Record<string, unknown>, marker: GeneratedMarker,
+): Record<string, unknown> {
+  return { [GENERATED_KEY]: marker, ...stripGenerated(doc) }
+}
+
 /** 한글 깨짐(U+FFFD) 검사 — DB 왕복에서 인코딩이 상했는지 본다 */
 export function findReplacementChars(value: unknown, ptr = ''): string[] {
   if (typeof value === 'string') return value.includes('�') ? [ptr || '/'] : []

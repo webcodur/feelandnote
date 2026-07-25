@@ -143,6 +143,10 @@ export interface CliArgs {
   all: boolean
   dryRun: boolean
   stdout: boolean
+  /** 손 편집 가드를 무시하고 덮어쓴다(export) */
+  force: boolean
+  /** 파일 ↔ DB 대조만 하고 쓰지 않는다(verify) */
+  drift: boolean
 }
 
 /**
@@ -155,6 +159,8 @@ export function parseArgs(argv: string[], usage: string): CliArgs {
   let all = false
   let dryRun = false
   let stdout = false
+  let force = false
+  let drift = false
   for (let i = 0; i < args.length; i++) {
     const a = args[i]
     if (a === '--') continue
@@ -165,10 +171,12 @@ export function parseArgs(argv: string[], usage: string): CliArgs {
     } else if (a === '--all') all = true
     else if (a === '--dry-run') dryRun = true
     else if (a === '--stdout') stdout = true
+    else if (a === '--force') force = true
+    else if (a === '--drift') drift = true
     else throw new Error(`알 수 없는 인자: ${a}\n${usage}`)
   }
   if (!all && episodes.length === 0) throw new Error(`--episode <폴더명> 또는 --all 이 필요하다\n${usage}`)
-  return { episodes, all, dryRun, stdout }
+  return { episodes, all, dryRun, stdout, force, drift }
 }
 
 /** CLI 인자로 대상 에피소드를 고른다 */
