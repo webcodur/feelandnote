@@ -1,8 +1,8 @@
 /**
- * 프로필 사진(avatar)이 없는 기획전 인물에게, 전용 화보(단독샷)에서 얼굴을 검출·정사각 크롭해 아바타로 박는다.
+ * 프로필 사진(avatar)이 없는 세력도감 인물에게, 전용 화보(단독샷)에서 얼굴을 검출·정사각 크롭해 아바타로 박는다.
  * face-api(SSD MobileNet) + sharp. 얼굴 미검출 시 상단 정사각 fallback.
  *
- * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-spotlight-avatars.ts
+ * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-faction-avatars.ts
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'

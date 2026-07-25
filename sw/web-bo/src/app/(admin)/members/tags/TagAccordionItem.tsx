@@ -265,8 +265,8 @@ export default function TagAccordionItem(props: Props) {
     setImgBusy(true)
     try {
       const blob = await (await fetch(dataUrl)).blob()
-      const file = new File([blob], 'spotlight.webp', { type: 'image/webp' })
-      const resized = await resizeSingleImage(file, 'spotlight')
+      const file = new File([blob], 'faction.webp', { type: 'image/webp' })
+      const resized = await resizeSingleImage(file, 'faction')
 
       if (target.kind === 'team') {
         const up = await uploadTagTeamImage({ tagId: tag.id, image: resized })
@@ -386,7 +386,7 @@ export default function TagAccordionItem(props: Props) {
             <FormRow label="주소(slug)">
               <div className="flex-1 flex items-center gap-2">
                 <div className="flex items-center flex-1 px-3 bg-bg-secondary border border-border rounded-lg focus-within:ring-1 focus-within:ring-accent/50">
-                  <span className="text-sm text-text-tertiary shrink-0">/explore/spotlight/</span>
+                  <span className="text-sm text-text-tertiary shrink-0">/explore/faction/</span>
                   <input
                     type="text"
                     value={form.slug}
@@ -442,7 +442,7 @@ export default function TagAccordionItem(props: Props) {
                 />
               </div>
             </FormRow>
-            <FormRow label="스포트라이트">
+            <FormRow label="세력도감">
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
@@ -608,7 +608,7 @@ export default function TagAccordionItem(props: Props) {
                           <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
                           <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} size="md" />
                           <p className="flex-1 text-base font-medium text-text-primary truncate">{item.celeb?.nickname}</p>
-                          <CelebSpotlightImage
+                          <CelebFactionImage
                             url={item.spotlight_image_url}
                             busy={imgBusy}
                             onPick={(file) => pickImage({ kind: 'celeb', celebId: item.celeb_id }, file)}
@@ -717,10 +717,10 @@ function ImagePickerButton({ busy, onPick }: { busy: boolean; onPick: (file: Fil
 }
 
 // 인물 전용 화보 썸네일 (추가/교체/삭제)
-function CelebSpotlightImage({ url, busy, onPick, onRemove }: { url: string | null; busy: boolean; onPick: (file: File) => void; onRemove: () => void }) {
+function CelebFactionImage({ url, busy, onPick, onRemove }: { url: string | null; busy: boolean; onPick: (file: File) => void; onRemove: () => void }) {
   if (url) {
     return (
-      <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-accent/50 group shrink-0" title="기획전 전용 화보">
+      <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-accent/50 group shrink-0" title="세력도감 전용 화보">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={url} alt="" className="w-full h-full object-cover" />
         <button
@@ -735,7 +735,7 @@ function CelebSpotlightImage({ url, busy, onPick, onRemove }: { url: string | nu
     )
   }
   return (
-    <label className="w-10 h-10 rounded-lg border border-dashed border-border flex items-center justify-center cursor-pointer hover:border-accent/50 shrink-0" title="기획전 전용 화보 추가">
+    <label className="w-10 h-10 rounded-lg border border-dashed border-border flex items-center justify-center cursor-pointer hover:border-accent/50 shrink-0" title="세력도감 전용 화보 추가">
       <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onPick(f); e.target.value = '' }} />
       {busy ? <Loader2 className="w-4 h-4 text-accent animate-spin" /> : <ImagePlus className="w-5 h-5 text-text-tertiary" />}
     </label>

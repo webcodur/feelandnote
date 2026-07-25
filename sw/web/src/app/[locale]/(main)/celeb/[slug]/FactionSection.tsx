@@ -4,27 +4,27 @@ import { useCallback, useMemo, useRef, useState, type CSSProperties } from "reac
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
-import type { SpotlightTagPreview } from "@/actions/home/getFeaturedTags";
-import type { SpotlightTagItem } from "@/actions/user/getCelebBySlug";
+import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
+import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import SpotlightPreviewModal from "./SpotlightPreviewModal";
+import FactionPreviewModal from "./FactionPreviewModal";
 import { useCelebPreview } from "./useCelebPreview";
 
-interface SpotlightSectionProps {
-  tags: SpotlightTagItem[];
-  previews: SpotlightTagPreview[];
+interface FactionSectionProps {
+  tags: FactionTagItem[];
+  previews: FactionTagPreview[];
   currentCelebId: string;
 }
 
-export default function SpotlightSection({
+export default function FactionSection({
   tags,
   previews,
   currentCelebId,
-}: SpotlightSectionProps) {
+}: FactionSectionProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const isEn = locale === "en";
-  const [selectedTag, setSelectedTag] = useState<SpotlightTagItem | null>(null);
+  const [selectedTag, setSelectedTag] = useState<FactionTagItem | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const {
     celeb: previewCeleb,
@@ -37,7 +37,7 @@ export default function SpotlightSection({
     [previews],
   );
 
-  const resolveName = (tag: SpotlightTagItem) =>
+  const resolveName = (tag: FactionTagItem) =>
     isEn && tag.name_en ? tag.name_en : tag.name;
   const resolve = (en: string | null, ko: string | null) => (isEn && en ? en : ko);
 
@@ -77,12 +77,12 @@ export default function SpotlightSection({
               }}
               style={{ "--tag-color": tag.color } as CSSProperties}
               className="group flex w-full flex-col gap-4 rounded-[2px] border border-white/10 p-4 text-left hover:border-[color:var(--tag-color)] hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tag-color)] sm:flex-row"
-              aria-label={t("spotlightPreviewAria", { name })}
+              aria-label={t("factionPreviewAria", { name })}
             >
-              {tag.spotlightImageUrl && (
+              {tag.factionImageUrl && (
                 <div className="relative aspect-[3/4] w-full flex-shrink-0 overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 sm:w-[168px]">
                   <Image
-                    src={tag.spotlightImageUrl}
+                    src={tag.factionImageUrl}
                     alt=""
                     fill
                     unoptimized
@@ -91,7 +91,7 @@ export default function SpotlightSection({
                   />
                   <div className="absolute inset-0 bg-black/20" />
                   <Image
-                    src={tag.spotlightImageUrl}
+                    src={tag.factionImageUrl}
                     alt={name}
                     fill
                     unoptimized
@@ -153,15 +153,15 @@ export default function SpotlightSection({
                       </div>
                     )}
                     <span className="inline-flex items-center gap-1.5 text-[11px] text-text-tertiary">
-                      {preview.members.length > 0 && t("spotlightMemberCount", { count: preview.members.length })}
+                      {preview.members.length > 0 && t("factionMemberCount", { count: preview.members.length })}
                       {preview.members.length > 0 && preview.teamImages.length > 0 && <span aria-hidden>·</span>}
-                      {preview.teamImages.length > 0 && t("spotlightPhotoCount", { count: preview.teamImages.length })}
+                      {preview.teamImages.length > 0 && t("factionPhotoCount", { count: preview.teamImages.length })}
                     </span>
                   </div>
                 )}
 
                 <span className="mt-auto inline-flex items-center gap-1 self-start pt-2 text-xs font-medium text-text-tertiary group-hover:text-[color:var(--tag-color)]">
-                  {t("spotlightPreview")}
+                  {t("factionPreview")}
                   <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                 </span>
               </div>
@@ -171,7 +171,7 @@ export default function SpotlightSection({
       </div>
 
       {selectedTag && (
-        <SpotlightPreviewModal
+        <FactionPreviewModal
           tag={selectedTag}
           preview={previewByTag.get(selectedTag.id)}
           currentCelebId={currentCelebId}

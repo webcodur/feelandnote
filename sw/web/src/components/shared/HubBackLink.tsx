@@ -20,8 +20,8 @@ export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
   // 허브 루트에서는 표시하지 않음
   if (pathname === hubPath) return null;
 
-  // 스포트라이트 페이지는 내부에서 자체 뒤로가기 처리를 제공하므로 숨김
-  if (pathname === '/explore/spotlight') return null;
+  // 세력도감 페이지는 내부에서 자체 뒤로가기 처리를 제공하므로 숨김
+  if (pathname === '/explore/faction') return null;
 
   return (
     <div className="mb-4">

@@ -23,7 +23,7 @@ export const CACHE_TAGS = {
   DIALOGUES: 'dialogues',
   /** 페르소나 벡터·성향 분포 */
   PERSONA: 'persona',
-  /** 스포트라이트 태그 편성 */
+  /** 세력도감(faction) 태그 편성 */
   TAGS: 'tags',
 } as const
 

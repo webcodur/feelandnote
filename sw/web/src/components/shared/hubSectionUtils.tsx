@@ -42,7 +42,7 @@ export const EXPLORE_GROUP_ID = "explore";
 export const EXPLORE_SECTIONS = [
   { key: "ranking",         icon: <BarChart3 size={14} />,    moreHref: "/explore/ranking",                      titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
   { key: "personaAnalysis", icon: <Fingerprint size={14} />,  moreHref: "/explore/persona",                      titleKey: "personaAnalysis", subtitleKey: "personaAnalysisSub", moreKey: "viewAll" },
-  { key: "spotlight",       icon: <Sparkles size={14} />,     moreHref: "/explore/spotlight",                    titleKey: "spotlight",       subtitleKey: "spotlightSub",       moreKey: "viewAll" },
+  { key: "faction",         icon: <Sparkles size={14} />,     moreHref: "/explore/faction",                      titleKey: "faction",         subtitleKey: "factionSub",         moreKey: "viewAll" },
   { key: "allCelebs",       icon: <Users size={14} />,        moreHref: "/explore/figures?tier=full",            titleKey: "allCelebs",       subtitleKey: "allCelebsSub",       moreKey: "viewAll" },
 ] as const;
 

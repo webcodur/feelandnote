@@ -828,7 +828,7 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
   }
 
   revalidatePath('/celebs')
-  // profiles.status — 인물의 노출 자체가 바뀐다. 대사·페르소나·스포트라이트 목록이
+  // profiles.status — 인물의 노출 자체가 바뀐다. 대사·페르소나·세력도감 목록이
   // 모두 status='active'로 걸러 담기므로 관련 도메인을 전부 갱신한다.
   await revalidateWebCache([
     CACHE_TAGS.CELEBS,

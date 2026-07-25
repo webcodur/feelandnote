@@ -10,7 +10,7 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
-import { SPOTLIGHT_GROUP_SLUGS, SPOTLIGHT_CHILD_TO_GROUP } from '@/constants/spotlightGroups'
+import { FACTION_GROUP_SLUGS, FACTION_CHILD_TO_GROUP } from '@/constants/factionGroups'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -37,7 +37,7 @@ export interface FeaturedTag {
   isGroup?: boolean
 }
 
-export interface SpotlightPreviewMember {
+export interface FactionPreviewMember {
   id: string
   slug: string | null
   nickname: string
@@ -47,22 +47,22 @@ export interface SpotlightPreviewMember {
   roleShortEn: string | null
 }
 
-export interface SpotlightTagPreview {
+export interface FactionTagPreview {
   tagId: string
   teamImages: string[]
-  members: SpotlightPreviewMember[]
+  members: FactionPreviewMember[]
 }
 
 // --- 조회 행 타입 (select 문자열과 1:1 대응) ---
 
-interface SpotlightPreviewAssignmentRow {
+interface FactionPreviewAssignmentRow {
   tag_id: string
   celeb_id: string
   short_desc: string | null
   short_desc_en: string | null
 }
 
-interface SpotlightPreviewProfileRow {
+interface FactionPreviewProfileRow {
   id: string
   slug: string | null
   nickname: string
@@ -229,8 +229,8 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   for (const tag of activeTags) {
     const tagSlug = tag.slug ?? ''
-    const isGroup = SPOTLIGHT_GROUP_SLUGS.has(tagSlug)
-    const parentSlug = SPOTLIGHT_CHILD_TO_GROUP[tagSlug] ?? null
+    const isGroup = FACTION_GROUP_SLUGS.has(tagSlug)
+    const parentSlug = FACTION_CHILD_TO_GROUP[tagSlug] ?? null
     const assignments = assignmentsByTag[tag.id] ?? []
     if (!assignments.length && !isGroup) continue // 그룹 헤더는 배정이 없어도 목록에 포함한다
 
@@ -303,8 +303,8 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       description: tag.description, description_en: tag.description_en ?? null,
       color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
       celebs: [], is_featured: false,
-      parentSlug: SPOTLIGHT_CHILD_TO_GROUP[tagSlug] ?? null,
-      isGroup: SPOTLIGHT_GROUP_SLUGS.has(tagSlug),
+      parentSlug: FACTION_CHILD_TO_GROUP[tagSlug] ?? null,
+      isGroup: FACTION_GROUP_SLUGS.has(tagSlug),
     })
   }
 
@@ -322,7 +322,7 @@ const getCachedFeaturedTags = unstable_cache(
   }
 )
 
-async function fetchSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTagPreview[]> {
+async function fetchFactionTagPreviews(tagIds: string[]): Promise<FactionTagPreview[]> {
   const supabase = createStaticClient()
   const [tagsResult, assignmentsResult] = await Promise.all([
     supabase
@@ -338,15 +338,15 @@ async function fetchSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTag
   ])
 
   if (tagsResult.error) {
-    throw new Error(`Failed to load spotlight tags: ${tagsResult.error.message}`)
+    throw new Error(`Failed to load faction tags: ${tagsResult.error.message}`)
   }
   if (assignmentsResult.error) {
-    throw new Error(`Failed to load spotlight assignments: ${assignmentsResult.error.message}`)
+    throw new Error(`Failed to load faction assignments: ${assignmentsResult.error.message}`)
   }
 
-  const assignments = (assignmentsResult.data ?? []) as SpotlightPreviewAssignmentRow[]
+  const assignments = (assignmentsResult.data ?? []) as FactionPreviewAssignmentRow[]
   const celebIds = [...new Set(assignments.map((assignment) => assignment.celeb_id))]
-  let profiles: SpotlightPreviewProfileRow[] = []
+  let profiles: FactionPreviewProfileRow[] = []
 
   if (celebIds.length > 0) {
     const profilesResult = await supabase
@@ -356,13 +356,13 @@ async function fetchSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTag
       .eq('status', 'active')
 
     if (profilesResult.error) {
-      throw new Error(`Failed to load spotlight members: ${profilesResult.error.message}`)
+      throw new Error(`Failed to load faction members: ${profilesResult.error.message}`)
     }
-    profiles = (profilesResult.data ?? []) as SpotlightPreviewProfileRow[]
+    profiles = (profilesResult.data ?? []) as FactionPreviewProfileRow[]
   }
 
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
-  const assignmentsByTag = new Map<string, SpotlightPreviewAssignmentRow[]>()
+  const assignmentsByTag = new Map<string, FactionPreviewAssignmentRow[]>()
 
   for (const assignment of assignments) {
     const current = assignmentsByTag.get(assignment.tag_id) ?? []
@@ -394,18 +394,18 @@ async function fetchSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTag
   }))
 }
 
-const getCachedSpotlightTagPreviews = unstable_cache(
-  fetchSpotlightTagPreviews,
-  ['spotlight-tag-previews'],
+const getCachedFactionTagPreviews = unstable_cache(
+  fetchFactionTagPreviews,
+  ['faction-tag-previews'],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
   },
 )
 
-export async function getSpotlightTagPreviews(tagIds: string[]): Promise<SpotlightTagPreview[]> {
+export async function getFactionTagPreviews(tagIds: string[]): Promise<FactionTagPreview[]> {
   if (tagIds.length === 0) return []
-  return getCachedSpotlightTagPreviews([...new Set(tagIds)].sort())
+  return getCachedFactionTagPreviews([...new Set(tagIds)].sort())
 }
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {

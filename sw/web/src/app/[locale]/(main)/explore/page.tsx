@@ -16,7 +16,7 @@ import HubNav from "@/components/shared/HubNav";
 import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import PersonaDistribution from "@/components/features/user/explore/personaAnalysis/PersonaDistribution";
-import SpotlightCard from "@/components/features/user/explore/hub/SpotlightCard";
+import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
 export async function generateMetadata() {
@@ -47,7 +47,7 @@ async function HubContent() {
 
   const deepReaders = deepReadersResult.celebs;
   const allCelebs = allResult.celebs;
-  const spotlightTagNames = featuredTags
+  const factionTagNames = featuredTags
     .filter(tag => tag.is_featured && tag.celebs.length > 0)
     .slice(0, 4)
     .map(tag => ({
@@ -92,9 +92,9 @@ async function HubContent() {
         </HubSection>
       )}
 
-      {/* 3/4 스포트라이트 */}
-      <HubSection {...exploreSection("spotlight", t)}>
-        <SpotlightCard locale={locale} tags={spotlightTagNames} />
+      {/* 3/4 세력도감 */}
+      <HubSection {...exploreSection("faction", t)}>
+        <FactionCard locale={locale} tags={factionTagNames} />
       </HubSection>
 
       {/* 4/4 전체 탐구자 */}

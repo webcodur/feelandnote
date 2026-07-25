@@ -413,7 +413,7 @@ export async function updateTagAssignmentDesc(
 
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/tags')
-  // celeb_tag_assignments 설명문 — 스포트라이트 소개글이 셀럽 캐시에도 실린다
+  // celeb_tag_assignments 설명문 — 세력도감 소개글이 셀럽 캐시에도 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }

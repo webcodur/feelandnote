@@ -160,7 +160,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               주소 (slug, 선택)
             </label>
             <div className="flex items-center px-3 bg-bg-secondary border border-border rounded-lg focus-within:ring-2 focus-within:ring-accent/50">
-              <span className="text-sm text-text-tertiary shrink-0">/explore/spotlight/</span>
+              <span className="text-sm text-text-tertiary shrink-0">/explore/faction/</span>
               <input
                 type="text"
                 value={slug}
@@ -198,12 +198,12 @@ export default function TagFormModal({ tag, onClose }: Props) {
             </div>
           </div>
 
-          {/* 스포트라이트 설정 */}
+          {/* 세력도감 설정 */}
           <div className="border border-border rounded-lg p-3 space-y-3 bg-bg-secondary/50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium text-text-primary">메인 스포트라이트 노출</span>
+                <span className="text-sm font-medium text-text-primary">메인 세력도감 노출</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -259,7 +259,7 @@ export default function TagFormModal({ tag, onClose }: Props) {
               {name || '태그 이름'}
             </span>
             {isFeatured && (
-              <span className="ml-2 text-xs text-accent">⭐ 스포트라이트 노출</span>
+              <span className="ml-2 text-xs text-accent">⭐ 세력도감 노출</span>
             )}
           </div>
 

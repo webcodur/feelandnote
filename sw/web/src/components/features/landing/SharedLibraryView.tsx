@@ -1,6 +1,6 @@
 /*
   파일명: components/features/landing/SharedLibraryView.tsx
-  기능: 기획전 공유 서재 뷰
+  기능: 세력도감 공유 서재 뷰
   책임: 태그 내 셀럽들이 공통으로 감상한 콘텐츠를 집계·표시
 */
 "use client";
@@ -34,7 +34,7 @@ interface SharedLibraryViewProps {
 }
 
 export default function SharedLibraryView({ tagId, embedded = false, heading }: SharedLibraryViewProps) {
-  const t = useTranslations("explore.spotlight");
+  const t = useTranslations("explore.faction");
   const locale = useLocale();
   const isEn = locale === 'en';
   const [items, setItems] = useState<SharedContent[]>([]);

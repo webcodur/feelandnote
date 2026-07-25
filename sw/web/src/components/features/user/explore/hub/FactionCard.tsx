@@ -1,7 +1,7 @@
 /*
-  파일명: /components/features/user/explore/hub/SpotlightCard.tsx
-  기능: 스포트라이트 미리보기
-  책임: 태그 기획전 목록을 칩으로 보여주고 해당 태그의 스포트라이트 페이지로 연결한다.
+  파일명: /components/features/user/explore/hub/FactionCard.tsx
+  기능: 세력도감 미리보기
+  책임: 태그 세력도감 목록을 칩으로 보여주고 해당 태그의 세력도감 페이지로 연결한다.
 */ // ------------------------------
 
 import { Link } from "@/i18n/navigation";
@@ -18,12 +18,12 @@ interface TagPreview {
   celebs?: { id: string; avatar_url: string | null; nickname: string; nickname_en: string | null }[];
 }
 
-interface SpotlightCardProps {
+interface FactionCardProps {
   locale?: string;
   tags?: TagPreview[];
 }
 
-export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCardProps) {
+export default function FactionCard({ locale = "ko", tags = [] }: FactionCardProps) {
   if (tags.length === 0) return null;
 
   return (
@@ -35,7 +35,7 @@ export default function SpotlightCard({ locale = "ko", tags = [] }: SpotlightCar
         return (
           <Link
             key={tag.id}
-            href={`/explore/spotlight?tag=${tag.id}`}
+            href={`/explore/faction?tag=${tag.id}`}
             className="group relative flex flex-col gap-3 rounded-2xl border p-5 hover:brightness-110 overflow-hidden ring-1 ring-inset ring-white/5 shadow-lg"
             style={{
               borderColor: `${tag.color}40`,

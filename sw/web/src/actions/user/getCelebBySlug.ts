@@ -20,15 +20,15 @@ export interface ContentTypeCounts {
 
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-// 셀럽이 배정된 스포트라이트 태그. 그룹 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
-// 상위 그룹 계층(constants/spotlightGroups)은 참조하지 않는다.
-export interface SpotlightTagItem {
+// 셀럽이 배정된 세력도감 태그. 그룹 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
+// 상위 그룹 계층(constants/factionGroups)은 참조하지 않는다.
+export interface FactionTagItem {
   id: string
   name: string
   name_en: string | null
   slug: string
   color: string
-  spotlightImageUrl: string | null
+  factionImageUrl: string | null
   description: string | null
   description_en: string | null
   roleShort: string | null
@@ -37,7 +37,7 @@ export interface SpotlightTagItem {
   roleLongEn: string | null
 }
 
-interface SpotlightTagAssignmentRow {
+interface FactionTagAssignmentRow {
   tag_id: string
   spotlight_image_url: string | null
   sort_order: number | null
@@ -130,7 +130,7 @@ interface PublicCelebBySlugData {
   guestbookCount: number
   contentTypeCounts: ContentTypeCounts
   dialogue: DialogueProfile | null
-  spotlightTags: SpotlightTagItem[]
+  factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
 }
 
@@ -156,7 +156,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookResult,
     dialogueResult,
     typeCountsResult,
-    spotlightTagsResult,
+    factionTagsResult,
     relationsResult,
     externalRelationsResult,
   ] = await Promise.all([
@@ -199,16 +199,16 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     if (CONTENT_TYPES.includes(type)) contentTypeCounts[type] = Number(row.total)
   }
 
-  // 슬러그 없는 태그는 스포트라이트 딥링크로 이동할 수 없어 제외한다
-  const spotlightTags: SpotlightTagItem[] = ((spotlightTagsResult.data ?? []) as unknown as SpotlightTagAssignmentRow[])
-    .filter((a): a is SpotlightTagAssignmentRow & { tag: NonNullable<SpotlightTagAssignmentRow['tag']> } => !!a.tag?.slug)
+  // 슬러그 없는 태그는 세력도감 딥링크로 이동할 수 없어 제외한다
+  const factionTags: FactionTagItem[] = ((factionTagsResult.data ?? []) as unknown as FactionTagAssignmentRow[])
+    .filter((a): a is FactionTagAssignmentRow & { tag: NonNullable<FactionTagAssignmentRow['tag']> } => !!a.tag?.slug)
     .map((a) => ({
       id: a.tag.id,
       name: a.tag.name,
       name_en: a.tag.name_en,
       slug: a.tag.slug as string,
       color: a.tag.color ?? '#b4965a',
-      spotlightImageUrl: a.spotlight_image_url ?? null,
+      factionImageUrl: a.spotlight_image_url ?? null,
       description: a.tag.description ?? null,
       description_en: a.tag.description_en ?? null,
       roleShort: a.short_desc ?? null,
@@ -269,7 +269,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookCount: guestbookResult.count || 0,
     contentTypeCounts,
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
-    spotlightTags,
+    factionTags,
     relations,
   }
 }
@@ -277,7 +277,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
   ['celeb-by-slug'],
-  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 스포트라이트)
+  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 세력도감)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )
 
@@ -286,7 +286,7 @@ export const getCelebBySlug = cache(getCelebBySlugInner);
 
 export type CelebBySlugProfile = PublicUserProfile & {
   contentTypeCounts: ContentTypeCounts
-  spotlightTags: SpotlightTagItem[]
+  factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
 }
 
@@ -377,7 +377,7 @@ async function getCelebBySlugInner(
       youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
-      spotlightTags: pub.spotlightTags ?? [],
+      factionTags: pub.factionTags ?? [],
       relations: pub.relations ?? [],
     },
   }

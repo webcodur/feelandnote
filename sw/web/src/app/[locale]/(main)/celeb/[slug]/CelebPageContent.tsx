@@ -13,7 +13,7 @@ import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { type CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { type SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
-import { type SpotlightTagPreview } from "@/actions/home/getFeaturedTags";
+import { type FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
@@ -33,7 +33,7 @@ import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
 import PersonaSection from "./PersonaSection";
 import ContemporariesSection from "./ContemporariesSection";
 import DialogueSection from "./DialogueSection";
-import SpotlightSection from "./SpotlightSection";
+import FactionSection from "./FactionSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 import VirtualMonologueSection from "./VirtualMonologueSection";
 import RelationGraphSection from "./RelationGraphSection";
@@ -53,7 +53,7 @@ interface CelebPageContentProps {
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
-  spotlightPreviews: SpotlightTagPreview[];
+  factionPreviews: FactionTagPreview[];
   /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
   initialContents: GetUserContentsResponse;
 }
@@ -100,7 +100,7 @@ export default function CelebPageContent({
   greeting,
   dialogueLines,
   contemporaries,
-  spotlightPreviews,
+  factionPreviews,
   initialContents,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
@@ -144,7 +144,7 @@ export default function CelebPageContent({
   const serviceAvailability: CelebServiceAvailability = {
     relations: profile.relations.length > 0,
     contemporaries: contemporaries.length > 0,
-    spotlight: profile.spotlightTags.length > 0,
+    faction: profile.factionTags.length > 0,
     videos: hasAnyVideo,
     virtualMonologue: !!profile.virtual_monologue,
     dialogues: hasDialogues,
@@ -483,18 +483,18 @@ export default function CelebPageContent({
         </section>
       )}
 
-      {/* 소속 스포트라이트 */}
-      {profile.spotlightTags.length > 0 && (
-        <section id="spotlight" tabIndex={-1} className={SECTION_CLASS_NAME}>
+      {/* 소속 세력도감 */}
+      {profile.factionTags.length > 0 && (
+        <section id="faction" tabIndex={-1} className={SECTION_CLASS_NAME}>
           <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.spotlight}
-            label={t("spotlight")}
-            icon={CELEB_SERVICE_ICONS.spotlight}
+            chapter={CELEB_SERVICE_CHAPTERS.faction}
+            label={t("faction")}
+            icon={CELEB_SERVICE_ICONS.faction}
           />
           <SectionWrap>
-            <SpotlightSection
-              tags={profile.spotlightTags}
-              previews={spotlightPreviews}
+            <FactionSection
+              tags={profile.factionTags}
+              previews={factionPreviews}
               currentCelebId={profile.id}
             />
           </SectionWrap>

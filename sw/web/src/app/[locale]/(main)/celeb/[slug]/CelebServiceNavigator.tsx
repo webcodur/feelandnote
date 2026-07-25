@@ -16,7 +16,7 @@ export interface ServiceTarget {
 export interface CelebServiceAvailability {
   relations: boolean;
   contemporaries: boolean;
-  spotlight: boolean;
+  faction: boolean;
   videos: boolean;
   virtualMonologue: boolean;
   dialogues: boolean;
@@ -130,12 +130,12 @@ export default function CelebServiceNavigator({
       target: { sectionId: "videos" },
     },
     {
-      key: "spotlight",
-      chapter: CELEB_SERVICE_CHAPTERS.spotlight,
-      label: t("serviceSpotlight"),
-      icon: CELEB_SERVICE_ICONS.spotlight,
-      ready: availability.spotlight,
-      target: { sectionId: "spotlight" },
+      key: "faction",
+      chapter: CELEB_SERVICE_CHAPTERS.faction,
+      label: t("serviceFaction"),
+      icon: CELEB_SERVICE_ICONS.faction,
+      ready: availability.faction,
+      target: { sectionId: "faction" },
     },
     {
       key: "guestbook",

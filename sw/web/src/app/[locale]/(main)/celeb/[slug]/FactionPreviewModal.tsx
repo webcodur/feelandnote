@@ -6,27 +6,27 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, ChevronLeft, ChevronRight, Images, LoaderCircle, Users, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import type { SpotlightTagPreview } from "@/actions/home/getFeaturedTags";
-import type { SpotlightTagItem } from "@/actions/user/getCelebBySlug";
+import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
+import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import { Z_INDEX } from "@/constants/zIndex";
 
-interface SpotlightPreviewModalProps {
-  tag: SpotlightTagItem;
-  preview?: SpotlightTagPreview;
+interface FactionPreviewModalProps {
+  tag: FactionTagItem;
+  preview?: FactionTagPreview;
   currentCelebId: string;
   loadingMemberId: string | null;
   onMemberSelect: (memberId: string) => void;
   onClose: () => void;
 }
 
-export default function SpotlightPreviewModal({
+export default function FactionPreviewModal({
   tag,
   preview,
   currentCelebId,
   loadingMemberId,
   onMemberSelect,
   onClose,
-}: SpotlightPreviewModalProps) {
+}: FactionPreviewModalProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const isEn = locale === "en";
@@ -72,7 +72,7 @@ export default function SpotlightPreviewModal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="spotlight-preview-title"
+        aria-labelledby="faction-preview-title"
         className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl overscroll-contain overflow-y-auto rounded-[3px] border border-white/15 bg-bg-main shadow-[0_28px_100px_rgba(0,0,0,0.85)] animate-modal-content sm:max-h-[calc(100dvh-2.5rem)]"
       >
         <div
@@ -86,7 +86,7 @@ export default function SpotlightPreviewModal({
           type="button"
           onClick={onClose}
           className="absolute right-3 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 text-text-tertiary hover:border-white/25 hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          aria-label={t("spotlightClose")}
+          aria-label={t("factionClose")}
         >
           <X size={18} />
         </button>
@@ -96,11 +96,11 @@ export default function SpotlightPreviewModal({
             className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em]"
             style={{ color: tag.color }}
           >
-            {t("spotlightPreview")}
+            {t("factionPreview")}
           </p>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2
-              id="spotlight-preview-title"
+              id="faction-preview-title"
               className="font-serif text-2xl font-bold leading-tight text-text-primary sm:text-3xl"
             >
               {name}
@@ -109,13 +109,13 @@ export default function SpotlightPreviewModal({
               {members.length > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] text-text-secondary">
                   <Users size={12} aria-hidden />
-                  {t("spotlightMemberCount", { count: members.length })}
+                  {t("factionMemberCount", { count: members.length })}
                 </span>
               )}
               {teamImages.length > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] text-text-secondary">
                   <Images size={12} aria-hidden />
-                  {t("spotlightPhotoCount", { count: teamImages.length })}
+                  {t("factionPhotoCount", { count: teamImages.length })}
                 </span>
               )}
             </div>
@@ -125,7 +125,7 @@ export default function SpotlightPreviewModal({
         {teamImageSrc && (
           <section className="space-y-3 p-5 pb-0 sm:p-7 sm:pb-0">
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
-              {t("spotlightGroupShots")}
+              {t("factionGroupShots")}
             </h3>
             <div className="relative aspect-[16/9] overflow-hidden rounded-[2px] bg-[#090909] ring-1 ring-white/10">
               <Image
@@ -141,7 +141,7 @@ export default function SpotlightPreviewModal({
               <Image
                 key={teamImageSrc}
                 src={teamImageSrc}
-                alt={`${name} ${t("spotlightGroupShots")}`}
+                alt={`${name} ${t("factionGroupShots")}`}
                 fill
                 unoptimized
                 sizes="(max-width: 768px) 100vw, 850px"
@@ -182,7 +182,7 @@ export default function SpotlightPreviewModal({
                         ? "border-accent"
                         : "border-white/10 opacity-60 hover:border-white/30 hover:opacity-100"
                     }`}
-                    aria-label={`${t("spotlightGroupShots")} ${index + 1}`}
+                    aria-label={`${t("factionGroupShots")} ${index + 1}`}
                     aria-pressed={index === activeTeamImage}
                   >
                     <Image src={imageUrl} alt="" fill unoptimized aria-hidden sizes="72px" className="object-cover" />
@@ -198,7 +198,7 @@ export default function SpotlightPreviewModal({
             {description && (
               <section>
                 <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
-                  {t("spotlightThemeIntro")}
+                  {t("factionThemeIntro")}
                 </h3>
                 <p className="whitespace-pre-line text-sm leading-7 text-text-secondary">
                   {description}
@@ -209,7 +209,7 @@ export default function SpotlightPreviewModal({
             {(roleShort || roleLong) && (
               <section className="border-l-2 pl-4" style={{ borderColor: tag.color }}>
                 <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
-                  {t("spotlightRole")}
+                  {t("factionRole")}
                 </h3>
                 {roleShort && (
                   <p className="font-serif text-lg font-bold leading-snug text-text-primary">
@@ -229,10 +229,10 @@ export default function SpotlightPreviewModal({
             <section>
               <div className="mb-3 flex items-center justify-between gap-3">
                 <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
-                  {t("spotlightMembers")}
+                  {t("factionMembers")}
                 </h3>
                 <span className="font-mono text-[11px] text-text-tertiary">
-                  {t("spotlightMemberCount", { count: members.length })}
+                  {t("factionMemberCount", { count: members.length })}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -249,7 +249,7 @@ export default function SpotlightPreviewModal({
                           className="absolute right-1.5 top-1.5 rounded-full px-1.5 py-0.5 text-[8px] font-bold"
                           style={{ color: tag.color, backgroundColor: `${tag.color}18` }}
                         >
-                          {t("spotlightCurrentMember")}
+                          {t("factionCurrentMember")}
                         </span>
                       )}
                       <div className="relative mb-2 h-12 w-12 overflow-hidden rounded-full bg-bg-secondary ring-1 ring-white/10 group-hover:ring-accent/45">
@@ -315,13 +315,13 @@ export default function SpotlightPreviewModal({
             onClick={onClose}
             className="rounded-[2px] border border-white/10 px-5 py-2.5 text-sm font-medium text-text-secondary hover:border-white/25 hover:bg-white/5 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            {t("spotlightClose")}
+            {t("factionClose")}
           </button>
           <Link
-            href={`/explore/spotlight/${tag.slug}`}
+            href={`/explore/faction/${tag.slug}`}
             className="inline-flex items-center justify-center gap-1.5 rounded-[2px] border border-accent/60 bg-accent/10 px-5 py-2.5 text-sm font-bold text-accent hover:bg-accent hover:text-bg-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            {t("spotlightOpen")}
+            {t("factionOpen")}
             <ArrowRight size={15} />
           </Link>
         </footer>

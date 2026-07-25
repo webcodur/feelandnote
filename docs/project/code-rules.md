@@ -133,6 +133,6 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 | 전체 사색가 | 사색가 | All Thinkers | Philosophers |
 | 비범한 기록가 | 비범한 인물 | Extraordinary Chroniclers | Extraordinary Figures |
 | — | 오늘의 인물(유지) | Today's Figure | Today |
-| — | 스포트라이트(유지) | Spotlight | Spotlight |
+| 스포트라이트 | 세력도감 | Spotlight | Faction |
 
 > 유래: 26.03 explore 용어 통폐합. 실행 이력은 `docs/archive/explore-restructure.md`.

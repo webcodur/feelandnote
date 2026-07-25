@@ -1,5 +1,5 @@
 /**
- * AI 패권 전쟁 팩션(01-AI패권전쟁) 진영별 단체샷·인물 화보를 스포트라이트에 채운다.
+ * AI 패권 전쟁 팩션(01-AI패권전쟁) 진영별 단체샷·인물 화보를 세력도감에 채운다.
  *   - 1편(BIG-4): openai · google-deepmind · anthropic · xai
  *   - 2편(오픈 프론티어): ai-pioneers · meta · mistral · hugging-face · deepseek · thinking-machines · ssi
  *   - 단체샷 → celeb_tags.team_images (상단 배너)
@@ -8,7 +8,7 @@
  *   - 점증 업로드: 이미 채워진 팀/인물은 건너뜀 (재실행 안전)
  *   - _logo·보관/복사본/번호변형 파일은 제외
  *
- * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-spotlight-llm.ts
+ * 실행: sw/web-bo 에서  node --env-file=.env --import tsx scripts/fill-faction-llm.ts
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'

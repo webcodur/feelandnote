@@ -13,13 +13,13 @@ import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
 /*
-  스포트라이트 쇼케이스.
+  세력도감 쇼케이스.
   단체샷과 개인샷을 한 도화지에서 함께 다룬다.
   - 좌측: 선택된 항목의 사진(단체샷 또는 개인샷) + 제목 + 설명
   - 우측: 단체 + 인물들을 한 리스트로. 맨 위가 단체(기본 선택), 아래가 인물.
   리스트에서 항목을 고르면 좌측 사진과 설명이 그 항목으로 바뀐다.
 */
-interface SpotlightShowcaseProps {
+interface FactionShowcaseProps {
   activeTag: FeaturedTag;
   locale: Locale;
   onSubtitle?: (data: DialogueSubtitleData) => void;
@@ -29,7 +29,7 @@ type ShowcaseItem =
   | { type: "team" }
   | { type: "celeb"; celeb: FeaturedCeleb; celebIdx: number };
 
-export default function SpotlightShowcase({ activeTag, locale, onSubtitle }: SpotlightShowcaseProps) {
+export default function FactionShowcase({ activeTag, locale, onSubtitle }: FactionShowcaseProps) {
   const t = useTranslations("landing");
   const { fireGreeting } = useCelebGreeting({ onSubtitle, locale });
 

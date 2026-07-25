@@ -2,10 +2,10 @@
 
 const IMAGE_SIZES = {
   avatar: { width: 800, height: 800 },  // 1:1 정사각 (원형 아바타, 레티나 3x 대응)
-  spotlight: { width: 1080, height: 1080 },  // 1:1 정사각 (기획전 단체샷·전용 화보)
+  faction: { width: 1080, height: 1080 },  // 1:1 정사각 (세력도감 단체샷·전용 화보)
 } as const
 
-export type ImageType = 'avatar' | 'spotlight'
+export type ImageType = 'avatar' | 'faction'
 
 // 비율 유지 중앙 크롭 + 리사이징하여 webp base64 반환
 function resizeToBase64(source: ImageBitmap, targetWidth: number, targetHeight: number): Promise<string> {

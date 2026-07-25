@@ -1,6 +1,6 @@
 /*
   파일명: actions/home/getTagSharedLibrary.ts
-  기능: 기획전 태그 내 셀럽들의 공유 콘텐츠 조회
+  기능: 세력도감 태그 내 셀럽들의 공유 콘텐츠 조회
   책임: 2명 이상이 공통으로 감상한 콘텐츠를 celebCount 내림차순으로 반환
 */
 "use server";

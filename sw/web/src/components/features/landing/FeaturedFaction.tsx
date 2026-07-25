@@ -11,29 +11,29 @@ import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
-import SpotlightShowcase from "./SpotlightShowcase";
+import FactionShowcase from "./FactionShowcase";
 import SharedLibraryView from "./SharedLibraryView";
-import SpotlightTagDrawerDesktop from "./SpotlightTagDrawerDesktop";
-import SpotlightTagSheetMobile from "./SpotlightTagSheetMobile";
+import FactionTagDrawerDesktop from "./FactionTagDrawerDesktop";
+import FactionTagSheetMobile from "./FactionTagSheetMobile";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebContentTimeline from "@/components/features/game/shared/CelebContentTimeline";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import type { TimelineCeleb, TimelineContent } from "@/components/features/game/shared/CelebContentTimeline";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 
-import SpotlightIntroView from "./SpotlightIntroView";
+import FactionIntroView from "./FactionIntroView";
 
-export type SpotlightLocation = "main" | "explore-pc" | "explore-mb";
-type ViewMode = "spotlight" | "library";
+export type FactionLocation = "main" | "explore-pc" | "explore-mb";
+type ViewMode = "faction" | "library";
 
-interface FeaturedSpotlightProps {
+interface FeaturedFactionProps {
   tags: FeaturedTag[];
-  location?: SpotlightLocation;
+  location?: FactionLocation;
   initialTagId?: string;
 }
 
-export default function FeaturedSpotlight({ tags, location = "main", initialTagId }: FeaturedSpotlightProps) {
-  const t = useTranslations("explore.spotlight");
+export default function FeaturedFaction({ tags, location = "main", initialTagId }: FeaturedFactionProps) {
+  const t = useTranslations("explore.faction");
   const tLanding = useTranslations("landing");
   const tNav = useTranslations("nav");
   const locale = useLocale() as Locale;
@@ -41,14 +41,14 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
   const isExplore = location === "explore-pc" || location === "explore-mb";
   
   const initialFound = initialTagId ? tags.findIndex(t => t.id === initialTagId) : -1;
-  // 그룹 헤더 태그로 진입한 경우(예: /spotlight/ai)는 개별 테마가 아니므로 컬렉션 화면으로 연다.
+  // 그룹 헤더 태그로 진입한 경우(예: /faction/ai)는 개별 테마가 아니므로 컬렉션 화면으로 연다.
   const initialIsGroup = initialFound >= 0 && !!tags[initialFound]?.isGroup;
   const initialIndex = initialFound >= 0 && !initialIsGroup ? initialFound : 0;
 
   const startIdx = (isExplore && !initialTagId) || initialIsGroup ? -1 : initialIndex;
   const [activeTagIndex, setActiveTagIndex] = useState(startIdx);
   const { handleSubtitle: setSubtitleData } = useDialogueSubtitle();
-  const [viewMode, setViewMode] = useState<ViewMode>("spotlight");
+  const [viewMode, setViewMode] = useState<ViewMode>("faction");
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -75,7 +75,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
   // 선택된 테마를 주소창에 반영(공유 가능한 고유 주소). 페이지 이동 없이 주소만 갱신한다.
   useEffect(() => {
     if (!isExplore || typeof window === "undefined") return;
-    const m = window.location.pathname.match(/^(.*\/explore\/spotlight)(?:\/[^/?#]+)?$/);
+    const m = window.location.pathname.match(/^(.*\/explore\/faction)(?:\/[^/?#]+)?$/);
     if (!m) return;
     const base = m[1];
     const target = activeTag?.slug ? `${base}/${activeTag.slug}` : base;
@@ -83,12 +83,12 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
       window.history.replaceState(window.history.state, "", target);
     }
     // 상단 배너 breadcrumb가 테마 변경을 따라오도록 알린다(replaceState는 라우터 갱신을 일으키지 않음).
-    window.dispatchEvent(new CustomEvent("spotlight:theme", { detail: activeTag?.slug ?? null }));
+    window.dispatchEvent(new CustomEvent("faction:theme", { detail: activeTag?.slug ?? null }));
   }, [activeTag?.slug, isExplore]);
 
   return (
     <div className="w-full relative">
-      {/* Custom Back Navigation for Explore Spotlight */}
+      {/* Custom Back Navigation for Explore Faction */}
       {isExplore && (
         <div className="mb-4 relative z-50">
           {activeTagIndex === -1 ? (
@@ -118,7 +118,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
       {/* Mobile */}
       {activeTagIndex !== -1 && (
         <div className="block md:hidden relative z-50">
-          <SpotlightTagSheetMobile
+          <FactionTagSheetMobile
             tags={tags}
             activeIndex={activeTagIndex}
             onChange={handleTagChange}
@@ -129,7 +129,7 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
       {/* Desktop */}
       {activeTagIndex !== -1 && (
         <div className="hidden md:block relative z-40 mb-2">
-          <SpotlightTagDrawerDesktop
+          <FactionTagDrawerDesktop
             tags={tags}
             activeIndex={activeTagIndex}
             onChange={handleTagChange}
@@ -175,16 +175,16 @@ export default function FeaturedSpotlight({ tags, location = "main", initialTagI
 
       {/* ─── 콘텐츠 영역 ─── */}
       {activeTagIndex === -1 ? (
-        <SpotlightIntroView
+        <FactionIntroView
           tags={tags}
           onSelect={handleTagChange}
           locale={locale}
         />
       ) : (
         <>
-          {viewMode === "spotlight" && activeTag && (
+          {viewMode === "faction" && activeTag && (
             <div className="relative z-10">
-              <SpotlightShowcase
+              <FactionShowcase
                 key={activeTag.id}
                 activeTag={activeTag}
                 locale={locale}
@@ -218,7 +218,7 @@ function ViewModeTabs({
   onChange: (mode: ViewMode) => void;
   t: ReturnType<typeof useTranslations>;
 }) {
-  const modes: ViewMode[] = ["spotlight", "library"];
+  const modes: ViewMode[] = ["faction", "library"];
 
   return (
     <div className="flex justify-center mb-8 px-4 relative z-10 w-full">

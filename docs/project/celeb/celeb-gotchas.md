@@ -1,6 +1,6 @@
 # 셀럽 데이터 함정 모음
 
-셀럽(profiles·celeb_dialogues·celeb_influence·user_contents·content_locales) 데이터를 다루다 실제로 사고가 났던 지점과 그 진단·복구 절차를 모은 문서다. 셀럽 등록·승격·대사/명언 작업, 목록·상세 페이지가 안 뜨는 문제, 스포트라이트 태그 개편, 책 메타 출처 선택을 할 때 착수 전에 읽는다. 파이프라인 정의 자체는 `docs/project/celeb/celeb-pipeline.md`, 스키마는 `docs/project/db-celeb.md`가 SSoT이고 이 문서는 그 위의 "밟으면 터지는 곳" 목록이다.
+셀럽(profiles·celeb_dialogues·celeb_influence·user_contents·content_locales) 데이터를 다루다 실제로 사고가 났던 지점과 그 진단·복구 절차를 모은 문서다. 셀럽 등록·승격·대사/명언 작업, 목록·상세 페이지가 안 뜨는 문제, 세력도감 태그 개편, 책 메타 출처 선택을 할 때 착수 전에 읽는다. 파이프라인 정의 자체는 `docs/project/celeb/celeb-pipeline.md`, 스키마는 `docs/project/db-celeb.md`가 SSoT이고 이 문서는 그 위의 "밟으면 터지는 곳" 목록이다.
 
 ---
 
@@ -124,15 +124,15 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 ---
 
-## 8. 스포트라이트 태그 상위 그룹 — 코드 상수 방식
+## 8. 세력도감 태그 상위 그룹 — 코드 상수 방식
 
-`/explore/spotlight` 태그는 상위 그룹으로 계층화돼 있다(2026-07-05 개편). `celeb_tags`에 `parent_id` 컬럼을 두는 게 정석이지만 **스키마 변경 권한이 막혀 있어**(Supabase MCP·관리 sbp_ 토큰 모두 401) 그룹 소속을 코드 상수로 관리한다.
+`/explore/faction` 태그는 상위 그룹으로 계층화돼 있다(2026-07-05 개편). `celeb_tags`에 `parent_id` 컬럼을 두는 게 정석이지만 **스키마 변경 권한이 막혀 있어**(Supabase MCP·관리 sbp_ 토큰 모두 401) 그룹 소속을 코드 상수로 관리한다.
 
-- **SSoT**: `sw/web/src/constants/spotlightGroups.ts` — `SPOTLIGHT_GROUPS`(그룹 slug + 자식 slug 표시순)와 파생 맵(`CHILD_TO_GROUP`·`GROUP_SLUGS`·`GROUP_CHILD_ORDER`). 그룹 추가·이동은 이 파일만 고친다(백오피스 관리 UI 없음).
+- **SSoT**: `sw/web/src/constants/factionGroups.ts` — `FACTION_GROUPS`(그룹 slug + 자식 slug 표시순)와 파생 맵(`CHILD_TO_GROUP`·`GROUP_SLUGS`·`GROUP_CHILD_ORDER`). 그룹 추가·이동은 이 파일만 고친다(백오피스 관리 UI 없음).
 - **그룹 헤더**: `celeb_tags`에 배정 인물 0인 일반 태그 행으로 존재한다(slug = 그룹 slug). 8개 그룹 — `ai`, `rulers-and-empires`, `heroes-of-turbulent-times`, `the-thinkers`, `revolutions-and-founding`, `art-movements`, `self-made-innovators`, `against-adversity`. 맨해튼(`manhattan-project`)은 단독이다.
 - **조회**: `getFeaturedTags`가 그룹 헤더를 `if (!assignments.length && !isGroup) continue` 예외로 포함시키고 각 태그에 `isGroup`/`parentSlug`를 부착한다(평면 배열 유지).
-- **UI**: `spotlightGrouping.ts`(`topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount`) + 섹션 헤더형 렌더(`SpotlightIntroView`/Drawer/Sheet). 최상위엔 그룹과 무소속만 보이고 자식은 펼쳐야 나온다.
-- 상세 계획·진행은 `docs/project/spotlight-ai-group-refactor.md`. 인증이 복구되면 `parent_id` 컬럼으로 이관할 수 있다.
+- **UI**: `factionGrouping.ts`(`topLevelTags`·`childTags`·`groupPreviewCelebs`·`groupCelebCount`) + 섹션 헤더형 렌더(`FactionIntroView`/Drawer/Sheet). 최상위엔 그룹과 무소속만 보이고 자식은 펼쳐야 나온다.
+- 상세 계획·진행은 `docs/project/faction-ai-group-refactor.md`. 인증이 복구되면 `parent_id` 컬럼으로 이관할 수 있다.
 - REST(service_role)로 DDL은 불가하다(임의 SQL RPC가 없고 `is_admin`뿐). Management API는 토큰이 있어도 `api.supabase.com` 전 엔드포인트가 401이었다. 데이터 CRUD는 REST로 가능하다.
 
 ---

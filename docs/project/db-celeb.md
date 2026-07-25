@@ -46,7 +46,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_dialogues`**: 인물별 고유 대사. celeb_id(PK, profiles FK), lines(jsonb), lines_en(jsonb)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블, 인물별 고유)
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩, speech_tone 6종 기반)
-- **`celeb_tags`** / **`celeb_tag_assignments`**: 스포트라이트 태그 → `celeb-tag-system.md` 참조
+- **`celeb_tags`** / **`celeb_tag_assignments`**: 세력도감 태그 → `celeb-tag-system.md` 참조
 - **`celeb_task_queue`**: 작업 큐 → `celeb-pipeline.md` 참조
   - PK(task_type, celeb_id). status CHECK: pending|in_progress|completed|failed|skipped
   - 리스 방식: claimed_by / claimed_at / lease_expires_at / attempt_count / last_error
@@ -87,8 +87,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 ### celeb_tags / celeb_tag_assignments 컬럼
 
 - **`celeb_tags`**: id, `name`(UNIQUE), name_en, description, description_en, `slug`, color(기본 `#7c4dff`), sort_order, is_featured(bool), start_date, end_date, `team_images`(jsonb NOT NULL 기본 `[]`)
-  - 상위 그룹 계층은 **DB 컬럼이 아니라 코드 상수**로 관리한다 (`constants/spotlightGroups.ts`). `parent_id` 컬럼은 없다
-- **`celeb_tag_assignments`**: id, celeb_id, tag_id, assigned_at, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, `spotlight_image_url`
+  - 상위 그룹 계층은 **DB 컬럼이 아니라 코드 상수**로 관리한다 (`constants/factionGroups.ts`). `parent_id` 컬럼은 없다
+- **`celeb_tag_assignments`**: id, celeb_id, tag_id, assigned_at, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, `spotlight_image_url`(물리 명칭은 옛 이름 유지)
   - UNIQUE(celeb_id, tag_id)
 
 ---

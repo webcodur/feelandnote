@@ -8,7 +8,7 @@ import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
-import { getSpotlightTagPreviews } from "@/actions/home/getFeaturedTags";
+import { getFactionTagPreviews } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
@@ -168,7 +168,7 @@ export default async function CelebPage({ params }: PageProps) {
     ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
     : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
 
-  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, spotlightPreviews, initialContents] = await Promise.all([
+  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, factionPreviews, initialContents] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId),
     getSimilarByCelebId(userId, 3, locale),
@@ -177,7 +177,7 @@ export default async function CelebPage({ params }: PageProps) {
     profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
-    getSpotlightTagPreviews(profile.spotlightTags.map((tag) => tag.id)),
+    getFactionTagPreviews(profile.factionTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     getPublicUserContents({
@@ -266,7 +266,7 @@ export default async function CelebPage({ params }: PageProps) {
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
-        spotlightPreviews={spotlightPreviews}
+        factionPreviews={factionPreviews}
         initialContents={initialContents}
       />
     </>

@@ -1,27 +1,27 @@
 ---
-name: spotlight-celeb-sync
-description: 팩션(factions/) 영상 인물을 스포트라이트(/explore/spotlight)에 반영할 때 적용한다. 태그 배정, 상위 그룹 계층, 그리고 인물 이미지 3종(아바타·개인샷·그룹샷)을 구분해 채우는 규칙·스크립트·캐시 무효화를 담는다. "스포트라이트 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 스포트라이트 반영", "스포트라이트 이미지 안 뜸/얼굴만 뜸", "그룹 추가" 등에 호출.
+name: faction-celeb-sync
+description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)에 반영할 때 적용한다. 태그 배정, 상위 그룹 계층, 그리고 인물 이미지 3종(아바타·개인샷·그룹샷)을 구분해 채우는 규칙·스크립트·캐시 무효화를 담는다. "세력도감 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 세력도감 반영", "세력도감 이미지 안 뜸/얼굴만 뜸", "그룹 추가" 등에 호출.
 ---
 
-# 팩션 → 스포트라이트 연동
+# 팩션 영상 → 세력도감 연동
 
-스포트라이트(`/explore/spotlight`)는 셀럽을 테마(태그)로 묶어 보여준다. 팩션 영상 인물을 여기에 반영할 때의 데이터·이미지·캐시 규칙이다. 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`(부록 A), 그룹 개편 기록은 `docs/project/spotlight-ai-group-refactor.md`.
+세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. 팩션 영상 인물을 여기에 반영할 때의 데이터·이미지·캐시 규칙이다. 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`(부록 A), 그룹 개편 기록은 `docs/project/faction-ai-group-refactor.md`.
 
 ## 데이터 구조
 
 - `celeb_tags` — 태그 마스터(테마). 그룹 헤더도 여기 일반 태그 1행으로 존재.
-- `celeb_tag_assignments` — (tag_id, celeb_id) 배정. 태그별 인물 소개(`short_desc`/`long_desc`)와 **개인샷**(`spotlight_image_url`)이 여기 붙는다.
+- `celeb_tag_assignments` — (tag_id, celeb_id) 배정. 태그별 인물 소개(`short_desc`/`long_desc`)와 **개인샷**(`spotlight_image_url`, 물리 명칭은 옛 이름 유지)이 여기 붙는다.
 - `profiles.avatar_url` — 인물 공통 아바타(태그 무관).
 
 ## 이미지 3종 — 절대 혼동 금지 (이번에 사고남)
 
-화면 소스: `SpotlightShowcase.tsx`에서 Hero = `spotlight_image_url ?? avatar_url`, 리스트 썸네일 = `avatar_url`, 단체샷 = `team_images`.
+화면 소스: `FactionShowcase.tsx`에서 Hero = `spotlight_image_url ?? avatar_url`, 리스트 썸네일 = `avatar_url`, 단체샷 = `team_images`.
 
 | 종류 | 컬럼/필드 | 성격 | R2 경로 | 처리 |
 |------|-----------|------|---------|------|
 | **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | 얼굴 검출 크롭. `celeb-avatar-wikimedia` 스킬 또는 `web-bo/scripts/upload-celeb-image-from-wikimedia.ts --image-file` |
-| **개인샷** | `celeb_tag_assignments.spotlight_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) | `spotlight/{tagId}/celeb-{celebId}.webp` | **얼굴 크롭 금지**, 원본 비율 유지. `web-bo/scripts/upload-spotlight-celeb-images.ts` |
-| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(상단 배너 캐러셀) | `spotlight/{tagId}/team/{uuid}.webp` | 정사각 webp. `web-bo/scripts/upload-tag-team-images.ts` |
+| **개인샷** | `celeb_tag_assignments.spotlight_image_url`(물리 명칭은 옛 이름 유지) | **원본 전신/연출 화보**(Hero 큰 사진) | `spotlight/{tagId}/celeb-{celebId}.webp`(물리 명칭은 옛 이름 유지) | **얼굴 크롭 금지**, 원본 비율 유지. `web-bo/scripts/upload-faction-celeb-images.ts` |
+| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(상단 배너 캐러셀) | `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) | 정사각 webp. `web-bo/scripts/upload-tag-team-images.ts` |
 
 **함정**: 개인샷(`spotlight_image_url`)을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼서 "얼굴이 Hero에 뜬다". 아바타와 개인샷은 **반드시 다른 이미지**로 채운다 — 아바타=얼굴, 개인샷=원본 전신.
 
@@ -33,7 +33,7 @@ description: 팩션(factions/) 영상 인물을 스포트라이트(/explore/spot
 
 ## 상위 그룹 계층 (코드 상수)
 
-`sw/web/src/constants/spotlightGroups.ts`가 SSoT. `celeb_tags`에 `parent_id` 컬럼이 없어 그룹 소속을 코드로 관리(스키마 변경 권한 막힘). 그룹 헤더는 배정 0인 일반 태그 행. `getFeaturedTags`가 `isGroup`/`parentSlug` 부착, UI는 `spotlightGrouping.ts` + 섹션 헤더형. 그룹 추가/이동은 이 상수 파일만 고친다.
+`sw/web/src/constants/factionGroups.ts`가 SSoT. `celeb_tags`에 `parent_id` 컬럼이 없어 그룹 소속을 코드로 관리(스키마 변경 권한 막힘). 그룹 헤더는 배정 0인 일반 태그 행. `getFeaturedTags`가 `isGroup`/`parentSlug` 부착, UI는 `factionGrouping.ts` + 섹션 헤더형. 그룹 추가/이동은 이 상수 파일만 고친다.
 
 ## DB 접근 — REST만, DDL 불가
 
@@ -57,7 +57,7 @@ curl.exe -X POST "http://localhost:3000/api/revalidate" -H "Content-Type: applic
 1. 인물 `profiles.id`·slug 확보(없으면 celeb 등록 먼저).
 2. `celeb_tag_assignments` INSERT(short_desc/long_desc 작성).
 3. **아바타**(얼굴) — celeb-avatar-wikimedia 또는 upload-celeb-image-from-wikimedia.ts.
-4. **개인샷**(원본 전신) — upload-spotlight-celeb-images.ts (얼굴 크롭 금지).
+4. **개인샷**(원본 전신) — upload-faction-celeb-images.ts (얼굴 크롭 금지).
 5. **그룹샷**(단체) — upload-tag-team-images.ts (faction `_group.png` 전부 · 레거시 `group.png` 포함 시 동일).
 6. **캐시 무효화** (`/api/revalidate` celebs).
 

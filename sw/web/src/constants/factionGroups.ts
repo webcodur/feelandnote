@@ -1,6 +1,6 @@
 /*
-  파일명: constants/spotlightGroups.ts
-  기능: 스포트라이트 태그 상위 그룹 정의
+  파일명: constants/factionGroups.ts
+  기능: 세력도감 태그 상위 그룹 정의
   책임: 어떤 태그가 어느 상위 그룹에 속하는지 코드로 관리한다.
 
   배경: celeb_tags에 계층(parent_id) 컬럼을 두는 것이 정석이나, 그룹 소속을 코드
@@ -12,14 +12,14 @@
         컬럼은 여전히 DB에 없고 코드 상수가 현행 정본이다. 이관은 판단 사항이다.
 */ // ------------------------------
 
-export interface SpotlightGroupDef {
+export interface FactionGroupDef {
   /** 그룹 헤더 태그의 slug (DB celeb_tags에 실제 존재) */
   slug: string
   /** 그룹에 속한 자식 태그 slug (표시 순서대로) */
   childSlugs: string[]
 }
 
-export const SPOTLIGHT_GROUPS: SpotlightGroupDef[] = [
+export const FACTION_GROUPS: FactionGroupDef[] = [
   {
     slug: "ai",
     childSlugs: [
@@ -67,14 +67,14 @@ export const SPOTLIGHT_GROUPS: SpotlightGroupDef[] = [
 ]
 
 /** 자식 slug → 그룹 slug */
-export const SPOTLIGHT_CHILD_TO_GROUP: Record<string, string> = Object.fromEntries(
-  SPOTLIGHT_GROUPS.flatMap((g) => g.childSlugs.map((c) => [c, g.slug]))
+export const FACTION_CHILD_TO_GROUP: Record<string, string> = Object.fromEntries(
+  FACTION_GROUPS.flatMap((g) => g.childSlugs.map((c) => [c, g.slug]))
 )
 
 /** 그룹 헤더 slug 집합 */
-export const SPOTLIGHT_GROUP_SLUGS = new Set(SPOTLIGHT_GROUPS.map((g) => g.slug))
+export const FACTION_GROUP_SLUGS = new Set(FACTION_GROUPS.map((g) => g.slug))
 
 /** 그룹 slug → 자식 slug 표시 순서 (자식 정렬용) */
-export const SPOTLIGHT_GROUP_CHILD_ORDER: Record<string, string[]> = Object.fromEntries(
-  SPOTLIGHT_GROUPS.map((g) => [g.slug, g.childSlugs])
+export const FACTION_GROUP_CHILD_ORDER: Record<string, string[]> = Object.fromEntries(
+  FACTION_GROUPS.map((g) => [g.slug, g.childSlugs])
 )

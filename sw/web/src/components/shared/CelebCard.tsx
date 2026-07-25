@@ -146,7 +146,7 @@ export default function CelebCard({
   }, [celebProfile, onOpenModal, index, id]);
 
   // #region Shared Styles
-  const spotlightBg = {
+  const vignetteBg = {
     background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)"
   };
   const subjectShadow = "drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)]";
@@ -188,7 +188,7 @@ export default function CelebCard({
               ${isLoading ? "animate-pulse border-accent/30 pointer-events-none opacity-70" : ""}
               ring-1 ring-inset ring-white/5 shadow-inner hover:shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.3)] hover:duration-500
             `}
-            style={spotlightBg}
+            style={vignetteBg}
           >
             <NoiseTexture />
             <GlowEffect />
@@ -327,7 +327,7 @@ export default function CelebCard({
         >
           <div
             className="absolute inset-0.5 rounded-full overflow-hidden shadow-inner ring-1 ring-white/5 ring-inset"
-            style={spotlightBg}
+            style={vignetteBg}
           >
             <NoiseTexture />
             <GlowEffect isCelebGroup />

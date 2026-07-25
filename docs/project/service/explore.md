@@ -13,8 +13,8 @@
 | `/explore/ranking` | 분야별 랭킹. 콘텐츠 타입별 Top 10 | `getTopByContentTypeFull`, `getSharedContents` |
 | `/explore/persona` | 인물 분석. 16축 극단 인물 + 차순위 10명 | `getPersonaExtremes` |
 | `/explore/today` | 오늘의 인물 | `getTodayFigure` |
-| `/explore/spotlight` | 스포트라이트 | `getFeaturedTags` |
-| `/explore/spotlight/[slug]` | 테마별 고유 주소 스포트라이트 | `getFeaturedTags` |
+| `/explore/faction` | 세력도감 | `getFeaturedTags` |
+| `/explore/faction/[slug]` | 테마별 고유 주소 세력도감 | `getFeaturedTags` |
 | `/explore/feed` | 인물 피드 | `getCelebFeed` |
 | `/explore/timeline` | 국가별 연대기 | `getCelebTimeline` |
 | `/explore/youtube` | 유튜브 채널 모음 | `getYoutubeCelebs` |
@@ -42,7 +42,7 @@
 |---|---|---|---|
 | 1 | 랭킹 | `RankingTabs` (왕성한 탐구자 · 분야별 최고 탭) | `/explore/ranking` |
 | 2 | 성향 분석 | `PersonaDistribution` | `/explore/persona` |
-| 3 | 스포트라이트 | `SpotlightCard` | `/explore/spotlight` |
+| 3 | 세력도감 | `FactionCard` | `/explore/faction` |
 | 4 | 전체 탐구자 | `HubCelebGrid` | `/explore/figures?tier=full` |
 
 랭킹 섹션만 `hideDivider`로 깔고 섹션 래퍼의 더보기를 뗀다 — 탭 내부에서 탭별 더보기를 따로 처리하기 때문이다.
@@ -57,11 +57,11 @@
 | `navDirectory` | `/explore/directory` |
 | `navOthers` | `/explore/figures?tier=light` |
 
-허브 데이터는 다섯 갈래를 병렬로 읽는다 — 콘텐츠 30건 이상 인물 6명(`content_count` 정렬), 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 기획전 태그. 스포트라이트 카드는 `is_featured`이고 인물이 붙은 태그 중 앞 4개, 태그마다 인물 4명까지만 추려 넘긴다.
+허브 데이터는 다섯 갈래를 병렬로 읽는다 — 콘텐츠 30건 이상 인물 6명(`content_count` 정렬), 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 중 앞 4개, 태그마다 인물 4명까지만 추려 넘긴다.
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 
-`navigation.tsx`의 탐색 하위 링크는 9개(figures·ranking·persona·today·spotlight·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
+`navigation.tsx`의 탐색 하위 링크는 9개(figures·ranking·persona·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
 
 ## 인물 목록 (`/explore/figures`)
 
@@ -104,16 +104,16 @@
 
 이 액션은 `actions/scriptures`에 있다. 서가 허브의 첫 섹션과 홈 화면도 같은 액션을 쓴다. 서가의 `/library/figure`와 탐색의 `/explore/figure`가 모두 이 주소로 리다이렉트한다.
 
-## 스포트라이트 (`/explore/spotlight`, `/explore/spotlight/[slug]`)
+## 세력도감 (`/explore/faction`, `/explore/faction/[slug]`)
 
-두 화면 모두 `getFeaturedTags()`로 태그 전체를 읽어 `FeaturedSpotlight`에 넘기고, `location="explore-pc"`를 고정으로 준다. 차이는 어느 테마를 펼친 채 열지 정하는 방법뿐이다.
+두 화면 모두 `getFeaturedTags()`로 태그 전체를 읽어 `FeaturedFaction`에 넘기고, `location="explore-pc"`를 고정으로 준다. 차이는 어느 테마를 펼친 채 열지 정하는 방법뿐이다.
 
-- `/explore/spotlight`: 검색 파라미터 `?tag=`의 값을 `initialTagId`로 넘긴다.
-- `/explore/spotlight/[slug]`: `slug`로 태그를 찾아 그 `id`를 `initialTagId`로 넘긴다. 못 찾으면 `notFound()`다.
+- `/explore/faction`: 검색 파라미터 `?tag=`의 값을 `initialTagId`로 넘긴다.
+- `/explore/faction/[slug]`: `slug`로 태그를 찾아 그 `id`를 `initialTagId`로 넘긴다. 못 찾으면 `notFound()`다.
 
-**태그·그룹 체계는 여기서 다루지 않는다.** 그룹 상수 단일원천(`constants/spotlightGroups.ts`), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
+**태그·그룹 체계는 여기서 다루지 않는다.** 그룹 상수 단일원천(`constants/factionGroups.ts`), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
 
-- `docs/project/spotlight-ai-group-refactor.md` — 그룹 계층 설계·구현 결과
+- `docs/project/faction-ai-group-refactor.md` — 그룹 계층 설계·구현 결과
 - `docs/project/celeb/celeb-tag-system.md` — 셀럽 태그 체계
 
 ## 인물 피드 (`/explore/feed`)
@@ -147,7 +147,7 @@
 - 화면 지도: [README.md](README.md)
 - 서가(오늘의 인물 미리보기): [library.md](library.md)
 - 광장(`/explore/people` 목적지): [agora.md](agora.md)
-- 스포트라이트 그룹: `docs/project/spotlight-ai-group-refactor.md`
+- 세력도감 그룹: `docs/project/faction-ai-group-refactor.md`
 - 셀럽 태그: `docs/project/celeb/celeb-tag-system.md`
 - 셀럽 데이터: `docs/project/db-celeb.md`
 - SEO: `docs/project/seo.md`

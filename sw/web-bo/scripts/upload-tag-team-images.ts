@@ -1,5 +1,5 @@
 /**
- * 스포트라이트 태그 단체 이미지(team_images) 일괄 등록
+ * 세력도감 태그 단체 이미지(team_images) 일괄 등록
  * faction AI-Supremacy 세력별 group.png → 1080 정사각 webp → R2 spotlight/{tagId}/team/{uuid}.webp → celeb_tags.team_images 재구성
  *
  * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/upload-tag-team-images.ts
@@ -26,7 +26,7 @@ function loadEnv(p: string) {
   }
 }
 
-// faction 세력 폴더 → 스포트라이트 태그 slug + cluster group.png 번호
+// faction 세력 폴더 → 세력도감 태그 slug + cluster group.png 번호
 const MAP: { slug: string; dir: string; groups: number[] }[] = [
   { slug: 'ai-pioneers', dir: '01-pioneers', groups: [1, 2, 3, 4, 5] },
   { slug: 'google-deepmind', dir: '02-google-deepmind', groups: [1, 2, 3] },

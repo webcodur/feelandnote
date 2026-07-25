@@ -9,21 +9,21 @@ import type { FeaturedTag } from "@/actions/home";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 import Avatar from "@/components/ui/Avatar";
 import { Link } from "@/i18n/navigation";
-import { topLevelTags, childTags, groupCelebCount } from "./spotlightGrouping";
+import { topLevelTags, childTags, groupCelebCount } from "./factionGrouping";
 
-interface SpotlightIntroViewProps {
+interface FactionIntroViewProps {
   tags: FeaturedTag[];
   onSelect: (idx: number) => void;
   locale: Locale;
 }
 
-export default function SpotlightIntroView({
+export default function FactionIntroView({
   tags,
   onSelect,
   locale,
-}: SpotlightIntroViewProps) {
+}: FactionIntroViewProps) {
   const tLine = useTranslations("landing");
-  const t = useTranslations("explore.spotlight.intro");
+  const t = useTranslations("explore.faction.intro");
 
   // 펼쳐진 그룹 slug 집합. 섹션 헤더형은 여러 그룹을 동시에 펼칠 수 있다. AI는 기본 펼침.
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set(["ai"]));
@@ -50,7 +50,7 @@ export default function SpotlightIntroView({
         <div className="flex items-center gap-3 mb-6 opacity-80">
           <span className="w-8 md:w-16 h-[1px] bg-gradient-to-r from-transparent to-accent/50" />
           <span className="text-[12px] md:text-[13px] font-cinzel text-accent tracking-[0.25em] uppercase font-bold">
-            Spotlight Collection
+            Faction Collection
           </span>
           <span className="w-8 md:w-16 h-[1px] bg-gradient-to-l from-transparent to-accent/50" />
         </div>
@@ -401,12 +401,12 @@ function TagCard({
     );
   }
 
-  // 공개 테마: 카드 자체를 해당 스포트라이트 주소의 링크로 만든다.
+  // 공개 테마: 카드 자체를 해당 세력도감 주소의 링크로 만든다.
   // 좌클릭은 기존처럼 같은 화면에서 테마를 전환하고(빠른 전환),
   // 가운데 클릭·Ctrl/⌘ 클릭은 브라우저 기본 동작으로 새 탭에서 연다.
   const detailHref = tag.slug
-    ? `/explore/spotlight/${tag.slug}`
-    : `/explore/spotlight?tag=${tag.id}`;
+    ? `/explore/faction/${tag.slug}`
+    : `/explore/faction?tag=${tag.id}`;
   const externalHref = (locale === "en" ? "/en" : "") + detailHref;
   return (
     <Link

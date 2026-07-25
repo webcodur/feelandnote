@@ -32,7 +32,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
       {/* Texture Overlay (Optional, assuming standard patterns exist or falling back to simple noise via CSS) */}
       <div className="absolute inset-0 bg-neutral-900/50 mix-blend-overlay" />
 
-      {/* Spotlight Effect */}
+      {/* Ambient Glow Effect */}
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#d4af37]/10 via-transparent to-transparent opacity-60 pointer-events-none" />
 
       <div className="relative p-4 sm:p-10 flex flex-col items-center">

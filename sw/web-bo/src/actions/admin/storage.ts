@@ -48,8 +48,9 @@ export async function deleteCelebImages(celebId: string): Promise<void> {
   await deleteFromR2(key)
 }
 
-// #region 스포트라이트(기획전) 이미지
-const SPOTLIGHT_FOLDER = 'spotlight'
+// #region 세력도감(faction) 이미지
+// 물리 R2 경로는 옛 명칭 spotlight 유지 — 기존 이미지 URL 보존
+const FACTION_FOLDER = 'spotlight'
 
 interface UploadResult {
   success: boolean
@@ -74,7 +75,7 @@ export async function uploadTagTeamImage(input: {
   image: string // base64
 }): Promise<UploadResult> {
   const { tagId, image } = input
-  const key = `${SPOTLIGHT_FOLDER}/${tagId}/team/${crypto.randomUUID()}.webp`
+  const key = `${FACTION_FOLDER}/${tagId}/team/${crypto.randomUUID()}.webp`
 
   try {
     await uploadToR2(key, decodeBase64Image(image), 'image/webp')
@@ -97,7 +98,7 @@ export async function uploadTagCelebImage(input: {
   image: string // base64
 }): Promise<UploadResult> {
   const { tagId, celebId, image } = input
-  const key = `${SPOTLIGHT_FOLDER}/${tagId}/celeb-${celebId}.webp`
+  const key = `${FACTION_FOLDER}/${tagId}/celeb-${celebId}.webp`
 
   try {
     await uploadToR2(key, decodeBase64Image(image), 'image/webp')
@@ -110,6 +111,6 @@ export async function uploadTagCelebImage(input: {
 // 인물 전용 화보 삭제
 export async function deleteTagCelebImage(input: { tagId: string; celebId: string }): Promise<void> {
   const { tagId, celebId } = input
-  await deleteFromR2(`${SPOTLIGHT_FOLDER}/${tagId}/celeb-${celebId}.webp`)
+  await deleteFromR2(`${FACTION_FOLDER}/${tagId}/celeb-${celebId}.webp`)
 }
 // #endregion

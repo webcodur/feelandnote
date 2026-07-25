@@ -160,13 +160,13 @@
     "viewContent": "View Details"
   },
   "landing": {
-    "spotlights": "Spotlights",
+    "factions": "Factions",
     "viewAll": "View All",
     "openSoon": "Open Soon",
     "number": "No.",
     "defaultDescription": "Explore the cultural journeys of history's greatest figures.",
     "goToExplore": "Go to explore",
-    "noSpotlights": "No featured spotlights at the moment.",
+    "noFactions": "No featured factions at the moment.",
     "selectTheme": "Select Theme",
     "viewAllThemes": "View All Themes",
     "comingSoon": "Coming Soon",

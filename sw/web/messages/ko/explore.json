@@ -25,7 +25,7 @@
         "followers": "팔로워",
         "similar": "취향 유사",
         "celebFeed": "인물 피드",
-        "spotlight": "스포트라이트"
+        "faction": "세력도감"
       },
       "empty": {
         "noFriends": "아직 친구가 없어요",
@@ -51,7 +51,7 @@
       "influenceDistribution": "영향력 분포",
       "influence": "영향력",
       "stats": "통계",
-      "collection": "스포트라이트",
+      "collection": "세력도감",
       "searchFilter": "검색...",
       "gradeDistribution": "등급별 분포",
       "fullRanking": "전체 순위",
@@ -146,8 +146,8 @@
       "topByTypeSub": "책·영화·게임·음악, 각 분야에서 가장 왕성한 감상을 남긴 인물들.",
       "lightCelebs": "기타 인물",
       "lightCelebsSub": "기록 너머의 울림. 그들의 사유가 여러분의 감상에 새로운 깊이를 더합니다.",
-      "spotlight": "스포트라이트",
-      "spotlightSub": "시대와 분야를 넘어 하나의 주제로 엮인 인물 기획전.",
+      "faction": "세력도감",
+      "factionSub": "시대와 분야를 넘어 하나의 주제로 엮인 세력도감.",
       "allCelebs": "전체 탐구자",
       "allCelebsSub": "전체 탐구자의 서재를 자유롭게 탐색합니다.",
       "personaExtremes": "비범한 인물",
@@ -159,7 +159,7 @@
       "navTopByType": "분야별 랭킹",
       "navPersona": "인물 분석",
       "navFeed": "인물 피드",
-      "navSpotlight": "스포트라이트",
+      "navFaction": "세력도감",
       "navDirectory": "디렉토리",
       "navTimeline": "국가별 연대기",
       "navYoutube": "유튜브 채널",
@@ -210,11 +210,11 @@
       "metaTitle": "오늘의 인물 | 탐색",
       "metaDescription": "매일 새로운 셀럽의 추천 책, 영화, 음악을 소개합니다. 오늘의 인물이 읽고, 보고, 들은 작품을 확인하세요."
     },
-    "spotlight": {
-      "metaTitle": "스포트라이트 | 인물",
-      "collection": "스포트라이트 컬렉션",
+    "faction": {
+      "metaTitle": "세력도감 | 인물",
+      "collection": "세력도감 컬렉션",
       "tabs": {
-        "spotlight": "스포트라이트",
+        "faction": "세력도감",
         "library": "서재"
       },
       "library": {

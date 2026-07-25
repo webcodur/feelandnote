@@ -7,9 +7,9 @@ import type { FeaturedTag } from "@/actions/home";
 import { useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
-import { topLevelTags, childTags, groupCelebCount } from "./spotlightGrouping";
+import { topLevelTags, childTags, groupCelebCount } from "./factionGrouping";
 
-interface SpotlightTagDrawerDesktopProps {
+interface FactionTagDrawerDesktopProps {
   tags: FeaturedTag[];
   activeIndex: number;
   onChange: (idx: number) => void;
@@ -18,12 +18,12 @@ interface SpotlightTagDrawerDesktopProps {
   locale: Locale;
 }
 
-export default function SpotlightTagDrawerDesktop({
+export default function FactionTagDrawerDesktop({
   tags,
   activeIndex,
   onChange,
   locale,
-}: SpotlightTagDrawerDesktopProps) {
+}: FactionTagDrawerDesktopProps) {
   const t = useTranslations("landing");
   const [isOpen, setIsOpen] = useState(false);
   // 현재 선택된 태그가 그룹 자식이면 그 그룹을 펼친 채로 시작한다.
