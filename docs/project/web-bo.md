@@ -101,7 +101,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도 | **2절 구성.** 위=편 목록(한 편 = 카드 1장). 생성·복제·이름 변경·삭제, 상태(todo/live/done)·노출 여부·순서. 아래=**도감 테마 전량**(`celeb_tags` 40종, `sort_order` 순). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions` | 세력도 | **표 2개.** 위=「영상 편」(유튜브로 나가는 제작 데이터): 제목·상태(todo/live/done)·렌더 편성·세력 수·인물 수·연결 테마 + 생성·복제·이름 변경·삭제·내보내기. 아래=「도감 테마」(서비스 세력도감 진열분, `celeb_tags` 40종): 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·연결 영상 편·순서(끌어 옮기기). 두 표는 `components/factions/FactionTable.tsx` 를 함께 쓴다(26.07.26에 카드형·줄형 혼재를 표로 통일). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
 | `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
