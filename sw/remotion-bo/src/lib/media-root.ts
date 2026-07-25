@@ -6,7 +6,7 @@
  * 대응표를 가진다 — 관리 화면이 여러 앱으로 갈려도 부품은 그대로 쓰인다.
  */
 
-import { FACTIONS_DIR, DISCOURSES_DIR } from '@feelandnote/shared/bo/episode-store'
+import { DISCOURSES_DIR } from '@feelandnote/shared/bo/episode-store'
 import { seriesDataModel } from './series-registry'
 
 /**
@@ -15,7 +15,6 @@ import { seriesDataModel } from './series-registry'
  */
 export function mediaRootOf(series: string): string | undefined {
   switch (seriesDataModel(series)) {
-    case 'faction': return FACTIONS_DIR
     case 'discourse': return DISCOURSES_DIR
     // 서재 탐방(book)은 책마다 폴더가 갈려 스캔 규칙이 다르다 — 자기 창구(api/[series]/images)를 쓴다
     default: return undefined

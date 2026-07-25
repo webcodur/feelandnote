@@ -72,7 +72,7 @@ async function main() {
       const key = `spotlight/${tagId}/team/${randomUUID()}.webp`
       await s3.send(new PutObjectCommand({
         Bucket: R2_BUCKET_NAME, Key: key, Body: webp,
-        ContentType: 'image/webp', CacheControl: 'no-cache, must-revalidate',
+        ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
       }))
       urls.push(`${R2_PUBLIC_URL}/${key}?v=${Date.now()}`)
       console.log(`  ${m.slug} <- ${m.dir}/${g}/group.png (${(webp.length / 1024).toFixed(0)}KB)`)

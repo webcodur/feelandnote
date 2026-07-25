@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, use } from 'react'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { getSeriesById } from '@/lib/series-registry'
 
 // ─── 타입 ─────────────────────────────────────────────
@@ -124,6 +125,8 @@ const SYNC_LABEL: Record<string, string> = {
 
 export default function YouTubeLineupPage({ params }: { params: Promise<{ series: string }> }) {
   const { series } = use(params)
+  // 레지스트리에 없는 시리즈(폐기된 세력도 등)는 없는 주소다
+  if (!getSeriesById(series)) notFound()
   const seriesDef = getSeriesById(series)
   const [rows, setRows] = useState<EpisodeRow[]>([])
   const [loading, setLoading] = useState(true)

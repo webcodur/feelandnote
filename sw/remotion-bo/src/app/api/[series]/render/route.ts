@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import { loadEpisode, toPascal } from '@/lib/server-utils'
 import { runTask } from '@feelandnote/shared/bo/task-queue'
 import { getSeriesById } from '@/lib/series-registry'
-import { loadFactionEpisode } from '@/lib/faction-utils'
-import { factionVariants, factionCompBase } from '@feelandnote/shared/lib/youtube-faction-meta'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series: seriesId } = await params
@@ -12,32 +10,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   const { episode, only, bookIndex } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
-
-  // 세력도 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
-  // 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
-  if (series.dataModel === 'faction') {
-    const base = factionCompBase(episode)
-    const factionData = await loadFactionEpisode(episode)
-    // only 미지정=전체 / 'longform'·'shorts' 로 거를 수 있다.
-    const targets = factionVariants(factionData.groups, factionData.longformLayout)
-      .filter(v => !only || (only === 'shorts' ? v.isShorts : only === 'longform' ? !v.isShorts : true))
-      .map(v => ({ comp: `${base}-${v.fileSuffix}`, out: `out/Faction/${episode}-${v.fileSuffix}.mp4` }))
-    const taskIds = targets.map(t =>
-      runTask('render-faction', seriesId, episode, ['render', '--', t.comp, t.out, '--codec', series.render.codec]).id,
-    )
-    // 세로 롱폼 썸네일 — KO-LV-TH 스틸을 각 롱폼 variant 이름의 THUMB.png 로 출고한다.
-    // 유튜브 업로드(variantFiles)가 `{episode}-{suffix}-THUMB.png` 를 자동 인식해 붙인다.
-    if (only !== 'shorts') {
-      const lvVariants = factionVariants(factionData.groups, factionData.longformLayout).filter(v => !v.isShorts)
-      for (const v of lvVariants) {
-        taskIds.push(runTask('faction-thumb', seriesId, episode,
-          ['still', '--', `${base}-KO-LV-TH`, `out/Faction/${episode}-${v.fileSuffix}-THUMB.png`]).id)
-      }
-    }
-    // 자막(SRT)도 함께 — 데이터 기반이라 즉시 생성된다(롱폼·쇼츠 1·2편 한 번에).
-    taskIds.push(runTask('faction-srt', seriesId, episode, ['faction:srt', '--', '--episode', episode]).id)
-    return NextResponse.json({ taskIds })
-  }
 
   // 렌더 파이프라인이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
   if (series.dataModel !== 'book') {

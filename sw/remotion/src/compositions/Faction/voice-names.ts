@@ -8,7 +8,7 @@
  * 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 파일명은 항상 FxxCxxPxx 형태다(solo 세력 포함).
  * 예: F01C01P01-quote.wav. clusterIndex 파라미터가 옵셔널인 것은 시그니처 호환용일 뿐, 렌더·파이프라인은 항상 넘긴다.
  *
- * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 의 vnPersonQuote 와 규칙이 100% 일치해야 한다.
+ * ⚠ 동기화 대상: sw/web-bo/src/lib/faction-voice.ts 의 vnPersonQuote 와 규칙이 100% 일치해야 한다.
  *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
  */
 export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIndex?: number): string {
@@ -23,7 +23,7 @@ export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIn
  * 대사와 마찬가지로 항상 FxxCxxPxx 형태(예: F01C01P01-epithet.wav, solo 세력 포함).
  * 나레이터가 그 인물의 수식어 한 문장을 낭독한 음원. 없으면 렌더는 글자 수 읽기 추정으로 정지만 한다.
  *
- * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
+ * ⚠ 동기화 대상: sw/web-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
  */
 export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex?: number): string {
   const g = `F${String(groupIndex + 1).padStart(2, '0')}`
@@ -39,7 +39,7 @@ export function vnPersonEpithet(groupIndex: number, personIndex: number, cluster
  *  - narrator-outro.wav    마무리 화면에서 닫는 한마디 낭독
  *  - narrator-intro.wav    나레이터 소개 컷 대사
  *
- * ⚠ 동기화 대상: sw/remotion-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
+ * ⚠ 동기화 대상: sw/web-bo/src/lib/faction-voice.ts 와 규칙이 일치해야 한다(워크스페이스 경계상 복제).
  */
 export function vnNarratorLogline(): string {
   return 'narrator-logline.wav'

@@ -1,19 +1,73 @@
 # remotion-bo 기획서
 
 > **최종 실측 체크: 26.07.16** — `sw/remotion-bo/src/` 전체(라우트·API·컴포넌트·lib), `sw/remotion/scripts/`(voice·render·youtube), `sw/remotion/src/Root.tsx`·`compositions/BookRecommend/`, `sw/remotion/public/episodes|factions|discourses/` 실파일 대조
+> **부분 재실측: 26.07.25** — 세력도(팩션) 구역 폐기 반영(삭제 92파일·공용 코드 12곳 분기 제거·유지 3건·이동 1건·신설 1건). 세력도 외 서술은 26.07.16 판 그대로다.
 
 영상 제작 관리 대시보드. Remotion 영상의 기획·제작·관리 전 과정을 한 곳에서 다룬다.
 
 > **NOTE (26.03.23):** R2 음성 동기화 시스템 폐기. 이 문서의 R2 관련 기획(R2 현황 페이지, R2 동기화 UI, R2 상태 표시)은 더 이상 유효하지 않다. 영상 음성 파일은 로컬 전용으로 관리한다. 26.07.16 실측 기준 `src/` 안에 R2 코드는 남아 있지 않다(가이드 페이지 설명문과 대시보드의 `synced` 지표만 잔재 — 항상 0으로 표시된다). 아래 본문의 R2 서술은 폐기된 기획으로 읽어야 한다.
 >
 > **대체 기획 — 음성 저장소(voice-archive)**: R2 대신 로컬 보관소로 대체 구현됐다(26.04.01, `84f06090`). `sw/remotion/voice-archive/`로 에피소드 음성을 통째 옮겼다 되돌리는 방식이며, 시리즈 홈의 "저장소" 탭에서 다룬다. 상세는 아래 "음성 저장소" 절.
+>
+> **NOTE (26.07.25): 세력도(팩션) 구역 전량 폐기.** 팩션 편집·렌더·유튜브·카드·출간이 web-bo로 옮겨 갔고 remotion-bo에는 팩션 코드가 남지 않았다. 아래 본문의 세력도 서술은 **폐기된 과거 상태**로 읽는다. 상세는 다음 절 "세력도 폐기".
 
 ## 정체성
 
-- **web-bo** = 서비스 운영 (셀럽 CRUD, 콘텐츠, 사용자)
-- **remotion-bo** = 영상 제작 (시나리오, 음성, 렌더링, 편성)
+- **web-bo** = 서비스 운영 (셀럽 CRUD, 콘텐츠, 사용자) + **세력도 영상 제작**(26.07.25 이관)
+- **remotion-bo** = 영상 제작 (시나리오, 음성, 렌더링, 편성) — **서재 탐방·가상 담화 2종**
 
 web-bo의 셀럽 데이터를 읽기 전용으로 참조하되, 영상 제작에 필요한 워크플로만 담당한다.
+
+---
+
+## 세력도 폐기 (26.07.25, 통합 Phase 5)
+
+세력도(팩션)는 플랫폼 소거를 목적으로 remotion-bo에서 **전량 폐기**됐다. 절충안("출고만 remotion-bo 잔류")은 기각됐다. 새 자리는 web-bo `/factions`(포트 3001, 사이드바 「세력도」)이고, 텍스트·구성의 단일 원천은 Supabase 5테이블이다. 렌더 엔진 `sw/remotion`은 무수정으로 `faction-data.json`을 계속 읽는다.
+
+- 새 화면·창구·출간 규칙: [web-bo.md](./web-bo.md) 「세력도」 절
+- 시리즈 SSoT: [faction.md](./remotion/faction.md) · 통합 설계: [faction-unification.md](./remotion/faction-unification.md)
+
+### 삭제 실적 (실측 92파일)
+
+| 대상 | 수 |
+|---|---|
+| `components/faction/**` | 55 |
+| `api/[series]/faction-*` | 16 라우트 |
+| `api/faction/db-sync/{status,publish}` | 2 |
+| `api/elevenlabs/{voice-history,voice-notes}` | 2 |
+| lib 5종 — `faction-types`·`faction-utils`·`faction-voice`·`faction-voice-casting-history`·`ele-voice-notes` | 5 |
+| `lib/faction-sync/` | 7 |
+| `[series]/[name]/[lang]/[tab]/card/**` | 3 |
+| `Sidebar/sections/FactionList.tsx` | 1 |
+| `src/middleware.ts` (팩션 카드 주소 rewrite 전용이었다) | 1 |
+
+**폐기 스위치**: `series-registry.ts`의 `id:'faction'` 정의와 `SeriesDataModel` 유니온의 `'faction'`을 제거했다. 이 한 곳을 빼면 시리즈 가드가 전부 404를 낸다.
+
+**공용 코드 12곳에서 팩션 분기를 도려냈다** — `api/[series]/{episodes,status,render,youtube/status,youtube/sync,youtube/upload}` · `lib/{server-utils,media-root,series-registry}` · `app/[series]/page.tsx` · `app/[series]/[name]/[lang]/[tab]/page.tsx` · `components/Sidebar/Sidebar.tsx`.
+
+### 이름만 팩션인 채 남은 것 (지우면 안 된다)
+
+| 남긴 것 | 이유 |
+|---|---|
+| `lib/faction-edit-route.ts` | 가상 담화가 쓴다. 이름만 유산인 언어·탭 공용 상수다 |
+| `api/[series]/cards/[name]` | 서재 탐방 카드뉴스. 디스크 파일명이 `faction-cards.json`이라 개명하면 데이터가 끊긴다 |
+| `api/elevenlabs/voices` | 서재 탐방 보이스 매핑 |
+
+**이동 1건**: `components/faction/shared/holdMotion.ts` → `components/discourse/shared/holdMotion.ts`(담화 2곳이 쓴다).
+
+**신설 1건**: `api/[series]/music/route.ts`. 담화가 부르던 배경음악 목록 창구가 팩션 전용이라 **원래도 404였다**(목록이 항상 비어 있었다). 시리즈 공용으로 다시 세우고 담화에서 목록이 실제로 내려오는 것을 확인했다.
+
+**404 처리**: `/[series]`·`/[series]/youtube`에 `notFound()`를 넣었다. 그 전에는 미등록 시리즈가 200으로 빈 화면을 냈다.
+
+### 무손상 실측
+
+담화 목록·편집(ko/info·ko/shorts)·유튜브, 서재 탐방 목록·scenario·voice·유튜브, 창구 `api/discourse/{episodes,music}`·`api/book-recommend/{episodes,status}`·`api/elevenlabs/voices` 전부 200. 팩션 주소·창구 전부 404. tsc 4종(web-bo·remotion-bo·remotion·web) 0 에러.
+
+⚠ **remotion-bo에는 eslint 설정이 없다**(`eslint.config.*` 부재, package.json에 의존성·스크립트 없음). 검사 통과를 주장할 수 없다.
+
+### 다음
+
+remotion-bo **최종 소멸이 후속 단계**다. 서재 탐방·가상 담화도 세력도가 밟은 길(공용 부품 shared 승격 → web-bo 이식 → 폐기)을 따라 옮기고, 그 뒤 이 앱을 없앤다.
 
 ---
 
@@ -77,10 +131,10 @@ web-bo의 셀럽 데이터를 읽기 전용으로 참조하되, 영상 제작에
 
 시리즈마다 구조가 다르므로, 각 시리즈는 레지스트리에 등록한다.
 
-**구현됨 (`sw/remotion-bo/src/lib/series-registry.ts`, 실측 26.07.16)** — 아래가 실제 형태다. 기획안의 `jsonSchema`·`scenarioView`·`ttsJobBuilder` 필드는 채택되지 않았고, 대신 **`dataModel` 축**(book | faction | discourse)이 그 역할을 대신한다. 에피소드 저장 형식·IO·편집 화면이 이 값 하나로 갈린다.
+**구현됨 (`sw/remotion-bo/src/lib/series-registry.ts`, 실측 26.07.16 / 26.07.25 세력도 제거)** — 아래가 실제 형태다. 기획안의 `jsonSchema`·`scenarioView`·`ttsJobBuilder` 필드는 채택되지 않았고, 대신 **`dataModel` 축**(book | discourse)이 그 역할을 대신한다. 에피소드 저장 형식·IO·편집 화면이 이 값 하나로 갈린다.
 
 ```typescript
-type SeriesDataModel = 'book' | 'faction' | 'discourse'
+type SeriesDataModel = 'book' | 'discourse'   // 'faction' 은 26.07.25 제거(폐기 스위치)
 
 interface SeriesDefinition {
   id: string
@@ -95,17 +149,17 @@ interface SeriesDefinition {
 }
 ```
 
-**등록된 시리즈 3종**:
+**등록된 시리즈 2종** (26.07.25 — 세력도 제거 후):
 
 | id | label | dataModel | episodeDir | episodeHome | langTabEditor |
 |----|-------|-----------|------------|-------------|---------------|
 | `book-recommend` | 서재 탐방 📚 | book | `book-recommend` | `scenario` | false |
-| `faction` | 세력도 🏛️ | faction | `factions` | `both/info` | true |
 | `discourse` | 가상 담화 🗣️ | discourse | `discourses` | `both/shorts` | true |
+| ~~`faction`~~ | ~~세력도 🏛️~~ | — | — | — | **폐기(26.07.25)** — 정의 제거. web-bo `/factions`로 이관 |
 
-기획 시점의 "라이벌 대담"·"서비스 소개"는 등록되지 않았다. 실제로 늘어난 시리즈는 세력도·가상 담화다.
+기획 시점의 "라이벌 대담"·"서비스 소개"는 등록되지 않았다. 실제로 늘어난 시리즈는 세력도·가상 담화였고, 그중 세력도는 web-bo로 떠났다.
 
-새 시리즈 추가 = 레지스트리에 정의 1개 추가. UI/라우팅은 자동 생성. `id === 'faction'` 같은 하드코딩 분기는 두지 않는다.
+새 시리즈 추가 = 레지스트리에 정의 1개 추가. UI/라우팅은 자동 생성. `id === 'faction'` 같은 하드코딩 분기는 두지 않는다 — **덕분에 정의 1개를 지우는 것으로 시리즈 폐기가 성립했다**(가드 전부 404).
 
 ---
 
@@ -165,14 +219,14 @@ interface SeriesDefinition {
 /[series]/[name]/render              → 렌더
 /[series]/[name]/youtube             → 유튜브 (에피소드 단위)
 /[series]/[name]/cards               → 카드뉴스
-/[series]/[name]/[lang]/[tab]        → 언어·탭 편집 (langTabEditor 시리즈: 세력도·담화)
-/[series]/[name]/[lang]/[tab]/card/… → 카드 상세 편집
+/[series]/[name]/[lang]/[tab]        → 언어·탭 편집 (langTabEditor 시리즈: 담화. 세력도는 폐기)
+/[series]/[name]/[lang]/[tab]/card/… → 카드 상세 편집 — 폐기(26.07.25, 세력도 전용이었다)
 ```
 
 기획 대비 차이:
 - `/[series]/lineup`(편성표), `/[series]/new`(스캐폴딩 전용 페이지), `/infra/r2`, `/infra/render-queue` — **모두 미구현**. 스캐폴딩은 페이지 없이 `POST /api/[series]/episodes`와 시리즈 홈 UI로 처리한다. 인프라 라우트는 R2 폐기·렌더 큐 인메모리 유지로 불필요해졌다.
 - 에피소드 관리는 "단일 페이지 섹션 스크롤"이 아니라 **탭 분리**(scenario/voice/render/youtube/cards)로 갔다.
-- `[lang]/[tab]` 축이 추가됐다 — 언어별 편집 화면을 쓰는 시리즈(세력도·담화)만 탄다.
+- `[lang]/[tab]` 축이 추가됐다 — 언어별 편집 화면을 쓰는 시리즈만 탄다(세력도·담화 둘이었고, 지금은 담화만).
 
 `[series]`가 동적 세그먼트. 레지스트리에 등록된 시리즈만 유효. 시리즈별 별도 라우트 파일이 불필요하다.
 
@@ -194,8 +248,8 @@ sw/remotion/public/
       books/    <책>.{locale}.json
       shorts/   {locale}-{N}.json
       voice/{locale}/  images/  music/  ref/
-  factions/                        ← 세력도 (dataModel: faction)
-    <에피소드>/faction-data.json
+  factions/                        ← 세력도 — remotion-bo에서 다루지 않는다(26.07.25 폐기)
+    <에피소드>/faction-data.json     ← DB에서 내보낸 렌더용 산출물. 편집은 web-bo /factions
   discourses/                      ← 가상 담화 (dataModel: discourse)
     <에피소드>/discourse-data.json
 ```
@@ -408,7 +462,7 @@ R2 음성 동기화를 접으면서 이 페이지 기획 전체가 무효가 됐
 ```
 ── 에피소드 ──
 GET     /api/[series]/episodes             목록 (dataModel별 분기)
-POST    /api/[series]/episodes             생성 — 책 기반은 DB 스캐폴딩, 세력도·담화는 폴더 생성
+POST    /api/[series]/episodes             생성 — 책 기반은 DB 스캐폴딩, 담화는 폴더 생성 (세력도 분기 제거)
 GET/PUT /api/[series]/episodes/[name]      에피소드 CRUD
         …/[name]/meta · /book/[slug] · /field · /segment · /material · /solo/[index]
 GET     /api/[series]/candidates           후보 풀
@@ -422,7 +476,7 @@ GET  /api/[series]/voice/storage           음성 저장소 현황  ← R2 대�
 POST /api/[series]/voice/storage           보관/복원 이동
      …/voice/analyze · /rename · /save · /style · /meta · /pipeline-status · /voice-select
      …/voice/{gemini,gemini-v3,elevenlabs}/preview
-     /api/[series]/faction-voice/…  ·  /api/[series]/discourse-voice/…
+     /api/[series]/discourse-voice/…      (faction-voice/… 는 26.07.25 폐기)
 
 ── 렌더 · 작업 ──
 POST /api/[series]/render                  렌더링 트리거
@@ -435,13 +489,15 @@ GET  /api/celebs/search  ·  /api/celebs/[slug]  ·  /api/celebs/exists  ·  /ap
 GET/PUT /api/[series]/youtube/lineup       업로드 기록(youtube-lineup.json)
         …/youtube/{meta,status,status-all,sync,db-sync,upload,thumb}
 
-── 세력도 전용 ──
-/api/[series]/faction-{episode,cards,image,image-folder,avatar,music,sfx,comment,card-export,open-folder}
-/api/[series]/cards/[name]
+── 세력도 전용 ── **전량 폐기(26.07.25)**
+~~/api/[series]/faction-{episode,cards,image,image-folder,avatar,music,sfx,comment,card-export,open-folder}~~  → web-bo `api/faction/**`
+~~/api/faction/db-sync/{status,publish}~~                                                  → web-bo 서버 액션 `actions/admin/factions/publish.ts`
+/api/[series]/cards/[name]        ← 유지. 서재 탐방 카드뉴스다(디스크 파일명만 faction-cards.json)
+/api/[series]/music               ← 신설. 담화가 부르던 곡 목록 창구가 세력도 전용이라 원래도 404였다
 
 ── 미디어 ──
 /api/[series]/{images,videos,music,soundeffect,folders}/[...path]  ·  /api/rm-asset/[...path]  ·  /api/open-folder
-/api/elevenlabs/{voices,voice-history,voice-notes}
+/api/elevenlabs/voices            ← 유지(서재 탐방 보이스 매핑). voice-history·voice-notes 는 26.07.25 폐기
 ```
 
 **폐기·미구현**:
@@ -539,7 +595,8 @@ public/episodes/alexander-the-great/
 |------|------|------|
 | DB 접근 | Supabase 직접 연결 (anon key, 읽기 전용) | web-bo와 동일 URL/키. 환경변수 공유, 타입은 독립 정의 |
 | 상태 관리 | React state + fetch | 로컬 도구. 복잡한 상태관리 불필요 |
-| 에피소드 저장 | 파일 기반 — 실제: `public/episodes/{person}/meta.{locale}.json` (책 기반) · `public/{factions,discourses}/{ep}/*-data.json` | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
+| 에피소드 저장 | 파일 기반 — 실제: `public/episodes/{person}/meta.{locale}.json` (책 기반) · `public/discourses/{ep}/discourse-data.json` | Remotion이 파일을 직접 import. DB화하면 빌드 파이프라인 복잡해짐 |
+| 세력도 저장 | **Supabase 5테이블(단일 원천) + `faction-data.json` 내보내기**(26.07.25) | 렌더가 빌드타임에 파일을 동기 스캔하므로 DB 직접 fetch는 기각. 파일은 산출물로 강등하고 편집은 web-bo에서 한다 |
 | 편성 데이터 | ⏸ 미착수 (`lineup.json` 구조화 안 됨) | 편성표 자체가 미착수. 실재하는 `youtube-lineup.json`은 업로드 기록이라 별개 |
 | 렌더 큐 | 인메모리 유지 (`globalThis.__tasks`) — 파일 영속화 미착수 | 초기는 간단하게, 규모 커지면 전환 |
 | 시리즈 확장 | 레지스트리 패턴 + `dataModel` 축 | 새 시리즈 = 정의 1개 추가. UI/라우팅/IO 자동. 하드코딩 id 분기 금지 |
@@ -582,7 +639,7 @@ public/episodes/alexander-the-great/
 
 **판정 정정 (26.07.16)**: 종전 "미착수" 표기는 오류였다. 26.06.04 "시리즈 다중화·Faction·Solo 백오피스 개편"으로 레지스트리가 `dataModel` 축까지 갖춰 다중 시리즈를 굴리고 있다.
 
-14. 🔀 시리즈 레지스트리 확장 — **서비스 소개는 등록되지 않았고**, 대신 **세력도(`faction`)·가상 담화(`discourse`)** 2종이 등록돼 운영 중이다. 각 정의가 `dataModel`·`episodeHome`·`langTabEditor`·`render.codec`을 갖고, 시리즈별 편집기(`FactionEditor`·`DiscourseEditor`)·전용 API·전용 IO가 붙어 있다. 기획의 "새 시리즈 = 정의 1개 추가" 원칙은 실제로 성립
+14. 🔀 시리즈 레지스트리 확장 — **서비스 소개는 등록되지 않았고**, 대신 **세력도(`faction`)·가상 담화(`discourse`)** 2종이 등록돼 운영됐다. 각 정의가 `dataModel`·`episodeHome`·`langTabEditor`·`render.codec`을 갖고, 시리즈별 편집기(`FactionEditor`·`DiscourseEditor`)·전용 API·전용 IO가 붙어 있었다. 기획의 "새 시리즈 = 정의 1개 추가" 원칙은 실제로 성립했고, **정의 1개를 지우는 것으로 세력도 폐기도 성립했다**(26.07.25 — 지금 등록 시리즈는 서재 탐방·담화 2종)
 16. ⏸ 사이드바 2단 에피소드 목록 가상 스크롤 — 미착수. 윈도잉 없이 전량 렌더한다
 
 ### Phase 5: 다국어 ✅ 대부분 완료
@@ -607,9 +664,9 @@ public/episodes/alexander-the-great/
 
 - **음성 저장소** — `voice-archive` 보관/복원 (Phase 6-22 대체)
 - **유튜브 파이프라인** — 업로드·메타 갱신·동기화 검사(drift 탐지)·DB 동기화·썸네일 (`/[series]/youtube`, `/[series]/[name]/youtube`)
-- **카드뉴스** — `/[series]/[name]/cards`, 세력도 카드 편집·내보내기
-- **음성 정밀 편집** — 발화 시각 편집기(`VoiceTimingEditor`), 파형 재생기, 호흡 편집, ElevenLabs 보이스 이력·메모, Gemini/ElevenLabs 미리보기
-- **세력도·담화 전용 편집기** — 인물 명단·그룹·이미지 풀·음성 패널 / 담화는 **원고 중심**(26.07.21 개편 — 원고 위에서 경계 마킹으로 발언·덩어리 파생, 상세는 `docs/project/remotion/discourse.md` §9)
+- **카드뉴스** — `/[series]/[name]/cards`(서재 탐방). 세력도 카드 편집·내보내기는 web-bo로 이관(26.07.25)
+- **음성 정밀 편집** — 발화 시각 편집기(`VoiceTimingEditor`), 파형 재생기, 호흡 편집, Gemini/ElevenLabs 미리보기. ElevenLabs 보이스 이력·메모 창구는 세력도 전용이라 26.07.25 폐기
+- **담화 전용 편집기** — 담화는 **원고 중심**(26.07.21 개편 — 원고 위에서 경계 마킹으로 발언·덩어리 파생, 상세는 `docs/project/remotion/discourse.md` §9). 세력도 편집기(인물 명단·그룹·이미지 풀·음성 패널)는 web-bo로 이관 후 삭제됐다
 - **작업 완료 인물 보관소** — `D:/remotion_done` 폴백 스캔 (26.07.16 교정. 옛 기본값 `D:/done_people`는 실재하지 않는 폴더였다)
 - **가이드 페이지** — `/guide` (내용에 R2 설명이 남아 있어 실제와 어긋난다)
 
@@ -633,25 +690,26 @@ sw/remotion-bo/src/
 │   │       ├── layout.tsx            ← EpisodeProvider + TabNav (책 기반)
 │   │       ├── page.tsx              ← episodeHome 리다이렉트
 │   │       ├── scenario|voice|render|youtube|cards/page.tsx
-│   │       └── [lang]/[tab]/…        ← 세력도·담화 편집 (card/[person] 하위 포함)
+│   │       └── [lang]/[tab]/…        ← 담화 편집 (세력도·card/ 하위는 26.07.25 삭제)
 │   └── api/
 │       ├── [series]/                 ← episodes · voice(+storage) · render · youtube
-│       │                                faction-* · discourse-voice · cards · 미디어
+│       │                                discourse-voice · cards · music · 미디어
 │       ├── celebs/                   ← search · [slug] · exists · [slug]/voice
-│       ├── elevenlabs/               ← voices · voice-history · voice-notes
+│       ├── elevenlabs/               ← voices (voice-history · voice-notes 는 폐기)
 │       └── tasks/                    ← GET 작업 큐
 ├── components/
 │   ├── Header.tsx · Sidebar/ · TabNav.tsx · TaskPanel.tsx
 │   ├── VoiceStorage.tsx              ← 음성 저장소 (R2 대체)
 │   ├── ScenarioView/ · scenario/ · scenario-voice/ · EpisodeEditor/
 │   ├── VoiceTimingEditor/ · YouTubePanel/
-│   ├── faction/                      ← 세력도 편집기
-│   └── discourse/                    ← 가상 담화 편집기
+│   └── discourse/                    ← 가상 담화 편집기 (faction/ 은 26.07.25 삭제,
+│                                        shared/holdMotion.ts 만 discourse/ 아래로 옮겼다)
 └── lib/
-    ├── series-registry.ts            ← 시리즈 정의 + dataModel 축
+    ├── series-registry.ts            ← 시리즈 정의 + dataModel 축 (faction 제거 = 폐기 스위치)
     ├── server-utils.ts               ← 파일 I/O · VOICE_ARCHIVE (작업 큐는 shared/bo/task-queue)
     ├── media-root.ts                 ← 시리즈 이름 → 에피소드 폴더 뿌리
-    ├── faction-*.ts · discourse-*.ts ← 시리즈별 타입·IO·음성
+    ├── discourse-*.ts                ← 시리즈별 타입·IO·음성 (faction-*.ts 5종 삭제)
+    ├── faction-edit-route.ts         ← 이름만 유산. 담화가 쓰는 언어·탭 공용 상수다
     ├── episode-context.tsx · episode-data.ts
     └── supabase.ts                   ← Supabase anon 클라이언트
 ```

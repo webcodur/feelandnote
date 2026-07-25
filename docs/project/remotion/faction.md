@@ -67,7 +67,13 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
 
 ### 수식어 나레이션
 
-`epithet`은 나레이터가 낭독한다. 음원 파일은 대사와 같은 자리 규칙에 접미사만 다르게 — `FxxCxxPxx-epithet.wav`(`vnPersonEpithet`). 길이는 `epithetDuration`에 기록되며, 있으면 그 길이에 맞춰 재생·정지 후 대사로 교차한다(없으면 글자 수 읽기 추정·무음). 음량·배속은 `epithetGainDb`/`epithetPlaybackRate`.
+`epithet`은 **팩션 낭독 음성**이 읽는다. 이는 화면에 등장하는 인물이나 별도 해설자 캐릭터가 아니다. `FactionScript.narrator.logline`에 둔 한 벌의 음성 설정을 영상 제목·시작문구·롱폼 챕터명·모든 인물 수식어가 공유한다. `readTitle`/`readLogline`/`readChapterTitle`로 읽을 항목을 고르며, 제목과 시작문구를 모두 끄면 같은 목소리를 챕터명·수식어에만 쓴다. 초기 인격형 나레이터의 `name`·`image`·`intro` 필드는 기존 데이터 렌더 호환용일 뿐 새 편집 화면에서는 만들지 않는다. 마무리 낭독은 새 UI에서 제공하지 않는다.
+
+인물의 `epithetEngine`·`epithetSpeaker`·`epithetStyle`·`epithetElevenlabsVoiceId`·`epithetEleOptions`·`epithetEleEmotions`·`epithetEleTrail`·`epithetGainDb`·`epithetPlaybackRate`가 비어 있으면 공용 낭독 설정을 상속한다. 값이 있는 인물만 예외로 우선한다. BO는 편집할 때 공용값을 펼쳐 보여주고, 공용값과 같은 중복 필드는 저장 전에 다시 걷어낸다.
+
+수식어 음원 파일은 대사와 같은 자리 규칙에 접미사만 다르게 — `FxxCxxPxx-epithet.wav`(`vnPersonEpithet`). 길이는 `epithetDuration`에 기록되며, 있으면 그 길이에 맞춰 재생·정지 후 대사로 교차한다(없으면 글자 수 읽기 추정·무음). 음량·배속은 인물 예외값 또는 공용 낭독값을 따른다. 시작 낭독 파일은 하위 호환 파일명 `narrator-logline.wav`를 유지한다.
+
+챕터명은 `FactionChapter.narrate`가 있으면 그 값을, 없으면 전역 `readChapterTitle`을 따른다. 음원은 제목 해시 기반 `chapter-<key>.wav`라 챕터를 재배치해도 다른 음성이 붙지 않고, 제목이나 언어가 바뀌면 새 파일로 분리된다. 챕터별 `voice.quoteDuration`이 있으면 표지 컷은 `0.45초 지연 + 실제 재생시간 + 0.8초 여유`를 모두 담도록 자동 연장된다. BGM 덕킹과 SRT 챕터 자막도 같은 큐를 따른다.
 
 BO는 인물 행에 **「수식어」 음성 패널**을 둔다(대사 음성 패널과 동일 — 엔진·보이스·스타일·감정·미리듣기·트림·들숨 제거). 패널은 슬롯(`QUOTE_SLOT`/`EPITHET_SLOT`)으로 같은 컴포넌트를 공유하며, 읽고 쓰는 인물 필드(`quote*`/`epithet*`)와 음원 파일만 다르다. 합성 설정은 `epithetEngine`·`epithetSpeaker`·`epithetStyle`·`epithetElevenlabsVoiceId`·`epithetEleOptions`·`epithetEleEmotions`·`epithetEleTrail`.
 
@@ -91,6 +97,7 @@ FactionScript { title; titleEn?; titleByPart?; logline?; loglineEn?; loglineByPa
 
 FactionGroup {
   name; nameEn?;               // 세력 명칭 (앞부분\n뒷부분)
+  tagSlug?;                    // 본서비스 세력도감 연결 키 (celeb_tags.slug). 여러 세력이 한 태그 공유 가능
   color?;
   logoVid?;                    // 영상 로고 (타이틀 카드 풀스크린 배경, logoImg보다 우선)
   logoImg?;                    // 이미지 로고 (logoVid 없을 때 타이틀 카드 + 카드뉴스 표지·소속 배지. 없으면 카드에 "로고 이미지 없음" 결함 표시)
@@ -106,7 +113,7 @@ FactionPerson { name; role?; org?; image?; slug? }
 
 - **무결성 규칙**: 인물은 항상 `clusters[].people`에 담는다. `group.people`·`group.label`·`group.shotEffects`는 폐지됐다(2026-07 통일 이관 — 안 나눈 세력도 그룹 1개로 저장). 음원 파일명도 항상 그룹 자리 포함 `FxxCxxPxx`(solo 포함).
 - **폐기된 필드**: `subtitle`/`subtitleEn`/`subtitleByPart`(→ `title`로 흡수), `tagline`/`taglineEn`(→ `name` 뒷부분으로 흡수), `note`/`noteEn`(→ `label` 뒷부분으로 흡수), `titleArt`/`titleArtCrop`/`logo`(→ `logoVid`/`logoImg`/`logoCrop`으로 분리 이관, 2026-07), `group.image`/`group.imageCrop`(카드 표지 배경 별도 지정 칸 — 로고 이미지와 위계가 같아 폐지, 표지는 logoImg 단일 소스. 2026-07). 통합 전에는 앞부분·뒷부분이 별도 필드였으나 지금은 한 필드 개행으로 합쳤다.
-- BO 측 동일 정의: `sw/remotion-bo/src/lib/faction-types.ts` (구조 동기화 유지).
+- BO 측 동일 정의: `sw/web-bo/src/lib/faction-types.ts` (구조 동기화 유지). remotion-bo 쪽 사본은 Phase 5에서 삭제됐다.
 
 ## 인물 컷 모션 — 진입 효과 · 지속 효과 (두 축, 세로 쇼츠 전용)
 
@@ -151,7 +158,7 @@ FPS 60. 해상도 1080×1920(9:16). 컷마다 시작·길이를 `buildCues()`가
 
 ```
 sw/remotion/public/factions/<에피소드>/
-  faction-data.json   # SSoT 데이터 (한국어 + *En 병기). data.ko.json / data.json 폐기
+  faction-data.json   # 렌더용 빌드 산출물 (DB에서 내보낸다 — 직접 편집 금지). data.ko.json / data.json 폐기
   _status.json        # todo | live | done  (BO VALID_STATUSES)
   00-발주서-인덱스.md  # 이미지 착수 시 (스킬 faction-image)
   00-<group-slug>.md  # 세력별 발주서 (또는 NN-slug/00-발주서.md)
@@ -174,39 +181,77 @@ sw/remotion/public/music/  # 배경음악
   - basename만(레거시 BO 업로드) → `factions/<에피소드>/images/<basename>` (신규 비권장)
 - **세력 폴더 규칙**: `NN-<영문슬러그>/` = `groups[]` 배열 순서와 1:1. 인물·단체 파일명 정본은 folder-rules §3·§8 (`_group.png`, `_logo.png`, `<slug>.png`). 레거시 별칭(`group.png`, `group_shot.png`)은 §12 대응표.
 
+## faction-data.json은 산출물이다 — 직접 편집 금지
+
+텍스트·구성의 단일 원천은 **Supabase 5테이블**이고, `faction-data.json`은 `pnpm faction:export`가 DB에서 만들어 내는 **렌더용 빌드 산출물**이다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 읽을 수 없어서 파일을 남긴다.
+
+- 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다(렌더는 미지 키를 무시한다).
+- 손으로 고치면 다음 내보내기가 **checksum 불일치로 중단하고 diff를 뿜는다.** `--force`로만 강행된다.
+- 내보내기 전 원본은 `.export-backup/<시각>/`에 남는다(git 미추적이라 필수).
+- 수정은 web-bo `/factions` 편집 화면에서 한다. 이미 손으로 고쳐 버렸다면 `pnpm faction:import -- --episode <편>`으로 DB에 재흡수하되, **반대 방향으로 덮어쓸 위험이 있으므로 사람이 판단해 실행한다**(임의 실행 금지).
+- 상시 감시는 `pnpm faction:verify`(`--all` / `--episode <편>` / `--drift`).
+
 ## 코드 위치
 
 | 영역 | 경로 |
 |------|------|
-| 영상 컴포지션 | `sw/remotion/src/compositions/Faction/` (Faction.tsx · types.ts · timing.ts · script.ts) |
-| 데이터 I/O(서버) | `sw/remotion-bo/src/lib/faction-utils.ts` |
-| 편집 UI | `sw/remotion-bo/src/components/faction/` (인물 이력·solo·화보 묶음 단일/분할 전환·팀 화보 편집, 미리보기 렌더 일치) |
-| API 라우트 | `sw/remotion-bo/src/app/api/[series]/faction-*` |
-| 미리보기 타이밍 | `sw/remotion-bo/src/components/faction/timing.ts` |
+| **텍스트·구성 원천(DB)** | Supabase 5테이블 — `faction_episodes` · `faction_groups` · `faction_clusters` · `faction_people` · `faction_episode_parts` |
+| 조립·분해 | `packages/shared/src/lib/faction-schema.ts`(핫 필드 split/join) · `faction-assemble.ts`(DB 행 ↔ FactionScript) |
+| 내보내기 | `packages/shared/src/bo/faction-export.ts` + CLI `sw/remotion/scripts/faction/{import,export,verify}.ts` (`pnpm faction:import|export|verify`) |
+| 편집 화면 | `sw/web-bo/src/app/(admin)/factions/` + `sw/web-bo/src/components/factions/` |
+| 서버 액션 | `sw/web-bo/src/actions/admin/factions/{episodes,script,export,publish}.ts` |
+| 로컬 자산 창구 | `sw/web-bo/src/app/api/faction/**` (사진·음성·작업 — `FACTION_LOCAL=1` 없으면 503) |
+| 본서비스 출간(DB·R2) | `sw/web-bo/src/lib/faction-sync/` + `actions/admin/factions/publish.ts` + `components/factions/FactionPublishPanel.tsx` |
+| 영상 컴포지션 | `sw/remotion/src/compositions/Faction/` (Faction.tsx · types.ts · timing.ts · script.ts) — 무수정, `faction-data.json` 소비자 |
+| 미리보기 타이밍 | `sw/web-bo/src/components/factions/shared/timing.ts` |
+| ~~remotion-bo 팩션 구역~~ | **폐기(26.07.25 Phase 5)** — 편집·렌더·유튜브·카드·출간 전부 삭제. 팩션 주소·창구는 404다. 담화·서재 탐방만 remotion-bo에 남는다 |
 
-## 편집 화면 (BO, `FactionEditor.tsx`)
+통합 설계 SSoT는 `docs/project/remotion/faction-unification.md`다(§4 경계 · §6 내보내기 · §7 음성 길이 · §8 web-bo 이식 · §9 폐기).
 
-편집기는 **두 탭**으로 나뉜다 — 실체는 「정보」, 순서·배치는 「편성」.
+## 편집 화면 (web-bo, `FactionEditor.tsx`)
 
-- **정보 탭** — 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정(영상 명칭·시작문구·intro/outro·전역 배경음악·덕킹·효과음·움직임 효과 기본값). 세력은 배열 순서로 전체 평면 나열(활성 + 「재료」 접이식으로 영상 제외 세력).
-- **편성 탭** — 순서·배치·**세력 배경음악**. 롱폼 편성(`FactionLongformPanel`: 세력 순서 + 시대 문구 카드 + **편 경계(롱폼 편 분할)** + **세력별 롱폼 곡**)과 쇼츠 편성(편별 영상 명칭·시작문구·통합화면 + 세력의 편 배정·편 안 순서 + **세력별 쇼츠 곡**). 세력·인물 실체는 여기서 편집하지 않고, 세력 이름을 누르면 정보 탭의 그 세력 카드로 이동한다.
+주소는 **web-bo(포트 3001)** 의 `/factions`(편 목록)·`/factions/<편>/<언어>/<탭>`(편집기)다. 사이드바 「세력도」로 들어간다. 언어는 `ko|en|both`, 탭은 `info|shorts|longform`이며 `/factions/<편>`으로 들어오면 `ko/info`로 보낸다.
 
-편 배정(`part`)·순서·배경음악 전환은 편성 탭에서(곡 전환은 영상 흐름의 문제라 각 맥락에 둔다), 세력·인물 내용은 정보 탭에서 다룬다. 곡 선택 UI는 공용 `shared/FactionMusicPicker.tsx`. 저장은 전체 스크립트를 `PUT /api/{series}/episodes/{name}`로 한 번에 한다(부분 저장 없음).
+**로컬 실행이 전제다** — 사진·음성·발화 시각·렌더 산출물은 `sw/remotion/` 디스크에 있으므로 팩션 로컬 자산 창구(`api/faction/**`)는 `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 503과 사유를 낸다. 렌더 저장소를 다른 자리에 두려면 `REMOTION_ROOT`로 옮긴다.
+
+편집기 상단 탭은 **정비 / 편성**이고, 편성은 하위에 **쇼츠 · 롱폼**을 둔다.
+
+- **정비 탭**(`info`) — 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정(영상 명칭·시작문구·intro/outro·전역 배경음악·덕킹·효과음·움직임 효과 기본값). 세력은 배열 순서로 전체 평면 나열(활성 + 「재료」 접이식으로 영상 제외 세력).
+- **편성 > 쇼츠**(`shorts`) — 사용자가 지정하는 `shortsPartCount` + 편별 영상 명칭·시작문구·통합화면 + 세력의 편 배정·편 안 순서 + **세력별 쇼츠 곡**. 편수 조절기 또는 세력 배정 드롭다운의 `+ 다음 편 추가`로 N편을 늘린다.
+- **편성 > 롱폼**(`longform`) — `FactionLongformPanel`: 세력 순서 + 시대 문구 카드 + **편 경계(롱폼 편 분할)** + **세력별 롱폼 곡**.
+
+편 배정(`part`)·순서·배경음악 전환은 편성 탭에서(곡 전환은 영상 흐름의 문제라 각 맥락에 둔다), 세력·인물 내용은 정비 탭에서 다룬다. 편성 탭에서 세력 이름을 누르면 정비 탭의 그 세력 카드로 이동한다. 곡 선택 UI는 공용 `shared/FactionMusicPicker.tsx`.
+
+저장은 전체 스크립트를 서버 액션 `saveFactionScript`로 한 번에 한다(부분 저장 없음). DB 쓰기는 원자 RPC 하나로 묶이고, 기준 시각이 어긋나면 거부한다. 저장 직후 `faction-data.json` 내보내기가 자동으로 따라 붙는다. 헤더 「출간」 버튼은 세력도감 반영 패널을, 「렌더」·「유튜브」는 각각 렌더·업로드 창구를 연다.
 
 ## 제작 워크플로우
 
-1. **인물 선정** — 진영별로 추리고, 현직 여부를 웹으로 검증한다.
-2. **본서비스 확보** — 미등록 인물은 티어를 나눠 신규 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
+텍스트·구성은 DB가 원천이고 사진·음성·발화 시각은 로컬 디스크에 남는다. 그래서 손대는 자리가 단계마다 갈린다 — 각 단계에 **어디서 하는 일인가**를 붙였다.
+
+1. **기획·명단** — *어디서: 조사·웹 검색, 셀럽 파이프라인(web-bo `/celebs`).*
+   진영별로 인물을 추리고 현직 여부를 웹으로 교차 확인한다(편성 원칙 1). 미등록 인물은 티어를 나눠 먼저 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
    - 감상 기록이 있을 만한 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격)
    - 관계 때문에 나오는 단순 실존 인물 → `relation`(basic 최소)
    - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 스킬 `fiction-profile-monologue`로 기본 정보와 `profiles.virtual_monologue`를 먼저 완성한다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
-   등록 여부·티어는 BO 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).
-3. **데이터 작성** — `faction-data.json`에 세력 명칭·단체 명칭·인물·이력 줄(`lines`)·solo를 채운다(BO 편집기 또는 직접). fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. 어록은 인물 필드(`quote`/`quoteOrigin`/`minedQuotes`).
-4. **대사 순환 검토** — 스킬 `faction-dialogue-review`. 작성·수정은 완성이 아니라 새 판이다. 현재 문장에서 검토 렌즈를 4~7개 새로 만들고, 최소 3개로 따로 읽은 뒤 수정한다. 수정안은 이전 평가를 보지 않는 새 순환을 한 번 더 거친다. 두 순환을 통과해야 승인 후보이며, 최종 승인은 사용자만 한다. 이력은 `_docs/dialogue-review/`에 둔다.
-5. **이미지 발주** — 스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지.
-6. **이미지 연결** — 세력 폴더 정본 경로로 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
-7. **렌더** — Remotion Studio에서 `Faction-<KEY>` 확인 후 렌더. BO 편집기 「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`.
-8. **유튜브 업로드** — 아래 참조.
+
+   등록 여부·티어는 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).
+2. **편 만들기·구성 입력** — *어디서: web-bo `/factions`(편 생성) → `/factions/<편>/ko/info` 정비 탭. 쓰는 곳은 DB다.*
+   세력 명칭·단체 명칭·인물·이력 줄(`lines`)·solo를 채운다. 인물은 항상 묶음(cluster) 아래에 담는다. 세력마다 세력도감 연결 키(`tagSlug`)를 함께 지정해 두면 9단계 출간이 막히지 않는다.
+3. **사진 발주·배치** — *어디서: 발주서 `sw/remotion/public/factions/<편>/*.md` + 편집기 사진 풀. 파일은 로컬.*
+   스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지. 파일을 세력 폴더 정본 경로에 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
+4. **대사·수식어 작성** — *어디서: 편집기 정비 탭 인물 행. 쓰는 곳은 DB다.*
+   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. 어록 출처는 `quoteOrigin`·`minedQuotes`.
+   검토는 스킬 `faction-dialogue-review`. 작성·수정은 완성이 아니라 새 판이다. 현재 문장에서 검토 렌즈를 4~7개 새로 만들고, 최소 3개로 따로 읽은 뒤 수정한다. 수정안은 이전 평가를 보지 않는 새 순환을 한 번 더 거친다. 두 순환을 통과해야 승인 후보이며, 최종 승인은 사용자만 한다. 이력은 `_docs/dialogue-review/`에 둔다.
+5. **음성 합성** — *어디서: 터미널 `pnpm voice:faction`. 산출물은 `<편>/voice/`(로컬).*
+   유저가 명시적으로 요청할 때만 돌린다(`gotchas.md` §6).
+6. **받아쓰기·발화 시각** — *어디서: 스킬 `/faction-voice-sync`(WhisperX + `pnpm voice:faction-align`). 산출물은 `data.timing.pN.<언어>.json`(로컬), 음성 길이는 DB.*
+   이어서 `pnpm faction:durations-pull`로 wav 실측 길이를 DB에 반영한다. 음성 길이(`quoteDuration`·`epithetDuration`)는 **음성 파이프라인 소유**라 사람이 입력하는 칸이 없다 — DB에 값이 있으면 편집기 저장이 덮지 않는다.
+7. **내보내기** — *어디서: 편집기 저장 시 자동. 수동은 터미널 `pnpm faction:export`.*
+   DB를 읽어 `faction-data.json`(+`_episodes.json`)을 다시 만든다. 렌더·자막·유튜브·음성 파이프라인은 전부 이 파일을 읽으므로, DB만 고치고 내보내기를 건너뛰면 영상에 반영되지 않는다.
+8. **렌더·자막·썸네일** — *어디서: 편집기 「렌더」 버튼, 또는 Remotion Studio에서 `Faction-<KEY>` 확인 후 직접.*
+   「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`. 렌더 직전에 파일을 DB와 맞추는 내보내기가 한 번 더 돈다.
+9. **유튜브 업로드 · 세력도감 출간** — *어디서: 편집기 헤더의 「유튜브」·「출간」 패널.*
+   유튜브는 아래 「유튜브 업로드」 절 참조. 출간은 세력도감(DB `celeb_tags`·`celeb_tag_assignments` + R2 이미지)에 반영한다 — 진단으로 막힌 항목을 확인하고, 미리보기(dry-run)로 변경 예정을 본 뒤 출간한다. 소개문은 채움 전용(도감에서 사람이 다듬은 글을 덮지 않음), 이미지는 해시 기반 멱등 업로드, 출간할 때만 운영 웹 캐시를 무효화한다. **상세는 `docs/project/web-bo.md` 「세력도」 절, 설계 SSoT는 `faction-unification.md` §4·§9.**
 
 ## 자막(SRT)
 
@@ -214,7 +259,7 @@ sw/remotion/public/music/  # 배경음악
 
 - 인물 대사 컷(voice·text)마다 자막 1개. 직함만(credit) 컷은 대사가 없어 제외.
 - 타이밍은 `timing.ts`의 `buildCues` 와 동일 산식 → 영상과 드리프트 없음. 자막 텍스트는 화면 표기와 같게 `quoteChunks`(없으면 `quote`).
-- 출력 `out/Faction/{ep}-{KO-LV|KO-S1|KO-S2}.srt`. 업로드 시 같은 이름의 `.srt` 를 자동으로 함께 올린다.
+- 출력 `out/Faction/{ep}-{KO-LV|KO-SN}.srt`. 업로드 시 같은 이름의 `.srt` 를 자동으로 함께 올린다.
 
 ## 영상 종류 (SSoT: `factionVariants`)
 
@@ -226,13 +271,13 @@ sw/remotion/public/music/  # 배경음악
 | `ko-longform-N` | 세로 롱폼 N편(편 경계 있을 때) | `KO-LVN` | 롱폼 편(lvPart) N |
 | `ko-shorts-N` | 세로 쇼츠 N편 | `KO-SN` | 쇼츠 편(part) N |
 
-- **쇼츠 편(part)** — 진영의 `part`(1·2)로 갈린다. `part` 미지정/0 진영은 모든 편 공통. 편별 영상 명칭은 `titleByPart`, 편별 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`.
+- **쇼츠 편(part)** — BO에서 `shortsPartCount`를 1…N으로 정하고 진영의 `part`를 배정한다. `part` 미지정/0 진영은 모든 편 공통. 편별 영상 명칭은 `titleByPart`, 편별 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`. 렌더·자막·업로드 대상은 실제로 배정된 양수 `part`에서 동적으로 파생한다.
 - **롱폼 편(lvPart)** — 롱폼 배치(`longformLayout`)에 꽂은 **편 경계(`{cut:true}`)**로 갈린다. 경계 n개 → 롱폼 n+1편(KO-LV1·KO-LV2…), 경계가 없으면 기존 통짜 KO-LV 하나. 각 편은 자체 인트로·아웃트로를 갖고, 시대 문구 카드는 자기 구간의 편에 속한다. 배치에 빠진 활성 세력은 마지막 편에 붙는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값). 유튜브 제목은 편별 명칭이 없으면 `(N부)`를 덧붙여 중복을 막는다. 쇼츠 `part`와는 완전히 독립된 축이다.
 - 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
 
 ## 유튜브 업로드
 
-**한국어 세로 영상 3종**(위 표)을 서재 탐방과 **같은 채널(KO)에 비공개**로 올린다.
+**한국어 세로 롱폼 + 편성된 쇼츠 N편**(위 표)을 서재 탐방과 **같은 채널(KO)에 비공개**로 올린다.
 
 ### 구성 요소
 - **메타 생성(SSoT)**: `packages/shared/src/lib/youtube-faction-meta.ts` — 제목/설명/태그. 서재 탐방의 책 기반 빌더와 분리. 쇼츠는 편(part)별로 영상 명칭(`titleByPart`)·등장 진영·대표 인물이 갈린다. 인물 태그는 한국어 영상 = 국문명 + 영문명, 영문 영상 = 영문명만. heroes 우선, 태그 총량 500자 예산. 진영 구분자는 한국어 가운뎃점·영문 em dash.
@@ -240,13 +285,13 @@ sw/remotion/public/music/  # 배경음악
 - **CLI 분기**: `youtube-upload.ts` 가 `--series faction` 이면 위 진입점으로 위임.
 - **업로드 기록**: `sw/remotion/scripts/youtube/faction-lineup.json` (서재 탐방의 `youtube-lineup.json` 과 별개).
 - **인증 토큰**: 서재 탐방 것 공유(`credentials/youtube_token.json`). 추가 인증 불필요.
-- **관리 화면**: BO 편집기 「유튜브」 토글 → `FactionYouTubePanel`. 업로드 상태·개별/전체 업로드·메타 미리보기·메타 반영·기록 삭제. API는 `/api/faction/youtube/{status,upload,sync}` (각 라우트에 세력도 분기). 렌더도 `/api/faction/render` 가 `FACTION_VARIANTS` 기준으로 3종을 건다.
+- **관리 화면**: web-bo 편집기 「유튜브」 토글 → `FactionYouTubePanel`. 업로드 상태·개별/전체 업로드·메타 미리보기·메타 반영·기록 삭제. 창구는 web-bo `api/faction/youtube/{status,upload,sync}`. 렌더도 `api/faction/render`가 `factionVariants` 기준으로 현재 편성된 종류를 동적으로 건다. 두 창구 모두 스크립트를 돌리기 직전에 파일을 DB와 맞추는 내보내기를 한 번 거친다.
 
 ### CLI
 ```bash
 # 미리보기 (실제 업로드·인증 없이 제목·설명·태그 확인)
 pnpm youtube:upload -- --episode 01-llm --series faction --dry
-# 업로드 (3종 모두 / 롱폼만 / 쇼츠 1·2편만)
+# 업로드 (현재 편성 전체 / 롱폼만 / 쇼츠 N편만)
 pnpm youtube:upload -- --episode 01-llm --series faction
 pnpm youtube:upload -- --episode 01-llm --series faction --type longform
 pnpm youtube:upload -- --episode 01-llm --series faction --type shorts

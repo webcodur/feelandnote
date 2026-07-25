@@ -57,7 +57,7 @@ async function main() {
     const key = `spotlight/${r.tag_id}/celeb-${r.celeb_id}.webp`
     await s3.send(new PutObjectCommand({
       Bucket: R2_BUCKET_NAME, Key: key, Body: webp,
-      ContentType: 'image/webp', CacheControl: 'no-cache, must-revalidate',
+      ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
     const { error } = await sb.from('celeb_tag_assignments').update({ spotlight_image_url: url }).eq('tag_id', r.tag_id).eq('celeb_id', r.celeb_id)

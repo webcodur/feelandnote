@@ -7,8 +7,8 @@ import type { DiscourseEpisodeListItem } from '@/lib/discourse-types'
 
 /**
  * 가상 담화 시리즈 홈 — 에피소드 목록 + 새 에피소드 만들기.
- * 만들기 폼과 상태 점은 세력도와 같은 공용 부품을 쓴다(어휘 todo/live/done 공유, discourse.md §8).
- * 상태 바꾸기·복제·삭제는 아직 이 화면에 없다 — 세력도에만 있다.
+ * 만들기 폼과 상태 점은 시리즈 공용 부품을 쓴다(어휘 todo/live/done 공유, discourse.md §8).
+ * 상태 바꾸기·복제·삭제는 아직 이 화면에 없다.
  */
 export function DiscourseSeriesHome({ series }: { series: string }) {
   const [items, setItems] = useState<DiscourseEpisodeListItem[]>([])

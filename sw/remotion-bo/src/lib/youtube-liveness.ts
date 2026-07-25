@@ -1,7 +1,7 @@
 /**
  * 업로드 기록 ↔ 유튜브 실물 대조.
  *
- * 기록(youtube-lineup.json · faction-lineup.json)은 업로드할 때만 쓰이고 지울 때는 아무도 안 건드린다.
+ * 기록(youtube-lineup.json)은 업로드할 때만 쓰이고 지울 때는 아무도 안 건드린다.
  * 그래서 유튜브에서 영상을 지워도 기록은 남아 "출품됨"이라 답한다 — 이 모듈이 그 어긋남을 잡는다.
  *
  * 쿼터: videos.list = 호출당 1 unit(응답 개수·part 수와 무관). id 를 콤마로 묶어 한 번에 50개까지.
@@ -34,7 +34,7 @@ type YTStatusList = { items?: YTStatusItem[] }
 
 const BATCH = 50
 
-/** variant 키의 채널 — en- 접두사만 EN, 나머지는 KO(세력도는 전부 KO) */
+/** variant 키의 채널 — en- 접두사만 EN, 나머지는 KO */
 export function channelOfVariant(variantKey: string): 'ko' | 'en' {
   return variantKey.startsWith('en-') ? 'en' : 'ko'
 }

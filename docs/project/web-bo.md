@@ -8,8 +8,8 @@
 
 | 프로젝트 | 포트 | 역할 | 데이터원 |
 | --- | --- | --- | --- |
-| **web-bo** | 3001 | **서비스 운영.** 셀럽·유저·콘텐츠·커뮤니티 관리 | Supabase |
-| remotion-bo | 3003 | 영상 관리 대시보드. 에피소드 편성·렌더·카드뉴스 | 파일시스템(JSON) |
+| **web-bo** | 3001 | **서비스 운영.** 셀럽·유저·콘텐츠·커뮤니티 관리 + **세력도 영상 제작**(26.07.25 이관) | Supabase |
+| remotion-bo | 3003 | 영상 관리 대시보드. 서재 탐방·가상 담화만 남았다(세력도는 폐기·이관) | 파일시스템(JSON) |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
 remotion-bo는 [remotion-bo 기획서](./remotion-bo-plan.md), audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
@@ -29,11 +29,13 @@ pnpm dev:bo
 
 `/login`은 Supabase 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
+단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도](#세력도) 절).
+
 ## 화면 구성
 
-전체 페이지는 52개다. 이 중 11개는 화면이 없는 리다이렉트 통로이므로(아래 [정리 대상](#정리-대상) 참조) 실제 화면은 41개다.
+전체 페이지는 52개다. 이 중 11개는 화면이 없는 리다이렉트 통로이므로(아래 [정리 대상](#정리-대상) 참조) 실제 화면은 41개다. **이 수치는 26.07.16 실측이라 26.07.25에 붙은 세력도 화면은 빠져 있다.**
 
-왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며 7개 묶음 25개 라우트로 나뉜다. 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
+왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며 8개 묶음 26개 라우트로 나뉜다(26.07.25 세력도 1건 추가). 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
 
 ### 대시보드
 
@@ -91,6 +93,72 @@ pnpm dev:bo
 
 도서 메타 출처 규칙(네이버·OpenLibrary만 허용)은 [external-services.md](./external-services.md)를 따른다. 스키마는 [db-core.md](./db-core.md)에 있다.
 
+### 세력도
+
+> 26.07.25 신설 — 팩션(세력도) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
+
+영상 시리즈 「세력도」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md)다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/factions` | 세력도 | 편 목록(한 편 = 카드 1장). 생성·복제·이름 변경·삭제, 상태(todo/live/done)·노출 여부·순서. 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes` |
+| `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
+| `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
+| `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
+
+편집기 탭은 위 세 개다. **정비**는 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정, **편성 쇼츠**는 세력을 편별로 배치하고 편 화면·음악을 정하는 곳, **편성 롱폼**은 세력 순서·시대 문구·편 경계를 짜는 곳이다. 헤더에 「출간」·「렌더」·「유튜브」 패널 버튼이 있다.
+
+#### 서버 액션
+
+`src/actions/admin/factions/` 4개 파일이다. 편집기는 창구(API)가 아니라 이 액션들을 부른다.
+
+| 파일 | 담는 것 |
+| --- | --- |
+| `episodes.ts` | 편 목록·생성·복제·이름 변경·삭제·상태·노출 여부·순서 |
+| `script.ts` | 대본 불러오기(`loadFactionScript`)·저장(`saveFactionScript`). 저장은 원자 RPC 하나로 묶이고 기준 시각이 어긋나면 거부한다. 저장 절차 본체는 `src/lib/faction-save.ts`에 있다(인증 밖에 둬서 Next 밖에서도 검증할 수 있게 했다) |
+| `export.ts` | `faction-data.json` 내보내기·노출 목록 재생성·파일 상태 조회. 저장 시 자동으로 따라 붙는다 |
+| `publish.ts` | 세력도감 출간 — 진단(`diagnoseFactionPublish`)·출간(`publishFactionEpisode`) |
+
+**음성 길이는 사람이 입력하지 않는다.** `quote_duration`·`epithet_duration`은 음성 파이프라인 소유라 DB에 값이 있으면 저장이 덮지 않고, 반영은 `pnpm faction:durations-pull`(wav 실측)이 한다.
+
+#### 로컬 자산 창구 (`/api/faction/**`)
+
+사진·음성·발화 시각·렌더 산출물은 용량이 커서 DB로 올리지 않고 `sw/remotion/` 디스크에 남긴다. 그래서 이 창구들은 **개발자 로컬에서만 동작한다**.
+
+- `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 **503과 사유**를 낸다(조용히 빈 결과를 주지 않는다). 렌더 저장소 위치는 `REMOTION_ROOT`로 옮긴다.
+- 창구 묶음: `media`(목록·업로드·삭제)·`media/folder`·`media/[episode]/[...path]`·`asset/[...path]`·`voice`(+`[episode]`·`[file]`·`save`·`age`·`reorder`·`timing`·`analyze`)·`voice/{gemini,gemini-v3,elevenlabs}/preview`·`task`(+`[id]`)·`render`·`youtube/{status,sync,upload}`·`cards/[episode]`·`card-export`·`music`(+곡 서빙)·`sfx`·`comment/[episode]`·`faction-avatar`·`status`.
+- 주소 첫 토막을 `faction`으로 잡은 이유는 공용 편집 부품이 `/api/${series}/media` 식으로 시리즈 이름을 넣어 부르기 때문이다. 하이픈(`api/faction-media`)으로 잡으면 그 부품을 포크해야 한다.
+
+**⚠ 진입 검사가 이미지 확장자를 건너뛴다.** `src/proxy.ts`의 matcher가 `.svg|.png|.jpg|.jpeg|.gif|.webp`로 끝나는 주소를 제외하므로 `/api/faction/asset/x/y.png`는 로그인 검사를 지나쳐 라우트에 곧바로 닿는다(실측). 그래서 팩션 창구는 라우트마다 `guardFactionRoute()`(로컬 가드 + 자체 관리자 확인)를 **첫 줄에** 두고, 경로 잠금은 `src/lib/faction-asset.ts`로 분리했다. 화면 인증만 믿으면 뚫린다. 같은 함정으로 이미지 프록시가 무방비였던 이력이 있다.
+
+**카드 출고의 한 번짜리 열쇠.** 카드 출고는 서버가 아니라 헤드리스 브라우저가 사진을 가져가고 그 프로세스에는 로그인 정보가 없다. 그래서 열쇠를 경로 앞 토막에 실어 통과시킨다 — `/api/rm-asset/_k/<열쇠>/…`(`src/lib/faction-render-token.ts`, 메모리 보관 30분). 물음표 뒤 질의가 아니라 경로인 이유는 렌더 쪽이 `기준주소/상대경로`로 이어 붙이기 때문이다. 엉뚱한 열쇠는 401이다.
+
+#### 출간 (세력도감 반영)
+
+편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
+
+제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다.** 진단 항목은 5종이다.
+
+| 진단 | 판정 기준 |
+| --- | --- |
+| 셀럽 미해소 인물 | `faction_people.celeb_id`가 null (연결 키가 없거나, 있어도 그 셀럽이 DB에 없다) |
+| 태그 미지정 세력 | `faction_groups.tag_id`가 null |
+| 개인샷·그룹샷 저장소 동기 상태 | 로컬 파일 해시 ↔ 매니페스트(`_db-sync.json`) 대조 |
+| 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |
+| 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
+
+투영 규칙:
+
+- `faction_groups.tag_id` → `celeb_tags`, `faction_people.celeb_id` → `celeb_tag_assignments`.
+- 소개문은 **채움 전용** — 도감에서 사람이 다듬은 글은 덮지 않는다(`force`로만 덮음).
+- `sort_order`는 태그를 관통하는 전역 순번으로 항상 다시 쓴다.
+- 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인 배치만** 채택하고 나머지는 건너뛴다. 판정은 편 전체를 보므로 세력을 하나씩 출간해도 결과가 같다.
+- 이미지는 개인샷 `spotlight/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
+- 태그가 없으면 출간이 만들 수 있다(항상 숨김 `is_featured=false`). 만든 뒤 `faction_groups.tag_id`를 되쓴다. 연결 키(`tagSlug`)조차 없으면 `tag-slug-missing`으로 막힌다.
+- 사진 범위를 켰는데 `FACTION_LOCAL`이 없으면 조용히 건너뛰지 않고 사유를 들고 실패한다.
+
+캐시 무효화는 **출간할 때만** 돈다 — `faction-sync/publish.ts`가 앱 공용 `revalidateWebCache([TAGS, CELEBS])`를 부른다(`src/lib/revalidate-web.ts` — 내부적으로 web `/api/revalidate`를 `CRON_SECRET`으로 호출하고, 값이 없는 로컬에서는 건너뛴다). 제작 데이터는 서비스에 나오지 않으므로 그 밖의 태그는 건드리지 않는다. faction-sync가 `WEB_BASE_URL`을 직접 읽어 부르던 remotion-bo 시절 배선은 폐기했다.
+
 ### 게임
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
@@ -122,7 +190,7 @@ pnpm dev:bo
 
 ## API 라우트
 
-`src/app/api/` 아래 4개다. 모두 GET만 받는다.
+서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 세력도 로컬 자산 창구(`api/faction/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도](#세력도) 절을 본다.
 
 | 라우트 | 입력 | 하는 일 |
 | --- | --- | --- |

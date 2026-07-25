@@ -21,7 +21,7 @@ export default async function EpisodeLayout({
   const { series, name: rawName } = await params
   const name = decodeURIComponent(rawName)
 
-  // 세력도·담화: 음성·책 기반 래퍼(EpisodeProvider/TabNav)를 거치지 않고 자체 편집 화면을 띄운다.
+  // 담화: 음성·책 기반 래퍼(EpisodeProvider/TabNav)를 거치지 않고 자체 편집 화면을 띄운다.
   if (usesLangTabEditor(series)) {
     return <>{children}</>
   }

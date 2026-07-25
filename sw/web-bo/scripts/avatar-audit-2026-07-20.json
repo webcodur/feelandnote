@@ -1,0 +1,2822 @@
+{
+  "checkedAt": "2026-07-20T07:04:46.562Z",
+  "total": 1563,
+  "summary": {
+    "multi_face": 51,
+    "grayscale": 88,
+    "low_score": 29,
+    "no_face": 38,
+    "tiny_face": 8
+  },
+  "flagged": [
+    {
+      "slug": "im-kwon-taek",
+      "nickname": "임권택",
+      "id": "0176fc64-f7fa-4e32-8677-6f75891d0ecc",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.75,
+      "faceAreaPct": 11.9,
+      "bytes": 44550,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1936-05-02",
+      "died": ""
+    },
+    {
+      "slug": "li-hongzhang",
+      "nickname": "이홍장",
+      "id": "02942ce9-99d6-4abb-9171-4fcedc0ddba0",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.945,
+      "faceAreaPct": 17.5,
+      "bytes": 53468,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1823-02-15",
+      "died": "1901-11-07"
+    },
+    {
+      "slug": "hector",
+      "nickname": "헥토르",
+      "id": "02cf887b-a2a8-421e-8d4b-b3df5690ecd8",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.978,
+      "faceAreaPct": 24.5,
+      "bytes": 62142,
+      "dims": "800x800",
+      "tier": "fiction",
+      "born": null,
+      "died": null
+    },
+    {
+      "slug": "johannes-vermeer",
+      "nickname": "요하네스 베르메르",
+      "id": "0496b0eb-dfcc-4895-a87c-5efd2fd44fac",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.477,
+      "faceAreaPct": 31,
+      "bytes": 50512,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1632-10-31",
+      "died": "1675-12-15"
+    },
+    {
+      "slug": "li-qingzhao",
+      "nickname": "이청조",
+      "id": "05f1b255-75b9-48f0-b2a5-8be36354d123",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 0.988,
+      "faceAreaPct": 34.2,
+      "bytes": 16804,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1084",
+      "died": "1155"
+    },
+    {
+      "slug": "kim-whan-ki",
+      "nickname": "김환기",
+      "id": "069a8845-4500-4dd0-8a8d-febac60ce7c6",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 38566,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1913-02-27",
+      "died": "1974-07-25"
+    },
+    {
+      "slug": "wang-wei",
+      "nickname": "왕유",
+      "id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 90464,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "0701",
+      "died": "0761"
+    },
+    {
+      "slug": "lee-chang-ho",
+      "nickname": "이창호",
+      "id": "11aa80da-b1cd-435b-b696-4dd8116d5e44",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 17738,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1975-07-29",
+      "died": ""
+    },
+    {
+      "slug": "lu-su",
+      "nickname": "노숙",
+      "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 52330,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "172",
+      "died": "217"
+    },
+    {
+      "slug": "kim-yu-jeong",
+      "nickname": "김유정",
+      "id": "14dff83e-d8d9-491c-927f-e22926147af8",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.571,
+      "faceAreaPct": 34.4,
+      "bytes": 50586,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1908-02-12",
+      "died": "1937-03-29"
+    },
+    {
+      "slug": "bao-zheng",
+      "nickname": "포청천",
+      "id": "1522c277-b2c3-4b67-b279-f103e943ef35",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 47736,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "0999-04-11",
+      "died": "1062-07-03"
+    },
+    {
+      "slug": "mike-krieger",
+      "nickname": "마이크 크리거",
+      "id": "18110eb5-ad55-4593-bc70-ce1c6f726330",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 16.8,
+      "bytes": 47594,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1986-04-04",
+      "died": ""
+    },
+    {
+      "slug": "marie-antoinette",
+      "nickname": "마리 앙투아네트",
+      "id": "1b2fd1a5-eaca-439a-9465-eaf6ae2d2906",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 0.995,
+      "faceAreaPct": 30.7,
+      "bytes": 15262,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1755-11-02",
+      "died": "1793-10-16"
+    },
+    {
+      "slug": "cai-yong",
+      "nickname": "채옹",
+      "id": "1e8e49a2-5fb2-4a74-87f1-fdf2539844ce",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 51252,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "132",
+      "died": "192"
+    },
+    {
+      "slug": "zhang-zai",
+      "nickname": "장재",
+      "id": "1f426abc-64ef-44cf-ae7c-33d01dbdc104",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 88752,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1020-02-21",
+      "died": "1077-12-06"
+    },
+    {
+      "slug": "ham-seok-heon",
+      "nickname": "함석헌",
+      "id": "1fb8bac0-814a-413a-a376-d350bf83f9c7",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 58770,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1901-03-13",
+      "died": "1989-02-04"
+    },
+    {
+      "slug": "date-masamune",
+      "nickname": "다테 마사무네",
+      "id": "22012fa0-631c-4394-acaa-dcefe6ed03ea",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.991,
+      "faceAreaPct": 23.8,
+      "bytes": 18444,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1567-09-05",
+      "died": "1636-06-27"
+    },
+    {
+      "slug": "frida-kahlo",
+      "nickname": "프리다 칼로",
+      "id": "23431bff-eafd-4bab-8838-d56babf737b2",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.997,
+      "faceAreaPct": 31.3,
+      "bytes": 17778,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1907-07-06",
+      "died": "1954-07-13"
+    },
+    {
+      "slug": "lee-cheong-jun",
+      "nickname": "이청준",
+      "id": "2664e15f-c7be-467c-b93f-23b5c9b592c6",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.831,
+      "faceAreaPct": 50.3,
+      "bytes": 60986,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1939-08-09",
+      "died": "2008-07-31"
+    },
+    {
+      "slug": "hera",
+      "nickname": "헤라",
+      "id": "274e2a28-1167-4dc0-be7c-f781a0ac2d6d",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 1,
+      "faceAreaPct": 18.3,
+      "bytes": 111970,
+      "dims": "800x800",
+      "tier": "fiction",
+      "born": null,
+      "died": null
+    },
+    {
+      "slug": "park-tae-joon",
+      "nickname": "박태준",
+      "id": "29e5ac83-5c9a-4bad-9131-865c73709559",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 16012,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1927-09-29",
+      "died": "2011-12-13"
+    },
+    {
+      "slug": "vlad-iii",
+      "nickname": "블라드 3세",
+      "id": "2b8cf3b8-cc6a-4c4f-8705-76148a4537ed",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.958,
+      "faceAreaPct": 36.9,
+      "bytes": 20748,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1428",
+      "died": "1476"
+    },
+    {
+      "slug": "kim-ki-young",
+      "nickname": "김기영",
+      "id": "2c454a6d-7cfa-476b-a077-7b2c544b4ff5",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.793,
+      "faceAreaPct": 33.6,
+      "bytes": 38926,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1919-10-10",
+      "died": "1998-02-05"
+    },
+    {
+      "slug": "ba-jin",
+      "nickname": "바진",
+      "id": "2cc58db2-4bbb-41bc-a369-542a7471bfb1",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.973,
+      "faceAreaPct": 64.6,
+      "bytes": 72036,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1904-11-25",
+      "died": "2005-10-17"
+    },
+    {
+      "slug": "akbar-the-great",
+      "nickname": "악바르 대제",
+      "id": "2f2c9a3a-2c3b-4021-a191-251a66d3957c",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.994,
+      "faceAreaPct": 30.2,
+      "bytes": 23990,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1542-10-15",
+      "died": "1605-10-27"
+    },
+    {
+      "slug": "nick-frost",
+      "nickname": "닉 프로스트",
+      "id": "2f8ff5ea-9011-414d-a07c-b0315db8b1fa",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.994,
+      "faceAreaPct": 32.3,
+      "bytes": 13394,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1972-03-28",
+      "died": null
+    },
+    {
+      "slug": "fan-zhongyan",
+      "nickname": "범중엄",
+      "id": "2f9898ed-4cb3-40ce-a498-90eb101a22a3",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 4,
+      "topScore": 0.719,
+      "faceAreaPct": 18.7,
+      "bytes": 63532,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "989-10-01",
+      "died": "1052-06-19"
+    },
+    {
+      "slug": "lu-hsun",
+      "nickname": "노신",
+      "id": "3094c729-b4d3-4686-925f-331ffa77d44d",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.995,
+      "faceAreaPct": 17.2,
+      "bytes": 85876,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1881-09-25",
+      "died": "1936-10-19"
+    },
+    {
+      "slug": "kong-rong",
+      "nickname": "공융",
+      "id": "335ed25d-f6f4-40b6-84e7-0d2212fde5c8",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.676,
+      "faceAreaPct": 14.9,
+      "bytes": 29480,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "0153",
+      "died": "0208"
+    },
+    {
+      "slug": "herta-muller",
+      "nickname": "헤르타 뮐러",
+      "id": "34d34606-4e61-479a-bb94-cf99d82bc7d9",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.876,
+      "faceAreaPct": 16.8,
+      "bytes": 26988,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1953-08-17",
+      "died": ""
+    },
+    {
+      "slug": "cha-bum-kun",
+      "nickname": "차범근",
+      "id": "343535a8-17e0-40f7-b2b5-74d73338ecde",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.997,
+      "faceAreaPct": 17,
+      "bytes": 126566,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1953-05-22",
+      "died": ""
+    },
+    {
+      "slug": "tadao-ando",
+      "nickname": "안도 다다오",
+      "id": "357369ec-9f0f-4142-888c-0dae058e788c",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.983,
+      "faceAreaPct": 24.4,
+      "bytes": 33360,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1941-09-13",
+      "died": ""
+    },
+    {
+      "slug": "gabriel-garcia-marquez",
+      "nickname": "가브리엘 가르시아 마르케스",
+      "id": "371aa15d-01ff-4ea0-b5d4-df2e90bce02a",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 1,
+      "faceAreaPct": 14.3,
+      "bytes": 56242,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1927-03-06",
+      "died": "2014-04-17"
+    },
+    {
+      "slug": "park-no-hae",
+      "nickname": "박노해",
+      "id": "38ae4e16-7adc-42f0-b55b-2d57c2293db4",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.977,
+      "faceAreaPct": 16.2,
+      "bytes": 20802,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1957-11-20",
+      "died": ""
+    },
+    {
+      "slug": "clarice-lispector",
+      "nickname": "클라리시 리스펙토르",
+      "id": "3ad048f6-a9b5-4e86-9609-6ccb582acf85",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.989,
+      "faceAreaPct": 34,
+      "bytes": 45050,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1920-12-10",
+      "died": "1977-12-09"
+    },
+    {
+      "slug": "hwang-jini",
+      "nickname": "황진이",
+      "id": "3b7ce906-bf9a-444f-b29b-411a91007630",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 0.994,
+      "faceAreaPct": 26.6,
+      "bytes": 18170,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "1506",
+      "died": "1567"
+    },
+    {
+      "slug": "joseph-stalin",
+      "nickname": "이오시프 스탈린",
+      "id": "3dba16e3-4b11-499e-8d77-9cfc4cc3bf3e",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.996,
+      "faceAreaPct": 31.5,
+      "bytes": 15698,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1878-12-18",
+      "died": "1953-03-05"
+    },
+    {
+      "slug": "fernando-pessoa",
+      "nickname": "페르난두 페소아",
+      "id": "3f2c9391-864d-4611-a84e-11c91785cbd0",
+      "flags": [
+        "grayscale",
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.312,
+      "faceAreaPct": 3.3,
+      "bytes": 91462,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1888-06-13",
+      "died": "1935-11-30"
+    },
+    {
+      "slug": "kim-woo-jin",
+      "nickname": "김우진",
+      "id": "3f8e9b2c-b257-461a-a041-1c24a5c8050a",
+      "flags": [
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.491,
+      "faceAreaPct": 1.6,
+      "bytes": 104152,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1992-06-20",
+      "died": ""
+    },
+    {
+      "slug": "miles-davis",
+      "nickname": "마일스 데이비스",
+      "id": "400000f8-43be-4bda-9ed9-cfaea653bb91",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.286,
+      "faceAreaPct": 16.3,
+      "bytes": 26988,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1926-05-26",
+      "died": "1991-09-28"
+    },
+    {
+      "slug": "xin-qiji",
+      "nickname": "신기질",
+      "id": "41d8f1d7-09db-4f11-b7a5-4c63ef2579d5",
+      "flags": [
+        "tiny_face"
+      ],
+      "faces": 1,
+      "topScore": 0.85,
+      "faceAreaPct": 0.8,
+      "bytes": 170332,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1140-05-28",
+      "died": "1207-10-03"
+    },
+    {
+      "slug": "dalai-lama",
+      "nickname": "달라이 라마 14세",
+      "id": "42396e8b-c074-4d48-a264-259f1a9f9635",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.432,
+      "faceAreaPct": 4.7,
+      "bytes": 116628,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1935-07-06",
+      "died": ""
+    },
+    {
+      "slug": "shang-yang",
+      "nickname": "상앙",
+      "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 161212,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "-390",
+      "died": "-338"
+    },
+    {
+      "slug": "guo-ziyi",
+      "nickname": "곽자의",
+      "id": "42bbf1cf-3736-459e-b8bd-fd2e54aec7d7",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 148666,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "697-12-09",
+      "died": "781-07-09"
+    },
+    {
+      "slug": "ronaldinho",
+      "nickname": "호나우지뉴",
+      "id": "44ee46f5-42aa-4729-a5b7-34d33b8f48b1",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.586,
+      "faceAreaPct": 13.9,
+      "bytes": 17918,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1980-03-21",
+      "died": ""
+    },
+    {
+      "slug": "daosheng",
+      "nickname": "도생",
+      "id": "462bb30d-6818-411b-9897-d1f42c285bff",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 94062,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "355",
+      "died": "434"
+    },
+    {
+      "slug": "zuo-zongtang",
+      "nickname": "좌종당",
+      "id": "49935b88-c046-4923-963a-f53ebca019f3",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 16.6,
+      "bytes": 56460,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1812-11-10",
+      "died": "1885-09-05"
+    },
+    {
+      "slug": "peter-the-great",
+      "nickname": "표트르 대제",
+      "id": "4a7e7298-7900-4916-b045-836efc894afa",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.996,
+      "faceAreaPct": 30.3,
+      "bytes": 24118,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1672-06-09",
+      "died": "1725-02-08"
+    },
+    {
+      "slug": "marc-chagall",
+      "nickname": "마르크 샤갈",
+      "id": "4ad40953-8663-48eb-ae0f-e9072dd359af",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.985,
+      "faceAreaPct": 29,
+      "bytes": 38654,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1887-07-07",
+      "died": "1985-03-28"
+    },
+    {
+      "slug": "kim-young-ha",
+      "nickname": "김영하",
+      "id": "4cea5051-d9de-476e-9a61-be4897223cc8",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.997,
+      "faceAreaPct": 12.5,
+      "bytes": 30432,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1968-11-11",
+      "died": ""
+    },
+    {
+      "slug": "isang-yun",
+      "nickname": "윤이상",
+      "id": "4cb1300c-3b60-4855-93e0-a3eea12da1c9",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 226050,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1917-09-17",
+      "died": "1995-11-03"
+    },
+    {
+      "slug": "yelu-chucai",
+      "nickname": "야율초재",
+      "id": "52fc469f-010d-4d9d-a209-5eea190ca38a",
+      "flags": [
+        "multi_face",
+        "tiny_face"
+      ],
+      "faces": 3,
+      "topScore": 0.74,
+      "faceAreaPct": 0.7,
+      "bytes": 194122,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1190-07-24",
+      "died": "1244-06-20"
+    },
+    {
+      "slug": "charlemagne",
+      "nickname": "샤를마뉴",
+      "id": "5354a51b-2a6c-4a55-98aa-acd7140861a0",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.968,
+      "faceAreaPct": 24.8,
+      "bytes": 24988,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "748",
+      "died": "814-01-28"
+    },
+    {
+      "slug": "ingmar-bergman",
+      "nickname": "잉마르 베리만",
+      "id": "53d5f63d-3aae-4c58-a1bc-118fc8f2149d",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.599,
+      "faceAreaPct": 48.2,
+      "bytes": 74938,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1918-07-14",
+      "died": "2007-07-30"
+    },
+    {
+      "slug": "richard-sutton",
+      "nickname": "리처드 서튼",
+      "id": "553aa9f0-655e-426e-99d0-4340ec748b4a",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.559,
+      "faceAreaPct": 39.4,
+      "bytes": 19298,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1957",
+      "died": ""
+    },
+    {
+      "slug": "rainer-maria-rilke",
+      "nickname": "라이너 마리아 릴케",
+      "id": "554e96d6-32ba-4183-b81b-031dcfb0cd53",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.67,
+      "faceAreaPct": 61.7,
+      "bytes": 38358,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1875-12-04",
+      "died": "1926-12-29"
+    },
+    {
+      "slug": "paul-gauguin",
+      "nickname": "폴 고갱",
+      "id": "55f085f7-8c23-4962-8115-751a9ce60652",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.979,
+      "faceAreaPct": 15.8,
+      "bytes": 57118,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1848-06-07",
+      "died": "1903-05-08"
+    },
+    {
+      "slug": "le-corbusier",
+      "nickname": "르 코르뷔지에",
+      "id": "5aac67c1-91cd-472a-9f61-760fe5f6e1ac",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.99,
+      "faceAreaPct": 16.8,
+      "bytes": 69518,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1887-10-06",
+      "died": "1965-08-27"
+    },
+    {
+      "slug": "cornelius-vanderbilt",
+      "nickname": "코넬리어스 밴더빌트",
+      "id": "5bcfbbf7-8c6e-4491-9b41-ffc85239b205",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.995,
+      "faceAreaPct": 16.2,
+      "bytes": 78976,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1794-05-27",
+      "died": "1877-01-04"
+    },
+    {
+      "slug": "kim-gu",
+      "nickname": "김구",
+      "id": "5be679e6-71fa-4d77-af5b-286a0b129075",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.987,
+      "faceAreaPct": 29.5,
+      "bytes": 68346,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1876-08-29",
+      "died": "1949-06-26"
+    },
+    {
+      "slug": "hu-shih",
+      "nickname": "호적",
+      "id": "5c5aa4d1-2c39-46bd-8dce-114c2956063e",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 32514,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1891-12-17",
+      "died": "1962-02-24"
+    },
+    {
+      "slug": "koxinga",
+      "nickname": "정성공",
+      "id": "5cf62d05-6292-4e3a-a0d4-8b1355ca0c84",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 147214,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1624-08-27",
+      "died": "1662-06-23"
+    },
+    {
+      "slug": "harun-al-rashid",
+      "nickname": "하룬 알 라시드",
+      "id": "5e11ba7e-2bb9-419a-81a6-c11f6dc515c2",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.885,
+      "faceAreaPct": 49.5,
+      "bytes": 18026,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "763",
+      "died": "809-03-24"
+    },
+    {
+      "slug": "ayrton-senna",
+      "nickname": "아일톤 세나",
+      "id": "5e7095d0-c6a0-4208-81bf-ee6586fbf4c1",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 15.5,
+      "bytes": 81474,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1960-03-21",
+      "died": "1994-05-01"
+    },
+    {
+      "slug": "lu-you",
+      "nickname": "육유",
+      "id": "61a83c99-a814-49a8-82e8-d4911eac7a73",
+      "flags": [
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.363,
+      "faceAreaPct": 0.1,
+      "bytes": 120652,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1125-11-13",
+      "died": "1210-01-26"
+    },
+    {
+      "slug": "ban-gu",
+      "nickname": "반고",
+      "id": "62404955-78d4-4312-b5fa-8aee4db1518e",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 117036,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "32",
+      "died": "92"
+    },
+    {
+      "slug": "duarte-i",
+      "nickname": "두아르테 1세",
+      "id": "638efa9d-b528-41e1-8ffe-87034d599cea",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.995,
+      "faceAreaPct": 26.4,
+      "bytes": 23408,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1391-10-31",
+      "died": "1438-09-09"
+    },
+    {
+      "slug": "max-weber",
+      "nickname": "막스 베버",
+      "id": "63ee0b35-8044-42b4-b000-42bcf45f7d02",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.842,
+      "faceAreaPct": 24.3,
+      "bytes": 81584,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1864-04-21",
+      "died": "1920-06-14"
+    },
+    {
+      "slug": "dai-zhen",
+      "nickname": "대진",
+      "id": "65167113-92bf-4121-aacd-3c3d2e62db53",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.997,
+      "faceAreaPct": 10.9,
+      "bytes": 16606,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1724-01-19",
+      "died": "1777-07-01"
+    },
+    {
+      "slug": "guy-de-maupassant",
+      "nickname": "기 드 모파상",
+      "id": "66224aa2-8e18-4296-b35b-610b7a6515cd",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.995,
+      "faceAreaPct": 30.3,
+      "bytes": 15190,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1850-08-05",
+      "died": "1893-07-06"
+    },
+    {
+      "slug": "zhang-yi",
+      "nickname": "장의",
+      "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 62334,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "-373",
+      "died": "-310"
+    },
+    {
+      "slug": "chung-ji-yong",
+      "nickname": "정지용",
+      "id": "67d2d249-8662-4e3f-8d77-3271a222f962",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.302,
+      "faceAreaPct": 66.2,
+      "bytes": 27638,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1902-06-20",
+      "died": "1950-09-25"
+    },
+    {
+      "slug": "emperor-xiaowen-of-northern-wei",
+      "nickname": "북위 효문제",
+      "id": "68a62ca4-dfcd-4586-8a8b-75776c2600e2",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 36164,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "0467-10-13",
+      "died": "0499-04-26"
+    },
+    {
+      "slug": "henry-miller",
+      "nickname": "헨리 밀러",
+      "id": "682f20ae-f305-4d2e-8d93-054595924c37",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 48128,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1891-12-26",
+      "died": "1980-06-07"
+    },
+    {
+      "slug": "meng-haoran",
+      "nickname": "맹호연",
+      "id": "69488798-1218-4c14-897a-ad263c2320ec",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.33,
+      "faceAreaPct": 17.4,
+      "bytes": 33046,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "689",
+      "died": "740"
+    },
+    {
+      "slug": "federico-garcia-lorca",
+      "nickname": "페데리코 가르시아 로르카",
+      "id": "6a3123a0-c37a-435d-8217-157934455592",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.968,
+      "faceAreaPct": 22.6,
+      "bytes": 26840,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1898-06-05",
+      "died": "1936-08-19"
+    },
+    {
+      "slug": "billie-holiday",
+      "nickname": "빌리 홀리데이",
+      "id": "6a62be37-0d92-4cbf-93ad-72ae21f44a65",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 1,
+      "faceAreaPct": 14.4,
+      "bytes": 42602,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1915-04-07",
+      "died": "1959-07-17"
+    },
+    {
+      "slug": "lee-hoe-yeong",
+      "nickname": "이회영",
+      "id": "6b10c7ae-e4ec-458d-8044-b8056270ed95",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.936,
+      "faceAreaPct": 26.5,
+      "bytes": 20560,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1867-04-21",
+      "died": "1932-11-17"
+    },
+    {
+      "slug": "daft-punk",
+      "nickname": "다프트 펑크",
+      "id": "6b69fcc5-80bb-42f2-a388-c63043d8d422",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 18360,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1993",
+      "died": "2021"
+    },
+    {
+      "slug": "glenn-gould",
+      "nickname": "글렌 굴드",
+      "id": "6b281ba8-95fa-4237-a2c8-9867ae251e9c",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.954,
+      "faceAreaPct": 11.7,
+      "bytes": 13482,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1932-09-25",
+      "died": "1982-10-04"
+    },
+    {
+      "slug": "yan-fu",
+      "nickname": "옌푸",
+      "id": "7005b900-038b-4ab0-8974-2c3400f51b46",
+      "flags": [
+        "grayscale",
+        "multi_face",
+        "low_score"
+      ],
+      "faces": 2,
+      "topScore": 0.616,
+      "faceAreaPct": 49.9,
+      "bytes": 47770,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1854-01-08",
+      "died": "1921-10-27"
+    },
+    {
+      "slug": "hatshepsut",
+      "nickname": "하트셉수트",
+      "id": "70478a88-146b-4380-95b0-ae269ce3eb88",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.996,
+      "faceAreaPct": 27.6,
+      "bytes": 23920,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "-1507",
+      "died": "-1458"
+    },
+    {
+      "slug": "zheng-xuan",
+      "nickname": "정현",
+      "id": "7127a073-c5b8-4376-8650-850aaa954590",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 115800,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "0127",
+      "died": "0200"
+    },
+    {
+      "slug": "fujiko-f.-fujio",
+      "nickname": "후지코 F. 후지오",
+      "id": "71a3e6e1-211a-4904-ab5f-8787eea31be5",
+      "flags": [
+        "grayscale",
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.998,
+      "faceAreaPct": 23.6,
+      "bytes": 44898,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1933-12-01",
+      "died": "1996-09-23"
+    },
+    {
+      "slug": "zhou-yu",
+      "nickname": "주유",
+      "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 92782,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "175",
+      "died": "210"
+    },
+    {
+      "slug": "yuan-shikai",
+      "nickname": "위안스카이",
+      "id": "74e8abc4-8d3b-4076-a8ee-30b87cdbfb98",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.996,
+      "faceAreaPct": 16.5,
+      "bytes": 76430,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1859-09-16",
+      "died": "1916-06-06"
+    },
+    {
+      "slug": "chen-duxiu",
+      "nickname": "진독수",
+      "id": "75206094-63db-4c23-9bd3-4bd89fc25b62",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 14.1,
+      "bytes": 161262,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1879-10-09",
+      "died": "1942-05-27"
+    },
+    {
+      "slug": "camilo-jose-cela",
+      "nickname": "카밀로 호세 셀라",
+      "id": "78db9737-1f8c-4d45-9c6d-59187d6341ee",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 68940,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1916-05-11",
+      "died": "2002-01-17"
+    },
+    {
+      "slug": "coen-brothers",
+      "nickname": "코엔 형제",
+      "id": "7990c321-d82b-4db2-ba8e-00649feb5b56",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.998,
+      "faceAreaPct": 15.4,
+      "bytes": 21282,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1954-11-29",
+      "died": null
+    },
+    {
+      "slug": "curtis-priem",
+      "nickname": "커티스 프림",
+      "id": "7a15201d-1bf9-4538-914c-bc25a2b05cf7",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.512,
+      "faceAreaPct": 34,
+      "bytes": 17156,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1959",
+      "died": ""
+    },
+    {
+      "slug": "the-gracchi-brothers",
+      "nickname": "그라쿠스 형제",
+      "id": "7ac1d450-4422-4c47-a25c-ab88d1affe47",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 1,
+      "faceAreaPct": 13.6,
+      "bytes": 14738,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "-163",
+      "died": "-121"
+    },
+    {
+      "slug": "an-lushan",
+      "nickname": "안녹산",
+      "id": "7c35e93e-b4fe-49c1-9cb6-f105f6a58f78",
+      "flags": [
+        "grayscale",
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.494,
+      "faceAreaPct": 1.2,
+      "bytes": 75952,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "703-02-19",
+      "died": "757-01-29"
+    },
+    {
+      "slug": "kim-chi-ha",
+      "nickname": "김지하",
+      "id": "8296dec8-4e05-4984-8b53-3b34d6190cf3",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.953,
+      "faceAreaPct": 66.4,
+      "bytes": 33076,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1941-02-04",
+      "died": "2022-05-08"
+    },
+    {
+      "slug": "andre-gide",
+      "nickname": "앙드레 지드",
+      "id": "849e486f-07c9-4a31-8d47-74ea0cfaea45",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 43206,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1869-11-22",
+      "died": "1951-02-19"
+    },
+    {
+      "slug": "andrei-tarkovsky",
+      "nickname": "안드레이 타르콥스키",
+      "id": "83d9ebe8-f5da-46f9-96e3-38acdea86933",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.891,
+      "faceAreaPct": 30.6,
+      "bytes": 41302,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1932-04-04",
+      "died": "1986-12-29"
+    },
+    {
+      "slug": "magic-johnson",
+      "nickname": "매직 존슨",
+      "id": "860f68f6-c379-44b6-b01d-ae8a65220dcd",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 32130,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1959-08-14",
+      "died": ""
+    },
+    {
+      "slug": "jose-mourinho",
+      "nickname": "조세 무리뉴",
+      "id": "86e86ceb-c73d-4849-8e99-b3540d784b6f",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 5,
+      "topScore": 1,
+      "faceAreaPct": 16.7,
+      "bytes": 86052,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1963-01-26",
+      "died": ""
+    },
+    {
+      "slug": "akira-toriyama",
+      "nickname": "토리야마 아키라",
+      "id": "88047ccc-7bec-4d96-9385-00122350066e",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.978,
+      "faceAreaPct": 38.8,
+      "bytes": 45590,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1955-04-05",
+      "died": "2024-03-01"
+    },
+    {
+      "slug": "emperor-showa",
+      "nickname": "쇼와 천황",
+      "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.993,
+      "faceAreaPct": 31,
+      "bytes": 15328,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "1901-04-29",
+      "died": "1989-01-07"
+    },
+    {
+      "slug": "zhou-enlai",
+      "nickname": "저우언라이",
+      "id": "8dd36edc-1a7f-4896-a176-0ce79e2e17f5",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.97,
+      "faceAreaPct": 26.2,
+      "bytes": 28766,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1898-03-05",
+      "died": "1976-01-08"
+    },
+    {
+      "slug": "jon-fosse",
+      "nickname": "욘 포세",
+      "id": "8e23ccc7-1e4e-48ff-8299-c996cdda386e",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.97,
+      "faceAreaPct": 19.6,
+      "bytes": 28940,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1959-09-29",
+      "died": ""
+    },
+    {
+      "slug": "dong-zhongshu",
+      "nickname": "동중서",
+      "id": "8ed75fdb-0d53-4e25-966e-ef0a37660bfa",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.777,
+      "faceAreaPct": 9.6,
+      "bytes": 65774,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "-179",
+      "died": "-104"
+    },
+    {
+      "slug": "emperor-yang-of-sui",
+      "nickname": "수 양제",
+      "id": "8ede9f37-af5d-4ff6-8b51-477cea8c3ec7",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.938,
+      "faceAreaPct": 13.4,
+      "bytes": 91808,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "569",
+      "died": "618-04-11"
+    },
+    {
+      "slug": "ruan-ji",
+      "nickname": "완적",
+      "id": "8f3485fc-adb1-4eb7-805a-a0726f0ae61b",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.228,
+      "faceAreaPct": 69.3,
+      "bytes": 49924,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "210",
+      "died": "263"
+    },
+    {
+      "slug": "ada-lovelace",
+      "nickname": "에이다 러브레이스",
+      "id": "8f7e9a9d-81ec-4839-8fde-45a752765541",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.997,
+      "faceAreaPct": 31.3,
+      "bytes": 15880,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1815-12-10",
+      "died": "1852-11-27"
+    },
+    {
+      "slug": "sigmund-freud",
+      "nickname": "지그문트 프로이트",
+      "id": "8fa0b840-170d-4d6c-8917-2e91625ed7c1",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.986,
+      "faceAreaPct": 14.8,
+      "bytes": 42082,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1856-05-06",
+      "died": "1939-09-23"
+    },
+    {
+      "slug": "li-zicheng",
+      "nickname": "이자성",
+      "id": "93bb72d3-5396-486c-a1a9-ad9d42240de9",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.662,
+      "faceAreaPct": 13.7,
+      "bytes": 24694,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1606-09-22",
+      "died": "1645-05-17"
+    },
+    {
+      "slug": "olga-tokarczuk",
+      "nickname": "올가 토카르추크",
+      "id": "94e44f26-af2a-4069-a86b-e478ef3138d5",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.996,
+      "faceAreaPct": 36.9,
+      "bytes": 78608,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1962-01-29",
+      "died": ""
+    },
+    {
+      "slug": "sam-walton",
+      "nickname": "샘 월튼",
+      "id": "98f4df5f-6bc6-4d07-8dfb-d6457b3b83e7",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 15,
+      "bytes": 32360,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1918-03-29",
+      "died": "1992-04-05"
+    },
+    {
+      "slug": "ahn-chang-ho",
+      "nickname": "안창호",
+      "id": "9bb0f1a4-d654-4d07-95f0-65b30291fb52",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 15.4,
+      "bytes": 27858,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1878-11-09",
+      "died": "1938-03-10"
+    },
+    {
+      "slug": "eleanor-of-aquitaine",
+      "nickname": "엘레오노르 다키텐",
+      "id": "9ca52951-66f7-464d-8c83-7214f654542e",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 0.992,
+      "faceAreaPct": 35.3,
+      "bytes": 17776,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "1122",
+      "died": "1204"
+    },
+    {
+      "slug": "frank-lloyd-wright",
+      "nickname": "프랭크 로이드 라이트",
+      "id": "9cfd772e-2cf4-4fec-8fc9-691db9ccaed5",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.677,
+      "faceAreaPct": 36.4,
+      "bytes": 30070,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1867-06-08",
+      "died": "1959-04-09"
+    },
+    {
+      "slug": "ray-kroc",
+      "nickname": "레이 크록",
+      "id": "9e8d564e-6371-4244-936f-ffb38989cb82",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 83864,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1902-10-05",
+      "died": "1984-01-14"
+    },
+    {
+      "slug": "li-zhi",
+      "nickname": "이탁오",
+      "id": "a0000001-0001-4000-8000-000000000001",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.968,
+      "faceAreaPct": 46.6,
+      "bytes": 16782,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1527-11-19",
+      "died": "1602-05-07"
+    },
+    {
+      "slug": "changpeng-zhao",
+      "nickname": "자오창펑",
+      "id": "a135616e-0456-46e5-bee1-7356b9c92d41",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 1,
+      "faceAreaPct": 16.7,
+      "bytes": 40190,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1977-02-10",
+      "died": ""
+    },
+    {
+      "slug": "jackie-robinson",
+      "nickname": "잭키 로빈슨",
+      "id": "a2fbdd12-fb71-4089-a42d-b7c2a1402fc7",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.838,
+      "faceAreaPct": 59.1,
+      "bytes": 122256,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1919-01-31",
+      "died": "1972-10-24"
+    },
+    {
+      "slug": "li-si",
+      "nickname": "이사",
+      "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.3,
+      "faceAreaPct": 10.7,
+      "bytes": 48258,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "-280",
+      "died": "-208"
+    },
+    {
+      "slug": "soichiro-honda",
+      "nickname": "혼다 소이치로",
+      "id": "ac561feb-db5c-4239-8065-5c743a0fcad8",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.392,
+      "faceAreaPct": 57.9,
+      "bytes": 101702,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1906-11-17",
+      "died": "1991-08-05"
+    },
+    {
+      "slug": "dino-buzzati",
+      "nickname": "디노 부차티",
+      "id": "adc1abc0-794c-4836-bb34-d90dc6cde50b",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.972,
+      "faceAreaPct": 67,
+      "bytes": 35608,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1906-10-16",
+      "died": "1972-01-28"
+    },
+    {
+      "slug": "napoleon-iii",
+      "nickname": "나폴레옹 3세",
+      "id": "aea0e5ec-8354-4f1f-9f93-f69a3a651e0f",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.979,
+      "faceAreaPct": 32.9,
+      "bytes": 14764,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "1808-04-20",
+      "died": "1873-01-09"
+    },
+    {
+      "slug": "daniel-levy",
+      "nickname": "다니엘 레비",
+      "id": "b0ab8b88-e7b5-4834-9e89-ef449feb38ac",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.991,
+      "faceAreaPct": 26.4,
+      "bytes": 73814,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "",
+      "died": ""
+    },
+    {
+      "slug": "kim-si-seup",
+      "nickname": "김시습",
+      "id": "b176cb81-ef3c-485c-87ac-0db54709dd5f",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.993,
+      "faceAreaPct": 36,
+      "bytes": 16446,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1435",
+      "died": "1493"
+    },
+    {
+      "slug": "cai-yuanpei",
+      "nickname": "채원배",
+      "id": "b3e8ba25-2392-4940-ae81-5a9b8b783ed4",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 14.9,
+      "bytes": 87278,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1868-01-11",
+      "died": "1940-03-05"
+    },
+    {
+      "slug": "queen-seondeok",
+      "nickname": "선덕여왕",
+      "id": "b5a4bd00-664d-468e-a2fc-23c53d0422aa",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 4,
+      "topScore": 0.991,
+      "faceAreaPct": 27.5,
+      "bytes": 34122,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "595",
+      "died": "647-01-17"
+    },
+    {
+      "slug": "giacomo-puccini",
+      "nickname": "자코모 푸치니",
+      "id": "b713216d-d931-47e1-819b-051bf8f92773",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.991,
+      "faceAreaPct": 40.4,
+      "bytes": 17532,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "1858-12-22",
+      "died": "1924-11-29"
+    },
+    {
+      "slug": "jesse-owens",
+      "nickname": "제시 오언스",
+      "id": "ba34a1e5-dfba-4367-97f7-ada8a8b1d439",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.936,
+      "faceAreaPct": 24.1,
+      "bytes": 29598,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1913-09-12",
+      "died": "1980-03-31"
+    },
+    {
+      "slug": "jose-saramago",
+      "nickname": "주제 사라마구",
+      "id": "bce29339-c39d-41b1-8881-378ec39205a7",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.933,
+      "faceAreaPct": 23.8,
+      "bytes": 35096,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1922-11-16",
+      "died": "2010-06-18"
+    },
+    {
+      "slug": "hyun-jin-ryu",
+      "nickname": "류현진",
+      "id": "bd04ee3a-3965-4123-b4af-9fe99d8150f5",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.622,
+      "faceAreaPct": 12.8,
+      "bytes": 23290,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1987-03-25",
+      "died": ""
+    },
+    {
+      "slug": "zhao-kuangyin",
+      "nickname": "조광윤",
+      "id": "bd2aee12-b049-4c1b-bd24-0bd20efd75c5",
+      "flags": [
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.274,
+      "faceAreaPct": 1,
+      "bytes": 44452,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "0927-03-21",
+      "died": "0976-11-14"
+    },
+    {
+      "slug": "jackson-pollock",
+      "nickname": "잭슨 폴록",
+      "id": "c05cede5-dbcb-4d5d-90d1-6cb4b02e6651",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 11.4,
+      "bytes": 40276,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1912-01-28",
+      "died": "1956-08-11"
+    },
+    {
+      "slug": "xun-yu",
+      "nickname": "순욱",
+      "id": "c0fb93c0-261a-4e86-9b49-16397fe6ea06",
+      "flags": [
+        "grayscale",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.228,
+      "faceAreaPct": 15.9,
+      "bytes": 23656,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "163",
+      "died": "212"
+    },
+    {
+      "slug": "lu-meng",
+      "nickname": "여몽",
+      "id": "c42e3822-dfdc-4950-884e-6ca0d472541c",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.984,
+      "faceAreaPct": 29.1,
+      "bytes": 20292,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "178",
+      "died": "220"
+    },
+    {
+      "slug": "john-romero",
+      "nickname": "존 로메로",
+      "id": "c373d014-2aee-4f82-9588-ac9396451461",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.973,
+      "faceAreaPct": 43.2,
+      "bytes": 92068,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1967-10-28",
+      "died": ""
+    },
+    {
+      "slug": "bill-russell",
+      "nickname": "빌 러셀",
+      "id": "c548170a-0853-4210-983f-45279f27e3fe",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 18772,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1934-02-12",
+      "died": "2022-07-31"
+    },
+    {
+      "slug": "mick-jagger",
+      "nickname": "믹 재거",
+      "id": "c72788cf-660b-41e0-a8d5-62bede945aa5",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 16,
+      "bytes": 82036,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1943-07-26",
+      "died": ""
+    },
+    {
+      "slug": "darius-i",
+      "nickname": "다리우스 1세",
+      "id": "c7c58a04-0d7d-480a-8a51-3259847bc76f",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 5,
+      "topScore": 0.901,
+      "faceAreaPct": 28.7,
+      "bytes": 27280,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "-550",
+      "died": "-486"
+    },
+    {
+      "slug": "mikhail-sholokhov",
+      "nickname": "미하일 숄로호프",
+      "id": "cb09df5a-8ec7-4de2-916b-4bab754bf201",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.778,
+      "faceAreaPct": 38.6,
+      "bytes": 22138,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1905-05-24",
+      "died": "1984-02-21"
+    },
+    {
+      "slug": "tan-sitong",
+      "nickname": "담사동",
+      "id": "cc7765e1-c32d-41ae-979f-ead59ad7fdcc",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 22312,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1865-03-10",
+      "died": "1898-09-28"
+    },
+    {
+      "slug": "wang-guowei",
+      "nickname": "왕국유",
+      "id": "cc0f30bb-d047-48f0-8ef9-b524a94ce203",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 58864,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1877-12-03",
+      "died": "1927-06-02"
+    },
+    {
+      "slug": "cao-xueqin",
+      "nickname": "조설근",
+      "id": "cd1ed863-6fa2-4394-97ed-1cc11eeba34c",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 251452,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1715",
+      "died": "1763-02-12"
+    },
+    {
+      "slug": "thomas-more",
+      "nickname": "토마스 모어",
+      "id": "d005f639-0d28-4f76-b716-22f892431093",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.999,
+      "faceAreaPct": 16.9,
+      "bytes": 14090,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1478-02-07",
+      "died": "1535-07-06"
+    },
+    {
+      "slug": "yi-sang-hwa",
+      "nickname": "이상화",
+      "id": "d0a8a92f-e310-4f51-aacc-59456fa34ac2",
+      "flags": [
+        "grayscale",
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.996,
+      "faceAreaPct": 15.5,
+      "bytes": 27582,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1901-04-05",
+      "died": "1943-04-25"
+    },
+    {
+      "slug": "osamu-tezuka",
+      "nickname": "데즈카 오사무",
+      "id": "d01b5131-2fd7-49fb-a5e5-c79fad02c2de",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.969,
+      "faceAreaPct": 22.3,
+      "bytes": 146138,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1928-11-03",
+      "died": "1989-02-09"
+    },
+    {
+      "slug": "arnold-palmer",
+      "nickname": "아놀드 파머",
+      "id": "d242175a-fdea-443f-aa16-ef66c1eb5d24",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.998,
+      "faceAreaPct": 12.4,
+      "bytes": 23358,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1929-09-10",
+      "died": "2016-09-25"
+    },
+    {
+      "slug": "konosuke-matsushita",
+      "nickname": "마쓰시타 고노스케",
+      "id": "d20f82a5-4db2-4fcf-baa7-c2de923b905b",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.983,
+      "faceAreaPct": 14.3,
+      "bytes": 101168,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1894-11-27",
+      "died": "1989-04-27"
+    },
+    {
+      "slug": "ang-lee",
+      "nickname": "리안",
+      "id": "d3c76552-8902-4c96-b096-6bf69bf01bd2",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.971,
+      "faceAreaPct": 24,
+      "bytes": 54754,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1954-10-23",
+      "died": ""
+    },
+    {
+      "slug": "prince-shotoku",
+      "nickname": "쇼토쿠 태자",
+      "id": "d5e49754-ea1c-4486-b291-15cdf8d12f9e",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.208,
+      "faceAreaPct": 14.4,
+      "bytes": 44504,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "574",
+      "died": "622"
+    },
+    {
+      "slug": "satoshi-nakamoto",
+      "nickname": "사토시 나카모토",
+      "id": "db04c76b-8c2f-43f0-b7c3-fd0d87d521e0",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 6540,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1975-04-05",
+      "died": null
+    },
+    {
+      "slug": "chung-eui-sun",
+      "nickname": "정의선",
+      "id": "da72c7b5-ff8f-4b93-8425-40e169fdb614",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.553,
+      "faceAreaPct": 42.6,
+      "bytes": 108760,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1970-10-18",
+      "died": ""
+    },
+    {
+      "slug": "scipio-africanus",
+      "nickname": "스키피오 아프리카누스",
+      "id": "e0965abb-0d3a-4133-9e36-07372e12d699",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.991,
+      "faceAreaPct": 28.9,
+      "bytes": 19660,
+      "dims": "300x300",
+      "tier": "light",
+      "born": "-236",
+      "died": "-183"
+    },
+    {
+      "slug": "shao-yong",
+      "nickname": "소옹",
+      "id": "dfd2b875-d94a-47d1-b619-a6555888079f",
+      "flags": [
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.477,
+      "faceAreaPct": 21.1,
+      "bytes": 165628,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1011-12-23",
+      "died": "1077-07-27"
+    },
+    {
+      "slug": "liang-qichao",
+      "nickname": "양계초",
+      "id": "e2c2529d-8ba2-4067-8e22-a1951452c322",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 14.1,
+      "bytes": 58434,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1873-02-23",
+      "died": "1929-01-19"
+    },
+    {
+      "slug": "maria-callas",
+      "nickname": "마리아 칼라스",
+      "id": "e2cdd5af-4297-4a35-b30b-a3bed8b1ac89",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 17.2,
+      "bytes": 109708,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1923-12-02",
+      "died": "1977-09-16"
+    },
+    {
+      "slug": "yan-ying",
+      "nickname": "안영",
+      "id": "e3433c5f-55df-4538-81cc-bac4eded9d56",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 21348,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "-578",
+      "died": "-500"
+    },
+    {
+      "slug": "marcel-duchamp",
+      "nickname": "마르셀 뒤샹",
+      "id": "e5639b51-0808-4ed5-851d-13b45db19ded",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.962,
+      "faceAreaPct": 15.6,
+      "bytes": 37810,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1887-07-28",
+      "died": "1968-10-02"
+    },
+    {
+      "slug": "freddie-mercury",
+      "nickname": "프레디 머큐리",
+      "id": "e51cb8f7-2bcb-4e15-9cb3-de28b8d5ee26",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 74598,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1946-09-05",
+      "died": "1991-11-24"
+    },
+    {
+      "slug": "octavio-paz",
+      "nickname": "옥타비오 파스",
+      "id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 49170,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1914-03-31",
+      "died": "1998-04-19"
+    },
+    {
+      "slug": "yang-guifei",
+      "nickname": "양귀비",
+      "id": "ec42637a-90b8-42c2-8b15-0e40a5729fdd",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 3,
+      "topScore": 0.969,
+      "faceAreaPct": 10.7,
+      "bytes": 106602,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "719-06-22",
+      "died": "756-07-15"
+    },
+    {
+      "slug": "wen-tianxiang",
+      "nickname": "문천상",
+      "id": "ecf47c0f-2f60-4039-be7c-52dd9715546d",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 56930,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1236-06-06",
+      "died": "1283-01-09"
+    },
+    {
+      "slug": "helmuth-von-moltke",
+      "nickname": "헬무트 폰 몰트케",
+      "id": "ee5b4996-d3e5-4021-b97b-892d7ecf5a55",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.982,
+      "faceAreaPct": 30.7,
+      "bytes": 19066,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1800-10-26",
+      "died": "1891-04-24"
+    },
+    {
+      "slug": "qiu-jin",
+      "nickname": "추근",
+      "id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.999,
+      "faceAreaPct": 18.1,
+      "bytes": 40208,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1875-11-08",
+      "died": "1907-07-15"
+    },
+    {
+      "slug": "akira-kurosawa",
+      "nickname": "쿠로사와 아키라",
+      "id": "f259deb1-ea61-4a90-9219-9f7dcfef0315",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.881,
+      "faceAreaPct": 38.7,
+      "bytes": 198344,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1910-03-23",
+      "died": "1998-09-06"
+    },
+    {
+      "slug": "kim-so-wol",
+      "nickname": "김소월",
+      "id": "f2e4e2d4-3d58-45b0-8df4-4108aef81eba",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.969,
+      "faceAreaPct": 69.5,
+      "bytes": 31686,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1902-09-07",
+      "died": "1934-12-24"
+    },
+    {
+      "slug": "odysseus",
+      "nickname": "오디세우스",
+      "id": "f339bfd8-3c95-4a08-bde2-825b9a5c7f2b",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.999,
+      "faceAreaPct": 12.4,
+      "bytes": 68814,
+      "dims": "800x800",
+      "tier": "fiction",
+      "born": null,
+      "died": null
+    },
+    {
+      "slug": "shin-chae-ho",
+      "nickname": "신채호",
+      "id": "f33d7387-44c6-4118-b9d6-075dfab0caf0",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 1,
+      "faceAreaPct": 16.7,
+      "bytes": 36590,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1880-12-08",
+      "died": "1936-02-21"
+    },
+    {
+      "slug": "claude-levi-strauss",
+      "nickname": "클로드 레비스트로스",
+      "id": "f394ecba-19e5-4090-9789-ef5e05e857d0",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.995,
+      "faceAreaPct": 16.8,
+      "bytes": 71332,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1908-11-28",
+      "died": "2009-10-30"
+    },
+    {
+      "slug": "nikos-kazantzakis",
+      "nickname": "니코스 카잔차키스",
+      "id": "f4ce473a-dfb5-4d81-b3ac-ac1db2d57802",
+      "flags": [
+        "tiny_face",
+        "low_score"
+      ],
+      "faces": 1,
+      "topScore": 0.33,
+      "faceAreaPct": 0.8,
+      "bytes": 33878,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1883-02-18",
+      "died": "1957-10-26"
+    },
+    {
+      "slug": "federico-fellini",
+      "nickname": "페데리코 펠리니",
+      "id": "f5af4fe7-df7d-4574-9f5a-2f7aeafd00f9",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 1,
+      "faceAreaPct": 15.8,
+      "bytes": 88506,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1920-01-20",
+      "died": "1993-10-31"
+    },
+    {
+      "slug": "sophie-marceau",
+      "nickname": "소피 마르소",
+      "id": "f7ff7803-3e34-41cd-8154-fc62699b9379",
+      "flags": [
+        "multi_face"
+      ],
+      "faces": 2,
+      "topScore": 0.994,
+      "faceAreaPct": 27.1,
+      "bytes": 19810,
+      "dims": "300x300",
+      "tier": "full",
+      "born": "1966-11-17",
+      "died": null
+    },
+    {
+      "slug": "hai-rui",
+      "nickname": "해서",
+      "id": "fa7d0f65-6d0e-4fa0-8869-c980167aa690",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 11128,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1514-01-22",
+      "died": "1587-11-13"
+    },
+    {
+      "slug": "sugar-ray-robinson",
+      "nickname": "슈가 레이 로빈슨",
+      "id": "fb5b63a8-0fe4-4fdd-96e2-ba469b4e1df8",
+      "flags": [
+        "grayscale"
+      ],
+      "faces": 1,
+      "topScore": 0.993,
+      "faceAreaPct": 22.1,
+      "bytes": 49620,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "1921-05-03",
+      "died": "1989-04-12"
+    },
+    {
+      "slug": "guan-zhong",
+      "nickname": "관중",
+      "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+      "flags": [
+        "grayscale",
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 45314,
+      "dims": "800x800",
+      "tier": "light",
+      "born": "-720",
+      "died": "-645"
+    },
+    {
+      "slug": "kj-choi",
+      "nickname": "최경주",
+      "id": "fe345cba-1cb0-4759-8f6f-56befb62e0a0",
+      "flags": [
+        "no_face"
+      ],
+      "faces": 0,
+      "topScore": null,
+      "faceAreaPct": null,
+      "bytes": 22950,
+      "dims": "800x800",
+      "tier": "full",
+      "born": "1970-05-19",
+      "died": ""
+    }
+  ]
+}

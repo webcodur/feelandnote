@@ -21,7 +21,7 @@ export type Orientation = 'portrait' | 'landscape'
 
 /**
  * 사진 맞춤 — 화면 비율과 안 맞는 사진을 채울(cover) 때 잘릴 위치와 확대 정도.
- * 미지정이면 가운데 채움. (팩션 FactionImageCrop과 동일 규격)
+ * 미지정이면 가운데 채움.
  */
 export interface DiscourseImageCrop {
   /** 가로 초점 % (0=왼쪽, 50=가운데 기본, 100=오른쪽) */

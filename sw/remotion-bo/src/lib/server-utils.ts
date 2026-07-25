@@ -2,8 +2,6 @@ import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } fro
 import { existsSync, readFileSync, readdirSync, type Dirent } from 'fs'
 import path from 'path'
 import { seriesDataModel, type SeriesDataModel } from './series-registry'
-import { listFactionEpisodes, loadFactionEpisode, saveFactionEpisode } from './faction-utils'
-import type { FactionScript } from './faction-types'
 import { listDiscourseEpisodes, loadDiscourseEpisode, saveDiscourseEpisode } from './discourse-utils'
 import type { DiscourseScript } from './discourse-types'
 
@@ -169,7 +167,7 @@ function buildEpisodeId(personDir: string, filename: string): string {
 export type EpisodeListItem = { id: string; status: EpisodeStatus; group: string }
 
 /* ── 시리즈별 에피소드 IO 등록표 ────────────────────────────────────────────
- * 책 기반(book)이 아닌 시리즈는 각자 자기 디렉토리(factions/·discourses/)에 에피소드 한 편이
+ * 책 기반(book)이 아닌 시리즈는 각자 자기 디렉토리(discourses/)에 에피소드 한 편이
  * 파일 하나로 들어 있어 IO가 단순하다. 아래 표에 항목을 얹으면 목록·로드·저장이 함께 붙는다.
  * 표에 없는 계열(book)만 episodes/ 재귀 스캔·분할 저장 경로를 탄다.
  * ──────────────────────────────────────────────────────────────────────── */
@@ -182,11 +180,6 @@ type SeriesEpisodeIO = {
 }
 
 const SERIES_EPISODE_IO: Partial<Record<SeriesDataModel, SeriesEpisodeIO>> = {
-  faction: {
-    list: async () => (await listFactionEpisodes()).map(f => ({ id: f.id, status: f.status as EpisodeStatus })),
-    load: loadFactionEpisode,
-    save: (name, data) => saveFactionEpisode(name, data as FactionScript),
-  },
   discourse: {
     list: async () => (await listDiscourseEpisodes()).map(d => ({ id: d.id, status: d.status as EpisodeStatus })),
     load: loadDiscourseEpisode,
@@ -221,7 +214,7 @@ async function listPersonEpisodes(personName: string, personDir: string): Promis
 }
 
 export async function listEpisodes(series?: string): Promise<EpisodeListItem[]> {
-  // 세력도·담화: 자기 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
+  // 담화: 자기 디렉토리만 본다. episodes/ 스캔(책 인물) 섞이지 않게 분리.
   const io = episodeIO(series)
   if (io) return (await io.list()).map(e => ({ ...e, group: '' }))
 

@@ -3,30 +3,27 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Upload, Eye, Loader } from '@feelandnote/shared/bo/icons'
 import type { FactionGroup } from '@/lib/faction-types'
+import { diagnoseFactionPublish, publishFactionEpisode } from '@/actions/admin/factions/publish'
 import type {
   FactionSyncStatus,
-  FactionSyncGroupStatus,
-  FactionSyncPersonStatus,
-  FactionSyncPublishRequest,
-  FactionSyncPublishResponse,
-  FactionSyncResultItem,
-} from '@/lib/faction-sync-types'
+  FactionSyncGroup,
+  FactionSyncPerson,
+  FactionPublishRequest,
+  FactionPublishResult,
+  FactionPublishItem,
+} from '@/lib/faction-sync/types'
 
 /**
- * ⚠ **이 화면은 아직 동작하지 않는다(2026-07-25).**
+ * 세력도감 출간 패널 — 제작 데이터를 서비스 도감으로 내보낸다.
  *
- * 출간은 제작 데이터를 서비스(세력도감)로 투영하고 인물 사진을 저장소에 올리는 일이다.
- * 그 배관은 아직 영상 관리 대시보드 쪽에 있고, 이 앱으로 옮기는 것은 다음 단계 작업이다.
- * 화면과 판정 규칙은 그대로 옮겨 뒀으니, 배관이 오면 아래 스위치만 켜면 된다.
+ * 진단은 읽기만 하고, 미리보기(dry-run)는 쓰기 직전까지 똑같이 계산한 뒤 아무것도 쓰지 않는다.
+ * 실제 반영은 세력 단위로 확인을 받고 하나씩 순서대로 한다 — 한꺼번에 밀어 넣으면 어디서 막혔는지
+ * 알 수 없고, 도감 단체사진은 태그 단위 배열이라 겹치기 쉽다.
  *
- * 그동안은 조회조차 하지 않는다 — 없는 창구를 찔러 붉은 오류를 띄우면 고장으로 오해한다.
+ * 소개문은 **채움 전용**이다. 도감에서 사람이 다듬은 글은 덮지 않는다(덮으려면 force).
  */
-const PUBLISH_READY = false
 
-const PUBLISH_NOT_READY =
-  '출간은 아직 이 화면으로 옮겨오지 않았습니다. 지금은 영상 관리 대시보드의 「출간」 패널에서 처리하세요.'
-
-// #region 결과 로그 항목 — 그룹 1회 호출(미리보기 또는 출간)의 응답 기록
+// #region 결과 로그 항목 — 세력 1회 호출(미리보기 또는 출간)의 응답 기록
 type LogEntry = {
   id: string
   at: number
@@ -35,7 +32,7 @@ type LogEntry = {
   dryRun: boolean
   ok: boolean
   error?: string
-  response?: FactionSyncPublishResponse
+  response?: FactionPublishResult
 }
 // #endregion
 
@@ -61,7 +58,7 @@ const RESULT_STATUS_CLASS: Record<string, string> = {
 }
 
 /** 출간 범위 — 이번 패널은 항상 전 범위를 켠 채 호출한다(부분 범위 선택 UI는 범위 밖) */
-const FULL_SCOPE: FactionSyncPublishRequest['scope'] = {
+const FULL_SCOPE: FactionPublishRequest['scope'] = {
   tag: true,
   assignments: true,
   descs: true,
@@ -69,29 +66,34 @@ const FULL_SCOPE: FactionSyncPublishRequest['scope'] = {
   teamImages: true,
 }
 
-/** 인물 한 명의 프로필 연결 여부 — 'linked'만 연결로 본다 */
-function isLinked(p: FactionSyncPersonStatus): boolean {
-  return p.profile === 'linked'
+/** 인물 한 명이 서비스 셀럽과 이어졌는지 */
+function isLinked(p: FactionSyncPerson): boolean {
+  return p.link === 'linked'
 }
 
-/** 세력 한 행의 인물 집계 — 연결 / 미연결(프로필 없음·키 없음) / 미배정(연결됐지만 이번 세력에 아직 안 묶임) */
-function peopleCounts(people: FactionSyncPersonStatus[]) {
+/** 세력 한 행의 인물 집계 — 연결 / 미해소 / 미배정(연결됐지만 이 태그에 아직 안 묶임) */
+function peopleCounts(people: FactionSyncPerson[]) {
   const linked = people.filter(isLinked).length
   const unlinked = people.length - linked
   const unassigned = people.filter(p => isLinked(p) && !p.assigned).length
   return { linked, unlinked, unassigned }
 }
 
-/** 개인샷 진행도 — synced(로컬·DB 일치)된 인원 / 전체 인원 */
-function soloShotProgress(people: FactionSyncPersonStatus[]) {
+/** 개인샷 진행도 — 저장소와 일치하는 인원 / 전체 인원 */
+function soloShotProgress(people: FactionSyncPerson[]) {
   const synced = people.filter(p => p.soloShot === 'synced').length
   return { synced, total: people.length }
 }
 
 /** 결과 한 줄 이름 — 인물 항목은 인물 이름, 세력 항목은 종류 이름으로 보여준다 */
-function itemLabel(it: FactionSyncResultItem): string {
+function itemLabel(it: FactionPublishItem): string {
   if (it.person) return it.person
-  return it.kind === 'tag' ? '세력 태그' : it.kind === 'teamShots' ? '그룹샷' : it.kind === 'revalidate' ? '웹 캐시' : it.group
+  return it.kind === 'tag' ? '세력 태그' : it.kind === 'teamShots' ? '단체사진' : it.kind === 'revalidate' ? '웹 캐시' : it.group
+}
+
+/** 미해소 사유를 사람 말로 */
+function linkReason(p: FactionSyncPerson): string {
+  return p.link === 'unkeyed' ? '연결 키 없음' : '셀럽 미등록'
 }
 
 function formatAt(ts: number): string {
@@ -100,20 +102,23 @@ function formatAt(ts: number): string {
   return `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`
 }
 
+function errText(e: unknown): string {
+  return e instanceof Error ? e.message : String(e)
+}
+
 export function FactionPublishPanel({
-  series,
   name,
   groups,
   onChangeTagSlug,
   ensureSaved,
 }: {
-  series: string
+  /** 에피소드 폴더명 */
   name: string
-  /** 현재 화면(미저장분 포함)의 세력 배열 — tagSlug 입력값의 원천 */
+  /** 현재 화면(미저장분 포함)의 세력 배열 — 태그 연결 키 입력값의 원천 */
   groups: FactionGroup[]
-  /** tagSlug 인라인 편집 반영 — 실제 저장은 FactionEditor의 기존 저장 경로(Ctrl+S 등)를 따른다 */
+  /** 태그 연결 키 편집 반영 — 실제 저장은 편집기의 기존 저장 경로(Ctrl+S 등)를 따른다 */
   onChangeTagSlug: (groupIndex: number, tagSlug: string) => void
-  /** 출간 API는 디스크의 에피소드 데이터를 읽는다 — 호출 전 미저장분을 먼저 저장 */
+  /** 출간은 저장된 데이터를 읽는다 — 호출 전 미저장분을 먼저 저장 */
   ensureSaved: () => Promise<void>
 }) {
   const [status, setStatus] = useState<FactionSyncStatus | null>(null)
@@ -125,21 +130,12 @@ export function FactionPublishPanel({
   const [logs, setLogs] = useState<LogEntry[]>([])
 
   const fetchStatus = useCallback(async () => {
-    // 배관이 오기 전에는 창구를 찌르지 않는다(위 PUBLISH_READY 주석 참조)
-    if (!PUBLISH_READY) { setLoading(false); setStatus(null); setLoadError(null); return }
     setLoading(true)
     setLoadError(null)
     try {
-      const res = await fetch(`/api/faction/db-sync/status?episode=${encodeURIComponent(name)}`)
-      const data = await res.json().catch(() => null)
-      if (!res.ok || !data) {
-        setLoadError((data && data.error) || res.statusText || '진단 조회 실패')
-        setStatus(null)
-        return
-      }
-      setStatus(data as FactionSyncStatus)
+      setStatus(await diagnoseFactionPublish(name))
     } catch (e) {
-      setLoadError(e instanceof Error ? e.message : String(e))
+      setLoadError(errText(e))
       setStatus(null)
     } finally {
       setLoading(false)
@@ -154,31 +150,24 @@ export function FactionPublishPanel({
     let ok = false
     try {
       await ensureSaved()
-      const body: FactionSyncPublishRequest = {
-        episode: name,
+      const response = await publishFactionEpisode({
+        folder: name,
         groupIndex,
         scope: FULL_SCOPE,
         dryRun,
         force,
-      }
-      const res = await fetch('/api/faction/db-sync/publish', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
       })
-      const data = await res.json().catch(() => null)
-      ok = res.ok
+      ok = true
       setLogs(prev => [{
         id: `${Date.now()}-${groupIndex}`,
         at: Date.now(),
         groupIndex,
         groupName,
         dryRun,
-        ok: res.ok,
-        error: res.ok ? undefined : ((data && data.error) || res.statusText),
-        response: res.ok ? (data as FactionSyncPublishResponse) : undefined,
+        ok: true,
+        response,
       }, ...prev])
-      if (res.ok && !dryRun) await fetchStatus()
+      if (!dryRun) await fetchStatus()
     } catch (e) {
       setLogs(prev => [{
         id: `${Date.now()}-${groupIndex}`,
@@ -187,7 +176,7 @@ export function FactionPublishPanel({
         groupName,
         dryRun,
         ok: false,
-        error: e instanceof Error ? e.message : String(e),
+        error: errText(e),
       }, ...prev])
     } finally {
       setBusyGroup(null)
@@ -208,27 +197,6 @@ export function FactionPublishPanel({
     setAllProgress(null)
   }, [status, publishOne])
 
-  // 아직 옮겨오지 않았다는 안내만 — 버튼을 눌러도 아무 일도 안 나게 여기서 갈라선다
-  if (!PUBLISH_READY) {
-    return (
-      <div className="space-y-3 rounded-lg border border-dashed border-warning/40 bg-warning/10 p-4">
-        <p className="text-sm font-semibold text-warning-text">출간 준비 중</p>
-        <p className="text-sm text-text-secondary">{PUBLISH_NOT_READY}</p>
-        <div className="flex gap-2">
-          <button disabled className="cursor-not-allowed rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs text-text-dim opacity-60">
-            미리보기
-          </button>
-          <button disabled className="cursor-not-allowed rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs text-text-dim opacity-60">
-            전체 출간
-          </button>
-        </div>
-        <p className="text-xs text-text-dim">
-          세력 {groups.length}개의 태그 연결값은 이 화면 밖(정비 탭)에서 그대로 고칠 수 있습니다.
-        </p>
-      </div>
-    )
-  }
-
   if (loading && !status) {
     return (
       <div className="flex items-center gap-2 rounded-lg border border-border bg-bg-card/40 p-4 text-sm text-text-dim">
@@ -246,9 +214,13 @@ export function FactionPublishPanel({
     )
   }
 
-  // 전체 세력을 통틀어 프로필 미연결인 인물 — DB 계정 자체가 없는 인물 명단
+  const summary = status.summary
+  // 전체 세력을 통틀어 셀럽이 해소되지 않은 인물 — 서비스에 계정 자체가 없는 명단
   const allUnlinked = status.groups.flatMap(g =>
     (g.people ?? []).filter(p => !isLinked(p)).map(p => ({ groupName: g.name, person: p })),
+  )
+  const tierMismatched = status.groups.flatMap(g =>
+    (g.people ?? []).filter(p => p.tierMismatch).map(p => ({ groupName: g.name, person: p })),
   )
 
   return (
@@ -256,12 +228,14 @@ export function FactionPublishPanel({
       {/* 상단 요약 + 전역 액션 */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-sm text-text-secondary">
-          출간 가능 인물 <span className="font-bold text-accent">{status.summary?.publishable ?? '-'}</span>
+          출간 가능 인물 <span className="font-bold text-accent">{summary.publishable}</span>
           {' · '}
-          미연결 인물 <span className="font-bold text-danger-text">{status.summary?.blocked ?? '-'}</span>
+          미해소 인물 <span className="font-bold text-danger-text">{summary.blocked}</span>
+          {' · '}
+          미배정 <span className="font-bold text-warning-text">{summary.unassigned}</span>
         </span>
 
-        <label className="ml-2 flex items-center gap-1.5 text-xs text-text-dim" title="DB에서 다듬은 소개문을 로컬 값으로 덮어씀">
+        <label className="ml-2 flex items-center gap-1.5 text-xs text-text-dim" title="도감에서 다듬은 소개문을 제작 데이터로 덮어씀">
           <input type="checkbox" checked={force} onChange={e => setForce(e.target.checked)} className="accent-accent" />
           force(덮어쓰기)
         </label>
@@ -283,21 +257,58 @@ export function FactionPublishPanel({
         </div>
       </div>
 
+      {/* 진단 요약 두 번째 줄 — 사진·얼굴·등급 */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-text-secondary">
+        <span title="아직 저장소에 올리지 않은 개인샷 수">
+          올릴 개인샷 <span className="font-semibold text-text-primary">{summary.soloShotPending}</span>
+        </span>
+        <span title="아직 저장소에 올리지 않은 단체사진 수">
+          올릴 단체사진 <span className="font-semibold text-text-primary">{summary.teamShotPending}</span>
+        </span>
+        <span title="셀럽은 있으나 얼굴 사진이 등록되지 않은 인물 — 도감 목록이 얼굴을 쓴다(등록은 셀럽 화면 소관)">
+          얼굴 사진 없음 <span className="font-semibold text-warning-text">{summary.avatarMissing}</span>
+        </span>
+        <span title="제작 데이터의 신화 표시와 셀럽 등급(fiction)이 어긋난 인물 — 어느 쪽이 맞는지는 사람이 정한다">
+          신화 표시 어긋남 <span className="font-semibold text-warning-text">{summary.tierMismatch}</span>
+        </span>
+        <span title="태그가 지정되지 않아 출간할 수 없는 세력">
+          태그 미지정 세력 <span className="font-semibold text-danger-text">{summary.groupsUnlinked}</span>
+        </span>
+      </div>
+
       {force && (
         <div className="rounded-md border border-danger/40 bg-danger/20 px-3 py-2 text-xs text-danger-text">
-          force 켬 — DB에서 사람이 다듬은 소개문(short_desc·long_desc)도 로컬 값으로 덮어씁니다.
+          force 켬 — 도감에서 사람이 다듬은 소개문도 제작 데이터 값으로 덮어씁니다.
         </div>
       )}
 
-      {/* 미연결(프로필 없음) 인물 전체 명단 */}
+      {/* 셀럽 미해소 인물 전체 명단 */}
       {allUnlinked.length > 0 && (
         <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
           <p className="text-xs font-semibold text-warning-text">
-            미연결 인물 {allUnlinked.length}명 — DB에 프로필이 없어 이번 출간에서 제외됩니다. web-bo <span className="font-mono">/celebs/new</span>에서 먼저 등록하세요.
+            미해소 인물 {allUnlinked.length}명 — 서비스에 셀럽이 없어 이번 출간에서 제외됩니다. <span className="font-mono">/celebs/new</span>에서 먼저 등록하세요.
           </p>
           <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-text-secondary">
             {allUnlinked.map(({ groupName, person }, idx) => (
-              <li key={idx}>{person.name} <span className="text-text-dim">({groupName})</span></li>
+              <li key={idx}>
+                {person.name} <span className="text-text-dim">({groupName} · {linkReason(person)})</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 신화 표시 ↔ 셀럽 등급 어긋남 — 출간을 막지 않고 알리기만 한다 */}
+      {tierMismatched.length > 0 && (
+        <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
+          <p className="text-xs font-semibold text-warning-text">
+            신화 표시 어긋남 {tierMismatched.length}명 — 제작 데이터와 셀럽 등급이 다릅니다. 어느 쪽이 맞는지 확인하세요(출간은 막히지 않습니다).
+          </p>
+          <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-text-secondary">
+            {tierMismatched.map(({ groupName, person }, idx) => (
+              <li key={idx}>
+                {person.name} <span className="text-text-dim">({groupName} · 제작 {person.mythical ? '신화' : '실존'} / 셀럽 {person.tier ?? '미지정'})</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -315,7 +326,7 @@ export function FactionPublishPanel({
             onChangeTagSlug={onChangeTagSlug}
             onPreview={() => publishOne(g.index, g.name, true)}
             onPublish={() => {
-              if (!confirm(`"${g.name}" 세력을 DB에 출간합니다. 계속할까요?`)) return
+              if (!confirm(`"${g.name}" 세력을 도감에 출간합니다. 계속할까요?`)) return
               publishOne(g.index, g.name, false)
             }}
           />
@@ -336,11 +347,11 @@ export function FactionPublishPanel({
   )
 }
 
-// 세력 1행 — tagSlug 편집 + 태그/인물/이미지 진단 + 미리보기·출간 버튼
+// 세력 1행 — 태그 연결 키 편집 + 태그/인물/사진 진단 + 미리보기·출간 버튼
 function GroupRow({
   groupStatus, localGroup, busy, disabled, onChangeTagSlug, onPreview, onPublish,
 }: {
-  groupStatus: FactionSyncGroupStatus
+  groupStatus: FactionSyncGroup
   localGroup: FactionGroup | undefined
   busy: boolean
   disabled: boolean
@@ -351,27 +362,30 @@ function GroupRow({
   const g = groupStatus
   const { linked, unlinked, unassigned } = peopleCounts(g.people ?? [])
   const solo = soloShotProgress(g.people ?? [])
-  const fillableDesc = (g.people ?? []).filter(p => p.desc === 'fillable').length
   const currentSlug = localGroup?.tagSlug ?? ''
-  const canPublish = !!(currentSlug || g.suggestedSlug)
+  // 태그가 이미 이어져 있거나 연결 키가 적혀 있어야 출간할 수 있다. 제안값만으로는 안 된다 —
+  // 출간은 저장된 데이터를 읽으므로 사람이 입력하고 저장해야 반영된다.
+  const canPublish = !!(currentSlug || g.tagId)
 
   return (
     <div className="space-y-1.5 rounded-md border border-border bg-bg-main/30 px-3 py-2.5">
       <div className="flex flex-wrap items-center gap-2">
         <span className="min-w-0 max-w-[10rem] flex-1 truncate text-sm font-bold text-text-primary" title={g.name}>{g.name}</span>
 
-        {/* tagSlug 인라인 편집 — 비어 있으면 제안값을 자리표시로만 보여준다 */}
+        {/* 태그 연결 키 편집 — 비어 있으면 제안값을 자리표시로만 보여준다 */}
         <input
           value={currentSlug}
           onChange={e => onChangeTagSlug(g.index, e.target.value)}
           placeholder={g.suggestedSlug}
           className="w-40 rounded-md border border-border bg-bg-card px-2 py-1 font-mono text-xs focus:border-accent focus:outline-none"
-          title="celeb_tags.slug — 비우면 저장 시 제안값을 써야 출간할 수 있다"
+          title="도감 태그의 연결 키(celeb_tags.slug). 비우면 출간할 수 없다"
         />
 
         {/* 태그 상태 칩 */}
         {g.tag?.exists ? (
-          <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-semibold text-accent">DB 존재{g.tag.name ? ` · ${g.tag.name}` : ''}</span>
+          <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-semibold text-accent">
+            도감 존재{g.tag.name ? ` · ${g.tag.name}` : ''}{g.tag.isFeatured === false ? ' · 숨김' : ''}
+          </span>
         ) : (
           <span className="rounded bg-warning/20 px-1.5 py-0.5 text-[10px] font-semibold text-warning-text">신규 생성</span>
         )}
@@ -380,25 +394,27 @@ function GroupRow({
           <button onClick={onPreview} disabled={disabled || !canPublish} className={BTN_SMALL_DEFAULT} title="변경 예정 내역만 계산(실제 반영 없음)">
             {busy ? <Loader size={13} /> : <Eye size={13} />} 미리보기
           </button>
-          <button onClick={onPublish} disabled={disabled || !canPublish} className={BTN_SMALL_ACCENT} title="이 세력만 DB에 반영">
+          <button onClick={onPublish} disabled={disabled || !canPublish} className={BTN_SMALL_ACCENT} title="이 세력만 도감에 반영">
             {busy ? <Loader size={13} /> : <Upload size={13} />} 출간
           </button>
         </div>
       </div>
 
       {!canPublish && (
-        <p className="text-[11px] text-danger-text">tagSlug가 없고 제안값도 비어 있어 출간할 수 없습니다.</p>
+        <p className="text-[11px] text-danger-text">
+          태그 연결 키가 비어 있어 출간할 수 없습니다{g.suggestedSlug ? ` — 제안값 "${g.suggestedSlug}" 을 입력하고 저장하세요` : ''}.
+        </p>
       )}
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-text-secondary">
-        <span title="DB 프로필과 연결된 인물 / 프로필이 없어 제외되는 인물">
-          인물 연결 <span className="font-semibold text-text-primary">{linked}</span> · 미연결 <span className="font-semibold text-danger-text">{unlinked}</span> · 미배정 <span className="font-semibold text-warning-text">{unassigned}</span>
+        <span title="서비스 셀럽과 이어진 인물 / 셀럽이 없어 제외되는 인물 / 이어졌으나 이 태그에 아직 안 묶인 인물">
+          인물 연결 <span className="font-semibold text-text-primary">{linked}</span> · 미해소 <span className="font-semibold text-danger-text">{unlinked}</span> · 미배정 <span className="font-semibold text-warning-text">{unassigned}</span>
         </span>
-        <span title="개인샷이 로컬·DB 양쪽에 이미 일치하는 인원 / 전체 인원">
+        <span title="개인샷이 저장소 기록과 이미 일치하는 인원 / 전체 인원">
           개인샷 <span className="font-semibold text-text-primary">{solo.synced}/{solo.total}</span>
         </span>
-        <span title="로컬 단체사진과 DB에 이미 반영된 단체사진 수">
-          그룹샷 <span className="font-semibold text-text-primary">{g.teamShots?.matched ?? 0}/{g.teamShots?.local ?? 0}</span>
+        <span title="이 세력의 단체사진 중 저장소 기록과 일치하는 장수">
+          단체사진 <span className="font-semibold text-text-primary">{g.teamShots?.synced ?? 0}/{g.teamShots?.local ?? 0}</span>
           {/* 여러 세력이 한 태그를 나눠 쓰면 도감에 실리는 단체사진은 세력들 합계다 */}
           {g.teamShots && g.teamShots.tagTotal !== g.teamShots.local && (
             <span className="text-text-dim" title="같은 연결 키를 쓰는 세력들을 합쳐 도감에 실리는 단체사진 수">
@@ -406,8 +422,8 @@ function GroupRow({
             </span>
           )}
         </span>
-        <span title="DB에 소개문이 없어 로컬 값으로 채울 수 있는 인물 수(채움 전용 — 이미 있는 값은 덮지 않음)">
-          채움 가능 desc <span className="font-semibold text-text-primary">{fillableDesc}</span>
+        <span title="도감에 이미 실려 있는 단체사진 장수">
+          도감 단체사진 <span className="font-semibold text-text-primary">{g.tag?.teamImagesCount ?? 0}</span>
         </span>
       </div>
     </div>
@@ -417,13 +433,13 @@ function GroupRow({
 // 결과 로그 1건 — created/updated/skipped/blocked 목록 + 안내
 function LogRow({ log }: { log: LogEntry }) {
   const r = log.response
-  const grouped = (r?.items ?? []).reduce<Record<string, FactionSyncResultItem[]>>((acc, item) => {
+  const grouped = (r?.items ?? []).reduce<Record<string, FactionPublishItem[]>>((acc, item) => {
     (acc[item.action] ??= []).push(item)
     return acc
   }, {})
-  // 프로필이 없어 제외된 인물 — 배정 단계에서 막힌 항목이 그 명단이다
+  // 셀럽이 없어 제외된 인물 — 배정 단계에서 막힌 항목이 그 명단이다
   const unresolved = (r?.items ?? []).filter(
-    it => it.kind === 'assignment' && it.action === 'blocked' && (it.reason === 'profile-missing' || it.reason === 'unkeyed'),
+    it => it.kind === 'assignment' && it.action === 'blocked' && (it.reason === 'celeb-unresolved' || it.reason === 'unkeyed'),
   )
 
   return (
@@ -460,19 +476,19 @@ function LogRow({ log }: { log: LogEntry }) {
 
           {!!r.constantHint?.length && (
             <p className="text-[11px] text-warning-text">
-              sw/web/src/constants/factionGroups.ts에 다음 slug 추가 필요: {r.constantHint.join(', ')}
+              sw/web/src/constants/factionGroups.ts에 다음 연결 키 추가 필요: {r.constantHint.join(', ')}
             </p>
           )}
 
           {unresolved.length > 0 && (
             <p className="text-[11px] text-danger-text">
-              미연결 인물 {unresolved.length}명 — web-bo /celebs/new에서 등록: {unresolved.map(it => it.person).join(', ')}
+              미해소 인물 {unresolved.length}명 — /celebs/new에서 등록: {unresolved.map(it => it.person).join(', ')}
             </p>
           )}
 
           {!!r.warnings?.length && (
             <p className="text-[11px] text-warning-text">
-              웹 캐시 무효화 경고: {r.warnings.join(' / ')}
+              경고: {r.warnings.join(' / ')}
             </p>
           )}
         </>

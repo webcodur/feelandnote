@@ -4,8 +4,6 @@ import { existsSync, readFileSync } from 'fs'
 import path from 'path'
 import { loadEpisode, toPascal } from '@/lib/server-utils'
 import { getSeriesById } from '@/lib/series-registry'
-import { loadFactionEpisode } from '@/lib/faction-utils'
-import { factionVariants } from '@feelandnote/shared/lib/youtube-faction-meta'
 import { checkUploadsLive } from '@/lib/youtube-liveness'
 
 // 실행 시점에만 도는 동적 라우트(렌더 산출물 out/ 을 fs로 스캔). 빌드 타임 정적 분석·prerender 대상이 아님.
@@ -36,57 +34,6 @@ function checkToken(fileName: string) {
   return { authenticated: false, expiryDate: undefined as string | undefined, hasRefreshToken: false }
 }
 
-/**
- * 세력도 업로드 상태 — 한국어 세로 영상. 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(에피소드 데이터의 진영 part 수만큼).
- * 출력: out/Faction/{ep}-KO-LV.mp4 또는 {ep}-KO-LV{N}.mp4 (롱폼) · {ep}-KO-S{N}.mp4 (쇼츠)
- * 기록: scripts/youtube/faction-lineup.json
- */
-async function factionStatus(episode: string) {
-  const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')
-  const auth = { ko: checkToken('youtube_token.json'), en: checkToken('youtube_token_en.json') }
-
-  const lineupPath = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'faction-lineup.json')
-  let episodeMeta = null
-  try {
-    const lineup = JSON.parse(await readFile(lineupPath, 'utf-8'))
-    episodeMeta = lineup[episode] ?? null
-  } catch { /* ignore */ }
-
-  // 영상 종류 — 에피소드 데이터의 진영 part 에서 편 수를 산출한다(편 없으면 단일 쇼츠).
-  const factionData = await loadFactionEpisode(episode).catch(() => null)
-  const epVariants = factionData ? factionVariants(factionData.groups, factionData.longformLayout) : []
-
-  const factionOut = path.join(REMOTION_ROOT, 'out', 'Faction')
-
-  const variants = []
-  for (const v of epVariants) {
-    const base = `${episode}-${v.fileSuffix}`
-    const videoPath = path.join(factionOut, `${base}.mp4`)
-    const srtPath = path.join(factionOut, `${base}.srt`)
-    const thumbPath = path.join(factionOut, `${base}-THUMB.png`)
-    let video = null
-    if (existsSync(videoPath)) {
-      const s = await stat(videoPath)
-      video = { exists: true, size: s.size, name: `${base}.mp4` }
-    }
-    variants.push({
-      lang: 'ko' as const,
-      type: (v.isShorts ? 'shorts' : 'longform') as 'shorts' | 'longform',
-      shortsIndex: v.part ?? 0,
-      key: v.key,
-      label: v.label,
-      video,
-      srt: existsSync(srtPath) ? { exists: true, name: `${base}.srt` } : null,
-      thumb: existsSync(thumbPath) ? { exists: true, name: `${base}-THUMB.png` } : null,
-    })
-  }
-
-  // 기록된 영상이 유튜브에 아직 있는지 대조 — 세력도는 KO 채널 하나뿐이라 1 unit.
-  const live = await checkUploadsLive(episodeMeta?.uploads, () => 'ko')
-
-  return NextResponse.json({ auth, lineup: episodeMeta, variants, meta: null, live })
-}
-
 type VariantInfo = {
   lang: 'ko' | 'en'
   type: 'longform' | 'shorts' | 'solo'
@@ -110,8 +57,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   const episode = url.searchParams.get('episode')
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
-  // 세력도 — 출력 경로·기록 파일이 달라 별도 분기
-  if (series.dataModel === 'faction') return factionStatus(episode)
   // 출고 기록(lineup)이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
   if (series.dataModel !== 'book') {
     return NextResponse.json({ error: `youtube status not implemented: ${series.dataModel}` }, { status: 501 })
