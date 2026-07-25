@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import type { FactionScript } from '@/lib/faction-types'
 import { imageSrc, initial } from '../shared/timing'
-import { ChevronLeft, ChevronRight, ChevronDown, X, ImageIcon } from '@/components/icons'
-import { MediaThumb, ImagePicker } from '@/components/media'
+import { ChevronLeft, ChevronRight, ChevronDown, X, ImageIcon } from '@feelandnote/shared/bo/icons'
+import { MediaThumb, ImagePicker } from '@feelandnote/shared/bo/media'
 
 /** 시작 화면에 띄울 후보 인물 (slug 가 있는 인물만) */
 export type HeroCandidate = { slug: string; name: string; image?: string }

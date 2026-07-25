@@ -14,5 +14,5 @@ export {
   facetLabel,
   facetValueLabel,
   ELE_SORT_LABEL as SORT_LABEL,
-} from '@/components/voice-utils'
-export type { EleSortKey as SortKey } from '@/components/voice-utils'
+} from '@feelandnote/shared/bo/voice-utils'
+export type { EleSortKey as SortKey } from '@feelandnote/shared/bo/voice-utils'

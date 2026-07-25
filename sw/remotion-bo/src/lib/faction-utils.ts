@@ -5,7 +5,7 @@
  * 이미지는 sw/remotion/public/factions/{name}/images/ 에 둔다.
  * BookRecommend(episodes/)와 완전히 분리된 경로다.
  *
- * 폴더 스캔·사진 정리·음원 목록·진행 상태·노출 목록은 담화(discourses/)와 규칙이 같아 `episode-store.ts` 로 뽑았다.
+ * 폴더 스캔·사진 정리·음원 목록·진행 상태·노출 목록은 담화(discourses/)와 규칙이 같아 공용 부품 `shared/bo/episode-store` 로 뽑았다.
  * 아래 faction* 함수들은 뿌리 디렉토리만 채워 넘기는 얇은 껍데기이고, 실제 동작은 그쪽 한 곳에만 있다.
  */
 
@@ -26,7 +26,7 @@ import {
   voiceDirOf,
   readStatus,
   writeStatus,
-} from './episode-store'
+} from '@feelandnote/shared/bo/episode-store'
 
 export { FACTIONS_DIR }
 
@@ -127,7 +127,7 @@ export async function duplicateFactionEpisode(src: string, dst: string): Promise
 
 /**
  * 인물 사진 저장 — 세력도 아바타 창구(api/[series]/faction-avatar)만 쓴다.
- * 목록·삭제·폴더 정리는 시리즈 공용 창구(api/[series]/media)가 episode-store 를 직접 부른다.
+ * 목록·삭제·폴더 정리는 시리즈 공용 창구(api/[series]/media)가 shared/bo/episode-store 를 직접 부른다.
  */
 export const saveFactionImage = (name: string, filename: string, buf: Buffer) =>
   saveImage(FACTIONS_DIR, name, filename, buf)

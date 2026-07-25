@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
-import type { SegmentEngineSpec } from '../../voice-utils'
-import { isEleSection, resolveSegmentEngine, shortsArrIndexBySlot, longformQuoteSpeakerId } from '../../voice-utils'
+import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
+import { isEleSection, resolveSegmentEngine, shortsArrIndexBySlot, longformQuoteSpeakerId } from '@feelandnote/shared/bo/voice-utils'
 import { getTextsForSection } from '../utils'
 import { roleForLongformKey, geminiVoiceForRole, stylePrefixForRole, type Role } from '@feelandnote/shared/lib/voice-policy'
-import type { GenEngine } from './types'
+import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 
 type UseVoiceSpecArgs = {
   secKey: string

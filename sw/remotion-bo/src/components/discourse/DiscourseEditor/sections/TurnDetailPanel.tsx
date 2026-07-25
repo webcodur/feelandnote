@@ -9,10 +9,10 @@
  */
 
 import type { Speaker, Turn, DiscourseImageCrop, DiscourseTransition, DiscourseVoice, TurnKind } from '@/lib/discourse-types'
-import { Eye, EyeOff, ImageIcon, Trash2, X } from '@/components/icons'
+import { Eye, EyeOff, ImageIcon, Trash2, X } from '@feelandnote/shared/bo/icons'
 import { HOLD_MOTION_OPTIONS } from '@/components/faction/shared/holdMotion'
-import { formatMmss } from '@/components/editor'
-import { ImageSlot, DISCOURSE_IMAGE_DND } from '@/components/media'
+import { formatMmss } from '@feelandnote/shared/bo/editor'
+import { ImageSlot, DISCOURSE_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { imageSrc, turnChunks, turnSec } from '../../shared/timing'
 import { castColorOf } from './CastColorBar'
 import { TurnStoryboard } from './TurnStoryboard'

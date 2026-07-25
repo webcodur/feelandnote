@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
-import type { SegmentEngineSpec } from '../../voice-utils'
-import { shortsArrIndexBySlot } from '../../voice-utils'
+import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
+import { shortsArrIndexBySlot } from '@feelandnote/shared/bo/voice-utils'
 import { type EleSendOpts, type VoiceMeta } from '../types'
 import { sectionVoicePath, readSegmentVoiceMeta, sectionStyleKey } from '../utils'
 

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import type { FactionScript } from '@/lib/faction-types'
-import { Copy } from '@/components/icons'
+import { Copy } from '@feelandnote/shared/bo/icons'
 
 // 통합 명칭(앞부분\n뒷부분)을 "앞부분 — 뒷부분" 한 줄로 합친다(설명 없으면 앞부분만)
 function flatName(v?: string): string {

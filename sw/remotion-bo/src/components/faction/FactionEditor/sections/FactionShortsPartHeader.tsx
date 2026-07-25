@@ -1,8 +1,8 @@
 import type { KeyboardEvent, MouseEvent } from 'react'
 import type { FactionScript } from '@/lib/faction-types'
-import type { EditLang } from '@/components/editor'
-import { formatMmss } from '@/components/editor'
-import { ChevronsDownUp, ChevronsUpDown } from '@/components/icons'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
+import { formatMmss } from '@feelandnote/shared/bo/editor'
+import { ChevronsDownUp, ChevronsUpDown } from '@feelandnote/shared/bo/icons'
 import { CoverPickerButton } from '../FactionGroupEditor/CoverPickerButton/CoverPickerButton'
 import { PartTextField } from './PartTextField'
 

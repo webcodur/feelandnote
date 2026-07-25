@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { queueTask, cancelTask } from '@/lib/server-utils'
+import { queueTask, cancelTask } from '@feelandnote/shared/bo/task-queue'
 import { getSeriesById } from '@/lib/series-registry'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {

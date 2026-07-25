@@ -1,4 +1,4 @@
-import type { VoiceSection } from '../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { VoiceInfo } from '../types'
 import { isVideoFile } from '@/lib/media-exts'
 

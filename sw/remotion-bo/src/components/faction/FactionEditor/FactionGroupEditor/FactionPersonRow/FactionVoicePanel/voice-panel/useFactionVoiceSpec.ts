@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
-import type { SegmentEngineSpec } from '../../../../../../voice-utils'
-import type { GenEngine } from '../../../../../../scenario-voice/ExpandedVoicePanel/types'
+import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
+import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
 import type { FactionVoiceSlot } from './voice-slots'
 

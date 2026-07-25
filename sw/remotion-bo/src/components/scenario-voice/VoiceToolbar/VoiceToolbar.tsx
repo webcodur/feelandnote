@@ -1,8 +1,9 @@
 'use client'
 
 import type { EpisodeData } from '../../EpisodeEditor'
-import type { VoiceSummary } from '../../voice-utils'
-import { type EleSettings, type EleSendOpts, type VoiceSelect } from '../types'
+import type { VoiceSummary } from '@feelandnote/shared/bo/voice-utils'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { type EleSendOpts, type VoiceSelect } from '../types'
 import { useVoiceToolbar } from './useVoiceToolbar'
 import { GenerateToolsSection } from './sections/GenerateToolsSection'
 import { EleSettingsSection } from './sections/EleSettingsSection'

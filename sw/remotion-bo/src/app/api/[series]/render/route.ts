@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { runTask, loadEpisode, toPascal } from '@/lib/server-utils'
+import { loadEpisode, toPascal } from '@/lib/server-utils'
+import { runTask } from '@feelandnote/shared/bo/task-queue'
 import { getSeriesById } from '@/lib/series-registry'
 import { loadFactionEpisode } from '@/lib/faction-utils'
 import { factionVariants, factionCompBase } from '@feelandnote/shared/lib/youtube-faction-meta'

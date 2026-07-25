@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 import path from 'path'
 import { isSeriesModel } from '@/lib/series-registry'
 import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-utils'
-import { safeFilename, wavDurationSec } from '@/lib/episode-store'
+import { safeFilename, wavDurationSec } from '@feelandnote/shared/bo/episode-store'
 import { applyAgeToFile } from '@/lib/voice-age'
 
 // ── 세력도 인물 음성 연령 변형 라우트

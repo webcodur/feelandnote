@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { Upload, Eye, Loader } from '@/components/icons'
+import { Upload, Eye, Loader } from '@feelandnote/shared/bo/icons'
 import type { FactionGroup } from '@/lib/faction-types'
 import type {
   FactionSyncStatus,

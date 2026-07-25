@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useEpisode } from '@/lib/episode-context'
-import type { VoiceSection } from '../../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { EpisodeData } from '../../../EpisodeEditor'
 import type { ImageEditorProps } from '../../types'
 import { ImagePool } from '../../ImagePool'

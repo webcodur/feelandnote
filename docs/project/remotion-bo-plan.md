@@ -109,6 +109,44 @@ interface SeriesDefinition {
 
 ---
 
+## 공용 부품 (26.07.20 통합)
+
+> **최종 실측 체크: 26.07.20** — 통합 대상 파일 전수 대조·삭제 확인, 타입체크·8개 화면 응답 실측
+
+시리즈가 늘 때마다 **앞 시리즈의 부품을 복제해 새 시리즈에 붙이는 일이 반복됐다**(서재 탐방 → 세력도 → 가상 담화). 복제본은 곧 갈라진다 — 실제로 정렬 성공 판정, 감정 어휘, 폴더 표시 방식이 서로 다르게 동작하고 있었고, 복제 과정에서 스크롤 잠금·드래그 오닫힘 방지 같은 처리가 누락된 채 넘어간 사례도 나왔다.
+
+**그래서 공용 부품은 아래뿐이다. 시리즈별 복제본을 새로 만들지 않는다.**
+
+**26.07.25 — 공용 부품은 `packages/shared/src/bo/` 로 올라갔다**(팩션 통합 Phase 3). 관리 화면이 web-bo 로 이사할 때 복사가 아니라 같은 파일을 쓰기 위함이다. remotion-bo 에 껍데기 재export 는 두지 않았다 — 부르는 쪽이 직접 `@feelandnote/shared/bo/…` 를 가져온다.
+
+| 자리 (`@feelandnote/shared/bo/…`) | 담는 것 |
+|------|---------|
+| `media` | 사진 목록(풀)·고르기 창·보일 자리 맞춤·다가갈 지점·썸네일·끌어다 놓기·크게 보기·사진 칸 |
+| `media-src` | 사진·영상 표시 주소 규칙(`imageSrc`) |
+| `voice` | 음성 편집 창 껍데기·저장된 음원 파형/트림·감정 표식 고르기·엔진 토글·음성 생성/트림/저장 절차(`useVoiceGeneration`) |
+| `voice-utils` | wav 인코딩·음량·엔진 판정·구간 규칙·ElevenLabs 보이스 목록·합성 설정 값 타입(`EleSettings`·`GenEngine`·`TempPreview`) |
+| `audio-wave-player` | 파형 재생기(+시간 눈금 `time-ruler`, 음량 환산 `gain`) |
+| `editor` | 편집 언어(`EditLang`·전환 UI)·`formatMmss`·경로 치환(`makePathRemapper`)·전체 저장+Ctrl+S+저장 단추(`useEpisodeEditor`)·진행 상태 점·에피소드 생성 폼 |
+| `icons` | 인라인 SVG 아이콘 (세 시리즈 공용) |
+| `episode-store` | 서버 IO — 에피소드 폴더 스캔·사진 트리/업로드/삭제/폴더 정리·wav 목록·wav Range 스트리밍·진행 상태·노출 목록(`_episodes.json`) |
+| `task-queue` | 백그라운드 작업 실행기 — 즉시(`runTask`)·순차(`runTaskSequence`)·대기줄(`queueTask`)·중단(`cancelTask`) |
+| `remotion-root` | 렌더 저장소 위치 한 곳 — `REMOTION_ROOT` 환경변수로 옮길 수 있다 |
+
+「시리즈 이름 → 뿌리 폴더」 대응표(`mediaRootOf`)만 앱에 남는다(`src/lib/media-root.ts`) — 공용 부품은 시리즈 이름을 모르고 뿌리 폴더만 인자로 받는다.
+
+**규칙**
+
+1. **시리즈 차이는 값으로 흡수한다.** 서버는 뿌리 디렉토리 인자, 클라이언트는 props(창구 주소·드래그 데이터 종류·기능 유무 콜백). `if (series === 'faction')` 류 분기를 새로 만들지 않는다.
+2. **한 자리에 모은다.** 부품마다 파일을 쪼개 흩지 않는다. 위 파일들이 1,000줄을 넘는 것은 의도된 것이다.
+3. **기능은 합집합으로.** 한쪽에만 있던 기능을 통합하며 버리지 않는다.
+4. **드래그 데이터 종류(MIME)만은 시리즈별로 유지한다** — 세력도 목록에서 끌어 담화 칸에 놓이는 사고를 막는다.
+
+**창구도 하나다** — 사진은 `/api/[series]/media`(목록·업로드·삭제) + `/api/[series]/media/folder`(만들기·이름변경·삭제·이동·탐색기 열기) + `/api/[series]/media/[episode]/[...path]`(파일 서빙). 표시 주소는 `src/lib/media-src.ts`의 `imageSrc(series, ep, path)` 하나로 만든다(클라이언트에서 쓰므로 서버 전용 코드와 같은 파일에 두지 않는다).
+
+**통합 대상이 아닌 것** — 서재 탐방의 `components/scenario/ImagePool`·`ImageThumb`(책 단위 그룹핑·다중 선택 등 구조가 다름), `useVoiceSpec`↔`useFactionVoiceSpec`(이름만 닮고 하는 일이 다름), 화자 배정 패널들, 유튜브 업로드 패널(메타 편집 모델이 다름).
+
+---
+
 ## 라우팅
 
 **실측 (26.07.16)** — 실제 라우트는 다음과 같다:
@@ -571,7 +609,7 @@ public/episodes/alexander-the-great/
 - **유튜브 파이프라인** — 업로드·메타 갱신·동기화 검사(drift 탐지)·DB 동기화·썸네일 (`/[series]/youtube`, `/[series]/[name]/youtube`)
 - **카드뉴스** — `/[series]/[name]/cards`, 세력도 카드 편집·내보내기
 - **음성 정밀 편집** — 발화 시각 편집기(`VoiceTimingEditor`), 파형 재생기, 호흡 편집, ElevenLabs 보이스 이력·메모, Gemini/ElevenLabs 미리보기
-- **세력도·담화 전용 편집기** — 인물 명단·그룹·이미지 풀·음성 패널 / 발언 순서·덩어리 편집
+- **세력도·담화 전용 편집기** — 인물 명단·그룹·이미지 풀·음성 패널 / 담화는 **원고 중심**(26.07.21 개편 — 원고 위에서 경계 마킹으로 발언·덩어리 파생, 상세는 `docs/project/remotion/discourse.md` §9)
 - **작업 완료 인물 보관소** — `D:/remotion_done` 폴백 스캔 (26.07.16 교정. 옛 기본값 `D:/done_people`는 실재하지 않는 폴더였다)
 - **가이드 페이지** — `/guide` (내용에 R2 설명이 남아 있어 실제와 어긋난다)
 
@@ -606,12 +644,13 @@ sw/remotion-bo/src/
 │   ├── Header.tsx · Sidebar/ · TabNav.tsx · TaskPanel.tsx
 │   ├── VoiceStorage.tsx              ← 음성 저장소 (R2 대체)
 │   ├── ScenarioView/ · scenario/ · scenario-voice/ · EpisodeEditor/
-│   ├── VoiceTimingEditor/ · AudioWavePlayer/ · YouTubePanel/
+│   ├── VoiceTimingEditor/ · YouTubePanel/
 │   ├── faction/                      ← 세력도 편집기
 │   └── discourse/                    ← 가상 담화 편집기
 └── lib/
     ├── series-registry.ts            ← 시리즈 정의 + dataModel 축
-    ├── server-utils.ts               ← 파일 I/O · 작업 큐 · VOICE_ARCHIVE
+    ├── server-utils.ts               ← 파일 I/O · VOICE_ARCHIVE (작업 큐는 shared/bo/task-queue)
+    ├── media-root.ts                 ← 시리즈 이름 → 에피소드 폴더 뿌리
     ├── faction-*.ts · discourse-*.ts ← 시리즈별 타입·IO·음성
     ├── episode-context.tsx · episode-data.ts
     └── supabase.ts                   ← Supabase anon 클라이언트

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getTask, cancelTask } from '@/lib/server-utils'
+import { getTask, cancelTask } from '@feelandnote/shared/bo/task-queue'
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

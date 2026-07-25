@@ -128,3 +128,29 @@ export function engineSlot(name: string): 'gemini' | 'elevenlabs' | 'common' {
   if (name.startsWith('elevenlabs/')) return 'elevenlabs'
   return 'common'
 }
+
+// ── 합성 설정·미리듣기 값 타입 ──
+// 세 시리즈(서재 탐방·세력도·담화) 편집기가 함께 쓴다.
+
+/** ElevenLabs 합성 설정 — 편집기 도구모음이 조절하고 합성 요청에 그대로 실린다. */
+export type EleSettings = {
+  stability: number
+  similarity_boost: number
+  style: number
+  speed: number
+  volumeBoost: number
+}
+
+/** 생성 엔진 선택값 — 저장 슬롯(EngineKind)과 별개. gemini-v3(3.1)도 gemini 슬롯에 저장된다. */
+export type GenEngine = EngineKind | 'gemini-v3'
+
+/** 저장 전 미리듣기 음원 — 아직 파일로 남기지 않은 상태 */
+export type TempPreview = {
+  engine: EngineKind
+  key: string
+  blobUrl: string
+  base64: string
+  duration: number
+  /** 'wav' | 'mp3' — Gemini는 wav, ElevenLabs preview는 mp3 */
+  format: 'wav' | 'mp3'
+}

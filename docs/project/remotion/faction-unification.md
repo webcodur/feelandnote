@@ -89,7 +89,7 @@ DB → pnpm faction:export → faction-data.json(+_episodes.json 재생성) → 
 
 ## 8. web-bo 이식
 
-- **하이브리드**: 공유 부품 4종(`media` 1,304 · `editor` 329 · `voice` 741 · `episode-store` 366 = 2,740줄, 담화 공용)은 `packages/shared` 승격(복사 금지 — 갈라짐 이력 있음). 편집기 본체(56파일 11,912줄)는 **복사 이식 + 데이터층만 재작성**(~1,500줄). `FactionPreview`는 DOM 목업(@remotion/player 미사용)이라 이식 용이. Task Queue(`runTask` 계열)도 shared 승격(렌더 버튼용).
+- **하이브리드**: 공유 부품 4종(`media` 1,304 · `editor` 329 · `voice` 741 · `episode-store` 366 = 2,740줄, 담화 공용)은 `packages/shared` 승격(복사 금지 — 갈라짐 이력 있음). **완료 26.07.25 — `packages/shared/src/bo/`, 실측 승격량은 의존 폐포 포함 3,900여 줄(§10 Phase 3 참조).** 편집기 본체(56파일 11,912줄)는 **복사 이식 + 데이터층만 재작성**(~1,500줄). `FactionPreview`는 DOM 목업(@remotion/player 미사용)이라 이식 용이. Task Queue(`runTask` 계열)도 shared 승격(렌더 버튼용).
 - 라우트: `(admin)/factions/…`(목록·[episode]/[lang]/[tab]·cards·publish), 액션 `actions/admin/factions/{episodes,script,people,export,publish}.ts`, 로컬 fs 라우트(`faction-media`·`faction-asset/[...path]`(api/voice 동형, `..` 차단)·`faction-voice` 6종·`faction-task`). 인증은 (admin)/layout.tsx가 담당. 사이드바 menuGroups 「세력도」 — nextjs-page 스킬 규약.
 - **부분 저장 전환**: savePerson/saveCluster/saveGroup/saveEpisode(핫 컬럼 + `data || $patch` merge). **reorder 액션이 최난점** — DB position swap + wav·timing 키·word-timings targets 3중 이동 + 실패 시 롤백. 세력·클러스터 재배치는 확인 모달 + dry-run.
 - 낙관적 잠금: `updated_at` 대조. 로컬 전용 라우트 가드: `FACTION_LOCAL=1` 미설정 시 503+사유. `REMOTION_ROOT` env 파라미터화.
@@ -107,7 +107,7 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 | 0 | 팩션 WIP 커밋 정착(기준 SHA) + web-bo 배포본 확인 | P3 착수 전 필수 |
 | 1 | 마이그레이션 + schema lib + import/export/verify + 왕복 검증 | **완료 26.07.25 (23/23)** |
 | 2 | export 발효: `_generated` 마커·checksum 가드·`.export-backup/`·`_episodes.json` 재생성·durations-pull·verify duration 열 | |
-| 3 | 공유 부품 4종+Task Queue shared 승격(~2,900줄, import ~60곳) | |
+| 3 | 공유 부품 4종+Task Queue shared 승격(~2,900줄, import ~60곳) | **완료 26.07.25** — `packages/shared/src/bo/` 22파일 4,425줄. 4종만으로는 컴파일이 안 돼 의존 폐포까지 올렸다(icons·voice-utils·audio-wave-player·time-ruler·gain + `EleSettings`·`GenEngine`·`TempPreview`·`playDing`). remotion-bo 의 shared 참조 168줄/109파일, 껍데기 재export 0, tsc 3종(remotion-bo·remotion·web-bo) 0, 화면 5종 브라우저 실측(콘솔 오류 0) |
 | 4 | **web-bo 편집기**(라우트+액션 ~1,200줄·fs 라우트 ~600줄·56파일 이식+데이터층 ~1,500줄·reorder 원자성 ~250줄) — PayPal-Mafia 선검수 | |
 | 5 | faction-sync 이동·개조 + series-registry 스위치 + 87파일 삭제 + 문서 6종 갱신 | |
 | 6(선택) | 카드뉴스 person-cards/group-cards → data.card 이관(이름 키→UUID) | |
@@ -125,4 +125,5 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 
 ## 진행 로그
 
+- 26.07.25 **Phase 3 완료** — 공용 부품을 `packages/shared/src/bo/` 로 승격(git mv 로 이력 보존). 실측 교훈 두 가지. ① **4종만 옮기면 컴파일이 안 된다** — `media`·`editor` 는 아이콘, `voice` 는 파형 재생기·음성 유틸·합성 설정 타입·알림음에 매달려 있었다. 의존 폐포(icons·voice-utils·audio-wave-player·time-ruler·gain)까지 올려 22파일 4,425줄이 됐다. ② **`next/navigation` 을 쓰는 부품이 있어 shared 가 next 를 알아야 한다** — peerDependency(next·react-dom, optional) + 타입 확인용 devDependency 로 두고 버전을 앱과 일치시켰다(pnpm 저장소 같은 항목으로 해소돼 인스턴스가 갈리지 않음을 실측). remotion-bo `next.config.ts` 의 transpilePackages 에 shared 추가. 시리즈 이름을 아는 `mediaRootOf` 만 앱에 남겼다(`lib/media-root.ts`). 렌더 저장소 위치는 `REMOTION_ROOT` 로 옮길 수 있게 했다(`bo/remotion-root`).
 - 26.07.25 설계 확정, 스키마 적용, Phase 1 완료(이관 23편·왕복 검증 23/23·검증기 반증 시험 통과). 부수 발견: `_backup_virtual_monologue_{ko,en}_v1` 2테이블 RLS 미적용으로 anon 전량 노출(각 1,692행) — 즉시 조치 대상.

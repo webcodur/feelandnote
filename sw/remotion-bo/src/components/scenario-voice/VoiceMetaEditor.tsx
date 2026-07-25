@@ -5,7 +5,7 @@ import {
   type VoiceMetaContext,
   BTN_SM,
 } from './types'
-import { EleEmotionPicker } from '@/components/voice'
+import { EleEmotionPicker } from '@feelandnote/shared/bo/voice'
 
 // ── VoiceMetaEditor ──
 // 라인별 voice 메타 편집(controlled). 저장 책임은 부모.

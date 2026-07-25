@@ -10,9 +10,9 @@
  */
 
 import type { DiscourseScript, DiscourseLongformItem } from '@/lib/discourse-types'
-import { ChevronUp, ChevronDown, Trash2, Plus } from '@/components/icons'
+import { ChevronUp, ChevronDown, Trash2, Plus } from '@feelandnote/shared/bo/icons'
 import { longformPartNumbers, splitName } from '../../shared/timing'
-import type { EditLang } from '@/components/editor'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 type Props = {
   script: DiscourseScript

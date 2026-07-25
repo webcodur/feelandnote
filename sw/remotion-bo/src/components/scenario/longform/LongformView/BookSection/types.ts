@@ -1,5 +1,5 @@
 import type { Speaker } from '../../../SpeakerPanel'
-import type { VoiceSection } from '../../../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { CinematicImage, AnchorPick, ImageField } from '../../../types'
 import type { MusicFile } from '../useLongformState'
 import type { BookTextPatch } from '../../../jsonImport'

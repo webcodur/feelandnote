@@ -14,7 +14,7 @@
 
 import { useMemo, useRef, useState } from 'react'
 import type { Speaker, Turn } from '@/lib/discourse-types'
-import { ImageIcon, X } from '@/components/icons'
+import { ImageIcon, X } from '@feelandnote/shared/bo/icons'
 import { castColorOf } from '../DiscourseEditor/sections/CastColorBar'
 
 /** 앵커 좌표 — 몇 번째 발언의 몇 번째 덩어리인가 (chunk 0 = 시작 사진 자리라 앵커 제외) */

@@ -4,8 +4,8 @@ import type { FactionPerson } from '@/lib/faction-types'
 import { FactionPersonRow } from '../FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { buildPersonSwapRenames, reorderFactionVoice } from '@/lib/faction-voice'
-import { Search, UserPlus } from '@/components/icons'
-import type { EditLang } from '@/components/editor'
+import { Search, UserPlus } from '@feelandnote/shared/bo/icons'
+import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 type Props = {
   people: FactionPerson[]

@@ -2,8 +2,9 @@
 
 import { useState, useCallback } from 'react'
 import type { EpisodeData } from '../../EpisodeEditor'
-import { resolveSegmentEngine } from '../../voice-utils'
-import { type EleSettings, type EleSendOpts, buildEleText } from '../types'
+import { resolveSegmentEngine } from '@feelandnote/shared/bo/voice-utils'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { type EleSendOpts, buildEleText } from '../types'
 
 // ── VoiceToolbar 상태·로직 ──
 

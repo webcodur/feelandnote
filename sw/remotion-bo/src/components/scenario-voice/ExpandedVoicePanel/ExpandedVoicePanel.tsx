@@ -1,8 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { VoiceFile } from '../../voice-utils'
-import { engineSlotPrefix } from '../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
+import { engineSlotPrefix } from '@feelandnote/shared/bo/voice-utils'
 import { buildEleText } from '../types'
 import { prodFile } from '../utils'
 import { SyncModeContent } from '../SyncModeContent'
@@ -14,7 +14,7 @@ import { useSegmentMeta } from './useSegmentMeta'
 import {
   SavedVoiceSection, useVoiceGeneration,
   type SavedVoiceTrack, type VoiceGenEndpoints,
-} from '@/components/voice'
+} from '@feelandnote/shared/bo/voice'
 import { GenerateSection } from './sections/GenerateSection'
 
 export function ExpandedVoicePanel({

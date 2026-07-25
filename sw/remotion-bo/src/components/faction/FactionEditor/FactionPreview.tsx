@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
 import { imageSrc, initial, totalSec, cueCount, factionStepsOf, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
-import { formatMmss } from '@/components/editor'
-import { MediaThumb, cropToStyle } from '@/components/media'
-import { Eye, EyeOff } from '@/components/icons'
+import { formatMmss } from '@feelandnote/shared/bo/editor'
+import { MediaThumb, cropToStyle } from '@feelandnote/shared/bo/media'
+import { Eye, EyeOff } from '@feelandnote/shared/bo/icons'
 
 type Props = {
   script: FactionScript

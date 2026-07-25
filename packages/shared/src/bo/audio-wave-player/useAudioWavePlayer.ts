@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useHoverTime } from '../TimeRuler'
-import { dbToLinear } from '../scenario/gain'
+import { useHoverTime } from '../time-ruler'
+import { dbToLinear } from '../gain'
 import { BAR_COLOR, BAR_GAP, BAR_W } from './constants'
 import type { Props } from './types'
 

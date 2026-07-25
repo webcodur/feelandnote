@@ -5,7 +5,8 @@
  */
 
 import { NextResponse } from 'next/server'
-import { mediaRootOf, imageAbsPath, readImageFile } from '@/lib/episode-store'
+import { imageAbsPath, readImageFile } from '@feelandnote/shared/bo/episode-store'
+import { mediaRootOf } from '@/lib/media-root'
 
 const MIME: Record<string, string> = {
   '.png': 'image/png',

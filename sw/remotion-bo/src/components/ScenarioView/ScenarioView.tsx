@@ -7,7 +7,7 @@ import {
   LongformView, ShortsView, SoloSectionView,
   BgmPanel, MaterialModal, TtsReplaceModal,
 } from '../scenario'
-import { VoiceEditorShell, VoiceEngineToggle, BOOK_VOICE_MODES } from '../voice'
+import { VoiceEditorShell, VoiceEngineToggle, BOOK_VOICE_MODES } from '@feelandnote/shared/bo/voice'
 import { PlaybackRateControl } from '../scenario/PlaybackRatePanel'
 import { AudioPreviewProvider } from '../scenario/AudioPreviewContext'
 import { BookTabsBar } from '../scenario/BookTabsBar'

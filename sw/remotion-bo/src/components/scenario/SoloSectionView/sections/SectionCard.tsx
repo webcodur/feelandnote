@@ -3,7 +3,7 @@ import { EditableText } from '../../EditableText'
 import { InlineImageRow } from '../../ImageThumb'
 import { lookupVoice } from '../../utils'
 import { ENGINE_COLORS, ENGINE_LABELS, type AnchorPick, type CinematicImage } from '../../types'
-import type { VoiceSection } from '../../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { SoloFreeSection } from '../types'
 
 interface SectionCardProps {

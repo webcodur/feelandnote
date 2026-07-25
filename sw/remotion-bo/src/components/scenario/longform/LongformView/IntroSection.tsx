@@ -9,7 +9,7 @@ import { PlaybackRateInput } from '../../PlaybackRateInput'
 import type { Speaker } from '../../SpeakerPanel'
 import { LongformCopyAllButton } from '../CopyButton'
 import { lookupVoice } from '../../utils'
-import type { VoiceSection } from '../../../voice-utils'
+import type { VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { EpisodeData, SfxItem } from '../../../EpisodeEditor'
 import { EditorPanel } from '../../EditorPanel'
 

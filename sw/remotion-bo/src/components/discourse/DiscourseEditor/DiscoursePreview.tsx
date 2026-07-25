@@ -15,9 +15,9 @@
 import { useState } from 'react'
 import type { DiscourseScript } from '@/lib/discourse-types'
 import { KIND_LABEL } from '@feelandnote/remotion/src/compositions/Discourse/constants'
-import { MediaThumb } from '@/components/media'
+import { MediaThumb } from '@feelandnote/shared/bo/media'
 import { buildCues, imageSrc, splitName, turnChunks, FPS } from '../shared/timing'
-import { formatMmss } from '@/components/editor'
+import { formatMmss } from '@feelandnote/shared/bo/editor'
 import { castColorOf } from './sections/CastColorBar'
 
 type Props = {

@@ -8,7 +8,7 @@ import { factionVoiceFile, buildGroupMoveRenames, buildPersonCrossMoveRenames, r
 import { totalSec, totalPeople, cueCount } from './shared/timing'
 import {
   EditLangSwitch, FloatingSaveButton, formatMmss, useEpisodeEditor, type EditLang,
-} from '@/components/editor'
+} from '@feelandnote/shared/bo/editor'
 
 /** 음악 파일 길이(초) 측정 — 브라우저 Audio 메타데이터 */
 function measureDuration(url: string): Promise<number> {
@@ -32,12 +32,12 @@ function measureDuration(url: string): Promise<number> {
     a.src = url
   })
 }
-import { Plus, Eye, Upload, Save, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from '@/components/icons'
+import { Plus, Eye, Upload, Save, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from '@feelandnote/shared/bo/icons'
 import { FactionGroupEditor } from './FactionEditor/FactionGroupEditor/FactionGroupEditor'
 import { FactionCopyButton } from './shared/FactionCopyButton'
 import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
 import { FactionPreview } from './FactionEditor/FactionPreview'
-import { ImagePool, FACTION_IMAGE_DND } from '@/components/media'
+import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionShortsPartHeader } from './FactionEditor/sections/FactionShortsPartHeader'
 import { collectUsedImages, remapFactionImages } from './shared/usedImages'
 import { TaskPanel } from '@/components/TaskPanel'

@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import type { FactionImageCrop, ZoomFocus } from '@/lib/faction-types'
 import { imageSrc } from '../../../shared/timing'
-import { ImageIcon } from '@/components/icons'
-import { useImageDrop, MediaThumb, ImagePicker, FACTION_IMAGE_DND } from '@/components/media'
+import { ImageIcon } from '@feelandnote/shared/bo/icons'
+import { useImageDrop, MediaThumb, ImagePicker, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 
 export function CoverPickerButton({
   value, previewValue, onChange, series, episodeName, crop, onCropChange, zoomFocus, onZoomFocusChange, className,

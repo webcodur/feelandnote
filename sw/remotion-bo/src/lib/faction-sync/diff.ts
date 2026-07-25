@@ -8,7 +8,7 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
 import { FACTIONS_DIR, loadFactionEpisode } from '@/lib/faction-utils'
-import { episodeDirOf, safeRelSegs } from '@/lib/episode-store'
+import { episodeDirOf, safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import type { FactionCluster, FactionGroup, FactionPerson } from '@/lib/faction-types'
 import { adminClient, toImageArray, type CelebAssignmentRow, type CelebProfileRow, type CelebTagRow } from './supabase'
 import { fileHash, readManifest, type FactionSyncManifest } from './manifest'

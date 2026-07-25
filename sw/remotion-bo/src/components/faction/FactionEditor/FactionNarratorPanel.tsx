@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { FactionScript, FactionNarrator, FactionNarratorVoice, FactionPerson } from '@/lib/faction-types'
-import type { VoiceFile } from '../../voice-utils'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { factionOpeningReadText, vnNarratorLogline } from '@/lib/faction-voice'
 import { useFactionVoice } from '../shared/FactionVoiceContext'
 import { FactionVoicePanel } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/FactionVoicePanel'

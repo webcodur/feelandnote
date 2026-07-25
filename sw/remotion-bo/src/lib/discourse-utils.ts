@@ -7,7 +7,7 @@
  * 진행 상태는 같은 폴더의 _status.json 에 둔다. 팩션(factions/)·서재 탐방(episodes/)과 완전히 분리된 경로다.
  * 경로 규격은 docs/project/remotion/discourse.md §8.
  *
- * 폴더 스캔·진행 상태·노출 목록·음원 목록은 팩션(factions/)과 규칙이 같아 `episode-store.ts` 한 곳에 있다.
+ * 폴더 스캔·진행 상태·노출 목록·음원 목록은 팩션(factions/)과 규칙이 같아 공용 부품 `shared/bo/episode-store` 한 곳에 있다.
  */
 
 import { readFile, writeFile, mkdir } from 'fs/promises'
@@ -23,7 +23,7 @@ import {
   voiceDirOf,
   readStatus,
   writeStatus,
-} from './episode-store'
+} from '@feelandnote/shared/bo/episode-store'
 
 export { DISCOURSES_DIR }
 

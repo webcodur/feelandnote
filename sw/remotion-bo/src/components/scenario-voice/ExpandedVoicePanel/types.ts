@@ -1,11 +1,8 @@
 import type { EpisodeData } from '../../EpisodeEditor'
-import type { VoiceFile, VoiceSection, EngineKind } from '../../voice-utils'
-import { type EleSettings, type EleSendOpts, BTN_SM } from '../types'
+import type { VoiceFile, VoiceSection, EngineKind, EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { type EleSendOpts, BTN_SM } from '../types'
 
 export const BTN_GEM = `${BTN_SM} bg-blue-500/20 text-blue-300 border border-blue-500/40 hover:bg-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed`
-
-/** 생성 엔진 선택값 — 저장 슬롯(EngineKind)과 별개. gemini-v3(3.1)도 gemini 슬롯에 저장된다. */
-export type GenEngine = EngineKind | 'gemini-v3'
 
 export type ExpandedVoicePanelProps = {
   sectionKey: string
@@ -32,12 +29,3 @@ export type ExpandedVoicePanelProps = {
   voiceOverride?: { value: string; onChange: (v: string) => void } | null
 }
 
-export type TempPreview = {
-  engine: EngineKind
-  key: string
-  blobUrl: string
-  base64: string
-  duration: number
-  /** 'wav' | 'mp3' — Gemini는 wav, ElevenLabs preview는 mp3 */
-  format: 'wav' | 'mp3'
-}

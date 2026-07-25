@@ -3,9 +3,10 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEpisode, type SaveScope } from '@/lib/episode-context'
-import { groupBySection, type VoiceSection } from '../voice-utils'
+import { groupBySection, type VoiceSection } from '@feelandnote/shared/bo/voice-utils'
 import type { EpisodeData } from '../EpisodeEditor'
-import { ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, DEFAULT_ELE_SEND_OPTS, type EleSettings, type EleSendOpts } from '../scenario-voice'
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { ExpandedVoicePanel, useVoiceSelect, detectMode, DEFAULT_ELE_SETTINGS, DEFAULT_ELE_SEND_OPTS, type EleSendOpts } from '../scenario-voice'
 import {
   parseViewParam, viewToParam, viewToBookIndex, VIEW_META,
   useImageEditor, useSaveSync,

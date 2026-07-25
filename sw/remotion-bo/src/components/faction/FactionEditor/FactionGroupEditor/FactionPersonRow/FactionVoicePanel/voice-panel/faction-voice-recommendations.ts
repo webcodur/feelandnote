@@ -3,7 +3,7 @@
 import type { FactionPerson } from '@/lib/faction-types'
 import type { EleVoiceNote } from '@/lib/ele-voice-notes'
 import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
-import type { EleVoiceLike } from '../../../../../../voice-utils'
+import type { EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 
 export type FactionEleVoiceRecommendation = {
   voiceId: string

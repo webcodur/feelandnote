@@ -14,7 +14,7 @@
  *
  * 서버 창구는 이미 하나다: /api/{series}/media(목록·올리기·지우기),
  * /api/{series}/media/folder(폴더 만들기·이름바꾸기·지우기·옮기기·탐색기로 열기),
- * imageSrc(series, ep, path)(표시 주소, lib/media-src).
+ * imageSrc(series, ep, path)(표시 주소, 같은 폴더의 media-src).
  */
 
 import {
@@ -22,11 +22,11 @@ import {
   type CSSProperties, type DragEvent, type PointerEvent as ReactPointerEvent, type ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
-import type { MediaTree, MediaTreeFile } from '@/lib/episode-store'
-import { imageSrc } from '@/lib/media-src'
+import type { MediaTree, MediaTreeFile } from './episode-store'
+import { imageSrc } from './media-src'
 import {
   ChevronDown, ChevronLeft, ChevronRight, FolderOpen, Pencil, Plus, Search, Trash2, X,
-} from '@/components/icons'
+} from './icons'
 
 export { imageSrc }
 

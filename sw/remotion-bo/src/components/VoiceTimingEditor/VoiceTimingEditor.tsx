@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AudioWavePlayer, usePct } from '../AudioWavePlayer'
+import { AudioWavePlayer, usePct } from '@feelandnote/shared/bo/audio-wave-player'
 import type { Props } from './types'
 import { useTimingEditor } from './useTimingEditor'
 import { WaveOverlay } from './sections/WaveOverlay'

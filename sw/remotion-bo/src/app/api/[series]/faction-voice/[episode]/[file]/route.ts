@@ -1,6 +1,6 @@
 import { isSeriesModel } from '@/lib/series-registry'
 import { factionVoiceFilePath } from '@/lib/faction-utils'
-import { streamWav } from '@/lib/episode-store'
+import { streamWav } from '@feelandnote/shared/bo/episode-store'
 
 /**
  * GET /api/{series}/faction-voice/{episode}/{file}

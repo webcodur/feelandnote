@@ -1,6 +1,7 @@
+import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+
 // ── Types ──
 
-export type EleSettings = { stability: number; similarity_boost: number; style: number; speed: number; volumeBoost: number }
 export type VoiceSelect = { default: string; slots?: Record<string, string> } | null
 export type EleSendOpts = { emotionEnabled: boolean; emotions: string[]; trailEnabled: boolean }
 

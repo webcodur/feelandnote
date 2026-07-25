@@ -1,7 +1,6 @@
 // Barrel — scenario-voice 외부 노출 식별자
 
 export type {
-  EleSettings,
   EleSendOpts,
   VoiceSelect,
   VoiceMeta,

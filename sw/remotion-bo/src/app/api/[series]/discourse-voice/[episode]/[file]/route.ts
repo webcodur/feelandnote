@@ -4,7 +4,7 @@
  */
 import { isSeriesModel } from '@/lib/series-registry'
 import { discourseVoiceFilePath } from '@/lib/discourse-utils'
-import { streamWav } from '@/lib/episode-store'
+import { streamWav } from '@feelandnote/shared/bo/episode-store'
 
 export async function GET(
   req: Request,

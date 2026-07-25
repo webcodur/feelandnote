@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useRef, useCallback, type ReactNode } from 'react'
 import type { EpisodeData } from '@/components/EpisodeEditor'
-import type { VoiceFile, VoiceSummary } from '@/components/voice-utils'
+import type { VoiceFile, VoiceSummary } from '@feelandnote/shared/bo/voice-utils'
 
 export type SaveResult = { ok: boolean; fieldSync?: { synced: number; textAnchorsNeeded: number } | null }
 /** 저장 범위 — 어떤 파일군만 기록할지 한정. 'all'=전체(현행). 서버 SaveScope 와 동일 값. */

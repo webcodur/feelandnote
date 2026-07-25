@@ -1,9 +1,9 @@
 'use client'
 
 import type { FactionPerson } from '@/lib/faction-types'
-import type { VoiceFile } from '../../../../../../voice-utils'
-import { VoiceEditorShell, type VoiceEditorModeDef } from '@/components/voice'
-import { Mic } from '@/components/icons'
+import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
+import { VoiceEditorShell, type VoiceEditorModeDef } from '@feelandnote/shared/bo/voice'
+import { Mic } from '@feelandnote/shared/bo/icons'
 import {
   FactionExpandedVoicePanel,
   FACTION_VOICE_MODE_LABEL,
