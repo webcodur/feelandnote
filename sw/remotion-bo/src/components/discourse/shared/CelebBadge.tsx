@@ -2,46 +2,24 @@
 
 /**
  * 셀럽 DB 연결 배지 — 팩션 인물 행(FactionPersonRow)의 배지와 **같은 규격**이다.
- * 대조 창구(/api/celebs/exists)와 판정 규칙(✓DB / ⚠없음 / 미연결 / 신화)을 팩션에서 그대로 가져왔다.
+ * 대조 창구(/api/celebs/exists)와 판정 규칙(✓DB / ⚠없음 / 미연결 / 신화)을 팩션에서 그대로 가져왔고,
+ * 지금은 이 컴포넌트 자체를 팩션도 그대로 재사용한다(`FactionPersonRow`).
  *
  * 담화는 인물이 본서비스 가상 독백(profiles.virtual_monologue)의 원천과 이어져야 하므로
  * slug 연결이 팩션보다 더 중요하다 — 유령 연결(slug 는 적혀 있는데 DB에 없음)을 화면에서 잡는다.
  */
 
-import { useEffect, useState } from 'react'
 import type { Speaker } from '@/lib/discourse-types'
+import { useCelebExists as useSlugExistence } from '@/lib/useCelebExists'
 
-/** 셀럽 slug 실존 대조 — 인물 목록이 바뀌면 다시 조회한다 */
+/** 셀럽 slug 실존 대조 — 인물 목록이 바뀌면 다시 조회한다 (공용 창구는 `@/lib/useCelebExists`) */
 export function useCelebExists(cast: Speaker[]): { existing: Set<string>; loaded: boolean } {
-  const [existing, setExisting] = useState<Set<string>>(new Set())
-  const [loaded, setLoaded] = useState(false)
-  const slugKey = cast.map(s => s.slug ?? '').join(',')
-
-  useEffect(() => {
-    const slugs = slugKey.split(',').filter(Boolean)
-    if (!slugs.length) { setExisting(new Set()); setLoaded(true); return }
-    let cancelled = false
-    fetch('/api/celebs/exists', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slugs }),
-    })
-      .then(r => r.json())
-      .then((d: { existing?: string[] }) => {
-        if (cancelled) return
-        setExisting(new Set(d.existing ?? []))
-        setLoaded(true)
-      })
-      // 대조 실패는 「미등록」이 아니다 — 배지를 그리지 않아 오판을 막는다(loaded 유지)
-      .catch(() => { if (!cancelled) setLoaded(false) })
-    return () => { cancelled = true }
-  }, [slugKey])
-
-  return { existing, loaded }
+  return useSlugExistence(cast.map(s => s.slug))
 }
 
 type Props = {
-  speaker: Speaker
+  /** 배지 판정에 필요한 최소 필드만 — Speaker·FactionPerson 둘 다 만족한다 */
+  speaker: { slug?: string; mythical?: boolean }
   existing: Set<string>
   loaded: boolean
 }
