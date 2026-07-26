@@ -87,7 +87,7 @@ export async function createContentFromExternal(
     }
 
     // content_locales에 로케일 데이터 저장
-    const locale = (['naver_book', 'qnet', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
+    const locale = (['naver_book', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
     await supabase.from('content_locales').insert({
       content_id: newContent.id,
       locale,

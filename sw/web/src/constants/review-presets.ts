@@ -85,18 +85,6 @@ const CATEGORY_PRESETS: Record<string, ReviewPreset[]> = {
     { id: "GAME_04", keyword: "스토리 몰입", description: "내러티브·세계관에 완전히 빠짐", sentiment: "positive" },
     { id: "GAME_05", keyword: "밸런스 망함", description: "밸런스가 너무 엉망이라 재미 반감", sentiment: "negative" },
   ],
-  certificate: [
-    { id: "CERT_01", keyword: "합격 가치 높음", description: "취득 후 취업·승진·연봉에 실제로 큰 도움이 됨", sentiment: "positive" },
-    { id: "CERT_02", keyword: "실무 바로 써먹음", description: "공부한 내용이 현업에서 바로 적용 가능", sentiment: "positive" },
-    { id: "CERT_03", keyword: "공부량 적당", description: "준비 기간·양이 합리적 (직장인 추천)", sentiment: "positive" },
-    { id: "CERT_04", keyword: "난이도 적당", description: "예상보다 어렵지 않아서 무난함", sentiment: "neutral" },
-    { id: "CERT_05", keyword: "개념 잡기 좋음", description: "이론·기본 개념 이해에 큰 도움 (초보자 추천)", sentiment: "positive" },
-    { id: "CERT_06", keyword: "시간 아까움", description: "투자 대비 효율이 너무 떨어짐 (비추천 핵심)", sentiment: "negative" },
-    { id: "CERT_07", keyword: "공부 고생 많음", description: "준비 과정이 매우 힘들었음 (공감 유발)", sentiment: "negative" },
-    { id: "CERT_08", keyword: "덤프 의존도 높음", description: "기출·덤프 위주로 공부하면 합격 가능", sentiment: "neutral" },
-    { id: "CERT_09", keyword: "1트 합격 가능", description: "한 번에 붙을 수 있을 정도로 쉬운 난이도", sentiment: "positive" },
-    { id: "CERT_10", keyword: "재도전 의지 생김", description: "떨어졌지만 다시 도전하고 싶어질 만큼 가치 있음", sentiment: "positive" },
-  ],
 };
 
 // 모든 공통 프리셋을 하나의 배열로 반환

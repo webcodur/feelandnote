@@ -4,7 +4,6 @@ import { searchBooks } from '@feelandnote/content-search/naver-books'
 import { searchVideo } from '@feelandnote/content-search/tmdb'
 import { searchGames } from '@feelandnote/content-search/igdb'
 import { searchMusic } from '@feelandnote/content-search/spotify'
-import { searchCertificates } from '@feelandnote/content-search/qnet'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {
@@ -123,25 +122,6 @@ export async function searchContents({
           })),
           total: musicResults.total,
           hasMore: musicResults.hasMore,
-        }
-      }
-
-      case 'certificate': {
-        const certResults = await searchCertificates(query, page)
-        return {
-          items: certResults.items.map((cert) => ({
-            id: cert.externalId,
-            title: cert.title,
-            creator: cert.creator,
-            category: 'certificate',
-            thumbnail: undefined,
-            description: `${cert.metadata.qualificationType} | ${cert.metadata.series}`,
-            externalId: cert.externalId,
-            externalSource: cert.externalSource,
-            metadata: cert.metadata,
-          })),
-          total: certResults.total,
-          hasMore: certResults.hasMore,
         }
       }
 

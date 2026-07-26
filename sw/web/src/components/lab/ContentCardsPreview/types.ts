@@ -47,11 +47,6 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
         card: "ContentCard",
         description: "도서/영상/게임/음악 기록. 리뷰 모드 (PC: 이미지+리뷰, MB: 포스터형).",
       },
-      {
-        name: "자격증 섹션",
-        card: "ContentCard",
-        description: "자격증도 ContentCard로 통합. 그라데이션 폴백 + 골드 스탬프.",
-      },
     ],
   },
   {
@@ -62,11 +57,6 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
         name: "일반 콘텐츠",
         card: "ContentCard",
         description: "관심(WANT) 등록한 콘텐츠. 포스터 레이아웃 + saved 뱃지.",
-      },
-      {
-        name: "자격증 섹션",
-        card: "ContentCard",
-        description: "관심 자격증도 ContentCard로 통합.",
       },
     ],
   },

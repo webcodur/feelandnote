@@ -1,4 +1,4 @@
-import { User, Calendar, Building2, Film, Users, Music, Disc, Gamepad2, Award, Briefcase, Code, List } from "lucide-react";
+import { User, Calendar, Building2, Film, Users, Music, Disc, Gamepad2, Code } from "lucide-react";
 import { type QuickRecordTarget } from "@/contexts/QuickRecordContext";
 import type { ContentMetadata } from "@/types/content";
 
@@ -138,35 +138,6 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                     </>
                 )}
 
-                {/* CERTIFICATE */}
-                {targetContent.type === 'CERTIFICATE' && (
-                    <>
-                        {metadata?.qualificationType && (
-                            <>
-                                <span className="text-text-tertiary flex items-center justify-center">
-                                    <Award size={16} className="opacity-70" />
-                                </span>
-                                <span className="text-text-primary text-center">{metadata.qualificationType}</span>
-                            </>
-                        )}
-                        {metadata?.majorField && (
-                            <>
-                                <span className="text-text-tertiary flex items-center justify-center">
-                                    <Briefcase size={16} className="opacity-70" />
-                                </span>
-                                <span className="text-text-primary text-center">{metadata.majorField}</span>
-                            </>
-                        )}
-                        {metadata?.series && (
-                            <>
-                                <span className="text-text-tertiary flex items-center justify-center">
-                                    <List size={16} className="opacity-70" />
-                                </span>
-                                <span className="text-text-primary text-center">{metadata.series}</span>
-                            </>
-                        )}
-                    </>
-                )}
             </div>
         </div>
     );

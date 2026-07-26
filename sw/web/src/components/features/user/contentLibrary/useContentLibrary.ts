@@ -68,7 +68,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
 
   const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({
-    BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0,
+    BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0,
   });
 
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());

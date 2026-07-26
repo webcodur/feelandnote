@@ -11,7 +11,6 @@ const DEFAULT_COUNTS: FriendActivityTypeCounts = {
   VIDEO: 0,
   GAME: 0,
   MUSIC: 0,
-  CERTIFICATE: 0,
 }
 
 // 미사용 — egress-allow 구조 보존을 위해 export만 해제

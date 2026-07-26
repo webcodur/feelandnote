@@ -12,8 +12,6 @@ import {
   Star,
   Gamepad2,
   Music,
-  Award,
-  FileText,
   Disc3,
   ExternalLink,
   Calendar,
@@ -89,9 +87,6 @@ export default function ContentMetadataDisplay({
     totalTracks,
     artists,
     spotifyUrl,
-    qualificationType,
-    series,
-    majorField,
   } = metadata;
 
   switch (category.toLowerCase()) {
@@ -173,18 +168,6 @@ export default function ContentMetadataDisplay({
               {t("listenOnSpotify")}
             </a>
           )}
-        </div>
-      );
-
-    // 자격증
-    case "certificate":
-      return (
-        <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {qualificationType && (
-            <InfoItem icon={Award} label={t("qualificationType")} value={qualificationType} />
-          )}
-          {series && <InfoItem icon={Building2} label={t("series")} value={series} />}
-          {!compact && majorField && <InfoItem icon={FileText} label={t("majorField")} value={majorField} />}
         </div>
       );
 

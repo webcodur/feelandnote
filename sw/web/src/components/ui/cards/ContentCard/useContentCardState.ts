@@ -8,7 +8,6 @@ import type { User } from "@supabase/supabase-js";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getBookEditions } from "@/lib/utils/editions";
 
-import { getFieldTheme } from "../certificateThemes";
 import type { ContentCardProps } from "./types";
 import { TYPE_ICONS, ASPECT_STYLES } from "./constants";
 import { useContentCounts } from "./hooks/useCelebCount";
@@ -191,11 +190,6 @@ export function useContentCardState(props: ContentCardProps) {
     }
   };
 
-  // 자격증 테마 (thumbnail 폴백용)
-  const certTheme = contentType === "CERTIFICATE"
-    ? getFieldTheme(title, creator ?? "")
-    : null;
-
   // 선택 모드 스타일
   const selectableClass = selectable
     ? isSelected
@@ -256,7 +250,6 @@ export function useContentCardState(props: ContentCardProps) {
     isReviewMode,
     contentDetailUrl,
     handleClick,
-    certTheme,
     selectableClass,
   };
 }

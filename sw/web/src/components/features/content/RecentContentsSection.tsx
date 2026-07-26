@@ -7,7 +7,7 @@
 
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award } from "lucide-react";
+import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -20,7 +20,6 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
   VIDEO: Film,
   GAME: Gamepad2,
   MUSIC: Music,
-  CERTIFICATE: Award,
 };
 
 interface RecentContentsSectionProps {

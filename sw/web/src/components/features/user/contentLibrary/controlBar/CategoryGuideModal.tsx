@@ -20,7 +20,7 @@ export default function CategoryGuideModal({ isOpen, onClose }: CategoryGuideMod
             대분류는 콘텐츠의 <span className="text-text-primary font-medium">매체 유형</span>을 기준으로 구분됩니다.
           </p>
           <p>
-            현재 도서, 영상, 게임, 음악, 자격증 총 5개의 대분류가 제공되고 있으며, 사용자분들의 건의에 따라 새로운
+            현재 도서, 영상, 게임, 음악 총 4개의 대분류가 제공되고 있으며, 사용자분들의 건의에 따라 새로운
             카테고리가 추가될 수 있습니다. (외부 API가 확인되는 경우 추가 가능)
           </p>
           <p className="text-text-tertiary text-xs">

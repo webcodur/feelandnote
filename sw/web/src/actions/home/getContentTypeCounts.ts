@@ -13,7 +13,6 @@ const DEFAULT_COUNTS: ContentTypeCounts = {
   VIDEO: 0,
   GAME: 0,
   MUSIC: 0,
-  CERTIFICATE: 0,
 }
 
 async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {

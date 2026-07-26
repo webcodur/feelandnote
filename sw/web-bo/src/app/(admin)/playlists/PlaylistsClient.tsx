@@ -15,7 +15,6 @@ import {
   Film,
   Gamepad2,
   Music,
-  Award,
 } from 'lucide-react'
 import {
   PageHeader,
@@ -35,7 +34,6 @@ const CONTENT_TYPE_ICONS = {
   VIDEO: Film,
   GAME: Gamepad2,
   MUSIC: Music,
-  CERTIFICATE: Award,
 }
 
 interface Playlist {

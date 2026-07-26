@@ -259,8 +259,7 @@
     "enterQuery": "검색어를 입력하세요",
     "enterQueryDesc": "콘텐츠, 사용자, 태그를 검색할 수 있습니다",
     "guide": {
-      "game": "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어나 언어를 바꿔보세요.",
-      "certificate": "주요 국가자격증 위주로 검색돼요."
+      "game": "검색 결과가 더 있을 수 있어요. 원하는 게임이 없다면 검색어나 언어를 바꿔보세요."
     },
     "contentSort": {
       "relevance": "관련도순",
@@ -276,15 +275,13 @@
       "book": "도서",
       "video": "영상",
       "game": "게임",
-      "music": "음악",
-      "certificate": "자격증"
+      "music": "음악"
     },
     "apiSource": {
       "book": "네이버 책 API",
       "video": "TMDB",
       "game": "IGDB",
-      "music": "Spotify",
-      "certificate": "Q-Net"
+      "music": "Spotify"
     }
   },
   "archiveSearch": {

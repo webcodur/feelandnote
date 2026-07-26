@@ -89,5 +89,4 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
         `https://music.youtube.com/search?q=${encodeURIComponent(title)}`,
     },
   ],
-  CERTIFICATE: [],
 };

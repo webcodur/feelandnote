@@ -8,10 +8,10 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType } from '@/types/database'
 import type { ContentTypeCounts } from '@/types/content'
 
-const CONTENT_TYPES: ContentType[] = ['BOOK', 'VIDEO', 'GAME', 'MUSIC', 'CERTIFICATE']
+const CONTENT_TYPES: ContentType[] = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
 function zeroCounts(): ContentTypeCounts {
-  return { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0, CERTIFICATE: 0 }
+  return { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
 }
 
 // 타입별 head 카운트 집계 — row 페치 없이 count만 송출

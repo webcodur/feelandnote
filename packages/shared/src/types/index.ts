@@ -6,7 +6,7 @@
 export type ContentStatus = 'WANT' | 'FINISHED'
 
 // 콘텐츠 타입
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
+export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
 // 셀럽 직업 타입
 export type CelebProfession =

@@ -24,7 +24,7 @@ export default function CelebFeedSection({ initialReviews, initialCursor, initia
 
   const tabs: { value: ContentTypeFilterValue; label: string }[] = [
     { value: "all", label: t("all") },
-    ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({
+    ...CATEGORIES.map((c) => ({
       value: c.dbType as ContentTypeFilterValue,
       label: t(c.id),
     })),

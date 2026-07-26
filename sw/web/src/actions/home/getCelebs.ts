@@ -22,7 +22,7 @@ interface GetCelebsParams {
   limit?: number
   profession?: string
   nationality?: string  // 'all' | 'none' | 국가명
-  contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
+  contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
   gender?: string  // 'all' | 'male' | 'female' (DB: true=male, false=female)
   sortBy?: CelebSortBy
   search?: string  // 이름 검색
