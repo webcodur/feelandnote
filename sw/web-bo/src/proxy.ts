@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // 로그인 페이지와 public API는 체크 제외
-  if (pathname === '/login' || pathname.startsWith('/api/image-proxy') || pathname.startsWith('/devcheck-trim')) {
+  if (pathname === '/login' || pathname.startsWith('/api/image-proxy')) {
     return NextResponse.next()
   }
 

@@ -4,6 +4,10 @@
 
 @import "tailwindcss";
 
+/* 공용 부품(packages/shared)은 node_modules 경유라 Tailwind 4 자동 탐색에서 빠진다.
+   선언이 없으면 부품 전용 클래스가 조용히 증발한다(26.07.26 web-bo 트림 손잡이 12px 밀림 사고 — 158클래스 누락). */
+@source "../../../../packages/shared/src";
+
 @theme {
   /* 프리미엄 초고대비 라이트 테마 (High-Contrast Slate Light) - 흐릿함을 없애고 칼같은 경계 제공 */
   --color-bg-main: #e2e8f0;       /* 좀 더 차분하고 어두운 회색으로 카드가 선명히 부각되도록 함 */
