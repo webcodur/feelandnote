@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import {
-  FACTION_EDIT_LANGS, FACTION_EDIT_TABS, toFactionEditTab,
-} from '@/lib/faction-edit-route'
+import { FACTION_EDIT_LANGS, FACTION_EDIT_TABS, toFactionEditTab, folderToParam, paramToFolder } from '@/lib/faction-edit-route'
 import { FactionEditor } from '@/components/factions/FactionEditor'
 import { FACTION_SERIES } from '@/lib/faction-paths'
 
@@ -28,10 +26,10 @@ export default async function FactionEditPage({
 }) {
   const { episode, lang, tab } = await params
   const query = (await searchParams) ?? {}
-  const name = decodeURIComponent(episode)
+  const name = paramToFolder(episode)
 
   if (!FACTION_EDIT_LANGS.has(lang) || !FACTION_EDIT_TABS.has(tab)) {
-    redirect(`/factions/${encodeURIComponent(name)}/ko/info`)
+    redirect(`/factions/${folderToParam(name)}/ko/info`)
   }
 
   // 카드 화면을 바로 열고 특정 인물·카드로 이동하는 진입(옛 주소 호환)

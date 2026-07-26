@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
 import { VoiceTimingEditor } from '@/components/VoiceTimingEditor'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
  * 세력도 SYNC 패널 — whisper가 잘못 잡은 발화 시각을 음원 들으며 드래그로 교정한다.
@@ -28,7 +29,7 @@ export function FactionSyncContent({ series, episodeName, voiceFile, person }: {
   useEffect(() => {
     let alive = true
     setLoading(true)
-    fetch(`/api/${series}/voice/${encodeURIComponent(episodeName)}/timing?stem=${encodeURIComponent(stem)}&lang=ko`)
+    fetch(`/api/${series}/voice/${folderToParam(episodeName)}/timing?stem=${encodeURIComponent(stem)}&lang=ko`)
       .then(r => r.json())
       .then(d => { if (alive) setTimings(Array.isArray(d.timings) ? d.timings : null) })
       .catch(() => { if (alive) setTimings(null) })
@@ -39,7 +40,7 @@ export function FactionSyncContent({ series, episodeName, voiceFile, person }: {
   const save = useCallback(async (t: Timing[]) => {
     setSaving(true); setSaved(false)
     try {
-      await fetch(`/api/${series}/voice/${encodeURIComponent(episodeName)}/timing`, {
+      await fetch(`/api/${series}/voice/${folderToParam(episodeName)}/timing`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stem, lang: 'ko', timings: t }),
       })
@@ -57,7 +58,7 @@ export function FactionSyncContent({ series, episodeName, voiceFile, person }: {
 
   const quote = person.quoteChunks?.length ? person.quoteChunks.join(' ') : (person.quote ?? '')
   const sentences = quote ? [quote] : []
-  const audioUrl = `/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}`
+  const audioUrl = `/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(voiceFile)}`
   const dur = timings?.[timings.length - 1]?.end ?? 0
 
   if (loading) return <div className="text-xs text-text-dim px-1 py-2">발화 시각 로드 중…</div>

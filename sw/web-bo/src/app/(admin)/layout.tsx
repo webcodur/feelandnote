@@ -32,10 +32,15 @@ export default async function AdminLayout({
   return (
     <ToastProvider>
       <MobileSidebarProvider>
-        <div className="flex min-h-screen bg-bg-main">
+        {/*
+          화면 높이를 창에 고정하고 본문만 스크롤한다(영상 관리 대시보드와 같은 틀).
+          이래야 본문 안에서 화면에 따라붙는 요소(이미지 풀 등)가 실제로 따라붙는다 —
+          예전처럼 높이 제한 없이 overflow 만 걸어두면 창이 스크롤되므로 따라붙기가 죽는다.
+        */}
+        <div className="flex h-screen overflow-hidden bg-bg-main">
           <DesktopSidebar />
           <MobileSidebar />
-          <div className="flex-1 flex flex-col min-w-0">
+          <div className="flex min-h-0 flex-1 flex-col min-w-0">
             <Header
               user={{
                 email: user.email || '',
@@ -43,10 +48,11 @@ export default async function AdminLayout({
                 role: profile.role,
               }}
             />
-            <main className="flex-1 p-3 md:p-6 overflow-auto">
-              {children}
+            {/* 맺음말은 본문과 함께 스크롤된다(창 아래에 상주하면 작업 공간을 잡아먹는다) */}
+            <main className="flex min-h-0 flex-1 flex-col overflow-y-auto p-3 md:p-6 [overflow-anchor:none]">
+              <div className="min-w-0 flex-1">{children}</div>
+              <Footer />
             </main>
-            <Footer />
           </div>
         </div>
       </MobileSidebarProvider>

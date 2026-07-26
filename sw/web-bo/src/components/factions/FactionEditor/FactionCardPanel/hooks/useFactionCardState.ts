@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { FactionCardsFile, FactionCardFields, FactionGroupCardFields } from '@/lib/faction-types'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 export function useFactionCardState(series: string, episodeName: string) {
   const [cardsFile, setCardsFile] = useState<FactionCardsFile>({ people: {}, groups: {} })
@@ -7,7 +8,7 @@ export function useFactionCardState(series: string, episodeName: string) {
 
   useEffect(() => {
     setCardsLoaded(false)
-    fetch(`/api/${series}/cards/${encodeURIComponent(episodeName)}`)
+    fetch(`/api/${series}/cards/${folderToParam(episodeName)}`)
       .then(r => (r.ok ? r.json() : { people: {}, groups: {} }))
       .then((d: FactionCardsFile) => {
         setCardsFile({ people: d?.people ?? {}, groups: d?.groups ?? {} })
@@ -26,7 +27,7 @@ export function useFactionCardState(series: string, episodeName: string) {
     if (!Object.keys(entry).length) delete next.people![personName]
     setCardsFile(next)
     
-    const res = await fetch(`/api/${series}/cards/${encodeURIComponent(episodeName)}`, {
+    const res = await fetch(`/api/${series}/cards/${folderToParam(episodeName)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ personName, card: entry }),
@@ -41,7 +42,7 @@ export function useFactionCardState(series: string, episodeName: string) {
     if (!Object.keys(entry).length) delete next.groups![groupName]
     setCardsFile(next)
     
-    const res = await fetch(`/api/${series}/cards/${encodeURIComponent(episodeName)}`, {
+    const res = await fetch(`/api/${series}/cards/${folderToParam(episodeName)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ groupName, card: entry }),

@@ -102,6 +102,7 @@ function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newVa
 
 import { PersonBasicInfo } from './sections/PersonBasicInfo'
 import { ChevronLeft, ChevronRight } from '@feelandnote/shared/bo/icons'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup, celebExisting, celebLoaded }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
@@ -395,7 +396,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {meta && <span className="font-mono text-[10px] text-accent">{meta.duration.toFixed(1)}s</span>}
               </button>
               {meta && (
-                <MiniAudioPlayer url={`/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={person[QUOTE_SLOT.fields.rate] as number | undefined} />
+                <MiniAudioPlayer url={`/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={person[QUOTE_SLOT.fields.rate] as number | undefined} />
               )}
             </div>
           )}
@@ -411,7 +412,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {epithetMeta && <span className="font-mono text-[10px] text-accent">{epithetMeta.duration.toFixed(1)}s</span>}
               </button>
               {epithetMeta && (
-                <MiniAudioPlayer url={`/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(epithetFile)}?t=${epithetMeta.size}`} rate={epithetPerson[EPITHET_SLOT.fields.rate] as number | undefined} />
+                <MiniAudioPlayer url={`/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(epithetFile)}?t=${epithetMeta.size}`} rate={epithetPerson[EPITHET_SLOT.fields.rate] as number | undefined} />
               )}
             </div>
           )}
@@ -495,7 +496,8 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                             onChange({ ...person, imageChanges: list })
                           }
                         }}
-                        className="text-text-primary min-h-[84px]"
+                        // 바탕이 흰색이라 글자색을 어둡게 못박는다(화면 테마를 따르면 어두운 화면에서 흰 글자가 된다)
+                        className="text-slate-900 placeholder:text-slate-400 min-h-[84px]"
                       />
                     </div>
                   </div>
@@ -512,7 +514,8 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                           onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
                         }}
                         anchors={attachedQuoteLines}
-                        className="italic text-text-secondary min-h-[84px]"
+                        // 영문 칸도 바탕이 밝다 — 본문보다 한 톤 연한 어두운 글자로 고정
+                        className="italic text-slate-600 placeholder:text-slate-400 min-h-[84px]"
                       />
                     </div>
                   </div>

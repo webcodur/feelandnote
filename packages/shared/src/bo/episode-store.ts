@@ -36,9 +36,20 @@ export function safeFilename(name: string): string {
   return path.basename(name).replace(/[^a-zA-Z0-9._-]/g, '_')
 }
 
-/** 에피소드 폴더명 안전화 — 한글 허용, 경로 이탈만 차단 */
+/** 파일·폴더 한 토막 안전화 — 한글 허용, 경로 이탈만 차단 */
 export function safeDirName(name: string): string {
   return path.basename(name).replace(/[/\\]/g, '')
+}
+
+/**
+ * 에피소드 키를 폴더 토막들로 쪼갠다.
+ *
+ * 아이디어 뱅크는 `not-using/<분류>/<이름>` 처럼 두 단 아래에 있어서 키에 슬래시가 들어간다.
+ * 한 토막만 남기면(예전 `safeDirName`) 뿌리 바로 아래를 가리켜 엉뚱한 폴더를 만들거나 읽는다.
+ * 위로 올라가는 토막(`..`)과 빈 토막은 버려 뿌리 밖으로 못 나가게 한다.
+ */
+export function safeDirSegs(name: string): string[] {
+  return (name ?? '').split(/[/\\]/).map(s => s.trim()).filter(s => s && s !== '.' && s !== '..')
 }
 
 /** 상대 경로 세그먼트 안전화 — 한글·공백 유지, 경로 이탈(.. .)·빈 세그먼트 제거 */
@@ -48,7 +59,7 @@ export function safeRelSegs(p: string): string[] {
 
 /** 에피소드 폴더 절대경로 */
 export function episodeDirOf(root: string, name: string): string {
-  return path.join(root, safeDirName(name))
+  return path.join(root, ...safeDirSegs(name))
 }
 
 /** 기본 이미지 폴더 — 업로드는 항상 여기로 떨어진다 */

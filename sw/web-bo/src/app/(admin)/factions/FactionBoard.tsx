@@ -15,7 +15,7 @@
  * 한 칸 들여쓰기로 따라붙는다. 묶음 관계 자체는 각 테마의 편집 화면에서 정한다.
  */
 
-import { useMemo, useState, useTransition } from 'react'
+import { Fragment, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -34,6 +34,7 @@ import {
 } from '@/components/factions/FactionTable'
 import ThemeFormModal from './ThemeFormModal'
 import EpisodeFormModal from './EpisodeFormModal'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 const COLUMNS: FactionTableColumn[] = [
   { key: 'name', header: '테마' },
@@ -43,6 +44,19 @@ const COLUMNS: FactionTableColumn[] = [
   { key: 'episodes', header: '영상', width: '14rem' },
   { key: 'order', header: '순서', width: '4rem', align: 'center' },
 ]
+
+/** 아이디어 보관함 뿌리 — 폴더 키가 `not-using/<분류>/<이름>` 꼴이다 */
+const IDEA_ROOT = 'not-using'
+
+/** 보관함 분류 이름 — 폴더명은 영문이라 화면에는 우리말로 보인다 */
+const IDEA_CATEGORY_LABEL: Record<string, string> = {
+  'future-tech': '미래 기술',
+  'global-business': '글로벌 비즈니스',
+  'culture-entertainment': '문화·엔터',
+  'philosophy-and-myth': '신화·철학',
+  'power-and-history': '권력·역사',
+  'shadow-world': '이면 세계',
+}
 
 /** 화면에 그릴 한 줄 — 테마 + 들여쓰기 여부 + 아래에 거느린 테마 수 */
 interface ThemeRow {
@@ -95,15 +109,34 @@ export default function FactionBoard({
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false)
   const [isEpisodeModalOpen, setIsEpisodeModalOpen] = useState(false)
   const [draggedId, setDraggedId] = useState<string | null>(null)
+  const [ideaOpen, setIdeaOpen] = useState(false)
 
   const rows = useMemo(() => toRows(themes), [themes])
 
-  /** 어느 테마에도 안 걸린 편 — 표 맨 아래 구분 줄 밑에 모은다 */
+  /** 아이디어 후보 — 보관함에서 들어온 편. 수가 많아 기본으로 접어 둔다 */
+  const ideaEpisodes = useMemo(() => episodes.filter(ep => ep.status === 'idea'), [episodes])
+
+  /** 아이디어도 아니고 어느 테마에도 안 걸린 편 — 표 맨 아래 구분 줄 밑에 모은다 */
   const looseEpisodes = useMemo(() => {
     const linked = new Set<string>()
     for (const t of themes) for (const ep of t.episodes) linked.add(ep.folder)
-    return episodes.filter(ep => !linked.has(ep.folder))
+    return episodes.filter(ep => ep.status !== 'idea' && !linked.has(ep.folder))
   }, [themes, episodes])
+
+  /** 아이디어를 분류별로 묶는다 — 분류는 폴더 경로 가운데 토막에서 온다 */
+  const ideaGroups = useMemo(() => {
+    const byCategory = new Map<string, FactionEpisodeSummary[]>()
+    for (const ep of ideaEpisodes) {
+      const segs = ep.folder.split('/')
+      const key = segs.length >= 3 && segs[0] === IDEA_ROOT ? segs[1] : ''
+      const list = byCategory.get(key) ?? []
+      list.push(ep)
+      byCategory.set(key, list)
+    }
+    return [...byCategory.entries()]
+      .map(([key, eps]) => ({ key, label: IDEA_CATEGORY_LABEL[key] ?? '보관함 밖', eps }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  }, [ideaEpisodes])
 
   // #region 새로 만들기
   const handleThemeCreated = (newTag?: CelebTag) => {
@@ -114,7 +147,7 @@ export default function FactionBoard({
 
   const handleEpisodeCreated = (folder?: string) => {
     setIsEpisodeModalOpen(false)
-    if (folder) router.push(`/factions/${encodeURIComponent(folder)}`)
+    if (folder) router.push(`/factions/${folderToParam(folder)}`)
   }
   // #endregion
 
@@ -147,6 +180,58 @@ export default function FactionBoard({
     await updateTagOrder(toRows(themes).map(r => r.theme.id))
   }
   // #endregion
+
+  /** 영상 편 한 줄 — 미연결 영상과 아이디어 후보가 같은 모양을 쓴다 */
+  const renderEpisodeRow = (ep: FactionEpisodeSummary) => (
+    <FactionTableRow
+      key={ep.id}
+      onOpen={() => router.push(`/factions/${folderToParam(ep.folder)}`)}
+    >
+      <FactionTableCell>
+        <span className="flex min-w-0 items-center gap-2">
+          <Video className="ml-4 h-3.5 w-3.5 shrink-0 text-text-secondary" />
+          <span className="min-w-0">
+            <span className="block truncate font-medium text-text-primary group-hover:text-accent">
+              {ep.title.split('\n')[0]}
+            </span>
+            <span className="block truncate font-mono text-xs text-text-secondary">{ep.folder}</span>
+          </span>
+          <FactionTableBadge title="제작 진행 상태">
+            <span className={`h-1.5 w-1.5 rounded-full ${FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.dot}`} />
+            {FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.label}
+          </FactionTableBadge>
+        </span>
+      </FactionTableCell>
+
+      <FactionTableCell align="right">
+        <FactionTableCount value={ep.personCount} icon={<Users className="h-3.5 w-3.5" />} title="인물 수" />
+      </FactionTableCell>
+
+      <FactionTableCell align="center">
+        <span className="text-text-secondary opacity-40">—</span>
+      </FactionTableCell>
+
+      <FactionTableCell align="right">
+        <FactionTableCount value={ep.groupCount} icon={<Layers className="h-3.5 w-3.5" />} title="세력 수" />
+      </FactionTableCell>
+
+      <FactionTableCell>
+        {ep.registered ? (
+          <FactionTableBadge className="bg-accent/15 text-accent" title="렌더 편성에 들어 있음">
+            렌더 편성 {ep.sortOrder}
+          </FactionTableBadge>
+        ) : (
+          <span className="text-text-secondary opacity-40">—</span>
+        )}
+      </FactionTableCell>
+
+      <FactionTableCell align="center">
+        <span className="flex justify-center">
+          <FactionEpisodeActions folder={ep.folder} variant="menu" factionLocal={factionLocal} />
+        </span>
+      </FactionTableCell>
+    </FactionTableRow>
+  )
 
   const regenerate = () => {
     startTransition(async () => {
@@ -259,7 +344,7 @@ export default function FactionBoard({
                   {theme.episodes.map(ep => (
                     <Link
                       key={ep.folder}
-                      href={`/factions/${encodeURIComponent(ep.folder)}`}
+                      href={`/factions/${folderToParam(ep.folder)}`}
                       title={`${ep.title} — 영상 편집기로`}
                       draggable={false}
                       className="flex items-center gap-1 whitespace-nowrap rounded bg-accent/15 px-2 py-0.5 text-[11px] font-medium text-accent hover:bg-accent/25"
@@ -285,55 +370,32 @@ export default function FactionBoard({
               title={`미연결 영상 ${looseEpisodes.length}`}
               note="아직 어느 도감 테마에도 걸리지 않은 제작 편. 줄을 누르면 영상 편집기로 갑니다"
             />
-            {looseEpisodes.map(ep => (
-              <FactionTableRow
-                key={ep.id}
-                onOpen={() => router.push(`/factions/${encodeURIComponent(ep.folder)}`)}
-              >
-                <FactionTableCell>
-                  <span className="flex min-w-0 items-center gap-2">
-                    <Video className="ml-4 h-3.5 w-3.5 shrink-0 text-text-secondary" />
-                    <span className="min-w-0">
-                      <span className="block truncate font-medium text-text-primary group-hover:text-accent">
-                        {ep.title.split('\n')[0]}
-                      </span>
-                      <span className="block truncate font-mono text-xs text-text-secondary">{ep.folder}</span>
-                    </span>
-                    <FactionTableBadge title="제작 진행 상태">
-                      <span className={`h-1.5 w-1.5 rounded-full ${FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.dot}`} />
-                      {FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.label}
-                    </FactionTableBadge>
-                  </span>
-                </FactionTableCell>
+            {looseEpisodes.map(renderEpisodeRow)}
+          </>
+        )}
 
-                <FactionTableCell align="right">
-                  <FactionTableCount value={ep.personCount} icon={<Users className="h-3.5 w-3.5" />} title="인물 수" />
-                </FactionTableCell>
-
-                <FactionTableCell align="center">
-                  <span className="text-text-secondary opacity-40">—</span>
-                </FactionTableCell>
-
-                <FactionTableCell align="right">
-                  <FactionTableCount value={ep.groupCount} icon={<Layers className="h-3.5 w-3.5" />} title="세력 수" />
-                </FactionTableCell>
-
-                <FactionTableCell>
-                  {ep.registered ? (
-                    <FactionTableBadge className="bg-accent/15 text-accent" title="렌더 편성에 들어 있음">
-                      렌더 편성 {ep.sortOrder}
-                    </FactionTableBadge>
-                  ) : (
-                    <span className="text-text-secondary opacity-40">—</span>
-                  )}
-                </FactionTableCell>
-
-                <FactionTableCell align="center">
-                  <span className="flex justify-center">
-                    <FactionEpisodeActions folder={ep.folder} variant="menu" factionLocal={factionLocal} />
-                  </span>
-                </FactionTableCell>
-              </FactionTableRow>
+        {/* 아이디어 후보 — 보관함에서 들어온 편. 72편이라 기본으로 접어 둔다 */}
+        {ideaEpisodes.length > 0 && (
+          <>
+            <FactionTableSection
+              colSpan={COLUMNS.length}
+              title={`아이디어 후보 ${ideaEpisodes.length}`}
+              note={ideaOpen
+                ? '보관함에 든 구상. 렌더·음성·출간 대상이 아닙니다'
+                : '눌러서 펼치기 — 보관함에 든 구상'}
+              open={ideaOpen}
+              onToggle={() => setIdeaOpen(v => !v)}
+            />
+            {ideaOpen && ideaGroups.map(g => (
+              <Fragment key={g.key || 'etc'}>
+                <FactionTableSection
+                  colSpan={COLUMNS.length}
+                  level={2}
+                  title={g.label}
+                  note={`${g.eps.length}편`}
+                />
+                {g.eps.map(renderEpisodeRow)}
+              </Fragment>
             ))}
           </>
         )}

@@ -8,6 +8,7 @@ import { Mic } from '@feelandnote/shared/bo/icons'
 import { AudioWavePlayer } from '@feelandnote/shared/bo/audio-wave-player'
 import { QUOTE_SLOT, langFieldsOf, type FactionVoiceSlot } from './voice-panel/voice-slots'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
  * 인물 한 명의 대사 음성 패널 — 펼친 폼 안에 놓이는 음성 설정 진입부 + 인라인 재생바.
@@ -82,7 +83,7 @@ export function FactionVoicePanel({
       {activeFile && (
         <div className="border-t border-border px-2 py-1.5">
           <AudioWavePlayer
-            audioUrl={`/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta?.size ?? 0}`}
+            audioUrl={`/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta?.size ?? 0}`}
             duration={activeFile.duration}
             heightClass="h-8"
             playbackRate={person[F.rate] as number | undefined}

@@ -1,6 +1,7 @@
 import { streamWav } from '@feelandnote/shared/bo/episode-store'
 import { factionVoiceFilePath } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 /**
  * GET /api/faction/voice/{에피소드}/{파일}
@@ -16,5 +17,5 @@ export async function GET(
   const { episode, file } = await params
   const name = decodeURIComponent(file)
   if (!/\.wav$/i.test(name)) return Response.json({ error: 'wav only' }, { status: 400 })
-  return streamWav(req, factionVoiceFilePath(decodeURIComponent(episode), name))
+  return streamWav(req, factionVoiceFilePath(paramToFolder(episode), name))
 }

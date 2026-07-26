@@ -16,7 +16,7 @@
 import { readFile, readdir, writeFile, mkdir, rm } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { safeDirName, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
+import { episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
 import { FACTIONS_DIR } from '@/lib/faction-paths'
 import { factionAdminClient } from '@/lib/faction-db'
@@ -101,19 +101,19 @@ export async function listSfx(): Promise<string[]> {
 /* ── 팩션 인물 카드 대본 (person-cards/<person>.json) ── */
 
 function cardsPath(name: string): string {
-  return path.join(FACTIONS_DIR, safeDirName(name), 'faction-cards.json')
+  return path.join(episodeDirOf(FACTIONS_DIR, name), 'faction-cards.json')
 }
 
 function cardsDirPath(name: string): string {
-  return path.join(FACTIONS_DIR, safeDirName(name), 'person-cards')
+  return path.join(episodeDirOf(FACTIONS_DIR, name), 'person-cards')
 }
 
 function groupCardsDirPath(name: string): string {
-  return path.join(FACTIONS_DIR, safeDirName(name), 'group-cards')
+  return path.join(episodeDirOf(FACTIONS_DIR, name), 'group-cards')
 }
 
 function legacyCardsDirPath(name: string): string {
-  return path.join(FACTIONS_DIR, safeDirName(name), 'faction-cards')
+  return path.join(episodeDirOf(FACTIONS_DIR, name), 'faction-cards')
 }
 
 function safePersonCardFilename(personName: string): string {

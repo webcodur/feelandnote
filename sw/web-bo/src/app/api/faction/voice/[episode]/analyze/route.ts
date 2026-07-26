@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { runTaskSequence } from '@feelandnote/shared/bo/task-queue'
 import { FACTION_SERIES } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 /**
  * POST : 세력도 음성 정렬 — 받아쓰기 → 발화 시각을 하나의 백그라운드 작업으로 순차 실행한다.
@@ -19,7 +20,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
 
   const { episode } = await params
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
-  const ep = decodeURIComponent(episode)
+  const ep = paramToFolder(episode)
 
   const { only, lang } = await req.json().catch(() => ({}))
   const locale = lang === 'en' ? 'en' : 'ko'

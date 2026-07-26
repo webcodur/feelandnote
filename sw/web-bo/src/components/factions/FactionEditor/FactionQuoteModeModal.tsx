@@ -3,6 +3,7 @@
 import type { FactionScript, FactionPerson } from '@/lib/faction-types'
 import { factionVoiceFile } from '@/lib/faction-voice'
 import { factionStepsOf, applyFactionSteps, type FactionSteps } from '../shared/timing'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 const STEP_OPTS: { k: keyof FactionSteps; l: string }[] = [
   { k: 'credit', l: '직함' },
@@ -157,7 +158,7 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
                       const stepsLongform = factionStepsOf(p, false, isLeader)
                       const quoteText = p.quoteChunks?.filter(c => c.trim()).join(' ') || p.quote || ''
                       const voiceFile = factionVoiceFile(gi, pi, ci)
-                      const audioUrl = `/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}`
+                      const audioUrl = `/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(voiceFile)}`
                       return (
                         <div key={`${ci}-${pi}`} className="space-y-1 rounded-md bg-bg-main/40 px-2 py-1.5 flex flex-col">
                           <div className="flex items-start gap-3">

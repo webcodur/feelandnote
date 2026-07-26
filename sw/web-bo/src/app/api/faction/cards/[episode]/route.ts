@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { loadFactionCards, saveFactionCardPerson, saveFactionCardGroup, saveFactionCards } from '@/lib/faction-file-utils'
 import type { FactionCardFields, FactionGroupCardFields, FactionCardsFile } from '@/lib/faction-types'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && !Array.isArray(value)
@@ -17,7 +18,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ episode
 
   const { episode: rawName } = await params
   // 라우트 파라미터는 URL 인코딩된 채 온다 — 한글 에피소드명 디코드
-  const name = decodeURIComponent(rawName)
+  const name = paramToFolder(rawName)
   return NextResponse.json(await loadFactionCards(name))
 }
 
@@ -26,7 +27,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ episode:
   if (denied) return denied
 
   const { episode: rawName } = await params
-  const name = decodeURIComponent(rawName)
+  const name = paramToFolder(rawName)
   try {
     const body = (await req.json()) as FactionCardsFile
     if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('잘못된 본문')
@@ -42,7 +43,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ episod
   if (denied) return denied
 
   const { episode: rawName } = await params
-  const name = decodeURIComponent(rawName)
+  const name = paramToFolder(rawName)
   try {
     const body = (await req.json()) as { personName?: unknown; groupName?: unknown; card?: unknown }
     if (!isPlainObject(body)) throw new Error('잘못된 요청 본문')

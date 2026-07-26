@@ -11,6 +11,7 @@
  */
 
 import type { CSSProperties, ReactNode } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export interface FactionTableColumn {
   key: string
@@ -143,18 +144,39 @@ export function FactionTableSection({
   colSpan,
   title,
   note,
+  level = 1,
+  open,
+  onToggle,
 }: {
   colSpan: number
   title: ReactNode
   note?: ReactNode
+  /** 1=큰 갈래, 2=그 안의 작은 묶음 */
+  level?: 1 | 2
+  /** 접혔나 펼쳤나. `onToggle` 과 함께 줄 때만 화살표가 뜬다 */
+  open?: boolean
+  onToggle?: () => void
 }) {
+  const body = (
+    <span className="flex flex-wrap items-baseline gap-2">
+      {onToggle && (
+        <ChevronDown className={`h-4 w-4 self-center text-text-secondary ${open ? '' : '-rotate-90'}`} />
+      )}
+      <span className={level === 1 ? 'text-sm font-semibold text-text-primary' : 'text-xs font-semibold text-text-secondary'}>
+        {title}
+      </span>
+      {note && <span className="text-xs text-text-secondary">{note}</span>}
+    </span>
+  )
+
   return (
-    <tr className="bg-bg-secondary/50">
-      <td colSpan={colSpan} className="px-3 py-2">
-        <span className="flex flex-wrap items-baseline gap-2">
-          <span className="text-sm font-semibold text-text-primary">{title}</span>
-          {note && <span className="text-xs text-text-secondary">{note}</span>}
-        </span>
+    <tr className={level === 1 ? 'bg-bg-secondary/50' : 'bg-bg-secondary/25'}>
+      <td colSpan={colSpan} className={level === 1 ? 'px-3 py-2' : 'px-3 py-1.5 pl-8'}>
+        {onToggle ? (
+          <button type="button" onClick={onToggle} className="flex w-full text-left hover:text-accent">
+            {body}
+          </button>
+        ) : body}
       </td>
     </tr>
   )

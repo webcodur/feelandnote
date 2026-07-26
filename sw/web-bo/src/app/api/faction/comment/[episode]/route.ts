@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { readFactionComment, writeFactionComment } from '@/lib/faction-file-utils'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 // ── 세력도 편별 댓글(해설 텍스트) 읽기/쓰기 ──
 //
@@ -18,7 +19,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ episode:
   if (!Number.isInteger(part) || part < 0) {
     return NextResponse.json({ ok: false, error: 'part required (>=0)' }, { status: 400 })
   }
-  const comment = await readFactionComment(decodeURIComponent(episode), part)
+  const comment = await readFactionComment(paramToFolder(episode), part)
   return NextResponse.json({ ok: true, comment })
 }
 
@@ -31,6 +32,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
   if (!Number.isInteger(part) || part < 0) {
     return NextResponse.json({ ok: false, error: 'part required (>=0)' }, { status: 400 })
   }
-  await writeFactionComment(decodeURIComponent(episode), part, String(text ?? ''))
+  await writeFactionComment(paramToFolder(episode), part, String(text ?? ''))
   return NextResponse.json({ ok: true })
 }
