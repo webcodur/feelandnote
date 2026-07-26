@@ -444,9 +444,11 @@
     "copyLink": "Copy link",
     "copied": "Copied"
   },
-  "factionVideo": {
+  "factionMedia": {
     "watchLongform": "Watch the film",
     "watchShorts": "Watch the short",
-    "closeVideo": "Close video"
+    "closeVideo": "Close video",
+    "playMusic": "Theme music",
+    "pauseMusic": "Pause music"
   }
 }

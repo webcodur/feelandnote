@@ -8,7 +8,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Images, LoaderCircle, Users, X }
 import { Link } from "@/i18n/navigation";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
-import FactionVideoLinks from "@/components/features/faction/FactionVideoLinks";
+import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface FactionPreviewModalProps {
@@ -196,8 +196,8 @@ export default function FactionPreviewModal({
 
         <div className="grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <div className="space-y-7">
-            {/* 이 테마를 다룬 세력도 영상 — 창을 떠나지 않고 그 자리에서 본다. 없으면 안 뜬다 */}
-            <FactionVideoLinks videos={tag.videos} title={name} />
+            {/* 이 테마를 다룬 세력도 영상·배경음악 — 창을 떠나지 않고 그 자리에서 본다. 없으면 안 뜬다 */}
+            <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
 
             {description && (
               <section>

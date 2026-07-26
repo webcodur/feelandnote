@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import FactionVideoLinks from "@/components/features/faction/FactionVideoLinks";
+import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import FactionPreviewModal from "./FactionPreviewModal";
 import { useCelebPreview } from "./useCelebPreview";
 
@@ -69,7 +69,7 @@ export default function FactionSection({
           const preview = previewByTag.get(tag.id);
 
           return (
-            // 영상 보기 단추는 카드(단추) 안에 넣을 수 없어(단추 겹침) 카드 아래 형제로 둔다
+            // 영상·음악 단추는 카드(단추) 안에 넣을 수 없어(단추 겹침) 카드 아래 형제로 둔다
             <div key={tag.id} className="space-y-2">
             <button
               type="button"
@@ -169,8 +169,8 @@ export default function FactionSection({
               </div>
             </button>
 
-            {/* 이 테마를 다룬 세력도 영상. 없으면 아무것도 뜨지 않는다 */}
-            <FactionVideoLinks videos={tag.videos} title={name} />
+            {/* 이 테마를 다룬 세력도 영상과 배경음악. 없으면 아무것도 뜨지 않는다 */}
+            <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
             </div>
           );
         })}

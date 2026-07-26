@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, Users, Volume2, Images, Quote, X } from "luc
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
-import FactionVideoLinks from "@/components/features/faction/FactionVideoLinks";
+import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 
@@ -318,10 +318,10 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
           {photo}
           {detail}
           {/*
-            이 테마를 다룬 세력도 영상. 고른 항목이 사람이든 단체든 테마 자체의 영상이라
-            선택과 무관하게 같은 자리에 둔다. 영상이 없으면 아무것도 뜨지 않는다.
+            이 테마를 다룬 세력도 영상과 그 구간에 흐르는 배경음악. 고른 항목이 사람이든 단체든
+            테마 자체의 것이라 선택과 무관하게 같은 자리에 둔다. 없으면 아무것도 뜨지 않는다.
           */}
-          <FactionVideoLinks videos={activeTag.videos} title={teamName} />
+          <FactionMediaLinks videos={activeTag.videos} music={activeTag.music} title={teamName} />
         </div>
         {/* 우측: 단체 + 인물 리스트 */}
         <div className="md:w-[44%]">{list}</div>

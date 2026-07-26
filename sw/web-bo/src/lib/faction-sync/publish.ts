@@ -31,6 +31,10 @@ import { fileHash, isUnchanged, readManifest, writeManifest, type FactionSyncMan
 import { OUTPUT_CONTENT_TYPE, toSoloShot, toTeamShot } from './image'
 import { missingR2Env, publicUrl, uploadToR2 } from './r2'
 import { buildTagVideos, loadEpisodeVideoSource, videosChanged, type EpisodeVideoSource } from './videos'
+import {
+  ensureMusicUploaded, loadEpisodeMusicSource, musicChanged, pickTagMusic,
+  type EpisodeMusicSource, type TagMusic,
+} from './music'
 import { ASSIGNMENT_COLUMNS, TAG_COLUMNS, toImageArray, type CelebAssignmentRow, type CelebTagRow } from './supabase'
 import type {
   FactionPublishAction, FactionPublishItem, FactionPublishRequest,
@@ -44,6 +48,7 @@ const ALL_SCOPE: Required<FactionPublishScope> = {
   personImages: true,
   teamImages: true,
   videos: true,
+  music: true,
 }
 
 /** 범위 정규화 — 아무것도 켜지 않았으면 전 항목 실행 */
@@ -56,6 +61,7 @@ function normalizeScope(scope?: FactionPublishScope): Required<FactionPublishSco
     personImages: !!scope.personImages,
     teamImages: !!scope.teamImages,
     videos: !!scope.videos,
+    music: !!scope.music,
   }
 }
 
@@ -293,7 +299,12 @@ export async function publishEpisode(
     await publishVideos({ episode, targets, snap, createdTags, db, dryRun, add, warnings })
   }
 
-  /* ── 6. 웹 캐시 비우기 ── */
+  /* ── 6. 테마 배경음악 — 영상과 마찬가지로 태그 단위 ── */
+  if (scope.music) {
+    await publishMusic({ episode, targets, snap, createdTags, db, dryRun, add, warnings })
+  }
+
+  /* ── 7. 웹 캐시 비우기 ── */
   const wrote = items.some(i => i.action === 'created' || i.action === 'updated')
   if (dryRun) {
     add({ kind: 'revalidate', group: '-', action: 'skipped', reason: 'dry-run' })
@@ -395,6 +406,104 @@ async function publishVideos(ctx: {
   }
 }
 
+/* ────────────────────────── 테마 배경음악 ────────────────────────── */
+
+/**
+ * 테마 배경음악을 되쓴다 — 태그 단위(같은 태그를 나눠 쓰는 세력은 한 번만).
+ *
+ * 어느 곡이 흐르는지는 렌더 엔진의 선곡이 정하고, 그 판정은 렌더 저장소의 CLI 가 대신 내놓는다
+ * (`music.ts` 머리말 참조 — 관리 화면에 판정을 복제하지 않는다). 곡 파일은 내용 해시를 키에 담아
+ * 올리므로 여러 테마가 같은 곡을 써도 한 번만 올라간다.
+ *
+ * 영상과 같은 되쓰기 규칙이다 — 흐르는 곡이 없으면 null 로 비운다. 다만 **선곡을 못 물어봤으면
+ * (도구 실패) 아무것도 바꾸지 않는다** — 한 번의 실행 실패로 전 테마 음악이 지워지는 사고 방지.
+ */
+async function publishMusic(ctx: {
+  episode: PublishEpisode
+  targets: PublishGroup[]
+  snap: ServiceSnapshot
+  createdTags: Map<string, CelebTagRow>
+  db: SupabaseClient
+  dryRun: boolean
+  add: (item: FactionPublishItem) => void
+  warnings: string[]
+}): Promise<void> {
+  const { episode, targets, snap, createdTags, db, dryRun, add, warnings } = ctx
+  if (!targets.length) return
+
+  let src: EpisodeMusicSource
+  try {
+    src = await loadEpisodeMusicSource(episode.folder)
+  } catch (e) {
+    // 선곡을 못 물어봤다 — 「곡 없음」과 구별해야 하므로 지우지 않고 막힌 것으로 알린다
+    add({ kind: 'music', group: '-', action: 'blocked', reason: `선곡 조회 실패: ${errText(e)}` })
+    return
+  }
+  for (const n of src.notes) warnings.push(n)
+
+  const seen = new Set<string>()
+  for (const g of targets) {
+    const key = tagKeyOf(g)
+    if (seen.has(key)) continue
+    seen.add(key)
+
+    const tag = resolveTag(g, snap) ?? (g.tagSlug ? createdTags.get(g.tagSlug) : undefined)
+    if (!tag) continue // 태그가 없으면 위에서 이미 blocked 로 보고했다
+
+    const tagGroups = groupsOfSameTag(episode, g)
+    const label = { kind: 'music' as const, group: tagGroups.map(x => x.name).join(' + ') || g.name }
+
+    const { group: hit, notes } = pickTagMusic(src.result, tagGroups)
+    const detail = notes.join(' · ') || '사유 없음'
+
+    // 흐르는 곡이 없다 — 도감 쪽도 비운다
+    if (!hit || !hit.file || !hit.abs) {
+      if (!musicChanged(tag.theme_music, null)) {
+        add({ ...label, action: 'skipped', reason: `unchanged (곡 없음) — ${detail}` })
+        continue
+      }
+      if (dryRun) { add({ ...label, action: 'updated', reason: `비움 — ${detail}` }); continue }
+      if (tag.id === 'NEW') { add({ ...label, action: 'skipped', reason: 'dry-run 자리표 태그' }); continue }
+      const { error } = await db.from('celeb_tags').update({ theme_music: null }).eq('id', tag.id)
+      if (error) { add({ ...label, action: 'blocked', reason: `theme-music-update: ${error.message}` }); continue }
+      tag.theme_music = null
+      add({ ...label, action: 'updated', reason: `비움 — ${detail}` })
+      continue
+    }
+
+    // 이미 같은 곡이 걸려 있으면 파일을 다시 올리지 않는다(주소 비교로 판정)
+    const current = tag.theme_music as Partial<TagMusic> | null
+    const sameFile = current?.file === hit.file && current?.episode === episode.folder
+      && current?.variant === hit.variant && !!current?.url
+
+    if (sameFile) {
+      add({ ...label, action: 'skipped', reason: `unchanged — ${detail}` })
+      continue
+    }
+    if (dryRun) { add({ ...label, action: current ? 'updated' : 'created', reason: detail }); continue }
+    if (tag.id === 'NEW') { add({ ...label, action: 'skipped', reason: 'dry-run 자리표 태그' }); continue }
+    if (!src.canUpload) { add({ ...label, action: 'blocked', reason: 'r2-env-missing' }); continue }
+
+    try {
+      const { url, key, uploaded } = await ensureMusicUploaded(src, hit.abs, hit.file)
+      const value: TagMusic = {
+        file: hit.file,
+        url,
+        episode: episode.folder,
+        variant: hit.variant ?? '',
+        checkedAt: new Date().toISOString(),
+      }
+      const action: FactionPublishAction = current ? 'updated' : 'created'
+      const { error } = await db.from('celeb_tags').update({ theme_music: value }).eq('id', tag.id)
+      if (error) { add({ ...label, action: 'blocked', reason: `theme-music-update: ${error.message}` }); continue }
+      tag.theme_music = value
+      add({ ...label, action, reason: `${detail} (${uploaded ? '새로 올림' : '이미 올라와 있음'}: ${key})` })
+    } catch (e) {
+      add({ ...label, action: 'blocked', reason: `music-upload: ${errText(e)}` })
+    }
+  }
+}
+
 /* ────────────────────────── 태그 ────────────────────────── */
 
 /**
@@ -459,7 +568,8 @@ async function resolveOrCreateTag(ctx: {
       // 미리보기는 아무것도 만들지 않으므로 id 가 없다 — 뒤 단계가 이어 돌도록 자리표를 둔다(키에 NEW 로 보인다)
       const placeholder: CelebTagRow = {
         id: 'NEW', slug: g.tagSlug, name: g.name, name_en: insert.name_en,
-        color: insert.color, team_images: [], youtube_videos: null, is_featured: false, sort_order: null,
+        color: insert.color, team_images: [], youtube_videos: null, theme_music: null,
+        is_featured: false, sort_order: null,
       }
       createdTags.set(g.tagSlug, placeholder)
       return placeholder

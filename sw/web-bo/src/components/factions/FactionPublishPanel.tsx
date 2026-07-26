@@ -95,6 +95,7 @@ const FULL_SCOPE: FactionPublishRequest['scope'] = {
   personImages: true,
   teamImages: true,
   videos: true,
+  music: true,
 }
 
 /** 인물 한 명이 서비스 셀럽과 이어졌는지 */
@@ -122,6 +123,7 @@ function itemLabel(it: FactionPublishItem): string {
   if (it.kind === 'tag') return '세력 태그'
   if (it.kind === 'teamShots') return '단체사진'
   if (it.kind === 'videos') return '테마 영상'
+  if (it.kind === 'music') return '테마 음악'
   if (it.kind === 'revalidate') return '웹 캐시'
   return it.group
 }

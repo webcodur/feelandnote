@@ -10,7 +10,7 @@ import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
 import { DIALOGUE_PROFILE_SELECT, type DialogueProfile } from '@/lib/utils/celeb-dialogues'
-import { toFactionVideos, type FactionVideos } from '@/lib/faction-videos'
+import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -38,6 +38,8 @@ export interface FactionTagItem {
   roleLongEn: string | null
   /** 이 테마를 다룬 세력도 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
   videos: FactionVideos | null
+  /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
+  music: FactionMusic | null
 }
 
 interface FactionTagAssignmentRow {
@@ -57,6 +59,7 @@ interface FactionTagAssignmentRow {
     description: string | null
     description_en: string | null
     youtube_videos: unknown
+    theme_music: unknown
   } | null
 }
 
@@ -79,12 +82,15 @@ export interface CelebRelationItem {
   qid: string | null
   /** 관계의 근거 한 줄(사건·시기). 수동 수록 라이벌·공동 창업에 있다 */
   note: string | null
+  /** 근거 한 줄의 영문본. 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다 */
+  note_en: string | null
 }
 
 interface CelebRelationRow {
   rel_type: string
   rel_group: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
   note: string | null
+  note_en: string | null
   target: {
     id: string
     slug: string | null
@@ -96,6 +102,7 @@ interface CelebRelationRow {
     birth_date: string | null
     death_date: string | null
     status: string | null
+    wikidata_qid: string | null
   } | null
 }
 
@@ -185,16 +192,16 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
     supabase
       .from('celeb_tag_assignments')
-      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos)')
+      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music)')
       .eq('celeb_id', userId)
       .order('sort_order', { ascending: true }),
     supabase
       .from('celeb_relations')
-      .select('rel_type, rel_group, note, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, status)')
+      .select('rel_type, rel_group, note, note_en, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, status, wikidata_qid)')
       .eq('from_id', userId),
     supabase
       .from('celeb_relations_external')
-      .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note')
+      .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
       .eq('from_id', userId),
   ])
 
@@ -221,17 +228,18 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       roleLong: a.long_desc ?? null,
       roleLongEn: a.long_desc_en ?? null,
       videos: toFactionVideos(a.tag.youtube_videos),
+      music: toFactionMusic(a.tag.theme_music),
     }))
 
-  // 비활성·슬러그 없는 상대는 이동할 곳이 없으므로 제외한다
+  // 비활성·슬러그 없는 상대는 페이지가 없어 이동만 막고, 사람 자체는 이름 노드로 남긴다.
+  // (킴벌 머스크처럼 명단에 있으나 비공개인 형제가 통째로 사라지던 문제)
   const internalRelations: CelebRelationItem[] = ((relationsResult.data ?? []) as unknown as CelebRelationRow[])
-    .filter((r): r is CelebRelationRow & { target: NonNullable<CelebRelationRow['target']> } =>
-      !!r.target?.slug && r.target.status === 'active')
+    .filter((r): r is CelebRelationRow & { target: NonNullable<CelebRelationRow['target']> } => !!r.target)
     .map((r) => ({
       relType: r.rel_type,
       relGroup: r.rel_group,
       id: r.target.id,
-      slug: r.target.slug as string,
+      slug: r.target.slug && r.target.status === 'active' ? r.target.slug : null,
       nickname: r.target.nickname || 'Unknown',
       nickname_en: r.target.nickname_en,
       avatar_url: r.target.avatar_url,
@@ -239,13 +247,15 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nationality: r.target.nationality,
       birth_date: r.target.birth_date,
       death_date: r.target.death_date,
-      qid: null,
+      // 페이지가 없는 상대는 위키데이터 원본으로라도 연결한다
+      qid: r.target.slug && r.target.status === 'active' ? null : r.target.wikidata_qid,
       note: r.note,
+      note_en: r.note_en,
     }))
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
   const externalRelations: CelebRelationItem[] = ((externalRelationsResult.data ?? []) as unknown as
-    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null; image_url: string | null; note: string | null }[])
+    { rel_type: string; rel_group: CelebRelationItem['relGroup']; qid: string; name_ko: string | null; name_en: string | null; image_url: string | null; note: string | null; note_en: string | null }[])
     .filter((r) => r.name_ko || r.name_en)
     .map((r) => ({
       relType: r.rel_type,
@@ -261,6 +271,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       death_date: null,
       qid: r.qid,
       note: r.note,
+      note_en: r.note_en,
     }))
 
   const byTypeThenName = (a: CelebRelationItem, b: CelebRelationItem) =>
