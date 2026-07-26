@@ -13,7 +13,7 @@
 import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
 import { applyVoiceGainToPeople, type FactionVoiceGainResult } from '@/lib/faction-voice-gain'
-import { exportFactionEpisode, type FactionExportResult } from './export'
+import { runFactionExport, type FactionExportResult } from '@/lib/faction-export-run'
 
 export interface ApplyVoiceGainResult extends FactionVoiceGainResult {
   /** 손댄 편마다의 자동 내보내기 결과 — 렌더 저장소가 연결되지 않았으면 없음 */
@@ -35,14 +35,15 @@ export async function applyFactionVoiceGain(
   await requireFactionAdmin()
   if (!voiceId) throw new Error('보이스를 지정해야 합니다')
 
-  const r = await applyVoiceGainToPeople(factionAdminClient(), { voiceId, gainDb, previousGainDb, dryRun })
+  const db = factionAdminClient()
+  const r = await applyVoiceGainToPeople(db, { voiceId, gainDb, previousGainDb, dryRun })
 
   // 렌더·음성·자막·유튜브는 전부 faction-data.json 을 읽는다 — 손댄 편은 파일도 맞춘다
   const result: ApplyVoiceGainResult = { ...r }
   if (!dryRun && r.applied && FACTION_LOCAL) {
     result.exported = []
     for (const folder of r.folders) {
-      result.exported.push(await exportFactionEpisode(folder))
+      result.exported.push(await runFactionExport(db, folder))
     }
   }
   return result
