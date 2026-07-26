@@ -158,7 +158,7 @@ export interface DiscourseRowPayload {
  *   그래서 이 콜백은 **발언 자체와 발언자 slug, 그 사람의 몇 번째 발언인지**를 함께 받는다.
  */
 export type TurnDurationLookup = (
-  turnIndex: number, slug: string | undefined, nthOfSpeaker: number, turn: Row,
+  turnIndex: number, speaker: Row | undefined, nthOfSpeaker: number, turn: Row,
 ) => { duration?: number | null } | undefined
 
 /** 인물 수식어 음성 길이 조회 — 사람(slug) 기준 */
@@ -245,7 +245,7 @@ export function buildDiscourseRows(
 
     const nth = (seenBySpeaker.get(castIdx) ?? 0) + 1
     seenBySpeaker.set(castIdx, nth)
-    const kept = turnDurations?.(i, scriptCast[castIdx]?.slug as string | undefined, nth, t)
+    const kept = turnDurations?.(i, scriptCast[castIdx], nth, t)
 
     return {
       id: newId(),

@@ -34,6 +34,7 @@ import {
   Flame,
   Volume2,
   MessageSquare,
+  MessagesSquare,
   Swords,
   type LucideIcon,
 } from 'lucide-react'
@@ -82,6 +83,12 @@ const menuGroups: MenuGroup[] = [
     key: 'factions', label: '세력도', icon: Swords,
     children: [
       { href: '/factions', label: '목록·도감 테마', icon: Swords },
+    ],
+  },
+  {
+    key: 'discourses', label: '가상 담화', icon: MessagesSquare,
+    children: [
+      { href: '/discourses', label: '편 목록', icon: MessagesSquare },
     ],
   },
   {

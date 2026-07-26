@@ -41,19 +41,9 @@ import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail"
 import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
 import { factionCompBase, factionLongformPartNumbers } from "@feelandnote/shared/lib/youtube-faction-meta";
-
-/**
- * 가상 담화 컴포지션 ID 앞머리 — `Discourse-<폴더명>`.
- * 폴더명이 곧 컴포지션 ID이자 출고 파일명이므로 영문·숫자·하이픈만 허용한다(팩션 factionCompBase 와 같은 규칙).
- * TODO: 유튜브 업로드까지 붙일 때 packages/shared 의 youtube-discourse-meta 로 옮겨 단일원천화한다
- *       (팩션은 예전에 규칙이 양쪽에 복붙돼 어긋난 사고 이력이 있다).
- */
-function discourseCompBase(folder: string): string {
-  if (!folder || /[^A-Za-z0-9-]/.test(folder)) {
-    throw new Error(`discourseCompBase: 폴더명 '${folder}' 은 영문·숫자·하이픈만 허용 — 에피소드 폴더를 영문으로 만들어라`)
-  }
-  return `Discourse-${folder}`
-}
+// 가상 담화 컴포지션 ID 앞머리(`Discourse-<폴더명>`) — 26.07.26 packages/shared 로 승격해 단일원천화.
+// 이 파일의 등록 규칙과 왕복 검증(scripts/discourse/verify.ts ③)이 같은 함수를 쓴다.
+import { discourseCompBase } from "@feelandnote/shared/lib/youtube-discourse-meta";
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
 function parseEpMeta(name: string) {
