@@ -39,6 +39,7 @@ import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
 import { FactionPreview } from './FactionEditor/FactionPreview'
 import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionShortsPartHeader } from './FactionEditor/sections/FactionShortsPartHeader'
+import FactionEpisodeActions from './FactionEpisodeActions'
 import { collectUsedImages, remapFactionImages } from './shared/usedImages'
 import { TaskPanel } from '@/components/TaskPanel'
 import { FactionVoiceProvider, type FactionVoiceMeta } from './shared/FactionVoiceContext'
@@ -786,9 +787,14 @@ ${res.exported.reason}`)
               </div>
             )}
           </div>
-          <span className="ml-auto text-xs text-text-secondary">
-            총 {formatMmss(totalSec(script))} · 컷 {cueCount(script)}개
-          </span>
+          {/* 편 자체에 대한 조작 — 상태·편성·내보내기·이름 변경·복제·삭제.
+              목록이 도감 테마 기준 표 하나로 합쳐지면서 여기로 옮겨 왔다. */}
+          <div className="ml-auto flex items-center gap-3">
+            <FactionEpisodeActions folder={name} variant="bar" />
+            <span className="text-xs text-text-secondary">
+              총 {formatMmss(totalSec(script))} · 컷 {cueCount(script)}개
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">

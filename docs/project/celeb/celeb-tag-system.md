@@ -139,11 +139,12 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 ### 백오피스 관리 (web-bo)
 
 - 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
-  - `/factions` 아래쪽 표 = 「도감 테마」 전량(`celeb_tags` 40종). 열은 테마명·인물 수·도감 노출·단체샷/개인샷·연결 영상 편(없으면 「글 전용」)·순서이고, 끌어서 진열 순서를 바꾼다. 「새 테마 만들기」는 표 머리 오른쪽에 있다
-  - **표 통일(26.07.26)**: 위 「영상 편」 표와 생김새를 맞췄다(공용 부품 `components/factions/FactionTable.tsx`). 예전에는 영상 편이 카드, 테마가 줄이라 한 화면에서 서로 다른 물건처럼 보였다. 표 머리마다 정체를 한 줄로 적어 둔다 — 영상 편=유튜브로 나가는 제작 데이터, 도감 테마=서비스 세력도감 진열분
+  - **`/factions` 는 표 하나다(26.07.26 완전 병합)**. 기준은 도감 테마(`celeb_tags` 40종)이고 열은 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**·순서. 「영상」 칸에는 그 테마를 세력으로 쓰는 편이 배지로 붙고(복수 가능, 누르면 그 편 편집기로) 없으면 「글 전용」이다. 끌어서 진열 순서를 바꾼다. 「새 영상 편」·「새 테마」 단추는 표 머리 오른쪽에 나란히 있다
+  - **미연결 영상**: 어느 테마에도 안 걸린 편은 같은 표 맨 아래 구분 줄(묶음 머리와 같은 문법) 밑에 모인다. 열은 제목·상태·인물 수·세력 수·렌더 편성이고, 줄 끝 점 셋 메뉴로 이름 바꾸기·복제·지우기·렌더용 파일 쓰기를 한다
+  - **편별 조작의 자리**: 상태·렌더 편성·내보내기·이름 변경·복제·삭제는 **영상 편집기 상단 조작줄**에 있다(`components/factions/FactionEpisodeActions.tsx`, `variant="bar"`). 목록이 테마 기준으로 합쳐지면서 연결된 편은 목록에 줄이 없기 때문이다. 같은 부품이 미연결 영상 줄의 점 셋 메뉴(`variant="menu"`)도 그린다 — 기능이 두 벌로 갈라지지 않게
   - **위계 표시(26.07.26)**: 자식을 가진 테마가 「묶음 N」 표식과 함께 머리로 뜨고 소속 테마가 한 칸 들여쓰기로 따라붙는다. 끌어 옮기기는 **같은 층끼리만** 된다(묶음 머리를 끌면 소속 테마가 통째로 따라간다). 다른 묶음으로 옮기는 일은 순서가 아니라 소속이므로 테마 편집 화면의 「상위 묶음」에서 한다
   - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다). 「상위 묶음」 선택지는 무소속 테마 전량 + 「묶음 없음」이다
-  - 구성 파일: `app/(admin)/factions/ThemeTable.tsx`·`EpisodeTable.tsx`·`ThemeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`, 공용 표 부품 `components/factions/FactionTable.tsx`
+  - 구성 파일: `app/(admin)/factions/FactionBoard.tsx`(표 본체)·`ThemeFormModal.tsx`·`EpisodeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`, 공용 부품 `components/factions/FactionTable.tsx`·`FactionEpisodeActions.tsx`
   - 목록 조회 액션: `actions/admin/factions/themes.ts`(`listFactionThemes`·`getThemeEpisodeLinks`). 테마↔영상 연결의 근거는 `faction_groups.tag_id` 역조회뿐이다
   - **주소(slug)**: 입력 + `name_en` 기반 자동 생성 버튼
   - **단체 이미지**: 다중 업로드(크롭)·삭제·드래그 순서변경

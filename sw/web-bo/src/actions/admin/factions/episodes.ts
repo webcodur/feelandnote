@@ -120,6 +120,48 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeSummary[]> {
     })
 }
 
+/** 편집기 상단 조작줄이 쓰는 한 편의 상태값 */
+export interface FactionEpisodeMeta {
+  folder: string
+  title: string
+  status: FactionEpisodeStatus
+  registered: boolean
+  sortOrder: number
+  /**
+   * 렌더 저장소가 이 컴퓨터에 있어 파일 내보내기를 쓸 수 있는가.
+   * 이 값은 서버 환경 설정이라 화면(브라우저)에서 직접 읽을 수 없어 여기 실어 보낸다.
+   */
+  factionLocal: boolean
+}
+
+/**
+ * 한 편의 상태·편성만 가볍게 읽는다.
+ *
+ * 목록(`listFactionEpisodes`)은 세력·인물까지 세느라 네 갈래를 전부 훑는데,
+ * 편집기 상단 조작줄은 그 값이 필요 없어서 한 행만 집는다.
+ */
+export async function getFactionEpisodeMeta(folder: string): Promise<FactionEpisodeMeta | null> {
+  await requireFactionAdmin()
+  const db = factionAdminClient()
+
+  const { data, error } = await db.from('faction_episodes')
+    .select('folder,title,status,registered,sort_order')
+    .eq('folder', assertFolder(folder))
+    .maybeSingle()
+  if (error) throw new Error(error.message)
+  if (!data) return null
+
+  return {
+    folder: data.folder as string,
+    title: (data.title as string) ?? (data.folder as string),
+    status: (VALID_STATUS.includes(data.status as FactionEpisodeStatus)
+      ? data.status : 'todo') as FactionEpisodeStatus,
+    registered: (data.registered as boolean) ?? false,
+    sortOrder: (data.sort_order as number) ?? 0,
+    factionLocal: FACTION_LOCAL,
+  }
+}
+
 /* ────────────────────────── 만들기·복제 ────────────────────────── */
 
 /** 빈 세력도 만들기 — 미등록·todo 로 시작한다 */

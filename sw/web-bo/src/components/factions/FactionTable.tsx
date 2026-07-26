@@ -135,6 +135,31 @@ export function FactionTableCell({
   )
 }
 
+/**
+ * 표 안의 구분 줄 — 묶음 머리와 같은 문법(굵게·바탕 살짝 다르게)으로 아래 묶음의 성격을 알린다.
+ * 표를 둘로 쪼개지 않고 한 표 안에서 갈래를 나누는 자리다.
+ */
+export function FactionTableSection({
+  colSpan,
+  title,
+  note,
+}: {
+  colSpan: number
+  title: ReactNode
+  note?: ReactNode
+}) {
+  return (
+    <tr className="bg-bg-secondary/50">
+      <td colSpan={colSpan} className="px-3 py-2">
+        <span className="flex flex-wrap items-baseline gap-2">
+          <span className="text-sm font-semibold text-text-primary">{title}</span>
+          {note && <span className="text-xs text-text-secondary">{note}</span>}
+        </span>
+      </td>
+    </tr>
+  )
+}
+
 /** 아무것도 없을 때의 한 줄 */
 export function FactionTableEmpty({ colSpan, children }: { colSpan: number; children: ReactNode }) {
   return (
