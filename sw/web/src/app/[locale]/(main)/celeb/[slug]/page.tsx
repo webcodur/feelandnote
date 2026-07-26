@@ -5,6 +5,7 @@ import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
+import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
@@ -14,6 +15,13 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
+import {
+  buildCelebTitleKo,
+  buildCelebTitleEn,
+  buildCelebDescriptionKo,
+  buildCelebDescriptionEn,
+  type CelebMetaInput,
+} from "@/lib/celeb/meta";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -27,88 +35,6 @@ export const revalidate = 3600;
 // 초기 HTML과 클라이언트 첫 페이지가 어긋나지 않는다.
 const LIBRARY_FIRST_PAGE_SIZE = 10;
 
-// SEO h1/description 생성
-/** 마지막 글자의 받침 유무로 '이/가' 반환 */
-function subjectParticle(name: string): string {
-  const last = name.charCodeAt(name.length - 1);
-  // 한글 범위(0xAC00~0xD7A3) 밖이면 '이'로 폴백
-  if (last < 0xac00 || last > 0xd7a3) return "이";
-  return (last - 0xac00) % 28 === 0 ? "가" : "이";
-}
-
-function buildPageTitle(
-  nickname: string,
-  title: string | null,
-  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
-  const prefix = title ?? '';
-  const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
-  if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
-  if (counts.MUSIC > 0) parts.push(`추천 음악 ${counts.MUSIC}곡`);
-  if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
-
-  if (parts.length === 0) {
-    return `${prefix} ${nickname} 추천 책·영화·음악`.trim();
-  }
-  return `${prefix} ${nickname} ${parts.join(", ")}`.trim();
-}
-
-function buildPageTitleEn(
-  nickname: string,
-  title: string | null,
-  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
-  const prefix = title ?? '';
-  const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} favorite songs`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
-
-  if (parts.length === 0) {
-    return `${prefix} ${nickname}'s Recommended Books & Movies`.trim();
-  }
-  return `${prefix} ${nickname}: ${parts.join(", ")}`.trim();
-}
-
-function buildMetaDescriptionEn(
-  nickname: string,
-  title: string | null,
-  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
-  const prefix = title ?? '';
-  const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`${counts.BOOK} recommended books`);
-  if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} favorite movies`);
-  if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} favorite songs`);
-  if (counts.GAME > 0) parts.push(`${counts.GAME} favorite games`);
-
-  if (parts.length === 0) {
-    return `Discover ${prefix} ${nickname}'s book recommendations, favorite movies, music, and sources of inspiration on Feel&Note.`.replace(/  +/g, ' ');
-  }
-  return `${prefix} ${nickname}'s ${parts.join(", ")}. Explore their cultural taste and personal recommendations.`.replace(/  +/g, ' ');
-}
-
-/** 120~160자 분량의 SEO description 생성 */
-function buildMetaDescription(
-  nickname: string,
-  title: string | null,
-  counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
-  const prefix = title ?? '';
-  const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(`추천 책 ${counts.BOOK}권`);
-  if (counts.VIDEO > 0) parts.push(`추천 영화 ${counts.VIDEO}편`);
-  if (counts.MUSIC > 0) parts.push(`추천 음악 ${counts.MUSIC}곡`);
-  if (counts.GAME > 0) parts.push(`추천 게임 ${counts.GAME}개`);
-
-  if (parts.length === 0) {
-    return `${prefix} ${nickname}${subjectParticle(nickname)} 추천한 책, 영화, 음악, 게임 목록. ${nickname}의 문화적 취향과 영감의 원천을 탐색하세요.`.trim();
-  }
-
-  return `${prefix} ${nickname}의 ${parts.join(", ")} 목록. ${nickname}${subjectParticle(nickname)} 직접 추천하거나 즐겨본 작품을 확인하세요.`.trim();
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
@@ -120,13 +46,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: t("notFound") };
   }
 
-  const { nickname, title, contentTypeCounts } = result.data;
-  const pageTitle = locale === 'en'
-    ? buildPageTitleEn(nickname, title, contentTypeCounts)
-    : buildPageTitle(nickname, title, contentTypeCounts);
+  const { nickname, title, contentTypeCounts, quotes, bio } = result.data;
+  // 설명문에 그 사람의 한마디를 싣는다 — 1,257명이 같은 문장으로 나가던 것을 갈랐다
+  const metaInput: CelebMetaInput = {
+    nickname, title, counts: contentTypeCounts, quote: quotes, bio,
+  };
+  const pageTitle = locale === 'en' ? buildCelebTitleEn(metaInput) : buildCelebTitleKo(metaInput);
   const description = locale === 'en'
-    ? buildMetaDescriptionEn(nickname, title, contentTypeCounts)
-    : buildMetaDescription(nickname, title, contentTypeCounts);
+    ? buildCelebDescriptionEn(metaInput)
+    : buildCelebDescriptionKo(metaInput);
   const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
 
   // full 등급만 색인 대상이다. light/relation/fiction은 연결용 최소 등록이라
@@ -164,11 +92,12 @@ export default async function CelebPage({ params }: PageProps) {
   }
   const profile = result.data;
   const userId = profile.id;
-  const pageTitle = locale === 'en'
-    ? buildPageTitleEn(profile.nickname, profile.title, profile.contentTypeCounts)
-    : buildPageTitle(profile.nickname, profile.title, profile.contentTypeCounts);
+  const titleInput: CelebMetaInput = {
+    nickname: profile.nickname, title: profile.title, counts: profile.contentTypeCounts,
+  };
+  const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
-  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, factionPreviews, initialContents] = await Promise.all([
+  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId),
     getSimilarByCelebId(userId, 3, locale),
@@ -177,6 +106,7 @@ export default async function CelebPage({ params }: PageProps) {
     profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
+    getCelebTimelineEvents(userId, locale),
     getFactionTagPreviews(profile.factionTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
@@ -266,6 +196,7 @@ export default async function CelebPage({ params }: PageProps) {
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
+        timelineEvents={timelineEvents}
         factionPreviews={factionPreviews}
         initialContents={initialContents}
       />

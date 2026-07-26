@@ -94,6 +94,7 @@ const FULL_SCOPE: FactionPublishRequest['scope'] = {
   descs: true,
   personImages: true,
   teamImages: true,
+  videos: true,
 }
 
 /** 인물 한 명이 서비스 셀럽과 이어졌는지 */
@@ -118,7 +119,11 @@ function soloShotProgress(people: FactionSyncPerson[]) {
 /** 결과 한 줄 이름 — 인물 항목은 인물 이름, 세력 항목은 종류 이름으로 보여준다 */
 function itemLabel(it: FactionPublishItem): string {
   if (it.person) return it.person
-  return it.kind === 'tag' ? '세력 태그' : it.kind === 'teamShots' ? '단체사진' : it.kind === 'revalidate' ? '웹 캐시' : it.group
+  if (it.kind === 'tag') return '세력 태그'
+  if (it.kind === 'teamShots') return '단체사진'
+  if (it.kind === 'videos') return '테마 영상'
+  if (it.kind === 'revalidate') return '웹 캐시'
+  return it.group
 }
 
 /** 미해소 사유를 사람 말로 */

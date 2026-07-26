@@ -16,6 +16,7 @@ import { type ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import { type FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import { type CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { trackEvent, useSectionViewTracking } from "@/lib/analytics/track";
 import { FormattedText } from "@/components/ui";
@@ -38,8 +39,10 @@ import FactionSection from "./FactionSection";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 import VirtualMonologueSection from "./VirtualMonologueSection";
 import RelationGraphSection from "./RelationGraphSection";
+import JourneySection from "./JourneySection";
 import CelebInfluenceSection from "./CelebInfluenceSection";
 import CelebSectionHeading from "./CelebSectionHeading";
+import CelebViewCounter from "./CelebViewCounter";
 import { CELEB_SERVICE_CHAPTERS } from "./celebSectionChapters";
 
 interface CelebPageContentProps {
@@ -54,6 +57,8 @@ interface CelebPageContentProps {
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
+  /** 생애 행적. 좌표를 가진 항목만 활동반경 지도에 오른다 */
+  timelineEvents: CelebTimelineEvent[];
   factionPreviews: FactionTagPreview[];
   /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
   initialContents: GetUserContentsResponse;
@@ -101,6 +106,7 @@ export default function CelebPageContent({
   greeting,
   dialogueLines,
   contemporaries,
+  timelineEvents,
   factionPreviews,
   initialContents,
 }: CelebPageContentProps) {
@@ -148,6 +154,7 @@ export default function CelebPageContent({
   const hasDialogues = !!dialogueLines && Object.keys(dialogueLines).length > 0;
   const serviceAvailability: CelebServiceAvailability = {
     relations: profile.relations.length > 0,
+    timeline: timelineEvents.length > 0,
     contemporaries: contemporaries.length > 0,
     faction: profile.factionTags.length > 0,
     videos: hasAnyVideo,
@@ -241,6 +248,7 @@ export default function CelebPageContent({
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
                 <CelebTierBadge tier={celebTier} />
+                <CelebViewCounter celebId={profile.id} initialCount={profile.view_count ?? 0} />
               </div>
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep text-left">
@@ -311,6 +319,7 @@ export default function CelebPageContent({
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
                 <CelebTierBadge tier={celebTier} />
+                <CelebViewCounter celebId={profile.id} initialCount={profile.view_count ?? 0} />
               </div>
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep">
@@ -388,6 +397,20 @@ export default function CelebPageContent({
               centerAvatarUrl={profile.avatar_url}
               relations={profile.relations}
             />
+          </SectionWrap>
+        </section>
+      )}
+
+      {/* 생애 행적 — 연표와 활동반경 지도. 행적이 없으면 구획 자체를 띄우지 않는다 */}
+      {timelineEvents.length > 0 && (
+        <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          <CelebSectionHeading
+            chapter={CELEB_SERVICE_CHAPTERS.timeline}
+            label={t("timeline")}
+            icon={CELEB_SERVICE_ICONS.timeline}
+          />
+          <SectionWrap>
+            <JourneySection events={timelineEvents} />
           </SectionWrap>
         </section>
       )}

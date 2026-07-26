@@ -16,6 +16,11 @@ export interface CelebTagRow {
   name_en: string | null
   color: string | null
   team_images: unknown
+  /**
+   * 이 테마와 이어진 유튜브 영상(롱폼·쇼츠). 원천은 제작·업로드 기록이라
+   * 출간이 항상 되쓴다 — 기록이 없으면 null 로 비운다.
+   */
+  youtube_videos: unknown
   is_featured: boolean | null
   sort_order: number | null
 }
@@ -49,7 +54,7 @@ export interface CelebProfileRow {
   voice_id_en: string | null
 }
 
-export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, is_featured, sort_order'
+export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, is_featured, sort_order'
 export const ASSIGNMENT_COLUMNS =
   'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, spotlight_image_url, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'

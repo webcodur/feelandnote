@@ -13,6 +13,7 @@ import { readFile } from 'fs/promises'
 import path from 'path'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
+import type { FactionLongformLayoutItem } from '@feelandnote/shared/lib/youtube-faction-meta'
 import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import { factionEpisodeDir } from '@/lib/faction-paths'
 import { FACTION_VOICE_FIELDS, type FactionVoiceLocale } from './types'
@@ -91,6 +92,15 @@ export interface PublishGroup {
   tagSlug: string | null
   /** 세력 폴더(NN-<slug>)에서 뽑은 제안 연결 키 */
   suggestedSlug: string
+  /**
+   * 이 세력이 속한 쇼츠 편(1…N). 없거나 0 이면 모든 편 공통.
+   * 테마에 맞는 유튜브 영상을 고를 때 쓴다(`videos.ts`) — 출간 텍스트·사진은 이 값을 보지 않는다.
+   */
+  part?: number
+  /** 영상에서 뺀 세력(데이터는 남긴다) — 편 번호 산출에서 제외된다 */
+  disabled: boolean
+  /** 가로 롱폼 전용 — 지금 나가는 영상은 전부 세로라 어느 편에도 안 나온다 */
+  longformOnly: boolean
   people: PublishPerson[]
   /** 그룹샷 — num 은 묶음 번호(1부터). R2 키에 세력 번호와 함께 g01c01 로 들어간다 */
   teamShots: { num: number; image: LocalImageRef }[]
@@ -100,6 +110,12 @@ export interface PublishEpisode {
   folder: string
   episodeId: string
   groups: PublishGroup[]
+  /**
+   * 롱폼 배치 — DB 는 세력을 uuid 로 가리키지만 여기서는 **세력 인덱스**로 되돌려 담는다
+   * (`youtube-faction-meta` 의 `FactionLongformLayoutItem` 과 같은 모양). 편 경계(cut)로
+   * 롱폼이 몇 편으로 갈리는지, 어느 세력이 몇 편에 속하는지 판정하는 재료다.
+   */
+  longformLayout?: FactionLongformLayoutItem[]
 }
 
 /* ── 값 다듬기 ── */
@@ -220,7 +236,7 @@ async function inChunks(
   return out
 }
 
-const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, data'
+const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, part, disabled, longform_only, data'
 const CLUSTER_SELECT = 'id, group_id, position, image'
 // `data` 는 대사 목소리 대조(진단 ⑥) 때문에 함께 받는다. 큰 덩어리인 채굴 어록은 별도 컬럼(mined)이라
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
@@ -236,7 +252,7 @@ const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as n
  */
 export async function collectEpisode(db: SupabaseClient, folder: string): Promise<PublishEpisode> {
   const { data: epRow, error: epErr } = await db
-    .from('faction_episodes').select('id').eq('folder', folder).maybeSingle()
+    .from('faction_episodes').select('id, longform_layout').eq('folder', folder).maybeSingle()
   if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
   if (!epRow) throw new Error(`에피소드를 찾을 수 없습니다: ${folder}`)
   const episodeId = epRow.id as string
@@ -313,13 +329,46 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
       tagId: (g.tag_id as string | null) ?? null,
       tagSlug,
       suggestedSlug,
+      part: typeof g.part === 'number' && g.part > 0 ? g.part : undefined,
+      disabled: g.disabled === true,
+      longformOnly: g.longform_only === true,
       people,
       teamShots,
     }
   })
 
   assignTagOrder(groups)
-  return { folder, episodeId, groups }
+  const longformLayout = toLayoutByIndex(epRow.longform_layout, groupRows)
+  return { folder, episodeId, groups, ...(longformLayout ? { longformLayout } : {}) }
+}
+
+/**
+ * 롱폼 배치를 uuid 참조에서 **세력 인덱스** 참조로 되돌린다.
+ *
+ * DB 는 세력을 `{groupId: uuid}` 로 가리키지만 편 경계 판정 규칙(`youtube-faction-meta`·렌더 timing)은
+ * 전부 인덱스 기준이다. 사라진 세력을 가리키는 항목은 버린다 — 남겨 두면 없는 자리를 세어
+ * 편 구간이 어긋난다.
+ */
+function toLayoutByIndex(raw: unknown, groupRows: Row[]): FactionLongformLayoutItem[] | undefined {
+  if (!Array.isArray(raw) || !raw.length) return undefined
+  const indexById = new Map<string, number>()
+  groupRows.forEach((g, i) => indexById.set(g.id as string, i))
+
+  const out: FactionLongformLayoutItem[] = []
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue
+    const row = item as Record<string, unknown>
+    if (typeof row.groupId === 'string') {
+      const idx = indexById.get(row.groupId)
+      if (idx !== undefined) out.push({ group: idx })
+      continue
+    }
+    if ('group' in row && typeof row.group === 'number') { out.push({ group: row.group }); continue }
+    if ('cut' in row) { out.push({ cut: true }); continue }
+    if ('era' in row) { out.push({ era: row.era }); continue }
+    if ('chapter' in row) { out.push({ chapter: row.chapter }); continue }
+  }
+  return out.length ? out : undefined
 }
 
 /**

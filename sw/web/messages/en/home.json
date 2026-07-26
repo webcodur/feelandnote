@@ -122,14 +122,38 @@
         "inspirationChainTitle": "Chain of Inspiration",
         "inspirationChains": [
           [
-            { "reader": "alexander-the-great", "author": "homer", "text": "[[Alexander the Great]] kept [[Homer]]'s 《Iliad》 at his side on the battlefield." },
-            { "reader": "julius-caesar", "author": "alexander-the-great", "text": "[[Caesar]] wept reading the biography of [[Alexander the Great]]." },
-            { "reader": "napoleon-bonaparte", "author": "julius-caesar", "text": "[[Napoleon]] carried [[Caesar]]'s 《Commentaries on the Gallic War》 on his campaigns." }
+            {
+              "reader": "alexander-the-great",
+              "author": "homer",
+              "text": "[[Alexander the Great]] kept [[Homer]]'s 《Iliad》 at his side on the battlefield."
+            },
+            {
+              "reader": "julius-caesar",
+              "author": "alexander-the-great",
+              "text": "[[Caesar]] wept reading the biography of [[Alexander the Great]]."
+            },
+            {
+              "reader": "napoleon-bonaparte",
+              "author": "julius-caesar",
+              "text": "[[Napoleon]] carried [[Caesar]]'s 《Commentaries on the Gallic War》 on his campaigns."
+            }
           ],
           [
-            { "reader": "giovanni-boccaccio", "author": "dante-alighieri", "text": "[[Boccaccio]] revered [[Dante]]'s 《Divine Comedy》 all his life." },
-            { "reader": "william-shakespeare", "author": "giovanni-boccaccio", "text": "[[Shakespeare]] drew stories from [[Boccaccio]]'s 《Decameron》." },
-            { "reader": "abraham-lincoln", "author": "william-shakespeare", "text": "[[Lincoln]] recited [[Shakespeare]]'s plays from memory." }
+            {
+              "reader": "giovanni-boccaccio",
+              "author": "dante-alighieri",
+              "text": "[[Boccaccio]] revered [[Dante]]'s 《Divine Comedy》 all his life."
+            },
+            {
+              "reader": "william-shakespeare",
+              "author": "giovanni-boccaccio",
+              "text": "[[Shakespeare]] drew stories from [[Boccaccio]]'s 《Decameron》."
+            },
+            {
+              "reader": "abraham-lincoln",
+              "author": "william-shakespeare",
+              "text": "[[Lincoln]] recited [[Shakespeare]]'s plays from memory."
+            }
           ]
         ],
         "inspirationConclusion": "One person's inspiration becomes another's creation. That creation transforms yet another's life.",

@@ -443,5 +443,10 @@
     "label": "Share",
     "copyLink": "Copy link",
     "copied": "Copied"
+  },
+  "factionVideo": {
+    "watchLongform": "Watch the film",
+    "watchShorts": "Watch the short",
+    "closeVideo": "Close video"
   }
 }

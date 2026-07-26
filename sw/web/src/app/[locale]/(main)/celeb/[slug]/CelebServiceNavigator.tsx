@@ -15,6 +15,7 @@ export interface ServiceTarget {
 
 export interface CelebServiceAvailability {
   relations: boolean;
+  timeline: boolean;
   contemporaries: boolean;
   faction: boolean;
   videos: boolean;
@@ -66,6 +67,14 @@ export default function CelebServiceNavigator({
       icon: CELEB_SERVICE_ICONS.relations,
       ready: availability.relations,
       target: { sectionId: "relations" },
+    },
+    {
+      key: "timeline",
+      chapter: CELEB_SERVICE_CHAPTERS.timeline,
+      label: t("timeline"),
+      icon: CELEB_SERVICE_ICONS.timeline,
+      ready: availability.timeline,
+      target: { sectionId: "timeline" },
     },
     {
       key: "contemporaries",

@@ -167,6 +167,11 @@ export interface FactionPublishScope {
   personImages?: boolean
   /** 그룹샷 업로드 + team_images 재구성 */
   teamImages?: boolean
+  /**
+   * 테마에 걸린 유튜브 영상(celeb_tags.youtube_videos) 되쓰기.
+   * 원천은 제작·업로드 기록이라 대사와 같은 규칙 — 채움 전용이 아니라 항상 되쓴다.
+   */
+  videos?: boolean
 }
 
 export interface FactionPublishRequest {
@@ -181,7 +186,7 @@ export interface FactionPublishRequest {
   force?: boolean
 }
 
-export type FactionPublishKind = 'tag' | 'assignment' | 'soloShot' | 'teamShots' | 'revalidate'
+export type FactionPublishKind = 'tag' | 'assignment' | 'soloShot' | 'teamShots' | 'videos' | 'revalidate'
 
 export type FactionPublishAction = 'created' | 'updated' | 'skipped' | 'blocked'
 

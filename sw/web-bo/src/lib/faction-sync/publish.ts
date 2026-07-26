@@ -30,6 +30,7 @@ import { linkStateOf, loadServiceSnapshot, resolveTag, type ServiceSnapshot } fr
 import { fileHash, isUnchanged, readManifest, writeManifest, type FactionSyncManifest } from './manifest'
 import { OUTPUT_CONTENT_TYPE, toSoloShot, toTeamShot } from './image'
 import { missingR2Env, publicUrl, uploadToR2 } from './r2'
+import { buildTagVideos, loadEpisodeVideoSource, videosChanged, type EpisodeVideoSource } from './videos'
 import { ASSIGNMENT_COLUMNS, TAG_COLUMNS, toImageArray, type CelebAssignmentRow, type CelebTagRow } from './supabase'
 import type {
   FactionPublishAction, FactionPublishItem, FactionPublishRequest,
@@ -42,6 +43,7 @@ const ALL_SCOPE: Required<FactionPublishScope> = {
   descs: true,
   personImages: true,
   teamImages: true,
+  videos: true,
 }
 
 /** 범위 정규화 — 아무것도 켜지 않았으면 전 항목 실행 */
@@ -53,6 +55,7 @@ function normalizeScope(scope?: FactionPublishScope): Required<FactionPublishSco
     descs: !!scope.descs,
     personImages: !!scope.personImages,
     teamImages: !!scope.teamImages,
+    videos: !!scope.videos,
   }
 }
 
@@ -285,7 +288,12 @@ export async function publishEpisode(
     }
   }
 
-  /* ── 5. 웹 캐시 비우기 ── */
+  /* ── 5. 테마 영상 — 그룹샷과 마찬가지로 태그 단위 ── */
+  if (scope.videos) {
+    await publishVideos({ episode, targets, snap, createdTags, db, dryRun, add, warnings })
+  }
+
+  /* ── 6. 웹 캐시 비우기 ── */
   const wrote = items.some(i => i.action === 'created' || i.action === 'updated')
   if (dryRun) {
     add({ kind: 'revalidate', group: '-', action: 'skipped', reason: 'dry-run' })
@@ -312,6 +320,78 @@ export async function publishEpisode(
     },
     ...(newTagSlugs.length ? { constantHint: newTagSlugs } : {}),
     ...(warnings.length ? { warnings } : {}),
+  }
+}
+
+/* ────────────────────────── 테마 영상 ────────────────────────── */
+
+/**
+ * 테마에 걸린 유튜브 영상을 되쓴다 — 태그 단위(같은 태그를 나눠 쓰는 세력은 한 번만).
+ *
+ * 원천은 제작·업로드 기록이라 **채움 전용이 아니라 항상 되쓴다**(인물 대사와 같은 규칙).
+ * 기록이 없거나 공개 상태가 아니면 null 로 비운다 — 지운 영상이 서비스에 남지 않게 하는 것이 목적이다.
+ *
+ * 다만 **공개 상태를 물어보지 못했을 때는 아무것도 바꾸지 않는다.** 토큰이 만료된 것뿐인데
+ * 전 테마의 영상을 지워 버리는 사고를 막기 위함이다(youtube-liveness 가 같은 이유로 unknown 을 둔다).
+ */
+async function publishVideos(ctx: {
+  episode: PublishEpisode
+  targets: PublishGroup[]
+  snap: ServiceSnapshot
+  createdTags: Map<string, CelebTagRow>
+  db: SupabaseClient
+  dryRun: boolean
+  add: (item: FactionPublishItem) => void
+  warnings: string[]
+}): Promise<void> {
+  const { episode, targets, snap, createdTags, db, dryRun, add, warnings } = ctx
+  if (!targets.length) return
+
+  let src: EpisodeVideoSource
+  try {
+    src = await loadEpisodeVideoSource(episode.folder)
+  } catch (e) {
+    // 기록을 못 읽었다 — 「영상 없음」과 구별해야 하므로 지우지 않고 막힌 것으로 알린다
+    add({ kind: 'videos', group: '-', action: 'blocked', reason: `업로드 기록 읽기 실패: ${errText(e)}` })
+    return
+  }
+
+  if (src.unverified) {
+    warnings.push(`유튜브 공개 상태를 확인하지 못해 테마 영상을 손대지 않았습니다: ${src.notes.join(' / ')}`)
+  }
+
+  const seen = new Set<string>()
+  for (const g of targets) {
+    const key = tagKeyOf(g)
+    if (seen.has(key)) continue
+    seen.add(key)
+
+    const tag = resolveTag(g, snap) ?? (g.tagSlug ? createdTags.get(g.tagSlug) : undefined)
+    if (!tag) continue // 태그가 없으면 위에서 이미 blocked 로 보고했다
+
+    const tagGroups = groupsOfSameTag(episode, g)
+    const label = { kind: 'videos' as const, group: tagGroups.map(x => x.name).join(' + ') || g.name }
+
+    if (src.unverified) {
+      add({ ...label, action: 'blocked', reason: `공개 상태 미확인 — 보류 (${src.notes.join(' / ')})` })
+      continue
+    }
+
+    const { value, notes } = buildTagVideos(src, episode.groups, tagGroups, episode.longformLayout)
+    const detail = notes.join(' · ')
+
+    if (!videosChanged(tag.youtube_videos, value)) {
+      add({ ...label, action: 'skipped', reason: `unchanged — ${detail}` })
+      continue
+    }
+    const action: FactionPublishAction = tag.youtube_videos ? 'updated' : 'created'
+    if (dryRun) { add({ ...label, action, reason: detail }); continue }
+    if (tag.id === 'NEW') { add({ ...label, action: 'skipped', reason: 'dry-run 자리표 태그' }); continue }
+
+    const { error } = await db.from('celeb_tags').update({ youtube_videos: value }).eq('id', tag.id)
+    if (error) { add({ ...label, action: 'blocked', reason: `youtube-videos-update: ${error.message}` }); continue }
+    tag.youtube_videos = value
+    add({ ...label, action, reason: detail })
   }
 }
 
@@ -379,7 +459,7 @@ async function resolveOrCreateTag(ctx: {
       // 미리보기는 아무것도 만들지 않으므로 id 가 없다 — 뒤 단계가 이어 돌도록 자리표를 둔다(키에 NEW 로 보인다)
       const placeholder: CelebTagRow = {
         id: 'NEW', slug: g.tagSlug, name: g.name, name_en: insert.name_en,
-        color: insert.color, team_images: [], is_featured: false, sort_order: null,
+        color: insert.color, team_images: [], youtube_videos: null, is_featured: false, sort_order: null,
       }
       createdTags.set(g.tagSlug, placeholder)
       return placeholder
