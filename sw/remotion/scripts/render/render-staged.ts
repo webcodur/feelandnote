@@ -62,12 +62,17 @@ async function main() {
   let publicDir: string | null = null
   if (!args.fullPublic) {
     try {
-      const stage = buildRenderStage(args.series, args.episode)
+      const stage = await buildRenderStage(args.series, args.episode)
       publicDir = stage.dir
       console.log(
         `[창고] ${stage.dir}\n`
-        + `       파일 ${stage.files}개 · ${mb(stage.bytes)}MB · 하드링크 ${stage.linked} / 복사 ${stage.copied} · ${stage.ms}ms`,
+        + `       파일 ${stage.files}개 · ${mb(stage.bytes)}MB · 하드링크 ${stage.linked} / 복사 ${stage.copied} · ${stage.ms}ms\n`
+        + `       곡 ${stage.music.length}개${stage.music.length ? `: ${stage.music.join(', ')}` : ' (이 편은 배경음악 없음)'}`,
       )
+      if (stage.musicMissing.length) {
+        // 조용히 빼지 않는다 — 통짜로 뽑아도 어차피 안 들리는 결손이다
+        console.warn(`⚠ 데이터가 부르는데 music/ 에 없는 곡 ${stage.musicMissing.length}개: ${stage.musicMissing.join(', ')}`)
+      }
     } catch (e) {
       // 조용한 폴백 금지 — 왜 실패했는지 알리고 사람이 고르게 한다
       console.error(`✗ 창고 조립 실패: ${e instanceof Error ? e.message : String(e)}`)

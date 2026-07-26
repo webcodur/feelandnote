@@ -8,7 +8,7 @@
  * 가고, 편마다 매번 반복된다. 디스크가 찼던 사고도 여기서 났다.
  *
  * 그래서 렌더 직전에 **그 편이 실제로 참조하는 것만** 모은 임시 폴더를 만들고, 렌더에게
- * `--public-dir` 로 그 폴더를 준다. 담는 것은 아래 `stagePlan` 이 정한다.
+ * `--public-dir` 로 그 폴더를 준다. 담는 것은 아래 `buildRenderStage` 가 정한다.
  *
  * ## 어떻게
  *
@@ -21,9 +21,10 @@
  *   삼지 마라. 지울 때는 링크만 끊기므로 원본은 남는다.
  */
 
-import { copyFileSync, existsSync, linkSync, mkdirSync, readdirSync, rmSync, statSync } from 'fs'
+import { copyFileSync, existsSync, linkSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { FACTIONS_DIR, DISCOURSES_DIR, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -33,10 +34,27 @@ export const PUBLIC_DIR = path.join(ROOT, 'public')
 /** 창고 자리 — 저장소 안이지만 추적 대상은 아니다(.gitignore) */
 export const STAGE_ROOT = path.join(ROOT, '.render-stage')
 
-/** 시리즈별 에피소드 폴더가 놓이는 자리 */
+/** 시리즈별 에피소드 폴더가 놓이는 자리(창고 안 상대 경로 = staticFile 이 부르는 이름) */
 const SERIES_DIR: Record<string, string> = {
   faction: 'factions',
   discourse: 'discourses',
+}
+
+/** 시리즈별 데이터 파일 이름 — 선곡을 읽으려면 이 파일을 연다 */
+const DATA_FILE: Record<string, string> = {
+  faction: 'faction-data.json',
+  discourse: 'discourse-data.json',
+}
+
+/**
+ * 에피소드 실물 폴더.
+ *
+ * 창고 안 자리는 늘 `<시리즈폴더>/<편>` 이지만 **실물은 다를 수 있다** — 아이디어 보관함 편은
+ * `public/` 밖(`idea-bank/`)에 있다. 그 대응은 shared `episodeDirOf` 한 곳이 안다.
+ */
+function episodeSrcDir(series: string, episode: string): string {
+  const root = series === 'discourse' ? DISCOURSES_DIR : FACTIONS_DIR
+  return episodeDirOf(root, episode)
 }
 
 /**
@@ -57,11 +75,11 @@ function skipFile(name: string): boolean {
 /**
  * 시리즈·에피소드와 무관하게 늘 필요한 공용 자산.
  * - `common/`  효과음(타이핑·등장·챕터·크레딧 표식) 7.8MB
- * - `music/`   배경음악 125MB — 곡 이름이 데이터에 적혀 있어 통째로 넣는다.
- *              참조된 곡만 거르는 것은 다음 단계 과제다(지금도 7.3GB → 200MB대라 이득이 크다).
  * - `fonts/`   2MB. 글꼴은 CSS 가 번들러로 물어 오므로 창고에 없어도 되지만, 값이 싸서 넣는다.
+ *
+ * 곡(`music/` 125MB)은 여기 없다 — **이 편이 실제로 재생하는 곡만** 골라 담는다(아래 `pickMusic`).
  */
-const COMMON_DIRS = ['common', 'music', 'fonts']
+const COMMON_DIRS = ['common', 'fonts']
 
 export interface StageResult {
   /** 창고 절대경로 — 렌더에 `--public-dir` 로 넘긴다 */
@@ -72,6 +90,10 @@ export interface StageResult {
   linked: number
   copied: number
   ms: number
+  /** 담은 곡 */
+  music: string[]
+  /** 데이터가 부르는데 `music/` 에 없는 곡 — 통짜 방식에서도 깨질 결손이라 알린다 */
+  musicMissing: string[]
 }
 
 interface Counter { files: number; bytes: number; linked: number; copied: number }
@@ -104,39 +126,81 @@ function placeDir(srcDir: string, dstDir: string, c: Counter, prune: boolean): v
   }
 }
 
-/** 창고에 담을 것 — 무엇이 왜 들어가는지 한눈에 보이게 따로 뺐다 */
-export function stagePlan(series: string, episode: string): { rel: string; prune: boolean }[] {
-  const dir = SERIES_DIR[series]
-  if (!dir) throw new Error(`모르는 시리즈: ${series} (가능: ${Object.keys(SERIES_DIR).join(', ')})`)
-  return [
-    { rel: path.join(dir, episode), prune: true },
-    ...COMMON_DIRS.map(d => ({ rel: d, prune: false })),
-  ]
+/**
+ * 이 편이 실제로 재생하는 곡 목록.
+ *
+ * **선곡 판정을 여기 다시 쓰지 않는다.** 어떤 곡이 흐르는지는 엔진의 배경음악 로직이 정하고,
+ * 그 판정은 각 시리즈의 `bgm-select.ts` 로 빠져 있다 — 렌더와 창고가 같은 함수를 부른다.
+ * 판정을 복제하면 언젠가 어긋나고, 어긋난 날 곡이 빠진 채로 영상이 나가거나 렌더가 죽는다.
+ *
+ * 팩션은 롱폼·쇼츠 변형마다 고르는 곡이 다르므로 **그 편의 전 변형 합집합**을 담는다
+ * (한 번의 렌더는 한 변형이지만, 편 하나가 쓰는 곡은 많아야 서너 곡이라 넉넉히 담는 편이 안전하다).
+ */
+async function pickMusic(series: string, episode: string): Promise<string[]> {
+  const dataPath = path.join(episodeSrcDir(series, episode), DATA_FILE[series])
+  if (!existsSync(dataPath)) return []
+  const script = JSON.parse(readFileSync(dataPath, 'utf-8')) as Record<string, unknown>
+
+  if (series === 'discourse') {
+    const { collectDiscourseBgmFiles } = await import('../../src/compositions/Discourse/bgm-select.js')
+    return collectDiscourseBgmFiles(script as never)
+  }
+
+  const [{ collectBgmFiles }, { factionVariants }] = await Promise.all([
+    import('../../src/compositions/Faction/bgm-select.js'),
+    import('@feelandnote/shared/lib/youtube-faction-meta'),
+  ])
+  const groups = (script.groups ?? []) as never[]
+  const layout = script.longformLayout as never[] | undefined
+  const files = new Set<string>()
+  for (const v of factionVariants(groups, layout)) {
+    for (const f of collectBgmFiles(script as never, { portrait: v.isShorts, part: v.part, lvPart: v.lvPart })) {
+      files.add(f)
+    }
+  }
+  return [...files]
 }
 
 /**
  * 창고를 짓는다. 같은 이름의 창고가 있으면 먼저 지운다(앞 렌더의 잔재로 옛 자산이 섞이면
  * 무엇을 보고 뽑은 영상인지 알 수 없다).
  */
-export function buildRenderStage(series: string, episode: string): StageResult {
+export async function buildRenderStage(series: string, episode: string): Promise<StageResult> {
   const started = Date.now()
-  const plan = stagePlan(series, episode)
+  const seriesDir = SERIES_DIR[series]
+  if (!seriesDir) throw new Error(`모르는 시리즈: ${series} (가능: ${Object.keys(SERIES_DIR).join(', ')})`)
 
-  const epSrc = path.join(PUBLIC_DIR, plan[0].rel)
-  if (!existsSync(epSrc)) {
-    throw new Error(`에피소드 폴더가 없습니다: ${epSrc}`)
-  }
+  const epSrc = episodeSrcDir(series, episode)
+  if (!existsSync(epSrc)) throw new Error(`에피소드 폴더가 없습니다: ${epSrc}`)
 
   const dir = path.join(STAGE_ROOT, `${series}-${episode.replace(/[/\\]/g, '_')}`)
   rmSync(dir, { recursive: true, force: true })
   mkdirSync(dir, { recursive: true })
 
   const c: Counter = { files: 0, bytes: 0, linked: 0, copied: 0 }
-  for (const item of plan) {
-    placeDir(path.join(PUBLIC_DIR, item.rel), path.join(dir, item.rel), c, item.prune)
+
+  // ① 에피소드 폴더 — 창고 안 자리는 staticFile 이 부르는 이름 그대로다
+  //    (실물은 다를 수 있다 — 아이디어 보관함 편은 public 밖에 있다)
+  placeDir(epSrc, path.join(dir, seriesDir, episode), c, true)
+
+  // ② 공용 — 효과음·글꼴
+  for (const rel of COMMON_DIRS) placeDir(path.join(PUBLIC_DIR, rel), path.join(dir, rel), c, false)
+
+  // ③ 곡 — 이 편이 실제로 재생하는 것만. 데이터가 부르는데 없는 곡은 조용히 넘기지 않고 알린다
+  //    (통짜 방식에서도 어차피 깨질 자산 결손이다)
+  const music = await pickMusic(series, episode)
+  const musicDst = path.join(dir, 'music')
+  mkdirSync(musicDst, { recursive: true }) // 곡이 하나도 없는 편은 빈 폴더로 둔다
+  const musicMissing: string[] = []
+  const placed: string[] = []
+  for (const file of music) {
+    const src = path.join(PUBLIC_DIR, 'music', file)
+    if (!existsSync(src)) { musicMissing.push(file); continue }
+    placeFile(src, path.join(musicDst, file), c)
+    placed.push(file)
   }
 
-  return { dir, ...c, ms: Date.now() - started }
+  return { dir, ...c, ms: Date.now() - started, music: placed, musicMissing }
 }
 
 /** 창고 정리 — 하드링크만 끊는다. 원본(`public/`)은 그대로다 */
