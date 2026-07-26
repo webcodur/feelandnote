@@ -175,7 +175,9 @@
     "groupShot": "Group",
     "figureCount": "{count} figures",
     "playLine": "Play line",
-    "photoCount": "{count} pics"
+    "photoCount": "{count} pics",
+    "showQuote": "See their words",
+    "hideQuote": "Close"
   },
   "quickRecord": {
     "section": {
