@@ -1,0 +1,139 @@
+{
+  "slug": "max-weber",
+  "nickname": "막스 베버",
+  "events": [
+    {
+      "id": "8ecde0dd-2f10-4e56-99c7-f1dbca99fb85",
+      "year": 1864,
+      "title": "에르푸르트에서 태어나다",
+      "before": "1864년 4월 21일, 프로이센 작센주의 에르푸르트에서 태어났다. 아버지 막스 베버 1세는 국민자유당 정치인이었고, 어머니 헬레네는 칼뱅주의 신앙을 엄격하게 지켰다.",
+      "after": "Max Weber was born on 21 April 1864 in Erfurt, in the Prussian Province of Saxony. His father, Max Weber Sr., was a National Liberal politician, while his mother, Helene, strictly followed her Calvinist faith."
+    },
+    {
+      "id": "32998bc4-6c60-43a7-920d-718f1260a8f0",
+      "year": 1869,
+      "title": "베를린 샤를로텐부르크로 이사하다",
+      "before": "다섯 살이 되던 1869년, 가족을 따라 베를린 샤를로텐부르크로 옮겼다. 아버지의 집에는 딜타이와 몸젠, 트라이치케를 비롯한 학자와 정치인이 끊임없이 드나들었다. 소년 베버는 식탁과 응접실에서 학문이 정치와 맞부딪치는 광경을 지켜보며 자랐다.",
+      "after": "The family moved to Charlottenburg in Berlin in 1869, when Weber was five. Scholars and politicians such as Dilthey, Mommsen and Treitschke regularly visited his father's home. Weber grew up hearing scholarship and politics collide around the dinner table and in the drawing room."
+    },
+    {
+      "id": "126bda4f-5b4c-4b87-bf1e-6ac577367828",
+      "year": 1882,
+      "title": "하이델베르크 대학에서 법학을 시작하다",
+      "before": "1882년 하이델베르크 대학에 들어가 법학을 공부하기 시작했다. 아버지가 몸담았던 학생조합에도 가입했지만 법학에만 머물지는 않았다. 경제사와 철학 강의까지 찾아 들었다.",
+      "after": "Weber entered Heidelberg University in 1882 to study law. He joined the student fraternity to which his father had belonged, but ranged beyond his main subject to attend lectures on economic history and philosophy."
+    },
+    {
+      "id": "196c061c-0090-45d7-a782-9d3933789531",
+      "year": 1883,
+      "title": "슈트라스부르크에서 병역을 치르다",
+      "before": "이듬해 슈트라스부르크로 가서 1884년까지 군 복무를 했다. 틈이 나면 그곳 대학의 강의를 들었고, 역사가인 이모부 헤르만 바움가르텐의 집을 자주 찾았다. 바움가르텐과 나눈 이야기는 젊은 베버에게 오래 남았다.",
+      "after": "The following year, Weber went to Strasbourg for military service, which lasted until 1884. When duty allowed, he attended university lectures and often visited his uncle, the historian Hermann Baumgarten. Their conversations stayed with him."
+    },
+    {
+      "id": "ec8ab494-9627-4e04-af87-1ae8c3c48edf",
+      "year": 1889,
+      "title": "베를린에서 박사와 교수자격을 얻다",
+      "before": "1886년 사법시험을 통과한 뒤 연구에 몰두했다. 1889년에는 중세 상사회사의 역사를 파고든 논문으로 박사학위를 받았고, 1891년 로마 농업사 연구를 마쳐 대학에서 가르칠 자격까지 얻었다.",
+      "after": "After passing his legal examination in 1886, Weber turned to research. He earned his doctorate in 1889 with a study of medieval trading companies, then completed a work on Roman agrarian history in 1891 that qualified him to teach at a university."
+    },
+    {
+      "id": "a55a5130-5f50-4b6f-9b0c-b144728e1461",
+      "year": 1893,
+      "title": "마리안네 슈니트거와 결혼하다",
+      "before": "1893년 9월 20일, 외르링하우젠에서 먼 친척 마리안네 슈니트거와 결혼했다. 마리안네는 여성운동가이자 저술가로 자기 일을 이어 갔으며, 훗날 남편이 남긴 원고를 정리해 세상에 내놓았다.",
+      "after": "On 20 September 1893, Weber married his distant cousin Marianne Schnitger in Oerlinghausen. She continued her own work as a writer and campaigner for women's rights, and later prepared her husband's unfinished manuscripts for publication."
+    },
+    {
+      "id": "c730f704-53e4-4de9-be40-452f8c09b38e",
+      "year": 1894,
+      "title": "프라이부르크 경제학 교수가 되다",
+      "before": "1894년 프라이부르크 대학 경제학 교수로 부임했다. 이듬해 취임 강연 「국민국가와 경제정책」에서 독일 동부의 농업 문제를 다루며 강경한 민족주의 주장을 내놓았고, 강연은 거센 논란을 불렀다.",
+      "after": "Weber became professor of economics at the University of Freiburg in 1894. In his inaugural lecture the next year, The Nation State and Economic Policy, he addressed the agrarian question in eastern Germany and took a hard nationalist line. The lecture caused fierce debate."
+    },
+    {
+      "id": "81ca8308-6529-4e7a-9ff9-32e7ff66c062",
+      "year": 1896,
+      "title": "하이델베르크 경제학 강좌를 물려받다",
+      "before": "1896년 하이델베르크 대학으로 옮겨 경제학 강좌를 맡았다. 그의 집에는 학자들이 모여들었고, 이 모임은 곧 ‘베버 서클’이라 불렸다.",
+      "after": "A new appointment took Weber back to Heidelberg in 1896, this time to hold the chair of economics. Scholars gathered at his home, forming what became known as the Weber Circle."
+    },
+    {
+      "id": "bcfcf330-a194-406b-9fdd-652a4a50cd17",
+      "year": 1897,
+      "title": "아버지와 다툰 뒤 무너져 강단을 떠나다",
+      "before": "1897년 6월, 어머니를 대하는 태도를 두고 아버지와 크게 다퉜다. 두 달 뒤 아버지는 리가를 여행하던 중 세상을 떠났다. 베버는 우울과 불면에 짓눌려 1898년과 1900년 요양원에 들어갔고, 1899년부터 강의를 면제받다가 1903년 강단을 완전히 떠났다.",
+      "after": "In June 1897, Weber had a bitter quarrel with his father over his treatment of Weber's mother. His father died two months later while travelling to Riga. Weber then suffered from depression and insomnia, entered sanatoriums in 1898 and 1900, and was excused from teaching from 1899. In 1903, he left the lecture hall altogether."
+    },
+    {
+      "id": "a0ee8d6c-85fc-4314-a05b-c082ee153093",
+      "year": 1904,
+      "title": "세인트루이스 만국박람회 학술대회에 참석하러 미국에 가다",
+      "before": "1904년 세인트루이스 만국박람회에 맞춰 열린 학술대회의 초청을 받아 미국으로 건너갔다. 뉴욕에서 출발한 석 달의 여정 동안 독일 이민자 마을과 흑인 사회를 살펴보고 노스캐롤라이나의 친척을 찾아간 뒤 다시 뉴욕으로 돌아왔다.",
+      "after": "An invitation to an academic congress held alongside the 1904 World's Fair brought Weber to the United States. Over nearly three months, he travelled from New York through German immigrant towns and African American communities, visited relatives in North Carolina, and returned to New York."
+    },
+    {
+      "id": "61174aeb-1c9f-4f84-8c91-99027b56b394",
+      "year": 1904,
+      "title": "프로테스탄트 윤리와 자본주의 정신을 발표하다",
+      "before": "학문으로 돌아온 그는 1904년 「사회과학·사회정책 논총」의 부편집자를 맡았다. 이 학술지에 「프로테스탄트 윤리와 자본주의 정신」을 두 해에 걸쳐 나누어 발표했다. 1905년 러시아에서 혁명이 일어나자 그 움직임을 직접 좇기 위해 러시아어를 배우고 관련 논문을 썼다.",
+      "after": "Back at work, Weber became an associate editor of the Archiv für Sozialwissenschaft und Sozialpolitik in 1904. He published The Protestant Ethic and the Spirit of Capitalism in the journal in instalments over two years. When revolution broke out in Russia in 1905, he learned Russian so that he could follow events directly and write about them."
+    },
+    {
+      "id": "ef7166c3-8a62-40f5-bc14-ea39eb2b6261",
+      "year": 1909,
+      "title": "독일 사회학회를 함께 세우다",
+      "before": "1909년 여러 학자와 함께 독일 사회학회를 세웠다. 그러나 학회 안에서 가치판단을 둘러싼 갈등이 깊어지자 회원직을 내려놓았다.",
+      "after": "Weber helped found the German Sociological Association in 1909. He later resigned as disputes over value judgements divided its members."
+    },
+    {
+      "id": "0d7da87d-a2c8-4c77-a6d3-976da12369b2",
+      "year": 1914,
+      "title": "하이델베르크 육군병원 관리를 맡다",
+      "before": "1차 대전이 터지자 예비역 장교로 자원했다. 1914년부터 이듬해까지 하이델베르크 일대 육군병원 아홉 곳을 운영했다. 처음에는 전쟁의 열기에 휩싸였으나 차츰 돌아서서 무제한 잠수함전과 영토 병합을 노린 전쟁 목표에 공개적으로 반대했다.",
+      "after": "When the First World War began, Weber volunteered as a reserve officer. From 1914 to 1915, he ran nine army hospitals around Heidelberg. He first shared the enthusiasm for war, but later spoke publicly against unrestricted submarine warfare and plans to annex territory."
+    },
+    {
+      "id": "a77d6811-9713-4d0a-b18d-192777e8b620",
+      "year": 1917,
+      "title": "뮌헨에서 '직업으로서의 학문'을 강연하다",
+      "before": "1917년 11월 뮌헨의 학생들 앞에서 「직업으로서의 학문」을 강연했다. 학문은 삶의 의미를 대신 정해 주지 못한다고 말하고, 주술에서 멀어지는 근대 세계의 모습을 짚었다. 강연문은 곧 인쇄되어 널리 읽혔다.",
+      "after": "In November 1917, Weber delivered Science as a Vocation to students in Munich. He told them that scholarship could not decide the meaning of life for them and described a modern world stripped of enchantment. The lecture was soon printed and widely read."
+    },
+    {
+      "id": "28571c67-ae01-416c-8fcc-92fd1328a495",
+      "year": 1918,
+      "title": "빈 대학에서 19년 만에 강의로 돌아오다",
+      "before": "1918년 빈 대학의 비어 있던 정치경제학 강좌를 맡으면서 19년 만에 학생들 앞에 섰다. 이때 했던 강의 가운데 하나는 뒤에 「유물사관의 적극적 비판」이라는 이름으로 알려졌다.",
+      "after": "Weber returned to the classroom in 1918 after nineteen years away, filling the vacant chair of political economy at the University of Vienna. One of his courses there later became known as a positive critique of the materialist conception of history."
+    },
+    {
+      "id": "72ba972c-550f-4693-9020-4c515a3088f7",
+      "year": 1919,
+      "title": "뮌헨에서 '직업으로서의 정치'를 강연하다",
+      "before": "1919년 1월, 다시 뮌헨의 연단에 올라 「직업으로서의 정치」를 강연했다. 국가는 정당한 물리력을 독점하는 집단이라고 규정하고, 뜻을 끝까지 좇는 신념윤리와 결과를 감당하는 책임윤리를 구별했다. 같은 달 바이마르 국민의회 의원 선거에도 나섰으나 당선되지 못했다.",
+      "after": "In January 1919, Weber returned to a Munich stage to deliver Politics as a Vocation. He defined the state through its monopoly of legitimate physical force and distinguished an ethic guided by conviction from one that accepts responsibility for consequences. That same month, he ran for the Weimar National Assembly but was not elected."
+    },
+    {
+      "id": "de1bd5f9-3042-4e0b-bf33-27ce82b2c70c",
+      "year": 1919,
+      "title": "베르사유 강화회의 독일 대표단에 참여하다",
+      "before": "1919년 5월 독일 대표단의 일원으로 베르사유 강화회의에 참여했다. 돌아와서는 바이마르 헌법 초안 작성에 힘을 보태며 대통령을 국민이 직접 뽑아야 한다고 강하게 주장했다. 독일에 전쟁 책임을 묻는 조항에는 반대했다.",
+      "after": "Weber joined the German delegation at the Versailles peace conference in May 1919. After returning, he helped with the draft of the Weimar constitution and argued strongly that the president should be elected directly by the people. He opposed the clause that assigned responsibility for the war to Germany."
+    },
+    {
+      "id": "3abc1b79-8660-4f2e-a10f-aa85b6c8801c",
+      "year": 1919,
+      "title": "뮌헨 대학 강좌를 맡다",
+      "before": "그해 뮌헨 대학에서 루요 브렌타노가 맡았던 사회과학·경제사·정치경제학 강좌를 이어받았다. 당시의 경제사 강의는 사후에 「일반 경제사」로 묶여 1923년 출간됐다.",
+      "after": "Later that year, Weber succeeded Lujo Brentano in the Munich chair of social science, economic history and political economy. His lectures on economic history were collected after his death and published in 1923 as General Economic History."
+    },
+    {
+      "id": "bfe49fb3-569f-4cb7-b9a2-b51aa8ca1cc3",
+      "year": 1920,
+      "title": "뮌헨에서 폐렴으로 죽다",
+      "before": "1920년 6월 14일, 독감을 앓은 뒤 폐렴이 겹쳐 뮌헨에서 쉰여섯의 나이로 숨졌다. 완성하지 못한 채 남겨 둔 방대한 원고는 아내 마리안네가 정리했고, 1921년부터 「경제와 사회」라는 제목으로 출간됐다.",
+      "after": "Weber died in Munich on 14 June 1920, aged fifty-six, after influenza developed into pneumonia. Marianne sorted through the large body of work he had left unfinished, and publication began in 1921 under the title Economy and Society."
+    }
+  ]
+}

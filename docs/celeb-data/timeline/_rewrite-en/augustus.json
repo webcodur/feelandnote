@@ -1,0 +1,132 @@
+{
+  "slug": "augustus",
+  "nickname": "아우구스투스",
+  "events": [
+    {
+      "id": "e381f2cd-494d-4de2-be8e-b6967d623471",
+      "year": -63,
+      "title": "로마 팔라티누스 언덕에서 태어나다",
+      "before": "팔라티누스 언덕의 옥타비우스 집안에서 가이우스 옥타비우스로 태어났다. 기사 신분에서 원로원으로 올라선 가문이었고, 어머니 아티아는 카이사르의 조카딸이었다. 집안의 본거지는 로마 남동쪽 벨리트라이였으며, 네 살 때 아버지를 잃었다.",
+      "after": "Gaius Octavius was born on Rome's Palatine Hill. His family had risen from the equestrian order into the Senate, while his mother, Atia, was Caesar's niece. The family came from Velitrae, south-east of Rome. His father died when he was four."
+    },
+    {
+      "id": "08e6c40a-8a9c-49f3-9989-aeff4486b592",
+      "year": -45,
+      "title": "아폴로니아에서 학업과 군사 훈련을 받다",
+      "before": "파르티아 원정을 준비하던 카이사르는 그를 발칸의 아폴로니아로 보냈다. 그는 수사학을 배우는 한편 군단과 함께 훈련했고, 그곳에서 훗날 자신의 전투를 지휘할 아그리파를 만났다.",
+      "after": "Caesar sent him to Apollonia in the Balkans while preparing to invade Parthia. He studied rhetoric, trained with the legions and met Agrippa, who would later command his battles."
+    },
+    {
+      "id": "baf0ed36-2736-4489-a8a5-b3c0d98b1751",
+      "year": -44,
+      "title": "카이사르의 유언장을 알고 이탈리아에 상륙하다",
+      "before": "카이사르가 암살되고 자신을 양자이자 상속인으로 삼았다는 소식이 아폴로니아에 닿았다. 주변의 만류를 뿌리친 열여덟 살 청년은 브룬디시움에 상륙했다. 이름을 가이우스 율리우스 카이사르로 바꾸고 유산을 요구했다.",
+      "after": "News reached Apollonia that Caesar had been murdered and had named him his adopted son and heir. Ignoring advice to stay away, the eighteen-year-old crossed to Brundisium, took the name Gaius Julius Caesar and claimed his inheritance."
+    },
+    {
+      "id": "1f721b8b-7695-4c2f-8877-b3e1dc685779",
+      "year": -43,
+      "title": "무티나에서 안토니우스를 몰아내다",
+      "before": "원로원 편에 선 그는 사재를 풀어 군단을 모으고, 무티나에 갇힌 데키무스 브루투스를 구하러 갔다. 전투에서 두 집정관이 모두 죽자 살아남은 군대는 그의 수중에 들어왔다. 그는 그 병력을 이끌고 곧장 로마로 향해 집정관 자리를 요구했다.",
+      "after": "He raised legions with his own money, sided with the Senate and helped drive Antony back from Mutina, where Decimus Brutus was trapped. Both consuls died in the fighting, and their surviving troops came under his command. He marched them to Rome and demanded the consulship."
+    },
+    {
+      "id": "841b7fde-b955-4c34-b38d-51966caa2e15",
+      "year": -43,
+      "title": "열아홉에 집정관에 오르다",
+      "before": "군단을 앞세워 로마에 들어간 열아홉 살 청년이 집정관 선거를 밀어붙였다. 법으로 정한 나이보다 스무 해 넘게 이른 취임이었다. 자리에 오르자 카이사르 암살자들을 국가의 적으로 선포하는 법부터 통과시켰다.",
+      "after": "At nineteen, he entered Rome behind his legions and forced an election that made him consul more than twenty years before the legal age. Once in office, he passed a law declaring Caesar's assassins enemies of the state."
+    },
+    {
+      "id": "bdf7dc99-ff4d-4883-9d48-e0dca7bb1825",
+      "year": -43,
+      "title": "안토니우스·레피두스와 제2차 삼두정을 세우다",
+      "before": "보노니아 근처에서 어제의 적 안토니우스와 마주 앉았다. 레피두스까지 합류한 세 사람은 국가를 나눠 다스리기로 했고, 법은 이들에게 정식 권한을 주었다. 곧 살생부가 나붙었다. 키케로를 비롯한 수백 명이 목숨을 잃었다.",
+      "after": "Near Bononia, he sat down with Antony, until recently his enemy, and Lepidus. The three divided control of the state and secured legal powers to rule it. Proscription lists soon appeared, and hundreds were killed, including Cicero."
+    },
+    {
+      "id": "02aea901-5137-4c5a-b0cd-52ac37c23c1e",
+      "year": -42,
+      "title": "필리피에서 브루투스와 카시우스를 무너뜨리다",
+      "before": "필리피 평원에서 두 차례 전투가 벌어졌다. 실제 지휘는 안토니우스가 맡았고, 그는 병으로 전장을 비웠다는 기록이 남아 있다. 브루투스와 카시우스가 차례로 자결하자 무장한 공화정 복원 세력도 무너졌다.",
+      "after": "Two battles at Philippi broke the armies of Brutus and Cassius. Antony led the fighting while Octavian, according to surviving accounts, stayed away from the battle because he was ill. Brutus and Cassius killed themselves, and the armed campaign to restore the Republic collapsed."
+    },
+    {
+      "id": "1410ed33-5ac0-46f7-82fb-664d14a0e3ba",
+      "year": -41,
+      "title": "페루시아를 굶겨 항복시키다",
+      "before": "퇴역병에게 땅을 나눠주려고 토지를 몰수하자 안토니우스의 동생 루키우스와 아내 풀비아가 반기를 들었다. 그는 반란군을 페루시아로 몰아넣고 겨울 내내 포위해 굶겼다. 항복한 도시는 약탈당한 뒤 불탔다.",
+      "after": "When Octavian confiscated land for his veterans, Antony's brother Lucius and wife Fulvia rose against him. He drove their forces into Perusia and starved the city through the winter. After it surrendered, his troops plundered it and it burned."
+    },
+    {
+      "id": "60390f4c-3819-4378-953d-c2d520d30bd4",
+      "year": -40,
+      "title": "브룬디시움 협정으로 안토니우스와 제국을 나누다",
+      "before": "군단들이 협상을 재촉하자 전면전을 앞둔 두 사람은 브룬디시움에서 타협했다. 서방은 그가, 동방은 안토니우스가 맡았다. 누나 옥타비아를 안토니우스와 혼인시켜 동맹을 묶었으나, 훗날 이 결혼이 깨지면서 두 사람의 관계도 끝났다.",
+      "after": "Octavian and Antony came close to war at Brundisium before their legions pressed them to negotiate. Octavian took the West and Antony the East. Antony then married Octavian's sister Octavia to seal the agreement, but the alliance ended when the marriage later failed."
+    },
+    {
+      "id": "d5a0dd76-2a75-43a8-9b3a-3b72ee1e9e99",
+      "year": -36,
+      "title": "나울로쿠스 해전으로 곡물길을 되찾다",
+      "before": "시칠리아에서 로마로 가는 곡물길을 끊던 섹스투스 폼페이우스를 아그리파가 나울로쿠스 앞바다에서 격파했다. 식량난이 풀리자 로마 시민들의 지지가 그에게 모였다. 같은 해 레피두스는 권한을 빼앗기고 삼두정에서 밀려났다.",
+      "after": "Sextus Pompey was cutting the grain route from Sicily to Rome. Agrippa destroyed his fleet off Naulochus, reopened the route and ended the food shortage, bringing Octavian new support in the city. That same year, Octavian stripped Lepidus of his powers and pushed him out of the triumvirate."
+    },
+    {
+      "id": "16aa39b2-d11d-4efc-88eb-db03ee26cd04",
+      "year": -31,
+      "title": "악티움 해전에서 안토니우스와 클레오파트라를 이기다",
+      "before": "그리스 서해안 악티움 앞바다에서 안토니우스와 클레오파트라의 연합 함대와 맞붙었다. 아그리파가 보급로를 막은 가운데 클레오파트라의 함대가 전투 도중 이탈했다. 승부가 기울자 두 사람은 이집트로 달아났다.",
+      "after": "The fleets of Octavian and Agrippa faced Antony and Cleopatra off Actium on the western coast of Greece. Agrippa had already cut their supply lines. When Cleopatra's ships broke away during the battle, Antony followed her, and both fled to Egypt."
+    },
+    {
+      "id": "291a58f4-612a-4b0c-8405-a366709608b9",
+      "year": -30,
+      "title": "알렉산드리아에 입성해 이집트를 병합하다",
+      "before": "알렉산드리아가 함락되자 안토니우스와 클레오파트라는 차례로 스스로 목숨을 끊었다. 카이사르의 아들 카이사리온도 처형됐다. 삼백 년 가까이 이어진 프톨레마이오스 왕조는 막을 내렸고, 이집트는 그가 직접 다스리는 속주가 됐다.",
+      "after": "Octavian entered Alexandria after the city fell. Antony and Cleopatra killed themselves in turn, and Caesarion, Cleopatra's son by Caesar, was executed. The Ptolemaic dynasty ended after nearly three centuries, and Egypt became a province under Octavian's direct control."
+    },
+    {
+      "id": "7067edf0-c16b-4198-9366-cc21393cc907",
+      "year": -27,
+      "title": "원로원에 권한을 돌려주고 아우구스투스 칭호를 받다",
+      "before": "비상 대권을 내려놓겠다고 원로원 앞에서 선언했다. 원로원은 이를 받아들이지 않고 그에게 ‘아우구스투스’, 곧 존엄한 자라는 칭호와 주요 속주의 지휘권을 주었다. 공화정의 관직과 제도는 남았지만 군대와 속주를 움직이는 힘은 한 사람에게 모였다.",
+      "after": "He told the Senate that he was giving up his emergency powers. Instead, the senators granted him command of the main provinces and the name Augustus, meaning the revered one. Rome kept its Republican offices and institutions, but one man now controlled its armies and provinces."
+    },
+    {
+      "id": "8f5bce57-3a5e-47f5-aea5-9b976decc959",
+      "year": -23,
+      "title": "집정관직을 버리고 호민관 권한을 평생 쥐다",
+      "before": "해마다 집정관 자리를 차지하자 원로원에서 반발이 일었다. 그는 집정관직을 내놓는 대신 호민관 권한과 모든 속주에 미치는 상위 명령권을 평생 보장받았다. 이제 특정 관직을 차지하지 않고도 국가를 움직일 수 있었다.",
+      "after": "After senators objected to his holding the consulship year after year, Augustus resigned the office. In return, he received the powers of a tribune for life and authority above other commanders throughout the provinces. He could now direct the state without serving as consul."
+    },
+    {
+      "id": "fc120b13-fa1e-4b1b-ab5a-893c35b043a8",
+      "year": -9,
+      "title": "평화의 제단을 봉헌하다",
+      "before": "히스파니아와 갈리아에서 돌아온 뒤 평화의 제단 아라 파키스를 봉헌했다. 원로원은 제단 벽에 그의 가족이 행렬하는 모습을 새겨, 백 년의 내전을 끝낸 통치자의 평화를 로마에 알렸다.",
+      "after": "After returning from Spain and Gaul, Augustus dedicated the Ara Pacis, the Altar of Peace. Its carved walls showed his family walking in procession and presented his rule as the peace that followed a century of civil war."
+    },
+    {
+      "id": "68351f0e-d3ef-41bb-9066-92797fe60a03",
+      "year": -2,
+      "title": "국부 칭호를 받은 해에 딸을 추방하다",
+      "before": "원로원과 시민들은 그에게 ‘파테르 파트리아이’, 국가의 아버지라는 칭호를 바쳤다. 바로 그해 그는 자신이 만든 간통 처벌법을 외동딸 율리아에게 적용했다. 율리아는 판다테리아섬으로 쫓겨났다.",
+      "after": "The Senate and Roman people named Augustus pater patriae, father of the country. That same year, he enforced his own adultery law against his only daughter, Julia, and banished her to the island of Pandateria."
+    },
+    {
+      "id": "5411c79a-11d1-408d-ab9e-d7242e199306",
+      "year": 9,
+      "title": "토이토부르크 숲에서 군단 셋을 잃다",
+      "before": "게르마니아 총독 바루스가 이끌던 세 개 군단이 토이토부르크 숲에서 아르미니우스의 매복에 걸려 전멸했다. 로마는 이후 라인강 너머로 밀고 들어가려던 계획을 사실상 접었다. 아우구스투스가 “바루스여, 내 군단을 돌려다오”라고 거듭 외쳤다는 이야기가 전한다.",
+      "after": "Arminius ambushed three legions led by Varus, the governor of Germania, and destroyed them in the Teutoburg Forest. Rome then gave up its attempt to hold land beyond the Rhine. Augustus was said to repeat, \"Varus, give me back my legions.\""
+    },
+    {
+      "id": "88f137b8-ce52-4852-aa14-d2ad6f66802c",
+      "year": 14,
+      "title": "놀라에서 일흔여섯에 죽다",
+      "before": "캄파니아의 놀라에서 일흔여섯에 죽었다. 양자 티베리우스가 뒤를 이었고, 사십 년 넘게 이어진 그의 통치 끝에 로마의 권력은 한 황제에게서 다음 황제로 넘어갔다. 그가 벽돌의 로마를 물려받아 대리석의 로마로 남겼다고 자부했다는 말도 전한다.",
+      "after": "Augustus died at Nola in Campania at the age of seventy-six. His adopted son Tiberius succeeded him, passing Rome's power from one emperor to the next after more than forty years of Augustus's rule. He was said to have boasted that he found Rome built of brick and left it in marble."
+    }
+  ]
+}

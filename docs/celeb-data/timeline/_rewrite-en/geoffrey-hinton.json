@@ -1,0 +1,111 @@
+{
+  "slug": "geoffrey-hinton",
+  "nickname": "제프리 힌턴",
+  "events": [
+    {
+      "id": "4cf09d2f-a5bf-43cd-b74c-ccacc0aa20e0",
+      "year": 1947,
+      "title": "런던 윔블던에서 태어나다",
+      "before": "1947년 12월 6일, 런던 윔블던에서 태어났다. 아버지는 곤충학자였고, 논리 대수를 만든 조지 불은 그의 고조부였다.",
+      "after": "Geoffrey Everest Hinton was born in Wimbledon, London, on 6 December 1947. His father was an entomologist, and the logician George Boole was his great-great-grandfather."
+    },
+    {
+      "id": "5e559fd6-46f4-4b71-bb55-a1bcd1206292",
+      "year": 1970,
+      "title": "케임브리지에서 실험심리학을 마치다",
+      "before": "케임브리지에서 물리학과 생리학, 철학 사이를 거듭 오갔다. 마침내 뇌가 어떻게 배우는지를 파고들기로 하고 실험심리학 학사를 마쳤다.",
+      "after": "At Cambridge, Hinton moved between physics, physiology and philosophy before deciding to study how the brain learns. He completed a BA in experimental psychology."
+    },
+    {
+      "id": "21c791c5-92ee-428a-a670-1ab336d7a671",
+      "year": 1978,
+      "title": "에든버러에서 인공지능으로 박사학위를 받다",
+      "before": "학계는 뇌를 본뜬 신경망에 가망이 없다고 여겼다. 그는 그 길을 택해 에든버러 대학에서 인공지능으로 박사학위를 받았다.",
+      "after": "Most AI researchers saw little promise in neural networks, which loosely modelled how the brain works. Hinton chose to pursue them and earned his PhD in artificial intelligence at the University of Edinburgh."
+    },
+    {
+      "id": "b4a947b4-0604-4434-bf06-d7a3ad00185b",
+      "year": 1982,
+      "title": "카네기멜런 교수로 부임하다",
+      "before": "피츠버그의 카네기멜런 대학 전산학과에 교수로 부임했다. 그곳에서 5년을 보내며 볼츠만 머신을 비롯한 학습 방법을 만들었다.",
+      "after": "Hinton joined the computer science faculty at Carnegie Mellon University in Pittsburgh. During his five years there, he developed learning methods that included the Boltzmann machine."
+    },
+    {
+      "id": "8a91afb1-50a7-47ae-80b0-a30c5ec95e25",
+      "year": 1986,
+      "title": "여러 층을 쌓은 신경망을 학습시키는 법을 발표하다",
+      "before": "틀린 답이 나오면 오차를 여러 층에 거꾸로 흘려보내고, 그만큼 가중치를 고친다. 데이비드 러멜하트, 로널드 윌리엄스와 함께 이 오차 역전파 학습법을 『네이처』에 발표해 여러 층의 신경망도 훈련할 수 있음을 보였다.",
+      "after": "Working with David Rumelhart and Ronald Williams, Hinton showed how to train a network with many layers: send each error back through the network, then adjust the weights in every layer. They published the method, known as backpropagation, in Nature."
+    },
+    {
+      "id": "350d4258-f30a-4eaf-8b45-edc79be9afc5",
+      "year": 1987,
+      "title": "미국을 떠나 토론토로 옮기다",
+      "before": "미국의 인공지능 연구비는 대부분 군에서 나왔다. 그 돈을 받고 싶지 않았던 그는 카네기멜런을 떠나 토론토 대학으로 옮겼다.",
+      "after": "Most AI research in the United States relied on military funding, which Hinton did not want to accept. He left Carnegie Mellon for the University of Toronto."
+    },
+    {
+      "id": "8bc46565-d198-4fcc-bb07-22f9389e4551",
+      "year": 1998,
+      "title": "런던에 개츠비 연구소를 세우다",
+      "before": "런던 유니버시티 칼리지에 개츠비 계산신경과학 연구소를 세우고 3년 동안 이끌었다. 뇌가 계산하는 원리를 수학으로 풀려는 연구자들이 이곳에 모였다.",
+      "after": "In London, Hinton founded the Gatsby Computational Neuroscience Unit at University College London and led it for three years. The unit brought together researchers who used mathematics to study how the brain computes."
+    },
+    {
+      "id": "72888523-b05f-4980-bc4e-47ba8eb2b3e9",
+      "year": 2001,
+      "title": "토론토로 돌아오다",
+      "before": "토론토 대학으로 돌아와 신경망 연구를 다시 이어 갔다. 그가 같은 문제를 파고드는 동안 주류 인공지능 연구자들은 다른 곳을 바라보고 있었다.",
+      "after": "Hinton returned to the University of Toronto and resumed his work on neural networks. He kept at the same problem while mainstream AI researchers looked elsewhere."
+    },
+    {
+      "id": "5c421958-068f-4ab8-9150-5982c2994b4c",
+      "year": 2006,
+      "title": "깊은 신경망을 학습시키는 길을 다시 열다",
+      "before": "깊은 신경망을 한꺼번에 훈련시키는 대신 층마다 먼저 학습시키는 방법을 내놓았다. 막혀 있던 훈련길이 다시 열렸고, 이 무렵부터 ‘딥러닝’이라는 말도 널리 쓰이기 시작했다.",
+      "after": "Instead of training a deep network all at once, Hinton taught it one layer at a time before training the whole system. The method reopened a path to deeper networks, and the term “deep learning” began to spread."
+    },
+    {
+      "id": "2eb35109-962e-43be-af9f-35aa9a3f2bca",
+      "year": 2012,
+      "title": "이미지 인식 대회에서 판을 뒤집다",
+      "before": "제자 알렉스 크리제프스키, 일리야 수츠케버와 만든 여덟 층짜리 신경망을 이미지넷 대회에 내보냈다. 기존 방식과 큰 격차를 벌리자 업계는 잇달아 신경망으로 방향을 틀었다.",
+      "after": "Hinton and his students Alex Krizhevsky and Ilya Sutskever entered an eight-layer neural network in the ImageNet contest. It beat conventional systems by a wide margin, and the industry began turning to neural networks."
+    },
+    {
+      "id": "7f3483d4-95fd-4f2f-861b-668d71b7aead",
+      "year": 2013,
+      "title": "회사가 구글에 인수되며 구글에 합류하다",
+      "before": "세 사람이 세운 DNN리서치를 구글이 인수했다. 힌턴도 구글에 합류했지만 토론토 대학 교수직은 내려놓지 않고 두 곳에 시간을 나눴다.",
+      "after": "Google bought DNNresearch, the company Hinton had founded with Krizhevsky and Sutskever. He joined Google but kept his professorship in Toronto, dividing his time between the two."
+    },
+    {
+      "id": "27260b10-df5e-4d3d-ba69-72599dc6e939",
+      "year": 2017,
+      "title": "토론토에 벡터 연구소가 문을 열다",
+      "before": "캐나다는 인공지능 연구자들이 미국으로 빠져나가는 것을 막으려고 정부·대학·기업의 힘을 모았다. 토론토 도심 마스 지구에 문을 연 벡터 인스티튜트에서 힌턴은 수석 과학고문을 맡았다.",
+      "after": "Governments, universities and companies joined forces to keep Canadian AI researchers from leaving for the United States. Their Vector Institute opened in Toronto’s MaRS district, with Hinton as its chief scientific adviser."
+    },
+    {
+      "id": "d04bb08c-523c-4938-83cc-218d4042ad41",
+      "year": 2018,
+      "title": "튜링상을 받다",
+      "before": "요슈아 벤지오, 얀 르쿤과 함께 튜링상을 받았다. 신경망을 외면하던 시절에도 수십 년 동안 연구를 놓지 않은 세 사람이 나란히 수상자로 불렸다.",
+      "after": "Hinton shared the Turing Award with Yoshua Bengio and Yann LeCun. All three had continued working on neural networks through decades when most of their field dismissed them."
+    },
+    {
+      "id": "276195f6-37a2-4b4e-9f0f-2a6f0ead8bbc",
+      "year": 2023,
+      "title": "구글을 떠나다",
+      "before": "10년 넘게 몸담은 구글을 떠났다. 회사에 미칠 영향을 따지지 않고 인공지능의 위험을 말하기 위해서라고 밝혔으며, 구글은 매우 책임 있게 행동해 왔다고 덧붙였다.",
+      "after": "After more than a decade at Google, Hinton left the company. He said the move allowed him to speak about the dangers of AI without considering the effect on Google, which he added had acted very responsibly."
+    },
+    {
+      "id": "f7b1a2c3-9ea4-48b7-aa2b-103a5333a85b",
+      "year": 2024,
+      "title": "노벨 물리학상을 받다",
+      "before": "존 홉필드와 함께 2024년 노벨 물리학상을 받았다. 신경망을 이용해 기계가 스스로 배우도록 한 기초 연구가 수상으로 이어졌다.",
+      "after": "Hinton shared the 2024 Nobel Prize in Physics with John Hopfield. The prize recognised their foundational work on using neural networks to make machines learn."
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "slug": "yoshua-bengio",
+  "nickname": "요슈아 벤지오",
+  "events": [
+    {
+      "id": "f90e6bc6-04d1-445c-b0fb-d1e2a7b5be3c",
+      "year": 1964,
+      "title": "파리에서 태어나다",
+      "before": "1964년 3월 5일, 파리에서 태어났다. 모로코를 떠나 프랑스에 자리 잡은 유대인 가정이었다. 가족은 훗날 대서양을 건너 캐나다 몬트리올로 이주했다.",
+      "after": "Yoshua Bengio was born in Paris on 5 March 1964. His Jewish family had settled in France after leaving Morocco, and later crossed the Atlantic to Montreal."
+    },
+    {
+      "id": "5c4179ab-cc8a-4332-a750-be37487b1b3c",
+      "year": 1986,
+      "title": "맥길에서 공학과 전산학을 공부하다",
+      "before": "몬트리올의 맥길 대학에서 전자공학을 공부해 학사학위를 받고, 같은 대학 전산학과에서 석사과정을 마쳤다.",
+      "after": "At McGill University in Montreal, Bengio earned a bachelor's degree in electrical engineering and then a master's in computer science."
+    },
+    {
+      "id": "ee94e840-5029-4138-a06b-a436eda70cb9",
+      "year": 1991,
+      "title": "맥길에서 박사학위를 받다",
+      "before": "박사과정에서는 신경망에 확률 모형을 결합해 기계가 사람의 말소리를 알아듣게 하는 방법을 연구했다. 이 논문으로 1991년 맥길 대학 전산학 박사학위를 받았다.",
+      "after": "Bengio completed his PhD in computer science at McGill in 1991. His research combined neural networks with probabilistic models to help machines recognise speech."
+    },
+    {
+      "id": "6793b389-f50f-46e1-8acc-1f753e50b747",
+      "year": 1991,
+      "title": "MIT에서 박사후연구원으로 일하다",
+      "before": "학위를 마친 뒤 매사추세츠 공과대학으로 건너가 마이클 조던과 함께 박사후연구를 시작했다.",
+      "after": "After finishing his doctorate, he went to MIT for postdoctoral research with Michael Jordan."
+    },
+    {
+      "id": "ffef938e-1ca0-4844-934c-a83c1aa13953",
+      "year": 1992,
+      "title": "벨 연구소에서 르쿤과 함께 일하다",
+      "before": "이듬해에는 뉴저지의 AT&T 벨 연구소로 옮겨 얀 르쿤의 팀에 합류했다. 이들은 은행에 들어온 손글씨 수표를 기계가 읽게 만들었다.",
+      "after": "The following year, Bengio joined Yann LeCun's team at AT&T Bell Labs in New Jersey. There, they worked on neural networks that could read handwritten bank cheques."
+    },
+    {
+      "id": "c89e1f24-cf9c-4876-a3be-4384d8b9b3b7",
+      "year": 1993,
+      "title": "몬트리올 대학 교수로 부임하다",
+      "before": "1993년 몬트리올 대학 전산학·운용과학과 교수가 됐다. 이때 꾸린 연구실은 훗날 밀라(Mila)로 자라나 몬트리올을 인공지능 연구자들이 모이는 도시로 만들었다.",
+      "after": "Bengio became a professor of computer science and operations research at the Université de Montréal in 1993. The lab he founded there later grew into Mila, helping to make Montreal a centre for AI research."
+    },
+    {
+      "id": "f3b85d2c-3a98-4221-8201-4fd69106b612",
+      "year": 2003,
+      "title": "단어를 숫자로 바꿔 다음 말을 예측하다",
+      "before": "2003년에는 단어마다 여러 숫자로 된 자리를 주고, 앞에 놓인 단어들을 바탕으로 다음 말을 맞히는 신경망을 내놓았다. 뜻이 가까운 단어에는 서로 비슷한 숫자가 주어졌다. 오늘날 대형 언어 모델이 말을 다루는 방법의 밑바탕 가운데 하나다.",
+      "after": "In 2003, he introduced a neural language model that gave each word a set of numbers and used the words already seen to predict the next one. Words with similar meanings received similar numbers. This became one of the foundations of how today's large language models handle language."
+    },
+    {
+      "id": "b3a69349-07d0-4e7b-8081-7df18480df55",
+      "year": 2014,
+      "title": "두 신경망을 맞붙이는 방식을 내놓다",
+      "before": "2014년, 이언 굿펠로를 비롯한 연구실 동료들과 적대적 생성 신경망(GAN) 논문을 발표했다. 한 신경망은 그림을 만들고 다른 신경망은 그것이 진짜인지 가려냈다. 둘을 맞붙여 학습시키는 이 방법은 이미지 생성 연구의 방향을 바꿨다.",
+      "after": "Working with Ian Goodfellow and other members of his lab, Bengio published the first paper on generative adversarial networks. One network created images while another tried to tell whether they were real, and each improved by competing with the other. The method changed the course of image-generation research."
+    },
+    {
+      "id": "60b720ae-a93c-463d-a5eb-cf24db347171",
+      "year": 2017,
+      "title": "캐나다 훈장을 받다",
+      "before": "캐나다는 2017년 벤지오를 캐나다 훈장 오피서로 서훈했다. 학문과 공공 분야에서 그가 해온 일을 기린 대표적인 국가 훈장이다.",
+      "after": "Canada appointed Bengio an Officer of the Order of Canada in 2017, honouring his work in scholarship and public life."
+    },
+    {
+      "id": "6e6198ec-5e0a-4fb5-b680-15c14a6dac32",
+      "year": 2018,
+      "title": "튜링상을 받다",
+      "before": "2018년 튜링상은 벤지오와 제프리 힌턴, 얀 르쿤에게 돌아갔다. 학계가 신경망에 등을 돌린 시기에도 연구를 이어온 세 사람이 함께 받은 상이었다.",
+      "after": "Bengio shared the 2018 Turing Award with Geoffrey Hinton and Yann LeCun. The three had kept working on neural networks during years when much of the field had set them aside."
+    },
+    {
+      "id": "6f0a074a-41ad-41c9-ab4d-7dc2ac803e44",
+      "year": 2019,
+      "title": "킬럼상을 받다",
+      "before": "이듬해에는 캐나다에서 ‘캐나다의 노벨상’이라 불리는 킬럼상을 받았다.",
+      "after": "The next year, he received the Killam Prize, often called Canada's Nobel Prize."
+    },
+    {
+      "id": "8d30460d-6990-45cc-9b26-18395d08ff79",
+      "year": 2025,
+      "title": "국제 인공지능 안전 보고서 초판을 내놓다",
+      "before": "2025년 1월 29일, 국제 인공지능 안전 보고서 초판이 나왔다. 벤지오가 의장을 맡고 전문가 96명이 참여해 범용 인공지능이 무엇을 할 수 있는지, 어디에서 위험이 생길 수 있는지를 정리했다.",
+      "after": "The first International AI Safety Report came out on 29 January 2025. Bengio chaired the group of 96 experts who examined what general-purpose AI could do and where it could pose risks."
+    },
+    {
+      "id": "311957bd-2d61-462a-814e-005a083e305f",
+      "year": 2025,
+      "title": "비영리 연구조직 로제로를 세우다",
+      "before": "그해 6월 3일에는 비영리 연구조직 로제로를 세우고 공동대표 겸 과학책임자를 맡았다. 로제로가 만들려는 것은 스스로 목표를 정해 행동하는 인공지능이 아니라 세상을 예측하고 설명하는 ‘과학자 AI’였다. 이를 다른 인공지능이 하는 일을 감시하는 데 쓰겠다는 구상이다.",
+      "after": "On 3 June 2025, Bengio launched the non-profit research organisation LawZero and became its co-president and scientific director. The organisation set out to build a \"Scientist AI\" that predicts and explains the world without choosing and pursuing goals of its own. Bengio proposed using it to monitor the actions of other AI systems."
+    },
+    {
+      "id": "2d7b644d-ca09-4cae-b7d6-08ce41e5d655",
+      "year": 2026,
+      "title": "안전 보고서 2판의 의장을 맡다",
+      "before": "2026년 2월에는 국제 인공지능 안전 보고서 제2판이 나왔다. 전문가 100명이 넘게 참여했고, 벤지오가 다시 의장을 맡았다.",
+      "after": "Bengio returned as chair for the second International AI Safety Report, published in February 2026 with contributions from more than 100 experts."
+    }
+  ]
+}

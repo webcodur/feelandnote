@@ -1,0 +1,104 @@
+{
+  "slug": "emperor-meiji",
+  "nickname": "메이지 천황",
+  "events": [
+    {
+      "id": "486894e5-82ab-4177-b379-9c201785d11a",
+      "year": 1852,
+      "title": "교토 나카야마 저택에서 태어나다",
+      "before": "고메이 천황과 후궁 나카야마 요시코 사이에서 교토의 나카야마 집안 저택에서 태어났다. 아명은 사치노미야이며 나중에 무쓰히토라는 이름을 받았다. 음력 가에이 5년 9월 22일생으로 양력 1852년 11월 3일에 해당한다.",
+      "after": "Mutsuhito was born on 3 November 1852 at the Nakayama family residence in Kyoto, the son of Emperor Kōmei and Nakayama Yoshiko. Known in childhood as Sachinomiya, he received the name Mutsuhito later."
+    },
+    {
+      "id": "696be79e-c839-4211-af2e-01db9f388626",
+      "year": 1867,
+      "title": "열네 살에 제122대 천황이 되다",
+      "before": "아버지 고메이 천황이 갑자기 죽자 열네 살에 천황 자리를 이었다. 조정은 여전히 교토에 있었고 실권은 막부와 웅번 사이의 힘겨루기에 놓여 있었다. 음력 게이오 3년 1월 9일로 양력 1867년 2월 13일이다.",
+      "after": "When Emperor Kōmei died suddenly, his fourteen-year-old son took the throne on 13 February 1867 as Japan’s 122nd emperor. The court remained in Kyoto, while the shogunate and the great domains struggled for power."
+    },
+    {
+      "id": "4174b13a-3ccf-45bc-8ae8-32290c445e96",
+      "year": 1868,
+      "title": "왕정복고 대호령으로 막부를 폐지하다",
+      "before": "천황의 이름으로 왕정복고 대호령이 나와 막부와 섭정·관백을 폐지하고 총재·의정·참여의 삼직을 새로 뒀다. 같은 날 밤 교토 고쇼 안 고고쇼에서 천황이 자리한 첫 회의가 열려 도쿠가와 요시노부의 관직 사퇴와 영지 반납이 결정됐다. 음력 게이오 3년 12월 9일이라 양력으로는 해가 바뀐 1868년 1월 3일이다.",
+      "after": "On 3 January 1868, a decree issued in the emperor’s name abolished the shogunate and the offices of regent and chancellor. Three new offices replaced them. That night, with the emperor present at the Kogosho hall in the Kyoto palace, the new council ordered Tokugawa Yoshinobu to resign his post and return his lands."
+    },
+    {
+      "id": "532756c5-5cf1-461d-a7d5-819e98fc3672",
+      "year": 1868,
+      "title": "5개조 서문을 신 앞에 선포하다",
+      "before": "신하들을 모아 놓고 널리 회의를 열어 여론에 따라 정하겠다는 다섯 조항을 신 앞에 맹세하는 형식으로 발표했다. 새 정부의 방침을 밝힌 문서로 쓰였다. 음력 게이오 4년 3월 14일, 양력 1868년 4월 6일이다.",
+      "after": "Before the assembled court on 6 April 1868, the emperor swore the five articles of the Charter Oath before the gods. It promised broad assemblies and public discussion as the basis for government decisions and set out the course of the new government."
+    },
+    {
+      "id": "9c2d218b-df20-42fa-b783-05a2eda8f746",
+      "year": 1868,
+      "title": "연호를 메이지로 고치고 한 임금 한 연호를 정하다",
+      "before": "연호를 메이지로 바꾸는 조서가 나왔고, 천황 한 사람에 연호 하나를 쓰는 일세일원제가 이때 정해졌다. 이후 천황의 시호도 연호를 따라 붙게 됐다. 음력 게이오 4년 9월 8일, 양력 1868년 10월 23일이다.",
+      "after": "An edict renamed the era Meiji on 23 October 1868. It also established one era name for each emperor’s reign, and later emperors would take their posthumous names from their eras."
+    },
+    {
+      "id": "5c314038-2558-4e97-82d1-a807b61ede80",
+      "year": 1868,
+      "title": "교토를 떠나 에도로 옮겨 가다",
+      "before": "행렬을 이끌고 교토를 떠나 에도로 향했다. 에도는 도쿄로 이름이 바뀌었고 옛 에도성이 황거가 됐다. 1869년 다시 도쿄로 옮겨 온 뒤 조정 기구가 따라오면서 사실상 수도가 옮겨졌으나, 천도를 공식 선언하는 조서는 끝내 나오지 않았다.",
+      "after": "The emperor left Kyoto in procession for Edo, now renamed Tokyo, and made the former Edo Castle his palace. He returned to Tokyo in 1869, and the court offices followed. The capital had moved in practice, though no edict ever formally declared the change."
+    },
+    {
+      "id": "28a85e12-5f73-44bf-80d4-860602f18cac",
+      "year": 1871,
+      "title": "폐번치현으로 번을 없애고 현을 두다",
+      "before": "천황의 이름으로 번을 폐지하고 부와 현을 두는 조치가 내려졌다. 다이묘들은 영지와 백성을 잃고 도쿄로 옮겨 살게 됐으며, 조세와 군사 권한이 중앙 정부로 넘어갔다. 음력 메이지 4년 7월 14일, 양력 1871년 8월 29일이다.",
+      "after": "On 29 August 1871, the government abolished the domains in the emperor’s name and replaced them with prefectures. The daimyo surrendered their lands and subjects, moved to Tokyo, and gave up their powers of taxation and military command to the central government."
+    },
+    {
+      "id": "a0f64bfb-6c59-4a70-b79a-19be50547fdc",
+      "year": 1881,
+      "title": "국회를 열겠다는 조칙을 내리다",
+      "before": "1890년에 의회를 연다는 국회개설 조칙이 10월 12일 나왔다. 자유민권운동의 압박과 정부 안 대립 속에서 나온 조치였고, 이후 아홉 해 동안 헌법과 의회 제도를 준비하는 일정이 여기에 맞춰졌다.",
+      "after": "A decree issued on 12 October 1881 promised to open a national assembly in 1890. Pressure from the popular rights movement and divisions within the government drove the decision. The government then had nine years to prepare a constitution and a parliamentary system."
+    },
+    {
+      "id": "0925134c-79ee-4479-902d-1e57a5de595e",
+      "year": 1889,
+      "title": "대일본제국헌법을 반포하다",
+      "before": "2월 11일 황거 정전에서 헌법 반포식이 열렸다. 천황이 신하에게 내려 주는 흠정헌법 형식이었고, 제1조는 만세일계의 천황이 통치한다고 규정했다. 시행은 이듬해 11월 29일이었고 같은 달 제1회 제국의회가 열렸다.",
+      "after": "The emperor promulgated the Constitution of the Empire of Japan at the imperial palace on 11 February 1889. Granted by the sovereign to his subjects, it declared in its first article that an unbroken imperial line ruled Japan. The constitution took effect on 29 November 1890, the same month the first Imperial Diet met."
+    },
+    {
+      "id": "3a067205-b408-4cd1-9111-a8156dcab6fc",
+      "year": 1890,
+      "title": "교육칙어를 내리다",
+      "before": "10월 30일 교육에 관한 칙어를 내려 충과 효를 교육의 근본으로 내세웠다. 전국 학교에 등본이 배포되어 의식 때 낭독됐고, 1948년 국회 결의로 효력을 잃을 때까지 학교 교육의 기준 문서로 쓰였다.",
+      "after": "On 30 October 1890, the emperor issued the Imperial Rescript on Education, placing loyalty and filial piety at the heart of schooling. Schools across Japan received copies and read it aloud at ceremonies. It remained a standard text until the Diet stripped it of effect in 1948."
+    },
+    {
+      "id": "af934626-5a30-40b4-a279-4a78781d8f58",
+      "year": 1894,
+      "title": "청일전쟁 동안 히로시마 대본영에 머무르다",
+      "before": "1894년 8월 1일 청에 선전포고한 뒤 9월 15일 히로시마로 옮겨 대본영에 머물렀다. 10월에는 히로시마 임시 의사당에서 제7회 제국의회가 열려 입법·행정·군사 기구가 한때 이 도시에 모였다. 227일을 머물고 1895년 4월 27일 도쿄로 돌아갔다.",
+      "after": "Japan declared war on Qing China on 1 August 1894. The emperor moved to the imperial headquarters in Hiroshima on 15 September and stayed there for 227 days. When the seventh Imperial Diet met in a temporary chamber in the city that October, the legislature, government and military command were briefly gathered in Hiroshima. He returned to Tokyo on 27 April 1895."
+    },
+    {
+      "id": "92accf9a-bfbd-438c-ab86-8ae237ca9986",
+      "year": 1904,
+      "title": "러시아에 선전포고하다",
+      "before": "1904년 2월 10일 러시아에 대한 선전 조칙이 나왔다. 뤼순과 펑톈, 쓰시마 해전을 거쳐 1905년 9월 포츠머스 강화조약이 맺어졌고, 일본은 랴오둥 조차지와 남만주 철도, 사할린 남부를 얻었으며 한국에 대한 우월권을 인정받았다.",
+      "after": "The emperor declared war on Russia on 10 February 1904. Fighting at Port Arthur, Mukden and Tsushima was followed by the Treaty of Portsmouth in September 1905. Japan gained the Liaodong lease, the South Manchuria Railway and southern Sakhalin, while Russia recognized Japan’s paramount interest in Korea."
+    },
+    {
+      "id": "8171ef2b-c8c4-4115-9dcb-4a444ecdfb41",
+      "year": 1910,
+      "title": "한국 병합 조약이 공포되다",
+      "before": "8월 22일 한국 병합에 관한 조약이 조인되고 8월 29일 공포됐다. 대한제국은 없어지고 조선총독부가 설치됐으며, 이 상태는 1945년까지 이어졌다.",
+      "after": "Japan and Korea signed the annexation treaty on 22 August 1910 and proclaimed it on 29 August. The Korean Empire ceased to exist, and Japan established the Government-General of Korea. Colonial rule continued until 1945."
+    },
+    {
+      "id": "7463c321-4908-4cd2-9215-7de2b988108f",
+      "year": 1912,
+      "title": "메이지 궁전에서 죽고 교토에 묻히다",
+      "before": "7월 30일 새벽 도쿄 메이지 궁전에서 쉰아홉에 죽었고 연호는 다이쇼로 바뀌었다. 9월 13일 도쿄에서 장례가 치러진 뒤 유해는 교토 남쪽 후시미로 옮겨져 후시미모모야마릉에 묻혔다. 장례 당일 노기 마레스케 부부가 뒤따라 자결했다.",
+      "after": "Emperor Meiji died at the Meiji palace in Tokyo before dawn on 30 July 1912, aged fifty-nine. The era name changed to Taishō. After his funeral in Tokyo on 13 September, his body was taken to Fushimi, south of Kyoto, and buried in the Fushimi Momoyama mausoleum. General Nogi Maresuke and his wife killed themselves that day."
+    }
+  ]
+}

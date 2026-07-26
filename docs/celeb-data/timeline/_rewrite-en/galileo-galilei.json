@@ -1,0 +1,125 @@
+{
+  "slug": "galileo-galilei",
+  "nickname": "갈릴레오 갈릴레이",
+  "events": [
+    {
+      "id": "ebe433c9-755f-4908-b350-65b7fbdb0adf",
+      "year": 1564,
+      "title": "피사에서 태어나다",
+      "before": "음악가이자 음악 이론가인 빈첸초 갈릴레이의 맏아들로 태어났다. 아버지는 당대의 음악 이론을 실험으로 검증하려 한 사람이었고, 갈릴레오는 그 방식을 물려받았다.",
+      "after": "Galileo was born in Pisa, the eldest son of the musician and music theorist Vincenzo Galilei. His father tested accepted musical ideas through experiment, a method Galileo would later make his own."
+    },
+    {
+      "id": "2160ddca-827d-4e13-bdbe-c80f3af3e7f0",
+      "year": 1580,
+      "title": "피사 대학교에서 의학을 공부하다가 그만두다",
+      "before": "아버지의 뜻에 따라 의학부에 들어갔으나 수학과 기하학으로 관심을 돌렸다. 학위를 받지 못한 채 대학을 떠났고, 개인 교습과 수학 논문으로 이름을 알렸다.",
+      "after": "At his father's urging, Galileo entered the University of Pisa to study medicine. Mathematics and geometry soon drew him away from it. He left without a degree, then built a name through private lessons and papers on mathematics."
+    },
+    {
+      "id": "845e3110-66b9-4397-a1b8-86fdea8bb999",
+      "year": 1589,
+      "title": "피사 대학교 수학 교수가 되다",
+      "before": "스물다섯에 모교의 수학 강좌를 맡았으나 보수가 낮았고 아리스토텔레스 자연학을 공격해 동료들과 부딪혔다. 피사의 사탑에서 무게가 다른 두 공을 떨어뜨렸다는 이야기는 제자 비비아니가 쓴 전기에만 나오며, 갈릴레오 본인의 기록에는 없다.",
+      "after": "At twenty-five, Galileo returned to Pisa to teach mathematics for little pay. His attacks on Aristotelian physics put him at odds with his colleagues. The famous tale of his dropping two balls from the Leaning Tower appears only in a later biography by his pupil Viviani, not in Galileo's own papers."
+    },
+    {
+      "id": "ee800dd2-8b5c-483c-a140-c8aecba60f6d",
+      "year": 1592,
+      "title": "파도바 대학교로 옮겨 18년을 보내다",
+      "before": "베네치아 공화국 관할의 파도바 대학교에서 기하학·역학·천문학을 가르쳤다. 보수가 세 배로 올랐고 교회 검열이 덜 미치는 곳이었으며, 본인이 훗날 생애에서 가장 좋았던 시기라고 회고했다. 이 기간에 세 자녀가 태어났다.",
+      "after": "Galileo moved to the University of Padua, where he taught geometry, mechanics, and astronomy for eighteen years. The post paid three times as much as Pisa and placed him under the Venetian Republic, beyond much of the Church's reach. He later remembered these as the best years of his life. All three of his children were born during this period."
+    },
+    {
+      "id": "954b51f4-7b25-4ea7-9154-b3ff57e21c80",
+      "year": 1604,
+      "title": "새로 나타난 별을 관측하다",
+      "before": "밤하늘에 갑자기 나타난 별을 관측하고 공개 강연을 열었다. 시차가 관측되지 않는다는 근거로 이 별이 달보다 훨씬 먼 곳에 있다고 주장했고, 천상계는 변하지 않는다는 아리스토텔레스의 전제를 정면으로 반박했다.",
+      "after": "When a new star appeared in the night sky, Galileo observed it and gave public lectures on what he saw. Because he could detect no parallax, he placed it far beyond the Moon. A changing star at that distance directly challenged Aristotle's unchanging heavens."
+    },
+    {
+      "id": "08a348d7-33de-402f-b80f-1e9595796cf4",
+      "year": 1609,
+      "title": "베네치아 의원들 앞에서 망원경을 시연하다",
+      "before": "네덜란드에서 만든 확대 장치 소식을 듣고 직접 렌즈를 갈아 성능을 높였다. 산마르코 종탑에서 의원들에게 먼 바다의 배를 보여 주었고, 그 대가로 종신 교수직과 급여 인상을 받았다.",
+      "after": "News of a Dutch magnifying device led Galileo to grind his own lenses and build a stronger version. From the bell tower of St Mark's, he showed Venetian senators ships still far out at sea. They rewarded him with a higher salary and a lifetime appointment."
+    },
+    {
+      "id": "67e2798c-16c8-4d2b-867e-fb181277aad6",
+      "year": 1610,
+      "title": "목성 둘레를 도는 네 개의 천체를 찾아내다",
+      "before": "1월 7일 목성 옆의 작은 빛 세 개를 기록했고, 며칠간 자리가 바뀌는 것을 추적해 1월 15일 이들이 목성을 돌고 있다고 판단했다. 모든 천체가 지구를 돈다는 전제가 무너지는 관측이었다.",
+      "after": "On 7 January, Galileo recorded three small lights beside Jupiter. He watched them change position over the following nights and, by 15 January, concluded that they were circling Jupiter; a fourth body was also identified. Not everything in the sky, it seemed, orbited the Earth."
+    },
+    {
+      "id": "4caa2ed0-4b51-473d-ac2b-10fce5779228",
+      "year": 1610,
+      "title": "『별의 소식』을 베네치아에서 펴내다",
+      "before": "달 표면이 매끄럽지 않고 산과 골짜기로 덮여 있다는 것, 은하수가 무수한 별의 무리라는 것, 목성에 네 개의 위성이 있다는 것을 얇은 책 한 권에 담았다. 위성에는 토스카나 대공 가문의 이름을 따 '메디치의 별'이라는 이름을 붙였다.",
+      "after": "Galileo published a slim book in Venice describing what his telescope had revealed: mountains and valleys on the Moon, countless separate stars in the Milky Way, and four bodies orbiting Jupiter. He named the four satellites the Medicean Stars after Tuscany's ruling family."
+    },
+    {
+      "id": "f831b943-c6c6-46b7-9317-222989aafc86",
+      "year": 1610,
+      "title": "토스카나 대공의 수학자 겸 철학자가 되어 피렌체로 가다",
+      "before": "위성 명명에 대한 보답으로 코시모 2세 데 메디치가 강의 의무 없는 자리를 주었다. 연구 시간은 늘었지만 베네치아 공화국이 제공하던 정치적 보호막에서 벗어나 교황청 관할 안으로 들어간 셈이 됐다. 같은 해 금성이 달처럼 차고 이지러지는 것을 관측했다.",
+      "after": "Cosimo II de' Medici rewarded Galileo with a post in Florence as court mathematician and philosopher, with no teaching duties. Galileo gained more time for research but left the political shelter of Venice for territory under papal authority. That year he also saw Venus wax and wane like the Moon."
+    },
+    {
+      "id": "355030f9-3f9d-43e7-8455-ce21e5bd8d6a",
+      "year": 1615,
+      "title": "「크리스티나 대공비에게 보내는 편지」를 쓰다",
+      "before": "1613년 제자 카스텔리에게 보낸 편지를 확장해, 성서는 신앙과 구원을 가르치려는 것이지 자연의 구조를 가르치려는 것이 아니라고 주장했다. 성직자가 아닌 사람이 성서 해석에 뛰어든 셈이어서 반발이 컸고, 도미니코회 수사 카치니가 피렌체 설교단에서 그를 공개 고발했다.",
+      "after": "Galileo expanded a letter he had sent to his pupil Castelli in 1613 into an argument about Scripture and nature. The Bible, he wrote, taught faith and salvation rather than the workings of the physical world. His attempt as a layman to interpret Scripture provoked fierce opposition, and the Dominican friar Caccini denounced him from a pulpit in Florence."
+    },
+    {
+      "id": "13bbeeba-f213-4698-aa3e-2061fff166aa",
+      "year": 1616,
+      "title": "지동설을 가르치지 말라는 경고를 받다",
+      "before": "2월 24일 종교재판소 신학 심사단이 태양 중심설을 '철학적으로 어리석고 형식상 이단'이라고 판정했다. 이틀 뒤 벨라르미노 추기경이 갈릴레오를 불러 그 주장을 옹호하거나 가르치지 말라고 통보했고, 3월에는 코페르니쿠스의 책이 금서 목록에 올랐다.",
+      "after": "On 24 February, theological advisers to the Inquisition judged heliocentrism foolish in philosophy and formally heretical. Two days later, Cardinal Bellarmine called Galileo before him and told him not to uphold, teach, or defend it. Copernicus's book was placed on the Index in March."
+    },
+    {
+      "id": "ab2df88f-e196-4334-b7ba-0628d5d6acdb",
+      "year": 1623,
+      "title": "『황금 계량자』를 내다",
+      "before": "혜성의 정체를 두고 예수회 수학자 그라시와 벌인 논쟁에서 나온 책으로, 자연은 수학의 언어로 쓰여 있다는 유명한 구절이 여기 들어 있다. 같은 해 오랜 친구 마페오 바르베리니가 우르바노 8세로 즉위해 이 책을 헌정받았고, 갈릴레오는 상황이 풀렸다고 판단했다.",
+      "after": "A dispute with the Jesuit mathematician Grassi over comets led Galileo to publish Il Saggiatore. In it, he wrote that nature was composed in the language of mathematics. His longtime friend Maffeo Barberini had just become Pope Urban VIII and accepted the book's dedication, leading Galileo to believe that the climate in Rome had turned in his favour."
+    },
+    {
+      "id": "d48d1f5a-9ac2-45c3-bab5-7969788eb87e",
+      "year": 1632,
+      "title": "『두 우주 체계에 관한 대화』를 피렌체에서 펴내다",
+      "before": "세 인물이 나흘간 프톨레마이오스 체계와 코페르니쿠스 체계를 놓고 토론하는 형식이며, 라틴어가 아닌 이탈리아어로 써서 학자 바깥의 독자에게 닿았다. 교황이 요구한 논점을 우둔한 배역 심플리치오의 입에 넣은 것이 우르바노 8세를 격노하게 했고, 몇 달 만에 판매가 금지됐다.",
+      "after": "Galileo's Dialogue staged a four-day debate among three speakers over the Ptolemaic and Copernican systems. He wrote it in Italian, not Latin, so that readers beyond the universities could follow it. But he gave an argument requested by the pope to Simplicio, the book's foolish speaker. Urban VIII was enraged, and sales were banned within months."
+    },
+    {
+      "id": "dab65c00-615a-4527-b5ab-206a70afde4d",
+      "year": 1633,
+      "title": "종교재판에서 유죄 판결을 받고 지동설을 부인하다",
+      "before": "예순아홉의 나이로 로마에 불려가 심문을 받았고, 6월 22일 '이단 혐의가 짙다'는 판결이 내려졌다. 산타 마리아 소프라 미네르바 성당에서 무릎을 꿇고 지동설을 부인하는 선서문을 읽었고, 『대화』는 금서가 됐다. 그가 일어서며 \"그래도 지구는 돈다\"고 중얼거렸다는 이야기는 100여 년 뒤의 기록에 처음 나온다.",
+      "after": "At sixty-nine, Galileo was summoned to Rome and questioned by the Inquisition. On 22 June, it found him vehemently suspect of heresy. He knelt in Santa Maria sopra Minerva and read a formal statement renouncing heliocentrism, while the Dialogue was banned. The claim that he rose muttering, \"And yet it moves,\" first appeared more than a century later."
+    },
+    {
+      "id": "0f1c8cdf-8cd4-4e35-86dd-fdb4f4ccd918",
+      "year": 1634,
+      "title": "아르체트리 별장에서 가택연금 상태로 지내다",
+      "before": "피렌체 남쪽 언덕의 별장에 갇혀 방문객 허가를 일일이 받아야 했다. 근처 수녀원에 있던 큰딸 마리아 첼레스테가 그해 죽었고, 1638년경에는 시력을 완전히 잃었다.",
+      "after": "Galileo was confined to his villa at Arcetri, in the hills south of Florence, and had to seek permission for each visitor. His eldest daughter, Maria Celeste, died that year in a nearby convent. By about 1638, he was completely blind."
+    },
+    {
+      "id": "a5dfaafa-6a10-4ccd-91c1-d39f93e3187f",
+      "year": 1638,
+      "title": "『새로운 두 과학』을 네덜란드에서 펴내다",
+      "before": "이탈리아에서는 출판이 막혀 원고를 네덜란드로 보냈고 레이던의 엘제비르가 찍어 냈다. 재료의 강도와 낙하·포물선 운동을 다뤘으며, 가속 운동을 수학으로 기술한 이 책이 뉴턴 역학의 출발점이 됐다.",
+      "after": "Unable to print in Italy, Galileo sent the manuscript of Two New Sciences to the Dutch Republic, where Elzevir published it in Leiden. The book dealt with the strength of materials, falling bodies, and projectiles. Its mathematical account of accelerated motion helped lay the foundations of Newtonian mechanics."
+    },
+    {
+      "id": "aa1abaa4-544c-4843-9570-11b3fd5d3582",
+      "year": 1642,
+      "title": "아르체트리에서 죽다",
+      "before": "일흔일곱에 연금 상태로 죽었다. 대공이 산타 크로체 성당에 기념비를 세우려 했으나 교황청이 막았고, 유해가 그곳으로 옮겨져 정식으로 안치된 것은 1737년이었다.",
+      "after": "Galileo died at Arcetri under house arrest, aged seventy-seven. The Grand Duke planned a monument for him in Santa Croce, but Rome stopped it. His remains were moved there for formal burial only in 1737."
+    }
+  ]
+}

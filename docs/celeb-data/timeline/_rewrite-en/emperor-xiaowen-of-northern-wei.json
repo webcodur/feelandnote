@@ -1,0 +1,118 @@
+{
+  "slug": "emperor-xiaowen-of-northern-wei",
+  "nickname": "북위 효문제",
+  "events": [
+    {
+      "id": "7d1c7090-35ff-421c-9d89-8ad8c1972cf7",
+      "year": 467,
+      "title": "북위의 수도 평성에서 태어나다",
+      "before": "선비족 탁발씨 황실에 탁발굉이라는 이름으로 태어났다. 북위에서는 태자를 세우면 생모를 죽였기에 세 살에 어머니를 잃고 조모뻘인 풍태후의 손에서 자랐다.",
+      "after": "Tuoba Hong was born into the Xianbei imperial house. Northern Wei custom called for the mother of a designated heir to be put to death, so he lost his mother at three and was raised by Dowager Empress Feng."
+    },
+    {
+      "id": "bf234a72-3171-43fb-b841-58ba56c5fa92",
+      "year": 471,
+      "title": "네 살에 아버지에게서 제위를 물려받다",
+      "before": "불교에 마음이 기운 헌문제가 스스로 물러나자 네 살 아들이 제위에 올랐다. 황제는 되었지만 나랏일은 태상황이 된 아버지가 계속 다스렸다.",
+      "after": "At four, he became emperor when his father, Emperor Xianwen, stepped down and turned toward Buddhism. Xianwen took the title of retired emperor and continued to govern."
+    },
+    {
+      "id": "06fb513b-cc12-4b6e-bdb9-d7826d2277b8",
+      "year": 476,
+      "title": "아버지가 죽고 풍태후가 정사를 쥐다",
+      "before": "태상황 헌문제가 스물셋에 갑자기 죽었다. 사서에는 풍태후가 그를 독살했다는 기록이 남았다. 이후 14년 동안 풍태후가 조정을 장악했고, 어린 황제는 한족의 고전을 배우며 자랐다.",
+      "after": "The retired Emperor Xianwen died suddenly at twenty-three. Historical accounts accuse Dowager Empress Feng of poisoning him. She controlled the court for the next fourteen years while the young emperor studied the Chinese classics."
+    },
+    {
+      "id": "796b401f-a23b-4996-9bf1-bfcb646b982e",
+      "year": 484,
+      "title": "관리에게 봉급을 주는 제도를 도입하다",
+      "before": "북위 관리들은 정해진 봉급 없이 백성에게서 거둬들인 것으로 살아가고 있었다. 효문제는 세금에 일정액을 보태 봉록을 지급하게 하고, 비단 한 필어치가 넘는 재물을 부정하게 받은 관리는 사형에 처했다.",
+      "after": "Northern Wei officials had no fixed pay and lived on what they collected from the people. Xiaowen added a levy to fund regular salaries, then made it a capital offence for an official to take more than the value of one bolt of silk."
+    },
+    {
+      "id": "438358a0-e46f-4892-97b3-903e0eb07718",
+      "year": 485,
+      "title": "균전제를 시행해 국가가 토지를 나눠 주다",
+      "before": "전란 뒤 묵은 땅을 장정에게 나눠 주고, 그가 늙거나 죽으면 나라가 다시 거두어들였다. 떠돌던 백성을 땅에 정착시킨 균전제는 수와 당까지 이어져 3백 년 가까이 시행됐으며 일본의 반전수수법에도 영향을 주었다.",
+      "after": "The government allotted idle land left by war to able-bodied men, then reclaimed it when they grew old or died. This brought displaced people back onto the land and restored the tax base. The equal-field system lasted for nearly three centuries through the Sui and Tang and influenced Japan's handen system."
+    },
+    {
+      "id": "b6514c26-a38f-4c81-8209-4d250e221504",
+      "year": 486,
+      "title": "삼장제로 호족의 은닉 인구를 끄집어내다",
+      "before": "다섯 집을 인, 다섯 인을 리, 다섯 리를 당으로 묶고 각각 인장·이장·당장을 두었다. 호족의 장원에 숨어 살던 사람들이 국가 호적에 오르면서 세금과 부역을 질 백성이 크게 늘었다.",
+      "after": "The new system grouped five households into a neighbourhood, five neighbourhoods into a village, and five villages into a ward, with a headman at each level. People living unregistered on powerful families' estates now appeared on state rolls and became liable for taxes and labour service."
+    },
+    {
+      "id": "7961aa69-8182-4858-a287-e1f386b71eb3",
+      "year": 490,
+      "title": "풍태후가 죽고 스물셋에 친정을 시작하다",
+      "before": "풍태후가 죽자 삼년상을 치르고 스물셋에 직접 정사를 맡았다. 이제 나라 살림과 행정을 손보는 데서 그치지 않았다. 선비족 지배층의 말과 옷, 성씨와 혼인까지 바꾸려 했다.",
+      "after": "After Dowager Empress Feng died, Xiaowen observed three years of mourning and took charge of the government at twenty-three. He now turned from taxes and administration to the Xianbei ruling class, changing its language, dress, surnames, and marriage ties."
+    },
+    {
+      "id": "70b9f95e-f1d8-4e12-9cb4-60b559711bbc",
+      "year": 493,
+      "title": "남정을 구실로 군대를 몰고 낙양에 눌러앉다",
+      "before": "귀족들이 천도에 반대할 것을 안 그는 남제 정벌을 내세워 30만 군사를 이끌고 남쪽으로 나아갔다. 가을비 속에 낙양에 이르자 계속 진군하겠다고 몰아붙였다. 싸우기 싫으면 이곳을 도읍으로 삼으라는 요구 앞에서 귀족들은 천도를 받아들였다.",
+      "after": "To get around the nobles' opposition to moving the capital, Xiaowen announced a campaign against Southern Qi and marched south with 300,000 troops. When autumn rain stopped the army at Luoyang, he insisted that the march continue. The nobles could either fight or accept Luoyang as the new capital. They accepted the move."
+    },
+    {
+      "id": "46706fef-2769-4b29-b76d-28e2e1856ae0",
+      "year": 493,
+      "title": "낙양 남쪽 절벽에 용문석굴을 파기 시작하다",
+      "before": "천도와 함께 이수 양안의 석회암 절벽에 불상을 새기기 시작했다. 평성의 운강석굴을 잇는 국가 사업이었다. 초기 굴인 고양동의 불상에는 갸름한 얼굴과 길게 늘어진 옷주름 같은 남조풍이 뚜렷이 나타났다.",
+      "after": "As the capital moved, workers began carving Buddhist images into the limestone cliffs on both banks of the Yi River. Longmen continued the state-sponsored work begun at Yungang near Pingcheng. The early figures in Guyang Cave, with their narrow faces and long, flowing robes, already showed the style of the southern dynasties."
+    },
+    {
+      "id": "564533df-5f88-49c7-b157-7041e8e8f205",
+      "year": 494,
+      "title": "천도를 마치고 선비족 옷을 금하다",
+      "before": "황무지가 된 옛 한위의 낙양성을 크게 다시 짓고 마침내 도읍을 옮겼다. 곧 조정의 신하와 백성에게 선비 옷을 벗고 한족 옷을 입으라는 명이 내려졌다. 평성에 남고 싶어 한 옛 귀족들은 거세게 반발했다.",
+      "after": "Workers rebuilt the ruined old Han and Wei city of Luoyang on a vast scale, and the court completed its move. Xiaowen then ordered officials and commoners to give up Xianbei clothing and wear Chinese dress. Old nobles who wanted to remain in Pingcheng resisted fiercely."
+    },
+    {
+      "id": "add8c60c-147f-48e8-8600-a3048ee77c98",
+      "year": 495,
+      "title": "조정에서 선비말을 쓰지 못하게 하다",
+      "before": "조정에서 들리는 말도 바꿨다. 서른 살 아래 관리는 반드시 한어를 써야 했고, 선비말을 쓰면 관직이 깎였다. 나이 든 이들에게는 유예를 주었지만 한 세대 만에 지배층의 언어가 달라졌다.",
+      "after": "Next he changed the language of the court. Officials under thirty had to speak Chinese or lose rank; older men received more time to adjust. Within a generation, Chinese had replaced Xianbei among the ruling class."
+    },
+    {
+      "id": "24369628-9836-473b-9680-465e2d3de8d1",
+      "year": 496,
+      "title": "황실 성 탁발을 원으로 바꾸다",
+      "before": "탁발씨 황실은 원씨가 되었다. 효문제는 선비 부족 118개의 성도 한 글자로 된 한식 성으로 바꾸고, 선비 귀족과 한족 명문가가 혼인하도록 장려했다. 그 자신도 한족 사족 집안의 여인을 후궁으로 맞았다.",
+      "after": "The Tuoba imperial house became the Yuan house. Xiaowen also replaced the surnames of 118 Xianbei clans with single-character Chinese names. He encouraged Xianbei nobles to marry into prominent Chinese families and took women from the Chinese gentry as his own consorts."
+    },
+    {
+      "id": "32918223-0bb3-4059-b23a-1ab9a3b1ec3e",
+      "year": 496,
+      "title": "평성에 남은 옛 귀족들의 반란을 진압하다",
+      "before": "목태와 육예 등이 평성에서 종실 한 사람을 내세워 군사를 일으켰다. 반란은 곧 진압됐으나 북방 변경에 남은 선비 군사들의 불만까지 사라지지는 않았다. 그것은 30여 년 뒤 육진의 난으로 터졌다.",
+      "after": "Mu Tai, Lu Rui, and their allies raised troops in Pingcheng behind a member of the imperial clan. The revolt was quickly crushed, but anger remained among the Xianbei soldiers stationed on the northern frontier. Three decades later, it erupted in the Rebellion of the Six Garrisons."
+    },
+    {
+      "id": "6bd70332-7522-48f7-8353-5273bfe5fbf4",
+      "year": 497,
+      "title": "태자에게 사약을 내리다",
+      "before": "태자 원순은 낙양의 더위와 한족 옷을 견디지 못하고 평성으로 달아나려다 붙잡혔다. 효문제는 아들을 폐위하고 이듬해 사약을 내렸다.",
+      "after": "Crown Prince Yuan Xun could stand neither Luoyang's heat nor Chinese clothing and tried to flee to Pingcheng. He was caught and deposed. The following year, Xiaowen ordered his son to take poison."
+    },
+    {
+      "id": "29cfe423-5df0-4690-9740-1b05ce1c6444",
+      "year": 497,
+      "title": "남제를 치러 완성 일대로 거듭 내려가다",
+      "before": "남양과 신야 일대를 공격하며 두 차례 몸소 군사를 이끌고 남쪽으로 내려갔다. 성 몇 곳을 얻었지만 회수 남쪽까지 밀고 가지는 못했다. 원정이 거듭될수록 몸은 빠르게 쇠약해졌다.",
+      "after": "Twice Xiaowen led his armies south to attack Nanyang and Xinye. He captured several towns but never pushed beyond the Huai River. Each campaign left him weaker."
+    },
+    {
+      "id": "58402d32-38d0-47ec-803b-9969d98b8fd3",
+      "year": 499,
+      "title": "남정에서 돌아오는 길에 서른셋으로 죽다",
+      "before": "남정에서 돌아오던 행군길에 병이 깊어져 곡당원 행궁에서 숨을 거두었다. 서른셋이었다. 낙양 북쪽 장릉에 묻혔으며, 그가 손본 토지 분배와 호적, 관리 제도는 뒤의 수와 당으로 이어졌다.",
+      "after": "Xiaowen fell gravely ill while returning from a southern campaign and died at the travelling palace of Gutangyuan. He was thirty-three. He was buried at Changling, north of Luoyang, and his systems for distributing land, registering households, and governing officials continued under the Sui and Tang."
+    }
+  ]
+}

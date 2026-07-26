@@ -1,0 +1,111 @@
+{
+  "slug": "mozi",
+  "nickname": "묵자",
+  "events": [
+    {
+      "id": "39e25ee3-d85b-416b-b6cb-0753d29c128c",
+      "year": -468,
+      "title": "노나라 땅에서 태어나다",
+      "before": "생몰년을 적은 기록이 없다. 청나라 손이양이 고증한 기원전 468년~기원전 376년설이 가장 널리 쓰이나 학자마다 다르다. 출신국도 송나라설과 노나라설이 갈리는데, 『묵자』에 \"묵자가 노나라에서 제나라로 갔다\"는 구절이 있어 지금은 노나라설이 우세하고 산둥 텅저우 일대를 출생지로 본다.",
+      "after": "No surviving record gives Mozi's birth or death dates. The widely used span of 468–376 BC comes from the Qing scholar Sun Yirang, though other estimates differ. Scholars also dispute whether Mozi came from Song or Lu. A passage in the Mozi says that he travelled from Lu to Qi, so Lu is now the stronger candidate, with his birthplace often placed near modern Tengzhou in Shandong."
+    },
+    {
+      "id": "d3868350-7a2e-4eb6-8f2c-9dd9de64387c",
+      "year": -455,
+      "title": "유가에서 배우다 등을 돌리다",
+      "before": "『회남자』는 그가 유가의 학업을 배우고 공자의 방식을 익혔다고 적었다. 그러나 예법이 번거롭고 후한 장례가 재물을 축내며 삼년상이 살림을 망친다고 보아 갈라섰다. 배운 해와 스승의 이름은 전하지 않는다.",
+      "after": "According to the Huainanzi, Mozi studied the Confucian curriculum and learned the methods of Confucius. He later broke with the Confucians. Their rites seemed needlessly elaborate to him, their lavish burials wasted wealth, and three years of mourning could ruin a household. The record names neither his teacher nor the year he studied."
+    },
+    {
+      "id": "94e58223-1598-49cf-bd49-f500f4bb729c",
+      "year": -450,
+      "title": "제자를 모아 묵가를 세우다",
+      "before": "직접 제자를 받아 무리를 이루었다. 우두머리를 거자라 부르고 그 명령에 목숨까지 거는 조직이 여기서 나왔다. 제자 수는 삼백 명으로 전한다. 창설 시점은 기록에 없다.",
+      "after": "Mozi began taking disciples and formed them into an organised school. Its leader bore the title juzi, and members were expected to obey his commands even at the cost of their lives. Tradition puts their number at three hundred, but does not say when the school began."
+    },
+    {
+      "id": "29207296-4fc8-431f-a80d-4090e7b983b2",
+      "year": -445,
+      "title": "초나라가 송을 치려 한다는 소식에 길을 나서다",
+      "before": "공수반이 초나라를 위해 성벽을 넘는 구름사다리를 만들어 송나라 공격을 준비한다는 말을 들었다. 노나라에서 곧장 초나라 도읍 영으로 향해 열흘 밤낮을 걸었다고 『묵자』 공수편이 적었다. 출발 연도는 기원전 445년 무렵과 440년 무렵으로 엇갈린다.",
+      "after": "Word reached Mozi that Gongshu Ban had built scaling ladders for Chu and was preparing an attack on Song. He immediately left Lu for Ying, the Chu capital. The Gongshu chapter of the Mozi says that he walked for ten days and ten nights. Scholars place the journey around either 445 or 440 BC."
+    },
+    {
+      "id": "b86cfa61-e2ed-44f0-9caf-d1c8dbf7c3f9",
+      "year": -440,
+      "title": "영에서 공수반과 모의 공방을 벌이다",
+      "before": "허리띠를 풀어 성으로 삼고 나무 조각을 무기로 삼아 겨루었다. 공수반이 아홉 번 공격 방법을 바꾸었으나 아홉 번 다 막혔다. 공수반이 그를 죽이면 된다고 하자, 제자 금활리 등 삼백 명이 이미 송나라 성벽에서 수비 기구를 잡고 기다린다고 답했고 초왕은 공격을 접었다.",
+      "after": "At Ying, Mozi and Gongshu Ban staged a siege on the floor. Mozi laid down his belt as the city wall and used wooden pieces as weapons. Gongshu tried nine forms of attack; Mozi stopped every one. When Gongshu suggested that Mozi could simply be killed, Mozi replied that Qin Huali and three hundred disciples were already waiting on the walls of Song with his defensive equipment. The king of Chu abandoned the attack."
+    },
+    {
+      "id": "22a886a8-aa3a-4b26-959b-6b9e869be1ca",
+      "year": -440,
+      "title": "송나라 성문 앞에서 비를 맞다",
+      "before": "돌아오는 길에 자신이 구한 송나라를 지나다 비를 만났다. 성문 안으로 들어가 비를 피하려 했으나 문지기가 막았다. 『묵자』 공수편은 이 대목으로 글을 맺는다.",
+      "after": "On his return, Mozi passed through the state he had saved and was caught in the rain. He sought shelter inside a city gate, but the gatekeeper refused him entry. The Gongshu chapter ends there."
+    },
+    {
+      "id": "2f8920ab-8c5c-4b1d-8152-b68e22f88606",
+      "year": -439,
+      "title": "초 혜왕에게 글을 바치다",
+      "before": "초 혜왕 50년에 다시 영으로 가 자기 글을 올렸다. 혜왕은 받아 읽고 좋은 글이라 했으나 자신이 늙었다는 이유로 물리고 신하 목하를 대신 보냈다. 『묵자』 귀의편에 실려 있다.",
+      "after": "Mozi returned to Ying in the fiftieth year of King Hui of Chu and presented his writings to the king. King Hui read them and praised the work, but said that he was too old to act on it. He sent his officer Mu He in his place. The Guiyi chapter of the Mozi records the meeting."
+    },
+    {
+      "id": "dcbfccc3-36f1-4e9a-b9cf-4efe6c482651",
+      "year": -430,
+      "title": "수레에 책을 싣고 위나라로 가다",
+      "before": "위나라로 가면서 수레에 책을 가득 실었다. 제자 현당자가 왜 그리 많이 가져가느냐 묻자, 갈 길이 멀고 만날 사람이 제각각이라 답했다고 『묵자』 귀의편이 적었다. 간 해는 전하지 않아 추정이다.",
+      "after": "Travelling to Wey, Mozi filled a cart with books. His disciple Xian Tangzi asked why he needed so many. The road was long, Mozi answered, and every man he met would be different. The Guiyi chapter preserves the exchange but gives no year; the date here is an estimate."
+    },
+    {
+      "id": "23162753-45be-40f2-b11d-874f4f084137",
+      "year": -425,
+      "title": "노양문군이 정나라를 치려는 것을 말리다",
+      "before": "초나라 봉군 노양문군이 정나라를 치겠다고 하자 찾아가 따졌다. 이웃집 아이를 때리면서 하늘을 대신해 벌준다고 말하는 것과 무엇이 다르냐고 물었다. 『묵자』 노문편에 남았고 연도는 전하지 않는다.",
+      "after": "When Lord Wen of Luyang announced that he would attack Zheng, Mozi went to confront him. How was that different, he asked, from beating a neighbour's child and claiming to punish him on Heaven's behalf? The exchange appears in the Luwen chapter, without a date."
+    },
+    {
+      "id": "d9c107a4-5f19-41d3-959b-456f04ad7c00",
+      "year": -420,
+      "title": "월왕이 내민 오백 리 봉지를 거절하다",
+      "before": "제자 공상과를 월나라에 보냈더니 월왕이 그를 부르며 오백 리 땅을 주겠다고 했다. 자기 주장을 쓸 생각이라면 가겠으나 그렇지 않다면 땅을 받고 도를 파는 셈이라며 물렸다. 『묵자』 노문편에 실렸고 연도는 없다.",
+      "after": "After Mozi sent his disciple Gongshang Guo to Yue, the king offered Mozi a fief of five hundred li if he would come. Mozi would accept only if the king meant to put his teachings into practice. Otherwise, taking the land would amount to selling his Way, so he refused. The Luwen chapter tells the story but does not date it."
+    },
+    {
+      "id": "c8a4f3e3-3628-4a37-8fbf-022d34ae1550",
+      "year": -405,
+      "title": "금활리에게 성을 지키는 법을 넘기다",
+      "before": "금활리는 본래 공자의 제자 자하에게 배우다 그에게로 왔다. 삼 년을 손발이 트도록 따라다닌 뒤 성을 지키는 방법을 물었고, 그 문답이 『묵자』 비성문 이하 수비 관련 편들의 뼈대가 되었다. 전수 시점은 기록에 없다.",
+      "after": "Qin Huali had studied with Confucius's disciple Zixia before joining Mozi. He followed Mozi for three years, until his hands and feet cracked from hardship, and then asked to learn how to defend a city. Their questions and answers became the basis of the siege-defence chapters beginning with Beichengmen. No source dates the exchange."
+    },
+    {
+      "id": "6dd67653-b2ab-4ee6-8fd8-55978ab25693",
+      "year": -400,
+      "title": "제나라 장수 항자우의 노나라 공격을 막지 못하다",
+      "before": "만년에 제나라로 가 노나라를 세 번 친 장수 항자우를 말렸다. 남의 나라를 치는 것은 이웃의 담을 넘는 짓이라 했으나 통하지 않았다. 그가 전쟁을 멈추게 하지 못한 몇 안 되는 기록이다.",
+      "after": "Late in life, Mozi travelled to Qi and tried to stop the general Xiang Ziniu, who had already attacked Lu three times. Invading another state, he told him, was like climbing over a neighbour's wall. Xiang would not listen. This is one of the few surviving accounts in which Mozi failed to prevent a war."
+    },
+    {
+      "id": "df257a68-bc2a-4ec3-83f6-000e9bc94e64",
+      "year": -386,
+      "title": "여든을 넘겨 제 태공 전화를 만나다",
+      "before": "전화가 강씨를 밀어내고 제후로 인정받은 무렵 그를 만났다. 잘 드는 칼로 남의 목을 시험하면 칼은 좋다는 소리를 들어도 칼 주인은 화를 입는다며 정벌을 말렸다. 연표는 그가 여든이 넘은 나이였다고 적는다.",
+      "after": "Mozi met Tian He around the time Tian displaced the Jiang ruling house and gained recognition as Duke Tai of Qi. He warned him against conquest with the example of a sharp sword: test it on another man's neck, and the blade may earn praise, but its owner will suffer for it. Chronologies say Mozi was then over eighty."
+    },
+    {
+      "id": "6128e437-df68-4240-a5cd-a56abc0ce927",
+      "year": -380,
+      "title": "제자들이 그의 말을 글로 묶다",
+      "before": "겸애·비공·절용을 비롯한 열 가지 주장이 각기 상·중·하 세 벌로 남았는데, 이는 갈라진 문파가 따로 전한 흔적으로 본다. 지금 전하는 『묵자』 오십삼 편은 그가 직접 쓴 책이 아니라 여러 대의 문도가 덧붙여 만든 것이다.",
+      "after": "Mozi's followers began setting his teachings down in writing. Ten main doctrines, including impartial care, opposition to aggressive war, and frugal use of resources, survive in upper, middle, and lower versions. Scholars take the three sets as the work of separate Mohist branches. The fifty-three surviving chapters of the Mozi grew over several generations rather than coming from Mozi's hand alone."
+    },
+    {
+      "id": "50505dc5-f494-4e7b-aa44-2e86a08b2e50",
+      "year": -376,
+      "title": "세상을 뜨고 묵가가 셋으로 갈리다",
+      "before": "죽은 해도 확정되지 않아 기원전 376년 무렵으로 잡는다. 뒤에 묵가는 상리씨·상부씨·등릉씨 세 갈래로 갈렸고 각기 자기가 정통이라 주장했다. 『사기』는 그를 스물네 글자로만 언급한다.",
+      "after": "Mozi died around 376 BC, though the year remains uncertain. After his death, the Mohists divided into the Xiangli, Xiangfu, and Dengling branches, each claiming to preserve the true teaching. The Shiji gives Mozi only twenty-four characters."
+    }
+  ]
+}

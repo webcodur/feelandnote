@@ -1,0 +1,125 @@
+{
+  "slug": "karl-marx",
+  "nickname": "칼 마르크스",
+  "events": [
+    {
+      "id": "b91db87a-cad5-4f82-adc0-2a2ba91a1776",
+      "year": 1818,
+      "title": "트리어에서 태어나다",
+      "before": "프로이센 라인란트의 트리어에서 변호사 하인리히 마르크스의 아들로 태어났다. 양쪽 집안 모두 랍비 가문이었지만, 아버지는 유대인의 공직 진출을 막는 프로이센의 제도를 피해 아들이 태어나기 전에 개신교로 옮겼다.",
+      "after": "Karl Marx was born in Trier, in the Prussian Rhineland, to the lawyer Heinrich Marx. Both sides of the family were descended from rabbis, but his father had converted to Protestantism before Karl's birth because Prussian law barred Jews from public office and threatened his legal career."
+    },
+    {
+      "id": "9c5d969e-d8c4-4ed8-a33d-561f5d5b3d15",
+      "year": 1835,
+      "title": "본 대학에 들어가 법학을 배우다",
+      "before": "아버지의 뜻에 따라 본 대학 법학부에 들어갔다. 그러나 시를 쓰고 술자리를 벌이며 결투까지 치르는 사이 성적은 떨어졌고, 아버지는 아들을 다른 학교로 보내기로 했다.",
+      "after": "At his father's urging, Marx entered the University of Bonn to study law. He spent much of the year writing poetry, drinking and fighting at least one duel. His grades fell, and his father arranged a transfer."
+    },
+    {
+      "id": "6a8588d4-5267-4dd4-910a-7a3625c62cd0",
+      "year": 1836,
+      "title": "베를린 대학에서 헤겔 좌파와 어울리다",
+      "before": "베를린 대학으로 옮겨 법학과 철학을 함께 공부했다. 브루노 바우어를 중심으로 모인 청년헤겔파와 어울리며 종교와 국가를 비판하는 논쟁에 뛰어들었고, 관심도 법에서 철학으로 완전히 넘어갔다.",
+      "after": "After moving to the University of Berlin, Marx studied philosophy as well as law. He joined the Young Hegelians around Bruno Bauer and took part in their arguments about religion and the state. Before long, philosophy had displaced law as his main concern."
+    },
+    {
+      "id": "c7e464ea-6e83-4bf4-b0eb-67a47dd1e5e5",
+      "year": 1841,
+      "title": "예나 대학에서 박사 학위를 받다",
+      "before": "데모크리토스와 에피쿠로스의 자연철학을 비교한 논문을 예나 대학에 우편으로 보내 박사 학위를 받았다. 심사가 까다로운 베를린 대학은 피했다. 대학 교수가 되려 했으나 정부가 청년헤겔파를 탄압하면서 그 길도 막혔다.",
+      "after": "The University of Jena awarded Marx a doctorate for a thesis comparing the natural philosophy of Democritus and Epicurus. He had sent the work by post, choosing Jena over the stricter University of Berlin. He hoped to teach, but the Prussian government's campaign against the Young Hegelians closed that path."
+    },
+    {
+      "id": "4b9fe738-33fb-42b7-a9aa-19c2bd2db0c6",
+      "year": 1842,
+      "title": "쾰른에서 신문 편집장을 맡다",
+      "before": "쾰른에서 라인 지방의 자유주의 상공인들이 세운 《라이니셰 차이퉁》의 편집장을 맡았다. 목재 절도 단속법과 모젤 농민의 궁핍을 기사로 다루면서 경제 문제를 처음 정면으로 파고들었다. 프로이센 정부의 검열이 거세지자 신문은 이듬해 3월 문을 닫았다.",
+      "after": "Marx took charge of the Rheinische Zeitung, a Cologne newspaper backed by liberal Rhineland businessmen. Reporting on wood-theft laws and poverty among Moselle winegrowers led him to examine economic questions directly. Mounting Prussian censorship forced the paper to close in March 1843."
+    },
+    {
+      "id": "c1eadf98-9ef4-480b-89f4-850d1d90d64d",
+      "year": 1843,
+      "title": "예니 폰 베스트팔렌과 결혼하다",
+      "before": "신분 차이를 내세운 양가의 반대를 견디며 7년을 기다린 끝에 바트크로이츠나흐에서 예니 폰 베스트팔렌과 결혼했다. 예니는 트리어 귀족 관료의 딸이었다.",
+      "after": "After a seven-year engagement, Marx married Jenny von Westphalen in Bad Kreuznach. She was the daughter of a Prussian baron and senior official in Trier, and the difference in their social standing had drawn years of opposition from both families."
+    },
+    {
+      "id": "d8a349f8-5341-4798-a1f4-5768c78329db",
+      "year": 1843,
+      "title": "파리로 옮겨 잡지를 내다",
+      "before": "프로이센의 검열을 벗어나 파리로 옮긴 뒤 아르놀트 루게와 《독불연보》를 창간했다. 잡지는 한 호만 내고 끝났지만, 여기에 《유대인 문제에 대하여》와 《헤겔 법철학 비판 서설》을 실으며 정치 저술가로 나섰다.",
+      "after": "Marx moved to Paris to escape Prussian censorship and founded the Deutsch-Französische Jahrbücher with Arnold Ruge. Only one issue appeared. It included On the Jewish Question and his introduction to a critique of Hegel's philosophy of right."
+    },
+    {
+      "id": "059995c0-813a-44ee-a802-2c777a4b1378",
+      "year": 1844,
+      "title": "파리에서 엥겔스를 다시 만나다",
+      "before": "쾰른에서 냉랭하게 헤어졌던 엥겔스가 파리를 찾아왔다. 열흘 동안 이야기를 나눈 두 사람은 서로의 생각이 거의 같다는 것을 확인하고 곧바로 함께 글을 쓰기 시작했다. 이 협업은 이후 40년 동안 이어졌다.",
+      "after": "Engels arrived in Paris two years after their cold first meeting in Cologne. Ten days of conversation showed how closely their ideas matched, and they began writing together at once. Their partnership lasted another forty years."
+    },
+    {
+      "id": "82ebb13c-a20f-4157-a7cf-d02c3aba3a57",
+      "year": 1845,
+      "title": "프랑스에서 추방돼 브뤼셀로 가다",
+      "before": "프로이센 정부가 추방을 요구하자 프랑스를 떠나 브뤼셀로 갔다. 정치 활동을 하지 않겠다고 서약한 뒤에야 체류를 허가받았다. 그곳에 머무는 동안 공산주의자동맹에 가입하고 엥겔스와 《독일 이데올로기》를 썼다.",
+      "after": "France expelled Marx after the Prussian government demanded his removal. Belgium allowed him to settle in Brussels only after he promised not to publish anything about Belgian politics. There he joined the Communist League and wrote The German Ideology with Engels."
+    },
+    {
+      "id": "29cfe478-2931-4c78-bbd3-704e513f158b",
+      "year": 1848,
+      "title": "공산당 선언을 내놓다",
+      "before": "공산주의자동맹의 강령을 써 달라는 요청을 받고 엥겔스와 함께 《공산당 선언》을 완성했다. 독일어 원고가 런던에서 인쇄된 것은 유럽 곳곳에서 혁명이 터지기 불과 몇 주 전이었다. 그러나 책은 당시 거의 팔리지 않았다.",
+      "after": "The Communist League asked Marx and Engels to write its programme. Their Communist Manifesto was printed in German in London, only weeks before revolutions broke out across Europe. At the time, the pamphlet sold almost no copies."
+    },
+    {
+      "id": "3e48defd-c3f0-4849-a9a3-0b2938d0ae4e",
+      "year": 1848,
+      "title": "쾰른으로 돌아와 신 라인 신문을 내다",
+      "before": "혁명이 일어나자 쾰른으로 돌아와 《신 라인 신문》을 창간하고 편집장을 맡았다. 상속받은 돈도 대부분 신문에 쏟아부었다. 프로이센 당국이 그를 추방하면서 신문은 붉은 잉크로 찍은 마지막 호를 내고 폐간됐다.",
+      "after": "With revolution under way, Marx returned to Cologne and founded the daily Neue Rheinische Zeitung. He served as editor and put most of an inheritance into keeping it alive. When the Prussian authorities expelled him in May 1849, the paper printed its final issue in red ink and closed."
+    },
+    {
+      "id": "a3c9bfd7-c94b-4a61-9e8c-cf85dfc78926",
+      "year": 1849,
+      "title": "런던으로 망명하다",
+      "before": "프로이센에서 쫓겨나고 파리에서도 거처를 얻지 못한 끝에 런던에 도착했다. 남은 34년을 그곳에서 살았으며, 대영박물관 열람실을 작업실처럼 드나들었다.",
+      "after": "Expelled from Prussia and unable to remain in Paris, Marx arrived in London. He lived there for the remaining thirty-four years of his life and worked regularly in the British Museum reading room."
+    },
+    {
+      "id": "9a882f83-4887-428a-afc4-a4bc47ad98f3",
+      "year": 1852,
+      "title": "뉴욕 데일리 트리뷴에 기고하다",
+      "before": "미국 신문 《뉴욕 데일리 트리뷴》의 유럽 통신원이 되어 10년 동안 수백 편의 기사를 보냈다. 그 원고료는 런던 생활을 버티게 해 준 거의 유일한 정기 수입이었다. 인도와 중국, 크림 전쟁을 다룬 글도 이 신문에 실렸다.",
+      "after": "Marx became the European correspondent for the New-York Daily Tribune and sent the paper several hundred articles over the next ten years. The fees provided almost his only steady income in London. His reports covered India, China and the Crimean War, among other subjects."
+    },
+    {
+      "id": "123df0a0-9036-49a1-b9eb-210c3a8895f3",
+      "year": 1864,
+      "title": "국제노동자협회 창립에 참여하다",
+      "before": "런던 세인트마틴스홀에서 열린 국제노동자협회 창립 대회에 참석해 총평의회에 들어갔다. 창립 연설문과 규약을 직접 쓰면서, 한동안 연구에 몰두했던 그는 다시 노동운동 조직의 중심에 섰다.",
+      "after": "At St Martin's Hall in London, Marx attended the founding meeting of the International Workingmen's Association and joined its General Council. He wrote the new body's inaugural address and rules, returning to organised political work after years spent largely on research."
+    },
+    {
+      "id": "aa5263ab-d496-4d3f-9177-5c48601867d3",
+      "year": 1867,
+      "title": "자본론 1권을 펴내다",
+      "before": "함부르크의 오토 마이스너 출판사에서 《자본론》 1권을 펴냈다. 상품과 화폐에서 출발해 잉여가치와 자본 축적에 이르는 과정을 파헤친 책이었다. 2권과 3권은 원고로만 남았고, 그의 죽음 뒤 엥겔스가 이를 정리해 출간했다.",
+      "after": "The Hamburg publisher Otto Meissner brought out the first volume of Capital. The book began with commodities and money, then examined surplus value and the accumulation of capital. Marx left the next two volumes in manuscript, and Engels edited and published them after his death."
+    },
+    {
+      "id": "c481f49a-8676-4890-adc9-b46b36d45017",
+      "year": 1871,
+      "title": "파리 코뮌을 옹호하는 글을 쓰다",
+      "before": "파리 코뮌이 진압되자 《프랑스 내전》을 써서 국제노동자협회 이름으로 발표했다. 유럽 언론이 앞다투어 코뮌을 규탄하던 때 정반대편에 선 이 글로 그는 처음 국제적인 악명을 얻었다.",
+      "after": "After the Paris Commune was crushed, Marx wrote The Civil War in France and published it in the name of the International. European newspapers were condemning the Communards; Marx defended them. The pamphlet made him internationally notorious for the first time."
+    },
+    {
+      "id": "cd5f58de-afd4-45a8-980f-96715594f8e3",
+      "year": 1883,
+      "title": "런던에서 세상을 떠나다",
+      "before": "아내 예니와 큰딸을 잇따라 잃은 뒤 기관지염과 늑막염을 앓다가 런던 자택에서 숨을 거두었다. 하이게이트 묘지에서 치른 장례에 참석한 사람은 열한 명이었다. 엥겔스가 묘지 앞에서 조사를 읽었다.",
+      "after": "Marx died at his London home after suffering from bronchitis and pleurisy. He had lost his wife Jenny and his eldest daughter within the previous fifteen months. Eleven people attended his burial at Highgate Cemetery, where Engels delivered the graveside speech."
+    }
+  ]
+}

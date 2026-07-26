@@ -1,0 +1,132 @@
+{
+  "slug": "niels-bohr",
+  "nickname": "닐스 보어",
+  "events": [
+    {
+      "id": "c6a5938b-32c2-4742-819a-cf9ae50d4e68",
+      "year": 1885,
+      "title": "코펜하겐 학자 집안에서 태어나다",
+      "before": "생리학 교수인 아버지와 유대계 은행가 집안 출신 어머니 사이에서 태어났다. 동생 하랄은 수학자가 되는 한편 덴마크 축구 국가대표로 1908년 올림픽 은메달을 땄고, 형제는 평생 가깝게 지냈다.",
+      "after": "Bohr was born in Copenhagen to a physiology professor and a mother from a Jewish banking family. His younger brother Harald became both a mathematician and a Danish international footballer, winning Olympic silver in 1908. The brothers remained close throughout their lives."
+    },
+    {
+      "id": "da600ea3-c6d0-40cf-85c8-d55aa36e2d2d",
+      "year": 1903,
+      "title": "코펜하겐 대학에서 금속 전자론으로 박사가 되다",
+      "before": "학부 때 물의 표면장력을 재는 실험으로 학술원 금메달을 받았고, 1911년 4월 금속 안 전자의 운동을 다룬 논문으로 학위를 받았다. 이 논문에서 그는 고전 이론으로는 금속의 자기 성질을 설명할 수 없다는 결론에 이르렀다.",
+      "after": "As a student, Bohr won the academy's gold medal for an experiment measuring the surface tension of water. In April 1911, he completed a thesis on how electrons move through metals and concluded that classical theory could not explain their magnetic properties."
+    },
+    {
+      "id": "3847521e-b37c-486b-9257-5fc7012adf37",
+      "year": 1911,
+      "title": "케임브리지로 갔으나 톰슨과 맞지 않다",
+      "before": "전자를 발견한 J. J. 톰슨 밑에서 일하려고 캐번디시 연구소로 갔다. 그러나 서툰 영어로 톰슨의 이론에서 잘못된 곳을 짚는 바람에 관계가 어색해졌고, 그의 논문은 읽히지 않은 채 방치됐다.",
+      "after": "Bohr went to the Cavendish Laboratory hoping to work with J. J. Thomson, the discoverer of the electron. Instead, he used his uncertain English to point out errors in Thomson's theory. Their dealings grew strained, and Thomson left his thesis unread."
+    },
+    {
+      "id": "ce1691f3-9461-45b9-98ac-dc3e6b0d2ca7",
+      "year": 1912,
+      "title": "맨체스터의 러더퍼드에게 옮겨 가다",
+      "before": "러더퍼드가 원자 한가운데 핵이 있다고 발표한 직후 그의 연구실로 옮겨 넉 달을 보냈다. 핵 주위 전자가 왜 나선을 그리며 핵으로 떨어지지 않는지가 여기서 그의 문제가 됐다.",
+      "after": "Soon after Rutherford announced that the atom had a nucleus, Bohr moved to his Manchester laboratory for four months. There he took up the question that would drive his next work: why electrons circling a nucleus did not spiral inward and fall into it."
+    },
+    {
+      "id": "1f3be36b-f594-4ae1-8abc-55f5dde680dc",
+      "year": 1913,
+      "title": "원자 모형 세 편을 연달아 발표하다",
+      "before": "전자가 정해진 궤도에만 머물고 궤도를 옮길 때만 빛을 내거나 흡수한다는 모형을 7월부터 11월까지 세 편에 나눠 실었다. 수소가 내는 빛의 선 위치를 계산으로 맞히면서 양자 개념이 원자 구조 안에 자리 잡았다.",
+      "after": "From July to November, Bohr published three papers describing electrons confined to fixed orbits. They gave off or absorbed light only when they jumped from one orbit to another. His calculations matched the positions of hydrogen's spectral lines and brought the quantum into the structure of the atom."
+    },
+    {
+      "id": "7018c2c7-de81-4df6-8aef-9d834dad5208",
+      "year": 1916,
+      "title": "코펜하겐 대학에 그를 위한 이론물리학 강좌가 생기다",
+      "before": "덴마크에 없던 이론물리학 교수 자리가 그를 붙잡기 위해 만들어졌다. 그는 곧 별도의 연구소를 세워 달라고 요구했다.",
+      "after": "Copenhagen created Denmark's first chair of theoretical physics to keep Bohr at the university. He soon began pressing for an institute of his own."
+    },
+    {
+      "id": "a878378d-e354-4f81-82d1-24867cbd8f8d",
+      "year": 1921,
+      "title": "맥주 회사 돈으로 연구소를 열다",
+      "before": "칼스버그 재단의 지원으로 블레그담스바이에 이론물리학 연구소를 열었다. 이후 20년간 하이젠베르크, 파울리, 디랙, 가모프를 비롯한 젊은 물리학자들이 이곳을 거쳐 갔고, 그가 산책하며 따지는 방식이 그대로 연구 문화가 됐다.",
+      "after": "With money from the Carlsberg Foundation, Bohr opened the Institute for Theoretical Physics on Blegdamsvej. Heisenberg, Pauli, Dirac, Gamow and many other young physicists worked there over the next twenty years. Long walks spent arguing through problems became part of how the institute worked."
+    },
+    {
+      "id": "1f9de05d-db23-47cd-8c9a-235d824debb6",
+      "year": 1922,
+      "title": "원자 구조 연구로 노벨상을 받다",
+      "before": "원자 구조와 원자가 내는 빛에 관한 연구로 물리학상을 받았다. 그는 수상 강연에서 자신의 모형이 잠정적인 것이며 더 나은 이론으로 대체될 것이라고 말했다.",
+      "after": "Bohr received the Nobel Prize in Physics for his work on atomic structure and the light emitted by atoms. In his Nobel lecture, he called his own model provisional and said that a better theory would replace it."
+    },
+    {
+      "id": "1fe7dd6b-4f6c-4e23-90f9-9dc1b5049921",
+      "year": 1927,
+      "title": "코모 호숫가에서 상보성을 처음 말하다",
+      "before": "볼타 사후 100주년 기념 국제 물리학 회의에서 9월 16일 강연했다. 빛과 물질은 파동으로도 입자로도 나타나지만 두 모습을 동시에 볼 수는 없으며 어느 쪽이 보이는지는 실험 장치가 정한다는 주장이었고, 이것이 훗날 코펜하겐 해석의 뼈대가 됐다.",
+      "after": "On 16 September, Bohr addressed the international physics congress at Lake Como marking a century since Volta's death. Light and matter could appear as waves or particles, he argued, but no experiment could show both aspects at once. The apparatus determined which one appeared. This idea of complementarity later formed the backbone of the Copenhagen interpretation."
+    },
+    {
+      "id": "7b49cc0c-2dbe-4948-9719-1581fa14dbe7",
+      "year": 1927,
+      "title": "솔베이 회의에서 아인슈타인과 부딪치다",
+      "before": "브뤼셀에서 열린 제5차 솔베이 회의에서 아인슈타인이 확률로 기술되는 양자역학을 받아들이지 않고 매일 아침 반박용 사고실험을 들고 나왔다. 보어는 그날 저녁마다 답을 만들어 냈고, 두 사람의 논쟁은 이후 30년 가까이 이어졌다.",
+      "after": "At the fifth Solvay Conference in Brussels, Einstein challenged the probabilistic account of quantum mechanics with a new thought experiment each morning. By evening, Bohr would have an answer. Their dispute continued for nearly thirty years."
+    },
+    {
+      "id": "952ed8d2-fd23-4bbe-b282-c88500cc13b6",
+      "year": 1939,
+      "title": "핵분열 소식을 미국에 전하다",
+      "before": "베를린에서 우라늄 핵이 쪼개졌다는 소식을 배 안에서 확인하고 1월 워싱턴 학회에서 미국 물리학자들에게 알렸다. 며칠 안에 여러 대학에서 실험이 재현됐고 원자폭탄 가능성이 공론에 올랐다.",
+      "after": "During the voyage to America, Bohr worked through the report from Berlin that a uranium nucleus had split. At a Washington conference in January, he brought the news to American physicists. Laboratories at several universities reproduced the result within days, and physicists began openly discussing the possibility of an atomic bomb."
+    },
+    {
+      "id": "6c46a3ba-ced5-43e3-9f8a-293d2115959b",
+      "year": 1941,
+      "title": "하이젠베르크가 점령지의 그를 찾아오다",
+      "before": "독일군 점령하의 코펜하겐으로 옛 제자가 찾아왔으나 대화는 곧 끊겼고 두 사람은 다시 가까워지지 못했다. 2002년 공개된 보어의 부치지 않은 편지에는 하이젠베르크가 독일의 폭탄 개발을 도울 뜻이 있어 보였다고 적혀 있다.",
+      "after": "Heisenberg visited his former teacher in occupied Copenhagen, but their conversation soon broke down. They never regained their old closeness. In unsent letters made public in 2002, Bohr wrote that Heisenberg had seemed willing to help Germany develop a bomb."
+    },
+    {
+      "id": "693f8449-579a-44b2-a3f3-0a77ed41ff08",
+      "year": 1943,
+      "title": "체포 직전 어선으로 스웨덴에 건너가다",
+      "before": "독일이 덴마크 유대인 검거에 나서자 9월 29일 밤 아내와 함께 배로 스웨덴에 넘어갔다. 열흘 뒤에는 영국 모스키토 폭격기의 폭탄창에 실려 스코틀랜드로 갔는데, 헬멧이 머리에 맞지 않아 산소 공급 지시를 듣지 못하고 도중에 의식을 잃었다.",
+      "after": "When the Germans began moving against Denmark's Jews, Bohr and his wife escaped by boat to Sweden on the night of 29 September. Ten days later, a British Mosquito carried him to Scotland in its bomb bay. His helmet did not fit, so he missed the instruction to switch on his oxygen and lost consciousness during the flight."
+    },
+    {
+      "id": "d1abfe5a-6205-4ea5-b003-353d6b62877f",
+      "year": 1943,
+      "title": "가명을 쓰고 로스앨러모스를 드나들다",
+      "before": "12월 워싱턴에 도착해 니컬러스 베이커라는 이름으로 맨해튼 계획에 자문했다. 폭탄 설계에 직접 손을 대기보다 젊은 연구자들의 판단을 다잡는 역할이었고, 오펜하이머는 그가 온 뒤 사람들이 무엇을 만들고 있는지 다시 생각하게 됐다고 회고했다.",
+      "after": "Bohr arrived in Washington in December and joined the Manhattan Project under the name Nicholas Baker, travelling back and forth to Los Alamos. He did little direct design work. Instead, he helped the younger scientists weigh their decisions. Oppenheimer later said that Bohr's arrival made them think again about what they were building."
+    },
+    {
+      "id": "96081c8c-d173-435f-b5af-4a3fe219a842",
+      "year": 1944,
+      "title": "처칠에게 소련과 미리 터놓으라고 설득하려다 쫓겨나다",
+      "before": "전후 핵무기 경쟁을 막으려면 소련에 미리 알리고 국제 관리 체제를 세워야 한다고 5월 16일 처칠에게 말했다. 처칠은 짜증을 내며 면담을 끊었고 그를 감시 대상으로 여겼으며, 8월 26일 루스벨트와의 면담도 성과가 없었다.",
+      "after": "On 16 May, Bohr told Churchill that Britain and the United States should inform the Soviet Union about the bomb and establish international control before a post-war arms race began. Churchill irritably ended the meeting and came to regard him as a security risk. Bohr tried Roosevelt on 26 August and got nowhere."
+    },
+    {
+      "id": "d0fa71a0-eb2e-4270-905f-cfa11759ca08",
+      "year": 1950,
+      "title": "유엔에 공개 서한을 보내다",
+      "before": "전시에 처칠과 루스벨트에게 사적으로 했던 말을 이번에는 공개 문서로 냈다. 각국이 군사·산업 정보를 서로 열어 보는 '열린 세계'라야 핵무기 경쟁을 멈출 수 있다는 주장이었다.",
+      "after": "Bohr now made public the case he had put privately to Churchill and Roosevelt during the war. In an open letter to the United Nations, he called for an \"open world\" in which countries shared access to military and industrial information. Without that openness, he argued, the nuclear arms race would continue."
+    },
+    {
+      "id": "89538314-dbf5-47b4-819b-21c47d956219",
+      "year": 1957,
+      "title": "첫 원자력 평화상을 받다",
+      "before": "핵에너지의 평화적 이용을 위한 활동으로 첫 수상자가 됐다. 그는 유럽 공동 연구 기관인 CERN 설립과 북유럽 이론물리학 연구소 창설에도 관여했다.",
+      "after": "Bohr became the first recipient of the Atoms for Peace Award for his work toward the peaceful use of nuclear energy. He also helped establish CERN and the Nordic Institute for Theoretical Physics."
+    },
+    {
+      "id": "44ced48b-b4f9-424b-8c74-f3b1aa4f32fc",
+      "year": 1962,
+      "title": "코펜하겐 자택에서 죽다",
+      "before": "칼스버그 명예 저택에서 심장마비로 일흔일곱에 죽었다. 전날 그린 마지막 칠판 그림은 아인슈타인이 1930년 솔베이 회의에서 내놓았던 빛 상자 사고실험이었다.",
+      "after": "Bohr died of heart failure at seventy-seven in the Carlsberg house of honour in Copenhagen. The day before, he had drawn Einstein's light-box thought experiment from the 1930 Solvay Conference on his blackboard."
+    }
+  ]
+}

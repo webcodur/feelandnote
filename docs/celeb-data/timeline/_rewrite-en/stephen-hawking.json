@@ -1,0 +1,118 @@
+{
+  "slug": "stephen-hawking",
+  "nickname": "스티븐 호킹",
+  "events": [
+    {
+      "id": "772980f6-0432-4148-b492-731a2f3c3a80",
+      "year": 1942,
+      "title": "옥스퍼드에서 태어나다",
+      "before": "1942년 1월 8일, 런던이 공습을 받자 부모는 비교적 안전한 옥스퍼드로 옮겨 아이를 낳았다.",
+      "after": "With London under air attack, his parents moved to the relative safety of Oxford. Stephen William Hawking was born there on 8 January 1942."
+    },
+    {
+      "id": "d87c6420-c955-4c31-9444-71b24387a1b6",
+      "year": 1952,
+      "title": "세인트올번스에서 학교를 다니다",
+      "before": "가족을 따라 세인트올번스로 이사해 그곳 학교에 다녔다. 수학을 하고 싶었지만, 의사인 아버지는 일자리를 구하기 쉬운 의학을 택하라고 권했다.",
+      "after": "The family settled in St Albans, where he went to school. He wanted to study mathematics, but his father, a doctor, urged him to choose medicine because it offered better job prospects."
+    },
+    {
+      "id": "2f867d33-87b2-492f-9960-3c529129b76e",
+      "year": 1959,
+      "title": "열일곱에 옥스퍼드에 들어가다",
+      "before": "열일곱에 옥스퍼드 유니버시티 칼리지에 들어가 물리학을 공부한다. 수업이 시시하다며 공부에는 좀처럼 매달리지 않았고, 조정부에서는 배의 방향을 잡는 키잡이로 지냈다.",
+      "after": "At seventeen, he entered University College, Oxford, to study physics. He found the work too easy to hold his attention, studied little and served as cox for the college boat club."
+    },
+    {
+      "id": "b81accc8-615d-4a43-af16-de274719a920",
+      "year": 1962,
+      "title": "케임브리지에서 우주론 연구를 시작하다",
+      "before": "케임브리지 트리니티 홀 대학원으로 자리를 옮겼다. 데니스 시아마의 지도를 받으며 응용수학과 이론물리학을 바탕으로 우주론 연구를 시작했다.",
+      "after": "He moved to Trinity Hall, Cambridge, for graduate study. Under Dennis Sciama, he began researching cosmology through applied mathematics and theoretical physics."
+    },
+    {
+      "id": "f5f92f9e-cef8-473b-881e-7c758b7673bc",
+      "year": 1963,
+      "title": "스물한 살에 운동신경질환 진단을 받다",
+      "before": "손발이 자꾸 뜻대로 움직이지 않았다. 검사를 받은 끝에 근위축성 측삭경화증 진단이 나왔고, 의사들은 몇 년밖에 살지 못할 것이라고 했다. 그러나 병은 예상보다 훨씬 천천히 진행됐다.",
+      "after": "His hands and feet had become increasingly clumsy. Tests showed that he had amyotrophic lateral sclerosis, and doctors told him he had only a few years to live. The disease progressed much more slowly than they expected."
+    },
+    {
+      "id": "64473b3a-8ac3-4d07-bf73-8cf790524c76",
+      "year": 1966,
+      "title": "우주에 시작이 있어야 한다는 논문으로 박사가 되다",
+      "before": "펜로즈가 블랙홀을 설명하는 데 쓴 수학을 우주 전체에 적용했다. 시간을 거꾸로 돌리면 우주는 한 점에서 시작할 수밖에 없다는 결론을 박사논문에 담아 학위를 받았다.",
+      "after": "Hawking applied Roger Penrose's mathematics for black holes to the whole universe. His doctoral thesis argued that, if time ran backwards, the universe must end at a single point. The work earned him his doctorate."
+    },
+    {
+      "id": "6254abe1-aeda-4b1f-8fd5-02714327640e",
+      "year": 1970,
+      "title": "펜로즈와 함께 우주의 시작을 증명하다",
+      "before": "이번에는 펜로즈와 함께 일반상대성이론을 끝까지 밀어붙였다. 이 이론이 옳다면 우주에는 반드시 시작점이 있어야 한다는 정리를 내놓았다. 빅뱅은 이제 그럴듯한 이야기에 그치지 않고 수학으로 뒷받침되는 결론이 됐다.",
+      "after": "Working with Penrose, he showed that general relativity required the universe to have a beginning. Their theorem gave the Big Bang a mathematical basis."
+    },
+    {
+      "id": "33c02f79-67d5-4def-88b4-554bc77a9c22",
+      "year": 1974,
+      "title": "블랙홀이 빛을 낸다는 계산을 내놓다",
+      "before": "블랙홀도 완전히 검지는 않았다. 양자 효과를 계산하자 그 가장자리에서 열복사가 새어 나오고, 블랙홀은 아주 긴 시간에 걸쳐 질량을 잃다가 끝내 증발한다는 결과가 나왔다. 통념을 뒤집은 이 복사는 호킹 복사라 불리게 된다.",
+      "after": "Black holes, Hawking found, were not completely black. Quantum effects made them emit heat, lose mass and eventually evaporate. The emission became known as Hawking radiation."
+    },
+    {
+      "id": "6011c168-012d-4825-a395-c4d5b4553c1b",
+      "year": 1974,
+      "title": "서른둘에 왕립학회 회원이 되다",
+      "before": "블랙홀 연구를 발표한 그해, 왕립학회는 그를 펠로로 선출했다. 서른둘로 역대 가장 젊은 회원 가운데 하나였다.",
+      "after": "The Royal Society elected him a Fellow that same year. At thirty-two, he was one of its youngest members."
+    },
+    {
+      "id": "d223ec32-432a-4152-91f9-591e0f5160e7",
+      "year": 1979,
+      "title": "뉴턴이 앉았던 자리에 오르다",
+      "before": "케임브리지는 그를 루커스 수학 석좌교수로 앉혔다. 뉴턴과 디랙이 거쳐 간 자리였다. 이후 2009년까지 30년 동안 그 직위를 지켰다.",
+      "after": "Cambridge appointed him Lucasian Professor of Mathematics, to a chair previously held by Isaac Newton and Paul Dirac. He remained in the post for thirty years, until 2009."
+    },
+    {
+      "id": "815b3839-c4d0-4492-b373-fa3cd6e20353",
+      "year": 1985,
+      "title": "목소리를 잃고 음성 합성기를 쓰기 시작하다",
+      "before": "제네바에 머물던 중 폐렴에 걸려 기관 절개 수술을 받았고, 말하는 능력을 완전히 잃었다. 처음에는 손가락으로, 나중에는 볼 근육으로 음성 합성 장치를 움직여 말을 이어 갔다. 기계에서 흘러나오는 음성이 그의 목소리로 굳어졌다.",
+      "after": "While in Geneva, he developed pneumonia and underwent a tracheostomy that left him unable to speak. He began using a speech synthesiser, controlling it first with a finger and later with a cheek muscle. Its electronic sound became his voice."
+    },
+    {
+      "id": "c4006d28-217d-4174-9ba0-14a2e46fc89c",
+      "year": 1988,
+      "title": "『시간의 역사』를 펴내다",
+      "before": "복잡한 수식은 거의 덜어내고 블랙홀과 우주의 기원을 일반 독자에게 풀어 쓴 『시간의 역사』를 펴냈다. 책은 1000만 부 넘게 팔렸고, 그의 이름은 학계 밖으로 널리 퍼졌다.",
+      "after": "He published A Brief History of Time, explaining black holes and the origins of the universe with almost no equations. The book sold more than ten million copies and made him famous far beyond physics."
+    },
+    {
+      "id": "f2c316dd-afbe-4c50-b7f9-f27eca35b434",
+      "year": 2007,
+      "title": "무중력 비행에 오르다",
+      "before": "플로리다 앞바다 상공에서 개조한 여객기가 포물선을 그렸다. 그는 여덟 차례 몸을 띄워 무중력 상태를 경험했다. 40여 년 만에 휠체어를 벗어난 순간이었다.",
+      "after": "A modified airliner flew a series of parabolic arcs above the sea off Florida, giving Hawking eight spells of weightlessness. For the first time in more than forty years, he left his wheelchair and floated free."
+    },
+    {
+      "id": "c5275605-70b9-4d28-88bf-35c89214bda3",
+      "year": 2009,
+      "title": "루커스 석좌에서 물러나다",
+      "before": "대학의 정년 규정에 따라 루커스 수학 석좌교수직에서 물러났다. 자리를 케임브리지 이론우주론센터의 연구책임자로 옮기고 연구를 계속했다.",
+      "after": "University retirement rules required him to leave the Lucasian chair. He continued his work as director of research at Cambridge's Centre for Theoretical Cosmology."
+    },
+    {
+      "id": "b85142e8-5235-4651-a677-80d59b72e1ac",
+      "year": 2018,
+      "title": "케임브리지 자택에서 세상을 떠나다",
+      "before": "2018년 3월 14일, 케임브리지 자택에서 76세로 세상을 떠났다. 몇 년밖에 살지 못한다는 진단을 받은 지 55년이 지난 뒤였다.",
+      "after": "Hawking died at his Cambridge home on 14 March 2018, aged 76. Fifty-five years had passed since doctors told him he had only a few years to live."
+    },
+    {
+      "id": "35b81a30-cb35-4249-bde9-d566dc9d8a1e",
+      "year": 2018,
+      "title": "웨스트민스터 사원에 안치되다",
+      "before": "그해 6월 15일 웨스트민스터 사원에서 추모 예배가 열렸다. 유해는 본당 바닥, 뉴턴과 다윈의 무덤 곁에 안장됐다.",
+      "after": "A memorial service was held at Westminster Abbey on 15 June. His ashes were interred in the nave, near the graves of Isaac Newton and Charles Darwin."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "slug": "werner-heisenberg",
+  "nickname": "베르너 하이젠베르크",
+  "events": [
+    {
+      "id": "16d5544a-80fa-4942-bdca-d36eacbd104e",
+      "year": 1901,
+      "title": "뷔르츠부르크에서 태어나다",
+      "before": "그리스어 문헌학 교수의 아들로 태어났다. 아버지가 뮌헨 대학으로 옮기면서 아홉 살에 뮌헨으로 이사했고, 그곳 김나지움에서 수학에 두각을 보였다.",
+      "after": "He was born in Würzburg, the son of a professor of Greek philology. When his father moved to the University of Munich, the family followed, and at nine Heisenberg entered a Munich Gymnasium where his gift for mathematics soon showed."
+    },
+    {
+      "id": "b0294f60-c8db-4a14-862f-c7d6f3fdd70a",
+      "year": 1920,
+      "title": "뮌헨 대학에서 조머펠트에게 배우고 박사가 되다",
+      "before": "아르놀트 조머펠트 밑에서 물리학과 수학을 공부했다. 1923년 구술시험에서 빌헬름 빈이 현미경의 분해능과 축전지의 작동 원리를 묻자 답하지 못해 최하위 등급으로 겨우 통과했다.",
+      "after": "He studied physics and mathematics in Munich under Arnold Sommerfeld and took his doctorate in 1923. During the oral examination, Wilhelm Wien asked him about the resolving power of a microscope and how a storage battery worked. He could explain neither and passed with the lowest grade."
+    },
+    {
+      "id": "c1da5f44-085f-438b-8731-b40ed2e9021a",
+      "year": 1924,
+      "title": "괴팅겐에서 막스 보른 밑으로 옮기다",
+      "before": "막스 보른 밑에서 교수 자격을 얻었다. 당시 괴팅겐은 원자 스펙트럼의 설명이 막혀 있던 곳이었고, 그는 이곳에서 관측되지 않는 전자 궤도를 이론에서 걷어내는 방향을 잡았다.",
+      "after": "He moved to Göttingen and completed his habilitation under Max Born. Physicists there were struggling to explain atomic spectra, and Heisenberg began looking for a theory that left out electron orbits no one could observe."
+    },
+    {
+      "id": "23538866-0db3-4fd3-971c-7d66347a9d81",
+      "year": 1924,
+      "title": "록펠러 장학금으로 보어의 코펜하겐에 머물다",
+      "before": "1924년 9월부터 이듬해 5월까지 닐스 보어의 연구소에서 지냈다. 보어와 산책하며 토론하는 방식에 익숙해졌고, 이 관계가 이후 20년간 그의 삶을 좌우했다.",
+      "after": "A Rockefeller fellowship took him to Niels Bohr's institute in Copenhagen from September 1924 to May 1925. He learned to discuss physics Bohr's way, through long conversations on foot. Their relationship would shape his life for the next twenty years."
+    },
+    {
+      "id": "a10aff2d-42c0-4ad4-ad1c-d53f70b2637a",
+      "year": 1925,
+      "title": "꽃가루를 피해 간 헬골란트섬에서 답을 찾다",
+      "before": "심한 건초열로 얼굴이 부어 6월에 나무가 거의 없는 북해의 헬골란트섬으로 갔다. 그곳에서 전자의 궤도 대신 관측 가능한 양만 다루는 계산 방식을 세웠고, 에너지 보존이 맞아떨어지는 것을 확인한 새벽에 바위 위로 올라가 해가 뜨기를 기다렸다.",
+      "after": "Severe hay fever left his face swollen, so in June he escaped to Heligoland, a nearly treeless island in the North Sea. There he devised a method based only on observable quantities, not imagined electron orbits. When his calculations preserved energy, he climbed onto a rock before dawn and waited for sunrise."
+    },
+    {
+      "id": "3317eae4-6ac3-43b6-85f8-41988d76cdb9",
+      "year": 1925,
+      "title": "행렬역학의 출발이 된 논문을 내다",
+      "before": "9월에 발표한 이 논문에서 그는 원자 안 전자의 위치와 속도를 직접 말하는 대신 관측되는 빛의 세기와 진동수만으로 계산하는 틀을 제시했다. 보른과 요르단이 이것이 행렬 계산임을 알아보고 함께 정리해 양자역학의 첫 완결된 형식이 나왔다.",
+      "after": "In September he published a paper that calculated with the frequencies and intensities of observed light rather than an electron's supposed position and speed. Born and Jordan saw that his method used matrix algebra. Together, the three men turned it into the first complete form of quantum mechanics."
+    },
+    {
+      "id": "a03668cc-e8c9-4395-9177-3fd6f2a4fc3d",
+      "year": 1927,
+      "title": "불확정성 원리를 내놓다",
+      "before": "1927년 2월 파울리에게 보낸 편지에서 입자의 위치와 운동량을 동시에 정확히 알 수 없다는 결론을 처음 적었다. 측정 기술의 한계가 아니라 자연이 그렇게 생겼다는 주장이었고, 보어는 이를 자신의 상보성과 묶어 해석하려 해 두 사람 사이에 논쟁이 벌어졌다.",
+      "after": "In a letter to Pauli in February 1927, Heisenberg first wrote that a particle's position and momentum could not both be known exactly at the same time. He treated this as a fact about nature, not a defect in measuring instruments. Bohr tried to fit the idea into his principle of complementarity, and the two argued sharply."
+    },
+    {
+      "id": "0942382d-7fcb-4563-ab82-c7e379027de6",
+      "year": 1927,
+      "title": "스물다섯에 라이프치히 정교수가 되다",
+      "before": "독일에서 가장 어린 이론물리학 정교수로 부임했다. 라이프치히 연구실은 곧 유럽과 미국, 일본에서 온 학생들이 모이는 곳이 됐고, 그는 여기서 1932년까지 원자핵과 강자성 이론으로 연구를 넓혔다.",
+      "after": "At twenty-five, he became Germany's youngest full professor of theoretical physics. Students from Europe, America and Japan soon gathered around him in Leipzig, where he extended his work to the atomic nucleus and ferromagnetism."
+    },
+    {
+      "id": "8485c060-fe68-4e4f-af18-d5879d0a584a",
+      "year": 1933,
+      "title": "1932년도 노벨 물리학상을 한 해 늦게 받다",
+      "before": "1932년도 물리학상은 그해 수여되지 않고 보류됐다가 1933년에 그에게 돌아갔다. 같은 자리에서 슈뢰딩거와 디랙이 1933년도 상을 받았고, 그는 보른과 요르단이 함께 받지 못한 것을 두고 평생 마음에 걸려 했다.",
+      "after": "The Nobel committee withheld the 1932 physics prize for a year, then awarded it to Heisenberg in 1933. Schrödinger and Dirac received the 1933 prize at the same ceremony. Heisenberg remained troubled that Born and Jordan did not share his award."
+    },
+    {
+      "id": "b3d0a829-85ae-4e0c-bf32-e94d42509857",
+      "year": 1937,
+      "title": "친위대 기관지에 '백색 유대인'으로 지목되다",
+      "before": "상대성이론과 양자역학을 가르친다는 이유로 나치 물리학자들이 그를 공격했고, 1937년 7월 친위대 기관지가 그를 '백색 유대인'이라 불렀다. 뮌헨 대학 교수 자리가 막히고 신원 조사가 이어졌으나, 그의 어머니와 힘러의 어머니가 아는 사이여서 편지가 닿았고 1938년 7월 힘러가 그를 더 건드리지 말라는 지시를 내리며 조사가 끝났다.",
+      "after": "Nazi physicists attacked him for teaching relativity and quantum mechanics. In July 1937 an SS newspaper branded him a \"white Jew,\" his appointment to a chair in Munich was blocked, and the SS opened an investigation. Because his mother knew Himmler's mother, she was able to get a letter to him. In July 1938 Himmler ordered the SS to leave Heisenberg alone, ending the inquiry."
+    },
+    {
+      "id": "d874c5cf-42b9-4394-95bd-ba3e59c8af4d",
+      "year": 1939,
+      "title": "독일 우라늄 연구 조직에 들어가다",
+      "before": "개전 직후인 9월 16일 첫 회의가 베를린에서 열렸고 그는 이론 부문의 중심이 됐다. 이후 그가 원자폭탄 개발을 늦추려 했는지 아니면 능력이 못 미쳤을 뿐인지를 두고 지금도 평가가 갈린다.",
+      "after": "Germany's uranium programme held its first meeting in Berlin on 16 September, soon after the war began. Heisenberg became its leading theorist. Historians still disagree over whether he held back the German bomb effort or simply lacked the means to build one."
+    },
+    {
+      "id": "9d3ace7c-8a94-41cf-916e-b69341d6ee2c",
+      "year": 1941,
+      "title": "점령된 코펜하겐으로 보어를 찾아가다",
+      "before": "독일군 점령하의 코펜하겐에서 옛 스승을 만났고, 대화는 짧게 끝났으며 두 사람의 관계는 그대로 끊어졌다. 무슨 말이 오갔는지는 두 사람의 기억이 엇갈렸고, 2002년 보어 문서고가 공개한 부치지 않은 편지들에서 보어는 하이젠베르크가 독일의 폭탄 개발에 협력할 뜻이 있어 보였다고 적었다.",
+      "after": "He visited Bohr in occupied Copenhagen, but their conversation ended quickly and their friendship never recovered. They later gave conflicting accounts of what had been said. In unsent letters released by the Bohr Archive in 2002, Bohr wrote that Heisenberg had appeared willing to help Germany build an atomic bomb."
+    },
+    {
+      "id": "6dfebe5b-a98e-4cb0-8552-b5a0b5a16f21",
+      "year": 1942,
+      "title": "카이저 빌헬름 물리학 연구소장을 맡다",
+      "before": "2월에 제국 관료들 앞에서 핵분열 에너지를 설명했고 6월에는 슈페어에게 폭탄 가능성을 보고했다. 그는 몇 년 안에 무기를 만들기는 어렵다고 말했고, 자원은 원자로 쪽에 배정됐다.",
+      "after": "Heisenberg took charge of the Kaiser Wilhelm Institute for Physics. In February he explained nuclear fission energy to Reich officials, and in June he briefed Speer on the prospect of an atomic bomb. He said Germany could not build one within a few years, so resources went to reactor work instead."
+    },
+    {
+      "id": "bd059b83-5784-4e4b-926b-16b9481b93ec",
+      "year": 1945,
+      "title": "하이거로흐 동굴 원자로가 연쇄반응에 이르지 못하다",
+      "before": "공습을 피해 남부 슈바벤의 절벽 아래 술 저장고로 장비를 옮겨 마지막 원자로 실험을 했다. 중성자 증가는 확인됐으나 우라늄과 중수가 모자라 자립 연쇄반응에는 이르지 못했고, 이는 미국이 시카고에서 임계에 도달한 지 2년 넘게 지난 시점이었다.",
+      "after": "To escape air raids, the team moved its equipment into a wine cellar beneath a cliff in southern Swabia. Their final reactor experiment at Haigerloch produced more neutrons but never reached a self-sustaining chain reaction; they lacked enough uranium and heavy water. Chicago had gone critical more than two years earlier."
+    },
+    {
+      "id": "be8bc69f-e582-40ce-997c-ec460a4f1322",
+      "year": 1945,
+      "title": "알프스 기슭 별장에서 미군에 붙잡히다",
+      "before": "하이거로흐 장비를 접수한 미군 알소스 부대가 그를 쫓았고, 그는 자전거로 사흘을 달려 발헨호숫가 우르펠트의 가족 별장에 닿았다가 5월 3일 붙잡혔다. 이틀 뒤 하이델베르크에서 옛 동료 하우트스밋과 마주했다.",
+      "after": "After the American Alsos unit seized the equipment at Haigerloch, it set out to find Heisenberg. He rode a bicycle for three days to his family's cottage at Urfeld on the Walchensee, where American troops caught him on 3 May. Two days later, in Heidelberg, he came face to face with his former colleague Goudsmit."
+    },
+    {
+      "id": "3e568623-b47d-4a51-81bb-0d5190ebc442",
+      "year": 1945,
+      "title": "영국 팜홀에 억류돼 히로시마 소식을 듣다",
+      "before": "독일 과학자 열 명과 함께 케임브리지 인근 갓맨체스터의 저택에 반년간 갇혔고, 방마다 도청 장치가 있었다. 8월 6일 히로시마 소식을 라디오로 듣고 그는 처음에 믿지 않았으며, 그가 그 자리에서 추산한 임계 질량은 실제보다 훨씬 컸다.",
+      "after": "He and nine other German scientists spent half a year confined in a country house at Godmanchester near Cambridge, unaware that every room was bugged. When they heard the news of Hiroshima on the radio on 6 August, Heisenberg at first refused to believe it. His immediate estimate of the bomb's critical mass was far too high."
+    },
+    {
+      "id": "9f712916-d08a-4af8-aa37-295f73cd1086",
+      "year": 1946,
+      "title": "괴팅겐에서 독일 물리학 재건을 맡다",
+      "before": "귀국 후 막스 플랑크 물리학 연구소장을 맡아 흩어진 연구자를 모으고 연구비 제도를 세우는 일에 매달렸다. 1957년에는 서독의 핵무장에 반대하는 이른바 괴팅겐 선언에 다른 물리학자 열일곱 명과 함께 서명했다.",
+      "after": "On returning to Germany, he took charge of the Max Planck Institute for Physics. He brought scattered researchers back together and worked to establish a system for funding their research. In 1957 he joined seventeen other physicists in signing the Göttingen declaration against nuclear weapons for West Germany."
+    },
+    {
+      "id": "c4cb1da8-c060-46a6-b450-d34cbce77620",
+      "year": 1976,
+      "title": "뮌헨에서 죽다",
+      "before": "1958년 연구소를 뮌헨으로 옮겨 1970년까지 소장을 맡았고, 말년에는 물질의 근본 방정식을 하나로 세우려는 시도에 매달렸으나 동료들의 지지를 얻지 못했다. 신장암과 담낭암으로 일흔넷에 자택에서 죽었다.",
+      "after": "He moved the institute to Munich in 1958 and remained its director until 1970. In his later years he tried to find a single fundamental equation for matter, but his colleagues did not accept the work. He died at home in Munich at seventy-four, from kidney and gall bladder cancer."
+    }
+  ]
+}

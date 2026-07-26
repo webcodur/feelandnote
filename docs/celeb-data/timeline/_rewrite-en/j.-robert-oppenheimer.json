@@ -1,0 +1,125 @@
+{
+  "slug": "j.-robert-oppenheimer",
+  "nickname": "J. 로버트 오펜하이머",
+  "events": [
+    {
+      "id": "5cff067e-110f-443a-a971-74ae9ca541a8",
+      "year": 1904,
+      "title": "뉴욕의 부유한 집에서 태어나다",
+      "before": "독일에서 건너와 직물을 수입하던 아버지와 화가인 어머니 사이에서 태어났다. 리버사이드 드라이브의 집에는 반 고흐와 피카소의 그림이 걸려 있었고, 아이는 광물을 모으는 데 빠져 열두 살에 뉴욕 광물학회 강단에 섰다.",
+      "after": "Oppenheimer was born into a wealthy New York family. His father, a German immigrant, imported textiles, and his mother was a painter. Their Riverside Drive home held works by Van Gogh and Picasso. Fascinated by minerals, he addressed the New York Mineralogical Club when he was twelve."
+    },
+    {
+      "id": "46f3a1c9-5fe0-4dfe-b44a-ec8ba8ff1215",
+      "year": 1922,
+      "title": "하버드를 3년 만에 마치다",
+      "before": "하버드에는 화학을 공부하러 들어갔지만 곧 물리로 돌아섰다. 한 학기에 여섯 과목씩 들으며 3년 만에 최우등으로 졸업했고, 그 틈에도 문학과 산스크리트, 프랑스 시를 파고들었다.",
+      "after": "He entered Harvard to study chemistry but soon turned to physics. He took six courses a semester and graduated summa cum laude in three years, while also studying literature, Sanskrit and French poetry."
+    },
+    {
+      "id": "dc3953a3-d20d-4903-b5c8-5e41b5282b8d",
+      "year": 1925,
+      "title": "케임브리지에서 실험에 실패하고 무너지다",
+      "before": "케임브리지의 캐번디시 연구소에서 실험 물리를 배웠으나 손이 따라주지 않았다. 깊은 우울에 빠진 그가 지도교수 블래킷의 책상에 독을 묻힌 사과를 놓았다는 이야기도 전한다. 훗날 친구의 말을 바탕으로 전기에 실린 일화일 뿐, 케임브리지에는 이를 뒷받침할 기록이 남아 있지 않다.",
+      "after": "At the Cavendish Laboratory in Cambridge, Oppenheimer struggled with experimental work and fell into a severe depression. Later biographies say that he left a poisoned apple on his supervisor Patrick Blackett's desk, but the story comes from a friend's account and no Cambridge record supports it."
+    },
+    {
+      "id": "b0068122-97fc-4cf6-aca1-c3183e9b76d0",
+      "year": 1926,
+      "title": "괴팅겐에서 이론으로 자리를 옮기다",
+      "before": "막스 보른 밑으로 옮기자 길이 열렸다. 1년 만에 박사학위를 받고, 보른과 함께 무거운 원자핵과 가벼운 전자를 나누어 계산하는 방법을 논문에 담았다. 보른·오펜하이머 근사라 불리는 이 계산법은 지금도 분자와 물질을 다룰 때 출발점으로 쓰인다.",
+      "after": "The move to Göttingen suited him. Working under Max Born, he earned his doctorate within a year. He and Born then published a method for calculating the movements of heavy nuclei and light electrons separately. The Born–Oppenheimer approximation remains a starting point for work on molecules and materials."
+    },
+    {
+      "id": "5018d3d8-d7d0-4ce2-869c-8ebd374efc4d",
+      "year": 1929,
+      "title": "버클리에 미국 이론물리학의 거점을 만들다",
+      "before": "버클리와 칼텍에 함께 자리를 얻어 학기마다 두 학교를 오갔다. 유럽에 크게 뒤처져 있던 미국의 이론물리학은 그의 강의실을 중심으로 자리를 잡았고, 제자들은 스승의 걸음걸이와 말투까지 따라 했다.",
+      "after": "Oppenheimer joined both Berkeley and Caltech and travelled between them each term. His seminars helped establish theoretical physics in the United States, then far behind Europe. Students copied not only his approach to physics but also his speech and walk."
+    },
+    {
+      "id": "f9ea3490-4219-4c17-923a-ee93f98aa1c6",
+      "year": 1939,
+      "title": "무거운 별이 끝없이 무너진다고 계산하다",
+      "before": "하틀랜드 스나이더와 계산해 보니, 연료를 다 쓴 무거운 별은 자기 중력에 눌려 계속 무너지고 끝내 빛조차 빠져나오지 못했다. 논문이 실린 날 독일이 폴란드를 침공했다. 연구자들의 눈에서 30년 가까이 사라졌던 이 계산은 블랙홀 연구가 시작된 뒤에야 다시 읽혔다.",
+      "after": "Working with Hartland Snyder, he calculated that a massive star, once out of fuel, would keep collapsing under its own gravity until light could no longer escape. Their paper appeared on the day Germany invaded Poland. It drew little notice for nearly thirty years, until physicists began studying black holes."
+    },
+    {
+      "id": "e3def562-b65f-4912-8480-94173459ab9c",
+      "year": 1942,
+      "title": "그로브스가 그를 폭탄 연구소장으로 고르다",
+      "before": "시카고를 떠나는 열차에서 그로브스 준장과 이야기를 나눈 뒤 폭탄 연구소장으로 사실상 낙점됐다. 보안 담당자들은 그의 좌파 인맥을 들어 반대했다. 노벨상도 없고 큰 조직을 이끌어 본 적도 없었지만, 그로브스는 프로젝트 전체를 머릿속에 담을 사람은 그뿐이라고 보았다.",
+      "after": "A train conversation with Brigadier General Leslie Groves after they left Chicago put Oppenheimer in line to lead the bomb laboratory. Security officers objected to his left-wing connections. He had no Nobel Prize and had never managed a large organisation, but Groves believed he alone could keep the whole project in view."
+    },
+    {
+      "id": "a57363b9-ca3b-4746-8b54-68f65dcb8a1c",
+      "year": 1942,
+      "title": "소년 시절 말을 타던 고원을 부지로 고르다",
+      "before": "뉴멕시코의 후보지를 돌던 그는 소년 시절 병을 요양하며 말을 타던 로스앨러모스 목장학교 터를 골랐다. 외지고 드나들기 어려운 고원은 비밀 연구소를 숨기기에 알맞았다. 학교는 정부에 수용됐고, 이듬해 그 자리에 연구소가 들어섰다.",
+      "after": "While inspecting possible sites in New Mexico, Oppenheimer chose the Los Alamos Ranch School. He knew the mesa from his youth, when he had spent time there recovering from illness and riding horses. Its isolation made it well suited to a secret laboratory. The government took over the school, and the laboratory opened there the following year."
+    },
+    {
+      "id": "9fc62824-6e83-4968-a480-db1a91bf69b7",
+      "year": 1943,
+      "title": "고원 위에 비밀 도시를 세워 운영하다",
+      "before": "군이 학자들에게 군복을 입혀 통제하려 하자, 자유롭게 토론하지 못하면 연구도 할 수 없다며 맞섰다. 덕분에 로스앨러모스는 민간 연구소의 모습을 지켰다. 고원의 비밀 도시는 3천 명에서 6천 명이 넘는 규모로 불어났고, 그는 예산과 인력부터 물리와 공학까지 한꺼번에 챙기느라 몸무게가 52킬로그램까지 줄었다.",
+      "after": "The army tried to put the scientists under military discipline and dress them in uniform. Oppenheimer resisted, arguing that they could not do the work without open discussion, and Los Alamos remained a civilian laboratory. Its population grew from about three thousand to more than six thousand. As he managed its staff, budget, physics and engineering, his weight fell to roughly fifty-two kilograms."
+    },
+    {
+      "id": "b46643ab-c170-4517-90b4-aa35cf40eee4",
+      "year": 1945,
+      "title": "트리니티 실험을 지켜보다",
+      "before": "새벽 5시 29분, 사막에서 인류 최초의 핵폭발이 일어났다. 그 순간 바가바드기타의 구절을 떠올렸다는 말은 20년 뒤 방송 인터뷰에서 나왔다. 현장에서 실제로 내뱉은 말은 \"이제 됐다\"에 가까운 짧은 안도였다고 동생 프랭크는 회고했다.",
+      "after": "At 5:29 in the morning, Oppenheimer watched the first nuclear explosion light the desert. He said in a television interview twenty years later that a line from the Bhagavad Gita had come to mind. His brother Frank remembered only a brief expression of relief that the test had worked."
+    },
+    {
+      "id": "ba877f25-ee92-4154-ba09-74a11d1b840e",
+      "year": 1945,
+      "title": "트루먼 앞에서 손에 피가 묻은 것 같다고 말하다",
+      "before": "백악관에서 트루먼을 만나 국제적인 핵 통제를 요구하다가 자신의 손에 피가 묻은 것 같다고 말했다. 격분한 트루먼은 손수건을 건네며 피가 묻었다면 자신의 손이라는 뜻으로 답했고, 다시는 그를 데려오지 말라고 했다. 녹음은 없으며, 이 대화는 뒤에 나온 회고로만 전한다.",
+      "after": "At the White House, Oppenheimer urged Truman to support international control of atomic weapons and said he felt he had blood on his hands. Later recollections say that Truman angrily offered him a handkerchief, replied that the blood was on his own hands and told aides not to bring Oppenheimer back. No recording of the exchange exists."
+    },
+    {
+      "id": "2903dd1b-2459-4233-a677-460e604387a2",
+      "year": 1945,
+      "title": "로스앨러모스를 떠나며 마지막 연설을 하다",
+      "before": "로스앨러모스를 떠나기 전 과학자들 앞에 서서, 언젠가 인류가 로스앨러모스와 히로시마라는 이름을 저주할지도 모른다고 말했다. 그러면서도 원자폭탄이 세상에 모습을 드러내는 일은 피할 수 없었다고 했다. 연구소를 나온 뒤에는 핵무기를 국제적으로 통제해야 한다고 주장하고 다녔다.",
+      "after": "Before leaving Los Alamos, Oppenheimer told its scientists that humanity might one day curse the names Los Alamos and Hiroshima. He also said the bomb's emergence could not have been avoided. Afterward, he travelled and spoke in support of international control of nuclear weapons."
+    },
+    {
+      "id": "7e9b17de-1cbf-4cde-81e1-056d042fe9c4",
+      "year": 1947,
+      "title": "프린스턴 고등연구소장이 되다",
+      "before": "아인슈타인과 괴델이 머물던 프린스턴 고등연구소의 소장이 됐다. 20년 가까이 연구소를 이끌며 수학자와 물리학자뿐 아니라 역사와 문학을 연구하는 사람들도 받아들였다. 같은 시기에는 원자력위원회 자문위원장으로 미국의 핵 정책에 관여했다.",
+      "after": "Oppenheimer became director of Princeton's Institute for Advanced Study, where Einstein and Gödel worked. He led it for nearly twenty years and brought in historians and literary scholars as well as mathematicians and physicists. At the same time, he chaired the Atomic Energy Commission's advisory committee and took part in shaping American nuclear policy."
+    },
+    {
+      "id": "bf2869ed-e6b1-45a8-b87e-aa95b55a64f3",
+      "year": 1949,
+      "title": "수소폭탄 개발을 서두르는 데 반대하다",
+      "before": "소련이 첫 핵실험을 하자 미국은 수소폭탄 개발을 서두르려 했다. 그가 이끈 자문위원회는 이에 반대하는 보고서를 냈고, 부록에는 이 무기를 결코 만들어서는 안 된다는 문장까지 넣었다. 트루먼은 권고를 물리치고 개발을 명령했다. 5년 뒤 청문회는 이 반대를 다시 꺼내 들었다.",
+      "after": "After the Soviet Union tested its first atomic bomb, the United States moved to rush development of the hydrogen bomb. Oppenheimer's advisory committee recommended against the programme, and an annex declared that the weapon should never be built. Truman rejected the advice and ordered development to proceed. Five years later, Oppenheimer's opposition was used against him."
+    },
+    {
+      "id": "402f3403-6cf1-449b-8ef7-470178a5be46",
+      "year": 1954,
+      "title": "비공개 청문회에서 기밀 취급 자격을 잃다",
+      "before": "비공개 청문회는 4주 동안 이어졌다. 심문하는 쪽은 1930년대의 좌파 인맥과 수소폭탄 개발에 반대한 일을 한데 묶어 추궁했다. 심사단은 그의 충성심을 인정하면서도 기밀 취급 자격을 돌려주지 않았고, 원자력위원회는 6월에 취소를 확정했다. 정부 자문에서 밀려난 그의 공직 생활도 거기서 끝났다.",
+      "after": "For four weeks, a closed hearing examined Oppenheimer's left-wing associations from the 1930s alongside his opposition to the hydrogen bomb. The panel accepted his loyalty but refused to restore his security clearance. The Atomic Energy Commission made the revocation final in June, shutting him out of government work."
+    },
+    {
+      "id": "0e9423c8-dcda-4bc6-a01b-5190a87eb92a",
+      "year": 1963,
+      "title": "백악관에서 페르미상을 받다",
+      "before": "케네디가 페르미상 수상을 결정했으나 시상식이 열리기 전에 암살됐다. 뒤를 이은 존슨은 결정을 바꾸지 않고 직접 상을 건넸다. 기밀 취급 자격은 돌려주지 않은 채 명예만 일부 회복해 준 자리에서, 그는 짧게 감사의 뜻을 밝혔다.",
+      "after": "Kennedy chose Oppenheimer for the Fermi Award but was assassinated before the ceremony. Johnson upheld the decision and presented the award himself. It restored some of Oppenheimer's public standing, though not his security clearance. Oppenheimer responded with brief thanks."
+    },
+    {
+      "id": "3dc9a4af-333e-4c69-b81f-8f33a23d36f7",
+      "year": 1967,
+      "title": "후두암으로 죽다",
+      "before": "평생 줄담배를 피운 그는 후두암을 앓다가 예순둘에 프린스턴 자택에서 숨을 거두었다. 정부가 1954년 심리 절차를 부당하다고 인정하고 자격 취소 결정을 무효로 한 것은 2022년의 일이었다.",
+      "after": "A lifelong chain smoker, Oppenheimer developed throat cancer and died at his Princeton home at sixty-two. In 2022, the government ruled that the 1954 proceedings had been improper and set aside the decision to revoke his clearance."
+    }
+  ]
+}

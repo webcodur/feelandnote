@@ -1,0 +1,125 @@
+{
+  "slug": "voltaire",
+  "nickname": "볼테르",
+  "events": [
+    {
+      "id": "cac5a77c-86c7-4e0f-bca9-63e2e95bcb09",
+      "year": 1694,
+      "title": "파리에서 공증인의 아들로 태어나다",
+      "before": "1694년 11월 21일 파리에서 프랑수아마리 아루에라는 이름으로 태어났다. 아버지는 재무부 관리와 공증인을 지낸 법조 중산층이었고, 어머니는 그가 일곱 살 때 죽었다.",
+      "after": "François-Marie Arouet was born in Paris on 21 November 1694. His father worked as a notary and treasury official, and his mother died when he was seven."
+    },
+    {
+      "id": "7e4e334e-936b-4e00-b954-89a08072df1c",
+      "year": 1704,
+      "title": "예수회 학교 루이르그랑에서 배우다",
+      "before": "열 살에 파리의 예수회 학교 루이르그랑에 들어가 라틴어와 수사학, 신학을 배웠다. 학교를 나올 때 이미 라틴어에 능했고, 아버지가 법률가의 길을 밀어붙였으나 문학으로 방향을 틀었다.",
+      "after": "At ten, he entered the Jesuit Collège Louis-le-Grand in Paris, where he studied Latin, rhetoric and theology. He left fluent in Latin and chose literature over the legal career his father wanted for him."
+    },
+    {
+      "id": "2c2d9e21-9a43-4c07-98e5-c31d9736dd18",
+      "year": 1717,
+      "title": "풍자시를 썼다가 바스티유에 갇히다",
+      "before": "섭정 오를레앙 공을 겨냥한 풍자시의 저자로 지목돼 1717년 5월 16일 바스티유에 수감됐다. 창문 없는 감방에서 11개월을 보내고 1718년 4월에 풀려났다.",
+      "after": "On 16 May 1717, he was sent to the Bastille after being named as the author of verses mocking the Regent, the Duke of Orléans. He spent eleven months in a windowless cell before his release in April 1718."
+    },
+    {
+      "id": "713ab27d-a66d-4fe5-86b1-c9f6e757e8c3",
+      "year": 1718,
+      "title": "오이디푸스를 올리고 볼테르라는 이름을 쓰다",
+      "before": "감옥에서 나온 그해 11월 코메디 프랑세즈에서 비극 오이디푸스가 초연돼 흥행과 평판을 동시에 얻었다. 이 무렵부터 본명 대신 볼테르라는 필명을 썼고 죽을 때까지 그 이름으로 불렸다.",
+      "after": "His tragedy Oedipe opened at the Comédie-Française in November 1718 and won both praise and a large audience. Around this time, he began using Voltaire instead of Arouet, the name he kept for the rest of his life."
+    },
+    {
+      "id": "cd6197ce-9864-4ca3-b766-fe9fe5ba20d0",
+      "year": 1726,
+      "title": "귀족과 다툰 끝에 영국으로 쫓겨나다",
+      "before": "슈발리에 드 로앙과 말다툼을 벌인 뒤 그 집 하인들에게 몽둥이질을 당했고, 결투를 요구하자 도리어 4월 17일 체포됐다. 투옥 대신 국외 추방을 택해 5월에 영국으로 건너가 완즈워스와 코번트가든에 머물며 근 3년을 보냈다.",
+      "after": "A quarrel with the Chevalier de Rohan ended with Rohan's servants beating him. When Voltaire demanded a duel, the authorities arrested him on 17 April 1726. He chose exile over prison, crossed to England in May and spent nearly three years in Wandsworth and Covent Garden."
+    },
+    {
+      "id": "b196ab1b-e2fc-43af-a256-c2f690441f2e",
+      "year": 1734,
+      "title": "철학서한을 루앙에서 찍고 파리에서 불태워지다",
+      "before": "영국에서 본 의회 정치와 종교 관용, 뉴턴과 로크를 소개한 책이 1733년 런던에서 영역본으로, 1734년 루앙에서 프랑스어판으로 나왔다. 파리 고등법원은 이 책을 불태우도록 명하고 저자 체포령을 내렸다.",
+      "after": "Drawing on what he had seen in England, Voltaire wrote about parliamentary government, religious tolerance, Newton and Locke. The book appeared in English in London in 1733 and in French at Rouen the following year. The Paris parlement ordered it burned and issued a warrant for his arrest."
+    },
+    {
+      "id": "f3e00ac7-c9dd-47ba-b237-4ee6b7e66b6a",
+      "year": 1734,
+      "title": "시레 성으로 몸을 숨겨 에밀리 뒤 샤틀레와 지내다",
+      "before": "체포를 피해 로렌 국경에 가까운 시레쉬르블레즈의 낡은 성으로 들어가 에밀리 뒤 샤틀레와 15년 넘게 함께 살았다. 두 사람은 성에 실험실을 두고 뉴턴 물리학과 형이상학, 성서 비평을 함께 파고들었다.",
+      "after": "Voltaire escaped arrest by moving to a neglected château at Cirey-sur-Blaise, near the Lorraine border. He and Émilie du Châtelet lived there for more than fifteen years, set up a laboratory and studied Newtonian physics, metaphysics and the Bible together."
+    },
+    {
+      "id": "a3173a8a-ecd2-42df-90df-bdc0184d38d1",
+      "year": 1745,
+      "title": "베르사유 궁정의 왕실 사관이 되다",
+      "before": "루이 15세의 궁정에 불려가 1745년 왕실 사관에 임명돼 2년간 그 자리를 지켰다. 궁정 생활은 그의 성미와 맞지 않았고 왕의 총애도 오래가지 않았다.",
+      "after": "Louis XV called Voltaire to Versailles and appointed him royal historiographer in 1745. He kept the post for two years, but court life grated on him and the king's favour soon faded."
+    },
+    {
+      "id": "a17fdcb0-bdb2-4949-98cd-75264dfeee1d",
+      "year": 1746,
+      "title": "아카데미 프랑세즈 회원으로 뽑히다",
+      "before": "여러 차례 낙선한 끝에 1746년 아카데미 프랑세즈 회원으로 뽑혔다. 같은 해 피렌체의 크루스카 아카데미에도 이름을 올렸다.",
+      "after": "After several failed attempts, Voltaire won election to the Académie française in 1746. That same year, he also joined Florence's Accademia della Crusca."
+    },
+    {
+      "id": "a3b4434a-9cc7-42e1-a75e-9731df436c4c",
+      "year": 1750,
+      "title": "프리드리히 2세의 초청으로 포츠담에 살다",
+      "before": "뒤 샤틀레가 죽은 이듬해 프로이센 왕의 초청을 받아 포츠담으로 가 시종 직함과 연 2만 리브르를 받았다. 처음엔 우대받았으나 베를린 학술원장 모페르튀를 조롱한 글 때문에 왕과 틀어졌고 1753년 3월 26일 포츠담을 떠났다.",
+      "after": "A year after Émilie du Châtelet died, Voltaire accepted Frederick II's invitation to Potsdam. The Prussian king made him chamberlain and paid him twenty thousand livres a year. Their friendship broke down after Voltaire published a pamphlet mocking Maupertuis, president of the Berlin academy, and he left Potsdam on 26 March 1753."
+    },
+    {
+      "id": "9294f60c-1c1b-4274-a872-f748152baad8",
+      "year": 1753,
+      "title": "프랑크푸르트에서 프로이센 관리에게 붙들리다",
+      "before": "프로이센을 떠나 프랑스로 향하던 길에 프랑크푸르트에서 프리드리히의 대리인 프라이타크에게 붙잡혔다. 왕이 개인적으로 인쇄한 시집을 내놓으라는 요구를 두고 다투다 5주간 연금됐고 7월 초에야 풀려났다.",
+      "after": "On the journey out of Prussia, Frederick's agent Freytag detained Voltaire at Frankfurt. They argued over a privately printed collection of the king's poems, and Voltaire remained under house arrest for five weeks. He was not released until early July."
+    },
+    {
+      "id": "ce281810-18c9-4d3f-9079-7c2a253f98e0",
+      "year": 1755,
+      "title": "제네바 교외 레델리스에 자리 잡다",
+      "before": "파리 입성이 막힌 채 제네바 교외의 저택을 사들여 레델리스라 이름 붙이고 3년쯤 살았다. 여기서 백과전서에 항목을 써 보내고 리스본 대지진을 두고 시를 지었으며, 연극을 금하는 칼뱅파 시의회와 마찰을 빚었다.",
+      "after": "Unable to return to Paris, Voltaire bought a house outside Geneva, named it Les Délices and lived there for about three years. He wrote articles for the Encyclopédie and a poem about the Lisbon earthquake, then clashed with Geneva's Calvinist council over its ban on theatre."
+    },
+    {
+      "id": "48a08371-2a74-447e-bc3e-a9c7f66c7db0",
+      "year": 1758,
+      "title": "국경 마을 페르네를 사서 20년을 살다",
+      "before": "1758년 말 프랑스령이면서 스위스 국경에 붙은 페르네의 영지를 사들여 남은 20년을 여기서 보냈다. 어느 쪽이 자기를 잡으러 와도 반대편으로 넘어갈 수 있는 자리였고, 시계 공방과 집을 세워 마을 인구를 몇 배로 늘렸다.",
+      "after": "Late in 1758, Voltaire bought Ferney, a French estate beside the Swiss border, and made it his home for the next twenty years. If officials came for him from one side, he could cross to the other. He built houses and watchmaking workshops, and the village grew to several times its former size."
+    },
+    {
+      "id": "b99b3a05-dc49-47cb-8770-12f91b9d36f0",
+      "year": 1759,
+      "title": "캉디드를 익명으로 내놓다",
+      "before": "1759년 초 여러 도시에서 동시에 익명으로 풀린 이 짧은 소설은 곧 단속 대상이 됐다. 리스본 지진과 7년전쟁을 배경에 깔고 라이프니츠식 낙관론을 조롱했으며, 그해에만 여러 판이 팔려나갔다.",
+      "after": "Candide appeared anonymously in several cities at once in early 1759. Authorities moved quickly to ban it, but new editions kept selling throughout the year. Against the Lisbon earthquake and the Seven Years' War, the novel mocked Leibnizian optimism."
+    },
+    {
+      "id": "f9500639-5dc2-463c-b468-df46fa0a1844",
+      "year": 1762,
+      "title": "칼라스 구명 운동을 벌여 판결을 뒤집다",
+      "before": "툴루즈의 개신교도 장 칼라스가 아들을 죽였다는 혐의로 1762년 3월 10일 수레바퀴형에 처해지자 볼테르가 재심 운동에 뛰어들었다. 관용론을 써 여론을 움직였고 1765년 3월 판결이 파기돼 유족은 배상을 받았다.",
+      "after": "Jean Calas, a Protestant from Toulouse, was broken on the wheel on 10 March 1762 after being accused of killing his son. Voltaire took up the case and used his Treatise on Tolerance to rally support for a new hearing. In March 1765, the court overturned the verdict and awarded compensation to the family."
+    },
+    {
+      "id": "08a940bf-c550-4120-b6f1-68e81de1e903",
+      "year": 1778,
+      "title": "28년 만에 파리로 돌아오다",
+      "before": "1778년 2월 여든셋의 나이로 파리에 들어서자 군중이 몰려나와 맞았다. 3월에는 새 비극 이렌의 공연장에서 관객 앞에 월계관이 씌워졌고, 4월에는 프리메이슨 지부에 가입했다.",
+      "after": "Voltaire returned to Paris in February 1778 after twenty-eight years away. He was eighty-three, and crowds came out to welcome him. In March, the audience at a performance of his new tragedy Irène placed a laurel crown on his head; in April, he joined a masonic lodge."
+    },
+    {
+      "id": "36f9f75f-60f8-4e6b-adb7-f32b9e5968d8",
+      "year": 1778,
+      "title": "파리에서 죽고 13년 뒤 팡테옹에 옮겨지다",
+      "before": "1778년 5월 30일 파리에서 죽었다. 교회 묘지 매장이 거부돼 시신은 샹파뉴의 셀리에르 수도원에 몰래 묻혔고, 혁명기인 1791년 7월 유해가 파리 팡테옹으로 옮겨질 때는 수십만 인파가 행렬을 따랐다.",
+      "after": "Voltaire died in Paris on 30 May 1778. When he was denied burial in a church cemetery, his body was secretly taken to the abbey of Scellières in Champagne. In July 1791, during the Revolution, his remains were carried to the Panthéon as hundreds of thousands of people followed the procession."
+    }
+  ]
+}

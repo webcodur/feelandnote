@@ -1,0 +1,104 @@
+{
+  "slug": "shi-naian",
+  "nickname": "시내암",
+  "events": [
+    {
+      "id": "a9cad02e-6e3a-4a7c-9b60-a49256fb72f6",
+      "year": 1296,
+      "title": "쑤저우에서 태어나다",
+      "before": "후대 족보와 전기에는 1296년 평강로 오현에서 시내암이 태어난 것으로 나온다. 다만 같은 시대의 기록이 없고 흥화·항저우 출생설은 물론 실재 인물인지에 대한 논쟁도 남아 있어, 출생 연도와 장소는 단정할 수 없다.",
+      "after": "Shi Nai'an is said to be born in Wuxian, Pingjiang Circuit, in 1296. Later genealogies and biographies give this account, but no record from his lifetime confirms it. Other traditions place his birth in Xinghua or Hangzhou, and scholars still debate whether he was a historical person."
+    },
+    {
+      "id": "e0f1cff8-3990-43fd-bd5b-03f74d7f11a3",
+      "year": 1314,
+      "title": "수재가 되고 계씨와 혼인하다",
+      "before": "호서관에서 공부한 그는 1314년 수재가 되고, 스승의 딸 계씨와 혼인했다고 한다. 이때의 학업과 혼인은 족보와 지역 전승에만 남아 있다.",
+      "after": "After studying at Xushuguan, Shi qualifies as a xiucai in 1314 and marries his teacher's daughter, Lady Ji—or so later genealogies and local accounts say. No contemporary source records either event."
+    },
+    {
+      "id": "cbc33f67-5364-4b76-a1cc-e2e7d1cd8dcf",
+      "year": 1320,
+      "title": "효행과 신의로 천거되다",
+      "before": "쑤저우 관리들이 그를 효행이 깊고 신의를 지킨 사람으로 천거했다는 해다. 그러나 천거의 이름과 시점은 후대 연보에서만 보이며, 원대 관문서에는 자취가 없다.",
+      "after": "Suzhou officials recommend Shi for his filial conduct and trustworthiness. The recommendation and its date appear only in later chronologies, not in surviving Yuan administrative records."
+    },
+    {
+      "id": "e49900f6-944b-4898-8cc1-18406d65f14a",
+      "year": 1324,
+      "title": "거인에 합격하다",
+      "before": "향시에 합격해 거인이 되었다는 이야기는 흥화·백구 계통의 전기에 남아 있다. 합격자 명부가 전하지 않아 실제 경력인지는 확인할 길이 없다.",
+      "after": "In 1324, Shi passes the provincial examination and becomes a juren, according to biographies from the Xinghua–Baiju tradition. No surviving list of successful candidates includes him."
+    },
+    {
+      "id": "762f4aec-6af9-4f6f-9109-d495e683b64e",
+      "year": 1331,
+      "title": "진사에 급제하다",
+      "before": "후대 족보와 묘지 자료는 그가 1331년 신미과 진사에 급제했다고 적었다. 이를 향공진사 기록으로 읽는 연구자도 있고 자료 자체를 믿기 어렵다는 견해도 있어, 급제 여부는 여전히 논쟁거리다.",
+      "after": "Later genealogies and tomb records name Shi as a jinshi graduate of the 1331 examination. Some scholars read the title as a local tribute qualification, while others doubt the records themselves. Whether he earned the degree remains unsettled."
+    },
+    {
+      "id": "32149c9b-ec57-4796-805a-339c05cf45ea",
+      "year": 1331,
+      "title": "전당현의 관직을 맡다",
+      "before": "급제 뒤 전당현으로 부임해 약 2년 동안 고을 일을 맡았다고 전한다. 현령이었는지 실무 관원이었는지 기록마다 말이 다르고, 원대 관료 명부에도 이를 뒷받침할 기록이 없다.",
+      "after": "Shi takes a post in Qiantang County after the examination and serves there for about two years. Accounts disagree over whether he is the magistrate or a lower-ranking official, and Yuan personnel registers do not confirm the appointment."
+    },
+    {
+      "id": "98675d10-08ce-49f5-8dea-a62509ca4ab1",
+      "year": 1333,
+      "title": "관직을 그만두고 쑤저우로 돌아오다",
+      "before": "후대 기록 속 시내암은 다루가치와 부딪힌 끝에 전당의 벼슬을 버리고 쑤저우로 돌아온다. 그곳에서 서당을 열어 학생을 가르치고 송강 이야기를 모으기 시작했다고도 하지만, 언제부터였는지는 알 수 없다.",
+      "after": "After clashing with the darughachi, Shi resigns from his post in Qiantang and returns to Suzhou. Later accounts say he opens a school there and begins collecting stories about Song Jiang, though they do not establish when this work starts."
+    },
+    {
+      "id": "f31537ca-9115-4fd3-8eaa-00aaf1af0b0f",
+      "year": 1347,
+      "title": "나관중을 제자로 맞다",
+      "before": "1347년, 쑤저우의 서당에 젊은 나관중이 들어와 시내암의 제자가 되었다고 한다. 두 사람의 사제 관계는 널리 전해지지만, 그 만남을 같은 시대의 기록에서는 확인할 수 없다.",
+      "after": "In 1347, the young Luo Guanzhong is said to enter Shi's school in Suzhou and become his student. Their teacher–student relationship is widely repeated, but no source from the period records their meeting."
+    },
+    {
+      "id": "bdec0092-0e9c-49c1-80eb-f43e27546de1",
+      "year": 1353,
+      "title": "장사성의 막부에 들어가다",
+      "before": "장사성이 백구장에서 봉기한 뒤 시내암을 불러 막료로 삼았다는 이야기가 지방 전기와 족보에 실렸다. 1353년 봉기는 실제로 일어났지만, 시내암이 막부에서 무슨 일을 했는지는 물론 그곳에 들어갔는지도 확인되지 않는다.",
+      "after": "Zhang Shicheng rises in revolt at Baiju in 1353 and, according to local biographies and genealogies, invites Shi to join his staff. The revolt is well documented; Shi's presence and duties are not."
+    },
+    {
+      "id": "2f9b4068-5599-41bc-a8ad-7369502ea0dc",
+      "year": 1356,
+      "title": "장사성 정권을 따라 평강으로 가다",
+      "before": "1356년 장사성은 평강을 차지해 거점으로 삼았다. 후대 전기는 시내암도 그를 따라 성 안으로 들어가 군사와 정무를 도왔다고 쓰지만, 이 대목에는 이를 받쳐 줄 동시대 사료가 없다.",
+      "after": "When Zhang Shicheng seizes Pingjiang and makes it his base in 1356, Shi is said to enter the city with him. Later biographies have Shi advising on military and civil affairs, but contemporary records provide no support for that role."
+    },
+    {
+      "id": "e1e77140-9766-464c-8593-063dcd762d4c",
+      "year": 1357,
+      "title": "장사성의 막부를 떠나다",
+      "before": "장사성의 통치와 인재 등용을 못마땅하게 여긴 시내암이 막부와 결별하고 평강을 떠났다는 시점이다. 전통 연보는 이를 1357년 무렵으로 잡지만, 애초에 그가 막부에 있었다는 사실부터 확정되지 않았다.",
+      "after": "Around 1357, Shi grows dissatisfied with Zhang Shicheng's rule and his choice of advisers. He breaks with Zhang's staff and leaves Pingjiang in traditional chronologies, though even his earlier service under Zhang remains unproven."
+    },
+    {
+      "id": "c0d0f9fa-1189-4e5b-ad1e-418a69fd6d04",
+      "year": 1366,
+      "title": "쑤저우 포위를 피해 백구장으로 옮기다",
+      "before": "주원장의 군대가 쑤저우를 에워싸자 가족과 함께 길을 나서, 흥화의 수향을 거쳐 백구장으로 몸을 피했다고 한다. 포위전은 1366년에 벌어졌으나 그가 밟았다는 길과 동행자는 지역에 전해 오는 이야기에 기대고 있다.",
+      "after": "As Zhu Yuanzhang's army closes around Suzhou in 1366, Shi flees with his family, travels through the waterways of Xinghua, and takes refuge at Baiju. The siege took place, but local tradition is the only source for his route and companions."
+    },
+    {
+      "id": "cab26df2-f852-443e-830d-30014609c70d",
+      "year": 1367,
+      "title": "초빙을 거절하고 《수호전》 집필에 전념하다",
+      "before": "백구장에 머물던 그는 주원장 쪽의 초빙을 거절하고 집필에 매달렸다고 전한다. 《강호호객전》 원고를 손질해 《수호전》으로 완성했다는 이야기도 이때에 놓인다. 그러나 초빙과 완성 연도를 보여 주는 당대 기록은 없고, 오늘날 전하는 《수호전》이 언제 누구의 손에서 이루어졌는지도 논쟁 중이다.",
+      "after": "While living at Baiju, Shi refuses an offer to serve Zhu Yuanzhang's regime and turns to writing. Tradition says he reworks a manuscript called Jianghu Haoke Zhuan into Water Margin. No contemporary record confirms the offer or the date of completion, and scholars still dispute who shaped the surviving novel and when."
+    },
+    {
+      "id": "05c036c0-9224-4c39-be5b-a99928a1f719",
+      "year": 1370,
+      "title": "화이안에서 사망하다",
+      "before": "흥화의 묘지 전승과 여러 후대 자료는 시내암이 1370년 화이안에서 숨을 거두었다고 적는다. 1371년이나 1372년으로 잡는 전기도 있어, 사망 연도 역시 확정할 수 없다.",
+      "after": "Shi dies in Huai'an in 1370, according to the Xinghua tomb tradition and several later sources. Other biographies place his death in 1371 or 1372, so the year cannot be fixed."
+    }
+  ]
+}

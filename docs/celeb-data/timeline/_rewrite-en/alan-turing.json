@@ -1,0 +1,118 @@
+{
+  "slug": "alan-turing",
+  "nickname": "앨런 튜링",
+  "events": [
+    {
+      "id": "8e839ceb-5ca7-4abe-9772-e31762e77134",
+      "year": 1912,
+      "title": "런던 마이다베일에서 태어나다",
+      "before": "1912년 6월 23일, 런던 서부 마이다베일에서 앨런 매티슨 튜링이 태어났다. 아버지는 인도에서 일하는 영국 관리였고, 부모가 그곳에 머무는 동안 튜링은 영국에서 자랐다.",
+      "after": "Alan Mathison Turing was born in Maida Vale, west London, on 23 June 1912. His father worked for the British administration in India, but Turing grew up in England while his parents were abroad."
+    },
+    {
+      "id": "5340b68c-54b3-45fa-9533-272b1fd7a8a1",
+      "year": 1926,
+      "title": "셔본 기숙학교에 들어가다",
+      "before": "열세 살에 도싯의 셔본 기숙학교에 들어갔다. 고전 교육을 앞세운 학교는 튜링과 맞지 않았다. 성적표는 시원찮았지만 수학과 화학에서는 또래를 훌쩍 앞섰다.",
+      "after": "At thirteen, Turing entered Sherborne, a boarding school in Dorset. He struggled with its emphasis on the classics and received poor reports, yet raced ahead of his classmates in mathematics and chemistry."
+    },
+    {
+      "id": "bdb97182-069d-46d2-8456-9fa4da1564cd",
+      "year": 1931,
+      "title": "케임브리지 킹스 칼리지에서 수학을 공부하다",
+      "before": "1931년 케임브리지 킹스 칼리지에 입학해 수학에 파고들었다. 1934년 최우등으로 졸업했고, 이듬해 스물두 살의 나이로 모교 펠로가 되었다.",
+      "after": "Turing began reading mathematics at King’s College, Cambridge, in 1931. He graduated with first-class honours three years later and, at twenty-two, became a fellow of the college."
+    },
+    {
+      "id": "478bb3c8-87f2-44a1-a1b9-7f3471a45997",
+      "year": 1936,
+      "title": "계산하는 기계를 종이 위에 세우다",
+      "before": "종이테이프를 읽고 쓰며 정해진 규칙에 따라 움직이는 가상의 기계를 세웠다. 단순한 동작을 되풀이하는 이 기계는 어떤 계산 과정이든 흉내 낼 수 있었다. 튜링은 이를 이용해 아무리 잘 만든 기계도 풀지 못하는 문제가 있음을 증명했고, 그 구상은 오늘날 컴퓨터의 이론적 뼈대가 되었다.",
+      "after": "In “On Computable Numbers,” Turing set out an imaginary machine that read and wrote symbols on a tape, following a fixed set of rules. Its few simple actions could reproduce any process of calculation. He used it to show that some problems lie beyond the reach of any machine, and the idea became part of the theoretical foundation of modern computing."
+    },
+    {
+      "id": "7bb1a65d-2e4a-4865-adf0-b7fd2c9b71e8",
+      "year": 1936,
+      "title": "프린스턴에서 박사학위를 받다",
+      "before": "같은 해 프린스턴으로 건너가 알론조 처치 밑에서 연구를 시작했다. 그곳에서 두 해를 보낸 뒤 1938년 박사학위를 받았다. 미국에 남으라는 제안도 있었지만 그는 케임브리지로 돌아갔다.",
+      "after": "That same year, Turing went to Princeton to study under Alonzo Church. He completed his doctorate in 1938, declined an offer to remain in the United States and returned to Cambridge."
+    },
+    {
+      "id": "031cd45a-0e84-463d-b01e-455928c34b40",
+      "year": 1939,
+      "title": "블레츨리 파크로 들어가다",
+      "before": "독일과의 전쟁이 터지자 블레츨리 파크로 들어갔다. 영국 암호해독 조직이 자리 잡은 이곳에서, 독일군 통신을 뒤섞어 보내는 에니그마를 깨는 일이 그에게 맡겨졌다.",
+      "after": "War with Germany brought Turing to Bletchley Park in 1939. There, inside Britain’s codebreaking service, he began work on Enigma, the machine used to scramble German military messages."
+    },
+    {
+      "id": "cc73d73a-ae13-4e3b-9caa-200cffb7cfdd",
+      "year": 1940,
+      "title": "봄브를 만들어 에니그마 설정을 찾아내다",
+      "before": "날마다 새로 바뀌는 에니그마 설정을 사람 손으로 찾으려면 며칠씩 걸렸다. 튜링은 고든 웰치먼과 함께 그 탐색을 자동으로 해내는 전기기계 장치 봄브를 만들었다. 작업 시간은 몇 시간으로 줄었고, 전쟁이 끝날 때까지 200대가 넘는 봄브가 제작되었다.",
+      "after": "Enigma settings changed every day, and finding them by hand could take several days. Turing and Gordon Welchman built the bombe, an electromechanical machine that cut the search to hours. More than two hundred bombes were built before the war ended."
+    },
+    {
+      "id": "a28e0cc2-923e-4d15-ad77-0f7e14b35d97",
+      "year": 1941,
+      "title": "8호실에서 해군 에니그마를 뚫다",
+      "before": "튜링이 이끄는 8호실은 독일 잠수함이 대서양에서 쓰던 해군용 에니그마에 매달렸다. 여러 겹으로 더 꼬아 가장 깨기 어렵다고 여겨지던 암호였다. 마침내 통신을 읽어내면서 연합군 수송선단은 잠수함의 매복을 피해 항로를 잡을 수 있었다.",
+      "after": "In Hut 8, Turing led the attack on the naval Enigma used by German U-boats in the Atlantic. It was the most difficult form of the cipher, made more complex by extra layers. Once the team could read the messages, Allied convoys could steer around submarine ambushes."
+    },
+    {
+      "id": "69ab284c-9f6d-4186-9b19-4db0c221ba85",
+      "year": 1945,
+      "title": "국립물리연구소에서 전자계산기를 설계하다",
+      "before": "종전 뒤에는 런던 남서쪽 테딩턴의 국립물리연구소로 자리를 옮겼다. 프로그램을 기억장치에 담아두는 전자계산기 ACE의 설계안을 그곳에서 완성했다. 그러나 제작은 좀처럼 속도를 내지 못했고, 기다림에 지친 그는 1947년 연구소를 떠났다.",
+      "after": "After the war, Turing moved to the National Physical Laboratory at Teddington. He designed ACE, an electronic computer that would store its program in memory. Construction dragged on, and in 1947 he left the laboratory."
+    },
+    {
+      "id": "42507403-62a5-44a2-b517-b47809d7d370",
+      "year": 1946,
+      "title": "전시 공로로 훈장을 받다",
+      "before": "1946년, 블레츨리 파크에서 세운 공로로 대영제국훈장 OBE를 받았다. 정작 그가 전쟁 중 무슨 일을 했는지는 국가기밀에 묶여 아무도 밝힐 수 없었다. 훈장의 까닭은 수십 년이 지나서야 세상에 알려졌다.",
+      "after": "Turing was appointed OBE in 1946 for his work at Bletchley Park. Because that work remained a state secret, the public could not know what he had done or why he had received the honour. The reason emerged only decades later."
+    },
+    {
+      "id": "8df1402b-8aeb-4ad7-9dc0-92bc93fc4cac",
+      "year": 1948,
+      "title": "맨체스터 대학으로 옮기다",
+      "before": "맨체스터 대학은 1948년 튜링을 리더로 임명했다. 그는 프로그램을 기억장치에 담은 세계 최초의 컴퓨터를 만들던 팀에 합류해 수학과 프로그래밍을 맡았고, 이 기계를 쓰는 방법도 직접 설명서로 남겼다.",
+      "after": "The University of Manchester appointed Turing to a readership in 1948. He joined the team building the world’s first stored-program computer, handled its mathematics and programming, and wrote a manual explaining how to use it."
+    },
+    {
+      "id": "bd119e73-ac84-4872-b751-545e92bc5ab0",
+      "year": 1950,
+      "title": "기계가 생각할 수 있는지 묻다",
+      "before": "\"기계가 생각할 수 있는가?\" 튜링은 1950년 학술지 『마인드』에 발표한 「계산 기계와 지능」에서 이 물음을 그대로 붙들지 않았다. 대신 심사자가 글로만 대화를 나눈 뒤 사람과 기계를 가려낼 수 있는지를 물었다. 생각을 정의하는 논쟁을 실제로 해볼 수 있는 시험으로 바꾼 것이며, 오늘날 이를 튜링 테스트라고 부른다.",
+      "after": "Turing opened his 1950 paper “Computing Machinery and Intelligence” with the question, “Can machines think?” He then replaced it with a practical test: after exchanging written messages, could a judge tell a machine from a person? The test became known as the Turing test."
+    },
+    {
+      "id": "4d0b8928-b11b-4015-a26b-84b4065252c2",
+      "year": 1951,
+      "title": "왕립학회 회원으로 뽑히다",
+      "before": "왕립학회는 계산 가능성에 관한 연구를 인정해 그를 회원으로 선출했다. 서른아홉 살 때였다.",
+      "after": "At thirty-nine, Turing was elected a Fellow of the Royal Society for his work on computability."
+    },
+    {
+      "id": "3e217651-1bae-49a7-b1f1-5bdc50228cb2",
+      "year": 1952,
+      "title": "동성애로 유죄판결을 받고 호르몬 처방을 받다",
+      "before": "집에 도둑이 든 일을 경찰에 신고했다가 남성과의 관계가 드러났다. 튜링은 이 일로 ‘중대 외설’ 혐의로 기소됐고, 체셔 너츠퍼드 법정에서 수감과 보호관찰 가운데 하나를 골라야 했다. 그는 여성호르몬 주사를 조건으로 한 보호관찰을 택했다. 흔히 화학적 거세라고 불리는 처분이었다.",
+      "after": "When Turing reported a burglary at his home, the police investigation exposed his relationship with another man. He was charged with gross indecency and appeared before a court in Knutsford, Cheshire. Given a choice between prison and probation, he accepted probation on condition that he receive injections of synthetic oestrogen, a punishment commonly described as chemical castration."
+    },
+    {
+      "id": "de793824-478c-4916-a82b-dd97591aa455",
+      "year": 1954,
+      "title": "윔슬로의 집에서 숨지다",
+      "before": "1954년 6월 7일, 체셔 윔슬로의 자택에서 숨진 채 발견됐다. 검시는 청산가리 중독을 사인으로 밝혔고 죽음을 자살로 결론지었다. 튜링은 마흔한 살이었다.",
+      "after": "On 7 June 1954, Turing was found dead at his home in Wilmslow, Cheshire. An inquest found that he had died from cyanide poisoning and ruled his death a suicide. He was forty-one."
+    },
+    {
+      "id": "7514aefd-03a0-4509-bbf9-d566321395b7",
+      "year": 2013,
+      "title": "사후 59년 만에 사면되다",
+      "before": "그가 숨진 지 쉰아홉 해가 지난 2013년 12월, 영국 정부는 1952년의 유죄판결에 왕실 사면을 내렸다. 여러 해에 걸친 청원과 의회 논의 끝에 나온 결정이었다.",
+      "after": "In December 2013, fifty-nine years after Turing’s death, the British government granted him a royal pardon for his 1952 conviction. The pardon followed years of petitions and debate in Parliament."
+    }
+  ]
+}

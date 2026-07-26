@@ -1,0 +1,132 @@
+{
+  "slug": "wright-brothers",
+  "nickname": "라이트 형제",
+  "events": [
+    {
+      "id": "8d0016da-302f-4a9a-b8b0-6c117361710d",
+      "year": 1867,
+      "title": "형 윌버가 인디애나 밀빌에서 태어나다",
+      "before": "1867년 4월 16일, 윌버 라이트가 인디애나주 밀빌에서 태어났다. 아버지 밀턴은 연합형제교회 목사로 일하다가 주교가 되었고, 가족은 그의 부임지를 따라 여러 도시를 옮겨 다녔다.",
+      "after": "Wilbur Wright was born in Millville, Indiana, on 16 April 1867. His father, Milton, served as a minister and later a bishop in the Church of the United Brethren in Christ, and the family moved from city to city as his work required."
+    },
+    {
+      "id": "44d2022b-a720-4c02-a1ce-c90ea226d5e9",
+      "year": 1871,
+      "title": "동생 오빌이 오하이오 데이턴에서 태어나다",
+      "before": "네 해 뒤인 1871년 8월 19일, 오빌이 오하이오주 데이턴에서 태어났다. 일곱 남매 가운데 나이가 가까웠던 두 형제는 훗날 호손가의 집을 평생 근거지로 삼았다.",
+      "after": "Orville followed four years later, born in Dayton, Ohio, on 19 August 1871. He and Wilbur were the closest in age among the seven Wright children, and the family house on Hawthorn Street remained their lifelong home base."
+    },
+    {
+      "id": "e87c65a1-0e05-4f9f-a5fb-4816b68c4868",
+      "year": 1892,
+      "title": "데이턴에 자전거 가게를 열다",
+      "before": "1892년 12월, 데이턴에 자전거 판매·수리점을 열었다. 1896년부터는 자전거를 직접 만들어 팔았으며, 그 수입으로 비행 실험 비용을 댔다. 톱니와 체인, 바퀴를 다루며 익힌 솜씨도 새 기계를 만드는 데 쓰였다.",
+      "after": "The brothers opened a bicycle shop in Dayton in December 1892, selling and repairing bikes before making their own from 1896. The business paid for their flight experiments, while daily work with chains, gears, and wheels taught them how to build the machines they needed."
+    },
+    {
+      "id": "4a0b4ff9-679b-4d4f-8544-1fbbc6b5c92c",
+      "year": 1899,
+      "title": "연으로 날개 비틀기를 시험하다",
+      "before": "1899년 7월 27일, 날개폭 1.5미터짜리 복엽 연이 하늘로 올랐다. 형제는 줄 네 가닥을 당겨 양쪽 날개 끝을 서로 반대 방향으로 비틀었다. 연이 기울자 자세도 바뀌었다. 비행기를 좌우로 다룰 방법을 처음 확인한 순간이었다.",
+      "after": "On 27 July 1899, a biplane kite with a five-foot wingspan rose into the air. By pulling four lines, the brothers twisted its wingtips in opposite directions and made it bank. They had found a way to control an aircraft from side to side."
+    },
+    {
+      "id": "1c97629c-f98e-47a6-a83d-ddaada9d3339",
+      "year": 1900,
+      "title": "키티호크에서 첫 글라이더를 띄우다",
+      "before": "바람이 꾸준하고 추락해도 모래가 충격을 받아 주는 키티호크를 첫 시험장으로 골랐다. 1900년 가을 윌버는 글라이더에 올라 열 몇 차례 활공했다. 그러나 날개는 계산만큼 기체를 띄우지 못했다.",
+      "after": "Steady winds and soft sand drew the brothers to Kitty Hawk, North Carolina, for their first glider trials. Wilbur made about a dozen free glides there in the autumn of 1900, but the wings produced far less lift than their calculations promised."
+    },
+    {
+      "id": "2911ceef-f694-41e2-b4b0-fadc98579cfc",
+      "year": 1901,
+      "title": "킬데블힐스에서 두 번째 글라이더가 실패하다",
+      "before": "1901년 여름, 더 크게 만든 두 번째 글라이더를 킬데블힐스로 가져갔다. 이번에도 양력은 계산치의 3분의 1에 그쳤다. 형제는 당시 사람들이 믿던 공기저항 수치부터 의심하기 시작했다. 돌아오는 길에 윌버는 사람이 천 년 안에는 날지 못할지도 모른다고 말했다.",
+      "after": "A larger glider reached Kill Devil Hills in the summer of 1901 and failed much like the first. It generated only about a third of the expected lift, leading the brothers to question the accepted figures for air pressure. On the journey home, Wilbur said that people might not fly for another thousand years."
+    },
+    {
+      "id": "1c1f9e55-bbe8-49a3-8650-fc1cea3550c1",
+      "year": 1901,
+      "title": "가게에 풍동을 만들어 날개 데이터를 새로 뽑다",
+      "before": "남의 계산을 더는 믿지 않기로 했다. 1901년 10월부터 12월까지 자전거 가게에 길이 1.8미터의 풍동을 만들고, 축소 날개 약 200개를 바람 속에 넣었다. 그중 38개는 시험값을 자세히 적었다. 다음 비행기는 이들이 직접 얻은 수치로 설계했다.",
+      "after": "Instead of trusting the published tables again, the brothers built a six-foot wind tunnel in their bicycle shop. Between October and December 1901, they put about 200 model wings through it and kept detailed results for 38. Their next aircraft would be designed from measurements they had made themselves."
+    },
+    {
+      "id": "74a3f2ef-f183-4b8e-a6ea-5b3329a18ed1",
+      "year": 1902,
+      "title": "움직이는 방향타를 달아 선회 조종을 얻다",
+      "before": "1902년에는 꼬리의 방향타를 움직일 수 있게 만들고 날개 비틀기와 맞물려 작동하도록 고쳤다. 10월 9일, 선회하는 동안에도 기체를 제어하는 데 성공했다. 그해에만 천 번 넘게 활공했으며, 가장 오래 날았을 때는 26초 동안 180미터를 갔다.",
+      "after": "For the 1902 glider, the brothers made the rear rudder movable and linked it to the wing-warping controls. On 9 October they kept the aircraft under control throughout a turn. They completed more than a thousand glides that season, including one that covered over 600 feet in 26 seconds."
+    },
+    {
+      "id": "49e4ece2-3f19-46c9-b2bd-7b2e69d278b0",
+      "year": 1903,
+      "title": "키티호크에서 열두 초를 날다",
+      "before": "1903년 12월 17일 오전 10시 35분, 오빌이 조종한 동력 비행기가 키티호크의 모래밭을 떠났다. 첫 비행은 12초, 거리는 36미터였다. 네 번째에는 윌버가 59초 동안 260미터를 날았다. 이를 본 사람은 다섯 명뿐이었고, 신문들은 거의 보도하지 않았다.",
+      "after": "At 10:35 a.m. on 17 December 1903, Orville lifted their powered aircraft from the sand at Kitty Hawk. He travelled 120 feet in 12 seconds. The brothers made four flights that day; on the last, Wilbur covered 852 feet in 59 seconds. Only five people witnessed the flights, and most newspapers ignored them."
+    },
+    {
+      "id": "5e89c96c-36c6-4721-90b9-8d8691434714",
+      "year": 1904,
+      "title": "허프먼 프레리에서 실용 비행기를 완성하다",
+      "before": "실험장은 데이턴 외곽의 목초지 허프먼 프레리로 옮겼다. 1904년 9월 20일 윌버가 처음으로 원을 그리며 출발점까지 돌아왔다. 이듬해 10월 5일에는 플라이어 3호를 타고 38분 3초 동안 39킬로미터를 날았다. 이제 비행기는 잠깐 떴다가 내려오는 시험 기계가 아니었다.",
+      "after": "The trials moved to Huffman Prairie, a cow pasture outside Dayton. Wilbur flew a complete circle and returned to his starting point on 20 September 1904. A year later, on 5 October 1905, he took the Flyer III 24.5 miles in 38 minutes and 3 seconds. The machine could now stay aloft and go where its pilot directed it."
+    },
+    {
+      "id": "4c2f0a22-6dc9-40a2-96cc-d962313c59b3",
+      "year": 1906,
+      "title": "'비행 기계' 특허를 받다",
+      "before": "1903년 3월 23일 출원한 ‘비행 기계’ 특허가 1906년에 등록됐다. 형제는 엔진보다 조종법을 권리로 묶었다. 날개를 비틀어 기체의 기울기를 잡는 기술이었다. 이 특허를 앞세워 훗날 미국의 다른 비행기 제작자들과 법정에서 맞붙었다.",
+      "after": "The brothers had applied for a patent for their “Flying Machine” on 23 March 1903; it was granted in 1906. The patent covered their method of controlling roll by twisting the wings, not the engine. They later used it in court against other American aircraft makers."
+    },
+    {
+      "id": "8566fd07-5869-4f60-a601-7067398786bf",
+      "year": 1908,
+      "title": "윌버가 르망에서 유럽에 실물을 보이다",
+      "before": "프랑스 항공계는 비행기를 공개하지 않는 라이트 형제를 허풍쟁이라고 불렀다. 1908년 8월 8일, 윌버가 르망 남쪽 위노디에르 경마장에서 기체를 띄웠다. 1분 45초 동안 날며 몸을 기울여 매끄럽게 선회하자 루이 블레리오를 비롯한 프랑스 비행가들이 눈앞에서 이를 지켜보았다. 그날 이후 누구도 형제를 허풍쟁이라 부르지 못했다.",
+      "after": "French aviators had mocked the brothers for refusing to show their machine in public. That ended on 8 August 1908, when Wilbur flew for 1 minute and 45 seconds at the Hunaudières racecourse south of Le Mans, banking smoothly through his turns. Louis Blériot and other French pioneers watched from the ground."
+    },
+    {
+      "id": "9d183553-4e5f-4dcd-907d-cc5c02a8cfeb",
+      "year": 1908,
+      "title": "포트마이어 추락으로 셀프리지가 죽다",
+      "before": "1908년 9월 17일, 오빌은 버지니아 포트마이어에서 육군 시험 비행에 나섰다. 다섯 바퀴째를 돌던 중 오른쪽 프로펠러가 부서져 지지선을 쳤고, 기체는 앞으로 곤두박질쳤다. 동승한 토머스 셀프리지 중위는 세 시간 뒤 숨져 비행기 사고로 목숨을 잃은 첫 사람이 되었다. 다리와 갈비뼈가 부러진 오빌은 일곱 주 동안 병원에 누워 있었다.",
+      "after": "During an Army trial at Fort Myer, Virginia, on 17 September 1908, Orville was making his fifth circuit when the right propeller broke and struck a bracing wire. The aircraft plunged nose-first into the ground. His passenger, Lieutenant Thomas Selfridge, died three hours later, becoming the first person killed in an aeroplane crash. Orville suffered a broken femur and ribs and spent seven weeks in hospital."
+    },
+    {
+      "id": "520c90de-09d6-474e-859c-2c5a59c9d7f5",
+      "year": 1909,
+      "title": "라이트 컴퍼니를 세우다",
+      "before": "1909년 11월 22일, 뉴욕과 디트로이트의 자본가들이 형제와 함께 라이트 컴퍼니를 세웠다. 뉴욕에 본사를 두고 데이턴에 공장을 지었으며, 윌버가 사장, 오빌이 부사장을 맡았다. 두 사람은 새 비행기를 만드는 일보다 특허를 지키는 소송에 더 많은 시간을 썼다.",
+      "after": "On 22 November 1909, the brothers and investors from New York and Detroit formed the Wright Company. It kept its head office in New York and built its factory in Dayton, with Wilbur as president and Orville as vice president. Soon the brothers were spending more time defending their patent than designing aircraft."
+    },
+    {
+      "id": "8f41e171-31c9-4d6c-810e-bb0350dc5058",
+      "year": 1912,
+      "title": "윌버가 장티푸스로 죽다",
+      "before": "윌버는 1912년 5월 30일 데이턴에서 장티푸스로 숨졌다. 마흔다섯 살이었다. 마지막 몇 해 동안 출장과 소송 준비에 시달렸던 형이 세상을 떠나자, 오빌은 회사와 특허 분쟁을 홀로 떠안았다.",
+      "after": "Wilbur died of typhoid fever in Dayton on 30 May 1912. He was 45, and years of travel and preparation for lawsuits had filled much of his final working life. Orville was left to handle the company and the patent cases alone."
+    },
+    {
+      "id": "631069d4-18ea-4d48-9c9f-02416031e3e1",
+      "year": 1913,
+      "title": "커티스와의 특허 소송에서 이기다",
+      "before": "특허료를 내지 않은 글렌 커티스를 1909년에 제소한 뒤 싸움은 여러 해 이어졌다. 1913년 2월 법원이 라이트 형제의 손을 들어주었고, 1914년 1월 항소법원도 같은 판결을 내렸다. 커티스는 설계를 조금씩 바꾸며 집행을 피했다. 1917년 미국 정부가 전시 항공기를 빨리 만들기 위해 업계에 공동 특허풀을 강제하면서 분쟁이 끝났다.",
+      "after": "The brothers had sued Glenn Curtiss in 1909 after he refused to pay licence fees. They won in February 1913, and an appeals court upheld the ruling in January 1914. Curtiss kept changing his designs to avoid enforcement until 1917, when the United States government pushed aircraft makers into a shared patent pool so they could build wartime aircraft faster."
+    },
+    {
+      "id": "ed84781c-b748-40b4-9c56-e0316b0a0e31",
+      "year": 1915,
+      "title": "오빌이 회사를 팔고 물러나다",
+      "before": "오빌은 1914년 회사 주식의 97퍼센트를 사들인 다음, 1915년 10월 15일 라이트 컴퍼니를 매각했다. 회사는 이듬해 글렌 L. 마틴의 회사와 합쳐져 라이트마틴이 되었다. 경영에서 물러난 오빌은 이후 실험과 자문에만 힘을 보탰다.",
+      "after": "Orville bought 97 per cent of the Wright Company’s stock in 1914, then sold the business on 15 October 1915. It merged with the Glenn L. Martin Company the following year to form Wright-Martin. He did not return to management, but continued to experiment and advise others."
+    },
+    {
+      "id": "1415d22e-d57c-436b-ab68-a752d5c7ea78",
+      "year": 1948,
+      "title": "오빌이 데이턴에서 죽다",
+      "before": "1948년 1월 30일, 오빌이 데이턴에서 일흔여섯 살로 숨졌다. 키티호크에서 처음 땅을 떠난 지 마흔다섯 해가 흐른 뒤였다. 그는 그 짧은 생애 동안 프로펠러 비행기가 제트기와 대륙 간 폭격기로 바뀌는 모습을 보았다.",
+      "after": "Orville died in Dayton on 30 January 1948, aged 76. Forty-five years had passed since the first flight at Kitty Hawk, and he had lived to see propeller aircraft give way to jets and intercontinental bombers."
+    }
+  ]
+}

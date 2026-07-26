@@ -1,0 +1,132 @@
+{
+  "slug": "alfred-nobel",
+  "nickname": "알프레드 노벨",
+  "events": [
+    {
+      "id": "dd81516e-63e6-4a25-a1a8-63a847234c60",
+      "year": 1833,
+      "title": "스톡홀름에서 태어나다",
+      "before": "알프레드 베른하르드 노벨은 1833년 10월 21일 스톡홀름에서 발명가 이마누엘 노벨과 안드리에테 노벨의 아들로 태어났다. 같은 해 아버지의 사업이 파산하면서 가족의 살림은 일찍부터 흔들렸다.",
+      "after": "Alfred Bernhard Nobel is born in Stockholm on 21 October 1833, the son of inventor Immanuel Nobel and Andriette Nobel. His father’s business fails that same year, leaving the family short of money."
+    },
+    {
+      "id": "14d4ba2c-6471-4676-bbe7-409ae8c0be21",
+      "year": 1842,
+      "title": "상트페테르부르크에서 교육받기 시작하다",
+      "before": "아버지가 먼저 러시아에서 공학 사업을 일으킨 뒤, 가족도 상트페테르부르크로 건너가 그와 합류했다. 학교에 다니는 대신 개인 교사에게 화학과 물리학, 언어와 문학을 배웠고 열일곱 살 무렵에는 다섯 언어를 구사했다.",
+      "after": "The family moves to Saint Petersburg after Immanuel Nobel builds an engineering business in Russia. Private tutors teach Alfred chemistry, physics, languages, and literature. By seventeen, he speaks five languages."
+    },
+    {
+      "id": "1a670323-17d5-4955-ab58-cb0a03c4cfbf",
+      "year": 1850,
+      "title": "파리와 미국에서 화학과 공학을 익히다",
+      "before": "열일곱 살에 해외 연수를 떠났다. 파리에서는 화학자 T. 쥘 펠루즈의 실험실에서 약 1년 동안 일했고, 독일과 이탈리아를 거쳐 미국으로 건너가 스웨덴계 발명가 존 에릭슨과도 잠시 함께 일했다.",
+      "after": "At seventeen, Nobel leaves home to study abroad. He spends about a year in chemist T. Jules Pelouze’s Paris laboratory, travels through Germany and Italy, and briefly works with Swedish-American inventor John Ericsson in the United States."
+    },
+    {
+      "id": "c7a3a8f2-569d-4449-b564-d16389593172",
+      "year": 1863,
+      "title": "스톡홀름으로 돌아와 발파유 특허를 얻다",
+      "before": "스톡홀름으로 돌아온 노벨은 니트로글리세린을 산업 현장에서 쓸 폭약으로 만드는 데 매달렸다. 10월, 자신이 ‘발파유’라 이름 붙인 니트로글리세린 폭약으로 스웨덴 특허를 받았다.",
+      "after": "Back in Stockholm, Nobel works to turn nitroglycerin into an explosive fit for industrial use. In October, Sweden grants him a patent for the product he calls blasting oil."
+    },
+    {
+      "id": "68089d5d-6204-4cdb-b2fa-31a19ab5ca29",
+      "year": 1864,
+      "title": "헬레네보리 폭발 사고로 동생과 노동자들을 잃다",
+      "before": "니트로글리세린을 터뜨리는 뇌관을 특허 내고 Nitroglycerin AB를 세웠지만, 9월 헬레네보리 작업장이 폭발했다. 동생 에밀과 다른 네 사람이 목숨을 잃었다. 스톡홀름 당국이 시내 실험을 막자 그는 멜라렌호에 바지선을 띄우고 그 위에서 실험을 이어갔다.",
+      "after": "Nobel patents a detonator for nitroglycerin and forms Nitroglycerin AB. Then, in September, an explosion tears through the Heleneborg workshop, killing his younger brother Emil and four others. When Stockholm bans further experiments within the city, Nobel continues his work on a barge in Lake Mälaren."
+    },
+    {
+      "id": "5e200af8-6451-4a88-a7b3-20979afc07e9",
+      "year": 1865,
+      "title": "크뤼멜에 첫 해외 폭약 공장을 세우다",
+      "before": "금속제 뇌관을 손질한 뒤 함부르크 인근 크뤼멜로 옮겨 Alfred Nobel & Co. 공장을 세웠다. 노벨이 국외에 마련한 첫 생산 거점으로, 이곳에서 니트로글리세린 폭약을 만들기 시작했다.",
+      "after": "After refining his metal blasting cap, Nobel sets up Alfred Nobel & Co. at Krümmel near Hamburg. The factory becomes his first production site outside Sweden and begins making nitroglycerin explosives."
+    },
+    {
+      "id": "657a8fa6-0fee-4535-bb00-1b7e1fd2365c",
+      "year": 1866,
+      "title": "니트로글리세린을 안정화해 다이너마이트를 만들다",
+      "before": "크뤼멜 공장이 폭발로 무너지자 인근에 뗏목을 띄우고 다시 실험에 들어갔다. 니트로글리세린을 규조토에 스며들게 하니 손으로 빚을 수 있는 반죽이 되었다. 그는 이 혼합물에 다이너마이트라는 이름을 붙였다.",
+      "after": "An explosion destroys the Krümmel factory, so Nobel resumes his experiments on a raft anchored nearby. He discovers that kieselguhr absorbs nitroglycerin and turns it into a paste that can be shaped by hand. He names the mixture dynamite."
+    },
+    {
+      "id": "807d0da5-1a5d-4cc5-b2c7-d6b194833dab",
+      "year": 1867,
+      "title": "다이너마이트 특허를 취득하다",
+      "before": "규조토와 니트로글리세린을 섞은 다이너마이트로 스웨덴 특허를 취득했다. 액체 니트로글리세린보다 나르고 다루기 쉬웠고, 여러 나라에 그의 특허를 쓰는 폭약 회사와 공장이 들어섰다.",
+      "after": "Nobel receives a Swedish patent for dynamite. Easier to carry and handle than liquid nitroglycerin, it soon leads to factories and explosives companies using his patents in many countries."
+    },
+    {
+      "id": "3c36cb5b-70bc-436c-8d83-6359644977ce",
+      "year": 1871,
+      "title": "아디어에 영국 다이너마이트 회사를 설립하다",
+      "before": "영국에서는 폭약 공장 허가를 좀처럼 받을 수 없었다. 노벨은 사람이 드문 스코틀랜드 아디어의 해안으로 눈을 돌렸고, 4월 현지 사업가들과 British Dynamite Company를 세워 영국 안에 생산 거점을 마련했다.",
+      "after": "Unable to secure permission for an explosives factory in England, Nobel looks to the sparsely populated coast at Ardeer, Scotland. In April, he joins local business partners to form the British Dynamite Company and establish a factory for the British market."
+    },
+    {
+      "id": "1f4b00e5-003c-4de0-b803-7d812774fae7",
+      "year": 1873,
+      "title": "파리로 옮겨 연구 거점을 마련하다",
+      "before": "마흔 살이 되던 해, 파리 아브뉘 말라코프의 저택으로 거처를 옮겼다. 안뜰에는 실험실을 꾸렸다. 파리는 그 뒤로 그의 주된 생활 터전이자 연구와 사업을 이끄는 곳이 되었다.",
+      "after": "At forty, Nobel moves into a mansion on Avenue Malakoff in Paris and builds a laboratory in its courtyard. Paris becomes the base from which he runs his research and businesses."
+    },
+    {
+      "id": "2b06a1a6-57d5-472c-95ea-ceae17d34225",
+      "year": 1875,
+      "title": "발파 젤라틴을 발명하고 특허를 받다",
+      "before": "아브뉘 말라코프의 실험실에서 니트로글리세린과 니트로셀룰로스를 결합해 발파 젤라틴을 만들었다. 다이너마이트보다 강하고 단단한 암석을 깨는 데 알맞았던 이 폭약은 이듬해 특허를 받았다.",
+      "after": "Working in his Avenue Malakoff laboratory, Nobel combines nitroglycerin with nitrocellulose to make blasting gelatine. It is stronger than dynamite and better suited to breaking hard rock. He patents it the following year."
+    },
+    {
+      "id": "d18f34f0-b159-442c-ae14-8a61f4ef82be",
+      "year": 1876,
+      "title": "베르타 킨스키를 고용하고 교류를 시작하다",
+      "before": "파리에서 베르타 킨스키를 비서 겸 가사 관리인으로 고용했다. 몇 달 뒤 그녀가 빈으로 돌아가 아르투어 폰 주트너와 결혼한 뒤에도 두 사람의 인연은 끊어지지 않았다. 군사 기술과 평화운동을 두고 오랫동안 편지를 주고받았다.",
+      "after": "In Paris, Nobel hires Bertha Kinsky as his secretary and housekeeper. She leaves a few months later, returns to Vienna, and marries Arthur von Suttner, but she and Nobel keep writing to each other for years about military technology and the peace movement."
+    },
+    {
+      "id": "dcf61569-3599-4f9a-97ad-3c72dac27642",
+      "year": 1881,
+      "title": "세브랑에 전용 실험실을 확보하다",
+      "before": "3월 8일, 파리 북동쪽 세브랑에 자리한 르 파예 저택과 실험실을 사들였다. 주택가에서 떨어진 데다 시험장까지 갖춘 곳이었다. 주요 폭약 연구를 이곳으로 옮겼고, 훗날 발리스타이트도 여기서 개발했다.",
+      "after": "On 8 March, Nobel buys the Le Fayet estate and laboratory at Sevran, northeast of Paris. Set apart from residential areas and equipped with a firing range, it gives him room for major explosives research. He later develops ballistite there."
+    },
+    {
+      "id": "895dd43d-671b-4dd3-b303-6b238400315e",
+      "year": 1887,
+      "title": "무연 화약 발리스타이트를 특허 내다",
+      "before": "세브랑에서 니트로글리세린과 니트로셀룰로스로 무연 추진제 발리스타이트를 개발해 프랑스 특허를 얻었다. 그러나 프랑스 정부는 이를 채택하지 않았다. 이탈리아가 제조권을 가져가자 프랑스 당국과의 다툼이 뒤따랐다.",
+      "after": "At Sevran, Nobel develops ballistite, a smokeless propellant made from nitroglycerin and nitrocellulose, and secures a French patent. The French government declines to use it. When Italy obtains the manufacturing rights, Nobel enters a dispute with the French authorities."
+    },
+    {
+      "id": "d7eeeda9-4211-40f2-b096-033818f81ec3",
+      "year": 1891,
+      "title": "프랑스를 떠나 산레모에 정착하다",
+      "before": "발리스타이트 제조권을 이탈리아로 넘긴 일을 둘러싸고 갈등이 거세졌다. 프랑스 경찰은 세브랑 실험실을 수색하고 연구를 중단시켰다. 결국 파리를 떠나 이탈리아 산레모의 빌라 노벨에 정착한 뒤 새 실험실을 차렸다.",
+      "after": "The dispute over the Italian rights to ballistite grows bitter. French police search Nobel’s laboratory at Sevran and stop the work there. He leaves Paris, settles at Villa Nobel in Sanremo, Italy, and sets up a new laboratory."
+    },
+    {
+      "id": "c34cb44c-c08b-437c-b2b2-b5467c03414d",
+      "year": 1894,
+      "title": "보포르스와 비에르크보른 저택을 인수하다",
+      "before": "스웨덴 칼스코가의 Bofors-Gullspång 공장을 인수하면서 거래에 딸린 비에르크보른 저택도 손에 넣었다. 이로써 스웨덴에서 폭약과 무기 기술을 직접 시험할 공장과 연구 공간을 갖추었다.",
+      "after": "Nobel buys the Bofors-Gullspång works at Karlskoga, along with Björkborn Manor. The purchase gives him a factory and research space in Sweden where he can test explosives and weapons technology."
+    },
+    {
+      "id": "725abc77-8b3d-4e63-b7bd-3dfa7ecc0c46",
+      "year": 1895,
+      "title": "노벨상 설립을 명시한 최종 유언장에 서명하다",
+      "before": "11월 27일 파리의 스웨덴-노르웨이 클럽에서 세 번째이자 마지막 유언장에 서명했다. 재산 대부분을 기금으로 만들고, 그 돈으로 물리학·화학·생리학 또는 의학·문학·평화의 다섯 분야에서 상을 주도록 했다.",
+      "after": "On 27 November, Nobel signs his third and final will at the Swedish-Norwegian Club in Paris. He directs that most of his fortune be placed in a fund for prizes in physics, chemistry, physiology or medicine, literature, and peace."
+    },
+    {
+      "id": "9fb8a48e-b143-4be6-a7c7-f0afa87f364d",
+      "year": 1896,
+      "title": "산레모의 자택에서 사망하다",
+      "before": "1896년 12월 10일, 산레모의 빌라 노벨에서 63세로 세상을 떠났다. 생전에 취득한 특허는 355건에 이르렀고 여러 나라에 폭약·화학 기업을 남겼다. 유언을 집행하는 일은 그의 사후에 시작되었다.",
+      "after": "Nobel dies at Villa Nobel in Sanremo on 10 December 1896, aged sixty-three. He leaves behind 355 patents and explosives and chemical businesses in several countries. Work on carrying out his final will begins after his death."
+    }
+  ]
+}

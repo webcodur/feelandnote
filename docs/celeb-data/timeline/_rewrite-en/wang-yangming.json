@@ -1,0 +1,132 @@
+{
+  "slug": "wang-yangming",
+  "nickname": "왕양명",
+  "events": [
+    {
+      "id": "12ee23ee-0e67-4f7e-bcc4-cb3e3ec550c3",
+      "year": 1472,
+      "title": "절강 여요에서 태어나다",
+      "before": "1472년 10월 31일, 소흥부 여요현에서 태어났다. 어릴 적 이름은 운이었으나 뒤에 수인으로 고쳤고, 양명은 훗날 쓴 호다.",
+      "after": "Wang was born on 31 October 1472 in Yuyao County, Shaoxing Prefecture. He was called Yun as a child, then Shouren; Yangming was a name he adopted later."
+    },
+    {
+      "id": "36c31a2f-bbcd-4b94-a167-2592bcfa9ed9",
+      "year": 1482,
+      "title": "집안이 소흥으로 옮기고 아버지를 따라 도성에서 지내다",
+      "before": "아버지 왕화가 1481년 과거에서 장원을 차지해 벼슬길에 오르자 집안은 여요를 떠나 소흥으로 옮겼다. 그는 열한 살 무렵부터 아버지를 따라 도성에서 살았다.",
+      "after": "After his father, Wang Hua, placed first in the 1481 examinations and entered government service, the family moved from Yuyao to Shaoxing. At about eleven, Wang began living with his father in the capital."
+    },
+    {
+      "id": "e14b7551-aeee-421a-b9ec-395d67c78c34",
+      "year": 1489,
+      "title": "광신에서 누량을 만나 성인은 배워서 된다는 말을 듣다",
+      "before": "남창에서 혼례를 치르고 돌아오던 길에 광신으로 누량을 찾아갔다. 누량은 성인도 배워서 될 수 있다며 주희의 격물치지를 일러주었고, 그는 이때부터 성인이 되는 공부에 매달렸다. 두 사람이 만난 해는 자료마다 조금씩 다르다.",
+      "after": "Returning from his wedding in Nanchang, Wang stopped in Guangxin to visit the scholar Lou Liang. Lou told him that anyone could learn to become a sage and introduced him to Zhu Xi's method of investigating things. Wang began pursuing sagehood in earnest, though sources differ slightly on when the meeting took place."
+    },
+    {
+      "id": "a8e93b9d-6efc-4d04-88e7-5ab5992735c7",
+      "year": 1492,
+      "title": "향시에 붙은 뒤 대나무를 이레 동안 들여다보다 앓아눕다",
+      "before": "절강 향시에 붙어 거인이 된 뒤, 사물마다 지극한 이치가 있다는 주희의 말을 직접 시험해 보려 했다. 뜰의 대나무를 이레 동안 들여다보았지만 아무것도 알아내지 못한 채 병석에 누웠고, 이 일 뒤로 정주학을 의심하기 시작했다.",
+      "after": "Wang passed the Zhejiang provincial examination and became a juren. He then tried to test Zhu Xi's claim that every object contained an ultimate principle by staring at bamboo in the courtyard for seven days. He learned nothing and fell ill, an experience that began to shake his faith in the Cheng-Zhu school."
+    },
+    {
+      "id": "0a5428a1-b418-4665-bdd3-d0bec8baf807",
+      "year": 1499,
+      "title": "스물여덟에 진사가 되다",
+      "before": "두 번 낙방한 끝에 스물여덟 살로 예부 회시를 상위권으로 통과해 진사가 됐다. 공부에서 관청 실무를 익힌 다음 형부 주사로 옮겨 죄수 사건을 맡았다.",
+      "after": "After failing twice, Wang passed the Ministry of Rites examination with a high rank at twenty-eight and earned the jinshi degree. He learned government work in the Ministry of Works before moving to the Ministry of Justice, where he handled criminal cases."
+    },
+    {
+      "id": "88d0053e-e4ce-4235-8291-494eadb17459",
+      "year": 1506,
+      "title": "환관 유근을 탄핵했다가 곤장 마흔 대를 맞고 귀주로 쫓겨나다",
+      "before": "환관 유근이 남경의 대선 등 스무 명 남짓을 잡아 가두자 이들을 살려 달라는 상소를 올렸다. 노한 유근은 조정에서 곤장 마흔 대를 치고 그를 옥에 가둔 뒤, 귀주 용장의 역참 책임자로 쫓아냈다.",
+      "after": "The eunuch Liu Jin arrested Dai Xian and about twenty other officials in Nanjing. Wang petitioned for their release. Liu answered by having him flogged forty times at court, imprisoned, and banished to run a postal station at Longchang in Guizhou."
+    },
+    {
+      "id": "99afbf44-6022-4cd8-bba4-eafa46093fc8",
+      "year": 1508,
+      "title": "용장의 유배지에서 이치는 마음에 있다는 결론에 이르다",
+      "before": "서른일곱 살에 닿은 용장은 귀주 서북쪽 산속이었다. 풍토병이 돌고 말조차 통하지 않는 곳에서 죽음에 대한 두려움을 떨쳐낸 끝에 격물치지를 새로 깨달았다. 성인의 도는 제 본성 안에 이미 갖춰져 있으며, 이치를 바깥 사물에서 찾은 것이 잘못이었다는 결론이었다.",
+      "after": "At thirty-seven, Wang arrived at Longchang, deep in the mountains of northwestern Guizhou. Disease was rife, and he could not speak with the local people. After overcoming his fear of death, he saw the investigation of things in a new way: the way of the sages was already present in human nature, and he had been wrong to seek principle in the world outside himself."
+    },
+    {
+      "id": "6174e585-0849-496e-9026-6c173ea77fe0",
+      "year": 1509,
+      "title": "귀양서원에서 지행합일을 내걸다",
+      "before": "귀양서원의 초청을 받아 강단에 섰다. 앎과 행함은 따로 떼어 놓을 수 없다는 지행합일을 이때 처음 내놓았다.",
+      "after": "The Guiyang academy invited Wang to teach. There he first argued that knowing and acting could not be separated, a teaching later known as the unity of knowledge and action."
+    },
+    {
+      "id": "937af25e-daa0-49e5-8550-85fc907f0e05",
+      "year": 1510,
+      "title": "유배가 끝나고 여릉 지현이 되다",
+      "before": "유근이 처형되면서 귀양살이가 끝났다. 강서 여릉의 현령이 되어 밀린 소송을 처리하고 잡세를 줄였으며, 반년 남짓 뒤 남경 형부 주사로 자리를 옮겼다. 이후 태복시 소경과 홍려시 경을 지냈다.",
+      "after": "Liu Jin's execution brought Wang's exile to an end. As magistrate of Luling in Jiangxi, he cleared delayed lawsuits and reduced extra levies. Just over six months later, he moved to the Nanjing Ministry of Justice and went on to hold senior posts in the courts of the imperial stud and state ceremonial."
+    },
+    {
+      "id": "52e71e4a-815d-40de-8f1a-80c951d6076f",
+      "year": 1517,
+      "title": "남감 순무로 감주에 부임해 산적 토벌에 나서다",
+      "before": "1516년 병부상서 왕경의 천거로 도찰원 좌첨도어사에 올라 남안·감주·정주·장주 일대의 순무를 맡았다. 이듬해 정월 감주에 들어가 횡수와 좌계의 무리를 치고 통강까지 몰아붙였다.",
+      "after": "On the recommendation of Minister of War Wang Qiong, Wang became a vice censor-in-chief in 1516 and took charge of Nan'an, Ganzhou, Tingzhou, and Zhangzhou. He entered Ganzhou in the first month of 1517, defeated the bands at Hengshui and Zuoxi, and drove on toward Tonggang."
+    },
+    {
+      "id": "0026e82d-e1bd-4050-8eb6-0a8cb5ce4b5e",
+      "year": 1518,
+      "title": "삼리를 평정하고 현을 새로 두다",
+      "before": "정월에 군사를 이끌고 광동 용천 삼리로 들어가 남은 무리를 평정했다. 그 자리에 숭의현과 화평현을 새로 두고, 열 집씩 한 패로 묶는 십가패법과 남감향약을 시행했다. 이 무렵 제자 설간에게는 산속 도적을 깨뜨리기는 쉬워도 마음속 도적을 깨뜨리기는 어렵다고 썼다.",
+      "after": "Wang led troops into Sanli at Longchuan in Guangdong and defeated the remaining armed bands. He created Chongyi and Heping counties in the recovered territory, grouped households into units of ten, and introduced the Nan-Gan community covenant. Around this time, he wrote to his student Xue Kan that bandits in the mountains were easier to defeat than the bandits in one's heart."
+    },
+    {
+      "id": "2171cf39-c18a-4a5c-a389-a805659b63ab",
+      "year": 1519,
+      "title": "영왕 신호의 난을 한 달 남짓 만에 끝내다",
+      "before": "6월, 남창에서 영왕 주신호가 군사를 일으켰다. 복건으로 가던 왕양명은 길안에서 의병을 모은 뒤 신호가 비운 남창을 먼저 빼앗았다. 급히 돌아온 신호의 함대를 파양호에서 꺾고 7월 26일 그를 사로잡았는데, 거병부터 체포까지 서른닷새도 걸리지 않았다고 전한다.",
+      "after": "In the sixth month, Zhu Chenhao, Prince of Ning, rebelled at Nanchang. Wang was travelling to Fujian when he gathered volunteer troops at Ji'an and seized Nanchang while the prince was away. He then defeated Zhu's returning fleet on Lake Poyang and captured him on the twenty-sixth day of the seventh month. According to later accounts, fewer than thirty-five days passed between the uprising and the capture."
+    },
+    {
+      "id": "4663aaf7-679e-4730-b7de-699365a4e2c7",
+      "year": 1521,
+      "title": "치양지를 내걸고 신건백에 봉해지다",
+      "before": "남창에 머물며 사람마다 지닌 밝은 앎을 끝까지 밀고 나가야 한다는 치양지를 정식으로 내세웠다. 이 말을 1520년 가을부터 쓰기 시작했다는 기록도 있다. 명 세종은 즉위한 뒤 그를 신건백에 봉하고 남경 병부상서로 삼았지만, 일할 권한도 녹봉도 주지 않았다.",
+      "after": "While staying in Nanchang, Wang formally began teaching that people must carry their innate knowledge of right and wrong through to its full expression. Some records show him using the phrase as early as the autumn of 1520. After Emperor Shizong took the throne, he made Wang Earl of Xinjian and Minister of War at Nanjing but gave him neither working authority nor a stipend."
+    },
+    {
+      "id": "ee6f800a-a78f-4eba-952a-43128e9e6f1c",
+      "year": 1522,
+      "title": "아버지를 잃고 소흥에서 여섯 해 동안 가르치다",
+      "before": "아버지 왕화가 세상을 떠나자 소흥으로 돌아가 상을 치렀다. 조정이 그의 학문을 금했는데도 배우러 오는 사람은 더욱 늘었고, 상을 마친 뒤에는 수백 명을 앞에 두고 강의했다. 그렇게 고향에서 여섯 해를 보냈다.",
+      "after": "When Wang Hua died, his son returned to Shaoxing to mourn him. The court banned Wang's teaching, but the number of students continued to grow. Once the mourning period ended, he lectured to audiences of hundreds and remained near home for six years."
+    },
+    {
+      "id": "9c31a9e5-c970-40f6-87e5-7dcfafafe69a",
+      "year": 1527,
+      "title": "천천교에서 네 구절을 남기고 광서로 떠나다",
+      "before": "양광 총독으로 떠나기 전날 밤, 제자 전덕홍과 왕기가 서로 다른 견해를 들고 찾아왔다. 그는 소흥 집 천천교 위에서 네 구절로 답했다. 마음의 본체에는 선도 악도 없고, 뜻이 움직이면 선악이 갈리며, 선악을 아는 것이 양지이고, 선을 행하고 악을 없애는 것이 격물이라는 내용이었다.",
+      "after": "On the night before Wang left to govern Guangdong and Guangxi, his students Qian Dehong and Wang Ji came to him with opposing views. At Tianquan Bridge in the grounds of his Shaoxing home, he answered them in four lines: the mind in itself has neither good nor evil; intention brings good and evil into being; innate knowledge distinguishes between them; and investigating things means doing good and removing evil."
+    },
+    {
+      "id": "4f660fa2-a064-47ba-a2bb-e9b18f2c5458",
+      "year": 1528,
+      "title": "싸우지 않고 사은과 전주를 가라앉히다",
+      "before": "1527년 말 광서에 도착한 뒤 봉기한 노소와 왕수를 곧바로 치지 않고 항복을 받아냈다. 앞선 관군이 여러 해 동안 끝내지 못한 일을 몇 달 만에 매듭지었다.",
+      "after": "Wang reached Guangxi late in 1527 but did not attack the rebel leaders Lu Su and Wang Shou. He secured their surrender instead, ending within months a conflict that government armies had failed to settle in years."
+    },
+    {
+      "id": "a67b19f5-42a7-422b-89bb-89625088ee64",
+      "year": 1528,
+      "title": "단등협과 팔채의 무장 세력을 소탕하다",
+      "before": "뒤이어 오랫동안 손대지 못했던 단등협과 팔채를 공격해 삼천 명 넘게 사로잡거나 죽였다. 이 싸움으로 양강 일대의 무장 세력이 정리됐다. 토벌 시점은 4월과 9월이라는 기록이 엇갈린다.",
+      "after": "He next attacked the long-standing strongholds at Duantengxia and Bazhai. More than three thousand people were captured or killed, and the armed bands across the two river regions were broken. Sources date the campaign either to the fourth month or the ninth."
+    },
+    {
+      "id": "dca889be-8843-4173-aaa7-3d75e364dbbb",
+      "year": 1529,
+      "title": "강서 남안의 배 위에서 죽다",
+      "before": "폐병이 깊어지자 조정의 허락을 기다리지 않고 귀향길에 올랐다. 1529년 1월 9일, 강서 남안부 대유현 청룡포의 배 안에서 쉰일곱 살로 숨을 거두었다. 제자가 남길 말을 묻자 \"이 마음이 환히 밝은데, 무슨 말이 더 필요하겠느냐\"고 답했다. 중국 연호로는 가정 7년 11월 29일이어서 자료에 따라 1528년으로 적기도 한다.",
+      "after": "As his lung disease worsened, Wang set out for home without waiting for the court's permission. He died at fifty-seven on 9 January 1529, aboard a boat at Qinglongpu in Dayu County, Nan'an Prefecture, Jiangxi. When a student asked for his last words, Wang replied, \"This heart is clear and bright. What more is there to say?\" The date was the twenty-ninth day of the eleventh month of Jiajing 7, so some sources list his death under 1528."
+    }
+  ]
+}

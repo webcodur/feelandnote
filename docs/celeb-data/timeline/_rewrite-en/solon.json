@@ -1,0 +1,118 @@
+{
+  "slug": "solon",
+  "nickname": "솔론",
+  "events": [
+    {
+      "id": "98a6cc29-a00f-45bd-a014-676f1197c9c2",
+      "year": -630,
+      "title": "아테네에서 태어나다",
+      "before": "기원전 630년 무렵, 솔론은 아테네의 유력한 집안에서 태어났다. 출생 연도는 기원전 640년에서 630년 사이로 엇갈리며, 뒤늦게 쓰인 전기만 남아 정확한 때는 알 수 없다.",
+      "after": "Solon was born into a prominent Athenian family around 630 BCE. Later accounts place his birth somewhere between 640 and 630 BCE, but no contemporary record fixes the year."
+    },
+    {
+      "id": "047f49ee-dfbb-43d2-895a-b191a28fc247",
+      "year": -600,
+      "title": "〈살라미스〉 애가로 전쟁 재개를 촉구하다",
+      "before": "메가라와 다투던 살라미스를 되찾자며 애가 〈살라미스〉를 지어 시민들 앞에서 읊었다. 미친 사람으로 가장했다거나 원정을 이끌어 섬을 탈환했다는 이야기는 후대에 덧붙었고, 작품을 쓴 해도 뚜렷하지 않다.",
+      "after": "As Athens fought Megara over Salamis, Solon wrote and recited the elegy Salamis to urge his fellow citizens to renew the struggle. The poem has no firm date. Later writers added stories that he pretended to be mad or led the expedition that recovered the island."
+    },
+    {
+      "id": "e2dd5278-a4ff-4848-941e-9917a9ce6c29",
+      "year": -594,
+      "title": "아르콘 겸 중재자로 선출되다",
+      "before": "채무에 짓눌린 이들과 땅을 거머쥔 이들의 충돌이 거세지자, 아테네인들은 기원전 594/593년 솔론을 아르콘이자 정파 사이의 중재자로 세웠다. 그는 법과 나라의 틀을 폭넓게 손볼 권한을 받았다.",
+      "after": "In 594/593 BCE, mounting conflict between debtors and large landholders led the Athenians to choose Solon as archon and mediator between the factions. They gave him broad power to rewrite the laws and reshape the government."
+    },
+    {
+      "id": "706a8acf-9ac1-4c6e-87e5-f99cf482cc7b",
+      "year": -594,
+      "title": "세이삭테이아로 채무를 정리하다",
+      "before": "공적·사적 채무를 없애고, 빚진 땅에 박혀 있던 표지를 뽑아냈다. 이 조치는 ‘짐을 벗겨 낸다’는 뜻의 세이삭테이아로 불렸다. 그러나 땅을 다시 나누지는 않아 채권자도, 전면 재분배를 바라던 빈곤층도 불만을 품었다.",
+      "after": "Solon cancelled public and private debts and removed the mortgage markers set on indebted land. The measure became known as the Seisachtheia, or “shaking off of burdens.” He stopped short of redistributing the land, angering creditors as well as poor Athenians who had expected a full division of estates."
+    },
+    {
+      "id": "031f55eb-24e2-48f9-bcc5-caa4f527f92b",
+      "year": -594,
+      "title": "채무 노예화를 금지하고 시민을 해방하다",
+      "before": "이제 아테네인은 제 몸을 담보로 돈을 빌릴 수 없었다. 채무 때문에 예속된 시민들은 풀려났고, 솔론의 시에 따르면 외국에 팔려 갔던 이들 가운데 일부도 돌아왔다. 다만 모든 노예를 해방한 것은 아니었다.",
+      "after": "Athenians could no longer borrow money against their own bodies. Solon freed citizens held in bondage for debt, and his poetry says that some who had been sold abroad returned home. Slavery itself remained in place."
+    },
+    {
+      "id": "bfb54aeb-3fd4-46b6-9192-0924ff300839",
+      "year": -594,
+      "title": "재산 등급에 따라 공직 자격을 재편하다",
+      "before": "시민을 생산량과 재산에 따라 네 등급으로 나누고, 등급마다 맡을 수 있는 공직을 달리했다. 높은 관직은 여전히 부유한 이들의 몫이었지만, 공직에 나설 자격은 가문만이 아니라 재산으로도 가리게 되었다.",
+      "after": "Solon divided the citizen body into four classes based on property and agricultural output, then tied public office to those ranks. Wealthy citizens still held the highest posts, but birth alone no longer decided who could serve."
+    },
+    {
+      "id": "d2504a11-bf94-4611-a531-7ce77684e762",
+      "year": -594,
+      "title": "민회 참여와 배심 재판소 상소를 넓히다",
+      "before": "가장 가난한 테테스도 민회와 배심 재판소에 들어갈 수 있게 되었다고 전한다. 관리의 판정에 승복할 수 없을 때 시민 재판소에 다시 판단을 구하는 길도 열렸다. 다만 제도가 처음부터 어떤 모습이었는지는 수 세기 뒤의 기록을 바탕으로 짐작할 뿐이다.",
+      "after": "Even the thetes, the poorest property class, gained access to the assembly and jury courts, according to later accounts. Citizens could also ask a popular court to review a magistrate’s ruling. Because these details come from sources written centuries afterward, the original form of the system remains uncertain."
+    },
+    {
+      "id": "3f18470e-af77-446e-99d1-d82ca4ed275d",
+      "year": -594,
+      "title": "400인 평의회와 아레오파고스의 역할을 정하다",
+      "before": "훗날 아리스토텔레스 계열의 문헌은 솔론이 네 부족에서 100명씩 뽑아 400인 평의회를 꾸렸다고 기록했다. 아레오파고스에는 법을 지키고 살피는 일을 맡겼다. 그러나 400인 평의회가 이때 실제로 그런 모습으로 세워졌는지는 논쟁이 남아 있다.",
+      "after": "A later Aristotelian account says that Solon formed a Council of Four Hundred, with one hundred members drawn from each of the four tribes. It also says that he charged the Areopagus with guarding the laws. Scholars still dispute whether the council took this exact form in Solon’s time."
+    },
+    {
+      "id": "51c5166a-cbc9-4e5c-b537-655f6dae73b7",
+      "year": -594,
+      "title": "드라콘 법을 고쳐 성문법을 게시하다",
+      "before": "살인죄 조항만 남기고 드라콘의 법을 걷어 낸 뒤, 새 법을 나무판인 악소네스에 새겼다. 후대 기록에 따르면 법판은 아고라의 왕의 주랑에 놓여 관리와 시민이 함께 볼 수 있었다.",
+      "after": "Solon swept away most of Draco’s laws but kept those dealing with homicide. He had his new code inscribed on wooden tablets called axones. Later Athenians said the tablets stood in the Royal Stoa in the agora, where magistrates and citizens could consult them."
+    },
+    {
+      "id": "05fad4f6-5395-40e2-bc8f-338182725ec9",
+      "year": -594,
+      "title": "도량형과 화폐 기준을 조정하다",
+      "before": "아테네가 쓰던 도량형과 화폐 단위도 새로운 기준에 맞추었다고 아리스토텔레스 계열의 기록은 전한다. 언제, 어떤 비율로 바꾸었으며 그 결과가 어떠했는지는 분명하지 않다.",
+      "after": "During Solon’s administration, Athens adopted new standards for weights, measures, and currency, according to the Aristotelian account. The sources do not make clear when the changes took effect, how the standards were converted, or what they did to the economy."
+    },
+    {
+      "id": "6ef0a56b-c2c5-4fa1-ae5c-7fd75133757a",
+      "year": -593,
+      "title": "법 개정을 피하려 아테네를 떠나다",
+      "before": "입법을 마치자 서로 다른 정파가 저마다 법을 고쳐 달라고 몰려들었다. 솔론은 그 압력을 피하려 아테네를 떠나 약 10년 동안 여행하고 무역했다고 고대 사료들은 전한다. 정확한 출발일과 귀환일은 남아 있지 않다.",
+      "after": "Once the laws were in place, rival factions pressed Solon to change them. Ancient writers say that he left Athens to escape this pressure and spent about ten years travelling and trading. They give no firm dates for his departure or return."
+    },
+    {
+      "id": "1dd7fcb6-9bbe-4b23-aaa2-2cd65c5e4027",
+      "year": -590,
+      "title": "이집트 카노푸스에 머물다",
+      "before": "이집트로 건너가 나일강 하구의 카노푸스 해안에 머물렀다. 플루타르코스가 전한 솔론의 시에도 이 체류가 나타나지만 방문 시기는 알 수 없다. 이집트 사제에게 아틀란티스 이야기를 들었다는 일화는 훨씬 뒤에 플라톤이 쓴 글에서 나온다.",
+      "after": "In Egypt, Solon stayed on the shore at Canopus near the mouth of the Nile, a visit recalled in a verse preserved by Plutarch. Its date is unknown. The tale that Egyptian priests told him about Atlantis appears much later in Plato."
+    },
+    {
+      "id": "2be1c769-c5e2-40da-8c76-d0b4e1940d68",
+      "year": -583,
+      "title": "아테네로 돌아오다",
+      "before": "10년 동안 자리를 비웠다는 전승을 따르면 기원전 580년대 초에 아테네로 돌아왔다. 그사이 정파의 다툼은 다시 거세졌고, 솔론은 시를 지어 이를 꾸짖었다. 귀환한 해는 정확히 전하지 않는다.",
+      "after": "If the reported ten-year absence is accurate, Solon returned to Athens in the early 580s BCE. He found the factions again at odds and rebuked them in verse. No source records the exact year of his return."
+    },
+    {
+      "id": "e374f0af-1b14-4b9a-92d8-bcfa1de35fb5",
+      "year": -569,
+      "title": "키프로스 솔로이의 도시 이전을 조언하다",
+      "before": "키프로스에서는 왕 필로키프로스에게 아이페이아를 더 평탄한 곳으로 옮기라고 조언했다고 플루타르코스는 썼다. 새 도시는 솔론을 기려 솔로이라 불렸다고 한다. 필로키프로스와 도시에 작별을 고하는 시는 남았으나, 방문 시기는 기원전 569년에서 560년 사이로 짐작할 뿐이며 도시를 옮기는 데 얼마나 관여했는지도 확실하지 않다.",
+      "after": "While visiting Cyprus, Solon advised King Philocyprus to move Aipeia to flatter, more accessible ground, according to Plutarch. The rebuilt city was said to have taken the name Soli in his honour. Solon’s farewell poem to the king and city survives, but the visit can only be placed between 569 and 560 BCE, and his part in the relocation is unclear."
+    },
+    {
+      "id": "2de6e170-bc39-42ae-ba13-5bcb86ee1c9c",
+      "year": -561,
+      "title": "페이시스트라토스의 호위대 요구에 반대하다",
+      "before": "페이시스트라토스가 습격당했다며 시민 호위대를 요구하자, 솔론은 권력을 빼앗으려는 수단이라고 경고했다. 그러나 민회는 요구를 받아들였다. 호위대를 얻은 페이시스트라토스는 아크로폴리스를 점거하고 첫 번째 참주정을 세웠다.",
+      "after": "When Pisistratus claimed that attackers had wounded him and asked for a citizen bodyguard, Solon warned that the request was a bid for power. The assembly granted it anyway. Pisistratus then used the guards to seize the Acropolis and set up his first tyranny."
+    },
+    {
+      "id": "22ac8a46-1f7d-4d74-b8b4-a1ed6a094657",
+      "year": -560,
+      "title": "기원전 560년 무렵 생을 마치다",
+      "before": "페이시스트라토스가 처음 권력을 잡을 무렵인 기원전 560년께 솔론은 생을 마쳤다. 기원전 558년에 죽었다는 기록도 있다. 키프로스에서 숨졌거나 유해가 살라미스에 뿌려졌다는 이야기는 확인하기 어려운 후대 전승이다.",
+      "after": "Solon died around 560 BCE, near the time when Pisistratus first seized power, though one account places his death in 558 BCE. Later stories sent him to die in Cyprus or had his ashes scattered over Salamis, but neither can be verified."
+    }
+  ]
+}

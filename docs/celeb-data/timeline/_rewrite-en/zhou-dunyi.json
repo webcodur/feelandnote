@@ -1,0 +1,125 @@
+{
+  "slug": "zhou-dunyi",
+  "nickname": "주돈이",
+  "events": [
+    {
+      "id": "666e00ff-2e2d-44e6-91e0-5bdb9270a14e",
+      "year": 1017,
+      "title": "도주 영도현에서 태어나다",
+      "before": "지금의 후난성 다오현에 해당하는 도주 영도현에서 태어났다. 이름은 처음에 돈실이었으나, 1063년 영종의 이름을 피해 돈이로 고쳤다.",
+      "after": "Zhou was born in Yingdao County, Daozhou, in what is now Dao County, Hunan. His given name was Dunshi, but in 1063 he changed it to Dunyi to avoid using a character from Emperor Yingzong’s personal name."
+    },
+    {
+      "id": "715dff25-74a3-4687-bf55-29e82124bb96",
+      "year": 1025,
+      "title": "아버지를 여의고 형양의 외삼촌에게 의탁하다",
+      "before": "여덟 살에 아버지를 여의었다. 어머니와 함께 형양의 외삼촌 정향에게 의탁했고, 정향은 집 앞 봉황산 아래에 정자를 세우고 연꽃을 심었다.",
+      "after": "His father died when Zhou was eight. He and his mother went to live with her brother, Zheng Xiang, in Hengyang. Zheng built a pavilion below Phoenix Hill near his home and planted lotuses there."
+    },
+    {
+      "id": "8d048afc-a29e-4b56-abeb-99e23c5808e0",
+      "year": 1031,
+      "title": "어머니를 따라 도성 개봉으로 가다",
+      "before": "외삼촌 정향이 조정에 들어가자 어머니를 따라 도성 개봉으로 옮겼다. 훗날 정향의 음보로 벼슬길에 나선다.",
+      "after": "When Zheng Xiang joined the imperial court, Zhou moved with his mother to the capital, Kaifeng. His uncle later helped him enter government service through the privilege attached to his family rank."
+    },
+    {
+      "id": "8b0e221e-b8ce-4046-8a88-da457b73f13a",
+      "year": 1037,
+      "title": "외삼촌을 따라 윤주 단도현으로 옮기다",
+      "before": "정향이 양절 전운사로 부임하면서 윤주 단도현으로 거처를 옮겼다. 지금의 장쑤 전장 일대다.",
+      "after": "Zheng Xiang became fiscal commissioner for the Two Zhe circuits, and Zhou followed him to Dantu County in Runzhou, near present-day Zhenjiang in Jiangsu."
+    },
+    {
+      "id": "33120696-5575-410e-b131-c58c537278ae",
+      "year": 1040,
+      "title": "홍주 분녕현 주부로 첫 벼슬을 살다",
+      "before": "스물넷에 외삼촌의 음보로 홍주 분녕현 주부가 되어 처음 관복을 입었다. 밀려 있던 옥사 스무 건 남짓을 처리했는데, 판결에 불복해 상소한 사람이 하나도 없었다고 전한다.",
+      "after": "At twenty-four, Zhou received his first government post through his uncle’s influence and became recorder of Fenning County in Hongzhou. He cleared more than twenty backlogged court cases, reportedly without a single appeal against his decisions."
+    },
+    {
+      "id": "520f0642-0337-49c8-ba2f-64c25d7a2c54",
+      "year": 1044,
+      "title": "남안군 사리참군으로 옮겨 상관과 사형 판결을 다투다",
+      "before": "남안군 사리참군으로 승진한 뒤 전운사 왕규와 사형 판결을 두고 맞섰다. 왕규가 법으로 죽일 수 없는 사람을 처형하려 하자 모두가 침묵했지만, 홀로 반대하며 뜻이 받아들여지지 않으면 벼슬을 버리겠다고 나섰다. 끝내 왕규가 물러섰다. 다만 이 일이 정확히 어느 해에 벌어졌는지는 알 수 없다.",
+      "after": "After his promotion to legal administrator of Nan’an Commandery, Zhou clashed with fiscal commissioner Wang Kui over a death sentence. Wang wanted to execute a man whose crime did not carry the death penalty. While the other officials kept silent, Zhou opposed him and said he would resign if the sentence stood. Wang relented. The sources do not establish the exact year of this dispute."
+    },
+    {
+      "id": "de48fa4f-078d-4a5b-aef3-0c5832dfbc75",
+      "year": 1046,
+      "title": "정호·정이 형제를 문하에 받다",
+      "before": "남안에서 주돈이를 만난 대리시승 정향은 두 아들 정호와 정이를 그의 문하에 보냈다. 형제는 훗날 낙학을 열어 송대 유학의 큰 줄기를 이루었다.",
+      "after": "Cheng Xiang, an official at the Court of Judicial Review, met Zhou in Nan’an and sent his sons Cheng Hao and Cheng Yi to study with him. The brothers later founded the Luoyang school, which became a major branch of Song Confucian thought."
+    },
+    {
+      "id": "f727ca4e-ddb7-487f-ab6d-55d09918afc9",
+      "year": 1046,
+      "title": "침주로 옮겨 침현과 계양의 수령을 지내다",
+      "before": "남안을 떠나 침주로 가서 침현과 계양현의 수령을 차례로 지냈다. 부임하는 곳마다 학교를 세우고 쌓인 송사를 풀었다.",
+      "after": "Zhou left Nan’an for Chenzhou, where he served in turn as magistrate of Chen County and Guiyang County. At each post, he founded schools and worked through pending lawsuits."
+    },
+    {
+      "id": "0a544f12-50a9-40c8-abc2-37fc55ed4bd7",
+      "year": 1054,
+      "title": "대리시승이 되어 홍주 남창현을 맡다",
+      "before": "대리시승으로 올라 홍주 남창현을 맡았다. 분녕에서 옥사를 말끔히 처리했다는 소문이 먼저 닿아 있어, 아전과 백성은 새 지사의 이름을 이미 알고 있었다고 한다.",
+      "after": "Promoted to the Court of Judicial Review, Zhou was placed in charge of Nanchang County in Hongzhou. Word of how he had handled cases at Fenning arrived before he did, and local clerks and residents reportedly already knew his name."
+    },
+    {
+      "id": "b1107c56-f97d-4bd1-a070-bba75e4966f2",
+      "year": 1056,
+      "title": "태자중사로 합주 판관을 맡아 다섯 해를 지내다",
+      "before": "태자중사로 자리를 옮기고 합주 판관이 되었다. 지금의 충칭 허촨에서 다섯 해를 보냈다.",
+      "after": "Zhou became a junior tutor to the heir apparent and took up an administrative post in Hezhou. He spent five years there, in present-day Hechuan, Chongqing."
+    },
+    {
+      "id": "acd20971-c7a0-4569-933e-f9a5958663ce",
+      "year": 1061,
+      "title": "국자감 박사를 거쳐 건주 통판이 되다",
+      "before": "국자감 박사를 거쳐 건주 통판으로 부임했다. 지금의 장시 간저우에 이른 그는 관아에 연못을 파고 연꽃을 심었다.",
+      "after": "After serving as an erudite at the Directorate of Education, Zhou went to Qianzhou as vice-prefect. On reaching present-day Ganzhou in Jiangxi, he had a pond dug at his office and planted it with lotuses."
+    },
+    {
+      "id": "100d12f3-a8ea-47e4-90a7-ed50f186153c",
+      "year": 1063,
+      "title": "우도에서 「애련설」을 짓다",
+      "before": "건주 우도현의 심희안이 염계각을 세우고 글을 청하자, 연꽃을 빌려 사람의 품성을 말한 백열아홉 자의 애련설을 써 주었다. 1063년 5월 우도의 바위에 글을 새겼다는 기록이 남아 있지만, 형양에서 지었다는 이야기도 있어 정확한 성립 장소는 가릴 수 없다.",
+      "after": "Shen Xiyan built the Lianxi Pavilion in Yudu County and asked Zhou to write an inscription. Zhou responded with the 119-character On the Love of the Lotus, using the flower to describe human character. A record says the text was carved into a rock at Yudu in the fifth month of 1063, while another tradition says he wrote it in Hengyang. Its place of composition remains uncertain."
+    },
+    {
+      "id": "bc079595-243b-48aa-a3dd-9f01d3add398",
+      "year": 1064,
+      "title": "영주 통판으로 옮기다",
+      "before": "건주를 떠나 고향 도주와 가까운 후난의 영주로 옮겨 통판을 맡았다.",
+      "after": "Leaving Qianzhou, Zhou moved to Yongzhou in Hunan to serve as vice-prefect, close to his native Daozhou."
+    },
+    {
+      "id": "634f8b2b-e609-4f45-a967-43f064c2528f",
+      "year": 1070,
+      "title": "「태극도설」과 「통서」를 남기다",
+      "before": "우주가 생겨나는 이치를 그림 한 장과 이백마흔아홉 자에 담은 태극도설, 그리고 통서를 남겼다. 두 글을 언제 썼는지는 기록이 없다. 1070년은 벼슬살이 후반에 지었다는 통설에 따라 잡은 연도일 뿐이다.",
+      "after": "Zhou left two major works, the Explanation of the Diagram of the Supreme Ultimate and the Tongshu. The first sets out the birth of the cosmos in a single diagram and 249 characters. Neither work has a secure date; 1070 is only an estimate based on the common view that he wrote them late in his official career."
+    },
+    {
+      "id": "a5b4db90-ede7-4bde-b83b-34686d73367a",
+      "year": 1071,
+      "title": "광남동로 전운판관과 제점형옥을 맡다",
+      "before": "조변과 여공저의 천거를 받아 광남동로 전운판관과 제점형옥을 맡고 지금의 광둥 일대를 돌았다. 험한 곳까지 몸소 찾아다니다가 풍토병을 얻었다. 한편 1068년에 광남서로 제점형옥이 되었다는 기록도 있어 부임 시기와 관할은 자료마다 다르다.",
+      "after": "Recommended by Zhao Bian and Lü Gongzhu, Zhou took fiscal and judicial posts in the Guangnan East circuit and traveled through what is now Guangdong. He visited remote districts in person and contracted a local disease. Other records place the appointment in 1068 and assign him to Guangnan West, so both the date and the circuit remain disputed."
+    },
+    {
+      "id": "3c75ad0d-4fcf-40bd-a4c1-8983b37d055d",
+      "year": 1072,
+      "title": "병을 이유로 남강군을 자청하고 여산 아래에 집을 짓다",
+      "before": "풍토병이 깊어지자 남강군을 맡게 해 달라고 청했다. 치소인 성자에 머물며 여산 연화봉 아래 시냇가에 집을 짓고, 고향의 시내 이름을 따 염계라 불렀다. 염계서당과 염계라는 호가 여기서 나왔다.",
+      "after": "With his illness growing worse, Zhou asked for a post in Nankang. He settled at the prefectural seat in Xingzi and built a home beside a stream below Lotus Peak on Mount Lu. He named the stream Lianxi after one near his birthplace. His home became known as the Lianxi Study, and Lianxi became his sobriquet."
+    },
+    {
+      "id": "3247c0c8-00cd-4d78-8be3-e220ab442f79",
+      "year": 1073,
+      "title": "여산 염계서당에서 죽다",
+      "before": "1073년 7월 24일, 여산의 염계서당에서 병으로 세상을 떠났다. 쉰일곱이었다. 생전에는 여러 고을을 돌며 지방관으로 일했으나, 뒤에 주희가 그를 송대 유학의 첫머리에 세우면서 이름이 널리 알려졌고 원공이라는 시호도 받았다.",
+      "after": "Zhou died from illness at the Lianxi Study on Mount Lu on 24 July 1073. He was fifty-seven. During his life he had moved from county to county as a local official, but his name became widely known after Zhu Xi placed him at the beginning of the Song Confucian tradition. He later received the posthumous title Yuangong."
+    }
+  ]
+}
