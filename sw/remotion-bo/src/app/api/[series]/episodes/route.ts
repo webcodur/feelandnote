@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server'
 import { listEpisodes, loadEpisode, saveEpisode, scanLocalWavs } from '@/lib/server-utils'
 import { isValidSeries, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
-import { listDiscourseEpisodes, createDiscourseEpisode } from '@/lib/discourse-utils'
 import { supabase } from '@/lib/supabase'
 
 /**
- * 책 기반이 아닌 시리즈(담화)의 목록·생성 — 에피소드 한 편이 파일 하나라 폴더명·영상 명칭만 받는다.
+ * 책 기반이 아닌 시리즈의 목록·생성 — 에피소드 한 편이 파일 몇 개라 폴더명·영상 명칭만 받는다.
  * 책 기반(서재 탐방)은 DB 셀럽에서 뼈대를 뽑는 스캐폴딩이라 아래 본문 경로를 탄다.
+ *
+ * ⚠ 26.07.26 현재 표가 비었다 — 유일한 항목이던 가상 담화가 web-bo 로 이관됐다.
  */
 const FILE_SERIES: Partial<Record<SeriesDataModel, {
   list: () => Promise<unknown>
   create: (name: string, init: { title?: string; music?: string }) => Promise<unknown>
-}>> = {
-  discourse: { list: listDiscourseEpisodes, create: createDiscourseEpisode },
-}
+}>> = {}
 
 function fileSeries(series: string) {
   const model = seriesDataModel(series)
@@ -24,7 +23,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  // 담화: 자기 디렉토리의 에피소드 파일을 그대로 목록화한다
+  // 책 기반이 아닌 시리즈: 자기 디렉토리의 에피소드 파일을 그대로 목록화한다
   const fs = fileSeries(series)
   if (fs) return NextResponse.json(await fs.list())
 
@@ -78,7 +77,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { series } = await params
   if (!isValidSeries(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
-  // 담화: 빈 에피소드 생성 (영상 명칭·음악만 받고 내용은 편집기에서 채운다)
+  // 책 기반이 아닌 시리즈: 빈 에피소드 생성 (영상 명칭·음악만 받고 내용은 편집기에서 채운다)
   const fs = fileSeries(series)
   if (fs) {
     const { name, title, music } = await req.json()

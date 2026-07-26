@@ -42,7 +42,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
   if (!getSeriesById(series)) return NextResponse.json({ error: 'invalid series' }, { status: 404 })
 
   const model = seriesDataModel(series)
-  // 출고 기록(lineup)이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  // 출고 기록(lineup)이 아직 없는 계열 — 책 기반 경로로 조용히 새지 않게 막는다
   if (model !== 'book') return NextResponse.json({ error: `youtube sync not implemented: ${model}` }, { status: 501 })
 
   const REMOTION_ROOT = path.join(process.cwd(), '..', 'remotion')

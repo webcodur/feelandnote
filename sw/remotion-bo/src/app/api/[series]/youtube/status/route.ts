@@ -57,7 +57,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ series: 
   const episode = url.searchParams.get('episode')
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
-  // 출고 기록(lineup)이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  // 출고 기록(lineup)이 아직 없는 계열 — 책 기반 경로로 조용히 새지 않게 막는다
   if (series.dataModel !== 'book') {
     return NextResponse.json({ error: `youtube status not implemented: ${series.dataModel}` }, { status: 501 })
   }

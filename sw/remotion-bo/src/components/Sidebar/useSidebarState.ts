@@ -46,7 +46,7 @@ export function useSidebarState() {
   }, [pathname])
 
   const fetchList = useCallback(() => {
-    // 인물 묶음·후보 풀은 책 기반(서재 탐방) 전용이다. 담화는 전용 목록 컴포넌트가
+    // 인물 묶음·후보 풀은 책 기반(서재 탐방) 전용이다. 다른 계열은 전용 목록 컴포넌트가
     // 자체적으로 불러오므로 여기서는 건너뛴다.
     if (!activeSeries || !isSeriesModel(activeSeries, 'book')) { setEpisodes([]); setCandidates([]); return }
     fetch(`/api/${activeSeries}/episodes`).then(r => r.json()).then(setEpisodes).catch(() => setEpisodes([]))

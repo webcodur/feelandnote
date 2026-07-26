@@ -11,7 +11,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악, 자격증) 소비 기�
 | 1 | web | `sw/web` | 3000 | 사용자용 웹 (Next.js) |
 | 2 | web-bo | `sw/web-bo` | 3001 | 관리자 백오피스 (Next.js) |
 | 3 | remotion | `sw/remotion` | 3002 + 8001 | 영상 제작 (Studio + serve) |
-| 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) — 서재 탐방·가상 담화만. **팩션 구역 폐기 26.07.25, web-bo로 통합** |
+| 4 | remotion-bo | `sw/remotion-bo` | 3003 | 영상 관리 대시보드 (Next.js) — **서재 탐방 하나만 남았다.** 팩션 구역 폐기 26.07.25 · 가상 담화 구역 폐기 26.07.26, 둘 다 web-bo로 통합. 시리즈가 하나뿐이라 `[series]` 추상화의 존치 여부를 정해야 한다(`docs/project/remotion-bo-plan.md` 「단일 시리즈가 된 뒤」) |
 | 5 | lab | `sw/lab` | 3004 | 실험 공간 — 2D/3D, 게임 (Vite) |
 | 6 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원 정리·받아쓰기·화자 학습·음성 합성 작업실 (Next.js) |
 
@@ -109,7 +109,7 @@ pnpm build:audio-bo
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
-| `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 6종 |
+| `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
 | `docs/project/audio-bo.md` | 음성 작업실(audio-bo) — 음원 정리·받아쓰기·화자 학습·합성 |
 | `docs/project/audio-bo-tts-engine-research.md` | audio-bo TTS 엔진 조사 |
@@ -212,10 +212,9 @@ pnpm build:audio-bo
 | `docs/project/remotion/faction.md` | 세력도 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
 | `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
-| `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님) |
-| `docs/project/remotion/discourse-unification.md` | **담화 완전 통합 SSoT** — 팩션 골격 계승(discourse_* 3테이블·왕복 검증 7종·export 발효·web-bo 이식·remotion-bo 담화 폐기). **음성 착수 전 무비용 창**이 착수 근거 (26.07.26 설계) |
+| `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |
+| `docs/project/remotion/discourse-unification.md` | **담화 완전 통합 SSoT** — DB 단일 원천(discourse_* 3테이블), 편집·출간은 web-bo `/discourses` 하나, 세 파일(discourse-data·cast·turns)은 렌더용 산출물(직접 편집 금지). 왕복 검증 7종·반증 시험 10종·export 발효·remotion-bo 담화 폐기. **26.07.26 Phase 5 완료** |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
-| `docs/project/remotion/discourse.md` | **가상 담화** — 독백 + 난입 반박 + 대담. 저승 술집을 대체한다 |
 | `factions/_docs/folder-rules.md` | **팩션 폴더·파일·단계 규격 SSoT** (춘추전국 정리. 신규 작업 필수) |
 | `factions/_voice-casting/README.md` | ELE 보이스 캐스팅 운영 |
 | `factions/not-using/IDEAS-BANK.md` | 에피소드 아이디어 뱅크(후보 풀). **폴더 72편은 26.07.26에 DB로 이관됐다** — 상태 `idea`, 폴더 키는 `not-using/<분류>/<이름>`, web-bo `/factions` 표 맨 아래 「아이디어 후보」에서 열고 편집한다. 보관함 밖으로 이름을 바꾸는 것이 곧 승격이다 |
@@ -283,7 +282,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | remotion-bo 죽은 R2 지표 | `docs/project/remotion-bo-plan.md` | **미착수(26.07.16 발견)** | 대시보드 카드의 ● 동기화 지표가 폐기된 R2 잔재라 **항상 0을 표시한다**(`app/page.tsx`의 `synced`). R2 음성 동기화는 26.03.23 폐기됐고 `src/`에 R2 코드가 없다. 지표를 걷어내거나 음성 저장소 상태로 갈아끼우면 된다. 잔재는 이것과 `guide/page.tsx` 설명문 두 곳뿐 |
 | 유사 인물 추천에서 577명 누락 | — | **완료(26.07.16)** | **PostgREST 1,000행 상한(db-max-rows)을 전량으로 믿던 문제.** `celeb_id` 정렬 + offset 페이징(`lib/supabase/paginate.ts`의 `selectAllPages`)으로 교정. **RPC화(②)는 실측으로 기각** — 벡터 캐시는 `all-persona-vectors` **단일 키로 전 셀럽이 공유**한다(7일에 1회 조회로 1,577개 페이지를 감당). 거리 계산을 RPC로 옮기면 셀럽마다 별도 호출·캐시 키가 되어 1,577회 × ~1KB ≈ **1.6MB로 되레 9배 악화**되고, `calcDistance`를 SQL에 복제해 결과가 갈릴 위험까지 진다. 페이징 비용은 **+68KB(0.11→0.18MB, 7일당 1회)**로 오늘의 flat 컬럼 성과(2.0MB→0.11MB)는 유지된다. ①의 `selectInChunks`는 id 목록 `in()`의 URL 길이 대책이라 이 건과 무관하다.<br>**실측 검증**: 후보 1,000→**1,577**(신규 577·유실 0·중복 0). 전수 1,577명 대조에서 **거리값 불일치 0** — 공통 후보군이면 결과 동일이 증명됐다. top-5 변동은 표본 30명 중 26명, 새 후보가 top-5에 드는 셀럽 **1,353/1,577**. 남은 차이 23건은 **거리가 같은 동점자의 순서**뿐인데, 기존엔 정렬 없는 select라 요청마다 흔들렸고 이제 고정된다.<br>**같은 상한에 걸린 형제 3종을 함께 교정**(`getPersonaDistribution`): 성향 점수 1,577·`get_review_celeb_ids` **1,281→1,000 절단**(명단에 없다는 이유로 걸러짐)·`celeb_influence` **1,581→1,000 절단**. 3중 절단이 겹쳐 **분포 화면이 1,280명 중 572명만 그렸고**(+708 회복) 그중 **218명은 영향력이 조용히 0으로 찍혔다**(에드워드 텔러 실제 48·엔리코 페르미 64). ⚠️ **1,000행 상한은 이 두 파일만의 문제가 아니다** — 정렬·페이징 없는 전수 select는 어디서든 같은 방식으로 조용히 잘린다 |
 | web 서비스 화면 결함 정리 | `docs/project/service/` | **완료(26.07.16)** | 팔로잉 목록 친구 중복 노출 교정(`agora/social`이 `is_friend`를 false로 덮어쓴 뒤 그 값으로 걸러 필터가 무효였다) · 기록관 탭 문구 6종 i18n 전환 · `/explore/figures` tagId 조회 반영(getCelebs는 이미 지원) · 방명록 currentUser prop을 id로 축소(남의 프로필 값을 붙이던 죽은 값 제거). **방명록 작성자 표시는 버그 아님** — 서버가 `author_id`로 신원 확정, 화면은 `entry.author` 사용 |
-| 인물 생애 행적 — 잔여 3건 | `docs/project/celeb-journey.md` | **본체 완료(26.07.26)** | 73명 1,231건 적재·화면 가동 중. 남은 것: ① **백오피스 편집 화면** — 지금은 `docs/celeb-data/timeline/<slug>.json`을 고쳐 `timeline-import.mjs --apply`로 다시 넣어야 한다 ② **50점대 132명 확장** — 73명 품질 확인 후 판단(60점↑ 73명 / 50점↑ 205명) ③ **천도 지구본을 `WorldGlobe`로 이관** — 게임 비활성이라 보류. 그리기 532줄이 게임 개념과 얽혀 있어 지금 손대면 확인 없이 깨진다.<br>⚠️ **지구본 그림은 사람이 눈으로 본 적이 없다**(캔버스라 HTML 검사 불가) |
+| 인물 생애 행적 — 잔여 3건 | `docs/project/celeb-journey.md` | **본체 완료(26.07.26)** | 73명 1,231건 적재·화면 가동 중. 남은 것: ① **백오피스 편집 화면** — 지금은 `docs/celeb-data/timeline/<slug>.json`을 고쳐 `timeline-import.mjs --apply`로 다시 넣어야 한다 ② **50점대 132명 확장** — 73명 품질 확인 후 판단(60점↑ 73명 / 50점↑ 205명) ③ **천도 지구본을 `WorldGlobe`로 이관** — 게임 비활성이라 보류. 그리기 532줄이 게임 개념과 얽혀 있어 지금 손대면 확인 없이 깨진다.<br>화면은 26.07.26 유저 육안 확인 완료(회전 튕김·감도 과다 교정 반영) |
 | 서가 리네이밍 잔재 | `docs/project/service/library.md` | **미착수** | 주소만 `/scriptures`→`/library`로 바뀌고(26.03.26) 내부는 `scriptures` 그대로 — 액션·컴포넌트 폴더, i18n 네임스페이스, 네비 키, 파일 머리말 주석. 기록관도 동일(주석이 옛 `archive/playlists` 지목) |
 | web-bo 결함 정리 | `docs/project/web-bo.md` | **완료(26.07.16)** | **image-proxy SSRF 차단** — 이 창구는 `proxy.ts`가 로그인 검사를 건너뛰어 인증 없이 호출되던 무방비 상태였다. 실측 11종 허용 목록·내부망 차단·리다이렉트 검사 적용, 실서버 검증 완료 · 1x1 픽셀 폴백 제거(실패를 404/502로) · CelebForm 이탈 · 캐시 무효화 경로 교정(slug 키 어긋남 포함) · `/celebs/stats`·`/today-figure`의 id 링크 404 교정(셀럽 1,674명 전원 slug 보유) · 고아 라우트·컴포넌트·액션 정리 |
 | web-bo 유저→셀럽 승격 화면 부활 | `docs/project/web-bo.md` (미해결 절) | **판단 대기** | 죽은 컴포넌트 정리 중 `ProfileTypeSwitch`가 제거되며 **승격 기능이 사라졌다.** 액션 `promoteToCeleb`은 살아 있어 화면만 되살리면 복구된다. 대체 경로 없음(`createCeleb`은 더미 계정 신규 생성이라 다른 일). 되살릴지 결정 필요 |

@@ -130,9 +130,9 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 | 3 | shared 승격(voice-names·discourseVariants·schema 범용부 분리) | **완료 26.07.26** — `lib/series-schema.ts`(P1) · `lib/discourse-voice-names.ts`(렌더·BO 96줄 복제 소거, 양쪽 재export) · `lib/youtube-discourse-meta.ts`(`discourseVariants`·`discourseCompBase`, Root.tsx 재import). 검증 ③이 공용 산출 ↔ Root.tsx 등록 규칙 일치까지 본다 |
 | 4a | web-bo 서버 기반(원자 저장·액션 3·fs 라우트 8·목록·사이드바) — 팩션 4a 검증 6항목 대칭 | **완료 26.07.26** — `lib/discourse-{paths,route,asset,db,save,edit-route}` · 액션 3 + 원천 독백 조회 · fs 라우트 8 · `/discourses` 목록(DB 집계) · 사이드바. `REMOTION_LOCAL` 일반화(`FACTION_LOCAL` 별칭 유지). 검증 6/6 |
 | 4b | 편집기 21파일 이식 + 데이터층 4곳 + 색 토막 + 독백 패널 — 검수 편 `qin-shi-huang-court`(인물 4·발언 21 최복잡) | **완료 26.07.26** — 20파일 이식(+`DiscourseSeriesHome`은 DB 집계 목록으로 대체) · 데이터층 4곳 교체 · `.remotion-ui` 일반화 · **원천 독백 패널 신설**. 저장 경로 실물 검증 4/4 |
-| 5 | remotion-bo 담화 폐기(31파일·스위치·등록표 9·죽은 호출·문서) | |
+| 5 | remotion-bo 담화 폐기(31파일·스위치·등록표 9·죽은 호출·문서) | **완료 26.07.26** — 36파일 삭제(예상 31 + 죽은 사진 창구 4 + `lib/media-root` 1) · `SeriesDataModel` 유니온 축소로 등록표 9곳 정리 · 문서 6종 동기화. 서재 탐방 무손상(dev 실측 200), 담화 주소 404 |
 | 6(선택) | 음성 CLI 착수(voice:discourse·align·transcribe·srt·youtube·durations-pull·reorder) — **통합 완료 후에만** | |
-| 7(선택) | 북리커맨드 이관 or [series] 추상화 붕괴 | 별건 |
+| 7(선택) | 북리커맨드 이관 or [series] 추상화 붕괴 | 별건 — **판단 필요 시점이 왔다**(§8.4 관찰이 현실이 됐다). `remotion-bo-plan.md` 「단일 시리즈가 된 뒤」에 선택지 둘을 적어 뒀다 |
 
 ## 10. 위험
 
@@ -163,3 +163,11 @@ GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 �
   - ⚠ **음성 길이 병합이 실제로 작동한다는 실측**: DB 의 길이를 비우고 저장해도 **파일에 적힌 값이 되살아난다**(설계 §5 · 팩션 §7①). 파이프라인이 파일에만 기록한 길이를 지키는 규칙이라 의도된 동작이다 — 되돌리려면 파일 쪽도 함께 지워야 한다. 시험 중 이 규칙을 몰라 "복구 실패"로 오판했다.
   - ⚠ **§7-③ 규칙 실증**: 길이를 심어 놓고 발언 순서를 바꿨더니 그 값이 **자리에 남지 않고 사람의 n번째 발언을 따라갔다.** 담화는 한 인물이 여러 번 말하는 것이 기본이라 이 규칙이 없으면 음원과 컷 길이가 어긋난다.
   - 임의 결정 4건: ① `DiscourseSeriesHome`(옛 목록 화면)은 이식하지 않고 **DB 집계 목록으로 대체** — 원본은 전 편의 파일을 통째로 읽어 목록을 만들었다(§1 R5). ② `useCelebExists` 는 새로 만들지 않고 **web-bo 에 이미 있던 공용 창구를 재사용**(팩션이 쓰던 것 — 중복을 만들 뻔했다). ③ 표 부품은 `components/factions/FactionTable` 을 빌려 씀(시리즈 지식 없는 순수 표 부품). ④ eslint 예외 목록에 담화 경로를 **넣지 않고** 지적 3건을 실제로 고쳤다(설계 §10 D11).
+- 26.07.26 **Phase 5 완료 — 담화 통합 종료.** 편집·출간의 유일한 자리가 web-bo `/discourses` 가 됐고 remotion-bo 에 담화 코드는 남지 않았다.
+  - 삭제 36파일: 편집기 21 · 데이터층 3 · 음성 창구 2 · 사이드바 목록 1 · **언어·탭 화면 트리 2**(유일 사용자가 담화였다) · 딸림 3(`faction-edit-route`·`useCelebExists`+`api/celebs/exists`) · **죽은 사진 창구 4**.
+  - ⚠ **죽은 사진 창구를 함께 걷어낸 근거**: `mediaRootOf()` 가 담화에만 폴더를 내주고 있었다. 담화가 빠지자 모든 시리즈에 `undefined` 를 돌려주게 돼 **어떤 요청이 와도 404 를 뱉는 창구**가 됐다(호출처 0곳). 쓰이지 않는 정도가 아니라 동작하지 않는 코드다.
+  - ⚠ **남겨 둔 것**: `api/[series]/music`(목록·폴더 열기)은 호출처가 담화 편집기뿐이었으나 **동작 자체는 멀쩡하다**(시리즈 공용 `public/music/` 을 읽는다). 고장이 아니라 부르는 사람이 없어진 것이라 그대로 뒀다 — 지우려면 별도 판단이 필요하다.
+  - 등록표 9곳은 `SeriesDataModel` 유니온에서 `'discourse'` 를 빼자 타입 검사기가 전부 지목했다(팩션 P5 와 같은 방법). `usesLangTabEditor` 는 정의째 소멸했다 — 쓰는 시리즈가 없어졌다.
+  - **§8.5 죽은 호출 재확인**: shared `media.tsx:623` 이 `/api/${series}/faction-avatar` 를 부르는 배선은 그대로다. 담화 인물 카드가 slug 를 넘기지 않아 **버튼 자체가 안 그려지므로 지금은 호출되지 않는다.** web-bo 이식본도 같은 상태다 — 이 버튼을 켜려면 라우트 신설(`celeb-avatar` 로 개명 후보)이 선행돼야 한다.
+  - 문서 6종 동기화: 이 문서 · `discourse.md`(머리에 통합 완료 표기) · `web-bo.md`(「가상 담화」 절 신설) · `remotion-bo-plan.md`(폐기 실적 + **「단일 시리즈가 된 뒤」 관찰**) · `AGENTS.md` · `faction-unification.md`(형제 통합 완료 1줄).
+  - 🔴 **이 앱에 남은 시리즈는 서재 탐방 하나다.** 계열별 등록표 5개가 전부 빈 표가 됐고 `[series]` 세그먼트는 언제나 한 값이다. 새 시리즈를 remotion-bo 에 얹기 전에 Phase 7 선택지부터 정해야 한다.
