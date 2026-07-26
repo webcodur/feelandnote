@@ -11,6 +11,7 @@
  */
 
 import type { FactionGroup, FactionNarratorVoice, FactionPerson, FactionScript } from './faction-types'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
  * 인물 대사 음성 파일명. 0패딩으로 정렬 순서 보장.
@@ -268,7 +269,7 @@ export async function reorderFactionVoice(series: string, episode: string, renam
   const valid = renames.filter(r => r.from !== r.to)
   if (valid.length === 0) return { ok: true }
   try {
-    const res = await fetch(`/api/${series}/voice/${encodeURIComponent(episode)}/reorder`, {
+    const res = await fetch(`/api/${series}/voice/${folderToParam(episode)}/reorder`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ renames: valid }),

@@ -38,7 +38,9 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 정규화 수위: **핫 컬럼 + 단일 `data` jsonb + `mined` jsonb 분리. 버킷 분할 안 함.** 근거: 채움율, 드리프트 만성, 왕복 동일성, minedQuotes 크기 격리(detoast 회피), jsonb→컬럼 승격은 무손실.
 
 테이블 5종(정본은 DB — `information_schema`가 정확):
-- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·status(todo/live/done)·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
+- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(idea/todo/live/done)**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
+  - **`idea`(26.07.26 마이그레이션 `faction_episodes_status_add_idea`)** — 아이디어 보관함(`public/factions/not-using/<분류>/<이름>`)에서 들어온 후보 72편의 상태. 렌더·음성·출간에 딸려 가지 않는 근거는 상태가 아니라 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 상태는 사람이 보는 표시일 뿐이다.
+  - **folder 는 뿌리 기준 상대 경로다.** 보관함 편은 `not-using/future-tech/defense-industry` 처럼 슬래시를 품는다(이름만 따면 분류가 다른 동명이 부딪히고 사진·음원 경로도 어긋난다). 그래서 `episodeDirOf` 가 토막마다 이어 붙이고(`safeDirSegs`), 주소에서는 슬래시를 `~` 로 바꿔 한 토막에 싣는다(`folderToParam`/`paramToFolder`, `sw/web-bo/src/lib/faction-edit-route.ts`).
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug·celeb_id(profiles, nullable)·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)

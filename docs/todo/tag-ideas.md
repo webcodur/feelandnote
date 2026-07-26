@@ -8,7 +8,7 @@
 
 ## 현재 태그 현황 (2026-07-16 실측)
 
-**태그 40종 + 8개 상위 그룹 계층.** 전 태그 `is_featured=true`. 그룹 계층은 `celeb_tags.parent_id`가 아니라 코드 상수 `sw/web/src/constants/factionGroups.ts`로 관리한다(그룹 헤더도 배정 0명짜리 태그 행으로 DB에 존재). 상세는 `docs/project/faction-ai-group-refactor.md`.
+**태그 40종 + 8개 상위 그룹 계층.** 전 태그 `is_featured=true`. 그룹 계층은 **`celeb_tags.parent_id`**가 정본이다(26.07.26 코드 상수에서 승격). 그룹 헤더도 배정 0명짜리 태그 행으로 DB에 존재하며, 자식을 가진 태그가 곧 그룹이다. 상세는 `docs/project/celeb/celeb-tag-system.md`.
 
 | 상위 그룹 (배정 0, 헤더) | 자식 태그 (인원) |
 |------|------|
@@ -163,7 +163,7 @@
 
 르네상스 마에스트로(7) · 전국삼걸(6) · 왕좌의 독서가(8) · 실존주의자(8) · 프랑스 혁명(8) · 망명자(8).
 
-> 신규 태그는 이제 **상위 그룹 8개 중 하나에 편입**할지 무소속으로 둘지 함께 정해야 한다(`factionGroups.ts` 갱신 필요).
+> 신규 태그는 이제 **상위 그룹 8개 중 하나에 편입**할지 무소속으로 둘지 함께 정해야 한다(web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 지정).
 
 ---
 

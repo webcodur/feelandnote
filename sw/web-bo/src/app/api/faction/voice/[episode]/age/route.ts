@@ -6,6 +6,7 @@ import { safeFilename, wavDurationSec } from '@feelandnote/shared/bo/episode-sto
 import { applyAgeToFile } from '@feelandnote/shared/bo/voice-age'
 import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 // ── 세력도 인물 음성 연령 변형
 //
@@ -34,7 +35,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
     return NextResponse.json({ success: false, error: 'file(.wav) required' }, { status: 400 })
   }
 
-  const ep = decodeURIComponent(episode)
+  const ep = paramToFolder(episode)
   const target = factionVoiceFilePath(ep, file)
   const backup = oriPath(ep, file)
   const hasOri = existsSync(backup)

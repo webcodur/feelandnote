@@ -13,6 +13,7 @@ import { PersonList } from './PersonList/PersonList'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
 
 import type { EditLang } from '@feelandnote/shared/bo/editor'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 type Props = {
   /** 세력 인덱스 (0-based) — 음성 파일명 계산용 */
@@ -264,7 +265,7 @@ export function FactionGroupEditor({
                 {meta && (
                   <div className="absolute bottom-0.5 right-0.5 z-10 scale-75 origin-bottom-right pointer-events-auto opacity-80 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                     <div className="rounded-full bg-bg-main/90 backdrop-blur-sm shadow-sm border border-border overflow-hidden">
-                      <MiniAudioPlayer url={`/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={rate as number | undefined} />
+                      <MiniAudioPlayer url={`/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(voiceFile)}?t=${meta.size}`} rate={rate as number | undefined} />
                     </div>
                   </div>
                 )}

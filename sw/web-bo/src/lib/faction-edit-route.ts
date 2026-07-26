@@ -15,3 +15,20 @@ export type FactionEditTab = 'info' | 'shorts' | 'longform'
 export function toFactionEditTab(tab: string): FactionEditTab {
   return tab === 'shorts' || tab === 'longform' ? tab : 'info'
 }
+
+/* ── 폴더 키 ↔ 주소 한 토막 ── */
+
+/**
+ * 아이디어 뱅크 편의 폴더 키는 `not-using/<분류>/<이름>` 처럼 슬래시를 품는다.
+ * 주소의 편 자리는 한 토막이라 슬래시를 그대로 넣을 수 없고, `%2F` 로 감싸도 서버·브라우저가
+ * 제각기 풀어 버려 토막이 갈라진다. 그래서 주소에서만 `~` 로 바꿔 싣는다 —
+ * 세력도 폴더명에 `~` 를 쓴 적이 없음을 확인하고 고른 글자다(26.07.26 실측, 95편 0건).
+ */
+export function folderToParam(folder: string): string {
+  return encodeURIComponent(folder.replace(/\//g, '~'))
+}
+
+/** 주소 한 토막을 폴더 키로 되돌린다 (이미 풀린 값이 들어와도 안전하다) */
+export function paramToFolder(param: string): string {
+  return decodeURIComponent(param).replace(/~/g, '/')
+}

@@ -6,6 +6,7 @@ import { wavDurationSec } from '@feelandnote/shared/bo/episode-store'
 import { normalizeWavInPlace } from '@feelandnote/shared/bo/voice-normalize'
 import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 // ── 세력도 인물 대사 음성 저장 (미리듣기 → 인물 음원 확정)
 //
@@ -32,7 +33,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
   }
 
   try {
-    const ep = decodeURIComponent(episode)
+    const ep = paramToFolder(episode)
     const filePath = factionVoiceFilePath(ep, file)
     await mkdir(factionVoiceDir(ep), { recursive: true })
     const buf = Buffer.from(base64, 'base64')

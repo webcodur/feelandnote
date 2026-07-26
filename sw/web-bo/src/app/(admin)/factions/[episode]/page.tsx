@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 /**
  * `/factions/{편}` — 언어·탭을 안 적고 들어온 경우.
@@ -10,5 +11,5 @@ export default async function FactionEpisodeEntryPage({
   params: Promise<{ episode: string }>
 }) {
   const { episode } = await params
-  redirect(`/factions/${encodeURIComponent(decodeURIComponent(episode))}/ko/info`)
+  redirect(`/factions/${encodeURIComponent(paramToFolder(episode))}/ko/info`)
 }

@@ -47,6 +47,7 @@ import {
 } from '@/actions/admin/storage'
 import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
 import ImageCropModal from '@/components/ui/ImageCropModal'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 // name_en → slug 후보 (소문자·하이픈)
 function slugify(s: string): string {
@@ -347,7 +348,7 @@ export default function ThemeEditor({
             episodes.map(ep => (
               <Link
                 key={ep.folder}
-                href={`/factions/${encodeURIComponent(ep.folder)}`}
+                href={`/factions/${folderToParam(ep.folder)}`}
                 className="flex items-center gap-1 rounded bg-accent/15 px-2 py-1 text-xs font-medium text-accent hover:bg-accent/25"
               >
                 <Video className="h-3.5 w-3.5" />{ep.title}

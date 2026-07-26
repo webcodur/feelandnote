@@ -23,8 +23,10 @@ import {
   type FactionEpisodeMeta, type FactionEpisodeStatus,
 } from '@/actions/admin/factions/episodes'
 import { exportFactionEpisode } from '@/actions/admin/factions/export'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 export const FACTION_STATUS_OPTIONS: { value: FactionEpisodeStatus; label: string; dot: string }[] = [
+  { value: 'idea', label: '아이디어', dot: 'bg-slate-500' },
   { value: 'todo', label: '준비', dot: 'bg-gray-400' },
   { value: 'live', label: '작업 중', dot: 'bg-amber-400' },
   { value: 'done', label: '완료', dot: 'bg-green-500' },
@@ -80,12 +82,21 @@ export default function FactionEpisodeActions({
   })
 
   const renameOne = () => {
-    const dst = window.prompt('새 폴더명 — 사진·음원 폴더도 함께 옮깁니다:', folder)
+    // 보관함(not-using/분류/이름)에 든 편은 이름을 바꾸는 것이 곧 승격이다 — 앞 두 토막을 지우면 나온다
+    const inIdeaBank = folder.startsWith('not-using/')
+    const dst = window.prompt(
+      inIdeaBank
+        ? '새 폴더명 — 사진·음원 폴더도 함께 옮깁니다.\n'
+          + '보관함에서 꺼내려면 앞의 not-using/분류/ 를 지우고 이름만 남기세요.\n'
+          + '꺼낸 뒤 상태를 「준비」로 바꾸면 제작 대기 편이 됩니다.'
+        : '새 폴더명 — 사진·음원 폴더도 함께 옮깁니다:',
+      inIdeaBank ? folder.split('/').pop() ?? folder : folder,
+    )
     if (!dst || dst === folder) return
     run('이름 변경', async () => {
       const r = await renameFactionEpisode(folder, dst)
       return `${r.folder} 로 바꿨습니다${r.assetsMoved ? ' (사진·음원 폴더도 옮김)' : ''}`
-    }, () => router.push(`/factions/${encodeURIComponent(dst)}`))
+    }, () => router.push(`/factions/${folderToParam(dst)}`))
   }
 
   const duplicate = () => {

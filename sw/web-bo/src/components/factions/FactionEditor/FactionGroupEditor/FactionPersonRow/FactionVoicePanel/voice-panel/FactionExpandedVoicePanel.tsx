@@ -23,6 +23,7 @@ import { EleVoiceCombobox } from './EleVoiceCombobox'
 import { buildFactionEleVoiceRecommendations } from './faction-voice-recommendations'
 import { useEleVoiceNotes } from './useEleVoiceNotes'
 import { useEleVoiceHistory } from './useEleVoiceHistory'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
  * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도 인물 1명용.
@@ -113,9 +114,9 @@ export function FactionExpandedVoicePanel({
   // (북리커맨드는 /voice/play·/voice/save, 세력도는 /faction-voice/{episode}/...)
   const breathEndpoints: BreathEndpoints = useMemo(() => ({
     loadUrl: (s, _name, fileName) =>
-      `/api/${s}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
+      `/api/${s}/voice/${folderToParam(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
     save: async (s, _name, fileName, base64) => {
-      const res = await fetch(`/api/${s}/voice/${encodeURIComponent(episodeName)}/save`, {
+      const res = await fetch(`/api/${s}/voice/${folderToParam(episodeName)}/save`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ file: fileName, base64 }),
       })
@@ -131,7 +132,7 @@ export function FactionExpandedVoicePanel({
   // 연령 변형 라우트 — 서버 ffmpeg 로 늙게/젊게 변형. 원본은 voice/ori/ 에 보관.
   const ageEndpoints: AgeEndpoints = useMemo(() => {
     const post = async (s: string, action: string, fileName: string, age: number) => {
-      const res = await fetch(`/api/${s}/voice/${encodeURIComponent(episodeName)}/age`, {
+      const res = await fetch(`/api/${s}/voice/${folderToParam(episodeName)}/age`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ file: fileName, age, action }),
       })
@@ -141,7 +142,7 @@ export function FactionExpandedVoicePanel({
     }
     return {
       loadUrl: (s, _name, fileName) =>
-        `/api/${s}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
+        `/api/${s}/voice/${folderToParam(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
       preview: (s, _name, fileName, age) => post(s, 'preview', fileName, age),
       commit: (s, _name, fileName, age) => post(s, 'commit', fileName, age),
       restore: (s, _name, fileName) => post(s, 'restore', fileName, 0),
@@ -218,15 +219,15 @@ export function FactionExpandedVoicePanel({
   const voiceEndpoints: VoiceGenEndpoints = {
     previewUrl: route => `/api/${series}/voice/${route}/preview`,
     save: async (fileName, base64) => {
-      const res = await fetch(`/api/${series}/voice/${encodeURIComponent(episodeName)}/save`, {
+      const res = await fetch(`/api/${series}/voice/${folderToParam(episodeName)}/save`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ file: fileName, base64 }),
       })
       return res.json()
     },
     sourceUrl: fileName =>
-      `/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(fileName)}`,
-    analyze: () => fetch(`/api/${series}/voice/${encodeURIComponent(episodeName)}/analyze`, {
+      `/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(fileName)}`,
+    analyze: () => fetch(`/api/${series}/voice/${folderToParam(episodeName)}/analyze`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ only: voiceFile, lang: 'ko' }),
     }),
@@ -353,7 +354,7 @@ export function FactionExpandedVoicePanel({
       {/* 저장된 음원 — 디스크 wav + 트림. 인물은 한 파일에 한 엔진 결과만 저장되므로 파형 한 개. */}
       <SavedVoiceSection
         tracks={activeFile ? [{ label: engineLabel, file: activeFile, active: true }] : []}
-        playUrl={f => `/api/${series}/voice/${encodeURIComponent(episodeName)}/${encodeURIComponent(f.name)}${gen.reloadTick ? `?t=${gen.reloadTick}` : ''}`}
+        playUrl={f => `/api/${series}/voice/${folderToParam(episodeName)}/${encodeURIComponent(f.name)}${gen.reloadTick ? `?t=${gen.reloadTick}` : ''}`}
         trimStart={gen.trimStart}
         setTrimStart={gen.setTrimStart}
         trimEnd={gen.trimEnd}

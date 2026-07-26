@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { FactionVoiceMeta } from '../../shared/FactionVoiceContext'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 export function useFactionData(series: string, episodeName: string) {
   const [musicList, setMusicList] = useState<string[]>([])
@@ -30,7 +31,7 @@ export function useFactionData(series: string, episodeName: string) {
 
   // 음성 파일 목록 로드 — 인물별 음성 존재 여부·길이 판정용
   const loadVoices = useCallback(() => {
-    fetch(`/api/${series}/voice/${encodeURIComponent(episodeName)}`)
+    fetch(`/api/${series}/voice/${folderToParam(episodeName)}`)
       .then(r => r.json())
       .then(d => setVoiceFiles(Array.isArray(d?.files) ? d.files : []))
       .catch(() => setVoiceFiles([]))

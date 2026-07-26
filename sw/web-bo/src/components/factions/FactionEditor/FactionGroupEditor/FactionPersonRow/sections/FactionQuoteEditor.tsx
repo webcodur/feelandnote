@@ -87,7 +87,9 @@ export function FactionQuoteEditor({
         rows={1}
         spellCheck={false}
         // 우측에 액션 버튼이 들어갈 공간(pr-16)을 확보하여 텍스트가 겹치지 않게 함
-        className={`relative z-10 w-full font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border border-transparent pl-2.5 pr-16 py-1.5 resize-none outline-none [field-sizing:content] caret-text-primary ${focused ? 'text-text-primary' : className} focus:ring-2 focus:ring-accent/20 rounded-md`}
+        // 글자색·글자 커서색은 부르는 쪽이 준 색 하나로만 정한다 — 이 칸은 밝은 바탕이라
+        // 화면 테마 글자색(어두운 화면에서 흰색)을 얹으면 바탕에 묻혀 안 보인다.
+        className={`relative z-10 w-full font-semibold text-[14.5px] leading-7 tracking-[-0.005em] whitespace-pre-wrap break-words bg-transparent border border-transparent pl-2.5 pr-16 py-1.5 resize-none outline-none [field-sizing:content] [caret-color:currentColor] ${className} focus:ring-2 focus:ring-accent/20 rounded-md`}
       />
 
       {/* 3. 액션 오버레이 (Divider 및 액션 버튼 렌더링, 텍스트 앞) */}

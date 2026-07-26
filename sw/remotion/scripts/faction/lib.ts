@@ -86,7 +86,46 @@ function loadRegistered(): string[] {
   return JSON.parse(readFileSync(p, 'utf-8')) as string[]
 }
 
-/** faction-data.json 을 가진 폴더 전부를 스캔한다 */
+/** 아이디어 보관함 뿌리 — 이 아래는 `<분류>/<이름>` 두 단이다 */
+export const IDEA_ROOT = 'not-using'
+
+/**
+ * 아이디어 보관함 스캔 — `not-using/<분류>/<이름>/faction-data.json`.
+ *
+ * 폴더 키를 경로 그대로(`not-using/future-tech/defense-industry`) 쓴다. 이름만 따면
+ * 분류가 다른 같은 이름끼리 부딪히고, 사진·음원 경로도 못 찾는다.
+ *
+ * 상태는 **무조건 `idea`** 다. 이 아래에도 `_status.json` 이 45개 흩어져 있지만
+ * 대부분 옛 생성 스크립트가 남긴 찌꺼기라 값이 이 프로젝트의 어휘가 아니고(`completed` 2건),
+ * `todo` 라 적힌 것들도 보관함에 든 시점에서 제작 대기가 아니다. 보관함을 벗어나
+ * 뿌리로 옮기는 것이 곧 승격이고, 그때 상태를 사람이 정한다.
+ */
+function scanIdeaEpisodes(): EpisodeFolder[] {
+  const root = path.join(FACTIONS_DIR, IDEA_ROOT)
+  if (!existsSync(root)) return []
+  const out: EpisodeFolder[] = []
+  for (const category of readdirSync(root)) {
+    const catDir = path.join(root, category)
+    if (!statSync(catDir).isDirectory()) continue
+    for (const name of readdirSync(catDir)) {
+      const dir = path.join(catDir, name)
+      if (!statSync(dir).isDirectory()) continue
+      const dataPath = path.join(dir, 'faction-data.json')
+      if (!existsSync(dataPath)) continue
+      out.push({
+        folder: `${IDEA_ROOT}/${category}/${name}`,
+        dir,
+        dataPath,
+        status: 'idea',
+        registered: false,
+        sortOrder: 0,
+      })
+    }
+  }
+  return out
+}
+
+/** faction-data.json 을 가진 폴더 전부를 스캔한다 (뿌리 + 아이디어 보관함) */
 export function scanEpisodes(): EpisodeFolder[] {
   const registered = loadRegistered()
   const out: EpisodeFolder[] = []
@@ -117,6 +156,7 @@ export function scanEpisodes(): EpisodeFolder[] {
       sortOrder: idx >= 0 ? idx + 1 : 0,
     })
   }
+  out.push(...scanIdeaEpisodes())
   return out.sort((a, b) => a.folder.localeCompare(b.folder))
 }
 

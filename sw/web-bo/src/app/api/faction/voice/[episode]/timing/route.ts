@@ -3,6 +3,7 @@ import { readFile, writeFile, readdir } from 'fs/promises'
 import path from 'path'
 import { factionEpisodeDir } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 // ── 세력도 발화 시각 읽기·쓰기 ──
 //
@@ -34,7 +35,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ episode:
   const lang = asLang(url.searchParams.get('lang'))
   if (!stem) return NextResponse.json({ ok: false, error: 'stem required' }, { status: 400 })
 
-  const epDir = factionEpisodeDir(decodeURIComponent(episode))
+  const epDir = factionEpisodeDir(paramToFolder(episode))
   for (const f of await timingFiles(epDir, lang)) {
     try {
       const data = JSON.parse(await readFile(path.join(epDir, f), 'utf8'))
@@ -54,7 +55,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
     return NextResponse.json({ ok: false, error: 'stem, timings required' }, { status: 400 })
   }
 
-  const epDir = factionEpisodeDir(decodeURIComponent(episode))
+  const epDir = factionEpisodeDir(paramToFolder(episode))
   for (const f of await timingFiles(epDir, asLang(lang))) {
     const p = path.join(epDir, f)
     try {

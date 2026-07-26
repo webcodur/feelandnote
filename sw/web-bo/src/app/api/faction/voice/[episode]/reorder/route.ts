@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { reorderFactionVoiceFiles, sanitizeRenames } from '@/lib/faction-voice-reorder'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 // ── 세력도 인물 음원 재배치(자리 맞바꾸기) 창구
 //
@@ -32,6 +33,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ episode
     return NextResponse.json({ error: '유효한 renames 가 필요하다' }, { status: 400 })
   }
 
-  const result = await reorderFactionVoiceFiles(decodeURIComponent(episode), renames)
+  const result = await reorderFactionVoiceFiles(paramToFolder(episode), renames)
   return NextResponse.json(result)
 }

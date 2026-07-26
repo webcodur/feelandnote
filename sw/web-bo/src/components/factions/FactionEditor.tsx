@@ -59,6 +59,7 @@ import { FactionPersonMoveModal } from './FactionEditor/FactionPersonMoveModal'
 import type { FactionEditTab } from '@/lib/faction-edit-route'
 import { useCelebExists } from '@/lib/useCelebExists'
 import { loadFactionScript, saveFactionScript } from '@/actions/admin/factions/script'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
 const EDIT_BASE = '/factions'
@@ -167,7 +168,7 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
     }
   }, [cardTarget])
 
-  const infoPath = `${EDIT_BASE}/${encodeURIComponent(name)}/${editLang}/info`
+  const infoPath = `${EDIT_BASE}/${folderToParam(name)}/${editLang}/info`
   const cardBoardPath = `${infoPath}/card`
   const toggleCards = useCallback(() => {
     const nextOpen = !showCards
@@ -179,7 +180,7 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
     setShowCards(false)
     setTab(next)
     if (next !== 'info') setComposeSub(next)
-    window.history.pushState(null, '', `${EDIT_BASE}/${encodeURIComponent(name)}/${editLang}/${next}`)
+    window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${editLang}/${next}`)
   }, [series, name, editLang])
 
   const scriptRef = useRef<FactionScript | null>(null)
@@ -292,7 +293,7 @@ ${res.exported.reason}`)
 
   // 음성 파일 목록 로드 — 인물별 음성 존재 여부·길이 판정용
   const loadVoices = useCallback(() => {
-    fetch(`/api/${series}/voice/${encodeURIComponent(name)}`)
+    fetch(`/api/${series}/voice/${folderToParam(name)}`)
       .then(r => r.json())
       .then(d => setVoiceFiles(Array.isArray(d?.files) ? d.files : []))
       .catch(() => setVoiceFiles([]))
@@ -387,7 +388,7 @@ ${res.exported.reason}`)
     if (!cur) return
     setSyncing(true)
     try {
-      const d = await fetch(`/api/${series}/voice/${encodeURIComponent(name)}`).then(r => r.json())
+      const d = await fetch(`/api/${series}/voice/${folderToParam(name)}`).then(r => r.json())
       const files: FactionVoiceMeta[] = Array.isArray(d?.files) ? d.files : []
       const byFile = new Map(files.map(v => [v.file, v]))
       let changed = 0
@@ -421,7 +422,7 @@ ${res.exported.reason}`)
 
   // 음성 재생 URL — 인물 파일명 기준
   const voiceUrl = useCallback(
-    (file: string) => `/api/${series}/voice/${encodeURIComponent(name)}/${encodeURIComponent(file)}`,
+    (file: string) => `/api/${series}/voice/${folderToParam(name)}/${encodeURIComponent(file)}`,
     [series, name],
   )
 
@@ -754,7 +755,7 @@ ${res.exported.reason}`)
           <Link href={EDIT_BASE} className="text-sm text-text-secondary hover:text-accent">← 목록</Link>
           <EditLangSwitch value={editLang} onChange={(next) => {
             setEditLang(next)
-            window.history.pushState(null, '', `${EDIT_BASE}/${encodeURIComponent(name)}/${next}/${showCards ? tab + '/card' : tab}`)
+            window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${next}/${showCards ? tab + '/card' : tab}`)
           }} />
           {/* 정비/편성 탭 — 정비=세력·인물 데이터 세팅, 편성=구성 방식(쇼츠·롱폼) */}
           <div className="flex items-center gap-1.5">
@@ -1578,9 +1579,10 @@ ${res.exported.reason}`)
       )}
         </div>
 
-        {/* 이미지 풀 사이드바 — 편집 화면에서만 */}
+        {/* 이미지 풀 사이드바 — 편집 화면에서만. 아래로 내려가도 화면에 따라붙는다.
+            높이 = 창 높이 − 상단 띠(4rem) − 위 여백(0.5rem) − 아래 숨틈(1rem) */}
         {!showPreview && showPool && (
-          <aside className="sticky top-2 hidden max-h-[calc(100vh-4rem)] w-[34rem] shrink-0 overflow-y-auto rounded-md border border-border bg-bg-main/40 p-3 lg:block [overflow-anchor:none]">
+          <aside className="sticky top-2 hidden max-h-[calc(100vh-5.5rem)] w-[34rem] shrink-0 overflow-y-auto rounded-md border border-border bg-bg-main/40 p-3 lg:block [overflow-anchor:none]">
             <ImagePool
               series={series}
               episodeName={name}

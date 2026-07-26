@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server'
 import { imageAbsPath, readImageFile } from '@feelandnote/shared/bo/episode-store'
 import { FACTIONS_DIR } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
+import { paramToFolder } from '@/lib/faction-edit-route'
 
 const MIME: Record<string, string> = {
   '.png': 'image/png',
@@ -36,7 +37,7 @@ export async function GET(
   const ext = file.slice(file.lastIndexOf('.')).toLowerCase()
   if (!MIME[ext]) return new NextResponse('unsupported type', { status: 400 })
 
-  const buf = await readImageFile(imageAbsPath(FACTIONS_DIR, decodeURIComponent(episode), file))
+  const buf = await readImageFile(imageAbsPath(FACTIONS_DIR, paramToFolder(episode), file))
   if (!buf) return new NextResponse('not found', { status: 404 })
 
   return new NextResponse(new Uint8Array(buf), {

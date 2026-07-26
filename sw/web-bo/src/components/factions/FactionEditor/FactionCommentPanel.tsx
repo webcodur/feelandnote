@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { Save } from '@feelandnote/shared/bo/icons'
+import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
  * 편별 댓글(해설 텍스트) — 영상 데이터와 별개인 comment.p<part>.txt 를 읽고 쓴다.
@@ -24,7 +25,7 @@ export function FactionCommentPanel({
   const [savedFlash, setSavedFlash] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const base = `/api/${series}/comment/${encodeURIComponent(episodeName)}`
+  const base = `/api/${series}/comment/${folderToParam(episodeName)}`
 
   const load = useCallback(async () => {
     try {
