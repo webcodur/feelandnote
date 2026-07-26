@@ -172,6 +172,18 @@ renderStill(@remotion/renderer)로 정지 이미지(카드뉴스 등)를 뽑을 
 
 부가: `render:cards` 번들은 public 전체(팩션 이미지 포함)를 Temp로 복사하므로, 반복하면 `Temp/remotion-*`이 쌓여 ENOSPC(디스크 풀)가 날 수 있다. 가끔 정리한다.
 
+### 팩션 렌더는 public을 통째로 복사하지 않는다 — 창고 방식(26.07.26)
+
+렌더는 시작할 때 `public/`을 번들 폴더로 복사한다. 이 저장소의 public은 **7.3GB**(서재 탐방 4.4GB·세력도 2.6GB·담화 196MB·곡 125MB)라 한 편을 뽑을 때마다 전부가 딸려 갔다. 위 ENOSPC가 그 결과다.
+
+**`pnpm render:staged`** 가 렌더 직전에 그 편이 참조하는 것만 임시 폴더(`sw/remotion/.render-stage/`)에 **하드링크**로 모으고 `--public-dir`로 넘긴다. 실측 PayPal-Mafia **189MB·150파일·56ms**(전부 하드링크, 용량 순증 0). 렌더가 끝나면 창고를 지운다(링크만 끊기므로 원본 무사).
+
+- 담는 것: `factions/<편>/`(발주 참고 `_refs`·문서 `_docs`·`quotes`·`_archive`·백업·합성 원본 `voice/.raw` 제외) + `common/` + `music/` + `fonts/`. 규칙은 `scripts/render/stage.ts` 한 곳.
+- **창고 조립이 실패하면 조용히 통짜로 넘어가지 않는다** — 사유를 찍고 멈춘다. 통짜로 뽑으려면 `--full-public`을 사람이 붙인다.
+- ⚠ **창고 안 파일을 고치지 마라.** 하드링크라 원본이 함께 바뀐다. 읽기 전용이다.
+- web-bo 렌더 버튼(영상·썸네일)도 이 경로로 돈다. Studio는 복사를 하지 않으므로 대상이 아니다.
+- 곡(`music/` 125MB)은 아직 통째로 담는다 — 데이터에 곡 이름만 적혀 있어 참조 추출이 별건이다. 그래도 7.3GB → 189MB다.
+
 ### 렌더 스크립트 stdout에 손대지 않는다
 
 `sw/remotion/scripts/render/render-all.ts` 및 유사 핫패스에 `process.stdout._handle.setBlocking(true)` 같은 동기 쓰기 강제, console.log 플러시 훅, 그 외 stdout 동작 변경 코드를 넣지 않는다.

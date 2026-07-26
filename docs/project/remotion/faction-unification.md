@@ -146,6 +146,12 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 
 ## 진행 로그
 
+- 26.07.26 **참조 기반 렌더 창고** — 렌더가 `public/` 7.3GB를 통째로 번들에 복사하던 것을 그 편 자산 + 공용만 모은 임시 폴더로 줄였다. **PayPal-Mafia 기준 7.3GB → 189MB(150파일, 전부 하드링크, 56ms, 용량 순증 0).**
+  - `scripts/render/stage.ts`(창고 조립·정리) + `scripts/render/render-staged.ts`(껍데기 CLI, `pnpm render:staged`). 담는 것은 `factions/<편>/`(`_refs`·`_docs`·`quotes`·`_archive`·`.export-backup`·`voice/.raw` 제외) + `common`·`music`·`fonts`. 담화도 `--series discourse` 로 같은 원리.
+  - **기본이 창고, 통짜는 `--full-public` 명시.** 조립 실패 시 조용히 통짜로 넘어가지 않고 사유와 함께 멈춘다.
+  - web-bo 렌더 버튼(영상·롱폼 썸네일)이 이 경로를 쓴다. Studio는 복사를 안 하므로 대상 아님.
+  - **실렌더 실증(PayPal-Mafia KO-S1, 150프레임)**: 창고 산출물과 통짜 산출물이 **637,810바이트로 동일**(앞 구간). 대사가 재생되는 구간(1200~1349프레임)에서는 **오디오 트랙 md5 완전 일치**(영상 크기 0.19% 차이는 h264 인코더 비결정성). **반증 시험** — 창고에서 음성 폴더만 떼고 같은 구간을 뽑으니 `F01C01P01-quote.wav` 404로 실패했다. 즉 그 구간이 실제로 대사를 물고 있고, 창고가 그것을 공급했다는 뜻이다. 썸네일(still) 경로도 창고로 출고 성공.
+
 - 26.07.26 **아이디어 보관함 196MB를 `public/` 밖으로 이송** — `sw/remotion/public/factions/not-using/` → **`sw/remotion/idea-bank/`**(분류/이름 구조 그대로, 743개 205,745,126바이트 이동 전후 완전 일치). 렌더는 `public/` 을 통째로 임시 폴더에 복사하는데 영상에 한 번도 쓰이지 않는 보관함이 매번 딸려 갔다.
   - **DB 폴더 키는 불변**(`not-using/<분류>/<이름>`) — 키를 바꾸면 주소·매니페스트·저장된 사진 경로가 흔들린다. 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 함수**가 맡고 `episodeDirOf` 가 그것을 지난다.
   - **흩어져 있던 경로 조립을 이번에 수렴** — `factionEpisodePaths`(shared `bo/faction-export`)가 `path.join(factionsDir, path.basename(folder))` 였다. 보관함 편이 들어온 뒤로 **web-bo 자동 내보내기가 `public/factions/<이름>` 이라는 없는 자리를 가리키고 있었다**(CLI 는 스캔 결과 경로를 써서 멀쩡했으므로 드러나지 않았다). `episodeDirOf` 로 교체. 자산 창구(`lib/faction-asset.ts`)도 같은 함수로 뿌리를 정한다.
