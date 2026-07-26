@@ -1,28 +1,25 @@
 [
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/01.png",
     "text": "\"남들은 다 아니라고 하는데, 당신만은 옳다고 믿는 중요한 진실은 무엇입니까?\"",
     "chunks": [
       "\"남들은 다 아니라고 하는데,",
       "당신만은 옳다고 믿는 중요한 진실은 무엇입니까?\""
     ],
     "origin": "What important truth do very few people agree with you on?",
-    "originRef": "Zero to One 공식 편집 발췌, Inc., 2014-09-16"
+    "originRef": "Zero to One 공식 편집 발췌, Inc., 2014-09-16",
+    "image": "cast/peter-thiel/01.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/02.png",
     "imageChanges": [
       {
         "chunk": 2,
         "image": "cast/peter-thiel/03.png"
       }
     ],
+    "kind": "monologue",
     "text": "이 질문에 답하기 어려운 이유는 진실이 없어서가 아닙니다. 우리는 남과 같은 답을 맞히는 훈련만 받고 자랐습니다. 모두가 가는 학교에 가고, 모두가 원하는 직장을 원하고, 돈이 된다는 시장으로 몰려갑니다. 그러고는 그것을 자기가 고른 길이라고 믿습니다.",
     "chunks": [
       "이 질문에 답하기 어려운 이유는 진실이 없어서가 아닙니다.",
@@ -30,13 +27,13 @@
       "모두가 가는 학교에 가고, 모두가 원하는 직장을 원하고,",
       "돈이 된다는 시장으로 몰려갑니다.",
       "그러고는 그것을 자기가 고른 길이라고 믿습니다."
-    ]
+    ],
+    "image": "cast/peter-thiel/02.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/04.png",
     "text": "사람은 서로를 쉽게 닮습니다. 같은 것을 원하고 같은 자리를 놓고 싸웁니다. 르네 지라르는 이것을 모방 욕망이라고 불렀습니다. \"모방 이론에서 갈등은 사람들이 같은 것을 두고 싸울 때 생깁니다.\"",
     "chunks": [
       "사람은 서로를 쉽게 닮습니다.",
@@ -46,13 +43,13 @@
       "사람들이 같은 것을 두고 싸울 때 생깁니다.\""
     ],
     "origin": "In mimetic theory, conflict arises when people fight about the same thing.",
-    "originRef": "Imitatio, Peter Thiel Discusses René Girard, 2011-01-05 · 공식 영상 06:09"
+    "originRef": "Imitatio, Peter Thiel Discusses René Girard, 2011-01-05 · 공식 영상 06:09",
+    "image": "cast/peter-thiel/04.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/05.png",
     "text": "그래서 나는 질문을 바꿉니다. 경쟁에서 이기는 것이 정말 목표입니까. 나는 아니라고 봅니다. \"어떻게 경쟁을 덜 함으로써 더 성공할 수 있는가?\"",
     "chunks": [
       "그래서 나는 질문을 바꿉니다.",
@@ -61,19 +58,19 @@
       "\"어떻게 경쟁을 덜 함으로써 더 성공할 수 있는가?\""
     ],
     "origin": "How do I become less competitive in order that I can become more successful?",
-    "originRef": "The Tim Ferriss Show, Peter Thiel 인터뷰, 2014-09-09 · 공식 영상 21:28"
+    "originRef": "The Tim Ferriss Show, Peter Thiel 인터뷰, 2014-09-09 · 공식 영상 21:28",
+    "image": "cast/peter-thiel/05.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/06.png",
     "imageChanges": [
       {
         "chunk": 3,
         "image": "cast/peter-thiel/07.png"
       }
     ],
+    "kind": "monologue",
     "text": "\"경쟁은 패자들의 몫입니다.\" 경쟁은 강하다는 증거가 아닙니다. 남과 다른 것을 만들어내지 못했다는 증거입니다. 싸움이 붙으면 우리는 고객 대신 경쟁자를 봅니다. 저쪽이 값을 내리면 나도 내리고, 저쪽이 기능을 붙이면 나도 붙입니다. 제품은 서로 닮아가고 이익은 사라집니다. 누가 이기든 다 같이 가난해집니다.",
     "chunks": [
       "\"경쟁은 패자들의 몫입니다.\"",
@@ -85,13 +82,13 @@
       "누가 이기든 다 같이 가난해집니다."
     ],
     "origin": "Competition is for losers.",
-    "originRef": "Y Combinator, Competition is for Losers, 2014-10-07 · 공식 영상 00:31"
+    "originRef": "Y Combinator, Competition is for Losers, 2014-10-07 · 공식 영상 00:31",
+    "image": "cast/peter-thiel/06.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/08.png",
     "text": "\"사실 자본주의와 경쟁은 반대말입니다.\" 자본주의는 자본을 쌓는 일입니다. 그런데 완전한 경쟁에서는 이윤이 한 푼도 남지 않습니다. 시장이 붐빈다는 것은 기회가 있다는 뜻이 아닙니다. 이미 여러 사람이 같은 답을 찾아냈다는 뜻입니다.",
     "chunks": [
       "\"사실 자본주의와 경쟁은 반대말입니다.\"",
@@ -101,19 +98,19 @@
       "이미 여러 사람이 같은 답을 찾아냈다는 뜻입니다."
     ],
     "origin": "Actually, capitalism and competition are opposites. Capitalism is premised on the accumulation of capital, but under perfect competition, all profits get competed away.",
-    "originRef": "Peter Thiel, Competition Is for Losers, Wall Street Journal, 2014-09-12"
+    "originRef": "Peter Thiel, Competition Is for Losers, Wall Street Journal, 2014-09-12",
+    "image": "cast/peter-thiel/08.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/09.png",
     "imageChanges": [
       {
         "chunk": 6,
         "image": "cast/peter-thiel/10.png"
       }
     ],
+    "kind": "monologue",
     "text": "좋은 기업은 경쟁에서 이기지 않습니다. 경쟁 자체를 없앱니다. \"내가 말하는 독점이란, 자기 일을 너무 잘해서 다른 어떤 회사도 비슷한 대체품을 내놓지 못하는 회사를 뜻합니다.\" 권력으로 문을 잠그는 것이 아닙니다. 아무도 풀지 못한 문제를 풀고 혼자 서는 것입니다. \"항공사들은 서로 경쟁하지만, 구글은 홀로 서 있습니다.\" 그래서 나는 이렇게 묻습니다. \"아무도 세우고 있지 않은 가치 있는 회사는 무엇입니까?\"",
     "chunks": [
       "좋은 기업은 경쟁에서 이기지 않습니다.",
@@ -127,13 +124,13 @@
       "\"아무도 세우고 있지 않은 가치 있는 회사는 무엇입니까?\""
     ],
     "origin": "By 'monopoly,' I mean the kind of company that is so good at what it does that no other firm can offer a close substitute. The airlines compete with each other, but Google stands alone. What valuable company is nobody building?",
-    "originRef": "Peter Thiel, Competition Is for Losers, Wall Street Journal, 2014-09-12"
+    "originRef": "Peter Thiel, Competition Is for Losers, Wall Street Journal, 2014-09-12",
+    "image": "cast/peter-thiel/09.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 1,
-    "image": "cast/peter-thiel/11.png",
     "text": "먼저 뛰어드는 쪽이 이긴다고들 합니다. \"먼저 움직이는 것은 전술이지 목표가 아닙니다.\" 뒤늦게 온 누군가가 자리를 빼앗으면 처음이었다는 사실은 아무 소용이 없습니다. \"차라리 마지막으로 움직이는 편이 훨씬 낫습니다. 어떤 시장에서 마지막으로 큰 발전을 이루고, 그 뒤로 수년, 길게는 수십 년의 독점 이익을 누리는 것입니다.\" 작은 자리부터 완전히 장악하십시오. 넓히는 것은 그다음입니다.",
     "chunks": [
       "먼저 뛰어드는 쪽이 이긴다고들 합니다.",
@@ -146,19 +143,19 @@
       "작은 자리부터 완전히 장악하십시오. 넓히는 것은 그다음입니다."
     ],
     "origin": "But moving first is a tactic, not a goal. It's much better to be the last mover—that is, to make the last great development in a specific market and enjoy years or even decades of monopoly profits.",
-    "originRef": "Zero to One 5장 Last Mover Advantage, Crown Business, 2014"
+    "originRef": "Zero to One 5장 Last Mover Advantage, Crown Business, 2014",
+    "image": "cast/peter-thiel/11.png",
+    "part": 1,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/12.png",
     "imageChanges": [
       {
         "chunk": 5,
         "image": "cast/peter-thiel/13.png"
       }
     ],
+    "kind": "monologue",
     "text": "\"아직 풀리지 않은 위대한 비밀은 많습니다.\" 사람들은 세상이 다 완성되었다고 믿습니다. 발견할 것은 다 발견했고 만들 것은 다 만들었다고 여깁니다. 비밀은 예언이 아닙니다. 누군가 불가능하다고 못 박았거나 중요하지 않다고 넘긴 문제입니다. 그런 문제를 붙드는 사람은 잘 닦인 이력서에서 나오지 않습니다. 나는 조금 이상하고, 한 가지에 병적으로 매달리는 사람을 찾습니다. 경쟁에 익숙한 사람은 남이 그어준 선 안에서만 빠릅니다.",
     "chunks": [
       "\"아직 풀리지 않은 위대한 비밀은 많습니다.\"",
@@ -171,13 +168,13 @@
       "경쟁에 익숙한 사람은 남이 그어준 선 안에서만 빠릅니다."
     ],
     "origin": "There are many great secrets left to be unlocked.",
-    "originRef": "The Tim Ferriss Show, Peter Thiel 인터뷰, 2014-09-09 · 공식 영상 22:31"
+    "originRef": "The Tim Ferriss Show, Peter Thiel 인터뷰, 2014-09-09 · 공식 영상 22:31",
+    "image": "cast/peter-thiel/12.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/14.png",
     "text": "\"어려운 일은 해낼 수 있지만 불가능한 일은 해낼 수 없습니다.\" 어렵다고 다 가치 있지는 않습니다. 불가능한 일에 매달리면 인생을 버립니다. 어려운 일과 불가능한 일은 다릅니다. 기회는 어렵지만 가능한 쪽에 있습니다. 남들이 중간에 놓아버린 문제를 끝까지 붙든 사람이 새 시장을 엽니다.",
     "chunks": [
       "\"어려운 일은 해낼 수 있지만",
@@ -189,19 +186,19 @@
       "남들이 중간에 놓아버린 문제를 끝까지 붙든 사람이 새 시장을 엽니다."
     ],
     "origin": "You can achieve difficult things, but you can't achieve the impossible.",
-    "originRef": "Zero to One 공식 편집 발췌, Inc., 2014-09-16"
+    "originRef": "Zero to One 공식 편집 발췌, Inc., 2014-09-16",
+    "image": "cast/peter-thiel/14.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/15.png",
     "imageChanges": [
       {
         "chunk": 4,
         "image": "cast/peter-thiel/16.png"
       }
     ],
+    "kind": "monologue",
     "text": "\"작동하는 것을 복제하는 것, 곧 1에서 n으로 가는 것.\" \"새로운 것을 하는 것, 곧 0에서 1로 가는 것.\" 나는 두 번째를 기술이라고 부릅니다. 세계화는 성공한 것을 넓게 퍼뜨립니다. 기술은 없던 것을 처음 만듭니다. 다만 만들었다고 사람들이 알아서 찾아오지는 않습니다. 엔지니어들은 파는 일을 천하게 여깁니다. 그러나 닿지 못한 기술은 실험실 안의 장난감으로 끝납니다. 파는 일은 만드는 일만큼 중요합니다.",
     "chunks": [
       "\"작동하는 것을 복제하는 것, 곧 1에서 n으로 가는 것.\"",
@@ -214,13 +211,13 @@
       "파는 일은 만드는 일만큼 중요합니다."
     ],
     "origin": "copying things that work—going from 1 to n; doing new things—going from 0 to 1",
-    "originRef": "Zero to One 공식 발췌, Fortune, 2014-09-04"
+    "originRef": "Zero to One 공식 발췌, Fortune, 2014-09-04",
+    "image": "cast/peter-thiel/15.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/17.png",
     "text": "우리 회사 홈페이지에는 오래전부터 문장 하나가 걸려 있습니다. \"그들은 우리에게 날아다니는 자동차를 약속했지만, 우리가 얻은 것은 140자였습니다.\" 짓궂은 말이지만 사실입니다. 1960년대의 아이들은 2000년이 오면 하늘을 나는 차와 우주 정거장을 볼 줄 알았습니다. 우리가 받은 것은 짧은 글을 주고받는 재주였습니다.",
     "chunks": [
       "우리 회사 홈페이지에는 오래전부터 문장 하나가 걸려 있습니다.",
@@ -232,13 +229,13 @@
       "우리가 받은 것은 짧은 글을 주고받는 재주였습니다."
     ],
     "origin": "They promised us flying cars and all we got was 140 characters.",
-    "originRef": "Conversations with Bill Kristol, Peter Thiel on Innovation and Stagnation, 2014-09-14 · 공식 영상 44:52 · 본인이 Founders Fund 홈페이지 표지 문구를 읽어 인용한 발언"
+    "originRef": "Conversations with Bill Kristol, Peter Thiel on Innovation and Stagnation, 2014-09-14 · 공식 영상 44:52 · 본인이 Founders Fund 홈페이지 표지 문구를 읽어 인용한 발언",
+    "image": "cast/peter-thiel/17.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/18.png",
     "text": "우리는 화면 속 세계가 빨라진 것을 세상 전체가 빨라진 것으로 착각합니다. 컴퓨터와 인터넷은 빨라졌습니다. 에너지, 의료, 운송, 우주. 원자로 이루어진 세계는 거의 그대로입니다. \"우리는 마법의 숲에 있었다고 생각하지만, 사실 40년이나 50년 동안 사막을 헤맸습니다.\"",
     "chunks": [
       "우리는 화면 속 세계가 빨라진 것을",
@@ -250,19 +247,19 @@
       "사실 40년이나 50년 동안 사막을 헤맸습니다.\""
     ],
     "origin": "We think we've been in an enchanted forest, but we've been wandering the desert for 40 or 50 years.",
-    "originRef": "Hoover Institution, Peter Thiel: Leader of the Rebel Alliance, 2022-11-09 · 공식 영상 03:09"
+    "originRef": "Hoover Institution, Peter Thiel: Leader of the Rebel Alliance, 2022-11-09 · 공식 영상 03:09",
+    "image": "cast/peter-thiel/18.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
-    "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/19.png",
     "imageChanges": [
       {
         "chunk": 5,
         "image": "cast/peter-thiel/20.png"
       }
     ],
+    "kind": "monologue",
     "text": "\"투자자는 미래를 가능한 한 구체적으로 생각해야 합니다.\" 유행하는 분야에 조금씩 표를 사는 것은 판단이 아닙니다. 월스트리트의 똑똑한 사람들은 이미 있는 회사에 값을 매기고 돈의 주인을 바꿉니다. 그러면서 스스로 현명하다고 여깁니다. 파이를 나누는 일이지 키우는 일이 아닙니다. 게다가 세상은 고르게 나뉘지 않습니다. 수많은 시도 가운데 하나가 나머지 전부를 합친 것보다 큽니다. 여러 곳에 조금씩 걸치지 마십시오. 어떤 미래가 가능한지 정하고 오래 책임지십시오.",
     "chunks": [
       "\"투자자는 미래를 가능한 한 구체적으로 생각해야 합니다.\"",
@@ -276,13 +273,13 @@
       "어떤 미래가 가능한지 정하고 오래 책임지십시오."
     ],
     "origin": "Investors should think in as definite a way as possible about the future.",
-    "originRef": "Fortune, Peter Thiel and the Definite Future, 2011-09-30"
+    "originRef": "Fortune, Peter Thiel and the Definite Future, 2011-09-30",
+    "image": "cast/peter-thiel/19.png",
+    "part": 2,
+    "cast": 0
   },
   {
-    "cast": 0,
     "kind": "monologue",
-    "part": 2,
-    "image": "cast/peter-thiel/21.png",
     "text": "\"미래는 이미 고정되어 존재하는 것이 아닙니다. 우리가 무엇을 할지 결정하도록 열려 있습니다.\" 마지막 질문은 예측이 아닙니다. 당신은 남보다 더 잘 경쟁할 방법을 찾고 있습니까. 아니면 아직 아무도 보지 못한 진실을 찾고 있습니까. 나는 두 번째 질문에만 관심이 있습니다.",
     "chunks": [
       "\"미래는 이미 고정되어 존재하는 것이 아닙니다.",
@@ -293,6 +290,9 @@
       "나는 두 번째 질문에만 관심이 있습니다."
     ],
     "origin": "I don't think the future is this fixed thing that just exists. The future is open to us to decide what to do.",
-    "originRef": "Conversations with Tyler, Peter Thiel 인터뷰, 2015-04-02 · 공식 영상 07:13"
+    "originRef": "Conversations with Tyler, Peter Thiel 인터뷰, 2015-04-02 · 공식 영상 07:13",
+    "image": "cast/peter-thiel/21.png",
+    "part": 2,
+    "cast": 0
   }
 ]

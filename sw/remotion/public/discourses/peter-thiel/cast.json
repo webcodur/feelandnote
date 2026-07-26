@@ -1,9 +1,12 @@
 [
   {
+    "voice": {
+      "style": "낮고 느리게, 단어 사이에 여백을 두고, 도발적인 문장도 감정 없이 논증하듯",
+      "engine": "gemini"
+    },
     "name": "피터 틸",
     "nameEn": "Peter Thiel",
     "slug": "peter-thiel",
-    "living": true,
     "lines": [
       "페이팔 공동창업자 · 전 CEO",
       "팔란티어 공동창업자 · 회장",
@@ -18,9 +21,6 @@
     "epithetEn": "The investor who asks how to find a world no one has built instead of how to win a crowded race",
     "era": "1967 ~",
     "color": "#9bb0c9",
-    "voice": {
-      "engine": "gemini",
-      "style": "낮고 느리게, 단어 사이에 여백을 두고, 도발적인 문장도 감정 없이 논증하듯"
-    }
+    "living": true
   }
 ]

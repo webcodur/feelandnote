@@ -1,5 +1,9 @@
 [
   {
+    "voice": {
+      "style": "낮고 단단하게, 감정을 누른 채",
+      "engine": "gemini"
+    },
     "name": "진시황",
     "nameEn": "Qin Shi Huang",
     "slug": "qin-shi-huang",
@@ -16,10 +20,6 @@
     "epithet": "여섯 나라를 무너뜨리고 첫 황제라 칭한 뒤, 다시 갈라지지 않을 나라의 틀을 법으로 세운 창업자",
     "epithetEn": "The founder who toppled six states, named himself the first emperor, and built in law a frame that would not come apart again",
     "era": "기원전 259 ~ 기원전 210",
-    "color": "#c9a227",
-    "voice": {
-      "engine": "gemini",
-      "style": "낮고 단단하게, 감정을 누른 채"
-    }
+    "color": "#c9a227"
   }
 ]

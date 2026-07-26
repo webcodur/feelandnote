@@ -1,10 +1,12 @@
 [
   {
+    "voice": {
+      "style": "낮고 건조하게, 말끝을 눌러",
+      "engine": "gemini"
+    },
     "name": "일론 머스크",
     "nameEn": "Elon Musk",
     "slug": "elon-musk",
-    "image": "cast/elon-musk/00.png",
-    "living": true,
     "lines": [
       "테슬라 · 스페이스X · xAI CEO",
       "PayPal 공동설립 · OpenAI 공동설립",
@@ -19,17 +21,17 @@
     "epithetEn": "The founder who proved electric cars and rockets as industries, then took the AI lab he founded to court",
     "era": "1971 ~",
     "color": "#e05c5c",
-    "voice": {
-      "engine": "gemini",
-      "style": "낮고 건조하게, 말끝을 눌러"
-    }
+    "image": "cast/elon-musk/00.png",
+    "living": true
   },
   {
+    "voice": {
+      "style": "차분하고 고르게, 설득하듯",
+      "engine": "gemini"
+    },
     "name": "샘 알트만",
     "nameEn": "Sam Altman",
     "slug": "sam-altman",
-    "image": "cast/sam-altman/00.png",
-    "living": true,
     "lines": [
       "OpenAI CEO",
       "Y Combinator 대표 · OpenAI 공동설립",
@@ -44,9 +46,7 @@
     "epithetEn": "The executive who brought AI out of the lab with ChatGPT, then converted a nonprofit into a for-profit entity",
     "era": "1985 ~",
     "color": "#5aa9e6",
-    "voice": {
-      "engine": "gemini",
-      "style": "차분하고 고르게, 설득하듯"
-    }
+    "image": "cast/sam-altman/00.png",
+    "living": true
   }
 ]

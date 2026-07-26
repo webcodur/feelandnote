@@ -55,6 +55,10 @@ sw/remotion/public/factions/
 # Remotion BGM 음원 (로컬 관리)
 sw/remotion/public/music/
 
+# 담화 내보내기 백업 — DB 발효 때마다 쌓이는 회차 사본이라 추적하지 않는다.
+# (담화 데이터 세 파일 자체는 추적 대상이다. factions/ 처럼 통째로 빼지 않는다)
+sw/remotion/public/discourses/*/.export-backup/
+
 # Remotion temp scripts & data
 sw/remotion/tmp-*
 sw/remotion/subs-*.json

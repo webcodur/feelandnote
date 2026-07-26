@@ -1,5 +1,9 @@
 [
   {
+    "voice": {
+      "style": "낮고 단단하게, 감정을 누른 채",
+      "engine": "gemini"
+    },
     "name": "진시황",
     "nameEn": "Qin Shi Huang",
     "slug": "qin-shi-huang",
@@ -16,13 +20,13 @@
     "epithet": "여섯 나라를 무너뜨리고 첫 황제라 칭한 뒤, 만세에 전하라 명하고 이세에서 끝난 창업자",
     "epithetEn": "The founder who toppled six states, named himself the first emperor, decreed the line would run ten thousand generations, and ended at the second",
     "era": "기원전 259 ~ 기원전 210",
-    "color": "#c9a227",
-    "voice": {
-      "engine": "gemini",
-      "style": "낮고 단단하게, 감정을 누른 채"
-    }
+    "color": "#c9a227"
   },
   {
+    "voice": {
+      "style": "빠르고 논리적으로, 설득하는 관료의 말투",
+      "engine": "gemini"
+    },
     "name": "이사",
     "nameEn": "Li Si",
     "slug": "li-si",
@@ -39,13 +43,13 @@
     "epithet": "사람의 잘나고 못남은 쥐가 어디 있느냐에 달렸다고 말한 뒤, 곳간에 올라 제국의 법을 쓰고 그 법에 죽은 승상",
     "epithetEn": "The chancellor who said a man's worth is decided by where the rat stands, climbed into the granary, wrote the empire's law, and died by it",
     "era": "기원전 284 ~ 기원전 208",
-    "color": "#6fa87c",
-    "voice": {
-      "engine": "gemini",
-      "style": "빠르고 논리적으로, 설득하는 관료의 말투"
-    }
+    "color": "#6fa87c"
   },
   {
+    "voice": {
+      "style": "조용하고 공손하게, 낮게 파고들듯",
+      "engine": "gemini"
+    },
     "name": "조고",
     "nameEn": "Zhao Gao",
     "slug": "zhao-gao",
@@ -62,13 +66,13 @@
     "epithet": "힘이 세고 옥법에 밝다는 이유로 뽑혀 옥새를 맡은 자리에서 이십 년을 버틴 끝에, 봉해진 글 하나로 제국의 후계를 바꾼 실무자",
     "epithetEn": "Chosen for his strength and his command of penal law, he kept the seal for twenty years and changed the succession of an empire with a single sealed letter",
     "era": "? ~ 기원전 207",
-    "color": "#8b6db3",
-    "voice": {
-      "engine": "gemini",
-      "style": "조용하고 공손하게, 낮게 파고들듯"
-    }
+    "color": "#8b6db3"
   },
   {
+    "voice": {
+      "style": "맑고 곧게, 원망 없이",
+      "engine": "gemini"
+    },
     "name": "부소",
     "nameEn": "Fusu",
     "slug": "fusu",
@@ -85,10 +89,6 @@
     "epithet": "아버지의 법에 한 번 간언했다가 변방으로 보내진 뒤, 아버지의 이름이 적힌 가짜 문서를 받고 묻지 않은 채 죽은 장남",
     "epithetEn": "The eldest son who remonstrated once against his father's law, was sent to the frontier, received a forged letter bearing his father's name, and died without asking",
     "era": "? ~ 기원전 210",
-    "color": "#6ba3d6",
-    "voice": {
-      "engine": "gemini",
-      "style": "맑고 곧게, 원망 없이"
-    }
+    "color": "#6ba3d6"
   }
 ]

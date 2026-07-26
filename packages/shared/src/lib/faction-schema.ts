@@ -4,6 +4,14 @@
  * faction-data.json 한 파일이 DB 4계층(에피소드·세력·묶음·인물)으로 흩어진다.
  * 이 모듈이 그 왕복(split/join)을 전담한다. 렌더·BO 어느 쪽도 이 규칙을 따로 구현하지 않는다.
  *
+ * ## 절차는 series-schema 가 쥔다
+ *
+ * 분해·재조립·비교·체크섬의 **절차**는 시리즈 고유 지식이 없어 `series-schema.ts` 로 올렸다
+ * (담화가 같은 규칙을 복제하지 않게 하기 위한 승격, 26.07.26).
+ * 이 파일이 쥐는 것은 **팩션 고유 지식**뿐이다 — 어떤 필드가 컬럼인가(HOT 맵),
+ * 어떤 컬럼이 NOT NULL boolean·numeric 인가, 어떤 필드가 음성 길이인가, 계층이 어떻게 겹치는가.
+ * 바깥에서 보는 이름·시그니처는 승격 전과 완전히 같다(팩션 왕복 검증 95편이 그대로 통과한다).
+ *
  * ## 블랙리스트 방식 — 미지 필드 자동 생존
  *
  * 화이트리스트(아는 필드만 옮김)로 짜면 **데이터에만 있고 타입에 없는 필드가 조용히 소실**된다.
@@ -17,30 +25,30 @@
  * 아래 HOT 맵은 실제 테이블 컬럼과 1:1로 맞춰야 한다(조회·정렬·조인에 쓰는 값만 승격).
  * 컬럼을 추가·제거하면 이 맵도 같이 고친다.
  *
- * ## 무손실 왕복 규칙
+ * ## 무손실 왕복 규칙(팩션 고유분)
  *
- * - `undefined`(키 부재) ↔ 컬럼 `null`: join 은 null 컬럼의 키를 **생략**한다(빈 키를 만들지 않는다).
- * - NOT NULL boolean(`disabled`·`longform_only`·`mythical`)은 기본 false. 원본 JSON 에 explicit
- *   `false` 는 실측 0건이고 의미도 키 부재와 동일하므로 join 에서 false 는 생략한다.
- * - numeric 컬럼(`quote_duration`·`epithet_duration`)은 PostgREST 가 **문자열**로 돌려준다.
- *   join 에서 Number 로 되돌린다. 안 하면 "3.5" ≠ 3.5 로 왕복이 깨진다.
- * - 자식 배열(`groups`·`clusters`·`people`)은 별 테이블로 가므로 `data` 에서 제외하고,
- *   join 에서 호출 측이 재조립해 끼운다.
  * - `tagSlug`(세력)는 컬럼이 아니라 `data` 에 남긴다. `tag_id` 는 이 값을 celeb_tags 로 해소한
  *   **파생 컬럼**이라, 해소 실패(태그 미존재) 시에도 원본 문자열이 보존된다.
  * - `slug`(인물)는 컬럼이고 `celeb_id` 가 그 파생 컬럼이다(반대 방향).
+ * - 나머지 공통 규칙(키 부재 ↔ null, boolean false 생략, numeric 문자열 복원)은 series-schema 참조.
  */
 
-/** JSON 키 → DB 컬럼명 */
-export type HotMap = Record<string, string>
+import {
+  splitLevel as splitLevelGeneric,
+  joinLevel as joinLevelGeneric,
+  normalizeForCompare as normalizeGeneric,
+  diffPointers as diffPointersGeneric,
+  type ColumnRules,
+  type CompareRules,
+} from './series-schema'
 
-/** 한 계층의 분해 결과 */
-export interface SplitResult {
-  /** 핫 컬럼 값 (컬럼명 기준). 키 부재는 null */
-  cols: Record<string, unknown>
-  /** 나머지 전부 — jsonb 로 보존 */
-  data: Record<string, unknown>
-}
+export type { HotMap, SplitResult, GeneratedMarker } from './series-schema'
+export {
+  GENERATED_KEY, canonicalJson, stripGenerated, checksumPayload, withGenerated,
+  findReplacementChars,
+} from './series-schema'
+
+import type { HotMap, SplitResult } from './series-schema'
 
 /* ────────────────────────── 계층별 핫 필드 정의 ────────────────────────── */
 
@@ -115,10 +123,13 @@ export const BOOL_COLS = new Set(['disabled', 'longform_only', 'mythical'])
 /** numeric 컬럼 — PostgREST 가 문자열로 돌려주므로 join 에서 Number 로 되돌린다 */
 export const NUMERIC_COLS = new Set(['quote_duration', 'epithet_duration'])
 
-/* ────────────────────────── 범용 분해·재조립 ────────────────────────── */
+/** 팩션 컬럼 성질 — series-schema 절차에 주입한다 */
+const COLUMN_RULES: ColumnRules = { boolCols: BOOL_COLS, numericCols: NUMERIC_COLS }
+
+/* ────────────────────────── 범용 분해·재조립(팩션 규칙 고정) ────────────────────────── */
 
 /**
- * 한 계층을 핫 컬럼 + 나머지(data)로 가른다.
+ * 한 계층을 핫 컬럼 + 나머지(data)로 가른다. 절차는 series-schema, 규칙은 팩션 것.
  *
  * @param obj    원본 JSON 객체 (가공 없이 그대로 받는다)
  * @param hot    JSON 키 → 컬럼명
@@ -129,26 +140,11 @@ export function splitLevel(
   hot: HotMap,
   drop: readonly string[] = [],
 ): SplitResult {
-  const cols: Record<string, unknown> = {}
-  for (const [jsonKey, col] of Object.entries(hot)) {
-    // 키 부재 → null. JSON.parse 결과에 undefined 값은 없으므로 `in` 판정이 정확하다.
-    const v = jsonKey in obj ? obj[jsonKey] : null
-    // NOT NULL boolean 컬럼은 null 을 못 받는다. 키 부재 = false(join 의 생략 규칙과 대칭).
-    cols[col] = v === null && BOOL_COLS.has(col) ? false : v
-  }
-  const excluded = new Set<string>([...Object.keys(hot), ...drop])
-  const data: Record<string, unknown> = {}
-  for (const [k, v] of Object.entries(obj)) {
-    if (!excluded.has(k)) data[k] = v
-  }
-  return { cols, data }
+  return splitLevelGeneric(obj, hot, drop, COLUMN_RULES)
 }
 
 /**
  * 핫 컬럼 + data 를 원본 JSON 구조로 되돌린다.
- *
- * data 를 펼친 위에 핫 컬럼을 얹는다. null·undefined 컬럼은 **키를 만들지 않는다**.
- * NOT NULL boolean 의 false, numeric 의 문자열도 여기서 정리한다.
  *
  * @param row  DB 행 (컬럼명 기준)
  * @param hot  JSON 키 → 컬럼명
@@ -157,18 +153,7 @@ export function joinLevel(
   row: Record<string, unknown>,
   hot: HotMap,
 ): Record<string, unknown> {
-  const data = (row.data ?? {}) as Record<string, unknown>
-  const out: Record<string, unknown> = { ...data }
-  for (const [jsonKey, col] of Object.entries(hot)) {
-    let v = row[col]
-    if (v === null || v === undefined) continue
-    // NOT NULL boolean 의 false = 키 부재
-    if (BOOL_COLS.has(col) && v === false) continue
-    // numeric 은 문자열로 온다 → 숫자로 되돌린다
-    if (NUMERIC_COLS.has(col) && typeof v === 'string') v = Number(v)
-    out[jsonKey] = v
-  }
-  return out
+  return joinLevelGeneric(row, hot, COLUMN_RULES)
 }
 
 /* ────────────────────────── 계층별 래퍼 ────────────────────────── */
@@ -255,154 +240,17 @@ const DURATION_KEYS = new Set(['quoteDuration', 'epithetDuration'])
 /** false 를 키 부재와 동일하게 볼 필드(NOT NULL boolean 컬럼의 JSON 이름) */
 const BOOL_JSON_KEYS = new Set(['disabled', 'longformOnly', 'mythical'])
 
+/** 팩션 비교 규칙 — series-schema 절차에 주입한다 */
+const COMPARE_RULES: CompareRules = { durationKeys: DURATION_KEYS, boolJsonKeys: BOOL_JSON_KEYS }
+
 /**
- * 왕복 비교용 정규화.
- *
- * - 객체 키 순서 무시(정렬해 재구성) — jsonb 가 키 순서를 보존하지 않는다.
- * - `undefined` ≡ 키 부재 — 키를 지운다.
- * - 빈 배열·빈 객체 ≡ 부재 — 키를 지운다.
- * - `disabled`·`longformOnly`·`mythical` 의 false ≡ 부재.
- * - 음성 길이는 소수 2자리로 맞춘다.
- * - 그 외 값은 **손대지 않는다**(문자열·숫자 정확 비교).
+ * 왕복 비교용 정규화(팩션 규칙 고정). 상세 규칙은 series-schema.normalizeForCompare 참조.
  */
 export function normalizeForCompare(value: unknown, key?: string): unknown {
-  if (value === undefined) return undefined
-  if (value === null) return null
-  if (Array.isArray(value)) {
-    const arr = value.map(v => normalizeForCompare(v))
-    return arr.length === 0 ? undefined : arr
-  }
-  if (typeof value === 'object') {
-    const src = value as Record<string, unknown>
-    const out: Record<string, unknown> = {}
-    for (const k of Object.keys(src).sort()) {
-      const nv = normalizeForCompare(src[k], k)
-      if (nv === undefined) continue
-      out[k] = nv
-    }
-    return Object.keys(out).length === 0 ? undefined : out
-  }
-  if (typeof value === 'boolean') {
-    if (value === false && key && BOOL_JSON_KEYS.has(key)) return undefined
-    return value
-  }
-  if (typeof value === 'number' && key && DURATION_KEYS.has(key)) {
-    return Math.round(value * 100) / 100
-  }
-  return value
+  return normalizeGeneric(value, COMPARE_RULES, key)
 }
 
 /** 정규화 후 차이가 나는 지점을 JSON Pointer 로 전량 수집한다 */
 export function diffPointers(a: unknown, b: unknown, base = ''): string[] {
-  const na = normalizeForCompare(a)
-  const nb = normalizeForCompare(b)
-  return collect(na, nb, base)
-}
-
-const esc = (k: string) => k.replace(/~/g, '~0').replace(/\//g, '~1')
-
-function collect(a: unknown, b: unknown, ptr: string): string[] {
-  if (a === undefined && b === undefined) return []
-  if (a === undefined) return [`${ptr || '/'} (원본 없음 → 왕복 ${brief(b)})`]
-  if (b === undefined) return [`${ptr || '/'} (원본 ${brief(a)} → 왕복 없음)`]
-
-  const aArr = Array.isArray(a)
-  const bArr = Array.isArray(b)
-  if (aArr !== bArr) return [`${ptr || '/'} (형 불일치: ${aArr ? '배열' : typeof a} vs ${bArr ? '배열' : typeof b})`]
-
-  if (aArr && bArr) {
-    const out: string[] = []
-    const n = Math.max(a.length, b.length)
-    if (a.length !== b.length) out.push(`${ptr || '/'} (길이 ${a.length} vs ${b.length})`)
-    for (let i = 0; i < n; i++) out.push(...collect(a[i], b[i], `${ptr}/${i}`))
-    return out
-  }
-
-  const aObj = typeof a === 'object' && a !== null
-  const bObj = typeof b === 'object' && b !== null
-  if (aObj !== bObj) return [`${ptr || '/'} (형 불일치: ${typeof a} vs ${typeof b})`]
-
-  if (aObj && bObj) {
-    const ao = a as Record<string, unknown>
-    const bo = b as Record<string, unknown>
-    const keys = [...new Set([...Object.keys(ao), ...Object.keys(bo)])].sort()
-    const out: string[] = []
-    for (const k of keys) out.push(...collect(ao[k], bo[k], `${ptr}/${esc(k)}`))
-    return out
-  }
-
-  if (a !== b) return [`${ptr || '/'} (${brief(a)} ≠ ${brief(b)})`]
-  return []
-}
-
-function brief(v: unknown): string {
-  if (typeof v === 'string') return v.length > 60 ? `"${v.slice(0, 60)}…"` : `"${v}"`
-  return JSON.stringify(v) ?? String(v)
-}
-
-/* ────────────────────────── 내보내기 마커·체크섬 ────────────────────────── */
-
-/**
- * 내보내기 마커 키 — 파일 첫 키로 박는다.
- * 렌더 로더(Faction/script.ts)는 미지의 최상위 키를 그대로 흘려보내므로 무해하다.
- */
-export const GENERATED_KEY = '_generated'
-
-export interface GeneratedMarker {
-  /** 산출 원천 — 항상 'db' */
-  from: string
-  /** 산출 시각(ISO) */
-  at: string
-  /** faction_episodes.id */
-  episodeId: string
-  /** 마커 자신을 뺀 문서의 정규 직렬화 sha1 */
-  checksum: string
-}
-
-/**
- * 체크섬용 정규 직렬화 — 키를 정렬해 순서에 흔들리지 않게 만든다.
- *
- * ⚠ 여기서는 **값을 손대지 않는다**(normalizeForCompare 와 다르다). 빈 배열·false 를 지우면
- * 사람이 그런 값을 넣은 손 편집을 놓치기 때문이다. 체크섬은 "글자 한 자라도 바뀌었나"를 봐야 한다.
- */
-export function canonicalJson(value: unknown): string {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value) ?? 'null'
-  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`
-  const src = value as Record<string, unknown>
-  const parts = Object.keys(src).sort()
-    .filter(k => src[k] !== undefined)
-    .map(k => `${JSON.stringify(k)}:${canonicalJson(src[k])}`)
-  return `{${parts.join(',')}}`
-}
-
-/** 마커를 제외한 문서 사본 */
-export function stripGenerated(doc: Record<string, unknown>): Record<string, unknown> {
-  const { [GENERATED_KEY]: _omit, ...rest } = doc
-  return rest
-}
-
-/**
- * 마커를 뺀 문서의 체크섬. sha1 계산은 호출 측에서 주입한다
- * (packages/shared 는 node:crypto 에 의존하지 않는다 — 브라우저 번들에도 실린다).
- */
-export function checksumPayload(doc: Record<string, unknown>): string {
-  return canonicalJson(stripGenerated(doc))
-}
-
-/** 문서 맨 앞에 마커를 박는다(키 순서 = 첫 키) */
-export function withGenerated(
-  doc: Record<string, unknown>, marker: GeneratedMarker,
-): Record<string, unknown> {
-  return { [GENERATED_KEY]: marker, ...stripGenerated(doc) }
-}
-
-/** 한글 깨짐(U+FFFD) 검사 — DB 왕복에서 인코딩이 상했는지 본다 */
-export function findReplacementChars(value: unknown, ptr = ''): string[] {
-  if (typeof value === 'string') return value.includes('�') ? [ptr || '/'] : []
-  if (Array.isArray(value)) return value.flatMap((v, i) => findReplacementChars(v, `${ptr}/${i}`))
-  if (value && typeof value === 'object') {
-    return Object.entries(value as Record<string, unknown>)
-      .flatMap(([k, v]) => findReplacementChars(v, `${ptr}/${esc(k)}`))
-  }
-  return []
+  return diffPointersGeneric(a, b, COMPARE_RULES, base)
 }
