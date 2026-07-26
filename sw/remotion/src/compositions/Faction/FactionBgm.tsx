@@ -1,11 +1,13 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
-import type { FactionScript, FactionTrack } from './types'
-import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, isEmptyChapter, narratorVoicePlaySec, personQuoteEnterSec } from './timing'
+import type { FactionScript } from './types'
+import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, narratorVoicePlaySec, personQuoteEnterSec } from './timing'
 import { clampRate } from './voice-names'
-
-/** 음량 배율 정규화 — 미지정이면 1(원음). 0~1.5 로 제한(과증폭 방지) */
-const vol01 = (v?: number) => (v == null ? 1 : Math.min(1.5, Math.max(0, v)))
+// 선곡(어느 곡이 언제부터)은 따로 뺐다 — 렌더 창고가 담을 곡을 정할 때 같은 함수를 쓴다.
+import {
+  chapterMusicBounds, chapterBgmSegments, usesChapterBgm,
+  globalBgmTracks, canSequenceTracks, vol01,
+} from './bgm-select'
 
 /** 곡 경계 크로스 구간(초) — 한 곡 끝과 다음 곡 시작에 짧은 페이드를 줘 끊김을 막는다(전역 모드) */
 const EDGE_FADE_SEC = 0.6
@@ -91,53 +93,11 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
   const IN_F = f(2.5)  // 새 챕터 곡 페이드인 길이 — 챕터 표지 위에서 천천히 차오른다(급격한 전환 방지)
   const OUT_F = f(1.2) // 이전 챕터 곡 페이드아웃 꼬리 — 검정 브릿지 끝(챕터 표지 등장)에서 무음에 닿는다
   const LEAD_OUT = f(2.0) // 페이드아웃을 검정 진입 전(챕터 마지막 인물 여운)부터 미리 시작하는 선행 시간
-  // 챕터 표지(chapter) 컷과 그 앞 검정 브릿지(chapterBlack)를 찾아 곡 경계를 만든다.
-  const chapterBounds: { blackStart: number | null; coverStart: number; music?: string; vol?: number }[] = []
-  for (let i = 0; i < cues.length; i++) {
-    const c = cues[i].cue
-    if (c.kind === 'chapter') {
-      const prev = cues[i - 1]
-      const blackStart = prev && prev.cue.kind === 'chapterBlack' ? prev.start : null
-      chapterBounds.push({ blackStart, coverStart: cues[i].start, music: c.chapter.music, vol: c.chapter.musicVolume })
-    } else if (c.kind === 'chapterBlack' && isEmptyChapter(c.chapter)) {
-      // 표지 없는 빈 챕터(제목·미디어 없음) — 검정 브릿지가 곧 음악 전환 경계다. 곡은 이 검정 시작부터 페이드인.
-      chapterBounds.push({ blackStart: cues[i].start, coverStart: cues[i].start, music: c.chapter.music, vol: c.chapter.musicVolume })
-    }
-  }
-  if (!portrait && chapterBounds.length) {
-    // 시작곡 — 시작 화면(intro)부터 첫 챕터 표지 이전까지 채운다.
-    // 전역 music > tracks 첫 곡 > (둘 다 없으면) 첫 챕터 곡 순으로 고른다.
-    // 첫 챕터 곡을 승격하면 첫 챕터 경계에서 곡이 바뀌지 않으므로, 시작 화면부터 그 곡이 끊김 없이 이어진다.
-    const firstChap = chapterBounds[0]
-    let startFile: string | undefined
-    let startVol: number
-    if (script.music) {
-      startFile = script.music
-      startVol = vol01(script.tracks?.find(t => t.file === script.music)?.volume)
-    } else if (script.tracks?.length) {
-      startFile = script.tracks[0].file
-      startVol = vol01(script.tracks[0].volume)
-    } else {
-      // 전역 곡이 전혀 없는 챕터 전용 편성 — 첫 챕터 곡을 시작 화면부터 흐르게 한다.
-      startFile = firstChap.music
-      startVol = vol01(firstChap.vol)
-    }
-    // 곡 세그먼트 — 챕터 표지에서 곡을 바꾸되, 챕터 곡 미지정이면 직전 곡을 이어간다.
-    const segs: { file: string; from: number; fadeOutAt: number; vol: number }[] = []
-    let curFile = startFile
-    let curVol = startVol
-    let curFrom = 0
-    for (const a of chapterBounds) {
-      if (a.music && a.music !== curFile) {
-        // 이전 곡 마감 지점 = 검정 브릿지 시작(없으면 챕터 표지 시작). 거기서 페이드아웃한다.
-        const cutAt = a.blackStart ?? a.coverStart
-        if (curFile) segs.push({ file: curFile, from: curFrom, fadeOutAt: cutAt, vol: curVol })
-        curFile = a.music
-        curVol = vol01(a.vol)
-        curFrom = a.coverStart // 새 곡은 챕터 표지 등장부터
-      }
-    }
-    if (curFile) segs.push({ file: curFile, from: curFrom, fadeOutAt: total, vol: curVol })
+  // 곡 경계·시작곡·구간 나누기는 `bgm-select.ts` 소유다 — 렌더 창고가 담을 곡을 정할 때
+  // 같은 함수를 부른다(판정이 두 벌이 되면 언젠가 어긋나고, 어긋난 날 곡이 빠진 채 영상이 나간다).
+  const chapterBounds = chapterMusicBounds(cues)
+  if (usesChapterBgm(portrait, chapterBounds)) {
+    const segs = chapterBgmSegments(script, chapterBounds, total)
     if (!segs.length) return null
     return (
       <>
@@ -165,23 +125,13 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
     )
   }
 
-  // ── 전역 모드 ── 재생 목록 정규화 — tracks 우선, 없으면 legacy music 한 곡
-  const partMusic = part != null ? script.musicByPart?.[part] : undefined
-  const partVol = part != null ? script.musicVolumeByPart?.[part] : undefined
-
-  const tracks: FactionTrack[] = partMusic
-    ? [{ file: partMusic, volume: partVol }]
-    : script.tracks?.length
-      ? script.tracks
-      : script.music
-        ? [{ file: script.music }]
-        : []
+  // ── 전역 모드 ── 재생 목록 정규화 — 편별 곡 > tracks > legacy music 한 곡 (선곡은 bgm-select 소유)
+  const tracks = globalBgmTracks(script, part)
 
   if (!tracks.length) return null
 
   // 단일 곡이거나 길이 정보가 없는 곡이 섞여 있으면 순차 배치 불가 → 첫 곡 한 장만 전체에 깐다(기존 동작)
-  const canSequence = tracks.length > 1 && tracks.every(t => t.durationSec && t.durationSec > 0)
-  if (!canSequence) {
+  if (!canSequenceTracks(tracks)) {
     const baseVol = vol01(tracks[0].volume)
     return (
       <Audio

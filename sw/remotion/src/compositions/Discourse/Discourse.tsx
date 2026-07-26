@@ -3,7 +3,7 @@ import {
   AbsoluteFill, Sequence, Audio,
   interpolate, interpolateColors, useCurrentFrame, useVideoConfig, staticFile, Easing,
 } from 'remotion'
-import type { DiscourseScript, DiscourseTrack, Orientation } from './types'
+import type { DiscourseScript, Orientation } from './types'
 import { episodes } from './script'
 import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, INTRO_FADE_OUT_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import {
@@ -12,6 +12,7 @@ import {
 } from './constants'
 import { castColor, resolveNotice, turnEnterSec } from './utils'
 import { clampRate } from './voice-names'
+import { discourseBgmTracks, canSequenceDiscourseTracks } from './bgm-select'
 import { CueLayer } from './sections/CueLayer'
 import { TopHeader } from '../Faction/sections/TopHeader'
 
@@ -74,19 +75,15 @@ const DiscourseBgmInner: React.FC<{ script: DiscourseScript; total: number; isSh
 
   if (total <= 0) return null
 
-  const tracks: DiscourseTrack[] = script.tracks?.length
-    ? script.tracks
-    : script.music
-      ? [{ file: script.music }]
-      : []
+  // 선곡은 `bgm-select.ts` 소유다 — 렌더 창고가 담을 곡을 정할 때 같은 함수를 부른다.
+  const tracks = discourseBgmTracks(script)
   if (!tracks.length) return null
 
   const outroFadeF = f(MUSIC_END_FADE_SEC)
   const edgeF = Math.round(EDGE_FADE_SEC * fps)
 
   // 한 곡이거나 길이를 모르는 곡이 섞이면 순차 배치가 불가능하다 — 첫 곡 한 장을 전체에 깐다.
-  const canSequence = tracks.length > 1 && tracks.every(t => t.durationSec && t.durationSec > 0)
-  if (!canSequence) {
+  if (!canSequenceDiscourseTracks(tracks)) {
     const baseVol = vol01(tracks[0].volume)
     return (
       <Audio
