@@ -158,7 +158,10 @@ export interface FactionPublishScope {
   tag?: boolean
   /** celeb_tag_assignments 행 생성 + sort_order 재기록 */
   assignments?: boolean
-  /** 배정 소개문(short/long_desc·en) 채움 */
+  /**
+   * 배정에 딸린 글 — 소개문(short/long_desc·en)은 채움 전용,
+   * 인물 대사(quote·quote_en)는 제작 데이터가 유일한 출처라 항상 되쓴다.
+   */
   descs?: boolean
   /** 개인샷 업로드 + spotlight_image_url 갱신 */
   personImages?: boolean

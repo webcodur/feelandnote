@@ -553,6 +553,8 @@ export type Database = {
           id: string
           long_desc: string | null
           long_desc_en: string | null
+          quote: string | null
+          quote_en: string | null
           short_desc: string | null
           short_desc_en: string | null
           sort_order: number | null
@@ -565,6 +567,8 @@ export type Database = {
           id?: string
           long_desc?: string | null
           long_desc_en?: string | null
+          quote?: string | null
+          quote_en?: string | null
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
@@ -577,6 +581,8 @@ export type Database = {
           id?: string
           long_desc?: string | null
           long_desc_en?: string | null
+          quote?: string | null
+          quote_en?: string | null
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null

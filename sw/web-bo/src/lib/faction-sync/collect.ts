@@ -63,6 +63,13 @@ export interface PublishPerson {
   longDesc?: string
   shortDescEn?: string
   longDescEn?: string
+  /**
+   * 인물 대사 — 도감 개인 화보에서 말풍선으로 뜬다.
+   * 소개문과 달리 **제작 데이터가 유일한 출처**라 출간이 항상 그대로 되쓴다(publish.ts 참조).
+   * 비었으면 undefined — 도감 쪽 값도 비워야 하므로 출간이 null 로 되쓴다.
+   */
+  quote?: string
+  quoteEn?: string
   image?: LocalImageRef
 }
 
@@ -192,6 +199,12 @@ function descsOf(p: Row) {
   }
 }
 
+/** 인물 대사 — 공백만 있는 값은 없는 것으로 본다 */
+function quotesOf(p: Row) {
+  const pick = (v: unknown) => (typeof v === 'string' && v.trim() ? v.trim() : undefined)
+  return { quote: pick(p.quote), quoteEn: pick(p.quote_en) }
+}
+
 /* ── DB 읽기 ── */
 
 /** `.in()` 청크 조회 — 462개를 단일 in() 에 실어 실패한 실측 이력이 있어 200 으로 끊는다 */
@@ -211,7 +224,7 @@ const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, data'
 const CLUSTER_SELECT = 'id, group_id, position, image'
 // `data` 는 대사 목소리 대조(진단 ⑥) 때문에 함께 받는다. 큰 덩어리인 채굴 어록은 별도 컬럼(mined)이라
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
-const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, image, data'
+const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, quote, quote_en, image, data'
 
 const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as number)
 
@@ -273,6 +286,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
           place: [index, ci, pi] as const,
           order: 0, // assignTagOrder 가 태그 관통 번호로 다시 매긴다
           ...descsOf(p),
+          ...quotesOf(p),
           image: resolveImageRef(folder, p.image),
         })
       }

@@ -175,7 +175,9 @@
     "groupShot": "단체",
     "figureCount": "{count}인",
     "playLine": "대사 듣기",
-    "photoCount": "{count}장"
+    "photoCount": "{count}장",
+    "showQuote": "한마디 보기",
+    "hideQuote": "한마디 닫기"
   },
   "quickRecord": {
     "section": {

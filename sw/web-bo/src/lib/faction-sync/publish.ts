@@ -6,6 +6,8 @@
  * 지키는 규칙(문서 §4 「투영은 단방향·채움 전용」):
  *   ① 텍스트는 채움 전용 — 도감이 비어 있을 때만 넣는다. force 를 켜면 덮어쓴다.
  *      (사람이 도감에서 다듬은 소개문을 제작 데이터로 되돌리지 않기 위함이다)
+ *      **예외: 인물 대사(quote·quote_en)는 항상 되쓴다.** 도감에서 다듬는 값이 아니라
+ *      제작 데이터가 유일한 출처이기 때문이다 — 제작 쪽에서 지우면 도감 쪽도 비운다.
  *   ② 셀럽이 해소되지 않은 인물은 건드리지 않고 명단으로 보고한다.
  *   ③ 미리보기(dryRun)는 쓰기 직전까지 똑같이 계산하고 아무것도 쓰지 않는다(매니페스트도).
  *   ④ 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인** 배치만 채택한다(§4 배치 충돌 규칙).
@@ -64,6 +66,19 @@ function fillValue(dbValue: string | null | undefined, localValue: string | unde
   if (current.trim() && !force) return undefined
   if (current === localValue) return undefined
   return localValue
+}
+
+/**
+ * 되쓰기 판정(대사 전용) — 제작 데이터 값을 그대로 반영해야 하면 반환, 이미 같으면 undefined.
+ *
+ * 소개문의 `fillValue` 와 **일부러 다르다.** 소개문은 도감에서 사람이 다듬는 값이라 채움 전용이지만,
+ * 대사는 제작 데이터가 유일한 출처라 도감 쪽에서 손볼 일이 없다. 그래서 force 와 무관하게 항상 되쓰고,
+ * 제작 쪽에서 대사를 지우면 도감 쪽도 비운다(null 로 되쓴다).
+ */
+function mirrorValue(dbValue: string | null | undefined, localValue: string | undefined): string | null | undefined {
+  const next = localValue ?? null
+  const current = dbValue ?? null
+  return current === next ? undefined : next
 }
 
 function errText(e: unknown): string {
@@ -156,6 +171,8 @@ export async function publishEpisode(
           insert.long_desc = p.longDesc ?? null
           insert.short_desc_en = p.shortDescEn ?? null
           insert.long_desc_en = p.longDescEn ?? null
+          insert.quote = p.quote ?? null
+          insert.quote_en = p.quoteEn ?? null
         }
         if (dryRun) {
           entry.ready = true
@@ -176,7 +193,7 @@ export async function publishEpisode(
         continue
       }
 
-      // 기존 배정 — 순번은 항상 재기록, 소개문은 채움 전용
+      // 기존 배정 — 순번은 항상 재기록, 소개문은 채움 전용, 대사는 항상 되쓰기
       const patch: Record<string, string | number | null> = {}
       if (scope.assignments && assignment.sort_order !== p.order) patch.sort_order = p.order
       if (scope.descs) {
@@ -188,6 +205,11 @@ export async function publishEpisode(
         if (long !== undefined) patch.long_desc = long
         if (shortEn !== undefined) patch.short_desc_en = shortEn
         if (longEn !== undefined) patch.long_desc_en = longEn
+        // 대사만 mirrorValue 를 쓴다 — 도감에서 다듬는 값이 아니므로 채움 전용이 아니다
+        const quote = mirrorValue(assignment.quote, p.quote)
+        const quoteEn = mirrorValue(assignment.quote_en, p.quoteEn)
+        if (quote !== undefined) patch.quote = quote
+        if (quoteEn !== undefined) patch.quote_en = quoteEn
       }
 
       if (!Object.keys(patch).length) {

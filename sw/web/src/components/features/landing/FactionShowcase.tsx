@@ -3,7 +3,7 @@
 import { useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Users, Volume2, Images } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, Volume2, Images, Quote, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -46,6 +46,8 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
 
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [teamSlide, setTeamSlide] = useState(0);
+  // 개인 화보를 누르면 그 인물이 세력도 영상에서 하는 말을 사진 위에 띄운다
+  const [quoteOpen, setQuoteOpen] = useState(false);
   const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
   const [modalCelebIdx, setModalCelebIdx] = useState(-1);
 
@@ -55,7 +57,10 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
   if (!current) return null;
 
   // 리스트 클릭: 좌측을 그 항목으로 전환만 한다 (대사는 사진의 스피커 버튼에서)
-  const selectItem = (idx: number) => setSelectedIdx(idx);
+  const selectItem = (idx: number) => {
+    setSelectedIdx(idx);
+    setQuoteOpen(false);
+  };
 
   const openModal = () => {
     if (current.type !== "celeb") return;
@@ -70,8 +75,15 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
   const fallbackInitial = current.type === "team" ? teamName[0] : current.celeb.nickname[0];
   const photoAlt = current.type === "team" ? teamName : current.celeb.nickname;
 
+  // 이 인물이 세력도 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
+  const factionQuote =
+    current.type === "celeb"
+      ? (locale === "en" ? current.celeb.faction_quote_en ?? current.celeb.faction_quote : current.celeb.faction_quote)?.trim() || null
+      : null;
+  const showQuoteOverlay = quoteOpen && !!factionQuote;
+
   const photo = (
-    <div className="relative w-full aspect-square overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10">
+    <div className="group/photo relative w-full aspect-square overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10">
       {photoSrc ? (
         <>
           {/* 흐린 배경으로 여백을 메우고, 전경은 잘림 없이 노출 */}
@@ -138,8 +150,8 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
         </>
       )}
 
-      {/* 인물 대사 듣기 (스피커) */}
-      {current.type === "celeb" && (
+      {/* 인물 대사 듣기 (스피커) — 한마디를 펼친 동안은 감춘다 */}
+      {current.type === "celeb" && !showQuoteOverlay && (
         <button
           type="button"
           aria-label={t("playLine")}
@@ -149,6 +161,42 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
         >
           <Volume2 className="w-5 h-5" />
         </button>
+      )}
+
+      {/*
+        한마디 — 화보 전체가 여닫는 단추다(재클릭으로 닫힌다).
+        말풍선과 닫기 표시는 클릭을 가로채지 않도록(pointer-events-none) 두어
+        어디를 눌러도 같은 단추가 받는다. 그래서 X 자리를 눌러도 닫힌다.
+      */}
+      {factionQuote && current.type === "celeb" && (
+        <>
+          <button
+            type="button"
+            aria-label={showQuoteOverlay ? t("hideQuote") : t("showQuote")}
+            title={showQuoteOverlay ? t("hideQuote") : t("showQuote")}
+            aria-expanded={showQuoteOverlay}
+            onClick={() => setQuoteOpen(o => !o)}
+            className="absolute inset-0 z-0 cursor-pointer"
+          />
+          {!showQuoteOverlay && (
+            <span className="pointer-events-none absolute top-3 left-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-white/80 group-hover/photo:text-accent group-hover/photo:border-accent/50">
+              <Quote size={12} />
+              {t("showQuote")}
+            </span>
+          )}
+          {showQuoteOverlay && (
+            <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 p-6 md:p-8 bg-black/80 backdrop-blur-sm animate-fade-in">
+              <Quote size={20} style={{ color: activeTag.color }} />
+              <p className="max-w-[34ch] text-center text-[15px] md:text-lg font-serif font-medium text-white leading-relaxed break-keep">
+                {factionQuote}
+              </p>
+              <span className="text-xs md:text-sm font-sans text-white/60">— {current.celeb.nickname}</span>
+              <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 border border-white/15 flex items-center justify-center text-white/80 group-hover/photo:text-accent">
+                <X className="w-4 h-4" />
+              </span>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
