@@ -88,9 +88,12 @@ export function backupFactionData(episodeDir: string, dataPath: string, isPristi
   if (!existsSync(dataPath)) return null
   const root = path.join(episodeDir, BACKUP_DIR)
 
+  // ⚠ 백업 파일명은 반드시 `.bak` 접미사 — 원본과 같은 이름이면 렌더 로더의 자동 스캔
+  // (require.context, faction-data.json 패턴)이 백업까지 전부 번들에 물어가 Studio 가 무거워진다
+  // (26.07.26 실측: 사본 130개가 딸려 들어가 체감 저하).
   if (isPristine) {
     const origDir = path.join(root, '_original')
-    const origFile = path.join(origDir, DATA_FILE)
+    const origFile = path.join(origDir, `${DATA_FILE}.bak`)
     // 이미 있으면 덮지 않는다 — 최초 1회가 원본이다
     if (!existsSync(origFile)) {
       mkdirSync(origDir, { recursive: true })
@@ -101,7 +104,7 @@ export function backupFactionData(episodeDir: string, dataPath: string, isPristi
   const ts = new Date().toISOString().replace(/[:.]/g, '-')
   const dir = path.join(root, ts)
   mkdirSync(dir, { recursive: true })
-  copyFileSync(dataPath, path.join(dir, DATA_FILE))
+  copyFileSync(dataPath, path.join(dir, `${DATA_FILE}.bak`))
 
   // 회차 정리 — 이름이 ISO 기반이라 사전순 = 시간순. `_original` 은 회차가 아니라 성역이다.
   const rounds = readdirSync(root)

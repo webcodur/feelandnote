@@ -122,11 +122,13 @@ export function backupDiscourseFiles(paths: DiscoursePaths, isPristine: boolean)
   if (present.length === 0) return null
   const root = path.join(paths.dir, BACKUP_DIR)
 
+  // ⚠ 백업 파일명은 반드시 `.bak` 접미사 — 원본과 같은 이름이면 렌더 로더의 자동 스캔이
+  // 백업까지 번들에 물어가 Studio 가 무거워진다(26.07.26 팩션·담화 사본 130개 실측).
   if (isPristine) {
     const origDir = path.join(root, '_original')
     mkdirSync(origDir, { recursive: true })
     for (const p of present) {
-      const dest = path.join(origDir, path.basename(p))
+      const dest = path.join(origDir, `${path.basename(p)}.bak`)
       // 이미 있으면 덮지 않는다 — 최초 1회가 원본이다
       if (!existsSync(dest)) copyFileSync(p, dest)
     }
@@ -135,7 +137,7 @@ export function backupDiscourseFiles(paths: DiscoursePaths, isPristine: boolean)
   const ts = new Date().toISOString().replace(/[:.]/g, '-')
   const dir = path.join(root, ts)
   mkdirSync(dir, { recursive: true })
-  for (const p of present) copyFileSync(p, path.join(dir, path.basename(p)))
+  for (const p of present) copyFileSync(p, path.join(dir, `${path.basename(p)}.bak`))
 
   // 회차 정리 — 이름이 ISO 기반이라 사전순 = 시간순. `_original` 은 회차가 아니라 성역이다.
   const rounds = readdirSync(root)
