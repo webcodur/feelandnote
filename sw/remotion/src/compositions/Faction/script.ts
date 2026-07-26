@@ -17,7 +17,8 @@ import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 import episodeRegistry from '../../../public/factions/_episodes.json'
 
 const ALLOW = new Set(episodeRegistry as string[])
-const ctx = require.context('../../../public/factions', true, /\/faction-data\.json$/)
+// not-using(아이디어 뱅크 72편)은 렌더 대상이 아니므로 스캔에서 제외 — 물리면 번들·파일 감시만 무거워진다
+const ctx = require.context('../../../public/factions', true, /^\.\/(?!not-using\/).*\/faction-data\.json$/)
 const KEY_RE = /^\.\/(.+)\/faction-data\.json$/
 
 // 발화 시각 맵 — 편별 data.timing.p<N>.<lang>.json + 통합 data.timing.<lang>.json(레거시) 모두 로드해
