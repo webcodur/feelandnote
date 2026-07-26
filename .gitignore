@@ -52,6 +52,11 @@ sw/remotion/public/covers/
 # Remotion 세력도(faction) 영상 자료 — 전체 로컬 관리 (episodes와 동일 정책)
 sw/remotion/public/factions/
 
+# 세력도 아이디어 보관함 — 26.07.26에 public/factions/not-using/ 에서 여기로 옮겼다.
+# 렌더가 public/ 을 통째로 임시 폴더에 복사하는데 196MB(743개)가 매번 딸려 갔기 때문이다.
+# public 밖이라 위 factions/ 패턴이 못 덮는다 — 별도 항목이 필요하다.
+sw/remotion/idea-bank/
+
 # Remotion BGM 음원 (로컬 관리)
 sw/remotion/public/music/
 

@@ -53,14 +53,22 @@ function loadRegistered(): string[] {
   return JSON.parse(readFileSync(p, 'utf-8')) as string[]
 }
 
-/** 아이디어 보관함 뿌리 — 이 아래는 `<분류>/<이름>` 두 단이다 */
+/** 아이디어 보관함 폴더 키 접두사 — DB 키는 `not-using/<분류>/<이름>` 을 유지한다 */
 export const IDEA_ROOT = 'not-using'
 
 /**
- * 아이디어 보관함 스캔 — `not-using/<분류>/<이름>/faction-data.json`.
+ * 보관함 실물 뿌리 — `sw/remotion/idea-bank/`. **`public/` 밖이다.**
+ * 렌더가 `public/` 을 통째로 임시 폴더에 복사하는데 보관함 196MB 가 매번 딸려 갔다(26.07.26 이송).
+ * 키는 그대로 두고 실물만 옮겼으므로, 키 ↔ 실물 대응은 여기와 shared `resolveEpisodeLocation`
+ * 두 곳이 같은 규칙을 쓴다.
+ */
+export const IDEA_BANK_DIR = path.join(ROOT, 'idea-bank')
+
+/**
+ * 아이디어 보관함 스캔 — 실물은 `idea-bank/<분류>/<이름>/faction-data.json`.
  *
- * 폴더 키를 경로 그대로(`not-using/future-tech/defense-industry`) 쓴다. 이름만 따면
- * 분류가 다른 같은 이름끼리 부딪히고, 사진·음원 경로도 못 찾는다.
+ * 폴더 키는 실물 위치와 별개로 `not-using/<분류>/<이름>` 을 유지한다(DB·주소·매니페스트 불변).
+ * 이름만 따면 분류가 다른 같은 이름끼리 부딪히고, 사진·음원 경로도 못 찾는다.
  *
  * 상태는 **무조건 `idea`** 다. 이 아래에도 `_status.json` 이 45개 흩어져 있지만
  * 대부분 옛 생성 스크립트가 남긴 찌꺼기라 값이 이 프로젝트의 어휘가 아니고(`completed` 2건),
@@ -68,7 +76,7 @@ export const IDEA_ROOT = 'not-using'
  * 뿌리로 옮기는 것이 곧 승격이고, 그때 상태를 사람이 정한다.
  */
 function scanIdeaEpisodes(): EpisodeFolder[] {
-  const root = path.join(FACTIONS_DIR, IDEA_ROOT)
+  const root = IDEA_BANK_DIR
   if (!existsSync(root)) return []
   const out: EpisodeFolder[] = []
   for (const category of readdirSync(root)) {
