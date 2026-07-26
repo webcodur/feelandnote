@@ -164,6 +164,8 @@ elon-musk 「서재 탐방」에서 "롱폼"은 10권짜리 본편(타이밍 키
 
 공용 패키지 승격 등으로 import 경로가 바뀌면, **떠 있던 Studio의 webpack이 옛 캐시로 새 모듈을 빈 모듈로 읽어** `export 'X' was not found in './voice-names' (module has no exports)` 류 경고를 쏟는다(26.07.26 담화 voice-names 승격 직후 실사례). 진위 판별 순서: ① `npx remotion bundle`(프로덕션 번들)에서 경고 0이면 코드는 무결 ② 새 포트로 Studio를 새로 띄워 경고가 사라지면 캐시 확정 → **기존 Studio 재시작이 해법.** tsc 통과는 번들 통과를 보장하지 않으므로, shared를 엔진 번들에 처음 물릴 때는 번들 레벨 검증을 한다.
 
+같은 이유로 **번들을 가볍게 만든 뒤에도 켜 둔 Studio는 옛 무거운 감시 그래프로 계속 돈다.** 26.07.26 실사례: 아이디어 보관함 이송(225편→23편) 전에 켠 Studio에서 텍스트 한 줄 저장이 미리보기에 반영되기까지 20초 — 새로 띄우니 증분 재빌드 1.7초. "저장 반영이 이상하게 느리다"도 재시작부터 의심한다.
+
 ### renderStill 컴포넌트의 이미지는 Remotion `<Img>` 필수
 
 renderStill(@remotion/renderer)로 정지 이미지(카드뉴스 등)를 뽑을 때 이미지는 반드시 `import { Img } from 'remotion'`을 쓴다. 일반 `<img>`는 로드 완료를 기다리지 않고 캡처되어, 특히 외부 URL 이미지(R2 avatar 등)가 누락된다.

@@ -15,8 +15,7 @@ import { assembleDiscourseEpisode } from '@feelandnote/shared/lib/discourse-asse
 import { discourseAdminClient, discourseTreeSource, requireDiscourseAdmin } from '@/lib/discourse-db'
 import { REMOTION_LOCAL } from '@/lib/remotion-local'
 import { replaceDiscourseEpisode } from '@/lib/discourse-save'
-import { exportDiscourseEpisode } from './export'
-import type { DiscourseExportResult } from './export'
+import { runDiscourseExport, type DiscourseExportResult } from '@/lib/discourse-export-run'
 
 export interface LoadedDiscourseScript {
   folder: string
@@ -85,7 +84,8 @@ export async function saveDiscourseScript(
 
   const result: SaveDiscourseScriptResult = { ok: true, ...saved }
   if (options.autoExport !== false && REMOTION_LOCAL) {
-    result.exported = await exportDiscourseEpisode(folder)
+    // 입구에서 이미 사람을 확인했으므로 내보내기 몸통을 직접 부른다(관리자 확인 중복 왕복 제거)
+    result.exported = await runDiscourseExport(db, folder)
   }
   return result
 }

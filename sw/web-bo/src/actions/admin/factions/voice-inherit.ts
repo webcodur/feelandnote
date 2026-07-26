@@ -20,7 +20,7 @@ import {
   inheritVoicesFromProfiles, type FactionVoiceInheritResult,
 } from '@/lib/faction-voice-inherit'
 import type { FactionVoiceLocale } from '@/lib/faction-sync/types'
-import { exportFactionEpisode, type FactionExportResult } from './export'
+import { runFactionExport, type FactionExportResult } from '@/lib/faction-export-run'
 
 export interface InheritFactionVoicesResult extends FactionVoiceInheritResult {
   /** 자동 내보내기 결과 — 렌더 저장소가 연결되지 않았거나 채운 게 없으면 없음 */
@@ -38,12 +38,13 @@ export async function inheritFactionVoices(
   await requireFactionAdmin()
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
 
-  const r = await inheritVoicesFromProfiles(factionAdminClient(), folder, { dryRun, locales })
+  const db = factionAdminClient()
+  const r = await inheritVoicesFromProfiles(db, folder, { dryRun, locales })
 
   // 렌더·음성·자막·유튜브는 전부 faction-data.json 을 읽는다(문서 §6) — 채웠으면 파일도 맞춘다
   const result: InheritFactionVoicesResult = { ...r }
   if (!dryRun && r.filled && FACTION_LOCAL) {
-    result.exported = await exportFactionEpisode(folder)
+    result.exported = await runFactionExport(db, folder)
   }
   return result
 }

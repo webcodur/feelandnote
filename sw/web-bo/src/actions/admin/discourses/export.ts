@@ -10,29 +10,19 @@
  * 렌더 저장소의 CLI(`pnpm discourse:export`)가 같은 코어를 쓴다 — 규칙을 여기서 다시 짜지 마라.
  */
 
-import { assembleDiscourseEpisode } from '@feelandnote/shared/lib/discourse-assemble'
 import {
-  exportDiscourseEpisodeToFiles, discourseEpisodePaths, writeDiscourseRegistry,
-  inspectDiscourseFiles,
+  discourseEpisodePaths, writeDiscourseRegistry, inspectDiscourseFiles,
 } from '@feelandnote/shared/bo/discourse-export'
 import { DISCOURSES_DIR } from '@feelandnote/shared/bo/episode-store'
-import { discourseAdminClient, discourseTreeSource, requireDiscourseAdmin } from '@/lib/discourse-db'
+import { discourseAdminClient, requireDiscourseAdmin } from '@/lib/discourse-db'
 import { assertRemotionLocal } from '@/lib/remotion-local'
+import { runDiscourseExport, type DiscourseExportResult } from '@/lib/discourse-export-run'
 
-export interface DiscourseExportResult {
-  folder: string
-  /** 파일을 실제로 썼는가 */
-  written: boolean
-  /** 사람이 읽을 결과 사유 */
-  reason: string
-  /** 덮어쓰기 전 보관 위치 */
-  backupDir?: string | null
-  /** 막힌 경우 파일 ↔ DB 의 의미 차이 (JSON Pointer) */
-  diffs?: string[]
-}
+export type { DiscourseExportResult }
 
 /**
- * 한 편을 세 파일로 내보낸다.
+ * 한 편을 세 파일로 내보낸다. 몸통은 `lib/discourse-export-run` — 저장 액션이 같은 몸통을
+ * 인증 없이 직접 부르므로, 여기서는 사람 확인만 얹는다.
  *
  * 사람이 파일을 직접 고친 흔적이 있으면 **덮어쓰지 않고** 차이를 돌려준다.
  * 마커는 메타 파일 첫 키에 하나뿐이지만 체크섬은 세 파일을 합친 전체로 계산하므로,
@@ -44,23 +34,7 @@ export async function exportDiscourseEpisode(
   options: { force?: boolean } = {},
 ): Promise<DiscourseExportResult> {
   await requireDiscourseAdmin()
-  assertRemotionLocal()
-  const db = discourseAdminClient()
-
-  const paths = discourseEpisodePaths(DISCOURSES_DIR, folder)
-
-  const r = await exportDiscourseEpisodeToFiles({
-    folder,
-    paths,
-    force: options.force,
-    assemble: async (original) => {
-      const { script, row } = await assembleDiscourseEpisode(
-        await discourseTreeSource(db, folder), folder, original,
-      )
-      return { script, episodeId: row.id as string }
-    },
-  })
-  return { folder: r.folder, written: r.written, reason: r.reason, backupDir: r.backupDir, diffs: r.diffs }
+  return runDiscourseExport(discourseAdminClient(), folder, options)
 }
 
 /**

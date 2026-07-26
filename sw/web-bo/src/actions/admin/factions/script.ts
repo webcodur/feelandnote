@@ -16,8 +16,7 @@ import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble
 import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
 import { replaceFactionEpisode } from '@/lib/faction-save'
-import { exportFactionEpisode } from './export'
-import type { FactionExportResult } from './export'
+import { runFactionExport, type FactionExportResult } from '@/lib/faction-export-run'
 
 export interface LoadedFactionScript {
   folder: string
@@ -86,7 +85,8 @@ export async function saveFactionScript(
 
   const result: SaveFactionScriptResult = { ok: true, ...saved }
   if (options.autoExport !== false && FACTION_LOCAL) {
-    result.exported = await exportFactionEpisode(folder)
+    // 입구에서 이미 사람을 확인했으므로 내보내기 몸통을 직접 부른다(관리자 확인 중복 왕복 제거)
+    result.exported = await runFactionExport(db, folder)
   }
   return result
 }
