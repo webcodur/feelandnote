@@ -43,13 +43,16 @@ type Props = {
 import { ImageChangeSlot } from './sections/ImageChangeSlot'
 import { FactionQuoteEditor } from './sections/FactionQuoteEditor'
 
+// 대사 구절과 그 구절에 걸린 사진 카드를 같은 색으로 묶는다.
+// bg 는 어두운 대사칸 위에 얹는 옅은 색칠이라 진하게(/25) 잡아야 구획이 눈에 든다.
+// badge* 는 사진 카드 머리띠·표식용 밝은 색 — 어두운 바탕에서 도드라지도록 밝은 쪽을 유지한다.
 const ANCHOR_THEMES = [
-  { name: 'amber', bg: 'bg-amber-400/15', text: 'text-amber-600', border: 'border-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-800' },
-  { name: 'blue', bg: 'bg-blue-400/15', text: 'text-blue-600', border: 'border-blue-400', badgeBg: 'bg-blue-100', badgeText: 'text-blue-800' },
-  { name: 'emerald', bg: 'bg-emerald-400/15', text: 'text-emerald-600', border: 'border-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-800' },
-  { name: 'violet', bg: 'bg-violet-400/15', text: 'text-violet-600', border: 'border-violet-400', badgeBg: 'bg-violet-100', badgeText: 'text-violet-800' },
-  { name: 'rose', bg: 'bg-rose-400/15', text: 'text-rose-600', border: 'border-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-800' },
-  { name: 'cyan', bg: 'bg-cyan-400/15', text: 'text-cyan-600', border: 'border-cyan-400', badgeBg: 'bg-cyan-100', badgeText: 'text-cyan-800' },
+  { name: 'amber', bg: 'bg-amber-400/25', text: 'text-amber-600', border: 'border-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-800' },
+  { name: 'blue', bg: 'bg-blue-400/25', text: 'text-blue-600', border: 'border-blue-400', badgeBg: 'bg-blue-100', badgeText: 'text-blue-800' },
+  { name: 'emerald', bg: 'bg-emerald-400/25', text: 'text-emerald-600', border: 'border-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-800' },
+  { name: 'violet', bg: 'bg-violet-400/25', text: 'text-violet-600', border: 'border-violet-400', badgeBg: 'bg-violet-100', badgeText: 'text-violet-800' },
+  { name: 'rose', bg: 'bg-rose-400/25', text: 'text-rose-600', border: 'border-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-800' },
+  { name: 'cyan', bg: 'bg-cyan-400/25', text: 'text-cyan-600', border: 'border-cyan-400', badgeBg: 'bg-cyan-100', badgeText: 'text-cyan-800' },
 ]
 
 function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newValue: string, imageChanges: T[]): T[] {
@@ -455,7 +458,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                         <span className="text-[10px] text-text-dim font-normal ml-2">※ 번호(시점)에 따라 우측의 이미지 전환과 연결됨</span>
                       )}
                     </span>
-                    <div className="rounded-lg border border-border bg-white shadow-inner p-1 h-full">
+                    <div className="rounded-lg border border-border bg-bg-card shadow-inner p-1 h-full">
                       <FactionQuoteEditor
                         placeholder="엔터를 치면 덩어리가 분리됩니다"
                         value={person.quoteChunks?.join('\n') ?? person.quote ?? ''}
@@ -496,8 +499,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                             onChange({ ...person, imageChanges: list })
                           }
                         }}
-                        // 바탕이 흰색이라 글자색을 어둡게 못박는다(화면 테마를 따르면 어두운 화면에서 흰 글자가 된다)
-                        className="text-slate-900 placeholder:text-slate-400 min-h-[84px]"
+                        className="text-text-primary placeholder:text-text-dim min-h-[84px]"
                       />
                     </div>
                   </div>
@@ -505,7 +507,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                 {editLang !== 'ko' && (
                   <div className="flex-1 min-w-0 flex flex-col gap-0.5">
                     <span className="text-xs text-text-dim mb-1 font-bold pl-1">(영문)</span>
-                    <div className="rounded-lg border border-border bg-slate-50 shadow-inner p-1 h-full">
+                    <div className="rounded-lg border border-border bg-bg-card/60 shadow-inner p-1 h-full">
                       <FactionQuoteEditor
                         placeholder="EN 대사 (엔터로 분리)"
                         value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''}
@@ -514,8 +516,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                           onChange({ ...person, quoteEnChunks: ch, quoteEn: ch.map((s) => s.trim()).filter(Boolean).join(' ') })
                         }}
                         anchors={attachedQuoteLines}
-                        // 영문 칸도 바탕이 밝다 — 본문보다 한 톤 연한 어두운 글자로 고정
-                        className="italic text-slate-600 placeholder:text-slate-400 min-h-[84px]"
+                        className="italic text-text-secondary placeholder:text-text-dim min-h-[84px]"
                       />
                     </div>
                   </div>

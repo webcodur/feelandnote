@@ -24,6 +24,9 @@
 import {
   diffPointers, findReplacementChars, splitDiscourseFiles,
 } from '@feelandnote/shared/lib/discourse-schema'
+import {
+  discourseVariants, discourseCompBase, discourseCompId, type DiscourseVariantDef,
+} from '@feelandnote/shared/lib/youtube-discourse-meta'
 import { readdirSync, readFileSync } from 'fs'
 import path from 'path'
 import { adminClient, readDiscourseData, parseArgs, selectEpisodes, pad, type EpisodeFolder } from './lib.js'
@@ -44,38 +47,48 @@ type Any = Record<string, unknown>
 /* ────────────────────────── 영상 종류 ────────────────────────── */
 
 /**
- * 이 편이 만들어 내는 컴포지션 목록.
- *
- * ⚠ Root.tsx(:308~360)가 컴포지션을 다는 절차와 **같은 순서·같은 조건**이어야 한다.
- *   편 번호 산출(shortsPartNumbers·longformPartNumbers)과 길이 산출(calcTotalFrames)은
- *   렌더 측 함수를 그대로 부르므로 복제가 아니다. 남은 것은 이름 규칙뿐이다.
- *   Phase 3 에서 이 함수를 packages/shared 의 youtube-discourse-meta 로 올려
- *   Root.tsx 와 단일원천화한다(설계 §4 ③ · Root.tsx 의 TODO).
+ * 이 편이 만들어 내는 영상 종류 — **공용 단일원천을 부른다**(설계 §4 ③, 26.07.26 승격).
+ * 길이 판정만 렌더 측 `calcTotalFrames` 를 주입한다(shared 는 렌더에 역의존할 수 없다).
  */
-interface Variant { fileSuffix: string; isShorts: boolean; part?: number; lvPart?: number }
+type Variant = DiscourseVariantDef
 
-function discourseVariants(script: DiscourseScript): Variant[] {
-  const out: Variant[] = []
+function variantsOf(script: DiscourseScript): Variant[] {
+  return discourseVariants(
+    script as unknown as Parameters<typeof discourseVariants>[0],
+    (isShorts, part, lvPart) => calcTotalFrames(script, isShorts, part, lvPart),
+  )
+}
+
+/**
+ * Root.tsx 가 실제로 다는 목록을 렌더 측 함수만으로 다시 세운다.
+ *
+ * 공용 모듈이 SSoT 가 됐지만 Root.tsx 의 등록 루프는 여전히 자기 코드다(렌더 로직 무변경 원칙).
+ * 그래서 **둘이 어긋나면 잡히도록** 이 재현본을 검사 ③ 에서 공용 산출과 맞대어 본다.
+ * 어긋나면 Studio 에 뜨는 컴포지션과 출고 파일명이 갈라진다(설계 §10 D8).
+ */
+function rootRegisteredIds(folder: string, script: DiscourseScript): string[] {
+  const base = discourseCompBase(folder)
+  const alive = (isShorts: boolean, part?: number, lvPart?: number) => {
+    const d = calcTotalFrames(script, isShorts, part, lvPart)
+    return Number.isFinite(d) && d > 0
+  }
+  const out: string[] = []
   for (const p of shortsPartNumbers(script)) {
-    const dur = calcTotalFrames(script, true, p)
-    if (!Number.isFinite(dur) || dur <= 0) continue
-    out.push({ fileSuffix: `KO-S${p}`, isShorts: true, part: p })
+    if (alive(true, p)) out.push(`${base}-KO-S${p}`)
   }
   const lvParts = longformPartNumbers(script.longformLayout)
-  const lvVariants: { suffix: string; lvPart: number | undefined }[] =
-    lvParts.length === 0
-      ? [{ suffix: 'LV', lvPart: undefined }]
-      : lvParts.map(p => ({ suffix: `LV${p}`, lvPart: p }))
-  for (const { suffix, lvPart } of lvVariants) {
-    const dur = calcTotalFrames(script, false, undefined, lvPart)
-    if (!Number.isFinite(dur) || dur <= 0) continue
-    out.push({ fileSuffix: `KO-${suffix}`, isShorts: false, lvPart })
+  if (lvParts.length === 0) {
+    if (alive(false, undefined, undefined)) out.push(`${base}-KO-LV`)
+  } else {
+    for (const p of lvParts) {
+      if (alive(false, undefined, p)) out.push(`${base}-KO-LV${p}`)
+    }
   }
   return out
 }
 
-/** 컴포지션 ID — Root.tsx 의 discourseCompBase(`Discourse-<폴더명>`) + 접미사 */
-const compId = (folder: string, v: Variant) => `Discourse-${folder}-${v.fileSuffix}`
+/** 컴포지션 ID — 공용 단일원천이 정한다 */
+const compId = (folder: string, v: Variant) => discourseCompId(folder, v)
 
 /* ── 발화 시각 glue — 로더(script.ts:82 scaleVoiceTimings)와 같은 절차 ──
  * ⚠ 이 glue 는 원본·왕복 **양쪽에 똑같이** 적용된다. 따라서 glue 자체가 정확하지 않더라도
@@ -154,18 +167,33 @@ function checkFileSplit(original: Script, roundtrip: Script): Check {
     : fail(`불일치 ${details.length}건`, details)
 }
 
-/** ③ 컴포지션 ID 집합 동일 */
+/**
+ * ③ 컴포지션 ID 집합 동일 + 공용 단일원천 ↔ Root.tsx 등록 규칙 일치.
+ *
+ * 두 가지를 한꺼번에 본다.
+ *  (a) 원본과 왕복이 같은 컴포지션을 낳는가 — 편 경계·편 배정이 왕복에서 안 흔들렸나
+ *  (b) 공용 `discourseVariants` 산출이 Root.tsx 가 실제로 다는 목록과 같은가 — 승격한 SSoT 가
+ *      등록 루프와 갈라지면 Studio 에 뜨는 이름과 출고 파일명이 어긋난다(설계 §10 D8)
+ */
 function checkVariants(folder: string, original: Script, roundtrip: Script): Check {
-  const a = discourseVariants(original as unknown as DiscourseScript).map(v => compId(folder, v))
-  const b = discourseVariants(roundtrip as unknown as DiscourseScript).map(v => compId(folder, v))
+  const list = (s: Script) => variantsOf(s as unknown as DiscourseScript).map(v => compId(folder, v))
+  const a = list(original)
+  const b = list(roundtrip)
+  const details: string[] = []
   const sa = [...a].sort().join(',')
   const sb = [...b].sort().join(',')
-  return sa === sb ? pass(`${a.length}종`) : fail('종류 불일치', [`원본 [${sa}]`, `왕복 [${sb}]`])
+  if (sa !== sb) details.push(`원본 [${sa}]`, `왕복 [${sb}]`)
+
+  const root = rootRegisteredIds(folder, original as unknown as DiscourseScript)
+  if (root.join(',') !== a.join(',')) {
+    details.push(`공용 산출 [${a.join(',')}] ≠ Root.tsx 등록 [${root.join(',')}]`)
+  }
+  return details.length === 0 ? pass(`${a.length}종`) : fail('종류 불일치', details)
 }
 
 /** ④ 컷 길이 — 영상 종류마다 총 프레임 대조 */
 function checkTiming(original: Script, roundtrip: Script): Check {
-  const variants = discourseVariants(original as unknown as DiscourseScript)
+  const variants = variantsOf(original as unknown as DiscourseScript)
   const details: string[] = []
   for (const v of variants) {
     const fa = calcTotalFrames(original as unknown as DiscourseScript, v.isShorts, v.part, v.lvPart)
@@ -177,7 +205,7 @@ function checkTiming(original: Script, roundtrip: Script): Check {
 
 /** ⑤ 컷 구성 — buildCues 결과 완전 일치 */
 function checkCues(original: Script, roundtrip: Script): Check {
-  const variants = discourseVariants(original as unknown as DiscourseScript)
+  const variants = variantsOf(original as unknown as DiscourseScript)
   const details: string[] = []
   let compared = 0
   for (const v of variants) {
@@ -241,7 +269,7 @@ function checkSrtAndEncoding(original: Script, roundtrip: Script, episodeDir: st
   const vt = loadVoiceTimings(episodeDir)
   const a: Script = { ...original, voiceTimings: scaleVoiceTimings(original, vt) }
   const b: Script = { ...roundtrip, voiceTimings: scaleVoiceTimings(roundtrip, vt) }
-  const variants = discourseVariants(original as unknown as DiscourseScript)
+  const variants = variantsOf(original as unknown as DiscourseScript)
   for (const v of variants) {
     const sa = subsToSrt(buildDiscourseSubs(a as unknown as DiscourseScript, v.isShorts, v.part, v.lvPart) as never)
     const sb = subsToSrt(buildDiscourseSubs(b as unknown as DiscourseScript, v.isShorts, v.part, v.lvPart) as never)

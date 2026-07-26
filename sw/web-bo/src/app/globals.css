@@ -182,56 +182,72 @@
 }
 
 /* ==========================================================================
-   세력도 편집 화면 전용 글자·선 보정 (26.07.25 이관)
+   영상 제작 편집 화면 전용 글자·선 보정 (26.07.25 이관 · 26.07.26 시리즈 공용화)
 
    영상 관리 대시보드는 아주 작은 글자(10~12px)를 화면 전체에서 키우고 굵게 만드는 전역 보정을
-   깔고 있었고, 세력도 편집 화면의 촘촘한 표·패널이 **그 보정에 기대어** 읽히도록 짜여 있다.
-   그 보정을 이 앱 전체에 깔면 다른 화면의 글자 크기가 전부 바뀌므로, `.faction-ui` 를 붙인
-   가지 안쪽에만 적용한다(편집 화면 뿌리에 그 클래스를 준다).
+   깔고 있었고, 그쪽에서 옮겨 온 편집 화면들(세력도·가상 담화)의 촘촘한 표·패널이
+   **그 보정에 기대어** 읽히도록 짜여 있다. 그 보정을 이 앱 전체에 깔면 다른 화면의 글자 크기가
+   전부 바뀌므로, `.remotion-ui` 를 붙인 가지 안쪽에만 적용한다(편집 화면 뿌리에 그 클래스를 준다).
+
+   `.faction-ui` 는 세력도 화면이 이미 쓰고 있는 옛 이름이라 **별칭으로 계속 인정한다** —
+   담화가 붙으면서 이름만 시리즈 무관하게 바꾼 것이지 규칙이 달라진 것은 아니다.
 
    값은 원본과 동일하게 유지했다 — 편집 감각이 달라지면 그게 곧 기능 회귀다.
    ========================================================================== */
 .faction-ui input,
+.remotion-ui input,
 .faction-ui select,
+.remotion-ui select,
 .faction-ui textarea,
-.faction-ui button {
+.remotion-ui textarea,
+.faction-ui button,
+.remotion-ui button {
   font-size: 14.5px;
   font-weight: 600;
 }
 
-.faction-ui .text-xs {
+.faction-ui .text-xs,
+.remotion-ui .text-xs {
   font-size: 13.5px;
   font-weight: 700;
 }
 
-.faction-ui .text-\[10px\] {
+.faction-ui .text-\[10px\],
+.remotion-ui .text-\[10px\] {
   font-size: 12.5px;
   font-weight: 800;
   letter-spacing: 0.02em;
 }
 
-.faction-ui .text-\[11px\] {
+.faction-ui .text-\[11px\],
+.remotion-ui .text-\[11px\] {
   font-size: 13px;
   font-weight: 800;
 }
 
-.faction-ui .text-sm {
+.faction-ui .text-sm,
+.remotion-ui .text-sm {
   font-size: 14.5px;
   font-weight: 600;
 }
 
-.faction-ui .text-base {
+.faction-ui .text-base,
+.remotion-ui .text-base {
   font-size: 16.5px;
   font-weight: 700;
 }
 
 .faction-ui .text-text-dim,
-.faction-ui .text-text-secondary {
+.remotion-ui .text-text-dim,
+.faction-ui .text-text-secondary,
+.remotion-ui .text-text-secondary {
   font-weight: 700;
 }
 
 /* 선을 조금 더 두껍게 — 촘촘한 표의 칸 경계가 뭉개지지 않게 */
 .faction-ui .border,
-.faction-ui .border-border {
+.remotion-ui .border,
+.faction-ui .border-border,
+.remotion-ui .border-border {
   border-width: 1.5px;
 }

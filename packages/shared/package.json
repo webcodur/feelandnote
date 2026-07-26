@@ -15,6 +15,8 @@
     "./lib/ele-accounts": "./src/lib/ele-accounts.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
     "./lib/youtube-faction-meta": "./src/lib/youtube-faction-meta.ts",
+    "./lib/youtube-discourse-meta": "./src/lib/youtube-discourse-meta.ts",
+    "./lib/discourse-voice-names": "./src/lib/discourse-voice-names.ts",
     "./lib/series-schema": "./src/lib/series-schema.ts",
     "./lib/faction-schema": "./src/lib/faction-schema.ts",
     "./lib/faction-assemble": "./src/lib/faction-assemble.ts",

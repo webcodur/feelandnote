@@ -124,12 +124,12 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 
 | Phase | 내용 | 상태 |
 |---|---|---|
-| 0 | 담화 WIP 커밋 정착 + `_episodes.json`↔폴더 대조 + 5편 백업 | |
-| 1 | 마이그레이션+RPC + schema/assemble + CLI + **왕복 7종 5/5 + 반증 10종** | |
-| 2 | export 발효(마커·가드·3파일 백업·재생성·drift) | |
-| 3 | shared 승격(voice-names·discourseVariants·schema 범용부 분리) | |
-| 4a | web-bo 서버 기반(원자 저장·액션 3·fs 라우트 8·목록·사이드바) — 팩션 4a 검증 6항목 대칭 | |
-| 4b | 편집기 21파일 이식 + 데이터층 4곳 + 색 토막 + 독백 패널 — 검수 편 `qin-shi-huang-court`(인물 4·발언 21 최복잡) | |
+| 0 | 담화 WIP 커밋 정착 + `_episodes.json`↔폴더 대조 + 5편 백업 | **완료 26.07.26** — WIP 0건(기준 `048bb1f0`), 목록↔폴더 5/5 일치, 백업은 P2 첫 발효의 `_original/` 이 겸함 |
+| 1 | 마이그레이션+RPC + schema/assemble + CLI + **왕복 7종 5/5 + 반증 10종** | **완료 26.07.26** — 3테이블·인덱스 2·RLS 12정책(pg_policies 팩션 실물 대조 일치)·`discourse_replace_episode`. 인물 9·발언 66·셀럽 연결 9/9. 7종 5/5, 반증 10/10 검출, 멱등 2회차 동일 |
+| 2 | export 발효(마커·가드·3파일 백업·재생성·drift) | **완료 26.07.26** — 5편 첫 발효, `_original/` 보존(마커 없음 확인), 손편집 1글자(cast.json) 차단→diff 1곳 지목→`--force` 바이트 복구, `--drift` 동일 5편 |
+| 3 | shared 승격(voice-names·discourseVariants·schema 범용부 분리) | **완료 26.07.26** — `lib/series-schema.ts`(P1) · `lib/discourse-voice-names.ts`(렌더·BO 96줄 복제 소거, 양쪽 재export) · `lib/youtube-discourse-meta.ts`(`discourseVariants`·`discourseCompBase`, Root.tsx 재import). 검증 ③이 공용 산출 ↔ Root.tsx 등록 규칙 일치까지 본다 |
+| 4a | web-bo 서버 기반(원자 저장·액션 3·fs 라우트 8·목록·사이드바) — 팩션 4a 검증 6항목 대칭 | **완료 26.07.26** — `lib/discourse-{paths,route,asset,db,save,edit-route}` · 액션 3 + 원천 독백 조회 · fs 라우트 8 · `/discourses` 목록(DB 집계) · 사이드바. `REMOTION_LOCAL` 일반화(`FACTION_LOCAL` 별칭 유지). 검증 6/6 |
+| 4b | 편집기 21파일 이식 + 데이터층 4곳 + 색 토막 + 독백 패널 — 검수 편 `qin-shi-huang-court`(인물 4·발언 21 최복잡) | **완료 26.07.26** — 20파일 이식(+`DiscourseSeriesHome`은 DB 집계 목록으로 대체) · 데이터층 4곳 교체 · `.remotion-ui` 일반화 · **원천 독백 패널 신설**. 저장 경로 실물 검증 4/4 |
 | 5 | remotion-bo 담화 폐기(31파일·스위치·등록표 9·죽은 호출·문서) | |
 | 6(선택) | 음성 CLI 착수(voice:discourse·align·transcribe·srt·youtube·durations-pull·reorder) — **통합 완료 후에만** | |
 | 7(선택) | 북리커맨드 이관 or [series] 추상화 붕괴 | 별건 |
@@ -140,8 +140,26 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 
 ## 11. 미확인
 
+> 26.07.26 Phase 3~4 에서 해소된 항목: **GeminiVoiceSelect** — web-bo 폐포에 없었다(상수 `GEMINI_VOICES_*` 만 있었다). 그대로 복사 이식했다.
+> **discourse-voice 라우트 응답 모양** — 팩션 voice 라우트와 같다(`{ files: VoiceFile[] }`, 공용 `listVoices`). 주소만 `/api/discourse/voice/{편}[/{파일}]` 로 옮겼다.
+> **색 토막 44종 커버리지** — 담화가 실제로 쓰는 색은 52토막이고 **전부 web-bo `@theme` 에 이미 있었다**(팩션 4b 가 세운 것). 손댈 것은 `bg-{danger,warning,info,success}` 계열뿐이었다 — 두 앱의 배경 밝기가 반대라 배경으로 쓰인 자리를 `/15`~`/25` 틴트로 낮췄다.
+
 GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 응답 모양 vs 팩션 voice 라우트 · 색 토막 44종 커버리지 · peter-thiel/qin-court의 `_docs/sources.md` 유무 · qin 계열 이미지 0장 렌더 폴백 · titleByPart 정규화 여부(현행 jsonb 유지) · 배포본 /discourses 노출 정책 · 북리커맨드 이관 계획.
 
 ## 진행 로그
 
 - 26.07.26 설계 확정(정찰 전수 실측 기반).
+- 26.07.26 **Phase 0~2 완료.** DB 가 담화의 단일 원천이 됐고 세 파일은 렌더용 산출물로 강등됐다.
+  - 신설: `packages/shared/src/lib/series-schema.ts`(시리즈 무관 공통부) · `lib/discourse-schema.ts` · `lib/discourse-assemble.ts` · `bo/discourse-export.ts` · `sw/remotion/scripts/lib/series-cli.ts` · `scripts/discourse/{lib,import,export,verify}.ts` · `tsconfig.scripts.json`.
+  - 개조: `lib/faction-schema.ts`·`scripts/faction/lib.ts` 가 승격분을 재사용(공개 이름·시그니처 불변). **팩션 왕복 검증 95편 전량 통과로 영향 0 실증.**
+  - ⚠ 승격 규칙: 새 시리즈를 붙일 때 split/join·비교·체크섬 절차를 다시 짜지 마라. `series-schema` 에 HOT 맵과 컬럼 성질만 주입한다.
+  - ⚠ 세 파일 마커 전략이 실제로 먹힌다는 증거: 마커가 없는 `cast.json` 의 **색 코드 한 글자**를 고쳤더니 병합 체크섬이 어긋나 export 가 중단되고 `/cast/0/color` 를 정확히 지목했다.
+  - 반증 시험은 상설 도구로 남았다(`pnpm discourse:verify -- --all --falsify`). 통과만 보고 안심하지 않기 위한 장치다.
+  - 임의 결정 3건: ① `longform_layout` 을 값 변환 없는 일반 핫 컬럼으로 둠(`{turn:n}` 정수 유지 판단의 귀결) ② `to` 인덱스가 인물 범위를 벗어나면 저장 전 중단(실측 이탈 0건이라 조용한 null 화보다 안전) ③ `.export-backup/` 을 `.gitignore` 에 추가(담화 데이터 세 파일 자체는 계속 추적).
+- 26.07.26 **Phase 3~4 완료.** 편집·출간의 유일한 자리가 web-bo `/discourses` 가 됐다(remotion-bo 담화 구역은 P5 에서 걷어낸다).
+  - 승격: `lib/discourse-voice-names.ts`(복제 96줄 소거 — 렌더·BO 가 재export 만 한다) · `lib/youtube-discourse-meta.ts`(영상 종류·컴포지션 ID). Root.tsx 는 컴포지션 ID 앞머리만 재import 하고 등록 루프는 그대로다 — 대신 **왕복 검증 ③이 공용 산출과 Root.tsx 등록 규칙이 어긋나면 잡는다**(설계 §10 D8 대비, 렌더 로직 무변경 원칙과 양립).
+  - web-bo 신설 34파일: lib 6 · 액션 3 · fs 라우트 8 · 화면 5 · 이식 부품 20(원천 독백 패널 포함) 등.
+  - ⚠ **`REMOTION_LOCAL` 로 일반화**했다. 시리즈마다 스위치를 따로 두면 하나만 켜 놓고 다른 화면이 왜 안 되는지 찾게 된다. 옛 이름 `FACTION_LOCAL` 도 계속 인정하므로 `.env` 를 고칠 필요는 없다.
+  - ⚠ **음성 길이 병합이 실제로 작동한다는 실측**: DB 의 길이를 비우고 저장해도 **파일에 적힌 값이 되살아난다**(설계 §5 · 팩션 §7①). 파이프라인이 파일에만 기록한 길이를 지키는 규칙이라 의도된 동작이다 — 되돌리려면 파일 쪽도 함께 지워야 한다. 시험 중 이 규칙을 몰라 "복구 실패"로 오판했다.
+  - ⚠ **§7-③ 규칙 실증**: 길이를 심어 놓고 발언 순서를 바꿨더니 그 값이 **자리에 남지 않고 사람의 n번째 발언을 따라갔다.** 담화는 한 인물이 여러 번 말하는 것이 기본이라 이 규칙이 없으면 음원과 컷 길이가 어긋난다.
+  - 임의 결정 4건: ① `DiscourseSeriesHome`(옛 목록 화면)은 이식하지 않고 **DB 집계 목록으로 대체** — 원본은 전 편의 파일을 통째로 읽어 목록을 만들었다(§1 R5). ② `useCelebExists` 는 새로 만들지 않고 **web-bo 에 이미 있던 공용 창구를 재사용**(팩션이 쓰던 것 — 중복을 만들 뻔했다). ③ 표 부품은 `components/factions/FactionTable` 을 빌려 씀(시리즈 지식 없는 순수 표 부품). ④ eslint 예외 목록에 담화 경로를 **넣지 않고** 지적 3건을 실제로 고쳤다(설계 §10 D11).
