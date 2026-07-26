@@ -56,16 +56,17 @@ export async function publishFactionEpisode(req: FactionPublishRequest): Promise
   await guard()
   if (!req?.folder) throw new Error('에피소드 폴더명이 필요합니다')
 
-  // 사진(로컬 파일)과 테마 영상(업로드 기록 파일)은 둘 다 렌더 저장소를 읽는다
+  // 사진(로컬 파일)·테마 영상(업로드 기록)·테마 음악(선곡 도구와 mp3)은 모두 렌더 저장소를 읽는다
   const scope = req.scope
   const wantsLocalFiles = !scope
     || !Object.values(scope).some(v => v === true)   // 아무것도 안 켜면 전 범위 실행이다
     || scope.personImages === true
     || scope.teamImages === true
     || scope.videos === true
+    || scope.music === true
   if (wantsLocalFiles && !FACTION_LOCAL) {
     throw new Error(
-      '사진·영상 출간은 렌더 저장소(sw/remotion)가 같은 컴퓨터에 있을 때만 됩니다. '
+      '사진·영상·음악 출간은 렌더 저장소(sw/remotion)가 같은 컴퓨터에 있을 때만 됩니다. '
       + 'sw/web-bo/.env 에 FACTION_LOCAL=1 을 넣고 개발 서버를 다시 띄우세요.',
     )
   }

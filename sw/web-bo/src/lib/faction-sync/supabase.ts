@@ -21,6 +21,11 @@ export interface CelebTagRow {
    * 출간이 항상 되쓴다 — 기록이 없으면 null 로 비운다.
    */
   youtube_videos: unknown
+  /**
+   * 이 테마 구간에서 흐르는 배경음악. 렌더 엔진의 선곡이 원천이라
+   * 출간이 항상 되쓴다 — 흐르는 곡이 없으면 null 로 비운다.
+   */
+  theme_music: unknown
   is_featured: boolean | null
   sort_order: number | null
 }
@@ -54,7 +59,7 @@ export interface CelebProfileRow {
   voice_id_en: string | null
 }
 
-export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, is_featured, sort_order'
+export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, sort_order'
 export const ASSIGNMENT_COLUMNS =
   'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, spotlight_image_url, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'

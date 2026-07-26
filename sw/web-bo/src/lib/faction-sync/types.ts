@@ -172,6 +172,11 @@ export interface FactionPublishScope {
    * 원천은 제작·업로드 기록이라 대사와 같은 규칙 — 채움 전용이 아니라 항상 되쓴다.
    */
   videos?: boolean
+  /**
+   * 테마 배경음악(celeb_tags.theme_music) 되쓰기 + 곡 파일 저장소 업로드.
+   * 어느 곡이 흐르는지는 렌더 엔진의 선곡이 정한다 — 영상과 같은 되쓰기 규칙이다.
+   */
+  music?: boolean
 }
 
 export interface FactionPublishRequest {
@@ -186,7 +191,7 @@ export interface FactionPublishRequest {
   force?: boolean
 }
 
-export type FactionPublishKind = 'tag' | 'assignment' | 'soloShot' | 'teamShots' | 'videos' | 'revalidate'
+export type FactionPublishKind = 'tag' | 'assignment' | 'soloShot' | 'teamShots' | 'videos' | 'music' | 'revalidate'
 
 export type FactionPublishAction = 'created' | 'updated' | 'skipped' | 'blocked'
 

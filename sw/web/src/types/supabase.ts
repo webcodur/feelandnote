@@ -630,6 +630,7 @@ export type Database = {
           start_date: string | null
           team_images: Json
           youtube_videos: Json | null
+          theme_music: Json | null
           updated_at: string | null
         }
         Insert: {
@@ -648,6 +649,7 @@ export type Database = {
           start_date?: string | null
           team_images?: Json
           youtube_videos?: Json | null
+          theme_music?: Json | null
           updated_at?: string | null
         }
         Update: {
@@ -666,6 +668,7 @@ export type Database = {
           start_date?: string | null
           team_images?: Json
           youtube_videos?: Json | null
+          theme_music?: Json | null
           updated_at?: string | null
         }
         Relationships: [
