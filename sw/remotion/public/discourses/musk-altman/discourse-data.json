@@ -1,4 +1,18 @@
 {
+  "_generated": {
+    "from": "db",
+    "at": "2026-07-26T03:05:28.435Z",
+    "episodeId": "a0bf8124-70a8-44ed-84dd-b6fc2be35cea",
+    "checksum": "31f10b48c8799733f6ee30398ccb7faa85ba23d5"
+  },
+  "holdMotion": "zoomin",
+  "titleByPart": {
+    "1": "머스크 vs 알트만\n당신이 먼저 그러자고 했다"
+  },
+  "loglineByPart": {
+    "1": "2015년의 이메일이 2026년의 그를 겨눈다."
+  },
+  "musicDuckVolume": 0.35,
   "title": "머스크 vs 알트만\n오픈이라는 말",
   "titleEn": "Musk vs Altman\nThe Word Open",
   "topic": "지능을 누가 쥐어야 하는가",
@@ -7,14 +21,6 @@
   "loglineEn": "Each is cornered by his own words.",
   "notice": "두 사람의 공개된 발언과 사상을 바탕으로 재구성한 가상 담화입니다. 이 대화는 실제로 열린 적이 없습니다. 큰따옴표로 표시한 문장만 실제 발언이며 출처를 함께 밝힙니다.",
   "noticeEn": "A fictional exchange reconstructed from public statements. This conversation never took place. Only quoted lines are actual statements, shown with sources.",
-  "titleByPart": {
-    "1": "머스크 vs 알트만\n당신이 먼저 그러자고 했다"
-  },
-  "loglineByPart": {
-    "1": "2015년의 이메일이 2026년의 그를 겨눈다."
-  },
-  "holdMotion": "zoomin",
-  "musicDuckVolume": 0.35,
   "longformLayout": [
     {
       "turn": 0

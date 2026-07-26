@@ -1,9 +1,12 @@
 [
   {
+    "voice": {
+      "style": "낮고 차분하게, 건조한 유머를 섞되 마지막은 단단하게",
+      "engine": "gemini"
+    },
     "name": "젠슨 황",
     "nameEn": "Jensen Huang",
     "slug": "jensen-huang",
-    "living": true,
     "lines": [
       "엔비디아 공동창업자 · CEO",
       "1993년 창업부터 현재까지 회사를 이끈 엔지니어",
@@ -18,9 +21,6 @@
     "epithetEn": "The founder who learned how to return to work after failure before learning how to avoid it",
     "era": "1963 ~",
     "color": "#76b900",
-    "voice": {
-      "engine": "gemini",
-      "style": "낮고 차분하게, 건조한 유머를 섞되 마지막은 단단하게"
-    }
+    "living": true
   }
 ]

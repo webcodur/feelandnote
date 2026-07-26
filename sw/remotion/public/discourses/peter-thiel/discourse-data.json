@@ -1,12 +1,11 @@
 {
-  "title": "피터 틸\n아무도 동의하지 않는 진실",
-  "titleEn": "Peter Thiel\nThe Truth No One Agrees With",
-  "topic": "미래는 어떻게 만들어지는가",
-  "topicEn": "How Is the Future Made",
-  "logline": "모두가 같은 경주에서 1등을 노릴 때, 그는 경주에서 빠져나오라고 말한다.",
-  "loglineEn": "While everyone races to win the same contest, he tells us to leave the race.",
-  "notice": "피터 틸의 공개 발언과 저술, 서비스에 저장된 가상 독백을 바탕으로 재구성한 가상 독백입니다. 큰따옴표로 표시한 문장만 실제 발언이며 출처를 함께 밝힙니다.",
-  "noticeEn": "A fictional monologue reconstructed from Peter Thiel's public remarks, writings, and the service's virtual monologue. Only quoted lines are actual statements, shown with sources.",
+  "_generated": {
+    "from": "db",
+    "at": "2026-07-26T03:03:18.267Z",
+    "episodeId": "47cd0e15-4765-4d18-b14e-f5a64b3a0105",
+    "checksum": "65c35640d17419153097c05ef4a1a0ea4118355a"
+  },
+  "holdMotion": "zoomin",
   "titleByPart": {
     "1": "피터 틸\n경쟁은 패자들의 몫",
     "2": "피터 틸\n아무도 동의하지 않는 진실"
@@ -15,11 +14,18 @@
     "1": "경쟁에서 이기는 법보다 경쟁을 떠나는 법.",
     "2": "비밀을 찾아 0에서 1로 가는 법."
   },
+  "showCastIntro": false,
   "loglineByPartEn": {
     "1": "How to leave competition instead of winning it.",
     "2": "How to find secrets and go from zero to one."
   },
-  "showCastIntro": false,
-  "holdMotion": "zoomin",
-  "musicDuckVolume": 0.35
+  "musicDuckVolume": 0.35,
+  "title": "피터 틸\n아무도 동의하지 않는 진실",
+  "titleEn": "Peter Thiel\nThe Truth No One Agrees With",
+  "topic": "미래는 어떻게 만들어지는가",
+  "topicEn": "How Is the Future Made",
+  "logline": "모두가 같은 경주에서 1등을 노릴 때, 그는 경주에서 빠져나오라고 말한다.",
+  "loglineEn": "While everyone races to win the same contest, he tells us to leave the race.",
+  "notice": "피터 틸의 공개 발언과 저술, 서비스에 저장된 가상 독백을 바탕으로 재구성한 가상 독백입니다. 큰따옴표로 표시한 문장만 실제 발언이며 출처를 함께 밝힙니다.",
+  "noticeEn": "A fictional monologue reconstructed from Peter Thiel's public remarks, writings, and the service's virtual monologue. Only quoted lines are actual statements, shown with sources."
 }
