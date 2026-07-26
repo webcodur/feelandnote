@@ -156,8 +156,12 @@ export default function GuidePage() {
         <Desc>
           새 시리즈를 추가하려면 <code className="text-accent">lib/series-registry.ts</code>에 정의 1개를 추가한다.
           사이드바·라우팅·API 가 이 정의를 읽어 대응한다. 시리즈별 차이는 코드 분기가 아니라
-          <code className="text-accent">dataModel</code>·<code className="text-accent">episodeHome</code>·
-          <code className="text-accent">langTabEditor</code> 필드로 표현한다.
+          <code className="text-accent">dataModel</code>·<code className="text-accent">episodeHome</code> 필드로 표현한다.
+        </Desc>
+        <Desc>
+          다만 26.07.26 현재 이 앱에 남은 시리즈는 <b>서재 탐방 하나</b>다. 세력도와 가상 담화가 차례로
+          관리자 백오피스로 옮겨 가면서, 아래 계열별 등록표들은 항목이 하나뿐이거나 아예 비어 있다.
+          새 시리즈를 여기 얹기 전에 이 얼개를 계속 쓸지부터 정하는 편이 낫다.
         </Desc>
         <pre className="bg-bg-card border border-border rounded-lg p-4 text-xs font-mono leading-relaxed overflow-x-auto mt-2">{`// lib/series-registry.ts
 SERIES.push({
@@ -166,9 +170,8 @@ SERIES.push({
   icon: '🎭',
   composition: 'RivalTalk',
   episodeDir: 'rival-talk',
-  dataModel: 'book',       // 데이터 구조 계열 (book | discourse)
+  dataModel: 'book',       // 데이터 구조 계열 (현재 book 하나뿐)
   episodeHome: 'scenario', // /[series]/[name] 진입 시 보낼 경로
-  langTabEditor: false,    // true 면 /[lang]/[tab] 자체 편집 화면
   render: { codec: 'prores', proresProfile: '4444' },
 })`}</pre>
         <Desc>

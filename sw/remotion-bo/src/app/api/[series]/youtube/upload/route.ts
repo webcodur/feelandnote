@@ -10,8 +10,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { episode, lang, type, shortsIndex, bookIndex, dry } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
-  // 업로드 CLI 진입점이 아직 없는 계열(담화 등) — 책 기반 업로드로 조용히 새지 않게 막는다
-  if (series.dataModel === 'discourse') {
+  // 업로드 CLI 진입점이 없는 계열 — 책 기반 업로드로 조용히 새지 않게 막는다.
+  // 다른 라우트(render·youtube/status·youtube/sync)와 같은 형태로 맞춘다.
+  if (series.dataModel !== 'book') {
     return NextResponse.json({ error: `youtube upload not implemented: ${series.dataModel}` }, { status: 501 })
   }
 

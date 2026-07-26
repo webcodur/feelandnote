@@ -7,15 +7,14 @@ import { groupLabel } from './utils'
 import { SIDEBAR_COLLAPSED_KEY } from './constants'
 import { GroupList } from './sections/GroupList'
 import { DraftList } from './sections/DraftList'
-import { DiscourseList } from './sections/DiscourseList'
 
 /**
  * 에피소드 목록 등록표 — 데이터 계열별 전용 목록 컴포넌트.
  * 표에 없는 계열(book)은 아래 인물 묶음·검색 UI를 그대로 쓴다. 새 시리즈는 여기에 한 줄 얹는다.
+ *
+ * ⚠ 26.07.26 현재 표가 비었다 — 유일한 항목이던 가상 담화가 web-bo 로 이관됐다.
  */
-const EPISODE_LISTS: Partial<Record<SeriesDataModel, React.ComponentType<{ activeSeries: string; pathname: string }>>> = {
-  discourse: DiscourseList,
-}
+const EPISODE_LISTS: Partial<Record<SeriesDataModel, React.ComponentType<{ activeSeries: string; pathname: string }>>> = {}
 
 export function Sidebar() {
   const {

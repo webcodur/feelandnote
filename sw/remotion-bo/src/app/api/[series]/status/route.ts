@@ -2,18 +2,16 @@ import { NextResponse } from 'next/server'
 import { listEpisodes, moveEpisode } from '@/lib/server-utils'
 import type { EpisodeStatus } from '@/lib/server-utils'
 import { isValidSeries, seriesDataModel, type SeriesDataModel } from '@/lib/series-registry'
-import { writeDiscourseStatus } from '@/lib/discourse-utils'
-import type { DiscourseStatus } from '@/lib/discourse-types'
 
 const VALID_STATUSES: EpisodeStatus[] = ['todo', 'live', 'done']
 
 /**
- * 담화는 폴더 이동 없이 _status.json 파일로 상태를 관리한다.
+ * 폴더 이동 없이 _status.json 파일로 상태를 관리하는 계열의 등록표.
  * 표에 없는 계열(book)만 인물 폴더를 옛 status 폴더로 옮긴다.
+ *
+ * ⚠ 26.07.26 현재 표가 비었다 — 유일한 항목이던 가상 담화가 web-bo 로 이관됐다.
  */
-const STATUS_WRITERS: Partial<Record<SeriesDataModel, (name: string, status: EpisodeStatus) => Promise<void>>> = {
-  discourse: (name, status) => writeDiscourseStatus(name, status as DiscourseStatus),
-}
+const STATUS_WRITERS: Partial<Record<SeriesDataModel, (name: string, status: EpisodeStatus) => Promise<void>>> = {}
 
 /** GET: 전체 상태 맵 (폴더 구조 기반) */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {

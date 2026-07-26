@@ -128,6 +128,8 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 
 ## 진행 로그
 
+- 26.07.26 **형제 통합 완료 — 가상 담화도 같은 골격으로 web-bo 로 옮겨졌다**(`discourse-unification.md`). 이 문서가 세운 방식(DB 단일 원천 · 원자 저장 RPC · 왕복 검증 게이트 · 내보내기 마커와 손 편집 가드 · remotion-bo 구역 폐기)이 두 번째 시리즈에서 그대로 재현됐다. 그 과정에서 팩션 코드의 **시리즈 무관 부분이 공용으로 승격**됐다 — `lib/series-schema.ts`(분해·재조립·비교·체크섬 절차) · `scripts/lib/series-cli.ts`(env·CLI 인자) · `lib/remotion-local.ts`(`REMOTION_LOCAL`, 옛 이름 `FACTION_LOCAL` 별칭 유지) · `.remotion-ui`(`.faction-ui` 별칭 유지). **팩션 왕복 검증 95편은 승격 전후 전량 통과**해 영향 0을 실증했다.
+
 - 26.07.26 **상위 그룹 위계를 코드 상수에서 DB로 승격.** 마이그레이션 `add_celeb_tags_parent_id`(자기참조 FK + 인덱스) 후 옛 상수 8그룹·자식 31종을 slug 대조로 백필하고 `sort_order`를 그룹→자식 차례로 0~39 재부여했다(자식 표시 순서 보존). `sw/web/src/constants/factionGroups.ts` 삭제, `getFeaturedTags`는 자식 보유 여부로 그룹을 판정한다. web-bo `/factions` 목록에 들여쓰기 위계, 테마 편집에 「상위 묶음」 지정(두 단계 제한·자기참조·순환 차단) 신설.
 
 - 26.07.25 **Phase 5 완료 — 출간 개조 + remotion-bo 팩션 구역 폐기 + 문서 동기화.** 팩션 통합 종료.

@@ -8,8 +8,8 @@
 
 | 프로젝트 | 포트 | 역할 | 데이터원 |
 | --- | --- | --- | --- |
-| **web-bo** | 3001 | **서비스 운영.** 셀럽·유저·콘텐츠·커뮤니티 관리 + **세력도 영상 제작**(26.07.25 이관) | Supabase |
-| remotion-bo | 3003 | 영상 관리 대시보드. 서재 탐방·가상 담화만 남았다(세력도는 폐기·이관) | 파일시스템(JSON) |
+| **web-bo** | 3001 | **서비스 운영.** 셀럽·유저·콘텐츠·커뮤니티 관리 + **세력도·가상 담화 영상 제작**(26.07.25·26 이관) | Supabase |
+| remotion-bo | 3003 | 영상 관리 대시보드. **서재 탐방 하나만 남았다**(세력도·가상 담화는 폐기·이관) | 파일시스템(JSON) |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
 remotion-bo는 [remotion-bo 기획서](./remotion-bo-plan.md), audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
@@ -29,13 +29,13 @@ pnpm dev:bo
 
 `/login`은 Supabase 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
-단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도](#세력도) 절).
+단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도·가상 담화 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도](#세력도)·[가상 담화](#가상-담화) 절).
 
 ## 화면 구성
 
 전체 페이지는 52개다. 이 중 11개는 화면이 없는 리다이렉트 통로이므로(아래 [정리 대상](#정리-대상) 참조) 실제 화면은 41개다. **이 수치는 26.07.16 실측이라 26.07.25에 붙은 세력도 화면은 빠져 있다.**
 
-왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며 8개 묶음 26개 라우트로 나뉜다(26.07.25 세력도 1건 추가). 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
+왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며 9개 묶음 27개 라우트로 나뉜다(26.07.25 세력도 1건 · 26.07.26 가상 담화 1건 추가). 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
 
 ### 대시보드
 
@@ -161,6 +161,46 @@ pnpm dev:bo
 
 캐시 무효화는 **출간할 때만** 돈다 — `faction-sync/publish.ts`가 앱 공용 `revalidateWebCache([TAGS, CELEBS])`를 부른다(`src/lib/revalidate-web.ts` — 내부적으로 web `/api/revalidate`를 `CRON_SECRET`으로 호출하고, 값이 없는 로컬에서는 건너뛴다). 제작 데이터는 서비스에 나오지 않으므로 그 밖의 태그는 건드리지 않는다. faction-sync가 `WEB_BASE_URL`을 직접 읽어 부르던 remotion-bo 시절 배선은 폐기했다.
 
+### 가상 담화
+
+> 26.07.26 신설 — 가상 담화 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 담화 구역은 전량 폐기됐고 그 주소는 404다.
+
+영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 Supabase 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [discourse.md](./remotion/discourse.md), 통합 설계는 [discourse-unification.md](./remotion/discourse-unification.md)다.
+
+⚠ **손 편집 감시가 세력도와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/discourses` | 가상 담화 | 편 목록 표 하나. 편 이름·논제·인물 수·발언 수·진행 상태·노출(편성 순번). 위쪽이 노출로 켠 편(편성 순서), 아래 구분 줄 밑이 아직 안 켠 편. 「새 담화」·「영상 목록 다시 만들기」는 표 위. 목록은 폴더가 아니라 DB에서 센다 | `discourse_episodes`, `discourse_speakers`, `discourse_turns` |
+| `/discourses/[episode]` | → 리다이렉트 | `…/both/shorts`(원고 탭)로 보낸다. `[lang]`만 있는 주소도 원고 탭으로 보낸다 | — |
+| `/discourses/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `shorts`(원고)·`info`(인물) | 위 3테이블 |
+
+편집기 탭은 둘이다. **원고**는 대사와 발언 순서를 글로 다루는 곳(이 담화의 본문), **인물**은 말하는 사람의 실체와 영상 전체 설정이다. 상단 조작줄에 「미리보기」·「대사 뽑기」·**「원천 독백」** 이 있다.
+
+**원천 독백 패널(26.07.26 신설)** — 담화 대사는 사람이 그 인물의 가상 독백(`profiles.virtual_monologue`)을 읽고 다시 쓴 것이다. 예전에는 저장소가 갈려 있어 서비스 화면을 따로 띄워 놓고 옮겨 적었는데, 같은 DB 안으로 들어오면서 조인 한 번으로 편집기 옆에 띄운다. **읽기 전용**이다 — 독백 자체를 고치려면 셀럽 프로필 쪽에서 손댄다.
+
+#### 서버 액션 (`actions/admin/discourses/`)
+
+| 파일 | 하는 일 |
+| --- | --- |
+| `episodes.ts` | 목록(DB 집계)·만들기·복제·이름 변경·삭제·진행 상태·노출 전환·편성 순서 |
+| `script.ts` | 대본 불러오기(`loadDiscourseScript`)·저장(`saveDiscourseScript`, 낙관적 잠금 + 자동 내보내기)·원천 독백 조회 |
+| `export.ts` | 세 파일 내보내기·`_episodes.json` 재생성·파일 상태 판정 |
+
+저장 절차는 `lib/discourse-save.ts`(분해 → 원자 저장 RPC `discourse_replace_episode`), 조립·분해 규칙은 `@feelandnote/shared/lib/discourse-assemble`, 파일 쓰기 규칙은 `@feelandnote/shared/bo/discourse-export` 소유다. 렌더 저장소의 CLI(`pnpm discourse:export`)가 **같은 코어**를 쓴다.
+
+⚠ **음성 길이는 사람이 입력하지 않는다.** 저장할 때 편집기가 보낸 값으로 덮지 않고 DB 값을 유지하는데, 그 조회 기준이 자리(순번)가 아니라 **「사람 + 그 사람의 n번째 발언」** 이다. 담화는 한 인물이 여러 번 말하는 것이 기본이라, 자리 기준으로 붙여 두면 발언을 하나 끼워 넣는 순간 음원과 컷 길이가 통째로 어긋난다.
+
+#### 로컬 자산 창구 (`/api/discourse/**`)
+
+사진·음원은 DB로 옮기지 않고 렌더 저장소(`sw/remotion/public/discourses/`)에 남는다. 그래서 그 파일을 만지는 창구 8종은 **개발자 컴퓨터에서만** 산다 — `.env`의 `REMOTION_LOCAL=1`(옛 이름 `FACTION_LOCAL=1`도 인정)이 없으면 503과 사유를 돌려준다.
+
+`media` · `media/folder` · `media/[episode]/[...path]` · `asset/[...path]` · `music` · `music/[...path]` · `voice/[episode]` · `voice/[episode]/[file]`.
+
+주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다(세력도와 같은 판단).
+
+⚠ 세력도와 같은 함정을 그대로 안고 있다. `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
+
 ### 게임
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
@@ -192,7 +232,7 @@ pnpm dev:bo
 
 ## API 라우트
 
-서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 세력도 로컬 자산 창구(`api/faction/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도](#세력도) 절을 본다.
+서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/faction/**`·`api/discourse/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도](#세력도)·[가상 담화](#가상-담화) 절을 본다.
 
 | 라우트 | 입력 | 하는 일 |
 | --- | --- | --- |

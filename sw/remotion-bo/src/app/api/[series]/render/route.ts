@@ -11,7 +11,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   const { episode, only, bookIndex } = await req.json()
   if (!episode) return NextResponse.json({ error: 'episode required' }, { status: 400 })
 
-  // 렌더 파이프라인이 아직 없는 계열(담화 등) — 책 기반 경로로 조용히 새지 않게 막는다
+  // 렌더 파이프라인이 아직 없는 계열 — 책 기반 경로로 조용히 새지 않게 막는다
   if (series.dataModel !== 'book') {
     return NextResponse.json({ error: `render not implemented: ${series.dataModel}` }, { status: 501 })
   }
