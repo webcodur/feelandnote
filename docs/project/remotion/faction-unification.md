@@ -39,8 +39,9 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 
 테이블 5종(정본은 DB — `information_schema`가 정확):
 - `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(idea/todo/live/done)**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
-  - **`idea`(26.07.26 마이그레이션 `faction_episodes_status_add_idea`)** — 아이디어 보관함(`public/factions/not-using/<분류>/<이름>`)에서 들어온 후보 72편의 상태. 렌더·음성·출간에 딸려 가지 않는 근거는 상태가 아니라 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 상태는 사람이 보는 표시일 뿐이다.
+  - **`idea`(26.07.26 마이그레이션 `faction_episodes_status_add_idea`)** — 아이디어 보관함에서 들어온 후보 72편의 상태. 렌더·음성·출간에 딸려 가지 않는 근거는 상태가 아니라 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 상태는 사람이 보는 표시일 뿐이다.
   - **folder 는 뿌리 기준 상대 경로다.** 보관함 편은 `not-using/future-tech/defense-industry` 처럼 슬래시를 품는다(이름만 따면 분류가 다른 동명이 부딪히고 사진·음원 경로도 어긋난다). 그래서 `episodeDirOf` 가 토막마다 이어 붙이고(`safeDirSegs`), 주소에서는 슬래시를 `~` 로 바꿔 한 토막에 싣는다(`folderToParam`/`paramToFolder`, `sw/web-bo/src/lib/faction-edit-route.ts`).
+  - 🔴 **실물은 `public/` 밖이다(26.07.26 이송).** 폴더 키는 `not-using/…` 그대로지만 파일은 **`sw/remotion/idea-bank/<분류>/<이름>`** 에 있다. 렌더가 `public/` 을 통째로 임시 폴더에 복사하는데 보관함 196MB(743개)가 매번 딸려 갔기 때문이다. 키 ↔ 실물 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 곳**이 정한다 — 경로를 만드는 코드는 전부 이 함수를 지나야 하고, 직접 `path.join(FACTIONS_DIR, …)` 하면 보관함 편에서 어긋난다(실제로 `factionEpisodePaths` 가 `path.basename` 을 쓰다 이번에 수렴됐다). 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR` 이 같은 규칙을 쥔다.
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug·celeb_id(profiles, nullable)·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
@@ -145,6 +146,11 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 
 ## 진행 로그
 
+- 26.07.26 **아이디어 보관함 196MB를 `public/` 밖으로 이송** — `sw/remotion/public/factions/not-using/` → **`sw/remotion/idea-bank/`**(분류/이름 구조 그대로, 743개 205,745,126바이트 이동 전후 완전 일치). 렌더는 `public/` 을 통째로 임시 폴더에 복사하는데 영상에 한 번도 쓰이지 않는 보관함이 매번 딸려 갔다.
+  - **DB 폴더 키는 불변**(`not-using/<분류>/<이름>`) — 키를 바꾸면 주소·매니페스트·저장된 사진 경로가 흔들린다. 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 함수**가 맡고 `episodeDirOf` 가 그것을 지난다.
+  - **흩어져 있던 경로 조립을 이번에 수렴** — `factionEpisodePaths`(shared `bo/faction-export`)가 `path.join(factionsDir, path.basename(folder))` 였다. 보관함 편이 들어온 뒤로 **web-bo 자동 내보내기가 `public/factions/<이름>` 이라는 없는 자리를 가리키고 있었다**(CLI 는 스캔 결과 경로를 써서 멀쩡했으므로 드러나지 않았다). `episodeDirOf` 로 교체. 자산 창구(`lib/faction-asset.ts`)도 같은 함수로 뿌리를 정한다.
+  - 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR`. `.gitignore` 에 새 경로 항목 추가(옛 `public/factions/` 패턴이 못 덮는다).
+  - **실측**: `faction:verify --all` 95/95 통과 · 이동 후 보관함 편 내보내기가 새 위치에 기록되고 백업(`.export-backup/_original`)도 그 아래 생성 · 승격(보관함→뿌리) 실이동 왕복 성공 · `public/factions` 스캔 23편 유지 · `remotion compositions` 경고 0(팩션 컴포지션은 등록 14편분) · tsc web-bo·remotion 0.
 - 26.07.26 **형제 통합 완료 — 가상 담화도 같은 골격으로 web-bo 로 옮겨졌다**(`discourse-unification.md`). 이 문서가 세운 방식(DB 단일 원천 · 원자 저장 RPC · 왕복 검증 게이트 · 내보내기 마커와 손 편집 가드 · remotion-bo 구역 폐기)이 두 번째 시리즈에서 그대로 재현됐다. 그 과정에서 팩션 코드의 **시리즈 무관 부분이 공용으로 승격**됐다 — `lib/series-schema.ts`(분해·재조립·비교·체크섬 절차) · `scripts/lib/series-cli.ts`(env·CLI 인자) · `lib/remotion-local.ts`(`REMOTION_LOCAL`, 옛 이름 `FACTION_LOCAL` 별칭 유지) · `.remotion-ui`(`.faction-ui` 별칭 유지). **팩션 왕복 검증 95편은 승격 전후 전량 통과**해 영향 0을 실증했다.
 
 - 26.07.26 **상위 그룹 위계를 코드 상수에서 DB로 승격.** 마이그레이션 `add_celeb_tags_parent_id`(자기참조 FK + 인덱스) 후 옛 상수 8그룹·자식 31종을 slug 대조로 백필하고 `sort_order`를 그룹→자식 차례로 0~39 재부여했다(자식 표시 순서 보존). `sw/web/src/constants/factionGroups.ts` 삭제, `getFeaturedTags`는 자식 보유 여부로 그룹을 판정한다. web-bo `/factions` 목록에 들여쓰기 위계, 테마 편집에 「상위 묶음」 지정(두 단계 제한·자기참조·순환 차단) 신설.

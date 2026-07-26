@@ -17,7 +17,9 @@ import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 import episodeRegistry from '../../../public/factions/_episodes.json'
 
 const ALLOW = new Set(episodeRegistry as string[])
-// not-using(아이디어 뱅크 72편)은 렌더 대상이 아니므로 스캔에서 제외 — 물리면 번들·파일 감시만 무거워진다
+// 아이디어 보관함(72편)은 렌더 대상이 아니다. 26.07.26에 실물을 public 밖(`sw/remotion/idea-bank/`)으로
+// 옮겨 이 스캔에도, 렌더의 public 통째 복사에도 애초에 걸리지 않는다.
+// 아래 제외 규칙은 누가 되돌려 놓더라도 번들이 다시 무거워지지 않게 남겨 둔 이중 안전장치다.
 const ctx = require.context('../../../public/factions', true, /^\.\/(?!not-using\/).*\/faction-data\.json$/)
 const KEY_RE = /^\.\/(.+)\/faction-data\.json$/
 
