@@ -104,7 +104,9 @@ export function FactionExpandedVoicePanel({
   const celebKey = person.celebId || person.slug || null
   const [personGender, setPersonGender] = useState<'male' | 'female' | null>(null)
 
-  // 들숨 저장 콜백이 항상 최신 인물 데이터를 쓰도록 ref 경유 — endpoints 재생성 없이 stale closure 를 피한다.
+  // 인물을 되쓰는 콜백은 **전부** 이 ref 를 거친다 — 그리기 시점 인물을 가둬 두면 몇 초 걸리는 작업이
+  // 끝날 때 그 사이 사람이 고친 값을 통째로 되돌린다(26.07.26 보이스가 옛 값으로 되돌아가던 사고).
+  // 들숨 저장은 처음부터 이 방식이었고, 만들기·저장(onSaved)·연령 변형(onCommitted)도 여기에 맞췄다.
   const personRef = useRef(person)
   personRef.current = person
   const onChangeRef = useRef(onChange)
@@ -254,7 +256,9 @@ export function FactionExpandedVoicePanel({
     error, setError, onRefresh,
     // 저장된 음원 실측 길이를 슬롯 길이 필드(quoteDuration / epithetDuration)에 기록 → 렌더가 컷 길이·재생을 맞춘다.
     // (이 한 줄이 없으면 BO 에서 만든 음원은 길이가 비어 렌더에서 재생되지 않고 컷이 그냥 넘어간다.)
-    onSaved: dur => onChange({ ...person, [slot.fields.duration]: dur }),
+    // ⚠ 만들기·저장은 몇 초 걸린다 — 그 사이 사람이 보이스를 바꿀 수 있으므로 **최신 인물**에 얹는다.
+    //   누를 당시 인물을 그대로 되쓰면 그 사이 고친 값이 통째로 되돌아간다(26.07.26 아레스 사고).
+    onSaved: dur => onChangeRef.current({ ...personRef.current, [slot.fields.duration]: dur }),
   })
 
   const [dbBusy, setDbBusy] = useState(false)
@@ -598,7 +602,8 @@ export function FactionExpandedVoicePanel({
               file={activeFile}
               // 연령 변형은 길이를 유지하지만, 저장 음원 캐시버스터를 갱신해 생성·트림 화면이 옛 파형을 다시 그리지 않게 한다.
               onRefresh={() => { gen.bumpReload(); onRefresh() }}
-              onCommitted={dur => onChange({ ...person, [slot.fields.duration]: dur })}
+              // 연령 변형도 서버 작업이라 위와 같은 이유로 최신 인물 기준으로 적는다
+              onCommitted={dur => onChangeRef.current({ ...personRef.current, [slot.fields.duration]: dur })}
               endpoints={ageEndpoints}
             />
           )
