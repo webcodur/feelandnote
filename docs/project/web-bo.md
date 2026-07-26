@@ -101,7 +101,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도 | **표 2개.** 위=「영상 편」(유튜브로 나가는 제작 데이터): 제목·상태(todo/live/done)·렌더 편성·세력 수·인물 수·연결 테마 + 생성·복제·이름 변경·삭제·내보내기. 아래=「도감 테마」(서비스 세력도감 진열분, `celeb_tags` 40종): 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·연결 영상 편·순서(끌어 옮기기). 두 표는 `components/factions/FactionTable.tsx` 를 함께 쓴다(26.07.26에 카드형·줄형 혼재를 표로 통일). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions` | 세력도 | **표 하나(26.07.26 완전 병합).** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 어느 테마에도 안 걸린 편은 같은 표 맨 아래 「미연결 영상」 구분 줄 밑에 제목·상태·인물·세력·렌더 편성으로 나오고 줄 끝 점 셋 메뉴로 조작한다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄로 옮겼다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
 | `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
@@ -111,11 +111,11 @@ pnpm dev:bo
 
 #### 서버 액션
 
-`src/actions/admin/factions/` 4개 파일이다. 편집기는 창구(API)가 아니라 이 액션들을 부른다.
+`src/actions/admin/factions/` 5개 파일이다. 편집기는 창구(API)가 아니라 이 액션들을 부른다.
 
 | 파일 | 담는 것 |
 | --- | --- |
-| `episodes.ts` | 편 목록·생성·복제·이름 변경·삭제·상태·노출 여부·순서 |
+| `episodes.ts` | 편 목록·**한 편 상태 조회(`getFactionEpisodeMeta` — 편집기 상단 조작줄용)**·생성·복제·이름 변경·삭제·상태·노출 여부·순서 |
 | `themes.ts` | 도감 테마 목록(`listFactionThemes`)·테마↔영상 편 역조회(`getThemeEpisodeLinks`, 근거는 `faction_groups.tag_id`). 테마 CRUD 자체는 `src/actions/admin/tags.ts`가 그대로 맡는다 |
 | `script.ts` | 대본 불러오기(`loadFactionScript`)·저장(`saveFactionScript`). 저장은 원자 RPC 하나로 묶이고 기준 시각이 어긋나면 거부한다. 저장 절차 본체는 `src/lib/faction-save.ts`에 있다(인증 밖에 둬서 Next 밖에서도 검증할 수 있게 했다) |
 | `export.ts` | `faction-data.json` 내보내기·노출 목록 재생성·파일 상태 조회. 저장 시 자동으로 따라 붙는다 |
