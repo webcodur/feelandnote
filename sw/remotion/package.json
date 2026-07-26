@@ -19,6 +19,7 @@
     "voice:list": "tsx scripts/voice/2-synthesize.ts --list",
     "render": "remotion render --image-format=png --gl=angle",
     "still": "remotion still --gl=angle",
+    "render:staged": "tsx scripts/render/render-staged.ts",
     "render:short": "remotion render BookRecommendShort",
     "render:all": "tsx scripts/render/render-all.ts",
     "render:cards": "tsx scripts/render/render-cards.ts",

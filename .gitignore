@@ -52,6 +52,9 @@ sw/remotion/public/covers/
 # Remotion 세력도(faction) 영상 자료 — 전체 로컬 관리 (episodes와 동일 정책)
 sw/remotion/public/factions/
 
+# 렌더 창고 — 렌더 직전에 그 편 자산만 하드링크로 모아 두는 임시 폴더(렌더가 끝나면 지운다).
+sw/remotion/.render-stage/
+
 # 세력도 아이디어 보관함 — 26.07.26에 public/factions/not-using/ 에서 여기로 옮겼다.
 # 렌더가 public/ 을 통째로 임시 폴더에 복사하는데 196MB(743개)가 매번 딸려 갔기 때문이다.
 # public 밖이라 위 factions/ 패턴이 못 덮는다 — 별도 항목이 필요하다.

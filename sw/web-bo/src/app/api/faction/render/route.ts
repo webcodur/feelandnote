@@ -31,8 +31,11 @@ export async function POST(req: Request) {
   const targets = factionVariants(factionData.groups, factionData.longformLayout)
     .filter(v => !only || (only === 'shorts' ? v.isShorts : only === 'longform' ? !v.isShorts : true))
     .map(v => ({ comp: `${base}-${v.fileSuffix}`, out: `out/Faction/${episode}-${v.fileSuffix}.mp4` }))
+  // 렌더는 **창고 방식**으로 돈다(`render:staged`) — 그 편 자산 + 공용만 임시로 모아 넘긴다.
+  // 옛 `pnpm render` 는 public 7.3GB 를 통째로 번들에 복사했다(편마다 매번, 디스크 사고 이력).
   const taskIds = targets.map(t =>
-    runTask('render-faction', FACTION_SERIES, episode, ['render', '--', t.comp, t.out, '--codec', RENDER_CODEC]).id,
+    runTask('render-faction', FACTION_SERIES, episode,
+      ['render:staged', '--', '--episode', episode, t.comp, t.out, '--codec', RENDER_CODEC]).id,
   )
   // 세로 롱폼 썸네일 — KO-LV-TH 스틸을 각 롱폼 variant 이름의 THUMB.png 로 출고한다.
   // 유튜브 업로드(variantFiles)가 `{episode}-{suffix}-THUMB.png` 를 자동 인식해 붙인다.
@@ -40,7 +43,8 @@ export async function POST(req: Request) {
     const lvVariants = factionVariants(factionData.groups, factionData.longformLayout).filter(v => !v.isShorts)
     for (const v of lvVariants) {
       taskIds.push(runTask('faction-thumb', FACTION_SERIES, episode,
-        ['still', '--', `${base}-KO-LV-TH`, `out/Faction/${episode}-${v.fileSuffix}-THUMB.png`]).id)
+        ['render:staged', '--', '--episode', episode, '--still',
+          `${base}-KO-LV-TH`, `out/Faction/${episode}-${v.fileSuffix}-THUMB.png`]).id)
     }
   }
   // 자막(SRT)도 함께 — 데이터 기반이라 즉시 생성된다(롱폼·쇼츠 1·2편 한 번에).
