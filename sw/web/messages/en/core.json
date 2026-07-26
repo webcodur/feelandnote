@@ -307,10 +307,7 @@
       "platform": "Platform",
       "albumType": "Album type",
       "tracks": "{count} tracks",
-      "artist": "Artists",
-      "qualificationType": "Qualification type",
-      "series": "Series",
-      "majorField": "Major field"
+      "artist": "Artists"
     },
     "celeb": {
       "info": "Info",

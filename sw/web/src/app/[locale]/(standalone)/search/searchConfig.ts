@@ -14,7 +14,6 @@ export type ContentResult = ContentSearchResult | RecordsSearchResult;
 // 카테고리별 검색 안내 문구 키
 export const CATEGORY_SEARCH_GUIDE_KEYS: Partial<Record<CategoryId, string>> = {
   game: "guide.game",
-  certificate: "guide.certificate",
 };
 
 // 카테고리별 API 출처 URL
@@ -23,7 +22,6 @@ export const API_SOURCE_URL: Record<Exclude<CategoryId, "all">, string> = {
   video: "https://www.themoviedb.org",
   game: "https://www.igdb.com",
   music: "https://developer.spotify.com",
-  certificate: "https://www.q-net.or.kr",
 };
 
 export const CONTENT_SORT_OPTIONS = [

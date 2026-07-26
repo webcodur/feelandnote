@@ -88,9 +88,6 @@ async function fetchContentFromApi(
       }
     }
 
-    case 'certificate':
-      return null
-
     default:
       return null
   }

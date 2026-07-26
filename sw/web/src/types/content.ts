@@ -45,10 +45,5 @@ export interface ContentMetadata {
   tracks?: { name: string; durationMs: number; trackNumber: number }[]
   label?: string
   copyrights?: string[]
-
-  // 자격증
-  qualificationType?: string
-  series?: string
-  majorField?: string
 }
 // #endregion

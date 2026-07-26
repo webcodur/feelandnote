@@ -307,10 +307,7 @@
       "platform": "플랫폼",
       "albumType": "앨범 유형",
       "tracks": "{count}곡",
-      "artist": "아티스트",
-      "qualificationType": "자격 유형",
-      "series": "계열",
-      "majorField": "직무분야"
+      "artist": "아티스트"
     },
     "celeb": {
       "info": "정보",

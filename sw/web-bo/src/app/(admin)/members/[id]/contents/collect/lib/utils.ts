@@ -5,7 +5,7 @@ import type { ExtractedContent } from '@feelandnote/ai-services/content-extracto
 import type { JsonInputItem, SearchResultItem } from './types'
 
 // CONTENT_TYPE_OPTIONS는 로컬 상수에서 생성
-export const CONTENT_TYPE_OPTIONS = CONTENT_TYPES.filter((type) => type !== 'CERTIFICATE').map((type) => ({
+export const CONTENT_TYPE_OPTIONS = CONTENT_TYPES.map((type) => ({
   value: type as ContentType,
   label: CONTENT_TYPE_CONFIG[type].label,
 }))
@@ -32,7 +32,7 @@ export function parseJsonInput(jsonText: string): ExtractedContent[] {
   }
 
   // type 필드 유효성 검사
-  const validTypes: ContentType[] = CONTENT_TYPES.filter((t) => t !== 'CERTIFICATE')
+  const validTypes: ContentType[] = CONTENT_TYPES
   const invalidItems = parsed
     .map((item, idx) => ({ idx: idx + 1, type: item.type }))
     .filter((item) => !item.type || !validTypes.includes(item.type))

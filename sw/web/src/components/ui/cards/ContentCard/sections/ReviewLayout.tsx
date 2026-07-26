@@ -53,7 +53,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     setImageError,
     handleImageLoad,
     handleClick,
-    certTheme,
     editionUnavailable,
     editionNoCover,
     activeEdition,
@@ -70,26 +69,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   const isMobileReview = mobileLayout === "review";
   const horizontalVisibility = isMobileReview ? "flex" : "hidden sm:flex";
   const verticalVisibility = isMobileReview ? "hidden" : "sm:hidden flex";
-
-  const renderCertificateFallback = (iconSize: number) => {
-    if (!certTheme) return null;
-    const CertIcon = certTheme.icon;
-    return (
-      <div className={`w-full h-full bg-gradient-to-br ${certTheme.gradient} overflow-hidden`}>
-        <div className="absolute inset-0 opacity-100" style={{ backgroundImage: `url("${certTheme.pattern}")` }} />
-        <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl" />
-        <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-black/10 rounded-full blur-lg" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-white/20 rounded-full blur-xl scale-150" />
-            <div className="relative w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg">
-              <CertIcon size={iconSize} className="text-white drop-shadow-lg" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const renderSelectOverlay = () => {
     if (!selectable) return null;
@@ -146,8 +125,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               unoptimized
               loading="lazy"
             />
-          ) : certTheme ? (
-            renderCertificateFallback(32)
           ) : (
             <GenerativeBookCover
               title={displayTitle}
@@ -288,8 +265,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                 unoptimized
                 loading="lazy"
               />
-            ) : certTheme ? (
-              renderCertificateFallback(32)
             ) : (
               <GenerativeBookCover
                 title={editionUnavailable ? title : displayTitle}

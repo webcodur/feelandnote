@@ -59,7 +59,6 @@ export default function InfoPanel({
                 case 'VIDEO': categoryId = 'movie'; break; 
                 case 'GAME': categoryId = 'game'; break;
                 case 'MUSIC': categoryId = 'music'; break;
-                case 'CERTIFICATE': categoryId = 'certificate'; break;
                 default: categoryId = 'book';
             }
             

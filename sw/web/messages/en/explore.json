@@ -259,8 +259,7 @@
     "enterQuery": "Enter a search term",
     "enterQueryDesc": "Search for content, users, and tags",
     "guide": {
-      "game": "There may be more results. Try different keywords or languages if you can't find what you're looking for.",
-      "certificate": "Primarily searches major national certifications."
+      "game": "There may be more results. Try different keywords or languages if you can't find what you're looking for."
     },
     "contentSort": {
       "relevance": "Relevance",
@@ -276,15 +275,13 @@
       "book": "Books",
       "video": "Video",
       "game": "Games",
-      "music": "Music",
-      "certificate": "Certificates"
+      "music": "Music"
     },
     "apiSource": {
       "book": "Naver Books API",
       "video": "TMDB",
       "game": "IGDB",
-      "music": "Spotify",
-      "certificate": "Q-Net"
+      "music": "Spotify"
     }
   },
   "archiveSearch": {

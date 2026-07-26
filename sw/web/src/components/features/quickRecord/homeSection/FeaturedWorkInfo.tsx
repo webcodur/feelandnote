@@ -40,7 +40,6 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                     case 'VIDEO': categoryId = 'movie'; break; // Default to movie for now
                     case 'GAME': categoryId = 'game'; break;
                     case 'MUSIC': categoryId = 'music'; break;
-                    case 'CERTIFICATE': categoryId = 'certificate'; break;
                     default: categoryId = 'book';
                 }
 

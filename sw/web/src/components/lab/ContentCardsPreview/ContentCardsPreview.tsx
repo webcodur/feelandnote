@@ -255,7 +255,6 @@ export default function ContentCardsPreview() {
             <li>• <code className="text-red-400 line-through">RecordCard</code> → <code className="text-purple-400">ContentCard</code> (리뷰 모드: headerNode, saved/addable)</li>
             <li>• <code className="text-red-400 line-through">ScriptureCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
             <li>• <code className="text-red-400 line-through">ReviewCard</code> → <code className="text-purple-400">ContentCard</code> (인라인 래퍼 패턴)</li>
-            <li>• <code className="text-red-400 line-through">CertificateCard</code> → <code className="text-purple-400">ContentCard</code> (thumbnail 폴백: 그라데이션 배경 + 골드 스탬프)</li>
           </ul>
         </div>
       </section>

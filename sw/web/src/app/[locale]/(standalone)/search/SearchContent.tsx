@@ -112,7 +112,7 @@ export default function SearchContent() {
                   </span>
                 </div>
                 {CATEGORY_SEARCH_GUIDE_KEYS[category] && (
-                  <span className="text-text-secondary">{t(CATEGORY_SEARCH_GUIDE_KEYS[category] as "guide.game" | "guide.certificate")}</span>
+                  <span className="text-text-secondary">{t(CATEGORY_SEARCH_GUIDE_KEYS[category] as "guide.game")}</span>
                 )}
               </div>
             </div>

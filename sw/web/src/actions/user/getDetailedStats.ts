@@ -38,7 +38,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   VIDEO: '#f59e0b',
   GAME: '#3fb950',
   MUSIC: '#ec4899',
-  CERTIFICATE: '#06b6d4',
 }
 
 interface UserContentStatRow {

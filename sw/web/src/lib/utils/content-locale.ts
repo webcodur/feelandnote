@@ -54,7 +54,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
 /** external_source → 기본 locale */
 export function sourceToLocale(source: string | null | undefined): string {
   switch (source) {
-    case 'naver_book': case 'qnet': case 'tmdb': return 'ko'
+    case 'naver_book': case 'tmdb': return 'ko'
     case 'google_books': case 'igdb': case 'spotify': return 'en'
     default: return 'ko'
   }

@@ -7,7 +7,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Sparkles, Users, User, BookOpen, Tv, Gamepad2, Music, Award } from "lucide-react";
+import { Flame, Sparkles, Users, User, BookOpen, Tv, Gamepad2, Music } from "lucide-react";
 
 // #region 공통 타입
 interface TabItem {
@@ -159,7 +159,6 @@ const CATEGORY_TABS: TabItem[] = [
   { id: "video", label: "영상", icon: Tv, count: 18 },
   { id: "game", label: "게임", icon: Gamepad2, count: 7 },
   { id: "music", label: "음악", icon: Music, count: 23 },
-  { id: "cert", label: "자격증", icon: Award, count: 3 },
 ];
 // #endregion
 

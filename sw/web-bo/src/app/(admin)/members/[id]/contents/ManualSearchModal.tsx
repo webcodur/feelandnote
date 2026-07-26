@@ -69,15 +69,6 @@ const TABLE_CONFIG: Record<ContentType, { headers: string[]; getRowData: (r: Sea
       r.metadata.totalTracks ? `${r.metadata.totalTracks}곡` : '-',
     ],
   },
-  CERTIFICATE: {
-    headers: ['자격증명', '시행기관', '등급', '분야'],
-    getRowData: (r) => [
-      r.title,
-      r.creator || '-',
-      (r.metadata.grade as string) || '-',
-      (r.metadata.field as string) || '-',
-    ],
-  },
 }
 // #endregion
 

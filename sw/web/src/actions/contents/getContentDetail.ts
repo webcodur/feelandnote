@@ -50,7 +50,6 @@ const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
   VIDEO: 'video',
   GAME: 'game',
   MUSIC: 'music',
-  CERTIFICATE: 'certificate',
 }
 
 const TYPE_MAP: Record<CategoryId, ContentType> = {
@@ -58,7 +57,6 @@ const TYPE_MAP: Record<CategoryId, ContentType> = {
   video: 'VIDEO',
   game: 'GAME',
   music: 'MUSIC',
-  certificate: 'CERTIFICATE',
   all: 'BOOK',
 }
 

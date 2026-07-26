@@ -1,5 +1,5 @@
 // 콘텐츠 타입
-export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC' | 'CERTIFICATE'
+export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
 // 공통 검색 결과 기본 필드
 export interface BaseSearchResult {

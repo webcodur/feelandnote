@@ -66,8 +66,6 @@ async function fetchMetadataFromApi(
       const album = await getAlbumById(externalId)
       return { id: externalId, metadata: album?.metadata || null }
     }
-    case 'CERTIFICATE':
-      return { id: externalId, metadata: null }
     default:
       return { id: externalId, metadata: null }
   }

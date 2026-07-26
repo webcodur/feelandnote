@@ -1,9 +1,9 @@
-import { BookOpen, Film, Gamepad2, Music, Award, type LucideIcon } from "lucide-react";
-import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, LaurelIcon, type IconProps } from "@/components/ui/icons/neo-pantheon";
+import { BookOpen, Film, Gamepad2, Music, type LucideIcon } from "lucide-react";
+import { ScrollIcon, TheaterMaskIcon, MosaicCoinIcon, LyreIcon, type IconProps } from "@/components/ui/icons/neo-pantheon";
 import type { ContentType } from "@/types/database";
 
 // 콘텐츠 카테고리 ID (DB 저장용)
-export type CategoryId = "all" | "book" | "video" | "game" | "music" | "certificate";
+export type CategoryId = "all" | "book" | "video" | "game" | "music";
 
 // 콘텐츠 타입 필터 값 (all 포함)
 export type ContentTypeFilterValue = "all" | ContentType;
@@ -30,7 +30,6 @@ export const CATEGORIES: CategoryConfig[] = [
   { id: "video", label: "영상", shortLabel: "VIDEO", icon: TheaterMaskIcon, lucideIcon: Film, placeholder: "영화, 드라마, 애니...", dbType: "VIDEO", unit: "편", creatorLabel: "감독" },
   { id: "game", label: "게임", shortLabel: "GAME", icon: MosaicCoinIcon, lucideIcon: Gamepad2, placeholder: "게임 제목, 개발사...", dbType: "GAME", unit: "개", creatorLabel: "개발사" },
   { id: "music", label: "음악", shortLabel: "MUSIC", icon: LyreIcon, lucideIcon: Music, placeholder: "앨범, 아티스트...", dbType: "MUSIC", unit: "곡", creatorLabel: "아티스트" },
-  { id: "certificate", label: "자격증", shortLabel: "CERT", icon: LaurelIcon, lucideIcon: Award, placeholder: "자격증명, 분야...", dbType: "CERTIFICATE", unit: "개", creatorLabel: "발급기관" },
 ] as const;
 
 // CategoryId → ContentType 매핑 (all은 undefined)
@@ -40,7 +39,6 @@ export const CATEGORY_ID_TO_TYPE: Record<CategoryId, ContentType | undefined> = 
   video: "VIDEO",
   game: "GAME",
   music: "MUSIC",
-  certificate: "CERTIFICATE",
 };
 
 // 콘텐츠 타입별 단위 조회

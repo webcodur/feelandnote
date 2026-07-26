@@ -6,7 +6,7 @@
 "use client";
 
 import Image from "next/image";
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, Award, ExternalLink, Loader2, User } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
 import PersonNameplate from "@/components/features/user/explore/PersonNameplate";
@@ -19,7 +19,6 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   drama: Tv,
   animation: Music,
   game: Gamepad2,
-  certificate: Award,
 };
 
 export interface SearchResult {

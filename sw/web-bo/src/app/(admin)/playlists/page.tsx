@@ -11,7 +11,6 @@ const CONTENT_TYPE_CONFIG = {
   VIDEO: { label: '영상', color: 'danger' },
   GAME: { label: '게임', color: 'success' },
   MUSIC: { label: '음악', color: 'purple' },
-  CERTIFICATE: { label: '자격증', color: 'warning' },
 }
 
 export default async function PlaylistsPage({

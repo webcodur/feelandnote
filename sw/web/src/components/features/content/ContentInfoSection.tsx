@@ -8,7 +8,7 @@
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Book, Film, Gamepad2, Music, Award, User, Calendar, Bookmark, Check, Loader2, Trash2, ExternalLink, ShoppingCart } from "lucide-react";
+import { Book, Film, Gamepad2, Music, User, Calendar, Bookmark, Check, Loader2, Trash2, ExternalLink, ShoppingCart } from "lucide-react";
 import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affiliatePlatforms";
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
@@ -30,7 +30,6 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
   VIDEO: Film,
   GAME: Gamepad2,
   MUSIC: Music,
-  CERTIFICATE: Award,
 };
 
 // #endregion

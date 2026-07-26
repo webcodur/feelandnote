@@ -43,14 +43,6 @@ const SEARCH_PRESETS_KO: Record<string, SearchPreset[]> = {
     { label: "차트", query: (title) => `${cleanTitle(title)} 차트` },
     { label: "리뷰", query: (title) => `${cleanTitle(title)} 리뷰` },
   ],
-  CERTIFICATE: [
-    { label: "시험 정보", query: (title) => `${cleanTitle(title)} 시험` },
-    { label: "공부법", query: (title) => `${cleanTitle(title)} 공부법` },
-    { label: "교재", query: (title) => `${cleanTitle(title)} 교재` },
-    { label: "후기", query: (title) => `${cleanTitle(title)} 합격 후기` },
-    { label: "난이도", query: (title) => `${cleanTitle(title)} 난이도` },
-    { label: "기출", query: (title) => `${cleanTitle(title)} 기출` },
-  ],
 };
 
 const SEARCH_PRESETS_EN: Record<string, SearchPreset[]> = {
@@ -85,14 +77,6 @@ const SEARCH_PRESETS_EN: Record<string, SearchPreset[]> = {
     { label: "Album", query: (title) => `${cleanTitle(title)} album info` },
     { label: "Charts", query: (title) => `${cleanTitle(title)} chart` },
     { label: "Review", query: (title) => `${cleanTitle(title)} review` },
-  ],
-  CERTIFICATE: [
-    { label: "Exam Info", query: (title) => `${cleanTitle(title)} exam` },
-    { label: "Study Tips", query: (title) => `${cleanTitle(title)} study guide` },
-    { label: "Materials", query: (title) => `${cleanTitle(title)} study materials` },
-    { label: "Experience", query: (title) => `${cleanTitle(title)} pass experience` },
-    { label: "Difficulty", query: (title) => `${cleanTitle(title)} difficulty` },
-    { label: "Practice", query: (title) => `${cleanTitle(title)} practice test` },
   ],
 };
 

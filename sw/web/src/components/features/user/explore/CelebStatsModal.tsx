@@ -198,14 +198,13 @@ function ContentTypeStats({
   tc: (key: string) => string;
 }) {
   const total = contentTypeCounts.all || 0;
-  const types = ["BOOK", "VIDEO", "GAME", "MUSIC", "CERTIFICATE"];
+  const types = ["BOOK", "VIDEO", "GAME", "MUSIC"];
 
   const CONTENT_COLORS: Record<string, string> = {
     BOOK: "#10b981",
     VIDEO: "#3b82f6",
     GAME: "#8b5cf6",
     MUSIC: "#f59e0b",
-    CERTIFICATE: "#ec4899",
   };
 
   // 카운트 내림차순 정렬

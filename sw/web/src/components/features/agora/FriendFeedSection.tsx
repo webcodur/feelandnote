@@ -22,7 +22,7 @@ export default function FriendFeedSection({ userId }: Props) {
 
   const tabs: { value: ContentTypeFilterValue; label: string }[] = [
     { value: "all", label: tc("all") },
-    ...CATEGORIES.filter((c) => c.dbType !== "CERTIFICATE").map((c) => ({
+    ...CATEGORIES.map((c) => ({
       value: c.dbType as ContentTypeFilterValue,
       label: tc(c.id),
     })),

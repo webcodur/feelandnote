@@ -5,29 +5,25 @@
       "book": "Books",
       "video": "Videos",
       "game": "Games",
-      "music": "Music",
-      "certificate": "Certificates"
+      "music": "Music"
     },
     "placeholder": {
       "book": "Title, author...",
       "video": "Movie, drama...",
       "game": "Game title...",
-      "music": "Album, artist...",
-      "certificate": "Certificate..."
+      "music": "Album, artist..."
     },
     "unit": {
       "book": "books",
       "video": "titles",
       "game": "games",
-      "music": "tracks",
-      "certificate": "certs"
+      "music": "tracks"
     },
     "creator": {
       "book": "Author",
       "video": "Director",
       "game": "Developer",
-      "music": "Artist",
-      "certificate": "Issuer"
+      "music": "Artist"
     },
     "edition": {
       "ko": "Korean",
@@ -61,7 +57,6 @@
       "video": "Video",
       "game": "Game",
       "music": "Music",
-      "certificate": "Certificate",
       "all": "All"
     },
     "addFailed": "Failed to add",
@@ -230,48 +225,6 @@
       "GAME_05": {
         "keyword": "Broken Balance",
         "description": "Poor balance ruined the fun"
-      }
-    },
-    "certificate": {
-      "CERT_01": {
-        "keyword": "Worth Getting",
-        "description": "Actually helped with career and salary"
-      },
-      "CERT_02": {
-        "keyword": "Practical Skills",
-        "description": "Directly applicable to real work"
-      },
-      "CERT_03": {
-        "keyword": "Reasonable Study Load",
-        "description": "Reasonable prep time and amount"
-      },
-      "CERT_04": {
-        "keyword": "Fair Difficulty",
-        "description": "Not as hard as expected"
-      },
-      "CERT_05": {
-        "keyword": "Good Fundamentals",
-        "description": "Great for building basic understanding"
-      },
-      "CERT_06": {
-        "keyword": "Not Worth the Time",
-        "description": "Poor return on investment"
-      },
-      "CERT_07": {
-        "keyword": "Tough Preparation",
-        "description": "The preparation process was grueling"
-      },
-      "CERT_08": {
-        "keyword": "Dump-Dependent",
-        "description": "Passable with practice tests and dumps"
-      },
-      "CERT_09": {
-        "keyword": "First-Try Passable",
-        "description": "Easy enough to pass on the first attempt"
-      },
-      "CERT_10": {
-        "keyword": "Worth Retrying",
-        "description": "Failed but motivated to try again"
       }
     }
   },

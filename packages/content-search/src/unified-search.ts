@@ -5,7 +5,6 @@ import { searchGoogleBooks, type GoogleBookSearchResult } from './google-books'
 import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
 import { searchMusic, type MusicSearchResult } from './spotify'
-import { searchCertificates, type CertificateSearchResult } from './qnet'
 import type { ContentType, SearchResponse } from './types'
 
 // 통합 도서 검색 결과 타입 (네이버 + Google Books)
@@ -18,7 +17,6 @@ export type ExternalSearchResult =
   | VideoSearchResult
   | GameSearchResult
   | MusicSearchResult
-  | CertificateSearchResult
 
 // 도서 검색 결과 병합 (ISBN 기준 중복 제거)
 function mergeBookResults(
@@ -103,14 +101,6 @@ const searchFunctions: Record<ContentType, (query: string, page?: number) => Pro
       hasMore: result.hasMore,
     }
   },
-  CERTIFICATE: async (query, page = 1) => {
-    const result = await searchCertificates(query, page)
-    return {
-      items: result.items,
-      total: result.total,
-      hasMore: result.hasMore,
-    }
-  },
 }
 
 export interface SearchOptions {
@@ -165,4 +155,3 @@ export type { VideoSearchResult, VideoSubtype, VideoEnLocale } from './tmdb'
 export { getVideoEnLocale } from './tmdb'
 export type { GameSearchResult } from './igdb'
 export type { MusicSearchResult } from './spotify'
-export type { CertificateSearchResult } from './qnet'

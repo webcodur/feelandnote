@@ -38,7 +38,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 - **`contents`**: 콘텐츠 마스터. 언어 중립 메타만 보유
   - 컬럼: `id`(text, 기본값 `gen_random_uuid()::text`), `type`, `subtype`, `metadata`(jsonb), `release_date`(text), `external_source`, `external_id`, `user_count`, `created_at`
-  - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC'|'CERTIFICATE'
+  - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC' (자격증 타입 `CERTIFICATE`는 26.07.27 전면 폐기 — 코드·데이터·제약 모두 제거)
   - `external_source` CHECK: NULL 또는 'naver_book'|'google_books'|'openlibrary'|'tmdb'|'igdb'|'spotify' (DB가 허용하는 값. 운영 정책상 실제 사용 출처는 별도 규약을 따른다)
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
@@ -142,9 +142,9 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 | `manual` | BOOK en. 수동 입력 | 35 |
 | `wikipedia` | BOOK ko | 4 |
 | `aladin` | BOOK ko | 3 |
-| `qnet` | CERTIFICATE ko/en | 3 |
 
-> 타입별 기본 대응은 BOOK=naver_book(ko)/openlibrary(en), VIDEO=tmdb, GAME=igdb, MUSIC=spotify, CERTIFICATE=qnet이다. 단 BOOK en은 위처럼 출처가 다변화돼 있다.
+> 타입별 기본 대응은 BOOK=naver_book(ko)/openlibrary(en), VIDEO=tmdb, GAME=igdb, MUSIC=spotify이다. 단 BOOK en은 위처럼 출처가 다변화돼 있다.
+> `qnet`(3건)은 자격증 타입 폐기(26.07.27)와 함께 데이터째 삭제됐다.
 
 #### thumbnail 값 (실측 2026-07-16)
 
@@ -162,7 +162,7 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 | `confirmed_unavailable_en` | | 2 |
 | `tmdb_textless` | 텍스트 없는 포스터 | 1 |
 
-> `sources.primary`(자유 jsonb)와 `contents.external_source`(CHECK 제약)는 **별개다.** 값 집합이 일치하지 않는다 — `qnet`·`wikidata`·`transliteration`·`manual`·`none`·`aladin`은 sources에만 존재하며 external_source CHECK는 이들을 허용하지 않는다. CERTIFICATE의 `external_source`는 실제로 NULL이다.
+> `sources.primary`(자유 jsonb)와 `contents.external_source`(CHECK 제약)는 **별개다.** 값 집합이 일치하지 않는다 — `wikidata`·`transliteration`·`manual`·`none`·`aladin`은 sources에만 존재하며 external_source CHECK는 이들을 허용하지 않는다.
 
 ## content_locales 조회 규칙
 
