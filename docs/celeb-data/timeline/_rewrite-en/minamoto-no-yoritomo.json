@@ -1,0 +1,125 @@
+{
+  "slug": "minamoto-no-yoritomo",
+  "nickname": "미나모토노 요리토모",
+  "events": [
+    {
+      "id": "99750a60-9ffd-46dd-a3b7-1272ddcd2fca",
+      "year": 1147,
+      "title": "오와리 아쓰타에서 미나모토노 요시토모의 아들로 태어나다",
+      "before": "미나모토노 요시토모의 셋째 아들로 태어났다. 어머니는 아쓰타 신궁 대궁사 집안 출신이라 형들보다 신분이 높아 후계자로 대접받았고, 열두 살에 이미 조정 관직을 받았다. 음력 규안 3년 4월 8일생이다.",
+      "after": "Yoritomo was born at Atsuta in Owari on the eighth day of the fourth lunar month of Kyūan 3. He was the third son of Minamoto no Yoshitomo, but his mother’s ties to the chief priest’s family at Atsuta Shrine gave him higher standing than his elder brothers. Treated as the heir, he received a court post at twelve."
+    },
+    {
+      "id": "03118c02-057c-48cb-9a4c-b2becdd0e622",
+      "year": 1160,
+      "title": "헤이지의 난에서 아버지가 패하고 죽다",
+      "before": "요시토모가 후지와라노 노부요리와 함께 일으킨 거병이 다이라노 기요모리에게 진압됐다. 열세 살의 그도 종군했다가 낙오했고, 동국으로 달아나던 아버지는 오와리에서 가신에게 살해됐다. 음력 헤이지 원년 12월에 시작된 싸움이라 양력으로는 1160년 1월이다.",
+      "after": "At thirteen, Yoritomo joined the force raised by his father and Fujiwara no Nobuyori against Taira no Kiyomori. The rising was crushed, and Yoritomo became separated from the army. Yoshitomo fled east but was killed by one of his retainers in Owari. The fighting began in the twelfth lunar month of Heiji 1, in January 1160."
+    },
+    {
+      "id": "61579a93-a170-43b5-8e1b-d26d5ca08429",
+      "year": 1160,
+      "title": "이즈로 유배되어 스무 해를 보내다",
+      "before": "붙잡혀 처형될 처지였으나 기요모리의 계모가 나서 목숨을 건지고 이즈 히루가코지마로 유배됐다. 감시는 지역 무사 호조 도키마사가 맡았고, 그는 이곳에서 스무 해를 지냈다. 음력 에이랴쿠 원년 3월 11일이다.",
+      "after": "Captured after the defeat, Yoritomo faced execution. Kiyomori’s stepmother intervened, and he was sent instead to Hirugakojima in Izu on the eleventh day of the third lunar month of Eiryaku 1. Hōjō Tokimasa, a local warrior, watched over him there for the next twenty years."
+    },
+    {
+      "id": "df68e08e-d57c-4668-9842-f2db04968c99",
+      "year": 1177,
+      "title": "감시자의 딸 호조 마사코와 혼인하다",
+      "before": "유배지에서 호조 도키마사의 딸 마사코와 맺어졌다. 혼인 시기는 1177년 무렵으로 전하며 정확한 날짜는 남아 있지 않다. 이 혼인으로 호조 집안이 그의 거병을 뒷받침하게 됐고, 뒷날 마사코와 그 친정이 가마쿠라 정권의 실권을 쥔다.",
+      "after": "Around 1177, Yoritomo married Hōjō Masako, the daughter of his warden. No exact date survives. The marriage brought the Hōjō behind his cause; Masako and her family would later take control of the Kamakura government."
+    },
+    {
+      "id": "cdf38276-e981-4a96-bc08-9008c32a5ab0",
+      "year": 1180,
+      "title": "모치히토왕의 영지를 받아 이즈에서 군사를 일으키다",
+      "before": "다이라 토벌을 명하는 모치히토왕의 영지를 그해 봄에 받았다. 8월 17일 밤 이즈의 다이라 쪽 관리 야마키 가네타카의 관사를 습격해 죽이면서 거병했다. 음력 지쇼 4년 8월 17일로 양력 9월 초다.",
+      "after": "Prince Mochihito’s call to overthrow the Taira reached Yoritomo in the spring. On the night of the seventeenth day of the eighth lunar month, he attacked the residence of Yamaki Kanetaka, the Taira official in Izu, and killed him. The raid, in early September 1180, began Yoritomo’s revolt."
+    },
+    {
+      "id": "19c8fcfa-1877-4a3d-93e5-0bc2bc56dff5",
+      "year": 1180,
+      "title": "이시바시야마에서 참패하다",
+      "before": "거병 엿새 만에 오바 가게치카가 이끄는 대군에 맞섰다가 300기 남짓한 병력이 흩어졌다. 그는 산속에 숨어 추격을 피했고, 이후 배를 타고 바다 건너 안방으로 달아났다. 음력 8월 23일의 싸움이다.",
+      "after": "Six days into the revolt, Yoritomo met a much larger army led by Ōba Kagechika at Ishibashiyama. His force of some three hundred horsemen broke apart. He escaped the pursuit by hiding in the mountains, then crossed the bay by boat to Awa."
+    },
+    {
+      "id": "6d2c09d9-3ce0-4380-bf0b-d148f42f13f0",
+      "year": 1180,
+      "title": "안방으로 건너가 군세를 다시 모으다",
+      "before": "배로 안방국에 닿아 지바 쓰네타네와 가즈사 히로쓰네 같은 동국 무사들을 끌어들였다. 무사시를 거쳐 남하하는 동안 병력이 수만으로 불었다.",
+      "after": "In Awa, Yoritomo drew eastern warriors such as Chiba Tsunetane and Kazusa Hirotsune to his side. More joined as he passed through Musashi, until his rebuilt army numbered in the tens of thousands."
+    },
+    {
+      "id": "42b6de48-033a-4f91-91a8-5b368ff4d4ff",
+      "year": 1180,
+      "title": "가마쿠라에 들어가 무사 정권의 근거지로 삼다",
+      "before": "10월 6일 가마쿠라에 들어가 조상 요시이에 이래 미나모토 집안과 인연이 있던 이 땅을 근거지로 정했다. 11월에는 와다 요시모리를 우두머리로 하는 사무라이도코로를 두어 따르는 무사들을 통제하는 기구를 만들었다.",
+      "after": "Yoritomo entered Kamakura on the sixth day of the tenth lunar month and chose it as his base. His Minamoto ancestors, including Yoshiie, had long-standing ties to the place. The next month he put Wada Yoshimori at the head of a new samurai-dokoro to command and discipline his growing band of warriors."
+    },
+    {
+      "id": "91cd52ed-8bd2-49ff-a2fb-277035d9d3a2",
+      "year": 1180,
+      "title": "후지강에서 다이라 토벌군이 스스로 물러가다",
+      "before": "동쪽으로 내려온 다이라 토벌군과 후지강을 사이에 두고 마주 섰으나 물새 떼가 날아오르는 소리에 다이라 군이 놀라 퇴각했다고 전한다. 그는 교토 추격을 멈추고 가마쿠라로 돌아가 동국 지배를 굳히는 쪽을 택했다. 음력 10월 20일이다.",
+      "after": "Yoritomo’s army faced the Taira punitive force across the Fuji River on the twentieth day of the tenth lunar month. According to tradition, a flock of waterfowl suddenly took flight, and the noise sent the Taira army into a retreat. Yoritomo did not chase them toward Kyoto. He returned to Kamakura to secure the east."
+    },
+    {
+      "id": "6ba947df-d49f-429d-97e3-95b4c119bc54",
+      "year": 1184,
+      "title": "이치노타니에서 동생들이 다이라군을 깨뜨리다",
+      "before": "그는 가마쿠라에 머물고 동생 노리요리와 요시쓰네를 서쪽으로 보냈다. 두 사람은 앞서 우지가와에서 사촌 미나모토노 요시나카를 쳐 죽인 뒤, 셋쓰 이치노타니의 다이라 진지를 급습해 무너뜨렸다. 음력 2월 7일, 양력 1184년 3월 20일의 싸움이다.",
+      "after": "While Yoritomo remained in Kamakura, his brothers Noriyori and Yoshitsune marched west. They first defeated and killed their cousin Minamoto no Yoshinaka at the Uji River, then struck the Taira camp at Ichi-no-Tani in Settsu and broke it apart. The battle took place on 20 March 1184."
+    },
+    {
+      "id": "22fd5c44-395e-4bea-acce-b1cbbbfeebac",
+      "year": 1185,
+      "title": "야시마에서 다이라군을 사누키 밖으로 몰아내다",
+      "before": "요시쓰네가 폭풍을 무릅쓰고 소수 병력으로 시코쿠에 건너가 사누키 야시마의 다이라 본진을 배후에서 쳤다. 다이라 일문은 진지를 버리고 바다로 물러났다. 1185년 3월 22일에 해당한다.",
+      "after": "Yoshitsune crossed to Shikoku through a storm with only a small force. On 22 March 1185, he came at the Taira headquarters at Yashima in Sanuki from behind. The Taira abandoned their camp and withdrew to their ships."
+    },
+    {
+      "id": "e19bee28-6277-4595-89c1-0e5d84be322d",
+      "year": 1185,
+      "title": "단노우라에서 다이라 가문이 멸망하다",
+      "before": "간몬 해협에서 벌어진 해전에서 다이라 함대가 무너졌다. 니이노아마가 여덟 살 안토쿠 천황을 안고 바다에 뛰어들었고, 삼종의 신기 가운데 보검은 이때 사라졌다고 전한다. 음력 3월 24일, 양력 1185년 4월 25일이다.",
+      "after": "The Taira fleet collapsed at Dan-no-ura in the Kanmon Strait on 25 April 1185. Nii-no-Ama jumped into the sea with the eight-year-old Emperor Antoku in her arms. The imperial sword, one of the three sacred regalia, is said to have vanished in the water."
+    },
+    {
+      "id": "3e152d11-cf2e-4ba5-bdec-cd9bf2baea69",
+      "year": 1185,
+      "title": "슈고와 지토를 두는 칙허를 받아내다",
+      "before": "요시쓰네와 갈라선 뒤 그를 잡는다는 명분으로 조정을 압박해 여러 지역에 슈고를, 장원과 공령에 지토를 두는 허가를 얻었다. 무사에게 지방 치안과 조세 징수의 근거가 생기면서 가마쿠라 정권의 뼈대가 잡혔다. 음력 분지 원년 11월 28일이다.",
+      "after": "After turning against Yoshitsune, Yoritomo used the hunt for his brother to press the court for wider powers. On the twenty-eighth day of the eleventh lunar month of Bunji 1, he won permission to place constables in the provinces and stewards on private estates and public lands. His warriors could now police the countryside and collect taxes, giving the Kamakura government the structure it needed to rule."
+    },
+    {
+      "id": "00a228f6-e4e0-4811-8b6e-88aed76ade05",
+      "year": 1189,
+      "title": "오슈를 쳐서 후지와라 정권을 무너뜨리다",
+      "before": "요시쓰네를 숨겨 준 오슈 후지와라를 치겠다며 직접 대군을 이끌고 북상했다. 후지와라노 야스히라는 요시쓰네를 죽여 목을 보냈으나 공격은 멈추지 않았고, 평천을 근거로 백 년 가까이 이어진 오슈 후지와라 정권이 무너졌다.",
+      "after": "Yoritomo led a large army north against the Ōshū Fujiwara, who had sheltered Yoshitsune. Fujiwara no Yasuhira killed Yoshitsune and sent Yoritomo his head, but Yoritomo did not stop. His campaign destroyed the Fujiwara government at Hiraizumi after nearly a century of rule."
+    },
+    {
+      "id": "879c818f-3dda-42de-9cbb-d4f1d2bff9a6",
+      "year": 1190,
+      "title": "처음으로 교토에 올라가 관직을 받고 곧 사임하다",
+      "before": "거병 이래 처음 교토에 들어가 고시라카와 법황과 만났고 권대납언과 우근위대장에 임명됐다. 그러나 두 자리를 곧 사임하고 가마쿠라로 돌아갔다. 조정의 관직에 매이지 않고 동국에 근거를 둔 채 무사를 거느리는 쪽을 택한 셈이다.",
+      "after": "In 1190, Yoritomo entered Kyoto for the first time since his revolt and met the retired emperor Go-Shirakawa. The court named him provisional major counsellor and commander of the right imperial guard. He soon resigned both posts and returned to Kamakura to lead his warriors from the east."
+    },
+    {
+      "id": "1515c3f9-c9f5-48b4-9105-8966627f0db0",
+      "year": 1192,
+      "title": "정이대장군에 임명되다",
+      "before": "그를 견제하던 고시라카와 법황이 그해 3월 죽은 뒤 고토바 천황에게서 정이대장군 임명을 받았다. 음력 겐큐 3년 7월 12일로 양력 1192년 8월 21일에 해당한다. 이 직함이 이후 700년 가까이 일본 무가 정권의 최고 자리로 이어졌다.",
+      "after": "The retired emperor Go-Shirakawa, who had held Yoritomo in check, died in the third month of 1192. On 21 August, Emperor Go-Toba appointed Yoritomo seii taishōgun. For nearly seven centuries afterward, that title marked the highest office in Japan’s warrior governments."
+    },
+    {
+      "id": "6c4fb20b-528e-4b90-b003-c444450b6f18",
+      "year": 1199,
+      "title": "쉰셋에 죽고 실권은 처가로 넘어가다",
+      "before": "1198년 말 사가미강 다리 공양에 다녀오다 몸이 상했고 이듬해 정월 출가한 지 이틀 만에 죽었다. 낙마가 원인이라 전하나 확실하지 않다. 음력 겐큐 10년 1월 13일로 양력 1199년 2월 9일이며, 뒤를 이은 아들들이 잇따라 제거되면서 실권은 호조 집안으로 넘어갔다.",
+      "after": "Late in 1198, Yoritomo fell ill after attending the dedication of a bridge over the Sagami River. He took the tonsure the following new year and died two days later, on 9 February 1199, aged fifty-three. Some accounts blamed a fall from a horse, though the cause remains uncertain. His sons succeeded him but were removed one after another, leaving power in the hands of Masako’s Hōjō family."
+    }
+  ]
+}

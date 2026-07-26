@@ -1,0 +1,125 @@
+{
+  "slug": "lin-zexu",
+  "nickname": "임칙서",
+  "events": [
+    {
+      "id": "2e648354-332d-4b2d-a0da-ca6b36dcb242",
+      "year": 1785,
+      "title": "복주 후관현에서 가난한 훈장의 아들로 태어나다",
+      "before": "아버지 임빈일은 향시에 오르지 못하고 글방을 열어 살림을 꾸렸다. 네 살에 아버지의 글방에 따라 나가 글을 배우기 시작했다.",
+      "after": "His father, Lin Binri, failed the provincial examination and supported the family by running a village school. Lin Zexu began sitting in on his lessons at the age of four."
+    },
+    {
+      "id": "b65aef7f-11c9-437d-8ce5-7579d57ab591",
+      "year": 1804,
+      "title": "열아홉에 향시에 급제하다",
+      "before": "복건 향시에 합격해 거인이 됐다. 이후 복건순무 장사성의 막료로 들어가 실무 행정을 먼저 익혔다.",
+      "after": "At nineteen, he passed the Fujian provincial examination and became a juren. He then joined the staff of Fujian governor Zhang Shicheng, where he learned the daily work of government before taking office himself."
+    },
+    {
+      "id": "3abfcc48-748f-4092-a3cf-d6798495e222",
+      "year": 1811,
+      "title": "진사가 되어 한림원에 들어가다",
+      "before": "스물일곱에 진사에 올라 서길사가 됐다. 한림원에 있는 동안 역대 치수 기록과 재정 자료를 모아 읽으며 실무 관료로서 밑천을 쌓았다.",
+      "after": "He earned the jinshi degree at twenty-seven and entered the Hanlin Academy as a bachelor. There he studied old records on river control and public finance, subjects that would shape his later work."
+    },
+    {
+      "id": "a2bbcc69-fbf6-46a3-8933-637b022a21c9",
+      "year": 1823,
+      "title": "강소에서 안찰사와 순무를 지내며 임청천이라 불리다",
+      "before": "강소안찰사로 부임해 몇 달 만에 쌓여 있던 미결 소송의 대부분을 처리해 임청천이라는 별명을 얻었다. 1832년부터는 강소순무로 다섯 해 넘게 있으면서 수리 사업과 조운, 기근 구제를 맡았고 이 시기에 아편의 폐해를 눈으로 확인했다.",
+      "after": "As judicial commissioner of Jiangsu, he cleared most of a large backlog of cases within a few months and earned the nickname “Lin of the Clear Sky.” He became governor of Jiangsu in 1832 and spent more than five years overseeing waterworks, grain transport and famine relief. During this posting, he saw the damage caused by opium at first hand."
+    },
+    {
+      "id": "4049463d-c4e3-4d64-bbdf-cf8c456edcff",
+      "year": 1837,
+      "title": "호광총독으로 무창에서 아편을 단속하다",
+      "before": "호북·호남을 맡아 아편 흡연 도구를 거둬들이고 중독자를 치료하는 계획을 함께 시행했다. 여기서 얻은 성과를 근거로, 아편을 그냥 두면 나라에 세금을 낼 은도 병사도 남지 않는다는 상소를 올렸다.",
+      "after": "Now viceroy of Huguang, with authority over Hubei and Hunan, he seized opium pipes and other smoking equipment while arranging treatment for addicts. He reported the results to the throne and warned that unchecked opium use would leave China with neither silver to tax nor soldiers to fight."
+    },
+    {
+      "id": "50786f83-a378-4e43-83e2-d179b34cd74c",
+      "year": 1838,
+      "title": "흠차대신에 임명돼 광동으로 내려가게 되다",
+      "before": "도광제가 여드레 사이에 여덟 차례 그를 불러 아편 문제를 논의한 끝에 흠차대신으로 삼았다. 광동 수사까지 지휘할 권한을 받고 아편 수입을 끊으라는 임무를 맡았다.",
+      "after": "The Daoguang Emperor summoned him eight times in eight days to discuss the opium trade. He then appointed Lin imperial commissioner, gave him command of the Guangdong naval forces and sent him south to stop the imports."
+    },
+    {
+      "id": "54360f66-8750-49e6-b75e-38764aa39ea3",
+      "year": 1839,
+      "title": "광주에 도착해 외국 상관을 봉쇄하고 아편을 내놓게 하다",
+      "before": "부임 여드레 만에 외국 상인에게 보유한 아편 전량을 내놓고 다시는 들여오지 않겠다는 서약서를 쓰라고 요구했다. 응하지 않자 상관을 봉쇄하고 중국인 고용인을 철수시켰고, 영국 무역감독관 찰스 엘리엇이 상인들의 아편을 정부가 사들이는 형식으로 이만 상자 남짓을 넘겼다.",
+      "after": "Eight days after reaching Canton, he ordered foreign merchants to surrender all their opium and sign pledges never to import it again. When they refused, he sealed off the factories and withdrew their Chinese employees. British superintendent Charles Elliot then took the merchants’ opium onto government account and handed over more than twenty thousand chests."
+    },
+    {
+      "id": "67dc5583-5784-497e-869b-7d4af72fb910",
+      "year": 1839,
+      "title": "호문에서 아편 이백삼십칠만 근을 스무 날에 걸쳐 없애다",
+      "before": "동관 호문 바닷가에 못을 파고 아편을 넷으로 갈라 소금물에 반나절 담근 뒤 석회를 부어 녹이고 썰물에 바다로 흘려보냈다. 6월 3일부터 25일까지 이어졌고 미국 상인과 선교사들이 참관해 실제로 폐기됐음을 확인했다. 영국은 이 조치를 재산 몰수로 규정해 이듬해 원정 함대를 보냈다.",
+      "after": "At Humen, workers dug pits beside the sea, cut the opium into quarters and soaked it in brine for half a day. They added lime to dissolve it, then released the mixture on the ebb tide. The destruction lasted from 3 to 25 June and was watched by American merchants and missionaries, who confirmed that the opium had been destroyed. Britain treated the act as a seizure of property and sent an expeditionary fleet the next year."
+    },
+    {
+      "id": "47ab6ed4-5293-48c1-9c7a-528efdfdef9f",
+      "year": 1839,
+      "title": "빅토리아 여왕에게 보내는 글을 쓰다",
+      "before": "영국이 자국에서는 아편 흡연을 금하면서 왜 중국에 파는지를 따지고 무역 중단을 요구하는 글을 지어 광주에서 발신했다. 여왕에게 실제로 전달됐는지는 확인되지 않으며, 영국 신문에 번역문이 실려 알려졌다.",
+      "after": "From Canton, he sent an open letter asking why Britain barred opium smoking at home while selling the drug in China. He called for the trade to end. It is not known whether Queen Victoria received the letter, but a translation appeared in the British press."
+    },
+    {
+      "id": "3bd4f720-7881-49ba-9332-e1a02955f3d3",
+      "year": 1839,
+      "title": "구룡과 천비 앞바다에서 영국 함선과 맞붙다",
+      "before": "식수 공급을 끊자 영국 배가 구룡 앞바다에서 포격을 시작하면서 첫 교전이 벌어졌고, 11월에는 천비 앞바다에서 다시 부딪쳤다. 그는 서양 대포와 배를 사들이고 외국 신문을 번역시켜 『사주지』를 엮게 하는 등 상대를 파악하려 했다.",
+      "after": "After he cut off the British water supply, British ships opened fire off Kowloon and the first fighting began. The two sides clashed again off Chuenpi in November. Lin bought Western cannon and ships, ordered translations of foreign newspapers and had the collected material compiled as the Sizhou Zhi."
+    },
+    {
+      "id": "663acb0d-bfcf-41e6-a353-6bbc6d1a4220",
+      "year": 1840,
+      "title": "전쟁의 책임을 지고 파직되다",
+      "before": "영국 함대가 광동을 지나쳐 북상해 천진 앞바다까지 이르자 도광제가 태도를 바꿔 그를 파면했다. 후임 기선이 협상에 나섰고, 그는 이듬해 절강에서 방어를 돕다가 유배형을 받았다.",
+      "after": "The British fleet sailed past Guangdong and reached the waters off Tianjin. The Daoguang Emperor changed course, dismissed Lin and sent Qishan to negotiate in his place. Lin later helped organise the defence of Zhejiang before receiving a sentence of exile the following year."
+    },
+    {
+      "id": "e06e28c8-29e4-4717-8418-5f1c903d702c",
+      "year": 1842,
+      "title": "넉 달을 걸어 유배지 이리에 닿다",
+      "before": "8월에 서안을 떠나 12월 10일 이리 혜원성에 도착했다. 떠나며 가족에게 남긴 시의 한 구절 진실로 나라에 이롭다면 삶과 죽음을 가리랴가 널리 인용된다.",
+      "after": "He left Xi’an in August and arrived at Huiyuan in Ili on 10 December, after four months on the road. A line from the poem he left his family became widely quoted: if something truly benefits the country, one should not weigh life against death."
+    },
+    {
+      "id": "df9cc63e-65e5-43c9-8492-ee414c0900de",
+      "year": 1844,
+      "title": "남강 여러 성을 돌며 개간하고 카레즈를 널리 퍼뜨리다",
+      "before": "유배 중에도 이리장군의 요청으로 천산 남쪽 여러 성을 답사하며 개간지 육십여만 무를 측량했다. 투르판 일대에서 쓰이던 지하 수로 카레즈를 다른 지역에도 파게 해 현지에서 임공정이라 불렀다.",
+      "after": "Exile did not end his official work. At the request of the general of Ili, he travelled through the towns south of the Tianshan and surveyed more than six hundred thousand mu of land for reclamation. He also brought the underground karez channels used around Turpan to other districts, where people called them “Lin’s wells.”"
+    },
+    {
+      "id": "239f2413-cbc6-4a58-b2c3-6cd18eb24c0f",
+      "year": 1846,
+      "title": "사면돼 섬서순무로 복귀하다",
+      "before": "1845년 말 사면 명령을 받고 이듬해 서안에 부임했다. 흉년과 유민 문제를 다루며 관직에 돌아왔다.",
+      "after": "A pardon arrived at the end of 1845. The next year he took office in Xi’an as governor of Shaanxi, where he faced failed harvests and an uprooted population."
+    },
+    {
+      "id": "176cd9f7-d5ac-486a-9458-7889e4dcb9f1",
+      "year": 1847,
+      "title": "운귀총독이 되어 곤명에 부임하다",
+      "before": "운남에서 한족과 회족 사이에 벌어진 유혈 충돌을 수습하고 광산 운영을 정비했다. 지방관 시절 마지막 부임지였다.",
+      "after": "At Kunming, he worked to end bloody clashes between Han and Hui communities and brought the province’s mines under tighter control. Yunnan and Guizhou became his last provincial command."
+    },
+    {
+      "id": "94aa2f32-bfc8-462a-832b-d57bbc323fb5",
+      "year": 1849,
+      "title": "병으로 물러나 복주로 돌아가다",
+      "before": "몸이 상해 사직을 청하고 고향으로 돌아갔다. 이듬해 복주에서 영국인의 거주 문제를 두고 지역 여론을 이끌기도 했다.",
+      "after": "With his health failing, he resigned and returned to Fuzhou. The next year he helped lead local opposition to allowing British residents into the city."
+    },
+    {
+      "id": "014ad047-d2f8-40da-9c99-007409d7790d",
+      "year": 1850,
+      "title": "광서로 가던 길에 광동 보녕에서 죽다",
+      "before": "태평천국 진압을 위한 흠차대신에 다시 임명돼 병든 몸으로 길을 나섰다가 광동 보녕현 관사에서 예순여섯에 죽었다. 그가 유배지에서 정리한 서양 자료는 위원에게 넘어가 『해국도지』의 바탕이 됐다.",
+      "after": "The court appointed him imperial commissioner once more and ordered him to Guangxi to deal with the Taiping rising. He set out despite his illness but died at sixty-six in the official quarters at Puning county, Guangdong. The materials on the West that he had assembled in exile passed to Wei Yuan and became the basis of the Haiguo Tuzhi."
+    }
+  ]
+}

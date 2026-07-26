@@ -1,0 +1,132 @@
+{
+  "slug": "fritz-haber",
+  "nickname": "프리츠 하버",
+  "events": [
+    {
+      "id": "a8cbd769-c76f-497b-a34d-2b60fb4a5216",
+      "year": 1868,
+      "title": "브레슬라우의 염료 상인 집에서 태어나다",
+      "before": "프로이센 슐레지엔의 브레슬라우, 염료와 안료를 파는 유대인 상인의 집에서 태어났다. 어머니는 그를 낳은 지 3주 만에 세상을 떠났고, 아버지와 아들은 끝내 가까워지지 못했다.",
+      "after": "Fritz Haber was born in Breslau, in Prussian Silesia, to a Jewish merchant who sold dyes and pigments. His mother died three weeks after giving birth, and he never became close to his father."
+    },
+    {
+      "id": "5ba3c835-7f6a-434d-99d0-af45ce6cacac",
+      "year": 1886,
+      "title": "베를린과 하이델베르크에서 화학을 배우다",
+      "before": "베를린에서 화학 공부를 시작해 하이델베르크로 옮겼다. 로베르트 분젠 밑에서 한 학기를 보낸 뒤 다시 베를린으로 돌아와 1891년 박사학위를 받았다. 그 뒤 몇 해 동안 아버지의 사업을 이을지, 학계에 남을지를 놓고 흔들렸다.",
+      "after": "He began studying chemistry in Berlin, then spent a semester with Robert Bunsen in Heidelberg. Back in Berlin, he earned his doctorate in 1891. For the next few years, he could not decide whether to enter his father’s business or stay in academic science."
+    },
+    {
+      "id": "c00b276c-2a2f-4da3-9194-ed07e424998f",
+      "year": 1892,
+      "title": "예나에서 루터파로 개종하다",
+      "before": "예나 대학에서 조교로 일하던 중 루터파 세례를 받았다. 유대인에게 정교수 자리를 좀처럼 내주지 않던 독일에서 내린 선택이었다. 그는 훗날 자신이 독일인이라는 사실을 한 번도 의심한 적이 없다고 말했다.",
+      "after": "While working as an assistant at the University of Jena, Haber was baptised as a Lutheran. German universities rarely gave full professorships to Jews. He later said that he had never doubted he was German."
+    },
+    {
+      "id": "8d83eb45-31bd-45d2-b84a-c11b36e2092e",
+      "year": 1894,
+      "title": "카를스루에 공대에 자리를 얻다",
+      "before": "카를스루에 공대 가스 기술 강좌의 조수로 들어가 1898년 부교수, 1906년 물리화학 정교수가 됐다. 전기화학과 기체 반응을 공장의 문제와 맞물려 연구했고, 이때 갖춘 실험 설비에서 암모니아 합성 장치가 자라났다.",
+      "after": "Haber joined the Karlsruhe Technical College as an assistant in gas technology. He became an associate professor in 1898 and a full professor of physical chemistry in 1906. There he used electrochemistry and gas reactions to tackle industrial problems, building the equipment from which his ammonia apparatus would grow."
+    },
+    {
+      "id": "50ede207-bf6c-4585-9314-e355c5ac6f2d",
+      "year": 1901,
+      "title": "클라라 이머바르와 결혼하다",
+      "before": "브레슬라우 대학 최초의 여성 화학 박사 클라라 이머바르와 결혼해 카를스루에에 살림을 차렸다. 하버는 아내가 연구를 그만두고 집안일에 전념하기를 바랐다. 클라라가 계속할 수 있었던 과학 작업은 남편의 강연 원고를 손보는 정도였다.",
+      "after": "He married Clara Immerwahr, the first woman to receive a doctorate in chemistry from the University of Breslau, and they made their home in Karlsruhe. Haber expected her to leave research and run the household. Her scientific work was reduced largely to editing his lectures."
+    },
+    {
+      "id": "72581a61-6645-42e8-b54f-fb9aaf4841b0",
+      "year": 1909,
+      "title": "공기에서 암모니아를 뽑아내다",
+      "before": "600도와 175기압을 견디는 작은 장치에 질소와 수소를 밀어 넣었다. 밤새 반응을 이어 가자 공기에서 암모니아 반 킬로그램가량이 나왔다. 비료 원료를 광산이 아닌 대기에서 얻는 길이 열린 순간이었다. 오늘날 세계 인구의 절반가량이 이 방식으로 만든 질소 비료에 기대어 먹고산다.",
+      "after": "Haber forced nitrogen and hydrogen into a small apparatus that could withstand 600 degrees and 175 atmospheres of pressure. By morning it had produced about half a kilogram of ammonia from nitrogen in the air. Fertiliser could now be made without mining its nitrogen source. Today, roughly half the world’s population depends on nitrogen fertiliser made by this method."
+    },
+    {
+      "id": "344c725d-b902-4e7f-8326-5a74567f6f93",
+      "year": 1911,
+      "title": "베를린에 자기 연구소를 얻다",
+      "before": "달렘에 문을 연 카이저 빌헬름 물리화학·전기화학 연구소가 그를 초대 소장으로 맞았다. 은행가 코펠은 하버를 소장에 앉힌다는 조건으로 설립 자금을 냈다. 독일 과학계의 중심에 자기 연구소를 갖게 됐다.",
+      "after": "The new Kaiser Wilhelm Institute for Physical Chemistry and Electrochemistry opened in Dahlem with Haber as its first director. The banker Leopold Koppel had funded it on the condition that Haber receive the post. Haber now had his own institute at the centre of German science."
+    },
+    {
+      "id": "2c3c1aed-8bec-4a68-96dc-37e5e057d1fe",
+      "year": 1913,
+      "title": "공장이 하루 30톤씩 암모니아를 뽑기 시작하다",
+      "before": "카를 보슈가 하버의 실험 장치를 공장 크기로 키우자 BASF 오파우 공장에서 하루 30톤씩 암모니아가 쏟아졌다. 독일은 비료를 스스로 만들 수 있게 됐다. 이듬해 전쟁이 터지자 같은 암모니아가 화약 원료로 넘어갔다.",
+      "after": "Carl Bosch enlarged Haber’s laboratory apparatus to factory scale, and BASF’s Oppau plant began producing thirty tonnes of ammonia a day. Germany could make its own fertiliser. When war began the following year, the ammonia also supplied the explosives industry."
+    },
+    {
+      "id": "21df339c-257e-40d4-a704-f31d93ddc1f2",
+      "year": 1914,
+      "title": "전쟁을 옹호하는 지식인 선언에 서명하다",
+      "before": "독일군이 벨기에를 침공하고 민간인을 학살했다는 보도를 부인하는 ‘93인 선언’에 서명했다. 플랑크와 뢴트겐도 이름을 올렸다. 이 선언은 전쟁이 끝난 뒤에도 독일 과학자들과 국제 학계 사이를 오래 갈라놓았다.",
+      "after": "After reports that German troops had killed civilians during the invasion of Belgium, Haber signed the Manifesto of the Ninety-Three denying the atrocities. Max Planck and Wilhelm Röntgen signed as well. The declaration divided German scientists from their international peers for years after the war."
+    },
+    {
+      "id": "e07740ab-025b-46e1-a320-134020177417",
+      "year": 1915,
+      "title": "이퍼르 전선에서 염소가스 방출을 지휘하다",
+      "before": "벨기에 랑에마르크 전선에 묻어 둔 수천 개의 통에서 염소 약 150톤이 풀려났다. 가스 구름은 프랑스군과 알제리군 진지를 덮쳤다. 하버는 현장에서 준비부터 방출까지 직접 지휘했고, 며칠 뒤 대위로 진급했다. 이처럼 큰 규모의 화학무기가 전장에서 쓰인 것은 처음이었다.",
+      "after": "At the Langemark front near Ypres, about 150 tonnes of chlorine poured from thousands of cylinders buried in the ground. The cloud rolled across French and Algerian positions. Haber directed the preparations and release in person, then received a promotion to captain a few days later. Chemical weapons had never before been used on such a scale."
+    },
+    {
+      "id": "89c54860-11d5-4c5b-a764-99c762dc87d5",
+      "year": 1915,
+      "title": "클라라가 정원에서 스스로 목숨을 끊다",
+      "before": "이퍼르에서 돌아온 하버의 진급 축하 연회가 끝난 밤, 클라라는 정원으로 나가 남편의 권총으로 자신을 쏘았다. 열세 살 아들 헤르만이 어머니를 발견했다. 하버는 이튿날 아침 동부전선으로 떠났다.",
+      "after": "After Haber returned from Ypres, a party was held to celebrate his promotion. That night, Clara went into the garden and shot herself with his service pistol. Their thirteen-year-old son Hermann found her. Haber left for the Eastern Front the next morning."
+    },
+    {
+      "id": "7c9589e0-8835-458a-8cf2-60e56900ee44",
+      "year": 1916,
+      "title": "독일 화학전을 총괄하다",
+      "before": "전쟁성 화학국장이 되어 독가스 개발과 방독면 보급을 함께 지휘했다. 그의 연구소는 1500명이 일하는 군사 시설로 바뀌었다. 하버는 가스가 전쟁을 빨리 끝내므로 결국 더 많은 목숨을 살린다고 주장했다.",
+      "after": "Haber took charge of the War Ministry’s chemistry section, directing both poison-gas development and the supply of gas masks. His institute became a military operation employing about fifteen hundred people. He argued that gas would end the war sooner and save lives."
+    },
+    {
+      "id": "6bdd2b82-efb4-4b84-88c2-84fa739c17b3",
+      "year": 1919,
+      "title": "노벨 화학상 수상자로 발표되다",
+      "before": "발표가 미뤄졌던 1918년도 노벨 화학상이 암모니아 합성의 공로를 들어 하버에게 돌아갔다. 연합국 과학자들은 독가스전을 이끈 사람에게 상을 준다며 거세게 항의했다. 그는 1920년 6월 스톡홀름에서 수상 강연을 했다.",
+      "after": "The delayed 1918 Nobel Prize in Chemistry was awarded to Haber for synthesising ammonia. Allied scientists protested against honouring the man who had led Germany’s chemical warfare programme. He delivered his Nobel lecture in Stockholm in June 1920."
+    },
+    {
+      "id": "9fd380f7-0179-4637-8056-fd3874ddc7f1",
+      "year": 1920,
+      "title": "연구소의 시안화물 연구를 살충제로 돌리다",
+      "before": "전쟁 중 쌓은 시안화수소 기술을 곡물 창고와 선박의 해충을 없애는 데 돌렸다. 이 연구에서 훈증제 치클론 A가 나왔고, 하버의 연구진이 세운 회사가 상품으로 만들었다. 자극성 경고 물질을 뺀 후속 제품이 훗날 나치의 학살에 쓰인 것은 그가 죽은 뒤의 일이다.",
+      "after": "Haber’s institute turned its wartime work on hydrogen cyanide toward killing pests in grain stores and ships. The result was the fumigant Zyklon A, sold by a company founded by members of his research team. After Haber’s death, a later product stripped of its warning irritant was used by the Nazis for mass murder."
+    },
+    {
+      "id": "9ab54311-2abc-43b1-8a17-39ff721fc60c",
+      "year": 1925,
+      "title": "배상금을 갚으려 바닷물에서 금을 찾다",
+      "before": "바닷물에서 금을 뽑아 전쟁 배상금을 갚겠다는 계획을 세웠다. 연구진은 조사선 메테오르호를 타고 대서양을 오가며 5000개 가까운 시료를 분석했다. 그러나 바닷물의 금 농도는 채산성을 맞추는 데 필요한 양의 천분의 일에 지나지 않았다. 계획은 거기서 끝났다.",
+      "after": "Haber tried to find enough gold in seawater to pay Germany’s war reparations. His team crossed the Atlantic aboard the research ship Meteor and analysed nearly five thousand samples. The water held only about one-thousandth of the concentration needed to make extraction pay, so the plan ended."
+    },
+    {
+      "id": "946c7ab2-7247-4eaa-8fbc-7ecb3cfce658",
+      "year": 1933,
+      "title": "유대인 직원 해임을 거부하고 사임하다",
+      "before": "나치는 공직 정비법을 내세워 연구소의 유대인 연구자들을 해임하라고 명령했다. 참전 군인이었던 하버 자신은 법 적용을 피할 수 있었지만, 그 예외를 받아들이지 않고 사직서를 냈다. 40년 동안 독일인으로 살아왔다고 여긴 나라를 그해 안에 떠났다.",
+      "after": "The Nazis ordered Haber to dismiss the Jewish researchers at his institute under the new civil service law. His war service exempted him personally, but he refused to accept the exception and resigned. Before the year ended, he left the country he had regarded as his own for forty years."
+    },
+    {
+      "id": "bf32d8d3-fb38-489e-bbcb-5fb18bec4550",
+      "year": 1933,
+      "title": "케임브리지에서 임시 연구 자리를 얻다",
+      "before": "케임브리지에 도착하자 화학자 윌리엄 포프가 자기 연구실 한 칸을 내주었다. 러더퍼드는 독가스전을 이유로 악수를 거절했다. 그 무렵 바이츠만이 팔레스타인의 연구소를 맡아 달라고 제안했고, 하버는 이를 받아들였다.",
+      "after": "At Cambridge, the chemist William Jackson Pope gave Haber space in his laboratory. Ernest Rutherford refused to shake his hand because of his role in chemical warfare. Chaim Weizmann then asked him to lead a new institute in Palestine, and Haber accepted."
+    },
+    {
+      "id": "f41073b2-771f-41c4-ac2a-5d736a6ed16d",
+      "year": 1934,
+      "title": "바젤의 호텔에서 죽다",
+      "before": "팔레스타인으로 가던 길에 몸을 돌보기 위해 바젤의 호텔에 머물렀다. 그곳에서 심장마비로 쓰러져 예순다섯에 숨을 거두었다. 유해는 화장돼 바젤 근교 묘지에 묻혔고, 훗날 클라라의 유해도 옮겨와 곁에 안장됐다.",
+      "after": "On his way to Palestine, Haber stopped at a hotel in Basel to recover his health. He died there of heart failure at sixty-five. His body was cremated and buried at the Hörnli cemetery outside the city, where Clara’s remains were later placed beside his."
+    }
+  ]
+}

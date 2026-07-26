@@ -1,0 +1,125 @@
+{
+  "slug": "constantine-i",
+  "nickname": "콘스탄티누스 1세",
+  "events": [
+    {
+      "id": "c707899f-21ec-4625-a980-37955a573e06",
+      "year": 272,
+      "title": "발칸의 나이수스에서 태어나다",
+      "before": "발칸의 나이수스에서 군인 콘스탄티우스와 높은 신분이 아니었던 헬레나 사이에 아들이 태어났다. 출생 연도는 272년 또는 273년으로 보는 견해가 많지만, 사료가 엇갈리고 280년대로 늦춰 잡는 학자도 있어 확정하기 어렵다.",
+      "after": "At Naissus in the Balkans, the soldier Constantius and Helena, a woman of modest birth, have a son. Most accounts place his birth in 272 or 273, though some scholars date it to the 280s and the surviving evidence does not settle the year."
+    },
+    {
+      "id": "671f2d49-3545-461f-8358-e665099b85c0",
+      "year": 293,
+      "title": "니코메디아의 디오클레티아누스 궁정에 머물다",
+      "before": "아버지가 사두정의 부제로 오르자 콘스탄티누스는 니코메디아에 있는 디오클레티아누스의 궁정으로 보내졌다. 겉으로는 황제 곁에서 지내는 젊은 귀족이었으나 사실상 인질이었다. 그는 그곳에서 군대와 행정을 익히고 303년에 시작된 대박해를 가까이서 지켜봤다.",
+      "after": "When his father becomes a junior emperor in the Tetrarchy, Constantine is sent to Diocletian's court at Nicomedia. He lives there as a young nobleman but is, in effect, a hostage. He learns military command and government and sees the Great Persecution begin in 303."
+    },
+    {
+      "id": "b8b561c4-e093-4f53-923e-c10460b5bb7e",
+      "year": 305,
+      "title": "궁정을 빠져나와 브리타니아의 아버지에게 가다",
+      "before": "디오클레티아누스가 물러나자 갈레리우스의 손아귀를 빠져나와 서방으로 달렸다. 역참의 말을 바꿔 타며 추격을 따돌렸다고 전한다. 브리타니아에서 아버지와 만난 뒤에는 곧바로 픽트족 원정에 따라나섰다.",
+      "after": "After Diocletian abdicates, Constantine escapes Galerius and races west. Stories have him changing horses at posting stations and disabling the mounts left behind to slow the pursuit. He reaches his father in Britain and joins the campaign against the Picts."
+    },
+    {
+      "id": "d0306f26-92a8-49dd-b43b-0fd21ef5e1ee",
+      "year": 306,
+      "title": "요크에서 군대에 의해 황제로 추대되다",
+      "before": "에보라쿰에서 아버지가 죽자 군단은 그 자리에서 콘스탄티누스를 아우구스투스로 추대했다. 사두정이 정해 둔 차례를 무시한 옹립이었다. 갈레리우스는 마지못해 더 낮은 부제 자리만 인정했고, 제국은 십팔 년 동안 이어질 내전으로 들어갔다.",
+      "after": "Constantius dies at Eboracum, and the legions immediately proclaim Constantine Augustus. The choice defies the Tetrarchy's order of succession. Galerius accepts him only as Caesar, the lower rank, and the empire enters eighteen years of civil war."
+    },
+    {
+      "id": "d74fc7e3-b5b7-4141-a1f8-f5e16eced73f",
+      "year": 306,
+      "title": "트리어를 근거지로 갈리아를 다스리다",
+      "before": "트리어에 자리를 잡은 뒤 라인강을 넘어오는 게르만족과 거듭 싸웠다. 전장에서 병사들의 믿음을 얻는 동안 도시에는 궁전과 대욕장, 거대한 접견실이 들어섰다. 지금도 남아 있는 접견실은 이때 세운 건물이다. 여섯 해가 지나자 갈리아는 누구도 쉽게 흔들 수 없는 그의 근거지가 됐다.",
+      "after": "From Trier, Constantine fights repeated campaigns against Germanic forces crossing the Rhine and wins the loyalty of his troops. Meanwhile, he gives the city a palace, great baths and the vast audience hall that still stands. Within six years, Gaul has become a firm base for his rule."
+    },
+    {
+      "id": "2a00da21-63a5-4040-a739-9a3dc19c873b",
+      "year": 312,
+      "title": "밀비우스 다리에서 막센티우스를 물리치다",
+      "before": "군대를 이끌고 이탈리아로 내려온 콘스탄티누스는 로마 북쪽 밀비우스 다리에서 막센티우스군을 무너뜨렸다. 달아나던 막센티우스는 테베레강에 빠져 죽었다. 전날 하늘에서 십자 표식을 보고 병사들의 방패에 그 표식을 그리게 했다는 이야기도 이 전투에서 나왔다. 승리가 끝났을 때 서방에는 그와 맞설 황제가 남지 않았다.",
+      "after": "Constantine marches into Italy and crushes Maxentius at the Milvian Bridge north of Rome. Maxentius drowns in the Tiber as his army flees. The battle also gives rise to the story that Constantine saw a cross-shaped sign in the sky and ordered his soldiers to paint it on their shields. No rival emperor remains in the West."
+    },
+    {
+      "id": "5b701fba-d100-4761-a9dc-593f3d6bdb37",
+      "year": 313,
+      "title": "밀라노에서 리키니우스와 종교 관용을 합의하다",
+      "before": "밀라노에서 만난 콘스탄티누스와 리키니우스는 누구든 원하는 종교를 믿게 하고, 빼앗은 교회 재산도 돌려주기로 했다. 흔히 ‘밀라노 칙령’이라고 부르지만 두 황제가 새 칙령 하나를 선포했다기보다 합의한 내용을 각 속주에 공문으로 내려보낸 일이었다. 이로써 제국이 벌이던 그리스도교 박해가 끝났다.",
+      "after": "At Milan, Constantine and Licinius agree to let people follow any religion they choose and to return property seized from Christian churches. Though later called the Edict of Milan, their agreement is circulated to the provinces rather than issued as a single new edict. The empire's persecution of Christians ends."
+    },
+    {
+      "id": "404d9961-bdfb-42da-b56c-9a29422021ee",
+      "year": 315,
+      "title": "로마에 개선문을 세우다",
+      "before": "막센티우스를 꺾은 승리를 기려 로마의 콜로세움 옆에 개선문이 봉헌됐다. 장인들은 이전 황제들의 기념물에서 떼어 온 부조를 곳곳에 다시 썼다. 비문은 누가 승리를 주었는지 밝히지 않고 ‘신성의 감화’라고만 적었다.",
+      "after": "Rome dedicates an arch beside the Colosseum to celebrate Constantine's victory over Maxentius. Its builders reuse reliefs taken from monuments to earlier emperors. The inscription says that a divine power prompted the victory but names no god."
+    },
+    {
+      "id": "95990e31-7898-4e58-969f-8b768c440695",
+      "year": 316,
+      "title": "키발라이에서 리키니우스와 처음 맞붙다",
+      "before": "제국을 어떻게 나눌지를 두고 쌓인 갈등이 판노니아의 키발라이에서 전투로 터졌다. 콘스탄티누스는 리키니우스군을 격파했고, 이듬해 맺은 강화에서 발칸 대부분을 차지했다. 두 황제는 싸움을 멈췄지만 함께 다스릴 수는 없었다.",
+      "after": "The dispute between Constantine and Licinius over the division of the empire turns into open war at Cibalae in Pannonia. Constantine wins, and the peace made the next year gives him most of the Balkans. The two emperors stop fighting, but they cannot rule together."
+    },
+    {
+      "id": "5ce0048f-384c-47b2-a38c-efa66f21b58c",
+      "year": 321,
+      "title": "일요일을 공식 휴일로 정하다",
+      "before": "법정과 도시의 작업장에 ‘태양의 날’마다 문을 닫으라는 명령이 내려졌다. 밭일은 철을 놓칠 수 있어 예외로 두었다. 그리스도교의 예배일과 태양신을 섬기는 날이 겹친 이 휴일은 오늘날 주 단위 휴일 관행의 출발점이 됐다.",
+      "after": "Constantine orders courts and city workshops to close on the day of the Sun, while allowing farm work to continue when the season demands it. The holiday falls on both the Christian day of worship and the day associated with the Sun god, helping establish the practice of a weekly day of rest."
+    },
+    {
+      "id": "ed30f3c4-5242-4682-a87c-a1131870f45d",
+      "year": 324,
+      "title": "하드리아노폴리스에서 리키니우스를 꺾다",
+      "before": "하드리아노폴리스에서 리키니우스의 주력을 꺾은 뒤 비잔티움으로 몰아붙였다. 바다에서는 아들 크리스푸스가 함대를 이끌고 다르다넬스 해협을 장악했다. 육지와 바다에서 함께 길이 막히자 리키니우스군은 물러설 곳을 잃었다.",
+      "after": "At Adrianople, Constantine defeats Licinius's main army and drives it back towards Byzantium. At sea, his son Crispus leads the fleet through the Dardanelles and defeats the opposing ships. Licinius now has his routes blocked on land and water."
+    },
+    {
+      "id": "dbbd11aa-f78f-40f4-bea1-e5536262225e",
+      "year": 324,
+      "title": "크리소폴리스 승리로 단독 황제가 되다",
+      "before": "보스포루스 건너편 크리소폴리스에서 마지막 승부가 났다. 리키니우스의 남은 군대가 무너지고 황제는 항복했으며, 이듬해 처형됐다. 사십 년 가까이 여러 황제에게 갈려 있던 제국은 다시 한 사람의 명령을 받게 됐다.",
+      "after": "The last contest comes at Chrysopolis, across the Bosphorus. Constantine destroys Licinius's remaining army and forces him to surrender; Licinius is executed the following year. After nearly forty years of rule divided among several emperors, the empire again answers to one man."
+    },
+    {
+      "id": "08b23094-7fbc-4029-b798-eba259caad2d",
+      "year": 325,
+      "title": "니카이아 공의회를 소집해 교리를 정리하게 하다",
+      "before": "그리스도가 성부와 같은 신성을 지녔는지를 두고 교회가 갈라지자, 콘스탄티누스는 제국 곳곳의 주교 삼백 명 남짓을 니카이아로 불렀다. 회의는 성부와 성자가 같은 본질이라는 신경을 채택했다. 황제가 공의회를 열고 그 결정을 법으로 뒷받침하면서, 교회의 다툼을 황제가 정리하는 선례도 함께 생겼다.",
+      "after": "As the church divides over whether Christ shares the Father's divinity, Constantine summons roughly three hundred bishops to Nicaea. They adopt a creed declaring the Son to be of the same substance as the Father. By calling the council and enforcing its decision through imperial law, Constantine sets a precedent for emperors to intervene in church disputes."
+    },
+    {
+      "id": "e44eff80-3a6b-4861-acdd-d90993da9902",
+      "year": 326,
+      "title": "장남 크리스푸스와 아내 파우스타를 죽이다",
+      "before": "후계자로 꼽히던 장남 크리스푸스가 먼저 처형됐다. 몇 달 뒤에는 황후 파우스타도 죽었다. 궁정의 추문 때문이라는 기록과 반역 혐의였다는 기록이 맞서지만, 당시 사람들조차 까닭을 한결같이 적지 못했다. 두 사람의 이름은 공식 기록에서 지워졌다.",
+      "after": "Constantine first executes Crispus, his eldest son and expected heir. A few months later, the empress Fausta is also put to death. Some accounts blame a court scandal and others allege treason, but even writers close to the time give no consistent explanation. Both names are erased from official records."
+    },
+    {
+      "id": "44f7af05-b89c-40c9-9de9-da4c1a1a59df",
+      "year": 326,
+      "title": "예루살렘에 성묘 교회를 짓게 하다",
+      "before": "어머니 헬레나가 성지를 순례하고 돌아온 뒤, 콘스탄티누스는 예수의 무덤으로 지목된 자리에 서 있던 신전을 헐고 교회를 짓게 했다. 성묘 교회는 335년에 봉헌됐다. 뒤이어 예루살렘과 베들레헴에는 순례자들이 찾아갈 교회와 성지가 마련됐다.",
+      "after": "After Helena returns from her pilgrimage to the Holy Land, Constantine orders the temple standing over the site identified as Jesus's tomb to be demolished. A church rises in its place and is dedicated in 335. More churches and shrines soon give pilgrims destinations in Jerusalem and Bethlehem."
+    },
+    {
+      "id": "1004daba-dfa8-4e52-bda9-107ebf639b35",
+      "year": 330,
+      "title": "콘스탄티노폴리스를 새 수도로 봉헌하다",
+      "before": "옛 그리스 도시 비잔티움이 여섯 해 동안 거대한 공사장으로 바뀌었다. 콘스탄티누스는 원로원과 대경기장, 성벽을 갖춘 도시를 완성하고 자신의 이름을 붙여 새 수도로 봉헌했다. 유럽과 아시아가 마주 보는 보스포루스의 이 도시는 이후 천백 년 동안 동로마의 중심으로 남았다.",
+      "after": "After six years of construction, Constantine dedicates the rebuilt city of Byzantium as his new capital and names it Constantinople. It has its own senate, great hippodrome and new walls, and it stands where Europe and Asia face each other across the Bosphorus. The city remains the centre of the Eastern Roman Empire for eleven hundred years."
+    },
+    {
+      "id": "00083cee-854b-414d-b1be-bf6a164d7833",
+      "year": 337,
+      "title": "죽음을 앞두고 세례받고 눈을 감다",
+      "before": "페르시아 원정을 준비하던 중 병이 깊어졌다. 니코메디아 근교에 머물던 그는 죽음을 앞두고 세례를 받은 뒤 눈을 감았다. 평생 그리스도교를 후원하면서도 세례를 미룬 일은 당시에는 드물지 않았다. 그가 다스리던 제국은 세 아들에게 나뉘었다.",
+      "after": "Constantine falls seriously ill while preparing a campaign against Persia. Near Nicomedia, he receives baptism and dies soon afterwards. Delaying baptism until late in life is not unusual at the time, even among long-standing supporters of Christianity. His three sons divide the empire between them."
+    }
+  ]
+}

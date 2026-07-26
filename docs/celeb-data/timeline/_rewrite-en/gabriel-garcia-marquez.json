@@ -1,0 +1,132 @@
+{
+  "slug": "gabriel-garcia-marquez",
+  "nickname": "가브리엘 가르시아 마르케스",
+  "events": [
+    {
+      "id": "4e0e85b4-8fe1-4e3d-bd73-4c182ae84bcb",
+      "year": 1927,
+      "title": "아라카타카 출생, 외조부모 손에 자라다",
+      "before": "1927년 3월 6일 콜롬비아 마그달레나주의 바나나 농장 마을 아라카타카에서 전신기사 가브리엘 엘리히오 가르시아와 루이사 산티아가 마르케스의 장남으로 태어났다. 이듬해 부모가 바랑키야로 떠나면서 외조부모인 니콜라스 리카르도 마르케스 대령과 트란킬리나 이과란에게 맡겨졌다. 외조부가 세상을 떠난 뒤 아라카타카를 떠나 부모와 합류했다.",
+      "after": "Gabriel García Márquez was born on 6 March 1927 in Aracataca, a banana-growing town in Colombia's Magdalena department. He was the eldest son of telegraph operator Gabriel Eligio García and Luisa Santiaga Márquez. When his parents moved to Barranquilla the next year, he stayed with his maternal grandparents, Colonel Nicolás Ricardo Márquez and Tranquilina Iguarán. After his grandfather died, he left Aracataca and rejoined his parents."
+    },
+    {
+      "id": "ce8da9d6-b5d5-4bff-81b5-72fba376585f",
+      "year": 1943,
+      "title": "시파키라 기숙학교 시절",
+      "before": "정부 장학금을 받아 보고타 북쪽 소금 광산 도시 시파키라의 리세오 나시오날 데 바로네스에 들어가 기숙사 생활을 했다. 안데스 고원의 추운 기숙학교에서 중등 과정을 마친 뒤 보고타로 향했다.",
+      "after": "A government scholarship took him to the Liceo Nacional de Varones, a boarding school in the salt-mining town of Zipaquirá, north of Bogotá. He finished secondary school in the cold Andean highlands, then headed to Bogotá."
+    },
+    {
+      "id": "b91c1a81-d61e-4920-87bf-0a98fff1773a",
+      "year": 1947,
+      "title": "보고타 국립대 법학부 입학, 첫 단편 발표",
+      "before": "보고타의 콜롬비아 국립대학교 법학부에 입학했다. 같은 해 9월 13일 첫 단편 「세 번째 체념」이 일간지 『엘 에스펙타도르』 주말 문예면에 실리면서 처음으로 지면에 이름을 올렸다.",
+      "after": "He enrolled in law at the Universidad Nacional de Colombia in Bogotá. On 13 September, the weekend literary pages of El Espectador published his first short story, \"La tercera resignación.\" It was the first time his name appeared in print."
+    },
+    {
+      "id": "756afda7-7653-4798-80d8-01d17cd557f3",
+      "year": 1948,
+      "title": "보고타소 폭동으로 학업 중단, 카르타헤나에서 기자 생활 시작",
+      "before": "4월 9일 자유당 지도자 호르헤 엘리에세르 가이탄이 암살되면서 보고타소 폭동이 일어났고, 대학이 문을 닫고 그가 묵던 하숙집이 불타면서 학업이 끊겼다. 카르타헤나로 내려가 카르타헤나 대학교에 적을 옮기고, 일간지 『엘 우니베르살』에서 기자로 일하기 시작했다.",
+      "after": "The assassination of Liberal leader Jorge Eliécer Gaitán on 9 April set off the Bogotazo riots. The university closed, and the boarding house where García Márquez lived burned down. He moved to Cartagena, transferred to the Universidad de Cartagena, and began reporting for El Universal."
+    },
+    {
+      "id": "241a6721-5298-4e6f-a778-e34bb5fc185f",
+      "year": 1950,
+      "title": "바랑키야 『엘 에랄도』 기자와 바랑키야 그룹",
+      "before": "법학 공부를 완전히 접고 바랑키야로 옮겨 일간지 『엘 에랄도』의 기자 겸 칼럼니스트로 일했다. '셉티무스'라는 필명으로 매일 칼럼을 썼고, 카탈루냐 출신 서적상 라몬 비녜스를 중심으로 알바로 세페다 사무디오, 알폰소 푸엔마요르 등이 모인 문학 동아리 '바랑키야 그룹'에 드나들었다.",
+      "after": "García Márquez gave up law and moved to Barranquilla, where he worked as a reporter and columnist for El Heraldo. He wrote a daily column under the name \"Septimus\" and joined the circle known as the Barranquilla Group. Its members gathered around the Catalan bookseller Ramón Vinyes and included Álvaro Cepeda Samudio and Alfonso Fuenmayor."
+    },
+    {
+      "id": "6fd5077f-779e-4a5f-9690-f39f9165bc40",
+      "year": 1955,
+      "title": "「조난자 이야기」 연재로 정권과 마찰, 유럽 특파원으로 밀려나다",
+      "before": "1954년 알바로 무티스의 권유로 보고타에 돌아와 『엘 에스펙타도르』 기자로 일하던 중, 해군 구축함에서 조난당했다 살아 돌아온 수병 루이스 알레한드로 벨라스코를 인터뷰해 14회 연재물 「조난자 이야기」를 실었다. 배가 갑판에 실은 밀수 화물 때문에 사고를 냈다는 사실이 드러나 로하스 피니야 정권과 정면으로 부딪혔고, 신문사는 그를 유럽 특파원으로 내보냈다. 같은 해 첫 소설 『썩은 잎』도 출간됐다.",
+      "after": "Back in Bogotá as an El Espectador reporter, García Márquez interviewed Luis Alejandro Velasco, a sailor who had survived being swept from a navy destroyer. His fourteen-part series revealed that contraband cargo carried on deck had caused the disaster. The report angered the Rojas Pinilla regime, and the newspaper sent him to Europe as a correspondent. His first novel, Leaf Storm, also appeared that year."
+    },
+    {
+      "id": "712de332-7337-4aea-ab61-863c8ebbda7b",
+      "year": 1955,
+      "title": "파리 체류와 신문 폐간으로 인한 궁핍",
+      "before": "파리에 머무는 동안 로하스 피니야 정권이 『엘 에스펙타도르』를 폐간했다. 급료가 끊긴 채 라탱 지구의 싸구려 숙소 오텔 데 트루아 콜레주에 외상으로 묵으며 버텼고, 후속 신문 『엘 인데펜디엔테』에 원고를 보냈다. 이 시기에 『아무도 대령에게 편지하지 않다』를 썼고, 동유럽과 소련도 다녀왔다.",
+      "after": "While García Márquez was in Paris, the Rojas Pinilla regime shut down El Espectador and his salary stopped. He survived on credit at the cheap Hôtel des 3 Collèges in the Latin Quarter and sent articles to the paper's successor, El Independiente. He wrote No One Writes to the Colonel during these lean years and travelled through Eastern Europe and the Soviet Union."
+    },
+    {
+      "id": "1416a510-1b70-413b-9b9e-2114a4f4c8ad",
+      "year": 1958,
+      "title": "메르세데스 바르차와 결혼",
+      "before": "1958년 3월 바랑키야에서 메르세데스 바르차 파르도와 결혼했다. 두 사람은 어린 시절 수크레에서 처음 만나 오랫동안 편지를 주고받은 사이였다. 이듬해 첫아들 로드리고가 태어났다.",
+      "after": "In March, García Márquez married Mercedes Barcha Pardo in Barranquilla. They had first met as children in Sucre and had exchanged letters for years. Their first son, Rodrigo, was born the following year."
+    },
+    {
+      "id": "659265a8-3dfe-4c5c-b5de-06e4e5c5fb39",
+      "year": 1959,
+      "title": "쿠바 통신사 프렌사 라티나 근무, 그리고 멕시코시티 정착",
+      "before": "쿠바 혁명 직후 만들어진 쿠바 국영 통신사 프렌사 라티나에 들어가 보고타 지국을 열었고, 아바나를 오가며 일하는 동안 체 게바라와도 알게 됐다. 1961년 뉴욕 특파원으로 옮겼으나 쿠바 망명자들의 협박을 받고 그만뒀다. 가족과 함께 미국 남부를 버스로 가로질러 멕시코시티에 자리를 잡았다.",
+      "after": "García Márquez joined Prensa Latina, the Cuban state news agency founded after the revolution, and opened its Bogotá bureau. His work took him often to Havana, where he came to know Che Guevara. He moved to New York as a correspondent in 1961 but resigned after threats from Cuban exiles. He and his family then crossed the American South by bus and settled in Mexico City."
+    },
+    {
+      "id": "9ddfe269-a8d8-4768-91b7-84e9affa02da",
+      "year": 1965,
+      "title": "멕시코시티에서 『백년의 고독』 집필",
+      "before": "광고 일과 영화 각본 작업을 접고 멕시코시티 산앙헬의 자택 서재에 틀어박혀 『백년의 고독』을 썼다. 18개월 동안 집필에만 매달렸고, 수입이 끊긴 살림은 빚으로 메웠다.",
+      "after": "He left advertising and screenwriting behind and shut himself in the study of his home in Mexico City's San Ángel district. For eighteen months, he worked on One Hundred Years of Solitude while his family lived on borrowed money."
+    },
+    {
+      "id": "f0847467-66a0-488e-a4e6-18b3da2a0f00",
+      "year": 1967,
+      "title": "부에노스아이레스 수드아메리카나에서 『백년의 고독』 출간",
+      "before": "5월 30일 부에노스아이레스의 에디토리알 수드아메리카나가 『백년의 고독』 초판 8천 부를 냈고 2주 만에 매진됐다. 이후 수십 개 언어로 번역되며 라틴아메리카 붐 문학의 대표작이 됐고, 1969년 이탈리아 키안차노상과 프랑스 '최우수 외국도서상'을 받았다.",
+      "after": "Editorial Sudamericana published 8,000 copies of One Hundred Years of Solitude in Buenos Aires on 30 May. They sold out in two weeks. Translations into dozens of languages followed, and the novel became a defining work of the Latin American Boom. It won Italy's Chianciano Prize and France's Best Foreign Book award in 1969."
+    },
+    {
+      "id": "22ca4b30-bbb5-42da-a260-4bcf698c2d99",
+      "year": 1967,
+      "title": "바르셀로나 체류",
+      "before": "가족과 함께 바르셀로나로 옮겨 프랑코 정권 말기의 스페인에서 지냈다. 문학 에이전트 카르멘 발셀스를 통해 국제 출판 계약을 정리했고, 독재자를 다룬 『족장의 가을』을 이곳에서 써 1975년에 냈다.",
+      "after": "García Márquez moved his family to Barcelona and lived there during the final years of Franco's rule. His agent, Carmen Balcells, handled his growing network of international publishing contracts. In Barcelona he wrote The Autumn of the Patriarch, his novel about a dictator, which appeared in 1975."
+    },
+    {
+      "id": "674dfbce-f7fc-4ea6-b3e2-f1f52bb116da",
+      "year": 1976,
+      "title": "마리오 바르가스 요사에게 주먹으로 맞다",
+      "before": "2월 멕시코시티 벨라스아르테스 궁전에서 열린 영화 시사회장에서 마리오 바르가스 요사에게 얼굴을 맞았다. 사진가 로드리고 모야가 다음 날 찍은 멍든 얼굴 사진이 남아 있다. 절친했던 두 사람은 이 일로 30년 넘게 말을 섞지 않았고, 이유를 끝내 공개하지 않았다.",
+      "after": "At a film premiere in Mexico City's Palacio de Bellas Artes in February, Mario Vargas Llosa punched García Márquez in the face. Photographer Rodrigo Moya recorded the bruises the next day. Once close friends, the two writers did not speak for more than thirty years. Neither publicly explained the quarrel."
+    },
+    {
+      "id": "07eb6401-d907-4a78-9290-2ec8b1b1d069",
+      "year": 1981,
+      "title": "M-19 연루 혐의로 멕시코 망명",
+      "before": "콜롬비아 군부가 게릴라 조직 M-19와 연루됐다는 혐의로 그를 조사하려 하자, 3월 보고타의 멕시코 대사관에 정치 망명을 요청하고 멕시코로 떠났다. 좌파 매체 『알테르나티바』 운영과 피델 카스트로와의 오랜 친분이 배경이었다. 카스트로를 옹호한다는 이유로 미국은 오랫동안 그에게 입국 비자를 내주지 않았고, 그 제한은 1990년대 빌 클린턴 대통령 시기에야 풀렸다.",
+      "after": "When the Colombian military sought to question him about alleged ties to the M-19 guerrilla group, García Márquez asked for political asylum at the Mexican embassy in Bogotá. He left for Mexico in March. His work with the leftist magazine Alternativa and his long friendship with Fidel Castro had drawn suspicion. The United States also denied him a visa for years because he defended Castro; the restriction ended under President Bill Clinton in the 1990s."
+    },
+    {
+      "id": "32383953-d04e-4eac-b284-a20e95e8a67e",
+      "year": 1982,
+      "title": "노벨문학상 수상",
+      "before": "스웨덴 한림원은 '환상과 현실이 어우러진 풍부한 상상의 세계로 한 대륙의 삶과 갈등을 담아낸 소설과 단편들'을 이유로 그에게 노벨문학상을 수여했다. 12월 스톡홀름에서 상을 받았고, 수상 강연 「라틴아메리카의 고독」에서 유럽이 자기 잣대로 라틴아메리카를 재단해 왔다고 말했다.",
+      "after": "The Swedish Academy awarded García Márquez the Nobel Prize in Literature for fiction that brought the fantastic and the real together to portray the life and conflicts of a continent. He accepted the prize in Stockholm in December. In his lecture, \"The Solitude of Latin America,\" he said Europe had long judged Latin America by European standards."
+    },
+    {
+      "id": "d437c1a9-466f-481f-8da3-fe301a689ab1",
+      "year": 1985,
+      "title": "『콜레라 시대의 사랑』 출간",
+      "before": "부모의 연애담에서 실마리를 얻은 장편 『콜레라 시대의 사랑』을 냈다. 보고타의 에디토리알 오베하 네그라가 초판을 냈고, 이후 여러 언어로 번역되며 『백년의 고독』 다음가는 대표작으로 자리 잡았다.",
+      "after": "García Márquez published Love in the Time of Cholera, drawing its central love story from his parents' courtship. Editorial Oveja Negra in Bogotá issued the first edition. The novel soon reached readers in many languages and became his best-known book after One Hundred Years of Solitude."
+    },
+    {
+      "id": "50c35506-f4b7-4e06-9510-1839832b4b00",
+      "year": 1999,
+      "title": "림프종 진단과 항암 치료",
+      "before": "폐렴으로 알았던 병이 림프종으로 확인됐다. 로스앤젤레스에서 항암 치료를 받아 병세가 가라앉았고, 이후 회고록 『이야기하기 위해 살다』 집필에 매달려 2002년에 냈다.",
+      "after": "An illness first thought to be pneumonia proved to be lymphoma. García Márquez received chemotherapy in Los Angeles, and the cancer went into remission. He then devoted himself to his memoir, Living to Tell the Tale, published in 2002."
+    },
+    {
+      "id": "5b491cc0-45db-41ee-98c7-04da78572917",
+      "year": 2014,
+      "title": "멕시코시티에서 사망",
+      "before": "4월 멕시코시티의 국립의학영양연구소에 입원했다가 자택으로 옮겨졌고, 4월 17일 폐렴과 림프종으로 87세에 숨졌다. 2016년 5월 유해의 일부가 콜롬비아 카르타헤나의 라 메르세드 수도원 회랑으로 옮겨졌다.",
+      "after": "García Márquez entered the Instituto Nacional de Ciencias Médicas y Nutrición in Mexico City in April, then returned home. He died there on 17 April, aged 87, from pneumonia and lymphoma. In May 2016, some of his ashes were moved to the cloister of La Merced in Cartagena, Colombia."
+    }
+  ]
+}

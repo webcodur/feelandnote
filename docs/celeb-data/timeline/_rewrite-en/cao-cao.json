@@ -1,0 +1,132 @@
+{
+  "slug": "cao-cao",
+  "nickname": "조조",
+  "events": [
+    {
+      "id": "ff2d4f4d-a09d-4875-9e07-ac6ab3d4d8dd",
+      "year": 155,
+      "title": "패국 초현에서 태어나다",
+      "before": "조조는 패국 초현에서 조숭의 아들로 태어났다. 환관 조등의 양자로 후한 조정에서 높은 벼슬을 지낸 조숭은 아들이 벼슬길에 나설 바탕을 마련해 주었다.",
+      "after": "Cao Cao is born in Qiao County, Pei State, the son of Cao Song. His father, an adopted son of the eunuch Cao Teng, holds high office at the Eastern Han court and gives him a path into government service."
+    },
+    {
+      "id": "e87ef0de-8479-4491-941f-4cb04167f6d9",
+      "year": 174,
+      "title": "효렴으로 천거되어 낙양 북부위가 되다",
+      "before": "효렴으로 천거된 조조는 낭을 거쳐 수도 낙양의 북부위가 되었으며, 낙양 북쪽의 치안을 맡은 뒤 현령과 의랑 등 여러 관직을 지냈다.",
+      "after": "Recommended as a xiaolian candidate, Cao Cao serves first as a gentleman cadet and then takes charge of security in northern Luoyang. He later holds posts as a county prefect and a court consultant."
+    },
+    {
+      "id": "7c28822d-deb0-431f-a93a-a51c254ecdb7",
+      "year": 184,
+      "title": "영천에서 황건군과 싸우다",
+      "before": "황건군이 들고일어나자 기도위가 되어 영천으로 향해 반란군과 싸웠다. 전투를 마치고 제남상에 임명되면서 지방을 다스리는 일도 맡게 되었다.",
+      "after": "When the Yellow Turbans rise in revolt, Cao Cao becomes a cavalry commandant and fights them in Yingchuan. After the campaign, he is sent to govern Jinan as its chancellor."
+    },
+    {
+      "id": "ae761fa5-f671-400d-b56c-c4956a72810c",
+      "year": 190,
+      "title": "동탁을 추격하다 형양에서 패하다",
+      "before": "동탁군이 낙양을 버리고 서쪽으로 물러나자 독자적으로 그 뒤를 쫓았다. 형양에서 서영의 군대에 가로막혀 크게 패했고, 조조 자신도 다친 데다 병사 대부분을 잃었다. 살아 돌아온 뒤에는 다시 군사를 모았다.",
+      "after": "As Dong Zhuo's army retreats west from Luoyang, Cao Cao pursues it on his own. Xu Rong stops him at Xingyang and destroys most of his force. Cao Cao is wounded, escapes, and begins raising another army."
+    },
+    {
+      "id": "0f5c245d-0299-4bf2-8fb5-b61c4dec85bc",
+      "year": 192,
+      "title": "연주를 장악하고 청주병을 편성하다",
+      "before": "연주자사 유대가 청주 황건군에게 전사하자 지역 관리들은 조조를 불러 연주를 맡겼다. 조조가 반란군을 제북까지 몰아붙이자 30만 명이 넘는 병사와 그 가족이 무기를 내려놓았다. 그 가운데 정예를 추려 청주병으로 삼았다.",
+      "after": "The officials of Yan Province turn to Cao Cao after their inspector, Liu Dai, is killed by Yellow Turban forces from Qing Province. Cao Cao drives the rebels into Jibei, where more than 300,000 fighters and family members lay down their arms. He selects the strongest soldiers to form the Qingzhou Corps."
+    },
+    {
+      "id": "9ea76fe0-9c2f-497d-acf6-29ab67c1a450",
+      "year": 193,
+      "title": "서주를 침공하고 민간인 학살을 벌이다",
+      "before": "193년부터 도겸의 서주를 공격하던 조조는 아버지 조숭이 그곳에서 살해되자 도겸에게 책임을 돌려 침공을 거듭했다. 조조군은 팽성 등지에서 수많은 민간인을 학살했다. 그러나 조숭의 죽음에 도겸이 실제로 얼마나 책임이 있었는지는 분명하지 않다.",
+      "after": "Cao Cao attacks Tao Qian's Xu Province from 193 onward. After his father, Cao Song, is murdered there, he blames Tao and invades again, though Tao's part in the killing remains unclear. Cao Cao's troops massacre large numbers of civilians around Pengcheng and elsewhere."
+    },
+    {
+      "id": "88445371-9407-4a8f-ab99-61683c0236fb",
+      "year": 196,
+      "title": "헌제를 쉬창으로 옮겨 조정을 통제하다",
+      "before": "낙양으로 돌아온 헌제를 맞아 쉬창으로 옮기고 그곳을 새 수도로 정하면서, 황제와 중앙 조정을 직접 다스릴 수 있게 되었다. 같은 해에는 둔전제를 시행해 버려진 땅을 일구고 군량을 마련했다.",
+      "after": "Cao Cao receives Emperor Xian after his return to Luoyang and moves him to Xuchang, which becomes the new capital. With the emperor and court under his control, Cao Cao also introduces the tuntian system, putting abandoned land under cultivation to supply his armies."
+    },
+    {
+      "id": "a842a2ee-f80c-40a9-9af9-47e74985fb3e",
+      "year": 197,
+      "title": "완성에서 장수의 기습으로 패하다",
+      "before": "완성의 장수는 처음 조조에게 항복했다가 부당한 대우를 받자 군사를 돌려 기습했다. 조조는 빠져나왔지만 장남 조앙과 조카 조안민, 호위장 전위가 전사했다. 장수는 199년에야 다시 투항했다.",
+      "after": "Zhang Xiu surrenders to Cao Cao at Wancheng, then turns on him after Cao treats him unjustly. Cao Cao escapes the surprise attack, but his eldest son Cao Ang, his nephew Cao Anmin, and his bodyguard Dian Wei are killed. Zhang Xiu does not surrender again until 199."
+    },
+    {
+      "id": "70398b98-7f5e-4eae-bf4b-bf69b0ba615e",
+      "year": 198,
+      "title": "하비에서 여포 세력을 무너뜨리다",
+      "before": "유비와 손잡고 하비를 에워싼 조조는 이수와 사수의 물길을 돌려 성을 압박했다. 해를 넘긴 199년 2월 여포의 부하들이 성문을 열자 여포·진궁·고순을 처형하고 서주 동부를 차지했다.",
+      "after": "With Liu Bei as his ally, Cao Cao surrounds Lü Bu at Xiapi and diverts the Yi and Si rivers against the city. In February 199, Lü Bu's officers open the gates. Cao Cao executes Lü Bu, Chen Gong, and Gao Shun, then takes control of eastern Xu Province."
+    },
+    {
+      "id": "6a334422-381b-4c13-985c-802f2cd0eb64",
+      "year": 200,
+      "title": "관도에서 원소를 격파하다",
+      "before": "관도에서 맞선 원소군은 병력도 물자도 조조군보다 많았다. 조조는 수개월을 버틴 끝에 적의 보급기지인 오소를 기습해 불태웠다. 군량을 잃은 원소군이 무너지면서 북중국의 형세가 조조 쪽으로 기울었다.",
+      "after": "At Guandu, Cao Cao faces an army larger and better supplied than his own. He holds out for months, then raids and burns Yuan Shao's supply base at Wuchao. Without its provisions, Yuan's army collapses, and the balance of power in northern China shifts toward Cao Cao."
+    },
+    {
+      "id": "61cd2748-31e0-4af8-a9c7-3e7b8ec3bd1a",
+      "year": 202,
+      "title": "원씨 세력과 오환을 꺾어 북방 지배를 굳히다",
+      "before": "원소가 죽은 뒤 원담·원상·원희 형제가 갈라졌다. 조조는 그 틈을 파고들어 업을 비롯한 거점을 하나씩 빼앗았다. 207년 백랑산에서 원씨 형제와 손잡은 오환군을 격파하고, 원상과 원희마저 요동에서 살해되자 북방 대부분을 손에 넣었다.",
+      "after": "After Yuan Shao dies, his sons Yuan Tan, Yuan Shang, and Yuan Xi split apart. Cao Cao uses their quarrels to seize Ye and their other strongholds one by one. In 207, he defeats the Wuhuan and their Yuan allies at White Wolf Mountain; when Yuan Shang and Yuan Xi are later killed in Liaodong, most of the north falls under his control."
+    },
+    {
+      "id": "fbc4303f-7d7d-410b-9056-5bb7e4fd561a",
+      "year": 208,
+      "title": "승상에 올라 조정 권력을 집중하다",
+      "before": "후한 조정은 삼공을 대신해 승상직을 되살렸고, 그 자리에 오른 조조가 정무와 군사를 모두 맡았다. 그해 자신을 비판하던 문사 공융을 가족과 함께 처형했다.",
+      "after": "The Han court restores the office of imperial chancellor in place of the Three Ducal Ministers and appoints Cao Cao to it. He now directs both civil government and the army. That same year, he has the scholar-official Kong Rong, a persistent critic, executed with his family."
+    },
+    {
+      "id": "6fd82791-c865-45de-9f32-0ad560dcaa2b",
+      "year": 208,
+      "title": "적벽에서 손권·유비 연합군에 패하다",
+      "before": "형주의 유종이 항복하자 조조는 형주 북부를 차지한 기세로 남쪽으로 진군했다. 그러나 적벽에서 손권·유비 연합군에 패했다. 전염병이 번지고 전투 손실까지 커지면서 군대를 물렸다. 전장이었던 적벽의 정확한 위치는 지금도 여러 설로 갈린다.",
+      "after": "Liu Cong surrenders northern Jing Province, and Cao Cao presses south. At Red Cliffs, the allied forces of Sun Quan and Liu Bei defeat him. Disease spreads through his army, battle losses mount, and he retreats. The battlefield's exact location remains disputed."
+    },
+    {
+      "id": "8e81f812-2d49-40be-93d1-abf00ca29e89",
+      "year": 211,
+      "title": "동관에서 관서 연합군을 격파하다",
+      "before": "마초와 한수 등 관서 군벌들이 군사를 합치자 조조는 동관과 위수 일대로 나아가 직접 맞섰다. 수개월에 걸친 싸움 끝에 연합군을 무너뜨리고 관중까지 세력을 넓혔다.",
+      "after": "Ma Chao, Han Sui, and other western warlords join forces against Cao Cao. He takes personal command around Tong Pass and the Wei River, breaks the coalition after months of fighting, and extends his power into Guanzhong."
+    },
+    {
+      "id": "563387ba-2ebc-49f8-8222-bd3dbd4faa25",
+      "year": 213,
+      "title": "위공에서 위왕으로 올라서다",
+      "before": "헌제는 213년 조조를 위공으로 봉했다. 조조는 업에 별도의 관청을 두고 자신의 봉국을 꾸렸다. 216년 위왕이 된 뒤에도 한의 신하라는 이름은 남았지만, 이미 독자적인 왕국과 궁정을 거느리고 있었다.",
+      "after": "Emperor Xian makes Cao Cao Duke of Wei in 213. Cao Cao sets up his own offices at Ye and governs a separate fief. When he becomes King of Wei in 216, he remains a Han subject in name but rules through his own kingdom and royal court."
+    },
+    {
+      "id": "f38590cb-0e54-48ec-bb0f-4e14271377ed",
+      "year": 215,
+      "title": "양평관을 넘어 한중을 점령하다",
+      "before": "한중으로 가는 길에 조조군은 하치에서 저항하던 저족 주민을 학살했다. 이어 양평관으로 진군해 장로의 방어군을 격파했다. 장로의 항복을 받아 한중을 차지하면서 익주 북쪽의 요충지를 손에 넣었다.",
+      "after": "On the road to Hanzhong, Cao Cao's troops massacre Di inhabitants who resist at Hechi. He then advances through Yangping Pass, defeats Zhang Lu's defenders, and accepts Zhang's surrender. Hanzhong, a strategic region north of Yi Province, is now his."
+    },
+    {
+      "id": "51aab1e8-724f-4cf9-a320-05d860c911a3",
+      "year": 219,
+      "title": "한중을 유비에게 내주고 철수하다",
+      "before": "정군산에서 하후연이 전사하자 조조는 직접 한중에 들어가 방어전을 지휘했다. 유비가 정면 결전을 피하며 보급을 압박하자 결국 병력을 장안으로 물리고 한중을 내주었다.",
+      "after": "After Xiahou Yuan is killed at Mount Dingjun, Cao Cao enters Hanzhong and directs the defence himself. Liu Bei avoids a head-on battle and keeps pressure on Cao Cao's supplies. Cao Cao finally withdraws to Chang'an and leaves Hanzhong to Liu Bei."
+    },
+    {
+      "id": "68a5820d-a30e-4775-9956-b316f7b1066f",
+      "year": 220,
+      "title": "낙양에서 사망하다",
+      "before": "220년 3월 15일, 조조가 낙양에서 사망했다. 아들 조비가 위왕의 자리를 이었고, 같은 해 헌제의 양위를 받아 조위를 세웠다. 조비는 아버지에게 무황제라는 시호와 태조라는 묘호를 올렸다.",
+      "after": "Cao Cao dies in Luoyang on 15 March 220. His son Cao Pi succeeds him as King of Wei, then accepts Emperor Xian's abdication later that year and founds Cao Wei. He gives his father the posthumous title Emperor Wu and the temple name Taizu."
+    }
+  ]
+}

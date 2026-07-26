@@ -1,0 +1,125 @@
+{
+  "slug": "zeng-guofan",
+  "nickname": "증국번",
+  "events": [
+    {
+      "id": "9d8b6c3e-058b-4ace-9c28-69d4b336a0e0",
+      "year": 1811,
+      "title": "후난 시골의 지주 집안에서 태어나다",
+      "before": "후난 샹샹현 허예 마을의 지주 집안에서 태어났다. 집안에서는 수백 년 만에 아버지가 처음 수재에 붙었고, 그도 스물세 살에 같은 시험을 통과했다.",
+      "after": "Zeng Guofan was born into a landowning family in Heye village, Xiangxiang County, Hunan. His father was the first man in the family for centuries to pass the lowest civil service examination. Zeng passed it too at twenty-three."
+    },
+    {
+      "id": "03710911-fa0d-40b3-9b8a-858299c275c4",
+      "year": 1838,
+      "title": "세 번째 도전 끝에 진사에 급제하다",
+      "before": "회시에서 두 번 떨어진 끝에 스물여덟 살로 삼갑 42위의 진사가 됐다. 곧 한림원에 들어가 10여 년 동안 경연과 문서 일을 맡으며 벼슬을 높였다.",
+      "after": "After failing the metropolitan examination twice, Zeng passed on his third attempt at twenty-eight, placing forty-second in the third class. He entered the Hanlin Academy and spent the next decade rising through court lectures and official drafting work."
+    },
+    {
+      "id": "b4a7d7dc-4aea-40b1-8b15-aba0266c42a3",
+      "year": 1849,
+      "title": "예부우시랑에 올라 육부를 두루 거치다",
+      "before": "서른여덟에 차관급인 예부우시랑에 올랐다. 이후 병부·공부·형부·이부의 시랑을 차례로 맡았으며, 함풍제에게 나라가 잘못 돌아가는 대목을 직설적으로 적어 올렸다가 문책당할 뻔했다.",
+      "after": "At thirty-eight, Zeng became right vice-minister of rites. He later served as vice-minister on the boards of war, works, punishments and personnel. When he sent the Xianfeng emperor a blunt account of the government's failures, he narrowly escaped punishment."
+    },
+    {
+      "id": "77b32003-2a1c-419c-8cec-4ddd254c2974",
+      "year": 1852,
+      "title": "모친상으로 낙향했다가 단련 조직을 명받다",
+      "before": "어머니를 여의어 고향으로 내려간 사이 태평천국군이 후난까지 밀고 들어왔다. 조정은 상중인 그에게 향촌 자위대를 꾸리라고 명했고, 그는 상례를 마치지 못한 채 군사를 모으기 시작했다.",
+      "after": "Zeng returned home to mourn his mother just as the Taiping armies entered Hunan. The court ordered him to raise local defence forces, so he began recruiting before he had completed the mourning period."
+    },
+    {
+      "id": "89539b79-feb0-4b42-a965-c016e277f7df",
+      "year": 1853,
+      "title": "창사에서 상군을 만들다",
+      "before": "제구실을 못 하던 팔기와 녹영을 제쳐 두고 향촌 청년들로 상군을 짰다. 장교는 고향 사람과 유생 가운데 뽑고, 병사 급료는 조정이 아니라 지휘관이 직접 내게 했다. 병사들은 자신에게 급료를 주는 지휘관을 따랐고, 상군은 별도의 수군까지 갖췄다.",
+      "after": "Rather than rely on the failing Banner and Green Standard armies, Zeng built the Xiang Army from young men of the Hunan countryside. He chose officers from local scholars and men he knew. Commanders paid their own troops, binding each soldier's loyalty to the officer above him. Zeng also formed a river fleet."
+    },
+    {
+      "id": "344c5c1a-8387-4c2b-9e25-ee935755f185",
+      "year": 1854,
+      "title": "징강에서 참패하고 강에 뛰어들다",
+      "before": "배 40여 척을 직접 이끌고 창사 북쪽 징강으로 나갔다가 태평군의 작은 배 떼에 포위됐다. 함대가 무너지자 수치를 견디지 못하고 강에 뛰어들었으나 막료가 건져 냈다. 며칠 뒤 샹탄에서 주력이 이겼다는 전갈이 와서야 가까스로 지휘관 자리를 지켰다.",
+      "after": "Zeng led about forty boats north of Changsha to Jinggang, where a swarm of smaller Taiping craft surrounded them. When his fleet broke, he threw himself into the river in shame, but an aide pulled him out. Days later, news arrived that his main force had won at Xiangtan, saving his command."
+    },
+    {
+      "id": "cfb9aa47-79f7-4cdb-ab17-fdf727179b4b",
+      "year": 1854,
+      "title": "우창을 되찾아 조정의 신임을 얻다",
+      "before": "부대를 다시 추슬러 웨저우에 이어 우창까지 되찾았다. 정규군이 연달아 패하던 때라 함풍제도 이 승리에 놀랐다. 조정은 그제야 지방 향신이 꾸린 사병을 나라의 방위를 맡길 군대로 인정했다.",
+      "after": "Once regrouped, the Xiang Army retook Yuezhou and then Wuchang. Regular imperial forces had suffered defeat after defeat, so the victory surprised the Xianfeng emperor. The court now accepted a private army raised by provincial gentry as a major force in the empire's defence."
+    },
+    {
+      "id": "63dd009e-b83b-486a-82b7-d181926e378f",
+      "year": 1855,
+      "title": "후커우에서 수군을 잃고 두 번째로 자살을 시도하다",
+      "before": "포양호 어귀 후커우에서 석달개의 태평군이 상군 수군을 둘로 갈랐다. 큰 배들이 불타고 기함마저 빼앗기자 다시 물에 몸을 던지려 했지만 부하들이 붙들었다. 무너진 수군을 다시 짜는 데는 1년 넘게 걸렸다.",
+      "after": "At Hukou, where Poyang Lake meets the Yangtze, Shi Dakai's troops split the Xiang fleet in two and burned its large vessels. They even captured Zeng's flagship. He again tried to throw himself into the water, but his men restrained him. Rebuilding the fleet took more than a year."
+    },
+    {
+      "id": "cb91b6d2-2e29-4319-b4f0-e60851803f10",
+      "year": 1857,
+      "title": "부친상을 핑계로 군을 떠나 실권을 요구하다",
+      "before": "몇 해 동안 군을 이끌면서도 지방관 직함이 없어 군량과 인사를 뜻대로 다루지 못했다. 아버지가 죽자 상을 치르겠다며 지휘를 놓고 고향에 눌러앉았다. 조정이 1년여 뒤 총독급 권한을 내주기로 한 다음에야 군으로 돌아왔다.",
+      "after": "Zeng had led armies for years without holding a provincial office, leaving him unable to control supplies or appointments. After his father died, he surrendered his command and stayed home to mourn. He returned more than a year later, only when the court promised him the powers of a governor-general."
+    },
+    {
+      "id": "47e41bf2-9c40-4678-9e62-0ab71bc8160d",
+      "year": 1860,
+      "title": "양강총독 겸 흠차대신이 되어 치먼에 진을 치다",
+      "before": "양강총독과 흠차대신을 겸해 장쑤·안후이·장시의 군대와 행정을 한 손에 쥐었다. 안후이 산속 치먼에 지휘부를 두고 안칭 포위를 이끌었으며, 한때 태평군에 포위되자 유서를 써 두었다.",
+      "after": "As viceroy of Liangjiang and imperial commissioner, Zeng took charge of both the armies and the civil government of Jiangsu, Anhui and Jiangxi. From a headquarters in the hills at Qimen, he directed the siege of Anqing. When Taiping forces briefly surrounded his camp, he wrote his will."
+    },
+    {
+      "id": "5cbbfb73-33bb-4b22-957c-a9c49181e9a6",
+      "year": 1861,
+      "title": "안칭을 함락해 창장 상류를 끊다",
+      "before": "1년 반에 걸친 포위 끝에 동생 증국전이 안칭 성을 깨뜨렸다. 난징으로 가는 창장 물길이 열렸지만, 성 안에서는 상군이 항복한 병사들까지 대규모로 죽였다.",
+      "after": "After an eighteen-month siege, Zeng's younger brother, Zeng Guoquan, broke into Anqing. Its fall opened the Yangtze route toward the Taiping capital at Nanjing. Inside the city, Xiang troops killed on a large scale, including soldiers who had surrendered."
+    },
+    {
+      "id": "7c85e32c-5a09-424d-a8c0-77751256be84",
+      "year": 1861,
+      "title": "안칭내군계소를 열어 서양식 무기를 만들게 하다",
+      "before": "안칭내군계소를 열고 쉬서우와 화형팡 등을 불러들여 중국 사람의 손으로 서양식 총포와 기선을 만들게 했다. 1863년에는 그곳에서 만든 국산 증기선이 물에 떴다. 뒤이은 양무운동은 이 시도에서 출발했다.",
+      "after": "Zeng opened the Anqing Arsenal and brought in men such as Xu Shou and Hua Hengfang to make Western-style guns and steam vessels with Chinese workers. In 1863, they launched a steamboat built there. The arsenal became the first venture of the Self-Strengthening Movement."
+    },
+    {
+      "id": "cd053d05-08fd-4f00-833d-58f3bb0e9d41",
+      "year": 1864,
+      "title": "난징을 함락하고 태평천국을 끝내다",
+      "before": "상군은 난징 성벽 밑으로 굴을 판 뒤 화약을 터뜨려 성 안으로 들어갔다. 사흘 동안 살육과 약탈이 이어졌다. 14년을 끈 내전은 끝났지만 죽은 사람은 수천만 명으로 추산된다. 증국번은 승리 직후 상군 대부분을 스스로 해산해 조정의 의심을 피했다.",
+      "after": "Xiang troops tunnelled beneath Nanjing's wall, packed the mine with gunpowder and blasted a way into the city. Killing and looting continued for three days. The capture ended the fourteen-year Taiping war, which had taken tens of millions of lives. Zeng then disbanded most of his army before the court could see it as a threat."
+    },
+    {
+      "id": "191c0de6-a633-4216-b14e-b13bb3b5e9bf",
+      "year": 1865,
+      "title": "쉬저우에 주둔해 염군 진압을 맡았다가 물러나다",
+      "before": "쉬저우에 주둔한 뒤 말을 타고 빠르게 흩어지는 염군을 강과 참호로 에워싸려 했다. 성과가 더디자 1년 반 만에 사실상 문책을 받고 교체됐으며, 지휘권은 제자 리훙장에게 넘어갔다.",
+      "after": "From Xuzhou, Zeng tried to trap the fast-moving Nian cavalry between rivers and lines of trenches. Progress remained slow. After eighteen months, the court removed him from the command and gave it to his protégé Li Hongzhang."
+    },
+    {
+      "id": "247f63dd-6332-49e8-9b08-9cb87e11d99d",
+      "year": 1865,
+      "title": "상하이에 강남제조총국을 세우다",
+      "before": "상하이에서는 리훙장과 함께 미국인이 소유하던 기계공장을 사들여 무기와 기선을 만드는 강남제조총국으로 키웠다. 번역관도 두어 서양 과학책을 한문으로 옮겼다. 이곳에서 중국의 근대 공업과 기술 번역이 시작됐다.",
+      "after": "In Shanghai, Zeng and Li Hongzhang bought an American-owned machine works and expanded it into the Jiangnan Arsenal, which made weapons and steamships. They also opened a translation bureau there to put Western scientific books into Chinese. The site became an early centre of modern industry and technical translation in China."
+    },
+    {
+      "id": "353272a0-4bec-41b1-8f1b-78466f3e61c7",
+      "year": 1870,
+      "title": "톈진 교안을 처리하고 여론의 뭇매를 맞다",
+      "before": "톈진에서 고아원 아이들을 죽인다는 소문이 퍼지자 군중이 프랑스 영사와 수녀 등 20여 명을 살해했다. 직례총독이던 그는 관련자들을 처형하고 배상금을 치러 사태를 수습했다. 국내에서는 그를 매국노라고 몰아붙였고, 건강도 이 무렵 크게 나빠졌다.",
+      "after": "A rumour spread through Tianjin that a foreign orphanage was killing children. A mob murdered the French consul, several nuns and others, more than twenty people in all. As viceroy of Zhili, Zeng settled the affair by executing those held responsible and paying an indemnity. Chinese critics denounced him as a traitor, and his health deteriorated sharply around this time."
+    },
+    {
+      "id": "e8bf1051-a40c-4a8c-949e-1d217ffee4e9",
+      "year": 1872,
+      "title": "난징 총독 관아에서 61세로 죽다",
+      "before": "양강총독으로 난징에 돌아온 지 1년여 만에 총독 관아에서 뇌졸중으로 쓰러져 예순한 살에 숨졌다. 죽기 전 해에는 유학생을 미국으로 보내는 계획을 승인했다. 아들 증기택은 훗날 영국·프랑스·러시아 주재 공사가 됐다.",
+      "after": "A little more than a year after returning to Nanjing as viceroy of Liangjiang, Zeng suffered a stroke at the viceroy's yamen and died at sixty-one. The year before, he had approved a plan to send Chinese students to the United States. His son Zeng Jize later served as minister to Britain, France and Russia."
+    }
+  ]
+}

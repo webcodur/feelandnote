@@ -1,0 +1,118 @@
+{
+  "slug": "johannes-gutenberg",
+  "nickname": "요한 구텐베르크",
+  "events": [
+    {
+      "id": "bf9b80ef-9217-42f5-bbcd-8af415bad6b4",
+      "year": 1400,
+      "title": "마인츠 상류층 집안에서 태어나다",
+      "before": "출생을 적은 기록은 없다. 태어난 때는 1393년에서 1406년 사이로만 좁혀지며, 1400년은 후대가 기념을 위해 택한 해다. 아버지가 대주교청의 조폐 업무에 관여한 상인이어서 어려서부터 금속을 다루는 광경을 가까이에서 보았다.",
+      "after": "No record gives Gutenberg's birth date. He was born in Mainz sometime between 1393 and 1406; later generations chose 1400 as the year to commemorate it. His father was a merchant involved in the archbishop's mint, so Gutenberg grew up around metalworking."
+    },
+    {
+      "id": "48df3309-079a-48a3-85f9-f45aa597ff7a",
+      "year": 1411,
+      "title": "길드와의 다툼에 밀려 가족이 엘트빌로 물러나다",
+      "before": "마인츠의 상류층과 수공업 길드가 맞부딪치자 100여 가문이 도시를 떠났다. 구텐베르크 가족도 어머니의 땅이 있는 엘트빌로 물러났으며, 뒤에도 정세가 바뀔 때마다 두 도시를 오갔다.",
+      "after": "More than a hundred patrician families left Mainz when they clashed with the craft guilds. The Gutenbergs withdrew to Eltville, where his mother owned land, and moved between the two cities as their fortunes changed."
+    },
+    {
+      "id": "04c7f24a-4ba2-477a-989b-f8588615656e",
+      "year": 1434,
+      "title": "슈트라스부르크에 살고 있음이 문서로 드러나다",
+      "before": "긴 공백 끝에 편지 한 통이 그의 행방을 드러낸다. 외가 친척들과 슈트라스부르크에 살던 그는 보석을 갈고 금을 세공했으며, 시민 민병대의 금세공인 명부에도 이름을 올렸다.",
+      "after": "After years without a trace, a letter placed Gutenberg in Strasbourg with relatives on his mother's side. He polished gems, worked gold, and appeared among the goldsmiths on the citizen militia roll."
+    },
+    {
+      "id": "2de688aa-810a-45a9-9072-0f3c20f676c0",
+      "year": 1437,
+      "title": "혼인 약속을 어겼다는 소송에 걸리다",
+      "before": "엔넬린이라는 여성이 혼인 약속을 깨뜨렸다며 그를 법정에 세웠다. 재판의 결말은 전해지지 않는다. 구텐베르크는 끝내 혼인하지 않았다.",
+      "after": "A woman named Ennelin sued Gutenberg for breaking a promise to marry her. The outcome is unknown. He never married."
+    },
+    {
+      "id": "dec62e6c-334b-4775-ac93-425098243ee9",
+      "year": 1439,
+      "title": "순례용 거울 사업이 무너져 동업자와 법정에 서다",
+      "before": "아헨에서 성유물을 공개하는 날에 맞춰 순례객에게 팔 금속 거울을 대량으로 만들었으나, 행사가 한 해 미뤄지면서 투자금이 묶였다. 뒤이어 죽은 동업자의 형제들이 소송을 냈다. 이때 작성된 법정 기록에는 인쇄기와 활자를 떠올리게 하는 말들이 남아 있어, 그가 무엇을 만들고 있었는지 어렴풋이 보여준다.",
+      "after": "Gutenberg and his partners made metal mirrors to sell to pilgrims at a display of relics in Aachen. When the event was postponed for a year, their money remained tied up, and the brothers of a partner who had died later sued. The court papers mention tools and processes that resemble a press and movable type, offering an early glimpse of what Gutenberg was building."
+    },
+    {
+      "id": "f4f99d17-c5c4-44cd-8908-e5e5337e5402",
+      "year": 1448,
+      "title": "마인츠로 돌아와 친척에게 사업 자금을 빌리다",
+      "before": "마인츠로 돌아온 뒤 친척 아르놀트 겔투스에게서 150굴덴을 빌렸다. 돈의 쓰임은 적혀 있지 않지만, 인쇄 설비를 마련하고 공방을 돌리는 데 보탠 것으로 보인다.",
+      "after": "Back in Mainz, Gutenberg borrowed 150 gulden from his relative Arnold Gelthus. The deed does not say how he spent it, but the money probably helped him equip and run an printing workshop."
+    },
+    {
+      "id": "54db84a1-a6a1-4710-a07e-01ed2c925f0a",
+      "year": 1450,
+      "title": "요한 푸스트에게서 800굴덴을 끌어오다",
+      "before": "부유한 대부업자 요한 푸스트가 800굴덴을 연 6퍼센트로 빌려주었다. 구텐베르크는 공방 설비 전부를 담보로 잡힌 채 활자를 붓고 인쇄기를 만드는 일에 속도를 냈다.",
+      "after": "The wealthy moneylender Johann Fust lent Gutenberg 800 gulden at six percent interest and took the whole workshop as security. With the money, Gutenberg stepped up the casting of type and construction of presses."
+    },
+    {
+      "id": "b4a80d5f-e8e8-4b16-bb14-59e096e165c4",
+      "year": 1452,
+      "title": "푸스트가 800굴덴을 더 대고 성서 작업이 시작되다",
+      "before": "푸스트가 다시 800굴덴을 대자 두 사람은 사실상 동업자가 되었다. 공방에서는 대형 라틴어 성서의 판을 짜기 시작했다. 약 29만 개의 활자를 손으로 주조해야 했고, 인쇄기 여섯 대와 스무 명 안팎의 일꾼이 작업에 매달렸다.",
+      "after": "Fust supplied another 800 gulden, making the two men partners in practice. Their workshop began setting a large Latin Bible. Around twenty workers operated six presses and cast roughly 290,000 pieces of type by hand."
+    },
+    {
+      "id": "12922ceb-2531-4228-8a9d-cc31b7d15a97",
+      "year": 1454,
+      "title": "면벌부를 수천 장씩 찍어 현금을 벌다",
+      "before": "성서가 완성되기 전, 공방은 키프로스 방어를 위한 교회의 면벌부를 수천 장씩 찍어 현금을 마련했다. 날짜가 박힌 이 낱장들은 제작 시기를 분명히 알 수 있어 초기 인쇄술을 추적하는 중요한 증거로 남았다.",
+      "after": "Before the Bible was ready, the workshop raised cash by printing thousands of church indulgences for the defence of Cyprus. Dates printed on these single sheets now provide firm evidence for the timing of Gutenberg's early work."
+    },
+    {
+      "id": "fab4013c-0e47-46f1-8e36-ca3270d5367a",
+      "year": 1454,
+      "title": "프랑크푸르트 박람회에 성서 낱장을 내보이다",
+      "before": "프랑크푸르트 박람회에 인쇄된 성서 낱장이 등장했다. 훗날 교황이 되는 에네아 실비오 피콜로미니는 그것을 직접 보고 놀랐으며, 이듬해 3월 편지에 그 일을 적었다.",
+      "after": "Printed sheets from the Bible appeared at the Frankfurt fair. Enea Silvio Piccolomini, the future Pope Pius II, saw them there and described his astonishment in a letter the following March."
+    },
+    {
+      "id": "69fd0f0e-bb57-4f9b-b77b-a6bf2771e02d",
+      "year": 1455,
+      "title": "42행 성서를 180부가량 찍어내다",
+      "before": "두 단마다 42행을 놓아 모두 1,286쪽에 이르는 성서를 찍었다. 약 180부 가운데 대부분은 종이를 썼고, 나머지는 송아지 가죽에 인쇄했다. 글자와 지면이 필사본과 쉽사리 구별되지 않을 만큼 정교했다.",
+      "after": "The finished Bible filled 1,286 pages, each set in two columns of forty-two lines. Of the roughly 180 copies, most were printed on paper and the rest on vellum. Its type and page design closely resembled the work of skilled manuscript scribes."
+    },
+    {
+      "id": "8e357efc-ce32-492b-b9cb-ec9fad3a2039",
+      "year": 1455,
+      "title": "푸스트의 소송에 져서 공방을 넘기다",
+      "before": "성서가 막 세상에 나올 무렵 푸스트가 원금과 이자를 합친 2,026굴덴을 내놓으라며 소송을 걸었다. 그는 구텐베르크가 빌린 돈을 다른 곳에 썼다고 주장했고, 대주교 법정은 푸스트의 손을 들어주었다. 성서를 만들던 설비와 재고는 푸스트에게 넘어갔으며, 푸스트와 사위 쇠퍼가 그 공방을 이어받았다.",
+      "after": "Just as the Bible appeared, Fust sued Gutenberg for 2,026 gulden in principal and interest, claiming that he had spent the borrowed money elsewhere. The archbishop's court ruled for Fust. The equipment and stock used to produce the Bible passed to him, and he continued the workshop with his son-in-law Schöffer."
+    },
+    {
+      "id": "9485fa4f-82e9-46fd-826e-2c14335c0c77",
+      "year": 1460,
+      "title": "대형 사전 「카톨리콘」이 마인츠에서 나오다",
+      "before": "마인츠에서 744쪽짜리 라틴어 사전 「카톨리콘」이 인쇄공의 이름 없이 나왔다. 오랫동안 구텐베르크의 공방에서 찍은 책으로 여겨졌지만, 활자와 판을 짠 방식이 다르다며 다른 인쇄소의 작업으로 보는 견해도 맞선다.",
+      "after": "A 744-page Latin dictionary known as the Catholicon appeared in Mainz without naming its printer. Scholars long treated it as Gutenberg's work, but differences in its type and page-setting method have led others to credit another workshop."
+    },
+    {
+      "id": "95d59049-cd88-454d-807d-00373e1258df",
+      "year": 1462,
+      "title": "대주교 자리 다툼으로 도시가 약탈당하고 인쇄공이 흩어지다",
+      "before": "대주교 자리를 둘러싼 싸움 끝에 아돌프 폰 나사우의 군대가 마인츠를 덮쳤다. 군대는 도시를 약탈하고 시민의 특권을 없앴으며 수백 명을 내쫓았다. 쫓겨난 인쇄공들이 각지에 자리를 잡으면서 마인츠 안에 머물던 기술도 유럽 곳곳으로 흩어졌다.",
+      "after": "Troops led by Adolph of Nassau stormed Mainz during a struggle over the archbishopric. They looted the city, revoked its citizens' privileges, and drove out hundreds of people. Displaced printers settled elsewhere and carried Mainz's printing methods across Europe."
+    },
+    {
+      "id": "1e9173de-ba48-4de3-92a6-21b1c2381fb0",
+      "year": 1465,
+      "title": "대주교의 궁정인으로 뽑혀 연금을 받다",
+      "before": "아돌프 폰 나사우는 구텐베르크를 궁정인으로 삼았다. 해마다 곡물과 포도주, 의복을 세금 없이 받게 되어 늙은 뒤의 생계는 해결되었으나, 인쇄 사업과 그 수익은 이미 다른 사람들의 몫이었다.",
+      "after": "Adolph of Nassau appointed Gutenberg a court gentleman. The post brought him annual allowances of grain, wine, and clothing, all free of tax, and provided for him in old age. By then, other men controlled the printing business and its profits."
+    },
+    {
+      "id": "74a88216-806b-4bb3-9e84-2a630897d381",
+      "year": 1468,
+      "title": "마인츠에서 죽고 무덤마저 사라지다",
+      "before": "1468년 2월 3일, 마인츠에서 세상을 떠나 프란치스코회 성당에 묻혔다. 18세기에 성당과 묘지가 헐린 뒤에는 무덤이 있던 자리조차 찾을 수 없게 되었다.",
+      "after": "Gutenberg died in Mainz on 3 February 1468 and was buried in the Franciscan church. The church and its graveyard were demolished in the eighteenth century, leaving no known location for his grave."
+    }
+  ]
+}

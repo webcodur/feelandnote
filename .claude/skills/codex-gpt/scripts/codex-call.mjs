@@ -37,7 +37,7 @@ function resolveCodex() {
  * @returns {Promise<string>} 생성된 텍스트
  */
 export async function codexCall(prompt, opts = {}) {
-  const { model = 'gpt-5.6-sol', timeoutMs = 240000 } = opts
+  const { model = 'gpt-5.6-sol', timeoutMs = 240000, effort } = opts
   const dir = mkdtempSync(join(tmpdir(), 'codex-call-'))
   const outFile = join(dir, 'out.txt')
   writeFileSync(outFile, '')
@@ -48,7 +48,10 @@ export async function codexCall(prompt, opts = {}) {
 
   try {
     await new Promise((res, rej) => {
-      const ch = spawn(cmd, ['exec', '-', '-m', model, '--output-last-message', outFile, '--color', 'never'],
+      const args = ['exec', '-', '-m', model, '--output-last-message', outFile, '--color', 'never']
+      // 추론 강도는 호출부가 정한다 — 문장 다듬기에 최고 강도는 시간만 잡아먹는다
+      if (effort) args.push('-c', `model_reasoning_effort="${effort}"`)
+      const ch = spawn(cmd, args,
         { shell: true, timeout: timeoutMs })
       let err = ''
       ch.stderr.on('data', (d) => { err += d.toString() })

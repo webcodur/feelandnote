@@ -1,0 +1,125 @@
+{
+  "slug": "augustine",
+  "nickname": "아우구스티누스",
+  "events": [
+    {
+      "id": "d7726d49-1e2d-46e4-9349-957a99358e18",
+      "year": 354,
+      "title": "북아프리카 타가스테에서 태어나다",
+      "before": "로마령 누미디아의 작은 도시 타가스테에서 태어났다. 아버지 파트리키우스는 이교도 시의원이었고, 어머니 모니카는 독실한 그리스도인이었다. 살림이 넉넉하지 않아 학비는 후원자가 보탰다.",
+      "after": "Augustine was born in Thagaste, a small town in Roman Numidia. His father, Patricius, was a pagan town councillor, while his mother, Monica, was a devout Christian. The family could not cover all his school fees, so a local patron helped pay them."
+    },
+    {
+      "id": "c5fb37a7-acec-46c4-8ae4-3f10d0810ae7",
+      "year": 366,
+      "title": "마다우로스에서 라틴 고전을 배우다",
+      "before": "열두 살 무렵 집을 떠나 이웃 도시 마다우로스에서 문법과 라틴 문학을 배웠다. 베르길리우스를 읽으며 울었던 일도 훗날 『고백록』에 적었다. 그러다 학비가 끊기면서 고향으로 돌아와 한 해 동안 공부를 놓고 지냈다.",
+      "after": "At about twelve, he left home to study grammar and Latin literature in nearby Madauros. He later recalled weeping as he read Virgil. When the money for his schooling ran out, he returned to Thagaste and spent a year away from his studies."
+    },
+    {
+      "id": "b97998c0-4eb2-4dcd-bbfc-02202a4f146f",
+      "year": 371,
+      "title": "카르타고로 가 수사학을 공부하다",
+      "before": "북아프리카에서 가장 큰 도시 카르타고로 옮겨 변론술을 익혔다. 그곳에서 이름이 전하지 않는 여인과 함께 살기 시작했고, 두 사람 사이에서 아데오다투스가 태어났다. 이 관계는 십수 년 동안 이어졌다.",
+      "after": "He went to Carthage, North Africa's largest city, to train in rhetoric. There he began living with a woman whose name is not recorded. They had a son, Adeodatus, and remained together for about fifteen years."
+    },
+    {
+      "id": "35a75a96-38f5-4b3a-b1e1-50e43db9f51d",
+      "year": 373,
+      "title": "키케로의 『호르텐시우스』를 읽고 철학으로 돌아서다",
+      "before": "열아홉 살에 지금은 전하지 않는 키케로의 『호르텐시우스』를 읽고 지혜 자체를 좇기로 마음먹었다. 얼마 뒤 마니교에 들어가 선과 악을 서로 다른 두 실체로 보는 가르침에 끌렸으며, 아홉 해 동안 청강생으로 머물렀다.",
+      "after": "At nineteen, Augustine read Cicero's now-lost Hortensius and decided to seek wisdom for its own sake. He soon joined the Manichaeans, drawn by their teaching that good and evil were opposing substances. He remained a hearer for nine years."
+    },
+    {
+      "id": "42127257-1a78-4844-b256-a653bc013250",
+      "year": 383,
+      "title": "어머니를 속이고 로마로 떠나다",
+      "before": "카르타고 학생들의 무질서에 지쳐 로마에서 학원을 열기로 했다. 함께 가겠다는 모니카를 항구에 남겨 둔 채 밤배를 탔고, 훗날 이 일을 깊이 뉘우쳤다. 어렵게 닿은 로마에서도 학생들이 수업료를 내지 않고 사라지는 바람에 오래 버티지 못했다.",
+      "after": "Tired of his unruly students in Carthage, he planned to open a school in Rome. Monica wanted to go with him, but he left her waiting at the harbour and sailed at night, a deception he later deeply regretted. In Rome, students attended his lessons and then disappeared without paying, so he did not stay long."
+    },
+    {
+      "id": "e563d77e-234e-45f5-aa42-13e39d1f8190",
+      "year": 384,
+      "title": "밀라노 궁정 수사학 교수로 임명되다",
+      "before": "로마 시장 심마쿠스의 추천을 받아 서로마 황실이 자리한 밀라노의 공식 수사학 교수가 됐다. 서른 살에 제국에서 손꼽히는 자리를 얻으면서 높은 관직으로 나아갈 길도 열렸다.",
+      "after": "Symmachus, the prefect of Rome, recommended Augustine for a post as public professor of rhetoric in Milan, where the Western imperial court was based. At thirty, he had secured one of the leading positions in his profession and could now hope for high imperial office."
+    },
+    {
+      "id": "09463ee4-ca99-4395-a1dd-8cd409dee7b2",
+      "year": 385,
+      "title": "주교 암브로시우스의 설교를 듣다",
+      "before": "암브로시우스를 처음 찾아간 까닭은 믿음이 아니라 말솜씨였다. 그러나 설교를 거듭 들으며 구약을 글자 그대로가 아닌 비유로 읽는 법을 알게 되자, 성경이 유치하다는 오랜 생각이 흔들렸다. 마니교와도 이 무렵 갈라섰다.",
+      "after": "At first, Augustine went to hear Ambrose because he wanted to study the bishop's speaking style. As he listened, he learned to read the Old Testament allegorically rather than only at face value. Scripture no longer seemed crude to him, and he broke with the Manichaeans around this time."
+    },
+    {
+      "id": "051989f9-edf2-4fa5-af35-d5880dc36048",
+      "year": 386,
+      "title": "정원에서 아이의 목소리를 듣고 회심하다",
+      "before": "밀라노 거처의 정원에서 괴로워하던 중 담 너머로 ‘집어 들고 읽어라’라는 아이의 목소리가 들렸다고 『고백록』에 썼다. 곁에 있던 로마서를 펼쳐 읽은 뒤 오래 끌어온 망설임을 끝냈고, 곧 수사학 교수 자리에서도 물러났다.",
+      "after": "Tormented by indecision in the garden of his Milan lodgings, Augustine heard a child beyond the wall chanting, “Take up and read.” He opened Paul's letter to the Romans and read the passage before him. His hesitation ended, and soon afterwards he resigned his post as a rhetoric professor."
+    },
+    {
+      "id": "9c627347-fc4a-4ce9-be18-4dbeee575ff1",
+      "year": 386,
+      "title": "카시키아쿰 별장에서 겨울을 나며 첫 저작을 쓰다",
+      "before": "세례를 준비하려고 밀라노 근교에 있는 지인의 별장으로 물러났다. 겨울 동안 모니카와 아데오다투스, 제자들과 함께 지내며 『아카데미아학파 반박』, 『질서론』, 『독백』을 썼다. 별장이 있던 곳은 확정되지 않았으나 오늘날의 카사고 브리안차였다는 견해가 널리 알려져 있다.",
+      "after": "To prepare for baptism, he spent the winter at a friend's villa outside Milan with Monica, Adeodatus and several pupils. There he wrote Against the Academics, On Order and the Soliloquies. The villa's location remains uncertain, though it is commonly identified with present-day Cassago Brianza."
+    },
+    {
+      "id": "6fd0d658-7ce4-4505-8740-f756be43647d",
+      "year": 387,
+      "title": "부활절 밤에 암브로시우스에게 세례받다",
+      "before": "부활절 밤, 암브로시우스가 아우구스티누스와 아데오다투스, 알리피우스에게 세례를 베풀었다. 모니카가 평생 바라던 일이 이루어졌다. 세례를 마친 그는 고향으로 돌아가 수도 생활을 하려 했다.",
+      "after": "On Easter night, Ambrose baptised Augustine, Adeodatus and their friend Alypius in Milan. Monica had waited all her life for this. Augustine then prepared to return to Africa and live in a monastic community."
+    },
+    {
+      "id": "15f976a1-4361-473f-8bb9-8bcbfb655952",
+      "year": 387,
+      "title": "귀향길 오스티아에서 어머니를 잃다",
+      "before": "귀향길은 로마의 외항 오스티아에서 멈췄다. 아프리카행 배를 기다리던 사이 모니카가 병으로 세상을 떠났다. 죽기 며칠 전 모자가 창가에 기대어 나눈 대화는 『고백록』 9권의 중심 장면으로 남았으며, 그는 이듬해 아들과 함께 아프리카로 돌아갔다.",
+      "after": "The journey home stopped at Ostia, Rome's port, while the group waited for a ship to Africa. Monica fell ill and died there. Days before her death, she and Augustine had spoken together at a window, a scene he later placed at the heart of Book IX of the Confessions. He returned to Africa with his son the following year."
+    },
+    {
+      "id": "9d108578-66b6-4283-971b-7d108052a828",
+      "year": 388,
+      "title": "타가스테에서 공동생활 수도원을 꾸리다",
+      "before": "타가스테로 돌아와 상속받은 재산을 처분하고 뜻을 같이하는 이들과 공동생활을 시작했다. 그곳에서 아데오다투스가 열일곱 살에 죽었다. 이때 마련한 생활 규칙은 훗날 아우구스티노 수도 규칙의 바탕이 됐다.",
+      "after": "Back in Thagaste, Augustine sold his inherited property and began a common life with a group of companions. Adeodatus died there at seventeen. The way the community lived later helped shape the monastic Rule associated with Augustine."
+    },
+    {
+      "id": "4d126577-0953-4a3c-8bd6-d963f737e81c",
+      "year": 391,
+      "title": "히포에서 회중에 떠밀려 사제가 되다",
+      "before": "히포 레기우스에 들렀다가 뜻밖의 요구를 받았다. 교회에 모인 사람들이 그를 사제로 세우라고 밀어붙였고, 늙은 주교 발레리우스가 이를 받아들였다. 자신은 바라지 않았던 일이라고 여러 차례 밝혔으나 끝내 사제직을 수락했다.",
+      "after": "During a visit to Hippo Regius, Augustine entered a church and found the congregation demanding that he become a priest. The elderly bishop Valerius agreed to ordain him. Augustine repeatedly said that he had never sought the office, but he accepted it."
+    },
+    {
+      "id": "fba56e58-88f9-4e50-9401-dab77dc38050",
+      "year": 395,
+      "title": "히포의 주교가 되다",
+      "before": "발레리우스의 뒤를 이어 히포 교구를 맡았고, 죽을 때까지 35년 동안 그곳을 지켰다. 사람들 앞에서는 설교하고 송사를 가렸으며, 도나투스파와 펠라기우스파를 상대로 논쟁했다. 저작 대부분도 이런 주교 업무 한가운데서 썼다.",
+      "after": "Augustine succeeded Valerius as bishop of Hippo and remained there for thirty-five years, until his death. He preached, settled disputes and argued against the Donatists and Pelagians. He also wrote most of his works while carrying out these duties."
+    },
+    {
+      "id": "3dd4463e-e357-436b-bfd8-6f840569a3ad",
+      "year": 397,
+      "title": "『고백록』을 쓰다",
+      "before": "자신이 지나온 삶을 하느님께 고백하는 형식으로 열세 권의 책을 썼다. 어린 시절의 도둑질부터 정원에서의 회심까지 기억을 거슬러 올라가며 마음이 움직인 자취를 살폈다. 『고백록』은 서양 최초의 본격적인 자서전으로 꼽히며, 개인의 내면을 글의 중심에 놓았다.",
+      "after": "Augustine wrote thirteen books addressed as a confession to God. He traced his life from a childhood theft to his conversion in the Milan garden, examining how his thoughts and desires had changed. The Confessions became one of the West's earliest sustained autobiographies and placed one person's inner life at the centre of the story."
+    },
+    {
+      "id": "7a368d81-d15e-42b1-92e1-78c384209807",
+      "year": 413,
+      "title": "『신국론』 스물두 권을 써내다",
+      "before": "410년 서고트족이 로마를 약탈하자 그리스도교 때문에 로마가 무너졌다는 비난이 퍼졌다. 이에 답하려고 『신국론』을 쓰기 시작했다. 지상의 나라와 하느님의 나라를 가른 스물두 권의 책은 십삼 년에 걸쳐 완성됐고, 중세 유럽의 역사관과 정치사상에 오래 남았다.",
+      "after": "After the Visigoths sacked Rome in 410, critics blamed Christianity for the empire's decline. Augustine answered them in the twenty-two books of The City of God, distinguishing the earthly city from the city of God. He worked on the book for thirteen years, and it later shaped medieval European views of history and political order."
+    },
+    {
+      "id": "e232e118-a862-40fa-a896-54a86fa5f713",
+      "year": 430,
+      "title": "반달족이 히포를 포위한 가운데 죽다",
+      "before": "가이세리크가 이끄는 반달족이 북아프리카를 휩쓸고 히포를 에워쌌다. 포위가 석 달째로 접어들었을 때 열병에 걸려 숨을 거두었다. 도시는 이듬해 함락됐지만 그의 장서는 살아남았고, 그가 남긴 글은 이후 라틴 신학의 바탕이 됐다.",
+      "after": "Geiseric's Vandals swept through North Africa and laid siege to Hippo. In the third month of the siege, Augustine caught a fever and died. The city fell the following year, but his library survived, and his writings became a foundation of Latin theology."
+    }
+  ]
+}

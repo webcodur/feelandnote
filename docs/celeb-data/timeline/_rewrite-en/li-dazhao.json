@@ -1,0 +1,132 @@
+{
+  "slug": "li-dazhao",
+  "nickname": "이대조",
+  "events": [
+    {
+      "id": "cbc0bb79-54cc-4933-8be9-fd0cf8ca5e79",
+      "year": 1889,
+      "title": "허베이성 라오팅현에서 태어나다",
+      "before": "1889년 10월 29일, 허베이성 라오팅현 다헤이퉈촌에서 태어났다. 아버지는 그가 태어나기 전에 세상을 떠났고 어머니마저 한 살 무렵 숨져, 종조부의 손에서 자랐다.",
+      "after": "Li Dazhao was born on October 29, 1889, in Daheituo Village, Laoting County, Hebei. His father had died before he was born, and his mother died when he was about one. A great-uncle raised him."
+    },
+    {
+      "id": "0087e24a-a121-4ffa-8ea8-c710dbda48eb",
+      "year": 1907,
+      "title": "베이양 법정전문학교에서 정치경제학을 공부하다",
+      "before": "근대식 중학교를 마치고 톈진의 베이양 법정전문학교에 들어가 6년 동안 정치경제학을 배웠다. 그사이 신해혁명이 일어나고 청 왕조가 무너지자 정치에 눈을 돌리기 시작했다.",
+      "after": "After finishing a modern secondary school, Li entered the Beiyang School of Law and Politics in Tianjin. He studied political economy there for six years. As the Xinhai Revolution toppled the Qing dynasty, he began to turn his attention to politics."
+    },
+    {
+      "id": "78badbe7-513b-4106-84c8-d431a980005a",
+      "year": 1913,
+      "title": "도쿄 와세다대학에서 유학하다",
+      "before": "톈진에서 학업을 마친 뒤 일본으로 건너가 와세다대학 정치과에서 정치경제학을 공부했다. 그러나 중국 정국에 거듭 관여하면서 학업을 끝내지 못했고, 1916년 귀국길에 올랐다.",
+      "after": "Li left Tianjin for Japan and enrolled in the political science department at Waseda University, where he studied political economy. His repeated involvement in Chinese politics disrupted his studies, and he returned home in 1916 without completing his degree."
+    },
+    {
+      "id": "1045d7bc-c9d4-45f7-b736-97eb070fcb15",
+      "year": 1915,
+      "title": "일본의 이십일개조 요구에 반대하다",
+      "before": "일본이 중국 정부에 이십일개조를 요구하자 재일 중국인 학생들과 함께 반대 운동에 나섰다. 베이징 정부에 보내는 장문의 호소문도 직접 써 학생 운동을 이끄는 인물로 떠올랐다.",
+      "after": "When Japan presented the Twenty-One Demands to China, Li joined Chinese students in Japan in campaigning against them. He wrote a long appeal to the Beijing government and emerged as a leader of the student movement."
+    },
+    {
+      "id": "8732fc3c-4dbe-4969-ba0a-650a6171a15e",
+      "year": 1916,
+      "title": "베이징에서 『천종보』 편집을 맡다",
+      "before": "귀국 뒤 진보당 계열 신문 『천종보』의 편집을 맡고 민주주의와 헌정에 관한 글을 실었다. 하지만 군벌 정치와 손잡는 의회주의에 실망해 그해 10월 진보당과 결별하고 신문사에서도 물러났다.",
+      "after": "Back in China, Li became an editor of the Progressive Party newspaper Morning Bell and published articles on democracy and constitutional government. He soon grew disillusioned with parliamentarians who worked with the warlords. In October, he broke with the party and resigned from the paper."
+    },
+    {
+      "id": "0e8caec0-a0b7-433d-a7ee-7b6b289f0441",
+      "year": 1918,
+      "title": "베이징대학 도서관 주임에 취임하다",
+      "before": "차이위안페이의 초청으로 베이징대학 도서관 주임이 되었다. 도서관 운영과 열람 제도를 손보고 역사·정치·경제도 가르쳤다. 그의 사무실에는 신문화와 사회주의를 이야기하려는 학생과 지식인들이 모여들었다.",
+      "after": "Cai Yuanpei invited Li to run the Peking University Library. Li reorganized its management and reading services and taught history, politics, and economics. Students and intellectuals gathered in his office to discuss the New Culture movement and socialism."
+    },
+    {
+      "id": "1f701143-26af-4a73-b997-c340fa3c8713",
+      "year": 1918,
+      "title": "러시아 혁명을 지지하는 논설을 발표하다",
+      "before": "『신청년』에 「서민의 승리」와 「볼셰비즘의 승리」를 발표했다. 러시아 혁명을 한 나라의 정변이 아니라 세계를 뒤흔들 변화의 시작으로 읽은 글이었다. 자유주의 헌정론에 머물던 그의 생각이 마르크스주의와 혁명 쪽으로 옮겨가고 있음도 분명해졌다.",
+      "after": "In New Youth, Li published “The Victory of the Common People” and “The Victory of Bolshevism.” He presented the Russian Revolution not as a change confined to one country, but as the start of upheaval across the world. The essays also showed his turn from liberal constitutionalism toward Marxism and revolution."
+    },
+    {
+      "id": "2757c975-bd1d-48be-bacf-80ba593c2d6e",
+      "year": 1919,
+      "title": "마르크스주의를 소개하고 오사 운동을 지원하다",
+      "before": "『신청년』 마르크스주의 특집을 꾸리고 「나의 마르크스주의관」을 써 유물사관과 계급투쟁, 정치경제학을 중국 독자에게 풀어 소개했다. 오사 운동이 일어나자 베이징대학 도서관 사무실을 학생들의 협의 장소로 내주었다. 다만 5월 4일 시위 현장에 직접 나갔는지는 기록이 엇갈린다.",
+      "after": "Li edited a special issue of New Youth on Marxism and wrote “My View of Marxism,” explaining historical materialism, class struggle, and political economy to Chinese readers. During the May Fourth Movement, he opened his library office to student organizers. Accounts differ on whether he joined the demonstration on May 4 himself."
+    },
+    {
+      "id": "57500505-89b4-4faa-88fe-e642b9d0df0a",
+      "year": 1920,
+      "title": "마르크스학설연구회를 조직하다",
+      "before": "베이징에서 코민테른 활동가 그리고리 보이틴스키를 만나 중국에 공산주의 조직을 세우는 문제를 논의했다. 곧 베이징대학에 마르크스학설연구회를 꾸려 학생과 지식인들이 관련 문헌을 함께 읽고 토론할 자리를 마련했다.",
+      "after": "In Beijing, Li met Comintern activist Grigori Voitinsky to discuss building a communist organization in China. Soon afterward, he formed the Society for the Study of Marxism at Peking University, where students and intellectuals read and debated Marxist works together."
+    },
+    {
+      "id": "58eb2843-ac49-4738-9c1a-a227252b65fe",
+      "year": 1920,
+      "title": "베이징 공산주의 소조를 창설하다",
+      "before": "학생과 동료 활동가들을 모아 베이징 공산주의 소조를 만들었다. 창설 시점을 9월로 보는 자료와 10월로 보는 자료가 나뉘지만, 이 소조가 이듬해 중국공산당을 이룬 초기 조직 가운데 하나였다는 점은 같다.",
+      "after": "Li brought students and fellow activists together to form a communist group in Beijing. Sources place its founding in either September or October. It became one of the early groups that formed the Chinese Communist Party the next year."
+    },
+    {
+      "id": "ce8f18f3-3798-49dd-a6a4-be2a9148cd1a",
+      "year": 1921,
+      "title": "중국공산당 창당에 참여하다",
+      "before": "베이징과 상하이의 공산주의 조직이 중국공산당 창당으로 나아가면서 천두슈와 함께 주요 창당자로 자리 잡았다. 상하이에서 열린 제1차 전국대표대회에는 가지 않았고, 베이징에서는 장궈타오와 류런징이 대표로 참석했다.",
+      "after": "As communist groups in Beijing, Shanghai, and other cities moved to establish the Chinese Communist Party, Li and Chen Duxiu became its principal founders. Li did not attend the First National Congress in Shanghai; Zhang Guotao and Liu Renjing went as delegates from Beijing."
+    },
+    {
+      "id": "dbc8041e-a68c-4b47-b00b-37e3e69cc60f",
+      "year": 1922,
+      "title": "쑨원과 국민당·공산당 협력을 협의하다",
+      "before": "상하이에서 쑨원을 만나 공산당원이 개인 자격으로 국민당에 들어가는 방안을 의논했다. 그해 가을에는 자신도 국민당에 가입해 제1차 국공합작을 밀어붙이는 공산당 측 중심 인물이 되었다.",
+      "after": "Li met Sun Yat-sen in Shanghai and discussed a plan for Communist Party members to join the Kuomintang as individuals. That autumn, Li joined the KMT himself and became one of the leading Communists pressing for the alliance later called the First United Front."
+    },
+    {
+      "id": "58d9ed6a-b7cc-4f9a-9e23-8866322fccfc",
+      "year": 1923,
+      "title": "중국공산당 제3차 전국대표대회에 참석하다",
+      "before": "광저우에서 열린 중국공산당 제3차 전국대표대회에 참석했다. 이 자리에서 국민당과 손잡는 방안을 논의했고, 대회는 공산당원이 개인 자격으로 국민당에 가입한다는 방침을 채택했다. 이대조는 중앙집행위원으로 선출되었다.",
+      "after": "At the CCP’s Third National Congress in Guangzhou, Li took part in the debate over cooperation with the Kuomintang. The delegates agreed that Communists would join the KMT as individuals and elected Li to the Central Executive Committee."
+    },
+    {
+      "id": "b6c667a3-5eec-4526-a1a3-940a165137b7",
+      "year": 1924,
+      "title": "국민당 제1차 전국대표대회에서 중앙집행위원이 되다",
+      "before": "국민당 제1차 전국대표대회에 공산당원으로 참석해 두 당이 힘을 합쳐야 하는 까닭을 설명했다. 대회가 연소·용공·농공 지원 정책을 채택한 뒤, 국민당 중앙집행위원에 이름을 올렸다.",
+      "after": "Li attended the Kuomintang’s First National Congress as a Communist and argued that the two parties should work together. The congress adopted policies of alliance with the Soviet Union, cooperation with the CCP, and support for workers and peasants. It also elected him to the KMT Central Executive Committee."
+    },
+    {
+      "id": "133e17da-5ee5-42df-91b9-bc51a7505786",
+      "year": 1924,
+      "title": "코민테른 제5차 대회에 참석하다",
+      "before": "중국공산당 대표단을 이끌고 모스크바로 가 코민테른 제5차 대회에 참석했다. 민족·식민지 문제를 다루는 토론에서 외세가 중국에 끼어드는 현실과 중국 민족운동의 형편을 보고한 뒤 귀국했다.",
+      "after": "Leading a Chinese Communist Party delegation, Li traveled to Moscow for the Fifth Congress of the Communist International. In debates on national and colonial questions, he reported on foreign intervention in China and the state of the country’s national movement. He returned to China after the congress."
+    },
+    {
+      "id": "528389bb-0333-432e-a87e-d857bb312b4c",
+      "year": 1926,
+      "title": "삼일팔 시위에서 연설하다",
+      "before": "톈안먼 광장에서 열린 열강의 최후통첩 반대 집회에서 연설하고 시위대와 함께 집정부 청사로 향했다. 청사 앞에서 정부군이 총을 쏘아 47명이 숨졌고 이대조도 다쳤다. 체포영장이 떨어지자 소련 대사관 구내로 몸을 피했다.",
+      "after": "Li spoke at a rally in Tiananmen Square against an ultimatum from foreign powers, then marched with the crowd toward the government headquarters. Troops opened fire outside the building, killing 47 people and wounding Li. When the authorities issued a warrant for his arrest, he took refuge in the Soviet embassy compound."
+    },
+    {
+      "id": "61b17031-3421-4dd5-8bfe-e0c756c098ee",
+      "year": 1927,
+      "title": "소련 대사관 구내에서 체포되다",
+      "before": "4월 6일, 장쭤린 휘하 군경이 베이징의 소련 대사관 구내를 들이닥쳤다. 이대조는 가족과 공산당원, 국민당 좌파 활동가들과 함께 붙잡혀 군사재판에 넘겨졌다. 갇혀 있는 동안 「옥중자술」을 썼다.",
+      "after": "On April 6, troops and police under Zhang Zuolin raided the Soviet embassy compound in Beijing. They arrested Li along with members of his family, Communists, and left-wing KMT activists. While awaiting a military trial, he wrote an autobiographical statement in prison."
+    },
+    {
+      "id": "49e73019-2111-4ba8-b632-afed77185456",
+      "year": 1927,
+      "title": "베이징 징스구치소에서 처형되다",
+      "before": "4월 28일 군사재판을 거쳐 다른 피고인 19명과 함께 교수형에 처해졌다. 형은 베이징 시자오민샹의 징스구치소에서 집행되었고, 그가 이끌던 북방 조직은 지도자를 잃었다.",
+      "after": "After a military trial, Li and nineteen other defendants were hanged on April 28 at the Beijing Detention House in Xijiaominxiang. His death left the Communist organization in northern China without its principal leader."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "slug": "fyodor-dostoevsky",
+  "nickname": "표도르 도스토옙스키",
+  "events": [
+    {
+      "id": "fd652a3c-cb46-4f83-a016-a2353403c183",
+      "year": 1821,
+      "title": "모스크바 빈민병원 관사에서 태어나다",
+      "before": "구력 10월 30일(신력 11월 11일) 모스크바에서 태어났다. 아버지 미하일 안드레예비치는 마린스키 빈민병원의 의사였고, 가족은 병원 부지 안 관사에서 살았다. 형제는 일곱이었다.",
+      "after": "Dostoevsky was born in Moscow on 30 October 1821, or 11 November by the New Style calendar. His father, Mikhail Andreyevich, worked as a doctor at the Mariinsky Hospital for the Poor, and the family lived in staff quarters on its grounds. Fyodor was the second of seven children."
+    },
+    {
+      "id": "3bf0f880-0906-4553-b091-b6ff74fde38d",
+      "year": 1838,
+      "title": "페테르부르크 공병학교에 들어가다",
+      "before": "1837년 어머니가 결핵으로 죽은 뒤 아버지가 형제를 페테르부르크로 보냈다. 1838년 1월 니콜라이 공병학교에 입학했다. 수학 중심 교육이 적성에 맞지 않았고, 1843년 졸업해 제도국에 배속됐다가 1844년 사직하고 글쓰기로 돌아섰다.",
+      "after": "After his mother died of tuberculosis in 1837, his father sent him and his brother to St Petersburg. Dostoevsky entered the Nikolayev Military Engineering Institute in January 1838 but had little taste for its mathematics-heavy training. He graduated in 1843, joined the drafting office, then resigned the following year to write."
+    },
+    {
+      "id": "e7ec920e-a515-4a4a-9944-a0eee0db69a8",
+      "year": 1839,
+      "title": "아버지가 영지 들판에서 죽다",
+      "before": "1839년 6월 아버지가 자기 소유의 두 마을 다로보예와 체레모시냐 사이 들판에서 죽은 채 발견됐다. 공식 사인은 뇌졸중이었으나, 농노들이 죽였다는 이야기가 유족과 마을에 남았다. 어느 쪽인지는 지금도 결론이 나지 않았다.",
+      "after": "In June 1839, Dostoevsky's father was found dead in a field between his two villages, Darovoye and Cheremoshnya. The official record gave the cause as a stroke. His family and local villagers told another story: that his serfs had killed him. The question remains unsettled."
+    },
+    {
+      "id": "426a276f-572a-4529-a0d9-3e9ca02e84b5",
+      "year": 1846,
+      "title": "『가난한 사람들』로 데뷔하다",
+      "before": "1845년 원고를 읽은 그리고로비치와 네크라소프가 밤중에 찾아왔고, 네크라소프가 벨린스키에게 넘겼다. 벨린스키는 '새로운 고골'이라며 격찬했다. 1846년 1월 네크라소프가 엮은 『페테르부르크 문집』에 실렸다. 다만 이어 낸 『분신』은 같은 평자들에게 혹평받았다.",
+      "after": "Grigorovich and Nekrasov read the manuscript of Poor Folk in 1845 and arrived at Dostoevsky's door before dawn. Nekrasov then took it to Belinsky, who hailed the young writer as \"a new Gogol.\" Poor Folk appeared in Nekrasov's Petersburg Almanac in January 1846, but the same literary circle panned Dostoevsky's next work, The Double."
+    },
+    {
+      "id": "52f35c42-341b-4a85-821d-bc1b5085d68b",
+      "year": 1849,
+      "title": "페트라솁스키 모임 관련자로 체포되다",
+      "before": "구력 4월 23일 새벽에 체포돼 페트로파블롭스크 요새에 갇혔다. 금서를 읽고 토론하던 모임의 일원이었고, 검열이 금지한 벨린스키의 고골 앞 편지를 낭독한 것이 죄목에 들어갔다. 40여 명이 조사받고 21명에게 사형이 선고됐다.",
+      "after": "Police arrested Dostoevsky before dawn on 23 April 1849 and imprisoned him in the Peter and Paul Fortress. He had attended the Petrashevsky circle, where members read and debated banned books, and he was charged in part with reading aloud Belinsky's censored letter to Gogol. More than forty people were investigated; twenty-one received death sentences."
+    },
+    {
+      "id": "924c8be5-faca-4ed6-8f59-a46487bf0613",
+      "year": 1849,
+      "title": "총살 직전에 감형을 통보받다",
+      "before": "구력 12월 22일 세묘노프 광장으로 끌려 나갔다. 사형 판결문이 낭독되고 머리 위에서 검이 부러졌으며 수의가 입혀졌다. 앞선 세 명이 기둥에 묶인 상태에서 황제의 감형 명령이 전해졌다. 도스토옙스키는 여섯 번째, 즉 다음 조였다. 형은 시베리아 유형 4년과 이후 병졸 복무로 바뀌었다.",
+      "after": "On 22 December 1849, guards marched the condemned men into Semyonovsky Square. Their sentences were read, swords were broken over their heads, and they were dressed for execution. Three men had already been tied to the posts when the tsar's order of reprieve arrived. Dostoevsky stood sixth, among the next three due to face the firing squad; his punishment became four years of penal labour in Siberia followed by service as a common soldier."
+    },
+    {
+      "id": "9a5ab2b3-e46d-4702-a6da-80d04be608b3",
+      "year": 1850,
+      "title": "옴스크 감옥에서 4년을 살다",
+      "before": "토볼스크를 거쳐 1850년 1월 옴스크 요새 감옥에 들어갔다. 족쇄를 찬 채 벽돌 굽기와 강가 노역을 했고, 귀족 출신이라 다른 죄수들에게 배척당했다. 토볼스크에서 데카브리스트의 아내들이 건넨 복음서가 반입이 허용된 유일한 책이었다. 1854년 2월 만기 출소했다. 이때의 기록이 뒷날 『죽음의 집의 기록』이 됐다.",
+      "after": "Dostoevsky reached the prison fortress at Omsk in January 1850, after passing through Tobolsk. He spent four years in leg irons, making bricks and labouring beside the river, while other convicts shunned him for his noble birth. The only book he could keep was a Gospel given to him in Tobolsk by the wives of exiled Decembrists. He left prison in February 1854 and later drew on these years for Notes from the House of the Dead."
+    },
+    {
+      "id": "d7402e62-78fc-421e-9d0b-18f34f7a4333",
+      "year": 1854,
+      "title": "세미팔라틴스크에서 병졸로 복무하다",
+      "before": "출소 직후 1854년 2월 말 시베리아 제7 국경수비대대에 사병으로 배속돼 세미팔라틴스크(현 카자흐스탄 세메이)로 갔다. 1856년 1월 부사관, 같은 해 10월 준위가 됐다. 이 시기에 간질 발작이 확인됐고, 발작은 평생 이어졌다. 1859년 3월 병을 이유로 퇴역 허가가 났고 7월 초 이 도시를 떠났다.",
+      "after": "Within weeks of leaving prison, Dostoevsky was sent to Semipalatinsk, now Semey in Kazakhstan, as a private in the 7th Siberian Line Battalion. He became a non-commissioned officer in January 1856 and an ensign that October. His epileptic seizures were confirmed there and continued throughout his life. Granted a medical discharge in March 1859, he left the town in early July."
+    },
+    {
+      "id": "a2d8ec1e-dc2a-4830-8461-b521c31f5fe5",
+      "year": 1857,
+      "title": "쿠즈네츠크에서 마리야 이사예바와 결혼하다",
+      "before": "세미팔라틴스크에서 만난 세관 하급관리의 아내 마리야 이사예바가 남편을 잃자 구애했다. 구력 1857년 2월 6일 쿠즈네츠크(현 노보쿠즈네츠크)의 오디기트리옙스카야 교회에서 식을 올렸다. 결혼 생활은 순탄하지 않았고 마리야는 결핵을 앓았다.",
+      "after": "In Semipalatinsk, Dostoevsky had met Maria Isaeva, the wife of a minor customs official. He courted her after her husband died, and they married on 6 February 1857, Old Style, at the Odigitrievskaya Church in Kuznetsk, now Novokuznetsk. Maria had tuberculosis, and the marriage was troubled."
+    },
+    {
+      "id": "af320936-15e4-4ce7-8278-784d07440c71",
+      "year": 1859,
+      "title": "10년 만에 페테르부르크로 돌아오다",
+      "before": "수도 거주가 금지돼 먼저 트베리에 머물렀다. 1859년 10월 알렉산드르 2세에게 직접 탄원했고, 12월 말 페테르부르크 귀환이 허용됐다. 다만 비밀 감시는 1870년대 중반까지 계속됐다.",
+      "after": "Still barred from the capital, Dostoevsky first settled in Tver. He appealed directly to Alexander II in October 1859 and won permission to return to St Petersburg at the end of December, ten years after his arrest. The secret police kept watching him until the mid-1870s."
+    },
+    {
+      "id": "392ab0b7-8323-41f1-9aa1-0cc4a98f2a9d",
+      "year": 1861,
+      "title": "형과 잡지 『브레먀』를 내고 폐간당하다",
+      "before": "1861년 형 미하일이 발행인, 자신이 편집을 맡아 『브레먀』를 창간했다. 1863년 구독자 4,302명으로 러시아 정기간행물 3위까지 올랐다. 1863년 4월 스트라호프가 폴란드 봉기를 다룬 「숙명적 문제」를 싣자 반정부 논조로 몰려 칙령으로 폐간됐다. 형제는 이듬해 『에포하』로 다시 시작했다.",
+      "after": "Dostoevsky and his brother Mikhail launched Vremya in 1861, with Mikhail as publisher and Fyodor as editor. It grew to 4,302 subscribers by 1863, making it Russia's third-largest periodical. That April, the journal published Strakhov's \"A Fateful Question\" on the Polish uprising. The authorities read it as anti-government and closed Vremya by imperial order; the brothers tried again the next year with Epokha."
+    },
+    {
+      "id": "4e0e31e3-425d-4a98-8198-71a96eba52aa",
+      "year": 1864,
+      "title": "아내와 형이 석 달 사이에 죽고 형의 빚을 떠안다",
+      "before": "1864년 4월 마리야가 결핵으로 죽었고, 7월에 형 미하일이 죽었다. 혼자 남아 『에포하』를 떠맡았으나 잡지는 1865년 2월호를 끝으로 멈췄다. 형이 남긴 빚과 유족 부양이 그대로 넘어와 이후 10여 년의 집필 조건을 규정했다.",
+      "after": "His wife Maria died of tuberculosis in April 1864. Three months later, his brother Mikhail also died. Dostoevsky took charge of Epokha alone, but the journal folded after its February 1865 issue. He also inherited Mikhail's debts and the support of his dependants, burdens that drove the pace of his work for the next ten years."
+    },
+    {
+      "id": "34629506-9c31-4cea-9a8b-52ac6a392787",
+      "year": 1865,
+      "title": "비스바덴에서 노름으로 여비까지 잃다",
+      "before": "1865년 7월 출판업자 스텔롭스키와 계약해 3,000루블을 받았다. 1866년 11월 1일까지 새 장편을 넘기지 못하면 9년간 저작 전부의 출판권을 무상으로 넘긴다는 조건이었다. 그 돈을 들고 나가 8월 2일부터 비스바덴 룰렛 탁자에서 전부 잃었다. 9월 말까지 빅토리아 호텔에 발이 묶여 식사는 끊기고 차만 나왔다. 투르게네프 등에게 돈을 구했고, 러시아 정교회 사제 야니셰프가 준 돈으로 겨우 빠져나왔다. 이 호텔에서 『죄와 벌』을 쓰기 시작했다.",
+      "after": "In July 1865, the publisher Stellovsky paid Dostoevsky 3,000 roubles for a new novel under a punishing contract: if the manuscript did not arrive by 1 November 1866, Stellovsky could publish everything Dostoevsky wrote for nine years without paying him. Dostoevsky went abroad with the money and, starting on 2 August, lost it all at roulette in Wiesbaden. Stranded at the Hotel Victoria until late September, he was denied meals and given only tea. He asked Turgenev and others for money, then escaped with help from the Russian Orthodox priest Ivan Yanyshev. In the hotel, he began Crime and Punishment."
+    },
+    {
+      "id": "ef28715a-7256-4c8c-a598-719eff1165ad",
+      "year": 1866,
+      "title": "『죄와 벌』 연재 중에 『노름꾼』을 26일 만에 구술로 쓰다",
+      "before": "『죄와 벌』이 『러시아 통보』에 연재되던 해였다. 스텔롭스키 마감을 한 달 남기고 아무것도 쓰지 못한 상태에서 러시아 최초의 속기사 중 한 명인 스무 살 안나 스니트키나를 고용했다. 10월 4일부터 29일까지 구술로 『노름꾼』을 완성해 기한 안에 넘겼고 저작권을 지켰다.",
+      "after": "While Crime and Punishment appeared in instalments in The Russian Messenger, the deadline in Dostoevsky's contract with Stellovsky drew close. With only a month left and no manuscript ready, he hired Anna Snitkina, a twenty-year-old trained stenographer. From 4 to 29 October 1866, he dictated The Gambler to her. They delivered it on time and saved his copyrights."
+    },
+    {
+      "id": "68a95cb2-cdcd-483f-9407-697daa432d50",
+      "year": 1867,
+      "title": "안나와 결혼하고 채권자를 피해 4년간 국외를 떠돌다",
+      "before": "1867년 2월 15일 안나 스니트키나와 결혼했다. 4월에 신혼여행 명목으로 러시아를 떠났고, 빚 독촉을 피해 그대로 4년을 밖에서 보냈다. 드레스덴·바덴바덴·제네바·피렌체를 옮겨 다니며 노름을 계속해 안나의 옷과 반지까지 저당 잡혔다. 1868년 3월 제네바에서 태어난 딸 소피야는 석 달 만에 죽었다. 1871년 4월 비스바덴에서 마지막으로 잃은 뒤 노름을 끊었고, 7월 8일 페테르부르크로 돌아왔다.",
+      "after": "Dostoevsky married Anna Snitkina on 15 February 1867, and they left Russia that April on what began as a honeymoon. To stay beyond the reach of his creditors, they remained abroad for four years, moving among Dresden, Baden-Baden, Geneva and Florence. He kept gambling, at times pawning Anna's clothes and rings. Their daughter Sofya was born in Geneva in March 1868 and died three months later. After one final loss in Wiesbaden in April 1871, he gave up gambling; the couple returned to St Petersburg on 8 July."
+    },
+    {
+      "id": "a9b27a61-fba7-4afc-99a1-d624d1582a8a",
+      "year": 1873,
+      "title": "『그라즈다닌』 편집장을 맡고 『작가 일기』를 시작하다",
+      "before": "1873년 1월 첫 호부터 주간지 『그라즈다닌』의 편집을 맡으면서 「작가 일기」 난을 연재하기 시작했다. 시사·재판 기록·회상·짧은 소설을 뒤섞은 형식이었다. 1874년 봄 편집장을 그만두고 『미성년』 집필로 돌아갔으며, 1876년부터는 혼자 쓰는 월간지로 따로 냈다. 이 무렵부터 여름마다 스타라야루사에 머물렀고 1873년부터 그곳 집을 빌려 썼다.",
+      "after": "Dostoevsky took charge of the weekly Grazhdanin in January 1873 and began a column called A Writer's Diary, where he combined current affairs, courtroom reports, memories and short fiction. He left the editorship in spring 1874 to write The Adolescent. In 1876 he brought the Diary back as a monthly publication written entirely by himself. During these years he also began spending each summer in Staraya Russa, where the family rented a house from 1873."
+    },
+    {
+      "id": "5b8efd43-b71c-4f5c-9fe5-469e54cb6974",
+      "year": 1880,
+      "title": "모스크바 푸시킨 기념 연설을 하다",
+      "before": "구력 6월 8일 모스크바 귀족회관에서 러시아문학애호가협회 모임이 열렸다. 이틀 전 제막된 푸시킨 동상을 기념하는 자리였고 투르게네프·오스트롭스키·악사코프도 연설했다. 45분짜리 그의 연설이 장내를 압도해 협회는 그를 만장일치로 명예회원에 추대하고 월계관을 씌웠다. 그는 그날 밤 그 관을 푸시킨 동상 아래 놓았다. 연설문은 8월 1일 『작가 일기』에 실렸다.",
+      "after": "On 8 June 1880, Dostoevsky addressed the Society of Lovers of Russian Literature at Moscow's Hall of the Nobility. The gathering marked the unveiling of the Pushkin monument two days earlier, and Turgenev, Ostrovsky and Aksakov were among the other speakers. Dostoevsky's forty-five-minute speech swept the hall. The Society elected him an honorary member by acclamation and placed a laurel wreath on his head; that night, he laid it beneath Pushkin's monument. He published the speech in A Writer's Diary on 1 August."
+    },
+    {
+      "id": "af89d20e-c097-4bc7-96fe-208462718206",
+      "year": 1881,
+      "title": "폐출혈로 죽고 알렉산드르 넵스키 수도원에 묻히다",
+      "before": "구력 1월 28일(신력 2월 9일) 페테르부르크 쿠즈네치니 골목의 집에서 폐출혈로 죽었다. 전해 『카라마조프 형제들』 연재를 마친 직후였다. 2월 1일 장례에 인파가 몰렸고, 알렉산드르 넵스키 수도원 티흐빈 묘지에 묻혔다.",
+      "after": "Dostoevsky died from a lung haemorrhage at his home on Kuznechny Lane in St Petersburg on 28 January 1881, or 9 February by the New Style calendar. He had finished serialising The Brothers Karamazov the previous year. Crowds joined his funeral procession on 1 February, and he was buried in the Tikhvin Cemetery at the Alexander Nevsky Monastery."
+    }
+  ]
+}

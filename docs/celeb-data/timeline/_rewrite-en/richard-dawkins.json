@@ -1,0 +1,132 @@
+{
+  "slug": "richard-dawkins",
+  "nickname": "리처드 도킨스",
+  "events": [
+    {
+      "id": "18463931-7f28-488e-af19-bc1ab81b6398",
+      "year": 1941,
+      "title": "영국령 케냐 나이로비에서 태어나다",
+      "before": "1941년 3월 26일, 영국령 케냐 나이로비에서 영국인 부부의 아들로 태어났다. 식민지 관청에서 농업 공무원으로 일하던 아버지를 따라 아프리카에서 어린 시절을 보내다가, 1949년 가족과 함께 영국으로 돌아갔다.",
+      "after": "Clinton Richard Dawkins was born to British parents in Nairobi, British Kenya, on 26 March 1941. His father worked there as an agricultural officer in the British Colonial Service. After spending his early childhood in Africa, Dawkins returned to England with his family in 1949."
+    },
+    {
+      "id": "4fef833f-57b1-4296-b3d9-092411b43016",
+      "year": 1954,
+      "title": "운들 스쿨에서 중등교육을 받다",
+      "before": "1954년 성공회 전통의 기숙학교인 운들 스쿨에 들어간다. 1959년까지 이곳에서 중등교육을 받은 뒤, 옥스퍼드에서 동물학을 공부하기로 한다.",
+      "after": "In 1954, Dawkins entered Oundle School, an Anglican boarding school in Northamptonshire. He stayed until 1959, then left to study zoology at Oxford."
+    },
+    {
+      "id": "2820e10d-32a6-4c11-bb3d-a04d562a4653",
+      "year": 1959,
+      "title": "베일리얼 칼리지에서 동물학을 공부하다",
+      "before": "옥스퍼드대학교 베일리얼 칼리지에 입학한 것은 1959년이었다. 동물학을 전공한 그는 니콜라스 틴베르헌에게 배우며 동물의 행동을 진화의 눈으로 살피기 시작했고, 1962년 졸업했다.",
+      "after": "Dawkins began studying zoology at Balliol College, Oxford, in 1959. Under Nikolaas Tinbergen, he learned to examine animal behavior through evolution. He graduated in 1962."
+    },
+    {
+      "id": "c55da39d-95ad-4826-9cf8-33f2e7c4938f",
+      "year": 1962,
+      "title": "틴베르헌의 지도 아래 박사과정을 마치다",
+      "before": "졸업 뒤에도 틴베르헌의 지도를 받으며 집닭 병아리가 무엇을 골라 쪼는지 실험했다. 동물의 행동을 관찰하고 검증하는 훈련을 쌓아 1966년 옥스퍼드대학교에서 박사학위를 받았다.",
+      "after": "After graduating, Dawkins remained at Oxford to work under Tinbergen. He ran experiments on what domestic chicks chose to peck, learning how to test ideas through close observation of animal behavior. Oxford awarded him a DPhil in 1966."
+    },
+    {
+      "id": "d7496e2e-5ecc-4cde-8804-346882d1b218",
+      "year": 1967,
+      "title": "캘리포니아대학교 버클리에서 조교수로 일하다",
+      "before": "1967년 캘리포니아대학교 버클리로 건너가 동물학을 가르치고 연구했다. 베트남전 반대 운동이 거세던 캠퍼스에서 반전 시위와 활동에도 참여한 뒤, 1969년 조교수 생활을 마쳤다.",
+      "after": "Dawkins moved to the University of California, Berkeley, in 1967 to teach and research zoology as an assistant professor. With opposition to the Vietnam War sweeping the campus, he also joined anti-war protests and activities. He left Berkeley in 1969."
+    },
+    {
+      "id": "54f68ac4-a233-42e6-a4e8-d94f4e238322",
+      "year": 1970,
+      "title": "옥스퍼드로 돌아와 연구와 교육의 기반을 세우다",
+      "before": "1970년 옥스퍼드로 돌아와 동물학 강사와 뉴 칼리지 펠로를 맡았다. 1990년에는 동물학 리더가 되었고, 이후 오랜 세월 이곳을 연구와 집필의 거점으로 삼았다.",
+      "after": "Back at Oxford in 1970, Dawkins became a zoology lecturer and a fellow of New College. He was appointed reader in zoology in 1990 and continued to use Oxford as the base for his research and writing."
+    },
+    {
+      "id": "4e211c1f-0ab3-49a7-9df2-dc56ec400ca7",
+      "year": 1976,
+      "title": "『이기적 유전자』를 출간하다",
+      "before": "1976년 옥스퍼드대학교 출판부에서 『이기적 유전자』가 나왔다. 진화를 유전자의 생존과 복제라는 관점에서 풀어낸 이 책에서 문화가 퍼지는 단위를 가리키는 ‘밈’이라는 말도 처음 내놓았다. 책은 진화생물학의 논쟁을 대중 앞으로 끌어냈고, 유전적 환원주의와 생물학의 사회적 적용을 둘러싼 거센 반론도 불렀다.",
+      "after": "Oxford University Press published The Selfish Gene in 1976. Dawkins presented evolution through the survival and replication of genes and introduced “meme” as a name for a unit of cultural transmission. The book carried debates in evolutionary biology to a broad readership and drew strong objections over genetic reductionism and the use of biology to explain society."
+    },
+    {
+      "id": "029ad6fb-5ca6-4182-a5ee-599caff9e4b5",
+      "year": 1982,
+      "title": "『확장된 표현형』으로 유전자의 효과 범위를 넓히다",
+      "before": "『확장된 표현형』에서는 유전자가 남기는 효과를 개체의 몸 안에 가두지 않았다. 그 영향이 다른 생물의 행동과 주변 환경에까지 뻗을 수 있다고 주장했으며, 훗날 이 책을 자신의 진화이론 연구에서 가장 중요한 전문적 기여로 꼽았다.",
+      "after": "In The Extended Phenotype, Dawkins argued that a gene’s effects do not stop at the edge of an organism’s body. They can reach into the behavior of other organisms and alter the surrounding environment. He later called the book his most important professional contribution to evolutionary theory."
+    },
+    {
+      "id": "e2132bea-e4fe-43f0-92e9-28c5888a3ee2",
+      "year": 1986,
+      "title": "『눈먼 시계공』에서 자연선택과 설계를 논하다",
+      "before": "1986년 『눈먼 시계공』을 펴내 생명의 복잡한 구조가 어떻게 초자연적 설계자 없이 생겨날 수 있는지 설명했다. 답은 자연선택이었다. 이 책은 이듬해 왕립문학협회상과 로스앤젤레스 타임스 도서상을 받았다.",
+      "after": "The Blind Watchmaker appeared in 1986. In it, Dawkins showed how natural selection could produce complex life and the appearance of design without a supernatural designer. The following year, the book won the Royal Society of Literature Award and a Los Angeles Times Book Prize."
+    },
+    {
+      "id": "4d5ca7cc-3c6f-4cb2-b351-6332c94fc2ed",
+      "year": 1991,
+      "title": "왕립연구소 크리스마스 강연을 진행하다",
+      "before": "1991년 런던 왕립연구소의 크리스마스 강연 무대에 올랐다. 「우주에서 성장하기」라는 제목으로 다섯 차례에 걸쳐 실험과 시연을 곁들이며 생명의 진화를 설명했고, BBC가 이를 방송하면서 텔레비전 시청자에게도 얼굴을 알렸다.",
+      "after": "Dawkins took the stage at London’s Royal Institution in 1991 for five Christmas Lectures titled Growing Up in the Universe. Using experiments and demonstrations, he explained how life evolves. The BBC broadcast the series, bringing him to a wider television audience."
+    },
+    {
+      "id": "a3f55047-898c-41b7-a397-7a84e4e89266",
+      "year": 1995,
+      "title": "초대 시모니 과학 대중이해 교수가 되다",
+      "before": "옥스퍼드대학교는 1995년 그를 초대 시모니 과학 대중이해 교수로 임명했다. 비전공자도 과학을 알아들을 수 있도록 책을 쓰고 강연과 방송에 나서는 자리였으며, 2008년까지 맡았다.",
+      "after": "Oxford appointed Dawkins as its first Simonyi Professor for the Public Understanding of Science in 1995. The role called for him to explain science to non-specialists through books, lectures, and broadcasts. He held the post until 2008."
+    },
+    {
+      "id": "cabb0fc5-3824-45c0-83ad-390b4abaefc5",
+      "year": 2001,
+      "title": "왕립학회 회원으로 선출되다",
+      "before": "진화생물학과 동물행동 연구, 과학을 널리 알린 공로를 인정받아 2001년 영국 왕립학회 회원으로 선출됐다. 베스트셀러 작가이자 대중 강연자로 알려져 있던 그에게 과학계가 공식 회원 자격을 부여한 것이다.",
+      "after": "In 2001, the Royal Society elected Dawkins as a fellow, recognizing his work on evolutionary biology and animal behavior as well as his efforts to explain science to the public."
+    },
+    {
+      "id": "de44b716-786e-4850-bd49-42977ee355ae",
+      "year": 2006,
+      "title": "리처드 도킨스 이성과 과학 재단을 설립하다",
+      "before": "2006년 자신의 이름을 건 이성과 과학 재단을 세웠다. 재단은 과학 교육을 돕고 공공정책에서 세속주의를 옹호하는 한편, 종교를 믿지 않는 사람에게 씌워진 낙인을 줄이는 활동에 나섰다. 2016년 탐구센터와 합쳐진 뒤에는 그 산하에서 일을 이어갔다.",
+      "after": "Dawkins founded the Richard Dawkins Foundation for Reason and Science in 2006. It supported science education, argued for secular public policy, and worked to reduce the stigma attached to nonbelief. The foundation merged with the Center for Inquiry in 2016 and continued its work within that organization."
+    },
+    {
+      "id": "60d56a89-9266-47b6-af05-e1a7e9f272f7",
+      "year": 2006,
+      "title": "『만들어진 신』으로 종교 비판을 전면에 내세우다",
+      "before": "같은 해 출간한 『만들어진 신』에서는 종교 비판을 정면에 내세웠다. 초자연적 창조자가 존재한다는 주장을 반박하고, 종교가 없어도 도덕을 설명할 수 있다고 썼다. 세계적인 베스트셀러가 된 책은 그를 신무신론 논의의 중심에 세웠고, 종교계와 과학계 안팎에서 폭넓은 반론을 낳았다.",
+      "after": "Religion became the direct target of The God Delusion, published in 2006. Dawkins rejected the claim that a supernatural creator exists and argued that morality does not require religion. The book became an international bestseller, made him a leading figure in New Atheism, and provoked wide debate among religious believers, scientists, and atheists."
+    },
+    {
+      "id": "7656758b-a84e-478b-a1e2-7dc5e6e661b0",
+      "year": 2021,
+      "title": "미국인본주의협회가 기존 수상을 철회하다",
+      "before": "미국인본주의협회는 2021년 4월 19일, 도킨스에게 1996년 수여한 ‘올해의 인본주의자’ 상을 거둬들였다. 협회는 인종과 트랜스젠더 정체성을 다룬 그의 공개 발언이 소수자를 깎아내렸다고 판단했다. 수상 철회가 정당했는지를 두고 인본주의 진영 안에서도 논쟁이 이어졌다.",
+      "after": "On 19 April 2021, the American Humanist Association withdrew the Humanist of the Year award it had given Dawkins in 1996. It said his public comments about race and transgender identity demeaned marginalized groups. Humanists then argued among themselves over whether revoking the award was justified."
+    },
+    {
+      "id": "74134897-8ee7-4cb1-abda-0d7695cf791f",
+      "year": 2024,
+      "title": "신간을 들고 ‘파이널 보’ 순회 무대에 서다",
+      "before": "2024년 9월 『죽은 자들의 유전학』을 펴내고 미국과 유럽의 강연장을 돌았다. 순회 무대에는 ‘파이널 보’라는 이름이 붙었다. 10월 27일 런던 사우스뱅크 센터에서는 진화와 종교, 그동안의 저술을 돌아봤지만, 이 무대를 끝으로 공개 활동을 접지는 않았다.",
+      "after": "Dawkins published The Genetic Book of the Dead in September 2024 and took it on a speaking tour across the United States and Europe under the name “Final Bow.” At London’s Southbank Centre on 27 October, he looked back on his work on evolution and religion and on his career as a writer. Despite the tour’s name, he did not stop making public appearances."
+    },
+    {
+      "id": "3ad7727a-3b83-4386-bbd1-91ffb3327c7f",
+      "year": 2025,
+      "title": "TED 무대에서 진화와 언어를 함께 논하다",
+      "before": "TED2025 무대에서는 언어학자 존 맥워터와 마주 앉았다. 생물의 진화와 언어의 변화가 어디에서 닮고 갈리는지 이야기하며, 돌연변이와 자연선택을 설명해 온 자신의 관점을 문화적 선택과 언어 변화로 넓혀 살폈다.",
+      "after": "At TED2025, Dawkins sat down with linguist John McWhorter to compare biological evolution with changes in language. Their conversation traced where the two processes resemble each other and where they differ, extending Dawkins’s ideas about mutation and natural selection into cultural selection and speech."
+    },
+    {
+      "id": "48667dd4-cb01-417c-b59f-cc24774113f0",
+      "year": 2026,
+      "title": "『이기적 유전자』 50주년 활동을 이어가다",
+      "before": "2026년 『이기적 유전자』 초판 50주년을 맞아 호주와 뉴질랜드 기념 강연 순회를 발표했다. 4월 18일에는 샘 해리스와 온라인으로 만나 인공지능과 의식, 도덕을 놓고 대담을 이어갔다.",
+      "after": "To mark fifty years since the first edition of The Selfish Gene, Dawkins announced a 2026 lecture tour of Australia and New Zealand. On 18 April, he also met Sam Harris online to discuss artificial intelligence, consciousness, and morality."
+    }
+  ]
+}

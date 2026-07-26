@@ -1,0 +1,132 @@
+{
+  "slug": "johannes-kepler",
+  "nickname": "요하네스 케플러",
+  "events": [
+    {
+      "id": "1c46973d-4087-4419-ac21-118090d58013",
+      "year": 1571,
+      "title": "바일데어슈타트에서 태어나다",
+      "before": "12월 27일 뷔르템베르크의 작은 자유도시에서 태어났다. 아버지는 용병으로 나가 돌아오지 않았고, 어머니 카타리나는 약초를 다루는 여관집 딸이었다. 달을 채우지 못하고 태어났으며 어릴 때 앓은 천연두로 시력과 손을 평생 온전히 쓰지 못했다.",
+      "after": "Johannes Kepler was born on 27 December in the small free city of Weil der Stadt in Württemberg. His father left to serve as a mercenary and never returned; his mother, Katharina, was an innkeeper's daughter who knew herbal remedies. Born prematurely, Kepler survived childhood smallpox but suffered lasting damage to his eyesight and hands."
+    },
+    {
+      "id": "4b9db6a6-2382-41ba-b435-0f2be6a4f338",
+      "year": 1586,
+      "title": "마울브론 수도원 학교에 다니다",
+      "before": "뷔르템베르크 공국이 성직자를 길러 내려고 운영한 장학 과정에 들어갔다. 가난한 집 아이가 학비 없이 대학까지 갈 수 있는 유일한 통로였고, 케플러는 이 경로를 따라 신학자가 되려 했다.",
+      "after": "Kepler entered a scholarship programme at the Maulbronn seminary, where the Duchy of Württemberg trained future clergy. For a boy from a poor family, it offered the only tuition-free route to university. He planned to become a theologian."
+    },
+    {
+      "id": "69a7476b-b886-4fa5-9db5-9e12023863c9",
+      "year": 1589,
+      "title": "튀빙겐에서 마에스틀린에게 코페르니쿠스 천문학을 배우다",
+      "before": "튀빙겐 신학교에 들어가 신학을 공부하면서 수학 교수 미하엘 마에스틀린에게 배웠다. 마에스틀린은 공개 강의에서는 프톨레마이오스 체계를 가르치고 뛰어난 학생에게만 따로 코페르니쿠스 체계를 설명했는데, 케플러는 여기서 태양 중심설을 받아들였고 공개적으로 옹호해 논란을 일으켰다.",
+      "after": "At Tübingen, Kepler studied theology and learned mathematics from Michael Maestlin. In public Maestlin taught the Ptolemaic system, but in private he introduced his strongest students to Copernicus. Kepler accepted the Sun-centred model and stirred controversy by defending it openly."
+    },
+    {
+      "id": "c6c37a4f-4678-463e-ade2-a86a8c71bb38",
+      "year": 1594,
+      "title": "그라츠의 개신교 학교 수학 교사로 부임하다",
+      "before": "신학 과정을 마치기 전에 학교 측이 그를 그라츠의 수학·천문학 자리로 보냈다. 목사가 되려던 계획이 꺾인 셈이었고, 부업으로 해마다 천문 역서와 점성 예보를 작성해 수입을 보탰다.",
+      "after": "Before Kepler finished his theology course, the faculty sent him to teach mathematics and astronomy at the Protestant school in Graz. The appointment ended his plan to become a pastor. To add to his income, he produced an annual calendar with astronomical and astrological forecasts."
+    },
+    {
+      "id": "7cf1692a-4301-4506-9e85-1b8a7722c692",
+      "year": 1596,
+      "title": "『우주의 신비』를 튀빙겐에서 펴내다",
+      "before": "여섯 행성의 궤도 사이 간격이 다섯 개의 정다면체를 차례로 끼워 넣은 구조로 정해진다고 주장했다. 이 모형 자체는 틀렸지만 태양 중심설을 공개 지지한 첫 책이었고, 케플러가 보낸 증정본이 티코 브라헤와 갈릴레오에게 닿아 두 사람과의 인연을 텄다.",
+      "after": "In Mysterium Cosmographicum, Kepler claimed that the gaps between the six planetary orbits came from nesting the five regular solids between them. The model was wrong, but the book openly defended the Copernican system. Presentation copies reached Tycho Brahe and Galileo and opened contact with both men."
+    },
+    {
+      "id": "657cf8c2-ae68-4579-805f-c86e0e4e26b9",
+      "year": 1597,
+      "title": "바르바라 뮐러와 결혼하다",
+      "before": "4월 27일 두 번 사별한 제분소 상속녀 바르바라 뮐러와 결혼했다. 신부 집안은 신분 차이를 이유로 반대했고, 다섯 아이 가운데 둘을 어려서 잃었다.",
+      "after": "On 27 April, Kepler married Barbara Müller, a mill heiress who had already been widowed twice. Her family opposed the match because of the difference in rank. The couple had five children, two of whom died young."
+    },
+    {
+      "id": "6662ca5c-1b00-4411-b316-f0f881fd9d3f",
+      "year": 1600,
+      "title": "베나트키에서 티코 브라헤를 만나다",
+      "before": "2월 4일 프라하 북동쪽 베나트키의 성에 자리 잡은 티코를 찾아갔다. 티코는 30년치 관측 자료를 쥐고 있었지만 조금씩만 내주었고, 케플러에게 가장 다루기 까다로운 화성 궤도를 맡겼다. 두 사람은 자료 사용 조건을 놓고 자주 다퉜다.",
+      "after": "Kepler arrived on 4 February at Tycho Brahe's castle in Benátky, north-east of Prague. Tycho had thirty years of observations but shared them a little at a time, while giving Kepler the difficult task of working out the orbit of Mars. They often quarrelled over who could use the data and on what terms."
+    },
+    {
+      "id": "e0e1217e-04dd-4782-91d4-782920b60812",
+      "year": 1600,
+      "title": "가톨릭 개종을 거부해 그라츠에서 추방되다",
+      "before": "대공 페르디난트가 신교도에게 개종이냐 퇴거냐를 택하게 했고, 케플러는 개종을 거부해 9월 30일 가족과 함께 도시를 떠났다. 재산을 처분하고 프라하로 향했으며, 이로써 티코 밑으로 들어가는 것 말고는 선택지가 없어졌다.",
+      "after": "Archduke Ferdinand ordered the Protestants of Graz either to convert or to leave. Kepler refused to change his faith, sold his property, and departed with his family on 30 September. They headed for Prague, where working under Tycho had become his only real option."
+    },
+    {
+      "id": "fcca6067-b032-48c4-ac1e-1dd228da78e9",
+      "year": 1601,
+      "title": "티코가 죽고 황실 수학자 자리를 물려받다",
+      "before": "티코 브라헤가 10월 24일 갑자기 죽었고 이틀 뒤 케플러가 후임 황실 수학자로 임명됐다. 관측 자료는 티코 유족의 것이었으나 케플러가 사실상 계속 사용했고, 이 자료가 없었으면 행성 운동 법칙은 나오지 못했다. 황실 급여는 자주 밀렸다.",
+      "after": "Tycho Brahe died suddenly on 24 October. Two days later, Kepler succeeded him as imperial mathematician. Tycho's heirs owned the observations, but Kepler continued to work from them and used them to uncover the laws of planetary motion. The imperial court often paid his salary late."
+    },
+    {
+      "id": "d443f586-82f0-4a9c-8e9f-f4486d709720",
+      "year": 1604,
+      "title": "새 별을 관측하고 『천문학의 광학적 부분』을 내다",
+      "before": "10월에 나타난 초신성을 1년 넘게 추적해 관측 기록을 남겼고, 이 별은 오늘날 '케플러 초신성'으로 불린다. 같은 해 펴낸 광학서에서는 눈의 망막에 상이 맺힌다는 것과 빛의 세기가 거리 제곱에 반비례한다는 것을 밝혔다.",
+      "after": "A new star appeared in October, and Kepler tracked it for more than a year; it is now known as Kepler's supernova. That same year, Astronomiae Pars Optica explained that the eye forms images on the retina and that light weakens in proportion to the square of the distance."
+    },
+    {
+      "id": "2c39ff75-bb47-489d-9465-caaa2a55e08f",
+      "year": 1609,
+      "title": "『새로운 천문학』에서 타원 궤도를 제시하다",
+      "before": "화성 궤도를 원으로 맞추려던 시도가 8분의 오차를 남기자 그 오차를 버리지 않고 원을 버렸다. 행성이 태양을 초점으로 하는 타원을 그린다는 것, 태양과 행성을 잇는 선이 같은 시간에 같은 면적을 훑는다는 것을 담았으며, 원고는 1607년에 끝났으나 티코 유족과의 판권 다툼으로 출판이 늦어졌다.",
+      "after": "Kepler tried to fit Mars to a circular orbit but could not erase an error of eight arcminutes. He trusted the observations and gave up the circle. Astronomia Nova described planets moving in ellipses with the Sun at one focus, and a line from the Sun to a planet sweeping out equal areas in equal times. He finished the manuscript in 1607, but a dispute with Tycho's heirs delayed publication."
+    },
+    {
+      "id": "7fd172e6-2c4f-46ef-812e-debd819275ed",
+      "year": 1611,
+      "title": "아내와 아들을 잃고 프라하의 지위도 흔들리다",
+      "before": "군대가 프라하로 들이닥친 해에 아들 프리드리히가 천연두로 죽고 아내 바르바라가 열병으로 죽었다. 후원자였던 황제 루돌프 2세는 동생 마티아스에게 밀려나 이듬해 죽었고, 케플러는 프라하에 남을 이유를 잃었다.",
+      "after": "As troops entered Prague, Kepler's son Friedrich died of smallpox and his wife Barbara died of fever. His patron, Emperor Rudolf II, was forced aside by his brother Matthias and died the following year. Kepler no longer had a reason to remain in the city."
+    },
+    {
+      "id": "58e5ba06-aa01-49e3-9e61-36afb60928bb",
+      "year": 1612,
+      "title": "린츠로 옮겨 지역 수학자가 되다",
+      "before": "오스트리아 린츠의 지역 수학자 자리를 얻어 14년간 머물렀다. 루터파 신앙을 지켰지만 성찬 교리에 관한 견해 차이로 린츠의 목사에게 성찬을 거부당했고, 어느 교파에도 온전히 속하지 못하는 처지가 됐다. 1613년 10월 수산나 로이팅거와 재혼했다.",
+      "after": "Kepler moved to Linz after taking a post as district mathematician and stayed there for fourteen years. He remained a Lutheran, but a local pastor denied him communion because they disagreed about the Eucharist. He was left without a secure place in any confession. In October 1613, he married Susanna Reuttinger."
+    },
+    {
+      "id": "0f2552b3-a684-42cc-9b36-96c48e29f3aa",
+      "year": 1615,
+      "title": "어머니의 마녀재판을 6년간 변호하다",
+      "before": "1615년 이웃 여자가 어머니 카타리나를 마법으로 병을 얻게 했다고 고발했다. 카타리나는 1620년 8월 체포돼 귀글링겐에서 405일간 사슬에 묶인 채 갇혔고, 고문 도구를 보여 줬을 때도 자백을 거부했다. 케플러가 직접 변론서를 써서 재판을 끌고 간 끝에 1621년 10월 무죄로 풀려났다.",
+      "after": "A neighbour accused Kepler's mother, Katharina, of using witchcraft to make her ill. Katharina was arrested in August 1620 and spent 405 days chained in prison at Güglingen. She refused to confess even when shown the instruments of torture. Kepler wrote her defence and fought the case until she was acquitted and released in October 1621."
+    },
+    {
+      "id": "ffeef598-7176-426d-b872-4b70a97b1b70",
+      "year": 1619,
+      "title": "『세계의 조화』에서 제3법칙을 발표하다",
+      "before": "린츠에서 인쇄된 이 책에서 행성 공전 주기의 제곱이 태양까지 평균 거리의 세제곱에 비례한다고 밝혔다. 이 관계를 1618년에 찾아냈고, 책의 나머지 대부분은 행성 운동을 음악의 화성 비례로 설명하려는 시도였다. 70년 뒤 뉴턴이 이 법칙에서 역제곱 중력을 끌어냈다.",
+      "after": "Harmonices Mundi stated that the square of a planet's orbital period is proportional to the cube of its mean distance from the Sun. Kepler had found the relation in 1618. Much of the book, printed at Linz, also tried to explain planetary motion through the ratios of musical harmony. Seventy years later, Newton used Kepler's law to derive inverse-square gravitation."
+    },
+    {
+      "id": "5d03680e-ba56-4077-93b3-8454ab01716d",
+      "year": 1627,
+      "title": "『루돌프 표』를 울름에서 찍어 내다",
+      "before": "티코의 관측과 자신의 타원 궤도를 결합해 만든 행성 위치표로, 26년을 매달린 결과였다. 전쟁으로 린츠에서 인쇄할 수 없어 울름으로 옮겨 찍었다. 오차가 이전 표의 수십 분의 일로 줄었고, 1631년 가상디의 수성 통과 관측이 이 표의 예측대로 맞아떨어지면서 정확도가 입증됐다.",
+      "after": "After twenty-six years of work, Kepler completed planetary tables that joined Tycho's observations to his own elliptical orbits. War prevented him from printing them in Linz, so he took the work to Ulm. The Rudolphine Tables cut the errors of earlier tables to a fraction of their former size. Their accuracy became clear in 1631, when Gassendi observed Mercury crossing the Sun as Kepler's tables had predicted."
+    },
+    {
+      "id": "d746d32e-de6a-4343-8e1c-b9db7082835c",
+      "year": 1628,
+      "title": "발렌슈타인의 초빙으로 자간에 가다",
+      "before": "황제군 총사령관 발렌슈타인이 전속 점성술사 겸 수학자로 불러 7월에 실레지아의 자간에 도착했다. 밀린 급여를 받을 다른 길이 없어 받아들인 자리였고, 1629년 12월 그곳에 인쇄소를 차려 남은 저작을 찍으려 했다.",
+      "after": "Wallenstein, commander of the imperial armies, hired Kepler as his personal astrologer and mathematician. Kepler reached Sagan in Silesia in July and accepted the post because he had no other way to recover his unpaid salary. In December 1629, he set up a press there to print the works he still hoped to publish."
+    },
+    {
+      "id": "d95fafd5-c61f-4443-a6c0-d67ad04c1550",
+      "year": 1630,
+      "title": "레겐스부르크에서 죽다",
+      "before": "밀린 봉급과 채권을 받아 내려고 10월에 자간을 떠나 레겐스부르크로 갔다가 병을 얻어 11월 15일 죽었다. 쉰여덟이었다. 묻힌 교회 묘지는 30년 전쟁 중에 파괴돼 무덤이 남아 있지 않다.",
+      "after": "Kepler left Sagan in October and travelled to Regensburg to collect unpaid salary and debts. He fell ill there and died on 15 November, aged fifty-eight. The churchyard where he was buried was later destroyed during the Thirty Years' War, and his grave did not survive."
+    }
+  ]
+}

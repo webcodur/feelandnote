@@ -1,0 +1,132 @@
+{
+  "slug": "fan-zhongyan",
+  "nickname": "범중엄",
+  "events": [
+    {
+      "id": "801c8176-6bf1-49de-86ad-4099286f78ca",
+      "year": 989,
+      "title": "소주 오현 범씨 집안에서 태어나다",
+      "before": "음력 단공 2년 8월 2일에 났다. 중국어 위키백과는 출생지를 소주 오현으로 적지만, 아버지 범용이 무녕군 절도장서기로 있던 서주에서 태어났다는 설도 널리 쓰인다.",
+      "after": "Fan Zhongyan was born on the second day of the eighth lunar month of 989. One account places his birth in Wu county, Suzhou; another widely repeated account says Xuzhou, where his father, Fan Yong, was serving as a military secretary."
+    },
+    {
+      "id": "e6cd889c-9bff-4482-902a-e097a760120a",
+      "year": 990,
+      "title": "아버지를 잃고 주씨 집안에서 자라다",
+      "before": "두 살에 아버지 범용이 죽었다. 어머니 사씨가 치주 장산현의 주문한에게 개가하면서 그도 주열이라는 이름으로 자랐고, 자기 성이 범씨라는 사실을 한참 뒤에야 알았다.",
+      "after": "His father died when he was two. After his mother, Lady Xie, remarried Zhu Wenhan of Changshan county in Zizhou, he entered the Zhu household and grew up as Zhu Yue. He did not learn until much later that he had been born a Fan."
+    },
+    {
+      "id": "efef63d2-b2d6-450f-a100-ccd7af6bb963",
+      "year": 1011,
+      "title": "응천부서원에 들어가 고학하다",
+      "before": "장산 예천사에서 죽을 쑤어 굳힌 뒤 잘라 먹으며 공부했다는 이야기가 전해지는 시기를 지나, 응천부서원에 들어갔다. 척동문의 학맥이 이어지던 곳이었고 여기서 오 년 가까이 머물렀다.",
+      "after": "He entered the Yingtianfu Academy and remained there for nearly five years, studying in the tradition of Qi Tongwen. Stories from his earlier years at Liquan Temple in Changshan describe him living on congee that he left to set and cut into portions."
+    },
+    {
+      "id": "17341cf0-5341-4934-b51d-71c5cf397f49",
+      "year": 1015,
+      "title": "진사에 급제해 관직에 나가다",
+      "before": "대중상부 8년 진사시에 을과로 붙었다. 첫 자리는 광덕군 사리참군이었고, 부임하자마자 어머니를 모셔와 함께 살았다.",
+      "after": "In 1015, he passed the palace examination in the second class and became a judicial officer in Guangde prefecture. On taking up the post, he brought his mother to live with him."
+    },
+    {
+      "id": "46115bb4-30e7-47af-bb8b-e5745235c386",
+      "year": 1017,
+      "title": "본래 성을 되찾아 범중엄이 되다",
+      "before": "집경군 절도추관으로 옮긴 뒤 소주로 가서 범씨 문중에 복적을 청했다. 문중이 이를 받아들여 주열이라는 이름을 버리고 범중엄으로 돌아왔다.",
+      "after": "After moving to a post in Jiqing prefecture, he travelled to Suzhou and asked to be restored to the Fan clan register. The clan accepted him, and Zhu Yue became Fan Zhongyan."
+    },
+    {
+      "id": "d10839f4-4b9b-418f-a977-59e798202b2b",
+      "year": 1021,
+      "title": "태주 염창 감독으로 가 바닷둑을 쌓다",
+      "before": "태주 서계의 소금 창고를 감독하러 갔다가 무너진 바닷둑 탓에 밀물이 마을을 덮치는 것을 보았다. 둑을 다시 쌓자고 건의해 흥화현 지사를 겸했고, 등종량과 함께 통주·태주·초주·해주에 걸친 둑을 완성했다. 사람들은 이를 범공제라 불렀다.",
+      "after": "At the salt depot in Xixi, Taizhou, he saw tides pouring through a broken sea wall and flooding nearby villages. He proposed rebuilding the barrier and took charge of the work as magistrate of Xinghua county. With Teng Zongliang, he completed a dike that crossed Tongzhou, Taizhou, Chuzhou and Haizhou. Local people called it Lord Fan's Dike."
+    },
+    {
+      "id": "69378d0a-a627-4902-a87c-18c09cd94c07",
+      "year": 1026,
+      "title": "어머니 상을 치르며 응천부서원을 맡다",
+      "before": "어머니 사씨가 죽어 응천부에서 삼년상을 치렀다. 상중이던 이듬해 남경유수 안수가 그를 응천부학 교수로 청했고, 그는 학생들과 시국을 논하며 서원의 학풍을 되살렸다.",
+      "after": "When his mother died, he observed the three-year mourning period at Yingtianfu. The following year, while he was still in mourning, Yan Shu invited him to teach at the prefectural school. Fan discussed public affairs with his students and helped restore the academy's standing."
+    },
+    {
+      "id": "89b6bc8b-96db-4164-bf11-cbfbdca088fa",
+      "year": 1029,
+      "title": "유태후의 수렴청정을 문제 삼아 좌천되다",
+      "before": "비각교리로 조정에 들어간 지 얼마 안 되어, 인종이 백관을 이끌고 유태후에게 생일 하례를 올리는 일을 반대하고 태후가 정권을 돌려주어야 한다고 상소했다. 곧 하중부 통판으로 밀려났고 뒤에 진주로 옮겨졌다.",
+      "after": "Soon after entering court as a librarian-editor, he opposed plans for the emperor and his officials to offer birthday homage to Empress Dowager Liu. He also urged her to return power to the emperor. The court sent him away as a deputy official in Hezhongfu, then transferred him to Chenzhou."
+    },
+    {
+      "id": "49cc2122-04eb-4ab5-b409-09b19c5fb732",
+      "year": 1033,
+      "title": "곽황후 폐위를 막다가 목주로 쫓겨나다",
+      "before": "태후가 죽자 우사간으로 불려 돌아왔다. 인종이 곽황후를 폐하려 하자 대간들을 이끌고 궁문 앞에서 막아섰고, 그 길로 목주 지주로 좌천됐다.",
+      "after": "The death of the empress dowager brought him back to court as a remonstrance official. When the emperor sought to depose Empress Guo, Fan led other censors to the palace gate in protest. He was immediately sent out as prefect of Muzhou."
+    },
+    {
+      "id": "3a340959-2c64-4e76-9dc1-5f6731dd24ba",
+      "year": 1034,
+      "title": "고향 소주의 물길을 트다",
+      "before": "소주 지주로 부임했을 때 큰비로 태호 일대가 물에 잠겨 있었다. 다섯 갈래 물길을 파 고인 물을 바다로 빼내는 공사를 벌였고, 이 공으로 이듬해 조정에 다시 불려 갔다.",
+      "after": "He took office in Suzhou after heavy rain had flooded the country around Lake Tai. To carry the trapped water out to sea, he ordered five drainage channels cut. The work earned him a recall to the capital the next year."
+    },
+    {
+      "id": "dd52b739-c0f4-4596-8700-fb181716a3fd",
+      "year": 1036,
+      "title": "「백관도」로 여이간과 부딪혀 요주로 가다",
+      "before": "재상 여이간이 인사를 사사로이 주무른다며 관직 이동을 그린 「백관도」를 인종에게 올렸다. 붕당을 짓는다는 역공을 받아 요주로 좌천됐고, 그를 변호한 여정·윤수·구양수도 함께 밀려났다.",
+      "after": "Fan accused Chancellor Lü Yijian of reserving appointments for his own circle. He laid before the emperor a Chart of Officials showing how posts had changed hands. Lü's supporters answered that Fan was forming a faction, and Fan was demoted to Raozhou. Yu Jing, Yin Zhu and Ouyang Xiu were also sent away after defending him."
+    },
+    {
+      "id": "b3d13e59-ec88-41fa-a56d-8702e6da6638",
+      "year": 1040,
+      "title": "서하 전선으로 나가 연주를 맡다",
+      "before": "이원호가 서하 황제를 칭하고 국경을 치자 섬서경략안무부사 겸 연주 지주로 나갔다. 성채를 잇고 병력을 나눠 지키는 수비 위주 전략을 폈으며, 한기와 함께 서북 방면을 나눠 맡았다.",
+      "after": "Li Yuanhao proclaimed himself emperor of Western Xia and attacked the Song border. Fan went to the northwest as deputy pacification commissioner of Shaanxi and prefect of Yanzhou. He linked the frontier with forts, divided his forces among them and shared command of the region with Han Qi."
+    },
+    {
+      "id": "4ad88bc2-cb61-4094-8e1d-cb7c3c893479",
+      "year": 1041,
+      "title": "호수천 패전 뒤 경주로 옮겨 방어를 맡다",
+      "before": "속전을 주장한 한기 쪽 부대가 호수천에서 크게 졌다. 범중엄도 이원호와 사사로이 편지를 주고받았다는 이유로 문책을 받아 관직이 깎였고, 곧 경주 지주로 옮겨 다시 국경을 지켰다.",
+      "after": "Han Qi pressed for a quick attack, but his troops suffered a crushing defeat at Haoshuichuan. Fan also lost rank after officials censured him for privately exchanging letters with Li Yuanhao. He was soon transferred to Qingzhou and returned to guarding the frontier."
+    },
+    {
+      "id": "266c8b10-4cde-4463-8ad0-a1b9b4f30bc6",
+      "year": 1043,
+      "title": "참지정사가 되어 경력신정을 밀다",
+      "before": "부재상인 참지정사에 올라 인종의 요구에 「답수조진십사」로 답했다. 인사 평가 정비, 음서로 들어오는 특혜 억제, 과거 개편, 지방관 선별, 관전 균등, 농상 진흥, 무비 정비, 요역 감축 등 열 가지를 내걸었고 이것이 경력신정이 됐다.",
+      "after": "The emperor made Fan vice-chancellor and asked him for a plan. Fan replied with a ten-point memorial that called for stricter reviews of officials, fewer hereditary privileges, changes to the examinations, better selection of local officials, a fairer allotment of official lands, support for farming and sericulture, stronger defences and lighter corvee demands. The court put these proposals into effect as the Qingli reforms."
+    },
+    {
+      "id": "4fd0ab36-8335-4a95-8943-5bfac55ab5d9",
+      "year": 1045,
+      "title": "신정이 걷히고 빈주로 밀려나다",
+      "before": "붕당을 만든다는 공격이 이어지자 참지정사에서 물러나 빈주 지주로 나갔다. 개혁 조항은 하나씩 폐기됐고, 그해 11월 다시 등주로 옮겨졌다.",
+      "after": "As accusations of factionalism mounted, Fan resigned as vice-chancellor and left the capital to govern Binzhou. The court then repealed his reforms one by one. In the eleventh month of the same year, it transferred him again, this time to Dengzhou."
+    },
+    {
+      "id": "c00b2014-b07a-4ae6-870e-c6ae377bf62d",
+      "year": 1046,
+      "title": "등주에서 「악양루기」를 쓰다",
+      "before": "악주로 좌천된 동년 등자경이 악양루를 고쳐 세우고 글을 청했다. 범중엄은 등주 화주서원에서 음력 9월 15일에 이 글을 썼으며, 악양루에 직접 올라간 적은 없다는 것이 통설이다.",
+      "after": "Teng Zijing, who had passed the examinations in the same year as Fan, rebuilt the Yueyang Tower after being demoted to Yuezhou and asked Fan to write about it. Fan completed the essay at the Huazhou Academy in Dengzhou on the fifteenth day of the ninth lunar month. He is generally thought never to have visited the tower himself."
+    },
+    {
+      "id": "0a0b1733-8b60-42fb-b6df-0f5fe4c1170b",
+      "year": 1049,
+      "title": "항주에서 의장을 세워 일족을 부양하다",
+      "before": "항주 지주로 있으면서 고향 소주에 천 무 남짓한 논밭을 사 의장을 만들었다. 소출로 범씨 일족의 끼니와 혼례·장례, 자제들의 학비를 대게 한 것으로, 뒤에 여러 문중이 이 방식을 따랐다.",
+      "after": "While governing Hangzhou, he bought about a thousand mu of farmland in his native Suzhou and placed it in a charitable estate. Its crops fed members of the Fan clan and paid for their weddings, funerals and schooling. Other clans later adopted the same arrangement."
+    },
+    {
+      "id": "ed5692c2-c8d2-40c1-95f5-3853cfbb55e0",
+      "year": 1052,
+      "title": "부임길 서주에서 예순넷에 죽다",
+      "before": "청주에서 영주로 옮기라는 명을 받고 길을 떠났다가 서주에서 병으로 죽었다. 음력 황우 4년 5월 20일이며, 시호는 문정, 무덤은 낙양 이천의 만안산 남쪽 기슭에 있다.",
+      "after": "Ordered to leave Qingzhou for a new post in Yingzhou, Fan fell ill during the journey and died at Xuzhou on the twentieth day of the fifth lunar month of 1052. He was sixty-four. The court gave him the posthumous name Wenzheng, and he was buried on the southern slope of Mount Wan'an in Yichuan, near Luoyang."
+    }
+  ]
+}

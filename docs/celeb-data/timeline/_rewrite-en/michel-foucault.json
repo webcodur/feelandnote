@@ -1,0 +1,132 @@
+{
+  "slug": "michel-foucault",
+  "nickname": "미셸 푸코",
+  "events": [
+    {
+      "id": "e163ad96-3778-475c-b95f-5d1edba29b22",
+      "year": 1926,
+      "title": "푸아티에에서 태어나다",
+      "before": "1926년 10월 15일, 외과의사 집안의 아들 폴미셸 푸코가 프랑스 푸아티에에서 태어났다. 학교에서는 폴이라 불렸으나, 자라서는 미셸을 자신의 이름으로 삼았다.",
+      "after": "Paul-Michel Foucault is born on October 15, 1926, into a family of surgeons in Poitiers, France. At school he goes by Paul, but as an adult he chooses Michel."
+    },
+    {
+      "id": "ac7b9563-20f5-4626-b78a-81921582a939",
+      "year": 1946,
+      "title": "파리 고등사범학교에 입학하다",
+      "before": "스무 살이 된 푸코는 파리 윌름가의 고등사범학교에 들어가 철학과 심리학을 공부했다. 장 이폴리트와 루이 알튀세르 등의 강의를 들으며 1948년 철학 학위, 이듬해 심리학 학위를 받았다.",
+      "after": "At twenty, Foucault enters the École normale supérieure on Rue d’Ulm in Paris to study philosophy and psychology. He attends lectures by Jean Hyppolite, Louis Althusser, and others, earning a philosophy degree in 1948 and a psychology degree the following year."
+    },
+    {
+      "id": "018b8a4c-00a2-406e-a90b-c81c5316ae46",
+      "year": 1952,
+      "title": "릴에서 심리학을 가르치기 시작하다",
+      "before": "1951년 철학 아그레가시옹에 합격한 뒤, 이듬해 릴 대학 문학부에서 심리학을 가르치기 시작했다. 파리와 릴을 오가며 고등사범학교 강의와 정신병리학 연구도 놓지 않았고, 이 생활은 1955년까지 이어졌다.",
+      "after": "After passing the agrégation in philosophy in 1951, Foucault begins teaching psychology at the Faculty of Letters in Lille the next year. Until 1955, he travels between Lille and Paris while also teaching at the École normale supérieure and studying psychopathology."
+    },
+    {
+      "id": "b80a1662-1091-49bd-a663-df9cf643d554",
+      "year": 1955,
+      "title": "웁살라에서 문화외교와 연구를 병행하다",
+      "before": "웁살라에서는 프랑스어와 프랑스 문학을 가르치는 한편 메종 드 프랑스를 운영했다. 일이 끝나면 카롤리나 레디비바 도서관의 의학사 자료를 뒤져, 광기의 역사를 다룬 박사논문을 다듬어 갔다.",
+      "after": "In Uppsala, Foucault teaches French language and literature and runs the Maison de France. After work, he searches the Carolina Rediviva library’s medical-history collections as he develops his doctoral thesis on the history of madness."
+    },
+    {
+      "id": "c2244bae-a95d-4b08-9c18-515866c2b9ce",
+      "year": 1958,
+      "title": "바르샤바 대학 프랑스문화원을 맡다",
+      "before": "1958년 10월 바르샤바에 도착해 대학 프랑스문화원을 맡고 여러 지역을 돌며 강연했다. 그러나 폴란드 보안요원이 그의 사생활을 노려 함정을 꾸몄고, 일이 외교 문제로 번지면서 이듬해 폴란드를 떠나야 했다.",
+      "after": "Foucault arrives in Warsaw in October 1958 to direct the French Centre at the University of Warsaw. He lectures across Poland, but a security officer sets a trap involving his private life. When the affair becomes a diplomatic problem, Foucault has to leave the country the following year."
+    },
+    {
+      "id": "7096f0a8-d22d-4df8-9c7d-95e566a43fb3",
+      "year": 1959,
+      "title": "함부르크 프랑스문화원을 이끌다",
+      "before": "바르샤바를 떠난 뒤에는 함부르크 프랑스문화원을 이끌며 강의와 박사논문 집필을 이어갔다. 기록마다 부임과 이임 시점이 엇갈리지만, 대체로 1959년부터 1960년까지를 함부르크에서 일한 때로 본다.",
+      "after": "From Warsaw, Foucault moves to Hamburg, where he directs the French Institute, teaches, and works to finish his doctorate. Records disagree about the exact dates, though his time there is generally placed in 1959–1960."
+    },
+    {
+      "id": "f5d41ec2-5385-4444-897b-44990d9a4272",
+      "year": 1960,
+      "title": "클레르몽페랑 대학에 부임하다",
+      "before": "1960년 10월, 클레르몽페랑 대학 철학과에 자리를 잡았다. 처음에는 심리학을 가르쳤고 1962년 철학 교수가 되었다. 1966년까지 이곳에 머무는 동안 여러 주요 저술을 세상에 내놓았다.",
+      "after": "In October 1960, Foucault joins the philosophy department at the University of Clermont-Ferrand and begins by teaching psychology. He becomes a professor of philosophy in 1962 and stays until 1966, publishing several major books along the way."
+    },
+    {
+      "id": "244d8da5-5798-4cff-a13d-08197abc29c5",
+      "year": 1961,
+      "title": "박사학위를 받고 『광기의 역사』를 출간하다",
+      "before": "1961년 5월 20일 파리 대학교에서 박사논문 공개 심사를 마치고 문학박사 학위를 받았다. 같은 달 주논문을 『광기와 비이성: 고전주의 시대의 광기의 역사』라는 책으로 펴냈다. 광기를 질병의 이름에 가두지 않고, 사회가 누구를 밀어내고 가두어 왔는지 묻는 역사로 풀어낸 작업이었다.",
+      "after": "On May 20, 1961, Foucault publicly defends his doctoral theses at the University of Paris and receives the Doctorat ès lettres. That same month, his principal thesis appears as Folie et déraison. The book treats madness not simply as a disease but as a history of the people society has shut out and confined."
+    },
+    {
+      "id": "42383e2d-31fb-4386-b97b-ca35dc7eb201",
+      "year": 1966,
+      "title": "『말과 사물』을 출간하다",
+      "before": "갈리마르가 1966년 4월 『말과 사물』을 출간했다. 푸코는 근대 인문과학이 어떤 지식의 바탕 위에서 생겨났는지를 파고들었고, 책은 뜻밖의 대중적 성공을 거두었다. 구조주의를 둘러싼 논쟁까지 거세지면서 그의 이름도 널리 알려졌다.",
+      "after": "Gallimard publishes Les Mots et les choses in April 1966. Foucault asks what forms of knowledge allowed the modern human sciences to emerge. The book becomes an unexpected popular success, and the growing debate over structuralism brings him wide attention."
+    },
+    {
+      "id": "82126c95-2b8b-4912-bcc3-0516973d3836",
+      "year": 1966,
+      "title": "튀니스 대학에서 가르치다",
+      "before": "1966년 9월 튀니스 대학에 부임해 심리학을 가르치고 가까운 시디부사이드에 살았다. 1968년 학생 시위가 일어나고 탄압이 뒤따르자 학생들의 인쇄기를 숨겨 주었으며, 붙잡힌 학생들을 위해 법정에서 증언하려 했다.",
+      "after": "Foucault begins teaching psychology at the University of Tunis in September 1966 and settles nearby in Sidi Bou Said. When student protests meet repression in 1968, he hides a student printing press and tries to testify for arrested students in court."
+    },
+    {
+      "id": "9e856df1-4fe8-4326-acd7-7d6ae820d6fb",
+      "year": 1968,
+      "title": "뱅센 실험대학 철학과를 이끌다",
+      "before": "1968년 10월 말 프랑스로 돌아온 푸코에게 새로 세운 뱅센 실험대학의 철학과가 맡겨졌다. 이듬해 1월 수업이 시작되자 급진적인 교육과정을 꾸렸고, 정부가 학위 인가를 문제 삼자 공개적으로 맞섰다.",
+      "after": "Returning to France in late October 1968, Foucault takes charge of philosophy at the new experimental university in Vincennes. Classes begin in January 1969 with a radical curriculum. When the government challenges the department’s degree accreditation, he confronts it publicly."
+    },
+    {
+      "id": "0435ff1b-9e2d-46fb-b2da-22b1f99776b3",
+      "year": 1970,
+      "title": "콜레주 드 프랑스 교수로 선출되다",
+      "before": "1970년 4월 콜레주 드 프랑스는 푸코를 사상체계사 교수로 선출했다. 12월 2일 「담론의 질서」로 첫 강연을 연 그는 죽을 때까지 이 자리를 지켰다.",
+      "after": "The Collège de France elects Foucault professor of the History of Systems of Thought in April 1970. He opens the chair on December 2 with his inaugural lecture, The Order of Discourse, and holds it for the rest of his life."
+    },
+    {
+      "id": "039a8fcc-4c72-4a01-b043-2e477c088529",
+      "year": 1971,
+      "title": "감옥정보그룹을 공동 창립하다",
+      "before": "감옥 안에서 무슨 일이 벌어지는지, 수감자 자신이 말하게 하려 했다. 1971년 2월 피에르 비달나케, 장마리 도메나크 등과 감옥정보그룹을 꾸리고 수감자와 출소자의 증언을 모아 교도소의 생활상을 밖으로 전했다. 단체는 1972년 말 해산했다.",
+      "after": "In February 1971, Foucault helps form the Groupe d’information sur les prisons with Pierre Vidal-Naquet, Jean-Marie Domenach, and others. Rather than speak for prisoners, the group gathers testimony from prisoners and former prisoners and makes conditions inside French prisons public. It disbands in late 1972."
+    },
+    {
+      "id": "619c5194-2ade-4c73-8ffc-5599d0da083a",
+      "year": 1975,
+      "title": "『감시와 처벌』을 출간하다",
+      "before": "1975년 『감시와 처벌: 감옥의 탄생』이 나왔다. 광장에서 죄인의 몸을 벌하던 형벌이 감옥으로 옮겨 가고, 학교와 병원과 병영을 닮은 규율이 사람의 일상과 몸짓을 길들이는 과정을 추적한 책이었다.",
+      "after": "Discipline and Punish: The Birth of the Prison appears in 1975. Foucault follows punishment as it moves from public attacks on the body into prisons, then shows how schools, hospitals, and barracks use similar routines to train people’s bodies and conduct."
+    },
+    {
+      "id": "f09754f4-8c8f-4e83-a945-3602e3bd4c10",
+      "year": 1976,
+      "title": "『성의 역사』 1권을 출간하다",
+      "before": "이듬해 『성의 역사』 제1권 『앎의 의지』를 펴냈다. 성이 줄곧 억눌려 왔다는 익숙한 설명을 뒤집어, 권력이 오히려 성을 끊임없이 말하게 하고 그에 관한 지식을 만들어 내는 모습을 살폈다. 애초에 구상했던 후속 권의 짜임은 나중에 크게 바뀌었다.",
+      "after": "The next year, Foucault publishes The Will to Knowledge, the first volume of The History of Sexuality. He rejects the familiar claim that sex has simply been silenced. Instead, he examines how power makes people talk about sex and builds knowledge from that talk. He later changes the planned shape of the remaining volumes."
+    },
+    {
+      "id": "2a63d66d-133f-49e6-bb32-cc6a3a294020",
+      "year": 1978,
+      "title": "이란 혁명을 현지 취재하다",
+      "before": "1978년 9월과 11월, 샤 정권에 맞선 봉기를 취재하러 두 차례 이란으로 갔다. 현장에서 본 종교와 정치의 결합을 『코리에레 델라 세라』에 썼지만, 이슬람주의 운동을 바라본 그의 시선은 이란 망명자들과 프랑스 지식인들의 거센 비판을 불렀다.",
+      "after": "Foucault travels to Iran in September and again in November 1978 to report for Corriere della Sera on the uprising against the shah. His articles focus on the way religion and politics join in the movement. His view of its Islamist current draws strong criticism from Iranian exiles and French intellectuals."
+    },
+    {
+      "id": "929a10a0-e21c-4b71-b505-8dce2107d490",
+      "year": 1984,
+      "title": "『성의 역사』 2·3권을 출간하다",
+      "before": "1984년 6월 갈리마르는 『성의 역사』 제2권 『쾌락의 활용』과 제3권 『자기 배려』를 잇달아 내놓았다. 푸코의 눈은 이제 근대의 권력 장치에서 고대 그리스와 로마로 향했다. 그는 그곳에서 사람들이 스스로를 다스리고 빚어 가던 윤리와 생활 방식을 살폈다.",
+      "after": "In June 1984, Gallimard publishes The Use of Pleasure and The Care of the Self, the second and third volumes of The History of Sexuality. Foucault turns from modern systems of power to ancient Greece and Rome, studying how people governed and shaped themselves through ethics and daily practice."
+    },
+    {
+      "id": "3f6d9989-3a9c-4a95-8a64-de556f038a56",
+      "year": 1984,
+      "title": "파리에서 사망하다",
+      "before": "1984년 6월 10일, 신경계 증상과 패혈증으로 파리 피티에살페트리에르 병원에 입원했다. 보름 뒤인 6월 25일 숨을 거두었으며, 사인은 후천성면역결핍증과 관련된 합병증으로 확인되었다.",
+      "after": "On June 10, 1984, Foucault enters the Pitié-Salpêtrière Hospital in Paris with neurological symptoms and sepsis. He dies there on June 25 from complications related to AIDS."
+    }
+  ]
+}

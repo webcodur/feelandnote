@@ -1,0 +1,132 @@
+{
+  "slug": "confucius",
+  "nickname": "공자",
+  "events": [
+    {
+      "id": "e0e4eedf-25d9-4d88-811f-2c89926a2f9d",
+      "year": -551,
+      "title": "노나라 추읍에서 태어나다",
+      "before": "노나라 추읍에서 태어났다. 아버지 숙량흘은 무사 출신의 하급 관리였고, 공자가 세 살 무렵 세상을 떠났다. 태어난 해는 『사기』에 따라 기원전 551년으로 잡지만 『춘추공양전』은 기원전 552년으로 적는다.",
+      "after": "Confucius is born at Zou in the state of Lu. His father, Shuliang He, is a former soldier and minor official who dies when the boy is about three. The Shiji gives the year as 551 BC, while the Gongyang Commentary places it in 552 BC."
+    },
+    {
+      "id": "01824912-2b13-4d7c-aa7a-0f8f32b593ea",
+      "year": -535,
+      "title": "어머니를 잃고 밑바닥 실무로 예를 익히다",
+      "before": "열일곱 무렵 어머니 안징재마저 잃었다. 기울어진 살림을 떠받치려고 창고 장부를 맡고 가축을 돌보면서, 제사와 의례가 실제로 치러지는 과정을 몸으로 익혔다.",
+      "after": "His mother, Yan Zhengzai, dies when he is about seventeen. With little money left, he keeps granary accounts and tends livestock. These low posts teach him how sacrifices and rituals are carried out in practice."
+    },
+    {
+      "id": "b57803ac-2c4f-471a-a768-866faea506fa",
+      "year": -517,
+      "title": "노소공을 따라 제나라로 가다",
+      "before": "세 대부 집안이 노소공을 몰아내자 공자도 임금을 따라 제나라로 건너갔다. 제경공이 정치를 묻자 임금은 임금답고 신하는 신하다워야 한다고 답했다. 그러나 재상 안영이 등용을 막았고, 공자는 오래지 않아 노나라로 돌아왔다.",
+      "after": "When the three great clans drive Duke Zhao from Lu, Confucius follows him into Qi. Duke Jing asks how to govern, and Confucius replies that rulers must act as rulers and ministers as ministers. Chancellor Yan Ying blocks his appointment, so he soon returns to Lu."
+    },
+    {
+      "id": "097138be-6c75-42f4-801f-a3d7e3a24a9e",
+      "year": -501,
+      "title": "중도의 수령이 되어 처음 벼슬길에 오르다",
+      "before": "쉰을 넘겨 중도의 수령이 되면서 처음 벼슬길에 올랐다. 한 해 만에 다스림이 알려져 토목을 맡는 사공을 거쳐 사법을 돌보는 대사구까지 올라갔다.",
+      "after": "Now past fifty, he enters office as magistrate of Zhongdu. His work draws notice within a year, and he rises first to minister of works and then to minister of justice."
+    },
+    {
+      "id": "6d1fc890-2602-471c-892b-44f41bf8fa1c",
+      "year": -500,
+      "title": "협곡 회맹에서 제나라의 위협을 되받다",
+      "before": "노정공과 제경공이 만난 협곡 회맹에서 의례를 맡았다. 제나라가 무장한 무리를 풀어 위협하자 예법을 들어 물리쳤고, 제나라는 앞서 빼앗은 노나라 땅을 돌려주었다. 회맹이 열린 곳은 지금의 라이우 부근으로 보는 설이 유력하지만 확정되지는 않았다.",
+      "after": "Confucius oversees the rites when Duke Ding of Lu meets Duke Jing of Qi at Jiagu. Qi sends armed men to intimidate the Lu party, but he invokes the rules of ceremony and turns them back. Qi then returns land it had seized from Lu. The meeting probably takes place near modern Laiwu, though the site remains uncertain."
+    },
+    {
+      "id": "630d8a4e-80f0-4a3d-9a1e-07409ce15463",
+      "year": -498,
+      "title": "세 대부의 성벽을 허물려다 뜻을 이루지 못하다",
+      "before": "계손·숙손·맹손 세 집안의 근거지 성벽을 허물어 노나라 임금의 힘을 되찾으려 했다. 두 곳의 성벽은 무너뜨렸으나 맹손씨의 성읍에서 막혔다. 이 일로 세 집안과 완전히 틀어졌다.",
+      "after": "He tries to break the power of the Ji, Shusun, and Mengsun clans by tearing down their fortified seats. Two sets of walls fall, but the Mengsun stronghold holds out. The failed campaign leaves all three clans against him."
+    },
+    {
+      "id": "fe5db267-eec0-4557-ab88-34572290c464",
+      "year": -497,
+      "title": "노나라를 떠나 위나라로 가다",
+      "before": "제나라가 보내온 가무단에 노정공과 계환자가 빠져 정사를 돌보지 않자 벼슬을 내놓았다. 그때부터 열네 해 동안 여러 나라를 떠돌았다.",
+      "after": "Duke Ding and Ji Huanzi neglect the government for a troupe of dancers sent by Qi. Confucius resigns and leaves Lu for Wey, beginning fourteen years of travel from state to state."
+    },
+    {
+      "id": "1ffd2aea-5fc7-4903-ad84-92da410f6b6f",
+      "year": -496,
+      "title": "광 땅에서 양호로 오인돼 갇히다",
+      "before": "위나라를 떠나 진나라로 가던 길에 광 사람들이 앞을 막았다. 그들은 공자를 원한을 산 양호로 잘못 알고 에워쌌다. 제자들이 겁에 질리자 문왕이 남긴 문화가 자신에게 있으니 광 사람들이 어찌하지 못할 것이라고 말했다.",
+      "after": "On the road from Wey to Chen, Confucius is stopped at Kuang. The townspeople mistake him for Yang Hu, a man they hate, and surround his party. When his disciples panic, he says that King Wen's culture lives in him and that the people of Kuang cannot harm it."
+    },
+    {
+      "id": "f2803d7e-3404-4291-9030-3f377f0fa3d2",
+      "year": -493,
+      "title": "정나라에서 제자들과 흩어지다",
+      "before": "정나라 도성에서 제자들과 흩어져 동문에 홀로 서 있었다. 그 모습을 본 누군가가 상갓집 개 같다고 했다. 자공에게 그 말을 전해 들은 공자는 생김새 이야기는 모르겠으나 상갓집 개라는 말은 맞다며 웃었다.",
+      "after": "Confucius becomes separated from his disciples in the Zheng capital and waits alone at the east gate. A passerby says he looks like a dog from a house in mourning. When Zigong repeats the remark, Confucius laughs and says that part is right."
+    },
+    {
+      "id": "963bbd04-5484-4664-81fd-484a2970d38f",
+      "year": -492,
+      "title": "송나라에서 환퇴에게 목숨을 위협받다",
+      "before": "송나라의 큰 나무 아래에서 제자들과 예를 익히던 중 사마 환퇴가 나무를 쓰러뜨리며 목숨을 노렸다. 제자들이 서둘러 떠나자고 하자, 하늘이 자신에게 덕을 주었는데 환퇴가 어찌하겠느냐고 말했다.",
+      "after": "While Confucius and his disciples practise ritual beneath a large tree in Song, the war minister Huan Tui has the tree cut down in an attempt to kill him. His disciples urge him to leave quickly. Confucius asks what Huan Tui can do when Heaven has given him virtue."
+    },
+    {
+      "id": "9fe4075d-f353-479e-a1fd-8cecd7642d32",
+      "year": -492,
+      "title": "진나라 완구에 이르러 삼 년을 머물다",
+      "before": "진나라 도읍 완구에 이르러 사성정자의 집에서 삼 년을 지냈다. 오와 초 사이에 낀 진나라에는 전쟁이 잦았고, 기다림 끝에도 벼슬자리를 얻지 못했다.",
+      "after": "At Wanqiu, the capital of Chen, he stays in the home of the officer Zhen Zi for three years. War repeatedly reaches the state, caught between Wu and Chu. Confucius waits but receives no office."
+    },
+    {
+      "id": "285f99ee-36bc-43ce-998e-50a5765e8cce",
+      "year": -489,
+      "title": "진과 채 사이에서 양식이 끊기다",
+      "before": "초나라의 부름을 받고 길을 나섰다가 진과 채의 대부들이 보낸 사람들에게 들판에서 가로막혔다. 이레 동안 곡식이 끊겨 따르던 이들이 앓아누웠다. 공자는 그 속에서도 거문고를 타며 노래를 그치지 않았다.",
+      "after": "A summons from Chu draws him back onto the road. Men sent by officials from Chen and Cai trap his party in open country, where they go without grain for seven days. His followers fall ill, but Confucius continues to play the zither and sing."
+    },
+    {
+      "id": "04aaa592-1b9b-4d5e-919a-e226bd1eba4f",
+      "year": -489,
+      "title": "초나라 섭에서 섭공과 정치를 논하다",
+      "before": "초나라 섭에서 섭공과 마주 앉았다. 정치를 어떻게 해야 하느냐는 물음에 가까운 사람은 기뻐하고 먼 곳의 사람은 찾아오게 해야 한다고 답했다. 초소왕이 그를 쓰려 했으나 영윤 자서가 막아 뜻을 이루지 못했다.",
+      "after": "In She, the Duke of She asks Confucius how to govern. He answers: make those nearby glad, and people from far away will come. King Zhao of Chu considers giving him office, but the chief minister Zixi stops it."
+    },
+    {
+      "id": "76c9cff3-13d8-460c-814d-da53801c5f47",
+      "year": -488,
+      "title": "위나라로 돌아가 이름을 바로 세우는 일을 말하다",
+      "before": "다시 위나라로 돌아와 몇 해를 더 머물렀다. 자로가 정치를 맡는다면 무엇부터 하겠느냐고 묻자, 이름을 바로 세우는 일부터 하겠다고 답했다.",
+      "after": "He returns to Wey and remains there for several more years. When Zilu asks what he would do first if put in charge of government, Confucius says he would set names right."
+    },
+    {
+      "id": "0854ee3e-cff0-4eba-8c45-3d0e62f6cfa4",
+      "year": -484,
+      "title": "열네 해 만에 노나라로 돌아오다",
+      "before": "염구가 계강자 밑에서 공을 세운 뒤 스승을 불러들였다. 열네 해 만에 노나라로 돌아온 공자는 예순여덟이었다. 벼슬은 맡지 않고 제자를 가르치며 옛 문헌을 정리하는 데 남은 힘을 썼다.",
+      "after": "After Ran Qiu wins distinction in the service of Ji Kangzi, he helps bring his teacher home. Confucius returns to Lu at sixty-eight, fourteen years after leaving. He takes no post, devoting his remaining years to teaching and arranging old texts."
+    },
+    {
+      "id": "0d6de3e9-e94d-4b7f-9853-d2c4b3d89bd2",
+      "year": -483,
+      "title": "아들과 아끼던 제자들을 잇달아 잃다",
+      "before": "기원전 483년 아들 공리가 먼저 세상을 떠났다. 이듬해에는 가장 아끼던 제자 안회를 잃었고, 기원전 480년에는 위나라 내란에서 자로마저 죽었다.",
+      "after": "His son Kong Li dies in 483 BC. Yan Hui, his dearest disciple, follows the next year. Then, in 480 BC, Zilu is killed during a revolt in Wey."
+    },
+    {
+      "id": "e3343520-aa45-4f3d-a038-3187b9807dea",
+      "year": -481,
+      "title": "『춘추』를 손질해 끝맺다",
+      "before": "노나라 은공부터 애공까지 이백사십여 년 동안 벌어진 일을 연대순으로 간추려 『춘추』를 정리했다. 사냥에서 기린이 잡혔다는 소식을 듣고 붓을 놓았다고 전한다.",
+      "after": "Confucius arranges the events of more than two hundred and forty years of Lu into a chronological record, from Duke Yin to Duke Ai. Tradition says he puts down his brush after hearing that a qilin has been caught during a hunt."
+    },
+    {
+      "id": "8ea86d8c-205c-4af8-9623-97ce2cd5a2fb",
+      "year": -479,
+      "title": "일흔셋에 세상을 뜨다",
+      "before": "일흔셋에 세상을 떠났다. 제자들은 무덤 곁에서 삼 년상을 치렀고, 자공은 그곳에 삼 년을 더 머물렀다. 뒤에 제자와 그 제자들이 남은 말을 모아 『논어』로 엮었다.",
+      "after": "Confucius dies at seventy-three. His disciples mourn beside his grave for three years, and Zigong remains there for three more. Later, disciples and their students gather his sayings into the Analects."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "slug": "phil-zimmermann",
+  "nickname": "필 짐머만",
+  "events": [
+    {
+      "id": "69a32389-fcf1-4018-b225-6c64be94ae80",
+      "year": 1954,
+      "title": "뉴저지주 캠던에서 태어나다",
+      "before": "1954년 2월 12일, 미국 뉴저지주 캠던에서 태어났다. 본명은 필립 R. 짐머만. 훗날 필 짐머만이라는 이름으로 활동한다.",
+      "after": "Philip R. Zimmermann was born on February 12, 1954, in Camden, New Jersey. He later became known as Phil Zimmermann."
+    },
+    {
+      "id": "9d941873-3a30-4bda-b4ef-d84cf300958c",
+      "year": 1978,
+      "title": "플로리다 애틀랜틱 대학교를 졸업하다",
+      "before": "보카러톤의 플로리다 애틀랜틱 대학교에서 컴퓨터과학을 공부하고 학사 학위를 받았다. 졸업 뒤에는 소프트웨어 엔지니어로 일하며 데이터 통신과 실시간 임베디드 시스템, 암호 기술을 익혔다.",
+      "after": "Zimmermann earned a bachelor's degree in computer science from Florida Atlantic University in Boca Raton. He then worked as a software engineer, gaining experience in data communications, real-time embedded systems, and cryptography."
+    },
+    {
+      "id": "8d3d7bd0-c60a-4b1c-9968-8d97f6923931",
+      "year": 1986,
+      "title": "볼더에서 PGP 개발을 시작하다",
+      "before": "볼더에서 소프트웨어를 만들면서 핵무기 동결 운동에도 참여해 군사정책을 분석했다. 이 무렵 공개키 암호를 누구나 쓸 수 있는 프로그램으로 옮기는 작업에 뛰어들었다. 훗날 PGP가 되는 프로그램은 1991년 처음 세상에 나온다.",
+      "after": "While writing software in Boulder, Zimmermann joined the Nuclear Weapons Freeze Campaign and analyzed military policy. He also began turning public-key cryptography into a program that ordinary computer users could run. That work became PGP, first released in 1991."
+    },
+    {
+      "id": "0b84f167-0cb4-4332-ae3f-51d3dcbdcc8b",
+      "year": 1991,
+      "title": "PGP 1.0을 무료로 공개하다",
+      "before": "6월 5일, PGP 1.0과 소스 코드를 무료로 풀었다. 이제 개인용 컴퓨터만으로도 강력한 공개키 암호를 쓸 수 있었다. 미국 안에서 파일을 올려 달라고 지인에게 맡겼으나 PGP는 곧 국외 서버로 퍼졌고, 짐머만은 해외 배포에 자신이 관여하지 않았다고 밝혔다.",
+      "after": "On June 5, Zimmermann released PGP 1.0 and its source code for free. It brought strong public-key encryption to personal computers. He asked an acquaintance to post the files within the United States, but copies soon reached servers abroad; Zimmermann said he took no part in distributing them overseas."
+    },
+    {
+      "id": "c09b4dd2-3e04-413d-a858-a1c49d38906d",
+      "year": 1993,
+      "title": "PGP의 국외 확산으로 연방 수사를 받다",
+      "before": "PGP가 미국 밖으로 퍼지자 세관이 수사에 나섰다. 당시 미국은 강력한 암호를 군수품으로 다뤘고, 쟁점은 PGP의 국외 확산이 수출 규정을 어겼느냐는 것이었다. 법무부는 1996년 1월, 짐머만을 기소하지 않은 채 수사를 끝냈다.",
+      "after": "After PGP spread beyond the United States, the U.S. Customs Service began investigating whether its distribution had broken export rules. At the time, the government treated strong encryption as a munition. The Justice Department ended the investigation in January 1996 without indicting Zimmermann."
+    },
+    {
+      "id": "b38d6b58-d909-4763-b4ca-6a5259c8822b",
+      "year": 1995,
+      "title": "PGP의 전체 소스 코드를 책으로 펴내다",
+      "before": "PGP 2.6.2의 C 소스 코드 전부를 종이에 인쇄해 『PGP Source Code and Internals』로 펴냈다. 출판사는 MIT Press였다. 인쇄된 책에는 소프트웨어와 다른 수출 규정이 적용됐고, 암호 코드도 글처럼 표현하고 출판할 수 있는지를 둘러싼 논쟁이 선명해졌다.",
+      "after": "MIT Press published PGP Source Code and Internals, which printed the complete C source code for PGP 2.6.2. Because export rules treated printed books differently from software, the book brought a basic question into focus: could cryptographic code be written and published like other text?"
+    },
+    {
+      "id": "65a649e1-d138-4486-9b54-ab430ece60f7",
+      "year": 1996,
+      "title": "PGP Inc.를 세우고 실리콘밸리로 옮기다",
+      "before": "연방 수사에서 벗어나자 세 동업자와 Pretty Good Privacy Inc.를 세우고 PGP의 상용화에 나섰다. 8월에는 콜로라도를 떠나 캘리포니아로 옮겼다. 레드우드 시티 사무실에서 회장과 최고기술책임자를 함께 맡았다.",
+      "after": "With the federal investigation over, Zimmermann and three partners founded Pretty Good Privacy Inc. to sell commercial versions of PGP. He left Colorado for California in August and served as chairman and chief technology officer from the company's Redwood City office."
+    },
+    {
+      "id": "21da722d-d216-4adb-a2d5-206ab9a612c0",
+      "year": 1997,
+      "title": "PGP Inc.를 Network Associates에 매각하다",
+      "before": "Network Associates가 현금 3,500만 달러에 PGP Inc.를 사들였다. 짐머만과 개발진도 인수된 회사에 합류했다. 그는 선임 연구원으로 3년을 더 일했지만 PGP를 어디로 이끌지를 두고 경영진과 뜻이 갈렸고, 2001년 회사를 떠났다.",
+      "after": "Network Associates bought PGP Inc. for $35 million in cash, and Zimmermann joined the company with the development team. He stayed for three years as a senior fellow, then left in 2001 after clashing with management over PGP's direction."
+    },
+    {
+      "id": "7d7e4f9a-3169-40a5-972f-470287abca52",
+      "year": 2002,
+      "title": "PGP Corporation의 특별 고문으로 돌아오다",
+      "before": "8월, 새로 세워진 PGP Corporation이 Network Associates가 접어 둔 PGP 제품군과 이름을 인수했다. 짐머만도 특별 고문이자 자문역으로 돌아왔다. 이 인연은 2010년 Symantec이 회사를 인수할 때까지 이어졌다.",
+      "after": "In August, the newly formed PGP Corporation acquired the PGP name and product line that Network Associates had discontinued. Zimmermann returned as a special adviser and consultant, remaining with the company until Symantec acquired it in 2010."
+    },
+    {
+      "id": "c95eae09-6744-4476-a2fa-4aa5c5ae678c",
+      "year": 2006,
+      "title": "ZRTP 사양과 Zfone 베타를 공개하다",
+      "before": "3월 5일 존 칼라스, 앨런 존스턴과 함께 인터넷 전화의 암호 키를 주고받는 ZRTP 사양을 IETF에 제출했다. 아흐레 뒤에는 ZRTP를 구현한 Zfone의 공개 베타판을 배포했다. 이메일을 암호화하던 작업이 인터넷 음성 통화로 뻗어 나갔다.",
+      "after": "On March 5, Zimmermann, Jon Callas, and Alan Johnston submitted ZRTP, a specification for exchanging encryption keys during Internet calls, to the IETF. Nine days later, Zimmermann released a public beta of Zfone, which put ZRTP into use. His encryption work had moved from email to Internet voice calls."
+    },
+    {
+      "id": "1646c510-4785-48e7-a2ae-1185bbe6df77",
+      "year": 2011,
+      "title": "Silent Circle을 공동 설립해 서비스를 출시하다",
+      "before": "2011년 11월 마이크 잰키가 보안성을 높인 인터넷 통화 서비스를 제안했다. 짐머만은 존 칼라스 등과 창립팀을 꾸려 네비스섬에 Silent Circle을 세웠다. 회사는 짐머만의 ZRTP를 바탕으로 만든 암호화 통화·문자 서비스를 2012년 10월 16일 출시했다.",
+      "after": "Mike Janke proposed a more secure Internet calling service in November 2011. Zimmermann formed a founding team with Jon Callas and others, and they established Silent Circle on Nevis. On October 16, 2012, the company launched encrypted calling and messaging services built on Zimmermann's ZRTP."
+    },
+    {
+      "id": "49ee3f33-7b85-43c0-ab07-cd7500016d03",
+      "year": 2012,
+      "title": "초대 인터넷 명예의전당 혁신가로 헌액되다",
+      "before": "4월 23일 제네바에서 열린 Internet Society의 Global INET 행사에서 초대 인터넷 명예의전당 혁신가 부문에 이름을 올렸다. PGP를 공개해 개인이 인터넷 통신을 직접 암호화할 수 있게 한 공로를 인정받았다.",
+      "after": "Zimmermann entered the Innovators category of the inaugural Internet Hall of Fame on April 23 at the Internet Society's Global INET event in Geneva. The honor recognized his release of PGP, which let individuals encrypt their own Internet communications."
+    },
+    {
+      "id": "05f63202-83d3-46f2-b7b6-9231b6c19727",
+      "year": 2014,
+      "title": "암호화 스마트폰 Blackphone을 공개하다",
+      "before": "바르셀로나 모바일 월드 콩그레스 무대에 암호화 스마트폰 Blackphone이 모습을 드러냈다. Silent Circle과 Geeksphone이 함께 개발한 제품으로, 6월부터 출하됐다. 짐머만은 대규모 정보 수집을 줄이기 위한 기기일 뿐 특정인을 노린 공격까지 막아 주는 것은 아니라고 선을 그었다.",
+      "after": "Silent Circle and Geeksphone unveiled the Blackphone at Mobile World Congress in Barcelona and began shipping it in June. Zimmermann described the encrypted smartphone as a way to limit mass data collection, not as protection against every attack aimed at a specific user."
+    },
+    {
+      "id": "b1f374de-241d-49e6-9547-91279af90956",
+      "year": 2014,
+      "title": "Silent Circle 본사를 스위스로 옮기다",
+      "before": "5월 13일, Silent Circle은 본사를 네비스섬에서 제네바 인근 르그랑사코네로 옮겼다. 해외 고객이 많다는 점과 스위스의 개인정보 보호 환경을 이전 이유로 들었다. 워싱턴과 런던 사무실은 그대로 운영했다.",
+      "after": "On May 13, Silent Circle moved its headquarters from Nevis to Le Grand-Saconnex, near Geneva. The company pointed to its international customer base and Switzerland's privacy protections. Its Washington and London offices remained open."
+    },
+    {
+      "id": "0cd1710a-248e-4c3e-b030-7f62b32f8957",
+      "year": 2016,
+      "title": "브뤼셀 자유대학교 명예박사를 받다",
+      "before": "브뤼셀 자유대학교 과학부와 공학대학이 공동으로 명예박사 학위를 수여했다. 5월 학위 수여식에 선 짐머만은 암호화와 개인정보 보호, 감시 국가의 위험을 주제로 강연했다.",
+      "after": "The Faculty of Sciences and the engineering school at the Université libre de Bruxelles jointly awarded Zimmermann an honorary doctorate. At the May ceremony, he spoke about encryption, privacy, and the dangers of a surveillance state."
+    },
+    {
+      "id": "d64d59a9-307d-4677-a2a4-59fc580a499b",
+      "year": 2016,
+      "title": "델프트 공과대학교 부교수가 되다",
+      "before": "델프트 공과대학교 전기공학·수학·컴퓨터과학부에 부교수로 합류했다. 사이버보안 부문에서 암호 기술과 개인정보 보호, 감시 문제를 가르치고 연구했다.",
+      "after": "Zimmermann joined the cybersecurity section of Delft University of Technology's Faculty of Electrical Engineering, Mathematics and Computer Science as an associate professor. He taught and studied cryptography, privacy, and surveillance."
+    },
+    {
+      "id": "d45c60de-e99f-4576-a437-e9e2b8a5360e",
+      "year": 2021,
+      "title": "델프트 공과대학교 정규 재직을 마치다",
+      "before": "2016년부터 이어 온 델프트 공과대학교 부교수 재직을 마쳤다. 대학의 사이버보안 분야 명예 부교수로 이름을 남겼다.",
+      "after": "Zimmermann ended the regular associate professorship at Delft University of Technology that he had held since 2016. He remained affiliated with the university as Associate Professor Emeritus of cybersecurity."
+    }
+  ]
+}

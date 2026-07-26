@@ -1,0 +1,132 @@
+{
+  "slug": "marcus-aurelius",
+  "nickname": "마르쿠스 아우렐리우스",
+  "events": [
+    {
+      "id": "fc4b370c-bf11-4d97-b1bf-857b616b5ce1",
+      "year": 121,
+      "title": "로마에서 태어나다",
+      "before": "121년 4월 26일, 마르쿠스 아우렐리우스는 로마의 원로원 귀족 집안에서 태어났다. 아버지가 일찍 세상을 떠난 뒤에는 어머니 도미티아 루킬라와 외조부를 비롯한 친족들이 그를 길렀다.",
+      "after": "Marcus Aurelius is born in Rome on 26 April 121, into a family of senatorial rank. His father dies while he is still a child, leaving his mother, Domitia Lucilla, and other relatives to raise him."
+    },
+    {
+      "id": "dbbc4b90-fa1e-4e7f-89d6-1de62b3c6445",
+      "year": 132,
+      "title": "디오그네토스에게 철학을 접하다",
+      "before": "소년 마르쿠스는 화가이자 교사였던 디오그네토스에게 철학을 삶으로 옮기는 법을 배웠다. 대개 132년경의 일로 보지만, 이 무렵을 전하는 기록이 적어 정확한 때는 알 수 없다.",
+      "after": "Around 132, the painter and teacher Diognetus shows the young Marcus how to put philosophy into practice. Few records survive from these years, so the date remains uncertain."
+    },
+    {
+      "id": "9de00aeb-7b2c-48b2-9dc2-59f5f1cc8ede",
+      "year": 138,
+      "title": "안토니누스 피우스의 후계자로 입양되다",
+      "before": "하드리아누스는 안토니누스 피우스를 후계자로 정하며 조건을 하나 달았다. 마르쿠스와 루키우스를 함께 입양하라는 것이었다. 황실의 공식 후계자가 된 마르쿠스는 팔라티노 황궁에서 제국을 다스리는 일을 배웠다.",
+      "after": "Hadrian names Antoninus Pius as his successor on the condition that he adopt Marcus and Lucius. The adoption brings Marcus into the line of succession, and he moves to the palace on the Palatine to learn the work of governing the empire."
+    },
+    {
+      "id": "d8c55aaf-4712-44c3-9dea-257bfa944fd3",
+      "year": 145,
+      "title": "파우스티나와 혼인하다",
+      "before": "안토니누스 피우스의 딸이자 자신의 사촌인 파우스티나와 혼인했다. 두 사람 사이에서는 루킬라와 훗날 황제가 되는 콤모두스를 포함해 적어도 열네 명의 자녀가 태어났다.",
+      "after": "Marcus marries his cousin Faustina the Younger, daughter of Antoninus Pius. They have at least fourteen children, among them Lucilla and the future emperor Commodus."
+    },
+    {
+      "id": "f4bf3570-a439-466e-907c-2dfc30aa5a25",
+      "year": 147,
+      "title": "호민관 권한과 군사 지휘권을 받다",
+      "before": "안토니누스 피우스는 마르쿠스에게 호민관 권한과 군대·속주를 지휘할 권한을 주었다. 아직 황제는 아니었지만, 이제 원로원에서 정사를 논하고 제국의 행정을 맡을 수 있었다.",
+      "after": "Antoninus Pius grants Marcus tribunician power and authority over armies and provinces. Though not yet emperor, Marcus can now take part in Senate business and help govern the empire."
+    },
+    {
+      "id": "135c1cb7-5df1-4b26-b172-d0b07a90ec94",
+      "year": 161,
+      "title": "루키우스 베루스와 공동 황제가 되다",
+      "before": "3월 7일 안토니누스 피우스가 숨지자 원로원은 마르쿠스를 황제로 승인했다. 그러나 그는 혼자 제위에 오르지 않았다. 루키우스 베루스를 자신과 동등한 황제로 세우면서 로마는 처음으로 두 아우구스투스가 공식적으로 권력을 나누는 시대를 맞았다.",
+      "after": "Antoninus Pius dies on 7 March, and the Senate recognizes Marcus as emperor. Marcus refuses to rule alone and raises Lucius Verus to equal rank. For the first time, two Augusti formally share power in Rome."
+    },
+    {
+      "id": "a0fb3f4c-d114-4e76-be59-8e1303e50398",
+      "year": 166,
+      "title": "파르티아 전쟁 승리 개선식에 서다",
+      "before": "베루스가 맡은 동방 전쟁은 아르메니아와 메소포타미아에서 로마의 승리로 끝났다. 수도에 남아 제국을 돌보던 마르쿠스도 10월 12일 베루스와 나란히 개선 행렬에 올랐다. 같은 날 아들 콤모두스와 안니우스 베루스를 카이사르로 세웠다.",
+      "after": "The eastern war led by Lucius Verus ends in Roman victories in Armenia and Mesopotamia. On 12 October, Marcus joins Verus in a triumph through Rome, despite having remained in the capital during the fighting. That same day, his sons Commodus and Annius Verus are named Caesars."
+    },
+    {
+      "id": "fb18212a-4ffb-4fc8-bcf8-f373cd2a8fe4",
+      "year": 168,
+      "title": "북방 전선으로 처음 출정하다",
+      "before": "도나우 방면의 침입이 거세지자 두 황제는 로마를 떠나 아퀼레이아에 지휘소를 차렸다. 마르쿠스는 즉위한 뒤 처음으로 수도를 오래 비운 채 북방 작전에 직접 뛰어들었다.",
+      "after": "With attacks mounting along the Danube, Marcus and Lucius Verus leave Rome and set up their command at Aquileia. Marcus now spends his first long stretch away from the capital, taking a direct role in operations on the northern frontier."
+    },
+    {
+      "id": "eaa99e0f-b72b-44f0-a507-ee59701c1977",
+      "year": 169,
+      "title": "베루스 사후 단독 황제가 되다",
+      "before": "북방에서 로마로 돌아오던 길, 루키우스 베루스가 알티눔 근처에서 갑자기 쓰러져 숨졌다. 공동 통치자를 잃은 마르쿠스는 홀로 황제가 되었고, 북방 전쟁도 대부분 직접 이끌게 되었다.",
+      "after": "On the journey back from the north, Lucius Verus suddenly collapses near Altinum and dies soon afterward. Marcus becomes sole emperor and takes charge of most of the northern war himself."
+    },
+    {
+      "id": "f33de22e-4f4a-4962-8651-939a6af4d6fb",
+      "year": 170,
+      "title": "카르눈툼에서 도나우 전쟁을 지휘하다",
+      "before": "카르눈툼에 자리를 잡은 마르쿠스는 마르코만니족·콰디족·야지게스족을 상대로 작전을 지휘했다. 172년에는 로마군이 도나우강을 건너 진격했다. 승전이 이어지자 그는 게르마니쿠스에 이어 사르마티쿠스라는 칭호를 받았다.",
+      "after": "From his headquarters at Carnuntum, Marcus directs campaigns against the Marcomanni, Quadi, and Iazyges. Roman troops cross the Danube in 172 and press into enemy territory. Further victories bring him the titles Germanicus and Sarmaticus."
+    },
+    {
+      "id": "a97b3df2-e4f3-45c8-8407-9af762630fb6",
+      "year": 174,
+      "title": "전지에서 《명상록》을 쓰다",
+      "before": "전투가 이어지는 동안 마르쿠스는 그리스어로 자신에게 건네는 철학의 말을 적었다. 훗날 《명상록》으로 묶인 글이다. 언제 쓰기 시작해 언제 마쳤는지, 각 권을 어떤 차례로 썼는지는 알 수 없다. 다만 원고에 남은 지명은 그가 일부를 콰디족 땅의 그라누아와 카르눈툼에서 썼음을 보여 준다.",
+      "after": "Between battles, Marcus writes private notes to himself in Greek. These writings will later be gathered as the Meditations. Their dates and order remain uncertain, but headings in the text show that he writes some passages at Carnuntum and near the Granua in Quadi territory."
+    },
+    {
+      "id": "404c0404-770f-459b-85a0-a73e8194982f",
+      "year": 175,
+      "title": "아비디우스 카시우스의 반란에 대응하다",
+      "before": "마르쿠스가 죽었다는 헛소문이 동방에 퍼졌다. 장군 아비디우스 카시우스는 황제를 자처하고 시리아와 이집트 등을 손에 넣었다. 마르쿠스는 북방 작전을 멈추고 동쪽으로 향했으나, 약 석 달 만에 카시우스가 부하에게 살해되면서 내전은 큰 전투 없이 끝났다.",
+      "after": "A false report that Marcus has died reaches the eastern provinces. The general Avidius Cassius declares himself emperor and takes control of Syria, Egypt, and nearby lands. Marcus breaks off his northern campaign and heads east, but Cassius's own men kill him after about three months, ending the revolt without a major battle."
+    },
+    {
+      "id": "dfaa9129-2139-4465-8ce4-7e497d77b2bb",
+      "year": 176,
+      "title": "파우스티나가 할랄라에서 숨지다",
+      "before": "동부 속주를 돌던 파우스티나는 카파도키아의 할랄라에서 숨졌다. 그때가 175년 겨울인지 176년 봄인지는 사료마다 다르다. 마르쿠스는 할랄라를 식민시로 높이고 파우스티노폴리스라는 이름을 붙였다.",
+      "after": "Faustina dies at Halala in Cappadocia while traveling through the eastern provinces with Marcus. Sources place her death either in the winter of 175 or in 176. Marcus raises Halala to the rank of a colony and renames it Faustinopolis."
+    },
+    {
+      "id": "5e8df499-8926-4d23-8133-5cdd6feceda3",
+      "year": 176,
+      "title": "엘레우시스 밀의에 입문하다",
+      "before": "시리아와 이집트의 정세를 수습한 뒤, 마르쿠스는 콤모두스와 함께 아테네를 거쳐 엘레우시스로 갔다. 그곳에서 데메테르와 페르세포네를 섬기는 밀의의 입문 의식을 치르고 로마로 돌아왔다.",
+      "after": "After restoring order in Syria and Egypt, Marcus travels with Commodus through Athens to Eleusis. There he is initiated into the mysteries of Demeter and Persephone before returning to Rome."
+    },
+    {
+      "id": "c01d4e4f-c0d6-4c8c-8b90-b8b38f492594",
+      "year": 176,
+      "title": "게르만·사르마티아 승리 개선식을 치르다",
+      "before": "12월 23일, 마르쿠스와 콤모두스가 게르만족과 사르마티아족에게 거둔 승리를 기리며 로마에서 개선식을 치렀다. 약 여덟 해 만에 수도로 돌아온 마르쿠스는 이 행렬로 도나우 전쟁의 첫 단계를 마무리했다.",
+      "after": "On 23 December, Marcus and Commodus ride in triumph through Rome to mark their victories over Germanic and Sarmatian peoples. Marcus is back in the capital after nearly eight years away, and the procession closes the first phase of the Danubian war."
+    },
+    {
+      "id": "ec161a73-50bc-42ef-8c1b-7dcde2fa7943",
+      "year": 177,
+      "title": "콤모두스를 공동 황제로 세우다",
+      "before": "아들 콤모두스에게 아우구스투스 칭호와 황제의 권한을 주어 공동 황제로 세웠다. 권한은 176년 말부터 차례로 부여되었고, 177년 중반에는 콤모두스도 아우구스투스로 불렸다.",
+      "after": "Marcus gives Commodus the title Augustus and makes him co-emperor. Commodus receives the necessary powers in stages from late 176 and is firmly attested as Augustus by the middle of 177."
+    },
+    {
+      "id": "27dbf324-b43d-4746-8fc2-807b1b070c07",
+      "year": 178,
+      "title": "도나우 전쟁에 복귀하다",
+      "before": "콰디족과 마르코만니족이 다시 맞서자 마르쿠스는 178년 8월 카르눈툼으로 돌아갔다. 로마군은 그의 지휘 아래 도나우강 너머에서 두 번째 원정을 이어 갔다. 전쟁은 마르쿠스가 숨질 때까지 끝나지 않았다.",
+      "after": "The Quadi and Marcomanni renew their resistance, and Marcus returns to Carnuntum in August 178. Under his command, Roman forces begin a second campaign beyond the Danube. The fighting continues for the rest of his life."
+    },
+    {
+      "id": "ac3c7804-a6eb-42c5-b3b6-253afd06e77c",
+      "year": 180,
+      "title": "북방 전선에서 숨지다",
+      "before": "180년 3월 17일, 마르쿠스 아우렐리우스는 북방 원정 중 병으로 숨을 거두었다. 그곳이 빈도보나였는지 시르미움이었는지는 전승마다 다르다. 제위는 이미 공동 황제였던 콤모두스에게 넘어갔다.",
+      "after": "Marcus Aurelius falls ill during the northern campaign and dies on 17 March 180. Accounts disagree on whether he dies at Vindobona or Sirmium. The throne passes to Commodus, already his co-emperor."
+    }
+  ]
+}

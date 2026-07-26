@@ -1,0 +1,132 @@
+{
+  "slug": "akbar-the-great",
+  "nickname": "악바르 대제",
+  "events": [
+    {
+      "id": "b8b178a2-5f1f-4cef-8796-84a8b3960221",
+      "year": 1542,
+      "title": "우마르코트 요새에서 태어나다",
+      "before": "후마윤과 하미다 바누 베굼이 신드에서 피신하던 중, 우마르코트 요새에서 훗날 악바르 대제가 되는 아들이 태어났다. 궁정 연대기는 생일을 10월 15일로 적었으나 다른 회고에는 11월 23일로 남아 있어 정확한 날짜는 가리기 어렵다.",
+      "after": "Akbar was born at Umerkot Fort while his parents, Humayun and Hamida Banu Begum, sought refuge in Sindh. The court chronicle records 15 October 1542, but another contemporary account gives 23 November, so the exact date remains uncertain."
+    },
+    {
+      "id": "82f04260-5ccc-4f79-82e7-ef0e57b3a7a6",
+      "year": 1556,
+      "title": "칼라나우르에서 무굴 황제로 즉위하다",
+      "before": "후마윤이 세상을 떠나자 바이람 칸은 칼라나우르에 석조 단상을 세우고 악바르를 무굴 황제로 즉위시켰다. 왕좌에는 악바르가 앉았지만, 나라의 일은 섭정 바이람 칸이 맡았다.",
+      "after": "When Humayun died, Bairam Khan raised Akbar to the Mughal throne on a stone platform at Kalanaur. Akbar wore the crown, but Bairam Khan ran the empire as regent."
+    },
+    {
+      "id": "a814e302-4c74-4dc7-9eeb-9869c59b0ed5",
+      "year": 1556,
+      "title": "제2차 파니파트 전투로 델리를 되찾다",
+      "before": "델리를 차지한 헤무의 군대와 무굴군이 파니파트에서 맞붙었다. 바이람 칸이 이끈 무굴군이 승리하면서 악바르는 델리와 아그라를 되찾았고, 출범하자마자 흔들리던 정권을 지켜냈다.",
+      "after": "Hemu had seized Delhi when his army met the Mughals at Panipat. The Mughal forces, led by Bairam Khan, won the battle and retook Delhi and Agra, saving Akbar's young reign from collapse."
+    },
+    {
+      "id": "d1602370-8d65-4e78-81ca-0695e438d8eb",
+      "year": 1560,
+      "title": "바이람 칸의 섭정을 끝내다",
+      "before": "악바르는 바이람 칸을 자리에서 물러나게 하고 메카로 순례를 떠나라고 명했다. 네 해 동안 이어진 섭정은 이로써 끝났다. 궁정의 다른 세력들은 여전히 황제 곁에서 힘을 겨뤘지만, 인사와 원정에는 악바르의 뜻이 더 자주 실리기 시작했다.",
+      "after": "Akbar removed Bairam Khan from office and ordered him to make the pilgrimage to Mecca, ending four years of regency. Rival groups at court still competed for influence, but Akbar now took a stronger hand in choosing officials and directing campaigns."
+    },
+    {
+      "id": "d92a7bbe-bc97-4620-aefa-6c6bd763520d",
+      "year": 1562,
+      "title": "혼인을 통해 암베르와 동맹을 맺다",
+      "before": "삼바르의 군영에서 암베르의 라자 바르말이 딸을 악바르와 혼인시켰다. 훗날 마리암 웃 자마니로 불리는 왕녀였다. 바르말의 집안은 무굴 귀족이 되었고, 라지푸트 세력이 제국의 군대와 관직으로 들어오는 길이 열렸다.",
+      "after": "At the imperial camp in Sambhar, Akbar married a daughter of Raja Bharmal of Amber, later known as Mariam-uz-Zamani. Her family joined the Mughal nobility, opening the army and government to more Rajput leaders."
+    },
+    {
+      "id": "924a5123-66d3-4117-9ab6-ea74e0cb708d",
+      "year": 1563,
+      "title": "순례세와 지즈야를 폐지하다",
+      "before": "마투라에 머물던 악바르는 힌두 순례자들이 세금을 내고 있다는 사실을 알게 되자 순례세를 없앴다. 이듬해에는 비무슬림에게 거두던 인두세 지즈야도 폐지했다.",
+      "after": "While staying at Mathura, Akbar learned that Hindu pilgrims had to pay a tax and abolished it in 1563. The next year, he also ended the jizya, the poll tax imposed on non-Muslims."
+    },
+    {
+      "id": "df9c7a80-92ae-40a2-8bdb-0505c189a2ee",
+      "year": 1567,
+      "title": "치토르 요새를 함락하다",
+      "before": "10월, 악바르가 치토르 요새를 에워쌌다. 포위는 이듬해 2월까지 이어졌고 끝내 성벽이 무너졌다. 함락 뒤에는 그의 명령에 따라 살아남은 수비대와 수많은 비전투원이 살해되었다. 그러나 메와르의 저항은 멈추지 않았다.",
+      "after": "Akbar laid siege to Chittor Fort in October 1567. Its walls fell the following February, and he ordered the surviving defenders and many civilians killed. Mewar continued to resist."
+    },
+    {
+      "id": "497d61b2-fd8c-4247-830a-204c8775c85c",
+      "year": 1569,
+      "title": "파테푸르 시크리를 세우고 수도로 삼다",
+      "before": "시크리에 성벽이 둘리고 궁전과 관청이 들어서기 시작했다. 악바르는 이 도시를 파테푸르 시크리라 이름 짓고 1571년 수도로 삼았다. 1585년까지 제국의 정무가 이곳에서 처리되었으며 종교 토론과 예술 작업도 활발히 이루어졌다.",
+      "after": "Walls, palaces, and government buildings rose at Sikri as Akbar built a new imperial city. He named it Fatehpur Sikri and made it his capital in 1571. Until 1585, it housed the imperial government as well as religious debates and artistic work."
+    },
+    {
+      "id": "d196d46f-d70f-4ce3-9feb-9a5699d25c67",
+      "year": 1572,
+      "title": "구자라트를 정복하다",
+      "before": "아마다바드에 들어간 악바르는 자신을 구자라트의 군주로 선포하고 수라트를 비롯한 항구 도시들을 장악했다. 이듬해 반란이 터지자 곧바로 서쪽으로 돌아가 진압했다. 무굴 제국은 이 정복으로 아라비아해의 항구와 바닷길을 손에 넣었다.",
+      "after": "Akbar entered Ahmedabad in 1572, declared himself ruler of Gujarat, and took Surat and other port cities. A rebellion drew him west again the next year, and he quickly put it down. The conquest gave the Mughal Empire ports on the Arabian Sea and access to its trade routes."
+    },
+    {
+      "id": "187370ed-7d5b-4e14-b934-d4033df2fcfd",
+      "year": 1575,
+      "title": "이바다트 카나에서 종교 토론을 열다",
+      "before": "파테푸르 시크리에 세운 이바다트 카나에서 밤마다 종교 논쟁이 벌어졌다. 처음 자리를 채운 이들은 무슬림 학자들이었으나, 뒤에는 힌두교도와 자이나교도, 조로아스터교도, 기독교도까지 토론에 참여했다.",
+      "after": "Night after night, Akbar gathered scholars at the Ibadat Khana in Fatehpur Sikri for religious debate. At first, only Muslim scholars took part. He later invited Hindus, Jains, Zoroastrians, Christians, and members of other traditions."
+    },
+    {
+      "id": "61225b2b-c8ac-45e7-aca6-611a4318f977",
+      "year": 1579,
+      "title": "마흐자르로 황제의 종교적 권한을 넓히다",
+      "before": "주요 울라마가 마흐자르에 서명했다. 이슬람 법학자들의 판단이 서로 다를 때 황제가 그중 하나를 고를 수 있다는 내용이었다. 성문 계시를 거스를 수 없다는 단서가 붙었지만, 궁정의 종교 문제에서 최종 판단을 내리는 힘은 악바르에게로 기울었다.",
+      "after": "Leading ulema signed the Mahzar, which allowed Akbar to choose between conflicting rulings by Islamic jurists. He could not choose a ruling that went against scripture, but the declaration gave him the final say in many religious disputes at court."
+    },
+    {
+      "id": "da2256de-708f-45ba-8879-5a7e69f42f1a",
+      "year": 1581,
+      "title": "카불을 점령하고 동생의 도전을 막다",
+      "before": "동생 미르자 무함마드 하킴이 펀자브로 쳐들어오자 악바르는 군대를 이끌고 카불까지 나아갔다. 8월에 도시가 무굴군의 손에 들어가자 하킴은 달아났다. 악바르는 세 주 뒤 누이 바흐트 운 니사 베굼을 공식 총독으로 남겨 두고 돌아왔다.",
+      "after": "When his brother Mirza Muhammad Hakim invaded Punjab, Akbar marched on Kabul and took the city in August 1581. Hakim fled. Three weeks later, Akbar left his sister Bakht-un-Nissa Begum there as the official governor and returned home."
+    },
+    {
+      "id": "2d1c521b-b9ab-4eaa-89b8-49aa925b5a61",
+      "year": 1582,
+      "title": "타우히드 이 일라히의 제자 규범을 마련하다",
+      "before": "종교 토론이 중단될 무렵, 악바르는 궁정의 소수 신하를 제자로 받아들이고 타우히드 이 일라히라 불리는 윤리와 충성의 규범을 마련했다. 후대에는 이를 딘 이 일라히라는 새 종교를 세운 일로 설명하기도 했다. 그러나 경전도 성직 체계도 없었던 만큼, 많은 현대 연구자는 종교보다 황제와 제자 사이의 결속을 다지는 규범에 가까웠다고 본다.",
+      "after": "As the formal religious debates came to an end, Akbar began accepting a small group of courtiers as disciples under a code called Tawhid-i Ilahi. Later writers described it as a new religion named Din-i Ilahi. It had neither scripture nor a priesthood, however, and many modern scholars see it instead as a bond of ethics and loyalty between the emperor and his disciples."
+    },
+    {
+      "id": "ab808ba1-c2d2-487b-8ab5-d6f0143547df",
+      "year": 1585,
+      "title": "궁정을 라호르로 옮기다",
+      "before": "북서 변경에서 우즈베크와 아프간 세력에 맞서기 위해 궁정의 주된 거처를 라호르로 옮겼다. 악바르는 이후 13년 동안 북부에 머물면서 변경의 전쟁을 지휘하고 카슈미르와 신드를 제국에 편입했다.",
+      "after": "Akbar moved his main court to Lahore to confront Uzbek and Afghan forces on the northwestern frontier. He stayed in the north for thirteen years, directing wars along the border and bringing Kashmir and Sindh into the empire."
+    },
+    {
+      "id": "5c806ed8-a619-47c9-92bd-b31edb3b6764",
+      "year": 1589,
+      "title": "스리나가르에서 카슈미르의 항복을 받다",
+      "before": "1585년에 시작된 무굴군의 카슈미르 원정은 좀처럼 끝나지 않았다. 악바르는 마침내 6월 스리나가르로 들어가 야쿠브 샤 차크와 저항 세력의 항복을 받았다. 카슈미르 계곡은 무굴 영토가 되었지만, 세금 부과와 새 통치에 맞선 지역의 저항은 이어졌다.",
+      "after": "The Mughal campaign in Kashmir had dragged on since 1585 when Akbar entered Srinagar in June 1589. There he received the surrender of Yaqub Shah Chak and the remaining resistance. The Kashmir Valley became Mughal territory, though local opposition to imperial taxes and rule continued."
+    },
+    {
+      "id": "ea0ca76c-9abb-4e54-b8e5-69798ea2b80a",
+      "year": 1595,
+      "title": "칸다하르를 다시 확보하다",
+      "before": "사파비 왕조의 칸다하르 총독 무자파르 후세인 미르자가 악바르 편으로 돌아섰다. 4월 18일, 그는 싸움 없이 도시를 무굴군에 넘겼다. 악바르는 북서 교통의 요충지를 되찾으면서도 사파비 왕조와의 전면전은 피했다.",
+      "after": "Mozaffar Hosayn Mirza, the Safavid governor of Kandahar, defected to Akbar and handed the city to Mughal forces without a fight on 18 April 1595. Akbar regained a key crossroads on the northwestern frontier without going to war with the Safavid Empire."
+    },
+    {
+      "id": "17e533a5-46f9-43d3-952f-6eca6d6c31d2",
+      "year": 1599,
+      "title": "데칸 원정을 이끌어 칸데시를 병합하다",
+      "before": "악바르는 데칸으로 내려가 부르한푸르를 점령하고 아시르가르 요새를 포위했다. 요새는 1601년 1월 함락되었다. 뒤이어 아흐마드나가르와 베라르, 칸데시를 무굴의 수바로 편성하면서 제국의 행정이 데칸 북부까지 뻗었다.",
+      "after": "Akbar marched into the Deccan in 1599, occupied Burhanpur, and laid siege to Asirgarh Fort. The fort fell in January 1601. He then made Ahmadnagar, Berar, and Khandesh into Mughal provinces, carrying imperial rule into the northern Deccan."
+    },
+    {
+      "id": "7df4ec2e-0089-45fc-a3ff-a4a69c487af7",
+      "year": 1605,
+      "title": "아그라에서 사망하다",
+      "before": "10월 초 아그라에서 이질을 앓기 시작한 악바르는 그달을 넘기지 못하고 세상을 떠났다. 아들 살림이 자한기르라는 이름으로 왕위에 올랐고, 악바르의 유해는 아그라 교외 시칸드라의 영묘에 묻혔다.",
+      "after": "Akbar fell ill with dysentery at Agra in early October 1605 and died before the month ended. His son Salim took the throne as Jahangir. Akbar was buried at Sikandra, outside Agra."
+    }
+  ]
+}

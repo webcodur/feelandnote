@@ -1,0 +1,132 @@
+{
+  "slug": "napoleon-bonaparte",
+  "nickname": "나폴레옹 보나파르트",
+  "events": [
+    {
+      "id": "20193e1b-cfb5-464f-874c-bc304bbb0cb5",
+      "year": 1769,
+      "title": "코르시카에서 하급 귀족의 아들로 태어나다",
+      "before": "프랑스가 제노바에서 코르시카를 넘겨받은 이듬해, 아작시오의 소귀족 집안에서 태어났다. 집에서는 이탈리아어를 썼다. 뒤늦게 익힌 프랑스어에는 평생 코르시카 억양이 남았다.",
+      "after": "Napoleon was born in Ajaccio, a year after France took Corsica from Genoa. His family belonged to the island's minor nobility and spoke Italian at home. He learned French later, and kept his Corsican accent for life."
+    },
+    {
+      "id": "1f154a7d-5ed1-43f1-8537-4c81ece969ef",
+      "year": 1779,
+      "title": "브리엔 육군유년학교에 들어가다",
+      "before": "아버지가 얻어낸 왕실 장학금으로 브리엔 육군유년학교에 들어갔다. 프랑스 본토의 귀족 자제들은 섬에서 온 소년을 좀처럼 끼워 주지 않았다. 그는 혼자 수학 문제를 풀고 역사책을 읽으며 지냈다.",
+      "after": "A royal scholarship secured by his father took him to the military school at Brienne. The sons of mainland nobles kept the island boy at a distance, so he spent much of his time alone with mathematics and history books."
+    },
+    {
+      "id": "ccc43afa-eb9f-4536-954c-1388c3264471",
+      "year": 1785,
+      "title": "열여섯에 포병 소위로 임관하다",
+      "before": "아버지가 죽자 생활비가 끊겼다. 파리 육군사관학교 과정을 1년 만에 마친 그는 열여섯에 포병 소위가 됐다. 이때 익힌 대포 운용은 훗날 여러 전장에서 그의 주된 무기가 된다.",
+      "after": "After his father's death cut off the family's income, Napoleon finished the Paris military academy course in one year. At sixteen, he became a second lieutenant in the artillery. The skills he learned with guns would shape his later campaigns."
+    },
+    {
+      "id": "f5ee67ec-193b-44c7-a241-8a50f8608ac7",
+      "year": 1793,
+      "title": "툴롱 항구를 되찾아 준장으로 뛰어오르다",
+      "before": "영국 함대가 툴롱 항구를 점거하자 포병 대위 나폴레옹은 대포를 새로 배치해 항구를 공략했다. 프랑스군이 툴롱을 되찾았고, 스물넷의 그는 단숨에 준장으로 올라섰다. 혁명 정부도 그의 이름을 기억하기 시작했다.",
+      "after": "When a British fleet occupied Toulon, the twenty-four-year-old artillery captain repositioned the French guns to drive it from the harbour. France retook the city, Napoleon became a brigadier general, and the revolutionary government began to take notice of him."
+    },
+    {
+      "id": "a8ac40ce-dadc-4984-ba09-54b2fc95f5ea",
+      "year": 1796,
+      "title": "이탈리아 원정군을 이끌고 오스트리아군을 밀어내다",
+      "before": "장비도 보급도 형편없는 이탈리아 방면군을 맡았다. 로디와 아르콜레, 리볼리에서 거듭 승리해 오스트리아군을 밀어내고 끝내 협상장으로 불러냈다. 전리품과 배상금이 파리로 흘러가면서 정부 안에서 그의 목소리도 커졌다.",
+      "after": "The army he received in Italy lacked food, equipment and supplies. He led it to victory at Lodi, Arcole and Rivoli, pushed the Austrians back and forced them to negotiate. Spoils and indemnities flowed to Paris, strengthening his position in the government."
+    },
+    {
+      "id": "7902c9cf-162c-4285-8a69-39368a885b6a",
+      "year": 1798,
+      "title": "이집트에 상륙해 피라미드 앞에서 맘루크군을 깨뜨리다",
+      "before": "영국의 인도 항로를 끊겠다며 이집트에 상륙했다. 기자 가까이에서 맘루크 기병대를 격파한 뒤 카이로로 들어갔다. 함께 온 학자 160여 명은 유물과 지형을 조사했고, 그 과정에서 로제타석을 찾아냈다.",
+      "after": "Claiming that he would cut Britain's route to India, Napoleon landed in Egypt. He defeated the Mamluk cavalry near Giza and marched into Cairo. About 160 scholars accompanied the expedition to study the land and its remains, and their work led to the discovery of the Rosetta Stone."
+    },
+    {
+      "id": "ecab9a0f-d977-4ada-a0dd-22c81870a17d",
+      "year": 1798,
+      "title": "아부키르만에서 함대를 잃고 이집트에 갇히다",
+      "before": "넬슨의 영국 함대가 밤을 틈타 아부키르만의 프랑스 함대를 덮쳤다. 정박해 있던 배들은 거의 모두 파괴됐다. 이집트 원정군은 본국과 닿을 길도, 돌아갈 배도 잃었다.",
+      "after": "Nelson struck the French fleet at anchor in Aboukir Bay during the night and destroyed nearly every ship. Napoleon's army was left in Egypt without contact with France or a way home."
+    },
+    {
+      "id": "b8b320d6-a26f-4005-b2e3-fad9159a0942",
+      "year": 1799,
+      "title": "아크레 성벽 앞에서 물러서다",
+      "before": "시리아로 올라가 아크레 요새를 두 달 동안 포위했지만, 영국 해군의 지원을 받는 수비대를 끝내 뚫지 못했다. 역병이 돌고 사상자가 늘자 이집트로 물러났다. 그해 여름에는 군대를 남겨 둔 채 프랑스로 돌아갔다.",
+      "after": "Napoleon marched into Syria and besieged Acre for two months, but its defenders held with support from the British navy. Plague and mounting losses drove him back to Egypt. That summer, he left the army behind and returned to France."
+    },
+    {
+      "id": "a0f440ee-de98-43ce-896e-cfc0e677fbe4",
+      "year": 1799,
+      "title": "브뤼메르 쿠데타로 총재정부를 무너뜨리다",
+      "before": "의회가 생클루로 옮겨가자 병력을 들여보내 의원들을 해산시켰다. 총재정부는 무너졌고 세 명의 통령이 나라를 다스리는 체제가 들어섰다. 제1통령이 된 나폴레옹이 실권을 거머쥐면서, 의회와 총재들이 권력을 나누던 시대도 막을 내렸다.",
+      "after": "As the legislature met at Saint-Cloud, Napoleon sent in troops to break it up. The Directory fell and three consuls took its place. As First Consul, he held the real power, ending the period in which legislators and directors had shared control."
+    },
+    {
+      "id": "e20cf99c-e1ec-4428-beb1-770b0d8afaed",
+      "year": 1804,
+      "title": "민법전을 공포해 신분제 법질서를 갈아치우다",
+      "before": "법 앞에서는 누구나 같은 사람으로 대우하고, 자유롭게 계약하며, 재산을 지킬 수 있도록 민법전을 공포했다. 프랑스는 지방마다 달랐던 법을 하나로 묶었다. 뒤이어 유럽과 중남미 여러 나라, 일본이 이 법전을 본떠 민법을 마련했다.",
+      "after": "Napoleon issued a civil code that gave people equal standing before the law, protected property and allowed them to make contracts freely. It replaced France's patchwork of local laws with one national system. Countries across Europe and Latin America, as well as Japan, later used it as a model."
+    },
+    {
+      "id": "278ce56d-0747-4732-af1a-7b3e87baee09",
+      "year": 1804,
+      "title": "노트르담에서 스스로 황제관을 쓰다",
+      "before": "노트르담에 교황 비오 7세가 앉아 있었지만, 나폴레옹은 황제관을 직접 들어 자기 머리에 얹었다. 혁명으로 왕정을 무너뜨린 프랑스에 세습 제국이 들어섰다. 유럽 왕실들은 혁명이 낳은 황제를 인정할지를 두고 갈라졌다.",
+      "after": "Pope Pius VII watched at Notre-Dame as Napoleon lifted the imperial crown and placed it on his own head. France, which had overthrown its monarchy in revolution, now had a hereditary empire. Europe's royal courts divided over whether to recognise its new emperor."
+    },
+    {
+      "id": "c1aa0fbc-2399-4af9-9acf-e50e6c6df3e5",
+      "year": 1805,
+      "title": "아우스터리츠에서 러시아·오스트리아 연합군을 무너뜨리다",
+      "before": "아우스터리츠에서 일부러 우익을 약하게 내보이자 러시아와 오스트리아 연합군이 그쪽으로 몰려들었다. 그 틈에 중앙 고지를 쳐 전선을 둘로 갈랐다. 오스트리아는 강화를 청했고, 신성로마제국은 이듬해 해체됐다.",
+      "after": "At Austerlitz, Napoleon made his right flank look weak and drew the Russian and Austrian forces towards it. He then seized the central heights and split their line. Austria asked for peace, and the Holy Roman Empire dissolved the following year."
+    },
+    {
+      "id": "8bd324f7-2c50-4425-bf8e-6e49b1440134",
+      "year": 1812,
+      "title": "모스크바까지 들어갔다가 군대를 잃고 돌아오다",
+      "before": "60만 대군을 이끌고 러시아로 들어갔다. 보로디노에서 큰 희생을 치른 끝에 모스크바에 닿았지만, 도시는 불타고 텅 비어 있었다. 기다리던 강화 제의가 오지 않아 겨울에 철수했고, 살아 돌아온 병사는 수만 명뿐이었다.",
+      "after": "Napoleon entered Russia with about 600,000 men. After heavy losses at Borodino, he reached Moscow only to find the city empty and burning. The peace offer he expected never came. He withdrew in winter, and only a few tens of thousands of his soldiers returned."
+    },
+    {
+      "id": "972fea84-85d2-4a0e-b38f-5cd3bd5bf663",
+      "year": 1814,
+      "title": "퐁텐블로에서 퇴위 문서에 서명하다",
+      "before": "연합군이 파리에 들어오고 휘하 원수들마저 항전을 거부하자 퐁텐블로에서 조건 없는 퇴위 문서에 서명했다. 승전국들은 황제 칭호와 엘바섬의 통치권만 남겨 준 채 그를 유배 보냈다.",
+      "after": "Allied troops entered Paris, and Napoleon's own marshals refused to continue the fight. At Fontainebleau, he signed an unconditional abdication. The victors sent him into exile but allowed him to keep the title of emperor and rule the island of Elba."
+    },
+    {
+      "id": "b77272ae-ab29-44a9-b23c-8f2d777f6fe9",
+      "year": 1814,
+      "title": "엘바섬에 유배됐다가 열 달 만에 탈출하다",
+      "before": "엘바섬에 도착한 뒤에는 도로와 광산을 손보고 수비대를 정비했다. 그러나 약속한 연금은 들어오지 않았고, 프랑스 정세가 흔들린다는 소식이 바다를 건너왔다. 열 달 만인 1815년 2월, 경비를 따돌려 배에 오른 그는 프랑스 남해안에 상륙했다.",
+      "after": "On Elba, Napoleon repaired roads and mines and reorganised the garrison. The pension promised to him went unpaid, while reports arrived of unrest in France. After ten months, he slipped past his guards, sailed away and landed on the southern French coast in February 1815."
+    },
+    {
+      "id": "85674134-a813-4c91-b93b-0c04f1f0a82c",
+      "year": 1815,
+      "title": "워털루에서 마지막 전투를 지고 백일천하를 끝내다",
+      "before": "파리로 돌아와 권력을 되찾은 지 석 달 만에 벨기에에서 마지막 승부를 걸었다. 워털루에서 웰링턴의 영국·네덜란드군과 싸우던 중 오후 늦게 프로이센군이 도착하자 전세가 뒤집혔다. 패전 나흘 뒤 두 번째로 퇴위했다.",
+      "after": "Napoleon returned to Paris and recovered power, but three months later he made his last bid in Belgium. At Waterloo, he fought Wellington's British and Dutch troops until Prussian forces arrived late in the afternoon and turned the battle. Four days after the defeat, he abdicated again."
+    },
+    {
+      "id": "14ef629c-2292-43d0-bca5-d13fc0800afc",
+      "year": 1815,
+      "title": "남대서양 세인트헬레나섬으로 보내지다",
+      "before": "영국은 다시는 탈출할 수 없는 유배지를 골랐다. 아프리카 서안에서 1,900킬로미터 떨어진 남대서양의 화산섬 세인트헬레나였다. 롱우드 하우스에 갇혀 지내며 자신의 전쟁과 통치를 구술로 남겼다.",
+      "after": "The British now sent Napoleon to Saint Helena, a volcanic island in the South Atlantic, 1,900 kilometres from the African coast. Confined at Longwood House, he dictated accounts of his wars and his rule."
+    },
+    {
+      "id": "f697d19f-1995-4b2d-9145-c8568b574458",
+      "year": 1821,
+      "title": "유배지에서 위암으로 죽다",
+      "before": "1821년, 롱우드 하우스에서 51세로 숨을 거뒀다. 부검 기록에는 아버지와 같은 위암이 사인으로 적혔다. 비소에 중독됐다는 이야기가 오래 돌았으나 그 기록을 뒤집을 만한 근거는 확인되지 않았다.",
+      "after": "Napoleon died at Longwood House in 1821, aged fifty-one. The autopsy named stomach cancer, which had also killed his father. Stories of arsenic poisoning persisted, but no evidence has overturned the recorded cause of death."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "slug": "yongle-emperor",
+  "nickname": "영락제",
+  "events": [
+    {
+      "id": "24ce157f-85b2-47bf-9ffd-40e737dea862",
+      "year": 1360,
+      "title": "응천부에서 태어나다",
+      "before": "주원장의 넷째 아들이 응천부에서 태어났다. 명이 서기 전, 전란이 이어지던 때였다. 명 조정은 훗날 마황후가 낳았다고 적었으나 다른 후궁의 아들이라는 설도 오래 남았다.",
+      "after": "Zhu Yuanzhang’s fourth son was born at Yingtian while war still raged and before the Ming had been founded. The official court record names Empress Ma as his mother, though another consort was long said to have borne him."
+    },
+    {
+      "id": "c8d898e7-a35c-491b-bcab-99c64b0f7f9b",
+      "year": 1370,
+      "title": "연왕에 봉해지다",
+      "before": "주원장은 아들들을 변경에 세워 몽골을 막으려 했다. 넷째 아들은 열한 살에 연왕이 되었고, 원의 옛 도읍이자 최전선인 북평을 봉지로 받았다.",
+      "after": "At eleven, he became Prince of Yan and received Beiping, the former Yuan capital, as his fief. Zhu Yuanzhang was placing his sons along the frontier to hold back the Mongols."
+    },
+    {
+      "id": "59cc1221-421d-4ea9-b5c2-a0367be2cdf2",
+      "year": 1380,
+      "title": "북평으로 부임하다",
+      "before": "스무 살이 되자 북평으로 가서 이십 년 가까이 북방 군사를 지휘했다. 몽골 원정에 거듭 나가 실전을 익혔고, 자신을 따를 장수와 군사도 그 곁에 모였다.",
+      "after": "He took up his post in Beiping at twenty and spent nearly two decades commanding troops in the north. Campaign after campaign against the Mongols hardened him in battle and drew loyal officers and soldiers around him."
+    },
+    {
+      "id": "9a65ac87-a09f-48f4-a305-a35214d25e36",
+      "year": 1399,
+      "title": "정난의 군사를 일으키다",
+      "before": "건문제가 숙부들의 봉지를 차례로 없애자 연왕은 임금 곁의 간신을 치운다는 구실로 군사를 일으켰다. 조정군에 견주면 병력이 크게 모자랐다. 그는 산둥의 견고한 성들을 하나씩 두드리지 않고 우회해 남경으로 곧장 향했다.",
+      "after": "The Jianwen Emperor began taking away his uncles’ fiefs. The Prince of Yan raised an army, claiming that he meant to clear corrupt ministers from the emperor’s side. Badly outnumbered, he passed by the fortified cities of Shandong and struck straight for Nanjing."
+    },
+    {
+      "id": "815d9be8-a3d4-42f8-9b7d-3a3a5c9d6231",
+      "year": 1402,
+      "title": "남경을 함락하고 황제에 오르다",
+      "before": "군사를 일으킨 지 사 년 만에 남경이 열리고 궁궐이 불탔다. 건문제는 자취를 감췄고 끝내 행방이 밝혀지지 않았다. 황제가 된 영락제는 건문제의 신하들을 대거 죽였으며, 즉위 조서를 쓰지 않은 방효유와 그의 십족도 함께 죽었다.",
+      "after": "Four years after the rebellion began, Nanjing fell and the palace burned. The Jianwen Emperor vanished, and his fate was never settled. Now on the throne, the Yongle Emperor killed many officials who had served his nephew, including Fang Xiaoru, who refused to write the accession edict, and Fang’s ten kinship groups."
+    },
+    {
+      "id": "f4318e65-2fbc-42cb-80ed-fa4cc137f735",
+      "year": 1403,
+      "title": "북평을 북경으로 고치다",
+      "before": "자신의 근거지였던 북평을 북경으로 높이고 순천부를 두었다. 이어 남쪽 사람들을 옮겨 살게 하면서 도읍을 북쪽으로 옮길 준비에 들어갔다.",
+      "after": "He renamed his old base Beijing, made it a northern capital and established Shuntian prefecture there. He then moved households up from the south as he prepared to transfer the court."
+    },
+    {
+      "id": "91770daf-dbb1-41f9-a323-3c5c1ba9a75b",
+      "year": 1405,
+      "title": "정화의 함대를 바다로 내보내다",
+      "before": "환관 정화가 이백여 척의 배와 이만 칠천여 명을 이끌고 유가항을 떠났다. 함대는 동남아시아와 인도양을 지나 아라비아와 동아프리카까지 갔으며, 영락 연간에만 여섯 차례 바다로 나갔다.",
+      "after": "Zheng He left Liujiagang with more than two hundred ships and about twenty-seven thousand men. His fleets crossed Southeast Asia and the Indian Ocean and reached Arabia and East Africa. Six such voyages sailed during the Yongle reign."
+    },
+    {
+      "id": "7e2c4bb1-d460-4a28-bd93-dcc5a1f4b919",
+      "year": 1406,
+      "title": "안남을 쳐 교지포정사사를 두다",
+      "before": "영락제는 호씨가 왕위를 빼앗았다는 명분으로 이십만 군사를 안남에 보냈다. 명군은 승룡을 함락한 뒤 옛 왕조의 후손이 끊겼다며 그 땅에 교지포정사사를 두었다. 그러나 저항은 그치지 않았고 명은 1427년에 군사를 뺐다.",
+      "after": "Citing the Ho family’s seizure of the throne, the emperor sent two hundred thousand troops into Dai Ngu. They captured Thang Long, declared that the former royal line had died out and placed the country under direct Ming rule. Resistance continued until the Ming withdrew in 1427."
+    },
+    {
+      "id": "201ceaff-f417-465e-b7b3-05cd944a5ea9",
+      "year": 1406,
+      "title": "북경 궁성을 짓다",
+      "before": "남경 궁궐을 본떠 북경에 새 궁성을 짓기 시작했다. 쓰촨과 후난의 목재와 쑤저우의 벽돌을 대운하로 실어 날랐고, 공사에는 연인원 백만 명이 동원됐다. 자금성이 완성되기까지 십사 년이 걸렸다.",
+      "after": "Builders began laying out a new palace city in Beijing after the one at Nanjing. Timber came from Sichuan and Hunan, bricks from Suzhou, and the Grand Canal carried both north. A million workers were mobilized before the Forbidden City was finished fourteen years later."
+    },
+    {
+      "id": "3dd0974d-a09f-4f18-b057-82fd3e48f12a",
+      "year": 1408,
+      "title": "『영락대전』을 완성하다",
+      "before": "학자 이천 명이 넘게 경사자집부터 의학·천문·기예까지 온갖 글을 모아 이만 이천여 권으로 엮었다. 『영락대전』은 너무 방대해 인쇄하지 못하고 필사본으로만 남았다. 오늘날에는 사백 권 남짓이 여러 곳에 흩어져 전한다.",
+      "after": "More than two thousand scholars gathered writings on the classics, history, philosophy, literature, medicine, astronomy and practical crafts. They filled over twenty-two thousand volumes. The Yongle Encyclopedia was too large to print, so it survived only in handwritten copies; barely four hundred volumes remain, scattered among collections."
+    },
+    {
+      "id": "6e289258-c490-4ef5-9bda-8f384c17fdc3",
+      "year": 1410,
+      "title": "다섯 차례 몸소 사막 북쪽으로 나가다",
+      "before": "1410년부터 영락제는 몽골 세력이 다시 뭉치는 것을 막겠다며 다섯 차례 직접 사막 북쪽으로 나갔다. 첫 원정에서는 오논강 일대에서 본야시리를 무찔렀다. 그러나 몽골군이 흩어져 달아나자 끝장을 내지 못했고, 뒤이은 원정에서도 결정적인 승리를 거두지 못했다.",
+      "after": "Beginning in 1410, the emperor personally led five armies north of the Gobi to stop the Mongol powers from joining forces again. On his first campaign he defeated Bunyashiri near the Onon River. But the Mongol forces scattered across the steppe, denying him a final victory then or on the campaigns that followed."
+    },
+    {
+      "id": "1bb2e4ef-4eab-4dea-84fa-107b82a8e1bb",
+      "year": 1411,
+      "title": "회통하를 다시 파 대운하를 잇다",
+      "before": "송례가 산둥에서 막힌 회통하를 다시 파 대운하의 끊어진 물길을 이었다. 남쪽 곡식을 실은 배가 북경까지 오를 수 있게 되면서 새 도읍에 물자를 댈 길이 열렸다.",
+      "after": "Song Li reopened the blocked Huitong canal in Shandong and joined the broken sections of the Grand Canal. Grain boats from the south could now reach Beijing and supply the new capital."
+    },
+    {
+      "id": "32d140a9-9248-45b7-9344-23d04ddf85cf",
+      "year": 1421,
+      "title": "도읍을 북경으로 옮기다",
+      "before": "남경을 부수도로 낮추고 북경을 명의 정식 도읍으로 삼았다. 황제와 조정이 북방 국경 가까이 옮겨 앉으면서 명은 군사와 재물을 북쪽 방어에 쏟게 됐다.",
+      "after": "Beijing became the formal capital of the Ming, while Nanjing fell to the rank of secondary capital. With the emperor and his court now close to the northern frontier, troops and money flowed into its defence."
+    },
+    {
+      "id": "54b9a27f-b334-4768-ab59-adbd14ce3c35",
+      "year": 1424,
+      "title": "다섯 번째 원정에서 돌아오다 유목천에서 죽다",
+      "before": "다섯 번째 원정에서 아루타이를 찾지 못한 채 돌아오던 영락제가 유목천에서 예순넷으로 죽었다. 수행 신하들은 그의 죽음을 숨기고 주석을 녹여 관을 만들었다. 살아 있을 때처럼 끼니마다 수라를 올리며 행렬을 북경까지 이끌었다.",
+      "after": "The fifth northern campaign failed to find Arughtai. On the return march, the Yongle Emperor died at Yumuchuan, aged sixty-four. His attendants hid his death, melted tin to make a coffin and served meals before it as if he were still alive until the procession reached Beijing."
+    },
+    {
+      "id": "5b583ca6-4186-4337-9e80-3c9e3ce4f8ed",
+      "year": 1424,
+      "title": "천수산 장릉에 묻히다",
+      "before": "영락제를 북경 북쪽 천수산 자락의 장릉에 묻었다. 천수산에 처음 들어선 황릉 주위로 뒤이어 명 황제 열둘이 묻히면서 이곳은 십삼릉이 됐다.",
+      "after": "He was buried at Changling on the slopes of Tianshou Mountain, north of Beijing. It was the first imperial tomb built there. Twelve later Ming emperors joined him, and the site became known as the Thirteen Tombs."
+    }
+  ]
+}

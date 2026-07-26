@@ -1,0 +1,132 @@
+{
+  "slug": "john-schulman",
+  "nickname": "존 슐만",
+  "events": [
+    {
+      "id": "fa4d892c-06f5-4b50-b968-90342adae32b",
+      "year": 1987,
+      "title": "출생",
+      "before": "존 슐만은 1987년 또는 1988년에 태어난 것으로 알려져 있다. 정확한 생일과 출생지는 공개되지 않았으며, 이 연표에서는 두 기록 가운데 이른 해를 따랐다.",
+      "after": "John Schulman was born in 1987 or 1988. His exact birth date and birthplace have not been made public; this timeline uses the earlier year but treats it as uncertain."
+    },
+    {
+      "id": "db291177-196f-4d1b-9dee-0a1144ab4b18",
+      "year": 2004,
+      "title": "미국 물리 대표팀 프로그램 참가",
+      "before": "그레이트넥 사우스 고등학교 3학년이던 슐만은 미국 물리 대표팀 프로그램에 참가했다. 미국물리교사협회는 이를 2004년 대회로 기록했지만, 후대의 약력에는 2005년으로 적혀 있다.",
+      "after": "As a junior at Great Neck South High School, Schulman took part in the U.S. Physics Team program. The American Association of Physics Teachers lists the event under 2004, while later biographies place it in 2005."
+    },
+    {
+      "id": "123818f9-8b30-444b-a2cf-44f2af551f03",
+      "year": 2010,
+      "title": "캘리포니아 공과대학교 물리학 과정 졸업",
+      "before": "캘리포니아 공과대학교에서 물리학 학부 과정을 마쳤다. 물리학을 연구하던 관심은 졸업 무렵 뇌과학과 인공지능으로 향했다.",
+      "after": "Schulman graduated from the California Institute of Technology with a degree in physics. By then, his interests had begun to move from physics toward neuroscience and artificial intelligence."
+    },
+    {
+      "id": "38b7102c-8128-4293-8e3a-fbe7177c63b9",
+      "year": 2010,
+      "title": "버클리 대학원 진학과 강화학습으로의 전환",
+      "before": "UC 버클리 뇌과학 박사과정에 들어가 여러 연구실을 거쳤다. 피터 애빌의 연구실에서 로봇을 다룬 경험을 계기로 EECS로 옮겼고, 로봇공학과 강화학습에 파고들었다.",
+      "after": "He entered UC Berkeley as a neuroscience doctoral student and rotated through several labs. Work with robots in Pieter Abbeel's lab led him to transfer to EECS, where he pursued robotics and reinforcement learning."
+    },
+    {
+      "id": "31f52b09-da76-4369-a9d3-15d3f8a9d281",
+      "year": 2015,
+      "title": "TRPO 논문 발표",
+      "before": "정책을 한꺼번에 크게 바꾸지 않으면서 학습시키는 신뢰 영역 정책 최적화, 곧 TRPO를 동료 연구자들과 발표했다. 신경망 정책경사법의 불안정성을 줄이려는 이 연구는 그의 박사 논문을 이루는 핵심 작업이 됐다.",
+      "after": "Schulman and his co-authors published Trust Region Policy Optimization, or TRPO. The method kept a learning system from changing its policy too sharply at once, making neural-network policy gradients more stable. It became a core part of his doctoral work."
+    },
+    {
+      "id": "3897b720-634b-4c92-95ef-fd42db4ff3c8",
+      "year": 2015,
+      "title": "OpenAI 공동 창립",
+      "before": "박사과정을 마치기 전 OpenAI의 창립 연구진에 합류해 회사를 함께 세웠다. 강화학습 연구 조직을 이끌기 시작한 뒤에는 알고리즘뿐 아니라 언어 모델의 후처리와 제품 개발까지 맡았다.",
+      "after": "Before finishing his doctorate, Schulman joined OpenAI's founding research group and helped establish the organization. He went on to lead its reinforcement-learning team, later working on language-model post-training and products as well as algorithms."
+    },
+    {
+      "id": "324a3dbe-b162-4f6e-898c-a1e2d2fc754a",
+      "year": 2016,
+      "title": "인공지능 안전의 구체적 문제들 공동 발표",
+      "before": "다리오 아모데이, 크리스 올라 등과 「Concrete Problems in AI Safety」를 내놓았다. 보상 함수를 따르다가 엉뚱한 부작용을 일으키는 문제부터 분포가 달라졌을 때의 오작동, 안전하지 않은 탐색까지, 인공지능이 빚을 수 있는 사고를 연구 과제로 구체화했다.",
+      "after": "With Dario Amodei, Chris Olah, and other researchers, Schulman published Concrete Problems in AI Safety. The paper turned risks such as harmful side effects from reward functions, failures under distribution shifts, and unsafe exploration into specific machine-learning problems."
+    },
+    {
+      "id": "bd525901-4d01-4682-b7ad-77312dddc13d",
+      "year": 2016,
+      "title": "UC 버클리 컴퓨터과학 박사학위 취득",
+      "before": "「Optimizing Expectations: From Deep Reinforcement Learning to Stochastic Computation Graphs」로 UC 버클리 컴퓨터과학 박사학위를 받았다. 논문에는 TRPO, 정책경사 추정법, 확률적 계산 그래프를 연구해 온 과정이 하나의 흐름으로 묶였다.",
+      "after": "UC Berkeley awarded Schulman a PhD in computer science for Optimizing Expectations: From Deep Reinforcement Learning to Stochastic Computation Graphs. The dissertation brought together his research on TRPO, policy-gradient estimation, and stochastic computation graphs."
+    },
+    {
+      "id": "f231918e-cc3b-4e62-8fbb-3e2213f6a431",
+      "year": 2017,
+      "title": "PPO 알고리즘 발표",
+      "before": "OpenAI 연구진과 함께 TRPO보다 구현하기 쉬운 근접 정책 최적화, PPO를 발표했다. 같은 자료를 여러 미니배치로 나누어 거듭 학습하면서도 정책이 지나치게 달라지지 않도록 한 알고리즘으로, 뒤이어 OpenAI의 기본 강화학습 기법이 됐다.",
+      "after": "Working with other OpenAI researchers, Schulman introduced Proximal Policy Optimization, or PPO, as an easier-to-implement alternative to TRPO. PPO reused data across multiple minibatch updates while keeping the policy from changing too far. It later became OpenAI's standard reinforcement-learning method."
+    },
+    {
+      "id": "f5314166-813a-45e2-9b07-734632dc6dea",
+      "year": 2018,
+      "title": "MIT 테크놀로지 리뷰 35세 미만 혁신가 선정",
+      "before": "MIT 테크놀로지 리뷰가 뽑은 ‘35세 미만 혁신가’의 개척자 부문에 이름을 올렸다. 강화학습 에이전트가 처음 맞닥뜨린 상황에도 적응하도록 만든 알고리즘 연구가 선정 이유였다.",
+      "after": "MIT Technology Review named Schulman a 2018 Innovator Under 35 in the Pioneer category. It cited his algorithms for helping reinforcement-learning agents adapt when they encounter new situations."
+    },
+    {
+      "id": "fa370f47-210f-40c1-9d6c-fc50de2f394b",
+      "year": 2021,
+      "title": "WebGPT 공동 발표",
+      "before": "웹을 직접 둘러보고 근거가 된 출처까지 제시하도록 GPT-3를 훈련한 WebGPT 연구에 참여했다. 연구진은 사람에게 더 나은 답변을 고르게 하고 모델이 바깥 자료를 찾아보게 함으로써, 긴 답변의 사실성을 높일 수 있는지 시험했다.",
+      "after": "Schulman co-authored WebGPT, a project that trained GPT-3 to browse the web through a text interface and cite the sources behind its answers. The researchers tested whether outside information and human judgments about answer quality could make long responses more accurate."
+    },
+    {
+      "id": "c8d66c18-3373-49c6-bdf7-88c25f072efa",
+      "year": 2022,
+      "title": "InstructGPT 연구 공동 발표",
+      "before": "사람이 작성한 시범 답변과 응답 순위, PPO 학습을 엮은 InstructGPT 논문에 공동 저자로 참여했다. 실험에서는 매개변수 13억 개짜리 InstructGPT의 답변이 1,750억 개짜리 GPT-3보다 평가자들에게 더 자주 선택됐다.",
+      "after": "In the InstructGPT paper, Schulman and his co-authors combined human-written demonstrations, rankings of model responses, and PPO training to teach GPT-3 to follow instructions. Evaluators chose answers from the 1.3-billion-parameter InstructGPT model more often than answers from the 175-billion-parameter GPT-3 model."
+    },
+    {
+      "id": "1030e8a9-2aab-43f3-b9f8-aa8a28173f92",
+      "year": 2022,
+      "title": "ChatGPT 공개를 이끈 강화학습 팀 지휘",
+      "before": "11월 30일, OpenAI가 대화형 연구 미리보기로 ChatGPT를 공개했다. 슐만은 개발을 맡은 강화학습 팀을 지휘했고, 연구진은 InstructGPT에서 쓴 인간 피드백 강화학습을 대화 데이터에 맞춰 적용했다.",
+      "after": "OpenAI released ChatGPT as a conversational research preview on November 30. Schulman led the reinforcement-learning team behind it, adapting the human-feedback training used for InstructGPT to conversational data."
+    },
+    {
+      "id": "ce265d48-f0a3-409a-8084-312b64ac6a80",
+      "year": 2024,
+      "title": "OpenAI를 떠나 Anthropic 합류",
+      "before": "약 9년을 몸담은 OpenAI를 떠나 Anthropic의 정렬 과학 팀으로 자리를 옮겼다. 인공지능 정렬에 온전히 집중하고 직접 연구하는 자리로 돌아가려는 선택이라고 밝혔다.",
+      "after": "After nearly nine years at OpenAI, Schulman left to join Anthropic's Alignment Science team. He said he wanted to concentrate fully on AI alignment and return to hands-on technical research."
+    },
+    {
+      "id": "925aa384-8ab9-48b4-a2c0-0ff1284353e1",
+      "year": 2025,
+      "title": "Thinking Machines Lab 공동 창립·수석과학자 취임",
+      "before": "Anthropic에 합류한 지 약 5개월 만에 미라 무라티가 이끄는 Thinking Machines Lab로 옮겨 공동 창립자와 수석과학자를 맡았다. 연구소는 사람이 이해하고 조정할 수 있는 인공지능, 그리고 인간과 인공지능이 함께 일하는 방법을 주요 연구 의제로 내세웠다.",
+      "after": "About five months after joining Anthropic, Schulman moved to Mira Murati's Thinking Machines Lab as a co-founder and chief scientist. The lab set out to build AI that people could understand and customize, while studying how humans and AI could work together."
+    },
+    {
+      "id": "e5f5b85e-60e6-4a3c-9102-cb8617742db6",
+      "year": 2025,
+      "title": "마크 빙엄 젊은 동문 공로상 수상",
+      "before": "UC 버클리 재단과 동문회가 슐만에게 마크 빙엄 젊은 동문 공로상을 수여했다. 5월 22일 버클리 캠퍼스 폴리 볼룸에서 열린 시상식에서는 초기 강화학습 연구와 ChatGPT 개발을 이끈 경력이 조명됐다.",
+      "after": "The UC Berkeley Foundation and Cal Alumni Association gave Schulman the Mark Bingham Award for Excellence in Achievement by Young Alumni. At the May 22 ceremony in Pauley Ballroom, they highlighted his early reinforcement-learning research and his role in developing ChatGPT."
+    },
+    {
+      "id": "9125e3c9-b81b-4682-99d0-a2ede52c5513",
+      "year": 2025,
+      "title": "LoRA Without Regret 발표",
+      "before": "Thinking Machines 연구진과 「LoRA Without Regret」을 발표해 비용을 줄이는 미세조정 기법의 성능을 살폈다. 데이터의 양과 어댑터 용량을 알맞게 맞추면 LoRA도 전체 미세조정에 가까운 학습 효율과 성능을 낼 수 있다는 실험 결과를 제시했다.",
+      "after": "Schulman and colleagues at Thinking Machines published LoRA Without Regret, testing how well the lower-cost fine-tuning method could perform. They found that LoRA could approach the learning efficiency and results of full fine-tuning when the dataset size, adapter capacity, and layer selection were matched carefully."
+    },
+    {
+      "id": "afb37d93-2b86-4441-9263-55159d1b0daf",
+      "year": 2026,
+      "title": "상호작용 모델 연구 미리보기 공개",
+      "before": "Thinking Machines Lab이 음성·영상·텍스트를 실시간으로 받아들이는 상호작용 모델 연구를 미리 공개했다. 모델은 200밀리초 길이의 짧은 마이크로턴을 이어 가며, 사용자의 말과 행동이 계속 들어오는 중에도 응답한다.",
+      "after": "Thinking Machines Lab released a research preview of interaction models that process audio, video, and text in real time. The models operate in 200-millisecond micro-turns, allowing them to respond while they continue to receive the user's speech and actions."
+    }
+  ]
+}

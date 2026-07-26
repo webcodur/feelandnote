@@ -1,0 +1,132 @@
+{
+  "slug": "jesus",
+  "nickname": "예수",
+  "events": [
+    {
+      "id": "c079d262-40aa-4b29-9cd6-06f7183fbd4d",
+      "year": -4,
+      "title": "헤롯 왕 말년에 베들레헴에서 태어나다",
+      "before": "헤롯 대왕이 유대를 다스리던 말년, 예수는 베들레헴에서 태어났다. 역사가들은 헤롯이 기원전 4년에 죽었다는 기록을 바탕으로 그의 출생을 기원전 6년에서 4년 사이로 본다. 오늘 쓰는 서력과 어긋나는 까닭은 6세기에 연대를 헤아릴 때 생긴 착오로 여겨진다.",
+      "after": "Jesus is born in Bethlehem during the last years of Herod the Great. Since Herod dies in 4 BC, historians usually place the birth between 6 and 4 BC. The mismatch with the modern calendar comes from an error made when its dates were calculated in the sixth century."
+    },
+    {
+      "id": "c82c7e12-5c13-43e9-a998-c6bab1255bb6",
+      "year": -3,
+      "title": "갈릴래아 나자렛에서 자라다",
+      "before": "어린 예수는 인구가 수백 명에 지나지 않던 갈릴래아의 작은 마을 나자렛에서 자랐다. 마태오는 그 가족이 헤롯을 피해 이집트로 갔다가 돌아왔다고 쓰고, 루카는 베들레헴에서 곧바로 나자렛으로 돌아갔다고 전한다. 복음서는 그를 목수의 아들이라 부르지만, 서른 무렵까지 어떻게 살았는지는 거의 적지 않았다.",
+      "after": "He grows up in Nazareth, a Galilean village of only a few hundred people. Matthew says the family first flees to Egypt to escape Herod, while Luke has them return directly from Bethlehem. The gospels call Jesus the carpenter's son but say almost nothing about his life before the age of thirty."
+    },
+    {
+      "id": "375b6b44-8565-43a9-9105-c4926d434abc",
+      "year": 8,
+      "title": "열두 살에 성전에서 율법 교사들과 문답하다",
+      "before": "열두 살 되던 유월절, 예수는 부모와 함께 예루살렘에 올라갔다가 일행과 떨어졌다. 부모는 사흘 만에 성전에서 아들을 찾았다. 그는 율법 교사들 사이에 앉아 그들의 말을 듣고 묻고 있었고, 사람들은 그 문답을 놀라워했다. 복음서가 전하는 그의 유년기 일화는 이것뿐이다.",
+      "after": "At twelve, Jesus travels to Jerusalem with his parents for Passover and becomes separated from them. They find him three days later in the Temple, listening to the teachers of the law and questioning them. Those who hear the exchange are astonished. It is the only story from his boyhood recorded in the gospels."
+    },
+    {
+      "id": "274e9d33-0df7-4b21-91c7-eb890407c715",
+      "year": 28,
+      "title": "요르단강에서 세례자 요한에게 세례받다",
+      "before": "요르단강 동편에서 세례자 요한이 회개를 외치며 사람들에게 세례를 베풀고 있었다. 예수도 그에게 나아가 세례를 받았다. 네 복음서가 모두 전하는 이 일은 역사가들도 대체로 실제 사건으로 받아들이며, 예수는 이때부터 사람들 앞에 나서기 시작한다.",
+      "after": "Jesus goes to John on the east bank of the Jordan and receives his baptism among those answering John's call to repent. All four gospels tell of the event, and historians generally accept that it took place. From here, Jesus begins his public life."
+    },
+    {
+      "id": "9a73a842-3782-43d7-a390-64c60e30c927",
+      "year": 28,
+      "title": "광야에서 사십 일을 지내다",
+      "before": "세례를 받은 뒤 유대 광야로 들어가 사십 일을 먹지 않고 지냈다. 복음서는 그곳에서 빵과 권력과 기적을 내세우라는 세 차례 시험을 받았으나 모두 물리쳤다고 전한다.",
+      "after": "Straight after his baptism, Jesus enters the Judaean wilderness and fasts for forty days. The gospels describe three tests there: to use his power for bread, political rule and a public miracle. He refuses each one."
+    },
+    {
+      "id": "2beaa846-7f44-43c8-b33b-2a97a4d867c3",
+      "year": 28,
+      "title": "카나의 혼인 잔치에서 물을 포도주로 바꾸다",
+      "before": "카나의 혼인 잔치에서 포도주가 바닥났다. 예수는 항아리의 물을 포도주로 바꾸었고, 요한 복음은 이를 그의 첫 표징으로 기록한다. 그 마을이 정확히 어디였는지는 알 수 없으나 나자렛 북동쪽 카프르 칸나로 보는 이들이 많다.",
+      "after": "The wine runs out during a wedding feast at Cana. Jesus has jars filled with water and turns it into wine, which John records as his first sign. Cana's exact site is uncertain, though it is most often identified with Kafr Kanna, north-east of Nazareth."
+    },
+    {
+      "id": "5a2f009d-9415-4865-9199-2f17bdac1052",
+      "year": 28,
+      "title": "카파르나움을 근거지로 삼고 어부들을 부르다",
+      "before": "고향에서 받아들여지지 않자 갈릴래아 호숫가의 어촌 카파르나움으로 옮겨 자리를 잡았다. 그곳에서 시몬 베드로와 안드레아, 야고보와 요한을 불렀고, 네 사람은 그물을 놓은 채 그의 뒤를 따랐다. 카파르나움에는 옛 회당과 베드로의 집으로 전해지는 터가 남아 있다.",
+      "after": "After meeting rejection in his home town, Jesus settles in Capernaum, a fishing village beside the Sea of Galilee. There he calls Simon Peter, Andrew, James and John, who leave their nets and follow him. The village still holds the remains of an ancient synagogue and the site traditionally known as Peter's house."
+    },
+    {
+      "id": "f6c52932-ce09-4d66-b2a4-ac3599f08bce",
+      "year": 29,
+      "title": "산 위에서 가르침을 펴다",
+      "before": "갈릴래아 호수 북서편 언덕에 사람들이 모였다. 예수는 산 위에서 팔복을 말하고 주기도문을 가르쳤으며 원수까지 사랑하라고 했다. 마태오 복음 5장부터 7장에 이어지는 이 설교의 자리로 전해지는 언덕은 오늘날 진복팔단 산이라 불린다.",
+      "after": "A crowd gathers on the hills above the north-west shore of the Sea of Galilee. Jesus speaks of the Beatitudes, teaches the Lord's Prayer and tells his listeners to love their enemies. Matthew sets out the sermon in chapters 5 to 7, and tradition places it on the hill now called the Mount of Beatitudes."
+    },
+    {
+      "id": "382f23dc-058b-448c-8966-cafa532c98b9",
+      "year": 29,
+      "title": "빵 다섯 개로 오천 명을 먹이다",
+      "before": "갈릴래아 호숫가 외딴 곳에 오천 명이 모였지만 먹을 것은 빵 다섯 개와 물고기 두 마리뿐이었다. 예수는 그것으로 군중을 먹였다. 네 복음서가 모두 기록한 유일한 기적이며, 요한은 사람들이 그를 왕으로 세우려 하자 홀로 산으로 물러났다고 전한다.",
+      "after": "Five thousand people gather in a deserted place by the lake, with only five loaves and two fish to feed them. Jesus gives the food to the crowd, and all four gospels record the event. John says the people then try to make him king, but he withdraws alone into the hills."
+    },
+    {
+      "id": "bb388f10-22a6-4441-90fb-aa40f2f292a5",
+      "year": 29,
+      "title": "카이사레아 필리피에서 베드로의 고백을 듣다",
+      "before": "헤르몬산 기슭의 카이사레아 필리피에서 제자들에게 물었다. ‘사람들이 나를 누구라고 하느냐.’ 베드로는 그리스도라고 답했다. 그 뒤 예수는 자신이 예루살렘에서 겪을 죽음을 제자들에게 말하기 시작한다.",
+      "after": "At Caesarea Philippi, beneath Mount Hermon, Jesus asks his disciples who people say he is. Peter answers, “The Messiah.” Jesus then begins telling them about the death he will face in Jerusalem."
+    },
+    {
+      "id": "d4608076-d9b2-45f0-9fb2-8ac176d5efe1",
+      "year": 30,
+      "title": "베타니아에서 라자로를 무덤에서 불러내다",
+      "before": "라자로가 죽어 무덤에 묻힌 지 나흘째, 예수가 예루살렘 동쪽 베타니아에 닿았다. 요한 복음은 그가 라자로를 무덤 밖으로 불러내 살렸다고 전한다. 다른 복음서에는 나오지 않는 이야기지만, 요한 복음에서는 지도층이 예수를 없애기로 마음먹는 계기가 된다.",
+      "after": "Jesus reaches Bethany, east of Jerusalem, four days after Lazarus has been buried. John says he calls Lazarus out of the tomb alive. The other gospels do not include the story, but in John's account it prompts the authorities to decide that Jesus must be killed."
+    },
+    {
+      "id": "21852a7d-6ed7-4169-aaca-2df9266710bd",
+      "year": 30,
+      "title": "예리코에서 세리 자캐오의 집에 들다",
+      "before": "예리코에서 키 작은 세리 자캐오는 예수를 보려고 나무 위로 올라갔다. 그를 발견한 예수가 집에 묵겠다고 하자, 사람들은 로마를 위해 세금을 걷는 자와 어울린다며 못마땅해했다. 자캐오는 재산의 절반을 내놓겠다고 답했다.",
+      "after": "As Jesus passes through Jericho on the way to Jerusalem, the tax collector Zacchaeus climbs a tree to see over the crowd. Jesus spots him and says he will stay at his house. People object to his eating with a man who collects taxes for Rome, and Zacchaeus promises to give half his property to the poor."
+    },
+    {
+      "id": "9d04077f-d01a-4d15-b9b6-f38c0a3f3750",
+      "year": 30,
+      "title": "나귀를 타고 예루살렘에 들어가다",
+      "before": "유월절을 앞두고 나귀를 탄 채 예루살렘으로 들어왔다. 군중은 길에서 그를 맞으며 환호했다. 군마가 아닌 나귀를 탄 모습은 즈카르야 예언서가 그린 왕을 떠올리게 했다. 그가 처형되기 한 주 전이었다.",
+      "after": "With Passover near, Jesus rides into Jerusalem on a donkey as the crowd welcomes him with cheers. The donkey, rather than a warhorse, recalls the king described by Zechariah. Within a week, Jesus is dead."
+    },
+    {
+      "id": "06a6832e-b4da-4ad5-a0f6-cdbed1a11f27",
+      "year": 30,
+      "title": "성전에서 환전상의 상을 뒤엎다",
+      "before": "성전 뜰에서 상인들은 제물로 바칠 짐승을 팔고 성전세에 쓸 돈을 바꾸고 있었다. 예수는 그들을 내쫓고 환전상들의 상을 뒤엎었다. 유월절 인파로 성전이 붐비던 때였고, 지도층은 이 일 뒤 체포를 서둘렀다.",
+      "after": "The Temple courts are crowded for Passover. Jesus drives out those selling animals for sacrifice, overturns the tables of the money changers and stops their trade. The authorities then move quickly to arrest him."
+    },
+    {
+      "id": "8a46bda1-8087-44ae-997f-3789dc74d666",
+      "year": 30,
+      "title": "마지막 만찬을 나누고 겟세마니에서 체포되다",
+      "before": "제자들과 마지막 유월절 식사를 하며 빵과 포도주를 자신의 몸과 피라고 말했다. 이 자리에서 제자 가운데 한 사람이 자신을 배신하리라는 말도 꺼냈다. 식사를 마치고 올리브산 기슭의 겟세마니에서 기도하던 중, 유다가 이끌고 온 무리에게 붙잡혔다.",
+      "after": "At his last Passover meal with the disciples, Jesus calls the bread his body and the wine his blood. He also says that one of them will betray him. Later, while he prays at Gethsemane below the Mount of Olives, Judas leads an armed group to arrest him."
+    },
+    {
+      "id": "e1b31dc9-9bf3-47af-aa95-18b3f3cf3a92",
+      "year": 30,
+      "title": "총독 빌라도 앞에서 재판받다",
+      "before": "유대 지도자들은 예수를 심문한 뒤 로마 총독 폰티우스 빌라도에게 넘겼다. 그가 유대인의 왕을 자처했다는 고발이었고, 빌라도는 로마에 맞선 반역 혐의로 그를 재판했다. 빌라도의 이름은 1961년 카이사레아에서 발견된 비문에도 남아 있다.",
+      "after": "The Jewish leaders question Jesus and hand him over to Pontius Pilate, the Roman governor. They accuse him of claiming to be king of the Jews, a charge of rebellion against Rome. Pilate tries him, and his name also survives on an inscription found at Caesarea in 1961."
+    },
+    {
+      "id": "1492ebdb-6c35-41ae-ad85-a94b136342bf",
+      "year": 30,
+      "title": "골고타에서 십자가에 못 박히다",
+      "before": "로마 병사들은 예수를 성 밖 골고타로 끌고 가 십자가에 못 박았다. 그가 숨진 해는 기원후 30년 또는 33년으로 좁혀지지만 어느 쪽인지는 확정되지 않았다. 로마와 유대 쪽 기록도 그가 십자가형으로 죽었다는 사실을 전한다.",
+      "after": "Roman soldiers take Jesus to Golgotha outside the city wall and crucify him. He dies in either AD 30 or 33; the evidence does not settle which year. Roman and Jewish sources, as well as the gospels, report his death by crucifixion."
+    },
+    {
+      "id": "1b0e2989-c5be-4c50-baea-509bc1457282",
+      "year": 30,
+      "title": "사흘 만에 살아났다는 소식이 퍼지다",
+      "before": "사흘째 되던 날, 무덤이 비어 있었고 예수가 제자들에게 나타났다는 증언이 퍼졌다. 부활은 신앙의 고백에 속하지만, 흩어졌던 제자들은 다시 모여 사람들 앞에서 그가 살아났다고 전하기 시작했다. 이 무리에서 초기 교회가 생겨났다.",
+      "after": "On the third day, reports spread that the tomb is empty and that Jesus has appeared to his followers. His resurrection remains a claim of faith, but the disciples who had scattered now regroup and publicly declare that he is alive. The early church grows from this group."
+    }
+  ]
+}

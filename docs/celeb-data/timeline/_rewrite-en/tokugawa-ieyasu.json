@@ -1,0 +1,118 @@
+{
+  "slug": "tokugawa-ieyasu",
+  "nickname": "도쿠가와 이에야스",
+  "events": [
+    {
+      "id": "df081536-b49b-4d69-80a3-cf1c624447e8",
+      "year": 1543,
+      "title": "오카자키성에서 마쓰다이라 집안의 아들로 태어나다",
+      "before": "미카와의 소영주 마쓰다이라 히로타다의 아들로 태어나 다케치요라 불렸다. 음력 덴분 11년 12월 26일생이라 양력으로는 1543년 1월 31일에 해당한다. 마쓰다이라 가문은 서쪽 오다와 동쪽 이마가와 사이에 낀 처지였다.",
+      "after": "Born at Okazaki Castle, the son of Matsudaira Hirotada, he was named Takechiyo. His birth fell on the twenty-sixth day of the twelfth month of Tenbun 11, or 31 January 1543 by the Western calendar. His family ruled a small domain in Mikawa, wedged between the Oda in the west and the Imagawa in the east."
+    },
+    {
+      "id": "4054c90a-80f2-4f45-bb1e-81a1d7ea8210",
+      "year": 1547,
+      "title": "여섯 살에 오다 쪽에 인질로 붙잡히다",
+      "before": "이마가와에 인질로 보내지던 도중 호송을 맡은 자가 오다 쪽에 넘겨 오와리 아쓰타에 억류됐다. 아버지 히로타다는 1549년 가신에게 살해됐고, 마쓰다이라 가문의 영지는 이마가와가 관리했다.",
+      "after": "While being sent to the Imagawa as a hostage, Takechiyo was betrayed by his escort and handed to the Oda, who held him at Atsuta in Owari. His father was killed by a retainer in 1549, leaving the Matsudaira lands under Imagawa control."
+    },
+    {
+      "id": "8157bf4e-b12d-4e4e-b8e6-d2fdbd0f5e65",
+      "year": 1549,
+      "title": "슨푸에서 이마가와의 인질로 열두 해를 보내다",
+      "before": "인질 교환으로 이마가와 요시모토의 본거지 슨푸로 옮겨졌다. 그곳에서 성인식을 치르고 이름을 모토노부, 이어 모토야스로 바꿨으며 요시모토의 조카뻘 되는 쓰키야마도노와 혼인했다. 미카와 군사는 이마가와의 선봉으로 동원됐다.",
+      "after": "A hostage exchange brought him to Imagawa Yoshimoto's stronghold at Sunpu. He came of age there, changed his name first to Motonobu and then to Motoyasu, and married Tsukiyama-dono, a relative of Yoshimoto. Mikawa's soldiers went to war in the front ranks of Imagawa armies."
+    },
+    {
+      "id": "fbf9e910-cb47-455f-b2b1-2612dd646792",
+      "year": 1560,
+      "title": "오케하자마 이후 오카자키로 돌아가 독립하다",
+      "before": "오다 노부나가가 이마가와 요시모토를 기습해 죽였다. 요시모토의 선봉으로 오다카성에 병량을 넣고 있던 그는 소식을 듣고 본거지 오카자키로 돌아가 성을 접수했고, 이마가와의 통제에서 벗어났다. 음력 에이로쿠 3년 5월 19일, 양력 1560년 6월 12일의 일이다.",
+      "after": "Oda Nobunaga killed Imagawa Yoshimoto in a surprise attack on 12 June 1560. Motoyasu, who had just carried supplies into Odaka Castle at the head of the Imagawa vanguard, returned to Okazaki and took possession of his family's castle. He was no longer under Imagawa control."
+    },
+    {
+      "id": "99bdb4bc-3187-4783-b656-418913dda34c",
+      "year": 1564,
+      "title": "미카와 잇코잇키를 반년 넘게 싸워 누르다",
+      "before": "정토진종 신도 세력이 일으킨 봉기를 반년 넘게 싸워 진압했다. 가신 가운데 상당수가 신앙을 따라 반대편에 서면서 집안이 갈라졌고, 진압 뒤에야 미카와 한 지역을 온전히 장악했다.",
+      "after": "For more than six months, he fought an uprising by followers of Jōdo Shinshū. Many of his own retainers joined the rebels and split the Matsudaira house. Once he defeated them, he held all of Mikawa."
+    },
+    {
+      "id": "eb7ba430-3d0f-4fc2-9a27-b35287ba398d",
+      "year": 1570,
+      "title": "본거지를 하마마쓰성으로 옮기다",
+      "before": "도토미로 세력을 넓히면서 본거지를 오카자키에서 하마마쓰로 옮겼다. 오카자키성은 적자 노부야스에게 맡겼다. 같은 해 아네가와 전투에서는 오다 편으로 참전했다.",
+      "after": "His advance into Tōtōmi drew him west from Okazaki to a new base at Hamamatsu Castle. He left Okazaki in the hands of his heir, Nobuyasu, and later that year fought beside the Oda at Anegawa."
+    },
+    {
+      "id": "2afe95d1-5d17-4ae0-9eab-b42683fb001b",
+      "year": 1573,
+      "title": "미카타가하라에서 다케다 신겐에게 크게 지다",
+      "before": "교토로 향하던 다케다 신겐 군에 성 밖 대지에서 맞섰다가 두 시간 만에 진이 무너졌다. 도쿠가와 쪽 전사자가 2천 명에 이르렀고 그는 소수만 데리고 하마마쓰성으로 달아났다. 음력 겐키 3년 12월 22일 싸움이라 양력으로는 해가 바뀐 1573년 1월 25일이다.",
+      "after": "On 25 January 1573, he marched out to meet Takeda Shingen's army on the plain at Mikatagahara. His lines broke within two hours. Around two thousand Tokugawa men were killed, and Ieyasu escaped to Hamamatsu Castle with only a few riders."
+    },
+    {
+      "id": "848a4894-f8e0-41f9-b562-8212425d2450",
+      "year": 1575,
+      "title": "나가시노에서 오다와 함께 다케다군을 깨뜨리다",
+      "before": "다케다 가쓰요리가 포위한 나가시노성을 구원하러 오다 노부나가와 연합군을 이뤘다. 목책과 철포를 앞세운 진지전으로 다케다 기병을 막아내면서 다케다의 주력 무장 다수가 전사했고, 이후 도토미와 스루가로 다시 밀고 나갔다. 음력 덴쇼 3년 5월 21일이다.",
+      "after": "When Takeda Katsuyori besieged Nagashino Castle, Ieyasu joined forces with Oda Nobunaga and went to its relief. Fighting from behind wooden palisades with ranks of arquebusiers, their troops stopped the Takeda cavalry and killed many of its senior commanders. Ieyasu then pushed back into Tōtōmi and Suruga."
+    },
+    {
+      "id": "caf7f302-2c03-4af0-9d7c-433cc332f50c",
+      "year": 1582,
+      "title": "노부나가가 죽자 이가 산길을 넘어 달아나다",
+      "before": "아케치 미쓰히데가 혼노지에서 노부나가를 죽였을 때 그는 소수 수행원만 데리고 사카이를 돌아보던 중이었다. 군사도 없이 적지 한복판에 놓인 그는 이가의 산길을 넘어 이세에서 배를 타고 미카와로 돌아왔다. 이 탈출을 이가고에라 부른다.",
+      "after": "News of Nobunaga's death at Honnō-ji reached Ieyasu while he was visiting Sakai with a small party and no army. Trapped in hostile territory, he crossed the mountain paths of Iga, reached Ise, and sailed home to Mikawa. The escape became known as the Iga crossing."
+    },
+    {
+      "id": "529841dd-3086-4bc2-b81e-7563254d336c",
+      "year": 1584,
+      "title": "고마키·나가쿠테에서 히데요시와 맞붙다",
+      "before": "오다 노부오와 손잡고 하시바 히데요시와 싸워 나가쿠테에서 국지전을 이겼다. 전선이 굳어진 사이 노부오가 먼저 히데요시와 화해하면서 명분을 잃었고, 1586년 아들을 볼모로 보내고 상경해 히데요시에게 신종했다.",
+      "after": "Ieyasu allied with Oda Nobukatsu against Hashiba Hideyoshi and won the clash at Nagakute. The wider campaign stalled, however, and Nobukatsu made peace without him. Left with no cause to continue the war, Ieyasu sent a son as a hostage in 1586, travelled to the capital, and submitted to Hideyoshi."
+    },
+    {
+      "id": "e962f1cd-1039-4466-881e-25c2c2bc516a",
+      "year": 1590,
+      "title": "간토로 옮겨져 에도성에 들어가다",
+      "before": "오다와라 정벌이 끝나자 히데요시는 도쿠가와의 옛 영지 다섯 나라를 거두고 대신 간토를 줬다. 조상 대대의 미카와를 떠나 당시 변두리 성이던 에도에 들어갔고, 이 자리에서 성곽과 수로, 마을을 새로 짜기 시작했다. 음력 덴쇼 18년 8월 1일이다.",
+      "after": "After the fall of Odawara, Hideyoshi took Ieyasu's five provinces and gave him the Kantō in their place. Ieyasu left his ancestral lands in Mikawa and entered Edo Castle on the first day of the eighth month of Tenshō 18. Edo was still a provincial outpost; he began laying out new walls, waterways, and streets."
+    },
+    {
+      "id": "80d8f799-aa71-4dd9-8d76-76c0336e90c3",
+      "year": 1600,
+      "title": "세키가하라에서 하루 만에 승부를 내다",
+      "before": "이시다 미쓰나리가 이끄는 서군과 미노 세키가하라에서 맞붙었다. 고바야카와 히데아키 등이 전투 중에 돌아서면서 서군이 무너졌고, 미쓰나리와 고니시 유키나가는 처형됐으며 모리 가문은 영지가 두 나라로 깎였다. 음력 게이초 5년 9월 15일, 양력 1600년 10월 21일이다.",
+      "after": "The Eastern and Western armies met at Sekigahara in Mino on 21 October 1600. Kobayakawa Hideaki and other commanders defected during the battle, breaking the Western Army led by Ishida Mitsunari. Mitsunari and Konishi Yukinaga were executed, while the Mōri lost all but two of their provinces."
+    },
+    {
+      "id": "6a4c4d9e-42b4-4c75-a800-f850ffd40913",
+      "year": 1603,
+      "title": "정이대장군에 임명되어 에도에 막부를 열다",
+      "before": "조정으로부터 정이대장군에 임명됐고 에도에 막부를 열었다. 음력 게이초 8년 2월 12일로 양력 1603년 3월 24일이다. 이 정권은 1867년까지 이어졌다.",
+      "after": "The court appointed Ieyasu seii taishōgun on 24 March 1603. He set up his military government at Edo, founding a regime that remained in power until 1867."
+    },
+    {
+      "id": "b2c6441d-8c80-42c6-9fe9-f91e5e69a36f",
+      "year": 1605,
+      "title": "장군직을 2년 만에 아들에게 넘기고 슨푸로 물러나다",
+      "before": "취임 2년 만에 장군 자리를 셋째 아들 히데타다에게 물려주어 이 자리가 도쿠가와 집안의 세습직임을 못박았다. 본인은 1607년 슨푸로 옮겨 오고쇼로서 외교와 대명 통제 같은 실권을 계속 쥐었다.",
+      "after": "After only two years as shogun, Ieyasu handed the title to his third son, Hidetada. The early transfer made the office a Tokugawa inheritance. Ieyasu moved to Sunpu in 1607 but kept control of foreign affairs and the daimyo as retired shogun."
+    },
+    {
+      "id": "199334f2-d7f6-4522-88f5-f2ddec047084",
+      "year": 1614,
+      "title": "오사카성을 두 차례 쳐서 도요토미 가문을 없애다",
+      "before": "교토 호코지 종에 새긴 글귀를 트집 잡아 도요토미 히데요리를 공격했다. 겨울 싸움은 화의로 끝났으나 조건에 따라 바깥 해자가 메워졌고, 이듬해 여름 다시 공격해 1615년 6월 히데요리와 요도도노가 자결하면서 도요토미 가문이 끊겼다.",
+      "after": "Ieyasu used the wording on a bell cast for Hōkō-ji in Kyoto as grounds to attack Toyotomi Hideyori at Osaka Castle. The winter campaign ended in a settlement, and its terms allowed the castle's outer moats to be filled. Ieyasu attacked again the next summer. In June 1615, Hideyori and Yodo-dono took their own lives, bringing the Toyotomi line to an end."
+    },
+    {
+      "id": "6362441c-c999-4075-ba95-5484bb76cc18",
+      "year": 1616,
+      "title": "슨푸성에서 죽어 이듬해 닛코에 모셔지다",
+      "before": "슨푸성에서 일흔넷에 죽었다. 음력 겐나 2년 4월 17일로 양력 1616년 6월 1일이다. 유해는 스루가 구노산에 묻혔다가 이듬해 시모쓰케 닛코로 옮겨졌고, 도쇼다이곤겐이라는 신호를 받아 도쇼구에 모셔졌다.",
+      "after": "Ieyasu died at Sunpu Castle at the age of seventy-four, on 1 June 1616. His remains were buried first at Kunōzan in Suruga and moved the next year to Nikkō in Shimotsuke. There he was enshrined at Tōshōgū under the divine name Tōshō Daigongen."
+    }
+  ]
+}
