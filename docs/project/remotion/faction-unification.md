@@ -103,7 +103,7 @@ DB → pnpm faction:export → faction-data.json(+_episodes.json 재생성) → 
 
 ## 7. quoteDuration 3단 처리 — 파이프라인 코드 무수정 원칙
 
-① **export 병합(영구 안전망)**: DB 값 null이면 기존 JSON의 quoteDuration/epithetDuration 이어받음(Phase 1 export에 구현됨). ② **역흡수**: `pnpm faction:durations-pull` — wav 실측 길이를 DB UPDATE(buildVoiceJobs·measureWavDuration 재사용). faction-voice-sync 스킬 순서에 추가. ③ **감시**: `voice:faction --verify`에 DB↔JSON duration 열 추가. **금지: 편집기가 quoteDuration을 사람 입력으로 받는 것**(파이프라인 소유. 현행 BO save 응답 기록 경로는 DB UPDATE로 전환).
+① **export 병합(영구 안전망)**: DB 값 null이면 기존 JSON의 quoteDuration/epithetDuration 이어받음(Phase 1 export에 구현됨). ② **역흡수**: `pnpm faction:durations-pull` — wav 실측 길이를 DB UPDATE(buildVoiceJobs·measureWavDuration 재사용). **faction-voice-sync 스킬 Step 3 으로 편입 완료(26.07.26)** — 그전까지 스킬이 이 단계를 빠뜨려, 대사를 새로 쓴 인물의 화면 유지 시간이 옛 음원 기준으로 남아 목소리가 잘리는 사고가 있었다(Gods-Greek 아폴론 8.21초 화면 / 13.92초 음성). ③ **감시**: `voice:faction --verify`에 DB↔JSON duration 열 추가. **금지: 편집기가 quoteDuration을 사람 입력으로 받는 것**(파이프라인 소유. 현행 BO save 응답 기록 경로는 DB UPDATE로 전환).
 `gotchas.md` 폐기 3방향(wav2vec2 원고 직접·silence 분할·자동 청크 분할) 재제안 금지.
 
 ## 8. web-bo 이식
