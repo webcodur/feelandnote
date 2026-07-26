@@ -443,5 +443,10 @@
     "label": "공유",
     "copyLink": "링크 복사",
     "copied": "복사됨"
+  },
+  "factionVideo": {
+    "watchLongform": "영상으로 보기",
+    "watchShorts": "짧은 영상 보기",
+    "closeVideo": "영상 닫기"
   }
 }

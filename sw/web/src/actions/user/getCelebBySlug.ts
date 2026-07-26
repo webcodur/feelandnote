@@ -10,6 +10,7 @@ import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
 import { DIALOGUE_PROFILE_SELECT, type DialogueProfile } from '@/lib/utils/celeb-dialogues'
+import { toFactionVideos, type FactionVideos } from '@/lib/faction-videos'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -35,6 +36,8 @@ export interface FactionTagItem {
   roleShortEn: string | null
   roleLong: string | null
   roleLongEn: string | null
+  /** 이 테마를 다룬 세력도 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
+  videos: FactionVideos | null
 }
 
 interface FactionTagAssignmentRow {
@@ -53,6 +56,7 @@ interface FactionTagAssignmentRow {
     color: string | null
     description: string | null
     description_en: string | null
+    youtube_videos: unknown
   } | null
 }
 
@@ -181,7 +185,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
     supabase
       .from('celeb_tag_assignments')
-      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en)')
+      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos)')
       .eq('celeb_id', userId)
       .order('sort_order', { ascending: true }),
     supabase
@@ -216,6 +220,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       roleShortEn: a.short_desc_en ?? null,
       roleLong: a.long_desc ?? null,
       roleLongEn: a.long_desc_en ?? null,
+      videos: toFactionVideos(a.tag.youtube_videos),
     }))
 
   // 비활성·슬러그 없는 상대는 이동할 곳이 없으므로 제외한다

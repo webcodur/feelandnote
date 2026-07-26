@@ -122,14 +122,38 @@
         "inspirationChainTitle": "영감의 연쇄",
         "inspirationChains": [
           [
-            { "reader": "alexander-the-great", "author": "homer", "text": "[[알렉산더]]는 전장에서도 [[호메로스]]의 《일리아스》를 곁에 두었습니다." },
-            { "reader": "julius-caesar", "author": "alexander-the-great", "text": "[[카이사르]]는 [[알렉산더]]의 전기를 읽으며 눈물을 흘렸습니다." },
-            { "reader": "napoleon-bonaparte", "author": "julius-caesar", "text": "[[나폴레옹]]은 [[카이사르]]의 《갈리아 전기》를 원정에 챙겨갔습니다." }
+            {
+              "reader": "alexander-the-great",
+              "author": "homer",
+              "text": "[[알렉산더]]는 전장에서도 [[호메로스]]의 《일리아스》를 곁에 두었습니다."
+            },
+            {
+              "reader": "julius-caesar",
+              "author": "alexander-the-great",
+              "text": "[[카이사르]]는 [[알렉산더]]의 전기를 읽으며 눈물을 흘렸습니다."
+            },
+            {
+              "reader": "napoleon-bonaparte",
+              "author": "julius-caesar",
+              "text": "[[나폴레옹]]은 [[카이사르]]의 《갈리아 전기》를 원정에 챙겨갔습니다."
+            }
           ],
           [
-            { "reader": "giovanni-boccaccio", "author": "dante-alighieri", "text": "[[보카치오]]는 평생 [[단테]]의 《신곡》을 경외했습니다." },
-            { "reader": "william-shakespeare", "author": "giovanni-boccaccio", "text": "[[셰익스피어]]는 [[보카치오]]의 《데카메론》에서 이야기의 씨앗을 얻었습니다." },
-            { "reader": "abraham-lincoln", "author": "william-shakespeare", "text": "[[링컨]]은 [[셰익스피어]]의 희곡을 통째로 암송했습니다." }
+            {
+              "reader": "giovanni-boccaccio",
+              "author": "dante-alighieri",
+              "text": "[[보카치오]]는 평생 [[단테]]의 《신곡》을 경외했습니다."
+            },
+            {
+              "reader": "william-shakespeare",
+              "author": "giovanni-boccaccio",
+              "text": "[[셰익스피어]]는 [[보카치오]]의 《데카메론》에서 이야기의 씨앗을 얻었습니다."
+            },
+            {
+              "reader": "abraham-lincoln",
+              "author": "william-shakespeare",
+              "text": "[[링컨]]은 [[셰익스피어]]의 희곡을 통째로 암송했습니다."
+            }
           ]
         ],
         "inspirationConclusion": "누군가의 영감은 다른 이의 창작물이 됩니다. 그 창작물은 또 다른 누군가의 인생을 바꿉니다.",

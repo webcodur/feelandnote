@@ -55,7 +55,7 @@ RLS: 5테이블 전부 admin(role admin|super_admin) 전용 4정책. 서비스(w
 ```
 제작(비공개)                                   서비스(공개)
 faction_episodes                               celeb_tags (40행, slug unique 인덱스 26.07.25)
- └ faction_groups ─tag_id(N:1)──────────▶       · name/color/slug/team_images(R2 그룹샷)
+ └ faction_groups ─tag_id(N:1)──────────▶       · name/color/slug/team_images(R2 그룹샷)/youtube_videos
     └ faction_clusters                         celeb_tag_assignments (unique(celeb,tag))
        └ faction_people ─celeb_id─┐   투영       · short_desc/long_desc(사람이 다듬음)
             quote·음성설정·컷효과   │ ─────▶      · sort_order · spotlight_image_url(R2 개인샷)
@@ -65,6 +65,23 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 출간 범위 밖이며 `celeb_tags.parent_id`가 정본이다(26.07.26 승격 — 아래 진행 로그).
 - **배치 충돌 규칙**: 같은 celeb·같은 tag에 여러 배치 → `(group.position, cluster.position, person.position)` 최소 배치 채택. sort_order는 태그 관통 전역 순번(기존 `assignTagOrder` 유지).
 - 이미지 R2 출간: 기존 `faction-sync/{r2,image,manifest}.ts` 배관 그대로(불변 캐시 + ?v= 정책 적용됨).
+- **되쓰기 예외 2종(채움 전용 아님)** — 사람이 도감에서 다듬는 값이 아니라 제작·업로드 기록이 유일한 출처라 force와 무관하게 항상 되쓴다. 원천이 비면 서비스도 비운다.
+  - 인물 대사 → `celeb_tag_assignments.quote/quote_en` (`publish.ts` 의 `mirrorValue`)
+  - **테마 영상 → `celeb_tags.youtube_videos`** (26.07.26 신설, 아래 절)
+
+### 4-1. 테마 영상 투영 (`faction-sync/videos.ts`, 26.07.26)
+
+세력도감 테마에서 그 편의 유튜브 영상을 바로 보게 하는 값이다. 컬럼 주석이 형태 SSoT.
+
+- **원천**: `sw/remotion/scripts/youtube/faction-lineup.json` 의 `<편>.uploads.<variant>`(`{videoId, uploadedAt}`). 공개 여부 필드는 **없다** — 그래서 매 출간마다 유튜브에 직접 물어본다(`youtube-liveness.checkUploadsLive`, KO 채널 1회 = 쿼터 1 unit).
+- **선정 규칙** — 태그 하나에 롱폼 1편·쇼츠 1편.
+  - 롱폼: 편 경계(`longformLayout` 의 `cut`)가 없으면 통짜 `ko-longform`. 있으면 그 태그 세력이 처음 나타나는 편(`ko-longform-N`).
+  - 쇼츠: 그 태그 세력들의 `part` 중 가장 앞 번호. 편을 나누지 않은 에피소드는 단일 `ko-shorts-1`.
+  - `disabled`·`longformOnly` 세력만 가진 태그는 세로 영상 어디에도 안 나오므로 **영상 없음**(현행 실측: AI-Supremacy 의 hugging-face).
+  - variant 키 목록은 `factionVariants()` 가 단일원천 — 여기서 규칙을 복제하지 않는다.
+- **공개 상태**: `public` 만 싣는다. `private`·`unlisted`·삭제(`missing`)는 사유를 남기고 제외. **조회 자체가 실패하면(토큰 만료 등) 아무것도 바꾸지 않는다** — 한 번의 인증 실패로 전 테마 영상이 지워지는 사고 방지.
+- **출간 범위**: `scope.videos`. 업로드 기록 파일을 읽으므로 사진과 마찬가지로 `REMOTION_LOCAL=1`(옛 `FACTION_LOCAL=1`)이 필요하다.
+- **서비스 노출**: 세력도감 쇼케이스(`FactionShowcase`)와 인물 화면 소속 세력 구획·미리보기 창(`FactionSection`·`FactionPreviewModal`)이 같은 부품 `components/features/faction/FactionVideoLinks.tsx` 를 쓴다(세로 9:16 embed 모달). 영상이 없으면 아무것도 그리지 않는다.
 
 ## 5. 이관·왕복 검증 — **완료(26.07.25)**
 

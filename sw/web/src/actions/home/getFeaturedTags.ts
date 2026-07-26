@@ -10,6 +10,7 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
+import { toFactionVideos, type FactionVideos } from '@/lib/faction-videos'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -34,6 +35,8 @@ export interface FeaturedTag {
   color: string
   slug: string | null
   team_images: string[]
+  /** 이 테마를 다룬 유튜브 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
+  videos: FactionVideos | null
   celebs: FeaturedCeleb[]
   is_featured: boolean
   /** 이 태그가 속한 상위 그룹 slug (자식이면 'ai', 최상위면 null) */
@@ -87,6 +90,7 @@ interface FeaturedTagRow {
   color: string
   slug: string | null
   team_images: unknown
+  youtube_videos: unknown
   is_featured: boolean | null
   parent_id: string | null
 }
@@ -95,6 +99,7 @@ interface FeaturedTagRow {
 function toImageArray(v: unknown): string[] {
   return Array.isArray(v) ? (v.filter((x): x is string => typeof x === 'string')) : []
 }
+
 
 interface FeaturedProfileRow {
   id: string
@@ -135,7 +140,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 1. 모든 태그 조회
   const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, slug, team_images, is_featured, parent_id')
+    .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, is_featured, parent_id')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -181,7 +186,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   const celebIdArray = Array.from(allCelebIds)
   if (celebIdArray.length === 0) {
-    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images), celebs: [], is_featured: true }))
+    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images), videos: toFactionVideos(tag.youtube_videos), celebs: [], is_featured: true }))
   }
 
   // 3. 모든 셀럽 데이터 병렬 조회
@@ -309,6 +314,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
         id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
         description: tag.description, description_en: tag.description_en ?? null,
         color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
+        videos: toFactionVideos(tag.youtube_videos),
         celebs, is_featured: true, parentSlug, isGroup,
       })
     }
@@ -320,6 +326,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
       description: tag.description, description_en: tag.description_en ?? null,
       color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
+      videos: toFactionVideos(tag.youtube_videos),
       celebs: [], is_featured: false,
       parentSlug: parentSlugOf(tag),
       isGroup: isGroupTag(tag),

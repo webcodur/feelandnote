@@ -629,6 +629,7 @@ export type Database = {
           sort_order: number | null
           start_date: string | null
           team_images: Json
+          youtube_videos: Json | null
           updated_at: string | null
         }
         Insert: {
@@ -646,6 +647,7 @@ export type Database = {
           sort_order?: number | null
           start_date?: string | null
           team_images?: Json
+          youtube_videos?: Json | null
           updated_at?: string | null
         }
         Update: {
@@ -663,6 +665,7 @@ export type Database = {
           sort_order?: number | null
           start_date?: string | null
           team_images?: Json
+          youtube_videos?: Json | null
           updated_at?: string | null
         }
         Relationships: [
