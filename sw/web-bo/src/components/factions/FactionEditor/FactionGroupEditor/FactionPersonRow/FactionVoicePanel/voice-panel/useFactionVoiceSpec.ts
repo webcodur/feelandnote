@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
@@ -42,9 +42,27 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
   const F = slot.fields
   // 엔진·목소리만 언어별 칸을 쓴다(스타일·감정·길이·음량·배속은 언어 공용 — voice-slots 주석 참조)
   const L = langFieldsOf(slot, lang)
-  // 한 필드 갱신 헬퍼 — 슬롯 키로 인물 데이터에 영속한다.
+
+  /**
+   * 🔴 인물 갱신은 **반드시 최신 인물 위에 얹는다**(ref 경유). 그리기 시점 인물을 그대로 쓰면
+   *    늦게 끝난 작업이 그 사이 사람이 고친 값을 통째로 되돌린다.
+   *
+   * 실제 사고(26.07.26 유저 신고): 아레스 인물에 '아레스' 보이스를 골라도 자꾸 옛 보이스로
+   * 되돌아갔다. 원인은 음원 만들기가 몇 초 걸리는 동안 사람이 보이스를 바꾸면, **누를 당시에
+   * 굳어 있던 옛 인물**을 저장 완료 콜백이 통째로 되쓰던 것이다(길이 한 칸만 바꾸려고 인물 전체를
+   * 펼쳐 담기 때문). 여기서 고른 보이스뿐 아니라 그 사이 고친 모든 칸이 같이 되돌아간다.
+   *
+   * 셀럽 목소리 가져오기처럼 이 훅 안에서 기다렸다 쓰는 경로도 같은 함정이라, 낱개 갱신 자체를
+   * 최신 기준으로 바꿨다. (같은 이유로 들숨 저장 경로는 이미 ref 를 쓰고 있었다 — 그 규칙을 넓힌다.)
+   */
+  const personRef = useRef(person)
+  personRef.current = person
+  const onPersonChangeRef = useRef(onPersonChange)
+  onPersonChangeRef.current = onPersonChange
+
+  // 한 필드 갱신 헬퍼 — 슬롯 키로 인물 데이터에 영속한다(항상 최신 인물 기준).
   const setField = (key: keyof FactionPerson, val: unknown) =>
-    onPersonChange({ ...person, [key]: val } as FactionPerson)
+    onPersonChangeRef.current({ ...personRef.current, [key]: val } as FactionPerson)
 
   // 합성 텍스트 — 슬롯이 정의한 텍스트(대사=통대사 / 수식어=한 문장).
   const original = useMemo(() => slot.text(person), [slot, person])
@@ -76,7 +94,7 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
   // 스타일 저장 — GenerateSection 이 longform 경로로 호출. 슬롯 style 필드에 영속(빈 값이면 제거).
   const saveQuoteStyle = (value: string) => {
     const trimmed = value.trim()
-    if (((person[F.style] as string | undefined) ?? '') === trimmed) return
+    if (((personRef.current[F.style] as string | undefined) ?? '') === trimmed) return
     setField(F.style, trimmed || undefined)
   }
 
@@ -87,8 +105,9 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
    * 명시적으로 남겨야 렌더가 같은 음량으로 재생한다. 이미 사람이 정한 값이 있으면 건드리지 않는다.
    */
   const setEleVoiceId = (v: string) => {
-    const patch = buildVoiceAssignPatch(person as unknown as Record<string, unknown>, slot, lang, v, gainDbOfVoice?.(v.trim()))
-    onPersonChange({ ...person, ...patch } as FactionPerson)
+    const latest = personRef.current
+    const patch = buildVoiceAssignPatch(latest as unknown as Record<string, unknown>, slot, lang, v, gainDbOfVoice?.(v.trim()))
+    onPersonChangeRef.current({ ...latest, ...patch } as FactionPerson)
   }
   const eleSpec: SegmentEngineSpec = useMemo(
     () => ({ engine: 'elevenlabs', voiceParam: eleVoiceId }),
