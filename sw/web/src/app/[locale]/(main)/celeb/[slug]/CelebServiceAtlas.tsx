@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, Minus, type LucideIcon } from "lucide-react";
+import { ArrowDown, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
@@ -14,8 +14,11 @@ export interface ServiceItem {
   label: string;
   icon: LucideIcon;
   ready: boolean;
-  eligible?: boolean;
   target: ServiceTarget;
+  unavailableGuide?: {
+    about: string;
+  };
+  children?: readonly ServiceItem[];
   companion?: {
     label: string;
     icon: LucideIcon;
@@ -71,7 +74,7 @@ function ServiceSeal({
         </span>
         {!item.ready && (
           <span className={styles.primaryPending}>
-            {t(item.companion ? "serviceContentPreparing" : "servicePreparing")}
+            {t("atlasGuideOpenShort")}
           </span>
         )}
         {item.companion && CompanionIcon && (
@@ -96,11 +99,7 @@ function ServiceSeal({
         )}
         aria-hidden
       >
-        {item.ready ? (
-          <ArrowDown size={16} strokeWidth={1.8} />
-        ) : (
-          <Minus size={15} strokeWidth={1.8} />
-        )}
+        <ArrowDown size={16} strokeWidth={1.8} />
       </span>
     </>
   );
@@ -122,15 +121,17 @@ function ServiceSeal({
   }
 
   return (
-    <div
+    <button
+      type="button"
+      onClick={() => onNavigate(item.target)}
       className={cn(
         styles.tile,
         styles.pending,
-        "flex min-h-[82px] cursor-not-allowed items-center gap-4 px-4 py-3",
+        "flex min-h-[82px] cursor-pointer items-center gap-4 px-4 py-3 text-left",
       )}
-      aria-label={`${item.label}, ${t("servicePreparing")}`}
+      aria-label={`${item.label}, ${t("atlasUnavailable")}. ${t("atlasGuideOpenAction")}`}
     >
       {content}
-    </div>
+    </button>
   );
 }

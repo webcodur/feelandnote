@@ -163,7 +163,7 @@ async function run() {
   const propList = Object.keys(PROPS).map((p) => `wdt:${p}`).join(' ')
   const allValues = qids.map((q) => `wd:${q}`).join(' ')
   const triples: { a: string; p: string; b: string }[] = []
-  const cofounder: { a: string; b: string; org?: string }[] = []
+  const cofounder: { a: string; b: string; org?: string; orgEn?: string }[] = []
   for (let i = 0; i < qids.length; i += BATCH) {
     const values = qids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
     const q = `SELECT ?a ?p ?b WHERE { VALUES ?a { ${values} } VALUES ?p { ${propList} } ?a ?p ?b . FILTER(isIRI(?b)) }`
@@ -181,6 +181,7 @@ async function run() {
         a: r.a.value.split('/').pop()!,
         b: r.b.value.split('/').pop()!,
         org: r.ko?.value ?? r.en?.value,
+        orgEn: r.en?.value ?? r.ko?.value,
       })
     }
     console.log(`  조회 ${Math.min(i + BATCH, qids.length)}/${qids.length} (관계 ${triples.length} · 공동창업 ${cofounder.length})`)
@@ -226,7 +227,7 @@ async function run() {
     return l && (l.ko || l.en)
   })
 
-  type Edge = { from: string; to: string; type: string; group: Group; note?: string }
+  type Edge = { from: string; to: string; type: string; group: Group; note?: string; noteEn?: string }
   const edgeKey = (e: Edge) => `${e.from}|${e.to}|${e.type}`
   const edges = new Map<string, Edge>()
   const addEdge = (e: Edge) => { if (!edges.has(edgeKey(e))) edges.set(edgeKey(e), e) }
@@ -256,12 +257,18 @@ async function run() {
   // 공동 창업 간선 — 이미 더 가까운 관계(가족·사제)가 있는 쌍에는 얹지 않는다.
   // 같은 쌍이 여러 회사를 함께 세웠으면 조직 이름을 병기한다(머스크·틸: 페이팔 + OpenAI 후원 등).
   const orgOf = new Map<string, Set<string>>()
+  const orgEnOf = new Map<string, Set<string>>()
   for (const c of cofounder) {
     if (!c.org) continue
     const key = [c.a, c.b].sort().join('|')
     const set = orgOf.get(key) ?? new Set<string>()
     set.add(c.org)
     orgOf.set(key, set)
+    if (c.orgEn) {
+      const setEn = orgEnOf.get(key) ?? new Set<string>()
+      setEn.add(c.orgEn)
+      orgEnOf.set(key, setEn)
+    }
   }
   const seenPairs = new Set<string>()
   for (const c of cofounder) {
@@ -273,9 +280,11 @@ async function run() {
     const hasCloser = [...edges.values()].some((e) => e.from === A.id && e.to === B.id)
     if (hasCloser) continue
     const orgs = [...(orgOf.get(pairKey) ?? [])].slice(0, 3).join(' · ')
+    const orgsEn = [...(orgEnOf.get(pairKey) ?? [])].slice(0, 3).join(' and ')
     const note = orgs ? `${orgs} 공동 창업` : undefined
-    addEdge({ from: A.id, to: B.id, type: 'cofounder', group: 'career', note })
-    addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career', note })
+    const noteEn = orgsEn ? `Co-founded ${orgsEn}` : undefined
+    addEdge({ from: A.id, to: B.id, type: 'cofounder', group: 'career', note, noteEn })
+    addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career', note, noteEn })
   }
 
   const final = [...edges.values()]
@@ -311,6 +320,7 @@ async function run() {
     const chunk = final.slice(i, i + 500).map((e) => ({
       from_id: e.from, to_id: e.to, rel_type: e.type, rel_group: e.group, source: 'wikidata',
       note: e.note ?? null,
+      note_en: e.noteEn ?? null,
     }))
     const { error } = await supabase.from('celeb_relations')
       .upsert(chunk, { onConflict: 'from_id,to_id,rel_type', ignoreDuplicates: true })

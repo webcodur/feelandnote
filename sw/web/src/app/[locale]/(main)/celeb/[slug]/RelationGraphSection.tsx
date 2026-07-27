@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
@@ -62,8 +62,33 @@ const SOCIAL_BAND_OF: Record<string, SocialBand> = {
 };
 const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "friendship", "rivalry"];
 
-/** 한 줄(띠)에 한 번에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다. */
+/** 사회 관계 한 띠에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다(혈연은 적용하지 않는다). */
 const ROW_CAP = 8;
+
+/** 요소의 컨테이너 기준 좌표 */
+interface Geo {
+  avCx: number; avCy: number; avTop: number; avBottom: number;
+  elTop: number; elBottom: number; elLeft: number; elRight: number;
+}
+
+/** 화면 폭에 접혀 여러 줄이 된 노드들을 실제 세로 위치로 다시 묶는다 */
+const wrapRows = (nodes: Geo[]): Geo[][] => {
+  const sorted = [...nodes].sort((a, b) => a.avCy - b.avCy || a.avCx - b.avCx);
+  const rows: Geo[][] = [];
+  for (const n of sorted) {
+    const last = rows[rows.length - 1];
+    if (last && Math.abs(last[0].avCy - n.avCy) < 24) last.push(n);
+    else rows.push([n]);
+  }
+  return rows;
+};
+
+/** 한 줄의 모선(가로) + 각 노드로 내려꽂는 세로선. anchorX 는 줄기가 서는 자리 */
+const rowBus = (row: Geo[], busY: number, anchorX: number) => {
+  const xs = row.map((n) => n.avCx);
+  return `M ${Math.min(...xs, anchorX)} ${busY} H ${Math.max(...xs, anchorX)}`
+    + row.map((n) => ` M ${n.avCx} ${busY} V ${n.avTop - 2}`).join("");
+};
 
 interface PersonNode {
   id: string;
@@ -120,16 +145,17 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     const map = new Map<string, PersonNode>();
     for (const r of relations) {
       const name = locale === "en" && r.nickname_en ? r.nickname_en : r.nickname;
+      const note = locale === "en" && r.note_en ? r.note_en : r.note;
       const cur = map.get(r.id);
       if (cur) {
         if (!cur.types.includes(r.relType)) cur.types.push(r.relType);
-        if (r.note && cur.note !== r.note) cur.note = cur.note ? `${cur.note} / ${r.note}` : r.note;
-        if (r.note && !cur.notesByType[r.relType]) cur.notesByType[r.relType] = r.note;
+        if (note && cur.note !== note) cur.note = cur.note ? `${cur.note} / ${note}` : note;
+        if (note && !cur.notesByType[r.relType]) cur.notesByType[r.relType] = note;
       } else {
         map.set(r.id, {
           id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
-          types: [r.relType], group: r.relGroup, note: r.note,
-          notesByType: r.note ? { [r.relType]: r.note } : {},
+          types: [r.relType], group: r.relGroup, note,
+          notesByType: note ? { [r.relType]: note } : {},
           profession: r.profession, nationality: r.nationality,
           birth_date: r.birth_date, death_date: r.death_date, qid: r.qid,
         });
@@ -147,11 +173,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       if (p.group === "family" && rank) kinRows[rank].push(p);
       else social.push(p);
     }
+    // 혈연은 세대 자리가 곧 정보다. 자식 수십이어도 접이식으로 빼지 않고 가계도에 전부 세운다.
     const overflowAll: PersonNode[] = [];
-    for (const r of Object.keys(kinRows) as KinRank[]) {
-      overflowAll.push(...kinRows[r].slice(ROW_CAP));
-      kinRows[r] = kinRows[r].slice(0, ROW_CAP);
-    }
 
     // ── 사회 관계: 그룹 필터 + 띠 배치 ──
     // 맞수는 흡수되지 않는다 — 공동 창업이자 맞수인 인물(머스크-틸)은 맞수 쪽에 세운다.
@@ -185,11 +208,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   // 짧은 근거(공동 창업 조직명)는 딱지에 직접 쓴다 — "공동 창업"이 아니라 "페이팔 공동 창업".
   // 긴 근거(맞수의 사건 한 줄)는 딱지를 유지하고 호버 설명으로 남긴다.
+  const noteLabelMax = locale === "en" ? 40 : 24; // 같은 내용이라도 영문이 길어 자릿수를 달리 잡는다
   const label = (p: PersonNode) =>
     p.types
       .map((ty) => {
         const n = p.notesByType[ty];
-        return ty === "cofounder" && n && n.length <= 24 ? n : t(`relType_${ty}`);
+        return ty === "cofounder" && n && n.length <= noteLabelMax ? n : t(`relType_${ty}`);
       })
       .join(" · ");
 
@@ -214,8 +238,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     if (personId) requestAnimationFrame(() => nodeRefs.current.get(personId)?.focus());
   };
 
-  /** 요소의 컨테이너 기준 좌표 */
-  const geoOf = useCallback((el: Element | null | undefined, box: DOMRect) => {
+  const geoOf = useCallback((el: Element | null | undefined, box: DOMRect): Geo | null => {
     if (!el) return null;
     const r = el.getBoundingClientRect();
     const av = (el.firstElementChild ?? el).getBoundingClientRect();
@@ -254,36 +277,47 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         trunkX = (Math.min(...xs) + Math.max(...xs)) / 2;
         trunkTopY = parents.length > 1 ? y : parents[0].avBottom;
       }
-      // 형제 모선 — 부모 중앙 강하선이 여기서 갈라지고, 본인도 이 줄에 매달린다
-      const rank1 = [...siblings, self];
+      // 형제 모선 — 부모 중앙 강하선이 여기서 갈라지고, 본인도 이 줄에 매달린다.
+      // 한 세대가 화면 폭을 넘겨 여러 줄로 접히면 줄마다 모선을 놓고 세로 줄기로 잇는다.
+      // 본인은 반 층 낮게 서 있어 줄 묶기에서 빠지므로, 형제 줄을 묶은 뒤 마지막 줄에 붙인다.
       if (trunkTopY !== null || siblings.length > 0) {
-        const rowTop = Math.min(...rank1.map((n) => n.elTop));
-        const parentsBottom = parents.length ? Math.max(...parents.map((n) => n.elBottom)) : rowTop - 28;
-        const busY = (parentsBottom + rowTop) / 2;
-        const xs = rank1.map((n) => n.avCx);
-        if (trunkTopY !== null) push(`M ${trunkX} ${trunkTopY} V ${busY}`, KIN);
-        push(
-          `M ${Math.min(...xs, trunkX)} ${busY} H ${Math.max(...xs, trunkX)}`
-          + rank1.map((n) => ` M ${n.avCx} ${busY} V ${n.avTop - 2}`).join(""),
-          KIN,
-        );
+        const sibRows = siblings.length > 0 ? wrapRows(siblings) : [];
+        const rows = sibRows.length > 0
+          ? [...sibRows.slice(0, -1), [...sibRows[sibRows.length - 1], self]]
+          : [[self]];
+        let prevBottom = parents.length
+          ? Math.max(...parents.map((n) => n.elBottom))
+          : Math.min(...rows[0].map((n) => n.elTop)) - 28;
+        const busYs = rows.map((row) => {
+          const y = (prevBottom + Math.min(...row.map((n) => n.elTop))) / 2;
+          prevBottom = Math.max(...row.map((n) => n.elBottom));
+          return y;
+        });
+        if (trunkTopY !== null) push(`M ${trunkX} ${trunkTopY} V ${busYs[busYs.length - 1]}`, KIN);
+        else if (rows.length > 1) push(`M ${trunkX} ${busYs[0]} V ${busYs[busYs.length - 1]}`, KIN);
+        rows.forEach((row, i) => push(rowBus(row, busYs[i], trunkX), KIN));
       }
-      // 본인-배우자 부부선
+      // 본인-배우자 부부선 — 여러 줄이면 본인 중심선으로 줄들을 잇는다
       if (spouses.length > 0) {
-        const xs = [self.avCx, ...spouses.map((s) => s.avCx)];
-        push(`M ${Math.min(...xs)} ${self.avCy} H ${Math.max(...xs)}`, KIN);
+        const rows = wrapRows(spouses);
+        const ys = rows.map((row) => row.reduce((s, n) => s + n.avCy, 0) / row.length);
+        if (rows.length > 1) push(`M ${self.avCx} ${self.avCy} V ${ys[ys.length - 1]}`, KIN);
+        rows.forEach((row, i) => {
+          const xs = [self.avCx, ...row.map((s) => s.avCx)];
+          push(`M ${Math.min(...xs)} ${i === 0 ? self.avCy : ys[i]} H ${Math.max(...xs)}`, KIN);
+        });
       }
       // 자식 — 본인 밑에서 내려간다
       if (children.length > 0) {
-        const rowTop = Math.min(...children.map((n) => n.elTop));
-        const busY = (self.elBottom + rowTop) / 2;
-        const xs = children.map((n) => n.avCx);
-        push(`M ${self.avCx} ${self.elBottom + 2} V ${busY}`, KIN);
-        push(
-          `M ${Math.min(...xs, self.avCx)} ${busY} H ${Math.max(...xs, self.avCx)}`
-          + children.map((n) => ` M ${n.avCx} ${busY} V ${n.avTop - 2}`).join(""),
-          KIN,
-        );
+        const rows = wrapRows(children);
+        let prevBottom = self.elBottom;
+        const busYs = rows.map((row) => {
+          const y = (prevBottom + Math.min(...row.map((n) => n.elTop))) / 2;
+          prevBottom = Math.max(...row.map((n) => n.elBottom));
+          return y;
+        });
+        push(`M ${self.avCx} ${self.elBottom + 2} V ${busYs[busYs.length - 1]}`, KIN);
+        rows.forEach((row, i) => push(rowBus(row, busYs[i], self.avCx), KIN));
       }
     }
 
@@ -443,8 +477,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   return (
     <div className="space-y-5">
-      <div ref={containerRef} className="relative select-none">
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
+      <div ref={containerRef} className="relative min-w-0 overflow-hidden select-none">
+        <svg className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none" aria-hidden>
           {connectors.map((c, i) => (
             <path
               key={i}
@@ -682,7 +716,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             {selected.slug ? (
               <button
                 type="button"
-                onClick={() => router.push(`/${locale}/celeb/${selected.slug}`)}
+                onClick={() => router.push(`/celeb/${selected.slug}`)}
                 className="w-full py-2.5 text-sm font-medium rounded-lg border border-accent/50 text-accent hover:bg-accent/15"
               >
                 {t("relGoToProfile")}

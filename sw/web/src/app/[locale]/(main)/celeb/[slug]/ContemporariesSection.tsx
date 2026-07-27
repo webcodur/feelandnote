@@ -53,13 +53,13 @@ export default function ContemporariesSection({
     getMobileViewportSnapshot,
     getServerMobileViewportSnapshot,
   );
-  const initialCount = isMobile ? 3 : 6;
+  const initialCount = isMobile ? 4 : 6;
   const hasMore = contemporaries.length > initialCount;
   const visible = expanded ? contemporaries : contemporaries.slice(0, initialCount);
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-3 md:gap-4 flex-wrap justify-center">
+      <div className="grid w-full grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
       {visible.map((celeb) => {
         const birthYear = formatYear(celeb.birth_date);
         const deathYear = celeb.death_date ? formatYear(celeb.death_date) : null;
@@ -76,6 +76,7 @@ export default function ContemporariesSection({
             avatarUrl={celeb.avatar_url}
             loading={loadingId === celeb.id}
             onClick={() => void openCelebPreview(celeb.id)}
+            className="w-full md:w-full"
           >
             {celeb.nationality && (
               <span className="block text-[11px] leading-tight text-text-secondary">

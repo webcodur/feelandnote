@@ -7,9 +7,47 @@
 import { ImageResponse } from "next/og";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 
-export const alt = "Feel&Note 셀럽 프로필";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const OG_COPY = {
+  ko: {
+    alt: "Feel&Note 인물 프로필",
+    book: (count: number) => `책 ${count}권`,
+    video: (count: number) => `영상 ${count}편`,
+    music: (count: number) => `음악 ${count}곡`,
+    game: (count: number) => `게임 ${count}개`,
+    prefix: "감상한 ",
+    empty: "감상 기록",
+  },
+  en: {
+    alt: "Feel&Note figure profile",
+    book: (count: number) => `${count} books`,
+    video: (count: number) => `${count} films`,
+    music: (count: number) => `${count} songs`,
+    game: (count: number) => `${count} games`,
+    prefix: "",
+    empty: "Cultural Archive",
+  },
+} as const;
+
+function getOgCopy(locale: string) {
+  return locale === "en" ? OG_COPY.en : OG_COPY.ko;
+}
+
+export function generateImageMetadata({
+  params,
+}: {
+  params: { locale: string; slug: string };
+}) {
+  const copy = getOgCopy(params.locale);
+  return [{
+    id: "profile",
+    alt: copy.alt,
+    size,
+    contentType,
+  }];
+}
 
 async function loadFont() {
   const css = await fetch(
@@ -34,6 +72,7 @@ export default async function Image({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  id: Promise<string>;
 }) {
   const { locale, slug } = await params;
   const result = await getCelebBySlug(slug, locale);
@@ -64,23 +103,17 @@ export default async function Image({
 
   const { nickname, title, contentTypeCounts } = result.data;
   const celebTitle = title ?? '';
+  const copy = getOgCopy(locale);
 
   const parts: string[] = [];
-  if (locale === 'en') {
-    if (contentTypeCounts.BOOK > 0) parts.push(`${contentTypeCounts.BOOK} books`);
-    if (contentTypeCounts.VIDEO > 0) parts.push(`${contentTypeCounts.VIDEO} movies`);
-    if (contentTypeCounts.MUSIC > 0) parts.push(`${contentTypeCounts.MUSIC} songs`);
-    if (contentTypeCounts.GAME > 0) parts.push(`${contentTypeCounts.GAME} games`);
-  } else {
-    if (contentTypeCounts.BOOK > 0) parts.push(`${contentTypeCounts.BOOK}권의 책`);
-    if (contentTypeCounts.VIDEO > 0) parts.push(`${contentTypeCounts.VIDEO}편의 영화`);
-    if (contentTypeCounts.MUSIC > 0) parts.push(`${contentTypeCounts.MUSIC}곡의 음악`);
-    if (contentTypeCounts.GAME > 0) parts.push(`${contentTypeCounts.GAME}개의 게임`);
-  }
+  if (contentTypeCounts.BOOK > 0) parts.push(copy.book(contentTypeCounts.BOOK));
+  if (contentTypeCounts.VIDEO > 0) parts.push(copy.video(contentTypeCounts.VIDEO));
+  if (contentTypeCounts.MUSIC > 0) parts.push(copy.music(contentTypeCounts.MUSIC));
+  if (contentTypeCounts.GAME > 0) parts.push(copy.game(contentTypeCounts.GAME));
 
   const subtitle = parts.length > 0
-    ? locale === 'en' ? parts.join(", ") : `감상한 ${parts.join(", ")}`
-    : locale === 'en' ? "Cultural Archive" : "감상 기록";
+    ? `${copy.prefix}${parts.join(", ")}`
+    : copy.empty;
 
   return new ImageResponse(
     (

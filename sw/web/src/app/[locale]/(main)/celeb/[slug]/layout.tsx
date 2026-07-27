@@ -5,6 +5,7 @@ import RecentProfileTracker from "@/components/features/profile/RecentProfileTra
 import SectionHeader from "@/components/shared/SectionHeader";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageContainer from "@/components/layout/PageContainer";
+import styles from "./CelebDetailTypography.module.css";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -75,7 +76,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
         <p aria-hidden="true" className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
           {pageTitle}
         </p>
-        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
+        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-base sm:text-lg mt-3 sm:mt-4 uppercase font-cinzel text-center">
           {englishTitle}
         </p>
       </PrismBanner>
@@ -92,12 +93,13 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
           profileType: "CELEB",
         }}
       />
-      <PageContainer>
-        <main className="max-w-6xl mx-auto animate-fade-in">
+      <PageContainer wide>
+        <main className={`${styles.detailTypography} max-w-[1400px] mx-auto animate-fade-in`}>
           <SectionHeader
             title={seoDesc}
             label="LEGACY"
             description={t("guestbookCta")}
+            descriptionClassName="text-base sm:text-lg"
             as="h1"
           />
           {children}

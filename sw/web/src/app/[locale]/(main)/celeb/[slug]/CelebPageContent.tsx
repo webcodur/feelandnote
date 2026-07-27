@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useCallback, useRef } from "react";
+import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
@@ -29,21 +29,19 @@ import LibraryTabs from "./LibraryTabs";
 import CelebServiceNavigator, {
   type CelebServiceAvailability,
   type ServiceTarget,
+  useCelebServiceItems,
 } from "./CelebServiceNavigator";
-import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
+import { CelebAtlasNavigation } from "./CelebAtlasRails";
 import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
-import PersonaSection from "./PersonaSection";
-import ContemporariesSection from "./ContemporariesSection";
-import DialogueSection from "./DialogueSection";
-import FactionSection from "./FactionSection";
-import VideosSection, { type CelebVideoItem } from "./VideosSection";
-import VirtualMonologueSection from "./VirtualMonologueSection";
-import RelationGraphSection from "./RelationGraphSection";
+import { type CelebVideoItem } from "./VideosSection";
 import JourneySection from "./JourneySection";
-import CelebInfluenceSection from "./CelebInfluenceSection";
 import CelebSectionHeading from "./CelebSectionHeading";
 import CelebViewCounter from "./CelebViewCounter";
-import { CELEB_SERVICE_CHAPTERS } from "./celebSectionChapters";
+import FigureAnalysisTabs from "./FigureAnalysisTabs";
+import FigureMediaTabs from "./FigureMediaTabs";
+import PeopleAndEraTabs from "./PeopleAndEraTabs";
+import UnavailableSectionGuide from "./UnavailableSectionGuide";
+import { getCelebAge } from "./celebAge";
 
 interface CelebPageContentProps {
   profile: CelebBySlugProfile;
@@ -57,7 +55,7 @@ interface CelebPageContentProps {
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
-  /** 생애 행적. 좌표를 가진 항목만 활동반경 지도에 오른다 */
+  /** 타임라인 사건. 좌표를 가진 항목만 활동반경 지도에 오른다 */
   timelineEvents: CelebTimelineEvent[];
   factionPreviews: FactionTagPreview[];
   /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
@@ -72,26 +70,21 @@ const formatYear = (year: string | null | undefined) => {
 };
 
 const SECTION_CLASS_NAME =
-  "animate-fade-in max-w-3xl mx-auto space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none";
+  "animate-fade-in w-full max-w-3xl xl:max-w-none mx-auto space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none";
 
 /* ── 공통 래퍼: 모바일 HR / PC ClassicalBox ──
    주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
    정의하면 부모가 리렌더될 때마다 새 컴포넌트 타입이 되어 내부 자식
    (서가·동시대 인물 등)이 통째로 언마운트→재마운트된다. */
 const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
-  <>
-    {/* 모바일: HR + 여백 최소화 */}
-    <div className={`md:hidden ${className}`}>
-      <hr className="border-accent-dim/30 mb-5" />
-      {children}
-    </div>
-    {/* PC: 기존 ClassicalBox */}
-    <div className="hidden md:block">
-      <ClassicalBox hover={false} className={`p-6 ${className}`}>
-        {children}
-      </ClassicalBox>
-    </div>
-  </>
+  <ClassicalBox
+    hover={false}
+    mobilePlain
+    className={`md:p-6 ${className}`}
+  >
+    <hr className="mb-5 border-accent-dim/30 md:hidden" />
+    {children}
+  </ClassicalBox>
 );
 
 export default function CelebPageContent({
@@ -128,11 +121,24 @@ export default function CelebPageContent({
       ? `${birthYear} — ${deathYear}`
       : `${birthYear} —`
     : "";
+  const ageInfo = getCelebAge(profile.birth_date, profile.death_date);
+  const ageLabel = ageInfo
+    ? t(
+        ageInfo.deceased
+          ? ageInfo.approximate
+            ? "ageAtDeathApprox"
+            : "ageAtDeath"
+          : ageInfo.approximate
+            ? "ageCurrentApprox"
+            : "ageCurrent",
+        { age: ageInfo.age },
+      )
+    : null;
   const hasVoice = profile.has_voice ?? false;
   const nickname = profile.nickname;
   const wikidataQid = profile.wikidata_qid ?? null;
   const celebTier = profile.celeb_tier ?? 'full';
-  // full 등급만 감상 기록 기반 서가를 제공한다.
+  // full 등급만 감상·창작 기록물을 제공한다.
   const showLibrary = celebTier === 'full';
 
   /* ── 유튜브 영상: 현재 locale에 맞춰 longform/shorts 분리 ── */
@@ -166,6 +172,51 @@ export default function CelebPageContent({
     influence: !!influenceData,
     persona: !!personaData?.targetPersona,
   };
+  const serviceItems = useCelebServiceItems({
+    tier: celebTier,
+    showLibrary,
+    availability: serviceAvailability,
+  });
+  const serviceItemsByKey = new Map(serviceItems.map((item) => [item.key, item]));
+  const serviceItemIndexByKey = new Map(
+    serviceItems.map((item, index) => [item.key, index]),
+  );
+  const sectionKey = serviceItems
+    .map((item) => item.target.sectionId)
+    .join("|");
+  const [activeSectionId, setActiveSectionId] = useState("introduction");
+
+  // 넓은 화면의 고정 탐구도와 맥락석이 현재 읽는 장을 함께 가리키게 한다.
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const sectionIds = sectionKey.split("|").filter(Boolean);
+    const sections = sectionIds
+      .map((sectionId) => document.getElementById(sectionId))
+      .filter((section): section is HTMLElement => section !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top - window.innerHeight * 0.24)
+              - Math.abs(b.boundingClientRect.top - window.innerHeight * 0.24),
+          )[0];
+
+        if (visibleEntry) setActiveSectionId(visibleEntry.target.id);
+      },
+      {
+        rootMargin: "-18% 0px -68% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [sectionKey]);
 
   const handleAvatarClick = useCallback(() => {
     trackEvent("celeb_voice_play", { kind: "greeting" });
@@ -179,6 +230,7 @@ export default function CelebPageContent({
 
   const handleServiceNavigate = useCallback((target: ServiceTarget) => {
     trackEvent("celeb_guide_click", { section: target.sectionId });
+    setActiveSectionId(target.sectionId);
     window.history.replaceState(null, "", `#${target.sectionId}`);
     window.requestAnimationFrame(() => {
       const section = document.getElementById(target.sectionId);
@@ -193,19 +245,43 @@ export default function CelebPageContent({
     });
   }, []);
 
+  const renderSectionHeading = (key: string) => {
+    const index = serviceItemIndexByKey.get(key);
+    if (index === undefined) return null;
+
+    return (
+      <CelebSectionHeading
+        item={serviceItems[index]}
+        previousItem={serviceItems[index - 1]}
+        nextItem={serviceItems[index + 1]}
+        onNavigate={handleServiceNavigate}
+      />
+    );
+  };
+
   return (
-    <div ref={contentRef} className="space-y-10 md:space-y-16">
+    <div
+      ref={contentRef}
+      className="xl:grid xl:grid-cols-[360px_minmax(0,1fr)] xl:items-start xl:gap-6 2xl:gap-8"
+    >
+      <CelebAtlasNavigation
+        items={serviceItems}
+        activeSectionId={activeSectionId}
+        onNavigate={handleServiceNavigate}
+        avatarUrl={profile.avatar_url ?? null}
+        nickname={nickname}
+        title={profile.title ?? null}
+        professionLabel={professionLabel}
+      />
+
+      <div className="min-w-0 space-y-10 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section
         id="introduction"
         tabIndex={-1}
         className={SECTION_CLASS_NAME}
       >
-        <CelebSectionHeading
-          chapter={CELEB_SERVICE_CHAPTERS.introduction}
-          label={t("intro")}
-          icon={CELEB_SERVICE_ICONS.introduction}
-        />
+        {renderSectionHeading("introduction")}
 
         {/* 모바일: 세로 스택 */}
         <div className="md:hidden">
@@ -247,9 +323,19 @@ export default function CelebPageContent({
                   </span>
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
+                {ageLabel && (
+                  <span className="rounded-md border border-accent-dim/25 bg-accent/[0.04] px-3 py-1.5 text-base font-medium leading-tight text-text-secondary sm:text-lg">
+                    {ageLabel}
+                  </span>
+                )}
                 <CelebTierBadge tier={celebTier} />
-                <CelebViewCounter celebId={profile.id} initialCount={profile.view_count ?? 0} />
+                <CelebViewCounter celebId={profile.id} nickname={nickname} initialCount={profile.view_count ?? 0} />
               </div>
+              {locale === "en" && profile.translationFallbacks.length > 0 && (
+                <p className="text-xs leading-relaxed text-amber-200/70">
+                  {t("originalKoreanNotice")}
+                </p>
+              )}
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep text-left">
                   {profile.bio}
@@ -268,13 +354,21 @@ export default function CelebPageContent({
                       type="button"
                       onClick={handleQuotePlay}
                       className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors text-text-tertiary hover:text-accent"
-                      aria-label="Play quote voice"
+                      aria-label={t("playQuoteVoice")}
                     >
                       <Volume2 size={14} />
                     </button>
                   )}
                 </div>
               )}
+            </div>
+
+            <div className="flex w-full justify-end border-t border-white/10 pt-3">
+              <ShareButtons
+                title={shareTitle}
+                path={`/celeb/${slug}`}
+                comfortable
+              />
             </div>
           </div>
         </div>
@@ -318,9 +412,19 @@ export default function CelebPageContent({
                   </span>
                 )}
                 {periodStr && <span className="font-mono">{periodStr}</span>}
+                {ageLabel && (
+                  <span className="rounded-md border border-accent-dim/25 bg-accent/[0.04] px-3 py-1.5 text-base font-medium leading-tight text-text-secondary sm:text-lg">
+                    {ageLabel}
+                  </span>
+                )}
                 <CelebTierBadge tier={celebTier} />
-                <CelebViewCounter celebId={profile.id} initialCount={profile.view_count ?? 0} />
+                <CelebViewCounter celebId={profile.id} nickname={nickname} initialCount={profile.view_count ?? 0} />
               </div>
+              {locale === "en" && profile.translationFallbacks.length > 0 && (
+                <p className="text-xs leading-relaxed text-amber-200/70">
+                  {t("originalKoreanNotice")}
+                </p>
+              )}
               {profile.bio && (
                 <p className="text-sm text-text-secondary leading-relaxed break-keep">
                   {profile.bio}
@@ -339,7 +443,7 @@ export default function CelebPageContent({
                       type="button"
                       onClick={handleQuotePlay}
                       className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors text-text-tertiary hover:text-accent"
-                      aria-label="Play quote voice"
+                      aria-label={t("playQuoteVoice")}
                     >
                       <Volume2 size={14} />
                     </button>
@@ -348,6 +452,14 @@ export default function CelebPageContent({
               )}
             </div>
           </div>
+
+          <div className="mt-4 flex justify-end border-t border-white/10 pt-3">
+            <ShareButtons
+              title={shareTitle}
+              path={`/celeb/${slug}`}
+              comfortable
+            />
+          </div>
         </ClassicalBox>
 
         <CelebServiceNavigator
@@ -355,22 +467,14 @@ export default function CelebPageContent({
           showLibrary={showLibrary}
           availability={serviceAvailability}
           onNavigate={handleServiceNavigate}
+          className="xl:hidden"
         />
-
-        {/* SNS 공유 */}
-        <div className="flex justify-end">
-          <ShareButtons title={shareTitle} path={`/celeb/${slug}`} />
-        </div>
       </section>
 
-      {/* 기록 서가 (감상 기록 / 창작물) */}
-      {showLibrary && (
-        <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.library}
-            label={t("library")}
-            icon={CELEB_SERVICE_ICONS.library}
-          />
+      {/* 기록물 (감상 / 창작) */}
+      <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("library")}
+        {showLibrary ? (
           <SectionWrap>
             <LibraryTabs
               userId={userId}
@@ -380,165 +484,76 @@ export default function CelebPageContent({
               initialContents={initialContents}
             />
           </SectionWrap>
-        </section>
-      )}
+        ) : (
+          <UnavailableSectionGuide item={serviceItemsByKey.get("library")!} />
+        )}
+      </section>
 
-      {/* 인물 관계망 — 위키데이터 사실 관계(혈연·사상·대립). 관계가 없으면 섹션 자체를 띄우지 않는다 */}
-      {profile.relations.length > 0 && (
-        <section id="relations" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.relations}
-            label={t("relationGraph")}
-            icon={CELEB_SERVICE_ICONS.relations}
-          />
-          <SectionWrap>
-            <RelationGraphSection
-              centerName={nickname}
-              centerAvatarUrl={profile.avatar_url}
-              relations={profile.relations}
-            />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 생애 행적 — 연표와 활동반경 지도. 행적이 없으면 구획 자체를 띄우지 않는다 */}
-      {timelineEvents.length > 0 && (
-        <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.timeline}
-            label={t("timeline")}
-            icon={CELEB_SERVICE_ICONS.timeline}
-          />
+      {/* 타임라인 — 연도순 사건과 활동반경 지도 */}
+      <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("timeline")}
+        {timelineEvents.length > 0 ? (
           <SectionWrap>
             <JourneySection events={timelineEvents} />
           </SectionWrap>
-        </section>
-      )}
+        ) : (
+          <UnavailableSectionGuide item={serviceItemsByKey.get("timeline")!} />
+        )}
+      </section>
 
-      {/* 동시대 인물 */}
-      {contemporaries.length > 0 && (
-        <section id="contemporaries" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.contemporaries}
-            label={t("contemporaries")}
-            icon={CELEB_SERVICE_ICONS.contemporaries}
+      {/* 인물과 시대 — 직접 관계·동시대 인물·세력도감을 한 장 안에서 연다 */}
+      <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("connections")}
+        <SectionWrap>
+          <PeopleAndEraTabs
+            item={serviceItemsByKey.get("connections")!}
+            centerName={nickname}
+            centerAvatarUrl={profile.avatar_url}
+            relations={profile.relations}
+            contemporaries={contemporaries}
+            factionTags={profile.factionTags}
+            factionPreviews={factionPreviews}
+            currentCelebId={profile.id}
           />
-          <SectionWrap>
-            <ContemporariesSection contemporaries={contemporaries} />
-          </SectionWrap>
-        </section>
-      )}
+        </SectionWrap>
+      </section>
 
-      {/* 영향력 */}
-      {influenceData && (
-        <section id="influence" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.influence}
-            label={t("influence")}
-            icon={CELEB_SERVICE_ICONS.influence}
+      {/* 인물 지표 — 16축 지표와 영향력을 한 장 안에서 연다 */}
+      <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("analysis")}
+        <SectionWrap>
+          <FigureAnalysisTabs
+            item={serviceItemsByKey.get("analysis")!}
+            personaData={personaData}
+            influenceData={influenceData}
           />
-          <SectionWrap>
-            <CelebInfluenceSection data={influenceData} />
-          </SectionWrap>
-        </section>
-      )}
+        </SectionWrap>
+      </section>
 
-      {/* 인물 분석 */}
-      {personaData?.targetPersona && (
-        <section id="persona" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.persona}
-            label={t("analysis")}
-            icon={CELEB_SERVICE_ICONS.persona}
+      {/* 미디어 — 이 인물의 독백·대사·영상을 한 장 안에서 연다 */}
+      <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("media")}
+        <SectionWrap>
+          <FigureMediaTabs
+            item={serviceItemsByKey.get("media")!}
+            monologueText={profile.virtual_monologue}
+            showTranslate={locale === "en"}
+            dialogueLines={dialogueLines}
+            nickname={nickname}
+            avatarUrl={profile.avatar_url}
+            hasVoice={hasVoice}
+            celebId={userId}
+            voiceV={profile.voice_v}
+            voiceSpeed={profile.voice_speed}
+            longform={longform}
+            shorts={shorts}
           />
-          <SectionWrap>
-            <PersonaSection
-              persona={personaData.targetPersona}
-              personaJsonb={personaData.targetPersonaJsonb}
-              similarCelebs={personaData.similarCelebs}
-            />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 가상 독백 — 영어 화면에서는 영문본을 싣는다. 영문본이 아직 없는 인물만 브라우저 내장 번역 버튼을 곁들인다 */}
-      {profile.virtual_monologue && (
-        <section id="virtual-monologue" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.virtualMonologue}
-            label={t("virtualMonologue")}
-            icon={CELEB_SERVICE_ICONS.virtualMonologue}
-          />
-          <SectionWrap>
-            <VirtualMonologueSection
-              text={profile.virtual_monologue}
-              showTranslate={locale === "en"}
-            />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 고유 대사 */}
-      {hasDialogues && dialogueLines && (
-        <section id="dialogues" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.dialogues}
-            label={t("dialogues")}
-            icon={CELEB_SERVICE_ICONS.dialogues}
-          />
-          <SectionWrap>
-            <DialogueSection
-              lines={dialogueLines}
-              nickname={nickname}
-              avatarUrl={profile.avatar_url}
-              hasVoice={hasVoice}
-              celebId={userId}
-              voiceV={profile.voice_v}
-              voiceSpeed={profile.voice_speed}
-            />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 영상 (롱폼 + 쇼츠) */}
-      {hasAnyVideo && (
-        <section id="videos" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.videos}
-            label={t("videos")}
-            icon={CELEB_SERVICE_ICONS.videos}
-          />
-          <SectionWrap>
-            <VideosSection longform={longform} shorts={shorts} />
-          </SectionWrap>
-        </section>
-      )}
-
-      {/* 소속 세력도감 */}
-      {profile.factionTags.length > 0 && (
-        <section id="faction" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          <CelebSectionHeading
-            chapter={CELEB_SERVICE_CHAPTERS.faction}
-            label={t("faction")}
-            icon={CELEB_SERVICE_ICONS.faction}
-          />
-          <SectionWrap>
-            <FactionSection
-              tags={profile.factionTags}
-              previews={factionPreviews}
-              currentCelebId={profile.id}
-            />
-          </SectionWrap>
-        </section>
-      )}
+        </SectionWrap>
+      </section>
 
       {/* 방명록 */}
       <section id="guestbook" tabIndex={-1} className={SECTION_CLASS_NAME}>
-        <CelebSectionHeading
-          chapter={CELEB_SERVICE_CHAPTERS.guestbook}
-          label={t("guestbook")}
-          icon={CELEB_SERVICE_ICONS.guestbook}
-        />
+        {renderSectionHeading("guestbook")}
         <SectionWrap>
           <GuestbookContent
             profileId={userId}
@@ -549,6 +564,8 @@ export default function CelebPageContent({
           />
         </SectionWrap>
       </section>
+      </div>
+
     </div>
   );
 }

@@ -1,0 +1,41 @@
+.detailTypography :is(
+  [class~="text-xs"],
+  [class~="text-sm"],
+  [class~="text-[8px]"],
+  [class~="text-[9px]"],
+  [class~="text-[10px]"],
+  [class~="text-[11px]"],
+  [class~="text-[12px]"],
+  [class~="text-[13px]"],
+  [class~="text-[14px]"],
+  [class~="text-[15px]"]
+) {
+  font-size: 1rem !important;
+}
+
+.detailTypography button,
+.detailTypography input,
+.detailTypography select {
+  min-height: 44px;
+}
+
+.detailTypography button:has(> svg:only-child) {
+  min-width: 44px;
+}
+
+@media (min-width: 640px) {
+  .detailTypography :is(
+    [class~="text-xs"],
+    [class~="text-sm"],
+    [class~="text-[8px]"],
+    [class~="text-[9px]"],
+    [class~="text-[10px]"],
+    [class~="text-[11px]"],
+    [class~="text-[12px]"],
+    [class~="text-[13px]"],
+    [class~="text-[14px]"],
+    [class~="text-[15px]"]
+  ) {
+    font-size: 1.125rem !important;
+  }
+}

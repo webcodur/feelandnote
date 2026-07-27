@@ -305,6 +305,8 @@ export type CelebBySlugProfile = PublicUserProfile & {
   contentTypeCounts: ContentTypeCounts
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
+  /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
+  translationFallbacks: string[]
 }
 
 async function getCelebBySlugInner(
@@ -347,8 +349,17 @@ async function getCelebBySlugInner(
   const selectedTitle = getTitleInfo(profile.selected_title)
 
   const isEn = locale === 'en'
-  const resolve = <T,>(en: T | null | undefined, ko: T): T =>
-    isEn && en ? en : ko
+  const translationFallbacks: string[] = []
+  const resolve = <T,>(
+    field: string,
+    en: T | null | undefined,
+    ko: T,
+  ): T => {
+    if (!isEn) return ko
+    if (en) return en
+    if (ko) translationFallbacks.push(field)
+    return ko
+  }
 
   const d = pub.dialogue
 
@@ -357,18 +368,22 @@ async function getCelebBySlugInner(
     data: {
       id: profile.id,
       slug: profile.slug ?? null,
-      nickname: resolve(profile.nickname_en, profile.nickname || 'Unknown'),
+      nickname: resolve('nickname', profile.nickname_en, profile.nickname || 'Unknown'),
       nickname_en: profile.nickname_en,
       nickname_ko: profile.nickname || 'Unknown',
       avatar_url: profile.avatar_url,
-      bio: resolve(profile.bio_en, profile.bio),
-      quotes: resolve(d?.quote_en ?? null, d?.quote ?? null),
-      monologue: resolve(d?.monologue_en ?? null, d?.monologue ?? null),
+      bio: resolve('bio', profile.bio_en, profile.bio),
+      quotes: resolve('quotes', d?.quote_en ?? null, d?.quote ?? null),
+      monologue: resolve('monologue', d?.monologue_en ?? null, d?.monologue ?? null),
       profession: profile.profession,
-      title: resolve(profile.title_en, profile.title),
+      title: resolve('title', profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
-      virtual_monologue: resolve(profile.virtual_monologue_en, profile.virtual_monologue),
+      virtual_monologue: resolve(
+        'virtualMonologue',
+        profile.virtual_monologue_en,
+        profile.virtual_monologue,
+      ),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
@@ -397,6 +412,7 @@ async function getCelebBySlugInner(
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
       factionTags: pub.factionTags ?? [],
       relations: pub.relations ?? [],
+      translationFallbacks,
     },
   }
 }
