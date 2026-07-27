@@ -104,13 +104,14 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
     }
     return null
   })()
-  // 시작 페이드인(검정→화면)과 끝 페이드아웃 — 시작 화면이 검정에서 떠오르고(배경·문구 함께), 끝에 검정으로 잠긴다.
-  const FADE_SEC = 0.7
-  const fadeOp = total > 0
+  // 끝 페이드아웃 — 마지막에 검정으로 잠긴다.
+  // 시작은 검정에서 떠오르지 않는다: 첫 프레임부터 시작 화면이 그대로 켜져 있다(도입 0.7초 페이드인 제거).
+  // 시작문구는 여전히 자기 페이드로 떠오른다(IntroCard).
+  const fadeOp = total > 0 && endFadeF > 0
     ? interpolate(
         frame,
-        [0, f(FADE_SEC), total - endFadeF, total],
-        [1, 0, 0, 1],
+        [total - endFadeF, total],
+        [0, 1],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
       )
     : 0

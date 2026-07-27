@@ -71,16 +71,17 @@ export function FactionNarratorPanel({
 
   const openingText = factionOpeningReadText(script)
   // 시작 낭독을 모두 꺼도 공용 목소리는 수식어용으로 설정할 수 있어야 하므로 미리듣기 샘플을 남긴다.
-  const openingSample = openingText || script.logline?.trim() || script.title
+  // 읽을 대상을 하나도 안 골라도 음원은 이 문구로 만들어지고, 아래 판정도 전부 이 값을 기준으로 한다.
+  const readText = openingText.trim() || script.logline?.trim() || script.title
 
   const personFor = (_key: NarrationSlotKey): FactionPerson => {
-    const v: FactionNarratorVoice = { ...(n.logline ?? {}), quote: openingSample }
+    const v: FactionNarratorVoice = { ...(n.logline ?? {}), quote: readText }
     return { ...v, name: '팩션 낭독 음성' } as unknown as FactionPerson
   }
 
   const saveVoice = (key: NarrationSlotKey) => (next: FactionPerson) => {
     const { name: _name, ...rest } = next as unknown as FactionNarratorVoice & { name?: string }
-    if (key === 'opening') setNarrator({ logline: { ...rest, quote: openingText || rest.quote } })
+    if (key === 'opening') setNarrator({ logline: { ...rest, quote: readText } })
   }
 
   const activeFileFor = (file: string): VoiceFile | undefined => {
@@ -90,11 +91,10 @@ export function FactionNarratorPanel({
       : undefined
   }
 
-  const openingStale = !!openingText.trim()
-    && !!n.logline?.quoteDuration
-    && !!n.logline?.quote
-    && n.logline.quote !== openingText
-  const openingAudioCurrent = !!n.logline?.quoteDuration && n.logline?.quote === openingText
+  // 만들어 둔 음원은 읽을 대상을 골랐는지와 무관하게 항상 드러낸다 — 판정 기준은 디스크에 파일이
+  // 있는지 하나뿐이다. (읽을 대상을 다 끄면 음원 자리가 통째로 비어 보이던 문제)
+  const openingMeta = voice?.byFile.get(SLOT_DEFS.opening.file)
+  const openingStale = !!openingMeta && !!n.logline?.quote && n.logline.quote !== readText
   const hasPartSpecificOpening = !!(
     Object.keys(script.titleByPart ?? {}).length
     || Object.keys(script.loglineByPart ?? {}).length
@@ -154,9 +154,13 @@ export function FactionNarratorPanel({
           )}
         </div>
 
-        <p className="whitespace-pre-line text-[11px] leading-relaxed text-text-dim">
-          {openingText.trim() || '시작 낭독은 꺼져 있다. 아래 목소리 설정은 인물 수식어의 공용 기본값으로만 사용된다.'}
-        </p>
+        {!openingText.trim() && (
+          <p className="text-[11px] text-text-dim">
+            시작 화면에서 읽을 대상을 하나도 안 골랐다. 아래 문구로 음원은 만들어 두고 들어볼 수 있으며,
+            이 목소리는 인물 수식어의 공용 기본값으로 쓰인다.
+          </p>
+        )}
+        <p className="whitespace-pre-line text-[11px] leading-relaxed text-text-dim">{readText}</p>
         {hasPartSpecificOpening && openingText.trim() && (
           <p className="text-[10px] text-amber-500">
             편별 제목·시작문구가 있다. 현재 공용 시작 음원은 위 전역 문구 한 벌만 읽으므로 편별 영상에는 따로 확인이 필요하다.
@@ -168,9 +172,9 @@ export function FactionNarratorPanel({
           series={series}
           episodeName={episodeName}
           voiceFile={SLOT_DEFS.opening.file}
-          hasContent={!!openingSample.trim()}
-          meta={openingAudioCurrent ? voice?.byFile.get(SLOT_DEFS.opening.file) : undefined}
-          activeFile={openingAudioCurrent ? activeFileFor(SLOT_DEFS.opening.file) : undefined}
+          hasContent={!!readText.trim()}
+          meta={openingMeta}
+          activeFile={activeFileFor(SLOT_DEFS.opening.file)}
           onOpenModal={() => setOpenKey('opening')}
           slot={SLOT_DEFS.opening.slot}
         />
@@ -183,7 +187,7 @@ export function FactionNarratorPanel({
           series={series}
           episodeName={episodeName}
           voiceFile={SLOT_DEFS[openKey].file}
-          activeFile={openingAudioCurrent ? activeFileFor(SLOT_DEFS[openKey].file) : undefined}
+          activeFile={activeFileFor(SLOT_DEFS[openKey].file)}
           onRefresh={() => voice?.reload?.()}
           onClose={() => setOpenKey(null)}
           slot={SLOT_DEFS[openKey].slot}

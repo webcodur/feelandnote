@@ -102,8 +102,20 @@ export interface PublishGroup {
   /** 가로 롱폼 전용 — 지금 나가는 영상은 전부 세로라 어느 편에도 안 나온다 */
   longformOnly: boolean
   people: PublishPerson[]
-  /** 그룹샷 — num 은 묶음 번호(1부터). R2 키에 세력 번호와 함께 g01c01 로 들어간다 */
-  teamShots: { num: number; image: LocalImageRef }[]
+  /**
+   * 그룹샷 — num 은 묶음 번호(1부터). R2 키에 세력 번호와 함께 g01c01 로 들어간다.
+   *
+   * 한 장은 세력 전체가 아니라 그 안의 묶음 하나를 찍은 것이다. 그래서 묶음 이름과
+   * 그 묶음에 든 인물을 함께 싣는다 — 도감에서 「이 사진이 누구인지」를 보이는 재료다.
+   * 묶음이 없는 세력은 세력 화보 한 장이 곧 세력 전원이므로 이름 없이 전원을 담는다.
+   */
+  teamShots: {
+    num: number
+    image: LocalImageRef
+    label?: string
+    labelEn?: string
+    celebIds: string[]
+  }[]
 }
 
 export interface PublishEpisode {
@@ -237,7 +249,7 @@ async function inChunks(
 }
 
 const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, part, disabled, longform_only, data'
-const CLUSTER_SELECT = 'id, group_id, position, image'
+const CLUSTER_SELECT = 'id, group_id, position, label, label_en, image'
 // `data` 는 대사 목소리 대조(진단 ⑥) 때문에 함께 받는다. 큰 덩어리인 채굴 어록은 별도 컬럼(mined)이라
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
 const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, quote, quote_en, image, data'
@@ -308,11 +320,33 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
       }
     })
 
-    // 묶음이 없는 세력은 세력 화보(data.image)가 유일한 그룹샷이다 — 1번 묶음으로 취급
-    const teamRaw: unknown[] = clusters.length ? clusters.map(c => c.image) : [data.image]
-    const teamShots = teamRaw
-      .map((raw, i) => ({ num: i + 1, image: resolveImageRef(folder, raw) }))
-      .filter((t): t is { num: number; image: LocalImageRef } => !!t.image)
+    // 묶음이 없는 세력은 세력 화보(data.image)가 유일한 그룹샷이다 — 1번 묶음으로 취급하고,
+    // 그 한 장에는 세력 전원이 나온 것으로 본다
+    const teamSources = clusters.length
+      ? clusters.map(c => ({
+          raw: c.image,
+          label: firstLine(c.label),
+          labelEn: firstLine(c.label_en),
+          celebIds: (peopleByCluster.get(c.id as string) ?? [])
+            .map(p => p.celeb_id as string | null)
+            .filter((id): id is string => !!id),
+        }))
+      : [{
+          raw: data.image,
+          label: undefined,
+          labelEn: undefined,
+          celebIds: people.map(p => p.celebId).filter((id): id is string => !!id),
+        }]
+
+    const teamShots = teamSources
+      .map((src, i) => ({
+        num: i + 1,
+        image: resolveImageRef(folder, src.raw),
+        ...(src.label ? { label: src.label } : {}),
+        ...(src.labelEn ? { labelEn: src.labelEn } : {}),
+        celebIds: src.celebIds,
+      }))
+      .filter((t): t is PublishGroup['teamShots'][number] => !!t.image)
 
     const imgFolder = folderOfGroup([...people.map(p => p.image), ...teamShots.map(t => t.image)])
     const nameEn = firstLine(g.name_en)

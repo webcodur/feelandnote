@@ -43,17 +43,8 @@ type Props = {
 import { ImageChangeSlot } from './sections/ImageChangeSlot'
 import { FactionQuoteEditor } from './sections/FactionQuoteEditor'
 
-// 대사 구절과 그 구절에 걸린 사진 카드를 같은 색으로 묶는다.
-// bg 는 어두운 대사칸 위에 얹는 옅은 색칠이라 진하게(/25) 잡아야 구획이 눈에 든다.
-// badge* 는 사진 카드 머리띠·표식용 밝은 색 — 어두운 바탕에서 도드라지도록 밝은 쪽을 유지한다.
-const ANCHOR_THEMES = [
-  { name: 'amber', bg: 'bg-amber-400/25', text: 'text-amber-600', border: 'border-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-800' },
-  { name: 'blue', bg: 'bg-blue-400/25', text: 'text-blue-600', border: 'border-blue-400', badgeBg: 'bg-blue-100', badgeText: 'text-blue-800' },
-  { name: 'emerald', bg: 'bg-emerald-400/25', text: 'text-emerald-600', border: 'border-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-800' },
-  { name: 'violet', bg: 'bg-violet-400/25', text: 'text-violet-600', border: 'border-violet-400', badgeBg: 'bg-violet-100', badgeText: 'text-violet-800' },
-  { name: 'rose', bg: 'bg-rose-400/25', text: 'text-rose-600', border: 'border-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-800' },
-  { name: 'cyan', bg: 'bg-cyan-400/25', text: 'text-cyan-600', border: 'border-cyan-400', badgeBg: 'bg-cyan-100', badgeText: 'text-cyan-800' },
-]
+// 대사 구절 ↔ 사진 카드 색 묶음 — 담화 원고와 공유한다(lib/anchor-themes.ts)
+import { ANCHOR_THEMES } from '@/lib/anchor-themes'
 
 function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newValue: string, imageChanges: T[]): T[] {
   if (!imageChanges || imageChanges.length === 0) return imageChanges
@@ -654,7 +645,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   ...person,
                   quoteDisplay: v === 'box' || v === 'caption' ? v : undefined,
                   // 박스로 돌리면 위치 지정은 의미 없음
-                  ...(v !== 'caption' ? { quoteCaptionPos: undefined, quoteCaptionStyle: undefined } : {}),
+                  ...(v !== 'caption' ? { quoteCaptionPos: undefined, quoteCaptionSize: undefined, quoteCaptionFont: undefined } : {}),
                 })
               }}
               className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
@@ -676,13 +667,22 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   <option value="center">중하단</option>
                 </select>
                 <select
-                  value={person.quoteCaptionStyle ?? 'default'}
-                  onChange={e => onChange({ ...person, quoteCaptionStyle: e.target.value === 'serif-large' ? 'serif-large' : 'default' })}
+                  value={person.quoteCaptionSize ?? 'default'}
+                  onChange={e => onChange({ ...person, quoteCaptionSize: e.target.value === 'large' ? 'large' : 'default' })}
                   className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
-                  title="자막 폰트. 기본은 산세리프, 세리프는 크기가 좀 더 큰 명조체"
+                  title="자막 크기"
                 >
-                  <option value="default">기본 폰트</option>
-                  <option value="serif-large">큰 세리프</option>
+                  <option value="default">기본 크기</option>
+                  <option value="large">크게</option>
+                </select>
+                <select
+                  value={person.quoteCaptionFont ?? 'default'}
+                  onChange={e => onChange({ ...person, quoteCaptionFont: e.target.value === 'serif' ? 'serif' : 'default' })}
+                  className="rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
+                  title="자막 폰트"
+                >
+                  <option value="default">고딕 (기본)</option>
+                  <option value="serif">명조 (세리프)</option>
                 </select>
               </>
             )}

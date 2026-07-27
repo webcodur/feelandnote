@@ -1,9 +1,9 @@
 import React from 'react'
-import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion'
 import type { FactionScript, FactionPerson, Orientation } from '../types'
 import { INTRO_FADE_OUT_SEC, NARRATOR_LOGLINE_DELAY_SEC, introSecOf, narratorOpeningVoice, narratorVoicePlaySec, f } from '../timing'
 import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT } from '../constants'
-import { imgSrc, initials, findPerson, nameHead, nameTail, resolveIntroImage } from '../utils'
+import { imgSrc, initials, findPerson, nameHead, nameTail, resolveIntroImage, isVideoSrc, resolveEdgeEffects, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { vnNarratorLogline, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
 import { FilledImage } from './FilledImage'
 import { FactionMedia } from './FactionMedia'
@@ -37,42 +37,55 @@ const LogoCell: React.FC<{ episodeName: string; image: string }> = ({ episodeNam
 /** 시작 화면 항목 — 인물 또는 세력 로고. heroes 슬러그가 'logo:<이미지>' 면 로고. */
 type IntroItem = { kind: 'person'; person: FactionPerson } | { kind: 'logo'; image: string }
 
+/**
+ * 시작문구 빛 스윕 — 문구가 떠 있는 동안 딱 한 번, 그 시간을 통째로 써서 느리게 지나간다.
+ * 고정 길이를 두지 않으므로 시작 화면을 길게 잡은 편에서는 그만큼 더 느려진다.
+ */
+const SWEEP_DELAY_SEC = 0.35
+/** 문구가 꺼지기 전에 띠가 다 지나가도록 남기는 여유(초) */
+const SWEEP_TAIL_SEC = 0.15
+// 배경이 글자 폭보다 넓어(260%) 값이 줄어들수록 띠가 오른쪽으로 간다 — 큰 값에서 작은 값으로 가야 왼→오 흐름이다.
+const SWEEP_FROM = 160
+const SWEEP_TO = -60
+
 const OpeningLogline: React.FC<{
   text: string
   frame: number
   opacity: number
-  enterStart: number
-  enterEnd: number
+  /** 스윕 기준 시각(프레임) — 문구가 온전히 떠 있는 구간의 시작 */
+  holdStart: number
   fadeOutStart: number
   isPortrait: boolean
-}> = ({ text, frame, opacity, enterStart, enterEnd, fadeOutStart, isPortrait }) => {
-  const enter = interpolate(frame, [enterStart, enterEnd], [0, 1], {
-    easing: Easing.out(Easing.quad),
+}> = ({ text, frame, opacity, holdStart, fadeOutStart, isPortrait }) => {
+  // 등장 이동·확대(아래에서 떠오름)·미세 떨림·지지직은 모두 없앴다 — 문구는 첫 프레임부터 제자리에 가만히 떠 있다.
+  // 대신 금색 글자 위로 밝은 띠가 한 번 훑고 지나간다(문구가 사라지기 전에 끝난다).
+  const sweepStart = holdStart + f(SWEEP_DELAY_SEC)
+  const sweepEnd = Math.max(sweepStart + 1, fadeOutStart - f(SWEEP_TAIL_SEC))
+  // 등속 — 가속·감속을 넣으면 글자 가운데를 지날 때만 확 빨라져 훑는 결이 고르지 않다.
+  const sweepX = interpolate(frame, [sweepStart, sweepEnd], [SWEEP_FROM, SWEEP_TO], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   })
-  const lift = interpolate(enter, [0, 1], [30, 0])
-  const scale = interpolate(enter, [0, 1], [0.985, 1])
-  const shake = interpolate(frame, [enterStart, enterStart + 8, enterStart + 30], [0, 1, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  })
-  // 기본 셰이크 (배경 포함 전체 래퍼용)
-  const shakeX = (Math.sin(frame * 2.7) + Math.sin(frame * 7.1)) * 0.9 * shake
-  const shakeY = lift + Math.sin(frame * 5.3) * 0.45 * shake
 
-  // 페이드아웃 시작 시 글리치 중단
-  const isFadingOut = frame >= fadeOutStart
-
-  // 지지직(Glitch)은 로그라인이 온전히 떠 있는 동안 딱 두 번, 각 5프레임(약 0.17초)짜리 짧은 펄스로만 발동한다.
-  // 예전엔 파동이 임계를 넘는 구간 내내 계속 떨려 눈이 아팠다 — 짧은 펄스 + 소수 글자 + 약한 세기로 절제한다.
-  const glitchPulse = (center: number) => frame >= center && frame < center + 5
-  const g1 = enterEnd + 12
-  const g2 = Math.round((enterEnd + fadeOutStart) / 2) + 20
-  const isGlitchWindow = !isFadingOut && (glitchPulse(g1) || glitchPulse(g2))
-  
   const padX = isPortrait ? 80 : 130
   const baseTextShadow = '0 2px 30px rgba(0,0,0,0.92), 0 0 34px rgba(0,0,0,0.86), 0 0 10px rgba(0,0,0,0.96)'
+  // 글자 모양 그대로 겹치는 빛 레이어 — 본체와 같은 글자 배치를 쓰고 색만 그라데이션으로 칠한다.
+  const sweepLayer: React.CSSProperties = {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    backgroundImage: 'linear-gradient(100deg, rgba(255,255,255,0) 40%, rgba(255,246,214,0.92) 50%, rgba(255,255,255,0) 60%)',
+    backgroundSize: '260% 100%',
+    backgroundPosition: `${sweepX.toFixed(1)}% 0`,
+    backgroundRepeat: 'no-repeat',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    color: 'transparent',
+    textShadow: 'none',
+    pointerEvents: 'none',
+  }
 
   return (
     <div style={{
@@ -80,7 +93,6 @@ const OpeningLogline: React.FC<{
       width: '100%',
       padding: `0 ${padX}px`,
       opacity, // 전체 투명도
-      transform: `translate(${shakeX.toFixed(2)}px, ${shakeY.toFixed(2)}px) scale(${scale})`, // 셰이크
       textAlign: 'center',
       color: '#E8B84B',
       fontFamily: FONT_SERIF,
@@ -108,45 +120,11 @@ const OpeningLogline: React.FC<{
           background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.68) 42%, rgba(0,0,0,0.34) 68%, rgba(0,0,0,0) 86%)',
           filter: 'blur(10px)',
         }} />
-        
-        {/* 앞의 텍스트에만 훨씬 가끔씩, 소수의 글자에만 독립적인 지지직 효과 적용 */}
-        <span style={{ position: 'relative' }}>
-          {text.split('\n').map((line, lineIdx, linesArray) => (
-            <React.Fragment key={lineIdx}>
-              {line.split(/(\s+)/).map((token, tokenIdx) => {
-                if (!token.trim()) return <span key={tokenIdx}>{token}</span>
-                
-                return (
-                  <span key={tokenIdx} style={{ display: 'inline-block' }}>
-                    {token.split('').map((char, charIdx) => {
-                      const i = lineIdx * 1000 + tokenIdx * 100 + charIdx
-                      // 펄스 순간에도 한두 글자만 임계를 넘게(0.9) — 전체가 아니라 소수 글자만 살짝 일그러진다.
-                      const isCharGlitch = isGlitchWindow && Math.sin(frame * 4.3 + i * 2.1) > 0.9
 
-                      const cGlX = isCharGlitch ? Math.sin(frame * 13.3 + i) * 1.6 : 0
-                      const cGlY = isCharGlitch ? Math.sin(frame * 21.7 - i) * 1.0 : 0
-                      const cChroma = isCharGlitch ? 1.5 : 0
-                      
-                      return (
-                        <span key={charIdx} style={{
-                          position: 'relative',
-                          display: 'inline-block',
-                          transform: `translate(${cGlX.toFixed(2)}px, ${cGlY.toFixed(2)}px)`,
-                          opacity: isCharGlitch ? 0.82 : 1,
-                          textShadow: isCharGlitch 
-                            ? `${cChroma}px 0px 0px rgba(255,0,0,0.9), -${cChroma}px 0px 0px rgba(0,255,255,0.9), ${baseTextShadow}`
-                            : 'inherit',
-                        }}>
-                          {char}
-                        </span>
-                      )
-                    })}
-                  </span>
-                )
-              })}
-              {lineIdx < linesArray.length - 1 && <br />}
-            </React.Fragment>
-          ))}
+        {/* 문구 본체 + 같은 글자 위에 겹친 빛 띠 */}
+        <span style={{ position: 'relative', display: 'inline-block' }}>
+          {text}
+          <span aria-hidden style={sweepLayer}>{text}</span>
         </span>
       </span>
     </div>
@@ -183,19 +161,25 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
       />
     </Sequence>
   ) : null
+  // 시작 화면 카메라 — 인물·묶음 컷과 같은 지속 효과 계산을 쓴다(같은 효과를 같은 빠르기로).
+  // 설정은 「움직임 효과 관리」의 시작 화면 줄(script.introEffects)에서 오고, 비면 천천히 확대가 기본이다.
+  const cam = resolveEdgeEffects(script, 'intro')
+  const camEnterS = enterMotionScale(cam.enter, frame)
+  const camHold = holdAndShakeParts(cam.hold, cam.shake, Math.max(0, frame - f(enterMotionSec(cam.enter))), {
+    focusX: cam.focusX,
+    focusY: cam.focusY,
+    speedMul: cam.zoomSpeed,
+  })
+  const camScale = camEnterS * camHold.scale
+  // 줌인(다가가는 줌)은 카메라가 목표점으로 이동하는 모드라 확대 기준점을 화면 중앙에 둔다(이동량 계산과 일치).
+  const camOrigin = isPushinZoom(cam.hold) ? '50% 50%' : undefined
   const fadeOut0 = f(Math.max(0, introSec - INTRO_FADE_OUT_SEC))
   const fadeOut1 = Math.max(fadeOut0 + 1, f(introSec))
   const introOutOp = interpolate(frame, [fadeOut0, fadeOut1], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  // 문구 등장 모션 — 전역 검정 페이드인(0~0.7s)과 맞춤. 투명도는 배경과 동일(introOutOp).
-  const llIn0 = 0
-  const llIn1 = Math.max(1, f(0.7))
-  // 지지직 글리치(미세 떨림 + 색수차) — 비활성화. 시작 문구는 페이드인/아웃으로만 떴다가 사라진다.
-  // const glAmp = interpolate(frame, [f(1.0), f(introSec / 2), f(introSec - 0.4)], [0.08, 1, 0.08], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-  // const glX = (Math.sin(frame * 13.3) + Math.sin(frame * 29.1)) * 1.2 * glAmp
-  // const glY = Math.sin(frame * 21.7) * 0.9 * glAmp
-  // const chroma = (1.5 + Math.sin(frame * 4.7) * 1.5) * glAmp
-  // opacity는 부모가 introOutOp로 묶으므로 1. 등장 lift/scale만 enter 구간에서 돌린다.
-  const Logline = logline ? <OpeningLogline text={logline} frame={frame} opacity={1} enterStart={llIn0} enterEnd={llIn1} fadeOutStart={fadeOut0} isPortrait={isPortrait} /> : null
+  // 시작문구는 등장 모션 없이 첫 프레임부터 제자리에 떠 있다(떠오름·떨림·지지직 제거).
+  // 화면이 사라질 때만 배경과 같은 투명도(introOutOp)로 함께 꺼지고, 떠 있는 동안 빛 띠가 한 번 훑는다.
+  // opacity는 부모가 introOutOp로 묶으므로 1.
+  const Logline = logline ? <OpeningLogline text={logline} frame={frame} opacity={1} holdStart={0} fadeOutStart={fadeOut0} isPortrait={isPortrait} /> : null
   // 시작 화면 이미지 한 장으로 덮기 — 있으면 통합화면(인물 그리드)·텍스트 대신 이 이미지를 화면 가득.
   // 롱폼이면 롱폼 전용(introImageLong) 우선, 없으면 공용(introImage).
   const introMedia = resolveIntroImage(script, isShorts, part)
@@ -217,9 +201,12 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
     return (
       <AbsoluteFill style={{ backgroundColor: BG }}>
         {loglineAudio}
-        {/* 배경 영상·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
+        {/* 배경 영상·문구 한 묶음 — 같은 투명도로 같이 꺼진다. 확대는 배경에만 걸고 문구는 제자리에 둔다.
+            영상 배경은 그 자체로 움직이므로 확대하지 않는다(화면을 꽉 채워 잘림만 늘어난다). */}
         <AbsoluteFill style={{ opacity: introOutOp }}>
-          <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={1} fit="contain" onError={() => {}} />
+          {isVideoSrc(introMedia)
+            ? <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={1} fit="contain" onError={() => {}} />
+            : <FilledImage src={imgSrc(episodeName, introMedia)} objPos="center center" scale={camScale} tx={camHold.tx} ty={camHold.ty} transformOrigin={camOrigin} fit="contain" onError={() => {}} />}
           {loglineWrap}
         </AbsoluteFill>
       </AbsoluteFill>
@@ -254,7 +241,15 @@ export const IntroCard: React.FC<{ script: FactionScript; episodeName: string; o
       {loglineAudio}
       {/* 얼굴 그리드·문구 한 묶음 — 같은 투명도로 같이 꺼진다 */}
       <AbsoluteFill style={{ opacity: introOutOp }}>
-        <div style={{ display: 'grid', width: '100%', height: '100%', ...gridStyle }}>
+        {/* 얼굴·로고 칸만 함께 움직인다(문구·위아래 경계 그라디언트는 제자리 고정) */}
+        <div style={{
+          display: 'grid',
+          width: '100%',
+          height: '100%',
+          transform: `scale(${camScale}) translate(${camHold.tx}%, ${camHold.ty}%)`,
+          transformOrigin: camOrigin,
+          ...gridStyle,
+        }}>
           {items.map((it, i) => it.kind === 'logo'
             ? <LogoCell key={i} episodeName={episodeName} image={it.image} />
             : <HeroCell key={i} episodeName={episodeName} person={it.person} />)}

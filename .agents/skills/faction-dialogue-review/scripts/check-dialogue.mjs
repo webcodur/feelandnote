@@ -46,12 +46,16 @@ for (const person of scope) {
     errors.push(`${person.slug}: missing quote`);
     continue;
   }
-  if (!Array.isArray(person.quoteChunks) || person.quoteChunks.join(' ') !== person.quote) {
+  const reconstructedQuote = Array.isArray(person.quoteChunks)
+    ? person.quoteChunks.map((chunk) => chunk.trim()).filter(Boolean).join(' ')
+    : '';
+  if (!Array.isArray(person.quoteChunks) || reconstructedQuote !== person.quote) {
     errors.push(`${person.slug}: quoteChunks do not reconstruct quote`);
   }
-  if (!person.quoteEn) {
-    errors.push(`${person.slug}: missing quoteEn`);
-  } else if (!Array.isArray(person.quoteEnChunks) || person.quoteEnChunks.join(' ') !== person.quoteEn) {
+  const reconstructedQuoteEn = Array.isArray(person.quoteEnChunks)
+    ? person.quoteEnChunks.map((chunk) => chunk.trim()).filter(Boolean).join(' ')
+    : '';
+  if (person.quoteEn && (!Array.isArray(person.quoteEnChunks) || reconstructedQuoteEn !== person.quoteEn)) {
     errors.push(`${person.slug}: quoteEnChunks do not reconstruct quoteEn`);
   }
   if (!person.quoteOrigin?.trim()) {

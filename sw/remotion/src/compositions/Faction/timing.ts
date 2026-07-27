@@ -287,8 +287,15 @@ export interface LeadTiming {
 /**
  * 작은 자막 모드 — 이름·직함(1행)을 대사 전에 최소 이 시간(초) 노출한다.
  * 리드 스텝이 없어도 무조건 이 구간을 확보한다(0초 신원 스킵 방지).
+ * 편별 조정은 script.captionIdHoldSec(BO 「전역 타이밍」의 이름 출력).
  */
 export const CAPTION_ID_HOLD_SEC = 1.0
+
+/** 자막형 인물 화면에서 대사 전 이름·직함 노출 시간(초) — 편 설정이 있으면 그 값, 없으면 기본값 */
+export function captionIdHoldSecOf(script?: FactionScript, override?: number): number {
+  const v = override ?? script?.captionIdHoldSec
+  return v != null && Number.isFinite(v) && v >= 0 ? v : CAPTION_ID_HOLD_SEC
+}
 
 /** 인물·에피소드 설정에서 대사 표시 방식 해석 — 인물 우선, 없으면 에피소드, 기본 box */
 export function resolveQuoteDisplay(p: FactionPerson, script?: FactionScript): 'box' | 'caption' {
@@ -301,6 +308,11 @@ export type LeadTimingOpts = {
   script?: FactionScript
   /** true면 작은 자막 모드로 간주(인물/에피소드 필드 무시하고 신원 최소 홀드 강제) */
   captionMode?: boolean
+  /**
+   * 대사 전 이름·직함 노출 시간(초) 직접 지정 — script 를 넘기지 못하는 호출처(PersonCard)가 쓴다.
+   * 컷 길이(buildCues)와 화면(PersonCard)이 같은 값을 봐야 하므로, 위쪽에서 편 설정을 풀어 그대로 전달한다.
+   */
+  captionIdHoldSec?: number
 }
 
 export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): LeadTiming {
@@ -326,7 +338,7 @@ export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = 
   // 음성 스텝이 꺼져 대사가 없으면 적용 불필요.
   const captionMode = opts?.captionMode ?? resolveQuoteDisplay(p, opts?.script) === 'caption'
   if (captionMode && steps.voice) {
-    const minEnter = ENTER_NAME_SEC + ENTER_FADE_SEC + CAPTION_ID_HOLD_SEC
+    const minEnter = ENTER_NAME_SEC + ENTER_FADE_SEC + captionIdHoldSecOf(opts?.script, opts?.captionIdHoldSec)
     quoteEnterSec = Math.max(quoteEnterSec, minEnter)
   }
   return { creditOn, epiOn, creditEndSec, epithetStartSec, epithetEndSec, quoteEnterSec }

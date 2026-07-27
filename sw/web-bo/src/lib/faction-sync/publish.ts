@@ -21,6 +21,9 @@
 import { readFile } from 'fs/promises'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import {
+  serializeTeamImages, toTeamImages, type FactionTeamImage,
+} from '@feelandnote/shared/lib/faction-team-image'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import {
   collectEpisode, groupsOfSameTag, hashOfFile, soloShotKey, tagKeyOf, teamShotKey, winningPlacements,
@@ -669,13 +672,21 @@ async function publishTagTeamShots(ctx: {
     return
   }
 
-  const urls: string[] = []
+  /** 사진마다 「어느 묶음이고 누가 나오는지」를 함께 싣는다 — 도감이 그대로 보여준다 */
+  const meta = (shot: (typeof shots)[number], url: string): FactionTeamImage => ({
+    url,
+    ...(shot.label ? { label: shot.label } : {}),
+    ...(shot.labelEn ? { labelEn: shot.labelEn } : {}),
+    ...(shot.celebIds.length ? { celebIds: shot.celebIds } : {}),
+  })
+
+  const images: FactionTeamImage[] = []
   let uploaded = 0
   let failed = 0
 
   for (const shot of shots) {
     if (shot.image.external) {
-      urls.push(shot.image.raw)
+      images.push(meta(shot, shot.image.raw))
       add({ ...label, action: 'skipped', reason: `external-url: ${shot.image.raw}` })
       continue
     }
@@ -685,7 +696,7 @@ async function publishTagTeamShots(ctx: {
 
     const hash = fileHash(buf)
     const key = teamShotKey(tagId, shot.groupNum, shot.num, hash)
-    urls.push(publicUrl(key, false))
+    images.push(meta(shot, publicUrl(key, false)))
 
     if (isUnchanged(manifest[shot.image.rel], hash, key, tagId)) continue
     if (dryRun) { uploaded += 1; continue }
@@ -707,20 +718,22 @@ async function publishTagTeamShots(ctx: {
     return
   }
 
-  const current = toImageArray(tag.team_images)
-  const same = current.length === urls.length && current.every((u, i) => u === urls[i])
-  if (same) {
-    add({ ...label, action: 'skipped', reason: `unchanged (${urls.length}장, tag=${slug})` })
+  // 주소만이 아니라 묶음 이름·인물까지 견준다 — 사진은 그대로인데 이름만 고친 경우도 반영해야 한다
+  const next = serializeTeamImages(images)
+  const current = toTeamImages(tag.team_images)
+  if (JSON.stringify(current) === JSON.stringify(next)) {
+    add({ ...label, action: 'skipped', reason: `unchanged (${next.length}장, tag=${slug})` })
     return
   }
   const action: FactionPublishAction = current.length ? 'updated' : 'created'
-  const detail = `${urls.length}장 (업로드 ${uploaded}장, 세력 ${groups.length}개, tag=${slug})`
+  const named = next.filter(i => i.label).length
+  const detail = `${next.length}장 (업로드 ${uploaded}장, 이름 붙은 ${named}장, 세력 ${groups.length}개, tag=${slug})`
   if (dryRun) {
     add({ ...label, action, reason: detail })
     return
   }
-  const { error } = await db.from('celeb_tags').update({ team_images: urls }).eq('id', tagId)
+  const { error } = await db.from('celeb_tags').update({ team_images: next }).eq('id', tagId)
   if (error) { add({ ...label, action: 'blocked', reason: `team-images-update: ${error.message}` }); return }
-  tag.team_images = urls
+  tag.team_images = next
   add({ ...label, action, reason: detail })
 }

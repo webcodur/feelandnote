@@ -3,7 +3,7 @@
  * 여러 컷 컴포넌트가 공유한다(단일원천).
  */
 import type React from 'react'
-import type { FactionTransition } from './types'
+import type { FactionTransition, HoldMotion } from './types'
 
 export const FONT = "'Pretendard Variable', 'Pretendard', sans-serif"
 /** 대사 자막 세리프 — 북리커맨드 '하단' 자막과 동일 필체(MaruBuri) */
@@ -88,6 +88,12 @@ export const HOLD_PULSE_PERIOD_SEC = 1.4
 /** 핸드헬드 — 베이스 확대와 미세 흔들림 진폭(% 단위) */
 export const HOLD_HANDHELD_ZOOM = 1.05
 export const HOLD_HANDHELD_AMP = 0.18
+/* ── 시작·마무리 화면 카메라 ──
+   인물·묶음 컷과 같은 지속 효과 계산(holdMotionParts)을 그대로 쓴다. 다른 대상과 달리 전역을 상위로 두지 않고
+   아래 기본값을 쓰는 이유는, 전역을 비워둔 편이 대부분이어서 첫·끝 화면만 정지 사진으로 남기 때문이다.
+   기본 속도로 4초짜리 화면이면 약 6% 다가간다(script.introEffects·outroEffects 로 편마다 덮어쓸 수 있다). */
+/** 시작·마무리 화면 기본 지속 효과 — 설정을 비운 편이 쓰는 값 */
+export const EDGE_HOLD_DEFAULT: HoldMotion = 'zoomin'
 /** 세로 쇼츠 대사 박스 — 화면 왼쪽 밖에서 슬라이드 인하는 시작 거리(px). 음수=왼쪽 */
 export const PANEL_SLIDE_X = 520
 /** 세로 쇼츠 대사 박스 슬라이드 인 길이(초) */

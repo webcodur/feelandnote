@@ -30,6 +30,8 @@
 
 따라서 팩션 파일의 삭제·덮어쓰기는 **git으로 복구할 수 없다.** 삭제·이동 전에 반드시 백업 복사부터 한다. "git이 추적하니 복구 가능"이라는 가정을 팩션에 적용하지 마라.
 
+**예외 — `faction-data.json` 은 손으로 백업하지 마라(26.07.26 유저 지시).** 26.07.25 이후 원본은 DB이고 이 파일은 산출물이라 언제든 `pnpm faction:export` 로 되만든다. 게다가 export 가 매번 `.export-backup/<타임스탬프>/` 를 알아서 남긴다. `_archive/faction-data.backup-*.json` 을 새로 만들지 않는다. 백업 원칙은 **DB 로 복원 불가능한 자산**(wav·png·mp4)에만 적용한다.
+
 단 소스코드(`sw/remotion/src/**`, `sw/web-bo/src/**`)는 정상 추적된다. 타입 정의(`Faction/types.ts`·`sw/web-bo/src/lib/faction-types.ts`) 등은 커밋 대상이다.
 
 데이터 파일 위치: `sw/remotion/public/factions/<ep>/faction-data.json` (2026-07에 폴더명 한글→영문, 파일명 `data.json`→`faction-data.json`으로 변경됨).

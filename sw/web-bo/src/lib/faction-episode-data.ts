@@ -50,7 +50,7 @@ export async function loadFactionEpisodeMeta(folder: string): Promise<{
   return {
     script: script as unknown as FactionScript,
     episodeId: row.id as string,
-    status: (row.status as string) ?? 'todo',
+    status: (row.status as string) ?? 'blocked',
     registered: (row.registered as boolean) ?? false,
     sortOrder: (row.sort_order as number) ?? 0,
     updatedAt: row.updated_at as string,

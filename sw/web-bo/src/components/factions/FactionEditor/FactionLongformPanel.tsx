@@ -252,7 +252,8 @@ export function FactionLongformPanel({
                         />
                         팩션 낭독 음성으로 챕터명 읽기
                       </label>
-                      {narrated && voiceCtx && titleVal.trim() && (
+                      {/* 읽기를 꺼도 이미 만들어 둔 음원이 있으면 그대로 드러낸다 — 껐다는 이유로 사라지면 다시 만들 수밖에 없다 */}
+                      {voiceCtx && titleVal.trim() && (narrated || !!chapterMeta) && (
                         <FactionVoicePanel
                           person={person}
                           series={series}

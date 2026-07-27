@@ -64,7 +64,7 @@ export async function replaceFactionEpisode(
     tagMap,
     newId: randomUUID,
     durations,
-    status: (epRow.status as string) ?? 'todo',
+    status: (epRow.status as string) ?? 'blocked',
     registered: (epRow.registered as boolean) ?? false,
     sortOrder: (epRow.sort_order as number) ?? 0,
     parts,

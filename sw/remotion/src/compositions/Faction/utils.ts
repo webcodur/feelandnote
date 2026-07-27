@@ -12,6 +12,7 @@ import {
   HOLD_ZOOM_RATE, HOLD_ZOOM_MAX, HOLD_ZOOMIN_RATE, HOLD_ZOOMIN_MAX, HOLD_ZOOMOUT_START, HOLD_PAN_ZOOM, HOLD_PAN_RATE, HOLD_PAN_MAX,
   HOLD_PULSE_AMP, HOLD_PULSE_PERIOD_SEC, HOLD_HANDHELD_ZOOM, HOLD_HANDHELD_AMP, HOLD_PUSHIN_GAIN,
   ENTER_MOTION_SEC, ENTER_ZOOM_OUT_SEC, ENTER_ZOOM_OUT_START, ENTER_ZOOM_IN_START,
+  EDGE_HOLD_DEFAULT,
 } from './constants'
 import { f } from './timing'
 
@@ -57,6 +58,26 @@ export const resolveHoldShake = (own: boolean | undefined, group: FactionGroup, 
 export const resolveZoomSpeed = (own: number | undefined, group: FactionGroup, script: FactionScript): number =>
   script.lockEffects ? (script.zoomSpeed ?? 1)
     : (own ?? group.zoomSpeed ?? script.zoomSpeed ?? 1)
+
+/**
+ * 시작·마무리 화면 효과 해석 — 두 화면은 세력에 속하지 않아 전역을 상위로 두지 않는다.
+ * 지속 효과만 자체 기본값(EDGE_HOLD_DEFAULT)을 갖고, 속도는 전역(script.zoomSpeed)을 물려받는다.
+ * 전체 고정(lockEffects)이면 전역 지속 효과를 쓰고, 전역 정지 스위치(noZoom)면 멈춘다.
+ */
+export const resolveEdgeEffects = (script: FactionScript, which: 'intro' | 'outro'): { hold: HoldMotion; enter: EnterMotion; shake: boolean; zoomSpeed: number; focusX?: number; focusY?: number } => {
+  const own = which === 'intro' ? script.introEffects : script.outroEffects
+  const hold = script.noZoom ? 'none'
+    : script.lockEffects ? (script.holdMotion ?? EDGE_HOLD_DEFAULT)
+      : (own?.holdMotion ?? EDGE_HOLD_DEFAULT)
+  return {
+    hold,
+    enter: script.noZoom ? 'none' : (own?.enterMotion ?? 'none'),
+    shake: script.noZoom ? false : (own?.holdShake ?? false),
+    zoomSpeed: own?.zoomSpeed ?? script.zoomSpeed ?? 1,
+    focusX: own?.zoomFocus?.x,
+    focusY: own?.zoomFocus?.y,
+  }
+}
 
 /** 시작 효과 해석 — 인물/묶음 → 세력 → 에피소드 계승, 미지정이면 'none'. own = 인물 또는 묶음의 자체 지정값. */
 export const resolveEnterMotion = (own: EnterMotion | undefined, group: FactionGroup, script: FactionScript): EnterMotion =>

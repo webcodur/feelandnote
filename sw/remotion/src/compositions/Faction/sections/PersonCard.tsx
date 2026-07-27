@@ -245,8 +245,16 @@ export const PersonCard: React.FC<{
   /** 작은 자막 세로 위치 — 'bottom'(기본) | 'center'(중하단 밴드) */
   quoteCaptionPos?: 'bottom' | 'center'
   /** 작은 자막 폰트 스타일 — 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
-  quoteCaptionStyle?: 'default' | 'serif-large'
-}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionStyle = 'default' }) => {
+  quoteCaptionSize?: 'default' | 'large'
+  quoteCaptionFont?: 'default' | 'serif'
+  /**
+   * 다음 컷이 이 컷 끝보다 앞당겨 들어오는 시간(초) — CueLayer 가 다음 컷 전환 종류로 계산해 넘긴다.
+   * 이 컷의 글자를 그 시점 전에 다 걷어, 다음 인물 신원과 같은 자리에서 겹쳐 읽히지 않게 한다.
+   */
+  nextEnterSec?: number
+  /** 자막형에서 대사 전 이름·직함 노출 시간(초) — CueLayer 가 편 설정을 풀어 넘긴다. 컷 길이 계산과 같은 값이어야 한다 */
+  captionIdHoldSec?: number
+}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionSize = 'default', quoteCaptionFont = 'default', nextEnterSec = 0, captionIdHoldSec }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
@@ -257,7 +265,7 @@ export const PersonCard: React.FC<{
   const quoteChunks = person.quoteChunks?.length ? person.quoteChunks : (person.quote ? [person.quote] : [])
   // 리드 시퀀스(직함→수식어→대사) 시각 — 길이 계산(timing)과 동일 SSoT
   // 작은 자막 모드는 이름·직함1 최소 1초 홀드를 타이밍 SSoT에 반영(quoteDisplay prop = CueLayer 해석값)
-  const lead = personLeadTiming(person, steps, isShorts, { captionMode: quoteDisplay === 'caption' })
+  const lead = personLeadTiming(person, steps, isShorts, { captionMode: quoteDisplay === 'caption', captionIdHoldSec })
   // 음성 스텝이 켜져야 대사가 뜬다(꺼지면 대사 없음).
   const hasQuote = steps.voice && quoteChunks.length > 0
   // 음원이 없는 무음 대사(읽기 전용)는 자막을 살짝 흐리게 — 음원 재생 대사와 톤 구분.
@@ -340,9 +348,18 @@ export const PersonCard: React.FC<{
   // (컷 경계에서 펑 하고 사라지지 않게. 사진은 CueLayer 전환이 담당.)
   // 마지막 인물은 최종화면 크로스페이드 직전 구간에서 거둔다.
   const BOX_EXIT_SEC = 0.5
-  const boxExitOp = isLast
-    ? interpolate(local, [cueDuration - f(OUTRO_CROSSFADE_SEC + BOX_EXIT_SEC), cueDuration - f(OUTRO_CROSSFADE_SEC)], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-    : interpolate(local, [Math.max(0, cueDuration - f(BOX_EXIT_SEC)), cueDuration], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  // 글자를 다 거두는 시점 — 마지막 인물은 최종화면 크로스페이드 직전, 그 외는 다음 컷이 겹쳐 들어오기 직전.
+  // (예전엔 컷 끝에 맞춰 거뒀다. 다음 컷은 전환 길이만큼 먼저 들어오므로 그 구간에서 이전 대사와
+  //  다음 인물 신원이 같은 중앙 자리에 함께 떠 서로 읽혔다.)
+  const exitEndRaw = isLast
+    ? cueDuration - f(OUTRO_CROSSFADE_SEC)
+    : cueDuration - f(nextEnterSec)
+  // 대사가 뜨자마자 걷히는 역전을 막는 하한 — 대사 등장 뒤 최소 한 박자는 남긴다.
+  const exitFloor = f(lead.quoteEnterSec + ENTER_FADE_SEC + 0.3)
+  // 컷이 아주 짧아 앞당길 여유가 없으면 예전처럼 컷 끝에 맞춰 걷는다(글자가 컷 시작부터 흐려지는 일 방지).
+  const exitEnd = Math.min(cueDuration, Math.max(exitFloor + 1, exitEndRaw))
+  const exitStart = Math.max(0, exitEnd - f(BOX_EXIT_SEC))
+  const boxExitOp = interpolate(local, [exitStart, exitEnd], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
   // 2) 직함 — 1행 직함값 지연은 useDelayedHead (!isShorts && showCreditRest)일 때만.
   //   그 외(바로 대사)는 이름과 동시 표시. showCreditRest일 때 2·3번은 1행 이후 시작.
   const quoteEnterSec = lead.quoteEnterSec
@@ -638,17 +655,19 @@ export const PersonCard: React.FC<{
         transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
       }
     : { bottom: orientation === 'portrait' ? 200 : 80, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }
-  const captionFont = quoteCaptionStyle === 'serif-large'
+  const captionFont = quoteCaptionSize === 'large'
     ? (orientation === 'landscape' ? 52 : 56)
     : (orientation === 'landscape' ? 44 : 48)
-  const captionFontFamily = quoteCaptionStyle === 'serif-large' ? FONT_SERIF : FONT
+  const captionFontFamily = quoteCaptionFont === 'serif' ? FONT_SERIF : FONT
   const captionMinH = Math.round(captionFont * 1.35 * 2 + 28)
   // 신원 — 로고/그룹명 CardCaption 과 동일 위치·형태.
   // [개편] 중앙 배치 + 중앙자막 크기로 축소. [기존] idCaptionSize 62 / idExtraSize 40 / flex-end + pad '0 60px 56px'
   const idCaptionSize = 48
   const idExtraSize = 34
-  // 등장 — 컷 시작부터 미리 배치. 컷 전환(크로스페이드·슬라이드)이 등장을 담당하므로 자체 지연 없음.
-  const idOp = 1
+  // 등장 — 컷이 실제로 시작한 뒤(local 0) 짧게 떠오른다.
+  // 컷 전환은 컷 끝보다 먼저 들어오므로(전환 길이만큼), 예전처럼 처음부터 켜두면 그 겹침 구간에
+  // 이전 인물 대사와 같은 중앙 자리에서 함께 읽혔다. 사진은 전환이 담당하고 글자는 컷 시작에 맞춘다.
+  const idOp = interpolate(local, [0, f(ENTER_FADE_SEC)], [0, 1], clamp)
   const idTagOp = 1
   // [개편] 신원 퇴장 — 대사와 같은 중앙 자리를 쓰므로 대사 등장 직전에 교차 퇴장. 대사 없으면 컷 내내 유지.
   const idExitOp = hasQuote

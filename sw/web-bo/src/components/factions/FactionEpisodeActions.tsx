@@ -26,10 +26,8 @@ import { exportFactionEpisode } from '@/actions/admin/factions/export'
 import { folderToParam } from '@/lib/faction-edit-route'
 
 export const FACTION_STATUS_OPTIONS: { value: FactionEpisodeStatus; label: string; dot: string }[] = [
-  { value: 'idea', label: '아이디어', dot: 'bg-slate-500' },
-  { value: 'todo', label: '준비', dot: 'bg-gray-400' },
-  { value: 'live', label: '작업 중', dot: 'bg-amber-400' },
-  { value: 'done', label: '완료', dot: 'bg-green-500' },
+  { value: 'ready', label: '내보내기 가능', dot: 'bg-green-500' },
+  { value: 'blocked', label: '내보낼 수 없음', dot: 'bg-neutral-600' },
 ]
 
 export default function FactionEpisodeActions({
@@ -141,7 +139,7 @@ export default function FactionEpisodeActions({
       <span className="flex items-center gap-1.5">
         <span className={`h-2 w-2 shrink-0 rounded-full ${FACTION_STATUS_OPTIONS.find(o => o.value === meta?.status)?.dot ?? 'bg-gray-400'}`} />
         <select
-          value={meta?.status ?? 'todo'}
+          value={meta?.status ?? 'blocked'}
           disabled={pending || !meta}
           onChange={e => {
             const next = e.target.value as FactionEpisodeStatus
