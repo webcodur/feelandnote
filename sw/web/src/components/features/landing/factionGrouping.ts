@@ -19,6 +19,21 @@ export function topLevelTags(tags: FeaturedTag[]): IndexedTag[] {
 }
 
 /**
+ * 최상위를 실존 인물 쪽과 이야기 속 인물 쪽으로 가른다.
+ *
+ * 신화·허구 인물은 실존 인물 목록에서 빠지는 게 맞지만(제우스가 인물 목록에 섞이면 곤란하다),
+ * 도감은 테마별 진열이라 함께 있어도 맥락이 분명하다. 다만 뒤섞이지는 않게 화면 아래쪽에
+ * 가로선을 긋고 그 밑에 따로 모은다 — 그 경계가 `is_fiction` 이다.
+ */
+export function splitByFiction(tags: FeaturedTag[]): { real: IndexedTag[]; fiction: IndexedTag[] } {
+  const top = topLevelTags(tags)
+  return {
+    real: top.filter(({ tag }) => !tag.is_fiction),
+    fiction: top.filter(({ tag }) => tag.is_fiction),
+  }
+}
+
+/**
  * 특정 그룹의 자식 태그들.
  *
  * 표시 순서는 넘어온 배열 순서를 그대로 쓴다 — `getFeaturedTags`가 이미 DB 노출 순서

@@ -59,6 +59,7 @@ export default function ArchiveControlBar({
   compact = false,
 }: ArchiveControlBarProps) {
   const t = useTranslations("archiveSearch");
+  const tCategory = useTranslations("content.category");
   const [isCategoryGuideOpen, setIsCategoryGuideOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
 
@@ -68,16 +69,28 @@ export default function ArchiveControlBar({
   // 옵션 목록
   const categoryOptions: FilterOption[] = TAB_OPTIONS.map((tab) => ({
     value: tab.value,
-    label: tab.label,
+    label: tCategory(tab.value),
     count: tab.type ? typeCounts[tab.type] : totalCount,
   }));
-  const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, label }) => ({ value, label }));
-  const reviewOptions: FilterOption[] = REVIEW_FILTER_OPTIONS.map(({ value, label }) => ({ value, label }));
+  const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, key }) => ({
+    value,
+    label: t(`sort.${key}`),
+  }));
+  const reviewOptions: FilterOption[] = REVIEW_FILTER_OPTIONS.map(({ value, key }) => ({
+    value,
+    label: t(`review.${key}`),
+  }));
 
   // 현재 라벨
-  const currentCategoryLabel = TAB_OPTIONS.find((t) => t.value === activeTab)?.label ?? "전체";
-  const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortOption)?.label ?? "최근 추가";
-  const currentReviewLabel = REVIEW_FILTER_OPTIONS.find((o) => o.value === reviewFilter)?.label ?? "전체";
+  const currentCategoryLabel = tCategory(
+    TAB_OPTIONS.find((tab) => tab.value === activeTab)?.value ?? "all",
+  );
+  const currentSortLabel = t(
+    `sort.${SORT_OPTIONS.find((option) => option.value === sortOption)?.key ?? "recent"}`,
+  );
+  const currentReviewLabel = t(
+    `review.${REVIEW_FILTER_OPTIONS.find((option) => option.value === reviewFilter)?.key ?? "all"}`,
+  );
 
   // 뷰 모드 토글
   const toggleViewMode = () => onViewModeChange(viewMode === "grid" ? "list" : "grid");
@@ -95,7 +108,7 @@ export default function ArchiveControlBar({
         {/* 데스크톱: 드롭다운 */}
         <div className="hidden md:flex items-center gap-2">
           <FilterChipDropdown
-            label="카테고리"
+            label={t("filter.category")}
             value={currentCategoryLabel}
             isActive
             options={categoryOptions}
@@ -103,7 +116,7 @@ export default function ArchiveControlBar({
             onSelect={(v) => onTabChange(v as CategoryId)}
           />
           <FilterChipDropdown
-            label="리뷰"
+            label={t("filter.review")}
             value={currentReviewLabel}
             isActive={reviewFilter !== "all"}
             options={reviewOptions}
@@ -111,7 +124,7 @@ export default function ArchiveControlBar({
             onSelect={(v) => onReviewFilterChange(v as ReviewFilter)}
           />
           <FilterChipDropdown
-            label="정렬"
+            label={t("filter.sort")}
             value={currentSortLabel}
             isActive={sortOption !== "recent"}
             options={sortOptions}
@@ -122,25 +135,28 @@ export default function ArchiveControlBar({
         </div>
 
         {/* 모바일: 칩 → 모달 */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden w-full min-w-0 flex-wrap items-center gap-2">
           <FilterChip
-            label="카테고리"
+            label={t("filter.category")}
             value={currentCategoryLabel}
             isActive
             onClick={() => setActiveFilter("category")}
+            className="min-w-36 flex-1 !shrink"
           />
           <FilterChip
-            label="리뷰"
+            label={t("filter.review")}
             value={currentReviewLabel}
             isActive={reviewFilter !== "all"}
             onClick={() => setActiveFilter("review")}
+            className="min-w-36 flex-1 !shrink"
           />
           <FilterChip
-            label="정렬"
+            label={t("filter.sort")}
             value={currentSortLabel}
             isActive={sortOption !== "recent"}
             onClick={() => setActiveFilter("sort")}
             icon={<ArrowUpDown size={12} />}
+            className="min-w-36 flex-1 !shrink"
           />
         </div>
       </div>
@@ -171,6 +187,7 @@ export default function ArchiveControlBar({
             <button
               type="button"
               onClick={onClearSearch}
+              aria-label={t("clearSearch")}
               className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
             >
               <X size={12} />
@@ -181,6 +198,7 @@ export default function ArchiveControlBar({
           type="button"
           onClick={onSearch}
           disabled={searchQuery.trim().length < 2}
+          aria-label={t("search")}
           className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent rounded-md transition-all duration-300"
         >
           <Search size={16} />
@@ -194,7 +212,7 @@ export default function ArchiveControlBar({
           type="button"
           onClick={toggleViewMode}
           className="hidden md:flex min-h-[2.5rem] w-[2.5rem] items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary rounded-lg transition-colors"
-          title={viewMode === "grid" ? "리스트 보기" : "그리드 보기"}
+          title={viewMode === "grid" ? t("listView") : t("gridView")}
         >
           {viewMode === "grid" ? <LayoutGrid size={16} /> : <List size={16} />}
         </button>
@@ -205,7 +223,7 @@ export default function ArchiveControlBar({
           onClick={toggleCollapse}
           disabled={sortOption !== "recent"}
           className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-accent/25 disabled:hover:text-text-tertiary rounded-lg transition-colors"
-          title={isAllCollapsed ? "전체 펼치기" : "전체 접기"}
+          title={isAllCollapsed ? t("expandAll") : t("collapseAll")}
         >
           {isAllCollapsed ? <ChevronsUpDown size={16} /> : <ChevronsDownUp size={16} />}
         </button>
@@ -213,7 +231,7 @@ export default function ArchiveControlBar({
 
       {/* 모바일 모달 */}
       <FilterModal
-        title="카테고리"
+        title={t("filter.category")}
         isOpen={activeFilter === "category"}
         current={activeTab}
         options={categoryOptions}
@@ -221,7 +239,7 @@ export default function ArchiveControlBar({
         onChange={(v) => onTabChange(v as CategoryId)}
       />
       <FilterModal
-        title="리뷰"
+        title={t("filter.review")}
         isOpen={activeFilter === "review"}
         current={reviewFilter}
         options={reviewOptions}
@@ -229,7 +247,7 @@ export default function ArchiveControlBar({
         onChange={(v) => onReviewFilterChange(v as ReviewFilter)}
       />
       <FilterModal
-        title="정렬"
+        title={t("filter.sort")}
         isOpen={activeFilter === "sort"}
         current={sortOption}
         options={sortOptions}

@@ -136,12 +136,13 @@ function TypographyCard({ item }: { item: TypographyClass }) {
 }
 
 export default function TypographyCatalog({ data }: { data: TypographyClass[] }) {
+  const t = useTranslations("scriptures.museum");
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6">
       <div className="flex items-center gap-2 mb-6">
         <Type className="w-4 h-4 text-[#d4af37]/60" />
         <span className="text-xs text-[#d4af37]/60 uppercase tracking-[0.15em] font-semibold">
-          Typography Classification
+          {t("typographyClassification")}
         </span>
       </div>
 

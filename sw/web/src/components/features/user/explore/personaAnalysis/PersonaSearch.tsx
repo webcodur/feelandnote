@@ -11,6 +11,7 @@ import { Search, X } from "lucide-react";
 import { SEARCH_LIMIT } from "./constants";
 import FadeAvatar from "./FadeAvatar";
 import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PersonaSearchProps {
   people: PersonaPerson[];
@@ -18,6 +19,8 @@ interface PersonaSearchProps {
 }
 
 export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) {
+  const locale = useLocale();
+  const t = useTranslations("explore.ui.personaDistribution");
   const [query, setQuery] = useState("");
 
   const q = query.trim().toLowerCase();
@@ -43,7 +46,7 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="인물 검색"
+        placeholder={t("searchPlaceholder")}
         className="w-full rounded-full border border-border/50 bg-bg-card/40 py-2.5 pl-9 pr-9 text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-accent/40 focus:outline-none"
       />
       {query && (
@@ -68,8 +71,8 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
                 <div className="size-9 shrink-0 overflow-hidden rounded-full border border-border/60 bg-bg-card">
                   <FadeAvatar src={p.avatar_url} name={p.nickname} />
                 </div>
-                <span className="flex-1 truncate text-sm font-semibold text-text-primary">{p.nickname}</span>
-                <span className="shrink-0 text-xs tabular-nums text-text-secondary/60">영향력 {p.influence}</span>
+                <span className="flex-1 truncate text-sm font-semibold text-text-primary">{locale === "en" ? (p.nickname_en || p.nickname) : p.nickname}</span>
+                <span className="shrink-0 text-xs tabular-nums text-text-secondary/60">{t("influence", { score: p.influence })}</span>
               </button>
             </li>
           ))}
@@ -77,7 +80,7 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
       )}
       {q && matches.length === 0 && (
         <div className="absolute z-40 mt-2 w-full rounded-xl border border-border/50 bg-bg-card px-4 py-3 text-sm text-text-secondary shadow-2xl">
-          검색 결과가 없습니다
+          {t("noResults")}
         </div>
       )}
     </div>

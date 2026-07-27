@@ -11,6 +11,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } fr
 import { Link } from "@/i18n/navigation";
 
 import { hubSectionId } from "./hubSectionUtils";
+import { useTranslations } from "next-intl";
 
 interface HubSectionProps {
   title: string;
@@ -31,13 +32,15 @@ export default function HubSection({
   title,
   subtitle,
   moreHref,
-  moreLabel = "더보기",
+  moreLabel,
   children,
   hideDivider = false,
   index,
   total,
   groupId,
 }: HubSectionProps) {
+  const t = useTranslations("shared.hubSection");
+  const resolvedMoreLabel = moreLabel ?? t("more");
   const hasNav = index !== undefined && total !== undefined && total > 1;
   const sectionId = index !== undefined ? hubSectionId(index, groupId) : undefined;
 
@@ -76,7 +79,7 @@ export default function HubSection({
                 type="button"
                 onClick={() => scrollTo(total! - 1)}
                 className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
-                aria-label="마지막 섹션으로"
+                aria-label={t("last")}
               >
                 <ChevronsLeft size={16} />
               </button>
@@ -85,7 +88,7 @@ export default function HubSection({
                 type="button"
                 onClick={() => scrollTo(index! - 1)}
                 className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
-                aria-label="이전 섹션"
+                aria-label={t("previous")}
               >
                 <ChevronLeft size={16} />
               </button>
@@ -100,7 +103,7 @@ export default function HubSection({
                 type="button"
                 onClick={() => scrollTo(0)}
                 className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
-                aria-label="첫 섹션으로"
+                aria-label={t("first")}
               >
                 <ChevronsRight size={16} />
               </button>
@@ -109,7 +112,7 @@ export default function HubSection({
                 type="button"
                 onClick={() => scrollTo(index! + 1)}
                 className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
-                aria-label="다음 섹션"
+                aria-label={t("next")}
               >
                 <ChevronRight size={16} />
               </button>
@@ -137,7 +140,7 @@ export default function HubSection({
             href={moreHref}
             className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
           >
-            {moreLabel}
+            {resolvedMoreLabel}
             <ArrowRight size={14} className="text-[#d4af37]/70" />
           </Link>
         </div>

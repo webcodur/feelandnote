@@ -6,16 +6,12 @@ import Logo from '@/components/ui/Logo'
 
 const COUPANG_BOOKS = [
   {
-    title: '오디세이아',
-    subtitle: '고대 그리스어 완역본 · 명화와 함께 읽는',
-    creator: '호메로스',
+    key: 'odyssey',
     thumbnail: 'https://image.aladin.co.kr/product/36239/0/cover500/k062038716_1.jpg',
     link: 'https://link.coupang.com/a/d0ybK3',
   },
   {
-    title: '일리아스',
-    subtitle: '고대 그리스어 완역본 · 명화와 함께 읽는',
-    creator: '호메로스',
+    key: 'iliad',
     thumbnail: 'https://image.aladin.co.kr/product/36238/98/cover500/k932038716_2.jpg',
     link: 'https://link.coupang.com/a/d0ycqt',
   },
@@ -45,7 +41,7 @@ export default async function PopularBooks() {
             <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden bg-white/[0.04]">
               <Image
                 src={book.thumbnail}
-                alt={book.title}
+                alt={t(`books.${book.key}.title`)}
                 fill
                 sizes="(max-width: 768px) 160px, 180px"
                 className="object-cover"
@@ -53,9 +49,9 @@ export default async function PopularBooks() {
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <p className="text-sm font-semibold text-white/90 truncate">{book.title}</p>
-              <p className="text-[11px] text-white/40 leading-tight line-clamp-2">{book.subtitle}</p>
-              <p className="text-xs text-white/50 mt-0.5">{book.creator}</p>
+              <p className="text-sm font-semibold text-white/90 truncate">{t(`books.${book.key}.title`)}</p>
+              <p className="text-[11px] text-white/40 leading-tight line-clamp-2">{t(`books.${book.key}.subtitle`)}</p>
+              <p className="text-xs text-white/50 mt-0.5">{t(`books.${book.key}.creator`)}</p>
             </div>
 
             <div className="flex items-center justify-center gap-1 mt-auto px-2 py-1.5 rounded-md text-xs font-medium text-white bg-[#E44232] group-hover:bg-[#c9382a] transition-colors">

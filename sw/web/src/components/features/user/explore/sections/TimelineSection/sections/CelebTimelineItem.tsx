@@ -13,6 +13,7 @@ import type { Locale } from "@/types/locale";
 import type { TimelineCeleb } from "@/actions/home";
 import { getYear, formatYear, formatLifespan } from "../utils";
 import ContemporariesPanel from "./ContemporariesPanel";
+import { useTranslations } from "next-intl";
 
 interface Props {
   celeb: TimelineCeleb;
@@ -35,6 +36,7 @@ export default function CelebTimelineItem({
   onFireDialogue,
   getContemporaries,
 }: Props) {
+  const t = useTranslations("explore.ui.timeline");
   const year = getYear(celeb.birth_date!);
   const displayName =
     locale === "en" && celeb.nickname_en
@@ -101,7 +103,7 @@ export default function CelebTimelineItem({
                 <div className="flex items-center gap-1 shrink-0">
                   <button type="button" onClick={() => onToggleContemporaries(celeb.id)}
                     className={`p-2 rounded-lg border transition-colors ${isContemporariesShown ? "border-accent/50 text-accent bg-accent/10" : "border-white/10 text-text-secondary hover:text-text-primary hover:border-white/20 hover:bg-white/5"}`}
-                    title={locale === "en" ? "Contemporaries" : "동시대 인물"}>
+                    title={t("contemporaries")}>
                     <Clock size={16} />
                   </button>
                   <Link href={celeb.slug ? `/celeb/${celeb.slug}` : `/celeb/${celeb.id}`}

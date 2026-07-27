@@ -32,6 +32,7 @@ export default function FreePostDetail({
 }: FreePostDetailProps) {
   const router = useRouter()
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
@@ -54,7 +55,7 @@ export default function FreePostDetail({
     if (result.success) {
       router.push('/agora/board/free')
     } else {
-      setDeleteError(result.message)
+      setDeleteError(tError(result.error))
       setDeleting(false)
     }
   }

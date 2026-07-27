@@ -26,6 +26,7 @@ export default function NoticeDetail({
 }: NoticeDetailProps) {
   const router = useRouter()
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
 
   const handleDelete = async () => {
     if (!confirm(t('notice.deleteConfirm'))) return
@@ -33,7 +34,7 @@ export default function NoticeDetail({
     if (result.success) {
       router.push('/agora/board/notice')
     } else {
-      alert(result.message)
+      alert(tError(result.error))
     }
   }
 

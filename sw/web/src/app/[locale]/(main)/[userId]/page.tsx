@@ -79,7 +79,7 @@ export default async function OverviewPage({ params }: PageProps) {
 
   // 셀럽 영향력 데이터
   const influenceData = profile.profile_type === "CELEB"
-    ? await getCelebInfluence(userId)
+    ? await getCelebInfluence(userId, locale)
     : null;
 
   // 셀럽 인물 분석 + 유사 인물

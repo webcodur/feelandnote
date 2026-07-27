@@ -26,10 +26,10 @@ interface ReviewLayoutProps {
 export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   const {
     title,
-    thumbnail,
     creator,
     rating,
     onRatingClick,
+    reviewIsOriginalLanguage,
     onStatsClick,
     reviewPresets,
     headerNode,
@@ -49,7 +49,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     displayTitle,
     displayCreator,
     displayReview,
-    imageError,
     setImageError,
     handleImageLoad,
     handleClick,
@@ -58,7 +57,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     activeEdition,
     effectiveCelebCount,
     effectiveUserCount,
-    isBadgeHovered,
     setIsBadgeHovered,
     setShowStatsModal,
     isSelected,
@@ -151,7 +149,10 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           )}
 
           <div className="mb-2">
-            <h3 className="text-xs sm:text-sm font-bold text-text-primary line-clamp-2 leading-tight group-hover:text-accent">
+            <h3
+              className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent"
+              title={displayTitle}
+            >
               {displayTitle}
             </h3>
             {displayCreator && (
@@ -192,6 +193,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
 
             {(displayReview && !isSpoiler) && (
               <div className="flex-1 relative min-h-0 overflow-hidden">
+                {reviewIsOriginalLanguage && (
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+                    {t("reviewModal.originalLanguage")}
+                  </p>
+                )}
                 <p className="text-[11px] sm:text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]">
                   <FormattedText text={displayReview} />
                 </p>
@@ -201,31 +207,32 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
 
             {displayReview && isSpoiler && (
               <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
-                <p className="text-sm text-text-tertiary">스포일러 포함</p>
+                <p className="text-sm text-text-tertiary">{t("reviewModal.spoiler")}</p>
               </div>
             )}
 
             {!displayReview && (!reviewPresets || reviewPresets.length === 0) && (
               <div className="flex-1 flex items-center justify-center">
-                <p className="text-sm text-text-tertiary/50 italic">리뷰 없음</p>
+                <p className="text-sm text-text-tertiary/50 italic">{t("reviewModal.noReview")}</p>
               </div>
             )}
             {/* 출처 링크 (headerNode 모드에서는 비표시) */}
             {!headerNode && (
-              <div className="mt-2 text-xs truncate">
+              <div className="mt-2 min-w-0 max-w-full overflow-hidden text-xs">
                 {sourceUrl ? (
                   <a
                     href={sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    title={sourceUrl}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-accent/60 hover:text-accent underline underline-offset-2"
+                    className="block max-w-full truncate text-accent/60 hover:text-accent underline underline-offset-2"
                   >
-                    출처: {sourceUrl}
+                    {t("reviewModal.source", { url: sourceUrl })}
                   </a>
                 ) : (
                   <span className="text-red-500 font-semibold">
-                    ⚠️ 출처 URL 누락
+                    {t("reviewModal.noSource")}
                   </span>
                 )}
               </div>

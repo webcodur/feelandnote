@@ -9,6 +9,7 @@ import { useState, useRef } from "react";
 import { Star } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 interface RatingEditModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export default function RatingEditModal({
   onSave,
   zIndex,
 }: RatingEditModalProps) {
+  const t = useTranslations("shared.contentCard");
   const [rating, setRating] = useState<number | null>(currentRating);
   const [isSaving, setIsSaving] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -93,7 +95,7 @@ export default function RatingEditModal({
   const handleDragEnd = () => setIsDragging(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="별점 수정" size="sm" zIndex={zIndex}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t("rating.title")} size="sm" zIndex={zIndex}>
       <ModalBody className="space-y-4">
         <div className="text-center pb-3 border-b border-border/30">
           <p className="text-sm text-text-secondary line-clamp-2">{contentTitle}</p>
@@ -149,10 +151,10 @@ export default function RatingEditModal({
           disabled={isSaving}
           className="flex-1 py-2.5 px-5 text-sm font-semibold rounded-sm border border-border text-text-secondary hover:border-accent hover:text-accent disabled:opacity-50"
         >
-          취소
+          {t("cancel")}
         </button>
         <Button variant="primary" size="md" onClick={handleSave} disabled={isSaving} className="flex-1">
-          {isSaving ? "저장 중..." : "저장"}
+          {isSaving ? t("saving") : t("save")}
         </Button>
       </ModalFooter>
     </Modal>

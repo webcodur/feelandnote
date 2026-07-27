@@ -108,9 +108,14 @@ export function groupByMonth(contents: UserContentWithContent[]): Record<string,
 }
 
 
-export function formatMonthLabel(monthKey: string): string {
+export function formatMonthLabel(monthKey: string, locale = "ko"): string {
   const [year, month] = monthKey.split("-");
-  return `${year}년 ${parseInt(month)}월`;
+  const date = new Date(Date.UTC(Number(year), Number(month) - 1, 1));
+  return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "ko-KR", {
+    year: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(date);
 }
 
 // #endregion

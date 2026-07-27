@@ -5,6 +5,8 @@ interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   as?: ElementType;
   hover?: boolean;
+  /** 모바일에서는 장식 상자를 벗기고 md 이상에서만 기존 상자 스타일을 적용한다. */
+  mobilePlain?: boolean;
   variant?: "default" | "danger";
 }
 
@@ -13,6 +15,7 @@ export default function ClassicalBox({
   className = "",
   as: Component = "div",
   hover = true,
+  mobilePlain = false,
   variant = "default",
   ...rest
 }: ClassicalBoxProps) {
@@ -24,7 +27,10 @@ export default function ClassicalBox({
         ${styles.classicalBox}
         ${hover ? styles.hoverable : ""}
         ${isDanger ? styles.danger : ""}
-        bg-bg-card border-double border-4 shadow-lg
+        ${mobilePlain
+          ? "border-0 bg-transparent shadow-none md:border-4 md:bg-bg-card md:shadow-lg"
+          : "border-4 bg-bg-card shadow-lg"}
+        border-double
         ${isDanger ? "border-red-500/40" : "border-accent-dim/40"}
         ${className}
       `}

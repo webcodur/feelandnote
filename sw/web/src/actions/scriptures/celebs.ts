@@ -11,6 +11,7 @@ import type { TopCeleb } from './types'
 interface CelebInfo {
   id: string
   nickname: string
+  nickname_en: string | null
   avatar_url: string | null
   profession: string | null
 }
@@ -31,7 +32,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
 
   const { data: profiles, error: profileError } = await supabase
     .from('profiles')
-    .select('id, nickname, avatar_url, profession')
+    .select('id, nickname, nickname_en, avatar_url, profession')
     .in('id', userIds)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -46,6 +47,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
   return (profiles || []).map(p => ({
     id: p.id,
     nickname: p.nickname,
+    nickname_en: p.nickname_en,
     avatar_url: p.avatar_url,
     profession: p.profession
   }))

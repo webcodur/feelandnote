@@ -93,7 +93,10 @@
       "updateFailed": "수정에 실패했습니다",
       "empty": "아직 방명록이 비어있습니다.",
       "writeFailed": "작성에 실패했습니다",
-      "placeholder": "이 인물에 대한 생각을 남겨주세요.",
+      "placeholder": "이 인물에게 전할 인사나 생각을 남겨주세요.",
+      "loginPrompt": "이 인물에게 인사를 남겨보세요.",
+      "loginHint": "방명록은 로그인 후 작성할 수 있습니다.",
+      "loginAction": "로그인하고 쓰기",
       "private": "비밀글",
       "public": "공개",
       "submitting": "게시 중...",
@@ -123,19 +126,46 @@
     "select": "선택",
     "clear": "비우기",
     "cancel": "취소",
+    "save": "저장",
     "editProfile": "프로필 수정"
   },
   "profilePage": {
     "userNotFound": "사용자를 찾을 수 없습니다",
     "metaDescription": "{nickname}님의 울림이 모인 기록관입니다.",
     "imageSearch": "이미지 검색결과",
+    "achievements": {
+      "noHistory": "아직 기록된 역사가 없습니다.",
+      "archive": "업적 보관소",
+      "totalScore": "종합 점수",
+      "unlocked": "해금",
+      "titles": "칭호",
+      "history": "내역",
+      "locked": "잠김",
+      "justNow": "방금 전",
+      "minutesAgo": "{count}분 전",
+      "hoursAgo": "{count}시간 전",
+      "daysAgo": "{count}일 전",
+      "condition": {
+        "contentCount": "콘텐츠 {value}개 추가",
+        "recordCount": "기록 {value}개 작성",
+        "completedCount": "콘텐츠 {value}개 완료",
+        "categoryCount": "{value}개 분야 섭렵",
+        "creatorCount": "창작자 {value}명 탐험",
+        "averageReviewLength": "평균 리뷰 {value}자 이상",
+        "longReviewCount": "긴 리뷰 {value}개 작성",
+        "unknown": "{type}: {value}"
+      }
+    },
     "guestbook": "방명록",
     "bio": {
       "label": "계보",
       "editTitle": "소개글 수정",
       "placeholder": "나를 표현하는 문구를 입력하세요...",
       "cancel": "취소",
-      "save": "저장"
+      "save": "저장",
+      "lifespan": "생존 기간",
+      "present": "현재",
+      "empty": "아직 새겨진 소개가 없습니다."
     },
     "persona": {
       "label": "인물 분석",
@@ -166,7 +196,26 @@
     },
     "influence": {
       "label": "영향력",
-      "categoryDetail": "영역별 상세"
+      "categoryDetail": "영역별 상세",
+      "totalInfluence": "종합 영향력",
+      "transhistoricity": "시대초월성",
+      "generalScore": "일반 점수",
+      "generalTotal": "일반 총점",
+      "scoreOutOf": "/ {max}점",
+      "categoryScore": "{category}: {score}점",
+      "timelessFallback": "시간이 지나도 바래지 않는 가치입니다.",
+      "generalScoreDescription": "6개 기본 영향력 영역 평가의 합계 점수입니다.",
+      "noDetails": "해당 영역 특이사항 없음",
+      "originalKorean": "한국어 원문",
+      "topStrengths": "주요 강점",
+      "categories": {
+        "political": "정치",
+        "strategic": "전략",
+        "tech": "기술",
+        "social": "사회",
+        "economic": "경제",
+        "cultural": "문화"
+      }
     },
     "settings": {
       "passwordChange": "비밀번호 변경",
@@ -177,6 +226,15 @@
       "newPasswordPlaceholder": "새 비밀번호 입력 (6자 이상)",
       "confirmPassword": "새 비밀번호 확인",
       "confirmPasswordPlaceholder": "새 비밀번호 다시 입력",
+      "passwordChanged": "비밀번호가 변경되었습니다.",
+      "passwordErrors": {
+        "missingFields": "현재 비밀번호와 새 비밀번호를 입력해 주세요.",
+        "passwordTooShort": "새 비밀번호는 6자 이상이어야 합니다.",
+        "samePassword": "새 비밀번호는 현재 비밀번호와 달라야 합니다.",
+        "loginRequired": "로그인이 필요합니다.",
+        "wrongCurrentPassword": "현재 비밀번호가 올바르지 않습니다.",
+        "updateFailed": "비밀번호를 변경하지 못했습니다. 잠시 후 다시 시도해 주세요."
+      },
       "passwordMismatch": "새 비밀번호가 일치하지 않습니다",
       "passwordNotMatch": "비밀번호가 일치하지 않습니다",
       "dangerZone": "위험 영역",

@@ -99,12 +99,12 @@ export default async function Footer() {
           {/* Bottom: Pediment */}
           <div className="mt-10 pt-5 border-t border-white/[0.06] flex items-center justify-between">
             <Link href="/lab" className="font-cinzel text-[10px] text-accent/20 tracking-[0.3em] hover:text-accent/30 transition-colors">
-              Neo Pantheon Archive
+              {t("layout.footer.neoPantheon")}
             </Link>
             <div className="flex items-center gap-4">
               <LocaleSwitcher variant="text" />
               <p className="text-[10px] text-text-tertiary/25 font-sans tracking-widest uppercase">
-                &copy; {currentYear} FeelDT. All rights reserved.
+                &copy; {currentYear} {t("layout.footer.copyright")}
               </p>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default async function Footer() {
           <div className="flex flex-col items-center gap-2 mb-8">
             <Logo size="sm" variant="default" />
             <Link href="/lab" className="text-text-tertiary/40 text-[10px] font-light tracking-wide hover:text-text-tertiary/50 transition-colors">
-              Archive of Taste
+              {t("layout.footer.archiveOfTaste")}
             </Link>
           </div>
 

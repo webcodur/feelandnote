@@ -42,6 +42,7 @@
       "noReview": "작성된 리뷰가 없습니다",
       "source": "출처: {url}",
       "noSource": "⚠️ 출처 URL 누락",
+      "originalLanguage": "한국어 원문",
       "detail": "상세 보기"
     }
   },
@@ -230,6 +231,7 @@
   },
   "musicPlayer": {
     "title": "뮤직 플레이어",
+    "gameBgm": "게임 배경음악",
     "close": "닫기",
     "album": "앨범",
     "track": "트랙",

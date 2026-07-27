@@ -16,17 +16,13 @@ export type ContentCategory = CategoryId;
 
 export interface SearchModeConfig {
   id: SearchMode;
-  label: string;
-  placeholder: string;
 }
 
-/** @deprecated Use useTranslations("shared.search.mode") for labels/placeholders */
 export const SEARCH_MODES: SearchModeConfig[] = [
-  { id: "content", label: "콘텐츠", placeholder: "작품명, 저자, 감독..." },
-  { id: "user", label: "사용자", placeholder: "닉네임, @username..." },
-  // { id: "tag", label: "태그", placeholder: "태그명..." },
-  { id: "celeb", label: "셀럽", placeholder: "인물 이름..." },
-  { id: "records", label: "내 기록", placeholder: "내 기록에서 검색..." },
+  { id: "content" },
+  { id: "user" },
+  { id: "celeb" },
+  { id: "records" },
 ];
 
 const SEARCH_MODE_IDS: SearchMode[] = ["content", "user", "celeb", "records"];

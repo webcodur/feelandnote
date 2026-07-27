@@ -3,22 +3,17 @@
 // egress-allow: blocks(본인 RLS) 의존 + 팔로우·차단 직후 즉시 반영 필요(추천 모달) — 캐시 부적합
 import { createClient } from "@/lib/supabase/server";
 import type { RecommendableUser } from "@/types/recommendation";
-
-interface GetRecommendableFriendsResult {
-  success: boolean;
-  data: RecommendableUser[];
-  error?: string;
-}
+import { type ActionResult, failure, success } from "@/lib/errors";
 
 // 추천 가능한 사용자 목록 조회 (팔로워/친구만, 차단 제외)
-export async function getRecommendableFriends(): Promise<GetRecommendableFriendsResult> {
+export async function getRecommendableFriends(): Promise<ActionResult<RecommendableUser[]>> {
   const supabase = await createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return { success: false, data: [], error: "로그인이 필요합니다." };
+    return failure("UNAUTHORIZED");
   }
 
   // 내가 차단한 사용자 ID 조회
@@ -124,5 +119,5 @@ export async function getRecommendableFriends(): Promise<GetRecommendableFriends
   const relationOrder = { friend: 0, follower: 1 };
   result.sort((a, b) => relationOrder[a.relation] - relationOrder[b.relation]);
 
-  return { success: true, data: result };
+  return success(result);
 }

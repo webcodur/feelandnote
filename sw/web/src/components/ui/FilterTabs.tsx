@@ -9,6 +9,7 @@ import {
   FILTER_CHIP_STYLES,
   FILTER_BOTTOMSHEET_STYLES,
 } from "@/constants/filterStyles";
+import { useTranslations } from "next-intl";
 
 interface FilterTabItem<T extends string = string> {
   value: T;
@@ -34,6 +35,7 @@ export default function FilterTabs<T extends string>({
   hideZeroCounts = false,
   title,
 }: FilterTabsProps<T>) {
+  const t = useTranslations("shared.ui");
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredValue, setHoveredValue] = useState<T | null>(null);
   const tabRefs = useRef<Map<T, HTMLButtonElement>>(new Map());
@@ -119,7 +121,7 @@ export default function FilterTabs<T extends string>({
       </div>
 
       {/* 모바일: 필터 선택 바텀시트 */}
-      <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)} title="필터 선택">
+      <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)} title={t("selectFilter")}>
         <div className="p-4 space-y-2">
           {items.map(({ value, label }) => {
             const isActive = activeValue === value;

@@ -252,7 +252,7 @@ export default function MyReviewPanel({
                     <button
                       onClick={() => insertText('《', '》')}
                       className="flex items-center justify-center w-9 h-9 rounded-lg text-xs font-bold bg-white/10 hover:bg-accent/20 text-white border border-white/10 hover:border-accent/40 transition-all backdrop-blur-md shadow-lg"
-                      title="제목/강조: 《작품명》"
+                      title={t("formatTitle")}
                     >
                       《》
                     </button>

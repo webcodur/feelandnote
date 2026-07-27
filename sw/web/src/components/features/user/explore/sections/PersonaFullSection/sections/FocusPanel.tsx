@@ -13,6 +13,7 @@ import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 import Avatar from "../Avatar";
 import { getName, celebHref } from "../utils";
 import type { FocusedCeleb } from "../types";
+import { useTranslations } from "next-intl";
 
 export default function FocusPanel({
   celeb, score, reason, color, locale, label, stats
@@ -25,6 +26,7 @@ export default function FocusPanel({
   label?: string;
   stats?: PersonaStatsWithReasons;
 }) {
+  const t = useTranslations("explore.ui.personaDistribution");
   const name = getName(celeb, locale);
   const title = locale === "en" ? (celeb.title_en || celeb.profession) : (celeb.title || celeb.profession);
 
@@ -57,7 +59,7 @@ export default function FocusPanel({
        {reason && (
          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 mb-8 text-left text-white/80 leading-relaxed text-sm w-full shadow-sm relative">
            <div className="absolute top-0 left-6 -translate-y-1/2 bg-[#0e0e10] px-2 text-[10px] font-bold tracking-widest text-white/40 uppercase">
-             {locale === "en" ? "Assessment" : "기록"}
+             {t("assessment")}
            </div>
            {reason}
          </div>
@@ -74,7 +76,7 @@ export default function FocusPanel({
        )}
 
        <Link href={celebHref(celeb)} className={cn("mt-auto w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all", "bg-white text-black hover:bg-white/90 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.2)]")}>
-         {locale === "en" ? "View Full Profile" : "전체 프로필 보기"}
+         {t("viewProfile")}
        </Link>
     </div>
   )

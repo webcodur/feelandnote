@@ -91,7 +91,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 />
                             ) : (
                                 <div className="w-full h-full bg-white/5 flex items-center justify-center text-text-tertiary">
-                                    No Image
+                                    {t("noImage")}
                                 </div>
                             )}
                              <div className="absolute inset-0 ring-1 ring-inset ring-black/20 group-hover:ring-accent/50 transition-all" />

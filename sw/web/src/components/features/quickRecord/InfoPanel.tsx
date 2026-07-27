@@ -143,7 +143,7 @@ export default function InfoPanel({
                             />
                         ) : (
                             <div className="w-full h-full bg-white/5 flex items-center justify-center text-text-tertiary text-xs">
-                                No Image
+                                {t("noImage")}
                             </div>
                         )}
                     </div>

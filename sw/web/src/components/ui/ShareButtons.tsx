@@ -19,13 +19,19 @@ interface ShareButtonsProps {
   // 로케일 prefix 없는 경로 (예: /celeb/shakespeare)
   path: string;
   className?: string;
+  comfortable?: boolean;
 }
 
 const iconBtnStyle =
-  "inline-flex items-center justify-center p-1.5 rounded-full bg-white/5 border border-white/10 text-text-secondary hover:text-accent hover:border-accent/30";
+  "inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-text-secondary hover:text-accent hover:border-accent/30";
 // #endregion
 
-export default function ShareButtons({ title, path, className = "" }: ShareButtonsProps) {
+export default function ShareButtons({
+  title,
+  path,
+  className = "",
+  comfortable = false,
+}: ShareButtonsProps) {
   const t = useTranslations("share");
   const locale = useLocale();
   const [copied, setCopied] = useState(false);
@@ -34,6 +40,8 @@ export default function ShareButtons({ title, path, className = "" }: ShareButto
   const shareUrl = `${BASE_URL}${locale === "en" ? "/en" : ""}${path}`;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedText = encodeURIComponent(title);
+  const iconSize = comfortable ? 18 : 14;
+  const iconButtonSize = comfortable ? "h-11 w-11" : "p-1.5";
 
   const linkChannels = [
     {
@@ -57,8 +65,16 @@ export default function ShareButtons({ title, path, className = "" }: ShareButto
   };
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <span className="text-xs text-text-tertiary font-medium">{t("label")}</span>
+    <div className={`flex flex-wrap items-center justify-end gap-2 ${className}`}>
+      <span
+        className={
+          comfortable
+            ? "text-base font-medium text-text-tertiary sm:text-lg"
+            : "text-xs font-medium text-text-tertiary"
+        }
+      >
+        {t("label")}
+      </span>
 
       {linkChannels.map(({ key, label, Icon, href }) => (
         <a
@@ -67,9 +83,9 @@ export default function ShareButtons({ title, path, className = "" }: ShareButto
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
-          className={iconBtnStyle}
+          className={`${iconBtnStyle} ${iconButtonSize}`}
         >
-          <Icon size={14} />
+          <Icon size={iconSize} />
         </a>
       ))}
 
@@ -77,22 +93,26 @@ export default function ShareButtons({ title, path, className = "" }: ShareButto
       <button
         type="button"
         disabled
-        aria-label="KakaoTalk"
-        className={`${iconBtnStyle} opacity-50 cursor-not-allowed`}
+        aria-label={t("kakaoTalk")}
+        className={`${iconBtnStyle} ${iconButtonSize} opacity-50 cursor-not-allowed`}
       >
-        <MessageCircle size={14} />
+        <MessageCircle size={iconSize} />
       </button>
 
       <button
         type="button"
         onClick={() => void handleCopy()}
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-full bg-white/5 border ${
+        className={`inline-flex items-center gap-1.5 rounded-full bg-white/5 border ${
+          comfortable
+            ? "min-h-11 px-3 py-2 text-base sm:text-lg"
+            : "px-2.5 py-1.5 text-xs"
+        } ${
           copied
             ? "text-accent border-accent/30"
             : "text-text-secondary border-white/10 hover:text-accent hover:border-accent/30"
         }`}
       >
-        {copied ? <Check size={14} /> : <Link2 size={14} />}
+        {copied ? <Check size={iconSize} /> : <Link2 size={iconSize} />}
         <span>{copied ? t("copied") : t("copyLink")}</span>
       </button>
     </div>

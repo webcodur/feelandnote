@@ -57,6 +57,8 @@ export interface ContentCardProps {
   // 리뷰 모드
   review?: string | null;
   reviewEn?: string | null;
+  /** 현재 locale 번역본이 없어 원문을 대신 표시하는지 여부 */
+  reviewIsOriginalLanguage?: boolean;
   reviewPresets?: string[] | null;
   isSpoiler?: boolean;
   sourceUrl?: string | null;

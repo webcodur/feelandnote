@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/actions/notifications";
 import type { SendRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface SendRecommendationData {
@@ -95,11 +95,9 @@ export async function sendRecommendation(
   // 5. 발신자 프로필 조회
   const { data: senderProfile } = await supabase
     .from("profiles")
-    .select("nickname")
+    .select("nickname, nickname_en")
     .eq("id", user.id)
     .single();
-
-  const senderName = senderProfile?.nickname ?? "사용자";
 
   // 6. 알림 생성
   const rawContent = (
@@ -108,6 +106,12 @@ export async function sendRecommendation(
       : userContent.content
   ) as { id: string; type: string; content_locales: ContentLocaleRow[] | null } | null;
   const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: "notificationMessages" });
+  const senderName =
+    (locale === "en" ? senderProfile?.nickname_en : senderProfile?.nickname) ??
+    senderProfile?.nickname ??
+    senderProfile?.nickname_en ??
+    t("userFallback");
   const flat = flattenLocales(rawContent?.content_locales, locale);
   const content = rawContent ? { id: rawContent.id, type: rawContent.type, title: flat.title, thumbnail_url: flat.thumbnail_url } : null;
 
@@ -115,8 +119,11 @@ export async function sendRecommendation(
     userId: params.receiverId,
     actorId: user.id,
     type: "recommendation",
-    title: `${senderName}님의 추천`,
-    message: `${senderName}님이 '${content?.title ?? "콘텐츠"}'을(를) 추천했습니다.`,
+    title: t("recommendationTitle", { name: senderName }),
+    message: t("recommendationMessage", {
+      name: senderName,
+      content: content?.title ?? t("contentFallback"),
+    }),
     link: `/notifications`,
     metadata: {
       recommendation_id: recommendation.id,

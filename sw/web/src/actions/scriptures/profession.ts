@@ -8,6 +8,7 @@ import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
 import type { Tables } from '@/types/supabase'
+import type { ContentType } from '@/types/database'
 import type { ScriptureContent, ScripturesByProfession, TopCeleb } from './types'
 import { aggregateContents, fetchAllUserContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
 
@@ -51,7 +52,7 @@ async function fetchProfessionAggregate(
   const celebIds = celebProfiles.map(p => p.id)
 
   const [typedData, { data: topCelebsData }] = await Promise.all([
-    fetchAllUserContents(supabase, celebIds),
+    fetchAllUserContents(supabase, celebIds, locale),
     supabase
       .from('profiles')
       .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence(total_score)')
@@ -96,6 +97,7 @@ const getProfessionAggregateCached = unstable_cache(
 
 export async function getScripturesByProfession(params?: {
   profession?: string
+  category?: ContentType
   page?: number
   limit?: number
 }): Promise<ScripturesByProfession | null> {
@@ -107,9 +109,12 @@ export async function getScripturesByProfession(params?: {
   const agg = await getProfessionAggregateCached(profession, locale)
   if (!agg) return null
 
-  // 캐시된 전체 리스트에서 현재 페이지만 분리 (캐시 원본 mutate 방지 위해 얕은 복사)
+  // 직군 전체 집계 캐시를 재사용하고, 요청 카테고리를 적용한 뒤 현재 페이지만 분리한다.
+  const filteredContents = params?.category
+    ? agg.contents.filter(content => content.type === params.category)
+    : agg.contents
   const start = (page - 1) * limit
-  const pageContents = agg.contents.slice(start, start + limit).map(c => ({ ...c }))
+  const pageContents = filteredContents.slice(start, start + limit).map(c => ({ ...c }))
 
   // 콘텐츠별 전체 셀럽 수는 현재 페이지에 대해서만 카운트 RPC로 보정
   const supabase = createStaticClient()
@@ -124,7 +129,7 @@ export async function getScripturesByProfession(params?: {
     profession,
     label: professionInfo?.label || profession,
     contents: pageContents,
-    total: agg.total,
+    total: filteredContents.length,
     topCelebs: agg.topCelebs,
   }
 }

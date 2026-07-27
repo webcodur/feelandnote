@@ -7,6 +7,7 @@ import { removeContent } from "@/actions/contents/removeContent";
 import { EditionToggle } from "../slots";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
+import { useTranslations } from "next-intl";
 
 interface CardHeaderProps {
   props: ContentCardProps;
@@ -14,6 +15,7 @@ interface CardHeaderProps {
 }
 
 export default function CardHeader({ props, state }: CardHeaderProps) {
+  const t = useTranslations("shared.contentCard");
   const {
     topRightNode,
     deletable,
@@ -49,14 +51,14 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
     if (internalSaved) {
       if (recommendable !== false) {
         menuItems.push({
-          label: "추천",
+          label: t("recommend"),
           icon: <ThumbsUp size={14} />,
           onClick: () => setIsRecommendModalOpen(true),
         });
       }
       if (deletable !== false) {
         menuItems.push({
-          label: "삭제",
+          label: t("delete"),
           icon: <Trash2 size={14} />,
           onClick: async () => {
             if (onDelete) {
@@ -73,7 +75,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
       }
     } else {
       menuItems.push({
-        label: "서재에 담기",
+        label: t("addToLibrary"),
         icon: <Bookmark size={14} />,
         onClick: () => {
           if (onAdd) {

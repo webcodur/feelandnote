@@ -93,7 +93,10 @@
       "updateFailed": "Failed to update",
       "empty": "No guestbook entries yet.",
       "writeFailed": "Failed to post",
-      "placeholder": "Share your thoughts about this person.",
+      "placeholder": "Leave a greeting or thought for this figure.",
+      "loginPrompt": "Leave a greeting for this figure.",
+      "loginHint": "Sign in to write in the guestbook.",
+      "loginAction": "Sign in to write",
       "private": "Private",
       "public": "Public",
       "submitting": "Posting...",
@@ -123,19 +126,46 @@
     "select": "Select",
     "clear": "Clear",
     "cancel": "Cancel",
+    "save": "Save",
     "editProfile": "Edit profile"
   },
   "profilePage": {
     "userNotFound": "User not found",
     "metaDescription": "An archive of {nickname}'s echoes.",
     "imageSearch": "Image Search Results",
+    "achievements": {
+      "noHistory": "No history has been recorded yet.",
+      "archive": "Achievement Archive",
+      "totalScore": "Total Score",
+      "unlocked": "Unlocked",
+      "titles": "Titles",
+      "history": "History",
+      "locked": "Locked",
+      "justNow": "Just now",
+      "minutesAgo": "{count} min ago",
+      "hoursAgo": "{count} hr ago",
+      "daysAgo": "{count} days ago",
+      "condition": {
+        "contentCount": "Add {value} works",
+        "recordCount": "Write {value} records",
+        "completedCount": "Finish {value} works",
+        "categoryCount": "Explore {value} categories",
+        "creatorCount": "Explore {value} creators",
+        "averageReviewLength": "Average review length of {value}+ characters",
+        "longReviewCount": "Write {value} long reviews",
+        "unknown": "{type}: {value}"
+      }
+    },
     "guestbook": "Guestbook",
     "bio": {
       "label": "Lineage",
       "editTitle": "Edit bio",
       "placeholder": "Write something that represents you...",
       "cancel": "Cancel",
-      "save": "Save"
+      "save": "Save",
+      "lifespan": "Lifespan",
+      "present": "Present",
+      "empty": "No bio has been inscribed yet."
     },
     "persona": {
       "label": "Persona Analysis",
@@ -166,7 +196,26 @@
     },
     "influence": {
       "label": "Influence",
-      "categoryDetail": "Category Details"
+      "categoryDetail": "Category Details",
+      "totalInfluence": "Total Influence",
+      "transhistoricity": "Enduring Impact",
+      "generalScore": "Domain Score",
+      "generalTotal": "Domain Total",
+      "scoreOutOf": "/ {max}",
+      "categoryScore": "{category}: {score} points",
+      "timelessFallback": "Its value continues beyond the figure's own era.",
+      "generalScoreDescription": "The combined score across six domains of influence.",
+      "noDetails": "No notable impact recorded in this domain",
+      "originalKorean": "Original Korean text",
+      "topStrengths": "Leading Domains",
+      "categories": {
+        "political": "Politics",
+        "strategic": "Strategy",
+        "tech": "Technology",
+        "social": "Society",
+        "economic": "Economics",
+        "cultural": "Culture"
+      }
     },
     "settings": {
       "passwordChange": "Change Password",
@@ -177,6 +226,15 @@
       "newPasswordPlaceholder": "Enter new password (min. 6 chars)",
       "confirmPassword": "Confirm New Password",
       "confirmPasswordPlaceholder": "Re-enter new password",
+      "passwordChanged": "Your password has been changed.",
+      "passwordErrors": {
+        "missingFields": "Enter your current and new passwords.",
+        "passwordTooShort": "Your new password must be at least 6 characters.",
+        "samePassword": "Your new password must be different from your current password.",
+        "loginRequired": "Please sign in to continue.",
+        "wrongCurrentPassword": "Your current password is incorrect.",
+        "updateFailed": "We could not change your password. Please try again shortly."
+      },
       "passwordMismatch": "New passwords do not match",
       "passwordNotMatch": "Passwords do not match",
       "dangerZone": "Danger Zone",

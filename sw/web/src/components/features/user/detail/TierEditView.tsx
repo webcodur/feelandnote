@@ -22,18 +22,19 @@ interface TierEditViewProps {
 }
 
 const TIER_LABELS = ["S", "A", "B", "C", "D"] as const;
-const TIER_CONFIG: Record<string, { label: string; color: string; border: string; bg: string; icon: string }> = {
-  S: { label: "MYTHIC", color: "text-red-500", border: "border-red-500/50", bg: "bg-red-500/10", icon: "👑" },
-  A: { label: "LEGENDARY", color: "text-orange-500", border: "border-orange-500/50", bg: "bg-orange-500/10", icon: "💎" },
-  B: { label: "EPIC", color: "text-amber-400", border: "border-amber-400/50", bg: "bg-amber-400/10", icon: "⚔️" },
-  C: { label: "RARE", color: "text-green-500", border: "border-green-500/50", bg: "bg-green-500/10", icon: "🌿" },
-  D: { label: "COMMON", color: "text-blue-500", border: "border-blue-500/50", bg: "bg-blue-500/10", icon: "stone" },
+const TIER_CONFIG: Record<string, { color: string; border: string; bg: string; icon: string }> = {
+  S: { color: "text-red-500", border: "border-red-500/50", bg: "bg-red-500/10", icon: "👑" },
+  A: { color: "text-orange-500", border: "border-orange-500/50", bg: "bg-orange-500/10", icon: "💎" },
+  B: { color: "text-amber-400", border: "border-amber-400/50", bg: "bg-amber-400/10", icon: "⚔️" },
+  C: { color: "text-green-500", border: "border-green-500/50", bg: "bg-green-500/10", icon: "🌿" },
+  D: { color: "text-blue-500", border: "border-blue-500/50", bg: "bg-blue-500/10", icon: "stone" },
 };
 
 type TierLabel = (typeof TIER_LABELS)[number];
 
 export default function TierEditView({ flowId }: TierEditViewProps) {
   const t = useTranslations("flowDetail");
+  const tContent = useTranslations("contentDetail");
   const router = useRouter();
   const [flow, setFlow] = useState<FlowWithStages | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -77,7 +78,8 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
         setUnranked(allContentIds);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("loadError"));
+      console.error("[TierEditView:load]", err);
+      setError(t("loadError"));
     } finally {
       setIsLoading(false);
     }
@@ -145,14 +147,15 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
       await updateFlow({ flowId, hasTiers: true, tiers: tiers as Record<string, string[]> });
       router.push(`/${flow.user_id}/reading/collections/${flowId}`);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "저장에 실패했습니다");
+      console.error("[TierEditView:save]", err);
+      alert(t("saveError"));
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleReset = () => {
-    if (!confirm("모든 티어 설정을 초기화하시겠습니까?")) return;
+    if (!confirm(t("resetConfirm"))) return;
     setTiers({ S: [], A: [], B: [], C: [], D: [] });
     if (flow) {
       const allIds = flow.stages.flatMap(s => s.nodes.map(n => n.content_id));
@@ -172,7 +175,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
     return (
       <div className="text-center py-20 bg-[#0a0a0a] min-h-screen">
         <p className="text-red-400 mb-4">{error}</p>
-        <Button unstyled onClick={() => router.back()} className="text-accent hover:underline">돌아가기</Button>
+        <Button unstyled onClick={() => router.back()} className="text-accent hover:underline">{t("back")}</Button>
       </div>
     );
   }
@@ -192,7 +195,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button unstyled onClick={handleReset} className="p-2 text-white/40 hover:text-white transition-colors" title="초기화">
+          <Button unstyled onClick={handleReset} className="p-2 text-white/40 hover:text-white transition-colors" title={t("reset")}>
             <RotateCcw size={20} />
           </Button>
           <Button 
@@ -227,7 +230,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                   onClick={() => setSelectedType(type)} 
                   className={`px-4 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${selectedType === type ? "text-accent border-b border-accent" : "text-white/40 hover:text-white"}`}
                 >
-                  {cat?.label || type}
+                  {cat ? tContent(`category.${cat.id}`) : type}
                 </Button>
               );
             })}
@@ -250,7 +253,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
               {/* Tier Label (Left Pillar) */}
               <div className={`w-24 md:w-32 flex-shrink-0 flex flex-col items-center justify-center gap-2 border-r border-white/5 ${TIER_CONFIG[tier].bg} relative overflow-hidden group`}>
                 <span className={`text-4xl md:text-5xl font-black font-serif ${TIER_CONFIG[tier].color} drop-shadow-lg z-10`}>{tier}</span>
-                <span className={`text-[10px] font-bold tracking-[0.2em] ${TIER_CONFIG[tier].color} opacity-60 z-10`}>{TIER_CONFIG[tier].label}</span>
+                <span className={`text-[10px] font-bold tracking-[0.2em] ${TIER_CONFIG[tier].color} opacity-60 z-10`}>{t(`tierLabels.${tier}`)}</span>
                 
                 {/* Background Glow */}
                 <div className={`absolute inset-0 opacity-20 ${tier === 'S' ? 'animate-pulse' : ''} bg-gradient-to-br from-transparent via-${TIER_CONFIG[tier].color.split('-')[1]}-500/20 to-transparent`} />
@@ -310,7 +313,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
               <div className="flex flex-wrap gap-2">
                 {getFilteredIds(unranked).length === 0 && (
                    <div className="w-full py-12 text-center text-white/20 text-sm font-serif italic">
-                      모든 기록이 심판대에 올랐습니다.
+                      {t("allJudged")}
                    </div>
                 )}
                 {getFilteredIds(unranked).map((contentId) => {

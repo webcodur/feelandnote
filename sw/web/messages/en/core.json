@@ -2,12 +2,29 @@
   "site": {
     "title": "Feel&Note",
     "description": "Discover what great minds read, watched, and listened to. Explore the records and echoes of 1,000+ notable figures.",
-    "twitterDescription": "A single line recorded, a thousand years of echoes. A cultural archive of 1,000+ great minds."
+    "twitterDescription": "A single line recorded, a thousand years of echoes. A cultural archive of 1,000+ great minds.",
+    "keywords": ["cultural archive", "celebrity book recommendations", "celebrity movie recommendations", "reading lists", "book recommendations", "movie recommendations", "music recommendations", "cultural journeys", "notable figures"]
   },
   "notFound": {
     "title": "Page Not Found",
     "description": "The page you requested does not exist or has been moved.",
     "backHome": "Back to Home"
+  },
+  "actionErrors": {
+    "UNAUTHORIZED": "Please sign in to continue.",
+    "FORBIDDEN": "You do not have permission to do that.",
+    "NOT_FOUND": "The requested information could not be found.",
+    "ALREADY_EXISTS": "This has already been added.",
+    "CONFLICT": "This was already handled or conflicts with another request.",
+    "VALIDATION_ERROR": "Please check the information you entered.",
+    "INVALID_INPUT": "The information entered is not valid.",
+    "DB_ERROR": "Something went wrong while processing the information.",
+    "RLS_VIOLATION": "You do not have permission to do that.",
+    "SELF_ACTION": "You cannot perform this action on yourself.",
+    "LIMIT_EXCEEDED": "You have reached the allowed limit.",
+    "NOT_IN_ARCHIVE": "This is available only for content in your archive.",
+    "UNKNOWN_ERROR": "An unknown error occurred.",
+    "INTERNAL_ERROR": "Something went wrong. Please try again shortly."
   },
   "layout": {
     "readingMode": "Reading Mode",
@@ -33,10 +50,14 @@
     },
     "locale": {
       "switchTo": "한국어",
-      "label": "Change language"
+      "label": "Change language",
+      "korean": "Korean"
     },
     "footer": {
-      "tagline": "A single line recorded, a thousand years of echoes."
+      "tagline": "A single line recorded, a thousand years of echoes.",
+      "neoPantheon": "Neo Pantheon Archive",
+      "copyright": "FeelDT. All rights reserved.",
+      "archiveOfTaste": "Archive of Taste"
     }
   },
   "pages": {
@@ -265,6 +286,84 @@
     "viewAll": "View All"
   },
   "shared": {
+    "scrollDown": "Scroll down",
+    "accessibility": {
+      "pause": "Pause",
+      "play": "Play",
+      "stop": "Stop",
+      "readAloud": "Read aloud"
+    },
+    "hubSection": {
+      "more": "View more",
+      "last": "Go to the last section",
+      "previous": "Previous section",
+      "first": "Go to the first section",
+      "next": "Next section"
+    },
+    "contentCard": {
+      "recommend": "Recommend",
+      "delete": "Delete",
+      "addToLibrary": "Add to Library",
+      "addConfirmSuffix": "— add this to your library?",
+      "cancel": "Cancel",
+      "add": "Add",
+      "manageLibrary": "Manage Library",
+      "markFinished": "Mark as Finished",
+      "deleteRecord": "Delete Record",
+      "close": "Close",
+      "save": "Save",
+      "saving": "Saving...",
+      "rating": {
+        "title": "Edit Rating"
+      },
+      "stats": {
+        "title": "Reader Breakdown",
+        "figures": "Figures who selected this content",
+        "empty": "No figure information is available.",
+        "note": "Figures include historical personalities and public figures."
+      },
+      "types": {
+        "title": "Content Type",
+        "BOOK": {
+          "label": "Books",
+          "description": "Books, comics, web novels, essays, and more"
+        },
+        "VIDEO": {
+          "label": "Video",
+          "description": "Films, series, documentaries, animation, and more"
+        },
+        "GAME": {
+          "label": "Games",
+          "description": "Video games, board games, indie games, and more"
+        },
+        "MUSIC": {
+          "label": "Music",
+          "description": "Albums, singles, classical music, podcasts, and more"
+        }
+      }
+    },
+    "ui": {
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "select": "Select",
+      "selectFilter": "Select Filter",
+      "noSearchResults": "No results found.",
+      "deleteConfirm": {
+        "title": "Delete Content",
+        "one": "Delete this content?",
+        "many": "Delete {count} items?",
+        "affectedFlows": "This will also remove it from the following flows."
+      },
+      "pagination": {
+        "label": "Pagination",
+        "first": "First",
+        "previous": "Previous",
+        "go": "Go",
+        "next": "Next",
+        "last": "Last",
+        "perPage": "/ page"
+      }
+    },
     "search": {
       "viewAllResults": "View all results",
       "openInNewTab": "Open in new tab",
@@ -337,6 +436,140 @@
       "soundInfo": "Includes sound effects",
       "startGame": "Start Game",
       "heroesAwait": "{count} heroes await",
+      "duel": {
+        "round": "Round",
+        "momentum": "Momentum",
+        "martial": "Martial",
+        "logic": "Logic",
+        "command": "Command",
+        "momentumGain": "Momentum +1",
+        "damage": "{value} damage",
+        "halfDamage": "Half damage",
+        "forfeit": "Forfeit",
+        "selectAction": "Choose an action",
+        "commands": {
+          "assault": "Battle",
+          "stratagem": "Scheme",
+          "govern": "Govern"
+        },
+        "clash": {
+          "sameCommand": "Matching commands!",
+          "occurred": "Clash",
+          "tapToStart": "Tap to start",
+          "info": {
+            "assault": {
+              "label": "Collision",
+              "description": "Time your strike."
+            },
+            "stratagem": {
+              "label": "Debate",
+              "description": "Build momentum and overwhelm your opponent."
+            },
+            "govern": {
+              "label": "Tactical Trial",
+              "description": "Memorize and reproduce the pattern."
+            }
+          }
+        },
+        "result": {
+          "victory": "VICTORY",
+          "defeat": "DEFEAT",
+          "draw": "DRAW",
+          "playerEffect": "Your command takes full effect.",
+          "enemyEffect": "The enemy command takes full effect.",
+          "drawEffect": "Both commands take effect at half strength."
+        },
+        "rhythm": {
+          "title": "CLASH",
+          "enemyTurn": "Opponent's turn",
+          "hint": "Tap when the circles overlap.",
+          "rules": {
+            "timing": "Press the matching button when the circle reaches the target.",
+            "victory": "Score higher than your opponent to win."
+          },
+          "controls": "Mobile: bottom buttons · PC: Q / W / E"
+        },
+        "simon": {
+          "title": "TACTICS",
+          "instructions": "Repeat the sequence. · PC: Q W E / A S D",
+          "remember": "Remember the sequence.",
+          "status": {
+            "ready": "Ready",
+            "watch": "Watch",
+            "input": "Input {current}/{total}",
+            "wrong": "Wrong!",
+            "enemyTurn": "Opponent's turn..."
+          },
+          "outcomes": {
+            "bothSuccessDraw": "Both succeeded — draw",
+            "roundSuccess": "Both cleared round {round}",
+            "enemyFailed": "The opponent failed!",
+            "playerFailed": "You missed the sequence...",
+            "bothFailedDraw": "Both failed — draw"
+          },
+          "rules": {
+            "remember": "Remember the order in which the cells light up.",
+            "repeat": "Press the cells in the same order.",
+            "grows": "The pattern grows each round. (Up to {max} rounds)"
+          },
+          "controls": "Mobile: tap cells · PC: Q W E / A S D"
+        },
+        "actions": {
+          "assault": {
+            "charge": "Charge",
+            "strike": "Strike",
+            "brace": "Brace"
+          },
+          "stratagem": {
+            "charge": "Think",
+            "strike": "Rebut",
+            "brace": "Deflect"
+          },
+          "govern": {
+            "charge": "Charge",
+            "strike": "Strike",
+            "brace": "Brace"
+          }
+        },
+        "actionDescriptions": {
+          "charge": "Gain 1 momentum",
+          "strike": "Deal damage equal to momentum",
+          "brace": "Halve incoming damage"
+        },
+        "rules": {
+          "assault": {
+            "risk": "A strike deals full damage while you are charging."
+          },
+          "stratagem": {
+            "risk": "A rebuttal deals full damage while you are thinking."
+          },
+          "govern": {
+            "risk": "A strike deals full damage while you are charging."
+          },
+          "victory": "Reduce your opponent's HP to zero first to win."
+        },
+        "narrative": {
+          "bothCharge": "Both sides gathered momentum.",
+          "enemyMiss": "The enemy whiffed without enough momentum.",
+          "enemyHit": "The enemy struck for {damage} damage.",
+          "playerMiss": "Your strike missed without enough momentum.",
+          "playerHit": "You struck for {damage} damage.",
+          "bothMiss": "Both attacks missed.",
+          "crossStrike": "The attacks crossed.",
+          "perfectGuard": "A perfect guard.",
+          "enemyBraced": "The enemy braced and took {damage} damage.",
+          "playerBraced": "You held firm and took {damage} damage.",
+          "lull": "The standoff continued."
+        }
+      },
+      "dialogue": {
+        "closeEsc": "Close (Esc)",
+        "resetPosition": "Reset position",
+        "greeting": "Greeting",
+        "rollCall": "Roll Call",
+        "deploy": "Deploy",
+        "quotes": "Quotes"
+      },
       "phase": {
         "lobby": "Lobby",
         "loading": "Loading",
@@ -440,14 +673,35 @@
     "emptyAll": "No notifications yet.",
     "emptyFiltered": "All caught up!"
   },
+  "notificationMessages": {
+    "recommendationTitle": "Recommendation from {name}",
+    "recommendationMessage": "{name} recommended “{content}” to you.",
+    "acceptedTitle": "Recommendation accepted",
+    "acceptedMessage": "{name} accepted your recommendation.",
+    "contentFallback": "this content",
+    "userFallback": "User"
+  },
   "popularBooks": {
     "title": "Most Read Books",
-    "buyOnCoupang": "View on Coupang"
+    "buyOnCoupang": "View on Coupang",
+    "books": {
+      "odyssey": {
+        "title": "The Odyssey",
+        "subtitle": "A complete translation from Ancient Greek, illustrated with classic art",
+        "creator": "Homer"
+      },
+      "iliad": {
+        "title": "The Iliad",
+        "subtitle": "A complete translation from Ancient Greek, illustrated with classic art",
+        "creator": "Homer"
+      }
+    }
   },
   "share": {
     "label": "Share",
     "copyLink": "Copy link",
-    "copied": "Copied"
+    "copied": "Copied",
+    "kakaoTalk": "KakaoTalk"
   },
   "factionMedia": {
     "watchLongform": "Watch the film",

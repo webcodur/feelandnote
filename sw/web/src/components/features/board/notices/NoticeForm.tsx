@@ -17,6 +17,7 @@ interface NoticeFormProps {
 export default function NoticeForm({ mode, notice }: NoticeFormProps) {
   const router = useRouter()
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [title, setTitle] = useState(notice?.title ?? '')
   const [content, setContent] = useState(notice?.content ?? '')
   const [isPinned, setIsPinned] = useState(notice?.is_pinned ?? false)
@@ -35,7 +36,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
     if (result.success) {
       router.push(mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice!.id}`)
     } else {
-      alert(result.message)
+      alert(tError(result.error))
       setIsSubmitting(false)
     }
   }

@@ -72,35 +72,13 @@ export async function generateMetadata(): Promise<Metadata> {
         follow: true,
       },
     },
-    keywords: ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 여정", "필앤노트", "feelandnote", "book", "movie", "music", "game", "celebrity"],
+    keywords: t.raw("keywords") as string[],
     icons: {
       icon: { url: "/icon.png", type: "image/png", sizes: "192x192" },
       apple: "/apple-icon.png",
     },
   };
 }
-
-const siteJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Feel&Note",
-    url: "https://feelandnote.com",
-    logo: "https://feelandnote.com/icon.png",
-    description: "Celebrity cultural archives — books, movies, music, and games enjoyed by history's greatest minds.",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Feel&Note",
-    url: "https://feelandnote.com",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://feelandnote.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
-  },
-];
 
 export default async function LocaleLayout({
   children,
@@ -112,6 +90,28 @@ export default async function LocaleLayout({
   const { locale } = await params;
   setRequestLocale(locale);
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: "site" });
+  const siteJsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Feel&Note",
+      url: "https://feelandnote.com",
+      logo: "https://feelandnote.com/icon.png",
+      description: t("description"),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Feel&Note",
+      url: "https://feelandnote.com",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://feelandnote.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ];
 
   return (
     <NextIntlClientProvider messages={messages}>

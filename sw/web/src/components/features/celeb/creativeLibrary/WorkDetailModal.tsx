@@ -201,7 +201,7 @@ export default function WorkDetailModal({
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
               >
                 <Search size={14} />
-                {locale === "en" ? "Search" : "검색"}
+                {t("creativeSearch")}
               </a>
             </div>
           </div>

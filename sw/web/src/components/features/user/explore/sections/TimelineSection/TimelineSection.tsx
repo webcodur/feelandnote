@@ -9,7 +9,7 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import type { Locale } from "@/types/locale";
@@ -26,6 +26,7 @@ interface Props {
 
 export default function TimelineSection({ celebs, countries }: Props) {
   const locale = useLocale() as Locale;
+  const t = useTranslations("explore.ui");
   const { handleSubtitle } = useDialogueSubtitle();
   const [selectedCountry, setSelectedCountry] = useState<string>(
     countries[0]?.code ?? ""
@@ -162,7 +163,7 @@ export default function TimelineSection({ celebs, countries }: Props) {
       {/* 타임라인 */}
       {filtered.length === 0 ? (
         <p className="text-text-secondary text-center py-12">
-          해당 국가의 인물이 없습니다.
+          {t("noCountryFigures")}
         </p>
       ) : (
         <>

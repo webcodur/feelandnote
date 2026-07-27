@@ -1,5 +1,4 @@
 import { CategoryId } from '@/constants/categories'
-import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
 import type { ScriptureContent, StaticSupabase, UserContentJoinRow } from './types'
 
@@ -90,6 +89,8 @@ function chunkArray<T>(array: T[], size: number): T[][] {
 export async function fetchAllUserContents(
   supabase: StaticSupabase,
   celebIds: string[],
+  // 요청 로케일은 unstable_cache 바깥에서 읽어 인자로 전달한다.
+  locale: string,
   category?: string
 ) {
   const PAGE_SIZE = 1000
@@ -133,7 +134,6 @@ export async function fetchAllUserContents(
         break
       }
 
-      const locale = await getLocale()
       const rows: UserContentJoinRow[] = data || []
       const typedData = rows.map(item => {
         const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents

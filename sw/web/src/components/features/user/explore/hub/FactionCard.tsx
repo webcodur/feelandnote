@@ -23,7 +23,8 @@ interface FactionCardProps {
   tags?: TagPreview[];
 }
 
-export default function FactionCard({ locale = "ko", tags = [] }: FactionCardProps) {
+export default async function FactionCard({ locale = "ko", tags = [] }: FactionCardProps) {
+  const t = await getTranslations("explore.ui");
   if (tags.length === 0) return null;
 
   return (
@@ -81,7 +82,7 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
                     ))}
                   </div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-white">
-                    {locale === "en" ? "Explore" : "탐색하기"}
+                    {t("explore")}
                   </div>
                 </div>
               )}

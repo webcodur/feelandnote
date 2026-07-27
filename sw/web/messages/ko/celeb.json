@@ -1,24 +1,99 @@
 {
   "celebPage": {
-    "intro": "인물 소개",
     "viewCount": "조회수",
+    "playQuoteVoice": "인용 음성 재생",
+    "playAudio": "음성 재생",
+    "stopAudio": "음성 정지",
+    "showSimilarityFormula": "유사도 계산 방식 보기",
+    "factionPreviousPortrait": "이전 단체 화보",
+    "factionNextPortrait": "다음 단체 화보",
+    "originalKoreanNotice": "영문본이 아직 등록되지 않은 일부 문장은 한국어 원문으로 표시합니다.",
+    "ageCurrent": "현재 {age}세",
+    "ageCurrentApprox": "현재 약 {age}세",
+    "ageAtDeath": "사망 당시 {age}세",
+    "ageAtDeathApprox": "사망 당시 약 {age}세",
     "serviceGuideTitle": "인물 탐구도",
     "serviceGuideDescription": "금빛 인장을 선택해 이 인물의 기록으로 이동하세요.",
-    "serviceIntroduction": "인물 소개",
+    "serviceIntroduction": "프로필",
     "serviceDialogueVoice": "음성",
     "serviceMonologueVoice": "낭독",
     "serviceAvailable": "제공",
     "servicePreparing": "준비 중",
     "serviceContentPreparing": "콘텐츠 준비 중",
     "serviceFaction": "세력도감",
+    "connections": "인물과 시대",
+    "connectionsRelationsDesc": "가족·스승·동료·경쟁자로 이어진 직접 관계",
+    "connectionsContemporariesDesc": "생몰 기간이 겹치는 인물을 찾습니다. 후보가 많으면 출생 시점이 가까운 순, 함께 산 기간이 긴 순으로 좁혀 최대 30명만 보여줍니다.",
+    "connectionsFactionDesc": "같은 주제와 진영에 편성된 인물",
+    "profileAxes": "역량·덕목·성향",
+    "profileAxesDesc": "역량·덕목·성향 16축과 닮은 인물",
+    "analysisInfluenceDesc": "정치·전략·기술·사회·경제·문화 점수와 평가 근거",
+    "mediaMonologue": "가상 독백",
+    "mediaDialogues": "고유 대사",
+    "mediaDialoguesDesc": "상황별 말투와 음성으로 만나는 고유 대사",
+    "mediaVideos": "영상",
+    "mediaVideosDesc": "감상 기록과 사상을 담은 본편과 단편 영상",
+    "atlasProfile": "프로필",
+    "atlasUnavailable": "이 인물에게 없는 구획",
+    "atlasUnavailableShort": "미개방",
+    "atlasGuideConcept": "기본 개념",
+    "atlasGuideNoData": "이 인물의 {section} 정보는 아직 등록되지 않았습니다.",
+    "atlasGuideOpenAction": "안내 구획으로 이동합니다",
+    "atlasGuideOpenShort": "안내 보기",
+    "previousSection": "이전 항목: {name}",
+    "nextSection": "다음 항목: {name}",
+    "noPreviousSection": "이전 항목 없음",
+    "noNextSection": "다음 항목 없음",
+    "atlasGuides": {
+      "connections": {
+        "about": "이 인물을 둘러싼 사람과 시대, 진영을 세 갈래 기록으로 묶어 보여줍니다."
+      },
+      "library": {
+        "about": "이 인물이 감상한 콘텐츠와 직접 남긴 창작물을 함께 모읍니다."
+      },
+      "timeline": {
+        "about": "생애의 주요 사건을 타임라인과 활동 반경 지도에서 보여줍니다."
+      },
+      "relations": {
+        "about": "이 인물과 실제로 연결된 사람들을 관계 유형별로 잇습니다."
+      },
+      "contemporaries": {
+        "about": "생몰 기간이 겹치는 인물을 찾고, 후보가 많으면 출생 시점이 가까운 순과 함께 산 기간이 긴 순으로 좁혀 최대 30명만 보여줍니다."
+      },
+      "faction": {
+        "about": "하나의 시대·사상·조직·작품을 둘러싼 진영과 대립 구도를 보여줍니다."
+      },
+      "analysis": {
+        "about": "이 인물의 16축 지표와 영향력을 두 갈래로 나누어 살펴봅니다."
+      },
+      "media": {
+        "about": "이 인물의 생각과 목소리를 글·음성·영상으로 만납니다."
+      },
+      "influence": {
+        "about": "정치·전략·기술·사회·경제·문화 여섯 영역의 영향력을 평가합니다."
+      },
+      "persona": {
+        "about": "역량·덕목·성향 16축으로 인물의 사고와 행동 경향을 분석합니다."
+      },
+      "virtualMonologue": {
+        "about": "사료에 근거해 이 인물이 자신의 생애를 1인칭으로 돌아보는 독백입니다."
+      },
+      "dialogues": {
+        "about": "화면 상황에 따라 이 인물다운 반응과 말을 들려주는 대사 모음입니다."
+      },
+      "videos": {
+        "about": "이 인물의 감상 기록과 사상을 영상으로 풀어낸 콘텐츠를 모읍니다."
+      }
+    },
     "influence": "영향력",
     "tierFictionBadge": "신화 속 인물",
     "tierFictionNotice": "실제로 살았던 사람이 아니라 신화와 서사시에 등장하는 인물입니다. 그래도 이 인물의 말과 선택에는 오랜 세월 사람들이 쌓아 온 생각이 담겨 있습니다. 한 사람의 생애가 아니라 그를 만들어 낸 사람들의 세계관을 읽는 자리로 삼아 주세요.",
     "tierRelationBadge": "관계로 만나는 인물",
     "tierRelationNotice": "다른 인물이나 영상에 함께 등장해 소개하는 인물입니다. 감상 기록 대신 기본 소개만 담았습니다.",
-    "library": "기록 서가",
-    "libraryEmpty": "아직 공개된 기록의 서가가 비어있습니다.",
-    "analysis": "인물 분석",
+    "library": "기록물",
+    "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
+    "analysis": "인물 지표",
+    "media": "미디어",
     "guestbook": "방명록",
     "innerVirtue": "내적 덕목",
     "outerVirtue": "외적 덕목",
@@ -49,12 +124,12 @@
     "factionOpen": "전체 세력도감 보기",
     "factionClose": "여기서 닫기",
     "relationGraph": "인물 관계망",
-    "timeline": "생애 행적",
+    "timeline": "타임라인",
     "timelineBc": "BC",
     "timelineMapLabel": "행적이 남은 곳을 표시한 지구본",
     "timelineMapHint": "지구본을 끌어 돌리고 굴려서 크기를 조절할 수 있습니다. 연표의 항목이나 지구본의 점을 누르면 서로 이어집니다.",
     "timelineViewBoth": "나란히",
-    "timelineViewList": "생애 연표",
+    "timelineViewList": "타임라인",
     "timelineViewMap": "활동 반경",
     "timelineMapHintAlone": "지구본을 끌어 돌리고 굴려서 크기를 조절할 수 있습니다. 점을 누르면 그곳의 이름이 뜹니다.",
     "timelineZoomIn": "크게 보기",
@@ -101,9 +176,9 @@
     "guestbookCta": "방명록에 여러분의 생각을 남겨보세요.",
     "recordControl": "기록 제어",
     "worksControl": "창작물 제어",
-    "tabConsume": "감상 기록",
-    "tabConsumeDesc": "이 인물이 직접 읽고, 보고, 들은 것들",
-    "tabCreate": "창작물",
+    "tabConsume": "감상",
+    "tabConsumeDesc": "이 인물이 읽고, 보고, 듣고, 즐긴 콘텐츠",
+    "tabCreate": "창작",
     "tabCreateDesc": "이 인물이 세상에 남긴 작품들",
     "worksEmpty": "아직 등록된 창작물이 없습니다.",
     "worksLoading": "불러오는 중...",
@@ -139,6 +214,7 @@
     "dialogue_battle_draw": "무승부",
     "dialogue_battle_lose": "패배",
     "dialogue_clash_attack": "기합",
+    "creativeSearch": "검색",
     "notFound": "셀럽을 찾을 수 없습니다"
   }
 }

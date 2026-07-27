@@ -9,6 +9,7 @@
 import { AlertTriangle, ListMusic, Loader2 } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "./Modal";
 import Button from "./Button";
+import { useTranslations } from "next-intl";
 
 interface FlowInfo {
   id: string;
@@ -31,18 +32,19 @@ export default function DeleteConfirmModal({
   onClose,
   onConfirm,
   isLoading = false,
-  title = "콘텐츠 삭제",
+  title,
   message,
   affectedPlaylists = [],
   itemCount = 1,
 }: DeleteConfirmModalProps) {
+  const t = useTranslations("shared.ui");
   const hasAffectedPlaylists = affectedPlaylists.length > 0;
   const defaultMessage = itemCount > 1
-    ? `${itemCount}개 콘텐츠를 삭제하시겠습니까?`
-    : "이 콘텐츠를 삭제하시겠습니까?";
+    ? t("deleteConfirm.many", { count: itemCount })
+    : t("deleteConfirm.one");
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title} icon={AlertTriangle} size="sm">
+    <Modal isOpen={isOpen} onClose={onClose} title={title ?? t("deleteConfirm.title")} icon={AlertTriangle} size="sm">
       <ModalBody>
         <p className="text-text-secondary mb-4">{message || defaultMessage}</p>
 
@@ -50,7 +52,7 @@ export default function DeleteConfirmModal({
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
             <div className="flex items-center gap-2 text-yellow-500 font-medium mb-3">
               <ListMusic size={18} />
-              <span>다음 재생목록에서도 삭제됩니다</span>
+              <span>{t("deleteConfirm.affectedFlows")}</span>
             </div>
             <ul className="space-y-1.5">
               {affectedPlaylists.map((playlist) => (
@@ -69,11 +71,11 @@ export default function DeleteConfirmModal({
 
       <ModalFooter className="justify-end">
         <Button variant="ghost" onClick={onClose} disabled={isLoading}>
-          취소
+          {t("cancel")}
         </Button>
         <Button variant="danger" onClick={onConfirm} disabled={isLoading}>
           {isLoading && <Loader2 size={16} className="animate-spin" />}
-          삭제
+          {t("delete")}
         </Button>
       </ModalFooter>
     </Modal>

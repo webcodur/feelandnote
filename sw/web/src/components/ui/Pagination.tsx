@@ -8,6 +8,7 @@
 
 import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Send } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 // #region 아이콘 컴포넌트
 const TripleChevronLeft = ({ className, size = 16 }: { className?: string; size?: number }) => (
@@ -102,6 +103,7 @@ export function Pagination({
   onPageSizeChange,
   showPageSizeSelector = false,
 }: PaginationProps) {
+  const t = useTranslations("shared.ui.pagination");
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -132,13 +134,13 @@ export function Pagination({
   };
 
   return (
-    <nav className={STYLES.container} aria-label="페이지네이션">
+    <nav className={STYLES.container} aria-label={t("label")}>
       
       {/* Top Row: Controller Bar */}
       <div className="flex items-center justify-between w-full gap-2 md:gap-4">
         {/* Left Controls */}
         <div className={STYLES.group}>
-          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={`${STYLES.segmentBtn} hidden md:flex`} title="처음">
+          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={`${STYLES.segmentBtn} hidden md:flex`} title={t("first")}>
             <TripleChevronLeft size={16} />
           </button>
           <div className="hidden md:block">
@@ -148,7 +150,7 @@ export function Pagination({
             <ChevronsLeft size={16} />
           </button>
           <div className={STYLES.divider} />
-          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={STYLES.segmentBtn} title="이전">
+          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={STYLES.segmentBtn} title={t("previous")}>
             <ChevronLeft size={16} />
           </button>
         </div>
@@ -164,14 +166,14 @@ export function Pagination({
             className={STYLES.input}
             placeholder="—"
           />
-          <button onClick={handleJump} className={STYLES.submitBtn} title="이동">
+          <button onClick={handleJump} className={STYLES.submitBtn} title={t("go")}>
             <Send size={11} />
           </button>
         </div>
 
         {/* Right Controls */}
         <div className={STYLES.group}>
-          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={STYLES.segmentBtn} title="다음">
+          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={STYLES.segmentBtn} title={t("next")}>
             <ChevronRight size={16} />
           </button>
           <div className={STYLES.divider} />
@@ -181,7 +183,7 @@ export function Pagination({
           <div className="hidden md:block">
             <div className={STYLES.divider} />
           </div>
-          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={`${STYLES.segmentBtn} hidden md:flex`} title="마지막">
+          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={`${STYLES.segmentBtn} hidden md:flex`} title={t("last")}>
             <TripleChevronRight size={16} />
           </button>
         </div>
@@ -224,7 +226,7 @@ export function Pagination({
               {size}
             </button>
           ))}
-          <span className="text-text-secondary/40 text-[10px] ml-1">/ page</span>
+          <span className="text-text-secondary/40 text-[10px] ml-1">{t("perPage")}</span>
         </div>
       )}
 

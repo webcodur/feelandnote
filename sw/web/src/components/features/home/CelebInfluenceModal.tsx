@@ -9,8 +9,8 @@ import { Avatar } from "@/components/ui";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
-import { RadarChart, TranshistoricityGauge, CategoryDetail, TopInfluenceTags } from "@/components/features/influence";
-import { useTranslations } from "next-intl";
+import { RadarChart, TranshistoricityGauge, CategoryDetail } from "@/components/features/influence";
+import { useLocale, useTranslations } from "next-intl";
 
 // Aura 기반 모달 스타일 (9단계)
 const AURA_MODAL_STYLES: Record<Aura, { bg: string; text: string; border: string; glow: string }> = {
@@ -36,6 +36,8 @@ interface CelebInfluenceModalProps {
 
 export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }: CelebInfluenceModalProps) {
   const t = useTranslations("home.ui.influence");
+  const tInfluence = useTranslations("profilePage.influence");
+  const locale = useLocale();
   const [data, setData] = useState<CelebInfluenceDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -43,12 +45,26 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   useEffect(() => {
     if (!isOpen || !celebId) return;
 
-    setLoading(true);
-    setExpandedCategory(null);
-    getCelebInfluence(celebId)
-      .then(setData)
-      .finally(() => setLoading(false));
-  }, [isOpen, celebId]);
+    let ignore = false;
+    queueMicrotask(() => {
+      if (!ignore) {
+        setLoading(true);
+        setExpandedCategory(null);
+      }
+    });
+
+    getCelebInfluence(celebId, locale)
+      .then((res) => {
+        if (!ignore) setData(res);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [isOpen, celebId, locale]);
 
   if (!isOpen || typeof document === "undefined") return null;
 
@@ -61,15 +77,15 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
     setExpandedCategory(expandedCategory === key ? null : key);
   };
 
-  // #region 공유 컴포넌트
-  const LoadingSpinner = () => (
+  // #region 공유 렌더 헬퍼
+  const renderLoadingSpinner = () => (
     <div className="flex flex-col items-center justify-center py-20 gap-3">
       <div className="w-10 h-10 border-3 border-accent/20 border-t-accent rounded-full animate-spin" />
       <span className="text-sm text-text-secondary">{t("analyzing")}</span>
     </div>
   );
 
-  const ErrorState = () => (
+  const renderErrorState = () => (
     <div className="flex flex-col items-center justify-center py-20 gap-2">
       <span className="text-text-tertiary">{t("loadError")}</span>
       <button onClick={onClose} className="text-sm text-accent hover:underline">{t("close")}</button>
@@ -82,7 +98,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
     .sort((a, b) => b.value - a.value)
     .slice(0, 3) : [];
 
-  const Header = ({ isMobile = false }: { isMobile?: boolean }) => (
+  const renderHeader = (isMobile = false) => (
     <div className={`relative ${isMobile ? "p-4" : "p-4 pr-12"}`}>
       {/* PC: 수평 나열 */}
       {!isMobile && (
@@ -137,7 +153,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                   `}
                 >
                   <Icon size={12} className={isTop ? "text-accent" : "text-text-tertiary"} />
-                  <span className="text-[11px] text-text-secondary">{cat.label}</span>
+                  <span className="text-[11px] text-text-secondary">
+                    {tInfluence(`categories.${cat.key}`)}
+                  </span>
                   <span className={`text-sm font-black ${isTop ? "text-accent" : "text-text-primary"}`}>
                     {cat.value}
                   </span>
@@ -199,49 +217,45 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
         <div className="absolute inset-0 border border-accent/20 rounded-2xl" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-        {loading ? <LoadingSpinner /> : !data ? <ErrorState /> : (
+        {loading ? renderLoadingSpinner() : !data ? renderErrorState() : (
           <>
-            <Header />
+            {renderHeader()}
 
             {/* 본문 */}
             <div className="relative flex-1 overflow-y-auto custom-scrollbar">
               <div className="p-5 pt-0 space-y-5">
-                {/* 상단 섹션: 레이더 차트 + 시대초월성 */}
-                <div className="flex gap-6">
-                  {/* 레이더 차트 */}
-                  <div className="shrink-0 p-4 rounded-xl bg-black/20 border border-white/5">
-                    <RadarChart data={data} size={240} />
+                {/* 2열 통합 대시보드 구조 */}
+                <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-5 items-start">
+                  {/* 좌측: 레이더 차트 */}
+                  <div className="shrink-0 p-3 rounded-xl bg-black/20 border border-white/5 flex justify-center">
+                    <RadarChart data={data} size={180} />
                   </div>
 
-                  {/* 우측: 시대초월성 + 주요 영향력 */}
-                  <div className="flex-1 flex flex-col gap-4">
-                    <TranshistoricityGauge value={data.transhistoricity} />
-                    {data.transhistoricity_exp && (
-                      <p className="text-xs text-text-secondary leading-relaxed px-1">
-                        {data.transhistoricity_exp}
-                      </p>
-                    )}
-                    <div className="pt-3 border-t border-white/5">
-                      <p className="text-xs text-text-tertiary mb-2 font-medium">{t("topInfluence")}</p>
-                      <TopInfluenceTags data={data} />
+                  {/* 우측: 게이지 + 세부 6개 카드 */}
+                  <div className="space-y-4 min-w-0">
+                    <TranshistoricityGauge
+                      value={data.transhistoricity}
+                      explanation={data.transhistoricity_exp}
+                      isTranslationFallback={(data.translationFallbacks ?? []).includes("transhistoricity")}
+                    />
+
+                    {/* 영역별 상세 */}
+                    <div className="space-y-2 pt-1">
+                      <h3 className="text-xs font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
+                      <div className="space-y-2">
+                        {INFLUENCE_CATEGORIES.map((cat) => (
+                          <CategoryDetail
+                            key={cat.key}
+                            category={cat}
+                            value={data[cat.key as keyof CelebInfluenceDetail] as number}
+                            explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
+                            isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
+                            isExpanded={expandedCategory === cat.key}
+                            onToggle={() => toggleCategory(cat.key)}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* 영역별 상세 */}
-                <div className="space-y-3">
-                  <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {INFLUENCE_CATEGORIES.map((cat) => (
-                      <CategoryDetail
-                        key={cat.key}
-                        category={cat}
-                        value={data[cat.key as keyof CelebInfluenceDetail] as number}
-                        explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
-                        isExpanded={expandedCategory === cat.key}
-                        onToggle={() => toggleCategory(cat.key)}
-                      />
-                    ))}
                   </div>
                 </div>
               </div>
@@ -263,9 +277,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
         {/* 배경 장식 */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)] pointer-events-none" />
 
-        {loading ? <LoadingSpinner /> : !data ? <ErrorState /> : (
+        {loading ? renderLoadingSpinner() : !data ? renderErrorState() : (
           <>
-            <Header isMobile />
+            {renderHeader(true)}
 
             {/* 본문 */}
             <div className="relative flex-1 overflow-y-auto custom-scrollbar">
@@ -277,18 +291,12 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                   </div>
                 </div>
 
-                {/* 주요 영향력 태그 */}
-                <div className="flex justify-center">
-                  <TopInfluenceTags data={data} />
-                </div>
-
                 {/* 시대초월성 */}
-                <TranshistoricityGauge value={data.transhistoricity} />
-                {data.transhistoricity_exp && (
-                  <p className="text-xs text-text-secondary leading-relaxed text-center px-2">
-                    {data.transhistoricity_exp}
-                  </p>
-                )}
+                <TranshistoricityGauge
+                  value={data.transhistoricity}
+                  explanation={data.transhistoricity_exp}
+                  isTranslationFallback={(data.translationFallbacks ?? []).includes("transhistoricity")}
+                />
 
                 {/* 영역별 상세 */}
                 <div className="space-y-3 pt-2">
@@ -300,6 +308,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                         category={cat}
                         value={data[cat.key as keyof CelebInfluenceDetail] as number}
                         explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
+                        isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
                         isExpanded={expandedCategory === cat.key}
                         onToggle={() => toggleCategory(cat.key)}
                       />

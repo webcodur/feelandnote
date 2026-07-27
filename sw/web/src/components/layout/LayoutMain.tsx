@@ -21,7 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Suspense fallback={<div className="w-full h-16 bg-black/90 fixed top-0 start-0" />}>
         <Header isMobile={isMobile} />
       </Suspense>
-      <main className="pt-16 pb-16 px-0 md:pt-24 md:pb-8 md:px-5 min-h-screen overflow-y-auto scrollbar-stable [overflow-anchor:none] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.05)_0%,transparent_50%)]">
+      <main className="pt-16 pb-16 px-0 md:pt-24 md:pb-8 md:px-5 min-h-screen scrollbar-stable [overflow-anchor:none] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.05)_0%,transparent_50%)]">
         <div className="max-w-[1400px] 2xl:max-w-[1800px] mx-auto border-2 md:border-4 border-double border-accent-dim/20 min-h-[calc(100vh-140px)] bg-bg-main shadow-[0_0_80px_rgba(0,0,0,0.6)] px-2 md:px-8 relative mb-4">
 
           {/* Corner Decor - 상단 좌우 (신전 꺽쇠) */}

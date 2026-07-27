@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import { ArrowRight, Activity } from "lucide-react";
 import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 import { getPersonaQuickViewData, type PersonaQuickViewData } from "@/actions/home/getPersonaQuickViewData";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
+import { localizePersonaText } from "@/lib/persona/localizeText";
 
 interface Props {
   isOpen: boolean;
@@ -20,6 +21,7 @@ interface Props {
 
 export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposing = false, color }: Props) {
   const locale = useLocale();
+  const t = useTranslations("explore.ui.personaQuickView");
   const [data, setData] = useState<PersonaQuickViewData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +59,6 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
   const target = isOpposing && entry.opposing ? entry.opposing : entry;
   const celeb = target.celeb;
   const name = isEn && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
-  const reasonText = isEn ? target.reason.en : target.reason.ko;
 
   // 축 방향 이름 (예: 낙관, 통솔력 등)
   const axisLabel = isEn ? entry.label.en : entry.label.ko;
@@ -133,17 +134,20 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
             {isLoading ? (
               <div className="w-full py-6 flex items-center justify-center gap-2 text-text-tertiary">
                 <Activity size={18} className="animate-spin opacity-50" />
-                <span className="text-sm font-medium">{isEn ? "Loading insights..." : "페르소나 분석 중..."}</span>
+                <span className="text-sm font-medium">{t("loading")}</span>
               </div>
             ) : data && (
               <>
                 {data.rationale && (
                   <div className="pt-5">
                     <p className="text-xs font-semibold text-accent tracking-wider mb-1.5">
-                      {isEn ? "ANALYSIS" : "분석 총평"}
+                      {t("analysis")}
                     </p>
                     <p className="text-sm leading-relaxed text-text-secondary break-keep">
-                      {isEn ? data.rationale.en : data.rationale.ko}
+                      {localizePersonaText(
+                        isEn ? data.rationale.en : data.rationale.ko,
+                        locale,
+                      )}
                     </p>
                   </div>
                 )}
@@ -170,10 +174,10 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
             >
               <div className="flex flex-col items-start gap-1">
                 <span className="text-base sm:text-lg font-bold text-white group-hover:text-white transition-colors break-keep">
-                  {isEn ? `Visit ${shortName}'s Library` : `${shortName}의 서재 방문하기`}
+                  {t("visitLibrary", { name: shortName })}
                 </span>
                 <span className="text-xs text-text-secondary">
-                  {isEn ? "Explore Cultural Journey & Tastes" : "감상 여정과 취향 탐색"}
+                  {t("exploreJourney")}
                 </span>
               </div>
               <div

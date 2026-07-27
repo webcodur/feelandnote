@@ -1,6 +1,6 @@
 // 영향력 UI 상수 - lucide-react 의존
 
-import { Crown, Lightbulb, Cpu, Users, Coins, Palette, Clock, type LucideIcon } from 'lucide-react'
+import { Crown, Swords, Cpu, Users, Coins, Palette, Clock, type LucideIcon } from 'lucide-react'
 import {
   INFLUENCE_CATEGORY_FIELDS,
   INFLUENCE_LABELS,
@@ -14,7 +14,7 @@ import {
 // #region 영역별 아이콘
 export const INFLUENCE_ICONS: Record<InfluenceField, LucideIcon> = {
   political: Crown,
-  strategic: Lightbulb,
+  strategic: Swords,
   tech: Cpu,
   social: Users,
   economic: Coins,

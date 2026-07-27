@@ -1,12 +1,12 @@
 'use client'
 
 import { useActionState } from 'react'
-import { signupWithEmail } from '@/actions/auth'
+import { signupWithEmail, type SignupErrorCode } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
 import { Link } from '@/i18n/navigation'
 
-type State = { error?: string; success?: string } | undefined
+type State = { error?: SignupErrorCode; success?: 'verificationSent' } | undefined
 
 export default function SignupForm() {
   const t = useTranslations('auth.signup')
@@ -46,11 +46,11 @@ export default function SignupForm() {
       </div>
 
       {state?.error && (
-        <p className="text-sm text-red-400">{state.error}</p>
+        <p className="text-sm text-red-400">{t(`errors.${state.error}`)}</p>
       )}
 
       {state?.success && (
-        <p className="text-sm text-green-400">{state.success}</p>
+        <p className="text-sm text-green-400">{t(state.success)}</p>
       )}
 
       <Button

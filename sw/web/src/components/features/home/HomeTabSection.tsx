@@ -6,6 +6,7 @@ import { Tabs, Tab } from "@/components/ui/Tab";
 import { ChevronDown, Info } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import InspirationChainGraphic from "./InspirationChainGraphic";
+import { useTranslations } from "next-intl";
 
 /**
  * [[인물명]] → 엑센트 색상 
@@ -18,7 +19,7 @@ export function renderHighlighted(text: string): ReactNode[] {
       const name = seg.slice(2, -2);
       if (name === "Feel&Note") {
         return (
-          <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-lg md:text-xl whitespace-nowrap">
+          <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-[17px] md:text-xl whitespace-nowrap">
             <span className="logo-text-cream">FEEL</span>
             <span className="logo-text-sepia mx-1">&amp;</span>
             <span className="logo-text-cream">NOTE</span>
@@ -69,6 +70,7 @@ export default function HomeTabSection({
   freeSection,
   labels,
 }: HomeTabSectionProps) {
+  const tShared = useTranslations("shared");
   const [activeTab, setActiveTab] = useState<"record" | "figure" | "free">("figure");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRelayInfo, setShowRelayInfo] = useState(false);
@@ -84,8 +86,8 @@ export default function HomeTabSection({
         <Logo size="xl" variant="hero" subtitle="YOUR CULTURAL LEGACY" />
 
         {/* Service Intro */}
-        <div className="mt-10 md:mt-14 w-full max-w-2xl px-4 md:px-6 animate-in fade-in delay-200 duration-700">
-          <div className="relative px-6 py-8 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
+        <div className="mt-8 md:mt-14 w-full max-w-2xl px-2 md:px-6 animate-in fade-in delay-200 duration-700">
+          <div className="relative px-4 py-6 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
             {/* Corner accents */}
             <div className="absolute top-0 left-0 w-5 h-5 md:w-7 md:h-7 border-t border-l border-accent/20" />
             <div className="absolute top-0 right-0 w-5 h-5 md:w-7 md:h-7 border-t border-r border-accent/20" />
@@ -102,7 +104,7 @@ export default function HomeTabSection({
             </button>
 
             {/* Prose */}
-            <div className="relative z-10 space-y-6 md:space-y-8 text-[15.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
+            <div className="relative z-10 space-y-6 md:space-y-8 text-[14.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
               {labels.intro.split("\n\n").map((para, i) => (
                 <p key={i} className="whitespace-pre-line">{renderHighlighted(para)}</p>
               ))}
@@ -118,13 +120,13 @@ export default function HomeTabSection({
               <div className="flex flex-col items-center gap-2 md:gap-3 text-center drop-shadow-sm tracking-[0.2em]">
                 {typeof labels.introSub === 'string' ? labels.introSub.split('\n').map((line, i) => (
                   <span key={i} className={i === 0 
-                    ? "text-sm md:text-base text-text-primary font-medium" 
-                    : "text-sm md:text-base text-[#E6D5A7] font-medium"
+                    ? "text-[13.5px] md:text-base text-text-primary font-medium"
+                    : "text-[13.5px] md:text-base text-[#E6D5A7] font-medium"
                   }>
                     {line}
                   </span>
                 )) : (
-                  <p className="text-sm md:text-base text-accent/90 font-medium whitespace-pre-line">
+                  <p className="text-[13.5px] md:text-base text-accent/90 font-medium whitespace-pre-line">
                     {labels.introSub}
                   </p>
                 )}
@@ -138,7 +140,7 @@ export default function HomeTabSection({
             <button
                 onClick={handleScrollDown}
                 className="group flex flex-col items-center gap-3 text-text-tertiary hover:text-accent"
-                aria-label="Scroll down"
+                aria-label={tShared("scrollDown")}
             >
                 <div className="relative p-2.5 rounded-full border border-white/10 group-hover:border-accent/40 bg-white/5 group-hover:bg-accent/10">
                     <ChevronDown size={22} strokeWidth={1.5} className="animate-bounce" />
@@ -150,22 +152,22 @@ export default function HomeTabSection({
       </div>
 
       {/* 2. Tabs */}
-      <div ref={scrollRef} className="w-full max-w-lg mx-auto px-4 mt-14 md:mt-20 mb-8 md:mb-12 scroll-mt-24">
+      <div ref={scrollRef} className="w-full max-w-lg mx-auto px-2 md:px-4 mt-14 md:mt-20 mb-8 md:mb-12 scroll-mt-24">
         <Tabs className="w-full justify-center border-b border-white/10">
           <Tab
-            label={<span className="text-lg md:text-xl px-4 py-2">{labels.todayFigure}</span>}
+            label={<span className="text-[14.5px] sm:text-base md:text-xl px-1 sm:px-2 md:px-4 py-2 whitespace-nowrap">{labels.todayFigure}</span>}
             active={activeTab === "figure"}
             onClick={() => setActiveTab("figure")}
             className="flex-1 justify-center"
           />
           <Tab
-            label={<span className="text-lg md:text-xl px-4 py-2">{labels.quickRecord}</span>}
+            label={<span className="text-[14.5px] sm:text-base md:text-xl px-1 sm:px-2 md:px-4 py-2 whitespace-nowrap">{labels.quickRecord}</span>}
             active={activeTab === "record"}
             onClick={() => setActiveTab("record")}
             className="flex-1 justify-center"
           />
           <Tab
-            label={<span className="text-lg md:text-xl px-4 py-2">{labels.freeBoard}</span>}
+            label={<span className="text-[14.5px] sm:text-base md:text-xl px-1 sm:px-2 md:px-4 py-2 whitespace-nowrap">{labels.freeBoard}</span>}
             active={activeTab === "free"}
             onClick={() => setActiveTab("free")}
             className="flex-1 justify-center"

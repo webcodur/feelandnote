@@ -34,12 +34,10 @@ interface ContentItemRendererProps {
 
 export default function ContentItemRenderer({
   items,
-  compact = false,
   viewMode = "grid",
   onDelete,
   onAddContent,
   readOnly = false,
-  targetUserId,
   ownerNickname,
   savedContentIds,
 }: ContentItemRendererProps) {
@@ -73,6 +71,7 @@ export default function ContentItemRenderer({
         {items.map((item) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
+          const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
           const reviewProp = viewMode === "list" ? rawReview : undefined;
           return (
             <div key={item.id} className={`w-full ${viewMode === "list" ? "max-w-[300px] md:max-w-none" : ""}`}>
@@ -84,6 +83,7 @@ export default function ContentItemRenderer({
               thumbnail={item.content.thumbnail_url}
               rating={currentRating}
               review={reviewProp}
+              reviewIsOriginalLanguage={reviewIsOriginalLanguage}
               isSpoiler={item.is_spoiler ?? undefined}
               sourceUrl={item.source_url}
               href={getHref(item)}

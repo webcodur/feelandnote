@@ -11,6 +11,7 @@ import TypeInfoModal from "../modals/TypeInfoModal";
 import ContentStatsModal from "../modals/ContentStatsModal";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
+import { useTranslations } from "next-intl";
 
 interface CardModalsProps {
   props: ContentCardProps;
@@ -18,6 +19,7 @@ interface CardModalsProps {
 }
 
 export default function CardModals({ props, state }: CardModalsProps) {
+  const t = useTranslations("shared.contentCard");
   const {
     title,
     thumbnail,
@@ -84,15 +86,15 @@ export default function CardModals({ props, state }: CardModalsProps) {
           contentType={contentType}
         />
       )}
-      <Modal isOpen={showAddConfirm} onClose={() => setShowAddConfirm(false)} title="서재에 담기" icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
+      <Modal isOpen={showAddConfirm} onClose={() => setShowAddConfirm(false)} title={t("addToLibrary")} icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
         <ModalBody>
           <p className="text-text-secondary">
             <span className="text-text-primary font-semibold">{title}</span>
-            을(를) 서재에 담으시겠습니까?
+            {" "}{t("addConfirmSuffix")}
           </p>
         </ModalBody>
         <ModalFooter className="justify-end">
-          <Button variant="ghost" size="md" onClick={() => setShowAddConfirm(false)}>취소</Button>
+          <Button variant="ghost" size="md" onClick={() => setShowAddConfirm(false)}>{t("cancel")}</Button>
           <Button variant="primary" size="md" onClick={async (e) => {
             setShowAddConfirm(false);
             if (onAdd) {
@@ -124,10 +126,10 @@ export default function CardModals({ props, state }: CardModalsProps) {
                 console.error('[ContentCard] addContent 에러:', error);
               }
             }
-          }}>등록</Button>
+          }}>{t("add")}</Button>
         </ModalFooter>
       </Modal>
-      <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title="서재 관리" icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
+      <Modal isOpen={showSavedAction} onClose={() => setShowSavedAction(false)} title={t("manageLibrary")} icon={Bookmark} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
         <ModalBody>
           <p className="text-sm text-text-secondary mb-4">
             <span className="text-text-primary font-semibold">{title}</span>
@@ -141,7 +143,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
                 onClick={() => { setShowSavedAction(false); onSavedStatusChange("FINISHED"); }}
               >
                 <Check size={16} className="text-green-400" />
-                감상완료로 변경
+                {t("markFinished")}
               </Button>
             )}
             {onSavedRemove && (
@@ -152,7 +154,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
                 onClick={() => { setShowSavedAction(false); onSavedRemove(); }}
               >
                 <X size={16} />
-                기록 삭제
+                {t("deleteRecord")}
               </Button>
             )}
           </div>

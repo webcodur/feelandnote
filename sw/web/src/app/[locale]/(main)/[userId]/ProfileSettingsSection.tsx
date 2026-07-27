@@ -46,7 +46,7 @@ function PasswordChangeCard() {
     const result = await changePassword({ currentPassword, newPassword });
 
     if (result.error) {
-      setError(result.error);
+      setError(t(`passwordErrors.${result.error}`));
     } else {
       setSaveSuccess(true);
       setCurrentPassword("");

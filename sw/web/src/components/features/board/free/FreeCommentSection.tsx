@@ -30,6 +30,7 @@ export default function FreeCommentSection({
   isLoggedIn,
 }: FreeCommentSectionProps) {
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [comments, setComments] = useState(initialComments)
   const [nickname, setNickname] = useState('')
   const [newComment, setNewComment] = useState('')
@@ -75,7 +76,7 @@ export default function FreeCommentSection({
       // 필명은 비우지 않고 기억한다 — 연달아 댓글을 달 때 다시 치지 않게
       if (!isLoggedIn || anonymous) rememberNickname(nickname)
     } else {
-      setError(result.message)
+      setError(tError(result.error))
     }
     setIsSubmitting(false)
   }
@@ -88,7 +89,7 @@ export default function FreeCommentSection({
       setComments((prev) => prev.filter((c) => c.id !== id))
       setDeleteId(null)
     } else {
-      setDeleteError(result.message)
+      setDeleteError(tError(result.error))
     }
     setDeleting(false)
   }

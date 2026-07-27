@@ -2,12 +2,29 @@
   "site": {
     "title": "Feel&Note",
     "description": "위인들이 읽고, 보고, 들은 작품을 한눈에. 1,000명 이상의 감상 기록과 그 울림을 탐색하세요.",
-    "twitterDescription": "한 줄의 기록이 천 년을 울린다. 1,000명 이상의 위인이 남긴 감상 아카이브."
+    "twitterDescription": "한 줄의 기록이 천 년을 울린다. 1,000명 이상의 위인이 남긴 감상 아카이브.",
+    "keywords": ["감상 기록", "셀럽 추천 책", "셀럽 추천 영화", "독서 목록", "문화 아카이브", "책 추천", "영화 추천", "음악 추천", "감상 여정", "필앤노트"]
   },
   "notFound": {
     "title": "페이지를 찾을 수 없습니다",
     "description": "요청하신 페이지가 존재하지 않거나 이동되었습니다.",
     "backHome": "홈으로 돌아가기"
+  },
+  "actionErrors": {
+    "UNAUTHORIZED": "로그인이 필요합니다.",
+    "FORBIDDEN": "접근 권한이 없습니다.",
+    "NOT_FOUND": "요청한 정보를 찾을 수 없습니다.",
+    "ALREADY_EXISTS": "이미 등록된 정보입니다.",
+    "CONFLICT": "이미 처리되었거나 다른 요청과 충돌했습니다.",
+    "VALIDATION_ERROR": "입력 내용을 확인해 주세요.",
+    "INVALID_INPUT": "올바르지 않은 입력입니다.",
+    "DB_ERROR": "정보를 처리하는 중 오류가 발생했습니다.",
+    "RLS_VIOLATION": "이 작업을 수행할 권한이 없습니다.",
+    "SELF_ACTION": "자기 자신에게는 이 작업을 할 수 없습니다.",
+    "LIMIT_EXCEEDED": "허용 범위를 초과했습니다.",
+    "NOT_IN_ARCHIVE": "기록관에 추가한 콘텐츠에서만 사용할 수 있습니다.",
+    "UNKNOWN_ERROR": "알 수 없는 오류가 발생했습니다.",
+    "INTERNAL_ERROR": "잠시 후 다시 시도해 주세요."
   },
   "layout": {
     "readingMode": "감상 모드",
@@ -33,10 +50,14 @@
     },
     "locale": {
       "switchTo": "English",
-      "label": "언어 변경"
+      "label": "언어 변경",
+      "korean": "한국어"
     },
     "footer": {
-      "tagline": "한 줄의 기록이 천 년을 울립니다."
+      "tagline": "한 줄의 기록이 천 년을 울립니다.",
+      "neoPantheon": "신들의 기록관",
+      "copyright": "FeelDT. 모든 권리 보유.",
+      "archiveOfTaste": "감상의 기록관"
     }
   },
   "pages": {
@@ -265,6 +286,84 @@
     "viewAll": "전체보기"
   },
   "shared": {
+    "scrollDown": "아래로 이동",
+    "accessibility": {
+      "pause": "일시정지",
+      "play": "재생",
+      "stop": "정지",
+      "readAloud": "읽어주기"
+    },
+    "hubSection": {
+      "more": "더보기",
+      "last": "마지막 섹션으로",
+      "previous": "이전 섹션",
+      "first": "첫 섹션으로",
+      "next": "다음 섹션"
+    },
+    "contentCard": {
+      "recommend": "추천",
+      "delete": "삭제",
+      "addToLibrary": "서재에 담기",
+      "addConfirmSuffix": "을(를) 서재에 담으시겠습니까?",
+      "cancel": "취소",
+      "add": "등록",
+      "manageLibrary": "서재 관리",
+      "markFinished": "감상 완료로 변경",
+      "deleteRecord": "기록 삭제",
+      "close": "닫기",
+      "save": "저장",
+      "saving": "저장 중...",
+      "rating": {
+        "title": "별점 수정"
+      },
+      "stats": {
+        "title": "인원 구성",
+        "figures": "이 콘텐츠를 선택한 인물",
+        "empty": "인물 정보가 없습니다.",
+        "note": "인물에는 역사적 인물과 유명인이 포함됩니다."
+      },
+      "types": {
+        "title": "콘텐츠 분류",
+        "BOOK": {
+          "label": "도서",
+          "description": "책, 만화, 웹소설, 에세이 등"
+        },
+        "VIDEO": {
+          "label": "영상",
+          "description": "영화, 드라마, 다큐멘터리, 애니메이션 등"
+        },
+        "GAME": {
+          "label": "게임",
+          "description": "비디오 게임, 보드게임, 인디 게임 등"
+        },
+        "MUSIC": {
+          "label": "음악",
+          "description": "앨범, 싱글, 클래식, 팟캐스트 등"
+        }
+      }
+    },
+    "ui": {
+      "cancel": "취소",
+      "delete": "삭제",
+      "select": "선택",
+      "selectFilter": "필터 선택",
+      "noSearchResults": "검색 결과가 없습니다.",
+      "deleteConfirm": {
+        "title": "콘텐츠 삭제",
+        "one": "이 콘텐츠를 삭제하시겠습니까?",
+        "many": "콘텐츠 {count}개를 삭제하시겠습니까?",
+        "affectedFlows": "다음 플로우에서도 삭제됩니다."
+      },
+      "pagination": {
+        "label": "페이지 이동",
+        "first": "처음",
+        "previous": "이전",
+        "go": "이동",
+        "next": "다음",
+        "last": "마지막",
+        "perPage": "/ 페이지"
+      }
+    },
     "search": {
       "viewAllResults": "전체 검색결과 보기",
       "openInNewTab": "새 창으로 열기",
@@ -337,6 +436,140 @@
       "soundInfo": "사운드와 함께 진행됩니다",
       "startGame": "게임 시작",
       "heroesAwait": "{count}명의 영웅이 기다립니다",
+      "duel": {
+        "round": "합",
+        "momentum": "기세",
+        "martial": "무력",
+        "logic": "논리",
+        "command": "통솔",
+        "momentumGain": "기세 +1",
+        "damage": "피해 {value}",
+        "halfDamage": "피해 반감",
+        "forfeit": "기권",
+        "selectAction": "행동을 선택하세요",
+        "commands": {
+          "assault": "전투",
+          "stratagem": "책략",
+          "govern": "내정"
+        },
+        "clash": {
+          "sameCommand": "같은 명령!",
+          "occurred": "접전 발생",
+          "tapToStart": "눌러서 시작",
+          "info": {
+            "assault": {
+              "label": "격돌",
+              "description": "타이밍에 맞춰 공격하세요."
+            },
+            "stratagem": {
+              "label": "설전",
+              "description": "기세를 모아 상대를 제압하세요."
+            },
+            "govern": {
+              "label": "지략전",
+              "description": "패턴을 기억하고 재현하세요."
+            }
+          }
+        },
+        "result": {
+          "victory": "승리",
+          "defeat": "패배",
+          "draw": "무승부",
+          "playerEffect": "아군 명령 효과가 100% 적용됩니다.",
+          "enemyEffect": "적군 명령 효과가 100% 적용됩니다.",
+          "drawEffect": "양쪽 명령 효과가 50% 적용됩니다."
+        },
+        "rhythm": {
+          "title": "격돌",
+          "enemyTurn": "상대 차례",
+          "hint": "원이 겹칠 때 누르세요.",
+          "rules": {
+            "timing": "원이 하단 동심원에 겹칠 때 해당 버튼을 누르세요.",
+            "victory": "상대보다 높은 점수를 얻으면 승리합니다."
+          },
+          "controls": "모바일: 하단 버튼 · PC: Q / W / E"
+        },
+        "simon": {
+          "title": "지략전",
+          "instructions": "순서대로 칸을 눌러 재현하세요. · PC: Q W E / A S D",
+          "remember": "순서를 기억하세요.",
+          "status": {
+            "ready": "준비",
+            "watch": "관찰",
+            "input": "입력 {current}/{total}",
+            "wrong": "오답!",
+            "enemyTurn": "상대 차례..."
+          },
+          "outcomes": {
+            "bothSuccessDraw": "양쪽 모두 성공 — 무승부",
+            "roundSuccess": "{round}라운드 양쪽 성공",
+            "enemyFailed": "상대 실패!",
+            "playerFailed": "기억 실패...",
+            "bothFailedDraw": "양쪽 모두 실패 — 무승부"
+          },
+          "rules": {
+            "remember": "불이 켜지는 순서를 기억하세요.",
+            "repeat": "같은 순서로 칸을 눌러 재현하세요.",
+            "grows": "라운드마다 패턴이 길어집니다. (최대 {max}라운드)"
+          },
+          "controls": "모바일: 칸 터치 · PC: Q W E / A S D"
+        },
+        "actions": {
+          "assault": {
+            "charge": "충전",
+            "strike": "공격",
+            "brace": "버티기"
+          },
+          "stratagem": {
+            "charge": "고민",
+            "strike": "논파",
+            "brace": "궤변"
+          },
+          "govern": {
+            "charge": "충전",
+            "strike": "공격",
+            "brace": "버티기"
+          }
+        },
+        "actionDescriptions": {
+          "charge": "기세를 1 올린다",
+          "strike": "기세만큼 피해",
+          "brace": "피해 반감"
+        },
+        "rules": {
+          "assault": {
+            "risk": "충전 중 공격당하면 온전한 피해를 받습니다."
+          },
+          "stratagem": {
+            "risk": "고민 중 논파당하면 온전한 피해를 받습니다."
+          },
+          "govern": {
+            "risk": "충전 중 공격당하면 온전한 피해를 받습니다."
+          },
+          "victory": "상대의 체력을 먼저 0으로 만들면 승리합니다."
+        },
+        "narrative": {
+          "bothCharge": "양쪽이 기세를 모았다.",
+          "enemyMiss": "적의 헛공격! 기세가 부족했다.",
+          "enemyHit": "적의 공격 적중! {damage} 피해.",
+          "playerMiss": "헛공격! 기세가 부족했다.",
+          "playerHit": "아군의 공격 적중! {damage} 피해.",
+          "bothMiss": "양쪽 모두 헛공격!",
+          "crossStrike": "양쪽의 공격이 교차했다!",
+          "perfectGuard": "완벽하게 막아냈다!",
+          "enemyBraced": "적이 버텼다! {damage} 피해.",
+          "playerBraced": "버텨냈다! {damage} 피해.",
+          "lull": "소강상태가 이어졌다."
+        }
+      },
+      "dialogue": {
+        "closeEsc": "닫기 (Esc)",
+        "resetPosition": "기본 위치로 복귀",
+        "greeting": "인사",
+        "rollCall": "호명",
+        "deploy": "출전",
+        "quotes": "명언"
+      },
       "phase": {
         "lobby": "로비",
         "loading": "로딩",
@@ -440,14 +673,35 @@
     "emptyAll": "도착한 소식이 없습니다.",
     "emptyFiltered": "모든 소식을 확인하셨습니다."
   },
+  "notificationMessages": {
+    "recommendationTitle": "{name}님의 추천",
+    "recommendationMessage": "{name}님이 ‘{content}’을(를) 추천했습니다.",
+    "acceptedTitle": "추천 수락",
+    "acceptedMessage": "{name}님이 회원님의 추천을 수락했습니다.",
+    "contentFallback": "콘텐츠",
+    "userFallback": "사용자"
+  },
   "popularBooks": {
     "title": "추천 도서",
-    "buyOnCoupang": "쿠팡에서 보기"
+    "buyOnCoupang": "쿠팡에서 보기",
+    "books": {
+      "odyssey": {
+        "title": "오디세이아",
+        "subtitle": "고대 그리스어 완역본 · 명화와 함께 읽는",
+        "creator": "호메로스"
+      },
+      "iliad": {
+        "title": "일리아스",
+        "subtitle": "고대 그리스어 완역본 · 명화와 함께 읽는",
+        "creator": "호메로스"
+      }
+    }
   },
   "share": {
     "label": "공유",
     "copyLink": "링크 복사",
-    "copied": "복사됨"
+    "copied": "복사됨",
+    "kakaoTalk": "카카오톡"
   },
   "factionMedia": {
     "watchLongform": "영상으로 보기",

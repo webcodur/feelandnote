@@ -8,13 +8,14 @@
 "use client";
 
 import { useState } from "react";
-import { TENDENCY_KEYS, TENDENCY_LABELS } from "@/lib/persona/constants";
+import { TENDENCY_KEYS } from "@/lib/persona/constants";
 import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
 import { getPersonaReason } from "@/actions/persona/getPersonaReason";
 import { AXIS_BOTTOM, AXIS_POLE_COLORS, DOT, GAP_Y, MAX_STACK, STEP, lerpColor } from "./constants";
 import FadeAvatar from "./FadeAvatar";
 import PersonaSearch from "./PersonaSearch";
 import PersonaReasonModal from "./PersonaReasonModal";
+import { useTranslations } from "next-intl";
 
 interface PersonaDistributionProps {
   people: PersonaPerson[];
@@ -23,6 +24,7 @@ interface PersonaDistributionProps {
 }
 
 export default function PersonaDistribution({ people, minInfluence = 40 }: PersonaDistributionProps) {
+  const t = useTranslations("explore.ui.personaDistribution");
   const [tab, setTab] = useState(0);
   const [hovered, setHovered] = useState<string | null>(null);
   const [selected, setSelected] = useState<{ person: PersonaPerson; axis: (typeof TENDENCY_KEYS)[number] } | null>(null);
@@ -30,7 +32,8 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
   const [reasonLoading, setReasonLoading] = useState(false);
 
   const axis = TENDENCY_KEYS[tab];
-  const [neg, pos] = TENDENCY_LABELS[axis];
+  const neg = t(`axes.${axis}.negative`);
+  const pos = t(`axes.${axis}.positive`);
   const colors = AXIS_POLE_COLORS[axis];
 
   // 클릭 시점에 보고 있던 성향 항목 기준으로 모달을 띄우고, 그 항목 근거를 따로 불러온다
@@ -74,7 +77,8 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
       {/* 성향 항목 탭 */}
       <div className="flex flex-wrap justify-center gap-2">
         {TENDENCY_KEYS.map((k, i) => {
-          const [n, p] = TENDENCY_LABELS[k];
+          const n = t(`axes.${k}.negative`);
+          const p = t(`axes.${k}.positive`);
           const active = i === tab;
           return (
             <button
@@ -124,7 +128,7 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
         {/* 축 끝 라벨 — 양극 색 강조 */}
         <span className="pointer-events-none absolute bottom-2 left-3 text-base font-extrabold tracking-tight" style={{ color: colors.neg }}>{neg}</span>
         <span className="pointer-events-none absolute bottom-2 right-3 text-base font-extrabold tracking-tight" style={{ color: colors.pos }}>{pos}</span>
-        <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-text-secondary/50">중간</span>
+        <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-text-secondary/50">{t("middle")}</span>
 
         {/* 인물 점 (칸당 MAX_STACK까지만) */}
         {placed.filter((d) => d.stack < MAX_STACK).map(({ p, v, stack }) => {
@@ -183,7 +187,7 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
       </div>
 
       <p className="text-center text-xs text-text-secondary/60">
-        영향력 {minInfluence} 이상 {visible.length}명 · 가운데가 두툼할수록 흔한 성향입니다 · 그 외 인물은 위에서 검색
+        {t("guide", { influence: minInfluence, count: visible.length })}
       </p>
 
       {selected && (
