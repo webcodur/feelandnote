@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web i18n audit"
+  short_description: "Audit KO/EN parity, copy meaning, and rendered layout"
+  default_prompt: "Use $audit-web-i18n to audit and, when requested, fix Korean and English locale parity, meaning, and layout in the Feel&Note web app."
