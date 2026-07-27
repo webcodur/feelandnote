@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import type { BattleCard } from "@/lib/game/types";
 import {
   GRID_SIZE,
@@ -78,6 +79,7 @@ function playNote(cellIdx: number) {
 // ─── 컴포넌트 ───
 
 export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
+  const t = useTranslations("shared.game.duel.simon");
   const [phase, setPhase] = useState<Phase>("intro");
   const [round, setRound] = useState(1);
   const [pattern, setPattern] = useState<number[]>([]);
@@ -182,59 +184,59 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
   // ─── 오답 플래시 → AI 판정 ───
   useEffect(() => {
     if (phase !== "wrongFlash") return;
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       setWrongIdx(-1);
       setPhase("aiDecide");
     }, 600);
-    return () => clearTimeout(t);
+    return () => clearTimeout(timer);
   }, [phase]);
 
   // ─── AI 판정 ───
   useEffect(() => {
     if (phase !== "aiDecide") return;
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       const aiSuccess = simulateAiSimon(aiCard, round);
       const pOk = playerOk;
       const aOk = aiSuccess;
 
       if (pOk && aOk) {
         if (round >= MAX_ROUNDS) {
-          setRoundMsg("양측 모두 성공 — 무승부");
+          setRoundMsg(t("outcomes.bothSuccessDraw"));
           setWinner("draw");
           setPhase("result");
         } else {
-          setRoundMsg(`${round}라운드 양측 성공`);
+          setRoundMsg(t("outcomes.roundSuccess", { round }));
           setPhase("roundResult");
         }
       } else if (pOk && !aOk) {
-        setRoundMsg("상대 실패!");
+        setRoundMsg(t("outcomes.enemyFailed"));
         setWinner("player");
         setPhase("result");
       } else if (!pOk && aOk) {
-        setRoundMsg("기억 실패...");
+        setRoundMsg(t("outcomes.playerFailed"));
         setWinner("ai");
         setPhase("result");
       } else {
-        setRoundMsg("양측 모두 실패 — 무승부");
+        setRoundMsg(t("outcomes.bothFailedDraw"));
         setWinner("draw");
         setPhase("result");
       }
     }, 800);
-    return () => clearTimeout(t);
-  }, [phase, aiCard, round, playerOk]);
+    return () => clearTimeout(timer);
+  }, [phase, aiCard, round, playerOk, t]);
 
   // ─── 라운드 결과 → 다음 라운드 ───
   useEffect(() => {
     if (phase !== "roundResult") return;
-    const t = setTimeout(() => startRound(round + 1), 1200);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => startRound(round + 1), 1200);
+    return () => clearTimeout(timer);
   }, [phase, round, startRound]);
 
   // ─── 최종 결과 → onComplete ───
   useEffect(() => {
     if (phase !== "result") return;
-    const t = setTimeout(() => onCompleteRef.current(winner), 2000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => onCompleteRef.current(winner), 2000);
+    return () => clearTimeout(timer);
   }, [phase, winner]);
 
   // ─── 스킵 ───
@@ -280,7 +282,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
       {/* ═══ 안내 ═══ */}
       {phase !== "intro" && phase !== "result" && (
         <p className="text-center text-xs font-serif text-white/25 pt-3 pb-1 shrink-0">
-          순서대로 칸을 눌러 재현하라 · PC: Q W E / A S D
+          {t("instructions")}
         </p>
       )}
 
@@ -293,11 +295,11 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
               }`}>
                 {/* 상태 텍스트 */}
                 <p className="text-text-secondary text-xs font-serif">
-                  {phase === "countdown" && "준비"}
-                  {phase === "showing" && "관찰"}
-                  {phase === "input" && `입력 ${playerInput.length}/${pattern.length}`}
-                  {phase === "wrongFlash" && "오답!"}
-                  {phase === "aiDecide" && "상대 차례..."}
+                  {phase === "countdown" && t("status.ready")}
+                  {phase === "showing" && t("status.watch")}
+                  {phase === "input" && t("status.input", { current: playerInput.length, total: pattern.length })}
+                  {phase === "wrongFlash" && t("status.wrong")}
+                  {phase === "aiDecide" && t("status.enemyTurn")}
                 </p>
 
                 {/* 2×3 그리드 */}
@@ -365,7 +367,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
                 {/* 패턴 재생 안내 */}
                 {phase === "showing" && (
                   <p className="text-amber-400/70 text-xs font-serif animate-pulse mt-1">
-                    순서를 기억하세요
+                    {t("remember")}
                   </p>
                 )}
               </div>
@@ -400,15 +402,15 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
             onDismiss={dismissIntro}
             playerCard={playerCard}
             aiCard={aiCard}
-            title="TACTICS"
+            title={t("title")}
             themeColor="122,154,176"
             themeColorHex="#7a9ab0"
             rules={[
-              { icon: "👁", text: "점등되는 순서를 기억하라" },
-              { icon: "👆", text: "같은 순서로 칸을 눌러 재현" },
-              { icon: "📈", text: `라운드마다 패턴이 길어진다 (최대 ${MAX_ROUNDS}라운드)` }
+              { icon: "👁", text: t("rules.remember") },
+              { icon: "👆", text: t("rules.repeat") },
+              { icon: "📈", text: t("rules.grows", { max: MAX_ROUNDS }) }
             ]}
-            footerText="모바일: 칸 터치 · PC: Q W E / A S D"
+            footerText={t("controls")}
           />
       </ArenaLayout>
   );

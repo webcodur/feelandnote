@@ -12,14 +12,26 @@ export type DuelAction = "charge" | "strike" | "brace";
 
 export type DuelPhase = "intro" | "select" | "clash" | "resolve" | "end";
 
+export type DuelNarrative =
+  | "bothCharge"
+  | "enemyMiss"
+  | "enemyHit"
+  | "playerMiss"
+  | "playerHit"
+  | "bothMiss"
+  | "crossStrike"
+  | "perfectGuard"
+  | "enemyBraced"
+  | "playerBraced"
+  | "lull";
+
 export interface DuelClashResult {
   playerAction: DuelAction;
   aiAction: DuelAction;
   playerDamage: number; // 플레이어가 받는 데미지
   aiDamage: number;     // AI가 받는 데미지
-  narrative: string;
+  narrative: DuelNarrative;
 }
-
 // ─── 상수 ───
 
 export const MAX_MOMENTUM = 5;
@@ -89,39 +101,39 @@ export function resolveDuelClash(
 ): DuelClashResult {
   let playerDamage = 0;
   let aiDamage = 0;
-  let narrative = "";
+  let narrative: DuelNarrative = "lull";
 
   if (playerAction === "charge" && aiAction === "charge") {
-    narrative = "양쪽 기세 충전";
+    narrative = "bothCharge";
   } else if (playerAction === "charge" && aiAction === "strike") {
     playerDamage = calcStrikeDmg(aiMomentum, aiStat, playerStat);
-    narrative = aiMomentum === 0 ? "적 헛공격! 기세 부족" : `적 공격 적중! ${playerDamage} 피해`;
+    narrative = aiMomentum === 0 ? "enemyMiss" : "enemyHit";
   } else if (playerAction === "charge" && aiAction === "brace") {
-    narrative = "양쪽 기세 충전";
+    narrative = "bothCharge";
   } else if (playerAction === "strike" && aiAction === "charge") {
     aiDamage = calcStrikeDmg(playerMomentum, playerStat, aiStat);
-    narrative = playerMomentum === 0 ? "헛공격! 기세 부족" : `아군 공격 적중! ${aiDamage} 피해`;
+    narrative = playerMomentum === 0 ? "playerMiss" : "playerHit";
   } else if (playerAction === "strike" && aiAction === "strike") {
     // 양쪽 공격: 풀데미지 + 능력치 보정
     playerDamage = calcStrikeDmg(aiMomentum, aiStat, playerStat);
     aiDamage = calcStrikeDmg(playerMomentum, playerStat, aiStat);
     const bothEmpty = playerMomentum === 0 && aiMomentum === 0;
-    narrative = bothEmpty ? "양쪽 헛공격!" : `양쪽 교차 공격!`;
+    narrative = bothEmpty ? "bothMiss" : "crossStrike";
   } else if (playerAction === "strike" && aiAction === "brace") {
     // 공격 vs 버티기: 능력치 반영 반감
     const raw = calcStrikeDmg(playerMomentum, playerStat, aiStat);
     aiDamage = calcBraceDmg(raw, aiStat, playerStat);
-    narrative = playerMomentum === 0 ? "헛공격! 기세 부족" : aiDamage === 0 ? "완벽 방어!" : `적이 버텼다! ${aiDamage} 피해 (반감)`;
+    narrative = playerMomentum === 0 ? "playerMiss" : aiDamage === 0 ? "perfectGuard" : "enemyBraced";
   } else if (playerAction === "brace" && aiAction === "charge") {
-    narrative = "양쪽 기세 충전";
+    narrative = "bothCharge";
   } else if (playerAction === "brace" && aiAction === "strike") {
     // 버티기 vs 공격: 능력치 반영 반감
     const raw = calcStrikeDmg(aiMomentum, aiStat, playerStat);
     playerDamage = calcBraceDmg(raw, playerStat, aiStat);
-    narrative = aiMomentum === 0 ? "적 헛공격! 기세 부족" : playerDamage === 0 ? "완벽 방어!" : `버텨냈다! ${playerDamage} 피해 (반감)`;
+    narrative = aiMomentum === 0 ? "enemyMiss" : playerDamage === 0 ? "perfectGuard" : "playerBraced";
   } else {
     // brace vs brace
-    narrative = "소강 상태";
+    narrative = "lull";
   }
 
   return { playerAction, aiAction, playerDamage, aiDamage, narrative };
@@ -206,33 +218,3 @@ export function duelAiDecide(
   if (r < 0.65) return aiMomentum >= 2 ? "strike" : "charge";
   return "brace";
 }
-
-// ─── 명령별 일기토 설정 ───
-
-export interface DuelCmdConfig {
-  labels: Record<DuelAction, string>;
-  icons: Record<DuelAction, string>;
-  descriptions: Record<DuelAction, string>;
-  rules: string[];
-}
-
-export const DUEL_CMD_CONFIG: Record<Command, DuelCmdConfig> = {
-  assault: {
-    labels: { charge: "충전", strike: "공격", brace: "버티기" },
-    icons: { charge: "⚡", strike: "⚔", brace: "🛡" },
-    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
-    rules: ["충전 중 공격당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
-  },
-  stratagem: {
-    labels: { charge: "고민", strike: "논파", brace: "궤변" },
-    icons: { charge: "💭", strike: "🗯️", brace: "🌀" },
-    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
-    rules: ["고민 중 논파당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
-  },
-  govern: {
-    labels: { charge: "충전", strike: "공격", brace: "버티기" },
-    icons: { charge: "⚡", strike: "⚔", brace: "🛡" },
-    descriptions: { charge: "기세를 1 올린다", strike: "기세만큼 피해", brace: "피해 반감" },
-    rules: ["충전 중 공격당하면 풀데미지", "상대 HP를 먼저 0으로 만들면 승리"],
-  },
-};

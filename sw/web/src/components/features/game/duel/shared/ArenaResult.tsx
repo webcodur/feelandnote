@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   isVisible: boolean;
@@ -17,6 +18,7 @@ export default function ArenaResult({
   aiScore,
   message,
 }: Props) {
+  const t = useTranslations("shared.game.duel");
   const isPlayerWin = winner === "player";
   const isAiWin = winner === "ai";
 
@@ -54,7 +56,7 @@ export default function ArenaResult({
                   : undefined
               }
             >
-              {isPlayerWin ? "VICTORY" : isAiWin ? "DEFEAT" : "DRAW"}
+              {isPlayerWin ? t("result.victory") : isAiWin ? t("result.defeat") : t("result.draw")}
             </div>
             
             {playerScore !== undefined && aiScore !== undefined && (
@@ -70,9 +72,9 @@ export default function ArenaResult({
             )}
             
             <div className="text-[10px] md:text-[11px] font-serif text-white/25 mt-2">
-              {isPlayerWin ? "아군 명령 효과 100% 적용"
-                : isAiWin ? "적군 명령 효과 100% 적용"
-                : "양쪽 명령 효과 50% 적용"}
+              {isPlayerWin ? t("result.playerEffect")
+                : isAiWin ? t("result.enemyEffect")
+                : t("result.drawEffect")}
             </div>
           </div>
         </motion.div>

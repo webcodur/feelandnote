@@ -315,7 +315,7 @@ export function useDawnGame({ onPhaseChange, onHomeRef, onStartRef }: UseDawnGam
       }
       // 마일스톤 연출 (5단위)
       if (next > 0 && next % 5 === 0) {
-        setMilestoneText(locale === "en" ? `${next} Streak!` : `${next}명 돌파!`);
+        setMilestoneText(tDawnGame("milestone", { count: next }));
         setTimeout(() => setMilestoneText(null), 2000);
       }
       return next;

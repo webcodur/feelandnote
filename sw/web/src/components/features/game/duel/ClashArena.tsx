@@ -10,18 +10,18 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Swords, ScrollText, Landmark } from "lucide-react";
 import type { BattleCard, Command } from "@/lib/game/types";
-import { COMMAND_LABELS } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 import DuelArena from "./DuelArena";
 import RhythmArena from "./RhythmArena/index";
 import SimonArena from "./SimonArena";
 
 // ─── 명령별 미니게임 안내 ───
 
-const CLASH_INFO: Record<Command, { label: string; desc: string; icon: typeof Swords; color: string }> = {
-  assault:   { label: "격돌", desc: "타이밍에 맞춰 공격하라", icon: Swords,     color: "#ef4444" },
-  stratagem: { label: "설전", desc: "기세를 모아 상대를 제압하라", icon: ScrollText, color: "#a855f7" },
-  govern:    { label: "지략전", desc: "패턴을 기억하고 재현하라", icon: Landmark,   color: "#f59e0b" },
+const CLASH_STYLE: Record<Command, { icon: typeof Swords; color: string }> = {
+  assault: { icon: Swords, color: "#ef4444" },
+  stratagem: { icon: ScrollText, color: "#a855f7" },
+  govern: { icon: Landmark, color: "#f59e0b" },
 };
 
 // ─── 아바타 ───
@@ -58,10 +58,11 @@ interface Props {
 }
 
 export default function ClashArena({ playerCard, aiCard, command, onComplete }: Props) {
+  const t = useTranslations("shared.game.duel");
   const [showAnnounce, setShowAnnounce] = useState(true);
 
   if (showAnnounce) {
-    const info = CLASH_INFO[command];
+    const info = CLASH_STYLE[command];
     const Icon = info.icon;
 
     return (
@@ -100,12 +101,12 @@ export default function ClashArena({ playerCard, aiCard, command, onComplete }: 
 
           {/* 타이틀 */}
           <div>
-            <div className="text-sm text-white/50 tracking-widest mb-1">같은 패!</div>
+            <div className="text-sm text-white/50 tracking-widest mb-1">{t("clash.sameCommand")}</div>
             <div
               className="font-cinzel text-[#d4af37] text-2xl tracking-[0.3em]"
               style={{ textShadow: "0 0 8px rgba(212,175,55,0.15)" }}
             >
-              접전 발생
+              {t("clash.occurred")}
             </div>
           </div>
 
@@ -122,7 +123,7 @@ export default function ClashArena({ playerCard, aiCard, command, onComplete }: 
               >
                 <Icon size={20} color={info.color} />
               </div>
-              <span className="text-[10px] text-white/40 tracking-wider">{COMMAND_LABELS[command]}</span>
+              <span className="text-[10px] text-white/40 tracking-wider">{t(`commands.${command}`)}</span>
             </div>
             <Avatar card={aiCard} side="right" />
           </div>
@@ -136,10 +137,10 @@ export default function ClashArena({ playerCard, aiCard, command, onComplete }: 
             }}
           >
             <div className="text-base font-bold text-white/80 mb-1" style={{ color: info.color }}>
-              {info.label}
+              {t(`clash.info.${command}.label`)}
             </div>
             <div className="text-sm text-white/50">
-              {info.desc}
+              {t(`clash.info.${command}.description`)}
             </div>
           </div>
 
@@ -150,7 +151,7 @@ export default function ClashArena({ playerCard, aiCard, command, onComplete }: 
 
           {/* TAP TO START */}
           <div className="text-xs font-cinzel text-[#d4af37]/60 tracking-[0.2em] pt-1 animate-pulse">
-            TAP TO START
+            {t("clash.tapToStart")}
           </div>
         </motion.button>
       </div>

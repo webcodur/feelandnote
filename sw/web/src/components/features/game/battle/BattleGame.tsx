@@ -181,7 +181,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     if (state.phase === "draft" && prevPhase !== "draft") {
       setAnnounce({
         key: "draft",
-        label: "PHASE",
+        label: localeText.phase.phaseLabel,
         title: localeText.phase.draftTitle,
         subtitle: localeText.phase.draftSubtitle,
       });
@@ -192,7 +192,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
       playSfx("sfx-draft-complete.mp3");
       setAnnounce({
         key: "captain",
-        label: "CAPTAIN",
+        label: localeText.phase.captainLabel,
         title: localeText.phase.captainTitle,
         subtitle: localeText.phase.captainSubtitle,
       });
@@ -203,7 +203,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
       playSfx("sfx-confirm.mp3");
       setAnnounce({
         key: "battle",
-        label: "BATTLE",
+        label: localeText.phase.battleLabel,
         title: localeText.phase.battleTitle,
         subtitle: localeText.phase.battleSubtitle,
       });
@@ -213,7 +213,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
     if (state.phase === "result" && prevPhase !== "result") {
       return;
     }
-  }, [state.phase, playSfx, localeText.phase.battleSubtitle, localeText.phase.battleTitle, localeText.phase.captainSubtitle, localeText.phase.captainTitle, localeText.phase.draftSubtitle, localeText.phase.draftTitle]);
+  }, [state.phase, playSfx, localeText.phase]);
 
   // 페이즈별 콘텐츠
   let content: React.ReactNode = null;

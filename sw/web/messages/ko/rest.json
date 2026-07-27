@@ -38,6 +38,7 @@
           "ancient": "고대",
           "modern": "현대",
           "unknownYear": "????",
+          "milestone": "{count}명 돌파!",
           "hints": {
             "century": {
               "label": "세기 공개",
