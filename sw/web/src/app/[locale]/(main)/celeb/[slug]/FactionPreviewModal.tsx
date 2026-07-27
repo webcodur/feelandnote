@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, ChevronLeft, ChevronRight, Images, LoaderCircle, Users, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
+import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -56,9 +57,13 @@ export default function FactionPreviewModal({
   const description = resolve(tag.description_en, tag.description);
   const roleShort = resolve(tag.roleShortEn, tag.roleShort);
   const roleLong = resolve(tag.roleLongEn, tag.roleLong);
-  const teamImages = preview?.teamImages ?? [];
+  // 화면 저장분에 옛 형태(주소만)가 남아 있어도 읽히게 한 번 더 정규화한다
+  const teamImages = toTeamImages(preview?.teamImages ?? []);
   const members = preview?.members ?? [];
-  const teamImageSrc = teamImages[activeTeamImage] ?? teamImages[0] ?? null;
+  const teamImage = teamImages[activeTeamImage] ?? teamImages[0] ?? null;
+  const teamImageSrc = teamImage?.url ?? null;
+  // 사진마다 「어느 무리를 찍었는지」가 함께 온다. 없던 시절 사진은 비어 있다
+  const teamImageLabel = teamImage ? resolve(teamImage.labelEn ?? null, teamImage.label ?? null) : null;
 
   if (typeof document === "undefined") return null;
 
@@ -155,7 +160,7 @@ export default function FactionPreviewModal({
                     type="button"
                     onClick={() => setActiveTeamImage((activeTeamImage - 1 + teamImages.length) % teamImages.length)}
                     className="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/65 text-white/80 hover:border-white/30 hover:bg-black/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:left-3"
-                    aria-label={isEn ? "Previous group portrait" : "이전 단체 화보"}
+                    aria-label={t("factionPreviousPortrait")}
                   >
                     <ChevronLeft size={19} />
                   </button>
@@ -163,7 +168,7 @@ export default function FactionPreviewModal({
                     type="button"
                     onClick={() => setActiveTeamImage((activeTeamImage + 1) % teamImages.length)}
                     className="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/65 text-white/80 hover:border-white/30 hover:bg-black/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-3"
-                    aria-label={isEn ? "Next group portrait" : "다음 단체 화보"}
+                    aria-label={t("factionNextPortrait")}
                   >
                     <ChevronRight size={19} />
                   </button>
@@ -171,11 +176,15 @@ export default function FactionPreviewModal({
               )}
             </div>
 
+            {teamImageLabel && (
+              <p className="text-center text-[13px] text-text-secondary">{teamImageLabel}</p>
+            )}
+
             {teamImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
-                {teamImages.map((imageUrl, index) => (
+                {teamImages.map((image, index) => (
                   <button
-                    key={imageUrl}
+                    key={image.url}
                     type="button"
                     onClick={() => setActiveTeamImage(index)}
                     className={`relative h-12 w-[72px] flex-shrink-0 overflow-hidden rounded-[2px] border bg-black ${
@@ -186,7 +195,7 @@ export default function FactionPreviewModal({
                     aria-label={`${t("factionGroupShots")} ${index + 1}`}
                     aria-pressed={index === activeTeamImage}
                   >
-                    <Image src={imageUrl} alt="" fill unoptimized aria-hidden sizes="72px" className="object-cover" />
+                    <Image src={image.url} alt="" fill unoptimized aria-hidden sizes="72px" className="object-cover" />
                   </button>
                 ))}
               </div>

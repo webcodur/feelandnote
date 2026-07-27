@@ -71,7 +71,11 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       return;
     }
     const key = `${type}-${variant}`;
-    playingKey === key ? stopAudio() : playOne(type, variant);
+    if (playingKey === key) {
+      stopAudio();
+    } else {
+      playOne(type, variant);
+    }
   }, [playingKey, playOne, stopAudio, autoPlaying]);
   // endregion
 
@@ -86,14 +90,14 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     }, []);
   });
 
-  const playNext = useCallback(() => {
+  const playNext = useCallback(function playNextLine() {
     if (stoppedRef.current || autoQueueRef.current.length === 0) {
       setAutoPlaying(false);
       setPlayingKey(null);
       return;
     }
     const next = autoQueueRef.current.shift()!;
-    playOne(next.type, next.variant, playNext);
+    playOne(next.type, next.variant, playNextLine);
   }, [playOne]);
 
   const toggleAutoPlay = useCallback(() => {
@@ -158,7 +162,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                       type="button"
                       onClick={() => toggleOne(type, i)}
                       className={`flex-shrink-0 p-0.5 rounded-full ${isPlaying ? "text-accent" : "text-text-tertiary hover:text-accent"}`}
-                      aria-label={isPlaying ? "Stop" : "Play"}
+                      aria-label={isPlaying ? t("stopAudio") : t("playAudio")}
                     >
                       {isPlaying ? <Square size={12} /> : <Play size={12} />}
                     </button>

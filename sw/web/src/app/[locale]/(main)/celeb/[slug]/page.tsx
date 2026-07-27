@@ -11,8 +11,9 @@ import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { getFactionTagPreviews } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getLocalizedAlternates } from "@/lib/seo";
+import { getAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
+import { getCountryNameByLocale } from "@/lib/countries";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
 import {
@@ -55,7 +56,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description = locale === 'en'
     ? buildCelebDescriptionEn(metaInput)
     : buildCelebDescriptionKo(metaInput);
-  const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
+  const alternates = getAlternates(
+    `/celeb/${slug}`,
+    locale === "en" ? "en" : "ko",
+  );
+  const canonicalUrl = alternates.canonical;
 
   // full 등급만 색인 대상이다. light/relation/fiction은 연결용 최소 등록이라
   // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
@@ -67,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: pageTitle,
     description,
     robots: isIndexable ? undefined : { index: false, follow: true },
-    alternates: await getLocalizedAlternates(`/celeb/${slug}`),
+    alternates,
     openGraph: {
       title: pageTitle,
       description,
@@ -99,7 +104,7 @@ export default async function CelebPage({ params }: PageProps) {
 
   const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
-    getCelebInfluence(userId),
+    getCelebInfluence(userId, locale),
     getSimilarByCelebId(userId, 3, locale),
     getCelebJsonLdContents(userId),
     getCelebDialogueFull(userId),
@@ -138,7 +143,10 @@ export default async function CelebPage({ params }: PageProps) {
     : null;
 
   // JSON-LD 구조화 데이터: Person + ItemList
-  const canonicalUrl = `https://feelandnote.com/celeb/${slug}`;
+  const canonicalUrl = getAlternates(
+    `/celeb/${slug}`,
+    locale === "en" ? "en" : "ko",
+  ).canonical;
   const contentItems = contentList.map((rawContent, idx) => {
     const flat = flattenLocales(rawContent.content_locales, locale);
     const schemaType = rawContent.type === 'BOOK' ? 'Book'
@@ -162,7 +170,9 @@ export default async function CelebPage({ params }: PageProps) {
       "@context": "https://schema.org",
       "@type": "Person",
       name: profile.nickname,
-      ...(profile.nationality && { nationality: profile.nationality }),
+      ...(profile.nationality && {
+        nationality: getCountryNameByLocale(profile.nationality, locale),
+      }),
       ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession, locale) }),
       url: canonicalUrl,
     },

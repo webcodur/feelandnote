@@ -12,6 +12,7 @@ import {
   OUTER_VIRTUE_KEYS,
   TENDENCY_KEYS,
 } from "@/lib/persona/constants";
+import { localizePersonaText } from "@/lib/persona/localizeText";
 import type { PersonaJsonb, PersonaField } from "@/lib/persona/types";
 import { distanceToMatchPercent, type SimilarCeleb } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
@@ -80,7 +81,7 @@ function SimilarFiguresHeader() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="text-text-tertiary hover:text-accent transition-colors"
-          aria-label="Show similarity formula"
+          aria-label={t("showSimilarityFormula")}
         >
           <Info size={14} />
         </button>
@@ -256,7 +257,10 @@ export default function PersonaSection({
   };
 
   const isEn = locale === "en";
-  const rationale = getRationale(personaJsonb, locale);
+  const rationale = localizePersonaText(
+    getRationale(personaJsonb, locale),
+    locale,
+  );
 
   return (
     <div className="space-y-6">
@@ -291,7 +295,10 @@ export default function PersonaSection({
               key={key}
               label={ts(key)}
               value={persona[key]}
-              reason={getReasonFromJsonb(personaJsonb, "abilities", key, locale)}
+              reason={localizePersonaText(
+                getReasonFromJsonb(personaJsonb, "abilities", key, locale),
+                locale,
+              )}
               isEn={isEn}
               showReason={showDetail}
             />
@@ -308,10 +315,13 @@ export default function PersonaSection({
               key={key}
               label={ts(key)}
               value={persona[key]}
-              reason={getReasonFromJsonb(
-                personaJsonb,
-                "inner_virtues",
-                key,
+              reason={localizePersonaText(
+                getReasonFromJsonb(
+                  personaJsonb,
+                  "inner_virtues",
+                  key,
+                  locale,
+                ),
                 locale,
               )}
               isEn={isEn}
@@ -326,10 +336,13 @@ export default function PersonaSection({
               key={key}
               label={ts(key)}
               value={persona[key]}
-              reason={getReasonFromJsonb(
-                personaJsonb,
-                "outer_virtues",
-                key,
+              reason={localizePersonaText(
+                getReasonFromJsonb(
+                  personaJsonb,
+                  "outer_virtues",
+                  key,
+                  locale,
+                ),
                 locale,
               )}
               isEn={isEn}
@@ -349,10 +362,13 @@ export default function PersonaSection({
               neg={tendencyLabels[key][0]}
               pos={tendencyLabels[key][1]}
               value={persona[key]}
-              reason={getReasonFromJsonb(
-                personaJsonb,
-                "dispositions",
-                key,
+              reason={localizePersonaText(
+                getReasonFromJsonb(
+                  personaJsonb,
+                  "dispositions",
+                  key,
+                  locale,
+                ),
                 locale,
               )}
               isEn={isEn}
