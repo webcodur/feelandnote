@@ -99,6 +99,7 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 celeb-2-content-collector 파이프라인에서 `contents.external_source` 값은 BOOK일 때 **naver_book**(한국어판) 또는 **openlibrary**(영문 원서) 두 가지만 쓴다. 룰북: `docs/project/celeb/celeb-2-content-collector.md`의 "영문판 매칭 분기" / "external_source 값" 절.
 
 - **google_books 금지**: 키 만료가 잦고 동양 고전에서 한자 음차본·해설서 false positive가 많다. 기존 250건은 보존을 위해 enum에 남아 있으나 신규 사용 금지.
+  - **서지 조회뿐 아니라 「책 본문에 이 문장이 있는지」 확인 용도로도 쓰지 마라.** 같은 일일 할당량을 공유해 금방 막힌다(26.07.27 실제로 소진). 본문 대조는 OpenLibrary로 아카이브 아이템 id를 찾는 데까지만 되고, 그 다음이 전부 막혀 있다(실측): 전문 텍스트 `_djvu.txt`는 대출 제한 도서면 401/403, 아카이브 본문 검색 `BookReader/BookReaderSearch.php`는 404로 폐기, `api.archivelab.org` 접속 거부, `ia-pub-fts-api.archive.org` DNS 부재, HathiTrust 전문 검색 403. **즉 저작권 있는 현대 서적의 본문 인용 확정은 온라인으로 불가하다** — 못 하는 일에 시간을 쓰지 말고 미확인으로 보고하라.
 - **amazon 금지**: 공식 API가 없고 상품 페이지 스크래핑은 접근권 제한·신뢰도가 빈약하다. 영문 줄 `sources.primary` 분포에서 실사용 0건이라 룰북에서 제거했다.
 - **wikipedia 금지**: ISBN 없는 책은 독자가 그 책으로 도달할 수단이 없다. 영역본이 없는 동양 고전은 **영문 줄 등록 자체를 폐기**하고 ko 줄만 유지한다.
 
