@@ -138,7 +138,15 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 ---
 
-## 9. Supabase MCP가 죽었을 때 셀럽 등록 우회
+## 9. 인물 관계망(`celeb_relations` / `celeb_relations_external`)
+
+- **비공개(`status='inactive'`) 셀럽이 관계망에서 통째로 사라졌다(26.07.26 교정).** 관계 상대가 우리 명단에 있으면 `celeb_relations`에 들어가고 위키데이터 수집분(`celeb_relations_external`)에서는 빠진다. 그런데 화면이 `status='active'`만 통과시켜, 명단에 있으나 비공개인 상대는 **양쪽 어디에도 안 뜨는 사각지대**였다(엘론 머스크의 동생 킴벌, 관계 57건·인물 39명). 지금은 비공개 상대도 이름 노드로 세우고 이동만 막는다(`slug=null`, 위키데이터 링크는 `profiles.wikidata_qid`).
+- **혈연에는 인원 상한을 적용하지 않는다.** 세대 자리가 곧 정보라 자식 44명·형제 43명인 인물도 가계도에 전부 세운다. 접이식 목록(ROW_CAP 8)은 사회 관계 전용. 화면 폭에 접혀 여러 줄이 되면 줄마다 모선을 놓고 세로 줄기로 잇는다.
+- **관계 근거 한 줄은 `note`(한국어) + `note_en` 짝이다.** 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다. `label_ko`/`label_en` 컬럼은 전량 비어 있고 아무도 안 읽는 죽은 칸이다 — 쓰지 마라.
+- **수집 스크립트(`sw/web-bo/scripts/sync-celeb-relations.ts`)는 `source='wikidata'` 행을 지우고 다시 쓴다.** 수동 수록분(`manual`)은 보존되지만 위키데이터 출처 행에 손으로 넣은 값은 재실행 때 날아간다. 공동 창업 근거는 스크립트가 ko/en 조직명으로 양쪽을 함께 생성한다.
+- **위키데이터 인물의 한국어 이름이 절반 넘게 없다(7,807건 중 4,178건).** 이름이 없으면 영문 표기로 대신 띄우므로 한국어 화면에 `Arcadia Musk` 같은 표기가 나온다. 영문 이름 결측은 36건뿐. 미해결.
+
+## 10. Supabase MCP가 죽었을 때 셀럽 등록 우회
 
 Supabase MCP(`mcp__supabase__*`)가 `Unauthorized. SUPABASE_ACCESS_TOKEN` 에러로 막힐 때 REST로 직접 등록하는 통로다. 토큰이 왜 반복해서 죽는지는 `docs/project/tooling-gotchas.md`를 본다.
 
