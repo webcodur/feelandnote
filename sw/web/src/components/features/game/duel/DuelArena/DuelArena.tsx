@@ -7,14 +7,13 @@
 
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
 import type { DuelAction, DuelPhase, DuelClashResult } from "@/lib/game/duelEngine";
 import {
   calcDuelHp, resolveDuelClash, updateMomentum, duelAiDecide,
   calcStatMod,
   INITIAL_MOMENTUM,
-  DUEL_CMD_CONFIG,
 } from "@/lib/game/duelEngine";
 import DuelFighter, { type FighterPose } from "../DuelFighter";
 import ArenaHud from "../shared/ArenaHud";
@@ -35,6 +34,7 @@ import {
 // ─── 메인 컴포넌트 ───
 
 export default function DuelArena({ playerCard, aiCard, command, vsAi = true, onComplete }: DuelArenaProps) {
+  const t = useTranslations("shared.game.duel");
   const [phase, setPhase] = useState<DuelPhase>("intro");
   const [entered, setEntered] = useState(false);
   const [round, setRound] = useState(1);
@@ -55,8 +55,23 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
   const maxAiHp = calcDuelHp(aiCard, command);
   const canAct = phase === "select";
 
-  const cmdCfg = useMemo(() => DUEL_CMD_CONFIG[command], [command]);
-  const statLabel = command === "assault" ? "무력" : command === "stratagem" ? "논리" : "통솔";
+  const cmdCfg = useMemo(() => ({
+    labels: {
+      charge: t(`actions.${command}.charge`),
+      strike: t(`actions.${command}.strike`),
+      brace: t(`actions.${command}.brace`),
+    },
+    descriptions: {
+      charge: t("actionDescriptions.charge"),
+      strike: t("actionDescriptions.strike"),
+      brace: t("actionDescriptions.brace"),
+    },
+    rules: [
+      t(`rules.${command}.risk`),
+      t("rules.victory"),
+    ],
+  }), [command, t]);
+  const statLabel = command === "assault" ? t("martial") : command === "stratagem" ? t("logic") : t("command");
 
   const playerStat = command === "assault" ? playerCard.ability.martial
     : command === "stratagem" ? playerCard.ability.intellect
@@ -264,7 +279,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
           centerContent={
             phase !== "intro" && phase !== "end" ? (
               <>
-                <span className="text-[9px] font-cinzel text-white/40 tracking-[0.2em] uppercase">합</span>
+                <span className="text-[9px] font-cinzel text-white/40 tracking-[0.2em] uppercase">{t("round")}</span>
                 <span className="text-2xl sm:text-3xl font-cinzel font-black text-white/90 leading-none"
                   style={{ textShadow: "0 0 8px rgba(212,175,55,0.2)" }}>{round}</span>
                 {!vsAi && <DuelTimer active={phase === "select"} onTimeout={handleTimeout} />}
@@ -281,7 +296,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                 <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerHp}</span>
               </div>
               <div className="flex items-center gap-1.5 mt-1">
-                <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">기세</span>
+                <span className="text-[10px] font-bold text-[#d4af37]/60 shrink-0">{t("momentum")}</span>
                 <MomentumGauge level={playerMomentum} side="player" />
                 <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{playerMomentum}</span>
               </div>
@@ -297,7 +312,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               <div className="flex items-center gap-1.5 mt-1">
                 <span className="text-sm font-mono text-white/60 tabular-nums font-bold shrink-0">{aiMomentum}</span>
                 <MomentumGauge level={aiMomentum} side="ai" />
-                <span className="text-[10px] font-bold text-red-400/50 shrink-0">기세</span>
+                <span className="text-[10px] font-bold text-red-400/50 shrink-0">{t("momentum")}</span>
               </div>
             </>
           }
@@ -389,11 +404,15 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                 <span className="text-white/40 mx-2">vs</span>
                 {cmdCfg.labels[lastClash.aiAction]}
                 <span className="text-white/30 mx-2">&mdash;</span>
-                <span className="text-white/60">{lastClash.narrative}</span>
+                <span className="text-white/60">
+                  {t(`narrative.${lastClash.narrative}`, {
+                    damage: lastClash.playerDamage || lastClash.aiDamage,
+                  })}
+                </span>
               </motion.span>
             ) : (
               <span className="text-sm text-white/40">
-                {phase === "intro" ? "" : "행동을 선택하세요"}
+                {phase === "intro" ? "" : t("selectAction")}
               </span>
             )}
           </div>
@@ -404,7 +423,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               action="charge"
               label={cmdCfg.labels.charge}
               Icon={ACTION_ICONS[command].charge}
-              sub="기세 +1"
+              sub={t("momentumGain")}
               canAct={canAct}
               highlight={false}
               onClick={() => handleAction("charge")}
@@ -413,7 +432,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               action="strike"
               label={cmdCfg.labels.strike}
               Icon={ACTION_ICONS[command].strike}
-              sub={`피해 ${strikeDmg}`}
+              sub={t("damage", { value: strikeDmg })}
               canAct={canAct}
               highlight={canAct && playerMomentum >= 4}
               onClick={() => handleAction("strike")}
@@ -422,7 +441,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               action="brace"
               label={cmdCfg.labels.brace}
               Icon={ACTION_ICONS[command].brace}
-              sub="피해 반감"
+              sub={t("halfDamage")}
               canAct={canAct}
               highlight={false}
               onClick={() => handleAction("brace")}
@@ -436,7 +455,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
               className="text-[11px] text-white/30 hover:text-white/50 transition-colors px-2 py-1 rounded"
               style={{ border: "1px solid rgba(255,255,255,0.08)" }}
             >
-              기권
+              {t("forfeit")}
             </button>
           </div>
         </div>
@@ -551,17 +570,17 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
                       : undefined
                   }
                 >
-                  {playerHp > aiHp ? "VICTORY" : playerHp < aiHp ? "DEFEAT" : "DRAW"}
+                  {playerHp > aiHp ? t("result.victory") : playerHp < aiHp ? t("result.defeat") : t("result.draw")}
                 </div>
                 <div className="text-sm md:text-base font-mono text-white/50 mt-4 tabular-nums">
                   {playerCard.nickname} {playerHp}/{maxPlayerHp} vs {aiHp}/{maxAiHp} {aiCard.nickname}
                 </div>
                 <div className="text-sm text-white/40 mt-2">
                   {playerHp > aiHp
-                    ? "아군 명령 효과 100% 적용"
+                    ? t("result.playerEffect")
                     : playerHp < aiHp
-                      ? "적군 명령 효과 100% 적용"
-                      : "양쪽 명령 효과 50% 적용"}
+                      ? t("result.enemyEffect")
+                      : t("result.drawEffect")}
                 </div>
               </div>
             </motion.div>

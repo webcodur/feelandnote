@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect, useRef, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import type { RhythmJudgment, Lane } from "@/lib/game/rhythmEngine";
 import {
   NOTE_COUNT,
@@ -30,6 +31,7 @@ import { useRhythmLoop } from "./useRhythmLoop";
 import PlayField from "./sections/PlayField";
 
 export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmArenaProps) {
+  const t = useTranslations("shared.game.duel.rhythm");
   const [phase, setPhase] = useState<Phase>("intro");
   const [notes] = useState(() => generateNotes(NOTE_COUNT));
   const [currentNote, setCurrentNote] = useState(0);
@@ -249,7 +251,7 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
         {phase === "aiTurn" && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-text-secondary text-xs font-serif mb-3 tracking-widest">상대 차례</p>
+              <p className="text-text-secondary text-xs font-serif mb-3 tracking-widest">{t("enemyTurn")}</p>
               <motion.div
                 className="w-10 h-10 rounded-full mx-auto"
                 style={{
@@ -315,7 +317,7 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
       {/* ═══ 하단 ═══ */}
       <ArenaFooter
         onForfeit={() => onComplete("ai")}
-        hint={phase === "playing" ? "원이 겹칠 때 터치" : undefined}
+        hint={phase === "playing" ? t("hint") : undefined}
       />
 
       {/* ═══ 인트로 오버레이 ═══ */}
@@ -324,15 +326,15 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
         onDismiss={dismissIntro}
         playerCard={playerCard}
         aiCard={aiCard}
-        title="CLASH"
+        title={t("title")}
         themeColor="192,128,90"
         themeColorHex="#d4af37"
         rules={[
-          { icon: "⚔", text: "원이 하단 동심원에 겹칠 때 해당 버튼 터치" },
+          { icon: "⚔", text: t("rules.timing") },
           { icon: "⚡", text: <><span className="text-[#d4af37]/80 font-serif">PERFECT</span> &gt; <span className="text-white/60 font-serif">GOOD</span> &gt; <span className="text-[#c04040]/80 font-serif">MISS</span></> },
-          { icon: "🏆", text: "상대보다 높은 점수로 승리" }
+          { icon: "🏆", text: t("rules.victory") }
         ]}
-        footerText="모바일: 하단 버튼 터치 · PC: Q / W / E"
+        footerText={t("controls")}
       />
     </ArenaLayout>
   );

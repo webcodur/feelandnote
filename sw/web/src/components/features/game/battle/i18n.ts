@@ -24,6 +24,9 @@ interface BattleCaptainInfo {
 interface BattleText {
   loading: string;
   phase: {
+    phaseLabel: string;
+    captainLabel: string;
+    battleLabel: string;
     draftTitle: string;
     draftSubtitle: string;
     captainTitle: string;
@@ -117,6 +120,9 @@ const TEXT: Record<Locale, BattleText> = {
   ko: {
     loading: "카드 데이터 로딩 중...",
     phase: {
+      phaseLabel: "단계",
+      captainLabel: "주장",
+      battleLabel: "전투",
       draftTitle: "드래프트",
       draftSubtitle: "15장에서 5장씩 선택합니다",
       captainTitle: "주장 선택",
@@ -208,6 +214,9 @@ const TEXT: Record<Locale, BattleText> = {
   en: {
     loading: "Loading card data...",
     phase: {
+      phaseLabel: "PHASE",
+      captainLabel: "CAPTAIN",
+      battleLabel: "BATTLE",
       draftTitle: "Draft",
       draftSubtitle: "Pick 5 cards out of 15",
       captainTitle: "Captain",

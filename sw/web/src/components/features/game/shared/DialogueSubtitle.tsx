@@ -3,6 +3,7 @@
   기능: 대사 자막 스낵바
   책임: 대사 표시 시 텍스트를 3초간 표시한다. 새 대사가 오면 즉시 교체하고 타이머를 리셋한다.
         상단 핸들바를 드래그하면 자유 위치 이동 + localStorage 기억.
+        Esc 키로 즉시 닫는다(떠 있는 동안만 가로채므로 게임 전체화면 나가기와 겹치지 않는다).
 */
 "use client";
 
@@ -11,7 +12,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeOff, GripVertical, RotateCcw } from "lucide-react";
 import { VoiceBadge } from "@/components/ui";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { DialogueSubtitleData, DialogueLabel } from "./hooks/useDialogue";
 import { DEFAULT_DIALOGUE_COORDS, type DialogueCoords } from "@/hooks/useDialoguePosition";
 
@@ -35,6 +36,7 @@ interface Props {
 
 export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, coords = DEFAULT_DIALOGUE_COORDS, onSaveCoords }: Props) {
   const locale = useLocale();
+  const t = useTranslations("shared.game.dialogue");
   const [current, setCurrent] = useState<DialogueSubtitleData | null>(null);
   const [visible, setVisible] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
@@ -89,9 +91,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     setFading(false);
   }, [stopProgressLoop]);
 
-  const clearFadeTimer = () => {
+  const clearFadeTimer = useCallback(() => {
     if (fadeTimerRef.current) { clearTimeout(fadeTimerRef.current); fadeTimerRef.current = null; }
-  };
+  }, []);
 
   const startTimer = (duration: number) => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -212,7 +214,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     };
   }, [dragging, onSaveCoords]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     stopAudio();
     clearFadeTimer();
     setVisible(false);
@@ -221,16 +223,32 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-  };
+  }, [stopAudio, clearFadeTimer]);
+
+  // ── Esc 키로 닫기 ──
+  // 대사가 떠 있는 동안만 등록하고 capture 단계에서 소비한다.
+  // 게임 전체화면(GameFullScreen)도 Esc를 듣기 때문에, 대사만 먼저 닫고 화면은 유지한다.
+  useEffect(() => {
+    if (!visible || !current) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      e.stopPropagation();
+      handleClose();
+    };
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
+  }, [visible, current, handleClose]);
 
   const duration = current ? calcDuration(current.text) : BASE_DURATION;
   const hasAudio = !!(current?.audioUrl);
 
-  const LABEL_MAP: Record<DialogueLabel, { ko: string; en: string; color: string }> = {
-    greeting: { ko: "인사", en: "Greeting", color: "text-amber-400/80" },
-    roll_call: { ko: "호명", en: "Roll Call", color: "text-sky-400/80" },
-    deploy: { ko: "출전", en: "Deploy", color: "text-emerald-400/80" },
-    quotes: { ko: "명언", en: "Quotes", color: "text-purple-400/80" },
+  const closeLabel = t("closeEsc");
+
+  const LABEL_MAP: Record<DialogueLabel, { label: string; color: string }> = {
+    greeting: { label: t("greeting"), color: "text-amber-400/80" },
+    roll_call: { label: t("rollCall"), color: "text-sky-400/80" },
+    deploy: { label: t("deploy"), color: "text-emerald-400/80" },
+    quotes: { label: t("quotes"), color: "text-purple-400/80" },
   };
 
   const content = (
@@ -298,7 +316,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                       </span>
                       {current.label && LABEL_MAP[current.label] && (
                         <span className={`text-[9px] md:text-[11px] font-medium ${LABEL_MAP[current.label].color} shrink-0`}>
-                          {locale === "en" ? LABEL_MAP[current.label].en : LABEL_MAP[current.label].ko}
+                          {LABEL_MAP[current.label].label}
                         </span>
                       )}
                     </span>
@@ -323,7 +341,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                     }
                   }}
                   className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="기본 위치로 복귀"
+                  aria-label={t("resetPosition")}
                 >
                   <RotateCcw size={14} className="md:w-3.5 md:h-3.5 w-3 h-3" />
                 </button>
@@ -340,10 +358,18 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                   }
                 </button>
               )}
+              {/* 키보드 안내 — 마우스가 있는 화면에서만 노출 */}
+              <kbd
+                aria-hidden
+                className="hidden md:inline-flex items-center h-[18px] px-1.5 mr-0.5 rounded border border-white/15 bg-white/5 font-sans text-[10px] leading-none tracking-wide text-text-secondary select-none pointer-events-none"
+              >
+                Esc
+              </kbd>
               <button
                 onClick={handleClose}
                 className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
-                aria-label="닫기"
+                aria-label={closeLabel}
+                title={closeLabel}
               >
                 <X size={16} className="md:w-4 md:h-4 w-3.5 h-3.5" />
               </button>

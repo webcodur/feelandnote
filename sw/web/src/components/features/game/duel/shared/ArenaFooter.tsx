@@ -5,6 +5,7 @@
 */
 
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onForfeit: () => void;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function ArenaFooter({ onForfeit, hint }: Props) {
+  const t = useTranslations("shared.game.duel");
   return (
     <div
       className="shrink-0 px-3 pb-4 pt-2 md:px-5 md:pb-5 safe-area-bottom flex items-center justify-between"
@@ -27,7 +29,7 @@ export default function ArenaFooter({ onForfeit, hint }: Props) {
         className="shrink-0 text-[11px] text-white/30 hover:text-white/50 transition-colors px-2 py-1 rounded"
         style={{ border: "1px solid rgba(255,255,255,0.08)" }}
       >
-        기권
+        {t("forfeit")}
       </button>
     </div>
   );

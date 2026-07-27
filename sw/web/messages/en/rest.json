@@ -38,6 +38,7 @@
           "ancient": "Ancient",
           "modern": "Modern",
           "unknownYear": "????",
+          "milestone": "{count} Streak!",
           "hints": {
             "century": {
               "label": "Reveal Century",

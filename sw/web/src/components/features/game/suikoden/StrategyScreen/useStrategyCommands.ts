@@ -193,8 +193,8 @@ export function useStrategyCommands({
         return
     }
     onUpdateState(() => result.state)
-    showToast(result.result.message)
-  }, [state, onUpdateState, showToast])
+    showToast(translateSuikodenMessage(result.result.message, locale))
+  }, [state, onUpdateState, showToast, locale])
 
   // ── 선술집 등용 할당 ──
   const handleAssignRecruiter = useCallback((visitorCharId: string, recruiterCharId: string) => {
