@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Trophy, FileText, Check, Plus } from "lucide-react";
 import { TITLE_GRADE_CONFIG, TITLE_CATEGORY_CONFIG, TITLE_ICONS, type TitleGrade, type TitleCategory } from "@/constants/titles";
 import type { AchievementData, TitleWithStatus } from "@/actions/achievements";
@@ -17,6 +18,9 @@ interface CatalogSectionProps {
 }
 
 export default function CatalogSection({ achievements, showcaseCodes, isOwner, isUpdating, onAddToShowcase }: CatalogSectionProps) {
+  const t = useTranslations("profilePage.achievements");
+  const tTitle = useTranslations("title");
+  const locale = useLocale();
   const [subTab, setSubTab] = useState<"titles" | "history">("titles");
   const { titles, scoreLogs, userScore } = achievements;
 
@@ -42,25 +46,32 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return "방금 전";
-    if (diffMins < 60) return `${diffMins}분 전`;
-    if (diffHours < 24) return `${diffHours}시간 전`;
-    if (diffDays < 7) return `${diffDays}일 전`;
-    return date.toLocaleDateString("ko-KR");
+    if (diffMins < 1) return t("justNow");
+    if (diffMins < 60) return t("minutesAgo", { count: diffMins });
+    if (diffHours < 24) return t("hoursAgo", { count: diffHours });
+    if (diffDays < 7) return t("daysAgo", { count: diffDays });
+    return date.toLocaleDateString(locale === "en" ? "en-US" : "ko-KR");
   };
 
   const formatCondition = (condition: { type: string; value: number }) => {
-    const conditionLabels: Record<string, string> = {
-      content_count: "콘텐츠 {v}개 추가",
-      record_count: "기록 {v}개 작성",
-      completed_count: "콘텐츠 {v}개 완료",
-      category_count: "{v}개 분야 섭렵",
-      creator_count: "창작자 {v}명 탐험",
-      avg_review_length: "평균 리뷰 {v}자 이상",
-      long_review_count: "긴 리뷰 {v}개 작성",
-    };
-    const template = conditionLabels[condition.type] || `${condition.type}: {v}`;
-    return template.replace("{v}", condition.value.toLocaleString());
+    const value = condition.value.toLocaleString(locale === "en" ? "en-US" : "ko-KR");
+    switch (condition.type) {
+      case "content_count": return t("condition.contentCount", { value });
+      case "record_count": return t("condition.recordCount", { value });
+      case "completed_count": return t("condition.completedCount", { value });
+      case "category_count": return t("condition.categoryCount", { value });
+      case "creator_count": return t("condition.creatorCount", { value });
+      case "avg_review_length": return t("condition.averageReviewLength", { value });
+      case "long_review_count": return t("condition.longReviewCount", { value });
+      default: return t("condition.unknown", { type: condition.type, value });
+    }
+  };
+
+  const categoryLabel = (category: string) => {
+    if (category === "volume") return tTitle("category.volume");
+    if (category === "diversity") return tTitle("category.diversity");
+    if (category === "depth") return tTitle("category.depth");
+    return category;
   };
 
   const canAddMore = showcaseCodes.length < 3;
@@ -68,7 +79,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
   return (
     <div className="space-y-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
       <div className="flex justify-center mb-6">
-        <DecorativeLabel label="업적 보관소" />
+        <DecorativeLabel label={t("archive")} />
       </div>
 
       {/* 점수 요약 & 탭 */}
@@ -79,7 +90,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
               <Trophy size={24} />
             </div>
             <div>
-              <div className="text-xs text-text-secondary mb-1 font-bold uppercase tracking-wider">Total Score</div>
+              <div className="text-xs text-text-secondary mb-1 font-bold uppercase tracking-wider">{t("totalScore")}</div>
               <div className="text-3xl font-black text-[#d4af37] leading-none font-serif tracking-tight drop-shadow-sm">
                 {userScore.total_score.toLocaleString()}
               </div>
@@ -89,7 +100,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
           <div className="flex items-center gap-6">
             <div className="text-right">
               <div className="text-xl font-bold text-text-primary">{unlockedTitles} <span className="text-text-secondary text-base">/ {totalTitles}</span></div>
-              <div className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">Unlocked</div>
+              <div className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">{t("unlocked")}</div>
             </div>
 
             {isOwner && (
@@ -98,13 +109,13 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                   onClick={() => setSubTab("titles")}
                   className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "titles" ? "bg-[#d4af37] text-black shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
                 >
-                  TITLES
+                  {t("titles")}
                 </button>
                 <button
                   onClick={() => setSubTab("history")}
                   className={`px-4 py-1.5 rounded-md font-bold text-xs transition-all ${subTab === "history" ? "bg-[#d4af37] text-black shadow-lg" : "text-text-secondary hover:text-text-primary hover:bg-white/5"}`}
                 >
-                  HISTORY
+                  {t("history")}
                 </button>
               </div>
             )}
@@ -117,7 +128,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
         <div className="flex flex-col gap-2">
           {scoreLogs.length === 0 ? (
             <div className="text-center py-12 text-text-secondary text-sm bg-[#111] rounded-lg border border-[#222] border-dashed">
-              아직 기록된 역사가 없다.
+              {t("noHistory")}
             </div>
           ) : (
             scoreLogs.map(log => (
@@ -154,7 +165,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                   <div className="relative flex justify-between items-center z-10">
                     <div className="flex items-center gap-2">
                       <span className="text-[#d4af37]"><CategoryIcon size={16} /></span>
-                      <span className="font-bold text-xs uppercase tracking-wider text-text-primary">{config.label}</span>
+                      <span className="font-bold text-xs uppercase tracking-wider text-text-primary">{categoryLabel(category)}</span>
                     </div>
                     <div className="text-[10px] font-mono text-text-secondary">{Math.round(progress)}%</div>
                   </div>
@@ -176,7 +187,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
               <div key={category} className="mb-10 last:mb-0">
                 <div className="flex items-center gap-3 mb-4 pl-1">
                   <span className="text-[#d4af37] p-1.5 bg-[#d4af37]/10 rounded-md"><CategoryIcon size={18} /></span>
-                  <h3 className="text-lg font-serif font-bold text-text-primary">{config.label}</h3>
+                  <h3 className="text-lg font-serif font-bold text-text-primary">{categoryLabel(category)}</h3>
                   <div className="h-[1px] flex-1 bg-gradient-to-r from-[#333] to-transparent ml-2" />
                 </div>
 
@@ -197,7 +208,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                              return <IconComponent size={16} />;
                            })()}
                            </div>
-                           <div className="text-[10px] text-[#444] font-bold uppercase tracking-widest text-center">Locked</div>
+                           <div className="text-[10px] text-[#444] font-bold uppercase tracking-widest text-center">{t("locked")}</div>
                            <div className="text-[10px] text-[#444] text-center px-1 opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 inset-x-2 bg-[#111]/90 py-1 rounded">
                              {formatCondition(title.condition)}
                            </div>
@@ -232,8 +243,12 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                          </div>
 
                          <div className="text-center w-full">
-                           <div className="font-bold text-xs sm:text-sm leading-tight mb-1 truncate px-1">{title.name}</div>
-                           <div className="text-[10px] opacity-70 truncate px-1">{title.description}</div>
+                           <div className="font-bold text-xs sm:text-sm leading-tight mb-1 truncate px-1">
+                             {tTitle.has(`titles.${title.code}.name`) ? tTitle(`titles.${title.code}.name`) : title.name}
+                           </div>
+                           <div className="text-[10px] opacity-70 truncate px-1">
+                             {tTitle.has(`titles.${title.code}.description`) ? tTitle(`titles.${title.code}.description`) : title.description}
+                           </div>
                          </div>
 
                          {isInShowcase && (

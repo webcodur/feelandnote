@@ -39,6 +39,7 @@ interface UseFreePostDraftParams {
 
 export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword = false, onSuccess }: UseFreePostDraftParams) {
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [nickname, setNickname] = useState(initialData?.nickname ?? '')
   const [title, setTitle] = useState(initialData?.title ?? '')
   const [content, setContent] = useState(initialData?.content ?? '')
@@ -98,7 +99,7 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
       return
     }
 
-    setError(result.message)
+    setError(tError(result.error))
     setIsSubmitting(false)
   }
 

@@ -31,6 +31,7 @@ export default function FeedbackDetail({
 }: FeedbackDetailProps) {
   const router = useRouter()
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [isDeleting, setIsDeleting] = useState(false)
 
   const canEdit = isAuthor && feedback.status === 'PENDING'
@@ -44,7 +45,7 @@ export default function FeedbackDetail({
     if (result.success) {
       router.push('/agora/board/feedback')
     } else {
-      alert(result.message)
+      alert(tError(result.error))
       setIsDeleting(false)
     }
   }

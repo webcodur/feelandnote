@@ -14,10 +14,12 @@ import { getCelebsForContent } from "@/actions/scriptures";
 import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
+import { useLocale, useTranslations } from "next-intl";
 
 interface CelebInfo {
   id: string;
   nickname: string;
+  nickname_en: string | null;
   avatar_url: string | null;
   profession: string | null;
 }
@@ -39,6 +41,8 @@ export default function ContentStatsModal({
   contentThumbnail,
   celebCount,
 }: ContentStatsModalProps) {
+  const locale = useLocale();
+  const t = useTranslations("shared.contentCard");
   const [celebs, setCelebs] = useState<CelebInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -77,7 +81,7 @@ export default function ContentStatsModal({
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} title="인원 구성" icon={Users} size="md">
+      <Modal isOpen={isOpen} onClose={onClose} title={t("stats.title")} icon={Users} size="md">
         <ModalBody className="!p-0">
           <div className="flex flex-col sm:flex-row">
             {/* ─────────────────────────────────────────────────────────
@@ -120,7 +124,7 @@ export default function ContentStatsModal({
             <div className="flex-1 flex flex-col min-w-0">
               {/* 셀럽 목록 */}
               <div className="p-4 flex-1">
-                <h4 className="text-xs font-sans font-medium text-text-tertiary mb-3">이 콘텐츠를 선택한 셀럽</h4>
+                <h4 className="text-xs font-sans font-medium text-text-tertiary mb-3">{t("stats.figures")}</h4>
 
                 {isLoading ? (
                   <div className="flex items-center justify-center py-8">
@@ -141,7 +145,7 @@ export default function ContentStatsModal({
                           {celeb.avatar_url ? (
                             <Image
                               src={celeb.avatar_url}
-                              alt={celeb.nickname}
+                              alt={locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
                               width={36}
                               height={36}
                               unoptimized
@@ -157,11 +161,11 @@ export default function ContentStatsModal({
                         {/* 정보 */}
                         <div className="flex-1 min-w-0 text-start">
                           <p className="text-sm font-sans font-medium text-text-primary truncate">
-                            {celeb.nickname}
+                            {locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
                           </p>
                           <div className="flex items-center gap-1 text-[11px] text-accent/70">
                             <Crown size={10} />
-                            <span>{getCelebProfessionLabel(celeb.profession)}</span>
+                            <span>{getCelebProfessionLabel(celeb.profession, locale)}</span>
                           </div>
                         </div>
                       </button>
@@ -170,7 +174,7 @@ export default function ContentStatsModal({
                 ) : (
                   <div className="text-center py-8">
                     <Users size={24} className="text-text-tertiary/30 mx-auto mb-2" />
-                    <p className="text-text-tertiary text-xs font-sans">셀럽 정보가 없습니다</p>
+                    <p className="text-text-tertiary text-xs font-sans">{t("stats.empty")}</p>
                   </div>
                 )}
               </div>
@@ -178,7 +182,7 @@ export default function ContentStatsModal({
               {/* 안내 문구 */}
               <div className="px-4 py-2.5 border-t border-border/30 bg-stone-950/30">
                 <p className="text-[10px] font-sans text-text-tertiary text-center">
-                  셀럽은 역사적 인물과 유명인을 의미합니다
+                  {t("stats.note")}
                 </p>
               </div>
             </div>
@@ -192,7 +196,7 @@ export default function ContentStatsModal({
             onClick={onClose}
             className="min-w-[100px] px-5 py-2.5 rounded-lg text-sm font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
           >
-            닫기
+            {t("close")}
           </Button>
         </ModalFooter>
       </Modal>

@@ -33,6 +33,7 @@ export default function HomeFreeBoardList({
   isLoggedIn,
 }: HomeFreeBoardListProps) {
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [posts, setPosts] = useState(initialPosts)
   // 여러 글을 각각 독립적으로 펼친다 — 다른 글이 접히며 위치가 튀는 것을 막는다
   const [openIds, setOpenIds] = useState<Set<string>>(() => new Set())
@@ -83,7 +84,7 @@ export default function HomeFreeBoardList({
         return next
       })
     } else {
-      setDeleteError(result.message)
+      setDeleteError(tError(result.error))
     }
     setDeleting(false)
   }

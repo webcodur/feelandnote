@@ -107,7 +107,7 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
           href={`/${figure.id}`}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 text-sm font-semibold text-text-secondary hover:text-white transition-all duration-300 group/btn mt-1"
         >
-          서명 남기기 <ArrowRight size={16} className="text-text-tertiary group-hover/btn:text-accent group-hover/btn:translate-x-1 transition-all duration-300" />
+          {t("leaveSignature")} <ArrowRight size={16} className="text-text-tertiary group-hover/btn:text-accent group-hover/btn:translate-x-1 transition-all duration-300" />
         </Link>
       </div>
     </div>

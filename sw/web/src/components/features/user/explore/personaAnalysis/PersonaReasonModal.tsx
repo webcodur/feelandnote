@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { TENDENCY_LABELS, type TendencyKey } from "@/lib/persona/constants";
@@ -23,6 +23,7 @@ interface PersonaReasonModalProps {
 
 export default function PersonaReasonModal({ person, axis, reason, loading, onClose }: PersonaReasonModalProps) {
   const locale = useLocale();
+  const t = useTranslations("explore.ui.personaReason");
 
   const v = person.stats[axis] ?? 0;
   const [neg, pos] = TENDENCY_LABELS[axis];
@@ -54,7 +55,7 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
 
         {/* 수치 근거 */}
         {loading ? (
-          <p className="mt-4 text-sm text-text-secondary/50">근거 불러오는 중…</p>
+          <p className="mt-4 text-sm text-text-secondary/50">{t("loading")}</p>
         ) : (
           reasonText && <p className="mt-4 text-sm leading-relaxed text-text-secondary">{reasonText}</p>
         )}
@@ -66,14 +67,14 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent py-2.5 text-sm font-bold text-black transition-transform active:scale-[0.98]"
           >
             <ExternalLink size={14} strokeWidth={2.5} />
-            인물 상세
+            {t("figureDetail")}
           </Link>
           <button
             type="button"
             onClick={onClose}
             className="rounded-xl border border-border/60 px-4 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary"
           >
-            닫기
+            {t("close")}
           </button>
         </div>
       </div>

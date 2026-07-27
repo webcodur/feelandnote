@@ -68,7 +68,7 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
                 onClick={() => handleLanguageSelect("ko")}
                 className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-white/5 transition-colors ${locale === "ko" ? "text-accent" : "text-text-primary"}`}
               >
-                한국어
+                {t("korean")}
                 {locale === "ko" && <Check size={16} />}
               </button>
               <button

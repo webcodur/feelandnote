@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { Search, X } from "lucide-react";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
 import type { CountryGroup } from "@/actions/home";
+import { useTranslations } from "next-intl";
 
 interface Props {
   countries: CountryGroup[];
@@ -26,6 +27,7 @@ export default function CountryPicker({
   onSearchChange,
   onCountryChange,
 }: Props) {
+  const t = useTranslations("explore.ui.timeline");
   // 국가 검색 필터
   const filteredCountries = useMemo(() => {
     if (!countrySearch.trim()) return countries;
@@ -43,7 +45,7 @@ export default function CountryPicker({
           type="text"
           value={countrySearch}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="국가 검색..."
+          placeholder={t("countrySearch")}
           className="w-full pl-9 pr-8 py-2 rounded-lg bg-bg-card border border-white/10 text-text-primary text-sm placeholder:text-text-secondary/50 focus:outline-none focus:border-accent/50"
         />
         {countrySearch && (

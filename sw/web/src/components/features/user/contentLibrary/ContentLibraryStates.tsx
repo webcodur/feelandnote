@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Loader2, Archive } from "lucide-react";
 import Button from "@/components/ui/Button";
 
@@ -27,11 +28,13 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ message, onRetry, compact = false }: ErrorStateProps) {
+  const t = useTranslations("archiveSearch");
+
   return (
     <div className={`text-center ${compact ? "py-4" : "py-8"}`}>
       <p className="text-red-400 mb-2 text-xs">{message}</p>
       <Button unstyled onClick={onRetry} className="text-accent hover:underline text-xs">
-        다시 시도
+        {t("retry")}
       </Button>
     </div>
   );

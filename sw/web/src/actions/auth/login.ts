@@ -3,13 +3,25 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
+export type LoginErrorCode =
+  | 'missingCredentials'
+  | 'invalidCredentials'
+  | 'emailNotConfirmed'
+  | 'unknown'
+
+export type SignupErrorCode =
+  | 'missingFields'
+  | 'passwordTooShort'
+  | 'alreadyRegistered'
+  | 'unknown'
+
 // #region 이메일 로그인/회원가입
 export async function loginWithEmail(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
   if (!email || !password) {
-    return { error: '이메일과 비밀번호를 입력해주세요' }
+    return { error: 'missingCredentials' as const }
   }
 
   const supabase = await createClient()
@@ -21,12 +33,13 @@ export async function loginWithEmail(formData: FormData) {
 
   if (error) {
     if (error.message === 'Invalid login credentials') {
-      return { error: '이메일 또는 비밀번호가 올바르지 않습니다' }
+      return { error: 'invalidCredentials' as const }
     }
     if (error.message === 'Email not confirmed') {
-      return { error: '이메일 인증이 필요합니다. 메일함을 확인해주세요' }
+      return { error: 'emailNotConfirmed' as const }
     }
-    return { error: error.message }
+    console.error('[loginWithEmail]', error)
+    return { error: 'unknown' as const }
   }
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -39,11 +52,11 @@ export async function signupWithEmail(formData: FormData) {
   const nickname = formData.get('nickname') as string
 
   if (!email || !password || !nickname) {
-    return { error: '모든 필드를 입력해주세요' }
+    return { error: 'missingFields' as const }
   }
 
   if (password.length < 6) {
-    return { error: '비밀번호는 6자 이상이어야 합니다' }
+    return { error: 'passwordTooShort' as const }
   }
 
   const supabase = await createClient()
@@ -61,9 +74,10 @@ export async function signupWithEmail(formData: FormData) {
 
   if (error) {
     if (error.message.includes('already registered')) {
-      return { error: '이미 가입된 이메일입니다' }
+      return { error: 'alreadyRegistered' as const }
     }
-    return { error: error.message }
+    console.error('[signupWithEmail]', error)
+    return { error: 'unknown' as const }
   }
 
   // 이메일 확인 활성화 상태: session이 null
@@ -88,7 +102,7 @@ export async function signupWithEmail(formData: FormData) {
     redirect(`/${data.user!.id}/records`)
   }
 
-  return { success: '인증 메일을 발송했습니다. 메일함을 확인해주세요' }
+  return { success: 'verificationSent' as const }
 }
 // #endregion
 

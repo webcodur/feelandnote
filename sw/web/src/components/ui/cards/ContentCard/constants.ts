@@ -16,9 +16,9 @@ export const ASPECT_STYLES = {
   "3/4": "aspect-[3/4]",
 };
 
-export const TYPE_INFO: { type: ContentType; icon: typeof BookOpen; label: string; desc: string }[] = [
-  { type: "BOOK", icon: BookOpen, label: "도서", desc: "책, 만화, 웹소설, 에세이 등" },
-  { type: "VIDEO", icon: Film, label: "영상", desc: "영화, 드라마, 다큐멘터리, 애니메이션 등" },
-  { type: "GAME", icon: Gamepad2, label: "게임", desc: "비디오 게임, 보드게임, 인디 게임 등" },
-  { type: "MUSIC", icon: Music, label: "음악", desc: "앨범, 싱글, 클래식, 팟캐스트 등" },
+export const TYPE_INFO: { type: ContentType; icon: typeof BookOpen }[] = [
+  { type: "BOOK", icon: BookOpen },
+  { type: "VIDEO", icon: Film },
+  { type: "GAME", icon: Gamepad2 },
+  { type: "MUSIC", icon: Music },
 ];

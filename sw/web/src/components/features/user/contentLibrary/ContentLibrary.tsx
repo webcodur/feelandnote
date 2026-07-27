@@ -7,12 +7,11 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
 import ArchiveControlBar from "./controlBar/ArchiveControlBar";
-import { TAB_OPTIONS } from "./controlBar/constants";
 import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
@@ -25,9 +24,8 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 export default function ContentLibrary({
   compact = false,
   maxItems,
-  showCategories = true,
   showPagination = true,
-  emptyMessage = "아직 기록한 콘텐츠가 없습니다",
+  emptyMessage,
   mode = "owner",
   targetUserId,
   ownerNickname,
@@ -36,10 +34,13 @@ export default function ContentLibrary({
   initialContents,
 }: ContentLibraryProps) {
   const searchParams = useSearchParams();
+  const locale = useLocale();
   const initialSearchQuery = searchParams.get("q") || "";
   const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode, initialContents });
   const isViewer = lib.isViewer;
   const t = useTranslations("celebPage");
+  const tArchive = useTranslations("archiveSearch");
+  const resolvedEmptyMessage = emptyMessage ?? tArchive("empty");
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
@@ -72,7 +73,7 @@ export default function ContentLibrary({
   if (lib.error) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
   if (lib.isLoading) return <LoadingState compact={compact} />;
   // 검색 중이 아닌데 콘텐츠가 없으면 빈 상태 표시
-  if (!hasContents && !isSearching) return <EmptyState message={emptyMessage} compact={compact} />;
+  if (!hasContents && !isSearching) return <EmptyState message={resolvedEmptyMessage} compact={compact} />;
 
   return (
     <div>
@@ -141,7 +142,7 @@ export default function ContentLibrary({
                   <MonthSection
                     key={monthKey}
                     monthKey={monthKey}
-                    label={lib.formatMonthLabel(monthKey)}
+                    label={lib.formatMonthLabel(monthKey, locale)}
                     itemCount={items.length}
                     isCollapsed={lib.collapsedMonths.has(monthKey)}
                     onToggle={() => lib.toggleMonth(monthKey)}
@@ -155,7 +156,7 @@ export default function ContentLibrary({
             )
           ) : (
             <div className="py-12 text-center text-text-secondary">
-              검색 결과가 없습니다
+              {tArchive("noResults")}
             </div>
           )}
 

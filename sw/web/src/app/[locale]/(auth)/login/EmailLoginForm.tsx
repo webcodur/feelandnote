@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useActionState } from 'react'
-import { loginWithEmail } from '@/actions/auth'
+import { loginWithEmail, type LoginErrorCode } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
 import { Link } from '@/i18n/navigation'
 import { ArrowLeft, Mail, Eye, EyeOff } from 'lucide-react'
 
-type State = { error?: string } | undefined
+type State = { error?: LoginErrorCode } | undefined
 
 interface Props {
   onExpandChange?: (expanded: boolean) => void
@@ -125,7 +125,7 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
       </label>
 
       {state?.error && (
-        <p className="text-sm text-red-400">{state.error}</p>
+        <p className="text-sm text-red-400">{t(`errors.${state.error}`)}</p>
       )}
 
       <Button

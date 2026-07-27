@@ -7,12 +7,14 @@
 
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useLocale } from "next-intl";
 
 interface MonthTransitionIndicatorProps {
   currentMonthKey: string | null;
 }
 
 export default function MonthTransitionIndicator({ currentMonthKey }: MonthTransitionIndicatorProps) {
+  const locale = useLocale();
   const [visible, setVisible] = useState(false);
   const [displayKey, setDisplayKey] = useState<string | null>(null);
   const [isMounting, setIsMounting] = useState(false);
@@ -93,8 +95,6 @@ export default function MonthTransitionIndicator({ currentMonthKey }: MonthTrans
 
   const [year] = displayKey.split("-");
 
-  // 브라우저 로케일 감지 (한국어: ko, ko-KR 등)
-  const locale = typeof navigator !== "undefined" ? navigator.language : "en";
   const isKorean = locale.startsWith("ko");
 
   // 포탈을 사용하여 body에 직접 렌더링하여 z-index 이슈 방지 및 위치 보장

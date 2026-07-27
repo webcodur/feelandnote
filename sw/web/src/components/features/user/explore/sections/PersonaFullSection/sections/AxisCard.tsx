@@ -11,6 +11,7 @@ import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
 import { AXIS_SHORT_LABELS } from "../../../personaAxis";
 import Avatar from "../Avatar";
 import { getName } from "../utils";
+import { useTranslations } from "next-intl";
 
 export default function AxisCard({
   entry, locale, color, focusedId, onSelect
@@ -18,13 +19,12 @@ export default function AxisCard({
   entry: PersonaExtremeEntry; locale: string; color: string;
   focusedId: string; onSelect: (id: string) => void;
 }) {
+  const t = useTranslations("explore.ui.personaDistribution");
   const label = AXIS_SHORT_LABELS[entry.axis]
     ? (locale === "en" ? AXIS_SHORT_LABELS[entry.axis].en : AXIS_SHORT_LABELS[entry.axis].ko)
     : (locale === "en" ? entry.label.en : entry.label.ko);
   const winnerName = getName(entry.celeb, locale);
   const reason = locale === "en" ? entry.reason.en : entry.reason.ko;
-  const isEn = locale === "en";
-
   return (
     <div
       className="relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-xl"
@@ -65,7 +65,7 @@ export default function AxisCard({
             <span className="text-xl font-black tabular-nums">{entry.score}</span>
             <span className="text-[10px] font-bold uppercase opacity-60">pts</span>
             <span className="text-[10px] font-bold uppercase opacity-60 ml-1">
-              {isEn ? `Top ${entry.percentile}%` : `상위 ${entry.percentile}%`}
+              {t("topPercent", { percentile: entry.percentile })}
             </span>
           </div>
           {reason && (
@@ -77,7 +77,7 @@ export default function AxisCard({
       {entry.runnersUp.length > 0 && (
         <div className="border-t border-white/5 px-5 py-3">
           <span className="text-[10px] font-bold tracking-widest uppercase text-text-tertiary/60 block mb-2">
-            {isEn ? "Runners-up" : "차순위"}
+            {t("runnersUp")}
           </span>
           <div className="flex flex-col gap-0.5">
             {entry.runnersUp.map((r, i) => {

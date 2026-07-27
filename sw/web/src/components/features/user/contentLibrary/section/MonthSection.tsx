@@ -6,6 +6,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronRight, ChevronDown } from "lucide-react";
 
 interface MonthSectionProps {
@@ -23,11 +24,13 @@ function cn(...classes: (string | undefined | null | false)[]) {
 
 export default function MonthSection({
   monthKey,
+  label,
   itemCount,
   isCollapsed,
   onToggle,
   children,
 }: MonthSectionProps) {
+  const t = useTranslations("archiveSearch");
   const { year, month } = useMemo(() => {
     const [y, m] = monthKey.split("-");
     return { year: y, month: parseInt(m).toString() };
@@ -41,7 +44,10 @@ export default function MonthSection({
     <div id={`month-section-${monthKey}`} className="mb-8">
       {/* 헤더 버튼 */}
       <button
+        type="button"
         onClick={onToggle}
+        aria-expanded={!isCollapsed}
+        aria-label={t("toggleMonth", { month: label })}
         className="group relative flex flex-col items-center w-full py-3 px-3 -mx-3 rounded-xl overflow-hidden"
       >
         {/* 호버 배경 텍스처 */}
@@ -69,7 +75,7 @@ export default function MonthSection({
           />
         </div>
         <span className="relative text-[10px] font-serif font-bold text-text-secondary uppercase tracking-[0.2em] mt-1">
-          {itemCount} RECORDS INSCRIBED
+          {t("recordsInscribed", { count: itemCount })}
         </span>
       </button>
 

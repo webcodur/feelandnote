@@ -11,6 +11,7 @@ import type { Database, Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 export type FeaturedCeleb = CelebProfile & {
   short_desc: string | null
@@ -34,13 +35,19 @@ export interface FeaturedTag {
   description_en: string | null
   color: string
   slug: string | null
-  team_images: string[]
+  /** 단체 사진 — 주소마다 「어느 묶음을 찍었고 누가 나오는지」가 함께 온다 */
+  team_images: FactionTeamImage[]
   /** 이 테마를 다룬 유튜브 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
   videos: FactionVideos | null
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
   music: FactionMusic | null
   celebs: FeaturedCeleb[]
   is_featured: boolean
+  /**
+   * 이야기 속 인물 구획인지. 컬렉션 화면에서 구분선 아래로 내려간다.
+   * 묶음에 켜져 있으면 그 아래 테마도 함께 내려간다.
+   */
+  is_fiction: boolean
   /** 이 태그가 속한 상위 그룹 slug (자식이면 'ai', 최상위면 null) */
   parentSlug?: string | null
   /** 이 태그가 그룹 헤더인지 (자식을 접었다 펴는 상위 카드) */
@@ -59,7 +66,7 @@ export interface FactionPreviewMember {
 
 export interface FactionTagPreview {
   tagId: string
-  teamImages: string[]
+  teamImages: FactionTeamImage[]
   members: FactionPreviewMember[]
 }
 
@@ -95,13 +102,22 @@ interface FeaturedTagRow {
   youtube_videos: unknown
   theme_music: unknown
   is_featured: boolean | null
+  is_fiction: boolean | null
   parent_id: string | null
 }
 
-// team_images Json → string[]
-function toImageArray(v: unknown): string[] {
-  return Array.isArray(v) ? (v.filter((x): x is string => typeof x === 'string')) : []
-}
+// team_images Json → 사진 목록 (옛 문자열 배열도 그대로 읽힌다)
+const toImageArray = toTeamImages
+
+/**
+ * 한 테마가 도감에 띄우는 인물 수 상한.
+ *
+ * 16이던 것을 26.07.27 에 올렸다. 목록이 「단체 사진 + 그 사진의 사람들」 계층으로 바뀌어
+ * 길어져도 읽히고, 무엇보다 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려
+ * 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크에서 싸이월드 창업자가 그랬다).
+ * 감추는 일은 배정의 hidden 스위치가 맡고, 이 값은 사고 방지용 천장으로만 둔다.
+ */
+const MAX_CELEBS_PER_TAG = 24
 
 
 interface FeaturedProfileRow {
@@ -143,7 +159,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 1. 모든 태그 조회
   const { data: allTags } = await supabase
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, theme_music, is_featured, parent_id')
+    .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, theme_music, is_featured, is_fiction, parent_id')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -169,11 +185,12 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   const tagIds = activeTags.map(t => t.id)
 
-  // 2. 모든 태그의 assignments 한 번에 조회
+  // 2. 모든 태그의 assignments 한 번에 조회 — 감춘 배정은 DB 에서 걸러 16자리를 차지하지 않게 한다
   const { data: allAssignments } = await supabase
     .from('celeb_tag_assignments')
     .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, spotlight_image_url, sort_order')
     .in('tag_id', tagIds)
+    .eq('hidden', false)
     .order('sort_order', { ascending: true })
 
   const assignmentsByTag: Record<string, TagAssignmentRow[]> = {}
@@ -182,27 +199,34 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   activeTags.forEach(tag => {
     const tagAssignments = ((allAssignments ?? []) as TagAssignmentRow[])
       .filter(a => a.tag_id === tag.id)
-      .slice(0, 16)
+      .slice(0, MAX_CELEBS_PER_TAG)
     assignmentsByTag[tag.id] = tagAssignments
     tagAssignments.forEach(a => allCelebIds.add(a.celeb_id))
   })
 
   const celebIdArray = Array.from(allCelebIds)
   if (celebIdArray.length === 0) {
-    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images), videos: toFactionVideos(tag.youtube_videos), music: toFactionMusic(tag.theme_music), celebs: [], is_featured: true }))
+    return activeTags.map(tag => ({ ...tag, name_en: tag.name_en ?? null, description: tag.description ?? null, description_en: tag.description_en ?? null, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images), videos: toFactionVideos(tag.youtube_videos), music: toFactionMusic(tag.theme_music), celebs: [], is_featured: true, is_fiction: tag.is_fiction === true }))
   }
 
   // 3. 모든 셀럽 데이터 병렬 조회
   const [profilesResult, followsResult, influencesResult, tagDataResult, contentCountsResult, dialoguesResult] = await Promise.all([
-    // 편성에 배정됐어도 비활성이거나 목록 노출 등급이 아니면 제외한다
-    // (여기서 빠진 셀럽은 profileMap에 없어 아래 조합 단계에서 자연히 걸러진다)
+    /*
+      배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
+
+      ① **셀럽 전역 상태(status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
+         진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
+         있었다(26.07.27 실측).
+      ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
+         (실존 인물 목록에 제우스가 섞이면 곤란하다), 도감은 테마별 진열이라 맥락이 분명하다.
+         뒤섞이지 않게 컬렉션 화면에서 「이야기 속 인물」 구획(`is_fiction`)으로 갈라 놓는다.
+         이 게이트 때문에 일리아스 19명·오디세이아 22명을 다 채워 넣고도 0명으로 떴었다.
+    */
     supabase.from('profiles').select(`
       id, slug, nickname, nickname_en, avatar_url, title, title_en, profession,
       nationality, birth_date, death_date,
       bio, bio_en, is_verified, claimed_by, speech_tone, has_voice, voice_v, voice_speed
-    `).in('id', celebIdArray)
-      .eq('status', 'active')
-      .in('celeb_tier', [...LISTING_DEFAULT_TIERS]),
+    `).in('id', celebIdArray),
     supabase.from('follows').select('following_id').in('following_id', celebIdArray),
     supabase.from('celeb_influence').select('celeb_id, total_score').in('celeb_id', celebIdArray),
     supabase.from('celeb_tag_assignments')
@@ -319,7 +343,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
         color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
         videos: toFactionVideos(tag.youtube_videos),
         music: toFactionMusic(tag.theme_music),
-        celebs, is_featured: true, parentSlug, isGroup,
+        celebs, is_featured: true, is_fiction: tag.is_fiction === true, parentSlug, isGroup,
       })
     }
   }
@@ -332,7 +356,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
       color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
       videos: toFactionVideos(tag.youtube_videos),
       music: toFactionMusic(tag.theme_music),
-      celebs: [], is_featured: false,
+      celebs: [], is_featured: false, is_fiction: tag.is_fiction === true,
       parentSlug: parentSlugOf(tag),
       isGroup: isGroupTag(tag),
     })
@@ -363,6 +387,7 @@ async function fetchFactionTagPreviews(tagIds: string[]): Promise<FactionTagPrev
       .from('celeb_tag_assignments')
       .select('tag_id, celeb_id, short_desc, short_desc_en')
       .in('tag_id', tagIds)
+      .eq('hidden', false)
       .order('sort_order', { ascending: true })
       .order('celeb_id', { ascending: true }),
   ])
@@ -383,7 +408,7 @@ async function fetchFactionTagPreviews(tagIds: string[]): Promise<FactionTagPrev
       .from('profiles')
       .select('id, slug, nickname, nickname_en, avatar_url')
       .in('id', celebIds)
-      .eq('status', 'active')
+      // 감추는 일은 배정의 hidden 이 맡는다 — 셀럽 전역 상태로 거르지 않는다(위 조회와 같은 기준)
 
     if (profilesResult.error) {
       throw new Error(`Failed to load faction members: ${profilesResult.error.message}`)

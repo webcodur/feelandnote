@@ -98,6 +98,55 @@
       "viewAllCount": "+{count} View all",
       "prev": "Previous",
       "next": "Next",
+      "explore": "Explore",
+      "noCountryFigures": "No figures are registered for this country.",
+      "personaQuickView": {
+        "loading": "Analyzing figure metrics...",
+        "analysis": "Analysis",
+        "visitLibrary": "View {name}'s records",
+        "exploreJourney": "Explore their cultural journey and tastes"
+      },
+      "personaReason": {
+        "loading": "Loading evidence...",
+        "figureDetail": "View figure",
+        "close": "Close"
+      },
+      "personaDistribution": {
+        "axes": {
+          "pessimism_optimism": {
+            "negative": "Pessimistic",
+            "positive": "Optimistic"
+          },
+          "conservative_progressive": {
+            "negative": "Conservative",
+            "positive": "Progressive"
+          },
+          "individual_social": {
+            "negative": "Individual",
+            "positive": "Social"
+          },
+          "cautious_bold": {
+            "negative": "Cautious",
+            "positive": "Bold"
+          }
+        },
+        "middle": "Middle",
+        "guide": "{count} figures with influence of {influence} or higher · A fuller center indicates a more common tendency · Search above for everyone else.",
+        "searchPlaceholder": "Search figures",
+        "influence": "Influence {score}",
+        "noResults": "No results found.",
+        "topPercent": "Top {percentile}%",
+        "runnersUp": "Runners-up",
+        "assessment": "Assessment",
+        "viewProfile": "View Full Profile"
+      },
+      "timeline": {
+        "contemporaries": "Contemporaries",
+        "noContemporaries": "No contemporaries found.",
+        "figureEra": "In the era of {name}",
+        "countrySearch": "Search countries...",
+        "figureCount": "{count, plural, one {# figure} other {# figures}}"
+      },
       "loading": "Loading...",
       "friend": "Friend",
       "personaNoData": "No person data to display.",
@@ -233,7 +282,7 @@
         "empty": "No content records"
       },
       "intro": {
-        "title": "Trajectories of Appreciation Across Eras",
+        "title": "Threads of Taste Across Time",
         "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir recorded lines draw out new echoes within you.",
         "select": "Select Theme",
         "openInNewTab": "Open in new tab"
@@ -285,6 +334,41 @@
     }
   },
   "archiveSearch": {
-    "placeholder": "Title | Author (2+)"
+    "placeholder": "Title | Author (2+)",
+    "filter": {
+      "category": "Category",
+      "review": "Review",
+      "sort": "Sort"
+    },
+    "sort": {
+      "recent": "Recently added",
+      "title": "Title",
+      "ratingHigh": "Highest rated",
+      "ratingLow": "Lowest rated",
+      "creator": "Creator"
+    },
+    "review": {
+      "all": "All",
+      "hasReview": "With review",
+      "noReview": "Without review"
+    },
+    "search": "Search",
+    "clearSearch": "Clear search",
+    "listView": "List view",
+    "gridView": "Grid view",
+    "expandAll": "Expand all",
+    "collapseAll": "Collapse all",
+    "empty": "No recorded content yet.",
+    "noResults": "No results found.",
+    "retry": "Try again",
+    "loadFailed": "Unable to load the records.",
+    "recordsInscribed": "{count, plural, one {# record} other {# records}}",
+    "toggleMonth": "Expand or collapse records for {month}",
+    "categoryGuide": {
+      "title": "Category guide",
+      "basis": "Top-level categories are based on the work's medium.",
+      "available": "Books, videos, games, and music are currently available. New categories can be added when a dependable external data source is available.",
+      "suggestion": "To suggest a category, leave a post tagged as a suggestion on the community board."
+    }
   }
 }

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Layers, Lock } from "lucide-react";
 import type { FlowSummary } from "@/types/database";
 import { BLUR_DATA_URL } from "@/constants/image";
+import { useTranslations } from "next-intl";
 
 interface FlowCardProps {
   flow: FlowSummary;
@@ -48,6 +49,7 @@ function Thumb({ src, alt, className = "" }: { src: string; alt: string; classNa
 }
 
 export default function FlowCard({ flow, onClick, className = "" }: FlowCardProps) {
+  const t = useTranslations("flowDetail");
   const thumbs = collectThumbnails(flow, 4);
   const count = thumbs.length;
 
@@ -115,7 +117,7 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
 
         <div className="mt-auto pt-2 flex items-center gap-1.5 text-[10px] md:text-[11px] text-text-secondary font-serif">
           {flow.stage_count > 0 && (
-            <span>{flow.stage_count}단계</span>
+            <span>{t("stageCount", { count: flow.stage_count })}</span>
           )}
           {flow.difficulty && (
             <>

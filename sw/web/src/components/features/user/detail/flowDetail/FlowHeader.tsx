@@ -5,6 +5,7 @@ import { Pencil, Share2, Trash2, Lock, Globe, Bookmark, BookmarkCheck } from "lu
 import Button from "@/components/ui/Button";
 import { CATEGORIES } from "@/constants/categories";
 import type { FlowWithStages } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 interface FlowHeaderProps {
   flow: FlowWithStages;
@@ -33,6 +34,8 @@ export default function FlowHeader({
   handleDelete,
   handleToggleSave,
 }: FlowHeaderProps) {
+  const t = useTranslations("flowDetail");
+  const tContent = useTranslations("contentDetail");
   void flowId;
   void currentUserId;
 
@@ -46,7 +49,7 @@ export default function FlowHeader({
   const categoryEntries = Object.entries(categoryCounts)
     .map(([type, count]) => {
       const cat = CATEGORIES.find((item) => item.dbType === type);
-      return cat ? `${cat.label} ${count}` : null;
+      return cat ? t("categoryCount", { category: tContent(`category.${cat.id}`), count }) : null;
     })
     .filter(Boolean);
 
@@ -85,15 +88,15 @@ export default function FlowHeader({
                 }`}
               >
                 {flow.is_public ? <Globe size={10} /> : <Lock size={10} />}
-                {flow.is_public ? "PUBLIC" : "PRIVATE"}
+                {flow.is_public ? t("public") : t("private")}
               </Button>
             ) : flow.is_public ? (
               <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-bold text-green-400 tracking-wider">
-                <Globe size={10} /> PUBLIC
+                <Globe size={10} /> {t("public")}
               </span>
             ) : (
               <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-text-secondary tracking-wider">
-                <Lock size={10} /> PRIVATE
+                <Lock size={10} /> {t("private")}
               </span>
             )}
 
@@ -108,7 +111,7 @@ export default function FlowHeader({
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => setIsEditMode(!isEditMode)}
-                aria-label="콘텐츠 관리 토글"
+                aria-label={t("toggleContentManagement")}
                 className={`p-2 border rounded-lg transition-colors flex items-center ${
                   isEditMode
                     ? "bg-accent/15 border-accent/40 text-accent hover:bg-accent/25"
@@ -120,16 +123,16 @@ export default function FlowHeader({
               <Button
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
-                  alert("링크가 복사되었습니다.");
+                  alert(t("linkCopied"));
                 }}
-                aria-label="링크 복사"
+                aria-label={t("copyLink")}
                 className="p-2 bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 rounded-lg transition-colors flex items-center"
               >
                 <Share2 size={15} />
               </Button>
               <Button
                 onClick={handleDelete}
-                aria-label="삭제"
+                aria-label={t("delete")}
                 className="p-2 bg-white/5 border border-red-500/20 text-red-400/60 hover:bg-red-500/10 hover:text-red-400 rounded-lg transition-colors flex items-center"
               >
                 <Trash2 size={15} />
@@ -146,7 +149,7 @@ export default function FlowHeader({
                 }`}
               >
                 {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-                {isSaved ? "저장됨" : "저장"}
+                {isSaved ? t("saved") : t("save")}
               </Button>
             )
           )}
@@ -167,11 +170,11 @@ export default function FlowHeader({
         {/* Meta info */}
         <div className="flex items-center flex-wrap gap-x-2 gap-y-1 text-sm text-text-secondary/70 font-serif">
           <span>
-            <span className="text-white/80 font-bold">{flow.stages.length}</span>단계
+            {t("stageCount", { count: flow.stages.length })}
           </span>
           <span className="text-white/10">·</span>
           <span>
-            <span className="text-white/80 font-bold">{totalNodes}</span>개 콘텐츠
+            {t("contentCount", { count: totalNodes })}
           </span>
           {categoryEntries.length > 0 && (
             <>
@@ -192,7 +195,7 @@ export default function FlowHeader({
                   key={index}
                   className="bg-accent/40 first:rounded-l-full last:rounded-r-full"
                   style={{ width: `${(stage.count / totalNodes) * 100}%` }}
-                  title={`${stage.name}: ${stage.count}개`}
+                  title={t("stageItemCount", { name: stage.name, count: stage.count })}
                 />
               ) : null
             )}

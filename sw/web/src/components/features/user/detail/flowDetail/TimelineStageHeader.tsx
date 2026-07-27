@@ -27,7 +27,7 @@ export default function TimelineStageHeader({
 
   const handleSaveRename = () => {
     const trimmed = newName.trim();
-    if (!trimmed) { alert("단계 이름을 입력해 주세요."); return; }
+    if (!trimmed) { alert(t("stageNameRequired")); return; }
     if (trimmed === stage.name) { setIsRenaming(false); return; }
     onRenameStage(trimmed);
     setIsRenaming(false);
@@ -74,13 +74,13 @@ export default function TimelineStageHeader({
         <div className="flex items-center gap-1 shrink-0">
           {isRenaming ? (
             <>
-              <Button unstyled onClick={handleSaveRename} className="w-6 h-6 flex items-center justify-center rounded border border-accent/30 text-accent hover:bg-accent/10 transition-colors" aria-label="저장"><Check size={11} /></Button>
-              <Button unstyled onClick={() => { setIsRenaming(false); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded border border-white/10 text-white/40 hover:bg-white/5 transition-colors" aria-label="취소"><X size={11} /></Button>
+              <Button unstyled onClick={handleSaveRename} className="w-6 h-6 flex items-center justify-center rounded border border-accent/30 text-accent hover:bg-accent/10 transition-colors" aria-label={t("save")}><Check size={11} /></Button>
+              <Button unstyled onClick={() => { setIsRenaming(false); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded border border-white/10 text-white/40 hover:bg-white/5 transition-colors" aria-label={t("cancel")}><X size={11} /></Button>
             </>
           ) : (
             <>
-              <Button unstyled onClick={() => { setIsRenaming(true); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-white/50 transition-colors" aria-label="이름 수정"><Pencil size={11} /></Button>
-              <Button unstyled onClick={onDeleteStage} className="w-6 h-6 flex items-center justify-center rounded text-red-400/20 hover:text-red-400/50 transition-colors" aria-label="삭제"><Trash2 size={11} /></Button>
+              <Button unstyled onClick={() => { setIsRenaming(true); setNewName(stage.name); }} className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-white/50 transition-colors" aria-label={t("rename")}><Pencil size={11} /></Button>
+              <Button unstyled onClick={onDeleteStage} className="w-6 h-6 flex items-center justify-center rounded text-red-400/20 hover:text-red-400/50 transition-colors" aria-label={t("delete")}><Trash2 size={11} /></Button>
             </>
           )}
         </div>

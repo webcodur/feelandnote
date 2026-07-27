@@ -171,6 +171,7 @@
     "newsSelected": "최근 48시간 뉴스에서 {count}건 언급되어 선정되었습니다",
     "birthdaySelected": "오늘이 생일인 인물입니다",
     "guestbookCta": "방명록에 여러분의 생각을 남겨보세요.",
+    "leaveSignature": "서명 남기기",
     "emptyCategory": "해당 카테고리의 기록이 존재하지 않습니다",
     "viewAll": "전체보기",
     "libraryLabelEmpty": "{profession} {nickname}의 감상 기록",
@@ -201,7 +202,12 @@
     "playLine": "대사 듣기",
     "photoCount": "{count}장",
     "showQuote": "한마디 보기",
-    "hideQuote": "한마디 닫기"
+    "hideQuote": "한마디 닫기",
+    "previousPhoto": "이전 사진",
+    "nextPhoto": "다음 사진",
+    "factionCollection": "세력도감",
+    "fictionTitle": "이야기 속 인물",
+    "fictionNote": "실제로 살았던 사람이 아닙니다. 신화와 서사시, 문학이 남긴 인물을 같은 방식으로 모아 둔 자리입니다. 이들은 인물 목록과 검색에는 나오지 않습니다."
   },
   "quickRecord": {
     "section": {
@@ -226,7 +232,8 @@
       "writeMode": "쓰기",
       "readMode": "읽기",
       "recommendPlaceholder": "인물들이 최고로 추천하는 《{title}》입니다.\n작품을 경험하셨다면 솔직한 리뷰를 남겨보세요.",
-      "defaultPlaceholder": "작품에서 발견한 영감을 자유롭게 기록하세요.\n\n 다음 부호로 텍스트를 꾸밀 수 있습니다.\n \n • 《작품명》 : 제목이나 큰 주제 강조 (Bold)\n • \"명언\" : 중요한 문장이나 인용구 (Accent)\n • '<'키워드'>' : 특정 단어나 소주제 강조 (Serif)"
+      "defaultPlaceholder": "작품에서 발견한 영감을 자유롭게 기록하세요.\n\n 다음 부호로 텍스트를 꾸밀 수 있습니다.\n \n • 《작품명》 : 제목이나 큰 주제 강조 (Bold)\n • \"명언\" : 중요한 문장이나 인용구 (Accent)\n • '<'키워드'>' : 특정 단어나 소주제 강조 (Serif)",
+      "formatTitle": "제목·강조: 《작품명》"
     },
     "search": {
       "noPresets": "이 컨텐츠 타입에 대한 검색 프리셋이 없습니다.",
@@ -280,7 +287,8 @@
       "trackList": "트랙 목록",
       "label": "레이블",
       "screenshots": "스크린샷",
-      "releaseDate": "출시일"
+      "releaseDate": "출시일",
+      "noImage": "이미지 없음"
     },
     "home": {
       "pendingReviewConfirm": "'{title}'에 대한 작성 중인 리뷰가 있습니다.\n지금 등록하시겠습니까?",
@@ -319,7 +327,8 @@
       "modalSelectTitle": "기록할 컨텐츠 선택",
       "modalExternalTitle": "외부 자료 탐색",
       "popular": "인기",
-      "noPopular": "이 카테고리의 인기 기록이 없습니다."
+      "noPopular": "이 카테고리의 인기 기록이 없습니다.",
+      "noImage": "이미지 없음"
     }
   }
 }

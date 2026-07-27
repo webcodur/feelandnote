@@ -64,6 +64,7 @@
       "present": "현재",
       "representativeTypeface": "대표 서체",
       "usageContext": "사용 맥락",
+      "typographyClassification": "서체 분류",
       "foldEssay": "에세이 접기",
       "unfoldEssay": "에세이 펼치기",
       "category": {
@@ -311,6 +312,7 @@
         "description": "전 시대의 대표작과 시대별 명저.",
         "descriptionSub": "가장 많은 인물들의 선택을 받은 작품들을 만나보세요.",
         "allEras": "전체 시대",
+        "allErasCaption": "전 시대",
         "eraAndCategory": "시대 및 카테고리",
         "worksList": "작품 목록",
         "figureCount": "{count}명의 위인",
@@ -330,6 +332,7 @@
         "description": "분야별 인물들의 필독서.",
         "descriptionSub": "여러분이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
         "selectProfession": "직군 선택",
+        "selectCategory": "카테고리 선택",
         "representativePrefix": "대표 ",
         "recommendedWorks": "추천 작품"
       }

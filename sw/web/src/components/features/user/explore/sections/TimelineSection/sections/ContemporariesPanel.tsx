@@ -12,6 +12,7 @@ import { getCountryFlag } from "@/lib/utils/countryFlag";
 import type { Locale } from "@/types/locale";
 import type { TimelineCeleb } from "@/actions/home";
 import { formatLifespan } from "../utils";
+import { useTranslations } from "next-intl";
 
 interface Props {
   celeb: TimelineCeleb;
@@ -20,11 +21,12 @@ interface Props {
 }
 
 export default function ContemporariesPanel({ celeb, contemporaries, locale }: Props) {
+  const t = useTranslations("explore.ui.timeline");
   if (contemporaries.length === 0) {
     return (
       <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
         <p className="text-xs text-text-secondary/60">
-          {locale === "en" ? "No contemporaries found" : "동시대 인물이 없습니다"}
+          {t("noContemporaries")}
         </p>
       </div>
     );
@@ -33,10 +35,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
   return (
     <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
       <p className="text-xs text-text-secondary/60 mb-2">
-        {locale === "en"
-          ? `In the era of ${celeb.nickname_en || celeb.nickname}`
-          : `${celeb.nickname}의 시대`
-        }
+        {t("figureEra", { name: locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname })}
       </p>
       <div className="flex flex-wrap gap-2">
         {contemporaries.map((c) => {

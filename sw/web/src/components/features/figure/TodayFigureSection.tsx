@@ -18,6 +18,7 @@ import { getLocalizedContent } from "@/lib/utils/editions";
 
 interface Figure {
     id: string;
+    slug?: string | null;
     nickname: string;
     nickname_en: string | null;
     avatar_url: string | null;
@@ -190,7 +191,15 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                 <SectionHeader
                     title={libraryLabel}
                     label="LEGACY"
-                    description={t("guestbookCta")}
+                    description={
+                        <Link
+                            href={`/celeb/${figure.slug || figure.id}`}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 mt-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-accent/30 hover:text-accent transition-all group"
+                        >
+                            <span>{t("guestbookCta")}</span>
+                            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                        </Link>
+                    }
                 />
 
                 {/* 타입별 필터 (ContentTypeSummary) */}

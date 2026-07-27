@@ -5,6 +5,7 @@ import { createNotification } from "@/actions/notifications";
 import { revalidatePath } from "next/cache";
 import type { RespondRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface RespondRecommendationData {
   accepted: boolean;
@@ -124,20 +125,26 @@ export async function respondRecommendation(
 
   // 4. 수락 시 발신자에게 알림
   if (params.accept) {
+    const locale = await getLocale();
+    const t = await getTranslations({ locale, namespace: "notificationMessages" });
     const { data: receiverProfile } = await supabase
       .from("profiles")
-      .select("nickname")
+      .select("nickname, nickname_en")
       .eq("id", user.id)
       .single();
 
-    const receiverName = receiverProfile?.nickname ?? "사용자";
+    const receiverName =
+      (locale === "en" ? receiverProfile?.nickname_en : receiverProfile?.nickname) ??
+      receiverProfile?.nickname ??
+      receiverProfile?.nickname_en ??
+      t("userFallback");
 
     await createNotification({
       userId: recommendation.sender_id,
       actorId: user.id,
       type: "recommendation_accepted",
-      title: "추천 수락",
-      message: `${receiverName}님이 회원님의 추천을 수락했습니다.`,
+      title: t("acceptedTitle"),
+      message: t("acceptedMessage", { name: receiverName }),
       link: `/${user.id}/reading`,
       metadata: {
         recommendation_id: recommendation.id,

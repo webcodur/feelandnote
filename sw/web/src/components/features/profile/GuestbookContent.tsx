@@ -8,10 +8,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Pagination } from "@/components/ui";
-import { MessageSquare } from "lucide-react";
+import { LogIn, MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
 import { createClient } from "@/lib/supabase/client";
+import { Link } from "@/i18n/navigation";
 import EntryItem from "./guestbook/EntryItem";
 import WriteForm from "./guestbook/WriteForm";
 import type { GuestbookContentProps, CurrentUserId } from "./guestbook/types";
@@ -30,14 +31,31 @@ export default function GuestbookContent({
 
   // 서버가 사용자를 주입하지 않은 경우(정적 렌더 화면) 클라이언트에서 본인 id를 조회한다.
   const [selfUserId, setSelfUserId] = useState<CurrentUserId>(null);
+  const [isAuthResolved, setIsAuthResolved] = useState(
+    currentUserIdProp !== undefined,
+  );
   const currentUserId: CurrentUserId = currentUserIdProp !== undefined ? currentUserIdProp : selfUserId;
 
   useEffect(() => {
     if (currentUserIdProp !== undefined) return;
+    let isActive = true;
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setSelfUserId(user.id);
-    });
+    const resolveCurrentUser = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (isActive) setSelfUserId(user?.id ?? null);
+      } catch (error) {
+        console.error("Resolve guestbook user error:", error);
+        if (isActive) setSelfUserId(null);
+      } finally {
+        if (isActive) setIsAuthResolved(true);
+      }
+    };
+    void resolveCurrentUser();
+
+    return () => {
+      isActive = false;
+    };
   }, [currentUserIdProp]);
   const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
   const [total, setTotal] = useState(initialTotal);
@@ -79,7 +97,7 @@ export default function GuestbookContent({
       console.error("Delete guestbook entry error:", error);
       alert(t("deleteFailed"));
     }
-  }, []);
+  }, [t]);
 
   const handleUpdateEntry = useCallback(
     async (id: string, content: string, isPrivate: boolean) => {
@@ -93,13 +111,42 @@ export default function GuestbookContent({
         alert(t("updateFailed"));
       }
     },
-    []
+    [t]
   );
 
   return (
     <>
-      {/* 작성 폼 (로그인 사용자만) */}
-      {currentUserId && <WriteForm profileId={profileId} onSubmit={handleAddEntry} />}
+      {/* 로그인 확인 중에도 작성 영역의 자리가 보여 빈 박스로 오해되지 않게 한다. */}
+      {!isAuthResolved ? (
+        <div
+          className="mb-8 min-h-[118px] animate-pulse rounded-lg border border-white/[0.04] bg-white/[0.02] p-4"
+          aria-hidden
+        >
+          <div className="h-3 w-2/5 rounded bg-white/[0.05]" />
+          <div className="mt-3 h-3 w-3/5 rounded bg-white/[0.035]" />
+          <div className="mt-7 ml-auto h-7 w-28 rounded bg-white/[0.05]" />
+        </div>
+      ) : currentUserId ? (
+        <WriteForm profileId={profileId} onSubmit={handleAddEntry} />
+      ) : (
+        <Link
+          href="/login"
+          className="group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
+        >
+          <div className="min-h-[76px] px-4 py-4 text-sm text-text-tertiary group-hover:text-text-secondary">
+            {t("loginPrompt")}
+          </div>
+          <div className="flex items-center justify-between gap-3 border-t border-white/[0.05] px-4 py-3">
+            <span className="text-xs text-text-tertiary/60">
+              {t("loginHint")}
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded bg-accent/90 px-3 py-1.5 text-[11px] font-bold text-bg-main group-hover:bg-accent">
+              <LogIn size={11} strokeWidth={2} aria-hidden />
+              {t("loginAction")}
+            </span>
+          </div>
+        </Link>
+      )}
 
       {/* 방명록 목록 */}
       {entries.length > 0 ? (

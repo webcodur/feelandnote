@@ -171,6 +171,7 @@
     "newsSelected": "Selected for being mentioned in {count} news articles in the last 48 hours",
     "birthdaySelected": "Today is this figure's birthday",
     "guestbookCta": "Leave your thoughts in the guestbook.",
+    "leaveSignature": "Leave a note",
     "emptyCategory": "No records in this category",
     "viewAll": "View all",
     "libraryLabelEmpty": "{profession} {nickname}'s collection",
@@ -201,7 +202,12 @@
     "playLine": "Play line",
     "photoCount": "{count} pics",
     "showQuote": "See their words",
-    "hideQuote": "Close"
+    "hideQuote": "Close",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "factionCollection": "Faction Collection",
+    "fictionTitle": "Figures from Myth & Story",
+    "fictionNote": "These are not people who actually lived. Myth, epic, and literature are gathered here the same way, and they do not appear in the figure directory or in search."
   },
   "quickRecord": {
     "section": {
@@ -226,7 +232,8 @@
       "writeMode": "Write",
       "readMode": "Read",
       "recommendPlaceholder": "Figures highly recommend 《{title}》.\nIf you've experienced it, leave an honest review.",
-      "defaultPlaceholder": "Freely record the inspiration you found.\n\n Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)"
+      "defaultPlaceholder": "Freely record the inspiration you found.\n\n Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)",
+      "formatTitle": "Title emphasis: 《Work title》"
     },
     "search": {
       "noPresets": "No search presets available for this content type.",
@@ -280,7 +287,8 @@
       "trackList": "Track List",
       "label": "Label",
       "screenshots": "Screenshots",
-      "releaseDate": "Release Date"
+      "releaseDate": "Release Date",
+      "noImage": "No image"
     },
     "home": {
       "pendingReviewConfirm": "You have a draft review for '{title}'.\nWould you like to submit it now?",
@@ -319,7 +327,8 @@
       "modalSelectTitle": "Select Content to Record",
       "modalExternalTitle": "External Resources",
       "popular": "Popular",
-      "noPopular": "No popular records in this category."
+      "noPopular": "No popular records in this category.",
+      "noImage": "No image"
     }
   }
 }

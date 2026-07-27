@@ -179,7 +179,7 @@ function EraInfo({ era, isAllEra = false, topCelebsAcrossAllEras = [], totalCele
           <h3 className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-2">
             {t("allEras")}
           </h3>
-          <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">All Eras</p>
+          <p className="text-sm sm:text-base font-cinzel text-accent/80 mb-4">{t("allErasCaption")}</p>
           <div className="flex items-center justify-center gap-4 text-sm text-text-secondary">
             <span>{t("figureCount", { count: totalCelebCount })}</span>
             <span className="text-accent/30">·</span>

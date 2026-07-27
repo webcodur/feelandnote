@@ -6,13 +6,18 @@
 
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { Pagination } from "@/components/ui/Pagination";
 import { DecorativeLabel } from "@/components/ui";
+import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import RepresentativeCelebs from "../RepresentativeCelebs";
-import { getCategoryByDbType } from "@/constants/categories";
+import {
+  CATEGORIES,
+  getCategoryByDbType,
+  type ContentTypeFilterValue,
+} from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 import SectionHeader from "@/components/shared/SectionHeader";
 import {
@@ -35,7 +40,18 @@ interface Props {
 }
 // #endregion
 
-const ITEMS_PER_PAGE = 12;
+const TARGET_ITEMS_PER_PAGE = 12;
+const CONTENT_GRID_MIN_WIDTH = 150;
+const CONTENT_GRID_GAP = 12;
+
+function getResponsivePageSize(containerWidth: number) {
+  const columns = Math.max(
+    1,
+    Math.floor((containerWidth + CONTENT_GRID_GAP) / (CONTENT_GRID_MIN_WIDTH + CONTENT_GRID_GAP)),
+  );
+  const rows = Math.max(2, Math.round(TARGET_ITEMS_PER_PAGE / columns));
+  return columns * rows;
+}
 
 export default function ProfessionSection({ professionCounts, initialProfession }: Props) {
   const [data, setData] = useState<ProfessionData | null>(null);
@@ -43,40 +59,79 @@ export default function ProfessionSection({ professionCounts, initialProfession 
     ? initialProfession
     : professionCounts.find(p => p.profession === 'entrepreneur')?.profession || professionCounts[0]?.profession || "";
   const [activeProfession, setActiveProfession] = useState(resolved);
+  const [categoryFilter, setCategoryFilter] = useState<ContentTypeFilterValue>("all");
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const pageSizeRef = useRef<number | null>(null);
   const locale = useLocale();
   const t = useTranslations("scriptures.page.professionPage");
   const tp = useTranslations("profession");
+  const tc = useTranslations("content.category");
   const te = useTranslations("scriptures.page.empty");
   const rows = locale === "en" ? PROFESSION_ROWS_EN : PROFESSION_ROWS;
+  const categoryTabs: { value: ContentTypeFilterValue; label: string }[] = [
+    { value: "all", label: tc("all") },
+    ...CATEGORIES.map((category) => ({
+      value: category.dbType,
+      label: tc(category.id),
+    })),
+  ];
 
-  // 초기 로드
+  // 실제 그리드 폭에 맞춰 12개에 가장 가까운 완성 행 단위로 조회한다.
   useEffect(() => {
-    if (activeProfession) {
-      loadData(activeProfession, 1);
-    }
+    const container = gridContainerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const nextPageSize = getResponsivePageSize(entry.contentRect.width);
+      if (pageSizeRef.current === nextPageSize) return;
+
+      pageSizeRef.current = nextPageSize;
+      setPage(1);
+      setPageSize(nextPageSize);
+    });
+
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
-  const loadData = (profession: string, pageNum: number) => {
+  useEffect(() => {
+    if (!activeProfession || pageSize === null) return;
+
+    let cancelled = false;
     startTransition(async () => {
-      const result = await getScripturesByProfession({ profession, page: pageNum, limit: ITEMS_PER_PAGE });
-      setData(result);
+      const result = await getScripturesByProfession({
+        profession: activeProfession,
+        category: categoryFilter === "all" ? undefined : categoryFilter,
+        page,
+        limit: pageSize,
+      });
+      if (!cancelled) setData(result);
     });
-  };
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeProfession, categoryFilter, page, pageSize]);
 
   const handleProfessionChange = (profession: string) => {
     setActiveProfession(profession);
+    setCategoryFilter("all");
     setPage(1);
-    loadData(profession, 1);
+  };
+
+  const handleCategoryChange = (category: ContentTypeFilterValue) => {
+    setCategoryFilter(category);
+    setPage(1);
   };
 
   const handlePageChange = (pageNum: number) => {
     setPage(pageNum);
-    loadData(activeProfession, pageNum);
   };
 
-  const totalPages = data ? Math.ceil(data.total / ITEMS_PER_PAGE) : 0;
+  const totalPages = data && pageSize ? Math.ceil(data.total / pageSize) : 0;
 
   if (professionCounts.length === 0) {
     return (
@@ -121,7 +176,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
                       key={item.profession}
                       onClick={() => handleProfessionChange(item.profession)}
                       className={`
-                        inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all
+                        inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold
                         ${isActive
                           ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
                           : "text-text-secondary hover:text-white hover:bg-white/8"
@@ -146,6 +201,19 @@ export default function ProfessionSection({ professionCounts, initialProfession 
         </div>
       </div>
 
+      {/* 카테고리 선택 */}
+      <div className="mb-8">
+        <div className="flex justify-center mb-4">
+          <DecorativeLabel label={t("selectCategory")} />
+        </div>
+        <CategoryTabFilter
+          options={categoryTabs}
+          value={categoryFilter}
+          onChange={handleCategoryChange}
+          className="mx-[-1rem] px-4 sm:mx-0 sm:px-0"
+        />
+      </div>
+
       <div className={`min-h-[300px] transition-opacity duration-300 ${isPending ? "opacity-50" : "opacity-100"}`}>
         {/* 대표 인물 */}
         {data?.topCelebs && data.topCelebs.length > 0 && (
@@ -159,13 +227,13 @@ export default function ProfessionSection({ professionCounts, initialProfession 
         )}
 
         {/* 카드 그리드 */}
-        <div>
+        <div ref={gridContainerRef}>
           <div className="flex justify-center mb-6">
             <DecorativeLabel label={t("recommendedWorks")} />
           </div>
           
           {data && data.contents.length > 0 ? (
-            <ContentGrid>
+            <ContentGrid minWidth={CONTENT_GRID_MIN_WIDTH} gap={CONTENT_GRID_GAP}>
               {data.contents.map((content) => (
                 <ContentCard
                   key={content.id}
@@ -186,14 +254,20 @@ export default function ProfessionSection({ professionCounts, initialProfession 
               ))}
             </ContentGrid>
           ) : !data ? (
-            <ContentGrid className="animate-pulse">
-              {Array.from({ length: 12 }).map((_, i) => (
+            <ContentGrid
+              minWidth={CONTENT_GRID_MIN_WIDTH}
+              gap={CONTENT_GRID_GAP}
+              className="animate-pulse"
+            >
+              {Array.from({ length: pageSize ?? TARGET_ITEMS_PER_PAGE }).map((_, i) => (
                 <div key={i} className="aspect-[2/3] bg-bg-card rounded-xl" />
               ))}
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">{te("noProfession")}</p>
+              <p className="text-text-tertiary text-sm">
+                {te(categoryFilter === "all" ? "noProfession" : "noCategory")}
+              </p>
             </div>
           )}
         </div>

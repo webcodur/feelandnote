@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useTranslations } from "next-intl";
 
 interface SelectOption {
   value: string;
@@ -22,10 +23,12 @@ export default function SearchableSelect({
   options,
   value,
   onChange,
-  placeholder = "선택",
+  placeholder,
   disabled = false,
   className = "",
 }: SearchableSelectProps) {
+  const t = useTranslations("shared.ui");
+  const resolvedPlaceholder = placeholder ?? t("select");
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +95,7 @@ export default function SearchableSelect({
           />
         ) : (
           <span className={`flex-1 text-sm ${selectedOption ? "text-text-primary" : "text-text-secondary/50"}`}>
-            {selectedOption?.label || placeholder}
+            {selectedOption?.label || resolvedPlaceholder}
           </span>
         )}
         {value && !disabled ? (
@@ -111,7 +114,7 @@ export default function SearchableSelect({
           style={{ zIndex: Z_INDEX.dropdown }}
         >
           {filteredOptions.length === 0 ? (
-            <div className="px-3 py-2 text-sm text-text-secondary">검색 결과 없음</div>
+            <div className="px-3 py-2 text-sm text-text-secondary">{t("noSearchResults")}</div>
           ) : (
             filteredOptions.map((option) => (
               <button

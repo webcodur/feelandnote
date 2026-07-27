@@ -1,24 +1,99 @@
 {
   "celebPage": {
-    "intro": "Introduction",
     "viewCount": "Views",
+    "playQuoteVoice": "Play quote audio",
+    "playAudio": "Play audio",
+    "stopAudio": "Stop audio",
+    "showSimilarityFormula": "Show similarity formula",
+    "factionPreviousPortrait": "Previous group portrait",
+    "factionNextPortrait": "Next group portrait",
+    "originalKoreanNotice": "Some text is shown in the original Korean because an English version is not yet available.",
+    "ageCurrent": "Age {age}",
+    "ageCurrentApprox": "Approx. age {age}",
+    "ageAtDeath": "Died at {age}",
+    "ageAtDeathApprox": "Died at about {age}",
     "serviceGuideTitle": "Figure Atlas",
     "serviceGuideDescription": "Choose a gilded seal to follow this figure's record.",
-    "serviceIntroduction": "Introduction",
+    "serviceIntroduction": "Profile",
     "serviceDialogueVoice": "Voice",
     "serviceMonologueVoice": "Narration",
     "serviceAvailable": "Available",
     "servicePreparing": "Coming soon",
     "serviceContentPreparing": "Content coming soon",
     "serviceFaction": "Faction",
+    "connections": "People & Their Times",
+    "connectionsRelationsDesc": "Direct ties through family, mentors, colleagues, and rivals",
+    "connectionsContemporariesDesc": "We find figures with overlapping lifetimes. Large pools are narrowed to 30 by nearest birth date, then longest shared lifetime.",
+    "connectionsFactionDesc": "Figures cast within the same themes and camps",
+    "profileAxes": "16 Axes",
+    "profileAxesDesc": "Sixteen ability, virtue, and temperament axes with similar figures",
+    "analysisInfluenceDesc": "Scores and evidence across politics, strategy, technology, society, economics, and culture",
+    "mediaMonologue": "Monologue",
+    "mediaDialogues": "Lines",
+    "mediaDialoguesDesc": "Signature lines in text and voice",
+    "mediaVideos": "Video",
+    "mediaVideosDesc": "Feature and short-form films about their records and ideas",
+    "atlasProfile": "Profile",
+    "atlasUnavailable": "Unavailable for this figure",
+    "atlasUnavailableShort": "Locked",
+    "atlasGuideConcept": "Overview",
+    "atlasGuideNoData": "No {section} information has been registered for this figure yet.",
+    "atlasGuideOpenAction": "Opens the section guide",
+    "atlasGuideOpenShort": "View guide",
+    "previousSection": "Previous section: {name}",
+    "nextSection": "Next section: {name}",
+    "noPreviousSection": "No previous section",
+    "noNextSection": "No next section",
+    "atlasGuides": {
+      "connections": {
+        "about": "Three records that place this figure among other people, their era, and their camps."
+      },
+      "library": {
+        "about": "The works this figure experienced and the works they created, kept together as records."
+      },
+      "timeline": {
+        "about": "A timeline and activity map of the major events in this figure's life."
+      },
+      "relations": {
+        "about": "A map of people who were demonstrably connected to this figure."
+      },
+      "contemporaries": {
+        "about": "We find figures with overlapping lifetimes, then narrow large pools to 30 by nearest birth date and longest shared lifetime."
+      },
+      "faction": {
+        "about": "The camps and rivalries surrounding a shared era, ideology, organization, or work."
+      },
+      "analysis": {
+        "about": "Two sets of metrics: sixteen profile axes and public influence."
+      },
+      "media": {
+        "about": "Writing, voice, and video that bring this figure's thought and character into view."
+      },
+      "influence": {
+        "about": "An assessment of influence across politics, strategy, technology, society, economics, and culture."
+      },
+      "persona": {
+        "about": "An analysis of thought and behavior across sixteen ability, virtue, and temperament axes."
+      },
+      "virtualMonologue": {
+        "about": "A source-grounded first-person monologue in which the figure looks back on their life."
+      },
+      "dialogues": {
+        "about": "A collection of responses written for this figure in different situations across the service."
+      },
+      "videos": {
+        "about": "Published videos that explore this figure's viewing history and ideas."
+      }
+    },
     "influence": "Influence",
     "tierFictionBadge": "Mythic figure",
     "tierFictionNotice": "This figure never lived; they belong to myth and epic. Even so, their words and choices carry ideas that generations of people shaped and passed on. Read this page as a window into the worldview that made them, rather than a record of one life.",
     "tierRelationBadge": "Featured through others",
     "tierRelationNotice": "This figure appears alongside other people and films on the site. Only a basic introduction is kept here, with no viewing records.",
-    "library": "Library",
-    "libraryEmpty": "No public records in the library yet.",
-    "analysis": "Persona Analysis",
+    "library": "Records",
+    "libraryEmpty": "No public viewing records yet.",
+    "analysis": "Figure Metrics",
+    "media": "Media",
     "guestbook": "Guestbook",
     "innerVirtue": "Inner Virtues",
     "outerVirtue": "Outer Virtues",
@@ -48,8 +123,8 @@
     "factionCurrentMember": "Current figure",
     "factionOpen": "View full faction",
     "factionClose": "Close preview",
-    "relationGraph": "Connections",
-    "timeline": "Life & Journeys",
+    "relationGraph": "Relations",
+    "timeline": "Timeline",
     "timelineBc": "BC",
     "timelineMapLabel": "Globe marking the places in this life",
     "timelineMapHint": "Drag to spin the globe and scroll to resize it. Selecting an entry or a point links the two.",
@@ -87,7 +162,7 @@
     "relType_cofounder": "Co-founder",
     "relType_friend": "Friend",
     "relType_rival": "Rival",
-    "contemporaries": "Contemporaries",
+    "contemporaries": "Same Era",
     "videos": "Videos",
     "videosLongform": "Feature",
     "videosShorts": "Vignette",
@@ -101,9 +176,9 @@
     "guestbookCta": "Leave your thoughts in the guestbook.",
     "recordControl": "Record Controls",
     "worksControl": "Works Controls",
-    "tabConsume": "Records",
-    "tabConsumeDesc": "What this figure read, watched, and listened to",
-    "tabCreate": "Works",
+    "tabConsume": "Experience",
+    "tabConsumeDesc": "What this figure read, watched, listened to, and played",
+    "tabCreate": "Creation",
     "tabCreateDesc": "The works this figure left to the world",
     "worksEmpty": "No works registered yet.",
     "worksLoading": "Loading...",
@@ -139,6 +214,7 @@
     "dialogue_battle_draw": "Draw",
     "dialogue_battle_lose": "Defeat",
     "dialogue_clash_attack": "Strike",
+    "creativeSearch": "Search",
     "notFound": "Celebrity not found"
   }
 }

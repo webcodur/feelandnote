@@ -41,7 +41,8 @@
       "spoiler": "Contains spoilers",
       "noReview": "No review written",
       "source": "Source: {url}",
-      "noSource": "⚠️ Source URL missing",
+      "noSource": "Source URL unavailable",
+      "originalLanguage": "Original Korean text",
       "detail": "View Details"
     }
   },
@@ -230,6 +231,7 @@
   },
   "musicPlayer": {
     "title": "Music Player",
+    "gameBgm": "Game BGM",
     "close": "Close",
     "album": "Album",
     "track": "Track",

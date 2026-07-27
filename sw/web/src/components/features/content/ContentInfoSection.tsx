@@ -48,6 +48,7 @@ export default function ContentInfoSection({
   onRecordChange,
 }: ContentInfoSectionProps) {
   const t = useTranslations("contentDetail");
+  const tError = useTranslations("actionErrors");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -69,7 +70,7 @@ export default function ContentInfoSection({
           releaseDate: content.releaseDate,
         });
         if (!result.success) {
-          setError(result.message);
+          setError(tError(result.error));
           return;
         }
         onRecordChange({
@@ -83,7 +84,8 @@ export default function ContentInfoSection({
         });
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : t("addFailed"));
+        console.error("[ContentInfoSection:add]", err);
+        setError(t("addFailed"));
       }
     });
   };

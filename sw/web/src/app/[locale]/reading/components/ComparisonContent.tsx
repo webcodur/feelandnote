@@ -249,7 +249,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
           className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-accent/30 bg-accent/5 py-2 text-xs font-medium text-accent hover:border-accent/50 hover:bg-accent/10"
         >
           <Plus className="size-3.5" />
-          항목 추가
+          {t("addItem")}
         </button>
       )}
     </div>

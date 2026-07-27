@@ -9,6 +9,7 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Locale } from "@/types/locale";
 import type { EraInfo } from "../utils";
+import { useTranslations } from "next-intl";
 
 interface Props {
   era: EraInfo;
@@ -18,7 +19,8 @@ interface Props {
   onToggle: (eraKey: string) => void;
 }
 
-export default function EraBanner({ era, count, isCollapsed, locale, onToggle }: Props) {
+export default function EraBanner({ era, count, isCollapsed, onToggle }: Props) {
+  const t = useTranslations("explore.ui.timeline");
   return (
     <button
       type="button"
@@ -51,7 +53,7 @@ export default function EraBanner({ era, count, isCollapsed, locale, onToggle }:
                 {count}
               </span>
               <span className="text-xs text-text-secondary/50">
-                {locale === "en" ? "figures" : "명"}
+                {t("figureCount", { count })}
               </span>
             </div>
             {isCollapsed ? (

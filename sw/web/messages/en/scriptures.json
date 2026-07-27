@@ -64,6 +64,7 @@
       "present": "Present",
       "representativeTypeface": "Representative Typefaces",
       "usageContext": "Usage Context",
+      "typographyClassification": "Typography Classification",
       "foldEssay": "Fold essay",
       "unfoldEssay": "Unfold essay",
       "category": {
@@ -311,6 +312,7 @@
         "description": "Masterpieces and must-reads across all eras.",
         "descriptionSub": "Discover the works chosen by the greatest figures in history.",
         "allEras": "All Eras",
+        "allErasCaption": "All Eras",
         "eraAndCategory": "Era & Category",
         "worksList": "Works",
         "figureCount": "{count} figures",
@@ -330,6 +332,7 @@
         "description": "Must-reads by profession.",
         "descriptionSub": "What did the predecessors on your path read?",
         "selectProfession": "Select Profession",
+        "selectCategory": "Select Category",
         "representativePrefix": "Top ",
         "recommendedWorks": "Recommended Works"
       }

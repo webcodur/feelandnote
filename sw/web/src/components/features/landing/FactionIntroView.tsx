@@ -6,10 +6,11 @@ import type { Locale } from "@/types/locale";
 import { Lock, ExternalLink, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeaturedTag } from "@/actions/home";
+import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 import Avatar from "@/components/ui/Avatar";
 import { Link } from "@/i18n/navigation";
-import { topLevelTags, childTags, groupCelebCount } from "./factionGrouping";
+import { splitByFiction, childTags, groupCelebCount } from "./factionGrouping";
 
 interface FactionIntroViewProps {
   tags: FeaturedTag[];
@@ -35,10 +36,16 @@ export default function FactionIntroView({
       return next;
     });
 
-  // 최상위(그룹 헤더 + 무소속)를 그룹 섹션과 무소속 카드로 나눈다.
-  const topLevel = topLevelTags(tags);
-  const groupSections = topLevel.filter(({ tag }) => tag.isGroup);
-  const loners = topLevel.filter(({ tag }) => !tag.isGroup);
+  /*
+    실존 인물 쪽과 이야기 속 인물 쪽을 가른다. 신화·서사시 인물은 실존 인물 목록에서는 빠지지만
+    도감에서는 테마별 진열이라 함께 둬도 맥락이 분명하다. 다만 뒤섞이지 않게 가로선을 긋고
+    아래에 따로 모은다.
+  */
+  const { real, fiction } = splitByFiction(tags);
+  const groupSections = real.filter(({ tag }) => tag.isGroup);
+  const loners = real.filter(({ tag }) => !tag.isGroup);
+  const fictionSections = fiction.filter(({ tag }) => tag.isGroup);
+  const fictionLoners = fiction.filter(({ tag }) => !tag.isGroup);
 
   return (
     <div className="w-full relative min-h-[80vh] flex flex-col items-center pt-16 md:pt-24 pb-20 px-4 md:px-8">
@@ -50,7 +57,7 @@ export default function FactionIntroView({
         <div className="flex items-center gap-3 mb-6 opacity-80">
           <span className="w-8 md:w-16 h-[1px] bg-gradient-to-r from-transparent to-accent/50" />
           <span className="text-[12px] md:text-[13px] font-cinzel text-accent tracking-[0.25em] uppercase font-bold">
-            Faction Collection
+            {tLine("factionCollection")}
           </span>
           <span className="w-8 md:w-16 h-[1px] bg-gradient-to-l from-transparent to-accent/50" />
         </div>
@@ -106,6 +113,53 @@ export default function FactionIntroView({
             </div>
           )}
         </div>
+
+        {/* 이야기 속 인물 — 가로선 아래 따로. 실존 인물과 섞이지 않게 경계를 분명히 둔다 */}
+        {(fictionSections.length > 0 || fictionLoners.length > 0) && (
+          <section className="mt-16 md:mt-20">
+            <div className="mb-3 h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="mb-8 flex flex-col gap-2">
+              <h2 className="text-xl md:text-2xl font-serif font-bold text-white/90 tracking-wide">
+                {tLine("fictionTitle")}
+              </h2>
+              <p className="max-w-3xl text-sm md:text-[15px] leading-relaxed text-text-secondary break-keep">
+                {tLine("fictionNote")}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-7 md:gap-9">
+              {fictionSections.map(({ tag }) => (
+                <GroupSection
+                  key={tag.id}
+                  tag={tag}
+                  tags={tags}
+                  expanded={expanded.has(tag.slug ?? "")}
+                  onToggle={() => toggle(tag.slug ?? "")}
+                  onSelect={onSelect}
+                  locale={locale}
+                  t={t}
+                  tLine={tLine}
+                />
+              ))}
+
+              {fictionLoners.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+                  {fictionLoners.map(({ tag, idx }) => (
+                    <TagCard
+                      key={tag.id}
+                      tag={tag}
+                      idx={idx}
+                      onSelect={onSelect}
+                      locale={locale}
+                      t={t}
+                      tLine={tLine}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
@@ -273,8 +327,8 @@ function TagCard({
         />
       )}
 
-      {/* Group Shot (단체 화보) */}
-      {!isUpcoming && tag.team_images && tag.team_images.length > 0 && (
+      {/* Group Shot (단체 화보) — 화면 저장분에 옛 형태가 남아 있어도 읽히게 정규화해 쓴다 */}
+      {!isUpcoming && toTeamImages(tag.team_images).length > 0 && (
         <div 
           className="absolute inset-y-0 right-0 w-2/3 pointer-events-none z-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300"
           style={{
@@ -284,7 +338,7 @@ function TagCard({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src={tag.team_images[0]} 
+            src={toTeamImages(tag.team_images)[0].url}
             alt="Group Shot" 
             className="w-full h-full object-cover object-right mix-blend-luminosity grayscale group-hover:grayscale-0 transition-all duration-300" 
           />

@@ -38,6 +38,7 @@ export default function RecommendationModal({
   contentType,
 }: RecommendationModalProps) {
   const t = useTranslations("recommendation");
+  const tError = useTranslations("actionErrors");
   const [friends, setFriends] = useState<RecommendableUser[]>([]);
   const [filteredFriends, setFilteredFriends] = useState<RecommendableUser[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,7 +61,7 @@ export default function RecommendationModal({
         setFriends(result.data);
         setFilteredFriends(result.data);
       } else {
-        setError(result.error ?? t("loadError"));
+        setError(tError(result.error));
       }
       setIsLoading(false);
     };
@@ -110,7 +111,7 @@ export default function RecommendationModal({
       setSuccess(true);
       setTimeout(handleClose, 1500);
     } else {
-      setError(result.message ?? t("sendError"));
+      setError(tError(result.error));
     }
   };
 

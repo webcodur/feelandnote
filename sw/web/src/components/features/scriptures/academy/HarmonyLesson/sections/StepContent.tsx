@@ -3,6 +3,7 @@
 import { Loader2, Volume2, Pause, Square } from "lucide-react";
 import { useTextToSpeech, type TtsState } from "@/hooks/useTextToSpeech";
 import { renderMarkdown } from "./MarkdownRenderer";
+import { useTranslations } from "next-intl";
 
 function TtsButton({ state, onPlay, onPause, onStop }: {
   state: TtsState;
@@ -10,6 +11,7 @@ function TtsButton({ state, onPlay, onPause, onStop }: {
   onPause: () => void;
   onStop: () => void;
 }) {
+  const t = useTranslations("shared.accessibility");
   if (state === "loading") {
     return (
       <button
@@ -29,7 +31,7 @@ function TtsButton({ state, onPlay, onPause, onStop }: {
           type="button"
           onClick={state === "playing" ? onPause : onPlay}
           className="flex items-center justify-center rounded-full border border-[#d4af37]/25 bg-[#d4af37]/10 p-1.5 text-[#d4af37]/80 transition-colors hover:bg-[#d4af37]/20 hover:text-[#d4af37]"
-          aria-label={state === "playing" ? "일시정지" : "재생"}
+          aria-label={state === "playing" ? t("pause") : t("play")}
         >
           {state === "playing" ? <Pause className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
         </button>
@@ -37,7 +39,7 @@ function TtsButton({ state, onPlay, onPause, onStop }: {
           type="button"
           onClick={onStop}
           className="flex items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] p-1.5 text-white/50 transition-colors hover:bg-white/[0.08] hover:text-white/70"
-          aria-label="정지"
+          aria-label={t("stop")}
         >
           <Square className="h-3 w-3" />
         </button>
@@ -50,7 +52,7 @@ function TtsButton({ state, onPlay, onPause, onStop }: {
       type="button"
       onClick={onPlay}
       className="flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] text-white/50 transition-colors hover:border-[#d4af37]/25 hover:bg-[#d4af37]/10 hover:text-[#d4af37]/80"
-      aria-label="읽어주기"
+      aria-label={t("readAloud")}
     >
       <Volume2 className="h-3.5 w-3.5" />
     </button>

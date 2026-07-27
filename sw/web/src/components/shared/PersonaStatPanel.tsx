@@ -13,6 +13,7 @@ import {
   TENDENCY_KEYS,
 } from "@/lib/persona/constants";
 import type { StatKey, TendencyKey } from "@/lib/persona/constants";
+import { localizePersonaText } from "@/lib/persona/localizeText";
 import type { PersonaStats, PersonaStatsWithReasons } from "@/lib/persona/types";
 import { useTranslations, useLocale } from "next-intl";
 
@@ -120,7 +121,10 @@ export default function PersonaStatPanel({ stats }: PersonaStatPanelProps) {
     const getRationale = (key: StatKey | TendencyKey) => {
       const v = stats[key];
       if (typeof v === 'object' && v !== null) {
-        return locale === "en" ? v.reason_en : v.reason_ko;
+        return localizePersonaText(
+          locale === "en" ? v.reason_en : v.reason_ko,
+          locale,
+        );
       }
       return undefined;
     };

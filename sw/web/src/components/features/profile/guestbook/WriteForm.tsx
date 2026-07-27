@@ -15,6 +15,7 @@ import type { WriteFormProps } from "./types";
 
 export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
   const t = useTranslations("profileSection.guestbook");
+  const tError = useTranslations("actionErrors");
   const [content, setContent] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +31,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
         isPrivate,
       });
       if (!result.success) {
-        alert(result.message);
+        alert(tError(result.error));
         return;
       }
       onSubmit(result.data as GuestbookEntryWithAuthor);

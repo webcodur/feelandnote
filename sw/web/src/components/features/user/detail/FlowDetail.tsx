@@ -24,6 +24,7 @@ import FlowContentEditor from "./flowDetail/FlowContentEditor";
 import { addNode, reorderNodes } from "@/actions/flows/flowNodes";
 import { addStage, reorderStages } from "@/actions/flows/flowStages";
 import type { Content, FlowStageWithNodes } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 interface FlowDetailProps {
   flowId: string;
@@ -50,6 +51,7 @@ function DragOverlayContent({ content }: { content: Content }) {
 }
 
 export default function FlowDetail({ flowId }: FlowDetailProps) {
+  const t = useTranslations("flowDetail");
   const {
     flow,
     isLoading,
@@ -98,7 +100,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
     setIsEditMode(true);
     if (flow && flow.stages.length === 0) {
       try {
-        await addStage({ flowId, name: "기본" });
+        await addStage({ flowId, name: t("defaultStage") });
         await loadFlow();
       } catch (err) {
         console.error("기본 스테이지 생성 실패:", err);
@@ -141,7 +143,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
           ));
         } catch (err) {
           console.error("콘텐츠 추가 실패:", err);
-          alert("콘텐츠 추가에 실패했습니다.");
+          alert(t("contentAddError"));
         } finally {
           setIsAdding(false);
         }
@@ -173,7 +175,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
           }));
         } catch (err) {
           console.error("콘텐츠 추가 실패:", err);
-          alert("콘텐츠 추가에 실패했습니다.");
+          alert(t("contentAddError"));
         } finally {
           setIsAdding(false);
         }
@@ -205,7 +207,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
             }));
           } catch (err) {
             console.error("콘텐츠 추가 실패:", err);
-            alert("콘텐츠 추가에 실패했습니다.");
+            alert(t("contentAddError"));
           } finally {
             setIsAdding(false);
           }
@@ -230,7 +232,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
       } catch (error) {
         console.error("스테이지 순서 변경 실패:", error);
         if (flow) setLocalStages(flow.stages);
-        alert("스테이지 순서 변경에 실패했습니다.");
+        alert(t("stageOrderError"));
       }
       return;
     }
@@ -256,7 +258,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
         } catch (error) {
           console.error("노드 순서 변경 실패:", error);
           if (flow) setLocalStages(flow.stages);
-          alert("노드 순서 변경에 실패했습니다.");
+          alert(t("nodeOrderError"));
         }
       }
     }
@@ -275,7 +277,7 @@ export default function FlowDetail({ flowId }: FlowDetailProps) {
       <div className="text-center py-20 text-text-secondary">
         <Layers size={48} className="mx-auto mb-4 opacity-50" />
         <p className="font-serif text-lg text-text-primary mb-2">
-          {error || "플로우를 찾을 수 없습니다"}
+          {error || t("notFound")}
         </p>
       </div>
     );

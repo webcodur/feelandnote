@@ -43,27 +43,27 @@ export default function FlowStageList({
   };
 
   const handleAddStage = async () => {
-    const input = prompt("새 단계 이름", `${localStages.length + 1}단계`);
+    const input = prompt(t("newStagePrompt"), t("defaultStageName", { number: localStages.length + 1 }));
     if (input === null) return;
     const name = input.trim();
-    if (!name) { alert("단계 이름을 입력해 주세요."); return; }
+    if (!name) { alert(t("stageNameRequired")); return; }
     try {
       await addStage({ flowId, name });
       await refresh();
     } catch (error) {
       console.error("단계 추가 실패:", error);
-      alert("단계 추가에 실패했습니다.");
+      alert(t("stageAddError"));
     }
   };
 
   const handleDeleteStage = async (stageId: string, stageName: string) => {
-    if (!confirm(`"${stageName}" 단계를 삭제할까요?`)) return;
+    if (!confirm(t("stageDeleteConfirm", { name: stageName }))) return;
     try {
       await deleteStage(stageId);
       await refresh();
     } catch (error) {
       console.error("단계 삭제 실패:", error);
-      alert("단계 삭제에 실패했습니다.");
+      alert(t("stageDeleteError"));
     }
   };
 
@@ -73,18 +73,18 @@ export default function FlowStageList({
       await refresh();
     } catch (error) {
       console.error("단계 이름 변경 실패:", error);
-      alert("단계 이름 변경에 실패했습니다.");
+      alert(t("stageRenameError"));
     }
   };
 
   const handleRemoveNode = async (nodeId: string) => {
-    if (!confirm("이 콘텐츠를 플로우에서 제거할까요?")) return;
+    if (!confirm(t("removeContentConfirm"))) return;
     try {
       await removeNode(nodeId);
       await refresh();
     } catch (error) {
       console.error("콘텐츠 제거 실패:", error);
-      alert("콘텐츠 제거에 실패했습니다.");
+      alert(t("removeContentError"));
     }
   };
 
@@ -94,7 +94,7 @@ export default function FlowStageList({
       await refresh();
     } catch (error) {
       console.error("설명 수정 실패:", error);
-      alert("설명 수정에 실패했습니다.");
+      alert(t("descriptionUpdateError"));
     }
   };
 

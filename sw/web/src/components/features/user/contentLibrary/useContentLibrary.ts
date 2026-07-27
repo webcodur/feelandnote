@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useTransition, useMemo, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import { getUserContents } from "@/actions/contents/getUserContents";
@@ -35,6 +36,7 @@ import {
 export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode } from "./contentLibraryTypes";
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
+  const t = useTranslations("archiveSearch");
   const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode, initialContents } = options;
   const isViewer = mode === 'viewer';
 
@@ -181,11 +183,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         setTotal(result.total);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "콘텐츠를 불러오는데 실패했습니다.");
+      console.error("콘텐츠 로드 실패:", err);
+      setError(t("loadFailed"));
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption]);
+  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption, t]);
 
   // 서버가 내려준 첫 화면은 이미 그려져 있으므로 최초 1회 재조회를 건너뛴다(중복 페치 방지).
   // 이후 탭·검색·정렬·페이지 변경으로 loadContents가 새로 만들어지면 정상 조회한다.

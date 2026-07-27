@@ -24,6 +24,7 @@ interface AddContentModalProps {
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
   const t = useTranslations("customContent");
+  const tError = useTranslations("actionErrors");
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
   const [title, setTitle] = useState("");
@@ -62,13 +63,14 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
           status,
         });
         if (!response.success) {
-          setError(response.message);
+          setError(tError(response.error));
           return;
         }
         onSuccess?.();
         handleClose();
       } catch (err) {
-        setError(err instanceof Error ? err.message : t("addFailed"));
+        console.error("[AddContentModal]", err);
+        setError(t("addFailed"));
       }
     });
   };

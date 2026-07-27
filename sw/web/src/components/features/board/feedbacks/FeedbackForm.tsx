@@ -17,6 +17,7 @@ interface FeedbackFormProps {
 export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
   const router = useRouter()
   const t = useTranslations('board')
+  const tError = useTranslations('actionErrors')
   const [category, setCategory] = useState<FeedbackCategory>(initialData?.category ?? 'FEATURE_SUGGESTION')
   const [title, setTitle] = useState(initialData?.title ?? '')
   const [content, setContent] = useState(initialData?.content ?? '')
@@ -35,7 +36,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
     if (result.success) {
       router.push(`/agora/board/feedback/${result.data.id}`)
     } else {
-      setError(result.message)
+      setError(tError(result.error))
       setIsSubmitting(false)
     }
   }

@@ -186,13 +186,13 @@ export default function FloatingMusicPlayer() {
     return (
       <>
         {!isOpen && (
-          <button onClick={handleOpen} className="fixed bottom-4 end-4 w-12 h-12 rounded-full flex items-center justify-center shadow-lg border bg-bg-card/90 backdrop-blur-sm border-accent/30 text-accent hover:bg-bg-card hover:border-accent/50 transition-colors" style={gameZStyle} title="Game BGM">
+          <button onClick={handleOpen} className="fixed bottom-4 end-4 w-12 h-12 rounded-full flex items-center justify-center shadow-lg border bg-bg-card/90 backdrop-blur-sm border-accent/30 text-accent hover:bg-bg-card hover:border-accent/50 transition-colors" style={gameZStyle} title={t('gameBgm')}>
             <Music size={20} />
           </button>
         )}
         <div className={`fixed bottom-4 end-4 bg-bg-card/95 backdrop-blur-sm border border-accent/20 rounded-xl shadow-2xl [&_*]:!font-sans transition-all ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...gameZStyle, width: Math.max(panelW, 420) }}>
           <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/5">
-            <span className="text-[11px] font-medium text-accent/70 ps-1">Game BGM</span>
+            <span className="text-[11px] font-medium text-accent/70 ps-1">{t('gameBgm')}</span>
             <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-text-tertiary" title={t('close')}>
               <X size={13} />
             </button>
@@ -224,7 +224,7 @@ export default function FloatingMusicPlayer() {
           {/* 헤더 */}
           <div className="flex items-center justify-between px-3 border-b border-border" style={{ height: HEADER_H }}>
             <div className="flex items-center gap-1.5 ps-4">
-              <span className="text-[11px] font-medium text-text-tertiary">Music Player</span>
+              <span className="text-[11px] font-medium text-text-tertiary">{t('title')}</span>
               {!showNotice && (
                 <button onClick={() => setShowInfo((v) => !v)} className={showInfo ? 'text-accent' : 'text-text-tertiary/50 hover:text-text-secondary'}>
                   <Info size={11} />

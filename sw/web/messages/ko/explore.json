@@ -98,6 +98,55 @@
       "viewAllCount": "+{count}명 전체보기",
       "prev": "이전",
       "next": "다음",
+      "explore": "탐색하기",
+      "noCountryFigures": "해당 국가의 인물이 없습니다.",
+      "personaQuickView": {
+        "loading": "인물 지표를 분석하는 중...",
+        "analysis": "분석 총평",
+        "visitLibrary": "{name}의 기록물 보기",
+        "exploreJourney": "감상 여정과 취향 탐색"
+      },
+      "personaReason": {
+        "loading": "근거를 불러오는 중...",
+        "figureDetail": "인물 상세",
+        "close": "닫기"
+      },
+      "personaDistribution": {
+        "axes": {
+          "pessimism_optimism": {
+            "negative": "비관",
+            "positive": "낙관"
+          },
+          "conservative_progressive": {
+            "negative": "보수",
+            "positive": "진취"
+          },
+          "individual_social": {
+            "negative": "개인",
+            "positive": "사회"
+          },
+          "cautious_bold": {
+            "negative": "신중",
+            "positive": "과감"
+          }
+        },
+        "middle": "중간",
+        "guide": "영향력 {influence} 이상 {count}명 · 가운데가 두툼할수록 흔한 성향입니다 · 그 외 인물은 위에서 검색하세요.",
+        "searchPlaceholder": "인물 검색",
+        "influence": "영향력 {score}",
+        "noResults": "검색 결과가 없습니다.",
+        "topPercent": "상위 {percentile}%",
+        "runnersUp": "차순위",
+        "assessment": "기록",
+        "viewProfile": "전체 프로필 보기"
+      },
+      "timeline": {
+        "contemporaries": "동시대 인물",
+        "noContemporaries": "동시대 인물이 없습니다.",
+        "figureEra": "{name}의 시대",
+        "countrySearch": "국가 검색...",
+        "figureCount": "{count}명"
+      },
       "loading": "로딩 중...",
       "friend": "친구",
       "personaNoData": "표시할 사람 데이터가 없습니다.",
@@ -285,6 +334,41 @@
     }
   },
   "archiveSearch": {
-    "placeholder": "제목 | 저자 (2+)"
+    "placeholder": "제목 | 저자 (2+)",
+    "filter": {
+      "category": "카테고리",
+      "review": "리뷰",
+      "sort": "정렬"
+    },
+    "sort": {
+      "recent": "최근 추가",
+      "title": "이름순",
+      "ratingHigh": "별점 높은순",
+      "ratingLow": "별점 낮은순",
+      "creator": "창작자순"
+    },
+    "review": {
+      "all": "전체",
+      "hasReview": "리뷰 있음",
+      "noReview": "리뷰 없음"
+    },
+    "search": "검색",
+    "clearSearch": "검색어 지우기",
+    "listView": "리스트 보기",
+    "gridView": "그리드 보기",
+    "expandAll": "전체 펼치기",
+    "collapseAll": "전체 접기",
+    "empty": "아직 기록한 콘텐츠가 없습니다.",
+    "noResults": "검색 결과가 없습니다.",
+    "retry": "다시 시도",
+    "loadFailed": "콘텐츠를 불러오지 못했습니다.",
+    "recordsInscribed": "{count}건의 기록",
+    "toggleMonth": "{month} 기록 펼치기 또는 접기",
+    "categoryGuide": {
+      "title": "대분류 안내",
+      "basis": "대분류는 콘텐츠의 매체 유형을 기준으로 구분됩니다.",
+      "available": "현재 도서, 영상, 게임, 음악 네 가지 대분류를 제공합니다. 연결 가능한 외부 데이터가 확보되면 새로운 카테고리를 추가할 수 있습니다.",
+      "suggestion": "카테고리 추가 의견은 자유게시판에서 건의사항 태그와 함께 남겨주세요."
+    }
   }
 }

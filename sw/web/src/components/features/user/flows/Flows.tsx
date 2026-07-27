@@ -13,6 +13,7 @@ import type { FlowSummary } from "@/types/database";
 import FlowCard from "./FlowCard";
 import FlowEditor from "./FlowEditor";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 interface FlowsProps {
   userId: string;
@@ -20,6 +21,7 @@ interface FlowsProps {
 }
 
 export default function Flows({ userId, isOwner }: FlowsProps) {
+  const t = useTranslations("flowDetail");
   const router = useRouter();
   const [flows, setFlows] = useState<FlowSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +78,7 @@ export default function Flows({ userId, isOwner }: FlowsProps) {
         <div className="flex items-center gap-3">
           <Layers size={20} className="text-accent" />
           <h2 className="text-xl md:text-2xl font-serif font-black text-white">
-            플로우
+            {t("flow")}
           </h2>
           <span className="text-sm text-text-secondary font-serif">
             {flows.length}
@@ -88,7 +90,7 @@ export default function Flows({ userId, isOwner }: FlowsProps) {
             onClick={() => setShowEditor(true)}
             className="px-4 py-2 bg-accent text-black font-bold text-sm hover:bg-accent-hover transition-colors flex items-center gap-2 rounded"
           >
-            <Plus size={16} /> 새 플로우
+            <Plus size={16} /> {t("newFlow")}
           </Button>
         )}
       </div>
@@ -98,17 +100,17 @@ export default function Flows({ userId, isOwner }: FlowsProps) {
         <div className="text-center py-20 text-text-secondary border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
           <Layers size={48} className="mx-auto mb-4 opacity-50" />
           <p className="font-serif text-lg text-text-primary mb-2">
-            아직 플로우가 없습니다
+            {t("noFlows")}
           </p>
           <p className="text-sm opacity-60 mb-6">
-            콘텐츠를 단계별로 구성하여 나만의 학습 경로를 만들어보세요.
+            {t("noFlowsGuide")}
           </p>
           {isOwner && (
             <Button
               onClick={() => setShowEditor(true)}
               className="px-6 py-2 bg-accent text-black font-bold hover:bg-accent-hover rounded-full"
             >
-              첫 번째 플로우 만들기
+              {t("createFirstFlow")}
             </Button>
           )}
         </div>

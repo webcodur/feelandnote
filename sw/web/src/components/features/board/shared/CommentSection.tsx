@@ -27,6 +27,7 @@ export default function CommentSection({
   isAdmin = false
 }: CommentSectionProps) {
   const t = useTranslations('board.comment')
+  const tError = useTranslations('actionErrors')
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -46,7 +47,7 @@ export default function CommentSection({
       setComments(prev => [...prev, result.data])
       setNewComment('')
     } else {
-      alert(result.message)
+      alert(tError(result.error))
     }
     setIsSubmitting(false)
   }
@@ -58,7 +59,7 @@ export default function CommentSection({
     if (result.success) {
       setComments(prev => prev.filter(c => c.id !== commentId))
     } else {
-      alert(result.message)
+      alert(tError(result.error))
     }
   }
 

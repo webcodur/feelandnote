@@ -34,9 +34,11 @@ export function CategoryTabFilter<T extends string>({
           return (
             <button
               key={option.value}
+              type="button"
+              aria-pressed={isActive}
               onClick={() => onChange(option.value)}
               className={`
-                relative px-4 py-2 rounded-lg text-sm font-bold transition-all
+                relative px-4 py-2 rounded-lg text-sm font-bold
                 ${isActive
                   ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
                   : "text-text-secondary hover:text-white hover:bg-white/5"

@@ -112,7 +112,7 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
                 <button onClick={handleCancel} className="p-1.5 text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-sm" title={t("cancel")}>
                   <X size={14} />
                 </button>
-                <button onClick={handleSave} disabled={isSaving} className="p-1.5 text-accent hover:bg-accent/10 rounded-sm disabled:opacity-50" title="저장">
+                <button onClick={handleSave} disabled={isSaving} className="p-1.5 text-accent hover:bg-accent/10 rounded-sm disabled:opacity-50" title={t("save")}>
                   {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
                 </button>
               </>

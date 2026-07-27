@@ -8,9 +8,11 @@ import { updateFlow } from "@/actions/flows/updateFlow";
 import { saveFlow, unsaveFlow, checkFlowSaved } from "@/actions/flows/savedFlows";
 import { createClient } from "@/lib/supabase/client";
 import type { FlowWithStages } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 export function useFlowDetail(flowId: string) {
   const router = useRouter();
+  const t = useTranslations("flowDetail");
 
   const [flow, setFlow] = useState<FlowWithStages | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +30,12 @@ export function useFlowDetail(flowId: string) {
       const data = await getFlow(flowId);
       setFlow(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "플로우를 불러오는데 실패했습니다");
+      console.error("[useFlowDetail:load]", err);
+      setError(t("loadError"));
     } finally {
       setIsLoading(false);
     }
-  }, [flowId]);
+  }, [flowId, t]);
 
   useEffect(() => {
     loadFlow();
@@ -52,14 +55,15 @@ export function useFlowDetail(flowId: string) {
   }, [flowId]);
 
   const handleDelete = async () => {
-    if (!confirm("이 플로우를 삭제하시겠습니까?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     try {
       await deleteFlow(flowId);
       if (currentUserId) {
         router.push(`/${currentUserId}/reading/collections`);
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : "삭제에 실패했습니다");
+      console.error("[useFlowDetail:delete]", err);
+      alert(t("deleteError"));
     }
   };
 
@@ -69,7 +73,8 @@ export function useFlowDetail(flowId: string) {
       await updateFlow({ flowId, isPublic: !flow.is_public });
       setFlow({ ...flow, is_public: !flow.is_public });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "설정 변경에 실패했습니다");
+      console.error("[useFlowDetail:visibility]", err);
+      alert(t("visibilityError"));
     }
   };
 
@@ -84,7 +89,8 @@ export function useFlowDetail(flowId: string) {
         setIsSaved(true);
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : "저장 상태 변경에 실패했습니다");
+      console.error("[useFlowDetail:save-state]", err);
+      alert(t("saveStateError"));
     }
   };
 

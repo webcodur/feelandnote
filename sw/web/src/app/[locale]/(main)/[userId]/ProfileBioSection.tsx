@@ -67,6 +67,7 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
 
 // #region 하위 컴포넌트
 function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
+  const t = useTranslations("profilePage.bio");
   const tProf = useTranslations("profession");
   const isCeleb = profile.profile_type === "CELEB";
   // 일반 유저: title, profession, death_date 제외
@@ -106,9 +107,9 @@ function ProfileMetadata({ profile }: { profile: PublicUserProfile }) {
         )}
         {isCeleb && (profile.birth_date || profile.death_date) && (
           <div className="space-y-1 col-span-2 sm:col-span-1 border-t border-stone-800/60 pt-4 sm:border-0 sm:pt-0">
-            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">Period of Existence</span>
+            <span className="text-[9px] text-text-secondary uppercase tracking-widest font-cinzel block opacity-70">{t("lifespan")}</span>
             <p className="text-xs sm:text-base text-text-primary font-serif font-black tracking-tight">
-              {profile.birth_date ? formatYear(profile.birth_date) : "?"} — {profile.death_date ? formatYear(profile.death_date) : "Present"}
+              {profile.birth_date ? formatYear(profile.birth_date) : "?"} — {profile.death_date ? formatYear(profile.death_date) : t("present")}
             </p>
           </div>
         )}
@@ -169,7 +170,7 @@ function BioContent({ isEditing, bioValue, setBioValue, profile, isOwner, isSavi
         </div>
         <div className="absolute top-0 start-0 w-full h-1 bg-gradient-to-r from-transparent via-stone-700/20 to-transparent" />
         <p className="relative text-sm md:text-lg text-text-primary font-serif leading-relaxed text-center group-hover/bio:text-text-primary">
-          {profile.bio?.trim() ? <FormattedText text={profile.bio} /> : <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">No Bio Inscribed...</span>}
+          {profile.bio?.trim() ? <FormattedText text={profile.bio} /> : <span className="text-stone-700 tracking-widest uppercase text-xs font-cinzel">{t("empty")}</span>}
         </p>
       </InnerBox>
     </div>
