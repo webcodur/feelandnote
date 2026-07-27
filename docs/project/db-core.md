@@ -38,7 +38,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 - **`contents`**: 콘텐츠 마스터. 언어 중립 메타만 보유
   - 컬럼: `id`(text, 기본값 `gen_random_uuid()::text`), `type`, `subtype`, `metadata`(jsonb), `release_date`(text), `external_source`, `external_id`, `user_count`, `created_at`
-  - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC' (자격증 타입 `CERTIFICATE`는 26.07.27 전면 폐기 — 코드·데이터·CHECK 제약에 더해 집계 함수 `get_celeb_feed_type_counts`·`get_friend_activity_type_counts`의 해당 키까지 제거. 실측 재검증에서 제약·함수·뷰 참조 0건)
+  - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC'
   - `external_source` CHECK: NULL 또는 'naver_book'|'google_books'|'openlibrary'|'tmdb'|'igdb'|'spotify' (DB가 허용하는 값. 운영 정책상 실제 사용 출처는 별도 규약을 따른다)
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
@@ -144,7 +144,6 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 | `aladin` | BOOK ko | 3 |
 
 > 타입별 기본 대응은 BOOK=naver_book(ko)/openlibrary(en), VIDEO=tmdb, GAME=igdb, MUSIC=spotify이다. 단 BOOK en은 위처럼 출처가 다변화돼 있다.
-> `qnet`(3건)은 자격증 타입 폐기(26.07.27)와 함께 데이터째 삭제됐다.
 
 #### thumbnail 값 (실측 2026-07-16)
 

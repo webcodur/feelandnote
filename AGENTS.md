@@ -16,7 +16,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 | 6 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원 정리·받아쓰기·화자 학습·음성 합성 작업실 (Next.js) |
 
 **공유 패키지** (`packages/`):
-- `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify). ⚠️ **Q-Net(자격증)은 26.07.27 전면 폐기** — 콘텐츠 타입 `CERTIFICATE`를 코드·DB·문서에서 제거했다. 되살리지 마라. ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
+- `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify). ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
 - `ai-services` — AI 서비스 (셀럽 프로필 타입, 영향력 분석)
 - `influence-constants` — 영향력 평가 상수
 - `shared` — 공유 상수, 타입, 훅
