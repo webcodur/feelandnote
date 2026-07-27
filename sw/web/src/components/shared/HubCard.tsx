@@ -13,8 +13,10 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
 interface HubCardProps {
+  id?: string;
   href?: string;
   onClick?: () => void;
+  className?: string;
   title: string;
   description: string;
   icon?: ReactNode;
@@ -41,14 +43,24 @@ function CornerBracket({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
   );
 }
 
-export default function HubCard({ href, onClick, title, description, icon, label, backgroundImage }: HubCardProps) {
+export default function HubCard({
+  id,
+  href,
+  onClick,
+  className: extraClassName,
+  title,
+  description,
+  icon,
+  label,
+  backgroundImage,
+}: HubCardProps) {
   const isButton = !!onClick;
   // 테두리·배경 강조는 transition 없이 즉시 (조작용 요소의 기본 반응)
   const className =
     "group relative isolate overflow-hidden flex flex-col gap-3 rounded-xl w-full text-left " +
     "border border-accent/15 bg-white/[0.02] p-5 md:p-6 " +
     "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.9)] " +
-    "hover:border-accent/60 hover:bg-white/[0.04]";
+    `hover:border-accent/60 hover:bg-white/[0.04] scroll-mt-24 ${extraClassName ?? ""}`;
 
   const content = (
     <>
@@ -110,14 +122,14 @@ export default function HubCard({ href, onClick, title, description, icon, label
 
   if (isButton) {
     return (
-      <button onClick={onClick} className={className}>
+      <button id={id} onClick={onClick} className={className}>
         {content}
       </button>
     );
   }
 
   return (
-    <Link href={href || "#"} className={className}>
+    <Link id={id} href={href || "#"} className={className}>
       {content}
     </Link>
   );
