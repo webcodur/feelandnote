@@ -41,14 +41,14 @@ export function FactionTable({
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-bg-card">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[56rem]">
-          <thead className="bg-bg-secondary">
+        <table className="w-full min-w-[56rem] border-collapse">
+          <thead className="sticky top-0 z-10 bg-bg-secondary border-b-2 border-border">
             <tr>
-              {columns.map(col => (
+              {columns.map((col, i) => (
                 <th
                   key={col.key}
                   style={col.width ? { width: col.width } : undefined}
-                  className={`whitespace-nowrap px-3 py-2.5 text-xs font-medium text-text-secondary ${ALIGN[col.align ?? 'left']}`}
+                  className={`whitespace-nowrap px-5 py-3.5 text-sm font-semibold uppercase tracking-wider text-text-primary/80 text-center${i > 0 ? ' border-l border-border' : ''}`}
                 >
                   {col.header}
                 </th>
@@ -67,8 +67,8 @@ export type FactionRowTone = 'default' | 'group' | 'child'
 
 const TONE: Record<FactionRowTone, string> = {
   default: '',
-  group: 'bg-bg-secondary/50 font-semibold',
-  child: '',
+  group: 'bg-accent/[0.06] border-l-[3px] border-l-accent font-semibold',
+  child: 'bg-bg-secondary/30',
 }
 
 /**
@@ -121,16 +121,19 @@ export function FactionTableCell({
   className = '',
   colSpan,
   style,
+  isFirst = false,
   children,
 }: {
   align?: 'left' | 'center' | 'right'
   className?: string
   colSpan?: number
   style?: CSSProperties
+  /** 첫 번째 칸이면 왼쪽 테두리를 넣지 않는다 */
+  isFirst?: boolean
   children?: ReactNode
 }) {
   return (
-    <td colSpan={colSpan} style={style} className={`px-3 py-2.5 text-sm ${ALIGN[align]} ${className}`}>
+    <td colSpan={colSpan} style={style} className={`px-5 py-3.5 text-[15px] ${ALIGN[align]}${isFirst ? '' : ' border-l border-border'} ${className}`}>
       {children}
     </td>
   )
@@ -160,18 +163,18 @@ export function FactionTableSection({
   const body = (
     <span className="flex flex-wrap items-baseline gap-2">
       {onToggle && (
-        <ChevronDown className={`h-4 w-4 self-center text-text-secondary ${open ? '' : '-rotate-90'}`} />
+        <ChevronDown className={`h-5 w-5 self-center text-text-secondary ${open ? '' : '-rotate-90'}`} />
       )}
-      <span className={level === 1 ? 'text-sm font-semibold text-text-primary' : 'text-xs font-semibold text-text-secondary'}>
+      <span className={level === 1 ? 'text-base font-semibold text-text-primary' : 'text-sm font-semibold text-text-secondary'}>
         {title}
       </span>
-      {note && <span className="text-xs text-text-secondary">{note}</span>}
+      {note && <span className="text-sm text-text-secondary">{note}</span>}
     </span>
   )
 
   return (
     <tr className={level === 1 ? 'bg-bg-secondary/50' : 'bg-bg-secondary/25'}>
-      <td colSpan={colSpan} className={level === 1 ? 'px-3 py-2' : 'px-3 py-1.5 pl-8'}>
+      <td colSpan={colSpan} className={level === 1 ? 'px-5 py-3' : 'px-5 py-2 pl-10'}>
         {onToggle ? (
           <button type="button" onClick={onToggle} className="flex w-full text-left hover:text-accent">
             {body}
@@ -186,7 +189,7 @@ export function FactionTableSection({
 export function FactionTableEmpty({ colSpan, children }: { colSpan: number; children: ReactNode }) {
   return (
     <tr>
-      <td colSpan={colSpan} className="px-3 py-12 text-center text-sm text-text-secondary">
+      <td colSpan={colSpan} className="px-5 py-12 text-center text-base text-text-secondary">
         {children}
       </td>
     </tr>
@@ -214,7 +217,7 @@ export function FactionTableBadge({
     <span
       title={title}
       style={color ? { backgroundColor: `${color}20`, color } : undefined}
-      className={`inline-flex items-center gap-1 whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium ${color ? '' : className}`}
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded px-2.5 py-1 text-xs font-medium ${color ? '' : className}`}
     >
       {icon}
       {children}
@@ -227,7 +230,7 @@ export function FactionTableCount({ value, icon, title }: { value: number; icon?
   return (
     <span
       title={title}
-      className={`inline-flex items-center gap-1 text-sm tabular-nums ${value === 0 ? 'text-text-secondary opacity-40' : 'text-text-primary'}`}
+      className={`inline-flex items-center gap-1.5 text-[15px] tabular-nums ${value === 0 ? 'text-text-secondary opacity-40' : 'text-text-primary'}`}
     >
       {icon}
       {value}

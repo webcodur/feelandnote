@@ -6,6 +6,7 @@
  * ② 출간이 읽고 쓰는 세 테이블의 행 형태만 못박는다(제네릭 Database 타입 미도입 저장소).
  */
 
+import { toTeamImageUrls } from '@feelandnote/shared/lib/faction-team-image'
 import { factionAdminClient } from '@/lib/faction-db'
 
 /** celeb_tags — 도감의 세력 1행 */
@@ -79,8 +80,12 @@ export function adminClient() {
   return factionAdminClient()
 }
 
-/** team_images(jsonb) → 문자열 배열. 형태가 깨져 있으면 빈 배열 */
+/**
+ * team_images(jsonb) → 사진 주소 배열.
+ *
+ * 저장 형태는 「주소 + 담긴 인물」을 함께 쥔 항목이지만, 장수만 세거나 주소만 견주는 자리가
+ * 많아 지름길을 남긴다. 예전에 저장된 문자열 배열도 같이 읽힌다.
+ */
 export function toImageArray(v: unknown): string[] {
-  if (!Array.isArray(v)) return []
-  return v.filter((x): x is string => typeof x === 'string' && x.length > 0)
+  return toTeamImageUrls(v)
 }

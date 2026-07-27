@@ -1,6 +1,47 @@
 # 부록 A. 세력도감 태그
 
-> **최종 실측 체크: 26.07.16** — DB 스키마(`celeb_tags`·`celeb_tag_assignments` 컬럼 전수), 서버 액션 4종, `components/features/landing/` 컴포넌트 7종, 타입 정의, 페이지 라우트, 백오피스 경로를 코드·DB와 대조해 교정.
+> **최종 실측 체크: 26.07.27** — 아래 「26.07.27 개편」 절이 그날 바뀐 것 전부다. 그 이전 실측은 26.07.16(DB 스키마 전수, 서버 액션 4종, `components/features/landing/` 컴포넌트 7종, 타입, 라우트, 백오피스 경로).
+
+## 26.07.27 개편 — 먼저 읽을 것
+
+하루에 네 가지가 바뀌었다. 이 문서의 나머지 절은 이 변경을 반영해 읽어야 한다.
+
+### ① 도감 노출은 배정의 `hidden` 이 정한다
+
+예전에는 `profiles.status='active'` 가 도감 노출까지 좌우했다. 그 값은 영상 제작 쪽 사정으로 정해지는 것이라 진열 판단과 맞지 않았고, **실측 42명이 13개 테마에서 통째로 사라져 있었다**(팩션에서 등록한 인물들). 이제 도감 조회는 그 게이트를 보지 않는다.
+
+- `celeb_tag_assignments.hidden`(boolean, 기본 false) — 테마마다 따로 켜고 끈다. 같은 인물이 A 테마에서는 보이고 B 테마에서는 안 보일 수 있다
+- 등급 게이트(`LISTING_DEFAULT_TIERS`)는 그대로다 — 신화·관계 등급은 여전히 목록에 안 뜬다
+- BO 편집 화면 인물 줄의 「도감 노출 / 숨김」 단추가 이 값을 바꾼다(`setTagCelebHidden`)
+- 감춘 배정은 DB 조회 단계에서 걸러지므로 인원 상한 자리를 차지하지 않는다
+
+### ② 인원 상한 16 → 24
+
+`getFeaturedTags` 의 `MAX_CELEBS_PER_TAG`. 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크의 싸이월드 창업자). 감추는 일은 `hidden` 이 맡고 이 값은 사고 방지용 천장이다.
+
+### ③ `team_images` 는 주소 배열이 아니라 「사진 + 담긴 인물」 목록이다
+
+```jsonc
+[{ "url": "...", "label": "안전을 설계한 사람들", "labelEn": "...", "celebIds": ["uuid", ...] }]
+```
+
+- 정본 타입·정규화: `packages/shared/src/lib/faction-team-image.ts`(`toTeamImages`·`toTeamImageUrls`·`serializeTeamImages`). **옛 문자열 배열도 그대로 읽힌다**
+- 출간(`faction-sync/publish.ts`)이 영상 묶음의 이름·소속 인물을 함께 실어 나른다. 손으로 다시 적을 필요 없다
+- 도감 화면은 사진마다 무리 이름을 제목으로 띄우고, 그 사진의 인물을 목록에서 사진 아래 들여쓰기로 매단다
+- ⚠️ 화면 저장분(캐시)에 옛 형태가 남을 수 있어 **화면 세 곳에서 한 번 더 정규화**한다(`FactionShowcase`·`FactionIntroView`·`FactionPreviewModal`)
+
+### ④ 대분류 10개 · 테마 76개
+
+축이 뒤섞여 있던 묶음을 분야 기준으로 다시 세웠다. **인공지능 · 기술과 과학 · 경제와 산업 · 권력과 전쟁 · 사상과 신념 · 예술과 문화 · 스포츠 · 삶의 궤적 · 특집 · 신화와 이야기.**
+
+- 「삶의 궤적」은 분야가 아니라 살아온 방식(자수성가·독학가·결핍·망명자)이라 따로 뒀다
+- 「특집」은 한 사람이나 한 사건을 통째로 파는 자리다(머스크 계열 5 + 틸 유니버스)
+- 「신화와 이야기」는 나중에 소설·영화·게임 인물까지 받을 그릇이다. 지금은 진열을 꺼 뒀다
+- 빈 껍데기가 된 옛 묶음 셋(난세의 영웅·혁명과 건국·시련을 넘어)은 자식을 옮긴 뒤 삭제했다
+
+**팩션 편 상태(`faction_episodes.status`)도 두 값으로 줄었다** — `ready`(도감으로 옮길 수 있다) / `blocked`(출연진이 사람이 아니거나 등록 인물이 셋 미만). 옛 다섯 값(idea/todo/live/done/shelved)은 폐기. 렌더 편성 여부는 예전대로 `registered` 가 쥔다.
+
+---
 
 ## DB 스키마
 
@@ -15,7 +56,7 @@
 | `description_en` | text | - | - | 태그 설명 (영문) |
 | `color` | text | - | `#7c4dff` | HEX 색상. 태그 pill UI에 사용 |
 | `slug` | text | - | - | 테마별 고유 주소. `/explore/faction/<slug>` (예: `xai`). UNIQUE(null 허용). BO에서 입력 |
-| `team_images` | jsonb | ✅ | `[]` | 단체 이미지 URL 배열(표시 순서대로). NOT NULL. 쇼케이스 좌측 사진 영역에 단체 항목으로 노출(여러 장이면 캐러셀). R2: `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) |
+| `team_images` | jsonb | ✅ | `[]` | 단체 사진 목록. **주소만이 아니라 `{url, label, labelEn, celebIds}`** (26.07.27, 위 개편 ③). 옛 문자열 배열도 읽힌다. R2: `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) |
 | `sort_order` | integer | - | `0` | 태그 목록 정렬 순서 (낮을수록 먼저) |
 | `is_featured` | boolean | - | `false` | `true`면 세력도감에 노출, `false`면 예고편(Soon) 표시 |
 | `start_date` | date | - | - | 기간 한정 태그 시작일 (미사용) |
@@ -36,6 +77,7 @@
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
 | `spotlight_image_url`(물리 명칭은 옛 이름 유지) | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `spotlight/{tagId}/celeb-{celebId}.webp` |
 | `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저) |
+| `hidden` | boolean | ✅ | `false` | **이 테마에서 이 인물을 감출지**(26.07.27 신설, 위 개편 ①). 셀럽 전역 상태와 무관하다 |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
 
 ### 관계
@@ -70,7 +112,8 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
   - 예: "공화정을 끝낸 독재관", "원자폭탄의 아버지"
 - `long_desc`: 1~2문장 상세 설명. 이 인물이 왜 이 태그에 속하는지
 - `sort_order`: 시간순(출생순), 중요도순, 또는 서사 흐름순 중 태그 성격에 맞게 결정
-- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **16명** (`getFeaturedTags`의 `assignments.slice(0, 16)`) — 초과 배정분은 세력도감에 안 뜬다
+- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **24명**(`getFeaturedTags`의 `MAX_CELEBS_PER_TAG`, 26.07.27에 16에서 상향) — 초과 배정분은 세력도감에 안 뜬다. 감추려면 상한이 아니라 `hidden` 을 쓴다
+- **한 인물이 여러 테마에 드는 것은 정상이다.** 실측 두 테마 13명·세 테마 2명이 이미 그렇게 진열 중이고, 일론 머스크는 다섯 테마에 선다. 겹침을 피하려 인물을 빼지 마라
 
 ---
 
@@ -140,7 +183,8 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 - 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
   - **`/factions` 는 표 하나다(26.07.26 완전 병합)**. 기준은 도감 테마(`celeb_tags` 40종)이고 열은 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**·순서. 「영상」 칸에는 그 테마를 세력으로 쓰는 편이 배지로 붙고(복수 가능, 누르면 그 편 편집기로) 없으면 「글 전용」이다. 끌어서 진열 순서를 바꾼다. 「새 영상 편」·「새 테마」 단추는 표 머리 오른쪽에 나란히 있다
-  - **미연결 영상**: 어느 테마에도 안 걸린 편은 같은 표 맨 아래 구분 줄(묶음 머리와 같은 문법) 밑에 모인다. 열은 제목·상태·인물 수·세력 수·렌더 편성이고, 줄 끝 점 셋 메뉴로 이름 바꾸기·복제·지우기·렌더용 파일 쓰기를 한다
+  - **표 아래 두 구획(26.07.27)**: 「옮길 수 있는 편」(펼침 — 인물이 인명부에 있어 바로 테마로 옮길 수 있다)과 「못 옮기는 편」(접힘 — 출연진이 사람이 아니거나 등록 인물이 셋 미만, 보관함 분류별로 다시 묶임). 옛 「미연결 영상」·「아이디어 후보」·「접어둠」 세 구획을 이 둘로 합쳤다. 줄 끝 점 셋 메뉴로 이름 바꾸기·복제·지우기·렌더용 파일 쓰기를 한다
+  - **묶음은 접힌 채 뜬다**: 소속 테마를 보려면 묶음 줄을 누른다. 편집 화면으로는 줄 오른쪽의 「편집」 단추로 간다(모든 줄이 같은 자리에 같은 단추를 갖는다)
   - **편별 조작의 자리**: 상태·렌더 편성·내보내기·이름 변경·복제·삭제는 **영상 편집기 상단 조작줄**에 있다(`components/factions/FactionEpisodeActions.tsx`, `variant="bar"`). 목록이 테마 기준으로 합쳐지면서 연결된 편은 목록에 줄이 없기 때문이다. 같은 부품이 미연결 영상 줄의 점 셋 메뉴(`variant="menu"`)도 그린다 — 기능이 두 벌로 갈라지지 않게
   - **위계 표시(26.07.26)**: 자식을 가진 테마가 「묶음 N」 표식과 함께 머리로 뜨고 소속 테마가 한 칸 들여쓰기로 따라붙는다. 끌어 옮기기는 **같은 층끼리만** 된다(묶음 머리를 끌면 소속 테마가 통째로 따라간다). 다른 묶음으로 옮기는 일은 순서가 아니라 소속이므로 테마 편집 화면의 「상위 묶음」에서 한다
   - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다). 「상위 묶음」 선택지는 무소속 테마 전량 + 「묶음 없음」이다
@@ -191,8 +235,8 @@ export interface FeaturedTag {
   description_en: string | null
   color: string
   slug: string | null
-  team_images: string[]     // 단체 이미지 URL 배열
-  celebs: FeaturedCeleb[]   // 태그당 최대 16명
+  team_images: FactionTeamImage[]  // 사진마다 {url, label?, labelEn?, celebIds?}
+  celebs: FeaturedCeleb[]          // 태그당 최대 24명(MAX_CELEBS_PER_TAG)
   is_featured: boolean
   parentSlug?: string | null  // 속한 상위 그룹 slug (최상위면 null)
   isGroup?: boolean           // 그룹 헤더 여부
@@ -232,6 +276,8 @@ RETURNING id, name;
 
 태그에 배정할 인물이 DB에 등록되어 있는지 확인한다.
 
+> ⚠️ `status='inactive'` 를 걸러내지 마라 — 도감은 26.07.27부터 그 값을 보지 않는다(개편 ①). 목록에서 빠지는 기준은 **등급**(`celeb_tier` 가 full·light가 아닐 때)과 **배정의 `hidden`** 둘뿐이다.
+
 ```sql
 SELECT id, nickname, nickname_en, status, celeb_tier
 FROM profiles
@@ -241,7 +287,7 @@ ORDER BY nickname;
 ```
 
 - DB 미등록 인물: `celeb-creation-rulebook` 에이전트로 먼저 등록
-- `status = 'inactive'`인 인물도 태그 배정 가능 (세력도감에 정상 노출됨)
+- `status = 'inactive'`인 인물도 태그 배정 가능하고 **실제로 도감에 노출된다**(26.07.27 이전에는 문서만 그렇게 적혀 있고 코드는 걸러냈다 — 그 게이트를 걷어냈다)
 
 ### 3단계: 인물 배정
 

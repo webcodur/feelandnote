@@ -288,7 +288,8 @@ export interface FactionPerson extends FactionCardFields {
    */
   quoteCaptionPos?: 'bottom' | 'center'
   /** 작은 자막 폰트 스타일 — 에피소드 전역 기본을 덮어쓴다. 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
-  quoteCaptionStyle?: 'default' | 'serif-large'
+  quoteCaptionSize?: 'default' | 'large'
+  quoteCaptionFont?: 'default' | 'serif'
 }
 
 /**
@@ -586,7 +587,8 @@ export interface FactionScript {
    */
   quoteCaptionPos?: 'bottom' | 'center'
   /** 작은 자막 폰트 스타일 — 에피소드 전역 기본. 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
-  quoteCaptionStyle?: 'default' | 'serif-large'
+  quoteCaptionSize?: 'default' | 'large'
+  quoteCaptionFont?: 'default' | 'serif'
   /**
    * 한 편(쇼츠 part·롱폼) 종료 처리 — 마지막 인물 대사가 끝난 뒤 영상이 꺼지기까지.
    * endHoldSec:  (대사 후 대기) 마지막 인물 대사 끝 ~ 다음으로 넘어가기까지 그 인물 화면을 정지(줌인 멈춤)한 채 유지하는 시간(초). 기본 4.
@@ -612,12 +614,37 @@ export interface FactionScript {
   loglineByPartEn?: Record<number, string>
   /** 시작 화면 지속 시간(초). 미지정이면 기본값(2.5). 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
+  /**
+   * 시작 화면(인트로) 전용 움직임 효과 — 첫 화면에만 거는 효과.
+   * 세력 로고 카드(logoEffects)와 같은 형태다. 다만 시작 화면은 세력에 속하지 않아 전역을 상위로 두지 않고,
+   * 비면 '천천히 확대'가 기본이다(첫 화면이 정지 사진처럼 굳지 않게). 정지시키려면 지속 효과를 '정지'로 지정한다.
+   */
+  introEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
+  /** 마무리 화면(아웃트로) 전용 움직임 효과 — 시작 화면(introEffects)과 같은 규칙. 비면 '천천히 확대' */
+  outroEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
   /** 공용 낭독자(옵션) — 제목·시작문구와 인물 수식어에 같은 기본 목소리를 쓴다 */
   narrator?: FactionNarrator
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 4. BO에서 조정하여 스튜디오/렌더에 적용 */
   groupSec?: number
   /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(2.6~3.2). 지정하면 인원 수 무관 고정. BO에서 조정하여 스튜디오/렌더에 적용 */
   clusterSec?: number
+  /**
+   * 자막형(quoteDisplay='caption') 인물 화면에서 대사가 뜨기 전 이름·직함만 보이는 시간(초).
+   * 미지정 시 1초. 늘리면 그만큼 인물 화면 전체가 길어진다(대사 낭독 길이는 그대로).
+   */
+  captionIdHoldSec?: number
   /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */
   startSfx?: string
   /** 세력 로고(타이틀 카드) 등장 효과음 파일명(public/common/sfx/ 하위). 미지정이면 효과음 없음 */
@@ -658,19 +685,11 @@ export interface FactionScript {
   groups: FactionGroup[]
 }
 
-/** 세력도 진행 상태 — 할 일 / 공개 / 완료 */
-export type FactionStatus = 'todo' | 'live' | 'done'
-
-/** 에피소드 목록 카드용 요약 */
-export interface FactionEpisodeListItem {
-  id: string
-  /** 영상 명칭 (한 필드, 개행으로 앞/뒤). 카드는 첫 줄/나머지로 나눠 표시한다 */
-  title: string
-  groupCount: number
-  personCount: number
-  hasMusic: boolean
-  status: FactionStatus
-}
+/*
+ * 여기 있던 `FactionStatus`('todo'|'live'|'done')와 `FactionEpisodeListItem` 은 26.07.27 에 지웠다.
+ * 아무 데서도 읽지 않는 죽은 타입이었고, 편 상태의 정본은
+ * `actions/admin/factions/episodes.ts` 의 `FactionEpisodeStatus`('ready'|'blocked') 하나다.
+ */
 
 /**
  * 카드뉴스 대본 파일 — 인물 이름을 키로 카드 전용 필드(FactionCardFields)를 담는다.

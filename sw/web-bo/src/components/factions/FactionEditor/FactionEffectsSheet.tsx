@@ -46,7 +46,7 @@ type EffectFields = {
   zoomFocus?: ZoomFocus
   zoomSpeed?: number
 }
-type Kind = 'global' | 'group' | 'cluster' | 'person'
+type Kind = 'global' | 'edge' | 'group' | 'cluster' | 'person'
 
 /**
  * 줌 목표점 지정 대상 한 장 — 한 컷에 사진이 여러 장(기본·대사·교체)일 때
@@ -121,7 +121,9 @@ function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inher
   const [focusIdx, setFocusIdx] = useState<number | null>(null)
   const targets = focusTargets ?? []
   const openTarget = focusIdx != null ? targets[focusIdx] : undefined
-  const showTransition = kind !== 'cluster'
+  // 시작·마무리 화면은 앞뒤가 크로스페이드라 넘어오는 전환이 없고, 지지직도 걸지 않는다(문구 가독성 우선).
+  const showTransition = kind !== 'cluster' && kind !== 'edge'
+  const showGlitch = kind !== 'edge'
   const glitchDefaultOn = kind === 'cluster'
   const shownTransition = locked ? value.transition ?? inherited?.transition : value.transition
   const shownEnter = locked ? value.enterMotion ?? inherited?.enterMotion : value.enterMotion
@@ -130,12 +132,16 @@ function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inher
   const shownShake = locked ? value.holdShake ?? inherited?.holdShake : value.holdShake
   const shownSpeed = locked ? value.zoomSpeed ?? inherited?.zoomSpeed : value.zoomSpeed
 
+  // 전역·시작·마무리 화면은 위에 상위가 없어 자기 기본값을 표시한다. 시작·마무리만 지속 효과 기본이 '줌인'이다.
+  const selfDefault = kind === 'global' || kind === 'edge'
   const followWith = (effLabel: string | undefined, globalDefault: string) =>
-    kind === 'global' ? `기본(${globalDefault})` : effLabel ? `상위 따름 (${effLabel})` : '상위 따름'
+    selfDefault ? `기본(${globalDefault})` : effLabel ? `상위 따름 (${effLabel})` : '상위 따름'
 
   const transitionFollow = followWith(labelOf(TRANSITION_OPTIONS, inherited?.transition) ?? '크로스페이드', '크로스페이드')
   const enterFollow = followWith(labelOf(ENTER_MOTION_OPTIONS, inherited?.enterMotion) ?? '없음', '없음')
-  const holdFollow = followWith(labelOf(HOLD_MOTION_OPTIONS, inherited?.holdMotion) ?? '정지', '정지')
+  const holdFollow = kind === 'edge'
+    ? '기본(줌인 · 확대)'
+    : followWith(labelOf(HOLD_MOTION_OPTIONS, inherited?.holdMotion) ?? '정지', '정지')
   const glitchInheritLabel = inherited?.holdGlitch === undefined ? undefined
     : inherited.holdGlitch === false ? '꺼짐'
     : inherited.holdGlitch === 'light' ? '라이트'
@@ -144,7 +150,7 @@ function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inher
     ? '기본(그룹샷만)'
     : glitchInheritLabel ? `상위 따름 (${glitchInheritLabel})` : glitchDefaultOn ? '상위 따름 (헤비)' : '상위 따름'
   const shakeInheritLabel = inherited?.holdShake === undefined ? undefined : inherited.holdShake ? '켜짐' : '꺼짐'
-  const shakeFollow = kind === 'global' ? '기본(꺼짐)' : shakeInheritLabel ? `상위 따름 (${shakeInheritLabel})` : '상위 따름'
+  const shakeFollow = selfDefault ? '기본(꺼짐)' : shakeInheritLabel ? `상위 따름 (${shakeInheritLabel})` : '상위 따름'
   const speedPlaceholder = inherited?.zoomSpeed != null ? String(inherited.zoomSpeed) : '1'
 
   return (
@@ -205,19 +211,21 @@ function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inher
           </select>
         </td>
         <td className="p-1 align-middle">
-          <select
-            value={shownGlitch === undefined ? '' : shownGlitch === false ? 'off' : shownGlitch === true ? 'heavy' : shownGlitch}
-            disabled={locked}
-            onChange={e => onChange({ holdGlitch: e.target.value === '' ? undefined : e.target.value === 'off' ? false : (e.target.value as GlitchLevel) })}
-            className={SELECT_CLS}
-            title="라이트=내내 은은, 헤비=내내 강함, 막판 1초=컷 끝 직전 1초만 강하게"
-          >
-            <option value="">{glitchFollow}</option>
-            <option value="off">끄기</option>
-            <option value="light">라이트</option>
-            <option value="heavy">헤비</option>
-            <option value="tail">막판 1초</option>
-          </select>
+          {showGlitch ? (
+            <select
+              value={shownGlitch === undefined ? '' : shownGlitch === false ? 'off' : shownGlitch === true ? 'heavy' : shownGlitch}
+              disabled={locked}
+              onChange={e => onChange({ holdGlitch: e.target.value === '' ? undefined : e.target.value === 'off' ? false : (e.target.value as GlitchLevel) })}
+              className={SELECT_CLS}
+              title="라이트=내내 은은, 헤비=내내 강함, 막판 1초=컷 끝 직전 1초만 강하게"
+            >
+              <option value="">{glitchFollow}</option>
+              <option value="off">끄기</option>
+              <option value="light">라이트</option>
+              <option value="heavy">헤비</option>
+              <option value="tail">막판 1초</option>
+            </select>
+          ) : <div className="text-center text-xs text-text-dim">-</div>}
         </td>
         <td className="p-1 align-middle">
           <div className="flex items-center gap-1 justify-center">
@@ -317,6 +325,13 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
   const sectionRefs = useRef<Record<number, HTMLElement | null>>({})
 
   const patchScript = (p: Partial<EffectFields>) => onChange({ ...script, ...p })
+  // 시작·마무리 화면 — 전환·지지직은 걸지 않으므로 패치에서 걸러 전용 형태로만 저장한다.
+  const patchEdge = (which: 'introEffects' | 'outroEffects') => (p: Partial<EffectFields>) => {
+    const { transition: _t, holdGlitch: _g, ...rest } = p
+    onChange({ ...script, [which]: { ...(script[which] ?? {}), ...rest } })
+  }
+  const patchIntro = patchEdge('introEffects')
+  const patchOutro = patchEdge('outroEffects')
   const patchGroup = (gi: number, p: Partial<FactionGroup>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, ...p } : g)) })
   const patchCluster = (gi: number, ci: number, p: Partial<EffectFields>) =>
@@ -436,6 +451,36 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                     targetName={<span className="font-semibold text-text-primary">전역 설정</span>}
                     value={script} kind="global" inherited={SYSTEM_DEFAULT} onChange={patchScript}
                   />
+                  {/* 시작 화면 — 세력에 속하지 않는 첫 화면. 비워두면 천천히 확대(줌인)가 기본이다. */}
+                  <EffectTableRow
+                    targetName={
+                      <span className="pl-4 font-semibold text-text-secondary" title="영상 맨 앞 화면(시작 문구가 뜨는 화면). 동영상을 깐 편은 영상 자체가 움직이므로 적용되지 않는다">
+                        시작 화면
+                      </span>
+                    }
+                    value={script.introEffects ?? {}} kind="edge" inherited={globalEff} locked={locked}
+                    focusTargets={(() => {
+                      const src = imageSrc(series, episodeName, script.introImage ?? script.introImageLong)
+                      return src ? [{ label: '시작 화면', src, focus: script.introEffects?.zoomFocus, onChange: (zf?: ZoomFocus) => patchIntro({ zoomFocus: zf }) }] : []
+                    })()}
+                    onChange={patchIntro}
+                  />
+                  {/* 마무리 화면 — 시작 화면과 같은 규칙. 종료 화면을 두지 않는 편(noOutro)은 나오지 않는 화면이라 줄을 감춘다. */}
+                  {!script.noOutro && (
+                    <EffectTableRow
+                      targetName={
+                        <span className="pl-4 font-semibold text-text-secondary" title="영상 맨 끝 화면(닫는 한마디가 뜨는 화면). 동영상을 깐 편은 영상 자체가 움직이므로 적용되지 않는다">
+                          마무리 화면
+                        </span>
+                      }
+                      value={script.outroEffects ?? {}} kind="edge" inherited={globalEff} locked={locked}
+                      focusTargets={(() => {
+                        const src = imageSrc(series, episodeName, script.outroImage ?? script.outroImageLong)
+                        return src ? [{ label: '마무리 화면', src, focus: script.outroEffects?.zoomFocus, onChange: (zf?: ZoomFocus) => patchOutro({ zoomFocus: zf }) }] : []
+                      })()}
+                      onChange={patchOutro}
+                    />
+                  )}
                 </tbody>
               </table>
             </div>

@@ -4,6 +4,9 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import {
+  toTeamImages, serializeTeamImages, type FactionTeamImage,
+} from '@feelandnote/shared/lib/faction-team-image'
 
 // #region Types
 export interface CelebTag {
@@ -14,7 +17,8 @@ export interface CelebTag {
   description_en: string | null
   color: string
   slug: string | null
-  team_images: string[]
+  /** 단체 사진 — 주소마다 「어느 묶음을 찍었고 누가 나오는지」를 함께 쥔다 */
+  team_images: FactionTeamImage[]
   sort_order: number
   is_featured: boolean
   /** 상위 그룹 테마의 id. null 이면 무소속(최상위). 자식을 가진 테마가 곧 그룹이다 */
@@ -35,6 +39,8 @@ export interface CelebTagAssignment {
   long_desc_en: string | null
   spotlight_image_url: string | null
   sort_order: number
+  /** 도감에서 이 테마의 이 인물을 감출지. 셀럽 전역 상태와 무관한 웹 전용 스위치다 */
+  hidden: boolean
   celeb?: {
     id: string
     nickname: string
@@ -71,14 +77,13 @@ interface UpdateTagInput {
   end_date?: string | null
 }
 
-// DB 행 → CelebTag 정규화 (team_images Json → string[])
+// DB 행 → CelebTag 정규화 (team_images Json → 사진 목록. 옛 문자열 배열도 읽힌다)
 function normalizeTag(row: Record<string, unknown>): CelebTag {
-  const images = Array.isArray(row.team_images) ? (row.team_images as string[]) : []
   return {
     ...(row as unknown as CelebTag),
     slug: (row.slug as string | null) ?? null,
     parent_id: (row.parent_id as string | null) ?? null,
-    team_images: images,
+    team_images: toTeamImages(row.team_images),
   }
 }
 
@@ -365,7 +370,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, spotlight_image_url, sort_order, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, spotlight_image_url, sort_order, hidden, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
 
@@ -382,6 +387,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     short_desc_en: item.short_desc_en ?? null,
     long_desc_en: item.long_desc_en ?? null,
     spotlight_image_url: item.spotlight_image_url ?? null,
+    hidden: item.hidden === true,
     sort_order: item.sort_order ?? 0,
     celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
   }))
@@ -643,16 +649,16 @@ export async function updateTagCelebOrder(
 }
 // #endregion
 
-// #region setTagTeamImages - 단체 이미지 배열 저장 (업로드/삭제/재정렬 결과)
+// #region setTagTeamImages - 단체 이미지 저장 (업로드/삭제/재정렬/설명 편집 결과)
 export async function setTagTeamImages(
   tagId: string,
-  urls: string[]
+  images: FactionTeamImage[]
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
   const { error } = await supabase
     .from('celeb_tags')
-    .update({ team_images: urls, updated_at: new Date().toISOString() })
+    .update({ team_images: serializeTeamImages(images), updated_at: new Date().toISOString() })
     .eq('id', tagId)
 
   if (error) {
@@ -662,6 +668,38 @@ export async function setTagTeamImages(
 
   revalidateThemeScreens()
   // celeb_tags.team_images — 태그 편성 화면 전용
+  await revalidateWebCache(CACHE_TAGS.TAGS)
+  return { success: true }
+}
+// #endregion
+
+// #region setTagCelebHidden - 도감에서 이 테마의 이 인물을 감출지
+/**
+ * 도감 노출 스위치 — 테마마다 따로 잡는다.
+ *
+ * 예전에는 셀럽 전역 상태(`profiles.status`)가 도감 노출까지 좌우했는데, 그 값은 영상 제작
+ * 쪽 사정으로 정해지는 것이라 진열 판단과 맞지 않았다(팩션에서 등록한 42명이 13개 테마에서
+ * 통째로 사라져 있었다). 이제 도감이 보는 것은 이 스위치 하나다.
+ */
+export async function setTagCelebHidden(
+  tagId: string,
+  celebId: string,
+  hidden: boolean
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('celeb_tag_assignments')
+    .update({ hidden })
+    .eq('tag_id', tagId)
+    .eq('celeb_id', celebId)
+
+  if (error) {
+    console.error('도감 노출 전환 에러:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidateThemeScreens()
   await revalidateWebCache(CACHE_TAGS.TAGS)
   return { success: true }
 }

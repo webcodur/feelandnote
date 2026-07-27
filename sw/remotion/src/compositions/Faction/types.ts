@@ -275,7 +275,8 @@ export interface FactionPerson {
    * - 'default': 기본 크기의 산세리프 폰트
    * - 'serif-large': 조금 더 큰 크기의 세리프(명조) 폰트
    */
-  quoteCaptionStyle?: 'default' | 'serif-large'
+  quoteCaptionSize?: 'default' | 'large'
+  quoteCaptionFont?: 'default' | 'serif'
 }
 
 /**
@@ -625,11 +626,17 @@ export interface FactionScript {
    */
   quoteCaptionPos?: 'bottom' | 'center'
   /**
-   * 작은 자막 폰트 및 스타일 — 에피소드 전역 기본. 인물 quoteCaptionStyle 이 있으면 그쪽이 우선.
-   * - 'default'(기본): 기본 크기의 산세리프 폰트
-   * - 'serif-large': 조금 더 큰 크기의 세리프(명조) 폰트
+   * 작은 자막 크기 — 에피소드 전역 기본. 인물 quoteCaptionSize 가 있으면 그쪽이 우선.
+   * - 'default'(기본): 기본 크기
+   * - 'large': 조금 더 큰 크기
    */
-  quoteCaptionStyle?: 'default' | 'serif-large'
+  quoteCaptionSize?: 'default' | 'large'
+  /**
+   * 작은 자막 폰트 — 에피소드 전역 기본. 인물 quoteCaptionFont 가 있으면 그쪽이 우선.
+   * - 'default'(기본): 산세리프 폰트
+   * - 'serif': 세리프(명조) 폰트
+   */
+  quoteCaptionFont?: 'default' | 'serif'
   /** true면 모든 컷의 지속 효과(줌·패닝 등)를 끄고 정지 화면으로 둔다. 영상 컷 떨림 점검·정적 연출용 — 언어 공통 */
   noZoom?: boolean
   /** 가로 롱폼 우상단 상태표시줄의 세력명 표기. true면 세력 명칭을 개행 포함 전체(앞부분+뒷부분)로, 미지정/false면 앞부분만 — 언어 공통 */
@@ -705,10 +712,36 @@ export interface FactionScript {
   loglineByLvPartEn?: Record<number, string>
   /** 인트로(시작 화면) 지속 시간(초). 미지정이면 INTRO_SEC 기본값. 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
+  /**
+   * 시작 화면(인트로) 전용 움직임 효과 — 첫 화면에만 거는 효과.
+   * 세력 로고 카드(logoEffects)와 같은 형태다. 다만 시작 화면은 세력에 속하지 않아 전역을 상위로 두지 않고,
+   * 비면 EDGE_HOLD_DEFAULT(천천히 확대)를 쓴다 — 첫 화면이 정지 사진처럼 굳어 있지 않게 하는 기본값이다.
+   * 정지시키려면 지속 효과를 'none'으로 지정한다(전역 정지 스위치 noZoom 도 함께 존중한다).
+   */
+  introEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
+  /** 마무리 화면(아웃트로) 전용 움직임 효과 — 시작 화면(introEffects)과 같은 규칙. 비면 천천히 확대 */
+  outroEffects?: {
+    holdMotion?: HoldMotion
+    enterMotion?: EnterMotion
+    holdShake?: boolean
+    zoomSpeed?: number
+    zoomFocus?: ZoomFocus
+  }
   /** 공용 낭독자(옵션) — 제목·시작문구와 인물 수식어에 같은 기본 목소리를 쓴다 */
   narrator?: FactionNarrator
   /** 로고 타이틀 카드(logoVid 또는 logoImg 있는 세력의 진입 화면) 1장 지속 시간(초). 미지정 시 GROUP_SEC(4). BO에서 오버라이드용 */
   groupSec?: number
+  /**
+   * 자막형(quoteDisplay='caption') 인물 화면에서 대사가 뜨기 전 이름·직함만 보이는 시간(초).
+   * 미지정 시 CAPTION_ID_HOLD_SEC(1). 늘리면 그만큼 인물 컷 전체가 길어진다(대사 낭독은 그대로).
+   */
+  captionIdHoldSec?: number
   /** 그룹샷(화보 묶음) 카드 1장 지속 시간(초) — 단체사진 + 그룹명(cluster.label)이 뜨는 화면. 미지정 시 인원 수별 자동(clusterDurationSec, 2.6~3.2). 지정하면 인원 수와 무관하게 이 값으로 고정. BO에서 오버라이드용 */
   clusterSec?: number
   /** 시작 효과음 파일명(public/common/sfx/ 하위). 시작문구와 함께 울리고 같이 페이드아웃. 미지정이면 효과음 없음 */

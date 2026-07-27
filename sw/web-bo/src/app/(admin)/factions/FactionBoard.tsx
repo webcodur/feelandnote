@@ -8,19 +8,26 @@
  * 편집기로 간다.
  *
  * 예전에는 영상 편 목록과 테마 목록이 위아래 두 덩어리로 나뉘어 있었는데, 같은 화면에서 서로
- * 다른 물건처럼 보여 계속 헷갈렸다. 그래서 표 하나로 합치고, 어느 테마에도 안 걸린 편만
- * 맨 아래 「미연결 영상」 구분 줄 밑에 모아 둔다.
+ * 다른 물건처럼 보여 계속 헷갈렸다. 그래서 표 하나로 합쳤다.
+ *
+ * 표 아래는 두 구획뿐이다 — 「옮길 수 있는 편」(인물이 인명부에 있어 바로 손댈 수 있다)과
+ * 「못 옮기는 편」(출연진이 사람이 아니거나 등록 인물이 셋에 못 미친다). 예전에 있던
+ * 「미연결 영상」·「아이디어 후보」·「접어둠」 세 구획은 26.07.27 에 이 둘로 합쳤다.
  *
  * 위계: 아래에 테마를 거느린 테마가 묶음 머리로 뜨고(굵게·바탕 살짝 다르게) 그 소속 테마가
  * 한 칸 들여쓰기로 따라붙는다. 묶음 관계 자체는 각 테마의 편집 화면에서 정한다.
+ *
+ * 묶음 머리는 처음에 접혀 있고, 줄을 누르면 소속 테마가 펼쳐진다. 예전에는 누르는 즉시
+ * 그 테마의 편집 화면으로 넘어가 버려서 아래에 뭐가 달려 있는지 볼 방법이 없었다.
+ * 편집 화면으로는 줄 오른쪽의 「편집」 단추로 간다 — 모든 줄이 같은 자리에 같은 단추를 갖는다.
  */
 
-import { Fragment, useMemo, useState, useTransition } from 'react'
+import { useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
-  GripVertical, Plus, Sparkles, Users, Image as ImageIcon, UserSquare2,
-  Video, FileText, Layers,
+  Plus, Sparkles, Users, Image as ImageIcon, UserSquare2,
+  Video, FileText, Layers, ChevronDown, ArrowRight,
 } from 'lucide-react'
 import { useToast } from '@/contexts/ToastContext'
 import { type CelebTag, updateTagOrder } from '@/actions/admin/tags'
@@ -38,25 +45,21 @@ import { folderToParam } from '@/lib/faction-edit-route'
 
 const COLUMNS: FactionTableColumn[] = [
   { key: 'name', header: '테마' },
-  { key: 'celebs', header: '인물', width: '4.5rem', align: 'right' },
-  { key: 'featured', header: '도감 노출', width: '6.5rem', align: 'center' },
-  { key: 'images', header: '단체샷 / 개인샷', width: '9rem', align: 'right' },
-  { key: 'episodes', header: '영상', width: '14rem' },
-  { key: 'order', header: '순서', width: '4rem', align: 'center' },
+  { key: 'celebs', header: '인물', width: '5.5rem', align: 'center' },
+  { key: 'featured', header: '도감 노출', width: '7rem', align: 'center' },
+  { key: 'images', header: '단체샷 / 개인샷', width: '10rem', align: 'center' },
+  { key: 'episodes', header: '영상', width: '15rem' },
+  { key: 'open', header: '', width: '7rem', align: 'center' },
 ]
 
-/** 아이디어 보관함 뿌리 — 폴더 키가 `not-using/<분류>/<이름>` 꼴이다 */
-const IDEA_ROOT = 'not-using'
+/** 줄 오른쪽에 붙는 편집 단추 */
+const OPEN_BUTTON = 'inline-flex items-center gap-1.5 rounded-lg border border-border bg-bg-card px-4 py-2 text-sm font-medium text-text-secondary hover:border-accent hover:text-accent'
 
-/** 보관함 분류 이름 — 폴더명은 영문이라 화면에는 우리말로 보인다 */
-const IDEA_CATEGORY_LABEL: Record<string, string> = {
-  'future-tech': '미래 기술',
-  'global-business': '글로벌 비즈니스',
-  'culture-entertainment': '문화·엔터',
-  'philosophy-and-myth': '신화·철학',
-  'power-and-history': '권력·역사',
-  'shadow-world': '이면 세계',
-}
+/*
+ * 여기 있던 보관함 분류 사전(미래 기술·글로벌 비즈니스 …)은 26.07.27 에 지웠다.
+ * 그 분류는 작업하다 만든 폴더 서랍일 뿐이라 못 옮기는 이유를 뭉뚱그렸다.
+ * 이제 편마다 이유 한 줄(`blockNote`)을 그대로 보인다.
+ */
 
 /** 화면에 그릴 한 줄 — 테마 + 들여쓰기 여부 + 아래에 거느린 테마 수 */
 interface ThemeRow {
@@ -109,34 +112,49 @@ export default function FactionBoard({
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false)
   const [isEpisodeModalOpen, setIsEpisodeModalOpen] = useState(false)
   const [draggedId, setDraggedId] = useState<string | null>(null)
-  const [ideaOpen, setIdeaOpen] = useState(false)
+  const [blockedOpen, setBlockedOpen] = useState(false)
+  /** 펼쳐 둔 묶음 머리. 비어 있으면 전부 접힌 상태다 */
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
 
-  const rows = useMemo(() => toRows(themes), [themes])
+  /** 순서 저장은 접힘과 무관하게 전체를 넘겨야 하므로 온전한 목록을 따로 둔다 */
+  const allRows = useMemo(() => toRows(themes), [themes])
 
-  /** 아이디어 후보 — 보관함에서 들어온 편. 수가 많아 기본으로 접어 둔다 */
-  const ideaEpisodes = useMemo(() => episodes.filter(ep => ep.status === 'idea'), [episodes])
+  /** 화면에 실제로 그릴 줄 — 접힌 묶음의 소속 테마는 뺀다 */
+  const rows = useMemo(
+    () => allRows.filter(r => !r.isChild || openGroups.has(r.theme.parent_id ?? '')),
+    [allRows, openGroups],
+  )
 
-  /** 아이디어도 아니고 어느 테마에도 안 걸린 편 — 표 맨 아래 구분 줄 밑에 모은다 */
-  const looseEpisodes = useMemo(() => {
+  const toggleGroup = (id: string) => {
+    setOpenGroups(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  /**
+   * 아직 테마에 안 걸렸지만 옮길 수 있는 편 — 인물이 인명부에 있어 바로 손댈 수 있다.
+   * 표에서 가장 눈에 띄어야 하는 줄이라 펼친 채로 둔다.
+   */
+  const readyEpisodes = useMemo(() => {
     const linked = new Set<string>()
     for (const t of themes) for (const ep of t.episodes) linked.add(ep.folder)
-    return episodes.filter(ep => ep.status !== 'idea' && !linked.has(ep.folder))
+    return episodes.filter(ep => ep.status === 'ready' && !linked.has(ep.folder))
   }, [themes, episodes])
 
-  /** 아이디어를 분류별로 묶는다 — 분류는 폴더 경로 가운데 토막에서 온다 */
-  const ideaGroups = useMemo(() => {
-    const byCategory = new Map<string, FactionEpisodeSummary[]>()
-    for (const ep of ideaEpisodes) {
-      const segs = ep.folder.split('/')
-      const key = segs.length >= 3 && segs[0] === IDEA_ROOT ? segs[1] : ''
-      const list = byCategory.get(key) ?? []
-      list.push(ep)
-      byCategory.set(key, list)
-    }
-    return [...byCategory.entries()]
-      .map(([key, eps]) => ({ key, label: IDEA_CATEGORY_LABEL[key] ?? '보관함 밖', eps }))
-      .sort((a, b) => a.label.localeCompare(b.label))
-  }, [ideaEpisodes])
+  /**
+   * 지금은 못 옮기는 편 — 출연진이 사람이 아니거나(로봇·로켓·기관) 등록된 인물이 셋에 못 미친다.
+   * 지우지 않고 맨 아래로 내려 접어 둔다. 인물을 채우면 그대로 살아난다.
+   */
+  const blockedEpisodes = useMemo(
+    // 인물이 많이 모인 편일수록 채우면 바로 살아나므로 앞에 세운다
+    () => episodes
+      .filter(ep => ep.status === 'blocked')
+      .sort((a, b) => b.personCount - a.personCount),
+    [episodes],
+  )
 
   // #region 새로 만들기
   const handleThemeCreated = (newTag?: CelebTag) => {
@@ -181,30 +199,38 @@ export default function FactionBoard({
   }
   // #endregion
 
-  /** 영상 편 한 줄 — 미연결 영상과 아이디어 후보가 같은 모양을 쓴다 */
+  /** 영상 편 한 줄 — 옮길 수 있는 편과 못 옮기는 편이 같은 모양을 쓴다 */
   const renderEpisodeRow = (ep: FactionEpisodeSummary) => (
     <FactionTableRow
       key={ep.id}
-      onOpen={() => router.push(`/factions/${folderToParam(ep.folder)}`)}
     >
-      <FactionTableCell>
+      <FactionTableCell isFirst>
         <span className="flex min-w-0 items-center gap-2">
-          <Video className="ml-4 h-3.5 w-3.5 shrink-0 text-text-secondary" />
+          <Video className="ml-4 h-4.5 w-4.5 shrink-0 text-text-secondary" />
           <span className="min-w-0">
-            <span className="block truncate font-medium text-text-primary group-hover:text-accent">
+            <span className="block truncate font-medium text-text-primary">
               {ep.title.split('\n')[0]}
             </span>
-            <span className="block truncate font-mono text-xs text-text-secondary">{ep.folder}</span>
+            {/* 못 옮기는 편은 폴더 대신 그 이유를 보인다 — 열어 보지 않아도 알게 */}
+            {ep.blockNote ? (
+              <span className="block truncate text-sm text-amber-500/80" title={ep.blockNote}>
+                {ep.blockNote}
+              </span>
+            ) : (
+              <span className="block truncate font-mono text-sm text-text-secondary">{ep.folder}</span>
+            )}
           </span>
-          <FactionTableBadge title="제작 진행 상태">
-            <span className={`h-1.5 w-1.5 rounded-full ${FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.dot}`} />
-            {FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.label}
-          </FactionTableBadge>
+          {!ep.blockNote && (
+            <FactionTableBadge title="도감으로 옮길 수 있는지">
+              <span className={`h-1.5 w-1.5 rounded-full ${FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.dot}`} />
+              {FACTION_STATUS_OPTIONS.find(o => o.value === ep.status)?.label}
+            </FactionTableBadge>
+          )}
         </span>
       </FactionTableCell>
 
       <FactionTableCell align="right">
-        <FactionTableCount value={ep.personCount} icon={<Users className="h-3.5 w-3.5" />} title="인물 수" />
+        <FactionTableCount value={ep.personCount} icon={<Users className="h-4.5 w-4.5" />} title="인물 수" />
       </FactionTableCell>
 
       <FactionTableCell align="center">
@@ -212,7 +238,7 @@ export default function FactionBoard({
       </FactionTableCell>
 
       <FactionTableCell align="right">
-        <FactionTableCount value={ep.groupCount} icon={<Layers className="h-3.5 w-3.5" />} title="세력 수" />
+        <FactionTableCount value={ep.groupCount} icon={<Layers className="h-4.5 w-4.5" />} title="세력 수" />
       </FactionTableCell>
 
       <FactionTableCell>
@@ -226,7 +252,15 @@ export default function FactionBoard({
       </FactionTableCell>
 
       <FactionTableCell align="center">
-        <span className="flex justify-center">
+        <span className="flex items-center justify-center gap-1.5">
+          <Link
+            href={`/factions/${folderToParam(ep.folder)}`}
+            title={`${ep.title.split('\n')[0]} 편집 화면으로`}
+            className={OPEN_BUTTON}
+          >
+            편집
+            <ArrowRight className="h-4 w-4" />
+          </Link>
           <FactionEpisodeActions folder={ep.folder} variant="menu" factionLocal={factionLocal} />
         </span>
       </FactionTableCell>
@@ -274,7 +308,7 @@ export default function FactionBoard({
       )}
 
       <FactionTable columns={COLUMNS}>
-        {rows.length === 0 && looseEpisodes.length === 0 && (
+        {allRows.length === 0 && readyEpisodes.length === 0 && blockedEpisodes.length === 0 && (
           <FactionTableEmpty colSpan={COLUMNS.length}>아직 아무것도 없습니다.</FactionTableEmpty>
         )}
 
@@ -287,58 +321,70 @@ export default function FactionBoard({
             onDragStart={() => setDraggedId(theme.id)}
             onDragOver={e => handleDragOver(e, theme.id)}
             onDragEnd={handleDragEnd}
-            onOpen={() => router.push(`/factions/themes/${theme.id}`)}
+            // 묶음 머리는 행 클릭으로 펼치고 접는다
+            onOpen={childCount > 0 ? () => toggleGroup(theme.id) : undefined}
           >
-            <FactionTableCell>
+            <FactionTableCell isFirst>
               <span className="flex min-w-0 items-center gap-2">
-                {/* 소속 테마는 한 칸 들여쓰고 세로선으로 묶음에 매달린 것을 보인다 */}
-                {isChild && <span className="ml-4 h-5 w-px shrink-0 bg-accent/40" />}
-                {/* 줄 전체를 끌어 순서를 바꾸므로 링크 자체는 끌리지 않게 막는다(주소가 끌려간다) */}
-                <Link
-                  href={`/factions/themes/${theme.id}`}
-                  draggable={false}
-                  className="shrink-0 rounded-full px-3 py-1 text-sm font-medium"
-                  style={{ backgroundColor: `${theme.color}20`, color: theme.color }}
-                >
-                  {theme.name}
-                </Link>
-                {childCount > 0 && (
-                  <FactionTableBadge
-                    className="bg-accent/15 text-accent"
-                    icon={<Layers className="h-3 w-3" />}
-                    title="아래에 테마를 거느린 묶음"
-                  >
-                    묶음 {childCount}
-                  </FactionTableBadge>
+                {/* 소속 테마는 한 칸 들여쓰기만 한다 */}
+                {isChild && <span className="w-4 shrink-0" />}
+                {/* 묶음 머리에만 화살표 — 버튼으로 직접 펼치고 접는다 */}
+                {!isChild && (
+                  childCount > 0
+                    ? <button type="button" onClick={() => toggleGroup(theme.id)} className="shrink-0 p-0.5 hover:text-accent">
+                        <ChevronDown className={`h-5 w-5 text-text-secondary ${openGroups.has(theme.id) ? '' : '-rotate-90'}`} />
+                      </button>
+                    : <span className="h-5 w-5 shrink-0" />
                 )}
-                <span className="min-w-0 flex-1 truncate text-sm font-normal text-text-secondary group-hover:text-accent">
-                  {theme.description || theme.name_en || ''}
+                {/* 테마 색 동그라미 */}
+                <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: theme.color }} />
+                {/* 이름 + 설명을 세로로 */}
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-2">
+                    <span className="truncate text-[15px] font-semibold text-text-primary">
+                      {theme.name}
+                    </span>
+                    {childCount > 0 && (
+                      <FactionTableBadge
+                        className="bg-accent/15 text-accent"
+                        icon={<Layers className="h-3.5 w-3.5" />}
+                        title="아래에 테마를 거느린 묶음"
+                      >
+                        묶음 {childCount}
+                      </FactionTableBadge>
+                    )}
+                  </span>
+                  {(theme.description || theme.name_en) && (
+                    <span className="block truncate text-sm text-text-primary/50 mt-0.5">
+                      {theme.description || theme.name_en}
+                    </span>
+                  )}
                 </span>
               </span>
             </FactionTableCell>
 
             <FactionTableCell align="right">
-              <FactionTableCount value={theme.celeb_count ?? 0} icon={<Users className="h-3.5 w-3.5" />} title="소속 인물" />
+              <FactionTableCount value={theme.celeb_count ?? 0} icon={<Users className="h-4.5 w-4.5" />} title="소속 인물" />
             </FactionTableCell>
 
             <FactionTableCell align="center">
               <span title={theme.is_featured ? '도감에 노출' : '도감에 숨김'}>
                 <Sparkles
-                  className={`mx-auto h-4 w-4 ${theme.is_featured ? 'text-accent' : 'text-text-secondary opacity-30'}`}
+                  className={`mx-auto h-5 w-5 ${theme.is_featured ? 'text-accent' : 'text-text-secondary opacity-30'}`}
                 />
               </span>
             </FactionTableCell>
 
             <FactionTableCell align="right">
               <span className="flex items-center justify-end gap-3">
-                <FactionTableCount value={theme.teamImageCount} icon={<ImageIcon className="h-3.5 w-3.5" />} title="단체 사진" />
-                <FactionTableCount value={theme.soloImageCount} icon={<UserSquare2 className="h-3.5 w-3.5" />} title="인물 사진을 가진 인물 수" />
+                <FactionTableCount value={theme.teamImageCount} icon={<ImageIcon className="h-4.5 w-4.5" />} title="단체 사진" />
+                <FactionTableCount value={theme.soloImageCount} icon={<UserSquare2 className="h-4.5 w-4.5" />} title="인물 사진을 가진 인물 수" />
               </span>
             </FactionTableCell>
 
             <FactionTableCell>
               {theme.episodes.length === 0 ? (
-                <FactionTableBadge icon={<FileText className="h-3 w-3" />}>글 전용</FactionTableBadge>
+                <FactionTableBadge icon={<FileText className="h-3.5 w-3.5" />}>글 전용</FactionTableBadge>
               ) : (
                 <span className="flex flex-wrap gap-1">
                   {theme.episodes.map(ep => (
@@ -347,9 +393,9 @@ export default function FactionBoard({
                       href={`/factions/${folderToParam(ep.folder)}`}
                       title={`${ep.title} — 영상 편집기로`}
                       draggable={false}
-                      className="flex items-center gap-1 whitespace-nowrap rounded bg-accent/15 px-2 py-0.5 text-[11px] font-medium text-accent hover:bg-accent/25"
+                      className="flex items-center gap-1.5 whitespace-nowrap rounded bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent hover:bg-accent/25"
                     >
-                      <Video className="h-3 w-3" />{ep.folder}
+                      <Video className="h-3.5 w-3.5" />{ep.folder}
                     </Link>
                   ))}
                 </span>
@@ -357,46 +403,44 @@ export default function FactionBoard({
             </FactionTableCell>
 
             <FactionTableCell align="center">
-              <GripVertical className="mx-auto h-4 w-4 cursor-grab text-text-secondary" />
+              <Link
+                href={`/factions/themes/${theme.id}`}
+                draggable={false}
+                title={`${theme.name} 편집 화면으로`}
+                className={OPEN_BUTTON}
+              >
+                편집
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </FactionTableCell>
           </FactionTableRow>
         ))}
 
-        {/* 어느 테마에도 안 걸린 편 — 아이디어 단계이거나 아직 진열 대상이 아닌 것들 */}
-        {looseEpisodes.length > 0 && (
+        {/* 옮길 수 있는데 아직 안 옮긴 편 — 다음에 손댈 자리라 펼친 채로 둔다 */}
+        {readyEpisodes.length > 0 && (
           <>
             <FactionTableSection
               colSpan={COLUMNS.length}
-              title={`미연결 영상 ${looseEpisodes.length}`}
-              note="아직 어느 도감 테마에도 걸리지 않은 제작 편. 줄을 누르면 영상 편집기로 갑니다"
+              title={`옮길 수 있는 편 ${readyEpisodes.length}`}
+              note="인물이 인명부에 있어 도감 테마로 바로 옮길 수 있습니다"
             />
-            {looseEpisodes.map(renderEpisodeRow)}
+            {readyEpisodes.map(renderEpisodeRow)}
           </>
         )}
 
-        {/* 아이디어 후보 — 보관함에서 들어온 편. 72편이라 기본으로 접어 둔다 */}
-        {ideaEpisodes.length > 0 && (
+        {/* 못 옮기는 편 — 맨 아래. 지운 게 아니라 내려 둔 것이라 인물만 채우면 살아난다 */}
+        {blockedEpisodes.length > 0 && (
           <>
             <FactionTableSection
               colSpan={COLUMNS.length}
-              title={`아이디어 후보 ${ideaEpisodes.length}`}
-              note={ideaOpen
-                ? '보관함에 든 구상. 렌더·음성·출간 대상이 아닙니다'
-                : '눌러서 펼치기 — 보관함에 든 구상'}
-              open={ideaOpen}
-              onToggle={() => setIdeaOpen(v => !v)}
+              title={`못 옮기는 편 ${blockedEpisodes.length}`}
+              note={blockedOpen
+                ? '출연진이 사람이 아니거나 인명부에 등록된 인물이 셋에 못 미칩니다. 인물을 채우면 옮길 수 있습니다'
+                : '눌러서 펼치기 — 인물이 모자라거나 출연진이 사람이 아닌 편'}
+              open={blockedOpen}
+              onToggle={() => setBlockedOpen(v => !v)}
             />
-            {ideaOpen && ideaGroups.map(g => (
-              <Fragment key={g.key || 'etc'}>
-                <FactionTableSection
-                  colSpan={COLUMNS.length}
-                  level={2}
-                  title={g.label}
-                  note={`${g.eps.length}편`}
-                />
-                {g.eps.map(renderEpisodeRow)}
-              </Fragment>
-            ))}
+            {blockedOpen && blockedEpisodes.map(renderEpisodeRow)}
           </>
         )}
       </FactionTable>

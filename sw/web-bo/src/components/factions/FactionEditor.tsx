@@ -574,7 +574,8 @@ ${res.exported.reason}`)
         const next = { ...p }
         delete next.quoteDisplay
         delete next.quoteCaptionPos
-        delete next.quoteCaptionStyle
+        delete next.quoteCaptionSize
+        delete next.quoteCaptionFont
         return next
       }),
     })
@@ -583,17 +584,20 @@ ${res.exported.reason}`)
   const bulkStampQuoteDisplay = () => {
     const display = script.quoteDisplay ?? 'box'
     const pos = script.quoteCaptionPos ?? 'bottom'
-    const style = script.quoteCaptionStyle ?? 'default'
+    const size = script.quoteCaptionSize ?? 'default'
+    const font = script.quoteCaptionFont ?? 'default'
     const displayLabel = display === 'caption' ? '작은 자막' : '박스'
     const posLabel = display === 'caption' ? (pos === 'center' ? ' · 중하단' : ' · 하단') : ''
-    const styleLabel = display === 'caption' ? (style === 'serif-large' ? ' · 큰 세리프' : '') : ''
-    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}${styleLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
+    const sizeLabel = display === 'caption' ? (size === 'large' ? ' · 큰 글씨' : '') : ''
+    const fontLabel = display === 'caption' ? (font === 'serif' ? ' · 세리프' : '') : ''
+    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}${sizeLabel}${fontLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
     update({
       groups: mapAllPeople(p => ({
         ...p,
         quoteDisplay: display,
         quoteCaptionPos: display === 'caption' ? pos : undefined,
-        quoteCaptionStyle: display === 'caption' ? style : undefined,
+        quoteCaptionSize: display === 'caption' ? size : undefined,
+        quoteCaptionFont: display === 'caption' ? font : undefined,
       })),
     })
   }
@@ -1095,15 +1099,26 @@ ${res.exported.reason}`)
                           <option value="center">중하단</option>
                         </select>
                       </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 폰트. 기본은 산세리프, 세리프는 크기가 좀 더 큰 명조체">
-                        폰트
+                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 크기">
+                        크기
                         <select
-                          value={script.quoteCaptionStyle ?? 'default'}
-                          onChange={e => update({ quoteCaptionStyle: e.target.value === 'serif-large' ? 'serif-large' : 'default' })}
+                          value={script.quoteCaptionSize ?? 'default'}
+                          onChange={e => update({ quoteCaptionSize: e.target.value === 'large' ? 'large' : 'default' })}
                           className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
                         >
                           <option value="default">기본</option>
-                          <option value="serif-large">큰 세리프</option>
+                          <option value="large">크게</option>
+                        </select>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 폰트">
+                        폰트
+                        <select
+                          value={script.quoteCaptionFont ?? 'default'}
+                          onChange={e => update({ quoteCaptionFont: e.target.value === 'serif' ? 'serif' : 'default' })}
+                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                        >
+                          <option value="default">고딕 (기본)</option>
+                          <option value="serif">명조 (세리프)</option>
                         </select>
                       </span>
                     </>
@@ -1170,6 +1185,16 @@ ${res.exported.reason}`)
                       type="number" min={0.5} max={8} step={0.1} placeholder="자동"
                       value={script.clusterSec ?? ''}
                       onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ clusterSec: v != null && Number.isFinite(v) ? v : undefined }) }}
+                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
+                    />
+                    초
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="자막형 인물 화면에서 대사가 뜨기 전, 이름·직함만 보이는 시간. 비우면 1초. 늘리면 그만큼 인물 화면이 길어진다(낭독 길이는 그대로)">
+                    이름 출력
+                    <input
+                      type="number" min={0} max={6} step={0.1} placeholder="1"
+                      value={script.captionIdHoldSec ?? ''}
+                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ captionIdHoldSec: v != null && Number.isFinite(v) ? v : undefined }) }}
                       className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
                     />
                     초

@@ -1,6 +1,8 @@
 # 팩션 완전 통합 (faction-unification)
 
 > 실측 대조: 26.07.25 — 23개 에피소드 JSON 전수(537 인물 배치)·faction-data.json 읽기/쓰기 주체 21곳 전수·web-bo 구조·DB 실측 기반 설계. Phase 1(스키마·이관·왕복 검증)은 26.07.25 완료 — 하단 진행 로그 참조.
+>
+> **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소. 도감 쪽 변경(노출 스위치·단체 사진 구조·인원 상한)은 **`docs/project/celeb/celeb-tag-system.md` 의 「26.07.27 개편」 절이 정본**이다.
 > **이 문서가 `faction-db-sync.md`(다리 방식)를 대체한다.** 다리(양방향 동기화)는 폐기 개념이고, 목표는 집 하나다. faction-sync 코드는 이관·이미지 배관 도구로 개조되어 살아남는다.
 
 ## 확정 방향 (유저 지시 — 재론 금지)
@@ -38,8 +40,11 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 정규화 수위: **핫 컬럼 + 단일 `data` jsonb + `mined` jsonb 분리. 버킷 분할 안 함.** 근거: 채움율, 드리프트 만성, 왕복 동일성, minedQuotes 크기 격리(detoast 회피), jsonb→컬럼 승격은 무손실.
 
 테이블 5종(정본은 DB — `information_schema`가 정확):
-- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(idea/todo/live/done)**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
-  - **`idea`(26.07.26 마이그레이션 `faction_episodes_status_add_idea`)** — 아이디어 보관함에서 들어온 후보 72편의 상태. 렌더·음성·출간에 딸려 가지 않는 근거는 상태가 아니라 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 상태는 사람이 보는 표시일 뿐이다.
+- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(ready/blocked)**·**block_note**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
+  - **`status` 는 두 값뿐이다(26.07.27 마이그레이션 `simplify_faction_episode_status_to_two_values`).** 묻는 것은 하나다 — 이 편을 도감으로 옮길 수 있는가. `ready`(인물이 인명부에 있다, 이미 옮긴 편 포함) / `blocked`(출연진이 사람이 아니거나 등록 인물이 셋 미만). 실측 재분류 결과 ready 42 · blocked 52.
+  - 옛 다섯 값(idea/todo/live/done/shelved)은 **폐기**했다. 「할 것인가」와 「어디까지 왔나」를 한 칸에 섞어 놓은 데다 렌더·출간 코드가 이 값을 읽지 않아 실제와 계속 어긋났다(유튜브에 나간 편은 둘인데 「준비」로 남은 20편 중 12편이 이미 렌더 편성에 올라 있었다).
+  - **`block_note`** — 못 옮기는 이유 한 줄(26.07.27 신설). 이유가 편마다 제각각이라 분류로 묶으면 뭉뚱그려진다. 목록에서 폴더 경로 자리에 이 줄이 대신 뜬다.
+  - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다).
   - **folder 는 뿌리 기준 상대 경로다.** 보관함 편은 `not-using/future-tech/defense-industry` 처럼 슬래시를 품는다(이름만 따면 분류가 다른 동명이 부딪히고 사진·음원 경로도 어긋난다). 그래서 `episodeDirOf` 가 토막마다 이어 붙이고(`safeDirSegs`), 주소에서는 슬래시를 `~` 로 바꿔 한 토막에 싣는다(`folderToParam`/`paramToFolder`, `sw/web-bo/src/lib/faction-edit-route.ts`).
   - 🔴 **실물은 `public/` 밖이다(26.07.26 이송).** 폴더 키는 `not-using/…` 그대로지만 파일은 **`sw/remotion/idea-bank/<분류>/<이름>`** 에 있다. 렌더가 `public/` 을 통째로 임시 폴더에 복사하는데 보관함 196MB(743개)가 매번 딸려 갔기 때문이다. 키 ↔ 실물 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 곳**이 정한다 — 경로를 만드는 코드는 전부 이 함수를 지나야 하고, 직접 `path.join(FACTIONS_DIR, …)` 하면 보관함 편에서 어긋난다(실제로 `factionEpisodePaths` 가 `path.basename` 을 쓰다 이번에 수렴됐다). 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR` 이 같은 규칙을 쥔다.
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
@@ -56,7 +61,7 @@ RLS: 5테이블 전부 admin(role admin|super_admin) 전용 4정책. 서비스(w
 ```
 제작(비공개)                                   서비스(공개)
 faction_episodes                               celeb_tags (40행, slug unique 인덱스 26.07.25)
- └ faction_groups ─tag_id(N:1)──────────▶       · name/color/slug/team_images(R2 그룹샷)/youtube_videos
+ └ faction_groups ─tag_id(N:1)──────────▶       · name/color/slug/team_images(R2 그룹샷)/youtube_videos/theme_music
     └ faction_clusters                         celeb_tag_assignments (unique(celeb,tag))
        └ faction_people ─celeb_id─┐   투영       · short_desc/long_desc(사람이 다듬음)
             quote·음성설정·컷효과   │ ─────▶      · sort_order · spotlight_image_url(R2 개인샷)
@@ -66,9 +71,10 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 출간 범위 밖이며 `celeb_tags.parent_id`가 정본이다(26.07.26 승격 — 아래 진행 로그).
 - **배치 충돌 규칙**: 같은 celeb·같은 tag에 여러 배치 → `(group.position, cluster.position, person.position)` 최소 배치 채택. sort_order는 태그 관통 전역 순번(기존 `assignTagOrder` 유지).
 - 이미지 R2 출간: 기존 `faction-sync/{r2,image,manifest}.ts` 배관 그대로(불변 캐시 + ?v= 정책 적용됨).
-- **되쓰기 예외 2종(채움 전용 아님)** — 사람이 도감에서 다듬는 값이 아니라 제작·업로드 기록이 유일한 출처라 force와 무관하게 항상 되쓴다. 원천이 비면 서비스도 비운다.
+- **되쓰기 예외 3종(채움 전용 아님)** — 사람이 도감에서 다듬는 값이 아니라 제작·업로드 기록이 유일한 출처라 force와 무관하게 항상 되쓴다. 원천이 비면 서비스도 비운다.
   - 인물 대사 → `celeb_tag_assignments.quote/quote_en` (`publish.ts` 의 `mirrorValue`)
-  - **테마 영상 → `celeb_tags.youtube_videos`** (26.07.26 신설, 아래 절)
+  - **테마 영상 → `celeb_tags.youtube_videos`** (26.07.26 신설, §4-1)
+  - **테마 배경음악 → `celeb_tags.theme_music`** (26.07.26 신설, §4-2)
 
 ### 4-1. 테마 영상 투영 (`faction-sync/videos.ts`, 26.07.26)
 
@@ -82,7 +88,26 @@ faction_episodes                               celeb_tags (40행, slug unique �
   - variant 키 목록은 `factionVariants()` 가 단일원천 — 여기서 규칙을 복제하지 않는다.
 - **공개 상태**: `public` 만 싣는다. `private`·`unlisted`·삭제(`missing`)는 사유를 남기고 제외. **조회 자체가 실패하면(토큰 만료 등) 아무것도 바꾸지 않는다** — 한 번의 인증 실패로 전 테마 영상이 지워지는 사고 방지.
 - **출간 범위**: `scope.videos`. 업로드 기록 파일을 읽으므로 사진과 마찬가지로 `REMOTION_LOCAL=1`(옛 `FACTION_LOCAL=1`)이 필요하다.
-- **서비스 노출**: 세력도감 쇼케이스(`FactionShowcase`)와 인물 화면 소속 세력 구획·미리보기 창(`FactionSection`·`FactionPreviewModal`)이 같은 부품 `components/features/faction/FactionVideoLinks.tsx` 를 쓴다(세로 9:16 embed 모달). 영상이 없으면 아무것도 그리지 않는다.
+- **서비스 노출**: 아래 §4-2 와 **같은 부품**(`components/features/faction/FactionMediaLinks.tsx`)이 영상·음악을 한 줄에 함께 그린다. 영상은 세로 9:16 embed 모달. 없으면 아무것도 그리지 않는다.
+
+### 4-2. 테마 배경음악 투영 (`faction-sync/music.ts` + `scripts/faction/theme-music.ts`, 26.07.26)
+
+테마 구간에서 실제로 흐르는 곡을 도감에서 들어볼 수 있게 하는 값이다. 컬럼 주석이 형태 SSoT.
+
+- **원천은 엔진 선곡이다** — `src/compositions/Faction/bgm-select.ts`. **web-bo 에 판정을 재구현하지 않는다.**
+  렌더 저장소의 얇은 CLI `scripts/faction/theme-music.ts --episode <편>` 이 `buildCues`·`chapterMusicBounds`·
+  `chapterBgmSegments`·`globalBgmTracks` 를 그대로 불러 **세력 index별 실사용 곡**을 JSON 으로 내놓고,
+  출간이 그것을 자식 프로세스로 불러 결과만 쓴다(개인샷 아바타 승격과 같은 방식).
+  - `usesChapterBgm` 이 `!portrait && bounds>0` 이고 `portrait = isShorts` 이므로 **롱폼은 챕터 단위, 쇼츠는 전역 모드**다
+    (`stage.ts` 의 `portrait: v.isShorts` 와 같은 해석).
+- **선정 규칙** — 테마당 대표 1곡.
+  - 변형은 영상과 같은 방식으로 고른다. **롱폼을 먼저 본다**(챕터마다 곡이 갈려 세력 단위 해상도가 가장 높다), 못 찾으면 그 세력의 쇼츠 편.
+  - 롱폼(챕터 모드): 그 세력의 첫 컷 프레임을 덮는 곡 구간의 파일. 전역 모드: 재생 목록 **첫 곡**.
+  - 태그를 여러 세력이 나눠 쓰면 **자리가 가장 앞인 세력**의 곡. `disabled`·`longformOnly` 세력은 곡 없음.
+- **곡 파일**: `faction-music/<내용 sha1 앞 8자>-<파일명>` 키로 R2 업로드. **내용 해시가 키라 같은 곡은 한 번만 올라간다**(여러 테마·여러 편이 한 객체를 공유). 1년 불변 캐시 그대로, `?v=` 없음.
+- **출간 범위**: `scope.music`. 선곡 도구와 mp3 를 읽으므로 `REMOTION_LOCAL=1` 필요. **선곡 조회가 실패하면 아무것도 바꾸지 않는다**(한 번의 실행 실패로 전 테마 음악이 지워지는 사고 방지).
+- **반증 시험(26.07.26 실측)**: 6편 전량에서 CLI 판정이 엔진 `collectBgmFiles` 의 같은 변형 결과 안에 있는지 대조 — 불일치 0. 편별 결과: PayPal-Mafia 4세력 전부 `Velvet_Side_Door`(렌더 창고 실측값과 일치) · Digital-Resistance 3+3(`Black_Rain_Protocol`/`Cipher_in_Ashes`) · Gods-Greek 2+2+2 · Homer-Iliad 3+2 · korea-football-best11 4세력 + 가로 전용 1세력 제외 · **AI-Supremacy 는 곡 자체가 없어 전 테마 null**.
+- ⚠ `sw/remotion/scripts/` 는 `tsconfig.json` include 밖이다 — 이 CLI 는 `npx tsc -p tsconfig.scripts.json --noEmit` 으로 따로 검사한다(기존 오류 1건 `scripts/voice/faction/engine.ts` 의 `wav` 타입 부재는 종전 상태).
 
 ## 5. 이관·왕복 검증 — **완료(26.07.25)**
 

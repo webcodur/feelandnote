@@ -37,7 +37,9 @@ import {
   updateTagCelebOrder,
   setTagTeamImages,
   setTagCelebImage,
+  setTagCelebHidden,
 } from '@/actions/admin/tags'
+import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 import type { ThemeEpisodeLink, ThemeParentOption } from '@/actions/admin/factions/themes'
 import {
   uploadTagTeamImage,
@@ -110,7 +112,7 @@ export default function ThemeEditor({
   // #endregion
 
   // #region 단체 사진 + 인물 사진 상태
-  const [teamImages, setTeamImages] = useState<string[]>(initialTag.team_images ?? [])
+  const [teamImages, setTeamImages] = useState<FactionTeamImage[]>(initialTag.team_images ?? [])
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [cropTarget, setCropTarget] = useState<{ kind: 'team' } | { kind: 'celeb'; celebId: string } | null>(null)
   const [imgBusy, setImgBusy] = useState(false)
@@ -203,6 +205,7 @@ export default function ThemeEditor({
         short_desc_en: null,
         long_desc_en: null,
         spotlight_image_url: null,
+        hidden: false,
         sort_order: result.sort_order ?? prev.length,
         celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
       }])
@@ -276,7 +279,7 @@ export default function ThemeEditor({
       if (target.kind === 'team') {
         const up = await uploadTagTeamImage({ tagId: tag.id, image: resized })
         if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
-        const next = [...teamImages, up.url]
+        const next = [...teamImages, { url: up.url }]
         setTeamImages(next)
         await setTagTeamImages(tag.id, next)
       } else {
@@ -293,10 +296,34 @@ export default function ThemeEditor({
   }
 
   const handleRemoveTeamImage = async (url: string) => {
-    const next = teamImages.filter(u => u !== url)
+    const next = teamImages.filter(img => img.url !== url)
     setTeamImages(next)
     await setTagTeamImages(tag.id, next)
     await deleteTagTeamImage(url)
+  }
+
+  /**
+   * 사진 한 장의 제목·나오는 인물 고치기.
+   *
+   * 글자를 칠 때마다 저장하면 글쇠마다 서버를 두드리므로, 제목은 손을 뗄 때(`save` 없이 부른 뒤
+   * `commitTeamImages`)만 저장하고 인물 켜고 끄기는 한 번 누름이라 곧바로 저장한다.
+   */
+  const patchTeamImage = (index: number, patch: Partial<FactionTeamImage>, save = false) => {
+    const next = teamImages.map((img, i) => (i === index ? { ...img, ...patch } : img))
+    setTeamImages(next)
+    if (save) void setTagTeamImages(tag.id, next)
+    return next
+  }
+
+  const commitTeamImages = async () => { await setTagTeamImages(tag.id, teamImages) }
+
+  /** 이 사진에 이 인물이 나오는지 켜고 끄기 */
+  const toggleTeamImageCeleb = (index: number, celebId: string) => {
+    const current = teamImages[index]?.celebIds ?? []
+    const next = current.includes(celebId)
+      ? current.filter(id => id !== celebId)
+      : [...current, celebId]
+    patchTeamImage(index, { celebIds: next }, true)
   }
 
   const handleTeamDragOver = (e: React.DragEvent, index: number) => {
@@ -313,6 +340,16 @@ export default function ThemeEditor({
     if (teamDraggedIndex === null) return
     setTeamDraggedIndex(null)
     await setTagTeamImages(tag.id, teamImages)
+  }
+
+  /** 도감에서 이 인물을 보일지 — 이 테마 안에서만 정해진다 */
+  const handleToggleHidden = async (celebId: string, hidden: boolean) => {
+    setCelebs(prev => prev.map(c => (c.celeb_id === celebId ? { ...c, hidden } : c)))
+    const result = await setTagCelebHidden(tag.id, celebId, hidden)
+    if (!result.success) {
+      setCelebs(prev => prev.map(c => (c.celeb_id === celebId ? { ...c, hidden: !hidden } : c)))
+      alert(result.error ?? '도감 노출 전환 실패')
+    }
   }
 
   const handleRemoveCelebImage = async (celebId: string) => {
@@ -486,31 +523,68 @@ export default function ThemeEditor({
           </div>
         </FormRow>
         <FormRow label="단체 사진">
-          <div className="flex-1 space-y-1.5">
-            <div className="flex flex-wrap gap-2">
-              {teamImages.map((url, index) => (
-                <div
-                  key={url}
-                  draggable
-                  onDragStart={() => setTeamDraggedIndex(index)}
-                  onDragOver={(e) => handleTeamDragOver(e, index)}
-                  onDragEnd={handleTeamDragEnd}
-                  className={`relative w-24 h-24 rounded-lg overflow-hidden border border-border group ${teamDraggedIndex === index ? 'opacity-50' : ''}`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt="" className="w-full h-full object-cover" draggable={false} />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTeamImage(url)}
-                    className="absolute top-1 right-1 p-1 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
+          <div className="flex-1 space-y-2">
+            {teamImages.map((img, index) => (
+              <div
+                key={img.url}
+                draggable
+                onDragStart={() => setTeamDraggedIndex(index)}
+                onDragOver={(e) => handleTeamDragOver(e, index)}
+                onDragEnd={handleTeamDragEnd}
+                className={`group flex gap-3 rounded-lg border border-border bg-bg-secondary p-2 ${teamDraggedIndex === index ? 'opacity-50' : ''}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img.url} alt="" className="h-24 w-24 shrink-0 rounded-lg border border-border object-cover" draggable={false} />
+
+                <div className="min-w-0 flex-1 space-y-2">
+                  <input
+                    value={img.label ?? ''}
+                    onChange={(e) => patchTeamImage(index, { label: e.target.value })}
+                    onBlur={commitTeamImages}
+                    placeholder="이 사진이 담은 무리의 이름 (예: 안전을 설계한 사람들)"
+                    className="w-full rounded-lg border border-border bg-bg-card px-3 py-1.5 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent focus:outline-none"
+                  />
+                  {celebs.length === 0 ? (
+                    <p className="text-xs text-text-tertiary">인물을 먼저 넣으면 이 사진에 누가 나오는지 고를 수 있습니다.</p>
+                  ) : (
+                    <div className="flex flex-wrap gap-1">
+                      {celebs.map(c => {
+                        const on = (img.celebIds ?? []).includes(c.celeb_id)
+                        return (
+                          <button
+                            key={c.celeb_id}
+                            type="button"
+                            onClick={() => toggleTeamImageCeleb(index, c.celeb_id)}
+                            className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${
+                              on
+                                ? 'border-accent bg-accent/15 text-accent'
+                                : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:text-accent'
+                            }`}
+                          >
+                            {c.celeb?.nickname ?? '이름 없음'}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
-              ))}
-              <ImagePickerButton busy={imgBusy} onPick={(file) => pickImage({ kind: 'team' }, file)} />
-            </div>
-            <p className="text-xs text-text-tertiary">테마 단체샷. 여러 장 등록 가능, 끌어서 순서 변경. 상단 배너에 표시됩니다.</p>
+
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTeamImage(img.url)}
+                  className="h-7 w-7 shrink-0 self-start rounded-full text-text-tertiary hover:bg-red-500/10 hover:text-red-500"
+                  title="이 사진 지우기"
+                >
+                  <X className="mx-auto h-4 w-4" />
+                </button>
+              </div>
+            ))}
+
+            <ImagePickerButton busy={imgBusy} onPick={(file) => pickImage({ kind: 'team' }, file)} />
+            <p className="text-xs text-text-tertiary">
+              여러 장 등록할 수 있고 끌어서 순서를 바꿉니다. 사진마다 무리 이름과 나오는 인물을 지정하면
+              도감에서 사진 아래에 그대로 보이고, 이름을 누르면 그 인물로 넘어갑니다.
+            </p>
           </div>
         </FormRow>
         <div className="flex items-center justify-end gap-3 pt-3">
@@ -600,12 +674,23 @@ export default function ThemeEditor({
                 onDragStart={() => setCelebDraggedIndex(index)}
                 onDragOver={(e) => handleCelebDragOver(e, index)}
                 onDragEnd={handleCelebDragEnd}
-                className={`p-3 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50 ${celebDraggedIndex === index ? 'opacity-50' : ''}`}
+                className={`p-3 rounded-lg bg-bg-secondary/30 hover:bg-bg-secondary/50 ${celebDraggedIndex === index ? 'opacity-50' : ''} ${item.hidden ? 'opacity-60' : ''}`}
               >
                 <div className="flex items-center gap-3">
                   <GripVertical className="w-5 h-5 text-text-tertiary cursor-grab shrink-0" />
                   <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} />
                   <p className="flex-1 truncate text-base font-medium text-text-primary">{item.celeb?.nickname}</p>
+                  <button
+                    onClick={() => handleToggleHidden(item.celeb_id, !item.hidden)}
+                    title={item.hidden ? '지금 도감에서 안 보입니다 — 눌러서 보이기' : '도감에 보입니다 — 눌러서 감추기'}
+                    className={`shrink-0 rounded-lg border px-2.5 py-1.5 text-xs font-medium ${
+                      item.hidden
+                        ? 'border-border bg-bg-card text-text-tertiary hover:border-accent hover:text-accent'
+                        : 'border-accent/40 bg-accent/10 text-accent hover:bg-accent/20'
+                    }`}
+                  >
+                    {item.hidden ? '숨김' : '도감 노출'}
+                  </button>
                   <CelebFactionImage
                     url={item.spotlight_image_url}
                     busy={imgBusy}

@@ -40,7 +40,7 @@ export async function loadFactionScript(folder: string): Promise<LoadedFactionSc
     episodeId: row.id as string,
     script,
     updatedAt: row.updated_at as string,
-    status: (row.status as string) ?? 'todo',
+    status: (row.status as string) ?? 'blocked',
     registered: (row.registered as boolean) ?? false,
     sortOrder: (row.sort_order as number) ?? 0,
   }

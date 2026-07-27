@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, Easing } from 'remotion'
 import type { FactionScript, Orientation } from '../types'
 import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, CHAPTER_FADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
 import { HEADER_H, SAFE_BOTTOM, BG } from '../constants'
-import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion, resolveOutroImage } from '../utils'
+import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion, resolveOutroImage, resolveEdgeEffects, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom, isVideoSrc } from '../utils'
 import { CutEnter, transitionEnterSec, isSlideKind, slideDir } from '../transitions'
 import { vnPersonQuote, vnTimingKey } from '../voice-names'
 import { IntroCard } from './IntroCard'
@@ -15,14 +15,39 @@ import { FilledImage } from './FilledImage'
 // import { BrandLogo } from '../../BookRecommend/utils' // 종료 화면 브랜드 로고 미노출(주석 처리)
 
 /** 마지막 화면(아웃트로) — 종료 화면(이미지·영상)이 있으면 화면 가득(비율 유지+여백 블러), 없으면 브랜드 로고(FEEL & NOTE). 롱폼이면 롱폼 전용(outroImageLong) 우선. */
-const OutroCard: React.FC<{ script: FactionScript; episodeName: string; isShorts: boolean; part?: number; startFrame?: number }> = ({ script, episodeName, isShorts, part, startFrame }) => {
+const OutroCard: React.FC<{ script: FactionScript; episodeName: string; isShorts: boolean; part?: number; startFrame?: number; frame: number; cueStart: number }> = ({ script, episodeName, isShorts, part, startFrame, frame, cueStart }) => {
   const [err, setErr] = React.useState(false)
   const outroMedia = resolveOutroImage(script, isShorts, part)
+  // 마무리 화면 카메라 — 시작 화면과 같은 규칙(「움직임 효과 관리」의 마무리 화면 줄). 비면 천천히 확대.
+  const cam = resolveEdgeEffects(script, 'outro')
+  const camZ = Math.max(0, frame - cueStart)
+  const camHold = holdAndShakeParts(cam.hold, cam.shake, Math.max(0, camZ - f(enterMotionSec(cam.enter))), {
+    focusX: cam.focusX,
+    focusY: cam.focusY,
+    speedMul: cam.zoomSpeed,
+  })
+  const camScale = enterMotionScale(cam.enter, camZ) * camHold.scale
   if (outroMedia && !err) {
+    const isVid = isVideoSrc(imgSrc(episodeName, outroMedia))
     return (
       <AbsoluteFill style={{ background: BG }}>
         {/* 종료 화면이 영상이면 이 컷이 뜨는 시점(startFrame)부터 0초로 재생 — 안 넘기면 영상 끝 프레임에 멈춰 사진처럼 보인다 */}
-        <FilledImage src={imgSrc(episodeName, outroMedia)} objPos="center center" scale={1} startFrame={startFrame} fit="contain" onError={() => setErr(true)} />
+        {/* 영상은 그 자체로 움직이므로 카메라를 걸지 않는다(잘림만 늘어난다) */}
+        {isVid ? (
+          <FilledImage src={imgSrc(episodeName, outroMedia)} objPos="center center" scale={1} startFrame={startFrame} fit="contain" onError={() => setErr(true)} />
+        ) : (
+          <FilledImage
+            src={imgSrc(episodeName, outroMedia)}
+            objPos="center center"
+            scale={camScale}
+            tx={camHold.tx}
+            ty={camHold.ty}
+            transformOrigin={isPushinZoom(cam.hold) ? '50% 50%' : undefined}
+            startFrame={startFrame}
+            fit="contain"
+            onError={() => setErr(true)}
+          />
+        )}
       </AbsoluteFill>
     )
   }
@@ -63,7 +88,7 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   if (cue.kind === 'intro') content = <IntroCard script={script} episodeName={episodeName} orientation={orientation} part={part} lvPart={lvPart} isShorts={isShorts} />
   // 종료 화면 영상은 크로스페이드가 시작되는 시점(enterStart)부터 재생·존재하게 해야 교차가 보인다.
   // start부터로 잡으면 페이드인 구간엔 영상이 아직 없어 교차 없이 툭 나타난다.
-  else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} />
+  else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} frame={frame} cueStart={start} />
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
   // 챕터 전환 검정 브릿지 — 순수 검정 컷. 앞뒤 크로스페이드가 이전 챕터를 검정으로 닫고 표지를 검정에서 연다(검정 경유 전환).
   else if (cue.kind === 'chapterBlack') content = <AbsoluteFill style={{ background: BG }} />
@@ -93,8 +118,15 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     // 대사 표시 방식 — 인물 단위가 있으면 우선, 없으면 에피소드 전역 기본, 둘 다 없으면 박스.
     const quoteDisplay = person.quoteDisplay ?? script.quoteDisplay ?? 'box'
     const quoteCaptionPos = person.quoteCaptionPos ?? script.quoteCaptionPos ?? 'bottom'
-    const quoteCaptionStyle = person.quoteCaptionStyle ?? script.quoteCaptionStyle ?? 'default'
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} quoteCaptionStyle={quoteCaptionStyle} />
+    const quoteCaptionSize = person.quoteCaptionSize ?? script.quoteCaptionSize ?? 'default'
+    const quoteCaptionFont = person.quoteCaptionFont ?? script.quoteCaptionFont ?? 'default'
+    // 다음 컷이 이 컷 끝보다 앞당겨 들어오는 시간 — 전환이 지정된 컷은 그 전환 길이, 아니면 크로스페이드 길이.
+    // 인물 컷의 글자를 이 시점 전에 다 걷어, 다음 인물 신원과 겹쳐 읽히지 않게 한다.
+    const nextEnterSec = nextKind === 'chapterBlack' ? CHAPTER_FADE_SEC
+      : nextKind === 'outro' ? OUTRO_CROSSFADE_SEC
+        : nextCutKind ? transitionEnterSec(nextCutKind)
+          : CROSSFADE_SEC
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} quoteCaptionSize={quoteCaptionSize} quoteCaptionFont={quoteCaptionFont} nextEnterSec={nextEnterSec} captionIdHoldSec={script.captionIdHoldSec} />
   }
 
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).

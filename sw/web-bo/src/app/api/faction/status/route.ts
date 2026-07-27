@@ -12,7 +12,7 @@ import {
  *   북리커맨드(폴더 이동)·담화 분기는 이 앱에 없어 버렸다.
  */
 
-const VALID_STATUSES: FactionEpisodeStatus[] = ['todo', 'live', 'done']
+const VALID_STATUSES: FactionEpisodeStatus[] = ['ready', 'blocked']
 
 /** GET: 전체 상태 맵 (편 폴더명 → 진행 상태) */
 export async function GET() {

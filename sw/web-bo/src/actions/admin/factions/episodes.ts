@@ -24,11 +24,16 @@ import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/li
 import { FACTION_LOCAL } from '@/lib/faction-local'
 
 /**
- * 편 진행 상태.
- * `idea` 는 아이디어 보관함(not-using/)에서 들어온 후보 — 렌더·음성·출간 대상이 아니다.
- * 그 차단은 상태가 아니라 `registered=false` 가드가 맡는다(상태는 사람이 보는 표시).
+ * 편 상태 — 묻는 것은 하나뿐이다. **이 편을 도감으로 내보낼 수 있는가.**
+ *
+ *   ready   : 인물이 인명부에 있어 테마로 옮길 수 있다(이미 옮긴 편 포함)
+ *   blocked : 지금은 못 옮긴다. 출연진이 사람이 아니거나(로봇·로켓·기관) 등록된 인물이 셋에 못 미친다
+ *
+ * 예전에는 다섯 값(idea/todo/live/done/shelved)이었는데 「할 것인가」와 「어디까지 왔나」를
+ * 한 칸에 섞어 놓은 데다, 정작 렌더·출간 코드는 이 값을 읽지 않아 실제 진행과 계속 어긋났다.
+ * 렌더 편성 여부는 `registered` 가 따로 쥔다.
  */
-export type FactionEpisodeStatus = 'idea' | 'todo' | 'live' | 'done'
+export type FactionEpisodeStatus = 'ready' | 'blocked'
 
 export interface FactionEpisodeSummary {
   id: string
@@ -38,6 +43,11 @@ export interface FactionEpisodeSummary {
   titleEn: string | null
   logline: string | null
   status: FactionEpisodeStatus
+  /**
+   * 못 옮기는 이유 한 줄. `blocked` 일 때만 채워진다.
+   * 이유가 편마다 제각각이라 분류로 묶으면 뭉뚱그려진다 — 열어 보지 않아도 알게 한 줄을 둔다.
+   */
+  blockNote: string | null
   /** 서비스 노출(등록) 여부 — `_episodes.json` 에 실리는 편 */
   registered: boolean
   sortOrder: number
@@ -46,7 +56,7 @@ export interface FactionEpisodeSummary {
   updatedAt: string
 }
 
-const VALID_STATUS: FactionEpisodeStatus[] = ['idea', 'todo', 'live', 'done']
+const VALID_STATUS: FactionEpisodeStatus[] = ['ready', 'blocked']
 /** 폴더 한 토막 — 영문·숫자로 시작하고 영문·숫자·하이픈·밑줄·마침표만 */
 const SEGMENT_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/
 
@@ -81,7 +91,7 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeSummary[]> {
 
   const episodes = await selectAllPages<Record<string, unknown>>((from, to) =>
     db.from('faction_episodes')
-      .select('id,folder,title,title_en,logline,status,registered,sort_order,updated_at')
+      .select('id,folder,title,title_en,logline,status,block_note,registered,sort_order,updated_at')
       .order('id').range(from, to))
 
   const groups = await selectAllPages<Record<string, unknown>>((from, to) =>
@@ -119,7 +129,8 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeSummary[]> {
       titleEn: (e.title_en as string) ?? null,
       logline: (e.logline as string) ?? null,
       status: (VALID_STATUS.includes(e.status as FactionEpisodeStatus)
-        ? e.status : 'todo') as FactionEpisodeStatus,
+        ? e.status : 'blocked') as FactionEpisodeStatus,
+      blockNote: (e.block_note as string) ?? null,
       registered: (e.registered as boolean) ?? false,
       sortOrder: (e.sort_order as number) ?? 0,
       groupCount: groupCount.get(e.id as string) ?? 0,
@@ -169,7 +180,7 @@ export async function getFactionEpisodeMeta(folder: string): Promise<FactionEpis
     folder: data.folder as string,
     title: (data.title as string) ?? (data.folder as string),
     status: (VALID_STATUS.includes(data.status as FactionEpisodeStatus)
-      ? data.status : 'todo') as FactionEpisodeStatus,
+      ? data.status : 'blocked') as FactionEpisodeStatus,
     registered: (data.registered as boolean) ?? false,
     sortOrder: (data.sort_order as number) ?? 0,
     factionLocal: FACTION_LOCAL,
@@ -193,7 +204,7 @@ export async function createFactionEpisode(
     p_folder: f,
     p_episode: {
       title: (title ?? '').trim() || f,
-      status: 'todo', registered: false, sort_order: 0,
+      status: 'blocked', registered: false, sort_order: 0,
       longform_layout: null, data: {},
     },
     p_groups: [], p_clusters: [], p_people: [], p_parts: [],
@@ -223,7 +234,7 @@ export async function duplicateFactionEpisode(
   const { script } = await assembleFactionEpisode(await factionTreeSource(db, from), from)
   const payload = buildFactionRows(script, {
     newId: randomUUID,
-    status: 'todo', registered: false, sortOrder: 0,
+    status: 'blocked', registered: false, sortOrder: 0,
   })
 
   const { data, error } = await db.rpc('faction_replace_episode', {
