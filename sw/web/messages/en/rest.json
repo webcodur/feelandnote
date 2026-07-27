@@ -2,6 +2,45 @@
   "rest": {
     "section": "Rest",
     "arena": {
+      "memory": {
+        "label": "Memory Hall",
+        "description": "Find two cards showing the same historical figure",
+        "headerSub": "Turn the cards, remember each face, and find every matching pair. A matched portrait disappears.",
+        "catchphrase": "Vanishing Portraits",
+        "selectDifficulty": "Select Difficulty",
+        "startGame": "Enter Memory Hall",
+        "notEnoughFigures": "The figure portraits needed for this game could not be loaded.",
+        "difficulty": {
+          "easy": {
+            "label": "Easy",
+            "description": "{pairs} figures · {cards} cards"
+          },
+          "normal": {
+            "label": "Normal",
+            "description": "{pairs} figures · {cards} cards"
+          },
+          "hard": {
+            "label": "Hard",
+            "description": "{pairs} figures · {cards} cards"
+          }
+        },
+        "moves": "Moves",
+        "time": "Time",
+        "seconds": "{seconds}s",
+        "remaining": "{pairs} pairs left",
+        "restart": "Shuffle Again",
+        "cardBack": "Face-down figure card",
+        "match": "A match! Both portraits vanish.",
+        "mismatch": "Different figures. Remember their faces.",
+        "result": {
+          "breadcrumb": "Complete",
+          "title": "Every Portrait Has Vanished",
+          "summary": "Completed in {moves} moves and {seconds} seconds.",
+          "replay": "Same Difficulty",
+          "next": "Next Difficulty",
+          "lobby": "Choose Difficulty"
+        }
+      },
       "dawn": {
         "label": "Dawn",
         "description": "Guess the birth order of historical figures",
@@ -686,7 +725,8 @@
       "dawn": "A chronological game of ordering historical figures by birth",
       "labyrinth": "Track the deeds of six sages to find the hidden figure",
       "hegemony": "A strategic battle using figure cards to issue commands",
-      "suikoden": "Lead historical figures, build power, and unite civilizations"
+      "suikoden": "Lead historical figures, build power, and unite civilizations",
+      "memory": "A face-pair game of remembering and matching historical figures"
     },
     "meta": {
       "title": "Rest",

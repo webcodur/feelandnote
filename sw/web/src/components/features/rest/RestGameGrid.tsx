@@ -8,6 +8,9 @@ import { Z_INDEX } from "@/constants/zIndex";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
+// 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
+// import { Brain } from "lucide-react";
+// import type { MemoryFigure } from "@/components/features/game/memory/types";
 
 function GameLoadingScreen() {
   return (
@@ -21,6 +24,7 @@ const DawnGameWrapper = dynamic(() => import("@/components/features/game/dawn/Da
 const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth/LabyrinthGame"), { loading: GameLoadingScreen });
 const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
 const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"), { loading: GameLoadingScreen });
+// const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
 
 type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden";
 
@@ -30,6 +34,7 @@ const GAME_SECTIONS = [
   { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp" },
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp" },
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp" },
+  // { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp" },
 ] as const;
 
 interface GameLabel {
@@ -43,6 +48,7 @@ interface Props {
   bgImagesHegemony: GameBackgroundImages | null;
   suikodenCharacters: GameCharacter[];
   suikodenDialogues: DialoguesMap;
+  // memoryFigures: MemoryFigure[];
   gameLabels: Record<GameId, GameLabel>;
 }
 
@@ -52,6 +58,7 @@ export default function RestGameGrid({
   bgImagesHegemony,
   suikodenCharacters,
   suikodenDialogues,
+  // memoryFigures,
   gameLabels,
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
@@ -68,6 +75,7 @@ export default function RestGameGrid({
           return (
             <HubCard
               key={game.valueKey}
+              id={game.valueKey}
               onClick={() => setActiveGame(game.valueKey)}
               title={gameLabels[game.valueKey].title}
               description={gameLabels[game.valueKey].description}
@@ -99,6 +107,14 @@ export default function RestGameGrid({
           onExitFullScreenExternal={handleExit}
         />
       )}
+
+      {/* {activeGame === "memory" && (
+        <MemoryGame
+          figures={memoryFigures}
+          initialFullScreen={true}
+          onExitFullScreenExternal={handleExit}
+        />
+      )} */}
     </>
   );
 }

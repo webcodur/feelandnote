@@ -10,6 +10,8 @@ import HubNav from "@/components/shared/HubNav";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
+// 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
+// import { getMemoryFigures } from "@/actions/game/getMemoryFigures";
 
 export async function generateMetadata() {
   const t = await getTranslations("rest.meta");
@@ -22,6 +24,7 @@ const GAME_SECTIONS = [
   { href: "/rest#labyrinth", valueKey: "labyrinth" as const },
   { href: "/rest#hegemony",  valueKey: "hegemony" as const },
   { href: "/rest#suikoden",  valueKey: "suikoden" as const },
+  // { href: "/rest#memory", valueKey: "memory" as const },
 ] as const;
 // #endregion
 
@@ -35,12 +38,14 @@ export default async function RestPage() {
     bgImagesHegemony,
     suikodenCharacters,
     suikodenDialogues,
+    // memoryFigures,
   ] = await Promise.all([
     getGameBackgroundImages("dawn-1"),
     getGameBackgroundImages("labyrinth-1"),
     getGameBackgroundImages("hegemony-1"),
     loadSuikodenCharacters(),
     loadSuikodenDialogues(),
+    // getMemoryFigures(),
   ]);
 
   // 목차 줄 항목 — 아이콘은 아래 게임 카드가 이미 크게 달고 있어 여기서는 번호와 이름만 쓴다

@@ -1,8 +1,8 @@
 # 쉼터 게임 카드 상징 이미지 발주서
 
-> **최종 실측 체크: 26.07.16** — 납품 파일 4장(`sw/web/public/images/games/`), 연결 지점(`HubCard.tsx`·`RestGameGrid.tsx`), 적용 표시값을 라이브 코드와 대조. §6의 표시값이 카드 개편으로 바뀌어 있어 현행값으로 교정했다. §1~§5 발주 규격은 원문 유지.
+> **최종 실측 체크: 26.07.28** — 납품 파일은 5장이나 기억궁은 구현·자산만 보존하고 `/rest` 등록 지점을 주석 처리해 비공개 상태다. 현재 허브 노출은 4장이다.
 
-쉼터(`/rest`) 허브의 게임 카드 4장에 배경으로 깔릴 상징 이미지를 만든다.
+쉼터(`/rest`) 허브의 게임 카드 5장에 배경으로 깔릴 상징 이미지를 만든다.
 
 ## 1. 목적과 표시 방식
 
@@ -12,7 +12,7 @@
 - **표시 방식**: 어둡게 깔고 그 위에 기존 아이콘·제목·설명 텍스트가 올라간다. (초안은 블러도 걸었으나 지금은 걷었다 — §6 참조)
 - **따라서 디테일보다 구도·실루엣·색조가 전부다.** 카드가 작고 왼쪽 절반이 어둡게 덮이므로 남는 것은 큰 덩어리의 형태와 빛뿐이다. 잔글씨·작은 장식·복잡한 패턴은 뭉개져 노이즈만 된다.
 
-## 2. 공통 규칙 (4장 전부)
+## 2. 공통 규칙 (5장 전부)
 
 **반드시 지킬 것**
 
@@ -88,6 +88,20 @@ A misty East Asian ink-wash lakescape, painted as a digital illustration. Layere
 
 **핵심**: 유일하게 사람 실루엣이 허용된다. 단 얼굴이 없는 먹點 수준의 어부 하나뿐이다. 나머지 게임은 인물 금지를 그대로 지킨다.
 
+### 3-5. 기억궁 (MEMORY) — 사라지는 초상
+
+**원본 캔버스**: 숯빛 석재와 낡은 황동으로 지은 어두운 기록 회랑. 뒷면만 보이는 직사각형 초상 카드가 황동 레일에 줄지어 걸리고 소실점을 향해 멀어진다. 같은 두 장만 왼쪽 중앙에서 좁은 금빛 테두리광을 받는다.
+
+**게임 내용**: 인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임.
+
+**프롬프트**
+
+```
+A vast dark archival gallery in strict perspective, built from charcoal stone and aged brass. Rows of rectangular portrait cards hang from thin brass rails and recede toward a shadowed vanishing point. Every card is turned face-down, showing only refined embossed concentric-line patterns like a memory maze. Near the left-center, exactly two matching face-down cards catch the same narrow warm-gold rim light, visually suggesting a pair without showing their fronts. The floor is dark polished stone with restrained, physically plausible reflections. Painterly cinematic game key art, mostly near-black with aged brass, muted gold and a subtle cold blue ambient fill. Keep the rightmost 35 percent calmer and darker. No people, no visible faces, no readable writing, no letters, no numbers, no logos, no watermark, no UI panels, no playing-card suits.
+```
+
+**핵심**: 실제 얼굴을 배경에 합성하지 않는다. 두 장의 같은 금빛과 나머지 카드의 어둠만으로 짝 맞추기를 읽게 한다.
+
 ## 4. 규격과 납품
 
 | 항목 | 값 |
@@ -95,7 +109,7 @@ A misty East Asian ink-wash lakescape, painted as a digital illustration. Layere
 | 비율 | 2:1 (가로) |
 | 해상도 | 1536×768 이상 |
 | 형식 | 원본 PNG → 최종 WebP 변환 |
-| 파일명 | `dawn-card.webp`, `labyrinth-card.webp`, `hegemony-card.webp`, `suikoden-card.webp` |
+| 파일명 | `dawn-card.webp`, `labyrinth-card.webp`, `hegemony-card.webp`, `suikoden-card.webp`, `memory-card.webp` |
 | 경로 | `sw/web/public/images/games/` (신규 폴더) |
 | 용량 | 장당 150KB 이하 목표 (블러가 걸리므로 화질 손실 무해) |
 
@@ -105,13 +119,14 @@ A misty East Asian ink-wash lakescape, painted as a digital illustration. Layere
 
 1. 게임당 3장씩 뽑는다. 같은 프롬프트로 3장이 아니라, **광원 위치·산등성이 각도·소실점 위치를 조금씩 달리한** 3안을 뽑아 비교한다.
 2. 선별은 **카드에 실제로 얹은 상태**로 본다. 현재는 블러를 걷었으므로(§6) 선명한 그림 위에 왼쪽 그라디언트를 덮은 화면이 판정 기준이다. 그림만 따로 예쁜지가 아니라 글씨가 얹힌 상태에서 읽히는지를 본다.
-3. 4장이 나란히 놓였을 때 **한 세트로 보이는지** 확인한다. 톤은 각기 다르되 어둠의 깊이와 빛의 세기가 비슷해야 카드 4장이 형제로 읽힌다.
+3. 5장이 나란히 놓였을 때 **한 세트로 보이는지** 확인한다. 톤은 각기 다르되 어둠의 깊이와 빛의 세기가 비슷해야 카드 5장이 형제로 읽힌다.
 4. 이미지 생성은 비용이 발생하므로 **사용자 승인 후** 실행한다.
 
-## 6. 적용 현황 (26.07.15 납품 → 26.07.16 실측 현행화)
+## 6. 적용 현황 (26.07.15 납품 → 26.07.28 기억궁 비공개)
 
-4장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)로 있다.
+5장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)·`memory-card.webp`(147KB)로 있다.
 
+- **기억궁 비공개(26.07.28)**: 게임 구현·번역·이미지·조회 코드는 보존한다. `rest/page.tsx`의 데이터 조회·목차 등록, `RestGameGrid.tsx`의 카드·동적 import·렌더, `navigation.tsx`의 하위 링크만 주석 처리했다.
 - **연결 지점**: `HubCard`(`sw/web/src/components/shared/HubCard.tsx`)에 `backgroundImage` prop 추가 → `RestGameGrid`(`sw/web/src/components/features/rest/RestGameGrid.tsx`)의 `GAME_SECTIONS[].image`가 게임별 경로를 넘긴다.
 - **표시 처리(현행값)**: `next/image` `fill` + `object-cover`, `opacity-90`. 그 위에 왼쪽만 짙은 가로 그라디언트 `from-bg-main/95 via-bg-main/60 to-transparent`.
 - **블러는 걸지 않는다(변경됨)**: 초기 적용은 `blur-[3px]` + `opacity-70`이었으나 카드 개편에서 블러를 걷고 그림을 선명하게 두는 쪽으로 바뀌었다. **따라서 §1의 "블러 후 남는 큰 덩어리만 생각하라"는 전제는 지금 화면과 다르다.** 다만 §2의 발주 규칙(강한 명암 대비, 왼쪽 60%에 주 형상, 오른쪽 40% 비우기)은 그라디언트가 왼쪽을 덮는 구조 때문에 그대로 유효하다. 새로 뽑을 때는 선명한 상태로 선별한다.
