@@ -138,3 +138,32 @@ Supabase MCP·관리 API가 401 Unauthorized(`SUPABASE_ACCESS_TOKEN` 무효)로 
 **claude -p 헤드리스 대량 배치는 동시 실행 수가 수명이다.** 동시 5~8로 수백 건을 돌리면 어느 순간 `exit 1`(stderr 빈 문자열)이 수십 건 연쇄한다. 처리 완료 로그(done.log)를 남겨 `--resume`으로 이어붙이는 구조를 반드시 갖추고, 연쇄 실패가 시작되면 동시 수를 3까지 낮춰 재개한다. 실측: 1,692건 배치에서 conc 5 → 354건 연쇄 실패, conc 3 재개 → 무실패 완주.
 
 **WDQS(위키데이터 질의 서비스)는 산발적으로 502를 뱉는다.** 대량 배치 중 한 번은 맞는다고 보고 3회 백오프 재시도를 기본으로 깐다. 요청 간 1.1초 간격 + User-Agent 명시는 예의이자 차단 방지다.
+
+---
+
+## 9. RPC가 에러 없이 0행을 준다 — RLS × SECURITY INVOKER (2026-07-27)
+
+**증상**: 서비스에서 어떤 구획이 아예 그려지지 않는다. 에러 로그도 없고, MCP·SQL 편집기에서 같은 RPC를 돌리면 정상 개수가 나온다.
+
+**원인**: RPC가 `SECURITY INVOKER`(Postgres 기본값)면 함수 본문이 **호출자 권한으로** 테이블을 읽는다. 그 안에서 참조하는 테이블이 **RLS 켜짐 + 정책 0건**이면 anon은 한 행도 못 읽고, `join`이 걸려 있으니 결과가 조용히 0행이 된다. **권한 오류가 아니라 빈 결과**라 `const { data } = await supabase.rpc(...)`의 에러 검사로도 절대 안 잡힌다. MCP·SQL 편집기는 RLS를 우회하는 역할로 붙기 때문에 "DB에는 데이터가 있다"는 확인이 아무 의미가 없다.
+
+**실측 사례**: `get_celebs_trending`(탐색 허브 「요즘 많이 본 인물」)이 `celeb_views_daily`를 읽는데 그 테이블은 RLS 켜짐·정책 0건이었다. 형제 함수 `increment_celeb_view`·`get_trending_celebs`는 이미 `SECURITY DEFINER`인데 이 함수만 빠져 있었다. anon 0행 → 구획 미출력 → 목차 항목만 남아 눌러도 반응 없음.
+
+**진단 절차** (추정 말고 이걸 돌린다)
+```sql
+-- ① 호출자 역할로 재현
+set local role anon;  select count(*) from <rpc>(...);
+-- ② 함수의 보안 모드
+select proname, prosecdef from pg_proc where proname = '<rpc>';
+-- ③ 본문이 읽는 테이블의 RLS·정책 수
+select c.relname, c.relrowsecurity,
+  (select count(*) from pg_policies p where p.tablename = c.relname) as policies
+from pg_class c join pg_namespace n on n.oid = c.relnamespace
+where n.nspname = 'public' and c.relname in (...);
+```
+
+**해법**: 집계·공개 목적의 읽기 전용 함수는 `SECURITY DEFINER` + `SET search_path TO 'public'`으로 통일한다. 원시 테이블에 anon 읽기 정책을 여는 쪽보다 노출면이 좁다. 같은 테이블을 읽는 형제 함수들의 보안 모드를 먼저 확인하고 규격을 맞춘다.
+
+**고친 뒤 서비스에 안 보이면 캐시다**: `unstable_cache`가 0행 결과를 이미 물고 있다. `/api/revalidate`에 해당 태그(`celebs` 등)를 던져 비운다.
+
+**따라오는 UI 규칙**: 데이터가 비면 접히는 구획이 있는 화면에서, 목차와 구획 번호는 **실제로 그려진 구획**에서만 유도한다. 정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다(`sw/web/src/components/shared/hubSectionUtils.tsx`의 `hubSection`·`hubNavItems`가 이 계약을 쥔다).

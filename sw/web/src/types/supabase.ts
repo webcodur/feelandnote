@@ -2549,6 +2549,15 @@ export type Database = {
           total: number
         }[]
       }
+      get_celeb_view_stats: {
+        Args: { p_celeb_id: string; p_days?: number }
+        Returns: {
+          recent_views: number
+          view_count: number
+          window_end: string
+          window_start: string
+        }[]
+      }
       get_celebs_sorted: {
         Args: {
           p_celeb_tiers?: string[]
@@ -2615,11 +2624,15 @@ export type Database = {
           nickname_en: string
           portrait_url: string
           profession: string
+          recent_views: number
           slug: string
           status: string
           title: string
           title_en: string
           total_score: number
+          view_count: number
+          window_end: string
+          window_start: string
         }[]
       }
       get_chosen_scriptures: {

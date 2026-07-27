@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
  * 화면 데이터는 최대 7일 캐시를 타므로 조회수만 따로 받아 갱신한다.
  * 반환값을 쓰면 별도 조회가 필요 없다.
  *
- * @param count false면 세지 않고 현재 값만 돌려준다(같은 사람의 24시간 내 재방문).
+ * @param count false면 세지 않고 현재 값만 돌려준다(같은 사람의 4시간 내 재방문).
  */
 export async function incrementCelebView(
   celebId: string,

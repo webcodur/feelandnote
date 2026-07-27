@@ -313,7 +313,15 @@
       "info": "Info",
       "following": "Following",
       "follow": "Follow",
-      "contentCount": "{count} contents collected"
+      "contentCount": "{count} contents collected",
+      "viewsBadge": "{count} views in total — click for details"
+    },
+    "celebViews": {
+      "title": "Who viewed this profile",
+      "description": "Profile view stats for {nickname}.",
+      "period": "Period: {from} – {to}",
+      "recentLabel": "Last 30 days",
+      "totalLabel": "Total views"
     },
     "game": {
       "exit": "Exit",

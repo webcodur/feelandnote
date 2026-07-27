@@ -313,7 +313,15 @@
       "info": "정보",
       "following": "팔로잉",
       "follow": "팔로우",
-      "contentCount": "보유 콘텐츠 {count}개"
+      "contentCount": "보유 콘텐츠 {count}개",
+      "viewsBadge": "누적 조회 {count}회 — 눌러서 자세히"
+    },
+    "celebViews": {
+      "title": "이 프로필을 본 사람",
+      "description": "{nickname}의 프로필 조회 현황입니다.",
+      "period": "기간: {from} ~ {to}",
+      "recentLabel": "최근 30일",
+      "totalLabel": "총 조회수"
     },
     "game": {
       "exit": "나가기",

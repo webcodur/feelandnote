@@ -55,7 +55,7 @@ export const NAV_ITEMS: NavItem[] = [
     showInHomePage: true,
     subLinks: [
       { key: "figures", href: "/explore/figures", label: "인물 목록" },
-      { key: "ranking", href: "/explore/ranking", label: "분야별 랭킹" },
+      { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
       { key: "persona", href: "/explore/persona", label: "인물 분석" },
       { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "faction", href: "/explore/faction", label: "세력도감" },

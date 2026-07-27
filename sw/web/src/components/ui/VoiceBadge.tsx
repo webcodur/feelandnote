@@ -5,8 +5,6 @@
 */
 "use client";
 
-import { useState, useEffect } from "react";
-
 type BadgeSize = "sm" | "md";
 
 interface VoiceBadgeProps {
@@ -17,18 +15,18 @@ interface VoiceBadgeProps {
   className?: string;
 }
 
+/* md는 인물 카드 전용이다. 카드의 다른 표시(콘텐츠 수·조회수)가 데스크탑에서 커지므로 같이 키운다. */
 const sizeConfig = {
   sm: { badge: "w-5 h-5", icon: "w-2.5 h-2.5", ring: "w-5 h-5" },
-  md: { badge: "w-6 h-6", icon: "w-3 h-3", ring: "w-6 h-6" },
+  md: {
+    badge: "w-6 h-6 md:w-[30px] md:h-[30px]",
+    icon: "w-3 h-3 md:w-4 md:h-4",
+    ring: "w-6 h-6 md:w-[30px] md:h-[30px]",
+  },
 } as const;
 
 export default function VoiceBadge({ size = "md", pulse = 0, className = "" }: VoiceBadgeProps) {
-  const [activePulse, setActivePulse] = useState(0);
   const cfg = sizeConfig[size];
-
-  useEffect(() => {
-    if (pulse > 0) setActivePulse(pulse);
-  }, [pulse]);
 
   return (
     <div className={`relative flex items-center justify-center ${cfg.badge} rounded-full bg-black/50 backdrop-blur-md shadow-sm border border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite] ${className}`}>
@@ -36,9 +34,9 @@ export default function VoiceBadge({ size = "md", pulse = 0, className = "" }: V
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
       </svg>
-      {activePulse > 0 && (
+      {pulse > 0 && (
         <span
-          key={activePulse}
+          key={pulse}
           className={`absolute ${cfg.ring} rounded-full border-2 border-emerald-400 animate-[voiceRing_800ms_ease-out_forwards] pointer-events-none`}
         />
       )}
