@@ -22,7 +22,7 @@
 - **전환**:
   1. `contents` INSERT → 로케일 무관 필드만 (type, subtype, external_id, external_source, release_date, metadata)
   2. 직후 `content_locales` INSERT → (content_id, locale, title, creator, thumbnail_url, description, isbn, publisher, sources)
-  3. locale 결정: external_source 기반 (naver_book→ko, google_books→en, tmdb→ko, igdb→en, spotify→en, qnet→ko)
+  3. locale 결정: external_source 기반 (naver_book→ko, google_books→en, tmdb→ko, igdb→en, spotify→en)
 - **주의**: `contents.title`이 NOT NULL이므로 Phase 2에서는 양쪽 모두 INSERT (중복). Phase 3에서 contents 컬럼 DROP 후 단일화.
 
 ### A-2. getContentDetail.ts (SELECT — 가장 복잡)
