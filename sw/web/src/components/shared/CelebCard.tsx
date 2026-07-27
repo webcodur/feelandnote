@@ -8,10 +8,11 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Info, ExternalLink } from "lucide-react";
+import { Info, ExternalLink, Eye } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import LightCelebModal from "@/components/features/celeb/modals/LightCelebModal";
+import CelebViewsModal from "@/components/features/celeb/modals/CelebViewsModal";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
@@ -30,6 +31,8 @@ interface CelebCardProps {
   avatar_url?: string | null;
   title?: string | null;
   count?: number;
+  /** 최근 30일 조회수 — 값이 있을 때만 왼쪽 아래에 눈 아이콘과 함께 표시된다 */
+  recentViews?: number | null;
   className?: string;
   celebProfile?: CelebProfile;
   variant?: Variant;
@@ -44,8 +47,11 @@ interface CelebCardProps {
 // #endregion
 
 // #region Variant Styles
+/* 뱃지 크기: 모바일은 종전 크기를 유지하고 데스크탑에서만 키운다 (md 이상) */
 const badgeStyles = {
-  card: "absolute top-1.5 right-1.5 min-w-[24px] h-[24px] px-1.5 bg-black/50 backdrop-blur-md rounded-full border border-accent/50 text-accent text-[10px] shadow-sm",
+  /* 반응 2단: 카드에 손을 올리면 옅게 밝아지고(group-hover), 뱃지를 직접 가리키면 색을 뒤집어
+     카드 애니메이션에 묻히지 않게 한다(hover). 둘 다 transition 없이 즉시 — 즉각 반응 축이다. */
+  card: "absolute top-1.5 right-1.5 md:top-2 md:right-2 min-w-[24px] h-[24px] px-1.5 md:min-w-[30px] md:h-[30px] md:px-2 bg-black/50 backdrop-blur-md rounded-full border border-accent/50 text-accent text-[10px] md:text-xs shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
 };
@@ -57,6 +63,7 @@ export default function CelebCard({
   avatar_url,
   title,
   count,
+  recentViews,
   className = "",
   celebProfile,
   variant = "card",
@@ -74,8 +81,12 @@ export default function CelebCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [isViewsOpen, setIsViewsOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const hasVoice = celebProfile?.has_voice ?? false;
+  /* 카드에 적을 조회수. recentViews가 넘어온 목록(인기 프로필)에서만 표시하고, 값은 누적을 쓴다.
+     누적이 아직 없는 인물은 최근 30일 값으로 대신한다. */
+  const badgeViews = recentViews == null ? null : (celebProfile?.view_count ?? recentViews);
   const { fireGreeting } = useCelebGreeting({ onSubtitle, locale: locale as Locale });
 
   // 외부 클릭 시 오버레이 닫기
@@ -117,6 +128,13 @@ export default function CelebCard({
       fireDialogue();
     }
   }, [isLoading, isActive, fireDialogue]);
+
+  /* 조회수 표시 → 안내 모달. 카드 클릭(오버레이 열기 + 대사)으로 번지지 않게 전파를 끊는다 —
+     끊지 않으면 오버레이가 함께 열려 방금 누른 표시가 사라진다. */
+  const handleViewsClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsViewsOpen(true);
+  }, []);
 
   // 인포 버튼 → 모달 열기
   const handleInfoClick = useCallback(async (e: React.MouseEvent) => {
@@ -216,6 +234,21 @@ export default function CelebCard({
               </div>
             )}
 
+            {/* 조회수 — trending 목록에서만 값이 온다(recentViews가 그 표식).
+                카드에는 값이 큰 누적을 적고, 최근 30일 값은 모달에서 보여준다. */}
+            {!isActive && badgeViews !== null && badgeViews > 0 && (
+              <button
+                type="button"
+                onClick={handleViewsClick}
+                aria-label={t("viewsBadge", { count: badgeViews })}
+                className="absolute bottom-1.5 left-1.5 md:bottom-2 md:left-2 z-20 flex items-center gap-0.5 md:gap-1 h-[20px] px-1.5 md:h-[26px] md:px-2 rounded-full bg-black/55 backdrop-blur-md border border-white/15 text-white/75 text-[10px] md:text-xs group-hover:bg-black/75 group-hover:border-white/35 group-hover:text-white hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_10px_rgba(255,255,255,0.35)]"
+                title={t("viewsBadge", { count: badgeViews })}
+              >
+                <Eye className="shrink-0 opacity-70 w-2.5 h-2.5 md:w-3.5 md:h-3.5" />
+                <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
+              </button>
+            )}
+
             {isLoading && (
               <div className={`absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm ${roundedClass} z-10`}>
                 <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -270,6 +303,18 @@ export default function CelebCard({
           ) : (
             <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           )
+        )}
+
+        {isViewsOpen && recentViews !== undefined && recentViews !== null && (
+          <CelebViewsModal
+            isOpen={isViewsOpen}
+            onClose={() => setIsViewsOpen(false)}
+            nickname={displayNickname}
+            recentViews={recentViews}
+            totalViews={celebProfile?.view_count ?? null}
+            windowStart={celebProfile?.views_window_start ?? null}
+            windowEnd={celebProfile?.views_window_end ?? null}
+          />
         )}
       </>
     );

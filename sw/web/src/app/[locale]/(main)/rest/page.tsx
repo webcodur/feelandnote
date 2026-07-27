@@ -6,7 +6,6 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { Clock, Crosshair, Swords, Crown } from "lucide-react";
 import HubNav from "@/components/shared/HubNav";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
@@ -19,30 +18,10 @@ export async function generateMetadata() {
 
 // #region 게임 정의
 const GAME_SECTIONS = [
-  {
-    href: "/rest#dawn",
-    valueKey: "dawn" as const,
-    label: "DAWN",
-    icon: <Clock className="h-5 w-5" />,
-  },
-  {
-    href: "/rest#labyrinth",
-    valueKey: "labyrinth" as const,
-    label: "LABYRINTH",
-    icon: <Crosshair className="h-5 w-5" />,
-  },
-  {
-    href: "/rest#hegemony",
-    valueKey: "hegemony" as const,
-    label: "HEGEMONY",
-    icon: <Swords className="h-5 w-5" />,
-  },
-  {
-    href: "/rest#suikoden",
-    valueKey: "suikoden" as const,
-    label: "CHEONDO",
-    icon: <Crown className="h-5 w-5" />,
-  },
+  { href: "/rest#dawn",      valueKey: "dawn" as const },
+  { href: "/rest#labyrinth", valueKey: "labyrinth" as const },
+  { href: "/rest#hegemony",  valueKey: "hegemony" as const },
+  { href: "/rest#suikoden",  valueKey: "suikoden" as const },
 ] as const;
 // #endregion
 
@@ -64,10 +43,10 @@ export default async function RestPage() {
     loadSuikodenDialogues(),
   ]);
 
+  // 목차 줄 항목 — 아이콘은 아래 게임 카드가 이미 크게 달고 있어 여기서는 번호와 이름만 쓴다
   const hubItems = GAME_SECTIONS.map((game) => ({
     label: t(`${game.valueKey}.label`),
     href: game.href,
-    icon: game.icon,
   }));
 
   const gameLabels = Object.fromEntries(

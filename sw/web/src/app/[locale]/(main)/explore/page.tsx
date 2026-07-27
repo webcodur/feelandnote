@@ -11,7 +11,7 @@ import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getPersonaDistribution } from "@/actions/persona/getPersonaDistribution";
 import { getFeaturedTags } from "@/actions/home/getFeaturedTags";
 import HubSection from "@/components/shared/HubSection";
-import { EXPLORE_GROUP_ID, EXPLORE_SECTIONS, EXPLORE_STANDALONE, exploreSection } from "@/components/shared/hubSectionUtils";
+import { EXPLORE_GROUP_ID, EXPLORE_SECTIONS, EXPLORE_STANDALONE, hubNavItems, hubSection, withoutMore } from "@/components/shared/hubSectionUtils";
 import HubNav from "@/components/shared/HubNav";
 import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
@@ -68,48 +68,50 @@ async function HubContent() {
       }))
     }));
 
-  // 랭킹 섹션은 탭 내부에서 탭별 더보기를 처리하므로 섹션 래퍼의 더보기는 생략
-  const rs = exploreSection("ranking", t);
-  const rankingSection = { title: rs.title, subtitle: rs.subtitle, index: rs.index, total: rs.total, groupId: rs.groupId };
+  /* 데이터가 비어 접히는 구획이 있다. 목차와 구획 번호는 반드시 "실제로 그려지는 것"에서만 뽑는다 —
+     정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다. */
+  const shown: Record<string, boolean> = {
+    // 인기 프로필은 랭킹 구획 안의 첫 탭이다 — 별도 구획이 아니다
+    ranking: trendingCelebs.length > 0 || deepReaders.length > 0 || topByType.length > 0,
+    personaAnalysis: personaPeople.length > 0,
+    faction: true,
+    allCelebs: allCelebs.length > 0,
+  };
+  const sections = EXPLORE_SECTIONS.filter((s) => shown[s.key]);
+  const sec = (key: string) => hubSection(sections, EXPLORE_GROUP_ID, key, t);
 
   return (
     <div className="space-y-12 md:space-y-16">
-      {/* 서브페이지 네비게이터 — SSoT config에서 라벨·순서·넘버링 동기화 */}
+      {/* 목차 줄 — 그려지는 구획 + 별도 화면. 라벨·순서·번호는 config 단일원천에서 온다 */}
       <HubNav
-        hubItems={EXPLORE_SECTIONS.map((s) => ({ label: t(s.key), href: s.moreHref, icon: s.icon }))}
+        hubItems={hubNavItems(sections, t)}
         standaloneItems={EXPLORE_STANDALONE.map((s) => ({ label: t(s.key), href: s.href, icon: s.icon }))}
         groupId={EXPLORE_GROUP_ID}
       />
 
-      {/* 1/5 요즘 많이 본 인물 — 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */}
-      {trendingCelebs.length > 0 && (
-        <HubSection {...exploreSection("trending", t)} hideDivider>
-          <HubCelebGrid celebs={trendingCelebs} />
+      {/* 랭킹 — 인기 프로필 · 기록 수집가 · 분야별 챔피언 탭. 더보기는 탭마다 달라 래퍼에서 뗀다.
+          인기 프로필은 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */}
+      {shown.ranking && (
+        <HubSection {...withoutMore(sec("ranking"))}>
+          <RankingTabs trending={trendingCelebs} deepReaders={deepReaders} topByType={topByType} />
         </HubSection>
       )}
 
-      {/* 2/5 랭킹 — 왕성한 탐구자 · 분야별 최고 탭 */}
-      {(deepReaders.length > 0 || topByType.length > 0) && (
-        <HubSection {...rankingSection}>
-          <RankingTabs deepReaders={deepReaders} topByType={topByType} />
-        </HubSection>
-      )}
-
-      {/* 2/4 성향 분석 — 성향 분포 */}
-      {personaPeople.length > 0 && (
-        <HubSection {...exploreSection("personaAnalysis", t)}>
+      {/* 성향 분석 — 성향 분포 */}
+      {shown.personaAnalysis && (
+        <HubSection {...sec("personaAnalysis")}>
           <PersonaDistribution people={personaPeople} />
         </HubSection>
       )}
 
-      {/* 3/4 세력도감 */}
-      <HubSection {...exploreSection("faction", t)}>
+      {/* 세력도감 */}
+      <HubSection {...sec("faction")}>
         <FactionCard locale={locale} tags={factionTagNames} />
       </HubSection>
 
-      {/* 4/4 전체 탐구자 */}
-      {allCelebs.length > 0 && (
-        <HubSection {...exploreSection("allCelebs", t)}>
+      {/* 전체 탐구자 */}
+      {shown.allCelebs && (
+        <HubSection {...sec("allCelebs")}>
           <HubCelebGrid celebs={allCelebs} />
         </HubSection>
       )}

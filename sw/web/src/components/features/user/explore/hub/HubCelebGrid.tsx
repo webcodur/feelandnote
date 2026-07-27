@@ -29,6 +29,7 @@ export default function HubCelebGrid({ celebs }: HubCelebGridProps) {
           avatar_url={celeb.avatar_url}
           title={celeb.title}
           count={celeb.content_count}
+          recentViews={celeb.recent_views}
           celebProfile={celeb}
           variant="card"
           shape="square"

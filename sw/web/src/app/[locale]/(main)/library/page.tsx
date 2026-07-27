@@ -8,7 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { SCRIPTURES_GROUP_ID, SCRIPTURES_SECTIONS, scripturesSection } from "@/components/shared/hubSectionUtils";
+import { SCRIPTURES_GROUP_ID, SCRIPTURES_SECTIONS, hubNavItems, scripturesSection } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
 import { getTodayFigure, getScripturesByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/scriptures";
@@ -89,13 +89,9 @@ export default async function ScripturesPage() {
 
   return (
     <div className="space-y-8 pb-20">
-      {/* 서브페이지 네비게이터 — SSoT config에서 라벨·순서·넘버링 동기화 */}
+      {/* 목차 줄 — SSoT config에서 라벨·순서·번호 동기화 */}
       <HubNav
-        hubItems={SCRIPTURES_SECTIONS.map((s) => ({
-          label: tHub(s.titleKey),
-          href: s.moreHref,
-          icon: s.icon,
-        }))}
+        hubItems={hubNavItems(SCRIPTURES_SECTIONS, tHub)}
         groupId={SCRIPTURES_GROUP_ID}
       />
 

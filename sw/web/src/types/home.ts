@@ -59,6 +59,15 @@ export interface CelebProfile {
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
   voice_speed?: number  // 음성 재생 속도 (기본 1.0)
   celeb_tier?: CelebTier  // full: 감상 기록 보유, 나머지 등급은 연결용 최소 인물
+  /* 아래 4종은 trending 정렬로 받은 목록에만 담긴다 (조회수 안내 모달용) */
+  /** 최근 기간(기본 30일) 조회수 */
+  recent_views?: number | null
+  /** 기록 시작부터의 누적 조회수 */
+  view_count?: number | null
+  /** 최근 기간 창의 첫 날짜 (YYYY-MM-DD) */
+  views_window_start?: string | null
+  /** 최근 기간 창의 마지막 날짜 (YYYY-MM-DD) */
+  views_window_end?: string | null
 }
 
 export interface CelebReview {
