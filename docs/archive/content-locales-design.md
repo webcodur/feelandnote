@@ -11,7 +11,7 @@
 
 *아래 원문은 마이그레이션 이전 상태를 기술한 설계 문서.*
 
-> contents 테이블에서 로케일 의존 데이터를 완전 분리하여, 전 콘텐츠 타입(BOOK/VIDEO/GAME/MUSIC/CERTIFICATE)에 통합 적용한다.
+> contents 테이블에서 로케일 의존 데이터를 완전 분리하여, 전 콘텐츠 타입(BOOK/VIDEO/GAME/MUSIC)에 통합 적용한다.
 
 ## 1. 현황 분석
 
@@ -70,10 +70,10 @@
 ```sql
 CREATE TABLE contents (
   id            TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
-  type          TEXT NOT NULL,          -- BOOK, VIDEO, GAME, MUSIC, CERTIFICATE
+  type          TEXT NOT NULL,          -- BOOK, VIDEO, GAME, MUSIC
   subtype       TEXT,                   -- movie, tv (VIDEO용)
   external_id   TEXT,                   -- 외부 API 식별자
-  external_source TEXT,                 -- tmdb, naver_book, igdb, spotify, qnet
+  external_source TEXT,                 -- tmdb, naver_book, igdb, spotify
   release_date  TEXT,
   metadata      JSONB DEFAULT '{}',
   user_count    INTEGER DEFAULT 0,
@@ -155,7 +155,6 @@ CREATE POLICY "content_locales_update" ON content_locales
 - VIDEO: `tmdb`
 - GAME: `igdb`
 - MUSIC: `spotify`
-- CERTIFICATE: `qnet`
 
 thumbnail 전용 값:
 - `goodreads`: BookCover API 경유 Goodreads 표지
@@ -308,7 +307,7 @@ SELECT id, 'en',
 FROM contents WHERE type = 'MUSIC' AND title_en IS NOT NULL;
 ```
 
-#### Step 1-5: GAME (101건), CERTIFICATE (2건) — 동일 패턴
+#### Step 1-5: GAME (101건) — 동일 패턴
 
 ### Phase 2: 앱 코드 전환 (병렬 운용)
 
@@ -384,7 +383,6 @@ BEGIN
     WHEN 'tmdb' THEN _locale := 'ko';       -- ko-KR로 검색하므로
     WHEN 'igdb' THEN _locale := 'en';       -- 영문 기반
     WHEN 'spotify' THEN _locale := 'en';    -- 영문 기반
-    WHEN 'qnet' THEN _locale := 'ko';
     ELSE _locale := 'ko';
   END CASE;
 
