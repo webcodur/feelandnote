@@ -27,6 +27,7 @@
     "./hooks/use-countries": "./src/hooks/use-countries.ts",
     "./types": "./src/types/index.ts",
     "./bo/media": "./src/bo/media.tsx",
+    "./bo/quote-editor": "./src/bo/quote-editor.tsx",
     "./bo/media-src": "./src/bo/media-src.ts",
     "./bo/editor": "./src/bo/editor.tsx",
     "./bo/voice": "./src/bo/voice.tsx",

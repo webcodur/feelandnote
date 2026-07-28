@@ -555,6 +555,18 @@ export function ImagePicker({
 
   useEffect(() => { loadImages() }, [loadImages])
 
+  // 이 창을 열어 둔 채 탐색기에서 사진을 넣고 돌아오는 흐름 — 돌아온 순간 목록을 다시 읽는다
+  useEffect(() => {
+    const onFocus = () => loadImages()
+    const onVisible = () => { if (document.visibilityState === 'visible') loadImages() }
+    window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [loadImages])
+
   const handleUpload = async (file: File) => {
     setBusy(true)
     try {
@@ -858,16 +870,45 @@ export function ImagePool({
   const [editingFolder, setEditingFolder] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
 
-  const load = useCallback(() => {
-    setLoading(true)
+  /** 마지막으로 목록을 읽어 온 시각 — 잇달아 들어오는 자동 재조회를 걸러낸다 */
+  const lastLoadAt = useRef(0)
+
+  /**
+   * 목록 읽기. quiet 면 「불러오는 중」 문구를 띄우지 않는다 —
+   * 자동 재조회는 사용자가 부른 게 아니라 화면이 흔들리면 안 된다.
+   */
+  const load = useCallback((quiet = false) => {
+    if (!quiet) setLoading(true)
+    lastLoadAt.current = Date.now()
     fetch(`/api/${series}/media?ep=${encodeURIComponent(episodeName)}&tree=1`)
       .then(r => r.json())
       .then((data: MediaTree) => setTree(data))
       .catch(() => setTree({ files: [], folders: [] }))
-      .finally(() => setLoading(false))
+      .finally(() => { if (!quiet) setLoading(false) })
   }, [series, episodeName])
 
   useEffect(() => { load() }, [load, reloadKey])
+
+  /** 조용한 재조회 — 방금 읽었으면 건너뛴다(연달아 들어오는 신호 흡수) */
+  const refresh = useCallback((minGapMs = 800) => {
+    if (Date.now() - lastLoadAt.current < minGapMs) return
+    load(true)
+  }, [load])
+
+  /**
+   * 탐색기에서 사진을 넣거나 뺀 뒤 이 창으로 돌아오면 목록을 다시 읽는다.
+   * 브라우저는 폴더 변화를 알 수 없으니 「창으로 돌아온 순간」이 유일한 신호다.
+   */
+  useEffect(() => {
+    const onFocus = () => refresh()
+    const onVisible = () => { if (document.visibilityState === 'visible') refresh() }
+    window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [refresh])
 
   /** 이 편의 사진 폴더를 탐색기로 연다. folder 를 주면 그 아래 폴더를 연다. */
   const openFolder = useCallback((folder?: string) => {
@@ -935,14 +976,20 @@ export function ImagePool({
   const usedCount = useMemo(() => files.filter(f => usedImages.has(f.path)).length, [files, usedImages])
 
   const allOpen = allFolders.length > 0 && allFolders.every(k => opened.has(k))
-  const toggleOpen = (key: string) =>
+  // 폴더를 펼치는 순간은 그 안을 보려는 순간이다 — 그때 목록을 다시 읽어 최신 사진을 보여준다
+  const toggleOpen = (key: string) => {
+    if (!opened.has(key)) refresh()
     setOpened(prev => {
       const next = new Set(prev)
       if (next.has(key)) next.delete(key)
       else next.add(key)
       return next
     })
-  const toggleAll = () => setOpened(allOpen ? new Set() : new Set(allFolders))
+  }
+  const toggleAll = () => {
+    if (!allOpen) refresh()
+    setOpened(allOpen ? new Set() : new Set(allFolders))
+  }
 
   // 검색 중에는 결과가 든 폴더를 자동으로 펼친다
   useEffect(() => {
@@ -1157,7 +1204,8 @@ export function ImagePool({
             <FolderOpen size={13} /> 폴더 열기
           </button>
           <button
-            onClick={load}
+            onClick={() => load()}
+            title="목록을 지금 다시 읽는다 (탐색기를 다녀오면 저절로도 갱신된다)"
             className="rounded-md border border-border bg-bg-card px-2 py-1 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
           >
             새로고침
@@ -1212,6 +1260,167 @@ export function ImagePool({
  * 누르면 사진 고르기 창이 뜨고, 사진 목록에서 끌어다 놓아도 연결된다.
  * 비어 있으면 무엇으로 대신 나가는지(예: 인물 기본 사진) 안내를 띄운다.
  */
+// ─────────────────────────────────────────────────────────────────────────────
+// 사진 카드 — 대사 구절에 걸린 사진 한 장 (팩션 인물 대사 · 담화 발언 공용)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * 대사 구절 ↔ 그 구절에 걸린 사진 카드를 같은 색으로 묶는 색 묶음.
+ *
+ * 대사 쪽 색칠·표식과 사진 카드의 테두리·머리띠가 이 한 벌을 공유한다.
+ * 어느 사진이 어디부터 화면에 뜨는지 눈으로 바로 대조된다.
+ *
+ * bg 는 대사칸 위에 얹는 옅은 색칠이라 진하게(/25) 잡아야 구획이 눈에 든다.
+ * badge* 는 카드 머리띠·표식용 밝은 색 — 어두운 바탕에서 도드라지도록 밝은 쪽을 유지한다.
+ */
+export type AnchorTheme = {
+  name: string
+  bg: string
+  text: string
+  border: string
+  badgeBg: string
+  badgeText: string
+}
+
+export const ANCHOR_THEMES: AnchorTheme[] = [
+  { name: 'amber', bg: 'bg-amber-400/25', text: 'text-amber-600', border: 'border-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-800' },
+  { name: 'blue', bg: 'bg-blue-400/25', text: 'text-blue-600', border: 'border-blue-400', badgeBg: 'bg-blue-100', badgeText: 'text-blue-800' },
+  { name: 'emerald', bg: 'bg-emerald-400/25', text: 'text-emerald-600', border: 'border-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-800' },
+  { name: 'violet', bg: 'bg-violet-400/25', text: 'text-violet-600', border: 'border-violet-400', badgeBg: 'bg-violet-100', badgeText: 'text-violet-800' },
+  { name: 'rose', bg: 'bg-rose-400/25', text: 'text-rose-600', border: 'border-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-800' },
+  { name: 'cyan', bg: 'bg-cyan-400/25', text: 'text-cyan-600', border: 'border-cyan-400', badgeBg: 'bg-cyan-100', badgeText: 'text-cyan-800' },
+]
+
+/** 순번을 색으로 — 색 수를 넘어가면 처음부터 돌아간다 */
+export const themeAt = (index: number): AnchorTheme => ANCHOR_THEMES[index % ANCHOR_THEMES.length]
+
+/** 사진 색감 — 렌더가 지원하는 값만 둔다 */
+export const IMAGE_FILTER_OPTIONS: { value: string; label: string }[] = [
+  { value: '', label: '원본' },
+  { value: 'vintage', label: '필름' },
+  { value: 'sepia', label: '세피아' },
+  { value: 'grayscale', label: '흑백' },
+  { value: 'duotone', label: '투톤' },
+  { value: 'fade', label: '페이드' },
+]
+
+/**
+ * 사진 카드 — 왼쪽에 큼직한 사진, 오른쪽에 머리띠(이름표·색감·지우기)와 본문(걸리는 구절).
+ *
+ * 팩션 인물 대사와 담화 발언이 같은 부품을 쓴다. 사진 고르는 창은 부르는 쪽이 띄운다 —
+ * 대사 글에서 표식을 눌러도 같은 창이 열려야 해서 여닫는 권한을 부품이 쥐면 안 된다.
+ */
+export function ImageCard({
+  src, crop, inheritedSrc, inheritedCrop, inheritedLabel = '물려받음',
+  dnd, onDropImage, onOpenPicker,
+  label, theme, filter, onFilterChange, onClearImage, onRemove,
+  caption, captionEmpty = '빈 줄', children, width = 280,
+}: {
+  /** 이 카드에 걸린 사진 주소 (imageSrc 를 거친 값) */
+  src?: string
+  crop?: ImageCrop
+  /** 비었을 때 흐리게 깔아 보여줄 사진 — 어차피 이게 나간다는 표시 */
+  inheritedSrc?: string
+  inheritedCrop?: ImageCrop
+  inheritedLabel?: string
+  /** 끌어다 놓기 데이터 종류 — 시리즈별 상수 */
+  dnd: string
+  onDropImage: (path: string) => void
+  onOpenPicker: () => void
+  /** 머리띠 이름표 — '#1 시작' 같은 것 */
+  label: string
+  theme?: AnchorTheme
+  /** 색감 — 넘기면 머리띠에 고르는 칸이 뜬다 */
+  filter?: string
+  onFilterChange?: (filter: string | undefined) => void
+  /** 사진만 비우기(자리는 남김) */
+  onClearImage?: () => void
+  /** 이 자리를 아예 없애기 */
+  onRemove?: () => void
+  /** 이 사진이 걸리는 대사 구절 */
+  caption?: string
+  captionEmpty?: string
+  /** 본문 아랫단 — 구절 고르기 같은 것 */
+  children?: ReactNode
+  width?: number
+}) {
+  const { dragOver, dropProps } = useImageDrop(dnd, onDropImage)
+  const borderCls = theme ? theme.border : 'border-border'
+
+  return (
+    <div className={`flex shrink-0 flex-row overflow-hidden rounded border bg-bg-card shadow-sm ${borderCls}`} style={{ width }}>
+      <button
+        type="button"
+        onClick={e => { e.stopPropagation(); onOpenPicker() }}
+        {...dropProps}
+        title="누르면 사진을 고릅니다 · 사진 목록에서 끌어다 놓아도 됩니다"
+        className={`relative flex aspect-[4/3] w-28 shrink-0 items-center justify-center overflow-hidden border-e bg-black/5 ${borderCls} ${dragOver ? 'border-accent ring-2 ring-accent' : ''}`}
+      >
+        {src ? (
+          <MediaThumb src={src} alt="" className="h-full w-full object-cover" style={cropToStyle(crop)} />
+        ) : inheritedSrc ? (
+          <>
+            <MediaThumb src={inheritedSrc} alt="" className="h-full w-full object-cover opacity-40 grayscale-[0.5]" style={cropToStyle(inheritedCrop)} />
+            <span className="pointer-events-none absolute rounded bg-black/60 px-1.5 py-0.5 text-center text-[10px] font-bold leading-tight text-white shadow-sm">
+              {dragOver ? '놓기' : inheritedLabel}
+            </span>
+          </>
+        ) : (
+          <span className="text-[10px] text-text-dim">{dragOver ? '놓기' : '사진 고르기'}</span>
+        )}
+      </button>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className={`flex items-center justify-between border-b px-1.5 py-1 ${theme ? `${theme.badgeBg} ${theme.border}` : 'border-border bg-bg-hover'}`}>
+          <span className={`text-[10px] font-black ${theme ? theme.badgeText : 'text-text-secondary'}`}>{label}</span>
+          <div className="flex items-center gap-1">
+            {onFilterChange && src && (
+              <select
+                value={filter ?? ''}
+                onChange={e => onFilterChange(e.target.value || undefined)}
+                onClick={e => e.stopPropagation()}
+                className="rounded border border-border bg-bg-main px-1 py-0.5 text-[9px] text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
+                title="사진 색감"
+              >
+                {IMAGE_FILTER_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            )}
+            {onClearImage && src && (
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); onClearImage() }}
+                className="ms-0.5 rounded bg-black/5 px-1.5 py-0.5 text-[10px] text-text-dim hover:bg-amber-100 hover:text-amber-600"
+                title="사진만 비웁니다 (자리는 남습니다)"
+              >
+                △
+              </button>
+            )}
+            {onRemove && (
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); onRemove() }}
+                className="ms-0.5 p-0.5 text-text-dim hover:text-danger-text"
+                title="이 자리를 없앱니다"
+              >
+                <Trash2 size={12} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-1 flex-col justify-center gap-1 bg-bg-main p-1.5">
+          {caption !== undefined && (
+            <div className="truncate px-1 text-[10px] font-bold text-yellow-600" title={caption || captionEmpty}>
+              &quot;{caption || captionEmpty}&quot;
+            </div>
+          )}
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function ImageSlot({
   value, onChange, crop, onCropChange, series, episodeName, dnd,
   label, emptyText, inheritedSrc, size = 72, pickerTitle, onUploaded,
