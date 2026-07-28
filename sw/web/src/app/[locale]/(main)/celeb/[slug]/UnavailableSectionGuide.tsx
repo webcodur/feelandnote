@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 
-import type { ServiceItem } from "./CelebServiceAtlas";
+import type { ServiceItem } from "./celebServiceItems";
 import styles from "./UnavailableSectionGuide.module.css";
 
 interface Props {

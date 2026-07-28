@@ -26,11 +26,11 @@ import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
 import LibraryTabs from "./LibraryTabs";
-import CelebServiceNavigator, {
+import {
   type CelebServiceAvailability,
   type ServiceTarget,
   useCelebServiceItems,
-} from "./CelebServiceNavigator";
+} from "./celebServiceItems";
 import { CelebAtlasNavigation } from "./CelebAtlasRails";
 import { CelebTierBadge, CelebTierNotice } from "./CelebTierNotice";
 import { type CelebVideoItem } from "./VideosSection";
@@ -462,14 +462,6 @@ export default function CelebPageContent({
             />
           </div>
         </ClassicalBox>
-
-        <CelebServiceNavigator
-          tier={celebTier}
-          showLibrary={showLibrary}
-          availability={serviceAvailability}
-          onNavigate={handleServiceNavigate}
-          className="hidden md:block xl:hidden"
-        />
       </section>
 
       {/* 기록물 (감상 / 창작) */}

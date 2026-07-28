@@ -3,8 +3,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import type { ServiceItem } from "./CelebServiceAtlas";
-import type { ServiceTarget } from "./CelebServiceNavigator";
+import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
 import styles from "./CelebSectionHeading.module.css";
 
 interface CelebSectionHeadingProps {

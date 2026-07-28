@@ -9,8 +9,7 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 import { SacredFlameIcon } from "@/components/ui/icons/neo-pantheon";
 
-import type { ServiceItem } from "./CelebServiceAtlas";
-import type { ServiceTarget } from "./CelebServiceNavigator";
+import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
 import styles from "./CelebAtlasRails.module.css";
 
 interface SharedProps {
