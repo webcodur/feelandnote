@@ -1,8 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
+
+import { localizeCountryName } from "./countryNamesKo";
 
 /* ── 공용 지구본 ──
    좌표 목록을 받아 회전하는 지구 위에 찍고, 원하면 순서대로 이어 경로를 그린다.
@@ -49,12 +52,22 @@ const GRATICULE = "rgba(212,175,55,0.06)";
 const PATH_COLOR = "rgba(212,175,55,0.45)";
 const DOT_FILL = "#8a732a";
 const DOT_ACTIVE = "#f9d76e";
-const LABEL_COLOR = "#e8e3d6";
-const LABEL_BG = "rgba(10,10,10,0.85)";
+
+/* 두 극에 두는 표식 — 지구본을 아무렇게나 돌려도 위아래를 가늠할 수 있게 한다.
+   북쪽은 찬 하늘빛, 남쪽은 얼음빛으로 서로 다르게 둔다. */
+const POLES = [
+  { lat: 90, fill: "#7fc4e8", glow: "rgba(127,196,232,0.25)" },
+  { lat: -90, fill: "#d8dee6", glow: "rgba(216,222,230,0.22)" },
+];
 
 const MIN_ZOOM = 0.2;
-const MAX_ZOOM = 1.4;
+/* 한 지역을 들여다볼 수 있을 만큼 크게 — 바다만 남을 정도까지 당겨진다 */
+const MAX_ZOOM = 4;
 const DEFAULT_ZOOM = 0.42;
+/* 한 번 굴리거나 누를 때 곱해지는 배율. 커질수록 같은 손짓에 더 크게 움직인다.
+   더하기가 아니라 곱하기라 확대된 상태에서도 체감 속도가 일정하다. */
+const WHEEL_STEP = 1.18;
+const BUTTON_STEP = 1.45;
 const HIT_RADIUS = 16;
 const DRAG_SLOP = 3;
 
@@ -95,12 +108,15 @@ export default function WorldGlobe({
   maxHeight = 460,
   controlLabels,
 }: Props) {
+  const locale = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const countriesRef = useRef<GeoJSON.FeatureCollection | null>(null);
   const meshRef = useRef<GeoJSON.MultiLineString | null>(null);
   const [ready, setReady] = useState(false);
   const [hoverId, setHoverId] = useState<string | null>(null);
+  /* 손끝이 닿은 나라 이름 — 지도만으로는 어디가 어딘지 알 수 없어 아래 띠에 적는다 */
+  const [hoverCountry, setHoverCountry] = useState<string | null>(null);
 
   const homeRotation = useMemo(() => centroidOf(markers), [markers]);
   const rotationRef = useRef<[number, number]>(homeRotation);
@@ -117,6 +133,14 @@ export default function WorldGlobe({
     () => markers.filter((m) => Number.isFinite(m.lat) && Number.isFinite(m.lng)),
     [markers],
   );
+
+  /* 짚었거나 고른 지점의 이름 — 나라 이름보다 이쪽을 먼저 보여준다 */
+  const hoverLabel = useMemo(() => {
+    const id = hoverId ?? activeId;
+    const found = ordered.find((m) => m.id === id);
+    if (!found) return null;
+    return found.order != null ? `${found.order}. ${found.label}` : found.label;
+  }, [activeId, hoverId, ordered]);
 
   /* ── 지도 원본 로드 ── */
   useEffect(() => {
@@ -217,6 +241,31 @@ export default function WorldGlobe({
       ctx.stroke();
     }
 
+    // 두 극 표식 — 마름모 하나로 위아래를 알린다
+    for (const pole of POLES) {
+      if (!isVisible(0, pole.lat, rotation)) continue;
+      const pt = projection([0, pole.lat]);
+      if (!pt) continue;
+
+      const r = 5;
+      ctx.beginPath();
+      ctx.arc(pt[0], pt[1], r + 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = pole.glow;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(pt[0], pt[1] - r);
+      ctx.lineTo(pt[0] + r, pt[1]);
+      ctx.lineTo(pt[0], pt[1] + r);
+      ctx.lineTo(pt[0] - r, pt[1]);
+      ctx.closePath();
+      ctx.fillStyle = pole.fill;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(8,10,12,0.9)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
     // 이동 경로 — 지구 뒤로 넘어가는 구간은 끊는다
     if (showPath && ordered.length > 1) {
       ctx.strokeStyle = PATH_COLOR;
@@ -248,8 +297,7 @@ export default function WorldGlobe({
       ctx.setLineDash([]);
     }
 
-    // 좌표 점
-    let labelTarget: { x: number; y: number; text: string } | null = null;
+    // 좌표 점 (이름은 아래 띠가 맡는다)
     for (const m of ordered) {
       if (!isVisible(m.lng, m.lat, rotation)) continue;
       const pt = projection([m.lng, m.lat]);
@@ -273,39 +321,8 @@ export default function WorldGlobe({
       ctx.strokeStyle = "rgba(10,10,10,0.9)";
       ctx.lineWidth = 1;
       ctx.stroke();
-
-      if (isActive || isHover) {
-        labelTarget = {
-          x: pt[0],
-          y: pt[1],
-          text: m.order != null ? `${m.order}. ${m.label}` : m.label,
-        };
-      }
     }
 
-    // 강조된 곳 이름 — 점에 가리지 않도록 마지막에 그린다
-    if (labelTarget) {
-      ctx.font = "12px ui-sans-serif, system-ui, sans-serif";
-      const textW = ctx.measureText(labelTarget.text).width;
-      const padX = 6;
-      const boxW = textW + padX * 2;
-      const boxH = 20;
-      let bx = labelTarget.x + 10;
-      const by = labelTarget.y - boxH - 6;
-      if (bx + boxW > w - 4) bx = labelTarget.x - boxW - 10;
-
-      ctx.fillStyle = LABEL_BG;
-      ctx.beginPath();
-      ctx.roundRect(bx, Math.max(2, by), boxW, boxH, 4);
-      ctx.fill();
-      ctx.strokeStyle = SEA_EDGE;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      ctx.fillStyle = LABEL_COLOR;
-      ctx.textBaseline = "middle";
-      ctx.fillText(labelTarget.text, bx + padX, Math.max(2, by) + boxH / 2);
-    }
   }, [activeId, graticule, hoverId, ordered, projectionOf, showPath]);
 
   const requestDraw = useCallback(() => {
@@ -356,8 +373,8 @@ export default function WorldGlobe({
     if (!canvas) return;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
-      const delta = e.deltaY < 0 ? 0.04 : -0.04;
-      zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current + delta));
+      const factor = e.deltaY < 0 ? WHEEL_STEP : 1 / WHEEL_STEP;
+      zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current * factor));
       requestDraw();
     };
     canvas.addEventListener("wheel", handler, { passive: false });
@@ -404,6 +421,28 @@ export default function WorldGlobe({
     [ordered, projectionOf],
   );
 
+  /** 커서가 짚은 자리가 어느 나라인지 — 지도 원본이 가진 이름을 그대로 쓴다 */
+  const countryAt = useCallback(
+    (clientX: number, clientY: number): string | null => {
+      const canvas = canvasRef.current;
+      const countries = countriesRef.current;
+      if (!canvas || !countries) return null;
+      const rect = canvas.getBoundingClientRect();
+      const projection = projectionOf();
+      const coord = projection.invert?.([clientX - rect.left, clientY - rect.top]);
+      if (!coord || !Number.isFinite(coord[0]) || !Number.isFinite(coord[1])) return null;
+
+      for (const feature of countries.features) {
+        if (d3.geoContains(feature, coord as [number, number])) {
+          const name = feature.properties?.name;
+          return typeof name === "string" ? name : null;
+        }
+      }
+      return null;
+    },
+    [projectionOf],
+  );
+
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
       if (draggingRef.current) {
@@ -425,8 +464,10 @@ export default function WorldGlobe({
       }
       const hit = hitTest(e.clientX, e.clientY);
       setHoverId((prev) => (prev === hit ? prev : hit));
+      const country = countryAt(e.clientX, e.clientY);
+      setHoverCountry((prev) => (prev === country ? prev : country));
     },
-    [degreesPerPixel, hitTest, requestDraw],
+    [countryAt, degreesPerPixel, hitTest, requestDraw],
   );
 
   const handlePointerUp = useCallback(() => {
@@ -443,8 +484,8 @@ export default function WorldGlobe({
   );
 
   const zoomBy = useCallback(
-    (delta: number) => {
-      zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current + delta));
+    (factor: number) => {
+      zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current * factor));
       requestDraw();
     },
     [requestDraw],
@@ -465,10 +506,10 @@ export default function WorldGlobe({
       className={`relative overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary select-none ${className}`}
     >
       <div className="absolute top-2 right-2 z-10 flex flex-col gap-1">
-        <button type="button" onClick={() => zoomBy(0.06)} className={btnClass} aria-label={controlLabels?.zoomIn}>
+        <button type="button" onClick={() => zoomBy(BUTTON_STEP)} className={btnClass} aria-label={controlLabels?.zoomIn}>
           +
         </button>
-        <button type="button" onClick={() => zoomBy(-0.06)} className={btnClass} aria-label={controlLabels?.zoomOut}>
+        <button type="button" onClick={() => zoomBy(1 / BUTTON_STEP)} className={btnClass} aria-label={controlLabels?.zoomOut}>
           −
         </button>
         <button type="button" onClick={handleReset} className={`${btnClass} text-[10px]`} aria-label={controlLabels?.reset}>
@@ -480,16 +521,35 @@ export default function WorldGlobe({
         ref={canvasRef}
         role="img"
         aria-label={label}
-        style={{ display: "block", width: "100%", cursor: onSelect && hoverId ? "pointer" : "grab" }}
+        /* touchAction none — 손가락으로 끌 때 브라우저가 그 동작을 페이지 스크롤로
+           가져가 버리면 지구본이 돌지 않는다. 회전은 이 그림판이 직접 맡는다. */
+        style={{
+          display: "block",
+          width: "100%",
+          touchAction: "none",
+          cursor: onSelect && hoverId ? "pointer" : "grab",
+        }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
         onPointerLeave={() => {
           handlePointerUp();
           setHoverId(null);
+          setHoverCountry(null);
         }}
         onClick={handleClick}
       />
+
+      {/* 가운데 아래 띠 — 짚은 곳의 이름을 적는다. 자리는 늘 잡아 두어 글이 뜰 때
+          지구본이 흔들리지 않게 한다. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-8 items-center justify-center px-2">
+        {(hoverLabel || hoverCountry) && (
+          <span className="max-w-full truncate rounded bg-black/70 px-2.5 py-1 text-xs text-text-primary backdrop-blur-sm">
+            {hoverLabel ?? localizeCountryName(hoverCountry as string, locale)}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
