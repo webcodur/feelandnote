@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Info, ChevronDown, ChevronUp } from "lucide-react";
+import { Info } from "lucide-react";
 
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
+import { DetailToggle, ScoreBar } from "@/components/ui";
 import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import {
   ABILITY_KEYS,
@@ -97,7 +98,7 @@ function SimilarFiguresHeader() {
   );
 }
 
-// ─── 덕목 바 ────────────────────────────────────────
+// ─── 덕목 바 (영향력 탭과 공유하는 공통 눈금) ───────
 
 function VirtueBar({
   label,
@@ -112,39 +113,17 @@ function VirtueBar({
   isEn?: boolean;
   showReason?: boolean;
 }) {
-  const pct = Math.min(100, Math.max(0, value));
-
   return (
-    <div className="py-1.5">
-      <div className="flex items-center gap-3">
-        <span
-          className={cn(
-            "text-sm font-bold tracking-tight shrink-0 text-left text-text-primary",
-            isEn ? "w-[5.5rem]" : "w-10",
-          )}
-        >
-          {label}
-        </span>
-
-        <div className="relative flex-1 h-1.5 bg-white/[0.03] rounded-full ring-1 ring-white/5 overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-accent/60 via-accent to-accent-dim transition-all duration-1000 ease-out relative shadow-[0_0_15px_rgba(212,175,55,0.15)]"
-            style={{ width: `${pct}%` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30" />
-          </div>
-        </div>
-
-        <span className="w-8 text-right text-xs text-accent font-serif tabular-nums font-bold shrink-0">
-          {value}
-        </span>
-      </div>
-      {showReason && reason && (
-        <p className="mt-1 text-sm text-text-secondary leading-relaxed break-keep animate-fade-in">
-          {reason}
-        </p>
-      )}
-    </div>
+    <ScoreBar
+      label={label}
+      value={value}
+      labelClassName={isEn ? "w-[5.5rem]" : "w-10"}
+      description={
+        showReason && reason ? (
+          <span className="block animate-fade-in">{reason}</span>
+        ) : null
+      }
+    />
   );
 }
 
@@ -274,17 +253,8 @@ export default function PersonaSection({
         </div>
       )}
 
-      {/* 상세 분석 토글 */}
-      <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={() => setShowDetail((v) => !v)}
-          className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
-        >
-          {showDetail ? t("hideDetail") : t("showDetail")}
-          {showDetail ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-        </button>
-      </div>
+      {/* 상세 분석 토글 (영향력 탭과 같은 단추) */}
+      <DetailToggle open={showDetail} onToggle={() => setShowDetail((v) => !v)} />
 
       {/* 핵심 능력 | 핵심 성향 — 덕목 두 묶음과 같은 두 칸 세로 배치 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">

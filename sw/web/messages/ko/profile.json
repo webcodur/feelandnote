@@ -208,6 +208,62 @@
       "noDetails": "해당 영역 특이사항 없음",
       "originalKorean": "한국어 원문",
       "topStrengths": "주요 강점",
+      "rankingLine": "{total, number}명 중 {ranking, number}위",
+      "percentileTop": "상위 {percent}%",
+      "archetypeOne": "{first}형",
+      "archetypeTwo": "{first}·{second}형",
+      "noInfluence": "영향 없는 영역",
+      "scoreInfo": {
+        "title": "영향력 점수 보는 법",
+        "composition": "여섯 영역의 점수(각 10점)에 시대초월성(40점)을 더해 100점으로 매긴다. 그 총점이 놓인 자리가 등급이 된다.",
+        "domainsPart": "여섯 영역",
+        "transPart": "시대초월성",
+        "totalPart": "종합",
+        "domainsTitle": "여섯 영역이 보는 것",
+        "domainQuestions": {
+          "political": "정치 체제·정책·외교 질서를 바꿨는가",
+          "strategic": "군사 전략·무기 체계·안보의 판을 바꿨는가",
+          "tech": "기술과 과학의 진전에 기여했는가",
+          "social": "사회 규범·윤리 담론·제도를 바꿨는가",
+          "economic": "산업 구조와 경제 방식을 바꿨는가",
+          "cultural": "문화·예술의 흐름이나 장르를 바꿨는가"
+        },
+        "ranksTitle": "등급",
+        "note": "본인이 직접 해낸 일에 가장 높은 점수를 주고, 그 분야가 서기 위해 반드시 필요했던 토대를 놓은 경우가 그다음이다. 여러 다리를 건너 겨우 닿는 연결은 점수로 치지 않는다."
+      },
+      "transhistoricityInfo": {
+        "title": "시대초월성",
+        "definition": "한 사람의 자취가 살아 있던 때를 넘어 인류사 전체에 얼마나 걸쳐 있는지를 40점으로 잰다.",
+        "criteria": "오랜 기간 실제로 영향을 미쳤는지, 그리고 종교·법·과학 원리처럼 문명의 토대로 자리 잡아 앞으로도 이어질지를 본다. 아직 검증되지 않은 미래 전망은 반영하지 않는다.",
+        "bandsTitle": "점수 구간",
+        "currentScore": "이 인물 {value}점",
+        "bands": {
+          "foundation": {
+            "desc": "인류 문명의 근본 토대",
+            "examples": "예수 · 붓다 · 공자 · 무함마드 · 아리스토텔레스"
+          },
+          "paradigm": {
+            "desc": "문명의 판을 바꾸고 토대로 남음",
+            "examples": "뉴턴 · 다윈 · 아인슈타인"
+          },
+          "domain": {
+            "desc": "한 분야의 뿌리로 오래 이어짐",
+            "examples": "칸트 · 마르크스 · 프로이트"
+          },
+          "modern": {
+            "desc": "근현대에 큰 영향, 부분적 토대",
+            "examples": "처칠 · 간디 · 케인스"
+          },
+          "contemporary": {
+            "desc": "지금은 영향력이 크나 지속은 미지수",
+            "examples": "스티브 잡스 · 일론 머스크"
+          },
+          "ownEra": {
+            "desc": "살던 시대 안에서의 영향",
+            "examples": "당대에 이름을 알린 대부분의 인물"
+          }
+        }
+      },
       "categories": {
         "political": "정치",
         "strategic": "전략",

@@ -208,6 +208,62 @@
       "noDetails": "No notable impact recorded in this domain",
       "originalKorean": "Original Korean text",
       "topStrengths": "Leading Domains",
+      "rankingLine": "#{ranking, number} of {total, number}",
+      "percentileTop": "Top {percent}%",
+      "archetypeOne": "{first}-driven",
+      "archetypeTwo": "{first} & {second}-driven",
+      "noInfluence": "No influence",
+      "scoreInfo": {
+        "title": "How the score works",
+        "composition": "Six domains (10 points each) plus enduring impact (40 points) make up a 100-point total. Where that total lands sets the rank.",
+        "domainsPart": "Six domains",
+        "transPart": "Enduring impact",
+        "totalPart": "Total",
+        "domainsTitle": "What each domain asks",
+        "domainQuestions": {
+          "political": "Did they change political systems, policy, or diplomatic order?",
+          "strategic": "Did they change military strategy, weapons, or security doctrine?",
+          "tech": "Did they advance technology or science?",
+          "social": "Did they change social norms, ethical debate, or institutions?",
+          "economic": "Did they change industrial structure or how economies work?",
+          "cultural": "Did they change currents or genres in culture and art?"
+        },
+        "ranksTitle": "Ranks",
+        "note": "The highest scores go to what a figure did themselves; laying the groundwork a field could not have stood without comes next. Connections that only reach through several removes do not count."
+      },
+      "transhistoricityInfo": {
+        "title": "Enduring Impact",
+        "definition": "A 40-point measure of how far a figure's mark reaches beyond their own lifetime, across the span of human history.",
+        "criteria": "Two things count: whether the influence held over a long stretch of time, and whether it settled into the foundations of civilization — religion, law, scientific principle — in a way that will carry forward. Unproven predictions about the future are left out.",
+        "bandsTitle": "Score bands",
+        "currentScore": "this figure: {value}",
+        "bands": {
+          "foundation": {
+            "desc": "Bedrock of human civilization",
+            "examples": "Jesus · Buddha · Confucius · Muhammad · Aristotle"
+          },
+          "paradigm": {
+            "desc": "Shifted the paradigm and stayed as foundation",
+            "examples": "Newton · Darwin · Einstein"
+          },
+          "domain": {
+            "desc": "Root of a single field, carried far",
+            "examples": "Kant · Marx · Freud"
+          },
+          "modern": {
+            "desc": "Major modern impact, partly foundational",
+            "examples": "Churchill · Gandhi · Keynes"
+          },
+          "contemporary": {
+            "desc": "Powerful today, staying power unproven",
+            "examples": "Steve Jobs · Elon Musk"
+          },
+          "ownEra": {
+            "desc": "Influence within their own era",
+            "examples": "Most figures well known in their day"
+          }
+        }
+      },
       "categories": {
         "political": "Politics",
         "strategic": "Strategy",
