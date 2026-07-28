@@ -11,6 +11,7 @@ import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import { Z_INDEX } from "@/constants/zIndex";
+import typography from "./CelebDetailTypography.module.css";
 
 interface FactionPreviewModalProps {
   tag: FactionTagItem;
@@ -79,7 +80,7 @@ export default function FactionPreviewModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="faction-preview-title"
-        className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl overscroll-contain overflow-y-auto rounded-[3px] border border-white/15 bg-bg-main shadow-[0_28px_100px_rgba(0,0,0,0.85)] animate-modal-content sm:max-h-[calc(100dvh-2.5rem)]"
+        className={`${typography.detailTypography} relative max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overscroll-contain overflow-y-auto rounded-[3px] border border-white/15 bg-bg-main shadow-[0_28px_100px_rgba(0,0,0,0.85)] animate-modal-content sm:max-h-[calc(100dvh-2.5rem)]`}
       >
         <div
           className="sticky top-0 z-20 h-[2px] w-full"
@@ -107,7 +108,7 @@ export default function FactionPreviewModal({
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2
               id="faction-preview-title"
-              className="font-serif text-2xl font-bold leading-tight text-text-primary sm:text-3xl"
+              className="font-serif text-3xl font-bold leading-tight text-text-primary sm:text-4xl"
             >
               {name}
             </h2>
@@ -203,7 +204,7 @@ export default function FactionPreviewModal({
           </section>
         )}
 
-        <div className="grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+        <div className="grid gap-8 p-5 sm:p-7">
           <div className="space-y-7">
             {/* 이 테마를 다룬 세력도 영상·배경음악 — 창을 떠나지 않고 그 자리에서 본다. 없으면 안 뜬다 */}
             <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
@@ -225,7 +226,7 @@ export default function FactionPreviewModal({
                   {t("factionRole")}
                 </h3>
                 {roleShort && (
-                  <p className="font-serif text-lg font-bold leading-snug text-text-primary">
+                  <p className="font-serif text-xl font-bold leading-snug text-text-primary sm:text-2xl">
                     {roleShort}
                   </p>
                 )}
@@ -265,7 +266,7 @@ export default function FactionPreviewModal({
                           {t("factionCurrentMember")}
                         </span>
                       )}
-                      <div className="relative mb-2 h-12 w-12 overflow-hidden rounded-full bg-bg-secondary ring-1 ring-white/10 group-hover:ring-accent/45">
+                      <div className="relative mb-3 h-16 w-16 overflow-hidden sm:h-20 sm:w-20 rounded-full bg-bg-secondary ring-1 ring-white/10 group-hover:ring-accent/45">
                         {isLoading ? (
                           <span className="flex h-full w-full items-center justify-center text-accent">
                             <LoaderCircle size={19} className="animate-spin" aria-hidden />
@@ -276,7 +277,7 @@ export default function FactionPreviewModal({
                             alt={memberName}
                             fill
                             unoptimized
-                            sizes="48px"
+                            sizes="80px"
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         ) : (
@@ -299,7 +300,7 @@ export default function FactionPreviewModal({
                   return isCurrent ? (
                     <div
                       key={member.id}
-                      className="relative flex min-h-[116px] flex-col items-center rounded-[2px] border bg-white/[0.055] px-2.5 py-3 text-center"
+                      className="relative flex min-h-[168px] flex-col items-center rounded-[2px] border bg-white/[0.055] px-3 py-4 text-center"
                       style={{ borderColor: tag.color }}
                     >
                       {memberContent}
@@ -311,7 +312,7 @@ export default function FactionPreviewModal({
                       onClick={() => onMemberSelect(member.id)}
                       disabled={isLoading}
                       aria-busy={isLoading}
-                      className="group relative flex min-h-[116px] cursor-pointer flex-col items-center rounded-[2px] border border-white/10 bg-white/[0.018] px-2.5 py-3 text-center hover:border-accent/40 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait"
+                      className="group relative flex min-h-[168px] cursor-pointer flex-col items-center rounded-[2px] border border-white/10 bg-white/[0.018] px-3 py-4 text-center hover:border-accent/40 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait"
                     >
                       {memberContent}
                     </button>
