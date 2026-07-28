@@ -21,7 +21,7 @@ export default function HeaderSearch() {
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const mobileInputRef = useRef<HTMLInputElement>(null);
   const {
-    containerRef, inputRef,
+    containerRef, mobileContainerRef, inputRef,
     isOpen, setIsOpen, isModeOpen, setIsModeOpen,
     mode, contentCategory, query, setQuery,
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
@@ -70,6 +70,7 @@ export default function HeaderSearch() {
   // region: 모바일 확장 검색창 (풀스크린 오버레이)
   const MobileExpandedSearch = isMobileExpanded && (
     <div
+      ref={mobileContainerRef}
       className="xl:hidden fixed inset-0 bg-bg-main"
       style={{ zIndex: Z_INDEX.modal }}
     >
@@ -85,7 +86,6 @@ export default function HeaderSearch() {
           unstyled
           type="button"
           onClick={closeMobileSearch}
-          onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
           className="w-8 h-8 flex items-center justify-center rounded-sm hover:bg-white/5 group shrink-0"
         >
           <ArrowLeft size={18} className="text-text-primary group-hover:text-accent transition-colors" />
