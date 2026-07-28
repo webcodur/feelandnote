@@ -21,7 +21,6 @@ export default function CelebSectionHeading({
   onNavigate,
 }: CelebSectionHeadingProps) {
   const t = useTranslations("celebPage");
-  const Icon = item.icon;
 
   return (
     <header className={styles.heading}>
@@ -41,9 +40,6 @@ export default function CelebSectionHeading({
 
       <div className={styles.identity}>
         <h2 className={styles.title}>
-          <span className={styles.seal} aria-hidden>
-            <Icon className={styles.sealIcon} strokeWidth={1.8} />
-          </span>
           <span className={styles.label}>{item.label}</span>
         </h2>
       </div>
