@@ -276,7 +276,7 @@ export default function CelebPageContent({
         professionLabel={professionLabel}
       />
 
-      <div className="min-w-0 space-y-8 md:space-y-16">
+      <div className="min-w-0 space-y-14 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section
         id="introduction"
