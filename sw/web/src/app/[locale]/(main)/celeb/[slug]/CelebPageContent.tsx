@@ -73,7 +73,7 @@ const formatYear = (year: string | null | undefined) => {
    상자를 되살린 대신 안팎 여백은 최소로 잡아, 가로선 시절의 공간 절약을 유지한다. */
 const SECTION_CLASS_NAME =
   "animate-fade-in w-full max-w-3xl xl:max-w-none mx-auto space-y-2 md:space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none " +
-  "rounded-sm border border-accent-dim/25 bg-bg-card/40 px-2 py-2 " +
+  "rounded-sm border border-accent-dim/25 bg-bg-card/40 px-2 py-5 " +
   "md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0";
 
 /* ── 공통 래퍼: 모바일 민무늬 / PC ClassicalBox ──
@@ -277,7 +277,7 @@ export default function CelebPageContent({
         professionLabel={professionLabel}
       />
 
-      <div className="min-w-0 space-y-3 md:space-y-16">
+      <div className="min-w-0 space-y-4 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section
         id="introduction"
