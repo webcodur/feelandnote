@@ -80,14 +80,26 @@ export default function CelebInfluenceSection({ data }: Props) {
 
       {/* 3. 하단 영역: 일반 점수 (레몬 노랑 차트 아이콘 헤더 + 6개 영역 리스트 및 총점 22/60점 표출) */}
       <section className="space-y-3.5">
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-1 pb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-yellow-300/30 bg-yellow-400/15 text-yellow-300 shadow-[0_0_10px_rgba(253,224,71,0.2)]">
-              <BarChart3 size={18} className="text-yellow-300" />
+        <div className="flex flex-col gap-3 border-b border-white/10 px-1 pb-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-yellow-300/30 bg-yellow-400/15 text-yellow-300 shadow-[0_0_10px_rgba(253,224,71,0.2)]">
+                <BarChart3 size={18} className="text-yellow-300" />
+              </div>
+              <h3 className="font-serif text-lg font-extrabold tracking-wide text-text-primary">
+                {t("generalScore")}
+              </h3>
             </div>
-            <h3 className="font-serif text-lg font-extrabold tracking-wide text-text-primary">
-              {t("generalScore")}
-            </h3>
+
+            {/* 시대초월성 아래 해설이 놓이는 자리에, 여기서는 여섯 영역이 어떻게 더해졌는지 보인다 */}
+            <p className="mt-2 border-l border-white/15 pl-3 text-sm font-bold tabular-nums leading-relaxed text-yellow-300/90 sm:ml-[50px]">
+              {INFLUENCE_CATEGORIES.map((category, index) => (
+                <span key={category.key}>
+                  {index > 0 && <span className="mx-1.5 font-medium text-text-tertiary">+</span>}
+                  {(data[category.key as keyof CelebInfluenceDetail] as number) || 0}
+                </span>
+              ))}
+            </p>
           </div>
 
           {/* 통일된 일반 점수 칩 (60점 만점 대비 n% 차오르는 뱃지 - 레몬 노랑 톤) */}
