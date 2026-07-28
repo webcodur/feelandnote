@@ -35,7 +35,7 @@ export default function ArchiveTabsHeader<T extends string>({
         role="tablist"
         aria-label={ariaLabel}
         className={cn(
-          "mb-3 grid border-b border-white/10",
+          "mb-6 grid border-b border-white/10 sm:mb-7",
           columnsClassName,
         )}
       >
