@@ -113,6 +113,7 @@
     "factionPhotoCount": "{count} photos",
     "factionCurrentMember": "Current figure",
     "factionOpen": "View full faction",
+    "factionOpenMember": "Open figure card",
     "factionClose": "Close preview",
     "relationGraph": "Relations",
     "timeline": "Timeline",

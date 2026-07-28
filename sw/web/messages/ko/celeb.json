@@ -113,6 +113,7 @@
     "factionPhotoCount": "{count}장",
     "factionCurrentMember": "현재 인물",
     "factionOpen": "전체 세력도감 보기",
+    "factionOpenMember": "인물 카드 열기",
     "factionClose": "여기서 닫기",
     "relationGraph": "인물 관계망",
     "timeline": "타임라인",
