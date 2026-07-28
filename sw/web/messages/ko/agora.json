@@ -155,7 +155,8 @@
       "confirm": "확인",
       "commentPlaceholder": "댓글을 입력하세요",
       "commentEmpty": "가장 먼저 댓글을 남겨보세요",
-      "commentDeleteConfirm": "이 댓글을 삭제하시겠습니까?"
+      "commentDeleteConfirm": "이 댓글을 삭제하시겠습니까?",
+      "commentEditPasswordPromptDesc": "댓글을 쓸 때 입력한 비밀번호를 입력하세요."
     }
   }
 }
