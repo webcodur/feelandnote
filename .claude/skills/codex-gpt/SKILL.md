@@ -56,43 +56,47 @@ ERROR codex_core::session::session: failed to load skill ...: missing YAML front
 
 ## 이미지 생성 (codex 내장 image_gen)
 
-codex는 텍스트뿐 아니라 **실제 이미지를 생성**한다(내장 `image_gen` 도구). faction-image 스킬이 말하는 "Codex 내장 이미지 생성"이 이것 — 나노바나나 대체 생성기로 쓸 수 있다. 유료 종량 아님(구독), rate limit만 있다.
-
-**호출**:
+구독제라 종량 과금 없음, rate limit만 있다. 발주 원칙(구도·시선·REF 사용법)은 `docs/project/image-generation.md`, API 직접 호출 규격·비용은 `docs/project/openai-usage.md`. 여기는 **codex로 부를 때의 실행 규칙만** 둔다.
 
 ```bash
 codex exec - -m gpt-5.6-sol --skip-git-repo-check \
   -s workspace-write --dangerously-bypass-approvals-and-sandbox \
-  -i 소스이미지.png -i 얼굴REF.jpg \
+  -i 소스.png -i 얼굴REF.jpg \
   --output-last-message OUT.txt --color never < 프롬프트.txt
 ```
 
-- `-i <파일>` 로 입력 이미지를 여러 장 첨부한다(소스 크롭/기존샷 + 얼굴 REF 등). 프롬프트는 stdin.
-- 프롬프트에 저장 경로를 명시하고 "생성 후 그 PNG를 이 경로에 저장하라"고 지시한다.
-- `-s workspace-write --dangerously-bypass-approvals-and-sandbox` 로 승인 프롬프트 없이 돌린다.
+프롬프트는 stdin, 입력 이미지는 `-i` 로 여러 장. 프롬프트 안에 저장 경로를 명시한다.
 
-**함정 — 파일이 지정 경로에 안 떨어진다 (핵심)**: codex가 image_gen으로 이미지를 생성해 base64로 받은 뒤, python 셀에서 파일로 저장하기 전에 세션이 종료되는 일이 잦다. `--output-last-message` 가 "파일을 성공적으로 작성했습니다"라 해도 실제 경로엔 파일이 없을 수 있다. **회수법**: codex 세션 로그에서 생성 이미지 base64를 직접 뽑아 저장한다.
+### 프롬프트 규격
 
-```python
-import base64, re, glob, os, time
-# 최근 세션들 중 이 작업 고유어가 든 세션만 필터 (동시 codex 작업과 섞임 방지)
-files = [f for f in glob.glob(r'C:/Users/<유저>/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl')
-         if os.path.getmtime(f) > time.time()-1200]
-best = None
-for f in files:
-    txt = open(f, encoding='utf-8', errors='ignore').read()
-    if '작업고유어(예: Penthesilea)' not in txt or 'data:image/png' not in txt:
-        continue
-    for line in open(f, encoding='utf-8', errors='ignore'):
-        for b in re.findall(r'data:image/png;base64,([A-Za-z0-9+/=]+)', line):
-            if best is None or len(b) > len(best): best = b
-if best:
-    open('out.png', 'wb').write(base64.b64decode(best))
-```
+**인물 REF가 있는 초상 재생성은 [portrait-from-ref.md](portrait-from-ref.md) 양식을 그대로 쓴다.** 남·여 스타일 블록과 넣지 말 것 목록이 거기 있다.
 
-**세션 섞임 주의**: 이 PC에서 다른 codex 작업이 동시에 돌면(사용자 배치 등) 세션이 뒤섞인다. mtime만으로 최신 세션을 잡으면 남의 이미지를 회수한다(엉뚱한 그룹샷 오염 사례). 반드시 세션 텍스트에 그 작업 고유어 + `data:image/png` 가 함께 있는 세션으로 필터해 최장 base64를 뽑는다. 저장 후 반드시 Read로 눈으로 확인한다.
+요지: **REF가 신원을 정하므로 인물을 묘사하지 않는다.** "같은 얼굴/나이/피부톤 유지" 류는 불필요할 뿐 아니라 **원본이 흑백이면 흑백으로 고착시킨다**(26.07.28: 흑백 원본 40명 중 30명이 흑백 산출). 넣는 건 스타일·풀컬러·출력 크기·저장 경로 넷뿐이다.
 
-**품질 실측**: 저해상(≈700KB) 개인샷을 소스로 넣고 "단순 업스케일·복붙 금지, 표면을 전부 새로 렌더" 프롬프트를 주면 2.3~2.4MB 고디테일 컷이 나온다(갑옷 긁힘·모공·머리카락 가닥까지). 신원·자세·의상·조명은 소스대로 유지된다.
+### 출력 크기는 프롬프트에 박는다
+
+**`image_gen`에는 size 파라미터가 없다**(GPT 답변: "exposes no size parameter"). CLI 플래그로도 못 준다. 문장으로 지정하면 정확히 그 크기로 나오고, **안 박으면 `1254`·`1024`·`2048`·`4096`·`8192`로 제각각 튄다**(8192는 26MB라 후속 처리가 통째로 무거워진다).
+
+크게 잡을 이유는 없다 — 목표 규격의 **1.3배면 손실이 없다**(800 아바타용 실측: 1254px 산출물의 얼굴 크롭 영역이 1266~1674px). 2048은 토큰만 +13%.
+
+### 회수 — 파일이 안 떨어지고, 실패하면 원본이 딸려온다
+
+codex가 base64를 받은 뒤 파일 저장 전에 세션이 끝나는 일이 잦다. `--output-last-message`가 "성공적으로 작성"이라 해도 경로엔 파일이 없을 수 있다. 세션 로그(`~/.codex/sessions/…/rollout-*.jsonl`)에서 `data:image/png;base64,([A-Za-z0-9+/=]+)` 로 최장 base64를 뽑아 저장한다.
+
+**🔴 그런데 `-i` 로 넣은 입력 이미지도 같은 형식으로 로그에 남는다.** 생성이 실패한 세션에서 최장 base64를 뽑으면 **방금 넣어준 원본이 그대로 나온다.** 파일은 멀쩡히 생기고 크기 검사도 통과해 러너는 성공으로 집계한다. 26.07.28 실측 — 한도 소진 후에도 배치가 돌아 1,141건 중 292건만 진짜였는데 로그는 전량 `ok`였다(1,129장 폐기).
+
+회수 직후 반드시 검사한다.
+
+- **원본과 축소 지문(64×64 md5) 대조** — 같으면 실패 처리하고 파일을 지운다
+- **해상도가 소스 이하면 실패** — 재생성은 항상 커진다
+- **세션 섞임 차단** — 프롬프트에 `TASK-ID: <고유값>`을 박고, 그 문자열이 든 세션만 필터한다(동시 작업이 있으면 mtime만으로는 남의 이미지를 가져온다)
+- **한도 소진 감지** — `--output-last-message` 파일이 빈 채로 남는다. 존재만 보지 말고 내용을 본다
+
+### 토큰
+
+`codex exec` stdout 마지막 `tokens used` 다음 줄에 총 토큰이 찍힌다(`--output-last-message` 파일에는 없다).
+
+REF 1장 + 생성 1장이 **~36,000**. **REF 해상도는 무시해도 된다** — 300px와 1254px의 첨부 비용 차이가 ~1,170으로 전체의 3% 미만이라 생성 토큰 변동에 묻힌다. REF를 줄이는 전처리는 하지 마라(각 조건 1회 실측).
 
 ## 결과 품질 메모
 
