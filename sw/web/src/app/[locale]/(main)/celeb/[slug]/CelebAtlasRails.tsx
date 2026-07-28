@@ -183,8 +183,6 @@ export function CelebAtlasNavigation({
             </span>
           </button>
 
-          <div className={styles.profileDivider} />
-
           <nav
             aria-label={t("serviceGuideTitle")}
             className={styles.profileNav}
