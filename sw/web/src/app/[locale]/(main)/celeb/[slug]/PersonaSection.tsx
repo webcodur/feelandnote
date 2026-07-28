@@ -286,10 +286,10 @@ export default function PersonaSection({
         </button>
       </div>
 
-      {/* 핵심 능력 */}
-      <div className="space-y-2">
-        <SectionHeader title={t("ability")} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+      {/* 핵심 능력 | 핵심 성향 — 덕목 두 묶음과 같은 두 칸 세로 배치 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+        <div className="space-y-2">
+          <SectionHeader title={t("ability")} />
           {ABILITY_KEYS.map((key) => (
             <VirtueBar
               key={key}
@@ -297,6 +297,23 @@ export default function PersonaSection({
               value={persona[key]}
               reason={localizePersonaText(
                 getReasonFromJsonb(personaJsonb, "abilities", key, locale),
+                locale,
+              )}
+              isEn={isEn}
+              showReason={showDetail}
+            />
+          ))}
+        </div>
+        <div className="space-y-2">
+          <SectionHeader title={t("coreDisposition")} />
+          {TENDENCY_KEYS.map((key) => (
+            <TendencyBar
+              key={key}
+              neg={tendencyLabels[key][0]}
+              pos={tendencyLabels[key][1]}
+              value={persona[key]}
+              reason={localizePersonaText(
+                getReasonFromJsonb(personaJsonb, "dispositions", key, locale),
                 locale,
               )}
               isEn={isEn}
@@ -340,32 +357,6 @@ export default function PersonaSection({
                 getReasonFromJsonb(
                   personaJsonb,
                   "outer_virtues",
-                  key,
-                  locale,
-                ),
-                locale,
-              )}
-              isEn={isEn}
-              showReason={showDetail}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* 성향 스펙트럼 */}
-      <div className="space-y-4 pt-6 border-t border-white/5">
-        <SectionHeader title={t("coreDisposition")} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2">
-          {TENDENCY_KEYS.map((key) => (
-            <TendencyBar
-              key={key}
-              neg={tendencyLabels[key][0]}
-              pos={tendencyLabels[key][1]}
-              value={persona[key]}
-              reason={localizePersonaText(
-                getReasonFromJsonb(
-                  personaJsonb,
-                  "dispositions",
                   key,
                   locale,
                 ),
