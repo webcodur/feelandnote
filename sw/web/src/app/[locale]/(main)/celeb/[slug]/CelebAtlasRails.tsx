@@ -49,20 +49,42 @@ export function CelebAtlasNavigation({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLButtonElement>(null);
+  const scopeRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLButtonElement>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const introductionTarget = items.find(
     (item) => item.target.sectionId === "introduction",
   )?.target;
 
-  /* 포커스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
-     맨 위 초상은 목록 밖에 있어 PROFILE_SPOT 자리로 함께 다룬다. */
+  /* 포커스 박스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
+     맨 위 초상도 같은 자리 취급이라 박스가 초상 칸까지 흘러간다. */
   const activeIndex = activeSectionId === "introduction"
     ? PROFILE_SPOT
     : navigationItems.findIndex(
         (item) => item.target.sectionId === activeSectionId,
       );
   const spotIndex = hoveredIndex ?? activeIndex;
-  // 항목이 틈 없이 이어 붙으므로 높이만 곱하면 세로 위치가 나온다.
-  const spotTop = spotIndex * NAV_ITEM_HEIGHT;
+  const [spotRect, setSpotRect] = useState<{ top: number; height: number } | null>(null);
+
+  /* 초상 칸은 이름 줄 수에 따라 높이가 달라져 값으로 못 박을 수 없다. 실제 크기를 재되
+     ResizeObserver가 관찰 직후 스스로 한 번 불러 주므로 첫 측정도 그 콜백에서 이뤄진다. */
+  useEffect(() => {
+    const scope = scopeRef.current;
+    if (!scope) return;
+
+    const measure = () => {
+      const target = spotIndex === PROFILE_SPOT
+        ? profileRef.current
+        : itemRefs.current[spotIndex] ?? null;
+      setSpotRect(
+        target ? { top: target.offsetTop, height: target.offsetHeight } : null,
+      );
+    };
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(scope);
+    return () => observer.disconnect();
+  }, [spotIndex, navigationItems.length]);
 
   // 짧은 화면에서도 현재 장이 사이드바의 내부 스크롤 아래에 숨지 않게 맞춘다.
   useEffect(() => {
@@ -93,7 +115,20 @@ export function CelebAtlasNavigation({
             className={styles.profileEyebrow}
           />
 
+          <div ref={scopeRef} className={styles.focusScope}>
+            {spotRect && (
+              <span
+                aria-hidden
+                className={styles.profileNavSpot}
+                style={{
+                  height: spotRect.height,
+                  transform: `translateY(${spotRect.top}px)`,
+                }}
+              />
+            )}
+
           <button
+            ref={profileRef}
             type="button"
             onClick={() => introductionTarget && onNavigate(introductionTarget)}
             onMouseEnter={() => setHoveredIndex(PROFILE_SPOT)}
@@ -148,17 +183,6 @@ export function CelebAtlasNavigation({
             onMouseLeave={() => setHoveredIndex(null)}
           >
             <div className={styles.profileNavList}>
-              {spotIndex >= 0 && (
-                <span
-                  aria-hidden
-                  className={styles.profileNavSpot}
-                  style={{
-                    height: NAV_ITEM_HEIGHT,
-                    transform: `translateY(${spotTop}px)`,
-                  }}
-                />
-              )}
-
               {navigationItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = item.target.sectionId === activeSectionId;
@@ -168,7 +192,10 @@ export function CelebAtlasNavigation({
                 return (
                   <button
                     key={item.key}
-                    ref={isActive ? activeItemRef : undefined}
+                    ref={(el) => {
+                      itemRefs.current[index] = el;
+                      if (isActive) activeItemRef.current = el;
+                    }}
                     type="button"
                     onClick={() => onNavigate(item.target)}
                     onMouseEnter={() => setHoveredIndex(index)}
@@ -209,6 +236,7 @@ export function CelebAtlasNavigation({
               })}
             </div>
           </nav>
+          </div>
         </ClassicalBox>
       </div>
     </aside>
