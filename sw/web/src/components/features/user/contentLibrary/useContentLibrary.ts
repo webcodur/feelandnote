@@ -37,7 +37,7 @@ export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode } from "./c
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const t = useTranslations("archiveSearch");
-  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode, initialContents } = options;
+  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode, defaultPageSize, initialContents } = options;
   const isViewer = mode === 'viewer';
 
   // 서버가 첫 화면 데이터를 내려준 경우에만 초기 상태를 채운다.
@@ -61,7 +61,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(seed?.totalPages ?? 1);
   const [total, setTotal] = useState(seed?.total ?? 0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(defaultPageSize ?? 10);
 
   const [sortOption, setSortOption] = useState<SortOption>("recent");
   const [reviewFilter, setReviewFilter] = useState<ReviewFilter>("all");

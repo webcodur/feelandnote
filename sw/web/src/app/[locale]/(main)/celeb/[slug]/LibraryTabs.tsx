@@ -55,6 +55,7 @@ export default function LibraryTabs({
           showPagination
           ownerNickname={nickname}
           defaultViewMode="list"
+          defaultPageSize={4}
           hideControlWrapper
           initialContents={initialContents}
         />

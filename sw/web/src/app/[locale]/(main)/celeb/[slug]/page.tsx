@@ -34,7 +34,7 @@ export const revalidate = 3600;
 
 // 서버에서 미리 그릴 서가 첫 화면 항목 수. 서재 훅의 기본 페이지 크기와 같아야
 // 초기 HTML과 클라이언트 첫 페이지가 어긋나지 않는다.
-const LIBRARY_FIRST_PAGE_SIZE = 10;
+const LIBRARY_FIRST_PAGE_SIZE = 4;
 
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

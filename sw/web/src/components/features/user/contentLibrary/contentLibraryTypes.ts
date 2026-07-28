@@ -24,6 +24,7 @@ export interface UseContentLibraryOptions {
   targetUserId?: string;
   initialSearchQuery?: string;
   defaultViewMode?: ViewMode;
+  defaultPageSize?: number;
   // viewer 모드 서버 렌더 초기 데이터. 있으면 첫 화면을 클라이언트 페치 없이 그린다.
   initialContents?: GetUserContentsResponse;
 }
