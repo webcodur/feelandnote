@@ -133,11 +133,11 @@ export default function GuestbookContent({
           href="/login"
           className="group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
         >
-          <div className="min-h-[76px] px-4 py-4 text-sm text-text-tertiary group-hover:text-text-secondary">
+          <div className="min-h-[76px] px-4 py-4 text-sm group-hover:text-text-secondary">
             {t("loginPrompt")}
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-white/[0.05] px-4 py-3">
-            <span className="text-xs text-text-tertiary/60">
+            <span className="text-xs">
               {t("loginHint")}
             </span>
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded bg-accent/90 px-3 py-1.5 text-[11px] font-bold text-bg-main group-hover:bg-accent">
@@ -176,8 +176,8 @@ export default function GuestbookContent({
         </div>
       ) : !hideEmptyState && (
         <div className="text-center py-10">
-          <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2 text-text-tertiary/15" />
-          <p className="text-xs text-text-tertiary/40 font-sans">{t("empty")}</p>
+          <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2" />
+          <p className="text-xs font-sans">{t("empty")}</p>
         </div>
       )}
     </>

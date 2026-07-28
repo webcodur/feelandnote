@@ -70,7 +70,7 @@ export default function MonthSection({
             size={14}
             className={cn(
               "ml-1 group-hover:text-accent",
-              isCollapsed ? "text-text-tertiary" : "text-accent"
+              isCollapsed ? "" : "text-accent"
             )}
           />
         </div>

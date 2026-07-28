@@ -131,7 +131,7 @@ export default function SuikodenGame({ characters, dialogues, onHomeRef, onPhase
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <div className="animate-pulse text-text-secondary font-serif">{text.game.loading}</div>
-            <p className="text-xs text-text-tertiary mt-2">{text.game.characterCount(characters.length)}</p>
+            <p className="text-xs mt-2">{text.game.characterCount(characters.length)}</p>
           </div>
         </div>
       )

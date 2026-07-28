@@ -144,7 +144,7 @@ export default function HomeFreeBoardList({
             <FileText size={40} strokeWidth={1} className="text-accent-dim" />
           </div>
           <p className="font-serif text-text-secondary">{t('free.emptyTitle')}</p>
-          <p className="text-xs text-text-tertiary mt-2">{t('free.emptySubtitle')}</p>
+          <p className="text-xs mt-2">{t('free.emptySubtitle')}</p>
         </div>
       ) : (
         <div className="space-y-3 [overflow-anchor:none]">
@@ -181,7 +181,7 @@ export default function HomeFreeBoardList({
                         </span>
                       )}
                     </h3>
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2 text-xs text-text-tertiary">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2 text-xs">
                       <div className="flex items-center gap-1.5 text-text-secondary">
                         <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={18} />
                         <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
@@ -189,7 +189,7 @@ export default function HomeFreeBoardList({
                       <span className="text-accent-dim/30 hidden sm:inline">·</span>
                       <div className="flex items-center gap-1.5">
                         <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
-                        <span className="text-text-tertiary/60">
+                        <span className="">
                           ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
                         </span>
                       </div>
@@ -212,7 +212,7 @@ export default function HomeFreeBoardList({
                     className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
                       isOpen
                         ? 'bg-accent/10 text-accent'
-                        : 'bg-white/5 text-text-tertiary group-hover:bg-accent/10 group-hover:text-accent'
+                        : 'bg-white/5  group-hover:bg-accent/10 group-hover:text-accent'
                     }`}
                   >
                     <ChevronDown
@@ -251,7 +251,7 @@ export default function HomeFreeBoardList({
                     {/* 댓글 */}
                     <div className="mt-6">
                       {loadingId === post.id ? (
-                        <div className="flex justify-center py-6 text-text-tertiary">
+                        <div className="flex justify-center py-6">
                           <Loader2 size={20} className="animate-spin" />
                         </div>
                       ) : (

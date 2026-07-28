@@ -101,7 +101,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {userRecord && isLoggedIn && (
           <AccordionSection
             title={t("myNote")}
-            badge={<span className="text-[10px] text-text-tertiary bg-white/5 px-1.5 py-0.5 rounded">{t("private")}</span>}
+            badge={<span className="text-[10px] bg-white/5 px-1.5 py-0.5 rounded">{t("private")}</span>}
             defaultOpen={false}
           >
             <MyNoteSection contentId={content.id} />

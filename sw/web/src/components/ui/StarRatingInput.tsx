@@ -105,7 +105,7 @@ export default function StarRatingInput({
             {/* 배경 별 (빈 별) */}
             <Star 
               size={size} 
-              className="absolute inset-0 text-text-tertiary/20" 
+              className="absolute inset-0" 
               strokeWidth={1.5} 
             />
             

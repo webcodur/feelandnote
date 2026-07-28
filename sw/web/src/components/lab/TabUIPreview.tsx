@@ -182,13 +182,13 @@ export default function TabUIPreview() {
       <section className="space-y-8">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">Option A: Underline Tabs</h3>
-          <p className="text-xs text-text-tertiary">페이지 네비게이션, 섹션 전환에 적합</p>
+          <p className="text-xs">페이지 네비게이션, 섹션 전환에 적합</p>
         </div>
 
         <div className="grid gap-8">
           {/* 크기 비교 */}
           <div className="space-y-4 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Size Variants</span>
+            <span className="text-xs uppercase tracking-wider">Size Variants</span>
 
             <div className="space-y-6">
               <div className="space-y-2">
@@ -210,7 +210,7 @@ export default function TabUIPreview() {
 
           {/* 아이콘 포함 */}
           <div className="space-y-4 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">With Icons</span>
+            <span className="text-xs uppercase tracking-wider">With Icons</span>
             <UnderlineTabs items={TABS_WITH_ICONS} value={underlineIconValue} onChange={setUnderlineIconValue} showIcon />
           </div>
         </div>
@@ -220,13 +220,13 @@ export default function TabUIPreview() {
       <section className="space-y-8">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">Option B: Chip Tabs</h3>
-          <p className="text-xs text-text-tertiary">필터 선택, 아이콘 포함 탭, 모바일 터치 UI에 적합</p>
+          <p className="text-xs">필터 선택, 아이콘 포함 탭, 모바일 터치 UI에 적합</p>
         </div>
 
         <div className="grid gap-8">
           {/* Variant 비교 */}
           <div className="space-y-4 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Variants</span>
+            <span className="text-xs uppercase tracking-wider">Variants</span>
 
             <div className="space-y-6">
               <div className="space-y-2">
@@ -248,7 +248,7 @@ export default function TabUIPreview() {
 
           {/* 크기 비교 */}
           <div className="space-y-4 p-6 bg-white/[0.02] rounded-2xl border border-white/5">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Size Variants</span>
+            <span className="text-xs uppercase tracking-wider">Size Variants</span>
 
             <div className="space-y-6">
               <div className="space-y-2">

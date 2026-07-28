@@ -117,7 +117,7 @@ export default function WorkDetailModal({
                 {item.roleLabel}
               </span>
               {item.yearStr && (
-                <span className="text-xs text-text-tertiary font-mono">
+                <span className="text-xs font-mono">
                   {item.yearStr}
                 </span>
               )}
@@ -143,7 +143,7 @@ export default function WorkDetailModal({
                     key={i}
                     className="flex items-center gap-1 text-sm text-text-secondary"
                   >
-                    <meta.icon size={14} className="text-text-tertiary" />
+                    <meta.icon size={14} className="" />
                     {meta.label}
                   </span>
                 ))}

@@ -64,7 +64,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-text-tertiary text-[10px] font-sans">
+              <div className="w-full h-full flex items-center justify-center text-[10px] font-sans">
                 {(entry.author.nickname ?? "?")[0]}
               </div>
             )}
@@ -77,7 +77,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
             <span className="text-text-primary text-xs font-sans font-medium">
               {entry.author.nickname ?? "Anonymous"}
             </span>
-            <span className="text-[10px] text-text-tertiary/30 font-mono">
+            <span className="text-[10px] font-mono">
               {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko })}
             </span>
             {entry.is_private && (
@@ -95,7 +95,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 maxLength={500}
               />
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-1.5 text-[11px] text-text-tertiary cursor-pointer hover:text-accent">
+                <label className="flex items-center gap-1.5 text-[11px] cursor-pointer hover:text-accent">
                   <input
                     type="checkbox"
                     checked={editIsPrivate}
@@ -107,7 +107,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 <div className="flex gap-3">
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="text-[11px] text-text-tertiary hover:text-text-primary"
+                    className="text-[11px] hover:text-text-primary"
                   >
                     {t("cancel")}
                   </button>
@@ -121,7 +121,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
               </div>
             </div>
           ) : (
-            <p className={`whitespace-pre-wrap leading-relaxed text-[13px] font-sans ${isHiddenPrivate ? "text-text-tertiary/30" : "text-text-secondary/80"}`}>
+            <p className={`whitespace-pre-wrap leading-relaxed text-[13px] font-sans ${isHiddenPrivate ? "" : "text-text-secondary/80"}`}>
               {isHiddenPrivate ? t("privateMessage") : entry.content}
             </p>
           )}
@@ -139,7 +139,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 }
                 setShowMenu(!showMenu);
               }}
-              className="p-1 text-text-tertiary hover:text-accent hover:bg-white/5 rounded transition-all"
+              className="p-1 hover:text-accent hover:bg-white/5 rounded transition-all"
             >
               <MoreVertical size={14} />
             </Button>

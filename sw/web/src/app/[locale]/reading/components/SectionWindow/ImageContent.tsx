@@ -93,7 +93,7 @@ export default function ImageContent({ imageUrl }: { imageUrl: string | null }) 
         <div className="text-center text-text-secondary">
           <Image className="mx-auto mb-2 size-8 opacity-50" />
           <p className="text-xs">{t("imagePaste")}</p>
-          <p className="mt-1 text-[10px] text-text-tertiary">{t("imageHint")}</p>
+          <p className="mt-1 text-[10px]">{t("imageHint")}</p>
         </div>
       )}
     </div>

@@ -181,14 +181,14 @@ export default function ArchiveControlBar({
               }
             }}
             placeholder={t("placeholder")}
-            className="w-full min-w-0 min-h-[2.5rem] ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder:text-text-tertiary/70 focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
+            className="w-full min-w-0 min-h-[2.5rem] ps-3 pe-9 bg-black/40 border border-white/10 rounded-md text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-black/60 transition-all font-sans relative z-10"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={onClearSearch}
               aria-label={t("clearSearch")}
-              className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
+              className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full hover:text-text-primary transition-colors z-20"
             >
               <X size={12} />
             </button>
@@ -211,7 +211,7 @@ export default function ArchiveControlBar({
         <button
           type="button"
           onClick={toggleViewMode}
-          className="hidden md:flex min-h-[2.5rem] w-[2.5rem] items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary rounded-lg transition-colors"
+          className="hidden md:flex min-h-[2.5rem] w-[2.5rem] items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary rounded-lg transition-colors"
           title={viewMode === "grid" ? t("listView") : t("gridView")}
         >
           {viewMode === "grid" ? <LayoutGrid size={16} /> : <List size={16} />}
@@ -222,7 +222,7 @@ export default function ArchiveControlBar({
           type="button"
           onClick={toggleCollapse}
           disabled={sortOption !== "recent"}
-          className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-accent/25 disabled:hover:text-text-tertiary rounded-lg transition-colors"
+          className="min-h-[2.5rem] w-[2.5rem] flex items-center justify-center bg-white/5 border border-accent/25 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-accent/25 disabled:hover: rounded-lg transition-colors"
           title={isAllCollapsed ? t("expandAll") : t("collapseAll")}
         >
           {isAllCollapsed ? <ChevronsUpDown size={16} /> : <ChevronsDownUp size={16} />}

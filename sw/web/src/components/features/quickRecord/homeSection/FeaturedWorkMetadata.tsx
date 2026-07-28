@@ -13,7 +13,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
         <div className="mx-auto w-fit">
             <div className="grid grid-cols-[auto_auto] gap-x-4 gap-y-2.5 text-sm">
                 {/* Creator (항상 표시) */}
-                <span className="text-text-tertiary flex items-center justify-center">
+                <span className="flex items-center justify-center">
                     <User size={16} className="opacity-70" />
                 </span>
                 <span className="text-text-primary text-center">{targetContent.creator || 'Unknown'}</span>
@@ -23,7 +23,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                     <>
                         {metadata?.publisher && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Building2 size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.publisher}</span>
@@ -31,7 +31,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {metadata?.publishDate && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Calendar size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.publishDate}</span>
@@ -45,7 +45,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                     <>
                         {metadata?.director && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Film size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.director}</span>
@@ -53,7 +53,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {metadata?.cast?.[0] && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Users size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.cast[0].name}</span>
@@ -61,7 +61,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {releaseDate && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Calendar size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{releaseDate}</span>
@@ -75,7 +75,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                     <>
                         {metadata?.albumType && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Disc size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center capitalize">{metadata.albumType}</span>
@@ -83,7 +83,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {metadata?.totalTracks && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Music size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.totalTracks} Tracks</span>
@@ -91,7 +91,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {metadata?.label && (
                             <>
-                                <span className="text-text-tertiary flex items-center">
+                                <span className="flex items-center">
                                     <Building2 size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary">{metadata.label}</span>
@@ -99,7 +99,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {releaseDate && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Calendar size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{releaseDate}</span>
@@ -113,7 +113,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                     <>
                         {metadata?.developer && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Code size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.developer}</span>
@@ -121,7 +121,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {metadata?.platforms && metadata.platforms.length > 0 && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Gamepad2 size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{metadata.platforms.slice(0, 3).join(', ')}</span>
@@ -129,7 +129,7 @@ export default function FeaturedWorkMetadata({ targetContent, metadata, releaseD
                         )}
                         {releaseDate && (
                             <>
-                                <span className="text-text-tertiary flex items-center justify-center">
+                                <span className="flex items-center justify-center">
                                     <Calendar size={16} className="opacity-70" />
                                 </span>
                                 <span className="text-text-primary text-center">{releaseDate}</span>

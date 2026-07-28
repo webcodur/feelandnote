@@ -44,7 +44,7 @@ export default function GreekSymbolsPreview() {
 
       <div className="w-full flex flex-col gap-4 px-4">
         <MeanderDivider />
-        <p className="text-center text-xs text-text-tertiary opacity-50">Meander Pattern (Divider UI)</p>
+        <p className="text-center text-xs opacity-50">Meander Pattern (Divider UI)</p>
         <MeanderDivider className="h-4" />
       </div>
 

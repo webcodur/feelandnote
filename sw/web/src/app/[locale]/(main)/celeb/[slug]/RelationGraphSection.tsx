@@ -404,7 +404,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         ) : p.avatar_url ? (
           <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" unoptimized />
         ) : p.slug ? (
-          <div className="w-full h-full flex items-center justify-center text-sm font-serif text-text-tertiary">{p.name.charAt(0)}</div>
+          <div className="w-full h-full flex items-center justify-center text-sm font-serif">{p.name.charAt(0)}</div>
         ) : (
           (() => {
             const v = typeVisual(p.types);
@@ -467,7 +467,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   );
 
   const subHeading = (text: string) => (
-    <p className="text-xs tracking-[0.2em] text-text-tertiary text-center">{text}</p>
+    <p className="text-xs tracking-[0.2em] text-center">{text}</p>
   );
 
   const socialFilters: ("all" | CelebRelationItem["relGroup"])[] = [
@@ -539,7 +539,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                     className={`px-3 py-1 text-[13px] rounded-full border transition-colors ${
                       filter === f
                         ? "border-accent/60 text-accent bg-accent/10"
-                        : "border-white/10 text-text-tertiary hover:border-accent/30 hover:text-text-secondary"
+                        : "border-white/10  hover:border-accent/30 hover:text-text-secondary"
                     }`}
                   >
                     {t(`relFilter_${f}`)}
@@ -600,7 +600,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                       {p.avatar_url ? (
                         <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs text-text-tertiary font-serif">{p.name.charAt(0)}</div>
+                        <div className="w-full h-full flex items-center justify-center text-xs font-serif">{p.name.charAt(0)}</div>
                       )}
                     </div>
                     <span className={`text-[13px] font-serif ${p.slug ? "text-text-primary group-hover:text-accent" : "text-text-secondary"}`}>{p.name}</span>
@@ -626,7 +626,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       )}
 
       {/* 출처 고지 — 사실 관계는 위키데이터 기준 */}
-      <p className="text-xs text-text-tertiary text-center leading-relaxed break-keep">
+      <p className="text-xs text-center leading-relaxed break-keep">
         {t("relationGraphNote")}
       </p>
 
@@ -683,7 +683,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="p-1.5 -mt-1 -mr-1 rounded-full text-text-tertiary hover:text-accent hover:bg-white/5"
+                className="p-1.5 -mt-1 -mr-1 rounded-full hover:text-accent hover:bg-white/5"
                 aria-label={t("hideDetail")}
               >
                 <X size={20} />
@@ -705,11 +705,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               {selected.profession && <span className="text-accent font-medium">{tp(selected.profession)}</span>}
               {selected.nationality && <span>{getCountryNameByLocale(selected.nationality, locale)}</span>}
               {selected.birth_date && (
-                <span className="font-mono text-text-tertiary">
+                <span className="font-mono">
                   {formatYear(selected.birth_date)}–{selected.death_date ? formatYear(selected.death_date) : ""}
                 </span>
               )}
-              {!selected.slug && <span className="text-text-tertiary">{t("relExternalNote")}</span>}
+              {!selected.slug && <span className="">{t("relExternalNote")}</span>}
             </div>
 
             {/* 이동 — 셀럽은 인물 페이지, 명단 밖 인물은 위키데이터 원본 */}

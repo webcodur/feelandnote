@@ -110,13 +110,13 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
         {/* 검색 및 필터 */}
         <div className="flex gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-text-tertiary" />
+            <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full rounded-lg border border-border bg-black/30 py-1.5 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+              className="w-full rounded-lg border border-border bg-black/30 py-1.5 pl-8 pr-3 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
             />
           </div>
           <select
@@ -144,7 +144,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1">
           {filteredTerms.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
-              <BookText className="size-8 text-text-tertiary/30" />
+              <BookText className="size-8" />
               <p className="text-xs text-text-secondary">
                 {searchQuery || filterCategory !== "__all__"
                   ? t("noSearchResults")
@@ -179,7 +179,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                     {term.definition}
                   </p>
                   {term.page && (
-                    <p className="mt-1 text-[10px] text-text-tertiary">p. {term.page}</p>
+                    <p className="mt-1 text-[10px]">p. {term.page}</p>
                   )}
                 </button>
               );
@@ -192,7 +192,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
       <div className="w-64 flex flex-col rounded-lg border border-border bg-[#1a1f27] p-3 overflow-y-auto custom-scrollbar">
         {!selectedTerm ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
-            <BookText className="size-8 text-text-tertiary/30" />
+            <BookText className="size-8" />
             <p className="text-xs text-text-secondary whitespace-pre-line">
               {t("selectPrompt")}
             </p>
@@ -209,7 +209,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 value={editForm.term || ""}
                 onChange={(e) => setEditForm({ ...editForm, term: e.target.value })}
                 placeholder={t("termPlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -222,7 +222,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 }
                 placeholder={t("definitionPlaceholder")}
                 rows={5}
-                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
+                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none custom-scrollbar"
               />
             </div>
 
@@ -233,7 +233,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 value={editForm.category || ""}
                 onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
                 placeholder={t("categoryPlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -244,7 +244,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 value={editForm.page || ""}
                 onChange={(e) => setEditForm({ ...editForm, page: e.target.value })}
                 placeholder={t("pagePlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -277,7 +277,7 @@ export default function GlossaryContent({ terms, onUpdate }: Props) {
                 )}
               </div>
               {selectedTerm.page && (
-                <p className="text-[11px] text-text-tertiary">{t("page")}: {selectedTerm.page}</p>
+                <p className="text-[11px]">{t("page")}: {selectedTerm.page}</p>
               )}
             </div>
 

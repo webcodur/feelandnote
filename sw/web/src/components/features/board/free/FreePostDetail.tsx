@@ -118,7 +118,7 @@ export default function FreePostDetail({
         </h1>
 
         {/* 메타 */}
-        <div className="flex items-center gap-3 text-sm text-text-tertiary pb-4 border-b border-accent-dim/20">
+        <div className="flex items-center gap-3 text-sm pb-4 border-b border-accent-dim/20">
           <div className="flex items-center gap-2">
             <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={32} />
             <span className="font-serif text-text-secondary">{freeDisplayName(post, t('free.anonymous'))}</span>

@@ -115,7 +115,7 @@ export default function FreeCommentSection({
     !comment.author_id || comment.author_id === currentUserId || isAdmin
 
   const fieldClass =
-    'px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40'
+    'px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder: focus:outline-none focus:border-accent/40'
 
   return (
     <div className="relative">
@@ -142,7 +142,7 @@ export default function FreeCommentSection({
                   <span className="text-sm font-serif font-medium text-text-primary">
                     {freeDisplayName(comment, t('free.anonymous'))}
                   </span>
-                  <span className="text-xs text-text-tertiary">
+                  <span className="text-xs">
                     {format(new Date(comment.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
                   </span>
                 </div>
@@ -153,7 +153,7 @@ export default function FreeCommentSection({
               {canDelete(comment) && (
                 <button
                   onClick={() => handleDeleteClick(comment)}
-                  className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-red-400 self-start"
+                  className="opacity-0 group-hover:opacity-100 hover:text-red-400 self-start"
                 >
                   <Trash2 size={14} />
                 </button>
@@ -164,7 +164,7 @@ export default function FreeCommentSection({
         {comments.length === 0 && (
           <div className="text-center py-8">
             <MessageTabletIcon size={32} color="#8a732a" strokeWidth={1} className="mx-auto mb-3 opacity-50" />
-            <p className="text-sm text-text-tertiary font-serif">{t('free.commentEmpty')}</p>
+            <p className="text-sm font-serif">{t('free.commentEmpty')}</p>
           </div>
         )}
       </div>

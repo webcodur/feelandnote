@@ -382,7 +382,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
             <div className="flex flex-col w-full max-w-lg lg:w-1/2 flex-shrink-0 lg:pt-8 animate-slide-from-right">
               {!solved && (
                 <div className="pb-2">
-                  <p className="text-center lg:text-left text-xs text-text-tertiary mb-6 tracking-widest font-serif lg:pl-2">
+                  <p className="text-center lg:text-left text-xs mb-6 tracking-widest font-serif lg:pl-2">
                     {tGame("selectionHint")}
                   </p>
                   <div className="-ml-1 lg:ml-0">

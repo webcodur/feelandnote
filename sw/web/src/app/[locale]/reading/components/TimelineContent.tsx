@@ -106,7 +106,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
 
         {sortedEvents.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
-            <Calendar className="size-8 text-text-tertiary/30" />
+            <Calendar className="size-8" />
             <p className="text-xs text-text-secondary">{t("noEvents")}</p>
           </div>
         ) : (
@@ -164,7 +164,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
       <div className="w-64 flex flex-col rounded-lg border border-border bg-[#1a1f27] p-3 overflow-y-auto custom-scrollbar">
         {!selectedEvent ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
-            <Calendar className="size-8 text-text-tertiary/30" />
+            <Calendar className="size-8" />
             <p className="text-xs text-text-secondary whitespace-pre-line">
               {t("selectPrompt")}
             </p>
@@ -181,7 +181,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                 value={editForm.date || ""}
                 onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
                 placeholder={t("datePlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -192,7 +192,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                 value={editForm.title || ""}
                 onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                 placeholder={t("titlePlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -205,7 +205,7 @@ export default function TimelineContent({ events, onUpdate }: Props) {
                 }
                 placeholder={t("descriptionPlaceholder")}
                 rows={4}
-                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
+                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none custom-scrollbar"
               />
             </div>
 

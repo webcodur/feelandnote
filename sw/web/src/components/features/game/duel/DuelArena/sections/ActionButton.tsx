@@ -66,7 +66,7 @@ export default function ActionButton({
       disabled={!canAct}
       className={`flex-1 flex flex-col items-center justify-center gap-1.5 py-5 md:py-6 rounded-lg min-h-[84px] md:min-h-[96px] transition-colors
         ${canAct
-          ? "active:scale-[0.97] cursor-pointer"
+          ? "scale-[0.97] cursor-pointer"
           : "cursor-not-allowed"
         }
         ${highlight ? "animate-pulse" : ""}

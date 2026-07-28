@@ -62,7 +62,7 @@ export default function BottomSheet({ isOpen, onClose, children, title }: Bottom
             <Button
               unstyled
               onClick={onClose}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-text-tertiary hover:text-text-primary hover:bg-white/5"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center hover:text-text-primary hover:bg-white/5"
             >
               <X size={18} />
             </Button>

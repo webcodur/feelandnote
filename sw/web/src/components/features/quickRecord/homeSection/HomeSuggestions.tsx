@@ -111,7 +111,7 @@ export function HomeSuggestions({
                     ))}
                 </div>
             ) : (
-                <div className="h-40 flex items-center justify-center text-text-tertiary">
+                <div className="h-40 flex items-center justify-center">
                     {t("noPopular")}
                 </div>
             )}

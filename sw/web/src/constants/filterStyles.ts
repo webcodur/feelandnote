@@ -4,12 +4,12 @@ export const FILTER_BUTTON_STYLES = {
   // PC 필터 버튼
   base: "relative px-4 py-2 text-sm whitespace-nowrap shrink-0 cursor-pointer font-medium tracking-wide",
   active: "text-accent font-bold",
-  inactive: "text-text-tertiary/50 hover:text-text-primary",
-  disabled: "disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-text-tertiary/50",
+  inactive: " hover:text-text-primary",
+  disabled: "disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:",
 
   // 카운트 텍스트
   countActive: "text-accent/60 ml-1 text-xs font-normal",
-  countInactive: "text-text-tertiary/40 ml-1 text-xs font-normal",
+  countInactive: " ml-1 text-xs font-normal",
 
   // 컨테이너
   container: "relative flex items-center border-b border-accent/20",

@@ -193,7 +193,7 @@ export default function FloatingMusicPlayer() {
         <div className={`fixed bottom-4 end-4 bg-bg-card/95 backdrop-blur-sm border border-accent/20 rounded-xl shadow-2xl [&_*]:!font-sans transition-all ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...gameZStyle, width: Math.max(panelW, 420) }}>
           <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/5">
             <span className="text-[11px] font-medium text-accent/70 ps-1">{t('gameBgm')}</span>
-            <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-text-tertiary" title={t('close')}>
+            <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10" title={t('close')}>
               <X size={13} />
             </button>
           </div>
@@ -218,20 +218,20 @@ export default function FloatingMusicPlayer() {
         <div className={`fixed bottom-4 end-4 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden [&_*]:!font-sans ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...zStyle, width: panelW, height: panelH }}>
           {/* 패널 리사이즈 핸들 */}
           <div className="absolute top-0 start-0 w-5 h-5 cursor-nw-resize z-10 group" onMouseDown={handleResizeStart}>
-            <div className="absolute top-1.5 start-1.5 w-2 h-2 border-t-2 border-s-2 border-text-tertiary/30 group-hover:border-text-secondary rounded-tl-sm" />
+            <div className="absolute top-1.5 start-1.5 w-2 h-2 border-t-2 border-s-2 group-hover:border-text-secondary rounded-tl-sm" />
           </div>
 
           {/* 헤더 */}
           <div className="flex items-center justify-between px-3 border-b border-border" style={{ height: HEADER_H }}>
             <div className="flex items-center gap-1.5 ps-4">
-              <span className="text-[11px] font-medium text-text-tertiary">{t('title')}</span>
+              <span className="text-[11px] font-medium">{t('title')}</span>
               {!showNotice && (
-                <button onClick={() => setShowInfo((v) => !v)} className={showInfo ? 'text-accent' : 'text-text-tertiary/50 hover:text-text-secondary'}>
+                <button onClick={() => setShowInfo((v) => !v)} className={showInfo ? 'text-accent' : ' hover:text-text-secondary'}>
                   <Info size={11} />
                 </button>
               )}
             </div>
-            <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-text-tertiary" title={t('close')}>
+            <button onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10" title={t('close')}>
               <X size={13} />
             </button>
           </div>
@@ -268,13 +268,13 @@ export default function FloatingMusicPlayer() {
 
               {/* 스플릿 핸들 */}
               <div className="flex items-center justify-center cursor-row-resize select-none group hover:bg-white/5" style={{ height: SPLIT_H }} onMouseDown={handleSplitStart}>
-                <div className="w-8 h-0.5 rounded-full bg-text-tertiary/20 group-hover:bg-text-tertiary/50" />
+                <div className="w-8 h-0.5 rounded-full group-hover:" />
               </div>
 
               {/* 트랙 목록 */}
               <div className="overflow-y-auto" style={{ height: listH }}>
-                {loading && <div className="flex items-center justify-center h-12"><span className="text-xs text-text-tertiary">{t('loading')}</span></div>}
-                {!loading && tracks.length === 0 && <div className="flex flex-col items-center justify-center gap-1 h-16"><span className="text-xs text-text-tertiary">{t('empty')}</span><span className="text-[11px] text-text-tertiary/60">{t('emptyHint')}</span></div>}
+                {loading && <div className="flex items-center justify-center h-12"><span className="text-xs">{t('loading')}</span></div>}
+                {!loading && tracks.length === 0 && <div className="flex flex-col items-center justify-center gap-1 h-16"><span className="text-xs">{t('empty')}</span><span className="text-[11px]">{t('emptyHint')}</span></div>}
                 {!loading && tracks.map((track, idx) => (
                   <MusicTrackItem key={track.id} track={track} index={idx} total={tracks.length} isActive={idx === currentIdx} onSelect={() => setCurrentIdx(idx)} onUpdate={handleStatusUpdate} onRemove={handleRemove} />
                 ))}

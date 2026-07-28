@@ -81,7 +81,7 @@ export default function CharacterContent({
               <Users className="size-8" />
             </div>
             <h3 className="mb-2 text-lg font-medium text-text-primary">{t("orgChart")}</h3>
-            <p className="text-sm text-text-tertiary max-w-md">
+            <p className="text-sm max-w-md">
               {t("selectPrompt")}
             </p>
           </div>

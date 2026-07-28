@@ -140,7 +140,7 @@ export default function FilterTabs<T extends string>({
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
                 {count !== undefined && (
-                  <span className="text-xs text-text-tertiary">
+                  <span className="text-xs">
                     {typeof count === "number" ? count.toLocaleString() : count}
                   </span>
                 )}

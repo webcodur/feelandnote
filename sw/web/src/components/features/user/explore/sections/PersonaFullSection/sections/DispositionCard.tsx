@@ -72,7 +72,7 @@ export default function DispositionCard({
         {/* 최고점자 runners-up */}
         {entry.runnersUp.length > 0 && (
           <div className="pl-4 py-2 mt-1">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-text-tertiary/50 block mb-1">
+            <span className="text-[10px] font-bold tracking-widest uppercase block mb-1">
               {isEn ? `${sides[0]} Runners-up` : `${sides[0]} 차순위`}
             </span>
             <div className="flex flex-col gap-0.5">
@@ -88,7 +88,7 @@ export default function DispositionCard({
                       isSelected ? "bg-white/10" : "hover:bg-white/5"
                     )}
                   >
-                    <span className="text-[11px] font-bold text-text-tertiary/50 w-5 text-right tabular-nums shrink-0">{i + 2}</span>
+                    <span className="text-[11px] font-bold w-5 text-right tabular-nums shrink-0">{i + 2}</span>
                     <div className={cn("rounded-full transition-all", isSelected ? "ring-1 ring-offset-1 ring-offset-[#0a0a0b]" : "")} style={{ '--tw-ring-color': color } as React.CSSProperties}>
                       <Avatar src={r.avatar_url} alt={rName} size={8} />
                     </div>

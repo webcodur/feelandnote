@@ -108,7 +108,7 @@ function BasicContent({
       value={content}
       onChange={(e) => onChange(e.target.value)}
       placeholder={t("basicPlaceholder")}
-      className="h-full w-full resize-none bg-transparent text-sm leading-relaxed placeholder:text-text-tertiary focus:outline-none"
+      className="h-full w-full resize-none bg-transparent text-sm leading-relaxed placeholder: focus:outline-none"
     />
   );
 }

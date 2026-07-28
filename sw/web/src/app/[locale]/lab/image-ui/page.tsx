@@ -15,9 +15,9 @@ export default function Page() {
     <section className="flex flex-col items-center gap-8 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-cinzel text-accent tracking-[0.2em]">{item.title}</h2>
-        <p className="text-xs text-text-tertiary uppercase tracking-widest opacity-60">{item.subtitle}</p>
+        <p className="text-xs uppercase tracking-widest opacity-60">{item.subtitle}</p>
       </div>
-      <div className="w-full min-h-[400px] flex items-center justify-center text-text-tertiary">
+      <div className="w-full min-h-[400px] flex items-center justify-center">
         준비 중
       </div>
     </section>

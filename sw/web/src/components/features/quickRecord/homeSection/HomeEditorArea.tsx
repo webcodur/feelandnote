@@ -190,7 +190,7 @@ export function HomeEditorArea({
                             className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'REVIEW'
                                 ? 'text-accent border-accent'
-                                : 'text-text-tertiary border-transparent hover:text-text-secondary'
+                                : ' border-transparent hover:text-text-secondary'
                             }`}
                         >
                             {t("review")}
@@ -200,7 +200,7 @@ export function HomeEditorArea({
                             className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'NOTE'
                                 ? 'text-accent border-accent'
-                                : 'text-text-tertiary border-transparent hover:text-text-secondary'
+                                : ' border-transparent hover:text-text-secondary'
                             }`}
                         >
                             {t("note")}
@@ -216,7 +216,7 @@ export function HomeEditorArea({
                                     className={`flex items-center justify-center p-2 rounded-md transition-all ${
                                         activeTab === 'EDIT'
                                         ? 'bg-accent/20 text-accent shadow-sm'
-                                        : 'text-text-tertiary hover:text-text-secondary'
+                                        : ' hover:text-text-secondary'
                                     }`}
                                     title={tEditor("writeMode")}
                                 >
@@ -227,7 +227,7 @@ export function HomeEditorArea({
                                     className={`flex items-center justify-center p-2 rounded-md transition-all ${
                                         activeTab === 'PREVIEW'
                                         ? 'bg-accent/20 text-accent shadow-sm'
-                                        : 'text-text-tertiary hover:text-text-secondary'
+                                        : ' hover:text-text-secondary'
                                     }`}
                                     title={tEditor("readMode")}
                                 >

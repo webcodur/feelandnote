@@ -66,7 +66,7 @@ export default function AxisExtremeCard({
             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-3xl font-serif text-text-tertiary bg-white/5">
+          <div className="w-full h-full flex items-center justify-center text-3xl font-serif bg-white/5">
             {name.charAt(0)}
           </div>
         )}

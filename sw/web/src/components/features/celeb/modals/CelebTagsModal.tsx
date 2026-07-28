@@ -37,7 +37,7 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }:
           </h3>
           <button 
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
+            className="p-1 rounded-full hover:bg-white/10 hover:text-text-primary transition-colors"
           >
             <X size={20} />
           </button>
@@ -74,7 +74,7 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }:
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-text-tertiary italic pl-1">
+                <p className="text-sm italic pl-1">
                   {t("noDescription")}
                 </p>
               )}

@@ -50,7 +50,7 @@ function StatRow({ label, value, rationale }: { label: string; value: number; ra
         </span>
       </div>
       {rationale && (
-        <p className="text-xs leading-relaxed text-text-tertiary mt-1 break-keep">
+        <p className="text-xs leading-relaxed mt-1 break-keep">
           {rationale}
         </p>
       )}
@@ -80,7 +80,7 @@ function TendencyRow({ labels, value, rationale }: { labels: [string, string]; v
         />
       </div>
       {rationale && (
-        <p className="text-xs leading-relaxed text-text-tertiary mt-0.5 break-keep">
+        <p className="text-xs leading-relaxed mt-0.5 break-keep">
           {rationale}
         </p>
       )}

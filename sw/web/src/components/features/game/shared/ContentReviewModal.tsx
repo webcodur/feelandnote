@@ -76,7 +76,7 @@ export default function ContentReviewModal({
             </p>
           </div>
         ) : review && isSpoiler ? (
-          <p className="text-sm text-text-tertiary italic">
+          <p className="text-sm italic">
             {t("spoiler")}
           </p>
         ) : reviewPresets && reviewPresets.length > 0 ? (
@@ -84,7 +84,7 @@ export default function ContentReviewModal({
             <PresetTags presets={reviewPresets} />
           </div>
         ) : (
-          <p className="text-sm text-text-tertiary italic">
+          <p className="text-sm italic">
             {t("noReview")}
           </p>
         )}

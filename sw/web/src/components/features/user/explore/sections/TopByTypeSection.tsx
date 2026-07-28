@@ -187,7 +187,7 @@ function SectionInfoGraphic({
             <div key={idx} className="flex items-center gap-2 text-[11px]">
               <span
                 className="w-4 text-right font-bold shrink-0"
-                style={{ color: rank === 1 ? "#d4af37" : rank === 2 ? "#b0b0b0" : rank === 3 ? "#b8763a" : "var(--text-tertiary)" }}
+                style={{ color: rank === 1 ? "#d4af37" : rank === 2 ? "#b0b0b0" : rank === 3 ? "#b8763a" : undefined }}
               >
                 {rank}
               </span>
@@ -236,7 +236,7 @@ function SharedContentInsight({
         <Sparkles size={15} style={{ color }} />
         {t("sharedTitle")}
       </div>
-      <p className="text-xs text-text-tertiary leading-relaxed">
+      <p className="text-xs leading-relaxed">
         {t("sharedDesc", { count: totalCelebs })}
       </p>
 
@@ -260,7 +260,7 @@ function SharedContentInsight({
                     className="object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-text-tertiary">
+                  <div className="w-full h-full flex items-center justify-center">
                     <Book size={14} />
                   </div>
                 )}
@@ -271,7 +271,7 @@ function SharedContentInsight({
                 <p className="text-xs font-semibold text-text-primary truncate">
                   {item.title ?? "—"}
                 </p>
-                <p className="text-[11px] text-text-tertiary truncate">
+                <p className="text-[11px] truncate">
                   {item.creator ?? ""}
                 </p>
               </div>
@@ -310,7 +310,7 @@ function SharedContentInsight({
       {/* 참여 기록가 태그 (첫 번째 아이템 기준) */}
       {items[0]?.celeb_nicknames && items[0].celeb_nicknames.length > 0 && (
         <div className="pt-1">
-          <p className="text-[10px] text-text-tertiary mb-1.5">{t("sharedBy")}</p>
+          <p className="text-[10px] mb-1.5">{t("sharedBy")}</p>
           <div className="flex flex-wrap gap-1">
             {items[0].celeb_nicknames.map((name) => (
               <span
@@ -361,7 +361,7 @@ export default function TopByTypeSection({ entries, sharedByType }: TopByTypeSec
               />
               <Icon size={22} style={{ color: config.color }} />
               <h2 className="text-lg font-bold text-text-primary">{label}</h2>
-              <span className="text-sm text-text-tertiary">Top {entry.celebs.length}</span>
+              <span className="text-sm">Top {entry.celebs.length}</span>
             </div>
 
             {/* 그리드 */}

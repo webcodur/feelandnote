@@ -98,7 +98,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
               href={item.source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
+              className="text-[11px] hover:text-accent transition-colors flex items-center gap-1"
             >
               <span className="opacity-50">{t("source")}</span> {item.source_url}
             </a>

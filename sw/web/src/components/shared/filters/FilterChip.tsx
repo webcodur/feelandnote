@@ -45,9 +45,9 @@ export default function FilterChip({
         {/* 타이틀 섹션 */}
         <div className={`flex items-center justify-center border-r border-accent/10 bg-black/20 ${icon ? 'px-2' : 'flex-[0.35] px-1'}`}>
           {icon ? (
-            <span className={isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}>{icon}</span>
+            <span className={isActive ? 'text-accent opacity-90' : ' opacity-60'}>{icon}</span>
           ) : (
-            <span className={`text-[9px] uppercase font-sans font-bold tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : 'text-text-tertiary opacity-60'}`}>
+            <span className={`text-[9px] uppercase font-sans font-bold tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : ' opacity-60'}`}>
               {label}
             </span>
           )}

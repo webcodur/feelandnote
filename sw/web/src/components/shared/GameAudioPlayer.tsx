@@ -125,14 +125,14 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
 
         {/* 트랙 정보 */}
         {trackLabel && (
-          <span className="text-[10px] text-text-tertiary shrink-0 max-w-28 truncate" title={hasPlaylist ? `${trackIndex + 1}/${trackCount} ${trackLabel}` : trackLabel}>
+          <span className="text-[10px] shrink-0 max-w-28 truncate" title={hasPlaylist ? `${trackIndex + 1}/${trackCount} ${trackLabel}` : trackLabel}>
             {hasPlaylist && <span className="text-accent/60 mr-1">{trackIndex + 1}/{trackCount}</span>}
             {trackLabel}
           </span>
         )}
 
         {/* 시간 + 프로그레스 바 */}
-        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8 text-right">
+        <span className="text-[10px] tabular-nums shrink-0 w-8 text-right">
           {formatTime(displayTime)}
         </span>
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
@@ -148,7 +148,7 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
             />
           </div>
         </div>
-        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8">
+        <span className="text-[10px] tabular-nums shrink-0 w-8">
           {formatTime(duration)}
         </span>
       </div>
@@ -170,12 +170,12 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
           value={volume}
           onChange={handleVolumeChange}
           className="flex-1 h-1 accent-[var(--color-accent)] bg-white/10 rounded-full appearance-none cursor-pointer
-            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
-            [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent
-            [&::-webkit-slider-thumb]:shadow-[0_0_6px_rgba(212,175,55,0.4)]
-            [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform"
+ [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
+ [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent
+ [&::-webkit-slider-thumb]:shadow-[0_0_6px_rgba(212,175,55,0.4)]
+ [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:transition-transform"
         />
-        <span className="text-[10px] tabular-nums text-text-tertiary shrink-0 w-8">
+        <span className="text-[10px] tabular-nums shrink-0 w-8">
           {Math.round(volume * 100)}%
         </span>
       </div>

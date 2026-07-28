@@ -125,7 +125,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
 
           {/* 커뮤니티 */}
           <div className="border-t border-border py-1">
-            <p className="px-4 py-1.5 text-xs text-text-tertiary">{t("community")}</p>
+            <p className="px-4 py-1.5 text-xs">{t("community")}</p>
             <Link
               href="/agora/social"
               onClick={() => setShowDropdown(false)}

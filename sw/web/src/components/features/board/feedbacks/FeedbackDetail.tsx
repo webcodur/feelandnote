@@ -104,7 +104,7 @@ export default function FeedbackDetail({
         </h1>
 
         {/* 메타 정보 */}
-        <div className="flex items-center gap-3 text-sm text-text-tertiary pb-4 border-b border-accent-dim/20">
+        <div className="flex items-center gap-3 text-sm pb-4 border-b border-accent-dim/20">
           <span className="font-serif text-text-secondary">{feedback.author.nickname}</span>
           <span className="text-accent-dim/50">·</span>
           <span>{format(new Date(feedback.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}</span>
@@ -134,7 +134,7 @@ export default function FeedbackDetail({
             <LaurelIcon size={16} color="#d4af37" strokeWidth={1.5} />
             <span className="text-xs font-cinzel tracking-wider text-accent">OFFICIAL RESPONSE</span>
             {feedback.resolved_at && (
-              <span className="text-xs text-text-tertiary ml-2">
+              <span className="text-xs ml-2">
                 {format(new Date(feedback.resolved_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
               </span>
             )}

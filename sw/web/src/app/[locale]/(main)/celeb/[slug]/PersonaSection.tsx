@@ -80,7 +80,7 @@ function SimilarFiguresHeader() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="text-text-tertiary hover:text-accent transition-colors"
+          className="hover:text-accent transition-colors"
           aria-label={t("showSimilarityFormula")}
         >
           <Info size={14} />
@@ -180,7 +180,7 @@ function TendencyBar({
             labelW,
             activeLabel === "neg"
               ? "text-blue-400 font-bold"
-              : "text-text-tertiary",
+              : "",
           )}
         >
           {neg}
@@ -209,7 +209,7 @@ function TendencyBar({
             labelW,
             activeLabel === "pos"
               ? "text-orange-400 font-bold"
-              : "text-text-tertiary",
+              : "",
           )}
         >
           {pos}

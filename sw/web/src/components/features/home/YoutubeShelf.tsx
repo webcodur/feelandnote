@@ -62,7 +62,7 @@ export default async function YoutubeShelf() {
           {t("viewAll")} →
         </Link>
       </div>
-      <p className="text-xs text-text-tertiary -mt-2">{t("subtitle")}</p>
+      <p className="text-xs -mt-2">{t("subtitle")}</p>
 
       {/* 인물 카드 줄 */}
       <YoutubeShelfStrip items={items} moreLabel={t("more")} />
@@ -72,7 +72,7 @@ export default async function YoutubeShelf() {
         href={channel.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-accent"
+        className="inline-flex items-center gap-1.5 text-xs hover:text-accent"
       >
         <Youtube size={13} />
         {t("channel")} {channel.handle}

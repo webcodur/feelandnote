@@ -40,12 +40,12 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
         <Button
           unstyled
           onClick={() => setShowAlgorithmInfo(true)}
-          className="text-xs text-text-tertiary hover:text-text-secondary flex items-center gap-1"
+          className="text-xs hover:text-text-secondary flex items-center gap-1"
         >
           <Info size={14} /> {t("algorithm")}
         </Button>
         {algorithm === "content_overlap" && similarUsers.length > 0 && (
-          <span className="text-[10px] text-text-tertiary bg-background px-2 py-0.5 rounded-full">
+          <span className="text-[10px] bg-background px-2 py-0.5 rounded-full">
             {t("contentOverlapBased")}
           </span>
         )}

@@ -113,7 +113,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
             {hasChildren ? (
               <button
                 onClick={() => toggleCollapse(concept.id)}
-                className="shrink-0 p-0.5 text-text-tertiary hover:text-text-secondary"
+                className="shrink-0 p-0.5 hover:text-text-secondary"
               >
                 {isCollapsed ? (
                   <ChevronRight className="size-3" />
@@ -161,7 +161,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
 
         {rootConcepts.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
-            <Network className="size-8 text-text-tertiary/30" />
+            <Network className="size-8" />
             <p className="text-xs text-text-secondary">{t("noConcepts")}</p>
           </div>
         ) : (
@@ -173,7 +173,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
       <div className="w-64 flex flex-col rounded-lg border border-border bg-[#1a1f27] p-3 overflow-y-auto custom-scrollbar">
         {!selectedConcept ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
-            <Network className="size-8 text-text-tertiary/30" />
+            <Network className="size-8" />
             <p className="text-xs text-text-secondary whitespace-pre-line">
               {t("selectPrompt")}
             </p>
@@ -190,7 +190,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
                 value={editForm.name || ""}
                 onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                 placeholder={t("conceptNamePlaceholder")}
-                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+                className="w-full rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
               />
             </div>
 
@@ -203,7 +203,7 @@ export default function ConceptMapContent({ concepts, onUpdate }: Props) {
                 }
                 placeholder={t("descriptionPlaceholder")}
                 rows={6}
-                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none custom-scrollbar"
+                className="w-full resize-none rounded-lg border border-border bg-black/30 px-2 py-1.5 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none custom-scrollbar"
               />
             </div>
 

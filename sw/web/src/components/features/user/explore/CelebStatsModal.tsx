@@ -85,7 +85,7 @@ function StatBar({
           {displayPercent}%
         </span>
       </div>
-      <div className="w-12 text-right text-xs text-text-tertiary shrink-0">
+      <div className="w-12 text-right text-xs shrink-0">
         {countLabel}
       </div>
     </div>
@@ -180,7 +180,7 @@ function NationalityStats({
         />
       ))}
       {topNationalities.length === 0 && (
-        <div className="text-center py-8 text-text-tertiary text-sm">
+        <div className="text-center py-8 text-sm">
           {t("empty.noNationality")}
         </div>
       )}
@@ -244,7 +244,7 @@ function ContentTypeStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] text-text-tertiary font-medium">{t("totalContent")}</span>
+            <span className="text-[10px] font-medium">{t("totalContent")}</span>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ function ContentTypeStats({
               />
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-bold text-text-primary truncate">{item.label}</div>
-                <div className="text-[10px] text-text-tertiary">{t("countUnit", { count: item.count })} ({percent}%)</div>
+                <div className="text-[10px]">{t("countUnit", { count: item.count })} ({percent}%)</div>
               </div>
             </div>
           );
@@ -310,7 +310,7 @@ function GenderStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] text-text-tertiary font-medium">{t("totalPeople")}</span>
+            <span className="text-[10px] font-medium">{t("totalPeople")}</span>
           </div>
         </div>
       </div>
@@ -323,7 +323,7 @@ function GenderStats({
             <span className="text-sm font-bold text-text-primary">{t("male")}</span>
           </div>
           <div className="text-2xl font-black text-blue-400">{maleCount}</div>
-          <div className="text-xs text-text-tertiary mt-1">{malePercent}%</div>
+          <div className="text-xs mt-1">{malePercent}%</div>
         </div>
         <div className="p-4 rounded-xl bg-gradient-to-br from-pink-500/10 to-pink-600/5 border border-pink-500/20">
           <div className="flex items-center gap-2 mb-2">
@@ -331,7 +331,7 @@ function GenderStats({
             <span className="text-sm font-bold text-text-primary">{t("female")}</span>
           </div>
           <div className="text-2xl font-black text-pink-400">{femaleCount}</div>
-          <div className="text-xs text-text-tertiary mt-1">{femalePercent}%</div>
+          <div className="text-xs mt-1">{femalePercent}%</div>
         </div>
       </div>
     </div>
@@ -381,7 +381,7 @@ export default function CelebStatsModal({
 
           {/* 총계 표시 */}
           <div className="flex items-center justify-between px-1 mb-3 shrink-0">
-            <span className="text-xs text-text-tertiary">
+            <span className="text-xs">
               {t(TAB_DESC_KEYS[activeTab])}
             </span>
             <span className="text-xs font-bold text-accent">

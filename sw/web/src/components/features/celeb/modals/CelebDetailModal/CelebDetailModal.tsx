@@ -160,7 +160,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   );
 
   const MetaInfo = () => (
-    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm text-text-tertiary justify-center md:justify-start">
+    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm justify-center md:justify-start">
       {celeb.profession && (
         <span className="flex items-center gap-1">
           <Briefcase size={12} />
@@ -216,7 +216,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
                e.stopPropagation();
                setIsTagsModalOpen(true);
              }}
-             className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] text-text-tertiary font-bold border border-border hover:bg-bg-tertiary hover:text-text-primary transition-colors"
+             className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] font-bold border border-border hover:bg-bg-tertiary hover:text-text-primary transition-colors"
            >
              +{remainingCount}
            </button>
@@ -265,7 +265,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
               e.stopPropagation();
               setIsReviewMode(false);
             }}
-            className="shrink-0 flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors whitespace-nowrap"
+            className="shrink-0 flex items-center gap-1.5 text-xs hover:text-text-primary transition-colors whitespace-nowrap"
           >
             <span>{t("characterInfo")}</span>
             <ArrowLeft size={14} className="rotate-180" />
@@ -287,7 +287,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
           {loadingReviews ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-              <p className="text-sm text-text-tertiary animate-pulse">{t("loadingRecords")}</p>
+              <p className="text-sm animate-pulse">{t("loadingRecords")}</p>
             </div>
           ) : filteredReviews.length > 0 ? (
             <div className="max-w-4xl mx-auto space-y-4">
@@ -307,9 +307,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <Feather size={48} className="text-text-tertiary/20 mb-4" />
+              <Feather size={48} className="mb-4" />
               <p className="text-text-secondary font-medium mb-1">{t("empty.noPublicReviews")}</p>
-              <p className="text-xs text-text-tertiary">{t("empty.pleaseWait")}</p>
+              <p className="text-xs">{t("empty.pleaseWait")}</p>
             </div>
           )}
         </div>
@@ -323,7 +323,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       <div className="flex items-center justify-between p-4 shrink-0">
         <button
           onClick={() => setIsReviewMode(true)}
-          className="flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-primary transition-colors"
+          className="flex items-center gap-1.5 text-xs hover:text-text-primary transition-colors"
         >
           <ArrowLeft size={14} />
           <span>{t("viewingRecords")}</span>
@@ -360,7 +360,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
 
       {/* 인용구 */}
       {!hideQuotes && displayQuotes && (
-        <blockquote className="text-xs md:text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
+        <blockquote className="text-xs md:text-sm font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
           <FormattedText text={displayQuotes} />
         </blockquote>
       )}

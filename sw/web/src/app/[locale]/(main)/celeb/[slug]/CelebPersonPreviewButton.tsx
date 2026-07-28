@@ -66,7 +66,7 @@ export default function CelebPersonPreviewButton({
               unoptimized
             />
           ) : (
-            <span className="flex h-full w-full items-center justify-center font-serif text-base text-text-tertiary">
+            <span className="flex h-full w-full items-center justify-center font-serif text-base">
               {name.charAt(0)}
             </span>
           )}

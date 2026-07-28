@@ -148,7 +148,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               <span className="text-accent/30 font-cinzel text-[10px] tracking-wider">{item.step}</span>
               <div className="flex justify-center mt-1.5 mb-1.5 text-accent/50">{item.icon}</div>
               <p className="text-sm font-bold text-white">{item.title}</p>
-              <p className="text-[10px] text-text-tertiary mt-1 leading-relaxed">{item.desc}</p>
+              <p className="text-[10px] mt-1 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -332,7 +332,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               <div key={m.name} className={`flex items-center gap-3 px-4 py-2.5 rounded-xl border ${m.color}`}>
                 <span className="text-amber-300/70 text-sm">★</span>
                 <span className="font-bold text-xs flex-1">{m.name}</span>
-                <span className="text-[10px] text-text-tertiary">{m.cmd}</span>
+                <span className="text-[10px]">{m.cmd}</span>
               </div>
             ))}
           </div>

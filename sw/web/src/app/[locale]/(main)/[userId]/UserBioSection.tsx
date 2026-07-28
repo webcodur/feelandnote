@@ -202,7 +202,7 @@ function FieldLabel({ label, clearLabel, value, onClear }: FieldLabelProps) {
     <div className="flex items-center justify-between mb-1 min-h-4">
       <label className="text-xs text-text-secondary">{label}</label>
       {value && (
-        <button type="button" onClick={onClear} className="text-xs text-text-tertiary hover:text-accent">
+        <button type="button" onClick={onClear} className="text-xs hover:text-accent">
           {clearLabel}
         </button>
       )}

@@ -100,7 +100,7 @@ export default function GameContentItem({
           </p>
         )}
       </div>
-      <Icon size={cfg.typeIcon} className="shrink-0 text-text-tertiary" />
+      <Icon size={cfg.typeIcon} className="shrink-0" />
     </>
   );
 

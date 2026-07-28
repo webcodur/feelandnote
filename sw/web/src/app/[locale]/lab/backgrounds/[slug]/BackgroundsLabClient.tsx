@@ -119,7 +119,7 @@ export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
 
   const NavSection = ({ title, items }: { title: string; items: BgItem[] }) => (
     <div>
-      <p className="text-[10px] uppercase tracking-widest text-text-tertiary mb-2">{title}</p>
+      <p className="text-[10px] uppercase tracking-widest mb-2">{title}</p>
       <ul className="space-y-1">
         {items.map((bg) => (
           <li
@@ -171,7 +171,7 @@ export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
         </div>
         <div className="text-center">
           <h3 className="text-lg font-cinzel text-accent">{activeBg.label}</h3>
-          <p className="text-xs text-text-tertiary mt-1">{activeBg.desc}</p>
+          <p className="text-xs mt-1">{activeBg.desc}</p>
         </div>
       </div>
     </section>

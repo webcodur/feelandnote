@@ -62,7 +62,7 @@ export default async function PopularBooks() {
         ))}
       </div>
 
-      <p className="text-xs text-text-tertiary text-center mt-4">
+      <p className="text-xs text-center mt-4">
         {AFFILIATE_PLATFORMS.coupang.notice}
       </p>
     </section>

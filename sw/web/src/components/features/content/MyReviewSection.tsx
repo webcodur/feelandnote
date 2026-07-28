@@ -115,7 +115,7 @@ export default function MyReviewSection({
 
       {/* 리뷰 텍스트 */}
       <textarea
-        className="w-full h-32 bg-black/20 border border-border rounded-lg p-3 text-text-primary text-sm resize-y outline-none font-sans focus:border-accent placeholder:text-text-tertiary"
+        className="w-full h-32 bg-black/20 border border-border rounded-lg p-3 text-text-primary text-sm resize-y outline-none font-sans focus:border-accent placeholder:"
         placeholder={t("placeholder")}
         value={review}
         onChange={(e) => setReview(e.target.value)}

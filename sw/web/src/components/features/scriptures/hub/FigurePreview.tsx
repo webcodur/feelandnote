@@ -83,7 +83,7 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
 
         {/* 소개 */}
         {displayBio && (
-          <p className="text-sm text-text-tertiary leading-relaxed max-w-lg break-keep">
+          <p className="text-sm leading-relaxed max-w-lg break-keep">
             {displayBio}
           </p>
         )}
@@ -97,7 +97,7 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
               </div>
             ))}
             {contents.length > 3 && (
-              <span className="text-xs text-text-tertiary font-medium ml-1">+{contents.length - 3}</span>
+              <span className="text-xs font-medium ml-1">+{contents.length - 3}</span>
             )}
           </div>
         )}
@@ -107,7 +107,7 @@ export default function FigurePreview({ figure, contents }: FigurePreviewProps) 
           href={`/${figure.id}`}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 text-sm font-semibold text-text-secondary hover:text-white transition-all duration-300 group/btn mt-1"
         >
-          {t("leaveSignature")} <ArrowRight size={16} className="text-text-tertiary group-hover/btn:text-accent group-hover/btn:translate-x-1 transition-all duration-300" />
+          {t("leaveSignature")} <ArrowRight size={16} className="group-hover/btn:text-accent group-hover/btn:translate-x-1 transition-all duration-300" />
         </Link>
       </div>
     </div>

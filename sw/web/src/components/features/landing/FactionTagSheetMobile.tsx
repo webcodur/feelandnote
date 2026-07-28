@@ -73,7 +73,7 @@ export default function FactionTagSheetMobile({
         <div className="flex items-center">
           <span className="text-[15px] font-sans font-bold text-white">{activeTagName}</span>
         </div>
-        <ChevronDown size={18} className="text-text-tertiary" />
+        <ChevronDown size={18} className="" />
       </button>
 
       {/* Backdrop */}
@@ -103,7 +103,7 @@ export default function FactionTagSheetMobile({
           </h3>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 -mr-2 text-text-tertiary hover:text-white transition-colors"
+            className="p-2 -mr-2 hover:text-white transition-colors"
           >
             <X size={20} />
           </button>
@@ -237,13 +237,13 @@ function SheetTagRow({
           {professions.slice(0, 4).map((p) => {
             const Icon = PROFESSION_ICONS[p as keyof typeof PROFESSION_ICONS];
             if (!Icon) return null;
-            return <Icon key={p} size={13} className="text-text-tertiary/60" />;
+            return <Icon key={p} size={13} className="" />;
           })}
         </div>
       )}
 
       {isUpcoming && (
-        <div className="flex items-center gap-1.5 text-text-tertiary flex-shrink-0">
+        <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-[10px] uppercase font-sans tracking-wider font-semibold">Soon</span>
           <Lock size={12} />
         </div>

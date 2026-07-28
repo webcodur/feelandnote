@@ -132,9 +132,14 @@ export default function ContentLibrary({
         </ControlPanel>
       )}
 
-      {/* 콘텐츠 목록 */}
+      {/* 콘텐츠 목록 — 재조회 중에는 자리를 지킨 채 흐려지기만 한다 */}
       <div>
-        <div className="py-8">
+        <div
+          aria-busy={lib.isRefreshing}
+          className={`py-8 [overflow-anchor:none] transition-opacity duration-150 ${
+            lib.isRefreshing ? "pointer-events-none opacity-45" : ""
+          }`}
+        >
           {hasFilteredContents ? (
             lib.sortOption === "recent" ? (
               lib.monthKeys.map((monthKey) => {
@@ -161,8 +166,8 @@ export default function ContentLibrary({
             </div>
           )}
 
-          {/* 페이지네이션 */}
-          {!compact && showPagination && !lib.isLoading && (
+          {/* 쪽 넘김 — 재조회 중에도 자리를 지켜야 누른 단추가 눈앞에서 사라지지 않는다 */}
+          {!compact && showPagination && (
             <>
               <hr className="border-white/10 mt-8 mb-8" />
               <div className="flex justify-center">

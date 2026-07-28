@@ -106,7 +106,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               <span className="text-accent/50 shrink-0">{item.icon}</span>
               <div>
                 <p className="text-sm font-bold text-white">{item.title}</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{item.desc}</p>
+                <p className="text-[10px] mt-0.5">{item.desc}</p>
               </div>
             </div>
           ))}

@@ -94,7 +94,7 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
           {activeTagIndex === -1 ? (
             <Link
               href="/explore"
-              className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors"
             >
               <ArrowLeft size={14} />
               {tNav("explore")}
@@ -105,7 +105,7 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
                 setActiveTagIndex(-1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors cursor-pointer"
             >
               <ArrowLeft size={14} />
               {t("collection")}
@@ -271,7 +271,7 @@ function TimelineSection({
 
   return (
     <div>
-      <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-5">
+      <h4 className="text-sm font-cinzel uppercase tracking-wider text-center mb-5">
         {t("library.peopleTitle")}
       </h4>
 

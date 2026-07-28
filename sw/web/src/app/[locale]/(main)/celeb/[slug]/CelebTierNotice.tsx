@@ -34,7 +34,7 @@ export function CelebTierNotice({ tier }: { tier?: CelebTier | null }) {
   if (!hasNotice(tier)) return null;
 
   return (
-    <p className="rounded-lg border border-accent/15 bg-accent/5 px-4 py-3 text-base leading-relaxed text-text-tertiary break-keep text-start sm:text-lg">
+    <p className="rounded-lg border border-accent/15 bg-accent/5 px-4 py-3 text-base leading-relaxed break-keep text-start sm:text-lg">
       {t(NOTICE_TIERS[tier].notice)}
     </p>
   );

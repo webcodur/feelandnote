@@ -43,7 +43,7 @@ export default function FreePostItem({ post, unread = true, onOpen }: FreePostIt
               </span>
             )}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2 text-xs text-text-tertiary">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2 text-xs">
             <div className="flex items-center gap-1.5 text-text-secondary">
               <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={18} />
               <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
@@ -51,7 +51,7 @@ export default function FreePostItem({ post, unread = true, onOpen }: FreePostIt
             <span className="text-accent-dim/30 hidden sm:inline">·</span>
             <div className="flex items-center gap-1.5">
               <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
-              <span className="text-text-tertiary/60">
+              <span className="">
                 ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
               </span>
             </div>

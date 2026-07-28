@@ -117,9 +117,9 @@ export default function YoutubeShelfStrip({ items, moreLabel }: YoutubeShelfStri
             <span className="w-9 h-9 rounded-full border border-accent/40 flex items-center justify-center text-accent group-hover:bg-accent/10">
               <ChevronRight size={18} />
             </span>
-            <span className="text-[11px] text-text-tertiary">+{remaining}</span>
+            <span className="text-[11px]">+{remaining}</span>
           </div>
-          <p className="text-xs text-text-tertiary group-hover:text-accent text-center">
+          <p className="text-xs group-hover:text-accent text-center">
             {moreLabel}
           </p>
         </button>

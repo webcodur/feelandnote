@@ -146,7 +146,7 @@ export default function FactionSection({
                                 className="object-cover"
                               />
                             ) : (
-                              <span className="flex h-full w-full items-center justify-center font-serif text-[9px] text-text-tertiary">
+                              <span className="flex h-full w-full items-center justify-center font-serif text-[9px]">
                                 {(isEn && member.nicknameEn ? member.nicknameEn : member.nickname).charAt(0)}
                               </span>
                             )}
@@ -154,7 +154,7 @@ export default function FactionSection({
                         ))}
                       </div>
                     )}
-                    <span className="inline-flex items-center gap-1.5 text-[11px] text-text-tertiary">
+                    <span className="inline-flex items-center gap-1.5 text-[11px]">
                       {preview.members.length > 0 && t("factionMemberCount", { count: preview.members.length })}
                       {preview.members.length > 0 && preview.teamImages.length > 0 && <span aria-hidden>·</span>}
                       {preview.teamImages.length > 0 && t("factionPhotoCount", { count: preview.teamImages.length })}
@@ -162,7 +162,7 @@ export default function FactionSection({
                   </div>
                 )}
 
-                <span className="mt-auto inline-flex items-center gap-1 self-start pt-2 text-xs font-medium text-text-tertiary group-hover:text-[color:var(--tag-color)]">
+                <span className="mt-auto inline-flex items-center gap-1 self-start pt-2 text-xs font-medium group-hover:text-[color:var(--tag-color)]">
                   {t("factionPreview")}
                   <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                 </span>

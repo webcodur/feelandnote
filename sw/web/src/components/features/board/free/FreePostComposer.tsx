@@ -55,7 +55,7 @@ export default function FreePostComposer({ isLoggedIn, stayOnPage = false, onCre
         onClick={() => setIsOpen(true)}
         className="w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-bg-card/40 border border-white/5 hover:bg-white/[0.03] transition-colors group text-left"
       >
-        <div className="flex-1 text-sm text-text-tertiary px-2 font-serif">
+        <div className="flex-1 text-sm px-2 font-serif">
           {t('free.writePlaceholder')}
         </div>
         <div

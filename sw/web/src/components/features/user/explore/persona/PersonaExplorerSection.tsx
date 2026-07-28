@@ -59,7 +59,7 @@ export default function PersonaExplorerSection({
         <div className="mb-2 flex items-center gap-2 px-1">
           <Users className="h-4 w-4 text-accent" />
           <h2 className="text-sm font-semibold text-text-primary">{t("personaList")}</h2>
-          <span className="text-xs text-text-tertiary">{initialPeople.length}</span>
+          <span className="text-xs">{initialPeople.length}</span>
         </div>
         <div className="max-h-[620px] space-y-1 overflow-y-auto pr-1">
           {initialPeople.map((person) => {
@@ -89,7 +89,7 @@ export default function PersonaExplorerSection({
                   </div>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{person.nickname}</p>
-                    <p className="truncate text-[11px] text-text-tertiary">{professionLabel}</p>
+                    <p className="truncate text-[11px]">{professionLabel}</p>
                   </div>
                 </div>
               </button>

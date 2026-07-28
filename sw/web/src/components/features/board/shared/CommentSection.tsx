@@ -90,7 +90,7 @@ export default function CommentSection({
                   <span className="text-sm font-serif font-medium text-text-primary">
                     {comment.author.nickname}
                   </span>
-                  <span className="text-xs text-text-tertiary">
+                  <span className="text-xs">
                     {format(new Date(comment.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
                   </span>
                 </div>
@@ -101,7 +101,7 @@ export default function CommentSection({
               {canDelete(comment) && (
                 <button
                   onClick={() => handleDelete(comment.id)}
-                  className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-red-400 transition-all"
+                  className="opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all"
                 >
                   <Trash2 size={14} />
                 </button>
@@ -112,7 +112,7 @@ export default function CommentSection({
         {comments.length === 0 && (
           <div className="text-center py-8">
             <MessageTabletIcon size={32} color="#8a732a" strokeWidth={1} className="mx-auto mb-3 opacity-50" />
-            <p className="text-sm text-text-tertiary font-serif">
+            <p className="text-sm font-serif">
               {t('empty')}
             </p>
           </div>
@@ -128,7 +128,7 @@ export default function CommentSection({
             onChange={e => setNewComment(e.target.value)}
             placeholder={t('placeholder')}
             maxLength={500}
-            className="flex-1 px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 transition-colors"
+            className="flex-1 px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder: focus:outline-none focus:border-accent/40 transition-colors"
           />
           <Button type="submit" size="sm" disabled={isSubmitting} className="font-serif px-5">
             {isSubmitting ? '...' : t('submit')}
@@ -136,7 +136,7 @@ export default function CommentSection({
         </form>
       ) : (
         <Link href="/login" className="block text-center py-4 border border-dashed border-accent-dim/20 rounded-lg hover:border-accent/40 transition-colors">
-          <p className="text-sm text-text-tertiary hover:text-accent font-serif transition-colors">
+          <p className="text-sm hover:text-accent font-serif transition-colors">
             {t('loginRequired')}
           </p>
         </Link>

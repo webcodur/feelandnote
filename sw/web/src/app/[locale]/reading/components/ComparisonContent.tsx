@@ -111,7 +111,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
           onChange={(e) => setNewCriterion(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddCriterion()}
           placeholder={t("addCriterionPlaceholder")}
-          className="flex-1 rounded-lg border border-border bg-black/30 px-3 py-2 text-xs text-text-primary placeholder:text-text-tertiary/30 focus:border-accent focus:outline-none"
+          className="flex-1 rounded-lg border border-border bg-black/30 px-3 py-2 text-xs text-text-primary placeholder: focus:border-accent focus:outline-none"
         />
         <button
           onClick={handleAddCriterion}
@@ -126,7 +126,7 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
       <div className="flex-1 overflow-auto custom-scrollbar">
         {items.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
-            <Table className="size-8 text-text-tertiary/30" />
+            <Table className="size-8" />
             <p className="text-xs text-text-secondary">{t("noItems")}</p>
             <button
               onClick={handleAddItem}
@@ -221,13 +221,13 @@ export default function ComparisonContent({ items, criteriaOrder, onUpdate }: Pr
                         <div className="flex gap-1">
                           <button
                             onClick={() => handleEdit(item)}
-                            className="p-1 text-text-tertiary hover:text-accent"
+                            className="p-1 hover:text-accent"
                           >
                             <Pencil className="size-3" />
                           </button>
                           <button
                             onClick={() => handleDelete(item.id)}
-                            className="p-1 text-text-tertiary hover:text-red-400"
+                            className="p-1 hover:text-red-400"
                           >
                             <Trash2 className="size-3" />
                           </button>

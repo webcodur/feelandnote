@@ -148,7 +148,7 @@ export default function ReadingWorkspace({ userId, initialBook, isBookLocked = f
                 {selectedBook ? (
                   <p className="text-lg">
                     <span className="font-medium text-text-primary">{selectedBook.title}</span>
-                    <span className="text-text-tertiary">{t("readingBook")}</span>
+                    <span className="">{t("readingBook")}</span>
                   </p>
                 ) : (
                   <>

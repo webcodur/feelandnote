@@ -71,7 +71,7 @@ export default function FeedbackList({
                 px-3 py-1.5 text-xs font-serif rounded-full border transition-colors
                 ${currentCat === cat
                   ? 'bg-accent/20 text-accent border-accent/40'
-                  : 'bg-bg-card/60 text-text-tertiary border-accent-dim/20 hover:border-accent/30 hover:text-text-secondary'
+                  : 'bg-bg-card/60  border-accent-dim/20 hover:border-accent/30 hover:text-text-secondary'
                 }
               `}
             >
@@ -94,7 +94,7 @@ export default function FeedbackList({
             <MessageSquare size={48} strokeWidth={1} className="text-accent-dim" />
           </div>
           <p className="font-serif text-text-secondary">{t('feedback.emptyTitle')}</p>
-          <p className="text-xs text-text-tertiary mt-2">{t('feedback.emptySubtitle')}</p>
+          <p className="text-xs mt-2">{t('feedback.emptySubtitle')}</p>
         </div>
       ) : (
         <>

@@ -109,7 +109,7 @@ export default function JourneySection({ events }: Props) {
                 className={`flex items-center justify-center gap-1.5 truncate py-2 text-sm font-medium cursor-pointer ${
                   on
                     ? "text-accent border-b-2 border-accent"
-                    : "text-text-tertiary hover:text-text-primary"
+                    : " hover:text-text-primary"
                 }`}
               >
                 <Icon size={15} strokeWidth={1.8} aria-hidden />
@@ -169,7 +169,7 @@ export default function JourneySection({ events }: Props) {
                   </div>
 
                   {event.placeName && (
-                    <p className="mt-1 flex items-center gap-1 text-xs text-text-tertiary">
+                    <p className="mt-1 flex items-center gap-1 text-xs">
                       <MapPin size={12} className={hasPlace ? "text-accent/70" : "opacity-40"} />
                       <span>{event.placeName}</span>
                       {hasPlace && (
@@ -212,7 +212,7 @@ export default function JourneySection({ events }: Props) {
                 reset: t("timelineResetView"),
               }}
             />
-            <p className="text-xs text-text-tertiary leading-relaxed">
+            <p className="text-xs leading-relaxed">
               {view === "atlas" ? t("timelineMapHintAlone") : t("timelineMapHint")}
             </p>
           </div>

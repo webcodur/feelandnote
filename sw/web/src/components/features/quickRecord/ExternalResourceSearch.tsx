@@ -60,7 +60,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                         {blogSearchResult && (
                             <button
                                 onClick={() => setBlogSearchResult(null)}
-                                className="p-1.5 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
+                                className="p-1.5 rounded-lg hover:bg-white/10 hover:text-text-primary transition-colors"
                                 title={t("resetResults")}
                             >
                                 <X size={14} />
@@ -101,18 +101,18 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                                                     {item.title}
                                                 </h4>
                                             </div>
-                                            <p className="text-xs text-text-tertiary line-clamp-2 w-full leading-relaxed">
+                                            <p className="text-xs line-clamp-2 w-full leading-relaxed">
                                                 {item.description}
                                             </p>
-                                            <div className="flex items-center gap-2 text-[10px] text-text-tertiary/60 mt-1">
-                                                <span className="font-medium text-text-tertiary/80">{item.bloggerName}</span>
+                                            <div className="flex items-center gap-2 text-[10px] mt-1">
+                                                <span className="font-medium">{item.bloggerName}</span>
                                                 <span>•</span>
                                                 <span>{item.postDate}</span>
                                             </div>
                                         </button>
                                     ))
                                 ) : (
-                                    <div className="text-center text-text-tertiary py-12 bg-white/5 rounded-xl border border-white/5 border-dashed">
+                                    <div className="text-center py-12 bg-white/5 rounded-xl border border-white/5 border-dashed">
                                         <p className="text-sm">{t("noResults")}</p>
                                     </div>
                                 )}

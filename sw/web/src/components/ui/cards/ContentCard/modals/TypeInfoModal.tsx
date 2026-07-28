@@ -26,11 +26,11 @@ export default function TypeInfoModal({ isOpen, onClose, currentType }: TypeInfo
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg ${type === currentType ? "bg-accent/10 border border-accent/30" : ""}`}
             >
               <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 ${type === currentType ? "bg-accent/20" : "bg-white/5"}`}>
-                <Icon size={16} className={type === currentType ? "text-accent" : "text-text-tertiary"} strokeWidth={2} />
+                <Icon size={16} className={type === currentType ? "text-accent" : ""} strokeWidth={2} />
               </div>
               <div className="min-w-0">
                 <p className={`text-sm font-semibold ${type === currentType ? "text-accent" : "text-text-primary"}`}>{t(`types.${type}.label`)}</p>
-                <p className="text-xs text-text-tertiary">{t(`types.${type}.description`)}</p>
+                <p className="text-xs">{t(`types.${type}.description`)}</p>
               </div>
             </div>
           ))}

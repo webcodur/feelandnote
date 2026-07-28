@@ -83,7 +83,7 @@ export default function InfoPanel({
     flex-1 py-3.5 px-1 text-xs font-sans font-bold transition-all border-b-2 flex items-center justify-center gap-1.5 whitespace-nowrap
     ${activeTab === tab 
       ? 'text-accent border-accent bg-accent/5' 
-      : 'text-text-tertiary border-transparent hover:text-text-secondary'}
+      : ' border-transparent hover:text-text-secondary'}
   `;
 
   // 리뷰 필터링
@@ -142,7 +142,7 @@ export default function InfoPanel({
                                 priority
                             />
                         ) : (
-                            <div className="w-full h-full bg-white/5 flex items-center justify-center text-text-tertiary text-xs">
+                            <div className="w-full h-full bg-white/5 flex items-center justify-center text-xs">
                                 {t("noImage")}
                             </div>
                         )}
@@ -166,19 +166,19 @@ export default function InfoPanel({
                                 <div className="w-full space-y-3 flex flex-col items-center">
                                     {/* 출판사 (BOOK) */}
                                     {content.type === 'BOOK' && metadata?.publisher && (
-                                        <p className="text-sm text-text-tertiary flex items-center justify-center gap-2 w-full">
-                                            <Building2 size={14} className="shrink-0 text-text-tertiary/60" />
+                                        <p className="text-sm flex items-center justify-center gap-2 w-full">
+                                            <Building2 size={14} className="shrink-0" />
                                             <span className="truncate">{metadata.publisher}</span>
                                         </p>
                                     )}
                                     
                                     {/* 감독/출연진 일부 (VIDEO) */}
                                     {content.type === 'VIDEO' && (metadata?.director || metadata?.cast?.[0]) && (
-                                        <p className="text-sm text-text-tertiary flex items-center justify-center gap-2 w-full">
+                                        <p className="text-sm flex items-center justify-center gap-2 w-full">
                                             {metadata.director ? (
-                                                <Film size={14} className="shrink-0 text-text-tertiary/60" />
+                                                <Film size={14} className="shrink-0" />
                                             ) : (
-                                                <Users size={14} className="shrink-0 text-text-tertiary/60" />
+                                                <Users size={14} className="shrink-0" />
                                             )}
                                             <span className="truncate">{metadata.director || metadata.cast?.[0]?.name}</span>
                                         </p>
@@ -186,8 +186,8 @@ export default function InfoPanel({
  
                                     {/* 출시일 / 출간일 */}
                                     {(detailData?.content?.releaseDate || metadata?.publishDate) && (
-                                        <p className="text-sm text-text-tertiary flex items-center justify-center gap-2 w-full">
-                                            <Calendar size={14} className="shrink-0 text-text-tertiary/60" />
+                                        <p className="text-sm flex items-center justify-center gap-2 w-full">
+                                            <Calendar size={14} className="shrink-0" />
                                             <span className="font-sans">{detailData?.content?.releaseDate || metadata?.publishDate}</span>
                                         </p>
                                     )}
@@ -198,7 +198,7 @@ export default function InfoPanel({
                                     <Link 
                                         href={`/content/${content.contentId}`}
                                         target="_blank"
-                                        className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-text-tertiary hover:text-accent transition-all hover:translate-x-1 py-2 px-3 bg-white/5 rounded-lg border border-white/5 hover:border-accent/20"
+                                        className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:text-accent transition-all hover:translate-x-1 py-2 px-3 bg-white/5 rounded-lg border border-white/5 hover:border-accent/20"
                                     >
                                         <span>{t("viewDetail")}</span>
                                     </Link>
@@ -270,7 +270,7 @@ export default function InfoPanel({
                                 <div className="flex flex-wrap gap-2">
                                     {metadata.cast.map((actor, i) => (
                                         <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-full border border-white/10">
-                                            {actor.name} <span className="text-text-tertiary">({actor.character})</span>
+                                            {actor.name} <span className="">({actor.character})</span>
                                         </span>
                                     ))}
                                 </div>
@@ -297,10 +297,10 @@ export default function InfoPanel({
                                     {metadata.tracks.map((track, i) => (
                                         <div key={i} className="flex items-center justify-between text-xs px-2 py-1.5 bg-white/5 rounded border border-white/5">
                                             <span className="text-text-secondary">
-                                                <span className="text-text-tertiary mr-2">{track.trackNumber}.</span>
+                                                <span className="mr-2">{track.trackNumber}.</span>
                                                 {track.name}
                                             </span>
-                                            <span className="text-text-tertiary">
+                                            <span className="">
                                                 {Math.floor(track.durationMs / 60000)}:{String(Math.floor((track.durationMs % 60000) / 1000)).padStart(2, '0')}
                                             </span>
                                         </div>

@@ -55,7 +55,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={t("placeholder")}
-        className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder:text-text-tertiary/30 min-h-[72px] font-sans text-sm leading-relaxed px-4 pt-4 pb-2"
+        className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder: min-h-[72px] font-sans text-sm leading-relaxed px-4 pt-4 pb-2"
         rows={3}
         maxLength={500}
       />
@@ -66,7 +66,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
           className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] transition-colors ${
             isPrivate
               ? "text-accent bg-accent/10"
-              : "text-text-tertiary/50 hover:text-text-secondary"
+              : " hover:text-text-secondary"
           }`}
         >
           <Lock size={10} />
@@ -74,7 +74,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
         </button>
 
         <div className="flex items-center gap-3">
-          <span className={`text-[10px] font-mono tabular-nums ${content.length > 450 ? "text-red-400" : "text-text-tertiary/30"}`}>
+          <span className={`text-[10px] font-mono tabular-nums ${content.length > 450 ? "text-red-400" : ""}`}>
             {content.length}/500
           </span>
           <Button

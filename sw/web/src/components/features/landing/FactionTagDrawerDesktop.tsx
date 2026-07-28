@@ -72,7 +72,7 @@ export default function FactionTagDrawerDesktop({
           </span>
           <ChevronDown
             size={16}
-            className={cn("text-text-tertiary transition-transform duration-300", isOpen && "rotate-180")}
+            className={cn(" transition-transform duration-300", isOpen && "rotate-180")}
           />
         </button>
       </div>
@@ -92,7 +92,7 @@ export default function FactionTagDrawerDesktop({
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 text-text-tertiary hover:text-white hover:bg-white/10 rounded-full transition-colors"
+                className="p-1.5 hover:text-white hover:bg-white/10 rounded-full transition-colors"
               >
                 <X size={20} />
               </button>
@@ -254,13 +254,13 @@ function DrawerTagButton({
           {tagName}
           {celebCount > 0 && (
             <span
-              className={cn("ml-1 font-normal text-[12px]", isActive ? "text-accent/60" : "text-text-tertiary/70")}
+              className={cn("ml-1 font-normal text-[12px]", isActive ? "text-accent/60" : "")}
             >
               ({celebCount})
             </span>
           )}
         </span>
-        {isUpcoming && <Lock size={13} className="text-text-tertiary/60 flex-shrink-0 mt-0.5" />}
+        {isUpcoming && <Lock size={13} className="flex-shrink-0 mt-0.5" />}
       </div>
 
       <div className="flex items-end justify-between w-full relative z-10 mt-auto">
@@ -272,7 +272,7 @@ function DrawerTagButton({
           })}
         </div>
         {isUpcoming && (
-          <span className="text-[10px] uppercase font-sans tracking-wider font-semibold text-text-tertiary/70">
+          <span className="text-[10px] uppercase font-sans tracking-wider font-semibold">
             Soon
           </span>
         )}

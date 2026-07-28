@@ -136,7 +136,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
   if (professionCounts.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-        <p className="text-text-tertiary text-sm">{te("noProfessionData")}</p>
+        <p className="text-sm">{te("noProfessionData")}</p>
       </div>
     );
   }
@@ -150,7 +150,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
           <>
             {t("description")}
             <br />
-            <span className="text-text-tertiary text-sm mt-1 block">
+            <span className="text-sm mt-1 block">
               {t("descriptionSub")}
             </span>
           </>
@@ -187,7 +187,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
                       <span
                         className={`
                           text-xs font-normal tabular-nums ml-0.5
-                          ${isActive ? "text-neutral-900/60" : "text-text-tertiary"}
+                          ${isActive ? "text-neutral-900/60" : ""}
                         `}
                       >
                         {item.count}
@@ -265,7 +265,7 @@ export default function ProfessionSection({ professionCounts, initialProfession 
             </ContentGrid>
           ) : (
             <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-              <p className="text-text-tertiary text-sm">
+              <p className="text-sm">
                 {te(categoryFilter === "all" ? "noProfession" : "noCategory")}
               </p>
             </div>

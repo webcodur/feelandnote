@@ -58,13 +58,13 @@ export default function FilterModal({
       {searchable && (
         <div className="px-3 pt-3 pb-1">
           <div className="relative">
-            <Search size={14} className="absolute start-2.5 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none" />
+            <Search size={14} className="absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full h-9 ps-8 pe-3 bg-white/5 border border-white/10 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/40"
+              className="w-full h-9 ps-8 pe-3 bg-white/5 border border-white/10 rounded-lg text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function FilterModal({
 
       <div className="p-3 space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
         {filteredOptions.length === 0 ? (
-          <div className="py-4 text-sm text-text-tertiary text-center">-</div>
+          <div className="py-4 text-sm text-center">-</div>
         ) : (
           filteredOptions.map(({ value, label, count, icon }) => {
             const isActive = current === value;
@@ -88,7 +88,7 @@ export default function FilterModal({
               >
                 {icon && <span className="flex-shrink-0 w-5 text-center">{icon}</span>}
                 <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? 'font-bold' : ''}`}>{label}</span>
-                {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? 'text-accent/80' : 'text-text-tertiary'}`}>{count}</span>}
+                {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? 'text-accent/80' : ''}`}>{count}</span>}
               </Button>
             );
           })

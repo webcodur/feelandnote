@@ -103,7 +103,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               {item.icon}
               <div className="flex-1 min-w-0">
                 <span className="font-bold text-sm">{item.stage}</span>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{item.desc}</p>
+                <p className="text-[10px] mt-0.5">{item.desc}</p>
               </div>
             </div>
           ))}
