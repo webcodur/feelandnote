@@ -72,6 +72,10 @@ const formatYear = (year: string | null | undefined) => {
 const SECTION_CLASS_NAME =
   "animate-fade-in w-full max-w-3xl xl:max-w-none mx-auto space-y-2 md:space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none";
 
+/* 탭 줄이 맨 위에 오는 상자는 위 여백을 없앤다. 상자 여백이 남으면 탭 글자가
+   자기 칸 안에서 아래로 밀려 보인다(탭 줄 밑선까지의 간격보다 위가 넓어진다). */
+const TAB_BOX_CLASS_NAME = "pt-0 md:pt-0";
+
 /* ── 공통 래퍼: 모바일 얇은 상자 / PC ClassicalBox ──
    모바일은 제목을 상자 밖 위에 두고 본문만 감싼다. 상자를 되살린 대신
    좌우·안쪽 여백은 최소로 잡아 가로선 시절의 공간 절약을 유지한다.
@@ -79,14 +83,10 @@ const SECTION_CLASS_NAME =
    주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
    정의하면 부모가 리렌더될 때마다 새 컴포넌트 타입이 되어 내부 자식
    (서가·동시대 인물 등)이 통째로 언마운트→재마운트된다. */
-/* 탭 줄이 맨 위에 오는 상자는 위 여백을 없앤다. 상자 여백이 남으면 탭 글자가
-   자기 칸 안에서 아래로 밀려 보인다(탭 줄 밑선까지의 간격보다 위가 넓어진다). */
-const TAB_BOX_CLASS_NAME = "pt-0 md:pt-0";
-
-const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+const SectionWrap =({ children, className = "" }: { children: ReactNode; className?: string }) => (
   <ClassicalBox
     hover={false}
-    mobilePlain
+    mobileSlim
     className={`px-2 py-5 md:p-6 ${className}`}
   >
     {children}
