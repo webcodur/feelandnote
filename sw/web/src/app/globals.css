@@ -74,6 +74,20 @@
     scrollbar-color: rgba(48, 54, 61, 0.5) transparent;
   }
 
+  /*
+    인물 사진 선명화 — 800px 초상을 50~200px로 줄여 쓰는 자리가 전부라, 그 배율에서
+    잔 디테일이 사라져 뿌옇게 보인다. AI로 다시 그린 초상은 미세 질감이 균질해
+    더 심하게 뭉갠다(2026-07-28 실측: 실사 394 대 재생성본 346).
+
+    필터 정의는 PortraitSharpenFilter가 문서에 한 번 넣는다. base 레이어라
+    그림자 등 다른 filter가 필요한 컴포넌트는 utilities에서 직접 합쳐 쓰면 덮인다
+    (예: CelebCard 는 url(#portrait-sharpen) drop-shadow(...) 를 함께 지정).
+  */
+  img[src*="/celebs/"],
+  img[src*="/factions/"] {
+    filter: url(#portrait-sharpen);
+  }
+
   *::-webkit-scrollbar {
     width: 6px;
     height: 6px;
