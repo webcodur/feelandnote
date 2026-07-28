@@ -48,10 +48,13 @@
   border: 2px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
   border-radius: 999px;
   transform: scale(1.25);
-  transition: transform 220ms ease-out;
+  transition: transform 150ms ease-out, border-color 150ms ease-out;
 }
 
-.profileButton:hover .portraitHalo {
+/* 목록 항목과 같은 규칙 — 손을 올리면 강조가 이쪽으로 오고, 떼면 지금 보고 있는 장으로 돌아간다. */
+.profileButton:hover .portraitHalo,
+.profileButtonActive .portraitHalo {
+  border-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
   transform: scale(1.31);
 }
 
@@ -68,10 +71,11 @@
   border-radius: 999px;
   background: var(--color-bg-card);
   box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 15%, transparent);
-  transition: box-shadow 220ms ease-out;
+  transition: box-shadow 150ms ease-out;
 }
 
-.profileButton:hover .portraitFrame {
+.profileButton:hover .portraitFrame,
+.profileButtonActive .portraitFrame {
   box-shadow: 0 0 30px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
@@ -130,7 +134,8 @@
   filter: drop-shadow(0 2px 3px color-mix(in srgb, black 36%, transparent));
 }
 
-.profileButton:hover .profileName {
+/* 글자 색은 마우스가 아니라 지금 화면에 떠 있는 장을 따른다. */
+.profileButtonActive .profileName {
   color: var(--color-accent);
 }
 
