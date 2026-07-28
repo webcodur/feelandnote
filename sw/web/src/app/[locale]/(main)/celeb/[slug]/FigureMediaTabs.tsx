@@ -58,15 +58,9 @@ export default function FigureMediaTabs({
 
   if (!TAB_KEYS.every((key) => tabItems[key])) return null;
 
-  const descriptions: Record<MediaTab, string | undefined> = {
-    "virtual-monologue": undefined,
-    dialogues: t("mediaDialoguesDesc"),
-    videos: t("mediaVideosDesc"),
-  };
   const tabs: ArchiveTabItem<MediaTab>[] = TAB_KEYS.map((key) => ({
     key,
     label: tabItems[key]!.label,
-    desc: descriptions[key],
     icon: tabItems[key]!.icon,
   }));
 

@@ -64,15 +64,9 @@ export default function PeopleAndEraTabs({
     contemporaries: contemporariesItem,
     faction: factionItem,
   };
-  const descriptions: Record<PeopleAndEraTab, string> = {
-    relations: t("connectionsRelationsDesc"),
-    contemporaries: t("connectionsContemporariesDesc"),
-    faction: t("connectionsFactionDesc"),
-  };
   const tabs: ArchiveTabItem<PeopleAndEraTab>[] = TAB_KEYS.map((key) => ({
     key,
     label: tabItems[key].label,
-    desc: descriptions[key],
     icon: tabItems[key].icon,
   }));
 

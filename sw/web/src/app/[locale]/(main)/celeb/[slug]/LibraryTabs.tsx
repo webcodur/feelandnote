@@ -32,8 +32,8 @@ export default function LibraryTabs({
   const [tab, setTab] = useState<LibraryTab>("consume");
 
   const tabs: ArchiveTabItem<LibraryTab>[] = [
-    { key: "consume", label: t("tabConsume"), desc: t("tabConsumeDesc"), icon: CELEB_SERVICE_ICONS.library },
-    { key: "create", label: t("tabCreate"), desc: t("tabCreateDesc"), icon: CELEB_SERVICE_ICONS.works },
+    { key: "consume", label: t("tabConsume"), icon: CELEB_SERVICE_ICONS.library },
+    { key: "create", label: t("tabCreate"), icon: CELEB_SERVICE_ICONS.works },
   ];
 
   return (

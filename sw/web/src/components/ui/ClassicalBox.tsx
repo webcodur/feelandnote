@@ -6,7 +6,7 @@ interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
   hover?: boolean;
   /** 모바일에서는 얇은 1px 상자로 줄이고 md 이상에서만 기존 장식 상자를 적용한다. */
-  mobilePlain?: boolean;
+  mobileSlim?: boolean;
   variant?: "default" | "danger";
 }
 
@@ -15,7 +15,7 @@ export default function ClassicalBox({
   className = "",
   as: Component = "div",
   hover = true,
-  mobilePlain = false,
+  mobileSlim = false,
   variant = "default",
   ...rest
 }: ClassicalBoxProps) {
@@ -27,7 +27,7 @@ export default function ClassicalBox({
         ${styles.classicalBox}
         ${hover ? styles.hoverable : ""}
         ${isDanger ? styles.danger : ""}
-        ${mobilePlain
+        ${mobileSlim
           ? "rounded-sm border border-solid bg-bg-card/40 shadow-none md:rounded-none md:border-4 md:border-double md:bg-bg-card md:shadow-lg"
           : "border-4 border-double bg-bg-card shadow-lg"}
         ${isDanger ? "border-red-500/40" : "border-accent-dim/40"}

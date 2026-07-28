@@ -41,13 +41,11 @@ export default function FigureAnalysisTabs({
     {
       key: "persona",
       label: personaItem.label,
-      desc: t("profileAxesDesc"),
       icon: personaItem.icon,
     },
     {
       key: "influence",
       label: influenceItem.label,
-      desc: t("analysisInfluenceDesc"),
       icon: influenceItem.icon,
     },
   ];
