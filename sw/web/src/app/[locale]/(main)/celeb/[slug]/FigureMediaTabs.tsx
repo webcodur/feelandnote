@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
-import type { ServiceItem } from "./CelebServiceAtlas";
+import type { ServiceItem } from "./celebServiceItems";
 import DialogueSection from "./DialogueSection";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";

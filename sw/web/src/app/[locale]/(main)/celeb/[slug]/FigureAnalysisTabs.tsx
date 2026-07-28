@@ -8,7 +8,7 @@ import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import CelebInfluenceSection from "./CelebInfluenceSection";
-import type { ServiceItem } from "./CelebServiceAtlas";
+import type { ServiceItem } from "./celebServiceItems";
 import PersonaSection from "./PersonaSection";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
 

@@ -2,17 +2,33 @@
 
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import type { LucideIcon } from "lucide-react";
 
 import type { CelebTier } from "@/actions/user/getUserProfile";
-import { cn } from "@/lib/utils";
 
-import CelebServiceAtlas, { type ServiceItem } from "./CelebServiceAtlas";
 import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
 import { CELEB_SERVICE_CHAPTERS } from "./celebSectionChapters";
-import styles from "./CelebServiceNavigator.module.css";
 
 export interface ServiceTarget {
   sectionId: string;
+}
+
+export interface ServiceItem {
+  key: string;
+  chapter: string;
+  label: string;
+  icon: LucideIcon;
+  ready: boolean;
+  target: ServiceTarget;
+  unavailableGuide?: {
+    about: string;
+  };
+  children?: readonly ServiceItem[];
+  companion?: {
+    label: string;
+    icon: LucideIcon;
+    ready: boolean;
+  };
 }
 
 export interface CelebServiceAvailability {
@@ -27,14 +43,6 @@ export interface CelebServiceAvailability {
   virtualMonologueVoice: boolean;
   influence: boolean;
   persona: boolean;
-}
-
-interface Props {
-  tier: CelebTier;
-  showLibrary: boolean;
-  availability: CelebServiceAvailability;
-  onNavigate: (target: ServiceTarget) => void;
-  className?: string;
 }
 
 interface UseCelebServiceItemsProps {
@@ -259,37 +267,5 @@ export function useCelebServiceItems({
       t,
       tier,
     ],
-  );
-}
-
-export default function CelebServiceNavigator({
-  tier,
-  showLibrary,
-  availability,
-  onNavigate,
-  className,
-}: Props) {
-  const t = useTranslations("celebPage");
-  const items = useCelebServiceItems({ tier, showLibrary, availability });
-
-  return (
-    <nav
-      aria-label={t("serviceGuideTitle")}
-      className={cn(styles.navigator, className)}
-    >
-      <span className={`${styles.corner} ${styles.topStart}`} aria-hidden />
-      <span className={`${styles.corner} ${styles.topEnd}`} aria-hidden />
-      <span className={`${styles.corner} ${styles.bottomEnd}`} aria-hidden />
-      <span className={`${styles.corner} ${styles.bottomStart}`} aria-hidden />
-
-      <div className={styles.heading}>
-        <p className="font-serif text-lg tracking-wide text-text-primary">
-          {t("serviceGuideTitle")}
-        </p>
-        <p className="mt-1 text-sm text-text-secondary">{t("serviceGuideDescription")}</p>
-      </div>
-
-      <CelebServiceAtlas items={items} onNavigate={onNavigate} />
-    </nav>
   );
 }

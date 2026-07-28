@@ -8,7 +8,7 @@ import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import { useTranslations } from "next-intl";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
-import type { ServiceItem } from "./CelebServiceAtlas";
+import type { ServiceItem } from "./celebServiceItems";
 import ContemporariesSection from "./ContemporariesSection";
 import FactionSection from "./FactionSection";
 import RelationGraphSection from "./RelationGraphSection";
