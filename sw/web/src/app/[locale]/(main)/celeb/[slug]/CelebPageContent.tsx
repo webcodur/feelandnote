@@ -69,14 +69,13 @@ const formatYear = (year: string | null | undefined) => {
   return num < 0 ? `BC ${Math.abs(num)}` : `${num}`;
 };
 
-/* 모바일에서는 각 구획을 얇은 테두리 상자로 감싸 구분감을 준다.
-   상자를 되살린 대신 안팎 여백은 최소로 잡아, 가로선 시절의 공간 절약을 유지한다. */
 const SECTION_CLASS_NAME =
-  "animate-fade-in w-full max-w-3xl xl:max-w-none mx-auto space-y-2 md:space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none " +
-  "rounded-sm border border-accent-dim/25 bg-bg-card/40 px-2 py-5 " +
-  "md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0";
+  "animate-fade-in w-full max-w-3xl xl:max-w-none mx-auto space-y-2 md:space-y-4 scroll-mt-24 md:scroll-mt-28 focus:outline-none";
 
-/* ── 공통 래퍼: 모바일 민무늬 / PC ClassicalBox ──
+/* ── 공통 래퍼: 모바일 얇은 상자 / PC ClassicalBox ──
+   모바일은 제목을 상자 밖 위에 두고 본문만 감싼다. 상자를 되살린 대신
+   좌우·안쪽 여백은 최소로 잡아 가로선 시절의 공간 절약을 유지한다.
+
    주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
    정의하면 부모가 리렌더될 때마다 새 컴포넌트 타입이 되어 내부 자식
    (서가·동시대 인물 등)이 통째로 언마운트→재마운트된다. */
@@ -84,7 +83,7 @@ const SectionWrap = ({ children, className = "" }: { children: ReactNode; classN
   <ClassicalBox
     hover={false}
     mobilePlain
-    className={`md:p-6 ${className}`}
+    className={`px-2 py-5 md:p-6 ${className}`}
   >
     {children}
   </ClassicalBox>
@@ -277,7 +276,7 @@ export default function CelebPageContent({
         professionLabel={professionLabel}
       />
 
-      <div className="min-w-0 space-y-4 md:space-y-16">
+      <div className="min-w-0 space-y-8 md:space-y-16">
       {/* 인물 프로필 + 명언 */}
       <section
         id="introduction"
@@ -287,7 +286,7 @@ export default function CelebPageContent({
         {renderSectionHeading("introduction")}
 
         {/* 모바일: 세로 스택 */}
-        <div className="md:hidden">
+        <div className="rounded-sm border border-accent-dim/40 bg-bg-card/40 px-2 py-5 md:hidden">
           <div className="flex flex-col items-center gap-4">
             <button
               type="button"

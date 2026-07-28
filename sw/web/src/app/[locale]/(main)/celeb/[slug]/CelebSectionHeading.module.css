@@ -50,24 +50,6 @@
   color: var(--color-text-primary);
 }
 
-.seal {
-  display: inline-flex;
-  width: 26px;
-  height: 26px;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent-dim);
-  filter:
-    drop-shadow(-1px -1px 0 color-mix(in srgb, black 82%, transparent))
-    drop-shadow(1px 1px 0 color-mix(in srgb, white 8%, transparent));
-}
-
-.sealIcon {
-  width: 22px;
-  height: 22px;
-}
-
 .label {
   font-family: var(--font-serif);
   font-size: 22px;
@@ -99,15 +81,5 @@
 
   .title {
     gap: 12px;
-  }
-
-  .seal {
-    width: 30px;
-    height: 30px;
-  }
-
-  .sealIcon {
-    width: 24px;
-    height: 24px;
   }
 }
