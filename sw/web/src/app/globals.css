@@ -44,9 +44,11 @@
   --color-status-paused: #db4d4d;
   --color-status-wish: #d4af37;
 
-  /* Fonts — Latin: Inter, CJK: Pretendard (unicode-range fallback) */
-  --font-cinzel: var(--font-cinzel), serif;
-  --font-cormorant: var(--font-cormorant), serif;
+  /* Fonts — Latin: Inter, CJK: Pretendard (unicode-range fallback)
+     장식 서체(Cinzel·Cormorant)는 로마자·숫자만 담당한다. 한글 글리프가 없으므로
+     기기 기본 명조로 새지 않게 Pretendard를 대체 서체로 뒤에 붙인다. */
+  --font-cinzel: var(--font-cinzel), "Pretendard CJK", "Pretendard Variable", Pretendard, sans-serif;
+  --font-cormorant: var(--font-cormorant), "Pretendard CJK", "Pretendard Variable", Pretendard, sans-serif;
   --font-serif: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
   --font-sans: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
   
