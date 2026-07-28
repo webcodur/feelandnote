@@ -18,11 +18,17 @@ function subjectParticle(name: string): string {
   return (last - 0xac00) % 28 === 0 ? "가" : "이";
 }
 
-function buildSeoDescKo(
+/** 화면 맨 위 큰 글씨. 윗줄은 인물을 세우는 제목, 아랫줄은 소장 내역이다. */
+interface Headline {
+  lead: string;
+  detail?: string;
+}
+
+function buildHeadlineKo(
   nickname: string,
   professionLabel: string,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
+): Headline {
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
@@ -30,23 +36,23 @@ function buildSeoDescKo(
   if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
   const particle = subjectParticle(nickname);
   return parts.length > 0
-    ? `${professionLabel} ${nickname}${particle} 감상한\n${parts.join(", ")}`
-    : `${professionLabel} ${nickname}의 감상 기록`;
+    ? { lead: `${professionLabel} ${nickname}${particle} 감상한`, detail: parts.join(", ") }
+    : { lead: `${professionLabel} ${nickname}의 감상 기록` };
 }
 
-function buildSeoDescEn(
+function buildHeadlineEn(
   nickname: string,
   professionLabel: string,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
-): string {
+): Headline {
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
   if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
   if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
   return parts.length > 0
-    ? `${parts.join(", ")}\nenjoyed by ${professionLabel} ${nickname}`
-    : `${professionLabel} ${nickname}'s reading records`;
+    ? { lead: `Enjoyed by ${professionLabel} ${nickname}`, detail: parts.join(", ") }
+    : { lead: `${professionLabel} ${nickname}'s reading records` };
 }
 
 export default async function CelebLayout({ children, params }: LayoutProps) {
@@ -66,9 +72,9 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
 
   const professionLabel = profile.profession ? tp(profile.profession) : '';
   const counts = profile.contentTypeCounts;
-  const seoDesc = locale === 'en'
-    ? buildSeoDescEn(profile.nickname, professionLabel, counts)
-    : buildSeoDescKo(profile.nickname, professionLabel, counts);
+  const headline = locale === 'en'
+    ? buildHeadlineEn(profile.nickname, professionLabel, counts)
+    : buildHeadlineKo(profile.nickname, professionLabel, counts);
 
   return (
     <>
@@ -96,7 +102,16 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
       <PageContainer wide>
         <main className={`${styles.detailTypography} max-w-[1400px] mx-auto animate-fade-in`}>
           <SectionHeader
-            title={seoDesc}
+            title={
+              <>
+                <span className="block">{headline.lead}</span>
+                {headline.detail && (
+                  <span className="mt-2.5 block font-sans text-base font-semibold tracking-[0.02em] text-accent/85 sm:mt-3 sm:text-lg">
+                    {headline.detail}
+                  </span>
+                )}
+              </>
+            }
             label="LEGACY"
             description={t("guestbookCta")}
             descriptionClassName="text-base sm:text-lg"
