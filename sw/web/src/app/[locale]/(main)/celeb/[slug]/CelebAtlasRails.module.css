@@ -29,8 +29,9 @@
   min-width: 0;
   flex-direction: column;
   align-items: center;
-  /* 초상 둘레의 금빛 테두리가 확대되어도 칸 안에 들어오게 위쪽을 넉넉히 잡는다. */
-  padding-block: 18px 20px;
+  /* 초상 둘레의 금빛 테두리는 확대되면 위아래로 18px쯤 번진다. 그 위에 숨 쉴 틈까지
+     더해 잡아야 박스가 테두리에 걸치지 않고 여유 있게 두른다. */
+  padding-block: 34px 26px;
   color: inherit;
   cursor: pointer;
 }
