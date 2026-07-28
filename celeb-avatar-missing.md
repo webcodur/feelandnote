@@ -16,34 +16,15 @@
 
 ## 빠른 명단
 
-### 역사·신화 (프롬프트 필요)
+### 팩션 쪽에 만들어둠 가져다 쓰면 됨
 
 - 네스토르 (`nestor`) — 신화
-- 노애 (`lao-ai`) — 역사
 - 대 아이아스 (`ajax-the-great`) — 신화
 - 디오메데스 (`diomedes`) — 신화
-- 록사나 (`roxana`) — 역사
-- 루이니콜라 다부 (`louis-nicolas-davout`) — 역사
-- 루이알렉상드르 베르티에 (`louis-alexandre-berthier`) — 역사
-- 리시마코스 (`lysimachus`) — 역사
-- 마르쿠스 안토니우스 (`mark-antony`) — 역사
+- 사르페돈 (`sarpedon`) — 신화
+- 소 아이아스 (`ajax-the-lesser`) — 신화
 - 메넬라오스 (`menelaus`) — 신화
 - 멤논 (`memnon`) — 신화
-- 몽염 (`meng-tian`) — 역사
-- 미셸 네 (`michel-ney`) — 역사
-- 바투 칸 (`batu-khan`) — 역사
-- 방연 (`pang-juan`) — 역사
-- 백기 (`bai-qi`) — 역사
-- 베르킨게토릭스 (`vercingetorix`) — 역사
-- 보르테 (`borte`) — 역사
-- 부소 (`fusu`) — 역사
-- 브루투스 (`marcus-junius-brutus`) — 역사
-- 사르페돈 (`sarpedon`) — 신화
-- 샤를 모리스 드 탈레랑 (`talleyrand`) — 역사
-- 셀레우코스 1세 (`seleucus-i-nicator`) — 역사
-- 소 아이아스 (`ajax-the-lesser`) — 신화
-- 수부타이 (`subutai`) — 역사
-- 스파르타쿠스 (`spartacus`) — 역사
 - 시논 (`sinon`) — 신화
 - 아가멤논 (`agamemnon`) — 신화
 - 아레스 (`ares`) — 신화
@@ -52,12 +33,38 @@
 - 아테나 (`athena`) — 신화
 - 아폴론 (`apollo`) — 신화
 - 아프로디테 (`aphrodite`) — 신화
+- 제우스 (`zeus`) — 신화
+- 오디세우스 (`odysseus`) — 신화
+- 올림피아스 (`olympias`) — 역사
+
+### 새로 생성해서 넣었음
+
+- 노애 (`lao-ai`) — 역사
+- 록사나 (`roxana`) — 역사
+- 루이니콜라 다부 (`louis-nicolas-davout`) — 역사
+- 루이알렉상드르 베르티에 (`louis-alexandre-berthier`) — 역사
+- 리시마코스 (`lysimachus`) — 역사
+- 마르쿠스 안토니우스 (`mark-antony`) — 역사
+- 몽염 (`meng-tian`) — 역사
+- 미셸 네 (`michel-ney`) — 역사
+- 바투 칸 (`batu-khan`) — 역사
+- 방연 (`pang-juan`) — 역사
+- 백기 (`bai-qi`) — 역사
+- 베르킨게토릭스 (`vercingetorix`) — 역사
+- 부소 (`fusu`) — 역사
+- 브루투스 (`marcus-junius-brutus`) — 역사
+- 샤를 모리스 드 탈레랑 (`talleyrand`) — 역사
+- 셀레우코스 1세 (`seleucus-i-nicator`) — 역사
+- 수부타이 (`subutai`) — 역사
+- 스파르타쿠스 (`spartacus`) — 역사
+- 보르테 (`borte`) — 역사
 - 안티고노스 1세 (`antigonus-i-monophthalmus`) — 역사
 - 앙드레 마세나 (`andre-massena`) — 역사
 - 여불위 (`lu-buwei`) — 역사
+
+
+### 생성 필요 
 - 오고타이 칸 (`ogedei-khan`) — 역사
-- 오디세우스 (`odysseus`) — 신화
-- 올림피아스 (`olympias`) — 역사
 - 왕전 (`wang-jian`) — 역사
 - 왕충 (`wang-chong`) — 역사
 - 유협 (`liu-xie`) — 역사
@@ -66,7 +73,6 @@
 - 장드디외 술트 (`jean-de-dieu-soult`) — 역사
 - 장바티스트 베르나도트 (`jean-baptiste-bernadotte`) — 역사
 - 제베 (`jebe`) — 역사
-- 제우스 (`zeus`) — 신화
 - 조고 (`zhao-gao`) — 역사
 - 조아생 뮈라 (`joachim-murat`) — 역사
 - 조제프 푸셰 (`joseph-fouche`) — 역사
@@ -165,18 +171,6 @@
 ## 1. 역사·신화 인물 (외형 프롬프트)
 
 실사 카메라 사진이 없거나(고대·중세·나폴레옹기 이전 사망) 신화·허구 인물이라 실사가 성립하지 않는 경우. 이미지 생성 시 아래 프롬프트를 사용.
-
-### 1. 네스토르 (Nestor)
-
-- **slug**: `nestor`
-- **구분**: 신화/허구 / tier `fiction` / commander
-- **수식어**: 필로스 노왕
-- **누구**: 그리스 신화 속 인물. 필로스의 늙은 왕으로, 그리스군의 지혜로운 조언자 역할을 했다.
-- **외형 프롬프트**:
-
-```
-Portrait of Nestor of Pylos from Greek myth, elderly Greek king, long white hair and full white beard, wise wrinkled face, kind but long-winded expression, simple bronze-age royal robes and staff, Homeric epic painting style, face centered
-```
 
 ### 2. 노애 (Lao Ai)
 

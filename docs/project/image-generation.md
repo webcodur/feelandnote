@@ -137,26 +137,9 @@
 
 ### 7.1 codex CLI 내장 image_gen
 
-codex CLI가 실제 이미지를 생성한다(`faction-image` 스킬의 "Codex 내장 이미지 생성"이 이것). 나노바나나 대체 생성기로 쓸 수 있다.
+**실행 규칙·함정은 `codex-gpt` 스킬 하나에 둔다** — 호출 형식, 프롬프트 규격(REF 있으면 인물 묘사 금지, 풀컬러·출력 크기 명시), 출력 크기 지정법, 회수와 원본 에코 차단, 토큰. 여기에 옮겨 적지 마라(두 벌이 되면 어느 쪽도 안 찾게 된다).
 
-```
-codex exec - -m gpt-5.6-sol --skip-git-repo-check -s workspace-write \
-  --dangerously-bypass-approvals-and-sandbox \
-  -i <입력이미지> [-i <REF>] --output-last-message OUT.txt --color never < 프롬프트.txt
-```
-
-- `-i`로 입력 이미지를 여러 장 넣는다(소스 크롭·기존 샷 + 얼굴 REF). 프롬프트는 stdin으로 넣는다.
-- codex가 내장 `image_gen` 도구로 생성한 뒤 python 셀에서 base64로 받는다.
-- 스크래치패드는 git 저장소 밖이라 `--skip-git-repo-check`가 필수다(없으면 exit 1 "Not inside a trusted directory"). reasoning 강도는 `-c model_reasoning_effort=high`.
-- 구독제라 종량 과금은 아니고 rate limit만 있다.
-
-**함정 — 파일이 지정 경로에 안 떨어진다.** exec가 `image_gen` 결과 base64를 받은 뒤 python으로 파일을 저장하기 전에 세션이 종료되는 일이 잦다(sandbox 저장 실패 또는 조기 종료). `--output-last-message`가 "성공적으로 작성"이라 보고해도 실제 경로엔 파일이 없을 수 있다.
-
-**회수법:** 세션 로그 `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`에서 정규식 `data:image/png;base64,([A-Za-z0-9+/=]+)`로 최장 base64를 뽑아 `base64.b64decode` 후 저장한다. 그게 생성된 이미지다.
-
-**세션 섞임 주의.** 같은 PC에서 다른 codex 작업이 동시에 돌면 세션이 뒤섞인다. mtime만으로 최신 세션을 잡으면 남의 이미지를 회수한다(가족 그룹샷 오염 사례 발생). 반드시 세션 텍스트에 그 작업의 고유어(예: `Penthesilea`, `Amazon warrior queen`)와 `data:image/png`가 함께 있는 세션으로 필터해 추출한다.
-
-**품질(2컷 실측):** 기존 저해상(700KB) 이미지를 소스로 넣고 "단순 업스케일·복붙 금지, 표면 전부 새로 렌더" 프롬프트를 주면 2.3~2.4MB 고디테일 개인샷이 나온다(청동 갑옷 긁힘·모공·머리카락 가닥). 일리아스 파트로클로스·펜테실레이아 개인샷 재생성 성공(26.07.18).
+품질만 적어둔다: 저해상(700KB) 소스에 "단순 업스케일·복붙 금지, 표면 전부 새로 렌더"를 주면 2.3~2.4MB 고디테일 컷이 나온다(갑옷 긁힘·모공·머리카락 가닥). 일리아스 개인샷 재생성 성공(26.07.18), 셀럽 아바타 292장 재생성(26.07.28).
 
 ### 7.2 Gemini 이미지 생성기 — 파일명이 어긋난다
 
