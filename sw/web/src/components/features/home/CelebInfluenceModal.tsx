@@ -12,7 +12,6 @@ import {
   RadarChart,
   TranshistoricityGauge,
   CategoryDetail,
-  EmptyCategoryRow,
   sortCategoriesByScore,
 } from "@/components/features/influence";
 import { useLocale, useTranslations } from "next-intl";
@@ -74,10 +73,8 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   const mat = getMaterialConfigByScore(data?.total_score ?? 0);
   const professionLabel = data?.profession ? getCelebProfessionLabel(data.profession) : null;
 
-  // 점수 순 배치 — 상위 3개는 머리에, 0점은 목록 대신 한 줄로 접는다
+  // 점수 순 배치 — 상위 3개는 머리에, 0점도 어둡게 그대로 선다
   const rankedCategories = data ? sortCategoriesByScore(data) : [];
-  const scoredCategories = rankedCategories.filter((category) => category.value > 0);
-  const emptyCategories = rankedCategories.filter((category) => category.value === 0);
 
   // #region 공유 렌더 헬퍼
   const renderLoadingSpinner = () => (
@@ -242,7 +239,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                     <div className="space-y-2 pt-1">
                       <h3 className="text-xs font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                       <div className="space-y-2">
-                        {scoredCategories.map((cat) => (
+                        {rankedCategories.map((cat) => (
                           <CategoryDetail
                             key={cat.key}
                             category={cat}
@@ -251,7 +248,6 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                             isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
                           />
                         ))}
-                        <EmptyCategoryRow categories={emptyCategories} />
                       </div>
                     </div>
                   </div>
@@ -300,7 +296,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                 <div className="space-y-3 pt-2">
                   <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                   <div className="grid grid-cols-1 gap-2.5">
-                    {scoredCategories.map((cat) => (
+                    {rankedCategories.map((cat) => (
                       <CategoryDetail
                         key={cat.key}
                         category={cat}
@@ -309,7 +305,6 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                         isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
                       />
                     ))}
-                    <EmptyCategoryRow categories={emptyCategories} />
                   </div>
                 </div>
               </div>

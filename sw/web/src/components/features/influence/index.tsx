@@ -1,11 +1,12 @@
 "use client";
 
 import { useId, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Sparkles, Hourglass } from "lucide-react";
 import { calculateInfluenceRank, RANK_STYLES } from "@feelandnote/influence-constants";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
+import { ScoreBar } from "@/components/ui";
 import InfluenceScoreInfoModal from "./InfluenceScoreInfoModal";
 import { RANK_BADGE_TONES } from "./rankTones";
 
@@ -258,10 +259,6 @@ export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
   const transScore = data.transhistoricity || 0;
   const totalScore = data.total_score || baseScore + transScore;
 
-  // 100점 만점 기준 (일반 레몬노랑 max 60% + 초월 레드 max 40% = 종합 골드 100%)
-  const basePercent = Math.min(60, Math.max(0, baseScore));
-  const transPercent = Math.min(40, Math.max(0, transScore));
-
   const [isScoreInfoOpen, setIsScoreInfoOpen] = useState(false);
 
   // 점수 하나만으로는 높낮이를 알 수 없어, 등급·순위·강세 영역을 함께 읽힌다
@@ -281,50 +278,30 @@ export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
 
   return (
     <div className="space-y-2 border-b border-white/10 px-1 pb-2.5">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          {/* 장식용 아이콘 자리를 등급이 대신한다 — 첫 시선이 닿는 곳에 결론을 둔다 */}
-          <button
-            type="button"
-            onClick={() => setIsScoreInfoOpen(true)}
-            title={rankStyle.label}
-            aria-label={t("scoreInfo.title")}
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border hover:brightness-125 ${RANK_BADGE_TONES[rank]}`}
-          >
-            <span className="text-lg font-black leading-none tracking-tight">{rank}</span>
-          </button>
-          <h2 className="font-serif text-lg md:text-xl font-extrabold tracking-wide text-text-primary shrink-0 leading-tight">
-            {t("totalInfluence")}
-          </h2>
+      <div className="flex items-center gap-2.5">
+        {/* 장식용 아이콘 자리를 등급이 대신한다 — 첫 시선이 닿는 곳에 결론을 둔다 */}
+        <button
+          type="button"
+          onClick={() => setIsScoreInfoOpen(true)}
+          title={rankStyle.label}
+          aria-label={t("scoreInfo.title")}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border hover:brightness-125 ${RANK_BADGE_TONES[rank]}`}
+        >
+          <span className="text-lg font-black leading-none tracking-tight">{rank}</span>
+        </button>
 
-          {/* 라벨 우측에 a(레몬노랑) + b(레드) = c(딥골드) 덧셈 수식 배치 — 좁은 화면에서는 접는다 */}
-          <div className="hidden sm:inline-flex items-center text-xs md:text-sm font-semibold text-text-secondary pl-2.5 border-l border-white/15 shrink-0">
-            <span className="font-semibold text-text-secondary">{baseScore}</span>
-            <span className="font-bold mx-1">+</span>
-            <span className="font-semibold text-text-secondary">{transScore}</span>
-            <span className="font-bold mx-1.5">=</span>
-            <span className="font-bold text-accent">{totalScore}</span>
-          </div>
-        </div>
-
-        {/* 통일된 100점 만점 칩 (일반 레몬노랑 + 초월 레드 듀얼 차오름) */}
-        <div className="relative inline-flex items-baseline gap-1 px-3.5 py-1 rounded-lg bg-black/50 border border-accent-dim/40 overflow-hidden shrink-0">
-          {/* 1구간: 일반 점수 (레몬 노랑 0~60%) */}
-          <div
-            className="absolute left-0 top-0 bottom-0 pointer-events-none bg-accent/12 transition-[width] duration-500"
-            style={{ width: `${basePercent}%` }}
-          />
-          {/* 2구간: 시대초월성 (레드 0~40%) */}
-          <div
-            className="absolute top-0 bottom-0 pointer-events-none border-l border-accent-dim/40 bg-accent/22 transition-[width] duration-500"
-            style={{ left: `${basePercent}%`, width: `${transPercent}%` }}
-          />
-
-          <span className="relative z-10 text-base md:text-lg font-bold text-accent tracking-tight">
-            {totalScore}
-          </span>
-          <span className="relative z-10 text-xs font-bold">/ 100</span>
-        </div>
+        <ScoreBar
+          className="min-w-0 flex-1 py-0"
+          thick
+          label={
+            <span className="font-serif text-lg font-extrabold tracking-wide text-text-primary md:text-xl">
+              {t("totalInfluence")}
+            </span>
+          }
+          value={totalScore}
+          max={100}
+          maxText="/ 100"
+        />
       </div>
 
       {/* 점수의 높낮이를 읽을 좌표 — 순위 · 상위 비율 · 강세 영역 */}
@@ -463,105 +440,55 @@ export function BaseScoreGauge({
 }
 // #endregion
 
-// #region 카테고리 상세 (일반 점수 상위 라인과 100% 일치하는 레몬 노랑 컬러 패밀리 적용)
+// #region 영역 한 줄 (역량·덕목·성향 탭과 같은 눈금을 쓴다)
 export function CategoryDetail({
   category,
   value,
   explanation,
   isTranslationFallback = false,
-  isHovered,
-  onMouseEnter,
-  onMouseLeave,
+  showDescription = true,
 }: {
   category: (typeof INFLUENCE_CATEGORIES)[number];
   value: number;
   explanation: string | null;
   isTranslationFallback?: boolean;
-  isHovered?: boolean;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  /** 상세 분석을 펼쳤을 때만 해설을 보인다 */
+  showDescription?: boolean;
 }) {
   const t = useTranslations("profilePage.influence");
-  const Icon = category.icon;
+  const locale = useLocale();
   const normalizedExplanation = explanation?.trim().toLocaleLowerCase();
   const isNoRel = !normalizedExplanation
     || normalizedExplanation === "관련 없음."
     || normalizedExplanation === "관련 없음"
     || normalizedExplanation === "not applicable."
     || normalizedExplanation === "not applicable";
-  const percent = Math.min(100, Math.max(0, (value / 10) * 100));
-  const categoryLabel = t(`categories.${category.key}`);
 
   return (
-    <div
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={`rounded-xl border transition-all duration-200 p-3.5 md:p-4 flex flex-col justify-between space-y-2.5 relative overflow-hidden min-h-[100px] ${
-        isHovered
-          ? "border-accent-dim/55 bg-stone-heavy"
-          : "border-white/10 bg-stone-heavy/60"
-      }`}
-    >
-      {/* 1행: 아이콘 + 영역명 (좌) ... 일반 점수와 100% 통일된 레몬 노랑 점수 뱃지 (우) */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div
-            className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-              isHovered
-                ? "border-accent-dim/55 bg-accent/18 text-accent"
-                : "border-accent-dim/30 bg-accent/10 text-accent"
-            }`}
-          >
-            <Icon size={15} className="text-accent" />
-          </div>
-          <span
-            className={`text-base font-extrabold tracking-tight ${
-              isHovered ? "text-accent" : "text-text-primary"
-            }`}
-          >
-            {categoryLabel}
-          </span>
-        </div>
-
-        {/* 일반 점수 상위 칩과 동일한 레몬 노랑 점수 칩 (0점 포함 n/10점 규격) */}
-        <div className="relative inline-flex items-baseline gap-1 px-3 py-1 rounded-lg shrink-0 border border-accent-dim/40 bg-black/50 text-accent overflow-hidden">
-          <div
-            className="absolute left-0 top-0 bottom-0 pointer-events-none bg-accent/15 transition-[width] duration-500"
-            style={{ width: `${percent}%` }}
-          />
-          <span className="relative z-10 text-sm md:text-base font-bold text-accent">
-            {value}
-          </span>
-          <span className="relative z-10 text-xs font-bold">
-            {t("scoreOutOf", { max: 10 })}
-          </span>
-        </div>
-      </div>
-
-      {/* 2행: 세부 해설 스토리 문구 (어색한 수직 선 제거, 자연스러운 본문) */}
-      <div className="pt-2 border-t border-white/10 flex-1 flex items-center">
-        {isNoRel ? (
-          <p className="text-xs md:text-sm font-normal italic break-keep">
-            {t("noDetails")}
-          </p>
+    <ScoreBar
+      label={t(`categories.${category.key}`)}
+      value={value}
+      max={10}
+      maxText={t("scoreOutOf", { max: 10 })}
+      labelClassName={locale === "en" ? "w-[5.5rem]" : "w-10"}
+      description={
+        !showDescription ? null : isNoRel ? (
+          <span className="text-text-secondary/55 italic">{t("noDetails")}</span>
         ) : (
-          <div>
+          <span className="block animate-fade-in">
             {isTranslationFallback && (
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+              <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
                 {t("originalKorean")}
-              </p>
+              </span>
             )}
-            <p className="text-xs md:text-sm font-medium text-text-primary/95 leading-relaxed break-keep">
-              {explanation}
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
+            {explanation}
+          </span>
+        )
+      }
+    />
   );
 }
 // #endregion
-
 // #region 주요 영향력 태그
 export function TopInfluenceTags({ data }: { data: CelebInfluenceDetail }) {
   const t = useTranslations("profilePage.influence");
@@ -601,36 +528,6 @@ export function TopInfluenceTags({ data }: { data: CelebInfluenceDetail }) {
           );
         })}
       </div>
-    </div>
-  );
-}
-// #endregion
-
-// #region 점수 0인 영역 묶음 (상자 대신 한 줄)
-export function EmptyCategoryRow({
-  categories,
-}: {
-  categories: (typeof INFLUENCE_CATEGORIES)[number][];
-}) {
-  const t = useTranslations("profilePage.influence");
-  if (categories.length === 0) return null;
-
-  return (
-    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 rounded-xl border border-white/8 bg-stone-heavy/30 px-3.5 py-2.5">
-      <span className="text-xs font-bold">{t("noInfluence")}</span>
-      <span className="">|</span>
-      {categories.map((category) => {
-        const Icon = category.icon;
-        return (
-          <span
-            key={category.key}
-            className="inline-flex items-center gap-1 text-xs font-semibold"
-          >
-            <Icon size={13} className="" />
-            {t(`categories.${category.key}`)}
-          </span>
-        );
-      })}
     </div>
   );
 }
