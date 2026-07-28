@@ -26,6 +26,8 @@ interface NavigationProps extends SharedProps {
 }
 
 const NAV_ITEM_HEIGHT = 54;
+/** 목록 밖에 있는 맨 위 초상 자리. 목록 항목은 0부터 센다. */
+const PROFILE_SPOT = -1;
 const NAV_GROUP_START_KEYS = new Set([
   "connections",
   "analysis",
@@ -51,10 +53,13 @@ export function CelebAtlasNavigation({
     (item) => item.target.sectionId === "introduction",
   )?.target;
 
-  // 포커스 박스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
-  const activeIndex = navigationItems.findIndex(
-    (item) => item.target.sectionId === activeSectionId,
-  );
+  /* 포커스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
+     맨 위 초상은 목록 밖에 있어 PROFILE_SPOT 자리로 함께 다룬다. */
+  const activeIndex = activeSectionId === "introduction"
+    ? PROFILE_SPOT
+    : navigationItems.findIndex(
+        (item) => item.target.sectionId === activeSectionId,
+      );
   const spotIndex = hoveredIndex ?? activeIndex;
   // 항목이 틈 없이 이어 붙으므로 높이만 곱하면 세로 위치가 나온다.
   const spotTop = spotIndex * NAV_ITEM_HEIGHT;
@@ -91,7 +96,15 @@ export function CelebAtlasNavigation({
           <button
             type="button"
             onClick={() => introductionTarget && onNavigate(introductionTarget)}
-            className={styles.profileButton}
+            onMouseEnter={() => setHoveredIndex(PROFILE_SPOT)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onFocus={() => setHoveredIndex(PROFILE_SPOT)}
+            onBlur={() => setHoveredIndex(null)}
+            aria-current={activeIndex === PROFILE_SPOT ? "location" : undefined}
+            className={cn(
+              styles.profileButton,
+              spotIndex === PROFILE_SPOT && styles.profileButtonActive,
+            )}
           >
             <span className={styles.portraitStage}>
               <span className={styles.portraitHalo} aria-hidden />
