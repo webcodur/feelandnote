@@ -13,6 +13,9 @@ import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
 
+// 마지막으로 고른 검색 종류를 브라우저에 남겨 다음 방문에 되살린다.
+const SEARCH_PREF_KEY = "search_pref";
+
 const categoryToContentType = (category: string): ContentType => {
   const config = getCategoryById(category as ContentCategory);
   return (config?.dbType as ContentType) || "BOOK";
@@ -25,7 +28,7 @@ export function useHeaderSearch() {
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
-  const [mode, setMode] = useState<SearchMode>("content");
+  const [mode, setMode] = useState<SearchMode>("celeb");
   const [contentCategory, setContentCategory] = useState<ContentCategory>("book");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -37,8 +40,33 @@ export function useHeaderSearch() {
   const [isPending, startTransition] = useTransition();
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
+  const restoredRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 지난번 선택 복원 (최초 1회). 검색 페이지는 URL 값이 우선이라 건너뛴다.
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    if (pathname === "/search") return;
+
+    const stored = localStorage.getItem(SEARCH_PREF_KEY);
+    if (!stored) return;
+    try {
+      const pref = JSON.parse(stored) as { mode?: SearchMode; category?: ContentCategory };
+      if (pref.mode && SEARCH_MODES.some((m) => m.id === pref.mode)) setMode(pref.mode);
+      if (pref.category && CONTENT_CATEGORIES.some((c) => c.id === pref.category)) setContentCategory(pref.category);
+    } catch {
+      localStorage.removeItem(SEARCH_PREF_KEY);
+    }
+  }, [pathname]);
+
+  // 선택이 바뀔 때마다 보관
+  useEffect(() => {
+    if (!restoredRef.current) return;
+    localStorage.setItem(SEARCH_PREF_KEY, JSON.stringify({ mode, category: contentCategory }));
+  }, [mode, contentCategory]);
 
   // 검색 페이지에서 URL 파라미터와 동기화
   useEffect(() => {
@@ -190,10 +218,13 @@ export function useHeaderSearch() {
   // #region Click Outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-        setIsModeOpen(false);
-      }
+      const target = e.target as Node;
+      // 데스크톱 인라인 검색창과 모바일 전체화면 검색창을 모두 내부로 인정한다.
+      // 모바일 쪽을 빠뜨리면 mousedown 시점에 목록이 닫혀 click이 도달하지 못한다.
+      if (containerRef.current?.contains(target)) return;
+      if (mobileContainerRef.current?.contains(target)) return;
+      setIsOpen(false);
+      setIsModeOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -349,7 +380,7 @@ export function useHeaderSearch() {
 
   return {
     // Refs
-    containerRef, inputRef,
+    containerRef, mobileContainerRef, inputRef,
     // State
     isOpen, setIsOpen, isModeOpen, setIsModeOpen,
     mode, contentCategory, query, setQuery,

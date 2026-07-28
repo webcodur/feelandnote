@@ -70,9 +70,9 @@ export default function SearchModeDropdown({
       <Button
         unstyled
         onClick={onToggle}
-        className="flex items-center gap-1.5 px-3 h-full text-sm font-medium text-text-secondary hover:text-text-primary border-r border-white/10 whitespace-nowrap"
+        className="flex items-center gap-1.5 shrink-0 pr-2 sm:px-3 h-full text-sm font-medium text-text-secondary hover:text-text-primary border-r border-white/10 whitespace-nowrap"
       >
-        <span className="hidden sm:inline">{displayLabel}</span>
+        <span>{displayLabel}</span>
         <ChevronDown size={14} className={isOpen ? "rotate-180" : ""} />
       </Button>
 

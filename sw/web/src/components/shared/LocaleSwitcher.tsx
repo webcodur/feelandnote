@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { Globe, Check } from "lucide-react";
+import { Languages, Check } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useState, useRef, useEffect } from "react";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -55,7 +55,7 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
           className={`w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5 text-text-secondary hover:text-text-primary ${className ?? ""}`}
           title={t("label")}
         >
-          <Globe size={20} />
+          <Languages size={20} />
         </Button>
 
         {open && (
@@ -92,7 +92,7 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
         onClick={handleSwitch}
         className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 w-full text-text-primary ${className ?? ""}`}
       >
-        <Globe size={16} className="text-text-secondary" />
+        <Languages size={16} className="text-text-secondary" />
         {t("switchTo")}
       </Button>
     );
