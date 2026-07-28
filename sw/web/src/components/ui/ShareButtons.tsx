@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Twitter, Facebook, Link2, Check, MessageCircle } from "lucide-react";
+import { Facebook, Link2, Check, MessageCircle, Linkedin, Mail } from "lucide-react";
 
 // #region 상수·타입
 const BASE_URL = "https://feelandnote.com";
@@ -24,6 +24,12 @@ interface ShareButtonsProps {
 
 const iconBtnStyle =
   "inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-text-secondary hover:text-accent hover:border-accent/30";
+
+const XIcon = ({ size = 14 }: { size?: number | string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 // #endregion
 
 export default function ShareButtons({
@@ -47,7 +53,7 @@ export default function ShareButtons({
     {
       key: "x",
       label: "X",
-      Icon: Twitter,
+      Icon: XIcon,
       href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
     },
     {
@@ -55,6 +61,18 @@ export default function ShareButtons({
       label: "Facebook",
       Icon: Facebook,
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    },
+    {
+      key: "linkedin",
+      label: "LinkedIn",
+      Icon: Linkedin,
+      href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedText}`,
+    },
+    {
+      key: "mail",
+      label: "Email",
+      Icon: Mail,
+      href: `mailto:?subject=${encodedText}&body=${encodedUrl}`,
     },
   ];
 

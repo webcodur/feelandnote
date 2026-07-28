@@ -47,11 +47,14 @@ interface CelebCardProps {
 // #endregion
 
 // #region Variant Styles
-/* 뱃지 크기: 모바일은 종전 크기를 유지하고 데스크탑에서만 키운다 (md 이상) */
+/* 뱃지 크기: 화면 폭이 아니라 "카드 자신의 폭"에 비례해 연속으로 변한다(@container + cqw).
+   ① 화면 폭 기준이면 한 줄 장수가 늘어나 카드가 좁아지는 구간에서 뱃지만 커지는 뒤집힘이 생긴다.
+   ② 특정 폭에서 값을 갈아끼우는 방식도 그 지점에서 크기가 툭 튄다.
+   그래서 cqw(카드 폭의 %)로 잇고 clamp로 아래위 한계만 잡는다 — 카드 109~200px 구간에서 매끄럽다. */
 const badgeStyles = {
   /* 반응 2단: 카드에 손을 올리면 옅게 밝아지고(group-hover), 뱃지를 직접 가리키면 색을 뒤집어
      카드 애니메이션에 묻히지 않게 한다(hover). 둘 다 transition 없이 즉시 — 즉각 반응 축이다. */
-  card: "absolute top-1.5 right-1.5 md:top-2 md:right-2 min-w-[24px] h-[24px] px-1.5 md:min-w-[30px] md:h-[30px] md:px-2 bg-black/50 backdrop-blur-md rounded-full border border-accent/50 text-accent text-[10px] md:text-xs shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
+  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] bg-black/70 rounded-full border border-accent/50 text-accent text-[clamp(9px,7cqw,12px)] shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
 };
@@ -175,7 +178,7 @@ export default function CelebCard({
       : "group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40";
 
     return (
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-all duration-700 pointer-events-none mix-blend-screen z-0 ${hoverClasses}`} />
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen z-0 ${hoverClasses}`} />
     );
   };
 
@@ -200,7 +203,7 @@ export default function CelebCard({
             tabIndex={0}
             onClick={handleCardClick}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
-            className={`group relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
+            className={`group @container relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
               border border-white/5 hover:border-white/20 transition-[border-color,box-shadow,transform] duration-200
               ${isActive ? "border-accent/40 ring-1 ring-accent/30" : ""}
               ${isLoading ? "animate-pulse border-accent/30 pointer-events-none opacity-70" : ""}
@@ -222,7 +225,7 @@ export default function CelebCard({
 
             {/* 음성 지원 뱃지 */}
             {hasVoice && (
-              <div className="absolute top-1.5 left-1.5 z-40">
+              <div className="absolute top-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-40">
                 <VoiceBadge pulse={voicePulse} />
               </div>
             )}
@@ -241,10 +244,10 @@ export default function CelebCard({
                 type="button"
                 onClick={handleViewsClick}
                 aria-label={t("viewsBadge", { count: badgeViews })}
-                className="absolute bottom-1.5 left-1.5 md:bottom-2 md:left-2 z-20 flex items-center gap-0.5 md:gap-1 h-[20px] px-1.5 md:h-[26px] md:px-2 rounded-full bg-black/55 backdrop-blur-md border border-white/15 text-white/75 text-[10px] md:text-xs group-hover:bg-black/75 group-hover:border-white/35 group-hover:text-white hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_10px_rgba(255,255,255,0.35)]"
+                className="absolute bottom-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-20 flex items-center gap-[clamp(2px,1cqw,4px)] h-[clamp(17px,13cqw,24px)] px-[clamp(4px,2cqw,8px)] rounded-full bg-black/70 border border-white/15 text-white/75 text-[clamp(9px,6.5cqw,12px)] group-hover:bg-black/75 group-hover:border-white/35 group-hover:text-white hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_10px_rgba(255,255,255,0.35)]"
                 title={t("viewsBadge", { count: badgeViews })}
               >
-                <Eye className="shrink-0 opacity-70 w-2.5 h-2.5 md:w-3.5 md:h-3.5" />
+                <Eye className="shrink-0 opacity-70 w-[clamp(8px,6cqw,14px)] h-[clamp(8px,6cqw,14px)]" />
                 <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
               </button>
             )}

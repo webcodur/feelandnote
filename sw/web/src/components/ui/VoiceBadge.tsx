@@ -15,13 +15,14 @@ interface VoiceBadgeProps {
   className?: string;
 }
 
-/* md는 인물 카드 전용이다. 카드의 다른 표시(콘텐츠 수·조회수)가 데스크탑에서 커지므로 같이 키운다. */
+/* md는 인물 카드 전용이다. 카드의 다른 표시(콘텐츠 수·조회수)와 같은 비율로 카드 폭을 따라
+   연속으로 커지고 줄어든다. 화면 폭이 아니라 카드 폭이 기준이라 @container 안에서만 유효하다. */
 const sizeConfig = {
   sm: { badge: "w-5 h-5", icon: "w-2.5 h-2.5", ring: "w-5 h-5" },
   md: {
-    badge: "w-6 h-6 md:w-[30px] md:h-[30px]",
-    icon: "w-3 h-3 md:w-4 md:h-4",
-    ring: "w-6 h-6 md:w-[30px] md:h-[30px]",
+    badge: "w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)]",
+    icon: "w-[clamp(10px,8cqw,16px)] h-[clamp(10px,8cqw,16px)]",
+    ring: "w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)]",
   },
 } as const;
 
@@ -29,7 +30,7 @@ export default function VoiceBadge({ size = "md", pulse = 0, className = "" }: V
   const cfg = sizeConfig[size];
 
   return (
-    <div className={`relative flex items-center justify-center ${cfg.badge} rounded-full bg-black/50 backdrop-blur-md shadow-sm border border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite] ${className}`}>
+    <div className={`relative flex items-center justify-center ${cfg.badge} rounded-full bg-black/70 shadow-sm border border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite] ${className}`}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={`${cfg.icon} text-emerald-400`}>
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
