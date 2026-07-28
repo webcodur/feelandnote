@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
+import { Maximize2 } from "lucide-react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
@@ -39,16 +40,57 @@ interface Props {
   maxHeight?: number;
   /** 확대·축소·처음으로 버튼의 접근성 문구 */
   controlLabels?: { zoomIn: string; zoomOut: string; reset: string };
+  /** 지도 기준 시점을 알리는 짧은 문구 (예: "현대 국경") */
+  mapNote?: string;
+  /** 한 국가에 포함된 좌표 수를 화면 언어로 적는다 */
+  formatMarkerCount?: (count: number) => string;
+  /** 컨테이너의 세로 공간을 전부 쓰는 전체화면 모드 */
+  fillContainer?: boolean;
+  /** Initial zoom. Fullscreen views can use a larger home framing. */
+  initialZoom?: number;
+  /** 전체화면 진입 버튼. 콜백이 있을 때만 우하단에 표시한다 */
+  onExpand?: () => void;
+  expandLabel?: string;
+  expandAriaLabel?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TopoData = any;
 
-const SEA_FILL = "#07090c";
-const SEA_EDGE = "rgba(212,175,55,0.22)";
-const LAND_FILL = "#1c1b18";
-const LAND_EDGE = "rgba(120,113,96,0.35)";
-const GRATICULE = "rgba(212,175,55,0.06)";
+interface MapLayers {
+  land: GeoJSON.FeatureCollection;
+  coast: GeoJSON.MultiLineString;
+  borders: GeoJSON.MultiLineString;
+  countriesByName: Map<string, GeoJSON.Feature>;
+  countryLabels: {
+    name: string;
+    anchor: [number, number];
+    area: number;
+  }[];
+  countryHitRegions: {
+    feature: GeoJSON.Feature;
+    name: string;
+    bounds: [[number, number], [number, number]];
+  }[];
+}
+
+interface FastMesh {
+  /** 각 점을 단위 구면의 x/y/z로 미리 바꾼 선 묶음 */
+  lines: Float32Array[];
+}
+
+const SEA_EDGE = "rgba(212,175,55,0.26)";
+const COAST_EDGE = "rgba(207,194,154,0.48)";
+const BORDER_EDGE = "rgba(166,156,128,0.2)";
+const VISITED_COUNTRY_FILL = "rgba(212,175,55,0.085)";
+const VISITED_COUNTRY_EDGE = "rgba(212,175,55,0.38)";
+const COUNTRY_HOVER_FILL = "rgba(212,175,55,0.16)";
+const VISITED_COUNTRY_HOVER_FILL = "rgba(212,175,55,0.24)";
+const COUNTRY_HOVER_EDGE = "rgba(249,215,110,0.72)";
+const COUNTRY_LABEL_FILL = "rgba(224,219,199,0.42)";
+const VISITED_COUNTRY_LABEL_FILL = "rgba(249,215,110,0.82)";
+const COUNTRY_LABEL_HALO = "rgba(4,7,10,0.78)";
+const GRATICULE = "rgba(212,175,55,0.075)";
 const PATH_COLOR = "rgba(212,175,55,0.45)";
 const DOT_FILL = "#8a732a";
 const DOT_ACTIVE = "#f9d76e";
@@ -62,7 +104,7 @@ const POLES = [
 
 const MIN_ZOOM = 0.2;
 /* 한 지역을 들여다볼 수 있을 만큼 크게 — 바다만 남을 정도까지 당겨진다 */
-const MAX_ZOOM = 4;
+const MAX_ZOOM = 8;
 const DEFAULT_ZOOM = 0.42;
 /* 한 번 굴리거나 누를 때 곱해지는 배율. 커질수록 같은 손짓에 더 크게 움직인다.
    더하기가 아니라 곱하기라 확대된 상태에서도 체감 속도가 일정하다. */
@@ -70,6 +112,167 @@ const WHEEL_STEP = 1.18;
 const BUTTON_STEP = 1.45;
 const HIT_RADIUS = 16;
 const DRAG_SLOP = 3;
+/* 전 지구가 보일 때 110m은 충분하다. 지역을 들여다볼 때만 50m을 늦게 받아
+   첫 화면 비용을 지키고, 해안선·섬·국경의 각진 부분을 줄인다. */
+const HIGH_DETAIL_PREFETCH_ZOOM = 0.8;
+const HIGH_DETAIL_RENDER_ZOOM = 0.95;
+
+/** Natural Earth TopoJSON을 그리기용 네 겹으로 나눈다. */
+function mapLayersOf(data: TopoData, buildHitRegions = false): MapLayers {
+  const countriesObject = data.objects.countries;
+  const landObject = data.objects.land;
+  const countries = topojson.feature(
+    data,
+    countriesObject,
+  ) as unknown as GeoJSON.FeatureCollection;
+  const land = topojson.feature(
+    data,
+    landObject,
+  ) as unknown as GeoJSON.FeatureCollection;
+  const coast = topojson.mesh(
+    data,
+    landObject,
+  ) as unknown as GeoJSON.MultiLineString;
+  /* a !== b인 공유 호만 남겨 해안선과 현대 국경을 같은 선으로 칠하지 않는다. */
+  const borders = topojson.mesh(
+    data,
+    countriesObject,
+    (a, b) => a !== b,
+  ) as unknown as GeoJSON.MultiLineString;
+  const countriesByName = new Map<string, GeoJSON.Feature>();
+  const countryLabels: MapLayers["countryLabels"] = [];
+  const countryHitRegions: MapLayers["countryHitRegions"] = [];
+
+  for (const feature of countries.features) {
+    const name = feature.properties?.name;
+    if (typeof name !== "string") continue;
+    countriesByName.set(name, feature);
+    countryLabels.push({
+      name,
+      anchor: d3.geoCentroid(feature),
+      area: d3.geoArea(feature),
+    });
+    if (buildHitRegions) {
+      countryHitRegions.push({
+        feature,
+        name,
+        bounds: d3.geoBounds(feature),
+      });
+    }
+  }
+  countryLabels.sort((a, b) => b.area - a.area);
+
+  return {
+    land,
+    coast,
+    borders,
+    countriesByName,
+    countryLabels,
+    countryHitRegions,
+  };
+}
+
+/** 드래그 때 D3 투영·GeoJSON 순회를 되풀이하지 않도록 선 좌표를 3D 벡터로 바꿔 둔다. */
+function fastMeshOf(mesh: GeoJSON.MultiLineString): FastMesh {
+  return {
+    lines: mesh.coordinates.map((line) => {
+      const vectors = new Float32Array(line.length * 3);
+      for (let i = 0; i < line.length; i += 1) {
+        const [lng, lat] = line[i];
+        const lambda = (lng * Math.PI) / 180;
+        const phi = (lat * Math.PI) / 180;
+        const cosPhi = Math.cos(phi);
+        const at = i * 3;
+        vectors[at] = cosPhi * Math.cos(lambda);
+        vectors[at + 1] = cosPhi * Math.sin(lambda);
+        vectors[at + 2] = Math.sin(phi);
+      }
+      return vectors;
+    }),
+  };
+}
+
+/**
+ * 미리 계산한 3D 선을 현재 정사영 회전에 맞춰 직접 그린다.
+ * 지평선과 교차하는 짧은 구간은 깊이값으로 잘라, 뒷면의 선이 앞면으로 새지 않게 한다.
+ */
+function traceFastMesh(
+  ctx: CanvasRenderingContext2D,
+  mesh: FastMesh,
+  rotation: [number, number],
+  scale: number,
+  centerX: number,
+  centerY: number,
+) {
+  const centerLng = (-rotation[0] * Math.PI) / 180;
+  const centerLat = (-rotation[1] * Math.PI) / 180;
+  const sinLng = Math.sin(centerLng);
+  const cosLng = Math.cos(centerLng);
+  const sinLat = Math.sin(centerLat);
+  const cosLat = Math.cos(centerLat);
+
+  for (const line of mesh.lines) {
+    let previousX = 0;
+    let previousY = 0;
+    let previousDepth = -1;
+
+    for (let i = 0; i < line.length; i += 3) {
+      const sphereX = line[i];
+      const sphereY = line[i + 1];
+      const sphereZ = line[i + 2];
+      const horizontal = -sinLng * sphereX + cosLng * sphereY;
+      const vertical =
+        -sinLat * cosLng * sphereX -
+        sinLat * sinLng * sphereY +
+        cosLat * sphereZ;
+      const depth =
+        cosLat * cosLng * sphereX +
+        cosLat * sinLng * sphereY +
+        sinLat * sphereZ;
+      const x = centerX + horizontal * scale;
+      const y = centerY - vertical * scale;
+
+      if (i === 0) {
+        if (depth >= 0) ctx.moveTo(x, y);
+      } else if (depth >= 0 && previousDepth >= 0) {
+        ctx.lineTo(x, y);
+      } else if (depth >= 0 || previousDepth >= 0) {
+        const amount = previousDepth / (previousDepth - depth);
+        const edgeX = previousX + (x - previousX) * amount;
+        const edgeY = previousY + (y - previousY) * amount;
+        if (previousDepth >= 0) {
+          ctx.lineTo(edgeX, edgeY);
+        } else {
+          ctx.moveTo(edgeX, edgeY);
+          ctx.lineTo(x, y);
+        }
+      }
+
+      previousX = x;
+      previousY = y;
+      previousDepth = depth;
+    }
+  }
+}
+
+/** 날짜변경선을 가로지르는 영역까지 포함하는 경도 범위 판정 */
+function longitudeInBounds(lng: number, west: number, east: number): boolean {
+  return west <= east ? lng >= west && lng <= east : lng >= west || lng <= east;
+}
+
+/** 위·경도 한 점이 속한 현대 국가. hover와 행적 국가 집계가 같은 판정을 쓴다. */
+function countryNameAtCoordinate(
+  map: MapLayers,
+  lng: number,
+  lat: number,
+): string | null {
+  for (const region of map.countryHitRegions) {
+    const [[west, south], [east, north]] = region.bounds;
+    if (lat < south || lat > north || !longitudeInBounds(lng, west, east)) continue;
+    if (d3.geoContains(region.feature, [lng, lat])) return region.name;
+  }
+  return null;
+}
 
 /** 지구 반대편에 있어 보이지 않는 좌표인지 */
 function isVisible(lng: number, lat: number, rotation: [number, number]): boolean {
@@ -107,24 +310,54 @@ export default function WorldGlobe({
   label,
   maxHeight = 460,
   controlLabels,
+  mapNote,
+  formatMarkerCount,
+  fillContainer = false,
+  initialZoom = DEFAULT_ZOOM,
+  onExpand,
+  expandLabel,
+  expandAriaLabel,
 }: Props) {
   const locale = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const countriesRef = useRef<GeoJSON.FeatureCollection | null>(null);
-  const meshRef = useRef<GeoJSON.MultiLineString | null>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const backgroundCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const backgroundSnapshotRef = useRef<{
+    w: number;
+    h: number;
+    zoom: number;
+    rotation: [number, number];
+  } | null>(null);
+  const backgroundDirtyRef = useRef(true);
+  const baseMapRef = useRef<MapLayers | null>(null);
+  const detailedMapRef = useRef<MapLayers | null>(null);
+  const detailedFastMeshesRef = useRef<{
+    coast: FastMesh;
+    borders: FastMesh;
+  } | null>(null);
+  const detailedMapPromiseRef = useRef<Promise<void> | null>(null);
   const [ready, setReady] = useState(false);
+  const [detailedReady, setDetailedReady] = useState(false);
   const [hoverId, setHoverId] = useState<string | null>(null);
   /* 손끝이 닿은 나라 이름 — 지도만으로는 어디가 어딘지 알 수 없어 아래 띠에 적는다 */
   const [hoverCountry, setHoverCountry] = useState<string | null>(null);
+  const hoverIdRef = useRef<string | null>(null);
+  const hoverCountryRef = useRef<string | null>(null);
 
   const homeRotation = useMemo(() => centroidOf(markers), [markers]);
+  const homeZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, initialZoom));
   const rotationRef = useRef<[number, number]>(homeRotation);
-  const zoomRef = useRef(DEFAULT_ZOOM);
+  const zoomRef = useRef(homeZoom);
   const sizeRef = useRef({ w: 480, h: 380 });
-  const canvasSizedRef = useRef({ w: 0, h: 0 });
+  const labelWidthCacheRef = useRef(new Map<string, number>());
   const rafRef = useRef(0);
+  const hoverRafRef = useRef(0);
+  const mountedRef = useRef(true);
   const draggingRef = useRef(false);
+  const wheelActiveRef = useRef(false);
+  const wheelIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingHoverRef = useRef<{ x: number; y: number } | null>(null);
   const movedRef = useRef(false);
   const dragStartRef = useRef({ x: 0, y: 0, r0: 0, r1: 0 });
 
@@ -134,13 +367,37 @@ export default function WorldGlobe({
     [markers],
   );
 
-  /* 짚었거나 고른 지점의 이름 — 나라 이름보다 이쪽을 먼저 보여준다 */
+  /* 정확한 행적 점을 짚으면 국가명 아래에 장소·사건명을 함께 보여준다. */
   const hoverLabel = useMemo(() => {
-    const id = hoverId ?? activeId;
-    const found = ordered.find((m) => m.id === id);
+    const found = ordered.find((m) => m.id === hoverId);
     if (!found) return null;
     return found.order != null ? `${found.order}. ${found.label}` : found.label;
-  }, [activeId, hoverId, ordered]);
+  }, [hoverId, ordered]);
+
+  /* 행적 좌표를 현대 국가에 대응해 평소에도 해당 국토를 옅게 강조한다. */
+  const visitedRegions = useMemo(() => {
+    const counts = new Map<string, number>();
+    const byMarkerId = new Map<string, string>();
+    const map = detailedReady
+      ? detailedMapRef.current ?? baseMapRef.current
+      : baseMapRef.current;
+    if (!ready || !map) return { counts, byMarkerId };
+
+    for (const marker of ordered) {
+      const country = countryNameAtCoordinate(map, marker.lng, marker.lat);
+      if (!country) continue;
+      byMarkerId.set(marker.id, country);
+      counts.set(country, (counts.get(country) ?? 0) + 1);
+    }
+    return { counts, byMarkerId };
+  }, [detailedReady, ordered, ready]);
+
+  const tooltipCountry = hoverId
+    ? visitedRegions.byMarkerId.get(hoverId) ?? hoverCountry
+    : hoverCountry;
+  const tooltipMarkerCount = tooltipCountry
+    ? visitedRegions.counts.get(tooltipCountry) ?? 0
+    : 0;
 
   /* ── 지도 원본 로드 ── */
   useEffect(() => {
@@ -149,14 +406,8 @@ export default function WorldGlobe({
       .then((r) => r.json())
       .then((data: TopoData) => {
         if (!alive) return;
-        countriesRef.current = topojson.feature(
-          data,
-          data.objects.countries,
-        ) as unknown as GeoJSON.FeatureCollection;
-        meshRef.current = topojson.mesh(
-          data,
-          data.objects.countries,
-        ) as unknown as GeoJSON.MultiLineString;
+        baseMapRef.current = mapLayersOf(data, true);
+        backgroundDirtyRef.current = true;
         setReady(true);
       })
       .catch(() => {
@@ -190,54 +441,289 @@ export default function WorldGlobe({
   /* ── 그리기 ── */
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
-    const countries = countriesRef.current;
-    if (!canvas || !countries) return;
+    const baseMap = baseMapRef.current;
+    if (!canvas || !baseMap) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const { w, h } = sizeRef.current;
-    const dpr = window.devicePixelRatio || 1;
-    if (canvasSizedRef.current.w !== w || canvasSizedRef.current.h !== h) {
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+    const zoom = zoomRef.current;
+    const detailedMap =
+      zoom >= HIGH_DETAIL_RENDER_ZOOM ? detailedMapRef.current : null;
+    const fastDetailedInteraction =
+      draggingRef.current && detailedMap && detailedFastMeshesRef.current;
+    const layers = detailedMap && !fastDetailedInteraction ? detailedMap : baseMap;
+    const labelLayers = detailedMap ?? baseMap;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const physicalWidth = Math.max(1, Math.round(w * dpr));
+    const physicalHeight = Math.max(1, Math.round(h * dpr));
+    if (canvas.width !== physicalWidth || canvas.height !== physicalHeight) {
+      canvas.width = physicalWidth;
+      canvas.height = physicalHeight;
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
-      canvasSizedRef.current = { w, h };
+      backgroundDirtyRef.current = true;
+    }
+    if (!backgroundCanvasRef.current) {
+      backgroundCanvasRef.current = document.createElement("canvas");
+      backgroundDirtyRef.current = true;
+    }
+    const backgroundCanvas = backgroundCanvasRef.current;
+    if (
+      backgroundCanvas.width !== physicalWidth ||
+      backgroundCanvas.height !== physicalHeight
+    ) {
+      backgroundCanvas.width = physicalWidth;
+      backgroundCanvas.height = physicalHeight;
+      backgroundSnapshotRef.current = null;
+      backgroundDirtyRef.current = true;
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
 
     const rotation = rotationRef.current;
     const projection = projectionOf();
     const path = d3.geoPath(projection, ctx);
+    const radius = Math.max(Math.min(w, h) * zoom, 1);
+    const interactionActive = draggingRef.current || wheelActiveRef.current;
+    const backgroundSnapshot = backgroundSnapshotRef.current;
+    const canScaleBackgroundDuringWheel =
+      wheelActiveRef.current &&
+      backgroundSnapshot !== null &&
+      backgroundSnapshot.w === w &&
+      backgroundSnapshot.h === h &&
+      Math.abs(backgroundSnapshot.rotation[0] - rotation[0]) < 0.001 &&
+      Math.abs(backgroundSnapshot.rotation[1] - rotation[1]) < 0.001;
 
-    // 바다(구체)
+    if (canScaleBackgroundDuringWheel) {
+      const scale = zoom / backgroundSnapshot.zoom;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, physicalWidth, physicalHeight);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.scale(scale, scale);
+      ctx.translate(-w / 2, -h / 2);
+      ctx.drawImage(backgroundCanvas, 0, 0, w, h);
+      ctx.restore();
+    } else if (backgroundDirtyRef.current) {
+      ctx.clearRect(0, 0, w, h);
+
+    // 바다 — 평면 한 색 대신 구체의 중심과 가장자리에 깊이 차를 둔다
     ctx.beginPath();
     path({ type: "Sphere" });
-    ctx.fillStyle = SEA_FILL;
+    const seaGradient = ctx.createRadialGradient(
+      w * 0.42,
+      h * 0.36,
+      radius * 0.06,
+      w / 2,
+      h / 2,
+      radius,
+    );
+    seaGradient.addColorStop(0, "#132028");
+    seaGradient.addColorStop(0.58, "#0a1117");
+    seaGradient.addColorStop(1, "#04070a");
+    ctx.fillStyle = seaGradient;
     ctx.fill();
     ctx.strokeStyle = SEA_EDGE;
     ctx.lineWidth = 1;
+    ctx.shadowColor = "rgba(212,175,55,0.16)";
+    ctx.shadowBlur = 10;
     ctx.stroke();
+    ctx.shadowBlur = 0;
 
-    // 경위선
+    // 육지 — 방향성 있는 빛만 주고 실제 고도색인 것처럼 꾸미지 않는다
+    ctx.beginPath();
+    path(layers.land);
+    const landGradient = ctx.createLinearGradient(w * 0.2, h * 0.15, w * 0.82, h * 0.9);
+    landGradient.addColorStop(0, "#353328");
+    landGradient.addColorStop(0.48, "#25261f");
+    landGradient.addColorStop(1, "#151917");
+    ctx.fillStyle = landGradient;
+    ctx.fill();
+
+    // 이 인물의 행적 좌표가 있는 현대 국가는 기본 상태에서도 알아볼 수 있게 한다
+    if (visitedRegions.counts.size > 0) {
+      ctx.beginPath();
+      for (const country of visitedRegions.counts.keys()) {
+        const feature = layers.countriesByName.get(country);
+        if (feature) path(feature);
+      }
+      ctx.fillStyle = VISITED_COUNTRY_FILL;
+      ctx.fill();
+      ctx.strokeStyle = VISITED_COUNTRY_EDGE;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+    }
+
+    // 해안선은 자연지형, 현대 국경은 행정 정보라 서로 다른 무게로 그린다
+    if (fastDetailedInteraction) {
+      ctx.beginPath();
+      traceFastMesh(
+        ctx,
+        fastDetailedInteraction.coast,
+        rotation,
+        radius,
+        w / 2,
+        h / 2,
+      );
+      ctx.strokeStyle = COAST_EDGE;
+      ctx.lineWidth = 0.85;
+      ctx.stroke();
+
+      ctx.beginPath();
+      traceFastMesh(
+        ctx,
+        fastDetailedInteraction.borders,
+        rotation,
+        radius,
+        w / 2,
+        h / 2,
+      );
+      ctx.strokeStyle = BORDER_EDGE;
+      ctx.lineWidth = 0.45;
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      path(layers.coast);
+      ctx.strokeStyle = COAST_EDGE;
+      ctx.lineWidth = zoom >= HIGH_DETAIL_RENDER_ZOOM ? 0.85 : 0.7;
+      ctx.stroke();
+
+      ctx.beginPath();
+      path(layers.borders);
+      ctx.strokeStyle = BORDER_EDGE;
+      ctx.lineWidth = 0.45;
+      ctx.stroke();
+    }
+
+    // 경위선은 육지·바다 위를 같은 좌표계로 가로지른다
     ctx.beginPath();
     path(graticule);
     ctx.strokeStyle = GRATICULE;
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = 0.45;
     ctx.stroke();
 
-    // 육지
-    ctx.beginPath();
-    for (const feat of countries.features) path(feat);
-    ctx.fillStyle = LAND_FILL;
-    ctx.fill();
+    // 지도 위 국명 — 큰 국가는 먼저, 확대할수록 소국까지. 겹치는 글자는 뒤쪽을 생략한다.
+    const minLabelArea =
+      zoom < 0.65
+        ? 0.006
+        : zoom < 0.95
+          ? 0.002
+          : zoom < 1.5
+            ? 0.0003
+            : zoom < 2.4
+              ? 0.00003
+              : 0;
+    const labelLimit = zoom < 0.65 ? 36 : zoom < 1.5 ? 60 : 100;
+    const labelFontSize =
+      (zoom >= 1.5 ? 10 : zoom >= 0.8 ? 9 : 8) + (fillContainer ? 2 : 0);
+    const occupiedLabels: {
+      left: number;
+      right: number;
+      top: number;
+      bottom: number;
+    }[] = [];
+    const labelCandidates = labelLayers.countryLabels.toSorted((a, b) => {
+      const aVisited = visitedRegions.counts.has(a.name) ? 1 : 0;
+      const bVisited = visitedRegions.counts.has(b.name) ? 1 : 0;
+      return bVisited - aVisited || b.area - a.area;
+    });
+    let placedLabels = 0;
 
-    if (meshRef.current) {
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.lineJoin = "round";
+    for (const candidate of labelCandidates) {
+      const isVisited = visitedRegions.counts.has(candidate.name);
+      if (!isVisited && candidate.area < minLabelArea) continue;
+      if (!isVisible(candidate.anchor[0], candidate.anchor[1], rotation)) continue;
+      const pt = projection(candidate.anchor);
+      if (!pt) continue;
+
+      const fontWeight = isVisited ? 650 : 500;
+      const font = `${fontWeight} ${labelFontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      const text = localizeCountryName(candidate.name, locale);
+      const widthCacheKey = `${font}|${text}`;
+      ctx.font = font;
+      let textWidth = labelWidthCacheRef.current.get(widthCacheKey);
+      if (textWidth == null) {
+        textWidth = ctx.measureText(text).width;
+        labelWidthCacheRef.current.set(widthCacheKey, textWidth);
+      }
+      const halfWidth = textWidth / 2 + 3;
+      const halfHeight = labelFontSize / 2 + 2;
+      if (
+        Math.hypot(pt[0] - w / 2, pt[1] - h / 2) +
+          Math.hypot(halfWidth, halfHeight) >
+        radius - 2
+      ) {
+        continue;
+      }
+      const box = {
+        left: pt[0] - halfWidth,
+        right: pt[0] + halfWidth,
+        top: pt[1] - halfHeight,
+        bottom: pt[1] + halfHeight,
+      };
+      const overlaps = occupiedLabels.some(
+        (other) =>
+          box.left < other.right &&
+          box.right > other.left &&
+          box.top < other.bottom &&
+          box.bottom > other.top,
+      );
+      if (overlaps) continue;
+
+      occupiedLabels.push(box);
+      ctx.strokeStyle = COUNTRY_LABEL_HALO;
+      ctx.lineWidth = isVisited ? 2.6 : 2.2;
+      ctx.strokeText(text, pt[0], pt[1]);
+      ctx.fillStyle = isVisited
+        ? VISITED_COUNTRY_LABEL_FILL
+        : COUNTRY_LABEL_FILL;
+      ctx.fillText(text, pt[0], pt[1]);
+      placedLabels += 1;
+      if (placedLabels >= labelLimit) break;
+    }
+    ctx.restore();
+
+      const backgroundCtx = backgroundCanvas.getContext("2d");
+      if (backgroundCtx && !interactionActive) {
+        backgroundCtx.setTransform(1, 0, 0, 1, 0, 0);
+        backgroundCtx.clearRect(0, 0, physicalWidth, physicalHeight);
+        backgroundCtx.drawImage(canvas, 0, 0);
+        backgroundSnapshotRef.current = {
+          w,
+          h,
+          zoom,
+          rotation: [...rotation],
+        };
+        backgroundDirtyRef.current = false;
+      }
+    } else {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, physicalWidth, physicalHeight);
+      ctx.drawImage(backgroundCanvas, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // hover는 캐시된 지도 위에 해당 국가 하나만 즉시 덧그린다
+    const hoveredCountry = hoverCountryRef.current;
+    const hoveredCountryFeature = hoveredCountry
+      ? baseMap.countriesByName.get(hoveredCountry) ??
+        layers.countriesByName.get(hoveredCountry)
+      : null;
+    if (hoveredCountryFeature) {
       ctx.beginPath();
-      path(meshRef.current);
-      ctx.strokeStyle = LAND_EDGE;
-      ctx.lineWidth = 0.5;
+      path(hoveredCountryFeature);
+      const isVisitedCountry = visitedRegions.counts.has(hoveredCountry as string);
+      ctx.fillStyle = isVisitedCountry
+        ? VISITED_COUNTRY_HOVER_FILL
+        : COUNTRY_HOVER_FILL;
+      ctx.fill();
+      ctx.strokeStyle = COUNTRY_HOVER_EDGE;
+      ctx.lineWidth = isVisitedCountry ? 1.25 : 0.9;
       ctx.stroke();
     }
 
@@ -297,42 +783,91 @@ export default function WorldGlobe({
       ctx.setLineDash([]);
     }
 
-    // 좌표 점 (이름은 아래 띠가 맡는다)
+    // 행적 좌표는 일반 지도 정보보다 한 단계 강한 금색 점과 후광으로 구분한다
     for (const m of ordered) {
       if (!isVisible(m.lng, m.lat, rotation)) continue;
       const pt = projection([m.lng, m.lat]);
       if (!pt) continue;
 
       const isActive = m.id === activeId;
-      const isHover = m.id === hoverId;
-      const r = isActive ? 5.5 : isHover ? 4.5 : 3.5;
+      const isHover = m.id === hoverIdRef.current;
+      const markerScale = fillContainer ? 1.15 : 1;
+      const r = (isActive ? 6.25 : isHover ? 5.5 : 4) * markerScale;
 
-      if (isActive) {
-        ctx.beginPath();
-        ctx.arc(pt[0], pt[1], r + 4, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(249,215,110,0.18)";
-        ctx.fill();
-      }
+      ctx.beginPath();
+      ctx.arc(pt[0], pt[1], r + (isActive || isHover ? 4.5 : 3), 0, Math.PI * 2);
+      ctx.fillStyle =
+        isActive || isHover
+          ? "rgba(249,215,110,0.22)"
+          : "rgba(212,175,55,0.11)";
+      ctx.fill();
 
       ctx.beginPath();
       ctx.arc(pt[0], pt[1], r, 0, Math.PI * 2);
       ctx.fillStyle = isActive || isHover ? DOT_ACTIVE : DOT_FILL;
       ctx.fill();
       ctx.strokeStyle = "rgba(10,10,10,0.9)";
-      ctx.lineWidth = 1;
+      ctx.lineWidth = isActive || isHover ? 1.4 : 1;
       ctx.stroke();
     }
 
-  }, [activeId, graticule, hoverId, ordered, projectionOf, showPath]);
+  }, [
+    activeId,
+    fillContainer,
+    graticule,
+    locale,
+    ordered,
+    projectionOf,
+    showPath,
+    visitedRegions,
+  ]);
 
   const requestDraw = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(draw);
   }, [draw]);
 
+  /** 확대 의도가 생겼을 때만 50m 지도를 별도 청크로 받는다. */
+  const ensureDetailedMap = useCallback(() => {
+    if (detailedMapRef.current || detailedMapPromiseRef.current) return;
+
+    detailedMapPromiseRef.current = import("world-atlas/countries-50m.json")
+      .then((module) => {
+        const detailedMap = mapLayersOf(module.default as TopoData, true);
+        detailedMapRef.current = detailedMap;
+        detailedFastMeshesRef.current = {
+          coast: fastMeshOf(detailedMap.coast),
+          borders: fastMeshOf(detailedMap.borders),
+        };
+        if (mountedRef.current) {
+          backgroundDirtyRef.current = true;
+          setDetailedReady(true);
+          requestDraw();
+        }
+      })
+      .catch(() => {
+        // 정밀 지도를 못 받아도 110m 기본 지도와 모든 행적 기능은 그대로 동작한다.
+        detailedMapPromiseRef.current = null;
+      });
+  }, [requestDraw]);
+
+  useEffect(() => {
+    backgroundDirtyRef.current = true;
+  }, [locale, visitedRegions]);
+
   useEffect(() => {
     if (ready) requestDraw();
   }, [ready, requestDraw]);
+
+  const scheduleZoomSettle = useCallback(() => {
+    wheelActiveRef.current = true;
+    if (wheelIdleTimerRef.current) clearTimeout(wheelIdleTimerRef.current);
+    wheelIdleTimerRef.current = setTimeout(() => {
+      wheelActiveRef.current = false;
+      backgroundDirtyRef.current = true;
+      requestDraw();
+    }, 140);
+  }, [requestDraw]);
 
   /* ── 크기 대응 ── */
   useEffect(() => {
@@ -341,15 +876,30 @@ export default function WorldGlobe({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const w = entry.contentRect.width;
-        sizeRef.current = { w, h: Math.max(280, Math.min(w * 0.9, maxHeight)) };
+        const h = fillContainer
+          ? Math.max(280, entry.contentRect.height)
+          : Math.max(280, Math.min(w * 0.9, maxHeight));
+        sizeRef.current = { w, h };
+        backgroundDirtyRef.current = true;
         requestDraw();
       }
     });
     observer.observe(container);
     return () => observer.disconnect();
-  }, [maxHeight, requestDraw]);
+  }, [fillContainer, maxHeight, requestDraw]);
 
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
+  useEffect(
+    () => {
+      mountedRef.current = true;
+      return () => {
+        mountedRef.current = false;
+        cancelAnimationFrame(rafRef.current);
+        cancelAnimationFrame(hoverRafRef.current);
+        if (wheelIdleTimerRef.current) clearTimeout(wheelIdleTimerRef.current);
+      };
+    },
+    [],
+  );
 
   /* ── 지정된 좌표로 돌리기 ──
      같은 지시를 두 번 수행하지 않도록 표를 끊어 둔다. 이 처리는 다시 그릴 때마다
@@ -364,6 +914,7 @@ export default function WorldGlobe({
     if (!target) return;
     doneFocusRef.current = ticket;
     rotationRef.current = [-target.lng, -target.lat];
+    backgroundDirtyRef.current = true;
     requestDraw();
   }, [focusId, focusKey, ordered, requestDraw]);
 
@@ -373,26 +924,45 @@ export default function WorldGlobe({
     if (!canvas) return;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
+      scheduleZoomSettle();
       const factor = e.deltaY < 0 ? WHEEL_STEP : 1 / WHEEL_STEP;
       zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current * factor));
+      if (zoomRef.current >= HIGH_DETAIL_PREFETCH_ZOOM) ensureDetailedMap();
+      backgroundDirtyRef.current = true;
       requestDraw();
     };
     canvas.addEventListener("wheel", handler, { passive: false });
-    return () => canvas.removeEventListener("wheel", handler);
-  }, [requestDraw]);
+    return () => {
+      canvas.removeEventListener("wheel", handler);
+      if (wheelIdleTimerRef.current) clearTimeout(wheelIdleTimerRef.current);
+      wheelIdleTimerRef.current = null;
+      wheelActiveRef.current = false;
+    };
+  }, [ensureDetailedMap, requestDraw, scheduleZoomSettle]);
 
   /* ── 끌어서 회전 ── */
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    draggingRef.current = true;
-    movedRef.current = false;
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      r0: rotationRef.current[0],
-      r1: rotationRef.current[1],
-    };
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  }, []);
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      cancelAnimationFrame(hoverRafRef.current);
+      hoverRafRef.current = 0;
+      pendingHoverRef.current = null;
+      hoverIdRef.current = null;
+      hoverCountryRef.current = null;
+      setHoverId(null);
+      setHoverCountry(null);
+      draggingRef.current = true;
+      movedRef.current = false;
+      dragStartRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+        r0: rotationRef.current[0],
+        r1: rotationRef.current[1],
+      };
+      requestDraw();
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    },
+    [requestDraw],
+  );
 
   const hitTest = useCallback(
     (clientX: number, clientY: number): string | null => {
@@ -425,20 +995,26 @@ export default function WorldGlobe({
   const countryAt = useCallback(
     (clientX: number, clientY: number): string | null => {
       const canvas = canvasRef.current;
-      const countries = countriesRef.current;
-      if (!canvas || !countries) return null;
+      const baseMap = baseMapRef.current;
+      if (!canvas || !baseMap) return null;
       const rect = canvas.getBoundingClientRect();
-      const projection = projectionOf();
-      const coord = projection.invert?.([clientX - rect.left, clientY - rect.top]);
-      if (!coord || !Number.isFinite(coord[0]) || !Number.isFinite(coord[1])) return null;
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const { w, h } = sizeRef.current;
+      const radius = Math.min(w, h) * zoomRef.current;
+      if (Math.hypot(localX - w / 2, localY - h / 2) > radius) return null;
 
-      for (const feature of countries.features) {
-        if (d3.geoContains(feature, coord as [number, number])) {
-          const name = feature.properties?.name;
-          return typeof name === "string" ? name : null;
-        }
-      }
-      return null;
+      const projection = projectionOf();
+      const coord = projection.invert?.([localX, localY]);
+      if (!coord || !Number.isFinite(coord[0]) || !Number.isFinite(coord[1])) return null;
+      const [lng, lat] = coord;
+
+      const hitMap =
+        zoomRef.current >= HIGH_DETAIL_RENDER_ZOOM &&
+        detailedMapRef.current?.countryHitRegions.length
+          ? detailedMapRef.current
+          : baseMap;
+      return countryNameAtCoordinate(hitMap, lng, lat);
     },
     [projectionOf],
   );
@@ -459,20 +1035,60 @@ export default function WorldGlobe({
           dragStartRef.current.r0 + dx * degPerPx,
           Math.max(-80, Math.min(80, dragStartRef.current.r1 - dy * degPerPx)),
         ];
+        backgroundDirtyRef.current = true;
         requestDraw();
         return;
       }
-      const hit = hitTest(e.clientX, e.clientY);
-      setHoverId((prev) => (prev === hit ? prev : hit));
-      const country = countryAt(e.clientX, e.clientY);
-      setHoverCountry((prev) => (prev === country ? prev : country));
+      pendingHoverRef.current = { x: e.clientX, y: e.clientY };
+      if (hoverRafRef.current) return;
+      hoverRafRef.current = requestAnimationFrame(() => {
+        hoverRafRef.current = 0;
+        const pending = pendingHoverRef.current;
+        pendingHoverRef.current = null;
+        if (!pending || draggingRef.current) return;
+
+        const hit = hitTest(pending.x, pending.y);
+        const pointerCountry = countryAt(pending.x, pending.y);
+        const country = hit
+          ? visitedRegions.byMarkerId.get(hit) ?? pointerCountry
+          : pointerCountry;
+        const canvas = canvasRef.current;
+        const tooltip = tooltipRef.current;
+        if (canvas && tooltip) {
+          const rect = canvas.getBoundingClientRect();
+          const localX = pending.x - rect.left;
+          const localY = pending.y - rect.top;
+          const placeLeft = localX > rect.width * 0.68;
+          const placeBelow = localY < 64;
+          tooltip.style.left = `${localX + (placeLeft ? -10 : 10)}px`;
+          tooltip.style.top = `${localY + (placeBelow ? 12 : -10)}px`;
+          tooltip.style.transform = `translate(${placeLeft ? "-100%" : "0"}, ${placeBelow ? "0" : "-100%"})`;
+        }
+        let visualChanged = false;
+        if (hoverIdRef.current !== hit) {
+          hoverIdRef.current = hit;
+          setHoverId(hit);
+          visualChanged = true;
+        }
+        if (hoverCountryRef.current !== country) {
+          hoverCountryRef.current = country;
+          setHoverCountry(country);
+          visualChanged = true;
+        }
+        if (visualChanged) requestDraw();
+      });
     },
-    [countryAt, degreesPerPixel, hitTest, requestDraw],
+    [countryAt, degreesPerPixel, hitTest, requestDraw, visitedRegions],
   );
 
   const handlePointerUp = useCallback(() => {
+    const wasDragging = draggingRef.current;
     draggingRef.current = false;
-  }, []);
+    if (wasDragging) {
+      backgroundDirtyRef.current = true;
+      requestDraw();
+    }
+  }, [requestDraw]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -485,37 +1101,75 @@ export default function WorldGlobe({
 
   const zoomBy = useCallback(
     (factor: number) => {
+      scheduleZoomSettle();
       zoomRef.current = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomRef.current * factor));
+      if (zoomRef.current >= HIGH_DETAIL_PREFETCH_ZOOM) ensureDetailedMap();
+      backgroundDirtyRef.current = true;
       requestDraw();
     },
-    [requestDraw],
+    [ensureDetailedMap, requestDraw, scheduleZoomSettle],
   );
 
   const handleReset = useCallback(() => {
     rotationRef.current = homeRotation;
-    zoomRef.current = DEFAULT_ZOOM;
+    zoomRef.current = homeZoom;
+    backgroundDirtyRef.current = true;
     requestDraw();
-  }, [homeRotation, requestDraw]);
+  }, [homeRotation, homeZoom, requestDraw]);
 
-  const btnClass =
-    "w-7 h-7 rounded border border-accent-dim/40 bg-bg-secondary/90 text-text-secondary hover:text-accent hover:border-accent text-sm font-bold flex items-center justify-center cursor-pointer";
+  const btnClass = `${
+    fillContainer ? "h-9 w-9 text-base" : "h-7 w-7 text-sm"
+  } flex cursor-pointer items-center justify-center rounded border border-accent-dim/40 bg-bg-secondary/90 font-bold text-text-secondary hover:border-accent hover:text-accent`;
 
   return (
     <div
       ref={containerRef}
       className={`relative overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary select-none ${className}`}
     >
-      <div className="absolute top-2 right-2 z-10 flex flex-col gap-1">
+      {mapNote && (
+        <div
+          className={`pointer-events-none absolute z-10 rounded border border-white/10 bg-black/45 font-mono tracking-wide text-text-secondary/70 backdrop-blur-sm ${
+            fillContainer
+              ? "left-3 top-3 px-2.5 py-1.5 text-[11px]"
+              : "left-2 top-2 px-2 py-1 text-[9px]"
+          }`}
+        >
+          {mapNote}
+        </div>
+      )}
+
+      <div
+        className={`absolute right-2 z-10 flex flex-col gap-1 ${
+          fillContainer ? "top-3" : "top-2"
+        }`}
+      >
         <button type="button" onClick={() => zoomBy(BUTTON_STEP)} className={btnClass} aria-label={controlLabels?.zoomIn}>
           +
         </button>
         <button type="button" onClick={() => zoomBy(1 / BUTTON_STEP)} className={btnClass} aria-label={controlLabels?.zoomOut}>
           −
         </button>
-        <button type="button" onClick={handleReset} className={`${btnClass} text-[10px]`} aria-label={controlLabels?.reset}>
+        <button
+          type="button"
+          onClick={handleReset}
+          className={`${btnClass} ${fillContainer ? "text-xs" : "text-[10px]"}`}
+          aria-label={controlLabels?.reset}
+        >
           ↺
         </button>
       </div>
+
+      {onExpand && (
+        <button
+          type="button"
+          onClick={onExpand}
+          className="absolute bottom-2 right-2 z-10 flex h-8 items-center gap-1.5 rounded border border-accent-dim/45 bg-bg-secondary/90 px-2.5 font-mono text-[10px] text-text-secondary shadow-lg backdrop-blur-sm hover:border-accent hover:text-accent cursor-pointer"
+          aria-label={expandAriaLabel ?? expandLabel}
+        >
+          <Maximize2 size={13} strokeWidth={1.8} aria-hidden />
+          {expandLabel && <span>{expandLabel}</span>}
+        </button>
+      )}
 
       <canvas
         ref={canvasRef}
@@ -535,19 +1189,63 @@ export default function WorldGlobe({
         onPointerCancel={handlePointerUp}
         onPointerLeave={() => {
           handlePointerUp();
+          cancelAnimationFrame(hoverRafRef.current);
+          hoverRafRef.current = 0;
+          pendingHoverRef.current = null;
+          const hadHover =
+            hoverIdRef.current !== null || hoverCountryRef.current !== null;
+          hoverIdRef.current = null;
+          hoverCountryRef.current = null;
           setHoverId(null);
           setHoverCountry(null);
+          if (hadHover) requestDraw();
         }}
         onClick={handleClick}
       />
 
-      {/* 가운데 아래 띠 — 짚은 곳의 이름을 적는다. 자리는 늘 잡아 두어 글이 뜰 때
-          지구본이 흔들리지 않게 한다. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-8 items-center justify-center px-2">
-        {(hoverLabel || hoverCountry) && (
-          <span className="max-w-full truncate rounded bg-black/70 px-2.5 py-1 text-xs text-text-primary backdrop-blur-sm">
-            {hoverLabel ?? localizeCountryName(hoverCountry as string, locale)}
-          </span>
+      <div
+        ref={tooltipRef}
+        aria-hidden={!hoverLabel && !tooltipCountry}
+        className={`pointer-events-none absolute z-20 rounded border bg-black/90 shadow-lg backdrop-blur-sm ${
+          fillContainer
+            ? "max-w-[min(320px,78%)] px-3 py-2.5"
+            : "max-w-[min(280px,72%)] px-2.5 py-2"
+        } ${
+          hoverLabel || tooltipCountry ? "visible" : "invisible"
+        } ${
+            hoverId || tooltipMarkerCount > 0
+              ? "border-accent/65 shadow-accent/10"
+              : "border-white/15"
+          }`}
+      >
+        <div className="flex items-center gap-2">
+          {tooltipCountry && (
+            <span
+              className={`whitespace-nowrap font-semibold text-text-primary ${
+                fillContainer ? "text-sm" : "text-xs"
+              }`}
+            >
+              {localizeCountryName(tooltipCountry, locale)}
+            </span>
+          )}
+          {tooltipMarkerCount > 0 && formatMarkerCount && (
+            <span
+              className={`whitespace-nowrap rounded bg-accent/15 px-1.5 py-0.5 font-mono text-accent ${
+                fillContainer ? "text-[10px]" : "text-[9px]"
+              }`}
+            >
+              {formatMarkerCount(tooltipMarkerCount)}
+            </span>
+          )}
+        </div>
+        {hoverLabel && (
+          <div
+            className={`mt-1 line-clamp-2 leading-relaxed text-accent ${
+              fillContainer ? "text-[13px]" : "text-[11px]"
+            }`}
+          >
+            {hoverLabel}
+          </div>
         )}
       </div>
     </div>
