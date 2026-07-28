@@ -191,6 +191,9 @@ export default function CelebPageContent({
     .map((item) => item.target.sectionId)
     .join("|");
   const [activeSectionId, setActiveSectionId] = useState("introduction");
+  /** 목록을 눌러 이동하는 중인 목적지. 도착할 때까지 화면 감시 결과를 받지 않는다. */
+  const navTargetRef = useRef<string | null>(null);
+  const navReleaseRef = useRef<number | undefined>(undefined);
 
   // 넓은 화면의 고정 탐구도와 맥락석이 현재 읽는 장을 함께 가리키게 한다.
   useEffect(() => {
@@ -228,7 +231,17 @@ export default function CelebPageContent({
           }
         }
 
-        if (nearestId) setActiveSectionId(nearestId);
+        if (!nearestId) return;
+
+        /* 목록을 눌러 이동하는 중이면 지나치는 구획을 활성으로 잡지 않는다.
+           그대로 두면 부드럽게 미끄러지는 동안 중간 구획들이 차례로 활성이 되어
+           옆 목록의 포커스 박스가 목적지까지 계단식으로 따라 내려간다. */
+        if (navTargetRef.current) {
+          if (nearestId === navTargetRef.current) navTargetRef.current = null;
+          return;
+        }
+
+        setActiveSectionId(nearestId);
       },
       {
         rootMargin: "-18% 0px -68% 0px",
@@ -252,6 +265,12 @@ export default function CelebPageContent({
 
   const handleServiceNavigate = useCallback((target: ServiceTarget) => {
     trackEvent("celeb_guide_click", { section: target.sectionId });
+    navTargetRef.current = target.sectionId;
+    // 도착 신호를 못 받는 경우(이미 그 자리였다 등)를 대비한 시간 제한
+    window.clearTimeout(navReleaseRef.current);
+    navReleaseRef.current = window.setTimeout(() => {
+      navTargetRef.current = null;
+    }, 1200);
     setActiveSectionId(target.sectionId);
     window.history.replaceState(null, "", `#${target.sectionId}`);
     window.requestAnimationFrame(() => {
