@@ -63,22 +63,28 @@ export default function FreeCommentSection({
     }
 
     setIsSubmitting(true)
-    const result = await createFreeComment(
-      isLoggedIn
-        ? { postId, content: newComment, anonymous, nickname: anonymous ? nickname.trim() || undefined : undefined }
-        : { postId, content: newComment, nickname: nickname.trim() || undefined, password },
-    )
+    try {
+      const result = await createFreeComment(
+        isLoggedIn
+          ? { postId, content: newComment, anonymous, nickname: anonymous ? nickname.trim() || undefined : undefined }
+          : { postId, content: newComment, nickname: nickname.trim() || undefined, password },
+      )
 
-    if (result.success) {
-      setComments((prev) => [...prev, result.data])
-      setNewComment('')
-      setPassword('')
-      // 필명은 비우지 않고 기억한다 — 연달아 댓글을 달 때 다시 치지 않게
-      if (!isLoggedIn || anonymous) rememberNickname(nickname)
-    } else {
-      setError(tError(result.error))
+      if (result.success) {
+        setComments((prev) => [...prev, result.data])
+        setNewComment('')
+        setPassword('')
+        // 필명은 비우지 않고 기억한다 — 연달아 댓글을 달 때 다시 치지 않게
+        if (!isLoggedIn || anonymous) rememberNickname(nickname)
+      } else {
+        setError(tError(result.error))
+      }
+    } catch {
+      // 응답이 오지 않은 경우. 여기서 잡지 않으면 등록 버튼이 계속 눌리지 않는다
+      setError(tError('UNKNOWN_ERROR'))
+    } finally {
+      setIsSubmitting(false)
     }
-    setIsSubmitting(false)
   }
 
   const doDeleteComment = async (id: string, pw?: string) => {

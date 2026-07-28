@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
-import { FREE_POST_COLS, FREE_RATE_LIMIT_SECONDS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
+import { FREE_POST_COLS, FREE_AUTHOR_JOIN, FREE_RATE_LIMIT_SECONDS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
 import type { FreePost } from '@/types/database'
 
 interface CreateFreePostParams {
@@ -78,7 +78,9 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
       password_hash: passwordHash,
       ip_hash: ipHash,
     })
-    .select(FREE_POST_COLS)
+    // 작성자 프로필까지 함께 받아야 한다 — 등록 직후 목록에 바로 얹는 화면(홈)이
+    // 이 응답만으로 이름·사진을 그리므로, 조인을 빼면 계정 글이 "익명"으로 표시된다
+    .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`)
     .single()
 
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 작성]' })
