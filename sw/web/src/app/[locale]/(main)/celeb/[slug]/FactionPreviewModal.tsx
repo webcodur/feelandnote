@@ -34,6 +34,8 @@ export default function FactionPreviewModal({
   const t = useTranslations("celebPage");
   const isEn = locale === "en";
   const [activeTeamImage, setActiveTeamImage] = useState(0);
+  /* 인물을 한 번 누르면 이 창 안에서 짚기만 하고, 같은 인물을 다시 눌러야 그 사람 카드로 넘어간다. */
+  const [focusedId, setFocusedId] = useState<string | null>(currentCelebId);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -65,6 +67,15 @@ export default function FactionPreviewModal({
   const teamImageSrc = teamImage?.url ?? null;
   // 사진마다 「어느 무리를 찍었는지」가 함께 온다. 없던 시절 사진은 비어 있다
   const teamImageLabel = teamImage ? resolve(teamImage.labelEn ?? null, teamImage.label ?? null) : null;
+
+  const focusedMember = members.find((member) => member.id === focusedId) ?? null;
+  const focusedIsCurrent = !focusedMember || focusedMember.id === currentCelebId;
+  const focusedName = focusedMember
+    ? (isEn && focusedMember.nicknameEn ? focusedMember.nicknameEn : focusedMember.nickname)
+    : null;
+  const focusedRole = focusedMember
+    ? resolve(focusedMember.roleShortEn, focusedMember.roleShort)
+    : null;
 
   if (typeof document === "undefined") return null;
 
@@ -220,21 +231,46 @@ export default function FactionPreviewModal({
               </section>
             )}
 
-            {(roleShort || roleLong) && (
+            {(focusedIsCurrent ? roleShort || roleLong : focusedMember) && (
               <section className="border-l-2 pl-4" style={{ borderColor: tag.color }}>
                 <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
                   {t("factionRole")}
                 </h3>
-                {roleShort && (
-                  <p className="font-serif text-xl font-bold leading-snug text-text-primary sm:text-2xl">
-                    {roleShort}
-                  </p>
-                )}
-                {roleLong && (
-                  <p className="mt-3 whitespace-pre-line text-sm leading-7 text-text-secondary">
-                    {roleLong}
-                  </p>
-                )}
+
+                {focusedIsCurrent ? (
+                  <>
+                    {roleShort && (
+                      <p className="font-serif text-xl font-bold leading-snug text-text-primary sm:text-2xl">
+                        {roleShort}
+                      </p>
+                    )}
+                    {roleLong && (
+                      <p className="mt-3 whitespace-pre-line text-sm leading-7 text-text-secondary">
+                        {roleLong}
+                      </p>
+                    )}
+                  </>
+                ) : focusedMember ? (
+                  <>
+                    <p className="font-serif text-xl font-bold leading-snug text-text-primary sm:text-2xl">
+                      {focusedName}
+                    </p>
+                    {focusedRole && (
+                      <p className="mt-2 text-sm leading-7 text-text-secondary">
+                        {focusedRole}
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => onMemberSelect(focusedMember.id)}
+                      disabled={focusedMember.id === loadingMemberId}
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-[2px] border border-accent/50 px-4 py-2 text-sm font-bold text-accent hover:bg-accent hover:text-bg-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait"
+                    >
+                      {t("factionOpenMember")}
+                      <ArrowRight size={15} />
+                    </button>
+                  </>
+                ) : null}
               </section>
             )}
           </div>
@@ -297,22 +333,29 @@ export default function FactionPreviewModal({
                     </>
                   );
 
-                  return isCurrent ? (
-                    <div
-                      key={member.id}
-                      className="relative flex min-h-[168px] flex-col items-center rounded-[2px] border bg-white/[0.055] px-3 py-4 text-center"
-                      style={{ borderColor: tag.color }}
-                    >
-                      {memberContent}
-                    </div>
-                  ) : (
+                  const isFocused = member.id === focusedId;
+
+                  return (
                     <button
                       key={member.id}
                       type="button"
-                      onClick={() => onMemberSelect(member.id)}
+                      onClick={() => {
+                        // 짚지 않은 인물이면 짚기만 하고, 이미 짚어 둔 인물이면 그 사람 카드를 연다.
+                        if (!isFocused) {
+                          setFocusedId(member.id);
+                          return;
+                        }
+                        if (!isCurrent) onMemberSelect(member.id);
+                      }}
                       disabled={isLoading}
                       aria-busy={isLoading}
-                      className="group relative flex min-h-[168px] cursor-pointer flex-col items-center rounded-[2px] border border-white/10 bg-white/[0.018] px-3 py-4 text-center hover:border-accent/40 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait"
+                      aria-pressed={isFocused}
+                      className={`group relative flex min-h-[168px] cursor-pointer flex-col items-center rounded-[2px] border px-3 py-4 text-center transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait ${
+                        isFocused
+                          ? "border-accent bg-white/[0.055]"
+                          : "border-white/10 bg-white/[0.018] hover:border-accent/40 hover:bg-white/[0.045]"
+                      }`}
+                      style={isCurrent && !isFocused ? { borderColor: tag.color } : undefined}
                     >
                       {memberContent}
                     </button>
