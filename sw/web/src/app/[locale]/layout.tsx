@@ -12,6 +12,7 @@ import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
+import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -121,6 +122,7 @@ export default async function LocaleLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
           />
+          <PortraitSharpenFilter />
           {children}
           <Footer />
           {process.env.NODE_ENV === "production" && (
