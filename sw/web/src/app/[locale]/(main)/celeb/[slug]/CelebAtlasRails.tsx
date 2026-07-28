@@ -89,9 +89,15 @@ export function CelebAtlasNavigation({
       });
     };
 
+    // 짚는 자리가 바뀌었는데 크기는 그대로일 때도 다시 재도록 한 프레임 뒤 한 번 더 부른다.
+    const frame = requestAnimationFrame(measure);
     const observer = new ResizeObserver(measure);
     observer.observe(scope);
-    return () => observer.disconnect();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, [spotIndex, navigationItems.length]);
 
   // 짧은 화면에서도 현재 장이 사이드바의 내부 스크롤 아래에 숨지 않게 맞춘다.

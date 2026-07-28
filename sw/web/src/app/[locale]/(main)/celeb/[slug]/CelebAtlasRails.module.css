@@ -29,7 +29,8 @@
   min-width: 0;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 20px;
+  /* 초상 둘레의 금빛 테두리가 확대되어도 칸 안에 들어오게 위쪽을 넉넉히 잡는다. */
+  padding-block: 18px 20px;
   color: inherit;
   cursor: pointer;
 }
