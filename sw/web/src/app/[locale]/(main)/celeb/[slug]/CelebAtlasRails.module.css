@@ -245,7 +245,7 @@
   cursor: pointer;
 }
 
-/* 위쪽 여백은 포커스 박스 계산과 값을 맞추려고 CelebAtlasRails.tsx에서 넣는다. */
+/* 묶음이 바뀌는 자리는 여백 없이 선 하나로만 가른다. */
 .profileNavItemGroupStart {
   border-top-color: color-mix(in srgb, var(--color-accent-dim) 20%, transparent);
 }
