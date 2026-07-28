@@ -30,13 +30,14 @@ export default function ContentLibrary({
   targetUserId,
   ownerNickname,
   defaultViewMode,
+  defaultPageSize,
   hideControlWrapper = false,
   initialContents,
 }: ContentLibraryProps) {
   const searchParams = useSearchParams();
   const locale = useLocale();
   const initialSearchQuery = searchParams.get("q") || "";
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode, initialContents });
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode, defaultPageSize, initialContents });
   const isViewer = lib.isViewer;
   const t = useTranslations("celebPage");
   const tArchive = useTranslations("archiveSearch");
