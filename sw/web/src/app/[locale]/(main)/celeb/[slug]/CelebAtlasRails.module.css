@@ -19,6 +19,8 @@
   font-size: 18px;
 }
 
+/* 초상 칸과 목록 사이에 빈틈이나 가로선을 두지 않는다. 포커스 박스가 두 칸을
+   건너뛰지 않고 이어서 흐르려면 칸끼리 맞붙어 있어야 한다. */
 .profileButton {
   position: relative;
   z-index: 1;
@@ -27,6 +29,7 @@
   min-width: 0;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 20px;
   color: inherit;
   cursor: pointer;
 }
@@ -161,17 +164,6 @@
   word-break: keep-all;
 }
 
-.profileDivider {
-  width: 100%;
-  height: 1px;
-  margin-block: 22px 18px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--color-accent) 35%, transparent),
-    transparent
-  );
-}
 
 /* 기준 좌표계는 focusScope 하나다. 여기에 relative를 두면 목록 항목의 세로 위치가
    포커스 박스 기준과 어긋나 박스가 엉뚱한 곳에 그려진다. */
