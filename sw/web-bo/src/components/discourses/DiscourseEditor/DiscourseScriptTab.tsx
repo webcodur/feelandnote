@@ -1,28 +1,25 @@
 'use client'
 
 /**
- * 「원고」 탭 — 대본 전체가 하나의 연속 에디터다(팩션 대사 편집기 패턴의 담화판).
+ * 「원고」 탭 — 발언마다 한 줄, 왼쪽이 대사 오른쪽이 그 대사의 사진이다.
  *
- * 쓰기와 마킹이 한 화면에서 동시에 된다: 자유롭게 타이핑하고(엔터 = 덩어리, 빈 줄 = 발언 경계),
- * 줄 위 전환 라인으로 사진이 넘어가는 지점을 걸고, 발언 첫 줄 화자 칩으로 발언자를 바꾼다.
- * 커서가 놓인 발언의 세부(종류·대상·쇼츠 편·사진·음성·출처)는 오른쪽 패널에 뜬다.
+ * 격자(grid)로 짜여 있어 **한 발언의 대사와 사진이 언제나 같은 행에 놓인다.** 대사가 길면
+ * 그 행이 대사 높이를 따르고 사진 쪽에 빈 자리가 남으며, 사진이 많으면 반대가 된다.
+ * 높이를 재서 맞추는 것이 아니라 배치가 스스로 맞물리므로 글을 고쳐도 어긋나지 않는다.
  *
- * 타이핑은 재분배(remapTurns)로 즉시 발언 배열에 반영된다 — 문단이 그대로면 그 발언의
- * 속성이 전부 따라오고, 새 문단만 새 발언이 된다. 문단이 사라지면 발언도 소멸하되
- * 확인창을 남발하지 않는다: 사진·음성이 붙은 발언이 사라질 때만 배너로 알리고 undo 로 복구한다.
+ * 팩션 인물 대사 편집기와 같은 짜임새이고, 대사 입력칸(`QuoteEditor`)과 사진 카드(`ImageCard`)도
+ * 같은 공용 부품을 쓴다. 다른 것은 단위뿐 — 팩션은 인물 하나가 한 행, 담화는 발언 하나가 한 행이다.
  *
- * 발언 수를 바꾸는 조작 직전의 turns 를 최근 10단계까지 쌓아 Ctrl+Z / 되돌리기로 복구한다.
+ * 발언 수를 바꾸는 조작(추가·삭제·순서) 직전의 turns 를 10단계까지 쌓아 되돌린다.
  * 저장은 부모(DiscourseEditor)가 통짜로 한다 — 여기는 turns 배열만 갱신한다.
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { DiscourseScript, Turn } from '@/lib/discourse-types'
 import { vnTurn, vnVerify } from '@feelandnote/shared/lib/discourse-voice-names'
-import { X } from '@feelandnote/shared/bo/icons'
+import { Plus, X } from '@feelandnote/shared/bo/icons'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import { scriptToText, textToParagraphs, remapTurns } from '../shared/manuscript'
-import { ManuscriptEditor, type AnchorPos } from '../shared/ManuscriptEditor'
-import { TurnDetailPanel } from './sections/TurnDetailPanel'
+import { TurnRow } from './sections/TurnRow'
 import { VoiceMismatchBanner } from './sections/VoiceMismatchBanner'
 import { DiscourseLongformPanel } from './sections/DiscourseLongformPanel'
 import type { DiscourseVoiceMeta } from './voice-meta'
@@ -34,7 +31,7 @@ type Props = {
   series: string
   episodeName: string
   editLang: EditLang
-  /** 디스크의 음원 목록 — 자리 대조 배너와 세부 패널 미리듣기에 쓴다 */
+  /** 디스크의 음원 목록 — 자리 대조 배너와 미리듣기에 쓴다 */
   voiceFiles: DiscourseVoiceMeta[]
   reloadVoices: () => void
 }
@@ -55,16 +52,13 @@ export function DiscourseScriptTab({
     return vnVerify(script, fileNames)
   }, [script, fileNames, cast.length, turns.length])
 
-  // 선택 발언 = 커서가 놓인 발언 — 오른쪽 세부 패널의 대상
+  /** 지금 손보는 발언 — 행이 강조된다 */
   const [selected, setSelected] = useState<number | null>(null)
-  const selectedTurn = selected != null ? turns[selected] : undefined
 
   // 내용이 바뀌어 음원 재생성이 필요한 발언 번호(1-based) — 세션 동안 누적 표시
   const [staleTurns, setStaleTurns] = useState<number[]>([])
-  // 문단 삭제로 발언이 소멸했을 때의 안내 — confirm 대신 배너 + undo
-  const [dropNotice, setDropNotice] = useState<string | null>(null)
 
-  // region 되돌리기 — 발언 수를 바꾸는 조작 직전의 turns 스냅샷
+  // region 되돌리기 — 발언 수·순서를 바꾸는 조작 직전의 turns 스냅샷
   const [undoStack, setUndoStack] = useState<Turn[][]>([])
   const pushUndo = () => setUndoStack(s => [...s.slice(-(UNDO_DEPTH - 1)), turns])
   const undo = () => {
@@ -73,117 +67,44 @@ export function DiscourseScriptTab({
     setUndoStack(s => s.slice(0, -1))
     setTurns(last)
     setSelected(null)
-    setDropNotice(null)
-  }
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== 'z') return
-      const t = e.target as HTMLElement | null
-      // 입력칸 안에서는 브라우저 고유의 글자 되돌리기를 방해하지 않는다
-      if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t?.isContentEditable) return
-      if (!undoStack.length) return
-      e.preventDefault()
-      undo()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  })
-  // endregion
-
-  // region 원고 텍스트 ↔ 발언 배열 동기화
-  const [editorText, setEditorText] = useState(() => scriptToText(turns))
-  // 에디터 발 갱신의 정본 표기 — 이 값과 다르게 turns 가 바뀌면(undo 등 외부 변경) 원고를 다시 그린다
-  const [lastApplied, setLastApplied] = useState(() => scriptToText(turns))
-
-  /**
-   * 밖에서 발언 배열이 바뀌면(되돌리기·다른 탭 편집) 원고 글을 다시 그린다.
-   *
-   * 원본(remotion-bo)은 이 동기화를 effect 안에서 setState 로 했다. 그러면 한 번 그린 뒤 다시
-   * 그리는 낭비가 생겨 React 규칙에 걸린다. 그래서 React 가 권하는 「그리는 중에 상태 맞추기」로
-   * 바꿨다 — 값을 비교해 달라진 순간에만 갱신하므로 동작은 같고 덧그림만 사라진다.
-   */
-  const canonical = useMemo(() => scriptToText(turns), [turns])
-  if (canonical !== lastApplied) {
-    setLastApplied(canonical)
-    setEditorText(canonical)
-  }
-
-  const markStale = (indices: number[]) => {
-    if (!indices.length) return
-    setStaleTurns(prev => [...new Set([...prev, ...indices.map(i => i + 1)])].sort((a, b) => a - b))
-  }
-
-  /** 타이핑 반영 — 재분배로 발언 속성을 따라 옮긴다. 발언 소멸은 배너 + undo 로 방어 */
-  const handleText = (v: string) => {
-    setEditorText(v)
-    const res = remapTurns(turns, textToParagraphs(v))
-    const structural = res.turns.length !== turns.length || res.dropped.length > 0
-    if (structural) pushUndo()
-    // 방금 친 글이 곧 정본이다 — 이 표기를 함께 갱신해야 위 「그리는 중에 상태 맞추기」가
-    // 사용자가 친 글을 다시 덮어쓰지 않는다(원본의 lastApplied 대입과 같은 자리·같은 뜻)
-    setLastApplied(scriptToText(res.turns))
-    setTurns(res.turns)
-    markStale(res.stale)
-    if (res.dropped.length) {
-      const rich = res.dropped.some(d => d.image || d.imageChanges?.length || d.duration != null || d.voice || d.origin)
-      setDropNotice(
-        `발언 ${res.dropped.length}개가 원고에서 지워졌습니다${rich ? ' — 사진·음성 설정이 붙어 있던 발언입니다' : ''}. 되돌리기(Ctrl+Z 또는 버튼)로 복구할 수 있습니다.`,
-      )
-    }
-    if (selected != null && selected >= res.turns.length) {
-      setSelected(res.turns.length ? res.turns.length - 1 : null)
-    }
   }
   // endregion
 
   const setTurn = (i: number, next: Turn) => setTurns(turns.map((t, idx) => (idx === i ? next : t)))
 
-  // region 전환 앵커 — 에디터의 줄 좌표(발언, 덩어리)를 imageChanges 로 잇는다
-  const addAnchor = ({ turn, chunk }: AnchorPos) => {
-    const t = turns[turn]
-    if (!t) return
-    const list = t.imageChanges ?? []
-    if (!list.some(c => c.chunk === chunk)) {
-      const next = [...list, { chunk, image: '' }].sort((a, b) => a.chunk - b.chunk)
-      setTurn(turn, { ...t, imageChanges: next })
-    }
-    setSelected(turn) // 사진 지정은 오른쪽 세부 패널의 덩어리 목록에서
+  const markStale = (i: number) =>
+    setStaleTurns(prev => (prev.includes(i + 1) ? prev : [...prev, i + 1].sort((a, b) => a - b)))
+
+  /** 발언 추가 — 마지막 발언과 같은 사람이 이어 말하는 것으로 시작한다 */
+  const addTurn = () => {
+    pushUndo()
+    const last = turns[turns.length - 1]
+    const next: Turn = { cast: last?.cast ?? 0, kind: 'monologue', text: '', chunks: [''] }
+    setTurns([...turns, next])
+    setSelected(turns.length)
   }
 
-  const removeAnchor = ({ turn, chunk }: AnchorPos) => {
-    const t = turns[turn]
-    if (!t) return
-    const next = (t.imageChanges ?? []).filter(c => c.chunk !== chunk)
-    setTurn(turn, { ...t, imageChanges: next.length ? next : undefined })
+  const deleteTurn = (i: number) => {
+    const t = turns[i]
+    const rich = !!(t?.image || t?.imageChanges?.length || t?.duration != null || t?.origin)
+    if (rich && !confirm(`${i + 1}번 발언에는 사진·음성 설정이 붙어 있습니다. 지울까요?\n(되돌리기로 복구할 수 있습니다)`)) return
+    pushUndo()
+    setTurns(turns.filter((_, idx) => idx !== i))
+    setSelected(null)
   }
 
-  const moveAnchor = (from: AnchorPos, to: AnchorPos) => {
-    const src = turns[from.turn]
-    const entry = src?.imageChanges?.find(c => c.chunk === from.chunk)
-    if (!src || !entry) return
-    if (from.turn === to.turn) {
-      // 같은 발언 안 — 목적지에 이미 있으면 자리를 맞바꾼다(팩션과 동일)
-      const list = (src.imageChanges ?? []).map(c => {
-        if (c.chunk === from.chunk) return { ...c, chunk: to.chunk }
-        if (c.chunk === to.chunk) return { ...c, chunk: from.chunk }
-        return c
-      }).sort((a, b) => a.chunk - b.chunk)
-      setTurn(from.turn, { ...src, imageChanges: list })
-      return
-    }
-    // 다른 발언으로 — 원래 자리에서 빼고, 목적지의 같은 자리는 덮어쓴다
+  /** 자리 옮기기 — 음원은 자리 기준이라 옮기면 소리가 밀린다(배너가 잡아 준다) */
+  const moveTurn = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= turns.length) return
+    pushUndo()
     const next = [...turns]
-    const srcList = (src.imageChanges ?? []).filter(c => c.chunk !== from.chunk)
-    next[from.turn] = { ...src, imageChanges: srcList.length ? srcList : undefined }
-    const dst = next[to.turn]
-    if (!dst) return
-    const dstList = [...(dst.imageChanges ?? []).filter(c => c.chunk !== to.chunk), { ...entry, chunk: to.chunk }]
-      .sort((a, b) => a.chunk - b.chunk)
-    next[to.turn] = { ...dst, imageChanges: dstList }
+    const tmp = next[i]
+    next[i] = next[j]
+    next[j] = tmp
     setTurns(next)
+    setSelected(j)
   }
-  // endregion
 
   return (
     <div className="space-y-3">
@@ -195,36 +116,25 @@ export function DiscourseScriptTab({
         onReload={reloadVoices}
       />
 
-      {/* 안내 + 되돌리기 */}
       <div className="flex flex-wrap items-center gap-2">
         <p className="text-[11px] text-text-dim">
-          엔터로 덩어리(자막·사진 단위)를, 빈 줄로 발언을 나눕니다. 발언 첫 줄의 칩으로 화자를 바꾸고,
-          커서 줄의 「＋ 전환」으로 사진이 넘어가는 지점을 겁니다. 세부(사진·음성·출처)는 오른쪽 패널에서.
+          엔터로 덩어리(자막·사진 단위)를 나눕니다. 커서 줄의 「＋ 전환」을 누르면 사진 고르는 창이 바로 뜨고,
+          사진이 떠 있는 구간은 오른쪽 카드와 같은 색으로 칠해집니다.
         </p>
         {undoStack.length > 0 && (
           <button
             onClick={undo}
             className="ms-auto shrink-0 rounded border border-border bg-bg-card px-2 py-0.5 text-[11px] font-semibold text-text-secondary hover:border-accent hover:text-accent"
-            title="발언 수가 바뀌기 직전 상태로 돌아갑니다"
+            title="발언을 더하거나 지우거나 옮기기 직전으로 돌아갑니다"
           >
-            되돌리기 (Ctrl+Z · {undoStack.length})
+            되돌리기 ({undoStack.length})
           </button>
         )}
       </div>
 
       {!cast.length && (
         <p className="rounded-lg border border-dashed border-border p-3 text-center text-xs text-text-dim">
-          아직 인물이 없습니다 — 「인물」 탭에서 인물을 먼저 넣으면 화자를 배정할 수 있습니다.
-        </p>
-      )}
-
-      {/* 발언 소멸 안내 — confirm 대신 배너 + undo */}
-      {dropNotice && (
-        <p className="flex items-center gap-2 rounded-lg border border-warning-text/40 bg-warning/15 p-2 text-[11px] font-semibold text-warning-text">
-          <span>{dropNotice}</span>
-          <button onClick={() => setDropNotice(null)} className="ms-auto rounded p-0.5 hover:bg-warning/25" title="이 안내를 닫습니다">
-            <X size={12} />
-          </button>
+          아직 인물이 없습니다 — 「인물」 탭에서 인물을 먼저 넣으면 말하는 사람을 고를 수 있습니다.
         </p>
       )}
 
@@ -238,43 +148,51 @@ export function DiscourseScriptTab({
         </p>
       )}
 
-      <div className="flex flex-col gap-3 xl:flex-row xl:items-start">
-        {/* 원고 — 연속 에디터 */}
-        <div className="min-w-0 flex-1 space-y-3">
-          <ManuscriptEditor
-            value={editorText}
-            onChange={handleText}
-            turns={turns}
-            cast={cast}
-            onSetCast={(ti, ci) => { const t = turns[ti]; if (t) setTurn(ti, { ...t, cast: ci }) }}
-            onAddAnchor={addAnchor}
-            onRemoveAnchor={removeAnchor}
-            onMoveAnchor={moveAnchor}
-            onCursorTurn={ti => { if (ti != null) setSelected(ti) }}
-            placeholder={'여기에 대본을 씁니다.\n\n엔터 = 덩어리 나눔(자막이 뜨는 단위), 빈 줄 = 발언 나눔.'}
-          />
-
-          {/* 롱폼 배치 — 편 경계·장 표지 */}
-          <DiscourseLongformPanel script={script} update={update} editLang={editLang} />
-        </div>
-
-        {/* 세부 패널 — 커서가 놓인 발언의 종류·대상·편·사진·음성·출처 */}
-        {selectedTurn && selected != null && (
-          <div className="w-full shrink-0 xl:sticky xl:top-4 xl:max-h-[calc(100vh-2rem)] xl:w-[24rem] xl:overflow-y-auto">
-            <TurnDetailPanel
-              turn={selectedTurn}
-              index={selected}
+      {/*
+        발언 격자 — 한 발언이 두 칸(대사·사진)을 내놓아 한 행을 이룬다.
+        행 높이는 둘 중 깊은 쪽을 따르고 얕은 쪽엔 빈 자리가 남는다(items-start 로 위 맞춤).
+      */}
+      <div className="grid grid-cols-1 items-start gap-x-4 gap-y-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
+        {turns.map((turn, i) => {
+          const file = vnTurn(i, cast[turn.cast]?.slug)
+          return (
+            <TurnRow
+              key={i}
+              turn={turn}
+              index={i}
               cast={cast}
               series={series}
               episodeName={episodeName}
-              voiceFile={vnTurn(selected, cast[selectedTurn.cast]?.slug)}
-              voiceMeta={voiceFiles.find(f => f.file === vnTurn(selected, cast[selectedTurn.cast]?.slug))}
-              onChange={next => setTurn(selected, next)}
-              onClose={() => setSelected(null)}
+              editLang={editLang}
+              onChange={next => setTurn(i, next)}
+              onDelete={() => deleteTurn(i)}
+              onMoveUp={() => moveTurn(i, -1)}
+              onMoveDown={() => moveTurn(i, 1)}
+              voiceFile={file}
+              voiceMeta={voiceFiles.find(f => f.file === file)}
+              selected={selected === i}
+              onSelect={() => setSelected(i)}
+              onStale={() => markStale(i)}
             />
-          </div>
-        )}
+          )
+        })}
       </div>
+
+      <button
+        onClick={addTurn}
+        className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-border py-2.5 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-accent"
+      >
+        <Plus size={14} /> 발언 추가
+      </button>
+
+      {turns.length === 0 && (
+        <p className="rounded-lg border border-dashed border-border p-4 text-center text-xs text-text-dim">
+          아직 발언이 없습니다 — 「발언 추가」로 첫 대사를 넣으세요.
+        </p>
+      )}
+
+      {/* 롱폼 배치 — 편 경계·장 표지 */}
+      <DiscourseLongformPanel script={script} update={update} editLang={editLang} />
     </div>
   )
 }

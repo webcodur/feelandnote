@@ -1,19 +1,18 @@
 'use client'
 
 /**
- * 선택된 발언의 세부 패널 — 원고 탭 오른쪽에 붙는다.
+ * 선택된 발언의 세부 패널 — 원고 탭 오른쪽 기둥의 아랫단(사진 카드 아래)이다.
  *
- * 원고 화면은 글 흐름·경계에 집중하고, 사진·음성·출처·편 배정 같은 세부는 여기서 처리한다.
- * 폼 관례는 기존 「발언」 탭(TurnRow·ChunkEditor)을 그대로 따른다 — 같은 데이터를 다른 배치로 볼 뿐이다.
- * 경계 복원 실패 턴도 기존 chunks 배열을 그대로 기준 삼아 사진 배정이 된다(turnChunks 폴백).
+ * 원고 화면은 글 흐름·경계에, 사진 카드(TurnImageCards)는 화면에 걸리는 그림에 집중한다.
+ * 여기는 나머지 — 발언 종류·대상·쇼츠 편·연출 효과·실제 발언 원문·음성이다.
+ * 폼 관례는 기존 「발언」 탭(TurnRow)을 그대로 따른다 — 같은 데이터를 다른 배치로 볼 뿐이다.
  */
 
-import type { Speaker, Turn, DiscourseImageCrop, DiscourseTransition, DiscourseVoice, TurnKind } from '@/lib/discourse-types'
-import { Eye, EyeOff, ImageIcon, Trash2, X } from '@feelandnote/shared/bo/icons'
+import type { Speaker, Turn, DiscourseTransition, DiscourseVoice, TurnKind } from '@/lib/discourse-types'
+import { Eye, EyeOff, X } from '@feelandnote/shared/bo/icons'
 import { HOLD_MOTION_OPTIONS } from '@/components/discourses/shared/holdMotion'
 import { formatMmss } from '@feelandnote/shared/bo/editor'
-import { ImageSlot, DISCOURSE_IMAGE_DND } from '@feelandnote/shared/bo/media'
-import { imageSrc, turnChunks, turnSec } from '../../shared/timing'
+import { turnSec } from '../../shared/timing'
 import { castColorOf } from './CastColorBar'
 import { TurnStoryboard } from './TurnStoryboard'
 import { VoiceFields } from './VoiceFields'
@@ -30,7 +29,8 @@ type Props = {
   /** 디스크에 그 음원이 있으면 메타 — 미리듣기·길이 대조에 쓴다 */
   voiceMeta?: DiscourseVoiceMeta
   onChange: (next: Turn) => void
-  onClose: () => void
+  /** 넘기면 머리에 닫기 단추가 붙는다 — 사진 열 안에서는 묶음 머리의 「설정」이 그 역할을 한다 */
+  onClose?: () => void
 }
 
 const orUndef = (v: string) => (v.trim() ? v : undefined)
@@ -66,30 +66,6 @@ export function TurnDetailPanel({
   const color = castColorOf(speaker, turn.cast)
   const set = (patch: Partial<Turn>) => onChange({ ...turn, ...patch })
 
-  // 사진 배정 기준 덩어리 — chunks 가 없으면(경계 미지정) 대사 전체가 한 덩어리
-  const chunks = turnChunks(turn)
-  const changes = turn.imageChanges ?? []
-  const changeAt = new Map(changes.map(c => [c.chunk, c]))
-
-  // region 덩어리별 사진 교체 — ChunkEditor 와 같은 규칙
-  const setChange = (chunk: number, image: string) => {
-    const rest = changes.filter(c => c.chunk !== chunk)
-    const next = image.trim()
-      ? [...rest, { ...changeAt.get(chunk), chunk, image: image.trim() }]
-      : rest
-    next.sort((a, b) => a.chunk - b.chunk)
-    onChange({ ...turn, imageChanges: next.length ? next : undefined })
-  }
-
-  const setCrop = (chunk: number, crop: DiscourseImageCrop | undefined) => {
-    const next = changes.map(c => (c.chunk === chunk ? { ...c, crop } : c))
-    onChange({ ...turn, imageChanges: next.length ? next : undefined })
-  }
-
-  // 덩어리가 줄었는데 남은 사진 교체 — 렌더가 없는 지점을 가리킨다
-  const orphan = changes.filter(c => c.chunk >= chunks.length)
-  // endregion
-
   return (
     <div className="space-y-3 rounded-lg border border-border bg-bg-card p-3" style={{ borderInlineStartWidth: 4, borderInlineStartColor: color }}>
       {/* 머리 — 누구의 몇 번째 발언인가 */}
@@ -109,9 +85,11 @@ export function TurnDetailPanel({
         >
           {turn.disabled ? <Eye size={14} /> : <EyeOff size={14} />}
         </button>
-        <button onClick={onClose} className="rounded p-1 text-text-secondary hover:bg-bg-hover hover:text-accent" title="세부 패널 닫기">
-          <X size={14} />
-        </button>
+        {onClose && (
+          <button onClick={onClose} className="rounded p-1 text-text-secondary hover:bg-bg-hover hover:text-accent" title="세부 패널 닫기">
+            <X size={14} />
+          </button>
+        )}
       </div>
 
       {/* 종류 · 대상 · 쇼츠 편 */}
@@ -184,123 +162,9 @@ export function TurnDetailPanel({
         </span>
       </div>
 
-      {/* 시작 사진 */}
-      <div className="flex items-start gap-2">
-        <label className="mt-1 w-20 shrink-0 text-xs text-text-dim">시작 사진 -</label>
-        <ImageSlot
-          dnd={DISCOURSE_IMAGE_DND}
-          captionArea
-          value={turn.image}
-          onChange={v => set({ image: v })}
-          crop={turn.imageCrop}
-          onCropChange={c => set({ imageCrop: c })}
-          series={series}
-          episodeName={episodeName}
-          size={72}
-          inheritedSrc={!turn.image ? imageSrc(series, episodeName, speaker?.image) : undefined}
-          emptyText={speaker?.image ? '인물 소개 사진' : undefined}
-          pickerTitle="이 발언의 시작 사진"
-        />
-        <div className="min-w-0 flex-1 space-y-1 pt-1">
-          <input
-            value={turn.image ?? ''}
-            placeholder={speaker?.image ? `비우면 인물 소개 사진 (${speaker.image})` : 'cast/elon-musk/03.png'}
-            onChange={e => set({ image: orUndef(e.target.value) })}
-            className="w-full rounded-md border border-border bg-bg-card px-2 py-1.5 font-mono text-[11px] focus:border-accent focus:outline-none"
-          />
-          <p className="text-[10px] text-text-dim">사진 목록에서 끌어다 놓아도 됩니다.</p>
-        </div>
-      </div>
-
-      {/* 덩어리별 사진 교체 — 자막 미리보기와 나란히 */}
-      <div className="space-y-1 rounded-md border border-border bg-bg-main/40 p-2">
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-text-secondary">
-          <ImageIcon size={12} /> 사진이 넘어가는 지점
-        </div>
-        <p className="text-[10px] text-text-dim">
-          덩어리마다 사진을 걸면 그 덩어리부터 사진이 바뀝니다. 1번(발언 시작)은 시작 사진 자리 — 여기 걸면 시작 사진을 대신합니다.
-        </p>
-        {chunks.map((c, ci) => {
-          const ch = changeAt.get(ci)
-          return (
-            <div key={ci} className="flex items-start gap-2 rounded border border-transparent px-1 py-1 hover:border-border">
-              <span className="mt-1 w-4 shrink-0 text-center font-mono text-[10px] text-text-dim">{ci + 1}</span>
-              <ImageSlot
-                dnd={DISCOURSE_IMAGE_DND}
-                captionArea
-                value={ch?.image}
-                onChange={v => setChange(ci, v ?? '')}
-                crop={ch?.crop}
-                onCropChange={cr => setCrop(ci, cr)}
-                series={series}
-                episodeName={episodeName}
-                size={44}
-                pickerTitle={ci === 0 ? '발언 시작부터 쓸 사진' : `${ci + 1}번째 덩어리부터 바뀔 사진`}
-              />
-              <div className="min-w-0 flex-1 space-y-1">
-                <p className="line-clamp-2 text-[11px] leading-snug text-text-secondary" title={c}>{c}</p>
-                <input
-                  value={ch?.image ?? ''}
-                  placeholder={ci === 0 ? '비우면 발언 시작 사진' : '이 덩어리에서 바꿀 사진'}
-                  onChange={e => setChange(ci, e.target.value)}
-                  className={`w-full rounded border bg-bg-card px-2 py-1 font-mono text-[10px] focus:border-accent focus:outline-none ${
-                    ch ? 'border-accent/60' : 'border-border'
-                  }`}
-                />
-              </div>
-              {ch && (
-                <button onClick={() => setChange(ci, '')} className="mt-1 shrink-0 rounded p-0.5 text-danger-text hover:bg-danger/20" title="이 지점의 사진 교체를 없앱니다">
-                  <Trash2 size={12} />
-                </button>
-              )}
-            </div>
-          )
-        })}
-        {chunks.length === 0 && (
-          <p className="px-1 text-[11px] text-text-dim">대사가 비어 있어 배정할 덩어리가 없습니다.</p>
-        )}
-        {orphan.length > 0 && (
-          <p className="text-[11px] font-semibold text-warning-text">
-            없는 덩어리에 사진이 걸려 있습니다 — {orphan.map(o => `${o.chunk + 1}번`).join(', ')}.
-            <button
-              onClick={() => {
-                const kept = changes.filter(c => c.chunk < chunks.length)
-                onChange({ ...turn, imageChanges: kept.length ? kept : undefined })
-              }}
-              className="ms-1.5 rounded border border-warning-text/50 px-1.5 py-0.5 hover:bg-warning/20"
-            >
-              지우기
-            </button>
-          </p>
-        )}
-      </div>
-
       {/* 콘티 — 이 발언 동안 화면에 걸리는 사진 흐름 */}
       <div className="overflow-hidden rounded-md border border-border">
         <TurnStoryboard turn={turn} speaker={speaker} series={series} episodeName={episodeName} />
-      </div>
-
-      {/* 실제 발언 원문 — 재구성분과 구분하는 신뢰 장치 */}
-      <div className="space-y-1.5 rounded-md border border-info-text/30 bg-info/15 p-2.5">
-        <div className="text-xs font-semibold text-info-text">실제 발언 원문 (있을 때만)</div>
-        <textarea
-          rows={2} value={turn.origin ?? ''}
-          placeholder="인물이 실제로 한 말 그대로. 재구성이면 비워 두세요"
-          onChange={e => set({ origin: orUndef(e.target.value) })}
-          className="w-full resize-y rounded-md border border-border bg-bg-card px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
-        />
-        <input
-          value={turn.originRef ?? ''}
-          placeholder="출처 — X, 2024-03-01 / 사기 진시황본기"
-          onChange={e => set({ originRef: orUndef(e.target.value) })}
-          className="w-full rounded-md border border-border bg-bg-card px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
-        />
-        <p className="text-[11px] leading-relaxed text-info-text">
-          화면에서 큰따옴표 안은 인물이 실제로 한 말입니다. 재구성 대사에는 따옴표를 쓰지 않습니다.
-          {turn.origin && !turn.originRef && (
-            <span className="font-bold"> · 지금 원문만 있고 출처가 없습니다.</span>
-          )}
-        </p>
       </div>
 
       {/* 음성 — 길이·배속·음량과 미리듣기 */}

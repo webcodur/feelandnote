@@ -23,7 +23,8 @@ import type { DiscourseScript, Speaker, Turn } from '@/lib/discourse-types'
 import {
   type DiscourseEditTab, DISCOURSE_TAB_SEGMENT, folderToParam,
 } from '@/lib/discourse-edit-route'
-import { Eye, Film } from '@feelandnote/shared/bo/icons'
+import { Eye, Film, ImageIcon } from '@feelandnote/shared/bo/icons'
+import { useImagePoolToggle } from '@/lib/useImagePoolToggle'
 import {
   EditLangSwitch, FloatingSaveButton, formatMmss, useEpisodeEditor, type EditLang,
 } from '@feelandnote/shared/bo/editor'
@@ -32,6 +33,7 @@ import { DiscourseInfoTab } from './DiscourseEditor/DiscourseInfoTab'
 import { DiscourseScriptTab } from './DiscourseEditor/DiscourseScriptTab'
 import { DiscourseLinesPanel } from './DiscourseEditor/DiscourseLinesPanel'
 import { SourceMonologuePanel } from './DiscourseEditor/SourceMonologuePanel'
+import { TurnOriginPanel } from './DiscourseEditor/TurnOriginPanel'
 import { DiscoursePreview } from './DiscourseEditor/DiscoursePreview'
 import { ImagePool, DISCOURSE_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { collectUsedImages, remapDiscourseImages } from './shared/imageUsage'
@@ -57,6 +59,9 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [showLines, setShowLines] = useState(false)
   const [showMonologue, setShowMonologue] = useState(false)
+  const [showOrigin, setShowOrigin] = useState(false)
+  // 사진 목록 — 진입 시 펼침 + Ctrl+Q 로 여닫는다(팩션과 같은 조작)
+  const { open: showPool, setOpen: setShowPool } = useImagePoolToggle()
 
   /**
    * 저장이 통째로 실어 보낼 최신 대본.
@@ -222,11 +227,27 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
               <Eye size={15} /> {showPreview ? '편집' : '미리보기'}
             </button>
             <button
+              onClick={() => setShowPool(v => !v)}
+              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
+                showPool ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
+              }`}
+              title="사진 목록 — 폴더별로 조망하고 끌어다 놓습니다 · Ctrl+Q"
+            >
+              <ImageIcon size={15} /> 사진 목록
+            </button>
+            <button
               onClick={() => setShowLines(true)}
               title="인물을 번호로, 발언을 순서대로 펼쳐 뽑아냅니다 — 밖에서 대사 손보기 편하게"
               className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
             >
               대사 뽑기
+            </button>
+            <button
+              onClick={() => setShowOrigin(true)}
+              title="인물이 실제로 한 말과 그 출처를 한 화면에서 정리합니다 — 발언마다 흩어 두지 않습니다"
+              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
+            >
+              발언 원문
             </button>
             <button
               onClick={() => setShowMonologue(true)}
@@ -284,8 +305,8 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
           )}
         </div>
 
-        {!showPreview && (
-          <aside className="w-full shrink-0 rounded-lg border border-border bg-bg-card/40 p-3 xl:sticky xl:top-4 xl:max-h-[calc(100vh-2rem)] xl:w-[30rem] xl:overflow-y-auto">
+        {!showPreview && showPool && (
+          <aside className="w-full shrink-0 rounded-lg border border-border bg-bg-card/40 p-3 xl:sticky xl:top-4 xl:max-h-[calc(100vh-2rem)] xl:w-[26rem] xl:overflow-y-auto">
             <ImagePool
               series={series}
               episodeName={name}
@@ -306,6 +327,15 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
           turns={script.turns}
           editLang={editLang}
           onClose={() => setShowLines(false)}
+        />
+      )}
+
+      {showOrigin && (
+        <TurnOriginPanel
+          cast={script.cast}
+          turns={script.turns}
+          setTurn={(i, next) => setTurns(script.turns.map((t, idx) => (idx === i ? next : t)))}
+          onClose={() => setShowOrigin(false)}
         />
       )}
 

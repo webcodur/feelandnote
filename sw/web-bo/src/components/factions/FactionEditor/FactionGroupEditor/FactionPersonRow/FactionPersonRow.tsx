@@ -6,7 +6,9 @@ import type { FactionPerson, FactionImageCrop } from '@/lib/faction-types'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { factionVoiceFile, stripCommonEpithetVoice, withCommonEpithetVoice } from '@/lib/faction-voice'
 import { imageSrc, initial, factionStepsOf, applyFactionSteps, epithetIsNarrated, linesTypingOf } from '../../../shared/timing'
-import { MediaThumb, ImagePicker, useImageDrop, cropToStyle, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
+import {
+  ImageCard, ImagePicker, MediaThumb, useImageDrop, cropToStyle, ANCHOR_THEMES, FACTION_IMAGE_DND,
+} from '@feelandnote/shared/bo/media'
 import { AutoResizeTextarea } from '../../../shared/AutoResizeTextarea'
 import { FactionVoicePanel } from './FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionVoicePanel/voice-panel'
@@ -40,59 +42,8 @@ type Props = {
   celebLoaded: boolean
 }
 
-import { ImageChangeSlot } from './sections/ImageChangeSlot'
-import { FactionQuoteEditor } from './sections/FactionQuoteEditor'
+import { QuoteEditor, adjustImageChanges } from '@feelandnote/shared/bo/quote-editor'
 
-// 대사 구절 ↔ 사진 카드 색 묶음 — 담화 원고와 공유한다(lib/anchor-themes.ts)
-import { ANCHOR_THEMES } from '@/lib/anchor-themes'
-
-function adjustImageChanges<T extends { chunk: number }>(oldValue: string, newValue: string, imageChanges: T[]): T[] {
-  if (!imageChanges || imageChanges.length === 0) return imageChanges
-  
-  const oldChunks = oldValue.split('\n')
-  const newChunks = newValue.split('\n')
-  const diff = newChunks.length - oldChunks.length
-  
-  if (diff === 0) return imageChanges
-  
-  let startDiff = 0
-  while (startDiff < oldChunks.length && startDiff < newChunks.length && oldChunks[startDiff] === newChunks[startDiff]) {
-    startDiff++
-  }
-  
-  let oldEnd = oldChunks.length - 1
-  let newEnd = newChunks.length - 1
-  while (oldEnd >= startDiff && newEnd >= startDiff && oldChunks[oldEnd] === newChunks[newEnd]) {
-    oldEnd--
-    newEnd--
-  }
-  
-  const suffixStart = oldEnd + 1
-  
-  const adjusted = imageChanges.map(ic => {
-    let newChunk = ic.chunk
-    
-    if (ic.chunk >= suffixStart) {
-      newChunk = ic.chunk + diff
-    } else if (ic.chunk >= startDiff && ic.chunk <= oldEnd) {
-      if (diff > 0 && newChunks[ic.chunk] === '') {
-        newChunk = ic.chunk + diff
-      } else if (diff < 0) {
-        newChunk = startDiff
-      }
-    }
-    
-    newChunk = Math.max(0, Math.min(newChunk, newChunks.length - 1))
-    return { ...ic, chunk: newChunk }
-  })
-  
-  const seen = new Set<number>()
-  return adjusted.filter(ic => {
-    if (seen.has(ic.chunk)) return false
-    seen.add(ic.chunk)
-    return true
-  })
-}
 
 import { PersonBasicInfo } from './sections/PersonBasicInfo'
 import { ChevronLeft, ChevronRight } from '@feelandnote/shared/bo/icons'
@@ -121,8 +72,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const [epithetModalOpen, setEpithetModalOpen] = useState(false)
   // 이미지 풀에서 끌어온 이미지를 사진 칸에 놓으면 연결 — 드래그 중 하이라이트
   const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...person, image: path }))
-  // 대사 사진 칸도 동일하게 풀에서 끌어다 놓기 지원
-  const { dragOver: quoteImgDragOver, dropProps: quoteImgDropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...person, quoteImage: path }))
+  // 대사 사진 카드는 ImageCard 가 스스로 끌어다 놓기를 받는다(공용 부품)
   // imageChanges 항목별 이미지 선택 모달 — 편집 중 항목 인덱스(null=닫힘)
   const [imgChangeEdit, setImgChangeEdit] = useState<number | null>(null)
   // 대사 사진(quoteImage) 선택 모달 — 대사 시작 시점에 바뀔 두 번째 사진
@@ -450,7 +400,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                       )}
                     </span>
                     <div className="rounded-lg border border-border bg-bg-card shadow-inner p-1 h-full">
-                      <FactionQuoteEditor
+                      <QuoteEditor
                         placeholder="엔터를 치면 덩어리가 분리됩니다"
                         value={person.quoteChunks?.join('\n') ?? person.quote ?? ''}
                         onChange={(raw) => {
@@ -499,7 +449,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   <div className="flex-1 min-w-0 flex flex-col gap-0.5">
                     <span className="text-xs text-text-dim mb-1 font-bold pl-1">(영문)</span>
                     <div className="rounded-lg border border-border bg-bg-card/60 shadow-inner p-1 h-full">
-                      <FactionQuoteEditor
+                      <QuoteEditor
                         placeholder="EN 대사 (엔터로 분리)"
                         value={person.quoteEnChunks?.join('\n') ?? person.quoteEn ?? ''}
                         onChange={(raw) => {
@@ -517,95 +467,76 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               {/* 오른쪽: 이미지 앵커 수직 배열 (가로형 카드) */}
               <div className="flex flex-col gap-3 shrink-0 border-l border-border/50 pl-4 w-[296px]">
                 {/* #1 대사 사진 (기본) */}
-                <div className={`flex flex-row w-[280px] shrink-0 rounded border bg-bg-card shadow-sm overflow-hidden ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.border : 'border-border'}`}>
-                  <button type="button" onClick={e => { e.stopPropagation(); setQuoteImgPickerOpen(true) }} {...quoteImgDropProps}
-                    title="클릭: 사진 선택 · 풀에서 끌어다 놓기: 연결"
-                    className={`relative aspect-[4/3] w-28 shrink-0 flex items-center justify-center group bg-black/5 overflow-hidden border-r ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.border : 'border-border'} ${quoteImgDragOver ? 'border-accent ring-2 ring-accent' : ''}`}>
-                    {quoteImgSrc ? (
-                      <MediaThumb src={quoteImgSrc} alt="" className="h-full w-full object-cover" style={cropToStyle(person.quoteImageCrop)} />
-                    ) : src ? (
-                      <>
-                        <MediaThumb src={src} alt="" className="h-full w-full object-cover opacity-40 grayscale-[0.5]" style={cropToStyle(person.imageCrop)} />
-                        <span className="absolute text-[10px] text-white font-bold bg-black/60 px-1.5 py-0.5 rounded shadow-sm pointer-events-none text-center leading-tight">
-                          {quoteImgDragOver ? '놓기' : '상속'}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-[10px] text-text-dim">{quoteImgDragOver ? '놓기' : '사진 선택'}</span>
-                    )}
-                  </button>
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <div className={`flex items-center justify-between px-1.5 py-1 border-b ${hasQuoteImage ? `${attachedQuoteLines.get(0)?.theme?.badgeBg} ${attachedQuoteLines.get(0)?.theme?.border}` : 'bg-bg-hover border-border'}`}>
-                      <span className={`text-[10px] font-black ${hasQuoteImage ? attachedQuoteLines.get(0)?.theme?.badgeText : 'text-accent'}`}>#1 기본</span>
-                      <div className="flex items-center gap-1">
-                        {person.quoteImage && (
-                          <select
-                            value={person.quoteImageFilter ?? ''}
-                            onChange={e => onChange({ ...person, quoteImageFilter: e.target.value || undefined })}
-                            className="text-[9px] px-1 py-0.5 rounded border border-border bg-bg-main text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
-                            title="이미지 필터"
-                          >
-                            <option value="">원본</option>
-                            <option value="vintage">필름</option>
-                            <option value="sepia">세피아</option>
-                            <option value="grayscale">흑백</option>
-                            <option value="duotone">투톤</option>
-                            <option value="fade">페이드</option>
-                          </select>
-                        )}
-                        {person.quoteImage && (
-                          <button type="button" onClick={e => { e.stopPropagation(); onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined, quoteImageFilter: undefined }) }} className="text-text-dim hover:text-danger-text p-0.5">
-                            <Trash2 size={12} />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex flex-col p-1.5 bg-bg-main flex-1 justify-center gap-1">
-                      <div className="text-[10px] font-bold text-yellow-600 truncate px-1" title={person.quoteChunks?.[0] || person.quote || '대사 시작'}>
-                        &quot;{person.quoteChunks?.[0] || person.quote || '대사 시작'}&quot;
-                      </div>
-                      <div className="flex items-center gap-1 px-1 bg-bg-hover rounded py-0.5">
-                        <span className="text-[9px] text-text-dim truncate leading-none">대사 시작점 고정</span>
-                      </div>
-                    </div>
+                <ImageCard
+                  dnd={FACTION_IMAGE_DND}
+                  src={quoteImgSrc}
+                  crop={person.quoteImageCrop}
+                  inheritedSrc={src}
+                  inheritedCrop={person.imageCrop}
+                  inheritedLabel="상속"
+                  onDropImage={path => onChange({ ...person, quoteImage: path })}
+                  onOpenPicker={() => setQuoteImgPickerOpen(true)}
+                  label="#1 기본"
+                  theme={hasQuoteImage ? attachedQuoteLines.get(0)?.theme : undefined}
+                  filter={person.quoteImageFilter}
+                  onFilterChange={f => onChange({ ...person, quoteImageFilter: f })}
+                  onRemove={person.quoteImage ? () => onChange({ ...person, quoteImage: undefined, quoteImageCrop: undefined, quoteImageFilter: undefined }) : undefined}
+                  caption={person.quoteChunks?.[0] || person.quote || ''}
+                  captionEmpty="대사 시작"
+                >
+                  <div className="flex items-center gap-1 rounded bg-bg-hover px-1 py-0.5">
+                    <span className="truncate text-[9px] leading-none text-text-dim">대사 시작점 고정</span>
                   </div>
-                </div>
+                </ImageCard>
 
                 {/* 대사 중 사진 전환 */}
                 {[...(person.imageChanges ?? [])]
                   .map((ic, originalIdx) => ({ ic, originalIdx }))
                   .sort((a, b) => a.ic.chunk - b.ic.chunk)
-                  .map(({ ic, originalIdx }) => (
-                    <ImageChangeSlot
-                      key={originalIdx}
-                      ic={ic}
-                      theme={attachedQuoteLines.get(ic.chunk)?.theme}
-                      chunks={person.quoteChunks ?? []}
-                      chunkText={person.quoteChunks?.[ic.chunk]}
-                      onChunkChange={(chunk) => {
-                        const list = [...(person.imageChanges ?? [])]
-                        list[originalIdx] = { ...list[originalIdx], chunk }
-                        onChange({ ...person, imageChanges: list })
-                      }}
-                      onImageChange={(image) => {
-                        const list = [...(person.imageChanges ?? [])]
-                        list[originalIdx] = { ...list[originalIdx], image, crop: undefined }
-                        onChange({ ...person, imageChanges: list })
-                      }}
-                      onFilterChange={(filter) => {
-                        const list = [...(person.imageChanges ?? [])]
-                        list[originalIdx] = { ...list[originalIdx], filter }
-                        onChange({ ...person, imageChanges: list })
-                      }}
-                      onRemove={() => {
-                        const list = (person.imageChanges ?? []).filter((_, i) => i !== originalIdx)
-                        onChange({ ...person, imageChanges: list.length ? list : undefined })
-                      }}
-                      onOpenPicker={() => setImgChangeEdit(originalIdx)}
-                      series={series}
-                      episodeName={episodeName}
-                    />
-                  ))}
+                  .map(({ ic, originalIdx }) => {
+                    const setIc = (patch: Partial<typeof ic>) => {
+                      const list = [...(person.imageChanges ?? [])]
+                      list[originalIdx] = { ...list[originalIdx], ...patch }
+                      onChange({ ...person, imageChanges: list })
+                    }
+                    return (
+                      <ImageCard
+                        key={originalIdx}
+                        dnd={FACTION_IMAGE_DND}
+                        src={imageSrc(series, episodeName, ic.image)}
+                        crop={ic.crop}
+                        onDropImage={path => setIc({ image: path, crop: undefined })}
+                        onOpenPicker={() => setImgChangeEdit(originalIdx)}
+                        label={`#${ic.chunk + 1} 전환`}
+                        theme={attachedQuoteLines.get(ic.chunk)?.theme}
+                        filter={ic.filter}
+                        onFilterChange={filter => setIc({ filter })}
+                        onClearImage={() => setIc({ image: '' })}
+                        onRemove={() => {
+                          const list = (person.imageChanges ?? []).filter((_, i) => i !== originalIdx)
+                          onChange({ ...person, imageChanges: list.length ? list : undefined })
+                        }}
+                        caption={person.quoteChunks?.[ic.chunk] ?? ''}
+                        captionEmpty="빈 청크"
+                      >
+                        <div className="flex items-center rounded bg-bg-hover px-0.5 py-0.5">
+                          <select
+                            value={ic.chunk}
+                            onChange={e => setIc({ chunk: Number(e.target.value) })}
+                            onClick={e => e.stopPropagation()}
+                            className="w-full rounded border border-border bg-bg-main px-1 py-0.5 text-[10px] focus:border-accent focus:outline-none"
+                            title="이 대사 구절부터 왼쪽 사진으로 전환"
+                          >
+                            {(person.quoteChunks?.length ? person.quoteChunks : ['']).map((c, i) => (
+                              <option key={i} value={i}>
+                                [{i + 1}] {c.trim() ? (c.length > 8 ? `${c.slice(0, 8)}…` : c) : '(빈 줄)'}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </ImageCard>
+                    )
+                  })}
 
                 <button type="button"
                   onClick={e => { e.stopPropagation(); onChange({ ...person, imageChanges: [...(person.imageChanges ?? []), { chunk: maxChunk, image: '' }] }) }}
