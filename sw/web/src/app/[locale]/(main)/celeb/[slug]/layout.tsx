@@ -30,7 +30,7 @@ function buildSeoDescKo(
   if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
   const particle = subjectParticle(nickname);
   return parts.length > 0
-    ? `${professionLabel} ${nickname}${particle} 감상한 ${parts.join(", ")}`
+    ? `${professionLabel} ${nickname}${particle} 감상한\n${parts.join(", ")}`
     : `${professionLabel} ${nickname}의 감상 기록`;
 }
 
@@ -45,7 +45,7 @@ function buildSeoDescEn(
   if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
   if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
   return parts.length > 0
-    ? `${parts.join(", ")} enjoyed by ${professionLabel} ${nickname}`
+    ? `${parts.join(", ")}\nenjoyed by ${professionLabel} ${nickname}`
     : `${professionLabel} ${nickname}'s reading records`;
 }
 
