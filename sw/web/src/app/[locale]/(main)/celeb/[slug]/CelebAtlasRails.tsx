@@ -76,9 +76,17 @@ export function CelebAtlasNavigation({
       const target = spotIndex === PROFILE_SPOT
         ? profileRef.current
         : itemRefs.current[spotIndex] ?? null;
-      setSpotRect(
-        target ? { top: target.offsetTop, height: target.offsetHeight } : null,
-      );
+      if (!target) {
+        setSpotRect(null);
+        return;
+      }
+      // 화면 좌표로 빼서 잰다. 중간에 어떤 요소가 기준점을 잡고 있든 값이 어긋나지 않는다.
+      const scopeBox = scope.getBoundingClientRect();
+      const targetBox = target.getBoundingClientRect();
+      setSpotRect({
+        top: targetBox.top - scopeBox.top,
+        height: targetBox.height,
+      });
     };
 
     const observer = new ResizeObserver(measure);
