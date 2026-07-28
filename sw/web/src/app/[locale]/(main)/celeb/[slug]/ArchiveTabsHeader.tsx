@@ -53,7 +53,7 @@ export default function ArchiveTabsHeader<T extends string>({
               aria-controls={`archive-panel-${item.key}`}
               onClick={() => onChange(item.key)}
               className={cn(
-                "relative flex items-center justify-center px-1 text-center text-lg font-medium leading-none sm:h-16 sm:flex-row sm:gap-2.5 sm:px-2 sm:text-xl",
+                "relative flex items-center justify-center px-1 text-center text-xl font-medium leading-none sm:h-16 sm:flex-row sm:gap-2.5 sm:px-2 sm:text-[22px]",
                 isDense
                   ? "h-16 flex-col gap-1"
                   : "h-14 flex-row gap-1.5",

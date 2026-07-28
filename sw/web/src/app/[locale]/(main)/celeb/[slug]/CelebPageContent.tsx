@@ -79,6 +79,10 @@ const SECTION_CLASS_NAME =
    주의: 이 컴포넌트는 반드시 모듈 최상위에 둔다. 부모 함수 본문 안에서
    정의하면 부모가 리렌더될 때마다 새 컴포넌트 타입이 되어 내부 자식
    (서가·동시대 인물 등)이 통째로 언마운트→재마운트된다. */
+/* 탭 줄이 맨 위에 오는 상자는 위 여백을 없앤다. 상자 여백이 남으면 탭 글자가
+   자기 칸 안에서 아래로 밀려 보인다(탭 줄 밑선까지의 간격보다 위가 넓어진다). */
+const TAB_BOX_CLASS_NAME = "pt-0 md:pt-0";
+
 const SectionWrap = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
   <ClassicalBox
     hover={false}
@@ -468,7 +472,7 @@ export default function CelebPageContent({
       <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
         {renderSectionHeading("library")}
         {showLibrary ? (
-          <SectionWrap>
+          <SectionWrap className={TAB_BOX_CLASS_NAME}>
             <LibraryTabs
               userId={userId}
               nickname={nickname}
@@ -497,7 +501,7 @@ export default function CelebPageContent({
       {/* 인물과 시대 — 직접 관계·동시대 인물·세력도감을 한 장 안에서 연다 */}
       <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
         {renderSectionHeading("connections")}
-        <SectionWrap>
+        <SectionWrap className={TAB_BOX_CLASS_NAME}>
           <PeopleAndEraTabs
             item={serviceItemsByKey.get("connections")!}
             centerName={nickname}
@@ -514,7 +518,7 @@ export default function CelebPageContent({
       {/* 인물 지표 — 16축 지표와 영향력을 한 장 안에서 연다 */}
       <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
         {renderSectionHeading("analysis")}
-        <SectionWrap>
+        <SectionWrap className={TAB_BOX_CLASS_NAME}>
           <FigureAnalysisTabs
             item={serviceItemsByKey.get("analysis")!}
             personaData={personaData}
@@ -526,7 +530,7 @@ export default function CelebPageContent({
       {/* 미디어 — 이 인물의 독백·대사·영상을 한 장 안에서 연다 */}
       <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>
         {renderSectionHeading("media")}
-        <SectionWrap>
+        <SectionWrap className={TAB_BOX_CLASS_NAME}>
           <FigureMediaTabs
             item={serviceItemsByKey.get("media")!}
             monologueText={profile.virtual_monologue}
