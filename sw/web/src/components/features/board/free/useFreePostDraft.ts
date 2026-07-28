@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import type { FreePost } from '@/types/database'
 import { createFreePost, updateFreePost } from '@/actions/board/free'
@@ -47,6 +47,7 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
   const [anonymous, setAnonymous] = useState(initialData?.is_anonymous ?? false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const inFlightRef = useRef(false)
 
   // 기억해둔 필명을 기본값으로 채운다 — 새 글일 때만(수정은 그 글의 필명을 유지).
   // localStorage는 서버에 없으므로 초기값이 아니라 마운트 후에 읽어야 한다(하이드레이션 불일치 방지).
@@ -62,15 +63,22 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
   // 필명 입력칸 노출: 비로그인은 항상, 로그인은 익명 선택 시(계정 글은 프로필 닉네임을 쓴다)
   const nicknameVisible = mode === 'create' && (!isLoggedIn || anonymous)
 
+  // 작성기를 다시 쓸 수 있는 상태로 되돌린다.
+  // 제출 중 표시도 함께 내려야 한다 — 자리를 뜨지 않는 화면(홈)은 이 훅이 그대로 살아 있어서
+  // 여기서 안 내리면 다음에 열었을 때 버튼이 "저장 중"에 잠긴 채로 남는다
   const reset = () => {
     setTitle('')
     setContent('')
     setPassword('')
     setAnonymous(false)
     setError(null)
+    inFlightRef.current = false
+    setIsSubmitting(false)
   }
 
   const submit = async () => {
+    // 연타로 두 번 등록되는 것을 막는다. 화면 표시용 상태는 그리기가 한 박자 늦어 가드로 못 쓴다
+    if (inFlightRef.current) return
     setError(null)
 
     if (passwordRequired && !/^[0-9]{4}$/.test(password)) {
@@ -78,29 +86,40 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
       return
     }
 
+    inFlightRef.current = true
     setIsSubmitting(true)
     const trimmedNickname = nickname.trim() || undefined
-    const result =
-      mode === 'create'
-        ? await createFreePost(
-            isLoggedIn
-              ? { title, content, anonymous, nickname: anonymous ? trimmedNickname : undefined }
-              : { title, content, nickname: trimmedNickname, password },
-          )
-        : await updateFreePost(
-            needsPassword
-              ? { id: initialData!.id, title, content, password }
-              : { id: initialData!.id, title, content },
-          )
 
-    if (result.success) {
-      if (nicknameVisible) rememberNickname(nickname)
-      onSuccess(result.data)
-      return
+    try {
+      const result =
+        mode === 'create'
+          ? await createFreePost(
+              isLoggedIn
+                ? { title, content, anonymous, nickname: anonymous ? trimmedNickname : undefined }
+                : { title, content, nickname: trimmedNickname, password },
+            )
+          : await updateFreePost(
+              needsPassword
+                ? { id: initialData!.id, title, content, password }
+                : { id: initialData!.id, title, content },
+            )
+
+      if (result.success) {
+        if (nicknameVisible) rememberNickname(nickname)
+        onSuccess(result.data)
+        return
+      }
+
+      setError(tError(result.error))
+    } catch {
+      // 서버까지 못 갔거나 응답이 깨진 경우. 여기서 잡지 않으면 버튼이 "저장 중"에 영영 잠긴다
+      setError(tError('UNKNOWN_ERROR'))
+    } finally {
+      // 성공·실패·중단 어느 쪽이든 반드시 푼다.
+      // 성공 뒤 다른 화면으로 넘어가는 경우에도 되돌아왔을 때 잠겨 있지 않도록 한다
+      inFlightRef.current = false
+      setIsSubmitting(false)
     }
-
-    setError(tError(result.error))
-    setIsSubmitting(false)
   }
 
   return {

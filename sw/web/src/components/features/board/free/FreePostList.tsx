@@ -8,6 +8,7 @@ import { Pagination } from '@/components/ui'
 import type { FreePost } from '@/types/database'
 import FreePostItem from './FreePostItem'
 import FreePostComposer from './FreePostComposer'
+import { useReadPosts } from './useReadPosts'
 
 interface FreePostListProps {
   posts: FreePost[]
@@ -21,6 +22,8 @@ export default function FreePostList({ posts, currentPage, totalPages, isLoggedI
   const router = useRouter()
   const searchParams = useSearchParams()
   const t = useTranslations('board')
+  // 이미 열어본 글은 "새 글" 딱지를 뗀다
+  const { readIds, markRead } = useReadPosts(posts.map((p) => p.id))
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -52,7 +55,12 @@ export default function FreePostList({ posts, currentPage, totalPages, isLoggedI
         <>
           <div className="space-y-3">
             {posts.map((post) => (
-              <FreePostItem key={post.id} post={post} />
+              <FreePostItem
+                key={post.id}
+                post={post}
+                unread={!readIds.has(post.id)}
+                onOpen={() => markRead(post.id)}
+              />
             ))}
           </div>
 

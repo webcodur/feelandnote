@@ -134,6 +134,7 @@
     },
     "free": {
       "write": "New Post",
+      "writePlaceholder": "What do you want to share?",
       "viewAll": "View all",
       "emptyTitle": "No posts yet",
       "emptySubtitle": "Be the first to start a conversation",

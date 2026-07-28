@@ -9,25 +9,30 @@ import { ko } from 'date-fns/locale'
 import { formatKST } from '@/lib/utils/date'
 import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
-import { getFreeComments, deleteFreePost, incrementFreePostView } from '@/actions/board/free'
+import { getFreePosts, getFreeComments, deleteFreePost, incrementFreePostView } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { shouldCountView } from '@/lib/board/viewDedup'
 import FreeAvatar from '@/components/features/board/free/FreeAvatar'
 import FreeCommentSection from '@/components/features/board/free/FreeCommentSection'
 import FreePostComposer from '@/components/features/board/free/FreePostComposer'
 import PasswordPromptModal from '@/components/features/board/free/PasswordPromptModal'
+import { useReadPosts } from '@/components/features/board/free/useReadPosts'
+import LoadMoreButton from '@/components/ui/LoadMoreButton'
 
 interface HomeFreeBoardListProps {
   posts: FreePost[]
+  initialHasMore: boolean
   currentUserId?: string
   isAdmin?: boolean
   isLoggedIn: boolean
 }
 
 const isNew = (dateStr: string) => Date.now() - new Date(dateStr).getTime() < 24 * 60 * 60 * 1000
+const ITEMS_PER_PAGE = 20
 
 export default function HomeFreeBoardList({
   posts: initialPosts,
+  initialHasMore,
   currentUserId,
   isAdmin = false,
   isLoggedIn,
@@ -35,8 +40,13 @@ export default function HomeFreeBoardList({
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
   const [posts, setPosts] = useState(initialPosts)
+  const [hasMore, setHasMore] = useState(initialHasMore)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  
   // 여러 글을 각각 독립적으로 펼친다 — 다른 글이 접히며 위치가 튀는 것을 막는다
   const [openIds, setOpenIds] = useState<Set<string>>(() => new Set())
+  // 이미 열어본 글은 "새 글" 딱지를 뗀다
+  const { readIds, markRead } = useReadPosts(posts.map((p) => p.id))
   const [commentsMap, setCommentsMap] = useState<Record<string, FreePostComment[]>>({})
   const [loadingId, setLoadingId] = useState<string | null>(null)
 
@@ -44,6 +54,23 @@ export default function HomeFreeBoardList({
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  const loadMore = async () => {
+    if (isLoadingMore || !hasMore) return
+    setIsLoadingMore(true)
+    try {
+      const { posts: newPosts, hasMore: newHasMore } = await getFreePosts({
+        limit: ITEMS_PER_PAGE,
+        offset: posts.length,
+      })
+      setPosts((prev) => [...prev, ...newPosts])
+      setHasMore(newHasMore)
+    } catch (error) {
+      console.error('Failed to load more posts', error)
+    } finally {
+      setIsLoadingMore(false)
+    }
+  }
 
   const toggle = async (post: FreePost) => {
     const isOpening = !openIds.has(post.id)
@@ -53,6 +80,7 @@ export default function HomeFreeBoardList({
       else next.add(post.id)
       return next
     })
+    if (isOpening) markRead(post.id)
     // 펼칠 때만 조회수를 올린다 (24시간 중복 방지, best-effort)
     if (isOpening && shouldCountView(post.id)) {
       void incrementFreePostView(post.id)
@@ -125,55 +153,73 @@ export default function HomeFreeBoardList({
             return (
               <div
                 key={post.id}
-                className={`rounded-lg bg-bg-card/60 border transition-colors duration-200 [overflow-anchor:none] ${
-                  isOpen ? 'border-accent/40' : 'border-accent-dim/20'
+                className={`group/card relative rounded-lg bg-bg-card border [overflow-anchor:none] transition-[border-color] duration-200 ${
+                  isOpen ? 'border-accent/40' : 'border-white/5'
                 }`}
               >
+                {/* 즉각 반응하는 왼쪽 강조 바 */}
+                <div
+                  className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-lg transition-none ${
+                    isOpen ? 'bg-accent/40' : 'bg-transparent group-hover/card:bg-accent/50'
+                  }`}
+                />
+
                 {/* 헤더 (클릭 → 아코디언) */}
                 <button
                   onClick={() => toggle(post)}
-                  className="group w-full text-left p-4 flex items-start gap-3 hover:bg-white/[0.03] rounded-lg"
+                  className={`group w-full text-left p-4 sm:p-5 flex items-start gap-4 hover:bg-white/[0.03] rounded-lg transition-none ${
+                    isOpen ? 'bg-white/[0.02]' : ''
+                  }`}
                   aria-expanded={isOpen}
                 >
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
-                      {post.title}
-                      {isNew(post.created_at) && (
-                        <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
+                    <h3 className="text-sm sm:text-base font-serif font-medium text-text-primary group-hover:text-accent flex items-center gap-2">
+                      <span className="truncate">{post.title}</span>
+                      {isNew(post.created_at) && !readIds.has(post.id) && (
+                        <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent text-bg-main">
                           N
                         </span>
                       )}
                     </h3>
-                    <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
-                      <div className="flex items-center gap-1.5">
-                        <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={20} />
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-2 text-xs text-text-tertiary">
+                      <div className="flex items-center gap-1.5 text-text-secondary">
+                        <FreeAvatar item={post} anonymousLabel={t('free.anonymous')} size={18} />
                         <span className="font-serif">{freeDisplayName(post, t('free.anonymous'))}</span>
                       </div>
-                      <span className="text-accent-dim/50">·</span>
-                      <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
-                      <span className="text-accent-dim/30">
-                        ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
-                      </span>
-                      <span className="text-accent-dim/50">·</span>
-                      <span className="flex items-center gap-1">
-                        <Eye size={12} className="text-accent-dim" />
-                        {post.view_count}
-                      </span>
-                      {(post.comment_count ?? 0) > 0 && (
-                        <>
-                          <span className="text-accent-dim/50">·</span>
+                      <span className="text-accent-dim/30 hidden sm:inline">·</span>
+                      <div className="flex items-center gap-1.5">
+                        <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
+                        <span className="text-text-tertiary/60">
+                          ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
+                        </span>
+                      </div>
+                      <span className="text-accent-dim/30 hidden sm:inline">·</span>
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center gap-1">
+                          <Eye size={13} className="text-accent-dim/70" />
+                          {post.view_count}
+                        </span>
+                        {(post.comment_count ?? 0) > 0 && (
                           <span className="flex items-center gap-1">
-                            <MessageSquare size={12} className="text-accent-dim" />
+                            <MessageSquare size={13} className="text-accent-dim/70" />
                             {post.comment_count}
                           </span>
-                        </>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <ChevronDown
-                    size={18}
-                    className={`text-text-tertiary shrink-0 mt-0.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                  />
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                      isOpen
+                        ? 'bg-accent/10 text-accent'
+                        : 'bg-white/5 text-text-tertiary group-hover:bg-accent/10 group-hover:text-accent'
+                    }`}
+                  >
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    />
+                  </div>
                 </button>
 
                 {/* 펼침 내용 */}
@@ -187,20 +233,18 @@ export default function HomeFreeBoardList({
                     {/* 수정·삭제 */}
                     {canManage(post) && (
                       <div className="flex items-center justify-end gap-2 mt-4">
-                        <Link href={`/agora/board/free/${post.id}/edit`}>
-                          <Button size="sm" className="font-serif">
-                            <Edit3 size={14} />
-                            {t('edit')}
-                          </Button>
+                        <Link href={`/agora/board/free/${post.id}/edit`} title={t('edit')}>
+                          <button className="w-8 h-8 rounded-full flex items-center justify-center text-text-secondary hover:text-accent hover:bg-accent/10 transition-colors">
+                            <Edit3 size={15} />
+                          </button>
                         </Link>
-                        <Button
-                          size="sm"
+                        <button
                           onClick={() => handleDeleteClick(post)}
-                          className="text-red-400 hover:text-red-400 hover:border-red-400/50 hover:bg-red-400/10 font-serif"
+                          title={t('delete')}
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-text-secondary hover:text-red-400 hover:bg-red-400/10 transition-colors"
                         >
-                          <Trash2 size={14} />
-                          {t('delete')}
-                        </Button>
+                          <Trash2 size={15} />
+                        </button>
                       </div>
                     )}
 
@@ -225,6 +269,14 @@ export default function HomeFreeBoardList({
               </div>
             )
           })}
+
+          <div className="pt-4">
+            <LoadMoreButton
+              hasMore={hasMore}
+              isLoading={isLoadingMore}
+              onClick={loadMore}
+            />
+          </div>
         </div>
       )}
 

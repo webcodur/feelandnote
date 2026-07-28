@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { Plus, X } from 'lucide-react'
+import { Plus, X, Send, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui'
 import type { FreePost } from '@/types/database'
 import { useFreePostDraft } from './useFreePostDraft'
@@ -51,12 +51,20 @@ export default function FreePostComposer({ isLoggedIn, stayOnPage = false, onCre
 
   if (!isOpen) {
     return (
-      <div className="flex justify-end">
-        <Button size="sm" className="gap-2" onClick={() => setIsOpen(true)}>
-          <Plus size={16} />
-          <span className="font-serif">{t('free.write')}</span>
-        </Button>
-      </div>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="w-full flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-bg-card/40 border border-white/5 hover:bg-white/[0.03] transition-colors group text-left"
+      >
+        <div className="flex-1 text-sm text-text-tertiary px-2 font-serif">
+          {t('free.writePlaceholder')}
+        </div>
+        <div
+          title={t('free.write')}
+          className="w-10 h-10 rounded-full bg-accent/10 text-accent group-hover:bg-accent group-hover:text-bg-main flex items-center justify-center transition-colors shrink-0"
+        >
+          <Plus size={20} />
+        </div>
+      </button>
     )
   }
 
@@ -77,13 +85,15 @@ export default function FreePostComposer({ isLoggedIn, stayOnPage = false, onCre
       <form onSubmit={handleSubmit} className="space-y-4">
         <FreePostFields draft={draft} isLoggedIn={isLoggedIn} mode="create" compact />
 
-        <div className="flex justify-end gap-3">
-          <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
-            {t('cancel')}
-          </Button>
-          <Button type="submit" disabled={draft.isSubmitting}>
-            {draft.isSubmitting ? t('saving') : t('free.createSubmit')}
-          </Button>
+        <div className="flex justify-end gap-2">
+          <button
+            type="submit"
+            disabled={draft.isSubmitting}
+            title={draft.isSubmitting ? t('saving') : t('free.createSubmit')}
+            className="w-9 h-9 rounded-full bg-accent text-bg-main hover:bg-accent-hover flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {draft.isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} className="mr-0.5" />}
+          </button>
         </div>
       </form>
     </div>

@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { canMutateFree } from '@/lib/board/freeAuth'
-import { FREE_POST_COLS, FREE_BOARD_PATH } from '@/lib/board/freeBoard'
+import { FREE_POST_COLS, FREE_AUTHOR_JOIN, FREE_BOARD_PATH } from '@/lib/board/freeBoard'
 import type { FreePost } from '@/types/database'
 
 interface UpdateFreePostParams {
@@ -46,7 +46,7 @@ export async function updateFreePost(params: UpdateFreePostParams): Promise<Acti
     .from('free_posts')
     .update({ title: title.trim(), content: content.trim(), updated_at: new Date().toISOString() })
     .eq('id', id)
-    .select(FREE_POST_COLS)
+    .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`)
     .single()
 
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 수정]' })

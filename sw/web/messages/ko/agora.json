@@ -134,6 +134,7 @@
     },
     "free": {
       "write": "글쓰기",
+      "writePlaceholder": "무슨 이야기를 나누고 싶으신가요?",
       "viewAll": "전체 보기",
       "emptyTitle": "아직 글이 없습니다",
       "emptySubtitle": "가장 먼저 이야기를 남겨보세요",
