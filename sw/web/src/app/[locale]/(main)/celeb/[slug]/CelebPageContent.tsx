@@ -498,7 +498,9 @@ export default function CelebPageContent({
             />
           </SectionWrap>
         ) : (
-          <UnavailableSectionGuide item={serviceItemsByKey.get("library")!} />
+          <SectionWrap>
+            <UnavailableSectionGuide item={serviceItemsByKey.get("library")!} />
+          </SectionWrap>
         )}
       </section>
 
@@ -510,7 +512,9 @@ export default function CelebPageContent({
             <JourneySection events={timelineEvents} />
           </SectionWrap>
         ) : (
-          <UnavailableSectionGuide item={serviceItemsByKey.get("timeline")!} />
+          <SectionWrap>
+            <UnavailableSectionGuide item={serviceItemsByKey.get("timeline")!} />
+          </SectionWrap>
         )}
       </section>
 
