@@ -70,12 +70,12 @@ export default async function DirectoryPage() {
         <div className="flex flex-wrap gap-x-4 gap-y-2">
           {CELEB_PROFESSIONS.map((prof) => {
             const Icon = PROFESSION_ICONS[prof.value];
-            const color = PROFESSION_COLORS[prof.value] ?? "text-text-tertiary";
+            const color = PROFESSION_COLORS[prof.value] ?? "";
             if (!Icon) return null;
             return (
               <span key={prof.value} className="inline-flex items-center gap-1">
                 <Icon size={13} className={color} />
-                <span className="text-xs text-text-tertiary">
+                <span className="text-xs">
                   {locale === "en" ? prof.label_en : prof.label}
                 </span>
               </span>
@@ -120,7 +120,7 @@ export default async function DirectoryPage() {
                         className="group flex items-center gap-1.5 py-1 hover:text-accent transition-colors"
                       >
                         {ProfIcon && (
-                          <ProfIcon size={13} className={`${PROFESSION_COLORS[celeb.profession!] ?? "text-text-tertiary"} shrink-0`} />
+                          <ProfIcon size={13} className={`${PROFESSION_COLORS[celeb.profession!] ?? ""} shrink-0`} />
                         )}
                         <span className="text-sm text-text-primary group-hover:text-accent transition-colors">
                           {displayName}

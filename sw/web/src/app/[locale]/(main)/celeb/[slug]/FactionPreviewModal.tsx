@@ -103,7 +103,7 @@ export default function FactionPreviewModal({
           ref={closeButtonRef}
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 text-text-tertiary hover:border-white/25 hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="absolute right-3 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 hover:border-white/25 hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label={t("factionClose")}
         >
           <X size={18} />
@@ -142,7 +142,7 @@ export default function FactionPreviewModal({
 
         {teamImageSrc && (
           <section className="space-y-3 p-5 pb-0 sm:p-7 sm:pb-0">
-            <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em]">
               {t("factionGroupShots")}
             </h3>
             <div className="relative aspect-[16/9] overflow-hidden rounded-[2px] bg-[#090909] ring-1 ring-white/10">
@@ -222,7 +222,7 @@ export default function FactionPreviewModal({
 
             {description && (
               <section>
-                <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
+                <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">
                   {t("factionThemeIntro")}
                 </h3>
                 <p className="whitespace-pre-line text-sm leading-7 text-text-secondary">
@@ -233,7 +233,7 @@ export default function FactionPreviewModal({
 
             {(focusedIsCurrent ? roleShort || roleLong : focusedMember) && (
               <section className="border-l-2 pl-4" style={{ borderColor: tag.color }}>
-                <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
+                <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em]">
                   {t("factionRole")}
                 </h3>
 
@@ -278,10 +278,10 @@ export default function FactionPreviewModal({
           {members.length > 0 && (
             <section>
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">
+                <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em]">
                   {t("factionMembers")}
                 </h3>
-                <span className="font-mono text-[11px] text-text-tertiary">
+                <span className="font-mono text-[11px]">
                   {t("factionMemberCount", { count: members.length })}
                 </span>
               </div>
@@ -317,7 +317,7 @@ export default function FactionPreviewModal({
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         ) : (
-                          <span className="flex h-full w-full items-center justify-center font-serif text-sm text-text-tertiary">
+                          <span className="flex h-full w-full items-center justify-center font-serif text-sm">
                             {memberName.charAt(0)}
                           </span>
                         )}
@@ -326,7 +326,7 @@ export default function FactionPreviewModal({
                         {memberName}
                       </p>
                       {memberRole && (
-                        <p className="mt-1 line-clamp-2 text-[10px] leading-snug text-text-tertiary">
+                        <p className="mt-1 line-clamp-2 text-[10px] leading-snug">
                           {memberRole}
                         </p>
                       )}

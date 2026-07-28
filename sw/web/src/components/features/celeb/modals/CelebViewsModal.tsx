@@ -76,13 +76,13 @@ export default function CelebViewsModal({
         <div className="flex items-stretch gap-2">
           {typeof recentViews === "number" && (
             <div className="flex-1 flex flex-col items-center gap-1.5 py-4 rounded-md bg-white/[0.04] border border-white/10">
-              <span className="text-xs text-text-tertiary">{t("recentLabel")}</span>
+              <span className="text-xs">{t("recentLabel")}</span>
               <span className="text-2xl font-bold text-accent tabular-nums leading-none">{recentViews}</span>
             </div>
           )}
           {typeof totalViews === "number" && (
             <div className="flex-1 flex flex-col items-center gap-1.5 py-4 rounded-md bg-white/[0.04] border border-white/10">
-              <span className="text-xs text-text-tertiary">{t("totalLabel")}</span>
+              <span className="text-xs">{t("totalLabel")}</span>
               <span className="text-2xl font-bold text-text-primary tabular-nums leading-none">{totalViews}</span>
             </div>
           )}

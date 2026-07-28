@@ -17,7 +17,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
     <section className="space-y-8">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold text-accent">ContentCard - 슬롯 기반 통합 카드</h3>
-        <p className="text-xs text-text-tertiary">모든 기능을 on/off 조합하여 사용 가능</p>
+        <p className="text-xs">모든 기능을 on/off 조합하여 사용 가능</p>
       </div>
 
       {/* 슬롯 구조 설명 */}
@@ -56,7 +56,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 contentType="BOOK"
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary">
+            <div className="flex-1 text-xs">
               <code className="text-purple-400">{`<ContentCard title="..." creator="..." />`}</code>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 onStatsClick={(e) => { e.stopPropagation(); alert("통계 모달 열기"); }}
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary space-y-1">
+            <div className="flex-1 text-xs space-y-1">
               <code className="text-purple-400 block">{`contentId="..." // 인원 구성 뱃지 자동 조회`}</code>
               <code className="text-purple-400 block">{`rating={4.7}`}</code>
               <code className="text-purple-400 block">{`onStatsClick={...}`}</code>
@@ -112,7 +112,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 />
               </div>
             </div>
-            <div className="flex-1 text-xs text-text-tertiary space-y-1">
+            <div className="flex-1 text-xs space-y-1">
               <code className="text-purple-400 block">{`selectable`}</code>
               <code className="text-purple-400 block">{`isSelected={...}`}</code>
               <code className="text-purple-400 block">{`onSelect={() => ...}`}</code>
@@ -139,7 +139,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 }
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary space-y-1">
+            <div className="flex-1 text-xs space-y-1">
               <code className="text-purple-400 block">{`rating={4.8}`}</code>
               <code className="text-purple-400 block">{`topRightNode={<Button />}`}</code>
             </div>
@@ -159,7 +159,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 saved
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary">
+            <div className="flex-1 text-xs">
               <code className="text-purple-400">{`saved`}</code>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 userContentId="preview-demo"
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary space-y-1">
+            <div className="flex-1 text-xs space-y-1">
               <code className="text-purple-400 block">{`recommendable`}</code>
               <code className="text-purple-400 block">{`userContentId="..."`}</code>
             </div>
@@ -200,7 +200,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 rating={4.2}
               />
             </div>
-            <div className="flex-1 text-xs text-text-tertiary">
+            <div className="flex-1 text-xs">
               <code className="text-purple-400">{`aspectRatio="3/4"`}</code>
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 <th className="text-left py-2 px-2 text-text-secondary">설명</th>
               </tr>
             </thead>
-            <tbody className="text-text-tertiary">
+            <tbody className="">
               <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>selectable</code></td><td>boolean</td><td>좌상단</td><td>체크박스 모드</td></tr>
               <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>saved</code></td><td>boolean</td><td>좌상단</td><td>보관됨 뱃지</td></tr>
               <tr className="border-b border-white/5"><td className="py-1.5 px-2"><code>rating</code></td><td>number</td><td>우상단</td><td>별점 뱃지</td></tr>

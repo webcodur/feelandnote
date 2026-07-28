@@ -47,7 +47,7 @@ export default function ProfileBioSection({ profile, isOwner }: ProfileBioSectio
         <DecorativeLabel label={t("label")} />
         {isOwner && !isEditingBio && (
           <button onClick={() => setIsEditingBio(true)} className="absolute right-4 md:right-8 top-6 md:top-8 p-1.5 sm:p-2 text-text-secondary hover:text-accent hover:bg-accent/10 rounded-sm transition-colors" title={t("editTitle")}>
-            <Pencil size={14} className="sm:size-4" />
+            <Pencil size={14} className="size-4" />
           </button>
         )}
       </div>

@@ -82,7 +82,7 @@ export default function DetailView({
               </p>
             )}
             {character.description && (
-              <p className="mt-2 text-sm text-text-tertiary leading-relaxed">
+              <p className="mt-2 text-sm leading-relaxed">
                 {character.description}
               </p>
             )}
@@ -103,12 +103,12 @@ export default function DetailView({
             <p className="text-sm font-medium text-accent">{t("connectMode")}</p>
             <button
               onClick={onCancelConnecting}
-              className="text-text-tertiary hover:text-text-primary"
+              className="hover:text-text-primary"
             >
               <X className="size-4" />
             </button>
           </div>
-          <p className="text-xs text-text-tertiary">
+          <p className="text-xs">
             {t("connectPrompt")}
           </p>
         </div>
@@ -146,7 +146,7 @@ export default function DetailView({
 
         {relations.length === 0 ? (
           <div className="rounded-lg bg-white/5 p-6 text-center">
-            <p className="text-sm text-text-tertiary">{t("noRelations")}</p>
+            <p className="text-sm">{t("noRelations")}</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -170,13 +170,13 @@ export default function DetailView({
                     <p className="text-sm font-medium text-text-primary">
                       {rel.target!.names?.[0] || t("noName")}
                     </p>
-                    <p className="text-xs text-text-tertiary">{rel.type}</p>
+                    <p className="text-xs">{rel.type}</p>
                   </div>
-                  <ArrowRight className="size-4 text-text-tertiary group-hover:text-accent" />
+                  <ArrowRight className="size-4 group-hover:text-accent" />
                 </button>
                 <button
                   onClick={() => onDeleteRelation(character.id, rel.targetId, rel.type)}
-                  className="ml-2 rounded p-1 text-text-tertiary opacity-0 group-hover:opacity-100 hover:bg-red-500/10 hover:text-red-500"
+                  className="ml-2 rounded p-1 opacity-0 group-hover:opacity-100 hover:bg-red-500/10 hover:text-red-500"
                 >
                   <X className="size-4" />
                 </button>

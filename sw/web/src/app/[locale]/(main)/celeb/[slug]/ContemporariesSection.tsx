@@ -89,7 +89,7 @@ export default function ContemporariesSection({
               </span>
             )}
             {period && (
-              <span className="block font-mono text-[10px] leading-tight tracking-wide text-text-tertiary">
+              <span className="block font-mono text-[10px] leading-tight tracking-wide">
                 {period}
               </span>
             )}

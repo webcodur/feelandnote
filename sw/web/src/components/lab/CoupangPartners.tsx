@@ -138,21 +138,21 @@ export default function CoupangPartners() {
             placeholder="상품명"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent/50 focus:outline-none"
+            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder: focus:border-accent/50 focus:outline-none"
           />
           <input
             type="text"
             placeholder="쿠팡 파트너스 링크"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent/50 focus:outline-none"
+            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder: focus:border-accent/50 focus:outline-none"
           />
           <input
             type="number"
             placeholder="가격 (원)"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent/50 focus:outline-none"
+            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-text-primary placeholder: focus:border-accent/50 focus:outline-none"
           />
           <div className="flex gap-2">
             <button
@@ -182,7 +182,7 @@ export default function CoupangPartners() {
 
       {/* 상품 목록 */}
       {items.length === 0 ? (
-        <p className="text-center text-text-tertiary text-sm py-8">등록된 상품이 없습니다</p>
+        <p className="text-center text-sm py-8">등록된 상품이 없습니다</p>
       ) : (
         <div className="space-y-2">
           {items.map((item) => (
@@ -208,11 +208,11 @@ export default function CoupangPartners() {
 
               {/* 상품 정보 */}
               <div className="flex-1 min-w-0">
-                <p className={`text-sm truncate ${item.purchased ? "line-through text-text-tertiary" : "text-text-primary"}`}>
+                <p className={`text-sm truncate ${item.purchased ? "line-through " : "text-text-primary"}`}>
                   {item.name}
                 </p>
                 {item.price > 0 && (
-                  <p className="text-xs text-text-tertiary font-mono">{formatPrice(item.price)}</p>
+                  <p className="text-xs font-mono">{formatPrice(item.price)}</p>
                 )}
               </div>
 
@@ -220,14 +220,14 @@ export default function CoupangPartners() {
               <div className="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleEdit(item)}
-                  className="p-1.5 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-secondary transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-text-secondary transition-colors"
                   title="수정"
                 >
                   <Pencil size={14} />
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}
-                  className="p-1.5 rounded-lg hover:bg-red-500/10 text-text-tertiary hover:text-red-400 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-red-500/10 hover:text-red-400 transition-colors"
                   title="삭제"
                 >
                   <Trash2 size={14} />
@@ -252,7 +252,7 @@ export default function CoupangPartners() {
 
       {/* 요약 */}
       {items.length > 0 && (
-        <div className="flex justify-between text-xs text-text-tertiary px-1">
+        <div className="flex justify-between text-xs px-1">
           <span>총 {items.length}건 (구매 {items.filter((it) => it.purchased).length}건)</span>
           <span>잔여: {formatPrice(Math.max(GOAL - purchasedTotal, 0))}</span>
         </div>

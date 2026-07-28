@@ -32,6 +32,8 @@ export interface CelebInfluenceDetail {
   level: CelebLevel;
   ranking: number;
   percentile: number;
+  /** 점수를 가진 전체 인물 수 (순위의 모수) */
+  rankedTotal: number;
   /** 영문 화면에서 영문 해설이 없어 한국어 원문을 대신 보여주는 영역 */
   translationFallbacks?: string[];
 }
@@ -145,6 +147,7 @@ async function fetchCelebInfluence(
     level,
     ranking,
     percentile,
+    rankedTotal: total,
     translationFallbacks,
   };
 }

@@ -160,7 +160,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder={t("titlePlaceholder")}
-            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
+            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder: outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
           />
 
           {/* 저자/감독/개발사 */}
@@ -172,7 +172,7 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
             value={creator}
             onChange={(e) => setCreator(e.target.value)}
             placeholder={t("creatorOptional", { label: currentCategoryConfig.creatorLabel })}
-            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
+            className="w-full px-3 py-2 bg-surface/50 border border-border/60 rounded-lg text-sm text-text-primary placeholder: outline-none focus:border-accent focus:bg-surface focus:ring-1 focus:ring-accent/20"
           />
 
           {/* 상태 */}

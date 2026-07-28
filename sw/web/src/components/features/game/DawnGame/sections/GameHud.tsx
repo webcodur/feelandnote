@@ -43,7 +43,7 @@ export function DesktopScore({ streak, highScore, remainingCount, tDawnGame }: P
   return (
     <div className="hidden md:flex absolute right-6 top-18 z-30 flex-col items-center gap-2 bg-black/50 backdrop-blur-sm rounded-xl px-2.5 py-2.5 border border-white/10">
       <div className="flex flex-col items-center">
-        <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">{tDawnGame("score")}</span>
+        <span className="text-[9px] font-cinzel tracking-wider uppercase">{tDawnGame("score")}</span>
         <div className="flex items-baseline gap-0.5">
           <span className="text-base font-serif font-black text-white leading-none">{streak}</span>
           <span className="text-[10px] text-text-secondary">/</span>
@@ -52,7 +52,7 @@ export function DesktopScore({ streak, highScore, remainingCount, tDawnGame }: P
       </div>
       <div className="w-6 h-px bg-white/10" />
       <div className="flex flex-col items-center">
-        <span className="text-[9px] text-text-tertiary font-cinzel tracking-wider uppercase">{tDawnGame("remaining")}</span>
+        <span className="text-[9px] font-cinzel tracking-wider uppercase">{tDawnGame("remaining")}</span>
         <span className="text-base font-serif font-black text-white leading-none">{remainingCount}</span>
       </div>
     </div>
@@ -87,7 +87,7 @@ export function MobileHeader({ lives, streak, highScore, remainingCount, lostLif
       </div>
       {/* 남은 */}
       <div className="flex items-center gap-1">
-        <span className="text-[9px] text-text-tertiary">{tDawnGame("remaining")}</span>
+        <span className="text-[9px]">{tDawnGame("remaining")}</span>
         <span className="text-sm font-serif font-black text-white leading-none">{remainingCount}</span>
       </div>
     </div>

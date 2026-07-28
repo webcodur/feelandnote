@@ -90,7 +90,7 @@ export default function Book3D({
                   ))}
                 </h2>
                 <div className="w-8 h-[2px] my-3" style={{ backgroundColor: `${accentColor}80` }} />
-                <span className="font-cinzel text-[10px] md:text-xs text-text-tertiary tracking-[0.3em] font-bold uppercase">
+                <span className="font-cinzel text-[10px] md:text-xs tracking-[0.3em] font-bold uppercase">
                   {author}
                 </span>
               </div>

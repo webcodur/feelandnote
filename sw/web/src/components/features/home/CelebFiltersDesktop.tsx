@@ -138,14 +138,14 @@ export default function CelebFiltersDesktop({
       {!hideSearch && (
         <div className="relative flex-1 max-w-xs flex gap-1">
           <div className="relative flex-1">
-            <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+            <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => onSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={t("searchPlaceholder")}
-              className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+              className="w-full h-9 ps-9 pe-8 bg-bg-card border border-border rounded-lg text-sm text-text-primary placeholder: focus:outline-none focus:border-accent"
             />
             {search && (
               <button
@@ -153,7 +153,7 @@ export default function CelebFiltersDesktop({
                 onClick={onSearchClear}
                 className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded"
               >
-                <X size={14} className="text-text-tertiary" />
+                <X size={14} className="" />
               </button>
             )}
           </div>

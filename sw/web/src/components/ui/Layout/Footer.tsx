@@ -4,7 +4,7 @@ import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS, FOOTER_MISC_LINKS } from "@/const
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
-const linkClassName = "block text-sm text-text-tertiary hover:text-white transition-colors duration-300 font-sans";
+const linkClassName = "block text-sm  hover:text-white transition-colors duration-300 font-sans";
 const sectionTitleClassName = "text-xs font-cinzel font-medium tracking-[0.2em] text-accent/50 mb-4";
 
 export default async function Footer() {
@@ -46,7 +46,7 @@ export default async function Footer() {
           {/* Top: Logo & Tagline */}
           <div className="flex flex-col items-center gap-3 mb-10">
             <Logo size="sm" variant="default" />
-            <p className="text-text-tertiary/30 text-[11px] font-light tracking-wide">
+            <p className="text-[11px] font-light tracking-wide">
               {t("layout.footer.tagline")}
             </p>
           </div>
@@ -103,7 +103,7 @@ export default async function Footer() {
             </Link>
             <div className="flex items-center gap-4">
               <LocaleSwitcher variant="text" />
-              <p className="text-[10px] text-text-tertiary/25 font-sans tracking-widest uppercase">
+              <p className="text-[10px] font-sans tracking-widest uppercase">
                 &copy; {currentYear} {t("layout.footer.copyright")}
               </p>
             </div>
@@ -119,7 +119,7 @@ export default async function Footer() {
           {/* Logo & Tagline */}
           <div className="flex flex-col items-center gap-2 mb-8">
             <Logo size="sm" variant="default" />
-            <Link href="/lab" className="text-text-tertiary/40 text-[10px] font-light tracking-wide hover:text-text-tertiary/50 transition-colors">
+            <Link href="/lab" className="text-[10px] font-light tracking-wide hover: transition-colors">
               {t("layout.footer.archiveOfTaste")}
             </Link>
           </div>
@@ -172,7 +172,7 @@ export default async function Footer() {
           {/* 언어 전환 + Copyright */}
           <div className="flex flex-col items-center gap-2 pt-5 border-t border-white/[0.06]">
             <LocaleSwitcher variant="text" />
-            <p className="text-[10px] text-text-tertiary/25 font-sans tracking-widest uppercase">
+            <p className="text-[10px] font-sans tracking-widest uppercase">
               &copy; {currentYear} FeelDT
             </p>
           </div>

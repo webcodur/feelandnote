@@ -96,9 +96,9 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
             onChange={(e) => setTitle(e.target.value)}
             placeholder={t('titlePlaceholder')}
             maxLength={100}
-            className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+            className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder: focus:outline-none focus:border-accent"
           />
-          <p className="text-xs text-text-tertiary mt-1 text-end">{title.length}/100</p>
+          <p className="text-xs mt-1 text-end">{title.length}/100</p>
         </div>
 
         {/* 내용 */}
@@ -113,9 +113,9 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
             placeholder={t('contentPlaceholder')}
             maxLength={2000}
             rows={10}
-            className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-none"
+            className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder: focus:outline-none focus:border-accent resize-none"
           />
-          <p className="text-xs text-text-tertiary mt-1 text-end">{content.length}/2000</p>
+          <p className="text-xs mt-1 text-end">{content.length}/2000</p>
         </div>
 
         {/* 에러 메시지 */}

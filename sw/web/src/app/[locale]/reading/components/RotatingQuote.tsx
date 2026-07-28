@@ -57,7 +57,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
         <div className="w-8" /> 
 
         {/* 네비게이션 (상단 중앙) */}
-        <div className="flex items-center gap-3 text-text-tertiary">
+        <div className="flex items-center gap-3">
           <button 
             onClick={handlePrev} 
             className="rounded-full p-0.5 hover:bg-white/10 hover:text-accent transition-all active:scale-90"
@@ -80,7 +80,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
         {/* 관리 버튼 */}
         <button
           onClick={() => setIsManaging(true)}
-          className="rounded-lg p-1.5 text-text-tertiary hover:bg-white/10 hover:text-accent transition-colors"
+          className="rounded-lg p-1.5 hover:bg-white/10 hover:text-accent transition-colors"
           title={t("manage")}
         >
           <Settings2 className="size-4" />
@@ -93,7 +93,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
           {currentQuote.quote}
         </p>
         {currentQuote.author && (
-          <p className="mt-2 text-end text-[10px] font-medium text-text-tertiary px-2">— {currentQuote.author}</p>
+          <p className="mt-2 text-end text-[10px] font-medium px-2">— {currentQuote.author}</p>
         )}
       </div>
 
@@ -127,17 +127,17 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
                     value={q.quote}
                     onChange={(e) => onUpdate(q.id, { quote: e.target.value })}
                     placeholder={t("quotePlaceholder")}
-                    className="w-full resize-none bg-transparent text-sm leading-relaxed text-text-primary placeholder:text-text-tertiary outline-none"
+                    className="w-full resize-none bg-transparent text-sm leading-relaxed text-text-primary placeholder: outline-none"
                     rows={3}
                   />
                   <div className="mt-2 flex items-center gap-2 border-t border-white/5 pt-2">
-                    <span className="text-[10px] uppercase tracking-wider text-text-tertiary font-bold">BY</span>
+                    <span className="text-[10px] uppercase tracking-wider font-bold">BY</span>
                     <input
                       type="text"
                       value={q.author}
                       onChange={(e) => onUpdate(q.id, { author: e.target.value })}
                       placeholder={t("authorPlaceholder")}
-                      className="flex-1 bg-transparent text-xs text-text-secondary outline-none placeholder:text-text-tertiary"
+                      className="flex-1 bg-transparent text-xs text-text-secondary outline-none placeholder:"
                     />
                   </div>
                   <button
@@ -152,7 +152,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
               
               <button
                 onClick={onAdd}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-6 text-sm text-text-tertiary transition-all hover:border-accent hover:bg-accent/5 hover:text-accent group"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-6 text-sm transition-all hover:border-accent hover:bg-accent/5 hover:text-accent group"
               >
                 <Plus className="size-5 transition-transform group-hover:rotate-90" /> 
                 <span className="font-semibold">{t("addNew")}</span>
@@ -161,7 +161,7 @@ export default function RotatingQuote({ quotes, onAdd, onUpdate, onDelete }: Pro
             
             {/* 푸터 */}
             <div className="border-t border-border bg-secondary/30 p-4 text-center">
-              <p className="text-xs text-text-tertiary">{t("storageNotice")}</p>
+              <p className="text-xs">{t("storageNotice")}</p>
               <button
                 onClick={() => setIsManaging(false)}
                 className="mt-4 w-full rounded-xl bg-accent py-3 text-sm font-bold text-black transition-transform active:scale-95"

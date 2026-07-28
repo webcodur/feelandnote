@@ -99,7 +99,7 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
                   {celeb.avatar_url ? (
                     <Image src={celeb.avatar_url} alt={name} fill sizes="120px" className="object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl font-serif text-text-tertiary">
+                    <div className="w-full h-full flex items-center justify-center text-4xl font-serif">
                       {name.charAt(0)}
                     </div>
                   )}
@@ -132,7 +132,7 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
 
             {/* 2. 페르소나 스탯 영역 */}
             {isLoading ? (
-              <div className="w-full py-6 flex items-center justify-center gap-2 text-text-tertiary">
+              <div className="w-full py-6 flex items-center justify-center gap-2">
                 <Activity size={18} className="animate-spin opacity-50" />
                 <span className="text-sm font-medium">{t("loading")}</span>
               </div>

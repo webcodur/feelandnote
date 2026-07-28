@@ -39,7 +39,7 @@ export default function GameLobbySubmenu({ onBack, icon, title, desc, longDesc, 
           </button>
           <div className="mx-auto mb-1.5 flex justify-center">{icon}</div>
           <h2 className="text-xl font-serif font-black text-white tracking-wide">{title}</h2>
-          <p className={`text-xs text-text-tertiary mt-1${longDesc ? " max-w-md mx-auto leading-relaxed" : ""}`}>
+          <p className={`text-xs  mt-1${longDesc ? " max-w-md mx-auto leading-relaxed" : ""}`}>
             {desc}
           </p>
         </div>

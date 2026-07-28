@@ -288,14 +288,14 @@ export default function NotificationsPage() {
                     </p>
                     <button
                       onClick={(e) => handleDelete(e, notif.id)}
-                      className="text-text-tertiary hover:text-red-400 p-1 rounded transition-colors opacity-0 group-hover:opacity-100"
+                      className="hover:text-red-400 p-1 rounded transition-colors opacity-0 group-hover:opacity-100"
                       title={t("deleteTitle")}
                     >
                       <TrashIcon size={14} />
                     </button>
                   </div>
                   
-                  <div className="flex items-center gap-3 text-xs text-text-tertiary">
+                  <div className="flex items-center gap-3 text-xs">
                     <span>{notif.created_at ? formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: ko }) : ''}</span>
                   </div>
 
@@ -313,7 +313,7 @@ export default function NotificationsPage() {
                               {t("accepted")}
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-text-tertiary border border-border">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 border border-border">
                               <X size={14} />
                               {t("rejected")}
                             </span>
@@ -363,7 +363,7 @@ export default function NotificationsPage() {
           ))
         ) : (
           <div className="py-24 text-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-            <TempleBellIcon size={48} className="mx-auto text-text-tertiary mb-4 opacity-50" />
+            <TempleBellIcon size={48} className="mx-auto mb-4 opacity-50" />
             <p className="text-text-secondary">
               {filter === "all" ? t("emptyAll") : t("emptyFiltered")}
             </p>

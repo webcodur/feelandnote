@@ -46,7 +46,7 @@ export default function CelebImage({
     </div>
   ) : (
     <div className={`w-full h-full flex items-center justify-center bg-bg-secondary ${shapeClass}`}>
-      <User size={fallbackSize} className="text-text-tertiary" />
+      <User size={fallbackSize} className="" />
     </div>
   );
 }

@@ -140,7 +140,7 @@ function EmptyFeed() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4">
       <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
-        <Inbox size={40} className="text-text-tertiary" />
+        <Inbox size={40} className="" />
       </div>
       <h3 className="text-lg font-semibold mb-2">{t("empty.noReviews")}</h3>
       <p className="text-sm text-text-secondary text-center max-w-xs whitespace-pre-line">
@@ -310,7 +310,7 @@ export default function CelebFeed({
         {/* 더 이상 로드할 데이터 없음 */}
         {!hasMore && reviews.length > 0 && (
           <div className="col-span-full text-center py-6">
-            <p className="text-sm text-text-tertiary">{t("empty.allLoaded")}</p>
+            <p className="text-sm">{t("empty.allLoaded")}</p>
           </div>
         )}
       </div>

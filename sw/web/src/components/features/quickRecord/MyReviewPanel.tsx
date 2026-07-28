@@ -148,7 +148,7 @@ export default function MyReviewPanel({
                         className={`flex items-center justify-center p-2 rounded-md transition-all ${
                             viewMode === 'EDIT'
                             ? 'bg-accent/20 text-accent shadow-sm'
-                            : 'text-text-tertiary hover:text-text-secondary'
+                            : ' hover:text-text-secondary'
                         }`}
                         title={t("writeMode")}
                     >
@@ -159,7 +159,7 @@ export default function MyReviewPanel({
                         className={`flex items-center justify-center p-2 rounded-md transition-all ${
                             viewMode === 'PREVIEW'
                             ? 'bg-accent/20 text-accent shadow-sm'
-                            : 'text-text-tertiary hover:text-text-secondary'
+                            : ' hover:text-text-secondary'
                         }`}
                         title={t("readMode")}
                     >
@@ -182,7 +182,7 @@ export default function MyReviewPanel({
                     className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
                         isDirty 
                         ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
-                        : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
+                        : 'bg-white/5  cursor-not-allowed'
                     }`}
                     title={t("save")}
                   >
@@ -198,7 +198,7 @@ export default function MyReviewPanel({
             <div className="flex flex-col h-full relative">
                 {/* Review Presets Chips Area */}
                 <div className="px-4 py-3 flex flex-wrap gap-2 items-center border-b border-white/5 bg-black/10">
-                    <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mr-1">Keywords</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider mr-1">Keywords</span>
                     
                     {/* Selected Presets (Always visible) */}
                     {presets.map((presetKeyword) => {
@@ -224,7 +224,7 @@ export default function MyReviewPanel({
                     {/* Add More Button */}
                     <button
                         onClick={() => setIsPresetModalOpen(true)}
-                        className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 text-text-tertiary text-xs font-sans border border-white/10 hover:bg-white/10 hover:text-text-secondary transition-all"
+                        className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/5 text-xs font-sans border border-white/10 hover:bg-white/10 hover:text-text-secondary transition-all"
                     >
                         <Plus size={10} />
                         <span>{t("addKeyword")}</span>
@@ -234,7 +234,7 @@ export default function MyReviewPanel({
                 {/* Custom Placeholder with FormattedText */}
                 {!review && (
                     <div className="absolute inset-0 top-[50px] pointer-events-none z-0 flex items-center justify-center p-8">
-                        <div className="text-text-tertiary/20 leading-relaxed text-base font-sans font-normal whitespace-pre-wrap text-center">
+                        <div className="leading-relaxed text-base font-sans font-normal whitespace-pre-wrap text-center">
                             <FormattedText text={placeholderText} className="opacity-60" />
                         </div>
                     </div>
@@ -282,7 +282,7 @@ export default function MyReviewPanel({
                         <FormattedText text={review} />
                     </div>
                 ) : (
-                    <div className="h-full flex items-center justify-center text-text-tertiary/30 italic">
+                    <div className="h-full flex items-center justify-center italic">
                         {t("noContent")}
                     </div>
                 )}
@@ -311,7 +311,7 @@ export default function MyReviewPanel({
                           </span>
                       </div>
                   ) : (
-                      <span className="text-[10px] text-text-tertiary italic">{t("notRated")}</span>
+                      <span className="text-[10px] italic">{t("notRated")}</span>
                   )}
               </div>
               <button
@@ -320,7 +320,7 @@ export default function MyReviewPanel({
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                       isDirty
                       ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
-                      : 'bg-white/5 text-text-tertiary/40 cursor-not-allowed'
+                      : 'bg-white/5  cursor-not-allowed'
                   }`}
                   title={t("save")}
               >

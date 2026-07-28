@@ -41,7 +41,7 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
                         <Icon size={20} className="text-accent" />
                         {title}
                     </h3>
-                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors text-text-tertiary hover:text-white">
+                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors hover:text-white">
                         <X size={20} />
                     </button>
                 </div>
@@ -65,13 +65,13 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
                             <div className="flex border-b border-white/10 shrink-0">
                                 <button
                                     onClick={() => setSelectionTab('SUGGESTION')}
-                                    className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'SUGGESTION' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
+                                    className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'SUGGESTION' ? 'text-accent border-b-2 border-accent bg-accent/5' : ' hover:text-text-primary'}`}
                                 >
                                     {t("celebRecommendations")}
                                 </button>
                                 <button
                                     onClick={() => setSelectionTab('ARCHIVE')}
-                                    className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'ARCHIVE' ? 'text-accent border-b-2 border-accent bg-accent/5' : 'text-text-tertiary hover:text-text-primary'}`}
+                                    className={`flex-1 py-4 text-sm font-bold transition-all ${selectionTab === 'ARCHIVE' ? 'text-accent border-b-2 border-accent bg-accent/5' : ' hover:text-text-primary'}`}
                                 >
                                     {t("archiveTab")}
                                 </button>

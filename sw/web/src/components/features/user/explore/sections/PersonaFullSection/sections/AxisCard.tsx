@@ -39,7 +39,7 @@ export default function AxisCard({
         >
           {label}
         </span>
-        <span className="text-xs text-text-tertiary">
+        <span className="text-xs">
           {locale === "en" ? entry.label.en : entry.label.ko}
         </span>
       </div>
@@ -76,7 +76,7 @@ export default function AxisCard({
 
       {entry.runnersUp.length > 0 && (
         <div className="border-t border-white/5 px-5 py-3">
-          <span className="text-[10px] font-bold tracking-widest uppercase text-text-tertiary/60 block mb-2">
+          <span className="text-[10px] font-bold tracking-widest uppercase block mb-2">
             {t("runnersUp")}
           </span>
           <div className="flex flex-col gap-0.5">
@@ -92,7 +92,7 @@ export default function AxisCard({
                     isSelected ? "bg-white/10" : "hover:bg-white/5"
                   )}
                 >
-                  <span className="text-[11px] font-bold text-text-tertiary/50 w-5 text-right tabular-nums shrink-0">{i + 2}</span>
+                  <span className="text-[11px] font-bold w-5 text-right tabular-nums shrink-0">{i + 2}</span>
                   <div className={cn("rounded-full transition-all", isSelected ? "ring-1 ring-offset-1 ring-offset-[#0a0a0b]" : "")} style={{ '--tw-ring-color': color } as React.CSSProperties}>
                     <Avatar src={r.avatar_url} alt={rName} size={8} />
                   </div>

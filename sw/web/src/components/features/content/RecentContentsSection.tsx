@@ -34,7 +34,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
 
   return (
     <div className="mb-4">
-      <p className="text-[11px] text-text-tertiary mb-2">{t("recentContents")}</p>
+      <p className="text-[11px] mb-2">{t("recentContents")}</p>
       <div
         ref={scrollRef}
         className={`flex gap-2 overflow-x-auto scrollbar-hidden ${isDragging ? "cursor-grabbing" : ""}`}
@@ -67,7 +67,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-white/5">
-                    <Icon size={20} className="text-text-tertiary" />
+                    <Icon size={20} className="" />
                   </div>
                 )}
               </div>

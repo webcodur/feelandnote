@@ -37,7 +37,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
           <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent transition-colors">
             {feedback.title}
           </h3>
-          <div className="flex items-center gap-3 mt-2 text-xs text-text-tertiary">
+          <div className="flex items-center gap-3 mt-2 text-xs">
             <span className="font-serif">{feedback.author.nickname}</span>
             <span className="text-accent-dim/50">·</span>
             <span>

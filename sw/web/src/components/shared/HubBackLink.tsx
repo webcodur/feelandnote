@@ -27,7 +27,7 @@ export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
     <div className="mb-4">
       <Link
         href={hubPath}
-        className="inline-flex items-center gap-1.5 text-sm text-text-tertiary hover:text-accent transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors"
       >
         <ArrowLeft size={14} />
         {label}

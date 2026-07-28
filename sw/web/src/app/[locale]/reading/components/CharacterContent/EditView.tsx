@@ -40,35 +40,35 @@ export default function EditView({ character, onUpdate, onDelete, onClose }: Edi
           <p className="text-xs font-semibold text-text-secondary">{t("orgInfo")}</p>
 
           <div>
-            <label className="mb-1 block text-xs text-text-tertiary">{t("orgLabel")}</label>
+            <label className="mb-1 block text-xs">{t("orgLabel")}</label>
             <input
               type="text"
               value={character.group || ""}
               onChange={(e) => onUpdate(character.id, { group: e.target.value })}
               placeholder={t("orgPlaceholder")}
-              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder: focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs text-text-tertiary">{t("subOrgLabel")}</label>
+            <label className="mb-1 block text-xs">{t("subOrgLabel")}</label>
             <input
               type="text"
               value={character.subgroup || ""}
               onChange={(e) => onUpdate(character.id, { subgroup: e.target.value })}
               placeholder={t("subOrgPlaceholder")}
-              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder: focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs text-text-tertiary">{t("rankLabel")}</label>
+            <label className="mb-1 block text-xs">{t("rankLabel")}</label>
             <input
               type="text"
               value={character.rank || ""}
               onChange={(e) => onUpdate(character.id, { rank: e.target.value })}
               placeholder={t("rankPlaceholder")}
-              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder: focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function EditView({ character, onUpdate, onDelete, onClose }: Edi
                 className={`flex-1 rounded-lg border py-2 text-xs font-medium transition-colors ${
                   character.gender === opt.value
                     ? opt.color
-                    : "border-border bg-white/5 text-text-tertiary hover:bg-white/10"
+                    : "border-border bg-white/5  hover:bg-white/10"
                 }`}
               >
                 {t(opt.key)}
@@ -110,14 +110,14 @@ export default function EditView({ character, onUpdate, onDelete, onClose }: Edi
                     onUpdate(character.id, { names: newNames });
                   }}
                   placeholder={i === 0 ? t("primaryName") : t("aliasName")}
-                  className="flex-1 rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="flex-1 rounded-lg bg-white/5 px-3 py-2 text-sm text-text-primary placeholder: focus:outline-none focus:ring-2 focus:ring-accent"
                 />
                 {names.length > 1 && (
                   <button
                     onClick={() =>
                       onUpdate(character.id, { names: names.filter((_, idx) => idx !== i) })
                     }
-                    className="rounded-lg p-2 text-text-tertiary hover:bg-white/5 hover:text-text-primary"
+                    className="rounded-lg p-2 hover:bg-white/5 hover:text-text-primary"
                   >
                     <X className="size-4" />
                   </button>
@@ -126,7 +126,7 @@ export default function EditView({ character, onUpdate, onDelete, onClose }: Edi
             ))}
             <button
               onClick={() => onUpdate(character.id, { names: [...names, ""] })}
-              className="w-full rounded-lg border border-dashed border-border py-2 text-xs text-text-tertiary hover:border-accent hover:text-accent"
+              className="w-full rounded-lg border border-dashed border-border py-2 text-xs hover:border-accent hover:text-accent"
             >
               {t("addName")}
             </button>
@@ -140,7 +140,7 @@ export default function EditView({ character, onUpdate, onDelete, onClose }: Edi
             value={character.description || ""}
             onChange={(e) => onUpdate(character.id, { description: e.target.value })}
             placeholder={t("descriptionPlaceholder")}
-            className="w-full resize-none rounded-lg bg-white/5 p-3 text-sm leading-relaxed text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full resize-none rounded-lg bg-white/5 p-3 text-sm leading-relaxed text-text-primary placeholder: focus:outline-none focus:ring-2 focus:ring-accent"
             rows={4}
           />
         </div>

@@ -87,8 +87,8 @@ export default function ShareButtons({
       <span
         className={
           comfortable
-            ? "text-base font-medium text-text-tertiary sm:text-lg"
-            : "text-xs font-medium text-text-tertiary"
+            ? "text-base font-medium  sm:text-lg"
+            : "text-xs font-medium "
         }
       >
         {t("label")}

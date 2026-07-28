@@ -174,7 +174,7 @@ export default function LeftSidebar({
                   } ${isDragging ? "opacity-30" : "opacity-100"}`}
                 >
                   <div className="flex items-center gap-1 p-2">
-                    <GripVertical className="size-3 shrink-0 cursor-grab text-text-tertiary" />
+                    <GripVertical className="size-3 shrink-0 cursor-grab" />
                     <div className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${
                       section.type === "basic" ? "bg-amber-500/10 text-amber-500" :
                       section.type === "character" ? "bg-blue-500/10 text-blue-400" :
@@ -224,7 +224,7 @@ export default function LeftSidebar({
                         className={`rounded p-1 transition-all ${
                           section.isVisible
                             ? "text-accent hover:bg-accent/10"
-                            : "text-text-tertiary hover:bg-white/10 opacity-40 hover:opacity-100"
+                            : " hover:bg-white/10 opacity-40 hover:opacity-100"
                         }`}
                         title={section.isVisible ? t("hide") : t("show")}
                       >

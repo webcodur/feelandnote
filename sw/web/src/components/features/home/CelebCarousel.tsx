@@ -91,20 +91,20 @@ export default function CelebCarousel({
         {/* 1행: 검색 + 액션 버튼 */}
         <div className="flex items-center gap-2 mb-3">
           <div className="relative flex-1 max-w-sm min-w-0 group/search">
-            <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none z-20" />
+            <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none z-20" />
             <input
               type="text"
               value={filters.search}
               onChange={(e) => filters.handleSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={t("searchPlaceholder")}
-              className="w-full min-w-0 h-9 ps-9 pe-9 bg-black/30 border border-white/10 rounded-lg text-sm text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/40 focus:bg-black/50 transition-all font-sans"
+              className="w-full min-w-0 h-9 ps-9 pe-9 bg-black/30 border border-white/10 rounded-lg text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40 focus:bg-black/50 transition-all font-sans"
             />
             {filters.search && (
               <button
                 type="button"
                 onClick={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}
-                className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-text-tertiary hover:text-text-primary transition-colors z-20"
+                className="absolute end-2 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full hover:text-text-primary transition-colors z-20"
               >
                 <X size={12} />
               </button>
@@ -213,7 +213,7 @@ function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">
-        <UserXIcon size={32} className="text-text-tertiary" />
+        <UserXIcon size={32} className="" />
       </div>
       <p className="text-sm text-text-secondary text-center">{t("empty.noCelebs")}</p>
     </div>

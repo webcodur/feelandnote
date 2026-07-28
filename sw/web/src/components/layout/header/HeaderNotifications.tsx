@@ -192,7 +192,7 @@ export default function HeaderNotifications() {
                     <p className={`text-sm leading-snug ${!notif.is_read ? "text-text-primary font-medium" : "text-text-secondary"}`}>
                       {notif.message}
                     </p>
-                    <p className="text-[10px] text-text-tertiary mt-1.5 flex items-center gap-1">
+                    <p className="text-[10px] mt-1.5 flex items-center gap-1">
                         {notif.created_at && formatDistanceToNow(new Date(notif.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? enUS })}
                     </p>
                   </div>

@@ -19,7 +19,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                 <BookOpen size={12} />
                 <span>{t("quickRecordLabel")}</span>
             </div>
-            <p className="text-sm text-text-tertiary mb-4">
+            <p className="text-sm mb-4">
                 {t("quickRecordDesc")}
             </p>
 
@@ -65,7 +65,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                     >
                         <div className="relative">
                             <div className="w-[100px] h-[100px] rounded-full bg-white/5 flex items-center justify-center border-2 border-white/10 group-hover:border-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500">
-                                <Users size={40} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                                <Users size={40} className="group-hover:text-accent transition-colors" />
                             </div>
                         </div>
                         <div className="text-center space-y-2">

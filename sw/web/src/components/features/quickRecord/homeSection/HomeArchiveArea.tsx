@@ -118,13 +118,13 @@ export function HomeArchiveArea({
 
                 {/* Empty State */}
                 {!hasUnreviewed && !hasReviewed && (
-                    <div className="w-full py-16 text-center text-text-tertiary flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
+                    <div className="w-full py-16 text-center flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
                         <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-2">
                             <BookOpen size={24} className="opacity-30" />
                         </div>
                         <div className="space-y-1">
                             <p className="text-text-secondary font-medium">{t("noRecords")}</p>
-                            <p className="text-xs text-text-tertiary">{t("searchToRecord")}</p>
+                            <p className="text-xs">{t("searchToRecord")}</p>
                         </div>
                     </div>
                 )}

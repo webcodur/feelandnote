@@ -96,7 +96,7 @@ export default function SearchContent() {
               </div>
 
               {/* 2행: API 출처 + 검색 안내 */}
-              <div className="flex items-center justify-between gap-4 px-6 py-3 text-xs text-text-tertiary border-t border-white/5">
+              <div className="flex items-center justify-between gap-4 px-6 py-3 text-xs border-t border-white/5">
                 <div className="flex items-center gap-1.5">
                   <Info size={12} />
                   <span>

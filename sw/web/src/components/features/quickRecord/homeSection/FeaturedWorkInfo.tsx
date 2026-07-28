@@ -90,7 +90,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                             ) : (
-                                <div className="w-full h-full bg-white/5 flex items-center justify-center text-text-tertiary">
+                                <div className="w-full h-full bg-white/5 flex items-center justify-center">
                                     {t("noImage")}
                                 </div>
                             )}
@@ -107,7 +107,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                             onClick={() => setActiveModal('SELECT_CONTENT')}
                             className="w-48 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/15 border border-white/5 hover:border-accent/30 flex items-center justify-center gap-2 group transition-all"
                         >
-                            <List size={16} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                            <List size={16} className="group-hover:text-accent transition-colors" />
                             <span className="text-xs font-bold text-text-secondary group-hover:text-text-primary">{t("selectContent")}</span>
                         </button>
                     </div>
@@ -130,7 +130,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
 
                             {/* Metadata (Icon + Value layout) */}
                             {isLoading ? (
-                                <div className="flex items-center gap-2 text-text-tertiary justify-center">
+                                <div className="flex items-center gap-2 justify-center">
                                     <Loader2 size={14} className="animate-spin" />
                                     <span>{t("loadingInfo")}</span>
                                 </div>
@@ -149,7 +149,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 onClick={() => setActiveModal('DETAIL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
-                                <BookOpen size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                                <BookOpen size={18} className="group-hover:text-accent transition-colors" />
                                 <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("detailInfo")}</span>
                             </button>
 
@@ -157,7 +157,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 onClick={() => setActiveModal('REVIEW_CELEB')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
-                                <Award size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                                <Award size={18} className="group-hover:text-accent transition-colors" />
                                 <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("celebReview")}</span>
                             </button>
 
@@ -165,7 +165,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 onClick={() => setActiveModal('REVIEW_NORMAL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
-                                <MessageSquare size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                                <MessageSquare size={18} className="group-hover:text-accent transition-colors" />
                                 <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("normalReview")}</span>
                             </button>
 
@@ -173,7 +173,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 onClick={() => setActiveModal('EXTERNAL')}
                                 className="flex flex-row items-center justify-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/30 transition-all group"
                             >
-                                <Search size={18} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                                <Search size={18} className="group-hover:text-accent transition-colors" />
                                 <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary">{t("externalSearchBtn")}</span>
                             </button>
                         </div>

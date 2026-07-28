@@ -207,13 +207,13 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
 
             {displayReview && isSpoiler && (
               <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
-                <p className="text-sm text-text-tertiary">{t("reviewModal.spoiler")}</p>
+                <p className="text-sm">{t("reviewModal.spoiler")}</p>
               </div>
             )}
 
             {!displayReview && (!reviewPresets || reviewPresets.length === 0) && (
               <div className="flex-1 flex items-center justify-center">
-                <p className="text-sm text-text-tertiary/50 italic">{t("reviewModal.noReview")}</p>
+                <p className="text-sm italic">{t("reviewModal.noReview")}</p>
               </div>
             )}
             {/* 출처 링크 (headerNode 모드에서는 비표시) */}

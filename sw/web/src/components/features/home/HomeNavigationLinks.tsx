@@ -18,7 +18,7 @@ export function HomeNavigationLinks() {
         <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent">
           {t("moreCelebs")}
         </h3>
-        <p className="text-sm text-text-tertiary">
+        <p className="text-sm">
           {t("moreCelebsDesc")}
         </p>
       </Link>
@@ -33,7 +33,7 @@ export function HomeNavigationLinks() {
         <h3 className="text-lg font-serif font-bold text-text-primary mb-1 group-hover:text-accent">
           {t("moreResources")}
         </h3>
-        <p className="text-sm text-text-tertiary">
+        <p className="text-sm">
           {t("moreResourcesDesc")}
         </p>
       </Link>

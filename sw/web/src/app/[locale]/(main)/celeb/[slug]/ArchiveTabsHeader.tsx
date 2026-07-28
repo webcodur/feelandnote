@@ -76,7 +76,7 @@ export default function ArchiveTabsHeader<T extends string>({
               isDense
                 ? "h-16 flex-col gap-1"
                 : "h-14 flex-row gap-1.5",
-              isActive ? "text-accent" : "text-text-tertiary",
+              isActive ? "text-accent" : "",
             )}
           >
             <Icon

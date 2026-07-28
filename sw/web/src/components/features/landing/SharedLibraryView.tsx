@@ -58,7 +58,7 @@ export default function SharedLibraryView({ tagId, embedded = false, heading }: 
   return (
     <div className="space-y-4">
       {heading && (
-        <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center">
+        <h4 className="text-sm font-cinzel uppercase tracking-wider text-center">
           {heading}
         </h4>
       )}
@@ -103,7 +103,7 @@ export default function SharedLibraryView({ tagId, embedded = false, heading }: 
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <p className="text-sm text-text-tertiary text-center py-8">
+        <p className="text-sm text-center py-8">
           {t("shared.empty")}
         </p>
       ) : (
@@ -193,13 +193,13 @@ function SharedContentRow({
               </div>
             )}
           </div>
-          <span className="text-[10px] text-text-tertiary">
+          <span className="text-[10px]">
             {t("shared.celebCount", { count: item.celebCount })}
           </span>
         </div>
       </div>
 
-      <Icon size={14} className="shrink-0 text-text-tertiary" />
+      <Icon size={14} className="shrink-0" />
     </Link>
   );
 }

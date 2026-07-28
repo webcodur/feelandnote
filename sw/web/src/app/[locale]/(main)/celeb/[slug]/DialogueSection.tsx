@@ -161,7 +161,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                     <button
                       type="button"
                       onClick={() => toggleOne(type, i)}
-                      className={`flex-shrink-0 p-0.5 rounded-full ${isPlaying ? "text-accent" : "text-text-tertiary hover:text-accent"}`}
+                      className={`flex-shrink-0 p-0.5 rounded-full ${isPlaying ? "text-accent" : " hover:text-accent"}`}
                       aria-label={isPlaying ? t("stopAudio") : t("playAudio")}
                     >
                       {isPlaying ? <Square size={12} /> : <Play size={12} />}

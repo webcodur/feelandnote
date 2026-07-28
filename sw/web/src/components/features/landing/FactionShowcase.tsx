@@ -264,7 +264,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
           )}
           {/* 이 사진에 나오는 사람은 오른쪽 목록에서 이 사진 아래에 매달려 있다 — 여기선 수만 알린다 */}
           {teamImageMembers.length > 0 && (
-            <p className="text-sm text-text-tertiary font-sans">
+            <p className="text-sm font-sans">
               {t("figureCount", { count: teamImageMembers.length })}
             </p>
           )}
@@ -354,7 +354,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
                 <span className={cn("font-sans font-bold truncate transition-colors", nested ? "text-[13px]" : "text-sm", isSel ? "text-white" : "text-text-secondary")}>
                   {label}
                 </span>
-                {sub && isTeam && <span className="text-[11px] text-text-tertiary font-sans">{sub}</span>}
+                {sub && isTeam && <span className="text-[11px] font-sans">{sub}</span>}
               </div>
 
               {!isTeam ? (

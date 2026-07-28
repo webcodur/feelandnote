@@ -25,7 +25,7 @@ export default function VideosSection({
 
   if (!hasAny) {
     return (
-      <p className="text-center text-xs text-text-tertiary italic py-6">
+      <p className="text-center text-xs italic py-6">
         {t("videosEmpty")}
       </p>
     );
@@ -124,7 +124,7 @@ function Marquee({
         {title}
       </h3>
       <span className="h-px flex-1 bg-gradient-to-r from-accent-dim/30 via-accent-dim/15 to-transparent" />
-      <span className="text-[9px] font-mono text-text-tertiary/70 tracking-[0.25em] uppercase">
+      <span className="text-[9px] font-mono tracking-[0.25em] uppercase">
         {aside}
       </span>
     </div>

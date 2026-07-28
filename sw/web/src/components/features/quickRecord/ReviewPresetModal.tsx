@@ -114,7 +114,7 @@ export default function ReviewPresetModal({
                     })}
                 </div>
             ) : (
-                <div className="flex items-center justify-center h-40 text-text-tertiary text-sm">
+                <div className="flex items-center justify-center h-40 text-sm">
                     {t("noKeywords")}
                 </div>
             )}

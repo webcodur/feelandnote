@@ -97,7 +97,7 @@ export default function HomeTabSection({
             {/* Info Icon */}
             <button 
               onClick={() => setShowRelayInfo(true)}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 text-text-tertiary hover:text-accent bg-white/5 hover:bg-accent/10 rounded-full"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 hover:text-accent bg-white/5 hover:bg-accent/10 rounded-full"
               title={labels.inspirationChainTitle}
             >
               <Info size={16} />
@@ -139,7 +139,7 @@ export default function HomeTabSection({
         <div className="mt-20 md:mt-32 flex flex-col items-center gap-6 animate-in fade-in delay-500 duration-1000 w-full">
             <button
                 onClick={handleScrollDown}
-                className="group flex flex-col items-center gap-3 text-text-tertiary hover:text-accent"
+                className="group flex flex-col items-center gap-3 hover:text-accent"
                 aria-label={tShared("scrollDown")}
             >
                 <div className="relative p-2.5 rounded-full border border-white/10 group-hover:border-accent/40 bg-white/5 group-hover:bg-accent/10">

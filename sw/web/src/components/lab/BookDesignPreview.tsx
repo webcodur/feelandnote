@@ -44,7 +44,7 @@ export default function BookDesignPreview() {
           className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
             activeBook === "dante"
               ? "bg-white/10 border-accent/50 text-accent"
-              : "bg-transparent border-transparent text-text-tertiary hover:bg-white/5"
+              : "bg-transparent border-transparent  hover:bg-white/5"
           }`}
         >
           <span className="font-serif font-bold">Divine Comedy</span>
@@ -55,7 +55,7 @@ export default function BookDesignPreview() {
           className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
             activeBook === "homer"
               ? "bg-white/10 border-accent/50 text-accent"
-              : "bg-transparent border-transparent text-text-tertiary hover:bg-white/5"
+              : "bg-transparent border-transparent  hover:bg-white/5"
           }`}
         >
           <span className="font-serif font-bold">The Iliad</span>

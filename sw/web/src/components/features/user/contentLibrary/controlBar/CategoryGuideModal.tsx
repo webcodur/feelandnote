@@ -21,7 +21,7 @@ export default function CategoryGuideModal({ isOpen, onClose }: CategoryGuideMod
         <div className="flex flex-col gap-4 text-sm text-text-secondary leading-relaxed">
           <p>{t("basis")}</p>
           <p>{t("available")}</p>
-          <p className="text-text-tertiary text-xs">
+          <p className="text-xs">
             {t("suggestion")}
           </p>
         </div>

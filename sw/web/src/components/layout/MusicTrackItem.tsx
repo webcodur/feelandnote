@@ -82,20 +82,20 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
     <div className={`relative flex items-center gap-1 px-2 py-1.5 hover:bg-white/5 ${isActive ? 'bg-accent/10' : ''}`}>
       {/* 곡 선택 */}
       <button onClick={onSelect} className="flex-1 flex items-center gap-2 text-start min-w-0">
-        <span className="text-[10px] text-text-tertiary w-8 shrink-0 text-end tabular-nums">
+        <span className="text-[10px] w-8 shrink-0 text-end tabular-nums">
           {index + 1}/{total}
         </span>
-        <Music size={12} className={isActive ? 'text-accent shrink-0' : 'text-text-tertiary shrink-0'} />
+        <Music size={12} className={isActive ? 'text-accent shrink-0' : ' shrink-0'} />
         <div className="flex-1 min-w-0">
           <p className={`text-xs font-medium truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
             {track.title}
           </p>
           {track.creator && (
-            <p className="text-[10px] text-text-tertiary truncate">{track.creator}</p>
+            <p className="text-[10px] truncate">{track.creator}</p>
           )}
         </div>
         <div className="flex flex-col items-end gap-0.5 shrink-0">
-          <span className="text-[9px] text-text-tertiary">{t(track.spotifyEntity as 'album' | 'track')}</span>
+          <span className="text-[9px]">{t(track.spotifyEntity as 'album' | 'track')}</span>
           {statusColor && <span className="text-[9px]" style={{ color: statusColor }}>{tStatus(track.status.toLowerCase())}</span>}
         </div>
       </button>
@@ -104,7 +104,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
       <button
         ref={btnRef}
         onClick={toggleMenu}
-        className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-text-tertiary shrink-0"
+        className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 shrink-0"
       >
         <MoreVertical size={13} />
       </button>

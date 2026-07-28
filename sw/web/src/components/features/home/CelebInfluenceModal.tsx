@@ -6,10 +6,15 @@ import { X } from "lucide-react";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Avatar } from "@/components/ui";
-import { INFLUENCE_CATEGORIES } from "@/constants/influence";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
-import { RadarChart, TranshistoricityGauge, CategoryDetail } from "@/components/features/influence";
+import {
+  RadarChart,
+  TranshistoricityGauge,
+  CategoryDetail,
+  EmptyCategoryRow,
+  sortCategoriesByScore,
+} from "@/components/features/influence";
 import { useLocale, useTranslations } from "next-intl";
 
 // Aura 기반 모달 스타일 (9단계)
@@ -40,17 +45,13 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   const locale = useLocale();
   const [data, setData] = useState<CelebInfluenceDetail | null>(null);
   const [loading, setLoading] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isOpen || !celebId) return;
 
     let ignore = false;
     queueMicrotask(() => {
-      if (!ignore) {
-        setLoading(true);
-        setExpandedCategory(null);
-      }
+      if (!ignore) setLoading(true);
     });
 
     getCelebInfluence(celebId, locale)
@@ -73,9 +74,10 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   const mat = getMaterialConfigByScore(data?.total_score ?? 0);
   const professionLabel = data?.profession ? getCelebProfessionLabel(data.profession) : null;
 
-  const toggleCategory = (key: string) => {
-    setExpandedCategory(expandedCategory === key ? null : key);
-  };
+  // 점수 순 배치 — 상위 3개는 머리에, 0점은 목록 대신 한 줄로 접는다
+  const rankedCategories = data ? sortCategoriesByScore(data) : [];
+  const scoredCategories = rankedCategories.filter((category) => category.value > 0);
+  const emptyCategories = rankedCategories.filter((category) => category.value === 0);
 
   // #region 공유 렌더 헬퍼
   const renderLoadingSpinner = () => (
@@ -87,16 +89,13 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
 
   const renderErrorState = () => (
     <div className="flex flex-col items-center justify-center py-20 gap-2">
-      <span className="text-text-tertiary">{t("loadError")}</span>
+      <span className="">{t("loadError")}</span>
       <button onClick={onClose} className="text-sm text-accent hover:underline">{t("close")}</button>
     </div>
   );
 
   // 주요 영향력 TOP 3 (헤더용)
-  const topCategories = data ? INFLUENCE_CATEGORIES
-    .map(cat => ({ ...cat, value: data[cat.key as keyof CelebInfluenceDetail] as number }))
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 3) : [];
+  const topCategories = rankedCategories.slice(0, 3);
 
   const renderHeader = (isMobile = false) => (
     <div className={`relative ${isMobile ? "p-4" : "p-4 pr-12"}`}>
@@ -131,9 +130,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
           <div className="shrink-0 text-center">
             <div className="flex items-baseline gap-0.5">
               <span className="text-2xl font-black text-accent">{data!.total_score}</span>
-              <span className="text-xs text-text-tertiary">/100</span>
+              <span className="text-xs">/100</span>
             </div>
-            <p className="text-[9px] text-text-tertiary uppercase tracking-wider">Score</p>
+            <p className="text-[9px] uppercase tracking-wider">Score</p>
           </div>
 
           {/* 구분선 */}
@@ -152,7 +151,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                     ${isTop ? "bg-accent/10" : "bg-white/[0.03]"}
                   `}
                 >
-                  <Icon size={12} className={isTop ? "text-accent" : "text-text-tertiary"} />
+                  <Icon size={12} className={isTop ? "text-accent" : ""} />
                   <span className="text-[11px] text-text-secondary">
                     {tInfluence(`categories.${cat.key}`)}
                   </span>
@@ -184,7 +183,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                 <span className={`text-sm font-black ${levelStyle.text}`}>{mat.romanNumeral}</span>
               </div>
               <span className="text-xl font-black text-accent">{data!.total_score}</span>
-              <span className="text-xs text-text-tertiary">/100</span>
+              <span className="text-xs">/100</span>
             </div>
           </div>
         </div>
@@ -243,17 +242,16 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                     <div className="space-y-2 pt-1">
                       <h3 className="text-xs font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                       <div className="space-y-2">
-                        {INFLUENCE_CATEGORIES.map((cat) => (
+                        {scoredCategories.map((cat) => (
                           <CategoryDetail
                             key={cat.key}
                             category={cat}
-                            value={data[cat.key as keyof CelebInfluenceDetail] as number}
+                            value={cat.value}
                             explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
                             isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
-                            isExpanded={expandedCategory === cat.key}
-                            onToggle={() => toggleCategory(cat.key)}
                           />
                         ))}
+                        <EmptyCategoryRow categories={emptyCategories} />
                       </div>
                     </div>
                   </div>
@@ -302,17 +300,16 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
                 <div className="space-y-3 pt-2">
                   <h3 className="text-sm font-bold text-text-primary px-1">{t("categoryDetail")}</h3>
                   <div className="grid grid-cols-1 gap-2.5">
-                    {INFLUENCE_CATEGORIES.map((cat) => (
+                    {scoredCategories.map((cat) => (
                       <CategoryDetail
                         key={cat.key}
                         category={cat}
-                        value={data[cat.key as keyof CelebInfluenceDetail] as number}
+                        value={cat.value}
                         explanation={data[`${cat.key}_exp` as keyof CelebInfluenceDetail] as string | null}
                         isTranslationFallback={(data.translationFallbacks ?? []).includes(cat.key)}
-                        isExpanded={expandedCategory === cat.key}
-                        onToggle={() => toggleCategory(cat.key)}
                       />
                     ))}
+                    <EmptyCategoryRow categories={emptyCategories} />
                   </div>
                 </div>
               </div>

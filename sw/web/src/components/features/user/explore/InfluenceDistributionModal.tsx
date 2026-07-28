@@ -76,7 +76,7 @@ function AuraListItem({
       <div className="flex-1 min-w-0 flex flex-col justify-center">
          <div className="flex items-center gap-2 mb-1">
             <span className="font-bold text-text-primary text-sm">{t(`auraTitle.${aura}`)}</span>
-            <span className="text-xs text-text-tertiary bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
+            <span className="text-xs bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
          </div>
          {/* Distribution Bar */}
          <div className="w-full h-1 bg-bg-secondary rounded-full overflow-hidden">
@@ -126,7 +126,7 @@ function AuraListItem({
       {/* Stats */}
       <div className="text-right shrink-0 min-w-[50px] flex flex-col items-end">
          <div className="font-bold text-text-primary text-sm">{t("countUnit", { count })}</div>
-         <div className="text-[10px] text-text-tertiary">{percentage}%</div>
+         <div className="text-[10px]">{percentage}%</div>
       </div>
 
       <ChevronRight className="text-text-placeholder group-hover:text-accent transition-colors shrink-0" size={16} />
@@ -136,7 +136,7 @@ function AuraListItem({
 
 function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; onCelebClick: (celeb: { id: string; slug: string | null }) => void; t: TranslationFn }) {
   if (ranking.length === 0) {
-     return <div className="h-full flex items-center justify-center text-text-tertiary text-sm">{t("empty.noAuraCelebs")}</div>;
+     return <div className="h-full flex items-center justify-center text-sm">{t("empty.noAuraCelebs")}</div>;
   }
 
   return (
@@ -153,7 +153,7 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                 onClick={() => onCelebClick({ id: celeb.id, slug: celeb.slug })}
                 className="flex items-center gap-3 p-3 border-b border-border/30 hover:bg-accent/5 cursor-pointer transition-colors last:border-0"
               >
-                <div className="w-6 text-center text-text-tertiary font-medium text-xs">{celeb.ranking}</div>
+                <div className="w-6 text-center font-medium text-xs">{celeb.ranking}</div>
                 
                 <div className="relative w-9 h-9 rounded-full overflow-hidden bg-bg-card flex-shrink-0 border border-border/50">
                   {celeb.avatar_url ? (
@@ -173,7 +173,7 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                 
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-text-primary truncate">{celeb.nickname}</p>
-                  {celeb.profession && <p className="text-[11px] text-text-tertiary truncate">{celeb.profession}</p>}
+                  {celeb.profession && <p className="text-[11px] truncate">{celeb.profession}</p>}
                 </div>
                 
                 <div className="text-right">
@@ -312,7 +312,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                                 {selectedAura && t(`auraTitle.${selectedAura}`)}
                             </h3>
                         </div>
-                        <div className="text-xs text-text-tertiary mt-1">
+                        <div className="text-xs mt-1">
                             {t("scoreRange")}: {t(`scoreRanges.${selectedAura}`)}
                         </div>
                     </div>

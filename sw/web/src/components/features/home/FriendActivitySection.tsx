@@ -98,10 +98,10 @@ function EmptyActivity() {
   return (
     <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl bg-bg-card border border-border/50">
       <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
-        <Inbox size={24} className="text-text-tertiary" />
+        <Inbox size={24} className="" />
       </div>
       <p className="text-sm text-text-secondary mb-1 text-center">{t("empty.noFriendActivity")}</p>
-      <p className="text-xs text-text-tertiary text-center">{t("empty.noFriendActivityDesc")}</p>
+      <p className="text-xs text-center">{t("empty.noFriendActivityDesc")}</p>
     </div>
   );
 }

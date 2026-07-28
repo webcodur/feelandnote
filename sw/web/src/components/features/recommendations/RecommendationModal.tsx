@@ -174,13 +174,13 @@ export default function RecommendationModal({
               {/* 검색바 */}
               <div className="p-4 border-b border-border/30">
                 <div className="relative">
-                  <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
+                  <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     placeholder={t("searchFriends")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/50 transition-colors"
+                    className="w-full pl-9 pr-4 py-2 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors"
                   />
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function RecommendationModal({
                   <div className="h-full flex items-center justify-center py-10">
                     <div className="text-center">
                       <div className="inline-block w-5 h-5 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
-                      <p className="text-text-tertiary text-xs mt-2">{t("loading")}</p>
+                      <p className="text-xs mt-2">{t("loading")}</p>
                     </div>
                   </div>
                 )}
@@ -199,8 +199,8 @@ export default function RecommendationModal({
                 {!isLoading && filteredFriends.length === 0 && (
                   <div className="h-full flex items-center justify-center py-10">
                     <div className="text-center">
-                      <Users size={28} className="text-text-tertiary/30 mx-auto mb-2" />
-                      <p className="text-text-tertiary text-xs">
+                      <Users size={28} className="mx-auto mb-2" />
+                      <p className="text-xs">
                         {searchQuery ? t("noResults") : t("noFriends")}
                       </p>
                     </div>
@@ -238,7 +238,7 @@ export default function RecommendationModal({
                               <div className={`w-9 h-9 rounded-full bg-bg-card flex items-center justify-center border ${
                                 isSelected ? "border-accent" : "border-border/30"
                               }`}>
-                                <Users size={14} className="text-text-tertiary" />
+                                <Users size={14} className="" />
                               </div>
                             )}
                             {isSelected && (
@@ -282,9 +282,9 @@ export default function RecommendationModal({
                     onChange={(e) => setMessage(e.target.value.slice(0, 200))}
                     placeholder={t("messagePlaceholder")}
                     rows={2}
-                    className="w-full px-3 py-2.5 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
+                    className="w-full px-3 py-2.5 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
                   />
-                  <span className="absolute bottom-2.5 right-3 text-[10px] text-text-tertiary/50">
+                  <span className="absolute bottom-2.5 right-3 text-[10px]">
                     {message.length}/200
                   </span>
                 </div>
@@ -318,7 +318,7 @@ export default function RecommendationModal({
             disabled={!selectedUserId || isSending}
             className={`min-w-[120px] px-5 py-2.5 rounded-lg text-sm font-sans font-bold transition-all flex items-center justify-center gap-2 ${
               !selectedUserId || isSending
-                ? "bg-stone-800 text-text-tertiary cursor-not-allowed border border-border/30"
+                ? "bg-stone-800  cursor-not-allowed border border-border/30"
                 : "bg-accent hover:bg-accent-hover text-stone-900 border border-accent/50"
             }`}
           >

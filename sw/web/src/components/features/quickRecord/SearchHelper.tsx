@@ -45,7 +45,7 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
 
   if (presets.length === 0) {
     return (
-      <div className="text-xs text-text-tertiary text-center p-4">
+      <div className="text-xs text-center p-4">
         {t("noPresets")}
       </div>
     );
@@ -55,7 +55,7 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
     <div className="flex flex-col gap-4">
       <div>
         <div className="text-xs text-text-secondary mb-3 flex items-center gap-2">
-          <span className="text-[13px] text-text-tertiary/60">{t("clickHint")}</span>
+          <span className="text-[13px]">{t("clickHint")}</span>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -67,9 +67,9 @@ export default function SearchHelper({ title, creator, type, onSearchResult }: S
               className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isEn ? (
-                <ExternalLink size={12} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                <ExternalLink size={12} className="group-hover:text-accent transition-colors" />
               ) : (
-                <FileText size={12} className="text-text-tertiary group-hover:text-accent transition-colors" />
+                <FileText size={12} className="group-hover:text-accent transition-colors" />
               )}
               <span className="text-xs font-semibold text-text-primary group-hover:text-accent transition-colors">
                 {preset.label}

@@ -98,7 +98,7 @@ export default function ProfessionPreview({ professionCounts, contentSamples }: 
                 </h4>
                 <div className="flex items-center gap-1 mt-0.5">
                   <Users size={10} className={`${colorClass} opacity-60`} />
-                  <span className="text-[10px] font-semibold text-text-tertiary tabular-nums">
+                  <span className="text-[10px] font-semibold tabular-nums">
                     {p.count}{locale === "ko" ? "명" : ""}
                   </span>
                 </div>

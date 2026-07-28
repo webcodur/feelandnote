@@ -42,7 +42,7 @@ export default function ArchiveSectionHeader({ userId, isOwner, isCeleb }: Props
         <>
           {desc}
           <br />
-          <span className="text-text-tertiary text-xs sm:text-sm mt-1 block">
+          <span className="text-xs sm:text-sm mt-1 block">
             {subDesc}
           </span>
         </>

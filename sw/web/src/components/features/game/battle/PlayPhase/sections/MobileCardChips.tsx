@@ -80,7 +80,7 @@ export default function MobileCardChips({
                               isRecoverable
                                 ? isRecoverSelected
                                   ? "shadow-[0_0_12px_rgba(217,169,78,0.2)]"
-                                  : "active:scale-[0.97] shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                                  : "scale-[0.97] shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
                                 : "cursor-not-allowed opacity-50 grayscale shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
                             }`}
                           >

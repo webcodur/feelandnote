@@ -110,7 +110,7 @@ export default function CelebContentTimeline({
                   {displayNickname}
                 </p>
                 {celeb.profession && (
-                  <p className="text-xs text-text-tertiary">
+                  <p className="text-xs">
                     {getCelebProfessionLabel(celeb.profession, locale)}
                   </p>
                 )}
@@ -154,7 +154,7 @@ export default function CelebContentTimeline({
                 })}
               </div>
             ) : (
-              <p className="text-xs text-text-tertiary ml-1">
+              <p className="text-xs ml-1">
                 {emptyLabel}
               </p>
             )}

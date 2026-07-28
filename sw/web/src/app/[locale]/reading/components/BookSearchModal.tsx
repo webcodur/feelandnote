@@ -169,7 +169,7 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
                           {result.author}
                         </p>
                       )}
-                      <div className="mt-1 flex items-center gap-2 text-xs text-text-tertiary">
+                      <div className="mt-1 flex items-center gap-2 text-xs">
                         {result.publisher && <span>{result.publisher}</span>}
                         {result.publisher && result.publishDate && <span>·</span>}
                         {result.publishDate && <span>{result.publishDate}</span>}

@@ -145,7 +145,7 @@ export default function TrackerResult({
       {/* 콘텐츠 목록 (시각적 카드 분리 및 체인 애니메이션 적용) */}
       {contents.length > 0 && (
         <div className="space-y-4 pt-2">
-          <h4 className="text-sm text-text-tertiary font-cinzel text-center font-bold tracking-[0.3em] mb-4 opacity-80">
+          <h4 className="text-sm font-cinzel text-center font-bold tracking-[0.3em] mb-4 opacity-80">
             {tGame("contentListTitle")}
           </h4>
           <div className="space-y-2.5">
@@ -180,7 +180,7 @@ export default function TrackerResult({
                   
                   <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pl-11 sm:pl-0 sm:shrink-0">
                     {c.creator && (
-                      <span className="text-[13px] font-medium text-text-tertiary truncate max-w-[140px]">{c.creator}</span>
+                      <span className="text-[13px] font-medium truncate max-w-[140px]">{c.creator}</span>
                     )}
                     {hasReview ? (
                       <MessageSquare size={14} className="shrink-0 text-accent/70 group-hover:text-accent group-hover:scale-110 transition-all" />

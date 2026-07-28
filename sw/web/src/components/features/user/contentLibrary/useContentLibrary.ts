@@ -55,6 +55,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [activeTab, setActiveTab] = useState<CategoryId>("all");
   const [contents, setContents] = useState<UserContentWithContent[]>(seed?.contents ?? []);
   const [isLoading, setIsLoading] = useState(!seed);
+  /** 이미 목록을 한 번 그린 뒤의 재조회. 목록을 지우지 않고 흐리게만 둔다. */
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const hasLoadedRef = useRef(seed !== null);
   const [error, setError] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -140,7 +143,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   }, [isViewer, targetUserId]);
 
   const loadContents = useCallback(async () => {
-    setIsLoading(true);
+    /* 첫 조회에만 목록 자리를 통째로 로딩 화면에 내준다. 페이지를 넘기거나 조건을
+       바꿀 때까지 그러면 목록·조작 줄·쪽 번호가 한꺼번에 사라졌다 돌아오면서
+       화면 높이가 접혔다 펴져 크게 들썩인다. 재조회는 목록을 둔 채 흐리게만 한다. */
+    if (hasLoadedRef.current) setIsRefreshing(true);
+    else setIsLoading(true);
     setError(null);
     try {
       const limit = maxItems || pageSize;
@@ -186,7 +193,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       console.error("콘텐츠 로드 실패:", err);
       setError(t("loadFailed"));
     } finally {
+      hasLoadedRef.current = true;
       setIsLoading(false);
+      setIsRefreshing(false);
     }
   }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption, t]);
 
@@ -327,6 +336,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     activeTab, setActiveTab,
     contents,
     isLoading,
+    isRefreshing,
     error,
     currentPage, setCurrentPage,
     totalPages,

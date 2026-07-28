@@ -45,11 +45,11 @@ export default function CharacterListPanel({
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-semibold text-text-primary">{t("characterList")}</h3>
-          <span className="text-xs text-text-tertiary">{t("personCount", { count: characters.length })}</span>
+          <span className="text-xs">{t("personCount", { count: characters.length })}</span>
         </div>
         <button
           onClick={onAdd}
-          className="w-full rounded-lg border border-dashed border-border py-2 text-xs text-text-tertiary hover:border-accent hover:text-accent flex items-center justify-center gap-2"
+          className="w-full rounded-lg border border-dashed border-border py-2 text-xs hover:border-accent hover:text-accent flex items-center justify-center gap-2"
         >
           <Plus className="size-3" />
           {t("addCharacter")}
@@ -58,7 +58,7 @@ export default function CharacterListPanel({
 
       <div className="flex-1 overflow-y-auto p-3">
         {characters.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center text-text-tertiary text-xs p-4">
+          <div className="flex flex-col items-center justify-center h-full text-center text-xs p-4">
             <Users className="size-8 mb-2 opacity-50" />
             <p>{t("startPrompt")}</p>
           </div>
@@ -126,12 +126,12 @@ export default function CharacterListPanel({
                                       {char.names?.[0] || t("noName")}
                                     </p>
                                     {char.rank && (
-                                      <span className="text-[10px] text-text-tertiary">
+                                      <span className="text-[10px]">
                                         {char.rank}
                                       </span>
                                     )}
                                   </div>
-                                  <p className="text-[10px] text-text-tertiary">
+                                  <p className="text-[10px]">
                                     {t("relationsCount", { count: relCount })}
                                   </p>
                                 </div>

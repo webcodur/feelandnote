@@ -108,7 +108,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
         </h2>
 
         {/* 메타 정보 */}
-        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm text-text-tertiary justify-center">
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm justify-center">
           {celeb.profession && (
             <span className="flex items-center gap-1">
               <Briefcase size={12} />
@@ -133,7 +133,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
 
       {/* 명언 */}
       {displayQuotes && (
-        <blockquote className="text-xs md:text-sm text-text-tertiary font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
+        <blockquote className="text-xs md:text-sm font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
           <FormattedText text={displayQuotes} />
         </blockquote>
       )}

@@ -18,7 +18,7 @@ export default function Avatar({ src, alt, size = 20 }: { src: string | null; al
       {src ? (
         <Image src={src} alt={alt} fill sizes="128px" className="object-cover" />
       ) : (
-        <div className={cn("w-full h-full flex items-center justify-center font-serif text-text-tertiary", textClass)}>
+        <div className={cn("w-full h-full flex items-center justify-center font-serif ", textClass)}>
           {alt.charAt(0)}
         </div>
       )}

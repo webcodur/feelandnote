@@ -17,7 +17,7 @@ function SamplePosterCard() {
     <div className="w-28 bg-[#212121] border border-border/60 rounded-lg overflow-hidden">
       <div className="aspect-[2/3] overflow-hidden relative bg-bg-secondary">
         <div className="w-full h-full flex items-center justify-center bg-white/5">
-          <Book size={28} className="text-text-tertiary" />
+          <Book size={28} className="" />
         </div>
         <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-bg-main/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-text-secondary">
           <Star size={10} className="text-yellow-500 fill-yellow-500" />
@@ -41,7 +41,7 @@ function SampleHorizontalCard() {
     <div className="flex gap-3 p-3 w-72 h-28 bg-[#212121] border border-border/60 rounded-lg overflow-hidden">
       <div className="relative w-16 flex-shrink-0 rounded overflow-hidden bg-bg-secondary">
         <div className="w-full h-full flex items-center justify-center bg-white/5">
-          <Film size={20} className="text-text-tertiary" />
+          <Film size={20} className="" />
         </div>
       </div>
       <div className="flex-1 min-w-0 flex flex-col">
@@ -53,7 +53,7 @@ function SampleHorizontalCard() {
           </span>
         </div>
         <h3 className="text-sm font-semibold text-text-primary line-clamp-1">콘텐츠 제목</h3>
-        <p className="text-xs text-text-tertiary line-clamp-2 mt-1">
+        <p className="text-xs line-clamp-2 mt-1">
           리뷰 내용이 여기에...
         </p>
       </div>
@@ -161,7 +161,7 @@ export default function ContentCardsPreview() {
                             {section.card}
                           </span>
                         </div>
-                        <p className="text-xs text-text-tertiary mt-0.5">{section.description}</p>
+                        <p className="text-xs mt-0.5">{section.description}</p>
                       </div>
                     </div>
                   ))}
@@ -189,14 +189,14 @@ export default function ContentCardsPreview() {
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <div>
                       <h4 className="text-sm font-semibold text-text-primary">{card.name}</h4>
-                      <p className="text-xs text-text-tertiary mt-0.5">{card.description}</p>
+                      <p className="text-xs mt-0.5">{card.description}</p>
                     </div>
                     <span className="px-2 py-1 bg-accent/10 rounded text-[10px] text-accent">
                       {card.imageRatio}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs mb-2">
-                    <FileCode size={12} className="text-text-tertiary" />
+                    <FileCode size={12} className="" />
                     <code className="text-text-secondary font-mono">@/{card.path}</code>
                   </div>
                   <div className="flex flex-wrap gap-1.5">

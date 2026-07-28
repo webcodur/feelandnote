@@ -103,13 +103,13 @@ export default function VirtualMonologueSection({ text, showTranslate: showTrans
 
   return (
     <>
-      <p className="text-xs text-text-tertiary leading-relaxed break-keep text-center mb-4">
+      <p className="text-xs leading-relaxed break-keep text-center mb-4">
         {t("virtualMonologueNote")}
       </p>
 
       {showTranslate && (
         <div className="flex flex-wrap items-center gap-3 mb-4">
-          <p className="text-xs text-text-tertiary leading-relaxed break-keep">
+          <p className="text-xs leading-relaxed break-keep">
             {t("virtualMonologueKoNotice")}
           </p>
           {supported && (
@@ -117,7 +117,7 @@ export default function VirtualMonologueSection({ text, showTranslate: showTrans
               type="button"
               onClick={handleTranslate}
               disabled={state === "translating"}
-              className="shrink-0 rounded border border-accent-dim/40 px-2.5 py-1 text-xs text-text-tertiary hover:border-accent/60 hover:text-accent disabled:opacity-50"
+              className="shrink-0 rounded border border-accent-dim/40 px-2.5 py-1 text-xs hover:border-accent/60 hover:text-accent disabled:opacity-50"
             >
               {buttonLabel}
             </button>
@@ -126,7 +126,7 @@ export default function VirtualMonologueSection({ text, showTranslate: showTrans
       )}
 
       {state === "error" && (
-        <p className="text-xs text-text-tertiary mb-4">{t("virtualMonologueTranslateError")}</p>
+        <p className="text-xs mb-4">{t("virtualMonologueTranslateError")}</p>
       )}
 
       <div
@@ -139,7 +139,7 @@ export default function VirtualMonologueSection({ text, showTranslate: showTrans
       </div>
 
       {isShowingTranslation && (
-        <p className="text-xs text-text-tertiary leading-relaxed break-keep mt-4">
+        <p className="text-xs leading-relaxed break-keep mt-4">
           {t("virtualMonologueMachineNote")}
         </p>
       )}

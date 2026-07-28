@@ -12,7 +12,7 @@ interface FreePostFieldsProps {
 }
 
 const INPUT_CLASS =
-  'w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent'
+  'w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary placeholder: focus:outline-none focus:border-accent'
 
 export default function FreePostFields({ draft, isLoggedIn, mode, compact = false }: FreePostFieldsProps) {
   const t = useTranslations('board')
@@ -65,7 +65,7 @@ export default function FreePostFields({ draft, isLoggedIn, mode, compact = fals
           maxLength={100}
           className={INPUT_CLASS}
         />
-        <p className="text-xs text-text-tertiary mt-1 text-end">{draft.title.length}/100</p>
+        <p className="text-xs mt-1 text-end">{draft.title.length}/100</p>
       </div>
 
       {/* 내용 */}
@@ -82,7 +82,7 @@ export default function FreePostFields({ draft, isLoggedIn, mode, compact = fals
           rows={compact ? 6 : 12}
           className={`${INPUT_CLASS} resize-none`}
         />
-        <p className="text-xs text-text-tertiary mt-1 text-end">{draft.content.length}/5000</p>
+        <p className="text-xs mt-1 text-end">{draft.content.length}/5000</p>
       </div>
 
       {/* 비밀번호 (비로그인 작성 · 익명 글 수정 시) */}
@@ -100,9 +100,9 @@ export default function FreePostFields({ draft, isLoggedIn, mode, compact = fals
             onChange={(e) => draft.setPassword(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
             placeholder={t('free.passwordPlaceholder')}
             maxLength={4}
-            className="w-40 px-4 py-3 bg-bg-card border border-border rounded-xl text-center tracking-[0.5em] text-text-primary placeholder:tracking-normal placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+            className="w-40 px-4 py-3 bg-bg-card border border-border rounded-xl text-center tracking-[0.5em] text-text-primary placeholder:tracking-normal placeholder: focus:outline-none focus:border-accent"
           />
-          <p className="text-xs text-text-tertiary mt-1">{t('free.passwordHint')}</p>
+          <p className="text-xs mt-1">{t('free.passwordHint')}</p>
         </div>
       )}
 

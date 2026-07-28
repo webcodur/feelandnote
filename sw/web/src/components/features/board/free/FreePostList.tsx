@@ -49,7 +49,7 @@ export default function FreePostList({ posts, currentPage, totalPages, isLoggedI
             <FileText size={48} strokeWidth={1} className="text-accent-dim" />
           </div>
           <p className="font-serif text-text-secondary">{t('free.emptyTitle')}</p>
-          <p className="text-xs text-text-tertiary mt-2">{t('free.emptySubtitle')}</p>
+          <p className="text-xs mt-2">{t('free.emptySubtitle')}</p>
         </div>
       ) : (
         <>

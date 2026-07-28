@@ -114,7 +114,7 @@ export default function DawnResult({
 
       {/* 수직 연대기 */}
       <div className="space-y-1">
-        <h4 className="text-sm text-text-tertiary font-cinzel uppercase tracking-wider text-center mb-5">
+        <h4 className="text-sm font-cinzel uppercase tracking-wider text-center mb-5">
           {t("timelineTitle")}
         </h4>
 

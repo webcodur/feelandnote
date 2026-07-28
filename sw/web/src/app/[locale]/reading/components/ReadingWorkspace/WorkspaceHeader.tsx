@@ -125,7 +125,7 @@ export default function WorkspaceHeader({
                           ? "bg-accent/20 text-accent"
                           : tab.enabled
                             ? "text-text-secondary hover:bg-white/5 hover:text-text-primary"
-                            : "cursor-not-allowed text-text-tertiary opacity-50"
+                            : "cursor-not-allowed  opacity-50"
                       }`}
                     >
                       <Icon className="size-4" />
@@ -161,14 +161,14 @@ export default function WorkspaceHeader({
               <div className="flex items-center gap-0.5">
                 <button
                   onClick={onOpenSearch}
-                  className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
+                  className="flex size-8 items-center justify-center rounded-lg hover:bg-white/5 hover:text-text-secondary"
                   title={t("changeBook")}
                 >
                   <Search className="size-4" />
                 </button>
                 <button
                   onClick={onClearBook}
-                  className="flex size-8 items-center justify-center rounded-lg text-text-tertiary hover:bg-white/5 hover:text-text-secondary"
+                  className="flex size-8 items-center justify-center rounded-lg hover:bg-white/5 hover:text-text-secondary"
                   title={t("clearBook")}
                 >
                   <X className="size-4" />

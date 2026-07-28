@@ -362,7 +362,7 @@ function TagCard({
             )}
           </span>
           {isUpcoming ? (
-            <Lock size={16} className="text-text-tertiary/60 flex-shrink-0 mt-1" />
+            <Lock size={16} className="flex-shrink-0 mt-1" />
           ) : (
             /* 데스크탑만 우측 상단 아바타 */
             <div className="hidden md:flex -space-x-3">
@@ -425,7 +425,7 @@ function TagCard({
           })}
         </div>
         {isUpcoming ? (
-          <span className="text-xs uppercase font-sans tracking-wider font-semibold text-text-tertiary/70">
+          <span className="text-xs uppercase font-sans tracking-wider font-semibold">
             Soon
           </span>
         ) : (

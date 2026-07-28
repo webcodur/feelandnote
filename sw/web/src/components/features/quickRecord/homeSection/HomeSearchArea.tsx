@@ -91,13 +91,13 @@ export function HomeSearchArea({
             <div className="relative group w-full">
                 <div className="absolute inset-0 bg-accent/10 rounded-xl blur-2xl group-hover:bg-accent/20 transition-all duration-700 opacity-0 group-hover:opacity-100" />
                 <div className="relative flex items-center bg-neutral-900/80 border border-white/10 rounded-xl px-5 py-3 shadow-inner backdrop-blur-md transition-all duration-500 focus-within:bg-black/60 focus-within:border-accent/40 focus-within:ring-1 focus-within:ring-accent/20 group-hover:border-white/20">
-                    <Search className="text-text-tertiary mr-3 transition-colors group-focus-within:text-accent" size={18} strokeWidth={2.5} />
+                    <Search className="mr-3 transition-colors group-focus-within:text-accent" size={18} strokeWidth={2.5} />
                     <input
                         type="text"
                         value={query}
                         onChange={(e) => onQueryChange(e.target.value)}
                         placeholder={placeholder || (selectedCategory !== "all" ? tp(selectedCategory) : t("searchPlaceholder"))}
-                        className="bg-transparent border-none outline-none text-base text-text-primary placeholder:text-text-tertiary/40 w-full font-medium tracking-tight"
+                        className="bg-transparent border-none outline-none text-base text-text-primary placeholder: w-full font-medium tracking-tight"
                     />
                     {isSearching && <Loader2 className="animate-spin text-accent ml-3 shrink-0" size={18} />}
                 </div>
@@ -106,7 +106,7 @@ export function HomeSearchArea({
                 {showDropdown && isOpen && (query.length >= 2 || searchResults.length > 0) && (
                     <div className="absolute top-full left-0 right-0 mt-3 bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 text-left">
                         {isSearching ? (
-                            <div className="p-8 text-center text-text-tertiary">
+                            <div className="p-8 text-center">
                                 <Loader2 className="animate-spin mx-auto mb-2" />
                                 <span>{t("searching")}</span>
                             </div>
@@ -122,7 +122,7 @@ export function HomeSearchArea({
                                             {result.thumbnail ? (
                                                 <img src={result.thumbnail} alt={result.title} className="w-full h-full object-cover" />
                                             ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-text-tertiary">
+                                                <div className="w-full h-full flex items-center justify-center">
                                                     <BookOpen size={16} />
                                                 </div>
                                             )}
@@ -131,14 +131,14 @@ export function HomeSearchArea({
                                             <h4 className="font-bold text-text-primary truncate">{result.title}</h4>
                                             <p className="text-sm text-text-secondary truncate">{result.subtitle}</p>
                                         </div>
-                                        <div className="text-xs text-text-tertiary shrink-0 px-2 py-1 rounded bg-white/5">
+                                        <div className="text-xs shrink-0 px-2 py-1 rounded bg-white/5">
                                             {t("addRecord")}
                                         </div>
                                     </button>
                                 ))}
                             </div>
                         ) : (
-                            <div className="p-8 text-center text-text-tertiary">
+                            <div className="p-8 text-center">
                                 {t("noResults")}
                             </div>
                         )}

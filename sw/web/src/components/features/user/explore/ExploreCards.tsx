@@ -34,7 +34,7 @@ export function UserCard({ user, onClick, showProfession }: { user: UserInfo; on
         <span className="text-[10px] text-accent truncate max-w-full">{user.title}</span>
       )}
       {showProfession && user.profession && (
-        <span className="text-[9px] text-text-tertiary/70 truncate max-w-full">{getCelebProfessionLabel(user.profession)}</span>
+        <span className="text-[9px] truncate max-w-full">{getCelebProfessionLabel(user.profession)}</span>
       )}
     </Button>
   );
@@ -77,8 +77,8 @@ export function MobileUserListItem({ user, onClick, subtext }: { user: UserInfo;
           ) : (user.title || user.profession) ? (
             <div className="flex items-center gap-1">
               {user.title && <span className="text-[10px] text-accent font-serif truncate">{user.title}</span>}
-              {user.title && user.profession && <span className="text-[9px] text-text-tertiary/40">|</span>}
-              {user.profession && <span className="text-[9px] text-text-tertiary/70 font-serif truncate">{getCelebProfessionLabel(user.profession)}</span>}
+              {user.title && user.profession && <span className="text-[9px]">|</span>}
+              {user.profession && <span className="text-[9px] font-serif truncate">{getCelebProfessionLabel(user.profession)}</span>}
             </div>
           ) : null}
         </div>
@@ -96,9 +96,9 @@ export function MobileUserListItem({ user, onClick, subtext }: { user: UserInfo;
 export function EmptyState({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
     <div className="text-center py-8">
-      <div className="text-text-tertiary mb-2 flex justify-center">{icon}</div>
+      <div className="mb-2 flex justify-center">{icon}</div>
       <p className="text-sm font-medium text-text-secondary">{title}</p>
-      <p className="text-xs text-text-tertiary mt-0.5">{description}</p>
+      <p className="text-xs mt-0.5">{description}</p>
     </div>
   );
 }

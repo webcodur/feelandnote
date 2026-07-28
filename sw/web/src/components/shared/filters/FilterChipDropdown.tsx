@@ -114,9 +114,9 @@ export default function FilterChipDropdown({
           {/* 타이틀 섹션 */}
           <div className={`flex items-center justify-center border-r border-accent/10 bg-black/40 ${icon ? 'px-2.5' : 'flex-[0.35] px-3'}`}>
             {icon ? (
-              <span className={isActive ? 'text-accent' : 'text-text-tertiary opacity-70'}>{icon}</span>
+              <span className={isActive ? 'text-accent' : ' opacity-70'}>{icon}</span>
             ) : (
-              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : 'text-text-tertiary opacity-70'}`}>
+              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : ' opacity-70'}`}>
                 {label}
               </span>
             )}
@@ -154,7 +154,7 @@ export default function FilterChipDropdown({
                   {optIcon && <span className="flex-shrink-0 w-4 text-center">{optIcon}</span>}
                   {optLabel}
                 </span>
-                {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
+                {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : ''}`}>{count}</span>}
               </button>
             );
           })}

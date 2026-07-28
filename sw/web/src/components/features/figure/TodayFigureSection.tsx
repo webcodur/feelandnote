@@ -119,7 +119,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     <Calendar size={12} />
                     <span>{dateStr}</span>
                 </div>
-                <p className="text-sm text-text-tertiary mb-4">
+                <p className="text-sm mb-4">
                     {t("subtitle")}
                 </p>
 
@@ -243,7 +243,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                         ))}
                     </div>
                 ) : (
-                    <div className="w-full py-16 text-center text-text-tertiary flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
+                    <div className="w-full py-16 text-center flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
                         <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-2">
                             <BookOpen size={24} className="opacity-30" />
                         </div>

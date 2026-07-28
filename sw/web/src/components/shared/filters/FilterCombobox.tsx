@@ -121,9 +121,9 @@ export default function FilterCombobox({
         <div className="flex items-stretch justify-center w-full min-h-[2.5rem]">
           <div className={`flex items-center justify-center border-r border-accent/10 bg-black/40 ${icon ? 'px-2.5' : 'flex-[0.35] px-3'}`}>
             {icon ? (
-              <span className={isActive ? 'text-accent' : 'text-text-tertiary opacity-70'}>{icon}</span>
+              <span className={isActive ? 'text-accent' : ' opacity-70'}>{icon}</span>
             ) : (
-              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : 'text-text-tertiary opacity-70'}`}>
+              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : ' opacity-70'}`}>
                 {label}
               </span>
             )}
@@ -146,14 +146,14 @@ export default function FilterCombobox({
           {searchable && (
             <div className="p-2 border-b border-accent/10">
               <div className="relative">
-                <Search size={14} className="absolute start-2.5 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none" />
+                <Search size={14} className="absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   ref={searchInputRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={searchPlaceholder}
-                  className="w-full h-8 ps-8 pe-3 bg-white/5 border border-white/10 rounded text-sm text-text-primary placeholder:text-text-tertiary/60 focus:outline-none focus:border-accent/40"
+                  className="w-full h-8 ps-8 pe-3 bg-white/5 border border-white/10 rounded text-sm text-text-primary placeholder: focus:outline-none focus:border-accent/40"
                 />
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function FilterCombobox({
           {/* 옵션 리스트 */}
           <div className="overflow-y-auto flex-1">
             {filteredOptions.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-text-tertiary text-center">-</div>
+              <div className="px-4 py-3 text-sm text-center">-</div>
             ) : (
               filteredOptions.map(({ value: optValue, label: optLabel, count, icon: optIcon }) => {
                 const isSelected = currentValue === optValue;
@@ -180,7 +180,7 @@ export default function FilterCombobox({
                       {optIcon && <span className="flex-shrink-0 w-4 text-center">{optIcon}</span>}
                       {optLabel}
                     </span>
-                    {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : 'text-text-tertiary'}`}>{count}</span>}
+                    {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : ''}`}>{count}</span>}
                   </button>
                 );
               })

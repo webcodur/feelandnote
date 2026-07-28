@@ -100,7 +100,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
             alt={title}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "group-hover:scale-105" : ""}`}
+            className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105" : ""}`}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             onError={() => setImageError(true)}

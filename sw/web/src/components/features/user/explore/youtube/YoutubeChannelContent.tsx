@@ -88,7 +88,7 @@ export default async function YoutubeChannelContent({
         <section className="space-y-5">
           <header className="space-y-1">
             <h2 className="font-serif text-xl text-text-primary">{t("longformTitle")}</h2>
-            <p className="text-xs text-text-tertiary">{t("longformSub")}</p>
+            <p className="text-xs">{t("longformSub")}</p>
           </header>
           <div className="grid gap-6 sm:grid-cols-2">
             {longform.map((v) => (
@@ -116,7 +116,7 @@ export default async function YoutubeChannelContent({
         <section className="space-y-5">
           <header className="space-y-1">
             <h2 className="font-serif text-xl text-text-primary">{t("shortsTitle")}</h2>
-            <p className="text-xs text-text-tertiary">{t("shortsSub")}</p>
+            <p className="text-xs">{t("shortsSub")}</p>
           </header>
           <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory">
             {shorts.map((v) => (

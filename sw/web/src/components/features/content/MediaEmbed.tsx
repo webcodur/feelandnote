@@ -23,7 +23,7 @@ function SpotifyEmbed({ spotifyId, entity }: { spotifyId: string; entity: Spotif
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         className="rounded-xl"
       />
-      <p className="text-[11px] text-text-tertiary">
+      <p className="text-[11px]">
         <span className="block mb-0.5">{t('mobileNotice')}</span>
         {t('pcPrefix')}
         <a

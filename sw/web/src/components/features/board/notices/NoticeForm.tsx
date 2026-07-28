@@ -71,7 +71,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
             onChange={e => setTitle(e.target.value)}
             placeholder={t('titlePlaceholder')}
             maxLength={100}
-            className="w-full px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 transition-colors"
+            className="w-full px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-text-primary font-serif placeholder: focus:outline-none focus:border-accent/40 transition-colors"
           />
         </div>
 
@@ -84,7 +84,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
             onChange={e => setContent(e.target.value)}
             placeholder={t('contentPlaceholder')}
             rows={12}
-            className="w-full px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-text-primary font-serif placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 resize-none transition-colors"
+            className="w-full px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-text-primary font-serif placeholder: focus:outline-none focus:border-accent/40 resize-none transition-colors"
           />
         </div>
 

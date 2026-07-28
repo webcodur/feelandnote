@@ -136,9 +136,9 @@ function ContentSection({
         ) : (
           <div className="flex flex-col items-center justify-center h-60 bg-bg-card/30 rounded-xl border border-border/30 backdrop-blur-sm">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
-              <Scroll size={24} className="text-text-tertiary opacity-50" />
+              <Scroll size={24} className="opacity-50" />
             </div>
-            <p className="text-text-tertiary text-sm font-serif">{tempty("noWorks")}</p>
+            <p className="text-sm font-serif">{tempty("noWorks")}</p>
           </div>
         )}
       </div>
@@ -319,7 +319,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
   if (initialEraData.length === 0 && initialChosenData.contents.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-        <p className="text-text-tertiary text-sm">{te("noData")}</p>
+        <p className="text-sm">{te("noData")}</p>
       </div>
     );
   }
@@ -333,7 +333,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
           <>
             {t("description")}
             <br />
-            <span className="text-text-tertiary text-sm mt-1 block">
+            <span className="text-sm mt-1 block">
               {t("descriptionSub")}
             </span>
           </>
@@ -416,7 +416,7 @@ export default function EraSection({ initialEraData, initialChosenData, topCeleb
           </>
         ) : (
           <div className="flex items-center justify-center h-40 bg-bg-card rounded-xl border border-border/30">
-            <p className="text-text-tertiary text-sm">{te("noEraSection")}</p>
+            <p className="text-sm">{te("noEraSection")}</p>
           </div>
         )}
       </div>

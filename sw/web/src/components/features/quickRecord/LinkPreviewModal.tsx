@@ -82,7 +82,7 @@ export default function LinkPreviewModal({
             </div>
             <div className="flex flex-col overflow-hidden">
                 <span className="text-sm font-bold text-text-primary truncate">{title || readerContent?.title || t("webPage")}</span>
-                <span className="text-[10px] text-text-tertiary truncate max-w-[300px]">{url}</span>
+                <span className="text-[10px] truncate max-w-[300px]">{url}</span>
             </div>
           </div>
           
@@ -91,13 +91,13 @@ export default function LinkPreviewModal({
             <div className="flex bg-white/5 rounded-lg p-1 mr-2 border border-white/5">
                 <button
                     onClick={() => setMode('READER')}
-                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'READER' ? 'bg-accent text-neutral-900 shadow-sm' : 'text-text-tertiary hover:text-text-primary'}`}
+                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'READER' ? 'bg-accent text-neutral-900 shadow-sm' : ' hover:text-text-primary'}`}
                 >
                     {t("reader")}
                 </button>
                 <button
                     onClick={() => setMode('ORIGINAL')}
-                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'ORIGINAL' ? 'bg-white/20 text-text-primary shadow-sm' : 'text-text-tertiary hover:text-text-primary'}`}
+                    className={`px-3 py-1 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 ${mode === 'ORIGINAL' ? 'bg-white/20 text-text-primary shadow-sm' : ' hover:text-text-primary'}`}
                 >
                      {t("original")}
                 </button>
@@ -107,14 +107,14 @@ export default function LinkPreviewModal({
                 href={url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
+                className="p-2 rounded-lg hover:bg-white/10 hover:text-text-primary transition-colors"
                 title={t("openInBrowser")}
             >
                 <ExternalLink size={16} />
             </a>
             <button 
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-text-tertiary hover:text-text-primary transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 hover:text-text-primary transition-colors"
                 title={t("closeEsc")}
             >
                 <X size={20} />
@@ -147,7 +147,7 @@ export default function LinkPreviewModal({
                                 [&_h2]:text-xl [&_h2]:font-serif [&_h2]:font-bold [&_h2]:text-text-primary [&_h2]:mt-8 [&_h2]:mb-4 [&_h2]:border-l-4 [&_h2]:border-accent [&_h2]:pl-3
                                 [&_h3]:text-lg [&_h3]:font-serif [&_h3]:font-bold [&_h3]:text-text-primary/90 [&_h3]:mt-6 [&_h3]:mb-3
                                 [&_img]:rounded-lg [&_img]:shadow-lg [&_img]:mx-auto [&_img]:my-8 [&_img]:max-w-full [&_img]:border [&_img]:border-white/5
-                                [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-text-tertiary [&_blockquote]:my-6
+                                [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]: [&_blockquote]:my-6
                                 [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition-colors hover:[&_a]:text-accent-hover
                                 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-6 [&_ul]:marker:text-accent
                                 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-6 [&_ol]:marker:text-accent
@@ -159,7 +159,7 @@ export default function LinkPreviewModal({
                          />
                      </div>
                  ) : !isLoading && (
-                     <div className="flex flex-col items-center justify-center h-full text-text-tertiary space-y-4">
+                     <div className="flex flex-col items-center justify-center h-full space-y-4">
                          <BookOpen size={48} className="opacity-20" />
                          <p>{t("readerUnavailable")}</p>
                          <button 
@@ -207,7 +207,7 @@ export default function LinkPreviewModal({
         </div>
         
         {/* Footer */}
-        <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[10px] text-text-tertiary shrink-0">
+        <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[10px] shrink-0">
             {mode === 'READER'
                 ? <span>{t("readerHint")}</span>
                 : <span>{t("originalHint")}</span>

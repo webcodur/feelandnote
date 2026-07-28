@@ -118,7 +118,7 @@ export default function HeaderSearch() {
             }}
             onKeyDown={handleInputKeyDown}
             placeholder={displayPlaceholder}
-            className="flex-1 min-w-0 bg-transparent border-none text-text-primary outline-none text-sm sm:text-[15px] font-serif placeholder:text-text-tertiary placeholder:italic py-2"
+            className="flex-1 min-w-0 bg-transparent border-none text-text-primary outline-none text-sm sm:text-[15px] font-serif placeholder: placeholder:italic py-2"
           />
           <Button
             unstyled
@@ -127,7 +127,7 @@ export default function HeaderSearch() {
               mobileInputRef.current?.focus();
             }}
             disabled={!query}
-            className={`${query ? "text-text-tertiary hover:text-text-primary" : "text-text-tertiary/30 cursor-not-allowed"}`}
+            className={`${query ? " hover:text-text-primary" : " cursor-not-allowed"}`}
           >
             <X size={16} />
           </Button>

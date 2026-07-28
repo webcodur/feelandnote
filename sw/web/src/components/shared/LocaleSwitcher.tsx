@@ -103,7 +103,7 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
     <Button
       unstyled
       onClick={handleSwitch}
-      className={`text-sm text-text-tertiary hover:text-white transition-colors duration-300 ${className ?? ""}`}
+      className={`text-sm  hover:text-white transition-colors duration-300 ${className ?? ""}`}
     >
       {t("switchTo")}
     </Button>

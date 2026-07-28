@@ -259,7 +259,7 @@ export default function FramePreview() {
       <section className="space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">1. Textures (9 Grades)</h3>
-          <p className="text-xs text-text-tertiary">9등급 재질별 텍스처 · 광택 · 질감</p>
+          <p className="text-xs">9등급 재질별 텍스처 · 광택 · 질감</p>
         </div>
 
         <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3 p-6 bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-2xl border border-white/5">
@@ -292,7 +292,7 @@ export default function FramePreview() {
                 </div>
                 <div className="text-center">
                   <div className="text-[10px] font-bold" style={{ color: mat.colors.primary }}>{mat.romanNumeral}</div>
-                  <div className="text-[8px] text-text-tertiary">{mat.auraTitleKo}</div>
+                  <div className="text-[8px]">{mat.auraTitleKo}</div>
                 </div>
               </div>
             );
@@ -304,7 +304,7 @@ export default function FramePreview() {
       <section className="space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">2. Frames</h3>
-          <p className="text-xs text-text-tertiary">재질별 액자 프레임</p>
+          <p className="text-xs">재질별 액자 프레임</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 p-8 bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-2xl border border-white/5">
@@ -313,7 +313,7 @@ export default function FramePreview() {
               <Frame mat={mat} size="md" />
               <div className="text-center">
                 <div className="text-sm font-bold" style={{ color: mat.colors.primary }}>{mat.label}</div>
-                <div className="text-[10px] text-text-tertiary">{mat.koreanLabel}</div>
+                <div className="text-[10px]">{mat.koreanLabel}</div>
               </div>
             </div>
           ))}
@@ -324,7 +324,7 @@ export default function FramePreview() {
       <section className="space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">3. Cards</h3>
-          <p className="text-xs text-text-tertiary">재질별 카드 스타일 (NeoCelebCard) - 원천 데이터</p>
+          <p className="text-xs">재질별 카드 스타일 (NeoCelebCard) - 원천 데이터</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-5 p-6 bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-2xl border border-white/5">
@@ -333,7 +333,7 @@ export default function FramePreview() {
               <NeoCelebCard celeb={createMockCeleb(mat)} variant={mat.cardVariant} size="small" />
               <div className="text-center">
                 <div className="text-sm font-bold" style={{ color: mat.colors.primary }}>{mat.label}</div>
-                <div className="text-[9px] text-text-tertiary">{mat.cardVariant}</div>
+                <div className="text-[9px]">{mat.cardVariant}</div>
               </div>
             </div>
           ))}
@@ -344,19 +344,19 @@ export default function FramePreview() {
       <section className="space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">4. Badges (9 Grades)</h3>
-          <p className="text-xs text-text-tertiary">9등급 뱃지 스타일</p>
+          <p className="text-xs">9등급 뱃지 스타일</p>
         </div>
 
         <div className="space-y-8 p-6 bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-2xl border border-white/5">
           {/* 별 방식 */}
           <div className="space-y-4">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">★ Star Style (9 Stars Max)</span>
+            <span className="text-xs uppercase tracking-wider">★ Star Style (9 Stars Max)</span>
             <div className="flex flex-wrap justify-center items-end gap-4">
               {materials.map((mat) => (
                 <div key={mat.key} className="flex flex-col items-center gap-2">
                   <StarBadge mat={mat} size="md" />
                   <span className="text-[10px] font-medium" style={{ color: mat.colors.primary }}>{mat.auraTitle}</span>
-                  <span className="text-[8px] text-text-tertiary">{mat.aura}등급</span>
+                  <span className="text-[8px]">{mat.aura}등급</span>
                 </div>
               ))}
             </div>
@@ -366,13 +366,13 @@ export default function FramePreview() {
 
           {/* 로마자 방식 */}
           <div className="space-y-4">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Roman Numeral Style</span>
+            <span className="text-xs uppercase tracking-wider">Roman Numeral Style</span>
             <div className="flex flex-wrap justify-center items-end gap-4">
               {materials.map((mat) => (
                 <div key={mat.key} className="flex flex-col items-center gap-2">
                   <RomanBadge mat={mat} size="md" />
                   <span className="text-[10px] font-medium" style={{ color: mat.colors.primary }}>{mat.auraTitleKo}</span>
-                  <span className="text-[8px] text-text-tertiary">{mat.romanNumeral}</span>
+                  <span className="text-[8px]">{mat.romanNumeral}</span>
                 </div>
               ))}
             </div>
@@ -382,13 +382,13 @@ export default function FramePreview() {
 
           {/* 조합 방식 (로마자 + 등급명) */}
           <div className="space-y-4">
-            <span className="text-xs text-text-tertiary uppercase tracking-wider">Combined Style (Roman + Title)</span>
+            <span className="text-xs uppercase tracking-wider">Combined Style (Roman + Title)</span>
             <div className="flex flex-wrap justify-center items-end gap-4">
               {materials.map((mat) => (
                 <div key={mat.key} className="flex flex-col items-center gap-2">
                   <CombinedBadge mat={mat} size="md" />
                   <span className="text-[10px] font-medium" style={{ color: mat.colors.primary }}>{mat.auraTitleKo}</span>
-                  <span className="text-[8px] text-text-tertiary">{mat.koreanLabel}</span>
+                  <span className="text-[8px]">{mat.koreanLabel}</span>
                 </div>
               ))}
             </div>
@@ -400,7 +400,7 @@ export default function FramePreview() {
       <section className="space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-cinzel text-accent tracking-wider">5. Nameplates</h3>
-          <p className="text-xs text-text-tertiary">재질별 명판 스타일 (FriendCardNameplate)</p>
+          <p className="text-xs">재질별 명판 스타일 (FriendCardNameplate)</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6 bg-gradient-to-b from-neutral-950 to-neutral-900 rounded-2xl border border-white/5">
@@ -409,7 +409,7 @@ export default function FramePreview() {
               <FriendCardNameplate friend={createMockFriend(mat)} onClick={() => {}} materialKey={mat.key} />
               <div className="flex justify-between items-center px-1">
                 <span className="text-[9px] font-medium" style={{ color: mat.colors.primary }}>{mat.label}</span>
-                <span className="text-[9px] text-text-tertiary">{mat.koreanLabel}</span>
+                <span className="text-[9px]">{mat.koreanLabel}</span>
               </div>
             </div>
           ))}
@@ -419,12 +419,12 @@ export default function FramePreview() {
       {/* 9등급 매핑 테이블 */}
       <section className="space-y-4 p-6 bg-accent/5 rounded-2xl border border-accent/20">
         <h3 className="text-lg font-cinzel text-accent tracking-wider">9-Grade System (단일 원천)</h3>
-        <p className="text-xs text-text-tertiary">constants/materials.ts 기준</p>
+        <p className="text-xs">constants/materials.ts 기준</p>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/10 text-text-tertiary text-xs">
+              <tr className="border-b border-white/10 text-xs">
                 <th className="text-left py-2">등급</th>
                 <th className="text-left py-2">칭호</th>
                 <th className="text-left py-2">재질</th>
@@ -441,7 +441,7 @@ export default function FramePreview() {
                   </td>
                   <td className="py-2">{mat.koreanLabel}</td>
                   <td className="py-2 font-cinzel">{mat.romanNumeral}</td>
-                  <td className="py-2 text-[10px] text-text-tertiary">
+                  <td className="py-2 text-[10px]">
                     {mat.key === "wood" && "유일한 유기물"}
                     {mat.key === "stone" && "무광 회색"}
                     {mat.key === "bronze" && "금속광택의 시작"}

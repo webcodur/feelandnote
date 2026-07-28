@@ -39,7 +39,7 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
           </div>
           <div className="flex-1 text-left">
             <p className="text-xs font-bold text-text-primary">{t("bgm")}</p>
-            <p className="text-[9px] text-text-tertiary mt-0.5">{t("bgmDesc")}</p>
+            <p className="text-[9px] mt-0.5">{t("bgmDesc")}</p>
           </div>
           <TogglePill active={!bgmMuted} />
         </button>
@@ -54,7 +54,7 @@ export default function GameLobbySettings({ onBack, bgmMuted, sfxMuted, toggleBg
           </div>
           <div className="flex-1 text-left">
             <p className="text-xs font-bold text-text-primary">{t("sfx")}</p>
-            <p className="text-[9px] text-text-tertiary mt-0.5">{t("sfxDesc")}</p>
+            <p className="text-[9px] mt-0.5">{t("sfxDesc")}</p>
           </div>
           <TogglePill active={!sfxMuted} />
         </button>

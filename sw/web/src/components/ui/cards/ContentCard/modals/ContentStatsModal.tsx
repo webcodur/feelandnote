@@ -124,7 +124,7 @@ export default function ContentStatsModal({
             <div className="flex-1 flex flex-col min-w-0">
               {/* 셀럽 목록 */}
               <div className="p-4 flex-1">
-                <h4 className="text-xs font-sans font-medium text-text-tertiary mb-3">{t("stats.figures")}</h4>
+                <h4 className="text-xs font-sans font-medium mb-3">{t("stats.figures")}</h4>
 
                 {isLoading ? (
                   <div className="flex items-center justify-center py-8">
@@ -153,7 +153,7 @@ export default function ContentStatsModal({
                             />
                           ) : (
                             <div className="w-9 h-9 rounded-full bg-bg-card flex items-center justify-center border border-border/30">
-                              <User size={14} className="text-text-tertiary" />
+                              <User size={14} className="" />
                             </div>
                           )}
                         </div>
@@ -173,15 +173,15 @@ export default function ContentStatsModal({
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <Users size={24} className="text-text-tertiary/30 mx-auto mb-2" />
-                    <p className="text-text-tertiary text-xs font-sans">{t("stats.empty")}</p>
+                    <Users size={24} className="mx-auto mb-2" />
+                    <p className="text-xs font-sans">{t("stats.empty")}</p>
                   </div>
                 )}
               </div>
 
               {/* 안내 문구 */}
               <div className="px-4 py-2.5 border-t border-border/30 bg-stone-950/30">
-                <p className="text-[10px] font-sans text-text-tertiary text-center">
+                <p className="text-[10px] font-sans text-center">
                   {t("stats.note")}
                 </p>
               </div>

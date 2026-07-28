@@ -353,7 +353,7 @@ export default function CelebPageContent({
                 {profile.title && <span className="text-accent/70">{profile.title}{' '}</span>}
                 {nickname}
               </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-text-tertiary flex-wrap">
+              <div className="flex items-center justify-center gap-2 text-sm flex-wrap">
                 {professionLabel && (
                   <span className="text-accent font-medium">{professionLabel}</span>
                 )}
@@ -393,7 +393,7 @@ export default function CelebPageContent({
                     <button
                       type="button"
                       onClick={handleQuotePlay}
-                      className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors text-text-tertiary hover:text-accent"
+                      className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors hover:text-accent"
                       aria-label={t("playQuoteVoice")}
                     >
                       <Volume2 size={14} />
@@ -442,7 +442,7 @@ export default function CelebPageContent({
                 {profile.title && <span className="text-accent/70">{profile.title}{' '}</span>}
                 {nickname}
               </p>
-              <div className="flex items-center gap-2 text-sm text-text-tertiary flex-wrap">
+              <div className="flex items-center gap-2 text-sm flex-wrap">
                 {professionLabel && (
                   <span className="text-accent font-medium">{professionLabel}</span>
                 )}
@@ -482,7 +482,7 @@ export default function CelebPageContent({
                     <button
                       type="button"
                       onClick={handleQuotePlay}
-                      className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors text-text-tertiary hover:text-accent"
+                      className="flex-shrink-0 mt-0.5 p-1 rounded-full transition-colors hover:text-accent"
                       aria-label={t("playQuoteVoice")}
                     >
                       <Volume2 size={14} />

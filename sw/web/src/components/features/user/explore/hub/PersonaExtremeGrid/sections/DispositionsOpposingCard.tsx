@@ -53,7 +53,7 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                   {entry.celeb.avatar_url ? (
                      <Image src={entry.celeb.avatar_url} alt={highName} fill sizes="80px" className="object-cover" />
                    ) : (
-                     <div className="w-full h-full flex items-center justify-center text-2xl font-serif text-text-tertiary">
+                     <div className="w-full h-full flex items-center justify-center text-2xl font-serif">
                        {highName.charAt(0)}
                      </div>
                    )}
@@ -108,7 +108,7 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                   {entry.opposing.celeb.avatar_url ? (
                      <Image src={entry.opposing.celeb.avatar_url} alt={lowName} fill sizes="80px" className="object-cover" />
                    ) : (
-                     <div className="w-full h-full flex items-center justify-center text-2xl font-serif text-text-tertiary">
+                     <div className="w-full h-full flex items-center justify-center text-2xl font-serif">
                        {lowName.charAt(0)}
                      </div>
                    )}

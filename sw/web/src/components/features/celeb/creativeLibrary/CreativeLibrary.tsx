@@ -160,11 +160,11 @@ export default function CreativeLibrary({
             className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
               isActive
                 ? "bg-accent/10 border-accent/20 text-accent"
-                : "bg-surface/50 border-border/40 text-text-tertiary hover:bg-surface-hover hover:text-text-primary"
+                : "bg-surface/50 border-border/40  hover:bg-surface-hover hover:text-text-primary"
             }`}
           >
             {t(tab.i18nKey)}
-            <span className="ml-1 text-text-tertiary">{count}</span>
+            <span className="ml-1">{count}</span>
           </button>
         );
       })}
@@ -198,7 +198,7 @@ export default function CreativeLibrary({
                   ? t("worksLoadingStep2")
                   : t("worksLoadingStep3")}
             </p>
-            <div className="flex items-center gap-2 text-xs text-text-tertiary">
+            <div className="flex items-center gap-2 text-xs">
               <span>{loadingElapsed}s</span>
               <span>·</span>
               <span>{t("worksLoadingSource")}</span>

@@ -33,7 +33,7 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
           </div>
         ) : (
           <div className="shrink-0 w-16 h-22 rounded-lg bg-surface-hover/50 flex items-center justify-center">
-            <span className="text-text-tertiary text-lg">
+            <span className="text-lg">
               {WORK_TYPE_EMOJI[item.work_type || ""] || "📄"}
             </span>
           </div>
@@ -52,7 +52,7 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
               {roleLabel}
             </span>
             {r.yearStr && (
-              <span className="text-text-tertiary font-mono">{r.yearStr}</span>
+              <span className="font-mono">{r.yearStr}</span>
             )}
           </div>
 
@@ -65,7 +65,7 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
           )}
 
           {/* 메타 정보 */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1.5 text-xs text-text-tertiary">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1.5 text-xs">
             {r.genreLabel && <span>{r.genreLabel}</span>}
             {r.durationStr && (
               <span className="flex items-center gap-0.5">

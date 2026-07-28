@@ -55,7 +55,7 @@ export default function RecentProfilesSection() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-white/5">
-                      <User size={12} className="text-text-tertiary" />
+                      <User size={12} className="" />
                     </div>
                   )}
                 </div>
@@ -66,7 +66,7 @@ export default function RecentProfilesSection() {
                     {isEn && item.nickname_en ? item.nickname_en : item.nickname_ko || item.nickname}
                   </p>
                   {item.title && (
-                    <p className="text-[10px] text-text-tertiary">
+                    <p className="text-[10px]">
                       {isEn && item.title_en ? item.title_en : item.title_ko || item.title}
                     </p>
                   )}

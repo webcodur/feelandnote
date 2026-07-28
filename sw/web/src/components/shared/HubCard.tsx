@@ -107,7 +107,7 @@ export default function HubCard({
       </h3>
 
       {/* 설명 */}
-      <p className="text-sm leading-relaxed text-text-tertiary">
+      <p className="text-sm leading-relaxed">
         {description}
       </p>
 

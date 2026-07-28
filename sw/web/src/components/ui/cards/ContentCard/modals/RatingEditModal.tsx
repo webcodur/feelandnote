@@ -119,7 +119,7 @@ export default function RatingEditModal({
             return (
               <div key={starIndex} className="relative w-9 h-9">
                 {/* 기본 빈 별 (배경) */}
-                <Star size={36} className="absolute inset-0 text-text-tertiary/30" strokeWidth={1.5} />
+                <Star size={36} className="absolute inset-0" strokeWidth={1.5} />
 
                 {/* 현재 값: 채움 (fill) */}
                 {ratingFill !== "empty" && (
@@ -140,7 +140,7 @@ export default function RatingEditModal({
           <span className="text-4xl font-black font-serif text-accent tracking-tight drop-shadow-sm">
             {rating !== null ? rating.toFixed(1) : "-"}
           </span>
-          <span className="text-base font-serif text-text-tertiary ml-1">/ 5</span>
+          <span className="text-base font-serif ml-1">/ 5</span>
         </div>
       </ModalBody>
 

@@ -153,7 +153,7 @@ export default function ContentInfoSection({
             </p>
           )}
           {content.releaseDate && (
-            <p className="text-xs text-text-tertiary flex items-center gap-1.5">
+            <p className="text-xs flex items-center gap-1.5">
               <Calendar size={12} /> {content.releaseDate}
             </p>
           )}
@@ -224,7 +224,7 @@ export default function ContentInfoSection({
                       <div className="flex flex-wrap gap-2">
                           {metadata.cast?.map((actor, i) => (
                               <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-full border border-white/10">
-                                  {actor.name} <span className="text-text-tertiary">({actor.character})</span>
+                                  {actor.name} <span className="">({actor.character})</span>
                               </span>
                           ))}
                       </div>
@@ -243,10 +243,10 @@ export default function ContentInfoSection({
                           {metadata.tracks?.map((track, i) => (
                               <div key={i} className="flex items-center justify-between text-xs px-3 py-2 bg-white/5 hover:bg-white/10 transition-colors border-b border-white/5 last:border-0">
                                   <span className="text-text-secondary">
-                                      <span className="text-text-tertiary mr-3 w-4 inline-block text-right">{track.trackNumber}.</span>
+                                      <span className="mr-3 w-4 inline-block text-right">{track.trackNumber}.</span>
                                       {track.name}
                                   </span>
-                                  <span className="text-text-tertiary font-mono">
+                                  <span className="font-mono">
                                       {Math.floor(track.durationMs / 60000)}:{String(Math.floor((track.durationMs % 60000) / 1000)).padStart(2, '0')}
                                   </span>
                               </div>
@@ -311,7 +311,7 @@ export default function ContentInfoSection({
             })}
           </div>
           {content.affiliateLinks.some(l => l.platform === 'coupang') && (
-            <p className="text-[10px] text-text-tertiary text-center">
+            <p className="text-[10px] text-center">
               {AFFILIATE_PLATFORMS.coupang.notice}
             </p>
           )}
@@ -360,7 +360,7 @@ export default function ContentInfoSection({
       )}
 
       {!isLoggedIn && (
-        <p className="text-center text-sm text-text-tertiary py-4">{t("loginPrompt")}</p>
+        <p className="text-center text-sm py-4">{t("loginPrompt")}</p>
       )}
     </div>
   );

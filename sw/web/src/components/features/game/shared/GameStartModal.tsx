@@ -70,7 +70,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
         <div className="flex flex-col items-center pt-6 pb-3 px-5">
           <div className="mb-2">{icon}</div>
           <h2 className="text-base font-serif font-black text-white">{title}</h2>
-          {desc && <p className="text-[11px] text-text-tertiary mt-0.5">{desc}</p>}
+          {desc && <p className="text-[11px] mt-0.5">{desc}</p>}
         </div>
 
         {/* body */}
@@ -115,7 +115,7 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
         <div className="px-4 pb-4">
           <button
             onClick={onClose}
-            className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary"
+            className="w-full py-2 rounded-lg text-[11px] hover:text-text-secondary"
           >
             {t("cancel")}
           </button>

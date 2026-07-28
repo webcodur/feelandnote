@@ -54,7 +54,7 @@ export default function CelebViewCounter({ celebId, nickname, initialCount }: Ce
       <button
         type="button"
         onClick={handleOpen}
-        className="-mx-1 inline-flex min-h-11 items-center gap-1.5 rounded px-2 font-mono text-base text-text-tertiary hover:text-accent sm:text-lg"
+        className="-mx-1 inline-flex min-h-11 items-center gap-1.5 rounded px-2 font-mono text-base hover:text-accent sm:text-lg"
         title={t("viewCount")}
       >
         <Eye size={18} aria-hidden />

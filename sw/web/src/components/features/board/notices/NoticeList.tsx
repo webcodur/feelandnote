@@ -57,7 +57,7 @@ export default function NoticeList({
             <FileText size={48} strokeWidth={1} className="text-accent-dim" />
           </div>
           <p className="font-serif text-text-secondary">{t('notice.emptyTitle')}</p>
-          <p className="text-xs text-text-tertiary mt-2">{t('notice.emptySubtitle')}</p>
+          <p className="text-xs mt-2">{t('notice.emptySubtitle')}</p>
         </div>
       ) : (
         <>

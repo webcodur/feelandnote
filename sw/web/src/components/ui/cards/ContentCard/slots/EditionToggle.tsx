@@ -51,8 +51,8 @@ export function EditionToggle({ editions, activeEdition, onToggle }: EditionTogg
                 : isAvailable
                   ? "text-text-secondary hover:text-text-primary hover:bg-white/[0.04]"
                   : isConfirmedNo
-                    ? "text-text-tertiary/60 hover:bg-white/[0.04]"
-                    : "opacity-25 cursor-not-allowed text-text-tertiary"
+                    ? " hover:bg-white/[0.04]"
+                    : "opacity-25 cursor-not-allowed "
             }`}
           >
             {label}

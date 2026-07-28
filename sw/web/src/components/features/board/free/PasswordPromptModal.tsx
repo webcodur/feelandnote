@@ -47,7 +47,7 @@ function PasswordForm({
           onChange={(e) => setPassword(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
           placeholder={t('free.passwordPlaceholder')}
           maxLength={4}
-          className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-center tracking-[0.5em] text-text-primary placeholder:tracking-normal placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+          className="w-full px-4 py-3 bg-bg-card border border-border rounded-xl text-center tracking-[0.5em] text-text-primary placeholder:tracking-normal placeholder: focus:outline-none focus:border-accent"
         />
         {error && <p className="text-sm text-red-400">{error}</p>}
       </ModalBody>

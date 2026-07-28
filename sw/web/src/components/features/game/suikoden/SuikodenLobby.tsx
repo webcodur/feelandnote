@@ -69,8 +69,8 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
           catchphrase={tArena("headerDesc")}
           cta={{
             icon: <>
-              <Construction size={22} className="text-text-tertiary sm:hidden" />
-              <Construction size={26} className="text-text-tertiary hidden sm:block" />
+              <Construction size={22} className="sm:hidden" />
+              <Construction size={26} className="hidden sm:block" />
             </>,
             label: tArena("devNoticeTitle"),
             sub: "Coming Soon",
@@ -87,14 +87,14 @@ export default function SuikodenLobby({ characterCount, onStart, onExit }: Suiko
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setDevModalOpen(false)} />
           <div className="relative w-[min(90vw,320px)] rounded-2xl bg-bg-main border border-white/[0.08] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
             <div className="flex flex-col items-center pt-6 pb-4 px-5">
-              <Construction size={28} className="text-text-tertiary mb-2" />
+              <Construction size={28} className="mb-2" />
               <h2 className="text-base font-serif font-black text-white">{tArena("devNoticeTitle")}</h2>
-              <p className="text-[11px] text-text-tertiary mt-1 text-center leading-relaxed">{tArena("devNoticeDesc")}</p>
+              <p className="text-[11px] mt-1 text-center leading-relaxed">{tArena("devNoticeDesc")}</p>
             </div>
             <div className="px-4 pb-4">
               <button
                 onClick={() => setDevModalOpen(false)}
-                className="w-full py-2 rounded-lg text-[11px] text-text-tertiary hover:text-text-secondary"
+                className="w-full py-2 rounded-lg text-[11px] hover:text-text-secondary"
               >
                 {t("ui.cancel")}
               </button>
@@ -143,7 +143,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               <span className="text-accent/30 font-cinzel text-[10px] tracking-wider">{item.step}</span>
               <div className="flex justify-center mt-1.5 mb-1.5 text-accent/50">{item.icon}</div>
               <p className="text-sm font-bold text-white">{item.title}</p>
-              <p className="text-[10px] text-text-tertiary mt-1 leading-relaxed">{item.desc}</p>
+              <p className="text-[10px] mt-1 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -162,7 +162,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
               {item.icon}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold">{tS(`rules.${item.key}`)}</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{tS(`rules.${item.key}Desc`)}</p>
+                <p className="text-[10px] mt-0.5">{tS(`rules.${item.key}Desc`)}</p>
               </div>
             </div>
           ))}
