@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, Columns2, Globe, List, MapPin } from "lucide
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
+import JourneyGlobeModal from "./JourneyGlobeModal";
 
 /* 지구본은 지도 계산 꾸러미를 함께 싣는다. 첫 화면 HTML에는 필요 없으므로
    브라우저에서 따로 불러온다 — 연표 글은 그대로 서버에서 그려져 검색에 잡힌다. */
@@ -44,6 +45,7 @@ export default function JourneySection({ events }: Props) {
   const [focusKey, setFocusKey] = useState(0);
   const [index, setIndex] = useState(0);
   const [dragX, setDragX] = useState(0);
+  const [mapExpanded, setMapExpanded] = useState(false);
   const swipeRef = useRef({ x: 0, y: 0, active: false, moved: false });
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -84,6 +86,11 @@ export default function JourneySection({ events }: Props) {
     },
     [events],
   );
+  const formatMapRecordCount = useCallback(
+    (count: number) => t("timelineMapRecordCount", { count }),
+    [t],
+  );
+  const closeExpandedMap = useCallback(() => setMapExpanded(false), []);
 
   const bc = t("timelineBc");
   const total = events.length;
@@ -317,10 +324,53 @@ export default function JourneySection({ events }: Props) {
                 zoomOut: t("timelineZoomOut"),
                 reset: t("timelineResetView"),
               }}
+              mapNote={t("timelineModernBorders")}
+              formatMarkerCount={formatMapRecordCount}
+              onExpand={() => setMapExpanded(true)}
+              expandLabel={t("timelineExpandMap")}
+              expandAriaLabel={t("timelineExpandMapLabel")}
             />
           </div>
         )}
       </div>
+
+      <JourneyGlobeModal
+        open={mapExpanded}
+        globe={
+          <WorldGlobe
+            markers={markers}
+            showPath
+            activeId={activeId}
+            focusId={focusId}
+            focusKey={focusKey}
+            onSelect={handleGlobeSelect}
+            label={t("timelineMapLabel")}
+            className="h-full rounded-none border-0"
+            fillContainer
+            initialZoom={0.48}
+            controlLabels={{
+              zoomIn: t("timelineZoomIn"),
+              zoomOut: t("timelineZoomOut"),
+              reset: t("timelineResetView"),
+            }}
+            mapNote={t("timelineModernBorders")}
+            formatMarkerCount={formatMapRecordCount}
+          />
+        }
+        event={event}
+        yearLabel={event ? formatYear(event.year, event.yearEnd, bc) : null}
+        markerOrder={event ? orderById[event.id] : undefined}
+        current={at}
+        total={total}
+        pageLabel={t("timelinePage", { current: at + 1, total })}
+        title={t("timelineFullscreenTitle")}
+        closeLabel={t("timelineCloseMap")}
+        previousLabel={t("timelinePrev")}
+        nextLabel={t("timelineNext")}
+        onClose={closeExpandedMap}
+        onPrevious={() => go(at - 1)}
+        onNext={() => go(at + 1)}
+      />
     </div>
   );
 }
