@@ -247,8 +247,9 @@ export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
     <div className="space-y-1">
       <div className="flex items-center justify-between pb-2 border-b border-white/10 px-1 gap-3">
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <div className="w-7 h-7 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center text-accent shrink-0 shadow-[0_0_10px_rgba(212,175,55,0.2)]">
-            <Trophy size={15} className="text-amber-400" />
+          {/* 아래 시대초월성·일반 점수 머리와 같은 크기의 배지를 쓴다 */}
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-400/30 bg-amber-400/15 text-amber-400 shadow-[0_0_10px_rgba(212,175,55,0.2)]">
+            <Trophy size={18} className="text-amber-400" />
           </div>
           <h2 className="font-serif text-lg md:text-xl font-extrabold tracking-wide text-text-primary shrink-0 leading-tight">
             {t("totalInfluence")}
