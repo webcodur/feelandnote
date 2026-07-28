@@ -467,7 +467,7 @@ export default function CelebPageContent({
           showLibrary={showLibrary}
           availability={serviceAvailability}
           onNavigate={handleServiceNavigate}
-          className="xl:hidden"
+          className="hidden md:block xl:hidden"
         />
       </section>
 
