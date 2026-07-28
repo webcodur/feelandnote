@@ -26,7 +26,7 @@ export default function ArchiveTabsHeader<T extends string>({
   columnsClassName,
   ariaLabel,
 }: Props<T>) {
-  const active = tabs.find((item) => item.key === activeKey);
+  // const active = tabs.find((item) => item.key === activeKey);
   const isDense = tabs.length >= 3;
 
   return (
@@ -74,6 +74,7 @@ export default function ArchiveTabsHeader<T extends string>({
         })}
       </div>
 
+      {/* 고른 탭의 이름과 설명을 아래에 한 번 더 보여주던 자리 — 중복이라 잠시 접어 둔다
       <div
         className={cn(
           "text-center",
@@ -87,6 +88,7 @@ export default function ArchiveTabsHeader<T extends string>({
           <p className="text-sm text-text-tertiary">{active.desc}</p>
         )}
       </div>
+      */}
     </>
   );
 }
