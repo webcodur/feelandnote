@@ -202,17 +202,33 @@ export default function CelebPageContent({
       .filter((section): section is HTMLElement => section !== null);
     if (sections.length === 0) return;
 
+    /* 관찰자는 "이번에 상태가 바뀐 구획"만 알려준다. 그때그때 넘어온 것들 중에서만
+       고르면 화면에 떠 있는데도 이번 알림에 안 낀 구획을 놓친다. 그래서 걸쳐 있는
+       구획을 따로 모아 두고, 매번 그 전체를 다시 재서 가장 가까운 것을 고른다. */
+    const onScreen = new Set<string>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(a.boundingClientRect.top - window.innerHeight * 0.24)
-              - Math.abs(b.boundingClientRect.top - window.innerHeight * 0.24),
-          )[0];
+        for (const entry of entries) {
+          if (entry.isIntersecting) onScreen.add(entry.target.id);
+          else onScreen.delete(entry.target.id);
+        }
 
-        if (visibleEntry) setActiveSectionId(visibleEntry.target.id);
+        const anchor = window.innerHeight * 0.24;
+        let nearestId: string | null = null;
+        let nearestGap = Infinity;
+
+        for (const sectionId of onScreen) {
+          const section = document.getElementById(sectionId);
+          if (!section) continue;
+          const gap = Math.abs(section.getBoundingClientRect().top - anchor);
+          if (gap < nearestGap) {
+            nearestGap = gap;
+            nearestId = sectionId;
+          }
+        }
+
+        if (nearestId) setActiveSectionId(nearestId);
       },
       {
         rootMargin: "-18% 0px -68% 0px",

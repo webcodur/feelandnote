@@ -27,6 +27,8 @@ interface NavigationProps extends SharedProps {
 
 const NAV_ITEM_HEIGHT = 54;
 const NAV_ITEM_GAP = 8;
+/** 묶음이 바뀌는 자리에 얹는 추가 간격. 포커스 박스 위치 계산과 값을 공유한다. */
+const NAV_GROUP_MARGIN = 8;
 const NAV_GROUP_START_KEYS = new Set([
   "connections",
   "analysis",
@@ -51,6 +53,19 @@ export function CelebAtlasNavigation({
   const introductionTarget = items.find(
     (item) => item.target.sectionId === "introduction",
   )?.target;
+
+  // 포커스 박스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
+  const activeIndex = navigationItems.findIndex(
+    (item) => item.target.sectionId === activeSectionId,
+  );
+  const spotIndex = hoveredIndex ?? activeIndex;
+  // 항목 높이·간격이 전부 고정값이라 측정 없이 세로 위치를 그대로 계산한다.
+  const groupBreaksBefore = navigationItems
+    .slice(0, spotIndex + 1)
+    .filter((item) => NAV_GROUP_START_KEYS.has(item.key)).length;
+  const spotTop =
+    spotIndex * (NAV_ITEM_HEIGHT + NAV_ITEM_GAP)
+    + groupBreaksBefore * NAV_GROUP_MARGIN;
 
   // 짧은 화면에서도 현재 장이 사이드바의 내부 스크롤 아래에 숨지 않게 맞춘다.
   useEffect(() => {
@@ -131,12 +146,21 @@ export function CelebAtlasNavigation({
               className={styles.profileNavList}
               style={{ gap: NAV_ITEM_GAP }}
             >
+              {spotIndex >= 0 && (
+                <span
+                  aria-hidden
+                  className={styles.profileNavSpot}
+                  style={{
+                    height: NAV_ITEM_HEIGHT,
+                    transform: `translateY(${spotTop}px)`,
+                  }}
+                />
+              )}
+
               {navigationItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = item.target.sectionId === activeSectionId;
                 const isReady = item.ready;
-                const isHighlighted = hoveredIndex === index
-                  || (hoveredIndex === null && isActive);
                 const startsGroup = NAV_GROUP_START_KEYS.has(item.key);
 
                 return (
@@ -158,10 +182,12 @@ export function CelebAtlasNavigation({
                       styles.profileNavItem,
                       startsGroup && styles.profileNavItemGroupStart,
                       isActive && styles.profileNavItemActive,
-                      isHighlighted && styles.profileNavItemHighlighted,
                       !isReady && styles.profileNavItemPending,
                     )}
-                    style={{ height: NAV_ITEM_HEIGHT }}
+                    style={{
+                      height: NAV_ITEM_HEIGHT,
+                      marginTop: startsGroup ? NAV_GROUP_MARGIN : undefined,
+                    }}
                   >
                     <Icon size={24} strokeWidth={1.8} aria-hidden />
                     <span className={styles.profileNavLabel}>{item.label}</span>
