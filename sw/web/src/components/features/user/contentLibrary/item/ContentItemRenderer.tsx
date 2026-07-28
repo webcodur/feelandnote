@@ -72,9 +72,10 @@ export default function ContentItemRenderer({
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
           const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
+          // 목록 보기는 감상문을 읽으라고 만든 형태다 — 좁은 화면에서도 표지 옆에 감상문을 붙여 둔다
           const reviewProp = viewMode === "list" ? rawReview : undefined;
           return (
-            <div key={item.id} className={`w-full ${viewMode === "list" ? "max-w-[300px] md:max-w-none" : ""}`}>
+            <div key={item.id} className="w-full">
             <ContentCard
               contentId={item.content_id}
               contentType={item.content.type}
@@ -84,6 +85,8 @@ export default function ContentItemRenderer({
               rating={currentRating}
               review={reviewProp}
               reviewIsOriginalLanguage={reviewIsOriginalLanguage}
+              mobileLayout={viewMode === "list" ? "review" : undefined}
+              heightClass={viewMode === "list" ? "h-[320px] md:h-[280px]" : undefined}
               isSpoiler={item.is_spoiler ?? undefined}
               sourceUrl={item.source_url}
               href={getHref(item)}
