@@ -100,6 +100,59 @@ interface DeleteFreeCommentParams {
   password?: string
 }
 
+interface UpdateFreeCommentParams {
+  id: string
+  postId: string
+  content: string
+  password?: string
+}
+
+export async function updateFreeComment(params: UpdateFreeCommentParams): Promise<ActionResult<FreePostComment>> {
+  const { id, postId, content, password } = params
+  const trimmedContent = content.trim()
+
+  if (trimmedContent.length === 0) return failure('VALIDATION_ERROR', '내용을 입력해달라.')
+  if (content.length > 1000) return failure('LIMIT_EXCEEDED', '댓글은 1000자까지 쓸 수 있다.')
+
+  const authClient = await createClient()
+  const { data: { user } } = await authClient.auth.getUser()
+  const supabase = createAdminClient()
+
+  const { data: row, error: fetchError } = await supabase
+    .from('free_post_comments')
+    .select('author_id, password_hash, post_id, is_deleted')
+    .eq('id', id)
+    .eq('post_id', postId)
+    .single()
+
+  if (fetchError || !row) return failure('NOT_FOUND')
+  const target = row as {
+    author_id: string | null
+    password_hash: string | null
+    post_id: string
+    is_deleted: boolean
+  }
+  if (target.is_deleted) return failure('NOT_FOUND')
+
+  const allowed = await canMutateFree(target, user, password, authClient)
+  if (!allowed) {
+    return target.author_id ? failure('FORBIDDEN') : failure('FORBIDDEN', '비밀번호가 일치하지 않는다.')
+  }
+
+  const { data, error } = await supabase
+    .from('free_post_comments')
+    .update({ content: trimmedContent, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .eq('post_id', postId)
+    .select(`${FREE_COMMENT_COLS}, ${FREE_AUTHOR_JOIN}`)
+    .single()
+
+  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 수정]' })
+
+  revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
+  return success(data as unknown as FreePostComment)
+}
+
 export async function deleteFreeComment(params: DeleteFreeCommentParams): Promise<ActionResult<null>> {
   const { id, postId, password } = params
 

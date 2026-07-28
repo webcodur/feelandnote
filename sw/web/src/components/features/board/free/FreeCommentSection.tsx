@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import { Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { Button, FormattedText } from '@/components/ui'
 import type { FreePostComment } from '@/types/database'
-import { createFreeComment, deleteFreeComment } from '@/actions/board/free'
+import { createFreeComment, deleteFreeComment, updateFreeComment } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
 import { loadRememberedNickname, rememberNickname } from './useFreePostDraft'
@@ -20,6 +20,9 @@ interface FreeCommentSectionProps {
   currentUserId?: string
   isAdmin?: boolean
   isLoggedIn: boolean
+  onCommentCreated?: (comment: FreePostComment) => void
+  onCommentUpdated?: (comment: FreePostComment) => void
+  onCommentDeleted?: (commentId: string) => void
 }
 
 export default function FreeCommentSection({
@@ -28,6 +31,9 @@ export default function FreeCommentSection({
   currentUserId,
   isAdmin = false,
   isLoggedIn,
+  onCommentCreated,
+  onCommentUpdated,
+  onCommentDeleted,
 }: FreeCommentSectionProps) {
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
@@ -38,19 +44,39 @@ export default function FreeCommentSection({
   const [anonymous, setAnonymous] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const commentElementsRef = useRef(new Map<string, HTMLDivElement>())
+  const pendingRevealIdRef = useRef<string | null>(null)
 
   // 직전에 쓴 필명을 기본값으로 — 글쓰기와 같은 값을 공유한다.
   // localStorage는 서버에 없으므로 마운트 후에 읽는다(하이드레이션 불일치 방지).
   useEffect(() => {
     const remembered = loadRememberedNickname()
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 외부 저장소(localStorage) 동기화. 초기값으로 옮기면 SSR과 값이 갈린다
     if (remembered) setNickname(remembered)
   }, [])
+
+  // 새 댓글이 입력창 위에 추가되어도 화면 밖에 숨지 않도록 실제 댓글을 가장 가까운 위치로 드러낸다.
+  useEffect(() => {
+    const pendingId = pendingRevealIdRef.current
+    if (!pendingId) return
+
+    const element = commentElementsRef.current.get(pendingId)
+    if (!element) return
+
+    element.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    pendingRevealIdRef.current = null
+  }, [comments])
 
   // 삭제 모달 (익명 댓글용)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  // 수정 상태. 비회원 댓글은 저장할 때 작성 비밀번호를 확인한다.
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editContent, setEditContent] = useState('')
+  const [editPasswordId, setEditPasswordId] = useState<string | null>(null)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [editError, setEditError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -71,7 +97,9 @@ export default function FreeCommentSection({
       )
 
       if (result.success) {
+        pendingRevealIdRef.current = result.data.id
         setComments((prev) => [...prev, result.data])
+        onCommentCreated?.(result.data)
         setNewComment('')
         setPassword('')
         // 필명은 비우지 않고 기억한다 — 연달아 댓글을 달 때 다시 치지 않게
@@ -93,6 +121,7 @@ export default function FreeCommentSection({
     const result = await deleteFreeComment({ id, postId, password: pw })
     if (result.success) {
       setComments((prev) => prev.filter((c) => c.id !== id))
+      onCommentDeleted?.(id)
       setDeleteId(null)
     } else {
       setDeleteError(tError(result.error))
@@ -111,8 +140,55 @@ export default function FreeCommentSection({
     }
   }
 
-  const canDelete = (comment: FreePostComment) =>
+  const canMutate = (comment: FreePostComment) =>
     !comment.author_id || comment.author_id === currentUserId || isAdmin
+
+  const startEditing = (comment: FreePostComment) => {
+    setEditingId(comment.id)
+    setEditContent(comment.content)
+    setEditError(null)
+  }
+
+  const cancelEditing = () => {
+    setEditingId(null)
+    setEditContent('')
+    setEditPasswordId(null)
+    setEditError(null)
+  }
+
+  const doUpdateComment = async (id: string, pw?: string) => {
+    if (isUpdating) return
+    setIsUpdating(true)
+    setEditError(null)
+
+    try {
+      const result = await updateFreeComment({ id, postId, content: editContent, password: pw })
+      if (result.success) {
+        setComments((prev) => prev.map((comment) => comment.id === id ? result.data : comment))
+        onCommentUpdated?.(result.data)
+        cancelEditing()
+      } else {
+        setEditError(tError(result.error))
+      }
+    } catch {
+      setEditError(tError('UNKNOWN_ERROR'))
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+
+  const handleEditSubmit = (e: React.FormEvent, comment: FreePostComment) => {
+    e.preventDefault()
+    if (!editContent.trim() || isUpdating) return
+
+    if (!comment.author_id) {
+      setEditPasswordId(comment.id)
+      setEditError(null)
+      return
+    }
+
+    doUpdateComment(comment.id)
+  }
 
   const fieldClass =
     'px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-sm text-text-primary font-serif placeholder: focus:outline-none focus:border-accent/40'
@@ -133,6 +209,10 @@ export default function FreeCommentSection({
         {comments.map((comment) => (
           <div
             key={comment.id}
+            ref={(element) => {
+              if (element) commentElementsRef.current.set(comment.id, element)
+              else commentElementsRef.current.delete(comment.id)
+            }}
             className="group relative p-4 rounded-lg bg-bg-card/40 border border-accent-dim/10 hover:border-accent-dim/20"
           >
             <div className="flex gap-3">
@@ -146,17 +226,63 @@ export default function FreeCommentSection({
                     {format(new Date(comment.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
                   </span>
                 </div>
-                <p className="text-sm text-text-secondary whitespace-pre-wrap font-serif leading-relaxed">
-                  <FormattedText text={comment.content} />
-                </p>
+                {editingId === comment.id ? (
+                  <form onSubmit={(e) => handleEditSubmit(e, comment)} className="space-y-2">
+                    <textarea
+                      autoFocus
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      maxLength={1000}
+                      rows={3}
+                      className={`${fieldClass} w-full resize-y leading-relaxed`}
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={cancelEditing}
+                        disabled={isUpdating}
+                      >
+                        {t('cancel')}
+                      </Button>
+                      <Button
+                        type="submit"
+                        size="sm"
+                        disabled={isUpdating || !editContent.trim()}
+                      >
+                        {isUpdating ? t('saving') : t('update')}
+                      </Button>
+                    </div>
+                    {editError && <p className="text-sm text-red-400">{editError}</p>}
+                  </form>
+                ) : (
+                  <p className="text-sm text-text-secondary whitespace-pre-wrap font-serif leading-relaxed">
+                    <FormattedText text={comment.content} />
+                  </p>
+                )}
               </div>
-              {canDelete(comment) && (
-                <button
-                  onClick={() => handleDeleteClick(comment)}
-                  className="opacity-0 group-hover:opacity-100 hover:text-red-400 self-start"
-                >
-                  <Trash2 size={14} />
-                </button>
+              {canMutate(comment) && editingId !== comment.id && (
+                <div className="flex gap-1 self-start opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+                  <button
+                    type="button"
+                    onClick={() => startEditing(comment)}
+                    aria-label={t('edit')}
+                    title={t('edit')}
+                    className="rounded p-1.5 text-text-secondary/70 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteClick(comment)}
+                    aria-label={t('delete')}
+                    title={t('delete')}
+                    className="rounded p-1.5 text-text-secondary/70 hover:bg-red-500/5 hover:text-red-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -244,6 +370,21 @@ export default function FreeCommentSection({
         isLoading={deleting}
         error={deleteError}
         description={t('free.commentDeleteConfirm')}
+      />
+
+      {/* 비회원 댓글 수정 비밀번호 모달 */}
+      <PasswordPromptModal
+        isOpen={editPasswordId !== null}
+        onClose={() => {
+          setEditPasswordId(null)
+          setEditError(null)
+        }}
+        onConfirm={(pw) => {
+          if (editPasswordId) doUpdateComment(editPasswordId, pw)
+        }}
+        isLoading={isUpdating}
+        error={editError}
+        description={t('free.commentEditPasswordPromptDesc')}
       />
     </div>
   )

@@ -155,7 +155,8 @@
       "confirm": "Confirm",
       "commentPlaceholder": "Write a comment",
       "commentEmpty": "Be the first to comment",
-      "commentDeleteConfirm": "Delete this comment?"
+      "commentDeleteConfirm": "Delete this comment?",
+      "commentEditPasswordPromptDesc": "Enter the password you set when posting this comment."
     }
   }
 }

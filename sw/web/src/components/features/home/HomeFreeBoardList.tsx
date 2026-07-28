@@ -3,11 +3,10 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { Eye, MessageSquare, ChevronDown, Edit3, Trash2, Plus, FileText, Loader2 } from 'lucide-react'
+import { Eye, MessageSquare, ChevronDown, Edit3, Trash2, FileText, Loader2 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { formatKST } from '@/lib/utils/date'
-import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
 import { getFreePosts, getFreeComments, deleteFreePost, incrementFreePostView } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
@@ -98,6 +97,44 @@ export default function HomeFreeBoardList({
   }
 
   const canManage = (post: FreePost) => !post.author_id || post.author_id === currentUserId || isAdmin
+
+  const handleCommentCreated = (postId: string, comment: FreePostComment) => {
+    setCommentsMap((prev) => {
+      const current = prev[postId] ?? []
+      if (current.some((item) => item.id === comment.id)) return prev
+      return { ...prev, [postId]: [...current, comment] }
+    })
+    setPosts((prev) =>
+      prev.map((post) =>
+        post.id === postId
+          ? { ...post, comment_count: (post.comment_count ?? 0) + 1 }
+          : post
+      )
+    )
+  }
+
+  const handleCommentUpdated = (postId: string, updated: FreePostComment) => {
+    setCommentsMap((prev) => ({
+      ...prev,
+      [postId]: (prev[postId] ?? []).map((comment) =>
+        comment.id === updated.id ? updated : comment
+      ),
+    }))
+  }
+
+  const handleCommentDeleted = (postId: string, commentId: string) => {
+    setCommentsMap((prev) => ({
+      ...prev,
+      [postId]: (prev[postId] ?? []).filter((comment) => comment.id !== commentId),
+    }))
+    setPosts((prev) =>
+      prev.map((post) =>
+        post.id === postId
+          ? { ...post, comment_count: Math.max(0, (post.comment_count ?? 0) - 1) }
+          : post
+      )
+    )
+  }
 
   const doDelete = async (post: FreePost, password?: string) => {
     setDeleting(true)
@@ -261,6 +298,9 @@ export default function HomeFreeBoardList({
                           currentUserId={currentUserId}
                           isAdmin={isAdmin}
                           isLoggedIn={isLoggedIn}
+                          onCommentCreated={(comment) => handleCommentCreated(post.id, comment)}
+                          onCommentUpdated={(comment) => handleCommentUpdated(post.id, comment)}
+                          onCommentDeleted={(commentId) => handleCommentDeleted(post.id, commentId)}
                         />
                       )}
                     </div>
