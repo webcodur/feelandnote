@@ -20,6 +20,8 @@
 }
 
 .profileButton {
+  position: relative;
+  z-index: 1;
   display: flex;
   width: 100%;
   min-width: 0;
@@ -171,8 +173,9 @@
   );
 }
 
+/* 기준 좌표계는 focusScope 하나다. 여기에 relative를 두면 목록 항목의 세로 위치가
+   포커스 박스 기준과 어긋나 박스가 엉뚱한 곳에 그려진다. */
 .profileNav {
-  position: relative;
   width: 100%;
 }
 
