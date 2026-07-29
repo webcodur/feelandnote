@@ -36,9 +36,9 @@ function loadEnvFile(p: string): void {
   }
 }
 
-/** remotion-bo → web 순으로 env 를 찾는다(둘 다 SUPABASE_SERVICE_ROLE_KEY 를 갖는다) */
+/** web-bo → web 순으로 env 를 찾는다(둘 다 SUPABASE_SERVICE_ROLE_KEY 를 갖는다) */
 export function loadEnv(): void {
-  loadEnvFile(path.join(ROOT, '..', 'remotion-bo', '.env'))
+  loadEnvFile(path.join(ROOT, '..', 'web-bo', '.env'))
   loadEnvFile(path.join(ROOT, '..', 'web', '.env'))
 }
 
@@ -47,8 +47,8 @@ export function adminClient(): SupabaseClient {
   loadEnv()
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL 없음 (sw/remotion-bo/.env 또는 sw/web/.env 확인)')
-  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY 없음 (sw/remotion-bo/.env 또는 sw/web/.env 확인)')
+  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
+  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
   return createClient(url, key, { auth: { persistSession: false } })
 }
 

@@ -26,20 +26,6 @@ export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 /** 가상 담화 뿌리 — public/discourses/ */
 export const DISCOURSES_DIR = path.join(REMOTION_ROOT, 'public', 'discourses')
 
-/**
- * 아이디어 보관함 실물 뿌리 — `sw/remotion/idea-bank/`.
- *
- * **`public/` 밖이다.** 렌더는 `public/` 을 통째로 임시 폴더에 복사하는데, 보관함 196MB(743개)는
- * 영상에 한 번도 쓰이지 않으면서 매 렌더마다 그 복사에 딸려 들어갔다. 그래서 실물만 밖으로 옮겼다.
- *
- * ⚠ **DB 의 폴더 키는 그대로 `not-using/<분류>/<이름>` 이다.** 키를 바꾸면 주소·매니페스트·
- * 이미 저장된 사진 경로가 전부 흔들리므로, 옮긴 것은 실물뿐이고 대응은 아래 한 함수가 맡는다.
- */
-export const IDEA_BANK_ROOT = path.join(REMOTION_ROOT, 'idea-bank')
-
-/** 폴더 키의 첫 토막이 이것이면 실물은 보관함에 있다 */
-export const IDEA_KEY_PREFIX = 'not-using'
-
 /* ── 이름·경로 안전화 ── */
 
 /** 이미지·영상 확장자 — 이 목록에 없는 파일은 목록에 잡히지 않는다 */
@@ -58,8 +44,7 @@ export function safeDirName(name: string): string {
 /**
  * 에피소드 키를 폴더 토막들로 쪼갠다.
  *
- * 아이디어 뱅크는 `not-using/<분류>/<이름>` 처럼 두 단 아래에 있어서 키에 슬래시가 들어간다.
- * 한 토막만 남기면(예전 `safeDirName`) 뿌리 바로 아래를 가리켜 엉뚱한 폴더를 만들거나 읽는다.
+ * 현재 팩션 키는 한 토막이지만 공용 IO는 상대경로도 받을 수 있어 토막 분리를 유지한다.
  * 위로 올라가는 토막(`..`)과 빈 토막은 버려 뿌리 밖으로 못 나가게 한다.
  */
 export function safeDirSegs(name: string): string[] {
@@ -71,25 +56,9 @@ export function safeRelSegs(p: string): string[] {
   return (p ?? '').split('/').map(s => s.trim()).filter(s => s && s !== '.' && s !== '..')
 }
 
-/** 에피소드 폴더 절대경로 */
-/**
- * 폴더 키(또는 그 아래 상대 경로)를 **실물 뿌리 + 토막들**로 푼다. 경로를 만드는 곳은
- * 전부 이 함수를 거친다 — 보관함이 어디로 옮겨졌는지 아는 자리를 하나로 묶기 위해서다.
- *
- * 키가 `not-using/` 으로 시작하면 그 토막을 떼고 보관함 뿌리에 붙인다:
- *   `not-using/future-tech/x`        → `<sw/remotion>/idea-bank/future-tech/x`
- *   `not-using/future-tech/x/images/a.png` → `…/idea-bank/future-tech/x/images/a.png`
- * 그 밖의 키는 받은 뿌리 그대로 쓴다(담화도 같은 함수를 지나지만 이 접두사를 쓸 일이 없다).
- */
-export function resolveEpisodeLocation(root: string, name: string): { root: string; segs: string[] } {
-  const segs = safeDirSegs(name)
-  if (segs[0] === IDEA_KEY_PREFIX) return { root: IDEA_BANK_ROOT, segs: segs.slice(1) }
-  return { root, segs }
-}
-
+/** 에피소드 폴더 절대경로 — 폴더 키의 모든 토막을 받은 시리즈 뿌리 아래에 그대로 붙인다. */
 export function episodeDirOf(root: string, name: string): string {
-  const loc = resolveEpisodeLocation(root, name)
-  return path.join(loc.root, ...loc.segs)
+  return path.join(root, ...safeDirSegs(name))
 }
 
 /** 기본 이미지 폴더 — 업로드는 항상 여기로 떨어진다 */

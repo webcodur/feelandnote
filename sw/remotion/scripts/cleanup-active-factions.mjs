@@ -1,5 +1,5 @@
 /**
- * Active factions cleanup to folder-rules (outside not-using).
+ * Registered factions cleanup to folder-rules.
  *
  * Safe structural cleanup + path realignment where files already exist.
  * Does NOT invent images or rename production voice files.
@@ -16,12 +16,9 @@ const FAC = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../public/factions",
 );
-const SKIP = new Set([
-  "not-using",
-  "_docs",
-  "_voice-casting",
-  "world-best-2026",
-]);
+const ACTIVE = new Set(
+  JSON.parse(fs.readFileSync(path.join(FAC, "_episodes.json"), "utf8")),
+);
 
 const log = [];
 function note(msg) {
@@ -157,7 +154,7 @@ function resolveImageInDir(dir, wantedRel) {
 function listSeries() {
   return fs
     .readdirSync(FAC, { withFileTypes: true })
-    .filter((d) => d.isDirectory() && !d.name.startsWith(".") && !SKIP.has(d.name))
+    .filter((d) => d.isDirectory() && ACTIVE.has(d.name))
     .map((d) => d.name)
     .sort();
 }

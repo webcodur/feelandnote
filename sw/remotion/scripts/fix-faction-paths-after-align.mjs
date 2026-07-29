@@ -9,7 +9,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const FAC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public/factions')
-const SKIP = new Set(['not-using', '_docs', '_voice-casting'])
+const ACTIVE = new Set(JSON.parse(fs.readFileSync(path.join(FAC, '_episodes.json'), 'utf8')))
 
 function exists(root, rel) {
   return rel && fs.existsSync(path.join(root, rel))
@@ -162,7 +162,7 @@ function fixSeries(name) {
 
 const series = fs
   .readdirSync(FAC, { withFileTypes: true })
-  .filter((d) => d.isDirectory() && !SKIP.has(d.name) && !d.name.startsWith('.'))
+  .filter((d) => d.isDirectory() && ACTIVE.has(d.name))
   .map((d) => d.name)
   .sort()
 

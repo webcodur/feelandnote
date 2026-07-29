@@ -17,20 +17,19 @@ import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 import episodeRegistry from '../../../public/factions/_episodes.json'
 
 const ALLOW = new Set(episodeRegistry as string[])
-// 아이디어 보관함(72편)은 렌더 대상이 아니다. 26.07.26에 실물을 public 밖(`sw/remotion/idea-bank/`)으로
-// 옮겨 이 스캔에도, 렌더의 public 통째 복사에도 애초에 걸리지 않는다.
-// 아래 제외 규칙은 누가 되돌려 놓더라도 번들이 다시 무거워지지 않게 남겨 둔 이중 안전장치다.
-const ctx = require.context('../../../public/factions', true, /^\.\/(?!not-using\/).*\/faction-data\.json$/)
-const KEY_RE = /^\.\/(.+)\/faction-data\.json$/
+// 모든 편은 같은 뿌리에 있고, _episodes.json에 등록된 편만 렌더 대상으로 펼친다.
+const ctx = require.context('../../../public/factions', true, /^\.\/[^/]+\/faction-data\.json$/)
+const KEY_RE = /^\.\/([^/]+)\/faction-data\.json$/
 
 // 발화 시각 맵 — 편별 data.timing.p<N>.<lang>.json + 통합 data.timing.<lang>.json(레거시) 모두 로드해
 // 에피소드·언어별로 병합한다(없어도 무방, 폴백). key: `${name}__${locale}`
-const timingCtx = require.context('../../../public/factions', true, /\/data\.timing(\.p\d+)?\.(ko|en)\.json$/)
-const TIMING_RE = /^\.\/(.+)\/data\.timing(?:\.p\d+)?\.(ko|en)\.json$/
+const timingCtx = require.context('../../../public/factions', true, /^\.\/[^/]+\/data\.timing(\.p\d+)?\.(ko|en)\.json$/)
+const TIMING_RE = /^\.\/([^/]+)\/data\.timing(?:\.p\d+)?\.(ko|en)\.json$/
 const timingMaps: Record<string, VoiceTimings> = {}
 for (const k of timingCtx.keys()) {
   const m = k.match(TIMING_RE)
   if (!m) continue
+  if (!ALLOW.has(m[1])) continue
   const key = `${m[1]}__${m[2]}`
   timingMaps[key] = { ...(timingMaps[key] ?? {}), ...(timingCtx(k) as VoiceTimings) }
 }
