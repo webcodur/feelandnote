@@ -60,20 +60,13 @@ const VALID_STATUS: FactionEpisodeStatus[] = ['ready', 'blocked']
 /** 폴더 한 토막 — 영문·숫자로 시작하고 영문·숫자·하이픈·밑줄·마침표만 */
 const SEGMENT_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/
 
-/**
- * 폴더 키 검사.
- *
- * 아이디어 뱅크 편은 `not-using/<분류>/<이름>` 처럼 두 단 아래에 있어 슬래시를 품는다.
- * 그래서 토막마다 따로 보고, 위로 올라가는 토막(`..`)은 정규식이 이미 막는다.
- * 세 토막을 넘기지 않는 것은 지금 쓰는 깊이가 그게 전부이기 때문이다.
- */
+/** 폴더 키 검사 — 모든 팩션 편은 factions/ 바로 아래 한 단계에 둔다. */
 function assertFolder(folder: string): string {
-  const f = (folder ?? '').trim().replace(/\\/g, '/')
-  const segs = f.split('/')
-  if (!f || segs.length > 3 || !segs.every(s => SEGMENT_RE.test(s))) {
-    throw new Error('폴더명은 영문·숫자·하이픈·밑줄·마침표만 쓸 수 있고 영문이나 숫자로 시작해야 합니다 (아이디어 보관함은 not-using/분류/이름 꼴)')
+  const f = (folder ?? '').trim()
+  if (!SEGMENT_RE.test(f)) {
+    throw new Error('폴더명은 영문·숫자로 시작하고 영문·숫자·하이픈·밑줄·마침표만 쓸 수 있습니다')
   }
-  if (segs.some(s => s !== safeDirName(s))) throw new Error('폴더명에 경로 문자를 쓸 수 없습니다')
+  if (f !== safeDirName(f)) throw new Error('폴더명에 경로 문자를 쓸 수 없습니다')
   return f
 }
 

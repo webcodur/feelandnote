@@ -16,6 +16,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Library, Users, FileText } from 'lucide-react'
 import ContentActions from './ContentActions'
+import ContentCoverEditor from './ContentCoverEditor'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 import { STATUS_CONFIG, type ContentStatus } from '@/constants/statuses'
 
@@ -165,6 +166,17 @@ export default async function ContentDetailPage({ params }: PageProps) {
           </div>
         )}
       </div>
+
+      {content.type === 'BOOK' && (
+        <ContentCoverEditor
+          contentId={content.id}
+          editions={content.editions.map(edition => ({
+            locale: edition.locale,
+            thumbnail_url: edition.thumbnail_url,
+            sources: edition.sources,
+          }))}
+        />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 관리 액션 */}

@@ -15,10 +15,12 @@ import { TIMELINE_KINDS } from '@/constants/timeline'
 export interface TimelineEvent {
   id: string
   celeb_id: string
-  year: number
+  year: number | null
   year_end: number | null
   month: number | null
   day: number | null
+  sequence_label: string | null
+  sequence_label_en: string | null
   title: string
   title_en: string | null
   description: string | null
@@ -111,7 +113,7 @@ export async function getTimelineEvents(celebId: string): Promise<TimelineEvent[
     .from('celeb_timeline_events')
     .select('*')
     .eq('celeb_id', celebId)
-    .order('year')
+    .order('year', { nullsFirst: false })
     .order('sort_order')
   if (error) throw error
   return (data ?? []) as TimelineEvent[]
@@ -120,8 +122,13 @@ export async function getTimelineEvents(celebId: string): Promise<TimelineEvent[
 type EventInput = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 
 function validate(e: Partial<EventInput>) {
-  if (!Number.isInteger(e.year)) throw new Error('연도는 정수여야 합니다. 기원전은 음수로 넣으세요.')
+  const hasYear = Number.isInteger(e.year)
+  const hasSequence = !!e.sequence_label?.trim()
+  if (hasYear === hasSequence)
+    throw new Error('연도 또는 서사 단계 가운데 하나만 넣으세요.')
   if (!e.title?.trim()) throw new Error('제목을 넣으세요.')
+  if (!hasYear && (e.year_end != null || e.month != null || e.day != null))
+    throw new Error('서사 단계에는 연도·월·일을 함께 넣을 수 없습니다.')
   if (e.year_end != null && e.year != null && e.year_end < e.year)
     throw new Error('끝 연도가 시작 연도보다 앞설 수 없습니다.')
   const hasLat = e.lat != null

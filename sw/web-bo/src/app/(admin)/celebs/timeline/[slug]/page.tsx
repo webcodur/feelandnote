@@ -14,7 +14,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
-  return { title: member ? `${member.nickname ?? '셀럽'} 생애 행적 편집` : '생애 행적 편집' }
+  const sectionName = member?.celeb_tier === 'fiction' ? '서사 연표' : '생애 행적'
+  return { title: member ? `${member.nickname ?? '셀럽'} ${sectionName} 편집` : `${sectionName} 편집` }
 }
 
 interface PageProps {
@@ -30,6 +31,8 @@ export default async function TimelineDetailPage({ params }: PageProps) {
   }
 
   const events = await getTimelineEvents(member.id)
+  const isFiction = member.celeb_tier === 'fiction'
+  const sectionName = isFiction ? '서사 연표' : '생애 행적'
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -44,15 +47,17 @@ export default async function TimelineDetailPage({ params }: PageProps) {
         </Link>
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">
-            {`${member.nickname ?? '셀럽'} 생애 행적 편집`}
+            {`${member.nickname ?? '셀럽'} ${sectionName} 편집`}
           </h1>
           <p className="text-sm text-text-secondary mt-1">
-            항목을 눌러 고칩니다. 좌표는 지명으로 찾아 고르세요 — 손으로 적으면 같은 이름의 다른 곳에 찍힙니다.
+            {isFiction
+              ? '원전의 사건 순서를 적습니다. 실제 연도를 만들지 말고 서사 단계와 근거 링크를 남기세요.'
+              : '항목을 눌러 고칩니다. 좌표는 지명으로 찾아 고르세요 — 손으로 적으면 같은 이름의 다른 곳에 찍힙니다.'}
           </p>
         </div>
       </div>
 
-      <TimelineEditor celebId={member.id} initialEvents={events} />
+      <TimelineEditor celebId={member.id} initialEvents={events} isFiction={isFiction} />
     </div>
   )
 }

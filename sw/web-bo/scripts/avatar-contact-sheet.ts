@@ -23,6 +23,7 @@ const SLUGS = (get('--slugs') ?? '').split(',').map((s) => s.trim()).filter(Bool
 const OUT = get('--out') ?? resolve(__dirname, 'sheet.png')
 const CELL = Number(get('--cell') ?? 220)
 const COLS = Number(get('--cols') ?? 6)
+const BACKGROUND = get('--background') ?? '#ffffff'
 
 function loadEnv(): Record<string, string> {
   const env: Record<string, string> = {}
@@ -67,7 +68,7 @@ async function main() {
         const res = await fetch(url)
         const buf = Buffer.from(await res.arrayBuffer())
         const img = await sharp(buf)
-          .flatten({ background: '#ffffff' })
+          .flatten({ background: BACKGROUND })
           .resize(CELL, CELL, { fit: 'cover' })
           .png()
           .toBuffer()

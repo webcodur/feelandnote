@@ -15,15 +15,18 @@ import { TIMELINE_KINDS, TIMELINE_KIND_LABELS } from '@/constants/timeline'
 interface Props {
   celebId: string
   initialEvents: TimelineEvent[]
+  isFiction: boolean
 }
 
 type Draft = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 
-const EMPTY: Draft = {
-  year: new Date().getFullYear(),
+const makeEmpty = (isFiction: boolean): Draft => ({
+  year: isFiction ? null : new Date().getFullYear(),
   year_end: null,
   month: null,
   day: null,
+  sequence_label: isFiction ? '' : null,
+  sequence_label_en: null,
   title: '',
   title_en: null,
   description: null,
@@ -36,11 +39,18 @@ const EMPTY: Draft = {
   place_qid: null,
   source_url: null,
   sort_order: 0,
-}
+})
 
 const num = (v: string): number | null => (v.trim() === '' ? null : Number(v))
 
-export default function TimelineEditor({ celebId, initialEvents }: Props) {
+const sortEvents = (a: TimelineEvent, b: TimelineEvent) => {
+  if (a.year == null && b.year == null) return a.sort_order - b.sort_order
+  if (a.year == null) return 1
+  if (b.year == null) return -1
+  return a.year - b.year || a.sort_order - b.sort_order
+}
+
+export default function TimelineEditor({ celebId, initialEvents, isFiction }: Props) {
   const [events, setEvents] = useState(initialEvents)
   const [openId, setOpenId] = useState<string | null>(null)
   const [draft, setDraft] = useState<Draft | null>(null)
@@ -59,7 +69,10 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
     setOpenId(e.id)
     setCandidates(null)
     setPlaceTerm(e.place_name_en ?? e.place_name ?? '')
-    const { id: _id, celeb_id: _c, source: _s, ...rest } = e
+    const rest = { ...e }
+    delete (rest as Partial<TimelineEvent>).id
+    delete (rest as Partial<TimelineEvent>).celeb_id
+    delete (rest as Partial<TimelineEvent>).source
     setDraft(rest)
   }
 
@@ -68,7 +81,7 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
     setAdding(true)
     setCandidates(null)
     setPlaceTerm('')
-    setDraft({ ...EMPTY })
+    setDraft(makeEmpty(isFiction))
   }
 
   const close = () => {
@@ -116,16 +129,14 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
         if (adding) {
           const id = await createTimelineEvent(celebId, draft)
           setEvents((prev) =>
-            [...prev, { ...draft, id, celeb_id: celebId, source: 'manual' }].sort(
-              (a, b) => a.year - b.year || a.sort_order - b.sort_order,
-            ),
+            [...prev, { ...draft, id, celeb_id: celebId, source: 'manual' }].sort(sortEvents),
           )
         } else if (openId) {
           await updateTimelineEvent(openId, draft)
           setEvents((prev) =>
             prev
               .map((e) => (e.id === openId ? { ...e, ...draft, source: 'manual' } : e))
-              .sort((a, b) => a.year - b.year || a.sort_order - b.sort_order),
+              .sort(sortEvents),
           )
         }
         close()
@@ -157,41 +168,68 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
     <div className="space-y-3 rounded-lg border border-accent/40 bg-bg-secondary p-4">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-text-primary">
-          {adding ? '행적 추가' : '행적 수정'}
+          {adding
+            ? (isFiction ? '서사 사건 추가' : '행적 추가')
+            : (isFiction ? '서사 사건 수정' : '행적 수정')}
         </p>
         <button type="button" onClick={close} className="text-text-secondary hover:text-text-primary">
           <X className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-        <div>
-          <label className={label}>연도 (기원전은 음수)</label>
-          <input
-            type="number"
-            value={draft.year}
-            onChange={(e) => setDraft({ ...draft, year: Number(e.target.value) })}
-            className={field}
-          />
-        </div>
-        <div>
-          <label className={label}>끝 연도</label>
-          <input
-            type="number"
-            value={draft.year_end ?? ''}
-            onChange={(e) => setDraft({ ...draft, year_end: num(e.target.value) })}
-            className={field}
-          />
-        </div>
-        <div>
-          <label className={label}>월</label>
-          <input
-            type="number"
-            value={draft.month ?? ''}
-            onChange={(e) => setDraft({ ...draft, month: num(e.target.value) })}
-            className={field}
-          />
-        </div>
+      <div className={`grid grid-cols-2 gap-3 ${isFiction ? 'sm:grid-cols-4' : 'sm:grid-cols-5'}`}>
+        {isFiction ? (
+          <>
+            <div>
+              <label className={label}>서사 단계</label>
+              <input
+                value={draft.sequence_label ?? ''}
+                onChange={(e) => setDraft({ ...draft, sequence_label: e.target.value })}
+                placeholder="예: 원탁의 성립"
+                className={field}
+              />
+            </div>
+            <div>
+              <label className={label}>서사 단계 (영문)</label>
+              <input
+                value={draft.sequence_label_en ?? ''}
+                onChange={(e) => setDraft({ ...draft, sequence_label_en: e.target.value || null })}
+                placeholder="e.g. The Round Table Rises"
+                className={field}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <label className={label}>연도 (기원전은 음수)</label>
+              <input
+                type="number"
+                value={draft.year ?? ''}
+                onChange={(e) => setDraft({ ...draft, year: num(e.target.value) })}
+                className={field}
+              />
+            </div>
+            <div>
+              <label className={label}>끝 연도</label>
+              <input
+                type="number"
+                value={draft.year_end ?? ''}
+                onChange={(e) => setDraft({ ...draft, year_end: num(e.target.value) })}
+                className={field}
+              />
+            </div>
+            <div>
+              <label className={label}>월</label>
+              <input
+                type="number"
+                value={draft.month ?? ''}
+                onChange={(e) => setDraft({ ...draft, month: num(e.target.value) })}
+                className={field}
+              />
+            </div>
+          </>
+        )}
         <div>
           <label className={label}>종류</label>
           <select
@@ -207,7 +245,7 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
           </select>
         </div>
         <div>
-          <label className={label}>같은 해 순서</label>
+          <label className={label}>{isFiction ? '서사 순서' : '같은 해 순서'}</label>
           <input
             type="number"
             value={draft.sort_order}
@@ -390,7 +428,8 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-sm text-text-secondary">
-          행적 {events.length}건 · 좌표 {events.filter((e) => e.lat != null).length}건
+          {isFiction ? '서사 사건' : '행적'} {events.length}건 · 좌표{' '}
+          {events.filter((e) => e.lat != null).length}건
         </p>
         <button
           type="button"
@@ -398,7 +437,7 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
           className="flex items-center gap-1 rounded border border-border px-3 py-1.5 text-sm text-text-secondary hover:border-accent hover:text-text-primary"
         >
           <Plus className="h-4 w-4" />
-          행적 추가
+          {isFiction ? '서사 사건 추가' : '행적 추가'}
         </button>
       </div>
 
@@ -420,8 +459,15 @@ export default function TimelineEditor({ celebId, initialEvents }: Props) {
                 >
                   <div className="flex flex-wrap items-baseline gap-2">
                     <span className="font-mono text-sm text-accent">
-                      {e.year < 0 ? `BC ${Math.abs(e.year)}` : e.year}
-                      {e.year_end != null && e.year_end !== e.year && `–${Math.abs(e.year_end)}`}
+                      {e.sequence_label
+                        ? e.sequence_label
+                        : e.year != null
+                          ? `${e.year < 0 ? `BC ${Math.abs(e.year)}` : e.year}${
+                              e.year_end != null && e.year_end !== e.year
+                                ? `–${Math.abs(e.year_end)}`
+                                : ''
+                            }`
+                          : ''}
                     </span>
                     <span className="text-sm text-text-primary">{e.title}</span>
                     <span className="rounded bg-bg-primary px-1.5 py-0.5 text-[11px] text-text-secondary">

@@ -24,7 +24,9 @@ import type {
  * 실제 반영은 세력 단위로 확인을 받고 하나씩 순서대로 한다 — 한꺼번에 밀어 넣으면 어디서 막혔는지
  * 알 수 없고, 도감 단체사진은 태그 단위 배열이라 겹치기 쉽다.
  *
- * 소개문은 **채움 전용**이다. 도감에서 사람이 다듬은 글은 덮지 않는다(덮으려면 force).
+ * 웹 소개는 **채움 전용**이다. 영상 대표 직함은 웹 한줄 소개 초안으로,
+ * 영상 소개문은 웹 상세 설명 초안으로 보낸다. 도감에서 사람이 세력 맥락에 맞게 다듬은 글은
+ * 덮지 않는다(덮으려면 force).
  */
 
 // #region 결과 로그 항목 — 세력 1회 호출(미리보기 또는 출간)의 응답 기록
@@ -340,9 +342,12 @@ export function FactionPublishPanel({
           미배정 <span className="font-bold text-warning-text">{summary.unassigned}</span>
         </span>
 
-        <label className="ml-2 flex items-center gap-1.5 text-xs text-text-dim" title="도감에서 다듬은 소개문을 제작 데이터로 덮어씀">
+        <label
+          className="ml-2 flex items-center gap-1.5 text-xs text-text-dim"
+          title="도감 한줄 소개는 영상 대표 직함으로, 상세 설명은 영상 소개문으로 덮어씀"
+        >
           <input type="checkbox" checked={force} onChange={e => setForce(e.target.checked)} className="accent-accent" />
-          force(덮어쓰기)
+          웹 소개 강제 덮어쓰기
         </label>
 
         <div className="ml-auto flex items-center gap-2">
@@ -457,7 +462,8 @@ export function FactionPublishPanel({
 
       {force && (
         <div className="rounded-md border border-danger/40 bg-danger/20 px-3 py-2 text-xs text-danger-text">
-          force 켬 — 도감에서 사람이 다듬은 소개문도 제작 데이터 값으로 덮어씁니다.
+          강제 덮어쓰기 켬 — 도감 한줄 소개는 영상 대표 직함으로, 상세 설명은 영상 소개문으로
+          덮어씁니다. 세력별로 사람이 다듬은 기존 문구도 바뀝니다.
         </div>
       )}
 

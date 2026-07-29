@@ -14,7 +14,7 @@
  */
 
 import path from 'path'
-import { safeRelSegs, resolveEpisodeLocation } from '@feelandnote/shared/bo/episode-store'
+import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 
 /** 내줄 수 있는 확장자만 */
 export const FACTION_ASSET_MIME: Record<string, string> = {
@@ -45,14 +45,10 @@ export type FactionAssetResolution =
  * @param relPath 슬래시로 이은 상대경로(URL 디코딩은 호출 측이 마친 상태)
  */
 export function resolveFactionAsset(root: string, relPath: string): FactionAssetResolution {
-  if (!safeRelSegs(relPath).length) return { ok: false, status: 400, reason: '경로가 비었습니다' }
-
-  // 아이디어 보관함 편의 사진은 실물이 public 밖(idea-bank/)에 있다 — 뿌리를 그 함수가 정한다
-  const loc = resolveEpisodeLocation(root, relPath)
-  const segs = loc.segs
+  const segs = safeRelSegs(relPath)
   if (!segs.length) return { ok: false, status: 400, reason: '경로가 비었습니다' }
 
-  const base = path.resolve(loc.root)
+  const base = path.resolve(root)
   const abs = path.resolve(base, ...segs)
   // safeRelSegs 가 '..' 을 걷어내지만, 이상한 입력까지 감당하도록 결과를 다시 확인한다
   if (abs !== base && !abs.startsWith(base + path.sep)) {

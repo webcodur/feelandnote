@@ -213,17 +213,25 @@ function textArray(v: unknown): string[] {
   return v.map(x => (typeof x === 'string' ? x.trim() : '')).filter(Boolean)
 }
 
-/** 인물의 소개문 재료 — 수식어 우선, 없으면 직함 첫 줄. 긴 소개문은 직함 2·3줄을 잇는다 */
-function descsOf(p: Row) {
+/**
+ * 제작 문구를 서비스 도감의 태그-인물 소개 초안으로 투영한다.
+ *
+ * 두 필드는 같은 '수식어'가 아니다.
+ * - lines[0]: 영상에서 이름 곁에 붙는 짧은 대표 직함 → 웹 한줄 소개
+ * - epithet: 영상에서 보여 주거나 읽는 한 문장 소개 → 웹 상세 설명
+ *
+ * 출간은 이 초안을 빈 칸에만 채운다. 이미 도감에서 세력 맥락에 맞게 다듬은 글은 보존한다.
+ */
+export function descsOf(p: Row) {
   const lines = textArray(p.lines)
   const linesEn = textArray(p.lines_en)
   const epithet = typeof p.epithet === 'string' ? p.epithet.trim() : ''
   const epithetEn = typeof p.epithet_en === 'string' ? p.epithet_en.trim() : ''
   return {
-    shortDesc: epithet || lines[0] || undefined,
-    longDesc: lines.slice(1, 3).join(', ') || undefined,
-    shortDescEn: epithetEn || linesEn[0] || undefined,
-    longDescEn: linesEn.slice(1, 3).join(', ') || undefined,
+    shortDesc: lines[0] || undefined,
+    longDesc: epithet || lines.slice(1, 3).join(', ') || undefined,
+    shortDescEn: linesEn[0] || undefined,
+    longDescEn: epithetEn || linesEn.slice(1, 3).join(', ') || undefined,
   }
 }
 

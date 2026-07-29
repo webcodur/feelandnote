@@ -159,7 +159,9 @@ export interface FactionPublishScope {
   /** celeb_tag_assignments 행 생성 + sort_order 재기록 */
   assignments?: boolean
   /**
-   * 배정에 딸린 글 — 소개문(short/long_desc·en)은 채움 전용,
+   * 배정에 딸린 글 — 소개문(short/long_desc·en)은 채움 전용이다.
+   * 제작의 대표 직함(lines[0])은 웹 한줄 소개, 영상 소개문(epithet)은 웹 상세 설명의 초안이며,
+   * 같은 문구를 두 필드에 복제하는 동기화가 아니다.
    * 인물 대사(quote·quote_en)는 제작 데이터가 유일한 출처라 항상 되쓴다.
    */
   descs?: boolean

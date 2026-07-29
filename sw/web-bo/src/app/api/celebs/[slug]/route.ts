@@ -41,10 +41,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
   const { data: books } = await supabase
     .from('user_contents')
     .select(`
-      review, source_url,
+      id, content_id, review, source_url,
       contents!inner(
-        id, type, thumbnail_url, publish_year,
-        content_locales(title, creator, locale)
+        id, type, release_date,
+        content_locales(title, creator, thumbnail_url, locale)
       )
     `)
     .eq('user_id', profile.id)

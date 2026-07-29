@@ -28,6 +28,8 @@ export interface CelebTagRow {
    */
   theme_music: unknown
   is_featured: boolean | null
+  /** 신화·전설·허구 인물 테마. 컬렉션 화면에서 실존 인물 테마와 분리한다. */
+  is_fiction: boolean | null
   sort_order: number | null
 }
 
@@ -60,7 +62,7 @@ export interface CelebProfileRow {
   voice_id_en: string | null
 }
 
-export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, sort_order'
+export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, is_fiction, sort_order'
 export const ASSIGNMENT_COLUMNS =
   'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, spotlight_image_url, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'

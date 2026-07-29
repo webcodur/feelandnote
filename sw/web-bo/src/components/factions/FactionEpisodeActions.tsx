@@ -80,15 +80,9 @@ export default function FactionEpisodeActions({
   })
 
   const renameOne = () => {
-    // 보관함(not-using/분류/이름)에 든 편은 이름을 바꾸는 것이 곧 승격이다 — 앞 두 토막을 지우면 나온다
-    const inIdeaBank = folder.startsWith('not-using/')
     const dst = window.prompt(
-      inIdeaBank
-        ? '새 폴더명 — 사진·음원 폴더도 함께 옮깁니다.\n'
-          + '보관함에서 꺼내려면 앞의 not-using/분류/ 를 지우고 이름만 남기세요.\n'
-          + '꺼낸 뒤 상태를 「준비」로 바꾸면 제작 대기 편이 됩니다.'
-        : '새 폴더명 — 사진·음원 폴더도 함께 옮깁니다:',
-      inIdeaBank ? folder.split('/').pop() ?? folder : folder,
+      '새 폴더명 — 사진·음원 폴더도 함께 옮깁니다:',
+      folder,
     )
     if (!dst || dst === folder) return
     run('이름 변경', async () => {

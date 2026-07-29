@@ -37,7 +37,11 @@ import {
   MessageSquare,
   MessagesSquare,
   Swords,
+  BookOpenText,
+  Search,
   SearchCheck,
+  Database,
+  BookMarked,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -78,9 +82,18 @@ const menuGroups: MenuGroup[] = [
     key: 'contents', label: '콘텐츠', icon: Library,
     children: [
       { href: '/contents', label: '콘텐츠 관리', icon: Library },
+      { href: '/fiction-sources', label: '픽션 원전', icon: BookMarked },
       { href: '/records', label: '기록', icon: FileText },
       { href: '/notes', label: '노트', icon: StickyNote },
       { href: '/playlists', label: '플레이리스트', icon: ListMusic },
+    ],
+  },
+  {
+    key: 'book-recommend', label: '서재 탐방', icon: BookOpenText,
+    children: [
+      { href: '/book-recommend', label: '제작 현황', icon: BookOpenText },
+      { href: '/book-recommend/search', label: '새 에피소드', icon: Search },
+      { href: '/book-recommend?view=resources', label: '리소스', icon: Database },
     ],
   },
   {

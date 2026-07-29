@@ -519,6 +519,7 @@ async function publishMusic(ctx: {
  *   ③ 둘 다 없다 → 연결 키가 있으면 태그를 새로 만들고 `tag_id` 를 잇는다. 연결 키조차 없으면 막는다.
  *
  * 새 태그는 항상 숨김(is_featured=false)으로 만든다 — 도감 노출은 사람이 정한다.
+ * 인물이 전부 mythical인 세력은 is_fiction=true로 기록해 실존 인물 테마와 섞이지 않게 한다.
  *
  * @returns 쓸 수 있는 태그 행, 또는 막혔으면 undefined(사유는 이미 items 에 담았다)
  */
@@ -539,6 +540,7 @@ async function resolveOrCreateTag(ctx: {
 
   let tag = resolveTag(g, snap) ?? (g.tagSlug ? createdTags.get(g.tagSlug) : undefined)
   const tagKey = tagKeyOf(g)
+  const isFictionGroup = g.people.length > 0 && g.people.every(person => person.mythical)
 
   // 이미 이 호출에서 손댄 태그 — 나눠 쓰는 세력이므로 태그 자체는 한 번만 손본다.
   // 단 이 세력의 연결(tag_id)은 세력마다 따로 이어 줘야 한다.
@@ -564,6 +566,7 @@ async function resolveOrCreateTag(ctx: {
       name_en: g.nameEn ?? null,
       color: g.color ?? null,
       is_featured: false,
+      is_fiction: isFictionGroup,
     }
     newTagSlugs.push(g.tagSlug)
     if (dryRun) {
@@ -572,7 +575,7 @@ async function resolveOrCreateTag(ctx: {
       const placeholder: CelebTagRow = {
         id: 'NEW', slug: g.tagSlug, name: g.name, name_en: insert.name_en,
         color: insert.color, team_images: [], youtube_videos: null, theme_music: null,
-        is_featured: false, sort_order: null,
+        is_featured: false, is_fiction: insert.is_fiction, sort_order: null,
       }
       createdTags.set(g.tagSlug, placeholder)
       return placeholder
@@ -598,13 +601,15 @@ async function resolveOrCreateTag(ctx: {
 
   if (!scope.tag) return tag
 
-  const patch: Record<string, string | null> = {}
+  const patch: Record<string, string | boolean | null> = {}
   const name = fillValue(tag.name, g.name, force)
   const nameEn = fillValue(tag.name_en, g.nameEn, force)
   const color = fillValue(tag.color, g.color, force)
   if (name !== undefined) patch.name = name
   if (nameEn !== undefined) patch.name_en = nameEn
   if (color !== undefined) patch.color = color
+  // false로 되돌리지는 않는다. 한 태그가 다른 편의 신화 세력과 공유될 수 있기 때문이다.
+  if (isFictionGroup && tag.is_fiction !== true) patch.is_fiction = true
 
   if (!Object.keys(patch).length) {
     add({ ...label, action: 'skipped', reason: 'unchanged' })

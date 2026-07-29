@@ -46,6 +46,25 @@ const eslintConfig = defineConfig([
       "react-hooks/immutability": "off",
     },
   },
+  {
+    /**
+     * 서재 탐방 제작기 — 26.07.29 remotion-bo 폐기를 위해 기능 단위로 이관한 코드.
+     *
+     * 느슨한 에피소드 JSON을 편집하는 기존 타입과, 모달이 닫힐 때 파이프라인 상태를
+     * 재조회하는 기존 효과는 동작 보존을 우선한다. 훅 호출 순서·선언 전 참조·렌더 중 ref
+     * 접근처럼 실제 런타임 위험이 있는 항목은 이관 과정에서 고쳤고 아래 두 규칙만 남긴다.
+     * 새 코드나 web-bo의 다른 기능에는 적용하지 않는다.
+     */
+    files: [
+      "src/features/book-recommend/**",
+      "src/app/api/[[]series[]]/**",
+      "src/app/(admin)/[[]series[]]/**",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

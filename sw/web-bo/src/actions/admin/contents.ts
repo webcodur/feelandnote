@@ -5,6 +5,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { requireAdmin } from '@/lib/admin-auth'
+import { validateExternalImageUrl } from '@/lib/external-image'
 
 export interface AffiliateLink {
   platform: string
@@ -32,6 +34,8 @@ export interface ContentEdition {
   publisher: string | null
   description: string | null
   affiliate_url: AffiliateLink[] | null
+  verified: boolean | null
+  sources: Record<string, unknown> | null
 }
 
 export interface ContentDetail extends Content {
@@ -66,7 +70,7 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
   // 에디션 정보
   const { data: editions } = await supabase
     .from('content_locales')
-    .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url')
+    .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url, verified, sources')
     .eq('content_id', contentId)
     .order('locale')
 
@@ -129,6 +133,54 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
       }
     }),
   }
+}
+
+export async function updateContentCover(input: {
+  contentId: string
+  locale: 'ko' | 'en'
+  thumbnailUrl: string
+  thumbnailSource: string
+}): Promise<void> {
+  await requireAdmin()
+
+  const thumbnailUrl = input.thumbnailUrl.trim()
+  if (thumbnailUrl) {
+    const checked = validateExternalImageUrl(thumbnailUrl)
+    if ('error' in checked) throw new Error(checked.error)
+  }
+
+  const admin = createAdminClient()
+  const { data: current, error: readError } = await admin
+    .from('content_locales')
+    .select('sources')
+    .eq('content_id', input.contentId)
+    .eq('locale', input.locale)
+    .maybeSingle()
+  if (readError) throw readError
+  if (!current) {
+    throw new Error(`${input.locale.toUpperCase()} 판본이 없습니다. 판본 메타를 먼저 등록하세요.`)
+  }
+
+  const sources = {
+    ...((current?.sources as Record<string, unknown> | null) ?? {}),
+  }
+  const thumbnailSource = input.thumbnailSource.trim()
+  if (thumbnailSource) sources.thumbnail = thumbnailSource
+  else delete sources.thumbnail
+
+  const { error } = await admin
+    .from('content_locales')
+    .update({
+      thumbnail_url: thumbnailUrl || null,
+      sources: Object.keys(sources).length ? sources : null,
+    })
+    .eq('content_id', input.contentId)
+    .eq('locale', input.locale)
+  if (error) throw error
+
+  revalidatePath('/contents')
+  revalidatePath(`/contents/${input.contentId}`)
+  await revalidateWebCache(CACHE_TAGS.CONTENTS)
 }
 
 export async function updateContent(
@@ -252,7 +304,20 @@ export async function upsertAffiliatePlatform(
 }
 
 export async function deleteContent(contentId: string): Promise<void> {
+  await requireAdmin()
   const admin = createAdminClient()
+
+  // 대표 원전은 먼저 지정을 해제해야 한다. 이 검사를 user_contents/records 삭제보다 늦게 하면
+  // 마지막 contents DELETE가 FK에서 막힌 뒤 앞의 기록만 사라지는 부분 삭제가 된다.
+  const { data: fictionSource, error: fictionSourceError } = await admin
+    .from('fiction_source_contents')
+    .select('content_id')
+    .eq('content_id', contentId)
+    .maybeSingle()
+  if (fictionSourceError) throw fictionSourceError
+  if (fictionSource) {
+    throw new Error('픽션 대표 원전으로 지정된 콘텐츠입니다. 픽션 원전 관리에서 지정을 먼저 해제하세요.')
+  }
 
   // 관련 데이터 삭제 (RLS 우회 필요)
   await admin.from('user_contents').delete().eq('content_id', contentId)
