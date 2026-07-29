@@ -42,8 +42,17 @@
       "library": {
         "about": "이 인물이 감상한 콘텐츠와 직접 남긴 창작물을 함께 모읍니다."
       },
+      "sourceWorks": {
+        "about": "신화·서사시·문학 등 이 인물이 등장하는 원전과 작품을 연결해 보여줍니다."
+      },
       "timeline": {
         "about": "생애의 주요 사건을 타임라인과 활동 반경 지도에서 보여줍니다."
+      },
+      "fictionTimeline": {
+        "about": "원전과 전승에서 벌어진 주요 사건을 서사 순서와 배경 지도에서 보여줍니다."
+      },
+      "fictionGuestbook": {
+        "about": "이 인물에 대한 감상과 해석을 함께 남기는 공간입니다."
       },
       "relations": {
         "about": "이 인물과 실제로 연결된 사람들을 관계 유형별로 잇습니다."
@@ -78,14 +87,22 @@
     },
     "influence": "영향력",
     "tierFictionBadge": "신화 속 인물",
-    "tierFictionNotice": "실제로 살았던 사람이 아니라 신화와 서사시에 등장하는 인물입니다. 그래도 이 인물의 말과 선택에는 오랜 세월 사람들이 쌓아 온 생각이 담겨 있습니다. 한 사람의 생애가 아니라 그를 만들어 낸 사람들의 세계관을 읽는 자리로 삼아 주세요.",
     "tierRelationBadge": "관계로 만나는 인물",
     "tierRelationNotice": "다른 인물이나 영상에 함께 등장해 소개하는 인물입니다. 감상 기록 대신 기본 소개만 담았습니다.",
     "library": "기록물",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
+    "sourceWorks": "원전·등장 작품",
+    "sourceWorksIntro": "이 인물이 등장하는 원전과 작품입니다. 여러 판본 가운데 서비스에서 지정한 대표 콘텐츠로 연결합니다.",
+    "sourceWorkOpen": "작품 기록 열기",
+    "sourceRelation": {
+      "appearance": "등장 작품",
+      "origin": "첫 등장 원전",
+      "adaptation": "각색 작품"
+    },
     "analysis": "인물 지표",
     "media": "미디어",
     "guestbook": "방명록",
+    "fictionGuestbook": "감상록",
     "innerVirtue": "내적 덕목",
     "outerVirtue": "외적 덕목",
     "coreDisposition": "핵심 성향",
@@ -117,6 +134,7 @@
     "factionClose": "여기서 닫기",
     "relationGraph": "인물 관계망",
     "timeline": "타임라인",
+    "fictionTimeline": "서사 연표",
     "timelineBc": "BC",
     "timelineMapLabel": "행적이 남은 곳을 표시한 지구본",
     "timelinePrev": "앞선 기록",
@@ -136,9 +154,15 @@
     "timelineResetView": "처음 위치로",
     "relSubFamily": "가계",
     "relGoToProfile": "인물 페이지로 가기",
+    "relViewPersonCard": "인물 카드 보기",
     "relViewWikidata": "위키데이터에서 보기",
     "relExternalNote": "위키데이터 등재 인물",
-    "relSubSocial": "사상 · 동료 · 지기 · 라이벌",
+    "relSubSocial": "인연과 영향",
+    "relBandUp": "{name}에게 영향을 준 인물",
+    "relBandSideL": "동료·지기",
+    "relBandSideR": "맞수·대립",
+    "relBandDown": "{name}의 영향을 받은 인물",
+    "relShowMore": "관계 인물 {count}명 더 보기",
     "relationGraphNote": "혈연·사제·영향 관계는 위키데이터에 기록된 사실을 기준으로 합니다.",
     "relFilter_all": "전체",
     "relFilter_family": "혈연",
@@ -173,6 +197,7 @@
     "archiveSuffix": "의 기록관",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "방명록에 여러분의 생각을 남겨보세요.",
+    "fictionGuestbookCta": "감상록에 이 인물과 원전에 대한 생각을 남겨보세요.",
     "recordControl": "기록 제어",
     "worksControl": "창작물 제어",
     "tabConsume": "감상",

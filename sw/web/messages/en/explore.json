@@ -213,15 +213,54 @@
       "navFaction": "Faction",
       "navDirectory": "Directory",
       "navTimeline": "Timeline by Country",
-      "navYoutube": "YouTube Channel",
+      "navYoutube": "Video Archive",
       "navToday": "Today's Figure",
       "navOthers": "Other Figures"
     },
     "youtube": {
-      "metaTitle": "YouTube Channel | Library Tour Videos",
-      "metaDescription": "Library Tour on video — the books great figures actually read. Watch full episodes and one-book shorts in one place.",
-      "intro": "Tour the libraries of great figures on video. Full episodes trace one figure's reading life; shorts tell the story of one figure and one book.",
-      "visitChannel": "Visit Channel",
+      "metaTitle": "Feel&Note Video Archive | Library Tour & Faction Atlas",
+      "metaDescription": "Explore Feel&Note original video series Library Tour and Faction Atlas, with full-episode and short-form playlists in one place.",
+      "eyebrow": "FEEL&NOTE VIDEO ARCHIVE",
+      "title": "The world of remarkable figures, unfolded on film",
+      "intro": "Begin with one person's library, then step back to see the forces that moved an age. Discover two ways Feel&Note records cultural lives and human alliances.",
+      "visitChannel": "YouTube Channel",
+      "seriesEyebrow": "ORIGINAL SERIES",
+      "seriesTitle": "Two lenses, one archive",
+      "seriesIntro": "Library Tour reads the inner life; Faction Atlas maps the relationships between lives.",
+      "fullPlaylist": "Full Episodes",
+      "shortsPlaylist": "Shorts Playlist",
+      "koreanPlaylist": "Faction Atlas is currently available on the Korean-language channel.",
+      "series": {
+        "library": {
+          "index": "SERIES 01",
+          "title": "Library Tour",
+          "tagline": "A person’s library is a map of the life they travelled.",
+          "description": "Follow the books historical figures actually read or recommended. Each episode traces how a book entered a life and left its mark on decisions, ideas, and achievements.",
+          "siteLink": "Explore the figures’ libraries",
+          "imageAlt": "A dark circular screening library lined with bookshelves, statues, and a film projector"
+        },
+        "faction": {
+          "index": "SERIES 02",
+          "title": "Faction Atlas",
+          "tagline": "The same question can divide remarkable people into opposing circles.",
+          "description": "Figures across eras and fields are arranged around one defining problem. Read the alliances, collisions, and individual voices as a single living composition.",
+          "siteLink": "Explore the Faction Atlas",
+          "imageAlt": "A dark council chamber with a monumental relief map and empty seats arranged around it"
+        }
+      },
+      "archiveEyebrow": "LIBRARY TOUR ARCHIVE",
+      "archiveTitle": "Library Tour Video Archive",
+      "archiveDescription": "Play the full episodes and one-book shorts connected to figures in the Feel&Note archive.",
+      "factionArchiveEyebrow": "FACTION ATLAS ARCHIVE",
+      "factionArchiveTitle": "Faction Atlas Video Archive",
+      "factionArchiveDescription": "Videos from the public Faction Atlas playlists. Published entries also show their connected faction names.",
+      "factionLongformTitle": "Faction Atlas Episodes",
+      "factionLongformSub": "Full-length maps of the groups and clashes around one question",
+      "factionShortsTitle": "Factions in Shorts",
+      "factionShortsSub": "A defining alliance or conflict, compressed into one short video",
+      "openFaction": "Open the Faction Atlas",
+      "factionMoreJoiner": " + ",
+      "factionMoreUnit": " more factions",
       "longformTitle": "Full Episodes",
       "longformSub": "Full-length tours through one figure's entire library",
       "shortsTitle": "One Figure, One Book",
@@ -282,10 +321,50 @@
         "empty": "No content records"
       },
       "intro": {
-        "title": "Threads of Taste Across Time",
-        "description": "Explore the libraries of figures united by a single theme, transcending eras and fields.\nTheir recorded lines draw out new echoes within you.",
+        "title": "Who Stood With Whom",
+        "description": "Explore figures grouped by the questions they faced together.\nFollow group portraits, their words, and their libraries to see who shared each path.",
         "select": "Select Theme",
-        "openInNewTab": "Open in new tab"
+        "openInNewTab": "Open in new tab",
+        "heroPreview": "Featured faction portraits",
+        "viewTitle": "Choose How to Explore",
+        "stats": {
+          "themes": "Themes",
+          "figures": "Figure placements"
+        },
+        "modes": {
+          "atlas": {
+            "label": "Faction Atlas",
+            "description": "See the scale and relationships between circles."
+          },
+          "gallery": {
+            "label": "Portrait Gallery",
+            "description": "Give group portraits and figures the full frame."
+          },
+          "registry": {
+            "label": "Complete Index",
+            "description": "Scan every theme without detours."
+          }
+        },
+        "sectionMeta": "{themes} themes · {figures} figures",
+        "figureCount": "{count} figures",
+        "registryLabel": "INDEX",
+        "carousel": {
+          "sectionNav": "Faction atlas sections",
+          "real": "Historical figures",
+          "fiction": "Figures from stories",
+          "previousSection": "Previous section",
+          "nextSection": "Next section",
+          "swipeHint": "Swipe sideways to move between sections.",
+          "themePages": "Theme pages",
+          "previousThemes": "Previous themes",
+          "nextThemes": "Next themes",
+          "previewImage": "Enlarge image",
+          "imagePreview": "Portrait preview",
+          "closePreview": "Close image preview",
+          "previousPortrait": "Previous portrait",
+          "nextPortrait": "Next portrait",
+          "openPage": "Open dedicated page"
+        }
       }
     }
   },

@@ -3,10 +3,13 @@
 import { useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Users, Volume2, Images, Quote, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, Volume2, Images, Quote, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
+import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
+import type { CelebProfile } from "@/types/home";
+import { Z_INDEX } from "@/constants/zIndex";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
@@ -78,26 +81,47 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
   const teamItemIdxs = items.flatMap((it, i) => (it.type === "team" ? [i] : []));
 
   const [selectedIdx, setSelectedIdx] = useState(0);
-  // 개인 화보를 누르면 그 인물이 세력도 영상에서 하는 말을 사진 위에 띄운다
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [modalCeleb, setModalCeleb] = useState<FeaturedCeleb | null>(null);
+  const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
   const [modalCelebIdx, setModalCelebIdx] = useState(-1);
+  const [isModalLoading, setIsModalLoading] = useState(false);
+  const [modalError, setModalError] = useState(false);
 
   // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
   const current = items[selectedIdx] ?? items[0];
 
   if (!current) return null;
 
-  // 리스트 클릭: 좌측을 그 항목으로 전환만 한다 (대사는 사진의 스피커 버튼에서)
+  // 리스트 클릭: 좌측 화보·설명·팩션 대사를 한 번에 전환한다.
   const selectItem = (idx: number) => {
     setSelectedIdx(idx);
-    setQuoteOpen(false);
+    setModalError(false);
+  };
+
+  const loadModalCeleb = async (celebIdx: number) => {
+    const target = celebs[celebIdx];
+    if (!target || isModalLoading) return;
+
+    setIsModalLoading(true);
+    setModalError(false);
+    try {
+      const detail = await getCelebForModal(target.id, activeTag.id);
+      if (!detail) {
+        setModalError(true);
+        return;
+      }
+      setModalCeleb(detail);
+      setModalCelebIdx(celebIdx);
+    } catch (error) {
+      console.error("[FactionShowcase] Failed to load celeb detail:", error);
+      setModalError(true);
+    } finally {
+      setIsModalLoading(false);
+    }
   };
 
   const openModal = () => {
     if (current.type !== "celeb") return;
-    setModalCeleb(current.celeb);
-    setModalCelebIdx(current.celebIdx);
+    void loadModalCeleb(current.celebIdx);
   };
 
   // ── 좌측 사진 ──
@@ -122,10 +146,15 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
     current.type === "celeb"
       ? (locale === "en" ? current.celeb.faction_quote_en ?? current.celeb.faction_quote : current.celeb.faction_quote)?.trim() || null
       : null;
-  const showQuoteOverlay = quoteOpen && !!factionQuote;
+  const longDesc =
+    current.type === "celeb"
+      ? (locale === "en"
+          ? current.celeb.long_desc_en ?? current.celeb.long_desc
+          : current.celeb.long_desc)
+      : null;
 
   const photo = (
-    <div className="group/photo relative w-full aspect-square overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10">
+    <div className="relative w-full aspect-square overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10">
       {photoSrc ? (
         <>
           {/* 흐린 배경으로 여백을 메우고, 전경은 잘림 없이 노출 */}
@@ -164,7 +193,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
             type="button"
             aria-label={t("previousPhoto")}
             onClick={() => selectItem(teamItemIdxs[(teamSlide - 1 + teamImages.length) % teamImages.length])}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md flex items-center justify-center text-white transition-colors"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md flex items-center justify-center text-white"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -172,11 +201,11 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
             type="button"
             aria-label={t("nextPhoto")}
             onClick={() => selectItem(teamItemIdxs[(teamSlide + 1) % teamImages.length])}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md flex items-center justify-center text-white transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md flex items-center justify-center text-white"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+          <div className="absolute left-3 top-3 z-20 flex gap-1.5">
             {teamImages.map((_, i) => (
               <button
                 key={i}
@@ -184,7 +213,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
                 aria-label={`${i + 1}번째 사진`}
                 onClick={() => selectItem(teamItemIdxs[i])}
                 className={cn(
-                  "h-2 rounded-full transition-all duration-200",
+                  "h-2 rounded-full",
                   i === teamSlide ? "bg-accent w-4" : "bg-white/50 w-2 hover:bg-white/70"
                 )}
               />
@@ -193,102 +222,99 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
         </>
       )}
 
-      {/* 인물 대사 듣기 (스피커) — 한마디를 펼친 동안은 감춘다 */}
-      {current.type === "celeb" && !showQuoteOverlay && (
+      {/* 단체샷의 제목·설명·인원도 사진 안에서 끝낸다. */}
+      {current.type === "team" && (
+        <div className="absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32">
+          <span
+            className="inline-flex items-center gap-1.5 font-serif text-[11px] font-bold tracking-[0.12em] md:text-xs"
+            style={{ color: activeTag.color }}
+          >
+            <Users size={13} aria-hidden />
+            {teamImageLabel ? teamName : t("groupShot")}
+          </span>
+          <h3 className="mt-1.5 font-serif text-2xl font-black leading-tight text-white md:text-3xl">
+            {teamImageLabel ?? teamName}
+          </h3>
+          {teamDesc && !teamImageLabel && (
+            <p className="mt-2 line-clamp-3 text-sm leading-6 text-white/80 break-keep md:text-[15px]">
+              {teamDesc}
+            </p>
+          )}
+          {teamImageMembers.length > 0 && (
+            <p className="mt-2 text-xs font-semibold text-white/65">
+              {t("figureCount", { count: teamImageMembers.length })}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 인물 선택의 정보와 행동은 화보 한 장 안에서 끝낸다. */}
+      {current.type === "celeb" && (
+        <div className="absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32">
+          <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
+            {current.celeb.nickname}
+          </h3>
+          {longDesc && (
+            <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/78 break-keep md:text-[15px]">
+              {longDesc}
+            </p>
+          )}
+          {factionQuote && (
+            <blockquote
+              className="mt-3 border-l-2 pl-3"
+              style={{ borderColor: activeTag.color }}
+            >
+              <div className="flex items-start gap-2">
+                <Quote
+                  size={14}
+                  className="mt-1 shrink-0"
+                  style={{ color: activeTag.color }}
+                  aria-hidden
+                />
+                <p className="line-clamp-3 font-serif text-sm leading-6 text-white/95 md:line-clamp-4 md:text-[15px]">
+                  {factionQuote}
+                </p>
+              </div>
+            </blockquote>
+          )}
+          <button
+            type="button"
+            onClick={openModal}
+            disabled={isModalLoading}
+            aria-busy={isModalLoading}
+            className="mt-4 inline-flex min-h-11 items-center gap-2 border border-white/25 bg-black/55 px-3.5 py-2 text-sm font-semibold text-white hover:border-accent hover:bg-accent hover:text-black disabled:cursor-wait disabled:opacity-60"
+          >
+            {isModalLoading ? (
+              <>
+                <LoaderCircle size={15} className="animate-spin" aria-hidden />
+                {t("loadingDetail")}
+              </>
+            ) : (
+              <>
+                {t("viewDetail")}
+                <ChevronRight size={15} aria-hidden />
+              </>
+            )}
+          </button>
+          {modalError && (
+            <p role="alert" className="mt-2 text-xs leading-5 text-red-200">
+              {t("detailUnavailable")}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 인물 고유 인사 듣기 */}
+      {current.type === "celeb" && (
         <button
           type="button"
           aria-label={t("playLine")}
           title={t("playLine")}
           onClick={() => fireGreeting(current.celeb)}
-          className="absolute bottom-3 right-3 z-10 w-11 h-11 rounded-full bg-black/55 hover:bg-black/75 border border-white/15 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-accent active:scale-90 transition-[transform,color,background-color] duration-150"
+          className="absolute right-3 top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/55 text-white/90 backdrop-blur-md hover:border-accent hover:bg-black/75 hover:text-accent active:bg-black/90"
         >
           <Volume2 className="w-5 h-5" />
         </button>
-      )}
-
-      {/*
-        한마디 — 화보 전체가 여닫는 단추다(재클릭으로 닫힌다).
-        말풍선과 닫기 표시는 클릭을 가로채지 않도록(pointer-events-none) 두어
-        어디를 눌러도 같은 단추가 받는다. 그래서 X 자리를 눌러도 닫힌다.
-      */}
-      {factionQuote && current.type === "celeb" && (
-        <>
-          <button
-            type="button"
-            aria-label={showQuoteOverlay ? t("hideQuote") : t("showQuote")}
-            title={showQuoteOverlay ? t("hideQuote") : t("showQuote")}
-            aria-expanded={showQuoteOverlay}
-            onClick={() => setQuoteOpen(o => !o)}
-            className="absolute inset-0 z-0 cursor-pointer"
-          />
-          {!showQuoteOverlay && (
-            <span className="pointer-events-none absolute top-3 left-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-white/80 group-hover/photo:text-accent group-hover/photo:border-accent/50">
-              <Quote size={12} />
-              {t("showQuote")}
-            </span>
-          )}
-          {showQuoteOverlay && (
-            <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 p-6 md:p-8 bg-black/80 backdrop-blur-sm animate-fade-in">
-              <Quote size={20} style={{ color: activeTag.color }} />
-              <p className="max-w-[34ch] text-center text-[15px] md:text-lg font-serif font-medium text-white leading-relaxed break-keep">
-                {factionQuote}
-              </p>
-              <span className="text-xs md:text-sm font-sans text-white/60">— {current.celeb.nickname}</span>
-              <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 border border-white/15 flex items-center justify-center text-white/80 group-hover/photo:text-accent">
-                <X className="w-4 h-4" />
-              </span>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-
-  // ── 좌측 설명 ──
-  const shortDesc = current.type === "celeb" ? (locale === "en" ? current.celeb.short_desc_en ?? current.celeb.short_desc : current.celeb.short_desc) : null;
-  const longDesc = current.type === "celeb" ? (locale === "en" ? current.celeb.long_desc_en ?? current.celeb.long_desc : current.celeb.long_desc) : null;
-
-  const detail = (
-    <div className="flex flex-col gap-2.5">
-      {current.type === "team" ? (
-        <>
-          <span className="inline-flex items-center gap-1.5 text-xs font-serif font-bold tracking-wider" style={{ color: activeTag.color }}>
-            <Users size={13} />
-            {teamImageLabel ? teamName : t("groupShot")}
-          </span>
-          <h3 className="text-2xl md:text-3xl font-serif font-black text-white leading-tight">
-            {teamImageLabel ?? teamName}
-          </h3>
-          {teamDesc && !teamImageLabel && (
-            <p className="text-sm md:text-[15px] text-text-secondary font-sans leading-relaxed break-keep">{teamDesc}</p>
-          )}
-          {/* 이 사진에 나오는 사람은 오른쪽 목록에서 이 사진 아래에 매달려 있다 — 여기선 수만 알린다 */}
-          {teamImageMembers.length > 0 && (
-            <p className="text-sm font-sans">
-              {t("figureCount", { count: teamImageMembers.length })}
-            </p>
-          )}
-        </>
-      ) : (
-        <>
-          {current.celeb.title && (
-            <span className="text-xs md:text-sm font-serif font-bold tracking-wider" style={{ color: activeTag.color }}>
-              {current.celeb.title}
-            </span>
-          )}
-          <h3 className="text-2xl md:text-3xl font-serif font-black text-white leading-tight">{current.celeb.nickname}</h3>
-          {shortDesc && <p className="text-base text-white/90 font-sans leading-relaxed text-balance">{shortDesc}</p>}
-          {longDesc && <p className="text-sm md:text-[15px] text-text-secondary font-sans leading-relaxed break-keep">{longDesc}</p>}
-          <button
-            type="button"
-            onClick={openModal}
-            className="group/btn inline-flex items-center gap-1 mt-1 self-start text-sm font-semibold transition-colors hover:brightness-125"
-            style={{ color: activeTag.color }}
-          >
-            {t("viewDetail")}
-            <ChevronRight size={15} className="transition-transform group-hover/btn:translate-x-0.5" />
-          </button>
-        </>
       )}
     </div>
   );
@@ -325,7 +351,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
             >
               <div
                 className={cn(
-                  "relative rounded-lg overflow-hidden flex-shrink-0 border-2 transition-colors",
+                  "relative rounded-lg overflow-hidden flex-shrink-0 border-2",
                   nested ? "w-10 h-10" : "w-12 h-12",
                   isSel ? "border-accent/50" : "border-white/10"
                 )}
@@ -351,7 +377,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
                     </span>
                   )
                 )}
-                <span className={cn("font-sans font-bold truncate transition-colors", nested ? "text-[13px]" : "text-sm", isSel ? "text-white" : "text-text-secondary")}>
+                <span className={cn("font-sans font-bold truncate", nested ? "text-[13px]" : "text-sm", isSel ? "text-white" : "text-text-secondary")}>
                   {label}
                 </span>
                 {sub && isTeam && <span className="text-[11px] font-sans">{sub}</span>}
@@ -379,10 +405,9 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
   return (
     <div className="w-full max-w-5xl mx-auto px-4">
       <div className="flex flex-col md:flex-row md:items-stretch gap-6">
-        {/* 좌측: 사진 + 설명 */}
+        {/* 좌측: 정보가 결합된 사진 + 테마 미디어 */}
         <div className="md:w-[56%] flex flex-col gap-5">
           {photo}
-          {detail}
           {/*
             이 테마를 다룬 세력도 영상과 그 구간에 흐르는 배경음악. 고른 항목이 사람이든 단체든
             테마 자체의 것이라 선택과 무관하게 같은 자리에 둔다. 없으면 아무것도 뜨지 않는다.
@@ -395,7 +420,21 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
 
       {/* 인물 상세 모달 */}
       {modalCeleb && (
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <div
+              className="fixed inset-0 grid place-items-center bg-black/75 backdrop-blur-sm"
+              style={{ zIndex: Z_INDEX.modal }}
+              role="status"
+              aria-live="polite"
+            >
+              <div className="flex items-center gap-3 border border-white/15 bg-bg-main px-5 py-4 text-sm font-semibold text-white">
+                <LoaderCircle size={18} className="animate-spin text-accent" aria-hidden />
+                {t("loadingDetail")}
+              </div>
+            </div>
+          }
+        >
           <CelebDetailModal
             celeb={modalCeleb}
             isOpen={!!modalCeleb}
@@ -406,8 +445,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
             onNavigate={(dir) => {
               const next = dir === "prev" ? modalCelebIdx - 1 : modalCelebIdx + 1;
               if (next >= 0 && next < celebs.length) {
-                setModalCelebIdx(next);
-                setModalCeleb(celebs[next]);
+                void loadModalCeleb(next);
               }
             }}
             hasPrev={modalCelebIdx > 0}

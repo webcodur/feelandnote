@@ -1,6 +1,7 @@
 import {
   AudioLines,
   BookOpen,
+  BookOpenText,
   Brain,
   CirclePlay,
   Film,
@@ -19,6 +20,7 @@ import {
 export const CELEB_SERVICE_ICONS = {
   introduction: User,
   library: BookOpen,
+  sourceWorks: BookOpenText,
   works: PenLine,
   connections: Network,
   relations: Network,

@@ -49,6 +49,14 @@
   "contentDetail": {
     "back": "Go back",
     "contentInfo": "Content Info",
+    "fictionCharacters": "Figures in This Work",
+    "fictionCharactersCount": "{count}",
+    "fictionCharactersIntro": "These figures are linked to this designated source work. Select one to open their archive.",
+    "fictionRelation": {
+      "appearance": "Appears",
+      "origin": "Origin",
+      "adaptation": "Adaptation"
+    },
     "myReview": "My Review",
     "myNote": "My Notes",
     "private": "Private",

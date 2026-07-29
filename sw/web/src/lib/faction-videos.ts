@@ -13,6 +13,8 @@ export interface FactionVideo {
   id: string
   /** 짧은 영상의 편 번호 — 편을 나누지 않았으면 없다 */
   part?: number
+  /** 유튜브 업로드 완료 시각 — 목록 정렬에 쓴다 */
+  uploadedAt?: string
 }
 
 /** 테마에 걸린 영상. 둘 다 없으면 null 로 다룬다 */
@@ -35,7 +37,14 @@ function toVideo(raw: unknown): FactionVideo | null {
   const id = typeof r.id === 'string' ? r.id.trim() : ''
   if (!id) return null
   const part = typeof r.part === 'number' && r.part > 0 ? r.part : undefined
-  return part ? { id, part } : { id }
+  const uploadedAt = typeof r.uploadedAt === 'string' && r.uploadedAt
+    ? r.uploadedAt
+    : undefined
+  return {
+    id,
+    ...(part ? { part } : {}),
+    ...(uploadedAt ? { uploadedAt } : {}),
+  }
 }
 
 /** `celeb_tags.youtube_videos`(jsonb) → 화면 형태. 모양이 어긋나거나 비었으면 null */

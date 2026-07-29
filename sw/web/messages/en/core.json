@@ -193,6 +193,7 @@
     "actor": "Actor",
     "influencer": "Influencer",
     "athlete": "Athlete",
+    "other": "Other",
     "uncategorized": "Uncategorized"
   },
   "policy": {

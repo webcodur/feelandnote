@@ -43,6 +43,7 @@ export interface CelebServiceAvailability {
   virtualMonologueVoice: boolean;
   influence: boolean;
   persona: boolean;
+  sourceWorks: boolean;
 }
 
 interface UseCelebServiceItemsProps {
@@ -69,25 +70,31 @@ export function useCelebServiceItems({
         target: { sectionId: "introduction" },
       },
       {
-        key: "library",
+        key: tier === "fiction" ? "sourceWorks" : "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
-        label: t("library"),
-        icon: CELEB_SERVICE_ICONS.library,
-        ready: showLibrary,
-        target: { sectionId: "library" },
+        label: tier === "fiction" ? t("sourceWorks") : t("library"),
+        icon: tier === "fiction"
+          ? CELEB_SERVICE_ICONS.sourceWorks
+          : CELEB_SERVICE_ICONS.library,
+        ready: tier === "fiction" ? availability.sourceWorks : showLibrary,
+        target: { sectionId: tier === "fiction" ? "source-works" : "library" },
         unavailableGuide: {
-          about: t("atlasGuides.library.about"),
+          about: tier === "fiction"
+            ? t("atlasGuides.sourceWorks.about")
+            : t("atlasGuides.library.about"),
         },
       },
       {
         key: "timeline",
         chapter: CELEB_SERVICE_CHAPTERS.timeline,
-        label: t("timeline"),
+        label: tier === "fiction" ? t("fictionTimeline") : t("timeline"),
         icon: CELEB_SERVICE_ICONS.timeline,
         ready: availability.timeline,
         target: { sectionId: "timeline" },
         unavailableGuide: {
-          about: t("atlasGuides.timeline.about"),
+          about: tier === "fiction"
+            ? t("atlasGuides.fictionTimeline.about")
+            : t("atlasGuides.timeline.about"),
         },
       },
       {
@@ -245,10 +252,15 @@ export function useCelebServiceItems({
       {
         key: "guestbook",
         chapter: CELEB_SERVICE_CHAPTERS.guestbook,
-        label: t("guestbook"),
+        label: tier === "fiction" ? t("fictionGuestbook") : t("guestbook"),
         icon: CELEB_SERVICE_ICONS.guestbook,
         ready: true,
         target: { sectionId: "guestbook" },
+        unavailableGuide: {
+          about: tier === "fiction"
+            ? t("atlasGuides.fictionGuestbook.about")
+            : t("guestbookCta"),
+        },
       },
     ] satisfies ServiceItem[]),
     [
@@ -259,6 +271,7 @@ export function useCelebServiceItems({
       availability.influence,
       availability.persona,
       availability.relations,
+      availability.sourceWorks,
       availability.timeline,
       availability.videos,
       availability.virtualMonologue,

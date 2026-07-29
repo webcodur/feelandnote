@@ -249,8 +249,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       nationality: r.target.nationality,
       birth_date: r.target.birth_date,
       death_date: r.target.death_date,
-      // 페이지가 없는 상대는 위키데이터 원본으로라도 연결한다
-      qid: r.target.slug && r.target.status === 'active' ? null : r.target.wikidata_qid,
+      // 등록 인물도 관계 카드에서 본 카드와 위키데이터 원본을 함께 제공한다.
+      qid: r.target.wikidata_qid,
       note: r.note,
       note_en: r.note_en,
     }))
@@ -298,7 +298,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
-  ['celeb-by-slug'],
+  // v2: 활성 관계 인물도 wikidata_qid를 내려 두 CTA를 모두 구성한다.
+  ['celeb-by-slug-v2'],
   // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 세력도감)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )

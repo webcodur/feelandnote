@@ -32,17 +32,24 @@ interface CelebModalPublicData {
 }
 
 // 공개 테이블만 조회 — anon 클라이언트로 캐시 가능
-async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicData | null> {
+async function fetchCelebModalPublic(
+  celebId: string,
+  requireActive: boolean,
+): Promise<CelebModalPublicData | null> {
   const supabase = createStaticClient()
 
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
-  const { data, error } = await supabase
+  let profileQuery = supabase
     .from('profiles')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier, content_research_status')
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .single()
+
+  if (requireActive) {
+    profileQuery = profileQuery.eq('status', 'active')
+  }
+
+  const { data, error } = await profileQuery.single()
 
   const profile: ProfileModalRow | null = data
   if (error || !profile) return null
@@ -88,7 +95,7 @@ async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicD
 }
 
 const getCelebModalCached = unstable_cache(
-  fetchCelebModalPublic,
+  (celebId: string) => fetchCelebModalPublic(celebId, true),
   ['celeb-modal'],
   // profiles·celeb_influence + user_contents(서고 수) + celeb_tag_assignments + celeb_dialogues
   {
@@ -97,8 +104,41 @@ const getCelebModalCached = unstable_cache(
   }
 )
 
-export async function getCelebForModal(celebId: string): Promise<CelebProfile | null> {
-  const pub = await getCelebModalCached(celebId)
+/*
+ * 팩션은 목록 화면과 달리 배정(hidden=false) 자체가 진열 기준이라 inactive 인물도 포함한다.
+ * 임의 inactive 프로필을 여는 우회가 되지 않도록, 요청한 팩션에 실제 배정된 인물만 허용한다.
+ */
+const getFactionCelebModalCached = unstable_cache(
+  async (celebId: string, factionTagId: string) => {
+    const supabase = createStaticClient()
+    const { data: assignment, error } = await supabase
+      .from('celeb_tag_assignments')
+      .select('celeb_id')
+      .eq('celeb_id', celebId)
+      .eq('tag_id', factionTagId)
+      .eq('hidden', false)
+      .maybeSingle()
+
+    if (error) {
+      throw new Error(`[getFactionCelebModal] assignment lookup failed: ${error.message}`)
+    }
+    if (!assignment) return null
+    return fetchCelebModalPublic(celebId, false)
+  },
+  ['faction-celeb-modal'],
+  {
+    revalidate: STATIC_REVALIDATE,
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+  }
+)
+
+export async function getCelebForModal(
+  celebId: string,
+  factionTagId?: string,
+): Promise<CelebProfile | null> {
+  const pub = factionTagId
+    ? await getFactionCelebModalCached(celebId, factionTagId)
+    : await getCelebModalCached(celebId)
   if (!pub) return null
 
   // 인증 사용자 의존 — 캐시 밖에서 cookie 클라이언트로 조회

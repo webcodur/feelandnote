@@ -26,8 +26,10 @@ export default function GuestbookContent({
   initialEntries,
   initialTotal,
   hideEmptyState = false,
+  isFiction = false,
 }: GuestbookContentProps) {
   const t = useTranslations("profileSection.guestbook");
+  const tFiction = useTranslations("profileSection.fictionGuestbook");
 
   // 서버가 사용자를 주입하지 않은 경우(정적 렌더 화면) 클라이언트에서 본인 id를 조회한다.
   const [selfUserId, setSelfUserId] = useState<CurrentUserId>(null);
@@ -127,18 +129,22 @@ export default function GuestbookContent({
           <div className="mt-7 ml-auto h-7 w-28 rounded bg-white/[0.05]" />
         </div>
       ) : currentUserId ? (
-        <WriteForm profileId={profileId} onSubmit={handleAddEntry} />
+        <WriteForm
+          profileId={profileId}
+          onSubmit={handleAddEntry}
+          isFiction={isFiction}
+        />
       ) : (
         <Link
           href="/login"
           className="group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
         >
           <div className="min-h-[76px] px-4 py-4 text-sm group-hover:text-text-secondary">
-            {t("loginPrompt")}
+            {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-white/[0.05] px-4 py-3">
             <span className="text-xs">
-              {t("loginHint")}
+              {isFiction ? tFiction("loginHint") : t("loginHint")}
             </span>
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded bg-accent/90 px-3 py-1.5 text-[11px] font-bold text-bg-main group-hover:bg-accent">
               <LogIn size={11} strokeWidth={2} aria-hidden />
@@ -177,7 +183,9 @@ export default function GuestbookContent({
       ) : !hideEmptyState && (
         <div className="text-center py-10">
           <MessageSquare size={20} strokeWidth={1.5} className="mx-auto mb-2" />
-          <p className="text-xs font-sans">{t("empty")}</p>
+          <p className="text-xs font-sans">
+            {isFiction ? tFiction("empty") : t("empty")}
+          </p>
         </div>
       )}
     </>

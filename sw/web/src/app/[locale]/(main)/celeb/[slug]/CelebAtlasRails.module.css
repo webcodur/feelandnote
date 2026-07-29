@@ -2,21 +2,30 @@
   max-height: calc(100dvh - 7.5rem);
   overflow-y: auto;
   overflow-anchor: none;
-  padding: 4px;
+  padding: 4px 4px 0;
   scrollbar-color: var(--color-accent-dim) transparent;
   scrollbar-width: thin;
 }
 
 .profileCard {
-  padding: 24px;
+  padding: 16px 16px 0;
 }
 
 .profileEyebrow {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .profileEyebrow > span {
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.profileRegion {
+  display: flex;
+  width: 100%;
+  margin-top: -16px;
+  padding-top: 16px;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 초상 칸과 목록 사이에 빈틈이나 가로선을 두지 않는다. 포커스 박스가 두 칸을
@@ -29,9 +38,7 @@
   min-width: 0;
   flex-direction: column;
   align-items: center;
-  /* 초상 둘레의 금빛 테두리는 확대되면 위아래로 18px쯤 번진다. 그 위에 숨 쉴 틈까지
-     더해 잡아야 박스가 테두리에 걸치지 않고 여유 있게 두른다. */
-  padding-block: 34px 26px;
+  padding-block: 12px;
   color: inherit;
   cursor: pointer;
 }
@@ -46,7 +53,7 @@
   position: relative;
   display: inline-flex;
   justify-content: center;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 .portraitHalo {
@@ -55,14 +62,12 @@
   border: 2px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
   border-radius: 999px;
   transform: scale(1.25);
-  transition: transform 150ms ease-out, border-color 150ms ease-out;
 }
 
-/* 목록 항목과 같은 규칙 — 손을 올리면 강조가 이쪽으로 오고, 떼면 지금 보고 있는 장으로 돌아간다. */
+/* 초상 호버의 즉각 축은 테두리와 이름색이다. 움직임 없이 바로 반응한다. */
 .profileButton:hover .portraitHalo,
 .profileButtonActive .portraitHalo {
   border-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
-  transform: scale(1.31);
 }
 
 .portraitFrame {
@@ -78,7 +83,6 @@
   border-radius: 999px;
   background: var(--color-bg-card);
   box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 15%, transparent);
-  transition: box-shadow 150ms ease-out;
 }
 
 .profileButton:hover .portraitFrame,
@@ -141,13 +145,17 @@
   filter: drop-shadow(0 2px 3px color-mix(in srgb, black 36%, transparent));
 }
 
-/* 글자 색은 마우스가 아니라 지금 화면에 떠 있는 장을 따른다. */
+/* 현재 장과 호버 모두 같은 금색으로 즉시 읽힌다. */
 .profileButtonActive .profileName {
   color: var(--color-accent);
 }
 
+.profileButton:hover .profileName {
+  color: var(--color-accent);
+}
+
 .profileTitle {
-  margin-top: 9px;
+  margin-top: 6px;
   color: var(--color-accent);
   font-family: var(--font-serif);
   font-size: 18px;
@@ -158,7 +166,7 @@
 }
 
 .profileProfession {
-  margin-top: 5px;
+  margin-top: 4px;
   color: color-mix(in srgb, var(--color-text-secondary) 78%, transparent);
   font-size: 18px;
   line-height: 1.4;
@@ -178,9 +186,9 @@
 .focusScope {
   position: relative;
   display: flex;
-  width: calc(100% + 48px);
+  width: calc(100% + 32px);
   min-width: 0;
-  margin-inline: -24px;
+  margin-inline: -16px;
   flex-direction: column;
   align-items: center;
 }
@@ -246,6 +254,10 @@
   color: var(--color-accent);
   font-weight: 900;
   text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+
+.profileNavItem:hover {
+  color: var(--color-accent);
 }
 
 .profileNavItemPending {
@@ -319,11 +331,4 @@
 .profileNavItemPending:hover .profileNavState,
 .profileNavItemPending:focus .profileNavState {
   color: color-mix(in srgb, var(--color-accent) 70%, transparent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .portraitHalo,
-  .portraitFrame {
-    transition: none;
-  }
 }

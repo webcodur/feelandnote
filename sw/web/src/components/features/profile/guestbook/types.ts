@@ -16,6 +16,8 @@ export interface GuestbookContentProps {
   /** 방명록이 0건일 때 빈 상태 안내를 그리지 않는다.
    *  셀럽 페이지처럼 색인 대상 화면에서 같은 문구가 전 페이지에 반복 노출되는 것을 막는다. */
   hideEmptyState?: boolean;
+  /** 저장 구조는 같지만 fiction 상세에서는 방명록을 감상록 문맥으로 표시한다. */
+  isFiction?: boolean;
 }
 
 export interface EntryItemProps {
@@ -29,4 +31,5 @@ export interface EntryItemProps {
 export interface WriteFormProps {
   profileId: string;
   onSubmit: (entry: GuestbookEntryWithAuthor) => void;
+  isFiction?: boolean;
 }

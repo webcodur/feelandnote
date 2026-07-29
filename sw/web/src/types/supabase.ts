@@ -931,6 +931,78 @@ export type Database = {
         }
         Relationships: []
       }
+      fiction_source_characters: {
+        Row: {
+          celeb_id: string
+          content_id: string
+          created_at: string
+          relation_type: string
+          sort_order: number
+        }
+        Insert: {
+          celeb_id: string
+          content_id: string
+          created_at?: string
+          relation_type?: string
+          sort_order?: number
+        }
+        Update: {
+          celeb_id?: string
+          content_id?: string
+          created_at?: string
+          relation_type?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fiction_source_characters_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_contents"
+            referencedColumns: ["content_id"]
+          },
+        ]
+      }
+      fiction_source_contents: {
+        Row: {
+          content_id: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          content_id: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          content_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_contents_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: true
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_figures: {
         Row: {
           celeb_id: string
@@ -2821,6 +2893,10 @@ export type Database = {
       renew_celeb_philosophy_rewrite_lease: {
         Args: { p_celeb_id: string; p_lease_minutes?: number; p_worker: string }
         Returns: boolean
+      }
+      set_fiction_source_characters: {
+        Args: { p_celeb_ids?: string[]; p_content_id: string }
+        Returns: undefined
       }
       update_influence: { Args: { p_user_id: string }; Returns: undefined }
     }

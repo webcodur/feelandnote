@@ -1,0 +1,190 @@
+.atlasGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: minmax(10rem, auto);
+  gap: 0.8rem;
+}
+
+.atlasCard {
+  min-height: 14rem;
+}
+
+.atlasLead {
+  grid-column: span 7;
+  grid-row: span 2;
+  min-height: 29rem;
+}
+
+.atlasSide {
+  grid-column: span 5;
+}
+
+.atlasThird {
+  grid-column: span 4;
+}
+
+.atlasCardCopy {
+  position: absolute;
+  inset-inline: 1.15rem;
+  inset-block-end: 1.1rem;
+  z-index: 3;
+}
+
+.cardNumber,
+.galleryIndex {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-start: 1rem;
+  z-index: 3;
+  font-family: var(--font-cinzel);
+  border: 1px solid color-mix(in srgb, var(--faction-color, var(--color-accent)) 55%, white);
+  border-radius: 999px;
+  background: color-mix(in srgb, black 78%, var(--faction-color, transparent));
+  box-shadow: 0 0.45rem 1.4rem rgb(0 0 0 / 45%);
+  padding: 0.32rem 0.58rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: white;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 90%);
+  backdrop-filter: blur(8px);
+}
+
+.figureBadge {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  z-index: 3;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  background: rgb(0 0 0 / 68%);
+  box-shadow: 0 0.45rem 1.4rem rgb(0 0 0 / 38%);
+  padding: 0.32rem 0.58rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 90%);
+  backdrop-filter: blur(8px);
+}
+
+.galleryHeader {
+  justify-content: space-between;
+}
+
+.galleryTrack {
+  display: grid;
+  grid-auto-columns: minmax(17rem, 31%);
+  grid-auto-flow: column;
+  gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 0.85rem;
+  scroll-snap-type: inline mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+.galleryTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.galleryCard {
+  min-height: 29rem;
+  scroll-snap-align: start;
+}
+
+.galleryCopy {
+  position: absolute;
+  inset-inline: 1.25rem;
+  inset-block-end: 1.25rem;
+  z-index: 3;
+}
+
+.registrySection {
+  display: grid;
+  gap: 2rem;
+  border-block-start: 1px solid var(--color-border);
+  padding-block-start: 2rem;
+}
+
+.registryGroup {
+  border-inline-start: 3px solid var(--faction-color);
+  padding-inline-start: 1.25rem;
+}
+
+.registryList {
+  display: flex;
+  flex-direction: column;
+}
+
+.registryRow {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  border-width: 0 0 1px;
+  padding: 1rem 3.75rem 1rem 0.75rem;
+}
+
+.registryNumber {
+  font-family: var(--font-cinzel);
+  color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .registrySection {
+    grid-template-columns: minmax(14rem, 0.36fr) minmax(0, 1fr);
+  }
+
+  .registryRow {
+    grid-template-columns: 2.5rem minmax(10rem, 0.9fr) minmax(12rem, 1.2fr) auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .atlasGrid {
+    grid-template-columns: none;
+    grid-auto-columns: minmax(16rem, 86%);
+    grid-auto-flow: column;
+    grid-auto-rows: 18rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-bottom: 0.75rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .atlasGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .atlasLead,
+  .atlasSide,
+  .atlasThird {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 18rem;
+    scroll-snap-align: center;
+  }
+
+  .galleryTrack {
+    grid-auto-columns: minmax(16rem, 84%);
+  }
+
+  .galleryCard {
+    min-height: 23rem;
+  }
+
+  .registrySection {
+    gap: 1.25rem;
+  }
+
+  .registryRow {
+    grid-template-columns: 2.15rem minmax(0, 1fr);
+    gap: 0.7rem;
+    padding-inline: 0.45rem;
+  }
+
+  .registryCount {
+    display: none;
+  }
+}

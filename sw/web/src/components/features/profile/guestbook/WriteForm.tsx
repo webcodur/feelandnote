@@ -13,8 +13,13 @@ import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
 import type { WriteFormProps } from "./types";
 
-export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
+export default function WriteForm({
+  profileId,
+  onSubmit,
+  isFiction = false,
+}: WriteFormProps) {
   const t = useTranslations("profileSection.guestbook");
+  const tFiction = useTranslations("profileSection.fictionGuestbook");
   const tError = useTranslations("actionErrors");
   const [content, setContent] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
@@ -54,7 +59,7 @@ export default function WriteForm({ profileId, onSubmit }: WriteFormProps) {
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder={t("placeholder")}
+        placeholder={isFiction ? tFiction("placeholder") : t("placeholder")}
         className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder: min-h-[72px] font-sans text-sm leading-relaxed px-4 pt-4 pb-2"
         rows={3}
         maxLength={500}

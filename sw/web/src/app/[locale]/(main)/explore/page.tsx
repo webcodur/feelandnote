@@ -9,7 +9,7 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getPersonaDistribution } from "@/actions/persona/getPersonaDistribution";
-import { getFeaturedTags } from "@/actions/home/getFeaturedTags";
+import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
 import HubSection from "@/components/shared/HubSection";
 import { EXPLORE_GROUP_ID, EXPLORE_SECTIONS, EXPLORE_STANDALONE, hubNavItems, hubSection, withoutMore } from "@/components/shared/hubSectionUtils";
 import HubNav from "@/components/shared/HubNav";
@@ -17,7 +17,6 @@ import HubCelebGrid from "@/components/features/user/explore/hub/HubCelebGrid";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import PersonaDistribution from "@/components/features/user/explore/personaAnalysis/PersonaDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
-import PopularBooks from "@/components/features/home/PopularBooks";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");
@@ -37,37 +36,19 @@ async function HubContent() {
   const t = await getTranslations("explore.hub");
 
   // 병렬 데이터 페칭
-  const [trendingResult, deepReadersResult, topByType, personaPeople, allResult, featuredTags] = await Promise.all([
+  const [trendingResult, deepReadersResult, topByType, personaPeople, allResult, factionTagNames] = await Promise.all([
     // 최근 30일 조회수 순 — 누적으로 뽑으면 앞자리가 영원히 고정된다
     getCelebs({ sortBy: "trending", limit: 12 }),
     getCelebs({ sortBy: "content_count", minContentCount: 30, limit: 6 }),
     getTopByContentType(),
     getPersonaDistribution(),
     getCelebs({ sortBy: "daily_recommend", limit: 12, tiers: ["full"] }),
-    getFeaturedTags(),
+    getFactionHubPreviews(),
   ]);
 
   const trendingCelebs = trendingResult.celebs;
   const deepReaders = deepReadersResult.celebs;
   const allCelebs = allResult.celebs;
-  const factionTagNames = featuredTags
-    .filter(tag => tag.is_featured && tag.celebs.length > 0)
-    .slice(0, 4)
-    .map(tag => ({
-      id: tag.id,
-      name: tag.name,
-      name_en: tag.name_en,
-      description: tag.description,
-      description_en: tag.description_en,
-      color: tag.color,
-      celebs: tag.celebs.slice(0, 4).map(c => ({
-        id: c.id,
-        avatar_url: c.avatar_url,
-        nickname: c.nickname,
-        nickname_en: c.nickname_en,
-      }))
-    }));
-
   /* 데이터가 비어 접히는 구획이 있다. 목차와 구획 번호는 반드시 "실제로 그려지는 것"에서만 뽑는다 —
      정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다. */
   const shown: Record<string, boolean> = {
