@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "slug": "leonardo-da-vinci",
+  "nickname": "레오나르도 다빈치",
+  "route": "improve",
+  "routeReason": "현재 원고는 회화, 해부, 비행, 물의 관찰, 미완성이라는 실제 축을 고르게 잡았고 초독자도 따라갈 수 있어 전면 폐기할 정도는 아니다. 그러나 ‘미소 하나를 제대로 그리려면’, ‘책에 적힌 말도 눈과 손으로 확인해야 믿었다’, ‘미완성이 마음에 걸렸다’처럼 작품과 수첩을 현대적 내면 독백으로 바꾼 문장이 많다. 베로키오 공방과 조수들의 노동을 지운 단독 천재 서사, 스포르차와 체사레 보르자에게 군사 기술자로 봉사한 경력, 해부 연구가 당대에 출판되지 못해 후대 의학에 곧장 영향을 주지 못한 한계도 빠져 있다. 관찰과 드로잉을 핵심으로 유지하되 공방·후원 체제, 군사 기술, 미출판 연구의 효과 범위를 보강하고 근거 없는 감정을 덜어내는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "레오나르도 다빈치",
+      "birth": "1452-04-15",
+      "death": "1519-05-02",
+      "profession": "scientist",
+      "disambiguation": "빈치 근처에서 태어나 피렌체의 안드레아 델 베로키오 공방에서 훈련받고, 밀라노의 스포르차 궁정과 프랑스 궁정 등에서 화가·기술자·건축가로 일한 레오나르도 디 세르 피에로 다 빈치",
+      "existingBioForDiscoveryOnly": "르네상스 시대 이탈리아의 예술가이자 기술자. 《모나리자》와 《최후의 만찬》을 남겼으며 해부학, 기계, 물, 비행 등을 수첩에 연구했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci",
+        "title": "Leonardo da Vinci (1452–1519)",
+        "publisher": "The National Gallery, London",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "베로키오 공방에서 회화뿐 아니라 조각과 금속공예를 포함한 훈련을 받은 배경",
+          "밀라노에 군사 기술 능력을 앞세워 고용을 청한 경력",
+          "해부·공학·비행 등을 다룬 수첩과 다수의 미완성 작업",
+          "말년에는 조수들이 물리적 제작을 상당 부분 수행했을 가능성"
+        ]
+      },
+      {
+        "url": "https://www.nationalgallery.org.uk/research/publications/technical-bulletin/leonardo-in-verrocchio-s-workshop-re-examining-the-technical-evidence",
+        "title": "Leonardo in Verrocchio’s Workshop: Re-examining the Technical Evidence",
+        "publisher": "The National Gallery Technical Bulletin",
+        "kind": "scholarly",
+        "publishedAt": "2011",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "레오나르도의 밑그림과 단색 밑칠 기법이 스승과 공방의 실천에서 발전했다는 기술 분석",
+          "초기 작품을 고립된 천재의 발명으로만 볼 수 없는 협업·훈련 맥락",
+          "베로키오의 《그리스도의 세례》에 대한 레오나르도의 기여 범위를 둘러싼 귀속 문제"
+        ]
+      },
+      {
+        "url": "https://www.rct.uk/collection/stories/leonardo-in-the-royal-collection/leonardos-study-of-anatomy",
+        "title": "Leonardo’s Study of Anatomy",
+        "publisher": "Royal Collection Trust",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인체 해부를 수행하고 뼈·근육·장기와 생리 기능을 드로잉과 주석으로 연구한 사실",
+          "회화를 위한 연구에서 출발해 해부 자체를 독립 주제로 확장한 과정",
+          "레오나르도의 수첩 문구를 통한 관찰 기록의 1차 자료 성격"
+        ]
+      },
+      {
+        "url": "https://www.rct.uk/collection/exhibitions/leonardo-da-vinci/nottingham-castle-museum-art-gallery-nottingham/recto-the-heart-compared-to-a-seed-verso-the-vessels-of-liver-spleen-and-kidneys",
+        "title": "The heart compared to a seed; the vessels of liver, spleen and kidneys",
+        "publisher": "Royal Collection Trust",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "해부 드로잉이 구체적인 시신 해부와 노트에 바탕을 두었다는 사실",
+          "계획한 해부학 논고가 완성·출판되지 않아 연구가 수세기 동안 널리 알려지지 않았다는 한계"
+        ]
+      },
+      {
+        "url": "https://artsandculture.google.com/asset/letter-to-ludovico-il-moro-leonardo-da-vinci/DAEncWvZmqoodA?hl=en",
+        "title": "Letter to Ludovico il Moro",
+        "publisher": "Google Arts & Culture",
+        "kind": "primary",
+        "publishedAt": "1482",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "밀라노 궁정에 자신을 군사 기술과 토목·건축 능력 중심으로 소개한 구직 문서",
+          "화가라는 정체성만으로 복원할 수 없는 궁정 기술자의 자기 제시",
+          "전쟁 기계 설계가 단순한 호기심이 아니라 후원과 전쟁의 현실에 연결되었다는 근거"
+        ]
+      },
+      {
+        "url": "https://cenacolovinciano.org/en/museum/history/",
+        "title": "History of the Museo del Cenacolo Vinciano",
+        "publisher": "Museo del Cenacolo Vinciano",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1482년 밀라노 이주와 스포르차 궁정에서의 화가·음악가·군사 기술자·건축가 역할",
+          "운하 연구, 궁정 초상, 미완성 스포르차 기마상, 《최후의 만찬》의 후원 맥락"
+        ]
+      },
+      {
+        "url": "https://www.louvre.fr/decouvrir/le-palais/de-la-joconde-aux-noces-de-cana",
+        "title": "De La Joconde aux Noces de Cana",
+        "publisher": "Musée du Louvre",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《모나리자》에서 얇은 물감층을 겹쳐 윤곽과 명암 대비를 누그러뜨린 스푸마토 기법",
+          "표정의 심리 해석과 확인 가능한 제작 기법을 구분해야 한다는 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "피렌체의 베로키오 공방에서 회화·조각·금속공예가 함께 이루어지는 제작 환경에 들어가 숙련된 장인과 동료들 사이에서 기법을 배웠다.",
+        "significance": "레오나르도의 관찰과 기법을 태어날 때부터 완성된 천재성으로 설명하지 않고, 공방의 공동 제작과 기술 전승에서 출발시킨다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci",
+          "https://www.nationalgallery.org.uk/research/publications/technical-bulletin/leonardo-in-verrocchio-s-workshop-re-examining-the-technical-evidence"
+        ]
+      },
+      {
+        "point": "1480년대 초 밀라노의 루도비코 스포르차에게 군사 기술과 토목 능력을 앞세운 편지를 보내고 궁정에서 화가이자 기술자로 일했다.",
+        "significance": "그의 기계 드로잉을 미래 발명품 목록으로만 다루지 않고 전쟁과 궁정 후원에 자신의 능력을 판매한 직업적 맥락에 놓는다.",
+        "sourceUrls": [
+          "https://artsandculture.google.com/asset/letter-to-ludovico-il-moro-leonardo-da-vinci/DAEncWvZmqoodA?hl=en",
+          "https://cenacolovinciano.org/en/museum/history/"
+        ]
+      },
+      {
+        "point": "밀라노에서 《최후의 만찬》과 궁정 작업을 수행하는 한편 운하·기계·인체와 자연 현상을 계속 기록했다.",
+        "significance": "회화와 과학을 서로 갈라진 직업으로 보지 않고 드로잉과 관찰이 여러 임무를 연결한 실천으로 보여 준다.",
+        "sourceUrls": [
+          "https://cenacolovinciano.org/en/museum/history/",
+          "https://www.rct.uk/collection/stories/leonardo-in-the-royal-collection/leonardos-study-of-anatomy"
+        ]
+      },
+      {
+        "point": "말년에 집중한 해부 연구에서 인체 구조를 정밀하게 기록하고 논고를 계획했지만 이를 완성해 출판하지 못했다.",
+        "significance": "해부학적 통찰의 정확성과 별개로 당대 의학 지식에 미친 직접 효과가 제한됐다는 중요한 경계를 만든다.",
+        "sourceUrls": [
+          "https://www.rct.uk/collection/stories/leonardo-in-the-royal-collection/leonardos-study-of-anatomy",
+          "https://www.rct.uk/collection/exhibitions/leonardo-da-vinci/nottingham-castle-museum-art-gallery-nottingham/recto-the-heart-compared-to-a-seed-verso-the-vessels-of-liver-spleen-and-kidneys"
+        ]
+      },
+      {
+        "point": "프랑수아 1세의 초청으로 프랑스 궁정에 옮겨 ‘첫 화가이자 기술자’로 말년을 보냈고, 수첩과 작업 상당 부분을 제자 프란체스코 멜치에게 남겼다.",
+        "significance": "유산이 작품 서명 하나가 아니라 수첩의 보존, 제자와 조수의 전달, 후대 귀속 연구를 통해 형성됐음을 보여 준다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "그림의 형태와 움직임을 이해하기 위해 인체와 자연을 반복해서 보고 그렸으며, 드로잉을 관찰·비교·가설의 도구로 사용했다.",
+        "sourceUrls": [
+          "https://www.rct.uk/collection/stories/leonardo-in-the-royal-collection/leonardos-study-of-anatomy"
+        ]
+      },
+      {
+        "point": "윤곽을 단단한 선으로 닫기보다 얇은 물감층과 명암의 점진적 변화를 이용해 형상이 공기와 빛 속에서 나타나게 했다.",
+        "sourceUrls": [
+          "https://www.louvre.fr/decouvrir/le-palais/de-la-joconde-aux-noces-de-cana"
+        ]
+      },
+      {
+        "point": "궁정에 자신을 소개할 때 회화보다 군사·토목 기술을 먼저 내세웠고, 지식과 설계를 후원자의 필요에 맞춰 제시했다.",
+        "sourceUrls": [
+          "https://artsandculture.google.com/asset/letter-to-ludovico-il-moro-leonardo-da-vinci/DAEncWvZmqoodA?hl=en"
+        ]
+      },
+      {
+        "point": "한 주제의 형태와 작동을 다른 현상과 나란히 그리는 방식으로 인체·물·기계·빛 사이의 구조적 유사성을 탐색했다.",
+        "sourceUrls": [
+          "https://www.rct.uk/collection/stories/leonardo-in-the-royal-collection/leonardos-study-of-anatomy",
+          "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "‘보편적 천재’라는 후대의 이름은 실제로는 공방에서 배운 기법, 조수의 실행, 궁정 후원과 지식 교환을 한 사람의 능력으로 압축한다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/research/publications/technical-bulletin/leonardo-in-verrocchio-s-workshop-re-examining-the-technical-evidence",
+          "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci"
+        ]
+      },
+      {
+        "point": "비행과 기계 스케치는 현대 장치의 완성된 청사진이 아니며, 상당수는 제작·시험 여부와 실현 가능성이 확인되지 않는다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/artists/leonardo-da-vinci"
+        ]
+      },
+      {
+        "point": "정밀한 해부 연구를 남겼지만 논고가 출판되지 않았으므로 그가 근대 해부학을 직접 바꾸었다고 쓰면 영향의 시점을 거꾸로 만든다.",
+        "sourceUrls": [
+          "https://www.rct.uk/collection/exhibitions/leonardo-da-vinci/nottingham-castle-museum-art-gallery-nottingham/recto-the-heart-compared-to-a-seed-verso-the-vessels-of-liver-spleen-and-kidneys"
+        ]
+      },
+      {
+        "point": "자연을 탐구한 인물인 동시에 전쟁 중인 군주들에게 요새·무기·군사 토목 능력을 제안한 궁정 기술자였다.",
+        "sourceUrls": [
+          "https://artsandculture.google.com/asset/letter-to-ludovico-il-moro-leonardo-da-vinci/DAEncWvZmqoodA?hl=en",
+          "https://cenacolovinciano.org/en/museum/history/"
+        ]
+      },
+      {
+        "point": "작품의 모호한 표정이나 부드러운 윤곽에서 작가 자신의 심리와 삶의 철학을 곧장 읽어 내는 것은 제작 기법을 내면 고백으로 바꾸는 추정이다.",
+        "sourceUrls": [
+          "https://www.louvre.fr/decouvrir/le-palais/de-la-joconde-aux-noces-de-cana"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "관찰한 대상과 손의 작업을 짧은 문장으로 먼저 놓고, 그 사실이 회화·해부·기술 사이에서 어떻게 이어졌는지 중간 길이 문장으로 확장한다.",
+      "directness": "수첩을 쓰는 장인·기술자의 구체적인 시선을 살리되 모든 분야를 미리 꿰뚫은 예언자나 자기 미완성을 현대적으로 후회하는 천재로 말하게 하지 않는다.",
+      "moves": [
+        "공방의 재료와 손기술에서 출발해 관찰과 드로잉의 방법으로 이동하기",
+        "대표작의 감상평보다 확인 가능한 제작 기법과 의뢰 관계를 먼저 말하기",
+        "해부와 기계 연구의 성취 뒤에 미출판·미실현이라는 효과의 경계를 붙이기",
+        "밀라노 구직 편지를 통해 예술·기술·전쟁이 후원 체제 안에서 얽힌 사실을 드러내기",
+        "마지막에는 ‘모든 것을 안 사람’이 아니라 질문과 작업을 제자에게 남긴 사람으로 닫기"
+      ],
+      "avoid": [
+        "모나리자의 미소를 레오나르도 자신의 마음이나 성 정체성의 암호로 단정하기",
+        "헬리콥터·탱크·낙하산을 현대 장치와 동일한 완성 발명품으로 부르기",
+        "베로키오 공방과 조수·제자의 손을 지운 고립된 천재 서사",
+        "책보다 경험만 믿었다는 근대 과학자식 선언을 정확한 인용처럼 만들기",
+        "미완성을 완벽주의나 주의력 문제라는 현대 심리 진단으로 설명하기",
+        "군사 기술 제안을 순수한 평화주의자의 상상으로 세탁하기",
+        "해부 수첩이 당대 의학 혁명을 직접 일으켰다고 과장하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "스푸마토",
+        "guide": "윤곽선을 또렷이 긋기보다 아주 얇은 물감층을 겹쳐 빛과 그림자가 연기처럼 부드럽게 이어지게 하는 회화 기법",
+        "sourceUrls": [
+          "https://www.louvre.fr/decouvrir/le-palais/de-la-joconde-aux-noces-de-cana"
+        ]
+      },
+      {
+        "term": "공방",
+        "guide": "스승·제자·조수가 한 공간에서 주문을 나누어 제작하고 기술을 배우던 르네상스 시대의 공동 작업장",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/research/publications/technical-bulletin/leonardo-in-verrocchio-s-workshop-re-examining-the-technical-evidence"
+        ]
+      },
+      {
+        "term": "궁정 후원",
+        "guide": "군주나 귀족이 예술가와 기술자에게 생활 기반과 주문을 제공하고 그 대가로 작품·시설·기술을 얻는 관계",
+        "sourceUrls": [
+          "https://cenacolovinciano.org/en/museum/history/"
+        ]
+      },
+      {
+        "term": "해부학 논고",
+        "guide": "인체 구조를 체계적으로 설명하려고 계획한 책으로, 레오나르도는 많은 자료를 남겼지만 완성해 출판하지 못했다",
+        "sourceUrls": [
+          "https://www.rct.uk/collection/exhibitions/leonardo-da-vinci/nottingham-castle-museum-art-gallery-nottingham/recto-the-heart-compared-to-a-seed-verso-the-vessels-of-liver-spleen-and-kidneys"
+        ]
+      },
+      {
+        "term": "귀속",
+        "guide": "공방에서 함께 만든 작품의 어느 부분을 어떤 작가의 손으로 볼지 자료와 기술 분석으로 판단하는 일",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/research/publications/technical-bulletin/leonardo-in-verrocchio-s-workshop-re-examining-the-technical-evidence"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "레오나르도의 수첩은 관찰·초고·메모가 섞인 작업 자료다. 후대 편집자가 묶은 문장을 완성된 자서전이나 일관된 과학 이론처럼 인용하지 않는다.",
+      "《모나리자》와 다른 인물의 표정에서 작가의 실제 감정·연애·성 정체성을 확정하지 않는다.",
+      "기계 스케치는 구상과 설계 수준이 서로 다르다. 현대 장치의 이름을 붙일 때는 ‘비슷한 형태의 구상’이라는 한계를 둔다.",
+      "해부 지식의 정확성을 말할 수는 있지만 미출판 자료가 당대 의학에 준 직접 영향은 제한적이었다.",
+      "밀라노 구직 편지는 자기 홍보 문서이므로 적힌 모든 군사 기술이 실제 제작·검증됐다는 증거로 쓰지 않는다.",
+      "작품 제작에는 공방과 조수가 참여했지만 각 작품·부분의 정확한 손은 귀속 논쟁이 남아 있다.",
+      "DB의 직군은 scientist지만 당시에는 현대적 의미의 과학자라는 독립 직업이 없었다. 화가·기술자·건축가·자연 연구자의 겹친 역할로 설명한다."
+    ]
+  }
+}

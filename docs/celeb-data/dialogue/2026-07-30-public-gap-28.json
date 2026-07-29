@@ -1,0 +1,325 @@
+{
+  "batch": "2026-07-30-public-gap-28",
+  "targets": [
+    {
+      "id": "1c960ae6-097b-4216-a0b6-b9562234fde8",
+      "slug": "tony-jaa",
+      "nickname": "토니 자",
+      "nicknameEn": "Tony Jaa",
+      "birthDate": "1976-02-05",
+      "profession": "actor",
+      "quote": "마음을 이기기 위해 무술을 수련한다.",
+      "quoteEn": "I practice martial arts to overcome my own mind.",
+      "greetingKo": [
+        "[fierce, humble] 반갑습니다. 제 몸이 제 무기이자 언어입니다.",
+        "[intense, grounded] 무술은 화려함이 아니라 헌신의 결과예요.",
+        "[calm, proud] 태국의 전통을 세계에 보여주는 것, 그게 제 사명이에요."
+      ],
+      "greetingEn": [
+        "[fierce, humble] My body is both my weapon and my language.",
+        "[intense, grounded] Martial arts is not spectacle — it is the fruit of devotion.",
+        "[calm, proud] Showing Thai tradition to the world — that is my mission."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "토니 자입니다. 와이어 없이 제 몸으로 직접 보여드리겠습니다.",
+          "하루 여덟 시간씩 수련하고 명상하며 동작을 익혔습니다.",
+          "무에타이에는 주먹보다 태국의 감사와 예법이 먼저입니다."
+        ],
+        "deploy": [
+          "호흡을 맞춰. 와이어 없이 넘는다.",
+          "팔꿈치와 무릎의 거리를 재라.",
+          "먼저 예를 갖추고 정확히 들어가라."
+        ],
+        "battle_win": [
+          "수없이 되풀이한 동작이 한 번에 정확히 들어갔습니다.",
+          "대역에 기대지 않고 직접 해낸 동작이 화면에 남았습니다.",
+          "무에타이의 힘보다 그 안의 예법을 보여드렸습니다."
+        ],
+        "battle_draw": [
+          "동작은 맞았지만 호흡이 먼저 흐트러졌습니다.",
+          "세게 들어갔지만 상대를 다치게 할 뻔했습니다.",
+          "기술은 보였지만 태국의 마음까지 전하지 못했습니다."
+        ],
+        "battle_lose": [
+          "화려한 동작에 욕심내다 기본 자세를 놓쳤습니다.",
+          "제 몸을 믿었지만 함께 맞춘 동료의 안전을 놓쳤습니다.",
+          "훈련을 오래 했다는 자만이 빈틈을 만들었습니다."
+        ],
+        "clash_attack": [
+          "팔꿈치로 열어!",
+          "낮게 들어가!",
+          "호흡부터 잡아!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Tony Jaa. I do my own stunts and let the movement speak.",
+          "I trained and meditated eight hours a day for this.",
+          "Muay Thai carries Thai gratitude and tradition, not just strikes."
+        ]
+      },
+      "sources": [
+        "https://www.aboutfilm.com/features/jaa/interview.htm",
+        "https://www.blackfilm.com/20050204/features/tonyjaa.shtml",
+        "https://magazine.fighttimes.com/tony-jaa-muay-thai-mayhem-hits-hollywood-in-ong-bak/"
+      ]
+    },
+    {
+      "id": "30505231-653a-455f-9095-64deb45c7a11",
+      "slug": "penelope-cruz",
+      "nickname": "페넬로페 크루즈",
+      "nicknameEn": "Penelope Cruz",
+      "birthDate": "1974-04-28",
+      "profession": "actor",
+      "quote": "영어는 두 문장만 알았어요, 안녕하세요와 조니 뎁과 일하고 싶어요",
+      "quoteEn": "I only knew two sentences: How are you and I want to work with Johnny Depp.",
+      "greetingKo": [
+        "[passionate, warm] 반갑습니다. 저는 감정을 숨기지 않는 사람이에요.",
+        "[fierce, elegant] 연기는 제 영혼의 산소와 같아요.",
+        "[calm, deep] 좋은 감독과의 작업은 자기 자신을 발견하는 여정이에요."
+      ],
+      "greetingEn": [
+        "[passionate, warm] I'm not someone who hides her emotions.",
+        "[fierce, elegant] Acting is the oxygen of my soul.",
+        "[calm, deep] Working with a great director is a journey of self-discovery."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "페넬로페 크루즈입니다. 인물의 신발부터 신어 보고 걸음을 찾습니다.",
+          "어머니 미용실에서 사람의 표정과 몸짓이 바뀌는 걸 배웠습니다.",
+          "남의 아픔을 흉내 내지 않고 제가 이해한 감정으로 연기합니다."
+        ],
+        "deploy": [
+          "신발을 바꾸고 걸음부터 찾아요.",
+          "서로 모순되는 감정을 한 장면에 풀어내요.",
+          "낯선 발음에 힘주지 말고 상대에게 집중해요."
+        ],
+        "battle_win": [
+          "걸음 하나를 바꾸자 인물이 바닥에 단단히 섰습니다.",
+          "세 달 동안 품은 감정이 한 장면에서 자연스럽게 나왔습니다.",
+          "모국어로 연기하니 대사보다 상대의 얼굴이 먼저 보였습니다."
+        ],
+        "battle_draw": [
+          "감정은 뜨거운데 낯선 발음이 몸을 굳게 만들었습니다.",
+          "옷과 걸음은 찾았지만 인물의 속내가 아직 멉니다.",
+          "진실을 잡으려다 감정을 너무 세게 밀어붙였습니다."
+        ],
+        "battle_lose": [
+          "겉모습에 기대다가 인물이 살아온 시간을 놓쳤습니다.",
+          "감정을 쏟아냈지만 상대 배우의 호흡을 듣지 못했습니다.",
+          "긴 준비를 의식한 나머지 장면을 억지로 채웠습니다."
+        ],
+        "clash_attack": [
+          "걸음부터 바꿔요!",
+          "감정을 숨기지 마요!",
+          "목소리를 낮춰요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Penelope Cruz. I find the character by changing how she walks.",
+          "My mother's salon taught me to watch faces and posture change.",
+          "I never borrow someone else's pain to force a tear."
+        ]
+      },
+      "sources": [
+        "https://www.theguardian.com/film/2006/aug/04/features",
+        "https://www.vogue.co.uk/article/penelope-cruz-beauty-interview",
+        "https://www.youtube.com/watch?v=UclGydhNXqM"
+      ]
+    },
+    {
+      "id": "d7bb9afa-5c02-49f1-92f1-2f589f317d87",
+      "slug": "gaius-plinius-secundus",
+      "nickname": "가이우스 플리니우스 세쿤두스",
+      "nicknameEn": "Gaius Plinius Secundus",
+      "birthDate": "23",
+      "profession": "scientist",
+      "quote": "확실한 것은 아무것도 확실하지 않다는 것뿐이다.",
+      "quoteEn": "The only certainty is that nothing is certain.",
+      "greetingKo": [
+        "[curious, earnest] 확실한 것은 아무것도 확실하지 않다는 것뿐입니다.",
+        "[warm, scholarly] 책이란 아무리 나쁜 것이라도 어딘가 쓸모 있는 부분이 있습니다.",
+        "[bold, exploratory] 자연이 어머니인지 계모인지, 직접 보고 판단해야 합니다."
+      ],
+      "greetingEn": [
+        "[curious, earnest] The only certainty is that nothing is certain.",
+        "[warm, scholarly] There is always something useful in every book, no matter how bad.",
+        "[bold, exploratory] Whether nature is a mother or stepmother, you must see it for yourself and judge."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "플리니우스입니다. 자연을 서른일곱 권의 기록으로 묶겠습니다.",
+          "낮에는 공무를 보고 밤에는 책에서 쓸 만한 대목을 옮겨 적습니다.",
+          "저 구름을 가까이서 살피고 해안의 사람들도 데려오겠습니다."
+        ],
+        "deploy": [
+          "본 것과 전해 들은 것을 따로 적어라.",
+          "책마다 쓸 만한 대목을 찾아라.",
+          "배를 띄워 해안의 사람부터 구하라."
+        ],
+        "battle_win": [
+          "직접 본 현상을 적었기에 다음 사람이 다시 살필 수 있습니다.",
+          "흩어진 지식을 찾아 서른일곱 권에 자리를 주었습니다.",
+          "관찰하러 나선 배를 위험한 해안의 구조선으로 돌렸습니다."
+        ],
+        "battle_draw": [
+          "사례는 모았지만 사실과 소문을 아직 가르지 못했습니다.",
+          "연기는 기록했으나 원인을 단정하기에는 이릅니다.",
+          "지식을 넓게 모으느라 서로 맞지 않는 기록도 남았습니다."
+        ],
+        "battle_lose": [
+          "놀라운 이야기를 믿고 옮겨 제 기록을 흐렸습니다.",
+          "관찰과 구조를 함께 하려다 물러날 때를 놓쳤습니다.",
+          "자연을 모두 담겠다는 욕심에 검증을 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "직접 확인하라!",
+          "관찰부터 적어라!",
+          "배를 띄워라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Gaius Plinius Secundus. I am cataloging nature across thirty-seven books.",
+          "I read by night and salvage something useful from every book.",
+          "I will study that cloud, then launch ships toward the coast."
+        ]
+      },
+      "sources": [
+        "https://www.attalus.org/info/pliny_hn.html",
+        "https://www.attalus.org/pliny/ep6.html",
+        "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0137%3Abook%3D7"
+      ]
+    },
+    {
+      "id": "c46c818a-7efc-4ebd-bda8-3c90c95feac8",
+      "slug": "rachel-mcadams",
+      "nickname": "레이첼 맥아담스",
+      "nicknameEn": "Rachel McAdams",
+      "birthDate": "1978-11-17",
+      "profession": "actor",
+      "quote": "같은 것을 반복하고 싶지 않아요. 늘 새로운 것을 하고 싶어요.",
+      "quoteEn": "I don't want to repeat the same thing. I always want to do something new.",
+      "greetingKo": [
+        "[warm, bright] 로맨스든 스릴러든, 진심이 담기면 장르는 상관없어요.",
+        "[gentle, honest] 화면 속 사랑이 진짜처럼 느껴진다면, 그게 제 일을 잘한 거예요.",
+        "[calm, cheerful] 캐나다의 소녀가 여기까지 왔어요. 꿈꾸는 모든 분께 응원을 보냅니다."
+      ],
+      "greetingEn": [
+        "[warm, bright] Whether romance or thriller, if it's sincere the genre doesn't matter.",
+        "[gentle, honest] If the love on screen feels real, that means I've done my job.",
+        "[calm, cheerful] The girl from Canada made it here. Cheering on everyone who dares to dream."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "레이첼 맥아담스입니다. 상대가 말할 때 끝까지 듣겠습니다.",
+          "기회를 놓칠까 두려웠지만 무엇을 원하는지 알려고 잠시 일을 쉬었습니다.",
+          "호감 가는 여자만 기대할 때 일부러 불편한 인물을 고릅니다."
+        ],
+        "deploy": [
+          "상대가 말을 마칠 때까지 끼어들지 않아요.",
+          "익숙한 선택은 내려놓고 다른 길을 찾아요.",
+          "울음을 재촉하지 말고 말할 틈을 줘요."
+        ],
+        "battle_win": [
+          "제가 덜 말하고 들으니 상대의 사연이 장면을 채웠습니다.",
+          "두 해 쉬고 돌아오니 맡고 싶은 일이 무엇인지 분명해졌습니다.",
+          "예상과 다른 역할을 골랐더니 제 연기 습관이 깨졌습니다."
+        ],
+        "battle_draw": [
+          "귀는 열었지만 다음 대사를 걱정하느라 반응이 늦었습니다.",
+          "새로움을 좇았지만 인물의 마음까지 바꾸지는 못했습니다.",
+          "잠시 멈췄지만 제가 정말 원하는 일은 아직 찾는 중입니다."
+        ],
+        "battle_lose": [
+          "잘 들어야 할 장면에서 제 감정을 먼저 밀어붙였습니다.",
+          "다르게 보이려는 욕심이 인물보다 앞서고 말았습니다.",
+          "기회를 놓칠까 겁내며 원하지 않는 선택을 했습니다."
+        ],
+        "clash_attack": [
+          "끝까지 들어요!",
+          "익숙한 쪽은 버려요!",
+          "말할 틈을 줘요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Rachel McAdams. I listen until the other person is finished.",
+          "I stepped away from Hollywood so I could hear myself again.",
+          "I choose the role that breaks the pattern people expect."
+        ]
+      },
+      "sources": [
+        "https://www.thewrap.com/spotlight-star-rachel-mcadams-talks-learning-to-listen-like-a-journalist-exclusive-video/",
+        "https://www.cbsnews.com/news/rachel-mcadams-talks-are-you-there-god-its-me-margaret/",
+        "https://www.vogue.com/article/rachel-mcadams-profile-may-2024"
+      ]
+    },
+    {
+      "id": "0b30f060-d945-4c7f-ba90-e18598c4f9b4",
+      "slug": "rooney-mara",
+      "nickname": "루니 마라",
+      "nicknameEn": "Rooney Mara",
+      "birthDate": "1985-12-17",
+      "profession": "actor",
+      "quote": "불편함 속에서 진짜 연기가 태어난다.",
+      "quoteEn": "Real acting is born out of discomfort.",
+      "greetingKo": [
+        "[quiet, intense] 침묵 속에 더 많은 이야기가 있어요.",
+        "[calm, mysterious] 편안한 역할은 재미없어요. 불편해야 진짜가 나와요.",
+        "[gentle, honest] 조용한 사람이 가장 크게 울리는 법이에요."
+      ],
+      "greetingEn": [
+        "[quiet, intense] There are more stories in silence.",
+        "[calm, mysterious] Comfortable roles are boring. Discomfort brings out what's real.",
+        "[gentle, honest] The quiet person rings the loudest."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "루니 마라입니다. 말보다 시선과 몸의 긴장을 먼저 정합니다.",
+          "몇 초 타는 장면을 위해 두 달 동안 오토바이를 배웠습니다.",
+          "각본이 조용할수록 원작과 사진을 더 오래 들여다봅니다."
+        ],
+        "deploy": [
+          "대사 사이에 시선을 오래 남겨요.",
+          "몸이 먼저 기억할 때까지 반복해요.",
+          "말하지 않은 감정을 장면에 남겨요."
+        ],
+        "battle_win": [
+          "한마디도 하지 않고 두 사람 사이의 거리를 보여줬습니다.",
+          "오토바이에 오르는 짧은 순간이 오래 탄 사람처럼 보였습니다.",
+          "조용한 장면을 밀어붙였더니 설명 없이도 관계가 보였습니다."
+        ],
+        "battle_draw": [
+          "침묵은 남겼지만 인물의 마음까지 가려 버렸습니다.",
+          "몸은 익숙해졌지만 카메라 앞에서 여전히 힘이 들어갑니다.",
+          "준비는 충분했으나 상대의 순간을 따라가지 못했습니다."
+        ],
+        "battle_lose": [
+          "무표정을 지키려다 감정의 흔적까지 지워 버렸습니다.",
+          "혼자 몰입하느라 상대 배우와의 거리를 놓쳤습니다.",
+          "정해 둔 몸짓을 고집해 상대의 즉흥 반응을 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "눈을 피하지 마요!",
+          "침묵을 버텨요!",
+          "시선을 거두지 마요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Rooney Mara. I let the eyes and posture speak first.",
+          "I trained for months so mounting the motorcycle looked effortless.",
+          "When the script is quiet, I study the novel and photographs."
+        ]
+      },
+      "sources": [
+        "https://www.interviewmagazine.com/film/rooney-mara-november-2015",
+        "https://www.interviewmagazine.com/film/rooney-mara-and-david-fincher",
+        "https://www.interviewmagazine.com/film/rooney-mara"
+      ]
+    }
+  ]
+}

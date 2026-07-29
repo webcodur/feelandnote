@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "slug": "thomas-jefferson",
+  "nickname": "토머스 제퍼슨",
+  "route": "improve",
+  "routeReason": "현재 독백은 독립선언의 평등, 종교의 자유, 루이지애나 매입, 교육과 노예 소유의 충돌을 쉽게 읽히는 구조로 묶어 강한 대목이 많다. 다만 '원칙과 맞지 않아 무겁게 느꼈다', 노예 소유와 원주민 정책을 후대의 심판 언어로 직접 자백하는 문장은 실제 기록과 후대 평가를 뒤섞는다. 제퍼슨의 문서에 남은 자유 언어와 노예 소유·해방의 수치, 원주민 토지 축소 정책을 나란히 놓아 독자가 모순을 보게 하는 방향으로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "토머스 제퍼슨",
+      "birth": "1743-04-13",
+      "death": "1826-07-04",
+      "profession": "politician",
+      "disambiguation": "미국 독립선언문 초안을 쓰고 버지니아 종교자유법과 루이지애나 매입을 추진했으나 평생 수백 명을 노예로 소유한 미국 제3대 대통령",
+      "existingBioForDiscoveryOnly": "미국 독립선언문을 작성한 건국 지도자이자 제3대 대통령"
+    },
+    "sources": [
+      {
+        "url": "https://www.archives.gov/founding-docs/declaration-history",
+        "title": "The Declaration of Independence: A History",
+        "publisher": "National Archives and Records Administration",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "제퍼슨이 독립선언문 초안을 맡고 애덤스·프랭클린 및 대륙회의의 수정을 거쳐 문서가 채택된 과정",
+          "평등, 양도할 수 없는 권리, 피통치자의 동의라는 선언의 핵심"
+        ]
+      },
+      {
+        "url": "https://loc.gov/exhibits/jefferson/jeffrep.html",
+        "title": "Creating A Virginia Republic",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "제퍼슨이 작성한 버지니아 종교자유법안의 양심과 시민권 원칙",
+          "1769년 도망한 노예 샌디의 체포에 보상금을 걸고 귀환 뒤 판매한 기록",
+          "법·종교·교육 개혁과 노예 소유가 같은 생애에 공존한 사실"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/resource/mcc.028/",
+        "title": "Thomas Jefferson to Benjamin Banneker, 30 August 1791",
+        "publisher": "Library of Congress",
+        "kind": "primary",
+        "publishedAt": "1791-08-30",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "흑인의 재능이 다른 인종과 동등하다는 증거를 환영한다고 밝힌 제퍼슨의 편지",
+          "노예제 폐지의 구체적 실천보다 개선을 바란다는 제한된 입장과 모호성"
+        ]
+      },
+      {
+        "url": "https://www.monticello.org/slavery/slavery-faqs/property/",
+        "title": "Slavery FAQs: Property",
+        "publisher": "Thomas Jefferson's Monticello, Thomas Jefferson Foundation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "제퍼슨이 평생 610명이 넘는 사람을 노예로 소유했다는 기록",
+          "노예 노동이 제퍼슨 백인 가족의 부와 생활을 떠받쳤다는 점"
+        ]
+      },
+      {
+        "url": "https://www.monticello.org/encyclopedia/slaves-who-gained-freedom",
+        "title": "People Enslaved at Monticello Who Gained Their Freedom",
+        "publisher": "Thomas Jefferson's Monticello, Thomas Jefferson Foundation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "제퍼슨이 법적으로 해방한 노예가 일곱 명에 그쳤고 모두 남성 숙련공이었다는 기록",
+          "사후 약 200명이 재산 경매에서 팔린 사실"
+        ]
+      },
+      {
+        "url": "https://www.archives.gov/milestone-documents/louisiana-purchase-treaty",
+        "title": "Louisiana Purchase Treaty (1803)",
+        "publisher": "National Archives and Records Administration",
+        "kind": "primary",
+        "publishedAt": "1803-04-30",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "미국이 프랑스로부터 루이지애나 영토를 매입한 조약과 영토 확대",
+          "엄격한 헌법 해석을 주장했던 제퍼슨이 매입 권한의 헌법적 근거를 고민한 긴장"
+        ]
+      },
+      {
+        "url": "https://tile.loc.gov/storage-services/service/mss/mtj/mtj1/027/027_0841_0844.pdf",
+        "title": "Thomas Jefferson to Congress, January 18, 1803",
+        "publisher": "Library of Congress",
+        "kind": "primary",
+        "publishedAt": "1803-01-18",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "원주민이 농업과 미국식 교역을 받아들이도록 유도해 토지를 더 내놓게 하려 한 정책",
+          "미국 인구 증가를 위한 영토 확장을 원주민 동화와 연결한 제퍼슨 자신의 언어"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1776년 독립선언문 초안을 맡아 평등과 양도할 수 없는 권리, 피통치자의 동의를 새 공화국의 원칙으로 적었다.",
+        "significance": "그 문장의 세계사적 힘을 인정하되 여러 작성자와 대륙회의의 수정 과정을 지우지 않는다.",
+        "sourceUrls": [
+          "https://www.archives.gov/founding-docs/declaration-history"
+        ]
+      },
+      {
+        "point": "버지니아에서 종교를 시민 자격과 강제로 묶지 못하게 하는 법안을 작성하고 공교육 구상을 공화국의 조건으로 보았다.",
+        "significance": "자유를 추상적 표어만이 아니라 양심과 교육 제도로 옮기려 한 실제 정치 작업을 보여 준다.",
+        "sourceUrls": [
+          "https://loc.gov/exhibits/jefferson/jeffrep.html"
+        ]
+      },
+      {
+        "point": "대통령으로 루이지애나 매입을 받아들여 미국 영토를 크게 넓혔고, 자신의 엄격한 헌법 해석과 행정 권한 사이의 문제를 드러냈다.",
+        "significance": "원칙을 버렸다는 내면 고백을 만들기보다 문서에 남은 헌법 고민과 실제 결정을 병치한다.",
+        "sourceUrls": [
+          "https://www.archives.gov/milestone-documents/louisiana-purchase-treaty"
+        ]
+      },
+      {
+        "point": "평생 610명이 넘는 사람을 노예로 소유했으며 법적으로 해방한 사람은 일곱 명뿐이었고, 사후에는 약 200명이 경매에서 팔렸다.",
+        "significance": "평등을 쓴 사람의 모순을 막연한 후회가 아니라 사람의 수와 재산 처분이라는 확인 가능한 행위로 드러낸다.",
+        "sourceUrls": [
+          "https://www.monticello.org/slavery/slavery-faqs/property/",
+          "https://www.monticello.org/encyclopedia/slaves-who-gained-freedom"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "정부의 정당한 권력은 피통치자의 동의에서 나오며 생명·자유·행복 추구의 권리는 함부로 빼앗을 수 없다고 선언했다.",
+        "sourceUrls": [
+          "https://www.archives.gov/founding-docs/declaration-history"
+        ]
+      },
+      {
+        "point": "종교적 믿음이나 불신 때문에 시민의 권리와 자격이 달라져서는 안 된다고 법안에 썼다.",
+        "sourceUrls": [
+          "https://loc.gov/exhibits/jefferson/jeffrep.html"
+        ]
+      },
+      {
+        "point": "독립 농민과 교육받은 시민을 공화국의 버팀목으로 보았고 서부 영토 확대를 그 사회 구상의 공간으로 여겼다.",
+        "sourceUrls": [
+          "https://www.archives.gov/milestone-documents/louisiana-purchase-treaty",
+          "https://tile.loc.gov/storage-services/service/mss/mtj/mtj1/027/027_0841_0844.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "모든 사람의 평등을 선언한 제퍼슨은 동시에 수백 명을 법적 재산으로 소유하고 그 노동에서 경제적 이익을 얻었다. 이 모순은 제퍼슨의 완성된 참회가 아니라 문서와 삶을 나란히 놓아 드러내야 한다.",
+        "sourceUrls": [
+          "https://www.archives.gov/founding-docs/declaration-history",
+          "https://www.monticello.org/slavery/slavery-faqs/property/"
+        ]
+      },
+      {
+        "point": "흑인의 능력과 노예 상태 개선을 말했지만, 자신의 권한 아래 있던 대다수 노예를 해방하지 않았고 사후 경매를 막지 못했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/resource/mcc.028/",
+          "https://www.monticello.org/encyclopedia/slaves-who-gained-freedom"
+        ]
+      },
+      {
+        "point": "원주민을 미국식 농업과 교역에 편입하겠다는 문명화 정책은 원주민의 주권과 문화를 존중하는 중립적 교육이 아니라 토지 양도를 촉진하는 영토 확장 계획과 결합돼 있었다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/service/mss/mtj/mtj1/027/027_0841_0844.pdf"
+        ]
+      },
+      {
+        "point": "루이지애나 매입은 공화국의 규모와 기회를 넓혔지만, 그 땅에 이미 살던 원주민의 권리와 미국 대통령의 헌법상 권한 문제를 함께 남겼다.",
+        "sourceUrls": [
+          "https://www.archives.gov/milestone-documents/louisiana-purchase-treaty",
+          "https://tile.loc.gov/storage-services/service/mss/mtj/mtj1/027/027_0841_0844.pdf"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "원칙을 말할 때는 균형 잡힌 병렬문을 쓰고, 삶의 반증을 붙일 때는 짧고 구체적인 숫자와 행동으로 끊는다.",
+      "directness": "계몽주의자의 논리적 어휘를 살리되 후대 법정의 피고처럼 모든 모순을 자백시키지 않는다. 자신의 문장과 실제 행위를 충돌시키는 방식으로 책임을 드러낸다.",
+      "moves": [
+        "독립선언의 문장을 자신의 단독 발명으로 과장하지 않고 초안 작성자로서 말하기",
+        "종교의 자유와 교육 구상을 실제 법·제도 작업으로 이어 가기",
+        "루이지애나 매입의 기회와 헌법상 망설임, 원주민 토지 확대 계획을 함께 놓기",
+        "마지막에는 추상적 죄책감 대신 소유한 사람과 해방한 사람, 경매된 사람의 기록을 제시하기"
+      ],
+      "avoid": [
+        "독립선언문 전체를 혼자 완성했다는 영웅화",
+        "노예제가 잘못임을 알았으니 마음속으로 현대적 평등을 온전히 믿었다는 면책",
+        "샐리 헤밍스의 동의와 감정을 제퍼슨 관점에서 낭만적 연애로 재현하기",
+        "원주민 정책을 선의의 교육이나 후대 강제이주와 완전히 같은 정책 중 하나로 단순화하기",
+        "자유의 문장이 이후 모든 해방운동을 직접 낳았다는 인과 과장"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "피통치자의 동의",
+        "guide": "정부의 권력은 지배받는 시민이 인정할 때 정당하다는 원칙",
+        "sourceUrls": [
+          "https://www.archives.gov/founding-docs/declaration-history"
+        ]
+      },
+      {
+        "term": "버지니아 종교자유법",
+        "guide": "종교를 강요하거나 믿음 때문에 시민의 권리를 제한하지 못하게 한 버지니아 법",
+        "sourceUrls": [
+          "https://loc.gov/exhibits/jefferson/jeffrep.html"
+        ]
+      },
+      {
+        "term": "루이지애나 매입",
+        "guide": "1803년 미국이 프랑스에서 미시시피강 서쪽의 광대한 영토를 사들인 거래",
+        "sourceUrls": [
+          "https://www.archives.gov/milestone-documents/louisiana-purchase-treaty"
+        ]
+      },
+      {
+        "term": "문명화 정책",
+        "guide": "원주민에게 미국식 농업과 생활을 받아들이게 해 토지와 문화를 바꾸려 한 동화 정책",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/service/mss/mtj/mtj1/027/027_0841_0844.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "독립선언문의 기본 초안은 제퍼슨이 썼지만 애덤스·프랭클린과 대륙회의가 수정했다. 후대의 영향도 제퍼슨 한 사람의 의도로 환원하지 않는다.",
+      "제퍼슨은 노예제를 비판하는 말과 흑인의 능력을 인정하는 편지를 남겼지만, 이를 개인적 죄책감이나 즉각 해방 의지의 증거로 확대하지 않는다.",
+      "샐리 헤밍스와의 관계는 문서·유전·구술 증거로 친자 관계가 뒷받침되지만 헤밍스 본인의 직접 기록은 남지 않았다. 사랑·동의·감정을 1인칭 독백에서 창작하지 않는다.",
+      "노예 소유 수와 해방 수는 몬티첼로의 현재 연구 집계에 따른다. 숫자를 말할 때 소유 관계의 기간과 법적·비공식 자유의 차이를 흐리지 않는다.",
+      "제퍼슨의 원주민 정책은 동화, 교역, 토지 취득과 서부 확장이 얽혀 있다. 앤드루 잭슨 시대 강제이주 결과를 제퍼슨이 직접 집행한 것처럼 소급하지 않는다.",
+      "루이지애나 매입의 헌법적 의심은 문서에 남지만, 현재 원고의 '무겁게 느꼈다' 같은 감정 강도는 확인할 수 없다."
+    ]
+  }
+}

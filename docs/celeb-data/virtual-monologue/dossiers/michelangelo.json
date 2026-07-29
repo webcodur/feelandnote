@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "slug": "michelangelo",
+  "nickname": "미켈란젤로",
+  "route": "new",
+  "routeReason": "기존 독백은 대리석 속 형상, 천장 위의 고독, 마지막 심판 앞의 두려움을 미켈란젤로의 실제 내면처럼 이어 붙인 창작 산문이다. 조각·회화·건축·시를 넘나든 작업의 구체성은 약하고, 메디치와 교황의 주문, 공방 조수와 석공, 신학적 자문, 반복된 미완성과 설계 변경이 지워져 있다. 편지와 시가 남아 있어 목소리의 재료는 풍부하지만, 작품 속 인물이나 후대의 전기적 신화를 곧바로 자서전으로 읽으면 안 된다. 다비드·시스티나 천장·최후의 심판·성 베드로 대성당을 생애의 선택과 갈등으로 연결하고, 예술가 개인의 위대함과 집단 노동·권력의 주문을 함께 드러내는 신규 작성이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "미켈란젤로 부오나로티",
+      "birth": "1475-03-06",
+      "death": "1564-02-18",
+      "profession": "visual_artist",
+      "disambiguation": "피렌체와 로마에서 다비드, 시스티나 성당 천장화와 최후의 심판, 메디치 예배당, 성 베드로 대성당 설계에 참여한 르네상스기의 조각가·화가·건축가·시인"
+    },
+    "sources": [
+      {
+        "url": "https://www.casabuonarroti.it/ricerca/archivio/",
+        "title": "Archivio Buonarroti",
+        "publisher": "Casa Buonarroti",
+        "kind": "primary",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "미켈란젤로와 가족의 편지·계약·회계 자료가 대규모로 남아 있다",
+          "작업과 가족 경제, 주문 관계를 후대 전설이 아니라 문서로 확인할 수 있다",
+          "편지 한두 구절을 평생의 고정된 성격으로 일반화하지 않아야 한다"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/46599/46599-h/46599-h.htm",
+        "title": "The Letters of Michelangelo Buonarroti",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": "1913",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "가족·후원자·실무자에게 보낸 편지에 돈, 돌, 일정, 건강, 작업 문제가 반복된다",
+          "미켈란젤로가 작품뿐 아니라 계약과 현장 관리에 깊이 관여했다",
+          "후대의 고독한 천재상과 다른 실무적 목소리"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries",
+        "title": "Michelangelo: Divine Draftsman and Designer — Exhibition Galleries",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2017",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "드로잉은 조각·회화·건축을 잇는 설계와 사고의 핵심 도구였다",
+          "미켈란젤로의 공방에는 조수와 제자, 협력자가 있었고 작업은 완전히 혼자 이뤄지지 않았다",
+          "완성작뿐 아니라 준비 드로잉과 수정 과정이 작품 이해에 중요하다"
+        ]
+      },
+      {
+        "url": "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/cappella-sistina/volta.html",
+        "title": "The Ceiling",
+        "publisher": "Vatican Museums",
+        "kind": "institutional",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "시스티나 성당 천장화의 제작 시기와 창세기 장면의 구성",
+          "건축 구조와 예언자·무녀·조상상 등 복합적인 도상 체계",
+          "천장화를 단순한 개인 고백이 아니라 교황청 공간의 대규모 주문으로 읽어야 한다"
+        ]
+      },
+      {
+        "url": "https://www.museivaticani.va/content/museivaticani/it/collezioni/musei/cappella-sistina/storia-cappella-sistina.html",
+        "title": "Storia della Cappella Sistina",
+        "publisher": "Vatican Museums",
+        "kind": "institutional",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "시스티나 성당의 장식은 여러 교황과 화가가 이어 만든 제도적·의례적 공간이다",
+          "최후의 심판은 천장화와 다른 시기와 주문 맥락에서 제작됐다",
+          "미켈란젤로 한 사람의 통일된 개인 서사로 성당 전체를 설명할 수 없다"
+        ]
+      },
+      {
+        "url": "https://www.basilicasanpietro.va/en/san-pietro/the-dome",
+        "title": "The Dome",
+        "publisher": "Basilica of Saint Peter",
+        "kind": "institutional",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "미켈란젤로가 성 베드로 대성당의 돔 설계를 이끌었지만 완공 전에 사망했다",
+          "자코모 델라 포르타와 도메니코 폰타나가 뒤이어 돔을 완성했다",
+          "대성당을 미켈란젤로 혼자 완성했다는 서술을 피해야 한다"
+        ]
+      },
+      {
+        "url": "https://artsandculture.google.com/asset/ab-v-62-letter-to-tommaso-de-cavalieri-michelangelo-buonarroti/XQHTx2bFSjHuDw?hl=en",
+        "title": "Letter to Tommaso de' Cavalieri",
+        "publisher": "Casa Buonarroti / Google Arts & Culture",
+        "kind": "primary",
+        "publishedAt": "1533",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "토마소 데 카발리에리에게 보낸 편지가 남아 있다",
+          "개인적 애정과 예술적 교류를 보여주는 1차 자료",
+          "편지의 강한 언어를 현대의 고정된 성정체성이나 실제 관계의 증명으로 단정하면 안 된다"
+        ]
+      },
+      {
+        "url": "https://www.britishmuseum.org/exhibitions/michelangelo-last-decades/michelangelo-large-print-guide",
+        "title": "Michelangelo: the last decades — large print guide",
+        "publisher": "British Museum",
+        "kind": "institutional",
+        "publishedAt": "2024",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "말년의 미켈란젤로는 건축·드로잉·시·종교적 작업을 계속했다",
+          "비토리아 콜론나와의 지적·영적 교류와 후기 피에타의 맥락",
+          "말년을 쇠퇴나 죽음 공포 하나로 환원할 수 없다"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "피렌체의 메디치 가문 주변에서 고대 조각과 인문주의 문화를 배운 젊은 미켈란젤로는 조각을 중심 기술로 삼아 로마의 피에타와 피렌체의 다비드로 명성을 얻었다.",
+        "significance": "돌 속에 이미 형상이 있었다는 신화보다 후원·도시 정치·고대 작품 연구·육체 관찰이 함께 만든 출발을 보여준다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries",
+          "https://www.casabuonarroti.it/ricerca/archivio/"
+        ]
+      },
+      {
+        "point": "교황 율리우스 2세의 무덤 주문은 규모와 계획이 거듭 바뀌었고, 그 갈등 속에서 미켈란젤로는 1508년부터 시스티나 성당 천장화를 맡았다.",
+        "significance": "한 작가의 자유로운 영감이 아니라 교황의 권력, 계약 변경, 기술적 난제가 작품의 형태를 바꾸었다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/46599/46599-h/46599-h.htm",
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/cappella-sistina/volta.html"
+        ]
+      },
+      {
+        "point": "피렌체의 메디치 예배당과 라우렌치아나 도서관에서 조각과 건축을 함께 설계했지만, 정권 교체와 공성전, 망명과 화해 속에서 여러 계획이 중단되거나 다른 손으로 이어졌다.",
+        "significance": "미완성은 내면의 비극만이 아니라 도시 정치·후원·시간·자원의 변화가 남긴 역사적 상태다.",
+        "sourceUrls": [
+          "https://www.casabuonarroti.it/ricerca/archivio/",
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "point": "1530년대 후반 최후의 심판을 그리며 부활과 심판의 거대한 육체를 제단벽에 배치했고, 이후 노출된 신체와 도상을 둘러싼 비판과 수정이 이어졌다.",
+        "significance": "작품을 화가 자신의 공포 고백으로 단정하지 않고 종교개혁기 교회 정치, 도상 논쟁, 후대 개입의 장으로 읽게 한다.",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/it/collezioni/musei/cappella-sistina/storia-cappella-sistina.html"
+        ]
+      },
+      {
+        "point": "1546년 성 베드로 대성당의 수석 건축가가 된 뒤 기존 계획을 단순화하고 돔을 설계했으나, 완공을 보지 못한 채 1564년 사망했고 후임자들이 공사를 이어갔다.",
+        "significance": "말년의 유산을 한 사람이 완결한 기념비가 아니라 설계가 다음 세대와 수많은 노동자에게 넘어간 과정으로 말해야 한다.",
+        "sourceUrls": [
+          "https://www.basilicasanpietro.va/en/san-pietro/the-dome",
+          "https://www.britishmuseum.org/exhibitions/michelangelo-last-decades/michelangelo-large-print-guide"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "조각·회화·건축을 서로 떨어진 장르로 보지 않고 드로잉과 인체 연구를 통해 형태를 설계하는 하나의 실천으로 다뤘다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "point": "편지에서 돌의 품질, 운송, 임금, 계약, 가족 재산을 집요하게 다루며 예술을 물질과 실무에서 분리하지 않았다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/46599/46599-h/46599-h.htm",
+          "https://www.casabuonarroti.it/ricerca/archivio/"
+        ]
+      },
+      {
+        "point": "말년에는 비토리아 콜론나와의 교류, 시, 종교적 드로잉과 후기 피에타를 통해 육체의 아름다움과 구원 문제를 함께 탐구했다.",
+        "sourceUrls": [
+          "https://www.britishmuseum.org/exhibitions/michelangelo-last-decades/michelangelo-large-print-guide"
+        ]
+      },
+      {
+        "point": "건축에서는 복잡한 전임 계획을 재검토하고 구조와 덩어리의 통일을 추구했지만, 실제 완성은 후임 건축가와 현장 노동의 몫으로 남겼다.",
+        "sourceUrls": [
+          "https://www.basilicasanpietro.va/en/san-pietro/the-dome"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "미켈란젤로는 강한 작가적 통제를 행사했지만, 교황·메디치 가문·도시 정부의 주문과 계약 변경에서 자유롭지 않았다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/46599/46599-h/46599-h.htm",
+          "https://www.casabuonarroti.it/ricerca/archivio/"
+        ]
+      },
+      {
+        "point": "후대는 그를 혼자 모든 것을 해낸 고독한 천재로 만들었으나, 조수·공방·석공·건축가와 이름이 덜 남은 노동자들이 작품을 가능하게 했다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries",
+          "https://www.basilicasanpietro.va/en/san-pietro/the-dome"
+        ]
+      },
+      {
+        "point": "미완성 조각은 강력한 미학으로 읽히지만, 모든 미완성을 의도적 표현으로 볼 수 없고 주문 취소·정치·재료·시간의 실패도 구별해야 한다.",
+        "sourceUrls": [
+          "https://www.casabuonarroti.it/ricerca/archivio/",
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "point": "토마소 데 카발리에리에게 보낸 편지와 시의 애정은 중요하지만, 그 언어를 오늘의 성정체성 분류나 확인된 성적 관계로 곧장 바꾸면 사료를 넘는다.",
+        "sourceUrls": [
+          "https://artsandculture.google.com/asset/ab-v-62-letter-to-tommaso-de-cavalieri-michelangelo-buonarroti/XQHTx2bFSjHuDw?hl=en"
+        ]
+      },
+      {
+        "point": "시스티나 성당의 거대한 신체는 인간 존엄과 창조력을 보여주는 동시에 교황권의 의례 공간과 심판의 신학에 봉사했다.",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/cappella-sistina/volta.html",
+          "https://www.museivaticani.va/content/museivaticani/it/collezioni/musei/cappella-sistina/storia-cappella-sistina.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "돌·안료·종이·공사 현장 같은 물질에서 시작해 주문과 수정, 미완성의 의미로 길게 밀고 간 뒤 짧게 결론짓는다.",
+      "directness": "장인의 단단하고 실무적인 1인칭을 쓰되 작품 속 인물의 감정을 작가 자신의 고백으로 바꾸지 않는다.",
+      "moves": [
+        "대리석 속 형상이라는 유명한 비유보다 돌의 선택·운반·계약에서 시작하기",
+        "프레스코는 젖은 회벽에 안료를 올리는 작업이라고 괄호로 설명하며 천장화의 기술을 보여주기",
+        "다비드와 천장화를 도시·교황의 주문 및 정치 공간과 연결하기",
+        "미완성을 의도와 중단 사유로 나누어 말하기",
+        "카발리에리와 콜론나를 현대적 정체성의 증명 대신 편지·시·영적 교류의 상대자로 놓기",
+        "성 베드로 돔은 설계가 후임자와 노동자에게 넘어갔다는 장면으로 닫기"
+      ],
+      "avoid": [
+        "대리석 안에 형상이 실제로 갇혀 있고 자신은 해방만 했다는 상투적 독백",
+        "천장에 혼자 누워 모든 장면을 그렸다는 서술",
+        "시스티나 성당 전체를 미켈란젤로 혼자 장식했다는 서술",
+        "최후의 심판을 자신의 죄책감이나 죽음 공포를 그대로 그린 자화상으로 단정하기",
+        "모든 미완성 작품을 의도적인 논피니토로 분류하기",
+        "조수·공방·석공·후임 건축가를 지우기",
+        "토마소 데 카발리에리와의 관계를 확인된 성적 관계나 현대적 성정체성으로 확정하기",
+        "성 베드로 대성당이나 돔을 생전에 완성했다고 쓰기",
+        "현대의 우울증·강박증 진단을 소급하기",
+        "예술과 신앙의 갈등을 한 번의 참회 서사로 끝내기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "프레스코",
+        "guide": "아직 젖어 있는 회벽에 안료를 발라 마르면서 벽과 색이 결합하게 하는 벽화 기법(하루에 칠할 면적과 수정 가능 시간이 제한된다)",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/cappella-sistina/volta.html"
+        ]
+      },
+      {
+        "term": "디세뇨",
+        "guide": "단순한 밑그림이 아니라 관찰·구상·설계를 드로잉으로 조직하는 르네상스의 작업 개념",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "term": "논피니토",
+        "guide": "표면 일부가 다듬어지지 않은 채 남은 미완성 상태 또는 그 효과(작가가 의도한 경우와 외부 사정으로 중단된 경우를 구별해야 한다)",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "term": "주문",
+        "guide": "교황·가문·도시 정부 등이 비용과 장소, 주제, 기한을 정해 작품을 맡기는 계약 관계",
+        "sourceUrls": [
+          "https://www.casabuonarroti.it/ricerca/archivio/",
+          "https://www.gutenberg.org/files/46599/46599-h/46599-h.htm"
+        ]
+      },
+      {
+        "term": "공방 조수",
+        "guide": "거장의 설계 아래 재료 준비·옮김·채색·조각·현장 업무를 나누어 맡은 협력자(작품 기여와 저자 표시는 서로 다를 수 있다)",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2017/michelangelo/exhibition-galleries"
+        ]
+      },
+      {
+        "term": "최후의 심판",
+        "guide": "죽은 자가 부활하고 그리스도의 심판을 받는 기독교의 종말 장면(시스티나 성당 제단벽의 벽화 주제)",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/it/collezioni/musei/cappella-sistina/storia-cappella-sistina.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "작품 속 인물의 표정과 몸짓을 미켈란젤로 자신의 감정이나 고백으로 단정하지 않는다.",
+      "편지와 시의 화자를 생애 전체의 고정된 성격으로 일반화하지 않고 작성 시점과 상대를 확인한다.",
+      "토마소 데 카발리에리 관련 자료는 애정과 교류를 보여주지만 현대의 성정체성 범주나 실제 성관계를 확정하지 않는다.",
+      "미켈란젤로의 이름으로 알려진 대형 작업에서도 조수·공방·석공·후임자의 기여와 귀속 문제를 점검한다.",
+      "성 베드로 대성당의 돔은 미켈란젤로가 설계했으나 생전 완공하지 못했다. 후임자와 현장 노동을 지우지 않는다.",
+      "미완성 작품마다 중단 이유가 다르므로 모두 의도적인 논피니토로 설명하지 않는다.",
+      "현대 정신의학 진단이나 가난·고독의 낭만적 이미지를 편지의 불평만으로 소급하지 않는다.",
+      "시스티나 천장화와 최후의 심판은 서로 다른 시기와 주문이다. 하나의 연속된 개인 고백으로 합치지 않는다.",
+      "복원 과정에서 드러난 색과 후대의 덧칠 논쟁은 별도 연구가 필요한 주제이므로 확정적 원래 모습의 서술을 피한다."
+    ]
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "slug": "clowwindy",
+  "nickname": "클로윈디",
+  "route": "hold",
+  "routeReason": "클로윈디는 현재 relation 티어이며 사용자 웹의 서비스 항목 코드가 relation의 가상 독백을 의도적으로 비노출한다. 따라서 빈 독백은 공개 결함이 아니다. 익명 개발자의 확인 가능한 삶은 2012년 Shadowsocks 공개와 2015년 경찰 접촉 뒤 코드 삭제에 거의 한정되고, 이를 800자 1인칭 생애 독백으로 늘리면 신원·동기·감정을 창작하게 된다. relation 정책이 바뀌고 본인 장문 발언이 더 확보될 때까지 빈 값을 유지한다.",
+  "dossier": {
+    "identity": {
+      "name": "클로윈디",
+      "birth": null,
+      "death": null,
+      "profession": "other",
+      "disambiguation": "2012년 Shadowsocks를 공개한 중국의 익명 개발자 계정 clowwindy",
+      "existingBioForDiscoveryOnly": "중국의 익명 소프트웨어 개발자. 2012년 Shadowsocks를 공개했으며 2015년 경찰 압박으로 프로젝트 유지보수를 중단하고 코드를 삭제했다."
+    },
+    "sources": [
+      {
+        "url": "https://web.archive.org/web/20120422191812/http://www.v2ex.com/t/32777",
+        "title": "发一个自用了一年多的翻墙工具 shadowsocks",
+        "publisher": "V2EX via Internet Archive",
+        "kind": "primary",
+        "publishedAt": "2012-04-20",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "clowwindy 계정이 2012년 4월 Shadowsocks를 공개한 사실",
+          "스스로 1년 넘게 사용한 방화벽 우회 도구로 소개한 사실"
+        ]
+      },
+      {
+        "url": "https://pypi.org/project/shadowsocks/2.0/",
+        "title": "shadowsocks 2.0",
+        "publisher": "Python Package Index",
+        "kind": "institutional",
+        "publishedAt": "2014-06-05",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "clowwindy가 패키지 저자와 유지관리자로 표시된 사실",
+          "방화벽을 통과하도록 돕는 터널 프록시로 공개하고 MIT 라이선스를 적용한 사실",
+          "사용자가 서버와 암호화 방식을 설정해 직접 운용하는 구조"
+        ]
+      },
+      {
+        "url": "https://shadowsocks.org/doc/what-is-shadowsocks.html",
+        "title": "What is Shadowsocks?",
+        "publisher": "Shadowsocks contributors",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "Shadowsocks가 SOCKS5를 바탕으로 한 보안 분할 프록시라는 현재 기술 설명",
+          "로컬과 원격 구성 요소가 데이터를 암호화해 중계하는 기본 구조"
+        ]
+      },
+      {
+        "url": "https://chinadigitaltimes.net/2015/08/circumvention-tool-deleted-after-police-visit-developer/",
+        "title": "Circumvention Tool Deleted After Police Visit Developer",
+        "publisher": "China Digital Times",
+        "kind": "reputable-secondary",
+        "publishedAt": "2015-08-25",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "2015년 경찰 접촉 뒤 프로젝트를 중단하고 GitHub 코드를 삭제했다는 당시 게시물과 화면 기록",
+          "삭제 뒤 저장소에 규정에 따라 제거했다는 문구가 남은 사실",
+          "익명성을 지키는 일이 실제 안전 문제였다는 사건 맥락"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "2012년 V2EX에 자신이 1년 넘게 써 온 도구라며 Shadowsocks를 공개했다.",
+        "significance": "익명 계정으로 확인 가능한 활동의 시작이며, 개인용 도구가 공개 소프트웨어로 넘어간 순간이다.",
+        "sourceUrls": [
+          "https://web.archive.org/web/20120422191812/http://www.v2ex.com/t/32777",
+          "https://pypi.org/project/shadowsocks/2.0/"
+        ]
+      },
+      {
+        "point": "2015년 경찰이 개발 중단과 코드 삭제를 요구했다고 알린 뒤 주요 저장소와 문서를 지우고 유지보수에서 물러났다.",
+        "significance": "검열 우회 코드를 쓰는 자유와 개발자의 신변 안전이 정면으로 충돌한 사건이다.",
+        "sourceUrls": [
+          "https://chinadigitaltimes.net/2015/08/circumvention-tool-deleted-after-police-visit-developer/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "Shadowsocks를 사용자가 직접 설치하고 설정할 수 있는 공개 프록시 소프트웨어로 배포했다.",
+        "sourceUrls": [
+          "https://pypi.org/project/shadowsocks/2.0/",
+          "https://shadowsocks.org/doc/what-is-shadowsocks.html"
+        ]
+      },
+      {
+        "point": "경찰 요구를 따른 마지막 게시물에서 두려움 없이 원하는 코드를 쓸 자유가 있는 나라에서 살고 싶다는 뜻을 공개했다.",
+        "sourceUrls": [
+          "https://chinadigitaltimes.net/2015/08/circumvention-tool-deleted-after-police-visit-developer/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "공개된 코드는 여러 사람이 이어 갈 수 있었지만 원저자는 신변 위험 때문에 자신의 코드와 기록을 지워야 했다. 익명성은 인물 소개의 빈칸인 동시에 안전을 위한 조건이다.",
+        "sourceUrls": [
+          "https://pypi.org/project/shadowsocks/2.0/",
+          "https://chinadigitaltimes.net/2015/08/circumvention-tool-deleted-after-police-visit-developer/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "기술 설명은 짧고 직접적으로 끊으며 감정 수사를 최소화한다.",
+      "directness": "익명 계정이 실제로 남긴 공개 글의 범위를 넘지 않는 담담한 개발자 어조다.",
+      "moves": [
+        "문제를 기술 구조로 짧게 설명하기",
+        "공개 코드와 개인 안전의 충돌을 확인된 사건으로만 제시하기",
+        "정체보다 코드가 다른 사람에게 이어진 결과에 머물기"
+      ],
+      "avoid": [
+        "실명·성별·직장·가족·거주지 추정",
+        "경찰 접촉 당시 공포와 결심을 영화 장면처럼 복원하기",
+        "인터넷 자유의 영웅이라는 자기찬양",
+        "현대 Shadowsocks의 모든 기술 선택을 원저자의 생각으로 돌리기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "프록시",
+        "guide": "사용자와 인터넷 사이에서 접속을 대신 전달하는 중간 통로",
+        "sourceUrls": [
+          "https://shadowsocks.org/doc/what-is-shadowsocks.html"
+        ]
+      },
+      {
+        "term": "오픈소스",
+        "guide": "누구나 코드를 보고 고치고 이어 갈 수 있게 공개한 소프트웨어",
+        "sourceUrls": [
+          "https://pypi.org/project/shadowsocks/2.0/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "clowwindy는 익명 계정이므로 실명·성별·출생·사생활을 확정하지 않는다.",
+      "2012년 원 게시물과 2015년 삭제 사건 바깥의 장기 생애 자료가 없어 인물의 삶과 철학을 충분히 구성할 수 없다.",
+      "현재 웹 코드는 relation 티어의 가상 독백을 준비되지 않은 항목으로 처리하므로 빈 값이 사용자에게 독백 결측으로 노출되지 않는다.",
+      "relation 정책이 바뀌거나 본인의 장문 1차 자료가 추가로 확보되기 전에는 신규 독백을 만들지 않는다."
+    ]
+  }
+}

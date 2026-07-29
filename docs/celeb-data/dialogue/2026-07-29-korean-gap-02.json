@@ -1,0 +1,185 @@
+{
+  "batch": "2026-07-29-korean-gap-02",
+  "targets": [
+    {
+      "id": "57a10935-9bc6-46f6-8d81-567586c88887",
+      "slug": "kang-full",
+      "nickname": "강풀",
+      "nicknameEn": "Kang Full",
+      "birthDate": "1974-12-07",
+      "profession": "author",
+      "quote": "착한 사람들이 함께 이기는 이야기가 좋습니다.",
+      "quoteEn": "I love stories where decent people win together.",
+      "greetingKo": [
+        "[warm, candid] 그림을 잘 못 그리거든요. 대신 만화는 잘 그리지요.",
+        "[gentle, sincere] 가장 중요한 건 공감이 아닐까요. 남의 상황을 이해해 주는 일 말이지요.",
+        "[warm, steady] 그림에서 지더라도 이야기에서만은 지지 말자, 그렇게 시작했어요."
+      ],
+      "greetingEn": [
+        "[warm, candid] I'm not very good at drawing, you see. But I'm good at making comics.",
+        "[gentle, sincere] What matters most, I think, is empathy. Just understanding another person's situation.",
+        "[warm, steady] Even if I lose at drawing, I told myself I would never lose at the story. That's how I began."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "강풀입니다. 만화든 영상이든, 제 본업은 이야기꾼입니다.",
+          "하루에도 몇 번씩 마주칠 평범한 사람들의 이야기를 하겠습니다.",
+          "기능만 남은 인물은 두지 않겠습니다. 모두에게 자기만의 서사를 주겠습니다."
+        ],
+        "deploy": [
+          "결말부터 정하고, 대사를 다 써둔 뒤 첫 장면을 시작하겠습니다.",
+          "한순간만 보지 말고 전체를 보십시오. 인물부터 차근차근 알아갑시다.",
+          "싸움을 잘하는 모습보다 끝까지 애쓰는 사람을 보여주십시오."
+        ],
+        "battle_win": [
+          "유모차를 붙잡는 작은 손 하나에서 시작해, 선의가 더 큰 선을 만들었습니다.",
+          "시청자들이 긴 호흡을 따라와 주셔서, 인물들의 이야기를 끝까지 전할 수 있었습니다.",
+          "만화에서 포기했던 장면을 감독과 배우들이 화면에서 살려냈습니다."
+        ],
+        "battle_draw": [
+          "이야기가 늘어질 수 있습니다. 그래도 인물의 사연을 건너뛰지는 않겠습니다.",
+          "나만 재미있는 건 아닐까, 끝까지 의심하며 다시 쓰겠습니다.",
+          "원작보다 낫다는 말을 들으니 웃어야 할지 울어야 할지 모르겠습니다."
+        ],
+        "battle_lose": [
+          "제가 재미없는 이야기를 남에게 내미는 건 사기와 같습니다. 이 원고는 멈추겠습니다.",
+          "26년은 성공이나 실패로 닫을 수 없습니다. 아직 살아 있는 사람들의 이야기입니다.",
+          "팀 작업에서는 저 혼자 망하고 끝나지 않습니다. 그래서 더 두렵고 신중해야 합니다."
+        ],
+        "clash_attack": [
+          "한 장면의 충격으로 밀어붙이지 마십시오. 전체 서사가 버티는지 봅시다.",
+          "싸움을 잘한다고 영웅이 되지는 않습니다. 누군가를 지키려 애쓰십시오.",
+          "귀신을 괴물로만 만들지 마십시오. 그 안의 사람과 사연부터 보십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Kang Full. Whether in comics or on screen, my true work is storytelling.",
+          "I will tell stories about ordinary people we could pass several times a day.",
+          "I will leave no character as a mere function. Each one will have a story of their own."
+        ],
+        "deploy": [
+          "I will decide the ending and write every line before I begin the first scene.",
+          "Do not look only at one moment. See the whole, and let us get to know each person step by step.",
+          "Show a person striving to the end, not merely someone who fights well."
+        ],
+        "battle_win": [
+          "It began with one hand stopping a runaway stroller. Small acts of goodwill grew into something larger.",
+          "The viewers stayed with the long journey, allowing me to tell each character's story to the end.",
+          "The director and actors brought to the screen scenes I had given up on in the comic."
+        ],
+        "battle_draw": [
+          "The story may slow down, but I will not skip over a character's life.",
+          "What if I am the only one enjoying this? I will keep questioning it and rewrite.",
+          "When I hear that the adaptation is better than the original, I do not know whether to laugh or cry."
+        ],
+        "battle_lose": [
+          "Offering others a story I do not find interesting myself would feel like fraud. I will stop this draft.",
+          "26 Years cannot be closed as either a success or a failure. It is a story of people who are still living with it.",
+          "In a team production, failure does not end with me alone. That is why I must be more cautious, even when afraid."
+        ],
+        "clash_attack": [
+          "Do not force it through with the shock of a single scene. See whether the whole story can carry it.",
+          "Fighting well does not make a hero. Strive to protect someone.",
+          "Do not turn a ghost into nothing but a monster. Look first for the person and the story within."
+        ]
+      },
+      "sources": [
+        "https://www.yna.co.kr/view/AKR20230828136900005",
+        "https://www.fnnews.com/news/202308281524543529",
+        "https://m.ch.yes24.com/article/details/19612",
+        "https://www.cineplay.co.kr/ko-kr/articles/16735",
+        "https://cine21.com/news/view?mag_id=53818"
+      ]
+    },
+    {
+      "id": "4886d0ac-e220-4f48-9ee3-6c1bbf8d84da",
+      "slug": "bong-jin-kim",
+      "nickname": "김봉진",
+      "nicknameEn": "Bong-jin Kim",
+      "birthDate": "1976-09-18",
+      "profession": "entrepreneur",
+      "quote": "고객은 짜장면을 시키는 것이 아니라 위로를 시킬 뿐입니다.",
+      "quoteEn": "Customers do not order black-bean noodles, they order comfort.",
+      "greetingKo": [
+        "[composed, warm] 저는 책을 자랑하려고 사들였을 뿐입니다. 그 자랑이 결국 저를 책 앞에 앉혔지요.",
+        "[composed, reflective] 고객은 짜장면을 시키는 것이 아니라 위로를 시킬 뿐입니다.",
+        "[composed, calm] 사업은 한 게임의 종료가 아니라 다음 게임의 출발선일 따름입니다."
+      ],
+      "greetingEn": [
+        "[composed, warm] I only ever bought books to show them off. That very showing-off finally seated me in front of them.",
+        "[composed, reflective] Customers do not order black-bean noodles. They simply order comfort.",
+        "[composed, calm] A sale is merely not the end of one game but the starting line of the next."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "김봉진입니다. 제 명함에는 경영하는 디자이너라고 적혀 있습니다.",
+          "사용자의 마음에서 시작해, 상품과 회사의 구조까지 함께 디자인하겠습니다.",
+          "좋은 회사가 무엇인지 계속 묻고, 답을 하나씩 실행하겠습니다."
+        ],
+        "deploy": [
+          "사용자 관점에서 문제를 보고, 고객 가치부터 정리합시다.",
+          "짧게 실험해보고, 아니면 빨리 되돌립시다.",
+          "계획은 자신 있게 세우되, 결과는 겸손하게 받아들입시다."
+        ],
+        "battle_win": [
+          "전화번호부와 전단지를 옮긴 작은 앱에 기능을 하나씩 더해 여기까지 왔습니다.",
+          "글꼴과 말투를 꾸준히 보여주니, 마침내 알아보는 배민의 성격이 됐습니다.",
+          "이 성과는 제 능력만의 결과가 아닙니다. 받은 운과 도움을 사회에 돌려드리겠습니다."
+        ],
+        "battle_draw": [
+          "사업은 날씨와 같습니다. 맑은 날에도 벼락이 치고, 흐린 날도 지나갑니다.",
+          "모든 것을 숫자로 관리할 수는 없습니다. 지금 놓친 마음이 없는지 보겠습니다.",
+          "무엇이 좋은지에 대한 답은 하나로 고정되지 않습니다. 관점과 시간이 바뀌면 다시 물어야 합니다."
+        ],
+        "battle_lose": [
+          "가구는 멋졌지만 팔리지 않았습니다. 작품을 만들고 상품을 만들지 못했습니다.",
+          "사업은 계획대로 되지 않았습니다. 결과를 겸손히 받아들이고 다시 배우겠습니다.",
+          "기부도 선언만으로 끝나지 않았습니다. 실무의 어려움에서 다시 배웠습니다."
+        ],
+        "clash_attack": [
+          "작품을 만들지 말고, 고객이 선택할 상품을 만드십시오.",
+          "가치만 좇고 이익을 만들지 못하면, 회사도 책임도 오래 지킬 수 없습니다.",
+          "먼 미래는 낙관하되, 다음 주 출시는 비관하며 점검하십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Bong-jin Kim. My business card describes me as a designer who runs a company.",
+          "I will begin with the user's mind and design both the product and the company around it.",
+          "I will keep asking what makes a good company and put the answers into practice one by one."
+        ],
+        "deploy": [
+          "Look at the problem from the user's point of view. Let us define customer value first.",
+          "Run a short experiment. If it does not work, roll it back quickly.",
+          "Plan with confidence, but accept the result with humility."
+        ],
+        "battle_win": [
+          "We came this far by adding one feature at a time to a small app built from phone books and restaurant flyers.",
+          "By showing the same fonts and voice consistently, we gave Baemin a personality people could recognize.",
+          "This achievement is not mine alone. I will return to society the good fortune and help that made it possible."
+        ],
+        "battle_draw": [
+          "Business is like the weather. Lightning can strike on a clear day, and cloudy days also pass.",
+          "Not everything can be managed by numbers. I will look for the human concerns we may have missed.",
+          "There is no single fixed answer to what is good. As viewpoints and times change, we must ask again."
+        ],
+        "battle_lose": [
+          "The furniture looked good, but it did not sell. I made works of art instead of products.",
+          "The business did not go as planned. I will accept the result humbly and learn again.",
+          "Giving did not end with a declaration. Its practical difficulties taught me again."
+        ],
+        "clash_attack": [
+          "Do not make a work of art. Make a product the customer will choose.",
+          "If you pursue value without profit, neither the company nor its responsibilities can last.",
+          "Be optimistic about the distant future, but inspect next week's launch with pessimism."
+        ]
+      },
+      "sources": [
+        "https://design.co.kr/article/15070/",
+        "https://www.asiae.co.kr/en/article/2021060815371309039",
+        "https://www.givingpledge.org/pledger/bongjin-kim-and-bomi-sul/"
+      ]
+    }
+  ]
+}

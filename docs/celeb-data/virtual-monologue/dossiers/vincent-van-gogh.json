@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "slug": "vincent-van-gogh",
+  "nickname": "빈센트 반 고흐",
+  "route": "improve",
+  "routeReason": "현재 원고에는 「감자 먹는 사람들」, 아를의 색채 실험, 병중에도 작업을 이어 간 사실처럼 살릴 축이 있다. 그러나 작품을 병의 흔적으로 단정하지 않으면서도 별이 도는 하늘을 자신의 불안으로 설명하고, 테오에게 느낀 감사를 곧바로 죄책감으로 확대하는 등 확인되지 않은 내면이 섞였다. 편지에서 직접 확인되는 순간의 말만 1인칭 근거로 삼고, '고통받는 천재'라는 익숙한 틀을 덜어내는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "Vincent van Gogh",
+      "birth": "1853-03-30",
+      "death": "1890-07-29",
+      "profession": "visual_artist",
+      "disambiguation": "네덜란드에서 태어나 프랑스에서 활동한 화가 빈센트 빌럼 반 고흐. 미술상이자 후원자였던 동생 테오 반 고흐와 혼동하지 않는다.",
+      "existingBioForDiscoveryOnly": "네덜란드 출신의 후기 인상주의 화가. 강렬한 색과 붓질로 풍경·인물·정물을 그렸으며, 동생 테오와 주고받은 편지에 작업 과정과 생각을 상세히 남겼다."
+    },
+    "sources": [
+      {
+        "url": "https://vangoghletters.org/vg/letters/let497/letter.html",
+        "title": "To Theo van Gogh. Nuenen, on or about Thursday, 30 April 1885",
+        "publisher": "Van Gogh Letters, Huygens Institute and Van Gogh Museum",
+        "kind": "primary",
+        "publishedAt": "1885-04-30",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "「감자 먹는 사람들」에서 농민들이 땅을 일군 바로 그 손으로 음식을 먹는 모습을 그리고자 했다는 설명",
+          "농민의 노동과 정직하게 얻은 식사를 작품의 핵심으로 삼았다는 당대 자기 설명"
+        ]
+      },
+      {
+        "url": "https://vangoghletters.org/vg/letters/let676/letter.html",
+        "title": "To Theo van Gogh. Arles, Saturday, 8 September 1888",
+        "publisher": "Van Gogh Letters, Huygens Institute and Van Gogh Museum",
+        "kind": "primary",
+        "publishedAt": "1888-09-08",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "「밤의 카페」에서 붉은색과 초록색의 대비로 인간의 격한 감정을 표현하려 했다는 설명",
+          "보이는 색을 그대로 옮기기보다 색의 관계에 표현 목적을 부여한 작업 방식",
+          "테오가 보낸 돈을 받아 작업 재료와 생활을 이어 간 당시의 구체적 관계"
+        ]
+      },
+      {
+        "url": "https://vangoghletters.org/vg/letters/let678/letter.html",
+        "title": "To Theo van Gogh. Arles, on or about Sunday, 9 September 1888",
+        "publisher": "Van Gogh Letters, Huygens Institute and Van Gogh Museum",
+        "kind": "primary",
+        "publishedAt": "1888-09-09",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "밤이 낮보다 더 풍부한 색을 띨 수 있다고 본 관찰",
+          "별을 검푸른 바탕의 흰 점으로 처리하지 않고 서로 다른 색으로 보려 한 태도",
+          "밤 풍경을 현장에서 그렸다는 작업 기록"
+        ]
+      },
+      {
+        "url": "https://vangoghletters.org/vg/letters/let804/letter.html",
+        "title": "To Willemien van Gogh. Saint-Rémy-de-Provence, Thursday, 19 September 1889",
+        "publisher": "Van Gogh Letters, Huygens Institute and Van Gogh Museum",
+        "kind": "primary",
+        "publishedAt": "1889-09-19",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "병이 재발한 뒤 들판에 나가는 일을 두려워했던 순간의 자기 보고",
+          "그 시기에 이젤 앞에서 그림을 그릴 때에야 삶의 감각을 조금 되찾는다고 쓴 대목",
+          "작업이 병을 낭만화한 표지가 아니라 일상을 붙드는 실제 행위였다는 제한된 근거"
+        ]
+      },
+      {
+        "url": "https://vangoghletters.org/vg/context_3.html",
+        "title": "Theo van Gogh (1857–1891): Vincent's brother and patron",
+        "publisher": "Van Gogh Letters, Huygens Institute and Van Gogh Museum",
+        "kind": "academic",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "테오가 빈센트의 예술가로서의 성장과 생활을 지속적으로 지원한 관계",
+          "두 사람의 관계를 단순한 감정 서사가 아니라 편지·작품·재정 지원이 얽힌 장기 협력으로 다룰 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1885년 「감자 먹는 사람들」을 그리며 농민의 얼굴만이 아니라 노동으로 거칠어진 손과 그 손으로 먹는 식사를 한 장면에 묶었다.",
+        "significance": "초기 작업의 중심을 막연한 연민이 아니라 노동의 구체성과 인물의 생활에 두었다는 사실을 보여 준다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let497/letter.html"
+        ]
+      },
+      {
+        "point": "1888년 아를에서 붉은색과 초록색, 밤하늘의 여러 색을 현실의 단순한 복제가 아닌 표현 수단으로 밀어붙였다.",
+        "significance": "후대의 명성이나 병리 해석보다 먼저, 그가 편지에서 직접 설명한 색채 선택과 관찰법을 독백의 중심에 둘 수 있다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let676/letter.html",
+          "https://vangoghletters.org/vg/letters/let678/letter.html"
+        ]
+      },
+      {
+        "point": "생레미에서 병이 재발한 뒤에도, 작업할 수 있는 순간에는 이젤 앞에서 삶의 감각을 되찾는다고 썼다.",
+        "significance": "그림을 병의 산물이나 영웅적 극복으로 단순화하지 않고, 불안정한 생활 속에서 붙든 구체적 노동으로 말하게 한다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let804/letter.html"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "그림은 대상을 예쁘게 꾸미는 일이 아니라, 사람이 어떤 노동과 생활을 거쳐 그 자리에 있는지를 붙잡는 일이어야 한다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let497/letter.html"
+        ]
+      },
+      {
+        "point": "색은 눈에 보이는 표면을 그대로 베끼는 데 그치지 않고, 장면의 압력과 감정을 조직할 수 있다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let676/letter.html",
+          "https://vangoghletters.org/vg/letters/let678/letter.html"
+        ]
+      },
+      {
+        "point": "작업은 병을 설명하는 상징이 아니라, 병이 흔든 하루 안에서도 계속 수행한 생활의 한 방식이었다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let804/letter.html"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "후대에는 작품과 정신질환을 곧바로 연결하는 해석이 널리 퍼졌지만, 편지는 색채와 구도를 의식적으로 판단한 작업 기록도 함께 보여 준다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let676/letter.html",
+          "https://vangoghletters.org/vg/letters/let678/letter.html",
+          "https://vangoghletters.org/vg/letters/let804/letter.html"
+        ]
+      },
+      {
+        "point": "테오의 지원은 작업 지속에 결정적이었지만, 그 관계를 감사와 죄책감이라는 한 쌍의 감정으로만 요약하면 오랜 서신과 협력의 복잡성을 지운다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/context_3.html"
+        ]
+      },
+      {
+        "point": "고통은 그의 생애에서 실제였지만, 모든 걸작을 고통의 직접 결과로 읽으면 관찰·연습·재료 선택이라는 화가의 노동이 사라진다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let497/letter.html",
+          "https://vangoghletters.org/vg/letters/let676/letter.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 관찰문과 조금 긴 작업 설명을 섞는다. 한 문장 안에 색 이름이나 작품명을 너무 많이 나열하지 않는다.",
+      "directness": "자기 신화를 선언하기보다 '나는 이렇게 보았고 이렇게 그리려 했다'고 구체적으로 말한다. 고통은 과장 없이 당시 편지가 허용하는 범위에서만 직접 말한다.",
+      "moves": [
+        "손, 감자, 붉은 벽, 초록빛, 별처럼 눈앞의 구체물에서 생각을 시작한다.",
+        "대상을 어떻게 보았는지 말한 뒤, 그 관찰을 어떤 색과 붓질의 선택으로 옮겼는지 설명한다.",
+        "병이나 가난을 결론으로 삼지 않고 다시 작업의 행위로 돌아온다.",
+        "테오를 언급할 때에는 추상적 희생 서사보다 편지와 지원이 작업을 가능하게 한 관계로 제한한다."
+      ],
+      "avoid": [
+        "미치광이 천재, 저주받은 화가처럼 후대가 만든 상투적 자기 규정",
+        "회오리치는 하늘이 곧 자신의 불안이라는 식의 단일 상징 해석",
+        "테오에게 평생 죄책감을 느꼈다는 확인되지 않은 내면",
+        "작품이 질병의 흔적이라는 주장과 그것을 부정하는 또 다른 과잉 단정",
+        "판매된 그림이 단 한 점뿐이었다는 검증되지 않은 통념",
+        "죽음의 사정을 극적 결말로 소비하는 구성"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "보색",
+        "guide": "서로 마주 놓였을 때 차이가 강하게 드러나는 색의 짝. 고흐는 붉은색과 초록색의 충돌을 장면의 감정을 세게 만드는 데 썼다.",
+        "sourceUrls": [
+          "https://vangoghletters.org/vg/letters/let676/letter.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "남은 편지와 의료 기록만으로 현대 의학의 정확한 진단명을 확정할 수 없다.",
+      "편지는 특정 날짜의 자기 보고이므로 한 대목을 평생의 고정된 감정으로 확대하지 않는다.",
+      "작품의 붓질·색채·하늘을 정신질환의 증상과 일대일로 연결하지 않는다.",
+      "테오의 지원 사실은 확인되지만, 빈센트가 그것을 언제나 죄책감으로 받아들였다고 단정할 근거는 확보하지 않았다.",
+      "후대의 작품 해석은 고흐가 편지에서 직접 밝힌 제작 의도와 구분해야 한다."
+    ]
+  }
+}

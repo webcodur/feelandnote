@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "slug": "alfred-nobel",
+  "nickname": "알프레드 노벨",
+  "route": "improve",
+  "routeReason": "현재 원고는 폭발물 사업과 평화상의 모순을 회피하지 않고, 동생 에밀의 공장 폭발 사망·베르타 폰 주트너와의 교류·1895년 유언을 하나의 책임 문제로 묶은 구성이 강하다. 그러나 ‘죽음의 상인’ 오보를 읽고 곧바로 상을 만들었다는 전환담은 최근 사료 검토에서 후대에 만들어진 이야기일 가능성이 크며, 노벨의 내면 동기로 쓰면 안 된다. 다이너마이트도 니트로글리세린을 완전히 안전하게 만든 것이 아니고, 광산·철도 같은 민간 용도와 군수·보포스 사업을 함께 다뤄야 한다. 구제 서사를 걷어 내고 발명·사업·평화의 풀리지 않는 긴장을 보강하는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "알프레드 노벨",
+      "birth": "1833-10-21",
+      "death": "1896-12-10",
+      "profession": "scientist",
+      "disambiguation": "19세기 스웨덴의 화학자·발명가·국제 사업가로, 기폭장치와 다이너마이트 등 폭발물 특허와 기업망을 구축하고 1895년 유언으로 과학·문학·평화의 다섯 상을 설립하게 한 알프레드 노벨",
+      "existingBioForDiscoveryOnly": "스웨덴의 화학자이자 공학자. 다이너마이트를 발명하여 막대한 부를 쌓았다. 사후 그의 유언에 따라 인류에 가장 큰 공헌을 한 인물들에게 수여하는 노벨상이 제정되었다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nobelprize.org/alfred-nobel/biographical-information/",
+        "title": "The man behind the prize – Alfred Nobel",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "다이너마이트·발파 젤라틴·발리스타이트를 포함한 특허와 국제 사업 경력",
+          "1895년 최종 유언의 다섯 부문과 3100만 스웨덴 크로나 유증",
+          "보포스-굴스퐁 인수와 군수 산업 연계"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/",
+        "title": "Alfred Nobel - Life and Philosophy",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "규조토를 섞은 다이너마이트의 장점과 폭발력 저하",
+          "노벨이 여러 차례 유언을 고쳐 썼고 ‘인류에 가장 큰 이익’을 남긴 사람을 위한 상을 정한 경위",
+          "베르타 폰 주트너와 평화 문제를 논의한 관계"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/peace/1905/suttner/biographical/",
+        "title": "Bertha von Suttner – Biographical",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "베르타 폰 주트너의 평화운동과 노벨과의 장기 서신 교류",
+          "노벨이 1893년 평화상을 구상한다고 알린 사실"
+        ]
+      },
+      {
+        "url": "https://riviste.fupress.net/index.php/subs/article/download/2536/1858",
+        "title": "Between Research and Responsibility: The Invention of Dynamite",
+        "publisher": "Substantia, Firenze University Press",
+        "kind": "scholarly",
+        "publishedAt": "2024",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "‘죽음의 상인’ 오보 문구와 그것이 노벨상을 낳았다는 이야기가 사료로 확인되지 않는다는 검토",
+          "폭발물 발명과 연구자의 책임을 둘러싼 역사적 논쟁"
+        ]
+      },
+      {
+        "url": "https://sok.riksarkivet.se/historier/alfred-nobel/alfred-nobels-arkiv",
+        "title": "Alfred Nobels arkiv",
+        "publisher": "Riksarkivet, National Archives of Sweden",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "알프레드 노벨의 서신과 문서가 남아 있는 기록물 맥락",
+          "노벨의 내면과 동기를 후대 일화가 아니라 서신·유언으로 제한해야 한다는 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1864년 스톡홀름 인근 실험 시설 폭발로 동생 에밀을 포함한 다섯 명이 숨졌고, 노벨은 이후 니트로글리세린을 다루기 쉽게 만드는 기폭·흡수 기술을 계속 개발했다.",
+        "significance": "위험한 물질을 통제하려 한 기술적 동기와 실제 희생을 함께 보여 주지만, 동생의 죽음이 노벨에게 어떤 감정을 남겼는지는 직접 자료 없이 창작할 수 없다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/",
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "point": "1867년 규조토에 니트로글리세린을 흡수시킨 다이너마이트 특허를 얻고, 유럽 여러 나라에 공장과 회사를 확장했다.",
+        "significance": "광산·터널·철도 건설의 발파를 더 취급하기 쉽게 했지만 위험을 없애지는 않았고, 막대한 부와 폭발물 산업의 윤리적 책임을 동시에 낳았다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/",
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "point": "1876년 잠시 비서로 일한 베르타 폰 주트너와 이후 오랫동안 평화 문제를 두고 편지를 주고받았고, 1893년에는 평화상 구상을 알렸다.",
+        "significance": "평화상은 한 번의 오보 충격보다 장기적인 서신·사유와 여러 차례의 유언 수정 속에서 다뤄야 한다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/peace/1905/suttner/biographical/",
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "point": "1894년 보포스-굴스퐁을 인수한 이듬해, 재산 대부분을 과학·문학·평화의 다섯 상에 쓰라는 최종 유언에 서명했다.",
+        "significance": "군수 사업과 평화상을 같은 생애 안에서 보게 하는 결정적 모순이며, 상을 속죄의 증거로 단정해서는 안 된다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "폭발물은 광산·터널·철도 같은 대규모 토목 공사를 가능하게 하는 도구였지만, 민간 용도만으로 그의 군수 사업과 전쟁 가능성을 지울 수는 없다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/",
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/"
+        ]
+      },
+      {
+        "point": "노벨은 베르타 폰 주트너와 평화운동을 논의했고 강력한 무기가 전쟁 억지에 기여할 수 있다는 생각도 밝혔으나, 이것을 무기 산업의 무해함을 증명하는 논리로 쓰면 안 된다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/peace/1905/suttner/biographical/",
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "point": "최종 유언은 국적과 무관하게 전년도에 인류에 가장 큰 이익을 준 사람에게 물리학·화학·생리의학·문학·평화상을 주도록 했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "폭발 사고를 줄이고 산업 발파를 통제하려는 발명은 동시에 폭발물 생산망과 군수 사업을 키웠다. 기술의 용도는 사용자만의 책임이라는 말로 발명자·사업가의 선택을 지울 수 없다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/",
+          "https://riviste.fupress.net/index.php/subs/article/download/2536/1858"
+        ]
+      },
+      {
+        "point": "평화운동가와 교류하고 평화상을 남긴 사실과, 보포스를 소유하고 무기·폭발물 사업에서 부를 얻은 사실이 동시에 존재한다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/",
+          "https://www.nobelprize.org/prizes/peace/1905/suttner/biographical/"
+        ]
+      },
+      {
+        "point": "‘죽음의 상인’이라는 자기 부고를 읽고 유언을 바꿨다는 이야기는 극적인 서사이지만 해당 문구와 인과가 사료로 확인되지 않아 독백의 전환점으로 쓸 수 없다.",
+        "sourceUrls": [
+          "https://riviste.fupress.net/index.php/subs/article/download/2536/1858",
+          "https://sok.riksarkivet.se/historier/alfred-nobel/alfred-nobels-arkiv"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "폭발·공장·유언 같은 구체적 사실은 짧게 끊고, 기술과 책임의 모순은 중간 길이 문장으로 되묻는다.",
+      "directness": "자신을 평화의 성인이나 죽음의 상인 한쪽으로 재판하지 않는 건조한 사업가·발명가의 어조를 쓴다. 답을 내려기보다 자신이 만든 힘과 남긴 제도가 함께 심판받게 둔다.",
+      "moves": [
+        "니트로글리세린을 운반하고 다루는 위험한 작업 장면에서 시작하기",
+        "다이너마이트의 기술적 개선을 설명한 직후 완전한 안전이 아니었다고 선 긋기",
+        "동생의 죽음·국제 공장망·보포스·베르타의 편지를 연대순으로 배치하기",
+        "검증되지 않은 부고 일화 대신 여러 차례 고친 유언과 1893년 평화상 구상으로 전환을 설명하기",
+        "상으로 죄를 씻었다는 결론 대신 발명자의 책임이 사후에도 끝나지 않는다는 열린 긴장으로 닫기"
+      ],
+      "avoid": [
+        "첫 문장에서 이름·다이너마이트·노벨상을 사전처럼 나열하기",
+        "‘죽음의 상인’ 부고를 사실로 단정하거나 그것이 노벨상을 낳았다고 쓰기",
+        "다이너마이트가 니트로글리세린을 안전한 물질로 바꿨다고 쓰기",
+        "민간 건설용 발명이므로 군수 책임이 없었다고 변호하기",
+        "노벨상을 속죄·회개·명예 세탁의 확정된 결과로 만들기",
+        "에밀의 죽음 뒤 노벨이 느낀 죄책감이나 결심을 직접 근거 없이 재연하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "니트로글리세린",
+        "guide": "작은 충격과 온도 변화에도 폭발할 수 있어 당시 운반과 취급이 매우 위험했던 액체 폭발물",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "term": "다이너마이트",
+        "guide": "니트로글리세린을 규조토에 흡수시켜 액체 상태보다 다루기 쉽게 만든 폭발물",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/alfred-nobel-life-and-philosophy/"
+        ]
+      },
+      {
+        "term": "발리스타이트",
+        "guide": "노벨이 특허를 얻은 연기 적은 추진 화약으로, 군수 산업과 직접 이어지는 발명",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/"
+        ]
+      },
+      {
+        "term": "보포스",
+        "guide": "노벨이 1894년 인수한 스웨덴 기업으로 이후 대표적인 군수 회사로 성장한 사업체",
+        "sourceUrls": [
+          "https://www.nobelprize.org/alfred-nobel/biographical-information/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "1888년 프랑스 신문이 ‘죽음의 상인’이라는 제목의 알프레드 노벨 부고를 냈고 그것을 읽은 노벨이 상을 만들었다는 유명한 이야기는 사료로 확인되지 않으므로 사실이나 내면 전환점으로 쓰지 않는다.",
+      "1864년 폭발로 에밀 노벨 등이 사망한 사실은 쓰되 알프레드의 죄책감·악몽·결심을 직접 서신 근거 없이 창작하지 않는다.",
+      "다이너마이트는 니트로글리세린을 상대적으로 취급하기 쉽게 만든 것이지 폭발 위험을 제거한 ‘안전 폭약’이 아니다.",
+      "노벨의 부가 오직 무기 판매에서만 또는 오직 민간 토목에서만 나왔다고 단순화하지 않는다. 폭발물 국제 사업과 보포스 군수 사업을 함께 기록한다.",
+      "베르타 폰 주트너가 평화상 구상에 영향을 준 정황은 강하지만, 그가 단독으로 평화상을 만들게 했다는 인과나 유언 전체의 유일한 동기로 확대하지 않는다.",
+      "최종 유언을 폭발물 피해에 대한 속죄로 해석하지 않는다. 유언 문구와 장기적 서신은 확인되지만 노벨이 그런 동기를 명시했다는 근거는 부족하다."
+    ]
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "slug": "yongle-emperor",
+  "nickname": "영락제",
+  "route": "improve",
+  "routeReason": "현재 독백은 조카에게서 황위를 빼앗은 정난의 변, 북경 천도와 자금성, 영락대전, 정화 함대, 북방 원정을 하나의 과잉 활동성으로 묶은 구조가 강하다. 그러나 ‘피를 치적 뒤에 숨길 생각은 없다’, ‘제가 만든 두려움’ 같은 문장은 실제 자기비판이 아니라 현대 편집자가 넣은 참회이며, 모든 사업이 찬탈의 정당성을 증명하려는 개인 심리였다고 단정한다. 정화의 일곱 항해를 모두 영락제의 파견으로 보는 프로필 설명도 부정확하다. 공식 기록의 정당화 언어, 숙청과 기록 개작, 여섯 차례 영락 연간 항해와 그 안의 외교·강제를 나눠 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "영락제",
+      "birth": "1360-05-02",
+      "death": "1424-08-12",
+      "profession": "politician",
+      "disambiguation": "명 태조 주원장의 넷째 아들 주체로, 연왕에서 1399~1402년 정난의 변을 일으켜 조카 건문제의 황위를 빼앗고 영락 연호를 쓴 명의 제3대 황제",
+      "existingBioForDiscoveryOnly": "명나라 제3대 황제. 정난의 변으로 조카 건문제를 폐위하고 즉위, 자금성을 짓고 북경으로 천도했으며 정화 함대를 일곱 차례 파견하고 영락대전을 편찬했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D",
+        "title": "Defending Hierarchy from the Moon to the Indian Ocean",
+        "publisher": "International Organization, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2018-07-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1399~1402년 내전과 조카에게서 황위를 빼앗은 영락제의 정통성 위기",
+          "건문 정권 지지자에 대한 대규모 숙청, 북경 천도와 새 군사·정치 엘리트 형성",
+          "정화 원정과 대외 위계 과시가 영락제의 국내외 지배 정당화와 연결됐다는 분석"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/cessation-of-zheng-hes-voyages-and-the-beginning-of-private-sailings-fiscal-competition-between-emperors-and-bureaucrats/8FE45F3210A4DF174A4EC2B30868D433",
+        "title": "The Cessation of Zheng He's Voyages and the Beginning of Private Sailings",
+        "publisher": "Journal of Chinese History, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2023-02-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "영락제가 황제 권한으로 대규모 항해 예산을 밀어붙이고 문관 관료의 재정 통제를 우회한 구조",
+          "북경으로 정치 중심을 옮겨 북방 위협 대응 시간을 줄이고 남경 관료 집단의 영향에서 벗어난 효과",
+          "정화 항해의 중단을 비용·황제와 관료의 재정 경쟁이라는 제도적 맥락에서 설명하는 연구"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default",
+        "title": "Defining Yongle",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2005-04-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "북경 천도와 자금성 건설, 영락 연간의 황실 미술과 공방",
+          "몽골을 향한 군사 원정과 베트남으로의 팽창",
+          "영락제 치세에 이루어진 여섯 차례의 대규모 해상 원정"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/collections/yongle-da-dian/about-this-collection/",
+        "title": "About this Collection: Yongle Da Dian",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "영락대전이 방대한 전근대 지식을 한데 모으려 한 세계사적 규모의 편찬 사업이라는 점",
+          "인물·금석·지방지·지도·의학·종교·행정 등 광범한 옛 문헌을 인용해 일부는 소실 원전의 유일한 흔적이 된 사실",
+          "오늘날 남은 권질이 전체의 일부뿐이라는 자료 보존의 한계"
+        ]
+      },
+      {
+        "url": "https://epress.nus.edu.sg/msl/reign/yong-le/year-4-month-7-day-5",
+        "title": "Ming Shi-lu Entry: Yong-le Year 4, Month 7, Day 5",
+        "publisher": "Asia Research Institute and NUS Press, National University of Singapore",
+        "kind": "primary",
+        "publishedAt": "1406-07-19",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "영락제가 안남 원정군에 백성을 해치지 말고 규율을 지키라고 명한 공식 기록",
+          "베트남 침공을 폭정을 벌하는 인의의 전쟁으로 정당화한 명 조정의 언어",
+          "실제 점령·병합과 구별해 읽어야 하는 황제 측 공식 자기서술"
+        ]
+      },
+      {
+        "url": "https://epress.nus.edu.sg/msl/reign/yong-le/year-9-month-6-day-16",
+        "title": "Ming Shi-lu Entry: Yong-le Year 9, Month 6, Day 16",
+        "publisher": "Asia Research Institute and NUS Press, National University of Singapore",
+        "kind": "primary",
+        "publishedAt": "1411-07-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정화 함대가 스리랑카의 통치자와 가족을 사로잡아 명 조정에 데려온 사건",
+          "해상 원정이 사절·조공·교역뿐 아니라 무력 충돌과 포획도 포함했다는 사실",
+          "상대를 무례하고 해로운 왕으로 규정해 명의 행동을 정당화하는 명실록의 관점"
+        ]
+      },
+      {
+        "url": "https://www.epress.nus.edu.sg/msl/introduction",
+        "title": "Introduction: Southeast Asia in the Ming Shi-lu",
+        "publisher": "Asia Research Institute and NUS Press, National University of Singapore",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "명실록이 동남아시아 국가·사절·전쟁을 다량 기록한 황실 편년 자료라는 성격",
+          "제프 웨이드의 번역 데이터베이스와 원문 권차를 통해 개별 기사를 교차 확인하는 방법"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "연왕 주체는 조카 건문제의 제후왕 축소 정책에 맞서 1399년 군사를 일으켰고, 1402년 남경을 점령해 황제가 되었다.",
+        "significance": "영락 치세의 출발을 계승이 아니라 왕조 내부의 내전과 찬탈로 분명히 놓는다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "point": "즉위 뒤 건문 정권 지지자를 숙청하고 그 시대의 기록을 없애거나 고쳐 자신의 계승을 정당화했다.",
+        "significance": "독백이 ‘찬탈을 솔직히 인정하는 황제’라는 허구에 기대지 않고, 실제로는 기억과 기록을 통제한 권력을 보여 주게 한다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "point": "북경을 새 정치·군사 중심으로 만들고 자금성을 세웠으며, 몽골을 향한 친정과 베트남 침공·병합을 추진했다.",
+        "significance": "궁궐 건축과 북방 방어를 찬란한 치적만으로 보지 않고, 새로운 권력 기반과 대규모 전쟁·동원을 함께 읽는다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/cessation-of-zheng-hes-voyages-and-the-beginning-of-private-sailings-fiscal-competition-between-emperors-and-bureaucrats/8FE45F3210A4DF174A4EC2B30868D433",
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-4-month-7-day-5"
+        ]
+      },
+      {
+        "point": "영락대전을 편찬하게 하고, 정화에게 영락 연간 여섯 차례의 대규모 해상 원정을 맡겨 인도양 세계에 사절·위세·군사력을 보냈다.",
+        "significance": "책과 배를 모두 세계를 분류하고 황제 중심의 질서로 불러들이는 수단으로 보되, 지식 보존과 폭력적 위계가 동시에 있었다는 결말로 이어 간다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/yongle-da-dian/about-this-collection/",
+          "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default",
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-9-month-6-day-16"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "자신의 거병을 황위를 빼앗는 반란이 아니라 조정의 간신과 어려움을 평정해 태조의 질서를 회복하는 일로 공식화했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "point": "북방 국경 가까운 북경을 황제의 정치·군사 중심으로 삼아 몽골 위협에 직접 대응하고 자신에게 충성하는 권력 기반을 세웠다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/cessation-of-zheng-hes-voyages-and-the-beginning-of-private-sailings-fiscal-competition-between-emperors-and-bureaucrats/8FE45F3210A4DF174A4EC2B30868D433",
+          "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default"
+        ]
+      },
+      {
+        "point": "대외 원정을 폭정과 무례를 바로잡고 주변국을 황제 중심의 질서로 되돌리는 행위라고 명실록에 기록하게 했다.",
+        "sourceUrls": [
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-4-month-7-day-5",
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-9-month-6-day-16"
+        ]
+      },
+      {
+        "point": "방대한 지식의 편찬과 먼 바다의 사절·조공을 모두 황실이 수집하고 배열할 수 있는 대상으로 만들었다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/yongle-da-dian/about-this-collection/",
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "영락제는 오늘의 독백처럼 찬탈을 담담히 인정하기보다 기록을 개작해 정당한 계승으로 보이게 했다. 비판은 가상의 죄책감이 아니라 실제 숙청과 역사 통제에서 나와야 한다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "point": "옛 지식을 보존한 영락대전과 건문 연간 기록을 지우고 고친 행위가 한 치세에 공존한다. ‘기억을 지킨 황제’라는 찬사만으로는 권력이 선택한 기억과 삭제된 기억의 차이가 사라진다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/yongle-da-dian/about-this-collection/",
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "point": "정화 원정은 외교·조공·교역과 지리 지식을 넓혔지만, 스리랑카 통치자를 사로잡아 끌고 오는 군사 행동도 포함했다. 평화로운 문화 교류나 순수한 탐험으로만 쓰지 않는다.",
+        "sourceUrls": [
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-9-month-6-day-16",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/cessation-of-zheng-hes-voyages-and-the-beginning-of-private-sailings-fiscal-competition-between-emperors-and-bureaucrats/8FE45F3210A4DF174A4EC2B30868D433"
+        ]
+      },
+      {
+        "point": "자금성·북경·북방 원정·베트남 전쟁·함대는 거대한 국가 역량을 보이면서 황제와 관료 사이의 재정 갈등, 병력과 노동의 부담도 키웠다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/cessation-of-zheng-hes-voyages-and-the-beginning-of-private-sailings-fiscal-competition-between-emperors-and-bureaucrats/8FE45F3210A4DF174A4EC2B30868D433",
+          "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "황제의 공식 명령처럼 짧고 단단한 문장으로 시작하고, 서로 다른 사업이 한 권력 논리로 이어질 때 긴 병렬 문장으로 확장한다.",
+      "directness": "주체·명령·도시·함대·책을 구체적으로 지칭한다. 현대 편집자의 죄책감을 입에 넣지 말고, ‘어려움을 평정했다’는 자기 정당화와 실제 찬탈·숙청·정복 결과의 충돌을 독자가 보게 한다.",
+      "moves": [
+        "연왕의 거병을 본인이 내세운 정난의 명분으로 말한 뒤 조카의 황위를 빼앗은 결과를 붙이기",
+        "북경·자금성·북방 원정을 한 축으로 묶어 새 수도가 방어와 새 권력 기반을 동시에 뜻했음을 보이기",
+        "영락대전의 지식 보존에서 건문 기록의 삭제로 꺾어 기억을 모으는 권력의 선택성을 드러내기",
+        "정화 함대의 조공과 사절 뒤에 스리랑카 포획과 재정 경쟁을 붙여 바다의 위계를 회수하기"
+      ],
+      "avoid": [
+        "‘찬탈자라는 말이 옳다’며 현대 역사 평가를 스스로 완전히 받아들이는 참회문",
+        "정화의 일곱 차례 항해를 모두 영락제가 직접 파견했다고 쓰기",
+        "정화 원정을 무역·친선·탐험만의 평화로운 교류로 만들기",
+        "영락대전을 현대 백과사전과 동일시하거나 영락제 혼자 집필한 책처럼 쓰기",
+        "모든 사업의 동기를 찬탈 콤플렉스라는 하나의 확인된 심리로 단정하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "정난의 변",
+        "guide": "연왕 주체가 조카 건문제의 조정에서 나라의 어려움을 바로잡는다는 명분으로 일으켜 1399~1402년 황위를 빼앗은 내전",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/international-organization/article/defending-hierarchy-from-the-moon-to-the-indian-ocean-symbolic-capital-and-political-dominance-in-early-modern-china-and-the-cold-war/1A48863DA2EE573CA0899DF939CCEE1D"
+        ]
+      },
+      {
+        "term": "연호",
+        "guide": "황제가 재위 시기를 표시하려 정한 이름으로, 주체는 즉위 뒤 영락이라는 연호를 썼다",
+        "sourceUrls": [
+          "https://www.metmuseum.org/exhibitions/listings/2005/yongle-imperial-art?persisted=true&sc_device=default"
+        ]
+      },
+      {
+        "term": "영락대전",
+        "guide": "영락제가 편찬을 명해 수천 종의 옛 문헌을 주제별로 베껴 모은 방대한 지식 총서로, 오늘날에는 일부만 남았다",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/yongle-da-dian/about-this-collection/"
+        ]
+      },
+      {
+        "term": "조공",
+        "guide": "다른 정치체의 사절이 황제에게 예물과 예를 바치고 명 조정이 답례·책봉·교역 기회를 주던 위계적 외교 관계",
+        "sourceUrls": [
+          "https://epress.nus.edu.sg/msl/reign/yong-le/year-9-month-6-day-16",
+          "https://www.epress.nus.edu.sg/msl/introduction"
+        ]
+      },
+      {
+        "term": "명실록",
+        "guide": "명 황제들의 재위 중 사건을 날짜순으로 편찬한 공식 기록으로, 중요한 자료지만 조정의 언어와 정당화가 들어 있다",
+        "sourceUrls": [
+          "https://www.epress.nus.edu.sg/msl/introduction"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "건문제가 1402년 궁궐 화재에서 죽었는지 탈출했는지는 확정되지 않는다. 영락제가 조카를 직접 죽였다는 1인칭 자백이나 구체 장면을 만들지 않는다.",
+      "정난의 변과 숙청의 피해 규모는 후대 기록과 연구에서 수치가 크게 다르고, 영락 조정이 건문 기록을 없애거나 고쳤다. ‘몇 만 명’ 같은 숫자는 독백에 확정하지 않는다.",
+      "영락제는 자신의 거병을 찬탈이 아니라 정난과 정통 회복으로 공식화했다. 현대의 ‘찬탈자’ 평가를 스스로 순순히 인정하는 말투는 사료상 어색하다.",
+      "정화의 일곱 차례 원정 가운데 앞의 여섯 차례가 영락 연간이고, 일곱 번째는 영락제 사후 선덕제 때 출항했다. 일곱 모두를 영락제의 파견으로 쓰지 않는다.",
+      "정화 원정의 목적은 정통성, 외교 위계, 조공·교역, 정보, 군사와 황제-관료 재정 경쟁이 겹친다. 어느 하나만 진짜 동기로 단정하지 않는다.",
+      "명실록의 베트남·스리랑카 기사는 명 조정이 상대를 반역·폭정·무례로 규정한 공식 기록이다. 그 도덕 판단을 중립적 사실로 복창하지 않는다.",
+      "영락대전은 황제 한 사람의 저술이 아니라 대규모 학자·서리의 편찬물이며, 완전한 원본이 오늘날까지 보존된 책도 아니다.",
+      "북경 천도와 자금성 건설은 여러 해에 걸친 행정·건축 과정이다. 한날 수도를 옮기고 궁궐을 완성한 장면처럼 압축하지 않는다."
+    ]
+  }
+}

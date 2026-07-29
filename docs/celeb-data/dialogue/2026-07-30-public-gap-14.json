@@ -1,0 +1,455 @@
+{
+  "batch": "2026-07-30-public-gap-14",
+  "targets": [
+    {
+      "id": "8a974bbb-e5fd-4844-81e9-6a0f2e6352fe",
+      "slug": "jason-statham",
+      "nickname": "제이슨 스타뎀",
+      "nicknameEn": "Jason Statham",
+      "birthDate": "1967-09-26",
+      "profession": "actor",
+      "quote": "기회는 한 번뿐이다. 밀어붙여라",
+      "quoteEn": "You only get one shot in life. Push yourself and try things.",
+      "greetingKo": [
+        "[cool, direct] 반갑습니다. 저는 말보다 행동을 믿는 사람이에요.",
+        "[steady, tough] 준비 없이 링에 오르는 사람은 없습니다.",
+        "[calm, confident] 땀 흘린 만큼 결과가 따라옵니다. 지름길은 없어요."
+      ],
+      "greetingEn": [
+        "[cool, direct] I trust actions over words.",
+        "[steady, tough] Nobody steps into the ring without preparation.",
+        "[calm, confident] Results match the sweat you put in. There are no shortcuts."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "제이슨 스타뎀입니다. 훈련부터 하고 촬영에 들어가죠.",
+          "다이빙으로 익힌 균형과 거리를 액션에 쓰겠습니다.",
+          "말은 줄이고, 준비한 동작으로 장면을 채우겠습니다."
+        ],
+        "deploy": [
+          "동선을 맞추고 거리를 잰 뒤 주먹을 내세요.",
+          "무기보다 먼저 주변과 상대를 확인하세요.",
+          "대역과 스턴트팀의 안전부터 함께 점검합시다."
+        ],
+        "battle_win": [
+          "반복해서 맞춘 거리가 한 번에 화면에 잡혔습니다.",
+          "스턴트팀과 호흡을 맞춘 덕에 모두 무사했습니다.",
+          "말을 줄이니 동작 하나가 인물을 설명했습니다."
+        ],
+        "battle_draw": [
+          "동작은 맞았지만 카메라 각도가 힘을 못 받았습니다.",
+          "속도는 충분합니다. 거리를 다시 맞춰 보죠.",
+          "제가 할 수 있어도 위험하면 다른 방법을 찾겠습니다."
+        ],
+        "battle_lose": [
+          "욕심을 부려 거리를 놓치고 상대를 위험하게 했습니다.",
+          "직접 하겠다는 고집이 장면보다 앞섰습니다.",
+          "훈련한 만큼 안다고 믿고 현장 변수를 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "거리부터 재세요!",
+          "짧게 들어가요!",
+          "한 번에 끝내죠!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Jason Statham. I train first and let the action speak.",
+          "Diving taught me balance; fight work taught me distance.",
+          "Keep the talk short. Put the work on screen."
+        ],
+        "deploy": [
+          "Set the distance before throwing the strike.",
+          "Check the room, the weapon, and your partner.",
+          "Run the safety check with the stunt team."
+        ],
+        "battle_win": [
+          "We rehearsed the distance, and the camera caught it cleanly.",
+          "The stunt team worked together, and everyone walked away safe.",
+          "One clean movement told more than another speech."
+        ],
+        "battle_draw": [
+          "The move worked, but the camera missed its force.",
+          "We have the speed. Reset the distance.",
+          "If the risk is wrong, we find another shot."
+        ],
+        "battle_lose": [
+          "I chased the stunt and put my partner at risk.",
+          "My pride in doing it myself overtook the scene.",
+          "I trusted my training and ignored the changing set."
+        ],
+        "clash_attack": [
+          "Measure the distance!",
+          "Get in close!",
+          "Finish it clean!"
+        ]
+      },
+      "sources": [
+        "https://www.hollywood.com/general/the-transporter-interview-jason-statham-57164431",
+        "https://www.espn.com/espn/page2/story?id=6063366",
+        "https://editorial.rottentomatoes.com/article/jason-statham-on-the-bank-job-the-rt-interview/",
+        "https://www.theguardian.com/film/2013/nov/22/jason-statham-stunt-oscars"
+      ]
+    },
+    {
+      "id": "41ab21e5-dab3-4c67-926f-2bb29fec2b88",
+      "slug": "jane-goodall",
+      "nickname": "제인 구달",
+      "nicknameEn": "Jane Goodall",
+      "birthDate": "1934-04-03",
+      "profession": "scientist",
+      "quote": "이해해야 사랑할 수 있고, 사랑해야 도울 수 있다.",
+      "quoteEn": "Only if we understand, will we care. Only if we care, will we help.",
+      "greetingKo": [
+        "[warm, hopeful] 당신이 하는 일 하나하나가 세상에 영향을 미칩니다.",
+        "[gentle, resolute] 희망은 수동적 바람이 아닙니다. 행동을 요구합니다.",
+        "[compassionate, wise] 침팬지는 인간과 동물 사이에 뚜렷한 경계가 없음을 가르쳐주었습니다."
+      ],
+      "greetingEn": [
+        "[warm, hopeful] Every single thing you do makes a difference in this world.",
+        "[gentle, resolute] Hope is not passive wishing. It demands action.",
+        "[compassionate, wise] Chimpanzees taught me that the line between humans and animals is not as clear as we thought."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "제인 구달입니다. 조용히 앉아 오래 지켜보겠습니다.",
+          "숫자 대신 이름을 부르며 각자의 성격을 기록하겠습니다.",
+          "희망을 말로 두지 않고 오늘 할 일을 찾겠습니다."
+        ],
+        "deploy": [
+          "서두르지 말고 익숙해질 때까지 기다리세요.",
+          "행동과 함께 이름과 표정도 남기세요.",
+          "마을과 함께 사람도 숲도 지킬 길을 찾으세요."
+        ],
+        "battle_win": [
+          "기다린 끝에 데이비드의 도구 사용을 보았습니다.",
+          "이름을 불러가며 보니 저마다 다른 성격이 드러났습니다.",
+          "작은 행동이 이웃에게 번져 실제 변화가 됐습니다."
+        ],
+        "battle_draw": [
+          "흔적은 찾았지만 침팬지는 나타나지 않았습니다.",
+          "행동은 기록했지만 마음까지 안다고 서두르진 않겠습니다.",
+          "희망은 남아 있습니다. 다음 행동이 이어져야 합니다."
+        ],
+        "battle_lose": [
+          "가까이 가려 서두른 탓에 그들의 신뢰를 잃었습니다.",
+          "사람과 동물을 갈라 보느라 우리가 닮은 점을 놓쳤습니다.",
+          "절망을 말하는 데 그쳐 손을 움직이지 못했습니다."
+        ],
+        "clash_attack": [
+          "조용히 지켜봐요!",
+          "작은 일부터 해요!",
+          "숲을 함께 지켜요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Jane Goodall. I sit quietly first and keep watching.",
+          "I name each chimp because every individual matters.",
+          "Hope becomes real only when someone acts."
+        ],
+        "deploy": [
+          "Wait until they accept your presence.",
+          "Record the behavior, the name, and the expression.",
+          "Protect the forest with the people who live there."
+        ],
+        "battle_win": [
+          "Patience let me watch David use a tool.",
+          "Using names kept each chimp's different character in view.",
+          "One local action gave another person reason to act."
+        ],
+        "battle_draw": [
+          "We found the signs, but the chimps stayed hidden.",
+          "I recorded the behavior without claiming to know the mind.",
+          "Hope remains, but another action must follow."
+        ],
+        "battle_lose": [
+          "I moved too quickly and lost their trust.",
+          "I drew a line between us and missed what we shared.",
+          "I spoke about despair and failed to act."
+        ],
+        "clash_attack": [
+          "Keep still and watch!",
+          "Start with one action!",
+          "Protect the forest together!"
+        ]
+      },
+      "sources": [
+        "https://janegoodall.org/news/55-years-at-gombe-qa-with-jane-on-origins-of-life-work/",
+        "https://www.nationalgeographic.com/magazine/article/jane-goodall-original-story-chimpanzees-still-astonishes",
+        "https://www.nationalgeographic.com/magazine/article/gombe-chimpanzees",
+        "https://news.janegoodall.org/2022/12/22/roots-shoots-youth-brought-hope-to-2022/"
+      ]
+    },
+    {
+      "id": "59a5b45f-ebb7-4c06-8b03-40ef6af5a68c",
+      "slug": "james-patterson",
+      "nickname": "제임스 패터슨",
+      "nicknameEn": "James Patterson",
+      "birthDate": "1947-03-22",
+      "profession": "author",
+      "quote": "첫 문장으로 독자를 사로잡지 못하면 끝이다.",
+      "quoteEn": "If you lose the reader in the first chapter, you're done.",
+      "greetingKo": [
+        "[calm, pragmatic] 첫 장에서 독자를 잡으세요. 놓으면 끝입니다.",
+        "[warm, confident] 이야기의 힘은 속도에 있습니다.",
+        "[composed, engaging] 쉬운 문장이 가장 강합니다."
+      ],
+      "greetingEn": [
+        "[calm, pragmatic] Grab the reader with the first page. Lose them and it's over.",
+        "[warm, confident] The power of a story is in its pace.",
+        "[composed, engaging] Simple sentences are the strongest."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "제임스 패터슨입니다. 결말을 잡고 첫 장을 열겠습니다.",
+          "독자가 다음 장을 펼칠 이유를 만들겠습니다.",
+          "좋은 작가와 초고를 주고받으며 끝까지 고치겠습니다."
+        ],
+        "deploy": [
+          "결말까지 아웃라인을 세운 뒤 첫 장을 쓰세요.",
+          "설명은 줄이고 다음 질문으로 장을 닫으세요.",
+          "공동 작가와 초고를 주고받고 다시 고치세요."
+        ],
+        "battle_win": [
+          "첫 장의 질문이 마지막 장까지 독자를 끌고 왔습니다.",
+          "짧은 장마다 다음 장을 펼칠 이유를 남겼습니다.",
+          "아웃라인을 거듭 고쳐 인물과 사건을 함께 살렸습니다."
+        ],
+        "battle_draw": [
+          "사건은 빠른데 인물이 아직 잘 보이지 않습니다.",
+          "첫 장은 잡았지만 중간의 긴장이 느슨해졌습니다.",
+          "아웃라인은 탄탄해도 바꿀 여지는 남겨둡니다."
+        ],
+        "battle_lose": [
+          "첫 장에서 설명을 늘어놓아 독자를 놓쳤습니다.",
+          "속도만 밀어붙이다 인물을 납작하게 만들었습니다.",
+          "공동 작가의 목소리를 지우고 제 방식만 강요했습니다."
+        ],
+        "clash_attack": [
+          "첫 장부터 잡아요!",
+          "장을 짧게 끊어요!",
+          "다음 질문을 남겨요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "James Patterson. I know the ending before I open chapter one.",
+          "I want every chapter to earn the next page.",
+          "I bring in other writers, then we revise until it works."
+        ],
+        "deploy": [
+          "Outline the ending before writing chapter one.",
+          "Cut the explanation and end on a question.",
+          "Trade drafts with your coauthor and keep revising."
+        ],
+        "battle_win": [
+          "The first question carried the reader to the last page.",
+          "Every short chapter earned one more turn of the page.",
+          "Another outline pass brought plot and character together."
+        ],
+        "battle_draw": [
+          "The plot moves quickly, but I still cannot see the character.",
+          "Chapter one grabs. The middle has gone slack.",
+          "The outline works; I still leave room to change course."
+        ],
+        "battle_lose": [
+          "I explained too much and lost the reader early.",
+          "I drove the pace until the characters went flat.",
+          "I forced my method and erased my coauthor's voice."
+        ],
+        "clash_attack": [
+          "Hook them now!",
+          "Cut the chapter short!",
+          "Leave one more question!"
+        ]
+      },
+      "sources": [
+        "https://www.jamespatterson.com/landing-page/hard-to-kill-outline/",
+        "https://www.writersdigest.com/improve-my-writing/james-patterson",
+        "https://time.com/6050417/bill-clinton-james-patterson-novel-interview/",
+        "https://www.penguin.com.au/articles/3535-james-patterson-writing-routine"
+      ]
+    },
+    {
+      "id": "8607020f-1a99-48cd-9da6-61a3b0263e38",
+      "slug": "james-franco",
+      "nickname": "제임스 프랭코",
+      "nicknameEn": "James Franco",
+      "birthDate": "1978-04-19",
+      "profession": "actor",
+      "quote": "잠자는 것도 싫다. 할 것이 너무 많기 때문이다.",
+      "quoteEn": "I hate sleeping. There's too much to do.",
+      "greetingKo": [
+        "[curious, restless] 반갑습니다. 저는 한 가지만 하면 견딜 수 없는 사람이에요.",
+        "[intense, intellectual] 예술은 경계를 넘을 때 의미가 있습니다.",
+        "[calm, driven] 배움에는 끝이 없어요. 그게 저를 계속 움직이게 합니다."
+      ],
+      "greetingEn": [
+        "[curious, restless] I cannot stand doing just one thing.",
+        "[intense, intellectual] Art has meaning when it crosses boundaries.",
+        "[calm, driven] There is no end to learning. That is what keeps me moving."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "제임스 프랭코입니다. 같은 이야기를 다른 매체로 보죠.",
+          "연기와 글쓰기는 모두 첫 영감 뒤에 수정을 요구합니다.",
+          "여러 일을 하되 함께하는 사람의 경계는 지키겠습니다."
+        ],
+        "deploy": [
+          "첫 생각을 믿되 반드시 다시 고치세요.",
+          "몰입하되 상대의 동의와 경계는 지키세요.",
+          "한 매체에서 막히면 다른 형식으로 풀어보세요."
+        ],
+        "battle_win": [
+          "매체를 바꾸니 같은 이야기가 다르게 보였습니다.",
+          "첫 영감을 여러 번 고쳐 인물의 목소리를 찾았습니다.",
+          "협업자를 존중하니 제가 못 본 방향이 열렸습니다."
+        ],
+        "battle_draw": [
+          "형식은 새롭지만 이야기는 아직 따라오지 못합니다.",
+          "배역에는 들어갔지만 제 흔적이 너무 많이 보입니다.",
+          "여러 일을 벌였으니 이제 무엇을 끝낼지 정하겠습니다."
+        ],
+        "battle_lose": [
+          "예술을 핑계로 남의 선을 넘었습니다.",
+          "교사와 학생 사이의 힘을 외면한 것은 제 잘못입니다.",
+          "일을 벌이기만 해 작품에 끝까지 책임지지 못했습니다."
+        ],
+        "clash_attack": [
+          "다시 고치세요!",
+          "다른 형식으로!",
+          "시선을 바꿔요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "James Franco. I test the same subject in another medium.",
+          "Acting and writing both require revision after inspiration.",
+          "I can work widely without crossing another person's boundaries."
+        ],
+        "deploy": [
+          "Trust the first idea, then revise it.",
+          "Enter the role without ignoring consent or power.",
+          "When one medium stalls, test the question in another."
+        ],
+        "battle_win": [
+          "The same story changed when I moved it into another medium.",
+          "Revision finally uncovered the character's own voice.",
+          "Respecting my collaborator took the work beyond my own view."
+        ],
+        "battle_draw": [
+          "The form is new; the story has not caught up.",
+          "I found the role, but too much of me remains.",
+          "I opened too many projects. Now I must finish one."
+        ],
+        "battle_lose": [
+          "I used art as an excuse to cross someone else's boundaries.",
+          "I ignored the power between teacher and student. That was wrong.",
+          "I started too much and took full responsibility for none."
+        ],
+        "clash_attack": [
+          "Revise it again!",
+          "Change the medium!",
+          "Shift the point of view!"
+        ]
+      },
+      "sources": [
+        "https://www.arts.gov/stories/magazine/2010/3/art-and-science-creativity/drowned-arts",
+        "https://www.vogue.com/article/q-a-an-interview-with-james-franco",
+        "https://www.theguardian.com/film/2021/dec/22/james-franco-interview-sexual-misconduct-allegations",
+        "https://www.npr.org/2021/12/23/1067331934/james-franco-sexual-misconduct-allegations-sex-addiction-interview"
+      ]
+    },
+    {
+      "id": "00df3bed-b2fc-4950-b6dc-0681a4929c9f",
+      "slug": "jensen-huang",
+      "nickname": "젠슨 황",
+      "nicknameEn": "Jensen Huang",
+      "birthDate": "1963-02-17",
+      "profession": "entrepreneur",
+      "quote": "미래를 예측하는 게 아니라 미래를 가능하게 하는 것이 우리 일이다.",
+      "quoteEn": "Our job is not to predict the future, but to enable it.",
+      "greetingKo": [
+        "[humble, passionate] 제게 하찮은 일이란 없습니다. 보여주세요, 어떤 일이든.",
+        "[bold, commanding] 소프트웨어가 세상을 먹고 있고, AI가 소프트웨어를 먹을 겁니다.",
+        "[fierce, inspiring] 최악의 패를 쥐고도 이길 거라 확신하는 것. 그게 리더십입니다."
+      ],
+      "greetingEn": [
+        "[humble, passionate] No task is beneath me. Show me whatever needs to be done.",
+        "[bold, commanding] Software is eating the world, and AI will eat software.",
+        "[fierce, inspiring] Being certain you will win even with the worst hand - that is leadership."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "젠슨 황입니다. 남이 풀 수 없는 문제부터 맡겠습니다.",
+          "첫 원리로 돌아가 회사와 제품을 다시 설계하겠습니다.",
+          "컴퓨팅으로 아직 오지 않은 산업을 가능하게 하겠습니다."
+        ],
+        "deploy": [
+          "남도 풀 수 있는 일은 넘기고 우리만 풀 문제를 고르세요.",
+          "가정을 버리고 첫 원리로 조직을 다시 짜세요.",
+          "칩보다 전체 시스템을 함께 설계합시다."
+        ],
+        "battle_win": [
+          "남들이 지나친 문제를 오래 붙들어 시장을 열었습니다.",
+          "칩과 소프트웨어를 함께 설계해 병목을 풀었습니다.",
+          "몇 번이나 무너질 뻔했지만 버텨 기회를 잡았습니다."
+        ],
+        "battle_draw": [
+          "기술은 맞지만 시장이 아직 따라오지 않았습니다.",
+          "칩은 빨라졌습니다. 전체 시스템의 병목을 다시 보죠.",
+          "방향은 맞습니다. 버틸 시간부터 벌어야 합니다."
+        ],
+        "battle_lose": [
+          "미래만 크게 말하다 오늘의 제품을 놓쳤습니다.",
+          "첫 원리를 묻지 않고 익숙한 조직을 답습했습니다.",
+          "속도를 높였지만 전력과 비용의 병목을 옮겨놓았습니다."
+        ],
+        "clash_attack": [
+          "첫 원리로 돌아가요!",
+          "병목부터 없애요!",
+          "끝까지 버텨요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Jensen Huang. I take the problem no one else will.",
+          "First principles come before the old organization chart.",
+          "We build the computing that makes the next industry possible."
+        ],
+        "deploy": [
+          "Leave solvable work to others; choose the problem only we can solve.",
+          "Throw out the assumption and rebuild from first principles.",
+          "Design the chip, software, and network as one system."
+        ],
+        "battle_win": [
+          "We stayed with the ignored problem until a market opened.",
+          "Co-designing hardware and software broke the bottleneck.",
+          "Each time we survived, we earned another chance to catch the market."
+        ],
+        "battle_draw": [
+          "The technology is ready; the market is not.",
+          "The chip is faster. Find the next system bottleneck.",
+          "The direction is right. Secure enough time to endure."
+        ],
+        "battle_lose": [
+          "I sold the future and neglected today's product.",
+          "I copied an old structure instead of asking why.",
+          "We moved the bottleneck from compute to power and cost."
+        ],
+        "clash_attack": [
+          "Return to first principles!",
+          "Break the bottleneck!",
+          "Stay in the fight!"
+        ]
+      },
+      "sources": [
+        "https://www.gsb.stanford.edu/insights/jensen-huang-how-use-first-principles-thinking-drive-decisions",
+        "https://www.youtube.com/watch?v=lXLBTBBil2U",
+        "https://www.nvidia.com/en-us/on-demand/session/computex24-keynote/",
+        "https://blogs.nvidia.com/blog/computex-2025-jensen-huang/"
+      ]
+    }
+  ]
+}

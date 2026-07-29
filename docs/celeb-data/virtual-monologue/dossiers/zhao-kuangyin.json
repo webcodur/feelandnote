@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "slug": "zhao-kuangyin",
+  "nickname": "조광윤",
+  "route": "new",
+  "routeReason": "현재 글은 진교병변에서 마지못해 황제가 됐다는 장면, 술잔으로 장수들의 병권을 평화롭게 거둔 장면, 처음부터 남쪽을 평정한 뒤 북쪽으로 간다는 청사진을 본인의 기억처럼 말한다. 세 대목은 모두 후대 송 태조상을 만든 정통화 서사이거나 학계에서 재검토된 주장이라 글의 뼈대로 보존하기 어렵다. 송은 군사를 버린 왕조가 아니라 중앙군과 지휘권을 재편한 고도로 군사화된 국가였고 통일도 전쟁으로 진행했다. 후주에서 이어받은 제도, 실제 군사·행정 조치, 정복의 폭력을 중심으로 전면 재구성한다.",
+  "dossier": {
+    "identity": {
+      "name": "조광윤",
+      "birth": "0927-03-21",
+      "death": "0976-11-14",
+      "profession": "commander",
+      "disambiguation": "후주 친위군 지휘관에서 960년 송을 세운 초대 황제가 되어 중앙군 지휘 체계를 재편하고 오대십국의 여러 정권을 정복한 송 태조",
+      "existingBioForDiscoveryOnly": "후주의 절도사 출신으로 진교병변을 통해 송 왕조를 건국했다. 배주석병권으로 무인 시대를 종식하고 문치주의 5백 년의 토대를 놓았다."
+    },
+    "sources": [
+      {
+        "url": "https://ctext.org/wiki.pl?chapter=1003648&if=en",
+        "title": "Songshi: Basic Annals 1, Emperor Taizu I",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "후주 장군 조광윤의 진교병변과 960년 즉위에 관한 공식 왕조 기록",
+          "즉위 직후 이윤과 이중진의 저항을 진압하고 새 왕조의 지배를 굳힌 과정",
+          "송 태조의 명령과 인사·군사 조치를 확인할 수 있는 기본 연대기"
+        ]
+      },
+      {
+        "url": "https://ctext.org/wiki.pl?chapter=205347&if=gb",
+        "title": "Songshi: Annals 2, Taizu II",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "후촉 정복부터 조광윤 재위 말까지 전쟁과 통치 조치의 공식 연대기",
+          "후촉·남한·남당의 항복과 송의 영토 편입 과정",
+          "정복 과정의 전투·항복·처벌·구휼에 관한 왕조 기록",
+          "976년 조광윤의 사망과 미완으로 남은 북방 정복"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6",
+        "title": "From Soldier to Sage",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2020-09-24",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "폭력으로 왕조를 세운 군인 조광윤이 후대 기록에서 자비로운 문치의 성군으로 바뀐 과정",
+          "진교의 황포 장면과 술자리 병권 회수 이야기가 남송기에 정형화된 정치적 기억이라는 점",
+          "송 태조에 관한 유명 일화를 당사자의 내면과 실제 대화로 곧바로 쓸 수 없는 이유"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD",
+        "title": "Military Institutions as a Defining Feature of the Song Dynasty",
+        "publisher": "Journal of Chinese History, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2017-07-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "송의 핵심 변화는 군사 폐기가 아니라 중앙군과 군령·행정 권한의 분리 및 중앙 집중이었다는 해석",
+          "황제 직속 전문 중앙군과 추밀원 체제가 송 국가의 기본 성격을 이뤘다는 점",
+          "964년 무렵 조광윤이 군사 지휘와 문서·행정 권한을 나눠 한 장수에게 힘이 몰리지 않게 한 조치"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42",
+        "title": "The Reunification of China: Peace through War under the Song Dynasty",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2015-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "송의 통일이 평화로운 문치 전환이 아니라 군사적 정복으로 진행됐다는 점",
+          "송 태조가 후주에서 축적된 군사 역량과 제도를 이어받아 확장했다는 해석",
+          "여러 정권을 흡수한 전쟁과 국가 형성을 하나의 과정으로 읽어야 한다는 관점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reunification-of-china-peace-through-war-under-the-song-dynasty-by-peter-lorge-cambridge-cambridge-university-press-2015-vii-299-pp-99-6499-cloth-80-51-ebook/42168D1D0FA498B163146261E6BB8695",
+        "title": "Review of The Reunification of China: Peace through War under the Song Dynasty",
+        "publisher": "Journal of Chinese History, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "남쪽을 먼저 정복한 뒤 북쪽으로 간다는 완성된 태조의 청사진을 재검토하는 논점",
+          "문치를 위해 군사를 희생했다는 후대 통설보다 후주 정책의 연속성과 전쟁의 우발성을 중시하는 해석",
+          "통일 전략을 결과에서 거꾸로 짜 맞춘 영웅 서사로 만들지 말아야 할 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "후주 친위군을 지휘하던 조광윤은 960년 진교에서 군대의 추대를 받은 형식으로 황제가 됐고 송을 세웠다.",
+        "significance": "왕조 공식 기록은 갑작스러운 추대와 거절의 형식을 강조하지만, 이를 실제 속마음이나 우발적인 즉위로 단정하지 않는다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=1003648&if=en",
+          "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6"
+        ]
+      },
+      {
+        "point": "즉위 직후 이윤과 이중진의 무장 저항을 군사력으로 진압하고 후주의 인력과 제도를 이어받아 새 왕조를 굳혔다.",
+        "significance": "송 건국을 술잔과 설득만으로 이룬 평화로운 권력 이양으로 미화하지 않고 쿠데타와 내전의 연속선에서 다룬다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=1003648&if=en",
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42"
+        ]
+      },
+      {
+        "point": "조광윤은 중앙군을 황제 아래 두고 군사 지휘와 행정 권한을 나눠 장수 한 사람에게 병권이 집중되는 구조를 바꿨다.",
+        "significance": "군인을 없앤 문치주의가 아니라 다시 쿠데타가 일어나지 않도록 군대를 중앙에서 통제한 제도 개편으로 설명한다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      },
+      {
+        "point": "송군은 후촉·남한·남당을 차례로 정복했지만 조광윤이 죽을 때까지 북한과 거란이 지배한 북방은 통합하지 못했다.",
+        "significance": "완성된 통일 청사진보다 실제 전쟁과 미완의 결과를 앞세우고, 정복당한 정권과 주민을 지운 성공담을 피한다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=205347&if=gb",
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reunification-of-china-peace-through-war-under-the-song-dynasty-by-peter-lorge-cambridge-cambridge-university-press-2015-vii-299-pp-99-6499-cloth-80-51-ebook/42168D1D0FA498B163146261E6BB8695"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "지방 장수와 친위군 지휘관에게 권력이 몰린 오대의 구조를 되풀이하지 않도록 병력·지휘·행정 권한을 황제 중심으로 재편했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      },
+      {
+        "point": "관료와 제도를 활용해 정복지를 통합했지만 전문 중앙군과 전쟁을 국가 운영의 핵심 수단으로 계속 사용했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      },
+      {
+        "point": "후촉·남한·남당을 별개 국가로 두기보다 송의 지배 아래 넣는 군사적 통일을 추진했다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=205347&if=gb",
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "장수의 쿠데타로 황제가 된 사람이 다시 장수의 쿠데타를 막는 제도를 만들었으며, 공식 기록은 이 권력 장악을 마지못한 추대로 정당화했다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=1003648&if=en",
+          "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6"
+        ]
+      },
+      {
+        "point": "후대에는 술 한잔으로 병권을 거두고 군인의 시대를 끝낸 성군으로 기억됐지만, 송은 대규모 전문 중앙군을 유지한 군사화된 국가였다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      },
+      {
+        "point": "중앙 집권은 오대의 잦은 군사 정변을 억제했지만, 이를 곧바로 송의 뒤이은 군사적 약점 하나로 환원하면 여러 시대의 전쟁과 제도 변화를 지운다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      },
+      {
+        "point": "통일은 장기적인 정치 질서를 만들었지만 후촉·남한·남당을 상대로 한 침공과 강제 편입을 거쳐 이뤄졌다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=205347&if=gb",
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 명령문과 병력·권한의 배치를 설명하는 중간 길이 문장을 섞는다. 한 문단에는 하나의 결정과 그 결과만 둔다.",
+      "directness": "군 지휘관이 상황을 보고하듯 구체적으로 말한다. 후대 성군의 온화한 훈계조나 현대적인 반성문은 쓰지 않는다.",
+      "moves": [
+        "황포와 술잔 같은 유명 일화 대신 어느 군대와 권한을 어떻게 옮겼는지 말하기",
+        "건국과 통일을 평화로운 문치의 승리로 묶지 않고 쿠데타·진압·정복을 시간순으로 놓기",
+        "후주의 제도를 이어받은 사실과 본인이 바꾼 지휘 구조를 구분하기",
+        "문관과 무관의 선악 대립보다 한 사람에게 병력과 명령권이 몰리는 위험을 중심에 두기"
+      ],
+      "avoid": [
+        "진교에서 실제로 황제가 되기 싫었다는 속마음 창작",
+        "배주석병권의 대화와 술자리 장면을 확정된 목격담처럼 재현하기",
+        "군인을 누르고 문관에게 나라를 맡겨 평화를 열었다는 문치 신화",
+        "남쪽부터 북쪽으로 간다는 완성된 계획을 처음부터 품었다는 단정",
+        "송의 수백 년 성쇠를 조광윤 한 사람의 선택으로 설명하는 결말"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "진교병변",
+        "guide": "960년 진교에 주둔한 군대가 지휘관 조광윤을 황제로 추대한 정변",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=1003648&if=en",
+          "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6"
+        ]
+      },
+      {
+        "term": "배주석병권",
+        "guide": "조광윤이 술자리에서 장수들을 설득해 병권을 거뒀다는 후대의 유명한 이야기",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-song-dynasty-history/from-soldier-to-sage/5F8E9725BBAC4E6A1934D63697AA83F6"
+        ]
+      },
+      {
+        "term": "오대십국",
+        "guide": "당 멸망 뒤 여러 왕조와 지역 정권이 잇달아 경쟁한 10세기 분열기",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42"
+        ]
+      },
+      {
+        "term": "북한",
+        "guide": "오늘날의 북한이 아니라 오대십국 시기 산시 지역에 있던 북쪽의 한 정권",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?chapter=205347&if=gb",
+          "https://www.cambridge.org/core/books/reunification-of-china/FFDA1449E222E4F4BA60E394539FFE42"
+        ]
+      },
+      {
+        "term": "추밀원",
+        "guide": "황제 아래에서 군사 명령과 행정을 맡은 송의 중앙 군사 기관",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/military-institutions-as-a-defining-feature-of-the-song-dynasty/D020A447BD8666C3304D7A315CB65DFD"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "송사는 조광윤 사후 수백 년이 지나 원나라 때 편찬된 공식 왕조사다. 진교의 황포 장면과 즉위 거절을 당일의 축어 기록이나 내면 증거로 쓰지 않는다.",
+      "술자리에서 장수들의 병권을 거뒀다는 이야기는 후대에 정형화됐다. 병권 회수와 중앙 집권이라는 구조는 설명하되 유명 장면을 사실적 대화로 재현하지 않는다.",
+      "남쪽을 먼저 정복하고 북쪽으로 간다는 전략은 결과를 보고 만든 완성된 청사진일 수 있다. 각 전쟁의 선택을 하나의 예언된 계획으로 묶지 않는다.",
+      "송의 제도는 후주에서 이어받은 요소와 태조 이후 발전한 요소가 함께 있다. 수백 년의 문치·과거·군사 제도를 모두 조광윤의 단독 설계로 돌리지 않는다.",
+      "정복 전쟁의 피해 규모는 지역과 기록에 따라 차이가 크다. 확인하지 않은 사망자 수나 민중의 반응을 만들지 않되 전쟁과 강제 편입이라는 성격은 숨기지 않는다.",
+      "조광윤의 갑작스러운 죽음과 동생의 계승을 둘러싼 촉영부성 같은 후대 의혹은 확정된 암살 사건으로 다루지 않는다.",
+      "외부 학계의 문치 신화 비판을 조광윤 본인의 자기반성이나 미래 예견으로 바꾸지 않는다."
+    ]
+  }
+}

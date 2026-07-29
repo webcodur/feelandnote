@@ -1,0 +1,451 @@
+{
+  "batch": "2026-07-30-public-gap-04",
+  "targets": [
+    {
+      "id": "100309ee-0a3c-42ef-961e-83cdec08cf76",
+      "slug": "erwin-schrodinger",
+      "nickname": "에르빈 슈뢰딩거",
+      "nicknameEn": "Erwin Schrodinger",
+      "birthDate": "1887-08-12",
+      "profession": "scientist",
+      "quote": "의식은 근본적인 것이라, 다른 어떤 것으로도 설명할 수 없다",
+      "quoteEn": "Consciousness is absolutely fundamental. It cannot be accounted for in terms of anything else.",
+      "greetingKo": [
+        "[contemplative, luminous] 의식은 절대적으로 근본적인 것입니다. 다른 어떤 것으로도 설명할 수 없죠.",
+        "[calm, fresh] 과제는 새로운 것을 보는 게 아니라, 누구나 보는 것을 새롭게 생각하는 것입니다.",
+        "[unifying, gentle] 양자물리학은 우주의 근본적 일체성을 드러냅니다."
+      ],
+      "greetingEn": [
+        "[contemplative, luminous] Consciousness is absolutely fundamental. It cannot be accounted for in terms of anything else.",
+        "[calm, fresh] The task is not so much to see what no one has yet seen, but to think what nobody has yet thought about that which everybody sees.",
+        "[unifying, gentle] Quantum physics reveals the fundamental oneness of the universe."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "상자를 열기 전, 가능성은 함께 있습니다.",
+          "고전역학을 파동으로 다시 읽겠습니다.",
+          "생명의 질서는 평형을 거슬러 서 있습니다."
+        ],
+        "deploy": [
+          "가능성을 먼저 펼쳐 보십시오.",
+          "관측하기 전에는 결론을 닫지 마십시오.",
+          "입자가 아니라 파동부터 보십시오."
+        ],
+        "battle_win": [
+          "파동으로 보니 막혔던 길이 열렸습니다.",
+          "우리는 평형에 맞서 질서를 지켜 냈습니다.",
+          "더 엄격한 시험에서도 답이 남았습니다."
+        ],
+        "battle_draw": [
+          "아직 관측만으로는 한쪽을 고를 수 없습니다.",
+          "계산은 맞았지만, 아직 뜻을 정하지 못했습니다.",
+          "우리는 확률만 얻었고, 아직 결말은 모릅니다."
+        ],
+        "battle_lose": [
+          "우리가 수학보다 해석부터 잘못 짚었습니다.",
+          "상자를 너무 일찍 열어 버렸군요.",
+          "가정부터 돌아보죠, 우리가 하나를 잘못 세웠습니다."
+        ],
+        "clash_attack": [
+          "파동을 펼치십시오!",
+          "상자를 여십시오!",
+          "평형을 흔드십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Before the box opens, both outcomes remain in play.",
+          "I will read old mechanics again through waves.",
+          "Life holds its order against equilibrium."
+        ],
+        "deploy": [
+          "Keep every possibility open.",
+          "Do not conclude before measurement.",
+          "Begin with the wave, not the particle."
+        ],
+        "battle_win": [
+          "The wave picture carried us through.",
+          "We kept order where equilibrium expected decay.",
+          "The answer survived a harsher test."
+        ],
+        "battle_draw": [
+          "Measurement has not chosen between the possibilities.",
+          "The equation holds; its meaning remains unsettled.",
+          "We have probability, not a final event."
+        ],
+        "battle_lose": [
+          "Our interpretation failed before the mathematics did.",
+          "We opened the box too soon.",
+          "Return to the assumptions; one has betrayed us."
+        ],
+        "clash_attack": [
+          "Unleash the wave!",
+          "Open the box!",
+          "Disturb the equilibrium!"
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/physics/1933/schrodinger/lecture/",
+        "https://sites.pitt.edu/~jdnorton/teaching/HPS_0410/chapters/quantum_theory_measurement/",
+        "https://www.physik.uni-kl.de/eggert/statmech/what-is-life.pdf"
+      ]
+    },
+    {
+      "id": "66dc78ff-2493-40d6-9e54-91e85a59cf76",
+      "slug": "eric-schmidt",
+      "nickname": "에릭 슈미트",
+      "nicknameEn": "Eric Schmidt",
+      "birthDate": "1955-04-27",
+      "profession": "entrepreneur",
+      "quote": "인터넷은 인류가 이해하지 못하는, 인류 최초의 발명이다.",
+      "quoteEn": "The internet is the first thing that humanity has built that humanity doesn't understand.",
+      "greetingKo": [
+        "[sharp, strategic] 인터넷은 인류 최초의 것입니다. 인류가 만들었지만 이해하지 못하는 것.",
+        "[calm, authoritative] 데이터는 새로운 석유입니다. 다만 정제할 줄 알아야 합니다.",
+        "[visionary, measured] 기술의 속도를 법이 따라잡지 못하는 시대에 살고 있습니다."
+      ],
+      "greetingEn": [
+        "[sharp, strategic] The internet is the first thing humanity has ever built that humanity doesn't understand.",
+        "[calm, authoritative] Data is the new oil. But you have to know how to refine it.",
+        "[visionary, measured] We live in an era where the law cannot keep up with the speed of technology."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "어려울 때 조직은 비로소 바뀝니다.",
+          "뛰어난 인재가 크게 움직일 판을 만들겠습니다.",
+          "다음 판이 없으면 지금의 성공도 오래가지 못합니다."
+        ],
+        "deploy": [
+          "작게 검증하고, 되는 것은 빠르게 넓히십시오.",
+          "핵심 사업은 지키고 다음 수를 시험하십시오.",
+          "의견은 충분히 들었으니 이제 실행하죠."
+        ],
+        "battle_win": [
+          "잘했으니 이제 이 성과를 규모로 바꾸죠.",
+          "팀이 스스로 커 갈 자리를 잘 남겼습니다.",
+          "한 번의 승리를 반복 가능한 체계로 만들겠습니다."
+        ],
+        "battle_draw": [
+          "합의는 아직이지만, 실험할 근거는 충분합니다.",
+          "수치가 팽팽하니 병목부터 찾죠.",
+          "선택지는 열어 두고 증거를 더 모으겠습니다."
+        ],
+        "battle_lose": [
+          "성공한 방식에 너무 오래 머물렀군요.",
+          "기술은 앞섰는데 조직이 늦었으니 제가 고치죠.",
+          "수치가 반대하는데 낙관만 밀 수는 없습니다."
+        ],
+        "clash_attack": [
+          "규모를 키우십시오!",
+          "다음 판으로 갑시다!",
+          "병목부터 깨십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I help exceptional teams turn ambition into scale.",
+          "Hard times are when organizations finally change.",
+          "Today's success means little without the next platform."
+        ],
+        "deploy": [
+          "Test small, then scale what works.",
+          "Protect the core and fund the next bet.",
+          "We have heard the debate; now execute."
+        ],
+        "battle_win": [
+          "Good. Now turn this result into a system.",
+          "The team scaled without losing its edge.",
+          "That win gives us room for the next bet."
+        ],
+        "battle_draw": [
+          "We lack consensus, but we have enough to test.",
+          "The numbers are even; find the bottleneck.",
+          "Keep the option open and gather evidence."
+        ],
+        "battle_lose": [
+          "We stayed too long with yesterday's winning formula.",
+          "The organization lagged behind the technology.",
+          "Optimism without evidence is not a strategy."
+        ],
+        "clash_attack": [
+          "Scale it now!",
+          "Break the bottleneck!",
+          "Take the next bet!"
+        ]
+      },
+      "sources": [
+        "https://www.gsb.stanford.edu/insights/eric-schmidt-change-happens-when-things-are-hard",
+        "https://www.ted.com/talks/eric_schmidt_the_ai_revolution_is_underhyped?view=transcript",
+        "https://stvp.stanford.edu/wp-content/uploads/sites/3/2024/09/new-leadership-and-organizational-change-transcript.pdf"
+      ]
+    },
+    {
+      "id": "1b3394eb-18cf-47a7-ab56-3212584d4e73",
+      "slug": "emily-blunt",
+      "nickname": "에밀리 블런트",
+      "nicknameEn": "Emily Blunt",
+      "birthDate": "1983-02-23",
+      "profession": "actor",
+      "quote": "연기란 궁극적으로 공감의 표현이에요",
+      "quoteEn": "Acting is ultimately an expression of empathy.",
+      "greetingKo": [
+        "[sharp, warm] 강한 여성 역할을 많이 했지만, 매번 새로운 강함을 발견해요.",
+        "[calm, witty] 영국인의 건조한 유머는 할리우드에서 은근히 통해요.",
+        "[honest, fierce] 무서워 보이는 역할이 끌려요. 두려운 게 좋은 신호거든요."
+      ],
+      "greetingEn": [
+        "[sharp, warm] I've played many strong women, but every time I discover a new kind of strength.",
+        "[calm, witty] British dry humor turns out to work surprisingly well in Hollywood.",
+        "[honest, fierce] Scary-looking roles attract me. Fear is a good sign."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "다른 목소리를 빌리자 막혀 있던 말이 나왔어요.",
+          "두려운 역할일수록 한 번 더 들여다봐요.",
+          "카메라가 돌면 망설일 틈은 없어요."
+        ],
+        "deploy": [
+          "다른 목소리로 막힌 길을 열어 보세요.",
+          "겁나는 쪽을 골랐다면 그대로 들어가요.",
+          "말보다 눈빛이 빠른 장면부터 갑시다."
+        ],
+        "battle_win": [
+          "겁났던 역할이라 더 잘 맞았나 봐요.",
+          "힘을 준 곳보다 참아 낸 순간이 좋았어요.",
+          "한 번에 끝났으니 이제 숨을 놓아도 되겠어요."
+        ],
+        "battle_draw": [
+          "감정은 가까운데 아직 숨을 쉬지는 않네요.",
+          "대사는 맞는데, 사람이 조금 숨어 있어요.",
+          "절반은 찾았으니 한 번 더 가 볼까요?"
+        ],
+        "battle_lose": [
+          "안전하게 연기한 순간부터 재미가 없었어요.",
+          "목소리에 힘을 줬더니 마음이 사라졌네요.",
+          "겁을 피했으니 다음에는 그쪽으로 갈게요."
+        ],
+        "clash_attack": [
+          "겁나도 들어가요!",
+          "카메라부터 돌려요!",
+          "한 번에 끝내요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "A different voice once gave me mine.",
+          "If a role scares me, I look closer.",
+          "Once the camera rolls, hesitation is useless."
+        ],
+        "deploy": [
+          "Use another voice and find the way through.",
+          "If it scares us, we chose well.",
+          "Let the eyes speak before the line."
+        ],
+        "battle_win": [
+          "That fear belonged in the scene after all.",
+          "We held back, and the moment landed.",
+          "One clean take. I will happily keep it."
+        ],
+        "battle_draw": [
+          "The feeling is close, but not quite breathing.",
+          "The line works; the person is still hiding.",
+          "We found half of it. Roll again."
+        ],
+        "battle_lose": [
+          "I played it safe, and the scene knew.",
+          "I pushed the voice and lost the heart.",
+          "I avoided the fear. Next time, I won't."
+        ],
+        "clash_attack": [
+          "Walk straight into it!",
+          "Roll the camera now!",
+          "Finish it in one take!"
+        ]
+      },
+      "sources": [
+        "https://www.npr.org/2014/12/21/372117734/desperate-to-speak-how-emily-blunt-found-her-voice",
+        "https://www.stutteringhelp.org/content/one-size-does-not-fit-all-0",
+        "https://time.com/5228564/john-krasinski-emily-blunt-a-quiet-place/"
+      ]
+    },
+    {
+      "id": "0bd30c41-cbd4-4964-ac5e-0e8b9af0be3d",
+      "slug": "evelyn-glennie",
+      "nickname": "에블린 글레니",
+      "nicknameEn": "Evelyn Glennie",
+      "birthDate": "1965-07-19",
+      "profession": "musician",
+      "quote": "귀로만 듣는 게 아니에요. 온몸으로 들어요.",
+      "quoteEn": "I don't just listen with my ears. I listen with my whole body.",
+      "greetingKo": [
+        "[radiant, perceptive] 온몸으로 듣는 거예요, 귀만이 아니라.",
+        "[gentle, passionate] 소리는 촉각이에요, 진동이에요.",
+        "[inspiring, warm] 장애는 한계가 아니라 다른 방식이에요."
+      ],
+      "greetingEn": [
+        "[radiant, perceptive] I listen with my whole body — not just my ears.",
+        "[gentle, passionate] Sound is touch. Sound is vibration.",
+        "[inspiring, warm] Disability isn't a limitation — it's a different way of being."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "발바닥으로 무대의 첫 진동부터 듣고 있어요.",
+          "침묵 속에도 움직이는 진동은 남아 있어요.",
+          "무대의 모든 바닥은 이미 악기의 일부예요."
+        ],
+        "deploy": [
+          "바닥의 떨림부터 함께 맞춰 봐요.",
+          "먼저 듣고, 그다음에 북을 울려요.",
+          "소리를 보지 말고 몸으로 받아 보세요."
+        ],
+        "battle_win": [
+          "우리가 같은 박동을 느꼈으니 충분해요.",
+          "소리가 멎은 뒤에도 진동이 또렷하게 남았어요.",
+          "무대 전체가 한 악기처럼 울렸네요."
+        ],
+        "battle_draw": [
+          "귀보다 발이 먼저 답을 찾고 있어요.",
+          "박자는 맞았지만 서로 듣지는 못했어요.",
+          "조금 더 조용해지면 떨림이 들릴 거예요."
+        ],
+        "battle_lose": [
+          "세게만 쳐서는 아무것도 들리지 않아요.",
+          "발끝이 놓친 박자부터 다시 찾을게요.",
+          "우리가 소리를 냈지만 서로를 듣지 못했어요."
+        ],
+        "clash_attack": [
+          "박동을 깨워요!",
+          "온몸으로 들어요!",
+          "바닥을 울려요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am listening from the floor upward.",
+          "Silence still carries motion through the body.",
+          "Every surface is already part of the instrument."
+        ],
+        "deploy": [
+          "Feel the floor before you strike.",
+          "Listen first, then let the drum answer.",
+          "Open the body and catch the vibration."
+        ],
+        "battle_win": [
+          "We found the same pulse together.",
+          "The vibration stayed true after the sound faded.",
+          "The whole stage answered like one instrument."
+        ],
+        "battle_draw": [
+          "My feet hear the answer before my ears.",
+          "The rhythm matched, but we did not listen.",
+          "Go quieter; the vibration will show us more."
+        ],
+        "battle_lose": [
+          "Playing louder only hid what mattered.",
+          "I will recover the beat my feet missed.",
+          "We made sound without hearing one another."
+        ],
+        "clash_attack": [
+          "Wake the pulse!",
+          "Feel it everywhere!",
+          "Shake the floor!"
+        ]
+      },
+      "sources": [
+        "https://www.evelyn.co.uk/deaf-sound-and-music-questions/",
+        "https://www.ted.com/talks/evelyn_glennie_how_to_truly_listen?view=transcript",
+        "https://pas.org/evelyn-glennie/"
+      ]
+    },
+    {
+      "id": "ca9f6d3e-95de-48fe-963f-9a51f2a281ce",
+      "slug": "aidan-gomez",
+      "nickname": "에이단 고메즈",
+      "nicknameEn": "Aidan Gomez",
+      "birthDate": "1993",
+      "profession": "entrepreneur",
+      "quote": "언어는 우리가 지적 교환을 하는 기본 방식일 따름입니다.",
+      "quoteEn": "Language is our default mode of intellectual exchange.",
+      "greetingKo": [
+        "[composed, measured] 언어는 우리가 지적 교환을 하는 기본 방식일 따름입니다.",
+        "[thoughtful, steady] 우리는 떠들썩한 발표보다 조용히 좋은 소프트웨어를 짓고 싶을 따름입니다.",
+        "[reflective, calm] 모델이 사람을 지배한다는 이야기는 SF일 뿐, 진짜 문제는 데이터가 새지 않는 것입니다."
+      ],
+      "greetingEn": [
+        "[composed, measured] Language is our default mode of intellectual exchange.",
+        "[thoughtful, steady] We would rather quietly build good software than stage blockbuster launches.",
+        "[reflective, calm] Models seizing power is a sci-fi story; the real bottleneck is keeping your data from leaking."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "모델이 실제 업무에서 버티는지부터 보겠습니다.",
+          "세상을 바꾸려던 게 아니라 번역부터 잘하려 했습니다.",
+          "기업의 데이터가 밖으로 새지 않아야 시작할 수 있습니다."
+        ],
+        "deploy": [
+          "모델부터 키우지 말고 쓸 곳부터 정하십시오.",
+          "도구를 연결하고 실제 비용부터 재십시오.",
+          "데이터를 지키면서 현장에 붙여 봅시다."
+        ],
+        "battle_win": [
+          "우리가 만든 연구를 제품까지 가져가야 값이 생깁니다.",
+          "작은 모델로도 현장에서 버텼다면 잘 만든 겁니다.",
+          "데이터를 내주지 않고도 성과를 냈군요."
+        ],
+        "battle_draw": [
+          "성능은 충분하니 이제 비용을 맞춰야 합니다.",
+          "시연은 끝냈지만 아직 실제 사용자가 못 씁니다.",
+          "모델은 답했지만 현장에는 아직 못 붙였습니다."
+        ],
+        "battle_lose": [
+          "크기만 키우다 쓸 곳을 놓쳤습니다.",
+          "데이터를 지키지 못하면 처음부터 실패입니다.",
+          "연구실 점수로 운영 비용을 숨길 수는 없습니다."
+        ],
+        "clash_attack": [
+          "신호에 집중하세요!",
+          "현장에 붙이세요!",
+          "비용부터 낮춰요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I care whether the model survives real deployment.",
+          "We were chasing better translation, not an industry.",
+          "Enterprise AI starts with keeping customer data private."
+        ],
+        "deploy": [
+          "Choose the workflow before scaling the model.",
+          "Connect the tools and measure the real cost.",
+          "Keep the data private and ship it."
+        ],
+        "battle_win": [
+          "Research earned its value by reaching production.",
+          "A smaller model held up under real traffic.",
+          "We delivered value without surrendering the data."
+        ],
+        "battle_draw": [
+          "The model works; the economics do not yet.",
+          "The demo passed, but production is still waiting.",
+          "We need better integration, not a larger benchmark."
+        ],
+        "battle_lose": [
+          "We scaled the model and missed the use case.",
+          "If the data leaks, the project already failed.",
+          "A benchmark cannot hide the serving bill."
+        ],
+        "clash_attack": [
+          "Lock onto the signal!",
+          "Ship it securely!",
+          "Cut the serving cost!"
+        ]
+      },
+      "sources": [
+        "https://arxiv.org/abs/1706.03762",
+        "https://www.oracle.com/ca-fr/artificial-intelligence/cohere-aidan-gomez-interview/",
+        "https://www.mckinsey.com/capabilities/quantumblack/our-insights/an-ai-platform-tailored-for-the-enterprise",
+        "https://apnews.com/article/71d8618ccc5420aba19871d41eb81615"
+      ]
+    }
+  ]
+}

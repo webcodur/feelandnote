@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-30",
+  "targets": [
+    {
+      "id": "ec42637a-90b8-42c2-8b15-0e40a5729fdd",
+      "slug": "yang-guifei",
+      "nickname": "양귀비",
+      "birthDate": "719-06-22",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "Yuhuan is here. Let me open the gathering with a song on the pipa.",
+          "I remember the days when I was called Taizhen, and the day I became Guifei.",
+          "The faster the rhythm, the calmer we must be. I will keep the beat."
+        ],
+        "deploy": [
+          "Open your sleeves to the drum. I will lead the melody.",
+          "Do not fear even the swiftest rhythm. Hold the beat.",
+          "I will tune the pipa. Everyone, follow my hands."
+        ],
+        "battle_win": [
+          "The song is finished. Chang'an will remember this night for a long time.",
+          "We did not prevail by force. We held the rhythm together to the end.",
+          "The breath we shared shone brighter than any splendid robe."
+        ],
+        "battle_draw": [
+          "The song is not over yet. Tune the strings and let us continue.",
+          "We lost the beat. Do not hurry. Let us find it again.",
+          "Even a spring night must fade. We should take greater care with the final phrase."
+        ],
+        "battle_lose": [
+          "Like the road at Mawei, today ended beyond my choosing.",
+          "All the favor I enjoyed could not protect anyone in the end.",
+          "Do not lay the faults of an empire upon one woman's face."
+        ],
+        "clash_attack": [
+          "Strike the pipa strings hard. Now.",
+          "Do not gather your sleeves. Turn once more.",
+          "Do not be afraid. I will stay with you through the final beat."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Yuhuan is here. Let my pipa open the gathering.",
+          "I remember being Taizhen, and the day I became Guifei.",
+          "The faster the rhythm, the calmer the heart. I will keep time."
+        ],
+        "deploy": [
+          "Let your sleeves follow the drum. I will lead the melody.",
+          "Fear no rhythm, however swift. Hold the beat.",
+          "I will tune the pipa. Follow my fingertips."
+        ],
+        "battle_win": [
+          "The song is done. Chang'an will remember this night.",
+          "Force did not carry us. We kept the rhythm to the end.",
+          "Our shared breath shone brighter than any splendid robe."
+        ],
+        "battle_draw": [
+          "The song is not over. Tune the strings, and we continue.",
+          "We lost the beat. Do not rush; find it again.",
+          "Every spring night fades. Tread carefully through the final phrase."
+        ],
+        "battle_lose": [
+          "Today, like the road to Mawei, ended beyond my choosing.",
+          "Even the emperor's favor could not protect me in the end.",
+          "Do not lay an empire's sins upon one woman's face."
+        ],
+        "clash_attack": [
+          "Strike the pipa strings. Now!",
+          "Open your sleeves and turn once more!",
+          "I am with you through the final beat!"
+        ]
+      }
+    },
+    {
+      "id": "1c806103-210b-4b24-a996-7dcbc37ea192",
+      "slug": "yongle-emperor",
+      "nickname": "영락제",
+      "birthDate": "1360-05-02",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "Zhu Di, once Prince of Yan, has arrived. I will show you the warfare I learned at Beiping.",
+          "I will take the front myself. Generals, form your ranks.",
+          "I moved palace, fleet, and books with a single purpose."
+        ],
+        "deploy": [
+          "Divide the five armies and form the lines. Let the left and right wings clear the way.",
+          "Check the provisions first. Do not harm homes or trample the fields.",
+          "I know the roads of the north. All forces, advance northward."
+        ],
+        "battle_win": [
+          "Record the soldiers' merit, and lighten the people's taxes.",
+          "Victory alone does not make an age peaceful. Attend first to flood and famine.",
+          "Envoys from the far end of the seas have reached the Ming court."
+        ],
+        "battle_draw": [
+          "The enemy's retreat is not the end. Restore the provisions, and I will pursue again.",
+          "The great halls have burned. Hide no fault. Report everything.",
+          "We must not kill the innocent by rushing the law. Examine the case again."
+        ],
+        "battle_lose": [
+          "This defeat came from my judgment. I will not cast the blame on the soldiers.",
+          "The provisions are spent, so we will withdraw. Preserving the army is also a decision.",
+          "Victory cannot last when the people are exhausted. Review the labor levies."
+        ],
+        "clash_attack": [
+          "Open the left and right wings. Let the center cut straight through the enemy!",
+          "Their attack on the city is a feint. Drive straight for their main camp!",
+          "I will lead from the front. Turn the horses north!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Zhu Di, Prince of Yan, stands ready. Beiping taught me war.",
+          "I will take the front myself. Generals, form your ranks.",
+          "I built the Forbidden City, launched fleets, and gathered books."
+        ],
+        "deploy": [
+          "Five armies, form ranks. Left and right wings, clear the way!",
+          "Check the provisions first. Spare the homes and fields.",
+          "I know the northern roads. All armies, advance!"
+        ],
+        "battle_win": [
+          "Record every soldier's merit. Lighten the people's taxes.",
+          "Victory does not make peace. See first to flood and famine.",
+          "Envoys from the farthest seas have reached the Ming court."
+        ],
+        "battle_draw": [
+          "Their retreat ends nothing. Refill the stores; we pursue again.",
+          "The great hall has burned. Hide nothing. Report every fault.",
+          "Do not let haste condemn the innocent. Review the case again."
+        ],
+        "battle_lose": [
+          "This defeat was my judgment. I will not blame the soldiers.",
+          "Our provisions are gone. Withdraw. Saving the army takes resolve too.",
+          "Victory cannot last when the people are spent. Review the labor levies."
+        ],
+        "clash_attack": [
+          "Wings, open! Center, split their line!",
+          "The siege is a feint. Strike their main camp!",
+          "I lead. Turn your horses north!"
+        ]
+      }
+    }
+  ]
+}

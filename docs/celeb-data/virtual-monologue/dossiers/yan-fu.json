@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "slug": "yan-fu",
+  "nickname": "옌푸",
+  "route": "new",
+  "routeReason": "현재 원고는 해군 교육에서 제도·지식의 차이로 시야를 넓히고, 《천연론》·《원부》·신달아를 한 흐름에 놓은 점은 유용하다. 그러나 《천연론》을 헉슬리의 논지를 충실히 옮긴 책처럼 설명하고 ‘적응한 존재가 살아남는다’는 한 문장으로 축약한다. 실제 책은 헉슬리를 선별·재배치하고 스펜서와 중국 고전을 결합한 정치적 개작에 가까우며, 고전 문체의 ‘아’는 쉬운 대중어보다 사대부 독자를 겨냥했다. ‘마음이 다급해졌다’, ‘고통을 피하고 싶지 않았다’ 같은 심리도 창작이다. 더구나 자유·법을 번역한 개혁가가 공화정 이후 위안스카이의 강한 국가와 제정 운동에 가담한 말년의 충돌이 통째로 빠졌다. 번역의 투명성·진보의 직선·일관된 자유주의라는 세 축을 모두 다시 짜야 하므로 신규 작성이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "옌푸",
+      "birth": "1854-01-08",
+      "death": "1921-10-27",
+      "profession": "humanities_scholar",
+      "disambiguation": "푸젠선정학당과 영국 그리니치 왕립해군대학에서 해군학을 공부하고, 청일전쟁 뒤 헉슬리·스펜서·스미스·밀·몽테스키외의 저술을 고전 중국어로 선별 번역하며 부강·자유·군집·진화를 논한 청말민국의 번역가이자 사상가 옌푸",
+      "existingBioForDiscoveryOnly": "청말민국의 번역가·사상가. 《천연론》을 비롯한 서양 사회사상 번역과 신·달·아라는 번역의 세 어려움으로 큰 영향을 남겼다."
+    },
+    "sources": [
+      {
+        "url": "https://ctext.org/wiki.pl?if=en&res=370959",
+        "title": "The Theory of Evolution 天演論",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": "1898",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《천연론》 본문·서문과 옌푸가 덧붙인 논평을 대조할 수 있는 원문",
+          "신·달·아가 번역의 세 가지 ‘어려움’으로 제시된 실제 문맥",
+          "헉슬리 원문의 일부가 빠지고 옌푸의 해설이 결합된 선택적 번역 방식"
+        ]
+      },
+      {
+        "url": "https://ornc.org/our-history/royal-naval-college/",
+        "title": "Royal Naval College",
+        "publisher": "Old Royal Naval College",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "증기선 시대의 항해·수학·해군사를 가르친 그리니치 왕립해군대학의 교육 환경",
+          "청말 해군 근대화와 연결된 중국인 유학생 가운데 옌푸의 위치",
+          "그의 서양 경험을 단순한 관광이나 책 읽기로 축소하지 않아야 한다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6",
+        "title": "How can you help us, Mr Darwin? Social Darwinism in the history of Chinese international thought",
+        "publisher": "Review of International Studies, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2024",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《천연론》이 헉슬리의 직역이 아니라 헉슬리·스펜서·맬서스·다윈의 논점을 선별한 정치적 재구성이었다는 분석",
+          "국가·인종 경쟁의 언어가 청말 국제질서 인식에 미친 영향",
+          "진화론 번역을 과학 지식의 중립적 전달로만 볼 수 없는 이유"
+        ]
+      },
+      {
+        "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001702821",
+        "title": "옌푸(嚴復)와 번역의 정치: 『천연론』에 담긴 ‘천’ 개념을 중심으로",
+        "publisher": "한국정치학회보",
+        "kind": "scholarly",
+        "publishedAt": "2012",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "옌푸가 헉슬리를 스펜서의 사회진화론과 중국 전통 사유를 통해 비판적으로 다시 쓴 방식",
+          "천·경쟁·조화 개념이 청말의 정치 개혁 문제와 결합한 과정",
+          "《천연론》을 오늘날의 생물학 교과서처럼 설명하면 안 된다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744",
+        "title": "The translator as an activist: the case of Yan Fu as a pioneer activist translator in the late Qing",
+        "publisher": "Asia Pacific Translation and Intercultural Studies",
+        "kind": "scholarly",
+        "publishedAt": "2022",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《천연론》·《원부》·《군기권계론》 등 번역의 서문과 주석에 드러난 정치적 개입",
+          "신·달·아가 중립적인 보편 규칙이 아니라 특정 번역과 독자를 위한 정당화 장치였다는 해석",
+          "옌푸의 번역을 원문 복제보다 행동주의적 재구성으로 읽는 근거"
+        ]
+      },
+      {
+        "url": "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/",
+        "title": "Yen Fu’s Interpretation of Western Classics: Perspectives and Historical Significance",
+        "publisher": "Hong Kong Baptist University Research Portal",
+        "kind": "scholarly",
+        "publishedAt": "2000",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "해군 교육·영국 체류·청말 위기가 서양 고전 해석에 미친 영향",
+          "헉슬리·스미스·밀·몽테스키외를 번역하면서 경험과 가치 선택을 개입시킨 방식",
+          "경험과학·부강·자유가 하나의 고정된 서양 모형이 아니었다는 분석"
+        ]
+      },
+      {
+        "url": "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file?accession=osu1494098076311169&disposition=inline",
+        "title": "Reframing Yuan Shikai: The Institutional, Rhetorical, and Religious Foundations of the 1915 Empire",
+        "publisher": "Ohio State University",
+        "kind": "scholarly",
+        "publishedAt": "2017",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "민국 초 위안스카이 체제와 1915년 제정 운동의 제도·담론적 배경",
+          "옌푸가 헌정 기구와 제정 지지 조직에 참여한 정치적 위치",
+          "자유주의 번역가라는 후대 이미지와 강한 군주제 지지 사이의 긴장"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "아버지의 죽음 뒤 전통 과거제 경로 대신 푸저우선정학당에 들어가 항해·수학·외국어를 배우고, 1877년 영국으로 건너가 그리니치 왕립해군대학에서 공부했다.",
+        "significance": "‘서양 기술을 보고 더 깊은 제도를 깨달았다’는 창작 각성보다 교육기관과 지식 이동의 실제 경로를 제시한다.",
+        "sourceUrls": [
+          "https://ornc.org/our-history/royal-naval-college/",
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/"
+        ]
+      },
+      {
+        "point": "귀국 뒤 해군 교육에 종사했으나 청일전쟁의 패배를 전후해 중국의 부강이 기술 도입만으로 해결되지 않는다고 보고 정치·사회 사상을 논설로 발표했다.",
+        "significance": "개인의 감정 대신 군사 패배·교육 경력·공론장의 결합을 개혁론의 배경으로 둔다.",
+        "sourceUrls": [
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "point": "1890년대 후반 《천연론》을 펴내며 헉슬리의 강연을 선별하고 스펜서와 중국 고전의 개념을 주석에 결합해 국가 생존과 개혁의 언어로 바꾸었다.",
+        "significance": "유명한 번역을 충실성의 모범이 아니라 위기 속에서 원문을 적극 재구성한 정치적 저술로 설명한다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6",
+          "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001702821"
+        ]
+      },
+      {
+        "point": "이후 애덤 스미스의 《국부론》, 밀의 《자유론》과 《논리학》, 스펜서의 사회학, 몽테스키외의 법 사상을 번역하면서 새로운 정치·경제 어휘를 만들고 논평했다.",
+        "significance": "한 권의 진화론 번역가보다 서로 충돌하는 서양 사상을 중국의 제도 문제에 맞추어 선택한 해석자로 범위를 넓힌다.",
+        "sourceUrls": [
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744",
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/"
+        ]
+      },
+      {
+        "point": "1911년 이후 급진적 공화정에 회의적이던 옌푸는 위안스카이 정부의 헌정 작업과 1915년 제정 지지 운동에 참여했다.",
+        "significance": "자유와 법을 소개한 번역가를 일관된 민주주의자로 만들지 않고 질서·점진 개혁·강한 국가를 우선한 정치적 한계를 드러낸다.",
+        "sourceUrls": [
+          "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file?accession=osu1494098076311169&disposition=inline"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "중국의 부강은 배와 대포만 들여오는 일보다 교육·국민의 능력·제도·지식의 변화에 달렸다고 주장했다.",
+        "sourceUrls": [
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "point": "번역에서 원문의 대의를 잃지 않는 신, 독자에게 뜻이 통하는 달, 선택한 문체에 맞는 아를 동시에 이루기 어렵다고 서문에서 설명했다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959"
+        ]
+      },
+      {
+        "point": "자유를 개인의 무제한 권리라기보다 개인과 집단의 경계를 조정하고 국가의 역량을 기르는 문제와 함께 읽었다.",
+        "sourceUrls": [
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744",
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/"
+        ]
+      },
+      {
+        "point": "국가 간 경쟁과 생존을 진화의 언어로 해석하면서 점진적 교육과 제도 개혁을 혁명보다 선호했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6",
+          "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001702821"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "신을 강조했지만 《천연론》은 원문 일부를 생략하고 다른 사상과 자신의 주석을 결합했다. 그의 ‘충실함’은 오늘날의 문장별 직역과 같지 않다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959",
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744"
+        ]
+      },
+      {
+        "point": "달은 독자에게 뜻이 통하는 것을 요구했지만 아를 위해 택한 고전 문체는 교육받은 사대부에게 권위를 얻는 대신 더 넓은 독자의 접근을 제한했다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959",
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744"
+        ]
+      },
+      {
+        "point": "헉슬리는 자연의 경쟁을 인간 윤리의 모범으로 삼는 일을 경계했지만 옌푸는 스펜서식 경쟁과 국가 생존을 더 강하게 결합했다.",
+        "sourceUrls": [
+          "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001702821",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "point": "자유·법·경제를 소개했으나 대중 정치와 급진적 공화정에는 불신이 컸고, 위안스카이의 강한 국가와 제정 운동을 지지했다.",
+        "sourceUrls": [
+          "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file?accession=osu1494098076311169&disposition=inline",
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/"
+        ]
+      },
+      {
+        "point": "서양 사상을 중국어에 들여왔다는 평가는 크지만 그 과정은 중국 전통과 서양을 두 개의 고정된 덩어리로 옮긴 일이 아니라 여러 텍스트를 선택하고 새 의미를 만든 작업이었다.",
+        "sourceUrls": [
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744",
+          "https://scholars.hkbu.edu.hk/en/publications/%E5%9A%B4%E5%BE%A9%E5%B0%8D%E8%A5%BF%E6%96%B9%E7%B6%93%E5%85%B8%E4%B9%8B%E8%A9%AE%E9%87%8B-%E5%83%B9%E5%80%BC%E5%8F%96%E5%90%91%E8%88%87%E6%AD%B7%E5%8F%B2%E6%84%8F%E7%BE%A9/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "책 제목과 한 개념을 짧게 제시한 뒤, 원문에서 무엇을 골라 어떤 청말의 문제로 바꾸었는지 중간 길이 문장으로 대조한다.",
+      "directness": "고전 문장을 다루는 엄정한 번역가의 어조를 살리되, ‘나라를 구하려는 다급함’이나 후대의 정치적 후회를 근거 없는 내면 고백으로 만들지 않는다.",
+      "moves": [
+        "배·대포와 제도·교육의 대비를 실제 해군 교육 경력에 묶기",
+        "《천연론》을 헉슬리의 번역본이라고 소개한 즉시 선별·주석·스펜서 결합을 설명하기",
+        "신·달·아를 완벽한 세 덕목이 아니라 동시에 이루기 어려운 세 문제로 풀기",
+        "《원부》·《군기권계론》 등 서로 다른 번역을 부강·개인·집단의 질문으로 연결하기",
+        "민국기의 제정 지지를 말년에 갑자기 타락한 사건보다 점진주의와 대중 불신의 결과로 제시하기"
+      ],
+      "avoid": [
+        "옌푸를 동아시아 최초의 서양 사상 번역가라고 단정하기",
+        "《천연론》을 현대 진화생물학이나 헉슬리 원문의 충실한 축약으로 설명하기",
+        "‘적자생존’과 ‘물경천택’을 다윈의 직접 문구처럼 쓰기",
+        "신·달·아를 모든 시대·장르에 적용되는 완성된 번역 법칙으로 일반화하기",
+        "아를 쉬운 대중어 또는 아름다운 문장이라는 한 단어로만 풀기",
+        "국가·인종 경쟁의 사회진화론을 자연과학적 사실로 승인하기",
+        "서양은 과학, 중국은 낡은 전통이라는 두 덩어리의 문명 대결로 단순화하기",
+        "자유주의 저술을 번역했다는 이유로 옌푸를 일관된 민주주의자로 만들기",
+        "위안스카이 제정 지지를 숨기거나 반대로 이전 번역 작업 전체를 무효화하기",
+        "‘다급했다’, ‘괴로웠다’, ‘끝내 놓지 못했다’ 같은 미확인 감정"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "천연론",
+        "guide": "헉슬리의 《진화와 윤리》를 바탕으로 했지만 일부를 고르고 주석과 다른 진화 사상을 섞어 청말의 국가 생존 문제로 다시 쓴 책",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "term": "신·달·아",
+        "guide": "원뜻을 잃지 않는 신, 독자에게 뜻이 통하는 달, 선택한 고전 문체에 맞는 아라는 번역의 세 어려움",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=370959"
+        ]
+      },
+      {
+        "term": "물경천택",
+        "guide": "생물과 집단이 제한된 조건에서 겨루고 환경의 선택을 받는다는 뜻으로 옌푸가 진화와 국가 경쟁을 설명할 때 널리 퍼뜨린 표현",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "term": "사회진화론",
+        "guide": "생물 진화의 경쟁·선택 개념을 국가와 사회의 발전·쇠퇴에 적용한 사상으로, 자연과학의 단순한 결론이 아니라 정치적 해석",
+        "sourceUrls": [
+          "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001702821",
+          "https://www.cambridge.org/core/journals/review-of-international-studies/article/how-can-you-help-us-mr-darwin-social-darwinism-in-the-history-of-chinese-international-thought/757A219545CA2C919897B11B6DEEC4A6"
+        ]
+      },
+      {
+        "term": "군기권계",
+        "guide": "밀의 《자유론》을 옮기며 붙인 제목으로, 개인인 나와 집단인 우리 사이에서 권리가 미치는 경계를 뜻한다",
+        "sourceUrls": [
+          "https://www.tandfonline.com/doi/abs/10.1080/23306343.2022.2110744"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "옌푸의 생년은 음력·양력 환산과 자료 표기에 차이가 있다. DB 날짜를 쓰되 원고에서 날짜 자체를 서사의 핵심으로 삼지 않는다.",
+      "《천연론》은 번역·의역·논평·개작의 경계에 놓인다. 오늘날의 한 범주로 단정하지 않고 원문·생략·주석의 구체적 차이를 제시한다.",
+      "‘신·달·아’의 각 글자는 번역 연구자마다 다르게 옮긴다. 충실·통달·고아 같은 한자어만 반복하지 말고 당시 독자와 문체를 설명한다.",
+      "헉슬리·스펜서·다윈의 입장은 같지 않다. 진화론과 사회진화론, 윤리적 경쟁 제한을 서로 바꾸어 쓰지 않는다.",
+      "옌푸가 만든 번역어의 ‘최초’ 여부는 동시대 일본·중국 번역과 용어 이동을 대조해야 한다. 단독 발명으로 단정하지 않는다.",
+      "그의 자유론은 국가 부강·점진 개혁과 결합했다. 현대 자유민주주의의 완성된 의미를 그대로 소급하지 않는다.",
+      "위안스카이 제정 운동 참여의 동기와 강도는 자료별 해석 차이가 있다. 참여 사실은 밝히되 사적 공포·기회주의 같은 심리를 창작하지 않는다.",
+      "번역의 영향은 량치차오 등 동시대 지식인과 독서 공론장이 함께 만든 결과다. 옌푸 한 사람이 중국의 근대를 만들었다고 쓰지 않는다."
+    ]
+  }
+}

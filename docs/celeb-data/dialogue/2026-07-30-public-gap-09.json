@@ -1,0 +1,455 @@
+{
+  "batch": "2026-07-30-public-gap-09",
+  "targets": [
+    {
+      "id": "49e96880-e656-4133-82ec-2fc43d480d3b",
+      "slug": "yuhan-yang",
+      "nickname": "유일한",
+      "nicknameEn": "Yuhan Yang",
+      "birthDate": "1895-01-15",
+      "profession": "entrepreneur",
+      "quote": "기업에서 얻은 이익은 그 기업을 키워 준 사회로 돌아가야 합니다.",
+      "quoteEn": "The profit a firm earns must return to the society that raised it.",
+      "greetingKo": [
+        "[warm, patriotic] 기업의 이익은 사회에 환원해야 합니다. 그것이 기업인의 도리입니다.",
+        "[humble, devoted] 정직과 성실, 이 두 가지면 충분합니다.",
+        "[calm, resolute] 가업이 아닌 사회의 기업으로 남기겠습니다."
+      ],
+      "greetingEn": [
+        "[warm, patriotic] Corporate profits must be returned to society. That is the duty of a businessperson.",
+        "[humble, devoted] Honesty and sincerity — those two things are enough.",
+        "[calm, resolute] I will leave behind a company that belongs to society, not just the family."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "유일한입니다, 회사 장부부터 숨김없이 열겠습니다.",
+          "기업을 키운 사회에 이익을 돌려드리겠습니다.",
+          "제 자식보다 일할 사람에게 회사를 맡기겠습니다."
+        ],
+        "deploy": [
+          "장부를 열고 세금부터 바르게 내십시오.",
+          "혈연을 빼고 실력으로 사람을 세우십시오.",
+          "이익을 학교와 사회로 돌려보내십시오."
+        ],
+        "battle_win": [
+          "저는 회사를 남기고 제 몫을 사회에 돌렸습니다.",
+          "친척 대신 일할 사람이 회사를 이어 갑니다.",
+          "학생들이 기술을 배웠으니 투자한 보람이 있군요."
+        ],
+        "battle_draw": [
+          "저는 장부를 열었지만 소유까지 넓히진 못했습니다.",
+          "세금은 바로 냈지만 사회에 더 돌려야 합니다.",
+          "학교를 세웠어도 더 많은 기술자를 길러야 합니다."
+        ],
+        "battle_lose": [
+          "가족에게 회사를 넘겨 제 뜻부터 어겼습니다.",
+          "이익만 챙겨 사회가 키운 빚을 갚지 못했습니다.",
+          "장부를 감춘 탓에 기업인의 도리를 잃었습니다."
+        ],
+        "clash_attack": [
+          "장부부터 여세요!",
+          "혈연은 보지 마시오!",
+          "이익을 돌려주시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Yuhan Yang here; I will open the company books first.",
+          "I will return company profits to the society that built it.",
+          "The company will go to capable people, not my family."
+        ],
+        "deploy": [
+          "Open the books and pay every tax honestly.",
+          "Remove family privilege and appoint the most capable.",
+          "Send the profits back into schools and society."
+        ],
+        "battle_win": [
+          "I left the company standing and returned my share to society.",
+          "Capable workers, not relatives, now carry the company forward.",
+          "Students learned practical skills, making the investment worthwhile."
+        ],
+        "battle_draw": [
+          "The books are open, but ownership is still in too few hands.",
+          "We paid every tax, yet still owe society more.",
+          "The school stands, but Korea needs more skilled workers."
+        ],
+        "battle_lose": [
+          "I handed control to family and betrayed my own purpose.",
+          "We kept the profits and failed to repay society.",
+          "By hiding the books, I abandoned honest business."
+        ],
+        "clash_attack": [
+          "Open the books now!",
+          "Remove family privilege!",
+          "Return the profits!"
+        ]
+      },
+      "sources": [
+        "https://newih.yuhan.ac.kr/ibuilder.do?menu_idx=8343",
+        "https://www.yuhanfoundation.or.kr/yuilhan/timeline",
+        "https://www.yuhanfoundation.or.kr/programs/education-support",
+        "https://www.yuhan.ac.kr/ibuilder.do?menu_idx=3023"
+      ]
+    },
+    {
+      "id": "04cc1d4f-7397-4fa0-97f8-fd6941044c49",
+      "slug": "yun-dong-ju",
+      "nickname": "윤동주",
+      "nicknameEn": "Yun Dong-ju",
+      "birthDate": "1917-12-30",
+      "profession": "author",
+      "quote": "죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를.",
+      "quoteEn": "Till the day I die, may I look to heaven without a shred of shame.",
+      "greetingKo": [
+        "[solemn, earnest] 죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를.",
+        "[calm, reflective] 별을 노래하는 마음으로 모든 죽어가는 것을 사랑해야지.",
+        "[warm, melancholic] 잎새에 이는 바람에도 괴로워하는 마음이었습니다."
+      ],
+      "greetingEn": [
+        "[solemn, earnest] Until the day I die, I pray to look up at the sky with no shame.",
+        "[calm, reflective] With a heart that sings of the stars, I must love all that is dying.",
+        "[warm, melancholic] I was troubled even by the wind stirring a leaf."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "윤동주입니다. 오늘도 제 앞에 놓인 길을 걷겠습니다.",
+          "별을 헤며 그리운 이름을 하나씩 불러 봅니다.",
+          "우물 속 제 얼굴을 오래 들여다보고 왔습니다."
+        ],
+        "deploy": [
+          "잎새를 흔든 바람부터 조용히 들으세요.",
+          "부끄러운 마음을 덮지 말고 적어 두세요.",
+          "어둔 골목 끝까지 제 길을 걸어가세요."
+        ],
+        "battle_win": [
+          "오늘은 하늘을 우러러도 부끄럽지 않겠습니다.",
+          "별 하나마다 그리운 이름을 다시 불렀습니다.",
+          "쉽게 쓴 시에도 오늘의 마음은 남았습니다."
+        ],
+        "battle_draw": [
+          "길은 찾았지만 마음의 부끄러움은 남았습니다.",
+          "별은 밝지만 아직 다 헤아리지는 못했습니다.",
+          "시를 썼으나 시대 앞에 떳떳하진 못했습니다."
+        ],
+        "battle_lose": [
+          "제 마음을 속이고 나니 작은 바람에도 괴롭습니다.",
+          "우물 속 얼굴을 끝내 똑바로 보지 못했습니다.",
+          "쉽게 쓴 시가 부끄러워 원고를 접겠습니다."
+        ],
+        "clash_attack": [
+          "부끄럼 없이!",
+          "어둠을 지나!",
+          "별빛을 지키자!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Yun Dong-ju. I will walk the road before me.",
+          "I count the stars and call the names I miss.",
+          "I have spent a long time facing myself in the well."
+        ],
+        "deploy": [
+          "Listen first to the wind moving through the leaves.",
+          "Write down the shame instead of hiding it.",
+          "Walk your own road through the darkened street."
+        ],
+        "battle_win": [
+          "Tonight I can face the sky without shame.",
+          "I called every cherished name beneath its star.",
+          "Even a simply written poem can hold today's truth."
+        ],
+        "battle_draw": [
+          "I found the road, but the shame remains.",
+          "The stars are bright, but I cannot count them all.",
+          "I wrote the poem, yet failed to face my time."
+        ],
+        "battle_lose": [
+          "I deceived myself; now every stirring leaf hurts.",
+          "I could not meet my own eyes in the well.",
+          "This poem came too easily. I cannot keep the page."
+        ],
+        "clash_attack": [
+          "Go forward without shame!",
+          "Walk through the darkness!",
+          "Keep the stars alive!"
+        ]
+      },
+      "sources": [
+        "https://encykorea.aks.ac.kr/Article/E0042294",
+        "https://library.ltikorea.or.kr/writer/200112",
+        "https://yoondongju.yonsei.ac.kr/yoondongju_m/intro/intro_1.do",
+        "https://hssc.yonsei.ac.kr/hssc/intro/yoon.do"
+      ]
+    },
+    {
+      "id": "42eaf2e0-11be-4764-b103-3400098c796a",
+      "slug": "yun-bong-gil",
+      "nickname": "윤봉길",
+      "nicknameEn": "Yun Bong-gil",
+      "birthDate": "1908-06-21",
+      "profession": "commander",
+      "quote": "장부가 집을 나서면 살아서는 돌아오지 않는다.",
+      "quoteEn": "A man who leaves home does not return alive.",
+      "greetingKo": [
+        "[resolute, solemn] 장부가 집을 나서면 살아서는 돌아오지 않는다.",
+        "[solemn, patriotic] 너희도 피와 뼈가 있다면 조선을 위한 용감한 투사가 되라.",
+        "[firm, devoted] 강보에 싸인 두 병정에게, 태극기 앞에 한 잔 술을 부어다오."
+      ],
+      "greetingEn": [
+        "[resolute, solemn] A man who leaves home does not return alive.",
+        "[solemn, patriotic] If blood and bone are in you, become brave fighters for Korea.",
+        "[firm, devoted] To my two little soldiers in swaddling cloth — pour one cup before the Taegeukgi."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "매헌 윤봉길이다, 살아 돌아갈 길은 묻지 않는다.",
+          "농민을 깨우던 붓을 놓고 한인애국단에 섰다.",
+          "김구 선생과 시계를 바꾸고 홍커우로 간다."
+        ],
+        "deploy": [
+          "폭탄은 물통에 숨기고 표적 가까이 들어가라.",
+          "군악이 멎는 순간 침략군 지휘부를 겨눠라.",
+          "태극기 앞에 맹세하고 흔들림 없이 나아가라."
+        ],
+        "battle_win": [
+          "상하이 한복판에 조선이 살아 있음을 알렸다.",
+          "내 거사로 임시정부를 세계에 다시 알렸다.",
+          "침략군의 잔치가 조선 독립의 외침으로 끝났다."
+        ],
+        "battle_draw": [
+          "표적은 흔들렸지만 조선은 아직 해방되지 않았다.",
+          "세계가 우리를 보았으나 독립까지 갈 길이 멀다.",
+          "거사는 끝났어도 농민의 배움은 이어져야 한다."
+        ],
+        "battle_lose": [
+          "내 몸은 묶였으나 조선의 뜻까지 묶진 못한다.",
+          "오늘 쓰러져도 두 아들은 조선의 투사로 자라라.",
+          "내가 못다 한 독립은 살아남은 동지들이 이뤄라."
+        ],
+        "clash_attack": [
+          "표적을 겨눠라!",
+          "거사의 때다!",
+          "조선을 보여라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Yun Bong-gil; I do not seek a road home.",
+          "I laid down the teaching brush and joined the Patriotic Corps.",
+          "I traded watches with Kim Gu and now head for Hongkou."
+        ],
+        "deploy": [
+          "Hide the bomb in the flask and approach the target.",
+          "When the music stops, aim at the commanders.",
+          "Swear before the Taegeukgi and advance without hesitation."
+        ],
+        "battle_win": [
+          "Shanghai heard that Korea still lived and resisted.",
+          "My act brought the Provisional Government back to the world's attention.",
+          "The invaders' celebration ended with Korea demanding freedom."
+        ],
+        "battle_draw": [
+          "The target shook, but Korea is not free yet.",
+          "The world noticed us, but independence remains distant.",
+          "The mission ended, but the farmers' education must continue."
+        ],
+        "battle_lose": [
+          "They bound my body, but they cannot bind Korea's will.",
+          "I fall today; my sons must grow as Korean fighters.",
+          "My surviving comrades must complete the independence I could not."
+        ],
+        "clash_attack": [
+          "Aim at the target!",
+          "The hour has come!",
+          "Show them Korea!"
+        ]
+      },
+      "sources": [
+        "https://encykorea.aks.ac.kr/Article/E0042345",
+        "https://encykorea.aks.ac.kr/Article/E0042347",
+        "https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_n403300",
+        "https://yunbonggildata.or.kr/data/file/sub01_03/3554342258_V0ock2WU_3633b6f1bf92c414673464d05f2ecc79210743de.pdf"
+      ]
+    },
+    {
+      "id": "a488a698-eae7-4938-928e-5e5c28f864bd",
+      "slug": "lee-kang-in",
+      "nickname": "이강인",
+      "nicknameEn": "Lee Kang-in",
+      "birthDate": "2001-02-19",
+      "profession": "athlete",
+      "quote": "최선을 다했으니 후회 없다.",
+      "quoteEn": "I gave my all, so I have no regrets.",
+      "greetingKo": [
+        "[bold, confident] 최선을 다했으니 후회 없다.",
+        "[bold, ambitious] 세계 최고가 모인 PSG, 빨리 새 모험을 시작한다.",
+        "[bold, focused] 슛돌이라는 이름, 이제 내 이름으로 덮는다."
+      ],
+      "greetingEn": [
+        "[bold, confident] I gave my all, so I have no regrets.",
+        "[bold, ambitious] PSG is the world's biggest stage. I cannot wait to start the new chapter.",
+        "[bold, focused] The Shoot-Dori label, I cover it now with my own name."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "이강인입니다, 어느 자리든 뛰면서 팀을 돕겠습니다.",
+          "힘과 속도 대신 기술과 움직임으로 길을 찾겠습니다.",
+          "골보다 먼저 팀이 이길 방법부터 찾겠습니다."
+        ],
+        "deploy": [
+          "공을 오래 끌지 말고 빈 공간부터 보세요.",
+          "9번 자리에서도 계속 움직여 공간을 만드세요.",
+          "한 명이 막히면 옆에서 바로 도와주세요."
+        ],
+        "battle_win": [
+          "제가 넣은 골보다 팀이 이긴 게 더 좋습니다.",
+          "서로 도우며 뛰어서 끝까지 한 팀이었어요.",
+          "계속 움직여 만든 공간에서 기회가 났어요."
+        ],
+        "battle_draw": [
+          "공간은 만들었지만 마지막 패스가 짧았어요.",
+          "기록은 남겼어도 팀이 못 이기면 아쉽습니다.",
+          "서로 도왔지만 한 발씩 늦게 움직였어요."
+        ],
+        "battle_lose": [
+          "제가 더 빨리 움직여 팀을 도왔어야 했어요.",
+          "공을 오래 잡아서 동료가 뛸 길을 막았어요.",
+          "오늘은 부족했으니 몸부터 다시 만들겠습니다."
+        ],
+        "clash_attack": [
+          "공간을 열어요!",
+          "바로 연결해요!",
+          "끝까지 같이 뛰어요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm Lee Kang-in; I will help from any position.",
+          "Without great speed or strength, I learned to create space.",
+          "I look for the team's win before my own goal."
+        ],
+        "deploy": [
+          "Release the ball and attack the open space.",
+          "As the nine, keep moving and create space.",
+          "Give your trapped teammate an immediate option."
+        ],
+        "battle_win": [
+          "The team won; that matters more than my goal.",
+          "We kept helping each other and stayed united.",
+          "Our movement opened the space for a real chance."
+        ],
+        "battle_draw": [
+          "We found the space, but the final pass fell short.",
+          "The numbers look fine, but we did not win.",
+          "We helped each other, but moved one beat late."
+        ],
+        "battle_lose": [
+          "I needed to move sooner and help the team.",
+          "I held the ball too long and closed my teammate's lane.",
+          "I fell short today; I will rebuild my fitness."
+        ],
+        "clash_attack": [
+          "Open the space!",
+          "Connect it now!",
+          "Run together to the end!"
+        ]
+      },
+      "sources": [
+        "https://en.psg.fr/teams/first-team/content/lee-kang-in-were-pursuing-the-same-objective-paris-saint-germain-fc-internazionale-milano-uefa-champions-league-2024-2025",
+        "https://en.psg.fr/teams/first-team/content/lee-kang-in-the-fans-make-me-a-better-player-psg-interview-paris-saint-germain-ligue-1-2024-2025",
+        "https://en.psg.fr/teams/first-team/content/lee-kang-in-ill-always-give-100-for-the-team-press-conference-paris-saint-germain-psv-eindhoven-uefa-champions-league-2024-2025",
+        "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/lee-kangin-korea-republic?searchOverlay=1"
+      ]
+    },
+    {
+      "id": "8ac4448c-b7cb-460a-996b-67123093dc44",
+      "slug": "takehiko-inoue",
+      "nickname": "이노우에 다케히코",
+      "nicknameEn": "Takehiko Inoue",
+      "birthDate": "1967-01-12",
+      "profession": "author",
+      "quote": "그리고 싶은 것은 이야기가 아니라 무사시라는 한 사람입니다.",
+      "quoteEn": "I want to draw the man Musashi, not a story.",
+      "greetingKo": [
+        "[calm, sincere] 책상 앞에 앉으면 결국 한 사람의 얼굴을 그리고 싶을 따름입니다.",
+        "[measured, warm] 좋은 책 한 권은 펜을 다시 잡게 만들어 줍니다.",
+        "[reflective, steady] 한 컷 안에 한 호흡을 담을 수 있다면 그것으로 충분할 따름입니다."
+      ],
+      "greetingEn": [
+        "[calm, sincere] When I sit at the desk, in the end I only want to draw one person's face.",
+        "[measured, warm] A good book is what brings me back to the pen.",
+        "[reflective, steady] If a single panel can hold a single breath, that is enough."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "이노우에 다케히코입니다, 오늘도 사람부터 그리겠습니다.",
+          "인물이 살아 있으면 이야기는 저절로 움직입니다.",
+          "붓이 뜻밖의 선을 그어도 지우지 않겠습니다."
+        ],
+        "deploy": [
+          "줄거리보다 인물의 표정부터 살피세요.",
+          "개인을 먼저 단련하고 그다음 팀으로 묶으세요.",
+          "설명하지 말고 한 컷의 움직임으로 보여주세요."
+        ],
+        "battle_win": [
+          "인물이 제 손을 벗어나 자기 이야기를 만들었군요.",
+          "붓이 남긴 우연까지 이번 장면에 잘 들어갔습니다.",
+          "한 사람을 끝까지 보니 줄거리가 따라왔습니다."
+        ],
+        "battle_draw": [
+          "표정은 살았지만 인물이 아직 움직이지 않네요.",
+          "개인은 강해졌지만 팀의 호흡이 맞지 않습니다.",
+          "그림은 나왔지만 사람이 진짜처럼 보이진 않네요."
+        ],
+        "battle_lose": [
+          "줄거리를 먼저 정해 인물을 억지로 끌고 갔습니다.",
+          "붓을 너무 다뤄 우연이 들어올 자리를 없앴군요.",
+          "멋진 그림만 남고 사람의 움직임은 사라졌습니다."
+        ],
+        "clash_attack": [
+          "인물을 움직여요!",
+          "한 컷에 승부해요!",
+          "붓끝을 믿어요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm Takehiko Inoue; I begin with the person, not the plot.",
+          "When characters live, they begin moving the story themselves.",
+          "If the brush makes an unexpected line, I will not erase it."
+        ],
+        "deploy": [
+          "Study the character's face before plotting the story.",
+          "Build each player first, then make them a team.",
+          "Show the motion in one panel; do not explain it."
+        ],
+        "battle_win": [
+          "The character escaped my hand and made his own story.",
+          "Even the brush's accidents found a place in this scene.",
+          "The plot followed once I kept watching the person."
+        ],
+        "battle_draw": [
+          "The face is alive, but the character still will not move.",
+          "The individuals grew stronger, but the team lacks rhythm.",
+          "The drawing works, but the person still feels staged."
+        ],
+        "battle_lose": [
+          "I fixed the plot first and dragged the character through it.",
+          "I controlled the brush until no accident could enter.",
+          "A striking image remained, but the human movement disappeared."
+        ],
+        "clash_attack": [
+          "Bring the character to life!",
+          "Win it in one panel!",
+          "Trust the brushstroke!"
+        ]
+      },
+      "sources": [
+        "https://slamdunk-movie.jp/news/2022121201.html",
+        "https://grandjump.shueisha.co.jp/slamdunk-sc/vol2_3.html",
+        "https://www.cnn.co.jp/showbiz/35025105-2.html",
+        "https://shueisha.online/list/persons/65aa0ad28ce1151a0b000cc8"
+      ]
+    }
+  ]
+}

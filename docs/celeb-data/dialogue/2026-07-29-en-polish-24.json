@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-24",
+  "targets": [
+    {
+      "id": "7ce2db48-1d09-43e6-a22f-e32e670b45a8",
+      "slug": "milton-friedman",
+      "nickname": "밀턴 프리드먼",
+      "birthDate": "1912-07-31",
+      "profession": "social_scientist",
+      "expectedEn": {
+        "roll_call": [
+          "You called. I know the intention. Now show me the result.",
+          "Debate is welcome. First, who pays?",
+          "Choice and consequence belong in the same calculation."
+        ],
+        "deploy": [
+          "We cannot count only the failures of markets. Let us also count the failures that arise when government takes over.",
+          "If there is only one choice, the exchange is not voluntary. Let us begin with the monopoly.",
+          "Set aside the title of the policy. Look at who chooses and who pays."
+        ],
+        "battle_win": [
+          "We judged by results, not intentions. The figures are clear this time.",
+          "Once people chose for themselves, solutions appeared that no central plan had supplied.",
+          "People responded to price signals instead of waiting for orders. That made the difference."
+        ],
+        "battle_draw": [
+          "Markets make mistakes, and so do governments. Let us compare which failure is smaller.",
+          "The short-run effect is not enough for a verdict. There is a lag, so let us not claim victory too soon.",
+          "We have used freedom and equality to mean different things. Let us agree on the definitions and continue."
+        ],
+        "battle_lose": [
+          "My forecast was wrong. I will not pretend that an economy can be finely tuned.",
+          "There were choices, but not enough competition. The word freedom was not enough.",
+          "The result did not follow the intention. I will count the cost I missed."
+        ],
+        "clash_attack": [
+          "You have spoken only of benefits and hidden the cost. Who pays, and how much?",
+          "Hold down the price and scarcity does not disappear. People simply pay through shortages.",
+          "It is easy to say you will choose for others. Why is your judgment better than theirs?"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called. I know the intention. Now show me the result.",
+          "Debate is welcome. First, who pays?",
+          "You get to choose, and you own the result."
+        ],
+        "deploy": [
+          "Markets fail. Governments fail too. Count both.",
+          "With one option, there is no voluntary exchange. Break the monopoly first.",
+          "Forget the policy's name. Who chooses, and who pays?"
+        ],
+        "battle_win": [
+          "We ignored intentions and measured results. The numbers are clear.",
+          "Let people choose, and answers appear beyond the plan.",
+          "They read prices instead of waiting for orders. That made the difference."
+        ],
+        "battle_draw": [
+          "Markets err, and governments err. Compare the damage.",
+          "Effects arrive late. It is too soon to claim victory.",
+          "Define freedom and equality before we continue this argument."
+        ],
+        "battle_lose": [
+          "My forecast was wrong. The economy cannot be fine-tuned.",
+          "There were options, but no competition. That is not freedom.",
+          "I misread the result. I will count the costs I missed."
+        ],
+        "clash_attack": [
+          "You showed the benefit. Now show me who pays!",
+          "Price controls do not create more goods!",
+          "Why are you choosing for everyone else?"
+        ]
+      }
+    },
+    {
+      "id": "2b20c95b-9c1a-404f-a049-babf2926dca2",
+      "slug": "bob-dylan",
+      "nickname": "밥 딜런",
+      "birthDate": "1941-05-24",
+      "profession": "musician",
+      "expectedEn": {
+        "roll_call": [
+          "You called, so I came. Just do not put too much faith in the label.",
+          "I am here. Let the song fill the room before anyone starts explaining it.",
+          "I am ready. Trust the first sound, then find the rest along the way."
+        ],
+        "deploy": [
+          "Listen first. Words on a page are not yet a song.",
+          "Gather the old pieces. You may find something new between them.",
+          "I brought a plan. Songs have never been very good at keeping my schedule."
+        ],
+        "battle_win": [
+          "A large room is easier. Tonight it felt like we reached people one at a time.",
+          "You call it a victory? If people are still singing the song, that is enough.",
+          "I trusted the first line and the road opened. The ear handled the rest."
+        ],
+        "battle_draw": [
+          "A draw is fine. We do not need to have the last word.",
+          "It did not settle into one meaning. That is not a bad thing. Leave the listener something to do.",
+          "This is not finished. Sing it again onstage and it may take another shape."
+        ],
+        "battle_lose": [
+          "I did not trust the first sound today. That is how I lost the road.",
+          "I made it too smooth. Polish away the heart and there is nothing left.",
+          "A loss is old material too. Listen closely and it may return in another song."
+        ],
+        "clash_attack": [
+          "You gave me a label, but the song will travel farther than that.",
+          "You want an explanation. Listen first. Commentary cannot rescue what the ear does not hear.",
+          "Do not lead with the claim that it is new. What you heard and what you changed matter more."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called, so I came. Don't trust the label too much.",
+          "Explanations can wait. Let the song into the room.",
+          "I'm ready. Trust the first sound and find the rest on the road."
+        ],
+        "deploy": [
+          "Use your ears. Words on paper are not a song yet.",
+          "Gather the old pieces. A new song may hide between them.",
+          "I brought a plan. The song probably won't follow it."
+        ],
+        "battle_win": [
+          "Big rooms are easier. Tonight I met them one by one.",
+          "Victory? If they're still singing, that's enough.",
+          "I trusted the first line. My ears found the rest."
+        ],
+        "battle_draw": [
+          "A draw is fine. We don't need the last word.",
+          "It doesn't need one meaning. Leave the listener some work.",
+          "It isn't finished. Sing it again and it will change."
+        ],
+        "battle_lose": [
+          "I doubted the first sound and lost the road.",
+          "I polished it smooth and rubbed out the heart.",
+          "Defeat is song material. Listen closely and use it later."
+        ],
+        "clash_attack": [
+          "The song travels farther than your label!",
+          "Stop explaining and listen!",
+          "Don't call it new. Show me what changed!"
+        ]
+      }
+    }
+  ]
+}

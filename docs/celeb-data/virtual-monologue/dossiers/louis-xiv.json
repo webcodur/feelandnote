@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "slug": "louis-xiv",
+  "nickname": "루이 14세",
+  "route": "improve",
+  "routeReason": "현재 글은 프롱드, 베르사유, 콜베르, 전쟁, 낭트칙령 철회를 한 생애 안에 배치해 재사용할 구조가 있다. 다만 어린 시절 프롱드의 공포가 모든 중앙 집권을 낳았다고 단정하고 베르사유를 귀족을 가둔 황금 우리로만 설명한다. 절대왕정은 장관·평의회·법관·지방 엘리트와의 협력 위에서 작동했고, 전쟁 재정과 기근, 위그노 강제 개종·추방, 1685년 흑인법전이 제도화한 식민지 노예제를 함께 다뤄야 한다. 낭트칙령 철회를 잘못이라고 깨달았다는 창작된 참회는 빼고, 명령과 결과를 병치해 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "루이 14세",
+      "birth": "1638-09-05",
+      "death": "1715-09-01",
+      "profession": "politician",
+      "disambiguation": "1643~1715년 프랑스를 다스리며 베르사유에 궁정과 정부를 집중하고 전쟁·종교 통일·식민지 노예 법제를 추진한 부르봉 왕조 국왕",
+      "existingBioForDiscoveryOnly": "프랑스 절대왕정의 정점. 72년간 재위하며 베르사유 궁전을 건설하고 유럽 문화의 중심을 프랑스로 이끌었다."
+    },
+    "sources": [
+      {
+        "url": "https://en.chateauversailles.fr/discover/history",
+        "title": "History of the Palace of Versailles",
+        "publisher": "Palace of Versailles",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1661년부터 베르사유 궁전 확장이 본격화된 과정",
+          "1682년 궁정과 정부가 베르사유에 자리 잡은 사실",
+          "건축·의례·예술을 왕권의 표현으로 사용한 장기 사업"
+        ]
+      },
+      {
+        "url": "https://en.chateauversailles.fr/discover/history/key-dates/courtiers",
+        "title": "Courtiers: The Nobility Surrounding the King",
+        "publisher": "Palace of Versailles",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "베르사유 궁정에 수천 명의 귀족·관리·하인이 모인 규모",
+          "접근권·의례·직책·왕의 총애가 궁정 서열과 정치적 기회를 만든 방식",
+          "귀족이 궁정에서 봉사와 경쟁을 통해 왕권과 관계를 맺은 구조"
+        ]
+      },
+      {
+        "url": "https://www.chateauversailles.fr/decouvrir/histoire/grandes-dates/lieux-pouvoir",
+        "title": "Places of Power: The King's Councils",
+        "publisher": "Palace of Versailles",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "마자랭 사후 루이 14세가 수석대신을 두지 않고 직접 국정을 주재한 방식",
+          "국왕이 장관·국무비서·평의회와 함께 결정을 내린 실제 정부 구조",
+          "왕 개인의 의지와 관료·법·회의 절차가 함께 작동했다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/historical-journal/article/versailles-revisited-new-work-on-the-old-regime/2142DA19FF45B5A2DC69D958515AA2CF",
+        "title": "Versailles Revisited: New Work on the Old Regime",
+        "publisher": "The Historical Journal, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2003-07-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "베르사유의 궁정 생활과 구체제 정치에 관한 최근 연구의 쟁점",
+          "절대왕정 아래에서도 중앙·지방 엘리트와 귀족의 권력과 협상이 계속됐다는 해석",
+          "베르사유를 모든 귀족을 무력화한 감옥으로만 보는 통설의 한계"
+        ]
+      },
+      {
+        "url": "https://cour-de-france.fr/histoire-et-fonction/politique-guerre-et-justice/etudes-modernes/article/the-absolutism-of-louis-xiv-as-social-collaboration?lang=fr",
+        "title": "The Absolutism of Louis XIV as Social Collaboration",
+        "publisher": "Cour de France",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "루이 14세의 절대왕정이 귀족·관료·법인체와의 타협 및 자원 교환에 의존했다는 해석",
+          "왕이 모든 결정을 혼자 집행했다는 전능한 국가상에 대한 비판",
+          "왕권 강화와 기존 특권·사회 위계가 협력한 구조"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/financial-history-review/article/most-difficult-financial-matter-that-has-ever-presented-itself-paper-money-and-the-financing-of-warfare-under-louis-xiv/D7DA295698EBED10F26D9AF18AFA2037",
+        "title": "The Most Difficult Financial Matter That Has Ever Presented Itself: Paper Money and the Financing of Warfare under Louis XIV",
+        "publisher": "Financial History Review, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2018-04-10",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "루이 14세의 장기 전쟁이 세금·신용·화폐에 준 압박",
+          "1690년대 전쟁 재정과 1693~1694년 기근이 겹친 국가 위기",
+          "왕의 영광과 영토 확대를 전쟁 비용 및 민생과 분리할 수 없다는 점"
+        ]
+      },
+      {
+        "url": "https://guides.loc.gov/french-resistance-world-war-two/church",
+        "title": "Resistance in the Church",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1685년 퐁텐블로 칙령이 낭트칙령을 철회하고 개신교 예배를 금지한 역사적 배경",
+          "위그노에 대한 강제 개종과 이주 금지가 남긴 장기적 종교 갈등",
+          "후대 프랑스 개신교 공동체가 기억한 국가 박해의 맥락"
+        ]
+      },
+      {
+        "url": "https://blogs.loc.gov/law/2011/01/slavery-in-the-french-colonies/",
+        "title": "Slavery in the French Colonies: Le Code Noir (the Black Code) of 1685",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": "2011-01-13",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1685년 흑인법전 60개 조항의 법적 구조",
+          "프랑스 식민지에서 노예를 재산으로 규정하고 법적 능력을 부정한 조항",
+          "가톨릭 강제, 결혼·처벌·해방을 규율하며 식민지 노예제를 왕권 아래 제도화한 사실"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "어린 국왕 시절 프롱드를 겪었고 1661년 마자랭이 죽은 뒤 수석대신 없이 장관과 평의회를 직접 주재하기 시작했다.",
+        "significance": "프롱드를 중앙 집권의 단 하나뿐인 심리 원인으로 만들지 않고, 직접 통치라는 확인 가능한 제도 선택에 무게를 둔다.",
+        "sourceUrls": [
+          "https://www.chateauversailles.fr/decouvrir/histoire/grandes-dates/lieux-pouvoir",
+          "https://cour-de-france.fr/histoire-et-fonction/politique-guerre-et-justice/etudes-modernes/article/the-absolutism-of-louis-xiv-as-social-collaboration?lang=fr"
+        ]
+      },
+      {
+        "point": "1661년부터 베르사유를 확대하고 1682년 궁정과 정부를 옮겨 왕을 만나는 절차와 관직·총애의 경쟁을 한 공간에 집중했다.",
+        "significance": "베르사유의 권력 효과를 살리되 모든 귀족이 지방 권력을 잃고 갇혔다는 황금 우리 신화로 단순화하지 않는다.",
+        "sourceUrls": [
+          "https://en.chateauversailles.fr/discover/history",
+          "https://en.chateauversailles.fr/discover/history/key-dates/courtiers",
+          "https://www.cambridge.org/core/journals/historical-journal/article/versailles-revisited-new-work-on-the-old-regime/2142DA19FF45B5A2DC69D958515AA2CF"
+        ]
+      },
+      {
+        "point": "1685년 낭트칙령을 철회해 개신교 예배를 금지하고 강제 개종을 밀어붙이는 한편, 같은 해 식민지 노예제를 규율한 흑인법전을 공포했다.",
+        "significance": "국내 종교 통일과 대서양 식민 통치를 별개 업적처럼 떼지 않고 왕권이 신앙과 몸을 법으로 통제한 같은 시기의 선택으로 놓는다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/french-resistance-world-war-two/church",
+          "https://blogs.loc.gov/law/2011/01/slavery-in-the-french-colonies/"
+        ]
+      },
+      {
+        "point": "계속된 유럽 전쟁은 영토와 왕조의 위신을 넓혔지만 세금·신용 위기를 키웠고 1693~1694년 기근과 겹쳐 백성의 부담을 높였다.",
+        "significance": "군사적 영광을 전쟁 비용과 민생에서 분리하지 않으며, 확인되지 않은 개인적 후회를 대신 만들지 않는다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/financial-history-review/article/most-difficult-financial-matter-that-has-ever-presented-itself-paper-money-and-the-financing-of-warfare-under-louis-xiv/D7DA295698EBED10F26D9AF18AFA2037"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "수석대신에게 국정을 맡기지 않고 자신이 장관과 평의회의 보고를 받고 최종 결정을 내리는 직접 통치를 택했다.",
+        "sourceUrls": [
+          "https://www.chateauversailles.fr/decouvrir/histoire/grandes-dates/lieux-pouvoir"
+        ]
+      },
+      {
+        "point": "궁정의 의례·예술·관직·접근권을 이용해 귀족의 경쟁과 봉사를 왕을 중심으로 조직했다.",
+        "sourceUrls": [
+          "https://en.chateauversailles.fr/discover/history",
+          "https://en.chateauversailles.fr/discover/history/key-dates/courtiers"
+        ]
+      },
+      {
+        "point": "가톨릭 신앙의 통일을 내세워 위그노의 공개 예배를 금지하고 개종을 강제했다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/french-resistance-world-war-two/church"
+        ]
+      },
+      {
+        "point": "식민지에서는 흑인법전으로 노예를 재산으로 규정하고 가톨릭·가족·처벌·해방을 왕의 법 아래 두었다.",
+        "sourceUrls": [
+          "https://blogs.loc.gov/law/2011/01/slavery-in-the-french-colonies/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "루이 14세는 최종 결정권을 강하게 행사했지만 실제 통치는 장관·평의회·법관·귀족·지방 엘리트가 정보를 모으고 명령을 집행해야 가능했다.",
+        "sourceUrls": [
+          "https://www.chateauversailles.fr/decouvrir/histoire/grandes-dates/lieux-pouvoir",
+          "https://cour-de-france.fr/histoire-et-fonction/politique-guerre-et-justice/etudes-modernes/article/the-absolutism-of-louis-xiv-as-social-collaboration?lang=fr"
+        ]
+      },
+      {
+        "point": "베르사유는 왕권의 무대이자 정부 중심이었지만 귀족을 모두 무력한 장식으로 만든 감옥은 아니었다. 귀족은 궁정과 지방의 직책·재산·연결망을 계속 활용했다.",
+        "sourceUrls": [
+          "https://en.chateauversailles.fr/discover/history/key-dates/courtiers",
+          "https://www.cambridge.org/core/journals/historical-journal/article/versailles-revisited-new-work-on-the-old-regime/2142DA19FF45B5A2DC69D958515AA2CF"
+        ]
+      },
+      {
+        "point": "예술과 건축은 프랑스 궁정 문화의 영향력을 키웠지만 전쟁과 궁정 운영에 필요한 재원은 세금·공채·화폐 부담으로 사회에 전가됐다.",
+        "sourceUrls": [
+          "https://en.chateauversailles.fr/discover/history",
+          "https://www.cambridge.org/core/journals/financial-history-review/article/most-difficult-financial-matter-that-has-ever-presented-itself-paper-money-and-the-financing-of-warfare-under-louis-xiv/D7DA295698EBED10F26D9AF18AFA2037"
+        ]
+      },
+      {
+        "point": "종교적 통일을 명분으로 위그노를 박해하고 식민지에서는 흑인법전으로 노예제를 법제화했다. 문화 후원자라는 기억만으로 두 국가 폭력을 덮을 수 없다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/french-resistance-world-war-two/church",
+          "https://blogs.loc.gov/law/2011/01/slavery-in-the-french-colonies/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "왕의 평의회 보고처럼 짧은 결론 뒤에 근거가 되는 명령·비용·기관을 한 가지씩 붙인다. 화려한 수사를 길게 겹치지 않는다.",
+      "directness": "의례와 법을 통해 권력을 보이는 자신감은 살리되 전능한 1인칭이나 현대적 참회는 피한다. 결정과 결과가 서로 말하게 한다.",
+      "moves": [
+        "태양왕이라는 별명보다 매일 어떤 보고와 평의회를 통해 통치했는지 먼저 말하기",
+        "베르사유의 거울·연회보다 접근권·관직·정부 이동의 정치 효과를 짚기",
+        "전쟁의 승리 옆에 세금·신용·기근을 놓기",
+        "낭트칙령 철회와 흑인법전을 같은 왕권의 법적 선택으로 보여 주기"
+      ],
+      "avoid": [
+        "국가가 곧 나라는 말을 실제 직접인용으로 쓰기",
+        "프롱드 때의 공포가 모든 정책을 낳았다는 단일 심리 인과",
+        "베르사유에 귀족을 가둬 지방 권력을 완전히 없앴다는 황금 우리 서사",
+        "위그노 추방이 경제를 약화시켰음을 스스로 깨닫고 후회했다는 창작",
+        "흑인법전을 콜베르의 문서로만 돌려 국왕과 왕정의 책임을 지우기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "프롱드",
+        "guide": "루이 14세의 어린 재위기에 고등법원과 귀족 세력이 왕실 정부에 맞서 벌인 내란",
+        "sourceUrls": [
+          "https://cour-de-france.fr/histoire-et-fonction/politique-guerre-et-justice/etudes-modernes/article/the-absolutism-of-louis-xiv-as-social-collaboration?lang=fr"
+        ]
+      },
+      {
+        "term": "절대왕정",
+        "guide": "국왕이 최고 주권을 주장한 체제로 실제 통치는 관료·귀족·지방 세력과의 협력과 협상에 의존했다",
+        "sourceUrls": [
+          "https://cour-de-france.fr/histoire-et-fonction/politique-guerre-et-justice/etudes-modernes/article/the-absolutism-of-louis-xiv-as-social-collaboration?lang=fr",
+          "https://www.chateauversailles.fr/decouvrir/histoire/grandes-dates/lieux-pouvoir"
+        ]
+      },
+      {
+        "term": "위그노",
+        "guide": "16~17세기 프랑스의 개신교 신자들로 1685년 이후 예배 금지와 강제 개종을 겪은 집단",
+        "sourceUrls": [
+          "https://guides.loc.gov/french-resistance-world-war-two/church"
+        ]
+      },
+      {
+        "term": "낭트칙령 철회",
+        "guide": "개신교의 제한된 예배권을 인정하던 칙령을 1685년 폐지하고 가톨릭 통일을 강제한 조치",
+        "sourceUrls": [
+          "https://guides.loc.gov/french-resistance-world-war-two/church"
+        ]
+      },
+      {
+        "term": "흑인법전",
+        "guide": "1685년 프랑스 식민지의 노예제를 규율하며 노예를 재산으로 규정한 왕령",
+        "sourceUrls": [
+          "https://blogs.loc.gov/law/2011/01/slavery-in-the-french-colonies/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "국가가 곧 나라는 유명한 문장은 루이 14세의 확실한 축어 발언으로 입증되지 않는다. 독백의 대표 인용으로 쓰지 않는다.",
+      "프롱드 경험이 왕의 통치관에 영향을 줬을 수 있지만 한 사건의 공포가 베르사유와 모든 중앙 집권 정책을 직접 낳았다고 단정하지 않는다.",
+      "베르사유 자료는 궁전 자체의 기관 서술도 포함한다. 궁정이 귀족을 통제했다는 설명은 학술 연구의 협력·협상 관점과 함께 사용한다.",
+      "절대왕정은 법과 행정의 최고 권한을 뜻해도 국왕 혼자 모든 지방을 직접 움직였다는 뜻은 아니다. 신하와 엘리트의 역할을 지우지 않는다.",
+      "낭트칙령 철회 뒤 위그노 이주 규모와 경제적 손실 추정은 연구마다 다르다. 박해와 이주 사실을 말하되 단일 수치와 경제 몰락 인과는 피한다.",
+      "1693~1694년 기근의 사망자 규모도 추정이 갈린다. 전쟁·재정·흉작이 겹친 위기는 다루되 검증되지 않은 숫자를 넣지 않는다.",
+      "흑인법전은 콜베르와 세뉴레의 행정 작업, 왕의 공포, 식민지별 집행이 얽힌 법이다. 루이 14세가 모든 조항을 직접 썼다고 하지 않되 왕정의 책임을 지우지 않는다.",
+      "후대의 종교 박해·노예제 비판을 루이 14세의 사후 자각이나 현대적 죄책감으로 바꾸지 않는다."
+    ]
+  }
+}

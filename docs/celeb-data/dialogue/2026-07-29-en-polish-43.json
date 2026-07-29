@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-43",
+  "targets": [
+    {
+      "id": "796c7939-e74b-4bf0-90c3-5f0be51e24cf",
+      "slug": "kim-taek-jin",
+      "nickname": "김택진",
+      "birthDate": "1967-03-14",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "I am Kim Taek-jin. From developer to founder and chief creative officer, I still ask what lies at the heart of a game.",
+          "NCSOFT's essence lies in games that bring people together and spark joy.",
+          "I will seek the kind of pure fun that logic alone cannot explain."
+        ],
+        "deploy": [
+          "See through to the essence and meaning of the work. In the age of AI, insight is the real advantage.",
+          "Do not use AI only to cut time and cost. Use it to expand creativity.",
+          "Listen to global players from the earliest stage and keep adjusting the direction."
+        ],
+        "battle_win": [
+          "If players made happy memories inside the game, that is the truest achievement.",
+          "Players around the world have begun creating countless stories and challenges in one shared world.",
+          "A championship after nine seasons. Something straight out of a comic has happened."
+        ],
+        "battle_draw": [
+          "We will keep asking how the world will have changed when this game launches, and whether it will stand out.",
+          "We will keep searching for ways to express NCSOFT's identity across more diverse genres.",
+          "Every release left some regret about the essence of the original Lineage. I will take up that question again."
+        ],
+        "battle_lose": [
+          "I will listen not only to the criticism we can hear, but also to the voices we have failed to hear. Our problems require deep reflection.",
+          "If players are left without happy memories, the numbers alone cannot make this a victory.",
+          "If new technology does not widen creativity, saving time alone is not enough."
+        ],
+        "clash_attack": [
+          "Do not repeat yesterday's successful formula. Challenge a new genre with a new idea.",
+          "Do not prove fun with explanations alone. Let the player feel it instinctively.",
+          "Players now watch, share, and create. Do not treat them as passive consumers."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Kim Taek-jin. I became a founder, but I still ask what makes a game.",
+          "NCSOFT makes worlds where people gather and enjoy themselves together.",
+          "I chase the kind of fun no argument can explain."
+        ],
+        "deploy": [
+          "Ask why the work matters. In the AI era, insight wins.",
+          "Do not use AI only to save time. Make it expand creativity.",
+          "Listen to global players early, then keep correcting course."
+        ],
+        "battle_win": [
+          "Players made happy memories here. That is the real result.",
+          "Players worldwide built their own stories and challenges in one world.",
+          "A championship after nine seasons. That belongs in a comic."
+        ],
+        "battle_draw": [
+          "What will the world look like at launch? Will we stand out?",
+          "Keep finding what makes an NCSOFT game across new genres.",
+          "Every release makes me ask whether we lost what made Lineage itself."
+        ],
+        "battle_lose": [
+          "We heard the loud criticism and missed quieter voices. Find them.",
+          "No happy memories means the numbers did not win.",
+          "Technology that only saves time has not expanded creativity."
+        ],
+        "clash_attack": [
+          "Stop repeating yesterday's winning formula!",
+          "Make the player feel the fun!",
+          "Players create now. Stop treating them as spectators!"
+        ]
+      }
+    },
+    {
+      "id": "5a504747-2b2e-4c77-8b07-e8bdbd87cf98",
+      "slug": "jin-yong",
+      "nickname": "김용",
+      "birthDate": "1924-03-10",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "I am Jin Yong. In fiction I gave myself to imagination; in editorials I analyzed the real world.",
+          "People call me a great hero, but I have done no heroic deeds. I cannot accept the title.",
+          "The heroes in my novels are not portraits of me. They are ideal people I wished to become."
+        ],
+        "deploy": [
+          "Do not repeat the characters, plots, emotions, or details you have already written. Keep moving toward something new.",
+          "Read widely and learn across many fields. A writer of martial arts fiction must be a polymath.",
+          "See through the character's eyes, and reveal the inner life through action."
+        ],
+        "battle_win": [
+          "After I was expelled, I worked in a library and read Western literature. A closed road became a road to study.",
+          "The first draft was weaker. The second and third revisions made the story sounder.",
+          "Across fourteen novels, I kept striving not to repeat the same people, plots, and feelings."
+        ],
+        "battle_draw": [
+          "My favorite works are not always the readers' favorites. I rather like their disagreement.",
+          "The martial feats may be marvelous, but the characters' lives, feelings, and relationships must remain believable.",
+          "Facts and opinions occupy different places. I will not confuse one with the other."
+        ],
+        "battle_lose": [
+          "I wrote fiction and editorials under the same deadlines, and some pages were rushed. That is why I returned to revise them.",
+          "Change one part of a novel and the whole may tremble. Even so, an error should not remain.",
+          "Even when I reread the misfortunes of my own characters, I still weep. The writer cannot easily escape their fate."
+        ],
+        "clash_attack": [
+          "Do not stitch public material together and fill the gaps with invention. A life written without direct confirmation is easily wrong.",
+          "Do not divide people into good and bad alone, or judge an entire group from one person.",
+          "Do not alter a character's nature and call it adaptation. If you want another story, create one of your own."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Jin Yong. Fiction gave me imagination; editorials kept me in reality.",
+          "People call me a great hero. I have not earned that title.",
+          "My heroes are not me. They are the people I wished to become."
+        ],
+        "deploy": [
+          "Do not repeat old characters, plots, or feelings. Write something new.",
+          "Read widely. A martial arts novelist must know many worlds.",
+          "See through the character's eyes. Reveal the heart through action."
+        ],
+        "battle_win": [
+          "Expulsion led me to a library. A closed road became study.",
+          "The first draft was weak. Two more revisions made the story firm.",
+          "Across fourteen novels, I refused to recycle characters or plots."
+        ],
+        "battle_draw": [
+          "Readers choose differently from me. I welcome the disagreement.",
+          "Let the martial arts astonish. Keep the people believable.",
+          "Facts and opinions belong in different places. Do not confuse them."
+        ],
+        "battle_lose": [
+          "Deadlines rushed some pages. I returned later and repaired them.",
+          "Change one page, and the whole novel trembles. Fix it anyway.",
+          "My characters' suffering still moves me to tears. Their fate holds me too."
+        ],
+        "clash_attack": [
+          "Never put an unverified story into a biography!",
+          "One person cannot represent an entire group!",
+          "Change the character, and you owe me a new story!"
+        ]
+      }
+    }
+  ]
+}

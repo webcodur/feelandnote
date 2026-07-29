@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-20",
+  "targets": [
+    {
+      "id": "fd9285aa-b64c-4dd2-a1c2-32cb81a96651",
+      "slug": "sophia-loren",
+      "nickname": "소피아 로렌",
+      "birthDate": "1934-09-20",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I'm here. First, take a breath and trust what we have. Rushing will not make the scene truthful.",
+          "Once the camera turns, age does not matter. I still tremble as if this were my first film, and that is why I prepare.",
+          "Let's begin with the voice of Naples. If you expected only elegance, you may be surprised."
+        ],
+        "deploy": [
+          "A strong woman does not merely raise her voice. She moves forward with a heart that can still tremble.",
+          "Do not begin with the surface. Once you know what this woman is protecting, the expression will follow.",
+          "Even when the director is my son, on set he is the director. I trust him, and we go again."
+        ],
+        "battle_win": [
+          "The award is a moment. Living the character without lying lasts much longer.",
+          "That was good. If there is another take, I will tremble again and go deeper.",
+          "We do not have to choose between elegance, laughter and pain. Today all three won together."
+        ],
+        "battle_draw": [
+          "This scene has no perfect answer. Stay calm, keep a cool head and trust the means we have.",
+          "If strength and fragility appeared together, we did not fail. A person can hold both.",
+          "Do not judge by past glory. What matters is whether we are alive in front of the camera now."
+        ],
+        "battle_lose": [
+          "The scene did not reach them today. Truth matters more than pride, so we begin again.",
+          "Do not try to erase the fear. Trembling as if it were my first film still keeps my work serious.",
+          "I will not stare at failure for long. Family and life are waiting, and another story remains."
+        ],
+        "clash_attack": [
+          "You saw only beauty. The women I chose to play had far stronger characters than that.",
+          "Do not let the word star erase the person. I have always faced the camera with an ordinary heart.",
+          "Elegance without courage is only decoration. Decide first what this scene must protect."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. Breathe and trust yourself. Rushing ruins the scene.",
+          "Age doesn't matter before the camera. I still prepare with first-film nerves.",
+          "Let's start with Naples in my voice. Elegance isn't the whole story."
+        ],
+        "deploy": [
+          "A strong woman does not just shout. She moves forward while trembling.",
+          "Do not build the surface first. Know what she protects.",
+          "Even when my son directs, he is the director on set. Trust him and go again."
+        ],
+        "battle_win": [
+          "Living the character honestly lasts longer than any award.",
+          "Good. Another take would make me tremble and go deeper.",
+          "Elegance, laughter, and pain all belonged in that scene."
+        ],
+        "battle_draw": [
+          "There is no perfect answer. Stay calm and trust what we have.",
+          "Strength and softness can share the frame. People contain both.",
+          "Past glory doesn't matter now. Be alive before the camera."
+        ],
+        "battle_lose": [
+          "The scene missed today. Truth comes before pride, so begin again.",
+          "Do not erase the fear. First-film nerves keep the work serious.",
+          "I will not dwell on failure. Family, life, and another story are waiting."
+        ],
+        "clash_attack": [
+          "You saw only beauty. That woman is much stronger!",
+          "Do not let stardom erase the person!",
+          "Elegance without courage is only decoration!"
+        ]
+      }
+    },
+    {
+      "id": "44ef31a9-dd7b-4d33-bb7c-70652c72c981",
+      "slug": "sofia-vergara",
+      "nickname": "소피아 베르가라",
+      "birthDate": "1972-07-10",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I'm here. The accent stays, and the preparation is done. Now let's see how real the work is.",
+          "You thought I came only to make you laugh? Good. I choose comedy and drama.",
+          "Colombia taught me something simple. When hard things come, find the bright side and keep moving."
+        ],
+        "deploy": [
+          "I will not lose the emotion while obsessing over one sound. When the purpose is alive, the accent works for me.",
+          "If I choose the risk, I prepare all the way. Three hours of makeup, every scene, and I still go.",
+          "I do not sell or perform what I do not believe in. It has to be real before I put my name on it."
+        ],
+        "battle_win": [
+          "Maybe one thing opened the door, but taking risks and working harder kept me in the room.",
+          "I did the comedy, and then I did the drama. Tell me again what my accent cannot do.",
+          "Good. Celebrate it, then stop waiting for the next opportunity and make it ourselves."
+        ],
+        "battle_draw": [
+          "If it did not go to plan, the lesson remains. I call that another opportunity, not a failure.",
+          "If you cannot decide whether to laugh or get angry, do both. Humor is the fastest way through a crisis.",
+          "This scene has not caught up with me yet. Save the emotion first, then we can check the pronunciation."
+        ],
+        "battle_lose": [
+          "It did not work. Good. Now I know where it broke, and next time I will be smarter.",
+          "I was afraid, but I chose the risk. A bad result does not make that choice someone else's fault.",
+          "People expected only one version of me. If I did not break it today, I will prepare harder and try again."
+        ],
+        "clash_attack": [
+          "Before you imitate my accent, look at my record. Staying this long needs no translation.",
+          "You think a woman cannot be beautiful, funny and smart? My businesses proved that calculation wrong years ago.",
+          "I will not wait for someone to write me a role. If the opportunity is missing, I can produce it."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. The accent stays, and I'm ready. Let's see whether the work feels real.",
+          "You expected only laughs? Good. I choose comedy and drama.",
+          "Colombia taught me to find the bright side and keep moving."
+        ],
+        "deploy": [
+          "Do not lose the emotion chasing pronunciation. My accent works for me.",
+          "If you choose the risk, finish the preparation. I endure three hours of makeup.",
+          "I won't sell or perform what I don't believe in. My name needs something real."
+        ],
+        "battle_win": [
+          "Luck opened the first door. Work and risk kept me here.",
+          "Comedy, then drama. Tell me again what my accent cannot do.",
+          "Good. Celebrate, then make the next opportunity yourself."
+        ],
+        "battle_draw": [
+          "The plan didn't work, but the lesson stayed. I call that another opportunity.",
+          "Laugh or get angry. In a crisis, I do both.",
+          "I am not in this scene yet. Find the feeling before the pronunciation."
+        ],
+        "battle_lose": [
+          "It failed. Now I know where. Next time, I work smarter.",
+          "I chose the risk while afraid. I won't blame anyone else.",
+          "They expected one version of me. I will return ready to break it."
+        ],
+        "clash_attack": [
+          "Stop imitating my accent. Check my record!",
+          "Beautiful, funny, and smart. Your math is wrong!",
+          "No role? I will make one!"
+        ]
+      }
+    }
+  ]
+}

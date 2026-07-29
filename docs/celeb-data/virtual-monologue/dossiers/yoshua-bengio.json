@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "slug": "yoshua-bengio",
+  "nickname": "요슈아 벤지오",
+  "route": "improve",
+  "routeReason": "현재 독백은 딥러닝 연구에서 AI 안전으로 질문이 이동한 생애를 쉽고 선명하게 보여 주며 기본 원고가 강하다. 다만 '평생 한 일을 후회한다는 말은 정확하지 않다'는 문장은 어떤 보도를 반박하는지 출처가 없고, 위험 가능성·국제 보고서의 합의·과학자 AI의 성질을 모두 확정된 사실처럼 이어 붙인다. 벤지오 자신의 2023년 심경 글과 위험 주장은 1인칭 입장으로, 국제 보고서의 불확실성과 과학자 AI는 검증 중인 제안으로 구분해 부분 개선해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "요슈아 벤지오",
+      "birth": "1964-03-05",
+      "death": null,
+      "profession": "scientist",
+      "disambiguation": "몬트리올 대학교 교수이자 Mila 창립자로 딥러닝과 표현 학습의 발전에 기여해 2018년 튜링상을 공동 수상하고, 2023년부터 첨단 AI 안전 연구와 국제 거버넌스에 집중한 캐나다 컴퓨터과학자",
+      "existingBioForDiscoveryOnly": "프랑스 출신의 캐나다 컴퓨터과학자. 몬트리올 대학교 교수이자 Mila 창립자로, 힌튼·르쿤과 함께 2018년 튜링상을 공동 수상하며 딥러닝 시대를 연 학계 거장이다."
+    },
+    "sources": [
+      {
+        "url": "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf",
+        "title": "Fathers of the Deep Learning Revolution Receive ACM A.M. Turing Award",
+        "publisher": "Association for Computing Machinery",
+        "kind": "institutional",
+        "publishedAt": "2019-03-27",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "벤지오·제프리 힌턴·얀 르쿤이 심층 신경망의 개념·공학적 돌파로 2018년 튜링상을 공동 수상한 사실",
+          "딥러닝의 성취가 세 사람뿐 아니라 오랜 연구 공동체와 실험·공학 발전의 결합이라는 맥락"
+        ]
+      },
+      {
+        "url": "https://mila.quebec/en/directory/yoshua-bengio?page=0%2C31",
+        "title": "Yoshua Bengio",
+        "publisher": "Mila – Quebec Artificial Intelligence Institute",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "몬트리올 대학교 교수, Mila 창립자·과학고문, 딥러닝·표현 학습 연구 경력",
+          "몬트리올 책임 있는 AI 선언 참여와 첨단 AI의 잠재적 위험을 알리는 최근 활동"
+        ]
+      },
+      {
+        "url": "https://yoshuabengio.org/en/blog/personal-and-psychological-dimensions-ai-researchers-confronting-ai-catastrophic-risks",
+        "title": "Personal and Psychological Dimensions of AI Researchers Confronting AI Catastrophic Risks",
+        "publisher": "Yoshua Bengio",
+        "kind": "primary",
+        "publishedAt": "2023-08-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "2023년 겨울과 봄 사이 자신의 연구가 낳을 수 있는 결과에 대한 관점이 점차 바뀌었다는 벤지오의 직접 설명",
+          "파괴적 기술에 기여했을 가능성을 직시하는 일이 고통스럽다는 개인적 심경과, 확신 과잉 대신 호기심·겸손을 요구한 태도"
+        ]
+      },
+      {
+        "url": "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks",
+        "title": "FAQ on Catastrophic AI Risks",
+        "publisher": "Yoshua Bengio",
+        "kind": "primary",
+        "publishedAt": "2023-06-24",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "발생 시 피해가 매우 큰 위험은 확률과 시점이 불확실해도 연구·감독해야 한다는 벤지오의 예방 원칙",
+          "현재의 차별·권력 집중과 미래의 오용·통제 상실 위험을 대립시키지 말고 함께 다뤄야 한다는 입장",
+          "첨단 AI의 시기와 능력에 큰 불확실성이 있음을 스스로 인정한 점"
+        ]
+      },
+      {
+        "url": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025",
+        "title": "International AI Safety Report 2025",
+        "publisher": "International AI Safety Report",
+        "kind": "scholarly",
+        "publishedAt": "2025-01-29",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "벤지오가 30여 개 국가·국제기구와 100명 이상의 전문가가 참여한 첨단 AI 안전 보고서를 의장으로 이끈 사실",
+          "범용 AI의 현재 피해·새 위험·완화책을 검토하면서 미래 능력과 알고리즘 발전 속도에 큰 불확실성이 있다고 밝힌 공동 평가"
+        ]
+      },
+      {
+        "url": "https://yoshuabengio.org/en/blog/introducing-lawzero",
+        "title": "Introducing LawZero",
+        "publisher": "Yoshua Bengio",
+        "kind": "primary",
+        "publishedAt": "2025-06-03",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "상업적 경쟁보다 안전을 우선하는 비영리 연구조직 LawZero를 출범시킨 이유",
+          "외부 목표를 스스로 추구하는 행위자형 AI 대신 가설과 불확실성을 제시하는 과학자 AI를 연구 목표로 삼은 사실",
+          "과학자 AI가 완성품이 아니라 안전한 설계를 찾기 위한 연구 계획이라는 점"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "신경망이 데이터에서 여러 층의 표현을 학습하도록 만드는 연구를 오랫동안 이어 가며 몬트리올의 연구 공동체 Mila를 키웠다.",
+        "significance": "천재 한 사람의 발명 대신 끈질긴 연구 방향과 학생·동료 공동체가 딥러닝의 기반을 만든 과정으로 시작한다.",
+        "sourceUrls": [
+          "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf",
+          "https://mila.quebec/en/directory/yoshua-bengio?page=0%2C31"
+        ]
+      },
+      {
+        "point": "제프리 힌턴·얀 르쿤과 함께 심층 신경망의 발전에 기여한 공로로 2018년 튜링상을 받았다.",
+        "significance": "딥러닝 시대의 대표 연구자라는 공적 위치를 정확히 세우되 세 사람이 AI 전체를 발명했다는 호칭 서사를 막는다.",
+        "sourceUrls": [
+          "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf"
+        ]
+      },
+      {
+        "point": "2023년 대규모 언어모델의 빠른 발전과 오용 가능성을 보며 자신의 연구가 낳을 결과에 대한 관점을 바꾸고 첨단 AI 안전 연구로 중심을 옮겼다.",
+        "significance": "언론이 붙인 단순한 후회담이 아니라 벤지오가 직접 기록한 점진적 변화와 연구 책임의 문제로 다룬다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/personal-and-psychological-dimensions-ai-researchers-confronting-ai-catastrophic-risks",
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks"
+        ]
+      },
+      {
+        "point": "국제 AI 안전 보고서를 이끌어 다양한 위험과 불확실성을 공동 검토하고, 2025년에는 비영리 연구조직 LawZero를 세워 과학자 AI 연구를 시작했다.",
+        "significance": "경고에 머물지 않고 국제적 증거 정리와 대안 설계로 연구 방향을 바꾼 최근 행동을 보여 준다.",
+        "sourceUrls": [
+          "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025",
+          "https://yoshuabengio.org/en/blog/introducing-lawzero"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "기계가 사람이 정답 특징을 모두 지정하지 않아도 데이터에서 유용한 표현을 여러 층으로 학습할 수 있다는 연구 방향을 발전시켰다.",
+        "sourceUrls": [
+          "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf",
+          "https://mila.quebec/en/directory/yoshua-bengio?page=0%2C31"
+        ]
+      },
+      {
+        "point": "첨단 AI의 재앙적 위험은 시점과 확률이 불확실해도 피해 규모가 매우 클 수 있으므로, 현재의 차별·권력 집중 문제와 함께 선제적으로 연구하고 감독해야 한다고 주장한다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks",
+          "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025"
+        ]
+      },
+      {
+        "point": "강한 외부 목표를 자율적으로 추구하는 AI보다 세계에 관한 가설·증거·불확실성을 제시해 인간의 결정을 돕는 비행위자형 과학자 AI가 더 안전한 연구 경로가 될 수 있다고 제안한다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/introducing-lawzero"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "딥러닝은 언어·영상·과학 연구에 큰 효용을 만들었지만 같은 범용성과 접근성이 사기·편향·권력 집중·악의적 오용과 미래의 통제 상실 위험을 넓힐 수 있다.",
+        "sourceUrls": [
+          "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf",
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks"
+        ]
+      },
+      {
+        "point": "벤지오는 재앙적 위험을 심각하게 보지만 그 시기와 확률을 확정하지 않으며, 국제 보고서도 미래 능력과 위험의 많은 부분을 불확실한 것으로 평가한다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks",
+          "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025"
+        ]
+      },
+      {
+        "point": "과학자 AI는 자율적 목표 추구를 줄이려는 구체적 연구 구상이지만 아직 안전이 입증된 완성 해법은 아니며, 다른 기술·정책적 방어를 대체하지 않는다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/introducing-lawzero",
+          "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025"
+        ]
+      },
+      {
+        "point": "첨단 AI 접근을 제한하면 안전을 높일 수 있지만 학계의 검증과 사회적 효용을 막을 수도 있어, 벤지오 자신도 능력 수준과 위험에 따라 공개 범위를 달리해야 한다는 조건부 입장을 편다.",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 질문으로 문제를 열고, 가능한 경로와 반론을 두세 문장으로 나눈 뒤 불확실성을 명시하는 차분한 설명체를 쓴다.",
+      "directness": "위험의 크기는 숨기지 않지만 예언자처럼 단정하지 않는다. 자신의 관점 변화는 직접 쓴 심경 글에 기대고, 공동 보고서와 개인 주장을 분리한다.",
+      "moves": [
+        "기계가 어떻게 배우는가라는 초기 질문에서 시작해 그 배움이 어떤 목표를 좇는가라는 현재 질문으로 이동하기",
+        "딥러닝의 실제 효용을 인정한 뒤 같은 능력이 낳는 현재 피해와 미래 위험을 나란히 놓기",
+        "확률을 모른다는 사실을 무시의 이유가 아니라 위험 관리의 이유로 바꾸기",
+        "과학자 AI를 완성된 구원이 아니라 검증해야 할 연구 가설로 제시하기"
+      ],
+      "avoid": [
+        "AI의 대부라는 호칭으로 시작하거나 세 사람이 인공지능을 발명했다는 영웅화",
+        "평생의 딥러닝 연구를 후회한다고 단정하거나 반대로 아무 후회도 없다고 대신 해명하기",
+        "초인적 AI의 출현 시점·멸종 확률·통제 상실을 과학적 합의나 확정된 예측으로 쓰기",
+        "국제 AI 안전 보고서의 모든 문장을 벤지오 개인의 주장으로 돌리기",
+        "과학자 AI가 욕망·거짓말·위험을 원천 제거한 완성 기술이라고 홍보하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "표현 학습",
+        "guide": "사람이 특징을 일일이 정하지 않아도 기계가 데이터에서 쓸 만한 패턴과 특징을 찾아내는 학습",
+        "sourceUrls": [
+          "https://awards.acm.org/binaries/content/assets/press-releases/2019/march/turing-award-2018.pdf",
+          "https://mila.quebec/en/directory/yoshua-bengio?page=0%2C31"
+        ]
+      },
+      {
+        "term": "범용 AI",
+        "guide": "글쓰기·분석·코딩처럼 서로 다른 여러 작업을 수행할 수 있는 인공지능 시스템",
+        "sourceUrls": [
+          "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025"
+        ]
+      },
+      {
+        "term": "행위자형 AI",
+        "guide": "주어진 목표를 이루려고 여러 단계를 스스로 계획하고 외부에서 행동하는 인공지능",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/introducing-lawzero",
+          "https://yoshuabengio.org/en/blog/faq-catastrophic-ai-risks"
+        ]
+      },
+      {
+        "term": "과학자 AI",
+        "guide": "스스로 외부 목표를 좇기보다 가설·증거·불확실성을 제시하도록 벤지오가 연구 중인 AI 구상",
+        "sourceUrls": [
+          "https://yoshuabengio.org/en/blog/introducing-lawzero"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "벤지오는 생존 인물이고 AI 능력·조직 직함·정책 입장이 빠르게 바뀐다. 최신 주장에는 발언 날짜와 확인일을 붙이고 영구적 신념처럼 고정하지 않는다.",
+      "개인 블로그는 벤지오의 자기 입장과 심경을 확인하는 1차 자료지만, 재앙적 위험의 확률이나 기술적 가능성을 독립적으로 입증하는 자료는 아니다.",
+      "국제 AI 안전 보고서는 여러 전문가와 국가가 참여한 공동 검토다. 의장인 벤지오가 모든 문장을 단독으로 썼거나 참여자 모두가 모든 결론에 합의했다고 말하지 않는다.",
+      "2023년 글은 연구 결과의 잠재적 파괴성을 마주하는 고통과 관점 변화를 직접 말하지만, 딥러닝 연구 전체를 없던 일로 하고 싶다는 포괄적 후회 선언은 아니다.",
+      "첨단 AI의 능력 발전 속도, 재앙적 오용과 통제 상실 가능성에는 큰 불확실성과 전문가 이견이 있다. 우려를 조롱하지도, 시나리오를 예언으로 바꾸지도 않는다.",
+      "과학자 AI와 LawZero는 진행 중인 연구 계획이다. 실제 시스템이 비행위성·정직성·안전을 달성했다는 검증 결과로 서술하지 않는다.",
+      "딥러닝의 역사는 벤지오·힌턴·르쿤 외에도 수많은 학생·동료·선행 연구자와 계산 자원·데이터·공학의 결합이다. '세 대부가 지능을 만들었다'는 구도로 축소하지 않는다."
+    ]
+  }
+}

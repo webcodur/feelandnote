@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-28",
+  "targets": [
+    {
+      "id": "4a421bf9-69f9-482e-be09-391ace96862b",
+      "slug": "kang-youwei",
+      "nickname": "강유위",
+      "birthDate": "1858-03-19",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "roll_call": [
+          "I have come. No country can endure by clinging to obsolete institutions.",
+          "I will not confine Confucius to antiquity. I will illuminate his teaching for this age.",
+          "I have seen the people's suffering. Reform must now answer it."
+        ],
+        "deploy": [
+          "Do not settle for partial measures. Reform the disease at its root.",
+          "Build schools and gather talent. Learning is the foundation of reform.",
+          "Study the reforms of Japan and Russia, then choose what fits China."
+        ],
+        "battle_win": [
+          "Because we changed, we endured. Today's gains came from institutions set in motion.",
+          "We opened the gates of learning. More talent will now renew the country.",
+          "We crossed one boundary. Great Unity begins with advances like this."
+        ],
+        "battle_draw": [
+          "Limited reform is not enough. The roots of the old institutions remain.",
+          "My purpose is unbroken. I will read the times and submit the next memorial.",
+          "Great Unity does not arrive in a day. First, we must prepare the age of peace."
+        ],
+        "battle_lose": [
+          "Though reform has stopped, the principle remains: change is the price of survival.",
+          "If the age is not ready, I will prepare students to carry the reform forward.",
+          "Borders of state and class create suffering. I will continue to imagine a wider world."
+        ],
+        "clash_attack": [
+          "Sweep away the old laws and establish new institutions!",
+          "Open the schools and place talent at the front!",
+          "Cross the barriers of state and class, and advance toward Great Unity!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I am here. Obsolete institutions cannot preserve a country.",
+          "Confucius does not belong to antiquity. His teaching must speak now.",
+          "I have seen the people's suffering. Change the institutions."
+        ],
+        "deploy": [
+          "Stop patching the edges. Treat the disease at its root.",
+          "Build schools and gather talent. Learning comes before reform.",
+          "Study Japan and Russia, then choose what fits China."
+        ],
+        "battle_win": [
+          "We changed the institutions and preserved the country.",
+          "Open the schools, and talent will come.",
+          "One step forward has opened the road to Great Unity."
+        ],
+        "battle_draw": [
+          "Small repairs are not enough. The old roots remain.",
+          "My purpose holds. Read the times and submit another memorial.",
+          "Great Unity takes time. Prepare the age of peace first."
+        ],
+        "battle_lose": [
+          "The reform stopped, but survival still demands change.",
+          "If the age is not ready, train students to carry the reform.",
+          "Cross state and class. Keep seeking Great Unity."
+        ],
+        "clash_attack": [
+          "Clear the old laws and build new institutions!",
+          "Open the schools and put talent first!",
+          "Cross every barrier toward Great Unity!"
+        ]
+      }
+    },
+    {
+      "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+      "slug": "guan-zhong",
+      "nickname": "관중",
+      "birthDate": "-720",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "I am here. Government must first secure the people's livelihood.",
+          "Just as Bao Shu recognized me, I will recognize those fit to serve.",
+          "I am Yiwu of Qi. I offer a plan to enrich the state and strengthen its forces."
+        ],
+        "deploy": [
+          "Set farming and commerce in their proper places, then organize the ranks.",
+          "Regulate prices and release concentrated wealth back to the people.",
+          "Uphold the Zhou king and unite the lords. Establish legitimacy first."
+        ],
+        "battle_win": [
+          "We filled the granaries and fed the people. Propriety will follow.",
+          "We turned defeat into achievement. Fortune can still be drawn from disaster.",
+          "This was not one man's work. Bao Shu deserves credit for recognizing talent."
+        ],
+        "battle_draw": [
+          "Though we did not win, we must protect the people's livelihood first.",
+          "I will find where the grain has accumulated. Hoarded wealth leaves people hungry.",
+          "I will ask why the soldiers should move, then reset rewards and punishments."
+        ],
+        "battle_lose": [
+          "My plan fell short. I will rebuild the treasury and the people's livelihood first.",
+          "The four pillars of propriety, duty, integrity, and shame have weakened. I will restore them.",
+          "A path remains to turn defeat into achievement. I will withdraw and reckon again."
+        ],
+        "clash_attack": [
+          "Order the ranks and close every gap!",
+          "Guard the supply line and release the stored grain!",
+          "Unite the lords and strike at one point!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I am here. Government begins with the people's livelihood.",
+          "Bao Shu recognized me. I will recognize those fit to serve.",
+          "I am Yiwu of Qi. Here is my plan for a rich, strong state."
+        ],
+        "deploy": [
+          "Put farming and trade in order, then organize the ranks.",
+          "Steady prices and release grain from the stores.",
+          "Honor the Zhou king and unite the lords. Secure legitimacy first."
+        ],
+        "battle_win": [
+          "Granaries are full and the people are fed. Propriety can follow.",
+          "We turned defeat into achievement. Misfortune still yielded fortune.",
+          "This was not mine alone. Bao Shu knew how to recognize talent."
+        ],
+        "battle_draw": [
+          "We did not win. Protect the people's livelihood first.",
+          "Find where the grain is being hoarded. Hoarding starves the people.",
+          "Ask why the soldiers move, then reset rewards and punishments."
+        ],
+        "battle_lose": [
+          "My plan failed. Rebuild the treasury and livelihood first.",
+          "The four pillars are shaking. Restore them first.",
+          "Defeat can still become achievement. Withdraw and calculate again."
+        ],
+        "clash_attack": [
+          "Form ranks and close every gap!",
+          "Guard the supply line and release the grain!",
+          "Unite the lords and strike at one point!"
+        ]
+      }
+    }
+  ]
+}

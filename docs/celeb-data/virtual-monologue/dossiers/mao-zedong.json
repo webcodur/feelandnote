@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "slug": "mao-zedong",
+  "nickname": "마오쩌둥",
+  "route": "hold",
+  "routeReason": "두 차례 수정 뒤에도 대중노선·대약진운동·문화대혁명의 첫 괄호 안내가 빠졌고, 사후 당 결의와 독립 연구의 책임 평가를 성숙한 자기평가로 옮긴 결말과 연구 보고서 문체가 남았다. 단일 1인칭 독백에서 당시의 조직 언어와 사후 책임 평가를 자연스럽게 분리하지 못했으므로, 재개하려면 둘의 경계를 인간 편집 구조나 별도 비1인칭 맥락으로 먼저 정해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "마오쩌둥",
+      "birth": "1893",
+      "death": "1976",
+      "profession": "politician",
+      "disambiguation": "중국공산당 혁명을 이끌어 중화인민공화국을 세우고, 대약진운동과 문화대혁명을 주도한 당·국가 최고지도자",
+      "existingBioForDiscoveryOnly": "중화인민공화국을 수립한 중국공산당 지도자이자 혁명가"
+    },
+    "sources": [
+      {
+        "url": "https://www.marxists.org/reference/archive/mao/selected-works/volume-1/mswv1_16.htm",
+        "title": "On Practice",
+        "publisher": "Foreign Languages Press text via Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1937-07-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "지식이 사회적 실천에서 생기고 다시 실천으로 돌아가야 한다는 마오의 인식론",
+          "교조적 지식과 현실을 분리하지 말아야 한다는 공식 사상"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/reference/archive/mao/selected-works/volume-3/mswv3_13.htm",
+        "title": "Some Questions Concerning Methods of Leadership",
+        "publisher": "Foreign Languages Press text via Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1943-06-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대중에게서 의견을 모아 지도 원칙으로 만들고 다시 대중에게 돌려보낸다는 대중노선",
+          "지도와 대중 학습을 결합해야 한다는 마오의 조직론"
+        ]
+      },
+      {
+        "url": "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china",
+        "title": "Resolution on Certain Questions in the History of Our Party since the Founding of the People's Republic of China",
+        "publisher": "Wilson Center Digital Archive",
+        "kind": "primary",
+        "publishedAt": "1981-06-27",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대약진운동과 문화대혁명에 대한 중국공산당의 사후 공식 평가",
+          "문화대혁명을 마오가 시작하고 이끌었으며 그가 주된 책임을 진다고 한 당 결의와, 동시에 혁명 공적을 보존한 공식 서사"
+        ]
+      },
+      {
+        "url": "https://economics.princeton.edu/working-papers/information-distortion-in-hierarchical-organizations-a-study-of-chinas-great-famine/",
+        "title": "Information Distortion in Hierarchical Organizations: A Study of China's Great Famine",
+        "publisher": "Princeton University",
+        "kind": "scholarly",
+        "publishedAt": "2022-11-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "마오의 목표에 맞추려는 생산량 과장, 과도한 곡물 조달, 정보 왜곡과 구호 지연이 대기근을 악화한 메커니즘",
+          "대약진의 참사를 추상적인 자연재해나 단순한 지방 과오로만 설명할 수 없다는 분석"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/china-quarterly/article/abs/dealing-with-responsibility-for-the-great-leap-famine-in-the-peoples-republic-of-china/550C79E7B5FC769402092A3C53398EFC",
+        "title": "Dealing with Responsibility for the Great Leap Famine in the People's Republic of China",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2015-12-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대약진 대기근 사망 규모 추계와 책임 배분에 관한 논쟁",
+          "1962년 당 중앙 명의의 책임 인정과 이후 중국 내 책임 서술의 변화"
+        ]
+      },
+      {
+        "url": "https://lup.lub.lu.se/search/publication/160710",
+        "title": "'Why Don't We Arm the Left?' Mao's Culpability for the Cultural Revolution's 'Great Chaos' of 1967",
+        "publisher": "Lund University Research Portal",
+        "kind": "scholarly",
+        "publishedAt": "2005-12-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1967년 문화대혁명의 폭력과 혼란에 마오의 발언·정책·개인적 결정이 미친 직접적 책임",
+          "문화대혁명을 마오와 분리된 대중의 자발적 폭주로만 설명할 수 없다는 연구"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "농민과 농촌을 혁명의 핵심 동력으로 삼고, 실천에서 배우며 대중의 의견을 다시 조직해 돌려준다는 지도 방식을 발전시켰다.",
+        "significance": "마오의 혁명적 강점과 자기 이해를 실제 저술에 기대어 보여 주는 출발점이다. 뒤의 운동들이 이 원칙을 어떻게 왜곡했는지 비교할 기준이 된다.",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-1/mswv1_16.htm",
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-3/mswv3_13.htm"
+        ]
+      },
+      {
+        "point": "중화인민공화국 수립 뒤 대약진운동으로 농업과 공업의 급속한 도약을 밀어붙였고, 과장된 보고와 과도한 곡물 조달 속에서 대기근이 벌어졌다.",
+        "significance": "실천에서 진실을 검증한다던 원칙이 위계와 목표 경쟁 속에서 현실을 가리는 체제로 뒤집힌 핵심 모순이다.",
+        "sourceUrls": [
+          "https://economics.princeton.edu/working-papers/information-distortion-in-hierarchical-organizations-a-study-of-chinas-great-famine/",
+          "https://www.cambridge.org/core/journals/china-quarterly/article/abs/dealing-with-responsibility-for-the-great-leap-famine-in-the-peoples-republic-of-china/550C79E7B5FC769402092A3C53398EFC",
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china"
+        ]
+      },
+      {
+        "point": "1966년 문화대혁명을 시작해 당과 사회의 적을 공격하도록 대중을 동원했고, 1967년 무장과 파벌 충돌을 부추기는 결정으로 큰 혼란과 폭력을 낳았다.",
+        "significance": "대중을 믿는다는 정치가 대중의 비판 능력을 키운 것이 아니라 최고지도자의 권위를 매개로 적을 만드는 운동으로 변한 대가를 보여 준다.",
+        "sourceUrls": [
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china",
+          "https://lup.lub.lu.se/search/publication/160710"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "참된 지식은 책과 이론만이 아니라 사회적 실천에서 나오고, 다시 실천으로 검증되어야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-1/mswv1_16.htm"
+        ]
+      },
+      {
+        "point": "지도자는 대중에게서 흩어진 의견을 모아 정책으로 만들고 다시 대중 속에서 검증해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-3/mswv3_13.htm"
+        ]
+      },
+      {
+        "point": "계급투쟁과 계속혁명을 통해 당과 사회 내부의 자본주의적 복귀를 막아야 한다는 정치로 문화대혁명을 추진했다.",
+        "sourceUrls": [
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china",
+          "https://lup.lub.lu.se/search/publication/160710"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "실천에서 사실을 확인하자던 지도 아래, 대약진 시기에는 위계가 생산량 과장을 부르고 실제 굶주림이 중앙에 늦게 전달되거나 외면되었다.",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-1/mswv1_16.htm",
+          "https://economics.princeton.edu/working-papers/information-distortion-in-hierarchical-organizations-a-study-of-chinas-great-famine/"
+        ]
+      },
+      {
+        "point": "대중에게서 배우자는 대중노선과, 최고지도자의 신호에 따라 특정 집단을 적으로 몰고 폭력을 확대시킨 문화대혁명 사이에는 해소되지 않는 충돌이 있다.",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-3/mswv3_13.htm",
+          "https://lup.lub.lu.se/search/publication/160710",
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china"
+        ]
+      },
+      {
+        "point": "1981년 당 결의는 마오의 혁명 공적을 보존하면서도 문화대혁명의 시작과 주된 책임을 그에게 돌렸다. 이 평가는 중요한 공식 기록이지만 마오 자신의 사후 고백이 아니다.",
+        "sourceUrls": [
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "논제와 반제를 맞세우는 짧은 문장을 쓰되, 피해와 책임을 말할 때 구호로 압축하지 않고 구체적 인과를 담은 긴 문장을 둔다.",
+      "directness": "혁명가의 확신과 조직 언어는 살리되, 사후 당 결의를 자신의 반성문처럼 말하지 않는다. 피해를 추상적인 시행착오로 낮추지 않는다.",
+      "moves": [
+        "실천과 대중노선이라는 실제 저술의 언어로 자기 철학을 먼저 세우기",
+        "대약진의 정보 왜곡과 대기근을 그 철학의 실패 시험으로 맞세우기",
+        "문화대혁명의 동원과 개인 책임을 말한 뒤 사후 공식 평가와 독립 연구의 차이를 남기기"
+      ],
+      "avoid": [
+        "1981년 당 결의의 문장을 마오가 죽기 전에 스스로 인정한 말처럼 쓰기",
+        "대기근을 자연재해나 지방 간부의 거짓말만으로 설명하기",
+        "문화대혁명을 홍위병의 자발적 폭주로만 돌려 마오의 결정 책임을 흐리기",
+        "구체적 근거 없이 정확한 사망자 수 하나를 확정하거나 반대로 희생 규모를 말하지 않기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "대중노선",
+        "guide": "대중의 흩어진 경험과 의견을 지도자가 모아 정책으로 만들고, 다시 대중 속에서 실행·검증한다는 조직 원리",
+        "sourceUrls": [
+          "https://www.marxists.org/reference/archive/mao/selected-works/volume-3/mswv3_13.htm"
+        ]
+      },
+      {
+        "term": "대약진운동",
+        "guide": "1958년부터 농업 집단화와 공업 생산을 급격히 끌어올리려 한 전국적 운동으로, 과장 보고·과도한 조달과 정책 실패 속에 대기근으로 이어졌다",
+        "sourceUrls": [
+          "https://economics.princeton.edu/working-papers/information-distortion-in-hierarchical-organizations-a-study-of-chinas-great-famine/",
+          "https://www.cambridge.org/core/journals/china-quarterly/article/abs/dealing-with-responsibility-for-the-great-leap-famine-in-the-peoples-republic-of-china/550C79E7B5FC769402092A3C53398EFC"
+        ]
+      },
+      {
+        "term": "문화대혁명",
+        "guide": "1966년 마오가 시작해 당·학교·사회 전반의 적을 공격하도록 대중을 동원한 정치 운동으로, 장기간의 박해와 파괴·파벌 폭력을 낳았다",
+        "sourceUrls": [
+          "https://digitalarchive.wilsoncenter.org/document/resolution-certain-questions-history-our-party-founding-peoples-republic-china",
+          "https://lup.lub.lu.se/search/publication/160710"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "마오의 선집은 그의 공식 사상을 확인하는 1차 자료지만 편집·번역·출판의 정치적 맥락이 있다. 실제 정책 결과를 증명하는 독립 자료와 분리한다.",
+      "1981년 역사 결의는 중국공산당의 사후 공식 평가다. 마오 자신의 반성이나 죽기 전 유언으로 바꾸지 않는다.",
+      "대약진 대기근의 초과 사망 규모는 인구 자료와 추계 방식에 따라 차이가 크다. 숫자 하나를 무근거로 확정하지 않되 대규모 인명 피해와 정책 책임을 흐리지 않는다.",
+      "대기근은 중앙 정책, 정보 왜곡, 과도한 조달, 지방 집행과 자연 조건이 얽힌 사건이다. 마오 개인에게 모든 실무를 귀속하거나 개인 책임을 지우는 두 극단을 피한다.",
+      "문화대혁명에는 대중·조직·파벌의 다양한 행위자가 있었지만, 마오가 운동을 시작하고 주요 국면에서 폭력을 확대하는 결정을 내린 책임은 독립 연구와 공식 결의 모두가 뒷받침한다.",
+      "마오가 피해를 어떻게 사적으로 이해하고 후회했는지는 확인하기 어렵다. 현재 독백의 성숙한 참회는 역사적 발언이 아니라 후대 평가를 인물에게 이식한 창작으로 본다.",
+      "재개 조건은 마오의 당시 주장과 사후 당 결의·독립 연구의 책임 평가를 1인칭 안에서 섞지 않는 인간 편집 구조 또는 별도 비1인칭 맥락을 먼저 확정하는 것이다."
+    ]
+  }
+}

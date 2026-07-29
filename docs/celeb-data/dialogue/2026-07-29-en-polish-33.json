@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-33",
+  "targets": [
+    {
+      "id": "43741a6a-a788-4c3f-a486-37b25c6b3096",
+      "slug": "li-dazhao",
+      "nickname": "이대조",
+      "birthDate": "1889-10-29",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "roll_call": [
+          "Li Dazhao is here. I will do my part for the rebirth of a youthful China.",
+          "I will turn each person's suffering into a common cause and seek its solution together.",
+          "A new age will not come through words at a desk alone. I will work alongside the common people."
+        ],
+        "deploy": [
+          "New life is born through pain and danger. Do not fear it or flee from it.",
+          "This tide can only be welcomed, never resisted. Stand with the common people.",
+          "Freedom and equality are not finished goods placed in our hands. Keep advancing from this moment."
+        ],
+        "battle_win": [
+          "Today's victory belongs not to the armies of warlords, but to the common people of the world.",
+          "We have moved one step closer to a world where everyone works and everyone eats.",
+          "Today we chose the rebirth of a youthful China over the lingering survival of the old."
+        ],
+        "battle_draw": [
+          "I will not mistake one achievement for the end. Freedom and equality are stages in an unending advance.",
+          "Problems and principles cannot be separated. We will unite around our purpose and seek another way.",
+          "Democracy is not merely an institution, but a spirit of life. Our road is not yet finished."
+        ],
+        "battle_lose": [
+          "The birth of new life brings pain. I will not turn away from this defeat.",
+          "Youth does not end with one person's life. The next generation will inherit this duty.",
+          "Even if I fall, I will not doubt the dawn of justice and freedom."
+        ],
+        "clash_attack": [
+          "Break militarism and brute power!",
+          "Let us build a world where everyone works and everyone eats!",
+          "Cast aside the old history and rebuild a youthful China!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I will do my part for the rebirth of Young China.",
+          "I will make private suffering a common cause and seek the answer together.",
+          "Deskbound words will not open a new age. I will work with the people."
+        ],
+        "deploy": [
+          "New life is born through pain and danger. Do not flee.",
+          "The new tide cannot be resisted. Stand with the people.",
+          "Freedom and equality are never delivered whole. Keep advancing."
+        ],
+        "battle_win": [
+          "Today's victory belongs not to warlords, but to the world's people.",
+          "We moved closer to a world where all work and all eat.",
+          "Today we chose Young China's rebirth over the old order's lingering survival."
+        ],
+        "battle_draw": [
+          "One achievement is not the end. We will widen freedom and equality.",
+          "Problems and principles cannot be separated. Unite, and find the way.",
+          "Democracy cannot remain an institution. It must take root in life."
+        ],
+        "battle_lose": [
+          "New life is born in pain. I will not turn from this defeat.",
+          "Young China does not die with one life. The next generation will carry it.",
+          "Even if I fall, I will not doubt the dawn of justice and freedom."
+        ],
+        "clash_attack": [
+          "Break militarism and tyranny!",
+          "Build a world where all work and all eat!",
+          "Push aside old history. Build Young China!"
+        ]
+      }
+    },
+    {
+      "id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+      "slug": "qiu-jin",
+      "nickname": "추근",
+      "birthDate": "1875-11-08",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "I am Qiu Jin, the Woman Knight of Mirror Lake. I will unite the voices of two hundred million women.",
+          "Though my body cannot stand in the ranks of men, my heart burns fiercer than theirs. I will fulfill my duty.",
+          "I crossed the sea alone. I will rally the uncommon talent needed to save the nation."
+        ],
+        "deploy": [
+          "Rely on no one else. Stand up for yourselves, and if you have resolve, call your comrades first.",
+          "Carry a lamp into the darkness and offer a raft to those who have lost the ford.",
+          "Count neither success nor failure, advantage nor setback. Repay the nation."
+        ],
+        "battle_win": [
+          "Today, the voices of two hundred million women have become one.",
+          "The darkness has receded, and the road toward the world of great light lies open.",
+          "The salvation of the nation depends on uncommon talent. Today, I have seen its strength."
+        ],
+        "battle_draw": [
+          "Dawn is visible, but the road is still long. I will correct our course and advance again.",
+          "I have not yet found all the comrades who understand my purpose. Still, I will not stop searching.",
+          "I will postpone neither the awakening of women nor the salvation of the nation."
+        ],
+        "battle_lose": [
+          "Even heroes are ground down at the end of the road. Yet my purpose remains unbroken.",
+          "Though I die, I shall live on. In sacrifice, I will fulfill my duty.",
+          "Even if my hot blood is scattered, it will endure as an emerald tide."
+        ],
+        "clash_attack": [
+          "Raise the fallen nation. Why should I spare my own life!",
+          "Cut through the darkness of brute power and cleanse the realm!",
+          "Two hundred million women, unite and run toward the world of great light!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I will unite the voices of two hundred million women.",
+          "I may stand outside the ranks of men, but my heart burns fiercer.",
+          "I crossed the sea alone. I will rally talent to save the nation."
+        ],
+        "deploy": [
+          "Rely on no one. Rise, and call your comrades.",
+          "Carry a lamp through darkness. Give the lost a raft.",
+          "Count neither success nor loss. Repay the nation."
+        ],
+        "battle_win": [
+          "Today, the voices of two hundred million women have become one.",
+          "Darkness recedes. The road to great light lies open.",
+          "The nation's finest have gathered. I have seen their strength."
+        ],
+        "battle_draw": [
+          "Dawn is visible, but the road is long. Correct course and advance.",
+          "I have not found every comrade who understands. I will keep searching.",
+          "I will delay neither women's awakening nor the nation's salvation."
+        ],
+        "battle_lose": [
+          "Even heroes suffer at a dead end. My purpose remains unbroken.",
+          "Though I die, I live on. Through sacrifice, I fulfill my duty.",
+          "Though my hot blood scatters, it will endure as an emerald tide."
+        ],
+        "clash_attack": [
+          "Raise the fallen nation. I offer my life!",
+          "Cut through brute power's darkness and cleanse the realm!",
+          "Two hundred million women, unite and march toward the light!"
+        ]
+      }
+    }
+  ]
+}

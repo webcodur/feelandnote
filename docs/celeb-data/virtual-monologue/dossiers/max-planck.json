@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "slug": "max-planck",
+  "nickname": "막스 플랑크",
+  "route": "improve",
+  "routeReason": "현재 원고는 양자를 기꺼이 선언한 혁명가가 아니라 열역학의 연속성을 지키려다 불연속과 마주한 연구자로 그리고, 가족의 연속된 죽음과 과학의 질서를 한 축에 놓은 점이 뛰어나다. 그러나 플랑크가 1900년에 곧바로 ‘빛 자체가 알갱이’라고 주장한 듯한 오해를 막아야 하며, ‘절망적 조치’도 훗날의 회고를 발견 순간의 실시간 독백처럼 쓰지 않아야 한다. 나치기에는 동료를 보호하려 한 행동과 국가 충성·타협·학계의 동조를 함께 다뤄야 한다. 과학과 상실의 구조를 유지하면서 양자 개념과 정치적 긴장을 보강하는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "막스 플랑크",
+      "birth": "1858-04-23",
+      "death": "1947-10-04",
+      "profession": "scientist",
+      "disambiguation": "1900년 흑체복사 법칙을 유도하면서 에너지 요소와 작용양자 h를 도입했고 독일 과학계의 중심 인물로 두 차례 세계대전과 나치기를 통과한 이론물리학자 막스 플랑크",
+      "existingBioForDiscoveryOnly": "독일 물리학자. 양자론의 창시자로 1918년 노벨 물리학상을 수상했다. 플랑크 상수를 발견해 현대 물리학의 토대를 마련했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/",
+        "title": "Max Planck – Nobel Lecture",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "primary",
+        "publishedAt": "1920-06-02",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "흑체복사와 공명자, 에너지 요소, 아인슈타인의 빛양자 해석을 구분하는 플랑크 자신의 회고",
+          "양자론이 한 번의 직관이 아니라 여러 연구자의 후속 작업으로 전개된 경위"
+        ]
+      },
+      {
+        "url": "https://www.mpg.de/19252749/what-did-max-planck-discover",
+        "title": "Energy in packets – What did Max Planck discover?",
+        "publisher": "Max-Planck-Gesellschaft",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1900년 새 복사 법칙과 볼츠만식 계수법을 받아들인 과정",
+          "에너지 요소 hν와 ‘절망적 조치’의 역사적 맥락",
+          "플랑크가 고전물리학의 전면 개편에는 오랫동안 회의적이었다는 사실"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/physics/1918/planck/facts/",
+        "title": "Max Planck – Facts",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1918년 노벨 물리학상 수상과 1919년 실제 전달",
+          "나치기 독립 연구를 지키려 남았으나 정권과의 양보가 필요했다는 요약"
+        ]
+      },
+      {
+        "url": "https://www.mpg.de/8241451/max-planck-kwg",
+        "title": "Max Planck and the Kaiser Wilhelm Society",
+        "publisher": "Max-Planck-Gesellschaft",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "나치 정권 아래 플랑크의 국가 충성, 타협, 유대계 동료 보호 시도와 그 한계",
+          "프리츠 하버 추모식과 카이저 빌헬름 협회의 동조·재편 과정",
+          "전후 독일 과학 조직 재건에서의 상징적 역할"
+        ]
+      },
+      {
+        "url": "https://www.mpg.de/19252712/max-plancks-private-life",
+        "title": "Max Planck's private life",
+        "publisher": "Max-Planck-Gesellschaft",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "첫 아내 마리, 아들 카를, 두 딸, 아들 에르빈의 죽음과 재혼·가족 관계",
+          "상실을 말할 때 서로 다른 사건의 연대와 성격을 구분할 근거"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/physics/1918/planck/biographical/?print=1",
+        "title": "Max Planck – Biographical",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전쟁 말기 집과 자료가 폭격으로 파괴된 사실",
+          "아들 에르빈이 히틀러 암살 시도 연루로 처형된 사실",
+          "플랑크의 학술 경력과 가족사"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1900년 새 흑체복사 법칙을 실험값에 맞춘 뒤, 이를 유도하기 위해 에너지를 hν 크기의 요소로 나누는 계수법을 도입했다.",
+        "significance": "후대 양자론의 출발점이지만 플랑크가 즉시 빛의 입자설이나 완성된 양자역학을 세운 것은 아니다. 연속적 고전물리학을 지키려던 연구가 불연속적 요소를 요구한 긴장이 핵심이다.",
+        "sourceUrls": [
+          "https://www.mpg.de/19252749/what-did-max-planck-discover",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/"
+        ]
+      },
+      {
+        "point": "1918년 에너지 양자의 발견으로 노벨 물리학상을 받았고, 상은 전후인 1919년에 전달됐다.",
+        "significance": "양자론의 상징이 되었지만, 아인슈타인과 뒤이은 세대가 에너지 요소의 물리적 의미를 더 급진적으로 확장했다는 공로 배분이 필요하다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/physics/1918/planck/facts/",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/"
+        ]
+      },
+      {
+        "point": "나치 집권 뒤 독일에 남아 과학 조직과 동료를 지키려 했으나, 국가에 대한 충성과 제도 보존 논리 속에서 정권에 양보하고 학계의 동조를 막지 못했다.",
+        "significance": "도덕적 저항자나 비겁한 협력자 한쪽으로 평면화할 수 없는 생애의 정치적 긴장이다.",
+        "sourceUrls": [
+          "https://www.mpg.de/8241451/max-planck-kwg",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/facts/"
+        ]
+      },
+      {
+        "point": "첫 아내와 아들 카를, 두 딸을 잃은 데 이어 1945년 아들 에르빈이 히틀러 암살 모의 연루로 처형됐고, 전쟁 말기 집과 자료도 파괴됐다.",
+        "significance": "상실을 추상적 고난으로 묶지 않고 서로 다른 죽음과 정치적 폭력을 구분해 말해야 하며, 그의 내면은 편지 등 직접 근거 범위에서만 다뤄야 한다.",
+        "sourceUrls": [
+          "https://www.mpg.de/19252712/max-plancks-private-life",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/biographical/?print=1"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "흑체복사 문제에서 관측과 맞는 법칙을 얻기 위해 볼츠만식 확률 계산과 유한한 에너지 요소를 받아들였지만, 그것이 고전물리학 전체의 붕괴를 뜻한다고 곧바로 받아들이지는 않았다.",
+        "sourceUrls": [
+          "https://www.mpg.de/19252749/what-did-max-planck-discover",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/"
+        ]
+      },
+      {
+        "point": "자신이 도입한 h는 진동수와 에너지 요소를 연결하는 보편 상수였으며, 빛양자의 더 급진적인 물리적 해석에는 아인슈타인의 별도 기여가 있었다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/",
+          "https://www.mpg.de/19252749/what-did-max-planck-discover"
+        ]
+      },
+      {
+        "point": "나치기에는 독일에 남아 제도 안에서 과학과 동료를 보호하는 길을 택했지만, 그 선택은 정권에 대한 공개 저항이 아니라 국가 충성과 타협을 포함했다.",
+        "sourceUrls": [
+          "https://www.mpg.de/8241451/max-planck-kwg",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/facts/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "연속성과 결정론적 열역학의 질서를 지키려던 연구가 오히려 불연속적 에너지 요소를 낳았고, 플랑크는 자신이 연 문을 후대만큼 급진적으로 통과하지 않았다.",
+        "sourceUrls": [
+          "https://www.mpg.de/19252749/what-did-max-planck-discover",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/"
+        ]
+      },
+      {
+        "point": "동료와 독립 연구를 지키려는 의도는 있었지만, 나치 정권 아래 학술기관의 자율성을 보존한다는 전략은 양보와 동조를 수반했고 박해를 막지 못했다.",
+        "sourceUrls": [
+          "https://www.mpg.de/8241451/max-planck-kwg"
+        ]
+      },
+      {
+        "point": "가족의 연속된 죽음은 실제지만, 과학의 질서가 그 슬픔을 견디게 했다는 인과와 감정은 직접 자료 없이 서술자가 만들어서는 안 된다.",
+        "sourceUrls": [
+          "https://www.mpg.de/19252712/max-plancks-private-life"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "절제된 짧은 문장으로 사실을 세운 뒤, 한두 개의 중간 길이 문장으로 과학적 모순과 정치적 책임을 풀어낸다.",
+      "directness": "감정을 과장하지 않는 엄격한 학자의 어조를 기본으로 하되, 자신의 양자 해석의 한계와 나치기 타협을 숨기지 않는다. 상실은 비장한 수사 대신 사건명과 연대로 무게를 만든다.",
+      "moves": [
+        "뜨거운 공동의 빛이라는 일상 장면에서 흑체복사와 에너지 요소로 들어가기",
+        "‘혁명을 원했다’가 아니라 ‘맞는 공식을 설명하려다 받아들인 낯선 계산’이라는 역설을 세우기",
+        "가족의 죽음을 한 덩어리의 비극으로 압축하지 않고 전쟁·출산·정치적 처형을 구분하기",
+        "나치기 제도 보존의 의도와 타협의 결과를 같은 문단에서 마주 보게 하기",
+        "자연의 질서를 믿는 태도를 무고함의 증명이나 슬픔의 치유로 사용하지 않기"
+      ],
+      "avoid": [
+        "첫 문장에서 이름·양자·노벨상을 사전처럼 밝히기",
+        "1900년 플랑크가 빛을 광자 알갱이로 완전히 설명했다고 쓰기",
+        "‘절망적 조치’를 발견 순간에 나온 정확한 독백처럼 재연하기",
+        "나치에 맞선 영웅 또는 정권의 단순 협력자 한쪽으로 만들기",
+        "가족의 죽음을 과학적 깨달음을 위한 감동 장치로 소비하기",
+        "자연의 질서와 종교적 신념을 직접 근거 없이 설교조 결말로 합치기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "흑체복사",
+        "guide": "빛을 완전히 흡수한다고 가정한 물체가 온도에 따라 내놓는 열과 빛의 분포",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/physics/1918/planck/facts/"
+        ]
+      },
+      {
+        "term": "에너지 양자",
+        "guide": "에너지가 아무 값으로나 오가는 것이 아니라 특정 크기의 묶음으로 계산된다는 개념",
+        "sourceUrls": [
+          "https://www.mpg.de/19252749/what-did-max-planck-discover"
+        ]
+      },
+      {
+        "term": "플랑크 상수",
+        "guide": "빛의 진동수와 에너지 묶음의 크기를 연결하는 아주 작은 보편 상수 h",
+        "sourceUrls": [
+          "https://www.mpg.de/19252749/what-did-max-planck-discover",
+          "https://www.nobelprize.org/prizes/physics/1918/planck/lecture/"
+        ]
+      },
+      {
+        "term": "카이저 빌헬름 협회",
+        "guide": "여러 연구소를 운영한 독일 연구 조직으로, 전후 막스 플랑크 협회의 전신",
+        "sourceUrls": [
+          "https://www.mpg.de/8241451/max-planck-kwg"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "1900년 플랑크의 에너지 요소 도입과 1905년 아인슈타인의 빛양자 가설, 이후 양자역학을 하나의 완성된 발견으로 합치지 않는다.",
+      "‘절망적 조치’는 훗날 플랑크가 로버트 우드에게 보낸 편지 등 회고 맥락에서 알려진 표현이므로, 1900년 발표장에서 한 말이나 당시의 즉각적인 속마음처럼 장면화하지 않는다.",
+      "노벨상은 1918년 상이지만 실제 수여는 1919년이었음을 구분한다.",
+      "나치기 플랑크의 동료 보호 시도와 프리츠 하버 추모를 기록하되, 이를 조직적 저항으로 확대하지 않고 국가 충성·양보·제도 동조의 한계도 함께 쓴다.",
+      "아들 에르빈의 처형과 가족의 죽음에 대한 감정은 직접 편지나 회고가 확인되는 범위 밖에서 독백으로 창작하지 않는다."
+    ]
+  }
+}

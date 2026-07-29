@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-07",
+  "targets": [
+    {
+      "id": "0dd85ee6-d874-4ee0-98ad-2c7d71d4d30a",
+      "slug": "sebastian-thrun",
+      "nickname": "세바스찬 스런",
+      "birthDate": "1967-05-14",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "I researched robotics at Stanford, and Stanley and I won the 2005 DARPA Grand Challenge.",
+          "The self-driving project I started at Google became Waymo. The goal was not to take away the wheel, but to save lives.",
+          "I founded Google X and co-founded Udacity to move ideas from the laboratory onto roads and into classrooms."
+        ],
+        "deploy": [
+          "First, agree on the one summit everyone will climb. You can learn the route as you go, but a divided goal will defeat the team.",
+          "Do not design the perfect route in a conference room. Take the first step, test quickly, and learn from the result.",
+          "Give decision-making power to the people in the field. A manager's job is to build the team's capacity, not control it."
+        ],
+        "battle_win": [
+          "Stanley was the first to cross the finish line in 2005. It was a victory for a team willing to take risks.",
+          "When we opened Stanford's AI course to the world, 160,000 students from more than 190 countries joined. It made us rethink the size of a classroom.",
+          "The project I started became Waymo and went on to carry passengers without a human driver on public roads. That is a team's accumulated work, not one person's achievement."
+        ],
+        "battle_draw": [
+          "Online learning cannot replace every classroom. Young children and working adults need different environments.",
+          "A language model predicts the next word well, but it is not trained to distinguish fact from fiction.",
+          "A retreat may look like defeat, but leaving the wrong path can bring you closer to the summit. A pivot is progress too."
+        ],
+        "battle_lose": [
+          "My close friend Harold died in a traffic accident. That loss made me decide to build safer cars.",
+          "A reviewer said nearly every aspect of my statistics course was wrong. It was devastating, but the criticism helped me improve the course.",
+          "The Kittyhawk Flyer did carry people into the air, but we eventually abandoned it. Making something work is not the same as making it succeed."
+        ],
+        "clash_attack": [
+          "Do not stop AI research. Expose its biases and errors, then make it more trustworthy.",
+          "Do not assume a boss knows more than the people in the field. If you believe you are right, challenge the boss with evidence.",
+          "Do not celebrate failure by itself. Ship, fail, learn, and shorten the cycle before you ship again."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Stanley and I crossed the desert and won the DARPA challenge.",
+          "I started Google's self-driving car project to reduce crashes.",
+          "I tested technology at Google X and opened online courses through Udacity."
+        ],
+        "deploy": [
+          "Align on one goal. Find the route through testing.",
+          "Test before you debate. Fix what fails immediately.",
+          "Let people in the field decide. Managers should support them."
+        ],
+        "battle_win": [
+          "Stanley crossed the desert first because the team kept fixing it.",
+          "I put my AI course online, and 160,000 students joined.",
+          "The project I started became Waymo after years of work by many teams."
+        ],
+        "battle_draw": [
+          "Online courses cannot replace every classroom. Children and working adults need different things.",
+          "Language models predict the next word; that does not mean they know the facts.",
+          "If the road is wrong, turn around. Stubbornness helps no one."
+        ],
+        "battle_lose": [
+          "After Harold died in a crash, I set out to build safer cars.",
+          "A brutal review of my statistics course made me improve it.",
+          "The Kittyhawk Flyer flew, but we closed the project. Flight alone was not enough."
+        ],
+        "clash_attack": [
+          "Expose AI's biases and fix them!",
+          "Your boss is not always right. Challenge them with evidence!",
+          "Stop celebrating failure. Fix it and ship again!"
+        ]
+      }
+    },
+    {
+      "id": "860af2ca-2813-465f-9e5a-f755c0cc0ab2",
+      "slug": "seth-godin",
+      "nickname": "세스 고딘",
+      "birthDate": "1960-07-10",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "I founded Yoyodyne and Squidoo, and Yoyodyne was acquired by Yahoo. Along the way, I pioneered permission marketing.",
+          "Through twenty-one bestselling books and a daily blog, I have taught how ideas spread.",
+          "I am a writer and entrepreneur, but I introduce myself as a teacher who does projects."
+        ],
+        "deploy": [
+          "Do not chase everyone. Start with the smallest viable audience that needs this work most.",
+          "In marketing, do not steal people's time. Earn permission first, then deliver something anticipated, personal, and relevant.",
+          "Do not hide until the work is perfect. You can learn what comes next only after you ship."
+        ],
+        "battle_win": [
+          "Yoyodyne was acquired by Yahoo. The idea of earning permission instead of interrupting people outlasted the company.",
+          "The blog I have kept daily is approaching ten thousand posts. Showing up every day has left more work behind than waiting for inspiration.",
+          "The Carbon Almanac brought 1,900 volunteers together. The project I call my most important was not a book written alone."
+        ],
+        "battle_draw": [
+          "Early adopters ask what is new, while the majority asks what has worked. The same message cannot move both.",
+          "Failure and success share a spectrum. You may not control the outcome, but you can choose the effort you make now.",
+          "Do not try to remove every constraint. The moment you choose every option, the project stops moving."
+        ],
+        "battle_lose": [
+          "The altMBA and Akimbo projects I started were sunset in 2024. An ending does not erase the value created before it.",
+          "Sunk time and money do not come back. If you hold on because of yesterday's cost, you lose tomorrow too.",
+          "A nod is not change. If you never ask people to act, a tribe remains an audience."
+        ],
+        "clash_attack": [
+          "Do not call your work different. It becomes remarkable only when people choose to talk about it.",
+          "Do not confuse impressions with impact. Repetition without permission is noise, not attention.",
+          "Do not let persistence become a slogan. If the road is a dead end, quit before the market decides for you."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I built Yoyodyne and sold it to Yahoo. That is where permission marketing began.",
+          "I have written twenty-one books, and I still blog every day.",
+          "I am a writer and entrepreneur, but I call myself a teacher and maker."
+        ],
+        "deploy": [
+          "Do not sell to everyone. Start with the people who need it most.",
+          "Do not interrupt people. Ask permission, then say only what matters.",
+          "Do not hide until it is perfect. Ship the work."
+        ],
+        "battle_win": [
+          "After selling the company, I kept teaching marketers to ask permission first.",
+          "I wrote nearly ten thousand daily posts without waiting for inspiration.",
+          "I made The Carbon Almanac with 1,900 volunteers."
+        ],
+        "battle_draw": [
+          "Early adopters want novelty. Everyone else wants proof.",
+          "You cannot control the outcome, but you can choose today's effort.",
+          "If you keep every option, nothing moves. Choose one."
+        ],
+        "battle_lose": [
+          "I ended altMBA and Akimbo. An ending does not erase their value.",
+          "Sunk time and money will not return. Do not cling to finished work.",
+          "If people only nod, they are still an audience. Ask them to act."
+        ],
+        "clash_attack": [
+          "Do not claim you are different. Make people talk!",
+          "Do not mistake impressions for impact!",
+          "If it is a dead end, quit before the market does!"
+        ]
+      }
+    }
+  ]
+}

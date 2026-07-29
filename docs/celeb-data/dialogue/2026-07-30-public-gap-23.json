@@ -1,0 +1,450 @@
+{
+  "batch": "2026-07-30-public-gap-23",
+  "targets": [
+    {
+      "id": "af8cb413-2360-4c7a-af2f-7a4df5d80b56",
+      "slug": "peter-lynch",
+      "nickname": "피터 린치",
+      "nicknameEn": "Peter Lynch",
+      "birthDate": "1944-01-14",
+      "profession": "investor",
+      "quote": "주식시장에서 돈을 버는 열쇠는 겁먹지 않는 것이다.",
+      "quoteEn": "The key to making money in stocks is not to get scared out of them.",
+      "greetingKo": [
+        "[warm, practical] 자기가 아는 것에 투자하세요. 그게 시작입니다.",
+        "[calm, folksy] 주식 뒤에는 기업이 있고, 기업 뒤에는 사람이 있습니다.",
+        "[patient, wise] 주식시장의 하락은 1월에 눈보라가 오는 것과 같습니다. 준비했으면 괜찮아요."
+      ],
+      "greetingEn": [
+        "[warm, practical] Invest in what you know. That's where you start.",
+        "[calm, folksy] Behind every stock is a company, and behind every company are people.",
+        "[patient, wise] A stock market downturn is like a blizzard in January. If you're prepared, it's fine."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "피터 린치입니다. 주가표보다 가게와 장부를 보겠습니다.",
+          "아는 상품에서 출발하되 기업 조사는 따로 하겠습니다.",
+          "쉽게 설명 못 할 회사라면 제 돈도 넣지 않겠습니다."
+        ],
+        "deploy": [
+          "주식 이름 말고 뒤의 기업을 설명해 보세요.",
+          "매출과 이익, 빚이 이야기를 받치는지 보세요.",
+          "하락을 예측하지 말고 견딜 기업을 고르세요."
+        ],
+        "battle_win": [
+          "매장에서 본 변화가 장부에도 찍혀 확신을 더했습니다.",
+          "기업이 계속 좋아져 두 배가 돼도 팔지 않았습니다.",
+          "눈보라를 맞았지만 튼튼한 장부가 버틸 시간을 줬습니다."
+        ],
+        "battle_draw": [
+          "상품은 팔리지만 이익도 느는지는 더 봐야 합니다.",
+          "주가는 싸 보이지만 사업이 나아졌다는 증거는 없습니다.",
+          "이야기는 맞아도 기대가 이미 가격에 다 들어갔습니다."
+        ],
+        "battle_lose": [
+          "가게만 보고 빚과 경쟁사는 확인하지 않았습니다.",
+          "싸다는 이유로 샀다가 무너지는 사업을 붙들었습니다.",
+          "오른 꽃을 자르고 희망 없는 잡초에 물을 줬습니다."
+        ],
+        "clash_attack": [
+          "기업부터 보세요!",
+          "장부를 펼치세요!",
+          "꽃을 자르지 마세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Peter Lynch. I read the business before the ticker.",
+          "I start with familiar products, then investigate the company.",
+          "If I cannot explain it simply, I do not own it."
+        ],
+        "deploy": [
+          "Name the business behind the stock.",
+          "Check whether sales, earnings, and debt support the story.",
+          "Choose a company that can survive the next blizzard."
+        ],
+        "battle_win": [
+          "What I saw in stores also appeared in the numbers.",
+          "The business kept improving, so I held past a double.",
+          "A strong balance sheet gave the company time to recover."
+        ],
+        "battle_draw": [
+          "The product sells, but profits have not followed yet.",
+          "The price looks low; the business has not improved.",
+          "The story works, but the price already expects it."
+        ],
+        "battle_lose": [
+          "I liked the store and ignored its debt and competitors.",
+          "I confused a low price with a healthy business.",
+          "I cut the flower and kept watering the weed."
+        ],
+        "clash_attack": [
+          "Study the business!",
+          "Open the books!",
+          "Let the winner run!"
+        ]
+      },
+      "sources": [
+        "https://www.fidelity.com/bin-public/060_www_fidelity_com/documents/learning-center/110322%20rewards%20exclusive_UnderstandtheChange-Transcript_%20F.pdf",
+        "https://www-tc.pbs.org/wgbh/pages/frontline/shows/betting/pros/lynch.html",
+        "https://archive.mpr.org/stories/1993/05/26/peter-lynch-on-investing-strategies-and-misconceptions"
+      ]
+    },
+    {
+      "id": "8f9cf993-7898-4db3-8e5b-85abc1f0367d",
+      "slug": "peter-jackson",
+      "nickname": "피터 잭슨",
+      "nicknameEn": "Peter Jackson",
+      "birthDate": "1961-10-31",
+      "profession": "director",
+      "quote": "상상할 수 있는 것은 무엇이든 필름에 담을 수 있다.",
+      "quoteEn": "Anything you can imagine, you can put on film.",
+      "greetingKo": [
+        "[warm, epic] 불가능해 보이는 세계를 스크린 위에 세우는 것, 그것이 영화의 마법입니다.",
+        "[earnest, vast] 원작에 대한 사랑이 없으면, 아무리 큰 예산도 소용없습니다.",
+        "[playful, ambitious] 뉴질랜드 뒤뜰에서 중간계를 만들었습니다."
+      ],
+      "greetingEn": [
+        "[warm, epic] Building what seems like an impossible world on screen — that is the magic of cinema.",
+        "[earnest, vast] Without love for the source material, no budget is large enough.",
+        "[playful, ambitious] I built Middle-earth in a backyard in New Zealand."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "피터 잭슨입니다. 모형과 상상을 한 화면에 놓겠습니다.",
+          "원작의 심장을 지키되 영화의 길은 따로 찾겠습니다.",
+          "배우의 눈빛이 살아야 디지털 세계도 믿을 수 있습니다."
+        ],
+        "deploy": [
+          "전투보다 인물이 지킬 한 가지부터 정하세요.",
+          "모형과 분장, 디지털 효과의 빛을 맞추세요.",
+          "촬영 전 대본과 스토리보드를 점검하세요."
+        ],
+        "battle_win": [
+          "모형과 풍경이 만나 중간계가 실제 장소처럼 보였습니다.",
+          "효과를 배우 뒤에 두니 골룸의 눈빛이 먼저 보였습니다.",
+          "원작의 정서를 지키면서 영화만의 속도를 찾았습니다."
+        ],
+        "battle_draw": [
+          "세계는 커졌지만 인물이 왜 걷는지는 아직 흐립니다.",
+          "효과는 완성됐지만 배우와 한 장면처럼 보이지 않습니다.",
+          "원작 장면은 남았지만 영화의 리듬은 길어졌습니다."
+        ],
+        "battle_lose": [
+          "준비 없이 촬영을 시작해 현장에서 방향을 만들었습니다.",
+          "볼거리를 늘리다 작은 여정의 마음을 놓쳤습니다.",
+          "디지털 군중을 키우다 한 배우의 두려움을 묻었습니다."
+        ],
+        "clash_attack": [
+          "모형부터 세워요!",
+          "눈빛을 지켜요!",
+          "대본부터 끝내요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Peter Jackson. I put miniatures and imagination in one frame.",
+          "I find the source's heart, then decide what film must change.",
+          "A digital world is believable only when the actor is."
+        ],
+        "deploy": [
+          "Define what the character protects before staging the battle.",
+          "Match miniatures, makeup, and digital effects under one light.",
+          "Finish the script and storyboards before the cameras roll."
+        ],
+        "battle_win": [
+          "Miniatures and landscapes made Middle-earth feel physically present.",
+          "Effects served the performance, so Gollum's eyes came first.",
+          "We preserved the source's feeling and found a cinematic pace."
+        ],
+        "battle_draw": [
+          "The world grew, but the character's journey became unclear.",
+          "The effect works, but it still feels separate from the actor.",
+          "The source scene remains; the film's rhythm has stretched."
+        ],
+        "battle_lose": [
+          "I started shooting without a plan and tried to find the film on set.",
+          "I expanded the spectacle and lost the small journey's heart.",
+          "I enlarged the digital army and buried one actor's fear."
+        ],
+        "clash_attack": [
+          "Build the miniature!",
+          "Protect the performance!",
+          "Finish the script!"
+        ]
+      },
+      "sources": [
+        "https://achievement.org/achiever/sir-peter-jackson/",
+        "https://www.theguardian.com/film/2015/nov/19/peter-jackson-battle-of-the-five-armies-i-didnt-know-what-the-hell-i-was-doing-when-i-made-the-hobbit",
+        "https://time.com/5466475/peter-jackson-they-shall-not-grow-old/"
+      ]
+    },
+    {
+      "id": "f79d4ce5-a523-4382-9cf4-3ac9fe37d028",
+      "slug": "phil-jackson",
+      "nickname": "필 잭슨",
+      "nicknameEn": "Phil Jackson",
+      "birthDate": "1945-09-17",
+      "profession": "athlete",
+      "quote": "리더십은 강요가 아니라 내려놓는 기술이다.",
+      "quoteEn": "Leadership is not about force. It's the art of letting go.",
+      "greetingKo": [
+        "[zen, calm] 농구는 명상이에요.",
+        "[wise, composed] 팀이 하나가 되면, 불가능은 없어요.",
+        "[philosophical, warm] 호흡을 맞추세요, 승리는 따라와요."
+      ],
+      "greetingEn": [
+        "[zen, calm] Basketball is meditation.",
+        "[wise, composed] When the team becomes one, nothing is impossible.",
+        "[philosophical, warm] Find your rhythm, and the victory will follow."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "필 잭슨입니다. 공이 멈추지 않는 팀부터 만들겠습니다.",
+          "선수마다 삼각형 안에서 자기 선택을 하게 하겠습니다.",
+          "숨을 고르고 득점보다 다섯 명의 연결을 보겠습니다."
+        ],
+        "deploy": [
+          "공을 오래 쥐기 전에 빈 동료부터 보세요.",
+          "삼각형 안에서 수비가 준 답을 직접 읽으세요.",
+          "한 번 숨 쉬고 다음 패스 길을 보세요."
+        ],
+        "battle_win": [
+          "공이 멎지 않아 다섯 명 모두 위협이 됐습니다.",
+          "스타가 미끼가 되자 반대편 동료가 경기를 끝냈습니다.",
+          "타임아웃 없이도 선수들이 스스로 흐름을 되찾았습니다."
+        ],
+        "battle_draw": [
+          "간격은 맞지만 패스가 의무가 되니 창의성이 멎었습니다.",
+          "마음은 고요해도 수비 변화는 빨리 읽어야 합니다.",
+          "스타가 패스했지만 동료는 책임질 준비가 덜 됐습니다."
+        ],
+        "battle_lose": [
+          "삼각형을 앞세워 맞지 않는 팀에 억지로 씌웠습니다.",
+          "명상을 도구로 써 선수의 불만을 듣지 않았습니다.",
+          "심리전을 지혜로 포장해 믿어야 할 선수를 흔들었습니다."
+        ],
+        "clash_attack": [
+          "공을 놓으세요!",
+          "빈 쪽을 보세요!",
+          "한 번 숨 쉬어요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Phil Jackson. I build a team where the ball keeps moving.",
+          "Every player chooses within the same triangle.",
+          "One breath reveals the connection between all five players."
+        ],
+        "deploy": [
+          "Find the open teammate before holding the ball too long.",
+          "Keep the triangle, but read what the defense gives.",
+          "Take one breath and locate the next passing lane."
+        ],
+        "battle_win": [
+          "The ball never stopped, so all five became threats.",
+          "Our star drew the defense, and the weak side finished.",
+          "The players recovered the flow without my timeout."
+        ],
+        "battle_draw": [
+          "The spacing works, but forced passes have killed creativity.",
+          "The mind is quiet; the defense has already changed.",
+          "Our star passed, but teammates still avoided responsibility."
+        ],
+        "battle_lose": [
+          "I placed the triangle above the players and forced the fit.",
+          "I used meditation as a tool and ignored their frustration.",
+          "I disguised manipulation as wisdom and unsettled my own players."
+        ],
+        "clash_attack": [
+          "Move the ball!",
+          "See the weak side!",
+          "Take one breath!"
+        ]
+      },
+      "sources": [
+        "https://www.espn.com/nba/story/_/id/29101166/how-phil-jackson-coaching-legacy-influencing-nba",
+        "https://www.nba.com/bulls/news/jordanhof_jackson_090827.html",
+        "https://www.espn.com/nba/story/_/id/18043923/truehoop-presents-new-york-knicks-president-phil-jackson-qa-nba"
+      ]
+    },
+    {
+      "id": "5e11ba7e-2bb9-419a-81a6-c11f6dc515c2",
+      "slug": "harun-al-rashid",
+      "nickname": "하룬 알 라시드",
+      "nicknameEn": "Harun al-Rashid",
+      "birthDate": "763",
+      "profession": "politician",
+      "quote": "답은 네가 듣는 것이 아니라 보게 될 것이다.",
+      "quoteEn": "The answer is what you will see, not what you hear.",
+      "greetingKo": [
+        "[regal, calm] 바그다드를 세계 문명의 중심으로 만들겠다.",
+        "[composed, wise] 칼리프의 책무는 정의를 세우는 것이다.",
+        "[visionary, benevolent] 학자에게 문을 열어라. 그것이 번영의 시작이다."
+      ],
+      "greetingEn": [
+        "[regal, calm] I will make Baghdad the center of world civilization.",
+        "[composed, wise] A caliph's duty is to establish justice.",
+        "[visionary, benevolent] Open the door to scholars. That is the beginning of prosperity."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "하룬 알 라시드요. 변경 보고와 장부부터 살피겠소.",
+          "바그다드의 빛으로 속주의 피와 세금을 가리지 않겠소.",
+          "학자와 상인이 오가는 길을 제국의 힘으로 삼겠소."
+        ],
+        "deploy": [
+          "비잔티움 변경의 길과 보급부터 확보하시오.",
+          "총독의 보고 뒤에 숨은 불만도 확인하시오.",
+          "왕자의 몫보다 하나의 계승 질서를 세우시오."
+        ],
+        "battle_win": [
+          "변경의 보급을 갖추니 황제의 조공 약속을 받아냈소.",
+          "바르마크 가문이 먼 속주까지 제국의 행정을 붙들었소.",
+          "상인과 학자의 길이 열려 바그다드의 시장이 번성했소."
+        ],
+        "battle_draw": [
+          "전선은 잠잠하나 호라산의 불만은 장부 아래 남아 있소.",
+          "두 아들의 권한을 나눴지만 다툼의 경계도 함께 그었소.",
+          "궁정은 빛나나 속주가 세금을 감당할지 모르겠소."
+        ],
+        "battle_lose": [
+          "바르마크 가문을 쳐내고 행정의 손발까지 끊었소.",
+          "제국을 아들들에게 나눠 형제 전쟁의 지도를 남겼소.",
+          "화려한 궁정만 보다가 동쪽 속주의 분노를 늦게 읽었소."
+        ],
+        "clash_attack": [
+          "보급로를 지키시오!",
+          "총독을 살피시오!",
+          "계승을 하나로!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Harun al-Rashid. I begin with frontier reports and treasury ledgers.",
+          "Baghdad's splendor must not conceal blood and taxes in the provinces.",
+          "Scholars, merchants, and administrators keep an empire connected."
+        ],
+        "deploy": [
+          "Secure the Byzantine frontier roads and their supplies.",
+          "Look beyond the governor's report for provincial anger.",
+          "Establish one succession before dividing power among princes."
+        ],
+        "battle_win": [
+          "Our supply lines held, and the emperor renewed his tribute.",
+          "Barmakid administration kept the empire's distant roads connected.",
+          "Open routes brought scholars and merchants into Baghdad."
+        ],
+        "battle_draw": [
+          "The frontier is quiet, but Khorasan still resents our rule.",
+          "I divided power between my sons and prepared their conflict.",
+          "The court shines; I do not know how long the provinces can bear its cost."
+        ],
+        "battle_lose": [
+          "I destroyed the Barmakids and severed the administration's own hands.",
+          "I divided the empire and left the map for a war between brothers.",
+          "I watched the glittering court and read eastern anger too late."
+        ],
+        "clash_attack": [
+          "Guard the supply road!",
+          "Watch the governor!",
+          "Secure the succession!"
+        ]
+      },
+      "sources": [
+        "https://www.iranicaonline.org/articles/harun-al-rasid/",
+        "https://www.iranicaonline.org/articles/barmakids/",
+        "https://www.iranicaonline.org/articles/abbasid-caliphate/"
+      ]
+    },
+    {
+      "id": "9054037a-8c16-4e6b-a96e-7d2bfe9df986",
+      "slug": "han-kang",
+      "nickname": "한강",
+      "nicknameEn": "Han Kang",
+      "birthDate": "1970-11-27",
+      "profession": "author",
+      "quote": "살인을 멈춰야 한다는 건 우리가 배운 것의 분명한 결론이다.",
+      "quoteEn": "Stopping killing—that is the obvious conclusion of what we have learned.",
+      "greetingKo": [
+        "[calm, intense] 고통은 우리가 가진 가장 깊은 힘입니다.",
+        "[composed, reflective] 희망이 있을 거라고 희망하는 것도 희망입니다.",
+        "[solemn, warm] 모든 이야기는 결국 사람에 관한 것입니다."
+      ],
+      "greetingEn": [
+        "[calm, intense] Pain is the deepest power we possess.",
+        "[composed, reflective] Hoping that there is hope — that, too, is hope.",
+        "[solemn, warm] Every story is ultimately about a person."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "한강입니다. 답을 정하지 않고 질문을 따라가겠습니다.",
+          "한 사람의 고통 앞에서 문장부터 조용히 하겠습니다.",
+          "생존자의 목소리와 말하지 못한 침묵을 듣겠습니다."
+        ],
+        "deploy": [
+          "사건보다 한 사람의 이름부터 기억하세요.",
+          "문장의 아름다움이 고통을 가리는지 보세요.",
+          "말하지 못한 자리도 지우지 마세요."
+        ],
+        "battle_win": [
+          "끝까지 질문을 따라가니 다른 사람의 마음에 닿았습니다.",
+          "이름을 되찾자 죽음이 다시 한 사람이 됐습니다.",
+          "침묵을 지우지 않자 독자가 그 곁에 오래 머물렀습니다."
+        ],
+        "battle_draw": [
+          "맑은 문장이 고통을 아름답게 보일까 두렵습니다.",
+          "증언은 모였지만 누구의 목소리로 말할지는 정하지 못했습니다.",
+          "희망을 쓰고 싶지만 서둘러 상처를 덮을 수는 없습니다."
+        ],
+        "battle_lose": [
+          "고통을 설명하다 그 사람보다 앞서 말했습니다.",
+          "아름다운 비유로 참혹한 죽음의 무게를 가볍게 했습니다.",
+          "침묵을 존중한다며 남겨야 할 증언을 지웠습니다."
+        ],
+        "clash_attack": [
+          "이름을 기억해요!",
+          "질문을 놓지 마요!",
+          "폭력을 멈춰요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Han Kang. I follow the question without deciding its answer.",
+          "Before another person's pain, the sentence must grow quiet.",
+          "I listen to survivors and to the silence around speech."
+        ],
+        "deploy": [
+          "Remember one name before measuring the event.",
+          "Read again and ask whether beauty conceals the pain.",
+          "Do not erase the place where speech failed."
+        ],
+        "battle_win": [
+          "I kept the question alive, and it reached another heart.",
+          "One recovered name restored a person behind the number.",
+          "I left the silence intact, and the reader stayed with it."
+        ],
+        "battle_draw": [
+          "The sentence is clear, but suffering may look too beautiful.",
+          "The testimonies remain; I have not chosen who should speak.",
+          "I want hope, but cannot hurry it over the wound."
+        ],
+        "battle_lose": [
+          "I explained the pain before letting the person speak.",
+          "A beautiful image made a brutal death feel lighter.",
+          "I called it respect for silence and erased necessary testimony."
+        ],
+        "clash_attack": [
+          "Remember the name!",
+          "Stay with the question!",
+          "Stop the violence!"
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/literature/2024/han/lecture/",
+        "https://www.nobelprize.org/prizes/literature/2024/han/speech/",
+        "https://thebookerprizes.com/the-booker-library/features/han-kang-interview-i-never-imagined-the-vegetarian-would-find-so-many"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "slug": "hippocrates",
+  "nickname": "히포크라테스",
+  "route": "improve",
+  "routeReason": "현재 원고는 환자의 얼굴빛·숨·열·잠·식욕·배설을 살피는 구체적 관찰, 예후와 기록, 환경과 생활을 함께 보는 의술을 쉬운 장면으로 만든다. 마지막에 히포크라테스 이름 아래 여러 의사의 글이 쌓였다고 밝힌 점도 중요하다. 그러나 앞 문단에서는 『신성한 병에 관하여』·『공기, 물, 장소에 관하여』·『유행병』의 내용을 곧바로 히포크라테스 본인의 경험과 저술로 말해 마지막 경계와 충돌한다. 네 체액의 단일 체계도 『인간의 본성에 관하여』의 저자 폴리보스와 후대 갈레노스의 영향이 큰데, 본인이 오류를 깨달았다는 현대적 자기비판을 창작했다. ‘서양 의학의 아버지’와 ‘최초로 미신에서 의학을 분리한 사람’이라는 영웅 서사를 낮추고, 개인보다 히포크라테스 문헌군의 여러 목소리를 정직하게 다루는 개선이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "히포크라테스",
+      "birth": "-460",
+      "death": "-370",
+      "profession": "scientist",
+      "disambiguation": "기원전 5세기 코스 출신의 유명한 그리스 의사로 고대부터 알려졌으나, 오늘 전하는 히포크라테스 문헌군의 어느 글을 직접 썼는지는 확정되지 않은 인물",
+      "existingBioForDiscoveryOnly": "고대 그리스의 의학자로 서양 의학의 아버지. 질병을 미신이 아닌 자연 현상으로 접근한 최초의 체계적 의학자다."
+    },
+    "sources": [
+      {
+        "url": "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506",
+        "title": "Introduction to The Cambridge Companion to Hippocrates",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2018",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "역사적 히포크라테스와 다양한 히포크라테스 문헌군을 구분해야 하는 ‘히포크라테스 문제’",
+          "질병·예후·치료·윤리·환경에 관한 서로 다른 문헌과 해석 전통",
+          "한 사람의 일관된 의학 체계로 문헌군 전체를 읽을 수 없다는 경계"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/vatican/medicine.html",
+        "title": "Medicine: Rome Reborn, The Vatican Library & Renaissance Culture",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "히포크라테스에게 귀속된 문헌군이 정밀한 사례 기록과 관찰의 중요한 모델을 제공했다는 점",
+          "여러 사본·그리스어 전승·라틴어 번역을 거쳐 르네상스에 완전한 문헌군이 알려진 역사",
+          "‘히포크라테스의 저작’이라는 전통적 귀속과 실제 저자 문제를 구분할 맥락"
+        ]
+      },
+      {
+        "url": "https://web.nypl.org/research/research-catalog/bib/b11825601/marc",
+        "title": "Hippocrates, Works – Research Catalog",
+        "publisher": "New York Public Library",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "기원전 460년 무렵 코스에서 태어난 유명 의사라는 고대 전승",
+          "약 70편의 문헌 중 많은 글과 맹세조차 히포크라테스 자신의 저작이 아닐 수 있다는 경계",
+          "『예후』·『신성한 병에 관하여』·『유행병』·『맹세』 등 문헌군의 범위"
+        ]
+      },
+      {
+        "url": "https://ethicsofsuicide.lib.utah.edu/selections/hippocratic-corpus/",
+        "title": "The Hippocratic Corpus: The Hippocratic Oath",
+        "publisher": "University of Utah",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "치유의 신들에게 맹세하고 스승·제자 관계, 치명적 약물, 수술, 성관계, 비밀 유지 등을 규정한 고대 맹세의 실제 내용",
+          "‘무엇보다 해치지 말라’라는 현대 표어가 맹세 전체와 정확히 같지 않다는 점",
+          "맹세의 저자가 히포크라테스 개인으로 입증되지 않았다는 경계"
+        ]
+      },
+      {
+        "url": "https://www.jstor.org/content/xml/oa_book_edited/10.1163/j.ctt1w76vxr",
+        "title": "Greek Medicine from Hippocrates to Galen: Selected Papers",
+        "publisher": "Brill via JSTOR",
+        "kind": "scholarly",
+        "publishedAt": "2012",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "네 체액의 체계가 『인간의 본성에 관하여』에 처음 분명히 나타나며 저자는 폴리보스로 귀속된다는 점",
+          "갈레노스가 특정 문헌을 정통 히포크라테스 의학으로 선택·확대해 후대 이미지를 만든 과정",
+          "문헌군 안에 서로 다른 생리·질병 이론이 공존한다는 사실"
+        ]
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/16075496/",
+        "title": "The fatal embrace: Galen and the history of ancient medicine",
+        "publisher": "PubMed",
+        "kind": "scholarly",
+        "publishedAt": "2005",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "네 체액설이 고대 의학 전체의 단일 표준이 아니었고 갈레노스 이후 보편적 정설처럼 자리 잡았다는 점",
+          "히포크라테스와 갈레노스를 하나의 고정된 의학 체계로 합치는 후대 서사의 문제",
+          "고대 의학의 다양성을 보존할 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/medical-history/article/on-the-heart-of-the-hippocratic-corpus-its-meaning-context-and-purpose/1F033FFFE772E36229558B2E78F5588F",
+        "title": "On the Heart of the Hippocratic Corpus: its meaning, context and purpose",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2023",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "문헌군 개별 논문의 연대와 저자·학파를 둘러싼 복잡한 논쟁",
+          "후대 갈레노스와 주석 전통이 저작 귀속에 미친 영향",
+          "문헌군을 한 사람의 통일된 해부·생리 지식으로 읽지 않을 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "기원전 5세기 후반 코스의 히포크라테스는 의사로서 이미 고대 저자들에게 알려졌지만, 자세한 생애와 직접 저술은 거의 확인되지 않는다.",
+        "significance": "코스섬의 특정 환자와 수업 장면을 개인 회상으로 만들기보다 이름과 문헌 전통 사이의 거리를 먼저 밝힌다.",
+        "sourceUrls": [
+          "https://web.nypl.org/research/research-catalog/bib/b11825601/marc",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "기원전 5세기 말부터 여러 세기에 걸쳐 만들어진 히포크라테스 문헌군은 환자의 증상과 병의 경과를 자세히 관찰하고 예후를 말하는 여러 의학적 접근을 남겼다.",
+        "significance": "관찰과 기록의 힘은 살리되 그것을 히포크라테스 한 사람이 창안한 단일 방법으로 만들지 않는다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/vatican/medicine.html",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "『신성한 병에 관하여』는 간질로 보이는 병도 다른 질병처럼 자연적 원인을 가진다고 논하고, 『공기, 물, 장소에 관하여』는 환경과 생활을 질병과 연결했다.",
+        "significance": "질병을 자연적으로 설명하려는 문헌군의 중요한 움직임을 보여 주되 두 글을 역사적 히포크라테스 자신의 확정 발언으로 쓰지 않는다.",
+        "sourceUrls": [
+          "https://web.nypl.org/research/research-catalog/bib/b11825601/marc",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "히포크라테스 맹세는 치료자의 규율과 비밀 유지, 해로운 처방의 금지를 강하게 남겼지만 문헌군 전체의 공통 규칙도 히포크라테스 개인의 확정 저술도 아니다.",
+        "significance": "오늘날 의료윤리의 상징성은 인정하되 모든 고대 의사가 같은 맹세를 했고 ‘먼저 해치지 말라’ 한 문장으로 완성됐다는 신화를 피한다.",
+        "sourceUrls": [
+          "https://ethicsofsuicide.lib.utah.edu/selections/hippocratic-corpus/",
+          "https://web.nypl.org/research/research-catalog/bib/b11825601/marc"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "히포크라테스 문헌군의 여러 저자는 병을 한순간의 징조보다 시간에 따른 증상·식사·수면·배설·위기의 변화 속에서 관찰하고 기록했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/vatican/medicine.html",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "예후는 의사의 권위를 과시하는 예언이 아니라 환자와 주변 사람이 앞으로의 위험과 필요한 돌봄을 준비하게 하는 의학적 판단이었다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "질병을 신의 벌이라는 한 설명에 맡기지 않고 몸·환경·식이·계절 속의 자연적 과정으로 논한 문헌들이 있다.",
+        "sourceUrls": [
+          "https://web.nypl.org/research/research-catalog/bib/b11825601/marc",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "치료자의 지식에는 환자의 비밀을 지키고 자신의 기술 범위를 넘지 않으며 해로운 처방을 삼가는 규율이 필요하다는 윤리 전통을 남겼다.",
+        "sourceUrls": [
+          "https://ethicsofsuicide.lib.utah.edu/selections/hippocratic-corpus/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "자연적 원인과 관찰을 강조한 글이 있는 동시에 히포크라테스 문헌군은 신과 맹세, 꿈, 체액과 위기일 같은 오늘날과 다른 전제들을 함께 품는다.",
+        "sourceUrls": [
+          "https://ethicsofsuicide.lib.utah.edu/selections/hippocratic-corpus/",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "정밀한 사례 관찰은 강한 유산이지만 해부학·감염·생리 지식이 제한된 상태에서 내린 원인 설명과 치료는 많이 틀렸다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/medical-history/article/on-the-heart-of-the-hippocratic-corpus-its-meaning-context-and-purpose/1F033FFFE772E36229558B2E78F5588F",
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "point": "네 체액설은 히포크라테스 이름과 강하게 결부됐지만 문헌군의 한 저작에서 나온 이론이고 갈레노스의 선택과 체계화 뒤에 지배적 전통이 됐다.",
+        "sourceUrls": [
+          "https://www.jstor.org/content/xml/oa_book_edited/10.1163/j.ctt1w76vxr",
+          "https://pubmed.ncbi.nlm.nih.gov/16075496/"
+        ]
+      },
+      {
+        "point": "‘서양 의학의 아버지’라는 단일 영웅상은 문헌군을 만든 여러 의사와 이집트·메소포타미아·그리스의 선행 의술, 후대 편집자를 가린다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506",
+          "https://www.loc.gov/exhibits/vatican/medicine.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "환자의 변화는 짧고 구체적인 관찰문으로, 사료의 경계는 한 문장 더 붙여 분명히 한다. 문헌 이름과 의학 용어는 첫 등장에 괄호 풀이를 넣는다.",
+      "directness": "모든 답을 아는 의학의 아버지가 아니라 환자 곁에서 경과를 관찰하는 고대 의술 전통의 목소리로 쓴다. ‘내가 썼다’보다 ‘내 이름 아래 전하는 글들에는’이라는 표현을 적극 사용해 개인과 문헌군을 구분한다.",
+      "moves": [
+        "역사적 인물의 생애를 거의 모른다는 사실과 히포크라테스 문헌군의 다중 저자를 초반에 밝히기",
+        "얼굴빛·숨·잠·식욕·배설이라는 현재 원고의 좋은 구체성을 관찰 전통의 사례로 보존하기",
+        "신성한 병의 자연 원인 주장은 특정 문헌의 목소리로 말하고 히포크라테스 본인의 직접 기억으로 쓰지 않기",
+        "네 체액은 폴리보스의 『인간의 본성에 관하여』와 갈레노스의 후대 체계화를 괄호로 설명하기",
+        "맹세는 실제 조항과 오늘날의 상징성을 구분하고 ‘먼저 해치지 말라’ 표어로만 줄이지 않기",
+        "결말은 개인 영웅의 자축보다 여러 의사의 기록이 한 이름 아래 살아남은 역설로 닫기"
+      ],
+      "avoid": [
+        "『신성한 병에 관하여』·『공기, 물, 장소에 관하여』·『유행병』을 히포크라테스 개인의 확정 저술로 쓰기",
+        "코스섬에서 특정 환자를 직접 관찰한 장면과 감정을 창작하기",
+        "질병을 종교에서 완전히 분리한 최초의 세속 의사라고 쓰기",
+        "네 체액설 전체를 히포크라테스가 혼자 만들고 일관되게 가르쳤다고 쓰기",
+        "본인이 네 체액설의 오류를 후대 지식으로 깨달아 인정하는 말을 만들기",
+        "‘먼저 해치지 말라’를 고대 맹세의 정확한 첫 문장이나 유일한 핵심으로 쓰기",
+        "모든 현대 의사가 원문 그대로 히포크라테스 맹세를 한다고 쓰기",
+        "‘서양 의학의 아버지’라는 칭호로 다른 고대 의술 전통과 문헌 저자들을 지우기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "히포크라테스 문헌군",
+        "guide": "히포크라테스의 이름 아래 전하지만 시기·저자·학설이 서로 다른 약 60~70편의 고대 그리스 의학 글 모음",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506",
+          "https://web.nypl.org/research/research-catalog/bib/b11825601/marc"
+        ]
+      },
+      {
+        "term": "예후",
+        "guide": "지금까지의 증상과 병의 흐름을 보고 앞으로 호전될지 악화될지와 위험한 고비를 판단하는 일",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "term": "네 체액설",
+        "guide": "피·점액·황담즙·흑담즙의 비율과 상태로 건강과 병을 설명한 고대 이론으로, 문헌군의 한 학설이 갈레노스를 거쳐 크게 체계화됐다",
+        "sourceUrls": [
+          "https://www.jstor.org/content/xml/oa_book_edited/10.1163/j.ctt1w76vxr",
+          "https://pubmed.ncbi.nlm.nih.gov/16075496/"
+        ]
+      },
+      {
+        "term": "위기일",
+        "guide": "병의 경과가 호전이나 악화 쪽으로 뚜렷하게 꺾일 것이라고 고대 의사들이 예상한 특정 시점",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/cambridge-companion-to-hippocrates/introduction/7819A3EA1E43E5B4F733BFD1466BF506"
+        ]
+      },
+      {
+        "term": "히포크라테스 맹세",
+        "guide": "치유의 신을 증인으로 삼아 스승과 제자, 처방, 환자와의 관계, 비밀 유지 등 의술의 규율을 약속하는 고대 문헌",
+        "sourceUrls": [
+          "https://ethicsofsuicide.lib.utah.edu/selections/hippocratic-corpus/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "히포크라테스의 출생·사망 연도와 여행·가계에 관한 자세한 이야기는 후대 전기에 의존하며 확정된 생애가 아니다.",
+      "현전 히포크라테스 문헌군에서 역사적 히포크라테스가 직접 썼다고 확정할 수 있는 글은 없다.",
+      "『신성한 병에 관하여』의 자연 원인론은 문헌의 중요한 주장이지 히포크라테스 개인의 직접 발언으로 확정되지 않는다.",
+      "문헌군은 자연적 설명만 담은 통일 체계가 아니며 신·맹세·꿈·체액 등 서로 다른 종교적·자연철학적 전제를 함께 품는다.",
+      "네 체액설은 『인간의 본성에 관하여』에서 분명히 나타나고 저자는 전통적으로 폴리보스에게 귀속된다. 갈레노스가 후대의 표준화를 크게 이끌었다.",
+      "히포크라테스 맹세는 문헌군의 한 글이며 모든 고대 의사의 공통 규칙도 히포크라테스 개인의 확정 저술도 아니다.",
+      "‘먼저 해치지 말라’는 현대 표어를 고대 맹세의 정확한 문구와 동일시하지 않는다.",
+      "정밀한 관찰과 사례 기록을 현대 임상시험·미생물학·근거중심의학의 완성으로 소급하지 않는다.",
+      "‘서양 의학의 아버지’라는 칭호는 영향의 후대 요약일 뿐 최초·단독 창시의 증거로 쓰지 않는다."
+    ]
+  }
+}

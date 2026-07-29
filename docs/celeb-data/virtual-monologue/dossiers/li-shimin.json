@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "slug": "li-shimin",
+  "nickname": "이세민",
+  "route": "hold",
+  "routeReason": "자동 개선 두 차례 뒤에도 편집 검토에서 자기비판을 독백처럼 꾸민 방식과 역사가의 요약 목소리가 중대 결함으로 남았다. 현무문에서 시작해 간언과 기록을 통치 도구로 삼은 선택을 중심축으로 두고, 성군 이미지와 고구려 원정의 결과를 화자의 완성된 반성 대신 확인된 사실의 병치로 드러내는 사람의 재구성이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "이세민",
+      "birth": "598",
+      "death": "649",
+      "profession": "commander",
+      "disambiguation": "당 고조 이연의 둘째 아들로 건국 전쟁에 참여하고 626년 현무문의 변 뒤 황태자와 황제가 되었으며, 묘호 태종으로 불린 당의 제2대 황제",
+      "existingBioForDiscoveryOnly": "당나라 2대 황제. 현무문의 변으로 즉위 후 정관의 치를 이끌며 중국 역사상 최전성기를 구가했다."
+    },
+    "sources": [
+      {
+        "url": "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+        "title": "Excerpts from Emperor Taizong on Effective Government",
+        "publisher": "Asia for Educators, Columbia University",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "황제가 궁궐 안에서 정보와 멀어지므로 충직한 간언을 이끌어 내고 들어야 한다는 통치론",
+          "사람의 서로 다른 능력을 골라 쓰고 문학과 학교로 풍속과 규범을 세워야 한다는 주장",
+          "내용은 당대 녹취가 아니라 오긍이 8세기에 편찬한 정관정요 계열의 회고적 자료라는 사료 층위"
+        ]
+      },
+      {
+        "url": "https://brill.com/downloadpdf/display/title/15386.pdf",
+        "title": "Court Historiography in Early Tang China",
+        "publisher": "Brill",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "태종이 고조·태종 실록과 왕조사 편찬에 강한 영향력을 행사한 정황",
+          "643년 완성된 실록에서 현무문의 변이 서술된 방식을 직접 살폈다는 기록",
+          "살아남은 궁정 일화와 태종의 자기상이 편집되지 않은 일기처럼 취급될 수 없다는 한계"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/essays/tang-dynasty-618-906",
+        "title": "Tang Dynasty (618–907)",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2001-10-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "태종 시기 당이 북방·서북의 유목 세력을 제압하고 장거리 육상 교역로의 안전을 넓힌 사실",
+          "7세기 과거제와 인재 등용이 귀족 중심 질서의 변화 및 문화적 혼합과 연결된 맥락"
+        ]
+      },
+      {
+        "url": "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121",
+        "title": "The Epitaph of Li Jiancheng and the Xuanwu Gate Incident",
+        "publisher": "Literature, History, and Philosophy, Shandong University",
+        "kind": "scholarly",
+        "publishedAt": "2026-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이건성 묘지명의 글자 수정과 현무문의 변 뒤 형의 기억을 다시 구성한 정황",
+          "초당 실록·국사·구당서 전승의 형성 과정을 서로 대조해야 한다는 사료 비판"
+        ]
+      },
+      {
+        "url": "https://www.jdaos.org/archive/view_article_pubreader?pid=jdaos-49-0-365",
+        "title": "당 태종 ‘정관의 치’와 가정: 645년 고당 전쟁 이전 조세·요역 수탈의 실상",
+        "publisher": "대순사상논총",
+        "kind": "scholarly",
+        "publishedAt": "2024-06-30",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정관 시기를 한결같이 가벼운 세금과 부역의 시대로 그리는 통설에 대한 재검토",
+          "645년 고구려 원정 이전에도 백성에게 조세·요역 부담이 가중된 사례가 있었다는 반증",
+          "후대의 성군 표상과 실제 재정·노동 동원을 분리해야 한다는 필요"
+        ]
+      },
+      {
+        "url": "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002928751",
+        "title": "당 태종의 고구려 침공과 수군",
+        "publisher": "동양학연구원, 단국대학교",
+        "kind": "scholarly",
+        "publishedAt": "2023-01-31",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "645년 태종이 직접 이끈 고구려 침공의 목표와 육해군 보급 계획",
+          "당군이 평양에 이르지 못하고 원정을 끝낸 데 수군·보급 실패도 중요했다는 분석",
+          "안시성 하나와 황제 개인의 오만만으로 패인을 단순화할 수 없다는 점"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "당 건국 전쟁에서 주요 군대를 이끌어 경쟁 세력을 무너뜨렸고, 왕조 안에서는 황태자였던 형 이건성과 권력을 다투었다.",
+        "significance": "성군의 치세 이전에 군사적 승리와 왕실 내부의 계승 투쟁이 있었다는 출발점을 세운다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/essays/tang-dynasty-618-906",
+          "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121"
+        ]
+      },
+      {
+        "point": "626년 현무문에서 형 이건성과 아우 이원길을 죽인 뒤 황태자가 되었고, 곧 아버지 이연에게서 황위를 넘겨받았다.",
+        "significance": "‘정관의 치’를 말할 때 지울 수 없는 폭력적 즉위이며, 뒤에 편찬된 공식 기록이 이 사건을 어떻게 정리했는지도 함께 물어야 한다.",
+        "sourceUrls": [
+          "https://brill.com/downloadpdf/display/title/15386.pdf",
+          "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121"
+        ]
+      },
+      {
+        "point": "황제가 간언을 구하고 사람의 능력에 맞춰 관리를 써야 한다는 통치론을 내세웠으며, 후대에는 정관의 치라는 모범 군주상으로 굳었다.",
+        "significance": "독백의 고유한 철학을 막연한 성군 칭송이 아니라 정보가 막히는 권력의 위험과 조언을 듣는 제도로 구체화한다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+          "https://brill.com/downloadpdf/display/title/15386.pdf"
+        ]
+      },
+      {
+        "point": "북방과 서북으로 당의 군사·외교 질서를 넓힌 뒤 645년에는 직접 고구려를 침공했으나 목표였던 정복을 이루지 못하고 철수했다.",
+        "significance": "개방적이고 안정된 제국이라는 성취와 전쟁·동원·실패를 같은 치세 안에서 다루게 한다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/essays/tang-dynasty-618-906",
+          "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002928751"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "궁궐에 갇힌 황제는 사실을 직접 알기 어려우므로, 잘못을 말할 통로를 만들고 듣기 싫은 간언도 받아야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf"
+        ]
+      },
+      {
+        "point": "관리는 한 가지 기준으로 고르는 것이 아니라 지혜·힘·용기 등 서로 다른 능력을 알맞은 자리에 써야 한다고 설명했다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf"
+        ]
+      },
+      {
+        "point": "문학과 학교, 유교적 의례를 제국의 풍속과 통치 규범을 만드는 장치로 보았다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+          "https://www.metmuseum.org/essays/tang-dynasty-618-906"
+        ]
+      },
+      {
+        "point": "북방·서북의 군사 질서와 교역로 확보를 당의 안전과 번영에 필요한 일로 추진했고, 말년까지 대외 전쟁을 멈추지 않았다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/essays/tang-dynasty-618-906",
+          "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002928751"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "간언과 인재 등용을 통치의 핵심으로 말한 황제의 자리는 형제 살해와 아버지의 양위 압박 뒤에 열렸다. 이 모순은 근거 없는 참회가 아니라 확인되는 사건과 그가 남기려 한 통치 원칙의 간극으로 보여야 한다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+          "https://brill.com/downloadpdf/display/title/15386.pdf",
+          "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121"
+        ]
+      },
+      {
+        "point": "후대의 정관의 치는 백성을 쉬게 한 성군의 표상이지만, 645년 전에도 조세와 요역의 무거운 동원이 있었다는 연구가 있다. ‘늘 가벼운 세금’이라는 단정은 피해야 한다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+          "https://www.jdaos.org/archive/view_article_pubreader?pid=jdaos-49-0-365"
+        ]
+      },
+      {
+        "point": "교역로와 다문화적 장안을 가능하게 한 제국의 팽창은 다른 정치 공동체를 향한 정복 전쟁이기도 했다. 645년 고구려 침공 실패를 개인적 오만의 교훈으로만 쓰면 전쟁의 구조와 피해가 사라진다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/essays/tang-dynasty-618-906",
+          "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002928751"
+        ]
+      },
+      {
+        "point": "태종의 간언 수용과 자기비판 일화는 중요한 정치 언어이지만, 그가 직접 열람하고 영향력을 행사한 궁정 역사 편찬을 거쳐 전해진다.",
+        "sourceUrls": [
+          "https://brill.com/downloadpdf/display/title/15386.pdf",
+          "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "전쟁과 결단은 짧고 절도 있게, 통치 원칙과 기록의 간극은 두세 절의 조금 긴 문장으로 풀어 군주의 속도와 사료의 거리감을 함께 만든다.",
+      "directness": "‘나는 들었다, 썼다, 출정했다’처럼 확인되는 행위를 단정한다. 후대 연구자의 비판을 스스로 완벽히 깨달은 참회로 말하지 않고, 자신이 내세운 원칙과 실제 결과를 나란히 둔다.",
+      "moves": [
+        "현무문의 승리에서 시작해 황제가 사실을 듣기 어려운 자리라는 통치론으로 전환하기",
+        "간언과 인재 등용의 말을 실제 제국 운영과 연결하되 성군 칭호를 자기 증명으로 쓰지 않기",
+        "북방 교역로와 장안의 개방성을 말한 뒤 그 길을 연 군사 정복과 645년 고구려 침공을 회수하기",
+        "후대가 붙인 정관의 치를 받아 적기보다 어떤 기록과 부담이 그 이름 밖에 남았는지 묻기"
+      ],
+      "avoid": [
+        "위징 앞에서 분노했다가 마음속으로 거울을 깨지 않겠다고 다짐하는 창작 장면",
+        "현무문의 변을 나라를 위한 불가피한 결단으로 면책하거나 현대적 죄책감의 자백으로 만들기",
+        "정관 연간 내내 세금과 부역이 가벼웠다고 단정하기",
+        "고구려 원정 실패를 안시성 한 곳이나 황제의 탐욕 하나로만 설명하기",
+        "태종이 손본 궁정 기록의 문장을 편집되지 않은 실제 발화와 속마음으로 쓰기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "현무문의 변",
+        "guide": "626년 이세민이 궁궐 북문인 현무문에서 황태자였던 형 이건성과 아우 이원길을 죽이고 계승권을 장악한 정변",
+        "sourceUrls": [
+          "https://brill.com/downloadpdf/display/title/15386.pdf",
+          "https://lhpqk.sdu.edu.cn/CN/Y2026/V0/I1/121"
+        ]
+      },
+      {
+        "term": "정관의 치",
+        "guide": "태종의 연호 정관에서 이름을 딴 치세로, 후대에 간언·인재 등용·안정의 모범으로 기억됐지만 실제 부담과 전쟁까지 없었다는 뜻은 아니다",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf",
+          "https://www.jdaos.org/archive/view_article_pubreader?pid=jdaos-49-0-365"
+        ]
+      },
+      {
+        "term": "간언",
+        "guide": "신하가 군주의 잘못이나 정책의 문제를 직접 지적해 고치도록 요구하는 말",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/china/taizong_effective.pdf"
+        ]
+      },
+      {
+        "term": "요역",
+        "guide": "국가가 백성에게 공사·운송·군수 같은 일을 의무적으로 부담시킨 노동",
+        "sourceUrls": [
+          "https://www.jdaos.org/archive/view_article_pubreader?pid=jdaos-49-0-365"
+        ]
+      },
+      {
+        "term": "고구려·당 전쟁",
+        "guide": "645년 태종의 친정을 포함해 당이 고구려를 공격한 여러 전쟁으로, 태종 생전에는 고구려 정복에 성공하지 못했다",
+        "sourceUrls": [
+          "https://www.kci.go.kr/kciportal/mobile/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002928751"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "정관정요는 오긍이 태종 사후인 8세기에 편찬한 정치적 교훈서다. 태종의 통치 언어를 보여 주지만 회의의 축어록이나 사적인 일기가 아니다.",
+      "태종은 공식 역사 편찬에 영향력을 행사했고 현무문의 변 서술에도 관심을 보였다. 구당서·자치통감에 남은 세부를 중립적인 현장 기록처럼 재현하지 않는다.",
+      "현무문 이전 두 형제의 위협과 음모에 관한 서술은 승자 측 기록의 영향을 받았다. 이세민의 기습과 살해는 분명히 말하되 선제공격의 불가피성을 확정하지 않는다.",
+      "정관의 치는 유력한 후대 평가이지 모든 해와 모든 백성의 체감 생활을 증명하는 이름이 아니다. 감세·부역 경감은 시기와 조치를 특정할 수 있을 때만 쓴다.",
+      "645년 원정의 목표·병력·피해·철수 원인은 자료와 연구마다 차이가 있다. 안시성, 계절, 보급, 수군 문제를 하나의 영웅담이나 실패 원인으로 단정하지 않는다.",
+      "위징이 살아 있었다면 원정을 막았을 것이라는 후대 전승이나 태종의 후회는 인상적이지만, 정확한 속마음으로 확대하지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "batchId": "VM-P1",
+  "batchFile": "C:\\project\\feelandnote\\docs\\celeb-data\\virtual-monologue\\2026-07-29-VM-P1.json",
+  "generatedAt": "2026-07-29T15:32:36.640Z",
+  "mode": "apply",
+  "counts": {
+    "PLAN": 0,
+    "UPDATE": 0,
+    "SKIP": 8,
+    "FAIL": 0
+  },
+  "revalidate": null,
+  "revalidateError": null,
+  "results": [
+    {
+      "slug": "wang-yangming",
+      "nickname": "왕양명",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "f47c56425cfe707b86a3c9a4b0da7408b82e8c9bdb08105ececf0bc25e5300d1",
+      "afterHash": "f47c56425cfe707b86a3c9a4b0da7408b82e8c9bdb08105ececf0bc25e5300d1"
+    },
+    {
+      "slug": "socrates",
+      "nickname": "소크라테스",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "7ce44315ca44e4b53a4aa70783fd5579fa28e0e9f26c18edbda6d815f7b86966",
+      "afterHash": "7ce44315ca44e4b53a4aa70783fd5579fa28e0e9f26c18edbda6d815f7b86966"
+    },
+    {
+      "slug": "confucius",
+      "nickname": "공자",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "264e8fde831b2d4e5e76274d8bdeedfdda0915cf959b9e9ced49417af8b57713",
+      "afterHash": "264e8fde831b2d4e5e76274d8bdeedfdda0915cf959b9e9ced49417af8b57713"
+    },
+    {
+      "slug": "marie-curie",
+      "nickname": "마리 퀴리",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "7a53cc59ecde3eb511a7a367281c503f1c2a47d05eacb96d10ffc0cdbbb42191",
+      "afterHash": "7a53cc59ecde3eb511a7a367281c503f1c2a47d05eacb96d10ffc0cdbbb42191"
+    },
+    {
+      "slug": "vincent-van-gogh",
+      "nickname": "빈센트 반 고흐",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "49442e4e5c4ccce3e45c77015109f55bae1f5500e9e877c7bed02cec0a54849a",
+      "afterHash": "49442e4e5c4ccce3e45c77015109f55bae1f5500e9e877c7bed02cec0a54849a"
+    },
+    {
+      "slug": "frida-kahlo",
+      "nickname": "프리다 칼로",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "e4542edbee2cf900ba1154f0dfa5543b8c1935556680d3eb64d89cdaaf18ac29",
+      "afterHash": "e4542edbee2cf900ba1154f0dfa5543b8c1935556680d3eb64d89cdaaf18ac29"
+    },
+    {
+      "slug": "ludwig-van-beethoven",
+      "nickname": "루트비히 판 베토벤",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "83dae52b782a48e9af7436c7a2126204ea1d672fcbdc1f8559a38ea909f54c85",
+      "afterHash": "83dae52b782a48e9af7436c7a2126204ea1d672fcbdc1f8559a38ea909f54c85"
+    },
+    {
+      "slug": "sejong-the-great",
+      "nickname": "세종대왕",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "03eacc15fa7a566d83ea25ad190380df7fbf84b1eed5c81c4f31126249fbdf62",
+      "afterHash": "03eacc15fa7a566d83ea25ad190380df7fbf84b1eed5c81c4f31126249fbdf62"
+    }
+  ]
+}

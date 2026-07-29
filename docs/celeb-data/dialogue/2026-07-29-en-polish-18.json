@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-18",
+  "targets": [
+    {
+      "id": "5e9f0b2e-a08a-497b-b6c2-77807cdc74d7",
+      "slug": "sigourney-weaver",
+      "nickname": "시고니 위버",
+      "birthDate": "1949-10-08",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "You called. I've read the script again and again. Now let's discover how this person lives and breathes.",
+          "I'm ready. I've done everything I can, so on set I will trust my instincts.",
+          "I'm here. Before my part, I want to ask why this story needs telling."
+        ],
+        "deploy": [
+          "We have enough plans. Now look at each other and react honestly.",
+          "Don't decide what gender must mean before the scene begins. Let the character move in her own way.",
+          "The ocean is not indestructible just because we cannot see the damage. Listen, then act."
+        ],
+        "battle_win": [
+          "We didn't need to explain the character. A person appeared on screen. That's enough.",
+          "Everyone put the story before their own part. That's why the scene came alive.",
+          "Fear sent me back to the script, and on set I trusted instinct. That was the right order."
+        ],
+        "battle_draw": [
+          "The preparation is showing too much. Let's drop the calculations and look at each other.",
+          "We made someone strong, but not yet human. Start with the smallest movement.",
+          "The story works, but my choices got ahead of it. I'll step back and listen again."
+        ],
+        "battle_lose": [
+          "I hid behind technique. I never made a real connection with the person.",
+          "I trusted the school's verdict for too long. I let someone else's judgment delay my work.",
+          "I put my role before the story. That choice is mine to answer for."
+        ],
+        "clash_attack": [
+          "You turned a person into a symbol. Look for the breath, the fidget, the hesitation.",
+          "Don't force a moment of weakness onto a woman. Write her as a whole person.",
+          "The ocean cannot absorb everything forever. The time for looking away is over."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called. I have read the script. Now let's find the character on set.",
+          "I'm prepared. Once filming starts, I trust my instincts.",
+          "Before counting my scenes, I ask why this story must be told."
+        ],
+        "deploy": [
+          "Enough planning. Look at each other and react.",
+          "Don't decide what a woman should be. Let the character move as herself.",
+          "Damage does not disappear because we cannot see it. Listen to the ocean, then act."
+        ],
+        "battle_win": [
+          "A person appeared on screen without explanation. That is enough.",
+          "Everyone put the story first. That brought the scene to life.",
+          "Fear sends me back to the script. On set, instinct takes over. The order worked."
+        ],
+        "battle_draw": [
+          "The preparation is showing. Drop the calculations and look at each other.",
+          "She is strong, but she is not fully human yet. Start with one small gesture.",
+          "My choices overtook the story. I will step back and listen."
+        ],
+        "battle_lose": [
+          "I hid behind technique and never truly met the character.",
+          "I trusted a school's verdict too long and let it delay my work.",
+          "I put my role before the story. That was my mistake."
+        ],
+        "clash_attack": [
+          "Do not reduce a person to a symbol!",
+          "No rule says women must be written as weak!",
+          "Do not assume the ocean can take everything!"
+        ]
+      }
+    },
+    {
+      "id": "8eca68d2-1427-4334-b465-e198eae3aaaa",
+      "slug": "benedict-cumberbatch",
+      "nickname": "베네딕트 컴버배치",
+      "birthDate": "1976-07-19",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "You called. I've read the script. Now let's see where its words take us.",
+          "I'm here. The darkness of a stage still pulls me in instead of pushing me away.",
+          "I'm ready. Let's enter the character's life in the middle and look for what remains hidden."
+        ],
+        "deploy": [
+          "Don't decorate the words. Make the intention clear, hold your focus, and face the camera.",
+          "Don't stop at copying the surface. Look for the person who has not been revealed yet.",
+          "Don't show off a newly learned skill. Start by honoring the people who mastered it before us."
+        ],
+        "battle_win": [
+          "We didn't show off technique. We shared a story with the audience. That's the best outcome.",
+          "The truth came through without a grand gesture. We did exactly enough.",
+          "We tried to understand the person instead of judging them. The story grew larger because of it."
+        ],
+        "battle_draw": [
+          "We prepared well, but we're still trapped inside the words. Let's respond to each other more.",
+          "The likeness is there, but the inner life is still far away. I'll return to the research and begin again.",
+          "We reached the audience, but not quite communion. Let's focus once more."
+        ],
+        "battle_lose": [
+          "I explained the character and lost the person. I need to close that distance.",
+          "I worked so hard at being precise that I blocked a living response. I'll listen again.",
+          "I thought I already had the answer. That was the mistake. I need to understand this person better."
+        ],
+        "clash_attack": [
+          "You copied the surface. You missed what the person is trying to hide.",
+          "Don't judge a person by certainty alone. Belief without empathy closes the conversation.",
+          "A louder voice does not create truth. Start by making the intention clear."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called. I know the script. Let us see where the words lead.",
+          "I am here. The darkness of the stage still pulls me in.",
+          "Ready. Let us enter the character's life and find what remains hidden."
+        ],
+        "deploy": [
+          "Do not decorate the words. Know the meaning before facing the camera.",
+          "Do not copy the surface. Find what the person is hiding.",
+          "Do not flaunt a new skill. Honor those who came before."
+        ],
+        "battle_win": [
+          "We shared the story without flaunting technique. That is the point.",
+          "The feeling came through without grand gestures. We did exactly enough.",
+          "We stopped judging the character, and more of the person came through."
+        ],
+        "battle_draw": [
+          "We prepared, but the lines still trap us. Respond to each other.",
+          "The likeness is there, but the inner life is not. Back to the research.",
+          "We reached the audience, but never breathed together. Let us try again."
+        ],
+        "battle_lose": [
+          "I explained the character and missed the person. I must move closer.",
+          "Chasing precision killed the living response. I need to listen again.",
+          "I assumed I already knew this person. That was the mistake."
+        ],
+        "clash_attack": [
+          "You copied the surface and missed the secret!",
+          "Do not let certainty define a person!",
+          "Know what you mean before you raise your voice!"
+        ]
+      }
+    }
+  ]
+}

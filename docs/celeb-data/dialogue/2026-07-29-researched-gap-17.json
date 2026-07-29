@@ -1,0 +1,198 @@
+{
+  "batch": "2026-07-29-researched-gap-17",
+  "targets": [
+    {
+      "id": "0dd85ee6-d874-4ee0-98ad-2c7d71d4d30a",
+      "slug": "sebastian-thrun",
+      "nickname": "세바스찬 스런",
+      "nicknameEn": "Sebastian Thrun",
+      "birthDate": "1967-05-14",
+      "profession": "entrepreneur",
+      "quote": "10퍼센트가 아니라 10배를 노립니다.",
+      "quoteEn": "We aim for 10x, not 10 percent.",
+      "greetingKo": [
+        "[thoughtful, composed] 10퍼센트 개선이 아니라 10배 개선을 노립니다.",
+        "[reflective, humble] 가장 큰 발견은 자신이 틀렸음을 인정한 순간 시작됩니다.",
+        "[steady, hopeful] 자율주행의 진짜 목표는 한 명의 생명을 더 구하는 일입니다."
+      ],
+      "greetingEn": [
+        "[thoughtful, composed] We aim for 10x, not a 10 percent improvement.",
+        "[reflective, humble] The biggest discoveries start the moment you admit you were wrong.",
+        "[steady, hopeful] The real goal of self-driving is to save one more life."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "저는 스탠퍼드에서 로봇을 연구했고, 스탠리와 함께 2005년 DARPA 그랜드 챌린지에서 우승했습니다.",
+          "제가 시작한 구글의 자율주행 프로젝트는 오늘날 웨이모로 이어졌습니다. 목표는 운전대를 빼앗는 일이 아니라 생명을 지키는 일이었습니다.",
+          "구글 X와 유다시티를 세우며 연구실의 아이디어를 도로와 교실로 옮겼습니다."
+        ],
+        "deploy": [
+          "먼저 모두가 오를 봉우리를 하나로 정하십시오. 길은 걸으며 배워도 목표가 갈리면 실패합니다.",
+          "완벽한 경로를 회의실에서 만들지 마십시오. 첫걸음을 내딛고 빠르게 시험한 뒤 결과에서 배우십시오.",
+          "현장에 있는 사람에게 결정권을 주십시오. 관리자의 일은 통제가 아니라 팀의 역량을 키우는 것입니다."
+        ],
+        "battle_win": [
+          "스탠리는 2005년 가장 먼저 결승선을 넘었습니다. 위험을 감수한 팀의 승리였습니다.",
+          "스탠퍼드 AI 강의를 세계에 열자 190개가 넘는 나라에서 16만 명의 학생이 모였습니다. 교실의 크기부터 다시 생각하게 됐습니다.",
+          "제가 시작한 프로젝트는 웨이모로 이어져 공공도로에서 사람을 태우는 무인차가 됐습니다. 한 사람의 성과가 아니라 팀의 축적입니다."
+        ],
+        "battle_draw": [
+          "온라인 교육이 모든 교실을 대신할 수는 없습니다. 어린 학생과 일하는 성인에게 필요한 환경은 다릅니다.",
+          "언어 모델은 다음 단어를 잘 예측하지만, 사실과 허구를 가리도록 훈련되지는 않았습니다.",
+          "후퇴가 패배처럼 보여도 잘못 든 길을 버리면 정상에 가까워집니다. 피벗도 전진입니다."
+        ],
+        "battle_lose": [
+          "가까운 친구 해럴드가 교통사고로 세상을 떠났습니다. 그 상실 때문에 저는 안전한 차를 만들기로 했습니다.",
+          "제 통계 강의가 거의 모든 면에서 틀렸다는 혹평을 받았습니다. 괴로웠지만 그 비판으로 수업을 고쳤습니다.",
+          "키티호크 플라이어는 사람을 날게 했지만 결국 중단했습니다. 작동했다는 사실만으로 성공은 아닙니다."
+        ],
+        "clash_attack": [
+          "AI 연구를 멈추지 마십시오. 편향과 오류를 숨기지 말고 더 신뢰할 수 있도록 고치십시오.",
+          "상사가 현장보다 많이 안다고 가정하지 마십시오. 옳다고 판단했다면 근거를 들고 맞서십시오.",
+          "실패 자체를 자랑하지 마십시오. 내놓고, 실패하고, 배우고, 다시 내놓는 주기를 줄이십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I researched robotics at Stanford, and Stanley and I won the 2005 DARPA Grand Challenge.",
+          "The self-driving project I started at Google became Waymo. The goal was not to take away the wheel, but to save lives.",
+          "I founded Google X and co-founded Udacity to move ideas from the laboratory onto roads and into classrooms."
+        ],
+        "deploy": [
+          "First, agree on the one summit everyone will climb. You can learn the route as you go, but a divided goal will defeat the team.",
+          "Do not design the perfect route in a conference room. Take the first step, test quickly, and learn from the result.",
+          "Give decision-making power to the people in the field. A manager's job is to build the team's capacity, not control it."
+        ],
+        "battle_win": [
+          "Stanley was the first to cross the finish line in 2005. It was a victory for a team willing to take risks.",
+          "When we opened Stanford's AI course to the world, 160,000 students from more than 190 countries joined. It made us rethink the size of a classroom.",
+          "The project I started became Waymo and went on to carry passengers without a human driver on public roads. That is a team's accumulated work, not one person's achievement."
+        ],
+        "battle_draw": [
+          "Online learning cannot replace every classroom. Young children and working adults need different environments.",
+          "A language model predicts the next word well, but it is not trained to distinguish fact from fiction.",
+          "A retreat may look like defeat, but leaving the wrong path can bring you closer to the summit. A pivot is progress too."
+        ],
+        "battle_lose": [
+          "My close friend Harold died in a traffic accident. That loss made me decide to build safer cars.",
+          "A reviewer said nearly every aspect of my statistics course was wrong. It was devastating, but the criticism helped me improve the course.",
+          "The Kittyhawk Flyer did carry people into the air, but we eventually abandoned it. Making something work is not the same as making it succeed."
+        ],
+        "clash_attack": [
+          "Do not stop AI research. Expose its biases and errors, then make it more trustworthy.",
+          "Do not assume a boss knows more than the people in the field. If you believe you are right, challenge the boss with evidence.",
+          "Do not celebrate failure by itself. Ship, fail, learn, and shorten the cycle before you ship again."
+        ]
+      },
+      "sources": [
+        "https://web.stanford.edu/~thrun/",
+        "https://www.ted.com/talks/sebastian_thrun_google_s_driverless_car?view=transcript",
+        "https://blog.ted.com/in-conversation-salman-khan-sebastian-thrun-talk-online-education/",
+        "https://engineering.stanford.edu/news/stanford-engineerings-new-online-courses-hugely-popular-and-bursting-activity",
+        "https://www.linkedin.com/pulse/20140929071022-260012998-the-importance-of-ignoring-your-boss",
+        "https://www.linkedin.com/pulse/fear-ai-overblown-sebastian-thrun",
+        "https://www.linkedin.com/pulse/how-climb-mountain-kill-your-start-up-sebastian-thrun",
+        "https://www.linkedin.com/pulse/20140913214142-260012998-the-art-of-fast-failure"
+      ]
+    },
+    {
+      "id": "860af2ca-2813-465f-9e5a-f755c0cc0ab2",
+      "slug": "seth-godin",
+      "nickname": "세스 고딘",
+      "nicknameEn": "Seth Godin",
+      "birthDate": "1960-07-10",
+      "profession": "author",
+      "quote": "안전한 것이 가장 위험한 것이다.",
+      "quoteEn": "The safe path is the most dangerous one.",
+      "greetingKo": [
+        "[confident, bold] 평범하면 보이지 않습니다. 주목할 만해야 합니다.",
+        "[calm, pragmatic] 허락을 구하지 마세요. 먼저 만들고 보여주세요.",
+        "[warm, encouraging] 실패는 전진의 증거입니다."
+      ],
+      "greetingEn": [
+        "[confident, bold] If you're average, you're invisible. You must be remarkable.",
+        "[calm, pragmatic] Don't ask permission. Build first, then show.",
+        "[warm, encouraging] Failure is proof of progress."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "저는 요요다인과 스퀴두를 세웠고, 요요다인은 야후에 매각했습니다. 그 과정에서 허락 마케팅을 개척했습니다.",
+          "스물한 권의 베스트셀러와 매일 쓰는 블로그로 아이디어가 퍼지는 방식을 가르쳐 왔습니다.",
+          "저는 작가이자 기업가이지만, 제 소개는 교사이며 프로젝트를 하는 사람입니다."
+        ],
+        "deploy": [
+          "모두를 좇지 마십시오. 이 일을 가장 필요로 할 최소 유효 청중부터 고르십시오.",
+          "마케팅에서는 사람의 시간을 빼앗지 마십시오. 먼저 허락을 얻고, 기대되고 개인적이며 관련 있는 이야기를 전하십시오.",
+          "완벽해질 때까지 숨기지 마십시오. 작업을 세상에 내놓아야 다음 작업을 배울 수 있습니다."
+        ],
+        "battle_win": [
+          "요요다인은 야후에 인수됐습니다. 사람을 방해하지 않고 허락을 얻는다는 생각은 회사보다 오래 남았습니다.",
+          "제가 매일 이어 온 블로그는 만 편에 가까워졌습니다. 영감보다 매일 나타나는 습관이 일을 남겼습니다.",
+          "탄소 연감에는 1,900명의 자원봉사자가 함께했습니다. 제가 가장 중요하다고 부르는 프로젝트는 혼자 쓴 책이 아니었습니다."
+        ],
+        "battle_draw": [
+          "초기 수용자는 새것을 묻고 다수는 검증됐는지 묻습니다. 같은 말로 둘을 움직일 수는 없습니다.",
+          "실패와 성공은 한 선 위에 있습니다. 결과를 통제하지 못해도 지금 쓸 노력은 고를 수 있습니다.",
+          "모든 제약을 없애려 하지 마십시오. 모든 선택지를 고르는 순간 프로젝트는 움직이지 않습니다."
+        ],
+        "battle_lose": [
+          "제가 시작한 altMBA와 아킴보 프로젝트도 2024년에 운영을 마쳤습니다. 끝났다는 사실이 그동안의 가치를 지우지는 않습니다.",
+          "이미 쓴 시간과 돈은 돌아오지 않습니다. 과거의 비용 때문에 끝난 일을 붙들면 내일도 잃습니다.",
+          "사람들이 고개만 끄덕였다고 변화가 생긴 것은 아닙니다. 행동을 요구하지 못하면 부족은 관객으로 남습니다."
+        ],
+        "clash_attack": [
+          "다르다고 선언하지 마십시오. 사람들이 자발적으로 이야기할 때 비로소 주목할 만합니다.",
+          "노출 횟수를 성과로 착각하지 마십시오. 허락 없는 반복은 관심이 아니라 소음입니다.",
+          "끈기를 구호로 만들지 마십시오. 막다른 길이라면 시장이 대신 결정하기 전에 그만두십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I founded Yoyodyne and Squidoo, and Yoyodyne was acquired by Yahoo. Along the way, I pioneered permission marketing.",
+          "Through twenty-one bestselling books and a daily blog, I have taught how ideas spread.",
+          "I am a writer and entrepreneur, but I introduce myself as a teacher who does projects."
+        ],
+        "deploy": [
+          "Do not chase everyone. Start with the smallest viable audience that needs this work most.",
+          "In marketing, do not steal people's time. Earn permission first, then deliver something anticipated, personal, and relevant.",
+          "Do not hide until the work is perfect. You can learn what comes next only after you ship."
+        ],
+        "battle_win": [
+          "Yoyodyne was acquired by Yahoo. The idea of earning permission instead of interrupting people outlasted the company.",
+          "The blog I have kept daily is approaching ten thousand posts. Showing up every day has left more work behind than waiting for inspiration.",
+          "The Carbon Almanac brought 1,900 volunteers together. The project I call my most important was not a book written alone."
+        ],
+        "battle_draw": [
+          "Early adopters ask what is new, while the majority asks what has worked. The same message cannot move both.",
+          "Failure and success share a spectrum. You may not control the outcome, but you can choose the effort you make now.",
+          "Do not try to remove every constraint. The moment you choose every option, the project stops moving."
+        ],
+        "battle_lose": [
+          "The altMBA and Akimbo projects I started were sunset in 2024. An ending does not erase the value created before it.",
+          "Sunk time and money do not come back. If you hold on because of yesterday's cost, you lose tomorrow too.",
+          "A nod is not change. If you never ask people to act, a tribe remains an audience."
+        ],
+        "clash_attack": [
+          "Do not call your work different. It becomes remarkable only when people choose to talk about it.",
+          "Do not confuse impressions with impact. Repetition without permission is noise, not attention.",
+          "Do not let persistence become a slogan. If the road is a dead end, quit before the market decides for you."
+        ]
+      },
+      "sources": [
+        "https://seths.blog/about/",
+        "https://seths.blog/bio/",
+        "https://seths.blog/2008/01/permission-mark/",
+        "https://seths.blog/2022/05/the-smallest-viable-audience/",
+        "https://seths.blog/thepractice/",
+        "https://seths.blog/2020/09/crossing-from-the-early-adopters-to-a-larger-group/",
+        "https://seths.blog/2024/12/youve-already-failed/",
+        "https://seths.blog/2022/07/embracing-constraints-2/",
+        "https://blog.ted.com/you_asked_seth/",
+        "https://seths.blog/2013/06/different-or-remarkable/",
+        "https://seths.blog/2011/11/moving-beyond-impressions/",
+        "https://seths.blog/2008/03/sunk-costs-quit/",
+        "https://seths.blog/2009/10/the-joy-of-quitting/"
+      ]
+    }
+  ]
+}

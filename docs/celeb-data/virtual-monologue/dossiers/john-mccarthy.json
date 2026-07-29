@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "slug": "john-mccarthy",
+  "nickname": "존 매카시",
+  "route": "improve",
+  "routeReason": "현재 글은 인공지능, 리스프, 상식 추론, 시분할을 '지능을 계산 가능한 문제로 바꾸기'라는 한 축에 잘 묶고 설명도 쉽다. 그러나 다트머스 제안의 공동 저자들과 인공지능의 선행 흐름, 스티브 러셀을 비롯한 리스프 구현자들, 페르난도 코르바토가 이끈 CTSS 팀의 공로가 결국 매카시 개인에게 수렴한다. 좋은 구조는 유지하되 제안·설계·구현을 분리하고, 당시의 낙관과 오늘날 결과를 사후 예언처럼 잇지 않도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "존 매카시",
+      "birth": "1927-09-04",
+      "death": "2011-10-24",
+      "profession": "scientist",
+      "disambiguation": "인공지능이라는 연구 명칭을 제안하고 리스프를 설계했으며 상식 추론과 시분할 컴퓨팅을 개척한 미국 컴퓨터 과학자",
+      "existingBioForDiscoveryOnly": "미국의 컴퓨터 과학자이자 인지과학자. 1956년 '인공지능'이라는 용어를 창안하고 LISP 프로그래밍 언어를 개발했으며, 타임셰어링 개념을 제안해 현대 컴퓨팅의 기반을 닦았다."
+    },
+    "sources": [
+      {
+        "url": "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+        "title": "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+        "publisher": "Stanford University",
+        "kind": "primary",
+        "publishedAt": "1955-08-31",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인공지능이라는 명칭을 사용한 1955년 제안서",
+          "존 매카시, 마빈 민스키, 너새니얼 로체스터, 클로드 섀넌 네 명의 공동 제안",
+          "학습과 지능의 여러 측면을 기계로 모사할 수 있다는 연구 가설",
+          "언어, 추상화, 자기 개선 등 워크숍의 문제 설정"
+        ]
+      },
+      {
+        "url": "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+        "title": "History of Lisp",
+        "publisher": "Stanford University",
+        "kind": "primary",
+        "publishedAt": "1979-02-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "리스프가 기호식과 목록을 다루는 언어로 형성된 과정",
+          "람다 계산, 재귀, 조건식, 가비지 컬렉션이 초기 설계에 결합한 맥락",
+          "매카시가 스티브 러셀과 여러 구현자의 공헌을 충분히 기록하지 못했다고 밝힌 자료 한계"
+        ]
+      },
+      {
+        "url": "https://www-formal.stanford.edu/jmc/history/lisp/node3.html",
+        "title": "The implementation of LISP",
+        "publisher": "Stanford University",
+        "kind": "primary",
+        "publishedAt": "1979-02-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "스티브 러셀이 eval을 기계어로 작성해 작동하는 인터프리터를 만든 사실",
+          "리스프의 아이디어와 실제 구현이 여러 사람의 작업으로 이루어진 과정",
+          "가비지 컬렉션의 선택과 초기 구현 맥락"
+        ]
+      },
+      {
+        "url": "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+        "title": "John McCarthy",
+        "publisher": "Computer History Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1955년 인공지능 명칭 제안과 다트머스 연구 계획",
+          "MIT에서의 리스프와 인공지능 연구",
+          "시분할 연구를 촉진한 매카시의 역할과 코르바토·데니스·민스키 등 동료",
+          "스탠퍼드 인공지능 연구소와 상식 추론 연구"
+        ]
+      },
+      {
+        "url": "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy",
+        "title": "John McCarthy",
+        "publisher": "U.S. National Science Foundation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "리스프, 시분할, 수학적 계산 이론, 상식 지식과 추론에 대한 공식 공적",
+          "인공지능 분야의 명명과 정의에 기여한 사실",
+          "1990년 미국 국가과학훈장 수훈"
+        ]
+      },
+      {
+        "url": "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715",
+        "title": "Professor Emeritus Fernando Corbató, MIT computing pioneer, dies at 93",
+        "publisher": "MIT News",
+        "kind": "institutional",
+        "publishedAt": "2019-07-15",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "CTSS와 멀틱스 개발을 이끈 페르난도 코르바토와 팀의 공로",
+          "시분할 아이디어가 매카시 한 사람에게서 처음 나온 것이 아니라는 동료 증언",
+          "제안과 작동하는 운영체제 구현을 구분해야 하는 이유"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1955년 매카시는 민스키, 로체스터, 섀넌과 함께 '인공지능'이라는 이름을 내건 다트머스 연구 계획을 제안했다.",
+        "significance": "한 사람이 학문을 발명했다는 신화보다 여러 연구 흐름을 한 이름과 문제 목록 아래 모은 편집자이자 조직자의 역할을 보여 준다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/"
+        ]
+      },
+      {
+        "point": "1950년대 말 수학적 기호와 목록을 다루는 리스프의 핵심 표기와 구조를 설계했고, 스티브 러셀과 동료들이 이를 실제 언어로 구현했다.",
+        "significance": "매카시의 설계 통찰을 살리면서도 아이디어와 작동하는 시스템 사이의 공동 노동을 분리한다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+          "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+        ]
+      },
+      {
+        "point": "MIT에서 여러 사용자가 컴퓨터를 동시에 대화식으로 쓰는 시분할을 주장하고 연구를 촉진했으며, 코르바토가 이끈 팀이 CTSS를 구현했다.",
+        "significance": "오늘날 네트워크 서비스의 선구적 상상을 말하되 클라우드를 혼자 예언하거나 운영체제를 직접 완성했다고 과장하지 않게 한다.",
+        "sourceUrls": [
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+          "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+        ]
+      },
+      {
+        "point": "스탠퍼드에서 상식 지식을 논리로 표현하고 기계가 불완전한 세계에서 추론하는 문제를 장기 연구했다.",
+        "significance": "초기 인공지능의 낙관만이 아니라 그가 평생 붙든 미완의 난제를 독백의 중심 갈등으로 만든다.",
+        "sourceUrls": [
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+          "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "지능을 신비로 남겨 두기보다 언어, 지식, 추론, 학습처럼 나누어 기술할 수 있는 연구 문제로 만들어야 한다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html"
+        ]
+      },
+      {
+        "point": "프로그램은 숫자만 계산하는 명령열이 아니라 기호식과 프로그램 자체를 자료로 다루는 표현 체계가 될 수 있다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+          "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+        ]
+      },
+      {
+        "point": "컴퓨터는 한 작업에 묶인 값비싼 장비가 아니라 여러 사람이 단말로 접속해 대화식으로 함께 쓰는 공용 자원이 될 수 있다.",
+        "sourceUrls": [
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+          "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "인공지능이라는 이름은 매카시가 제안했지만 연구 분야는 튜링, 사이버네틱스, 논리학, 초기 학습 기계와 다트머스 공동 제안자들의 선행 작업 위에서 형성됐다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/"
+        ]
+      },
+      {
+        "point": "리스프의 핵심 구상은 매카시의 공적이지만 스티브 러셀을 비롯한 구현자와 후속 설계자의 작업 없이는 작동하는 언어와 생태계가 되지 못했다.",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+          "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+        ]
+      },
+      {
+        "point": "시분할을 강하게 주장하고 촉진한 공로와 CTSS를 설계·구현한 코르바토 팀의 공로는 같은 이야기에 함께 있어야 한다.",
+        "sourceUrls": [
+          "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+          "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 정의와 반례를 먼저 놓고, 한두 문장 길이의 논리 전개로 결과를 밀어붙이는 혼합형 문장을 쓴다.",
+      "directness": "모호한 감탄보다 '그 말을 어떻게 기계가 다룰 수 있는가'를 되묻는 높은 직설성을 쓴다. 실패와 미완성도 감상적으로 후회하지 않고 문제의 범위를 다시 정의한다.",
+      "moves": [
+        "신비롭게 들리는 말을 작은 연구 문제와 조작 가능한 표현으로 바꾸기",
+        "자기 아이디어를 말한 직후 공동 제안자·구현자·운영체제 팀의 역할을 정확히 나누기",
+        "낙관적 가설을 제시한 뒤 상식 추론처럼 아직 풀리지 않은 반례를 붙이기"
+      ],
+      "avoid": [
+        "인공지능을 혼자 발명하거나 학문을 한 번에 창시했다는 선언",
+        "리스프의 모든 기능과 구현을 혼자 만들었다는 서술",
+        "CTSS·인터넷·클라우드를 직접 발명하거나 정확히 예언했다는 사후 영웅화",
+        "근거 없는 외로움, 후회, 두려움 또는 오늘날 생성형 AI에 대한 사후 평가를 본인 내면으로 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "인공지능",
+        "guide": "학습·추론·언어처럼 지능과 관련된 일을 기계가 수행하게 만드는 연구 분야",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html"
+        ]
+      },
+      {
+        "term": "리스프",
+        "guide": "기호와 목록을 괄호로 묶어 다루고 프로그램 자체도 자료처럼 처리할 수 있는 프로그래밍 언어",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html"
+        ]
+      },
+      {
+        "term": "가비지 컬렉션",
+        "guide": "프로그램이 더 쓰지 않는 메모리를 자동으로 찾아 되돌려주는 기능",
+        "sourceUrls": [
+          "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+          "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+        ]
+      },
+      {
+        "term": "시분할",
+        "guide": "한 컴퓨터의 처리 시간을 아주 짧게 나누어 여러 사용자가 동시에 쓰는 것처럼 만드는 방식",
+        "sourceUrls": [
+          "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+        ]
+      },
+      {
+        "term": "상식 추론",
+        "guide": "사람에게는 당연하지만 명시되지 않은 일상 지식을 이용해 결론을 내리는 과정",
+        "sourceUrls": [
+          "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "다트머스 제안서가 인공지능이라는 명칭의 중요한 출발점인 것은 맞지만, 1956년 행사가 오늘날 학문 전체를 단독으로 탄생시켰다고 단정하지 않는다.",
+      "매카시의 회고문은 핵심 1차 자료인 동시에 본인도 리스프 구현자들의 기여를 충분히 기록하지 못했다고 밝힌 회고이므로, 공로 배분에는 기관사와 동료 기록을 함께 쓴다.",
+      "시분할은 여러 연구자가 독립적으로 구상한 흐름이며 매카시의 제안·촉진과 코르바토 팀의 CTSS 구현을 구분한다.",
+      "초기 인공지능의 시간표와 기대가 얼마나 낙관적이었는지는 문헌으로 다룰 수 있지만, 매카시가 말년에 느꼈을 실망이나 후회를 직접 자료 없이 창작하지 않는다.",
+      "오늘날 클라우드·생성형 AI와의 유사성은 후대의 계보적 해석이지 매카시가 현재 제품과 사회 결과를 정확히 예견했다는 증거가 아니다."
+    ]
+  }
+}

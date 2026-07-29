@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-36",
+  "targets": [
+    {
+      "id": "d8f0f29a-61cc-4119-976f-58e24650e490",
+      "slug": "larry-bird",
+      "nickname": "래리 버드",
+      "birthDate": "1956-12-07",
+      "profession": "athlete",
+      "expectedEn": {
+        "roll_call": [
+          "I'm here. I'll read where the next pass opens before I focus on where the ball is.",
+          "Don't ask me only to score. I'll change the game with the rebound and the pass, too.",
+          "If Magic is on the other side, even better. Facing him means reading both the pass and the stakes."
+        ],
+        "deploy": [
+          "The instant the defense turns its head, the ball should already be on its way to the open man.",
+          "If two defenders chase my shot, I'll turn their attention into a step of space for a teammate.",
+          "Even with five seconds left, an inbound has a route. I'll take the ball and find the cutter."
+        ],
+        "battle_win": [
+          "We moved the ball, so the defense stayed one beat late. That decided this one.",
+          "There was no reason to choose just one among scoring, rebounding, and passing.",
+          "I treated the opponent's numbers as a standard, not an excuse. I kept that standard today."
+        ],
+        "battle_draw": [
+          "The score may be level, but we didn't read the same game. The next pass will separate us.",
+          "If you take away my shot, I'll claim the rebound. If help comes, I'll find the cut.",
+          "I won't rush the pace. I'll see what the defense is willing to give up first."
+        ],
+        "battle_lose": [
+          "The missed rebounds and cuts are clearer than the missed shots. That's where I'll start.",
+          "They read my eyes. Next time I'll use the same look to free somebody else.",
+          "I held the pass because I thought the play was mine to finish. That decision needs fixing."
+        ],
+        "clash_attack": [
+          "Stopping my shot isn't enough. Try stopping the other four players I'm watching.",
+          "You thought the inbound was safe. I still see a route with five seconds left.",
+          "Come closer and the pass opens. Back away and I shoot. Make your choice."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. Before the ball arrives, I'm reading the next pass.",
+          "Don't ask for points alone. Rebounds and passes change games too.",
+          "Magic across from me? Good. Ordinary passes will not beat him."
+        ],
+        "deploy": [
+          "The moment a defender looks away, hit the open man.",
+          "Send two at my shot, and the open teammate gets it.",
+          "Five seconds left? Give me the inbound. I'll find the cutter."
+        ],
+        "battle_win": [
+          "We moved the ball. Their defense stayed one beat late. That was enough.",
+          "Points, rebounds, passes. I took care of all three.",
+          "Their numbers set the standard, not an excuse. I met it."
+        ],
+        "battle_draw": [
+          "The score is tied. Our reads are not. The next pass decides it.",
+          "Take away my shot, I rebound. Send help, I find the cutter.",
+          "No rush. I will see what the defense gives up first."
+        ],
+        "battle_lose": [
+          "The missed rebounds and cuts stand out. I will fix those first.",
+          "They read my eyes. Next time, that look frees a teammate.",
+          "I held the pass to finish the play myself. That read was wrong."
+        ],
+        "clash_attack": [
+          "Guard my shot, then guard the other four!",
+          "Five seconds left? Your inbound is still mine!",
+          "Press me, I pass. Back off, I shoot!"
+        ]
+      }
+    },
+    {
+      "id": "860f68f6-c379-44b6-b01d-ae8a65220dcd",
+      "slug": "magic-johnson",
+      "nickname": "매직 존슨",
+      "birthDate": "1959-08-14",
+      "profession": "athlete",
+      "expectedEn": {
+        "roll_call": [
+          "When I have the ball, all four teammates should have a reason to run.",
+          "If you need a guard, I'll push the pace. If the center spot is empty, I'll fill that too.",
+          "If Larry is on the other side, even better. He never lets me get away with an ordinary pass."
+        ],
+        "deploy": [
+          "The moment I secure the rebound, my head comes up. Showtime starts with the first pass.",
+          "If I see a lane to score and a lane that gets a teammate going, I'll choose the teammate's lane first.",
+          "Run the lanes first. I'll earn your trust by putting the ball there on time."
+        ],
+        "battle_win": [
+          "It wasn't one man's shot. Five men running together brought the crowd to its feet.",
+          "Like the night Kareem couldn't play, I filled the role the game needed instead of using the vacancy as an excuse.",
+          "We cleared the standard our opponent set by making them meet our pace. It took all five of us."
+        ],
+        "battle_draw": [
+          "Speed alone isn't Showtime. All five players have to read the same choice.",
+          "Before I look for points, I'll find the teammate whose confidence has slipped.",
+          "If the break is closed, I'll connect the post and the cut. There is never just one passing lane."
+        ],
+        "battle_lose": [
+          "I rushed the game and chose the pass before my teammates had filled their lanes.",
+          "Sharing the ball wasn't enough. I'll take responsibility for the last decision first.",
+          "They read my first choice. Next time I'll use the same look to open my own shot."
+        ],
+        "clash_attack": [
+          "Once my head is up, guarding one man is already too late. Five lanes open together.",
+          "Give up the first rebound and I'm running. Planning to stop me from behind won't work.",
+          "I decide whether to shoot or pass only after the defense makes its choice."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "When I get the ball, all four teammates run.",
+          "Need a guard? I push. Need a center? I fill it.",
+          "Larry across from me? Good. He demands more than an ordinary pass."
+        ],
+        "deploy": [
+          "Secure the rebound, lift your head. Showtime starts with the first pass.",
+          "If I see my shot and a teammate's rhythm, I feed the teammate.",
+          "Run the lanes. I will put the ball there on time."
+        ],
+        "battle_win": [
+          "Five men ran together, and the crowd rose with us.",
+          "Kareem was out, so I filled the role the game needed.",
+          "They raised the standard. We ran faster, all five of us."
+        ],
+        "battle_draw": [
+          "Speed alone is not Showtime. All five must read together.",
+          "Before points, I find the teammate who lost confidence.",
+          "Close the break, and I connect the post to the cut."
+        ],
+        "battle_lose": [
+          "I rushed the pass before my teammates filled their lanes.",
+          "Sharing was not enough. The final decision is mine.",
+          "They read my first choice. Next time, that look becomes my shot."
+        ],
+        "clash_attack": [
+          "Head up, and five lanes open at once!",
+          "Give up the rebound, and we are gone!",
+          "Move first. Then I choose shot or pass!"
+        ]
+      }
+    }
+  ]
+}

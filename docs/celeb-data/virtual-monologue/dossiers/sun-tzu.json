@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "slug": "sun-tzu",
+  "nickname": "손자",
+  "route": "new",
+  "routeReason": "현재 독백은 손무가 오왕 합려를 만나 궁녀를 훈련하고 실제 전장에서 느낀 공포와 책임을 깨달았다는 전기를 확정 사실처럼 1인칭화한다. 그러나 손무의 실재·활동 시기와 《손자병법》의 단일 저자 여부는 논쟁적이고, 전기는 수세기 뒤 《사기》에 나타나며 텍스트는 전국시대에 걸쳐 누적되었다는 견해가 강하다. 기존 구조를 손질하면 가짜 자서전의 전제가 남으므로, '손자에게 귀속된 병법서의 목소리'임을 분명히 한 새 원고가 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "손자",
+      "birth": "전통적으로 기원전 6세기",
+      "death": "불명",
+      "profession": "military",
+      "disambiguation": "전통적으로 오왕 합려를 섬긴 손무와 동일시되며 《손자병법》의 저자로 귀속되지만, 역사적 인물과 텍스트 형성 과정에는 큰 논쟁이 있는 병가의 상징적 저자",
+      "existingBioForDiscoveryOnly": "고대 중국의 병법가로 《손자병법》을 저술한 것으로 전해지는 인물"
+    },
+    "sources": [
+      {
+        "url": "https://ctext.org/art-of-war/ens",
+        "title": "The Art of War",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전쟁을 국가의 중대사로 보고 계산·기만·정보·군수·간첩을 다룬 13편의 병법",
+          "가능하면 싸우기 전에 이기고, 오래 끄는 전쟁의 비용을 경계하는 텍스트의 핵심 입장"
+        ]
+      },
+      {
+        "url": "https://ctext.org/shiji/sun-zi-wu-qi-lie-zhuan/zh",
+        "title": "史記 : 列傳 : 孫子吳起列傳",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "손무가 오왕 합려를 섬기고 궁녀 훈련을 통해 지휘 능력을 보였다는 전통적 전기",
+          "손자의 시대보다 수세기 뒤 편찬된 문학적·교훈적 인물 전승"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/sun-tzu-in-the-west/brief-history-of-sunzi-in-china/7D72E0D2B07EE4C01679C56D821A0436",
+        "title": "A Brief History of Sunzi in China",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2023-08-31",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사마천의 손무 전승과 중국에서 형성된 손자 저자상의 역사",
+          "역사적 저자와 후대에 만들어진 문화적·신화적 인물상을 구별해야 한다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/three-faces-of-sun-tzu/background-historical-and-textual/9198C86AED57CA34F1BE7831683310DC",
+        "title": "Background: Historical and Textual",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2009-10-15",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《손자병법》이 한 사람의 한 시기 저술이 아니라 오랜 기간 여러 층이 누적된 텍스트일 수 있다는 견해",
+          "현전 텍스트의 전국시대 형성과 역사적 손무의 단일 저자성에 관한 논쟁"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "전통 전기는 손무가 오왕 합려에게 병법을 보이고 궁녀 훈련 일화로 장수의 권한을 입증했다고 전한다.",
+        "significance": "널리 알려진 생애의 출발점이지만, 수세기 뒤 《사기》가 전한 교훈적 이야기임을 독백 안팎에서 분명히 해야 한다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/sun-zi-wu-qi-lie-zhuan/zh",
+          "https://www.cambridge.org/core/books/sun-tzu-in-the-west/brief-history-of-sunzi-in-china/7D72E0D2B07EE4C01679C56D821A0436"
+        ]
+      },
+      {
+        "point": "《손자병법》은 전쟁을 국가의 생사와 존망이 걸린 일로 규정하면서, 계산·정보·속임수와 신속한 승리를 강조한다.",
+        "significance": "확실하지 않은 개인 전기보다 현전 텍스트의 사고방식이 가상 독백의 가장 안전한 중심축이다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "point": "현전 병법서는 전국시대에 걸쳐 여러 층이 쌓였을 가능성이 크며, 후대에는 '손자'라는 저자상이 텍스트의 권위를 대표하게 되었다.",
+        "significance": "독백을 한 사람의 회고가 아니라 오래 전승된 병법의 목소리로 다시 설계해야 하는 이유다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/three-faces-of-sun-tzu/background-historical-and-textual/9198C86AED57CA34F1BE7831683310DC",
+          "https://www.cambridge.org/core/books/sun-tzu-in-the-west/brief-history-of-sunzi-in-china/7D72E0D2B07EE4C01679C56D821A0436"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "전쟁은 나라와 백성의 생사에 관계된 중대사이므로 감정이나 용맹만으로 시작해서는 안 된다고 본다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "point": "가장 나은 승리는 적의 계획과 동맹을 무너뜨려 성을 공격하고 오래 싸우기 전에 목적을 이루는 것이라고 본다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "point": "적과 자신을 알고 지형·군수·정보를 계산해야 승패의 위험을 줄일 수 있다고 본다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "point": "전쟁에서는 속임수와 간첩도 정당한 수단으로 다룬다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "《손자병법》은 싸움을 줄이고 승리의 비용을 낮추려 하지만, 그 목적을 위해 속임수·공격·간첩과 냉정한 계산을 체계화한다. 평화주의가 아니라 전쟁을 더 효율적으로 통제하려는 병법이다.",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "point": "오늘날 '손자'라고 부르는 목소리는 역사적 손무 한 사람과 완전히 겹친다고 확정할 수 없다. 생생한 1인칭을 쓰더라도 그것은 전승된 텍스트의 화자이지 검증된 자서전의 주인공이 아니다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/three-faces-of-sun-tzu/background-historical-and-textual/9198C86AED57CA34F1BE7831683310DC",
+          "https://www.cambridge.org/core/books/sun-tzu-in-the-west/brief-history-of-sunzi-in-china/7D72E0D2B07EE4C01679C56D821A0436"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 판단과 조건문을 중심으로 쓰고, 한 문단 안에 전제·계산·결론이 또렷하게 이어지게 한다.",
+      "directness": "감상적 전쟁 회고 대신 지형·시간·비용·정보를 냉정하게 판단하는 병법서의 목소리를 살린다. 다만 역사적 손무의 체험담인 듯 꾸미지 않는다.",
+      "moves": [
+        "내 이름보다 전쟁이 왜 중대한지부터 말해 저자 전기의 불확실성을 피하기",
+        "싸우지 않고 이기는 원칙을 말한 뒤 그것이 속임수와 정보전까지 포함함을 드러내기",
+        "마지막에 '나'가 한 사람인지 여러 세대의 병법인지 질문을 남겨 전승 한계를 작품의 일부로 만들기"
+      ],
+      "avoid": [
+        "오나라 궁정과 궁녀 훈련 일화를 실제 목격 회고처럼 길게 재현하기",
+        "수많은 전장을 직접 겪으며 병법을 깨달았다는 생애를 창작하기",
+        "'싸우지 않고 이긴다'만 떼어 손자를 평화주의자나 경영 코치로 만들기",
+        "현대 기업·스포츠·자기계발 용어를 고대 병법가의 입에 넣기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "벌모",
+        "guide": "적군과 바로 싸우기 전에 적의 계획을 깨뜨리는 것을 으뜸으로 보는 전략",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "term": "지피지기",
+        "guide": "적과 자신의 조건을 함께 알아야 반복되는 싸움에서도 위태로움을 줄일 수 있다는 판단",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      },
+      {
+        "term": "용간",
+        "guide": "전쟁 전에 적의 사정을 알아내기 위해 여러 종류의 간첩과 정보를 운용하는 일",
+        "sourceUrls": [
+          "https://ctext.org/art-of-war/ens"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "역사적 손무의 실재, 활동 연대와 오나라 복무는 논쟁적이다. 전통 전기를 확정된 생애 연표로 쓰지 않는다.",
+      "궁녀 훈련 일화는 손무보다 수세기 뒤 편찬된 《사기》에 보이는 교훈적 서사다. 세부 행동과 대화를 실제 기억으로 재현하지 않는다.",
+      "《손자병법》은 여러 세대에 걸쳐 누적·편집되었다는 견해가 강하다. 모든 문장을 단일 저자 손무의 직접 발언으로 단정하지 않는다.",
+      "Chinese Text Project의 영문은 라이오넬 자일스 번역을 싣고 있으며 현대 비판 번역 한 종으로 고정할 수 없다. 한국어 독백은 특정 영어 표현을 원문 자체로 오인하지 않는다.",
+      "현재 독백처럼 전쟁의 참상을 직접 목격하고 후회했다는 개인 심리는 사료로 확인되지 않는다. 텍스트가 말하는 비용과 위험으로 비판성을 만든다.",
+      "독백은 '손자에게 귀속된 병법 전통의 1인칭'이라는 창작 장치를 전제로 해야 하며, 서비스 설명이나 본문에서 이 한계를 감추지 않는다."
+    ]
+  }
+}

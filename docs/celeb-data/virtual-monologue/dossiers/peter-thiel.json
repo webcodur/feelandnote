@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "slug": "peter-thiel",
+  "nickname": "피터 틸",
+  "route": "improve",
+  "routeReason": "현재 글은 핵심 이력과 0에서 1의 관점을 담았지만 투자 강의처럼 일곱 질문·제로섬·독점·파워 법칙을 연속 설명해 초독자 부담이 크다. 자유와 민주주의의 불화, 기술을 정치에서 빠져나갈 공간으로 본 문제의식, 기술 낙관주의 자체를 경계한 긴장이 빠져 인물의 철학이 단선적 성공론으로 평평해졌다. 사실 골격은 살리고 삶과 정치철학의 긴장을 중심으로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "피터 틸",
+      "birth": "1967-10-11",
+      "death": null,
+      "profession": "investor",
+      "disambiguation": "페이팔 공동 창업자, 팔란티어 공동 창업자 겸 회장, 파운더스 펀드 파트너인 독일계 미국 투자자 피터 안드레아스 틸",
+      "existingBioForDiscoveryOnly": "독일 출신 미국의 벤처 투자자. 페이팔 공동 창업과 페이스북 최초 외부 투자, 팔란티어 설립으로 실리콘밸리를 이끌었다."
+    },
+    "sources": [
+      {
+        "url": "https://foundersfund.com/team/peter-thiel/",
+        "title": "Peter Thiel",
+        "publisher": "Founders Fund",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "페이팔 공동 창업과 최고경영자 경력",
+          "페이스북 최초 외부 투자",
+          "팔란티어 공동 창업과 회장 역할",
+          "파운더스 펀드 파트너 및 틸 펠로십·재단 활동"
+        ]
+      },
+      {
+        "url": "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/",
+        "title": "The Education of a Libertarian",
+        "publisher": "Cato Unbound",
+        "kind": "primary",
+        "publishedAt": "2009-04-13",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "개인의 자유를 핵심 가치로 두는 자유지상주의",
+          "자유와 민주주의의 양립에 대한 공개적 회의",
+          "정치적 설득보다 인터넷·우주·해상도시 같은 새 공간을 통한 탈출에 관심을 돌린 경로",
+          "페이팔의 초기 비전을 정부 통제에서 벗어난 통화 공간으로 설명한 대목",
+          "기술이 저절로 자유를 보장한다는 기술 유토피아론을 경계한 대목"
+        ]
+      },
+      {
+        "url": "https://www.thielfoundation.org/",
+        "title": "Thiel Foundation",
+        "publisher": "Thiel Foundation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "과학·기술·미래에 대한 장기적 사고를 지원한다는 재단의 목적"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "스탠퍼드 시절 정치적 논쟁과 학생 언론 활동, 이후 법률·금융 경력을 거치며 정치적 설득의 효용에 회의하게 되었다.",
+        "significance": "기술을 단순한 사업 기회가 아니라 정치 바깥에 자유의 공간을 만드는 수단으로 보는 철학의 배경이다.",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      },
+      {
+        "point": "페이팔을 공동 창업하고 이끈 뒤 페이스북 최초 외부 투자자, 팔란티어 공동 창업자, 파운더스 펀드 투자자로 이어졌다.",
+        "significance": "기존 체제 안의 논쟁보다 새 회사를 세우고 자본을 거는 방식으로 미래를 만든다는 실천 경로를 보여 준다.",
+        "sourceUrls": [
+          "https://foundersfund.com/team/peter-thiel/",
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "개인의 자유를 가장 높은 선의 전제조건으로 보며, 다수결 정치가 그 자유를 안정적으로 지켜 준다는 믿음에는 회의적이다.",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      },
+      {
+        "point": "인터넷·우주·해상도시처럼 아직 정해지지 않은 기술 공간에서 개인의 선택이 정치보다 더 큰 힘을 가질 수 있다고 본다.",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/",
+          "https://www.thielfoundation.org/"
+        ]
+      },
+      {
+        "point": "창업과 투자는 남들이 합의한 시장을 복제하는 일보다 전에 없던 기술과 회사를 만드는 데 걸어야 한다.",
+        "sourceUrls": [
+          "https://foundersfund.com/team/peter-thiel/",
+          "https://www.thielfoundation.org/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "자유를 최우선으로 말하면서도 민주주의와 자유가 양립하기 어렵다고 쓴 그의 입장은 자유의 주체와 정치적 평등 사이에 큰 긴장을 만든다.",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      },
+      {
+        "point": "기술을 자유의 출구로 보지만 기술이 저절로 좋은 미래를 보장한다는 유토피아론은 스스로 거부한다.",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "중간 길이의 논리적 문장을 기본으로 하되 핵심 판단에서는 짧게 끊는다.",
+      "directness": "차갑고 분석적이며 통념을 정면으로 의심한다. 흥분이나 영웅적 자기과시는 줄인다.",
+      "moves": [
+        "통념 하나를 제시한 뒤 그 전제를 뒤집어 묻기",
+        "사업 선택과 정치철학을 한 흐름 안에서 연결하기",
+        "자기 확신의 대가와 불편한 모순을 숨기지 않기"
+      ],
+      "avoid": [
+        "투자 체크리스트와 전문용어 연속 나열",
+        "괴짜 창업자를 알아보는 천재 투자자 자기신화",
+        "남들은 모두 군중이고 자신만 비밀을 안다는 과장",
+        "감정이 없다는 문제를 억지 분노와 후회로 보충하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "자유지상주의",
+        "guide": "국가의 간섭을 줄이고 개인의 선택과 자유를 가장 앞세우는 생각",
+        "sourceUrls": [
+          "https://www.cato-unbound.org/2009/04/13/peter-thiel/education-libertarian/"
+        ]
+      },
+      {
+        "term": "제로섬",
+        "guide": "한쪽이 얻는 만큼 다른 쪽이 잃는 경쟁",
+        "sourceUrls": [
+          "https://foundersfund.com/team/peter-thiel/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "책 『제로 투 원』의 문장이나 강의 노트는 이번 근거 묶음에서 직접 대조하지 않았으므로 직접 인용하지 않는다.",
+      "사적인 감정·후회·투자 당시의 내면은 확인하지 못했으므로 창작하지 않는다."
+    ]
+  }
+}

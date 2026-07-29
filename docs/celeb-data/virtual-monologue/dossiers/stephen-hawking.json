@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "slug": "stephen-hawking",
+  "nickname": "스티븐 호킹",
+  "route": "improve",
+  "routeReason": "현재 원고는 장애 극복담을 스스로 경계하고, 펜로즈와의 특이점 연구·호킹 복사·대중 과학서라는 세 축을 비교적 쉽게 설명한다. 다만 ‘진단이 두려웠다’, ‘풀지 못해 아쉬웠다’ 같은 감정은 직접 회고와 연결되지 않았고, ‘블랙홀이 증발한다’는 결론도 이론적 조건과 미해결 끝상태를 생략한다. 장애를 비극적 장치로 쓰지 않으면서 본인이 남긴 질병·의사소통 회고를 근거로 바꾸고, 과학 개념마다 초독자용 괄호와 이론의 한계를 붙이는 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "스티븐 호킹",
+      "birth": "1942-01-08",
+      "death": "2018-03-14",
+      "profession": "scientist",
+      "disambiguation": "특이점 정리와 블랙홀의 양자 복사를 연구하고 『시간의 역사』를 쓴 영국 이론물리학자",
+      "existingBioForDiscoveryOnly": "영국의 이론물리학자. 루게릭병을 극복하고 블랙홀 증발 이론으로 현대 물리학의 지평을 넓혔다."
+    },
+    "sources": [
+      {
+        "url": "https://www.hawking.org.uk/in-words/speeches/speech-1",
+        "title": "Speech on Disability and Communication",
+        "publisher": "Stephen Hawking Estate",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "운동신경원병 진단과 가족이 삶에 준 힘에 대한 호킹 자신의 회고",
+          "컴퓨터 화면에서 단어를 골라 음성합성기로 말한 의사소통 방식",
+          "장애 경험의 감정과 의미를 후대 영웅담이 아니라 본인 말에 묶을 근거"
+        ]
+      },
+      {
+        "url": "https://www.hawking.org.uk/biography",
+        "title": "Biography",
+        "publisher": "Stephen Hawking Estate",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "운동신경원병과 음성합성기, 의사소통 기술의 변화",
+          "일반상대성이론과 양자이론을 함께 다루려 한 연구 방향",
+          "『시간의 역사』를 일반 독자에게 과학을 설명하려고 집필한 경위"
+        ]
+      },
+      {
+        "url": "https://www.osti.gov/biblio/4174130",
+        "title": "Singularities of Gravitational Collapse and Cosmology",
+        "publisher": "U.S. Department of Energy Office of Scientific and Technical Information",
+        "kind": "primary",
+        "publishedAt": "1970-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "호킹과 로저 펜로즈의 공동 특이점 정리 논문",
+          "일반상대성이론 아래 특정 조건에서 붕괴와 우주론적 특이점이 피하기 어렵다는 결론"
+        ]
+      },
+      {
+        "url": "https://www.hawking.org.uk/in-print?start=22",
+        "title": "Scientific Publications",
+        "publisher": "Stephen Hawking Estate",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1974년 ‘Black hole explosions?’와 1975년 ‘Particle Creation by Black Holes’ 서지",
+          "블랙홀 양자 복사 이론의 실제 발표 순서"
+        ]
+      },
+      {
+        "url": "https://www.nature.com/articles/d41586-018-02839-9",
+        "title": "Stephen Hawking (1942–2018)",
+        "publisher": "Nature",
+        "kind": "scholarly",
+        "publishedAt": "2018-03-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "특이점 연구와 1974년 블랙홀 복사 계산의 과학적 의미",
+          "호킹 복사가 중력·양자이론·열역학을 한 문제에 묶었다는 평가",
+          "호킹 복사의 직접 천문 관측과 블랙홀 정보 문제는 별개의 미해결 쟁점이라는 경계"
+        ]
+      },
+      {
+        "url": "https://www.cam.ac.uk/stories/stephen-hawking",
+        "title": "Stephen Hawking: A Life in Science",
+        "publisher": "University of Cambridge",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "펜로즈의 연구에서 영향을 받아 특이점 문제를 우주 전체로 확장한 경위",
+          "블랙홀 복사와 남아 있는 물리학 문제",
+          "케임브리지에서 이어 간 연구와 대중 소통"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "스물한 살 무렵 운동신경원병 진단을 받았고, 병이 진행된 뒤에는 컴퓨터와 음성합성기를 이용해 연구와 발화를 계속했다.",
+        "significance": "병을 ‘정신력으로 극복한 장애물’로 만들지 않고, 몸의 변화와 가족·돌봄·보조공학이 그의 지적 삶을 가능하게 한 실제 조건으로 다룬다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/in-words/speeches/speech-1",
+          "https://www.hawking.org.uk/biography"
+        ]
+      },
+      {
+        "point": "1970년 로저 펜로즈와 함께 일반상대성이론에서 중력 붕괴와 우주가 특정 조건 아래 특이점을 피하기 어렵다는 정리를 발표했다.",
+        "significance": "우주의 시작을 단정한 한 문장이 아니라, 이론의 조건과 한계를 엄밀히 따진 공동 연구였다.",
+        "sourceUrls": [
+          "https://www.osti.gov/biblio/4174130",
+          "https://www.cam.ac.uk/stories/stephen-hawking"
+        ]
+      },
+      {
+        "point": "1974년과 1975년 양자이론을 적용하면 블랙홀이 열복사를 내보낸다는 계산을 발표했다.",
+        "significance": "아무것도 나오지 못한다는 고전적 블랙홀 그림에 양자 효과를 넣어 중력·열·양자이론을 한 문제 안에서 충돌시켰다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/in-print?start=22",
+          "https://www.nature.com/articles/d41586-018-02839-9"
+        ]
+      },
+      {
+        "point": "1988년 『시간의 역사』를 펴내 우주의 기원, 시간, 블랙홀을 수식에 익숙하지 않은 독자에게 설명했다.",
+        "significance": "연구 성과뿐 아니라 어려운 과학을 공공 언어로 바꾸는 작업도 그의 생애 철학의 한 축이었다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/biography"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "우주에 대한 큰 질문도 일반상대성이론과 양자이론의 조건을 함께 검토하는 계산 가능한 문제로 다뤄야 한다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/biography",
+          "https://www.nature.com/articles/d41586-018-02839-9"
+        ]
+      },
+      {
+        "point": "과학자는 전문 논문에 머물지 않고 자신이 다루는 우주론을 일반 독자가 따라올 수 있는 언어로 설명할 책임이 있다고 보았다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/biography"
+        ]
+      },
+      {
+        "point": "장애가 삶의 실제 제약이라는 사실과, 보조 기술을 통해 자신의 연구와 유머와 목소리를 계속 구성했다는 사실을 함께 말했다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/in-words/speeches/speech-1",
+          "https://www.hawking.org.uk/biography"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "호킹의 몸과 전자 음성은 대중에게 가장 먼저 보였지만, 그 이미지를 ‘장애를 이긴 천재’로 소비하면 질병·돌봄·보조공학의 실제가 지워진다.",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/in-words/speeches/speech-1",
+          "https://www.hawking.org.uk/biography"
+        ]
+      },
+      {
+        "point": "호킹 복사는 블랙홀이 완전히 검다는 고전적 그림을 바꿨지만, 천체 블랙홀에서 직접 검출된 사실이나 증발의 마지막 순간까지 완성된 설명은 아니다.",
+        "sourceUrls": [
+          "https://www.nature.com/articles/d41586-018-02839-9"
+        ]
+      },
+      {
+        "point": "우주 전체를 설명하려 했지만 특이점은 이론이 답을 내놓는 지점이라기보다 일반상대성이론의 설명력이 끊기는 경계를 드러낸다.",
+        "sourceUrls": [
+          "https://www.osti.gov/biblio/4174130",
+          "https://www.cam.ac.uk/stories/stephen-hawking"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "음성합성기로 말하듯 군더더기 없는 짧은 문장을 기본으로 하되, 과학 개념은 한 문장 더 써서 조건과 한계를 붙인다. 전문어는 첫 등장 직후 괄호로 푼다.",
+      "directness": "건조한 유머와 큰 질문을 향한 자신감을 살리되, 감동을 강요하는 장애 극복담은 거부한다. ‘나는 두려웠다’ 같은 감정은 본인 회고가 지지하는 범위에서만 쓴다.",
+      "moves": [
+        "휠체어와 전자 음성에 대한 타인의 시선부터 바로잡고 보조공학과 협업의 구체로 이동하기",
+        "특이점 정리에서 ‘우주의 시작을 증명했다’가 아니라 이론의 조건과 경계를 보여 주기",
+        "호킹 복사를 블랙홀 주변 양자 효과로 풀고 직접 관측·끝상태의 한계를 붙이기",
+        "『시간의 역사』를 명성의 표지보다 어려운 질문을 공공 언어로 옮긴 선택으로 회수하기"
+      ],
+      "avoid": [
+        "‘루게릭병을 극복했다’거나 정신이 몸을 이겼다는 표현",
+        "가족·돌봄 제공자·공학자의 도움을 지운 단독 의지 서사",
+        "블랙홀이 실제 관측에서 증발하는 모습이 확인됐다고 쓰기",
+        "특이점이 우주의 탄생 원인을 완전히 설명한다고 단정하기",
+        "풀지 못한 문제를 두고 어떤 감정을 느꼈는지 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "특이점",
+        "guide": "일반상대성이론의 계산에서 밀도와 시공간 휘어짐이 끝없이 커져, 현재 이론만으로는 그 지점을 더 설명하기 어려워지는 경계",
+        "sourceUrls": [
+          "https://www.osti.gov/biblio/4174130",
+          "https://www.cam.ac.uk/stories/stephen-hawking"
+        ]
+      },
+      {
+        "term": "사건의 지평선",
+        "guide": "그 안에서 나온 빛조차 바깥으로 돌아올 수 없는 블랙홀의 경계",
+        "sourceUrls": [
+          "https://www.nature.com/articles/d41586-018-02839-9"
+        ]
+      },
+      {
+        "term": "호킹 복사",
+        "guide": "블랙홀 주변의 양자 효과 때문에 멀리서 보면 블랙홀이 열을 가진 물체처럼 입자를 내보내는 것으로 계산되는 현상",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/in-print?start=22",
+          "https://www.nature.com/articles/d41586-018-02839-9"
+        ]
+      },
+      {
+        "term": "양자이론",
+        "guide": "원자보다 작은 세계에서 에너지와 물질의 상태와 관측 결과를 확률로 설명하는 물리 이론",
+        "sourceUrls": [
+          "https://www.hawking.org.uk/biography"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "‘루게릭병’은 미국식 통칭이고 영국 자료는 운동신경원병으로 적는다. 독백에서는 쉬운 표현 뒤에 같은 병의 명칭임을 안내한다.",
+      "진단 당시의 공포·절망·희망은 호킹 자신의 회고에 확인되는 범위만 쓰고 영화 장면을 사실 근거로 삼지 않는다.",
+      "의사소통은 호킹 혼자의 의지로 가능했던 것이 아니라 가족, 돌봄 제공자, 소프트웨어·하드웨어 개발자의 지원과 함께 이루어졌다.",
+      "특이점 정리는 로저 펜로즈와의 공동 성과이며 일반상대성이론과 특정 물리 조건 안에서 성립한다.",
+      "호킹 복사는 강한 이론적 성과지만 천체 블랙홀의 복사가 직접 검출되었다고 쓰지 않는다.",
+      "‘블랙홀이 완전히 사라진다’는 표현에는 매우 긴 증발 시간과 마지막 단계의 양자중력 미해결 문제를 생략했다는 한계가 있다.",
+      "『시간의 역사』의 판매량이나 유명세보다 왜 일반 독자에게 과학을 설명하려 했는지에 초점을 둔다.",
+      "사후의 대중적 ‘천재’ 이미지와 본인이 실제로 밝힌 연구 입장·장애 경험을 구별한다."
+    ]
+  }
+}

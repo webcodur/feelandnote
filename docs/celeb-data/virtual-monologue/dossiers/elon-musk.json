@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "slug": "elon-musk",
+  "nickname": "일론 머스크",
+  "route": "improve",
+  "routeReason": "현재 글은 전기차·재사용 로켓·물리 법칙 중심 사고를 쉽게 설명하지만, 위험을 감수하는 선구자 서사로 거의 전부 정리돼 있다. 공개 발언의 성급함이 실제 증권 규제와 지배구조 조치로 이어진 사건, 자율주행 안전 통제의 부족을 기관이 문제 삼은 사실을 '일정이 앞섰다' 정도로 축소한다. 핵심 사업 철학은 살리되 속도·과장·책임의 긴장을 더 정직하게 담도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "일론 머스크",
+      "birth": "1971-06-28",
+      "death": null,
+      "profession": "entrepreneur",
+      "disambiguation": "테슬라 최고경영자이자 스페이스X 창업자·최고경영자로 전기차, 에너지 저장, 재사용 로켓 사업을 이끈 남아프리카 출생 미국 기업가",
+      "existingBioForDiscoveryOnly": "전기자동차 기업 테슬라와 우주 탐사 기업 스페이스X를 이끄는 세계적인 기업가. 페이팔 공동창업으로 성공한 뒤 화성 이주와 지속 가능한 에너지를 목표로 혁신을 주도한다."
+    },
+    "sources": [
+      {
+        "url": "https://ir.tesla.com/corporate/elon-musk",
+        "title": "Elon Musk",
+        "publisher": "Tesla Investor Relations",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "테슬라 최고경영자 및 이사회 경력",
+          "스페이스X 창업과 최고경영자·기술 책임 경력",
+          "페이팔·Zip2·솔라시티·뉴럴링크·보링컴퍼니 관련 이력"
+        ]
+      },
+      {
+        "url": "https://www.tesla.com/about",
+        "title": "About Us",
+        "publisher": "Tesla",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "태양광·배터리·전기차를 결합해 지속 가능한 에너지 전환을 규모 있게 이루려는 사업 철학",
+          "첫 원리 접근을 회사의 문제 해결 방식으로 제시한 사실"
+        ]
+      },
+      {
+        "url": "https://www.nasa.gov/launch-services-program-rockets/",
+        "title": "Launch Services Program Rockets",
+        "publisher": "NASA",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "팰컨 9이 궤도급 재사용 로켓이며 비싼 부품을 재비행해 우주 접근 비용을 낮춘다는 설명",
+          "스타십이 지구 궤도·달·화성 등을 목표로 한 완전 재사용 체계라는 설명"
+        ]
+      },
+      {
+        "url": "https://www.sec.gov/newsroom/press-releases/2018-226",
+        "title": "Elon Musk Settles SEC Fraud Charges; Tesla Charged With and Resolves Securities Law Charge",
+        "publisher": "U.S. Securities and Exchange Commission",
+        "kind": "institutional",
+        "publishedAt": "2018-09-29",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "테슬라 비상장 전환 자금 확보 트윗과 관련한 SEC의 증권사기 혐의 및 합의",
+          "머스크의 이사회 의장 사임, 독립 이사 추가, 투자자 소통 감독과 벌금 조치"
+        ]
+      },
+      {
+        "url": "https://static.nhtsa.gov/odi/inv/2024/INOA-RQ24009-12046.pdf",
+        "title": "Investigation RQ24009: Recall 23V838 Remedy Effectiveness",
+        "publisher": "National Highway Traffic Safety Administration",
+        "kind": "institutional",
+        "publishedAt": "2024-04-25",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "테슬라 오토파일럿이 운전자 오용을 막는 통제가 불충분할 수 있다는 리콜과 후속 조사",
+          "오토파일럿이 완전 자율주행이 아닌 레벨 2 운전자 보조 체계라는 기관 설명"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "인터넷 사업에서 얻은 자본과 경험을 테슬라의 전기차·에너지 체계와 스페이스X의 로켓 개발에 집중했다.",
+        "significance": "소프트웨어 사업가에서 물리적 제조와 기반시설을 직접 바꾸려는 기업가로 무게중심이 옮겨졌다.",
+        "sourceUrls": [
+          "https://ir.tesla.com/corporate/elon-musk",
+          "https://www.tesla.com/about"
+        ]
+      },
+      {
+        "point": "스페이스X가 궤도급 로켓의 재사용을 현실 운용으로 만들었다.",
+        "significance": "비용을 분해하고 반복 사용으로 낮춘다는 첫 원리식 문제 해결이 구체적 성과로 이어진 사례다.",
+        "sourceUrls": [
+          "https://www.nasa.gov/launch-services-program-rockets/"
+        ]
+      },
+      {
+        "point": "2018년 공개 트윗이 SEC 조치와 이사회 지배구조 개편으로 이어졌다.",
+        "significance": "빠른 결단과 거친 소통이 혁신의 추진력인 동시에 타인의 자본과 안전에 책임을 지는 상장회사 경영자의 위험이 됐다.",
+        "sourceUrls": [
+          "https://www.sec.gov/newsroom/press-releases/2018-226"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "지속 가능한 에너지 전환은 희생을 호소하는 데서 끝나지 않고 전기차·배터리·태양광을 매력적이고 대규모로 보급하는 제품 체계로 만들어야 한다.",
+        "sourceUrls": [
+          "https://www.tesla.com/about"
+        ]
+      },
+      {
+        "point": "우주 접근 비용을 낮추려면 가장 비싼 로켓 부품을 회수하고 재사용해야 한다.",
+        "sourceUrls": [
+          "https://www.nasa.gov/launch-services-program-rockets/"
+        ]
+      },
+      {
+        "point": "관행을 그대로 따르기보다 물리 법칙과 비용 구조를 처음부터 다시 따지는 첫 원리 접근을 선호한다.",
+        "sourceUrls": [
+          "https://www.tesla.com/about"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "빠른 실행과 과감한 공개 약속은 회사를 움직이는 힘이지만, 확인되지 않은 시장 정보나 안전 기능의 과장·오용 통제 부족은 투자자와 도로 이용자에게 비용을 넘길 수 있다.",
+        "sourceUrls": [
+          "https://www.sec.gov/newsroom/press-releases/2018-226",
+          "https://static.nhtsa.gov/odi/inv/2024/INOA-RQ24009-12046.pdf"
+        ]
+      },
+      {
+        "point": "지속 가능한 미래와 인류의 다행성 생존이라는 장기 목표는 현재 제품·노동·시장 운영에서 생기는 구체적 책임을 대신할 수 없다.",
+        "sourceUrls": [
+          "https://www.tesla.com/about",
+          "https://www.nasa.gov/launch-services-program-rockets/",
+          "https://www.sec.gov/newsroom/press-releases/2018-226"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 기능적인 문장으로 가설·제약·결론을 빠르게 잇는다.",
+      "directness": "성급할 만큼 단정적이고 공학적이다. 영웅적 비장미보다 계산과 책임을 드러낸다.",
+      "moves": [
+        "불가능하다는 관행을 물리 법칙과 비용 문제로 쪼개기",
+        "큰 목표를 제품·공장·발사라는 구체적 행위로 연결하기",
+        "자신의 속도와 공개 발언이 만든 실제 책임을 회피하지 않기"
+      ],
+      "avoid": [
+        "실패를 모두 위대한 도전의 훈장으로 미화하기",
+        "화성 이주를 검증된 일정처럼 단정하기",
+        "SEC·안전 문제를 단순한 일정 지연이나 오해로 축소하기",
+        "모든 회사를 혼자 설계하고 성공시킨 것처럼 쓰기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "첫 원리",
+        "guide": "관행을 그대로 믿지 않고 물리 법칙과 비용 같은 가장 기본 조건부터 다시 따지는 방식",
+        "sourceUrls": [
+          "https://www.tesla.com/about"
+        ]
+      },
+      {
+        "term": "오토파일럿",
+        "guide": "운전자를 대신하는 완전 자율주행이 아니라 운전자가 계속 감독해야 하는 보조 기능",
+        "sourceUrls": [
+          "https://static.nhtsa.gov/odi/inv/2024/INOA-RQ24009-12046.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "X·정치 활동·뉴럴링크·보링컴퍼니까지 모두 넣으면 독백이 이력 나열이 되므로 전기차·에너지·우주와 책임 문제에 범위를 한정한다.",
+      "사적인 후회나 감정은 확인하지 못했으므로 SEC 합의를 개인적 참회 장면으로 창작하지 않는다."
+    ]
+  }
+}

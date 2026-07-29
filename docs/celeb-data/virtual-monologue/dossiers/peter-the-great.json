@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "slug": "peter-the-great",
+  "nickname": "표트르 대제",
+  "route": "improve",
+  "routeReason": "현재 글은 대사절단, 나르바 패전과 폴타바 승리, 상트페테르부르크, 관등표, 교회 통제를 하나의 개혁과 전쟁 축으로 묶어 기본 구조가 살아 있다. 그러나 러시아를 혼자 서구화한 창건자로 과장하고 관등표를 능력주의처럼 설명하며, 강제 노동과 죽음을 알고도 밀어붙였다는 현대적 자백을 창작했다. 17세기 군제의 선행 변화, 평생 징집과 농노 노동, 인두세, 황태자 알렉세이 사건, 교회 종속을 함께 놓고 직접 확인되지 않은 후회는 제거하는 방식으로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "표트르 대제",
+      "birth": "1672-06-09",
+      "death": "1725-02-08",
+      "profession": "commander",
+      "disambiguation": "로마노프 왕조의 차르이자 1721년 러시아 제국의 황제를 칭하며 대북방전쟁, 상트페테르부르크 건설, 군사·행정·교회 개편을 강압적으로 추진한 표트르 1세",
+      "existingBioForDiscoveryOnly": "러시아 로마노프 왕조 제4대 차르. 서구화 개혁으로 러시아를 유럽 열강으로 끌어올렸으며, 북방전쟁에서 스웨덴을 꺾고 상트페테르부르크를 건설했다."
+    },
+    "sources": [
+      {
+        "url": "https://guides.loc.gov/peter-the-great",
+        "title": "Peter the Great: Primary and Secondary Resources at the Library of Congress",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "표트르 1세의 생애와 공동 통치·친정·황제 칭호의 기본 연대",
+          "대사절단과 서유럽 기술 학습, 군사·행정·문화 개편의 범위",
+          "표트르 시대 1차 자료와 후대 연구를 구분해 확인할 수 있는 자료 안내"
+        ]
+      },
+      {
+        "url": "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf",
+        "title": "Russia: A Country Study",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": "1996-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "나르바 패전, 폴타바 승리, 니스타드 조약으로 이어진 대북방전쟁",
+          "상비군·해군·평생 군역과 귀족 봉사 의무를 묶은 국가 동원",
+          "행정 조직·교회·관등표 개편과 1721년 제국 선포",
+          "발트해 영토 획득과 상트페테르부르크의 수도화"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/fighting-for-a-living/military-service-and-the-russian-social-order-16491861/A43B1AFE711E37EBF2DAE8E2B95CCE50",
+        "title": "Military Service and the Russian Social Order, 1649–1861",
+        "publisher": "Amsterdam University Press",
+        "kind": "scholarly",
+        "publishedAt": "2020-12-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "표트르 이전 17세기부터 신식 연대와 군사 동원이 발전했다는 제도적 연속성",
+          "표트르 시대 군사 개혁이 농노제·귀족 봉사·농민 징집을 더 강하게 결합한 과정",
+          "러시아 군제를 한 사람의 유럽 여행에서 갑자기 생긴 발명으로 쓰면 안 되는 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E",
+        "title": "The Tsarist Economy",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2010-01-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "상트페테르부르크와 우랄 군수 산업에 대규모 농노 노동이 투입된 사실",
+          "군사 생산과 도시 건설이 강제 동원에 기대어 진행된 경제 구조",
+          "산업화 성과와 농노제 강화를 분리할 수 없다는 해석"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/dostoevsky-in-context/service-ranks/28BDA7883B0ED6F9D9335C43B1A5EA73",
+        "title": "Service Ranks",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2015-12-18",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1722년 관등표가 군·문관·궁정 직위를 14등급으로 배열한 제도라는 점",
+          "귀족의 지위를 황제 국가에 대한 봉사와 연결한 목적",
+          "일부 신분 이동의 통로를 열었지만 위계와 강제 봉사를 유지한 한계"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/exhibitions/listings/2003/celebrating-saint-petersburg",
+        "title": "Celebrating Saint Petersburg",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2003-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1703년 상트페테르부르크 건설과 유럽 건축가·장인의 참여",
+          "새 수도가 발트해를 향한 정치·문화 프로젝트였다는 점",
+          "도시가 표트르의 제국 이미지와 유럽 교류를 보여 주는 상징이 된 과정"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1697~1698년 대사절단에 참여해 조선소와 군사 기술을 배웠지만 귀국 뒤 스트렐치 반란을 가혹하게 진압하며 개혁과 폭력을 함께 시작했다.",
+        "significance": "서유럽 학습을 호기심 많은 장인의 미담으로만 쓰지 않고 친정 권력 강화와 탄압의 같은 시기에 놓는다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/peter-the-great",
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "point": "1700년 나르바에서 스웨덴군에 패한 뒤 상비군·해군·무기 생산·세금 징수를 확대했고 1709년 폴타바에서 결정적 승리를 거뒀다.",
+        "significance": "패배를 개인의 깨달음 한 장면으로 만들지 않고 장기간의 징집·재정·산업 동원과 연결한다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf",
+          "https://www.cambridge.org/core/books/fighting-for-a-living/military-service-and-the-russian-social-order-16491861/A43B1AFE711E37EBF2DAE8E2B95CCE50"
+        ]
+      },
+      {
+        "point": "1703년 점령한 발트해 습지에 상트페테르부르크를 세우고 강제 동원된 노동과 국가 자원을 투입해 새 수도로 만들었다.",
+        "significance": "유럽으로 난 창이라는 상징과 함께 농노·노동자의 강제 동원을 지우지 않되 검증되지 않은 사망자 수는 쓰지 않는다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E",
+          "https://www.metmuseum.org/exhibitions/listings/2003/celebrating-saint-petersburg"
+        ]
+      },
+      {
+        "point": "1721년 니스타드 조약으로 발트해 영토를 얻고 황제를 칭했으며, 1722년 관등표로 국가 봉사와 신분 위계를 다시 묶었다.",
+        "significance": "유럽 열강 진입을 군사 승리만으로 찬양하지 않고 전쟁 국가와 봉사 귀족 체제가 굳어진 결과까지 다룬다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf",
+          "https://www.cambridge.org/core/books/abs/dostoevsky-in-context/service-ranks/28BDA7883B0ED6F9D9335C43B1A5EA73"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "군함·포병·항해·행정을 외국에서 배우고 러시아 국가가 직접 기술자와 인력을 길러야 한다고 밀어붙였다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/peter-the-great",
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "point": "발트해 항구와 상비군을 확보하기 위해 세금·징집·산업을 전쟁 목표 아래 집중했다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf",
+          "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E"
+        ]
+      },
+      {
+        "point": "혈통만으로 관직을 보장하기보다 군·행정 봉사의 등급을 따르게 했지만 황제에게 복무하는 위계 자체는 더 촘촘하게 만들었다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/dostoevsky-in-context/service-ranks/28BDA7883B0ED6F9D9335C43B1A5EA73"
+        ]
+      },
+      {
+        "point": "총대주교 자리를 되살리지 않고 국가가 관리하는 신성종무원을 두어 정교회를 황제 행정 아래 편입했다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "기술과 관직 체계를 바꿔 러시아 국가의 역량을 높였지만 그 비용은 평생 군역, 인두세, 농노 노동과 강제 동원으로 거뒀다.",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf",
+          "https://www.cambridge.org/core/books/fighting-for-a-living/military-service-and-the-russian-social-order-16491861/A43B1AFE711E37EBF2DAE8E2B95CCE50",
+          "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E"
+        ]
+      },
+      {
+        "point": "관등표는 능력과 봉사로 올라갈 길을 일부 열었지만 신분 평등을 만든 제도가 아니라 황제에게 묶인 귀족 위계를 재조직했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/dostoevsky-in-context/service-ranks/28BDA7883B0ED6F9D9335C43B1A5EA73"
+        ]
+      },
+      {
+        "point": "상트페테르부르크는 새 항구와 문화 중심이 됐지만 정복지에 세운 도시였고 농노와 노동자의 강제 노동에 크게 의존했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E",
+          "https://www.metmuseum.org/exhibitions/listings/2003/celebrating-saint-petersburg"
+        ]
+      },
+      {
+        "point": "표트르는 아들 알렉세이까지 반역 혐의로 심문하고 죽음에 이르게 한 전제 군주였으며, 개혁을 곧 자유화로 읽을 수 없다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/peter-the-great",
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "작업 지시서와 항해 일지처럼 짧고 빠르게 끊는다. 전쟁·세금·배·관직 가운데 한 문장에는 한 축만 담는다.",
+      "directness": "측정하고 해체하고 다시 짓는 동사를 앞세운다. 장황한 계몽 군주의 연설이나 현대적 인권 고백은 쓰지 않는다.",
+      "moves": [
+        "배를 직접 배우고 국가 조직에 적용한 행동을 구체적인 기술·기관과 연결하기",
+        "나르바와 폴타바 사이에 병력·세금·산업이 어떻게 동원됐는지 보여 주기",
+        "상트페테르부르크의 상징성과 강제 노동을 같은 문단에 놓기",
+        "관등표의 이동 가능성과 봉사 강제를 동시에 말하기"
+      ],
+      "avoid": [
+        "표트르 한 사람이 잠든 러시아를 서구 문명으로 깨웠다는 창건 신화",
+        "강제 노동자의 죽음을 알고 괴로워했다는 근거 없는 자기고백",
+        "관등표를 출신과 무관한 현대적 능력주의로 설명하기",
+        "서구화·근대화라는 추상어만 이어 업적을 나열하기",
+        "대제와 폭군 가운데 어느 쪽인지 스스로 판결하는 교훈형 결말"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "차르",
+        "guide": "러시아 군주가 사용한 칭호로 표트르는 1721년부터 황제라는 칭호도 함께 썼다",
+        "sourceUrls": [
+          "https://guides.loc.gov/peter-the-great",
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "term": "대북방전쟁",
+        "guide": "러시아와 동맹국들이 발트해 패권을 두고 스웨덴과 1700~1721년에 벌인 전쟁",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "term": "관등표",
+        "guide": "군대·행정·궁정의 직위를 14등급으로 나눠 국가 봉사와 신분 상승을 연결한 표",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/dostoevsky-in-context/service-ranks/28BDA7883B0ED6F9D9335C43B1A5EA73"
+        ]
+      },
+      {
+        "term": "인두세",
+        "guide": "토지 대신 과세 대상 남성 한 사람마다 매긴 세금으로 전쟁 국가의 재정을 떠받친 제도",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "term": "신성종무원",
+        "guide": "총대주교 대신 러시아 정교회를 국가 행정 아래 관리한 합의제 기관",
+        "sourceUrls": [
+          "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ru/russiacountrystu00curt/russiacountrystu00curt.pdf"
+        ]
+      },
+      {
+        "term": "농노",
+        "guide": "토지와 지주에게 법적으로 묶여 세금·노동·징집 부담을 진 농민",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/fighting-for-a-living/military-service-and-the-russian-social-order-16491861/A43B1AFE711E37EBF2DAE8E2B95CCE50",
+          "https://www.cambridge.org/core/books/abs/soviet-economic-development-from-lenin-to-khrushchev/tsarist-economy/4DFACEDCE10F38F0395F4D73CD4C2D5E"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "러시아 군사·행정 개편은 표트르 이전 17세기의 신식 연대와 국가 동원에서 이어졌다. 대사절단 뒤 모든 것이 처음 생겼다고 쓰지 않는다.",
+      "상트페테르부르크 건설에 강제 노동과 높은 희생이 있었지만 사망자 수는 후대 추정이 크게 갈린다. 근거가 약한 숫자를 독백에 넣지 않는다.",
+      "관등표는 일부 비귀족에게 상승 통로를 열었어도 현대적 평등 제도가 아니었다. 귀족 봉사와 황제 중심 위계를 함께 설명한다.",
+      "나르바 패전 뒤의 정확한 감정이나 개혁 동기를 일기처럼 재현하지 않는다. 확인되는 것은 뒤이은 군사·재정 조치다.",
+      "황태자 알렉세이 사건 기록은 국가의 심문과 재판을 거쳤다. 표트르가 아들의 죽음을 원했는지 같은 내면은 단정하지 않는다.",
+      "서구화는 유럽의 제도를 그대로 복사한 단일 과정이 아니다. 러시아의 기존 제도, 전쟁 필요, 강제 동원이 결합한 선택으로 다룬다.",
+      "강압과 희생에 관한 외부 평가를 표트르가 스스로 인정한 반성문으로 바꾸지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "batch": "2026-07-29-researched-gap-12",
+  "targets": [
+    {
+      "id": "522a5a2e-5b3e-4cd0-a073-e1c407cbe343",
+      "slug": "mickey-rourke",
+      "nickname": "미키 루크",
+      "nicknameEn": "Mickey Rourke",
+      "birthDate": "1952-09-01",
+      "profession": "actor",
+      "quote": "바닥을 쳐봐야 진짜 자신을 알게 된다.",
+      "quoteEn": "You only know your true self when you've hit rock bottom.",
+      "greetingKo": [
+        "[rugged, honest] 정상에서 추락해봐야 바닥의 가치를 알게 돼요.",
+        "[warm, rough] 레슬러가 가르쳐준 건 넘어진 후 다시 일어서는 법이었어요.",
+        "[calm, tender] 거친 남자도 강아지 앞에선 무너져요."
+      ],
+      "greetingEn": [
+        "[rugged, honest] You have to fall from the top to understand the value of the bottom.",
+        "[warm, rough] The Wrestler taught me how to get back up after being knocked down.",
+        "[calm, tender] Even a rough man melts in front of a little dog."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "미키 루크야. 한 번 닫힌 문이 얼마나 무거운지 알고 왔어.",
+          "연기는 숨기는 일이 아니야. 제일 보기 싫은 수치까지 카메라 앞에 내놓는 거지.",
+          "링에서 배운 건 허세가 아니야. 맞고도 제 발로 코너까지 돌아오는 법이지."
+        ],
+        "deploy": [
+          "글러브를 꼈든 카메라가 돌든, 준비 안 된 몸은 바로 들켜. 제대로 들어가자.",
+          "이번 기회가 마지막이라고 생각해. 그러면 대충 할 핑계가 사라지지.",
+          "상대보다 먼저 내 자만심부터 눕혀야 해. 안 그러면 또 같은 돌에 걸려."
+        ],
+        "battle_win": [
+          "한 방으로 끝난 게 아니야. 훈련하고 끝까지 버틴 시간이 이긴 거지.",
+          "박수는 잠깐이야. 내일도 프로답게 나타나는 게 진짜 복귀지.",
+          "이번엔 문을 발로 차지 않았어. 열린 문을 지킬 만큼 해냈지."
+        ],
+        "battle_draw": [
+          "판정은 비겼지만 준비에서는 졌어. 몸은 거짓말을 안 하거든.",
+          "장면은 살아남았고 내 허세도 살아남았군. 다시 찍자.",
+          "버티기만 했지 상대를 읽진 못했어. 다음 라운드엔 눈부터 써야 해."
+        ],
+        "battle_lose": [
+          "이건 운이 아니라 내 준비와 태도가 만든 패배야. 핑계는 없어.",
+          "같은 돌에 두 번 걸렸군. 다음 기회가 또 온다는 보장은 없지.",
+          "맞고 쓰러진 건 견딜 수 있어. 사람들의 신뢰를 잃은 건 내가 만든 상처야."
+        ],
+        "clash_attack": [
+          "턱을 들었군. 허세가 먼저 보이면 오른손은 이미 늦어.",
+          "넌 상처를 장식으로 쓰는군. 난 그 대가를 보여주지.",
+          "문이 닫히는 소릴 들어본 적 없지? 오늘은 똑똑히 듣게 될 거야."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm Mickey Rourke. I know how heavy a door feels once it has shut.",
+          "Acting isn't hiding. You put the shame you hate most in front of the camera.",
+          "The ring didn't teach me swagger. It taught me to take the shot and walk back to my own corner."
+        ],
+        "deploy": [
+          "Gloves on or camera rolling, an unprepared body gets exposed. Let's do this right.",
+          "Treat this chance like the last one. Then there is no excuse to coast.",
+          "I have to put my ego on the canvas before my opponent, or I trip over the same rock again."
+        ],
+        "battle_win": [
+          "One punch didn't finish this. The training and the time we endured won it.",
+          "The applause is brief. Showing up like a professional tomorrow is the real comeback.",
+          "This time I didn't kick the door. I earned enough to keep it open."
+        ],
+        "battle_draw": [
+          "The judges called it even, but I lost the preparation. The body doesn't lie.",
+          "The scene survived, and so did my swagger. Let's shoot it again.",
+          "I endured, but I didn't read the other man. Next round, I use my eyes first."
+        ],
+        "battle_lose": [
+          "This wasn't luck. My preparation and my attitude made this loss. No excuses.",
+          "I tripped over the same rock twice. There is no promise of another chance.",
+          "I can take being knocked down. Losing people's trust is the wound I made."
+        ],
+        "clash_attack": [
+          "Your chin is up. When the swagger shows first, the right hand is already late.",
+          "You wear scars like decoration. I will show you what they cost.",
+          "You've never heard a door slam shut, have you? Today you will."
+        ]
+      },
+      "sources": [
+        "https://abcnews.go.com/Entertainment/Movies/story?id=6506937&page=1",
+        "https://www.theguardian.com/film/2008/nov/23/mickey-rourke-interview",
+        "https://www.esquire.com/entertainment/movies/interviews/a2598/esq0504-may-rourke/",
+        "https://www.cbsnews.com/news/rourke-says-he-paid-price-for-mistakes/"
+      ]
+    },
+    {
+      "id": "796434ba-6750-46e3-82b7-99721d3f2d75",
+      "slug": "michael-schumacher",
+      "nickname": "미하엘 슈마허",
+      "nicknameEn": "Michael Schumacher",
+      "birthDate": "1969-01-03",
+      "profession": "athlete",
+      "quote": "기록은 깨지기 위해 존재합니다.",
+      "quoteEn": "Records exist to be broken.",
+      "greetingKo": [
+        "[bold, assured] 기록은 깨지기 위해 존재합니다.",
+        "[bold, devoted] 제 심장 한 조각은 영원히 붉게 남습니다.",
+        "[bold, resolute] 단 한 줌의 가능성만 보여도 절대 포기하지 않습니다."
+      ],
+      "greetingEn": [
+        "[bold, assured] Records exist to be broken.",
+        "[bold, devoted] A part of my heart will always be red.",
+        "[bold, resolute] If there is even the slightest chance, I never give up."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "미하엘 슈마허입니다. 기록보다 먼저 다음 개선점을 찾겠습니다.",
+          "재능만으로는 부족합니다. 차를 이해하고 팀 전체를 한계까지 끌어올려야 합니다.",
+          "나는 선두만 보지 않습니다. 모든 드라이버에게서 배울 한 가지를 찾습니다."
+        ],
+        "deploy": [
+          "노면과 타이어가 답을 바꾸고 있습니다. 한 랩씩 읽어가죠.",
+          "가능성이 계산에 남아 있는 한 싸움도 끝난 게 아닙니다.",
+          "차가 빠른 것만으론 부족합니다. 엔지니어가 쓸 수 있는 피드백을 남기죠."
+        ],
+        "battle_win": [
+          "완벽한 랩은 없습니다. 오늘의 승리에서도 잃은 십분의 일을 찾겠습니다.",
+          "이 결과는 피트월과 공장까지 함께 만든 겁니다. 드라이버 혼자의 승리가 아닙니다.",
+          "압박 속에서도 다음 코너만 봤습니다. 기록은 그 뒤에 따라왔군요."
+        ],
+        "battle_draw": [
+          "속도는 있었지만 균형을 끝까지 맞추지 못했습니다. 셋업부터 다시 보죠.",
+          "같은 지점에서 멈췄군요. 데이터는 어디서 시간을 잃었는지 말해줄 겁니다.",
+          "포인트는 나눴지만 배울 것은 분명합니다. 다음 단계가 보이는 무승부군요."
+        ],
+        "battle_lose": [
+          "오늘은 내가 충분하지 않았습니다. 의심을 핑계가 아니라 개선점으로 바꾸죠.",
+          "이기려는 마음이 판단을 앞질렀습니다. 선을 넘으면 기록도 변명이 되지 못합니다.",
+          "차와 타이어를 끝까지 이해하지 못했습니다. 패배를 데이터보다 먼저 감추진 않겠습니다."
+        ],
+        "clash_attack": [
+          "한 번의 빠른 랩으로는 부족합니다. 나는 레이스 전체의 한계를 밀어붙입니다.",
+          "당신은 내 기록을 보고 있군요. 나는 당신의 브레이킹 포인트를 보고 있습니다.",
+          "자신감만으로 코너는 돌지 않습니다. 다음 십분의 일 초부터 가져가죠."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Michael Schumacher. I look for the next improvement before I look at the record.",
+          "Talent is not enough. You must understand the car and push the whole team to its limit.",
+          "I don't study only the leaders. I look for one thing to learn from every driver."
+        ],
+        "deploy": [
+          "The track and tyres keep changing the answer. We read it one lap at a time.",
+          "As long as the numbers leave a chance, this fight is not over.",
+          "A fast car isn't enough. Give the engineers feedback they can use."
+        ],
+        "battle_win": [
+          "No lap is perfect. I will find the tenth we lost even in today's victory.",
+          "This result was built on the pit wall and back at the factory. It is not the driver's alone.",
+          "Under pressure, I watched only the next corner. The record followed."
+        ],
+        "battle_draw": [
+          "We had speed but never held the balance. We start again with the setup.",
+          "We stopped at the same point. The data will show where we lost the time.",
+          "We split the points, but the lesson is clear. A draw that shows the next step is useful."
+        ],
+        "battle_lose": [
+          "I was not good enough today. I turn doubt into an improvement, not an excuse.",
+          "The will to win outran my judgment. Once you cross the line, records are no defense.",
+          "I never fully understood the car and tyres. I will not hide the loss before reading the data."
+        ],
+        "clash_attack": [
+          "One fast lap is not enough. I push the limit across the whole race.",
+          "You are watching my records. I am watching your braking point.",
+          "Confidence alone will not carry a corner. I take the next tenth first."
+        ]
+      },
+      "sources": [
+        "https://www.formula1.com/en/latest/article/schumacher-on-his-most-emotional-title-win-his-most-respected-f1-rival-and.77OkI9AF7GCiSieao0ueyY",
+        "https://api.fia.com/news/f1-lhamilton-its-special-day",
+        "https://www.autosport.com/f1/news/q-a-with-michael-schumacher-4402862/4402862/",
+        "https://www.autosport.com/f1/news/discipline-is-key-to-success-says-schumacher-5057816/5057816/",
+        "https://www.formula1.com/en/information/drivers-hall-of-fame-michael-schumacher.7KdX5nJlTG55vR5JQSbZ21",
+        "https://www.michael-schumacher.de/en"
+      ]
+    }
+  ]
+}

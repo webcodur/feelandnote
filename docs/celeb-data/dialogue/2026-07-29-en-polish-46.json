@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-46",
+  "targets": [
+    {
+      "id": "5768b34d-10c7-4dda-acfe-adcfd4bb8912",
+      "slug": "mustafa-kemal-ataturk",
+      "nickname": "무스타파 케말 아타튀르크",
+      "birthDate": "1881",
+      "profession": "commander",
+      "expectedEn": {
+        "roll_call": [
+          "I answer the call. Put the objective, forces, supply, and command authority on one page first.",
+          "A decision must rest on the nation's will and the Assembly's authority, not on one man's momentum.",
+          "Military independence is not enough. Bring me a plan for independence in finance, law, and education."
+        ],
+        "deploy": [
+          "If one line breaks, do not retreat as a whole. Continue the defense wherever a unit can hold.",
+          "Before announcing the date of attack, fill the ammunition stocks and transport. An order gains force only after preparation.",
+          "The border won in battle is secured at the negotiating table. Do not treat diplomacy and the army as separate fronts."
+        ],
+        "battle_win": [
+          "Do not stop at recovering territory. Turn wartime command into a state governed by law and the Assembly.",
+          "A victorious army should not go looking for the next war. Secure the country and make peace an institution.",
+          "Now organize the schools, alphabet, and law. Independence won in battle must continue in daily life."
+        ],
+        "battle_draw": [
+          "If the front has stalled, inspect supply and communications first. Connection matters before headcount.",
+          "Rejecting every term is not independence, and neither is accepting them all. Separate what must be defended from what can be exchanged.",
+          "If reform exists only in the statute book and has not reached the classroom or administration, it is only half done."
+        ],
+        "battle_lose": [
+          "Do not blame the soldiers' courage for a retreat. Investigate where command and supply broke first.",
+          "We tried an opposition party and did not sustain it. When institutions depend on one person's direction, pluralism ends as an experiment.",
+          "A swift order does not make society change at the same speed. The resistance left by coercion remains a problem for the state."
+        ],
+        "clash_attack": [
+          "Pressing one point will not break this country. The defense rises again wherever a unit can hold.",
+          "Even if an army wins sovereignty, the army does not own it. Final authority belongs to the nation and its Assembly.",
+          "I will not wage war to demand more territory. I will not accept a demand to bargain away independence either."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Show me the objective, forces, supply, and command first.",
+          "No nation moves on one man's momentum. Start with the Assembly.",
+          "Military victory is incomplete. Finance, law, and schools must stand free."
+        ],
+        "deploy": [
+          "One line breaks? Hold everywhere else.",
+          "Count ammunition and trucks before ordering the attack.",
+          "Move the army and diplomats together. Borders need both."
+        ],
+        "battle_win": [
+          "We retook the land. Now law and the Assembly must command.",
+          "Victory must end the war, not begin another.",
+          "Reform the schools, alphabet, and law. Bring independence into daily life."
+        ],
+        "battle_draw": [
+          "The front stopped. Check supply and communications before headcount.",
+          "Rejecting everything is not independence. Know what can be traded.",
+          "Reform that never reaches schools or offices is only half done."
+        ],
+        "battle_lose": [
+          "Do not blame retreat on soldiers. Find the broken command and supply.",
+          "We failed to sustain an opposition. Institutions cannot depend on one man.",
+          "Orders move faster than society. The state must answer for the backlash."
+        ],
+        "clash_attack": [
+          "Break one line. The nation still stands!",
+          "The army wins sovereignty. The nation owns it!",
+          "No more territory. No bargaining away independence!"
+        ]
+      }
+    },
+    {
+      "id": "7873a3b1-ca56-47e3-8bb6-bf61ae9731af",
+      "slug": "david-ben-gurion",
+      "nickname": "다비드 벤구리온",
+      "birthDate": "1886-10-16",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "I answer the call, but first confirm the provisional government's authority and chain of command. A state does not function by declaration alone.",
+          "I will combine the militias into a regular army and unify supply and training. Separate armed groups cannot each fight their own war.",
+          "Put immigrant housing, food, and work beside the war plan. A surviving army alone is not a state."
+        ],
+        "deploy": [
+          "We face regular armies from neighboring states, not only irregular forces. Change organization and procurement before counting men.",
+          "Every weapon must be under the command of an army for which the government is responsible. Political movements will not keep separate forces.",
+          "Do not send men alone to the front. Bind communications, transport, ammunition, and reserves into one system."
+        ],
+        "battle_win": [
+          "Even after declaring independence, state building has only begun if the constitution, elections, and administration are not in place.",
+          "Victory in war cannot house or feed a new immigrant. Absorption and the economy are the next mission.",
+          "The force that unified the army does not belong to the victor. It must remain under law and government control."
+        ],
+        "battle_draw": [
+          "Peace and security still leave the refugee question. Face it.",
+          "An armistice line is not a border.",
+          "We missed the constitutional deadline. Failure to agree is an institutional failure."
+        ],
+        "battle_lose": [
+          "At Altalena, the state kept control of arms, but people on both sides died. Lawful authority does not erase that cost.",
+          "When responsibility for an intelligence operation is blurred, government and party split with it. The Lavon Affair was a failure of accountability as much as command.",
+          "We advanced through Sinai and then withdrew under international pressure. Military achievement and a sustainable political result are not the same."
+        ],
+        "clash_attack": [
+          "I will not recognize an army that takes orders outside this government. Armed force must be one under the law of the state.",
+          "Survival cannot be used to postpone the promises of equality and law. The declaration binds the state even in wartime.",
+          "I will not underestimate the other side's strength. Nor will I abandon either a peace offer or defensive preparation for the sake of the other."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Confirm the provisional government's authority first. Declarations alone build nothing.",
+          "One regular army, one supply chain, one training system.",
+          "Put immigrant homes, food, and work inside the war plan."
+        ],
+        "deploy": [
+          "These are regular armies. Fix organization and procurement first.",
+          "One government, one army. No party keeps private weapons.",
+          "Send communications, transport, ammunition, and reserves with the troops."
+        ],
+        "battle_win": [
+          "We declared independence. Constitution, elections, and administration come next.",
+          "A victory cannot house newcomers. Build homes and the economy now.",
+          "The army belongs under law and government, never to the victor."
+        ],
+        "battle_draw": [
+          "Peace and security still leave the refugee question. Face it.",
+          "An armistice line is not a border.",
+          "We missed the constitutional deadline. Failing to agree was an institutional failure too."
+        ],
+        "battle_lose": [
+          "Altalena secured one command, but Israelis died. That cost remains.",
+          "The Lavon Affair blurred command and accountability. Government and party both split.",
+          "We advanced in Sinai and withdrew. Military and political results differed."
+        ],
+        "clash_attack": [
+          "No armed force answers outside this government!",
+          "Survival does not suspend equality or law!",
+          "Keep the peace offer and the defenses!"
+        ]
+      }
+    }
+  ]
+}

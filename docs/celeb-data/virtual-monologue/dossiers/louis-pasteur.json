@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "slug": "louis-pasteur",
+  "nickname": "루이 파스퇴르",
+  "route": "improve",
+  "routeReason": "현재 글은 결정 비대칭에서 발효·누에병·백신으로 이어지는 '보이지 않는 차이를 추적한다'는 축이 선명하고 어려운 과학도 구체적으로 푼다. 그러나 자연발생설 논쟁과 세균 이론의 선행 연구, 탄저 백신의 방법 논쟁, 광견병 연구에서 루·샹베를랑·튀이에·그랑셰의 역할과 첫 인체 투여의 불확실성을 파스퇴르의 단독 결단으로 좁힌다. 구조는 살리되 공로·책임·윤리와 기록으로 복원할 수 없는 감정을 분리해 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "루이 파스퇴르",
+      "birth": "1822-12-27",
+      "death": "1895-09-28",
+      "profession": "scientist",
+      "disambiguation": "결정 비대칭, 발효와 미생물, 누에병, 저온 살균, 탄저병·광견병 백신 연구를 이끈 프랑스 화학자",
+      "existingBioForDiscoveryOnly": "프랑스 화학자이자 미생물학자. 저온살균법을 개발하고 광견병 백신을 발명하여 근대 의학 발전에 기여했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+        "title": "History of the Institut Pasteur",
+        "publisher": "Institut Pasteur",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "분자 비대칭 연구에서 발효와 미생물 연구로 이동한 생애",
+          "자연발생설 실험, 저온 살균, 누에병, 백신 연구",
+          "광견병 예방 접종과 파스퇴르 연구소 설립"
+        ]
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+        "title": "Louis Pasteur and the development of the attenuated vaccine",
+        "publisher": "Human Vaccines & Immunotherapeutics",
+        "kind": "scholarly",
+        "publishedAt": "2012-03-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "닭 콜레라·탄저병·광견병 백신 연구의 흐름",
+          "공개 발표와 실험 노트 사이의 차이",
+          "조제프 메스테르 접종 과정과 파스퇴르가 기록한 심한 불안",
+          "약독화 방법과 실험 동물 사용"
+        ]
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+        "title": "Louis Pasteur and Rabies: a brief note on the history of a myth",
+        "publisher": "Journal of Neurology",
+        "kind": "scholarly",
+        "publishedAt": "2022-04-16",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "에밀 루가 광견병에 감염된 척수를 말리는 방법을 개발한 역할",
+          "메스테르 이전의 지라르와 푸공 치료 사례",
+          "실험 노트로 확인되는 제한된 자료와 공개 서사의 차이",
+          "사형수에게 시험하자는 파스퇴르의 제안과 인체 시험 윤리"
+        ]
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/",
+        "title": "Louis Pasteur, the Brazilian Emperor, and the ethics of human experimentation",
+        "publisher": "História, Ciências, Saúde-Manguinhos",
+        "kind": "scholarly",
+        "publishedAt": "2021-06-28",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "루·샹베를랑·튀이에와 의사 뷜피앙·그랑셰의 역할",
+          "수의사 피에르 갈티에 등 광견병 연구의 선행 공로",
+          "파스퇴르가 의사가 아니어서 그랑셰가 접종한 사실",
+          "브라질 황제에게 사형수 실험을 제안한 편지와 당시 연구 윤리"
+        ]
+      },
+      {
+        "url": "https://www.niehs.nih.gov/research/resources/bioethics/timeline",
+        "title": "Research Ethics Timeline",
+        "publisher": "National Institute of Environmental Health Sciences",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1885년 조제프 메스테르에게 시행한 광견병 예방 접종",
+          "백신이 개에게 시험됐지만 사람에게는 시험되지 않았던 상태",
+          "의사가 아닌 파스퇴르가 처벌 위험을 안고 있던 인체 적용의 윤리 맥락"
+        ]
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/",
+        "title": "History of virology",
+        "publisher": "Encyclopedia of Virology",
+        "kind": "scholarly",
+        "publishedAt": "2008-07-30",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "광견병 연구가 파스퇴르, 샹베를랑, 루, 튀이에의 공동 작업이었던 사실",
+          "병원체를 볼 수 없던 시기의 연속 계대와 척수 건조법",
+          "바이러스학 형성에서 파스퇴르 연구의 위치"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "젊은 화학자 파스퇴르는 같은 성분을 지닌 주석산 결정이 빛을 다르게 돌리는 모양의 비대칭을 분리해 냈다.",
+        "significance": "눈에 잘 보이지 않는 작은 차이가 큰 성질 차이를 만든다는 관찰 습관이 이후 발효와 감염 연구로 이어지는 출발점이다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "point": "발효와 포도주 변질을 연구하며 특정 미생물의 활동을 연결하고, 가열로 변질을 줄이는 방법을 제시했다.",
+        "significance": "순수 화학의 문제를 농업·산업·생명의 문제로 옮긴 전환이며 저온 살균을 우유에만 한정하는 후대의 오해를 피하게 한다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "point": "누에병 조사와 닭 콜레라·탄저병 실험을 거치며 병원체를 식별하고 약하게 만든 병원체로 예방하는 연구를 밀어붙였다.",
+        "significance": "세균 이론과 백신을 한 번에 혼자 발명한 서사 대신 농업 위기, 선행 연구, 실험실 동료가 쌓은 연속적 작업을 보여 준다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+        ]
+      },
+      {
+        "point": "1885년 광견병에 노출된 조제프 메스테르에게 아직 사람에게 시험되지 않은 예방 처치를 의사 그랑셰가 시행했다.",
+        "significance": "성과의 극적 결말뿐 아니라 집단 연구, 진단의 불확실성, 비의사의 개입, 아동 대상 인체 적용이라는 책임을 함께 둔다.",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/",
+          "https://www.niehs.nih.gov/research/resources/bioethics/timeline"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "발효와 부패는 막연한 화학 변화가 아니라 특정한 살아 있는 미생물의 활동과 연결해 실험해야 한다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "point": "미생물이나 조직을 약화시켜 병을 일으키는 힘은 낮추고 몸이 방어를 준비하게 하는 예방 처치를 만들 수 있다.",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+        ]
+      },
+      {
+        "point": "실험실의 발견은 포도주, 누에, 가축, 사람의 생명을 지키는 실제 문제로 이어져야 한다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "파스퇴르의 발효·세균·백신 연구는 결정적이었지만 카냐르드라투르, 슈반, 바시, 세멜바이스, 스노, 리스터, 코흐, 갈티에 등 선행·병행 연구를 지우고 혼자 세균 이론을 완성했다고 쓸 수 없다.",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/"
+        ]
+      },
+      {
+        "point": "탄저병과 광견병 백신의 공개 영웅 서사는 실험 노트의 방법 차이와 루·샹베를랑·튀이에 등 동료들의 구체적 공헌을 충분히 드러내지 않았다.",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+        ]
+      },
+      {
+        "point": "메스테르 접종은 광견병 예방의 역사적 전환이면서 사람에게 충분히 시험되지 않은 처치를 아동에게 시행한 위험한 결정이었고, 사형수 실험 제안은 오늘의 연구 윤리에서 비판해야 한다.",
+        "sourceUrls": [
+          "https://www.niehs.nih.gov/research/resources/bioethics/timeline",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "관찰 대상과 실험 조작을 짧게 제시한 뒤, 결과와 다음 질문을 한두 문장으로 이어 가는 혼합형 문장을 쓴다.",
+      "directness": "논쟁에서는 단정적이고 실험 절차에서는 구체적이다. 다만 성공을 확신한 영웅처럼 말하지 않고 기록된 불안과 방법의 불확실성을 분리한다.",
+      "moves": [
+        "결정의 모양, 목이 긴 플라스크, 발효액, 말린 척수처럼 손에 잡히는 물체에서 문제를 시작하기",
+        "자기 발견을 말한 직후 선행 연구자와 루·샹베를랑·튀이에·그랑셰의 역할을 붙이기",
+        "생명을 구한 결과와 실험 동물·인체 적용의 위험을 같은 문단 안에서 대조하기"
+      ],
+      "avoid": [
+        "모든 질병이 미생물 때문에 생긴다고 파스퇴르가 증명했다는 포괄적 단정",
+        "자연발생설을 단 한 번의 백조목 플라스크 실험으로 영원히 끝냈다는 서사",
+        "탄저병·광견병 백신을 혼자 만들고 직접 주사했다는 묘사",
+        "메스테르가 확실히 죽을 운명이었거나 접종 순간 파스퇴르가 느낀 공포·안도·기도를 자료 없이 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "분자 비대칭",
+        "guide": "성분은 같아도 거울에 비친 것처럼 배열 방향이 달라 성질이 달라지는 현상",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "term": "발효",
+        "guide": "효모 같은 미생물이 당을 분해해 알코올이나 산 같은 물질을 만드는 과정",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "term": "저온 살균",
+        "guide": "맛과 성질의 손상을 줄이면서 해로운 미생물을 감소시키도록 일정 온도로 가열하는 방법",
+        "sourceUrls": [
+          "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+        ]
+      },
+      {
+        "term": "약독화",
+        "guide": "병원체가 병을 일으키는 힘을 약하게 만들어 면역 반응을 유도하는 것",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+        ]
+      },
+      {
+        "term": "계대",
+        "guide": "병원체가 든 조직이나 배양물을 다른 동물이나 배지로 차례로 옮겨 증식시키는 절차",
+        "sourceUrls": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "파스퇴르 연구소의 공식 역사는 중요한 기관 자료이지만 창립자 중심의 기념 서사이므로 실험 노트와 독립적인 과학사·윤리 연구로 공로와 책임을 교차 검증한다.",
+      "자연발생설과 세균 이론은 여러 연구자와 논쟁을 거쳐 형성됐으므로 백조목 플라스크 한 장면이 모든 반론을 단번에 끝냈다고 쓰지 않는다.",
+      "탄저병 백신의 약독화 방법은 공개 설명과 실험 노트 사이에 논쟁이 있으며 앙리 투생의 선행 공로도 있어 파스퇴르 단독 발명으로 단정하지 않는다.",
+      "광견병 연구에서 에밀 루의 척수 건조법, 샹베를랑·튀이에의 실험, 그랑셰의 접종을 분리하며 메스테르를 확실한 최초 환자나 확실한 사망 예정자로 쓰지 않는다.",
+      "파스퇴르가 남긴 불안의 기록은 사용할 수 있지만 기다리는 밤의 표정, 기도, 안도 같은 세부 내면은 복원하지 않는다.",
+      "사형수 대상 시험 제안과 아동 인체 적용은 당시 관행이라는 말로 면책하지 않고, 현대 연구 윤리 기준과 당시의 법적·의료적 불확실성을 함께 밝힌다."
+    ]
+  }
+}

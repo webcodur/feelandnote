@@ -1,0 +1,218 @@
+{
+  "batch": "2026-07-29-en-polish-35",
+  "targets": [
+    {
+      "id": "1522c277-b2c3-4b67-b279-f103e943ef35",
+      "slug": "bao-zheng",
+      "nickname": "포청천",
+      "birthDate": "0999-04-11",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "Bao Zheng has arrived. I will keep my mind clear and follow the upright path.",
+          "I will refuse private influence and receive the people's petitions through the front gate.",
+          "I will take not even a single inkstone for myself."
+        ],
+        "deploy": [
+          "Open the front gate. Let the people come forward and state what is right and wrong.",
+          "Tear down the estates blocking the waterway. Stop the flooding first.",
+          "End the unlawful levies imposed on the people and return the land taken from them."
+        ],
+        "battle_win": [
+          "The powerful have drawn back their hands. They can no longer bend the law to private ends.",
+          "The petitions reached the open court, and the clerks can no longer deceive the people.",
+          "Only the inkstones required as tribute were collected. I return carrying not one."
+        ],
+        "battle_draw": [
+          "The gate stands open, but we have not yet brought every grievance to light.",
+          "We reduced the unjust levies, but the burdens borne by the people remain.",
+          "We removed one corrupt official, but we have not yet made the greedy fear the law."
+        ],
+        "battle_lose": [
+          "I failed to put matters right, and the people bear an unjust burden again.",
+          "The powerful obscured the law. Next time I will cut off private influence at the start.",
+          "Even one of my own descendants may not return to my house after taking illicit wealth."
+        ],
+        "clash_attack": [
+          "Open the front gate. I will hear right and wrong directly.",
+          "Remove those who prey on the people through corruption.",
+          "Withdraw your private request. I will not leave the upright path."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I will keep my mind clear and walk the upright path.",
+          "I refuse private influence. Bring the people's petitions through the front gate.",
+          "I will take not even a single inkstone for myself."
+        ],
+        "deploy": [
+          "Open the front gate. Let the people state right and wrong themselves.",
+          "Tear down the estates blocking the waterway. Stop the flood first.",
+          "End the unlawful levies. Return the stolen land to the people."
+        ],
+        "battle_win": [
+          "The powerful withdrew their hands. They can no longer bend the law.",
+          "Petitions reached the front gate. Clerks can no longer deceive the people.",
+          "I collected only the required inkstones and kept not one for myself."
+        ],
+        "battle_draw": [
+          "The gate stands open, but every grievance is not yet known.",
+          "We reduced the unjust levies, but the people's burdens remain.",
+          "One corrupt official is gone, but the greedy still do not fear the law."
+        ],
+        "battle_lose": [
+          "I failed to set matters right. The people bear an unjust burden again.",
+          "The powerful hid the law. Next time, I will cut off influence first.",
+          "Even my own kin may not return home after taking illicit wealth."
+        ],
+        "clash_attack": [
+          "Open the front gate. I will hear the truth!",
+          "Remove those who prey upon the people!",
+          "Withdraw your private request. I will not leave the upright path!"
+        ]
+      }
+    },
+    {
+      "id": "23e9dd94-38e3-449e-bf4e-089a3b949536",
+      "slug": "ji-kang",
+      "nickname": "혜강",
+      "birthDate": "223",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "roll_call": [
+          "Ji Kang has arrived. I take Laozi and Zhuangzi as my teachers, and I will hold to my convictions.",
+          "A cup of unstrained wine and one tune on the qin are enough to fulfill my wish.",
+          "Sound is only sound. Sorrow and joy arise in the listener's mind."
+        ],
+        "deploy": [
+          "Follow the place where each of you is at ease. Do not force anyone's nature out of shape.",
+          "Settle the mind and preserve the body. Care for the inner and the outer together.",
+          "Do not impose emotion upon the notes. First examine the listener's mind."
+        ],
+        "battle_win": [
+          "We did not bend our nature by force. Each of us held to our purpose.",
+          "We distinguished sound from emotion. Names and realities are no longer confused.",
+          "We calmed the mind and preserved the body. Inner and outer have recovered together."
+        ],
+        "battle_draw": [
+          "The sounds are in harmony, but the listeners' minds have not become the same.",
+          "I avoided office, but I did not escape the entanglements of the world.",
+          "The body endured, but the mind is not at peace. I will tend to both again."
+        ],
+        "battle_lose": [
+          "My unyielding nature hates evil. When the matter arose, I could not hold back my words.",
+          "Events went against my wishes, and I was bound in prison. I am ashamed even to plead my grievance.",
+          "Though I refused the road to office, I did not escape the edge of power's blade."
+        ],
+        "clash_attack": [
+          "What did you hear that brought you here? What did you see that makes you leave?",
+          "My unyielding nature hates evil. I will say what must be said.",
+          "Do not fasten sorrow and joy onto sound. They belong to the listener's mind."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Laozi and Zhuangzi are my teachers. I will hold to my nature.",
+          "A cup of unstrained wine and one qin tune are enough.",
+          "Sound is only sound. Sorrow and joy arise in the listener's mind."
+        ],
+        "deploy": [
+          "Follow what puts you at ease. Do not warp your natural bent.",
+          "Settle the mind and preserve the body. Tend inner and outer together.",
+          "Do not impose emotion on notes. Examine the listener's mind."
+        ],
+        "battle_win": [
+          "We did not force our natures. Each held to their purpose.",
+          "We distinguished sound from emotion. Names and realities no longer blur.",
+          "We settled the mind and preserved the body. Inner and outer recovered."
+        ],
+        "battle_draw": [
+          "The notes harmonize; the listeners' hearts need not be the same.",
+          "I avoided office, but not the world's entanglements.",
+          "The body endured, but the mind knows no ease. I will tend both."
+        ],
+        "battle_lose": [
+          "My unyielding nature hates evil. I could not swallow my words.",
+          "Events defied my wishes, and prison holds me. Even pleading my grievance shames me.",
+          "I refused the road to office, yet power's blade still found me."
+        ],
+        "clash_attack": [
+          "What did you hear? What did you see before leaving?",
+          "I hate evil. I will say what must be said!",
+          "Do not fasten sorrow and joy onto sound!"
+        ]
+      }
+    },
+    {
+      "id": "5c5aa4d1-2c39-46bd-8dce-114c2956063e",
+      "slug": "hu-shih",
+      "nickname": "호적",
+      "birthDate": "1891-12-17",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "roll_call": [
+          "I am Hu Shih. I will define the problem first and seek the answer in facts.",
+          "I will make a living literature from living speech.",
+          "I will treat doubt as a virtue and criticism as a right."
+        ],
+        "deploy": [
+          "Investigate the problem at hand before reciting slogans.",
+          "Frame your hypothesis boldly, but test and try to disprove it with even greater care.",
+          "Set dead language aside and write in the living tongue."
+        ],
+        "battle_win": [
+          "The hypothesis has survived the evidence; only now can it stand.",
+          "Solving one concrete problem pleases me more than proclaiming one attractive doctrine.",
+          "We have preserved a place where differing views can speak together."
+        ],
+        "battle_draw": [
+          "The evidence is not sufficient, so I will suspend judgment and look for more material.",
+          "We need not agree completely. I will return to the question with a fair mind.",
+          "The problem is clear, but the answer is not. I will test it without haste."
+        ],
+        "battle_lose": [
+          "If the hypothesis is wrong, I will discard it. I will not put pride before evidence.",
+          "When freedom is easiest to lose, we must first preserve the strength to tolerate dissent.",
+          "This claim could not stand. I will withdraw judgment and return to the original question."
+        ],
+        "clash_attack": [
+          "Set slogans aside and investigate the problem before you!",
+          "Test it against facts and evidence!",
+          "Defend the freedom to doubt and the right to criticize!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "First define the problem. Then seek the answer in facts.",
+          "I will make living literature from living speech.",
+          "I will treat doubt as a virtue and criticism as a right."
+        ],
+        "deploy": [
+          "Investigate the problem at hand before reciting slogans.",
+          "Frame hypotheses boldly. Test them and try to disprove them with greater care.",
+          "Set dead language aside and write in the living tongue."
+        ],
+        "battle_win": [
+          "The hypothesis survived the evidence. Now it can stand.",
+          "Solving one problem pleases me more than proclaiming a doctrine.",
+          "We kept a place where different views can speak together."
+        ],
+        "battle_draw": [
+          "The evidence is insufficient. I suspend judgment and seek more material.",
+          "We need not agree completely. I will return with a fair mind.",
+          "The problem is clear; the answer is not. Test without haste."
+        ],
+        "battle_lose": [
+          "If the hypothesis is wrong, discard it. Evidence comes before pride.",
+          "When freedom is fragile, first preserve the strength to tolerate dissent.",
+          "The claim failed. I withdraw judgment and return to the problem."
+        ],
+        "clash_attack": [
+          "Set slogans aside. Investigate the problem before you!",
+          "Test it against facts and evidence!",
+          "Defend the freedom to doubt and the right to criticize!"
+        ]
+      }
+    }
+  ]
+}

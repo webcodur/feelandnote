@@ -1,0 +1,325 @@
+{
+  "batch": "2026-07-30-public-gap-32",
+  "targets": [
+    {
+      "id": "13845e9b-7820-4553-88bd-5ce628d35279",
+      "slug": "malcolm-x",
+      "nickname": "말콤 엑스",
+      "nicknameEn": "Malcolm X",
+      "birthDate": "1925-05-19",
+      "profession": "leader",
+      "quote": "어떤 수단을 써서라도 우리의 권리를 쟁취할 것이다.",
+      "quoteEn": "We will get our rights by any means necessary.",
+      "greetingKo": [
+        "[fierce, defiant] 자유를 원한다면 스스로 쟁취해야 합니다. 아무도 주지 않아요.",
+        "[bold, unyielding] 진실을 말하는 것이 혁명의 시작입니다.",
+        "[passionate, proud] 교육은 미래의 여권입니다. 오늘 준비하는 자의 것입니다."
+      ],
+      "greetingEn": [
+        "[fierce, defiant] If you want freedom, you have to take it yourself. No one gives it to you.",
+        "[bold, unyielding] Speaking the truth is the beginning of revolution.",
+        "[passionate, proud] Education is the passport to the future — it belongs to those who prepare today."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "말콤 엑스입니다. 어느 당이 우리 요구에 답할지 따져보고 표를 던집니다.",
+          "민권 문제를 세계가 심판할 인권 문제로 넓히겠습니다.",
+          "메카에서 본 사실 앞에 제 결론도 다시 고쳤습니다."
+        ],
+        "deploy": [
+          "동네마다 조직해 표가 흩어지지 않게 하라.",
+          "공격받으면 자신을 지키되 먼저 해치지는 마라.",
+          "당의 이름보다 우리 요구에 답할지를 먼저 보라."
+        ],
+        "battle_win": [
+          "우리 목소리를 남이 대신하지 못하게 만들었습니다.",
+          "민권 문제를 인권 문제로 넓혀 국제사회에 제기했습니다.",
+          "새로 본 사실을 인정해 낡은 결론을 고쳤습니다."
+        ],
+        "battle_draw": [
+          "분노는 모았지만 함께 움직일 조직은 못 세웠습니다.",
+          "표는 내밀었으나 두 당의 계산을 바꾸지는 못했습니다.",
+          "메카의 깨달음이 제 앞선 배제를 다 지우진 못했습니다."
+        ],
+        "battle_lose": [
+          "자기방어를 무차별 공격의 허가처럼 들리게 했습니다.",
+          "증거보다 지도자의 말을 앞세워 판단을 늦췄습니다.",
+          "적이라는 이름에 가려 함께할 사람까지 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "표적부터 보라!",
+          "스스로 지켜라!",
+          "사실을 직시해!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Malcolm X. I take civil rights before the world as a human rights issue.",
+          "Neither party gets my ballot without answering our demands.",
+          "Mecca made me revise conclusions the facts no longer sustained."
+        ]
+      },
+      "sources": [
+        "https://ccnmtl.columbia.edu/projects/mmt/mxp/speeches/index.html",
+        "https://www.malcolm-x.org/docs/let_mecca.htm",
+        "https://www.malcolm-x.org/docs/int_almus.htm"
+      ]
+    },
+    {
+      "id": "46eca472-892b-42a6-aa9e-fb49c330e32a",
+      "slug": "bad-bunny",
+      "nickname": "배드 버니",
+      "nicknameEn": "Bad Bunny",
+      "birthDate": "1994-03-10",
+      "profession": "musician",
+      "quote": "식료품 봉투를 싸던 시골 소년도 꿈을 이룰 수 있다",
+      "quoteEn": "A small-town boy who bagged groceries can make his dreams come true.",
+      "greetingKo": [
+        "[playful, defiant] 규칙은 제가 쓰고 제가 부숴요.",
+        "[vibrant, proud] 라틴 트랩의 왕이 왔어요.",
+        "[cool, unapologetic] 제가 원하는 대로 살아요, 그게 전부예요."
+      ],
+      "greetingEn": [
+        "[playful, defiant] I write the rules and I break them.",
+        "[vibrant, proud] The king of Latin trap has arrived.",
+        "[cool, unapologetic] I live the way I want — that's it."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "배드 버니입니다. 푸에르토리코의 말과 리듬으로 노래합니다.",
+          "카메라가 돌기 전에 장면의 세부부터 직접 짭니다.",
+          "클럽의 열기와 섬의 슬픔을 한 음반에 담습니다."
+        ],
+        "deploy": [
+          "스페인어를 중심에 두고 끝까지 밀어.",
+          "베가 바하의 소리부터 비트에 얹어.",
+          "옷과 장면에 붙은 성별의 딱지를 떼어."
+        ],
+        "battle_win": [
+          "푸에르토리코의 축제를 큰 무대 한가운데 옮겼습니다.",
+          "스페인어를 바꾸지 않고도 세계가 따라오게 했습니다.",
+          "다른 가수의 성공까지 제 경쟁심을 키웠습니다."
+        ],
+        "battle_draw": [
+          "분위기는 살렸지만 섬의 사정은 끝까지 못 전했습니다.",
+          "장면은 멋지게 남겼지만 현장의 사람들과 나눌 말은 놓쳤습니다.",
+          "목소리는 컸지만 모르는 문제까지 대신 말했습니다."
+        ],
+        "battle_lose": [
+          "푸에르토리코를 삶이 아닌 멋진 배경처럼 썼습니다.",
+          "경쟁을 순위로만 받아들여 동료의 성취를 못 봤습니다.",
+          "장면을 다 짜느라 뜻밖의 생기를 눌러버렸습니다."
+        ],
+        "clash_attack": [
+          "스페인어로 밀어!",
+          "베가 바하를 울려!",
+          "틀을 벗어!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Bad Bunny. Puerto Rican Spanish stays at the center.",
+          "I storyboard every detail before the camera starts.",
+          "My records can fill a club and still speak about grief and injustice."
+        ]
+      },
+      "sources": [
+        "https://time.com/6266336/bad-bunny-interview-coachella/",
+        "https://www.gq.com/story/bad-bunny-style-history",
+        "https://www.wbur.org/npr/679179404/bad-bunny-en-espa-ol-el-nuevo-disco-y-sus-influencias"
+      ]
+    },
+    {
+      "id": "0c2389bd-ad53-408e-a5ee-910e9f6d7c96",
+      "slug": "virginia-woolf",
+      "nickname": "버지니아 울프",
+      "nicknameEn": "Virginia Woolf",
+      "birthDate": "1882-01-25",
+      "profession": "author",
+      "quote": "여성이 소설을 쓰려면 돈과 자기만의 방이 있어야 한다.",
+      "quoteEn": "A woman must have money and a room of her own if she is to write fiction.",
+      "greetingKo": [
+        "[calm, resolute] 자기만의 방, 그것이 여성에게 필요한 전부입니다.",
+        "[reflective, melancholic] 삶은 단순한 것이 아닙니다. 순간순간이 겹겹이 쌓이는 것입니다.",
+        "[warm, defiant] 글을 쓴다는 것은 고독 속에서 자유를 찾는 일입니다."
+      ],
+      "greetingEn": [
+        "[calm, resolute] A room of one's own — that is all a woman needs.",
+        "[reflective, melancholic] Life is not simple. It is moment upon moment stacked in layers.",
+        "[warm, defiant] To write is to find freedom in solitude."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "버지니아 울프입니다. 방과 수입부터 묻겠습니다.",
+          "여성에게 아첨을 가르친 집 안의 천사를 죽였습니다.",
+          "역사가 적지 않은 평범한 여성의 삶을 기록하겠습니다."
+        ],
+        "deploy": [
+          "문을 닫고 끊기지 않는 시간을 확보해요.",
+          "집 안의 천사를 글에서 몰아내요.",
+          "마음에 닿는 순간을 들어온 순서대로 적어요."
+        ],
+        "battle_win": [
+          "여성이 남을 기쁘게 하지 않고 진실을 썼습니다.",
+          "방과 수입이 생기자 남의 허락 없이 쓸 수 있었습니다.",
+          "이름 없이 사라질 삶을 문학 안에 남겼습니다."
+        ],
+        "battle_draw": [
+          "방은 얻었지만 남성의 문장 리듬은 아직 남았습니다.",
+          "천사는 몰아냈지만 몸에 관한 진실은 주저했습니다.",
+          "의식의 결은 살렸지만 독자가 길을 잃었습니다."
+        ],
+        "battle_lose": [
+          "방을 말하면서 그 방을 돌본 여성은 보지 못했습니다.",
+          "아름다운 문장으로 물질의 벽을 가려버렸습니다.",
+          "순간을 좇다가 인물의 선택과 책임을 흐렸습니다."
+        ],
+        "clash_attack": [
+          "문을 닫고 써요!",
+          "천사를 몰아내요!",
+          "들어온 순서대로 써요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Virginia Woolf. First ask who controls the room and the income.",
+          "I killed the angel who taught women to flatter.",
+          "I record the obscure lives history left unwritten."
+        ]
+      },
+      "sources": [
+        "https://gutenberg.ca/ebooks/woolfv-aroomofonesown/woolfv-aroomofonesown-00-e.html",
+        "https://opentextbc.ca/englishliterature/chapter/professions-for-women/",
+        "https://www.gutenberg.org/files/64457/64457-h/64457-h.htm"
+      ]
+    },
+    {
+      "id": "2ee3a4c0-a6e5-4217-a4f3-46663493e156",
+      "slug": "benito-mussolini",
+      "nickname": "베니토 무솔리니",
+      "nicknameEn": "Benito Mussolini",
+      "birthDate": "1883-07-29",
+      "profession": "politician",
+      "quote": "모든 것은 국가 안에 있고, 국가 밖엔 아무것도 없다.",
+      "quoteEn": "Everything within the state, nothing outside the state, nothing against the state.",
+      "greetingKo": [
+        "[bold, commanding] 행동이 곧 신조다. 말이 아니라 행동이다.",
+        "[fierce, ambitious] 이탈리아에 로마의 영광을 되찾겠다.",
+        "[defiant, authoritative] 파시즘은 행동의 철학이다."
+      ],
+      "greetingEn": [
+        "[bold, commanding] Action is the creed. Action, not words.",
+        "[fierce, ambitious] I will restore the glory of Rome to Italy.",
+        "[defiant, authoritative] Fascism is a philosophy of action."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "베니토 무솔리니입니다. 저는 폭력을 질서라 부르며 권력을 잡았습니다.",
+          "국가를 앞세워 의회와 언론, 시민의 목소리를 눌렀습니다.",
+          "로마의 영광을 약속했지만 독재와 인종법, 전쟁만 남겼습니다."
+        ],
+        "deploy": [
+          "의회를 비우고 명령만 남겨라.",
+          "신문을 막고 반대자의 입을 닫아라.",
+          "로마를 외쳐 침략을 영광으로 꾸며라."
+        ],
+        "battle_win": [
+          "반대자가 사라지자 저는 침묵을 동의라 불렀습니다.",
+          "검은셔츠단의 폭력을 저는 질서라 불렀습니다.",
+          "에티오피아를 짓밟고도 저는 제국을 세웠다 외쳤습니다."
+        ],
+        "battle_draw": [
+          "군중은 환호했지만 군대는 구호를 못 따랐습니다.",
+          "히틀러와 손잡은 뒤 저는 주도권을 잃어갔습니다.",
+          "왕과 당을 남겨둔 채 전권을 잡았다고 믿었습니다."
+        ],
+        "battle_lose": [
+          "인종법으로 국민을 갈라 제 국가를 스스로 망쳤습니다.",
+          "전쟁에 뛰어들어 병사와 민간인을 파국으로 몰았습니다.",
+          "로마를 약속하고 나라를 점령군 앞에 내줬습니다."
+        ],
+        "clash_attack": [
+          "침묵도 동의다!",
+          "폭력이 곧 질서다!",
+          "제국을 외쳐라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Benito Mussolini. I called organized violence order and silence consent.",
+          "I erased the citizen inside my total state.",
+          "I promised Rome and delivered dictatorship, racial laws, and ruin."
+        ]
+      },
+      "sources": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/j.1467-923X.1933.tb02289.x",
+        "https://encyclopedia.ushmm.org/content/it/article/italy",
+        "https://museovirtualematteotti.it/en/the-rooms/1923-1924-lo-scontro-frontale/"
+      ]
+    },
+    {
+      "id": "4e91e6bc-d76a-47ba-bcfa-35b6a05785c8",
+      "slug": "ben-horowitz",
+      "nickname": "벤 호로위츠",
+      "nicknameEn": "Ben Horowitz",
+      "birthDate": "1966-06-13",
+      "profession": "investor",
+      "quote": "쉬운 일은 없다. 어려운 일만 있을 뿐이다.",
+      "quoteEn": "There are no easy answers. There are only hard answers.",
+      "greetingKo": [
+        "[raw, honest] 쉬운 날은 없었습니다. 한 번도. CEO의 일상이 그렇습니다.",
+        "[fierce, warm] 전시에는 전시의 CEO가 필요합니다.",
+        "[blunt, wise] 어려운 일을 하세요. 쉬운 일엔 이미 줄이 길어요."
+      ],
+      "greetingEn": [
+        "[raw, honest] There were no easy days. Not once. That's the life of a CEO.",
+        "[fierce, warm] In wartime, you need a wartime CEO.",
+        "[blunt, wise] Do hard things. There's already a long line for the easy ones."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "벤 호로위츠입니다. 고칠 사람에게 나쁜 소식부터 말합니다.",
+          "전시인지 평시인지 판단한 뒤 경영 방식을 바꿉니다.",
+          "현금이 여섯 주 남아도 다음 수를 끝까지 찾습니다."
+        ],
+        "deploy": [
+          "문제를 고칠 사람에게 나쁜 소식부터 말해.",
+          "전시인지 평시인지 먼저 판단해.",
+          "마지막 기회라면 목표 하나만 정해."
+        ],
+        "battle_win": [
+          "회사 전체가 문제를 알자 제품을 함께 고쳤습니다.",
+          "현금 여섯 주를 버티며 다음 투자 길을 찾았습니다.",
+          "상황에 맞춰 합의와 명령의 비중을 바꿨습니다."
+        ],
+        "battle_draw": [
+          "전시 통제가 시간을 벌었지만 반대 의견도 막았습니다.",
+          "희망을 말했지만 나쁜 소식이 늦어 신뢰를 잃었습니다.",
+          "부담을 나눴지만 마지막 결정은 여전히 혼자였습니다."
+        ],
+        "battle_lose": [
+          "분기마다 전쟁을 선포해 조직을 두려움에 묶었습니다.",
+          "나쁜 소식을 숨겨 고칠 사람의 손까지 묶었습니다.",
+          "어려운 일이라는 말로 불필요한 상처까지 정당화했습니다."
+        ],
+        "clash_attack": [
+          "나쁜 소식부터 말해!",
+          "표적 하나만 잡아!",
+          "평시 흉내는 그만!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Ben Horowitz. I tell bad news to whoever can fix it.",
+          "I spent seven years learning what wartime leadership costs.",
+          "With six weeks of cash left, I still look for the next move."
+        ]
+      },
+      "sources": [
+        "https://a16z.com/peacetime-ceo-wartime-ceo/",
+        "https://a16z.com/the-struggle/",
+        "https://a16z.com/ceos-should-tell-it-like-it-is/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "slug": "akio-morita",
+  "nickname": "모리타 아키오",
+  "route": "improve",
+  "routeReason": "현재 글은 이부카 마사루와의 역할 차이, 소형화와 생활 방식의 변화, 세계 시장을 읽는 모리타의 강점을 쉽고 생생하게 살린다. 그러나 트랜지스터와 최초 상용 라디오의 선행 성과, TR-55를 만든 기술진, 워크맨을 제안·개발한 이부카·오가 노리오·오소네 고조의 공로가 모리타의 직감 아래로 수렴한다. 파트너십 중심 구조는 유지하되 기술 발명·제품화·마케팅을 분리하고, 회사 공식사와 자서전이 지닌 창업자 중심 편향까지 드러내도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "모리타 아키오",
+      "birth": "1921-01-26",
+      "death": "1999-10-03",
+      "profession": "entrepreneur",
+      "disambiguation": "이부카 마사루와 도쿄통신공업을 세우고 소니 브랜드의 해외 진출과 트랜지스터 라디오·워크맨의 제품화를 이끈 일본 기업가",
+      "existingBioForDiscoveryOnly": "일본 아이치현 출신 기업가. 이부카 마사루와 함께 소니를 공동 창업하고, 트랜지스터 라디오와 워크맨으로 세계 가전 시장을 석권했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+        "title": "History",
+        "publisher": "Sony Group Corporation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1946년 도쿄통신공업 창립과 19만 엔 자본·약 20명 규모",
+          "이부카 마사루가 작성한 창립취지서",
+          "소니의 기업·제품 연대기와 창업자 역할"
+        ]
+      },
+      {
+        "url": "https://www.sony.com/SonyInfo/CorporateInfo/History/company/",
+        "title": "Corporate History",
+        "publisher": "Sony Group Corporation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이부카와 모리타의 도쿄통신공업 공동 설립",
+          "1950년 일본 최초 자기 테이프 녹음기와 1955년 TR-55 출시",
+          "1958년 소니로 회사명 변경과 1979년 워크맨 출시"
+        ]
+      },
+      {
+        "url": "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+        "title": "Product & Technology Milestones: Personal Audio",
+        "publisher": "Sony Group Corporation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이부카가 비행 중 음악을 듣기 위해 휴대용 스테레오 개조를 요청한 출발점",
+          "모리타가 젊은 층의 수요를 보고 재생 전용 제품화를 밀어붙인 역할",
+          "초경량 헤드폰 개발과 광고를 포함한 팀의 결합",
+          "1979년 TPS-L2 워크맨의 출시"
+        ]
+      },
+      {
+        "url": "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+        "title": "Sony's Professional Audio: Chapter 1",
+        "publisher": "Sony Corporation",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1955년 일본 최초 트랜지스터 라디오 TR-55",
+          "1957년 TR-63의 미국 시장 성공",
+          "1958년 소니로 사명을 바꾼 과정",
+          "이부카·모리타와 엔지니어들의 집단 제품 개발"
+        ]
+      },
+      {
+        "url": "https://americanhistory.si.edu/collections/object/nmah_713528",
+        "title": "Regency Model TR-1 Transistor Radio",
+        "publisher": "National Museum of American History, Smithsonian Institution",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1954년 말 판매된 최초의 상용 트랜지스터 라디오 Regency TR-1",
+          "소니 TR-55보다 앞선 미국 제품의 존재",
+          "휴대용 전자제품 시장의 선행 역사"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/physics/1956/summary/0/",
+        "title": "The Nobel Prize in Physics 1956",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": "1956-11-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "존 바딘·월터 브래튼·윌리엄 쇼클리의 반도체 연구와 트랜지스터 효과 발견",
+          "소니가 트랜지스터 자체를 발명한 것이 아니라는 선행 공로"
+        ]
+      },
+      {
+        "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f",
+        "title": "Made in Japan: Akio Morita and Sony",
+        "publisher": "National Diet Library of Japan",
+        "kind": "institutional",
+        "publishedAt": "1986",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "모리타·에드윈 라인골드·시모무라 미쓰코가 함께 쓴 자서전의 서지 정보",
+          "소니의 성장과 일본·미국 경영에 대한 모리타의 공개된 자기 서사",
+          "창업자 내면을 사용할 때 자서전이라는 출처 성격을 밝혀야 하는 이유"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "전쟁 뒤 이부카가 먼저 세운 작은 연구소에 모리타가 합류했고, 두 사람은 1946년 도쿄통신공업을 공동 설립했다.",
+        "significance": "유복한 양조업 가문을 떠난 개인 모험담보다 이부카의 선행 조직과 기술 비전, 모리타의 자금·사업 역할이 만난 창업을 보여 준다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+          "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+        ]
+      },
+      {
+        "point": "소니는 벨 연구소가 개발한 트랜지스터 기술을 도입해 엔지니어들과 국산 부품을 개발하고 1955년 일본 최초 트랜지스터 라디오 TR-55를 출시했다.",
+        "significance": "모리타의 해외 협상과 시장 판단을 살리면서 트랜지스터 발명자와 최초 상용 라디오, 소니 기술진의 공로를 지우지 않는다.",
+        "sourceUrls": [
+          "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+          "https://americanhistory.si.edu/collections/object/nmah_713528",
+          "https://www.nobelprize.org/prizes/physics/1956/summary/0/"
+        ]
+      },
+      {
+        "point": "작고 발음하기 쉬운 '소니'라는 이름을 채택하고 TR-63을 앞세워 미국 시장에 직접 진입하며 일본 기업의 해외 현지화를 추진했다.",
+        "significance": "제품 기술과 별개로 브랜드·유통·현지 조직을 설계한 모리타의 고유한 기업가 역량을 보여 준다.",
+        "sourceUrls": [
+          "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+          "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+        ]
+      },
+      {
+        "point": "이부카의 휴대용 음악 요구, 오가·오소네와 기술진의 개조, 모리타의 재생 전용 제품화 판단이 결합해 1979년 워크맨이 출시됐다.",
+        "significance": "한 사람의 천재적 직감이 아니라 사용 장면, 기술 구현, 사업 결정, 광고가 결합한 조직 혁신으로 서술하게 한다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+          "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "시장을 조사해 이미 존재하는 수요만 따르기보다 기술로 아직 이름 붙지 않은 사용 습관을 제안할 수 있다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+          "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+        ]
+      },
+      {
+        "point": "작고 가벼운 제품과 누구나 발음할 수 있는 브랜드는 전자기기를 특정 장소와 국가에 묶이지 않게 한다.",
+        "sourceUrls": [
+          "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+          "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+        ]
+      },
+      {
+        "point": "기술자의 제품과 경영자의 시장 판단은 경쟁 관계가 아니라 서로의 약점을 보완하는 공동 작업이어야 한다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "모리타는 트랜지스터 라디오의 세계화를 이끌었지만 트랜지스터는 바딘·브래튼·쇼클리의 선행 발명이고 최초 상용 제품은 미국 Regency TR-1이었다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/physics/1956/summary/0/",
+          "https://americanhistory.si.edu/collections/object/nmah_713528",
+          "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html"
+        ]
+      },
+      {
+        "point": "워크맨의 성공에서 모리타의 시장 판단은 중요하지만 최초 요구는 이부카에게서 나왔고 개조와 양산은 오가·오소네를 비롯한 기술진이 맡았다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+        ]
+      },
+      {
+        "point": "소니의 공식 역사와 모리타의 자서전은 핵심 1차 자료이면서 창업자와 성공 제품을 중심으로 실패·노동·조직 갈등을 선택적으로 서술할 수 있다.",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+          "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "제품을 쓰는 한 장면을 짧게 포착하고 그 장면을 세계 시장과 조직 결정으로 넓히는 혼합형 문장을 쓴다.",
+      "directness": "시장에 없는 제품도 밀어붙이는 높은 결단성을 보이되 기술을 혼자 발명했다고 주장하지 않는 실무적 직설성을 쓴다.",
+      "moves": [
+        "비행기 안의 무거운 녹음기나 주머니에 넣는 라디오처럼 구체적인 사용 장면에서 시작하기",
+        "이부카의 기술적 요구, 엔지니어의 구현, 모리타의 제품화·브랜드 판단을 단계별로 나누기",
+        "일본산이라는 낙인을 세계 브랜드로 바꾼 성취와 회사 공식사가 남긴 편향을 함께 인정하기"
+      ],
+      "avoid": [
+        "소니가 트랜지스터나 세계 최초 트랜지스터 라디오를 발명했다는 서술",
+        "워크맨을 모리타 혼자 떠올리고 엔지니어의 반대를 꺾어 완성했다는 영웅담",
+        "모든 젊은이의 욕망을 직감으로 정확히 읽었다는 초능력 같은 내면 묘사",
+        "일본식 경영과 미국식 경영을 각각 충성·탐욕이라는 고정된 민족 성격으로 일반화하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "트랜지스터",
+        "guide": "전기 신호를 키우거나 켜고 끄는 작은 반도체 부품으로 진공관보다 작고 전력 소모가 적다",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/physics/1956/summary/0/"
+        ]
+      },
+      {
+        "term": "라이선스",
+        "guide": "특허나 기술을 만든 쪽의 허락을 받고 정해진 조건으로 사용할 권리",
+        "sourceUrls": [
+          "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html"
+        ]
+      },
+      {
+        "term": "재생 전용",
+        "guide": "소리를 새로 녹음하지 않고 이미 녹음된 음악을 듣는 기능만 가진 방식",
+        "sourceUrls": [
+          "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+        ]
+      },
+      {
+        "term": "현지화",
+        "guide": "다른 나라의 언어·유통·생활 방식에 맞춰 제품과 조직 운영을 바꾸는 일",
+        "sourceUrls": [
+          "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "소니 공식사는 제품과 창업자 중심의 기업 서사이므로 공동 개발자의 공헌과 실패를 자동으로 완전한 기록이라 여기지 않는다.",
+      "모리타의 내면과 발언은 공동 저자와 함께 쓴 자서전 Made in Japan 또는 확인 가능한 인터뷰에 있을 때만 사용하고, 회고가 당시 생각을 그대로 보존한다고 단정하지 않는다.",
+      "소니는 트랜지스터 기술을 도입·개량하고 일본 시장과 세계 시장에 제품화했지만 원천 발명과 최초 상용 라디오의 공로를 가져오지 않는다.",
+      "워크맨의 기원은 이부카의 요구, 오가·오소네와 기술진의 설계, 모리타의 제품화 결정과 마케팅이 겹친 사건이므로 한 사람의 발명으로 쓰지 않는다.",
+      "워크맨이 개인 청취 문화를 크게 확장한 것은 맞지만 휴대 음악의 모든 기원이나 오늘날 스마트폰 사용을 직접 예언한 결과로 소급하지 않는다.",
+      "전후 일본 제조업의 평판 변화는 소니 한 회사와 모리타 한 사람의 성취만이 아니라 수많은 기업·노동자·정책·세계 수요가 만든 결과다."
+    ]
+  }
+}

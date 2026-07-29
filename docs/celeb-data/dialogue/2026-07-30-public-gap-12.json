@@ -1,0 +1,453 @@
+{
+  "batch": "2026-07-30-public-gap-12",
+  "targets": [
+    {
+      "id": "46776e23-3b83-4f74-a1bc-56cd955bf849",
+      "slug": "jean-paul-sartre",
+      "nickname": "장 폴 사르트르",
+      "nicknameEn": "Jean-Paul Sartre",
+      "birthDate": "1905-06-21",
+      "profession": "humanities_scholar",
+      "quote": "존재는 본질에 앞선다.",
+      "quoteEn": "Existence precedes essence.",
+      "greetingKo": [
+        "[heavy, liberating] 인간은 자유에 처해 있습니다.",
+        "[absolute, existential] 실존은 본질에 선행합니다.",
+        "[dark, penetrating] 타인은 지옥입니다."
+      ],
+      "greetingEn": [
+        "[heavy, liberating] Man is condemned to be free.",
+        "[absolute, existential] Existence precedes essence.",
+        "[dark, penetrating] Hell is other people."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "사르트르입니다. 이번 선택은 제 몫으로 받겠습니다.",
+          "정해진 본성은 없습니다. 행동으로 답하겠습니다.",
+          "상황이 불리해도 다음 수는 우리가 고릅니다."
+        ],
+        "deploy": [
+          "남의 명령 뒤에 숨지 말고 직접 고르세요.",
+          "할 수 있는 일부터 책임지고 움직이세요.",
+          "내 자유만큼 동료의 자유도 지키세요."
+        ],
+        "battle_win": [
+          "우리가 고른 행동이 승리를 만들었습니다. 책임도 우리의 몫입니다.",
+          "운명 탓을 멈추고 끝까지 움직였기에 이겼습니다.",
+          "서로를 도구로 쓰지 않았기에 함께 버텼습니다."
+        ],
+        "battle_draw": [
+          "선택은 했지만 결과가 모자랍니다. 다시 움직이죠.",
+          "물러서진 않았지만 동료의 몫까지 지키진 못했습니다.",
+          "승부는 멈췄어도 우리에게 남은 책임은 끝나지 않았습니다."
+        ],
+        "battle_lose": [
+          "상황을 핑계 삼았습니다. 그 선택부터 제가 책임지겠습니다.",
+          "자유를 말하면서 행동하지 않았습니다. 다시 고르지요.",
+          "남의 시선에 갇혀 제 판단을 포기했습니다."
+        ],
+        "clash_attack": [
+          "핑계는 끝이다!",
+          "지금 선택하라!",
+          "자유를 감당하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Jean-Paul Sartre. I accept this choice as my own.",
+          "There is no fixed nature; my actions will answer.",
+          "Even in a bad position, our next move is ours."
+        ],
+        "deploy": [
+          "Do not hide behind orders. Choose for yourself.",
+          "Act on what you can do, and own it.",
+          "Defend your comrades' freedom with your own."
+        ],
+        "battle_win": [
+          "Our choices made this victory, so the responsibility is ours.",
+          "We stopped blaming fate and acted to the end.",
+          "We held together because no one was treated as a tool."
+        ],
+        "battle_draw": [
+          "We chose, but fell short. What we do next matters.",
+          "We held our ground, but failed to protect every comrade.",
+          "The contest paused; our responsibility did not."
+        ],
+        "battle_lose": [
+          "I blamed the situation. I will answer for that choice.",
+          "I spoke of freedom but did not act. I must choose again.",
+          "I surrendered my judgment to the eyes of others."
+        ],
+        "clash_attack": [
+          "No more excuses!",
+          "Choose now!",
+          "Answer for it!"
+        ]
+      },
+      "sources": [
+        "https://www.marxists.org/reference/archive/sartre/works/exist/sartre.htm",
+        "https://www.ina.fr/ina-eclaire-actu/audio/p12026190/enregistrements-de-la-voix-de-jean-paul-sartre",
+        "https://www.nobelprize.org/prizes/literature/1964/press-release/"
+      ]
+    },
+    {
+      "id": "750c8efc-8bcb-4070-a0b8-3671605dfc14",
+      "slug": "zhang-juzheng",
+      "nickname": "장거정",
+      "nicknameEn": "Zhang Juzheng",
+      "birthDate": "1525-05-26",
+      "profession": "politician",
+      "quote": "나라에 이롭다면 생사를 가리지 않겠노라.",
+      "quoteEn": "If it benefits the state, I will face it whether in life or death.",
+      "greetingKo": [
+        "[bold, resolute] 나라에 이롭다면 생사를 가리지 않겠노라.",
+        "[stern, commanding] 법은 세우기 어렵지 않으나 지키기가 어렵다.",
+        "[fierce, ambitious] 부국강병의 길이라면 사대부의 비방쯤은 감수하리라."
+      ],
+      "greetingEn": [
+        "[bold, resolute] If it benefits the state, I will face it whether in life or death.",
+        "[stern, commanding] Establishing the law is not hard. Upholding it is.",
+        "[fierce, ambitious] For wealth and strength of the state I will bear the slander of the literati."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "장거정이오. 말보다 장부와 기한으로 정사를 살피겠소.",
+          "명분만 번듯한 일은 거두고, 실적부터 따지겠소.",
+          "사사로운 청탁을 막고 나라의 곳간부터 바로잡겠소."
+        ],
+        "deploy": [
+          "명부를 펴고 기한마다 성과를 대조하시오.",
+          "숨긴 토지를 찾아 세금 부담을 바로잡으시오.",
+          "탐관을 물리고 백성의 생업을 지키시오."
+        ],
+        "battle_win": [
+          "장부와 실적이 맞았으니 빈 명령으로 끝나지 않았소.",
+          "권세가의 숨은 땅을 밝혀 백성의 짐을 덜었소.",
+          "기한을 세우고 끝까지 따졌기에 곳간을 지켰소."
+        ],
+        "battle_draw": [
+          "법은 내렸으나 말단의 장부까지 맞지는 않았소.",
+          "곳간은 버텼으나 백성의 짐은 아직 무겁소.",
+          "성과는 보였지만 사사로운 청탁이 다시 오가고 있소."
+        ],
+        "battle_lose": [
+          "명령만 엄하고 민생을 놓쳤으니 정사가 기울었소.",
+          "장부를 믿고 현장을 놓쳐 탐관의 틈을 키웠소.",
+          "개혁을 제 한 몸에 묶어 두었으니 오래가지 못했소."
+        ],
+        "clash_attack": [
+          "명실을 맞춰라!",
+          "숨은 땅을 밝혀라!",
+          "기한을 어기지 마라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Zhang Juzheng. I judge government by ledgers and deadlines.",
+          "Fine principles are not enough; I will demand results.",
+          "I will cut off private favors and restore the state treasury."
+        ],
+        "deploy": [
+          "Open the ledgers and check every deadline.",
+          "Survey hidden land and correct the tax burden.",
+          "Remove corrupt officials and protect honest households."
+        ],
+        "battle_win": [
+          "The ledgers matched the results; this was no empty decree.",
+          "Hidden estates came to light, easing the people's burden.",
+          "We set deadlines and followed through, preserving the treasury."
+        ],
+        "battle_draw": [
+          "The decree went out, but the local ledgers still disagree.",
+          "The treasury holds, but the people still carry too much.",
+          "Results are visible, yet private favors are returning."
+        ],
+        "battle_lose": [
+          "My orders were strict, but I neglected the people's livelihood.",
+          "I trusted the ledgers and left corrupt officials room to hide.",
+          "I tied reform to one man, so it could not endure."
+        ],
+        "clash_attack": [
+          "Make words match deeds!",
+          "Expose the hidden land!",
+          "Meet the deadline!"
+        ]
+      },
+      "sources": [
+        "https://zh.wikisource.org/zh-hans/%E9%99%B3%E5%85%AD%E4%BA%8B%E7%96%8F",
+        "https://zh.wikisource.org/zh-hans/%E7%AD%94%E6%87%89%E5%A4%A9%E5%B7%A1%E6%92%AB%E5%AE%8B%E9%99%BD%E5%B1%B1%E8%AB%96%E5%9D%87%E7%B3%A7%E8%B6%B3%E6%B0%91",
+        "https://www.dpm.org.cn/court/figure/104014.html",
+        "https://ctext.org/datawiki.pl?if=en&res=256278"
+      ]
+    },
+    {
+      "id": "d5b67aa0-9d64-4c4a-8594-2f6394a26cee",
+      "slug": "zhang-yiming",
+      "nickname": "장이밍",
+      "nicknameEn": "Zhang Yiming",
+      "birthDate": "1983-04-01",
+      "profession": "entrepreneur",
+      "quote": "인생 문제의 절반은 만족을 미루지 못해 생길 뿐입니다.",
+      "quoteEn": "Half of life's problems come from a failure to delay gratification.",
+      "greetingKo": [
+        "[calm, measured] 평범한 두뇌로도, 끝까지 미루면 비범한 일을 할 수 있을 따름입니다.",
+        "[reflective, steady] 오늘 잘 풀린 결정이라도, 한 번 더 의심해 보는 편이 안전합니다.",
+        "[composed, observant] 지금 이 순간의 사실에만 근거해서 결정을 내릴 따름입니다."
+      ],
+      "greetingEn": [
+        "[calm, measured] With an ordinary mind, if you keep deferring, you can still do extraordinary things.",
+        "[reflective, steady] Even a decision that worked today is safer if questioned once more.",
+        "[composed, observant] We simply decide on the facts available in the present moment."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "장이밍입니다. 지금 확인한 사실부터 차분히 보겠습니다.",
+          "오락가락하는 전망보다 지금 확인한 수치를 믿겠습니다.",
+          "서두르지 않고 오래 남을 판단부터 하겠습니다."
+        ],
+        "deploy": [
+          "유행보다 사용자가 머문 이유를 먼저 보세요.",
+          "한 번 오른 수치보다 계속 쓰는 이유를 찾으세요.",
+          "틀렸다면 바로 고치고, 배운 뒤에는 놓아주세요."
+        ],
+        "battle_win": [
+          "주변이 시끄러워도 확인한 수치대로 판단했습니다.",
+          "당장 순위를 올리기보다 사람들이 오래 쓰는 쪽을 택했습니다.",
+          "잘못을 빨리 고친 덕분에 다음 판단이 쉬워졌습니다."
+        ],
+        "battle_draw": [
+          "수치는 올랐지만 사용자가 왜 남는지는 더 봐야 합니다.",
+          "결정은 나쁘지 않았지만 한 박자 서둘렀습니다.",
+          "경쟁은 따라잡았어도 계속 쓰게 할 이유는 못 찾았습니다."
+        ],
+        "battle_lose": [
+          "유행을 좇느라 사용자가 원한 것을 놓쳤습니다.",
+          "성공에 들떠 반대 신호를 너무 늦게 봤습니다.",
+          "틀린 결정을 붙들어 배울 시간을 잃었습니다."
+        ],
+        "clash_attack": [
+          "사실부터 보세요!",
+          "한 걸음 늦추세요!",
+          "지금 고치세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Zhang Yiming. I will start with the facts we have now.",
+          "I trust today's numbers over a restless forecast.",
+          "I will take my time and choose for the long term."
+        ],
+        "deploy": [
+          "Ask why users stayed, not what was trending.",
+          "Look past one rising number and find lasting use.",
+          "If we are wrong, correct it, learn, and move on."
+        ],
+        "battle_win": [
+          "We ignored the noise and followed the numbers we had.",
+          "We chose what people would keep using over a higher rank today.",
+          "Correcting the mistake early made the next call easier."
+        ],
+        "battle_draw": [
+          "The numbers rose, but we still need to learn why users stayed.",
+          "The decision was sound, but we made it too soon.",
+          "We caught the competition, but not a reason users would stay."
+        ],
+        "battle_lose": [
+          "We chased the trend and missed what users wanted.",
+          "Success distracted us from signals pointing the other way.",
+          "We defended a bad call and lost time to learn."
+        ],
+        "clash_attack": [
+          "Check the facts!",
+          "Slow down one step!",
+          "Correct it now!"
+        ]
+      },
+      "sources": [
+        "https://www.bytedance.com/zh/news/606bf1ac053cc102d640c051",
+        "https://www.bytedance.com/en/news/60a526af053cc102d640c061",
+        "https://www.investing.com/news/technology-news/zhang-yiming-founder-of-tiktok-owner-bytedance-gears-up-for-the-global-stage-2109349"
+      ]
+    },
+    {
+      "id": "0f0269bc-06d9-45e7-acdf-7a1c304604c4",
+      "slug": "zachary-quinto",
+      "nickname": "재커리 퀸토",
+      "nicknameEn": "Zachary Quinto",
+      "birthDate": "1977-06-02",
+      "profession": "actor",
+      "quote": "지금 하는 일에 완전히 집중하지 못하면 어떤 성공도 의미가 없다.",
+      "quoteEn": "Nothing you do is meaningful if you can't be fully present in what you're doing.",
+      "greetingKo": [
+        "[thoughtful, calm] 반갑습니다. 저는 역할을 통해 인간의 복잡함을 탐구하는 사람이에요.",
+        "[earnest, focused] 진정성이 없으면 연기도 의미가 없습니다.",
+        "[steady, introspective] 내면을 들여다보는 것이 캐릭터를 만드는 첫걸음이에요."
+      ],
+      "greetingEn": [
+        "[thoughtful, calm] I explore the complexity of the human being through roles.",
+        "[earnest, focused] Without authenticity, acting is meaningless.",
+        "[steady, introspective] Looking inward is the first step in building a character."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "재커리 퀸토입니다. 지금 눈앞의 장면에만 집중하겠습니다.",
+          "인물이 감춘 모순부터 제 안에서 찾아보겠습니다.",
+          "무대에 오른 만큼 끝까지 서로의 호흡을 놓치지 않겠습니다."
+        ],
+        "deploy": [
+          "상대를 보고, 미리 정한 감정은 내려놓으세요.",
+          "대사를 외우지 말고 지금 필요한 뜻을 찾으세요.",
+          "이 장면에 꼭 필요한 행동만 남겨 보세요."
+        ],
+        "battle_win": [
+          "서로의 호흡을 놓치지 않아 무대가 살아났어요.",
+          "인물의 모순을 숨기지 않았더니 한 사람이 온전히 보였어요.",
+          "결과를 좇지 않고 순간에 머문 덕분에 해냈어요."
+        ],
+        "battle_draw": [
+          "감정은 닿았지만 상대의 호흡을 한 번 놓쳤어요.",
+          "장면은 섰지만 인물의 속내는 아직 덜 보이네요.",
+          "진심은 있었지만 목적이 흐려 한 발 모자랐어요."
+        ],
+        "battle_lose": [
+          "대사를 잘해 보이려다 눈앞의 상대를 놓쳤어요.",
+          "감정을 미리 정해 두니 모든 반응이 굳어 버렸어요.",
+          "역할의 겉모습에 기대 그 사람을 놓쳤어요."
+        ],
+        "clash_attack": [
+          "상대를 봐요!",
+          "지금만 봐요!",
+          "속내를 드러내요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Zachary Quinto. Let's be fully present in this moment.",
+          "I start with the contradiction a character tries to hide.",
+          "Once we step onstage, I stay in rhythm with the company."
+        ],
+        "deploy": [
+          "Watch your partner and drop the planned emotion.",
+          "Do not recite the line; find what it needs now.",
+          "Keep only the action the scene truly needs."
+        ],
+        "battle_win": [
+          "We stayed in rhythm, and the stage came alive.",
+          "The character felt human once we stopped hiding the contradictions.",
+          "We stayed present instead of chasing the result."
+        ],
+        "battle_draw": [
+          "The feeling landed, but I missed my partner's rhythm once.",
+          "The scene works, but the character is still holding back.",
+          "The feeling was honest, but we lost the scene's purpose."
+        ],
+        "battle_lose": [
+          "I tried to perform the line and stopped seeing my partner.",
+          "Planning the emotion in advance made every response rigid.",
+          "I leaned on the role's surface and lost the person."
+        ],
+        "clash_attack": [
+          "Watch your partner!",
+          "Stay in the moment!",
+          "Show what is hidden!"
+        ]
+      },
+      "sources": [
+        "https://playbill.com/article/zachary-quinto-on-his-promise-to-do-more-theatre-and-why-he-prefers-it-to-tv-com-383094",
+        "https://www.startrek.com/en-un/news/zachary-quinto-interview-part-1",
+        "https://itgetsbetter.org/about/about-our-origin-story/",
+        "https://www.theguardian.com/film/2022/nov/11/zachary-quinto-best-of-enemies-interview"
+      ]
+    },
+    {
+      "id": "594b1248-371d-4968-90b6-e73f8a46d0c8",
+      "slug": "jack-dorsey",
+      "nickname": "잭 도시",
+      "nicknameEn": "Jack Dorsey",
+      "birthDate": "1976-11-19",
+      "profession": "entrepreneur",
+      "quote": "지금, 여기서, 작게 시작해야 한다.",
+      "quoteEn": "You have to start now, here, and small.",
+      "greetingKo": [
+        "[minimal, focused] 단순함이 가장 강력한 무기입니다.",
+        "[calm, purposeful] 140자 안에 세상을 바꿀 메시지가 들어갑니다.",
+        "[quiet, driven] 가장 좋은 기술은 보이지 않는 기술입니다."
+      ],
+      "greetingEn": [
+        "[minimal, focused] Simplicity is the most powerful weapon.",
+        "[calm, purposeful] A world-changing message fits in 140 characters.",
+        "[quiet, driven] The best technology is the technology you can't see."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "잭 도시입니다. 작게 시작해서 사람들이 어떻게 대화하는지 보겠습니다.",
+          "복잡한 기능보다 사람들이 실제로 쓰는 흐름을 보겠습니다.",
+          "한 회사가 쥐지 않아도 굴러갈 규칙을 만들겠습니다."
+        ],
+        "deploy": [
+          "기능을 덜고 서로 말이 오가는 길부터 여세요.",
+          "분노보다 대화를 잇는 답글이 먼저 보이게 하세요.",
+          "회사가 아니라 누구나 쓸 수 있는 규칙을 만드세요."
+        ],
+        "battle_win": [
+          "기능을 덜어내니 대화가 더 잘 보였습니다.",
+          "돈으로 산 노출보다 스스로 얻은 반응이 남았습니다.",
+          "한 회사 밖에서도 이어지는 규칙을 세웠습니다."
+        ],
+        "battle_draw": [
+          "글은 늘었지만 광장이 건강해졌는지는 더 물어야 합니다.",
+          "서비스는 단순해졌지만 권한은 아직 한곳에 있습니다.",
+          "문은 열었지만 분노를 키우는 신호가 남았습니다."
+        ],
+        "battle_lose": [
+          "성장만 세다가 공개 대화의 건강을 놓쳤습니다.",
+          "한곳에 권한을 모아 모두의 광장을 좁혔습니다.",
+          "단순함을 말하면서 사용자의 목소리를 듣지 않았습니다."
+        ],
+        "clash_attack": [
+          "대화를 여세요!",
+          "신호를 바꿔요!",
+          "작게 시작해요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Jack Dorsey. Start small and watch the public conversation.",
+          "I watch how people use a product, not its feature count.",
+          "I will build rules that can work beyond one company."
+        ],
+        "deploy": [
+          "Remove features and open a path for real replies.",
+          "Show replies that continue the conversation before outrage.",
+          "Build a protocol anyone can use, not another gate."
+        ],
+        "battle_win": [
+          "Removing features made the conversation easier to follow.",
+          "Earned conversation lasted longer than paid reach.",
+          "We built rules that can live beyond one company."
+        ],
+        "battle_draw": [
+          "More posts appeared, but the square may not be healthier.",
+          "The product grew simpler, but control still sits in one place.",
+          "We opened the door, yet the system still rewards outrage."
+        ],
+        "battle_lose": [
+          "We counted growth and ignored the health of the conversation.",
+          "We centralized control and narrowed a public square.",
+          "We praised simplicity while failing to hear our users."
+        ],
+        "clash_attack": [
+          "Open the conversation!",
+          "Change the signal!",
+          "Start small, now!"
+        ]
+      },
+      "sources": [
+        "https://www.ted.com/talks/jack_dorsey_how_twitter_needs_to_change?view=transcript",
+        "https://docs.house.gov/committee/Calendar/ByEvent.aspx?EventID=108642",
+        "https://www.congress.gov/115/chrg/CHRG-115shrg31350/CHRG-115shrg31350.pdf",
+        "https://www.cbsnews.com/sanfrancisco/news/twitter-ceo-jack-dorsey-social-media-political-ads/"
+      ]
+    }
+  ]
+}

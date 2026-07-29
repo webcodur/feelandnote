@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "slug": "johannes-gutenberg",
+  "nickname": "요한 구텐베르크",
+  "route": "improve",
+  "routeReason": "현재 글은 금속 활자·기름 먹·압착 인쇄를 한 공정으로 묶고, 42행 성서와 푸스트 소송까지 이어 가는 사실의 뼈대가 좋다. 그러나 여러 장인 기술과 동업자·금융가의 기여를 한 사람의 완성품처럼 말하고, 소송 뒤 '쓰렸다', '분했다'는 감정을 창작한다. 남은 기록이 드문 인물인 만큼 확인되는 제작상의 선택과 사업 결과만 살리고, 공동 작업과 기록 한계를 전면에 두도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "요한 구텐베르크",
+      "birth": "약 1400",
+      "death": "1468-02-03",
+      "profession": "entrepreneur",
+      "disambiguation": "15세기 마인츠에서 재사용 가능한 금속 활자와 인쇄 공정을 결합해 대규모 서적 생산을 실현한 인쇄업자",
+      "existingBioForDiscoveryOnly": "독일 발명가. 금속 활자 인쇄술을 발명하여 정보 혁명과 르네상스를 촉발했다."
+    },
+    "sources": [
+      {
+        "url": "https://guides.loc.gov/gutenberg/the-printer",
+        "title": "Johannes Gutenberg (c. 1400–1468): The Printer",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "구텐베르크의 생애는 기록이 적고 1455년 요한 푸스트와의 소송 문서가 핵심 자료라는 점",
+          "푸스트에게 두 차례에 걸쳐 자금을 빌려 인쇄 사업을 진행한 사실",
+          "구텐베르크가 자신의 인쇄물에 이름을 남기지 않아 귀속을 문서와 활자 분석으로 판단해야 한다는 한계"
+        ]
+      },
+      {
+        "url": "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible",
+        "title": "The Gutenberg Bible",
+        "publisher": "The Morgan Library & Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "구텐베르크가 금융가 요한 푸스트와 조수·전 제자 페터 쇠퍼와 함께 일한 사실",
+          "구텐베르크 성서가 필사본의 텍스투라 서체와 외형을 본떴고 장식은 손으로 더한 사실",
+          "약 160~180부가 제작된 것으로 추정되는 생산 규모",
+          "1455년 소송 뒤 푸스트와 쇠퍼가 인쇄 사업을 계속한 사실"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html",
+        "title": "The Gutenberg Bible",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "구텐베르크 성서가 유럽에서 가동 금속 활자로 인쇄된 최초의 대규모 책이라는 평가",
+          "대부분의 면이 두 단 42행으로 짜였고 제목·첫 글자 장식은 손으로 채워졌다는 제작 방식",
+          "균일하고 교환 가능한 활자와 재료·공정의 문제를 함께 해결해야 했다는 기술적 성격",
+          "성서가 1455년 무렵 완성된 사실"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/item/2021666734/",
+        "title": "Gutenberg Bible",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "약 290개 활자 문자와 기호를 사용해 필사체의 모습을 재현한 사실",
+          "활자 주조 틀과 조판·종이·잉크를 결합한 생산 체계의 중요성",
+          "구텐베르크 성서의 물리적 구성과 인쇄 기술"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "보석 세공과 금속 가공이 발달한 마인츠의 환경에서 균일하게 다시 주조할 수 있는 금속 활자와 조판·잉크·압착 공정을 결합했다.",
+        "significance": "한 가지 물건의 발명보다 여러 재료와 기술을 반복 생산이 가능한 체계로 맞춘 일이 핵심임을 보여 준다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html",
+          "https://www.loc.gov/item/2021666734/"
+        ]
+      },
+      {
+        "point": "요한 푸스트의 자금을 받고 페터 쇠퍼를 비롯한 작업자들과 함께 1455년 무렵 대규모 라틴어 성서를 완성했다.",
+        "significance": "성서를 외로운 천재의 작품으로 만들지 않고 자본·숙련 노동·기술이 결합한 사업으로 다룰 수 있다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/gutenberg/the-printer",
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible",
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html"
+        ]
+      },
+      {
+        "point": "1455년 푸스트와의 채무 소송에서 패한 뒤 사업 관계가 끊겼고, 푸스트와 쇠퍼는 별도의 인쇄소에서 출판을 계속했다.",
+        "significance": "기술적 성취가 곧 사업의 소유권과 성공을 보장하지 않았다는 결과를 보여 주되, 기록에 없는 배신감이나 분노를 대신 말하지 않는다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/gutenberg/the-printer",
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "필사본 독자가 낯설지 않도록 활자의 모양과 지면 구성을 당대 고급 필사 성서에 가깝게 설계했다.",
+        "sourceUrls": [
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible",
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html",
+          "https://www.loc.gov/item/2021666734/"
+        ]
+      },
+      {
+        "point": "한 번 새긴 판 전체가 아니라 낱글자를 다시 배열하고 같은 모양으로 주조할 수 있는 생산 체계를 택했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html",
+          "https://www.loc.gov/item/2021666734/"
+        ]
+      },
+      {
+        "point": "인쇄된 본문과 손으로 넣는 장식을 함께 사용해 새로운 생산법을 기존 책 문화와 연결했다.",
+        "sourceUrls": [
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible",
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "구텐베르크는 인쇄 혁명의 상징이지만, 성서 제작은 푸스트의 자금과 쇠퍼 및 이름이 남지 않은 작업자들의 기술이 함께 만든 결과다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/gutenberg/the-printer",
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible"
+        ]
+      },
+      {
+        "point": "대량 복제가 가능한 새 기술을 만들면서도 활자와 지면은 손으로 쓴 고급 성서의 권위와 아름다움을 세밀하게 모방했다.",
+        "sourceUrls": [
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible",
+          "https://www.loc.gov/item/2021666734/"
+        ]
+      },
+      {
+        "point": "후대에는 이름이 기술 혁명의 대명사가 됐지만 정작 본인은 인쇄물에 이름을 남기지 않았고, 사업의 주도권도 소송 뒤 푸스트와 쇠퍼에게 넘어갔다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/gutenberg/the-printer",
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 손에 잡히는 공정 설명을 중심에 두고, 기술 요소가 맞물리는 대목에서만 문장을 조금 늘인다.",
+      "directness": "거창한 정보 혁명 예언보다 금속의 균일함, 먹의 농도, 줄의 간격과 빚의 조건을 말하는 실무자의 목소리로 간다.",
+      "moves": [
+        "추상적인 발명을 활자 주조·조판·잉크·압착의 구체적인 문제로 나누기",
+        "성서 한 면의 42줄과 손 장식을 보여 준 뒤 생산 규모로 넓히기",
+        "푸스트와 쇠퍼의 이름을 숨기지 않고 기술·자본·사업의 엇갈림을 결과로 말하기"
+      ],
+      "avoid": [
+        "혼자서 인쇄술의 모든 요소를 처음 발명했다는 영웅 서사",
+        "르네상스와 종교개혁을 미리 내다봤다는 예언자 말투",
+        "소송 뒤 배신감·분노·상실감을 창작하는 내면 독백",
+        "인쇄술 이전에는 책이나 지식의 유통이 없었다는 과장"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "가동 금속 활자",
+        "guide": "낱글자를 금속으로 따로 주조해 여러 번 다시 배열하는 활자",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html",
+          "https://www.loc.gov/item/2021666734/"
+        ]
+      },
+      {
+        "term": "42행 성서",
+        "guide": "대부분의 면을 두 단, 한 단 42줄로 찍은 라틴어 성서",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/bibles/the-gutenberg-bible.html"
+        ]
+      },
+      {
+        "term": "텍스투라",
+        "guide": "당시 고급 성서에 쓰이던 촘촘하고 각진 필사 서체",
+        "sourceUrls": [
+          "https://www.themorgan.org/exhibitions/online/imperial-splendor/gutenberg-bible"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "구텐베르크가 남긴 개인 기록과 이름을 명시한 인쇄물이 거의 없어 그의 생각과 감정을 직접 복원할 수 없다.",
+      "1455년 푸스트 소송은 생애와 사업을 보여 주는 핵심 자료지만 성서 제작의 모든 역할 분담과 기술 개발 과정을 설명하지 않는다.",
+      "유럽의 금속 활자 인쇄를 다룰 때 동아시아의 훨씬 이른 목판·가동 활자 전통을 지우거나 세계 최초의 인쇄술이라고 부르지 않는다.",
+      "인쇄술 확산이 르네상스·종교개혁·과학에 미친 장기 효과를 구텐베르크 자신의 의도나 예견으로 돌리지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "slug": "liu-bang",
+  "nickname": "한고조",
+  "route": "hold",
+  "routeReason": "자동 개선 두 차례 뒤에도 편집 검토에서 사람에게 권한을 맡겨 이긴 방식과 승리 뒤 그 권한을 거둔 방식의 긴장이 풀리지 않았고 결말도 설명문으로 남았다. '힘을 빌려 천하를 얻고, 그 힘을 두려워해 회수한 건국자'라는 한 축으로 사건을 재배열하는 사람의 재구성이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "유방",
+      "birth": "기원전 256년 또는 247년",
+      "death": "기원전 195",
+      "profession": "commander",
+      "disambiguation": "진 말 패현에서 봉기해 초한 전쟁에서 항우를 꺾고 기원전 202년 황제가 된 전한의 창업 군주로, 사후 한 고조라 불린 인물",
+      "existingBioForDiscoveryOnly": "한나라의 건국 황제. 미천한 출신에서 항우를 물리치고 천하를 통일하여 400년 한 왕조의 기틀을 세웠다."
+    },
+    "sources": [
+      {
+        "url": "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+        "title": "Shiji: Annals of Gaozu",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "패현 봉기, 함양 입성, 약법삼장, 초한 전쟁, 황제 즉위와 통치 후반의 반란 진압에 관한 전승",
+          "장량·소하·한신 세 사람을 쓸 수 있었기에 천하를 얻었다는 고조의 유명한 자기 평가",
+          "용과 구름 같은 징조로 창업 군주의 정당성을 만드는 신화적 서술"
+        ]
+      },
+      {
+        "url": "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zhs",
+        "title": "史記 : 列傳 : 淮陰侯列傳",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "한신의 군사적 공헌, 제왕 책봉 요구, 유방의 견제와 회음후 강등, 여후·소하에 의한 처형 전승",
+          "유방이 인재를 등용하는 능력과 그 인재의 독립적 힘을 두려워한 초기 제국의 긴장",
+          "한신의 최후를 반역에 대한 당연한 응보로 정리한 사마천의 평가와 그 서사적 성격"
+        ]
+      },
+      {
+        "url": "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download",
+        "title": "The Rise of the Han",
+        "publisher": "Indiana University ScholarWorks",
+        "kind": "scholarly",
+        "publishedAt": "2010-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "진 붕괴에서 초한 전쟁과 전한 창업으로 이어지는 정치·군사 과정의 학술적 개관",
+          "유방 생애의 주된 서사 원천이 사마천의 사기이며, 후대 번역과 연구를 통해 비판적으로 읽어야 한다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/early-china/article/history-and-lore-interpretive-emplotment-and-empty-writing-in-the-hereditary-house-of-zhao/AF770563B52D52663D5630D6B69B19D0",
+        "title": "History and Lore: Interpretive Emplotment and ‘Empty Writing’ in the ‘Hereditary House of Zhao’",
+        "publisher": "Early China, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2024-03-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사기가 유방의 출생과 부상에 용·구름·적제의 아들 같은 신화적 표지를 배치한 방식",
+          "전한 지배층의 정당성 서사와 실제 생애 정보를 구분해 읽어야 한다는 사료 비판"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf",
+        "title": "Noble Rank Lie Hou and the Changing Definitions of Merit Gong during the Han Dynasty",
+        "publisher": "Journal of Chinese History, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2025-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "고조가 공을 근거로 열후를 포상하고 유씨 왕과 이성 왕을 함께 세운 초기 봉건 질서",
+          "고조 재위 중 이성 왕 대부분이 충성 문제로 죽거나 왕국을 잃은 사실",
+          "공신 포상과 황실 중심 권력 집중이 동시에 진행된 구조"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/essays/han-dynasty-206-b-c-220-a-d",
+        "title": "Han Dynasty (206 B.C.–220 A.D.)",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2000-10-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "진 시황 사후 내전 뒤 한 왕조가 중국을 다시 통합한 큰 역사적 맥락",
+          "전한과 후한을 합친 ‘약 400년 한 왕조’라는 후대 범주와 중간의 신 왕조 단절"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "진 말의 혼란 속에서 패현 사람들과 봉기하고 군사를 모아, 기원전 206년 진의 수도권에 먼저 들어갔다.",
+        "significance": "미천한 한 개인이 혼자 일어난 신화가 아니라 지방 인맥과 집단 동원, 진의 붕괴가 맞물린 출발로 제시한다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "point": "함양에 들어가 살인·상해·절도에 관한 세 조항을 내세우며 진의 가혹한 법을 거두겠다고 약속했지만, 새 왕조의 법제는 뒤에 진의 제도도 선별해 이어 갔다.",
+        "significance": "약법삼장을 모든 법을 없앤 인도적 혁명으로 부풀리지 않고, 전쟁기 민심 확보와 국가 법제의 연속성을 함께 보여 준다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "point": "항우에게 여러 번 밀리고도 장량·소하·한신 등 서로 다른 인재와 세력을 묶어 초한 전쟁의 최종 승자가 되었다.",
+        "significance": "그의 고유한 정치 능력을 막연한 처세가 아니라 타인의 전문성을 동원하고 연합을 유지하는 기술로 설명한다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zhs",
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "point": "황제가 된 뒤 공신과 제후를 포상하는 동시에 이성 왕들을 제거하거나 축소하고 유씨 왕을 세워 황실 중심의 질서를 강화했다.",
+        "significance": "사람을 써서 천하를 얻은 능력과, 그 사람들이 독자 세력이 되자 억누른 창업 권력의 역설을 드러낸다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zhs",
+          "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "자신이 장량의 계책, 소하의 행정, 한신의 용병에는 미치지 못하지만 세 사람을 쓸 수 있었기에 천하를 얻었다고 평가했다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens"
+        ]
+      },
+      {
+        "point": "진의 가혹한 통치와 구별되는 간결한 약속을 내세워 관중 백성의 지지를 얻는 것을 군사 점령만큼 중요하게 여겼다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zhs"
+        ]
+      },
+      {
+        "point": "전쟁 뒤에는 공을 작위와 영토로 보상했지만, 왕위는 유씨 황실과 충성의 안전장치 아래 두려 했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf",
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens"
+        ]
+      },
+      {
+        "point": "진의 군현과 법·행정 가운데 쓸 수 있는 틀을 전부 버리지 않고, 황제가 직접 다스리는 영역과 제후왕의 영역을 함께 운용했다.",
+        "sourceUrls": [
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download",
+          "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "재주 있는 사람을 알아보고 권한을 맡긴 것이 승리의 핵심이었지만, 통일 뒤에는 한신을 비롯한 강한 공신과 이성 왕을 억누르고 제거했다. 이를 단순히 ‘나라를 지키기 위한 두려움’으로 면책하지 않는다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zhs",
+          "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf"
+        ]
+      },
+      {
+        "point": "약법삼장은 진의 가혹함과 거리를 두는 강한 정치 선언이었지만, 세 조항만으로 제국을 다스린 것은 아니며 한은 진의 법과 행정 구조를 상당 부분 이어 썼다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "point": "사기는 평민 출신 창업자의 영리함과 인간적 결함을 생생히 그리는 동시에 용·구름·적제 신화로 한 황실의 정당성을 만든다. 문학적으로 완성된 장면을 유방의 실제 기억으로 바꾸지 않아야 한다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://www.cambridge.org/core/journals/early-china/article/history-and-lore-interpretive-emplotment-and-empty-writing-in-the-hereditary-house-of-zhao/AF770563B52D52663D5630D6B69B19D0"
+        ]
+      },
+      {
+        "point": "‘한이 400년 갔다’는 말은 전한과 후한을 합친 후대의 긴 시야다. 유방 자신이 그 전 기간을 예견하거나 자기 제도의 완전한 성공으로 평가할 수는 없다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/essays/han-dynasty-206-b-c-220-a-d"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "패배와 재기는 짧고 거칠게, 인재와 권력의 역설은 인물 이름을 박은 중간 길이 문장으로 전개한다.",
+      "directness": "귀족적인 장중함보다 현장 감각과 실용적 계산이 앞선다. 다만 ‘나는 원래 솔직한 현실주의자였다’는 현대적 자기 브랜딩이나 후대 사기의 재치 있는 일화를 전부 자기 말처럼 만들지 않는다.",
+      "moves": [
+        "패현과 함양에서 시작해 낮은 출발 자체가 아니라 사람을 모으는 방식에 초점을 두기",
+        "장량·소하·한신에게 자신이 못한 일을 맡겼다는 자기 평가로 유방의 차별적 능력을 드러내기",
+        "항우와의 대비를 성격 만화가 아니라 포상·위임·연합 유지의 차이로 구체화하기",
+        "통일 뒤 한신과 이성 왕들의 몰락을 붙여 인재 활용과 권력 집중의 모순을 회수하기"
+      ],
+      "avoid": [
+        "‘끝까지 버티면 마지막 승자가 된다’는 일반 자기계발 교훈으로 축소하기",
+        "항우를 힘만 세고 사람을 못 품은 단순한 악역으로 만들기",
+        "한신 제거를 유방 개인의 근거 있는 후회나 불가피한 국가 수호로 대신 해명하기",
+        "약법삼장을 진의 모든 법과 제도를 폐기한 영구 헌법처럼 쓰기",
+        "용·구름·백사 전설을 사실이나 본인이 경험한 운명의 증거로 쓰기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "초한 전쟁",
+        "guide": "진이 무너진 뒤 유방의 한과 항우의 초가 천하의 주도권을 두고 기원전 206년부터 202년까지 벌인 전쟁",
+        "sourceUrls": [
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "term": "약법삼장",
+        "guide": "유방이 함양에 들어가 살인·상해·절도에 대한 세 가지 기본 처벌만 먼저 약속했다고 전하는 전쟁기 선언",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens"
+        ]
+      },
+      {
+        "term": "군현",
+        "guide": "황제가 임명한 관리가 중앙의 명령에 따라 직접 다스리는 지방 행정 구역",
+        "sourceUrls": [
+          "https://scholarworks.iu.edu/dspace/bitstreams/eed3bbd8-bbcb-44df-b9d3-937d6cae89c4/download"
+        ]
+      },
+      {
+        "term": "이성 왕",
+        "guide": "황실의 유씨 성이 아닌 공신 가운데 넓은 영토와 왕위를 받은 사람으로, 고조 말기에는 대부분 제거되거나 왕국을 잃었다",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/DA9D04E0D4971D6AA12E36868826B654/S2059163224000343a.pdf/noble_rank_lie_hou_and_the_changing_definitions_of_merit_gong_during_the_han_dynasty_202_bce220_ce.pdf"
+        ]
+      },
+      {
+        "term": "사기",
+        "guide": "사마천이 유방 사후 약 한 세기 안에 완성한 역사서로, 초기 한의 핵심 기록이면서 문학적 구성과 왕조 정당화도 함께 지닌 자료",
+        "sourceUrls": [
+          "https://ctext.org/shiji/gao-zu-ben-ji/ens",
+          "https://www.cambridge.org/core/journals/early-china/article/history-and-lore-interpretive-emplotment-and-empty-writing-in-the-hereditary-house-of-zhao/AF770563B52D52663D5630D6B69B19D0"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "유방의 생애는 사기와 한서 같은 한 왕조기의 편찬 자료에 크게 의존한다. 대화와 성격 묘사를 현장 녹취나 정확한 속마음으로 취급하지 않는다.",
+      "사기의 용·구름·백사 이야기는 창업자의 천명과 정당성을 만드는 신화적 장치다. 사실 전기로 옮기지 않는다.",
+      "유방의 출생 연도는 기원전 256년설과 247년설이 함께 전한다. 서비스의 단일 연도를 확정 사실로 강화하지 않는다.",
+      "약법삼장은 민심 확보의 상징적 전승이지만, 실제 한 법전은 더 복잡했고 진의 법·행정도 선별 계승했다. ‘법 세 개만 남겼다’고 쓰지 않는다.",
+      "한신의 처형은 여후와 소하가 유방의 부재 중 실행했고, 반역 혐의의 서술도 승리한 황실의 자료를 거쳤다. 유방이 직접 죽였다고 단순화하거나 혐의를 완전히 확정하지 않는다.",
+      "전한과 후한을 합쳐 약 400년이라 부르지만 왕망의 신 왕조가 중간에 있다. 유방의 치세가 끊김 없이 400년 이어졌다고 쓰지 않는다."
+    ]
+  }
+}

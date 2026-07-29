@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-19",
+  "targets": [
+    {
+      "id": "15612730-a1fd-480e-bc79-1adaf33e7392",
+      "slug": "samuel-l.-jackson",
+      "nickname": "사무엘 L. 잭슨",
+      "birthDate": "1948-12-21",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I spent fifteen years on New York stages and did not become a movie star until my forties. I do not call that late.",
+          "I stuttered as a child and started shutting up. Acting helped me find my voice again.",
+          "Two weeks after rehab, I made Jungle Fever. That role opened the door to Hollywood."
+        ],
+        "deploy": [
+          "Read the whole script. If you know only your scenes, you miss both the character and the story.",
+          "Keep even the villain human. Understand him until the moment he chooses what he must do.",
+          "Light up the stage when you enter. Make the audience want to follow when you leave."
+        ],
+        "battle_win": [
+          "The audience bought tickets and filled the seats. My job is to entertain them, and today I did it.",
+          "The words stayed with people because I delivered them the right way. Every line has a way it needs to be said.",
+          "I watched the performance back and still enjoyed it. If I ask the audience to watch, I should be able to watch too."
+        ],
+        "battle_draw": [
+          "I missed the award, but the audience came. Both are true, so I do not need to exaggerate either one.",
+          "The words were right, but they did not land. How you say the same line can make all the difference.",
+          "The director and I disagree. I will compromise, but I will not shoot a take I know I will regret in the edit."
+        ],
+        "battle_lose": [
+          "The opportunities were there, but I was not ready. The door opened only after I got myself together.",
+          "LaTanya was beside me when I woke up on the floor. I entered rehab the next day, and I did not get this far alone.",
+          "My voice failed me this time. I will speak again instead of shutting down as I did when I was a child."
+        ],
+        "clash_attack": [
+          "Do not hide behind an expression. Let the character tell us who he is in his own words.",
+          "Do not measure me by an award. I will make films the audience wants to see.",
+          "I will not shoot a scene I believe is wrong. Do not leave that choice in the editing room."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Fifteen years on New York stages, then movies after forty. I was not late.",
+          "I stuttered and fell silent as a child. The stage gave my voice back.",
+          "Two weeks after rehab, I made Jungle Fever. That opened the door."
+        ],
+        "deploy": [
+          "Read the whole script. Your scenes alone reveal neither character nor story.",
+          "Keep the villain human. Understand him before he acts.",
+          "Light up the stage coming in. Make them follow you out."
+        ],
+        "battle_win": [
+          "They bought tickets and filled seats. I entertained them. Job done.",
+          "Say a line the right way, and people remember it. Every line has its rhythm.",
+          "I still enjoy watching it. If I ask others to watch, I should watch too."
+        ],
+        "battle_draw": [
+          "I missed the award, but the audience came. Both are true.",
+          "The line was right, but it did not land. Delivery is everything.",
+          "The director and I disagree. I can compromise, but I will not film something I regret."
+        ],
+        "battle_lose": [
+          "The chances came before I was ready. Sobriety opened the door.",
+          "LaTanya found me on the floor. I never reached this point alone.",
+          "My voice failed this time. I will speak instead of shutting down."
+        ],
+        "clash_attack": [
+          "Stop hiding behind expressions. Let the character speak!",
+          "I make movies for audiences, not awards!",
+          "I will not shoot a scene I believe is wrong!"
+        ]
+      }
+    },
+    {
+      "id": "911858fc-d88c-4260-b9f1-293d5b2376ff",
+      "slug": "simon-pegg",
+      "nickname": "사이먼 페그",
+      "birthDate": "1970-02-14",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I made zombie and police films with Edgar and Nick. We borrowed the genres, but the friendship was always ours.",
+          "I was making small British comedies, then one morning I delivered a long speech to Tom Cruise. I was asking myself how on earth I got there.",
+          "I am a geek who does not hide what he loves. You need affection before you can play with a genre honestly."
+        ],
+        "deploy": [
+          "Do not stack up jokes. Follow the story, and let the drama take over when it needs to.",
+          "Do not mock the genre. Love it first, then twist it.",
+          "Do not turn the character into the joke. The scene can become funnier when everyone takes it seriously."
+        ],
+        "battle_win": [
+          "The audience followed the story even after the laughter stopped. We wrote the characters before the jokes.",
+          "We respected the zombie films we loved. That is why it became more than a parody.",
+          "We sat across from each other for eighteen months and worked it through. We finally paid our debt to the films we love."
+        ],
+        "battle_draw": [
+          "We got the laugh, but lost the sadness in the scene. I will use fewer jokes this time.",
+          "The joke I thought would kill did not work. The audience is teaching me the script again.",
+          "We cut a character and lines we liked. Protecting the draft mattered less than making the film better."
+        ],
+        "battle_lose": [
+          "I was becoming successful while I was going down. Depression was not a mood. It was a condition.",
+          "I acted all day to hide my addiction. I would not be here now if I had not accepted help.",
+          "This time I saved neither the laugh nor the story. Let us return to the script and find where the balance broke."
+        ],
+        "clash_attack": [
+          "Do not recreate a scene and call it a joke. Without affection or thought, it is only repetition.",
+          "Do not underestimate the audience. Asking them to think will not drive them from the cinema.",
+          "Do not rely on a familiar sequel. A new story is worth more than a safe name."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Edgar, Nick, and I made zombie and police films. The friendship was ours.",
+          "British comedies led me to a long speech opposite Tom Cruise. I was surprised too.",
+          "I never hide my fandom. You need affection before twisting a genre."
+        ],
+        "deploy": [
+          "Do not pile on jokes. Follow the story and get serious when needed.",
+          "Do not mock the genre. Love it first, then twist it.",
+          "Do not make the character a joke. Sincerity makes scenes funnier."
+        ],
+        "battle_win": [
+          "The audience stayed after the laughter. We wrote the characters first.",
+          "We respected the zombie films we loved. It became more than parody.",
+          "We spent eighteen months across a table, paying our debt to those films."
+        ],
+        "battle_draw": [
+          "We got the laugh but lost the sadness. Cut a joke.",
+          "My best joke failed. The audience taught me better.",
+          "We cut characters and lines we loved. The film matters more than the draft."
+        ],
+        "battle_lose": [
+          "I was succeeding while falling apart. Depression was an illness, not a mood.",
+          "I acted all day to hide addiction. Help kept me here.",
+          "Neither laugh nor story survived. Back to the script to find the break."
+        ],
+        "clash_attack": [
+          "Copying the shot does not make it a joke!",
+          "The audience won't run because you made them think!",
+          "Give me a new story, not a safe name!"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "slug": "raphael-sanzio",
+  "nickname": "라파엘로 산치오",
+  "route": "new",
+  "routeReason": "현재 원고는 우르비노·피렌체·로마, 성모상, 바티칸 방, 성 베드로 대성당이라는 작품 경로는 담았지만 거의 모든 문단을 작품에서 추정한 내면으로 채웠다. ‘기이하거나 강해 보이려고 붓을 든 적이 없다’, ‘제가 붙든 아름다움’, ‘남의 빛을 안다고 제가 어두워지는 것은 아니다’는 기록된 발언이 아니다. 대규모 공방과 줄리오 로마노 등 조수의 실행, 교황 율리우스 2세·레오 10세와 아고스티노 키지의 후원, 태피스트리의 브뤼셀 직조 노동, 고대 로마 실측·보존 사업도 한 사람의 조화 감각으로 흡수됐다. 작품의 평온을 작가의 성품으로 동일시한 구조를 부분 수정하기 어렵기 때문에, 문서화된 궁정 화가·공방 경영자·건축가·고대유산 조사자의 삶으로 전면 신규 작성하는 편이 안전하다.",
+  "dossier": {
+    "identity": {
+      "name": "라파엘로 산치오",
+      "birth": "1483-04-06",
+      "death": "1520-04-06",
+      "profession": "visual_artist",
+      "disambiguation": "우르비노의 궁정 화가 조반니 산티의 아들로 태어나 피렌체에서 활동한 뒤 교황 율리우스 2세와 레오 10세 아래 로마에서 대형 공방을 운영한 화가·건축가 라파엘로 산치오",
+      "existingBioForDiscoveryOnly": "이탈리아 르네상스의 화가이자 건축가. 바티칸의 라파엘로 방과 《아테네 학당》, 여러 성모자상, 시스티나 성당 태피스트리 도안을 남겼다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael",
+        "title": "Raphael",
+        "publisher": "The National Gallery Catalogues",
+        "kind": "scholarly",
+        "publishedAt": "2022",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "우르비노의 가정·공방 배경과 초기 수련에 남은 불확실성",
+          "1500년 이미 독립된 ‘마스터’로 문서에 등장한 사실",
+          "피렌체와 로마 활동, 1514년 이후 성 베드로 대성당 건축가 역할",
+          "1483년 출생일이 3월 말 또는 4월 초로 갈리는 문제"
+        ]
+      },
+      {
+        "url": "https://www.nationalgallery.org.uk/exhibitions/past/the-credit-suisse-exhibition-raphael/a-brief-introduction-to-raphael-s-life-and-times",
+        "title": "A brief introduction to Raphael’s life and times",
+        "publisher": "The National Gallery, London",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "우르비노 궁정 문화와 아버지의 공방을 이른 나이에 이어받은 배경",
+          "1504년 무렵 피렌체로 옮겨 레오나르도와 미켈란젤로의 작업을 연구한 과정",
+          "로마에서 회화·건축·고대유산 조사까지 넓힌 경력"
+        ]
+      },
+      {
+        "url": "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html",
+        "title": "Room of the Segnatura",
+        "publisher": "Vatican Museums",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "서명의 방 벽화가 신학·철학·시·법이라는 교황 궁정의 지식 체계를 시각화한 구성",
+          "《아테네 학당》을 라파엘로 개인의 철학 고백보다 교황의 방이라는 장소와 도상 계획 속에서 읽어야 한다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons",
+        "title": "The story of the Raphael Cartoons",
+        "publisher": "Victoria and Albert Museum",
+        "kind": "institutional",
+        "publishedAt": "2023",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "라파엘로의 바티칸 대형 공방에 줄리오 로마노·잔프란체스코 펜니·페리노 델 바가·조반니 다 우디네 등이 참여한 사실",
+          "사도행전 태피스트리 도안이 브뤼셀의 피터르 판 알스트 공방에서 직조된 국제적 분업",
+          "도안·제작·복제와 작가 이름의 관계"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/item/2021668166/",
+        "title": "Three Texts on Architecture from Classical Antiquity: Raphael’s Letter to Pope Leo X",
+        "publisher": "Library of Congress",
+        "kind": "primary",
+        "publishedAt": "1519",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "레오 10세에게 고대 로마 유적의 파괴를 막고 기록하자고 요청한 편지",
+          "평면·입면·단면을 이용한 건축 기록 방법",
+          "발다사레 카스틸리오네의 도움을 받은 공동 작성 성격과 라파엘로의 저자성"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/ja/perspectives/raphael-and-antiquity",
+        "title": "Raphael and Antiquity",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "비트루비우스 이해를 위해 파비오 칼보에게 라틴어 원전을 이탈리아어로 번역하게 한 사실",
+          "고대 로마 조사와 교황의 건축·태피스트리 의뢰가 연결된 과정",
+          "라파엘로의 고전 수용이 단순한 양식 모방이 아니라 측량과 도시 연구를 포함했다는 점"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "우르비노 궁정 화가였던 아버지 조반니 산티의 공방과 궁정 문화 속에서 성장했고, 아버지가 죽은 뒤 십대에 가족 공방과 주문을 이어받았다.",
+        "significance": "천재가 무에서 출현했다는 서사 대신 기술 훈련, 상속된 작업 기반, 궁정의 인맥을 출발점으로 둔다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael",
+          "https://www.nationalgallery.org.uk/exhibitions/past/the-credit-suisse-exhibition-raphael/a-brief-introduction-to-raphael-s-life-and-times"
+        ]
+      },
+      {
+        "point": "1504년 무렵 피렌체에서 레오나르도와 미켈란젤로를 비롯한 동시대 작가의 구도·인체·감정 표현을 연구하고 자신의 주문 작업에 변형해 사용했다.",
+        "significance": "‘남의 빛을 배웠다’는 창작 내면 대신 르네상스 공방에서 관찰·모사·경쟁이 정상적인 학습 방식이었다는 사실로 바꾼다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/exhibitions/past/the-credit-suisse-exhibition-raphael/a-brief-introduction-to-raphael-s-life-and-times"
+        ]
+      },
+      {
+        "point": "교황 율리우스 2세의 부름으로 로마에 들어가 교황 개인 공간인 바티칸 방의 대규모 벽화 계획을 맡았다.",
+        "significance": "《아테네 학당》을 작가 개인의 보편 철학으로 읽기보다 신학·철학·시·법을 배열한 교황 궁정의 프로그램과 함께 본다.",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      },
+      {
+        "point": "주문이 급증하면서 대형 공방을 운영했고, 태피스트리 도안은 공방 조수와 브뤼셀 직조공의 손을 거쳐 시스티나 성당의 직물로 완성됐다.",
+        "significance": "라파엘로라는 이름 아래 여러 종류의 노동과 기술이 결합했다는 제작 현실을 독백의 중심 긴장으로 삼는다.",
+        "sourceUrls": [
+          "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons"
+        ]
+      },
+      {
+        "point": "1514년 브라만테의 뒤를 이어 성 베드로 대성당의 건축가가 되고, 1519년 무렵 고대 로마 유적을 측량·기록해 보존하려는 계획을 레오 10세에게 제시했다.",
+        "significance": "회화의 조화만이 아니라 실제 건축, 측량, 고대유산 보존이라는 말년의 공적 사업을 삶의 축에 넣는다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael",
+          "https://www.loc.gov/item/2021668166/",
+          "https://www.metmuseum.org/ja/perspectives/raphael-and-antiquity"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "앞선 작가의 구도와 기법을 면밀히 연구해 자기 주문의 장소·주제에 맞게 다시 조직했으며, 모방과 변형을 서로 배타적인 것으로 보지 않았다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/exhibitions/past/the-credit-suisse-exhibition-raphael/a-brief-introduction-to-raphael-s-life-and-times"
+        ]
+      },
+      {
+        "point": "바티칸 서명의 방에서는 신학·철학·시·법을 서로 대응하는 벽에 배치해 교황 궁정의 지식 질서를 하나의 공간으로 구성했다.",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      },
+      {
+        "point": "대규모 주문을 도안·부분 제작·감독으로 나누어 공방을 운영했고, 작가의 구상과 조수의 실행을 결합하는 생산 체계를 만들었다.",
+        "sourceUrls": [
+          "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons"
+        ]
+      },
+      {
+        "point": "고대 건축을 이상화하는 데 그치지 않고 남은 유적을 평면·입면·단면으로 측량해 기록하고 파괴를 막자고 교황에게 제안했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/item/2021668166/",
+          "https://www.metmuseum.org/ja/perspectives/raphael-and-antiquity"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "작품의 평온·조화는 구도와 제작 결과에 대한 미술사적 평가이지 라파엘로 개인의 성격이나 평생의 감정 상태를 입증하는 자료가 아니다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael"
+        ]
+      },
+      {
+        "point": "라파엘로의 명성은 개인의 설계력과 조직력에 기대지만 로마의 후기 작품 상당수는 대형 공방의 조수들이 실행했고 사후에도 완성했다.",
+        "sourceUrls": [
+          "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons"
+        ]
+      },
+      {
+        "point": "《아테네 학당》의 철학자들을 라파엘로 자신의 신념 목록으로 읽으면 교황 율리우스 2세의 방과 전체 도상 프로그램을 지운다.",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      },
+      {
+        "point": "고대유산 보존 편지는 라파엘로의 저자성이 인정되지만 카스틸리오네의 도움을 받은 문서이므로 한 사람의 독백처럼 그대로 옮기면 공동 작성 맥락이 사라진다.",
+        "sourceUrls": [
+          "https://www.loc.gov/item/2021668166/"
+        ]
+      },
+      {
+        "point": "성 베드로 대성당과 바티칸의 성취는 교황권의 거대한 재정·정치·종교 권력에 의존했으며, ‘인류 보편의 아름다움’만으로 주문 체계를 지울 수 없다.",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael",
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "주문 장소·공방·도안처럼 확인 가능한 명사를 앞에 놓고, 서로 다른 인물과 기술이 한 화면을 만드는 과정을 중간 길이 문장으로 연결한다.",
+      "directness": "온화한 천재의 자화자찬보다 궁정과 공방을 조율하는 젊은 마스터의 실무적 목소리를 사용하고, 작품의 감정을 자기 내면으로 소유하지 않는다.",
+      "moves": [
+        "우르비노의 가족 공방에서 출발해 피렌체의 학습과 로마의 대형 주문으로 규모를 키우기",
+        "대표작 제목 뒤에 주문자·장소·도상 프로그램을 반드시 붙이기",
+        "‘내가 그렸다’ 뒤에 조수와 직조공의 실행 범위를 병치하기",
+        "회화의 공간 구성에서 실제 건축과 고대 로마 측량으로 이동하기",
+        "짧은 생애의 감상적 예감 대신 사후 공방이 남은 주문을 완성했다는 사실로 닫기"
+      ],
+      "avoid": [
+        "그림 속 평온을 작가의 평온한 성품으로 단정하기",
+        "성모의 시선이나 몸짓을 라파엘로 자신의 모성·신앙 체험으로 만들기",
+        "레오나르도와 미켈란젤로를 질투하거나 극복하려 했다는 근거 없는 내면 경쟁",
+        "바티칸 벽화를 혼자 손으로 모두 완성했다고 말하기",
+        "공방 조수와 브뤼셀 직조공을 라파엘로의 도구처럼 익명화하기",
+        "《아테네 학당》을 작가의 개인 철학 선언문으로 부르기",
+        "서른일곱에 죽을 것을 예감해 서둘렀다는 서사",
+        "바티칸 주문의 교황권·후원 맥락을 ‘모두를 위한 예술’로 씻어 내기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "도상 프로그램",
+        "guide": "방 전체에서 어떤 인물·이야기·개념을 어느 벽과 천장에 배치할지 정한 시각적 설계",
+        "sourceUrls": [
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      },
+      {
+        "term": "카르툰",
+        "guide": "태피스트리나 벽화 제작 전에 실제 크기로 그린 밑그림으로, 만화를 뜻하는 현대 용법과 다르다",
+        "sourceUrls": [
+          "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons"
+        ]
+      },
+      {
+        "term": "태피스트리",
+        "guide": "색실로 그림을 짜 넣은 대형 벽걸이 직물로, 라파엘로의 도안을 브뤼셀 직조공들이 직물로 완성했다",
+        "sourceUrls": [
+          "https://www.vam.ac.uk/articles/story-of-the-raphael-cartoons"
+        ]
+      },
+      {
+        "term": "입면·단면",
+        "guide": "건물을 정면에서 본 모양과 잘라서 내부 구조를 본 모양으로 기록하는 건축 도면 방식",
+        "sourceUrls": [
+          "https://www.loc.gov/item/2021668166/"
+        ]
+      },
+      {
+        "term": "교황 후원",
+        "guide": "교황이 궁전·성당의 정치적·종교적 목적을 위해 예술가에게 대규모 주문과 지위를 제공한 관계",
+        "sourceUrls": [
+          "https://www.nationalgallery.org.uk/paintings/catalogues/plazzotta-and-henry-2022/raphael",
+          "https://www.museivaticani.va/content/museivaticani/en/collezioni/musei/stanze-di-raffaello/stanza-della-segnatura/stanza-della-segnatura.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "DB 생일은 1483년 4월 6일이지만 문헌 해석에 따라 3월 28일 전후 또는 4월 6일 전후로 갈린다. 본문에서 확정 생일을 서사의 장치로 쓰지 않는다.",
+      "어린 시절 페루지노에게 정식 도제였는지는 학계 논쟁이 남아 있다. 그의 양식에서 배웠다는 사실과 정식 계약을 구분한다.",
+      "라파엘로 작품과 공방 작품의 귀속은 기술 조사에 따라 달라질 수 있다. ‘직접 그린 손’과 ‘설계·감독’을 작품별로 확인한다.",
+      "고대유산 보존 편지는 카스틸리오네의 협력이 있었으므로 문장 전체를 라파엘로 단독의 실제 발언으로 재현하지 않는다.",
+      "바티칸 벽화의 인물 모델을 동시대 예술가와 일대일로 대응시키는 대중적 해석 가운데 확정되지 않은 것은 사용하지 않는다.",
+      "라파엘로의 성품을 온화함·조화로 설명한 바사리 전통은 후대 전기적 수사다. 작품 양식과 실제 내면을 분리한다.",
+      "라파엘로 사망 원인에 관한 바사리의 성적 일화는 검증된 의학 기록이 아니므로 사용하지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "slug": "yelu-chucai",
+  "nickname": "야율초재",
+  "route": "new",
+  "routeReason": "현재 원고는 '말발굽 뒤에 장부를 놓아 사람을 살린 재상'이라는 단일한 구원자 서사에 의존한다. 특히 정복지를 목초지로 만들려는 계획과 대량살육을 한 번의 간언으로 막았다는 이야기는 후대 《원사》 열전이 만든 영웅적 기억과 분리해 다뤄야 한다. 실제로 확인되는 세금·호적·문서행정·유학자 선발과, 정복국가의 재정을 안정시키는 일이 피정복민을 보호하는 효과를 낳은 긴장을 중심으로 원고를 새로 짜는 편이 안전하다.",
+  "dossier": {
+    "identity": {
+      "name": "야율초재",
+      "birth": "1190-07-24",
+      "death": "1244-06-20",
+      "profession": "politician",
+      "disambiguation": "거란계 요 황실 후손으로 금나라에서 관직을 지낸 뒤 칭기즈 칸과 오고타이 칸 아래에서 문서·재정·인사 행정에 관여한 야율초재",
+      "existingBioForDiscoveryOnly": "몽골 제국 초기의 거란계 관료. 호적과 조세 행정, 유학자 선발을 건의해 북중국 정복지를 지속적으로 다스릴 체계를 만드는 데 기여했다."
+    },
+    "sources": [
+      {
+        "url": "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+        "title": "《元史》卷一百四十六",
+        "publisher": "Wikisource",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "거란 왕실 계통, 금나라 관직, 칭기즈 칸의 부름과 서방 원정 동행을 전하는 후대 정사 기록",
+          "북중국 조세액 산정, 호적, 군민 행정의 구분, 문서와 법식 정비에 관한 열전의 구체적 서술",
+          "유학자 시험과 선발, 포로가 된 문인·기술자의 지위 보호를 건의했다는 기록",
+          "정복지 주민을 살려 세금을 거두자는 간언과 개봉 도성의 살육을 막았다는 유명 일화의 원전",
+          "말년 오고타이 사후 섭정기 권력에서 밀려난 과정에 대한 기록"
+        ]
+      },
+      {
+        "url": "https://ctext.org/wiki.pl?if=gb&res=996444",
+        "title": "《湛然居士集》",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "야율초재 본인의 시문과 서신을 통해 확인되는 불교·유교·도교에 대한 관심",
+          "서방 원정과 여러 지역의 풍경·문화에 대한 당대인의 관찰",
+          "후대 열전이 대필한 1인칭이 아니라 그가 실제 남긴 문체와 지적 관심을 확인할 수 있는 자료",
+          "정치 경력 전체를 자서전처럼 설명하지 않는 문집이라는 자료 성격"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F",
+        "title": "The Rise of the Mongolian Empire and Mongolian Rule in North China",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2008-03-28",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "칭기즈 칸과 오고타이 시기 북중국 지배가 군사 정복에서 행정·재정 수취 체계로 이행한 큰 구조",
+          "몽골 제국의 통치가 야율초재 한 사람의 중국화가 아니라 몽골·거란·위구르·무슬림 관료가 함께 만든 다언어 행정이었다는 맥락",
+          "북중국의 인구·토지·세입을 둘러싼 황실과 제후·관료의 경쟁 속에서 그의 제안을 평가할 근거"
+        ]
+      },
+      {
+        "url": "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68",
+        "title": "Sino-Mongol Culture Contacts in the XIII Century: A Study on Yeh-lü Ch'u-ts'ai",
+        "publisher": "Australian National University Open Research Repository",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "야율초재의 생애·경력·사상을 본인의 글과 동시대 기록을 함께 대조해 연구한 전기적 자료",
+          "거란계 지식인이 몽골 군주와 북중국의 문치 전통 사이에서 수행한 문화·행정 중개의 성격",
+          "후대 중국식 명신 서사와 몽골 제국 안에서의 실제 직책·영향력을 구분해야 한다는 자료적 기반"
+        ]
+      },
+      {
+        "url": "https://api.repository.cam.ac.uk/server/api/core/bitstreams/bd22b5c1-ef78-48ff-bfd4-124639c072e0/content",
+        "title": "Tamga: A Fiscal Form in Post-Mongol Moscow",
+        "publisher": "University of Cambridge Repository",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "오고타이 치세 북중국에서 야율초재가 토지세를 제안한 재정사적 맥락",
+          "몽골 제국의 세금이 정복지별 기존 제도와 결합하며 만들어졌다는 비교사적 설명",
+          "그를 단순한 인도주의자가 아니라 제국 수취의 지속 가능성을 설계한 관료로 볼 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "요 왕실의 후손으로 금나라 관료가 된 그는 금의 수도가 몽골군에 함락된 뒤 1218년 칭기즈 칸의 부름을 받아 제국의 막부로 들어갔다.",
+        "significance": "망한 왕조의 복수를 위해 들어간 충신이나 처음부터 몽골을 중국식 국가로 바꾸려 한 설계자로 단순화하지 않고, 정복자에게 포섭된 다언어 지식인의 불안정한 위치에서 출발할 수 있다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68"
+        ]
+      },
+      {
+        "point": "칭기즈 칸의 서방 원정에 동행하면서 점성·의술·문서 능력으로 복무했고, 동시에 여러 지역을 본 시와 기록을 남겼다.",
+        "significance": "그의 목소리를 훗날의 재상 영웅담에만 가두지 않고, 전쟁 기구 안에서 지식과 언어를 제공한 사람의 실제 지적 범위로 넓혀 준다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=gb&res=996444",
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68"
+        ]
+      },
+      {
+        "point": "오고타이 치세에 북중국의 호적과 세입을 계산하고 세금·문서·민정 관료를 두는 방안을 추진했다.",
+        "significance": "사람을 죽이지 않는 것이 자비이면서 동시에 계속 세금을 낼 인구를 보존하는 제국 재정의 논리였음을 숨기지 않는다. 이 이중성이 야율초재 독백의 중심 갈등이다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F",
+          "https://api.repository.cam.ac.uk/server/api/core/bitstreams/bd22b5c1-ef78-48ff-bfd4-124639c072e0/content"
+        ]
+      },
+      {
+        "point": "유학자와 여러 기술자를 시험·선발하고 보호하는 방안을 건의했으나, 오고타이 사후 섭정기에는 권력과 재정 운영에서 밀려났다.",
+        "significance": "그가 몽골 제국을 완성된 문치국가로 바꾸었다는 결말을 피하고, 군주의 신임에 매인 제한된 영향력과 이후 제도화의 미완성을 보여 준다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "정복한 땅을 오래 다스리려면 주민을 전리품처럼 소모하지 않고 호적·세금·문서로 지속 가능한 질서를 만들어야 한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://api.repository.cam.ac.uk/server/api/core/bitstreams/bd22b5c1-ef78-48ff-bfd4-124639c072e0/content"
+        ]
+      },
+      {
+        "point": "군사 지휘와 민정·재정의 책임을 구분하고, 세입을 임의 징발이 아니라 정해진 항목과 장부로 다루어야 한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F"
+        ]
+      },
+      {
+        "point": "정복지의 유학자·문서가·기술자는 죽이거나 노예화할 전리품이 아니라 통치에 필요한 지식의 보유자다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68"
+        ]
+      },
+      {
+        "point": "유교 경전만으로 자신을 설명하지 않고 불교·도교·천문·의술과 여행 경험을 함께 받아들인 지식인이었다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=gb&res=996444",
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "주민의 생존을 주장한 논리는 인도주의만이 아니라 살아 있는 백성에게서 반복해서 세금을 거두려는 제국 재정의 계산이기도 했다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://api.repository.cam.ac.uk/server/api/core/bitstreams/bd22b5c1-ef78-48ff-bfd4-124639c072e0/content"
+        ]
+      },
+      {
+        "point": "금나라에 봉직한 거란계 지식인이 금을 멸망시킨 몽골 제국에 들어가 북중국 지배를 안정시키는 일을 했다.",
+        "sourceUrls": [
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F"
+        ]
+      },
+      {
+        "point": "후대 《원사》는 그를 살육을 막고 문치를 연 명신으로 기렸지만, 그가 실제로 행사한 권한과 각 정책의 단독 저자 여부는 몽골 제국의 집단 통치 구조 안에서 제한해 읽어야 한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F",
+          "https://openresearch-repository.anu.edu.au/items/3b24f187-3245-44c4-bf0c-61bc703b2e68"
+        ]
+      },
+      {
+        "point": "유학자와 문인을 보호하는 제도는 문화 보존의 의미가 있었지만, 동시에 정복국가가 지역 사회를 더 효율적으로 분류하고 수취하는 능력을 높였다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 단단한 행정 문장에 한두 번 긴 관찰문을 섞는다. 숫자·호적·창고·문서 같은 구체어를 먼저 놓고, 그 뒤에 그 제도가 사람에게 미친 뜻을 붙인다.",
+      "directness": "감상적인 성군의 책사가 아니라 전쟁 기구 안에서 계산과 문서를 무기로 삼은 관료의 목소리다. 선행을 자랑하지도 제국 봉사를 지우지도 않는다.",
+      "moves": [
+        "말발굽이나 시체의 이미지가 아니라 이름이 장부에서 사라지는 순간처럼 행정의 폭력을 보여 주는 장면으로 시작하기",
+        "호적·세금·민정 분리·유학자 선발을 각각 쉬운 말로 풀되, 모두 정복통치의 지속 가능성과 연결하기",
+        "사람을 살리는 계산과 사람을 세금 단위로 세는 계산이 같은 장부에 있었다는 모순을 스스로 드러내기",
+        "내가 몽골을 문명화했다는 승리 선언 대신 군주의 신임이 끝나자 영향력도 좁아진 한계를 남기기"
+      ],
+      "avoid": [
+        "북중국 전 주민의 학살이나 목초지화를 야율초재가 단 한 번의 간언으로 막았다고 단정",
+        "개봉 함락 현장을 직접 보며 느낀 공포·연민·복수심을 근거 없이 창작",
+        "몽골 제국의 호적·세금·민정 체계를 그 혼자 설계했다고 서술",
+        "거란·한인·몽골을 고정된 문명과 야만의 대립으로 배치",
+        "《원사》의 명신 열전을 당대 속기록이나 자서전처럼 인용"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "거란",
+        "guide": "요나라를 세운 동북아시아의 여러 집단을 가리키는 이름. 야율초재는 요 황실 야율씨 계통이었다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146"
+        ]
+      },
+      {
+        "term": "호적",
+        "guide": "가구와 인구를 등록해 세금·부역·통치의 기준으로 삼는 장부",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146"
+        ]
+      },
+      {
+        "term": "군민 분리",
+        "guide": "군사 지휘관이 조세와 재판까지 임의로 장악하지 않도록 군사와 민정의 담당을 구분하려 한 운영 원칙",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146",
+          "https://www.cambridge.org/core/books/cambridge-history-of-china/rise-of-the-mongolian-empire-and-mongolian-rule-in-north-china/45194CDE5E52D31FF2DEF5FF3D40160F"
+        ]
+      },
+      {
+        "term": "무술선시",
+        "guide": "1238년 무술년에 여러 지역의 유학자를 시험해 선발한 일. 뒤의 원대 과거제와 완전히 같은 정규 제도는 아니었다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146"
+        ]
+      },
+      {
+        "term": "《원사》",
+        "guide": "원나라가 멸망한 뒤 명나라 초에 편찬된 공식 역사서. 야율초재의 유명한 선행 일화를 전하지만 후대의 명신상도 반영한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hans/%E5%85%83%E5%8F%B2/%E5%8D%B7146"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "《원사》 야율초재전은 그가 죽고 원이 멸망한 뒤 명 초에 편찬된 열전이다. 구체적 제도 기록을 활용하되 영웅적 일화와 평가를 당대의 중립 기록으로 취급하지 않는다.",
+      "북중국을 모두 목초지로 바꾸고 주민을 전멸시키려 했다는 계획과 이를 홀로 저지했다는 이야기는 후대에 크게 확장된 명신 서사다. 확실한 범위와 의사결정자를 별도 검증하기 전에는 단정하지 않는다.",
+      "개봉 함락 때 살육을 막았다는 간언도 《원사》가 전하는 핵심 일화이지만, 피해 규모와 정책 결정 과정, 야율초재의 실제 영향력은 독립 자료가 제한적이다.",
+      "호적·토지세·상업세·문서 행정은 몽골·거란·위구르·무슬림·한인 관료와 황실 이해관계가 함께 만든 체계다. 야율초재를 단독 설계자로 만들지 않는다.",
+      "유학자 시험은 원대의 정규 과거제가 완성되었다는 뜻이 아니며, 선발된 이들의 실제 임용과 지위는 제한적이었다.",
+      "야율초재의 문집은 그의 시와 지적 관심을 보여 주지만 정책 결정의 내막을 연속적으로 기록한 일기나 회고록은 아니다.",
+      "거란 왕실 후손이라는 정체성을 금나라에 대한 복수심이나 한족 백성에 대한 애정으로 곧바로 연결할 자료는 없다. 1인칭 내면 동기를 창작하지 않는다.",
+      "그의 행정이 정복지 주민의 생존을 도운 효과와 몽골의 안정적 수취·지배를 강화한 효과를 함께 남기고 어느 한쪽으로 세탁하지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "batchId": "VM-KO-02",
+  "batchFile": "C:\\project\\feelandnote\\docs\\celeb-data\\virtual-monologue\\2026-07-29-VM-KO-02.json",
+  "generatedAt": "2026-07-29T18:17:35.324Z",
+  "mode": "apply",
+  "counts": {
+    "PLAN": 0,
+    "UPDATE": 0,
+    "SKIP": 15,
+    "FAIL": 0
+  },
+  "revalidate": null,
+  "revalidateError": null,
+  "results": [
+    {
+      "slug": "richard-nixon",
+      "nickname": "리처드 닉슨",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "3bb00c834196726afe8ee28d8e02f5da82b3b663c59135b58c27c3e5b7731e24",
+      "afterHash": "3bb00c834196726afe8ee28d8e02f5da82b3b663c59135b58c27c3e5b7731e24"
+    },
+    {
+      "slug": "thomas-jefferson",
+      "nickname": "토머스 제퍼슨",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "f1cc40184e60c76d8bf83170d7c32173e0706edce50dc1816e37422b5290c2d4",
+      "afterHash": "f1cc40184e60c76d8bf83170d7c32173e0706edce50dc1816e37422b5290c2d4"
+    },
+    {
+      "slug": "charles-darwin",
+      "nickname": "찰스 다윈",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "a79a715327ab3a159c8ad8743f5450ae05d8bc4de142297bfab2e513f59ddeab",
+      "afterHash": "a79a715327ab3a159c8ad8743f5450ae05d8bc4de142297bfab2e513f59ddeab"
+    },
+    {
+      "slug": "siddhartha-gautama",
+      "nickname": "석가모니",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "fc159560a4d01010d3180b42b57a09d7edc16de54df626490be28b44b312e9a6",
+      "afterHash": "fc159560a4d01010d3180b42b57a09d7edc16de54df626490be28b44b312e9a6"
+    },
+    {
+      "slug": "enrico-fermi",
+      "nickname": "엔리코 페르미",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "292b50906eda8f4234eddcfd0f6c7173bfab31f91c777806184f922bc628d197",
+      "afterHash": "292b50906eda8f4234eddcfd0f6c7173bfab31f91c777806184f922bc628d197"
+    },
+    {
+      "slug": "isaac-newton",
+      "nickname": "아이작 뉴턴",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "08e0c0cedfa017064d3f730b8808287f06cb6c728c9c3d9a738e98c5d2186e70",
+      "afterHash": "08e0c0cedfa017064d3f730b8808287f06cb6c728c9c3d9a738e98c5d2186e70"
+    },
+    {
+      "slug": "russell-kirk",
+      "nickname": "러셀 커크",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "254395e7d41b0fc809818d04451f37749d390ec713d1fbe30523ff761878e175",
+      "afterHash": "254395e7d41b0fc809818d04451f37749d390ec713d1fbe30523ff761878e175"
+    },
+    {
+      "slug": "thomas-edison",
+      "nickname": "토머스 에디슨",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "446da582f3a58c022ffebadd521851d80e62fb198d5aee82fbb48357096982e9",
+      "afterHash": "446da582f3a58c022ffebadd521851d80e62fb198d5aee82fbb48357096982e9"
+    },
+    {
+      "slug": "yongle-emperor",
+      "nickname": "영락제",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "19074d6daf4b6dff87f52ecc941bf28e97107f5a577330addc51834862d87b3a",
+      "afterHash": "19074d6daf4b6dff87f52ecc941bf28e97107f5a577330addc51834862d87b3a"
+    },
+    {
+      "slug": "christopher-columbus",
+      "nickname": "크리스토퍼 콜럼버스",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "145b3415bc2e652f38e8e5dbe7858917adaa924f20db35569c49745c8ed4983d",
+      "afterHash": "145b3415bc2e652f38e8e5dbe7858917adaa924f20db35569c49745c8ed4983d"
+    },
+    {
+      "slug": "george-orwell",
+      "nickname": "조지 오웰",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "4e18d52dcbd18343afecf8c8b90ec8414929636e839e658707a814d1be6a4801",
+      "afterHash": "4e18d52dcbd18343afecf8c8b90ec8414929636e839e658707a814d1be6a4801"
+    },
+    {
+      "slug": "augustine",
+      "nickname": "아우구스티누스",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "9884728bb851d5ff477abe05ab12f5ba874bfd6c72b44225accce29c9c9dbcba",
+      "afterHash": "9884728bb851d5ff477abe05ab12f5ba874bfd6c72b44225accce29c9c9dbcba"
+    },
+    {
+      "slug": "william-shakespeare",
+      "nickname": "윌리엄 셰익스피어",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "03757e44700d42bf0b8ac7c406e889e2470f210e8a98c7fc3876b451cd3d3de4",
+      "afterHash": "03757e44700d42bf0b8ac7c406e889e2470f210e8a98c7fc3876b451cd3d3de4"
+    },
+    {
+      "slug": "yi-seong-gye",
+      "nickname": "이성계",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "7db22f7ffc6a5bd239844bc2cc5a46be25b947e2f6e6aff9f5404304165f580e",
+      "afterHash": "7db22f7ffc6a5bd239844bc2cc5a46be25b947e2f6e6aff9f5404304165f580e"
+    },
+    {
+      "slug": "yoshua-bengio",
+      "nickname": "요슈아 벤지오",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "8f8deecffa84052f247c58263f179d2984846118b56c7e1e5de8178ca2514b5a",
+      "afterHash": "8f8deecffa84052f247c58263f179d2984846118b56c7e1e5de8178ca2514b5a"
+    }
+  ]
+}

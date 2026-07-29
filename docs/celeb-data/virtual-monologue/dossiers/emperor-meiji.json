@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "slug": "emperor-meiji",
+  "nickname": "메이지 천황",
+  "route": "improve",
+  "routeReason": "현행 원고는 중앙집권·학교·철도·헌법·전쟁·한국병합을 한 통치기의 성취와 폭력으로 함께 묶고, 메이지 천황이 모든 정책을 혼자 만들지 않았다고 밝히는 점이 좋다. 다만 오서문 서약과 헌법, 전쟁과 병합을 말하는 주체가 황제 개인인지 원로·내각·군부가 황제 명의로 움직인 국가인지 경계가 아직 흐리며, 천황의 사적 반성처럼 읽히는 문장이 있다. 개인의 실제 역할을 과장하지 않으면서도 그의 이름과 권위 아래 세워진 체제의 책임을 놓치지 않도록 개선하는 편이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "메이지 천황",
+      "birth": "1852-11-03",
+      "death": "1912-07-30",
+      "profession": "politician",
+      "disambiguation": "1867~1912년 재위한 일본 천황 무쓰히토. 사쓰마·조슈 중심 지도자들이 막부를 무너뜨리고 천황 중심 국가를 만든 메이지 유신기의 군주이며, 헌법 제정·산업화·제국 팽창이 그의 명의와 권위 아래 진행됐다.",
+      "existingBioForDiscoveryOnly": "일본 제122대 천황. 메이지 유신의 상징으로 일본의 근대화와 부국강병을 이끌어 아시아 최초의 근대 국가로 도약시켰다."
+    },
+    "sources": [
+      {
+        "url": "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf",
+        "title": "The Charter Oath (of the Meiji Restoration), 1868",
+        "publisher": "Asia for Educators, Columbia University",
+        "kind": "primary",
+        "publishedAt": "1868-04-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "메이지 천황의 이름으로 공론·신분을 넘는 참여·세계의 지식 수용 등을 선언한 오서문 서약의 내용",
+          "열다섯 살 천황이 직접 쓴 글이 아니라 신정부의 젊은 사무라이 지도자들이 작성해 그의 이름으로 발표했다는 제작 맥락"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/meiji-political-institutions/B78FAE24392726F686CD76C8783343B5",
+        "title": "Meiji Political Institutions",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2008-03-28",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1867~1868년 정변과 내전으로 막부가 무너지고 천황 중심의 정치 권위가 세워진 과정",
+          "메이지 국가의 제도가 한 사람의 청사진이 아니라 여러 지도자와 갈등을 거쳐 한 세대 동안 형성됐다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-institutional-economics/article/making-reform-and-stability-compatible-with-each-other-elite-redeployment-in-meiji-japan/B9B4F58D9CE60204725E1B792AB36247",
+        "title": "Making Reform and Stability Compatible with Each Other: Elite Redeployment in Meiji Japan",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사쓰마·조슈 출신 지도자들이 중앙집권 개혁과 사무라이 특권 폐지를 설계·집행한 정치 구조",
+          "초기 메이지 천황이 지도자들의 결정을 받아들이는 상징적·명목적 중심으로 기능했다는 분석"
+        ]
+      },
+      {
+        "url": "https://www.ndl.go.jp/modern/e/cha1/",
+        "title": "Initial Steps toward a Constitutional State: Outline",
+        "publisher": "National Diet Library, Japan",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "오서문 서약의 공론 약속과 국회 개설 요구, 헌법 국가로 가는 장기적인 정치 과정",
+          "1889년 헌법과 제국의회가 유신 직후 한 번에 완성된 것이 아니라 논쟁과 단계적 제도화의 결과라는 점"
+        ]
+      },
+      {
+        "url": "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001",
+        "title": "Constitution of the Empire of Japan",
+        "publisher": "National Archives of Japan",
+        "kind": "primary",
+        "publishedAt": "1889-02-11",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대일본제국헌법이 천황을 국가 원수이자 통치권의 주체로 두고 제국의회·신민의 권리·재판 제도를 규정한 내용",
+          "신민의 권리가 법률의 범위 안에서 보장됐으므로 현대적 국민주권 헌법과 같지 않았다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.archives.go.jp/hub/meiji/meiji02.html",
+        "title": "The Promulgation of the Constitution of the Empire of Japan",
+        "publisher": "National Archives of Japan",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이토 히로부미와 이노우에 고와시, 추밀원과 내각이 헌법 초안과 심의를 담당하고 천황이 이를 재가·공포한 절차",
+          "헌법을 천황 개인의 저작이나 단독 구상으로 말하지 않으면서도 공포 권위의 주체였음을 구분할 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/international-review-of-social-history/article/citizenship-and-national-identity-in-early-meiji-japan-18681889-a-comparative-assessment/B016A99043B92E141CB4FE628CE2A5EB",
+        "title": "Citizenship and National Identity in Early Meiji Japan, 1868–1889: A Comparative Assessment",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2009-02-20",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사무라이 특권 폐지, 징병·교육·조세와 헌법·의회가 새로운 국가 구성원과 의무를 만든 과정",
+          "천황이 근대 일본의 국민 통합과 정체성을 묶는 핵심 상징이 된 정치적 역할"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/politics-of-oligarchy/concession-or-facade-the-meiji-constitution/B6B0D3FBBA907287A18EB7367D092F8E",
+        "title": "Concession or Facade? The Meiji Constitution",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2012-06-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "메이지 헌법과 대표 의회가 자유민권운동과 원로 정치의 필요가 타협한 제도였다는 분석",
+          "천황주권이라는 외형과 실제 원로·내각 정치가 결합한 복합적 권력 구조"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/modern-asian-studies/article/abs/japanese-annexation-of-korea-1910-the-failure-of-east-asian-coprosperity/A5A87B3DE10D88212511A3D76E3859AF",
+        "title": "The Japanese Annexation of Korea, 1910: The Failure of East Asian Co-Prosperity",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2008-11-28",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "일본이 군사·경찰의 강압과 보호국화를 거쳐 1910년 한국을 병합한 제국주의적 과정",
+          "병합을 양국의 자발적 합의나 근대화 시혜로 묘사해서는 안 되는 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/korea-1905-1945/politics-of-annexation/25EBFC3180F4FEFFA82EDF58DF60CFEC",
+        "title": "The Politics of Annexation",
+        "publisher": "Amsterdam University Press",
+        "kind": "scholarly",
+        "publishedAt": "2022-05-04",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1905년 보호국화에서 1910년 병합으로 가는 일본 지도부의 정책 결정과 한국인의 저항",
+          "병합이 메이지 천황 한 사람의 사적 명령만도, 그와 무관한 관료의 행위만도 아닌 제국 국가의 결정이었다는 맥락"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1867~1868년 막부 붕괴와 내전을 거쳐 젊은 천황이 새 정부의 중심 상징이 됐고, 오서문 서약이 그의 이름으로 발표됐다.",
+        "significance": "천황 개인의 영도 신화보다 사쓰마·조슈 지도자들이 그의 권위를 통해 새 국가를 정당화한 구조를 보여준다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf",
+          "https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/meiji-political-institutions/B78FAE24392726F686CD76C8783343B5"
+        ]
+      },
+      {
+        "point": "번을 없애 중앙정부에 권력을 모으고 신분 특권을 폐지하며 징병·교육·조세 제도를 전국적으로 확대했다.",
+        "significance": "근대화가 철도와 학교의 성취만이 아니라 사람을 국민과 신민으로 재편하고 새 의무를 부과한 국가 건설이었음을 드러낸다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-institutional-economics/article/making-reform-and-stability-compatible-with-each-other-elite-redeployment-in-meiji-japan/B9B4F58D9CE60204725E1B792AB36247",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/citizenship-and-national-identity-in-early-meiji-japan-18681889-a-comparative-assessment/B016A99043B92E141CB4FE628CE2A5EB"
+        ]
+      },
+      {
+        "point": "1889년 대일본제국헌법을 공포하고 이듬해 제국의회를 열어 천황주권과 입헌 제도를 결합했다.",
+        "significance": "법과 의회를 세운 변화와, 권리·군 통수·정부 책임이 천황 중심 질서에 제한된 한계를 동시에 말할 수 있는 핵심 장면이다.",
+        "sourceUrls": [
+          "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001",
+          "https://www.archives.go.jp/hub/meiji/meiji02.html",
+          "https://www.cambridge.org/core/books/abs/politics-of-oligarchy/concession-or-facade-the-meiji-constitution/B6B0D3FBBA907287A18EB7367D092F8E"
+        ]
+      },
+      {
+        "point": "청일전쟁과 러일전쟁을 거쳐 일본의 제국 권력이 커졌고, 재위 말기인 1910년 한국을 강제로 병합했다.",
+        "significance": "메이지기의 부국강병이 서구 열강에 맞선 생존만이 아니라 이웃 나라에 대한 침략과 식민지배로 이어졌다는 결말을 회피하지 않는다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/modern-asian-studies/article/abs/japanese-annexation-of-korea-1910-the-failure-of-east-asian-coprosperity/A5A87B3DE10D88212511A3D76E3859AF",
+          "https://www.cambridge.org/core/books/abs/korea-1905-1945/politics-of-annexation/25EBFC3180F4FEFFA82EDF58DF60CFEC"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "천황의 권위를 중심으로 막부와 번의 분권 질서를 해체하고 전국을 통일된 법·행정·조세·군사 체제로 묶는 신정부를 승인했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/meiji-political-institutions/B78FAE24392726F686CD76C8783343B5",
+          "https://www.cambridge.org/core/journals/journal-of-institutional-economics/article/making-reform-and-stability-compatible-with-each-other-elite-redeployment-in-meiji-japan/B9B4F58D9CE60204725E1B792AB36247"
+        ]
+      },
+      {
+        "point": "세계의 지식을 받아들이고 공론을 내세우는 개혁의 명분을 천황의 이름으로 공표했다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf"
+        ]
+      },
+      {
+        "point": "헌법과 의회를 허용하되 통치권과 군 통수의 근원을 천황에게 두고 신민의 권리를 법률 범위 안에 놓는 입헌군주제를 공포했다.",
+        "sourceUrls": [
+          "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001",
+          "https://www.cambridge.org/core/books/abs/politics-of-oligarchy/concession-or-facade-the-meiji-constitution/B6B0D3FBBA907287A18EB7367D092F8E"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "메이지 국가의 모든 주요 문서는 천황의 이름과 권위로 나왔지만, 실제 초안과 정책은 원로·내각·관료들이 만들었고 천황의 개인적 개입 정도는 사안마다 달랐다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf",
+          "https://www.archives.go.jp/hub/meiji/meiji02.html",
+          "https://www.cambridge.org/core/journals/journal-of-institutional-economics/article/making-reform-and-stability-compatible-with-each-other-elite-redeployment-in-meiji-japan/B9B4F58D9CE60204725E1B792AB36247"
+        ]
+      },
+      {
+        "point": "공론과 입헌을 약속했지만 헌법은 국민주권이 아니라 천황주권을 규정했고 권리는 법률로 제한될 수 있었다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf",
+          "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001"
+        ]
+      },
+      {
+        "point": "서구 열강의 압력에서 벗어나기 위한 부국강병은 일본의 자립을 키웠지만, 곧 한국을 비롯한 이웃에 강제와 식민지배를 행사하는 제국의 힘이 됐다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/modern-asian-studies/article/abs/japanese-annexation-of-korea-1910-the-failure-of-east-asian-coprosperity/A5A87B3DE10D88212511A3D76E3859AF",
+          "https://www.cambridge.org/core/books/abs/korea-1905-1945/politics-of-annexation/25EBFC3180F4FEFFA82EDF58DF60CFEC"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "칙어처럼 과장된 고문체 대신 절제된 군주의 짧은 문장과, '내 이름으로 공포됐지만 누가 설계했는가'를 분해하는 중간 길이 문장을 쓴다. 제도명은 처음 등장할 때 괄호 안에서 한 문장으로 푼다.",
+      "directness": "사적인 일기나 후회가 거의 남지 않은 군주이므로 속마음을 창작하지 않는다. '내가 만들었다'보다 '내 이름과 재가 아래 시행됐다'를 정확히 구분하고, 권위의 이익과 책임은 1인칭으로 회피하지 않는다.",
+      "moves": [
+        "시대가 자신의 이름을 가졌다는 사실로 열되 개인 영웅담이 아니라 국가의 공식 상징이라는 뜻으로 전환한다",
+        "오서문 서약을 소개한 뒤 젊은 천황의 자작문이 아니라 신정부 지도자들이 작성한 선언임을 밝힌다",
+        "중앙집권·징병·교육을 성취 목록 대신 사람들의 신분과 의무를 바꾼 제도로 설명한다",
+        "헌법은 천황주권과 제국의회의 동거라는 모순을 쉬운 괄호 안내로 푼다",
+        "마지막에는 한국병합을 재위기의 국가 책임으로 명시하되 입증되지 않은 개인적 참회 장면을 만들지 않는다"
+      ],
+      "avoid": [
+        "메이지 천황이 철도·학교·헌법·군대를 혼자 구상하고 지휘했다고 말하기",
+        "오서문 서약이나 헌법 초안을 천황이 직접 쓴 자서전적 신념으로 인용하기",
+        "근대화를 서구화와 경제성장의 성공 목록으로만 쓰고 징병·조세·신분 재편의 강제를 지우기",
+        "청일·러일전쟁과 한국병합을 시대의 흐름 또는 신하들의 일로 돌려 천황제 국가의 책임을 면제하기",
+        "반대로 모든 구체적 정책 결정을 천황 개인의 명령과 내면적 악의로 단정하기",
+        "한국병합을 근대화 지원이나 양국 합의로 완곡하게 표현하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "메이지 유신",
+        "guide": "1867~1868년 막부를 무너뜨리고 천황을 국가의 중심으로 세운 정변과, 뒤이은 중앙집권·신분·군사·경제 개혁의 긴 과정.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/meiji-political-institutions/B78FAE24392726F686CD76C8783343B5"
+        ]
+      },
+      {
+        "term": "오서문 서약",
+        "guide": "1868년 메이지 천황의 이름으로 발표한 다섯 조항의 개혁 선언(공론을 넓히고 세계의 지식을 구한다는 약속). 신정부 지도자들이 초안을 만들었다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/japan/charter_oath_1868.pdf"
+        ]
+      },
+      {
+        "term": "폐번치현",
+        "guide": "각 번과 번주의 통치권을 없애고 중앙정부가 임명하는 현 체제로 바꾼 중앙집권 개혁.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-institutional-economics/article/making-reform-and-stability-compatible-with-each-other-elite-redeployment-in-meiji-japan/B9B4F58D9CE60204725E1B792AB36247"
+        ]
+      },
+      {
+        "term": "원로",
+        "guide": "사쓰마·조슈 등 유신 세력 출신으로 내각 밖에서도 장기간 인사와 국가 중대사를 좌우한 지도자 집단.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/politics-of-oligarchy/concession-or-facade-the-meiji-constitution/B6B0D3FBBA907287A18EB7367D092F8E"
+        ]
+      },
+      {
+        "term": "대일본제국헌법",
+        "guide": "1889년 공포된 일본 헌법(천황을 통치권의 주체로 두면서 제국의회와 법률상 신민의 권리도 규정한 흠정헌법).",
+        "sourceUrls": [
+          "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001"
+        ]
+      },
+      {
+        "term": "신민",
+        "guide": "메이지 헌법이 일본의 구성원을 부른 말. 권리의 주체이면서 천황국가에 병역·납세 등 의무를 지는 사람이라는 뜻이 함께 있었다.",
+        "sourceUrls": [
+          "https://www.digital.archives.go.jp/DAS/pickup/view/print/printArchivesEn/0000000001",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/citizenship-and-national-identity-in-early-meiji-japan-18681889-a-comparative-assessment/B016A99043B92E141CB4FE628CE2A5EB"
+        ]
+      },
+      {
+        "term": "한국병합",
+        "guide": "일본이 1905년 보호국화와 군사·경찰의 강압을 거쳐 1910년 대한제국의 주권을 빼앗고 식민지로 편입한 사건.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/modern-asian-studies/article/abs/japanese-annexation-of-korea-1910-the-failure-of-east-asian-coprosperity/A5A87B3DE10D88212511A3D76E3859AF",
+          "https://www.cambridge.org/core/books/abs/korea-1905-1945/politics-of-annexation/25EBFC3180F4FEFFA82EDF58DF60CFEC"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "메이지 천황의 공적 행적은 방대하지만 사적인 정책 동기와 감정을 직접 보여주는 자료는 제한적이다. 공식 문서의 문장을 곧 그의 자작문이나 내면 독백으로 옮기지 않는다.",
+      "오서문 서약은 젊은 천황의 이름으로 발표됐지만 신정부 지도자들이 작성했다. 그 문장 전체를 천황 개인의 평생 철학으로 단정하지 않는다.",
+      "천황의 정치적 역할은 시기와 사안마다 달랐고 학계에서도 명목적 군주, 중재자, 적극적 행위자의 비중을 두고 논쟁이 있다. '허수아비'와 '전권 통치자' 어느 한쪽으로 고정하지 않는다.",
+      "메이지 헌법은 이토 히로부미·이노우에 고와시와 추밀원 등이 만들고 천황이 재가·공포했다. 저자와 권위의 주체를 구분한다.",
+      "산업화·교육·군사 개혁의 편익과 부담은 계층·지역에 따라 달랐다. 근대화가 모두에게 같은 속도와 이익으로 주어졌다고 쓰지 않는다.",
+      "전쟁과 한국병합은 내각·군부·원로가 참여한 국가 결정이었다. 천황 개인의 구체적 명령이나 후회를 증거 없이 만들지 않되, 그의 명의와 주권 아래 이뤄진 책임도 지우지 않는다.",
+      "한국병합은 강압과 주권 박탈의 과정이었다. 일본 제국의 당시 공식 수사인 보호·합방·공영을 중립적 사실 설명처럼 반복하지 않는다.",
+      "후대의 천황 숭배와 국가주의가 만든 성군 이미지를 메이지 천황 자신의 목소리로 역투사하지 않는다."
+    ]
+  }
+}

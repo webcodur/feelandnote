@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "slug": "johannes-kepler",
+  "nickname": "요하네스 케플러",
+  "route": "improve",
+  "routeReason": "현재 원고는 원을 고집하던 코페르니쿠스주의자가 튀코 브라헤의 화성 관측과 맞지 않는 오차 앞에서 타원을 받아들이는 과정을 중심 사건으로 잡았고, 신앙이 탐구를 막지 않고 오히려 수학적 질서를 찾게 했다는 인물 고유의 축이 강하다. 다만 브라헤의 자료를 단순히 ‘남겨 준 것’으로 쓰면 두 사람의 협력·긴장과 자료 접근 문제가 사라진다. 케플러의 물리적 원인은 현대 중력과 달랐고, 정다면체 우주 모형도 틀렸다고 깨끗이 버린 것이 아니라 수정하며 오래 붙들었다. 첫 두 법칙은 1609년, 셋째 법칙은 1619년이라는 시간차와 신앙·점성술·종교 갈등의 시대 맥락을 보강하는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "요하네스 케플러",
+      "birth": "1571-12-27",
+      "death": "1630-11-15",
+      "profession": "scientist",
+      "disambiguation": "신성로마제국 뷔르템베르크 출신의 루터교 수학자·천문학자로, 튀코 브라헤의 정밀 관측을 분석해 1609년과 1619년 행성 운동 세 법칙을 발표하고 광학·천문표에도 기여한 요하네스 케플러",
+      "existingBioForDiscoveryOnly": "독일의 천문학자이자 수학자. 행성 운동의 3법칙을 발견하여 근대 천문학의 기초를 놓았다."
+    },
+    "sources": [
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/",
+        "title": "Johannes Kepler (1571 - 1630)",
+        "publisher": "MacTutor History of Mathematics, University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "튀빙겐 교육·코페르니쿠스주의·루터교 신앙과 교회 갈등",
+          "튀코의 화성 관측 분석과 1609년 첫 두 법칙·1619년 셋째 법칙",
+          "정다면체 우주 모형을 후대에도 유지·수정한 사실",
+          "광학·루돌프 표·점성술에 대한 복합적 태도"
+        ]
+      },
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/HistTopics/Keplers_laws/",
+        "title": "Kepler's Laws",
+        "publisher": "MacTutor History of Mathematics, University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "튀코의 맨눈 관측 정확도와 화성이 비원형성을 드러내기 좋은 대상이었던 이유",
+          "타원·면적 법칙을 얻기까지의 계산 과정과 관측 오차의 의미",
+          "케플러의 수학적 단순성·신학적 질서 추구가 실제 분석과 결합한 방식"
+        ]
+      },
+      {
+        "url": "https://science.nasa.gov/earth/earth-observatory/planetary-motion/",
+        "title": "Planetary Motion: The History of an Idea That Launched the Scientific Revolution",
+        "publisher": "NASA Earth Observatory",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "튀코와 케플러의 서로 다른 우주 모형, 제한된 자료 접근과 사후 자료 이용",
+          "화성 관측에서 타원 궤도와 속도 변화를 얻은 과정",
+          "셋째 법칙이 뉴턴의 운동·중력 이론에 이어진 후대 영향"
+        ]
+      },
+      {
+        "url": "https://science.nasa.gov/solar-system/orbits-and-keplers-laws/",
+        "title": "Orbits and Kepler’s Laws",
+        "publisher": "NASA Science",
+        "kind": "institutional",
+        "publishedAt": "2024-05-02",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "행성 운동 세 법칙의 현대적이고 쉬운 정의",
+          "튀코의 화성 자료와 케플러의 타원 발견",
+          "코페르니쿠스 모형도 원 궤도를 가정해 관측과 어긋났다는 설명"
+        ]
+      },
+      {
+        "url": "https://www.keplersdiscovery.com/keplersDeparture.html",
+        "title": "Kepler’s Departure",
+        "publisher": "Kepler's Discovery",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1595년 정다면체 우주 모형의 발상과 1596년 『우주의 신비』",
+          "튀코가 모형 자체보다 케플러의 기술적 능력을 보고 초청한 경위",
+          "케플러 자신의 저술에서 확인되는 화성 연구의 종교적 의미 부여"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1596년 다섯 정다면체를 행성 궤도 사이에 끼워 넣어 우주의 간격을 설명하려 한 『우주의 신비』를 출간했다.",
+        "significance": "틀린 모형이었지만 코페르니쿠스 체계를 물리적·수학적 질서로 설명하려 한 첫 시도였고, 신학적 확신과 계산이 분리되지 않았음을 보여 준다.",
+        "sourceUrls": [
+          "https://www.keplersdiscovery.com/keplersDeparture.html",
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      },
+      {
+        "point": "1600년 프라하에서 튀코 브라헤와 일하기 시작해 화성 궤도를 맡았고, 튀코 사후 그의 정밀 관측을 본격 분석했다.",
+        "significance": "관측자와 이론가의 결합이었지만 자료 접근과 우주 모형을 둘러싼 긴장도 있었다. ‘튀코가 자료를 남기고 케플러가 답을 냈다’는 매끈한 계승담으로 줄이면 안 된다.",
+        "sourceUrls": [
+          "https://science.nasa.gov/earth/earth-observatory/planetary-motion/",
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      },
+      {
+        "point": "화성 관측과 원 궤도 모형 사이의 약 8분각 차이를 버리지 않고 계산을 거듭해 타원 궤도와 같은 시간에 같은 면적을 쓸어 가는 법칙을 얻어 1609년 발표했다.",
+        "significance": "아름다운 원보다 관측 오차를 우선한 중심 사건이지만, 면적 법칙과 타원의 실제 발견 순서와 장기간의 계산을 한순간의 깨달음으로 압축하지 않는다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/HistTopics/Keplers_laws/",
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      },
+      {
+        "point": "1619년 행성 공전주기의 제곱과 평균 거리의 세제곱 사이의 비례를 셋째 법칙으로 발표했다.",
+        "significance": "행성마다 다른 운동을 하나의 수 관계로 묶었고 뒤에 뉴턴의 중력 이론이 설명할 단서를 주었지만, 케플러 자신이 현대 중력을 알고 있던 것은 아니다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/",
+          "https://science.nasa.gov/earth/earth-observatory/planetary-motion/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "코페르니쿠스의 태양중심 체계를 단순 계산 장치가 아니라 실제 우주의 구조로 받아들였지만, 코페르니쿠스가 유지한 완전한 원 궤도는 관측에 맞지 않으면 고쳐야 했다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/",
+          "https://science.nasa.gov/solar-system/orbits-and-keplers-laws/"
+        ]
+      },
+      {
+        "point": "하나님의 창조는 수학적 질서를 가진다고 믿었고 그 믿음이 탐구의 동기였지만, 얻은 모형은 튀코의 정밀 관측과 계산을 통과해야 했다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/",
+          "https://mathshistory.st-andrews.ac.uk/HistTopics/Keplers_laws/"
+        ]
+      },
+      {
+        "point": "행성은 단순히 기하학적 원 위를 도는 점이 아니라 태양과 물리적으로 연결되어 속도가 달라진다고 보려 했으나, 그가 상정한 작용은 뉴턴의 만유인력과 같지 않았다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/HistTopics/Keplers_laws/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "관측이 원을 버리게 했지만 케플러는 정다면체와 우주 조화의 초기 구상을 완전히 폐기하지 않고 1619년에도 수정해 유지했다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/",
+          "https://www.keplersdiscovery.com/keplersDeparture.html"
+        ]
+      },
+      {
+        "point": "그의 신앙은 과학과 대립하는 장애물이 아니었지만 근대적 세속 과학과도 같지 않았다. 수학적 질서를 창조주의 뜻으로 읽는 기독교 자연철학이 연구 전체에 들어 있었다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      },
+      {
+        "point": "튀코의 관측 없이는 법칙에 도달하기 어려웠지만, 두 사람은 태양중심설과 자료 접근을 두고 갈등했다. 협업과 사후 이용을 우정이나 탈취 한쪽으로만 만들 수 없다.",
+        "sourceUrls": [
+          "https://science.nasa.gov/earth/earth-observatory/planetary-motion/",
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "별·원·타원 같은 이미지에는 짧고 선명한 문장을 쓰고, 계산 과정과 신앙의 긴장에는 호흡이 긴 문장을 한 번씩 배치한다.",
+      "directness": "경외와 집요한 계산이 함께 있는 17세기 자연철학자의 어조를 쓴다. 현대 과학자가 과거를 회고하듯 신앙을 장식물로 치우거나, 반대로 계시가 답을 줬다고 말하지 않는다.",
+      "moves": [
+        "완전한 원을 원했던 젊은 시절의 정다면체 모형에서 시작하기",
+        "화성 관측의 8분각 차이를 괄호로 ‘보름달 너비의 약 4분의 1’처럼 체감 가능하게 풀기",
+        "튀코의 관측과 갈등을 밝힌 뒤 원 대신 타원을 받아들이는 계산으로 이동하기",
+        "1609년 두 법칙과 1619년 셋째 법칙을 시간차가 보이게 나누기",
+        "신앙이 답을 지시했다는 결말이 아니라 아름다움도 관측 앞에서 다시 계산해야 한다는 태도로 회수하기"
+      ],
+      "avoid": [
+        "첫 문장에서 이름과 행성 운동 3법칙을 사전처럼 소개하기",
+        "튀코가 기꺼이 모든 자료를 케플러에게 물려줬다고 쓰기",
+        "8분각 오차 한 번으로 즉시 타원을 깨달았다고 장면화하기",
+        "정다면체 모형이 틀린 뒤 케플러가 완전히 버렸다고 쓰기",
+        "케플러의 태양 작용을 뉴턴의 만유인력과 같은 이론으로 설명하기",
+        "신앙과 과학이 완벽히 분리됐거나 완벽히 조화됐다는 현대적 교훈으로 마무리하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "분각",
+        "guide": "각도 1도를 60으로 나눈 아주 작은 단위로, 8분각은 보름달 겉보기 너비의 약 4분의 1",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/HistTopics/Keplers_laws/"
+        ]
+      },
+      {
+        "term": "타원의 초점",
+        "guide": "타원 안의 두 기준점 가운데 하나로, 케플러 법칙에서는 태양이 그 한 점에 놓인다",
+        "sourceUrls": [
+          "https://science.nasa.gov/solar-system/orbits-and-keplers-laws/"
+        ]
+      },
+      {
+        "term": "면적 법칙",
+        "guide": "태양과 행성을 이은 선이 같은 시간 동안에는 언제나 같은 넓이를 쓸고 지나간다는 법칙",
+        "sourceUrls": [
+          "https://science.nasa.gov/solar-system/orbits-and-keplers-laws/"
+        ]
+      },
+      {
+        "term": "조화 법칙",
+        "guide": "행성의 공전주기 제곱과 태양에서 잰 평균 거리의 세제곱이 일정한 비율을 이룬다는 셋째 법칙",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "튀코 브라헤의 관측은 케플러 법칙의 핵심 토대였다. 튀코를 자료만 남긴 조연으로 만들지 않고 두 사람의 다른 우주 모형과 자료 접근 갈등을 함께 기록한다.",
+      "‘8분각 때문에 원을 버렸다’는 케플러 자신의 유명한 서술은 핵심이지만, 한 번의 관측이나 한순간의 감정으로 타원을 발견한 것처럼 재연하지 않는다. 계산은 여러 해 지속됐다.",
+      "제1·2법칙은 1609년 『새로운 천문학』, 제3법칙은 1619년 『세계의 조화』에 발표됐다. 세 법칙을 한날 한꺼번에 발견했다고 쓰지 않는다.",
+      "케플러는 초기 정다면체 우주 모형을 완전히 버리지 않고 수정해 오래 유지했다. ‘아름다운 오답을 깨끗이 폐기한 현대 과학자’로 각색하지 않는다.",
+      "태양에서 행성으로 작용하는 물리적 원인을 찾았지만 그 개념은 자기적 비유 등을 포함했고 뉴턴의 역제곱 만유인력과 같지 않았다.",
+      "루터교 신앙·교회 갈등·점성술·천문학을 현대의 ‘과학 대 종교’ 도식으로 단순화하지 않는다.",
+      "어머니 카타리나의 마녀재판 방어를 다룰 경우 별도 법정 자료와 전문 연구를 붙여야 하며, 현재 근거 묶음만으로 감정적 가족 서사에 넣지 않는다."
+    ]
+  }
+}

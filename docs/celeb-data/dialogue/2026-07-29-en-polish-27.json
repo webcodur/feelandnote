@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-27",
+  "targets": [
+    {
+      "id": "1ab7e089-040f-4aa1-b0a1-81dc1dd510d7",
+      "slug": "bill-gates",
+      "nickname": "빌 게이츠",
+      "birthDate": "1955-10-28",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "In 1975, Paul Allen and I called to sell BASIC before we had even written it. That call began Microsoft.",
+          "I am an optimist, but I am not patient while solutions fail to reach people.",
+          "When I face a big problem, I set a goal, find the highest-leverage approach and the right technology, then measure the result. Complexity does not make me stop."
+        ],
+        "deploy": [
+          "Make the problem, the solution, and the impact visible. Do not let complexity keep compassion from becoming action.",
+          "Deploy the best technology we have now. We do not have time to wait for a perfect solution.",
+          "Put people with different skills on the same team. The hardest problems are not solved alone."
+        ],
+        "battle_win": [
+          "The Altair BASIC Paul and I wrote became Microsoft's first product. Thousands of colleagues carried it through the next fifty years.",
+          "Far fewer children are dying before age five. That progress came from governments and partners delivering solutions together.",
+          "We measured the results and shared them. Now the evidence can draw the next investment."
+        ],
+        "battle_draw": [
+          "We have a solution, but it still does not reach everyone. A solution that cannot be delivered solves nothing.",
+          "The numbers improved, but too many lives are still being lost. Halfway progress is not enough.",
+          "Technology widened the network, but brilliant minds remain outside it. We need to repair access next."
+        ],
+        "battle_lose": [
+          "I left Harvard knowing almost nothing about the world's inequities. That ignorance is my greatest regret.",
+          "We knew children could be saved, but we failed to deliver the solutions. Good intentions were not enough.",
+          "The problem looked so complex that people turned away. I should have made the solution and the impact clearer."
+        ],
+        "clash_attack": [
+          "Do not stop at celebrating a discovery. Apply it where it will reduce inequity.",
+          "Do not wait for the market to solve this. Change the rules so people without power or a voice are not left out.",
+          "Do not surrender to complexity. Set the goal, find the highest leverage, and measure the result."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. Break the problem into numbers and find the bottleneck.",
+          "I'm optimistic, but impatient when solutions never reach the field.",
+          "Set the goal, find the leverage, and measure the result."
+        ],
+        "deploy": [
+          "Put the problem, solution, and result on one page.",
+          "Deploy the technology we have. Perfection can wait.",
+          "Bring different skills together. This problem needs a team."
+        ],
+        "battle_win": [
+          "Paul and I sold BASIC. It led all the way here.",
+          "Fewer children die before five because the solution reached them.",
+          "We measured the result and published it. Now fund the next step."
+        ],
+        "battle_draw": [
+          "The solution exists, but delivery failed. Fix the path.",
+          "The numbers improved, but too many still die. Keep going.",
+          "Technology spread, but access did not. Start with those left out."
+        ],
+        "battle_lose": [
+          "I saw inequality too late. I have to own that ignorance.",
+          "We knew how to save them but failed to deliver. Fix the delivery system.",
+          "The problem wasn't too complex. I explained it badly. Break it down again."
+        ],
+        "clash_attack": [
+          "Take the discovery into the field!",
+          "Who protects the people outside the market?",
+          "Set the goal and measure the result!"
+        ]
+      }
+    },
+    {
+      "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+      "slug": "steve-jobs",
+      "nickname": "스티브 잡스",
+      "birthDate": "1955-02-24",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "Woz and I started Apple in my parents' garage when I was twenty. Ten years later, a company of two had grown to four thousand people.",
+          "The dots from a calligraphy class connected in the Macintosh ten years later. I could not see that connection looking forward.",
+          "I was fired from the company I started, then became a beginner again and built NeXT and Pixar."
+        ],
+        "deploy": [
+          "Do not bury complex technology behind a manual. Make it easy and self-discoverable.",
+          "Cut the product list. Put the best team on the few things that remain.",
+          "Agree on where everyone is going first. Argue about how to get there afterward."
+        ],
+        "battle_win": [
+          "What I learned in calligraphy became the Macintosh's typography. Technology alone could not have produced it.",
+          "We cut 70 percent of the product road map and focused on the gems. Now the few things that matter are clear.",
+          "We turned the phones we hated into something people could discover without a manual. We did not hide complexity. We solved it."
+        ],
+        "battle_draw": [
+          "The product is good, but the customer is lost. We need to decide again what to keep.",
+          "We agreed on the destination, but my route was wrong. I will drop my plan and take the better one.",
+          "We made ten important decisions, and some were wrong. We will correct them while we still can."
+        ],
+        "battle_lose": [
+          "I was fired from the company I started. At thirty, I was a very public failure.",
+          "There were so many products that even I could not explain the line. This is what losing focus costs.",
+          "If this failure makes us play safe, we will never build what we want. We will start again, ready to fall a few more times."
+        ],
+        "clash_attack": [
+          "Do not blame customers for a product no one can understand. I cut 70 percent of a product line that confused even me.",
+          "Do not bury a feature on page 93 and call it innovation. Make it discoverable the first time someone touches it.",
+          "Do not hide behind speeds and megahertz. Start by saying what values you stand for."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. First, decide what to throw away.",
+          "Calligraphy became Macintosh typography. The dots connect later.",
+          "Getting fired made me a beginner again. Then I could build."
+        ],
+        "deploy": [
+          "Stop hiding behind the manual. Make it obvious on first touch.",
+          "Cut the product line. Put the best team on what remains.",
+          "Agree on the destination. Fight about the route later."
+        ],
+        "battle_win": [
+          "My calligraphy lessons found their way into the Macintosh.",
+          "We cut seventy percent of the roadmap. Now the gems are obvious.",
+          "No manual needed. We didn't hide complexity. We solved it."
+        ],
+        "battle_draw": [
+          "Good product, lost customer. Strip it down again.",
+          "The destination was right. My route was wrong. Change it.",
+          "Some decisions were wrong. Fix them now."
+        ],
+        "battle_lose": [
+          "My own company fired me. Fine. I became a beginner again.",
+          "Even I couldn't explain the product line. Cut it.",
+          "Play safe after failure and you build nothing. Start again."
+        ],
+        "clash_attack": [
+          "The product is confusing. Stop blaming the customer!",
+          "Make it obvious without the manual!",
+          "Forget megahertz. What do you stand for?"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "batch": "2026-07-29-classic-gap-07",
+  "targets": [
+    {
+      "id": "b9b2fee3-1910-44bc-a5c1-e32e59042899",
+      "slug": "cheng-hao",
+      "nickname": "정호",
+      "nicknameEn": "Cheng Hao",
+      "birthDate": "1032-02-28",
+      "profession": "humanities_scholar",
+      "quote": "만물이 살아나려는 그 의지가 곧 인입니다.",
+      "quoteEn": "The will of all things to come alive — that itself is humaneness.",
+      "greetingKo": [
+        "[gentle, warm] 오늘 아침 정원에 나가 보니, 꽃봉오리에서 살아나려는 마음이 환하게 보이지 않습니까.",
+        "[serene, contemplative] 즐거움은 멀리 있지 않습니다. 안회가 누추한 골목에서 잃지 않은 그 마음을 한번 찾아보세요.",
+        "[warm, grounded] 천리 두 글자는 누가 가르쳐 주는 것이 아닙니다. 가만히 자기 마음에 비추어 보면 절로 환해집니다."
+      ],
+      "greetingEn": [
+        "[gentle, warm] Step out into the garden this morning — can you not see, in the opening buds, that bright will to come alive?",
+        "[serene, contemplative] Joy is not far off. See if you can find the heart Yan Hui never lost in his mean little lane.",
+        "[warm, grounded] The two words tianli — no one can hand them to you. Sit quietly with your own mind, and they grow clear of themselves."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "부르셨다면, 만물과 한 몸인 인을 먼저 살피겠습니다.",
+          "마음을 넓고 공평하게 열어, 오는 일에 순리대로 응하겠습니다.",
+          "성실함과 공경으로 이 마음을 지키며 맡은 일을 시작하겠습니다."
+        ],
+        "deploy": [
+          "움직일 때도 고요할 때도 마음의 중심을 잃지 않겠습니다.",
+          "마음에서 인을 잊지 않되, 억지로 자라게 하지는 않겠습니다.",
+          "오는 일을 밀어내지 않고, 마땅한 데 따라 응하겠습니다."
+        ],
+        "battle_win": [
+          "만물을 고요히 바라보니, 저마다 제 자리를 얻었습니다.",
+          "천지의 쓰임을 제 일처럼 받아들였기에, 힘이 흩어지지 않았습니다.",
+          "마음을 돌이켜 성실했기에, 이 기쁨이 헛되지 않았습니다."
+        ],
+        "battle_draw": [
+          "안과 밖을 둘로 갈라서는 마음을 안정시킬 수 없습니다.",
+          "바깥일을 미워하며 고요를 찾는다면, 거울을 뒤집어 놓고 빛을 찾는 셈입니다.",
+          "기쁨과 노여움을 사사로움에 묶지 않고, 일의 마땅함을 다시 보겠습니다."
+        ],
+        "battle_lose": [
+          "사사로운 마음으로 잔꾀를 부려, 자연스러운 밝음을 가렸습니다.",
+          "화를 붙들고 옳고 그름을 보지 못했습니다.",
+          "마음을 놓쳐 옛 습관에 끌려갔습니다. 성실함과 공경으로 다시 지키겠습니다."
+        ],
+        "clash_attack": [
+          "만물과 한 몸이라면, 그 아픔을 외면해서는 안 됩니다.",
+          "사사로운 분노를 놓고, 무엇이 옳은지 함께 살피십시오.",
+          "밖을 끊어야 고요해진다고 여기지 마십시오. 안과 밖을 함께 잊어야 합니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "If called, I will first attend to the humaneness through which we are one body with all things.",
+          "I will open the mind broadly and impartially, responding fittingly to whatever comes.",
+          "I will preserve this mind through sincerity and reverence as I begin the work entrusted to me."
+        ],
+        "deploy": [
+          "Whether active or still, I will not lose the mind's center.",
+          "I will keep humaneness in mind without forcing it to grow.",
+          "I will not push away what comes, but respond as the matter requires."
+        ],
+        "battle_win": [
+          "Viewed in stillness, each of the myriad things has found its own place.",
+          "I took the workings of Heaven and Earth as my own concern, and our strength did not scatter.",
+          "I turned inward and found sincerity, so this joy was not hollow."
+        ],
+        "battle_draw": [
+          "The mind cannot be settled by dividing inner and outer in two.",
+          "To seek calm by hating external things is to turn a mirror around and search for its light.",
+          "I will not bind joy and anger to private feeling, but look again at what the matter requires."
+        ],
+        "battle_lose": [
+          "Self-interest and contrivance obscured the mind's natural clarity.",
+          "I clung to anger and failed to see what was right.",
+          "I let the mind slip and old habits carried me away. I will preserve it again through sincerity and reverence."
+        ],
+        "clash_attack": [
+          "If we are one body with all things, you must not turn away from their pain.",
+          "Set private anger aside and examine with me what is right.",
+          "Do not imagine that calm requires cutting off the outer world. Inner and outer must both be forgotten."
+        ]
+      },
+      "sources": [
+        "https://iep.utm.edu/cjemg-omgdap-cheng-hao-neo-confucian/",
+        "https://zh.wikisource.org/wiki/%E8%AD%98%E4%BB%81%E7%AF%87",
+        "https://zh.wikisource.org/wiki/%E5%AE%9A%E6%80%A7%E6%9B%B8",
+        "https://zh.wikisource.org/wiki/%E7%A7%8B%E6%97%A5%E5%81%B6%E6%88%90%E4%BA%8C%E9%A6%96"
+      ]
+    },
+    {
+      "id": "2ce6272c-2862-4ee3-858c-88ca8d3f3153",
+      "slug": "zhou-dunyi",
+      "nickname": "주돈이",
+      "nicknameEn": "Zhou Dunyi",
+      "birthDate": "1017-06-01",
+      "profession": "humanities_scholar",
+      "quote": "연꽃은 진흙에서 나오나 진흙에 물들지 않을 따름이다.",
+      "quoteEn": "The lotus rises from the mud yet remains unstained.",
+      "greetingKo": [
+        "[serene, contemplative] 무극(無極)에서 태극이 나오고, 태극에서 음양이 갈라질 따름입니다.",
+        "[gentle, principled] 군자는 진흙 속 연꽃과 같습니다. 거기서 나오되 거기에 물들지 않습니다.",
+        "[calm, reflective] 안회는 한 그릇 밥에서 무엇을 즐겼겠습니까. 그 즐거움의 자리를 찾으십시오."
+      ],
+      "greetingEn": [
+        "[serene, contemplative] From Non-Polarity comes the Supreme Polarity, and from the Supreme Polarity the two modes divide.",
+        "[gentle, principled] The gentleman is like the lotus in the mud — emerging from it, yet never stained by it.",
+        "[calm, reflective] What was Yan Hui taking joy in over a single bowl of rice? Seek the seat of that joy."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "부르셨다면, 움직임과 고요함이 서로의 뿌리가 되는 이치를 살피겠습니다.",
+          "먼저 제 마음을 하나로 모아, 사사로운 욕심을 덜겠습니다.",
+          "성실함을 근본으로 삼아 맡은 일을 시작하겠습니다."
+        ],
+        "deploy": [
+          "고요할 때는 비우고, 움직일 때는 곧게 나아가겠습니다.",
+          "인의와 중정의 길을 지키고 행하겠습니다.",
+          "움직이기 전에 옳고 그름의 기미를 삼가 살피겠습니다."
+        ],
+        "battle_win": [
+          "움직임과 고요함이 서로를 도와, 마침내 조화를 이루었습니다.",
+          "곧게 움직였으니 사사로움이 걷히고, 마음이 널리 통했습니다.",
+          "성실함이 행동으로 이어졌기에 이 결실을 얻었습니다."
+        ],
+        "battle_draw": [
+          "움직임이 다하면 고요해지고, 고요함이 다하면 다시 움직입니다.",
+          "아직 밝게 보지 못했으니, 욕심을 덜고 다시 살피겠습니다.",
+          "고요하고 맑게 살피며, 때에 맞는 중도를 찾겠습니다."
+        ],
+        "battle_lose": [
+          "허물을 듣지 못한 것이 불행이었고, 부끄러워하지 않은 것이 더 큰 잘못이었습니다.",
+          "병을 감싸고 의원을 꺼리듯, 충고를 물리친 제 잘못입니다.",
+          "사사로운 욕심이 고요함을 흐리고 행동을 굽게 했습니다."
+        ],
+        "clash_attack": [
+          "곧게 움직여 사사로움을 버리십시오. 그래야 모두를 품을 수 있습니다.",
+          "겉만 꾸민 빈 수레는 쓸 수 없습니다. 말보다 도를 실어 나르십시오.",
+          "연꽃처럼 속은 통하고 겉은 곧게 서십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "If you have called me, I will examine how activity and stillness root one another.",
+          "I will first gather my mind into unity and lessen selfish desire.",
+          "I will begin the task entrusted to me with authenticity as my foundation."
+        ],
+        "deploy": [
+          "In stillness I will remain open; in action I will proceed directly.",
+          "I will preserve and practice the way of humaneness, rightness, centrality, and correctness.",
+          "Before I act, I will carefully examine the first signs of right and wrong."
+        ],
+        "battle_win": [
+          "Activity and stillness supported one another and finally came into harmony.",
+          "By acting directly, we cleared away partiality and opened the mind to all.",
+          "Because authenticity became action, we achieved this result."
+        ],
+        "battle_draw": [
+          "When activity reaches its limit it becomes still; when stillness reaches its limit it moves again.",
+          "I do not yet see clearly, so I will lessen desire and look again.",
+          "I will look calmly and clearly for the timely mean."
+        ],
+        "battle_lose": [
+          "Not hearing of my faults was a misfortune; lacking shame was the greater error.",
+          "I guarded my fault like an illness and shunned advice like a physician. The mistake was mine.",
+          "Selfish desire clouded stillness and bent my actions."
+        ],
+        "clash_attack": [
+          "Act directly and put partiality aside. Only then can you embrace all.",
+          "An ornamented but empty cart is useless. Carry the Way, not decoration alone.",
+          "Be open within and upright without, like the lotus."
+        ]
+      },
+      "sources": [
+        "https://iep.utm.edu/zhou-dun/",
+        "https://zh.wikisource.org/zh-hans/%E9%80%9A%E6%9B%B8",
+        "https://zh.wikisource.org/zh-hant/%E7%88%B1%E8%8E%B2%E8%AF%B4"
+      ]
+    }
+  ]
+}

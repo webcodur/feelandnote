@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "slug": "thomas-edison",
+  "nickname": "토머스 에디슨",
+  "route": "improve",
+  "routeReason": "현재 글은 전구를 처음 생각한 사람이 아니라 실용적인 전등 시스템을 구축한 사람으로 바로잡고, 실험실 팀과 전류 전쟁의 문제도 언급해 기본 방향이 좋다. 그러나 축음기·영화 장치의 성취가 다시 에디슨의 손과 놀라움으로만 수렴하고, '제가 공정하지 않았다'는 양심 고백은 문서 근거 없이 오늘의 평가를 입에 넣는다. 멘로파크의 머커들, W. K. L. 딕슨 등 직원의 구체적 역할, 특허·자본·제조 체계, 교류 위험 홍보와 전기의자 지원을 행동 사실로 병치하도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "토머스 앨바 에디슨",
+      "birth": "1847-02-11",
+      "death": "1931-10-18",
+      "profession": "entrepreneur",
+      "disambiguation": "멘로파크와 웨스트오렌지의 기업 연구실을 이끌어 축음기·실용 전등 시스템·초기 영화 사업을 개발하고 1,093건의 미국 특허를 취득한 미국 발명가·사업가",
+      "existingBioForDiscoveryOnly": "미국의 발명가이자 사업가. 전구, 축음기, 영사기 등 1,000개 이상의 특허를 보유하며 현대 문명과 기술 발전에 혁신적인 기여를 함."
+    },
+    "sources": [
+      {
+        "url": "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+        "title": "Edison Biography",
+        "publisher": "Thomas Edison National Historical Park, U.S. National Park Service",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전구 자체보다 발전·배선·스위치·계량을 묶은 실용 전등 시스템의 개발",
+          "1879년 멘로파크 공개 시연과 1882년 펄스트리트 발전소",
+          "웨스트오렌지의 대규모 연구실·공장과 다수 프로젝트의 조직화"
+        ]
+      },
+      {
+        "url": "https://edison.rutgers.edu/",
+        "title": "Thomas A. Edison Papers",
+        "publisher": "Rutgers University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "에디슨 생애와 사업을 기록한 약 500만 쪽 문서의 편집 사업",
+          "전등·축음기·영화·특허·직원 자료를 개인 신화가 아닌 기록으로 검토할 수 있는 기반",
+          "에디슨의 발명 활동이 연구실·회사·시장 조직과 연결된 사실"
+        ]
+      },
+      {
+        "url": "https://edison.rutgers.edu/component/content/article/electric-light-and-power-system?Itemid=101&catid=91",
+        "title": "Electric Light and Power System",
+        "publisher": "Thomas A. Edison Papers, Rutgers University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전등과 발전·배전 시스템을 함께 개발한 과정",
+          "고전압 교류의 위험을 보이기 위한 동물 감전 실험과 전기의자 개발 지원",
+          "1891년 회사가 교류 체계를 받아들이고 에디슨이 전기 산업에서 물러난 흐름"
+        ]
+      },
+      {
+        "url": "https://edison.rutgers.edu/component/content/article/motion-pictures?Itemid=101&catid=91%3Ainventions",
+        "title": "Motion Pictures",
+        "publisher": "Thomas A. Edison Papers, Rutgers University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "영화 장치 개발에서 W. K. L. 딕슨이 사진 지식과 실무의 핵심을 맡은 사실",
+          "에디슨은 자원·비전·전기기계 지식을 제공하고 딕슨과 팀이 카메라와 키네토스코프를 만든 분업",
+          "프로젝터 기술과 이후 영화 제작에는 에디슨의 역할이 제한적이었던 점"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/collections/edison-company-motion-pictures-and-sound-recordings/articles-and-essays/biography/",
+        "title": "Thomas Edison Biography",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "생애 1,093건의 미국 특허와 발명의 사업화",
+          "축음기·전등·영화 장치의 주요 경력",
+          "에디슨 회사의 영화·음원 자료가 남아 있는 사실"
+        ]
+      },
+      {
+        "url": "https://edison.rutgers.edu/life-of-edison/biographical-essays/future-biographical-essays-details/battle-of-the-systems",
+        "title": "Battle of the Systems",
+        "publisher": "Thomas A. Edison Papers, Rutgers University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "에디슨 직류 체계와 웨스팅하우스 교류 체계의 시장 경쟁",
+          "테슬라의 교류 기술과 웨스팅하우스 사업이 경쟁 구도에서 한 역할",
+          "교류 위험 논쟁이 인도적 처형 논쟁과 전기의자 개발에 얽힌 사실"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "전신 기술자와 특허 사업 경험을 쌓은 뒤 1876년 멘로파크에 연구실을 세우고 숙련 조수들과 발명을 조직적인 기업 활동으로 바꿨다.",
+        "significance": "혼자 작업대에서 번뜩인 발명가가 아니라 인력·기계·자료·특허를 묶은 산업 연구 체계의 설계자로 보여 준다.",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+          "https://edison.rutgers.edu/"
+        ]
+      },
+      {
+        "point": "1877년 축음기를 공개한 뒤 1878년부터 팀과 실용 백열전구뿐 아니라 발전소·배선·스위치·계량기를 포함한 전등 시스템을 개발했다.",
+        "significance": "전구를 처음 발명했다는 잘못된 명성 대신 기술을 안정적인 공공 서비스로 묶은 실제 기여를 드러낸다.",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+          "https://edison.rutgers.edu/component/content/article/electric-light-and-power-system?Itemid=101&catid=91"
+        ]
+      },
+      {
+        "point": "1880년대 말 직류 사업이 웨스팅하우스의 교류 체계와 경쟁하자 교류의 위험성을 홍보하고 동물 감전 실험과 전기의자 개발을 지원했다.",
+        "significance": "기술 선택이 안전 논쟁인 동시에 특허·시장 경쟁과 사형 제도에 얽힌 행동이었다는 책임을 확인 가능한 사실로 둔다.",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/component/content/article/electric-light-and-power-system?Itemid=101&catid=91",
+          "https://edison.rutgers.edu/life-of-edison/biographical-essays/future-biographical-essays-details/battle-of-the-systems"
+        ]
+      },
+      {
+        "point": "웨스트오렌지 연구소에서 W. K. L. 딕슨과 직원들이 영화 카메라와 키네토스코프를 개발했고, 에디슨 회사가 초기 영화의 상업 체계를 만들었다.",
+        "significance": "에디슨의 자원과 사업 판단을 인정하면서 사진 기술과 제작 실무를 맡은 직원의 이름을 복원한다.",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/component/content/article/motion-pictures?Itemid=101&catid=91%3Ainventions",
+          "https://www.loc.gov/collections/edison-company-motion-pictures-and-sound-recordings/articles-and-essays/biography/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "발명을 단일 장치의 작동으로 끝내지 않고 제조·전력 공급·배선·계량·가격을 갖춘 전체 시스템으로 사업화했다.",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+          "https://edison.rutgers.edu/component/content/article/electric-light-and-power-system?Itemid=101&catid=91"
+        ]
+      },
+      {
+        "point": "연구실 직원들이 여러 재료와 설계를 반복 시험하고 문서화하는 방식으로 다수 프로젝트를 동시에 운영했다.",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+          "https://edison.rutgers.edu/"
+        ]
+      },
+      {
+        "point": "특허를 발명의 법적 권리이자 투자·제조·시장 지배를 위한 사업 자산으로 적극 활용했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/edison-company-motion-pictures-and-sound-recordings/articles-and-essays/biography/",
+          "https://edison.rutgers.edu/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "에디슨은 전등 시스템과 산업 연구실을 이끈 핵심 인물이지만 멘로파크와 웨스트오렌지의 조수·기술자·과학자가 수행한 작업이 특허와 명성에서 그의 이름으로 모였다.",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True",
+          "https://edison.rutgers.edu/"
+        ]
+      },
+      {
+        "point": "초기 영화 사업에서 에디슨은 자원과 방향을 제공했지만 딕슨이 사진 기술의 중심 역할을 했고, 프로젝터와 영화 제작의 후속 발전에는 다른 발명가·제작자의 몫이 컸다.",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/component/content/article/motion-pictures?Itemid=101&catid=91%3Ainventions"
+        ]
+      },
+      {
+        "point": "전기 보급의 안전을 내세운 교류 비판은 직류 사업을 지키려는 시장 경쟁과 결합했고, 동물 감전 실험과 전기의자라는 국가 폭력의 기술에 이어졌다.",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/component/content/article/electric-light-and-power-system?Itemid=101&catid=91",
+          "https://edison.rutgers.edu/life-of-edison/biographical-essays/future-biographical-essays-details/battle-of-the-systems"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "문제·재료·시험·시장 순서로 짧게 밀어붙이고, 장치 하나보다 시스템 전체가 작동하는 장면에서 문장을 넓힌다.",
+      "directness": "성과와 실패를 거래·제조의 언어로 말하는 실용적 자신감을 살린다. 경쟁의 피해는 사실대로 밝히되 오늘의 윤리 평가를 참회 대사로 대신 쓰지 않는다.",
+      "moves": [
+        "전구를 처음 떠올린 사람이라는 호칭을 발전소부터 계량기까지 이어진 시스템 문제로 바꾸기",
+        "특허 명세의 이름 뒤에 머커들·딕슨 등 직원의 역할을 구체적으로 붙이기",
+        "실패를 낭만화하지 않고 비용과 기록을 다음 시험의 정보로 바꾸는 연구실 운영을 보여 주기"
+      ],
+      "avoid": [
+        "전구·영사기·모든 영화 기술을 에디슨 혼자 발명했다는 표현",
+        "테슬라 한 사람과의 천재 대결로 전류 전쟁을 축소하기",
+        "실패를 사랑했다거나 정해진 횟수만큼 실패했다는 출처 불명 명언",
+        "교류 홍보와 전기의자 관여를 근거 없는 죄책감·사과의 1인칭 고백으로 처리하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "백열전구",
+        "guide": "전류로 가는 재료를 뜨겁게 달궈 빛을 내는 전등",
+        "sourceUrls": [
+          "https://www.nps.gov/edis/learn/historyculture/edison-biography.htm?simple=True"
+        ]
+      },
+      {
+        "term": "직류",
+        "guide": "전기가 한 방향으로 계속 흐르는 방식",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/life-of-edison/biographical-essays/future-biographical-essays-details/battle-of-the-systems"
+        ]
+      },
+      {
+        "term": "교류",
+        "guide": "전기의 흐르는 방향이 주기적으로 바뀌어 전압을 바꾸고 멀리 보내기 쉬운 방식",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/life-of-edison/biographical-essays/future-biographical-essays-details/battle-of-the-systems"
+        ]
+      },
+      {
+        "term": "키네토스코프",
+        "guide": "한 사람이 들여다보는 구멍 안에서 연속 사진을 움직이는 영상처럼 보여 주는 장치",
+        "sourceUrls": [
+          "https://edison.rutgers.edu/component/content/article/motion-pictures?Itemid=101&catid=91%3Ainventions"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "미국 특허의 에디슨 이름은 연구실의 모든 아이디어와 제작을 혼자 수행했다는 증거가 아니므로 문서와 직원 역할을 함께 본다.",
+      "전구의 발명자를 한 명으로 정하지 않고 선행 백열등 연구와 에디슨 팀의 실용 시스템 구축을 구분한다.",
+      "에디슨과 테슬라의 관계를 약속된 보너스나 개인 배신 같은 검증 어려운 일화로 구성하지 않고, 전류 전쟁의 주된 사업 경쟁 상대가 웨스팅하우스였음을 밝힌다.",
+      "톱시 코끼리 감전은 전류 전쟁의 에디슨 시연으로 흔히 잘못 연결되므로 사용하지 않는다.",
+      "에디슨이 교류 위험 홍보와 전기의자 개발을 후회했다는 확인된 자백이 없으므로 후대의 비판을 그의 입에 넣지 않는다."
+    ]
+  }
+}

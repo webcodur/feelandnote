@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "slug": "galileo-galilei",
+  "nickname": "갈릴레오 갈릴레이",
+  "route": "improve",
+  "routeReason": "현재 원고는 망원경을 처음 발명하지 않았다는 교정, 목성 위성·금성 위상·운동 연구, 재판과 성서 해석을 한 생애 안에 담고 있어 골격이 좋다. 그러나 금성의 위상이 지동설을 사실상 증명했다는 인상을 주고, 티코 브라헤식 지구정지 모형이라는 당시 경쟁 설명을 지운다. ‘두려웠다’는 1인칭 감정과 ‘입은 굽혔지만 우주는 굽히지 않았다’는 결말도 사료보다 후대 영웅 서사에 가깝다. 실제 관측이 프톨레마이오스 모형을 무너뜨렸지만 지구 운동을 단독 증명하지는 못했다는 한계, 1616년 명령과 1632년 책·1633년 판결의 연결을 보강하는 개선이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "갈릴레오 갈릴레이",
+      "birth": "1564-02-15",
+      "death": "1642-01-08",
+      "profession": "scientist",
+      "disambiguation": "망원경 관측으로 달 표면·목성 위성·금성 위상·태양 흑점을 연구하고 운동의 수학적 분석과 코페르니쿠스 체계 옹호로 1633년 종교재판을 받은 이탈리아 자연철학자",
+      "existingBioForDiscoveryOnly": "이탈리아의 천문학자이자 물리학자. 망원경을 개량하여 목성의 위성과 태양 흑점을 발견했으며, 지동설을 옹호하여 종교재판을 받았다."
+    },
+    "sources": [
+      {
+        "url": "https://www.loc.gov/item/library-publications/the-starry-messenger-venice-1610/",
+        "title": "The Starry Messenger, Venice 1610",
+        "publisher": "Library of Congress",
+        "kind": "primary",
+        "publishedAt": "1610-03-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『별의 전령』에 실린 달 표면, 별, 목성 위성 관측",
+          "망원경 관측을 공개된 그림과 기록으로 제시한 방식"
+        ]
+      },
+      {
+        "url": "https://catalogue.museogalileo.it/indepth/PhasesVenus.html",
+        "title": "Phases of Venus",
+        "publisher": "Museo Galileo",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1610년 금성이 달처럼 여러 위상을 보인다는 관측",
+          "금성이 태양을 도는 모형을 요구해 전통적 프톨레마이오스 체계를 무너뜨린 사실"
+        ]
+      },
+      {
+        "url": "https://www.cabinet.ox.ac.uk/galileos-most-decisive-telescopic-observation-phases-venus-1610-23",
+        "title": "Galileo's most decisive telescopic observation: the phases of Venus, 1610–23",
+        "publisher": "University of Oxford",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "금성 위상이 프톨레마이오스 체계에는 치명적이었지만 티코 브라헤식 지구정지 체계와도 양립했다는 경계",
+          "이 관측만으로 지구의 운동이 증명된 것은 아니라는 역사적 맥락"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/entries/galileo/",
+        "title": "Galileo Galilei",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2026-01-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "천문 관측, 운동 연구, 조수 논증, 종교재판을 함께 보는 학술적 생애",
+          "성서와 자연 모두 해석이 필요하며 자연 탐구를 성서의 문자 해석에 종속시키지 않으려 한 입장",
+          "갈릴레오의 관측이 코페르니쿠스 체계를 지지했지만 결정적 증명이 아니었다는 경계"
+        ]
+      },
+      {
+        "url": "https://web.stanford.edu/~jsabol/certainty/readings/Galileo-LetterDuchessChristina.pdf",
+        "title": "Letter to the Grand Duchess Christina",
+        "publisher": "Stanford University",
+        "kind": "primary",
+        "publishedAt": "1615-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "성서는 구원의 목적에 맞는 일상 언어를 쓰며 자연 문제에서는 관찰과 증명을 먼저 살펴야 한다는 갈릴레오의 주장",
+          "갈릴레오를 단순한 반종교 투사로 만들 수 없다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.ucpress.edu/books/the-galileo-affair/pdf",
+        "title": "The Galileo Affair: A Documentary History",
+        "publisher": "University of California Press",
+        "kind": "scholarly",
+        "publishedAt": "1989-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1613년부터 1633년 판결·철회 선서까지 이어진 사건의 1차 문서",
+          "1633년 유죄 판결과 가택연금, 철회 선서의 실제 내용",
+          "재판을 ‘과학 대 종교’ 한 문장으로만 설명하지 않을 복합적 절차"
+        ]
+      },
+      {
+        "url": "https://galileo.library.rice.edu/bio/index.html",
+        "title": "Galileo's Biography",
+        "publisher": "The Galileo Project, Rice University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "망원경 개량, 파도바와 피렌체 시기의 연구, 1616년 경고와 1633년 재판의 생애 순서",
+          "운동·천문학·기구 제작을 함께 한 자연철학자라는 인물 식별"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1609년 네덜란드에서 알려진 망원경을 더 강하게 개량해 하늘을 관측했고, 1610년 『별의 전령』에 달 표면과 목성 주위를 도는 네 천체를 공개했다.",
+        "significance": "망원경의 최초 발명자가 아니라 기존 기구를 관측 도구로 발전시켜 반복해서 볼 수 있는 자료를 만든 사람으로 그린다.",
+        "sourceUrls": [
+          "https://www.loc.gov/item/library-publications/the-starry-messenger-venice-1610/",
+          "https://galileo.library.rice.edu/bio/index.html"
+        ]
+      },
+      {
+        "point": "1610년 말 금성이 초승달에서 둥근 모습까지 변하는 위상을 관측해 금성이 태양을 돈다는 결론을 뒷받침했다.",
+        "significance": "전통적 프톨레마이오스 체계를 무너뜨렸지만 태양과 행성이 지구 주위를 도는 티코식 체계와도 양립했으므로, 지구 운동의 단독 증명으로 쓰지 않는다.",
+        "sourceUrls": [
+          "https://catalogue.museogalileo.it/indepth/PhasesVenus.html",
+          "https://www.cabinet.ox.ac.uk/galileos-most-decisive-telescopic-observation-phases-venus-1610-23"
+        ]
+      },
+      {
+        "point": "1615년 크리스티나 대공비에게 보낸 편지에서 자연에 관한 확실한 관찰과 증명을 성서의 일상적 표현으로 억누르면 안 된다고 논했다.",
+        "significance": "신앙을 버린 과학자와 교회라는 단순 대결이 아니라, 성서와 자연을 어떻게 해석할 것인가를 둘러싼 내부 논쟁이었다.",
+        "sourceUrls": [
+          "https://web.stanford.edu/~jsabol/certainty/readings/Galileo-LetterDuchessChristina.pdf",
+          "https://plato.stanford.edu/entries/galileo/"
+        ]
+      },
+      {
+        "point": "1632년 『두 우주 체계에 관한 대화』를 출판한 뒤 1633년 종교재판에서 강한 이단 혐의를 받고 철회 선서를 했으며 남은 생을 가택연금으로 보냈다.",
+        "significance": "‘그래도 지구는 돈다’는 후대 전설보다 실제 판결·철회·검열과 그 뒤에도 이어진 운동 연구를 중심에 둔다.",
+        "sourceUrls": [
+          "https://www.ucpress.edu/books/the-galileo-affair/pdf",
+          "https://galileo.library.rice.edu/bio/index.html"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "자연에 대한 주장은 권위 있는 옛 문장만 반복해서가 아니라 관찰, 수학, 재현 가능한 논증으로 검토해야 한다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/galileo/",
+          "https://www.loc.gov/item/library-publications/the-starry-messenger-venice-1610/"
+        ]
+      },
+      {
+        "point": "목성 주위를 도는 위성처럼 지구가 아닌 중심도 존재하므로 모든 천체가 지구만을 중심으로 돌아야 한다는 전제는 무너질 수 있다고 보았다.",
+        "sourceUrls": [
+          "https://www.loc.gov/item/library-publications/the-starry-messenger-venice-1610/"
+        ]
+      },
+      {
+        "point": "성서와 자연은 서로 모순된 두 진리가 아니라 서로 다른 목적과 해석법을 가진 자료이며, 자연 현상은 관찰과 증명으로 다뤄야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://web.stanford.edu/~jsabol/certainty/readings/Galileo-LetterDuchessChristina.pdf",
+          "https://plato.stanford.edu/entries/galileo/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "갈릴레오의 관측은 오래된 프톨레마이오스 우주를 크게 흔들었지만, 그가 선호한 코페르니쿠스 체계를 당시 관측만으로 유일하게 증명하지는 못했다.",
+        "sourceUrls": [
+          "https://www.cabinet.ox.ac.uk/galileos-most-decisive-telescopic-observation-phases-venus-1610-23",
+          "https://plato.stanford.edu/entries/galileo/"
+        ]
+      },
+      {
+        "point": "관찰을 중시했지만 지구 운동의 물리적 증거로 제시한 조수 이론은 틀렸고, 케플러의 타원 궤도를 받아들이지 않았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/galileo/"
+        ]
+      },
+      {
+        "point": "신앙을 유지하며 성서 해석을 논한 가톨릭 지식인이 교회의 종교재판에서 자신의 천문학적 입장을 철회해야 했다.",
+        "sourceUrls": [
+          "https://web.stanford.edu/~jsabol/certainty/readings/Galileo-LetterDuchessChristina.pdf",
+          "https://www.ucpress.edu/books/the-galileo-affair/pdf"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "관측 장면은 짧고 선명하게, 해석의 한계는 한 문장 더 붙여 말한다. 프톨레마이오스·티코·코페르니쿠스 체계는 첫 등장에 괄호로 운동 관계를 풀어 준다.",
+      "directness": "논쟁적이고 눈앞의 증거를 요구하는 목소리를 쓰되 후대의 순교자 연설처럼 꾸미지 않는다. 자신의 틀린 조수 논증과 당시 경쟁 모형도 숨기지 않는 자기비판을 넣는다.",
+      "moves": [
+        "망원경 발명자가 아니라 개량하고 관측 기록을 공개한 사람이라는 교정으로 시작하기",
+        "달·목성·금성의 관측마다 무엇을 무너뜨렸고 무엇까지는 증명하지 못했는지 짝지어 말하기",
+        "크리스티나 대공비 편지의 성서 해석을 반종교 구호가 아니라 자연 탐구의 방법 문제로 풀기",
+        "재판 결말은 ‘그래도 지구는 돈다’ 전설 대신 철회 선서와 가택연금, 이후 연구의 지속으로 닫기"
+      ],
+      "avoid": [
+        "망원경을 처음 발명했다고 쓰기",
+        "금성 위상 하나가 지동설을 완전히 증명했다고 쓰기",
+        "교회 전체가 망원경 관측 자체를 거부했다는 단선적 묘사",
+        "‘그래도 지구는 돈다’를 재판 직후 실제 발언으로 사용하기",
+        "재판 중 느낀 공포·굴욕·신앙의 상태를 직접 사료 없이 창작하기",
+        "갈릴레오의 조수 이론과 원궤도 고집을 지워 무오류 과학자로 만들기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "금성의 위상",
+        "guide": "금성이 달처럼 가느다란 초승달 모양부터 거의 둥근 모습까지 밝은 부분의 모양을 바꾸어 보이는 현상",
+        "sourceUrls": [
+          "https://catalogue.museogalileo.it/indepth/PhasesVenus.html"
+        ]
+      },
+      {
+        "term": "프톨레마이오스 체계",
+        "guide": "움직이지 않는 지구를 중심에 두고 태양과 행성이 여러 겹의 원운동으로 돈다고 설명한 전통 우주 모형",
+        "sourceUrls": [
+          "https://www.cabinet.ox.ac.uk/galileos-most-decisive-telescopic-observation-phases-venus-1610-23"
+        ]
+      },
+      {
+        "term": "티코 체계",
+        "guide": "지구는 멈춰 있고 태양은 지구를 돌지만, 다른 행성들은 태양을 돈다고 설명한 혼합형 우주 모형",
+        "sourceUrls": [
+          "https://www.cabinet.ox.ac.uk/galileos-most-decisive-telescopic-observation-phases-venus-1610-23"
+        ]
+      },
+      {
+        "term": "가택연금",
+        "guide": "감옥 대신 지정된 집에 머물며 이동과 활동을 제한받는 처벌",
+        "sourceUrls": [
+          "https://www.ucpress.edu/books/the-galileo-affair/pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "갈릴레오는 망원경의 최초 발명자가 아니라 기존 네덜란드식 기구를 크게 개량해 천문 관측에 사용했다.",
+      "목성 위성은 모든 천체가 지구만 돌아야 한다는 전제를 깨지만 지구가 태양을 돈다는 직접 증명은 아니다.",
+      "금성 위상은 프톨레마이오스 체계에는 치명적이지만 코페르니쿠스 체계와 티코 체계 모두와 양립한다.",
+      "갈릴레오가 지구 운동의 증거로 제시한 조수 이론은 틀렸으며, 이를 성공한 논증처럼 재현하지 않는다.",
+      "재판은 천문 관측 한 건 때문이 아니라 1616년 명령의 해석, 1632년 책의 성격, 교회 정치와 성서 해석이 얽힌 사건이다.",
+      "‘그래도 지구는 돈다’는 동시대 재판 기록에 없는 후대 전설이므로 실제 발언으로 쓰지 않는다.",
+      "철회 선서는 강압적 제도 아래 이루어졌지만 그 순간 갈릴레오가 정확히 어떤 공포와 신앙 상태였는지는 직접 자료 없이 1인칭으로 만들지 않는다.",
+      "교회와 과학을 각각 하나의 단일 진영처럼 묘사하지 않고, 예수회 천문학자들의 관측 수용과 경쟁 우주 모형도 고려한다."
+    ]
+  }
+}

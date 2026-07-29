@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "slug": "isaac-newton",
+  "nickname": "아이작 뉴턴",
+  "route": "improve",
+  "routeReason": "현재 글은 사과 전설을 한순간의 계시가 아닌 장기간의 계산으로 바로잡고, 광학·연금술·신학·조폐국 업무까지 넓게 담는다. 그러나 '미적분학을 만들었다'는 단독 창시 서술과 '증거가 멈춘 자리에서 저도 멈추었다'는 이상화가 라이프니츠의 독립 발견, 뉴턴이 왕립학회장으로 우선권 조사에 영향력을 행사한 사실, 방대한 연금술·비정통 신학 연구와 충돌한다. 핼리·코츠·후크·플램스티드 등 자료와 동료의 역할을 복원하고, 우선권 다툼의 권력 사용은 확인된 행동으로 쓰되 후회의 자백은 만들지 않도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "아이작 뉴턴",
+      "birth": "1643-01-04",
+      "death": "1727-03-31",
+      "profession": "scientist",
+      "disambiguation": "『프린키피아』에서 운동 법칙과 보편중력을 수학적으로 통합하고 광학·수학·연금술·신학·조폐 행정을 연구한 영국 자연철학자",
+      "existingBioForDiscoveryOnly": "영국의 수학자이자 물리학자. 만유인력 법칙과 운동 법칙을 정립하고 미적분학을 창시하여 근대 과학의 체계를 세웠다."
+    },
+    "sources": [
+      {
+        "url": "https://www.newtonproject.ox.ac.uk/enlightening-science",
+        "title": "Enlightening Science: Newton’s Works",
+        "publisher": "The Newton Project, University of Oxford",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『프린키피아』의 정의·운동 법칙·중력 논증 원문",
+          "『광학』의 프리즘 실험과 빛·색에 관한 원문",
+          "뉴턴의 과학 저술을 판본별로 구분해 읽어야 하는 자료 맥락"
+        ]
+      },
+      {
+        "url": "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance",
+        "title": "The Life and Work of Isaac Newton at a Glance",
+        "publisher": "The Newton Project, University of Oxford",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "핼리의 권유와 비용 지원으로 1687년 『프린키피아』를 출판한 과정",
+          "플램스티드의 관측 자료와 코츠의 편집이 후속 판본에 들어간 사실",
+          "라이프니츠 우선권 다툼과 뉴턴이 작성·통제한 왕립학회 보고서",
+          "연금술·신학·연대기·조폐국 활동이 생애 전반에 걸친 사실"
+        ]
+      },
+      {
+        "url": "https://royalsociety.org/science-events-and-lectures/2013/newtons-principia/",
+        "title": "A great variety of admirable discoverys: Newton’s Principia in the Age of Enlightenment",
+        "publisher": "The Royal Society",
+        "kind": "institutional",
+        "publishedAt": "2013-12-11",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "코츠가 편집을 도운 『프린키피아』 2판의 대폭 수정",
+          "조석·혜성·달 운동 자료를 보강한 과정",
+          "왕립학회장 뉴턴이 라이프니츠 표절 시비 조사 자료와 위원회에 영향력을 행사한 사실"
+        ]
+      },
+      {
+        "url": "https://www.lib.cam.ac.uk/collections/departments/archives-modern-and-medieval-manuscripts-and-university-archives-35",
+        "title": "Papers of Sir Isaac Newton",
+        "publisher": "Cambridge University Library",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "과학·수학 외에 연금술·신학·연대기 문서가 대량 남은 사실",
+          "뉴턴 문서가 여러 소장처로 흩어지고 일부 영역이 오랫동안 공개되지 않은 기록사",
+          "1699년 조폐국장 취임과 케임브리지 직책 사임"
+        ]
+      },
+      {
+        "url": "https://www.cam.ac.uk/stories/rediscoverednewton",
+        "title": "Reinterpreting Newton and religion",
+        "publisher": "University of Cambridge",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "뉴턴의 초기부터 이어진 방대한 신학 연구",
+          "뉴턴의 기독교 이해가 복잡하고 비정통적이었던 자료",
+          "과학과 신학을 서로 무관한 두 생애로 나누기 어려운 점"
+        ]
+      },
+      {
+        "url": "https://www.royalmintmuseum.org.uk/journal/people/isaac-newton/",
+        "title": "Isaac Newton, Warden and Master of the Royal Mint 1696–1727",
+        "publisher": "The Royal Mint Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1696년 조폐국 감사, 1699년 조폐국장 취임",
+          "대개주 사업에서 행정 능력을 발휘한 사실",
+          "조폐 행정의 성과를 뉴턴 혼자 만든 혁명으로 과장하지 말아야 하는 평가"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1660년대 운동·빛·변하는 양을 연구하며 유율법이라 부른 계산법과 흰빛의 여러 색에 관한 실험을 발전시켰다.",
+        "significance": "사과 하나의 계시보다 여러 연구 문제가 오랜 시간 서로 자란 과정을 보여 주며, 미적분의 후대 명칭과 라이프니츠의 독립 연구를 구분한다.",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/enlightening-science",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "point": "핼리의 질문과 지원을 계기로 1687년 『프린키피아』를 출판해 지상 물체와 천체의 운동을 같은 법칙과 보편중력으로 다뤘다.",
+        "significance": "뉴턴의 수학적 통합을 중심에 두면서 출판과 문제 설정에 기여한 핼리를 지우지 않는다.",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance",
+          "https://www.newtonproject.ox.ac.uk/enlightening-science"
+        ]
+      },
+      {
+        "point": "왕립학회장으로 『프린키피아』 2판을 코츠와 보강하는 한편 라이프니츠와의 미적분 우선권 다툼에서 조사와 출판을 주도했다.",
+        "significance": "과학적 권위와 제도적 권력이 분리되지 않았고, 뉴턴이 자기 사건의 심판 과정에 영향력을 행사한 긴장을 드러낸다.",
+        "sourceUrls": [
+          "https://royalsociety.org/science-events-and-lectures/2013/newtons-principia/",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "point": "1696년 조폐국 감사가 되어 대개주와 위조화폐 수사에 관여했고, 1699년 조폐국장으로 옮겨 행정가의 경력을 이어 갔다.",
+        "significance": "자연철학자의 계산과 측정이 국가의 화폐·수사·처벌 체계 안에서 작동한 별도의 삶을 보여 준다.",
+        "sourceUrls": [
+          "https://www.royalmintmuseum.org.uk/journal/people/isaac-newton/",
+          "https://www.lib.cam.ac.uk/collections/departments/archives-modern-and-medieval-manuscripts-and-university-archives-35"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "힘과 운동의 관계를 수학 법칙으로 세우고, 같은 보편중력이 사과 같은 지상 물체와 달·행성의 궤도를 함께 설명하게 했다.",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/enlightening-science",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "point": "프리즘 실험을 되풀이해 흰빛이 서로 다른 굴절 성질을 가진 색들로 이루어졌다고 논증하고 반사망원경을 제작했다.",
+      "sourceUrls": [
+        "https://www.newtonproject.ox.ac.uk/enlightening-science"
+      ]
+      },
+      {
+        "point": "자연의 질서를 신의 통치와 연결해 이해했고, 공개 과학 저술과 나란히 성서·예언·고대 연대기·연금술을 광범위하게 연구했다.",
+        "sourceUrls": [
+          "https://www.cam.ac.uk/stories/rediscoverednewton",
+          "https://www.lib.cam.ac.uk/collections/departments/archives-modern-and-medieval-manuscripts-and-university-archives-35",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "뉴턴은 유율법을 일찍 발전시켰지만 라이프니츠도 미적분을 독립적으로 만들고 먼저 출판했으며, 오늘날 표기법에는 라이프니츠의 영향이 크다.",
+        "sourceUrls": [
+          "https://royalsociety.org/science-events-and-lectures/2013/newtons-principia/",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "point": "증거와 수학적 논증을 중시한 자연철학자가 동시에 연금술·예언·연대기에 막대한 시간을 들였으므로 현대의 '과학 대 미신' 구도로 생애를 둘로 자를 수 없다.",
+        "sourceUrls": [
+          "https://www.lib.cam.ac.uk/collections/departments/archives-modern-and-medieval-manuscripts-and-university-archives-35",
+          "https://www.cam.ac.uk/stories/rediscoverednewton"
+        ]
+      },
+      {
+        "point": "『프린키피아』는 뉴턴의 독창적 통합이지만 핼리의 질문·출판 비용, 코츠의 편집, 플램스티드의 관측 자료와 선행 자연철학자들의 논쟁에 의존했다.",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance",
+          "https://royalsociety.org/science-events-and-lectures/2013/newtons-principia/"
+        ]
+      },
+      {
+        "point": "뉴턴은 왕립학회의 권위로 라이프니츠 우선권 조사를 통제하고 자기 보고서를 익명으로 칭찬했으므로, 냉정한 진리 탐구자라는 초상만으로 다툼을 덮을 수 없다.",
+        "sourceUrls": [
+          "https://royalsociety.org/science-events-and-lectures/2013/newtons-principia/",
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "정의와 조건을 먼저 짧게 놓고, 한 법칙이 서로 멀어 보이는 현상을 어떻게 잇는지 길고 엄밀하게 전개한다.",
+      "directness": "자기 확신과 논쟁적 날카로움을 감추지 않는다. 다만 현대 과학자의 겸손을 소급해 꾸미거나 라이벌을 향한 적의를 후회하는 대사를 창작하지 않는다.",
+      "moves": [
+        "사과 일화를 달의 궤도와 낙하 운동을 같은 계산으로 묶는 실제 문제로 바꾸기",
+        "뉴턴의 성취 뒤에 핼리·코츠·플램스티드와 라이프니츠의 독립 기여를 붙이기",
+        "운동과 빛의 질서에서 신학·연금술·조폐 행정으로 이어 현대적 경계와 다른 탐구 세계를 드러내기"
+      ],
+      "avoid": [
+        "사과가 떨어지는 순간 만유인력의 완성된 법칙을 깨달았다는 장면",
+        "뉴턴이 미적분을 혼자 창시했고 라이프니츠가 베꼈다는 주장",
+        "합리적 과학자와 비합리적 연금술사가 서로 다른 사람처럼 갈라지는 서술",
+        "우선권 다툼과 동료 자료 사용을 근거 없는 자기반성이나 도덕적 참회로 처리하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "보편중력",
+        "guide": "질량을 가진 모든 물체가 서로 끌어당긴다는 힘",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/enlightening-science"
+        ]
+      },
+      {
+        "term": "프린키피아",
+        "guide": "뉴턴이 운동 법칙과 중력을 수학적으로 정리해 1687년에 낸 책",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "term": "유율법",
+        "guide": "계속 변하는 양의 순간 변화율을 다루기 위해 뉴턴이 발전시킨 미적분 계산법",
+        "sourceUrls": [
+          "https://www.newtonproject.ox.ac.uk/his-life-and-work-at-a-glance"
+        ]
+      },
+      {
+        "term": "대개주",
+        "guide": "낡고 훼손된 은화를 거둬 일정한 무게와 순도의 새 화폐로 다시 만든 국가 사업",
+        "sourceUrls": [
+          "https://www.royalmintmuseum.org.uk/journal/people/isaac-newton/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "사과 이야기는 후대 회고를 통해 전해졌으므로 구체적인 순간·장소·깨달음의 문장을 확정된 현장 기록처럼 쓰지 않는다.",
+      "뉴턴과 라이프니츠가 미적분을 독립적으로 발전시킨 복잡한 연대와 표기법의 차이를 한 사람의 '창시'로 축소하지 않는다.",
+      "후크와 중력 개념, 플램스티드 관측 자료의 기여 범위는 오랜 논쟁 대상이므로 뉴턴의 표절이나 완전한 독립 중 하나로 단정하지 않는다.",
+      "뉴턴의 비정통 신학과 연금술은 사후 흩어진 방대한 비공개 문서에서 복원되었으므로 공개 저술과 사적 신념의 층위를 구분한다.",
+      "조폐국의 성공과 위조범 수사는 국가 조직의 공동 업무이며 뉴턴 개인이 영국 화폐를 혼자 구했다는 서사로 만들지 않는다."
+    ]
+  }
+}

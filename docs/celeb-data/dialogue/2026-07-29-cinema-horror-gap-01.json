@@ -1,0 +1,185 @@
+{
+  "batch": "2026-07-29-cinema-horror-gap-01",
+  "targets": [
+    {
+      "id": "9093f09c-1e17-484f-8622-b66307d81519",
+      "slug": "steven-spielberg",
+      "nickname": "스티븐 스필버그",
+      "nicknameEn": "Steven Spielberg",
+      "birthDate": "1946-12-18",
+      "profession": "director",
+      "quote": "저는 꿈꾸는 것으로 먹고살아요.",
+      "quoteEn": "I live on dreaming.",
+      "greetingKo": [
+        "[warm, childlike] 제가 영화를 만드는 이유는 아직도 어둠 속에서 빛을 찾고 싶기 때문입니다.",
+        "[earnest, universal] 모든 위대한 영화는 관객에게 질문을 던집니다.",
+        "[hopeful, gentle] 카메라 뒤에서 세상을 보면, 눈에 보이지 않던 것들이 보입니다."
+      ],
+      "greetingEn": [
+        "[warm, childlike] I make films because I still want to find the light in the darkness.",
+        "[earnest, universal] Every great film poses a question to its audience.",
+        "[hopeful, gentle] When you look at the world through a camera, you see things you couldn't see before."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "부르셨군요. 먼저 누구의 눈으로 이 장면을 볼지 정해보죠.",
+          "왔습니다. 기술보다 관객이 무엇을 느껴야 하는지부터 듣고 싶어요.",
+          "준비됐습니다. 이번에는 직감이 어디로 이끄는지 보죠."
+        ],
+        "deploy": [
+          "카메라를 인물 가까이 두세요. 관객을 바깥에 세워두면 안 됩니다.",
+          "정답부터 설명하지 맙시다. 관객이 스스로 들어올 자리를 남겨두죠.",
+          "두려움보다 호기심을 택합시다. 낯선 사람의 이야기를 먼저 들어보죠."
+        ],
+        "battle_win": [
+          "관객이 이야기를 본 게 아니라 그 안에서 숨 쉬었군요. 우리가 원한 승리예요.",
+          "우리가 기억을 외면하지 않았습니다. 이제 배운 것을 행동으로 옮길 차례예요.",
+          "모두가 자기 일을 해냈군요. 영화는 혼자 만드는 꿈이 아니니까요."
+        ],
+        "battle_draw": [
+          "아직 관객과 장면 사이에 거리가 남았어요. 조금 더 가까이 데려가야 합니다.",
+          "직감이 늘 맞지는 않아요. 이번에는 더 듣고 다시 선택하죠.",
+          "질문은 남겼지만 마음까지 닿았는지는 모르겠어요. 한 번 더 봅시다."
+        ],
+        "battle_lose": [
+          "제가 모든 장면을 붙잡으려 했어요. 이제 일을 나누고 꼭 필요한 것만 남기겠습니다.",
+          "기술은 있었지만 감정이 보이지 않았군요. 관객을 안으로 데려오지 못했습니다.",
+          "기억해야 할 사람보다 제 연출이 앞섰습니다. 다음에는 증언부터 듣겠습니다."
+        ],
+        "clash_attack": [
+          "사람들을 적으로 몰기 전에 먼저 이야기를 들으세요. 호기심 없이는 함께 설 수도 없습니다.",
+          "당신은 장면을 너무 멀리 세웠습니다. 관객을 바로 그 경험 안으로 데려오세요.",
+          "망각을 안전이라고 부르지 마세요. 우리가 외면한 역사는 해악이 되풀이될 틈을 줍니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "You called. First, let's decide whose eyes will carry us through this scene.",
+          "I'm here. Before we discuss technique, tell me what the audience should feel.",
+          "I'm ready. Let's see where intuition leads us this time."
+        ],
+        "deploy": [
+          "Keep the camera close to the person. Don't leave the audience watching from outside.",
+          "Let's not explain the answer first. Leave room for the audience to enter the story.",
+          "Choose curiosity over fear. Let's begin by listening to the stranger's story."
+        ],
+        "battle_win": [
+          "The audience didn't just watch the story. They breathed inside it. That's the victory we wanted.",
+          "We did not turn away from memory. Now it's time to act on what it taught us.",
+          "Everyone did their part. A film is never a dream one person makes alone."
+        ],
+        "battle_draw": [
+          "There is still distance between the audience and the scene. We need to bring them closer.",
+          "Intuition is not always right. This time, let's listen longer and choose again.",
+          "We left them with a question, but I am not sure we reached the heart. Let's look again."
+        ],
+        "battle_lose": [
+          "I tried to hold on to every scene. Now I'll share the work and keep only what matters.",
+          "The technique was there, but the feeling was not. We failed to bring the audience inside.",
+          "My direction came before the people we needed to remember. Next time, I will listen to the testimony first."
+        ],
+        "clash_attack": [
+          "Before you turn people into enemies, listen to their stories. Without curiosity, we cannot stand together.",
+          "You have kept the scene too far away. Bring the audience into the experience itself.",
+          "Do not call forgetting safety. The history we refuse to face leaves room for harm to repeat itself."
+        ]
+      },
+      "sources": [
+        "https://news.harvard.edu/gazette/story/2022/05/6-memorable-harvard-commencement-speeches/",
+        "https://www.dga.org/craft/dgaq/issues/0604-winter-2006/dga-interview-steven-spielberg",
+        "https://sfi.usc.edu/news/2014/01/steven-spielberg-says-%E2%80%9Cjustice-lives-memory%E2%80%9D-un-keynote-address"
+      ]
+    },
+    {
+      "id": "bbedfaf2-2e89-46ea-9c51-54d227638987",
+      "slug": "stephen-king",
+      "nickname": "스티븐 킹",
+      "nicknameEn": "Stephen King",
+      "birthDate": "1947-09-21",
+      "profession": "author",
+      "quote": "책은 독특한 형태의 마법이죠.",
+      "quoteEn": "Books are a uniquely portable magic.",
+      "greetingKo": [
+        "[calm, resolute] 재능은 싸지만, 헌신은 비쌉니다.",
+        "[composed, pragmatic] 지옥으로 가는 길이라면, 계속 걸으세요.",
+        "[warm, earnest] 책은 독특한 형태의 휴대용 마법입니다."
+      ],
+      "greetingEn": [
+        "[calm, resolute] Talent is cheap. Dedication is expensive.",
+        "[composed, pragmatic] If the road goes through hell, keep walking.",
+        "[warm, earnest] A book is a uniquely portable magic."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "불렀어요? 좋아요. 가장 평범한 사람에게 최악의 일을 하나 던져보죠.",
+          "왔습니다. 두 가지를 부딪치고 '만약에'라고 물으면 이야기는 벌써 시작됐어요.",
+          "준비됐어요. 잘 쓰겠다는 허세 말고 오늘 쓸 분량부터 끝냅시다."
+        ],
+        "deploy": [
+          "문을 닫고 쓰세요. 겁먹은 비평가는 초고가 끝난 다음에 들이면 됩니다.",
+          "괴물부터 찾지 마세요. 사람이 진짜로 무서워하는 게 뭔지 먼저 봅시다.",
+          "거짓말로 이야기를 만들어도 사람은 진실하게 움직여야 해요. 그 선은 지킵시다."
+        ],
+        "battle_win": [
+          "독자가 이야기꾼을 잊었다면 제대로 한 겁니다. 이제 이야기가 혼자 걷겠죠.",
+          "쓰레기통에서 꺼낸 몇 장이 여기까지 왔네요. 버리지 않은 쪽이 이겼습니다.",
+          "무섭게 하려던 게 아니라 정직하게 썼어요. 그래서 더 무서웠던 모양이군요."
+        ],
+        "battle_draw": [
+          "아직 결말을 모르겠어요. 저도 독자처럼 다음 문을 열어보죠.",
+          "아이디어는 괜찮아요. 다만 두 조각이 아직 제대로 부딪치진 않았군요.",
+          "반쯤 겁먹고 반쯤 궁금하네요. 그 정도면 한 장 더 써볼 만합니다."
+        ],
+        "battle_lose": [
+          "제가 이야기보다 영리해 보이려 했군요. 그 허세부터 고치겠습니다.",
+          "이번 거짓말 속에는 진실이 없었어요. 독자가 빠져나간 게 당연합니다.",
+          "제가 길을 잃었지만 끝난 건 아니에요. 잠시 접어두고 다른 원고로 돌아가겠습니다."
+        ],
+        "clash_attack": [
+          "당신이 괴물이라면 너무 일찍 모습을 보였어요. 이제 독자가 겁먹을 이유가 없잖아요.",
+          "멋진 문장 뒤에 숨지 마세요. 실제 사람이라면 여기서 어떻게 할지 말해보죠.",
+          "비평은 나중에 하세요. 지금은 자기연민을 원고로 바꿀 시간입니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "You called? Good. Let's throw one terrible thing at an ordinary person and see what happens.",
+          "I'm here. Put two things together and ask, 'What if?' The story has already begun.",
+          "I'm ready. Forget the pose of writing well. Finish today's pages first."
+        ],
+        "deploy": [
+          "Close the door and write. Let the frightened critic in after the first draft is done.",
+          "Don't look for the monster first. Start with what a real person is actually afraid of.",
+          "A story may be made of lies, but its people must behave truthfully. Hold that line."
+        ],
+        "battle_win": [
+          "If the reader forgot the storyteller, we did it right. The tale can walk on its own now.",
+          "A few pages pulled from the trash made it all the way here. Not giving up won this one.",
+          "I wasn't trying to sound frightening. I wrote honestly, and that seems to have been worse."
+        ],
+        "battle_draw": [
+          "I don't know the ending yet. I'll open the next door like any other reader.",
+          "The idea is fine. Its two pieces just have not collided hard enough yet.",
+          "I'm half frightened and half curious. That's enough reason to write one more page."
+        ],
+        "battle_lose": [
+          "I tried to look smarter than the story. That is the first piece of vanity I will cut.",
+          "There was no truth inside this lie. No wonder the reader escaped.",
+          "I lost the road, but I'm not done. I'll set this aside and return to another manuscript."
+        ],
+        "clash_attack": [
+          "If you're the monster, you showed yourself too soon. Now the reader has no reason to be afraid.",
+          "Don't hide behind a pretty sentence. Tell me what a real person would do here.",
+          "Save the criticism for later. Right now, turn that self-pity into pages."
+        ]
+      },
+      "sources": [
+        "https://stephenking.com/faq/",
+        "https://www.nationalbook.org/stephen-king-accepts-the-2003-medal-for-distinguished-contribution-to-american-letters/",
+        "https://stephenking.com/p/20-years-on-writing/index.html",
+        "https://stephenking.com/news/message-from-stephen-msg1.html",
+        "https://stephenking.com/news/message-from-stephen-msg11.html"
+      ]
+    }
+  ]
+}

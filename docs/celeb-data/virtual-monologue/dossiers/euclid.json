@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "slug": "euclid",
+  "nickname": "유클리드",
+  "route": "improve",
+  "routeReason": "현재 원고는 정의와 출발점을 밝히고 앞선 명제에서 다음 명제로 나아가는 『원론』의 구성 원리를 쉽고 힘 있게 설명한다. 선행 수학자들의 성과를 모았다는 점과 기하학뿐 아니라 수와 비례를 다뤘다는 점도 좋다. 그러나 유클리드의 생애와 성격은 거의 알려져 있지 않은데도 알렉산드리아에서 가르친 기억, 빈칸을 견디지 못한 성향, 책을 스스로 이어지는 체계로 만들고 싶었다는 내면을 사실처럼 말한다. 『원론』을 현대적 의미에서 빈틈없는 공리 체계로 미화하고 도형을 그리는 실제 논증의 역할도 약화한다. 강한 ‘증명에 이르는 길’의 골격은 살리되, 한 사람의 자서전보다 전승된 저작의 목소리라는 한계를 밝히고 후대 편집·도해적 추론·평행선 공준의 지위를 보강해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "유클리드",
+      "birth": "-325",
+      "death": "-265",
+      "profession": "scientist",
+      "disambiguation": "기원전 300년 무렵 알렉산드리아에서 활동한 것으로 전해지며 13권의 수학 저작 『원론』과 결부되는 고대 그리스 수학자",
+      "existingBioForDiscoveryOnly": "고대 그리스 수학자. 알렉산드리아에서 활동하며 기하학의 기초를 확립한 '원론'을 저술했다. 2000년 넘게 수학 교육의 토대로 사용되었다."
+    },
+    "sources": [
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/",
+        "title": "Euclid of Alexandria",
+        "publisher": "MacTutor History of Mathematics, University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "유클리드의 생애에 관해 확실히 알려진 것이 거의 없다는 점",
+          "알렉산드리아에서 가르쳤다는 전승과 프톨레마이오스 일화가 약 700년 뒤 프로클로스의 기록에 의존한다는 점",
+          "에우독소스·테아이테토스 등 선행 수학을 배열하고 엄밀하게 다듬었다는 프로클로스의 평가",
+          "유클리드와 메가라의 철학자 유클리드를 혼동한 전승 문제"
+        ]
+      },
+      {
+        "url": "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html",
+        "title": "Euclid's Elements, Book I",
+        "publisher": "Clark University",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정의·공준·공통 관념 뒤에 명제를 순서대로 증명하는 제1권의 구조",
+          "점·선·각·원·평행선에서 출발하는 기하학의 기본 어휘",
+          "공준은 증명되는 결론이 아니라 논증의 출발점이라는 구별"
+        ]
+      },
+      {
+        "url": "https://mathcs.clarku.edu/~djoyce/elements/bookX/bookX.html",
+        "title": "Euclid's Elements, Book X",
+        "publisher": "Clark University",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "서로 공통된 척도로 정확히 잴 수 있는 양과 그럴 수 없는 양을 구분하는 제10권",
+          "『원론』이 단순한 평면 도형 교과서가 아니라 크기와 무리량을 다룬다는 점"
+        ]
+      },
+      {
+        "url": "https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/bookVII.html",
+        "title": "Euclid's Elements, Book VII",
+        "publisher": "Clark University",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "수와 비, 최대공약수, 소수 등을 다루는 제7권",
+          "『원론』을 기하학만 다룬 책으로 축소할 수 없다는 근거",
+          "현대적 형식화에서 따로 밝혀야 할 종료 전제가 원문에는 명시되지 않았다는 경계"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/0810.4315",
+        "title": "A Formal System for Euclid's Elements",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2008-10-24",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『원론』의 논증이 문자로 적힌 명제뿐 아니라 도형에서 읽어 내는 정보에 의존한다는 분석",
+          "유클리드식 논증을 현대적으로 형식화하려면 도해적 추론 규칙을 함께 명시해야 한다는 점",
+          "『원론』을 현대의 완결된 형식 공리계와 동일시하지 않을 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/science-in-context/article/remarks-on-euclids-elements-i32-and-the-parallel-postulate/9DB2FEF4AC92982DBEB2F9B96D6C78AD",
+        "title": "Remarks on Euclid's Elements I.32 and the Parallel Postulate",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "제5공준과 평행선 관련 명제의 역사적·논리적 관계",
+          "평행선 공준이 다른 출발점보다 복잡해 보여 오랫동안 특별한 문제로 다뤄진 배경"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "기원전 300년 무렵 알렉산드리아와 결부된 『원론』은 정의, 공준, 공통 관념을 먼저 놓고 앞의 명제를 이용해 다음 명제를 증명하는 13권의 체계를 만들었다.",
+        "significance": "유클리드의 성격을 창작하기보다 실제 저작에서 확인되는 배열과 논증의 움직임을 독백의 중심으로 삼는다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/",
+          "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html"
+        ]
+      },
+      {
+        "point": "『원론』은 도형뿐 아니라 비례, 수론, 공통된 척도로 잴 수 없는 크기를 함께 다뤘다.",
+        "significance": "점과 선에서 시작한 책을 단순한 학교 기하학으로 줄이지 않고 수학적 관계를 정리한 넓은 기획으로 보여 준다.",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookX/bookX.html",
+          "https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/bookVII.html"
+        ]
+      },
+      {
+        "point": "선행 수학자들의 성과를 골라 배열하고 증명을 다듬은 저작으로 전승되었으며, 후대 필사와 편집을 거쳐 오늘의 본문이 되었다.",
+        "significance": "모든 정리를 혼자 발견한 천재가 아니라 오래 축적된 수학을 강한 순서로 조직한 인물로 그리되, 정확한 개인 저작 범위는 단정하지 않는다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "눈으로 그럴듯해 보이는 결론보다 정의와 받아들인 출발점에서 단계적으로 따라오는 증명을 중시하는 저작의 태도를 보여 준다.",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html"
+        ]
+      },
+      {
+        "point": "한 명제의 순서는 장식이 아니라 뒤의 명제가 앞의 정의와 증명을 사용할 수 있게 하는 지식의 구조다.",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html"
+        ]
+      },
+      {
+        "point": "손으로 그린 도형은 논증을 돕는 핵심 매개이지만, 결론은 특정 그림의 우연한 모양이 아니라 그 도형에 주어진 관계에서 따라와야 한다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/0810.4315"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "『원론』은 엄밀한 증명의 대표가 되었지만 현대 논리의 기준에서는 원문에 적히지 않은 도해적 전제와 추론이 있다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/0810.4315",
+          "https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/bookVII.html"
+        ]
+      },
+      {
+        "point": "유클리드라는 이름은 강한 저자상을 남겼지만 실제 생애는 거의 알 수 없고, 저작이 선행 성과를 얼마나 수집·수정했는지도 정확히 나눌 수 없다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/"
+        ]
+      },
+      {
+        "point": "제5공준은 체계의 출발점이지만 다른 공준보다 복잡해 보여 후대 수학자들이 증명 가능한 명제로 바꾸려 오랫동안 시도했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/science-in-context/article/remarks-on-euclids-elements-i32-and-the-parallel-postulate/9DB2FEF4AC92982DBEB2F9B96D6C78AD"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "정의처럼 짧은 문장으로 출발하고, 한 명제가 다음 명제를 받치는 과정을 중간 길이 문장으로 이어 간다. 어려운 용어는 첫 등장에 괄호 한 문장으로 푼다.",
+      "directness": "개인 감정을 풍부하게 회고하는 전기체보다, 전승된 『원론』의 구성 원리를 차분히 보여 주는 목소리를 쓴다. ‘나는 이렇게 느꼈다’보다 ‘이 출발점을 받아들이면 무엇이 따라오는가’를 묻는다.",
+      "moves": [
+        "생애를 거의 모른다는 한계를 숨기지 않고 이름보다 오래 남은 저작에서 시작하기",
+        "정의·공준·공통 관념을 각각 괄호로 구분한 뒤 실제 명제의 연결로 보여 주기",
+        "선행 수학자의 성과를 모은 일과 배열·증명을 다듬은 일을 맞대어 단독 발명 신화를 피하기",
+        "손그림의 유용성과 도형 바깥에서 성립해야 하는 논증을 대립시키지 말고 함께 설명하기",
+        "결말은 저자의 숨은 소망을 창작하지 않고 오늘 전하는 체계가 남긴 질문으로 닫기"
+      ],
+      "avoid": [
+        "알렉산드리아에서 학생을 가르친 구체적 장면을 직접 기억처럼 재현하기",
+        "프톨레마이오스에게 ‘기하학에는 왕도가 없다’고 실제로 말했다고 단정하기",
+        "모든 정리와 증명을 유클리드가 처음 발견했다고 쓰기",
+        "『원론』을 현대적 의미에서 전제가 모두 명시된 완전한 공리계라고 쓰기",
+        "도형은 무의미하고 순수한 기호만 남는다는 현대 형식주의를 투사하기",
+        "빈칸을 견디지 못했다거나 권위를 싫어했다는 개인 성향을 사료 없이 만들기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "공준",
+        "guide": "그 체계 안에서 증명하지 않고 먼저 받아들이기로 한 기하학의 출발 조건",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html"
+        ]
+      },
+      {
+        "term": "공통 관념",
+        "guide": "서로 같은 것에 같은 것을 더하면 결과도 같다는 식으로 여러 논증에 공통으로 쓰는 기본 원리",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookI/bookI.html"
+        ]
+      },
+      {
+        "term": "통약 불가능한 크기",
+        "guide": "두 길이를 모두 정수 번 재어 딱 맞출 수 있는 하나의 공통된 자가 없는 관계",
+        "sourceUrls": [
+          "https://mathcs.clarku.edu/~djoyce/elements/bookX/bookX.html"
+        ]
+      },
+      {
+        "term": "평행선 공준",
+        "guide": "한 직선이 두 직선을 가로지를 때 생기는 각의 조건으로 두 직선이 어느 쪽에서 만나는지를 정한 제5공준",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/science-in-context/article/remarks-on-euclids-elements-i32-and-the-parallel-postulate/9DB2FEF4AC92982DBEB2F9B96D6C78AD"
+        ]
+      },
+      {
+        "term": "도해적 추론",
+        "guide": "글로 적힌 조건뿐 아니라 함께 그린 도형의 위치와 만남을 읽어 증명에 사용하는 추론",
+        "sourceUrls": [
+          "https://arxiv.org/abs/0810.4315"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "유클리드의 출생·사망 연도는 확정된 기록이 아니라 활동 시기를 바탕으로 한 근사치다.",
+      "알렉산드리아에서 가르쳤다는 설명과 왕도 일화는 유클리드보다 약 700년 뒤 프로클로스의 기록에 의존하므로 직접 회상으로 쓰지 않는다.",
+      "유클리드 개인이 『원론』의 모든 내용을 썼는지, 선행 자료를 어느 정도 편집했는지 정확히 분리할 수 없다.",
+      "현재 전하는 『원론』은 오랜 필사·주석·편집을 거쳤으므로 오늘의 문장 전체를 유클리드 자신의 말투로 간주하지 않는다.",
+      "『원론』은 엄밀성의 역사적 모범이지만 현대 형식 논리의 기준에서는 적히지 않은 도해적 가정과 추론이 있다.",
+      "‘폭이 없는 선’ 같은 정의를 유클리드 개인의 정신세계나 플라톤적 신념으로 곧장 확대하지 않는다.",
+      "제5공준의 후대 논쟁과 비유클리드 기하학을 유클리드가 미리 예상한 것처럼 쓰지 않는다."
+    ]
+  }
+}

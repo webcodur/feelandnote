@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "slug": "muhammad",
+  "nickname": "무함마드",
+  "route": "hold",
+  "routeReason": "두 차례 수정 뒤에도 메디나의 전쟁을 피할 수 없는 현실로 규정해 책임을 약화하는 근거 밖 인과가 남았고, 메카의 선포에서 공동체 통치로 바뀌는 핵심 전환도 용어·연대·경전 성립을 설명하는 교과서식 연표에 묻혔다. 재개하려면 전쟁의 불가피성을 완전히 제거하고, 한 분 하나님 앞의 책임이 고아·빈자에 대한 의무와 메디나의 실제 판단으로 넓어지는 인간 편집 구조를 먼저 확정해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "무함마드",
+      "birth": "약 570",
+      "death": "632",
+      "profession": "leader",
+      "disambiguation": "7세기 서아라비아에서 꾸란의 메시지를 선포하고 메디나 공동체를 이끈 역사적 무함마드로, 이슬람 신앙에서는 하나님의 사도이자 예언자로 존경받는 인물",
+      "existingBioForDiscoveryOnly": "이슬람의 창시자이자 예언자. 아라비아 반도를 통일하고 이슬람 공동체를 건설하였다."
+    },
+    "sources": [
+      {
+        "url": "https://academic.oup.com/reference/62361/reference-article-abstract/554568841",
+        "title": "Muhammad",
+        "publisher": "Oxford Bibliographies in Islamic Studies, Oxford University Press",
+        "kind": "scholarly",
+        "publishedAt": "2009-12-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "꾸란이 무함마드 생애에 관한 가장 이른 자료이면서도 전기를 쓰기에는 매우 불완전한 문헌이라는 점",
+          "꾸란의 내용이 약 22년에 걸쳐 선포된 발화의 모음으로 널리 이해된다는 점",
+          "무함마드가 고아로 자라 상인으로 활동했다는 전승의 기본 윤곽",
+          "632년 사후 계시들을 수집하고 비연대순으로 배열한 과정에 관한 학술적 설명"
+        ]
+      },
+      {
+        "url": "https://academic.oup.com/book/492/chapter-abstract/135259393",
+        "title": "Shaping Muhammad in History",
+        "publisher": "Oxford University Press",
+        "kind": "scholarly",
+        "publishedAt": "2011-03-24",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이븐 이스하크의 시라가 무함마드 사후 오랜 시간이 지난 뒤 편찬됐고 원본 전체가 남아 있지 않다는 점",
+          "시라가 신앙 공동체의 성스러운 역사이므로 현대 역사학의 축어적 전기처럼 읽을 수 없다는 점",
+          "시라와 역사적 무함마드를 구분해 읽어야 한다는 방법론"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/it/essays/the-birth-of-islam",
+        "title": "The Birth of Islam",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "institutional",
+        "publishedAt": "2001-10-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "약 570년 메카 출생, 610년 무렵 첫 계시라는 이슬람 전승의 연대",
+          "622년 메카에서 메디나로 이주한 히즈라와 메디나에서 공동체를 이끈 생애 윤곽",
+          "메카가 수년 뒤 이슬람 공동체에 들어온 넓은 역사적 흐름"
+        ]
+      },
+      {
+        "url": "https://quran.com/93/6-11",
+        "title": "Qur'an 93:6–11, al-Duha",
+        "publisher": "Quran.com, Quran Foundation",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "수신자를 고아였던 사람으로 환기하는 꾸란 구절",
+          "고아를 억누르지 말고 도움을 청하는 이를 물리치지 말라는 명령"
+        ]
+      },
+      {
+        "url": "https://quran.com/4/7",
+        "title": "Qur'an 4:7, al-Nisa",
+        "publisher": "Quran.com, Quran Foundation",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "남성과 여성 모두에게 부모와 가까운 친족이 남긴 재산의 정해진 몫이 있다고 한 구절"
+        ]
+      },
+      {
+        "url": "https://quran.com/2/177",
+        "title": "Qur'an 2:177, al-Baqara",
+        "publisher": "Quran.com, Quran Foundation",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "신앙과 의로움을 친족·고아·빈자·나그네에 대한 나눔, 속박된 이의 해방, 기도와 약속의 이행에 연결한 구절"
+        ]
+      },
+      {
+        "url": "https://quran.com/112",
+        "title": "Qur'an 112, al-Ikhlas",
+        "publisher": "Quran.com, Quran Foundation",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "하나님은 한 분이며 낳거나 태어나지 않고 그와 같은 존재가 없다는 꾸란의 단일신 신앙"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "610년 무렵 메카에서 한 분 하나님과 심판을 선포하기 시작했다는 전승이 자리 잡았고, 꾸란은 그 선포의 가장 이른 문헌적 증거다.",
+        "significance": "계시가 실제로 하나님에게서 왔다는 신앙 고백과, 무함마드가 그 메시지를 선포했다는 역사적 사실을 한 문장 안에서 혼동하지 않게 한다.",
+        "sourceUrls": [
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841",
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam",
+          "https://quran.com/112"
+        ]
+      },
+      {
+        "point": "622년 추종자들과 메카를 떠나 메디나로 이주했고, 그곳에서 설교자만이 아니라 공동체를 이끄는 지도자가 됐다.",
+        "significance": "히즈라는 신앙 공동체가 정치·사회적 질서를 꾸리는 집단으로 바뀐 생애의 분명한 전환이다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam",
+          "https://academic.oup.com/book/492/chapter-abstract/135259393"
+        ]
+      },
+      {
+        "point": "메디나 시기에는 충돌과 협상을 거치며 세력이 커졌고, 630년 무렵 메카도 새 공동체의 질서에 들어왔다.",
+        "significance": "자비로운 설교자나 정복자 한쪽으로 축소하지 않고 종교적 선포와 실제 통치가 함께 있었음을 보여 준다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "꾸란의 메시지는 하나님이 한 분이라는 믿음과 인간이 자신의 행위에 책임져야 한다는 경고를 중심에 둔다.",
+        "sourceUrls": [
+          "https://quran.com/112",
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841"
+        ]
+      },
+      {
+        "point": "기도와 신앙 고백만으로 의로움을 다했다고 보지 않고 고아·빈자·나그네를 돕고 속박된 이를 풀어 주며 약속을 지키는 행위를 함께 요구한다.",
+        "sourceUrls": [
+          "https://quran.com/93/6-11",
+          "https://quran.com/2/177"
+        ]
+      },
+      {
+        "point": "친족 재산의 상속에서 여성에게도 정해진 몫을 부여하는 규정을 선포했다.",
+        "sourceUrls": [
+          "https://quran.com/4/7"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "메카에서 경고와 설교를 한 종교 지도자는 메디나에서 법·협상·전쟁을 함께 다루는 공동체 지도자가 됐다. 두 시기를 평화와 폭력의 단순한 대립으로 만들 수 없다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam",
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841"
+        ]
+      },
+      {
+        "point": "꾸란은 고아 보호, 여성의 상속 몫, 속박된 이의 해방을 명시했지만 7세기 사회의 성별·가족·노예제 질서 전체를 현대적 평등 제도로 바꾸지는 않았다.",
+        "sourceUrls": [
+          "https://quran.com/93/6-11",
+          "https://quran.com/4/7",
+          "https://quran.com/2/177"
+        ]
+      },
+      {
+        "point": "무함마드의 목소리를 가장 이르게 전하는 꾸란은 전기가 아니며, 생애의 세부를 채우는 시라는 훨씬 뒤의 신앙적 편찬물이다.",
+        "sourceUrls": [
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841",
+          "https://academic.oup.com/book/492/chapter-abstract/135259393"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 힘 있는 선포와 경고를 중심으로 하되, 메디나의 정치적 선택은 과장 없는 중간 길이 문장으로 설명한다.",
+      "directness": "신앙의 확신은 꾸란이 실제로 선포한 범위에서 단호하게 말하고, 후대 전승의 장면과 개인 감정은 확정하지 않는다.",
+      "moves": [
+        "한 분 하나님에 대한 선포를 고아·빈자·약속 같은 구체적 의무로 곧바로 연결하기",
+        "메카의 설교와 메디나의 공동체 운영을 생애의 전환으로 병치하기",
+        "꾸란의 짧은 명령을 쉬운 말로 풀고 법·제도 전체를 자신이 완성했다는 영웅 서사는 피하기"
+      ],
+      "avoid": [
+        "하나님이 실제로 말했고 천사가 실제로 나타났다는 신앙 명제를 중립적 역사 사실로 단정하기",
+        "첫 계시 때의 떨림, 박해와 사별 때의 두려움·슬픔을 후대 시라와 하디스에서 곧바로 1인칭 내면으로 옮기기",
+        "여아 매장·여성 억압이 아라비아 전역에 동일하게 만연했고 자신이 이를 끝냈다고 말하기",
+        "노예 해방을 권한 구절을 노예제를 폐지한 선언으로 확대하기",
+        "이슬람의 창시자라는 후대 분류를 본인의 자기규정처럼 사용하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "계시",
+        "guide": "이슬람 신앙에서 하나님이 무함마드에게 전했다고 믿으며 꾸란에 담긴 말씀",
+        "sourceUrls": [
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841"
+        ]
+      },
+      {
+        "term": "히즈라",
+        "guide": "622년 무함마드와 추종자들이 메카에서 메디나로 옮긴 이주",
+        "sourceUrls": [
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam"
+        ]
+      },
+      {
+        "term": "움마",
+        "guide": "신앙과 공동의 책임으로 묶인 이슬람 공동체",
+        "sourceUrls": [
+          "https://www.metmuseum.org/it/essays/the-birth-of-islam"
+        ]
+      },
+      {
+        "term": "꾸란",
+        "guide": "무함마드가 약 22년에 걸쳐 선포한 계시를 사후에 모아 배열한 이슬람의 경전",
+        "sourceUrls": [
+          "https://academic.oup.com/reference/62361/reference-article-abstract/554568841"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "꾸란은 무함마드 시대에 가까운 핵심 자료지만 전기가 아니어서 생애의 연속 장면과 사적인 감정을 거의 제공하지 않는다.",
+      "첫 계시의 세부, 박해 장면, 카디자와 아부 탈리브 사망 때의 심정 등은 후대 시라·하디스 전승을 거치므로 역사적 1인칭 기억으로 확정하지 않는다.",
+      "이슬람이 하나님의 최종 계시이고 무함마드가 마지막 예언자라는 말은 무슬림의 신앙 고백으로 표현해야 하며 역사학의 판정처럼 쓰지 않는다.",
+      "메디나의 협약·전투·정복에 관한 세부는 전승과 학술 해석이 갈리므로 이번 독백에서는 히즈라, 공동체 지도, 메카 귀환이라는 넓은 윤곽을 넘지 않는다.",
+      "여성 상속과 노예 해방 권고는 꾸란 구절로 확인되지만 이를 현대적 성평등이나 노예제 폐지와 동일시하지 않는다.",
+      "재개 조건은 전쟁의 불가피성을 주장하지 않고 메카의 선포와 메디나의 공동체 판단을 한 축으로 묶는 인간 편집 개요를 먼저 확정하는 것이다."
+    ]
+  }
+}

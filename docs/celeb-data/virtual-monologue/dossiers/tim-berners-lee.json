@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "slug": "tim-berners-lee",
+  "nickname": "팀 버너스 리",
+  "route": "improve",
+  "routeReason": "현재 원고는 1989년 제안, URL·HTTP·HTML, 읽고 쓰는 첫 브라우저, W3C의 보편성, 데이터 통제와 Solid까지 생애 흐름이 좋고 쉬운 편이다. 다만 웹과 인터넷을 구별하지 않고, ‘특허를 내지 않은 나의 선택’으로 CERN의 1993년 공공 공개 결정을 개인 영웅담으로 만들며, 로베르 카이오와 동료들의 역할이 없다. 후반의 ‘내가 만든 웹이 잘못됐다’는 개인적 죄책감도 실제 2017년 공개 서한의 세 가지 구조적 비판으로 바꾸어야 한다. 전체 재작성보다 협업·제도·기술 용어를 정밀하게 보강하는 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "팀 버너스 리",
+      "birth": "1955-06-08",
+      "death": null,
+      "profession": "scientist",
+      "disambiguation": "1989년 CERN에서 월드 와이드 웹을 제안하고 첫 웹 브라우저·편집기와 서버를 만든 영국 컴퓨터 과학자이자 W3C 창립자",
+      "existingBioForDiscoveryOnly": "영국의 컴퓨터 과학자. 1989년 월드 와이드 웹을 발명하여 정보 공유의 혁명을 일으켰다."
+    },
+    "sources": [
+      {
+        "url": "https://www.w3.org/History/1989/proposal.html",
+        "title": "Information Management: A Proposal",
+        "publisher": "World Wide Web Consortium",
+        "kind": "primary",
+        "publishedAt": "1989-03-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "CERN의 복잡한 조직에서 흩어진 정보를 잇기 위해 제안한 원래 문제",
+          "처음부터 오늘의 웹 전체를 완성해 내놓은 것이 아니라 점진적으로 확장 가능한 하이퍼텍스트 체계를 구상한 사실"
+        ]
+      },
+      {
+        "url": "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html",
+        "title": "The World Wide Web: Past, Present and Future",
+        "publisher": "World Wide Web Consortium",
+        "kind": "primary",
+        "publishedAt": "1996-10-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "웹의 URI·HTTP·HTML 설계와 보편성·최소 제약 원칙",
+          "첫 브라우저 WorldWideWeb이 읽기와 편집을 함께 지원한 사실",
+          "인터넷·하이퍼텍스트 등 기존 기술 위에 웹이 세워졌다는 설계 회고"
+        ]
+      },
+      {
+        "url": "https://home.cern/world-wide-web-35/",
+        "title": "World Wide Web at 35",
+        "publisher": "CERN",
+        "kind": "institutional",
+        "publishedAt": "2024-03-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1990년 버너스 리와 로베르 카이오가 함께 정식 웹 제안을 만든 사실",
+          "1993년 CERN이 웹 소프트웨어를 공공 영역에 공개한 사실"
+        ]
+      },
+      {
+        "url": "https://home.cern/fr/science/computing/birth-web/licensing-web/",
+        "title": "Licensing the Web",
+        "publisher": "CERN",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1993년 CERN이 기본 클라이언트·서버·공통 코드 라이브러리를 공공 영역에 둔 제도적 결정",
+          "웹의 개방을 개인이 특허를 포기한 한 장면으로 축소할 수 없다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.w3.org/mission/",
+        "title": "W3C Mission",
+        "publisher": "World Wide Web Consortium",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "상호운용성·접근성·국제화·개방형 표준이라는 W3C의 임무",
+          "웹을 특정 회사나 장치에 가두지 않으려는 표준 활동"
+        ]
+      },
+      {
+        "url": "https://webfoundation.org/reports/2017/",
+        "title": "Web Foundation Annual Report 2017",
+        "publisher": "World Wide Web Foundation",
+        "kind": "institutional",
+        "publishedAt": "2017-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "개인 데이터 통제 상실, 허위정보 확산, 불투명한 정치 광고라는 2017년 공개 서한의 세 가지 문제",
+          "막연한 후회가 아니라 웹의 구체적 권력 구조를 비판한 입장"
+        ]
+      },
+      {
+        "url": "https://www.w3.org/DesignIssues/Vision.html",
+        "title": "Vision of a new World",
+        "publisher": "World Wide Web Consortium",
+        "kind": "primary",
+        "publishedAt": "2024-10-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "Solid를 개인 데이터 저장소와 접근 권한을 웹 층에 더하는 작업으로 설명한 버너스 리의 견해",
+          "Solid가 이미 웹을 복구한 완성품이 아니라 진행 중인 기술 비전이라는 경계"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1989년 CERN 안에서 사람과 장비가 바뀌어도 흩어진 문서와 관계를 따라갈 수 있는 정보 관리 체계를 제안했다.",
+        "significance": "웹의 출발을 ‘세상을 연결하겠다’는 추상적 예언보다, 큰 연구기관의 끊어진 정보를 잇는 구체적 문제에서 보여 준다.",
+        "sourceUrls": [
+          "https://www.w3.org/History/1989/proposal.html"
+        ]
+      },
+      {
+        "point": "1990년 로베르 카이오와 함께 제안을 다듬고, URI·HTTP·HTML과 첫 브라우저·편집기 및 서버를 실제로 연결했다.",
+        "significance": "웹은 인터넷 그 자체가 아니라 이미 있던 인터넷 위에서 문서의 주소, 전송, 표현을 함께 작동시킨 체계다. 첫 도구는 읽기뿐 아니라 쓰기도 품었다.",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html",
+          "https://home.cern/world-wide-web-35/"
+        ]
+      },
+      {
+        "point": "1993년 CERN이 핵심 웹 소프트웨어를 공공 영역에 공개했고, 1994년 버너스 리는 W3C를 세워 개방형 표준을 조정하기 시작했다.",
+        "significance": "웹의 개방성은 개인의 선의 한 번이 아니라 기관의 라이선스 결정과 장기간의 표준 합의가 함께 만든 결과다.",
+        "sourceUrls": [
+          "https://home.cern/fr/science/computing/birth-web/licensing-web/",
+          "https://www.w3.org/mission/"
+        ]
+      },
+      {
+        "point": "2017년 웹에서 개인 데이터 통제 상실, 허위정보, 불투명한 정치 광고를 핵심 문제로 지목했고 이후 Solid를 통해 데이터와 앱의 분리를 추진했다.",
+        "significance": "‘웹을 발명했으니 망가진 결과도 모두 내 책임’이라는 고백이 아니라, 자신이 지켜 온 개방·분산 원칙을 현재의 플랫폼 권력에 다시 적용하는 행보다.",
+        "sourceUrls": [
+          "https://webfoundation.org/reports/2017/",
+          "https://www.w3.org/DesignIssues/Vision.html"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "웹은 어떤 회사의 장치나 파일 형식에 종속되지 않고, 서로 다른 사람과 컴퓨터가 같은 링크를 따라갈 수 있어야 한다.",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html",
+          "https://www.w3.org/mission/"
+        ]
+      },
+      {
+        "point": "웹 이용자는 정보를 읽는 손님에 머물지 않고 직접 쓰고 연결하는 참여자여야 한다.",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html"
+        ]
+      },
+      {
+        "point": "개인이 자신의 데이터를 통제하고 앱을 바꾸어도 데이터를 옮길 수 있는 웹 층이 필요하다고 본다.",
+        "sourceUrls": [
+          "https://webfoundation.org/reports/2017/",
+          "https://www.w3.org/DesignIssues/Vision.html"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "누구나 연결할 수 있도록 열린 웹이 소수 플랫폼의 데이터·광고·추천 체계에 집중될 수 있었다.",
+        "sourceUrls": [
+          "https://webfoundation.org/reports/2017/"
+        ]
+      },
+      {
+        "point": "첫 브라우저는 읽기와 쓰기를 함께 지원했지만, 대중화된 웹에서는 많은 사람이 플랫폼이 정한 틀 안에서만 쓰게 되었다.",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html",
+          "https://webfoundation.org/reports/2017/"
+        ]
+      },
+      {
+        "point": "보편성을 지키려면 중앙의 강제보다 공통 표준이 필요하지만, 그 표준은 수많은 기관과 이해관계자가 오래 합의해야 한다.",
+        "sourceUrls": [
+          "https://www.w3.org/mission/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 평이한 문장으로 문제와 설계를 번갈아 말한다. URL·HTTP·HTML은 한꺼번에 나열하지 말고 각각 첫 등장에 괄호로 한 줄씩 푼다.",
+      "directness": "발명가의 승전기보다 시스템 설계자가 요구사항을 설명하듯 차분하고 구체적으로 말한다. 현재의 웹을 비판할 때도 ‘내 발명이 배신당했다’는 감상보다 데이터·광고·표준의 구조를 지목한다.",
+      "moves": [
+        "CERN의 끊어진 정보라는 작은 현장에서 시작해 세계적 네트워크로 넓히기",
+        "내가 만든 요소를 말한 뒤 인터넷·하이퍼텍스트의 선행 기술과 로베르 카이오·CERN·W3C의 몫을 붙이기",
+        "주소·전송 규칙·문서 표현을 각각 일상적 비유 없이 정확한 괄호 풀이로 안내하기",
+        "후반에는 2017년 세 가지 문제를 제시하고 Solid가 겨냥하는 데이터 통제 원칙으로 회수하기"
+      ],
+      "avoid": [
+        "인터넷과 월드 와이드 웹을 같은 것으로 쓰기",
+        "세 개의 기술을 하룻밤에 혼자 발명했다는 신화",
+        "CERN의 공공 공개 결정을 ‘나는 특허를 내지 않았다’는 개인 미담으로 독점하기",
+        "현재의 모든 온라인 폐해를 자신이 예견했거나 개인적으로 속죄한다고 창작하기",
+        "Solid가 이미 플랫폼 집중 문제를 해결했다고 선언하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "URI 또는 URL",
+        "guide": "웹에서 문서나 자원이 어디에 있는지 가리키는 고유한 주소",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html"
+        ]
+      },
+      {
+        "term": "HTTP",
+        "guide": "브라우저와 서버가 웹 문서를 요청하고 건네는 방법을 정한 통신 규칙",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html"
+        ]
+      },
+      {
+        "term": "HTML",
+        "guide": "제목·문단·링크처럼 웹 문서의 구조를 표시하는 언어",
+        "sourceUrls": [
+          "https://www.w3.org/People/Berners-Lee/9610-IEEE-Computer.html"
+        ]
+      },
+      {
+        "term": "Solid",
+        "guide": "개인 데이터를 특정 앱의 서버에 묶어 두지 않고 별도 저장소에 두며, 사용자가 앱별 접근 권한을 정하도록 하려는 웹 기술 규격",
+        "sourceUrls": [
+          "https://www.w3.org/DesignIssues/Vision.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "버너스 리는 생존 인물이므로 현재 직함과 Solid의 진행 상태처럼 바뀔 수 있는 정보는 게시 직전에 다시 확인한다.",
+      "월드 와이드 웹은 기존 인터넷·TCP/IP·도메인 이름 체계와 하이퍼텍스트 연구 위에 세워졌으며 인터넷 자체의 발명으로 쓰지 않는다.",
+      "1990년 정식 제안과 구현에는 로베르 카이오와 CERN 동료들이 참여했으므로 단독 영웅 서사를 피한다.",
+      "1993년 웹 소프트웨어의 공공 공개는 CERN의 공식 결정이다. ‘버너스 리가 혼자 특허를 포기했다’고 단순화하지 않는다.",
+      "첫 WorldWideWeb 프로그램이 읽기·편집을 함께 했다는 사실과 이후 대중적 브라우저의 기능 변화를 구별한다.",
+      "2017년 비판은 개인 데이터, 허위정보, 불투명한 정치 광고라는 공개된 세 항목에 한정하고 개인적 죄책감을 덧붙이지 않는다.",
+      "Solid는 진행 중인 표준과 구현 생태계이지, 이용자가 이미 대규모로 데이터 주권을 되찾았다는 성공 사례가 아니다."
+    ]
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "slug": "james-madison",
+  "nickname": "제임스 매디슨",
+  "route": "improve",
+  "routeReason": "현행 원고는 헌법의 공동 창작 성격, 파벌을 제도로 통제한다는 정치론, 권리장전, 1812년 전쟁과 노예제 모순을 하나의 삶으로 연결해 재사용 가치가 높다. 다만 워싱턴 방화 뒤의 깨달음과 노예제에 대한 자책을 실제 내면처럼 말하고, 매디슨이 선호했으나 채택되지 않은 연방의 주법 거부권과 권리장전의 주 적용안, 전쟁의 구체적 명분을 생략한다. 기존 구조를 살리면서 실제 문서의 언어와 소유·상속 행위로 책임을 교체하면 되므로 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "제임스 매디슨",
+      "birth": "1751-03-16",
+      "death": "1836-06-28",
+      "profession": "politician",
+      "disambiguation": "미국 헌법 제정회의의 주요 설계자·연방주의자 논설가·권리장전 제안자이자 1809~1817년 제4대 미국 대통령.",
+      "existingBioForDiscoveryOnly": "미국 제4대 대통령이자 '헌법의 아버지'. 미국 헌법 초안을 작성하고 권리장전을 추진했으며 1812년 전쟁을 이끌었다."
+    },
+    "sources": [
+      {
+        "url": "https://founders.archives.gov/documents/Madison/01-09-02-0187",
+        "title": "Vices of the Political System of the United States, April 1787",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1787-04-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "연합규약 아래 주정부의 법 위반·다수파 횡포·연방의 무력함에 대한 매디슨의 진단",
+          "최종 헌법보다 강한 연방 권력과 주법에 대한 연방의 거부권을 선호했던 그의 초기 구상"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Madison/01-10-02-0178",
+        "title": "The Federalist Number 10, 22 November 1787",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1787-11-22",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "파벌을 제거하기보다 넓은 공화국과 대표제로 해로운 효과를 통제해야 한다는 주장",
+          "재산과 이해관계의 차이가 정치 갈등을 낳는다는 현실주의적 관점"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Madison/01-10-02-0279",
+        "title": "The Federalist Number 51, 6 February 1788",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1788-02-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "권력이 권력을 견제하게 하고 정부가 시민과 자기 자신을 모두 통제하게 해야 한다는 제도 설계",
+          "다수파가 소수의 권리를 침해할 위험을 다양한 이해관계와 종파가 있는 넓은 공화국으로 낮추려 한 논리"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Madison/01-12-02-0126",
+        "title": "Amendments to the Constitution, 8 June 1789",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1789-06-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "매디슨이 처음에는 권리장전을 필수로 보지 않았지만 비준 논쟁 뒤 수정안을 직접 제안한 사실",
+          "연방정부뿐 아니라 주정부에도 일부 권리 제한을 적용하려 했으나 최종안에서 빠진 사실"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Madison/03-04-02-0460",
+        "title": "James Madison to Congress, 1 June 1812",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1812-06-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "영국 해군의 미국 선박 수색·선원 강제 징발과 통상 제한을 전쟁 사유로 제시한 대통령의 공식 메시지",
+          "전쟁 선포는 의회 권한이었고 매디슨은 자료와 불만을 의회에 제출했다는 헌정 절차"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/item/today-in-history/june-18/",
+        "title": "Today in History: June 18, The War of 1812",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1812년 의회의 전쟁 선포와 1814년 영국군의 워싱턴 점령·의사당 및 대통령 관저 방화",
+          "전쟁 수행의 결과를 대통령 개인의 즉흥적 깨달음이 아니라 공적 연대로 확인할 근거"
+        ]
+      },
+      {
+        "url": "https://www.montpelier.org/projects/jennings-annotations/",
+        "title": "The Paul Jennings Memoir in Context",
+        "publisher": "James Madison's Montpelier",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "매디슨이 자유를 말하면서도 사람을 소유·처분한 구체적 행위와 그 모순",
+          "유언으로 노예 상태의 사람들을 돌리 매디슨에게 남겼고 해방하지 않았다는 사실"
+        ]
+      },
+      {
+        "url": "https://www.archives.gov/founding-docs/constitution/how-did-it-happen",
+        "title": "The Constitution: How Did It Happen?",
+        "publisher": "National Archives",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "미국 헌법이 여러 주 대표의 타협과 논쟁으로 만들어졌고 노예제가 제정회의를 흔든 핵심 문제였다는 맥락",
+          "매디슨을 단독 저자로 부르는 영웅 서사를 제한할 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1787년 연합규약의 약점을 분석하고 버지니아 대표단의 강한 연방 구상에 참여해 필라델피아 헌법 제정회의의 주요 논쟁을 이끌었다.",
+        "significance": "'헌법의 아버지'라는 별칭을 단독 저작권이 아니라 강한 준비와 영향력으로 정확히 제한하고, 그의 원안과 최종 타협도 구분한다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-09-02-0187",
+          "https://www.archives.gov/founding-docs/constitution/how-did-it-happen"
+        ]
+      },
+      {
+        "point": "비준 논쟁에서는 《연방주의자 논고》로 넓은 공화국과 상호 견제를 옹호했고, 1789년에는 의회에서 권리장전이 될 수정안을 제안했다.",
+        "significance": "추상적 제도론이 반대파의 요구를 받아들이고 실제 헌법을 고치는 정치적 실천으로 이어진 장면이다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0178",
+          "https://founders.archives.gov/documents/Madison/01-10-02-0279",
+          "https://founders.archives.gov/documents/Madison/01-12-02-0126"
+        ]
+      },
+      {
+        "point": "대통령으로서 1812년 영국의 해상 조치들을 전쟁 사유로 의회에 제시했고, 전쟁 중인 1814년 수도 워싱턴이 점령되고 불탔다.",
+        "significance": "헌법 설계자가 실제 국가 권력을 운영하며 전쟁의 위험·행정의 취약함·시민의 비용을 떠안은 시험대다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/03-04-02-0460",
+          "https://www.loc.gov/item/today-in-history/june-18/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "파벌의 원인을 없애려 하면 자유까지 없애게 되므로, 넓은 공화국과 대표제로 파벌의 해로운 결과를 통제해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0178"
+        ]
+      },
+      {
+        "point": "정부는 시민을 통제할 힘을 가져야 하지만, 동시에 권력 기관들이 서로 견제해 정부 자신도 통제받아야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0279"
+        ]
+      },
+      {
+        "point": "비준 뒤에는 종교·언론·절차적 권리를 명문화하는 수정안을 제안해 새 헌법에 대한 불신을 제도 안에서 줄이려 했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-12-02-0126"
+        ]
+      },
+      {
+        "point": "영국의 선원 강제 징발과 미국의 중립 무역 침해를 독립국의 권리를 훼손한 적대 행위로 규정했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/03-04-02-0460"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "소수의 권리와 다수파 통제를 정교하게 논했지만, 노예 상태의 사람들을 소유했고 유언에서도 해방하지 않았다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0279",
+          "https://www.montpelier.org/projects/jennings-annotations/"
+        ]
+      },
+      {
+        "point": "헌법의 핵심 설계자였지만 그의 연방 주법 거부권 같은 구상은 채택되지 않았고, 최종 헌법은 다른 대표들과 주들의 타협으로 만들어졌다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-09-02-0187",
+          "https://www.archives.gov/founding-docs/constitution/how-did-it-happen"
+        ]
+      },
+      {
+        "point": "권리장전을 밀어붙였지만 그가 제안한 주정부에 대한 권리 제한은 당시 의회가 받아들이지 않았다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-12-02-0126"
+        ]
+      },
+      {
+        "point": "전쟁 권한을 의회에 둔 헌법 아래 공식 절차를 따랐지만, 그가 권고한 전쟁은 수도 방화까지 겪는 큰 위험과 피해를 낳았다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/03-04-02-0460",
+          "https://www.loc.gov/item/today-in-history/june-18/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 명제 뒤에 예외와 반례를 덧붙이는 논설문형 호흡. 파벌·권력·자유를 설명할 때는 조건문을 쓰되 한 문장에 개념을 두 개 이상 겹치지 않는다.",
+      "directness": "자신의 제도를 옹호하는 논리적 공화주의자의 말투를 유지한다. 별칭을 겸손하게 부정하는 상투어보다 실제 채택·부결된 안을 말하고, 노예제와 전쟁은 감정 고백 없이 행위의 책임으로 드러낸다.",
+      "moves": [
+        "'헌법의 아버지'라는 호칭을 열되 헌법은 공동 작업이었다고 즉시 범위를 제한한다",
+        "파벌과 견제를 일상어로 설명하고 필요한 경우 괄호에 한 줄 풀이를 넣는다",
+        "자기 구상 중 채택되지 않은 연방 주법 거부권을 제시해 완벽한 예언자 서사를 깬다",
+        "권리장전 추진을 반대파의 비판을 제도 안에 받아들인 변화로 연결한다",
+        "노예 소유와 유언의 사실을 마지막 책임 축으로 두되 창작 참회로 닫지 않는다"
+      ],
+      "avoid": [
+        "미국 헌법을 매디슨 혼자 초안·완성했다고 쓰기",
+        "Federalist 10과 51의 추상 문장을 어려운 번역투로 길게 인용하기",
+        "1814년 수도 방화 뒤 민주주의의 한계를 깨달았다는 장면을 창작하기",
+        "노예제를 악이라 알았으므로 사실상 폐지론자였다고 면책하기",
+        "현대의 비판을 '나는 끝내 내 모순을 이기지 못했다'는 실제 고백처럼 쓰기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "연합규약",
+        "guide": "헌법 이전 미국의 첫 국가 운영 규칙(중앙 의회가 주에 돈과 병력을 요구할 수는 있어도 강제로 집행하기 어려웠다).",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-09-02-0187",
+          "https://www.archives.gov/founding-docs/constitution/how-did-it-happen"
+        ]
+      },
+      {
+        "term": "파벌",
+        "guide": "공통의 이해나 감정으로 뭉쳐 다른 시민의 권리나 공동 이익을 해칠 수 있는 정치 집단.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0178"
+        ]
+      },
+      {
+        "term": "확대 공화국",
+        "guide": "나라의 범위와 이해관계가 다양할수록 한 파벌이 쉽게 다수를 독점하기 어렵다는 매디슨의 공화국 구상.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0178",
+          "https://founders.archives.gov/documents/Madison/01-10-02-0279"
+        ]
+      },
+      {
+        "term": "견제와 균형",
+        "guide": "입법·행정·사법 같은 권력 기관이 서로의 침범을 막을 수단을 가져 어느 한쪽의 독주를 어렵게 하는 장치.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-10-02-0279"
+        ]
+      },
+      {
+        "term": "권리장전",
+        "guide": "종교·언론·집회·적법절차 등 개인의 권리를 명시한 미국 헌법의 첫 열 개 수정조항.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/01-12-02-0126"
+        ]
+      },
+      {
+        "term": "1812년 전쟁",
+        "guide": "미국이 영국의 해상 통제와 선원 강제 징발 등을 이유로 선전한 전쟁. 1814년 영국군이 워싱턴을 불태웠다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Madison/03-04-02-0460",
+          "https://www.loc.gov/item/today-in-history/june-18/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "'헌법의 아버지'는 영향력을 나타내는 후대 별칭이지 단독 저자라는 뜻이 아니다. 회의의 다른 대표·주 비준회의·반연방주의자의 기여를 지우지 않는다.",
+      "매디슨의 제정회의 기록은 핵심 자료지만 속기록이 아니며, 그가 뒤에 정리·수정한 흔적과 자기 관점이 있다. 모든 발언의 완전한 축어 기록으로 쓰지 않는다.",
+      "《연방주의자 논고》는 비준을 설득하기 위한 정치 논설이다. 실제 헌법 운영의 중립적 해설서나 매디슨의 평생 변하지 않은 사상으로 취급하지 않는다.",
+      "매디슨은 권리장전을 처음부터 비준의 필수 조건으로 보지 않았고, 그가 제안한 안 모두가 채택되지도 않았다. 반대파와 의회의 공동 역할을 남긴다.",
+      "1812년 전쟁의 원인에는 해상 권리·선원 강제 징발·통상·국가 명예·영토와 원주민 문제 등 논쟁이 있다. 대통령 메시지의 공식 명분을 역사가의 최종 판결로 쓰지 않는다.",
+      "매디슨이 노예제를 비판하거나 점진적 해방·식민 이주를 논한 문서가 있어도, 그는 사람을 소유했고 유언으로 해방하지 않았다. 생각을 행동의 대체물로 삼지 않는다.",
+      "노예제에 대한 죄책감이나 워싱턴 방화 뒤의 개인적 깨달음을 1인칭으로 확정할 사적 기록이 없다. 공개 문서와 소유·유언 행위의 모순을 제시한다."
+    ]
+  }
+}

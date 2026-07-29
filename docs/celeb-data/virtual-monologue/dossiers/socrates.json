@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "slug": "socrates",
+  "nickname": "소크라테스",
+  "route": "improve",
+  "routeReason": "현재 글은 질문과 무지의 자각, 영혼을 돌보는 일, 삼십인 정권의 명령 거부와 재판·죽음을 한 축으로 잘 묶었다. 그러나 소크라테스가 남긴 저술이 없고 핵심 자료가 플라톤·크세노폰·아리스토파네스의 서로 다른 재현이라는 한계를 거의 드러내지 않는다. 특히 '마음이 편하지 않았다', '두려움이 있었다', '억울했다', 미움이 죄가 됐다는 내면·인과는 플라톤의 변론과도 어긋나거나 직접 근거가 없다. 플라톤이 전한 목소리임을 숨기지 않으면서 확인 가능한 논증과 행동만 남기도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "소크라테스",
+      "birth": "약 기원전 470~469",
+      "death": "기원전 399",
+      "profession": "humanities_scholar",
+      "disambiguation": "고대 아테네에서 대화와 질문으로 윤리 문제를 탐구했고 재판에서 사형을 선고받은 철학자",
+      "existingBioForDiscoveryOnly": "고대 그리스의 철학자. 문답법을 통해 진리를 탐구하며 서양 철학의 기초를 놓았다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html",
+        "title": "Socrates",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2021-09-01",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "소크라테스가 직접 쓴 철학 저술이 없고 플라톤·크세노폰·아리스토파네스 등의 자료를 비판적으로 읽어야 한다는 소크라테스 문제",
+          "아테네 시민군으로 포티다이아·델리온·암피폴리스 전투에 참여한 경력",
+          "삼십인 정권의 레온 체포 명령을 거부한 일과 재판·사형의 역사적 맥락",
+          "질문을 통해 상대의 모순과 앎의 한계를 드러낸 철학 활동"
+        ]
+      },
+      {
+        "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0059%2C002%3A32c",
+        "title": "Plato, Apology 32c–e",
+        "publisher": "Perseus Digital Library",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "플라톤의 소크라테스가 민주정 아래의 불법적 집단 재판과 삼십인 정권의 레온 체포 명령 모두에 저항했다고 변론한 내용",
+          "투옥이나 죽음의 위협보다 법과 정의를 따르겠다는 변론 속 입장"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm",
+        "title": "Plato's Apology",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "자신이 모르는 것을 안다고 여기지 않는다는 변론의 핵심",
+          "재산·명예보다 영혼의 훌륭함을 돌보라고 질문했다는 플라톤의 재현",
+          "철학 활동을 그만두는 조건으로 목숨을 구하지 않겠다는 입장",
+          "죽음을 잠 또는 다른 곳으로의 이동이라는 두 가능성으로 검토한 논증",
+          "플라톤의 변론이 실제 법정 발언의 축어록인지 확정할 수 없다는 자료 한계"
+        ]
+      },
+      {
+        "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0170%3Atext%3DCrito%3Apage%3D50",
+        "title": "Plato, Crito",
+        "publisher": "Perseus Digital Library",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "친구 크리톤의 탈옥 제안을 두고 부당한 판결을 받았더라도 법을 사적으로 무효화해 국가에 해를 끼칠 수 있는지 검토한 논증",
+          "달아날 기회가 있었다는 서사와 감옥에 남은 선택"
+        ]
+      },
+      {
+        "url": "https://www.perseus.tufts.edu/hopper/text?doc=Plat.+Apol.+41&lang=original",
+        "title": "Plato, Apology 41b–e",
+        "publisher": "Perseus Digital Library",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "죽음 뒤에도 지혜롭다고 여기는 사람을 질문할 수 있다는 변론 속 상상",
+          "자신을 고발하거나 유죄로 판정한 이들에게 분노하지 않는다고 말한 플라톤의 재현"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "아테네 시민군으로 여러 전투에 참여한 뒤에도 광장과 일상에서 시민들의 지혜·정의·덕을 질문하는 삶을 이어 갔다.",
+        "significance": "소크라테스를 추상적 말싸움꾼으로만 만들지 않고 아테네 시민의 의무와 철학적 검토를 함께 놓을 수 있다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html"
+        ]
+      },
+      {
+        "point": "삼십인 정권이 무고한 레온을 체포해 오라고 명령했을 때 따르지 않았다.",
+        "significance": "정의에 관한 질문이 실제 권력 앞의 행동과 연결됐다는, 플라톤의 변론에서 구체적으로 확인되는 사례다.",
+        "sourceUrls": [
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0059%2C002%3A32c",
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html"
+        ]
+      },
+      {
+        "point": "기원전 399년 젊은이 타락과 불경 혐의로 유죄·사형 판결을 받고, 탈옥 제안을 거절한 뒤 독배를 마셨다.",
+        "significance": "죽음을 미화하기보다 질문을 멈추지 않겠다는 변론과 부당한 판결에도 법을 어떻게 대할지 묻는 크리톤의 논증을 나란히 보여 준다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html",
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm",
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0170%3Atext%3DCrito%3Apage%3D50"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "자신이 알지 못하는 것을 안다고 여기지 않는 태도가 지혜의 출발이라고 보았다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm"
+        ]
+      },
+      {
+        "point": "재산·명예·평판보다 어떤 사람이 되어 가는지, 곧 영혼과 덕을 돌보는 일을 먼저 물어야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm"
+        ]
+      },
+      {
+        "point": "죽음이 무엇인지 알지 못하면서 죽음을 가장 큰 악이라고 확신하는 태도 역시 거짓된 앎이라고 논박했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm",
+          "https://www.perseus.tufts.edu/hopper/text?doc=Plat.+Apol.+41&lang=original"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "부당한 체포 명령에는 불복했지만 자신에게 내려진 사형 판결 뒤에는 탈옥하지 않았다. 두 선택은 단순한 복종과 불복종이 아니라 정의·법·시민의 약속이 충돌하는 서로 다른 논증으로 전해진다.",
+        "sourceUrls": [
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0059%2C002%3A32c",
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0170%3Atext%3DCrito%3Apage%3D50"
+        ]
+      },
+      {
+        "point": "그가 무지를 인정했다고 해서 아무것도 주장하지 않은 것은 아니다. 정의와 영혼의 돌봄, 해를 되갚지 않는 일에는 매우 강한 입장을 보였지만, 그 목소리는 주로 제자 플라톤의 저술을 통해 전한다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html",
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm",
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0170%3Atext%3DCrito%3Apage%3D50"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 질문과 짧은 반문을 중심으로 하되, 결론 직전에는 논리를 한 단계씩 이어 간다.",
+      "directness": "단정적 설교보다 상대의 전제를 되묻는다. 익살과 날카로움은 살리되 모든 사람을 쉽게 이기는 현자처럼 만들지 않는다.",
+      "moves": [
+        "상대가 안다고 여기는 낱말의 뜻을 되묻고 앞뒤가 맞는지 확인하기",
+        "추상적인 정의를 레온 체포 명령과 자신의 재판 같은 행동 사례로 옮기기",
+        "죽음을 안다는 허세 대신 가능한 설명과 모르는 범위를 나누기"
+      ],
+      "avoid": [
+        "플라톤의 문장을 역사적 소크라테스의 축어적 자서전으로 단정하기",
+        "법정에서 억울함·두려움·분노를 느꼈다는 창작 내면",
+        "나는 모른다는 한 문장만 반복하는 밋밋한 겸손 캐릭터",
+        "독배를 완벽한 평온과 승리의 장면으로 미화하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "문답법",
+        "guide": "질문을 이어 가며 상대의 말에 모순이나 빠진 전제가 없는지 함께 살피는 방식",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html"
+        ]
+      },
+      {
+        "term": "영혼을 돌본다",
+        "guide": "재산과 평판보다 자신이 올바르고 훌륭한 사람이 되는지를 먼저 살피는 일",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1656/1656-h/1656-h.htm"
+        ]
+      },
+      {
+        "term": "삼십인 정권",
+        "guide": "펠로폰네소스 전쟁 뒤 스파르타의 지원으로 아테네를 잠시 지배한 과두 독재 정권",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/socrates/index.html",
+          "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0059%2C002%3A32c"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "소크라테스는 철학 저술을 남기지 않았고 플라톤·크세노폰·아리스토파네스의 묘사는 목적과 성격이 서로 달라 역사적 목소리를 완전히 복원할 수 없다.",
+      "플라톤의 변론은 재판 장면의 가장 중요한 자료지만 실제 발언의 축어록인지 알 수 없으므로 직접인용은 반드시 '플라톤이 전한 말'의 범위를 지킨다.",
+      "재판의 배경에 정치적 반감과 오래된 희극의 이미지가 작용했을 수 있으나 그것만으로 유죄의 단일 원인을 확정하지 않는다.",
+      "독배를 마시기 전의 감정과 죽음의 순간은 플라톤의 문학적 구성까지 포함하므로 내면 독백으로 재현하지 않는다."
+    ]
+  }
+}

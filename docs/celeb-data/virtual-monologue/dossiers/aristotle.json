@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "slug": "aristotle",
+  "nickname": "아리스토텔레스",
+  "route": "hold",
+  "routeReason": "두 차례 수정으로 근거 밖 참회는 제거했지만 생물학·네 가지 원인·논리·윤리·정치가 다시 교과서 항목으로 늘어서며, 뤼케이온의 삶과 대상을 나누고 비교하는 탐구 방식이 연결되지 않았다. 재개하려면 다섯 분야를 모두 소개하려 하지 말고 생물 연구와 두세 사례만 골라 하나의 탐구 동작으로 묶는 인간 편집 개요가 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "아리스토텔레스",
+      "birth": "기원전 384",
+      "death": "기원전 322",
+      "profession": "humanities_scholar",
+      "disambiguation": "스타게이라 출신으로 플라톤의 아카데미아에서 공부하고 아테네에 뤼케이온을 세운 고대 그리스 철학자",
+      "existingBioForDiscoveryOnly": "고대 그리스의 철학자. 플라톤의 제자로 알렉산더 대왕의 스승이었으며, 형식논리학을 창시하고 서양 학문 체계의 토대를 마련했다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/entries/aristotle/",
+        "title": "Aristotle",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "플라톤의 아카데미아에서 공부하고 뒤에 뤼케이온을 세운 생애 윤곽",
+          "삼단논법과 논증 이론, 범주와 실체, 네 가지 원인에 관한 철학",
+          "질료·형상·작용·목적을 함께 묻는 설명 방식",
+          "윤리·정치·자연학·논리 등 여러 탐구를 하나의 체계로 연결한 범위"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/entries/aristotle-biology/",
+        "title": "Aristotle's Biology",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2026-04-19",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "생명을 체계적이고 경험적으로 연구한 초기의 대규모 생물학 작업",
+          "관찰 자료를 모으고 선행 설명을 비판적으로 고쳤으나 목적론적 자연학 안에서 해석한 방법",
+          "경험적 성취와 여러 사실 오류가 함께 남은 연구의 성격"
+        ]
+      },
+      {
+        "url": "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html",
+        "title": "Nicomachean Ethics, Book I",
+        "publisher": "The Internet Classics Archive, Massachusetts Institute of Technology",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "행복을 그 자체로 선택되는 궁극 목적이라고 한 논증",
+          "행복을 덕에 따른 영혼의 활동으로 규정하고 완전한 생애 전체를 요구한 윤리학",
+          "인간을 공동체와 관계없이 고립된 개인으로 보지 않은 전제"
+        ]
+      },
+      {
+        "url": "https://classics.mit.edu/Aristotle/nicomachaen.10.x.html",
+        "title": "Nicomachean Ethics, Book X",
+        "publisher": "The Internet Classics Archive, Massachusetts Institute of Technology",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "행복이 단순한 오락이나 기분이 아니라 덕에 따른 활동이라는 결론",
+          "가장 높은 행복을 사유의 활동과 연결한 후기 논증"
+        ]
+      },
+      {
+        "url": "https://assets.press.princeton.edu/chapters/s10866.pdf",
+        "title": "Aristotle's Politics: Writings from the Complete Works",
+        "publisher": "Princeton University Press",
+        "kind": "primary",
+        "publishedAt": "2016",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인간을 폴리스에서 사는 정치적 동물로 규정한 정치학",
+          "자연적 노예와 남성의 지배를 정당화한 위계적 전제",
+          "가정과 도시의 질서를 통치와 피통치의 관계로 설명한 대목"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "약 스무 해 동안 플라톤의 아카데미아에서 공부한 뒤 여러 지역을 거쳐 아테네로 돌아와 뤼케이온을 세웠다.",
+        "significance": "스승과의 결별 감정을 꾸미기보다 플라톤의 문제를 이어받으면서도 개별 사물과 자연 연구로 탐구 범위를 넓힌 제도적 전환을 보여 준다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      },
+      {
+        "point": "동물의 구조·번식·생활을 폭넓게 모으고 비교해 생명 연구를 체계적인 탐구 분야로 만들었다.",
+        "significance": "현대 과학의 영웅으로 미화하지 않고 실제 관찰과 분류를 통해 설명을 세운 작업을 구체적으로 보여 준다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle-biology/"
+        ]
+      },
+      {
+        "point": "논리학에서 올바른 추론의 형식을 분석하고 자연학·윤리학·정치학에서 각각 무엇을 어떻게 설명할지 구분했다.",
+        "significance": "수많은 분야를 단순히 나열하지 않고 질문의 종류에 따라 탐구 방법을 가른 한 사람의 작업으로 묶는다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "사물을 충분히 설명하려면 무엇으로 이뤄졌는지, 어떤 형태인지, 무엇이 변화를 일으켰는지, 무엇을 위해 있는지를 구분해 물어야 한다고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      },
+      {
+        "point": "좋은 삶은 잠깐의 쾌락이나 소유가 아니라 완전한 생애에 걸쳐 덕을 실제로 발휘하는 활동이라고 보았다.",
+        "sourceUrls": [
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html",
+          "https://classics.mit.edu/Aristotle/nicomachaen.10.x.html"
+        ]
+      },
+      {
+        "point": "도덕적 성품은 반복되는 행동과 습관으로 형성되며, 구체적인 상황에서 알맞은 행동을 가려내려면 실천적 지혜가 필요하다고 주장했다.",
+        "sourceUrls": [
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html",
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      },
+      {
+        "point": "생물의 차이를 관찰하고 자료를 비교했지만 그 사실들을 생명체의 기능과 목적을 찾는 자연학 안에서 해석했다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle-biology/",
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "관찰과 구분을 지식의 출발로 삼았지만 관찰은 틀릴 수 있었고, 목적을 앞세운 설명은 현대 생물학과 다른 결론을 낳았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle-biology/"
+        ]
+      },
+      {
+        "point": "인간의 좋은 삶과 정치 공동체를 정교하게 분석하면서도 자유 시민 남성을 중심에 놓고 노예와 여성을 자연스러운 피지배자로 규정했다.",
+        "sourceUrls": [
+          "https://assets.press.princeton.edu/chapters/s10866.pdf",
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html"
+        ]
+      },
+      {
+        "point": "덕을 상황에 맞는 중용으로 설명했지만 중용은 두 극단의 산술 평균이 아니며 모든 행동에 중간이 있다는 뜻도 아니다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/",
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "정의와 구분을 제시하는 중간 길이 문장을 기본으로 하고, 결론은 짧게 끊는다.",
+      "directness": "분류하고 반례를 살피는 교사처럼 말하되 모든 학문을 완성한 천재나 현대적 자기비판자로 말하지 않는다.",
+      "moves": [
+        "하나의 대상을 재료·형태·움직인 것·목적처럼 서로 다른 질문으로 나누기",
+        "추상 개념 뒤에 청동상·습관·도시·생물 같은 손에 잡히는 예를 붙이기",
+        "성취와 오류를 참회가 아니라 같은 탐구 체계에서 나온 실제 긴장으로 병치하기"
+      ],
+      "avoid": [
+        "플라톤과 다른 길을 택하며 마음이 무거웠다는 근거 없는 사제 관계의 내면",
+        "틀릴 수 있는 눈이 더 정직했다는 현대 과학자식 자기평가",
+        "노예제와 여성 종속을 후회하고 시대의 편견을 깨달았다는 창작 참회",
+        "모든 생물을 직접 해부했고 현대 과학의 방법을 완성했다는 과장",
+        "중용을 언제나 가운데 수치를 고르는 처세술로 축소하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "네 가지 원인",
+        "guide": "무엇으로 됐는지, 어떤 모양인지, 무엇이 만들었는지, 무엇을 위한 것인지로 설명을 나누는 방식",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      },
+      {
+        "term": "삼단논법",
+        "guide": "두 전제를 놓고 그 전제에서 반드시 따라오는 결론을 가려내는 추론 형식",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/"
+        ]
+      },
+      {
+        "term": "에우다이모니아",
+        "guide": "기분 좋은 순간이 아니라 한 생애 동안 훌륭하게 살아 활동하는 상태",
+        "sourceUrls": [
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html",
+          "https://classics.mit.edu/Aristotle/nicomachaen.10.x.html"
+        ]
+      },
+      {
+        "term": "실천적 지혜",
+        "guide": "일반 원칙을 실제 상황에 맞춰 무엇을 어떻게 해야 할지 판단하는 능력",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/aristotle/",
+          "https://classics.mit.edu/Aristotle/nicomachaen.1.i.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "아리스토텔레스의 생애에 관한 자세한 일화는 후대 전기 자료에 기대므로 플라톤과의 감정, 알렉산더를 가르치며 품은 정치적 의도 같은 내면을 만들지 않는다.",
+      "현재 전하는 저술 중 상당수는 강의용 논고의 성격이 강하고 편집·전승 과정을 거쳤으므로 현대 저자의 완결된 단행본처럼 목소리를 통일하지 않는다.",
+      "생물학 연구는 체계적이고 경험적이었지만 현대적 실험과 진화론을 예견한 것은 아니며 사실 오류도 많았다.",
+      "노예와 여성에 관한 위계는 정치학 원문으로 확인되지만 당사자가 그 한계를 깨닫거나 참회했다는 근거는 없다.",
+      "행복을 덕에 따른 활동으로 본 설명과 사유 활동을 가장 높은 행복으로 둔 결론 사이에는 해석 논쟁이 있으므로 하나로 단순화하지 않는다.",
+      "재개 조건은 생물 연구와 뤼케이온의 삶을 중심에 두고 논리·윤리·정치를 같은 탐구 방식의 사례로 압축하는 인간 편집 개요를 먼저 확정하는 것이다."
+    ]
+  }
+}

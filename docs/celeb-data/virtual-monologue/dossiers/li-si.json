@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "slug": "li-si",
+  "nickname": "이사",
+  "route": "improve",
+  "routeReason": "현재 독백은 초나라의 하급 관리에서 진 제국의 승상으로 오르고, 간축객서·통일 정책·분서·후계 조작·비극적 죽음으로 이어지는 선명한 구조가 있다. 그러나 《사기》의 문학적 독백을 이사의 실제 심리처럼 옮기고 문자·도량형 통일을 모두 개인 업적으로 만들며, 분서갱유를 한 덩어리로 다룰 위험이 있다. 골격은 유지하되 후대 편찬 자료의 한계와 정책 귀속을 정밀하게 고친다.",
+  "dossier": {
+    "identity": {
+      "name": "이사",
+      "birth": "기원전 3세기",
+      "death": "기원전 208",
+      "profession": "politician",
+      "disambiguation": "전국 말 초나라 출신으로 진왕 정을 섬겨 진 제국의 승상이 되었고, 객경 옹호·중앙집권·분서 건의와 후계 조작에 관여한 정치가",
+      "existingBioForDiscoveryOnly": "진나라의 승상으로 중국 통일과 중앙집권 정책을 추진한 법가 정치가"
+    },
+    "sources": [
+      {
+        "url": "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+        "title": "史記 : 列傳 : 李斯列傳",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이사의 출세, 진 조정에서의 활동, 분서 건의, 조고·호해와의 후계 조작, 투옥과 처형에 관한 전승",
+          "이사의 선택을 지위와 생존 욕망으로 해석한 사마천의 후대 서사"
+        ]
+      },
+      {
+        "url": "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh",
+        "title": "史記 : 本紀 : 秦始皇本紀",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "객경 축출에 반대한 이사의 상소와 진의 인재 등용 논리",
+          "통일 뒤 진 조정이 추진한 제도·문자·도량형 정비와 분서 조치의 정치적 맥락"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/entries/chinese-legalism/",
+        "title": "Legalism in Chinese Philosophy",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2023-12-10",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이사의 213년 분서 건의가 사적 학문과 정치 비판을 국가가 통제하려 한 조치였다는 해석",
+          "법가라는 후대 범주와 진의 통치 사상을 현대적 법치주의와 동일시하면 안 된다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/early-china/article/abs/identifying-the-textual-sources-of-shi-ji-reviewing-past-research-for-a-more-encompassing-methodology/DCC8FDE21CA362DADC0D8EE33C497996",
+        "title": "Identifying the Textual Sources of Shi Ji: Reviewing Past Research for a More Encompassing Methodology",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2023-01-09",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《사기》가 여러 선행 문헌과 전승을 흡수한 복합 텍스트라는 점",
+          "편찬 시점과 자료층을 고려해 인물의 대화·심리 묘사를 비판적으로 읽어야 한다는 방법론"
+        ]
+      },
+      {
+        "url": "https://www1.ihp.sinica.edu.tw/en/Publications/Bulletin/1056/Article/2010",
+        "title": "On the Nature and Impact of the Qin Unification of Writing: A Reconsideration of the Evidence",
+        "publisher": "Institute of History and Philology, Academia Sinica",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "진의 문자 통일이 단번에 모든 지역 문자를 한 형태로 바꾼 단순한 사건이 아니라는 재검토",
+          "문자 정비를 이사 한 사람의 완결된 발명으로 서술하지 말아야 할 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "초나라에서 진으로 들어가 객경을 내쫓으려는 조정에 반대하는 상소를 올리고, 외지 인재가 진의 힘을 키웠다고 주장했다.",
+        "significance": "출신보다 쓸모와 성과를 중시하는 이사의 통치관을 보여 주며, 자신의 생존과 진의 팽창 논리가 맞물린 첫 장면이다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh"
+        ]
+      },
+      {
+        "point": "통일 제국의 승상으로 중앙집권 정책에 참여하고, 기원전 213년 사적인 학문과 옛 제도를 빌린 정치 비판을 막기 위한 분서를 건의했다.",
+        "significance": "다양한 인재를 받아들이라던 정치가가 사상의 다양성은 국가 질서 아래 두려 했다는 핵심 모순이 드러난다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://plato.stanford.edu/entries/chinese-legalism/"
+        ]
+      },
+      {
+        "point": "진시황 사후 조고와 함께 유조를 바꾸어 호해를 황제로 세우는 데 가담했고, 곧 자신도 조고에게 몰려 처형되었다.",
+        "significance": "제국의 안정을 지킨다는 명분으로 법과 승계 질서를 꺾은 선택이 자신이 만든 권력 구조에 의해 되돌아온다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "국가에 필요한 사람이라면 출신지를 따지지 말고 써야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh"
+        ]
+      },
+      {
+        "point": "통일 제국에서는 봉건 제후보다 중앙이 직접 다스리는 질서와 공통 규범이 더 안전하다고 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh"
+        ]
+      },
+      {
+        "point": "옛 학설을 들어 현재의 정치를 비판하는 사적 학문은 황제의 명령과 국가 질서를 흔든다고 보아 통제하려 했다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://plato.stanford.edu/entries/chinese-legalism/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "외지 인재를 배척하지 말라던 이사는 학문의 여러 목소리는 억누르자고 건의했다. 사람의 다양성은 제국의 힘으로 보았지만 사상의 다양성은 권력의 위험으로 본 셈이다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh",
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://plato.stanford.edu/entries/chinese-legalism/"
+        ]
+      },
+      {
+        "point": "법과 중앙 질서로 제국을 지키려던 승상이 황제 사후에는 후계 문서를 조작했다. 안정이라는 명분과 지위 보전이 어디서 갈라졌는지는 《사기》의 도덕적 서술을 넘어 단정할 수 없다.",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://www.cambridge.org/core/journals/early-china/article/abs/identifying-the-textual-sources-of-shi-ji-reviewing-past-research-for-a-more-encompassing-methodology/DCC8FDE21CA362DADC0D8EE33C497996"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 정책 판단을 쌓은 뒤, 선택의 역설을 한두 문장의 긴 질문으로 되돌린다.",
+      "directness": "감정보다 계산과 제도의 언어를 앞세운다. 자신의 선택을 변명하게 하되 후대 사관의 도덕 판결을 그대로 자백시키지 않는다.",
+      "moves": [
+        "작은 관직과 진으로의 이동을 출세 신화가 아니라 사람과 권력을 보는 방식의 출발로 제시하기",
+        "객경을 살린 상소와 책을 없애자는 건의를 나란히 놓기",
+        "유조 조작과 처형을 '법을 세운 자가 법 밖의 권력에 삼켜진' 결말로 회수하기"
+      ],
+      "avoid": [
+        "《사기》 속 독백과 대화를 녹취된 실제 발언처럼 쓰기",
+        "문자·도량형·도로의 모든 통일을 이사 개인의 발명으로 돌리기",
+        "분서와 갱유를 검증 없이 '분서갱유' 한 사건으로 합치기",
+        "처형 직전의 후회·공포·눈물을 근거 없이 세밀하게 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "간축객서",
+        "guide": "진나라 밖에서 온 인재를 내쫓지 말자고 이사가 올린 상소",
+        "sourceUrls": [
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh"
+        ]
+      },
+      {
+        "term": "군현제",
+        "guide": "왕족에게 땅을 나누기보다 중앙이 임명한 관리가 지방을 다스리는 제도",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://ctext.org/shiji/qin-shi-huang-ben-ji/zh"
+        ]
+      },
+      {
+        "term": "분서",
+        "guide": "기원전 213년 이사가 건의한 서적 통제로, 의약·점복·농업 등 일부를 제외한 사적 소장과 옛 학설의 정치적 이용을 막으려 한 조치",
+        "sourceUrls": [
+          "https://ctext.org/shiji/li-si-lie-zhuan/zh",
+          "https://plato.stanford.edu/entries/chinese-legalism/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "이사의 생애와 말은 주로 그가 죽고 한 세기 이상 지난 뒤 편찬된 《사기》에 의존한다. 대화와 내면 독백은 사마천의 문학적·도덕적 구성일 수 있어 사실로 직인하지 않는다.",
+      "《사기》 자체도 여러 선행 자료와 전승을 엮은 복합 텍스트다. 단일하고 투명한 목격 기록처럼 다루지 않는다.",
+      "진의 통일 정책은 황제, 조정과 여러 관리가 함께 추진했다. 문자·도량형·수레바퀴 폭 등의 정비를 이사 개인의 업적으로 일괄 귀속하지 않는다.",
+      "문자 통일은 지역적 변이와 행정 현실을 포함한 복잡한 과정이었다. '하루아침에 하나의 글자로 만들었다'는 식으로 단순화하지 않는다.",
+      "분서 건의와 이른바 갱유 전승은 구별한다. 이사에게 확인되는 책임을 넘어 학자 생매장 전체를 직접 지휘했다고 단정하지 않는다."
+    ]
+  }
+}

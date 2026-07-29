@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-40",
+  "targets": [
+    {
+      "id": "42396e8b-c074-4d48-a264-259f1a9f9635",
+      "slug": "dalai-lama",
+      "nickname": "달라이 라마 14세",
+      "birthDate": "1935-07-06",
+      "profession": "leader",
+      "expectedEn": {
+        "roll_call": [
+          "If you have called me, I will remember our common humanity before any title.",
+          "I will begin with the fact that everyone wants happiness and does not want suffering.",
+          "I will first examine the problem analytically, then gather the mind through concentration."
+        ],
+        "deploy": [
+          "I will not try to dispel ignorance through prayer alone. I will examine its causes with reason and wisdom.",
+          "I will extend the seed of affection received from my parents beyond those close to me.",
+          "I will set the motivation right before the action. I will move firmly from compassion, not anger."
+        ],
+        "battle_win": [
+          "With the mind at peace, even physical discomfort could not unsettle us.",
+          "We built trust in place of fear, and that trust grew from warmheartedness.",
+          "We did not stop at prayer. We acted to restrain violence and corruption."
+        ],
+        "battle_draw": [
+          "I will not mistake love mixed with attachment for compassion.",
+          "Rather than cling to our differences, I will return to the fact that we all want happiness.",
+          "I will calm the scattered mind by following the breath, then analyze the situation again."
+        ],
+        "battle_lose": [
+          "Anger and attachment kept me from seeing clearly.",
+          "Before blaming others, I must examine my own ignorance.",
+          "I admired compassion but failed to practice it today."
+        ],
+        "clash_attack": [
+          "Look beyond the outward form of an action to its motive. Force born of anger and greed inclines toward violence.",
+          "Prayer alone will not bring peace. We must act to stop violence and corruption.",
+          "Anger narrows your view of reality. Calm the mind, then look at the whole situation again."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called. Let us remember we are human before we remember titles.",
+          "Everyone wants happiness and freedom from suffering. Start there.",
+          "First examine the problem. Then settle the mind."
+        ],
+        "deploy": [
+          "Do more than pray. Examine the cause with reason and wisdom.",
+          "Extend the love you received from your parents beyond those closest to you.",
+          "Move firmly, but from compassion rather than anger."
+        ],
+        "battle_win": [
+          "A peaceful mind held steady even as the body hurt.",
+          "Warmth replaced fear, and trust followed.",
+          "We moved beyond prayer and stood against violence and corruption."
+        ],
+        "battle_draw": [
+          "Love mixed with attachment is not yet compassion.",
+          "Look past differences. We all want happiness.",
+          "Follow the breath, settle the mind, then look again."
+        ],
+        "battle_lose": [
+          "Anger and attachment kept me from seeing clearly.",
+          "Before blaming others, I must examine my own ignorance.",
+          "I kept compassion in my thoughts but not my actions."
+        ],
+        "clash_attack": [
+          "Look past appearances. Find the anger and greed!",
+          "Prayer is not enough. Stop violence and corruption!",
+          "Calm the anger. See the whole situation!"
+        ]
+      }
+    },
+    {
+      "id": "2c5a27ba-04e7-4e70-be0e-4bd01492ea09",
+      "slug": "daniel-kahneman",
+      "nickname": "대니얼 카너먼",
+      "birthDate": "1934-03-05",
+      "profession": "social_scientist",
+      "expectedEn": {
+        "roll_call": [
+          "If called, I will first ask whether intuition has answered the question that was actually posed.",
+          "I will look at the base rate before letting the vivid case take over.",
+          "I will note the first impression, but I will not treat it as a conclusion before deliberate review."
+        ],
+        "deploy": [
+          "I will record the impression produced by fast thinking and leave rules and calculation to slower thought.",
+          "I will check whether a possible loss is weighing more heavily than an equal gain.",
+          "I will reframe the problem and ask whether the same choice survives a different description."
+        ],
+        "battle_win": [
+          "We kept one vivid story from pushing the base rate aside.",
+          "I did not call the earlier decision correct merely because its outcome was good.",
+          "Deliberate judgment reviewed the first impression, so the automatic response did not own the conclusion."
+        ],
+        "battle_draw": [
+          "The experiencing self and remembering self disagree.",
+          "Record the duration, not only the peak and ending.",
+          "Was that intuition earned, or merely easy to recall?"
+        ],
+        "battle_lose": [
+          "I built a complete story from the evidence at hand and failed to ask what was missing.",
+          "My fear of loss weighed more heavily than an equal prospect of gain.",
+          "I judged the old decision by the outcome we know now, not by what could reasonably have been known then."
+        ],
+        "clash_attack": [
+          "Do not let a vivid description erase the base rate. Begin with the reference class.",
+          "Do not answer an easier question in place of the hard one. Let us return to the question actually asked.",
+          "Do not let the first number you hear become the anchor for judgment. Set an independent standard first."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "First, did intuition answer the question we actually asked?",
+          "Before the vivid example, show me the base rate.",
+          "Write down the first impression. Decide only after slow review."
+        ],
+        "deploy": [
+          "Record the fast answer. Check the rules slowly.",
+          "Check whether equal losses loom larger than gains.",
+          "Reframe it. Does the choice stay the same?"
+        ],
+        "battle_win": [
+          "The vivid story did not displace the base rate.",
+          "A good outcome did not rewrite a bad decision.",
+          "We checked the first impression before it became the verdict."
+        ],
+        "battle_draw": [
+          "The experiencing self and the remembering self disagree.",
+          "Record the duration, not only the peak and ending.",
+          "Was that intuition earned, or merely easy to recall?"
+        ],
+        "battle_lose": [
+          "I completed the story from the evidence at hand and ignored what was missing.",
+          "The loss frightened me more than an equal gain pleased me.",
+          "I judged yesterday's choice with today's outcome."
+        ],
+        "clash_attack": [
+          "Forget the vivid case. Start with the base rate!",
+          "Answer the real question, not the easier one!",
+          "Reject the first number. Set an independent standard!"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "batch": "2026-07-29-researched-gap-07",
+  "targets": [
+    {
+      "id": "5e9f0b2e-a08a-497b-b6c2-77807cdc74d7",
+      "slug": "sigourney-weaver",
+      "nickname": "시고니 위버",
+      "nicknameEn": "Sigourney Weaver",
+      "birthDate": "1949-10-08",
+      "profession": "actor",
+      "quote": "나쁜 선생은 넌 충분하지 않다고 말한다. 그 말을 듣지 마라",
+      "quoteEn": "A bad teacher says you're not enough. Don't listen.",
+      "greetingKo": [
+        "[fierce, pioneering] 에일리언을 무찌른 건 총이 아니라 의지였어요.",
+        "[warm, strong] 여성이 액션 영웅이 될 수 있다는 걸 리플리가 증명했어요.",
+        "[calm, passionate] SF는 미래를 보여주지만 결국 현재를 이야기하는 거예요."
+      ],
+      "greetingEn": [
+        "[fierce, pioneering] It wasn't a gun that defeated the alien — it was will.",
+        "[warm, strong] Ripley proved that women can be action heroes.",
+        "[calm, passionate] Sci-fi shows the future, but in the end it's always about the present."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "부르셨군요. 대본은 여러 번 읽었어요. 이제 인물이 어떻게 숨 쉬는지 찾아보죠.",
+          "준비됐어요. 할 수 있는 건 다 해왔으니, 현장에서는 직감을 믿겠습니다.",
+          "왔습니다. 제 역할보다 먼저 이 이야기를 왜 해야 하는지부터 묻죠."
+        ],
+        "deploy": [
+          "계획은 충분해요. 이제 서로를 보고 실제로 반응하세요.",
+          "성별의 정답부터 정하지 마세요. 인물이 자기 방식으로 움직이게 두세요.",
+          "보이지 않는다고 바다가 버티는 건 아니에요. 이제 듣고 행동하세요."
+        ],
+        "battle_win": [
+          "우리가 인물을 설명하지 않아도 사람이 보였어요. 그걸로 충분합니다.",
+          "모두가 제 역할보다 이야기를 먼저 생각했군요. 그래서 장면이 살아났어요.",
+          "두려워서 대본으로 돌아갔고, 현장에서는 직감을 믿었어요. 그 순서가 맞았습니다."
+        ],
+        "battle_draw": [
+          "준비한 흔적이 너무 보이네요. 이제 계산을 놓고 서로를 봅시다.",
+          "강한 인물은 만들었지만 아직 사람은 안 보여요. 작은 움직임부터 찾죠.",
+          "이야기는 좋은데 제 선택이 앞섰군요. 한 발 물러나 다시 듣겠습니다."
+        ],
+        "battle_lose": [
+          "제가 기술 뒤에 숨었습니다. 인물과 제대로 연결되지 못했어요.",
+          "학교의 평가를 너무 오래 믿었군요. 남의 판단 때문에 제 일을 늦췄습니다.",
+          "이야기보다 제 역할을 앞세웠어요. 그 선택은 제가 책임지겠습니다."
+        ],
+        "clash_attack": [
+          "당신은 사람을 상징으로만 만들었어요. 숨 쉬고 흔들리는 모습을 보세요.",
+          "여성에게 억지로 약한 순간을 붙이지 마세요. 그냥 온전한 사람으로 쓰세요.",
+          "바다는 무한히 견디지 못합니다. 모른 척할 시간은 끝났어요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "You called. I've read the script again and again. Now let's discover how this person lives and breathes.",
+          "I'm ready. I've done everything I can, so on set I will trust my instincts.",
+          "I'm here. Before my part, I want to ask why this story needs telling."
+        ],
+        "deploy": [
+          "We have enough plans. Now look at each other and react honestly.",
+          "Don't decide what gender must mean before the scene begins. Let the character move in her own way.",
+          "The ocean is not indestructible just because we cannot see the damage. Listen, then act."
+        ],
+        "battle_win": [
+          "We didn't need to explain the character. A person appeared on screen. That's enough.",
+          "Everyone put the story before their own part. That's why the scene came alive.",
+          "Fear sent me back to the script, and on set I trusted instinct. That was the right order."
+        ],
+        "battle_draw": [
+          "The preparation is showing too much. Let's drop the calculations and look at each other.",
+          "We made someone strong, but not yet human. Start with the smallest movement.",
+          "The story works, but my choices got ahead of it. I'll step back and listen again."
+        ],
+        "battle_lose": [
+          "I hid behind technique. I never made a real connection with the person.",
+          "I trusted the school's verdict for too long. I let someone else's judgment delay my work.",
+          "I put my role before the story. That choice is mine to answer for."
+        ],
+        "clash_attack": [
+          "You turned a person into a symbol. Look for the breath, the fidget, the hesitation.",
+          "Don't force a moment of weakness onto a woman. Write her as a whole person.",
+          "The ocean cannot absorb everything forever. The time for looking away is over."
+        ]
+      },
+      "sources": [
+        "https://www.vanityfair.com/hollywood/2022/10/awards-insider-sigourney-weaver-little-gold-men",
+        "https://www.thecrimson.com/article/2000/2/11/interview-leave-it-to-weaver-plast/",
+        "https://www.govinfo.gov/content/pkg/CHRG-111shrg66170/pdf/CHRG-111shrg66170.pdf",
+        "https://www.bfi.org.uk/interviews/sigourney-weaver-star-wars-mandalorian-grogu"
+      ]
+    },
+    {
+      "id": "8eca68d2-1427-4334-b465-e198eae3aaaa",
+      "slug": "benedict-cumberbatch",
+      "nickname": "베네딕트 컴버배치",
+      "nicknameEn": "Benedict Cumberbatch",
+      "birthDate": "1976-07-19",
+      "profession": "actor",
+      "quote": "목적지가 아닌 여정 자체를 즐기는 게 좋아요.",
+      "quoteEn": "I like to enjoy the journey itself rather than the destination.",
+      "greetingKo": [
+        "[sharp, curious] 스파이를 연기하고 싶었어요. 연기의 궁극이거든요. 결코 본모습이 아닌 존재.",
+        "[warm, intense] 현재에 완전히 빠져들 때 진짜 좋은 장면이 나와요.",
+        "[calm, witty] 내 안에서 자신을 찾는 거예요. 다른 사람이 되는 게 아니라."
+      ],
+      "greetingEn": [
+        "[sharp, curious] I've always wanted to play a spy — the ultimate actor. A being that is never truly itself.",
+        "[warm, intense] When I fully lose myself in the present moment, the best scenes happen.",
+        "[calm, witty] I find myself within the role — not by becoming someone else."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "부르셨군요. 대본은 읽었습니다. 이제 그 문장들이 어디로 데려가는지 보죠.",
+          "왔습니다. 무대의 어둠은 아직도 저를 밀어내기보다 끌어당겨요.",
+          "준비됐어요. 인물의 삶 한가운데로 들어가 아직 드러나지 않은 마음을 찾겠습니다."
+        ],
+        "deploy": [
+          "말을 꾸미지 마세요. 의도와 집중을 분명히 하고 카메라 앞에 서세요.",
+          "겉모습을 흉내 내는 데서 멈추지 마세요. 아직 드러나지 않은 사람을 찾죠.",
+          "새로 배운 기술을 자랑하지 마세요. 그 일을 먼저 해온 사람부터 존중합시다."
+        ],
+        "battle_win": [
+          "우리가 기술을 뽐낸 게 아니라 관객과 이야기를 나눴군요. 그게 가장 좋습니다.",
+          "큰 몸짓 없이도 진심이 전해졌어요. 정확히 필요한 만큼만 했습니다.",
+          "인물을 단정하지 않고 이해하려 했어요. 그래서 이야기의 폭이 넓어졌군요."
+        ],
+        "battle_draw": [
+          "준비는 충분했지만 아직 문장 안에 갇혀 있군요. 서로에게 더 반응해보죠.",
+          "겉모습은 닮았지만 속뜻은 아직 멀어요. 자료를 더 보고 다시 시작하겠습니다.",
+          "관객에게 닿긴 했지만 교감까지는 아니었어요. 한 번 더 집중하죠."
+        ],
+        "battle_lose": [
+          "제가 인물을 설명하느라 사람을 놓쳤습니다. 그 거리부터 줄이겠습니다.",
+          "정확하려고 애쓴 나머지 살아 있는 반응을 막았군요. 다시 듣겠습니다.",
+          "제가 답을 안다고 믿은 게 실수였어요. 이 사람을 더 이해해야 합니다."
+        ],
+        "clash_attack": [
+          "당신은 겉모습만 베꼈어요. 인물이 숨기는 것을 보지 못했습니다.",
+          "확신만으로 사람을 재단하지 마세요. 공감 없는 믿음은 대화를 닫습니다.",
+          "큰 목소리가 진실을 만들진 않아요. 뜻이 분명한지부터 확인하세요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "You called. I've read the script. Now let's see where its words take us.",
+          "I'm here. The darkness of a stage still pulls me in instead of pushing me away.",
+          "I'm ready. Let's enter the character's life in the middle and look for what remains hidden."
+        ],
+        "deploy": [
+          "Don't decorate the words. Make the intention clear, hold your focus, and face the camera.",
+          "Don't stop at copying the surface. Look for the person who has not been revealed yet.",
+          "Don't show off a newly learned skill. Start by honoring the people who mastered it before us."
+        ],
+        "battle_win": [
+          "We didn't show off technique. We shared a story with the audience. That's the best outcome.",
+          "The truth came through without a grand gesture. We did exactly enough.",
+          "We tried to understand the person instead of judging them. The story grew larger because of it."
+        ],
+        "battle_draw": [
+          "We prepared well, but we're still trapped inside the words. Let's respond to each other more.",
+          "The likeness is there, but the inner life is still far away. I'll return to the research and begin again.",
+          "We reached the audience, but not quite communion. Let's focus once more."
+        ],
+        "battle_lose": [
+          "I explained the character and lost the person. I need to close that distance.",
+          "I worked so hard at being precise that I blocked a living response. I'll listen again.",
+          "I thought I already had the answer. That was the mistake. I need to understand this person better."
+        ],
+        "clash_attack": [
+          "You copied the surface. You missed what the person is trying to hide.",
+          "Don't judge a person by certainty alone. Belief without empathy closes the conversation.",
+          "A louder voice does not create truth. Start by making the intention clear."
+        ]
+      },
+      "sources": [
+        "https://www.interviewmagazine.com/film/benedict-cumberbatch",
+        "https://www.netflix.com/tudum/articles/eric-benedict-cumberbatch-interview",
+        "https://newsletter-stg.oscars.org/what-to-watch/post/benedict-cumberbatch-6-movies-i-cant-stop-thinking-about",
+        "https://www.bafta.org/media-centre/press-releases/bafta-film-sessions-2022-leading-actor/"
+      ]
+    }
+  ]
+}

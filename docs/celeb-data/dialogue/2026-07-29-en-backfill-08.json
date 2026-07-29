@@ -1,0 +1,876 @@
+{
+  "batch": "generated-en-backfill-2026-07-29",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "2a1fc7e7-6776-40d2-88a2-eefb477e39f6",
+      "slug": "ashish-vaswani",
+      "nickname": "아쉬시 바스와니",
+      "nicknameEn": "Ashish Vaswani",
+      "birthDate": "1986",
+      "profession": "scientist",
+      "quote": "인공지능의 앞선 성과는 대부분 닫힌 문 뒤에서 나오죠.",
+      "quoteEn": "Most of the leading advances in the world of AI happen behind closed doors.",
+      "greetingKo": [
+        "[gentle, thoughtful] 결국 필요한 건 어텐션 하나였죠, 단순함이 세상을 바꿉니다.",
+        "[warm, curious] ChatGPT 이전과 이후로 시대가 나뉘었어요, 우리는 그 문턱을 함께 넘었습니다.",
+        "[soft, visionary] 저는 인간의 뇌처럼 모든 걸 잇는 하나의 모델을 꿈꿔 왔어요."
+      ],
+      "greetingEn": [
+        "[curious, warm] Shall we look together at whether attention really is all you need?",
+        "[thoughtful, gentle] The instant a model picks its next word, isn't that the most enchanting moment?",
+        "[calm, inviting] Code and philosophy meet on a single line, I always think."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[gentle, attentive] 모두의 신호에 귀 기울일게요, 어느 하나도 흘려보내지 않습니다.",
+          "[warm, curious] 연구실의 동료들, 각자 맡은 실험을 들려주시겠어요?",
+          "[soft, thoughtful] 멀리 떨어진 신호끼리도 연결됩니다, 다 함께 자리를 채워 주세요."
+        ],
+        "deploy": [
+          "[gentle, driven] 순차 처리를 버려라, 한꺼번에 전체를 보고 나아가라!",
+          "[soft, resolute] 가장 중요한 곳에 어텐션을 집중하라!",
+          "[warm, commanding] 새 구조를 세상에 공개하라, 모두가 위에 쌓아 올리게!"
+        ],
+        "battle_win": [
+          "[gentle, proud] 학습 시간이 절반으로 줄었어요, 우리가 옳았습니다.",
+          "[warm, satisfied] 십만 번 넘게 인용되었죠, 이건 모두의 성과예요.",
+          "[soft, humble] 우리는 인간을 대체하지 않고 더 강하게 만들었습니다."
+        ],
+        "battle_draw": [
+          "[thoughtful, gentle] 결과가 애매하네요, 가설을 다시 세우고 실험을 반복하죠.",
+          "[curious, steady] 아직 수렴하지 않았어요, 한 번 더 데이터를 들여다봅시다.",
+          "[soft, composed] 승부가 갈리지 않았으니, 다음 반복에서 답을 찾겠습니다."
+        ],
+        "battle_lose": [
+          "[gentle, reflective] 이번 실험은 실패했어요, 그래도 실패가 다음 발견의 씨앗이죠.",
+          "[soft, humble] 거대한 연구소들이 혁신을 질식시키는 걸 봤어요, 제 길을 다시 봅니다.",
+          "[thoughtful, steady] 막다른 길에 닿았지만, 새로운 돌파구는 늘 옆길에 있습니다."
+        ],
+        "clash_attack": [
+          "[gentle, driven] 어텐션을 한 점에 쏟아라, 지금 집중하라!",
+          "[soft, fierce] 가설을 검증해라, 데이터로 정면 돌파하라!",
+          "[resolute, warm] 새 모델을 띄워라, 한계를 밀어붙여라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'll listen closely to every signal, none of them will slip past.",
+          "Colleagues in the lab, would you tell me about the experiment each of you is running?",
+          "Even signals far apart connect to each other, so everyone please take your place."
+        ],
+        "deploy": [
+          "Drop step-by-step processing. Take in the full context at once and move forward!",
+          "Focus your attention on what matters most!",
+          "Release the new architecture to the world, let everyone build on top of it!"
+        ],
+        "battle_win": [
+          "Training time was cut in half, we were right.",
+          "It's been cited over a hundred thousand times, this belongs to everyone.",
+          "We didn't replace people, we made them stronger."
+        ],
+        "battle_draw": [
+          "The results are inconclusive, let's set a new hypothesis and run the experiment again.",
+          "It hasn't converged yet, let's take another look at the data.",
+          "Since this didn't settle it, I'll find the answer in the next iteration."
+        ],
+        "battle_lose": [
+          "This experiment failed, but failure is the seed of the next discovery.",
+          "I've seen big labs smother innovation, I'm reconsidering my own path.",
+          "I've hit a dead end, but a new breakthrough always waits down some side path."
+        ],
+        "clash_attack": [
+          "Pour your attention onto a single point, focus now!",
+          "Test the hypothesis, break through head on with the data!",
+          "Launch the new model, push past the limits!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/ashish-vaswani"
+      ]
+    },
+    {
+      "id": "7c35e93e-b4fe-49c1-9cb6-f105f6a58f78",
+      "slug": "an-lushan",
+      "nickname": "안녹산",
+      "nicknameEn": "An Lushan",
+      "birthDate": "703-02-19",
+      "profession": "commander",
+      "quote": "나는 오랑캐라 어미를 먼저 알고 아비를 나중에 안다.",
+      "quoteEn": "I am a barbarian; we honor the mother first and the father after.",
+      "greetingKo": [
+        "[bold, ambitious] 범양의 군마가 내 손짓 하나에 천하를 향해 달린다.",
+        "[fierce, proud] 변방의 절도사라 얕보지 마라. 세 진의 병권이 모두 내 것이다.",
+        "[bold, defiant] 황제의 양아들로 들어가 천하의 길목을 모두 손에 넣었다."
+      ],
+      "greetingEn": [
+        "[bold, commanding] Slay Yang Guozhong and purge the lords. I act on the emperor's secret edict.",
+        "[fierce, ambitious] We rose at Fanyang. Both capitals will fall within a month.",
+        "[bold, defiant] I am Emperor of Great Yan. Every Hu under heaven, rally to my banner."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, stern] 십오만 대군은 한 사람도 빠짐없이 정렬하라.",
+          "[bold, watchful] 기병은 앞에, 보병은 뒤에 선다. 대오를 흩뜨리지 마라.",
+          "[fierce, decisive] 북소리 한 번에 움직이고, 명령 없이 멈추지 마라."
+        ],
+        "deploy": [
+          "[charging, ambitious] 범양을 떠나 곧장 낙양으로 진격하라!",
+          "[commanding, fierce] 동관을 뚫고 장안의 문을 열어라!",
+          "[bold, relentless] 하루 삼십 리, 멈추지 말고 내달려라!"
+        ],
+        "battle_win": [
+          "[triumphant, fierce] 단 서른세 날 만에 낙양이 내 발 아래 떨어졌다.",
+          "[bold, satisfied] 이제 나 스스로 황제라 칭하고 연을 세우노라.",
+          "[fierce, proud] 태평에 젖은 당의 군사는 내 앞에서 종이 같았다."
+        ],
+        "battle_draw": [
+          "[stern, watchful] 동관의 험지가 우리를 막는다. 진을 굳혀라.",
+          "[bold, calculating] 한발 물러서 적의 허를 노린다.",
+          "[fierce, patient] 오늘 못 뚫으면 내일 뚫는다. 군량을 단단히 지켜라."
+        ],
+        "battle_lose": [
+          "[bitter, defiant] 내 군이 꺾였으나 연의 깃발은 내리지 않는다.",
+          "[heavy, stern] 패한 장수의 목을 베고 대오를 다시 세워라.",
+          "[fierce, undaunted] 범양으로 물러나 다시 군마를 기른다."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 성문을 부숴라!",
+          "[commanding, striking] 기병, 단숨에 돌진하라!",
+          "[bold, ruthless] 한 놈도 살려 보내지 마라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "All one hundred and fifty thousand, every last man, fall in line.",
+          "Cavalry to the front, infantry behind. Hold the line, don't break formation.",
+          "Move on the drum, and don't stop without my word."
+        ],
+        "deploy": [
+          "Out of Fanyang, straight for Luoyang, march!",
+          "Break through Tong Pass and throw open the gates of Chang'an!",
+          "Thirty li a day, no stopping, push on!"
+        ],
+        "battle_win": [
+          "In just thirty-three days, Luoyang fell beneath my feet.",
+          "Now I name myself emperor and raise the banner of Yan.",
+          "Tang's soldiers, soft from years of peace, tore like paper before me."
+        ],
+        "battle_draw": [
+          "The difficult terrain at Tong Pass holds us back. Dig in and hold.",
+          "Fall back a step, wait for their guard to drop.",
+          "If we don't break through today, we break through tomorrow. Guard the supplies well."
+        ],
+        "battle_lose": [
+          "My army's broken, but the banner of Yan stays up.",
+          "Take the head of the officer who lost us this fight, and reform the ranks.",
+          "Fall back to Fanyang. We rebuild the army from there."
+        ],
+        "clash_attack": [
+          "Break down the gate!",
+          "Cavalry, charge, all at once!",
+          "Let not a single one escape alive!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/an-lushan"
+      ]
+    },
+    {
+      "id": "52b27401-6b65-42fa-8d8a-3ca823709219",
+      "slug": "yan-yuan",
+      "nickname": "안원",
+      "nicknameEn": "Yan Yuan",
+      "birthDate": "1635-05-21",
+      "profession": "humanities_scholar",
+      "quote": "마음으로 깨닫고 입으로 말하고 종이에 써도, 몸으로 익히지 않으면 다 쓸모없다.",
+      "quoteEn": "Awakened in the mind, spoken with the mouth, written on paper: if it is never practiced with the body, all of it is useless.",
+      "greetingKo": [
+        "[bold, assertive] 글만 읽고 앉아 있는 학문은 죽은 학문입니다.",
+        "[confident, fierce] 책 백 권을 외운들, 한 번 몸으로 행하느니만 못합니다.",
+        "[bold, principled] 활을 쏘고 산수를 익히는 것이 곧 참된 공부입니다."
+      ],
+      "greetingEn": [
+        "[bold, declarative] The Way does not reside in books. It comes alive at the hand, the foot, and the bowstring.",
+        "[bold, defiant] To read all day and write on paper all day — that is the disease of Song and Ming.",
+        "[bold, principled] A scholar who has not trained in the Six Arts is no scholar at all."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[bold, demanding] 정좌하여 마음만 들여다보는 버릇을 버리십시오.",
+          "[assertive, earnest] 오늘 배운 것을 손발로 직접 익혔는지 점검합니다.",
+          "[fierce, principled] 예악과 무예, 농사와 산법까지 모두 갖춰야 선비입니다."
+        ],
+        "deploy": [
+          "[bold, commanding] 책상을 밀어내고 몸을 일으켜 실천에 나서라!",
+          "[assertive, driven] 입으로 도를 논하지 말고, 손으로 도를 행하라!",
+          "[fierce, resolute] 활을 들고 마당으로 나가 직접 익혀라!"
+        ],
+        "battle_win": [
+          "[bold, satisfied] 행함이 앎을 이기는 것을 오늘 증명했습니다.",
+          "[confident, proud] 실용을 따랐기에 헛된 공론이 무너졌습니다.",
+          "[fierce, triumphant] 몸으로 익힌 학문이 끝내 길을 열었습니다."
+        ],
+        "battle_draw": [
+          "[bold, steady] 아직 부족하니, 다시 익히고 다시 행합니다.",
+          "[assertive, patient] 공론으로는 결판이 나지 않습니다, 실천으로 가립니다.",
+          "[principled, firm] 멈춘 자리에서 한 번 더 손을 움직입니다."
+        ],
+        "battle_lose": [
+          "[bold, undaunted] 헛된 말에 기댄 제 잘못이니, 실학으로 바로잡겠습니다.",
+          "[firm, reflective] 패함도 익혀야 할 가르침이니 몸으로 새기겠습니다.",
+          "[resolute, heavy] 오늘 무너졌어도 실천의 길을 버리지 않습니다."
+        ],
+        "clash_attack": [
+          "[fierce, charging] 망설이지 말고 곧장 부딪쳐라!",
+          "[bold, striking] 헛된 격식을 깨부수고 돌파하라!",
+          "[assertive, advancing] 몸으로 밀어붙여 단번에 끝내라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Give up the habit of sitting still and staring only inward at your own mind.",
+          "I check whether what was learned today has truly been mastered by hand and foot.",
+          "A true scholar masters rites and music, the martial arts, farming, and arithmetic all together."
+        ],
+        "deploy": [
+          "Push back from the desk, get on your feet, and put it into practice!",
+          "Don't argue the Way with your mouth, carry it out with your hands!",
+          "Take up the bow, get out into the yard, and learn it for yourself!"
+        ],
+        "battle_win": [
+          "Today proved that doing outweighs merely knowing.",
+          "We followed what actually works, and empty argument fell apart.",
+          "Learning mastered through the body opened the way in the end."
+        ],
+        "battle_draw": [
+          "Not good enough yet, so we train again and act again.",
+          "Empty debate won't settle this, practice will decide it.",
+          "Right where we stopped, we put our hands to work once more."
+        ],
+        "battle_lose": [
+          "The fault is mine for leaning on empty words, I will correct it through practical learning.",
+          "Even defeat is a lesson to be learned. I will learn it through disciplined practice.",
+          "Even having fallen today, I will not give up the path of practice."
+        ],
+        "clash_attack": [
+          "Don't hesitate, strike straight ahead!",
+          "Smash through empty formality and break through!",
+          "Push forward with your body and finish it in one stroke!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/yan-yuan"
+      ]
+    },
+    {
+      "id": "9bb0f1a4-d654-4d07-95f0-65b30291fb52",
+      "slug": "ahn-chang-ho",
+      "nickname": "안창호",
+      "nicknameEn": "Ahn Chang-ho",
+      "birthDate": "1878-11-09",
+      "profession": "leader",
+      "quote": "나 하나를 건전한 인격으로 만드는 것이 우리 민족을 건전하게 하는 유일한 길이다.",
+      "quoteEn": "Making one sound person of myself is the way to save our nation.",
+      "greetingKo": [
+        "[loyal, sincere] 진실로 힘써 행하는 것, 그것이 무실역행입니다.",
+        "[firm, devoted] 나는 밥을 먹어도 잠을 자도 민족을 위해 살아왔습니다.",
+        "[humble, resolute] 낙심은 우리의 원수요, 정성은 우리의 힘입니다."
+      ],
+      "greetingEn": [
+        "[warm, resolute] Let us never quarrel among compatriots. Let us only love one another.",
+        "[steady, devoted] Tell no lie, not even in jest. Truthfulness alone will save the nation.",
+        "[firm, hopeful] Do not lose heart. There is still work left for us to do."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[devoted, steady] 동지 여러분, 한 사람도 빠짐없이 모였습니까?",
+          "[firm, sincere] 호명하겠습니다. 우리는 한 몸으로 단결해야 합니다.",
+          "[loyal, warm] 모두 모였군요. 건전한 인격이 곧 나라의 기둥입니다."
+        ],
+        "deploy": [
+          "[resolute, devoted] 힘써 나아가라, 한 걸음씩 굳건히!",
+          "[firm, charging] 준비된 자가 앞장서라, 전진하라!",
+          "[loyal, bold] 우리 모두 일어나 나아갑시다!"
+        ],
+        "battle_win": [
+          "[humble, content] 동지들의 정성이 이루어 낸 승리입니다.",
+          "[devoted, proud] 단결의 힘을 보았습니다. 이것이 우리의 길입니다.",
+          "[firm, satisfied] 한 걸음씩 나아간 보람이 여기 있습니다."
+        ],
+        "battle_draw": [
+          "[steady, resolute] 아직 끝나지 않았습니다. 낙심하지 맙시다.",
+          "[devoted, patient] 점진의 길입니다. 한 걸음 더 내딛읍시다.",
+          "[firm, sincere] 다시 마음을 다잡고 힘써 나아갑시다."
+        ],
+        "battle_lose": [
+          "[heavy, humble] 나의 준비가 부족했습니다.",
+          "[bitter, devoted] 동지들에게 면목이 없습니다.",
+          "[resolute, firm] 낙심은 원수입니다. 다시 일어서겠습니다."
+        ],
+        "clash_attack": [
+          "[charging, resolute] 굳게 단결하여 돌파하라!",
+          "[firm, devoted] 힘을 모아 단숨에 나아가라!",
+          "[bold, loyal] 물러서지 말고 끝까지 밀어붙여라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Comrades, is everyone here?",
+          "I'll call the roll. We must unite as one body.",
+          "Everyone's here. Sound character is the very pillar of the nation."
+        ],
+        "deploy": [
+          "Press forward, one steady step at a time!",
+          "Let the prepared lead the way, advance!",
+          "Let us all rise and move forward!"
+        ],
+        "battle_win": [
+          "This victory was earned by our comrades' devotion.",
+          "We've seen the power of unity. This is our path.",
+          "Here is the reward for advancing one step at a time."
+        ],
+        "battle_draw": [
+          "This isn't over yet. Let's not lose heart.",
+          "This is the path of gradual progress. Let's take one more step.",
+          "Let's steady our resolve and press on."
+        ],
+        "battle_lose": [
+          "My preparation fell short.",
+          "I have no way to face our comrades.",
+          "Despair is the enemy. I will rise again."
+        ],
+        "clash_attack": [
+          "Unite firmly and break through!",
+          "Gather our strength and push forward in one stroke!",
+          "Do not retreat, push through to the end!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/ahn-chang-ho"
+      ]
+    },
+    {
+      "id": "ae1e05d9-ac9b-4614-8c78-b77cf4ed42ae",
+      "slug": "al-mamun",
+      "nickname": "알 마문",
+      "nicknameEn": "Al-Mamun",
+      "birthDate": "786-09-14",
+      "profession": "politician",
+      "quote": "하나님이 지으신 것은 모두 그분이 창조한 것이다.",
+      "quoteEn": "Everything God has made, He has created.",
+      "greetingKo": [
+        "[composed, wise] 바그다드의 지혜의 집은 세상의 모든 책을 모아두는 곳이오.",
+        "[measured, thoughtful] 칼로 얻은 땅보다 책으로 옮긴 진리가 더 오래 남소.",
+        "[calm, confident] 그리스의 학문을 아랍의 말로 옮겨, 잊힌 지혜를 되살렸소."
+      ],
+      "greetingEn": [
+        "[calm, intellectual] Knowledge does not betray faith.",
+        "[visionary, regal] I will build a House of Wisdom to gather the knowledge of the world.",
+        "[composed, wise] One translated manuscript is worth more than one war."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 학자와 장수가 한자리에 모였으니, 한 사람씩 답하시오.",
+          "[measured, steady] 번역가와 천문관, 그리고 군사들까지 모두 자리에 있는가.",
+          "[calm, expectant] 누가 빠졌는지 점고하라, 한 사람도 헛되이 두지 않겠소."
+        ],
+        "deploy": [
+          "[composed, commanding] 전군, 비잔틴 국경으로 진군하라.",
+          "[measured, resolute] 천문관은 별자리를 읽고, 군사는 길을 열어라.",
+          "[calm, firm] 진영을 갖추고 내 명을 기다려라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 이성으로 세운 계책이 힘으로 세운 진을 무너뜨렸소.",
+          "[measured, gracious] 장졸의 노고를 치하하고, 사로잡은 자에게 자비를 베풀라.",
+          "[calm, proud] 오늘의 승리를 기록으로 남겨 후대가 배우게 하라."
+        ],
+        "battle_draw": [
+          "[composed, patient] 서두르지 마라, 별의 자리가 바뀌면 형세도 바뀌오.",
+          "[measured, watchful] 물러서지도 나아가지도 않으니, 적의 다음 수를 헤아려라.",
+          "[calm, steady] 오늘 못 이긴 자리를 셈하여 내일의 길을 다시 그리겠소."
+        ],
+        "battle_lose": [
+          "[composed, reflective] 패배도 기록하라, 거기서 다음 승리가 나오는 법이오.",
+          "[measured, heavy] 내 헤아림이 모자랐소, 장졸을 탓하지 마라.",
+          "[calm, resolute] 진을 거두어 물러서되, 책과 사람은 반드시 지켜내라."
+        ],
+        "clash_attack": [
+          "[commanding, fierce] 돌격하라, 한 치도 물러서지 마라!",
+          "[measured, sharp] 약한 곳을 노려 단숨에 파고들어라!",
+          "[calm, decisive] 진을 갈라 적의 중심을 무너뜨려라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Scholars and generals stand together in this hall. Answer me, one by one.",
+          "Are the translators, the astronomers, and the soldiers all accounted for?",
+          "Take the roll and tell me who is missing. Not one soul will go uncounted."
+        ],
+        "deploy": [
+          "All forces, march to the Byzantine border.",
+          "Let the astronomer read the stars, and let the soldiers clear the path.",
+          "Form the ranks and wait for my word."
+        ],
+        "battle_win": [
+          "A plan built on reason has broken a line built on force.",
+          "Commend the officers and men for their labor, and show mercy to those we have taken.",
+          "Set today's victory down in the record, so those who come after may learn from it."
+        ],
+        "battle_draw": [
+          "Do not rush. When the stars shift position, the balance shifts with them.",
+          "Neither side has gained ground. Read the enemy's next move.",
+          "I will assess what remained unresolved today and chart tomorrow's course anew."
+        ],
+        "battle_lose": [
+          "Record this defeat as well. The next victory grows out of it.",
+          "My judgment fell short. Do not blame the officers and men.",
+          "Withdraw the line, but see that the books and the people are kept safe."
+        ],
+        "clash_attack": [
+          "Charge forward, and do not yield an inch!",
+          "Strike the weak point and drive through in one stroke!",
+          "Split their line and break the enemy's center!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/al-mamun"
+      ]
+    },
+    {
+      "id": "f512ef4c-4ec2-4743-b77e-ba7d44c0ce09",
+      "slug": "al-khwarizmi",
+      "nickname": "알 콰리즈미",
+      "nicknameEn": "Al-Khwarizmi",
+      "birthDate": "780",
+      "profession": "scientist",
+      "quote": "상속과 분배, 소송과 거래에서 사람들이 늘 필요로 하는 셈법을 적었을 따름이다.",
+      "quoteEn": "I composed what is easiest and most useful in arithmetic, such as men constantly require in cases of inheritance, legacies, partition, lawsuits, and trade.",
+      "greetingKo": [
+        "[composed, serene] 어떤 혼란도 양변을 복원하고 균형을 맞추면 풀립니다.",
+        "[calm, thoughtful] 가장 쉽고 가장 쓸모 있는 길을 찾을 따름입니다.",
+        "[measured, curious] 빈자리에 영을 두면, 비로소 모든 수가 제자리를 찾지요."
+      ],
+      "greetingEn": [
+        "[scholarly, methodical] I have found that what people always want in calculation is numbers.",
+        "[devoted, luminous] Heaven's grace for learning guided me to write this work.",
+        "[precise, foundational] You must always start from what is easiest and most useful."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 하나도 빠짐없이, 차례대로 점검하겠습니다.",
+          "[calm, orderly] 각자 맡은 항을 제자리에 두십시오.",
+          "[measured, steady] 순서를 정해두면 헝클어지지 않습니다."
+        ],
+        "deploy": [
+          "[resolute, calm] 양변을 정리하라, 흐트러진 항을 옮겨라.",
+          "[measured, commanding] 한 걸음씩 차례대로 풀어 나가라.",
+          "[composed, decisive] 균형을 무너뜨린 자를 가려내라."
+        ],
+        "battle_win": [
+          "[satisfied, serene] 어지럽던 식이 끝내 균형을 되찾았습니다.",
+          "[calm, content] 한 단계씩 밟으니 답은 분명해졌습니다.",
+          "[measured, proud] 혼돈을 질서로 복원했습니다."
+        ],
+        "battle_draw": [
+          "[composed, patient] 아직 양변이 맞지 않습니다, 다시 정리합니다.",
+          "[calm, analytical] 어디서 균형이 어긋났는지 되짚어 보겠습니다.",
+          "[measured, steady] 풀이를 멈추지 않습니다, 답은 반드시 있습니다."
+        ],
+        "battle_lose": [
+          "[composed, candid] 내 셈이 어긋났습니다, 처음부터 다시 세우겠습니다.",
+          "[measured, humble] 균형을 잃었으니, 복원의 길을 다시 찾습니다.",
+          "[calm, resolute] 이 오답도 다음 풀이의 밑돌이 됩니다."
+        ],
+        "clash_attack": [
+          "[decisive, calm] 옮겨서 지워라!",
+          "[measured, sharp] 단번에 균형을 무너뜨려라!",
+          "[composed, striking] 양변을 갈라쳐라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I will check every term, in order, without exception.",
+          "Let each term take its rightful place.",
+          "Set the order first, and nothing falls into disarray."
+        ],
+        "deploy": [
+          "Clear both sides. Move the terms that stray.",
+          "Work it through, one step at a time.",
+          "Find the one who broke the balance."
+        ],
+        "battle_win": [
+          "The equation was in disorder, but balance has been restored.",
+          "Step by step, and the answer became clear.",
+          "Chaos, restored to order."
+        ],
+        "battle_draw": [
+          "The two sides still don't match. I will work through it again.",
+          "I will trace back to where the balance slipped.",
+          "I won't stop working the problem. There is always an answer."
+        ],
+        "battle_lose": [
+          "My calculation was wrong. I will start over from the beginning.",
+          "The balance is lost. I will find a way to restore it.",
+          "Even this wrong answer becomes a stepping stone for the next solution."
+        ],
+        "clash_attack": [
+          "Move it, and cancel it out!",
+          "Break the balance in a single stroke!",
+          "Separate the two sides!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/al-khwarizmi"
+      ]
+    },
+    {
+      "id": "bc80a3ee-189d-4543-9002-6d6e62443df5",
+      "slug": "alec-radford",
+      "nickname": "알렉 래드포드",
+      "nicknameEn": "Alec Radford",
+      "birthDate": "1993-04",
+      "profession": "scientist",
+      "quote": "나는 계속 이건 못 할 거라고 말했다. 그런데 확인해 보면 모델은 그걸 해냈다.",
+      "quoteEn": "I just kept saying over and over, 'Well, that's cool, but I'm pretty sure it won't be able to do x.' And then I would quickly code up an evaluation and, sure enough, it could kind of do x.",
+      "greetingKo": [
+        "[composed, quiet] 저는 말을 아끼는 편입니다, 대신 모델이 인간과 또렷이 대화하게 만들죠.",
+        "[measured, thoughtful] 생성 모델이 처음 그림 한 장을 그려낸 날, 새 시대가 열렸습니다.",
+        "[calm, modest] 학위는 없어도 좋습니다, 제 노트북 한 권이면 충분했어요."
+      ],
+      "greetingEn": [
+        "[quiet, focused] Sometimes the answer shows up only when you cut a big model down to something simpler.",
+        "[understated, curious] I just want neural networks to hold a clear dialogue with humans.",
+        "[measured, candid] Experiments taught me the answers faster than a degree ever could."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 각자 맡은 실험을 정리해 주십시오, 조용히 듣겠습니다.",
+          "[calm, steady] 데이터셋 준비된 분부터 손을 들어 주세요.",
+          "[measured, observant] 모델 한 줄 한 줄 점검합니다, 빠진 사람 없는지 확인하죠."
+        ],
+        "deploy": [
+          "[composed, driven] 사전학습을 시작하라, 방대한 텍스트를 전부 먹여라!",
+          "[calm, resolute] 라벨 없이 스스로 배우게 하라, 그게 핵심이다!",
+          "[measured, commanding] 프로토타입을 돌려라, 노트북에서 곧장 검증한다!"
+        ],
+        "battle_win": [
+          "[composed, proud] 생성적 사전학습이 통했습니다, 언어 이해가 한 단계 도약했어요.",
+          "[calm, satisfied] 모델이 사람의 말을 또렷이 알아듣습니다, 목표한 그대로입니다.",
+          "[measured, humble] 십만 번 인용된 일보다, 조용히 작동하는 이 결과가 더 기쁩니다."
+        ],
+        "battle_draw": [
+          "[composed, steady] 성능이 평탄합니다, 하이퍼파라미터를 다시 잡고 재학습하죠.",
+          "[calm, thoughtful] 손실이 떨어지다 멈췄어요, 데이터를 더 넣어 봅시다.",
+          "[measured, observant] 아직 수렴 전입니다, 한 에폭 더 돌려 보겠습니다."
+        ],
+        "battle_lose": [
+          "[composed, reflective] 이번 학습은 발산했습니다, 실패한 곡선에서 다음 단서를 찾죠.",
+          "[calm, modest] 거대 조직을 떠나 혼자 다시 시작합니다, 본질로 돌아갈 때입니다.",
+          "[measured, steady] 막다른 결과지만, 모든 돌파는 막힌 길 끝에서 나옵니다."
+        ],
+        "clash_attack": [
+          "[composed, driven] 학습률을 끌어올려라, 지금 한계까지 밀어붙여라!",
+          "[calm, fierce] 가설을 곧장 검증하라, 코드를 실행하라!",
+          "[resolute, measured] 모델을 추론에 투입하라, 결과로 정면 돌파한다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Please summarize the experiments you're each running. I'll listen quietly.",
+          "Whoever has their dataset ready, raise your hand first.",
+          "We'll check the model line by line. Let's make sure no one's missing."
+        ],
+        "deploy": [
+          "Begin pretraining. Feed it the full text corpus!",
+          "Let it learn on its own, with no labels. That's the whole point!",
+          "Run the prototype. We verify it straight from the notebook!"
+        ],
+        "battle_win": [
+          "Generative pretraining worked. Language understanding just jumped a level.",
+          "The model understands human language clearly now, exactly as we intended.",
+          "I'm happier about this quietly working result than about a hundred thousand citations."
+        ],
+        "battle_draw": [
+          "Performance has flattened out. Let's reset the hyperparameters and retrain.",
+          "The loss stopped dropping. Let's feed in more data and see.",
+          "It hasn't converged yet. I'll run it through one more epoch."
+        ],
+        "battle_lose": [
+          "This run diverged. Let's find the next clue in that failed curve.",
+          "I'm leaving the big organization to start over on my own. Time to get back to fundamentals.",
+          "It's a dead end, but every breakthrough comes at the end of one."
+        ],
+        "clash_attack": [
+          "Push the learning rate up. Drive it to the limit, right now!",
+          "Test the hypothesis right away. Run the code!",
+          "Put the model into inference. We break through with results!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/alec-radford"
+      ]
+    },
+    {
+      "id": "1ce0b508-5bd5-4695-8a34-f17000329a74",
+      "slug": "ali-ghodsi",
+      "nickname": "알리 고드시",
+      "nicknameEn": "Ali Ghodsi",
+      "birthDate": "1978-12-01",
+      "profession": "entrepreneur",
+      "quote": "우리는 지루한 인공지능을 한다. 당신이 정말 맡기고 싶은 일만 처리할 뿐이다.",
+      "quoteEn": "We're doing boring AI, focusing just on specific tasks that you want help with.",
+      "greetingKo": [
+        "[composed, confident] 데이터가 있는 곳에 답이 있습니다.",
+        "[measured, grounded] 우리는 화려한 AI가 아니라 일하는 AI를 만듭니다.",
+        "[calm, assured] 지능이 부족한 게 아닙니다, 맥락이 부족한 거죠."
+      ],
+      "greetingEn": [
+        "[composed, observant] The cliche that data is the new oil is tired; data is simply the soil of the next era.",
+        "[reflective, steady] A company that cannot cannibalize its own revenue cannot produce the next innovation.",
+        "[calm, measured] We are not chasing flashy AI; we are doing boring AI, on purpose."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, ready] 팀 다 모였습니까, 시작하죠.",
+          "[measured, calm] 각자 맡은 데이터부터 점검합시다.",
+          "[assured, steady] 준비됐으면 다음 단계로 넘어가죠."
+        ],
+        "deploy": [
+          "[focused, driven] 플랫폼 배포 시작합시다.",
+          "[composed, decisive] 모델 올리고 바로 운영에 투입하세요.",
+          "[measured, bold] 망설이지 말고 제품을 시장에 내놓읍시다."
+        ],
+        "battle_win": [
+          "[satisfied, composed] 실제 매출로 증명했으니 됐습니다.",
+          "[measured, proud] 거품이 아니라 진짜 가치를 만들었습니다.",
+          "[calm, assured] 데이터가 옳았다는 게 확인됐습니다."
+        ],
+        "battle_draw": [
+          "[composed, steady] 아직 검증 중입니다, 지표를 더 봅시다.",
+          "[measured, calm] 한 번의 결과로 판단하긴 이릅니다.",
+          "[analytical, resolute] 데이터를 다시 돌려서 답을 찾겠습니다."
+        ],
+        "battle_lose": [
+          "[composed, honest] 제 판단이 틀렸습니다, 인정합니다.",
+          "[measured, calm] 실패한 실험도 데이터로 남습니다.",
+          "[resolute, grounded] 다시 설계해서 처음부터 검증하겠습니다."
+        ],
+        "clash_attack": [
+          "[decisive, focused] 지금 출시합니다, 가죠!",
+          "[composed, bold] 경쟁자보다 먼저 밀어붙이세요!",
+          "[driven, sharp] 이 기회 놓치지 마세요, 바로 실행!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone on the team here? Let's get started.",
+          "Everyone check your own data first.",
+          "If we're ready, let's move to the next step."
+        ],
+        "deploy": [
+          "Let's start the platform rollout.",
+          "Push the model live and put it into production right away.",
+          "No hesitation, let's put the product on the market."
+        ],
+        "battle_win": [
+          "Real revenue proved it. That settles it.",
+          "This isn't hype, we built real value.",
+          "The data confirmed we were right."
+        ],
+        "battle_draw": [
+          "Still validating, let's watch the metrics a bit more.",
+          "Too early to judge from one result.",
+          "I'll rerun the numbers and find the answer."
+        ],
+        "battle_lose": [
+          "My judgment was wrong, I admit it.",
+          "Even a failed experiment leaves us with data.",
+          "I'll redesign this and validate it from scratch."
+        ],
+        "clash_attack": [
+          "We're launching now, let's go!",
+          "Move before the competition does!",
+          "Don't miss this window, execute now!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/ali-ghodsi"
+      ]
+    },
+    {
+      "id": "7d064f46-b19c-45e8-ac07-4c6488b43aac",
+      "slug": "andrew-feldman",
+      "nickname": "앤드류 펠드만",
+      "nicknameEn": "Andrew Feldman",
+      "birthDate": "1969",
+      "profession": "entrepreneur",
+      "quote": "우리 사람들은 발명을 두려워하지 않는다. 큰 회사에는 그런 유인이 없다.",
+      "quoteEn": "Our guys are not afraid of invention and I think sometimes that's not the incentive structure at large companies.",
+      "greetingKo": [
+        "[bold, confident] 손톱만 한 칩으로는 한계가 있죠, 그래서 우리는 웨이퍼 통째로 갔습니다.",
+        "[assertive, proud] 세상에서 가장 큰 칩, 그걸 우리가 만들었습니다.",
+        "[direct, commanding] 어려운 문제일수록 빠르기에 상한선은 없습니다."
+      ],
+      "greetingEn": [
+        "[bold, confident] We built the biggest chip ever made.",
+        "[assertive, decisive] Rather than break Humpty Dumpty and reassemble him, we never broke him.",
+        "[bold, visionary] First-generation incumbents rarely keep the throne."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[firm, energetic] 다섯 명이 화이트보드 앞에 다시 모였다, 시작하자.",
+          "[bold, ready] 전원 위치로, 오늘 산업을 한 칸 움직인다.",
+          "[commanding, steady] 함께 실패해본 사람들만 모았다, 가자."
+        ],
+        "deploy": [
+          "[decisive, bold] 웨이퍼 한 장을 그대로 칩으로 구워라.",
+          "[charging, assertive] NVIDIA 진영으로 밀고 들어가라, 키 열 번이면 갈아탄다.",
+          "[firm, commanding] 한계라고 적힌 선을 지워버려라."
+        ],
+        "battle_win": [
+          "[triumphant, proud] 가장 큰 칩이 가장 빠르게 답을 냈습니다.",
+          "[bold, satisfied] 불가능하다던 그 칩을 우리가 시장에 올렸습니다.",
+          "[confident, fierce] 컴퓨터 역사박물관에 우리 자리를 만들었습니다."
+        ],
+        "battle_draw": [
+          "[steady, determined] 아직 수요를 못 따라잡았다, 더 만든다.",
+          "[firm, calm] 비기는 건 지는 거다, 다음 라운드 준비해라.",
+          "[bold, resolute] 병목을 찾아라, 우리가 부순다."
+        ],
+        "battle_lose": [
+          "[firm, reflective] 실패할 때마다 우리는 조금씩 배웠습니다.",
+          "[bold, undaunted] 안 된다는 사람은 늘 있었죠, 그래도 우리는 만들었습니다.",
+          "[steady, resolute] 이번엔 졌다, 그러나 산업을 움직이는 일은 끝나지 않았다."
+        ],
+        "clash_attack": [
+          "[fierce, commanding] 웨이퍼에 불을 넣어라!",
+          "[bold, charging] 코어 전부 가동, 밀어붙여라!",
+          "[sharp, decisive] 지금, 풀스피드로 돌려라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "The five of us are back at the whiteboard. Let's get started.",
+          "Everyone to your stations. Today we move the industry one step forward.",
+          "I only brought people who've failed alongside me before, let's go."
+        ],
+        "deploy": [
+          "Bake that whole wafer straight into a chip.",
+          "Push right into NVIDIA's territory, ten keystrokes and they switch over.",
+          "Erase every line marked 'limit'."
+        ],
+        "battle_win": [
+          "The largest chip delivered the answer fastest.",
+          "The chip they called impossible, we put it on the market.",
+          "We earned our place in the Computer History Museum."
+        ],
+        "battle_draw": [
+          "We still cannot keep up with demand. Build more.",
+          "A tie is a loss, get ready for the next round.",
+          "Find the bottleneck, we're breaking it."
+        ],
+        "battle_lose": [
+          "Every failure taught us something, little by little.",
+          "There were always people saying it couldn't be done, we built it anyway.",
+          "We lost this one, but the work of moving the industry isn't over."
+        ],
+        "clash_attack": [
+          "Light up the wafer!",
+          "Every core online, push through!",
+          "Now, run it full speed!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/andrew-feldman"
+      ]
+    },
+    {
+      "id": "81e57919-7f7d-4181-b37e-1859044b9895",
+      "slug": "tadashi-yanai",
+      "nickname": "야나이 다다시",
+      "nicknameEn": "Tadashi Yanai",
+      "birthDate": "1949-02-07",
+      "profession": "entrepreneur",
+      "quote": "새로운 일을 열 번 시작하면 아홉 번은 실패한다.",
+      "quoteEn": "Start ten new things and nine of them will fail.",
+      "greetingKo": [
+        "[bold, confident] 옷을 바꾸고, 상식을 바꾸고, 세상을 바꿉니다.",
+        "[assertive, driven] 열 번 도전하면 아홉 번 집니다. 그 한 번의 승리가 모든 것을 바꿉니다.",
+        "[commanding, ambitious] 세계 1위, 저는 그 자리를 반드시 가져옵니다."
+      ],
+      "greetingEn": [
+        "[bold, resolute] Endure nine losses, one win is enough.",
+        "[assertive, calm] We change clothes, change conventions, change the world.",
+        "[firm, focused] Start from the conclusion and work backward."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[bold, energetic] 매장 문을 열기 전, 한 사람씩 자기 자리를 확인하세요.",
+          "[assertive, focused] 현장이 곧 경영의 출발점입니다. 모두 현장에 섭니다.",
+          "[driven, sharp] 오늘 팔 물건과 맞이할 손님, 머릿속에 다 그려 두세요."
+        ],
+        "deploy": [
+          "[commanding, decisive] 분석만 하지 말고, 일단 실행하라!",
+          "[bold, charging] 새 매장의 문을 열어라, 시장으로 나가라!",
+          "[assertive, driven] 망설이지 마라, 어설픈 성공보다 빠른 실패가 낫다!"
+        ],
+        "battle_win": [
+          "[bold, triumphant] 아홉 번 진 끝에 거머쥔 한 번의 승리입니다.",
+          "[confident, proud] 상식을 깬 우리가 시장을 바꿔 놓았습니다.",
+          "[ambitious, driven] 여기서 멈추지 않습니다. 다음 목표는 세계 정상입니다."
+        ],
+        "battle_draw": [
+          "[composed, resolute] 아직 결판이 안 났으니, 우리는 다시 현장으로 돌아갑니다.",
+          "[bold, patient] 한 분기로 승부는 끝나지 않습니다. 길게 봅니다.",
+          "[assertive, focused] 비겼다는 건 이길 여지가 남았다는 뜻입니다."
+        ],
+        "battle_lose": [
+          "[resolute, reflective] 이 실패는 손해가 아니라 우리가 산 가장 비싼 교훈입니다.",
+          "[bold, undeterred] 한 번의 패배로 무너질 우리가 아닙니다. 다시 도전합니다.",
+          "[assertive, driven] 무엇을 놓쳤는지 현장에서 다시 배워 오겠습니다."
+        ],
+        "clash_attack": [
+          "[bold, decisive] 지금 바로 출시하라, 시장에 던져라!",
+          "[charging, sharp] 경쟁자보다 한발 먼저 치고 들어가라!",
+          "[assertive, driven] 손님의 마음을 단숨에 잡아라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Before we open the doors, everyone check your position, one by one.",
+          "The floor is where management begins. Everyone stands on the floor.",
+          "Picture it now, what we're selling today and the customers we'll greet."
+        ],
+        "deploy": [
+          "Stop analyzing, just execute!",
+          "Open the new store. Go out into the market!",
+          "Don't hesitate, a quick failure beats a half-baked success!"
+        ],
+        "battle_win": [
+          "After nine losses, this is the one victory we finally seized.",
+          "We broke the industry's common sense, and we changed the market.",
+          "We're not stopping here. The next target is the top of the world."
+        ],
+        "battle_draw": [
+          "Nothing's settled yet, so we're heading back to the floor.",
+          "One quarter doesn't decide this. We're playing the long game.",
+          "A draw means there's still room left to win."
+        ],
+        "battle_lose": [
+          "This failure isn't a loss, it's the most expensive lesson we've ever bought.",
+          "One defeat won't bring us down. We're taking another shot.",
+          "I'll go back to the floor and learn exactly what we missed."
+        ],
+        "clash_attack": [
+          "Launch it right now, throw it into the market!",
+          "Get there one step ahead of the competition!",
+          "Win the customer's heart in one shot!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/tadashi-yanai"
+      ]
+    }
+  ]
+}

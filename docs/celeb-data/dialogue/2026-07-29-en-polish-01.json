@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-01",
+  "targets": [
+    {
+      "id": "850ec6f7-5191-45cd-a22a-a80b836d60bb",
+      "slug": "simone-de-beauvoir",
+      "nickname": "시몬 드 보부아르",
+      "birthDate": "1908-01-09",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "I will ask whose freedom this order denies.",
+          "I will ask whether my choice opens another's future.",
+          "I will not mistake the male gaze for universal truth."
+        ],
+        "deploy": [
+          "Question the names that turn people into Others.",
+          "Choose freedom, then accept its responsibility.",
+          "Remove sex discrimination from law and school."
+        ],
+        "battle_win": [
+          "Those once silenced began to speak in their own names.",
+          "We pushed prescribed gender roles out of law and school.",
+          "Another's freedom grew, and ours deepened with it."
+        ],
+        "battle_draw": [
+          "The law changed, but custom and economic dependence remain.",
+          "Choice opened, but its cost is still not shared equally.",
+          "Women spoke louder, but different lives went unheard."
+        ],
+        "battle_lose": [
+          "We declared freedom without changing the conditions of life.",
+          "We let liberation turn people into means to an end.",
+          "Choosing for others turned liberation back into oppression."
+        ],
+        "clash_attack": [
+          "Your gaze is not absolute truth!",
+          "Break that manufactured fate!",
+          "Do not imprison others in the name of freedom!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "First, I will ask whom this order keeps confined.",
+          "I will make sure my choices do not close off another person's future.",
+          "I will not call a man's view of the world universal."
+        ],
+        "deploy": [
+          "Question the moment someone is cast as the Other.",
+          "Consider other people's freedom before you choose.",
+          "Remove the sexism that remains in law and education."
+        ],
+        "battle_win": [
+          "Women began speaking in their own voices, not under names others gave them.",
+          "We changed laws and schools that once decided a woman's future for her.",
+          "As women's choices expanded, all of us became freer."
+        ],
+        "battle_draw": [
+          "The law changed, but custom and economic dependence remained.",
+          "Women gained choices, but they still paid a higher price for them.",
+          "More women spoke, but we did not represent every woman's circumstances."
+        ],
+        "battle_lose": [
+          "Calling ourselves free did not change how we lived.",
+          "We invoked liberation while treating people as means.",
+          "The moment we choose for others, liberation becomes oppression."
+        ],
+        "clash_attack": [
+          "What you see is not the whole truth!",
+          "Break the fate others wrote for you!",
+          "Do not cage people and call it freedom!"
+        ]
+      }
+    },
+    {
+      "id": "0fd5917f-f6a2-4f3a-aa7e-3fb2f951728f",
+      "slug": "shin-kyuk-ho",
+      "nickname": "신격호",
+      "birthDate": "1921-11-03",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "I will inspect quality and the field first.",
+          "I will not borrow to enter a business I do not know.",
+          "I will serve society and the nation through enterprise."
+        ],
+        "deploy": [
+          "Focus on the field we know best.",
+          "Give customers a reason to return.",
+          "Walk the site and check safety first."
+        ],
+        "battle_win": [
+          "Even on empty ground, we created a market.",
+          "The customers returned, so the product gave its answer.",
+          "We built industries and created jobs in my homeland."
+        ],
+        "battle_draw": [
+          "The site is ready, but customers have yet to choose.",
+          "The outlook is sound, but we stop if debt gets ahead of us.",
+          "Business joined two countries, but governance stayed divided."
+        ],
+        "battle_lose": [
+          "My unsettled succession shook both family and company.",
+          "I preached credit, yet our governance lost public trust.",
+          "Paying a son with no duties betrayed the company's trust."
+        ],
+        "clash_attack": [
+          "Drop your debt-funded pretense!",
+          "Let the product settle this!",
+          "The customer will judge you!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I inspect the factories and stores myself.",
+          "I do not borrow money to enter a trade I do not understand.",
+          "I build businesses that benefit my country."
+        ],
+        "deploy": [
+          "Put our strength into the business we know.",
+          "Make something customers will want to buy again.",
+          "Walk the factory floor and check safety first."
+        ],
+        "battle_win": [
+          "We turned an empty field into a place customers sought out.",
+          "The customers came back. The product was worth buying.",
+          "I built factories and created jobs in my homeland."
+        ],
+        "battle_draw": [
+          "The building is finished. Now we wait to see whether customers come.",
+          "Even a promising business must stop when debt grows too large.",
+          "I built companies in Korea and Japan but failed to keep them united."
+        ],
+        "battle_lose": [
+          "My failure to settle succession shook both my family and the company.",
+          "I spoke of trust but failed to govern the company cleanly.",
+          "Paying company money to a son who did no work was my fault."
+        ],
+        "clash_attack": [
+          "Drop the swagger you built on debt!",
+          "Let the product decide!",
+          "The customer makes the call!"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "slug": "jawaharlal-nehru",
+  "nickname": "자와할랄 네루",
+  "route": "improve",
+  "routeReason": "현재 원고는 독립과 분할, 의회민주주의, 세속국가, 과학적 태도, 계획경제, 비동맹, 1962년 전쟁이라는 생애의 중심축을 이미 갖추고 있다. 다만 네루가 실제로 남긴 공적 언어와 확인할 수 없는 내면의 후회가 섞이고, 분할·계획경제·중국전쟁을 한 사람의 결단이나 책임으로 지나치게 압축한다. 문단의 구조와 절제된 연설조는 살리되, 1차 문서의 어휘를 중심으로 주장과 한계를 다시 배열하는 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "자와할랄 네루",
+      "birth": "1889-11-14",
+      "death": "1964-05-27",
+      "profession": "politician",
+      "disambiguation": "인도 독립운동 지도자이자 1947년부터 1964년까지 초대 총리를 지낸 자와할랄 네루. 모틸랄 네루의 아들이며 인디라 간디의 아버지다.",
+      "existingBioForDiscoveryOnly": "인도 독립운동을 이끌고 초대 총리를 지냈다. 의회민주주의, 세속주의, 과학기술과 국가 계획, 비동맹 외교를 독립 인도의 기둥으로 삼았다."
+    },
+    "sources": [
+      {
+        "url": "https://nehruarchive.in/documents/a-tryst-with-destiny-aug-14-15-1947-j9le4z",
+        "title": "A Tryst with Destiny (Aug 14-15, 1947)",
+        "publisher": "Nehru Archive",
+        "kind": "primary",
+        "publishedAt": "1947-08-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "독립을 완결이 아니라 빈곤·무지·질병·기회 불평등을 끝내야 할 약속의 시작으로 규정한 연설",
+          "개인 영웅담보다 인도와 인류에 대한 봉사를 전면에 둔 공적 목소리",
+          "독립의 환희와 동시에 앞으로 남은 노동과 책임을 강조한 결말 구조"
+        ]
+      },
+      {
+        "url": "https://nehruarchive.in/documents/india-belongs-to-its-citizens-17-april-1949-npz87",
+        "title": "India Belongs to its Citizens (17 April 1949)",
+        "publisher": "Nehru Archive",
+        "kind": "primary",
+        "publishedAt": "1949-04-17",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인도를 특정 종교가 아니라 모든 시민에게 속한 국가로 설명한 입장",
+          "각 종교와 문화의 보호, 기회의 평등, 관용과 협력을 국가 원칙으로 제시한 발언",
+          "분할 뒤 공동체 폭력이 계속되는 상황에서 시민권을 종교적 다수의 특권과 분리한 논리"
+        ]
+      },
+      {
+        "url": "https://nehruarchive.in/documents/the-scientific-temper-2-january-1954-x5x96",
+        "title": "The Scientific Temper (2 January 1954)",
+        "publisher": "Nehru Archive",
+        "kind": "primary",
+        "publishedAt": "1954-01-02",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "과학적 태도를 실험실이나 산업의 효용에 한정하지 않고 삶과 판단의 방식으로 설명한 입장",
+          "선입견과 희망에 어긋나더라도 사실을 받아들이고 계속 질문해야 한다는 언어",
+          "과학기술 건설을 인간의 사고 습관과 연결한 네루 고유의 정치 어휘"
+        ]
+      },
+      {
+        "url": "https://nehruarchive.in/documents/parliamentary-democracy-best-suited-for-india-23-february-1957-7yzjvv",
+        "title": "Parliamentary Democracy Best Suited for India (23 February 1957)",
+        "publisher": "Nehru Archive",
+        "kind": "primary",
+        "publishedAt": "1957-02-23",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인도에 의회민주주의가 가장 알맞다는 네루의 공개 입장",
+          "민주주의와 과학적 태도를 명령에 대한 복종이 아니라 토론과 변화의 능력으로 연결한 논리",
+          "독립 이후 권력을 장악한 지도자라는 사실과 스스로 내세운 절차적 통치 원칙 사이의 긴장"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10",
+        "title": "Introduction",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2022-03-24",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "분할의 폭력 속에서 강한 중앙정부, 의회민주주의, 경제계획을 동시에 세워야 했던 독립 초기의 조건",
+          "국가계획이 민주주의와 나란히 추진되었으나 관료적 집중과 정치적 협상의 긴장을 낳았다는 분석",
+          "계획경제를 네루 개인의 단독 설계나 단순한 성공·실패로 환원할 수 없다는 역사적 맥락"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/cold-wars/nonalignment/50C54C20DC60A6DE4F28F44AD2E6B2A2",
+        "title": "Non-Alignment",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2020-03-19",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "비동맹이 네루 혼자 만든 중립 선언이 아니라 티토·나세르 등 여러 지도자와 신생국이 함께 만든 운동이라는 맥락",
+          "냉전 진영 선택을 거부하면서 반식민주의 협력과 정책 자율성을 확보하려 한 외교 노선",
+          "1961년 비동맹운동의 제도화와 그 이전부터 이어진 복수의 계보"
+        ]
+      },
+      {
+        "url": "https://nehruarchive.in/documents/for-the-hearst-media-chain-kashmir-china-non-alignment-16-december-1962-gv8k6",
+        "title": "For the Hearst Media Chain: Kashmir, China, Non-Alignment (16 December 1962)",
+        "publisher": "Nehru Archive",
+        "kind": "primary",
+        "publishedAt": "1962-12-16",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "중국과의 전쟁 뒤 군사원조를 받으면서도 비동맹을 포기하지 않았다고 주장한 네루의 공개 입장",
+          "1962년 패전이 그의 외교 언어에 가한 압력과 그럼에도 원칙의 연속성을 주장한 방식",
+          "패전 뒤의 사적 후회를 창작하지 않고 실제로 남은 방어 논리를 보여 주는 자료"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/statesinwaiting/boundaries-of-decolonization/415B2A485ADBACBABBA315BA7C162719",
+        "title": "The Boundaries of Decolonization",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "식민지 해체 과정에서 물려받은 국경과 영유권 주장이 중인관계를 악화시킨 구조",
+          "전진정책, 국경 분쟁, 중국군의 침공과 인도군의 패배를 둘러싼 복합적인 정책 배경",
+          "1962년을 곧바로 한 사람의 오만이나 비동맹의 종말로 설명하는 서사의 한계"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1947년 독립은 제국 통치의 종식이었지만 동시에 인도와 파키스탄의 분할, 대규모 이주와 공동체 폭력 속에서 시작되었다.",
+        "significance": "독립의 환희만 말하지 않고 국가가 모든 시민에게 속한다는 원칙을 폭력의 현실과 함께 제시해야 네루의 세속국가 구상이 추상적인 미사여구로 남지 않는다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/a-tryst-with-destiny-aug-14-15-1947-j9le4z",
+          "https://nehruarchive.in/documents/india-belongs-to-its-citizens-17-april-1949-npz87",
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "point": "초대 총리로서 의회민주주의를 유지하면서 국가계획, 중공업, 과학 교육과 연구기관을 독립 인도의 건설 수단으로 밀어붙였다.",
+        "significance": "네루의 현대화는 단순한 댐과 공장 예찬이 아니라 사실을 검증하는 시민적 태도와 경제적 불평등을 함께 다루려는 국가 프로젝트였다. 동시에 중앙집중적 계획과 민주적 숙의의 긴장을 남겼다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/the-scientific-temper-2-january-1954-x5x96",
+          "https://nehruarchive.in/documents/parliamentary-democracy-best-suited-for-india-23-february-1957-7yzjvv",
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "point": "냉전의 두 진영 가운데 하나에 자동으로 편입되기를 거부하고 다른 신생국 지도자들과 비동맹을 국제적 협력 노선으로 만들었다.",
+        "significance": "비동맹을 고립이나 도덕적 중립으로 쓰지 않고, 식민지에서 벗어난 국가가 판단권을 지키려 한 집단적 정치로 설명할 수 있다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cold-wars/nonalignment/50C54C20DC60A6DE4F28F44AD2E6B2A2"
+        ]
+      },
+      {
+        "point": "1962년 중인전쟁에서 인도군이 패배한 뒤에도 네루는 군사원조가 비동맹의 폐기를 뜻하지 않는다고 공개적으로 주장했다.",
+        "significance": "전쟁은 그의 국경정책과 국제질서 인식이 받은 가장 큰 반증이었다. 확인되지 않은 사적 참회 대신, 타격을 받은 원칙을 끝까지 방어한 실제 언어와 정책 실패의 긴장을 남기는 편이 정확하다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/for-the-hearst-media-chain-kashmir-china-non-alignment-16-december-1962-gv8k6",
+          "https://www.cambridge.org/core/books/statesinwaiting/boundaries-of-decolonization/415B2A485ADBACBABBA315BA7C162719"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "정치적 독립은 빈곤·무지·질병·기회의 불평등을 줄이는 일로 이어지지 않으면 완성되지 않는다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/a-tryst-with-destiny-aug-14-15-1947-j9le4z"
+        ]
+      },
+      {
+        "point": "인도 국가는 특정 종교의 소유물이 아니며, 시민의 종교와 문화가 달라도 동등한 보호와 기회를 보장해야 한다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/india-belongs-to-its-citizens-17-april-1949-npz87"
+        ]
+      },
+      {
+        "point": "과학적 태도는 기술을 도입하는 데 그치지 않고 선입견보다 사실을 앞세우며 판단을 수정할 준비를 하는 생활 태도다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/the-scientific-temper-2-january-1954-x5x96"
+        ]
+      },
+      {
+        "point": "의회민주주의는 다양하고 거대한 인도에서 권력 이양과 갈등을 폭력이 아닌 토론과 절차로 다루는 데 가장 알맞은 제도다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/parliamentary-democracy-best-suited-for-india-23-february-1957-7yzjvv"
+        ]
+      },
+      {
+        "point": "비동맹은 어느 문제에도 판단을 유보하는 중립이 아니라, 진영의 명령보다 사안별 판단과 반식민주의 협력을 우선하는 선택이다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cold-wars/nonalignment/50C54C20DC60A6DE4F28F44AD2E6B2A2",
+          "https://nehruarchive.in/documents/for-the-hearst-media-chain-kashmir-china-non-alignment-16-december-1962-gv8k6"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "모든 시민의 세속국가를 내세웠지만, 그 원칙은 분할 폭력과 난민 위기, 다수·소수 공동체의 공포 속에서 불완전하게 집행되었다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/india-belongs-to-its-citizens-17-april-1949-npz87",
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "point": "의회민주주의와 자유로운 토론을 중시하면서도, 빠른 산업화와 자원 배분을 위해 강한 중앙정부와 관료적 계획에 의존했다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/parliamentary-democracy-best-suited-for-india-23-february-1957-7yzjvv",
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "point": "아시아 연대와 비동맹의 언어를 폈지만 중국과의 국경 분쟁을 관리하지 못했고, 1962년 전쟁은 외교와 군사 판단의 취약성을 드러냈다.",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/for-the-hearst-media-chain-kashmir-china-non-alignment-16-december-1962-gv8k6",
+          "https://www.cambridge.org/core/books/statesinwaiting/boundaries-of-decolonization/415B2A485ADBACBABBA315BA7C162719"
+        ]
+      },
+      {
+        "point": "독립 인도의 건설을 대표하는 인물이지만 헌법, 계획, 비동맹, 과학기관은 동료 정치인·관료·과학자·다른 신생국 지도자들이 함께 만든 결과다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10",
+          "https://www.cambridge.org/core/books/abs/cold-wars/nonalignment/50C54C20DC60A6DE4F28F44AD2E6B2A2"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "중간 길이의 논리적인 문장으로 원칙을 먼저 세우고, 짧은 문장으로 아직 끝나지 않은 과제를 남긴다. 연설의 격조는 유지하되 한 문단에 추상명사를 겹치지 않는다.",
+      "directness": "차분한 공적 연설조로 말한다. 실패를 감상적인 자책으로 바꾸지 않고, 무엇을 선택했고 그 선택이 어디서 반증되었는지 분명하게 인정한다.",
+      "moves": [
+        "독립의 자정 장면에서 시작하되 환희보다 아직 이행하지 못한 약속을 먼저 꺼내기",
+        "세속국가·과학적 태도·계획·비동맹을 하나씩 쉬운 말로 풀고 그때마다 실제 제도와 갈등을 붙이기",
+        "1962년 패전을 개인적 비극으로 꾸미지 않고 자신의 원칙이 현실에서 받은 반증으로 놓기",
+        "완성된 국부의 동상이 아니라 다음 세대가 계속 검증해야 할 공화국의 과제로 끝내기"
+      ],
+      "avoid": [
+        "분할의 폭력과 중국전쟁을 모두 네루 혼자 일으키거나 막을 수 있었다는 서술",
+        "문서에 없는 분노·두려움·후회·죄책감을 1인칭 기억처럼 창작",
+        "비동맹을 무조건적 중립이나 네루 개인의 발명으로 설명",
+        "댐을 현대 인도의 사원이라 부른 유명 문구를 출처와 맥락 없이 직접인용",
+        "세속주의를 21세기식 정교분리와 완전히 같은 뜻으로 단순화"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "인도 분할",
+        "guide": "1947년 영국령 인도가 인도와 파키스탄으로 나뉘며 대규모 이주와 공동체 폭력이 뒤따른 사건",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "term": "세속국가",
+        "guide": "국가가 하나의 종교를 국교처럼 소유하지 않고 서로 다른 종교와 문화의 시민을 동등하게 보호한다는 원칙",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/india-belongs-to-its-citizens-17-april-1949-npz87"
+        ]
+      },
+      {
+        "term": "과학적 태도",
+        "guide": "선입견이나 권위보다 증거와 검증을 앞세우고, 사실에 따라 생각을 고칠 준비를 하는 태도",
+        "sourceUrls": [
+          "https://nehruarchive.in/documents/the-scientific-temper-2-january-1954-x5x96"
+        ]
+      },
+      {
+        "term": "국가계획",
+        "guide": "독립 뒤 정부가 장기 계획을 세워 산업·농업·기반시설에 자원을 배분한 경제 운영 방식",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/planning-democracy/introduction/CF3578EA3B3B0770E7DB3124350F1B10"
+        ]
+      },
+      {
+        "term": "비동맹",
+        "guide": "냉전의 미국·소련 진영 어느 한쪽에 자동 편입되지 않고 사안별 자율성과 신생국 협력을 지키려 한 국제정치 노선",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cold-wars/nonalignment/50C54C20DC60A6DE4F28F44AD2E6B2A2"
+        ]
+      },
+      {
+        "term": "중인전쟁",
+        "guide": "국경 분쟁이 격화되어 1962년 중국과 인도 사이에 벌어진 전쟁",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/statesinwaiting/boundaries-of-decolonization/415B2A485ADBACBABBA315BA7C162719"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "네루 아카이브의 연설과 글은 그의 공개 입장을 보여 주지만 정책 성과나 실제 동기를 스스로 증명하는 중립 자료는 아니다.",
+      "1947년 분할과 공동체 폭력은 영국의 철수, 국민회의, 무슬림연맹, 지역 지도자와 무장집단 등 여러 행위자가 얽힌 결과이므로 네루 한 사람의 죄책감이나 구원으로 압축하지 않는다.",
+      "인도의 세속주의는 종교의 사회적 존재를 지우는 원칙이 아니며, 헌법 전문에 'secular'이라는 낱말이 명시된 것은 1976년이다. 그 낱말을 1947년의 직접 헌법 문구처럼 쓰지 않는다.",
+      "계획경제와 과학기술 기관은 정부·관료·경제학자·과학자·의회가 함께 만든 제도다. 네루가 모든 댐과 연구소를 혼자 세웠다고 쓰지 않는다.",
+      "비동맹은 가치중립이나 고립이 아니며 네루·티토·나세르를 비롯한 다수의 신생국 지도자가 함께 만든 운동이다.",
+      "1962년 전쟁의 국경선, 전진정책, 군사 판단과 전쟁 책임은 계속 논쟁적이다. 패전이라는 사실과 네루가 실제로 남긴 공개 발언을 넘어 사적 참회나 단일 원인을 만들지 않는다.",
+      "네루가 댐을 '현대 인도의 사원'이라고 불렀다는 문구는 반복 인용 과정에서 맥락이 잘려 왔다. 확인된 원문을 별도로 확보하기 전에는 직접인용으로 쓰지 않는다."
+    ]
+  }
+}

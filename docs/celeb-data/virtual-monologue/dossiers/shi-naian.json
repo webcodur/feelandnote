@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "slug": "shi-naian",
+  "nickname": "시내암",
+  "route": "new",
+  "routeReason": "기존 독백은 시내암을 생몰 연대와 내면이 분명한 한 사람으로 세우고 『수호전』을 그가 민중의 고통을 보고 단독 집필한 자서전적 신념처럼 말한다. 그러나 시내암의 역사적 실재와 전기는 불확실하고, 저자 표기는 후대 판본·서점·평점 문화 속에서 구성되었으며, 작품은 송강 설화·화본·원 잡극과 여러 명대 판본이 축적된 결과다. 70회·100회·120회본은 귀순 이후의 결말까지 다르므로 기존 문장을 부분 교정할 수 없고, ‘전통적 저자명 아래 전승된 복수의 목소리’라는 전제로 새로 써야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "시내암",
+      "birth": "1296-01-01",
+      "death": "1372-01-01",
+      "profession": "author",
+      "disambiguation": "『수호전』의 전통적 저자로 알려진 이름. 시내암이 어떤 역사 인물이었는지, 1296~1372라는 생몰년과 전기가 사실인지, 나관중과 어떤 관계였는지는 확정되지 않았다. 독백은 확인된 개인의 회고가 아니라 이 저자명과 작품 전승의 불확실성을 스스로 밝히는 형식이어야 한다."
+    },
+    "sources": [
+      {
+        "url": "https://www.jstor.org/stable/10.7591/jj.40065817",
+        "title": "The Water Margin in Multiple",
+        "publisher": "Cornell University Press / JSTOR",
+        "kind": "scholarly",
+        "publishedAt": "2023",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『수호전』의 단일 원본·단일 저자를 복원하기 어려운 판본사",
+          "서점·편집자·평점가가 70회·100회·120회 등 서로 다른 작품을 만든 과정",
+          "판본에 따라 귀순·원정·결말과 정치적 의미가 달라지는 점"
+        ]
+      },
+      {
+        "url": "https://brill.com/edcollchap-oa/book/9789004279421/B9789004279421_007.pdf",
+        "title": "Jin Shengtan and the Construction of Shi Nai'an as Author",
+        "publisher": "Brill",
+        "kind": "scholarly",
+        "publishedAt": "2014",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "김성탄의 평점본과 시내암 저자상 형성의 관계",
+          "저자 이름이 판본의 권위와 해석을 조직한 후대 과정",
+          "전통적 귀속을 역사적으로 입증된 단독 저술과 구별해야 하는 이유"
+        ]
+      },
+      {
+        "url": "https://mkern.scholar.princeton.edu/document/62",
+        "title": "The Cambridge History of Chinese Literature",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2010",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "송강 이야기의 역사 기록·구전·화본·원대 극에서 명대 장회소설로의 성장",
+          "명대 인쇄문화와 통속소설의 형성",
+          "저자 귀속과 현전 판본의 연대에 대한 신중한 학술적 범위"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/resource/lcnclscd.75836010.1A023/?st=gallery",
+        "title": "Zhong yi Shui hu zhuan",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": "1610",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "명대 『충의수호전』 판본의 물질적·서지적 증거",
+          "현전 작품이 인쇄본의 편집·삽화·권책 구조를 통해 전해진 사실",
+          "후대 판본을 14세기 저자의 친필 원고와 동일시할 수 없다는 점"
+        ]
+      },
+      {
+        "url": "https://blogs.loc.gov/international-collections/2017/07/the-story-of-water-margin-%E6%B0%B4%E6%BB%B8%E5%82%B3/",
+        "title": "The Story of Water Margin",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": "2017-07-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "송강과 양산박 영웅 이야기의 역사적 배경과 장기 전승",
+          "시내암·나관중 저자 귀속의 불확실성",
+          "여러 회수 판본과 김성탄 편집본의 존재"
+        ]
+      },
+      {
+        "url": "https://ctext.org/datawiki.pl?if=en&res=978847",
+        "title": "Shuihu Zhuan",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": "Ming dynasty",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『수호전』 한문 텍스트의 장회 구성과 주요 인물·사건",
+          "충의·결의·폭력·귀순이 실제 서사 안에서 충돌하는 양상",
+          "인용 시 판본과 회차를 밝혀야 하는 원문 접근점"
+        ]
+      },
+      {
+        "url": "https://ejournals.lib.hkbu.edu.hk/index.php/sinohumanitas/article/view/2830",
+        "title": "Women and Gender in the Water Margin",
+        "publisher": "Sino-Humanitas, Hong Kong Baptist University",
+        "kind": "scholarly",
+        "publishedAt": "2024",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『수호전』 여성 인물의 제한된 역할과 폭력적 표상",
+          "남성 결사와 충의의 서사가 젠더 위계를 만드는 방식",
+          "민중 영웅담이라는 칭송만으로 여성혐오적 장면을 지우지 않아야 하는 이유"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "북송 말 송강과 무리의 활동은 역사 기록에 짧게 남았고, 이후 남송의 이야기 목록과 화본, 원대 잡극에서 인물과 사건이 계속 불어났다.",
+        "significance": "『수호전』은 한 작가가 무에서 발명한 이야기가 아니라 수세기 동안 공연·구전·기록이 겹친 서사다.",
+        "sourceUrls": [
+          "https://mkern.scholar.princeton.edu/document/62",
+          "https://blogs.loc.gov/international-collections/2017/07/the-story-of-water-margin-%E6%B0%B4%E6%BB%B8%E5%82%B3/"
+        ]
+      },
+      {
+        "point": "명대 인쇄문화 속에서 장회소설 형태의 『수호전』 판본들이 나타났고 시내암 또는 시내암·나관중의 이름이 저자로 붙었다.",
+        "significance": "저자 표기는 중요한 전승 사실이지만 그 자체가 한 역사 인물의 생애와 단독 집필을 증명하지는 않는다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817",
+          "https://www.loc.gov/resource/lcnclscd.75836010.1A023/?st=gallery"
+        ]
+      },
+      {
+        "point": "100회본은 양산박 집단의 조정 귀순과 원정을, 120회본은 추가 원정을 포함하는 등 서로 다른 후반부를 전한다.",
+        "significance": "반란이 충성으로 회수되는가, 그 회수가 비극인가라는 작품의 핵심 정치 의미는 어떤 판본을 읽느냐에 따라 달라진다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817",
+          "https://blogs.loc.gov/international-collections/2017/07/the-story-of-water-margin-%E6%B0%B4%E6%BB%B8%E5%82%B3/"
+        ]
+      },
+      {
+        "point": "17세기 김성탄은 70회에서 이야기를 끊고 평점과 서문을 더해 이후 독서에 큰 영향을 준 판본을 만들었다.",
+        "significance": "오늘날 ‘원작의 결말’처럼 기억되는 구조 일부는 후대 편집자의 강한 해석 행위다. 시내암의 의도를 김성탄의 판본에서 역으로 단정할 수 없다.",
+        "sourceUrls": [
+          "https://brill.com/edcollchap-oa/book/9789004279421/B9789004279421_007.pdf",
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "point": "근현대의 번역·각색·영화·게임은 108호걸과 양산박을 계속 새롭게 배열해 세계적 고전의 이미지를 만들었다.",
+        "significance": "후대의 영웅주의·민중저항 해석도 전승의 일부지만 특정 시대의 판본과 장면을 확인하지 않고 원저자의 철학으로 소급하면 안 된다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817",
+          "https://blogs.loc.gov/international-collections/2017/07/the-story-of-water-margin-%E6%B0%B4%E6%BB%B8%E5%82%B3/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "현전 『수호전』은 부패한 관료와 불공정한 법이 평범한 사람을 ‘도적’으로 밀어내는 과정을 반복해 보여준다.",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847",
+          "https://mkern.scholar.princeton.edu/document/62"
+        ]
+      },
+      {
+        "point": "양산박의 결의는 혈연과 관직 밖에서 서로를 살리는 공동체를 만들지만, 그 의리는 내부 복종과 잔혹한 보복을 함께 요구하기도 한다.",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847",
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "point": "충성과 반란은 단순한 반대말이 아니다. 인물들은 부패한 관리와 싸우면서도 황제의 권위와 조정의 인정에서 완전히 벗어나지 못한다.",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847",
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "point": "작품의 힘은 한 교훈보다 영웅적 우정, 사회적 배제, 폭력의 쾌감과 공포가 동시에 살아 있는 불안정한 서사에 있다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817",
+          "https://ejournals.lib.hkbu.edu.hk/index.php/sinohumanitas/article/view/2830"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "민중 저항의 고전으로 읽히지만 많은 판본에서 호걸들은 끝내 조정의 사면을 받아 국가의 전쟁에 동원된다. 저항과 체제 회귀 중 하나만 작품의 본뜻으로 고정할 수 없다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817",
+          "https://ctext.org/datawiki.pl?if=en&res=978847"
+        ]
+      },
+      {
+        "point": "의리와 형제애는 배제된 사람을 묶는 힘인 동시에 살인·강요·집단 복종을 영웅화한다. ‘약자를 위한 정의’라는 요약만으로 피해자를 지우면 안 된다.",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847"
+        ]
+      },
+      {
+        "point": "108호걸의 다양한 신분을 포괄하는 남성 공동체와 달리 여성은 욕망의 위협·배신자·폭력의 대상으로 자주 배치된다.",
+        "sourceUrls": [
+          "https://ejournals.lib.hkbu.edu.hk/index.php/sinohumanitas/article/view/2830",
+          "https://ctext.org/datawiki.pl?if=en&res=978847"
+        ]
+      },
+      {
+        "point": "‘시내암의 철학’을 말하고 싶어도 역사적 인물과 저술 범위가 입증되지 않는다. 작품의 목소리·판본의 편집·후대 평자의 해석을 한 사람의 내면으로 합치지 않는 것이 이 독백의 출발점이다.",
+        "sourceUrls": [
+          "https://brill.com/edcollchap-oa/book/9789004279421/B9789004279421_007.pdf",
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "point": "송대 사건을 다루지만 현전 장회소설의 언어와 제도 비판은 명대 인쇄문화에서 형성됐다. 배경 시대와 텍스트 형성 시대를 같은 것으로 보면 안 된다.",
+        "sourceUrls": [
+          "https://mkern.scholar.princeton.edu/document/62",
+          "https://www.loc.gov/resource/lcnclscd.75836010.1A023/?st=gallery"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 자기 정정과 중간 길이의 판본 설명을 교차한다. ‘내가 썼다’고 단정하기 전에 ‘어느 판본에서 누가 붙인 이름인가’를 묻는 문장",
+      "directness": "정체가 불확실하다는 사실을 숨기지 않는 1인칭. 한 역사 인물의 회고를 연기하기보다 ‘시내암’이라는 저자명 아래 모인 전승이 독자에게 말하는 방식",
+      "moves": [
+        "첫 문단에서 생몰년과 전기가 전통적 주장일 뿐임을 바로 밝히기",
+        "송강의 역사 기록에서 구전·극·명대 판본으로 이어지는 층위를 순서대로 말하기",
+        "어려운 판본 용어는 ‘내용과 결말이 다른 책의 계통’이라고 괄호로 풀기",
+        "충의와 반란을 하나의 교훈으로 합치지 않고 귀순 전후 판본 차이로 보여주기",
+        "양산박 공동체의 포용력 뒤에 폭력·복종·여성 배제의 반대 장면을 놓기",
+        "김성탄의 70회본을 원저자의 결말이 아니라 후대의 강한 편집으로 분리하기"
+      ],
+      "avoid": [
+        "1296년 출생과 1372년 사망, 관직·은거·제자 관계를 확정된 전기처럼 쓰기",
+        "‘나는 백성의 고통을 직접 보고 붓을 들었다’ 같은 내면과 목격담 창작",
+        "시내암이 『수호전』 120회 전부를 단독 집필했다고 단정하기",
+        "나관중이 제자·공저자·편집자 중 무엇이었는지 확정하기",
+        "70회·100회·120회본의 서로 다른 결말을 하나로 섞기",
+        "김성탄의 편집과 평점을 시내암 자신의 의도로 말하기",
+        "호걸의 살인·식인 암시·강요를 통쾌한 정의로만 미화하기",
+        "여성 인물에 대한 폭력을 시대상 한마디로 지우기",
+        "북송의 역사적 송강 집단과 명대 소설의 108호걸을 같은 기록으로 취급하기",
+        "‘중국 4대기서 최초의 장편’ 같은 서열형 수사를 근거 없이 반복하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "충의",
+        "guide": "임금에 대한 충성과 동료 사이의 의리를 함께 묶는 말. 『수호전』에서는 두 가치가 서로 충돌하기도 한다.",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847"
+        ]
+      },
+      {
+        "term": "양산박",
+        "guide": "조정과 지역 권력에서 밀려난 호걸들이 모이는 소설 속 근거지이자 대안 공동체",
+        "sourceUrls": [
+          "https://ctext.org/datawiki.pl?if=en&res=978847"
+        ]
+      },
+      {
+        "term": "초안",
+        "guide": "조정이 반란 집단의 죄를 사면하고 귀순시키는 것. 판본에 따라 이후 원정과 결말의 비중이 달라진다.",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "term": "장회소설",
+        "guide": "이야기를 회차로 나누고 각 회에 짝을 이룬 제목을 붙이는 중국 전통 장편소설 형식",
+        "sourceUrls": [
+          "https://mkern.scholar.princeton.edu/document/62"
+        ]
+      },
+      {
+        "term": "판본 계통",
+        "guide": "같은 작품 이름 아래 내용·회수·결말·주석이 다른 책들이 전해지는 갈래",
+        "sourceUrls": [
+          "https://www.jstor.org/stable/10.7591/jj.40065817"
+        ]
+      },
+      {
+        "term": "김성탄 70회본",
+        "guide": "17세기 평점가 김성탄이 후반의 귀순·원정 부분을 덜어내고 70회에서 끝낸 영향력 큰 편집본",
+        "sourceUrls": [
+          "https://brill.com/edcollchap-oa/book/9789004279421/B9789004279421_007.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "시내암의 역사적 실재, 생몰년, 출신지, 관직, 은거 일화는 확정하지 않고 전통적 귀속 또는 후대 전기라고 표시한다.",
+      "『수호전』을 시내암 한 사람이 단번에 쓴 작품으로 말하지 않고 구전·화본·극·명대 인쇄와 편집의 축적을 보인다.",
+      "나관중과 시내암의 관계는 전승이 엇갈리므로 공저자·제자·편집자 중 하나로 확정하지 않는다.",
+      "어떤 사건과 결말을 말할 때 가능하면 70회·100회·120회 등 판본 계통을 밝힌다.",
+      "김성탄의 서문·평점·70회 결말을 시내암 자신의 문장과 의도로 돌리지 않는다.",
+      "소설 속 화자와 인물의 발언을 역사적 시내암의 직접 신념이나 실제 발언으로 인용하지 않는다.",
+      "송대의 역사적 사건과 명대에 형성된 현전 소설을 같은 시대의 목격 기록으로 취급하지 않는다.",
+      "호걸의 폭력과 여성 표상을 민중성·의리라는 말로 면제하지 않되 현대의 단일 도덕 판결만으로 작품의 판본사도 지우지 않는다.",
+      "‘최초’, ‘완성자’, ‘민중의 대변자’ 같은 칭호는 저자와 텍스트 형성의 불확실성을 가리므로 사용하지 않는다.",
+      "1인칭 형식이 필요하더라도 확인되지 않은 가족사·감정·집필 동기를 창작하지 않고 저자명 자체의 불확실성을 목소리의 핵심으로 삼는다."
+    ]
+  }
+}

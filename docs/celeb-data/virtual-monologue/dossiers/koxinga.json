@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "slug": "koxinga",
+  "nickname": "정성공",
+  "route": "new",
+  "routeReason": "현행 원고는 명나라에 대한 충성과 해상 무역·군사력, 난징 원정 실패와 대만 점령이라는 공개 행적을 골격으로 삼았지만, 아버지의 청 투항 앞에서 품었다는 내면의 맹세와 난징 패배 뒤의 자책을 실제 독백처럼 창작한다. 또한 정성공이 1662년 네덜란드 동인도회사를 몰아낸 일을 빈 땅의 '탈환'으로 단순화하고, 정씨 정권의 후대 제도까지 그의 단독 설계로 돌릴 위험이 있다. 중심 감정과 역사적 주체 구성을 다시 세워야 하므로 부분 교정보다 신규 작성이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "정성공",
+      "birth": "1624-08-27",
+      "death": "1662-06-23",
+      "profession": "commander",
+      "disambiguation": "명·청 교체기에 중국 동남 연안과 일본·동남아를 잇는 정씨 해상세력을 이끌고 남명 복원을 내세웠으며, 1661~1662년 네덜란드 동인도회사의 대만 거점을 점령한 군주·지휘관.",
+      "existingBioForDiscoveryOnly": "명나라 충신 출신 해상 군벌. 청군에 14년간 항전하며 1662년 네덜란드로부터 대만을 탈환해 동녕왕국을 세웠다."
+    },
+    "sources": [
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/shoguns-chinese-partners-the-alliance-between-tokugawa-japan-and-the-zheng-family-in-seventeenthcentury-maritime-east-asia/87BD36F06E071BB77C8B6CDD4EFFEC69",
+        "title": "The Shogun's Chinese Partners: The Alliance between Tokugawa Japan and the Zheng Family in Seventeenth-Century Maritime East Asia",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2015-12-02",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정씨 가문이 일본과 중국 연안을 잇는 교역망과 군사 조달망을 결합해 동아시아 해상 질서의 큰 세력이 된 과정",
+          "정성공의 남명 복원 전쟁이 고립된 충절담이 아니라 무역·무기·인적 네트워크 위에서 수행됐다는 점"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/international-journal-of-asian-studies/article/borders-and-beyond-contested-power-and-discourse-around-southeast-coastal-china-in-the-sixteenth-and-seventeenth-centuries/FE4A26C1A1D9204B57711C7640CF98D0",
+        "title": "Borders and Beyond: Contested Power and Discourse around Southeast Coastal China in the Sixteenth and Seventeenth Centuries",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정성공의 세력을 국가·해적·상인 중 하나로만 규정하기 어려운 초국경 해상 조직으로 보아야 한다는 분석",
+          "대만 점령이 청에 맞설 안전한 근거지 확보와 해상권력 유지라는 전략 속에 있었다는 맥락"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD",
+        "title": "Ming Loyalists Flee to Taiwan (1661–83)",
+        "publisher": "Anthem Press",
+        "kind": "scholarly",
+        "publishedAt": "2019-10-04",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "부친 정지룡과 일본인 어머니 사이에서 태어나 남명으로부터 국성야 칭호를 받은 정성공의 출신과 정치적 정통성",
+          "1659년 난징 원정 실패와 1661년 대만 상륙, 약 9개월의 제일란디아 요새 포위 뒤 네덜란드 측 항복이라는 행적",
+          "정성공 사후에도 정씨 정권이 1683년까지 이어졌으므로 그 개인과 후대 정권을 구분해야 한다는 연대"
+        ]
+      },
+      {
+        "url": "https://www.taiwandocuments.org/koxinga.htm",
+        "title": "Treaty between Koxinga and the Dutch Government",
+        "publisher": "Taiwan Documents Project",
+        "kind": "primary",
+        "publishedAt": "1662-02-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1662년 2월 1일 제일란디아 요새가 정성공에게 넘어가고 네덜란드인의 철수·재산·인질 등을 정한 항복 조항",
+          "대만 점령의 결말을 영웅 서사가 아니라 교전 당사자 사이의 구체적 협정으로 확인할 수 있는 근거"
+        ]
+      },
+      {
+        "url": "https://archives.ith.sinica.edu.tw/collections_con2_en.php?no=254",
+        "title": "A Brief History of Tainanfu",
+        "publisher": "Institute of Taiwan History, Academia Sinica",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정성공 세력이 제일란디아·프로빈티아 거점을 장악하고 타이난 일대에 승천부를 두어 정씨 통치의 중심으로 삼은 사실",
+          "네덜란드 식민통치에서 정씨 정권으로 지배 주체가 바뀌었다는 지역사의 기본 골격"
+        ]
+      },
+      {
+        "url": "https://tlvm.nmtl.gov.tw/en/Theme/ExhibitionArticleCont?Exbid=238",
+        "title": "The Dutch and Spanish Possessions, and the Koxinga Dynasty (1624–1683)",
+        "publisher": "National Museum of Taiwan Literature",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대만에 네덜란드·스페인 세력과 원주민 공동체, 한인 이주민이 이미 존재했던 다층적 역사",
+          "정씨 정권이 타이난을 중심으로 행정과 교육을 정비했으며 세 대에 걸쳐 1683년까지 존속했다는 구분"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/root-seeking-and-remote-sensing-with-the-bunun-in-the-mountains-of-taiwan/DAD59B184BA28988C118ACAF97F9ECD0",
+        "title": "Root Seeking and Remote Sensing with the Bunun in the Mountains of Taiwan",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대만에는 네덜란드와 정씨 정권 이전부터 오랫동안 오스트로네시아계 원주민 사회가 존재했다는 점",
+          "정성공의 대만 점령을 주인 없는 땅의 회복으로 서술해서는 안 되는 역사적 배경"
+        ]
+      },
+      {
+        "url": "https://www.airitilibrary.com/Article/Detail/a0000446-201512-201601200005-201601200005-1639-1704",
+        "title": "Indigenous Peoples in the Legal History of Taiwan: Being a Special Ethnic Group, Territory and Legal Culture",
+        "publisher": "Airiti Library",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "정씨 정권기의 법과 통치가 대만 원주민을 별도의 지위와 공간으로 분류하며 권력 경계를 만들었다는 비판적 관점"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1640년대 후반 부친 정지룡이 청에 투항한 뒤에도 남명 정통을 내세우며 정씨 해상세력의 군사·교역망을 장악했다.",
+        "significance": "가족 간의 내면극으로 꾸미지 않고도, 가문의 기존 기반을 물려받으면서 정치적 노선을 갈라 독자 권력으로 전환한 선택을 보여준다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD",
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/shoguns-chinese-partners-the-alliance-between-tokugawa-japan-and-the-zheng-family-in-seventeenthcentury-maritime-east-asia/87BD36F06E071BB77C8B6CDD4EFFEC69"
+        ]
+      },
+      {
+        "point": "1659년 대규모 난징 원정에 실패해 중국 본토에서 반청 전선을 뒤집으려던 전략이 좌절됐다.",
+        "significance": "대만 진출을 단순한 영토욕이나 낭만적 귀향이 아니라 본토 패배 뒤 해상 근거지를 다시 짠 전략적 전환으로 연결한다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD",
+          "https://www.cambridge.org/core/journals/international-journal-of-asian-studies/article/borders-and-beyond-contested-power-and-discourse-around-southeast-coastal-china-in-the-sixteenth-and-seventeenth-centuries/FE4A26C1A1D9204B57711C7640CF98D0"
+        ]
+      },
+      {
+        "point": "1661년 대만에 상륙해 제일란디아 요새를 포위했고, 1662년 2월 네덜란드 동인도회사의 항복을 받아 정씨 통치 거점을 세웠다.",
+        "significance": "청에 맞설 기지와 무역 거점을 얻은 군사적 성취인 동시에, 이미 여러 공동체가 살던 섬에 새로운 지배 권력을 세운 사건이라는 양면을 함께 드러낸다.",
+        "sourceUrls": [
+          "https://www.taiwandocuments.org/koxinga.htm",
+          "https://archives.ith.sinica.edu.tw/collections_con2_en.php?no=254",
+          "https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/root-seeking-and-remote-sensing-with-the-bunun-in-the-mountains-of-taiwan/DAD59B184BA28988C118ACAF97F9ECD0"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "남명 황실이 부여한 국성야 칭호를 정치적 정통성으로 삼아 청에 맞선 복명 운동을 계속했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD"
+        ]
+      },
+      {
+        "point": "전쟁은 육상 군대만으로 지속할 수 없다고 보고 일본·중국 연안·동남아를 잇는 무역과 군사 조달망을 권력의 기반으로 운용했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/shoguns-chinese-partners-the-alliance-between-tokugawa-japan-and-the-zheng-family-in-seventeenthcentury-maritime-east-asia/87BD36F06E071BB77C8B6CDD4EFFEC69",
+          "https://www.cambridge.org/core/journals/international-journal-of-asian-studies/article/borders-and-beyond-contested-power-and-discourse-around-southeast-coastal-china-in-the-sixteenth-and-seventeenth-centuries/FE4A26C1A1D9204B57711C7640CF98D0"
+        ]
+      },
+      {
+        "point": "대만을 청에 맞서는 해상 근거지로 삼고 네덜란드 식민 권력을 밀어낸 뒤 중국식 행정 거점을 설치했다.",
+        "sourceUrls": [
+          "https://www.taiwandocuments.org/koxinga.htm",
+          "https://archives.ith.sinica.edu.tw/collections_con2_en.php?no=254"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "남명에 대한 충성을 내세웠지만 그 전쟁을 가능하게 한 것은 국가 경계를 넘나드는 상업망과 독자적인 정씨 가문의 권력이었다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/shoguns-chinese-partners-the-alliance-between-tokugawa-japan-and-the-zheng-family-in-seventeenthcentury-maritime-east-asia/87BD36F06E071BB77C8B6CDD4EFFEC69",
+          "https://www.cambridge.org/core/journals/international-journal-of-asian-studies/article/borders-and-beyond-contested-power-and-discourse-around-southeast-coastal-china-in-the-sixteenth-and-seventeenth-centuries/FE4A26C1A1D9204B57711C7640CF98D0"
+        ]
+      },
+      {
+        "point": "네덜란드 식민 권력을 몰아냈다는 기억과, 원주민 사회와 기존 주민 위에 또 다른 군사·행정 지배를 세웠다는 사실이 동시에 남는다.",
+        "sourceUrls": [
+          "https://tlvm.nmtl.gov.tw/en/Theme/ExhibitionArticleCont?Exbid=238",
+          "https://www.cambridge.org/core/journals/advances-in-archaeological-practice/article/root-seeking-and-remote-sensing-with-the-bunun-in-the-mountains-of-taiwan/DAD59B184BA28988C118ACAF97F9ECD0",
+          "https://www.airitilibrary.com/Article/Detail/a0000446-201512-201601200005-201601200005-1639-1704"
+        ]
+      },
+      {
+        "point": "정성공 개인은 제일란디아 항복 뒤 몇 달 만에 사망했으므로, 1683년까지 이어진 정씨 정권의 제도와 성과를 모두 그의 단독 업적으로 돌릴 수 없다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD",
+          "https://tlvm.nmtl.gov.tw/en/Theme/ExhibitionArticleCont?Exbid=238"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 단호한 항해·군령 문장과, 항로·군량·성채처럼 복합적인 계산을 설명하는 중간 길이 문장을 섞는다. 어려운 제도명은 처음 나올 때 바로 괄호로 풀어 쓴다.",
+      "directness": "충절을 외치는 영웅의 웅변보다 병력·항구·교역·근거지를 계산하는 해상 지휘관의 목소리로 말한다. 공개된 선택의 책임은 지되, 부친과 왕조를 둘러싼 사적인 맹세나 후회를 실제 기억처럼 꾸미지 않는다.",
+      "moves": [
+        "국성야라는 칭호를 소개하되 곧바로 명 황실이 준 성과 작위라는 뜻을 괄호로 푼다",
+        "복명이라는 명분과 정씨 해상 무역망이라는 물질적 기반을 한 문단 안에 함께 둔다",
+        "난징 실패 뒤 대만을 택한 전략 변화를 지도·항로·보급의 언어로 설명한다",
+        "제일란디아의 항복을 승리로 말하면서도 대만이 빈 땅이 아니었다는 사실을 끼워 넣는다",
+        "마지막에는 개인의 짧은 대만 통치와 후대 정씨 정권을 분리해 책임의 범위를 정한다"
+      ],
+      "avoid": [
+        "부친의 청 투항 앞에서 혼자 맹세하거나 울었다는 장면을 창작하기",
+        "정성공을 오늘날 중국·대만·일본 가운데 한 국민국가의 단순한 민족영웅으로 만들기",
+        "대만을 네덜란드에게서 '되찾은 빈 땅'으로 표현해 원주민과 기존 주민을 지우기",
+        "동녕왕국의 모든 행정·둔전·교육 정책을 정성공 개인의 완성된 설계로 돌리기",
+        "난징 원정 병력 수나 피해 규모처럼 자료마다 다른 숫자를 확정적으로 내세우기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "국성야",
+        "guide": "남명 황실이 정성공에게 황실의 성인 주씨를 내려주며 붙은 존칭(왕조의 성을 받은 어른이라는 뜻). 서양에서 쓰인 Koxinga도 이 말에서 나왔다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD"
+        ]
+      },
+      {
+        "term": "남명",
+        "guide": "베이징의 명 왕조가 무너진 뒤 중국 남부에서 명의 계승을 주장한 여러 정권.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD"
+        ]
+      },
+      {
+        "term": "정씨 해상세력",
+        "guide": "정지룡과 정성공 가문이 중국 연안·일본·동남아의 선박, 상인, 군대와 항구를 묶어 운용한 초국경 권력망.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/shoguns-chinese-partners-the-alliance-between-tokugawa-japan-and-the-zheng-family-in-seventeenthcentury-maritime-east-asia/87BD36F06E071BB77C8B6CDD4EFFEC69",
+          "https://www.cambridge.org/core/journals/international-journal-of-asian-studies/article/borders-and-beyond-contested-power-and-discourse-around-southeast-coastal-china-in-the-sixteenth-and-seventeenth-centuries/FE4A26C1A1D9204B57711C7640CF98D0"
+        ]
+      },
+      {
+        "term": "제일란디아 요새",
+        "guide": "네덜란드 동인도회사(VOC)가 타이난에 세운 식민 거점. 정성공 군이 약 아홉 달 동안 포위해 1662년 항복을 받았다.",
+        "sourceUrls": [
+          "https://www.taiwandocuments.org/koxinga.htm",
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD"
+        ]
+      },
+      {
+        "term": "승천부",
+        "guide": "정씨 정권이 네덜란드 거점을 장악한 뒤 타이난 일대에 둔 행정 중심지.",
+        "sourceUrls": [
+          "https://archives.ith.sinica.edu.tw/collections_con2_en.php?no=254"
+        ]
+      },
+      {
+        "term": "동녕왕국",
+        "guide": "정씨 가문이 대만을 중심으로 1661~1683년 유지한 정권을 후대에 부르는 이름. 정성공 개인의 몇 달과 후계자들의 통치를 구분해야 한다.",
+        "sourceUrls": [
+          "https://tlvm.nmtl.gov.tw/en/Theme/ExhibitionArticleCont?Exbid=238",
+          "https://www.cambridge.org/core/books/abs/making-of-the-modern-chinese-navy/ming-loyalists-flee-to-taiwan-166183/95E90D2BFA320167A1FA3F97EDA11FAD"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "정성공은 중국·대만·일본의 서로 다른 국가 서사에서 영웅으로 재구성됐다. 후대의 국민국가 정체성을 17세기 인물의 자의식으로 그대로 넣지 않는다.",
+      "정지룡의 청 투항과 부자의 정치적 결별은 확인되지만, 그 순간 정성공이 한 맹세·눈물·분노의 문장은 입증되지 않는다.",
+      "정성공의 남명 충성, 가문 권력, 무역 이익, 전략적 생존은 서로 배타적인 동기가 아니다. 어느 하나를 유일한 진심으로 확정하지 않는다.",
+      "1659년 난징 원정의 정확한 병력·피해 수는 기록과 후대 연구에서 차이가 있으므로 꼭 필요하지 않으면 숫자를 쓰지 않는다.",
+      "대만에는 원주민 사회와 한인 이주민, 네덜란드 식민 체제가 함께 존재했다. '중국 영토를 수복했다' 또는 '대만을 처음 세웠다'는 한 줄로 사건을 닫지 않는다.",
+      "네덜란드 항복문서는 교전의 결말과 조항을 보여주지만 포위전 전체의 폭력과 모든 주민의 경험을 대표하지 않는다.",
+      "정성공은 1662년 2월 항복 뒤 그해 6월 사망했다. 정경 시기에 발전한 행정·이주·토지 정책까지 그의 직접 지시로 서술하지 않는다.",
+      "원주민에 대한 정씨 정권의 법적 분류와 토지 압력은 비판적으로 다루되, 장기적인 토지 상실의 모든 결과를 정성공 한 사람의 의도에 귀속하지 않는다."
+    ]
+  }
+}

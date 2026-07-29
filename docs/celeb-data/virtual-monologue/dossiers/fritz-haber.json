@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "slug": "fritz-haber",
+  "nickname": "프리츠 하버",
+  "route": "improve",
+  "routeReason": "현재 글은 암모니아 합성과 화학전이라는 양면을 피하지 않고, 카를 보슈 등 협력자의 존재도 일부 인정한다. 그러나 비료로 인류를 먹이겠다는 처음의 동기, 독가스로 전쟁을 빨리 끝내려 했다는 믿음 뒤의 회한과 '멈출 지점을 지났다'는 후기 자각을 한 목소리로 창작한다. 연구실 합성·공업화의 공동기여와 1915년 독가스 사용을 주도한 구체적 책임을 나누고, 확인되지 않는 참회 없이 선택과 결과로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "프리츠 하버",
+      "birth": "1868-12-09",
+      "death": "1934-01-29",
+      "profession": "scientist",
+      "disambiguation": "고압 암모니아 합성법을 개발해 공업적 질소 고정의 길을 열었고 제1차 세계대전에는 독일의 화학전 연구와 염소가스 공격을 주도한 독일 화학자",
+      "existingBioForDiscoveryOnly": "독일 화학자. 암모니아 합성법으로 비료 생산을 혁신했지만 제1차 세계대전 중 화학전에 앞장섰다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nobelprize.org/prizes/chemistry/1918/haber/lecture/",
+        "title": "The Synthesis of Ammonia from its Elements",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "primary",
+        "publishedAt": "1920-06-02",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "질소와 수소로 암모니아를 합성하는 평형·압력·온도·촉매 조건에 관한 하버의 설명",
+          "연구가 처음부터 식량 생산의 인도주의적 목표 하나로 시작된 것은 아니라는 본인의 회고",
+          "실험실 반응과 지속적인 공업 생산 사이에 별도의 공학적 문제가 있었다는 점"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/",
+        "title": "Award Ceremony Speech, Nobel Prize in Chemistry 1918",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": "1919-06-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대기 질소를 암모니아로 고정한 성과와 비료 원료로서의 중요성",
+          "로베르트 르 로시뇰이 실험 장치와 고압 연구에 기여한 사실",
+          "카를 보슈와 BASF가 촉매·재료·대형 설비 문제를 풀어 공업화한 사실",
+          "실험실 합성을 하버 한 사람의 완제품으로 부를 수 없다는 공동기여"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/chemistry/1931/ceremony-speech/",
+        "title": "Award Ceremony Speech, Nobel Prize in Chemistry 1931",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": "1931-12-10",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "카를 보슈가 고압 화학을 산업 규모로 실현한 공학적 공헌",
+          "실험실 수준의 암모니아 합성을 대량 생산으로 옮길 때 설비·재료·운전 기술이 필요했다는 점",
+          "하버-보슈 공정이라는 협업적 성격"
+        ]
+      },
+      {
+        "url": "https://www.fhi.mpg.de/history",
+        "title": "History of the Fritz Haber Institute",
+        "publisher": "Fritz Haber Institute of the Max Planck Society",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "하버가 제1차 세계대전 발발 뒤 독일 정부에 연구소 역량을 제공한 사실",
+          "1915년 첫 대규모 염소가스 공격을 계획·감독하고 화학전 연구를 지휘한 사실",
+          "독가스가 전쟁을 빨리 끝낼 수 있다고 보았다는 당시의 정당화",
+          "연구소가 공격용 화학물질과 방독 기술을 함께 개발한 사실",
+          "1933년 유대계 직원 해고 요구에 맞서 사임하고 망명한 뒤 바젤에서 사망한 사실"
+        ]
+      },
+      {
+        "url": "https://www.nobel.mpg.de/en/fritz-haber",
+        "title": "Fritz Haber",
+        "publisher": "Max Planck Society",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "BASF와 함께 암모니아 합성 특허와 공업화를 추진한 사실",
+          "헤이그 협약의 화학무기 금지 논의에도 불구하고 가스전 사용을 추진한 책임",
+          "전쟁 뒤에도 화학 연구소를 이끌고 국가 사업에 참여한 경력",
+          "나치 정권 아래 유대계 출신으로 축출돼 1933년 사임·망명한 사실"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "로베르트 르 로시뇰과 함께 고온·고압·촉매 조건에서 질소와 수소를 암모니아로 연속 합성하는 실험 장치를 만들었다.",
+        "significance": "하늘의 질소를 붙잡았다는 비유를 실제 화학 조건과 공동 연구로 바꾸고, 한 사람의 번뜩임으로 축소하지 않는다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/haber/lecture/",
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/"
+        ]
+      },
+      {
+        "point": "카를 보슈와 BASF 연구진이 촉매·금속 재료·대형 설비 문제를 풀어 실험실 합성을 비료와 폭약 원료의 공업 생산으로 옮겼다.",
+        "significance": "하버의 과학적 기여와 공업화의 별도 공헌을 구분하고, 고정 질소가 농업과 전쟁 양쪽에 쓰인 결과를 함께 보여 준다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/",
+          "https://www.nobelprize.org/prizes/chemistry/1931/ceremony-speech/",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "제1차 세계대전 중 연구소와 자신의 전문성을 독일의 전쟁에 제공하고, 1915년 이프르에서 염소가스를 대규모로 방출하는 공격을 계획·감독했다.",
+        "significance": "과학이 양면적이었다는 수동태 대신 하버가 특정 무기의 개발·현장 사용을 선택하고 지휘한 책임을 분명히 한다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "독일 국가에 강하게 봉사했지만 1933년 나치 정권의 유대계 직원 축출 요구 속에서 연구소장직을 사임하고 독일을 떠났다.",
+        "significance": "국가 충성의 경력이 그 국가의 인종법 아래 소속을 보장하지 못한 결과를 보여 주되 이를 화학전에 대한 운명적 처벌로 만들지 않는다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "암모니아 합성은 압력·온도·촉매가 평형과 반응 속도에 미치는 영향을 함께 조절해야 하는 문제라고 설명했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/haber/lecture/"
+        ]
+      },
+      {
+        "point": "전쟁 중에는 과학자가 평시에는 인류에, 전시에는 조국에 속한다는 국가 봉사 논리로 연구 역량을 군사 목적에 제공했다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "독가스가 참호전을 깨고 전쟁을 빨리 끝낼 수 있다는 판단으로 대규모 현장 사용을 추진했다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history"
+        ]
+      },
+      {
+        "point": "1933년 유대계 직원들을 해고하라는 체제의 요구 아래 연구소장직을 사임하고 망명을 택했다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "같은 암모니아 생산 체계가 질소 비료의 원료를 늘리는 동시에 독일이 전쟁에서 폭약 원료를 계속 확보하도록 했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "화학전이 전쟁을 짧게 할 수 있다고 주장했지만 실제로는 상대국도 독가스를 채택해 상호 보복과 새로운 군비 경쟁이 이어졌다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "독일 국가와 군대를 위해 자신의 연구소를 동원했지만, 나치 국가는 유대계 출신인 그와 동료들을 독일 과학 공동체에서 밀어냈다.",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history",
+          "https://www.nobel.mpg.de/en/fritz-haber"
+        ]
+      },
+      {
+        "point": "암모니아 합성의 실험실 돌파는 하버의 큰 공헌이지만 르 로시뇰의 장치, 보슈와 BASF의 촉매·재료·공장 기술 없이는 대량 생산이 되지 않았다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/",
+          "https://www.nobelprize.org/prizes/chemistry/1931/ceremony-speech/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "실험 조건과 선택을 짧고 단단하게 진술하고, 결과가 갈라지는 지점에서는 두 절을 대칭으로 놓는다.",
+      "directness": "압력·온도·수율을 말하는 자신감과 국가 봉사의 단호함을 살린다. 후대의 도덕적 참회를 대신 넣지 않고, 자신이 지휘한 화학전은 주어를 흐리지 않는다.",
+      "moves": [
+        "공기를 먹거리로 바꿨다는 비유 뒤에 르 로시뇰·보슈·BASF의 실제 역할 붙이기",
+        "같은 고정 질소가 비료와 폭약으로 갈라지는 경로를 구체적으로 보여 주기",
+        "과학의 중립성을 말하기보다 이프르 공격을 계획·감독한 선택과 결과를 1인칭 책임으로 놓기"
+      ],
+      "avoid": [
+        "처음부터 인류를 먹이기 위해 암모니아 합성에 나섰다는 창작 동기",
+        "하버 혼자 하버-보슈 공정의 공업화를 완성했다는 서사",
+        "독가스 사용 뒤 오래 후회하거나 멈출 지점을 깨달았다는 근거 없는 참회",
+        "나치의 축출을 화학전 책임에 대한 시적 응보로 연결하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "질소 고정",
+        "guide": "공기 중 질소를 생물과 산업이 쓸 수 있는 화합물로 바꾸는 일",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/haber/lecture/",
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/"
+        ]
+      },
+      {
+        "term": "화학 평형",
+        "guide": "정반응과 역반응의 속도가 같아 겉보기 농도가 더 변하지 않는 상태",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/haber/lecture/"
+        ]
+      },
+      {
+        "term": "하버-보슈 공정",
+        "guide": "고온·고압·촉매로 질소와 수소를 반응시켜 암모니아를 대량 생산하는 공정",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1918/ceremony-speech/",
+          "https://www.nobelprize.org/prizes/chemistry/1931/ceremony-speech/"
+        ]
+      },
+      {
+        "term": "염소가스 공격",
+        "guide": "바람을 이용해 독성 염소 기체를 적 참호 쪽으로 흘려보낸 화학전",
+        "sourceUrls": [
+          "https://www.fhi.mpg.de/history"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "오늘날 비료로 먹고사는 인구의 규모를 하버 개인이 직접 구했다는 숫자로 환산하지 않고, 농업 생산은 토지·에너지·유통과 공업화 공동기여에 달렸음을 남긴다.",
+      "실험실 합성과 공업 생산을 구분해 르 로시뇰, 카를 보슈, 알빈 미타슈와 BASF 연구진의 기여를 하버의 이름 아래 지우지 않는다.",
+      "하버가 독가스로 전쟁을 빨리 끝낼 수 있다고 주장한 자료는 있으나 이후 죄책감·회한·도덕적 전환을 확정할 직접 근거는 부족하므로 창작하지 않는다.",
+      "클라라 임머바르의 죽음과 하버의 화학전 사이를 단일한 항의 자살 서사로 확정하는 데에는 사료 논쟁이 있어 가상독백의 인과나 죄책감 장치로 쓰지 않는다.",
+      "1933년 축출은 나치의 반유대 정책이 낳은 피해이며, 과거 화학전 참여에 대한 역사적 심판이나 균형 잡힌 대가로 서술하지 않는다."
+    ]
+  }
+}

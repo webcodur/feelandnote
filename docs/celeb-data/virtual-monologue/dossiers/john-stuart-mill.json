@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "slug": "john-stuart-mill",
+  "nickname": "존 스튜어트 밀",
+  "route": "improve",
+  "routeReason": "현재 글은 아버지의 조기 교육, 스무 살 무렵의 정신적 위기, 시와 감정의 회복, 자유론·공리주의·여성 참정권을 자연스럽게 잇는다. 사실 뼈대와 쉬운 문장은 강하지만 이름으로 여는 상투 구조, '두려웠다'는 과장, 공리주의를 설명 없이 지나가는 대목, 마지막의 판박이 '끝까지 놓지 않았다'가 인물성을 낮춘다. 밀 자신의 자서전이 남긴 내면은 살리되 표현 강도를 원문 범위에 맞추고, 자유가 그의 삶에서 왜 필요한 조건이 됐는지 더 선명하게 다듬는다.",
+  "dossier": {
+    "identity": {
+      "name": "존 스튜어트 밀",
+      "birth": "1806-05-20",
+      "death": "1873-05-08",
+      "profession": "humanities_scholar",
+      "disambiguation": "영국 철학자·정치경제학자이자 자유론과 공리주의를 쓴 존 스튜어트 밀",
+      "existingBioForDiscoveryOnly": "영국의 철학자이자 경제학자. 질적 공리주의를 체계화하고 '자유론'으로 현대 자유주의 사상의 초석을 놓았다."
+    },
+    "sources": [
+      {
+        "url": "https://www.gutenberg.org/files/10378/10378-h/10378-h.htm",
+        "title": "Autobiography",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "아버지 제임스 밀에게 어린 시절부터 고전·논리·정치경제를 집중 교육받은 사실",
+          "개혁 목표가 모두 이뤄져도 행복하지 않을 것이라는 답을 계기로 삶의 토대가 무너졌다고 회고한 정신적 위기",
+          "워즈워스의 시와 음악, 감정의 수양을 통해 분석 능력과 감정의 균형을 새 철학의 핵심으로 삼은 과정",
+          "벤담의 공리 원리가 지식과 개혁 목표를 하나로 묶어 준 초기 경험"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm",
+        "title": "On Liberty",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": "1859",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "다른 사람에게 해를 막기 위한 경우가 아니면 성인의 자유를 강제로 제한해서는 안 된다는 원칙",
+          "정부뿐 아니라 다수의 여론과 관습도 개인의 생각과 삶을 억압할 수 있다는 주장",
+          "틀린 의견도 토론을 통해 진실을 더 분명히 하며 개성이 인간 발전의 조건이라는 주장"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/27083/27083-h/27083-h.htm",
+        "title": "The Subjection of Women",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": "1869",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "남녀의 법적·사회적 종속 관계가 정의롭지 않고 인간 발전을 막는다는 주장",
+          "여성이 직업과 정치 기능에 동등하게 참여할 수 있어야 한다는 입장"
+        ]
+      },
+      {
+        "url": "https://www.parliament.uk/about/living-heritage/evolutionofparliament/houseofcommons/reformacts/from-the-parliamentary-collections/collections-reform-acts/great-reform-act112/",
+        "title": "John Stuart Mill Amendment",
+        "publisher": "UK Parliament",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "1866년 1,500명 넘는 서명이 담긴 여성 참정권 청원을 하원에 제출한 사실",
+          "1867년 성별과 관계없이 가구주에게 투표권을 주자는 수정안을 냈고 194대 73으로 부결된 사실",
+          "그 수정안이 여성 참정권 의회 운동의 지속적인 계기가 된 사실"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/archives/spr2022/entries/mill/",
+        "title": "John Stuart Mill",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "행복을 공리주의의 기준으로 삼되 지성·감정·상상·도덕적 능력을 쓰는 즐거움의 질적 가치를 구분한 사상",
+          "자유·개성·인간 능력의 발달과 공리주의를 함께 이해해야 한다는 해석"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "아버지의 계획 아래 어린 시절부터 강도 높은 지적 교육을 받아 벤담의 공리주의와 사회 개혁을 삶의 목표로 삼았다.",
+        "significance": "분석 능력과 개혁 열정의 출발이면서 동시에 자신의 감정과 욕구가 빠진 교육의 한계를 만든 배경이다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10378/10378-h/10378-h.htm"
+        ]
+      },
+      {
+        "point": "스무 살 무렵 모든 개혁 목표가 이뤄져도 행복하지 않을 것이라는 자신의 답을 듣고 정신적 위기를 겪은 뒤, 시와 음악을 통해 감정의 수양을 철학에 포함시켰다.",
+        "significance": "행복을 단순한 계산이 아니라 인간 능력과 감정의 성장까지 포함하는 문제로 다시 생각한 개인적 전환이다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10378/10378-h/10378-h.htm"
+        ]
+      },
+      {
+        "point": "자유론에서 개인의 자유와 다수 여론의 억압을 다뤘고, 하원의원이 된 뒤 여성 참정권 수정안을 직접 제출했다.",
+        "significance": "개성과 동등한 자유라는 원칙을 저술뿐 아니라 의회 행동으로 옮긴 사례다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm",
+          "https://www.parliament.uk/about/living-heritage/evolutionofparliament/houseofcommons/reformacts/from-the-parliamentary-collections/collections-reform-acts/great-reform-act112/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "다른 사람에게 해를 끼치는 일을 막기 위한 경우가 아니라면 성인의 생각·말·생활 방식을 국가나 다수가 강제로 막아서는 안 된다고 주장했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm"
+        ]
+      },
+      {
+        "point": "행복을 도덕 판단의 중심에 두되 지성·감정·상상과 인간다운 능력을 쓰는 즐거움에는 단순한 만족과 다른 질적 가치가 있다고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2022/entries/mill/",
+          "https://www.gutenberg.org/files/10378/10378-h/10378-h.htm"
+        ]
+      },
+      {
+        "point": "여성의 법적 종속과 교육·직업·정치 참여의 제한을 부당하다고 보고 의회에서 여성 참정권을 요구했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/27083/27083-h/27083-h.htm",
+          "https://www.parliament.uk/about/living-heritage/evolutionofparliament/houseofcommons/reformacts/from-the-parliamentary-collections/collections-reform-acts/great-reform-act112/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "개인의 자유와 개성을 옹호한 철학은 정작 자신의 어린 시절이 아버지가 설계한 교육 계획에 묶여 있었고 감정의 수양을 뒤늦게 배운 경험에서 나왔다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10378/10378-h/10378-h.htm",
+          "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm"
+        ]
+      },
+      {
+        "point": "공리주의는 전체 행복을 판단 기준으로 삼지만, 밀은 다수의 만족이 한 사람의 자유와 개성을 눌러도 된다는 결론을 거부했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm",
+          "https://plato.stanford.edu/archives/spr2022/entries/mill/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "중간 길이의 성찰적 문장으로 경험과 원칙을 잇고 핵심 원칙은 짧고 분명하게 말한다.",
+      "directness": "자서전에 남긴 내면은 솔직하게 쓰되 감정의 강도를 부풀리지 않고 반대 의견을 먼저 이해한 뒤 논박한다.",
+      "moves": [
+        "자신의 교육과 정신적 위기에서 자유와 개성의 원칙으로 이동하기",
+        "국가의 강제보다 더 은밀한 여론과 관습의 압력을 짚기",
+        "행복의 양뿐 아니라 어떤 능력을 쓰며 사는가를 함께 묻기",
+        "여성의 평등을 추상 원칙과 의회 행동으로 연결하기"
+      ],
+      "avoid": [
+        "아버지를 단순한 가해자로 만들거나 자신의 어린 시절을 현대 심리 진단으로 규정하기",
+        "정신적 위기를 근거보다 더 극적인 붕괴·공포 서사로 키우기",
+        "공리주의를 가장 많은 사람의 기분을 단순 합산하는 사상으로 축소하기",
+        "자유를 아무 책임도 없는 방임으로 설명하기",
+        "끝까지 놓지 않았다는 판박이 결말"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "공리주의",
+        "guide": "행동과 제도가 사람들의 행복을 얼마나 늘리는지로 옳고 그름을 판단하는 생각",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2022/entries/mill/"
+        ]
+      },
+      {
+        "term": "해악 원칙",
+        "guide": "다른 사람에게 해를 막기 위한 경우에만 개인의 자유를 강제로 제한할 수 있다는 기준",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "정신적 위기와 회복은 밀 자신의 자서전 회고를 근거로 하며 오늘의 임상 진단을 붙이지 않는다.",
+      "해리엇 테일러 밀과의 공동 작업·영향 관계는 중요한 쟁점이지만 이번 짧은 독백에서 근거를 충분히 다루지 못하므로 단독 천재 서사도 세부 공동저자 단정도 피한다.",
+      "제국주의와 식민 통치에 대한 밀의 입장은 이번 근거 묶음에서 충분히 대조하지 않았으므로 자유주의의 모든 모순을 해소한 인물처럼 결론내리지 않는다."
+    ]
+  }
+}

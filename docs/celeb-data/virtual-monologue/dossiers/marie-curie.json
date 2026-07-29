@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "slug": "marie-curie",
+  "nickname": "마리 퀴리",
+  "route": "improve",
+  "routeReason": "현재 글은 반복 측정과 피치블렌드 처리, 폴로늄·라듐 발견, 피에르의 죽음 뒤 연구 지속, 전시 이동식 엑스선 장비라는 생애의 중심 장면을 선명하게 잡았다. 그러나 '빼앗긴 조국을 과학의 언어로 알리고 싶었다', 차별 때문에 공개 방법과 무특허를 택했다는 인과, '발견한 빛이 병을 남겼다'는 단일한 인과는 자료보다 앞서 나간다. 공동 연구와 불평등한 인정, 측정의 집요함과 방사선 위해를 함께 살리되 확인되지 않은 동기와 질병 원인을 걷어 내는 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "마리 퀴리",
+      "birth": "1867-11-07",
+      "death": "1934-07-04",
+      "profession": "scientist",
+      "disambiguation": "폴란드 태생의 프랑스 물리학자·화학자로, 방사능 연구와 폴로늄·라듐 발견에 기여하고 물리학상과 화학상을 받은 과학자",
+      "existingBioForDiscoveryOnly": "폴란드 출신 프랑스의 물리학자이자 화학자. 방사능 연구로 노벨상을 두 차례 수상한 최초의 인물이다."
+    },
+    "sources": [
+      {
+        "url": "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/",
+        "title": "Radium and the New Concepts in Chemistry",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "primary",
+        "publishedAt": "1911-12-11",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "우라늄 광물의 비정상적으로 강한 방사선을 측정하고 새 원소의 존재를 추론한 연구 과정",
+          "피에르 퀴리와 함께 폴로늄과 라듐의 존재를 발표한 사실",
+          "방사능 연구가 원자에 관한 화학·물리 개념을 바꾼 경로"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/",
+        "title": "Marie Curie – Facts",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "1867~1934년의 생몰과 폴란드 태생 프랑스 과학자라는 신원",
+          "1903년 노벨 물리학상과 1911년 노벨 화학상 수상",
+          "폴로늄·라듐 발견과 제1차 세계대전 중 이동식 엑스선 장비 운영"
+        ]
+      },
+      {
+        "url": "https://history.aip.org/exhibits/curie/resbr1_text.htm",
+        "title": "Research Breakthrough: The First Steps",
+        "publisher": "American Institute of Physics",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "베크렐선 연구를 박사 논문의 주제로 삼고 여러 물질의 전도성을 정밀 측정한 과정",
+          "방사선 세기가 화합물의 상태보다 우라늄 양과 관련된다는 관찰",
+          "초기에는 방사선이 원자 내부에서 나온다는 결론을 곧바로 확정하지 않았다는 주의점"
+        ]
+      },
+      {
+        "url": "https://history.aip.org/exhibits/curie/resbr3.htm",
+        "title": "Research Breakthrough: Radium",
+        "publisher": "American Institute of Physics",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "대량의 피치블렌드를 반복 처리해 극소량의 강한 방사성 물질을 분리한 노동",
+          "라듐 분리 과정을 특허로 막지 않고 연구자들이 이용할 수 있게 한 사실",
+          "장기간 방사선 노출이 퀴리 부부의 건강에 해를 끼친 정황"
+        ]
+      },
+      {
+        "url": "https://history.aip.org/exhibits/curie/trag1_text.htm",
+        "title": "Tragedy and Adjustment: Pierre's Death",
+        "publisher": "American Institute of Physics",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "1906년 피에르 퀴리가 교통사고로 갑자기 사망한 사실",
+          "마리 퀴리가 남긴 기록을 통해 확인되는 상실과 미래를 마주하기 어려웠던 상태"
+        ]
+      },
+      {
+        "url": "https://history.aip.org/exhibits/curie/trag2_text.htm",
+        "title": "Tragedy and Adjustment: A New Role",
+        "publisher": "American Institute of Physics",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "피에르가 맡았던 소르본 강의를 이어 받아 그곳의 첫 여성 교수가 된 경로",
+          "상실 뒤에도 라듐 연구와 연구소 설립을 이어 간 사실"
+        ]
+      },
+      {
+        "url": "https://history.aip.org/exhibits/curie/war1.htm",
+        "title": "War Duty",
+        "publisher": "American Institute of Physics",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "제1차 세계대전 중 이동식 엑스선 차량을 마련해 부상병 진단에 사용한 활동",
+          "딸 이렌과 함께 방사선 장비 운용 인력을 교육한 사실",
+          "당시 작업자들이 충분한 방사선 보호를 받지 못했다는 사실"
+        ]
+      },
+      {
+        "url": "https://www.academie-sciences.fr/marie-curie-les-femmes-et-les-sciences",
+        "title": "Marie Curie, les femmes et les sciences",
+        "publisher": "Académie des sciences",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "여성이 고등교육과 과학 제도에서 배제되던 환경",
+          "마리 퀴리가 소르본 최초의 여성 교수였다는 사실",
+          "1911년 프랑스 과학 아카데미 회원 선거에서 선출되지 못한 사실"
+        ]
+      },
+      {
+        "url": "https://musee.curie.fr/blog/de-quoi-est-morte-marie-curie",
+        "title": "De quoi est morte Marie Curie ?",
+        "publisher": "Musée Curie",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "사망 진단이 재생불량성 악성 빈혈로 기록됐다는 사실",
+          "라듐·폴로늄 연구와 전시 엑스선 작업 등 여러 방사선 노출이 있었다는 사실",
+          "각 노출이 질병에 얼마나 기여했는지 정확히 나눠 단정할 수 없다는 한계"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "우라늄 광물의 방사선을 정밀 측정하다 피치블렌드가 순수 우라늄보다 더 강한 방사선을 낸다는 사실에서 알려지지 않은 원소의 존재를 추론했다.",
+        "significance": "영감 한 번으로 발견했다는 신화 대신, 수치의 불일치를 믿고 반복 측정과 분리를 이어 간 연구자의 실제 방법을 독백의 중심에 놓을 수 있다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/",
+          "https://history.aip.org/exhibits/curie/resbr1_text.htm",
+          "https://history.aip.org/exhibits/curie/resbr3.htm"
+        ]
+      },
+      {
+        "point": "피에르 퀴리와 공동으로 폴로늄과 라듐의 존재를 발표하고, 대량의 피치블렌드를 처리해 라듐 화합물을 분리했다.",
+        "significance": "마리 퀴리 한 사람의 천재 서사로 축소하지 않으면서도 측정과 화학적 분리를 주도한 역할을 분명히 할 수 있다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/",
+          "https://history.aip.org/exhibits/curie/resbr3.htm"
+        ]
+      },
+      {
+        "point": "1906년 피에르가 사고로 사망한 뒤 그의 소르본 강의를 이어 받고 라듐 연구를 계속했다.",
+        "significance": "상실을 극복했다는 간단한 교훈 대신, 마리 자신의 기록으로 확인되는 비탄과 계속된 일의 공존을 보여 준다.",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/trag1_text.htm",
+          "https://history.aip.org/exhibits/curie/trag2_text.htm"
+        ]
+      },
+      {
+        "point": "제1차 세계대전 중 이동식 엑스선 차량과 진단소를 운영하고 장비를 다룰 인력을 교육했다.",
+        "significance": "방사선 연구가 논문을 넘어 부상병의 몸속 위치를 확인하는 기술이 된 장면이며, 동시에 충분한 보호 장비가 없었던 위험도 함께 드러낸다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/",
+          "https://history.aip.org/exhibits/curie/war1.htm"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "기존 이론보다 측정값이 강하게 어긋날 때 그 차이를 오류로 지우지 않고, 같은 조건에서 다시 재고 물질을 분리해 원인을 확인하는 태도를 취했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/",
+          "https://history.aip.org/exhibits/curie/resbr1_text.htm"
+        ]
+      },
+      {
+        "point": "라듐 분리 과정에 특허를 내지 않고 다른 연구자들이 이용하고 검증할 수 있도록 공개했다.",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/resbr3.htm"
+        ]
+      },
+      {
+        "point": "과학 지식은 실제 필요에 쓰일 수 있다고 보고 전시에 엑스선 장비를 병원으로 가져가고 운용 인력을 직접 교육했다.",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/war1.htm"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "폴로늄과 라듐 연구는 피에르 퀴리 등과 함께 이루어진 공동 작업이었지만, 마리 퀴리는 여성이라는 이유로 교육·직위·학술 제도에서 반복적으로 장벽을 마주했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/",
+          "https://www.academie-sciences.fr/marie-curie-les-femmes-et-les-sciences"
+        ]
+      },
+      {
+        "point": "방사선은 원자에 대한 이해를 바꾸고 전시 부상병의 진단을 도왔지만, 당시의 불충분한 보호 속에서 연구자와 의료 인력의 몸에도 해를 남겼다.",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/war1.htm",
+          "https://musee.curie.fr/blog/de-quoi-est-morte-marie-curie"
+        ]
+      },
+      {
+        "point": "피에르의 죽음 뒤 강의와 연구를 이어 갔다는 사실은 강인함을 보여 주지만, 그것을 슬픔을 일로 이겨 냈다는 성공담으로 바꾸면 마리 자신의 기록에 남은 비탄을 지우게 된다.",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/trag1_text.htm",
+          "https://history.aip.org/exhibits/curie/trag2_text.htm"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 정확한 관찰 문장과 반복 노동을 보여 주는 중간 길이 문장을 섞는다. 과학 용어는 처음 나올 때 바로 괄호로 풀어 쓴다.",
+      "directness": "영예를 앞세우기보다 측정값과 손으로 한 일을 먼저 말한다. 차별과 상실을 과장된 피해 선언으로 소비하지 않고, 무엇이 확인되고 무엇이 남았는지 단정하게 구분한다.",
+      "moves": [
+        "피치블렌드의 예상 밖 수치에서 반복 측정과 원소 분리로 한 단계씩 이동하기",
+        "나 혼자라는 표현보다 피에르와 공동 연구자들의 역할을 밝힌 뒤 자신의 측정·분리 작업을 구체화하기",
+        "피에르의 죽음은 자신의 기록으로 확인되는 비탄과 연구 지속을 함께 놓기",
+        "방사선의 발견·의료 활용·신체 위해를 하나의 직선적 교훈이 아니라 서로 얽힌 결과로 닫기"
+      ],
+      "avoid": [
+        "마리 퀴리라는 이름과 두 개의 노벨상을 꺼내는 사전식 첫 문장",
+        "폴로늄이라는 이름에서 조국을 알리고 싶었다는 구체적 내면 동기를 출처 없이 확장하기",
+        "여성 차별 때문에 라듐 분리법에 특허를 내지 않았다고 인과를 만들어 내기",
+        "피에르의 죽음 직후 마음을 장면과 대사로 소설화하거나 일을 통해 슬픔을 극복했다고 결론 내리기",
+        "라듐 하나가 사망의 직접 원인이었다고 단정하거나 방사선 위험을 알고도 희생을 선택한 영웅으로 만들기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "방사능",
+        "guide": "불안정한 원자가 스스로 에너지와 입자를 내보내는 성질",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/lecture/"
+        ]
+      },
+      {
+        "term": "피치블렌드",
+        "guide": "우라늄을 포함하며 폴로늄과 라듐 발견의 단서가 된 검은 광석",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/resbr1_text.htm",
+          "https://history.aip.org/exhibits/curie/resbr3.htm"
+        ]
+      },
+      {
+        "term": "엑스선",
+        "guide": "몸을 통과하는 정도의 차이로 뼈나 몸속 물체의 위치를 사진처럼 확인하게 하는 방사선",
+        "sourceUrls": [
+          "https://history.aip.org/exhibits/curie/war1.htm"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "폴로늄이라는 이름이 폴란드에서 왔다는 사실은 확인되지만, 당시 마리 퀴리의 구체적인 애국적 감정과 문장을 직접 자료 없이 창작하지 않는다.",
+      "폴로늄·라듐 발견은 마리와 피에르 퀴리의 공동 연구였고 라듐 분리에는 다른 협력자도 관여했으므로 모든 발견을 혼자 이룬 것처럼 쓰지 않는다.",
+      "초기 연구에서 방사선이 원자 자체의 성질일 가능성을 열었지만, 현재 글처럼 곧바로 원자 내부의 정확한 작동을 알아냈다고 단정하지 않는다.",
+      "마리 퀴리는 재생불량성 악성 빈혈로 사망했고 여러 종류의 방사선에 노출됐으나 라듐 연구와 전시 엑스선 작업의 기여도를 정확히 나눌 수 없으므로 단일 원인을 확정하지 않는다.",
+      "라듐 분리법을 특허로 막지 않았다는 사실은 확인되지만 그 결정이 여성 차별에 대한 직접 대응이었다는 인과는 입증되지 않는다."
+    ]
+  }
+}

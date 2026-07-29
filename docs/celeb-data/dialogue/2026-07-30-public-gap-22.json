@@ -1,0 +1,450 @@
+{
+  "batch": "2026-07-30-public-gap-22",
+  "targets": [
+    {
+      "id": "e51cb8f7-2bcb-4e15-9cb3-de28b8d5ee26",
+      "slug": "freddie-mercury",
+      "nickname": "프레디 머큐리",
+      "nicknameEn": "Freddie Mercury",
+      "birthDate": "1946-09-05",
+      "profession": "musician",
+      "quote": "난 록스타 따위가 되지 않겠어. 전설이 될 거야",
+      "quoteEn": "I won't be a rock star. I will be a legend.",
+      "greetingKo": [
+        "[flamboyant, confident] 어이, 잘 왔어. 여기선 내가 법이야. 아, 거짓말이야. 여기선 음악이 법이지.",
+        "[warm, playful] 반가워, 달링. 오늘 기분 좋은 날이잖아. 안 좋다고? 그럼 내가 좋게 만들어줄게.",
+        "[bold, theatrical] 무대가 아닌 곳에서 만나다니 좀 어색한데, 뭐 상관없잖아. 어디서든 쇼는 계속되니까."
+      ],
+      "greetingEn": [
+        "[flamboyant, confident] Hey, welcome. I make the rules here. Oh, that's a lie. Music makes the rules.",
+        "[warm, playful] Hello, darling. It's a lovely day, isn't it? No? Then I'll make it lovely for you.",
+        "[bold, theatrical] Meeting offstage feels a bit odd, but who cares? The show must go on everywhere."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "프레디 머큐리입니다. 객석까지 제 무대로 만들죠.",
+          "노래 하나에 오페라와 록을 한꺼번에 섞습니다.",
+          "관객이 크면 클수록 저는 더 신이 납니다."
+        ],
+        "deploy": [
+          "첫 소절에 객석을 잡아!",
+          "장르 따위는 무대 밖에 두고 와!",
+          "노래를 설명 말고 제대로 보여줘!"
+        ],
+        "battle_win": [
+          "객석이 제 노래를 빼앗아 불러버렸네요.",
+          "오늘은 칠만 명이 한 목소리였어요.",
+          "록과 오페라가 아주 근사하게 부딪쳤군요."
+        ],
+        "battle_draw": [
+          "박수는 큰데 아직 제가 객석을 못 잡았어요.",
+          "화려하긴 한데 노래가 뒤로 숨었네요.",
+          "쇼는 열렸어요. 이제 사람들을 끌어와야죠."
+        ],
+        "battle_lose": [
+          "의상만 남고 노래는 객석에 닿지 않았네요.",
+          "제가 앞서가다 밴드의 숨을 놓쳤어요.",
+          "관객을 얕봤다가 무대를 빼앗겼군요."
+        ],
+        "clash_attack": [
+          "객석을 깨워!",
+          "더 크게 불러!",
+          "쇼를 열어!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Freddie Mercury. I turn the whole room into my stage.",
+          "Give me opera, rock, and one outrageous song.",
+          "The bigger the crowd, the more alive I feel."
+        ],
+        "deploy": [
+          "Win the crowd on the first note!",
+          "Leave genre labels outside the stage!",
+          "Do not explain the song. Put it across!"
+        ],
+        "battle_win": [
+          "The audience stole my song and sang it back.",
+          "Seventy thousand people found one voice tonight.",
+          "Rock and opera collided beautifully."
+        ],
+        "battle_draw": [
+          "The applause is loud; I still do not own the room.",
+          "The spectacle is bright, but the song has disappeared.",
+          "The show is open. Now pull them all in."
+        ],
+        "battle_lose": [
+          "Only the costume survived; the song never reached them.",
+          "I rushed ahead and lost the band's pulse.",
+          "I underestimated the crowd and surrendered the stage."
+        ],
+        "clash_attack": [
+          "Wake the crowd!",
+          "Sing it louder!",
+          "Start the show!"
+        ]
+      },
+      "sources": [
+        "https://www.freddiemercury.com/en/news/watch-queen-the-greatest-live-freddie-mercury-part-2",
+        "https://www.freddiemercury.com/en/news/watch-freddie-mercury-mr-bad-guy-2025-part-2",
+        "https://www.queenonline.com/freddie_mercury"
+      ]
+    },
+    {
+      "id": "23431bff-eafd-4bab-8838-d56babf737b2",
+      "slug": "frida-kahlo",
+      "nickname": "프리다 칼로",
+      "nicknameEn": "Frida Kahlo",
+      "birthDate": "1907-07-06",
+      "profession": "visual_artist",
+      "quote": "나는 초현실주의자가 아니다. 나는 단지 내 현실을 그릴 뿐이다.",
+      "quoteEn": "I am not a surrealist. I paint my own reality.",
+      "greetingKo": [
+        "[fierce, honest] 꿈이나 악몽을 그리는 게 아닙니다. 제 현실을 그립니다.",
+        "[burning, resilient] 부서졌지만 살아 있고, 살아 있는 한 그릴 수 있습니다.",
+        "[passionate, defiant] 제 그림에는 고통의 메시지가 담겨 있습니다."
+      ],
+      "greetingEn": [
+        "[fierce, honest] I don't paint dreams or nightmares. I paint my own reality.",
+        "[burning, resilient] I am broken but alive, and as long as I'm alive I can paint.",
+        "[passionate, defiant] My paintings carry the message of pain."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "프리다 칼로입니다. 제 얼굴로 제 삶을 증언합니다.",
+          "멕시코의 꽃과 뼈를 한 화면에 놓습니다.",
+          "붓을 들면 제 몸을 숨기지 않습니다."
+        ],
+        "deploy": [
+          "거울을 더 가까이 놓으세요.",
+          "상처를 예쁘게 덮지 마세요.",
+          "잘린 머리카락도 그대로 그리세요."
+        ],
+        "battle_win": [
+          "제 얼굴을 빌려 제 시대까지 그렸습니다.",
+          "작은 화면에 제 몸과 멕시코를 함께 담았습니다.",
+          "남들이 숨긴 흉터를 한가운데 그렸습니다."
+        ],
+        "battle_draw": [
+          "얼굴은 닮았지만 제 눈빛은 아직 아닙니다.",
+          "색은 선명한데 제 몸의 무게가 가볍습니다.",
+          "솔직히 그렸지만 장식이 앞서버렸습니다."
+        ],
+        "battle_lose": [
+          "남의 시선에 맞추다 제 얼굴을 놓쳤습니다.",
+          "아픔을 꾸미느라 사실을 흐렸습니다.",
+          "멕시코를 장식처럼 가져다 썼습니다."
+        ],
+        "clash_attack": [
+          "거울을 봐요!",
+          "흉터를 남겨!",
+          "그대로 그려!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Frida Kahlo. My face is where I record my life.",
+          "I place Mexican flowers beside bones and scars.",
+          "When I paint, I do not hide my body."
+        ],
+        "deploy": [
+          "Bring that mirror closer to me.",
+          "Do not paint the wound prettier than it is.",
+          "Leave the cut hair exactly where it fell."
+        ],
+        "battle_win": [
+          "I used my own face to paint my time.",
+          "A small canvas held both my body and Mexico.",
+          "I put the scar where no one could ignore it."
+        ],
+        "battle_draw": [
+          "The face is mine, but the eyes are not.",
+          "The color is vivid; the body feels weightless.",
+          "I painted honestly, then let the costume take over."
+        ],
+        "battle_lose": [
+          "I followed their gaze and lost my own face.",
+          "I dressed up the pain until it stopped telling the truth.",
+          "I used Mexico as mere decoration."
+        ],
+        "clash_attack": [
+          "Face the mirror!",
+          "Leave the scar visible!",
+          "Paint it as it is!"
+        ]
+      },
+      "sources": [
+        "https://www.museofridakahlo.org.mx/frida/?lang=en",
+        "https://www.moma.org/magazine/articles/1417",
+        "https://transcription.si.edu/pdf/21114/AAA-AAA_packemmy_2238866"
+      ]
+    },
+    {
+      "id": "82658c4f-c621-43a4-a1af-5b4206a8c3a6",
+      "slug": "friedrich-hayek",
+      "nickname": "프리드리히 하이에크",
+      "nicknameEn": "Friedrich Hayek",
+      "birthDate": "1899-05-08",
+      "profession": "social_scientist",
+      "quoteEn": "The\u0020curious\u0020task\u0020of\u0020economics\u0020is\u0020to\u0020demonstrate\u0020to\u0020men\u0020how\u0020little\u0020they\u0020really\u0020know\u0020about\u0020what\u0020they\u0020imagine\u0020they\u0020can\u0020design.",
+      "greetingKo": [
+        "[sharp, resolute] 계획경제는 노예의 길로 통합니다.",
+        "[calm, principled] 자유란 강제의 부재입니다. 그 이상도 이하도 아닙니다.",
+        "[thoughtful, fierce] 지식은 분산되어 있습니다. 누구도 전체를 알 수 없어요."
+      ],
+      "greetingEn": [
+        "[sharp, resolute] The planned economy leads down the road to serfdom.",
+        "[calm, principled] Freedom is the absence of coercion. Nothing more, nothing less.",
+        "[thoughtful, fierce] Knowledge is dispersed. No one can know the whole."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "하이에크입니다. 가격에는 여러 사람의 사정이 담겨 있습니다.",
+          "누구도 모르는 답은 경쟁 속에서 드러납니다.",
+          "설계된 조직과 스스로 자란 질서를 구분합니다."
+        ],
+        "deploy": [
+          "현장에 있는 사람이 판단하게 두세요.",
+          "결과를 정하지 말고 같은 규칙을 세우세요.",
+          "가격을 보고 어디가 부족한지 찾으세요."
+        ],
+        "battle_win": [
+          "경쟁에 나선 사람들이 해법을 찾아냈습니다.",
+          "사람들이 가격을 보고 각자 움직였습니다.",
+          "우리는 결과를 설계하지 않고 규칙만 지켰습니다."
+        ],
+        "battle_draw": [
+          "사람들은 반응했지만 규칙이 자꾸 바뀝니다.",
+          "경쟁은 시작됐지만 새로 뛰어들 문턱이 높습니다.",
+          "계획을 줄였어도 특혜는 남아 있습니다."
+        ],
+        "battle_lose": [
+          "한 사람이 모두 안다고 믿고 현장을 막았습니다.",
+          "결과까지 정하려다 자유로운 선택을 없앴습니다.",
+          "가격을 눌렀더니 부족한 곳을 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "신호부터 읽으세요!",
+          "결과는 열어두세요!",
+          "특혜를 거두세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Friedrich Hayek. Prices carry knowledge scattered among many people.",
+          "Competition discovers answers that no planner can know.",
+          "I distinguish designed organizations from orders that grow on their own."
+        ],
+        "deploy": [
+          "Let the person on the spot decide.",
+          "Set equal rules; do not prescribe the outcome.",
+          "Read the shortage signal in the price."
+        ],
+        "battle_win": [
+          "Competition found the answer no one knew beforehand.",
+          "People saw the price and adjusted their own plans.",
+          "We protected the rules without designing the result."
+        ],
+        "battle_draw": [
+          "The signal arrived, but the rules keep changing.",
+          "Competition began, but entry remains too narrow.",
+          "We reduced planning while leaving privilege intact."
+        ],
+        "battle_lose": [
+          "One mind claimed all knowledge and blocked the field.",
+          "We prescribed the result and removed free choice.",
+          "We suppressed the price and lost the shortage signal."
+        ],
+        "clash_attack": [
+          "Read the signal first!",
+          "Leave the outcome open!",
+          "Remove the privilege!"
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/economic-sciences/1974/hayek/lecture/",
+        "https://www.econlib.org/library/Essays/hykKnw.html",
+        "https://static.library.ucla.edu/oralhistory/text/masters/21198-zz0008zd21-4-master.html"
+      ],
+      "quote": "인간은 자신이 설계할 수 있다고 믿는 것을 실제로 거의 알지 못한다."
+    },
+    {
+      "id": "c9ed6fb2-9b7a-41b9-a710-61c4c4aa07d0",
+      "slug": "florence-pugh",
+      "nickname": "플로렌스 퓨",
+      "nicknameEn": "Florence Pugh",
+      "birthDate": "1996-01-03",
+      "profession": "actor",
+      "greetingKo": [
+        "[fierce, bold] 반갑습니다. 저는 목소리를 내는 것을 두려워하지 않는 사람이에요.",
+        "[warm, sharp] 젊다고 해서 할 말이 없는 건 아닙니다.",
+        "[intense, genuine] 진짜 감정을 담은 연기만이 관객의 마음을 움직여요."
+      ],
+      "greetingEn": [
+        "[fierce, bold] I'm not afraid to speak my mind.",
+        "[warm, sharp] Being young doesn't mean you have nothing to say.",
+        "[intense, genuine] Only acting with real emotion can move an audience's heart."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "플로렌스 퓨입니다. 먼저 몸으로 인물의 감정을 익힙니다.",
+          "목소리와 걸음이 맞아야 그 인물이 살아납니다.",
+          "울음도 표정이 아니라 몸 전체로 만듭니다."
+        ],
+        "deploy": [
+          "대사보다 먼저 상대 배우를 보세요.",
+          "예쁜 표정보다 불편한 숨을 남기세요.",
+          "인물을 위해 어디까지 갈지 먼저 정하세요."
+        ],
+        "battle_win": [
+          "서로 장면을 받아주니 호흡이 붙었습니다.",
+          "머리를 자른 뒤 그 인물의 상실이 보였습니다.",
+          "몸이 먼저 반응하니 대사가 뒤따라왔습니다."
+        ],
+        "battle_draw": [
+          "감정은 맞는데 몸이 아직 따라오지 않습니다.",
+          "제가 울고 있지만 상대에게 닿지는 않았네요.",
+          "장면은 강합니다. 다만 제 한계도 봐야 합니다."
+        ],
+        "battle_lose": [
+          "감정을 쥐어짜다 제 몸까지 망가뜨렸습니다.",
+          "세게 보이려다 인물의 불편함을 놓쳤습니다.",
+          "혼자 몰입하다 상대 배우의 호흡을 끊었습니다."
+        ],
+        "clash_attack": [
+          "숨부터 맞춰요!",
+          "온몸으로 받아요!",
+          "상대를 놓치지 마!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Florence Pugh. I build the feeling into the body first.",
+          "A character lives when the voice and walk agree.",
+          "Crying is physical work, not just a face."
+        ],
+        "deploy": [
+          "Look at your scene partner before the line.",
+          "Keep the awkward breath, not the pretty expression.",
+          "Decide how far you can safely take the role."
+        ],
+        "battle_win": [
+          "We carried the scene together, and it finally clicked.",
+          "Cutting my hair made her loss feel immediate.",
+          "My body reacted first, and the words followed."
+        ],
+        "battle_draw": [
+          "The emotion is right; my body has not caught up.",
+          "I am crying, but it has not reached my partner.",
+          "The scene is strong. I still need to respect my limit."
+        ],
+        "battle_lose": [
+          "I forced the emotion until I hurt myself.",
+          "I played strength and lost the character's discomfort.",
+          "I disappeared inward and broke my partner's rhythm."
+        ],
+        "clash_attack": [
+          "Match the breath!",
+          "Answer with your whole body!",
+          "Stay with your partner!"
+        ]
+      },
+      "sources": [
+        "https://www.vanityfair.com/hollywood/2019/06/florence-pugh-interview-midsommar",
+        "https://www.vogue.co.uk/article/florence-pugh-british-vogue-interview",
+        "https://apnews.com/article/florence-pugh-andrew-garfield-we-live-time-9468f8be87b273576b8efd71aa0dd80d"
+      ],
+      "quote": "여자가 지켜야 할 선 같은 건 없거든, 그건 남이 만든 거잖아",
+      "quoteEn": "I don't want to fit into stereotypes made by others."
+    },
+    {
+      "id": "e6491832-a297-491c-a4d5-8b5d0fd070f0",
+      "slug": "fidel-castro",
+      "nickname": "피델 카스트로",
+      "nicknameEn": "Fidel Castro",
+      "birthDate": "1926-08-13",
+      "profession": "politician",
+      "greetingKo": [
+        "[fierce, defiant] 역사가 나를 무죄로 선고할 것이다.",
+        "[bold, passionate] 조국이냐 죽음이냐!",
+        "[resolute, commanding] 제국주의 앞에 무릎 꿇는 일은 없을 것이다."
+      ],
+      "greetingEn": [
+        "[fierce, defiant] History will absolve me.",
+        "[bold, passionate] Patria o muerte — homeland or death!",
+        "[resolute, commanding] We will never bow our knees before imperialism."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "피델 카스트로입니다. 피고석에서도 정권을 고발합니다.",
+          "산에서 내건 약속을 토지 개혁으로 옮깁니다.",
+          "한 해 안에 섬 전체에 글을 가르치려 합니다."
+        ],
+        "deploy": [
+          "교실 없는 산골부터 교사를 보내라!",
+          "대농장을 쪼개 농민에게 땅을 돌려라!",
+          "법정의 피고석을 고발대로 바꿔라!"
+        ],
+        "battle_win": [
+          "농민이 자기 땅을 갈기 시작했습니다.",
+          "글을 가르칠 청년들이 섬을 누볐습니다.",
+          "네 시간이 지나도 쿠바의 요구를 거두지 않았습니다."
+        ],
+        "battle_draw": [
+          "도시는 움직였지만 산골 교실은 아직 비었습니다.",
+          "땅은 나눴지만 생산과 배급이 따라오지 못했습니다.",
+          "제 목소리는 컸지만 반대의 목소리는 듣지 못했습니다."
+        ],
+        "battle_lose": [
+          "비판까지 적으로 몰아 혁명의 문을 좁혔습니다.",
+          "권력을 지키려다 시민의 선택을 막았습니다.",
+          "긴 연설로 실패의 책임을 덮으려 했습니다."
+        ],
+        "clash_attack": [
+          "산골까지 글을 가르쳐라!",
+          "땅을 돌려줘라!",
+          "고발을 시작하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Fidel Castro. I turn the defendant's dock into an indictment.",
+          "The demands from the mountains must become land reform.",
+          "I intend to teach the whole island to read in one year."
+        ],
+        "deploy": [
+          "Send the teachers to the mountain villages first.",
+          "Break up the estates and return land to farmers.",
+          "Turn the defendant's dock into the accuser's platform."
+        ],
+        "battle_win": [
+          "Farmers began working land of their own.",
+          "Young literacy brigades crossed the entire island.",
+          "After four hours, Cuba's demands remained on the record."
+        ],
+        "battle_draw": [
+          "The cities mobilized; mountain classrooms are still empty.",
+          "We divided the land, but supply fell behind.",
+          "My voice grew louder while I stopped hearing dissent."
+        ],
+        "battle_lose": [
+          "I treated criticism as an enemy and narrowed the revolution.",
+          "I defended power by denying citizens a choice.",
+          "I used a long speech to cover failed policy."
+        ],
+        "clash_attack": [
+          "Teach every mountain village!",
+          "Return the land now!",
+          "Turn the charge around!"
+        ]
+      },
+      "sources": [
+        "https://www.cuba.cu/gobierno/discursos/1961/esp/f160861e.html",
+        "https://digitallibrary.un.org/record/380892",
+        "https://www.cuba.cu/gobierno/discursos/1998/ing/f030698i.html"
+      ],
+      "quote": "역사가 나를 무죄로 하리라.",
+      "quoteEn": "History will absolve me."
+    }
+  ]
+}
