@@ -37,6 +37,7 @@ import {
   MessageSquare,
   MessagesSquare,
   Swords,
+  SearchCheck,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -59,6 +60,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
       { href: '/celebs/professions', label: '직군', icon: Target },
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
+      { href: '/celebs/content-research', label: '콘텐츠 조사', icon: SearchCheck },
       { href: '/celebs/timeline', label: '생애 행적', icon: Route },
       { href: '/celebs/vectors', label: '페르소나', icon: Radar },
       { href: '/celebs/influence', label: '영향력', icon: Flame },

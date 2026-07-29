@@ -3,6 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
+import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -92,6 +93,7 @@ interface PublicCelebData {
   quoteMap: Record<string, string>
   quoteEnMap: Record<string, string>
   voiceMap: Record<string, { voice_v: number; voice_speed: number }>
+  contentResearchStatusMap: Record<string, string>
   rankingMap: Record<string, number>
   influenceTotal: number
 }
@@ -140,11 +142,11 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, rankingMap: {}, influenceTotal: 0 }
+    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchStatusMap: {}, rankingMap: {}, influenceTotal: 0 }
   }
 
-  // 병렬 조회: 태그, 대사, 음성, 영향력
-  const [tagResult, dialogueResult, voiceResult, influenceRows] = await Promise.all([
+  // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태, 영향력
+  const [tagResult, dialogueResult, voiceResult, researchStatusResult, influenceRows] = await Promise.all([
     supabase.from('celeb_tag_assignments')
       .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
       .in('celeb_id', celebIds),
@@ -155,6 +157,9 @@ async function fetchCelebsPublic(
       .select('id, voice_v, voice_speed')
       .in('id', celebIds)
       .eq('has_voice', true),
+    supabase.from('profiles')
+      .select('id, content_research_status')
+      .in('id', celebIds),
     // 전체 순위를 매기는 목록이라 전수가 필요하다. 1,000행 상한에 걸리므로 나눠 받는다 —
     // 자르면 1,001위부터가 순위 없음으로 떨어지고 influenceTotal(분모)도 함께 축소된다.
     // total_score는 동점이 많아 정렬키로 불충분 — celeb_id를 2차 키로 둬 페이지 경계를 고정한다.
@@ -200,6 +205,11 @@ async function fetchCelebsPublic(
     voiceMap[row.id] = { voice_v: row.voice_v ?? 0, voice_speed: row.voice_speed ?? 1.0 }
   })
 
+  const contentResearchStatusMap: Record<string, string> = {}
+  ;(researchStatusResult.data ?? []).forEach(row => {
+    contentResearchStatusMap[row.id] = row.content_research_status
+  })
+
   // 영향력 랭킹 맵
   const rankingMap: Record<string, number> = {}
   influenceRows.forEach((item, index) => {
@@ -209,7 +219,7 @@ async function fetchCelebsPublic(
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
-    voiceMap, rankingMap, influenceTotal: influenceRows.length,
+    voiceMap, contentResearchStatusMap, rankingMap, influenceTotal: influenceRows.length,
   }
 }
 
@@ -290,7 +300,10 @@ export async function getCelebs(
       is_verified: row.is_verified ?? false,
       is_platform_managed: row.claimed_by === null,
       follower_count: row.follower_count,
-      content_count: row.content_count ?? 0,
+      content_count: resolveCelebContentCount(
+        row.content_count,
+        pub.contentResearchStatusMap[row.id]
+      ),
       is_following: myFollowings.has(row.id),
       is_follower: myFollowers.has(row.id),
       influence: row.total_score > 0 ? {

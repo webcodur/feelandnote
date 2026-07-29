@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -17,6 +18,7 @@ type ProfileModalRow = Pick<
   | 'title' | 'title_en'
   | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
   | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
+  | 'content_research_status'
 >
 
 // 캐시되는 공개 데이터 묶음 (인증 비의존)
@@ -36,7 +38,7 @@ async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicD
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier, content_research_status')
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -73,7 +75,10 @@ async function fetchCelebModalPublic(celebId: string): Promise<CelebModalPublicD
 
   return {
     profile,
-    contentCount: contentResult.count || 0,
+    contentCount: resolveCelebContentCount(
+      contentResult.count,
+      profile.content_research_status
+    ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
     // JSON path 추출 컬럼은 Json으로 추론되므로 실제 형태로 교정

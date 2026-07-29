@@ -1,6 +1,6 @@
 # DB 스키마 - 셀럽
 
-> **최종 실측 체크: 26.07.16** — 실 DB 스키마 전량 대조(유령 컬럼 제거, 트리거·제약 실측)
+> **최종 실측 체크: 26.07.29** — 콘텐츠 조사 상태 컬럼·가드 트리거 반영
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -9,9 +9,14 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`profiles`**: 셀럽 기본 프로필. `profile_type = 'CELEB'`
   - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'relation'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
     - **DB CHECK 제약은 없다.** 4종은 코드·운영 규약이며 DB가 값을 강제하지 않는다
-    - 실측 분포(2026-07-16): full 1273 / light 366 / fiction 30 / relation 5
+    - 실측 분포(2026-07-29): full 1273 / light 515 / fiction 48 / relation 2
     - `relation` = 관계 실존 인물(2026-07 신설). 다른 셀럽·영상(팩션 등)과의 관계 때문에 등록. basic 최소 + 아바타만, 홈·검색·탐색 비노출(연결로만)
     - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 등록 수준은 relation과 동일, 비노출. 승격 대상 아님
+  - `content_research_status` (text, 기본값 `'open'`): `open` / `queued` / `researching` / `deferred` / `confirmed_empty`
+    - 실제 `user_contents`가 양수면 그 개수가 우선
+    - 실제 0건 + `confirmed_empty`만 화면용 `-1`, 나머지는 열린 `0`
+    - `content_research_updated_at`, `content_research_confirmed_empty_at`이 변경·확정 시각을 보존
+    - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부하고, 확정 뒤 콘텐츠 추가 시 `open`으로 자동 복귀
   - `speech_tone` (text): 말투 6종. **profiles 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용

@@ -3,6 +3,7 @@
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -134,6 +135,7 @@ interface PublicCelebBySlugData {
     voice_speed: number | null
     wikidata_qid: string | null
     celeb_tier: string | null
+    content_research_status: string | null
     view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
   }
@@ -151,7 +153,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, view_count, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -281,7 +283,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   return {
     profile: profile as PublicCelebBySlugData['profile'],
-    contentCount: contentCountResult.count || 0,
+    contentCount: resolveCelebContentCount(
+      contentCountResult.count,
+      profile.content_research_status
+    ),
     followerCount: followerResult.count || 0,
     guestbookCount: guestbookResult.count || 0,
     contentTypeCounts,

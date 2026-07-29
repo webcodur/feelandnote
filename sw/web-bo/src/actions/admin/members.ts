@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { getUsers, type User } from './users'
 import { getCelebs, type Celeb } from './celebs'
+import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 
 /**
  * 상태 변경·삭제가 반영돼야 할 화면을 갱신한다.
@@ -117,6 +118,9 @@ export interface Member {
   persona?: MemberPersona | null
   // 통계
   content_count: number
+  content_research_status?: string
+  content_research_updated_at?: string | null
+  content_research_confirmed_empty_at?: string | null
   follower_count: number
   following_count?: number
   total_score?: number
@@ -251,6 +255,9 @@ function celebToMember(c: Celeb): Member {
     celeb_tier: c.celeb_tier,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
+    content_research_status: c.content_research_status,
+    content_research_updated_at: c.content_research_updated_at,
+    content_research_confirmed_empty_at: c.content_research_confirmed_empty_at,
     follower_count: c.follower_count,
     influence_total: c.influence_total,
   }
@@ -380,7 +387,14 @@ export async function getMember(id: string): Promise<Member | null> {
     claimed_by: data.claimed_by,
     influence: influenceData || null,
     persona: personaData || null,
-    content_count: count || 0,
+    content_count:
+      profileType === 'CELEB'
+        ? resolveCelebContentCount(count, data.content_research_status)
+        : count || 0,
+    content_research_status: data.content_research_status ?? 'open',
+    content_research_updated_at: data.content_research_updated_at ?? null,
+    content_research_confirmed_empty_at:
+      data.content_research_confirmed_empty_at ?? null,
     follower_count: data.user_social?.follower_count || 0,
     following_count: data.user_social?.following_count || 0,
     total_score: data.user_scores?.total_score || 0,
@@ -471,7 +485,14 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     influence: influenceData || null,
     influence_total: influenceData?.total_score || 0,
     persona: personaData || null,
-    content_count: count || 0,
+    content_count:
+      profileType === 'CELEB'
+        ? resolveCelebContentCount(count, data.content_research_status)
+        : count || 0,
+    content_research_status: data.content_research_status ?? 'open',
+    content_research_updated_at: data.content_research_updated_at ?? null,
+    content_research_confirmed_empty_at:
+      data.content_research_confirmed_empty_at ?? null,
     follower_count: data.user_social?.follower_count || 0,
     following_count: data.user_social?.following_count || 0,
     total_score: data.user_scores?.total_score || 0,
