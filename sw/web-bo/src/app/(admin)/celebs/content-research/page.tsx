@@ -315,11 +315,17 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
                           {bucketMeta.shortLabel}
                         </span>
                         <div className="mt-2 flex gap-2 text-xs">
+                          <Link
+                            href={`/celebs/content-research/${row.id}`}
+                            className="font-medium text-accent hover:text-accent-hover hover:underline"
+                          >
+                            조사 장부
+                          </Link>
                           {row.slug ? (
                             <>
                               <Link
                                 href={`/celebs/${row.slug}/contents`}
-                                className="text-accent hover:underline"
+                                className="text-text-secondary hover:text-accent hover:underline"
                               >
                                 콘텐츠 관리
                               </Link>

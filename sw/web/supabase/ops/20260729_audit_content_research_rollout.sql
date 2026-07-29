@@ -44,14 +44,6 @@ defects AS (
       FROM inactive_light_zero
       WHERE content_research_status = 'open'
     ),
-    'active_zero_still_open', (
-      SELECT count(*)
-      FROM celeb_counts
-      WHERE celeb_tier = 'light'
-        AND status = 'active'
-        AND actual_content_count = 0
-        AND content_research_status = 'open'
-    ),
     'inactive_zero_unexpected_status', (
       SELECT count(*)
       FROM inactive_light_zero
@@ -72,6 +64,27 @@ defects AS (
     'light_with_content', count(*) FILTER (
       WHERE celeb_tier = 'light'
         AND actual_content_count > 0
+    ),
+    'confirmed_empty_without_history_except_legacy', (
+      SELECT count(*)
+      FROM public.profiles p
+      WHERE p.profile_type = 'CELEB'
+        AND p.content_research_status = 'confirmed_empty'
+        AND p.slug <> 'anthony-armstrong'
+        AND NOT EXISTS (
+          SELECT 1
+          FROM public.celeb_content_research_runs r
+          WHERE r.celeb_id = p.id
+            AND r.status = 'completed'
+        )
+    ),
+    'in_progress_run_without_researching_profile', (
+      SELECT count(*)
+      FROM public.celeb_content_research_runs r
+      JOIN public.profiles p
+        ON p.id = r.celeb_id
+      WHERE r.status = 'in_progress'
+        AND p.content_research_status <> 'researching'
     )
   ) AS value
   FROM celeb_counts
@@ -108,6 +121,40 @@ SELECT jsonb_build_object(
       GROUP BY content_research_status
       ORDER BY content_research_status
     ) counts
+  ),
+  'active_open_research_targets', (
+    SELECT count(*)
+    FROM celeb_counts
+    WHERE celeb_tier = 'light'
+      AND status = 'active'
+      AND actual_content_count = 0
+      AND content_research_status = 'open'
+  ),
+  'research_history', jsonb_build_object(
+    'runs', (SELECT count(*) FROM public.celeb_content_research_runs),
+    'in_progress', (
+      SELECT count(*)
+      FROM public.celeb_content_research_runs
+      WHERE status = 'in_progress'
+    ),
+    'completed', (
+      SELECT count(*)
+      FROM public.celeb_content_research_runs
+      WHERE status = 'completed'
+    ),
+    'legacy_confirmed_empty_without_history', (
+      SELECT count(*)
+      FROM public.profiles p
+      WHERE p.profile_type = 'CELEB'
+        AND p.slug = 'anthony-armstrong'
+        AND p.content_research_status = 'confirmed_empty'
+        AND NOT EXISTS (
+          SELECT 1
+          FROM public.celeb_content_research_runs r
+          WHERE r.celeb_id = p.id
+            AND r.status = 'completed'
+        )
+    )
   ),
   'confirmed_empty_profiles', (
     SELECT jsonb_agg(
