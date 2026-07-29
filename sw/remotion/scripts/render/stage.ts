@@ -47,10 +47,8 @@ const DATA_FILE: Record<string, string> = {
 }
 
 /**
- * 에피소드 실물 폴더.
- *
- * 창고 안 자리는 늘 `<시리즈폴더>/<편>` 이지만 **실물은 다를 수 있다** — 아이디어 보관함 편은
- * `public/` 밖(`idea-bank/`)에 있다. 그 대응은 shared `episodeDirOf` 한 곳이 안다.
+ * 에피소드 실물 폴더. 팩션의 활성·비활성 편은 모두
+ * `public/factions/<폴더 키>` 한 단계에 있다.
  */
 function episodeSrcDir(series: string, episode: string): string {
   const root = series === 'discourse' ? DISCOURSES_DIR : FACTIONS_DIR
@@ -180,7 +178,6 @@ export async function buildRenderStage(series: string, episode: string): Promise
   const c: Counter = { files: 0, bytes: 0, linked: 0, copied: 0 }
 
   // ① 에피소드 폴더 — 창고 안 자리는 staticFile 이 부르는 이름 그대로다
-  //    (실물은 다를 수 있다 — 아이디어 보관함 편은 public 밖에 있다)
   placeDir(epSrc, path.join(dir, seriesDir, episode), c, true)
 
   // ② 공용 — 효과음·글꼴

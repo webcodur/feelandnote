@@ -1,22 +1,17 @@
 /**
- * Active factions (outside not-using) structure audit vs folder-rules.md
+ * Registered factions structure audit vs folder-rules.md.
  */
 import fs from "fs";
 import path from "path";
 
 const root = path.resolve("sw/remotion/public/factions");
-const skip = new Set([
-  "not-using",
-  "_docs",
-  "_voice-casting",
-  "world-best-2026",
-]);
+const active = new Set(
+  JSON.parse(fs.readFileSync(path.join(root, "_episodes.json"), "utf8")),
+);
 
 const series = fs
   .readdirSync(root, { withFileTypes: true })
-  .filter(
-    (d) => d.isDirectory() && !d.name.startsWith(".") && !skip.has(d.name),
-  )
+  .filter((d) => d.isDirectory() && active.has(d.name))
   .map((d) => d.name)
   .sort();
 

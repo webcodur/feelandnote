@@ -455,10 +455,9 @@ importLooseResearch('Streaming-Empire', 'quote-research.md')
 
 // Ensure all active factions: if quoteEn && !quoteOrigin → quoteOrigin = quoteEn
 {
-  const roots = fs.readdirSync(FAC).filter((d) => {
-    const p = path.join(FAC, d, 'faction-data.json')
-    return fs.existsSync(p) && !d.startsWith('_')
-  })
+  const roots = JSON.parse(
+    fs.readFileSync(path.join(FAC, '_episodes.json'), 'utf8'),
+  ).filter((d) => fs.existsSync(path.join(FAC, d, 'faction-data.json')))
   let n = 0
   for (const d of roots) {
     const p = path.join(FAC, d, 'faction-data.json')

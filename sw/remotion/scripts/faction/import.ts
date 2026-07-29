@@ -154,14 +154,23 @@ async function importEpisode(
   }
 
   // ── 1) 에피소드 upsert (folder 고유키) ──
+  // 제작 상태와 출간 여부는 DB가 원천이다. 파일을 다시 가져와도 운영 값은 덮지 않는다.
+  const { data: currentEpisode, error: currentEpisodeErr } = await db
+    .from('faction_episodes')
+    .select('status,registered,sort_order')
+    .eq('folder', ep.folder)
+    .maybeSingle()
+  if (currentEpisodeErr) {
+    throw new Error(`faction_episodes 현재 상태 조회 실패(${ep.folder}): ${currentEpisodeErr.message}`)
+  }
   const { data: epRow, error: epErr } = await db
     .from('faction_episodes')
     .upsert({
       folder: ep.folder,
       ...epCols,
-      status: ep.status,
-      registered: ep.registered,
-      sort_order: ep.sortOrder,
+      status: currentEpisode?.status ?? ep.status,
+      registered: currentEpisode?.registered ?? ep.registered,
+      sort_order: currentEpisode?.sort_order ?? ep.sortOrder,
       data: epData,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'folder' })

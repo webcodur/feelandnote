@@ -22,7 +22,7 @@ export const DISCOURSES_DIR = path.join(ROOT, 'public', 'discourses')
 
 /**
  * 에피소드가 아닌 폴더. discourse-data.json 유무로도 걸러지지만 의도를 코드에 남긴다.
- * (담화는 팩션과 달리 아이디어 보관함·캐스팅표가 없다)
+ * (담화는 별도 캐스팅표가 없다)
  */
 export const NON_EPISODE_DIRS = new Set(['_docs'])
 

@@ -45,9 +45,8 @@ export const docChecksum = (doc: Record<string, unknown>) => sha1(checksumPayloa
 /**
  * 에피소드 폴더·데이터 파일 경로.
  *
- * 경로 조립은 `episodeDirOf` 한 곳만 쓴다 — 예전에는 여기서 `path.basename` 으로 마지막 토막만
- * 남겼는데, 아이디어 보관함 편(`not-using/<분류>/<이름>`)이 들어오면서 그 방식이 엉뚱한 자리를
- * 가리키게 됐다(뿌리 바로 아래). 보관함이 `public/` 밖으로 옮겨진 뒤로는 뿌리 자체도 달라진다.
+ * 경로 조립은 `episodeDirOf` 한 곳만 쓴다. 폴더 키를 임의로 basename 처리하지 않아
+ * 공용 IO의 경로 규칙을 한 군데에서 유지한다.
  */
 export function factionEpisodePaths(factionsDir: string, folder: string): { dir: string; dataPath: string } {
   const dir = episodeDirOf(factionsDir, folder)

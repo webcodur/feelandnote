@@ -1,5 +1,5 @@
 /**
- * Align ALL active factions (outside not-using) to folder-rules canonical names.
+ * Align every registered faction to folder-rules canonical names.
  * - group_shot.png / group.png → _group.png
  * - logo.png / logo.mp4 → _logo.png / _logo.mp4
  * - inject cluster 1/ when person/group assets sit flat at group root (PayPal-style)
@@ -14,7 +14,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const FAC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public/factions')
-const SKIP = new Set(['not-using', '_docs', '_voice-casting'])
 
 function exists(p) {
   return fs.existsSync(p)
@@ -25,6 +24,7 @@ function ensureDir(p) {
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'))
 }
+const ACTIVE = new Set(loadJson(path.join(FAC, '_episodes.json')))
 function saveJson(p, j) {
   fs.writeFileSync(p, JSON.stringify(j, null, 2) + '\n', 'utf8')
 }
@@ -298,7 +298,7 @@ function alignSeries(name) {
 
 const series = fs
   .readdirSync(FAC, { withFileTypes: true })
-  .filter((d) => d.isDirectory() && !SKIP.has(d.name) && !d.name.startsWith('.'))
+  .filter((d) => d.isDirectory() && ACTIVE.has(d.name))
   .map((d) => d.name)
   .sort()
 
