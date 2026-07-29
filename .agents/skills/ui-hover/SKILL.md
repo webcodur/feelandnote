@@ -5,7 +5,7 @@ description: UI 상호작용 즉각 반응 원칙. 버튼·카드·칩 등 조�
 
 # UI 상호작용 — 즉각 반응 원칙
 
-전 앱(web·web-bo·remotion-bo·lab·audio-bo) 공통. 조작용 요소의 hover는 **손을 올린 즉시** 바뀐다.
+전 앱(web·web-bo·lab·audio-bo) 공통. 조작용 요소의 hover는 **손을 올린 즉시** 바뀐다.
 
 ## 핵심 규칙
 

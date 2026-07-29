@@ -1,6 +1,6 @@
 ---
 name: faction-celeb-sync
-description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)에 반영할 때 적용한다. 표준 경로는 web-bo `/factions` 편집기의 「출간」 패널(진단→dry-run→출간). 데이터 매핑·이미지 3종 구분·캐시 규칙과, 파이프라인이 못 하는 예외 작업(신규 인물 등록·아바타·상위 그룹 상수)의 절차를 담는다. "세력도감 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 세력도감 반영", "세력도감 이미지 안 뜸/얼굴만 뜸", "출간 안 됨" 등에 호출.
+description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)에 반영할 때 적용한다. 표준 경로는 web-bo `/factions` 편집기의 「출간」 패널(진단→dry-run→출간). 데이터 매핑·이미지 3종 구분·캐시 규칙과, 파이프라인이 못 하는 예외 작업(신규 인물 등록·아바타·신원 비공개 인물·상위 그룹 상수)의 절차를 담는다. "세력도감 인물 채워", "태그에 인물 배정", "개인샷/그룹샷 넣어", "팩션 인물 세력도감 반영", "얼굴 없는/익명 인물 등록", "세력도감 이미지 안 뜸/얼굴만 뜸", "출간 안 됨" 등에 호출.
 ---
 
 # 팩션 영상 → 세력도감 연동
@@ -57,13 +57,37 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 - **태그 노출 결정** — 신규 태그는 `is_featured=false`로 생성된다. 노출 전환·설명문(`description`)·색은 web-bo 태그 화면에서 사람이 다듬는다.
 - **아바타** — 위 표 참조.
 
+### 신원 비공개 인물의 아바타 등록
+
+사토시 나카모토·익명 개발자처럼 실제 얼굴을 알 수 없는 인물도 셀럽 프로필과 아바타를 가질 수 있다.
+**얼굴을 발명하는 작업이 아니라, 신원을 숨긴 채 조사 근거와 시각적 개성을 보존하는 작업**으로 처리한다.
+익명 화보·REF 설계 기준은 `faction-image`의 「신원 비공개 인물」 절을 먼저 따른다.
+
+1. **원본 선정** — 기존 `_refs/<인물>`을 먼저 열고, 팩션 개인 화보 후보를 한 장씩 직접 대조한다. 첫 파일을
+   자동 채택하거나 비교용 시트·합본을 만들지 않는다. 일치하는 컷이 없으면 조사 후 서로 구별되는 익명 REF와
+   개인 화보를 먼저 설계한다. 실제 얼굴을 추정·생성하거나 일반 웹 사진을 본인 사진으로 대체하지 않는다.
+2. **크롭** — `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
+   검출되지 않은 경우에만 수동 정사각 크롭을 허용한다. 수동 크롭도 승인된 REF의 은폐 방식·복식·소품을
+   보존하며 얼굴을 보정하거나 드러내지 않는다.
+3. **배경 제거** — 반드시 `nobg-cutout` 스킬과 `C:\project\nobg` 전용 도구를 쓴다. 서비스 배경
+   `#0a0a0a`, 밝은 배경, 원형 썸네일에서 경계·잔상·타인 신체가 없는지 직접 본다. 실패 후보는 업로드하지 않는다.
+4. **등록·업로드** — 셀럽이 없으면 실존 인물 프로필을 먼저 생성하고 `faction_people.celeb_id`를 연결한다.
+   최종 800×800 RGBA WebP를 `upload-celeb-image-from-wikimedia.ts --image-file`로
+   `celebs/{celebId}/avatar.webp`에 올린다. 완전 은폐 인물은 `--face-detect false`를 명시한다.
+5. **검증·출간** — R2 재다운로드본과 업로드 미리보기의 해시·크기·알파를 대조하고 운영 페이지가 새
+   버전 URL을 읽는지 확인한다. `[CELEBS, TAGS]` 캐시를 무효화한 뒤 출간 패널의 진단→dry-run→출간을 거친다.
+6. **로컬 정리까지 완료 조건** — 중간 재료는 저장소 `.tmp`가 아니라 작업별 시스템 임시 폴더 하나에만 둔다.
+   업로드·운영 검증 직후 복사 재료, 크롭, 누끼, 밝기 비교, 원형 미리보기, R2 검증 다운로드, HTML, 합본·
+   시트를 모두 삭제하고 `nobg/batch_work/{originals,nobg}`에서 이번 파일도 제거한다. 원래 팩션 자산과
+   승인된 `_refs`, R2·DB 결과, 필수 출처 로그만 남긴다.
+
 ## 수동 REST 폴백 (파이프라인 장애 시에만)
 
 데이터 CRUD는 REST(PostgREST + `SUPABASE_SERVICE_ROLE_KEY`)로 가능하다. Supabase MCP도 동작한다(26.07.25 실측 — 과거 "401 차단" 기록은 낡음, DDL도 가능).
 ```
 curl.exe "$URL/rest/v1/celeb_tags?..." -H "apikey: $SRK" -H "Authorization: Bearer $SRK"
 ```
-env: `sw/web/.env`(SERVICE_ROLE), R2 키는 `sw/web-bo/.env`·`sw/remotion-bo/.env`(R2_* — 동일). CRLF라 값 파싱 시 `\r` 제거.
+env: `sw/web/.env`(SERVICE_ROLE), R2 키는 `sw/web-bo/.env`(R2_*). CRLF라 값 파싱 시 `\r` 제거.
 
 **REST로 직접 고쳤으면 캐시 무효화 필수** — `getFeaturedTags`는 `unstable_cache` 7일이라 화면이 안 바뀐다:
 ```
@@ -72,4 +96,4 @@ curl.exe -X POST "https://feelandnote.com/api/revalidate" -H "Content-Type: appl
 ```
 `CRON_SECRET`은 `sw/web/.env`. (출간 패널은 이걸 자동으로 한다.)
 
-관련: `celeb-avatar-wikimedia`(아바타), `faction-image`(팩션 발주), `celeb-tag-system.md`(태그 SSoT), `web-bo.md` 「세력도」 절(출간 배관), `faction-unification.md`(통합 설계).
+관련: `celeb-avatar-wikimedia`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `celeb-tag-system.md`(태그 SSoT), `web-bo.md` 「세력도」 절(출간 배관), `faction-unification.md`(통합 설계).

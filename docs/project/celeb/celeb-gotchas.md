@@ -69,7 +69,7 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 
 **세션2 최종 무결(실측)**: 영문 대사 미번역 0, `answer` 잔재 영·한 모두 0, ko↔en 대사 배열 길이 불일치 0, 명언 한·영 1,411쌍 완전 일치(한쪽만 0인 경우·역전 해소), ko 21개 완비 인물 중 en 완비 1,547명. 명언 정본은 `lines.quote` / `lines_en.quote`다. 인물 발언 조사 시 모국어 키워드 검색을 병행한다.
 
-**부수 함정**: `profiles`에는 `updated_at` 컬럼이 없다(`celeb_dialogues`에는 있다). 감정 태그는 전 인물 영문 표준(`[bold, direct]`).
+**부수 함정**: `profiles`에는 `updated_at` 컬럼이 없다(`celeb_dialogues`에는 있다). 기존 감정 태그 표기는 영문이지만, 이는 AI가 문장 인상으로 배정하는 분류가 아니다. **ELE 보이스를 실제로 들은 사용자가 발화를 보완하는 합성 지시**이므로 AI 대사 작업자는 새 태그를 만들거나 기존 태그를 고치지 않는다. 기존 값은 보존하고 본문만 다룬다(`celeb-speech.md` 「발화 지시 태그 운영권」).
 
 ---
 
@@ -151,7 +151,7 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 Supabase MCP(`mcp__supabase__*`)가 `Unauthorized. SUPABASE_ACCESS_TOKEN` 에러로 막힐 때 REST로 직접 등록하는 통로다. 토큰이 왜 반복해서 죽는지는 `docs/project/tooling-gotchas.md`를 본다.
 
-- 서비스 키: `sw/remotion-bo/.env`의 `SUPABASE_SERVICE_ROLE_KEY`. 프로젝트 ref `wouqtpvfctednlffross`.
+- 서비스 키: `sw/web-bo/.env`의 `SUPABASE_SERVICE_ROLE_KEY`. 프로젝트 ref `wouqtpvfctednlffross`.
 - **계정 생성**: `POST /auth/v1/admin/users {email, email_confirm:true}`로 id 확보 → `PUT /auth/v1/admin/users/{id} {email:"celeb_{id}@feelandnote.local"}`. 트리거가 `profiles` 행을 `profile_type=USER`로 자동 생성하니 PATCH로 CELEB 전환한다. **`profiles.email`에도 임시 email이 잔존**하므로 PATCH 본문에 `email: celeb_{id}@feelandnote.local`을 포함해 정정한다.
 - **한글 저장은 `curl.exe` + `--data-binary @파일` 필수.** PowerShell `Invoke-RestMethod`와 node fetch(POST+body)는 한글 이중 인코딩·DNS 오류로 DB를 파손시킨다. body를 UTF-8 파일로 쓰고 curl로 보낸다. GET(읽기)은 `Invoke-RestMethod`로 무방하다.
 - 파일럿 검증을 마친 헬퍼: `create-celeb.mjs`(계정 + profiles + 중복 스킵).

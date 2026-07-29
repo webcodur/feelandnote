@@ -59,7 +59,7 @@ description: 삼국지 인물 그룹 SSoT 관리. 명단 조회, 신규 인물 �
 - **tags** — 한국어: `삼국지`, `삼국지인물` / 영문: `ThreeKingdoms`, `RomanceOfTheThreeKingdoms`
 - **description 해시태그** — 한국어: `#삼국지` / 영문: `#ThreeKingdoms`
 
-호출처(`youtube-upload.ts`, `sw/remotion-bo/.../youtube/sync/route.ts`)는 슬러그를 정확히 전달하기만 하면 된다. 신규 호출처를 추가하는 사람은 `buildTags`의 5번째 인자에 슬러그를 넘기는 걸 잊지 말아야 한다.
+호출처(`youtube-upload.ts`, `sw/web-bo/src/app/api/[series]/youtube/sync/route.ts`)는 슬러그를 정확히 전달하기만 하면 된다. 신규 호출처를 추가하는 사람은 `buildTags`의 5번째 인자에 슬러그를 넘기는 걸 잊지 말아야 한다.
 
 ## 슬러그 표기 규칙
 

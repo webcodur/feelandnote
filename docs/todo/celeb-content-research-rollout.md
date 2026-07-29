@@ -1,6 +1,1520 @@
 # Light 콘텐츠 조사 상태 도입·회수
 
-> 시작: 2026-07-29 · 현행 상태: **의미 교정 완료 — 활성 167명 `open/0` 복구, 조사 장부 도입**
+> 시작: 2026-07-29 · 현행 상태: **실조사 진행 — 최태원·정의선·박찬호·쇼와 천황·이성계·유방·루이 16세·안중근·호레이쇼 넬슨·고종·루이 14세·현장·마리아 테레지아·김홍도·흥선대원군·프톨레마이오스 1세·폴리비오스·투키디데스·헤로도토스·디오게네스·가의·카라바조·나폴레옹 3세·자한기르·자크 루이 다비드·척계광·광해군·안토니오 비발디·필리포 브루넬레스키·정몽주·호스로 1세·조광윤·알 마문 Full 승격, 석가모니·카를 란트슈타이너·칭기즈 칸·손자·유클리드·스키피오 아프리카누스·도요토미 히데요시·유스티니아누스 1세·하룬 알 라시드·김유신·광개토대왕·을지문덕·선덕여왕·강감찬·한니발 바르카·키루스 대왕·네페르티티·아틸라·클레오파트라·항우·하트셉수트·페리클레스·네부카드네자르 2세·이사벨 1세·김옥균·마르코 폴로·호메로스·아르키메데스·히포크라테스·오노노 고마치·테오도라·성삼문·엘레오노르 다키텐·제노비아·노자·신윤복·전봉준·황진이·신사임당·피타고라스·찬드라굽타 마우리아·카니슈카·사포·그라쿠스 형제·안녹산·미트리다테스 6세·클로비스 1세·헤롯 대왕·소하·탁문군·사도 요한·다리우스 1세·마르쿠스 아그리파·카스파르 다비트 프리드리히·우타가와 히로시게·샤 루흐·성덕왕·미하일 8세·상앙·람세스 2세·관중·재러드 카플란 0건 확정, 활성 Light `open 72`**
+
+## 2026-07-30 장부 기반 실조사 시작
+
+첫 운영 대상 최태원은 감상여정에 의존하지 않고 BOOK·VIDEO·GAME·MUSIC
+네 유형을 각각 조사했다. 본인 SNS 발언을 보존한 기사, SK 공식 자료,
+동시대 보도를 대조하고 네이버 도서·OpenLibrary·TMDB·IGDB에서 작품
+메타데이터를 확인했다.
+
+- 채택: BOOK 4건, VIDEO 1건, GAME 1건
+- MUSIC: 작품명과 창작자가 함께 특정되는 근거를 이번 검색에서 찾지 못함
+- 결과: `light → full`, 실제 콘텐츠 6건
+- 장부: 완료 실행 1회, 채택 후보 6건, 출처 11건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_chey_tae_won_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/chey-tae-won/`
+- 적용 후 감사: 활성 Light `open 166 / confirmed_empty 1`, 비활성
+  `queued 153 / deferred 148`, 결함 0
+- 공개 화면: `https://feelandnote.com/ko/celeb/chey-tae-won`에서 6건 노출 확인
+
+최태원의 문화여정은 폐기 예정 데이터이므로 수정하지 않았다. 다음 순서는
+장부 실행이 없는 활성 `open` 163명이다.
+
+두 번째 대상 정의선은 BOOK 1건을 채택했다. 2019년 피터 드러커의
+『최고의 질문』을 임원들에게 직접 건네고 이 책을 바탕으로 고객 가치 토론을
+이끌었다는 당시 참가 임원의 회고와 동시대 보도를 대조했다. 한국어판은
+네이버 도서, 영문판은 OpenLibrary로 판본을 확인했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- VIDEO·GAME: 특정 작품의 감상·추천·플레이 근거 없음
+- MUSIC: 학창 시절 클라리넷 활동은 확인했지만 곡명·작곡가가 없어 기각
+- 장부: 완료 실행 1회, finding 2건(채택 1·기각 1), 출처 9건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_chung_eui_sun_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/chung-eui-sun/`
+- 공개 화면: `https://feelandnote.com/ko/celeb/chung-eui-sun`에서 1건 노출 확인
+
+세 번째 대상 박찬호는 1997년 조선일보 문답 인터뷰에서 좋아하는 노래로
+직접 꼽은 지누션의 「말해줘」를 MUSIC 1건으로 채택했다. Spotify 공개
+페이지와 oEmbed에서 트랙 ID·발매일·길이·앨범·표지를 확인했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- BOOK: 장훈의 책을 읽고 영향을 받았다는 직접 발언은 확인했지만, 서명이
+  없고 당시 가능한 저서가 복수여서 `장훈의 책(제목 미상)`으로 기각
+- VIDEO: 영화 감상은 취미라고 밝혔지만 작품명이 없어 기각
+- GAME: 미국식 당구·포켓볼은 실제 큐 스포츠이므로 작품 단위 게임에서 제외
+- 장부: 완료 실행 1회, finding 4건(채택 1·기각 3), 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_park_chan_ho_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/park-chan-ho/`
+- 적용 후 감사: 활성 Light `open 164 / confirmed_empty 1`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 3회, 결함 0
+- 공개 화면: `https://feelandnote.com/ko/celeb/park-chan-ho`에서 1건 노출 확인
+
+네 번째 대상 석가모니는 초기 불교 문헌의 자전적 대목과 현대 학술 개설을
+대조했다. 두 수행 스승에게서 가르침을 배웠다는 기록은 있지만 제목 있는
+책은 아니며, 베다·우파니샤드나 사후 편찬 불경을 본인이 읽은 도서로
+역등록할 근거도 없다. 공연·음악·판놀이는 초기 문헌에서 출가 수행자가
+삼가는 항목으로 열거될 뿐이었다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 두 스승의 가르침은 저작명·판본이 없는 수행 전승
+  - VIDEO: 공연·경기 관람은 삼가는 범주이며 작품명 없음
+  - GAME: 여덟 줄·열 줄 판놀이 등은 하지 않는 유희 목록
+  - MUSIC: 노래·기악을 삼가는 규범이며 특정 곡 없음
+- 장부: 완료 실행 1회, 출처 8건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_siddhartha_gautama_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 163 / confirmed_empty 2`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 4회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/siddhartha-gautama` 응답에서
+  `content_count: -1` 확인
+
+다섯 번째 대상 카를 란트슈타이너는 노벨상 공식 전기, 미국
+국립과학원 회고록, 오스트리아 대학·의학사 자료를 대조했다. 탐정소설을
+남몰래 즐겼다는 기록과 유능한 피아니스트이자 베토벤 해석자였다는 기록은
+있지만, 어느 자료도 작품명·작가·곡명을 제시하지 않는다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 탐정소설은 장르 선호만 확인되고 작품명·작가가 없음
+  - MUSIC: 피아노·베토벤 연주 기록은 있으나 특정 곡명이 없음
+- VIDEO·GAME: 생애 자료와 범주별 검색에서 특정 감상·플레이 작품 없음
+- 제외: 본인의 저서·논문, 후대 혈액형 교육 콘텐츠, 동명이인인 사제·
+  작가 Karl Borromäus Landsteiner와 현대 이론물리학자 자료
+- 장부: 완료 실행 1회, finding 2건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_karl_landsteiner_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 162 / confirmed_empty 3`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 5회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/karl-landsteiner` 응답에서
+  `content_count: -1` 확인
+
+여섯 번째 대상 칭기즈 칸은 『몽골비사』 번역, 구처기 회동 기록, 몽골
+놀이 연구와 이란 음악사 자료를 대조했다. 구두 설교, 실제 전통 놀이,
+실제 음악 공연까지는 확인했지만 서비스에 등록할 작품 단위 콘텐츠는
+식별되지 않았다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 3건 모두 기각
+  - BOOK: 『현풍경회록』은 대면 설교의 후대 문헌화이며 완성 도서 독서
+    근거가 없음
+  - GAME: 어린 시절 자무카와 한 얼음 위 복사뼈 놀이는 디지털 GAME
+    작품이 아닌 전통 신체 놀이
+  - MUSIC: 부하라 여성 가수들의 공연을 들었지만 곡명·창작자가 전하지 않음
+- VIDEO: 생전 매체가 아니며 영화·드라마·다큐멘터리는 모두 후대 재현물
+- 장부: 완료 실행 1회, finding 3건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_genghis_khan_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 161 / confirmed_empty 4`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 6회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/genghis-khan` 응답에서
+  `content_count: -1` 확인
+
+일곱 번째 대상 손자는 『사기』 「손자오기열전」, 『손자병법』 원문·
+고전 번역과 현대 전쟁사 연구를 대조했다. 본인 또는 그 학파의 창작물인
+『손자병법』은 소비 도서에서 제외했고, 본문이 인용한 선행 병서도
+등록 가능한 작품으로 확정하지 못했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 『군정(軍政)』은 인용된 선행 병서지만 현전하지 않고 저자·
+    판본·역사적 손무 개인의 직접 독서 여부를 확정할 수 없음
+  - MUSIC: 징·북은 음악 작품이 아니라 전장 명령 전달 신호
+- VIDEO·GAME: 당대 특정 관람 작품이나 디지털 게임 플레이 근거 없음
+- 제외: 본인의 『손자병법』, 손빈과 『손빈병법』, 현대 손자 소재 작품
+- 장부: 완료 실행 1회, finding 2건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_sun_tzu_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 160 / confirmed_empty 5`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 7회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/sun-tzu` 응답에서
+  `content_count: -1` 확인
+
+여덟 번째 대상 유클리드는 프로클로스·파포스 전승을 정리한 고전 판본
+서문, 수학사 전기와 백과사전을 대조했다. 생애 자료 자체가 극히 적고
+모두 수백 년 뒤 기록이라는 한계를 원장에 명시했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: BOOK 1건 기각
+  - 에우독소스·테아이테토스의 성과를 종합했다는 증언은 있으나 원저
+    제목·판본·전달 방식이 없어 작품 단위 독서로 식별 불가
+- VIDEO·GAME·MUSIC: 특정 관람·플레이·감상 작품 근거 없음
+- 제외: 본인의 『원론』·『데이터』·『광학』 및 귀속이 논쟁적인 음악이론
+  저술, 메가라의 유클리드, 현대 Euclid 소재 콘텐츠
+- 장부: 완료 실행 1회, finding 1건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_euclid_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 159 / confirmed_empty 6`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 8회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/euclid` 응답에서
+  `content_count: -1` 확인
+
+아홉 번째 대상 스키피오 아프리카누스는 리비우스·키케로·세네카의
+고대 문헌과 현대 고전학 자료를 대조했다. 가장 큰 함정인 대 스키피오와
+양손자 스키피오 아이밀리아누스의 기록을 분리했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 그리스어 책은 제목이 없고, 『키루스의 교육』 독자는 소
+    스키피오이며, 엔니우스의 『스키피오』는 소비 증거와 연대가 불확실
+  - MUSIC: 축제 때 음악·리듬에 맞춰 춤췄다는 기록은 있으나 곡명 없음
+- VIDEO·GAME: 특정 생전 관람 작품이나 디지털 게임 플레이 근거 없음
+- 장부: 완료 실행 1회, finding 4건, 출처 9건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_scipio_africanus_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 158 / confirmed_empty 7`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 9회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/scipio-africanus` 응답에서
+  `content_count: -1` 확인
+
+열 번째 대상 쇼와 천황은 궁내청 『쇼와천황실록』의 공식 출판 원장과
+실록을 읽고 작품명을 공개한 한도 가즈토시의 설명을 대조했다. 기존의
+표적 검색 0건 판정을 전면 조사로 뒤집었다.
+
+- 결과: `light → full`, 실제 콘텐츠 2건
+- 채택: BOOK 나쓰메 소세키 『도련님』, VIDEO 오카모토 기하치
+  《일본의 가장 긴 날》(1967)
+- GAME: 골프 활동은 신체 스포츠라 기각
+- MUSIC: 1963년 황실 가족 합주는 곡명이 없어 기각
+- 장부: 완료 실행 1회, finding 4건(채택 2·기각 2), 출처 10건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_emperor_showa_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/emperor-showa/`
+- 영화의 일본어·영문 TMDB 포스터를 각각 육안 검수했고, 에피소드 JSON
+  4개를 모두 파싱 검증했다.
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/emperor-showa` 응답에서
+  `content_count: 2` 확인
+
+열한 번째 대상 도요토미 히데요시는 노가쿠협회·일본기원 자료와 덴쇼
+소년사절단 공연 연구를 대조했다. 문화 향유 자체는 확인됐지만 서비스의
+작품 단위 소비 콘텐츠로 확정되는 것은 없었다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 보존 서간·주인장은 본인 작성 문서
+  - VIDEO: 《다카사고》《다무라》《세키데라 고마치》 등은 본인이 직접
+    공연하거나 발주한 노 작품
+  - GAME: 바둑 대회 개최는 디지털 GAME 작품이 아님
+  - MUSIC: 1591년 서양 음악을 세 차례 반복 청취했지만 곡명 미상
+- 장부: 완료 실행 1회, finding 4건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_toyotomi_hideyoshi_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 156 / confirmed_empty 8`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 11회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/toyotomi-hideyoshi` 응답에서
+  `content_count: -1` 확인
+
+열두 번째 대상 이성계는 『태조실록』 총서의 한문 원문·국역과
+하이델베르크대 출판 현대 전기를 대조했다. 실록은 진덕수
+『대학연의』를 특히 좋아해 밤중까지 잠들지 않았다고 명시한다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 진덕수 『대학연의』
+- GAME: 22세 때 직접 한 격구는 실제 승마 구기라 기각
+- MUSIC: 정도전의 《몽금척》《수보록》 등은 본인을 찬양하도록 바친
+  개국 악장이며 개인의 외부 작품 감상 근거가 없어 제외
+- VIDEO: 관람한 특정 연희·극 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건(채택 1·기각 1), 출처 8건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_yi_seong_gye_full_research.sql`
+- 기존 『대학연의』는 저장 `user_count=2`, 실제 연결 3건으로 어긋나
+  있었으며 신규 연결 뒤 실측 4건으로 동기화했다.
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/yi-seong-gye/`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/yi-seong-gye` 응답에서
+  `content_count: 1` 확인
+
+열세 번째 대상 유스티니아누스 1세는 법사학 자료, 유스티니아누스 신법
+원문, 프로코피오스와 찬송가학 사전을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 로마법대전은 본인이 명한 국가 편찬·교육 사업
+  - VIDEO: 극장 공연은 신법의 규제·의례 범주이며 개인 관람 기록 아님
+  - GAME: 청색당 지지는 실제 전차경주·정치 파벌 관계
+  - MUSIC: 《독생자》는 유스티니아누스·세베루스 사이 저자 귀속이
+    논쟁적이며 외부 음악 감상도 아님
+- 장부: 완료 실행 1회, finding 4건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_justinian_i_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/justinian-i` 응답에서
+  `content_count: -1` 확인
+
+열네 번째 대상 하룬 알 라시드는 그리스-아랍 번역사, 미국
+의회도서관 『노래의 책』 원장, 『이란 백과사전』과 알마수디 전승을
+대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 고대 의학서·『자연학』 번역 후원은 개인 독서작 미확정
+  - VIDEO: 『천일야화』는 하룬을 등장시킨 후대 허구 작품
+  - GAME: 락까 경마는 실제 스포츠
+  - MUSIC: 하룬을 위해 선곡된 100곡의 존재는 강하게 확인되지만,
+    개별 청취곡을 현대 작품 식별자와 안전하게 연결할 수 없음
+- 장부: 완료 실행 1회, finding 4건, 출처 8건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_harun_al_rashid_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 153 / confirmed_empty 10`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 14회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/harun-al-rashid` 응답에서
+  `content_count: -1` 확인
+
+열다섯 번째 대상 김유신은 『삼국사기』·국사편찬위원회 자료와
+국립경주박물관의 임신서기석 설명을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 임신서기석의 경전 학습 맹세는 김유신이 아니라 이름 없는
+    신라 청년 두 사람의 기록
+  - GAME: 김춘추와 함께 한 축국은 실제 공놀이·신체 운동
+- VIDEO·MUSIC: 특정 관람·감상 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_kim_yu_sin_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/kim-yu-sin` 응답에서
+  `content_count: -1` 확인
+
+열여섯 번째 대상 광개토대왕은 『삼국사기』 광개토왕조,
+광개토왕릉비 원문·해제와 국사편찬위원회 생애 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: BOOK 1건 기각
+  - 광개토왕릉비는 광개토왕 사후 414년 장수왕대에 세운 능비이며
+    본인의 독서물이 아님
+- VIDEO·GAME·MUSIC: 특정 작품 근거 없음. 평양 9사 창건은 국가 불교
+  후원이지 특정 불경·찬가 감상 기록이 아니며 전쟁은 디지털 게임이 아님
+- 장부: 완료 실행 1회, finding 1건, 출처 5건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_gwanggaeto_the_great_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/gwanggaeto-the-great` 응답에서
+  `content_count: -1` 확인
+
+열일곱 번째 대상 을지문덕은 『삼국사기』 을지문덕 열전과
+국사편찬위원회 생애 자료를 대조했다. 사료는 글을 읽고 지을 수 있었다고
+전하지만 읽은 작품명은 남기지 않는다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 「여수장우중문시」는 본인이 지어 우중문에게 보낸 전술 서신
+  - GAME: 정탐·거짓 패배·유인으로 이어진 살수대첩은 실제 전쟁
+- VIDEO·MUSIC: 특정 관람·감상 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_eulji_mundeok_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 150 / confirmed_empty 13`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 17회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/eulji-mundeok` 응답에서
+  `content_count: -1` 확인
+
+열여덟 번째 대상 선덕여왕은 『삼국사기』·『삼국유사』 원문과
+국사편찬위원회 주석을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 자장이 당에서 가져온 대장경 일부는 승려의 구법·국가 불교
+    정비 기록이며 여왕이 읽은 특정 경전이 아님
+  - VIDEO: 나비 없는 모란 그림은 정지 회화이고 작자·고유 작품명이 없으며
+    중국 측 기록도 없는 후대 왕권 설화
+- GAME·MUSIC: 특정 플레이·감상 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_queen_seondeok_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/queen-seondeok` 응답에서
+  `content_count: -1` 확인
+
+열아홉 번째 대상 강감찬은 『고려사』 열전·세가와 국사편찬위원회
+생애·귀주대첩 해설을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 『낙도교거집』·『구선집』은 강감찬 본인의 소실 저술
+  - GAME: 귀주대첩은 실제 전투이지 디지털 게임이 아님
+- 공부를 좋아했다는 기록에는 읽은 책 제목이 없고 VIDEO·MUSIC에도 특정
+  관람·감상 작품 근거가 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_gang_gam_chan_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/gang-gam-chan` 응답에서
+  `content_count: -1` 확인
+
+스무 번째 대상 한니발 바르카는 코르넬리우스 네포스·폴리비오스·
+디오도로스의 고대 기록과 고전학 주석을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: BOOK 2건 모두 기각
+  - 그나이우스 만리우스 불소의 아시아 행적에 관한 책은 한니발 본인의
+    그리스어 저술
+  - 소실루스의 7권짜리 한니발 전쟁사는 동행자의 소실 저술이며 한니발이
+    읽었다는 증거가 없음
+- 그리스 문학 교육에는 작품명이 없고 VIDEO·GAME·MUSIC에도 특정
+  관람·플레이·감상 작품 근거가 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_hannibal_barca_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 147 / confirmed_empty 16`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 20회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/hannibal-barca` 응답에서
+  `content_count: -1` 확인
+
+스물한 번째 대상 키루스 대왕은 키루스 원통·헤로도토스·크세노폰과
+동시대·후대 자료에 대한 자료 비판을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: BOOK 2건 모두 기각
+  - 키루스 원통은 키루스의 명령으로 작성·매장한 왕실 포고문
+  - 『키루스의 교육』은 키루스 사후 약 2세기 뒤 크세노폰이 쓴 허구적 전기
+- VIDEO·GAME·MUSIC: 특정 관람·플레이·감상 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_cyrus_the_great_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/cyrus-the-great` 응답에서
+  `content_count: -1` 확인
+
+스물두 번째 대상 네페르티티는 UCL·대영박물관·메트로폴리탄미술관의
+아마르나 유물·종교 해설을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 아텐 대찬가는 왕실 종교 의례 비문이며 개인 독서 기록이 아님
+  - MUSIC: 여성 음악가 부조는 궁정 음악 일반만 보여 주고 네페르티티의
+    참석 여부·곡명·연주자를 식별하지 못함
+- 네페르타리의 세네트 장면을 네페르티티로 오인하지 않았고 VIDEO에도
+  특정 관람 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_nefertiti_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/nefertiti` 응답에서
+  `content_count: -1` 확인
+
+스물세 번째 대상 아틸라는 448년 궁정을 직접 방문한 프리스쿠스의 기록을
+대학 원문 자료 두 곳에서 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - MUSIC: 아틸라의 승리와 무훈을 기린 실제 노래 청취는 확인되지만
+    곡명·가수명·가사·현대 음원 식별자가 모두 전하지 않음
+  - VIDEO: 제르콘의 연회 희극은 공연명·대본·작품 경계가 없음
+- BOOK·GAME: 외교 서신과 실제 사냥·전쟁은 소비한 책·디지털 게임이 아님
+- 장부: 완료 실행 1회, finding 2건, 출처 5건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_attila_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 144 / confirmed_empty 19`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 23회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/attila` 응답에서
+  `content_count: -1` 확인
+
+스물네 번째 대상 클레오파트라 7세는 플루타르코스 『안토니우스전』의
+그리스어·영문 판본과 현대 도서관사 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 페르가몬 도서관 20만 권은 정적이 제기한 혐의이자 장서
+    소유·기증 관계일 뿐 개별 작품 독서가 아님
+  - MUSIC: 타르수스 입성의 피리·관악 연주는 실제지만 곡명·연주자 미상
+- 다언어 능력에는 작품명이 없고 낚시 장난·연회는 VIDEO·GAME 작품이 아님
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_cleopatra_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/cleopatra` 응답에서
+  `content_count: -1` 확인
+
+스물다섯 번째 대상 항우는 사마천 『사기』 「항우본기」 원문·영역을
+대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 3건 모두 기각
+  - BOOK: 어릴 때의 학서(學書)는 작품명 없는 문자 학습
+  - MUSIC: 「해하가」는 항우 본인의 창작
+  - MUSIC: 사면초가의 실제 청취는 확인되지만 곡명·가수명·가사가 없음
+- 검술·병법·실제 전쟁은 디지털 GAME이 아니며 VIDEO 작품도 없음
+- 장부: 완료 실행 1회, finding 3건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_xiang_yu_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/xiang-yu` 응답에서
+  `content_count: -1` 확인
+
+스물여섯 번째 대상 하트셉수트는 UCL·대영박물관·
+메트로폴리탄미술관의 비문·부조·생애 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 스페오스 아르테미도스 비문은 본인 명의 왕실 선전·봉헌문
+  - VIDEO: 데이르 엘바흐리 푼트 원정 부조는 정지 사원 벽화
+- GAME·MUSIC: 특정 플레이·감상 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_hatshepsut_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 141 / confirmed_empty 22`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 26회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/hatshepsut` 응답에서
+  `content_count: -1` 확인
+
+스물일곱 번째 대상 페리클레스는 플루타르코스 『페리클레스전』과
+현대 고전학 사전·다몬 연구를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - VIDEO: 아이스킬로스 《페르시아인들》의 코레고스는 합창단
+    훈련·비용을 맡은 제작·후원 역할이며 관객 감상 기록이 아님
+  - MUSIC: 다몬·피토클레이데스에게 음악을 배웠지만 곡명이 없음
+- BOOK·GAME: 특정 외부 저작 독서나 디지털 게임 플레이 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_pericles_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/pericles` 응답에서
+  `content_count: -1` 확인
+
+스물여덟 번째 대상 유방은 《사기》·《한서》 육가 열전과 한대 철학
+연구를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 육가 《신어》
+  - 유방이 저술을 명하고 육가가 열두 편을 한 편씩 올릴 때마다
+    칭찬했다는 직접 수용 기록
+- MUSIC: 《대풍가》는 유방 본인의 창작·가창이라 기각
+- VIDEO·GAME: 특정 관람·플레이 작품 근거 없음
+- 기존 《신어》 en locale의 동명이인 경요(Qiongyao) 책 오매칭을
+  네이버 한국어판 ISBN·표지 기준으로 교정
+- 장부: 완료 실행 1회, finding 2건(채택 1·기각 1), 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_liu_bang_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/liu-bang/`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/liu-bang` 응답에서
+  `content_count: 1` 확인
+
+스물아홉 번째 대상 네부카드네자르 2세는 대영박물관·
+메트로폴리탄미술관·바티칸박물관의 왕실 비문과 다니엘서 전승을
+대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 2건 모두 기각
+  - BOOK: 건축 원통은 본인 명의 왕실 건축·봉헌 비문
+  - MUSIC: 다니엘서 3장은 의례 신호용 악기군만 열거하고
+    곡명·연주자·왕의 개인 선호를 특정하지 않음
+- VIDEO·GAME: 특정 관람·플레이 작품 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_nebuchadnezzar_ii_empty_research.sql`
+- 적용 후 감사: 활성 Light `open 138 / confirmed_empty 24`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 29회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/nebuchadnezzar-ii` 응답에서
+  `content_count: -1` 확인
+
+서른 번째 대상 이사벨 1세는 독서 관행 연구, 왕실 장서, 클리블랜드
+미술관 원고 설명과 음악사 연구를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: 4건 모두 기각
+  - BOOK: 《Vita Christi》는 번역·필사·인쇄 후원에서 선호를 추론한
+    것이며 직접 독서 기록이 아님
+  - BOOK: 이름 없는 일상 기도서를 현존
+    《Hours of Queen Isabella the Catholic》과 동일시할 수 없음
+  - GAME: 체스 교육·도상 연관은 물리 보드게임이며 디지털 작품이 아님
+  - MUSIC: 왕실 음악책·궁정 레퍼토리 소유는 특정 곡 감상 증거가 아님
+- 장부: 완료 실행 1회, finding 4건, 출처 6건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_isabella_i_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/isabella-i` 응답에서
+  `content_count: -1` 확인
+
+서른한 번째 대상 김옥균은 한국사데이터베이스·우리역사넷·
+한국민족문화대백과와 한일 개화사상 연구를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- finding: BOOK 2건 모두 기각
+  - 후쿠자와 유키치의 《문명론의 개략》은 사상적 영향 연구만 있고
+    김옥균의 편지·일기·장서·동시대 증언에 직접 독서가 없음
+  - 《치도약론》·《갑신일록》은 김옥균 본인의 저술
+- VIDEO·GAME·MUSIC: 작품명과 개인 소비 행위가 함께 확인되는 근거 없음
+- 장부: 완료 실행 1회, finding 2건, 출처 5건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_kim_ok_gyun_empty_research.sql`
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/kim-ok-gyun` 응답에서
+  `content_count: -1` 확인
+
+서른두 번째 대상 루이 16세는 예일대 루이스 월폴 도서관의 친필 원고,
+시종 장바티스트 클레리의 감금 일지와 흄 수용사 연구를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 2건
+- 채택: BOOK 2건
+  - 호러스 월폴
+    《Historic Doubts on the Life and Reign of King Richard the Third》
+    — 루이 16세가 프랑스어로 완역한 82쪽 친필 원고가 현존
+  - 데이비드 흄 《The History of England》
+    — 사형 선고 뒤 찰스 1세의 죽음을 다룬 권을 요청해 며칠간 읽었다는
+    클레리의 1차 기록
+- GAME: 자물쇠 제작·사냥·체스는 기술·스포츠·물리 보드게임이라 기각
+- VIDEO·MUSIC: 제목 있는 개인 감상작을 확인하지 못함
+- 장부: 완료 실행 1회, finding 3건(채택 2·기각 1), 출처 7건
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_louis_xvi_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/louis-xvi/`
+- 기존 흄 콘텐츠에 기번 《로마 제국 쇠망사》 속표지가 잘못 붙은 것을
+  육안 검수에서 발견했다. 누락된 ko locale를 만든 뒤 ko/en 모두
+  OpenLibrary `OL32761335M`, ISBN `9780353534254`, 정확한 흄 표지로
+  교정하고 Remotion 캐시도 다시 받았다.
+- 교정 SQL:
+  `sw/web/supabase/ops/20260730_fix_louis_xvi_hume_ko_locale.sql`,
+  `sw/web/supabase/ops/20260730_fix_hume_history_cover.sql`
+- 적용 후 감사: 활성 Light `open 135 / confirmed_empty 26`, 비활성
+  `queued 153 / deferred 148`, 장부 완료 32회, 결함 0
+- 공개 화면:
+  `https://feelandnote.com/ko/celeb/louis-xvi` 응답에서
+  `content_count: 2` 확인
+
+서른세 번째 대상 안중근은 1910년 옥중 유묵과 독립기념관·학술 자료를
+대조했다. 유묵에 『논어』 여러 편의 구절을 직접 골라 쓴 흔적이 남아 있어
+단순 유교 교육 일반이 아닌 작품 단위 수용으로 판정했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 공자 『논어』
+- 제외: 본인의 『안응칠 역사』·『동양평화론』과 본인 시가, 후대 전기
+  영상, 사격·승마 같은 실제 활동
+- 장부: 완료 실행 1회, 채택 finding 1건, 네 유형별 출처·완료 기록 보존
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_an_jung_geun_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/an-jung-geun/`
+- 공개 화면: `https://feelandnote.com/celeb/an-jung-geun`에서
+  `content_count: 1` 확인
+
+서른네 번째 대상 호레이쇼 넬슨은 1800년 11월 21일자
+《Edinburgh Advertiser》 한 호 전체와 해당 신문 실물의 경매 원장,
+넬슨 자료집을 대조했다. 헤이마켓 극장에서 「Rule, Britannia!」가
+불릴 때 넬슨이 현장에 있었고 관객이 후렴을 함께 불렀다는 동시대 기록을
+확인했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: MUSIC 토머스 아른 「Rule, Britannia!」
+- 제외: 넬슨의 기함이 아닌 함대 노래와 제목 없는 물리 카드놀이
+- 메타데이터: Spotify 트랙 `3AYHlS6n5jZAwEpqtHTEKA`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_horatio_nelson_full_research.sql`
+- Spotify oEmbed의 CDN 별칭은 기존 이미지 허용 목록과 맞지 않아 같은
+  공식 이미지의 `i.scdn.co` 주소로 정규화했다. dry-run 뒤 DB·원본 SQL·
+  Remotion을 함께 교정했다:
+  `sw/web/supabase/ops/20260730_fix_horatio_nelson_spotify_thumbnail.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/horatio-nelson/`
+- 공개 화면: `https://feelandnote.com/celeb/horatio-nelson`에서
+  `content_count: 1` 확인
+
+서른다섯 번째 대상 고종은 1880년 김홍집이 가져온 황준헌의
+『조선책략』을 고종이 전·현직 대신들에게 돌려 검토하게 하고, 나흘 안에
+대미 관계 방침을 전달하도록 이동인을 보냈다는 국사편찬위원회 기록을
+대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 황준헌 『조선책략』
+- 제외: 제목을 알 수 없는 1907년 왕실 영화 상영, 실제 당구, 곡명이
+  전하지 않는 박춘재 축음기 시연
+- 메타데이터: 네이버 BOOK ISBN `9788908062290`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_gojong_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/gojong/`
+- 공개 화면: `https://feelandnote.com/celeb/gojong`에서
+  `content_count: 1` 확인
+
+세 대상의 에피소드 JSON 9개를 모두 파싱했고, 『논어』·「Rule,
+Britannia!」·『조선책략』 로컬 표지는 작품 일치와 실사용 가능성을 육안
+확인했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 132 / confirmed_empty 26`, 비활성 `queued 153 / deferred 148`,
+장부 완료 35회이며 모든 감사 결함은 0건이다.
+
+서른여섯 번째 대상 루이 14세는 1676년 《아티스》 초판 대본과
+베르사유 바로크음악센터 자료를 대조했다. 초판 표제지는 1월 10일
+생제르맹앙레에서 국왕 앞에 상연됐다고 적고, 센터는 국왕이 초연 한 달
+전부터 여러 리허설에 참석했다고 확인한다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: MUSIC 장바티스트 륄리·필리프 키노 《아티스》
+- 제외: 서명·저자가 특정되지 않는 샤를 6세 역사서, 실연 무대인
+  코미디 발레, 실제 당구·사냥·보드게임
+- 메타데이터: Spotify 전곡 음반 `2zXarYBGc4FPVECGrwYwFq`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_louis_xiv_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/louis-xiv/`
+- 전곡 표지와 에피소드 JSON 3개를 육안·파싱 검수했다.
+
+서른일곱 번째 대상 마르코 폴로는 《동방견문록》 원문·헨리 율 주석,
+이란 백과사전과 스미스소니언 전기를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 알렉산더 로망스의 문학적 흔적은 있으나 읽은 언어·개별
+  서명·판본을 특정할 수 없고 루스티켈로의 개입 가능성도 있음
+- GAME: 쿠빌라이 궁정의 사냥·유희는 실제 활동이며 수영장 놀이
+  Marco Polo와 폴로 경기는 인물과 무관
+- MUSIC: 연회·전투 음악 상황은 확인되지만 곡명·창작자가 없음
+- VIDEO: 특정 생전 관람작 없이 후대 각색물만 확인됨
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_marco_polo_empty_research.sql`
+
+서른여덟 번째 대상 호메로스는 대영박물관·케임브리지·페르세우스와
+고전학 강의를 대조했다. 가장 이른 외부 언급도 추정 생존 시기보다
+수세기 늦고 고대 전기들은 출생지·시대·실명부터 충돌한다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 선행 구전 서사 전통은 제목·개별 창작자·고정 텍스트가 없음
+- MUSIC: 눈먼 음유시인·데모도코스 연결은 후대 전기적 추론이며 외부
+  곡이 아닌 본인 창작 공연 전승
+- VIDEO·GAME: 시대상 존재하지 않고 검색 결과는 후대 각색물뿐임
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_homer_empty_research.sql`
+
+적용 후 전수 감사 기준선은 활성 Light
+`open 129 / confirmed_empty 28`, 비활성 `queued 153 / deferred 148`,
+장부 완료 38회이며 모든 감사 결함은 0건이다.
+
+서른아홉 번째 대상 아르키메데스는 본인 저술의 서문, 플루타르코스
+《마르켈루스전》, 페르세우스와 세인트앤드루스대 수학사 자료를
+대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 알렉산드리아에서 유클리드 후계자들에게 배웠다는 설명은 현대의
+  개연성 높은 추정이며 특정 책 독서 기록이 아님
+- GAME: 《Stomachion》은 본인 귀속 수학 저술·물리 퍼즐
+- VIDEO·MUSIC: 전쟁 기계·후대 전기와 공성 장비의 악기 모양 비유 외에
+  제목 있는 소비 작품 없음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_archimedes_empty_research.sql`
+
+마흔 번째 대상 히포크라테스는 플라톤의 동시대 언급과 NLM·PMC
+의학사 연구를 대조했다. 동시대 기록은 의사·교사라는 사실만 전하고
+첫 상세 전기는 약 6세기 뒤 소라노스에게서 나온다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 《히포크라테스 전집》은 본인·학파 귀속 저술이며 개별 저자도
+  불확실함. 피타고라스 자연론과의 유사성은 특정 저작 독서가 아님
+- VIDEO·GAME·MUSIC: 후대 각색·운동 처방·음악 치료 일반론 외에
+  개인이 소비한 식별 작품 없음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_hippocrates_empty_research.sql`
+
+마흔한 번째 대상 오노노 고마치는 도쿄대, 일본 국립극장
+디지털라이브러리, 박물관·문학 연구를 대조했다. 역사적 생애는 거의
+알려지지 않고 현존 정보의 상당수가 12세기 이후 전설에서 형성됐다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 《고킨와카슈》·《고마치슈》는 본인 시와 사후 편집물
+- VIDEO: 고마치 노·가부키는 사후 수세기 뒤의 전설 각색
+- GAME: 《오구라 백인일수》는 13세기 편찬, 가루타는 에도시대 물리 놀이
+- MUSIC: 와카 창작과 후대 각색 외에 특정 감상곡 없음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_ono_no_komachi_empty_research.sql`
+
+캐시 무효화 뒤 세 공개 페이지 모두 `content_count: -1`을 확인했다.
+적용 후 전수 감사 기준선은 활성 Light
+`open 126 / confirmed_empty 31`, 비활성 `queued 153 / deferred 148`,
+장부 완료 41회이며 모든 감사 결함은 0건이다.
+
+마흔두 번째 대상 테오도라는 프로코피오스 《비사》, 클레어몬트 콥트
+백과와 케임브리지 극장·히포드롬 연구를 대조했다. 동시대 핵심 사료가
+적대적 수사라는 한계를 별도로 기록했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 종교 정책·성직자 보호와 별개로 특정 외부 저작 독서 기록 없음
+- VIDEO: 확인되는 무대 관계는 테오도라 자신의 공연이며 작품명도 없음
+- GAME: 니카 반란의 청색당·녹색당 전차경주는 실제 스포츠·정치 사건
+- MUSIC: 피리·하프·춤 대목은 본인의 무대 기능을 논한 것이며 감상곡 아님
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_theodora_empty_research.sql`
+
+마흔세 번째 대상 성삼문은 《조선왕조실록》 원문·국역과
+한국민족문화대백과사전·성균관대 한국유경편찬센터 전기를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 사가독서는 서명 미상, 《홍무정운》·《사성통고》·《동국정운》은
+  국가 질정·편찬 업무. 공동 상소의 《시》·《예》 언급은 개인 독서 진술 아님
+- VIDEO·MUSIC: 환동 선발과 창기 가무 교육은 명 사신 응대 행정이며
+  공연명·곡명·창작자가 없음
+- GAME: 바둑·장기·놀이 표기 변형까지 검색했으나 디지털 작품 기록 없음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_seong_sam_mun_empty_research.sql`
+
+마흔네 번째 대상 엘레오노르 다키텐은 네덜란드 국립도서관의 시편집,
+베르나르 드 벤타도른 원문을 인용한 케임브리지 자료와 최신 중세사 연구를
+대조했다. 널리 반복되는 “트루바두르의 여왕” 통념을 실제 감상으로
+바꾸지 않았다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 이른바 엘레오노르 시편집은 주문자 귀속이 추정이며 실제
+  소유·사용·독서 기록이 없음
+- MUSIC: 전령에게 “노르만인의 왕비”에게 노래하라는 문구는 수신자 동일성,
+  실제 전달과 청취를 입증하지 못함
+- GAME: 사랑의 법정은 실제 행사가 아니라 후대 풍자적 문학 허구
+- VIDEO: 생전 특정 공연 관람 기록 없이 후대 로망스·연극·영상만 확인됨
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_eleanor_of_aquitaine_empty_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 먼저 통과한 뒤
+`COMMIT`했다. 출처 18개는 모두 HTTP 200을 확인했고, 캐시 무효화 뒤 세
+공개 페이지 모두 `content_count: -1`을 반환했다. 적용 후 전수 감사
+기준선은 활성 Light `open 123 / confirmed_empty 34`, 비활성
+`queued 153 / deferred 148`, 장부 완료 44회이며 모든 감사 결함은 0건이다.
+
+마흔다섯 번째 대상 제노비아는 『히스토리아 아우구스타』 원문과
+조시무스, Livius의 사료 평가, 프랑스 문화부 팔미라 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: “그리스어로 읽은 로마사”는 작품명·저자가 없고 동방사 요약은 자작물
+- VIDEO: 팔미라 극장의 존재와 후대 제노비아 공연은 본인 관람작이 아님
+- GAME: 사냥·기마·군사 활동은 실제 활동이며 디지털 작품이 아님
+- MUSIC: 왕실 연회 일반론에 곡명·창작자·개인 청취 기록이 없음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_zenobia_empty_research.sql`
+
+마흔여섯 번째 대상 현장은 혜립·언종이 편찬한 7세기
+『대자은사삼장법사전』 BDK 완역 PDF와 IEP·유네스코·국립중앙박물관
+자료를 대조했다. 전기에서 현장은 계현에게 『유가사지론』을 배우려고
+중국에서 왔다고 직접 말하며, 계현이 현장을 위해 15개월 동안 강의하고
+현장이 해설을 세 차례 들었다고 기록한다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 『유가사지론』
+- 제외: 후대 서유기·현장 영상과 게임, 실제 순례·논쟁, 독경·의례 일반론
+- 메타데이터: 네이버 도서 ISBN `9791168561618`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_xuanzang_full_research.sql`
+- Remotion 스캐폴딩:
+  `sw/remotion/public/episodes/xuanzang/`
+- 대상 리소스 동기화: `1건 성공 / 실패 0`
+- 표지는 작품·판본 일치를 육안 확인했고 JSON 3개는 모두 파싱했다.
+
+마흔일곱 번째 대상 노자는 『사기』 권63 원문과 Stanford 철학백과의
+현대 문헌학 평가를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 주 왕실 장서 관리 직책에는 특정 서명이 없고 『도덕경』은
+  본인 저술 전승이자 단일 저자·역사 인물 동일성이 불확실함
+- VIDEO·MUSIC: 후대 신격화·의례·낭송·음악화는 생전 감상작이 아님
+- GAME: 양생·수행 전승과 현대 게임 캐릭터화는 본인 플레이 기록이 아님
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_laozi_empty_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 통과한 뒤 `COMMIT`했다.
+캐시 무효화 뒤 제노비아·노자는 `content_count: -1`, 현장은
+`content_count: 1`과 『유가사지론』 노출을 확인했다. 적용 후 전수 감사
+기준선은 활성 Light `open 120 / confirmed_empty 36`, 비활성
+`queued 153 / deferred 148`, 장부 완료 47회이며 모든 감사 결함은 0건이다.
+
+마흔여덟 번째 대상 신윤복은 한국민족문화대백과사전의
+『신윤복필풍속도화첩』 해설과 국립중앙박물관 소장품 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 김홍도·신한평·선행 풍속화는 비교·영향 추정이며 특정 감상작 아님
+- VIDEO: 「쌍검대무」·「무녀신무」는 그림 제목과 소재이지 관람작이 아님
+- GAME: 「연소답청」의 꽃놀이·풍류는 생활 풍속이며 디지털 작품이 아님
+- MUSIC: 거문고·생황이 그려졌지만 곡명·창작자·본인 청취가 특정되지 않음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_shin_yun_bok_empty_research.sql`
+
+마흔아홉 번째 대상 전봉준은 국사편찬위원회의 『전봉준 공초』 원문과
+동학 경전·민요 해설, 한국민족문화대백과사전 생애 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 공초의 “동학 서적 중에”는 서명 불명이며 『동경대전』·
+  『용담유사』 독서를 직접 진술하지 않음
+- VIDEO: 생전 사건의 후대 공연·영상화는 본인 관람작이 아님
+- GAME: 황토현·우금치 전투는 실제 전쟁이며 후대 게임화는 사후 수용물
+- MUSIC: 「새야 새야 파랑새야」는 처형 뒤 전봉준을 기린 민요
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_jeon_bong_jun_empty_research.sql`
+
+쉰 번째 대상 황진이는 한국민족문화대백과사전의 사료 한계 설명과
+문화체육관광부·국립국악원의 2010년 소리극 제작 기록을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: “당시를 정공했다”는 후대 야담은 장르 수준이며 작품·저자 불명
+- VIDEO: 2010년 소리극과 후대 영화·드라마는 사후 전기 각색물
+- GAME: 유혹 일화는 디지털 작품이 아니며 후대 오락화도 생전 이용작 아님
+- MUSIC: 거문고·가창 기량에는 곡명이 없고 소리극 34곡은 후대 창작
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_hwang_jini_empty_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 통과한 뒤 `COMMIT`했다.
+출처 URL은 모두 HTTP 200을 확인했고, 캐시 무효화 뒤 신윤복·전봉준·
+황진이 공개 페이지는 모두 `content_count: -1`을 반환했다. 적용 후 전수
+감사 기준선은 활성 Light `open 117 / confirmed_empty 39`, 비활성
+`queued 153 / deferred 148`, 장부 완료 50회이며 모든 감사 결함은 0건이다.
+
+쉰한 번째 대상 마리아 테레지아는 합스부르크 역사 포털의 궁정 음악·
+극장 자료와 빈 미술사박물관 소장으로 안내되는 그라이펠 귀속 초연 그림을
+대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: MUSIC 글루크 《Il Parnaso confuso》
+- 근거: 1765년 초연 그림에서 네 대공녀는 무대, 마리아 테레지아는
+  프란츠 1세·요제프 황태자와 맨 앞줄 관객으로 식별됨
+- 제외: 교육개혁·검열 행정, 궁정 실연의 후대 VIDEO 연결, 테니스장·
+  후대 교육용 게임
+- 메타데이터: Spotify 앨범 `6XAGnK6Cviwpvlzjjbe7qZ`, 16곡·2004년
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_maria_theresa_full_research.sql`
+
+쉰두 번째 대상 김홍도는 한국민족문화대백과사전의 「산수인물도」 실물
+해설과 출판사·네이버 도서 메타데이터를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 『유종원 시선』
+- 근거: 김홍도 그림에 유종원 「어옹」 구절이 직접 묵서되고, 연결 판본
+  목차에 「늙은 어부(漁翁)」가 실제 수록됨
+- 제외: 「무동」의 춤·악대, 「씨름」·「고누놀이」의 물리 놀이,
+  곡명 없는 대금·거문고 자가 연주
+- 메타데이터: 네이버 도서 ISBN `9791128823107`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_kim_hong_do_full_research.sql`
+
+쉰세 번째 대상 신사임당은 이이의 「선비행장」을 인용한 국사편찬위원회
+자료와 한국민족문화대백과사전을 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 학문·시문·자녀 교육은 전하지만 특정 외부 서명이 없음
+- VIDEO: 안견 화풍 사숙은 작품명 없는 회화 학습이고 후대 영상은 사후 각색
+- GAME: 초충도 일화와 후대 교육용 놀이는 본인 이용 작품이 아님
+- MUSIC: 거문고 소리에 눈물을 흘린 일화는 곡명·창작자·연주자 불명
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_shin_saimdang_empty_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 통과한 뒤 `COMMIT`했다.
+마리아 테레지아 음반의 Spotify 표지 원본은 64×64라 영상용으로 불합격
+판정했다. 같은 2004년 Albany 전곡 음반의 Apple Music 1000×1000 배포
+원본으로 두 locale를 조건부 교정했고, web-bo의 이미지 허용 목록에 공식
+CDN `is1-ssl.mzstatic.com` 하나를 추가했다. 최종 Remotion 표지는
+마리아 테레지아 620×620, 김홍도 458×672로 작품·판본 일치를 육안 확인했다.
+두 대상 리소스 동기화는 각각 `1건 성공 / 실패 0`, JSON 6개 파싱과
+허용 목록 파일 lint를 통과했다.
+
+캐시 무효화 뒤 마리아 테레지아·김홍도 공개 페이지는 각각
+`content_count: 1`과 작품명을, 신사임당은 `content_count: -1`을
+반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 114 / confirmed_empty 40`, 비활성 `queued 153 / deferred 148`,
+장부 완료 53회이며 모든 감사 결함은 0건이다.
+
+쉰네 번째 대상 흥선대원군은 경복궁 낙성연의 진채선 공연을 전한 KBS
+역사 자료와 한국민족문화대백과를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: MUSIC 「춘향가」 — 오정숙 41곡 완창 음반
+- 근거: 진채선이 흥선대원군 앞에서 「성조가」와 「춘향가」를 불렀고,
+  그가 소리를 들은 뒤 스승을 묻고 후원했다는 작품 단위 청취 장면
+- 제외: 정책 편찬물 『교학정례』, 사후 영화 《도리화가》, 물리 바둑
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_heungseon_daewongun_full_research.sql`
+
+쉰다섯 번째 대상 프톨레마이오스 1세는 프로클로스의 유클리드 주석
+공개본 두 종과 UCL·영국박물관 생애 자료를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 『유클리드 원론』
+- 근거: 『원론』보다 기하학을 더 짧게 배우는 길이 있는지 유클리드에게
+  물었다는 기록. 수백 년 뒤의 전승이라는 증거 한계는 감상경위에 명시
+- 제외: 후대 영상·전략 게임 재현, 궁정 종교·음악 후원 일반론
+- 기존 콘텐츠 재사용: 네이버 도서 ISBN `9788957338216`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_ptolemy_i_full_research.sql`
+
+쉰여섯 번째 대상 폴리비오스는 『역사』 6권 원문과 플라톤
+『국가』의 영향을 분석한 현대 고전학 논문을 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 플라톤 『국가·정체』
+- 근거: 플라톤과 “플라톤의 정체”를 직접 명명하고 실제 국가의 정체와
+  비판적으로 비교한 본문
+- 제외: 후대 교육 영상, 역사가와 무관한 동명 아케이드 괴담, 『역사』
+  4권의 아르카디아 음악교육 일반론
+- 기존 콘텐츠 재사용: 네이버 도서 ISBN `9788930606233`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_polybius_full_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 통과한 뒤 `COMMIT`했다.
+DB→Remotion 원칙에 따라 세 에피소드와 콘텐츠 골격을 만들고 대상 리소스
+동기화를 각각 `1건 성공 / 실패 0`으로 마쳤다. Spotify 「춘향가」 표지와
+네이버 『유클리드 원론』·『국가·정체』 표지는 작품 일치와 가독성을
+육안 확인했다.
+
+`celebs`·`contents` 캐시 무효화 뒤 세 공개 페이지는 모두
+`content_count: 1`과 연결 콘텐츠 UUID를 반환했다. 적용 후 전수 감사
+기준선은 활성 Light `open 111 / confirmed_empty 40`, 비활성
+`queued 153 / deferred 148`, 장부 완료 56회·진행 중 0회이며 모든 감사
+결함은 0건이다.
+
+쉰일곱 번째 대상 투키디데스는 『펠로폰네소스 전쟁사』 1.10 원문과
+『일리아스』 함선 목록의 수치 독해를 분석한 고전학 연구를 대조했다.
+
+- 결과: `light → full`, 실제 콘텐츠 1건
+- 채택: BOOK 호메로스 『일리아스』
+- 근거: 2권 함선 목록의 1,200척과 승선 인원을 뽑아 평균 병력을 계산하고
+  시인의 과장 가능성을 비판한 직접 본문
+- 제외: 델로스 제전의 합창·춤·체육 경기, 「아폴론 찬가」 가사 인용을
+  개인 관람·디지털 GAME·특정 연주 청취로 중복 확장하지 않음
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_thucydides_full_research.sql`
+
+쉰여덟 번째 대상 피타고라스는 동시대 헤라클레이토스 단편과
+스탠퍼드 철학백과의 사료 비판, 이암블리코스 전기를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: “여러 글”과 호메로스·헤시오도스의 “선별 구절”은 작품명 없음
+- VIDEO: 춤·연극적 피리 일반론뿐이며 제목 있는 관람작 없음
+- GAME: 수학·철학 교육과 후대 이름 사용은 디지털 GAME 소비가 아님
+- MUSIC: 프리기아·스폰데이오스 곡조와 치료용 선율은 곡명·창작자 불명
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_pythagoras_empty_research.sql`
+
+쉰아홉 번째 대상 찬드라굽타 마우리아는 메가스테네스 단편의 전승 한계,
+『아르타샤스트라』 성립 논쟁, 마우리아 궁정 자료를 대조했다.
+
+- 결과: 실제 콘텐츠 0건, `light / confirmed_empty`
+- BOOK: 『아르타샤스트라』의 저자·성립 논쟁과 직접 독서 진술 부재
+- VIDEO: 궁정 오락은 작품명이 없고 후대 영화·드라마는 사후 재현
+- GAME: 실제 사냥·정복전쟁과 현대 전략 게임을 분리
+- MUSIC: 인도 음악으로 잠들었다는 전승은 있으나 곡명·연주자 불명
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_chandragupta_maurya_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 투키디데스
+에피소드와 『일리아스』 골격을 만들고 대상 리소스 동기화를
+`1건 성공 / 실패 0`으로 마쳤다. 이 과정에서 기존 『일리아스』 한국어
+표지가 실제로는 헤시오도스 『신통기』임을 육안 발견했다. ISBN
+`9788991290167` 네이버 검색 결과의 정확한 숲 판본으로 DB·로컬 캐시를
+조건부 교정하고 다시 육안 합격 판정했다.
+
+캐시 무효화 뒤 투키디데스는 `content_count: 1`과 연결 UUID,
+피타고라스·찬드라굽타 마우리아는 각각 `content_count: -1`을 반환했다.
+적용 후 전수 감사 기준선은 활성 Light `open 108 / confirmed_empty 42`,
+비활성 `queued 153 / deferred 148`, 장부 완료 59회·진행 중 0회이며
+모든 감사 결함은 0건이다.
+
+예순 번째부터 예순두 번째 대상인 카니슈카·사포·그라쿠스 형제는 고대
+전승에서 발견되는 문화 활동과 실제 작품 소비를 다시 분리했다.
+
+- 카니슈카: 제4차 불교 결집과 아슈바고샤 후원·학습은 확인되지만
+  결집 논서나 스승의 특정 저술을 직접 읽었다는 기록은 없어 BOOK 후보를
+  기각했다. 간다라 미술·정복전쟁·쿠샨 문화 일반론도 VIDEO·GAME·MUSIC
+  감상작으로 확장하지 않았다.
+- 사포: 44번 단편의 헥토르·안드로마케 서사와 호메로스계 언어는 특정
+  『일리아스』 판본의 독서가 아니라 공유 구전 전통·상호텍스트성으로
+  판정했다. 본인의 노래·공연과 후대 사포 소재 작품도 제외했다.
+- 그라쿠스 형제: 코르넬리아의 그리스 교육과 디오파네스·블로시우스의
+  영향은 개별 책 제목을 전하지 않는다. 가이우스 연설 때 리키니우스가
+  낸 음정관 단음도 곡 감상이 아니며 형제 공통 콘텐츠로 일반화할 수 없다.
+- 결과: 세 인물 모두 실제 콘텐츠 0건, `light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_kanishka_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_sappho_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_the_gracchi_brothers_empty_research.sql`
+
+세 SQL은 각각 프로덕션 연결 `ROLLBACK` dry-run을 통과한 뒤 `COMMIT`했다.
+각 실행에는 BOOK·VIDEO·GAME·MUSIC 기각 finding 4건, 출처 5건, 완료 scope
+4건이 보존됐다. 캐시 무효화 뒤 세 공개 페이지는 모두 HTTP 200과
+`content_count: -1`을 반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 105 / confirmed_empty 45`, 비활성 `queued 153 / deferred 148`,
+장부 완료 62회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+예순세 번째부터 예순다섯 번째 대상인 안녹산·미트리다테스 6세·
+클로비스 1세도 사료에 남은 문화 활동과 개인의 작품 소비를 분리했다.
+
+- 안녹산: 여러 언어의 통역 능력은 특정 책 독서가 아니며, 호선무는
+  현종의 명령으로 본인이 춘 공연이다. 당 궁정의 서역계 음악·무용
+  일반론에서도 곡명·창작자를 특정하지 못했다.
+- 미트리다테스 6세: 의학 자료실은 외부 서명이 식별되지 않는 본인
+  수집·연구 기록이고, 페르가몬의 극장 정치와 디오니소스 경연은
+  후원·선전 활동이다. 실제 전쟁·고대 체육 경연도 GAME에서 제외했다.
+- 클로비스 1세: 레미기우스의 기독교 설교·교육은 구두 전승으로
+  제시되며 특정 성경·교리서 독서가 아니다. 세례 의식, 실제 전쟁,
+  후대 개종 극화도 작품 소비로 확장하지 않았다.
+- 결과: 세 인물 모두 실제 콘텐츠 0건, `light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_an_lushan_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_mithridates_vi_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_clovis_i_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 각 실행에는
+기각 finding 4건, 출처 5건, 완료 scope 4건이 보존됐다. 캐시 무효화 뒤
+세 공개 페이지는 모두 HTTP 200과 `content_count: -1`을 반환했다.
+적용 후 전수 감사 기준선은 활성 Light `open 102 / confirmed_empty 48`,
+비활성 `queued 153 / deferred 148`, 장부 완료 65회·진행 중 0회이며
+모든 감사 결함은 0건이다.
+
+예순여섯 번째부터 예순여덟 번째 대상인 헤롯 대왕·소하·탁문군도
+사료에 남은 공연·문서·음악 경험과 작품 단위 소비를 엄격히 분리했다.
+
+- 헤롯 대왕: 요세푸스는 헤롯이 예루살렘과 카이사레아에서 음악·체육·
+  무대 공연 경연과 검투·맹수·경마를 포함한 대회를 개최했다고 기록한다.
+  그러나 개별 극·곡의 제목과 창작자는 전하지 않아 축제나 장르 전체를
+  작품으로 등록하지 않았다.
+- 소하: 함양 입성 때 진 승상·어사 관청의 律令圖書를 거둔 행위는
+  법령·지도·호적 등 국가 문서 보존이다. 현대적 제목 있는 책 한 권의
+  개인 독서로 해석하지 않았고 후대 극화와 실제 초한전쟁도 제외했다.
+- 탁문군: 『사기』는 음악을 좋아하던 탁문군이 사마상여의 거문고를
+  숨어서 듣고 호감을 품었다고 명시하지만 곡명은 적지 않는다.
+  「봉구황」 가사·곡명은 훨씬 뒤 문헌·악보의 논쟁적 귀속이어서
+  무명 연주를 특정 작품으로 확대하지 않았다.
+- 결과: 세 인물 모두 실제 콘텐츠 0건, `light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_herod_the_great_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_xiao_he_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_zhuo_wenjun_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 각 실행에는
+기각 finding 4건, 출처 5건, 완료 scope 4건이 보존됐다. 캐시 무효화 뒤
+세 공개 페이지는 모두 HTTP 200과 `content_count: -1`을 반환했다.
+적용 후 전수 감사 기준선은 활성 Light `open 99 / confirmed_empty 51`,
+비활성 `queued 153 / deferred 148`, 장부 완료 68회·진행 중 0회이며
+모든 감사 결함은 0건이다.
+
+예순아홉 번째부터 일흔한 번째 대상인 헤로도토스·사도 요한·
+다리우스 1세를 이어 조사했다.
+
+- 헤로도토스: 『역사』 2.116은 『일리아스』 6.289~292와
+  『오뒷세이아』 4.227~230·351~352를 직접 인용해 헬레네의 이집트
+  체류를 논한다. 작품명·권·구체 행을 비판적으로 활용한 근거이므로
+  기존 BOOK 2건을 채택했다. 프리니코스의 「밀레토스 함락」,
+  올림피아 경기, 마네로스 노래는 타인 관람·실제 경기·민속 서술이라
+  나머지 유형에서 기각했다.
+- 사도 요한: 요한복음·서신·계시록의 전통적 저자 귀속은 복음사가·
+  밧모의 요한·장로 요한과 역사적 사도의 동일성 문제를 통과하지
+  못한다. 최후의 만찬 뒤 공동 찬송도 곡명·시편 번호가 없어 작품으로
+  특정하지 않았다.
+- 다리우스 1세: 베히스툰 비문과 제국 배포 사본은 자기 왕명 기록·
+  행정 선전물이고, 궁정 공연은 작품명이 없으며 사냥·원정은 실제
+  활동이다. 다리우스 3세 궁정의 가수 기록도 1세에게 소급하지 않았다.
+- 결과: 헤로도토스 BOOK 2건·`full`, 사도 요한·다리우스 1세는 실제
+  콘텐츠 0건·`light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_herodotus_full_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_john_the_apostle_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_darius_i_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 헤로도토스에는
+finding 5건(채택 2·기각 3), 출처 9건, 완료 scope 4건을 보존했고 두
+0건 실행에는 각각 기각 finding 4건, 출처 5건, 완료 scope 4건을 보존했다.
+캐시 무효화 뒤 헤로도토스 공개 페이지는 HTTP 200,
+`content_count: 2`와 두 콘텐츠 UUID를, 사도 요한·다리우스 1세는
+HTTP 200과 `content_count: -1`을 반환했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/herodotus/`에
+메타와 두 BOOK 골격을 만들고 리소스 동기화를 각각
+`1건 성공 / 실패 0`으로 마쳤다. 이 과정에서 기존 『오뒷세이아』
+한국어 썸네일이 책이 아닌 선풍기 상품 사진인 결함을 발견했다.
+`sw/web/supabase/ops/20260730_fix_odyssey_thumbnail.sql`로 ISBN
+`9788991290150`의 숲 2015 개정판 YES24 원본을 DB에 조건부 반영하고
+로컬 캐시를 재생성했다. 『일리아스』·『오뒷세이아』 두 표지는 모두
+작품·판본 일치와 가독성을 육안 확인했다.
+
+적용 후 전수 감사 기준선은 활성 Light `open 96 / confirmed_empty 53`,
+비활성 `queued 153 / deferred 148`, 장부 완료 71회·진행 중 0회이며
+모든 감사 결함은 0건이다.
+
+일흔두 번째부터 일흔네 번째 대상인 디오게네스·가의·마르쿠스 아그리파를
+이어 조사했다.
+
+- 디오게네스: 디오게네스 라에르티오스 6.36·55·57·67·104의 본문과
+  편집 주석은 『메데이아』 410행, 『포이니케 여인들』 40행,
+  『일리아스』 3.65·5.83 등, 『오뒷세이아』 1.157·4.70·4.392를
+  디오게네스가 대화와 풍자에 활용한 구절로 식별한다. 작품명과 구체
+  행을 알아보고 변주한 기록이므로 기존 BOOK 4건을 채택했다.
+  디오니시아 공연 일반에 대한 풍자, 올림피아 방문, 무명 노래·연주는
+  작품 단위 또는 현대 유형 요건을 통과하지 못했다.
+- 가의: 『한서』 「가의전」의 “年十八，以能誦詩書屬文稱於郡中”을
+  경학 연구가 `誦《詩》《書》`로 문장부호를 붙여 『시경』·『서경』
+  암송으로 해석한다. 「유림전」은 가의가 『춘추좌씨전』을 연구하고
+  훈고를 지어 관공에게 전수했다고 별도로 기록한다. 이에 기존 BOOK
+  3건을 채택했다. 본인의 『신서』·부·정론과 예악 사상은 외부 작품
+  소비에서 제외했다.
+- 마르쿠스 아그리파: 수에토니우스계 『베르길리우스 생애』 44의
+  “M. Vipsanius”는 아그리파로 보는 견해가 있으나 본문 이문·다른 인물
+  가능성이 논쟁적이고 비평 대상 작품명도 없다. 아그리파 자신의 지리
+  주석·세계지도, 악티움 축제·키르쿠스·체육·검투 경기 운영, 공연
+  시설 후원은 외부 작품의 개인 소비가 아니므로 네 유형 0건을 확정했다.
+- 결과: 디오게네스 BOOK 4건·`full`, 가의 BOOK 3건·`full`,
+  마르쿠스 아그리파 실제 콘텐츠 0건·`light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_diogenes_full_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_jia_yi_full_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_marcus_agrippa_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 디오게네스에는
+finding 7건(채택 4·기각 3), 출처 11건, 완료 scope 4건을 보존했고,
+가의에는 finding 6건(채택 3·기각 3), 출처 12건, 완료 scope 4건을
+보존했다. 아그리파 실행에는 기각 finding 4건, 출처 5건, 완료 scope
+4건을 보존했다. dry-run 중 기존 『서경』의 `contents.user_count=22`와
+실제 연결 24건의 드리프트를 발견했고, 가의 연결 뒤 실측 25건으로
+동기화되도록 조건부 검증했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/diogenes/`에
+BOOK 4개, `sw/remotion/public/episodes/jia-yi/`에 BOOK 3개의 골격을
+만들고 리소스 동기화 7건을 모두 `1건 성공 / 실패 0`으로 마쳤다.
+네이버 API에서 각 ISBN의 판본·출간 연도를 다시 확인했고,
+『메데이아』·『포이니케 여인들』·『시경』·『서경』·『춘추좌전』 표지를
+육안 검수했다. 재사용한 『일리아스』·『오뒷세이아』도 앞선 배치에서
+작품·판본 일치 검수를 통과한 캐시다.
+
+`celebs`·`contents` 캐시 무효화 뒤 디오게네스 공개 페이지는 HTTP 200과
+`content_count: 4`, 가의는 HTTP 200과 `content_count: 3` 및 각 연결
+콘텐츠 UUID 전부를 반환했다. 마르쿠스 아그리파는 HTTP 200과
+`content_count: -1`을 반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 93 / confirmed_empty 54`, 비활성 `queued 153 / deferred 148`,
+장부 완료 74회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+일흔다섯 번째부터 일흔일곱 번째 대상인 카라바조·카스파르 다비트
+프리드리히·나폴레옹 3세를 이어 조사했다.
+
+- 카라바조: 이탈리아 문화부는 그림 속 악보가 실제로 존재하며 지금도
+  추적·연주할 수 있다고 밝히고, 《이집트로 피신하는 길의 휴식》의
+  노엘 볼드베인 〈Quam Pulchra Es〉, 델 몬테 주문본 《류트 연주자》의
+  프란체스코 데 라이올레 〈Lasciar il velo〉와 자케 드 베르켐
+  〈Perché non date voi〉, 주스티니아니 주문본의 아르카델트 마드리갈
+  4곡을 제목·작곡가 단위로 열거한다. Spotify의 일치 트랙 7건을 새로
+  등록했다. 성서·고전 도상은 특정 판본 독서가 아니며 공놀이·테니스
+  일화도 디지털 GAME이 아니어서 기각했다.
+- 카스파르 다비트 프리드리히: 그라이프스발트대가 원문 소장처와 함께
+  공개한 부부 편지 30통을 전수 검색했다. 아내가 남편이 “아마 읽거나
+  창밖을 보고 있을 것”이라고 쓴 문장에는 책 제목이 없다. 프리드리히가
+  보관한 『Hours of Devotion』 4권은 D. Bechly의 소유물로 반환 방법만
+  묻고, 동생의 〈마왕〉 목판화 언급도 괴테 원작 독서를 증명하지 않는다.
+  오시안·에다의 미술사적 영향 연구를 직접 독서로 확장하지 않아 네
+  유형 0건을 확정했다.
+- 나폴레옹 3세: Fondation Napoléon은 1858년 1월 14일 황제 부부가
+  파리 오페라에 도착하다 오르시니의 폭탄 공격을 받았고, 그날
+  프로그램에 로시니 《기욤 텔》이 있었으며 테러 뒤에도 공연을 관람해
+  자정에 떠났다고 기록한다. 작품명·날짜·장소·관람 완료가 함께 확인된
+  MUSIC 1건을 새로 등록했다. 함 요새에서 읽은 “발자크 작품들”은 개별
+  제목이 없고, 같은 날의 실러 연극·오베르 발레 발췌는 현대 VIDEO가
+  아니며 황실 사냥·사교 오락도 디지털 GAME이 아니어서 기각했다.
+- 결과: 카라바조 MUSIC 7건·`full`, 프리드리히 실제 콘텐츠
+  0건·`light / confirmed_empty`, 나폴레옹 3세 MUSIC 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_caravaggio_full_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_caspar_david_friedrich_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_napoleon_iii_full_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 카라바조에는
+finding 10건(채택 7·기각 3), 출처 17건, 완료 scope 4건을 보존했고,
+프리드리히에는 기각 finding 4건·출처 5건·완료 scope 4건,
+나폴레옹 3세에는 finding 4건(채택 1·기각 3)·출처 7건·완료 scope
+4건을 보존했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/caravaggio/`에
+MUSIC 7개, `sw/remotion/public/episodes/napoleon-iii/`에
+《기욤 텔》 1개의 골격을 만들었다. 리소스 동기화 8건은 모두
+`1건 성공 / 실패 0`이고 새 JSON 12개는 전부 파싱됐다. 같은 음반 표지를
+공유하는 트랙을 묶어 실제 표지 4종을 열어 보았으며 볼드베인·앙상블 코·
+아르카델트·로시니 음반이 각각 작품과 일치하고 텍스트도 읽을 수 있어
+모두 승인했다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 카라바조
+`content_count: 7`, 프리드리히 `content_count: -1`, 나폴레옹 3세
+`content_count: 1`을 반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 90 / confirmed_empty 55`, 비활성 `queued 153 / deferred 148`,
+장부 완료 77회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+일흔여덟 번째부터 여든 번째 대상인 자한기르·자크 루이 다비드·
+척계광을 이어 조사했다.
+
+- 자한기르: 『자한기르 회고록』 원문에서 바부르의 친필 회고록이
+  자기 앞을 지나갔고 네 구획을 직접 베껴 썼다는 기록을 확인했다.
+  같은 회고록의 하킴 사나이 인용은 편집 주석이 『진리의 정원』
+  해당 권으로 식별한다. 기존 『바부르나마』와 신규 『진리의 정원』
+  BOOK 2건을 연결했다. 어린 시절 읽었다는 자미의 『사십 언행록』은
+  직접 근거가 있지만 허용된 메타데이터 공급원에서 독립적인 일치
+  판본을 확보하지 못해 후보 finding으로만 보존했다.
+- 자크 루이 다비드: 그로에게 보낸 편지에서 “플루타르코스를 펼쳐
+  모두가 아는 주제를 고르라”고 직접 권한 대목과, 루브르 교육 자료가
+  《사비니 여인들》의 원천으로 『로물루스 전』을 든 기록을 교차했다.
+  기존 『플루타르코스 영웅전』 BOOK 1건을 연결했다. 1782년에 본
+  코르네유의 무대극은 서비스 VIDEO 정의 밖이어서 기각했다.
+- 척계광: 『기효신서』 서문 원문에서 “손무의 책을 읽었다”고 밝히고
+  병법을 무기고에 비유하면서도 실제 운용의 한계를 논한 대목을
+  확인했다. 기존 『손자병법』 BOOK 1건을 연결했다. 군사 훈련·무술은
+  디지털 GAME이 아니며 본인이 만든 군가는 외부 MUSIC 소비가 아니어서
+  기각했다.
+- 결과: 자한기르 BOOK 2건·`full`, 자크 루이 다비드 BOOK 1건·`full`,
+  척계광 BOOK 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_jahangir_full_research.sql`,
+  `sw/web/supabase/ops/20260730_fix_baburnama_ko_locale.sql`,
+  `sw/web/supabase/ops/20260730_apply_jacques_louis_david_full_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_qi_jiguang_full_research.sql`
+
+네 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 자한기르에는
+finding 6건(채택 2·기각 4), 출처 8건, 완료 scope 4건을 보존했고,
+자크 루이 다비드에는 finding 4건(채택 1·기각 3), 출처 6건,
+척계광에는 finding 4건(채택 1·기각 3), 출처 7건을 보존했다. 두
+실행에도 완료 scope는 각각 4건이다. 『바부르나마』의 비어 있던 한국어
+판본 ISBN·출판사·표지도 네이버 메타데이터로 함께 보완했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/jahangir/`에
+BOOK 2개, `sw/remotion/public/episodes/jacques-louis-david/`와
+`sw/remotion/public/episodes/qi-jiguang/`에 각각 BOOK 1개의 골격을
+만들었다. 리소스 동기화 4건은 모두 `1건 성공 / 실패 0`이고 새 JSON
+10개는 전부 파싱됐다. 『바부르나마』·『진리의 정원』·
+『플루타르코스 영웅전』·『손자병법』 표지 4종도 육안 검수해 작품과
+판본이 일치함을 확인했다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 자한기르
+`content_count: 2`, 자크 루이 다비드와 척계광은 각각
+`content_count: 1`을 반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 87 / confirmed_empty 55`, 비활성 `queued 153 / deferred 148`,
+장부 완료 80회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+여든한 번째부터 여든세 번째 대상인 광해군·우타가와 히로시게·
+안토니오 비발디를 이어 조사했다.
+
+- 광해군: 『광해군일기』 중초본은 1612년 9월 18일 조강에서 임금이
+  《상서》 대고편을 강독하고 “영승우려”의 뜻을 직접 물어 신하들과
+  본문을 논했다고 기록한다. 날짜·편명·문답이 함께 남은 직접 독서이므로
+  기존 『서경』 BOOK 1건을 연결했다. 궁중 여악의 제도 운영은 특정
+  음악 작품의 개인 감상으로 바꾸지 않았다.
+- 우타가와 히로시게: 산토리미술관은 명소도회·『북재만화』·
+  『산수기관』을 판화의 제작 참고 자료로 열거하고 미국 의회도서관은
+  호쿠사이 연작의 영향을 설명한다. 그러나 모두 후대 도상 연구이며,
+  히로시게 자신의 편지·일기·서문에 남은 직접 독서 진술이 아니다.
+  가부키 《국성야합전》 소재 판화도 특정 공연 관람을 입증하지 않고
+  무대극은 VIDEO 정의 밖이어서 네 유형 0건으로 확정했다.
+- 안토니오 비발디: 1727년 오페라 《Orlando furioso》 초판 대본의
+  `Argomento`가 아리오스토 이야기에서 현재의 극을 취했다고 직접
+  명시한다. 비발디가 음악을 붙인 텍스트의 동시대 원전 고지이므로 기존
+  『광란의 오를란도』 BOOK 1건을 연결했다. 본인 오페라는 자기 작품이자
+  무대극이라 VIDEO에서 제외했고, 코렐리풍 양식은 학술 연구도 간접
+  습득 가능성을 제시하므로 직접 MUSIC 청취로 채택하지 않았다.
+- 결과: 광해군 BOOK 1건·`full`, 우타가와 히로시게 실제 콘텐츠
+  0건·`light / confirmed_empty`, 안토니오 비발디 BOOK 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_gwanghaegun_full_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_utagawa_hiroshige_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_antonio_vivaldi_full_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 광해군에는
+finding 4건(채택 1·기각 3), 출처 6건, 히로시게에는 기각 finding 4건·
+출처 5건, 비발디에는 finding 4건(채택 1·기각 3), 출처 7건을 보존했다.
+세 실행의 scope 4종은 모두 완료됐다. 비발디 dry-run 중 다른 연결이 먼저
+추가되어 실제 공유 수가 5명으로 늘어난 것을 가드가 감지했고, 재대조 후
+이번 연결을 포함한 `user_count=6`으로 동기화했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/gwanghaegun/`과
+`sw/remotion/public/episodes/antonio-vivaldi/`에 각각 BOOK 1개의 골격을
+만들었다. 리소스 동기화는 각각 `1건 성공 / 실패 0`이고 새 JSON 6개는
+전부 파싱됐다. 네이버 『서경』 을유문화사 판본과 『광란의 오를란도』
+휴머니스트 1권 표지를 열어 작품·판본 일치와 가독성을 육안 확인했다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 광해군과 안토니오
+비발디가 각각 `content_count: 1`, 우타가와 히로시게가
+`content_count: -1`을 반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 84 / confirmed_empty 56`, 비활성 `queued 153 / deferred 148`,
+장부 완료 83회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+여든네 번째부터 여든여섯 번째 대상인 필리포 브루넬레스키·정몽주·
+샤 루흐를 이어 조사했다.
+
+- 필리포 브루넬레스키: 초기 전기 자료의 “단테 작품을 연구하고 잘
+  이해했다”는 증언과 우피치의 단테 사후세계 측정·재현 전통 설명을
+  교차했다. 대상 작품을 『신곡』으로 식별해 기존 BOOK 1건을 연결했다.
+  성경은 일반 독서 전승만 있어 별도 판본에 연결하지 않았다.
+- 정몽주: 『포은집』 권2의 「주역을 읽고」와 「겨울밤에 춘추를 읽다」
+  원문을 확인했다. 『주역』은 정확한 네이버 판본이 있어 기존 BOOK
+  1건을 연결했다. 『춘추』는 직접 증거는 통과했지만 네이버·OpenLibrary에
+  원전 독립 판본이 없고 기존 DB 동명 항목이 공양전·좌전·다른 영문
+  저작과 뒤섞여 있어 finding만 보존하고 연결하지 않았다.
+- 샤 루흐: 헤라트 도서관과 하피즈이 아브루 역사서·코란 필사본·궁정
+  음악가 후원은 확인했으나 제작·주문·소장과 직접 독서를 구분했다.
+  제목 없는 페르시아 역사 독서 진술과 아들들의 니자미·아미르 호스로
+  선호 일화도 채택하지 않아 네 유형 0건으로 확정했다.
+- 결과: 필리포 브루넬레스키 BOOK 1건·`full`, 정몽주 BOOK 1건·`full`,
+  샤 루흐 실제 콘텐츠 0건·`light / confirmed_empty`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_apply_filippo_brunelleschi_full_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_jeong_mong_ju_full_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_shah_rukh_empty_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 브루넬레스키는
+finding 4건(채택 1·기각 3), 출처 6건, 정몽주는 finding 5건(채택 1·
+보류성 기각 1·유형 기각 3), 출처 8건, 샤 루흐는 기각 finding 4건·
+출처 7건을 보존했다. 세 실행의 scope 4종은 모두 완료됐다. 정몽주가
+연결된 기존 『주역』은 저장된 `user_count=14`와 실제 연결 21건이
+어긋나 있었으며 이번 연결을 포함한 실측 22건으로 동기화했다.
+
+DB→Remotion 원칙에 따라
+`sw/remotion/public/episodes/filippo-brunelleschi/`와
+`sw/remotion/public/episodes/jeong-mong-ju/`에 각각 『신곡』과 『주역』
+BOOK 1개 골격을 만들었다. 리소스 동기화는 각각
+`1건 성공 / 실패 0`이다. 『신곡』 표지는 작품·판본과 일치했고,
+『주역』 표지는 룰렛 사진을 쓴 이례적인 출판사 원본이지만 제목·ISBN·
+출판사가 연결 판본과 일치함을 육안 확인했다. 새 JSON 6개는 모두
+파싱됐다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 필리포 브루넬레스키와
+정몽주가 각각 `content_count: 1`, 샤 루흐가 `content_count: -1`을
+반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 81 / confirmed_empty 57`, 비활성 `queued 153 / deferred 148`,
+장부 완료 86회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+여든일곱 번째부터 여든아홉 번째 대상인 성덕왕·미하일 8세·호스로 1세를
+이어 조사했다.
+
+- 성덕왕: 『삼국사기』 본기와 공식 한국사 해설을 대조했다. 공자·십철·
+  72제자 초상 안치, 국학·의박사·산박사 정비, 왕족의 당 유학은 국가
+  교육 정책이며 왕 개인의 특정 경전 독서가 아니다. 성덕대왕신종도
+  사후 경덕왕의 발원과 혜공왕대 완성 유물이라 네 유형 0건으로 확정했다.
+- 미하일 8세: 본인의 두 티피콘에 담긴 자전적 진술, 파키메레스 연대기,
+  후기 비잔틴 교육사를 조사했다. 제국 학교와 고전 학문 후원은 개인
+  독서가 아니며, 누이 에울로기아가 불렀다는 “도시에 관한 노래”는
+  곡명·창작자·고정 텍스트가 없는 예언 자장가 전승이다. 외교를
+  “체스 선수”에 비유한 현대 논문도 실제 게임 기록이 아니어서 0건이다.
+- 호스로 1세: 미 의회도서관의 16~17세기 《칼릴라와 딤나》 필사본
+  설명에서 부르조에가 왕과 신하들에게 책을 읽는 장면을 확인했다.
+  동시대 기록이 아니라 여러 후대 판본에 형성된 전승이라는 이란백과의
+  비판까지 감상경위에 밝혀 기존 『판차탄트라』 BOOK 1건을 연결했다.
+  체스는 보조르메흐가 규칙을 푼 전설이고, 바르바드는 호스로 2세의
+  음악가라 제외했다.
+- 결과: 성덕왕·미하일 8세 실제 콘텐츠 0건·
+  `light / confirmed_empty`, 호스로 1세 BOOK 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_king_seongdeok_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_michael_viii_palaiologos_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_khosrow_i_full_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 성덕왕은
+기각 finding 4건·출처 5건, 미하일 8세는 기각 finding 4건·출처 6건,
+호스로 1세는 finding 4건(채택 1·기각 3)·출처 7건을 보존했다.
+세 실행의 scope 4종은 모두 완료됐다. 호스로 1세가 연결된 기존
+『판차탄트라』 한국어 locale는 네이버 API 설명에 원저자가 명시되어
+있으면서 creator가 비어 있던 결함도 `비슈누 샤르마`로 보완했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/khosrow-i/`에
+『세계의 지혜 판차탄트라 세트』 BOOK 1개 골격을 만들었다. 리소스
+동기화는 `1건 성공 / 실패 0`이며, 다섯 권 전집을 함께 보여 주는 네이버
+원본 표지가 ISBN 9788989370413 판본과 일치함을 육안 확인했다.
+새 JSON 3개도 모두 파싱됐다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 성덕왕과 미하일 8세가
+각각 `content_count: -1`, 호스로 1세가 `content_count: 1`을 반환했다.
+적용 후 전수 감사 기준선은 활성 Light
+`open 78 / confirmed_empty 59`, 비활성 `queued 153 / deferred 148`,
+장부 완료 89회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+아흔 번째부터 아흔두 번째 대상인 상앙·람세스 2세·조광윤을 이어
+조사했다.
+
+- 상앙: 《사기·상군열전》과 《진서·형법지》, 초기 중국법 연구를
+  대조했다. 이회의 《법경》을 상앙이 전수받았다는 전승은 7세기
+  《진서》에 처음 나타나며 원전도 소실됐다. 법제 계승을 개인 독서로
+  확정하지 않고 네 유형 0건으로 처리했다.
+- 람세스 2세: 대영박물관의 파피루스 살리에 3은 「카데시 시」가
+  람세스 자신의 승리를 1인칭으로 선전하는 왕실 문학 기록임을 보여
+  준다. 메트로폴리탄미술관의 세드 축제 부조도 의례 개최 증거일 뿐
+  제목 있는 공연 감상은 아니다. 동시대 세네트 일반과 왕비 네페르타리의
+  유명한 대국 장면도 람세스 개인에게 전가하지 않아 0건으로 확정했다.
+- 조광윤: 《송사·형법지》의 “짐은 매번 《한서》를 읽는다”는 직접
+  발언과 장석지·우정국의 재판을 신하에게 요구한 문맥을 확인했다.
+  기존 『한서 열전 1』 BOOK 1건을 연결하고 `full`로 승격했다.
+- 결과: 상앙·람세스 2세 실제 콘텐츠 0건·`light / confirmed_empty`,
+  조광윤 BOOK 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_shang_yang_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_ramesses_ii_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_zhao_kuangyin_full_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 각 실행은
+finding 4건을 보존했고, 상앙·람세스 2세는 전부 기각, 조광윤은
+채택 1건·기각 3건이다. 출처는 세 실행 모두 6건이며 scope 4종도 전부
+완료됐다. 『한서 열전 1』의 기존 `user_count`는 실제 연결 수에 맞춰
+2에서 3으로 동기화했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/zhao-kuangyin/`에
+『한서 열전 1』 BOOK 1개 골격을 만들었다. 리소스 동기화는
+`1건 성공 / 실패 0`이며 네이버 정식 판본 표지가 제목·저자·ISBN과
+일치하고 가독성도 양호함을 육안 확인했다. 새 JSON 3개도 모두
+파싱됐다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 상앙과 람세스 2세가
+각각 `content_count: -1`, 조광윤이 `content_count: 1`을 반환했다.
+적용 후 전수 감사 기준선은 활성 Light
+`open 75 / confirmed_empty 61`, 비활성 `queued 153 / deferred 148`,
+장부 완료 92회·진행 중 0회이며 모든 감사 결함은 0건이다.
+
+아흔세 번째부터 아흔다섯 번째 대상인 관중·재러드 카플란·알 마문을
+이어 조사했다.
+
+- 관중: 《사기·관안열전》·《국어·제어》와 《관자》 성립 연구를
+  대조했다. 후대 복합 문헌 《관자》의 “《시》에 이르기를” 같은 인용은
+  관중 자신의 발언으로 소급할 수 없어 네 유형 0건으로 확정했다.
+- 재러드 카플란: 존스홉킨스대·Simons Foundation 공식 프로필,
+  본인 AI 인터뷰와 구술사를 조사했다. 본인 논문·공개 강연 외에 책·
+  영화·게임·음악의 작품 단위 소비 발언은 확인되지 않아 0건으로
+  확정했다.
+- 알 마문: 《타바리 역사》 제32권이 보존한 833년 친서에서 꾸란
+  43:3·6:1·20:99·11:1을 직접 인용하고 해석한 대목을 확인해 기존
+  『코란(꾸란)』 BOOK 1건을 연결했다. 체스 향유와 무카리크가
+  이븐 수라이즈의 선율로 자리르의 시를 부른 직접 청취 장면도
+  보존했지만 IGDB·Spotify에서 작품 단위 메타를 확정할 수 없어
+  기각 finding으로 근거와 보류 사유를 남겼다.
+- 결과: 관중·재러드 카플란 실제 콘텐츠 0건·
+  `light / confirmed_empty`, 알 마문 BOOK 1건·`full`
+- DB 적용:
+  `sw/web/supabase/ops/20260730_confirm_guan_zhong_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_confirm_jared_kaplan_empty_research.sql`,
+  `sw/web/supabase/ops/20260730_apply_al_mamun_full_research.sql`
+
+세 SQL은 프로덕션 연결 `ROLLBACK` dry-run 뒤 `COMMIT`했다. 각 실행은
+finding 4건을 보존했고, 관중·재러드 카플란은 전부 기각, 알 마문은
+채택 1건·기각 3건이다. 출처는 각각 6건·6건·7건이며 scope 4종도
+전부 완료됐다. 『코란(꾸란)』의 기존 `user_count`는 실제 연결 수에
+맞춰 17에서 18로 동기화했다.
+
+DB→Remotion 원칙에 따라 `sw/remotion/public/episodes/al-mamun/`에
+『코란(꾸란)』 BOOK 1개 골격을 만들었다. 리소스 동기화는
+`1건 성공 / 실패 0`이다. 기존 표지 URL은 같은 ISBN의 네이버 현행
+458×671 원본으로 조건부 교체했고 작품·판본 일치와 제목 가독성을
+육안 확인했다. 새 JSON 3개도 모두 파싱됐다. 별도 교정 SQL은
+`sw/web/supabase/ops/20260730_refresh_quran_naver_thumbnail.sql`이다.
+
+`celebs`·`contents` 캐시 무효화 뒤 공개 페이지는 관중과 재러드
+카플란이 각각 `content_count: -1`, 알 마문이 `content_count: 1`을
+반환했다. 적용 후 전수 감사 기준선은 활성 Light
+`open 72 / confirmed_empty 63`, 비활성 `queued 153 / deferred 148`,
+장부 완료 95회·진행 중 0회이며 모든 감사 결함은 0건이다.
 
 ## 2026-07-29 의미 교정
 

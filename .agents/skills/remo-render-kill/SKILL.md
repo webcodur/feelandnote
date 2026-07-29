@@ -24,7 +24,7 @@ description: 진행 중인 Remotion 렌더 프로세스를 자식 트리까지 �
 | 프로세스 | 식별 단서 |
 |---------|-----------|
 | Remotion Studio | CommandLine에 `remotion-cli ... studio` |
-| Next.js dev (web/bo/remotion-bo) | `next dev` 또는 `next/dist/server/lib/start-server.js` |
+| Next.js dev (web/web-bo) | `next dev` 또는 `next/dist/server/lib/start-server.js` |
 | MCP 서버 | `mcp-server-*`, `@supabase/mcp-server` |
 | Claude Code 본체 | `claude` 또는 본 프로세스 자신 |
 

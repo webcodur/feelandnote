@@ -56,7 +56,7 @@ sw/remotion/public/
 
 ```bash
 pnpm dev:remotion     # Remotion Studio (:3002) + serve (:8001)
-pnpm dev:remotion-bo  # 영상 관리 대시보드 (:3003)
+pnpm dev:bo           # 영상 제작 관리가 통합된 web-bo (:3001)
 ```
 
 ### 음성 파이프라인
@@ -158,6 +158,6 @@ TTS 오버라이드 구조 상세: [voice/tts.md — TTS 오버라이드 구조]
 ### bash 별칭
 
 ```
-1/2/3/4/5     → dev 서버 실행 (web/bo/remotion/remotion-bo/lab)
+1/2/3/4/5     → dev 서버 실행 (web/bo/remotion/lab/audio-bo)
 rv/rvl        → voice/voice:list
 ```

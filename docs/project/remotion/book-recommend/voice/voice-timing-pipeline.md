@@ -121,7 +121,7 @@ pnpm voice:tts -- --episode <ep> --long --normalize --update-json
 
 ## UI 보조 — VoicePipelineStatus 패널
 
-`remotion-bo/scenario` 페이지 상단 고정. 5단계의 위험지역을 한눈에:
+web-bo `/book-recommend/<인물>/scenario` 페이지 상단 고정. 5단계의 위험지역을 한눈에:
 
 - **Synthesis**: tts.replace 누락 토큰
 - **Alignment**: 안전망 잔존 이상 (음수·찌부)

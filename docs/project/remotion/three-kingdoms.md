@@ -77,7 +77,7 @@
 ### 영향받는 호출 경로
 
 - `sw/remotion/scripts/youtube/youtube-upload.ts` — `pnpm youtube:upload`, `pnpm youtube:patch-meta`
-- `sw/remotion-bo/src/app/api/[series]/youtube/sync/route.ts` — BO 대시보드의 YouTube 동기화
+- `sw/web-bo/src/app/api/[series]/youtube/sync/route.ts` — BO 대시보드의 YouTube 동기화
 
 기존 업로드된 영상에 시그널을 소급 적용하려면 `pnpm youtube:patch-meta -- --episode <slug>` 실행. 영상 파일은 그대로 두고 제목·설명·태그만 갱신한다.
 

@@ -2,6 +2,8 @@
 
 > 실측 대조: 26.07.26 — 에피소드 5편·발언 66·인물 9 전수, remotion-bo 담화 코드 전수(21+3파일), 읽기/쓰기 주체 전수, 팩션 5테이블 DDL 실조회, 셀럽 slug 8건 전수. 선례: `faction-unification.md`(Phase 1~5 완료). 기획 원문: `discourse.md`(§0에 실효 항목 정리).
 > 골격은 팩션과 동일: DB 단일 원천 + web-bo 단일 편집기 + export 산출물 강등 + remotion-bo 담화 구역 폐기.
+>
+> **후속 완료(26.07.29):** 북리커맨드도 web-bo로 이관되어 remotion-bo 앱 전체가 폐기됐다.
 
 ## 0. 실측이 뒤집은 전제 4개
 
@@ -132,7 +134,7 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 | 4b | 편집기 21파일 이식 + 데이터층 4곳 + 색 토막 + 독백 패널 — 검수 편 `qin-shi-huang-court`(인물 4·발언 21 최복잡) | **완료 26.07.26** — 20파일 이식(+`DiscourseSeriesHome`은 DB 집계 목록으로 대체) · 데이터층 4곳 교체 · `.remotion-ui` 일반화 · **원천 독백 패널 신설**. 저장 경로 실물 검증 4/4 |
 | 5 | remotion-bo 담화 폐기(31파일·스위치·등록표 9·죽은 호출·문서) | **완료 26.07.26** — 36파일 삭제(예상 31 + 죽은 사진 창구 4 + `lib/media-root` 1) · `SeriesDataModel` 유니온 축소로 등록표 9곳 정리 · 문서 6종 동기화. 서재 탐방 무손상(dev 실측 200), 담화 주소 404 |
 | 6(선택) | 음성 CLI 착수(voice:discourse·align·transcribe·srt·youtube·durations-pull·reorder) — **통합 완료 후에만** | |
-| 7(선택) | 북리커맨드 이관 or [series] 추상화 붕괴 | 별건 — **판단 필요 시점이 왔다**(§8.4 관찰이 현실이 됐다). `remotion-bo-plan.md` 「단일 시리즈가 된 뒤」에 선택지 둘을 적어 뒀다 |
+| 7 | 북리커맨드 이관 + remotion-bo 소멸 | **완료 26.07.29** — 제작 화면·API를 web-bo로 옮기고 앱·워크스페이스·명령 삭제 |
 
 ## 10. 위험
 
@@ -170,4 +172,4 @@ GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 �
   - 등록표 9곳은 `SeriesDataModel` 유니온에서 `'discourse'` 를 빼자 타입 검사기가 전부 지목했다(팩션 P5 와 같은 방법). `usesLangTabEditor` 는 정의째 소멸했다 — 쓰는 시리즈가 없어졌다.
   - **§8.5 죽은 호출 재확인**: shared `media.tsx:623` 이 `/api/${series}/faction-avatar` 를 부르는 배선은 그대로다. 담화 인물 카드가 slug 를 넘기지 않아 **버튼 자체가 안 그려지므로 지금은 호출되지 않는다.** web-bo 이식본도 같은 상태다 — 이 버튼을 켜려면 라우트 신설(`celeb-avatar` 로 개명 후보)이 선행돼야 한다.
   - 문서 6종 동기화: 이 문서 · `discourse.md`(머리에 통합 완료 표기) · `web-bo.md`(「가상 담화」 절 신설) · `remotion-bo-plan.md`(폐기 실적 + **「단일 시리즈가 된 뒤」 관찰**) · `AGENTS.md` · `faction-unification.md`(형제 통합 완료 1줄).
-  - 🔴 **이 앱에 남은 시리즈는 서재 탐방 하나다.** 계열별 등록표 5개가 전부 빈 표가 됐고 `[series]` 세그먼트는 언제나 한 값이다. 새 시리즈를 remotion-bo 에 얹기 전에 Phase 7 선택지부터 정해야 한다.
+  - 당시 이 앱에 남은 시리즈는 서재 탐방 하나였다. 이 관찰이 Phase 7의 전제가 되었고, 26.07.29 web-bo 이관과 앱 소멸로 해소됐다.

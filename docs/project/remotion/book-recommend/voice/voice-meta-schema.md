@@ -36,7 +36,7 @@ export type VoiceMetaContext = {
 }
 ```
 
-`ELE_EMOTIONS` 값은 `sw/remotion-bo/src/components/scenario-voice/types.ts` 단일 정의.
+`ELE_EMOTIONS` 값은 `sw/web-bo/src/features/book-recommend/components/scenario-voice/types.ts` 단일 정의.
 
 ## 합성 텍스트 구성
 

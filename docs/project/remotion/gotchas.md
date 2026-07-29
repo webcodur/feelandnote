@@ -23,7 +23,7 @@ eleven_v3 모델은 문장 맨 앞에 붙은 대괄호 감정·톤 태그(예: `
 
 실측: 입력 "반지의 제왕과 책들은 제게 영웅이라면 마땅히 세상을 구해야 한다는 사명을 일깨워주었습니다."에서 음성은 "제게 영웅이라면..."부터 나왔다("반지의 제왕과 책들은 " 누락). 감정 표식을 끄니 정상이었다.
 
-원인은 remotion-bo 음성 패널의 buildEleText가 `[감정] 본문` 형태로 태그를 맨 앞에 붙이는 데 있다(scenario-voice/types.ts).
+원인은 web-bo 서재 탐방 음성 패널의 buildEleText가 `[감정] 본문` 형태로 태그를 맨 앞에 붙이는 데 있다(`features/book-recommend/components/scenario-voice/types.ts`).
 
 - "ElevenLabs 생성 텍스트 앞부분이 안 들어간다" 류 신고를 받으면 감정·톤 표식(페이지 기본 톤 eleSendOpts, 구간 톤 segmentMeta.tags) 켜짐 여부를 가장 먼저 의심한다.
 - 텍스트 조립·route는 앞을 자르지 않으므로 그쪽을 헤매지 않는다.
@@ -236,9 +236,10 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 - 드리프트 상시 확인은 `pnpm faction:verify --drift`, 편별 검증은 `--episode <편>`.
 - 실사례: `Gods-Greek-Compact`는 이관 뒤 사람이 JSON을 더 고쳐(대사 148곳 차이) 파일이 DB보다 새로운 상태로 남았다. 가드가 이 편의 내보내기를 막아 되돌림 사고는 안 났다.
 
-### remotion-bo에서 팩션을 편집하려 하지 마라
+### 영상 제작 편집기는 web-bo에 모여 있다
 
-팩션 편집·렌더·유튜브·카드·출간은 26.07.25에 web-bo로 옮겼고 remotion-bo의 팩션 구역은 전량 삭제됐다. **remotion-bo(3003)의 팩션 주소·창구는 404다.** 편집은 web-bo(3001) `/factions`에서 한다. remotion-bo에 남은 것은 담화·서재 탐방이다.
+팩션은 web-bo `/factions`, 가상 담화는 `/discourses`, 서재 탐방은 `/book-recommend`에서
+편집한다. remotion-bo는 26.07.29에 앱 전체가 폐기됐다.
 
 - 이름만 팩션인 잔존물에 속지 않는다 — `lib/faction-edit-route.ts`는 담화가 쓰는 공용 상수이고, `api/[series]/cards/[name]`은 서재 탐방 카드뉴스다(디스크 파일명이 `faction-cards.json`이라 개명하면 데이터가 끊긴다).
 - 사진·음성 같은 로컬 자산은 그대로 `sw/remotion/` 디스크에 있다. web-bo의 팩션 자산 창구는 `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 503과 사유를 낸다.
@@ -261,7 +262,7 @@ dead 코드 판별은 `Root.tsx`부터 import 그래프 BFS로 reachable을 계�
 북리커맨드 인물·책 SNS 카드뉴스. SSoT는 `docs/project/card-news/IMPLEMENTATION.md`.
 
 - **렌더러**: `sw/remotion/src/compositions/BookCard/BookCard.tsx`. 카드 7종(intro·shelf·cover·context·quote·number·cta). 대출카드(librarycard)는 폐기했다. 자매 컴포넌트는 `FactionCard/`. utils 의존을 끊고 자체 `resolveSrc(src, assetBase)`를 쓴다(remotion 렌더는 staticFile, 외부 앱은 assetBase). `josa`를 export한다. intro 소개 한 줄은 featuredQuote를 우선한다(philosophy 첫 문장은 "안녕하십니까" 같은 독백 인사라 후순위).
-- **미리보기**: remotion-bo Cards 탭 `/book-recommend/<인물>/cards`. @remotion/player로 BookCard를 띄운다(remotion-bo에 원래 영상 미리보기가 없어 엔진을 추가했다. `transpilePackages:['@feelandnote/remotion']`, deep import `@feelandnote/remotion/src/...`). 로컬 표지는 `/api/rm-asset/[...path]`로 서빙한다(remotion public, 한글 폴더 디코딩). 기능은 A/B 토글·책 선별·비율(4:5·1:1·9:16)·편성 저장.
+- **미리보기**: web-bo Cards 탭 `/book-recommend/<인물>/cards`. @remotion/player로 BookCard를 띄운다(`transpilePackages:['@feelandnote/remotion']`, deep import `@feelandnote/remotion/src/...`). 로컬 표지는 `/api/rm-asset/[...path]`로 서빙한다(remotion public, 한글 폴더 디코딩). 기능은 A/B 토글·책 선별·비율(4:5·1:1·9:16)·편성 저장.
 - **편성**: A「읽은 책 N권」= 후크 → intro → 대표 5권 cover → cta(캐러셀 8장). B「한 권 깊게」= cover → context 문단별 → cta. 짧은 책은 A, 깊은 책은 B.
 - **편성 저장**: `public/episodes/<인물>/cards.json`에 `{version,selected}`. API는 `/api/<series>/cards/<name>`(server-utils findEpisodeDir). 영상 데이터와 분리돼 있다.
 - **출고**: `pnpm render:cards`(scripts/render/render-cards.ts) → `out/cards/<인물>/<비율>/NN-종류.png`. SNS 업로드는 수동이다(인스타·쓰레드 자동 불가).
@@ -270,11 +271,14 @@ dead 코드 판별은 `Root.tsx`부터 import 그래프 BFS로 reachable을 계�
 
 ## 5. 환경
 
-### remotion-bo 프로덕션 빌드는 webpack 고정
+### web-bo 프로덕션 빌드는 webpack 고정
 
-`sw/remotion-bo`의 프로덕션 빌드는 webpack으로 한다. package.json에 `"build": "next build --webpack"`.
+서재 탐방 제작 화면이 통합된 `sw/web-bo`의 프로덕션 빌드는 webpack으로 한다.
+package.json에 `"build": "next build --webpack"`이 지정돼 있다.
 
-Next 16 기본 빌더 Turbopack이, youtube 관리 route들(`youtube/meta`·`status`·`status-all`·`sync`·`thumb`, 그리고 26.07.25에 삭제된 `faction-card-export`)이 `path.join(process.cwd(),'..','remotion','out',...)`으로 렌더 산출물 `out/`을 fs 스캔하는 것을 정적 분석하다 `out/` 디렉토리를 번들 자산으로 추적하고, 한글명 파일 `out/Faction/02-페이팔마피아-KO-LV.srt`를 심볼릭 링크로 오인해(`points out of filesystem root`) 빌드를 중단시킨다. 경로 상수를 핸들러 내부로 옮기거나 force-dynamic을 붙여도 일관되게 풀리지 않는다. webpack 빌드가 이 버그를 회피한다.
+Next 16 기본 빌더 Turbopack이 로컬 렌더 산출물을 fs 스캔하는 관리 route를 정적 분석할 때
+`out/` 디렉터리를 번들 자산으로 추적해 실패한 이력이 있다. 현행 경로는
+`@feelandnote/shared/bo/remotion-root`의 `REMOTION_ROOT`를 쓰지만 빌드 정책은 webpack을 유지한다.
 
 dev(`next dev`, turbopack)는 lazy 컴파일이라 해당 route를 호출하지 않으면 터지지 않는다. dev는 그대로 두고 build만 webpack으로 한다. 빌드가 `.next`를 덮으므로 떠 있던 dev 서버는 한 번 재시작해야 한다.
 
