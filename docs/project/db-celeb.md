@@ -1,6 +1,6 @@
 # DB 스키마 - 셀럽
 
-> **최종 실측 체크: 26.07.29** — 콘텐츠 조사 상태 컬럼·가드 트리거 반영
+> **최종 실측 체크: 26.07.29** — 콘텐츠 조사 상태 + fiction 팩션 18편 전량 연결 반영
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -9,9 +9,9 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`profiles`**: 셀럽 기본 프로필. `profile_type = 'CELEB'`
   - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'relation'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
     - **DB CHECK 제약은 없다.** 4종은 코드·운영 규약이며 DB가 값을 강제하지 않는다
-    - 실측 분포(2026-07-29): full 1273 / light 515 / fiction 48 / relation 2
+    - 실측 분포(2026-07-29): full 1,325 / light 469 / fiction 257 / relation 3
     - `relation` = 관계 실존 인물(2026-07 신설). 다른 셀럽·영상(팩션 등)과의 관계 때문에 등록. basic 최소 + 아바타만, 홈·검색·탐색 비노출(연결로만)
-    - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 등록 수준은 relation과 동일, 비노출. 승격 대상 아님
+    - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 상단 인물 검색과 대표 원전 연결로 노출하며 승격 대상은 아님
   - `content_research_status` (text, 기본값 `'open'`): `open` / `queued` / `researching` / `deferred` / `confirmed_empty`
     - 실제 `user_contents`가 양수면 그 개수가 우선
     - 실제 0건 + `confirmed_empty`만 화면용 `-1`, 나머지는 열린 `0`
@@ -24,6 +24,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
   - `virtual_monologue` (text): 가상 독백 (2026-07-14 `add_virtual_monologue_column`)
   - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`). 생성기 `sw/web-bo/scripts/translate-virtual-monologue.ts`
+    - fiction 데이터 연결 단계에서는 둘 다 null이어도 active·검색 노출을 허용한다.
+      원전 검토를 거치지 않은 대량 독백으로 빈칸을 메우지 않는다
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨
@@ -47,6 +49,24 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 실행 시작·프로필 `researching`, 실행 취소·프로필 `open`은 각각 DB 트랜잭션으로 함께 바뀐다. 완료·취소된 실행과 하위 기록은 불변이다
   - 네 테이블은 RLS를 켜고 anon·authenticated 권한을 주지 않는다. web-bo 관리자 서버 액션이 service role로만 읽고 쓴다
   - 최초 도입 시점의 레거시 예외는 전면 조사 기록이 이미 별도 문서에 남은 앤서니 암스트롱 1명뿐이다
+- **`fiction_source_contents`**: 기존 `contents` 중 신화·전설·허구 작품을 대표할 행을 관리자가 지정한다
+  - PK/FK `content_id → contents.id`, 삭제 RESTRICT. 작품·판본 테이블을 새로 복제하지 않고 기존 콘텐츠를 정본 링크로 재사용한다
+  - 공개 SELECT만 허용하고 쓰기는 service role 전용이다
+- **`fiction_source_characters`**: 대표 원전 콘텐츠 ↔ fiction 인물 다대다 연결
+  - PK `(content_id, celeb_id)`, `celeb_id → profiles.id`, `relation_type`은 appearance/origin/adaptation, `sort_order`로 화면 순서를 고정한다
+  - 트리거가 `profile_type='CELEB' AND celeb_tier='fiction'`만 허용한다
+  - 저장 RPC `set_fiction_source_characters(text, uuid[])`는 대표 지정과 인물 목록 교체를 한 트랜잭션으로 처리하며 anon·authenticated 실행 권한은 회수했다
+  - **`user_contents`와 혼용 금지.** 이 관계는 인물이 그 작품에 등장한다는 뜻이지, 작품을 감상했다는 뜻이 아니다
+  - 현행 데이터(2026-07-29): 대표 원전 20건, 관계 285행. fiction 257명 중
+    255명이 하나 이상의 원전에 연결
+    - 팩션 18편·인물 배치 285건을 정규 인물 257명으로 통합했다. 프로필·태그
+      미해소 0, 아바타 없는 데이터형 프로필 209명
+    - 모든 대표 원전에 국·영문 locale이 있고, 인물 0명인 원전·실재하지 않는
+      content FK·non-fiction 관계는 각각 0건
+    - 미연결 2명은 펜테실레이아·멤논. 직접 원전인 소실 서사시
+      《아이티오피스》를 후대 작품으로 대체하지 않고 보류
+    - 재현·감사: `sw/web-bo/scripts/sync-fiction-source-rosters.ts`,
+      `sw/web-bo/scripts/audit-fiction-faction-links.ts`
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
@@ -62,12 +82,18 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_dialogues`**: 인물별 고유 대사. celeb_id(PK, profiles FK), lines(jsonb), lines_en(jsonb)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블, 인물별 고유)
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩, speech_tone 6종 기반)
-- **`celeb_timeline_events`**: 인물 생애 행적 (2026-07-26 `add_celeb_timeline_events`). 규격·조사 절차는 `docs/project/celeb-journey.md`가 SSoT
-  - 사건 하나가 한 행. `year`는 정수이며 **기원전은 음수**(실측 최소 -551)
+- **`celeb_timeline_events`**: 실존 인물 생애 행적 + fiction 서사 사건 (2026-07-26 도입, 2026-07-30 서사 순서 확장). 규격·조사 절차는 `docs/project/celeb-journey.md`가 SSoT
+  - 사건 하나가 한 행. 실존 인물은 `year` 정수(**기원전은 음수**), fiction은
+    `year=null` + `sequence_label(_en)` + `sort_order`를 쓴다. 둘을 동시에 쓰지
+    못하도록 CHECK가 막는다
   - `lat`/`lng`는 **둘 다 있거나 둘 다 없거나**(CHECK). 좌표 있는 행만 활동 반경 지도에 오른다 — **활동 반경용 테이블은 없다**
   - `place_qid`(장소 위키데이터 식별자)는 좌표 재검증의 근거다. 비우지 마라
   - `source` CHECK: research·wikidata·manual. 재적재는 `research` 행만 갈아끼우고 `manual`은 보존
-  - 실측(2026-07-26): 73명 1,231건, 좌표 1,215건, 장소 596곳. RLS 공개 읽기만
+  - fiction 일괄 적재는 service role 전용 RPC
+    `set_fiction_narrative_events(uuid,jsonb)`가 한 인물의 서사 사건만 원자적으로
+    교체한다
+  - 실측(2026-07-30): 210명 3,547건(연도형 3,507 + 서사형 40), 좌표 3,354건.
+    RLS 공개 읽기만
 - **`celeb_tags`** / **`celeb_tag_assignments`**: 세력도감 태그 → `celeb-tag-system.md` 참조
 - **`celeb_task_queue`**: 작업 큐 → `celeb-pipeline.md` 참조
   - PK(task_type, celeb_id). status CHECK: pending|in_progress|completed|failed|skipped
@@ -161,6 +187,13 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 | 파일명 | 크기 | 비율 | 용도 |
 |--------|------|------|------|
 | `avatar.webp` | 800×800 | 1:1 | 원형 아바타, 카드 썸네일, 모든 이미지 표시 (레티나 3x 대응) |
+
+**아바타 구도 규격**
+
+- 얼굴·목·어깨 윗부분만 담는 타이트한 헤드숏이다. 양쪽 어깨는 보이되 프레임 하단은 어깨선에서 끝나며, 쇄골선과 가슴은 보이지 않아야 한다.
+- 정면 또는 정면에 가까운 약한 3/4 각도와 카메라를 향한 시선을 기본으로 한다. 옆모습, 과도한 얼굴 확대, 상반신이 길게 들어오는 구도는 불량이다.
+- 의상은 목과 쇄골을 가리고, 배경 제거 후에도 머리카락·귀·어깨 외곽이 자연스러운 투명 RGBA여야 한다.
+- 고대·중세 인물도 회화·삽화·흑백 복원풍이 아니라 21세기 카메라로 촬영한 듯한 컬러 하이퍼리얼리즘을 사용한다.
 
 > 2026-03-24 이전 등록 셀럽은 300×300. 신규 업로드분만 800×800.
 

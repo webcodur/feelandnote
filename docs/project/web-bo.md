@@ -1,18 +1,17 @@
 # Web BO
 
-> **최종 실측 체크: 26.07.16** — `(admin)` 라우트 52개 전수 실측 + 적대적 재검증, 결함 조치 반영
+> **최종 실측 체크: 26.07.29** — 서재 탐방 제작·리소스 통합과 remotion-bo 폐기 반영
 
-서비스 운영용 관리자 백오피스다. 실제 서비스(web)의 데이터 — 셀럽, 유저, 콘텐츠, 기록, 커뮤니티, 게임 점수 — 를 조회·편집·제재하는 화면 모음이며, Supabase를 단일 데이터원으로 삼는다.
-
-같은 층위의 다른 BO와 역할이 다르다. 혼동하지 않는다.
+서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
+Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
 
 | 프로젝트 | 포트 | 역할 | 데이터원 |
 | --- | --- | --- | --- |
-| **web-bo** | 3001 | **서비스 운영.** 셀럽·유저·콘텐츠·커뮤니티 관리 + **세력도·가상 담화 영상 제작**(26.07.25·26 이관) | Supabase |
-| remotion-bo | 3003 | 영상 관리 대시보드. **서재 탐방 하나만 남았다**(세력도·가상 담화는 폐기·이관) | 파일시스템(JSON) |
+| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도·가상 담화·서재 탐방 | Supabase + 로컬 Remotion |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
-remotion-bo는 [remotion-bo 기획서](./remotion-bo-plan.md), audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
+구 remotion-bo의 이관 이력은 [영상 제작 관리 통합 이력](./remotion-bo-plan.md),
+audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
 
 ## 실행
 
@@ -33,9 +32,13 @@ pnpm dev:bo
 
 ## 화면 구성
 
-전체 페이지는 52개다. 이 중 11개는 화면이 없는 리다이렉트 통로이므로(아래 [정리 대상](#정리-대상) 참조) 실제 화면은 41개다. **이 수치는 26.07.16 실측이라 26.07.25에 붙은 세력도 화면은 빠져 있다.**
+26.07.16 전수 감사 당시 페이지는 52개였고 그중 11개가 화면 없는 리다이렉트 통로였다.
+이후 세력도·가상 담화·서재 탐방이 추가됐으므로 이 숫자는 현재 총계로 사용하지 않는다.
+아래 표와 실제 `app/` 라우트를 기준으로 본다.
 
-왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며 9개 묶음 27개 라우트로 나뉜다(26.07.25 세력도 1건 · 26.07.26 가상 담화 1건 추가). 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
+왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며
+2026-07-29 기준 10개 묶음 30개 라우트다. 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러
+들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
 
 ### 대시보드
 
@@ -86,9 +89,34 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `user_contents` |
-| `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 사용자·관련 기록 | `contents`, `content_locales`, `user_contents`, `records` |
+| `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 사용자·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `user_contents`, `records` |
+| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `profiles` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `profiles`, `contents` |
+
+### 서재 탐방 제작·리소스 통합
+
+| 라우트 | 화면 | 하는 일 | 주요 원천 |
+| --- | --- | --- | --- |
+| `/book-recommend` | 제작 현황·리소스 | 제작 상태·후보·음성 저장소·작업 큐와 콘텐츠 ID·표지 무결성 감사를 탭으로 통합 | Supabase + `sw/remotion/public/episodes` |
+| `/book-recommend/search` | 새 에피소드 | 셀럽 검색과 기존 에피소드 중복 확인 | `profiles`, 에피소드 목록 |
+| `/book-recommend/guide` | 운영 가이드 | 현행 제작 흐름·로컬 가동 조건 | 코드·운영 규칙 |
+| `/book-recommend/[name]/scenario` | 원고 | 메타·책·쇼츠 분산 JSON 편집, 이미지·영상·배경음·효과음 관리 | 에피소드 JSON·미디어 |
+| `/book-recommend/[name]/voice` | 음성 | 보이스 선택·생성·발화 시각·파이프라인 진단 | 에피소드 음성·timing JSON |
+| `/book-recommend/[name]/render` | 렌더 | 롱폼·쇼츠·SOLO·카드 렌더 작업 실행·상태 | `sw/remotion` |
+| `/book-recommend/[name]/youtube` | 출고 | 영상·자막·썸네일·메타·업로드 | Remotion out·YouTube lineup |
+| `/book-recommend/[name]/cards` | 카드 | BookCard 미리보기·편성 | 에피소드 JSON·`faction-cards.json` |
+| `/book-recommend/youtube` | 편성 현황 | 에피소드 전체 업로드·동기화 상태 | lineup·YouTube API |
+
+관련 서버 창구는 `/api/book-recommend/**` 42라우트와 `/api/tasks`,
+`/api/open-folder`다. 모든 동적 시리즈 창구는 `book-recommend`만 허용하며,
+파일 조작·렌더·업로드는 `REMOTION_LOCAL=1`(옛 별칭 `FACTION_LOCAL=1`)인 로컬 환경에서만
+동작한다. 표지 원본 URL은 공용 외부 이미지 검증기를 통과해야 하며, 렌더 캐시는
+`covers/content/<contentId>/<locale>.webp`에 만든다.
+
+콘텐츠 관계·표지 운영 규격은
+[서재 탐방 1차 통합](./remotion/book-recommend/unification-phase1.md), 전체 이관 이력은
+[영상 제작 관리 통합 이력](./remotion-bo-plan.md)을 참조한다.
 | `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `profiles`, `contents` |
 | `/playlists` | 플레이리스트 관리 | 플레이리스트 목록, 콘텐츠 유형·공개여부 필터, 항목 수 통계 | `playlists`, `playlist_items`, `profiles` |
 
@@ -102,7 +130,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도 | **표 하나(26.07.26 완전 병합).** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 어느 테마에도 안 걸린 편은 같은 표 맨 아래 「미연결 영상」 구분 줄 밑에 제목·상태·인물·세력·렌더 편성으로 나오고 줄 끝 점 셋 메뉴로 조작한다. 그 아래 **「아이디어 후보」(기본 접힘, 26.07.26)** 는 보관함에서 들여온 72편을 분류 6갈래로 묶어 보여준다. 이 72편의 **실물은 `public/` 밖 `sw/remotion/idea-bank/`** 에 있고(렌더 임시 복사 제외), DB 폴더 키는 `not-using/…` 그대로다 — 경로 대응은 `resolveEpisodeLocation` 한 함수가 맡는다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄로 옮겼다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions` | 세력도 | **표 하나.** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 표 아래 영상 편은 DB `status`에 따라 「옮길 수 있는 편」(`ready`)과 「못 옮기는 편」(`blocked`)으로만 나뉜다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
 | `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
@@ -265,6 +293,7 @@ pnpm dev:bo
 | 액션 파일 | 무효화 대상 |
 | --- | --- |
 | `actions/admin/contents.ts` | `/contents`, `/contents/[id]` |
+| `actions/admin/fiction-sources.ts` | `/fiction-sources` |
 | `actions/admin/records.ts` | `/records`, `/records/[id]` |
 | `actions/admin/reports.ts` | `/reports`, `/reports/[id]` |
 | `actions/admin/titles.ts` | `/titles` |

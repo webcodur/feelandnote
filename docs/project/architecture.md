@@ -1,15 +1,14 @@
 # 아키텍처
 
-> **최종 실측 체크: 26.07.16** — `navigation.tsx` 기준 라우팅 표 전면 재작성 + 실제 page.tsx 전수 대조, 적대적 재검증 통과
+> **최종 실측 체크: 26.07.29** — remotion-bo 폐기와 서재 탐방 web-bo 이관 반영
 
-`sw/` 아래 6개 앱으로 구성한다.
+`sw/` 아래 5개 앱으로 구성한다.
 
 | 앱 | 스택 | 역할 |
 |---|---|---|
 | `sw/web` | Next.js App Router | 공개 서비스 |
-| `sw/web-bo` | Next.js App Router | 서비스 백오피스 (상세: [web-bo.md](./web-bo.md)) |
+| `sw/web-bo` | Next.js App Router | 서비스 백오피스 + 영상 제작 관리 (상세: [web-bo.md](./web-bo.md)) |
 | `sw/remotion` | Remotion | 영상·카드 컴포지션 |
-| `sw/remotion-bo` | Next.js App Router | 영상 제작 작업실 |
 | `sw/lab` | Vite + React | 그래픽 실험장 |
 | `sw/audio-bo` | Next.js App Router | 로컬 GPU 음성 작업실 |
 
@@ -101,7 +100,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 | 상위 | 하위 링크 |
 |---|---|
-| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(인물 분석), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(유튜브 채널), `/explore/directory`(디렉토리) |
+| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(인물 분석), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
 | scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
 | rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
 
@@ -146,17 +145,18 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 ## sw/web-bo
 
-서비스 운영 백오피스다. 구조 개요만 둔다. 상세는 [web-bo.md](./web-bo.md)를 봐라.
+서비스 운영과 영상 제작 관리 백오피스다. 구조 개요만 둔다. 상세는 [web-bo.md](./web-bo.md)를 봐라.
 
 ```text
 src/app/
-  (admin)/     # activity-logs, api-usage, blind-game, celebs, contents, free-board,
+  (admin)/     # activity-logs, api-usage, blind-game, book-recommend, celebs, contents, free-board,
                # guestbooks, members, notes, playlists, records, reports, scores,
                # settings, tier-lists, titles, today-figure, users
-  api/         # celebs/search, contents/search, image-proxy, voice/[...path]
+  api/         # book-recommend 제작 API, celebs/search, contents/search, image-proxy, voice/[...path]
   login/
 src/actions/admin/
-src/components/  # celeb, content, layout, ui, ApiKeyManager
+src/components/  # celeb, content, factions, discourses, layout, ui, ApiKeyManager
+src/features/book-recommend/  # scenario·voice·render·youtube·cards 제작 부품과 로컬 I/O
 src/constants/  |  src/contexts/  |  src/hooks/  |  src/types/  |  src/utils/
 src/lib/         # supabase, r2, image, countries, indexnow, revalidate-web, voice-path
 src/proxy.ts
@@ -184,32 +184,6 @@ src/
   lib/                 # avatar, voice-timing
 public/                # common, covers, episodes, factions, fonts, music
 scripts/               # render/, voice/, srt/, youtube/, lib/ + 팩션 정렬·감사 스크립트
-```
-
----
-
-## sw/remotion-bo
-
-영상 제작 작업실이다. 시리즈·에피소드를 경로 파라미터로 받는다. 빌드는 webpack 고정(`next build --webpack`)이다.
-
-```text
-src/app/
-  page.tsx  |  guide/  |  search/
-  [series]/                      # 시리즈 목록
-    youtube/
-    [name]/                      # 에피소드
-      scenario/  |  voice/  |  cards/  |  render/  |  youtube/
-      [lang]/[tab]/card/[person]/[...card]/   # 카드 편집
-  api/
-    [series]/                    # candidates, cards, episodes, folders, images, music,
-                                 # render, soundeffect, status, videos, voice, youtube,
-                                 # faction-*(avatar, card-export, cards, comment, episode,
-                                 # image, image-folder, music, open-folder, sfx, voice)
-    celebs/  |  elevenlabs/  |  tasks/  |  open-folder/  |  rm-asset/
-src/components/  # EpisodeEditor, ScenarioView, VoiceTimingEditor, faction/, scenario/,
-                 # AudioWavePlayer, YouTubePanel, Sidebar 등
-src/lib/         # episode-data, series-registry, faction-*, voice-normalize, youtube-client 등
-src/middleware.ts
 ```
 
 ---

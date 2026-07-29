@@ -141,7 +141,7 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 ### celeb_dialogues lines (고유 대사)
 
 - 7개 상황 키와 각 3개 배열 구조를 그대로 유지. 키 추가·삭제 금지
-- `[emotion, emotion]` 태그는 그대로 유지
+- 기존 `[emotion, emotion]` 태그는 문자 단위로 그대로 유지한다. 다만 한쪽 언어의 결손을 새로 번역할 때 다른 언어의 태그를 복제하거나 새 태그를 만들지 않는다. 발화 지시는 ELE 보이스를 실제로 들은 사용자가 보완하는 운영 데이터이므로 AI 번역 작업자는 생성·교체·삭제하지 않는다.
 - speech_tone의 뉘앙스를 영문에서도 반영
   - `free` → casual, informal English
   - `bold` → assertive, commanding

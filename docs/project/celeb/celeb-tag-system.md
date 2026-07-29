@@ -182,13 +182,15 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 ### 백오피스 관리 (web-bo)
 
 - 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
-  - **`/factions` 는 표 하나다(26.07.26 완전 병합)**. 기준은 도감 테마(`celeb_tags` 40종)이고 열은 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**·순서. 「영상」 칸에는 그 테마를 세력으로 쓰는 편이 배지로 붙고(복수 가능, 누르면 그 편 편집기로) 없으면 「글 전용」이다. 끌어서 진열 순서를 바꾼다. 「새 영상 편」·「새 테마」 단추는 표 머리 오른쪽에 나란히 있다
-  - **표 아래 두 구획(26.07.27)**: 「옮길 수 있는 편」(펼침 — 인물이 인명부에 있어 바로 테마로 옮길 수 있다)과 「못 옮기는 편」(접힘 — 출연진이 사람이 아니거나 등록 인물이 셋 미만, 보관함 분류별로 다시 묶임). 옛 「미연결 영상」·「아이디어 후보」·「접어둠」 세 구획을 이 둘로 합쳤다. 줄 끝 점 셋 메뉴로 이름 바꾸기·복제·지우기·렌더용 파일 쓰기를 한다
+  - **`/factions` 는 두 작업 모드다(26.07.29)**. 같은 DB를 읽되 `영상 편`은 `faction_episodes` 한 편을 한 행으로, `도감 테마`는 `celeb_tags` 한 테마를 한 행으로 보여준다. 주소의 `?view=videos|themes`가 현재 관점을 쥐고 기본은 영상 편이다. 모드마다 「새 영상 편」·「새 테마」 조작이 바뀐다
+  - **영상 편 모드**: 연결 여부와 무관하게 모든 편이 반드시 한 행씩 보인다. 제목·폴더, 렌더 편성(`registered`·순번), 도감 이관 가능 여부(`ready|blocked`·사유), 세력/인물 수, 연결 테마, 수정일을 한 표에서 확인한다. 전체·렌더 편성·미편성·테마 미연결 필터와 제목/폴더/테마 검색을 제공한다. `ready|blocked`는 영상 제작 진척도가 아니라 **도감으로 옮길 수 있는지**이므로 옛 `준비/작업 중/완료` 의미로 표시하지 않는다
+  - **도감 테마 모드**: 열은 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·영상이다. 「영상」 칸에는 그 테마를 세력으로 쓰는 편이 배지로 붙고(복수 가능, 누르면 그 편 편집기로) 없으면 「글 전용」이다. 끌어서 진열 순서를 바꾼다
+  - **도감 테마 표 아래 두 구획(26.07.27)**: 「옮길 수 있는 편」(펼침 — 인물이 인명부에 있어 바로 테마로 옮길 수 있다)과 「못 옮기는 편」(접힘 — 출연진이 사람이 아니거나 등록 인물이 셋 미만). 옛 「미연결 영상」·「아이디어 후보」·「접어둠」 세 구획을 이 둘로 합쳤다
   - **묶음은 접힌 채 뜬다**: 소속 테마를 보려면 묶음 줄을 누른다. 편집 화면으로는 줄 오른쪽의 「편집」 단추로 간다(모든 줄이 같은 자리에 같은 단추를 갖는다)
-  - **편별 조작의 자리**: 상태·렌더 편성·내보내기·이름 변경·복제·삭제는 **영상 편집기 상단 조작줄**에 있다(`components/factions/FactionEpisodeActions.tsx`, `variant="bar"`). 목록이 테마 기준으로 합쳐지면서 연결된 편은 목록에 줄이 없기 때문이다. 같은 부품이 미연결 영상 줄의 점 셋 메뉴(`variant="menu"`)도 그린다 — 기능이 두 벌로 갈라지지 않게
+  - **편별 조작의 자리**: 이름 변경·복제·삭제·렌더용 파일 쓰기는 영상 편 모드의 모든 행에 점 셋 메뉴(`variant="menu"`)로 붙는다. 도감 이관 상태·렌더 편성 전환과 같은 조작은 **영상 편집기 상단 조작줄**(`components/factions/FactionEpisodeActions.tsx`, `variant="bar"`)에도 있다. 같은 부품을 두 자리에서 써 기능을 복제하지 않는다
   - **위계 표시(26.07.26)**: 자식을 가진 테마가 「묶음 N」 표식과 함께 머리로 뜨고 소속 테마가 한 칸 들여쓰기로 따라붙는다. 끌어 옮기기는 **같은 층끼리만** 된다(묶음 머리를 끌면 소속 테마가 통째로 따라간다). 다른 묶음으로 옮기는 일은 순서가 아니라 소속이므로 테마 편집 화면의 「상위 묶음」에서 한다
   - `/factions/themes/[tagId]` = 테마 편집(예전 아코디언 한 칸이 화면 한 장이 됐다). 「상위 묶음」 선택지는 무소속 테마 전량 + 「묶음 없음」이다
-  - 구성 파일: `app/(admin)/factions/FactionBoard.tsx`(표 본체)·`ThemeFormModal.tsx`·`EpisodeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`, 공용 부품 `components/factions/FactionTable.tsx`·`FactionEpisodeActions.tsx`
+  - 구성 파일: `app/(admin)/factions/FactionBoard.tsx`(모드 껍데기)·`FactionBoard/sections/{FactionVideoTable,FactionThemeTable}.tsx`·`ThemeFormModal.tsx`·`EpisodeFormModal.tsx`, `app/(admin)/factions/themes/[tagId]/{page,ThemeEditor}.tsx`, 공용 부품 `components/factions/FactionTable.tsx`·`FactionEpisodeActions.tsx`
   - 목록 조회 액션: `actions/admin/factions/themes.ts`(`listFactionThemes`·`getThemeEpisodeLinks`). 테마↔영상 연결의 근거는 `faction_groups.tag_id` 역조회뿐이다
   - **주소(slug)**: 입력 + `name_en` 기반 자동 생성 버튼
   - **단체 이미지**: 다중 업로드(크롭)·삭제·드래그 순서변경

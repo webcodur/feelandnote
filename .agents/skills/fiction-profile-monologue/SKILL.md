@@ -19,10 +19,13 @@ node .agents/skills/fiction-profile-monologue/scripts/audit-fiction-episode.mjs 
 
 ## 프로필 규칙
 
-- `profile_type='CELEB'`, `celeb_tier='fiction'`, `status='inactive'`, `is_verified=false`
+- 신규 프로필은 `profile_type='CELEB'`, `celeb_tier='fiction'`,
+  `status='inactive'`, `is_verified=false`로 만든다. 이미 원전·팩션 연결을 검수해
+  공개 중인 기존 fiction 프로필은 보강 작업 때문에 inactive로 되돌리지 않는다.
 - `nickname_en`은 필수다. 생성된 `slug`가 팩션의 인물 `slug`와 같아야 한다.
 - 기본 정보만 채운다: 국·영문명, 직군, 짧은 수식어, 성별, 가능한 경우 지역·생몰, 100자 이내 소개.
-- 감상 여정·영향력·페르소나·콘텐츠·고유 대사는 만들지 않는다.
+- 이 단계에서는 감상 여정·영향력·페르소나·콘텐츠·고유 대사를 만들지 않는다.
+  원전 검토와 독백이 끝난 뒤의 보강 배치는 아래 절을 따른다.
 - 얼굴은 없어도 된다. 기존 얼굴이 있으면 지우지 않는다.
 - 집단·괴물·동물도 서사의 독립된 행위자라면 등록할 수 있다. 성별이 부적절하면 `null`로 둔다.
 
@@ -97,6 +100,48 @@ node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-manifest.mjs
 ```
 
 적용 후 DB를 다시 조회해 `slug`, `fiction` 티어, 기본 정보, 독백 전문 일치, 얼굴 보존을 확인한다. 작업용 manifest는 검증 뒤 삭제한다. DB가 독백의 단일원천이다.
+
+## 독백 이후 보강 배치
+
+원전 검토와 독백 2순환을 통과한 인물만 고유 대사·서사 연표·관계를 만든다.
+이 데이터는 빈칸을 빠르게 메우는 부록이 아니라, 독백에서 확인한 행동과 갈등을
+상황별로 다시 검증하는 별도 산출물이다.
+
+### 고유 대사
+
+- 규격은 `docs/project/celeb/celeb-speech.md`를 따른다.
+- 7상황 × 3변형을 한국어와 영어로 각각 쓴다. 영어는 한국어 문장 구조를
+  복제하지 않고 같은 인물이 영어로 말하는 문장으로 다시 쓴다.
+- 상황 적합성, 이름을 가린 뒤의 고유성, 글자·단어 수와 낭독 호흡의 세 번을
+  검토한다. 새 철학이나 원전에 없는 동기를 추가하지 않는다.
+- 실제 인용문 한 쌍과 확인한 원전 URL을 함께 넣는다.
+- 프로필에 `speech_tone`이 비어 있으면 대사 적재기가 manifest의 톤을 함께
+  기록한다. 이미 다른 톤이 있으면 자동으로 덮어쓰지 않고 중단한다.
+
+```bash
+node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-dialogue-manifest.mjs <manifest.json>
+node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-dialogue-manifest.mjs <manifest.json> --apply
+```
+
+### 서사 연표와 관계
+
+- fiction에는 실제 연도를 만들지 않는다. 대표 원전 안의 사건 순서를
+  `sequence_label(_en)`과 `sort_order`로 저장한다.
+- 인물당 6~12개의 굵직한 전환점을 고르고, 각 사건에 국·영문 제목·서술과
+  확인한 원전 URL을 넣는다.
+- 장소는 원전의 무대명으로 적을 수 있지만, 역사적 활동으로 오해할 현실 좌표는
+  자동으로 만들지 않는다.
+- 관계는 양방향을 함께 쓰고, 방향마다 상대가 이 인물에게 무엇인지와 구체적
+  사건을 `note(_en)`에 남긴다.
+
+```bash
+node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-story-manifest.mjs <manifest.json>
+node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-story-manifest.mjs <manifest.json> --apply
+```
+
+두 적재기는 기본 dry-run이다. 적용 뒤 같은 명령을 다시 실행했을 때 전원
+`SKIP`이어야 하며, review 문서에는 대사 3단 검토와 연표 2단 교차 검토를
+추가한다.
 
 ## 팩션으로 되돌리기
 

@@ -1,6 +1,6 @@
 # 서가 (`(main)/library/*`)
 
-> **최종 실측 체크: 26.07.16** — 서가 화면 실측, 뷰 타입 4종 담당 실측 확정
+> **최종 실측 체크: 26.07.30** — 부분 대조: 학당 계층·뷰 타입·마크다운 렌더러 범위를 코드와 재대조(AI 분야 신설분 포함). 박물관·허브·액션 절은 26.07.16 대조 그대로
 
 인물의 선택과 매체의 역사를 진열하는 영역이다. 네비게이션 라벨은 "서가", 코드 키는 `scriptures`다.
 
@@ -29,7 +29,7 @@
 | `/library/era` | 불후의 명작. 전 시대 + 시대별 인물의 선택 | `getScripturesByEra`, `getChosenScriptures`, `getTopCelebsAcrossAllEras` |
 | `/library/profession` | 갈림길. 분야별 인물의 필독서 | `getProfessionContentCounts` |
 | `/library/museum` | 박물관. 매체 역사 전시 | `constants/scripturesMuseum.ts` (정적 JSON) |
-| `/library/academy` | 학당. 카테고리 3종 카드 | `ACADEMY_CATEGORY_IDS` (정적) |
+| `/library/academy` | 학당. 카테고리 4종 카드 | `ACADEMY_CATEGORY_IDS` (정적) |
 | `/library/academy/[category]` | 카테고리 진입 → 첫 코스로 리다이렉트 | — |
 | `/library/academy/[category]/[course]` | 코스 본문(레슨) | `getAcademyLessonProgressState`. 레슨 목록(`ACADEMY_CONTENT_FILTERS`)은 페이지가 아니라 `AcademyLessonView`가 읽는다 |
 | `/library/figure` | 레거시. `/explore/today`로 리다이렉트 | — |
@@ -75,7 +75,7 @@
 |----|-----------|---------|
 | `timeline` | `MuseumTimeline` (기본값) | 박물관 서브카테고리 대부분 |
 | `catalog` | `MuseumTimeline` → `TypographyCatalog` | `book/typography` |
-| `lesson` | `AcademyLessonView` (학당) | `book/system`, `music/harmony`, `video/*` 4종 |
+| `lesson` | `AcademyLessonView` (학당) | `book/system`, `music/harmony`, `video/*` 4종, `ai/*` 3종 |
 | `comparison` | **구현 없음** | `book/reading` (아래) |
 
 **`book/reading`은 미완성이다.** `MUSEUM_CATEGORY_IDS`·`ACADEMY_CATEGORY_IDS` 어디에도 `reading` 서브카테고리가 없어 도달할 수 없고, `comparison` 뷰를 그리는 코드도 없다(전역 검색 결과 `comparison` 히트는 전부 독서 워크스페이스 `[locale]/reading/` 것으로 무관하다). 데이터(`BOOK_READING_HISTORY_TIMELINE`)는 2개 era만 있다. 살리려면 뷰 신규 구현 + 메뉴 등록 + 데이터 확충이 필요하므로 새 기능 개발에 해당한다. 죽은 설정이지만 의도를 남기려 제거하지 않고 상수에 주석으로 명기했다.
@@ -86,7 +86,7 @@
 
 `/library/academy` → `[category]` → `[course]` 3단이다.
 
-- **`/library/academy`**: `ACADEMY_CATEGORY_IDS`를 카드 3장으로 깐다. 각 카드는 그 카테고리의 **첫 코스**로 바로 보낸다(`/library/academy/{cat}/{firstCourse}`).
+- **`/library/academy`**: `ACADEMY_CATEGORY_IDS`를 카드 4장으로 깐다. 각 카드는 그 카테고리의 **첫 코스**로 바로 보낸다(`/library/academy/{cat}/{firstCourse}`). 카드 아이콘은 페이지 안의 `CATEGORY_ICONS` 맵이 정한다 — **카테고리를 늘릴 때 이 맵도 함께 늘려야 한다**(빠지면 `Icon`이 undefined가 되어 렌더가 깨진다).
 - **`/library/academy/[category]`**: 페이지 본문이 없다. `ACADEMY_CATEGORY_IDS`에서 카테고리를 찾아 첫 코스로 리다이렉트하고, 없는 카테고리면 `/library/academy`로 되돌린다.
 - **`/library/academy/[category]/layout.tsx`**: 제목과 카테고리 탭(`AcademyCategoryTabs`)을 레이아웃에 둔다. 코스를 갈아탈 때 이 부분이 리로드되지 않게 하려는 배치다.
 - **`/library/academy/[category]/[course]`**: 카테고리·코스를 검증하고(둘 중 하나라도 어긋나면 리다이렉트) `AcademyLessonView`를 렌더한다.
@@ -98,12 +98,19 @@
 | `book` | `system` |
 | `video` | `light_and_camera`, `composition`, `editing`, `narrative` |
 | `music` | `harmony` |
+| `ai` | `foundations`, `prompting`, `creation` |
 
-박물관은 4종(게임 포함)인데 학당은 3종이다. 학당에는 `game` 카테고리가 없다.
+박물관도 4종(게임 포함)이지만 구성이 다르다. 학당에는 `game`이 없고 대신 `ai`가 있다.
 
-각 코스가 담는 레슨 id 목록은 `ACADEMY_CONTENT_FILTERS`가 정한다. `music/harmony`만 12개이고 나머지 다섯 코스는 모두 8개다. 모든 학당 코스의 `SUB_CATEGORY_VIEW_TYPE` 값은 `lesson`이다.
+`ai`는 26.07.30에 넣었다. 그전까지 학당은 감상 매체(도서·영상·음악)만 다뤘다. 코스 3종은 원리(`foundations`) → 활용(`prompting`) → 결과물과 쟁점(`creation`) 순서로 이어지고, 세 코스가 서로를 참조하므로 **레슨을 재배치할 때 앞 코스를 가리키는 서술이 깨지지 않는지 확인해야 한다.**
+
+각 코스가 담는 레슨 id 목록은 `ACADEMY_CONTENT_FILTERS`가 정한다. `music/harmony`만 12개이고 나머지 여덟 코스는 모두 8개다. 모든 학당 코스의 `SUB_CATEGORY_VIEW_TYPE` 값은 `lesson`이다.
+
+레슨 본문은 정적 JSON이다. `constants/scriptures/{ko,en}/`의 `book-academy.json`·`video-academy.json`·`music-harmony.json`·`ai-academy.json` 네 벌이고, `getScripturesData(locale)`가 로케일별로 캐시해 내준다. 카테고리와 레슨 파일을 잇는 곳은 `AcademyLessonView`의 `getLessonSource()`다. **분기에 없는 카테고리는 화성학 레슨으로 조용히 폴백하므로**, 카테고리를 늘릴 때 이 함수도 함께 늘린다.
 
 `music/harmony`는 전용 구현이 따로 있다. `components/features/scriptures/academy/HarmonyLesson/`과 `SheetMusic.tsx`(악보)다. 레슨 데이터 타입(`LessonSection`)은 단계(`steps`)·목표(`objectives`)·악보 예제(`sheetExamples`)·퀴즈(`quiz`)를 갖는다.
+
+**레슨 본문이 쓸 수 있는 마크다운은 제한적이다.** `HarmonyLesson/sections/MarkdownRenderer.tsx`가 처리하는 것은 문단(`\n\n` 분리), `- ` 목록, 모든 줄이 `|`로 시작하는 표, 그리고 인라인 `**굵게**`·백틱 코드뿐이다. **코드펜스(```)와 제목(`#`)은 지원하지 않아** 그대로 글자로 노출된다. 문단 안의 줄바꿈도 줄로 살아나지 않는다.
 
 진도는 `getAcademyLessonProgressState()`가 로그인 여부(`isSignedIn`)와 진행 상태(`progress`)를 함께 내주고, 허브 미리보기와 코스 페이지가 이를 각각 받는다.
 

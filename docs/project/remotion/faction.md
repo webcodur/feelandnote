@@ -204,7 +204,7 @@ sw/remotion/public/music/  # 배경음악
 | 본서비스 출간(DB·R2) | `sw/web-bo/src/lib/faction-sync/` + `actions/admin/factions/publish.ts` + `components/factions/FactionPublishPanel.tsx` |
 | 영상 컴포지션 | `sw/remotion/src/compositions/Faction/` (Faction.tsx · types.ts · timing.ts · script.ts) — 무수정, `faction-data.json` 소비자 |
 | 미리보기 타이밍 | `sw/web-bo/src/components/factions/shared/timing.ts` |
-| ~~remotion-bo 팩션 구역~~ | **폐기(26.07.25 Phase 5)** — 편집·렌더·유튜브·카드·출간 전부 삭제. 팩션 주소·창구는 404다. 담화·서재 탐방만 remotion-bo에 남는다 |
+| ~~remotion-bo 팩션 구역~~ | **폐기(26.07.25 Phase 5)** — 팩션 구역 삭제 뒤 담화·서재 탐방도 차례로 web-bo에 이관되어 26.07.29 앱 전체가 폐기됐다. |
 
 통합 설계 SSoT는 `docs/project/remotion/faction-unification.md`다(§4 경계 · §6 내보내기 · §7 음성 길이 · §8 web-bo 이식 · §9 폐기).
 

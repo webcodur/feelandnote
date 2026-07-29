@@ -218,7 +218,7 @@ pnpm voice:chunk -- --episode <인물>-ko --check
 - 미세 어긋남(±0.5초) — VoiceTimingEditor 모달에서 드래그
 - 치환 구간의 정확한 발음 시작 시점 — 사용자 체감 확인 필요
 
-UI는 `remotion-bo`의 ScenarioView → SYNC 탭 → "편집기 열기" 모달.
+UI는 web-bo `/book-recommend/<인물>/scenario`의 ScenarioView → SYNC 탭 → "편집기 열기" 모달.
 
 ## 흔한 함정
 

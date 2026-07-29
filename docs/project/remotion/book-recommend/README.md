@@ -29,10 +29,25 @@
 | 9-5 | [writer/5-editorial-board.md](writer/5-editorial-board.md) | 편집국 검토 — 분야 정확성·사료·영상 이야기·한국어 자연성 |
 | 9-6 | [writer/6-paragraphs.md](writer/6-paragraphs.md) | 문단 분할 — 긴 서술 필드를 `\n\n` 기준으로 분할. 원문 보존 |
 | 10 | [final-check.md](final-check.md) | 출품 전 최종 점검 — 한영 정합성·텍스트·이미지·음성·윤리 |
+| 11 | [unification-phase1.md](unification-phase1.md) | 본 서비스 1차 통합 — 콘텐츠 ID·표지 SSoT·운영 작업대·잔여 큐 |
 
 ---
 
 ## 단일원천 (SSoT) 데이터 흐름
+
+콘텐츠 관계·판본 표지와 영상 원고는 원천이 다르다.
+
+```text
+Supabase user_contents → contents → content_locales.thumbnail_url
+        ↓ 안정 ID                         ↓ 원본 URL
+book.<locale>.json                 covers/content/<contentId>/<locale>.webp
+        └─────────────────────── Remotion 렌더
+```
+
+- 콘텐츠 관계·외부 표지 URL은 Supabase가 원본이다.
+- 영상 원고·음성·타이밍·연출 이미지는 에피소드 폴더가 원본이다.
+- 제목·저자 문자열은 영상 형식에 맞춘 표현일 수 있으므로 DB 판본명으로 자동 덮어쓰지 않는다.
+- 상세 연결·캐시 규격은 [1차 통합 문서](unification-phase1.md)를 따른다.
 
 ```
 public/episodes/<person>/
@@ -63,6 +78,10 @@ BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
 | `contextDuration` | 경위 음성 길이 (초) |
 | `quotePairs` | 인용문+후속맥락 배열 (optional). 각 항목: `{ quote, quoteSource?, quoteDuration?, after?, afterDuration? }` |
 | `category` | 콘텐츠 카테고리 (BOOK/VIDEO/GAME/MUSIC, 생략 시 BOOK) |
+| `contentId` | 본 서비스 `contents.id`. 콘텐츠 식별용 |
+| `userContentId` | 해당 인물의 `user_contents.id`. 감상 관계 검증용 |
+| `thumbnailSourceUrl` | 렌더 표지 캐시를 만든 DB 원본 URL 스냅샷 |
+| `thumbnailSourceLocale` | 표지 원본의 locale |
 | `stats` | DB 통계 (celebCount, celebNames, publisher 등) |
 | `titleDuration` | 제목+저자 음성 길이 (초) |
 
@@ -93,7 +112,7 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 | 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·페르소나. 콘텐츠 타입(`contents.type`)이 BOOK이 아닌 항목은 category 필드 필수 | 아래 DB 소스 표 |
 | 3 | **JSON 초안** — `public/episodes/pre-todo/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
 | 4 | **텍스트 검수** — 주어 규칙·말투·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup/lineup.md) § 품질 |
-| 5 | **표지 다운로드** — 외부 URL → 인물 디렉토리 `covers/` | [rules.md](rules.md) § 표지 이미지 |
+| 5 | **ID·표지 동기화** — DB 관계 연결 + DB 표지 → `covers/content/<contentId>/<locale>.webp` 캐시 | [unification-phase1.md](unification-phase1.md) |
 | 6 | **보이스 배정** — 해설은 Gemini Charon, 실제 인물은 ElevenLabs 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup/lineup.md) § 보이스 |
 | 7 | **승격** — `pre-todo/<name>.json` → `todo/<name>/ko.json` 이동, `script.ts` 등록 | 아래 에피소드 상태 표 |
 | 8 | **음성 생성** — [음성 파이프라인 3단계](voice/tts.md) 실행 | [voice/tts.md](voice/tts.md) § 음성 타이밍 |

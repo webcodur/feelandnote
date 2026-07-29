@@ -273,16 +273,20 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 ## 8. 셀럽 DB·아바타 연동
 
-팩션 인물이 DB(profiles)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 이미지(`sw/remotion/public/factions/<ep>/<vanity>/*.png`, 정사각 상반신·전신 실사)를 아바타로 재활용하면 된다.
+팩션 인물이 DB(profiles)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 개인샷을 아바타로 재활용하는 자동 승격은 **`celeb_tier='fiction'` 인물에만 허용한다.** 실존 인물은 팩션 개인샷만으로 신원을 입증할 수 없으므로 자동 승격하지 않는다.
 
-**기존 스크립트를 재사용한다(코드 수정 불필요):** `sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{profiles.id}/avatar.webp` PUT → `profiles.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
+**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{profiles.id}/avatar.webp` PUT → `profiles.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
 
 ```
 npx tsx scripts/upload-celeb-image-from-wikimedia.ts --celeb-id <profiles.id UUID> \
-  --image-file "C:/abs/path.png" --slug <slug> --source-note "faction local"
+  --image-file "C:/abs/path.png" --slug <slug> \
+  --source-note "공식 사진을 바탕으로 한 신원 보존 재구성" \
+  --identity-evidence "https://공식·기관·본인 페이지"
 ```
 
 `--celeb-id`는 slug가 아니라 `profiles.id`(UUID)다. 검출 score가 0.8대여도 크롭은 양호하다. 얼굴 자동 크롭이 싫으면 `--face-detect false --crop-gravity center`를 쓴다. `avatar_url` 최종값은 상대경로가 아니라 전체 URL이다(`https://pub-....r2.dev/celebs/{id}/avatar.webp?v={ts}`).
+
+**실존 인물 안전장치:** 로컬 파일·임의 URL 모드는 `--identity-evidence`가 필수다. 기존 서비스 R2 아바타는 근거로 인정하지 않으며, `_재료`·`서비스_재료`·`_refs` 경로는 업로드 입력 단계에서 거부한다. `celeb-id`와 `slug`도 DB에서 같은 인물인지 먼저 대조한다. 동시대 초상이나 외모 기록조차 없는 인물은 임의 얼굴을 넣지 않고 미등록으로 둔다.
 
 **⚠️ `_refs/`를 절대 아바타로 쓰지 마라(2026-07-16 실측).** `_refs/<세력>/<인물>.png`는 "이 얼굴 골격으로 그려라"는 **재료**(현대인 스튜디오 사진)다. 페넬로페는 분홍머리 현대 여성, 늙은 유모 에우뤼클레이아는 젊은 금발이다. 아바타에는 영상 개인샷(`<ep>/<cluster>/<n>/<slug>.png`)만 쓴다.
 

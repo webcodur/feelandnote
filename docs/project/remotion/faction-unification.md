@@ -9,6 +9,7 @@
 
 - **텍스트·구성 데이터의 단일 원천 = Supabase DB.** 로컬 `faction-data.json`은 렌더용 빌드 산출물로 강등(수정 금지).
 - **편집 화면 = web-bo 하나.** 팩션에 관해 remotion-bo는 **렌더·유튜브 버튼까지 포함해 전체 폐기**(26.07.25 결정 — "출고만 remotion-bo 잔류" 절충안은 기각, 플랫폼 소거가 목적). 담화·북리커맨드는 후속 단계에서 같은 길을 밟아 remotion-bo를 최종 소멸시킨다.
+- **후속 완료(26.07.29):** 담화와 북리커맨드도 같은 길을 밟아 remotion-bo 앱 전체가 폐기됐다.
 - Remotion(렌더 엔진)은 플랫폼이 아니라 빌드 도구. 대용량 미디어(wav 443개 297MB·이미지 2,245장)는 로컬 유지.
 - 미등록 9개 에피소드도 `registered=false`로 이관. 사문 필드는 보존. 구버전 중복 에피소드(Path-of-Kings·Iliad-Odyssey 등)도 이관하되 미등록 유지.
 
@@ -41,15 +42,20 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 
 테이블 5종(정본은 DB — `information_schema`가 정확):
 - `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(ready/blocked)**·**block_note**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
-  - **`status` 는 두 값뿐이다(26.07.27 마이그레이션 `simplify_faction_episode_status_to_two_values`).** 묻는 것은 하나다 — 이 편을 도감으로 옮길 수 있는가. `ready`(인물이 인명부에 있다, 이미 옮긴 편 포함) / `blocked`(출연진이 사람이 아니거나 등록 인물이 셋 미만). 실측 재분류 결과 ready 42 · blocked 52.
+  - **`status` 는 두 값뿐이다(26.07.27 마이그레이션 `simplify_faction_episode_status_to_two_values`).** 묻는 것은 하나다 — 이 편을 도감으로 옮길 수 있는가. `ready`(인물이 인명부에 있다, 이미 옮긴 편 포함) / `blocked`(출연진이 사람이 아니거나 등록 인물이 셋 미만). 26.07.29 실측은 ready 52 · blocked 40.
   - 옛 다섯 값(idea/todo/live/done/shelved)은 **폐기**했다. 「할 것인가」와 「어디까지 왔나」를 한 칸에 섞어 놓은 데다 렌더·출간 코드가 이 값을 읽지 않아 실제와 계속 어긋났다(유튜브에 나간 편은 둘인데 「준비」로 남은 20편 중 12편이 이미 렌더 편성에 올라 있었다).
   - **`block_note`** — 못 옮기는 이유 한 줄(26.07.27 신설). 이유가 편마다 제각각이라 분류로 묶으면 뭉뚱그려진다. 목록에서 폴더 경로 자리에 이 줄이 대신 뜬다.
-  - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다).
-  - **folder 는 뿌리 기준 상대 경로다.** 보관함 편은 `not-using/future-tech/defense-industry` 처럼 슬래시를 품는다(이름만 따면 분류가 다른 동명이 부딪히고 사진·음원 경로도 어긋난다). 그래서 `episodeDirOf` 가 토막마다 이어 붙이고(`safeDirSegs`), 주소에서는 슬래시를 `~` 로 바꿔 한 토막에 싣는다(`folderToParam`/`paramToFolder`, `sw/web-bo/src/lib/faction-edit-route.ts`).
-  - 🔴 **실물은 `public/` 밖이다(26.07.26 이송).** 폴더 키는 `not-using/…` 그대로지만 파일은 **`sw/remotion/idea-bank/<분류>/<이름>`** 에 있다. 렌더가 `public/` 을 통째로 임시 폴더에 복사하는데 보관함 196MB(743개)가 매번 딸려 갔기 때문이다. 키 ↔ 실물 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 곳**이 정한다 — 경로를 만드는 코드는 전부 이 함수를 지나야 하고, 직접 `path.join(FACTIONS_DIR, …)` 하면 보관함 편에서 어긋난다(실제로 `factionEpisodePaths` 가 `path.basename` 을 쓰다 이번에 수렴됐다). 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR` 이 같은 규칙을 쥔다.
+  - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 26.07.29 현재 등록 13편·미등록 80편이다.
+  - **folder 는 한 단계짜리 고유 슬러그다.** 모든 편은 `sw/remotion/public/factions/<folder>`에 나란히 있고 주소도 같은 값을 그대로 인코딩한다. 폴더 위치에 활성·비활성 의미를 싣지 않는다.
+  - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug·celeb_id(profiles, nullable)·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
+  - `mythical=true` 인물은 `profiles.celeb_tier='fiction'` 프로필에 연결한다.
+    얼굴이 없어도 `avatar_url=null`인 active 데이터형 프로필을 만들 수 있으며,
+    아바타 부재는 출간·검색 연결을 막지 않는다
+  - 2026-07-29 전수 기준: 신화·서사 18편, 285배치, 정규 fiction 257명.
+    `celeb_id` 미해소 0, 태그 배정 누락 0, 원전 연결 255명(20작품·285관계)
 - `faction_episode_parts` — (episode_id, part) PK·comment(現 comment.p<N>.txt)
 
 RLS: 5테이블 전부 admin(role admin|super_admin) 전용 4정책. 서비스(web)는 celeb_tags만 읽는다 — 제작 데이터 비공개가 의도적 차이.
@@ -63,12 +69,14 @@ RLS: 5테이블 전부 admin(role admin|super_admin) 전용 4정책. 서비스(w
 faction_episodes                               celeb_tags (40행, slug unique 인덱스 26.07.25)
  └ faction_groups ─tag_id(N:1)──────────▶       · name/color/slug/team_images(R2 그룹샷)/youtube_videos/theme_music
     └ faction_clusters                         celeb_tag_assignments (unique(celeb,tag))
-       └ faction_people ─celeb_id─┐   투영       · short_desc/long_desc(사람이 다듬음)
-            quote·음성설정·컷효과   │ ─────▶      · sort_order · spotlight_image_url(R2 개인샷)
-            epithet·lines ────────┘            profiles — 불가침
+       └ faction_people ─celeb_id─┐   투영       · short_desc(세력별 한줄 소개)
+            quote·음성설정·컷효과   │ ─────▶      · long_desc(세력별 상세 설명, 사람이 다듬음)
+            lines[0]·epithet ─────┘             · sort_order · spotlight_image_url(R2 개인샷)
+                                               profiles — 불가침
 ```
 
 - 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 출간 범위 밖이며 `celeb_tags.parent_id`가 정본이다(26.07.26 승격 — 아래 진행 로그).
+- **영상과 웹의 '수식어'는 동일 필드가 아니다.** 영상 `epithet`은 화면에 띄우거나 낭독하는 한 문장 소개이고, 웹 `short_desc`는 같은 인물도 태그마다 달라지는 10자 내외 한줄 소개다. 신규 배정의 초안은 `lines[0] → short_desc`, `epithet → long_desc`로 투영한다. `epithet`이 없을 때만 직함 2·3번 줄을 `long_desc`의 재료로 쓴다. 기존 웹 소개는 출간해도 보존되며, 같은 값으로 맞추는 일괄 동기화는 하지 않는다.
 - **배치 충돌 규칙**: 같은 celeb·같은 tag에 여러 배치 → `(group.position, cluster.position, person.position)` 최소 배치 채택. sort_order는 태그 관통 전역 순번(기존 `assignTagOrder` 유지).
 - 이미지 R2 출간: 기존 `faction-sync/{r2,image,manifest}.ts` 배관 그대로(불변 캐시 + ?v= 정책 적용됨).
 - **되쓰기 예외 3종(채움 전용 아님)** — 사람이 도감에서 다듬는 값이 아니라 제작·업로드 기록이 유일한 출처라 force와 무관하게 항상 되쓴다. 원천이 비면 서비스도 비운다.
@@ -182,6 +190,13 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - **흩어져 있던 경로 조립을 이번에 수렴** — `factionEpisodePaths`(shared `bo/faction-export`)가 `path.join(factionsDir, path.basename(folder))` 였다. 보관함 편이 들어온 뒤로 **web-bo 자동 내보내기가 `public/factions/<이름>` 이라는 없는 자리를 가리키고 있었다**(CLI 는 스캔 결과 경로를 써서 멀쩡했으므로 드러나지 않았다). `episodeDirOf` 로 교체. 자산 창구(`lib/faction-asset.ts`)도 같은 함수로 뿌리를 정한다.
   - 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR`. `.gitignore` 에 새 경로 항목 추가(옛 `public/factions/` 패턴이 못 덮는다).
   - **실측**: `faction:verify --all` 95/95 통과 · 이동 후 보관함 편 내보내기가 새 위치에 기록되고 백업(`.export-backup/_original`)도 그 아래 생성 · 승격(보관함→뿌리) 실이동 왕복 성공 · `public/factions` 스캔 23편 유지 · `remotion compositions` 경고 0(팩션 컴포지션은 등록 14편분) · tsc web-bo·remotion 0.
+- 26.07.29 **폐기된 `great-hackers-state`의 로컬 실물 제거** — 26.07.28 DB·인물 삭제 뒤 `idea-bank/shadow-world/great-hackers-state`만 남아 있던 26파일·20,087,954바이트를 제거했다. 현재 보관함은 DB 후보 71편 ↔ 로컬 71편이며 정규화 내용 대조 불일치 0.
+- 26.07.29 **활성·비활성 팩션 실물 1차 재통합** — 사용자 운영 판단에 따라 `sw/remotion/idea-bank/`의 71편·719파일·210,216,734바이트를 원래 자리인 **`sw/remotion/public/factions/not-using/`** 로 이동했다. DB 키와 내용은 불변이며 전용 `resolveEpisodeLocation`·`IDEA_BANK_ROOT`·`IDEA_BANK_DIR` 분기를 제거했다. 로더는 `not-using/`의 데이터와 발화 시각을 모두 제외하고, 표준 렌더는 기존 참조 기반 창고를 쓰므로 활성 영상의 입력은 변하지 않는다. `--full-public`을 명시한 옛 통짜 렌더만 후보 자산까지 포함한다.
+  - DB 92편 ↔ 로컬 92편 키 전수 일치. `_episodes.json`에만 남아 있던 DB 부재 별칭 `Gods-Greek-Compact`를 제거하고 `registered=true` 13편으로 재생성했다.
+- 26.07.29 **경로 상태값 최종 폐기** — `not-using/<분류>/<이름>` 71편을 전부 `public/factions/<이름>`으로 평탄화하고 DB `folder`도 함께 바꿨다. 활성 `Social-Network`와 충돌한 옛 소형 초안만 `social-network-draft`로 명시했다. 분류 서랍에 남은 기획 문서는 `_docs/idea-bank/`로 옮겼다. 이후 활성 여부는 오직 `registered`, 도감 이전 가능 여부는 `status=ready|blocked`가 맡는다. 렌더 로더와 활성 편 정비 스크립트도 `_episodes.json` 화이트리스트를 읽는다.
+  - **최종 실측**: DB 92편·슬래시/레거시 키 0 · 로컬 92편 · registered 13 / 미등록 79 · ready 52 / blocked 40. `faction:verify --all` 92/92 왕복 통과, import dry-run 92/92 스캔, Remotion 번들 성공 및 등록 13편의 컴포지션 76종만 노출.
+- 26.07.29 **영상 소개문 ↔ 웹 세력별 소개 감사·투영 교정** — 원격 DB를 읽기 전용으로 대조했다. 승리 배치 452건 중 웹 배정이 있는 443건의 국문은 동일 4 · 서로 다름 169 · 영상 소개문 없음 270이었다. 유튜브 업로드 기록이 있는 6편 134건도 동일 4 · 서로 다름 115 · 영상 소개문 없음 15였다. 영상 소개문 중앙값은 편별 28~81자, 웹 한줄 소개는 10~19자였고, 여러 태그에 속한 셀럽 60명은 태그마다 `short_desc`가 달랐다(최대 일론 머스크 11종). 즉 두 값의 차이는 단순 드리프트가 아니라 매체·세력 맥락의 차이다.
+  - 신규 배정에서 긴 `epithet`을 `short_desc`에 넣던 잘못된 투영을 `lines[0] → short_desc`, `epithet → long_desc`로 교정했다. 기존 웹 글은 채움 전용 보호를 유지하며 DB 값은 변경하지 않았다. 편집 화면도 제작 필드를 「영상 소개문」으로 명시하고 force 경고에 정확한 덮어쓰기 방향을 표시한다.
 - 26.07.26 **형제 통합 완료 — 가상 담화도 같은 골격으로 web-bo 로 옮겨졌다**(`discourse-unification.md`). 이 문서가 세운 방식(DB 단일 원천 · 원자 저장 RPC · 왕복 검증 게이트 · 내보내기 마커와 손 편집 가드 · remotion-bo 구역 폐기)이 두 번째 시리즈에서 그대로 재현됐다. 그 과정에서 팩션 코드의 **시리즈 무관 부분이 공용으로 승격**됐다 — `lib/series-schema.ts`(분해·재조립·비교·체크섬 절차) · `scripts/lib/series-cli.ts`(env·CLI 인자) · `lib/remotion-local.ts`(`REMOTION_LOCAL`, 옛 이름 `FACTION_LOCAL` 별칭 유지) · `.remotion-ui`(`.faction-ui` 별칭 유지). **팩션 왕복 검증 95편은 승격 전후 전량 통과**해 영향 0을 실증했다.
 
 - 26.07.26 **상위 그룹 위계를 코드 상수에서 DB로 승격.** 마이그레이션 `add_celeb_tags_parent_id`(자기참조 FK + 인덱스) 후 옛 상수 8그룹·자식 31종을 slug 대조로 백필하고 `sort_order`를 그룹→자식 차례로 0~39 재부여했다(자식 표시 순서 보존). `sw/web/src/constants/factionGroups.ts` 삭제, `getFeaturedTags`는 자식 보유 여부로 그룹을 판정한다. web-bo `/factions` 목록에 들여쓰기 위계, 테마 편집에 「상위 묶음」 지정(두 단계 제한·자기참조·순환 차단) 신설.

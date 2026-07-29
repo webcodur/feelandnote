@@ -14,9 +14,13 @@
 
 ## 표지 이미지
 
-- **한영 에피소드는 양쪽 locale 모두 유효한 `thumbnail_url`이 있는 콘텐츠만 포함.** 한쪽이라도 없으면 해당 콘텐츠 제외.
-- **외부 URL 금지.** 렌더 시 매 프레임 HTTP 요청이 발생하여 극심한 속도 저하 + 타임아웃 에러. `public/covers/`에 로컬 다운로드 후 `covers/cover-NNN.jpg` 경로로 교체.
-- DB `content_locales` 테이블이 표지 URL의 단일원천. 에피소드 JSON 생성 시 반드시 DB 최신 URL을 조회.
+- DB `content_locales.thumbnail_url`이 KO·EN 외부 표지 URL의 단일원천이다.
+- `book.<locale>.json`에는 `contentId`·`userContentId`를 반드시 기록한다. 제목 문자열만으로 관계를 유지하지 않는다.
+- **렌더 JSON의 외부 URL 금지.** DB 표지에서 `public/covers/content/<contentId>/<locale>.webp`를 만들고 `thumbnail_url`에는 이 결정적 로컬 경로만 기록한다.
+- `thumbnailSourceUrl`은 캐시를 만들 때 쓴 DB URL의 스냅샷이다. DB URL과 달라지면 캐시를 다시 만든다.
+- DB locale 표지가 없을 때 기존 로컬 표지를 지우거나 콘텐츠를 임의 제외하지 않는다. web-bo `/book-recommend`에서 `DB 표지 없음`으로 남기고 `/contents/[id]`의 원천부터 고친다.
+- 제목·저자가 애매한 후보는 자동 연결하지 않는다. 특히 저자만 같은 다른 책, 다른 권차, 원작과 각색물을 표지 때문에 합치지 않는다.
+- 전수 감사·동기화 명령은 `pnpm --dir sw/web-bo book-recommend:resources [-- --apply-safe]`. 상세 규격은 [unification-phase1.md](unification-phase1.md).
 
 ## 데이터 흐름
 
