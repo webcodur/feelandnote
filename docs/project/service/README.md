@@ -33,7 +33,7 @@
 
 ```
 (main)/
-  page.tsx                  # 홈 — 오늘의 인물, 기록 섹션, 자유게시판 미리보기, 탭 섹션, 유튜브 선반
+  page.tsx                  # 홈 — 오늘의 인물, 기록 섹션, 자유게시판 미리보기, 탭 섹션, 영상관 통합 히어로
   explore/                  # 탐색 → explore.md
   library/                  # 서가 → library.md
   agora/                    # 광장 → agora.md
@@ -43,6 +43,11 @@
   content/[contentId]/      # 콘텐츠 상세
   notifications/            # 알림 목록 (클라이언트 컴포넌트, 최대 100건)
 ```
+
+셀럽 상세의 02번 구획은 티어에 따라 갈린다. `full`은 감상·창작 기록물을 표시하고,
+`fiction`은 `fiction_source_contents`에 지정된 대표 콘텐츠를 「원전·등장 작품」으로 표시한다.
+대표 콘텐츠 상세에서는 같은 관계를 역으로 읽어 「이 작품의 인물」을 보여준다.
+이 등장 관계는 감상 관계인 `user_contents`와 분리되어 있다.
 
 ## 네비게이션 단일원천
 
