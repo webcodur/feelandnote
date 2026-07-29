@@ -25,7 +25,7 @@ import { DISCOURSES_DIR, episodeDirOf, safeDirName } from '@feelandnote/shared/b
 import { discourseAdminClient, discourseTreeSource, requireDiscourseAdmin } from '@/lib/discourse-db'
 import { REMOTION_LOCAL } from '@/lib/remotion-local'
 
-/** 편 진행 상태 — 담화는 아이디어 보관함이 없어 팩션의 `idea` 가 빠진다 */
+/** 담화 편 진행 상태 */
 export type DiscourseEpisodeStatus = 'todo' | 'live' | 'done'
 
 export interface DiscourseEpisodeSummary {

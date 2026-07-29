@@ -11,6 +11,7 @@
  *     [--face-frame-ratio 0.45]               (얼굴이 결과에서 차지할 비율, 기본 0.45 ≈ 박스의 2.2배 외곽)
  *     [--crop-gravity attention|entropy|...]  (face detection 비활성 또는 fallback 시 사용)
  *     [--size 800]                            (저장 정사각 한 변, 기본 800. 고해상도 원본이면 올린다)
+ *     [--quality 95]                          (최종 WebP 품질, 기본 95)
  *     [--preview-path C:\...\avatar.webp]
  *
  * 절차:
@@ -18,7 +19,7 @@
  *  2) 원본 이미지 다운로드
  *  3) face detection(SSD MobileNet, vladmandic face-api + tfjs-wasm)
  *     얼굴 박스 중심 좌표를 결과의 정중앙에 두는 정사각형 영역 산출
- *  4) sharp.extract로 좌표 크롭 → --size 정사각 resize → webp(q=85), EXIF에 출처/라이선스 박음
+ *  4) sharp.extract로 좌표 크롭 → --size 정사각 resize → webp(기본 q=95), EXIF에 출처/라이선스 박음
  *  5) 얼굴 미감지 시 cropGravity(기본 attention) entropy fallback + 로그 경고
  *     (--require-face 를 켜면 이 fallback 없이 업로드 전에 실패한다)
  *  6) R2 PUT: celebs/{celebId}/avatar.webp
@@ -83,6 +84,8 @@ type Args = {
   previewPath?: string
   /** 저장할 정사각 한 변(px). 원본이 이보다 크면 줄이고, 작으면 늘린다 */
   outSize: number
+  /** 최종 WebP 저장 품질(1~100). 얼굴·머리카락 디테일 보존을 위해 기본 95 */
+  webpQuality: number
 }
 
 const ALLOWED_GRAVITIES: ReadonlyArray<CropGravity> = [
@@ -122,6 +125,7 @@ function parseArgs(): Args {
   const requireFaceRaw = (get('--require-face') ?? 'false').toLowerCase()
   const faceFrameRatioRaw = get('--face-frame-ratio')
   const outSizeRaw = get('--size')
+  const webpQualityRaw = get('--quality')
   if (!celebId || !slug) {
     console.error('필수 인자 누락: --celeb-id, --slug')
     process.exit(1)
@@ -157,6 +161,11 @@ function parseArgs(): Args {
     console.error(`--size 값 부적절: ${outSizeRaw}. 64~4096 정수 필요`)
     process.exit(1)
   }
+  const webpQuality = webpQualityRaw ? Number(webpQualityRaw) : 95
+  if (!Number.isInteger(webpQuality) || webpQuality < 1 || webpQuality > 100) {
+    console.error(`--quality 값 부적절: ${webpQualityRaw}. 1~100 정수 필요`)
+    process.exit(1)
+  }
   return {
     celebId,
     commonsFile,
@@ -170,6 +179,7 @@ function parseArgs(): Args {
     cropGravity: gravityRaw as CropGravity,
     previewPath,
     outSize,
+    webpQuality,
   }
 }
 
@@ -406,7 +416,7 @@ async function toAvatarWebp(
         })
         .resize(args.outSize, args.outSize, { fit: 'cover' })
         .withMetadata(exifBlock)
-        .webp({ quality: 85 })
+        .webp({ quality: args.webpQuality })
         .toBuffer()
       return {
         buf,
@@ -435,7 +445,7 @@ async function toAvatarWebp(
     const buf = await sharp(rotated)
       .resize(args.outSize, args.outSize, { fit: 'cover', position: fallback })
       .withMetadata(exifBlock)
-      .webp({ quality: 85 })
+      .webp({ quality: args.webpQuality })
       .toBuffer()
     return {
       buf,
@@ -451,7 +461,7 @@ async function toAvatarWebp(
   const buf = await sharp(rotated)
     .resize(args.outSize, args.outSize, { fit: 'cover', position: args.cropGravity })
     .withMetadata(exifBlock)
-    .webp({ quality: 85 })
+    .webp({ quality: args.webpQuality })
     .toBuffer()
   return {
     buf,
@@ -526,7 +536,7 @@ async function main() {
   }
 
   console.log(
-    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=85, face-detect=${args.faceDetect}, require-face=${args.requireFace}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
+    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=${args.webpQuality}, face-detect=${args.faceDetect}, require-face=${args.requireFace}, faceFrameRatio=${args.faceFrameRatio}, fallback gravity=${args.cropGravity})`
   )
   const conv = await toAvatarWebp(original, meta, sourceLabel, args)
   if (conv.faceDetected) {

@@ -1,4 +1,4 @@
-import { readdir, readFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import path from 'path'
 
 export type FactionVoiceUsage = {
@@ -137,13 +137,12 @@ async function readFactionData(episode: string): Promise<FactionData | null> {
 
 export async function collectFactionVoiceHistory(): Promise<FactionVoiceHistoryResponse> {
   const voices: Record<string, FactionVoiceHistoryEntry> = {}
-  const entries = await readdir(FACTIONS_ROOT, { withFileTypes: true })
+  const registered = JSON.parse(
+    await readFile(path.join(FACTIONS_ROOT, '_episodes.json'), 'utf-8'),
+  ) as string[]
 
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue
-    if (entry.name.startsWith('_') || entry.name === 'not-using') continue
-
-    const data = await readFactionData(entry.name)
+  for (const episode of registered) {
+    const data = await readFactionData(episode)
     if (!data?.groups?.length) continue
 
     for (const group of data.groups) {
@@ -167,7 +166,7 @@ export async function collectFactionVoiceHistory(): Promise<FactionVoiceHistoryR
             const usage = makeUsage({
               voiceId,
               slot: pair.slot,
-              episode: entry.name,
+              episode,
               episodeTitle: firstLine(data.title),
               groupName,
               clusterLabel: firstLine(cluster.label),

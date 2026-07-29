@@ -139,9 +139,18 @@ export interface QuotePair {
 }
 
 export interface BookEntry {
+  /** 본 서비스 contents.id — 제목·순서가 바뀌어도 책을 다시 잇는 불변 키 */
+  contentId?: string
+  /** 해당 셀럽의 user_contents.id — 인물×책 관계의 불변 키 */
+  userContentId?: string
   title: string
   creator: string
+  /** 렌더가 읽는 로컬 표지 캐시 경로 */
   thumbnail_url: string
+  /** content_locales.thumbnail_url 스냅샷 — DB 표지 변경 감지용 */
+  thumbnailSourceUrl?: string
+  /** 이 파일이 캐시한 content_locales 로케일 */
+  thumbnailSourceLocale?: 'ko' | 'en'
   /** 콘텐츠 카테고리 (생략 시 BOOK) */
   category?: ContentCategory
   /** 요약맨: 책 소개 + 핵심 인사이트. 토막 분할 시에도 전체 글(join('\n\n'))을 항상 유지 — 텍스트 소비자의 단일원천 */

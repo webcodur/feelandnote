@@ -6,7 +6,8 @@
     "dev": "next dev -p 3001 --webpack",
     "build": "next build --webpack",
     "start": "next start -p 3001",
-    "lint": "eslint"
+    "lint": "eslint",
+    "book-recommend:resources": "tsx scripts/book-recommend-resources.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",
@@ -27,7 +28,8 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-easy-crop": "^5.5.6",
-    "remotion": "4.0.434"
+    "remotion": "4.0.434",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
@@ -40,7 +42,6 @@
     "eslint-config-next": "16.1.1",
     "eslint-plugin-react": "^7.37.5",
     "postcss": "^8.5.6",
-    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.17",
     "tsx": "^4.21.0",
     "typescript": "^5"

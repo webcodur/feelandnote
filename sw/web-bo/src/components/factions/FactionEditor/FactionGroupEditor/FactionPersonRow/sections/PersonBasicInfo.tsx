@@ -102,16 +102,21 @@ export function PersonBasicInfo({
       <div className="flex items-start gap-2">
         {editLang !== 'en' && (
           <>
-            <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">수식어 -</span>
+            <span
+              className="w-24 shrink-0 pt-1.5 text-xs text-text-dim"
+              title="웹 도감의 짧은 세력별 수식어와 다른, 영상에서 띄우거나 읽는 소개문"
+            >
+              영상 소개문 -
+            </span>
             <div className="min-w-0 flex-1 flex flex-col gap-1.5">
-              <AutoResizeTextarea placeholder="대사 전에 띄울 한 문장 (예: 1988년 사이퍼펑크 선언문을 세상에 던져, 암호로 국가의 감시를 끝내려 한 예언자)" value={person.epithet ?? ''} onChange={e => set('epithet', e.target.value.replace(/\n/g, ' '))} rows={2} className="w-full resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
+              <AutoResizeTextarea placeholder="대사 전에 띄우거나 낭독할 한 문장 (웹의 짧은 세력별 수식어와 별도)" value={person.epithet ?? ''} onChange={e => set('epithet', e.target.value.replace(/\n/g, ' '))} rows={2} className="w-full resize-none rounded-md border border-border bg-bg-main px-2 py-1.5 text-sm leading-snug focus:border-accent focus:outline-none" />
             </div>
           </>
         )}
         {editLang !== 'ko' && (
           <>
             <span className="w-12 shrink-0 pt-1.5 text-xs text-text-dim">(영문) -</span>
-            <AutoResizeTextarea placeholder="EN epithet (one sentence)" value={person.epithetEn ?? ''} onChange={e => set('epithetEn', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+            <AutoResizeTextarea placeholder="EN video intro (one sentence)" value={person.epithetEn ?? ''} onChange={e => set('epithetEn', e.target.value.replace(/\n/g, ' '))} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
           </>
         )}
       </div>

@@ -16,6 +16,19 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  const isBookRecommendProductionApi =
+    pathname.startsWith('/api/book-recommend')
+    || pathname.startsWith('/api/tasks')
+    || pathname.startsWith('/api/open-folder')
+  const remotionLocal =
+    process.env.REMOTION_LOCAL === '1' || process.env.FACTION_LOCAL === '1'
+  if (isBookRecommendProductionApi && !remotionLocal) {
+    return NextResponse.json(
+      { error: '서재 탐방 제작 API는 로컬 렌더 환경에서만 동작합니다.' },
+      { status: 503 },
+    )
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -67,6 +80,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // 확장자로 끝나는 서재 탐방 이미지·음성 API도 반드시 관리자 인증을 거친다.
+    '/api/book-recommend/:path*',
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

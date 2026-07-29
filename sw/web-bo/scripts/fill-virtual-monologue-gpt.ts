@@ -1,6 +1,6 @@
 /**
- * profiles.virtual_monologue 생성기 (GPT-5.6 sol / effort medium, codex CLI)
- * ── 가상 독백 작성 규격의 단일원천(SSoT). 규격 상세는 아래 buildPrompt 가 전부 쥔다. ──
+ * profiles.virtual_monologue 후보 생성기 (GPT-5.6 sol / effort medium, codex CLI)
+ * ── 문장 작성 규격은 buildPrompt, 전수 운영 규격은 docs/todo/virtual-monologue-quality-overhaul.md ──
  *
  * [무엇을 만드는가]
  *   셀럽 페이지에 실리는 1인칭 독백. 그 인물이 자기 삶·사상·신념을 혼잣말로 풀어낸다.
@@ -8,8 +8,8 @@
  *   추상 관념만 늘어놓지 말고, 실제로 한 일·역할과 그 사상을 나란히 잡는다.
  *
  * [저장]
- *   DB: profiles.virtual_monologue (text) · Supabase project wouqtpvfctednlffross · 인물 식별은 slug.
- *   이 스크립트가 codex 응답을 받아 UPDATE 까지 자동 수행한다(수동 UPDATE 불필요).
+ *   이 스크립트는 DB를 읽기만 한다. 생성 결과는 .tmp-gpt-mono/candidates.jsonl에 후보로 저장한다.
+ *   검토·승인·원문 해시 대조를 거치지 않은 생성 결과를 profiles.virtual_monologue에 바로 쓰지 않는다.
  *
  * [말투]  정중체('저는'/'~습니다') 기본. 지휘관 직군 + 아래 PLAIN_EXTRA 4명만 평어체('나는'/'~다'). isPlain 참조.
  * [분량]  영향력 등급별 목표만 준다(하한 없음). 자료가 얇으면 짧게 맺는다. lengthTarget 참조.
@@ -19,17 +19,22 @@
  *   - codex(Codex 구독 인증)로 생성 → 종량제 비용 없음. rate limit 존재(누적 500~560건, 5시간 주기 회복).
  *   - codex exec --output-last-message 로 순수 독백만 파일 수신.
  *   - 대상: profile_type='CELEB' + bio 있는 인물.
- *   - 기존 독백을 보여주고 고치게 한다(백지 생성 아님). 검증된 사실 위에서 목소리만 바꾼다.
+ *   - --mode improve: 기존 독백을 보여주고 개선한다.
+ *   - --mode new: 기존 독백을 주지 않고 새로 쓴다.
  *   - 재료는 인물 소개(bio)·생몰뿐이다. cultural_journey(감상 여정)·celeb_persona·celeb_influence 서술·
  *     celeb_dialogues 를 재료로 넣지 마라 — 그쪽 데이터 자체가 정리 대상이라 오염이 독백으로 옮는다.
+ *   - bio+생몰만으로는 최종 품질을 보장할 수 없다. 정식 전수 작업에서는 이 파일을 단독 게시 도구로 쓰지 않는다.
  *
  * [명령]  sw/web-bo 에서
- *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --limit 5    # 시험(5명)
- *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --no-force   # 독백 없는 인물만
- *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts              # 전량 재생성
- *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --resume     # 중단분 이어서(.tmp-gpt-mono/done.log 기준)
+ *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --slugs peter-thiel --mode improve
+ *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --slugs alex-karp --mode new
+ *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --limit 5 --mode improve
+ *   node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --limit 5 --mode improve --resume
+ *
+ *   --slugs 또는 유한한 --limit 없이 전량을 실수로 돌릴 수 없도록 막는다.
  */
 
+import { createHash } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
 import { spawn, execSync } from 'child_process'
 import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync } from 'fs'
@@ -54,12 +59,26 @@ const LIMIT = arg('--limit', Infinity)
 const CONCURRENCY = arg('--conc', 3)
 const NO_FORCE = process.argv.includes('--no-force')   // 아직 독백이 없는 인물만
 const RESUME = process.argv.includes('--resume')       // 이번 회차에 이미 끝낸 인물은 건너뛴다
+const MODE = (() => {
+  const i = process.argv.indexOf('--mode')
+  const value = i >= 0 ? process.argv[i + 1] : 'improve'
+  if (value !== 'improve' && value !== 'new') throw new Error(`--mode는 improve 또는 new: ${value}`)
+  return value
+})() as 'improve' | 'new'
+const SLUGS = (() => {
+  const i = process.argv.indexOf('--slugs')
+  return i >= 0
+    ? new Set(process.argv[i + 1].split(',').map((s) => s.trim()).filter(Boolean))
+    : null
+})()
 
 const MODEL = 'gpt-5.6-sol'
+const PROMPT_VERSION = 'vm-ko-2026-07-29-candidate-v1'
 const TMP = resolve(process.cwd(), '.tmp-gpt-mono')
 if (!existsSync(TMP)) mkdirSync(TMP, { recursive: true })
 /** rate limit 으로 끊겨도 --resume 으로 이어붙이기 위한 처리 완료 기록. */
 const DONE_LOG = resolve(TMP, 'done.log')
+const CANDIDATES_LOG = resolve(TMP, 'candidates.jsonl')
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -79,6 +98,7 @@ const PLAIN_EXTRA = new Set<string>([
 ])
 const isPlain = (slug: string, p: string | null) => COMMANDER.has(p ?? '') || PLAIN_EXTRA.has(slug)
 const hasHanzi = (s: string) => /[一-鿿]/.test(s)
+const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex')
 
 /**
  * 영향력(celeb_influence.total_score)을 사상의 두께로 보고 분량 기준을 준다.
@@ -233,14 +253,28 @@ function materialOf(r: Row): Material {
     bio: r.bio ?? '',
     era: [r.birth_date, r.death_date].filter(Boolean).join(' ~ '),
     plain: isPlain(r.slug, r.profession),
-    origin: r.virtual_monologue ?? '',
+    origin: MODE === 'improve' ? (r.virtual_monologue ?? '') : '',
     target: lengthTarget(scoreOf(r)),
   }
 }
 
 async function run() {
+  if (!SLUGS && LIMIT === Infinity) {
+    throw new Error('안전 중단: --slugs 또는 유한한 --limit을 지정해야 한다. 전량 무검토 생성을 금지한다.')
+  }
+
   const all = await loadAll()
-  let targets = all.filter((r) => r.bio && (!NO_FORCE || !r.virtual_monologue))
+  let targets = all.filter((r) =>
+    r.bio
+    && (!NO_FORCE || !r.virtual_monologue)
+    && (!SLUGS || SLUGS.has(r.slug)),
+  )
+
+  if (SLUGS) {
+    const found = new Set(targets.map((r) => r.slug))
+    const missing = [...SLUGS].filter((slug) => !found.has(slug))
+    if (missing.length) throw new Error(`대상에서 찾지 못한 slug: ${missing.join(', ')}`)
+  }
 
   if (RESUME && existsSync(DONE_LOG)) {
     const done = new Set(readFileSync(DONE_LOG, 'utf-8').split('\n').map((s) => s.trim()).filter(Boolean))
@@ -249,10 +283,11 @@ async function run() {
     console.log(`이어서 처리: 이미 끝낸 ${before - targets.length}명 건너뜀`)
   } else if (!RESUME) {
     writeFileSync(DONE_LOG, '') // 새 회차 시작
+    writeFileSync(CANDIDATES_LOG, '')
   }
   if (LIMIT !== Infinity) targets = targets.slice(0, LIMIT)
 
-  console.log(`셀럽 ${all.length} | 대상 ${targets.length} | 모델 ${MODEL} | 동시 ${CONCURRENCY}${NO_FORCE ? ' | 독백 없는 인물만' : ''}`)
+  console.log(`셀럽 ${all.length} | 대상 ${targets.length} | 모델 ${MODEL} | 모드 ${MODE} | 동시 ${CONCURRENCY}${NO_FORCE ? ' | 독백 없는 인물만' : ''} | DB 쓰기 0건`)
 
   let done = 0, ok = 0, fail = 0, rateHit = 0
   for (let i = 0; i < targets.length; i += CONCURRENCY) {
@@ -262,8 +297,20 @@ async function run() {
       try {
         const before = r.virtual_monologue?.length ?? 0
         const mono = await generate(r.slug, materialOf(r))
-        const { error } = await supabase.from('profiles').update({ virtual_monologue: mono }).eq('slug', r.slug)
-        if (error) throw error
+        appendFileSync(CANDIDATES_LOG, `${JSON.stringify({
+          schemaVersion: 1,
+          generatedAt: new Date().toISOString(),
+          promptVersion: PROMPT_VERSION,
+          model: MODEL,
+          mode: MODE,
+          slug: r.slug,
+          nickname: r.nickname,
+          currentText: r.virtual_monologue ?? '',
+          currentHash: sha256(r.virtual_monologue ?? ''),
+          candidateText: mono,
+          candidateHash: sha256(mono),
+          status: 'draft',
+        })}\n`)
         appendFileSync(DONE_LOG, `${r.slug}\n`)
         ok++
         console.log(`✓ ${r.nickname} (${before ? `${before}→` : ''}${mono.length}자, ${isPlain(r.slug, r.profession) ? '반말' : '정중'}, ${Math.round((Date.now() - t0) / 1000)}s)`)
@@ -279,7 +326,8 @@ async function run() {
     console.log(`  진행 ${done}/${targets.length} (성공 ${ok} / 실패 ${fail}${rateHit ? ` / rate ${rateHit}` : ''})`)
   }
 
-  console.log(`\n완료. 성공 ${ok} / 실패 ${fail}${rateHit ? ` / rate limit 의심 ${rateHit}` : ''}`)
+  console.log(`\n완료. 후보 ${ok} / 실패 ${fail}${rateHit ? ` / rate limit 의심 ${rateHit}` : ''}`)
+  console.log(`후보 파일: ${CANDIDATES_LOG}`)
   if (fail > 0) console.log('※ --resume 으로 재실행하면 못 끝낸 인물만 이어서 처리한다.')
 }
 

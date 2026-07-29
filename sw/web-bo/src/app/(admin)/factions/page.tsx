@@ -9,14 +9,11 @@ export const metadata: Metadata = {
 }
 
 /**
- * 세력도 — 표 하나.
+ * 세력도 — 영상 편과 도감 테마를 두 작업 관점으로 나눈다.
  *
- * 기준은 도감 테마이고 영상 편은 그 테마에 배지로 붙는다. 어느 테마에도 안 걸린 편만
- * 표 맨 아래 「미연결 영상」 구분 줄 밑에 모인다. 위아래로 나뉘어 있던 두 목록을 합친 것은,
- * 생김새를 표로 맞춘 뒤에도 두 덩어리가 서로 다른 물건처럼 읽혔기 때문이다.
- *
- * 목록은 DB 에서 센다. 폴더를 훑지 않는 이유는 파일이 없는 편이 목록에서 사라지면
- * "만들었는데 안 보인다"가 되기 때문이다.
+ * 같은 DB를 읽되 영상 모드에서는 모든 제작 편이 한 행씩, 테마 모드에서는 서비스 도감에
+ * 진열되는 테마가 한 행씩 보인다. 목록은 폴더가 아니라 DB에서 세어 파일이 없는 편도
+ * 관리 화면에서 사라지지 않게 한다.
  */
 export default async function FactionsPage() {
   const [episodes, themes] = await Promise.all([listFactionEpisodes(), listFactionThemes()])
@@ -26,7 +23,7 @@ export default async function FactionsPage() {
       <div>
         <h1 className="text-2xl font-bold text-text-primary">세력도</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          도감 테마와 연결된 영상 편을 한 표에서 관리합니다. 영상 배지 = 유튜브로 나가는 제작 편.
+          영상 제작 편과 서비스 도감 테마를 작업 기준에 따라 나눠 관리합니다.
         </p>
       </div>
 
