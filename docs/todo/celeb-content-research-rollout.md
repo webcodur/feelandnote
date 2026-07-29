@@ -19,8 +19,8 @@
 - DB 마이그레이션: `sw/web/supabase/migrations/20260729_add_celeb_content_research_status.sql`
 - 공용 의미 해석: `packages/shared/src/constants/celeb-content-research.ts`
 - 운영 화면: web-bo `/celebs/content-research`
-  - 괄호형 작품명만 떼어 보여 주지 않고 각 제목의 원문 주변 문맥도 펼쳐 볼 수 있다.
-  - 본인 저술·공연·출연을 자동 삭제하지 않고 운영자가 값싼 1차 판정을 한다.
+  - 실제 콘텐츠 수·활성 여부·조사 상태·우선순위 신호로만 작업 경로를 나눈다.
+  - 폐기 예정인 감상여정은 조회하거나 작품명 추출에 사용하지 않는다.
 - 사용자 웹: Light도 양수와 `-1`을 표시하고 열린 `0`만 숨긴다.
 - 감사 반영 트랜잭션: `sw/web/supabase/ops/20260729_apply_positive_light_audit.sql`
 - 활성 파일럿 반영 트랜잭션:
@@ -33,6 +33,8 @@
   `sw/web/supabase/ops/20260729_triage_inactive_extract_40.sql`
 - 비활성 무단서 192명 선별 트랜잭션:
   `sw/web/supabase/ops/20260729_triage_inactive_full_192.sql`
+- 활성 조사 완료·0건 167명 판정 교정 트랜잭션:
+  `sw/web/supabase/ops/20260729_confirm_researched_active_light_empty.sql`
 - 최종 읽기 전용 감사:
   `sw/web/supabase/ops/20260729_audit_content_research_rollout.sql`
 - 타입 검사·타깃 ESLint·분류 실DB 읽기 검증 완료
@@ -217,6 +219,12 @@
 34. 전체 표시값·상태·실제 개수 최종 감사
     - 비활성 0건 `open` 잔존 0명
     - 콘텐츠 보유 `confirmed_empty`, 콘텐츠 보유 Light, 상태 시각 결함 모두 0건
+35. 활성 조사 완료·0건 판정 교정 및 감상여정 운영 의존 제거
+    - 기존 감사 후 0건 4명 + 명시 작품 검증 후 0건 86명 +
+      비정형 후보 검증 후 0건 77명을 `confirmed_empty(-1)`로 교정
+    - 앤서니 암스트롱을 합쳐 활성 `-1` 168명, 활성 `open/0` 0명
+    - 비활성 301명은 빠른 선별뿐이므로 `queued`·`deferred`와 표시값 `0` 유지
+    - 작업대의 감상여정 조회·작품명 추출·감상여정 기반 버킷 제거
 
 ## 활성·명시 작품군 파일럿
 
@@ -1002,9 +1010,9 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 
 | 구분 | `open` | `queued` | `deferred` | `confirmed_empty` |
 |---|---:|---:|---:|---:|
-| 활성 Light | 167 | 0 | 0 | 1 |
+| 활성 Light | 0 | 0 | 0 | 168 |
 | 비활성 Light | 0 | 153 | 148 | 0 |
-| 합계 | 167 | 153 | 148 | 1 |
+| 합계 | 0 | 153 | 148 | 168 |
 
 결함은 모두 0건이다.
 
@@ -1015,7 +1023,15 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 - 실제 콘텐츠가 있는데 여전히 Light인 인물
 - 양수 콘텐츠가 음수 표시로 해석되는 인물
 
-`confirmed_empty`는 전 유형 정식 조사를 마친 앤서니 암스트롱 한 명뿐이다.
+활성 조사 완료군에서 실제 콘텐츠가 0건으로 남은 168명은 모두
+`confirmed_empty(-1)`다. 구성은 기존 양수 Light 감사에서 등록분이 기각된
+4명, 명시 작품 표적 검증 후 0건인 86명, 비정형 후보 검증 후 0건인 77명,
+처음부터 조사해 0건인 앤서니 암스트롱 1명이다.
+
+감상여정은 이미 수행된 조사를 처음부터 반복하지 않기 위한 일회성 레거시
+단서로만 사용했다. 최종 표시값과 조사 상태는 감상여정 유무·본문에 의존하지
+않으며, 운영 작업대에서도 감상여정 조회·작품명 추출을 제거했다.
+
 비활성 301명은 전부 빠른 선별만 거쳤으므로 `queued`든 `deferred`든 표시값은
 계속 `0`이다.
 
@@ -1025,7 +1041,8 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 - 파일럿·2차·3차·4차·5차·6차·7차로 활성 명시 작품군 125명 전수 처리 완료
 - 활성 비정형 작품군 84명 전수 원격 반영·검증 완료
 - 활성 무단서 4명 전면 조사 완료: 3명·15건 등록·승격, 1명 `confirmed_empty`
-- 활성 비정형군 누적 7명·10건 등록 및 승격, 나머지 77명은 `light/open/0`
+- 활성 조사 완료·0건 168명은 전부 `light/confirmed_empty/-1`
+- 활성 비정형군 누적 7명·10건 등록 및 승격, 나머지 77명은 `light/confirmed_empty/-1`
 - 비활성 명시 작품 69명 선별 완료: `queued` 42명, `deferred` 27명
 - 비활성 비정형 작품 40명 선별 완료: `queued` 24명, `deferred` 16명
 - 비활성 무단서 192명 선별 완료: `queued` 87명, `deferred` 105명

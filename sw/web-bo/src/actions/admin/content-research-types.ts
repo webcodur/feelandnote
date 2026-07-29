@@ -2,21 +2,12 @@ import type { CelebContentResearchStatus } from '@feelandnote/shared/constants/c
 
 export const CONTENT_RESEARCH_BUCKETS = [
   'promote_audit',
-  'active_target',
-  'active_extract',
-  'active_full',
-  'inactive_target',
-  'inactive_extract',
+  'active_research',
   'inactive_triage',
   'confirmed_empty',
 ] as const
 
 export type ContentResearchBucket = (typeof CONTENT_RESEARCH_BUCKETS)[number]
-
-export interface CandidateTitleEvidence {
-  title: string
-  context: string
-}
 
 export interface ContentResearchRow {
   id: string
@@ -29,9 +20,6 @@ export interface ContentResearchRow {
   profileStatus: string
   influenceTotal: number
   factionLinked: boolean
-  journey: string | null
-  candidateTitles: string[]
-  candidateTitleEvidence: CandidateTitleEvidence[]
   actualContentCount: number
   displayContentCount: number
   researchStatus: CelebContentResearchStatus
