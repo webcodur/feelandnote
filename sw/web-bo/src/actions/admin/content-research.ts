@@ -11,8 +11,6 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import {
-  CONTENT_RESEARCH_BUCKETS,
-  type CandidateTitleEvidence,
   type ContentResearchBucket,
   type ContentResearchRow,
   type ContentResearchWorkspace,
@@ -28,8 +26,6 @@ type ProfileRow = {
   birth_date: string | null
   death_date: string | null
   status: string | null
-  cultural_journey: string | null
-  consumption_philosophy: string | null
   content_research_status: string | null
   content_research_updated_at: string | null
   content_research_confirmed_empty_at: string | null
@@ -41,13 +37,6 @@ type ProfileRow = {
 
 const PAGE_SIZE = 1000
 const IN_FILTER_CHUNK = 200
-const TITLE_PATTERNS = [
-  /『([^』\n]{1,120})』/g,
-  /《([^》\n]{1,120})》/g,
-  /〈([^〉\n]{1,120})〉/g,
-  /「([^」\n]{1,120})」/g,
-  /\[([^\]\n]{1,120})\]/g,
-] as const
 const MODERN_SOURCE_RICH_PROFESSIONS = new Set([
   'entrepreneur',
   'investor',
@@ -73,58 +62,6 @@ function normalizeResearchStatus(value: string | null): CelebContentResearchStat
   return CELEB_CONTENT_RESEARCH_STATUSES.includes(value as CelebContentResearchStatus)
     ? (value as CelebContentResearchStatus)
     : 'open'
-}
-
-function getContextBoundary(
-  text: string,
-  matchStart: number,
-  matchEnd: number
-): { start: number; end: number } {
-  const leftLimit = Math.max(0, matchStart - 140)
-  const rightLimit = Math.min(text.length, matchEnd + 180)
-  const leftText = text.slice(leftLimit, matchStart)
-  const rightText = text.slice(matchEnd, rightLimit)
-  const boundaryPattern = /[.!?。！？\n]/
-
-  let start = leftLimit
-  for (let index = leftText.length - 1; index >= 0; index -= 1) {
-    if (boundaryPattern.test(leftText[index])) {
-      start = leftLimit + index + 1
-      break
-    }
-  }
-
-  let end = rightLimit
-  const rightBoundary = rightText.search(boundaryPattern)
-  if (rightBoundary >= 0) end = matchEnd + rightBoundary + 1
-
-  return { start, end }
-}
-
-function extractCandidateTitleEvidence(
-  journey: string | null
-): CandidateTitleEvidence[] {
-  if (!journey) return []
-
-  const evidenceByTitle = new Map<string, CandidateTitleEvidence>()
-  for (const pattern of TITLE_PATTERNS) {
-    pattern.lastIndex = 0
-    for (const match of journey.matchAll(pattern)) {
-      const title = match[1]?.trim()
-      if (!title || evidenceByTitle.has(title) || match.index === undefined) continue
-
-      const matchEnd = match.index + match[0].length
-      const boundary = getContextBoundary(journey, match.index, matchEnd)
-      const context = journey
-        .slice(boundary.start, boundary.end)
-        .replace(/\s+/g, ' ')
-        .trim()
-
-      evidenceByTitle.set(title, { title, context })
-    }
-  }
-
-  return [...evidenceByTitle.values()].slice(0, 12)
 }
 
 function getBirthYear(value: string | null): number | null {
@@ -170,8 +107,6 @@ function getTriageSignals(
 function deriveBucket(
   profileStatus: string,
   actualContentCount: number,
-  journey: string | null,
-  candidateTitles: string[],
   researchStatus: CelebContentResearchStatus
 ): ContentResearchBucket {
   if (actualContentCount === 0 && researchStatus === 'confirmed_empty') {
@@ -179,15 +114,7 @@ function deriveBucket(
   }
   if (actualContentCount > 0) return 'promote_audit'
 
-  const isActive = profileStatus === 'active'
-  if (journey) {
-    if (candidateTitles.length > 0) {
-      return isActive ? 'active_target' : 'inactive_target'
-    }
-    return isActive ? 'active_extract' : 'inactive_extract'
-  }
-
-  return isActive ? 'active_full' : 'inactive_triage'
+  return profileStatus === 'active' ? 'active_research' : 'inactive_triage'
 }
 
 async function getAllLightProfiles(): Promise<ProfileRow[]> {
@@ -199,8 +126,7 @@ async function getAllLightProfiles(): Promise<ProfileRow[]> {
       .from('profiles')
       .select(`
         id, slug, nickname, avatar_url, profession, birth_date, death_date,
-        status, cultural_journey, consumption_philosophy,
-        content_research_status, content_research_updated_at,
+        status, content_research_status, content_research_updated_at,
         content_research_confirmed_empty_at,
         celeb_influence(total_score)
       `)
@@ -274,11 +200,7 @@ async function getFactionLinkedIds(celebIds: string[]): Promise<Set<string>> {
 function emptyBucketCounts(): Record<ContentResearchBucket, number> {
   return {
     promote_audit: 0,
-    active_target: 0,
-    active_extract: 0,
-    active_full: 0,
-    inactive_target: 0,
-    inactive_extract: 0,
+    active_research: 0,
     inactive_triage: 0,
     confirmed_empty: 0,
   }
@@ -316,12 +238,6 @@ export async function getContentResearchWorkspace(
     const influence = getSingleRelation(profile.celeb_influence)
     const influenceTotal = influence?.total_score ?? 0
     const factionLinked = factionLinkedIds.has(profile.id)
-    const journey =
-      profile.consumption_philosophy?.trim() ||
-      profile.cultural_journey?.trim() ||
-      null
-    const candidateTitleEvidence = extractCandidateTitleEvidence(journey)
-    const candidateTitles = candidateTitleEvidence.map((evidence) => evidence.title)
     const actualContentCount = contentCounts.get(profile.id) ?? 0
     const normalizedResearchStatus = normalizeResearchStatus(profile.content_research_status)
     const { score, signals } = getTriageSignals(profile, influenceTotal, factionLinked)
@@ -338,9 +254,6 @@ export async function getContentResearchWorkspace(
       profileStatus,
       influenceTotal,
       factionLinked,
-      journey,
-      candidateTitles,
-      candidateTitleEvidence,
       actualContentCount,
       displayContentCount: resolveCelebContentCount(
         actualContentCount,
@@ -352,8 +265,6 @@ export async function getContentResearchWorkspace(
       bucket: deriveBucket(
         profileStatus,
         actualContentCount,
-        journey,
-        candidateTitles,
         normalizedResearchStatus
       ),
       triageScore: score,
@@ -376,10 +287,7 @@ export async function getContentResearchWorkspace(
       if (!normalizedSearch) return true
       return (
         row.nickname.toLocaleLowerCase('ko').includes(normalizedSearch) ||
-        row.slug?.toLocaleLowerCase('en').includes(normalizedSearch) ||
-        row.candidateTitles.some((title) =>
-          title.toLocaleLowerCase('ko').includes(normalizedSearch)
-        )
+        row.slug?.toLocaleLowerCase('en').includes(normalizedSearch)
       )
     })
     .sort((left, right) => {

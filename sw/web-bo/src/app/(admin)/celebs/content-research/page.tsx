@@ -43,35 +43,11 @@ const BUCKET_META: Record<
     description: '콘텐츠가 이미 있으므로 내용 감사 뒤 Full 승격',
     className: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200',
   },
-  active_target: {
-    label: '활성·명시 작품 검증',
-    shortLabel: '활성 표적',
-    description: '감상여정에 표시된 작품만 출처와 매칭',
-    className: 'border-blue-500/30 bg-blue-500/10 text-blue-200',
-  },
-  active_extract: {
-    label: '활성·작품명 추출',
-    shortLabel: '활성 추출',
-    description: '감상여정의 비정형 작품명을 뽑은 뒤 검증',
-    className: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-200',
-  },
-  active_full: {
-    label: '활성·처음부터 조사',
-    shortLabel: '활성 전수',
-    description: '감상여정 단서가 없어 처음부터 조사',
+  active_research: {
+    label: '활성·조사 대상',
+    shortLabel: '활성 조사',
+    description: '실제 콘텐츠 0건, 없음 미확정',
     className: 'border-rose-500/30 bg-rose-500/10 text-rose-200',
-  },
-  inactive_target: {
-    label: '비활성·명시 작품 검증',
-    shortLabel: '비활성 표적',
-    description: '기존 감상여정의 명시 작품을 재활용',
-    className: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-200',
-  },
-  inactive_extract: {
-    label: '비활성·작품명 추출',
-    shortLabel: '비활성 추출',
-    description: '비정형 작품명만 찾아 표적 검증',
-    className: 'border-violet-500/30 bg-violet-500/10 text-violet-200',
   },
   inactive_triage: {
     label: '비활성·쓱 보기',
@@ -265,7 +241,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           type="search"
           name="search"
           defaultValue={search}
-          placeholder="인물명·slug·작품명 검색"
+          placeholder="인물명·slug 검색"
           className="min-w-0 flex-1 rounded-lg border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary outline-none focus:border-accent"
         />
         {bucket !== 'all' ? <input type="hidden" name="bucket" value={bucket} /> : null}
@@ -288,12 +264,11 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
 
       <div className="overflow-hidden rounded-lg border border-border bg-bg-card">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1180px]">
+          <table className="w-full min-w-[920px]">
             <thead className="border-b border-border bg-bg-secondary">
               <tr className="text-left text-xs text-text-secondary">
                 <th className="px-4 py-3 font-medium">인물</th>
                 <th className="px-4 py-3 font-medium">작업 경로</th>
-                <th className="px-4 py-3 font-medium">기존 단서</th>
                 <th className="px-4 py-3 font-medium">쓱 보기 신호</th>
                 <th className="px-4 py-3 text-center font-medium">표시값</th>
                 <th className="px-4 py-3 font-medium">조사 상태</th>
@@ -302,7 +277,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
             <tbody className="divide-y divide-border">
               {workspace.rows.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-14 text-center text-sm text-text-secondary">
+                  <td colSpan={5} className="px-4 py-14 text-center text-sm text-text-secondary">
                     조건에 맞는 인물이 없습니다.
                   </td>
                 </tr>
@@ -357,52 +332,6 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
                             </>
                           ) : null}
                         </div>
-                      </td>
-                      <td className="max-w-[320px] px-4 py-3 align-top">
-                        {row.candidateTitles.length > 0 ? (
-                          <div>
-                            <div className="flex flex-wrap gap-1">
-                              {row.candidateTitles.slice(0, 6).map((title) => (
-                                <span
-                                  key={title}
-                                  className="rounded bg-white/5 px-1.5 py-0.5 text-[11px] text-text-secondary"
-                                >
-                                  {title}
-                                </span>
-                              ))}
-                              {row.candidateTitles.length > 6 ? (
-                                <span className="text-[11px] text-text-tertiary">
-                                  +{row.candidateTitles.length - 6}
-                                </span>
-                              ) : null}
-                            </div>
-                            <details className="mt-2">
-                              <summary className="cursor-pointer text-[11px] text-text-tertiary hover:text-accent">
-                                추출 문맥 보기
-                              </summary>
-                              <ul className="mt-2 space-y-2">
-                                {row.candidateTitleEvidence.slice(0, 6).map((evidence) => (
-                                  <li
-                                    key={evidence.title}
-                                    className="border-l border-border pl-2 text-[11px] leading-4 text-text-tertiary"
-                                  >
-                                    <strong className="text-text-secondary">
-                                      {evidence.title}
-                                    </strong>
-                                    {' — '}
-                                    {evidence.context}
-                                  </li>
-                                ))}
-                              </ul>
-                            </details>
-                          </div>
-                        ) : row.journey ? (
-                          <p className="line-clamp-3 text-xs leading-5 text-text-secondary">
-                            {row.journey}
-                          </p>
-                        ) : (
-                          <span className="text-xs text-text-tertiary">감상여정 없음</span>
-                        )}
                       </td>
                       <td className="px-4 py-3 align-top">
                         <div className="flex flex-wrap gap-1">

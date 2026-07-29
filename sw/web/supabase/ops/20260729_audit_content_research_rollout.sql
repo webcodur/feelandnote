@@ -7,8 +7,6 @@ WITH celeb_counts AS (
     p.content_research_status,
     p.content_research_updated_at,
     p.content_research_confirmed_empty_at,
-    nullif(btrim(p.consumption_philosophy), '') AS consumption_philosophy,
-    nullif(btrim(p.cultural_journey), '') AS cultural_journey,
     count(uc.content_id)::integer AS actual_content_count
   FROM public.profiles p
   LEFT JOIN public.user_contents uc
@@ -22,12 +20,6 @@ inactive_light_zero AS (
   WHERE celeb_tier = 'light'
     AND status = 'inactive'
     AND actual_content_count = 0
-),
-inactive_full AS (
-  SELECT *
-  FROM inactive_light_zero
-  WHERE consumption_philosophy IS NULL
-    AND cultural_journey IS NULL
 ),
 defects AS (
   SELECT jsonb_build_object(
@@ -51,6 +43,14 @@ defects AS (
       SELECT count(*)
       FROM inactive_light_zero
       WHERE content_research_status = 'open'
+    ),
+    'active_zero_still_open', (
+      SELECT count(*)
+      FROM celeb_counts
+      WHERE celeb_tier = 'light'
+        AND status = 'active'
+        AND actual_content_count = 0
+        AND content_research_status = 'open'
     ),
     'inactive_zero_unexpected_status', (
       SELECT count(*)
@@ -77,31 +77,6 @@ defects AS (
   FROM celeb_counts
 )
 SELECT jsonb_build_object(
-  'inactive_full_total', (SELECT count(*) FROM inactive_full),
-  'inactive_full_queued', (
-    SELECT count(*) FROM inactive_full WHERE content_research_status = 'queued'
-  ),
-  'inactive_full_deferred', (
-    SELECT count(*) FROM inactive_full WHERE content_research_status = 'deferred'
-  ),
-  'inactive_full_new_six', (
-    SELECT jsonb_agg(
-      jsonb_build_object(
-        'slug', p.slug,
-        'status', p.content_research_status
-      )
-      ORDER BY p.slug
-    )
-    FROM public.profiles p
-    WHERE p.slug IN (
-      'wang-dong',
-      'sun-kailiang',
-      'viktor-netyksho',
-      'yuriy-andrienko',
-      'park-jin-hyok',
-      'rim-jong-hyok'
-    )
-  ),
   'light_status_counts', (
     SELECT jsonb_object_agg(content_research_status, count)
     FROM (
