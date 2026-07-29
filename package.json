@@ -5,7 +5,6 @@
     "dev:web": "pnpm --filter @feelandnote/web dev",
     "dev:bo": "pnpm --filter @feelandnote/web-bo dev",
     "dev:remotion": "pnpm --filter @feelandnote/remotion dev",
-    "dev:remotion-bo": "pnpm --filter @feelandnote/remotion-bo dev",
     "dev:lab": "pnpm --filter @feelandnote/lab dev",
     "dev:audio-bo": "pnpm --filter @feelandnote/audio-bo dev",
     "build:web": "pnpm --filter @feelandnote/web build",

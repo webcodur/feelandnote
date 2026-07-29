@@ -2,7 +2,7 @@
  * 세력도(Faction) YouTube 메타 생성 공통 모듈
  *
  * 서재 탐방(youtube-meta.ts)과 데이터 모델이 완전히 달라 별도 파일로 분리한다.
- * remotion(업로드 스크립트)과 remotion-bo(메타 동기화) 양쪽에서 쓰는 단일원천(SSoT)이다.
+ * remotion(업로드 스크립트)과 web-bo(메타 동기화) 양쪽에서 쓰는 단일원천(SSoT)이다.
  * packages/shared는 remotion에 역의존할 수 없으므로 입력 타입을 경량으로 자체 정의한다.
  *
  * 영상 구성(한국어 세로): 세로 롱폼 1편 + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 편이 없으면 전체를 담은 단일 쇼츠.
