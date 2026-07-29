@@ -106,6 +106,12 @@
       "save": "저장",
       "edit": "수정",
       "delete": "삭제"
+    },
+    "fictionGuestbook": {
+      "empty": "아직 남겨진 감상이 없습니다.",
+      "placeholder": "이 인물과 원전에 대한 감상이나 해석을 남겨주세요.",
+      "loginPrompt": "이 인물과 원전에 대한 감상을 남겨보세요.",
+      "loginHint": "감상록은 로그인 후 작성할 수 있습니다."
     }
   },
   "userBio": {

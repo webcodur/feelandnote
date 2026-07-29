@@ -49,6 +49,14 @@
   "contentDetail": {
     "back": "뒤로 가기",
     "contentInfo": "콘텐츠 정보",
+    "fictionCharacters": "이 작품의 인물",
+    "fictionCharactersCount": "{count}명",
+    "fictionCharactersIntro": "대표 원전으로 연결된 인물입니다. 인물을 선택하면 해당 인물의 기록으로 이동합니다.",
+    "fictionRelation": {
+      "appearance": "등장",
+      "origin": "첫 등장",
+      "adaptation": "각색"
+    },
     "myReview": "내 리뷰",
     "myNote": "내 노트",
     "private": "비공개",

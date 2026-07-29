@@ -1,16 +1,21 @@
 /*
   파일명: /components/features/user/explore/youtube/YoutubeChannelContent.tsx
-  기능: 유튜브 채널 모음 화면
-  책임: 인물 본편(롱폼)과 인물-책 단편(쇼츠)을 채널 안내와 함께 진열한다.
-        현재 locale 영상을 우선 쓰고, 없으면 다른 언어 영상으로 채운다.
+  기능: 필앤노트 영상관
+  책임: 서재 탐방·세력도감을 소개하고 재생목록과 내부 기록, 기존 인물 영상을 함께 진열한다.
 */
 
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ExternalLink, Youtube } from "lucide-react";
 import type { YoutubeCeleb, YoutubeVideoEntry } from "@/actions/home/getYoutubeCelebs";
-import { getYoutubeChannel } from "@/constants/youtube";
+import type { YoutubeFactionVideos } from "@/actions/home/getYoutubeFactions";
+import {
+  getYoutubeChannel,
+  getYoutubeSeriesPlaylists,
+} from "@/constants/youtube";
 import LiteYoutubeEmbed from "@/components/features/youtube/LiteYoutubeEmbed";
+import YoutubeFactionArchive from "./YoutubeFactionArchive";
+import YoutubeSeriesCard from "./YoutubeSeriesCard";
 
 interface VideoCard {
   videoId: string;
@@ -55,86 +60,205 @@ function collectCards(celebs: YoutubeCeleb[], locale: string) {
 
 interface YoutubeChannelContentProps {
   celebs: YoutubeCeleb[];
+  factionVideos: YoutubeFactionVideos;
   locale: string;
 }
 
 export default async function YoutubeChannelContent({
   celebs,
+  factionVideos,
   locale,
 }: YoutubeChannelContentProps) {
   const t = await getTranslations("explore.youtube");
   const channel = getYoutubeChannel(locale);
+  const playlists = getYoutubeSeriesPlaylists(locale);
   const { longform, shorts } = collectCards(celebs, locale);
+  const hasLibraryVideos = longform.length > 0 || shorts.length > 0;
+  const factionLanguageNote =
+    locale === "en" ? t("koreanPlaylist") : undefined;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      {/* 채널 안내 */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
-        <p className="text-sm text-text-secondary">{t("intro")}</p>
-        <a
-          href={channel.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 self-start px-4 py-2 rounded-md border border-accent/40 text-accent text-sm hover:bg-accent/10 hover:border-accent transition-colors"
-        >
-          <Youtube size={16} />
-          {t("visitChannel")}
-          <ExternalLink size={12} className="opacity-60" />
-        </a>
-      </div>
+    <div className="mx-auto max-w-6xl space-y-12 pb-8 sm:space-y-16">
+      <header className="relative overflow-hidden border-b border-white/10 pb-10 pt-2">
+        <span
+          aria-hidden="true"
+          className="absolute left-0 top-0 h-px w-24 bg-accent"
+        />
+        <p className="pt-5 font-cinzel text-xs font-semibold tracking-[0.24em] text-accent">
+          {t("eyebrow")}
+        </p>
 
-      {/* 인물 본편 */}
-      {longform.length > 0 && (
-        <section className="space-y-5">
-          <header className="space-y-1">
-            <h2 className="font-serif text-xl text-text-primary">{t("longformTitle")}</h2>
-            <p className="text-xs">{t("longformSub")}</p>
+        <div className="mt-6 grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+          <h1 className="max-w-3xl font-serif text-3xl font-semibold leading-tight text-text-primary sm:text-5xl lg:text-6xl">
+            {t("title")}
+          </h1>
+          <div className="space-y-5">
+            <p className="text-sm leading-7 text-text-primary/90 sm:text-base">
+              {t("intro")}
+            </p>
+            <a
+              href={channel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/40 bg-bg-main px-4 py-2.5 text-sm font-semibold text-text-primary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <Youtube size={16} className="text-accent" aria-hidden="true" />
+              {t("visitChannel")}
+              <span className="hidden text-xs font-normal text-text-primary/80 sm:inline">
+                {channel.handle}
+              </span>
+              <ExternalLink size={12} aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section aria-labelledby="youtube-original-series">
+        <div className="mb-7 grid gap-3 md:grid-cols-[1fr_1fr] md:items-end">
+          <div>
+            <p className="font-cinzel text-[10px] font-semibold tracking-[0.24em] text-accent">
+              {t("seriesEyebrow")}
+            </p>
+            <h2
+              id="youtube-original-series"
+              className="mt-2 font-serif text-2xl font-semibold text-text-primary sm:text-3xl"
+            >
+              {t("seriesTitle")}
+            </h2>
+          </div>
+          <p className="text-sm leading-6 text-text-primary/90 md:justify-self-end md:text-right">
+            {t("seriesIntro")}
+          </p>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          <YoutubeSeriesCard
+            index={t("series.library.index")}
+            image="/images/home/youtube-library-tour-hero.webp"
+            imageAlt={t("series.library.imageAlt")}
+            title={t("series.library.title")}
+            tagline={t("series.library.tagline")}
+            description={t("series.library.description")}
+            fullPlaylistUrl={playlists.libraryTour.full}
+            shortsPlaylistUrl={playlists.libraryTour.shorts}
+            fullPlaylistLabel={t("fullPlaylist")}
+            shortsPlaylistLabel={t("shortsPlaylist")}
+            siteHref="/explore/figures"
+            siteLabel={t("series.library.siteLink")}
+          />
+          <YoutubeSeriesCard
+            index={t("series.faction.index")}
+            image="/images/home/youtube-faction-collection-hero.webp"
+            imageAlt={t("series.faction.imageAlt")}
+            title={t("series.faction.title")}
+            tagline={t("series.faction.tagline")}
+            description={t("series.faction.description")}
+            fullPlaylistUrl={playlists.faction.full}
+            shortsPlaylistUrl={playlists.faction.shorts}
+            fullPlaylistLabel={t("fullPlaylist")}
+            shortsPlaylistLabel={t("shortsPlaylist")}
+            siteHref="/explore/faction"
+            siteLabel={t("series.faction.siteLink")}
+            languageNote={factionLanguageNote}
+          />
+        </div>
+      </section>
+
+      <YoutubeFactionArchive
+        locale={locale}
+        videos={factionVideos}
+        copy={{
+          eyebrow: t("factionArchiveEyebrow"),
+          title: t("factionArchiveTitle"),
+          description: t("factionArchiveDescription"),
+          longformTitle: t("factionLongformTitle"),
+          longformSub: t("factionLongformSub"),
+          shortsTitle: t("factionShortsTitle"),
+          shortsSub: t("factionShortsSub"),
+          openFaction: t("openFaction"),
+          moreJoiner: t("factionMoreJoiner"),
+          moreUnit: t("factionMoreUnit"),
+        }}
+      />
+
+      {hasLibraryVideos ? (
+        <div className="mx-auto max-w-4xl space-y-12 border-t border-white/10 pt-12">
+          <header>
+            <p className="font-cinzel text-[10px] font-semibold tracking-[0.24em] text-accent">
+              {t("archiveEyebrow")}
+            </p>
+            <h2 className="mt-2 font-serif text-2xl font-semibold text-text-primary sm:text-3xl">
+              {t("archiveTitle")}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-text-primary/90">
+              {t("archiveDescription")}
+            </p>
           </header>
-          <div className="grid gap-6 sm:grid-cols-2">
-            {longform.map((v) => (
-              <div key={v.videoId} className="space-y-2">
-                <div className="aspect-video rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 hover:ring-accent/40 transition-all duration-300">
-                  <LiteYoutubeEmbed videoId={v.videoId} title={v.name} />
-                </div>
-                <div className="flex items-baseline justify-between px-0.5">
-                  <span className="font-serif text-sm text-text-primary">{v.name}</span>
-                  <Link
-                    href={`/celeb/${v.slug}`}
-                    className="text-xs text-accent/80 hover:text-accent transition-colors"
+
+          {longform.length > 0 ? (
+            <section className="space-y-5">
+              <header className="space-y-1">
+                <h3 className="font-serif text-xl text-text-primary">
+                  {t("longformTitle")}
+                </h3>
+                <p className="text-xs text-text-tertiary">{t("longformSub")}</p>
+              </header>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {longform.map((v) => (
+                  <div
+                    key={v.videoId}
+                    className="space-y-2 [content-visibility:auto] [contain-intrinsic-size:auto_320px]"
                   >
-                    {t("viewShelf")} →
-                  </Link>
-                </div>
+                    <div className="aspect-video overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 hover:ring-accent/40">
+                      <LiteYoutubeEmbed videoId={v.videoId} title={v.name} />
+                    </div>
+                    <div className="flex items-baseline justify-between px-0.5">
+                      <span className="font-serif text-sm text-text-primary">
+                        {v.name}
+                      </span>
+                      <Link
+                        href={`/celeb/${v.slug}`}
+                        className="text-xs text-accent/80 hover:text-accent"
+                      >
+                        {t("viewShelf")} →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            </section>
+          ) : null}
 
-      {/* 인물-책 쇼츠 */}
-      {shorts.length > 0 && (
-        <section className="space-y-5">
-          <header className="space-y-1">
-            <h2 className="font-serif text-xl text-text-primary">{t("shortsTitle")}</h2>
-            <p className="text-xs">{t("shortsSub")}</p>
-          </header>
-          <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory">
-            {shorts.map((v) => (
-              <div key={v.videoId} className="flex-shrink-0 w-[150px] sm:w-[176px] snap-start space-y-1.5">
-                <div className="aspect-[9/16] rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 hover:ring-accent/40 transition-all duration-300">
-                  <LiteYoutubeEmbed videoId={v.videoId} title={v.name} />
-                </div>
-                <Link
-                  href={`/celeb/${v.slug}`}
-                  className="block px-0.5 text-xs text-text-secondary hover:text-accent transition-colors truncate"
-                >
-                  {v.name}
-                </Link>
+          {shorts.length > 0 ? (
+            <section className="space-y-5">
+              <header className="space-y-1">
+                <h3 className="font-serif text-xl text-text-primary">
+                  {t("shortsTitle")}
+                </h3>
+                <p className="text-xs text-text-tertiary">{t("shortsSub")}</p>
+              </header>
+              <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3">
+                {shorts.map((v) => (
+                  <div
+                    key={v.videoId}
+                    className="w-[150px] flex-shrink-0 snap-start space-y-1.5 [content-visibility:auto] [contain-intrinsic-size:auto_320px] sm:w-[176px]"
+                  >
+                    <div className="aspect-[9/16] overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 hover:ring-accent/40">
+                      <LiteYoutubeEmbed videoId={v.videoId} title={v.name} />
+                    </div>
+                    <Link
+                      href={`/celeb/${v.slug}`}
+                      className="block truncate px-0.5 text-xs text-text-secondary hover:text-accent"
+                    >
+                      {v.name}
+                    </Link>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            </section>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

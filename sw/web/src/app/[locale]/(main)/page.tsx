@@ -22,7 +22,7 @@ import { HomeNavigationLinks } from "@/components/features/home/HomeNavigationLi
 import { getProfile } from "@/actions/user/getProfile";
 import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/scriptures";
 import PopularBooks from "@/components/features/home/PopularBooks";
-import YoutubeShelf from "@/components/features/home/YoutubeShelf";
+import YoutubeChannelLink from "@/components/features/home/YoutubeChannelLink";
 
 // #region 스켈레톤
 function HomeSectionSkeleton() {
@@ -121,7 +121,7 @@ export default async function MainPage() {
         <TodayFigureSection figure={todayFigureResult.figure} contents={todayFigureResult.contents} source={todayFigureResult.source} />
       )}
 
-      <YoutubeShelf />
+      <YoutubeChannelLink />
 
       <HomeNavigationLinks />
     </div>

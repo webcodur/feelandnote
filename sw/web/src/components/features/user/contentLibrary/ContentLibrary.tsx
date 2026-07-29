@@ -132,13 +132,17 @@ export default function ContentLibrary({
         </ControlPanel>
       )}
 
-      {/* 콘텐츠 목록 — 재조회 중에는 자리를 지킨 채 흐려지기만 한다 */}
-      <div>
+      {/* 콘텐츠 목록 — 재조회 중에도 기존 기록을 읽고 조작할 수 있다. */}
+      <div className="relative">
+        {lib.isRefreshing && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-2 top-0 z-20 h-px animate-pulse bg-accent shadow-[0_0_10px_color-mix(in_srgb,var(--color-accent)_55%,transparent)]"
+          />
+        )}
         <div
           aria-busy={lib.isRefreshing}
-          className={`py-8 [overflow-anchor:none] transition-opacity duration-150 ${
-            lib.isRefreshing ? "pointer-events-none opacity-45" : ""
-          }`}
+          className="py-8 [overflow-anchor:none]"
         >
           {hasFilteredContents ? (
             lib.sortOption === "recent" ? (

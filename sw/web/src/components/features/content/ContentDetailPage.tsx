@@ -17,6 +17,7 @@ import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
 import RecentContentsSection from "./RecentContentsSection";
+import FictionCharactersSection from "./FictionCharactersSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import { useTranslations } from "next-intl";
@@ -30,7 +31,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const t = useTranslations("contentDetail");
   const [data, setData] = useState(initialData);
 
-  const { content, userRecord, isLoggedIn, initialReviews } = data;
+  const { content, userRecord, isLoggedIn, initialReviews, fictionCharacters } = data;
 
   // 최근 접근 콘텐츠
   const { recentItems, addItem } = useRecentContents(content.id);
@@ -77,6 +78,21 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             onRecordChange={handleRecordChange}
           />
         </AccordionSection>
+
+        {/* 대표 원전으로 지정된 콘텐츠만 등장인물을 양방향 연결한다. */}
+        {fictionCharacters.length > 0 && (
+          <AccordionSection
+            title={t("fictionCharacters")}
+            badge={(
+              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[10px] text-accent">
+                {t("fictionCharactersCount", { count: fictionCharacters.length })}
+              </span>
+            )}
+            defaultOpen
+          >
+            <FictionCharactersSection characters={fictionCharacters} />
+          </AccordionSection>
+        )}
 
         {/* 2. 내 리뷰 (로그인 시 표시) */}
         {isLoggedIn && (

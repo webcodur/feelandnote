@@ -25,6 +25,8 @@ export const CACHE_TAGS = {
   PERSONA: 'persona',
   /** 세력도감(faction) 태그 편성 */
   TAGS: 'tags',
+  /** 픽션 인물 ↔ 대표 원전 콘텐츠 연결 */
+  FICTION_SOURCES: 'fiction-sources',
 } as const
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]

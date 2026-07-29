@@ -17,6 +17,7 @@ import { type FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { type GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { type CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
+import { type FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { trackEvent, useSectionViewTracking } from "@/lib/analytics/track";
 import { FormattedText } from "@/components/ui";
@@ -41,6 +42,7 @@ import FigureAnalysisTabs from "./FigureAnalysisTabs";
 import FigureMediaTabs from "./FigureMediaTabs";
 import PeopleAndEraTabs from "./PeopleAndEraTabs";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
+import FictionSourceWorksSection from "./FictionSourceWorksSection";
 import { getCelebAge } from "./celebAge";
 
 interface CelebPageContentProps {
@@ -60,6 +62,8 @@ interface CelebPageContentProps {
   factionPreviews: FactionTagPreview[];
   /** 서버에서 미리 조회한 서가 첫 화면 — 초기 HTML에 책 목록·감상문을 싣기 위함 */
   initialContents: GetUserContentsResponse;
+  /** fiction 인물과 대표 원전 콘텐츠의 직접 연결 */
+  fictionSources: FictionSourceContent[];
 }
 
 const formatYear = (year: string | null | undefined) => {
@@ -108,6 +112,7 @@ export default function CelebPageContent({
   timelineEvents,
   factionPreviews,
   initialContents,
+  fictionSources,
 }: CelebPageContentProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -119,7 +124,11 @@ export default function CelebPageContent({
   const contentRef = useRef<HTMLDivElement>(null);
   useSectionViewTracking(contentRef);
 
-  const professionLabel = profile.profession ? tp(profile.profession) : null;
+  const professionLabel = profile.profession
+    ? tp.has(profile.profession)
+      ? tp(profile.profession)
+      : tp("uncategorized")
+    : null;
   const birthYear = formatYear(profile.birth_date);
   const deathYear = profile.death_date ? formatYear(profile.death_date) : null;
   const periodStr = birthYear
@@ -144,6 +153,7 @@ export default function CelebPageContent({
   const nickname = profile.nickname;
   const wikidataQid = profile.wikidata_qid ?? null;
   const celebTier = profile.celeb_tier ?? 'full';
+  const isFiction = celebTier === 'fiction';
   // full 등급만 감상·창작 기록물을 제공한다.
   const showLibrary = celebTier === 'full';
 
@@ -177,6 +187,7 @@ export default function CelebPageContent({
     virtualMonologueVoice: false,
     influence: !!influenceData,
     persona: !!personaData?.targetPersona,
+    sourceWorks: fictionSources.length > 0,
   };
   const serviceItems = useCelebServiceItems({
     tier: celebTier,
@@ -503,10 +514,24 @@ export default function CelebPageContent({
         </ClassicalBox>
       </section>
 
-      {/* 기록물 (감상 / 창작) */}
-      <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
-        {renderSectionHeading("library")}
-        {showLibrary ? (
+      {/* 실존 인물은 기록물, 픽션 인물은 대표 원전·등장 작품을 같은 02번 자리에서 연다. */}
+      <section
+        id={isFiction ? "source-works" : "library"}
+        tabIndex={-1}
+        className={SECTION_CLASS_NAME}
+      >
+        {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
+        {isFiction ? (
+          fictionSources.length > 0 ? (
+            <SectionWrap>
+              <FictionSourceWorksSection sources={fictionSources} />
+            </SectionWrap>
+          ) : (
+            <SectionWrap>
+              <UnavailableSectionGuide item={serviceItemsByKey.get("sourceWorks")!} />
+            </SectionWrap>
+          )
+        ) : showLibrary ? (
           <SectionWrap className={TAB_BOX_CLASS_NAME}>
             <LibraryTabs
               userId={userId}
@@ -597,6 +622,7 @@ export default function CelebPageContent({
             initialEntries={guestbookEntries}
             initialTotal={guestbookTotal}
             hideEmptyState
+            isFiction={isFiction}
           />
         </SectionWrap>
       </section>

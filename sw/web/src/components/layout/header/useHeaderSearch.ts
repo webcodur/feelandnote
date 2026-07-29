@@ -12,9 +12,29 @@ import { getCategoryById } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/supabase/client";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
+import { SEARCHABLE_CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
 // 마지막으로 고른 검색 종류를 브라우저에 남겨 다음 방문에 되살린다.
 const SEARCH_PREF_KEY = "search_pref";
+
+const readRecentSearches = (key: string): string[] => {
+  const stored = localStorage.getItem(key);
+  if (!stored) return [];
+
+  try {
+    const parsed: unknown = JSON.parse(stored);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .filter((item): item is string => typeof item === "string")
+        .slice(0, 10);
+    }
+  } catch {
+    // 손상되었거나 구버전 형식인 저장값은 아래에서 폐기한다.
+  }
+
+  localStorage.removeItem(key);
+  return [];
+};
 
 const categoryToContentType = (category: string): ContentType => {
   const config = getCategoryById(category as ContentCategory);
@@ -96,14 +116,12 @@ export function useHeaderSearch() {
   // #region Recent Searches
   useEffect(() => {
     const key = mode === "content" ? `search_recent_${mode}_${contentCategory}` : `search_recent_${mode}`;
-    const stored = localStorage.getItem(key);
-    setRecentSearches(stored ? JSON.parse(stored) : []);
+    setRecentSearches(readRecentSearches(key));
   }, [mode, contentCategory]);
 
   const saveRecentSearch = useCallback((searchQuery: string) => {
     const key = mode === "content" ? `search_recent_${mode}_${contentCategory}` : `search_recent_${mode}`;
-    const stored = localStorage.getItem(key);
-    let searches: string[] = stored ? JSON.parse(stored) : [];
+    let searches = readRecentSearches(key);
     searches = searches.filter((s) => s !== searchQuery);
     searches.unshift(searchQuery);
     searches = searches.slice(0, 10);
@@ -246,7 +264,9 @@ export function useHeaderSearch() {
 
     // 셀럽 검색: 탐색 페이지로 이동
     if (mode === "celeb") {
-      router.push(`/explore/figures?search=${encodeURIComponent(query.trim())}`);
+      router.push(
+        `/explore/figures?search=${encodeURIComponent(query.trim())}&tier=${SEARCHABLE_CELEB_TIERS.join(",")}`
+      );
       setIsOpen(false);
       return;
     }

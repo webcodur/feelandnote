@@ -177,7 +177,6 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
       {activeTagIndex === -1 ? (
         <FactionIntroView
           tags={tags}
-          onSelect={handleTagChange}
           locale={locale}
         />
       ) : (

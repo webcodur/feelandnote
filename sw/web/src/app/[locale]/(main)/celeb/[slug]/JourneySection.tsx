@@ -206,41 +206,40 @@ export default function JourneySection({ events }: Props) {
 
         {/* 사건은 한 번에 하나. 넘김은 위의 얇은 머리 줄에서 하고, 좌우로 밀어도 넘어간다 */}
         <div className={view === "atlas" ? "hidden" : "min-w-0 space-y-2"}>
-          {/* 머리 줄이 지금 사건의 연대와 이름을 이고, 넘김도 여기서 한다 */}
-          <div className="flex items-center gap-1.5 border-b border-accent-dim/20 pb-1">
+          {/* 연도·쪽수는 메타 행, 사건명은 제목 행으로 분리해 서로 폭을 다투지 않게 한다. */}
+          <div className="grid grid-cols-[28px_minmax(0,1fr)_28px] items-center gap-2 border-b border-accent-dim/20 pb-2">
             <button
               type="button"
               onClick={() => go(at - 1)}
               disabled={at === 0}
               aria-label={t("timelinePrev")}
-              className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
             >
               <ChevronLeft size={14} />
             </button>
 
             {event && (
-              /* 이름이 길면 잘라내지 않고 옆으로 밀어 본다. scrollbar-gutter: stable —
-                 막대가 생겼다 사라지며 줄 높이가 들썩이지 않도록 자리를 늘 비워 둔다. */
-              <span className="custom-scrollbar flex min-w-0 flex-1 items-baseline gap-2 overflow-x-auto whitespace-nowrap [scrollbar-gutter:stable]">
-                <span className="shrink-0 font-mono text-sm text-accent">
-                  {formatYear(event.year, event.yearEnd, bc)}
+              <span className="block min-w-0">
+                <span className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-sm text-accent">
+                    {formatYear(event.year, event.yearEnd, bc)}
+                  </span>
+                  <span className="shrink-0 font-mono text-[10px] leading-none tracking-tight text-text-secondary/70">
+                    {t("timelinePage", { current: at + 1, total })}
+                  </span>
                 </span>
-                <span className="font-serif text-[15px] font-bold text-text-primary">
+                <span className="mt-1 block line-clamp-2 font-serif text-[15px] font-bold leading-snug text-text-primary">
                   {event.title}
                 </span>
               </span>
             )}
-
-            <span className="shrink-0 font-mono text-[10px] leading-none tracking-tight text-text-secondary/70">
-              {t("timelinePage", { current: at + 1, total })}
-            </span>
 
             <button
               type="button"
               onClick={() => go(at + 1)}
               disabled={at >= total - 1}
               aria-label={t("timelineNext")}
-              className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
             >
               <ChevronRight size={14} />
             </button>

@@ -1,11 +1,14 @@
 {
   "home": {
     "youtube": {
-      "title": "YouTube Channel",
-      "subtitle": "Figures featured in Library Tour videos",
-      "viewAll": "View all",
-      "more": "More",
-      "channel": "YouTube channel"
+      "eyebrow": "FEEL&NOTE ORIGINAL",
+      "title": "Feel&Note Video Archive",
+      "headline": "From private libraries to the forces that shaped history",
+      "description": "Enter the libraries of remarkable minds, then see the factions formed around the questions they faced.",
+      "visitArchive": "View the YouTube Series Guide",
+      "libraryTour": "Library Tour",
+      "faction": "Faction Atlas",
+      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the Feel and Note video archive"
     },
     "explore": {
       "englishTitle": "Notable Figures",
@@ -197,6 +200,8 @@
     "comingSoon": "Coming Soon",
     "contentInPreparation": "Content in preparation",
     "viewDetail": "View detail",
+    "loadingDetail": "Loading details",
+    "detailUnavailable": "Could not load the details. Please try again.",
     "groupShot": "Group",
     "figureCount": "{count} figures",
     "playLine": "Play line",
@@ -207,7 +212,7 @@
     "nextPhoto": "Next photo",
     "factionCollection": "Faction Collection",
     "fictionTitle": "Figures from Myth & Story",
-    "fictionNote": "These are not people who actually lived. Myth, epic, and literature are gathered here the same way, and they do not appear in the figure directory or in search."
+    "fictionNote": "These are figures from myth, epic, and literature rather than people who actually lived. Find them through search and the works in which they appear."
   },
   "quickRecord": {
     "section": {

@@ -42,8 +42,17 @@
       "library": {
         "about": "The works this figure experienced and the works they created, kept together as records."
       },
+      "sourceWorks": {
+        "about": "Source texts and works in which this figure appears, from myth and epic to literature."
+      },
       "timeline": {
         "about": "A timeline and activity map of the major events in this figure's life."
+      },
+      "fictionTimeline": {
+        "about": "Major events from source texts and traditions, arranged in narrative order with a map of their settings."
+      },
+      "fictionGuestbook": {
+        "about": "A place to leave reflections and interpretations of this figure."
       },
       "relations": {
         "about": "A map of people who were demonstrably connected to this figure."
@@ -78,14 +87,22 @@
     },
     "influence": "Influence",
     "tierFictionBadge": "Mythic figure",
-    "tierFictionNotice": "This figure never lived; they belong to myth and epic. Even so, their words and choices carry ideas that generations of people shaped and passed on. Read this page as a window into the worldview that made them, rather than a record of one life.",
     "tierRelationBadge": "Featured through others",
     "tierRelationNotice": "This figure appears alongside other people and films on the site. Only a basic introduction is kept here, with no viewing records.",
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
+    "sourceWorks": "Source Works",
+    "sourceWorksIntro": "Source texts and works in which this figure appears. Each link opens the representative edition designated for the work.",
+    "sourceWorkOpen": "Open work record",
+    "sourceRelation": {
+      "appearance": "Appears in",
+      "origin": "First appears",
+      "adaptation": "Adaptation"
+    },
     "analysis": "Figure Metrics",
     "media": "Media",
     "guestbook": "Guestbook",
+    "fictionGuestbook": "Reader Notes",
     "innerVirtue": "Inner Virtues",
     "outerVirtue": "Outer Virtues",
     "coreDisposition": "Core Disposition",
@@ -117,6 +134,7 @@
     "factionClose": "Close preview",
     "relationGraph": "Relations",
     "timeline": "Timeline",
+    "fictionTimeline": "Story Timeline",
     "timelineBc": "BC",
     "timelineMapLabel": "Globe marking the places in this life",
     "timelinePrev": "Earlier entries",
@@ -134,11 +152,17 @@
     "timelineZoomIn": "Zoom in",
     "timelineZoomOut": "Zoom out",
     "timelineResetView": "Reset view",
-    "relSubFamily": "Family",
+    "relSubFamily": "Family Lineage",
     "relGoToProfile": "View profile",
+    "relViewPersonCard": "View person card",
     "relViewWikidata": "View on Wikidata",
     "relExternalNote": "Listed on Wikidata",
-    "relSubSocial": "Thought · Career · Friends · Rivals",
+    "relSubSocial": "Connections & Influence",
+    "relBandUp": "People who influenced {name}",
+    "relBandSideL": "Peers & Friends",
+    "relBandSideR": "Rivals & Opponents",
+    "relBandDown": "People influenced by {name}",
+    "relShowMore": "Show {count} more connections",
     "relationGraphNote": "Kinship, mentorship, and influence links are drawn from facts recorded in Wikidata.",
     "relFilter_all": "All",
     "relFilter_family": "Kinship",
@@ -173,6 +197,7 @@
     "archiveSuffix": "'s Archives",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "Leave your thoughts in the guestbook.",
+    "fictionGuestbookCta": "Leave your thoughts on this figure and their source texts.",
     "recordControl": "Record Controls",
     "worksControl": "Works Controls",
     "tabConsume": "Experience",

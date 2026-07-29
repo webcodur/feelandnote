@@ -5,7 +5,7 @@ export type CelebTier = 'full' | 'light' | 'relation' | 'fiction'
 
 export const CELEB_TIERS: readonly CelebTier[] = ['full', 'light', 'relation', 'fiction'] as const
 
-// 목록(홈·검색·탐색·타임라인·사이트맵)의 기본 노출 등급.
+// 기본 목록(홈·탐색·타임라인·사이트맵)의 노출 등급. 상단 검색은 SEARCHABLE_CELEB_TIERS를 쓴다.
 // relation·fiction은 기본에서 빠지고 필터로 명시할 때만 등장한다. 상세 페이지는 등급과 무관하게 열린다.
 export const LISTING_DEFAULT_TIERS: readonly CelebTier[] = ['full', 'light'] as const
 
@@ -14,6 +14,12 @@ export const INDEXABLE_TIERS: readonly CelebTier[] = ['full'] as const
 
 // 실존 인물이 아닌 등급
 export const FICTIONAL_TIERS: readonly CelebTier[] = ['fiction'] as const
+
+// 인물 검색에서는 일반 목록 등급에 픽션 인물을 더한다. relation은 계속 명시적 필터에서만 노출한다.
+export const SEARCHABLE_CELEB_TIERS: readonly CelebTier[] = [
+  ...LISTING_DEFAULT_TIERS,
+  ...FICTIONAL_TIERS,
+] as const
 
 export function isCelebTier(value: string | null | undefined): value is CelebTier {
   return !!value && (CELEB_TIERS as readonly string[]).includes(value)

@@ -1,0 +1,219 @@
+.deck {
+  --deck-color: var(--color-accent);
+  position: relative;
+  touch-action: pan-y pinch-zoom;
+}
+
+.deck:focus-visible {
+  outline: 2px solid var(--deck-color);
+  outline-offset: 4px;
+}
+
+.navigator {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+  border-block: 1px solid var(--color-border);
+  padding-block: 0.9rem;
+}
+
+.rail {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.15rem 0.1rem 0.45rem;
+  scrollbar-width: none;
+  scroll-snap-type: inline proximity;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.chapterButton {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-card) 72%, transparent);
+  padding: 0.6rem 0.85rem;
+  color: var(--color-text-secondary);
+  text-align: start;
+}
+
+.chapterButton:hover {
+  border-color: var(--deck-color);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+}
+
+.chapterButtonActive {
+  border-color: var(--deck-color);
+  background: color-mix(in srgb, var(--deck-color) 10%, var(--color-bg-card));
+  color: var(--color-text-primary);
+}
+
+.chapterNumber {
+  margin-inline-end: 0.55rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.72rem;
+  color: var(--deck-color);
+}
+
+.chapterType {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-cinzel);
+  color: var(--color-text-primary);
+}
+
+.counterTotal {
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+}
+
+.arrowGroup {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.arrowButton,
+.pagerButton,
+.railButton {
+  display: inline-flex;
+  min-width: 2.65rem;
+  min-height: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+}
+
+.arrowButton:hover,
+.pagerButton:hover,
+.railButton:hover {
+  border-color: var(--deck-color);
+  background: color-mix(in srgb, var(--deck-color) 10%, var(--color-bg-card));
+  color: var(--color-text-primary);
+}
+
+.arrowButton:disabled,
+.pagerButton:disabled,
+.railButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.stage {
+  animation: deck-enter 240ms ease-out both;
+}
+
+.progress {
+  height: 2px;
+  margin-top: 1.25rem;
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.progressValue {
+  height: 100%;
+  background: var(--deck-color);
+  transition: width 240ms ease-out;
+}
+
+.swipeHint {
+  display: none;
+}
+
+.pager,
+.railControls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.pager {
+  margin-top: 1rem;
+}
+
+.pagerLabel {
+  min-width: 4.2rem;
+  text-align: center;
+  font-family: var(--font-cinzel);
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+}
+
+.railShell {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@keyframes deck-enter {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .navigator {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .deck {
+    margin-inline: -0.25rem;
+  }
+
+  .navigator {
+    position: sticky;
+    top: 3.75rem;
+    z-index: 20;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    background: color-mix(in srgb, var(--color-bg-primary) 92%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  .chapterButton {
+    max-width: 12rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .controls {
+    flex-direction: row-reverse;
+  }
+
+  .swipeHint {
+    display: block;
+    margin-top: 0.7rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+  }
+}

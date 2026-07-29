@@ -29,6 +29,7 @@ function buildHeadlineKo(
   professionLabel: string,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): Headline {
+  const subject = professionLabel ? `${professionLabel} ${nickname}` : nickname;
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK}권의 책`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO}편의 영화`);
@@ -36,8 +37,8 @@ function buildHeadlineKo(
   if (counts.GAME > 0) parts.push(`${counts.GAME}개의 게임`);
   const particle = subjectParticle(nickname);
   return parts.length > 0
-    ? { lead: `${professionLabel} ${nickname}${particle} 감상한`, detail: parts.join(", ") }
-    : { lead: `${professionLabel} ${nickname}의 감상 기록` };
+    ? { lead: `${subject}${particle} 감상한`, detail: parts.join(", ") }
+    : { lead: `${subject}의 감상 기록` };
 }
 
 function buildHeadlineEn(
@@ -45,14 +46,31 @@ function buildHeadlineEn(
   professionLabel: string,
   counts: { BOOK: number; VIDEO: number; GAME: number; MUSIC: number },
 ): Headline {
+  const subject = professionLabel ? `${professionLabel} ${nickname}` : nickname;
   const parts: string[] = [];
   if (counts.BOOK > 0) parts.push(`${counts.BOOK} books`);
   if (counts.VIDEO > 0) parts.push(`${counts.VIDEO} movies`);
   if (counts.MUSIC > 0) parts.push(`${counts.MUSIC} songs`);
   if (counts.GAME > 0) parts.push(`${counts.GAME} games`);
   return parts.length > 0
-    ? { lead: `Enjoyed by ${professionLabel} ${nickname}`, detail: parts.join(", ") }
-    : { lead: `${professionLabel} ${nickname}'s reading records` };
+    ? { lead: `Enjoyed by ${subject}`, detail: parts.join(", ") }
+    : { lead: `${subject}'s reading records` };
+}
+
+function buildFictionHeadlineKo(
+  nickname: string,
+  professionLabel: string,
+): Headline {
+  const subject = professionLabel ? `${professionLabel} ${nickname}` : nickname;
+  return { lead: `${subject}의 원전·등장 작품` };
+}
+
+function buildFictionHeadlineEn(
+  nickname: string,
+  professionLabel: string,
+): Headline {
+  const subject = professionLabel ? `${professionLabel} ${nickname}` : nickname;
+  return { lead: `Source works featuring ${subject}` };
 }
 
 export default async function CelebLayout({ children, params }: LayoutProps) {
@@ -70,11 +88,24 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
   const pageTitle = `${profile.nickname}${t("archiveSuffix")}`;
   const englishTitle = t("archiveEnglish");
 
-  const professionLabel = profile.profession ? tp(profile.profession) : '';
+  const professionLabel = profile.profession
+    ? tp.has(profile.profession)
+      ? tp(profile.profession)
+      : tp("uncategorized")
+    : "";
+  const headlineProfessionLabel =
+    profile.profession === "other" || profile.profession === "uncategorized"
+      ? ""
+      : professionLabel;
   const counts = profile.contentTypeCounts;
-  const headline = locale === 'en'
-    ? buildHeadlineEn(profile.nickname, professionLabel, counts)
-    : buildHeadlineKo(profile.nickname, professionLabel, counts);
+  const isFiction = profile.celeb_tier === "fiction";
+  const headline = isFiction
+    ? locale === "en"
+      ? buildFictionHeadlineEn(profile.nickname, headlineProfessionLabel)
+      : buildFictionHeadlineKo(profile.nickname, headlineProfessionLabel)
+    : locale === "en"
+      ? buildHeadlineEn(profile.nickname, headlineProfessionLabel, counts)
+      : buildHeadlineKo(profile.nickname, headlineProfessionLabel, counts);
 
   return (
     <>
@@ -113,7 +144,9 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
               </>
             }
             label="LEGACY"
-            description={t("guestbookCta")}
+            description={t(
+              isFiction ? "fictionGuestbookCta" : "guestbookCta",
+            )}
             descriptionClassName="text-base sm:text-lg"
             as="h1"
           />

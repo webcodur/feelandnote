@@ -9,6 +9,10 @@ import { getContentById } from './getContentById'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
 import { getProfile } from '@/actions/user'
+import {
+  getFictionCharactersForContent,
+  type FictionSourceCharacter,
+} from '@/actions/fiction/getFictionSources'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
@@ -42,6 +46,7 @@ export interface ContentDetailData {
   } | null
   isLoggedIn: boolean
   initialReviews: ReviewFeedItem[]
+  fictionCharacters: FictionSourceCharacter[]
 }
 // #endregion
 
@@ -243,12 +248,16 @@ async function getContentDetailInner(
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  const initialReviews = await reviewsPromise
+  const [initialReviews, fictionCharacters] = await Promise.all([
+    reviewsPromise,
+    getFictionCharactersForContent(content.id, locale),
+  ])
 
   return {
     content,
     userRecord,
     isLoggedIn: !!profile,
     initialReviews,
+    fictionCharacters,
   }
 }

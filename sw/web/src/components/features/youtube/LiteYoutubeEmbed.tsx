@@ -49,10 +49,10 @@ export default function LiteYoutubeEmbed({
         loading="lazy"
         className="w-full h-full object-cover"
       />
-      <span className="absolute inset-0 bg-black/25 group-hover/embed:bg-black/10 transition-colors duration-300" />
+      <span className="absolute inset-0 bg-black/25 group-hover/embed:bg-black/10" />
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="w-12 h-12 rounded-full bg-black/60 border border-white/30 flex items-center justify-center group-hover/embed:bg-accent/80 group-hover/embed:scale-110 transition-all duration-300">
-          <Play size={20} className="text-white ml-0.5" fill="currentColor" />
+        <span className="flex size-12 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white group-hover/embed:border-accent group-hover/embed:text-accent">
+          <Play size={20} className="ml-0.5" fill="currentColor" />
         </span>
       </span>
     </button>

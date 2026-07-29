@@ -18,6 +18,7 @@
 
 /** PostgREST 서버 상한과 동일 (이보다 크게 잡아도 서버가 자른다) */
 const ROWS_PER_PAGE = 1000
+const IDS_PER_CHUNK = 200
 
 export async function selectAllPages<T>(
   page: (
@@ -35,6 +36,30 @@ export async function selectAllPages<T>(
     if (!data || data.length === 0) break
     rows.push(...data)
     if (data.length < to - from + 1) break // 마지막 페이지
+  }
+  return rows
+}
+
+/**
+ * UUID 목록을 PostgREST URL 한도보다 작은 묶음으로 나눠 조회한다.
+ * `.in()` 대상이 수백 건이면 요청 자체가 실패하므로 빈 결과로 대체하지 않고 즉시 오류를 낸다.
+ */
+export async function selectInChunks<T>(
+  ids: string[],
+  query: (
+    chunk: string[]
+  ) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>
+): Promise<T[]> {
+  const chunks: string[][] = []
+  for (let index = 0; index < ids.length; index += IDS_PER_CHUNK) {
+    chunks.push(ids.slice(index, index + IDS_PER_CHUNK))
+  }
+
+  const results = await Promise.all(chunks.map((chunk) => query(chunk)))
+  const rows: T[] = []
+  for (const { data, error } of results) {
+    if (error) throw new Error(error.message)
+    if (data) rows.push(...data)
   }
   return rows
 }

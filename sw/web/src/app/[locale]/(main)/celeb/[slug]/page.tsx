@@ -9,6 +9,7 @@ import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents"
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getGuestbookEntries } from "@/actions/guestbook";
+import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagPreviews } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
@@ -102,7 +103,7 @@ export default async function CelebPage({ params }: PageProps) {
   };
   const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
-  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents] = await Promise.all([
+  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents, fictionSources] = await Promise.all([
     getGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId, locale),
     getSimilarByCelebId(userId, 3, locale),
@@ -115,12 +116,23 @@ export default async function CelebPage({ params }: PageProps) {
     getFactionTagPreviews(profile.factionTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
-    getPublicUserContents({
-      userId,
-      page: 1,
-      limit: LIBRARY_FIRST_PAGE_SIZE,
-      sortBy: 'recent',
-    }),
+    profile.celeb_tier === 'full'
+      ? getPublicUserContents({
+          userId,
+          page: 1,
+          limit: LIBRARY_FIRST_PAGE_SIZE,
+          sortBy: 'recent',
+        })
+      : Promise.resolve({
+          items: [],
+          total: 0,
+          page: 1,
+          totalPages: 0,
+          hasMore: false,
+        }),
+    profile.celeb_tier === 'fiction'
+      ? getFictionSourcesForCeleb(userId, locale)
+      : Promise.resolve([]),
   ]);
 
   const greetingFromLines = (lines: Record<string, string[] | string> | null | undefined) => {
@@ -209,6 +221,7 @@ export default async function CelebPage({ params }: PageProps) {
         timelineEvents={timelineEvents}
         factionPreviews={factionPreviews}
         initialContents={initialContents}
+        fictionSources={fictionSources}
       />
     </>
   );

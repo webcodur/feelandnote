@@ -25,7 +25,7 @@ interface NavigationProps extends SharedProps {
   professionLabel: string | null;
 }
 
-const NAV_ITEM_HEIGHT = 54;
+const NAV_ITEM_HEIGHT = 46;
 /** 목록 밖에 있는 맨 위 초상 자리. 목록 항목은 0부터 센다. */
 const PROFILE_SPOT = -1;
 const NAV_GROUP_START_KEYS = new Set([
@@ -50,7 +50,7 @@ export function CelebAtlasNavigation({
   const railRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLButtonElement>(null);
   const scopeRef = useRef<HTMLDivElement>(null);
-  const profileRef = useRef<HTMLButtonElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const introductionTarget = items.find(
     (item) => item.target.sectionId === "introduction",
@@ -124,11 +124,6 @@ export function CelebAtlasNavigation({
           hover={false}
           className={cn(styles.profileCard, "flex flex-col items-center")}
         >
-          <DecorativeLabel
-            label={t("atlasProfile")}
-            className={styles.profileEyebrow}
-          />
-
           <div ref={scopeRef} className={styles.focusScope}>
             {spotRect && (
               <span
@@ -141,53 +136,62 @@ export function CelebAtlasNavigation({
               />
             )}
 
-          <button
-            ref={profileRef}
-            type="button"
-            onClick={() => introductionTarget && onNavigate(introductionTarget)}
-            onMouseEnter={() => setHoveredIndex(PROFILE_SPOT)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            onFocus={() => setHoveredIndex(PROFILE_SPOT)}
-            onBlur={() => setHoveredIndex(null)}
-            aria-current={activeIndex === PROFILE_SPOT ? "location" : undefined}
-            className={cn(
-              styles.profileButton,
-              spotIndex === PROFILE_SPOT && styles.profileButtonActive,
-            )}
-          >
-            <span className={styles.portraitStage}>
-              <span className={styles.portraitHalo} aria-hidden />
-              <span className={styles.portraitFrame}>
-                <span className={styles.portraitImage}>
-                  {avatarUrl ? (
-                    <Image
-                      src={avatarUrl}
-                      alt={nickname}
-                      width={112}
-                      height={112}
-                      className="h-full w-full object-cover"
-                      unoptimized
-                    />
-                  ) : (
-                    <span className={styles.portraitFallback}>
-                      {nickname.charAt(0)}
+            <div
+              ref={profileRef}
+              className={styles.profileRegion}
+              onMouseEnter={() => setHoveredIndex(PROFILE_SPOT)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <DecorativeLabel
+                label={t("atlasProfile")}
+                className={styles.profileEyebrow}
+              />
+
+              <button
+                type="button"
+                onClick={() => introductionTarget && onNavigate(introductionTarget)}
+                onFocus={() => setHoveredIndex(PROFILE_SPOT)}
+                onBlur={() => setHoveredIndex(null)}
+                aria-current={activeIndex === PROFILE_SPOT ? "location" : undefined}
+                className={cn(
+                  styles.profileButton,
+                  spotIndex === PROFILE_SPOT && styles.profileButtonActive,
+                )}
+              >
+                <span className={styles.portraitStage}>
+                  <span className={styles.portraitHalo} aria-hidden />
+                  <span className={styles.portraitFrame}>
+                    <span className={styles.portraitImage}>
+                      {avatarUrl ? (
+                        <Image
+                          src={avatarUrl}
+                          alt={nickname}
+                          width={112}
+                          height={112}
+                          className="h-full w-full object-cover"
+                          unoptimized
+                        />
+                      ) : (
+                        <span className={styles.portraitFallback}>
+                          {nickname.charAt(0)}
+                        </span>
+                      )}
                     </span>
+                  </span>
+                  <span className={styles.celebSeal} aria-hidden>
+                    <SacredFlameIcon size={16} />
+                  </span>
+                </span>
+
+                <span className={styles.profileCopy}>
+                  <span className={styles.profileName}>{nickname}</span>
+                  {title && <span className={styles.profileTitle}>{title}</span>}
+                  {professionLabel && (
+                    <span className={styles.profileProfession}>{professionLabel}</span>
                   )}
                 </span>
-              </span>
-              <span className={styles.celebSeal} aria-hidden>
-                <SacredFlameIcon size={16} />
-              </span>
-            </span>
-
-            <span className={styles.profileCopy}>
-              <span className={styles.profileName}>{nickname}</span>
-              {title && <span className={styles.profileTitle}>{title}</span>}
-              {professionLabel && (
-                <span className={styles.profileProfession}>{professionLabel}</span>
-              )}
-            </span>
-          </button>
+              </button>
+            </div>
 
           <nav
             aria-label={t("serviceGuideTitle")}

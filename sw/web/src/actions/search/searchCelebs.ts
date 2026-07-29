@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
@@ -49,8 +49,8 @@ async function fetchSearchCelebs(
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
-    // 신화·관계 인물은 검색 결과에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    // 픽션 인물은 검색하되 relation 등급은 계속 제외
+    .in('celeb_tier', [...SEARCHABLE_CELEB_TIERS])
     .or(`nickname.ilike.%${safeQuery}%,nickname_en.ilike.%${safeQuery}%`)
     .range(offset, offset + limit - 1)
     .order(isEn ? 'nickname_en' : 'nickname', { ascending: true, nullsFirst: false })

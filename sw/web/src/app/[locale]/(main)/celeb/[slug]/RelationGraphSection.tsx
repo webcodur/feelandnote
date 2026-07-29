@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
@@ -47,6 +46,7 @@ type KinRank = "parents" | "siblings" | "spouses" | "children";
 const KIN_RANK_OF: Record<string, KinRank> = {
   father: "parents", mother: "parents", parent: "parents",
   sibling: "siblings",
+  relative: "siblings",
   spouse: "spouses", partner: "spouses",
   child: "children",
 };
@@ -117,7 +117,6 @@ interface Props {
 }
 
 export default function RelationGraphSection({ centerName, centerAvatarUrl, relations }: Props) {
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -216,19 +215,22 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         return ty === "cofounder" && n && n.length <= noteLabelMax ? n : t(`relType_${ty}`);
       })
       .join(" · ");
+  const relationLabel = (p: PersonNode) =>
+    p.types.map((ty) => t(`relType_${ty}`)).join(" · ");
 
-  const handlePersonSelect = async (person: PersonNode) => {
-    if (!person.slug) {
-      setSelected(person);
-      return;
-    }
+  const handlePersonSelect = (person: PersonNode) => {
+    setSelected(person);
+  };
+
+  const handleOpenPersonCard = async () => {
+    const person = selected;
+    if (!person?.slug) return;
+
+    const nextCeleb = await openCelebPreview(person.id);
+    if (!nextCeleb) return;
 
     setPreviewRelation(person);
-    const nextCeleb = await openCelebPreview(person.id);
-    if (!nextCeleb) {
-      setPreviewRelation(null);
-      setSelected(person);
-    }
+    setSelected(null);
   };
 
   const closePersonPreview = () => {
@@ -256,7 +258,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     if (!box) return;
     const next: Connector[] = [];
     const KIN = GROUP_COLOR.family;
-    const push = (d: string, color: string, dashed = false, opacity = 0.72) => next.push({ d, color, dashed, opacity });
+    const push = (d: string, color: string, dashed = false, opacity = 0.72) =>
+      next.push({ d, color, dashed, opacity });
     const g = (id: string) => geoOf(nodeRefs.current.get(id), box);
 
     // ── 가계도 ──
@@ -394,34 +397,43 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     else nodeRefs.current.delete(id);
   };
 
-  const avatarCircle = (p: PersonNode, sizeClass: string, iconSize: number) => (
-    <div className={`${sizeClass} rounded-full overflow-hidden p-[2px] ${p.slug ? "bg-gradient-to-b from-accent/25 to-transparent group-hover:from-accent/70 group-hover:to-accent/35" : "bg-white/5"} shadow-lg`}>
-      <div className={`w-full h-full rounded-full overflow-hidden bg-bg-secondary border ${p.slug ? "border-white/10 group-hover:border-accent/35" : "border-dashed border-white/15"}`}>
-        {loadingId === p.id ? (
-          <div className="flex h-full w-full items-center justify-center text-accent">
-            <LoaderCircle size={19} className="animate-spin" aria-hidden />
-          </div>
-        ) : p.avatar_url ? (
-          <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" unoptimized />
-        ) : p.slug ? (
-          <div className="w-full h-full flex items-center justify-center text-sm font-serif">{p.name.charAt(0)}</div>
-        ) : (
-          (() => {
-            const v = typeVisual(p.types);
-            return (
-              <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
-                <v.Icon size={iconSize} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
-              </div>
-            );
-          })()
-        )}
+  const avatarCircle = (p: PersonNode, sizeClass: string, iconSize: number) => {
+    const relationColor = GROUP_COLOR[p.group];
+
+    return (
+      <div
+        className={`${sizeClass} overflow-hidden rounded-full border-2 bg-bg-card p-[2px] shadow-lg group-hover:brightness-110`}
+        style={{
+          borderColor: relationColor,
+          boxShadow: `0 0 0 1px ${relationColor}33, 0 8px 18px rgb(0 0 0 / 0.34)`,
+        }}
+      >
+        <div className="h-full w-full overflow-hidden rounded-full border border-black/30 bg-bg-secondary">
+          {loadingId === p.id ? (
+            <div className="flex h-full w-full items-center justify-center text-accent">
+              <LoaderCircle size={19} className="animate-spin" aria-hidden />
+            </div>
+          ) : p.avatar_url ? (
+            <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="h-full w-full object-cover" unoptimized />
+          ) : p.slug ? (
+            <div className="w-full h-full flex items-center justify-center text-sm font-serif">{p.name.charAt(0)}</div>
+          ) : (
+            (() => {
+              const v = typeVisual(p.types);
+              return (
+                <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${v.color}2b` }}>
+                  <v.Icon size={iconSize} strokeWidth={1.6} style={{ color: v.color }} aria-hidden />
+                </div>
+              );
+            })()
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const nodeCard = (p: PersonNode, size: "md" | "sm" = "md") => {
     const hoverNote = p.note ? `${label(p)} — ${p.note}` : undefined;
-    // 노드에는 얼굴과 이름만 — 관계 딱지·사연은 클릭 카드가 보여준다(작아서 안 읽히던 것).
     const inner = (
       <>
         {avatarCircle(
@@ -440,7 +452,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         key={p.id}
         ref={setNodeRef(p.id)}
         type="button"
-        onClick={() => void handlePersonSelect(p)}
+        onClick={() => handlePersonSelect(p)}
         disabled={loadingId === p.id}
         aria-busy={loadingId === p.id}
         className={`group relative z-10 flex w-[72px] cursor-pointer flex-col items-center gap-1 rounded-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:w-20 ${p.slug ? "" : "opacity-80"}`}
@@ -449,6 +461,45 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       >
         {inner}
       </button>
+    );
+  };
+
+  const mobilePersonRow = (p: PersonNode) => (
+    <button
+      key={p.id}
+      type="button"
+      onClick={() => handlePersonSelect(p)}
+      disabled={loadingId === p.id}
+      aria-busy={loadingId === p.id}
+      className="group flex w-full items-center gap-3 rounded-lg border bg-white/[0.018] px-3 py-2.5 text-start hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      style={{ borderColor: `${GROUP_COLOR[p.group]}66` }}
+    >
+      {avatarCircle(p, "h-12 w-12 shrink-0", 18)}
+      <span className="min-w-0 flex-1">
+        <span className="block font-serif text-[15px] font-bold leading-tight text-text-primary group-hover:text-accent">
+          {p.name}
+        </span>
+        <span
+          className="mt-1 block text-xs font-semibold leading-tight"
+          style={{ color: GROUP_COLOR[p.group] }}
+        >
+          {relationLabel(p)}
+        </span>
+      </span>
+    </button>
+  );
+
+  const mobileBand = (heading: string, peopleInBand: PersonNode[]) => {
+    if (peopleInBand.length === 0) return null;
+    return (
+      <div className="space-y-2">
+        <p className="text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+          {heading}
+        </p>
+        <div className="space-y-2">
+          {peopleInBand.map(mobilePersonRow)}
+        </div>
+      </div>
     );
   };
 
@@ -467,17 +518,96 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   );
 
   const subHeading = (text: string) => (
-    <p className="text-xs tracking-[0.2em] text-center">{text}</p>
+    <div className="relative z-10 flex items-center gap-3">
+      <p className="shrink-0 font-serif text-base font-bold tracking-[0.14em] text-text-primary">
+        {text}
+      </p>
+      <span
+        aria-hidden
+        className="h-px flex-1 bg-gradient-to-r from-accent-dim/45 to-transparent"
+      />
+    </div>
   );
 
   const socialFilters: ("all" | CelebRelationItem["relGroup"])[] = [
     "all",
     ...SOCIAL_GROUPS.filter((grp) => view.socialCounts.has(grp)),
   ];
+  const selectedWikidataUrl = selected?.qid
+    ? `https://www.wikidata.org/wiki/${selected.qid}`
+    : selected?.slug
+      ? `https://www.wikidata.org/w/index.php?search=${encodeURIComponent(selected.name)}`
+      : null;
+  const socialFilterBar = () => view.socialCounts.size > 0 ? (
+    <div className="flex flex-wrap justify-start gap-2">
+      {socialFilters.map((f) => (
+        <button
+          key={f}
+          type="button"
+          onClick={() => setFilter(f)}
+          aria-pressed={filter === f}
+          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[13px] hover:text-text-primary ${
+            filter === f
+              ? "font-semibold text-text-primary"
+              : "text-text-secondary hover:bg-white/[0.035]"
+          }`}
+          style={{
+            borderColor: `${f === "all" ? GROUP_COLOR.family : GROUP_COLOR[f]}${filter === f ? "b3" : "66"}`,
+            backgroundColor: filter === f
+              ? `${f === "all" ? GROUP_COLOR.family : GROUP_COLOR[f]}1f`
+              : undefined,
+          }}
+        >
+          <span
+            aria-hidden
+            className="h-2 w-2 rounded-full"
+            style={{
+              backgroundColor: f === "all" ? GROUP_COLOR.family : GROUP_COLOR[f],
+            }}
+          />
+          {t(`relFilter_${f}`)}
+          <span className="ml-1 font-mono text-[11px] opacity-70">
+            {f === "all"
+              ? [...view.socialCounts.values()].reduce((a, b) => a + b, 0)
+              : view.socialCounts.get(f)}
+          </span>
+        </button>
+      ))}
+    </div>
+  ) : null;
 
   return (
     <div className="space-y-5">
-      <div ref={containerRef} className="relative min-w-0 overflow-hidden select-none">
+      <div className="space-y-8 md:hidden">
+        {view.hasKin && (
+          <div className="space-y-4">
+            {subHeading(t("relSubFamily"))}
+            <div className="space-y-2">
+              {([
+                ...view.kinRows.parents,
+                ...view.kinRows.siblings,
+                ...view.kinRows.spouses,
+                ...view.kinRows.children,
+              ]).map(mobilePersonRow)}
+            </div>
+          </div>
+        )}
+
+        {view.hasSocial && (
+          <div className="space-y-4">
+            {subHeading(t("relSubSocial"))}
+            {socialFilterBar()}
+            <div className="space-y-5">
+              {mobileBand(t("relBandUp", { name: centerName }), view.bands.up)}
+              {mobileBand(t("relBandSideL"), view.bands.sideL)}
+              {mobileBand(t("relBandSideR"), view.bands.sideR)}
+              {mobileBand(t("relBandDown", { name: centerName }), view.bands.down)}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div ref={containerRef} className="relative hidden min-w-0 select-none overflow-hidden md:block">
         <svg className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none" aria-hidden>
           {connectors.map((c, i) => (
             <path
@@ -529,50 +659,48 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         {view.hasSocial && (
           <div className="space-y-4">
             {subHeading(t("relSubSocial"))}
-            {view.socialCounts.size > 1 && (
-              <div className="flex justify-center gap-2 flex-wrap">
-                {socialFilters.map((f) => (
-                  <button
-                    key={f}
-                    type="button"
-                    onClick={() => setFilter(f)}
-                    className={`px-3 py-1 text-[13px] rounded-full border transition-colors ${
-                      filter === f
-                        ? "border-accent/60 text-accent bg-accent/10"
-                        : "border-white/10  hover:border-accent/30 hover:text-text-secondary"
-                    }`}
-                  >
-                    {t(`relFilter_${f}`)}
-                    <span className="ml-1 font-mono text-[11px] opacity-70">
-                      {f === "all"
-                        ? [...view.socialCounts.values()].reduce((a, b) => a + b, 0)
-                        : view.socialCounts.get(f)}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
+            {socialFilterBar()}
             {view.bands.up.length > 0 && (
-              <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mb-10">
-                {view.bands.up.map((p) => nodeCard(p))}
+              <div className="relative mb-10 space-y-3">
+                <p className="text-center text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+                  {t("relBandUp", { name: centerName })}
+                </p>
+                <div className="flex flex-wrap justify-center gap-x-2 gap-y-3">
+                  {view.bands.up.map((p) => nodeCard(p))}
+                </div>
               </div>
             )}
             <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
               {view.bands.sideL.length > 0 && (
-                <div className="flex flex-wrap justify-end gap-x-2 gap-y-3 flex-1 max-w-[38%]">
-                  {view.bands.sideL.map((p) => nodeCard(p, "sm"))}
+                <div className="flex max-w-[38%] flex-1 flex-col items-end gap-3">
+                  <p className="text-end text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+                    {t("relBandSideL")}
+                  </p>
+                  <div className="flex flex-wrap justify-end gap-x-2 gap-y-3">
+                    {view.bands.sideL.map((p) => nodeCard(p, "sm"))}
+                  </div>
                 </div>
               )}
               {selfNode(hubRef)}
               {view.bands.sideR.length > 0 && (
-                <div className="flex flex-wrap justify-start gap-x-2 gap-y-3 flex-1 max-w-[38%]">
-                  {view.bands.sideR.map((p) => nodeCard(p, "sm"))}
+                <div className="flex max-w-[38%] flex-1 flex-col items-start gap-3">
+                  <p className="text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+                    {t("relBandSideR")}
+                  </p>
+                  <div className="flex flex-wrap justify-start gap-x-2 gap-y-3">
+                    {view.bands.sideR.map((p) => nodeCard(p, "sm"))}
+                  </div>
                 </div>
               )}
             </div>
             {view.bands.down.length > 0 && (
-              <div className="relative flex flex-wrap justify-center gap-x-2 gap-y-3 mt-10">
-                {view.bands.down.map((p) => nodeCard(p))}
+              <div className="relative mt-10 space-y-3">
+                <p className="text-center text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+                  {t("relBandDown", { name: centerName })}
+                </p>
+                <div className="flex flex-wrap justify-center gap-x-2 gap-y-3">
+                  {view.bands.down.map((p) => nodeCard(p))}
+                </div>
               </div>
             )}
           </div>
@@ -586,9 +714,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[13px] text-text-secondary hover:text-accent border border-white/10 hover:border-accent/30 rounded-full transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-1.5 text-[13px] text-text-secondary hover:border-accent/30 hover:text-accent"
             >
-              {expanded ? t("hideDetail") : `+${view.overflow.length}`}
+              {expanded ? t("hideDetail") : t("relShowMore", { count: view.overflow.length })}
             </button>
           </div>
           {expanded && (
@@ -611,7 +739,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                   <button
                     key={p.id}
                     type="button"
-                    onClick={() => void handlePersonSelect(p)}
+                    onClick={() => handlePersonSelect(p)}
                     disabled={loadingId === p.id}
                     aria-busy={loadingId === p.id}
                     className={`group flex items-center gap-2 rounded-full border px-2.5 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${p.slug ? "border-white/10 hover:border-accent/40 hover:bg-white/[0.025]" : "border-dashed border-white/10 opacity-80 hover:border-accent/30"}`}
@@ -712,26 +840,36 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               {!selected.slug && <span className="">{t("relExternalNote")}</span>}
             </div>
 
-            {/* 이동 — 셀럽은 인물 페이지, 명단 밖 인물은 위키데이터 원본 */}
-            {selected.slug ? (
-              <button
-                type="button"
-                onClick={() => router.push(`/celeb/${selected.slug}`)}
-                className="w-full py-2.5 text-sm font-medium rounded-lg border border-accent/50 text-accent hover:bg-accent/15"
-              >
-                {t("relGoToProfile")}
-              </button>
-            ) : selected.qid ? (
-              <a
-                href={`https://www.wikidata.org/wiki/${selected.qid}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2.5 text-sm font-medium rounded-lg border border-white/15 text-text-secondary hover:border-accent/40 hover:text-accent flex items-center justify-center gap-1.5"
-              >
-                {t("relViewWikidata")}
-                <ExternalLink size={14} />
-              </a>
-            ) : null}
+            {/* 등록 인물은 본 카드와 원전 경로를 나란히 제공한다. */}
+            {(selected.slug || selectedWikidataUrl) && (
+              <div className={`grid gap-2 ${selected.slug && selectedWikidataUrl ? "grid-cols-2" : "grid-cols-1"}`}>
+                {selected.slug && (
+                  <button
+                    type="button"
+                    onClick={() => void handleOpenPersonCard()}
+                    disabled={loadingId === selected.id}
+                    aria-busy={loadingId === selected.id}
+                    className="flex min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-accent/50 px-2 py-2.5 text-sm font-medium text-accent hover:bg-accent/15 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    {loadingId === selected.id && (
+                      <LoaderCircle size={15} className="animate-spin" aria-hidden />
+                    )}
+                    {t("relViewPersonCard")}
+                  </button>
+                )}
+                {selectedWikidataUrl && (
+                  <a
+                    href={selectedWikidataUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-white/15 px-2 py-2.5 text-sm font-medium text-text-secondary hover:border-accent/40 hover:text-accent"
+                  >
+                    {t("relViewWikidata")}
+                    <ExternalLink size={13} />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -106,6 +106,12 @@
       "save": "Save",
       "edit": "Edit",
       "delete": "Delete"
+    },
+    "fictionGuestbook": {
+      "empty": "No reader notes yet.",
+      "placeholder": "Leave a reflection or interpretation of this figure and their source texts.",
+      "loginPrompt": "Leave a reflection on this figure and their source texts.",
+      "loginHint": "Sign in to add a reader note."
     }
   },
   "userBio": {

@@ -1,11 +1,14 @@
 {
   "home": {
     "youtube": {
-      "title": "유튜브 채널",
-      "subtitle": "서재 탐방 영상으로 만나는 인물들",
-      "viewAll": "전체보기",
-      "more": "더보기",
-      "channel": "유튜브 채널"
+      "eyebrow": "FEEL&NOTE ORIGINAL",
+      "title": "필앤노트 영상관",
+      "headline": "책장과 세력 사이, 인물의 세계를 영상으로",
+      "description": "한 사람의 서재를 따라가는 서재 탐방과, 같은 질문 앞에 선 인물들을 엮는 세력도감을 한곳에서 만나보세요.",
+      "visitArchive": "유튜브 시리즈 안내 보기",
+      "libraryTour": "서재 탐방",
+      "faction": "세력도감",
+      "imageAlt": "왼쪽의 거대한 서재와 오른쪽의 전략 회의실이 중앙의 빛나는 통로로 이어진 필앤노트 영상관"
     },
     "explore": {
       "englishTitle": "Notable Figures",
@@ -197,6 +200,8 @@
     "comingSoon": "오픈 예정",
     "contentInPreparation": "곧 멋진 콘텐츠로 찾아오겠습니다",
     "viewDetail": "자세히 보기",
+    "loadingDetail": "상세 정보 불러오는 중",
+    "detailUnavailable": "상세 정보를 불러오지 못했습니다. 다시 시도해 주세요.",
     "groupShot": "단체",
     "figureCount": "{count}인",
     "playLine": "대사 듣기",
@@ -207,7 +212,7 @@
     "nextPhoto": "다음 사진",
     "factionCollection": "세력도감",
     "fictionTitle": "이야기 속 인물",
-    "fictionNote": "실제로 살았던 사람이 아닙니다. 신화와 서사시, 문학이 남긴 인물을 같은 방식으로 모아 둔 자리입니다. 이들은 인물 목록과 검색에는 나오지 않습니다."
+    "fictionNote": "실제로 살았던 사람이 아니라 신화와 서사시, 문학이 남긴 인물입니다. 검색과 작품 속 인물 연결을 통해 이들의 기록을 살펴볼 수 있습니다."
   },
   "quickRecord": {
     "section": {

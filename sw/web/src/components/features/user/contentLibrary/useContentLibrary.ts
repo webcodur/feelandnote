@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, useTransition, useMemo, useRef } from
 import { useTranslations } from "next-intl";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { getUserContents } from "@/actions/contents/getUserContents";
+import { getPublicViewerContents } from "@/actions/contents/getUserContents";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
 import type { ContentTypeCounts } from "@/types/content";
@@ -58,6 +58,8 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   /** 이미 목록을 한 번 그린 뒤의 재조회. 목록을 지우지 않고 흐리게만 둔다. */
   const [isRefreshing, setIsRefreshing] = useState(false);
   const hasLoadedRef = useRef(seed !== null);
+  /** 연속 필터·페이지 요청이 엇갈려 도착해도 마지막 요청만 화면에 반영한다. */
+  const loadRequestIdRef = useRef(0);
   const [error, setError] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -143,9 +145,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   }, [isViewer, targetUserId]);
 
   const loadContents = useCallback(async () => {
+    const requestId = ++loadRequestIdRef.current;
     /* 첫 조회에만 목록 자리를 통째로 로딩 화면에 내준다. 페이지를 넘기거나 조건을
        바꿀 때까지 그러면 목록·조작 줄·쪽 번호가 한꺼번에 사라졌다 돌아오면서
-       화면 높이가 접혔다 펴져 크게 들썩인다. 재조회는 목록을 둔 채 흐리게만 한다. */
+       화면 높이가 접혔다 펴져 크게 들썩인다. 재조회는 기존 목록을 유지한다. */
     if (hasLoadedRef.current) setIsRefreshing(true);
     else setIsLoading(true);
     setError(null);
@@ -161,7 +164,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
       if (isViewer && targetUserId) {
         // viewer 모드: 타인의 공개 콘텐츠 조회
-        const result = await getUserContents({
+        const result = await getPublicViewerContents({
           userId: targetUserId,
           type: CATEGORY_ID_TO_TYPE[activeTab],
           // status 제거: 모든 상태 조회
@@ -171,6 +174,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           hasReview: hasReviewParam,
           sortBy: sortByParam,
         });
+        if (requestId !== loadRequestIdRef.current) return;
         setContents(mapPublicToUserContent(result.items, targetUserId));
         setTotalPages(result.totalPages);
         setTotal(result.total);
@@ -185,32 +189,46 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
           hasReview: hasReviewParam,
           sortBy: sortByParam,
         });
+        if (requestId !== loadRequestIdRef.current) return;
         setContents(result.items);
         setTotalPages(result.totalPages);
         setTotal(result.total);
       }
     } catch (err) {
+      if (requestId !== loadRequestIdRef.current) return;
       console.error("콘텐츠 로드 실패:", err);
       setError(t("loadFailed"));
     } finally {
-      hasLoadedRef.current = true;
-      setIsLoading(false);
-      setIsRefreshing(false);
+      if (requestId === loadRequestIdRef.current) {
+        hasLoadedRef.current = true;
+        setIsLoading(false);
+        setIsRefreshing(false);
+      }
     }
   }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption, t]);
 
-  // 서버가 내려준 첫 화면은 이미 그려져 있으므로 최초 1회 재조회를 건너뛴다(중복 페치 방지).
-  // 이후 탭·검색·정렬·페이지 변경으로 loadContents가 새로 만들어지면 정상 조회한다.
-  const skipInitialLoad = useRef(seed !== null);
+  // 서버 초기 데이터와 같은 조건인 동안은 effect가 개발 모드에서 두 번 실행돼도 재조회하지 않는다.
+  // 사용자가 조건을 한 번 바꾸면 이후 기본 조건으로 돌아왔을 때도 정상 재조회한다.
+  const hasSeedForInitialQueryRef = useRef(seed !== null);
+  const isInitialSeedQuery =
+    activeTab === "all"
+    && currentPage === 1
+    && pageSize === (defaultPageSize ?? 10)
+    && appliedSearchQuery.trim().length < 2
+    && reviewFilter === "all"
+    && sortOption === "recent";
 
   useEffect(() => {
-    if (skipInitialLoad.current) {
-      skipInitialLoad.current = false;
-    } else {
-      loadContents();
+    if (hasSeedForInitialQueryRef.current && isInitialSeedQuery) {
+      return;
     }
-    loadTypeCounts();
-  }, [loadContents, loadTypeCounts]);
+    hasSeedForInitialQueryRef.current = false;
+    void loadContents();
+  }, [isInitialSeedQuery, loadContents]);
+
+  useEffect(() => {
+    void loadTypeCounts();
+  }, [loadTypeCounts]);
 
   useEffect(() => {
     setCurrentPage(1);
