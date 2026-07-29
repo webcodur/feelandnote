@@ -17,7 +17,7 @@
 | `/explore/faction/[slug]` | 테마별 고유 주소 세력도감 | `getFeaturedTags` |
 | `/explore/feed` | 인물 피드 | `getCelebFeed` |
 | `/explore/timeline` | 국가별 연대기 | `getCelebTimeline` |
-| `/explore/youtube` | 유튜브 채널 모음 | `getYoutubeCelebs` |
+| `/explore/youtube` | 영상관. 서재 탐방·세력도감 소개 + 재생목록 + 시리즈별 영상 | `getYoutubeCelebs`, `getYoutubeFactionVideos`, `constants/youtube.ts` |
 | `/explore/directory` | 전체 인물 디렉토리 (SEO 인덱스) | `getCelebDirectory` |
 
 레거시 리다이렉트 5개.
@@ -131,9 +131,13 @@
 
 파일 주석이 밝히듯 별도 태그를 쓰지 않고 기존 데이터(`nationality`, `birth_date`)만으로 세운다. `revalidate = 3600`.
 
-## 유튜브 채널 (`/explore/youtube`)
+## 영상관 (`/explore/youtube`)
 
-`getYoutubeCelebs()`로 인물 목록을 받아 `YoutubeChannelContent`에 로케일과 함께 넘긴다. 파일 주석은 "서재 탐방 영상(본편·쇼츠)을 인물 페이지와 연결하여 진열한다"고 적는다.
+홈의 통합 영상 히어로가 이 내부 화면으로 연결된다. 상단은 `constants/youtube.ts`를 단일원천으로 삼아 서재 탐방·세력도감의 본편과 쇼츠 재생목록, locale별 채널 홈을 안내한다. 영문 채널에 아직 없는 세력도감은 실제 영상이 있는 한국어 재생목록으로 연결하고 화면에 언어 차이를 명시한다.
+
+두 시리즈 소개 아래에는 시리즈별 영상 보관소를 둔다. 서재 탐방은 `getYoutubeCelebs()`가 `profiles.youtube_videos`를 읽어 locale 본편·쇼츠를 우선 진열하고, 각 영상에서 인물 상세로 돌아간다. 세력도감은 `getYoutubeFactionVideos()`가 `constants/youtube.ts`의 공개 재생목록을 YouTube Atom 피드로 읽고, 출간 태그의 `celeb_tags.youtube_videos`를 영상 ID 기준으로 병합한다. 공개 영상은 DB 연결 여부와 무관하게 모두 노출하고, 연결된 영상은 첫 세력명과 추가 세력 수를 표시한다. `/explore/faction`으로 돌아가는 링크도 제공한다.
+
+YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실패하면 오류를 서버 로그에 남기고 DB 연결 영상만으로 보관소를 유지한다.
 
 영상 제작 파이프라인은 `docs/project/remotion/`이 다룬다.
 
