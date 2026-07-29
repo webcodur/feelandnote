@@ -61,7 +61,7 @@ pnpm dev:bo
 | `/celebs/tags` | → 리다이렉트 | `/factions`로 보낸다. 도감 테마 관리는 26.07.25에 세력도 화면으로 흡수됐다 | — |
 | `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `profiles` |
 | `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `profiles` |
-| `/celebs/content-research` | Light 콘텐츠 조사 | 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도 연결로 승격 감사/활성 조사/비활성 선별/없음 확정을 분류한다. 폐기 예정인 감상여정은 읽지 않는다. `0`은 열린 상태, 조사 완료·없음만 `-1` | `profiles`, `user_contents`, `celeb_influence`, `celeb_tag_assignments` |
+| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `profiles`, `user_contents`, `celeb_content_research_*` 4테이블 |
 | `/celebs/vectors` | 페르소나 분석 | 덕목·능력·성향 16개 축 벡터 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
 | `/celebs/vectors/[slug]` | (닉네임) 페르소나 분석 | 단건 페르소나 축 확인 | `celeb_persona` |
 | `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |

@@ -1,6 +1,35 @@
 # Light 콘텐츠 조사 상태 도입·회수
 
-> 시작: 2026-07-29 · 상태: **완료 — 활성 조사·비활성 301명 선별·최종 불변식 감사 통과**
+> 시작: 2026-07-29 · 현행 상태: **의미 교정 완료 — 활성 167명 `open/0` 복구, 조사 장부 도입**
+
+## 2026-07-29 의미 교정
+
+초기 회수는 감상여정에서 뽑은 후보 작품을 검증한 일을 인물의 전 콘텐츠 유형
+조사 완료로 잘못 해석했다. 따라서 당시 `confirmed_empty/-1`로 닫은 활성 Light
+168명 중, BOOK·VIDEO·GAME·MUSIC 전면 조사를 실제로 마친 앤서니 암스트롱
+1명을 제외한 167명을 `open/0`으로 복구했다.
+
+현행 실DB 기준선은 활성 Light `open 167 / confirmed_empty 1`, 비활성 Light
+`queued 153 / deferred 148`이다. 아래 본문의 “활성 168명 없음 확정”과 각
+배치의 `confirmed_empty` 기록은 **교정 전 회수 이력**이며 현재 판정이 아니다.
+
+재발 방지를 위해 다음 구조를 추가했다.
+
+- 복구 트랜잭션:
+  `sw/web/supabase/ops/20260729_reopen_unresearched_active_light.sql`
+- 조사 장부 마이그레이션:
+  `sw/web/supabase/migrations/20260729144835_create_celeb_content_research_history.sql`
+- 장부 권한·인덱스 보강:
+  `sw/web/supabase/migrations/20260729150916_harden_celeb_content_research_permissions.sql`
+- 장부 시작·취소 트랜잭션과 완료 이력 불변성:
+  `sw/web/supabase/migrations/20260729151721_make_celeb_content_research_history_immutable.sql`
+- web-bo 인물별 장부:
+  `/celebs/content-research/[celebId]`
+
+장부는 실행→BOOK/VIDEO/GAME/MUSIC 범위→후보→출처를 정규화해 보존한다.
+네 유형 완료, 유형별 출처, 후보 판정·근거, 채택 콘텐츠의 실제 연결을 DB 완료
+함수가 검증한다. 이를 통과하고 실제 콘텐츠가 0건일 때만 신규
+`confirmed_empty/-1`을 허용한다.
 
 ## 확정 의미
 
@@ -1010,9 +1039,9 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 
 | 구분 | `open` | `queued` | `deferred` | `confirmed_empty` |
 |---|---:|---:|---:|---:|
-| 활성 Light | 0 | 0 | 0 | 168 |
+| 활성 Light | 167 | 0 | 0 | 1 |
 | 비활성 Light | 0 | 153 | 148 | 0 |
-| 합계 | 0 | 153 | 148 | 168 |
+| 합계 | 167 | 153 | 148 | 1 |
 
 결함은 모두 0건이다.
 
@@ -1023,10 +1052,10 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 - 실제 콘텐츠가 있는데 여전히 Light인 인물
 - 양수 콘텐츠가 음수 표시로 해석되는 인물
 
-활성 조사 완료군에서 실제 콘텐츠가 0건으로 남은 168명은 모두
-`confirmed_empty(-1)`다. 구성은 기존 양수 Light 감사에서 등록분이 기각된
-4명, 명시 작품 표적 검증 후 0건인 86명, 비정형 후보 검증 후 0건인 77명,
-처음부터 조사해 0건인 앤서니 암스트롱 1명이다.
+활성 0건군 중 전 콘텐츠 유형 조사를 마친 앤서니 암스트롱 1명만
+`confirmed_empty(-1)`다. 기존 양수 Light 감사에서 등록분이 기각된 4명,
+명시 작품 후보 검증 후 0건인 86명, 비정형 후보 검증 후 0건인 77명은 모두
+`open/0`으로 복구했다.
 
 감상여정은 이미 수행된 조사를 처음부터 반복하지 않기 위한 일회성 레거시
 단서로만 사용했다. 최종 표시값과 조사 상태는 감상여정 유무·본문에 의존하지
@@ -1041,11 +1070,14 @@ Light 전체의 실제 `user_contents`를 다시 세어 상태와 표시 의미�
 - 파일럿·2차·3차·4차·5차·6차·7차로 활성 명시 작품군 125명 전수 처리 완료
 - 활성 비정형 작품군 84명 전수 원격 반영·검증 완료
 - 활성 무단서 4명 전면 조사 완료: 3명·15건 등록·승격, 1명 `confirmed_empty`
-- 활성 조사 완료·0건 168명은 전부 `light/confirmed_empty/-1`
-- 활성 비정형군 누적 7명·10건 등록 및 승격, 나머지 77명은 `light/confirmed_empty/-1`
+- 활성 0건 168명 중 앤서니 암스트롱 1명만 `light/confirmed_empty/-1`,
+  나머지 167명은 `light/open/0`
+- 활성 비정형군 누적 7명·10건 등록 및 승격, 나머지 77명은 후보 검증만
+  완료한 상태로 `light/open/0`
 - 비활성 명시 작품 69명 선별 완료: `queued` 42명, `deferred` 27명
 - 비활성 비정형 작품 40명 선별 완료: `queued` 24명, `deferred` 16명
 - 비활성 무단서 192명 선별 완료: `queued` 87명, `deferred` 105명
 - 비활성 전체 301명: `queued` 153명, `deferred` 148명, `open`·`confirmed_empty` 0명
 - 신규·교정 콘텐츠의 locale·출처·감상경위·누적값 감사 결함 0건
-- 최종 전수 감사 결함 0건. 확정된 회수 순서 전체 완료
+- 장부·완료 게이트 도입 뒤 최종 전수 감사 결함 0건. 신규 전면 조사는 장부를
+  통해 167명을 차례로 처리한다

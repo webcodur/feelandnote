@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check, CircleDashed, Clock3, Loader2, Pause, Search } from 'lucide-react'
+import { CircleDashed, Clock3, Loader2, Pause, Search } from 'lucide-react'
 import type { CelebContentResearchStatus } from '@feelandnote/shared/constants/celeb-content-research'
 import { updateContentResearchStatus } from '@/actions/admin/content-research'
 
@@ -51,14 +51,6 @@ const STATUS_BUTTONS: Array<{
     className: 'text-violet-300 hover:bg-violet-500/20 hover:text-violet-100',
     activeClassName: 'bg-violet-500/25 text-violet-100',
   },
-  {
-    value: 'confirmed_empty',
-    label: '없음 확정',
-    title: '정식 조사를 마쳤고 콘텐츠가 없음을 확인함',
-    icon: Check,
-    className: 'text-rose-300 hover:bg-rose-500/20 hover:text-rose-100',
-    activeClassName: 'bg-rose-500/25 text-rose-100',
-  },
 ]
 
 export default function ResearchStatusControls({
@@ -80,15 +72,6 @@ export default function ResearchStatusControls({
 
   function handleChange(nextStatus: CelebContentResearchStatus) {
     if (pending || nextStatus === currentStatus) return
-    if (
-      nextStatus === 'confirmed_empty' &&
-      !window.confirm(
-        '정식 조사를 끝냈고 콘텐츠가 하나도 없음을 확인했습니까?\n단순 선별이나 검색 1회만으로는 확정하지 않습니다.'
-      )
-    ) {
-      return
-    }
-
     setError(null)
     startTransition(async () => {
       try {
@@ -128,6 +111,9 @@ export default function ResearchStatusControls({
           )
         })}
       </div>
+      <p className="mt-1 text-[10px] text-text-tertiary">
+        -1 확정은 조사 장부의 네 유형 완료 검사를 거쳐야 합니다.
+      </p>
       {error ? <p className="mt-1 text-[11px] text-red-300">{error}</p> : null}
     </div>
   )

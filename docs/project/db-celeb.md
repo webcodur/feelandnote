@@ -16,7 +16,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - 실제 `user_contents`가 양수면 그 개수가 우선
     - 실제 0건 + `confirmed_empty`만 화면용 `-1`, 나머지는 열린 `0`
     - `content_research_updated_at`, `content_research_confirmed_empty_at`이 변경·확정 시각을 보존
-    - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부하고, 확정 뒤 콘텐츠 추가 시 `open`으로 자동 복귀
+    - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부한다. 신규 `confirmed_empty`는 아래 조사 장부의 완료 함수만 기록할 수 있다
+    - 확정 뒤 콘텐츠가 추가되면 트리거가 상태를 `open`으로 자동 복귀시킨다
   - `speech_tone` (text): 말투 6종. **profiles 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
@@ -36,6 +37,16 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
   - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)
   - 실측 커버리지(내부+외부 합산): 관계 보유 셀럽 1,303/1,692(77%)
+- **셀럽 콘텐츠 조사 장부** (2026-07-29): 빠른 후보 검증을 전면 조사 완료로 오인하지 않도록 실행·유형·후보·출처를 영속 기록한다
+  - `celeb_content_research_runs`: 인물별 조사 실행. 조사자, 배치 키, 이름 변형, 동명이인 메모, 요약과 시작·완료 시각을 보존한다. 한 인물의 `in_progress` 실행은 최대 1개다
+  - `celeb_content_research_scopes`: 실행마다 자동 생성되는 `BOOK` / `VIDEO` / `GAME` / `MUSIC` 네 범위와 검색 메모·완료 상태
+  - `celeb_content_research_findings`: 후보 작품의 `candidate` / `accepted` / `rejected` 판정. 채택은 실제 `contents`·`user_contents` 연결, 기각은 근거 요약과 사유가 필수다
+  - `celeb_content_research_sources`: 범위 또는 후보에 연결한 URL, 출처 등급·종류, 접근 상태와 확인 시각
+  - `complete_celeb_content_research_run(uuid)`만 조사를 닫는다. 네 범위 완료, 범위별 출처 1개 이상, 미판정 후보 0, 후보별 출처, 채택 후보의 1차 출처와 실제 콘텐츠 연결을 한 트랜잭션에서 검증한다
+  - 완료 시 실제 콘텐츠가 0건일 때만 `profiles.content_research_status='confirmed_empty'`, 1건 이상이면 `open`이다
+  - 실행 시작·프로필 `researching`, 실행 취소·프로필 `open`은 각각 DB 트랜잭션으로 함께 바뀐다. 완료·취소된 실행과 하위 기록은 불변이다
+  - 네 테이블은 RLS를 켜고 anon·authenticated 권한을 주지 않는다. web-bo 관리자 서버 액션이 service role로만 읽고 쓴다
+  - 최초 도입 시점의 레거시 예외는 전면 조사 기록이 이미 별도 문서에 남은 앤서니 암스트롱 1명뿐이다
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
