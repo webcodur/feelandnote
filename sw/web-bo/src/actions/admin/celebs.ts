@@ -7,6 +7,7 @@ import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnot
 import { notifyIndexNow } from '@/lib/indexnow'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 
 // #region Types
 export interface Celeb {
@@ -28,6 +29,9 @@ export interface Celeb {
   claimed_by: string | null
   created_at: string
   content_count: number
+  content_research_status: string
+  content_research_updated_at: string | null
+  content_research_confirmed_empty_at: string | null
   follower_count: number
   influence_total: number
 }
@@ -62,6 +66,7 @@ interface CreateCelebInput {
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
+  celeb_tier?: 'full' | 'light'
   influence?: GeneratedInfluence
 }
 
@@ -102,6 +107,9 @@ type CelebListRow = {
   death_date: string | null
   bio: string | null
   cultural_journey: string | null
+  content_research_status: string | null
+  content_research_updated_at: string | null
+  content_research_confirmed_empty_at: string | null
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
@@ -138,7 +146,10 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     celeb_tier: row.celeb_tier || 'full',
     claimed_by: row.claimed_by,
     created_at: row.created_at || '',
-    content_count: contentCount,
+    content_count: resolveCelebContentCount(contentCount, row.content_research_status),
+    content_research_status: row.content_research_status || 'open',
+    content_research_updated_at: row.content_research_updated_at,
+    content_research_confirmed_empty_at: row.content_research_confirmed_empty_at,
     follower_count: social?.follower_count || 0,
     influence_total: influence?.total_score || 0,
   }
@@ -147,15 +158,29 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
 async function getCelebContentCounts(supabase: ReturnType<typeof createAdminClient>, celebIds: string[]) {
   if (celebIds.length === 0) return new Map<string, number>()
 
-  const { data } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', celebIds)
-
   const counts = new Map<string, number>()
-  data?.forEach((row) => {
-    counts.set(row.user_id, (counts.get(row.user_id) || 0) + 1)
-  })
+  const idChunkSize = 200
+  const pageSize = 1000
+
+  for (let chunkStart = 0; chunkStart < celebIds.length; chunkStart += idChunkSize) {
+    const idChunk = celebIds.slice(chunkStart, chunkStart + idChunkSize)
+
+    for (let from = 0; ; from += pageSize) {
+      const { data, error } = await supabase
+        .from('user_contents')
+        .select('id, user_id')
+        .in('user_id', idChunk)
+        .order('id', { ascending: true })
+        .range(from, from + pageSize - 1)
+
+      if (error) throw error
+      for (const row of data ?? []) {
+        counts.set(row.user_id, (counts.get(row.user_id) || 0) + 1)
+      }
+      if ((data?.length ?? 0) < pageSize) break
+    }
+  }
+
   return counts
 }
 
@@ -285,6 +310,8 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const selectFields = `
     id, slug, nickname, avatar_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey,
+    content_research_status, content_research_updated_at,
+    content_research_confirmed_empty_at,
     is_verified, status, celeb_tier, claimed_by, created_at,
     user_social (follower_count),
     celeb_influence (total_score)
@@ -307,6 +334,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   for (let batchOffset = 0; batchOffset < count; batchOffset += batchSize) {
     const batchEnd = Math.min(batchOffset + batchSize - 1, count - 1)
     const { data: batch, error: batchError } = await buildCelebListQuery(supabase, filters, selectFields)
+      .order('id', { ascending: true })
       .range(batchOffset, batchEnd)
 
     if (batchError) {
@@ -334,7 +362,12 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
-  const needsExactFiltering = rpcUnsupportedSorts.includes(sort) || status === 'inactive' || status === 'suspended' || (tier && tier !== 'all')
+  const needsExactFiltering =
+    rpcUnsupportedSorts.includes(sort) ||
+    sort === 'content_count' ||
+    status === 'inactive' ||
+    status === 'suspended' ||
+    (tier && tier !== 'all')
 
   if (needsExactFiltering) {
     return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, sort, sortOrder })
@@ -407,28 +440,64 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     throw error
   }
 
-  let celebs: Celeb[] = (data || []).map((celeb: any) => ({
-    id: celeb.id,
-    slug: celeb.slug || null,
-    nickname: celeb.nickname,
-    avatar_url: celeb.avatar_url,
-    profession: celeb.profession,
-    title: celeb.title,
-    nationality: celeb.nationality,
-    gender: celeb.gender ?? null,
-    birth_date: celeb.birth_date,
-    death_date: celeb.death_date,
-    bio: celeb.bio,
-    cultural_journey: celeb.cultural_journey,
-    is_verified: celeb.is_verified,
-    status: celeb.status,
-    celeb_tier: celeb.celeb_tier || 'full',
-    claimed_by: celeb.claimed_by,
-    created_at: celeb.created_at || '',
-    content_count: celeb.content_count || 0,
-    follower_count: celeb.follower_count || 0,
-    influence_total: celeb.total_score || 0,
-  }))
+  const rpcRows = data || []
+  const rpcCelebIds = rpcRows.map((celeb: any) => celeb.id)
+  const researchStatusMap = new Map<string, {
+    status: string
+    updatedAt: string | null
+    confirmedEmptyAt: string | null
+  }>()
+
+  if (rpcCelebIds.length > 0) {
+    const { data: researchRows, error: researchError } = await supabase
+      .from('profiles')
+      .select(`
+        id, content_research_status, content_research_updated_at,
+        content_research_confirmed_empty_at
+      `)
+      .in('id', rpcCelebIds)
+
+    if (researchError) throw researchError
+    for (const row of researchRows ?? []) {
+      researchStatusMap.set(row.id, {
+        status: row.content_research_status || 'open',
+        updatedAt: row.content_research_updated_at,
+        confirmedEmptyAt: row.content_research_confirmed_empty_at,
+      })
+    }
+  }
+
+  let celebs: Celeb[] = rpcRows.map((celeb: any) => {
+    const research = researchStatusMap.get(celeb.id)
+    return {
+      id: celeb.id,
+      slug: celeb.slug || null,
+      nickname: celeb.nickname,
+      avatar_url: celeb.avatar_url,
+      profession: celeb.profession,
+      title: celeb.title,
+      nationality: celeb.nationality,
+      gender: celeb.gender ?? null,
+      birth_date: celeb.birth_date,
+      death_date: celeb.death_date,
+      bio: celeb.bio,
+      cultural_journey: celeb.cultural_journey,
+      is_verified: celeb.is_verified,
+      status: celeb.status,
+      celeb_tier: celeb.celeb_tier || 'full',
+      claimed_by: celeb.claimed_by,
+      created_at: celeb.created_at || '',
+      content_count: resolveCelebContentCount(
+        celeb.content_count || 0,
+        research?.status
+      ),
+      content_research_status: research?.status || 'open',
+      content_research_updated_at: research?.updatedAt || null,
+      content_research_confirmed_empty_at: research?.confirmedEmptyAt || null,
+      follower_count: celeb.follower_count || 0,
+      influence_total: celeb.total_score || 0,
+    }
+  })
 
   // 특정 status 필터링 (RPC는 active/inactive 이분법이므로 JS에서 후처리)
   if (status && status !== 'all') {
@@ -493,7 +562,12 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
 
   if (error) throw error
 
-  const celebs: Celeb[] = (data || []).map((row: any) => {
+  const avatarRows = data || []
+  const contentCounts = await getCelebContentCounts(
+    supabase,
+    avatarRows.map((row: any) => row.id)
+  )
+  const celebs: Celeb[] = avatarRows.map((row: any) => {
     const social = Array.isArray(row.user_social) ? row.user_social[0] : row.user_social
     const influence = Array.isArray(row.celeb_influence) ? row.celeb_influence[0] : row.celeb_influence
     return {
@@ -514,7 +588,14 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       celeb_tier: row.celeb_tier || 'full',
       claimed_by: row.claimed_by,
       created_at: row.created_at || '',
-      content_count: 0,
+      content_count: resolveCelebContentCount(
+        contentCounts.get(row.id) || 0,
+        row.content_research_status
+      ),
+      content_research_status: row.content_research_status || 'open',
+      content_research_updated_at: row.content_research_updated_at || null,
+      content_research_confirmed_empty_at:
+        row.content_research_confirmed_empty_at || null,
       follower_count: social?.follower_count || 0,
       influence_total: influence?.total_score || 0,
     }
@@ -567,7 +648,14 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     claimed_by: data.claimed_by,
     created_at: data.created_at,
     influence_total: data.celeb_influence?.total_score || 0,
-    content_count: contentCount || 0,
+    content_count: resolveCelebContentCount(
+      contentCount || 0,
+      data.content_research_status
+    ),
+    content_research_status: data.content_research_status || 'open',
+    content_research_updated_at: data.content_research_updated_at || null,
+    content_research_confirmed_empty_at:
+      data.content_research_confirmed_empty_at || null,
     follower_count: data.user_social?.follower_count || 0,
   }
 }
@@ -625,6 +713,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
       is_verified: input.is_verified || false,
       profile_type: 'CELEB',
       status: input.status || 'suspended',
+      celeb_tier: input.celeb_tier || 'full',
     })
     .eq('id', userId)
 
@@ -1413,4 +1502,3 @@ export async function exportCelebContents(
   return { success: true, items }
 }
 // #endregion
-

@@ -388,6 +388,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         const hasInfluence = influence.totalScore > 0
         const result = await createCeleb({
           nickname: formData.nickname.trim(),
+          nickname_en: formData.nickname_en || undefined,
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           nationality: formData.nationality || undefined,
@@ -398,6 +399,7 @@ export default function CelebForm({ mode, celeb }: Props) {
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
+          celeb_tier: formData.celeb_tier,
           cultural_journey: formData.cultural_journey || undefined,
           influence: hasInfluence ? influence : undefined,
         })

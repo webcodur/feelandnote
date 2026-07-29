@@ -233,8 +233,8 @@ export default function CelebCard({
               </div>
             )}
 
-            {/* 콘텐츠 수 뱃지 (오버레이 비활성 시, full 전용) */}
-            {!isLight && !isActive && count !== undefined && count > 0 && (
+            {/* 열린 0만 숨긴다. Light도 실측 양수와 조사 완료 -1은 그대로 표시한다. */}
+            {!isActive && count !== undefined && count !== 0 && (
               <div className={`${badgeStyles.card} z-20 flex items-center justify-center`} title={t("contentCount", { count })}>
                 <span className="font-bold leading-none">{count}</span>
               </div>
@@ -392,7 +392,7 @@ export default function CelebCard({
             />
           </div>
 
-          {!isLight && count !== undefined && count > 0 && (
+          {count !== undefined && count !== 0 && (
             <div className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold`} title={t("contentCount", { count })}>
               {count}
             </div>

@@ -1609,6 +1609,9 @@ export type Database = {
           birth_date: string | null
           celeb_tier: string | null
           claimed_by: string | null
+          content_research_confirmed_empty_at: string | null
+          content_research_status: string
+          content_research_updated_at: string | null
           consumption_philosophy: string | null
           consumption_philosophy_en: string | null
           created_at: string
@@ -1653,6 +1656,9 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string | null
           claimed_by?: string | null
+          content_research_confirmed_empty_at?: string | null
+          content_research_status?: string
+          content_research_updated_at?: string | null
           consumption_philosophy?: string | null
           consumption_philosophy_en?: string | null
           created_at?: string
@@ -1697,6 +1703,9 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string | null
           claimed_by?: string | null
+          content_research_confirmed_empty_at?: string | null
+          content_research_status?: string
+          content_research_updated_at?: string | null
           consumption_philosophy?: string | null
           consumption_philosophy_en?: string | null
           created_at?: string
