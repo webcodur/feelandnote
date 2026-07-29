@@ -1,7 +1,7 @@
 /**
  * FEEL & NOTE 브랜드 로고 — 공통 컴포넌트(독립 모듈).
  * utils.ts 에서 분리한 이유: utils 는 에피소드 로더(script.ts, require.context)를 끌고 들어와
- * remotion-bo 등 웹팩 환경 밖 소비자의 타입체크를 깨뜨린다. 로고만 쓰는 쪽은 이 모듈을 직접 import 한다.
+ * web-bo 등 Remotion 번들 밖 소비자의 타입체크를 깨뜨린다. 로고만 쓰는 쪽은 이 모듈을 직접 import 한다.
  * variant:
  *   'full'  — FEEL & NOTE + feelandnote.com (outro용)
  *   'brand' — FEEL & NOTE 단독 (BrandIntro·카드용)

@@ -9,7 +9,7 @@
 | 영역 | 위치 | 역할 |
 |------|------|------|
 | 카드 렌더러 | `sw/remotion/src/compositions/BookCard/BookCard.tsx` | 카드 7종을 그리는 Remotion 정지 컴포넌트. 자매: `FactionCard/`(팩션) |
-| 미리보기·편성 | `sw/remotion-bo` Cards 탭 (`/book-recommend/<인물>/cards`) | @remotion/player 로 카드를 띄우고 편성·선별·비율을 조정 |
+| 미리보기·편성 | `sw/web-bo` Cards 탭 (`/book-recommend/<인물>/cards`) | @remotion/player 로 카드를 띄우고 편성·선별·비율을 조정 |
 | 편성 저장 | `public/episodes/<인물>/faction-cards.json` | 선별 권 등 편성 설정(영상 데이터와 분리) |
 | 출고 | `sw/remotion/scripts/render/render-cards.ts` (`pnpm render:cards`) | 저장된 편성대로 PNG 일괄 양산 → `out/cards/<인물>/<비율>/` |
 
@@ -27,7 +27,7 @@
 | `number` | 숫자 훅 | books.length 등 |
 | `cta` | 마무리 (유튜브 안내) | — |
 
-- 이미지: `safeImg` 대신 자체 `resolveSrc(src, assetBase)`. remotion 렌더는 staticFile 기준, 외부 앱(remotion-bo) 미리보기는 `assetBase='/api/rm-asset'` 로 remotion public 을 서빙받는다.
+- 이미지: `safeImg` 대신 자체 `resolveSrc(src, assetBase)`. remotion 렌더는 staticFile 기준, 외부 앱(web-bo) 미리보기는 `assetBase='/api/rm-asset'` 로 remotion public 을 서빙받는다.
 - 한글 조사 `josa(word,'이','가')` export.
 - 폐기: 도서관 대출카드(librarycard) — 지면 낭비로 제거.
 
@@ -39,9 +39,9 @@
 - **B 「○○의 한 권, △△△」** (한 책 깊게): 책 소개(cover) → 감상경위 문단별(context) → 마무리(cta).
 - 어느 책이 A/B로 가는가: 감상경위 분량으로 가름(짧으면 A 한 장, 길고 깊으면 B 단독). 데이터에 분량이 있어 자동 판단 가능.
 
-## 4. 미리보기 (remotion-bo Cards 탭)
+## 4. 미리보기 (web-bo Cards 탭)
 
-- `@remotion/player` 로 BookCard 를 띄운다(remotion-bo는 원래 영상 미리보기 없음 → 엔진 추가).
+- `@remotion/player` 로 BookCard 를 띄운다(web-bo에서 동일 엔진 사용).
 - 표지 등 로컬 자산은 `/api/rm-asset/[...path]` 통로로 remotion public 을 서빙(한글 폴더 디코딩 포함).
 - 기능: A/B 토글, 책 선별(칩), 비율 토글(4:5·1:1·9:16), 편성 저장(faction-cards.json).
 - remotion 워크스페이스 소스를 직접 import: `@feelandnote/remotion/src/compositions/BookCard`. next.config `transpilePackages: ['@feelandnote/remotion']`.

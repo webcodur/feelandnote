@@ -1,7 +1,7 @@
 /**
  * YouTube 메타 생성 공통 모듈
  *
- * remotion (업로드 스크립트)과 remotion-bo (메타 동기화) 양쪽에서 사용.
+ * remotion (업로드 스크립트)과 web-bo (메타 동기화) 양쪽에서 사용.
  * 단일원천(SSoT)으로, 이 파일 외에 YouTube 메타 생성 로직을 두지 않는다.
  */
 

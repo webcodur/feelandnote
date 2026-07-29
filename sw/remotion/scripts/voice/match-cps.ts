@@ -29,7 +29,7 @@ const RATE_MIN = 0.5
 const RATE_MAX = 2
 const clampRate = (r: number) => Math.min(RATE_MAX, Math.max(RATE_MIN, r))
 
-// ── WAV 길이 — remotion-bo/server-utils.ts getAudioDuration 과 동일(RIFF) ──
+// ── WAV 길이 — web-bo book-recommend/server-utils.ts getAudioDuration 과 동일(RIFF) ──
 function wavDuration(file: string): number {
   const buf = readFileSync(file)
   const size = statSync(file).size

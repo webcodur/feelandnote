@@ -134,7 +134,7 @@ function loadJSONOrNull<T>(path: string): T | null {
 }
 
 /**
- * 신구조 레이아웃 동기 로더 — sw/remotion-bo/src/lib/episode-new-layout.ts 의 sync 미러.
+ * 신구조 레이아웃 동기 로더 — sw/web-bo/src/features/book-recommend/lib/episode-new-layout.ts 의 sync 미러.
  *
  * 디스크 구조:
  *   {person}/

@@ -101,5 +101,5 @@ export const CELEB_VOICE_PADDING_LEFT = 20
 /** 줄바꿈 시 줄 길이 균등 분배 */
 export const BALANCED: React.CSSProperties = { textWrap: 'balance' } as React.CSSProperties
 
-// FEEL & NOTE 로고는 독립 모듈(./brand)로 분리 — 웹팩 밖 소비자(remotion-bo)가 로더 의존 없이 쓰도록. 기존 소비자 호환 재수출.
+// FEEL & NOTE 로고는 독립 모듈(./brand)로 분리 — Remotion 번들 밖 소비자(web-bo)가 로더 의존 없이 쓰도록. 기존 소비자 호환 재수출.
 export { BrandLogo, BRAND_LOGO_SIZE } from './brand'

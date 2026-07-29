@@ -1,7 +1,7 @@
 /**
  * Gemini 보이스 정책 — 단일 원천(SSoT)
  *
- * CLI(sw/remotion/scripts/voice)와 BO(sw/remotion-bo) 가 공유한다.
+ * CLI(sw/remotion/scripts/voice)와 BO(sw/web-bo)가 공유한다.
  * 과거 두 곳이 보이스 매핑·스타일 기본값·역할 판정을 각자 갖고 있어,
  * BO 미리듣기·생성이 롱폼 나레이터를 host.geminiVoice 로 뭉뚱그려 잘못 합성하는
  * 사고가 있었다. 역할→보이스/스타일 결정을 이 모듈로 통일한다.

@@ -12,8 +12,8 @@ import { GoogleGenAI } from '@google/genai'
 import wav from 'wav'
 import path from 'path'
 import { spawn } from 'node:child_process'
-import ffmpegStatic from 'ffmpeg-static'
-import { BO_BASE_URL, BO_SERIES, type Voice } from './config.js'
+import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
+import { type Voice } from './config.js'
 import { START_KEY_INDEX, GEMINI_MODEL } from './cli.js'
 
 // --- API 키 로테이션 ---
@@ -84,11 +84,10 @@ export async function synthesizeGemini(text: string, voiceName: Voice, outputFil
   return duration
 }
 
-// --- ElevenLabs TTS (via BO route) ---
+// --- ElevenLabs TTS ---
 //
-// CLI는 ElevenLabs API를 직접 호출하지 않는다. BO UI(VoiceTimingEditor·ExpandedVoicePanel)
-// 와 동일하게 `${BO_BASE_URL}/api/${BO_SERIES}/voice/elevenlabs/preview` route를 통과시킨다.
-// 단일원천 보장. model_id·voice_settings·audio tag 처리 등 모든 파라미터는 BO route 한 곳에서 관리.
+// CLI와 web-bo는 계정 선택 정책을 @feelandnote/shared/lib/ele-accounts에서 공유한다.
+// CLI는 자체 환경의 키로 직접 합성하므로 별도 BO 서버를 켤 필요가 없다.
 
 /** MP3 buffer → 24kHz mono 16-bit PCM buffer (saveWav 입력 형태) */
 async function mp3ToPcm24k(mp3: Buffer): Promise<Buffer> {
@@ -117,33 +116,36 @@ export async function synthesizeElevenlabs(text: string, voiceId: string, output
   if (!voiceId) throw new Error('elevenlabsVoiceId 없음. 에피소드 JSON host에 추가하세요.')
   if (!/^\[.+?\]/.test(text.trim())) throw new Error(`ElevenLabs 감정 태그 누락: "${text.slice(0, 50)}…" — 텍스트 앞에 [감정, 톤] 태그를 추가하세요.`)
 
-  const url = `${BO_BASE_URL}/api/${BO_SERIES}/voice/elevenlabs/preview`
-  let res: Response
-  try {
-    res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        voiceId,
-        text,
-        // BO route default와 동일 (route 내부에서 ?? 처리되지만 명시 전달).
-        settings: { stability: 0.5, similarity_boost: 0.75, style: 0.3, speed: 1.0 },
-      }),
-    })
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e)
-    throw new Error(`✗ BO 서버 연결 실패 (${url}). 'pnpm dev:remotion-bo' 로 BO 서버를 켠 뒤 재시도하세요.\n   원인: ${msg}`)
+  if (getEleAccounts().length === 0) {
+    throw new Error('ElevenLabs API 키가 설정되지 않음 (.env의 ELEVENLABS_API_KEY / ELEVENLABS_API_KEY_FEELANDNOTE)')
   }
+  const account = await resolveEleAccountForVoice(voiceId)
+  if (!account) throw new Error(`해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}`)
+
+  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}`, {
+    method: 'POST',
+    headers: {
+      'xi-api-key': account.apiKey,
+      'Content-Type': 'application/json',
+      Accept: 'audio/mpeg',
+    },
+    body: JSON.stringify({
+      text,
+      model_id: 'eleven_v3',
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 0.75,
+        style: 0.3,
+      },
+      speed: 1.0,
+    }),
+  })
   if (!res.ok) {
-    throw new Error(`BO route ${res.status}: ${(await res.text()).slice(0, 300)}`)
+    throw new Error(`ElevenLabs ${res.status}: ${(await res.text()).slice(0, 300)}`)
   }
-  const data = await res.json() as { success: boolean; base64?: string; error?: string; format?: string }
-  if (!data.success || !data.base64) {
-    throw new Error(`BO route 합성 실패: ${data.error ?? 'unknown'}`)
-  }
-  const mp3Buffer = Buffer.from(data.base64, 'base64')
+  const mp3Buffer = Buffer.from(await res.arrayBuffer())
   const pcm = await mp3ToPcm24k(mp3Buffer)
   const duration = await saveWav(outputFile, pcm)
-  console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s [ElevenLabs · BO route]`)
+  console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s [ElevenLabs]`)
   return duration
 }

@@ -3,7 +3,6 @@ packages:
   - 'sw/web-bo'
   - 'sw/lab'
   - 'sw/remotion'
-  - 'sw/remotion-bo'
   - 'sw/audio-bo'
   - 'packages/*'
 

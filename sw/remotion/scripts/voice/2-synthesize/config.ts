@@ -7,7 +7,7 @@
 import 'dotenv/config'
 
 // 보이스 매핑·역할 판정·스타일 결정의 단일원천은 공유 패키지다.
-// BO(sw/remotion-bo)도 같은 모듈을 import 해 미러링 부채를 없앤다.
+// BO(sw/web-bo)도 같은 모듈을 import 해 미러링 부채를 없앤다.
 import {
   VOICE,
   NARRATOR_STYLE_DEFAULT,
@@ -22,15 +22,6 @@ export type { Voice, Role }
 
 /** @deprecated 기본 모델 별칭 — 신규 코드는 cli.GEMINI_MODEL 사용 */
 export const MODEL = MODEL_GEMINI_25
-
-// --- ElevenLabs ---
-// CLI는 ElevenLabs API를 직접 호출하지 않고 BO route를 통과시킨다.
-// BO UI(VoiceTimingEditor·ExpandedVoicePanel)와 100% 동일한 코드 경로 사용을 보장한다.
-// 단일원천: sw/remotion-bo/src/app/api/[series]/voice/elevenlabs/preview/route.ts
-// 과거 사고(2026-04-28): CLI engines.ts가 v2 모델로 분기되어 audio tag([calm] 등)가
-// 발음으로 합성된 사고. BO route는 v3였는데 CLI만 v2여서 분기. 이 통일로 분기 차단.
-export const BO_BASE_URL = (process.env.BO_BASE_URL ?? 'http://localhost:3000').replace(/\/$/, '')
-export const BO_SERIES = process.env.BO_SERIES ?? 'book-recommend'
 
 // --- 라우드니스 정규화 (loudnorm 2-pass linear) ---
 // 타겟 I=-17 LUFS: 정규화 제외 대상인 ElevenLabs 셀럽 보이스(native ~-17 LUFS)와

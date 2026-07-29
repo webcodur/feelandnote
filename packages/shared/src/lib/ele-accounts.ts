@@ -9,7 +9,7 @@
  * 서버 전용. 키는 NEXT_PUBLIC_ 접두사가 없어 클라이언트 번들엔 들어가지 않는다.
  * 클라이언트는 음성 목록 API 응답에 실린 account.id/account.label 만 본다.
  *
- * remotion-bo·web-bo·remotion scripts 가 공유한다.
+ * web-bo·remotion scripts가 공유한다.
  */
 
 export interface EleAccount {
