@@ -1,0 +1,107 @@
+{
+  "batch": "2026-07-29-en-polish-03",
+  "targets": [
+    {
+      "id": "f33d7387-44c6-4118-b9d6-075dfab0caf0",
+      "slug": "shin-chae-ho",
+      "nickname": "신채호",
+      "birthDate": "1880-12-08",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "battle_win": [
+          "I restored Buyeo and Goguryeo to the center of Korean history.",
+          "Prison held my body, but it could not stop the manuscript.",
+          "I widened independence into a free Korea of the people."
+        ],
+        "battle_draw": [
+          "My pen moved from praising heroes to making the people the subject of history.",
+          "I neither discarded Chinese records nor accepted them without question.",
+          "I pursued national self-rule and a society without privilege together."
+        ],
+        "battle_lose": [
+          "The nation was taken, but I did not yield the subject of Korean history.",
+          "I fell in Lüshun Prison before my ten-year sentence ended.",
+          "History must disclose even the gaps left by lost manuscripts."
+        ]
+      },
+      "revisedEn": {
+        "battle_win": [
+          "I restored Buyeo and Goguryeo to the center of Korean history.",
+          "Even in prison, I kept writing.",
+          "I argued that after independence, the people must build a free Korea."
+        ],
+        "battle_draw": [
+          "I began with heroes, but later made the people the makers of history.",
+          "I neither discarded Chinese records nor accepted them without question.",
+          "I gave up neither national self-rule nor a society without privilege."
+        ],
+        "battle_lose": [
+          "The nation was taken, but I did not yield the subject of Korean history.",
+          "I fell in Lüshun Prison before my ten-year sentence ended.",
+          "We must not hide the fact that some of my manuscripts were lost."
+        ]
+      }
+    },
+    {
+      "id": "61f4e4bf-e566-400c-869b-53f94a77fbf7",
+      "slug": "sylvester-stallone",
+      "nickname": "실베스터 스텔론",
+      "birthDate": "1946-07-06",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I put my failed actor's life into a boxer's body and wrote Rocky.",
+          "I am Sylvester Stallone, creator of Rocky's romance and Rambo's wounds.",
+          "I turned even the voice they mocked into a role and became an actor-writer."
+        ],
+        "deploy": [
+          "Write character and love before the fight.",
+          "If there is no role for you, write the script.",
+          "Drop the armored body and show the scene your weakness."
+        ],
+        "battle_win": [
+          "Rocky was not about winning. It was about a man going the distance.",
+          "I was unknown, but I entered the ring with the script and the lead intact.",
+          "Rocky and Rambo, two different wounds, became my name."
+        ],
+        "battle_lose": [
+          "When I leaned on my body, I learned it had become an acting crutch.",
+          "Stop! Or My Mom Will Shoot is my failure too. I do not hide it.",
+          "I created Rocky, but I still do not own all of his rights."
+        ],
+        "clash_attack": [
+          "A hard punch alone is not a movie!",
+          "I play the role I wrote!",
+          "Drop the armor and show the wound!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I turned my years as an unknown actor into a boxer's story and wrote Rocky.",
+          "I'm Sylvester Stallone. I created Rocky's romance and Rambo's scars.",
+          "I'm an actor and writer who turned the voice people mocked into part of my roles."
+        ],
+        "deploy": [
+          "Write character and love before the fight.",
+          "If there is no role for you, write the script.",
+          "Do not hide behind muscle. Show the character's weakness too."
+        ],
+        "battle_win": [
+          "Rocky was not about winning. It was about a man going the distance.",
+          "I was unknown, but I refused to give up the lead and made Rocky.",
+          "Rocky and Rambo carry different wounds. I created them both."
+        ],
+        "battle_lose": [
+          "I relied on muscle so much that I realized I was neglecting the acting.",
+          "Stop! Or My Mom Will Shoot is my failure too. I do not hide it.",
+          "I created Rocky, but I still do not own all of his rights."
+        ],
+        "clash_attack": [
+          "A hard punch alone is not a movie!",
+          "I play the role I wrote!",
+          "Do not hide behind muscle. Show the wound!"
+        ]
+      }
+    }
+  ]
+}

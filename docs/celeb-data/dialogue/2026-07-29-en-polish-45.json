@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-45",
+  "targets": [
+    {
+      "id": "9177715b-3c99-4379-bca6-facb403c4525",
+      "slug": "dr.-seuss",
+      "nickname": "닥터 수스",
+      "birthDate": "1904-03-02",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "I brought words and pictures. Let's get them properly married.",
+          "I don't write only for children. I write stories for people.",
+          "I'll ask the same question today: How can I do it better next time?"
+        ],
+        "deploy": [
+          "Read it aloud. If the rhythm trips, write it again.",
+          "Do not test the draft on children. They may tell you what you want to hear because they do not want to hurt you.",
+          "Do not take too much advice. You may lose your own voice."
+        ],
+        "battle_win": [
+          "Words and pictures finally married well.",
+          "The children turned the page. We won.",
+          "Twenty-seven doors closed. Number twenty-eight opened."
+        ],
+        "battle_draw": [
+          "The rhyme is racing ahead of the story. Let's bring them back to the same pace.",
+          "The picture is funny, but the words are behaving too well. Let's let them both play.",
+          "This still does not sound like me. Let's read it and draw it one more time."
+        ],
+        "battle_lose": [
+          "Next time, I will remember not to burn the manuscript before meeting publisher number twenty-eight.",
+          "This time, the pictures dragged the words along. Next time, they will walk side by side.",
+          "The method was clever, but I had too little to say. I will choose the subject again."
+        ],
+        "clash_attack": [
+          "Do not talk down to children. They already see the problems adults see.",
+          "Cut the word list. Let the imagination move farther.",
+          "Make them turn the next page. A big stick will not make a reader move."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Words, meet pictures. Let us make a happy marriage.",
+          "I do not write for children alone. I write for people.",
+          "Same question today: how can the next one be better?"
+        ],
+        "deploy": [
+          "Read it aloud. If the rhythm trips, rewrite it.",
+          "Do not ask children to grade the draft. They are too kind.",
+          "Take less advice. Keep your own voice."
+        ],
+        "battle_win": [
+          "Words and pictures finally married well.",
+          "The children turned the page. We won.",
+          "Twenty-seven doors closed. Door twenty-eight opened."
+        ],
+        "battle_draw": [
+          "The rhyme outran the story. Bring them back together.",
+          "The pictures romp, but the words behave. Let both play.",
+          "This doesn't sound like me yet. Read and draw again."
+        ],
+        "battle_lose": [
+          "Meet publisher twenty-eight before burning the manuscript.",
+          "The pictures dragged the words. Next time, they walk together.",
+          "Clever method, weak subject. Pick the story again."
+        ],
+        "clash_attack": [
+          "Children see everything. Never talk down to them!",
+          "Fewer words. Let imagination run farther!",
+          "Make them turn the page, not fear the stick!"
+        ]
+      }
+    },
+    {
+      "id": "b4cd108f-71f2-431d-a086-46d3aea686cb",
+      "slug": "lao-she",
+      "nickname": "라오서",
+      "birthDate": "1899-02-03",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "I will look at the person first. Once the person stands, the story will follow.",
+          "Ordinary words can still carry your own voice. Let's write that way today.",
+          "One small teahouse is enough. You can still see an age inside it."
+        ],
+        "deploy": [
+          "Do not hurry. Study how that person lives first. The surface is not enough.",
+          "Enter life before you decorate the language. Words without lived experience do not last.",
+          "If the facts are not funny, do not force a joke. Let the facts speak."
+        ],
+        "battle_win": [
+          "That person has begun to live on the page. Whatever happens next can become a story.",
+          "The language is clear and plain, and the person remains vivid. That is the sentence I wanted.",
+          "I thought long and observed closely. Now the writing moves without strain."
+        ],
+        "battle_draw": [
+          "There are many events, but I cannot see the person. Let's rebuild the central character first.",
+          "The words are polished, but life is missing from them. I will go back to the street and listen.",
+          "The joke arrived before the feeling. This time, I will take some wit away."
+        ],
+        "battle_lose": [
+          "I put technique ahead of the people. I will return to ordinary life and begin again.",
+          "I wrote too soon with too little material. I will ask more and observe more before I return.",
+          "Length does not make a work deep. I will cut the useless words first."
+        ],
+        "clash_attack": [
+          "Do not look only for great figures. An age can live inside an ordinary person's life.",
+          "Hold on to the person before the event. Without people, there is no novel.",
+          "Do not look down on plain language. Words drawn from the heart live a long time."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Look at the person first. The story will follow.",
+          "Plain words can carry my voice. I will write that way.",
+          "One teahouse is enough. An entire age passes through it."
+        ],
+        "deploy": [
+          "Watch how the person lives. The surface tells too little.",
+          "Enter that life. Borrowed words reveal themselves quickly.",
+          "If life is not funny, do not force the joke."
+        ],
+        "battle_win": [
+          "The character walks alone now. Whatever happens can become a story.",
+          "Plain words, vivid person. That is the sentence I wanted.",
+          "I watched long enough. Now the writing moves freely."
+        ],
+        "battle_draw": [
+          "Plenty happens, but nobody lives. Rebuild the central character.",
+          "Polished words, no life in them. Return to the street.",
+          "The joke arrived before the heart. Remove some wit."
+        ],
+        "battle_lose": [
+          "I showed off technique and lost the people. Start with ordinary life.",
+          "I wrote before I knew enough. Ask more and watch longer.",
+          "Length brought no depth. Cut the useless words."
+        ],
+        "clash_attack": [
+          "An ordinary person can carry an entire age!",
+          "Hold the person first. Then write the novel!",
+          "Plain words from the heart outlive ornament!"
+        ]
+      }
+    }
+  ]
+}

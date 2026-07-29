@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "slug": "george-washington",
+  "nickname": "조지 워싱턴",
+  "route": "improve",
+  "routeReason": "현재 글은 독립전쟁 지휘, 군 지휘권 반납, 초대 대통령과 두 임기 뒤 퇴임을 권력 절제의 축으로 잘 묶고 노예 소유도 숨기지 않는다. 그러나 노예제를 두려워했고 생전에 결단하지 못한 것을 자백한다는 내면은 근거가 없으며, 유언의 해방 조항이 317명의 삶을 해결한 것처럼 보일 위험이 있다. 124명가량만 워싱턴 소유였고 마사 사후 해방하도록 했다는 제한, 도망자를 계속 추적한 행동과 강제 노동의 책임까지 구체화해 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "조지 워싱턴",
+      "birth": "1732-02-22",
+      "death": "1799-12-14",
+      "profession": "commander",
+      "disambiguation": "미국 독립전쟁 대륙군 총사령관을 지낸 뒤 군 지휘권을 반납하고 초대 대통령이 됐으며, 버지니아 농장에서 수백 명의 노예 노동을 지배한 군인·정치가",
+      "existingBioForDiscoveryOnly": "미국 독립전쟁의 총사령관이자 초대 대통령. 두 임기 후 평화롭게 퇴임해 권력 이양의 전범을 세웠다."
+    },
+    "sources": [
+      {
+        "url": "https://founders.archives.gov/documents/Jefferson/01-06-02-0319-0004",
+        "title": "George Washington's Address to Congress on Resigning His Commission",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1783-12-23",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "독립전쟁이 끝난 뒤 대륙회의에 군 지휘권을 반납한 공식 연설",
+          "군대의 임무가 끝났음을 선언하고 사적 생활로 돌아가겠다고 한 선택",
+          "군사 권력을 민간 대표 기관에 돌려준 공화정적 선례"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Washington/05-12-02-0371",
+        "title": "Neutrality Proclamation",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1793-04-22",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "유럽 전쟁에서 미국의 중립을 선언한 대통령 문서",
+          "신생 연방정부의 대외 정책 권한을 행사한 구체적 사례",
+          "프랑스와 영국 사이에서 전쟁 개입을 피하려 한 선택"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Washington/06-04-02-0404-0001",
+        "title": "The Last Will and Testament of George Washington",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1799-07-09",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "자신이 법적으로 소유한 노예를 마사 워싱턴 사후 해방하도록 한 유언 조항",
+          "마사의 커스티스 가문 지참 노예는 자신이 법적으로 해방할 수 없었다는 제한",
+          "윌리엄 리의 즉시 해방과 노년층 부양·아동 교육 지시",
+          "마운트버넌의 노예 317명 가운데 워싱턴 소유·지참 노예·임차 노예의 구분"
+        ]
+      },
+      {
+        "url": "https://www.mountvernon.org/george-washington/slavery/ten-facts-about-washington-slavery",
+        "title": "Ten Facts About Washington & Slavery",
+        "publisher": "George Washington's Mount Vernon",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1799년 마운트버넌에 노예 317명이 살았다는 수치",
+          "노예 노동이 농장과 워싱턴의 생활·부를 떠받친 사실",
+          "강제 노동 규율과 처벌, 가족 분리의 현실",
+          "유언 해방이 워싱턴 소유자에게만 적용됐다는 한계"
+        ]
+      },
+      {
+        "url": "https://www.mountvernon.org/library/digitalhistory/digital-encyclopedia/article/george-washington-and-slavery",
+        "title": "George Washington and Slavery",
+        "publisher": "George Washington's Mount Vernon",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "워싱턴이 평생 노예 노동을 관리하고 도망친 노예를 추적한 사실",
+          "전쟁 이후 사적으로 노예제에 의문을 나타낸 기록과 생전에는 노예를 해방하지 않은 사실",
+          "유언에 따른 해방의 수와 시기 및 커스티스 지참 노예의 법적 제한",
+          "오나 저지를 포함한 도망자 추적과 노예 소유자로서의 지속적 책임"
+        ]
+      },
+      {
+        "url": "https://www.mountvernon.org/george-washington/the-first-president/the-farewell-address",
+        "title": "Washington's Farewell Address",
+        "publisher": "George Washington's Mount Vernon",
+        "kind": "primary",
+        "publishedAt": "1796-09-19",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "두 임기 뒤 대통령직을 떠나겠다고 공개한 고별사",
+          "정당 간 적대와 외국 세력에 대한 영구적 편향을 경계한 입장",
+          "권력 이양과 대통령 임기의 관행을 세운 사실"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "독립전쟁에서 대륙군 총사령관으로 장기간 군대를 유지하고 승리한 뒤 1783년 대륙회의에 지휘권을 반납했다.",
+        "significance": "전쟁 영웅이 군사 권력을 계속 쥐는 대신 민간 정부에 돌려준 구체적 행동으로 권력 절제의 근거를 잡는다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Jefferson/01-06-02-0319-0004"
+        ]
+      },
+      {
+        "point": "헌법 아래 첫 대통령으로 행정부의 관행을 만들고, 1793년 유럽 전쟁에서 중립을 선언해 신생 국가의 전쟁 개입을 피했다.",
+        "significance": "상징적 국부보다 실제로 모호했던 대통령 권한을 행사하고 선례를 만든 선택을 보여 준다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/05-12-02-0371"
+        ]
+      },
+      {
+        "point": "두 임기 뒤 세 번째 임기를 구하지 않고 고별사를 발표해 평화적 권력 이양의 관행을 강화했다.",
+        "significance": "권력을 내려놓은 선택을 두 번의 구체적 행동으로 잇되, 이를 사적 지배까지 정당화하는 완전한 덕성으로 확대하지 않는다.",
+        "sourceUrls": [
+          "https://www.mountvernon.org/george-washington/the-first-president/the-farewell-address"
+        ]
+      },
+      {
+        "point": "평생 마운트버넌의 노예 노동에서 이익을 얻고 도망자를 추적했으며, 죽기 전 유언에서 자신이 소유한 노예만 마사 사후 해방하도록 했다.",
+        "significance": "공적 권력의 자발적 반납과 사적 권력의 지속을 한 사람 안의 가장 큰 모순으로 놓고, 후기 유언을 면죄부로 만들지 않는다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/06-04-02-0404-0001",
+          "https://www.mountvernon.org/george-washington/slavery/ten-facts-about-washington-slavery",
+          "https://www.mountvernon.org/library/digitalhistory/digital-encyclopedia/article/george-washington-and-slavery"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "전쟁이 끝나면 군인의 권한은 민간의 대표 기관에 돌아가야 한다는 원칙을 지휘권 반납으로 실천했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Jefferson/01-06-02-0319-0004"
+        ]
+      },
+      {
+        "point": "신생 미국이 유럽 강대국의 전쟁에 휘말리지 않도록 중립과 장기적 독립성을 우선했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/05-12-02-0371",
+          "https://www.mountvernon.org/george-washington/the-first-president/the-farewell-address"
+        ]
+      },
+      {
+        "point": "정당의 극단적 적대와 특정 외국에 대한 영구적 애착·적의를 국가 판단을 흐리는 위험으로 경고했다.",
+        "sourceUrls": [
+          "https://www.mountvernon.org/george-washington/the-first-president/the-farewell-address"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "공적 군사·정치 권력은 두 차례 자발적으로 내려놓았지만, 마운트버넌에서는 사람들의 노동·이동·가족생활을 통제하는 노예 소유자의 권력을 평생 행사했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Jefferson/01-06-02-0319-0004",
+          "https://www.mountvernon.org/george-washington/the-first-president/the-farewell-address",
+          "https://www.mountvernon.org/george-washington/slavery/ten-facts-about-washington-slavery"
+        ]
+      },
+      {
+        "point": "사적으로 노예제에 의문을 나타낸 기록이 있으나 생전 해방을 실행하지 않았고, 대통령 재임기와 은퇴 뒤에도 도망친 노예를 되찾으려 했다.",
+        "sourceUrls": [
+          "https://www.mountvernon.org/library/digitalhistory/digital-encyclopedia/article/george-washington-and-slavery"
+        ]
+      },
+      {
+        "point": "유언은 워싱턴 소유 노예에게 해방을 약속했지만 마사 사후로 미뤘고, 마운트버넌 317명 중 커스티스 가문의 지참 노예와 임차 노예에게는 적용되지 않았다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/06-04-02-0404-0001",
+          "https://www.mountvernon.org/george-washington/slavery/ten-facts-about-washington-slavery"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "군사 명령과 공문처럼 짧고 절제된 문장을 쓴다. 공적 원칙과 사적 행동이 충돌하는 곳에서는 수치를 포함한 두 문장을 맞세운다.",
+      "directness": "감정 고백보다 의무·명예·선례·실행을 말하는 과묵한 목소리로 간다. 노예제는 에둘러 '시대의 한계'라 부르지 않고 자신이 한 통제와 추적을 밝힌다.",
+      "moves": [
+        "승리 뒤 무엇을 얻었는지보다 어떤 권한을 누구에게 돌려줬는지 말하기",
+        "대통령 선례를 한 가지 구체적 문서와 결과로 설명하기",
+        "공적 권력 반납 뒤에 마운트버넌의 317명과 유언의 적용 범위를 놓아 모순을 피하지 않기"
+      ],
+      "avoid": [
+        "왕이 될 수 있었지만 거절했다는 검증되지 않은 극적 대사",
+        "노예제를 두려워했거나 생전 결단하지 못해 후회했다는 창작 내면",
+        "유언으로 자신의 모든 노예를 즉시 해방했다는 면죄 서사",
+        "공화국의 모든 제도를 혼자 설계한 완전한 국부 이미지"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "대륙군 지휘권 반납",
+        "guide": "독립전쟁 뒤 총사령관 권한을 민간 대표기관인 대륙회의에 돌려준 일",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Jefferson/01-06-02-0319-0004"
+        ]
+      },
+      {
+        "term": "중립 선언",
+        "guide": "프랑스와 영국의 전쟁에 미국이 참여하지 않겠다고 밝힌 대통령 선언",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/05-12-02-0371"
+        ]
+      },
+      {
+        "term": "지참 노예",
+        "guide": "마사 쪽 커스티스 재산에 묶여 워싱턴이 단독으로 해방할 수 없었던 노예",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Washington/06-04-02-0404-0001"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "마운트버넌의 317명은 워싱턴 소유 약 124명, 커스티스 지참 노예 약 153명, 임차 노예 약 40명으로 법적 지위가 달랐으므로 모두를 워싱턴이 유언으로 해방했다고 쓰지 않는다.",
+      "법적으로 지참 노예를 단독 해방할 수 없었다는 사실은 그 제도에서 이익을 얻고 가족 분리와 도망자 추적을 계속한 도덕적 책임을 없애지 않는다.",
+      "워싱턴이 사적으로 노예제를 걱정한 기록이 있어도 정확한 감정·후회·두려움을 가상독백으로 확대하지 않고 행동과 미행동을 기준으로 쓴다.",
+      "군 지휘권 반납과 두 임기 뒤 퇴임은 중요한 선례지만 당시 대통령의 법정 임기 제한이 있었던 것은 아니며 공화정의 성공을 한 사람에게만 돌리지 않는다.",
+      "노예였던 사람들의 관점은 워싱턴의 문서보다 적게 남았으므로 소유자의 유언만으로 그들의 삶과 해방 경험을 대신 설명하지 않는다."
+    ]
+  }
+}

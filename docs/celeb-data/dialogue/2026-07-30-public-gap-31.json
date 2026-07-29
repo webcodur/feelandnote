@@ -1,0 +1,330 @@
+{
+  "batch": "2026-07-30-public-gap-31",
+  "targets": [
+    {
+      "id": "2b49044d-bcce-4793-961c-f9a25123510e",
+      "slug": "recep-tayyip-erdogan",
+      "nickname": "레제프 타이이프 에르도안",
+      "nicknameEn": "Recep Tayyip Erdogan",
+      "birthDate": "1954-02-26",
+      "profession": "politician",
+      "quote": "터키는 더 이상 서구의 그늘에 머물지 않는다.",
+      "quoteEn": "Turkey will no longer remain in the shadow of the West.",
+      "greetingKo": [
+        "[bold, commanding] 터키는 누구의 허락도 필요 없습니다.",
+        "[fierce, proud] 오스만의 후예는 고개를 숙이지 않습니다.",
+        "[resolute, defiant] 민주주의는 기차가 아닙니다. 목적지에 도착하면 내리는 것이 아닙니다."
+      ],
+      "greetingEn": [
+        "[bold, commanding] Türkiye needs no one's permission.",
+        "[fierce, proud] The heirs of the Ottoman do not bow their heads.",
+        "[resolute, defiant] Democracy is not a train — you don't get off when you reach a destination."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "에르도안입니다. 결정권은 국민의 손에 있습니다.",
+          "세계는 다섯 강대국보다 큽니다. 그 점을 말하겠습니다.",
+          "튀르키예의 길은 튀르키예가 스스로 정합니다."
+        ],
+        "deploy": [
+          "국민의 뜻을 먼저 확인하십시오.",
+          "계획은 말이 아니라 현장에서 완성하십시오.",
+          "낡은 질서에 현실적인 해법을 내놓으십시오."
+        ],
+        "battle_win": [
+          "결정은 우리가 내렸고 결과도 우리가 만들었습니다.",
+          "국민의 뜻이 다시 역사의 방향을 정했습니다.",
+          "안보리 다섯 나라만 결정하는 질서에 공개적으로 맞섰습니다."
+        ],
+        "battle_draw": [
+          "목소리는 냈지만 제도를 움직이기엔 힘이 모자랐습니다.",
+          "현장은 바뀌었지만 국민이 체감할 결과는 못 냈습니다.",
+          "우리 길을 지켰으나 상대의 계산까지 바꾸진 못했습니다."
+        ],
+        "battle_lose": [
+          "국민의 뜻을 내세우고도 삶을 먼저 살피지 못했습니다.",
+          "강한 선언에 기대다 현실적인 해법을 놓쳤습니다.",
+          "질서를 바꾸려다 우리 판단부터 굳어 버렸습니다."
+        ],
+        "clash_attack": [
+          "결정권을 되찾아라!",
+          "다섯 나라를 넘어라!",
+          "현장에서 증명하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Recep Tayyip Erdoğan. The national will sets our course.",
+          "Five powers cannot speak for the whole world.",
+          "Türkiye will choose and build its own path."
+        ]
+      },
+      "sources": [
+        "https://www.iletisim.gov.tr/English/haberler/detay/we-build-our-plans-for-the-future-on-our-allegiance-to-the-superiority-of-the-national-will",
+        "https://www.iletisim.gov.tr/english/haberler/detay/president-erdogan-the-centuries-long-western-hegemony-is-over-now-a-new-international-system-is-emerging",
+        "https://www.iletisim.gov.tr/english/haberler/detay/we-see-the-century-of-turkiye-as-the-greatest-legacy-we-will-leave-our-children",
+        "https://digitallibrary.un.org/nanna/record/4088420/files/A_79_PV.7-EN.pdf?registerDownload=1&version=1&withMetadata=0&withWatermark=0"
+      ]
+    },
+    {
+      "id": "77adc181-a149-4775-ba98-b39f0526662c",
+      "slug": "rod-stewart",
+      "nickname": "로드 스튜어트",
+      "nicknameEn": "Rod Stewart",
+      "birthDate": "1945-01-10",
+      "profession": "musician",
+      "quote": "결혼 대신 싫어하는 여자를 찾아 집을 주겠다",
+      "quoteEn": "Instead of getting married again, I'm going to find a woman I don't like and just give her a house.",
+      "greetingKo": [
+        "[raspy, charismatic] 록은 영원히 젊어요, 저처럼.",
+        "[warm, roguish] 좋은 와인처럼 나이 들었어요.",
+        "[confident, playful] 목소리가 좀 거칠어도, 진심은 부드러워요."
+      ],
+      "greetingEn": [
+        "[raspy, charismatic] Rock is forever young — like me.",
+        "[warm, roguish] I've aged like a fine wine.",
+        "[confident, playful] Even a rough voice can carry a smooth heart."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "로드 스튜어트예요. 좋은 곡은 제 목소리로 살려 내요.",
+          "열여덟 명이 모여도 라이브의 숨은 놓치지 않아요.",
+          "후렴의 멜로디를 끝까지 끌어올려 제 노래로 만들어요."
+        ],
+        "deploy": [
+          "느린 곡은 접고 발을 움직이게 해요.",
+          "후렴을 잡았으면 목소리로 끝까지 밀어요.",
+          "밴드를 한 방에 녹음하고 흥을 남겨요."
+        ],
+        "battle_win": [
+          "모두 함께 연주해서 그날의 기세가 그대로 남았어요.",
+          "거친 목소리로도 가사의 감정을 또렷이 전했어요.",
+          "후렴을 힘껏 뽑으니 관객의 발이 먼저 움직였어요."
+        ],
+        "battle_draw": [
+          "박자는 신났지만 노래 속 사람까지 보이진 않았어요.",
+          "후렴은 살렸는데 밴드와 함께 숨 쉬지는 못했어요.",
+          "목소리는 버텼지만 객석을 함께 끌어들이진 못했어요."
+        ],
+        "battle_lose": [
+          "멋을 부리느라 노래가 품은 사연을 놓쳐 버렸어요.",
+          "혼자 빛나려다 밴드의 살아 있는 소리를 눌렀어요.",
+          "후렴을 아끼다가 관객이 발을 구를 순간을 놓쳤어요."
+        ],
+        "clash_attack": [
+          "후렴을 터뜨려!",
+          "밴드, 같이 가요!",
+          "발부터 움직여!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Rod Stewart. I get inside a song and make it mine.",
+          "Give me a live band and an upbeat tune.",
+          "I lift the chorus until every foot starts tapping."
+        ]
+      },
+      "sources": [
+        "https://www.grammy.com/news/video-exclusive-grammycom-interview-with-rod-stewart/",
+        "https://apnews.com/article/rod-stewart-music-swing-c41c973f860ee668041748993aad4cd8",
+        "https://www.abc.net.au/melbourne/programs/mornings/rod-stewart-interview-abc-radio/102061446",
+        "https://www.theguardian.com/music/2013/apr/19/rod-stewart-songwriting-album-time"
+      ]
+    },
+    {
+      "id": "62a08013-3de4-4f73-b052-f5cf4064e636",
+      "slug": "rosamund-pike",
+      "nickname": "로자먼드 파이크",
+      "nicknameEn": "Rosamund Pike",
+      "birthDate": "1979-01-27",
+      "profession": "actor",
+      "quote": "복잡한 캐릭터가 세상을 더 흥미롭게 만든다.",
+      "quoteEn": "Complex characters make the world more interesting.",
+      "greetingKo": [
+        "[sharp, cool] 완벽한 아내 뒤에 숨겨진 이야기가 늘 더 흥미로워요.",
+        "[calm, intelligent] 관객을 불편하게 만드는 역할이 제일 재미있어요.",
+        "[warm, honest] 위험한 캐릭터일수록 깊이 사랑하게 되더라고요."
+      ],
+      "greetingEn": [
+        "[sharp, cool] The story behind the perfect wife is always more interesting.",
+        "[calm, intelligent] The roles that make the audience uncomfortable are the most fun.",
+        "[warm, honest] The more dangerous the character, the more I fall in love with it."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "로자먼드 파이크예요. 단정한 얼굴 뒤에 숨은 어둠을 꺼냅니다.",
+          "쉰 번 다시 찍어도 인물의 속셈을 흐리지 않아요.",
+          "의상과 손톱까지 인물의 계산으로 맞춰요."
+        ],
+        "deploy": [
+          "인물을 심판하지 말고 숨은 욕망부터 찾으세요.",
+          "옷차림이 바뀌면 누가 주도권을 쥐었는지도 보여 주세요.",
+          "대사 없는 순간에도 다음 선택을 준비하세요."
+        ],
+        "battle_win": [
+          "차가운 겉모습 뒤의 욕망까지 화면에 남겼어요.",
+          "쉰 번의 반복 끝에도 인물의 비밀을 지켜 냈어요.",
+          "같은 노란 옷으로 사냥꾼과 먹잇감을 뒤집었어요."
+        ],
+        "battle_draw": [
+          "인물의 겉모습은 완성했지만 욕망까지 닿진 못했어요.",
+          "침묵은 정확했지만 그 뒤의 계산이 조금 흐렸어요.",
+          "어두운 면은 드러냈지만 인물을 악역 하나로 가두고 말았어요."
+        ],
+        "battle_lose": [
+          "차분한 표정만 남기고 그 안의 위험을 지워 버렸어요.",
+          "인물을 심판하느라 스스로 믿는 논리를 놓쳤어요.",
+          "반복에 매달리다 처음 발견한 낯섦을 잃었어요."
+        ],
+        "clash_attack": [
+          "균열을 보여 주세요!",
+          "침묵까지 계산하세요!",
+          "겉모습을 뒤집으세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Rosamund Pike. I look beneath perfect composure for the darkness.",
+          "Every costume choice reveals how the character thinks.",
+          "I withhold judgment until I understand the character's logic."
+        ]
+      },
+      "sources": [
+        "https://www.bafta.org/media-centre/press-releases/rosamund-pike-red-carpet-interview-ee-british-academy-film-awards-in-2015/",
+        "https://www.youtube.com/watch?v=39sleYQLP84",
+        "https://www.vogue.co.uk/arts-and-lifestyle/article/rosamund-pike-interview",
+        "https://www.timeout.com/film/rosamund-pike-interview-i-feel-like-ive-never-been-stretched"
+      ]
+    },
+    {
+      "id": "f3ae0421-4ad8-4683-9c25-1e1863c8af23",
+      "slug": "rosalind-franklin",
+      "nickname": "로절린드 프랭클린",
+      "nicknameEn": "Rosalind Franklin",
+      "birthDate": "1920-07-25",
+      "profession": "scientist",
+      "quote": "과학과 일상생활은 분리될 수 없다.",
+      "quoteEn": "Science and everyday life cannot and should not be separated.",
+      "greetingKo": [
+        "[resolute, precise] 과학과 일상은 분리될 수 없고, 분리되어서도 안 됩니다.",
+        "[focused, steady] 결과는 나선 구조를 시사하고 있습니다.",
+        "[calm, dignified] 사실과 실험과 경험에 근거한 것만이 과학입니다."
+      ],
+      "greetingEn": [
+        "[resolute, precise] Science and everyday life cannot and should not be separated.",
+        "[focused, steady] The results suggest a helical structure.",
+        "[calm, dignified] Only what is based on fact, experiment, and experience is science."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "로절린드 프랭클린입니다. 회절 무늬부터 읽습니다.",
+          "습도가 바뀌면 디엔에이의 형태도 달라짐을 확인했습니다.",
+          "탄소에서 바이러스까지 구조는 측정값으로 밝히겠습니다."
+        ],
+        "deploy": [
+          "에이형과 비형의 회절 무늬를 섞지 마십시오.",
+          "모형 전에 수분 조건부터 고정하십시오.",
+          "속이 비었는지, 알엔에이가 안쪽에 있는지 확인하십시오."
+        ],
+        "battle_win": [
+          "회절 무늬가 나선을 보였고 치수도 맞았습니다.",
+          "수분을 나누어 두 형태의 차이를 또렷이 밝혔습니다.",
+          "속은 비었고 알엔에이는 안쪽에 감겨 있었습니다."
+        ],
+        "battle_draw": [
+          "나선의 단서는 잡았지만 두 형태의 자료가 섞였습니다.",
+          "치수는 맞았으나 인산기의 위치까지 확정하진 못했습니다.",
+          "빈 중심은 찾았지만 알엔에이 자리는 못 밝혔습니다."
+        ],
+        "battle_lose": [
+          "성급한 모형 탓에 회절 무늬의 차이를 버렸습니다.",
+          "수분을 놓쳐 에이형과 비형을 한 구조로 읽었습니다.",
+          "사진에 머물러 측정값을 끝까지 풀지 못했습니다."
+        ],
+        "clash_attack": [
+          "회절 무늬부터 읽으세요!",
+          "수분 조건을 고정하세요!",
+          "증거부터, 모형은 나중에!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Rosalind Franklin. I read diffraction patterns before building models.",
+          "Keep the A and B forms separate from the start.",
+          "Measure the helix, then test every structural claim."
+        ]
+      },
+      "sources": [
+        "https://www.nature.com/articles/171740a0",
+        "https://pubs.rsc.org/en/content/articlelanding/1949/tf/tf9494500274",
+        "https://www.nature.com/articles/175379a0",
+        "https://www.nature.com/articles/165071a0"
+      ]
+    },
+    {
+      "id": "16ba6d6d-c61f-410b-b2fd-ce3ea6087fc3",
+      "slug": "michael-jordan",
+      "nickname": "마이클 조던",
+      "nicknameEn": "Michael Jordan",
+      "birthDate": "1963-02-17",
+      "profession": "athlete",
+      "quote": "나는 실패를 받아들일 수 있다. 하지만 시도하지 않는 것은 받아들일 수 없다.",
+      "quoteEn": "I can accept failure. Everyone fails at something. But I can't accept not trying.",
+      "greetingKo": [
+        "[fierce, legendary] 9천 번 넘게 슛을 놓쳤어요, 그래서 성공했어요.",
+        "[competitive, burning] 실패를 두려워하면 성공도 없어요.",
+        "[confident, intense] 한계는 제가 정하는 거예요."
+      ],
+      "greetingEn": [
+        "[fierce, legendary] I've missed more than 9,000 shots — that's why I succeeded.",
+        "[competitive, burning] If you fear failure, you can't succeed.",
+        "[confident, intense] The limits are mine to set."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "마이클 조던입니다. 경기가 막히면 마지막 공은 제가 받습니다.",
+          "형과 매일 겨루며 한 번 더 이기는 법을 배웠어요.",
+          "마지막 춤이라면 마지막 슛까지 제가 책임집니다."
+        ],
+        "deploy": [
+          "수비에서 먼저 빼앗고 마지막 슛을 준비하세요.",
+          "연습에서도 경기처럼 끝까지 맞붙으세요.",
+          "남은 시간을 보고 가장 익숙한 자리로 가세요."
+        ],
+        "battle_win": [
+          "돌파하고 빼앗고 마지막 점퍼까지 직접 끝냈어요.",
+          "끝이 보이자 모두의 집중을 한곳으로 모았어요.",
+          "압박이 커질수록 제가 가장 원하는 순간이 왔어요."
+        ],
+        "battle_draw": [
+          "마지막 공은 잡았지만 익숙한 거리까지 만들지 못했어요.",
+          "공격은 해냈지만 수비에서 먼저 빼앗지 못했어요.",
+          "경쟁은 뜨거웠지만 팀의 집중을 끝까지 묶지 못했어요."
+        ],
+        "battle_lose": [
+          "마지막 슛만 생각하다 그 전에 필요한 수비를 놓쳤어요.",
+          "이기려는 기준을 세우고도 동료와 같은 호흡으로 가지 못했어요.",
+          "압박을 즐긴다면서도 가장 익숙한 슛을 망설였어요."
+        ],
+        "clash_attack": [
+          "마지막 공은 내게!",
+          "먼저 빼앗아!",
+          "여기서 끝내!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Michael Jordan. Give me the ball with the game on the line.",
+          "I attack the rim, steal the ball, and finish from my spot.",
+          "The last dance ends only after the final shot."
+        ]
+      },
+      "sources": [
+        "https://www.youtube.com/watch?v=XLzBMGXfK4c",
+        "https://www.nba.com/news/history-top-moments-michael-jordan-final-shot-1998",
+        "https://www.nba.com/news/michael-jordan-trying-year-last-dance",
+        "https://www.nba.com/bulls/news/jordanhof_speech_090912.html"
+      ]
+    }
+  ]
+}

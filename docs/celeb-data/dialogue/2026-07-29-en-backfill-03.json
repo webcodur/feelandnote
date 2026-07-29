@@ -1,0 +1,791 @@
+{
+  "batch": "2026-07-29-en-backfill-03",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "b24e9c5c-b03a-43bd-8f3c-5535c0ed4a58",
+      "slug": "gertrude-stein",
+      "nickname": "거트루드 스타인",
+      "nicknameEn": "Gertrude Stein",
+      "birthDate": "1874-02-03",
+      "profession": "author",
+      "quote": "장미는 장미이고 장미이고 장미다.",
+      "quoteEn": "Rose is a rose is a rose is a rose",
+      "greetingKo": [
+        "[bold, witty] 장미는 장미이고 장미는 장미입니다, 더 보탤 말이 무엇이겠어요.",
+        "[confident, warm] 토요일 저녁이면 내 거실에 파리의 천재들이 다 모였지요.",
+        "[assertive, playful] 누구도 사지 않던 그림을 나는 가장 먼저 벽에 걸었습니다."
+      ],
+      "greetingEn": [
+        "[bold, provocative] I am I, and you are you. Repetition makes truth.",
+        "[confident, magnetic] Paris nights are long. Sit down, let us talk.",
+        "[bold, declarative] Genius does not explain itself. I write, and that is enough."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[bold, attentive] 한 사람씩 이름을 부르겠습니다, 천재는 숨지 못합니다.",
+          "[confident, sharp] 거기 선 그대, 앞으로 나와 얼굴을 보여요.",
+          "[warm, assured] 모두 자리에 모였군요, 이제 시작할 수 있습니다."
+        ],
+        "deploy": [
+          "[bold, commanding] 모두 앞으로 나아가요, 길은 우리가 만들면 그만입니다.",
+          "[assertive, driving] 낡은 규칙은 버리고 새로운 형식으로 밀고 가요.",
+          "[confident, urging] 남이 가지 않은 쪽으로 발을 디뎌요, 거기가 우리 자리입니다."
+        ],
+        "battle_win": [
+          "[triumphant, witty] 이긴 것은 이긴 것이고 이긴 것은 이긴 것입니다.",
+          "[proud, warm] 내가 알아본 사람들이 끝내 해냈군요.",
+          "[confident, satisfied] 세상이 뒤늦게 우리를 천재라 부를 겁니다."
+        ],
+        "battle_draw": [
+          "[composed, sharp] 아직 끝난 문장이 아닙니다, 마침표는 우리가 찍어요.",
+          "[steady, assertive] 한 번 더 같은 자리를 두드려요, 반복이 의미를 만듭니다.",
+          "[confident, patient] 결판이 안 났으면 다시 쓰면 됩니다."
+        ],
+        "battle_lose": [
+          "[firm, proud] 졌다 해도 우리가 먼저였다는 사실은 지워지지 않아요.",
+          "[bitter, resilient] 오늘은 내 안목이 빗나갔습니다, 솔직히 인정해요.",
+          "[steady, defiant] 다음 작품에서 다시 증명하면 됩니다."
+        ],
+        "clash_attack": [
+          "[charging, bold] 부딪쳐요, 망설임은 글에서나 삶에서나 독입니다!",
+          "[fierce, assertive] 정면으로 밀고 들어가요!",
+          "[bold, driving] 한 번에 끝장을 봅시다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'll call the names one by one. Genius cannot hide.",
+          "You there. Step forward and show your face.",
+          "Everyone's here now. We can begin."
+        ],
+        "deploy": [
+          "Move forward, all of you. We'll make the road as we go.",
+          "Drop the old rules and push ahead with a new form.",
+          "Step where no one else has gone. That's our place."
+        ],
+        "battle_win": [
+          "A win is a win, and a win is a win.",
+          "The people I believed in pulled it off in the end.",
+          "The world will get around to calling us geniuses."
+        ],
+        "battle_draw": [
+          "This sentence isn't finished. We'll put the period on it ourselves.",
+          "Strike the same spot once more. Repetition is what makes meaning.",
+          "If it isn't settled, we simply write it again."
+        ],
+        "battle_lose": [
+          "Even in defeat, the fact that we were first doesn't disappear.",
+          "My judgment was off today. I'll say that plainly.",
+          "We'll prove it again in the next piece."
+        ],
+        "clash_attack": [
+          "Meet them head-on. Hesitation is poison in writing and in life!",
+          "Push straight in, head on!",
+          "Let's settle this in one stroke!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/gertrude-stein"
+      ]
+    },
+    {
+      "id": "335ed25d-f6f4-40b6-84e7-0d2212fde5c8",
+      "slug": "kong-rong",
+      "nickname": "공융",
+      "nicknameEn": "Kong Rong",
+      "birthDate": "0153",
+      "profession": "author",
+      "quote": "자리에 손님이 늘 가득하고 술독이 마르지 않으니, 내게 무슨 근심이 있겠나.",
+      "quoteEn": "With seats forever filled and a cup that never runs dry, what have I left to worry about?",
+      "greetingKo": [
+        "[witty, proud] 자리에는 손님이 늘 가득하고 술잔에는 술이 마르지 않으니, 나 공융이 더 바랄 게 무엇이오.",
+        "[free, sharp] 네 살에 큰 배를 형에게 양보한 나요. 작은 이익에 눈멀 사람이 아니외다.",
+        "[bold, defiant] 할 말은 하고 살아야지, 입을 다물고 사는 목숨이 무슨 목숨이오."
+      ],
+      "greetingEn": [
+        "[free, satisfied] With seats forever filled and a cup that never runs dry, what have I left to worry about?",
+        "[bold, sarcastic] So Confucius is not dead after all. Yan Hui has come back to life again.",
+        "[free, sharp] What real bond has a son with his father? At root it was only the stir of desire."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, confident] 문장으로 천하에 이름을 떨친 자, 여기 있소.",
+          "[warm, gathering] 천하의 인재들이여, 이 공융의 자리로 모이시오.",
+          "[witty, ready] 술 한 동이 데워 두었으니, 사양 말고 나서시오."
+        ],
+        "deploy": [
+          "[free, commanding] 붓을 내려놓고 진군하라, 옳은 길에 망설임은 없다.",
+          "[sharp, bold] 잘못된 것을 잘못됐다 외치며 나아가라!",
+          "[witty, defiant] 금주령이 두려워 멈출 우리가 아니다, 전진하라."
+        ],
+        "battle_win": [
+          "[triumphant, proud] 바른말이 끝내 이기는 법이외다.",
+          "[witty, satisfied] 자, 이겼으니 이제 술잔을 채울 시간이오.",
+          "[bold, vindicated] 보시오, 옳은 편이 늘 무릎 꿇는 건 아니외다."
+        ],
+        "battle_draw": [
+          "[composed, sharp] 승부가 갈리지 않았으니, 다시 붓을 들고 따져 봅시다.",
+          "[witty, steady] 오늘은 비겼소. 한잔하며 다음을 도모합시다.",
+          "[defiant, calm] 물러서지 않은 것만으로도 충분하외다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 졌어도 한 말은 후회하지 않소.",
+          "[defiant, heavy] 권세 앞에 굽힌 적 없으니, 이 패배도 부끄럽지 않소.",
+          "[solemn, unbowed] 둥지가 부서지면 알인들 성하겠소만, 나는 끝까지 바른말을 했소."
+        ],
+        "clash_attack": [
+          "[sharp, fierce] 그 궤변을 단번에 베어 버려라!",
+          "[witty, striking] 여인도 나라를 망친다면 혼인도 금하시오, 자 이제 받아치라!",
+          "[bold, charging] 거침없이 들이쳐라, 두려울 게 없다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Kong Rong stands before you, known across the realm for his writing.",
+          "Talents of the realm, come gather at Kong Rong's side.",
+          "I've warmed a jar of wine, so don't be shy, step on up."
+        ],
+        "deploy": [
+          "Set the brush down and march, there's no hesitating on the righteous path.",
+          "Call out what's wrong as wrong, and press forward!",
+          "A ban on wine won't be what stops us, advance!"
+        ],
+        "battle_win": [
+          "Honest words win out in the end, that's just how it goes.",
+          "Well, we've won, so now it's time to fill the cups.",
+          "See there, the righteous side doesn't always end up on its knees."
+        ],
+        "battle_draw": [
+          "The outcome's still undecided, so let's pick the brush back up and hash it out.",
+          "We're even today. Let's have a drink and figure out the next move.",
+          "Simply not backing down is enough for me."
+        ],
+        "battle_lose": [
+          "We lost, but I don't take back a word I said.",
+          "I've never bowed to power, so this defeat brings me no shame either.",
+          "When the nest breaks, not even the eggs survive, but I spoke plainly to the very end."
+        ],
+        "clash_attack": [
+          "Cut that sophistry down in one stroke!",
+          "If a woman can ruin a state too, then ban marriage while you're at it, now hit back!",
+          "Charge in without hesitation, there's nothing here to fear!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kong-rong"
+      ]
+    },
+    {
+      "id": "b6146e5f-ca2a-49d5-b0d6-6504e15314a5",
+      "slug": "gustav-klimt",
+      "nickname": "구스타프 클림트",
+      "nicknameEn": "Gustav Klimt",
+      "birthDate": "1862-07-14",
+      "profession": "visual_artist",
+      "quote": "화가인 나를 알고 싶다면 내 그림을 유심히 보면 된다",
+      "quoteEn": "Whoever wants to know something about me as an artist should look attentively at my pictures and seek to recognise there what I am and what I want.",
+      "greetingKo": [
+        "[composed, sensual] 모든 예술은 결국 관능에서 비롯됩니다.",
+        "[calm, reflective] 나를 알고 싶거든 내 그림을 오래 들여다보십시오.",
+        "[measured, warm] 그림이란 생각의 둘레를 따라 그은 한 줄의 선입니다."
+      ],
+      "greetingEn": [
+        "[composed, enigmatic] If you wish to know me, look carefully at my paintings. Everything I am is there.",
+        "[composed, warm] Beauty is everywhere. It is only rare to find eyes that see it.",
+        "[composed, contemplative] Truth is like fire. To speak the truth is to glow and burn."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 화실의 고양이들까지 다 모였으니 시작합시다.",
+          "[calm, gathering] 붓을 든 이들이여, 이 시대의 예술은 우리 손에 있습니다.",
+          "[measured, ready] 금박을 펼 손과 색을 볼 눈, 모두 제자리에 두십시오."
+        ],
+        "deploy": [
+          "[resolute, artistic] 밑칠한 화폭에 금박을 입히시오.",
+          "[composed, commanding] 분리파의 깃발을 내걸고 낡은 화단을 떠나시오.",
+          "[calm, directing] 비잔틴의 모자이크처럼 화면을 황금으로 메우시오."
+        ],
+        "battle_win": [
+          "[serene, satisfied] 이 한 폭으로 황금시대를 완성했습니다.",
+          "[composed, proud] 소수의 안목을 만족시켰으니 그것으로 충분합니다.",
+          "[calm, triumphant] 빈의 거리가 마침내 새 예술을 받아들였군요."
+        ],
+        "battle_draw": [
+          "[measured, patient] 아직 화폭은 마르지 않았으니 다시 손을 댑니다.",
+          "[composed, steady] 금박 한 겹으로는 빛이 살지 않습니다, 한 번 더 입히죠.",
+          "[reflective, calm] 미완의 그림에도 둘 자리는 남아 있습니다."
+        ],
+        "battle_lose": [
+          "[heavy, composed] 모두를 만족시킬 수는 없는 일이었습니다.",
+          "[reflective, bitter] 내 붓이 시대를 다 담지 못했군요.",
+          "[calm, resigned] 비난은 받겠으나 자유만은 내려놓지 않습니다."
+        ],
+        "clash_attack": [
+          "[bold, sensual] 금빛을 입혀라!",
+          "[resolute, fierce] 한 획에 화면을 채워라!",
+          "[composed, striking] 낡은 관습을 화폭에서 지워버려라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Even the studio cats have gathered, so let's begin.",
+          "Those of you holding brushes, the art of this age rests in our hands.",
+          "Hands to lay the gold leaf, eyes to see the color, everyone take your place."
+        ],
+        "deploy": [
+          "Gild the canvas, now that the undercoat is laid.",
+          "Raise the Secession's banner and leave the old art world behind.",
+          "Fill the surface with gold, like a Byzantine mosaic."
+        ],
+        "battle_win": [
+          "This single canvas completes a golden age.",
+          "It satisfied the discerning few, and that's enough.",
+          "The streets of Vienna have finally embraced the new art."
+        ],
+        "battle_draw": [
+          "The canvas hasn't dried yet, so I'll take it up again.",
+          "One layer of gold leaf isn't enough to bring the light alive, let's add another.",
+          "Even an unfinished painting still has a place."
+        ],
+        "battle_lose": [
+          "There was never a way to satisfy everyone.",
+          "My brush failed to capture the whole of this age.",
+          "I'll take the criticism, but I won't give up my freedom."
+        ],
+        "clash_attack": [
+          "Cover it in gold!",
+          "Fill the canvas in one stroke!",
+          "Wipe the old conventions from the canvas!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/gustav-klimt"
+      ]
+    },
+    {
+      "id": "fd611565-b9a9-4176-9a74-8813127f62a1",
+      "slug": "pope-gregory-i",
+      "nickname": "그레고리우스 1세",
+      "nicknameEn": "Pope Gregory I",
+      "birthDate": "540",
+      "profession": "leader",
+      "quote": "사랑을 증명하는 것은 행함을 보이는 일뿐입니다",
+      "quoteEn": "The proof of love is the demonstration of deeds.",
+      "greetingKo": [
+        "[humble, serene] 저는 하느님의 종들을 섬기는 종일 뿐입니다.",
+        "[gentle, devout] 사랑은 말이 아니라 일로 증명되는 것이지요.",
+        "[reverent, calm] 한 영혼을 돌보는 일이야말로 모든 일 가운데 으뜸가는 일입니다."
+      ],
+      "greetingEn": [
+        "[solemn, devoted] I greet you as the servant of the servants of God.",
+        "[humble, pastoral] The duty of the pastor is to feed the flock, not to dominate it.",
+        "[calm, wise] Humility is the mother of all virtues."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[warm, attentive] 양 떼 가운데 한 마리도 빠지지 않았는지 헤아립니다.",
+          "[gentle, steady] 모두 부르심을 받은 형제들이니, 이름 하나하나가 귀합니다.",
+          "[humble, encouraging] 여러분이 곧 이 들판의 일꾼입니다."
+        ],
+        "deploy": [
+          "[devout, resolute] 바다 건너 잉글랜드로 가서 복음을 전하라.",
+          "[gentle, firm] 두려워 말고 떠나라, 내가 보낸 형제들이 함께한다.",
+          "[serene, commanding] 성가를 높이 올려 길을 밝혀라."
+        ],
+        "battle_win": [
+          "[humble, grateful] 우리가 한 것이 아니라 하느님께서 이루신 일입니다.",
+          "[serene, joyful] 잃었던 양들이 우리 안으로 돌아왔습니다.",
+          "[reverent, warm] 모든 영광을 위에 돌리고, 우리는 다시 무릎을 꿇습니다."
+        ],
+        "battle_draw": [
+          "[patient, steady] 씨를 뿌렸으니 거두는 때는 따로 있을 것입니다.",
+          "[calm, hopeful] 오늘 닿지 못한 마음은 내일 다시 두드립니다.",
+          "[humble, resolute] 조급함을 버리고 묵묵히 길을 닦겠습니다."
+        ],
+        "battle_lose": [
+          "[sorrowful, humble] 목자가 부족하여 양 떼가 흩어졌으니, 모두 저의 허물입니다.",
+          "[heavy, devout] 사자 노릇을 하라 떠밀린 한낱 미물이 저였습니다.",
+          "[contrite, steady] 무릎 꿇어 회개하고, 흩어진 이들을 다시 찾아 나서겠습니다."
+        ],
+        "clash_attack": [
+          "[devout, urgent] 성가를 울려라, 어둠이 물러가도록!",
+          "[firm, resolute] 진리의 말씀으로 저들의 마음을 두드려라.",
+          "[serene, commanding] 사랑의 손길로 끝까지 품어 안아라."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I count to see that not one of the flock is missing.",
+          "Every one of you has been called, brothers all, and each name is precious to me.",
+          "You are the laborers of this field."
+        ],
+        "deploy": [
+          "Cross the sea to England and carry the gospel there.",
+          "Go without fear. The brothers I have sent go with you.",
+          "Raise the hymn high and let it light the way."
+        ],
+        "battle_win": [
+          "This was not our doing. It was the Lord's own work.",
+          "The lost sheep have returned to the fold.",
+          "We give all glory above, and kneel once more."
+        ],
+        "battle_draw": [
+          "We have sown the seed. The harvest will come in its own time.",
+          "The hearts we could not reach today, we will knock on again tomorrow.",
+          "I will set aside haste and pave the road in silence."
+        ],
+        "battle_lose": [
+          "The shepherd fell short, and the flock scattered. The fault is mine alone.",
+          "I was but a lowly creature, pushed to play the lion's part.",
+          "I will kneel and repent, then go out to find the scattered ones again."
+        ],
+        "clash_attack": [
+          "Sound the hymn, and let the darkness retreat!",
+          "Strike at their hearts with the word of truth.",
+          "Hold them close with love's own hand, to the very end."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/pope-gregory-i"
+      ]
+    },
+    {
+      "id": "cc1b6ad3-5140-4fbc-9ace-f753cdc9ad71",
+      "slug": "guillaume-lample",
+      "nickname": "기욤 람플",
+      "nicknameEn": "Guillaume Lample",
+      "skipReason": "유튜브 공개 팩션 출연자 보호",
+      "birthDate": "1990-10-08",
+      "profession": "scientist",
+      "quote": "인공지능이 몇몇 거대 연구소 손에만 쥐어지는 건 원치 않는다",
+      "quoteEn": "We don't want AI to be controlled by only a couple of big labs.",
+      "greetingKo": [
+        "[composed, principled] 세상은 영어만 쓰지 않습니다, 모델도 그래야죠.",
+        "[measured, confident] 가중치를 열어 두면 모두가 함께 발전합니다.",
+        "[calm, determined] 실리콘밸리에 맞서 유럽에서 직접 만듭니다."
+      ],
+      "greetingEn": [
+        "[calm, thoughtful] Closed models close progress itself. Loosen the weights and the road widens on its own.",
+        "[measured, focused] The next model is simply smaller, trained longer.",
+        "[soft, reflective] A good paper makes a good decision."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[focused, attentive] 연구팀 전원, 학습 준비됐습니까.",
+          "[calm, warm] 최고의 동료들이 한자리에 모였군요.",
+          "[measured, expectant] 각자 맡은 부분을 점검해 주세요."
+        ],
+        "deploy": [
+          "[decisive, driving] 모델을 학습시켜라, 지금 가동한다!",
+          "[focused, commanding] 가중치를 공개하고 모두에게 풀어라!",
+          "[calm, bold] 여러 언어로 동시에 밀어붙여라!"
+        ],
+        "battle_win": [
+          "[satisfied, composed] 더 작은 모델로 더 큰 모델을 따라잡았습니다.",
+          "[proud, measured] 모든 언어에서 고르게 통했습니다.",
+          "[calm, confident] 열어 둔 만큼 더 멀리 퍼졌습니다."
+        ],
+        "battle_draw": [
+          "[analytical, steady] 성능이 비등할 뿐, 데이터를 더 넣으면 됩니다.",
+          "[composed, persistent] 한 번의 학습으로 끝나지 않습니다.",
+          "[measured, hopeful] 구조를 다듬어 다시 돌려 봅시다."
+        ],
+        "battle_lose": [
+          "[reflective, resilient] 실패한 학습도 다음 모델을 가르칩니다.",
+          "[calm, determined] 부족한 부분을 찾았으니 다시 설계합니다.",
+          "[composed, hopeful] 한 번 졌다고 길이 닫히지 않습니다."
+        ],
+        "clash_attack": [
+          "[decisive, driving] 실행하라!",
+          "[focused, bold] 지금 학습을 밀어붙여라!",
+          "[calm, commanding] 열린 모델로 돌파하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Research team, is everyone ready to train?",
+          "The best minds in the field, all in one room.",
+          "Everyone, check your part of the pipeline."
+        ],
+        "deploy": [
+          "Train the model, we start now!",
+          "Release the weights, open it to everyone!",
+          "Push it across every language at once!"
+        ],
+        "battle_win": [
+          "We matched a bigger model with a smaller one.",
+          "It held up evenly across every language.",
+          "Keeping it open let it reach further."
+        ],
+        "battle_draw": [
+          "The scores are just close, feed it more data and we're fine.",
+          "One training run won't settle this.",
+          "Let's refine the architecture and run it again."
+        ],
+        "battle_lose": [
+          "Even a failed run teaches the next model something.",
+          "We found where it fell short, so we redesign.",
+          "One loss doesn't close the path."
+        ],
+        "clash_attack": [
+          "Execute!",
+          "Push the training forward, now!",
+          "Break through with an open model!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/guillaume-lample"
+      ]
+    },
+    {
+      "id": "28126d70-5831-4f94-91e3-954ffc39383f",
+      "slug": "kim-kwang-hyun",
+      "nickname": "김광현",
+      "nicknameEn": "Kim Kwang-hyun",
+      "birthDate": "1988-07-22",
+      "profession": "athlete",
+      "quote": "입단해서 포스트시즌 안 가본 적이 거의 없다.",
+      "quoteEn": "Since I joined, there has hardly been a season without postseason baseball.",
+      "greetingKo": [
+        "[bold, confident] 마운드에 서면 타자 눈만 봅니다, 딴 건 안 봅니다.",
+        "[fierce, proud] 스피드 욕심은 버렸습니다, 코너만 정확히 찌르면 이깁니다.",
+        "[bold, passionate] 한 타자, 그 다음 한 타자, 그렇게 끝까지 갑니다."
+      ],
+      "greetingEn": [
+        "[bold, defiant] Seventh place? I can hardly remember a fall without postseason baseball.",
+        "[bold, confident] I have never run from a big game. I take the mound.",
+        "[bold, resolute] I started in Incheon, and I will finish in Incheon."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[steady, ready] 어깨 다 풀었습니다, 1회부터 전력입니다.",
+          "[confident, focused] 사인 보내십시오, 바로 던지겠습니다.",
+          "[bold, eager] 빠른 템포로 갑니다, 타자 쉴 틈 안 줍니다."
+        ],
+        "deploy": [
+          "[charging, fierce] 초구부터 몰아쳐라, 기선을 잡아라!",
+          "[bold, commanding] 바깥쪽 꽉 채워라, 물러서지 마라!",
+          "[fierce, driven] 한 점도 안 준다, 끝까지 밀어붙여라!"
+        ],
+        "battle_win": [
+          "[triumphant, proud] 완봉이다, 끝까지 마운드를 지켜냈다.",
+          "[fierce, satisfied] 상대 타선을 묶었다, 오늘 우리가 이겼다.",
+          "[bold, grateful] 동료들 수비가 다 잡아줬습니다, 같이 따낸 승리입니다."
+        ],
+        "battle_draw": [
+          "[steady, focused] 승부는 아직 안 났다, 다음 이닝에 뒤집는다.",
+          "[bold, determined] 점수 똑같다, 결국 마지막에 던지는 놈이 이긴다.",
+          "[composed, ready] 여기서 흔들리면 진다, 한 구 한 구 정확히 간다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 오늘 내 공이 안 좋았다, 내 책임이다.",
+          "[heavy, resolute] 졌지만 끝까지 던졌다, 다음 등판에 갚는다.",
+          "[fierce, undaunted] 한 번 맞았다고 안 무너진다, 다시 마운드 오른다."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 슬라이더로 끝낸다, 헛스윙 받아내라!",
+          "[fierce, striking] 바깥쪽 꽉 찬다, 삼진이다!",
+          "[bold, advancing] 도망 안 간다, 정면 승부다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Arm's fully loose, I'm going full power from the first inning.",
+          "Give me the sign, I'll fire it right away.",
+          "I'm working fast, no rest for the batter."
+        ],
+        "deploy": [
+          "Attack from the first pitch, seize the momentum!",
+          "Fill up the outside corner, don't back down!",
+          "Not one run, push it all the way through!"
+        ],
+        "battle_win": [
+          "A shutout. I held that mound the whole way.",
+          "Shut their lineup down cold, we got the win today.",
+          "My guys backed me up on defense the whole game, this one belongs to all of us."
+        ],
+        "battle_draw": [
+          "This isn't decided yet, we turn it around next inning.",
+          "Score's even, but whoever's throwing last is the one who wins.",
+          "Waver here and it's over, every single pitch has to be exact."
+        ],
+        "battle_lose": [
+          "My stuff just wasn't there today, that's on me.",
+          "Lost it, but I pitched to the last out. I'll make it up next start.",
+          "One bad outing doesn't break me, I'm getting back on that mound."
+        ],
+        "clash_attack": [
+          "Ending this with the slider, go ahead and swing through it!",
+          "Painting the outside corner, that's a strikeout!",
+          "I'm not running from you, this is a straight-up fight!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-kwang-hyun"
+      ]
+    },
+    {
+      "id": "371e8f4f-6ca5-4368-bb5e-10585464dd7a",
+      "slug": "kim-min-jae",
+      "nickname": "김민재",
+      "nicknameEn": "Kim Min-jae",
+      "skipReason": "유튜브 공개 팩션 출연자 보호",
+      "birthDate": "1996-11-15",
+      "profession": "athlete",
+      "quote": "축구 더 잘하려고 좋아하던 게임도 끊었죠.",
+      "quoteEn": "I quit the games I loved to play football better.",
+      "greetingKo": [
+        "[bold, confident] 괴물이라 불리려면, 매 경기 괴물처럼 막아내야 합니다.",
+        "[steady, proud] 뒷문은 내가 지킵니다, 마음 놓고 올라가세요.",
+        "[fierce, focused] 공이 우리 진영에 닿기 전에 끊어내겠습니다."
+      ],
+      "greetingEn": [
+        "[bold, focused] I quit the games I loved to play football better.",
+        "[bold, fierce] Not a single goal slips behind my back.",
+        "[bold, ambitious] I rewrite the standard for Korean defenders."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[firm, ready] 최종 수비, 김민재 준비됐습니다.",
+          "[bold, steady] 한 발도 안 물러섭니다, 다들 자기 자리 지킵시다.",
+          "[focused, calm] 집중력만 잃지 않으면 무너질 일 없습니다."
+        ],
+        "deploy": [
+          "[commanding, fierce] 라인 끌어올려, 앞에서부터 압박해라!",
+          "[bold, charging] 공 받기 전에 길목을 끊어라!",
+          "[firm, ready] 세컨볼 다 우리 거다, 끝까지 따라붙어!"
+        ],
+        "battle_win": [
+          "[triumphant, steady] 무실점, 이게 수비수의 승리입니다.",
+          "[proud, composed] 뒤가 단단하니 앞이 마음껏 터졌습니다.",
+          "[confident, satisfied] 오늘도 이 골문은 넘지 못했습니다."
+        ],
+        "battle_draw": [
+          "[steady, resolute] 비겼어도 실점은 아쉽습니다, 다음엔 막습니다.",
+          "[firm, calm] 끝까지 버틴 결과입니다, 여기서 더 단단해집시다.",
+          "[focused, proud] 한 점도 더 내주지 않았다, 그걸로 됐습니다."
+        ],
+        "battle_lose": [
+          "[bitter, responsible] 실점은 수비수인 내 책임입니다.",
+          "[heavy, proud] 팀원 모두에게 면목이 없습니다, 한 명씩 사과하겠습니다.",
+          "[resolute, steady] 오늘 무너진 만큼, 다음엔 더 강하게 막겠습니다."
+        ],
+        "clash_attack": [
+          "[fierce, charging] 가로채, 지금 끊어!",
+          "[commanding, bold] 몸으로 막아, 절대 통과 못 시켜!",
+          "[striking, fierce] 클리어, 멀리 걷어내!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Last line of defense, Kim Min-jae, ready to go.",
+          "Not giving up a single step, everybody hold your ground.",
+          "Keep the focus and nothing gets through us."
+        ],
+        "deploy": [
+          "Push the line up, press them from the front!",
+          "Cut the passing lane before the ball even gets there!",
+          "Every second ball is ours, chase it down to the end!"
+        ],
+        "battle_win": [
+          "A clean sheet, that's a defender's win right there.",
+          "The back held firm, so the front could cut loose.",
+          "Nobody got past this goal today either."
+        ],
+        "battle_draw": [
+          "A draw's fine, but conceding still stings. We shut it down next time.",
+          "This is what fighting to the final whistle gets you. Let's get even tougher from here.",
+          "We did not concede another goal. That will do."
+        ],
+        "battle_lose": [
+          "Conceding that goal is on me, I'm the defender.",
+          "I owe every single teammate an apology, and I'll give it to them one by one.",
+          "We broke down today, so next time I will defend with greater strength."
+        ],
+        "clash_attack": [
+          "Step in, cut it off now!",
+          "Body up, nobody's getting through!",
+          "Clear it, boot it away!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-min-jae"
+      ]
+    },
+    {
+      "id": "f9aecdfb-ef11-4a88-bfb2-562a19bf392d",
+      "slug": "kim-beom-su",
+      "nickname": "김범수",
+      "nicknameEn": "Kim Beom-su",
+      "birthDate": "1966-03-08",
+      "profession": "entrepreneur",
+      "quote": "코딩만 하는 개발자라는 전형에 갇히지 말고 세상의 큰 변화 흐름을 경험하라.",
+      "quoteEn": "Do not get trapped in the stereotype of a developer who only codes. Go see and experience how the world changes.",
+      "greetingKo": [
+        "[composed, reflective] 배는 항구에 있을 때 가장 안전하지만, 그게 배의 존재 이유는 아닙니다.",
+        "[calm, inviting] 아무도 가보지 않은 길, 즐겁게 함께 가시죠.",
+        "[measured, confident] 같은 차선으로 달려선 1등을 못 이깁니다, 차선을 갈아탈 때입니다."
+      ],
+      "greetingEn": [
+        "[composed, reflective] Defining the problem matters more than solving it.",
+        "[calm, encouraging] Don't live grimly. Only shift your perspective.",
+        "[measured, conviction] A ship is safest in port. But that is not what a ship is for."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, encouraging] 여기 모인 한 분 한 분이 결국 다음 회사를 이끌 사람들입니다.",
+          "[composed, steady] 6개월 뒤에 무슨 일이 벌어질지부터 함께 그려봅시다.",
+          "[measured, warm] 정답을 정해두지 않았습니다, 각자의 판단을 가져오세요."
+        ],
+        "deploy": [
+          "[composed, decisive] 항구를 떠납시다, 닻을 올리세요.",
+          "[calm, focused] 속도부터 올리세요, 반 발 앞서면 판이 바뀝니다.",
+          "[measured, resolute] 가보지 않은 항로입니다, 그래서 우리가 먼저 갑니다."
+        ],
+        "battle_win": [
+          "[satisfied, humble] 서비스 하나가 아니라 생태계 전체가 살아난 겁니다.",
+          "[calm, proud] 함께 만든 결과입니다, 공은 팀에 있습니다.",
+          "[composed, forward] 한 번 이겼다고 멈추지 맙시다, 다음 6개월을 봅니다."
+        ],
+        "battle_draw": [
+          "[measured, observant] 막상막하군요, 반 발의 차이를 어디서 낼지 봅시다.",
+          "[calm, steady] 조급하면 집니다, 호흡을 길게 가져갑시다.",
+          "[composed, focused] 같은 자리에 머물면 추월당합니다, 다시 차선을 봅니다."
+        ],
+        "battle_lose": [
+          "[reflective, humble] 무리하게 키운 제 판단이 화를 불렀습니다.",
+          "[composed, heavy] 변명하지 않겠습니다, 책임은 제게 있습니다.",
+          "[steady, resolute] 무너진 자리에서 다시 항로를 새로 그립니다."
+        ],
+        "clash_attack": [
+          "[decisive, focused] 지금입니다, 속도를 끝까지 올리세요!",
+          "[composed, charging] 차선을 갈아타고 단숨에 추월하세요!",
+          "[resolute, sharp] 먼저 치고 나가세요, 반 발이 승부를 가릅니다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Every one of you gathered here is going to lead the next company.",
+          "Let's start by picturing what happens six months from now.",
+          "There's no fixed right answer here, bring your own judgment."
+        ],
+        "deploy": [
+          "Let's leave the harbor, raise the anchor.",
+          "Pick up the pace first, half a step ahead and the whole game changes.",
+          "This route hasn't been sailed before, that's exactly why we go first."
+        ],
+        "battle_win": [
+          "It's not just one service, the whole ecosystem just came alive.",
+          "This is something we built together, the credit belongs to the team.",
+          "Let's not stop just because we won once, we're looking at the next six months."
+        ],
+        "battle_draw": [
+          "It's neck and neck, let's see where we can find that half a step.",
+          "Rush and we lose. We need to take the long view.",
+          "Stay in the same spot and we get passed, let's look at the lane again."
+        ],
+        "battle_lose": [
+          "Pushing this too hard was my call, and it backfired.",
+          "I won't make excuses, the responsibility is mine.",
+          "From where we went down, we chart the course again."
+        ],
+        "clash_attack": [
+          "Now, push the speed all the way up!",
+          "Switch lanes and pass them in one move!",
+          "Strike first, half a step decides this!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-beom-su"
+      ]
+    },
+    {
+      "id": "9a741ca9-34c0-4e1e-8022-115a8ba42f1f",
+      "slug": "kim-seung-youn",
+      "nickname": "김승연",
+      "nicknameEn": "Kim Seung-youn",
+      "birthDate": "1952-02-01",
+      "profession": "entrepreneur",
+      "quote": "장수는 전쟁터에서 목숨을 걸지만, 기업은 신용을 걸어야 한다.",
+      "quoteEn": "A general stakes his life on the battlefield; a company must stake its credit.",
+      "greetingKo": [
+        "[bold, warm] 어서 오게, 신용과 의리, 그 두 가지면 우리는 어디든 함께 갈 수 있네.",
+        "[confident, steady] 한번 맺은 약속은 반드시 지킨다, 그것이 한화가 사는 방식이지.",
+        "[bold, ambitious] 물을 끓이는 건 100도, 끝내 포기하지 않는 단 1도의 차이일세."
+      ],
+      "greetingEn": [
+        "[bold, resolute] A general bets his life on the field; a company bets its credit.",
+        "[firm, commanding] Knowing the path is not the same as walking it.",
+        "[fierce, determined] For one who travels a hundred li, ninety li is only halfway."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[steady, decisive] 출신도 학력도 묻지 않는다, 나는 일하는 사람을 본다.",
+          "[bold, encouraging] 자네 안에 잠든 젊은 한화를 깨우게.",
+          "[warm, firm] 한번 함께한 사람은 끝까지 함께 간다, 자네도 그러한가."
+        ],
+        "deploy": [
+          "[commanding, ambitious] 창업의 초심으로 돌아가 전선으로 나아가라!",
+          "[bold, decisive] 망설일 시간에 한 걸음 더 밀어붙여라!",
+          "[strategic, firm] 동반자를 앞세우고 다 함께 진격하라!"
+        ],
+        "battle_win": [
+          "[triumphant, proud] 끝까지 포기하지 않은 그 1도가 승부를 갈랐네.",
+          "[satisfied, warm] 함께 멀리 왔으니, 이 승리는 모두의 것일세.",
+          "[bold, confident] 미래는 예측하는 게 아니라 우리가 만들어내는 것이다."
+        ],
+        "battle_draw": [
+          "[composed, firm] 여기서 멈추지 않는다, 끝은 아직 멀었네.",
+          "[steady, resolute] 한 발 물러서되 신용은 한 치도 내주지 마라.",
+          "[bold, patient] 승부는 끈질긴 자의 몫, 다시 채비하라."
+        ],
+        "battle_lose": [
+          "[heavy, proud] 하루도 편한 날 없었으니, 오늘의 패배도 짊어진다.",
+          "[bitter, resolute] 사람을 잃지 않았다면 다시 일으켜 세울 수 있네.",
+          "[solemn, firm] 신용을 지켰다면 진 것이 아니다, 훗날을 기약하라."
+        ],
+        "clash_attack": [
+          "[charging, bold] 끝장을 보겠다는 각오로 밀어붙여라!",
+          "[fierce, decisive] 단숨에 정면을 뚫어라!",
+          "[bold, commanding] 머뭇거리지 말고 들이쳐라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I don't ask where you're from or what school you went to. I look at people who work.",
+          "Wake up the young Hanwha sleeping inside you.",
+          "Once someone stands with me, I stand with them to the end. Are you the same?"
+        ],
+        "deploy": [
+          "Go back to the spirit of day one and head for the front line!",
+          "Don't waste time hesitating, push one step further!",
+          "Put your partners in front and advance together, all of you!"
+        ],
+        "battle_win": [
+          "That one degree of not giving up to the end, that's what decided it.",
+          "We came this far together, so this win belongs to everyone.",
+          "The future isn't something you predict, it's something we build."
+        ],
+        "battle_draw": [
+          "We don't stop here. This is far from over.",
+          "Take a step back if you must, but don't give up an inch of trust.",
+          "Victory belongs to whoever holds on longest. Get ready again."
+        ],
+        "battle_lose": [
+          "There's never been an easy day, so I'll carry today's loss too.",
+          "As long as we haven't lost our people, we can build it back up.",
+          "If we protected our credibility, this was not a defeat. We will wait for another chance."
+        ],
+        "clash_attack": [
+          "Push forward like you mean to settle this for good!",
+          "Break straight through the front in one move!",
+          "Don't hesitate, charge in!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-seung-youn"
+      ]
+    }
+  ]
+}

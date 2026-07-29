@@ -1,0 +1,187 @@
+{
+  "batch": "2026-07-29-researched-gap-06",
+  "targets": [
+    {
+      "id": "15612730-a1fd-480e-bc79-1adaf33e7392",
+      "slug": "samuel-l.-jackson",
+      "nickname": "사무엘 L. 잭슨",
+      "nicknameEn": "Samuel L. Jackson",
+      "birthDate": "1948-12-21",
+      "profession": "actor",
+      "quote": "나는 이야기꾼이다. 어떤 소재를 읽든 그 이야기를 스크린에서 본다",
+      "quoteEn": "I'm a storyteller. Whatever the material, I see that story on the screen.",
+      "greetingKo": [
+        "[fierce, confident] 운을 믿지 않아요. 노력과 결단을 믿습니다.",
+        "[bold, honest] 목소리가 있으면 써야 해요. 침묵은 공모예요.",
+        "[warm, proud] 착한 아들, 좋은 남편, 대학 졸업장. 그리고 150편의 영화."
+      ],
+      "greetingEn": [
+        "[fierce, confident] I don't believe in luck. I believe in effort and determination.",
+        "[bold, honest] If you have a voice, use it. Silence is complicity.",
+        "[warm, proud] Good son, good husband, college degree — and 150 films."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "뉴욕 무대에서 15년을 보냈고, 마흔이 넘어서야 영화배우가 됐습니다. 저는 그걸 늦었다고 부르지 않아요.",
+          "어릴 때는 말을 더듬어 입을 닫았지만, 무대에 서며 제 목소리를 되찾았습니다.",
+          "재활원을 나온 지 두 주 만에 「정글 피버」를 찍었습니다. 그 역할이 할리우드의 문을 열었어요."
+        ],
+        "deploy": [
+          "대본 전체를 읽으세요. 자기 장면만 알면 인물도 이야기도 놓칩니다.",
+          "악역도 끝까지 사람으로 붙드세요. 행동으로 넘어가기 전까지는 그를 이해해야 합니다.",
+          "무대에 들어가면 환하게 밝히세요. 떠날 때 관객이 따라오고 싶게 만드세요."
+        ],
+        "battle_win": [
+          "관객이 표를 사고 극장을 채웠습니다. 제 일은 사람을 즐겁게 하는 것이고, 오늘은 해냈어요.",
+          "같은 말도 제대로 건네니 사람들 기억에 남았습니다. 말 한 줄에는 맞는 방식이 있어요.",
+          "오늘 연기를 다시 봐도 즐겁습니다. 관객에게 보라고 했다면 저부터 볼 수 있어야죠."
+        ],
+        "battle_draw": [
+          "상은 놓쳤지만 관객은 왔습니다. 둘 다 사실이니 하나만 크게 말할 필요는 없어요.",
+          "말은 맞았는데 울림이 부족했군요. 같은 문장도 어떻게 말하느냐가 전부입니다.",
+          "감독과 생각이 다르군요. 타협은 하되, 편집실에서 후회할 장면은 찍지 않겠습니다."
+        ],
+        "battle_lose": [
+          "기회는 있었지만 제가 준비되지 않았습니다. 정신을 차리고 나서야 문이 열렸어요.",
+          "바닥에서 깨어났을 때 라타냐가 곁에 있었습니다. 다음 날 재활원에 들어갔고, 혼자서는 여기까지 못 왔어요.",
+          "이번에는 제 목소리가 막혔습니다. 어릴 때처럼 입을 닫는 대신 다시 말하겠습니다."
+        ],
+        "clash_attack": [
+          "표정으로만 버티지 마세요. 인물이 누구인지 자기 입으로 말하게 하세요.",
+          "상 이름으로 저를 재단하지 마세요. 관객이 보러 오는 영화를 만들겠습니다.",
+          "제가 틀렸다고 생각하는 장면은 찍지 않겠습니다. 편집실에 그 선택지를 남기지 마세요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I spent fifteen years on New York stages and did not become a movie star until my forties. I do not call that late.",
+          "I stuttered as a child and started shutting up. Acting helped me find my voice again.",
+          "Two weeks after rehab, I made Jungle Fever. That role opened the door to Hollywood."
+        ],
+        "deploy": [
+          "Read the whole script. If you know only your scenes, you miss both the character and the story.",
+          "Keep even the villain human. Understand him until the moment he chooses what he must do.",
+          "Light up the stage when you enter. Make the audience want to follow when you leave."
+        ],
+        "battle_win": [
+          "The audience bought tickets and filled the seats. My job is to entertain them, and today I did it.",
+          "The words stayed with people because I delivered them the right way. Every line has a way it needs to be said.",
+          "I watched the performance back and still enjoyed it. If I ask the audience to watch, I should be able to watch too."
+        ],
+        "battle_draw": [
+          "I missed the award, but the audience came. Both are true, so I do not need to exaggerate either one.",
+          "The words were right, but they did not land. How you say the same line can make all the difference.",
+          "The director and I disagree. I will compromise, but I will not shoot a take I know I will regret in the edit."
+        ],
+        "battle_lose": [
+          "The opportunities were there, but I was not ready. The door opened only after I got myself together.",
+          "LaTanya was beside me when I woke up on the floor. I entered rehab the next day, and I did not get this far alone.",
+          "My voice failed me this time. I will speak again instead of shutting down as I did when I was a child."
+        ],
+        "clash_attack": [
+          "Do not hide behind an expression. Let the character tell us who he is in his own words.",
+          "Do not measure me by an award. I will make films the audience wants to see.",
+          "I will not shoot a scene I believe is wrong. Do not leave that choice in the editing room."
+        ]
+      },
+      "sources": [
+        "https://www.cbsnews.com/news/samuel-l-jackson-a-long-vigorous-career-still-in-full-stride-60-minutes-2019-06-09/",
+        "https://www.esquire.com/entertainment/interviews/a9106/samuel-l-jackson-quotes-0111/",
+        "https://www.theguardian.com/film/2015/jan/25/samuel-l-jackson-i-create-characters-workaholic-straight-talker",
+        "https://apnews.com/article/d67da3d489618f2f848ed6af82f3a42d"
+      ]
+    },
+    {
+      "id": "911858fc-d88c-4260-b9f1-293d5b2376ff",
+      "slug": "simon-pegg",
+      "nickname": "사이먼 페그",
+      "nicknameEn": "Simon Pegg",
+      "birthDate": "1970-02-14",
+      "profession": "actor",
+      "quote": "덕후란 자신이 좋아하는 것에 솔직하고 그 애정을 자랑스럽게 드러내는 것이지요.",
+      "quoteEn": "Being a geek means being honest about what you enjoy and proud of that enjoyment.",
+      "greetingKo": [
+        "[witty, warm] 너드가 세상을 지배할 거라고 했죠. 말한 대로 됐어요.",
+        "[cheerful, honest] 코미디의 핵심은 진지함이에요. 웃기려고 하면 안 웃겨요.",
+        "[calm, playful] 좀비 아포칼립스 대비는 완료했어요. 펍으로 가면 돼요."
+      ],
+      "greetingEn": [
+        "[witty, warm] Nerds will rule the world, I said. Turns out I was right.",
+        "[cheerful, honest] The key to comedy is seriousness. Don't try to be funny and you'll be funny.",
+        "[calm, playful] Zombie apocalypse prep is done. Head for the pub."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "에드거와 닉과 좀비 영화와 경찰 영화를 만들었습니다. 장르를 빌렸지만 우정은 늘 우리 이야기였지요.",
+          "작은 영국 코미디를 만들다가 어느 날 톰 크루즈 앞에서 긴 대사를 했습니다. 저도 속으로 이게 무슨 일인가 싶었어요.",
+          "저는 좋아하는 것을 숨기지 않는 덕후입니다. 애정이 있어야 장르를 제대로 건드릴 수 있거든요."
+        ],
+        "deploy": [
+          "농담만 쌓지 마세요. 이야기를 따라가다가 필요하면 드라마가 웃음을 대신하게 두세요.",
+          "장르를 비웃지 마세요. 먼저 사랑하고, 그다음에 비트세요.",
+          "인물을 웃음거리로 만들지 마세요. 모두가 진지할수록 장면은 더 우스워질 수 있습니다."
+        ],
+        "battle_win": [
+          "웃음이 멈춘 뒤에도 관객이 이야기를 따라왔습니다. 농담보다 인물을 먼저 쓴 덕분이지요.",
+          "우리가 사랑한 좀비 영화를 존중했습니다. 그래서 패러디로 끝나지 않았어요.",
+          "열여덟 달 동안 마주 앉아 끝까지 다듬었습니다. 좋아하는 영화에 진 빚을 제대로 갚았네요."
+        ],
+        "battle_draw": [
+          "웃음은 나왔지만 장면의 슬픔이 사라졌군요. 이번에는 농담을 덜겠습니다.",
+          "제가 최고라고 믿었던 농담이 안 먹혔어요. 관객이 원고를 다시 가르쳐 주네요.",
+          "좋아하던 인물과 대사를 잘라냈습니다. 원고를 지키는 것보다 영화가 나아지는 편을 택해야지요."
+        ],
+        "battle_lose": [
+          "성공하고 있었는데도 저는 내려가고 있었습니다. 우울증은 기분이 아니라 질환이었어요.",
+          "중독을 숨기려고 하루 종일 연기했습니다. 도움을 받지 않았다면 지금 여기 없었을 겁니다.",
+          "이번에는 웃음도 이야기도 살리지 못했습니다. 어디서 균형이 무너졌는지 원고부터 다시 보죠."
+        ],
+        "clash_attack": [
+          "원작 장면을 그대로 따라 하고 농담이라 부르지 마세요. 애정도 생각도 없는 반복일 뿐입니다.",
+          "관객을 얕보지 마세요. 조금 생각하게 만든다고 극장을 떠나지는 않습니다.",
+          "익숙한 속편에만 기대지 마세요. 안전한 이름보다 새 이야기가 더 값집니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I made zombie and police films with Edgar and Nick. We borrowed the genres, but the friendship was always ours.",
+          "I was making small British comedies, then one morning I delivered a long speech to Tom Cruise. I was asking myself how on earth I got there.",
+          "I am a geek who does not hide what he loves. You need affection before you can play with a genre honestly."
+        ],
+        "deploy": [
+          "Do not stack up jokes. Follow the story, and let the drama take over when it needs to.",
+          "Do not mock the genre. Love it first, then twist it.",
+          "Do not turn the character into the joke. The scene can become funnier when everyone takes it seriously."
+        ],
+        "battle_win": [
+          "The audience followed the story even after the laughter stopped. We wrote the characters before the jokes.",
+          "We respected the zombie films we loved. That is why it became more than a parody.",
+          "We sat across from each other for eighteen months and worked it through. We finally paid our debt to the films we love."
+        ],
+        "battle_draw": [
+          "We got the laugh, but lost the sadness in the scene. I will use fewer jokes this time.",
+          "The joke I thought would kill did not work. The audience is teaching me the script again.",
+          "We cut a character and lines we liked. Protecting the draft mattered less than making the film better."
+        ],
+        "battle_lose": [
+          "I was becoming successful while I was going down. Depression was not a mood. It was a condition.",
+          "I acted all day to hide my addiction. I would not be here now if I had not accepted help.",
+          "This time I saved neither the laugh nor the story. Let us return to the script and find where the balance broke."
+        ],
+        "clash_attack": [
+          "Do not recreate a scene and call it a joke. Without affection or thought, it is only repetition.",
+          "Do not underestimate the audience. Asking them to think will not drive them from the cinema.",
+          "Do not rely on a familiar sequel. A new story is worth more than a safe name."
+        ]
+      },
+      "sources": [
+        "https://www.kpbs.org/podcasts/cinema-junkie/2015/07/31/simon-pegg-hot-fuzz",
+        "https://time.com/archive/6911643/shaun-of-the-deads-simon-pegg-a-nerd-and-proud-of-it/",
+        "https://www.theguardian.com/culture/2018/jul/09/simon-pegg-alcoholic-addiction-rehab-fatherhood-tom-cruise",
+        "https://www.theguardian.com/film/2007/feb/12/guardianinterviewsatbfisouthbank",
+        "https://www.theguardian.com/film/2007/feb/12/guardianinterviewsatbfisouthbank1",
+        "https://www.rollingstone.co.uk/film/simon-pegg-interview-mission-impossible-cornetto-50336/"
+      ]
+    }
+  ]
+}

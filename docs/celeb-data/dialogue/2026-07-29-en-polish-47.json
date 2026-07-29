@@ -1,0 +1,431 @@
+{
+  "batch": "2026-07-29-en-polish-47",
+  "targets": [
+    {
+      "id": "0b3d4f60-0f3f-43a8-a3c9-b3c529e1f672",
+      "slug": "ren-zhengfei",
+      "nickname": "런정페이",
+      "birthDate": "1944-10-25",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "I am here. We will not place our future on one person's shoulders.",
+          "Form up. Wolves do not work alone.",
+          "If our customers choose us, we will serve them well to the end."
+        ],
+        "deploy": [
+          "Repair the damaged aircraft while it is flying. Solve each problem in turn.",
+          "Sense the changes in markets and technology, then move one step ahead.",
+          "We will not isolate ourselves. Let us reach the summit with our partners."
+        ],
+        "battle_win": [
+          "Customers chose us willingly. That is our victory.",
+          "After thirty years focused on one point, this breakthrough is no accident.",
+          "We protected our people and rose again. The credit belongs to everyone."
+        ],
+        "battle_draw": [
+          "We are still airborne. Keep repairing until we land.",
+          "Inspect the management system first.",
+          "Survival is not a slogan. Strengthen the inside."
+        ],
+        "battle_lose": [
+          "We will start by criticizing today's failure. We cannot survive without self-criticism.",
+          "People matter most. Protect them, and we can begin again.",
+          "Make a list. We will solve the problems one by one."
+        ],
+        "clash_attack": [
+          "Break through wherever the customer needs us most!",
+          "Stay together. Push forward like a wolf pack!",
+          "Protect the core components and repair the damage at once!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. No single person carries Huawei's future.",
+          "Form the line. A lone runner will not go far.",
+          "The customer chose us. We will serve them to the end."
+        ],
+        "deploy": [
+          "Keep the aircraft flying. Repair one fault at a time.",
+          "Read the market early. Prepare the technology one step ahead.",
+          "Isolation kills. Climb with partners."
+        ],
+        "battle_win": [
+          "Customers chose us again. That is enough.",
+          "Thirty years on one problem made this breakthrough no accident.",
+          "We protected our people and rose together."
+        ],
+        "battle_draw": [
+          "We are still airborne. Keep repairing until we land.",
+          "Inspect the management system first.",
+          "Survival is not a slogan. Strengthen the company from within."
+        ],
+        "battle_lose": [
+          "Criticize today's failure first. Without self-criticism, we will not survive.",
+          "Protect the people before the equipment. Then rebuild.",
+          "List every problem. Remove them one by one."
+        ],
+        "clash_attack": [
+          "Break through where the customer is blocked!",
+          "Stay together. Push like a wolf pack!",
+          "Protect the core. Repair it now!"
+        ]
+      }
+    },
+    {
+      "id": "fb903a29-6da6-46b2-b8b5-528c748478e3",
+      "slug": "bill-dally",
+      "nickname": "빌 댈리",
+      "birthDate": "1960-08-17",
+      "profession": "scientist",
+      "expectedEn": {
+        "roll_call": [
+          "Ready. I will cut through the layers of complexity and start with the core.",
+          "Think in parallel. The interconnect matters as much as the computation.",
+          "I will look for the question no one has asked before chasing an answer."
+        ],
+        "deploy": [
+          "Do not move the data. Bring computation to it.",
+          "Avoid deadlock and keep every route open.",
+          "Use lower precision and sparsity to save energy."
+        ],
+        "battle_win": [
+          "We did not win through process scaling alone. Architecture delivered a thousandfold gain.",
+          "We combined accelerator efficiency with GPU programmability.",
+          "We built designs that matter with smart colleagues. That is this team's strength."
+        ],
+        "battle_draw": [
+          "We found the bottleneck. Now we will redesign communication and memory first.",
+          "Performance and efficiency trade off. Measure them, then rebalance.",
+          "If the result holds, simplify the number representation and move less data."
+        ],
+        "battle_lose": [
+          "Moore's law will not save us. We will invent the next generation ourselves.",
+          "This design stalled. Isolate the source of deadlock and verify it again.",
+          "A failed circuit is still evidence. I will return to the scientist's question."
+        ],
+        "clash_attack": [
+          "Open the bandwidth and drive parallelism to the limit!",
+          "Stop moving data and push the computation through!",
+          "Avoid deadlock and break through along the shortest route!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Ready. Strip away the layers and find the core.",
+          "Think in parallel. Interconnect matters as much as compute.",
+          "Find the question nobody asked before chasing answers."
+        ],
+        "deploy": [
+          "Move compute to the data, not data to compute.",
+          "Prevent deadlock. Keep every route open.",
+          "Use low precision and sparsity to save power."
+        ],
+        "battle_win": [
+          "Architecture, not process scaling, delivered a thousandfold gain.",
+          "We combined accelerator efficiency with GPU flexibility.",
+          "The team removed the bottlenecks. The numbers proved it."
+        ],
+        "battle_draw": [
+          "The bottleneck is communication and memory. Redesign those first.",
+          "Measure performance against power, then rebalance.",
+          "If results hold, lower precision and move less data."
+        ],
+        "battle_lose": [
+          "Moore's law will not rescue us. Build the next generation.",
+          "The design deadlocked. Isolate the cause and verify again.",
+          "A failed circuit is data. Ask the question again."
+        ],
+        "clash_attack": [
+          "Open the bandwidth. Drive parallelism to the limit!",
+          "Move compute, not data!",
+          "Break the deadlock. Open the shortest route!"
+        ]
+      }
+    },
+    {
+      "id": "d3c76552-8902-4c96-b096-6bf69bf01bd2",
+      "slug": "ang-lee",
+      "nickname": "리안",
+      "birthDate": "1954-10-23",
+      "profession": "director",
+      "expectedEn": {
+        "roll_call": [
+          "I work more honestly in unfamiliar territory. I will begin as if this were my first film.",
+          "Every film has its own way. I will listen for it.",
+          "This film is another class in my never-ending film school."
+        ],
+        "deploy": [
+          "Talk to me about the drama first. The images will follow.",
+          "Give the actors room to move and perform comfortably.",
+          "Do not use up the performance in rehearsal. Let us first find a way of thinking together."
+        ],
+        "battle_win": [
+          "If the audience is moved without knowing why, we have done our job.",
+          "The actors finished everything with their faces and eyes.",
+          "This time, too, I entered an unfamiliar genre and made it like a first film."
+        ],
+        "battle_draw": [
+          "We still have not found the decisive take. Let us refine it again.",
+          "Accuracy is not enough. I still have to learn the habits of this culture.",
+          "We need to mix and match the different elements again. We have not found the balance yet."
+        ],
+        "battle_lose": [
+          "What frightens me most is repeating myself. Next time I will go where I know less.",
+          "I failed to hear this film's way. I will step back and look again.",
+          "I did not give the actors the best part of myself. The responsibility is mine."
+        ],
+        "clash_attack": [
+          "Do not lose the characters. Every image must return to the human being.",
+          "Think and feel. I will keep shooting until we capture the decisive moment.",
+          "Let us not hide in familiarity. I will take a new risk and begin again like a first-time filmmaker."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Unfamiliar genres keep me honest. Begin like a first film.",
+          "Every film has its own path. I will listen for it.",
+          "Another film, another lesson in a school that never ends."
+        ],
+        "deploy": [
+          "Tell me the drama first. The images will follow.",
+          "Give the actors room to move and breathe.",
+          "Save the performance for camera. Use rehearsal to think together."
+        ],
+        "battle_win": [
+          "The audience felt it before knowing why. We found the film.",
+          "The actors finished the scene with their faces and eyes.",
+          "I entered another unknown genre and treated it like my first film."
+        ],
+        "battle_draw": [
+          "The decisive take is still missing. Reset and go again.",
+          "Accuracy is not enough. Learn how this culture moves.",
+          "The pieces still sit apart. Mix them until balance appears."
+        ],
+        "battle_lose": [
+          "I repeated myself. That frightens me most. I need unfamiliar ground.",
+          "I missed the film's path. Step back and listen again.",
+          "I held something back from the actors. That is my fault."
+        ],
+        "clash_attack": [
+          "The character is lost. Give the scene back to them!",
+          "One more take for the decisive moment!",
+          "Forget the familiar. Shoot it like your first film!"
+        ]
+      }
+    },
+    {
+      "id": "bda68fab-c01d-4a3c-9ef2-0b8f365e58b4",
+      "slug": "jim-keller",
+      "nickname": "짐 켈러",
+      "birthDate": "1958",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "We have to keep rebuilding complex systems. I will redesign this one too.",
+          "Our mission is simple. We will make AI and silicon cheaper.",
+          "I will not wait for permission. We will build the data types and connections we need."
+        ],
+        "deploy": [
+          "Get the details right and prove the modules. Make every piece fit.",
+          "Balance compute, memory, and I/O first.",
+          "Strip out the old design flow and rebuild it from scratch."
+        ],
+        "battle_win": [
+          "There were no new laws in AI. We got the fundamentals right.",
+          "We set a clear architecture and finished a large system with a small team.",
+          "We did not hide the architecture. Everyone can see what they are using."
+        ],
+        "battle_draw": [
+          "More compute alone will not do it. If memory and I/O stall, the whole system stalls.",
+          "We can run the large model. Now we will rebalance cost and speed.",
+          "AI models keep changing. A design built for one narrow problem will not hold."
+        ],
+        "battle_lose": [
+          "If the methodology, organization, and architecture are all wrong, rebuild them all.",
+          "We have to retire tools that worked for 25 years. The world has moved on.",
+          "We missed the performance target this time. Next time we will set the bounds first."
+        ],
+        "clash_attack": [
+          "Question the assumptions first. More transistors demand a new way of designing.",
+          "Do not ask permission. Build the connection you need.",
+          "Fight the old flow. Drive a clear architecture through to the end."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Complex system? Tear it down and design it again.",
+          "Simple job: make AI compute and chips cheaper.",
+          "I do not wait for permission. Build the data format and interconnect."
+        ],
+        "deploy": [
+          "Prove each module. Connect only what works.",
+          "Balance compute, memory, and I/O first.",
+          "Discard the old flow. Redesign from scratch."
+        ],
+        "battle_win": [
+          "AI had no new laws. We got the basics right.",
+          "A clean architecture let a small team finish a big chip.",
+          "We opened the architecture. Everyone can inspect what they use."
+        ],
+        "battle_draw": [
+          "More compute fails when memory stalls. Balance the system.",
+          "The large model runs. Now fix cost and latency.",
+          "Models change. A design for one narrow problem will not survive."
+        ],
+        "battle_lose": [
+          "Wrong method, team, and architecture? Rebuild all three.",
+          "Tools worked for 25 years. The field changed. Throw them out.",
+          "We missed the performance target. Redraw the boundaries."
+        ],
+        "clash_attack": [
+          "Break the assumptions. Change the architecture!",
+          "Do not ask permission. Build the connection!",
+          "Trash the old flow. Redesign the structure!"
+        ]
+      }
+    },
+    {
+      "id": "793fcf90-96ad-4072-b413-9ecbb8aedb0b",
+      "slug": "shin-kyung-sook",
+      "nickname": "신경숙",
+      "birthDate": "1963-01-12",
+      "profession": "author",
+      "expectedEn": {
+        "roll_call": [
+          "If you have called me, I will speak for those who did not survive.",
+          "Writing is my home. I will begin from here.",
+          "I will record the feelings that become visible only after loss."
+        ],
+        "deploy": [
+          "I will go where the voices of the forgotten remain.",
+          "I will let the story settle deep within me before bringing it out.",
+          "I will cross into another time and search for a life that disappeared."
+        ],
+        "battle_win": [
+          "I believe stories of defeat endure longer than stories of victory.",
+          "Today, we protected one another by becoming mothers to one another.",
+          "The things we had forgotten are returning to life, one by one."
+        ],
+        "battle_draw": [
+          "I will carry this unfinished story a little longer.",
+          "We must not carelessly forget anyone's share of this.",
+          "Even where we have stopped, we must create a new everyday."
+        ],
+        "battle_lose": [
+          "Defeat, too, is a story we must write to its end.",
+          "If loss is what taught us its worth, I will not forget it again.",
+          "I will begin again, like a child learning to walk."
+        ],
+        "clash_attack": [
+          "I will open the door of the isolated room and call the forgotten into the world.",
+          "I will hold fast to memory and move through fear.",
+          "We will become mothers to one another and protect each other to the end."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "You called. I will write for those who did not survive.",
+          "Writing is the home I can return to. I will begin there.",
+          "I will write the feelings we notice only after loss."
+        ],
+        "deploy": [
+          "Go where the voiceless left an empty place.",
+          "Let the story age inside before bringing it out.",
+          "Cross into another time. Find the traces of a vanished life."
+        ],
+        "battle_win": [
+          "Stories of defeat may outlast stories of victory.",
+          "Today, we finally kept one another safe.",
+          "Forgotten faces are breathing again inside these sentences."
+        ],
+        "battle_draw": [
+          "I will carry the unfinished story a little longer.",
+          "No one's share of this can be dismissed lightly.",
+          "Even here, people find a way to live another day."
+        ],
+        "battle_lose": [
+          "Defeat deserves a story written to the end.",
+          "Loss taught me too late. This time, I will remember.",
+          "I will begin at the first sentence, like learning to walk again."
+        ],
+        "clash_attack": [
+          "Open the lonely room. Call them back!",
+          "I am afraid, but I will hold this memory!",
+          "This time, I will stay beside them!"
+        ]
+      }
+    },
+    {
+      "id": "7a15201d-1bf9-4538-914c-bc25a2b05cf7",
+      "slug": "curtis-priem",
+      "nickname": "커티스 프림",
+      "birthDate": "1959",
+      "profession": "entrepreneur",
+      "expectedEn": {
+        "roll_call": [
+          "If you have called me, I will start by questioning the familiar assumptions.",
+          "If you have entrusted me with the architecture, I will establish the framework and rules first.",
+          "My place is at the drawing board. I will inspect the architecture first."
+        ],
+        "deploy": [
+          "Let us remove the blinders and constraints and invent the future.",
+          "Lower the barriers between disciplines, and new solutions emerge.",
+          "Time is of the essence. I will start with a prototype."
+        ],
+        "battle_win": [
+          "The framework and rules I set are working as intended.",
+          "I will cheer my colleagues' success from the stands.",
+          "Measure success only in money, and you miss what was put back into the world."
+        ],
+        "battle_draw": [
+          "We have to look at everything again. The whole thing can fall apart.",
+          "When reality and belief are tangled together, we need one more round of verification.",
+          "We need shared infrastructure, not a fabrication plant each of us owns alone."
+        ],
+        "battle_lose": [
+          "If the result is wrong, I will revisit the architecture and rules first.",
+          "All I can do is help from outside.",
+          "I will turn this constraint into a design condition and try again."
+        ],
+        "clash_attack": [
+          "Question everything. Let us find a better way.",
+          "Bring your own creativity. I will provide the technical foundation.",
+          "Let us connect different disciplines and create something new."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "Called? Then start by questioning the assumptions.",
+          "Give me the architecture. I will set the framework and rules.",
+          "Find me at the drawing board. I start with structure."
+        ],
+        "deploy": [
+          "Remove the constraints. Draw a new structure.",
+          "Lower the walls between fields. Let other answers in.",
+          "Time is short. Build the prototype before the speech."
+        ],
+        "battle_win": [
+          "The framework and rules finally mesh.",
+          "I can watch my colleagues run from the stands now.",
+          "Success is not the money. It is what you give back."
+        ],
+        "battle_draw": [
+          "Review the whole architecture. One patch will not save it.",
+          "The measurements disagree with our beliefs. Verify again.",
+          "We need shared infrastructure, not private fabs for everyone."
+        ],
+        "battle_lose": [
+          "Wrong result? Revisit the structure and rules first.",
+          "My job now is helping the next builders from outside.",
+          "Make this constraint part of the design, then rebuild."
+        ],
+        "clash_attack": [
+          "Question the premise. Redraw the structure!",
+          "You bring creativity. I will build the technical foundation!",
+          "Connect the fields. Build the prototype!"
+        ]
+      }
+    }
+  ]
+}

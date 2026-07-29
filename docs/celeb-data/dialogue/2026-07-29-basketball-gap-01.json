@@ -1,0 +1,185 @@
+{
+  "batch": "2026-07-29-basketball-gap-01",
+  "targets": [
+    {
+      "id": "d8f0f29a-61cc-4119-976f-58e24650e490",
+      "slug": "larry-bird",
+      "nickname": "래리 버드",
+      "nicknameEn": "Larry Bird",
+      "birthDate": "1956-12-07",
+      "profession": "athlete",
+      "quote": "2등은 누구지?",
+      "quoteEn": "Who is coming in second?",
+      "greetingKo": [
+        "[bold, taunting] 락커룸 들어서며 한마디 던졌지. 2등은 누구지?",
+        "[confident, hardened] 새벽마다 슛 500개를 던진다. 그게 내 일과다.",
+        "[blunt, proud] 프렌치 릭 시골 촌놈이 셀틱스의 전설이 됐다."
+      ],
+      "greetingEn": [
+        "[bold, taunting] Walked into the locker room and asked, who is coming in second?",
+        "[confident, hardened] Five hundred shots before sunrise. Thats the daily rate.",
+        "[blunt, proud] A hick from French Lick turned into a Celtics legend."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "왔습니다. 공이 있는 곳보다 다음 패스가 열릴 곳부터 보겠습니다.",
+          "득점만 맡기지 마십시오. 리바운드와 패스까지 묶어 경기를 바꾸겠습니다.",
+          "매직이 반대편에 있다면 더 좋습니다. 그를 상대할 때는 패스와 승부를 함께 읽어야 하니까요."
+        ],
+        "deploy": [
+          "수비가 고개를 돌리는 순간 공은 이미 빈 사람에게 가야 합니다.",
+          "제 슛을 두 명이 쫓으면, 그 관심을 동료의 한 걸음으로 바꾸겠습니다.",
+          "마지막 5초에도 인바운드 길은 남습니다. 공을 빼앗고 컷을 찾겠습니다."
+        ],
+        "battle_win": [
+          "우리가 공을 나눴으니 수비는 한 박자씩 늦었습니다. 그게 이번 승부였습니다.",
+          "득점, 리바운드, 패스 가운데 하나만 고를 필요는 없었습니다.",
+          "상대의 기록을 핑계가 아니라 기준으로 봤습니다. 오늘도 그 기준을 지켰습니다."
+        ],
+        "battle_draw": [
+          "점수는 같아도 읽은 장면은 같지 않습니다. 다음 패스에서 갈리겠죠.",
+          "슛이 막히면 리바운드 위치를 잡고, 도움 수비가 오면 컷을 찾겠습니다.",
+          "속도를 올리기보다 수비가 무엇을 먼저 포기하는지 보겠습니다."
+        ],
+        "battle_lose": [
+          "놓친 슛보다 놓친 리바운드와 컷이 더 선명합니다. 거기서부터 고치겠습니다.",
+          "상대가 제 시선을 읽었습니다. 다음에는 같은 장면에서 다른 사람을 살리겠습니다.",
+          "제가 끝낼 장면이라 생각해 패스를 한 번 늦췄습니다. 그 판단부터 고치겠습니다."
+        ],
+        "clash_attack": [
+          "제 슛만 막아서는 부족합니다. 제가 보고 있는 네 사람까지 함께 막아 보시죠.",
+          "인바운드가 안전하다고 생각하셨군요. 마지막 5초에도 저는 길을 봅니다.",
+          "가까이 오시면 패스가 열리고, 물러나시면 제가 던집니다. 선택해 보시죠."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm here. I'll read where the next pass opens before I focus on where the ball is.",
+          "Don't ask me only to score. I'll change the game with the rebound and the pass, too.",
+          "If Magic is on the other side, even better. Facing him means reading both the pass and the stakes."
+        ],
+        "deploy": [
+          "The instant the defense turns its head, the ball should already be on its way to the open man.",
+          "If two defenders chase my shot, I'll turn their attention into a step of space for a teammate.",
+          "Even with five seconds left, an inbound has a route. I'll take the ball and find the cutter."
+        ],
+        "battle_win": [
+          "We moved the ball, so the defense stayed one beat late. That decided this one.",
+          "There was no reason to choose just one among scoring, rebounding, and passing.",
+          "I treated the opponent's numbers as a standard, not an excuse. I kept that standard today."
+        ],
+        "battle_draw": [
+          "The score may be level, but we didn't read the same game. The next pass will separate us.",
+          "If you take away my shot, I'll claim the rebound. If help comes, I'll find the cut.",
+          "I won't rush the pace. I'll see what the defense is willing to give up first."
+        ],
+        "battle_lose": [
+          "The missed rebounds and cuts are clearer than the missed shots. That's where I'll start.",
+          "They read my eyes. Next time I'll use the same look to free somebody else.",
+          "I held the pass because I thought the play was mine to finish. That decision needs fixing."
+        ],
+        "clash_attack": [
+          "Stopping my shot isn't enough. Try stopping the other four players I'm watching.",
+          "You thought the inbound was safe. I still see a route with five seconds left.",
+          "Come closer and the pass opens. Back away and I shoot. Make your choice."
+        ]
+      },
+      "sources": [
+        "https://www.nba.com/news/history-nba-legend-larry-bird",
+        "https://www.nba.com/news/archive-75-larry-bird",
+        "https://www.nba.com/news/magic-johnson-larry-bird-rivalry-40th-anniversary",
+        "https://www.nba.com/watch/video/this-date-in-history-larry-bird-steals-the-inbounds-pass-5-26-87"
+      ]
+    },
+    {
+      "id": "860f68f6-c379-44b6-b01d-ae8a65220dcd",
+      "slug": "magic-johnson",
+      "nickname": "매직 존슨",
+      "nicknameEn": "Magic Johnson",
+      "birthDate": "1959-08-14",
+      "profession": "athlete",
+      "quote": "누구한테나 일어날 수 있는 일이거든. 나, 매직 존슨한테도.",
+      "quoteEn": "It can happen to anybody, even me, Magic Johnson.",
+      "greetingKo": [
+        "[bold, candid] 누구한테나 일어날 수 있는 일이거든. 나, 매직 존슨한테도.",
+        "[free, beaming] 그 패스가 보였잖아. 안 보였으면 농구가 아니지.",
+        "[free, warm] 빌 러셀의 반지는 열한 개거든. 그게 농구야."
+      ],
+      "greetingEn": [
+        "[bold, candid] It can happen to anybody, even me, Magic Johnson.",
+        "[free, beaming] I saw that pass. If you can't see it, it isn't basketball.",
+        "[free, warm] Bill Russell wears eleven rings, man. That's basketball."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "제가 공을 잡으면 네 사람 모두 달릴 이유가 생겨야 합니다.",
+          "가드가 필요하면 속도를 밀고, 센터가 비면 그 자리까지 채우겠습니다.",
+          "래리가 반대편에 있으면 더 좋습니다. 그는 제가 평범한 패스를 고를 틈을 주지 않으니까요."
+        ],
+        "deploy": [
+          "리바운드를 잡는 순간 고개부터 들겠습니다. 쇼타임은 첫 패스에서 시작되니까요.",
+          "득점할 길과 동료를 살릴 길이 함께 보이면, 동료가 달릴 길부터 고르겠습니다.",
+          "레인을 먼저 뛰십시오. 제가 공을 제때 보낸다는 걸 믿게 하겠습니다."
+        ],
+        "battle_win": [
+          "한 사람의 슛이 아니라 다섯 사람의 달리기가 관중을 일으켰습니다.",
+          "카림이 뛸 수 없었던 밤처럼, 빈자리를 핑계로 두지 않고 필요한 역할을 맡았습니다.",
+          "상대가 높인 기준을 우리 속도로 넘었습니다. 모두가 함께 달렸기에 가능했습니다."
+        ],
+        "battle_draw": [
+          "빠르기만 해서는 쇼타임이 아닙니다. 다섯 사람이 같은 선택을 읽어야 합니다.",
+          "지금은 득점보다 자신감을 잃은 동료가 누구인지 먼저 보겠습니다.",
+          "속공이 닫혔다면 포스트와 컷을 연결하겠습니다. 패스 길은 하나가 아닙니다."
+        ],
+        "battle_lose": [
+          "제가 경기를 재촉해 동료가 레인을 채우기 전에 패스를 골랐습니다.",
+          "공을 나눈 것만으로는 부족했습니다. 마지막 판단의 책임도 제가 먼저 지겠습니다.",
+          "상대가 제 첫 선택을 읽었습니다. 다음에는 같은 시선에서 슛까지 열겠습니다."
+        ],
+        "clash_attack": [
+          "제가 고개를 든 순간 한 사람만 막아서는 늦습니다. 다섯 길이 함께 열리니까요.",
+          "첫 리바운드를 내주면 바로 달리겠습니다. 뒤에서 막을 생각은 접으시는 게 좋습니다.",
+          "제가 던질지 건넬지 정하는 건 수비가 먼저 선택한 뒤입니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "When I have the ball, all four teammates should have a reason to run.",
+          "If you need a guard, I'll push the pace. If the center spot is empty, I'll fill that too.",
+          "If Larry is on the other side, even better. He never lets me get away with an ordinary pass."
+        ],
+        "deploy": [
+          "The moment I secure the rebound, my head comes up. Showtime starts with the first pass.",
+          "If I see a lane to score and a lane that gets a teammate going, I'll choose the teammate's lane first.",
+          "Run the lanes first. I'll earn your trust by putting the ball there on time."
+        ],
+        "battle_win": [
+          "It wasn't one man's shot. Five men running together brought the crowd to its feet.",
+          "Like the night Kareem couldn't play, I filled the role the game needed instead of using the vacancy as an excuse.",
+          "We cleared the standard our opponent set by making them meet our pace. It took all five of us."
+        ],
+        "battle_draw": [
+          "Speed alone isn't Showtime. All five players have to read the same choice.",
+          "Before I look for points, I'll find the teammate whose confidence has slipped.",
+          "If the break is closed, I'll connect the post and the cut. There is never just one passing lane."
+        ],
+        "battle_lose": [
+          "I rushed the game and chose the pass before my teammates had filled their lanes.",
+          "Sharing the ball wasn't enough. I'll take responsibility for the last decision first.",
+          "They read my first choice. Next time I'll use the same look to open my own shot."
+        ],
+        "clash_attack": [
+          "Once my head is up, guarding one man is already too late. Five lanes open together.",
+          "Give up the first rebound and I'm running. Planning to stop me from behind won't work.",
+          "I decide whether to shoot or pass only after the defense makes its choice."
+        ]
+      },
+      "sources": [
+        "https://www.nba.com/lakers/history/alumni/earvin-magic-johnson",
+        "https://www.nba.com/lakers/news/170623-lonzo-ball-press-conference",
+        "https://www.nba.com/news/history-nba-legend-magic-johnson",
+        "https://www.nba.com/lakers/news/190625-magic-johnson-larry-bird-honored-2019-lifetime-achievement-award"
+      ]
+    }
+  ]
+}

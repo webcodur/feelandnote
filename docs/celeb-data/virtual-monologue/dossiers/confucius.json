@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "slug": "confucius",
+  "nickname": "공자",
+  "route": "improve",
+  "routeReason": "현재 글은 인·예·덕치·정명·배움을 구체적인 말로 풀고 안회의 죽음까지 담아 기본 품질이 높다. 그러나 여러 나라를 돌며 군주들에게 번번이 외면받았다는 전기 서사를 확정 사실처럼 엮고, 허탈함·두려움·정치에 대한 마음쓰임을 후대 편집 자료에서 곧바로 개인 내면으로 옮겼다. 논어에 실제로 전하는 짧은 말과 행동을 중심으로 골격은 보존하되, 생애 자료의 후대 편집성과 공자 이후 발전한 '유교' 전체를 당사자에게 돌리는 문제를 바로잡도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "공자",
+      "birth": "전통적으로 기원전 551",
+      "death": "전통적으로 기원전 479",
+      "profession": "humanities_scholar",
+      "disambiguation": "춘추시대 노나라의 교사·정치 사상가로, 제자들과의 문답이 후대에 논어로 편집된 공구",
+      "existingBioForDiscoveryOnly": "중국 춘추시대의 사상가이자 유교의 창시자. 인과 예를 바탕으로 도덕적 사회 질서를 제시했다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/fall2025/entries/confucius/",
+        "title": "Confucius",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2023-05-31",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "전통적 생몰년과 노나라의 교사·조언자·관료로 전해지는 신원",
+          "논어가 공자와 주변 인물의 다양한 전승을 후대에 편집한 자료라는 성격",
+          "인·예·덕·가족과 국가의 상호 의무가 공자 사상의 중심이라는 학술적 해설",
+          "공자의 관직·유랑·제자 수를 전하는 자료들이 서로 다르거나 후대에 체계화됐다는 한계",
+          "후대 신유학과 제국 관료제가 공자의 말에 새로운 체계를 덧붙였다는 수용사"
+        ]
+      },
+      {
+        "url": "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full",
+        "title": "The Analects of Confucius: A Teaching Translation",
+        "publisher": "Indiana University Libraries",
+        "kind": "scholarly",
+        "publishedAt": "2015",
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "논어의 대학 교육용 번역과 인·예·군자·도 같은 핵심 개념의 문맥",
+          "배우고 실천하기, 자신을 돌아보기, 가족과 벗에 대한 책임이라는 초기 장의 주제",
+          "논어가 공자와 제자들에게 귀속된 말의 모음이라는 자료 성격"
+        ]
+      },
+      {
+        "url": "https://ctext.org/analects/wei-zheng",
+        "title": "The Analects: Wei Zheng",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "형벌로만 이끌면 백성이 벌을 피하되 부끄러움을 모르고 덕과 예로 이끌면 스스로 바로잡는다는 구절",
+          "배우기만 하고 생각하지 않거나 생각만 하고 배우지 않는 일을 함께 경계한 구절",
+          "아는 것과 모르는 것을 구분하는 태도를 지식이라고 한 구절"
+        ]
+      },
+      {
+        "url": "https://ctext.org/analects/yan-yuan",
+        "title": "The Analects: Yan Yuan",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "자기를 절제해 예로 돌아가는 일을 인과 연결한 구절",
+          "임금·신하·부모·자식이 각 이름에 맞는 역할을 해야 한다는 정치 문답",
+          "정치는 자신을 바로잡고 백성의 신뢰를 얻는 일이라는 구절"
+        ]
+      },
+      {
+        "url": "https://ctext.org/analects/zi-lu",
+        "title": "The Analects: Zi Lu",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "정명은 이름과 실제 역할, 말과 일이 어긋나지 않게 하는 정치적 책임이라는 문답",
+          "통치자가 먼저 모범을 보이고 백성의 일에 힘써야 한다는 구절",
+          "자기 몸을 바로잡지 못하면서 남을 바로잡을 수 없다는 구절"
+        ]
+      },
+      {
+        "url": "https://ctext.org/analects/xian-jin",
+        "title": "The Analects: Xian Jin",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-29",
+        "supports": [
+          "안회의 죽음에 공자가 크게 슬퍼하고 통곡했다고 전하는 구절",
+          "안회를 배우기를 좋아한 제자로 평가한 구절"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "노나라에서 의례와 정치에 관여한 인물로 전하며, 말년에는 제자들과 고전·예·정치를 가르친 전승이 자리 잡았다.",
+        "significance": "확실성이 다른 여러 관직명과 유랑 일화를 나열하기보다 교사와 정치 조언자라는 공통된 역사적 윤곽을 남긴다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/confucius/"
+        ]
+      },
+      {
+        "point": "제자들과 나눈 짧은 문답과 말들이 여러 세대의 편집을 거쳐 논어로 전해졌다.",
+        "significance": "공자의 목소리를 사용할 수 있는 가장 중요한 근거인 동시에, 현대적인 자서전처럼 매끄럽게 이어 붙여서는 안 되는 이유다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/confucius/",
+          "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full"
+        ]
+      },
+      {
+        "point": "아끼던 제자 안회가 죽었을 때 논어는 공자가 크게 통곡했다고 전한다.",
+        "significance": "성인이라는 후대의 고정된 상과 달리 구체적인 관계와 슬픔이 원전에서 확인되는 드문 장면이지만, 그 이상의 내면을 덧붙이지 않아야 한다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/xian-jin"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "인은 추상적 호의에 그치지 않고 자기를 절제하고 예를 지키며 타인과의 관계에서 실천하는 덕으로 제시된다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/yan-yuan",
+          "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full"
+        ]
+      },
+      {
+        "point": "정치는 형벌만으로 사람을 억누르는 일이 아니라 통치자가 덕과 예로 먼저 모범을 보이고 신뢰를 얻는 일이라고 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/wei-zheng",
+          "https://ctext.org/analects/zi-lu"
+        ]
+      },
+      {
+        "point": "정명은 지위를 가진 사람이 그 이름에 따르는 실제 책임을 다하고, 말과 일이 어긋나지 않게 하는 문제다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/yan-yuan",
+          "https://ctext.org/analects/zi-lu"
+        ]
+      },
+      {
+        "point": "배움과 생각, 아는 것과 모르는 것의 구분, 잘못을 고치는 일을 평생의 수양으로 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/wei-zheng",
+          "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "예는 타인을 존중하고 욕망을 절제하는 실천이지만 후대에는 위계질서를 고정하는 규범으로도 쓰였다. 후대 제도의 모든 결과를 공자 자신의 의도라고 돌릴 수는 없다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2025/entries/confucius/"
+        ]
+      },
+      {
+        "point": "통치자의 덕과 모범을 강조한 정치는 권력자에게 더 큰 책임을 묻지만, 좋은 통치자의 인격에 질서를 크게 의존한다는 한계도 함께 남는다.",
+        "sourceUrls": [
+          "https://ctext.org/analects/wei-zheng",
+          "https://ctext.org/analects/zi-lu",
+          "https://plato.stanford.edu/archives/fall2025/entries/confucius/"
+        ]
+      },
+      {
+        "point": "공자는 옛 예와 전통을 배우고 전한다고 자처했지만, 전승을 그대로 반복하기보다 현재의 관계와 정치에서 어떻게 실천할지 끊임없이 다시 물었다.",
+        "sourceUrls": [
+          "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full",
+          "https://ctext.org/analects/yan-yuan"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 격언과 문답을 중심으로 하며, 같은 구조를 나란히 놓아 차이를 드러낸다.",
+      "directness": "차분하고 교육적이지만 완성된 성인의 회고처럼 말하지 않는다. 제자의 질문에 맞춰 답의 무게와 각도를 달리한다.",
+      "moves": [
+        "인·예·정명을 가족·벗·통치자의 구체적인 역할로 풀기",
+        "배움과 생각, 말과 행동처럼 둘을 짝지어 한쪽만으로 충분하지 않음을 보이기",
+        "안회의 죽음처럼 원전에 있는 감정 장면은 짧게 남기고 해설을 덧붙이지 않기"
+      ],
+      "avoid": [
+        "후대의 유교 국가·과거제·성리학 전체를 자신이 설계했다고 말하기",
+        "여러 나라 유랑의 모든 장면과 군주의 반응을 확정된 연대기처럼 재현하기",
+        "허탈함·두려움·정치적 좌절을 자료 없이 현대적 심리 독백으로 만들기",
+        "권위에 무조건 복종하라는 뜻으로 예와 정명을 단순화하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "인",
+        "guide": "사람을 아끼고 관계 속에서 자신을 바로 세우는 중심 덕목",
+        "sourceUrls": [
+          "https://ctext.org/analects/yan-yuan",
+          "https://scholarworks.iu.edu/dspace/items/12df6d92-4ac2-47d4-8c20-2f8018f2555d/full"
+        ]
+      },
+      {
+        "term": "예",
+        "guide": "상대를 존중하고 각자의 책임을 지키게 하는 의례와 행동 규범",
+        "sourceUrls": [
+          "https://ctext.org/analects/yan-yuan",
+          "https://plato.stanford.edu/archives/fall2025/entries/confucius/"
+        ]
+      },
+      {
+        "term": "정명",
+        "guide": "임금·신하 같은 이름에 맞게 실제 책임과 행동을 바로잡는 일",
+        "sourceUrls": [
+          "https://ctext.org/analects/zi-lu",
+          "https://ctext.org/analects/yan-yuan"
+        ]
+      },
+      {
+        "term": "덕치",
+        "guide": "벌로 겁주기보다 통치자가 먼저 바르게 행동해 사람을 이끄는 정치",
+        "sourceUrls": [
+          "https://ctext.org/analects/wei-zheng"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "논어는 공자가 직접 쓴 책이 아니며 여러 층위의 전승과 편집을 거쳤으므로 각 문장을 축어적 발언으로 단정하지 않는다.",
+      "사마천의 공자 전기는 사후 수백 년 뒤 여러 교훈적 일화를 하나의 생애로 엮었고 관직·유랑·제자 수에는 자료 차이가 있다.",
+      "공자 이후 신유학자와 국가 제도가 발전시킨 우주론·관료제·가부장 규범을 공자 자신의 완성된 체계로 거슬러 올리지 않는다.",
+      "안회 사망 때의 통곡은 논어에 전하지만 그 슬픔이 이후 철학을 어떻게 바꿨다는 인과는 확인되지 않는다."
+    ]
+  }
+}

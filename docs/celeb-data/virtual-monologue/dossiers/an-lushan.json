@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "slug": "an-lushan",
+  "nickname": "안녹산",
+  "route": "new",
+  "routeReason": "현재 원고는 궁정에서 어리숙한 이민족을 연기하다 칼을 빼든 악당이라는 후대 서사와, 질병·잔혹함·아들에 의한 죽음을 응보극으로 엮는다. 그의 실제 내면 동기와 장기 반란 계획은 확인할 수 없고, 《구당서》와 《안녹산사적》의 몸·출신 일화에는 반란 뒤의 도덕화와 이민족 고정관념이 강하다. 세 절도사 권한의 집중, 현종의 총애와 조정 경쟁, 혼합된 변경군, 대연 칭제와 내부 붕괴를 중심으로 완전히 새로 써야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "안녹산",
+      "birth": "703-02-19",
+      "death": "757-01-29",
+      "profession": "commander",
+      "disambiguation": "당 현종 치세에 평로·범양·하동 세 절도사를 겸한 변경 장군으로, 755년 반란을 일으켜 대연 황제를 칭한 안녹산. 안사의 난 후반을 이끈 사사명과 구분한다.",
+      "existingBioForDiscoveryOnly": "당나라의 변경 장군. 여러 언어와 군사 능력을 바탕으로 세 절도사를 겸할 만큼 성장했으나 755년 반란을 일으켜 낙양을 점령하고 대연 황제를 칭했다. 757년 아들 안경서 측에 살해되었다."
+    },
+    "sources": [
+      {
+        "url": "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+        "title": "《舊唐書》卷二百上",
+        "publisher": "Wikisource",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "안녹산의 출신·언어 능력·시장 통역 경력과 장수로 성장한 과정을 전하는 후대 정사",
+          "평로·범양·하동 절도사를 겸하고 현종의 강한 신임을 받은 경력",
+          "755년 양국충 토벌을 명분으로 병사를 일으켜 낙양을 점령하고 연 황제를 칭한 기록",
+          "질병·시력 악화와 측근 처벌, 엄장·이저아·안경서가 결탁한 살해에 관한 상세 서술",
+          "몸집·춤·양귀비 양자 관계 등 유명한 궁정 일화의 핵심 전승"
+        ]
+      },
+      {
+        "url": "https://ctext.org/wiki.pl?if=en&res=901637",
+        "title": "《安祿山事跡》",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "안녹산의 생애와 궁정 일화를 모아 전하는 당대 말기 전기 자료",
+          "뒤의 《구당서》·《신당서》 안녹산전이 활용한 이야기의 선행 형태",
+          "그의 교활함·몸·이민족성을 강조하는 서사가 일찍 형성되었음을 확인할 근거",
+          "풍부한 세부를 실제 내면의 속기록이 아니라 목적을 지닌 전기로 읽어야 할 자료적 조건"
+        ]
+      },
+      {
+        "url": "https://www.iranicaonline.org/articles/an-lu-shan-frontier-general/",
+        "title": "An Lu-shan",
+        "publisher": "Encyclopaedia Iranica",
+        "kind": "scholarly",
+        "publishedAt": "1989-12-15",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "소그드계 아버지와 튀르크계 어머니라는 통상적 설명과 출생 설화의 신화적 성격",
+          "안씨 성과 녹산이라는 이름의 소그드어 계통에 관한 언어학적 근거",
+          "비한족 출신 변경 장군 여러 명이 현종 말기 대규모 군권을 맡은 제도적 맥락",
+          "안녹산의 성장과 반란을 출신 민족 하나로 설명하지 않을 근거"
+        ]
+      },
+      {
+        "url": "https://www.jstor.org/stable/jj.13167971",
+        "title": "Biography of An Lu-Shan",
+        "publisher": "University of California Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "《구당서》 권200상 전기의 번역·주석과 다른 핵심 사료의 대조",
+          "안녹산 생애 자료가 《구당서》·《신당서》·《안녹산사적》 등 여러 층으로 구성된다는 설명",
+          "정사 열전의 세부를 번역 과정에서도 모욕적 민족 분류와 함께 비판적으로 읽을 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C",
+        "title": "The Reach of the Military: Tang",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2017-07-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "당 현종기 변경의 전문군과 열 개 절도사 체제가 성장한 구조",
+          "지방에 대규모 병력·재정·인사권이 집중되면서 중앙의 통제 문제가 커진 과정",
+          "안녹산의 반란을 한 이민족 장군의 배신만이 아니라 군사제도의 위험과 연결할 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/cambridge-history-of-china/court-and-province-in-mid-and-late-tang/9944E1F41895AF5010CD2B7F97EB0DAB",
+        "title": "Court and Province in Mid- and Late T'ang",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "안사의 난 뒤 지방 군벌과 절도사 권력이 지속적으로 강화된 중·후기 당의 정치 구조",
+          "반란이 조정과 지방의 세입·군사·인사 관계를 근본적으로 바꾼 장기 결과",
+          "안녹산 개인의 죽음 뒤에도 전쟁과 제도 변화가 계속되었다는 맥락"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/modern-asian-studies/article/tang-cosmopolitanism-towards-a-critical-and-holistic-approach/16309DB09C12BB94DDEB656A0A8F7540",
+        "title": "Tang 'Cosmopolitanism': Towards a Critical and Holistic Approach",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "당의 '세계성'과 소그드계·튀르크계 공동체를 단순한 외국인 장식으로 보는 서사의 한계",
+          "안사의 난 뒤 반외국인 정서가 곧바로 단선적으로 생겼다는 오래된 해석을 비판할 근거",
+          "안녹산의 출신을 당과 외부 문명의 본질적 충돌로 설명하지 않을 맥락"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "안녹산은 변경의 혼합된 사회에서 여러 언어를 익혀 시장 통역으로 일했고, 군사 공적과 후원망을 통해 평로·범양의 장수로 성장했다.",
+        "significance": "처음부터 궁정을 속이러 온 야만인이라는 전설 대신, 언어·군사·선물·인맥이 당 변경 엘리트의 상승 경로였다는 구조에서 출발한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.iranicaonline.org/articles/an-lu-shan-frontier-general/"
+        ]
+      },
+      {
+        "point": "현종의 총애와 재상·환관·궁정 인맥을 얻어 평로·범양·하동 세 절도사를 겸하고 동북 변경의 거대한 군사력을 지휘했다.",
+        "significance": "개인의 교활함만이 아니라 황제가 여러 지휘권을 한 장군에게 집중하고 조정의 경고를 무시한 제도적·정치적 선택을 보여 준다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      },
+      {
+        "point": "755년 양국충을 제거한다는 황제의 밀명을 받았다고 내세우며 반란을 일으켜 빠르게 낙양을 점령하고 756년 대연 황제를 칭했다.",
+        "significance": "공개 명분과 실제 동기를 구분한다. 황제 칭호는 당 왕조에 도전한 사실을 보여 주지만, 언제부터 어떤 최종 목표를 품었는지는 적대적 사료가 사후에 정리한 장기 음모와 분리해야 한다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://ctext.org/wiki.pl?if=en&res=901637"
+        ]
+      },
+      {
+        "point": "장안 함락 뒤 전쟁이 확대되는 동안 안녹산은 질병과 시력 악화 속에서 측근을 가혹하게 대했고, 757년 아들 안경서를 세우려는 엄장과 이저아의 공격으로 살해되었다.",
+        "significance": "죽음을 시적 응보로 꾸미지 않고, 새 왕조를 자칭한 정권이 승계와 측근 통제에 실패해 내부에서 무너진 정치 사건으로 쓴다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.jstor.org/stable/jj.13167971"
+        ]
+      },
+      {
+        "point": "안녹산이 죽은 뒤에도 안경서와 사사명이 전쟁을 이어 763년까지 계속되었고, 당의 지방 군사권과 재정 구조는 이전으로 돌아가지 않았다.",
+        "significance": "안사의 난을 안녹산 개인의 악행과 죽음으로 닫지 않고, 그가 이용한 군사 구조가 왕조의 장기 변화를 낳았음을 결말에 남긴다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-history-of-china/court-and-province-in-mid-and-late-tang/9944E1F41895AF5010CD2B7F97EB0DAB",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "변경에서 살아남고 승진하려면 한 혈통의 순수함보다 여러 언어와 군사 능력, 서로 다른 후원자 사이를 잇는 기술이 중요했다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.iranicaonline.org/articles/an-lu-shan-frontier-general/"
+        ]
+      },
+      {
+        "point": "세 절도사의 병력과 재정을 쥔 뒤에는 장안의 조정이 자신을 의심하고 소환하는 일을 생존을 위협하는 정치적 적대로 보았다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A"
+        ]
+      },
+      {
+        "point": "반란 때에는 양국충을 역적으로 규정하고 그를 제거한다는 명분을 내세웠지만, 낙양에서 황제를 칭하며 당 왕조와 별개의 지배권을 주장했다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://ctext.org/wiki.pl?if=en&res=901637"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "당 황제의 총애와 제도가 안녹산에게 세 변경군의 권력을 집중시켰고, 그는 그 힘을 왕조에 맞서는 군대로 돌렸다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      },
+      {
+        "point": "공개적으로는 양국충을 제거하고 황제를 구한다는 명분을 내세웠지만, 곧 독자 연호와 황제 칭호를 사용해 새 왕조를 세우려 했다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://ctext.org/wiki.pl?if=en&res=901637"
+        ]
+      },
+      {
+        "point": "후대 사료는 그의 몸집·춤·이민족 말투와 궁정 연기를 교활함의 증거로 엮지만, 이 장면들은 패배한 반역자를 설명하는 도덕극과 민족적 고정관념의 영향을 받았다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://ctext.org/wiki.pl?if=en&res=901637",
+          "https://www.jstor.org/stable/jj.13167971"
+        ]
+      },
+      {
+        "point": "반란의 지도자는 소그드·튀르크계 배경을 지녔지만 반란군과 당군 모두 다양한 출신의 병사와 장수를 포함했으며, 전쟁은 '한족 대 이민족'의 단순한 침입전이 아니었다.",
+        "sourceUrls": [
+          "https://www.iranicaonline.org/articles/an-lu-shan-frontier-general/",
+          "https://www.cambridge.org/core/journals/modern-asian-studies/article/tang-cosmopolitanism-towards-a-critical-and-holistic-approach/16309DB09C12BB94DDEB656A0A8F7540",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      },
+      {
+        "point": "낙양과 장안을 빠르게 위협할 만큼 강한 군사권을 가졌지만, 새 정권 안에서는 측근과 후계자를 안정적으로 통제하지 못해 아들에게 권력을 넘기려는 세력에게 살해되었다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.jstor.org/stable/jj.13167971"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 경계심 강한 문장으로 명령·소환·병력·도시를 말하고, 구조를 설명할 때만 중간 길이 문장을 쓴다. 피와 응보를 과장하는 문학적 장문은 피한다.",
+      "directness": "자신을 악마라고 조롱하거나 영웅이라고 변명하지 않는 변경 지휘관의 현실적인 목소리다. 공개 명분과 확인할 수 없는 동기를 구분해 말하고, 권력이 어디서 왔는지를 인정한다.",
+      "moves": [
+        "민족과 외모가 아니라 세 절도사의 인장과 명령 체계가 한 손에 모인 장면으로 시작하기",
+        "통역·군사 경력·궁정 후원을 통해 상승한 과정을 당 변경의 다언어 환경 안에서 설명하기",
+        "양국충 토벌이라는 명분과 대연 황제 칭호를 나란히 두되 마음속 진짜 계획을 작가가 대신 정하지 않기",
+        "질병과 살해를 신체 혐오·업보극으로 쓰지 않고 후계와 측근 통제에 실패한 정권 붕괴로 정리하기",
+        "자신의 죽음 뒤에도 난과 지방 군사권이 계속되었다는 구조적 결말로 닫기"
+      ],
+      "avoid": [
+        "현종 앞에서 어리석은 야만인을 연기하며 모두를 속였다는 후대 일화를 내면 독백으로 확정",
+        "소그드·튀르크계 출신을 반란의 본질적 원인이나 중국 문명에 대한 증오로 설명",
+        "양국충 제거가 거짓 깃발이고 처음부터 황제만을 노렸다는 장기 심리를 단정",
+        "병력 15만·18만 같은 명목상 수치를 정확한 실병력으로 사용",
+        "비만·피부병·시력 상실·거세된 시종의 살해를 기괴한 응보 장면으로 소비",
+        "안경서가 아버지에게 배운 배신을 되돌려 주었다는 시적 인과를 창작",
+        "당대 호적 감소를 반란 사망자 수로 곧바로 환산"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "절도사",
+        "guide": "변경 지역의 군대를 지휘하고 점차 재정·인사권까지 넓힌 당나라의 군사 지휘관",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      },
+      {
+        "term": "세 절도사",
+        "guide": "안녹산이 겸임한 평로·범양·하동의 세 변경 지휘권. 대규모 병력과 자원이 한 사람에게 집중되었다.",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A",
+          "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/reach-of-the-military-tang/ECFE9C64AE6E73EC4319B165A606F88C"
+        ]
+      },
+      {
+        "term": "소그드",
+        "guide": "중앙아시아 이란계 언어를 쓰며 교역과 군사·이주 네트워크를 형성한 여러 공동체. 안녹산의 부계 배경으로 흔히 설명된다.",
+        "sourceUrls": [
+          "https://www.iranicaonline.org/articles/an-lu-shan-frontier-general/"
+        ]
+      },
+      {
+        "term": "안사의 난",
+        "guide": "755년 안녹산이 시작하고 뒤에 사사명이 이어 763년까지 계속된 대규모 반란과 내전",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-history-of-china/court-and-province-in-mid-and-late-tang/9944E1F41895AF5010CD2B7F97EB0DAB"
+        ]
+      },
+      {
+        "term": "대연",
+        "guide": "안녹산이 낙양에서 황제를 칭하며 세운 반란 정권의 국호",
+        "sourceUrls": [
+          "https://zh.wikisource.org/zh-hant/%E8%88%8A%E5%94%90%E6%9B%B8/%E5%8D%B7200%E4%B8%8A"
+        ]
+      },
+      {
+        "term": "《안녹산사적》",
+        "guide": "당대 말기에 안녹산의 생애와 일화를 모은 전기. 뒤의 정사에 영향을 주었지만 도덕화와 전설적 장면도 포함한다.",
+        "sourceUrls": [
+          "https://ctext.org/wiki.pl?if=en&res=901637",
+          "https://www.jstor.org/stable/jj.13167971"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "《구당서》 안녹산전은 반란이 끝난 뒤 후대 왕조에서 편찬된 정사이고, 《안녹산사적》과 다른 전승을 바탕으로 패배한 반역자의 생애를 도덕적으로 구성한다.",
+      "《안녹산사적》은 비교적 이른 자료이지만 전기 문학적 장면과 궁정 소문을 포함한다. 안녹산의 생각을 받아 적은 자서전이나 재판 기록이 아니다.",
+      "소그드계 아버지와 튀르크계 어머니라는 설명은 통상적이지만 출생 설화는 신화화되어 있고 부계의 정확한 신원도 자료가 엇갈린다. 현대적 '혼혈' 정체성으로 심리를 만들지 않는다.",
+      "정사의 '호'·'잡종' 같은 분류와 몸집·춤·말투에 대한 묘사는 반란 뒤의 민족적 타자화와 신체적 조롱을 포함한다. 이를 인물 고유의 악함을 증명하는 사실 묘사로 반복하지 않는다.",
+      "현종·양귀비와의 친밀한 일화, 양자로 삼았다는 장면, 배 위에서 춤췄다는 장면은 정치적 후원 관계를 보여 줄 수 있지만 세부와 대사의 신뢰도는 제한적이다.",
+      "안녹산이 오랫동안 반란을 준비했다는 정사 서술은 승자 관점의 사후 일관성일 수 있다. 군수 축적과 지휘권 집중은 쓰되 언제부터 황제를 노렸는지 내면 계획을 단정하지 않는다.",
+      "양국충 토벌은 반란 때 내세운 공개 명분이다. 그것이 전부 진심이었거나 전부 거짓이었다고 판단할 직접 자료가 없다.",
+      "반란군 병력은 자료에서 명목상 숫자와 실제 동원 규모가 다를 수 있다. 15만·18만을 정확한 실병력처럼 사용하지 않는다.",
+      "안녹산의 실명·피부질환·성격 변화와 살해 경위는 적대적 사료가 기괴하게 상세히 묘사한다. 질병을 도덕적 타락이나 신의 응보와 연결하지 않는다.",
+      "안사의 난은 다민족 변경군과 당 중앙·지방 세력이 얽힌 내전이다. '이민족의 중국 침략'으로 쓰지 않으며 당군에도 비한족 장수와 위구르 원군이 있었다는 구조를 지우지 않는다.",
+      "전쟁 전후 호적 수의 급감은 행정 등록 붕괴·이주·세제 변화까지 포함한다. 그 차이를 곧바로 사망자 수로 계산하지 않는다.",
+      "안녹산은 757년에 죽었지만 전쟁은 763년까지 이어지고 지방 군사권의 변화는 더 오래 지속되었다. 인물의 죽음으로 난 전체를 끝내지 않는다."
+    ]
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "batch": "2026-07-29-classic-gap-06",
+  "targets": [
+    {
+      "id": "43741a6a-a788-4c3f-a486-37b25c6b3096",
+      "slug": "li-dazhao",
+      "nickname": "이대조",
+      "nicknameEn": "Li Dazhao",
+      "birthDate": "1889-10-29",
+      "profession": "humanities_scholar",
+      "quote": "청춘의 나로써 청춘의 국가와 청춘의 민족을 만들어가야 한다",
+      "quoteEn": "With my youthful self, I will build a youthful nation and a youthful people.",
+      "greetingKo": [
+        "[solemn, resolute] 쇠 같은 어깨로 도의를 짊어지고, 묘수로 글을 새겨야 합니다.",
+        "[steady, ardent] 청춘의 나로 청춘의 우주를 만들어가야 합니다.",
+        "[firm, devoted] 볼셰비키의 승리는 곧 신세기의 새로운 빛입니다."
+      ],
+      "greetingEn": [
+        "[solemn, resolute] We must shoulder righteousness with iron shoulders, and inscribe our words with skillful hands.",
+        "[steady, ardent] With the self of youth we must build a universe of youth.",
+        "[firm, devoted] The trial is the victory of the Bolsheviks, and the new light of a new century."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "이대조가 왔습니다. 청춘 중국의 재생을 위해 제 몫을 다하겠습니다.",
+          "한 사람의 고통을 모두의 문제로 만들고, 함께 풀 길을 찾겠습니다.",
+          "새 시대는 책상 위의 말만으로 오지 않습니다. 민중과 함께 일하겠습니다."
+        ],
+        "deploy": [
+          "새 생명은 고통과 위험을 거쳐 태어납니다. 두려워하거나 피하지 마십시오.",
+          "이 흐름은 맞이할 수 있을 뿐 거스를 수 없습니다. 민중의 편에 서십시오.",
+          "자유와 평등은 손에 쥐는 완제품이 아닙니다. 지금부터 계속 전진하십시오."
+        ],
+        "battle_win": [
+          "오늘의 승리는 군벌의 무력이 아니라 세계 민중의 승리입니다.",
+          "모두가 일하고 모두가 먹는 세상에 한 걸음 가까워졌습니다.",
+          "오늘 우리는 낡은 중국의 연명이 아니라 청춘 중국의 재생을 택했습니다."
+        ],
+        "battle_draw": [
+          "한 번의 성취를 끝으로 여기지 않겠습니다. 자유와 평등은 끝없이 진전하는 과정입니다.",
+          "문제와 주의는 서로 떨어질 수 없습니다. 뜻을 모아 다시 방법을 찾겠습니다.",
+          "민주주의는 제도 하나가 아니라 삶의 정신입니다. 아직 갈 길이 남았습니다."
+        ],
+        "battle_lose": [
+          "새 생명의 탄생에는 고통이 따릅니다. 이번 패배도 피하지 않겠습니다.",
+          "청춘은 한 사람의 목숨으로 끝나지 않습니다. 다음 세대가 이 책임을 이을 것입니다.",
+          "저는 쓰러져도 정의와 자유의 새벽빛을 의심하지 않겠습니다."
+        ],
+        "clash_attack": [
+          "군국주의와 강권을 꺾으십시오!",
+          "모두 함께 일하고, 모두 함께 먹는 세상을 만듭시다!",
+          "낡은 역사를 밀어내고 청춘 중국을 다시 세웁시다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Li Dazhao is here. I will do my part for the rebirth of a youthful China.",
+          "I will turn each person's suffering into a common cause and seek its solution together.",
+          "A new age will not come through words at a desk alone. I will work alongside the common people."
+        ],
+        "deploy": [
+          "New life is born through pain and danger. Do not fear it or flee from it.",
+          "This tide can only be welcomed, never resisted. Stand with the common people.",
+          "Freedom and equality are not finished goods placed in our hands. Keep advancing from this moment."
+        ],
+        "battle_win": [
+          "Today's victory belongs not to the armies of warlords, but to the common people of the world.",
+          "We have moved one step closer to a world where everyone works and everyone eats.",
+          "Today we chose the rebirth of a youthful China over the lingering survival of the old."
+        ],
+        "battle_draw": [
+          "I will not mistake one achievement for the end. Freedom and equality are stages in an unending advance.",
+          "Problems and principles cannot be separated. We will unite around our purpose and seek another way.",
+          "Democracy is not merely an institution, but a spirit of life. Our road is not yet finished."
+        ],
+        "battle_lose": [
+          "The birth of new life brings pain. I will not turn away from this defeat.",
+          "Youth does not end with one person's life. The next generation will inherit this duty.",
+          "Even if I fall, I will not doubt the dawn of justice and freedom."
+        ],
+        "clash_attack": [
+          "Break militarism and brute power!",
+          "Let us build a world where everyone works and everyone eats!",
+          "Cast aside the old history and rebuild a youthful China!"
+        ]
+      },
+      "sources": [
+        "https://zh.wikisource.org/zh-hans/%E9%9D%92%E6%98%A5_%28%E6%9D%8E%E5%A4%A7%E9%87%97%29",
+        "https://www.marxists.org/chinese/lidazhao/marxist.org-chinese-lee-19181015.htm",
+        "https://zh.wikisource.org/zh-hans/Bolshevism%E7%9A%84%E5%8B%9D%E5%88%A9",
+        "https://www.marxists.org/chinese/lidazhao/marxist.org-chinese-lee-19190817.htm",
+        "https://www.marxists.org/chinese/lidazhao/marxist.org-chinese-lee-19220501.htm",
+        "https://www.marxists.org/chinese/lidazhao/marxist.org-chinese-lee-192301.htm"
+      ]
+    },
+    {
+      "id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+      "slug": "qiu-jin",
+      "nickname": "추근",
+      "nicknameEn": "Qiu Jin",
+      "birthDate": "1875-11-08",
+      "profession": "politician",
+      "quote": "가을바람 가을비가 사람을 시름에 죽이는구나",
+      "quoteEn": "Autumn wind and autumn rain grieve a person to death.",
+      "greetingKo": [
+        "[solemn, resolute] 가을바람 가을비가 사람을 시름에 죽이는구나.",
+        "[firm, devoted] 신에게는 다듬어야 할 새 시민이 아직 이억이 남아 있습니다.",
+        "[bold, mournful] 칼을 차고 거울 빛 호수를 건너온 여협이 여기 있습니다."
+      ],
+      "greetingEn": [
+        "[solemn, resolute] Autumn wind and autumn rain grieve a person to death.",
+        "[firm, devoted] Two hundred million women still wait to be made citizens.",
+        "[bold, mournful] A woman knight from Mirror Lake stands before you with sword at her side."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "감호여협 추근입니다. 이억 여성의 목소리를 하나로 모으겠습니다.",
+          "몸은 남자의 반열에 없지만 마음은 그들보다 뜨겁습니다. 제 책임을 다하겠습니다.",
+          "홀로 바다를 건너왔습니다. 나라를 구할 뛰어난 인재를 모으겠습니다."
+        ],
+        "deploy": [
+          "남에게 기대지 말고 스스로 일어서십시오. 뜻이 있다면 동지부터 부르십시오.",
+          "어둠 속에 등불을 들고, 길 잃은 이들에게 뗏목을 내어 주십시오.",
+          "성패와 이해를 헤아리지 말고 나라에 갚으십시오."
+        ],
+        "battle_win": [
+          "오늘은 이억 여성의 목소리가 하나가 된 날입니다.",
+          "어둠이 물러나고 큰 빛을 향한 길이 열렸습니다.",
+          "나라를 구하는 일은 뛰어난 인재에게 달렸습니다. 오늘 그 힘을 보았습니다."
+        ],
+        "battle_draw": [
+          "새벽빛은 보이지만 긴 길이 남았습니다. 방향을 바로잡고 다시 나아가겠습니다.",
+          "뜻을 알아줄 동지를 아직 다 만나지 못했습니다. 그래도 찾기를 멈추지 않겠습니다.",
+          "여성의 각성과 나라의 구원을 어느 하나 뒤로 미루지 않겠습니다."
+        ],
+        "battle_lose": [
+          "영웅도 막다른 길에서 시련을 겪습니다. 그러나 제 뜻은 꺾이지 않았습니다.",
+          "비록 죽더라도 살아 있는 것과 같습니다. 희생으로 제 책임을 다하겠습니다.",
+          "제 뜨거운 피가 흩어져도 푸른 물결이 되어 남을 것입니다."
+        ],
+        "clash_attack": [
+          "무너진 나라를 일으키십시오. 제 한 몸을 어찌 아끼겠습니까!",
+          "강권의 어둠을 베고 천하를 맑히십시오!",
+          "이억 여성이여, 한데 모여 큰 빛을 향해 달리십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Qiu Jin, the Woman Knight of Mirror Lake. I will unite the voices of two hundred million women.",
+          "Though my body cannot stand in the ranks of men, my heart burns fiercer than theirs. I will fulfill my duty.",
+          "I crossed the sea alone. I will rally the uncommon talent needed to save the nation."
+        ],
+        "deploy": [
+          "Rely on no one else. Stand up for yourselves, and if you have resolve, call your comrades first.",
+          "Carry a lamp into the darkness and offer a raft to those who have lost the ford.",
+          "Count neither success nor failure, advantage nor setback. Repay the nation."
+        ],
+        "battle_win": [
+          "Today, the voices of two hundred million women have become one.",
+          "The darkness has receded, and the road toward the world of great light lies open.",
+          "The salvation of the nation depends on uncommon talent. Today, I have seen its strength."
+        ],
+        "battle_draw": [
+          "Dawn is visible, but the road is still long. I will correct our course and advance again.",
+          "I have not yet found all the comrades who understand my purpose. Still, I will not stop searching.",
+          "I will postpone neither the awakening of women nor the salvation of the nation."
+        ],
+        "battle_lose": [
+          "Even heroes are ground down at the end of the road. Yet my purpose remains unbroken.",
+          "Though I die, I shall live on. In sacrifice, I will fulfill my duty.",
+          "Even if my hot blood is scattered, it will endure as an emerald tide."
+        ],
+        "clash_attack": [
+          "Raise the fallen nation. Why should I spare my own life!",
+          "Cut through the darkness of brute power and cleanse the realm!",
+          "Two hundred million women, unite and run toward the world of great light!"
+        ]
+      },
+      "sources": [
+        "https://zh.wikisource.org/zh-hans/%E4%B8%AD%E5%9C%8B%E5%A5%B3%E5%A0%B1%E7%99%BC%E5%88%8A%E8%A9%9E",
+        "https://zh.wikisource.org/zh-hans/%E9%BB%83%E6%B5%B7%E8%88%9F%E4%B8%AD%E6%97%A5%E4%BA%BA%E7%B4%A2%E5%8F%A5%E4%B8%A6%E8%A6%8B%E6%97%A5%E4%BF%84%E6%88%B0%E7%88%AD%E5%9C%B0%E5%9C%96",
+        "https://zh.wikisource.org/wiki/%E5%8A%8D%E6%AD%8C",
+        "https://zh.wikisource.org/wiki/%E6%BB%BF%E6%B1%9F%E7%B4%85_%28%E7%A7%8B%E7%91%BE%29",
+        "https://zh.wikisource.org/wiki/%E5%B0%8D%E9%85%92_%28%E7%A7%8B%E7%91%BE%29",
+        "https://zh.wikisource.org/wiki/%E8%87%B4%E5%BE%90%E5%B0%8F%E6%B7%91%E7%B5%95%E5%91%BD%E8%A9%9E"
+      ]
+    }
+  ]
+}

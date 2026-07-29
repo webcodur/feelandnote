@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "slug": "sun-yat-sen",
+  "nickname": "손문",
+  "route": "hold",
+  "routeReason": "자동 개선 두 차례 뒤에도 편집 검토에서 1인칭 위키 요약과 편집자가 붙인 균형 결말이 중대 결함으로 남았다. '왕조를 무너뜨린 뒤 어떤 방식으로 다스릴 것인가'를 중심 질문으로 삼고, 수많은 사건을 선별해 공화의 약속과 당 중심 단계론의 긴장을 장면과 선택으로 보여 주는 사람의 재구성이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "쑨원",
+      "birth": "1866-11-12",
+      "death": "1925-03-12",
+      "profession": "politician",
+      "disambiguation": "청 왕조 타도 운동과 중화민국 수립을 이끌고 삼민주의 및 군정·훈정·헌정의 단계론을 제시한 중국 혁명가로, 한국 서비스에서는 손문으로 표기",
+      "existingBioForDiscoveryOnly": "중국 혁명의 지도자. 신해혁명 뒤 중화민국 임시 대총통을 지냈고 삼민주의를 제시했다."
+    },
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1899-1913/chinese-rev%3B",
+        "title": "The Chinese Revolution of 1911",
+        "publisher": "Office of the Historian, U.S. Department of State",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "동맹회와 여러 봉기, 해외 화교의 자금 지원, 1911년 우창 봉기 당시 손문이 해외에 있었다는 사실",
+          "임시 대총통 선출과 청 황실 퇴위를 조건으로 위안스카이에게 대통령직을 넘기기로 한 정치적 타협"
+        ]
+      },
+      {
+        "url": "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf",
+        "title": "Selections from A Program of National Reconstruction: The Three Stages of Revolution",
+        "publisher": "Asia for Educators, Columbia University",
+        "kind": "primary",
+        "publishedAt": "1918",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "혁명을 군정, 정치적 훈정, 헌정의 세 단계로 나눈 손문의 구상",
+          "군사정부와 혁명정부의 지도 아래 지방 자치를 훈련한 뒤 선거와 오권헌법으로 넘어가려 한 계획"
+        ]
+      },
+      {
+        "url": "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf",
+        "title": "The Principle of Democracy",
+        "publisher": "Asia for Educators, Columbia University",
+        "kind": "primary",
+        "publishedAt": "1924",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "국민의 정권과 정부의 통치 능력을 구분하고 강한 정부와 국민주권을 결합하려 한 논리",
+          "선거·소환·발안·국민투표와 오권분립에 관한 손문의 후기 민주주의 구상"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/conceiving-an-alternative-the-ideological-underpinnings-and-political-blueprints-of-chinese-federalism/606BACEA529FF52C13E715F0126CE6F5",
+        "title": "Conceiving an Alternative: The Ideological Underpinnings and Political Blueprints of Chinese Federalism",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2024",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "손문이 1890년대부터 연방적 공화국과 지방 자치 구상을 말했고 1912년 취임사에도 이를 담았다는 연구",
+          "손문의 국가 구상이 한 시기의 고정된 단일 노선이 아니라 정치 환경에 따라 변했다는 맥락"
+        ]
+      },
+      {
+        "url": "https://history.state.gov/historicaldocuments/frus1918/d86",
+        "title": "The Minister in China to the Secretary of State, June 5, 1918",
+        "publisher": "Office of the Historian, U.S. Department of State",
+        "kind": "primary",
+        "publishedAt": "1918-06-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "광저우 군정부 내부 군벌 갈등과 손문의 1918년 대원수 사임",
+          "헌법 수호를 내세운 남방 정부도 군사 세력의 경쟁에서 자유롭지 않았다는 동시대 외교 기록"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "의학을 공부한 뒤 청 왕조를 개혁하는 길보다 공화 혁명으로 바꾸는 길을 택하고, 동맹회와 해외 화교 네트워크를 통해 반복해서 봉기를 준비했다.",
+        "significance": "의사와 혁명가의 대비는 살리되, 나라를 환자로 보는 상투적 비유보다 조직·자금·망명의 실제 행동을 중심에 둔다.",
+        "sourceUrls": [
+          "https://history.state.gov/milestones/1899-1913/chinese-rev%3B"
+        ]
+      },
+      {
+        "point": "1911년 우창 봉기가 시작될 때 해외에서 자금을 모으고 있었고, 귀국 뒤 임시 대총통에 선출됐으나 청 황제 퇴위와 공화국 통합을 위해 위안스카이에게 자리를 넘기는 데 합의했다.",
+        "significance": "신해혁명을 손문 혼자 지휘한 사건으로 만들지 않고 상징적 지도력, 현장의 자발적 봉기와 군사력의 한계를 구분한다.",
+        "sourceUrls": [
+          "https://history.state.gov/milestones/1899-1913/chinese-rev%3B"
+        ]
+      },
+      {
+        "point": "위안스카이의 권위주의와 군벌 분열 뒤 헌법 수호 운동을 벌였지만 남방 군정부에서도 군벌과 충돌해 1918년 사임했다.",
+        "significance": "황제 퇴위가 공화정의 정착과 같지 않았다는 실패를 감정적 후회가 아니라 반복된 제도 붕괴로 보여 준다.",
+        "sourceUrls": [
+          "https://history.state.gov/historicaldocuments/frus1918/d86"
+        ]
+      },
+      {
+        "point": "혁명을 군정·훈정·헌정으로 나누고, 말년에는 소련의 도움을 받아 국민당을 강한 조직으로 재편하면서 국민주권과 강한 정부를 함께 주장했다.",
+        "significance": "삼민주의를 곧바로 자유민주주의와 동일시하지 않고 당의 지도와 헌정 사이의 긴장을 독백 안에 남긴다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf",
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "민족주의·민권주의·민생주의를 외세와 왕조의 지배에서 벗어나 국민주권과 생활 안정을 이루기 위한 세 축으로 제시했다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      },
+      {
+        "point": "국민이 선거·소환·발안·국민투표의 정치 권리를 가지되, 정부는 행정 능력을 발휘할 수 있을 만큼 강해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      },
+      {
+        "point": "즉시 완성된 헌정으로 가지 않고 혁명군의 군정과 국민당의 정치적 훈정을 거쳐 지방 자치와 헌정을 준비해야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "국민주권을 목표로 삼았지만, 그 목표에 이르는 동안 혁명군과 혁명당이 국민을 훈련하고 지도해야 한다고 보았다. 이는 민주주의와 당 중심 과도통치가 함께 있는 구상이다.",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf",
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      },
+      {
+        "point": "1911년 혁명의 상징적 지도자였지만 우창 봉기를 현장에서 지휘하지 않았으며, 공화국 수립은 여러 혁명가·신군·지방 세력과 위안스카이의 군사력이 얽힌 결과였다.",
+        "sourceUrls": [
+          "https://history.state.gov/milestones/1899-1913/chinese-rev%3B"
+        ]
+      },
+      {
+        "point": "위안스카이에게 대통령직을 넘긴 결정은 청 황실 퇴위와 통합을 위한 거래였지만 이후 권위주의를 막지 못했다. 손문이 그 결과를 현재 원고처럼 평생 자책했다고 단정할 직접 근거는 없다.",
+        "sourceUrls": [
+          "https://history.state.gov/milestones/1899-1913/chinese-rev%3B"
+        ]
+      },
+      {
+        "point": "헌법 수호를 말한 남방 정부도 군벌의 무력과 파벌 경쟁에 기대었고, 손문 자신의 정부 역시 안정된 국민 통치를 이루지 못했다.",
+        "sourceUrls": [
+          "https://history.state.gov/historicaldocuments/frus1918/d86"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "혁명의 목표를 세 갈래로 정리하는 명료한 문장과, 단계마다 남은 실패를 설명하는 조금 긴 문장을 번갈아 쓴다.",
+      "directness": "계획을 설계하고 조직을 세우는 혁명가의 어조를 살리되, '국부'라는 후대 호칭이나 실패를 모두 예견한 현자의 회고를 피한다.",
+      "moves": [
+        "의술 비유는 한 번만 쓰고 곧 조직·봉기·해외 모금의 구체적 행동으로 넘어가기",
+        "우창 봉기 당시 해외에 있었다는 사실을 밝혀 상징적 지도력과 현장 역할을 구분하기",
+        "임시 대총통 사임을 고결한 양보 한 줄이 아니라 청 퇴위와 위안스카이의 군사력 속 거래로 설명하기",
+        "삼민주의를 설명한 뒤 군정·훈정·헌정 단계론을 붙여 민주주의 구상의 내부 긴장을 남기기"
+      ],
+      "avoid": [
+        "신해혁명을 손문이 직접 지휘해 청을 무너뜨린 단독 영웅담",
+        "동지들의 죽음과 대통령직 양보를 두고 정확히 어떤 감정을 오래 품었다는 창작",
+        "삼민주의를 오늘날 자유민주주의·사회민주주의와 그대로 같은 것으로 번역하기",
+        "훈정을 단순한 시민교육으로 순화해 혁명당의 과도 통치 권한을 숨기기",
+        "중국 국민 전체가 손문의 계획에 합의했다는 단정"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "동맹회",
+        "guide": "청 왕조를 무너뜨리고 공화국을 세우려 여러 혁명 단체가 1905년 결성한 연합 조직",
+        "sourceUrls": [
+          "https://history.state.gov/milestones/1899-1913/chinese-rev%3B"
+        ]
+      },
+      {
+        "term": "삼민주의",
+        "guide": "민족의 자립, 국민의 정치 권리, 백성의 생활 안정을 함께 이루려 한 손문의 세 원칙",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      },
+      {
+        "term": "훈정",
+        "guide": "헌정에 앞서 혁명당이 국민의 자치 능력을 길러 준다는 명분으로 정치를 이끄는 과도 단계",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf"
+        ]
+      },
+      {
+        "term": "오권헌법",
+        "guide": "행정·입법·사법에 관리 선발과 감찰 기능을 더해 정부를 다섯 기관으로 나누는 구상",
+        "sourceUrls": [
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_revolution.pdf",
+          "https://afe.easia.columbia.edu/ps/cup/sun_yatsen_democracy.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "1911년 혁명에서 손문의 상징성과 조직 활동은 중요하지만 우창 봉기 당시 해외에 있었다. 현장 지휘자처럼 재현하지 않는다.",
+      "손문의 정치사상은 시기별로 변했고 삼민주의의 용어와 강조점도 고정되지 않았다. 1924년 강연을 젊은 시절부터 완성된 동일한 생각으로 소급하지 않는다.",
+      "1918년과 1924년 텍스트는 손문의 실제 정치 구상을 확인하는 1차 자료지만 번역·편집된 선집이다. 문구를 직접 인용할 때는 원문 대조 없이 축어 인용하지 않는다.",
+      "위안스카이에게 자리를 넘긴 동기에는 청 퇴위, 군사력의 격차와 통합 협상이 얽혔다. 순수한 자기희생이나 순진한 오판 하나로 설명하지 않는다.",
+      "손문 사후 국민당과 공산당이 그의 유산을 서로 다르게 정전화했다. 후대의 국부·혁명 선구자 서사를 생전 자기 인식으로 쓰지 않는다.",
+      "동지들의 죽음, 망명과 실패가 남긴 정확한 사적 감정은 제한적으로만 전한다. 행동의 반복은 확인되지만 현재 독백의 내면 독백은 출처가 없다."
+    ]
+  }
+}

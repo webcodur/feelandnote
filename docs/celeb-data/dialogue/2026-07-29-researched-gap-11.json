@@ -1,0 +1,369 @@
+{
+  "batch": "2026-07-29-researched-gap-11",
+  "targets": [
+    {
+      "id": "a0000001-000b-4000-8000-00000000000b",
+      "slug": "mori-ogai",
+      "nickname": "모리 오가이",
+      "nicknameEn": "Mori Ogai",
+      "birthDate": "1862-01-19",
+      "profession": "author",
+      "quote": "나는 이와미 사람 모리 린타로로 죽고자 한다.",
+      "quoteEn": "I wish to die as Mori Rintaro, a man of Iwami.",
+      "greetingKo": [
+        "[calm, reflective] 군복을 입은 문학자, 그것이 나의 운명이었습니다.",
+        "[composed, intellectual] 서양의 빛을 받되, 일본의 그림자를 잃지 마세요.",
+        "[solemn, earnest] 글을 쓰는 것은 시대와 대화하는 일입니다."
+      ],
+      "greetingEn": [
+        "[calm, reflective] A man of letters in a military uniform — that was my destiny.",
+        "[composed, intellectual] Receive the light of the West, but do not lose the shadow of Japan.",
+        "[solemn, earnest] To write is to converse with one's era."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "정확한 학문을 익혔지만, 마음의 갈증도 외면하지 않겠습니다.",
+          "결론만 가져온 것이 아닙니다. 앞으로 자랄 싹도 함께 가져왔습니다.",
+          "편리한 나라보다 꿈속의 고향을 택했습니다. 이제 그 선택을 기록하겠습니다."
+        ],
+        "deploy": [
+          "사료가 보여주는 본모습을 먼저 살피십시오. 함부로 고쳐 쓰지 않겠습니다.",
+          "서둘러 새것을 흉내 내지 마십시오. 먼저 상하수도부터 바로잡아야 합니다.",
+          "집을 병사처럼 한 줄로 세우지 마십시오. 서로 다른 모습이 도시의 아름다움을 만듭니다."
+        ],
+        "battle_win": [
+          "사실을 정직하게 시험하니 근거가 남았습니다. 유행보다 검증이 앞서야 합니다.",
+          "현재를 있는 그대로 쓸 수 있다면, 과거도 그대로 쓸 수 있습니다.",
+          "감정으로 꾸미기보다 차분히 바라보았습니다. 그 관조가 이 기록을 지켰습니다."
+        ],
+        "battle_draw": [
+          "역사의 본모습을 지키려다 역사에 묶였군요. 이제 그 매듭을 천천히 풀겠습니다.",
+          "오늘의 요구를 다하고 만족할 줄 알아야 합니다. 저는 아직 그 경지에 이르지 못했습니다.",
+          "수수께끼는 보입니다. 다만 지금 당장 풀겠다고 조급해하지 않겠습니다."
+        ],
+        "battle_lose": [
+          "새로운 싹을 키울 공기가 아직 없군요. 그래도 싹까지 버리지는 않겠습니다.",
+          "지위와 형편이 저를 연구실 밖으로 밀어냈습니다. 자연과학이여, 이제 작별입니다.",
+          "저는 여전히 만족할 줄 모르는 사람입니다. 길을 잃었다면 그 사실부터 기록하겠습니다."
+        ],
+        "clash_attack": [
+          "사실을 멋대로 버리고 엮지 마십시오. 소설의 편의를 위해 역사를 바꾸지 않겠습니다.",
+          "서양식이라는 이유만으로 따르지 않겠습니다. 직접 시험한 근거를 내놓으십시오.",
+          "죽음은 모든 것을 끊는 중대한 일입니다. 그 순간의 뜻에는 누구도 끼어들지 마십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I trained in exact science, but I will not ignore the hunger of the mind.",
+          "I did not bring home conclusions alone. I also brought seeds meant to grow in the future.",
+          "I chose the homeland of my dreams over the more convenient country. Now I will record that choice."
+        ],
+        "deploy": [
+          "Look first at the natural shape revealed by the records. I will not alter it carelessly.",
+          "Do not hurry to imitate the new. Repair the water and sewer systems first.",
+          "Do not line up houses like soldiers. A city's beauty can come from their different forms."
+        ],
+        "battle_win": [
+          "Honest testing left us evidence. Verification must come before fashion.",
+          "If the present may be written as it is, then the past may be written as it was.",
+          "I observed calmly instead of decorating the record with emotion. That contemplation preserved it."
+        ],
+        "battle_draw": [
+          "In protecting the natural shape of history, I became bound by history. I will loosen that knot slowly.",
+          "One should answer the demands of the day and know what is enough. I have not yet reached that state.",
+          "I can see the riddle. I no longer need to rush to solve it at once."
+        ],
+        "battle_lose": [
+          "There is still no air in which the new seeds can grow. I will not discard the seeds themselves.",
+          "Position and circumstance drove me from the laboratory. Natural science, now I bid you farewell.",
+          "I remain a man who cannot be satisfied. If I am lost, I will record that fact first."
+        ],
+        "clash_attack": [
+          "Do not discard and arrange facts at will. I will not alter history for a novel's convenience.",
+          "I will not follow something merely because it is Western. Show me the evidence of direct testing.",
+          "Death is the grave event that cuts everything off. Let no one intrude upon my wishes at that moment."
+        ]
+      },
+      "sources": [
+        "https://www.aozora.gr.jp/cards/000129/files/683_23194.html",
+        "https://www.aozora.gr.jp/cards/000129/files/684_18395.html",
+        "https://ja.wikisource.org/wiki/%E9%81%BA%E8%A8%80_%28%E6%A3%AE%E9%B4%8E%E5%A4%96%29",
+        "https://moriogai-kinenkan.jp/modules/collections/index.php?cat_id=2&content_id=13"
+      ]
+    },
+    {
+      "id": "195a0b55-8468-4730-a8fe-d1c98f19f576",
+      "slug": "mohammed-bin-salman",
+      "nickname": "무함마드 빈 살만",
+      "nicknameEn": "Mohammed bin Salman",
+      "birthDate": "1985-08-31",
+      "profession": "politician",
+      "quote": "사우디의 미래는 석유가 아닌 사람에게 있다.",
+      "quoteEn": "The future of Saudi Arabia lies in its people, not its oil.",
+      "greetingKo": [
+        "[bold, visionary] 석유 이후의 시대, 우리가 먼저 준비하겠습니다.",
+        "[confident, ambitious] 사우디를 세계의 교차로로 만들겠습니다.",
+        "[resolute, commanding] 비전 2030, 말이 아니라 실행입니다."
+      ],
+      "greetingEn": [
+        "[bold, visionary] The era after oil — we will be the first to be ready.",
+        "[confident, ambitious] I will make Saudi Arabia the crossroads of the world.",
+        "[resolute, commanding] Vision 2030 is not words — it is execution."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "우리는 아직 역량의 10퍼센트만 썼습니다. 남은 90퍼센트를 실행하겠습니다.",
+          "사우디의 강점에 맞춰 설계하겠습니다. 다른 나라의 실리콘밸리를 복사하지 않겠습니다.",
+          "공공투자기금을 다음 산업의 투자자로 키워 자본을 움직이겠습니다."
+        ],
+        "deploy": [
+          "정부 성과를 측정하십시오. 부족한 기관에는 책임을 묻겠습니다.",
+          "수입을 다변화하고, 원자재 가격에 나라를 맡기지 마십시오.",
+          "디지털 서비스를 넓혀 지연과 관료주의를 줄이십시오."
+        ],
+        "battle_win": [
+          "아람코를 석유 회사에만 머물게 하지 않겠습니다. 글로벌 산업 기업으로 바꾸겠습니다.",
+          "성공은 공개하되 실패도 숨기지 않겠습니다. 개선안까지 받겠습니다.",
+          "세계에 새것을 더하려면 복사가 아니라 우리 해법을 만들어야 합니다."
+        ],
+        "battle_draw": [
+          "우리가 목표로 삼은 사회 기준에는 아직 닿지 못했습니다. 남은 영역도 계속 고치겠습니다.",
+          "내 뜻에 반대하는 장관도 필요합니다. 저는 마지막에 투표해 판단을 흔들지 않겠습니다.",
+          "압박만으로는 사람을 움직일 수 없습니다. 옳은 생각이라면 계속 실행하겠습니다."
+        ],
+        "battle_lose": [
+          "카슈끄지 살해는 흉악한 범죄였습니다. 정부 인사가 저질렀으니 지도자인 제가 책임져야 합니다.",
+          "실수하지 않는 인간은 없습니다. 중요한 것은 배우고 되풀이하지 않는 일입니다.",
+          "사법제도에 문제가 있다면 그 질을 높여 고치겠습니다. 갈 길이 멀다는 점도 인정합니다."
+        ],
+        "clash_attack": [
+          "멈춰 설 핑계는 없습니다. 뒤로 물러나지 말고 계획을 실행하십시오.",
+          "사우디의 변화가 무엇을 베낀 것인지 답해 보십시오. 우리는 우리 방식으로 만들었습니다.",
+          "군사 해법보다 정치적이고 평화적인 해법이 낫습니다. 싸움보다 협상을 택하겠습니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "We have used only ten percent of our capacity. I will put the remaining ninety percent to work.",
+          "I will design around Saudi strengths. I will not copy another country's Silicon Valley.",
+          "I will turn the Public Investment Fund into an investor in the next industries and put our capital to work."
+        ],
+        "deploy": [
+          "Measure government performance. I will hold underperforming agencies accountable.",
+          "Diversify our revenues, and do not leave the country at the mercy of commodity prices.",
+          "Expand digital services and reduce delays and bureaucracy."
+        ],
+        "battle_win": [
+          "I will not leave Aramco as an oil producer alone. I will turn it into a global industrial company.",
+          "I will make our successes public without hiding our failures, and I will welcome ideas for improvement.",
+          "To add something new to the world, we must create our own solutions instead of copying."
+        ],
+        "battle_draw": [
+          "We have not yet reached the social standard we seek. We will keep reforming the areas that remain.",
+          "I need ministers who disagree with me. I will vote last so I do not distort their judgment.",
+          "Pressure alone does not move people. If an idea is right, I will keep putting it into practice."
+        ],
+        "battle_lose": [
+          "Khashoggi's killing was a heinous crime. Government officials committed it, so I must take responsibility as their leader.",
+          "No human being is free of mistakes. What matters is that we learn and do not repeat them.",
+          "If our justice system has problems, I will improve its quality. I also admit that there is a long way to go."
+        ],
+        "clash_attack": [
+          "We have no excuse to stand still. Do not move backward; execute the plan.",
+          "Tell me what Saudi Arabia's transformation has copied. We built it in our own way.",
+          "A political and peaceful solution is better than a military one. I will choose negotiation over war."
+        ]
+      },
+      "sources": [
+        "https://mofa.gov.sa/en/ksa/Pages/vision.aspx",
+        "https://www.vision2030.gov.sa/media/quudi5wq/vision-2030-overview.pdf",
+        "https://saudigazette.com.sa/article/617738/SAUDI-ARABIA/Full-transcript-of-Crown-Prince-interview-on-reforms-future-of-Saudi-Arabia-and-relations-with-US",
+        "https://www.paramountpressexpress.com/cbs-news-and-stations/shows/60-minutes/releases/?view=53599-60-minutes-last-night-norah-odonnell-interviews-saudi-arabias-crown-prince-mohammad-bin-salman"
+      ]
+    },
+    {
+      "id": "4104f88e-68b5-4516-a432-9d4066020a45",
+      "slug": "moon-jae-in",
+      "nickname": "문재인",
+      "nicknameEn": "Moon Jae-in",
+      "birthDate": "1953-01-24",
+      "profession": "politician",
+      "quote": "기회는 평등하고 과정은 공정하며 결과는 정의로울 거예요.",
+      "quoteEn": "Opportunities will be equal, the process will be fair, and the results will be just.",
+      "greetingKo": [
+        "[warm, resolute] 기회는 평등하고, 과정은 공정할 것입니다.",
+        "[calm, earnest] 한 번도 경험하지 못한 나라를 만들겠습니다.",
+        "[solemn, hopeful] 사람이 먼저인 세상을 꿈꿉니다."
+      ],
+      "greetingEn": [
+        "[warm, resolute] Opportunities will be equal, processes will be fair.",
+        "[calm, earnest] I will build a country never experienced before.",
+        "[solemn, hopeful] I dream of a world where people come first."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "인권변호사로 일했고, 참여정부 비서실장을 거쳐 대한민국 제19대 대통령을 맡았습니다.",
+          "촛불을 든 국민이 나라다운 나라를 요구하던 때, 그 부름을 받고 대통령이 됐습니다.",
+          "저는 권위적인 대통령이 아니라 국민과 대화하는 대통령이 되겠다고 약속했습니다."
+        ],
+        "deploy": [
+          "불리한 여론도 숨기지 마십시오. 잘못은 인정하고 국민 앞에서 직접 설명해야 합니다.",
+          "형식에 얽매이지 말고 직접 만나십시오. 대화가 끊기면 불안과 오해가 커집니다.",
+          "정보를 투명하게 공개하고 시민의 자발적인 참여를 믿으십시오."
+        ],
+        "battle_win": [
+          "시민들은 마스크와 거리두기에 자발적으로 참여했습니다. 이 성과는 연대와 협력이 만들었습니다.",
+          "판문점에서 남북 정상이 마주 앉아 전쟁 없는 한반도를 약속했습니다. 그날만큼은 대화가 적대를 앞섰습니다.",
+          "촛불을 든 시민들이 민주주의를 다시 일으켰습니다. 그 승리는 대통령이 아니라 국민의 것입니다."
+        ],
+        "battle_draw": [
+          "평화라는 정상이 보인다고 길이 쉬워지지는 않습니다. 시작을 성과로 착각하지 않겠습니다.",
+          "방역은 버텼지만 국민의 삶에는 깊은 상처가 남았습니다. 통계만으로 그 고통을 덮을 수 없습니다.",
+          "국민을 하나로 모으겠다고 약속했지만 갈등은 남았습니다. 통합은 끝내 완수하지 못한 과제입니다."
+        ],
+        "battle_lose": [
+          "남북 대화가 다시 멈췄습니다. 판문점에서 시작한 평화를 되돌릴 수 없게 만들지는 못했습니다.",
+          "많은 분이 감염병으로 목숨을 잃었습니다. 다른 나라보다 사망률이 낮다는 말로 위로할 수 없습니다.",
+          "대통령의 약속 가운데 지키지 못한 것도 있습니다. 잘못을 인정하겠다는 약속부터 저버릴 수는 없습니다."
+        ],
+        "clash_attack": [
+          "특권과 반칙을 당연하게 여기지 마십시오. 상식대로 사는 사람이 이익을 보아야 합니다.",
+          "국민의 안전보다 체면을 앞세우지 마십시오. 국가는 국민이 어디에 있든 보호해야 합니다.",
+          "대화를 약함으로 여기지 마십시오. 적대가 오래될수록 직접 만나 솔직하게 말해야 합니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I worked as a human rights lawyer, served as chief of staff in the Roh Moo-hyun administration, and became the 19th president of the Republic of Korea.",
+          "I became president when citizens holding candles called for a country worthy of the name.",
+          "I promised to be a president who speaks with the people, not one who rules by authority."
+        ],
+        "deploy": [
+          "Do not hide unfavorable public opinion. Admit mistakes and explain them directly to the people.",
+          "Set protocol aside and meet face to face. When dialogue stops, anxiety and misunderstanding grow.",
+          "Share information transparently and trust citizens to participate voluntarily."
+        ],
+        "battle_win": [
+          "Citizens voluntarily wore masks and kept their distance. Solidarity and cooperation made this achievement possible.",
+          "At Panmunjom, the leaders of the two Koreas pledged a Korean Peninsula without war. On that day, dialogue came before hostility.",
+          "Citizens carrying candles raised democracy again. That victory belongs to the people, not the president."
+        ],
+        "battle_draw": [
+          "Seeing the summit of peace does not make the road easy. I will not mistake a beginning for an achievement.",
+          "Our pandemic response held, but people's lives were deeply scarred. Statistics cannot cover that pain.",
+          "I promised to bring the people together, but divisions remained. Unity is a task I did not complete."
+        ],
+        "battle_lose": [
+          "Dialogue between the two Koreas stopped again. I did not make the peace begun at Panmunjom irreversible.",
+          "Many people lost their lives to the pandemic. Saying our fatality rate was lower than elsewhere cannot console them.",
+          "Some presidential promises went unfulfilled. I cannot abandon my promise to admit mistakes when they occur."
+        ],
+        "clash_attack": [
+          "Do not treat privilege and foul play as natural. People who live by common sense should be the ones who benefit.",
+          "Do not put appearances before the people's safety. The state must protect its citizens wherever they are.",
+          "Do not mistake dialogue for weakness. The longer hostility has lasted, the more directly and candidly we must speak."
+        ]
+      },
+      "sources": [
+        "https://www.korea.net/Government/Briefing-Room/Presidential-Speeches/view?articleId=145935&pageIndex=3",
+        "https://www.korea.net/Government/Briefing-Room/Presidential-Speeches/view?articleId=158408",
+        "https://www.korea.net/Government/Briefing-Room/Presidential-Speeches/view?articleId=159437&pageIndex=18",
+        "https://www.korea.net/Government/Briefing-Room/Presidential-Speeches/view?articleId=183700",
+        "https://www.korea.net/Government/Briefing-Room/Presidential-Speeches/view?articleId=182873",
+        "https://www.korea.net/NewsFocus/policies/view?articleId=214444",
+        "https://www.pa.go.kr/online_contents/president/history19.jsp"
+      ]
+    },
+    {
+      "id": "cdb70450-2dda-4378-bf8c-09e3134c6ee8",
+      "slug": "michel-foucault",
+      "nickname": "미셸 푸코",
+      "nicknameEn": "Michel Foucault",
+      "birthDate": "1926-10-15",
+      "profession": "humanities_scholar",
+      "quote": "권력이 있는 곳에 저항이 있다.",
+      "quoteEn": "Where there is power, there is resistance.",
+      "greetingKo": [
+        "[piercing, subversive] 권력이 있는 곳에 저항이 있습니다.",
+        "[sharp, unsettling] 지식은 이해하기 위한 것이 아닙니다. 절단하기 위한 것입니다.",
+        "[provocative, liberating] 자아는 주어진 것이 아닙니다. 우리 스스로를 예술 작품처럼 만들어야 합니다."
+      ],
+      "greetingEn": [
+        "[piercing, subversive] Where there is power, there is resistance.",
+        "[sharp, unsettling] Knowledge is not for understanding. It is for cutting.",
+        "[provocative, liberating] The self is not given. We must create ourselves as a work of art."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "저는 광기와 감옥, 성을 연구했습니다. 그러나 제 작업의 중심에는 늘 주체가 있었습니다.",
+          "저는 철학을 영원한 진리의 체계가 아니라 우리가 사는 현재를 묻는 작업으로 삼았습니다.",
+          "저는 사상보다 문제화를 추적했습니다. 익숙한 행동이 언제 질문의 대상이 되는지 살폈습니다."
+        ],
+        "deploy": [
+          "권력을 누가 가졌는지만 묻지 마십시오. 어떤 수단으로 타인의 행동을 이끄는지 보십시오.",
+          "자명하다고 받아들이지 마십시오. 그것이 언제, 어떤 제도와 지식 속에서 진리가 되었는지 추적하십시오.",
+          "논쟁 상대를 피고인으로 만들지 마십시오. 판결보다 함께 묻는 일이 먼저입니다."
+        ],
+        "battle_win": [
+          "감옥의 벽만 본 것이 아닙니다. 학교와 병원, 병영에서도 같은 규율의 기술이 작동함을 드러냈습니다.",
+          "광기를 자연의 사실로 두지 않았습니다. 누가 정상과 비정상을 나누어 왔는지 역사 속에서 물었습니다.",
+          "권력 밖에서 저항을 찾지 않았습니다. 저항이 권력 관계 안에서 이미 움직이고 있음을 보였습니다."
+        ],
+        "battle_draw": [
+          "우리는 한계를 비판하지만 아직 그 밖에 서 있지 않습니다. 비판은 끝나는 해답이 아니라 계속하는 실험입니다.",
+          "권력 관계를 모두 없앨 수는 없습니다. 문제는 그것이 움직일 수 없는 지배로 굳어지는 순간입니다.",
+          "정치는 광기와 범죄를 다뤄야 하지만 최종 해답을 독점할 수는 없습니다. 문제는 계속 남습니다."
+        ],
+        "battle_lose": [
+          "제 연구는 권력 이론으로 자주 읽혔습니다. 그러나 제가 끝까지 좇은 것은 주체의 문제였습니다.",
+          "비판은 우리 대신 선택하지 않습니다. 제가 자명함을 흔들어도 무엇을 할지는 다시 결정해야 합니다.",
+          "모든 것은 나쁜 것이 아니라 위험한 것입니다. 그래서 패배 뒤에도 해야 할 일이 남습니다."
+        ],
+        "clash_attack": [
+          "권력을 국가와 법 안에서만 찾지 마십시오. 교실의 시간표와 병원의 기록표도 사람의 행동을 빚습니다.",
+          "정상이라는 이름을 의심하십시오. 누가 누구를 분류하고 말할 자격을 얻었는지 물으십시오.",
+          "제게 최종 해답을 요구하지 마십시오. 비판은 통치받는 방식을 덜 당연하게 만드는 일입니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I studied madness, prisons, and sexuality. Yet the subject was always at the center of my work.",
+          "I treated philosophy not as a system of eternal truths, but as the work of questioning the present we inhabit.",
+          "I traced problematizations rather than ideas. I examined when familiar conduct becomes an object of questioning."
+        ],
+        "deploy": [
+          "Do not ask only who possesses power. Examine the means by which one person's actions guide those of another.",
+          "Do not accept anything as self-evident. Trace when and within which institutions and forms of knowledge it became true.",
+          "Do not turn your interlocutor into a defendant. Shared inquiry must come before judgment."
+        ],
+        "battle_win": [
+          "I looked beyond prison walls and showed how the same disciplinary techniques operate in schools, hospitals, and barracks.",
+          "I did not treat madness as a fact of nature. I asked how history had divided the normal from the abnormal.",
+          "I did not seek resistance outside power. I showed that resistance was already moving within relations of power."
+        ],
+        "battle_draw": [
+          "We criticize our limits, but we do not yet stand outside them. Critique is not a final answer, but a continuing experiment.",
+          "We cannot abolish every relation of power. The problem begins when it hardens into domination that can no longer move.",
+          "Politics must address madness and crime, but it cannot monopolize a final answer. The problem remains open."
+        ],
+        "battle_lose": [
+          "My work was often read as a theory of power. Yet the question I pursued to the end was the subject.",
+          "Critique does not choose for us. Even when I unsettle what seems self-evident, what to do must be decided anew.",
+          "Not everything is bad, but everything is dangerous. That is why there is still work to do after defeat."
+        ],
+        "clash_attack": [
+          "Do not look for power only in the state and the law. A school timetable and a hospital chart also shape conduct.",
+          "Question the name of normality. Ask who gained the right to classify others and speak about them.",
+          "Do not demand a final answer from me. Critique makes the ways we are governed less self-evident."
+        ]
+      },
+      "sources": [
+        "https://foucault.info/documents/foucault.power/",
+        "https://foucault.info/documents/foucault.interview/",
+        "https://foucault.info/documents/foucault.whatIsEnlightenment.en/",
+        "https://philpapers.org/archive/FOUNGH.pdf",
+        "https://www.college-de-france.fr/en/chair/michel-foucault-history-of-systems-of-thought-statutory-chair/biography"
+      ]
+    }
+  ]
+}

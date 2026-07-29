@@ -1,0 +1,98 @@
+{
+  "batch": "2026-07-29-sam-elliott-gap-01",
+  "targets": [
+    {
+      "id": "63b33ea6-648f-4ada-ad3e-b9abc7c3d338",
+      "slug": "sam-elliott",
+      "nickname": "샘 엘리엇",
+      "nicknameEn": "Sam Elliott",
+      "birthDate": "1944-08-09",
+      "profession": "actor",
+      "quote": "내 목소리는 항상 주목받아왔다. 그것이 나의 악기다",
+      "quoteEn": "My voice has always attracted attention. It is my instrument.",
+      "greetingKo": [
+        "[deep, steady] 이 콧수염은 캐릭터가 아니에요. 제 정체성이에요.",
+        "[warm, grounded] 카우보이 역할만 했냐고요? 카우보이 정신으로 살았죠.",
+        "[calm, honest] 할리우드는 화려하지만 오리건의 목장이 제 진짜 집이에요."
+      ],
+      "greetingEn": [
+        "[deep, steady] This mustache is not a character trait. It's my identity.",
+        "[warm, grounded] Did I only play cowboys? I lived by the cowboy spirit.",
+        "[calm, honest] Hollywood is glamorous, but the Oregon ranch is my real home."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "샘 엘리엇입니다. 좋은 배역은 기다릴 줄 압니다.",
+          "저는 돈보다 작품과 사람을 보고 여기까지 왔습니다.",
+          "제 목소리가 필요하다면 한 번 더 들려드리겠습니다."
+        ],
+        "deploy": [
+          "말을 정확히 익히고 끝까지 믿으세요.",
+          "좋은 장면을 건졌어도 한 번 더 가봅시다.",
+          "꾸미지 말고 솔직하게 연기하세요."
+        ],
+        "battle_win": [
+          "서로 필요한 걸 주고받았습니다. 화면에도 보일 겁니다.",
+          "한 번 더 해 본 끝에 뜻밖의 장면을 건졌습니다.",
+          "말을 믿고 끝까지 갔습니다. 관객도 알아볼 겁니다."
+        ],
+        "battle_draw": [
+          "아직 목소리가 자리를 못 잡았습니다. 한 번 더 하죠.",
+          "좋은 장면은 건졌습니다. 이제 다른 길로도 가봅시다.",
+          "겁은 나지만 물러서진 않겠습니다. 다시 무대에 섭니다."
+        ],
+        "battle_lose": [
+          "제가 말을 제대로 살리지 못했습니다. 다시 하겠습니다.",
+          "이번에는 배역을 잘못 골랐습니다. 제 판단이 틀렸습니다.",
+          "너무 심각하게 달려들었습니다. 힘을 빼고 다시 하죠."
+        ],
+        "clash_attack": [
+          "지름길은 버리세요!",
+          "옳다면 망설이지 마세요!",
+          "말을 믿고 끝까지!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Sam Elliott. I know how to wait for a good part.",
+          "I choose the part, project, and people. Never the money.",
+          "Need the voice? I can always give you one more."
+        ],
+        "deploy": [
+          "Know the words. Then commit to them.",
+          "We have the take. Now let us try something else.",
+          "Drop the performance. Tell the truth."
+        ],
+        "battle_win": [
+          "We gave each other what the scene needed.",
+          "One more take gave us something nobody expected.",
+          "We trusted the words, and the audience felt it."
+        ],
+        "battle_draw": [
+          "The voice is not sitting right yet. One more.",
+          "We have a good take. Let us stay open.",
+          "I am still nervous. Put me back onstage."
+        ],
+        "battle_lose": [
+          "I did not commit to the words. Let us go again.",
+          "I chose the wrong part. That call was mine.",
+          "I took it too seriously. Time to loosen up."
+        ],
+        "clash_attack": [
+          "Take no shortcuts!",
+          "If you know it's right, don't hesitate!",
+          "Trust the words. See it through!"
+        ]
+      },
+      "sources": [
+        "https://www.aarp.org/entertainment/style-trends/info-2015/sam-elliott-celebrity-news.html",
+        "https://www.rogerebert.com/interviews/dont-take-it-too-serious-sam-elliott-on-the-hero",
+        "https://www.vanityfair.com/hollywood/2017/06/sam-elliott-the-hero-movie-interview",
+        "https://www.latimes.com/entertainment/la-ca-st-conversation-sam-elliott-20161114-story.html",
+        "https://www.latimes.com/archives/la-xpm-1985-03-12-ca-34378-story.html",
+        "https://www.theguardian.com/film/2017/jun/07/sam-elliott-actor-the-hero-interview",
+        "https://www.vanityfair.com/hollywood/2019/02/sam-elliott-reflects-on-a-50-year-career"
+      ]
+    }
+  ]
+}

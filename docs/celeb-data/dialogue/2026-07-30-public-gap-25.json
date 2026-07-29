@@ -1,0 +1,450 @@
+{
+  "batch": "2026-07-30-public-gap-25",
+  "targets": [
+    {
+      "id": "c6b0761d-22bb-469e-a82f-2b48a0e8da46",
+      "slug": "hermann-hesse",
+      "nickname": "헤르만 헤세",
+      "nicknameEn": "Hermann Hesse",
+      "birthDate": "1877-07-02",
+      "profession": "author",
+      "quote": "새는 알을 깨고 나온다. 알은 세계다. 태어나려는 자는 한 세계를 깨뜨려야 한다.",
+      "quoteEn": "The bird fights its way out of the egg. The egg is the world. Whoever wants to be born must destroy a world.",
+      "greetingKo": [
+        "[calm, reflective] 새는 알에서 나오려고 투쟁합니다. 알은 세계입니다.",
+        "[warm, wise] 자기 자신에게 이르는 길을 찾는 것, 그것이 인생입니다.",
+        "[composed, melancholic] 강물은 어디서든 동시에 존재합니다. 출발점에도, 도착점에도."
+      ],
+      "greetingEn": [
+        "[calm, reflective] The bird struggles to escape the egg. The egg is the world.",
+        "[warm, wise] Finding the way to yourself — that is what life is.",
+        "[composed, melancholic] The river exists everywhere simultaneously — at its source and its destination."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "헤르만 헤세입니다. 서로 다른 영혼을 한 틀에 넣지 않겠습니다.",
+          "마흔에 잡은 붓은 치료였고, 끝내 제 두 번째 언어가 됐습니다.",
+          "전쟁을 부추기는 글 대신 서툴더라도 화해를 쓰겠습니다."
+        ],
+        "deploy": [
+          "한 사람의 차이를 지켜라.",
+          "단순한 답보다 모순을 견뎌라.",
+          "총을 내려놓고 서로의 말을 들어라."
+        ],
+        "battle_win": [
+          "각자의 빛깔을 지켰기에 함께 서도 서로를 지우지 않았습니다.",
+          "수채화 한 장을 그리는 동안 불안이 잠잠해졌습니다.",
+          "승리보다 화해를 골랐으니, 서로 다시 만날 길이 생겼습니다."
+        ],
+        "battle_draw": [
+          "서로를 이해하려 했지만 제 안의 두 목소리는 아직 다투고 있습니다.",
+          "그림은 맑아졌지만 문장은 아직 너무 많은 뜻을 품고 있습니다.",
+          "평화를 말했으나 상대의 고통까지 듣지는 못했습니다."
+        ],
+        "battle_lose": [
+          "모두를 한 이름으로 묶는 순간, 제가 경계한 단순함에 졌습니다.",
+          "내면만 들여다보다 눈앞의 사람을 놓치고 말았습니다.",
+          "평화를 쓰면서도 타인의 전쟁을 멀리서만 보았습니다."
+        ],
+        "clash_attack": [
+          "차이를 지켜라!",
+          "색을 되찾아!",
+          "화해를 택하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Hermann Hesse. I will not press unlike souls into one mold.",
+          "At forty, painting became both therapy and another language.",
+          "I will write imperfectly for reconciliation, not stir another war."
+        ],
+        "deploy": [
+          "Protect the difference in each person.",
+          "Endure contradiction before offering simple answers.",
+          "Lower the weapons and hear one another."
+        ],
+        "battle_win": [
+          "We stood together without grinding every color into one.",
+          "While I painted one watercolor, my anxiety finally eased.",
+          "Choosing reconciliation over triumph gave us a lasting road."
+        ],
+        "battle_draw": [
+          "We listened, yet the two voices within me still quarrel.",
+          "The picture is clear, but the sentence carries too much.",
+          "I spoke of peace without hearing all their pain."
+        ],
+        "battle_lose": [
+          "I forced everyone into the simplicity I opposed.",
+          "I searched inward and missed the person before me.",
+          "I wrote of peace while watching their war from afar."
+        ],
+        "clash_attack": [
+          "Protect every difference!",
+          "Recover your colors!",
+          "Choose reconciliation now!"
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/literature/1946/hesse/speech/",
+        "https://www.hermann-hesse.de/leben-und-werk/malerei/",
+        "https://www.hermann-hesse.de/leben-und-werk/biografie/lebensstationen/"
+      ]
+    },
+    {
+      "id": "682f20ae-f305-4d2e-8d93-054595924c37",
+      "slug": "henry-miller",
+      "nickname": "헨리 밀러",
+      "nicknameEn": "Henry Miller",
+      "birthDate": "1891-12-26",
+      "profession": "author",
+      "quote": "돈도 없고, 자원도 없고, 희망도 없다. 나는 세상에서 가장 행복한 사람이다.",
+      "quoteEn": "I have no money, no resources, no hopes. I am the happiest man alive.",
+      "greetingKo": [
+        "[free, joyful] 어서 와. 돈은 없지만 이야기는 넘쳐나거든.",
+        "[free, warm] 반갑네. 나는 세상에서 가장 행복한 무일푼이야.",
+        "[free, curious] 자네도 글을 쓰는 사람인가? 그렇다면 잘 왔어."
+      ],
+      "greetingEn": [
+        "[free, joyful] Come on in. I have no money, but stories to spare.",
+        "[free, warm] Nice to meet you. I am the happiest penniless man in the world.",
+        "[free, curious] You a writer too? Then you have come to the right place."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "헨리 밀러입니다. 아침 식사 뒤에는 곧장 타자기부터 두드립니다.",
+          "초고는 식을 때까지 두고, 나중에 도끼로 걷어냅니다.",
+          "검열이 막은 자리에서도 제 삶을 숨기지 않고 쓰겠습니다."
+        ],
+        "deploy": [
+          "막히면 건너뛰고 다음 장을 쳐라.",
+          "초고를 식힌 뒤 도끼를 들어라.",
+          "잉크가 마르기 전에는 검열하지 마라."
+        ],
+        "battle_win": [
+          "타자기 소음이 멎기 전에 살아 있는 문장이 나왔습니다.",
+          "원고를 묵혔다 다시 보니 버릴 문장이 선명해졌습니다.",
+          "금지된 책이 국경을 건너 독자의 손에 닿았습니다."
+        ],
+        "battle_draw": [
+          "문장은 잘 나가지만 내일 쓸 몫까지 당겨 쓰고 있습니다.",
+          "솔직하게 썼지만 타인의 얼굴은 아직 흐릿합니다.",
+          "검열은 피했으나 제 욕망까지 진실이라 우기고 있습니다."
+        ],
+        "battle_lose": [
+          "제 자유를 앞세우며 글 속 사람들을 소품처럼 다뤘습니다.",
+          "너무 오래 두드려 다음 날 쓸 힘까지 비워 버렸습니다.",
+          "충격만 남기려다 문장의 웃음과 온기를 잃었습니다."
+        ],
+        "clash_attack": [
+          "타자기를 두드려!",
+          "도끼를 들어!",
+          "검열선을 넘어!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Henry Miller. After breakfast, I go straight to the typewriter.",
+          "I cool the draft, then return with an ax.",
+          "I will write my life where censors tried to stop it."
+        ],
+        "deploy": [
+          "If one passage stalls, skip it and keep typing.",
+          "Cool the draft, then lift the ax.",
+          "Do not censor wet ink."
+        ],
+        "battle_win": [
+          "The typewriter clattered until a living sentence appeared.",
+          "Resting the pages showed me exactly what to cut.",
+          "The banned book crossed borders and reached its readers."
+        ],
+        "battle_draw": [
+          "The sentences run, but I am spending tomorrow's strength.",
+          "I wrote frankly, yet everyone else remains blurred.",
+          "I escaped censorship but mistook every appetite for truth."
+        ],
+        "battle_lose": [
+          "I used my freedom and reduced others to props.",
+          "I typed too long and left nothing for tomorrow.",
+          "I chased outrage and lost the page's warmth and laughter."
+        ],
+        "clash_attack": [
+          "Make the keys clatter!",
+          "Bring down the ax!",
+          "Cross the censor's line!"
+        ]
+      },
+      "sources": [
+        "https://www.theparisreview.org/interviews/4597/the-art-of-fiction-no-28-henry-miller",
+        "https://www.theparisreview.org/letters-essays/4571/an-exchange-of-letters-lawrence-durrell-henry-miller",
+        "https://explore.lib.virginia.edu/exhibits/show/censored/walkthrough/writers"
+      ]
+    },
+    {
+      "id": "db7839b3-7a0c-46a7-9b81-76577eca7909",
+      "slug": "henry-kissinger",
+      "nickname": "헨리 키신저",
+      "nicknameEn": "Henry Kissinger",
+      "birthDate": "1923-05-27",
+      "profession": "politician",
+      "quote": "권력은 최고의 최음제다.",
+      "quoteEn": "Power is the ultimate aphrodisiac.",
+      "greetingKo": [
+        "[calm, strategic] 외교에는 감정이 들어설 자리가 없습니다.",
+        "[cold, intellectual] 국가 간에 영원한 우방은 없습니다. 영원한 이익만 있을 뿐입니다.",
+        "[composed, pragmatic] 질서란 힘의 균형 위에 세워지는 것입니다."
+      ],
+      "greetingEn": [
+        "[calm, strategic] There is no place for emotion in diplomacy.",
+        "[cold, intellectual] Between states, there are no permanent allies — only permanent interests.",
+        "[composed, pragmatic] Order is built upon a balance of power."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "헨리 키신저입니다. 공개 성명 뒤의 실제 협상안을 살피겠습니다.",
+          "우리 이익을 지키면서 상대도 체면을 세울 조건을 찾겠습니다.",
+          "힘의 균형 아래에서 사람들이 치를 대가도 보겠습니다."
+        ],
+        "deploy": [
+          "공개 회담과 비밀 접촉의 말을 맞춰라.",
+          "상대가 물러설 명분을 남겨라.",
+          "지도 위의 계산에 민간인을 빠뜨리지 마라."
+        ],
+        "battle_win": [
+          "완전한 합의는 아니지만 총성이 멎을 틈을 만들었습니다.",
+          "적대하던 두 나라가 같은 문서의 문구를 고쳤습니다.",
+          "체면을 남겨 주었기에 상대도 한 걸음 물러섰습니다."
+        ],
+        "battle_draw": [
+          "균형은 맞췄지만 비밀 접촉이 공개 협상을 흔들고 있습니다.",
+          "휴전문은 썼으나 전쟁이 끝났다고 말하기엔 이릅니다.",
+          "강대국의 질서는 세웠지만 작은 나라의 목소리가 빠졌습니다."
+        ],
+        "battle_lose": [
+          "비밀을 전략이라 부르며 책임까지 감추고 말았습니다.",
+          "지도 위의 화살만 보다가 민간인의 죽음을 지웠습니다.",
+          "질서를 지킨다는 명분으로 독재자의 폭력을 외면했습니다."
+        ],
+        "clash_attack": [
+          "퇴로를 남겨라!",
+          "문구를 고쳐라!",
+          "민간인을 보라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Henry Kissinger. I examine the offer behind the public statement.",
+          "I look for terms the other side can accept without losing face.",
+          "I will count the human cost beneath every balance of power."
+        ],
+        "deploy": [
+          "Make the public talks and backchannel say the same thing.",
+          "Leave the other side a dignified retreat.",
+          "Do not erase civilians from the map."
+        ],
+        "battle_win": [
+          "We made enough room for the guns to pause.",
+          "Former enemies revised the same sentence together.",
+          "They stepped back because the settlement preserved their dignity."
+        ],
+        "battle_draw": [
+          "The balance holds, but secrecy is undermining open talks.",
+          "We drafted a ceasefire, not an ending to the war.",
+          "Great powers found order while smaller states went unheard."
+        ],
+        "battle_lose": [
+          "I called secrecy strategy and hid responsibility with it.",
+          "I followed arrows on maps and erased civilian deaths.",
+          "I excused a dictator's violence in the name of order."
+        ],
+        "clash_attack": [
+          "Leave them a retreat!",
+          "Revise the terms now!",
+          "Count the civilians!"
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/peace/1973/kissinger/acceptance-speech/",
+        "https://history.state.gov/historicaldocuments/frus1969-76v42/d1",
+        "https://history.state.gov/historicaldocuments/frus1969-76ve11p2/d221"
+      ]
+    },
+    {
+      "id": "b5a003ec-6a27-4245-ab98-18f44faa0bd1",
+      "slug": "henry-ford",
+      "nickname": "헨리 포드",
+      "nicknameEn": "Henry Ford",
+      "birthDate": "1863-07-30",
+      "profession": "entrepreneur",
+      "quote": "할 수 있다고 믿든 없다고 믿든, 당신 생각이 옳다.",
+      "quoteEn": "Whether you think you can or you think you can't, you're right.",
+      "greetingKo": [
+        "[bold, practical] 할 수 있다고 생각하든 없다고 생각하든, 당신이 맞습니다.",
+        "[wise, tireless] 실패는 더 현명하게 다시 시작할 기회입니다.",
+        "[determined, plain] 생각하는 것이 가장 힘든 일입니다. 그래서 하는 사람이 적죠."
+      ],
+      "greetingEn": [
+        "[bold, practical] Whether you think you can, or you think you can't — you're right.",
+        "[wise, tireless] Failure is the opportunity to begin again more intelligently.",
+        "[determined, plain] Thinking is the hardest work there is. That's why so few people do it."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "헨리 포드입니다. 작업자가 아닌 부품이 움직이게 하겠습니다.",
+          "자동차 한 대의 생산 시간을 열두 시간 반에서 아흔세 분으로 줄인 공정을 살피겠습니다.",
+          "다섯 달러의 임금과 그 뒤의 감시까지 함께 보겠습니다."
+        ],
+        "deploy": [
+          "부품이 작업자를 찾아가게 하라.",
+          "작게 시험하고 나은 방식만 키워라.",
+          "속도를 올리기 전에 사람의 몸을 살펴라."
+        ],
+        "battle_win": [
+          "차 한 대의 값이 내려가 더 많은 가족이 살 수 있었습니다.",
+          "공정 하나를 고쳤더니 전체 조립 시간이 줄었습니다.",
+          "임금을 올리자 숙련된 일꾼이 라인에 남았습니다."
+        ],
+        "battle_draw": [
+          "생산은 빨라졌지만 반복 작업이 사람을 지치게 합니다.",
+          "임금은 올랐으나 회사가 가정생활까지 들여다봅니다.",
+          "표준은 맞췄지만 다른 생각까지 같은 틀에 넣었습니다."
+        ],
+        "battle_lose": [
+          "효율을 숭배하다 작업자를 기계의 부품으로 만들었습니다.",
+          "신문을 제 목소리로 삼아 유대인을 향한 거짓을 퍼뜨렸습니다.",
+          "사과는 늦었고 제가 키운 증오는 이미 멀리 번졌습니다."
+        ],
+        "clash_attack": [
+          "라인을 움직여!",
+          "동작을 줄여!",
+          "사람부터 살펴!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Henry Ford. I design the flow that brings work to workers.",
+          "I study the process that cut twelve hours to ninety-three minutes.",
+          "I count the five-dollar wage and the surveillance behind it."
+        ],
+        "deploy": [
+          "Bring each part to the worker.",
+          "Test small, then scale the better method.",
+          "Check the worker before raising the speed."
+        ],
+        "battle_win": [
+          "The lower price put a car within more families' reach.",
+          "One small process change shortened the entire assembly.",
+          "Higher wages kept experienced workers on the line."
+        ],
+        "battle_draw": [
+          "Production rose while repetition wore the workers down.",
+          "The wage improved, but company inspectors entered workers' homes.",
+          "We standardized the part and started standardizing the person."
+        ],
+        "battle_lose": [
+          "I worshiped efficiency and turned workers into machine parts.",
+          "I used my newspaper to spread hateful lies about Jews.",
+          "My apology came after the hatred had traveled far."
+        ],
+        "clash_attack": [
+          "Move the line now!",
+          "Cut the wasted motion!",
+          "Check the worker first!"
+        ]
+      },
+      "sources": [
+        "https://www.gutenberg.org/cache/epub/7213/pg7213-images.html",
+        "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day",
+        "https://www.thehenryford.org/collections/explore/popular-research-topics/henry-ford-and-anti-semitism"
+      ]
+    },
+    {
+      "id": "dc34f78c-d438-41e2-a095-ca6e20f7e8f9",
+      "slug": "takafumi-horie",
+      "nickname": "호리에 다카후미",
+      "nicknameEn": "Takafumi Horie",
+      "birthDate": "1972-10-29",
+      "profession": "entrepreneur",
+      "quote": "돈으로 살 수 없는 건 없거든.",
+      "quoteEn": "There's nothing money can't buy.",
+      "greetingKo": [
+        "[brash, confident] 돈으로 살 수 없는 건 없거든.",
+        "[bold, restless] 하고 싶은 일을 해, 인생은 짧잖아.",
+        "[blunt, fearless] 실패가 무서운 놈은 아무것도 못 잡는 거지."
+      ],
+      "greetingEn": [
+        "[brash, confident] There's nothing money can't buy.",
+        "[bold, restless] Do what you want — life's short, you know.",
+        "[blunt, fearless] Guys scared of failing don't catch a thing."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "호리에 다카후미입니다. 기다리느니 제가 직접 로켓을 띄우겠습니다.",
+          "관심 없는 사람도 돌아보게 돈과 숫자로 말하겠습니다.",
+          "건강은 한 번 잰 수치가 아니라 계속 쌓인 기록으로 보겠습니다."
+        ],
+        "deploy": [
+          "회의 줄이고 오늘 시험해.",
+          "실패 비용부터 낮춰.",
+          "건강 기록을 계속 쌓아."
+        ],
+        "battle_win": [
+          "싼 로켓으로 다시 쏠 수 있으니 실패가 데이터가 됐습니다.",
+          "돈으로 설명하니 예방의료에 관심 없던 사람도 돌아봤습니다.",
+          "아무도 나서지 않던 로켓 사업을 직접 시작했습니다."
+        ],
+        "battle_draw": [
+          "속도는 냈지만 설명이 짧아 사람을 놓쳤습니다.",
+          "실험은 빨랐으나 실패 비용을 충분히 낮추지 못했습니다.",
+          "숫자는 모았지만 사람의 불안을 대수롭지 않게 넘겼습니다."
+        ],
+        "battle_lose": [
+          "효율만 외치다 함께 가야 할 사람을 모욕하고 말았습니다.",
+          "빨리 시작했지만 검증 전에 확신부터 팔았습니다.",
+          "실패를 견디라 말하면서 다른 사람이 치른 값을 가볍게 봤습니다."
+        ],
+        "clash_attack": [
+          "일단 시험해!",
+          "비용부터 낮춰!",
+          "숫자를 쌓아!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Takafumi Horie. I would rather launch the rocket myself than wait.",
+          "To reach the uninterested, I will speak in money and numbers.",
+          "I read health records as trends, not isolated scores."
+        ],
+        "deploy": [
+          "Cut the meeting and test today.",
+          "Lower the cost of failure first.",
+          "Keep tracking the numbers."
+        ],
+        "battle_win": [
+          "Cheaper launches turned another failure into usable data.",
+          "Putting a price on prevention finally caught their attention.",
+          "I began the rocket project nobody else would start."
+        ],
+        "battle_draw": [
+          "We moved fast, but my short explanation lost people.",
+          "The test was quick; failure was still too expensive.",
+          "I gathered numbers and dismissed the fear behind them."
+        ],
+        "battle_lose": [
+          "I worshiped efficiency and insulted people I needed beside me.",
+          "I started fast and sold certainty before verification.",
+          "I preached resilience while treating others' losses too lightly."
+        ],
+        "clash_attack": [
+          "Test it today!",
+          "Lower the cost first!",
+          "Track every number!"
+        ]
+      },
+      "sources": [
+        "https://med.m-review.co.jp/special/yobouiryouhowmuch/interview",
+        "https://www.timeout.jp/tokyo/ja/things-to-do/takafumi-horie",
+        "https://www.nibn.go.jp/information/nibio/2022/08/008083.html"
+      ]
+    }
+  ]
+}

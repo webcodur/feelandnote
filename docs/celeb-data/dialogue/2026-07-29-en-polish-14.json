@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-14",
+  "targets": [
+    {
+      "id": "4104f88e-68b5-4516-a432-9d4066020a45",
+      "slug": "moon-jae-in",
+      "nickname": "문재인",
+      "birthDate": "1953-01-24",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "I worked as a human rights lawyer, served as chief of staff in the Roh Moo-hyun administration, and became the 19th president of the Republic of Korea.",
+          "I became president when citizens holding candles called for a country worthy of the name.",
+          "I promised to be a president who speaks with the people, not one who rules by authority."
+        ],
+        "deploy": [
+          "Do not hide unfavorable public opinion. Admit mistakes and explain them directly to the people.",
+          "Set protocol aside and meet face to face. When dialogue stops, anxiety and misunderstanding grow.",
+          "Share information transparently and trust citizens to participate voluntarily."
+        ],
+        "battle_win": [
+          "Citizens voluntarily wore masks and kept their distance. Solidarity and cooperation made this achievement possible.",
+          "At Panmunjom, the leaders of the two Koreas pledged a Korean Peninsula without war. On that day, dialogue came before hostility.",
+          "Citizens carrying candles raised democracy again. That victory belongs to the people, not the president."
+        ],
+        "battle_draw": [
+          "Seeing the summit of peace does not make the road easy. I will not mistake a beginning for an achievement.",
+          "Our pandemic response held, but people's lives were deeply scarred. Statistics cannot cover that pain.",
+          "I promised to bring the people together, but divisions remained. Unity is a task I did not complete."
+        ],
+        "battle_lose": [
+          "Dialogue between the two Koreas stopped again. I did not make the peace begun at Panmunjom irreversible.",
+          "Many people lost their lives to the pandemic. Saying our fatality rate was lower than elsewhere cannot console them.",
+          "Some presidential promises went unfulfilled. I cannot abandon my promise to admit mistakes when they occur."
+        ],
+        "clash_attack": [
+          "Do not treat privilege and foul play as natural. People who live by common sense should be the ones who benefit.",
+          "Do not put appearances before the people's safety. The state must protect its citizens wherever they are.",
+          "Do not mistake dialogue for weakness. The longer hostility has lasted, the more directly and candidly we must speak."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I worked as a human rights lawyer and chief of staff before becoming the nineteenth president.",
+          "Citizens with candles demanded a country worthy of its name. I answered their call.",
+          "I promised to speak with the people, not rule them through authority."
+        ],
+        "deploy": [
+          "Do not hide bad polls. Admit mistakes and explain them.",
+          "Set protocol aside and meet face to face. Misunderstanding grows when dialogue stops.",
+          "Share information openly and trust citizens to take part."
+        ],
+        "battle_win": [
+          "Citizens wore masks and kept their distance. We achieved this together.",
+          "The two Korean leaders met at Panmunjom and pledged a peninsula without war.",
+          "Citizens holding candles restored democracy. The victory was theirs."
+        ],
+        "battle_draw": [
+          "Peace remains distant. I will not mistake a beginning for an achievement.",
+          "Our pandemic response held, but people's lives were scarred. Statistics cannot hide that.",
+          "I promised unity, but divisions remained. I did not finish that work."
+        ],
+        "battle_lose": [
+          "Inter-Korean dialogue stopped again. I failed to uphold the promise of Panmunjom.",
+          "The pandemic took many lives. A lower fatality rate cannot console their families.",
+          "Some promises went unfulfilled. I will keep my promise to admit mistakes."
+        ],
+        "clash_attack": [
+          "Do not accept privilege and foul play as normal!",
+          "People's safety comes before appearances!",
+          "Do not mistake dialogue for weakness!"
+        ]
+      }
+    },
+    {
+      "id": "cdb70450-2dda-4378-bf8c-09e3134c6ee8",
+      "slug": "michel-foucault",
+      "nickname": "미셸 푸코",
+      "birthDate": "1926-10-15",
+      "profession": "humanities_scholar",
+      "expectedEn": {
+        "roll_call": [
+          "I studied madness, prisons, and sexuality. Yet the subject was always at the center of my work.",
+          "I treated philosophy not as a system of eternal truths, but as the work of questioning the present we inhabit.",
+          "I traced problematizations rather than ideas. I examined when familiar conduct becomes an object of questioning."
+        ],
+        "deploy": [
+          "Do not ask only who possesses power. Examine the means by which one person's actions guide those of another.",
+          "Do not accept anything as self-evident. Trace when and within which institutions and forms of knowledge it became true.",
+          "Do not turn your interlocutor into a defendant. Shared inquiry must come before judgment."
+        ],
+        "battle_win": [
+          "I looked beyond prison walls and showed how the same disciplinary techniques operate in schools, hospitals, and barracks.",
+          "I did not treat madness as a fact of nature. I asked how history had divided the normal from the abnormal.",
+          "I did not seek resistance outside power. I showed that resistance was already moving within relations of power."
+        ],
+        "battle_draw": [
+          "We criticize our limits, but we do not yet stand outside them. Critique is not a final answer, but a continuing experiment.",
+          "We cannot abolish every relation of power. The problem begins when it hardens into domination that can no longer move.",
+          "Politics must address madness and crime, but it cannot monopolize a final answer. The problem remains open."
+        ],
+        "battle_lose": [
+          "My work was often read as a theory of power. Yet the question I pursued to the end was the subject.",
+          "Critique does not choose for us. Even when I unsettle what seems self-evident, what to do must be decided anew.",
+          "Not everything is bad, but everything is dangerous. That is why there is still work to do after defeat."
+        ],
+        "clash_attack": [
+          "Do not look for power only in the state and the law. A school timetable and a hospital chart also shape conduct.",
+          "Question the name of normality. Ask who gained the right to classify others and speak about them.",
+          "Do not demand a final answer from me. Critique makes the ways we are governed less self-evident."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I studied madness, prisons, and sexuality to ask how people become subjects.",
+          "I sought no eternal answers in philosophy. I questioned the present we inhabit.",
+          "I traced when familiar conduct became a problem rather than writing a history of ideas."
+        ],
+        "deploy": [
+          "Do not look only for rulers. Watch how one action guides another.",
+          "Accept nothing as obvious. Ask when it became true.",
+          "Do not make your interlocutor a defendant. Question before you judge."
+        ],
+        "battle_win": [
+          "I found the same disciplines in prisons, schools, hospitals, and barracks.",
+          "I refused to treat madness as natural. I asked who defined normality.",
+          "Resistance is not outside power. It moves wherever power does."
+        ],
+        "battle_draw": [
+          "Critiquing a limit does not place us outside it. Critique remains an experiment.",
+          "We cannot erase every power relation. The danger is when it hardens into domination.",
+          "Politics may address madness and crime, but it cannot monopolize the final answer."
+        ],
+        "battle_lose": [
+          "My work was reduced to a theory of power, but I was pursuing the subject.",
+          "Critique cannot choose for us. We must decide again what to do.",
+          "Not everything is bad, but everything is dangerous. We must keep looking."
+        ],
+        "clash_attack": [
+          "A timetable disciplines the body!",
+          "Question the very name of normality!",
+          "Question why being governed this way seems self-evident!"
+        ]
+      }
+    }
+  ]
+}

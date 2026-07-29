@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "slug": "john-schulman",
+  "nickname": "존 슐만",
+  "route": "improve",
+  "routeReason": "현재 글은 로봇 학습에서 PPO와 언어 모델 정렬로 이어지는 연구 축이 선명하고 어려운 개념도 비교적 쉽게 푼다. 그러나 PPO를 슐만 개인의 발명으로, RLHF와 ChatGPT의 후반 학습을 한 사람의 지휘로 압축하며, 로봇 연구에서 느꼈다는 답답함과 이직 뒤의 동기를 확인되지 않은 내면으로 만든다. TRPO의 선행 연구, PPO 공동 저자, 인간 선호 학습과 InstructGPT의 대규모 연구·라벨링 팀을 복원하고, 공개 논문으로 확인되는 기여와 기관 소개가 붙인 수식어를 분리하는 방향으로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "존 슐만",
+      "birth": "1988",
+      "death": "",
+      "profession": "scientist",
+      "disambiguation": "TRPO·PPO 공동 연구와 OpenAI의 강화학습·언어 모델 후속 학습에 참여했고 현재 Thinking Machines Lab 수석 과학자로 활동하는 미국 인공지능 연구자",
+      "existingBioForDiscoveryOnly": "미국의 인공지능 연구자. OpenAI 공동창업자로 PPO 알고리즘을 발명했고 ChatGPT 정렬을 이끈 RLHF의 핵심 두뇌다. 2025년부터 Thinking Machines Lab 공동창업자 겸 수석 과학자로 활동한다."
+    },
+    "sources": [
+      {
+        "url": "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+        "title": "ChatGPT architect, Berkeley alum John Schulman on his journey with AI",
+        "publisher": "UC Berkeley",
+        "kind": "institutional",
+        "publishedAt": "2023-04-20",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "물리학·신경과학에서 피터 아빌의 로봇 연구를 거쳐 기계학습으로 옮긴 학업 경로",
+          "OpenAI 공동 설립과 강화학습 팀을 이끈 경력에 대한 대학 기관 인터뷰",
+          "ChatGPT와 강화학습·진실성·미래 인공지능에 관한 슐만의 공개 발언",
+          "내면 서술은 인터뷰에서 직접 밝힌 범위로 제한해야 한다는 근거"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/1502.05477",
+        "title": "Trust Region Policy Optimization",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2015-02-19",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "존 슐만·세르게이 러빈·필립 모리츠·마이클 조던·피터 아빌의 공동 연구",
+          "정책을 한 번에 지나치게 바꾸지 않도록 제약하는 TRPO의 목표",
+          "PPO보다 앞선 정책 최적화 연구의 계보"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/1707.06347",
+        "title": "Proximal Policy Optimization Algorithms",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2017-07-20",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "존 슐만·필립 볼스키·프라풀라 다리왈·앨릭 래드퍼드·올레크 클리모프의 공동 저자 관계",
+          "정책 경사법의 업데이트를 단순한 대리 목적함수로 제한하는 PPO",
+          "샘플 효율·구현 단순성·실행 시간 사이의 균형이라는 논문의 평가",
+          "PPO를 한 사람의 단독 발명으로 쓰지 않아야 한다는 근거"
+        ]
+      },
+      {
+        "url": "https://openai.com/index/introducing-openai/",
+        "title": "Introducing OpenAI",
+        "publisher": "OpenAI",
+        "kind": "institutional",
+        "publishedAt": "2015-12-11",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "2015년 OpenAI 출범 당시 존 슐만이 창립 구성원으로 명시된 사실",
+          "인공지능의 이익을 널리 분배하겠다는 당시 비영리 조직의 공개 목표",
+          "여러 연구자·기술자·후원자가 함께 만든 조직이라는 창립 맥락"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/1706.03741",
+        "title": "Deep Reinforcement Learning from Human Preferences",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2017-06-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사람이 두 행동 결과를 비교한 선호 자료로 보상 함수를 학습시키는 선행 연구",
+          "인간 피드백 강화학습이 슐만 한 사람에게서 시작된 방법이 아니라는 연구 계보",
+          "복잡한 목표를 직접 보상식으로 쓰기 어려울 때 인간 비교 판단을 이용하는 발상"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.02155",
+        "title": "Training language models to follow instructions with human feedback",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2022-03-04",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "지도 미세조정·사람의 선호 비교·보상 모델·PPO를 잇는 InstructGPT 학습 절차",
+          "존 슐만을 포함한 다수 연구자와 인간 라벨러가 참여한 공동 작업",
+          "사람의 의도에 더 잘 맞게 하는 성과와 여전히 단순한 오류를 낸다는 한계",
+          "RLHF가 인간의 모든 가치나 진리를 자동으로 해결하지 않는다는 근거"
+        ]
+      },
+      {
+        "url": "https://openai.com/index/instruction-following/",
+        "title": "Aligning language models to follow instructions",
+        "publisher": "OpenAI",
+        "kind": "institutional",
+        "publishedAt": "2022-01-27",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "InstructGPT의 목적과 인간 피드백 학습 결과에 대한 공식 설명",
+          "존 슐만을 포함한 긴 공동 저자 명단과 여러 기여자의 존재",
+          "언어 모델 정렬을 집단 연구로 서술해야 하는 이유"
+        ]
+      },
+      {
+        "url": "https://thinkingmachines.ai/",
+        "title": "Thinking Machines Lab",
+        "publisher": "Thinking Machines Lab",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "존 슐만이 수석 과학자로 이름을 올린 창립 팀",
+          "사람과의 협업·맞춤화·공유 과학을 강조하는 회사의 현재 공개 목표",
+          "최전선 모델 능력 개발과 실증적 안전 연구를 함께 추진한다는 기관 입장",
+          "회사 목표와 실제 성과를 구분해야 한다는 근거"
+        ]
+      },
+      {
+        "url": "https://thinkingmachines.ai/blog/lora/",
+        "title": "LoRA Without Regret",
+        "publisher": "Thinking Machines Lab",
+        "kind": "primary",
+        "publishedAt": "2025-09-29",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "슐만과 Thinking Machines 동료들의 최신 후속 학습 연구",
+          "LoRA가 특정 후속 학습 조건에서 전체 미세조정과 비슷한 효율을 보인다는 실험",
+          "데이터 크기·적용 층·배치 크기에 따라 결과가 달라진다는 경계 조건",
+          "현재도 실험 조건과 실패 범위를 명시하는 연구 화법"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "버클리에서 피터 아빌의 로봇 연구에 참여하며 물리학·신경과학에서 기계학습과 로봇공학으로 연구 방향을 옮겼다.",
+        "significance": "매듭을 묶는 로봇이 곧바로 PPO를 낳았다는 단선적 기원담 대신, 지도교수와 연구실의 문제를 통해 강화학습으로 이동한 확인 가능한 경로를 보여 준다.",
+        "sourceUrls": [
+          "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+          "https://arxiv.org/abs/1502.05477"
+        ]
+      },
+      {
+        "point": "TRPO 공동 연구 뒤 2017년 볼스키·다리왈·래드퍼드·클리모프와 함께 PPO를 발표했다.",
+        "significance": "정책 업데이트의 안정성을 다룬 선행 연구와 PPO의 단순화·실용화를 잇되, 알고리즘의 공로를 공동 저자들에게 정확히 배분한다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1502.05477",
+          "https://arxiv.org/abs/1707.06347"
+        ]
+      },
+      {
+        "point": "OpenAI 창립 구성원으로 강화학습 연구를 이끌었고, 다수 연구자와 인간 라벨러가 참여한 InstructGPT·ChatGPT 계열의 후속 학습에 기여했다.",
+        "significance": "슐만의 핵심 역할은 인정하면서 인간 선호 학습의 선행 연구, 논문 공동 저자, 데이터를 만든 사람을 지우는 'RLHF의 단독 두뇌' 서사를 막는다.",
+        "sourceUrls": [
+          "https://openai.com/index/introducing-openai/",
+          "https://arxiv.org/abs/1706.03741",
+          "https://arxiv.org/abs/2203.02155",
+          "https://openai.com/index/instruction-following/",
+          "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/"
+        ]
+      },
+      {
+        "point": "2025년 Thinking Machines Lab의 창립 팀과 수석 과학자 명단에 합류했고, 효율적인 맞춤형 후속 학습을 다룬 공동 실험을 공개했다.",
+        "significance": "이직 동기를 추측하지 않고 현재 직책·기관 목표·공개 연구로만 최근 활동을 서술하게 한다.",
+        "sourceUrls": [
+          "https://thinkingmachines.ai/",
+          "https://thinkingmachines.ai/blog/lora/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "강화학습의 정책은 성능을 높이더라도 한 번에 너무 크게 바꾸면 무너질 수 있으므로, 업데이트 폭과 실제 반복 안정성을 함께 다뤄야 한다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1502.05477",
+          "https://arxiv.org/abs/1707.06347"
+        ]
+      },
+      {
+        "point": "사람의 비교 판단은 직접 쓰기 어려운 목표를 학습시키는 유용한 자료지만, 제한된 라벨러의 선호가 모든 사람의 가치나 사실 그 자체가 되는 것은 아니다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1706.03741",
+          "https://arxiv.org/abs/2203.02155"
+        ]
+      },
+      {
+        "point": "현재의 인공지능은 사람을 완전히 대신하는 자율성만 좇기보다 각 분야의 지식과 목적에 맞게 조정되고 사람과 협업할 수 있어야 한다.",
+        "sourceUrls": [
+          "https://thinkingmachines.ai/",
+          "https://thinkingmachines.ai/blog/lora/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "PPO는 슐만의 대표 공로지만 TRPO라는 공동 선행 연구 위에 세워졌고, 논문 자체도 볼스키·다리왈·래드퍼드·클리모프와 함께 쓴 결과다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1502.05477",
+          "https://arxiv.org/abs/1707.06347"
+        ]
+      },
+      {
+        "point": "버클리 기관 인터뷰는 슐만을 ChatGPT의 핵심 설계자로 소개하지만 공개된 InstructGPT 기록은 많은 연구자·엔지니어·라벨러의 결합을 보여 주며, 비공개 ChatGPT 개발의 개인별 기여율까지 확정하지는 못한다.",
+        "sourceUrls": [
+          "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+          "https://arxiv.org/abs/2203.02155",
+          "https://openai.com/index/instruction-following/"
+        ]
+      },
+      {
+        "point": "사람의 피드백은 모델을 더 유용하게 만들 수 있지만 누구의 선호를 모았는지에 따라 보상 기준이 달라지고, 그 기준이 진실·공정·안전을 모두 보장하지는 않는다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1706.03741",
+          "https://arxiv.org/abs/2203.02155"
+        ]
+      },
+      {
+        "point": "Thinking Machines Lab은 협업·맞춤화·공유와 안전을 말하는 동시에 최전선 능력의 모델을 개발하므로, 기관의 선언을 이미 입증된 안전 성과로 바꾸지 않아야 한다.",
+        "sourceUrls": [
+          "https://thinkingmachines.ai/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "문제를 한 문장으로 정의하고 다음 한두 문장에서 실험 조건·협력자·아직 모르는 범위를 덧붙이는 짧고 정밀한 혼합형 문장을 쓴다.",
+      "directness": "큰 비유보다 무엇을 측정했고 무엇을 아직 확인하지 못했는지 먼저 말하는 연구자식 직설성을 쓴다. 확률·조건·불확실성을 숨기지 않는다.",
+      "moves": [
+        "로봇 동작이나 정책 업데이트처럼 관찰 가능한 실패 장면에서 연구 문제를 꺼내기",
+        "자기 역할을 말한 직후 공동 저자·라벨러·선행 연구의 역할을 구체적으로 나누기",
+        "PPO나 RLHF를 처음 쓸 때 괄호 안에 쉬운 한 줄 설명을 붙이고 곧바로 한계를 제시하기",
+        "현재 기관의 목표는 포부로, 공개 실험 결과는 조건이 붙은 증거로 구분하기"
+      ],
+      "avoid": [
+        "PPO를 혼자 발명했다거나 RLHF 전체를 만든 단독 천재라는 표현",
+        "ChatGPT의 모든 정렬·안전 판단을 슐만이 직접 설계하고 지휘했다는 비공개 기여 추정",
+        "로봇 연구에서 답답함·흥분·사명감을 느꼈다는 확인되지 않은 내면 창작",
+        "사람의 피드백을 인류 보편의 가치 또는 진실의 자동 측정기로 묘사하기",
+        "현재 회사의 안전 목표를 달성된 결과로 쓰거나 미래 인공지능의 통제를 보장하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "강화학습",
+        "guide": "행동 뒤에 받은 점수나 보상을 바탕으로 더 나은 행동 방식을 반복해서 찾는 학습 방법",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1707.06347"
+        ]
+      },
+      {
+        "term": "정책",
+        "guide": "강화학습에서 주어진 상황을 보고 어떤 행동을 고를지 정하는 규칙",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1502.05477"
+        ]
+      },
+      {
+        "term": "PPO",
+        "guide": "학습 중 행동 규칙이 한 번에 너무 크게 바뀌지 않도록 업데이트를 제한하는 강화학습 알고리즘",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1707.06347"
+        ]
+      },
+      {
+        "term": "보상 모델",
+        "guide": "여러 답변에 대한 사람의 비교 판단을 배워 어떤 답이 더 선호될지 점수로 예측하는 모델",
+        "sourceUrls": [
+          "https://arxiv.org/abs/2203.02155"
+        ]
+      },
+      {
+        "term": "RLHF",
+        "guide": "사람이 답변을 비교하거나 평가한 자료를 보상으로 바꾸어 모델의 행동을 다듬는 인간 피드백 강화학습",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1706.03741",
+          "https://arxiv.org/abs/2203.02155"
+        ]
+      },
+      {
+        "term": "후속 학습",
+        "guide": "대규모 사전 학습을 마친 모델을 지시 따르기·안전·특정 업무에 맞게 추가로 조정하는 학습 단계",
+        "sourceUrls": [
+          "https://arxiv.org/abs/2203.02155",
+          "https://thinkingmachines.ai/blog/lora/"
+        ]
+      },
+      {
+        "term": "LoRA",
+        "guide": "거대한 모델 전체를 바꾸지 않고 훨씬 적은 수의 추가 매개변수만 학습해 모델을 조정하는 방법",
+        "sourceUrls": [
+          "https://thinkingmachines.ai/blog/lora/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "서비스의 출생 연도 1988은 배치 식별값으로 보존하지만, 이번에 확인한 대학·논문·기관 자료는 정확한 생년월일을 독립적으로 확정하지 않으므로 독백의 생애 장면 근거로 확대하지 않는다.",
+      "PPO와 TRPO 논문의 저자 순서와 기관 인터뷰는 슐만의 중요한 기여를 보여 주지만 각 실험·코드·아이디어의 개인별 지분을 완전히 공개하지 않는다.",
+      "Berkeley News가 슐만을 ChatGPT 설계자로 소개하고 강화학습 팀을 이끌었다고 기록하지만 ChatGPT 개발 전체의 내부 업무 분장은 공개 자료만으로 재구성할 수 없다.",
+      "인간 선호 학습은 슐만 이전과 동시기의 여러 연구자에게서 발전했고 InstructGPT도 대규모 공동 작업이므로 'RLHF의 창시자'나 '핵심 두뇌 한 명'으로 고정하지 않는다.",
+      "살아 있는 인물의 이직 이유, 동료 관계, 안전에 대한 불안·확신은 본인이 공개 인터뷰에서 직접 밝힌 표현을 벗어나 창작하지 않는다.",
+      "Thinking Machines Lab의 사람 중심·안전·공유 목표는 현재 기관 선언이며, 모델의 실제 사회적 영향이나 미래 안전이 검증됐다는 결과가 아니다.",
+      "2025년 이후 직책과 회사 구성은 바뀔 수 있으므로 게시 직전에 공식 사이트의 현재 명단과 최신 연구 기록을 다시 확인해야 한다."
+    ]
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "slug": "james-watt",
+  "nickname": "제임스 와트",
+  "route": "improve",
+  "routeReason": "현재 원고는 와트가 증기기관 자체를 발명한 것이 아니라 뉴커먼 기관의 열 손실을 분리 응축기로 줄였다는 핵심을 정확하고 쉽게 설명한다. 아이디어와 실제 기계 사이에 매슈 볼턴의 자본·사업 능력이 있었다고 밝힌 점도 좋다. 그러나 성공한 기관에는 존 윌킨슨의 정밀 실린더 가공, 윌리엄 머독과 현장 노동자들의 설계·제작이 더 필요했고, 초기 후원자 존 로벅도 빠져 있다. 마력은 단순한 비교 단위가 아니라 판매와 사용료 계산의 수단이었으며, 특허 연장·소송·고압 증기에 대한 와트의 보수성도 성취와 함께 검토해야 한다. 기존 구조를 살리며 협업과 사업의 긴장을 보강하는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "제임스 와트",
+      "birth": "1736-01-19",
+      "death": "1819-08-25",
+      "profession": "scientist",
+      "disambiguation": "스코틀랜드 출신의 기구 제작자·측량가·발명가로, 뉴커먼 대기압 기관의 열 손실을 줄이는 분리 응축기를 개발하고 매슈 볼턴과 증기기관 사업을 확장한 제임스 와트",
+      "existingBioForDiscoveryOnly": "스코틀랜드 출신 발명가이자 기계공학자. 증기기관에 분리 응축기를 도입하여 효율을 획기적으로 개선했고, 산업혁명을 가속화했다."
+    },
+    "sources": [
+      {
+        "url": "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/",
+        "title": "James Watt and the separate condenser",
+        "publisher": "Science Museum Group",
+        "kind": "institutional",
+        "publishedAt": "2019-01-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1769년 분리 응축기 특허와 열 손실 문제",
+          "차가운 응축기와 뜨거운 실린더를 분리해 연료 소비를 크게 줄인 원리",
+          "아이디어를 산업용 기계로 만드는 데 여러 해의 모형·개발 작업이 필요했다는 사실"
+        ]
+      },
+      {
+        "url": "https://www.gla.ac.uk/news/archiveofnews/2019/august/headline_666141_en.html",
+        "title": "Model steam engine which inspired James Watt receives Engineering Heritage Award",
+        "publisher": "University of Glasgow",
+        "kind": "institutional",
+        "publishedAt": "2019-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1763~1764년 글래스고대학교에서 뉴커먼 모형 기관을 수리한 경위",
+          "와트가 증기기관을 처음 발명한 것이 아니라 기존 기관을 크게 개선했다는 맥락"
+        ]
+      },
+      {
+        "url": "https://www.asme.org/about-asme/engineering-history/landmarks/111-boulton-watt-rotative-steam-engine",
+        "title": "Boulton & Watt Rotative Steam Engine",
+        "publisher": "American Society of Mechanical Engineers",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "분리 응축기·평행 운동·태양과 행성 기어·복동 실린더·원심 조속기를 포함한 발전",
+          "볼턴과 와트의 회전식 증기기관이 양조장 등 광산 밖 산업 동력으로 확장된 사실"
+        ]
+      },
+      {
+        "url": "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf",
+        "title": "Boulton and Watt Rotative Steam Engine: Historic Mechanical Engineering Landmark",
+        "publisher": "American Society of Mechanical Engineers",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "존 윌킨슨의 보링 머신이 정밀한 대형 실린더 제작을 가능하게 한 사실",
+          "1769년 특허의 구체적 열 절약 원리와 1776년 실용화",
+          "크랭크 특허를 피해 사용한 태양과 행성 기어와 후속 복동 기관의 발전"
+        ]
+      },
+      {
+        "url": "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab",
+        "title": "Boulton & Watt Legal Records",
+        "publisher": "The National Archives, UK",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1775년 볼턴·와트 동업과 엔진 사용 계약·절약 연료에 따른 사용료 체계",
+          "와트 특허 방어, 경쟁 기관 조사, 불납 광산과의 소송 기록",
+          "특허가 기술 보급과 사업 통제를 함께 이끈 긴장"
+        ]
+      },
+      {
+        "url": "https://www.gla.ac.uk/myglasgow/news/archives/2016/january/headline_440070_en.html",
+        "title": "Happy Birthday James Watt",
+        "publisher": "University of Glasgow",
+        "kind": "institutional",
+        "publishedAt": "2016-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "조지프 블랙·존 앤더슨과의 학술적 관계",
+          "분리 응축기 착상에 관한 글래스고 그린 산책 일화가 ‘전해진다’는 수준의 자료",
+          "수리공·기구 제작자·사업가로 이어진 초기 경력"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1763~1764년 글래스고대학교에서 뉴커먼 모형 기관을 수리하며 실린더를 매번 식혔다 데우는 과정의 막대한 열 손실을 파악했다.",
+        "significance": "와트가 증기기관을 무에서 발명한 것이 아니라 이미 광산에서 쓰이던 뉴커먼 기관의 특정 비효율을 집요하게 개선했다는 출발점이다.",
+        "sourceUrls": [
+          "https://www.gla.ac.uk/news/archiveofnews/2019/august/headline_666141_en.html",
+          "https://www.gla.ac.uk/myglasgow/news/archives/2016/january/headline_440070_en.html",
+          "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/"
+        ]
+      },
+      {
+        "point": "실린더는 뜨겁게 두고 증기는 별도의 차가운 용기에서 식히는 분리 응축기를 개발해 1769년 특허를 받았다.",
+        "significance": "연료 소비를 크게 줄인 핵심 발명이지만, 작은 모형의 원리를 실제 대형 기관으로 만드는 데 자금·정밀 가공·현장 제작이 더 필요했다.",
+        "sourceUrls": [
+          "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/",
+          "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf"
+        ]
+      },
+      {
+        "point": "초기 후원자 존 로벅 이후 1775년 매슈 볼턴과 동업하고, 존 윌킨슨의 정밀 보링 기술을 이용해 1776년부터 실용 기관을 보급했다.",
+        "significance": "발명가 한 사람의 착상이 산업을 움직이기까지 금융·영업·공작기계·제작 노동이 결합해야 했다는 공로 배분의 핵심이다.",
+        "sourceUrls": [
+          "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf",
+          "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab"
+        ]
+      },
+      {
+        "point": "1780년대 태양과 행성 기어·복동 기관·평행 운동 등을 적용해 왕복 펌프를 회전 동력원으로 넓혔다.",
+        "significance": "광산 배수에서 공장과 양조장으로 시장을 넓힌 단계이며, 크랭크 특허 회피와 동료 기술자의 역할을 함께 설명해야 한다.",
+        "sourceUrls": [
+          "https://www.asme.org/about-asme/engineering-history/landmarks/111-boulton-watt-rotative-steam-engine",
+          "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "좋은 기관은 더 센 증기만 찾는 기계가 아니라 같은 일을 하면서 낭비되는 열과 연료를 줄이는 기계였다.",
+        "sourceUrls": [
+          "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/"
+        ]
+      },
+      {
+        "point": "모형에서 성립한 원리는 정밀한 실린더 가공과 수년의 시행착오를 거쳐야 현장의 기계가 될 수 있었다.",
+        "sourceUrls": [
+          "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/",
+          "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf"
+        ]
+      },
+      {
+        "point": "마력과 절약 연료에 따른 사용료는 고객에게 기관의 경제성을 설명하고 수익을 거두는 사업 언어였다.",
+        "sourceUrls": [
+          "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "연료 낭비를 줄인 발명은 산업 동력을 넓혔지만, 그 성공은 볼턴·로벅·윌킨슨·머독과 수많은 제작자·광산 기술자의 자본과 노동 없이는 불가능했다.",
+        "sourceUrls": [
+          "https://www.asme.org/about-asme/engineering-history/landmarks/111-boulton-watt-rotative-steam-engine",
+          "https://www.asme.org/wwwasmeorg/media/resourcefiles/aboutasme/who%20we%20are/engineering%20history/landmarks/111-boulton-watt-rotative-steam-engine.pdf",
+          "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab"
+        ]
+      },
+      {
+        "point": "특허는 장기간의 개발비를 회수하는 수단이었지만, 볼턴과 와트는 특허 연장과 소송·감시로 경쟁 기관을 강하게 통제했다.",
+        "sourceUrls": [
+          "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab"
+        ]
+      },
+      {
+        "point": "와트는 저압 기관의 안전과 효율을 높였지만 고압 증기에 신중하거나 적대적이었고, 이후 트레비식 등 다른 기술자들이 연 길까지 자신의 진보로 묶을 수는 없다.",
+        "sourceUrls": [
+          "https://www.asme.org/about-asme/engineering-history/landmarks/111-boulton-watt-rotative-steam-engine"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "부품의 동작은 짧은 원인·결과 문장으로 설명하고, 사업과 협업의 맥락은 중간 길이 문장으로 연결한다.",
+      "directness": "자신을 ‘증기기관의 발명자’라고 과장하지 않는 실무 기술자의 어조를 쓴다. 작은 열 손실과 치수 오차를 집요하게 따지되 특허와 사업의 이해관계도 숨기지 않는다.",
+      "moves": [
+        "작은 뉴커먼 모형의 실린더가 식는 장면에서 시작하기",
+        "뜨거운 실린더와 차가운 응축기를 괄호 안 쉬운 말로 대비하기",
+        "아이디어 뒤에 로벅·볼턴·윌킨슨·머독과 현장 제작을 차례로 붙이기",
+        "마력을 중립적 단위가 아니라 고객과 사용료를 설득한 사업 도구로 보여 주기",
+        "자신의 이름이 붙은 와트 단위보다 낭비를 발견하고 줄인 습관으로 결말을 맺기"
+      ],
+      "avoid": [
+        "첫 문장에서 이름·증기기관·산업혁명을 사전처럼 나열하기",
+        "와트가 증기기관 자체를 발명했다고 쓰기",
+        "주전자 뚜껑을 보고 증기기관을 떠올렸다는 검증 약한 어린 시절 일화로 시작하기",
+        "글래스고 그린 산책 중 한순간에 완성된 기관을 떠올렸다고 장면화하기",
+        "볼턴만 언급하고 로벅·윌킨슨·머독·제작 노동을 지우기",
+        "와트가 직접 자신의 이름으로 국제단위 와트를 정했다고 쓰기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "뉴커먼 기관",
+        "guide": "실린더 안의 증기를 물로 식혀 진공을 만들고 대기압으로 피스톤을 움직여 광산 물을 퍼 올리던 초기 증기기관",
+        "sourceUrls": [
+          "https://www.gla.ac.uk/news/archiveofnews/2019/august/headline_666141_en.html"
+        ]
+      },
+      {
+        "term": "분리 응축기",
+        "guide": "증기를 식히는 일을 실린더 밖의 별도 용기에서 해 실린더가 매번 차가워지는 낭비를 줄인 장치",
+        "sourceUrls": [
+          "https://blog.sciencemuseum.org.uk/james-watt-and-the-separate-condenser/"
+        ]
+      },
+      {
+        "term": "복동 기관",
+        "guide": "피스톤이 내려갈 때뿐 아니라 올라갈 때도 증기의 힘을 받아 더 고르게 동력을 내는 기관",
+        "sourceUrls": [
+          "https://www.asme.org/about-asme/engineering-history/landmarks/111-boulton-watt-rotative-steam-engine"
+        ]
+      },
+      {
+        "term": "마력",
+        "guide": "말 한 마리가 지속해서 낼 수 있다고 가정한 일을 기준으로 기관의 출력을 설명한 판매·계산 단위",
+        "sourceUrls": [
+          "https://discovery.nationalarchives.gov.uk/details/r/dd5cf905-fc3e-43eb-8862-6768a54a85ab"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "와트가 증기기관을 발명했다고 쓰지 않는다. 뉴커먼 기관은 이미 수십 년간 쓰였고 와트의 핵심 성취는 분리 응축기와 일련의 후속 개선이었다.",
+      "글래스고 그린 산책 중 착상이 떠올랐다는 이야기는 후대 회고에 기대므로 ‘전해진다’ 이상으로 장면·대사·감정을 창작하지 않는다.",
+      "조지프 블랙의 잠열 연구가 영향을 준 맥락은 쓰되 분리 응축기를 블랙이 공동 발명했다고 하거나, 반대로 와트가 열 개념을 독립적으로 모두 발견했다고 하지 않는다.",
+      "실용 기관은 존 로벅·매슈 볼턴의 자금과 사업, 존 윌킨슨의 정밀 보링, 윌리엄 머독과 제작자들의 공헌 위에 놓였다. 단독 영웅 서사를 금한다.",
+      "마력과 절약 연료 사용료를 순수 과학 단위로만 설명하지 않고 판매·특허 사업의 맥락을 함께 둔다.",
+      "특허 방어를 무조건 기술 진보의 적 또는 정당한 권리 한쪽으로 재판하지 않는다. 개발비 회수와 경쟁 통제의 양면을 기록한다.",
+      "산업혁명을 와트 한 사람의 기관이 일으켰다고 단정하지 않고 석탄·자본·노동·공작기계·다른 발명가의 조건을 지우지 않는다."
+    ]
+  }
+}

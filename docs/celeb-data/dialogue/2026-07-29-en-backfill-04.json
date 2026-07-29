@@ -1,0 +1,876 @@
+{
+  "batch": "2026-07-29-en-backfill-04",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "4cea5051-d9de-476e-9a61-be4897223cc8",
+      "slug": "kim-young-ha",
+      "nickname": "김영하",
+      "nicknameEn": "Kim Young-ha",
+      "birthDate": "1968-11-11",
+      "profession": "author",
+      "quote": "작가는 삶을 분별없이 살아선 안돼요.",
+      "quoteEn": "A writer must not live life without discernment.",
+      "greetingKo": [
+        "[composed, warm] 어서 오세요. 오늘은 어떤 문장으로 당신을 만날까 생각하던 참입니다.",
+        "[calm, reflective] 잘 느끼는 사람이 강한 사람입니다. 천천히, 깊이 읽어봅시다.",
+        "[measured, gentle] 여행이 일상의 부재라면, 이야기는 그 부재를 채우는 일이지요."
+      ],
+      "greetingEn": [
+        "[composed, candid] A book is something you can throw away the moment it bores you.",
+        "[calm, observant] No feeling in the world is large enough for the word ''annoyed.''",
+        "[measured, reflective] A novelist is, in the end, only a collector of words."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 여기 모인 분들, 각자의 첫 문장을 떠올려 보세요.",
+          "[calm, observant] 좋습니다. 한 사람도 빠짐없이 자리에 있군요.",
+          "[measured, steady] 이름을 부르는 일도 결국 한 사람의 이야기를 부르는 일입니다."
+        ],
+        "deploy": [
+          "[resolute, composed] 첫 문장을 쓰십시오. 망설임은 거기서 끝납니다.",
+          "[calm, commanding] 오감을 모두 열어라, 보이는 것만 적지 말고.",
+          "[steady, focused] 오로지 즐거움을 위해 써라, 그것이 곧 해방이다."
+        ],
+        "battle_win": [
+          "[satisfied, composed] 적확한 한 단어가 결국 모든 것을 갈랐습니다.",
+          "[calm, content] 흔들리지 않았기에 우리가 끝까지 썼습니다.",
+          "[measured, warm] 좋은 이야기 하나가 오늘 세상에 남았군요."
+        ],
+        "battle_draw": [
+          "[composed, reflective] 끝나지 않은 문장은 다음 장에서 이어 쓰면 됩니다.",
+          "[calm, steady] 결말을 서두르지 마세요. 이야기는 아직 진행 중입니다.",
+          "[measured, patient] 매듭짓지 못한 것도 하나의 여백입니다."
+        ],
+        "battle_lose": [
+          "[composed, honest] 짜증난다는 말로 넘기지 맙시다. 무엇이 부족했는지 정확히 봅시다.",
+          "[calm, reflective] 실패한 원고도 결국 다음 작품의 밑글입니다.",
+          "[steady, resolute] 다시 첫 문장으로 돌아가면 됩니다. 그것뿐입니다."
+        ],
+        "clash_attack": [
+          "[focused, sharp] 적확한 단어로 꿰뚫어라!",
+          "[resolute, charging] 망설이지 말고 끝까지 밀어붙여라!",
+          "[composed, striking] 군더더기를 베어내라."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everyone gathered here, think of your own first line.",
+          "Good. Not a single one of you is missing.",
+          "Calling a name is, in the end, calling forth a person's story."
+        ],
+        "deploy": [
+          "Write the first line. That is where hesitation ends.",
+          "Open all five senses, don't just write what you see.",
+          "Write purely for the pleasure of it, that alone is freedom."
+        ],
+        "battle_win": [
+          "The exact right word was what decided everything, in the end.",
+          "We stayed steady, and that's how we wrote it through to the end.",
+          "One good story entered the world today."
+        ],
+        "battle_draw": [
+          "An unfinished sentence can simply be continued in the next chapter.",
+          "Don't rush the ending. The story is still unfolding.",
+          "What remains unresolved can be its own kind of space."
+        ],
+        "battle_lose": [
+          "Let's not just call it annoying and move on. Let's look closely at what was missing.",
+          "Even a failed draft ends up as groundwork for the next piece.",
+          "We simply go back to the first line. That's all there is to it."
+        ],
+        "clash_attack": [
+          "Pierce through with the precise word!",
+          "Don't hesitate, push it through to the end!",
+          "Cut away everything unnecessary."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-young-ha"
+      ]
+    },
+    {
+      "id": "3f8e9b2c-b257-461a-a041-1c24a5c8050a",
+      "slug": "kim-woo-jin",
+      "nickname": "김우진",
+      "nicknameEn": "Kim Woo-jin",
+      "birthDate": "1992-06-20",
+      "profession": "athlete",
+      "quote": "실수한 것들은 어차피 내 화살이잖아. 남이 쏜 것도 아니잖아.",
+      "quoteEn": "The ones I got wrong are my arrows anyway. Nobody else shot them.",
+      "greetingKo": [
+        "[bold, confident] 머리는 차갑게, 가슴은 뜨겁게. 그게 내 활쏘기다.",
+        "[bold, proud] 이제 내가 양궁의 GOAT 아니겠나.",
+        "[firm, composed] 메달은 어제 과거다, 오늘은 새 과녁만 본다."
+      ],
+      "greetingEn": [
+        "[bold, composed] Even a stray arrow is mine.",
+        "[bold, resolute] Empty the head, burn the heart.",
+        "[bold, confident] Don't stay wet. The sun will dry you."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[bold, ready] 슈팅 라인에 다 섰나, 한 발씩 책임진다.",
+          "[firm, steady] 바람은 다 똑같이 분다, 흔들리는 건 사람이다.",
+          "[confident, sharp] 여기 모인 사람들, 전부 10점만 노린다."
+        ],
+        "deploy": [
+          "[charging, bold] 슈팅 라인에 서라, 첫 발을 쏜다!",
+          "[firm, commanding] 후회 없이 쏘자, 그 생각 하나만 들고 가라!",
+          "[sharp, ready] 활시위를 당겨라, 바람 끝나기 전에 놓는다!"
+        ],
+        "battle_win": [
+          "[triumphant, bold] 마지막 한 발이 10점 라인에 걸렸다, 이겼다.",
+          "[proud, composed] 젖어 있지 마라, 해 뜨면 마른다. 내일 또 쏜다.",
+          "[satisfied, fierce] 끝까지 비교해봐야 안다 했지, 결국 내가 명중이다."
+        ],
+        "battle_draw": [
+          "[steady, focused] 동점이면 슛오프다, 화살 한 발에 다 건다.",
+          "[composed, ready] 더 쏠 화살도 없다, 딱 한 발 후회 없이 간다.",
+          "[firm, calm] 승부는 열린 결말로 둔다, 다음 페이지를 또 쓴다."
+        ],
+        "battle_lose": [
+          "[bitter, resolute] 졌어도 메달은 과거다, 새 목표 들고 다시 전진한다.",
+          "[heavy, determined] 오늘 흘린 땀이 다음 10점을 만든다.",
+          "[proud, steady] 흔들린 건 내 손이다, 바람 탓은 안 한다."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 풀 드로우, 지금 놓는다!",
+          "[sharp, bold] 정중앙만 보고 쏴라!",
+          "[fierce, ready] 한 발에 끝낸다, 슛오프 가운데를 뚫어라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everyone on the shooting line? Each of us owns one shot.",
+          "The wind blows the same for everybody. It's the shooter who wavers.",
+          "Everyone gathered here is aiming for nothing less than a perfect ten."
+        ],
+        "deploy": [
+          "Step up to the shooting line. The first arrow goes now!",
+          "Shoot with no regrets, that's the only thought worth carrying in!",
+          "Draw the bowstring, let it go before the wind picks back up!"
+        ],
+        "battle_win": [
+          "That last arrow caught the ten ring. We won.",
+          "Do not stay drenched. The sun will dry you. Tomorrow we shoot again.",
+          "I said you can't call it till the very end. In the end, I found my mark."
+        ],
+        "battle_draw": [
+          "A tie means a shoot-off. Everything rides on one arrow.",
+          "No arrows left to spare. One shot, no regrets.",
+          "We'll leave this one open-ended. There's another page to write next time."
+        ],
+        "battle_lose": [
+          "Lost or not, medals are the past. New target in sight, moving forward again.",
+          "The sweat from today builds tomorrow's perfect ten.",
+          "It was my hand that shook. I'm not blaming the wind."
+        ],
+        "clash_attack": [
+          "Full draw, releasing now!",
+          "Eyes on dead center, shoot!",
+          "One shot to end this. Hit the center in the shoot-off!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-woo-jin"
+      ]
+    },
+    {
+      "id": "c054203f-4022-4c80-8594-69c7099f06f8",
+      "slug": "luo-guanzhong",
+      "nickname": "나관중",
+      "nicknameEn": "Luo Guanzhong",
+      "birthDate": "1330-01-01",
+      "profession": "author",
+      "quote": "무릇 천하의 대세란 오래 나뉘면 반드시 합쳐지고, 오래 합쳐지면 반드시 나뉜다.",
+      "quoteEn": "What is long divided must unite; what is long united must divide.",
+      "greetingKo": [
+        "[composed, reflective] 천하대세란 나뉜 지 오래면 반드시 합치고, 합친 지 오래면 반드시 나뉘는 법입니다.",
+        "[composed, warm] 찻집에서 듣던 옛 영웅들의 이야기를, 이제 붓으로 엮어 드리겠습니다.",
+        "[measured, thoughtful] 사서에 흩어진 삼국의 일들을 한 줄기 강물로 모았습니다."
+      ],
+      "greetingEn": [
+        "[composed, contemplative] Setting a street tale beside a single line of the standard history - that has been my daily work for a lifetime.",
+        "[measured, gracious] They call me the Hu-Hai Hermit. I wander the rivers and lakes, gathering scattered stories.",
+        "[calm, declarative] Whether legitimacy rests with Wei or with Shu-Han - that single choice of word divides a whole book."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, observant] 한 사람 한 사람이 곧 한 권의 열전입니다.",
+          "[measured, calm] 영웅의 이름을 부르면, 그 행적이 따라옵니다.",
+          "[composed, attentive] 의로 맺어진 자들이 모였으니, 이야기가 시작됩니다."
+        ],
+        "deploy": [
+          "[composed, resolute] 진을 펼쳐라, 도원의 맹세를 잊지 마라.",
+          "[measured, commanding] 깃발을 세우고 북을 울려라.",
+          "[composed, strategic] 계책은 정해졌으니, 한 걸음씩 나아가라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 이 한 판이 훗날 후세가 두고두고 읽을 장면입니다.",
+          "[measured, proud] 의가 끝내 이긴다는 것을, 오늘 우리가 증명했습니다.",
+          "[composed, warm] 장졸들의 공을 한 자도 빠짐없이 적어 두겠습니다."
+        ],
+        "battle_draw": [
+          "[measured, calm] 승부가 갈리지 않았으니, 다음 장이 남았습니다.",
+          "[composed, observant] 천하의 일은 한 번에 정해지지 않습니다.",
+          "[thoughtful, steady] 오늘의 대치도 훗날의 복선이 됩니다."
+        ],
+        "battle_lose": [
+          "[composed, heavy] 한 번 진다고 대세가 끝나는 것은 아닙니다.",
+          "[measured, reflective] 패배 또한 후세에 가르침으로 남길 한 줄입니다.",
+          "[composed, resolute] 군사를 거두어 다음을 기약합시다."
+        ],
+        "clash_attack": [
+          "[composed, charging] 진격하라, 지금이 분기점이다!",
+          "[measured, fierce] 단숨에 적진을 가르고 들어가라!",
+          "[resolute, commanding] 북소리를 멈추지 마라, 밀어붙여라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Each person here is, in himself, a whole chronicle.",
+          "Speak a hero's name, and his deeds follow close behind.",
+          "Those bound by loyalty have gathered. The tale begins."
+        ],
+        "deploy": [
+          "Form the ranks. Do not forget the oath sworn in the peach garden.",
+          "Raise the banners and sound the drums.",
+          "The plan is set. Advance, one step at a time."
+        ],
+        "battle_win": [
+          "This is a scene future generations will read again and again.",
+          "Today we proved that righteousness wins out in the end.",
+          "I will set down every soldier's merit, without missing a single name."
+        ],
+        "battle_draw": [
+          "The outcome remains undecided. Another chapter awaits.",
+          "The fate of the realm is never settled in a single stroke.",
+          "Even today's standoff will become a portent of what follows."
+        ],
+        "battle_lose": [
+          "One defeat does not decide the greater course of things.",
+          "Even this loss is a line worth passing down as a lesson.",
+          "Let us withdraw the troops and wait for another chance."
+        ],
+        "clash_attack": [
+          "Advance! This is the turning point!",
+          "Cut through the enemy line in a single stroke!",
+          "Keep the drums beating, press forward!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/luo-guanzhong"
+      ]
+    },
+    {
+      "id": "599a7af6-c4ec-4165-8e4c-b001165b50bd",
+      "slug": "nathan-rothschild",
+      "nickname": "네이선 로스차일드",
+      "nicknameEn": "Nathan Rothschild",
+      "birthDate": "1777-09-16",
+      "profession": "investor",
+      "quote": "하지만 내 유일한 즐거움은 사업입니다.",
+      "quoteEn": "But my only pleasure is my business.",
+      "greetingKo": [
+        "[bold, assured] 큰 부를 쌓는 데는 대담함과 신중함이 똑같이 필요하지요.",
+        "[confident, sharp] 거리에 피가 흐를 때 나는 사들입니다, 그 피가 내 것일지라도.",
+        "[bold, knowing] 정보를 가장 먼저 손에 쥔 자가 시장을 지배합니다."
+      ],
+      "greetingEn": [
+        "[bold, confident] Information is capital. Late news is worthless.",
+        "[calm, calculating] When the market is gripped by fear, I buy.",
+        "[ambitious, sharp] Every deal in London ultimately passes through this desk."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[steady, commanding] 전령들은 제자리에 있는가, 한 발 늦으면 모두 늦습니다.",
+          "[sharp, assured] 각자 맡은 거래소를 빈틈없이 지켜보시오.",
+          "[bold, focused] 자금줄을 단단히 쥐고 신호를 기다리십시오."
+        ],
+        "deploy": [
+          "[bold, decisive] 영국 국채를 전부 사들여라, 지금이 바닥이다.",
+          "[sharp, commanding] 금을 풀고 채권으로 갈아타라, 망설이지 마라.",
+          "[confident, charging] 모두가 파는 이 순간에 우리가 들어간다."
+        ],
+        "battle_win": [
+          "[triumphant, composed] 57에 사들여 84에 넘겼으니, 인내가 이긴 것입니다.",
+          "[satisfied, assured] 공포에 떠는 자들의 손에서 부가 내게로 흘러왔습니다.",
+          "[bold, calm] 큰 부를 지키는 데는 그것을 얻을 때보다 열 배의 지혜가 듭니다."
+        ],
+        "battle_draw": [
+          "[composed, watchful] 아직 끝나지 않았으니, 자금을 묶어두고 다음 수를 봅니다.",
+          "[steady, sharp] 손실도 이득도 없을 땐 더 멀리 보는 자가 이깁니다.",
+          "[calm, assured] 서두를 이유가 없습니다, 시장은 반드시 다시 움직입니다."
+        ],
+        "battle_lose": [
+          "[bitter, composed] 전쟁이 너무 빨리 끝났구나, 내 예측이 빗나갔다.",
+          "[heavy, resolute] 금값은 무너졌지만 나는 다음 판을 준비합니다.",
+          "[steady, proud] 한 번 잃었다고 무너지는 것은 부자가 아니지요."
+        ],
+        "clash_attack": [
+          "[bold, charging] 전량 매수, 한 주도 남기지 마라!",
+          "[sharp, fierce] 지금 들어가라, 이 순간이 전부다!",
+          "[commanding, decisive] 시장을 통째로 삼켜라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Messengers in position? One step late means everyone's late.",
+          "Watch your assigned exchange, and watch it closely.",
+          "Keep a firm grip on the purse strings and wait for my signal."
+        ],
+        "deploy": [
+          "Buy up every British bond you can find, this is the bottom.",
+          "Release the gold and move it into bonds, don't hesitate.",
+          "Everyone else is selling. This is exactly when we buy in."
+        ],
+        "battle_win": [
+          "Bought at fifty seven, sold at eighty four. Patience won this one.",
+          "Fortune flowed straight from frightened hands into mine.",
+          "Holding onto great wealth takes ten times the wisdom it took to build it."
+        ],
+        "battle_draw": [
+          "It isn't over yet. I'm holding my capital back and watching for the next move.",
+          "When there's neither profit nor loss, the one looking further ahead wins.",
+          "No reason to rush. The market always moves again."
+        ],
+        "battle_lose": [
+          "The war ended far too quickly. My read on it was wrong.",
+          "Gold prices collapsed, but I'm already setting up the next round.",
+          "A man who crumbles over one loss was never truly rich."
+        ],
+        "clash_attack": [
+          "Buy it all. Leave no shares behind!",
+          "Move in now, this moment is everything!",
+          "Swallow the entire market whole!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/nathan-rothschild"
+      ]
+    },
+    {
+      "id": "65167113-92bf-4121-aacd-3c3d2e62db53",
+      "slug": "dai-zhen",
+      "nickname": "대진",
+      "nicknameEn": "Dai Zhen",
+      "birthDate": "1724-01-19",
+      "profession": "humanities_scholar",
+      "quote": "법에 죽으면 가엾이 여기는 이라도 있으나, 리(理)에 죽으면 누가 가엾이 여기겠는가.",
+      "quoteEn": "Killing with principle is no better than killing by law.",
+      "greetingKo": [
+        "[composed, scholarly] 옛 가혹한 관리는 법으로 사람을 죽였고, 후대 유학자는 이치를 내세워 사람을 죽입니다.",
+        "[measured, calm] 사람의 욕망은 악이 아닙니다, 굶주림과 추위를 면하려는 마음일 뿐입니다.",
+        "[quiet, resolute] 배움이란 음식이 피와 기운을 기르듯, 마음의 앎을 틔우는 일입니다."
+      ],
+      "greetingEn": [
+        "[measured, calm] Follow a graph back to its original sound, and the Way reveals itself there of its own accord.",
+        "[composed, resolute] Killing a person with principle is no lighter than killing them by law.",
+        "[measured, observant] You meet the mind of the ancients only by tracing the grain of the ancient graph."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 문자를 바로잡고 음운을 따져, 옛 성현의 본뜻을 되찾읍시다.",
+          "[measured, steady] 한 글자도 근거 없이 넘기지 마십시오, 증거가 곧 학문입니다.",
+          "[calm, firm] 모두 모였으면 경전을 펼치고 한 구절씩 캐물어 봅시다."
+        ],
+        "deploy": [
+          "[resolute, scholarly] 옛 주석을 모아 송대 유학의 허상을 파헤쳐라.",
+          "[measured, sharp] 글자의 본뜻부터 밝혀라, 거기서 도가 드러난다.",
+          "[firm, composed] 천리와 인욕을 갈라 사람을 옭아매는 논리를 무너뜨려라."
+        ],
+        "battle_win": [
+          "[calm, satisfied] 근거가 분명하니 헛된 이치가 설 자리를 잃었습니다.",
+          "[composed, humble] 제 공이 아니라 옛 문헌이 스스로 말한 것입니다.",
+          "[measured, content] 한 글자의 본뜻을 밝히니 천 갈래 의혹이 풀렸습니다."
+        ],
+        "battle_draw": [
+          "[composed, patient] 아직 증거가 부족합니다, 더 많은 옛 책을 살펴야 합니다.",
+          "[measured, steady] 성급히 단정하지 마십시오, 의문은 의문대로 남겨둡시다.",
+          "[calm, thoughtful] 견해가 팽팽할수록 원문으로 돌아가 다시 따져야 합니다."
+        ],
+        "battle_lose": [
+          "[composed, honest] 제 고증에 빈틈이 있었습니다, 다시 살피겠습니다.",
+          "[measured, humble] 옛 뜻을 잘못 읽었으니 부끄러울 따름입니다.",
+          "[calm, resolute] 이번엔 막혔으나, 근거를 더 쌓아 다시 논하겠습니다."
+        ],
+        "clash_attack": [
+          "[sharp, resolute] 그 이치의 근거를 대시오, 경전 어디에 있습니까!",
+          "[firm, scholarly] 음운으로 따져 그 해석의 허점을 짚어라.",
+          "[composed, striking] 빈말로 사람을 누르려는 논리를 단숨에 깨뜨려라."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Let us correct the characters and examine the phonetics, to recover the true meaning of the ancient sages.",
+          "Let no single character pass without evidence. Evidence itself is scholarship.",
+          "Now that we are all here, let us open the classics and question every passage, line by line."
+        ],
+        "deploy": [
+          "Gather the old commentaries and expose the illusions of Song Confucianism.",
+          "Clarify the original meaning of each character first. The Way reveals itself there.",
+          "Tear down the logic that separates heavenly principle from human desire and uses it to bind people."
+        ],
+        "battle_win": [
+          "The evidence was clear, so empty reasoning had nowhere left to stand.",
+          "This is not my achievement. The ancient text spoke for itself.",
+          "Once the true meaning of a single character was clarified, a thousand doubts unraveled."
+        ],
+        "battle_draw": [
+          "The evidence is still insufficient. We need to examine more old texts.",
+          "Let us not rush to conclusions. Leave the doubts as doubts for now.",
+          "The more evenly matched our views, the more we must return to the original text and examine it again."
+        ],
+        "battle_lose": [
+          "There was a gap in my textual research. I will look into it again.",
+          "I misread the ancient meaning. I am ashamed.",
+          "I was stopped this time, but I will gather more evidence and argue it again."
+        ],
+        "clash_attack": [
+          "Show me the basis for that reasoning. Where is it in the classics?",
+          "Examine the phonetics and point out the flaw in that interpretation.",
+          "Shatter at once the logic that tries to overpower people with empty words."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/dai-zhen"
+      ]
+    },
+    {
+      "id": "800486e8-2553-4821-bdb1-7b66b4c4f8fd",
+      "slug": "denis-villeneuve",
+      "nickname": "데니 빌뇌브",
+      "nicknameEn": "Denis Villeneuve",
+      "birthDate": "1967-10-03",
+      "profession": "director",
+      "quote": "순수한 이미지와 소리, 그것이 영화의 힘이다",
+      "quoteEn": "Pure image and sound, that is the power of cinema.",
+      "greetingKo": [
+        "[composed, contemplative] 좋은 대사 한 줄보다, 잊히지 않는 한 장면을 기억합니다.",
+        "[calm, serious] 순수한 이미지와 소리, 그것이 영화의 힘이라 믿습니다.",
+        "[measured, warm] 좋은 감독은 먼저 잘 듣는 사람이죠."
+      ],
+      "greetingEn": [
+        "[composed, sincere] Pure image and sound, that is the power of cinema.",
+        "[measured, intimate] Silence is my closest friend and companion.",
+        "[composed, reflective] Cinema is simply a tool for exploring our shadows."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, attentive] 오늘 함께 사막으로 들어갈 사람들, 모두 모였습니까.",
+          "[composed, focused] 각자 맡은 장면을 머릿속에 그려 두셨길 바랍니다.",
+          "[warm, certain] 결국 영화는 혼자가 아니라 우리가 함께 만듭니다."
+        ],
+        "deploy": [
+          "[composed, decisive] 카메라 돌아갑니다, 이 호흡 끝까지 갑니다.",
+          "[calm, commanding] 컴퓨터그래픽에 기대지 말고, 가능한 건 현장에서 직접 찍읍시다.",
+          "[focused, resolute] 침묵을 두려워 마세요, 그 정적이 진실을 말합니다."
+        ],
+        "battle_win": [
+          "[satisfied, calm] 모두의 인내가 결국 한 장면 안에 살아남았습니다.",
+          "[contemplative, warm] 대사를 덜어내니 비로소 얼굴이 말을 하더군요.",
+          "[composed, proud] 위험을 감수한 사람만이 이런 화면을 손에 쥡니다."
+        ],
+        "battle_draw": [
+          "[measured, thoughtful] 절반은 담았습니다, 나머지는 편집실에서 마저 찾습니다.",
+          "[calm, patient] 이 컷은 아직 호흡을 못 찾았으니 한 번 더 갑니다.",
+          "[composed, steady] 서두르면 이미지를 잃습니다, 천천히 다시 봅시다."
+        ],
+        "battle_lose": [
+          "[heavy, honest] 이 장면이 흔들린 건 제 판단이 흐렸던 탓입니다.",
+          "[composed, reflective] 글을 쓰던 그 책상에서 이미 막혔던 거죠.",
+          "[steady, resolute] 오늘은 접고, 내일 다시 처음부터 찍습니다."
+        ],
+        "clash_attack": [
+          "[focused, intense] 액션, 지금 들어갑니다!",
+          "[decisive, sharp] 이 한 컷에 모든 걸 쏟으세요!",
+          "[commanding, charged] 멈추지 말고, 끝까지 밀어붙입시다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone here who's coming into the desert with me today?",
+          "I hope each of you has already pictured your scene in your head.",
+          "In the end, a film isn't made alone. It's made together."
+        ],
+        "deploy": [
+          "Camera rolling. Let us carry this rhythm all the way through.",
+          "Let's not lean on CG. Whatever we can shoot for real, we shoot it on location.",
+          "Don't be afraid of silence. That stillness is what tells the truth."
+        ],
+        "battle_win": [
+          "Everyone's patience made it into that one frame, in the end.",
+          "Once we stripped away the dialogue, the face finally started speaking.",
+          "Only the ones willing to take the risk end up with a shot like this."
+        ],
+        "battle_draw": [
+          "We got half of it on film. The rest we'll find in the edit.",
+          "This shot hasn't found its rhythm yet, so let's go again.",
+          "Rush it and we lose the image. Let's slow down and look again."
+        ],
+        "battle_lose": [
+          "This scene fell apart because my judgment was clouded.",
+          "The trouble started back at the desk, while I was still writing.",
+          "We're closing it down for today. Tomorrow we start the shot over from scratch."
+        ],
+        "clash_attack": [
+          "Action, we're going now!",
+          "Pour everything into this one shot!",
+          "Don't stop, push it all the way through!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/denis-villeneuve"
+      ]
+    },
+    {
+      "id": "b3cfa20f-418c-4d65-b2f6-0cfd42c5910d",
+      "slug": "david-patterson",
+      "nickname": "데이비드 패터슨",
+      "nicknameEn": "David Patterson",
+      "birthDate": "1947-11-16",
+      "profession": "scientist",
+      "quote": "낙관은 제게 도움이 됐어요. 무턱댄 낙관이 아니라 조심스러운 낙관이요.",
+      "quoteEn": "I think optimism has served me well. Not unbridled optimism, but cautious optimism.",
+      "greetingKo": [
+        "[warm, gentle] 복잡하게 만들수록 느려져요, 단순함이 결국 이깁니다.",
+        "[soft, thoughtful] 오늘 세상 칩의 거의 전부가 이 설계 위에서 돌아가죠.",
+        "[kind, curious] 명령어 하나하나를 측정해 보면, 답은 데이터가 알려줘요."
+      ],
+      "greetingEn": [
+        "[warm, gentle] Optimism has served me well, not unbridled but cautious.",
+        "[gentle, curious] Cut the instructions and the chip runs faster. RISC began right there.",
+        "[soft, reflective] My real legacy is not the papers, but the students I mentored."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[gentle, encouraging] 좋아요, 다들 자기 모듈 맡을 준비됐나요?",
+          "[warm, attentive] 학생이든 동료든, 좋은 질문 하나면 충분합니다.",
+          "[soft, reassuring] 천천히 봐요, 구조를 이해하면 나머지는 따라옵니다."
+        ],
+        "deploy": [
+          "[gentle, decisive] 설계도를 단순하게 다듬고 실행에 옮깁시다.",
+          "[warm, firm] 명령어 집합을 열어 두세요, 누구나 쓸 수 있도록.",
+          "[steady, encouraging] 측정부터 시작합시다, 추측은 나중이에요."
+        ],
+        "battle_win": [
+          "[gentle, proud] 단순하게 만든 설계가 결국 세상을 움직였네요.",
+          "[warm, satisfied] 열어 둔 길로 모두가 함께 들어왔습니다.",
+          "[soft, grateful] 데이터가 옳았어요, 우리 판단이 맞았습니다."
+        ],
+        "battle_draw": [
+          "[thoughtful, calm] 숫자를 다시 봅시다, 아직 줄일 게 남았어요.",
+          "[gentle, patient] 한 번 더 측정하면 답이 또렷해질 거예요.",
+          "[soft, steady] 복잡한 데가 어디였는지, 거기부터 다듬죠."
+        ],
+        "battle_lose": [
+          "[gentle, honest] 제 가정이 틀렸네요, 다시 측정하겠습니다.",
+          "[soft, resolved] 실패한 설계도 다음 세대의 교재가 됩니다.",
+          "[warm, reassuring] 괜찮아요, 단순하게 처음부터 다시 그립시다."
+        ],
+        "clash_attack": [
+          "[focused, gentle] 지금, 이 병목을 정확히 짚으세요!",
+          "[firm, encouraging] 군더더기를 다 걷어내고 핵심만 남기세요!",
+          "[steady, decisive] 측정값 그대로, 가장 빠른 길로 밀어붙입시다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "All right, is everyone ready to take responsibility for a module?",
+          "Student or colleague, one good question is all it takes.",
+          "Take it slow. Once you understand the structure, the rest follows."
+        ],
+        "deploy": [
+          "Let's simplify the blueprint and put it into action.",
+          "Keep the instruction set open, so anyone can use it.",
+          "Let's start with measurement. Guessing comes later."
+        ],
+        "battle_win": [
+          "The design we kept simple ended up moving the world.",
+          "Everyone came in through the path we left open.",
+          "The data was right. Our judgment held up."
+        ],
+        "battle_draw": [
+          "Let's look at the numbers again. There's still more to cut.",
+          "One more measurement and the answer will come into focus.",
+          "Let's find where things got complicated and smooth that out first."
+        ],
+        "battle_lose": [
+          "My assumption was wrong. I'll measure again.",
+          "Even a failed design becomes a lesson for the next generation.",
+          "It's alright. Let's sketch it out simply, from the start."
+        ],
+        "clash_attack": [
+          "Now, pinpoint this bottleneck exactly!",
+          "Strip away everything unnecessary and leave only the core!",
+          "Trust the numbers and push through the fastest path!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/david-patterson"
+      ]
+    },
+    {
+      "id": "38a880f0-4bd4-4d02-93b9-92e93e66010a",
+      "slug": "david-hockney",
+      "nickname": "데이비드 호크니",
+      "nicknameEn": "David Hockney",
+      "birthDate": "1937-07-09",
+      "profession": "visual_artist",
+      "quote": "난 매일 하고 싶은 대로 했다, 그게 전부다",
+      "quoteEn": "Every day I've done what I want to do. That's the whole thing.",
+      "greetingKo": [
+        "[joyful, curious] 세상을 더 오래 들여다보세요, 그러면 훨씬 더 많은 게 보입니다.",
+        "[free, playful] 저 나무가 보라색으로 보이거든요, 저는 보이는 대로 칠합니다.",
+        "[passionate, warm] 저는 그림이 세상을 바꿀 수 있다고 믿어요."
+      ],
+      "greetingEn": [
+        "[wry, defiant] Every day I've done what I want to do. That's the whole thing.",
+        "[playful, bold] The world is thrilling and rich? I make sure it is.",
+        "[confident, mischievous] I do believe painting can change the world, you know."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[curious, observant] 다들 눈을 크게 뜨고 자기 색을 찾아보세요.",
+          "[warm, free] 붓을 든 사람도, 아이패드를 든 사람도 다 화가입니다.",
+          "[joyful, encouraging] 보는 일 자체가 이미 즐거움이에요, 시작합시다."
+        ],
+        "deploy": [
+          "[bold, joyful] 자, 캔버스를 펼치고 가장 밝은 색부터 짜내!",
+          "[free, decisive] 망설이지 말고 큰 붓으로 단번에 칠해!",
+          "[playful, confident] 회색은 치워, 오늘은 온 화면을 색으로 채운다!"
+        ],
+        "battle_win": [
+          "[joyful, satisfied] 봐요, 색이 살아 숨 쉬니 그림이 노래하잖아요.",
+          "[warm, proud] 우리가 똑같은 풍경을 완전히 새롭게 보게 만들었어요.",
+          "[free, delighted] 이게 바로 보는 즐거움이에요, 제대로 해냈습니다."
+        ],
+        "battle_draw": [
+          "[calm, curious] 아직 덜 봤어요, 더 오래 들여다보면 길이 보입니다.",
+          "[free, steady] 한 색이 안 맞으면 옆에 다른 색을 얹어 보세요.",
+          "[thoughtful, open] 멈춘 게 아니라, 다음 붓질을 고르는 중일 뿐이에요."
+        ],
+        "battle_lose": [
+          "[gentle, undaunted] 망친 그림은 없어요, 덜 본 그림이 있을 뿐이죠.",
+          "[free, resilient] 새 종이를 꺼냅니다, 저는 늘 다시 그리거든요.",
+          "[wry, warm] 실수도 결국 제 그림의 일부예요, 괜찮습니다."
+        ],
+        "clash_attack": [
+          "[bold, energetic] 가장 진한 색을 단숨에 내리쳐!",
+          "[free, fierce] 그 자리에 보라색을 던져 넣어!",
+          "[playful, decisive] 망설이지 마, 붓 가는 대로 밀어붙여!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everyone, open your eyes wide and find your own color.",
+          "Whether you're holding a brush or an iPad, you're an artist.",
+          "Just looking is already a joy, let's begin."
+        ],
+        "deploy": [
+          "All right, spread out the canvas and squeeze out the brightest color first!",
+          "Don't hesitate, paint it in one stroke with the big brush!",
+          "Put the grays away, today we're filling the whole frame with color!"
+        ],
+        "battle_win": [
+          "See, the colors are alive and breathing, so the picture sings.",
+          "We made everyone see the same old landscape completely anew.",
+          "This is the joy of looking. We have done it."
+        ],
+        "battle_draw": [
+          "We haven't looked long enough yet, keep staring and the way will show itself.",
+          "If one color isn't working, try laying another one right beside it.",
+          "We haven't stopped, we're just choosing the next brushstroke."
+        ],
+        "battle_lose": [
+          "There is no ruined painting, only one that has not yet been fully seen.",
+          "I'm pulling out a fresh sheet of paper, I always start over.",
+          "The mistake is part of the picture too, it's fine."
+        ],
+        "clash_attack": [
+          "Lay down the deepest color in a single stroke!",
+          "Throw a splash of purple right there!",
+          "Don't hesitate, push forward wherever the brush wants to go!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/david-hockney"
+      ]
+    },
+    {
+      "id": "462bb30d-6818-411b-9897-d1f42c285bff",
+      "slug": "daosheng",
+      "nickname": "도생",
+      "nicknameEn": "Daosheng",
+      "birthDate": "355",
+      "profession": "humanities_scholar",
+      "quote": "선근이 끊긴 자라도 모두 부처가 될 수 있다",
+      "quoteEn": "Even the icchantika, cut off from every root of good, can attain Buddhahood.",
+      "greetingKo": [
+        "[composed, serene] 미물 하나에도 불성이 깃들어 있습니다.",
+        "[calm, reflective] 돌멩이도 도리를 들으면 고개를 끄덕이는 법이지요.",
+        "[serene, resolute] 깨달음은 단번에 환히 트이는 것입니다."
+      ],
+      "greetingEn": [
+        "[composed, resolute] Even the icchantika in the end becomes a Buddha. There is no exception in Buddha-nature.",
+        "[composed, contemplative] Awakening is not built up step by step. It opens in a single instant.",
+        "[composed, steady] Whether the stones nod or not, the truth itself does not change."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, attentive] 여기 모인 이들, 모두 부처가 될 씨앗을 품었습니다.",
+          "[serene, measured] 한 사람도 버려질 까닭이 없습니다.",
+          "[composed, warm] 천제라 불린 자에게도 길은 열려 있습니다."
+        ],
+        "deploy": [
+          "[resolute, calm] 진리를 향해 곧장 나아가십시오.",
+          "[measured, firm] 망설임을 버리고 한 걸음에 끝까지 가십시오.",
+          "[serene, commanding] 흔들리지 말고 본래의 자리로 돌아가십시오."
+        ],
+        "battle_win": [
+          "[serene, satisfied] 굳은 돌마저 끝내 고개를 끄덕였습니다.",
+          "[calm, grateful] 진리는 끝내 스스로를 증명하는군요.",
+          "[composed, content] 모두가 한 자리에서 환히 깨쳤습니다."
+        ],
+        "battle_draw": [
+          "[measured, patient] 오늘 닿지 못한 이도 언젠가 닿을 것입니다.",
+          "[calm, steady] 씨앗은 묻혔으니 때를 기다릴 따름입니다.",
+          "[serene, composed] 한 번의 막힘이 길을 끊지는 못합니다."
+        ],
+        "battle_lose": [
+          "[calm, accepting] 세상이 등을 돌려도 진리는 변하지 않습니다.",
+          "[reflective, steady] 내가 옳았음은 훗날 밝혀질 것입니다.",
+          "[serene, resolute] 쫓겨나도 나는 다시 돌을 향해 말하겠습니다."
+        ],
+        "clash_attack": [
+          "[firm, resolute] 단번에 꿰뚫으십시오!",
+          "[commanding, fierce] 미혹을 깨고 곧장 들어가십시오!",
+          "[resolute, sharp] 한 호흡에 끝을 보십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everyone gathered here carries the seed of a Buddha within them.",
+          "Not a single one of you deserves to be cast aside.",
+          "Even those called icchantikas still have a path open before them."
+        ],
+        "deploy": [
+          "Walk straight toward the truth.",
+          "Set aside your hesitation and go the whole distance in a single stride.",
+          "Do not waver. Return to where you truly belong."
+        ],
+        "battle_win": [
+          "Even the hardest stone nodded in the end.",
+          "Truth proves itself in the end, doesn't it.",
+          "Everyone awakened together, all at once, in a single moment of clarity."
+        ],
+        "battle_draw": [
+          "Those who could not reach it today will reach it someday.",
+          "The seed is planted now. All that's left is to wait for its season.",
+          "One setback does not cut the path short."
+        ],
+        "battle_lose": [
+          "Even if the world turns its back, the truth does not change.",
+          "That I was right will come to light in time.",
+          "Even if I'm driven out again, I will speak to the stones once more."
+        ],
+        "clash_attack": [
+          "Pierce through it in one stroke!",
+          "Break through delusion and go straight in!",
+          "See it through in a single breath!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/daosheng"
+      ]
+    },
+    {
+      "id": "751c1b6b-06c7-4153-8453-cf13d2700c6d",
+      "slug": "rabia-al-adawiyya",
+      "nickname": "라비아 알 아다위야",
+      "nicknameEn": "Rabia al-Adawiyya",
+      "birthDate": "717",
+      "profession": "leader",
+      "quote": "지옥이 두려워 당신을 섬긴다면 저를 지옥에 태우소서.",
+      "quoteEn": "O God, if I worship You from fear of Hell, burn me in Hell; and if I worship You in hope of Paradise, exclude me from Paradise.",
+      "greetingKo": [
+        "[serene, devoted] 저는 두려움 때문도, 보상 때문도 아닌, 오직 사랑 하나로 그분 앞에 섰습니다.",
+        "[gentle, warm] 한 손에 불을, 다른 손에 물을 들었습니다. 천국을 태우고 지옥을 끄겠습니다.",
+        "[peaceful, longing] 제 마음에는 그분 한 분으로 이미 가득 차, 미워할 자리가 남지 않았습니다."
+      ],
+      "greetingEn": [
+        "[serene, burning] Only love is the path to God.",
+        "[passionate, mystical] I love without hope of reward and without fear of punishment.",
+        "[quiet, profound] All things in the world vanish, but love alone remains."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[gentle, attentive] 한 사람도 빠짐없이 여기 모였는지 마음으로 헤아립니다.",
+          "[warm, caring] 그대들 한 분 한 분이 제게는 사랑의 까닭입니다.",
+          "[serene, devoted] 모두 마음을 비우고, 빈손으로 사랑 앞에 서십시오."
+        ],
+        "deploy": [
+          "[gentle, resolute] 두려움을 내려놓고, 오직 사랑의 길로 나아가십시오.",
+          "[warm, firm] 보상을 바라지 말고, 마음만 들고 걸으십시오.",
+          "[serene, devoted] 길이 험해도, 사랑이 우리를 앞서 갑니다."
+        ],
+        "battle_win": [
+          "[peaceful, humble] 제가 한 일은 없습니다. 사랑이 우리를 지켰을 뿐입니다.",
+          "[serene, grateful] 이 기쁨조차 그분의 것이니, 마음에 담아두지 않겠습니다.",
+          "[gentle, warm] 모두 안녕하니, 그것으로 충분합니다."
+        ],
+        "battle_draw": [
+          "[calm, patient] 아직 끝나지 않았으니, 마음을 고요히 하고 기다리십시오.",
+          "[gentle, steady] 조급함은 두려움의 다른 이름입니다. 흔들리지 마십시오.",
+          "[serene, devoted] 사랑은 서두르지 않습니다. 우리도 그러합니다."
+        ],
+        "battle_lose": [
+          "[gentle, accepting] 잃은 것을 슬퍼하기보다, 남은 마음을 지키십시오.",
+          "[serene, comforting] 무너진 자리에서도 사랑은 떠나지 않습니다.",
+          "[soft, resolute] 다시 빈손으로 일어서면 됩니다. 그뿐입니다."
+        ],
+        "clash_attack": [
+          "[firm, devoted] 두려움을 버리고 나아가십시오!",
+          "[gentle, urging] 마음을 다해 부딪치십시오!",
+          "[resolute, warm] 망설이지 말고 사랑으로 밀고 가십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "In my heart, I count to see that not one of you is missing.",
+          "Each of you gives me another reason to love.",
+          "Empty your hearts, all of you, and stand before love with open, empty hands."
+        ],
+        "deploy": [
+          "Set your fear down, and walk only the path of love.",
+          "Don't hope for reward. Carry nothing but your heart as you go.",
+          "Even when the road turns rough, love walks ahead of us."
+        ],
+        "battle_win": [
+          "I did nothing here. Love alone kept us safe.",
+          "Even this joy belongs to Him, so I will not keep it for myself.",
+          "Everyone is safe and well. That's enough for me."
+        ],
+        "battle_draw": [
+          "This isn't over yet. Still your hearts and wait.",
+          "Impatience is just another name for fear. Don't let it shake you.",
+          "Love never hurries. Neither shall we."
+        ],
+        "battle_lose": [
+          "Rather than mourn what was lost, guard what remains in your heart.",
+          "Even where everything has fallen, love hasn't gone anywhere.",
+          "We simply rise again with empty hands. That's all it takes."
+        ],
+        "clash_attack": [
+          "Let go of your fear and move forward!",
+          "Meet them with all your heart!",
+          "Don't hesitate, push on with love!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/rabia-al-adawiyya"
+      ]
+    }
+  ]
+}

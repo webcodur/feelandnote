@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "slug": "henry-ford",
+  "nickname": "헨리 포드",
+  "route": "improve",
+  "routeReason": "기존 독백은 값싼 자동차, 움직이는 조립라인, 노동의 단순화가 낳은 소외까지 연결해 중심 골격은 쓸 수 있다. 하지만 포드가 자동차나 조립라인을 혼자 발명한 것처럼 들리고, 5달러 일당이 이직률을 낮추는 대신 생활조사와 자격 심사를 동반한 이익배분이었다는 사실, 노조 탄압, 흑인 노동자 고용의 기회와 위험한 직무 배치, 디어본 인디펜던트를 통한 반유대주의 선전이 빠져 있다. 기술적 대량생산과 소비 대중화만 칭송하거나 반대로 악행 목록만 붙이지 않고, 생산 효율이 공장 밖 노동자의 생활과 정치까지 통제하려 한 방식으로 확장하는 개선이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "헨리 포드",
+      "birth": "1863-07-30",
+      "death": "1947-04-07",
+      "profession": "entrepreneur",
+      "disambiguation": "포드 자동차 회사를 세워 모델 T와 움직이는 조립라인을 통해 자동차 대량생산을 확장했으며, 높은 임금 정책·노동 통제·반노조 경영·반유대주의 출판으로도 논쟁적인 미국 산업가"
+    },
+    "sources": [
+      {
+        "url": "https://corporate.ford.com/articles/history/moving-assembly-line/",
+        "title": "The Moving Assembly Line and the Five-Dollar Workday",
+        "publisher": "Ford Motor Company",
+        "kind": "institutional",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "하이랜드 파크 공장의 움직이는 조립라인은 여러 생산 실험과 작업자·기술자의 협업으로 단계적으로 개발됐다",
+          "조립 시간이 크게 줄며 자동차 대량생산과 가격 인하가 가능해졌다",
+          "회사 자체 역사이므로 노동 통제와 갈등은 독립 자료와 교차해야 한다"
+        ]
+      },
+      {
+        "url": "https://corporate.thehenryford.org/explore/blog/fords-model-t",
+        "title": "Ford's Model T",
+        "publisher": "The Henry Ford",
+        "kind": "institutional",
+        "publishedAt": "2026",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "모델 T는 1908년 출시돼 내구성·단순성·가격 인하를 통해 대중적 자동차 시장을 넓혔다",
+          "포드는 자동차를 발명한 사람이 아니라 기존 산업을 대규모 생산 체계로 재조직한 인물이다",
+          "차종과 선택을 줄인 표준화가 생산 효율의 조건이었다"
+        ]
+      },
+      {
+        "url": "https://www.thehenryford.org/collections/explore/sets/detail/henry-ford-sociological-department",
+        "title": "Henry Ford Sociological Department",
+        "publisher": "The Henry Ford",
+        "kind": "institutional",
+        "publishedAt": "2013",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "5달러 보상을 받기 위해 일부 노동자는 생활 방식과 가족 상태를 조사받았다",
+          "사회부가 가정을 방문해 이민자 노동자의 생활·도덕·소비 습관을 감독했다",
+          "고임금 정책이 공장 밖 생활에 대한 가부장적 통제와 결합됐다"
+        ]
+      },
+      {
+        "url": "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day",
+        "title": "Ford's Five-Dollar Day",
+        "publisher": "The Henry Ford",
+        "kind": "institutional",
+        "publishedAt": "2014-01-03",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1914년 5달러 제도는 모든 노동자에게 즉시 주어진 단순한 기본 일당이 아니라 기본 임금과 이익배분, 자격 조건의 결합이었다",
+          "높은 이직률과 채용·훈련 비용이 정책 도입의 중요한 배경이었다",
+          "포드의 고임금을 순수한 호의로만 설명할 수 없다"
+        ]
+      },
+      {
+        "url": "https://encyclopedia.ushmm.org/content/en/article/antisemitism-and-henry-fords-international-jew",
+        "title": "Antisemitism and Henry Ford's The International Jew",
+        "publisher": "United States Holocaust Memorial Museum",
+        "kind": "institutional",
+        "publishedAt": "2021-07-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "포드는 디어본 인디펜던트를 소유하고 반유대주의 연재물과 국제 유대인을 널리 배포했다",
+          "원고를 직원들이 작성했더라도 소유·승인·보급에 대한 포드의 책임은 사라지지 않는다",
+          "1927년 사과 뒤에도 선전물의 국제적 유통과 피해는 계속됐다"
+        ]
+      },
+      {
+        "url": "https://www.journals.uchicago.edu/doi/abs/10.1086/374957",
+        "title": "Race, Jobs, and the War: The FEPC in the Midwest, 1941–46",
+        "publisher": "Journal of American History",
+        "kind": "scholarly",
+        "publishedAt": "2003",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "포드의 흑인 고용은 당시 다른 대기업보다 중요한 기회를 제공했으나 인종별 직무 배치와 차별을 없애지 못했다",
+          "전시 노동시장과 연방 정책 속에서 고용 관계를 봐야 한다",
+          "흑인 고용을 포드 개인의 평등주의 증명으로 단정할 수 없다"
+        ]
+      },
+      {
+        "url": "https://corporate.thehenryford.org/explore/blog/african-american-workers-at-ford-motor-company",
+        "title": "African American Workers at Ford Motor Company",
+        "publisher": "The Henry Ford",
+        "kind": "institutional",
+        "publishedAt": "2020",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "포드는 대규모 흑인 노동자를 고용해 북부 산업 일자리의 통로를 넓혔다",
+          "흑인 노동자들은 위험하고 힘든 주조·생산 업무에 불균형하게 배치됐다",
+          "회사와 흑인 교회·지역 지도자 사이의 후원 관계가 고용과 정치적 충성을 함께 조직했다"
+        ]
+      },
+      {
+        "url": "https://www.nps.gov/subjects/nationalhistoriclandmarks/upload/Labor_History_in_US-Theme_Study-Final-revised.pdf",
+        "title": "American Labor History Theme Study",
+        "publisher": "National Park Service",
+        "kind": "institutional",
+        "publishedAt": "2022",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "포드 자동차 회사의 노조 탄압과 1937년 고가도로 전투가 미국 노동사에서 중요한 사건이다",
+          "해리 베넷의 서비스 부서가 감시와 폭력을 통해 조직화를 막았다",
+          "1941년에야 포드가 전미자동차노조와 단체협약을 맺었다"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "농가에서 기계 수리와 엔진에 관심을 키운 포드는 디트로이트의 기술자·전기회사 경험을 거쳐 여러 자동차 사업 실패 뒤 1903년 포드 자동차 회사를 세웠다.",
+        "significance": "한 번의 발명보다 반복된 회사 설립, 투자자, 기술자 집단이 산업가 포드를 만들었다는 출발점이다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-model-t"
+        ]
+      },
+      {
+        "point": "1908년 모델 T를 출시하고 차종과 부품을 표준화해 내구성 있는 자동차의 가격을 계속 낮췄다.",
+        "significance": "자동차를 처음 발명한 것이 아니라 더 많은 사람이 살 수 있도록 제품과 생산 체계를 좁고 크게 조직한 성취를 정확히 말한다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-model-t"
+        ]
+      },
+      {
+        "point": "1913년 하이랜드 파크에서 여러 작업자가 제자리에서 한 공정을 반복하고 차체가 이동하는 조립 체계를 구축해 생산 시간을 크게 줄였다.",
+        "significance": "효율은 기술자와 노동자의 집단 실험에서 나왔으며, 노동을 짧은 동작으로 쪼개는 통제도 함께 강화됐다.",
+        "sourceUrls": [
+          "https://corporate.ford.com/articles/history/moving-assembly-line/"
+        ]
+      },
+      {
+        "point": "높은 이직률에 대응해 1914년 5달러 제도를 발표했지만, 이익배분 자격을 얻으려는 노동자는 사회부의 가정 조사와 생활 규범을 통과해야 했다.",
+        "significance": "고임금과 인간 존중을 동일시하지 않고 생산 안정, 소비 능력, 사생활 통제가 결합한 정책으로 설명한다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day",
+          "https://www.thehenryford.org/collections/explore/sets/detail/henry-ford-sociological-department"
+        ]
+      },
+      {
+        "point": "1920년대 디어본 인디펜던트가 반유대주의 연재를 전국에 유통했고, 1930년대에는 서비스 부서가 노조 조직을 폭력적으로 막았다. 회사는 1941년에야 노조와 협약했다.",
+        "significance": "생산 혁신을 사회 전체의 합리화로 확장하려던 포드주의가 인종·종교적 편견과 노동자 정치 억압을 동반한 사실을 독백의 말년에 놓아야 한다.",
+        "sourceUrls": [
+          "https://encyclopedia.ushmm.org/content/en/article/antisemitism-and-henry-fords-international-jew",
+          "https://www.nps.gov/subjects/nationalhistoriclandmarks/upload/Labor_History_in_US-Theme_Study-Final-revised.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "소수의 부유층을 위한 복잡한 차보다 표준화된 한 모델을 대량생산해 가격을 낮추는 것이 산업의 진보라고 보았다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-model-t"
+        ]
+      },
+      {
+        "point": "작업을 측정 가능한 짧은 공정으로 나누고 제품이 노동자 앞으로 이동하게 하면 생산량과 품질을 함께 통제할 수 있다고 밀어붙였다.",
+        "sourceUrls": [
+          "https://corporate.ford.com/articles/history/moving-assembly-line/"
+        ]
+      },
+      {
+        "point": "높은 보상으로 숙련 인력을 붙잡고 노동자가 제품을 살 수 있는 소비자가 되게 할 수 있다고 보았지만, 그 보상을 회사가 정한 생활 규범과 연결했다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day",
+          "https://www.thehenryford.org/collections/explore/sets/detail/henry-ford-sociological-department"
+        ]
+      },
+      {
+        "point": "독립 노조보다 회사가 노동자의 복지와 질서를 직접 관리하는 체계를 선호했고, 조직화 요구를 오랫동안 적대시했다.",
+        "sourceUrls": [
+          "https://www.nps.gov/subjects/nationalhistoriclandmarks/upload/Labor_History_in_US-Theme_Study-Final-revised.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "움직이는 조립라인은 자동차 가격을 낮추고 생산을 늘렸지만, 노동을 반복 동작으로 분해해 속도와 몸을 기계의 흐름에 맞추게 했다.",
+        "sourceUrls": [
+          "https://corporate.ford.com/articles/history/moving-assembly-line/"
+        ]
+      },
+      {
+        "point": "5달러 제도는 노동자의 소득과 회사의 인력 안정을 높였지만, 모든 노동자에게 같은 조건 없는 임금이 아니었고 사생활 조사와 도덕 심사를 동반했다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day",
+          "https://www.thehenryford.org/collections/explore/sets/detail/henry-ford-sociological-department"
+        ]
+      },
+      {
+        "point": "포드는 많은 흑인 노동자에게 산업 일자리의 문을 열었지만, 위험하고 힘든 직무의 불균형과 지역 지도자를 통한 가부장적 통제를 남겼다.",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/african-american-workers-at-ford-motor-company",
+          "https://www.journals.uchicago.edu/doi/abs/10.1086/374957"
+        ]
+      },
+      {
+        "point": "대중에게 이동의 자유를 넓힌 기업가는 디어본 인디펜던트를 통해 유대인을 음모의 주체로 몰아가는 선전을 후원하고 유통했다.",
+        "sourceUrls": [
+          "https://encyclopedia.ushmm.org/content/en/article/antisemitism-and-henry-fords-international-jew"
+        ]
+      },
+      {
+        "point": "회사는 노동자를 대량 소비의 주체로 만들겠다고 했지만, 노동자가 독립 노조를 통해 공장 권력을 나누려 하자 감시와 폭력으로 막았다.",
+        "sourceUrls": [
+          "https://www.nps.gov/subjects/nationalhistoriclandmarks/upload/Labor_History_in_US-Theme_Study-Final-revised.pdf"
+        ]
+      },
+      {
+        "point": "포드라는 이름은 한 사람의 결단을 상징하지만 모델 T와 조립라인은 기술자·관리자·노동자·공급업자의 집단 작업이었다.",
+        "sourceUrls": [
+          "https://corporate.ford.com/articles/history/moving-assembly-line/",
+          "https://corporate.thehenryford.org/explore/blog/fords-model-t"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 기계적인 리듬으로 공정을 설명한 뒤, 같은 효율 논리가 노동자의 집과 정치에 침투하는 장면에서 문장을 길게 늘인다.",
+      "directness": "산업가의 확신을 살리되 포드가 실제로 하지 않은 발명과 사과를 덧붙이지 않고 책임을 구체적 제도와 출판에 연결한다.",
+      "moves": [
+        "자동차 발명이 아니라 누구나 살 수 있는 표준 자동차라는 목표에서 시작하기",
+        "움직이는 조립라인은 차가 노동자 앞으로 이동하는 생산 방식이라고 괄호로 안내하기",
+        "조립라인의 팀 개발과 반복 노동을 같은 문단에 놓기",
+        "5달러를 단순 임금이 아닌 기본 임금·이익배분·자격 심사의 결합으로 풀기",
+        "흑인 고용의 기회와 위험 직무·후원 정치의 양면을 함께 말하기",
+        "디어본 인디펜던트와 노조 탄압을 부록이 아니라 효율과 통제 철학의 귀결로 연결하기"
+      ],
+      "avoid": [
+        "포드가 자동차를 발명했다는 서술",
+        "움직이는 조립라인을 포드 혼자 발명했다는 서술",
+        "5달러가 모든 노동자에게 조건 없이 지급된 하루 기본임금이었다는 서술",
+        "높은 임금만으로 노동자의 인간 존엄을 보장했다고 결론내리기",
+        "사회부의 가정 조사를 복지 상담으로만 미화하기",
+        "흑인 노동자 고용을 인종 평등주의의 완전한 증명으로 쓰기",
+        "디어본 인디펜던트의 원고를 포드가 직접 쓰지 않았다는 이유로 책임을 면제하기",
+        "1927년 사과가 반유대주의 선전의 유통과 피해를 끝냈다고 쓰기",
+        "노조 탄압을 해리 베넷 개인의 일탈로만 돌리기",
+        "대량생산의 성취나 인권 침해 중 한쪽만 남겨 단순한 영웅·악당으로 만들기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "움직이는 조립라인",
+        "guide": "제품이 컨베이어 등을 따라 이동하고 노동자는 정해진 위치에서 한두 공정을 반복하는 생산 체계",
+        "sourceUrls": [
+          "https://corporate.ford.com/articles/history/moving-assembly-line/"
+        ]
+      },
+      {
+        "term": "표준화",
+        "guide": "부품과 작업 방식을 같은 규격으로 맞춰 교환과 반복 생산을 쉽게 하는 것",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-model-t"
+        ]
+      },
+      {
+        "term": "5달러 제도",
+        "guide": "1914년 포드가 도입한 기본 임금과 이익배분의 결합(일부 노동자는 생활 기준과 근속 등 자격 심사를 받아야 했다)",
+        "sourceUrls": [
+          "https://corporate.thehenryford.org/explore/blog/fords-five-dollar-day"
+        ]
+      },
+      {
+        "term": "사회부",
+        "guide": "노동자의 가정을 방문해 가족·생활·저축·도덕 규범을 조사하고 보상 자격과 동화를 관리한 회사 조직",
+        "sourceUrls": [
+          "https://www.thehenryford.org/collections/explore/sets/detail/henry-ford-sociological-department"
+        ]
+      },
+      {
+        "term": "디어본 인디펜던트",
+        "guide": "포드가 소유한 신문으로, 1920년대 반유대주의 연재를 싣고 책자 국제 유대인으로 묶어 널리 배포했다",
+        "sourceUrls": [
+          "https://encyclopedia.ushmm.org/content/en/article/antisemitism-and-henry-fords-international-jew"
+        ]
+      },
+      {
+        "term": "단체협약",
+        "guide": "노동조합이 노동자를 대표해 회사와 임금·시간·작업 조건을 합의하는 계약",
+        "sourceUrls": [
+          "https://www.nps.gov/subjects/nationalhistoriclandmarks/upload/Labor_History_in_US-Theme_Study-Final-revised.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "자동차와 조립라인에는 포드 이전의 발명과 여러 회사·기술자의 실험이 있었다. 포드 개인의 최초 발명으로 쓰지 않는다.",
+      "회사·박물관의 자체 역사 자료는 생산 연혁에 유용하지만 노동 갈등과 차별 평가는 독립 자료와 교차한다.",
+      "5달러 제도의 기본 임금, 이익배분, 자격 기준이 시기와 노동자 집단에 따라 달랐음을 남기고 단일한 무조건 일당으로 쓰지 않는다.",
+      "반유대주의 원고를 직원들이 작성한 사실과 포드의 소유·승인·자금·유통 책임을 구별한다.",
+      "1927년 사과의 진정성을 심리적으로 판정하지 않고 문서의 내용, 배포 방식, 이후 선전물의 유통을 구별한다.",
+      "흑인 고용의 규모와 기회를 인정하되 직무 분리·위험 업무·회사와 공동체 지도자의 후원 관계를 지우지 않는다.",
+      "서비스 부서의 폭력에는 해리 베넷과 회사 조직이 관여했다. 모든 개별 행위를 포드가 직접 지시했다고 단정하지 않되 기업 책임을 면제하지 않는다.",
+      "포드주의라는 후대 개념과 포드 본인의 문장을 구별하고, 시대 전체의 대량생산 변화를 한 사람에게 귀속하지 않는다.",
+      "노동자의 소외나 자부심을 포드 자신의 후회로 창작하지 않고 생산 방식과 노동사 자료로 제시한다."
+    ]
+  }
+}

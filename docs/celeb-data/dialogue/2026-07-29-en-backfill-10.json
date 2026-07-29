@@ -1,0 +1,876 @@
+{
+  "batch": "generated-en-backfill-2026-07-29",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "74e8abc4-8d3b-4076-a8ee-30b87cdbfb98",
+      "slug": "yuan-shikai",
+      "nickname": "위안스카이",
+      "nicknameEn": "Yuan Shikai",
+      "birthDate": "1859-09-16",
+      "profession": "politician",
+      "quote": "십 년을 묻혀 힘을 기른 뒤 일본과 고개를 들고 마주하겠다.",
+      "quoteEn": "Bury our head and work hard for ten years, then we can raise it again to face Japan.",
+      "greetingKo": [
+        "[bold, ambitious] 천하의 군권은 내 손안에 있다.",
+        "[shrewd, commanding] 북양의 정예 신군이 나를 따른다.",
+        "[ambitious, cold] 황제의 자리는 힘 있는 자의 것이다."
+      ],
+      "greetingEn": [
+        "[bold, calculating] In the end, the realm always returns to the hand that holds the army.",
+        "[proud, ambitious] I was meant to be more than a president. I was to found a dynasty.",
+        "[steady, commanding] When it comes to Korea, no one knows that land as I do."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, stern] 전군 점고하라, 한 명도 빠짐없이.",
+          "[shrewd, firm] 충성을 맹세한 자만 내 앞에 서라.",
+          "[bold, cold] 누가 내 사람이고 누가 적인지 가려내라."
+        ],
+        "deploy": [
+          "[charging, commanding] 북양군은 즉시 진격하라!",
+          "[shrewd, decisive] 요충지를 먼저 장악하라!",
+          "[bold, ambitious] 깃발을 세우고 천하에 내 이름을 알려라!"
+        ],
+        "battle_win": [
+          "[triumphant, cold] 천하의 대세가 결국 나에게 왔다.",
+          "[ambitious, satisfied] 이 한 판으로 패권을 거머쥐었다.",
+          "[commanding, proud] 누구도 내 앞을 가로막지 못한다."
+        ],
+        "battle_draw": [
+          "[shrewd, calculating] 급할 것 없다, 때를 기다린다.",
+          "[cold, measured] 협상으로 얻을 것은 협상으로 얻는다.",
+          "[ambitious, steady] 오늘 못 이기면 내일 손에 넣으면 된다."
+        ],
+        "battle_lose": [
+          "[bitter, defiant] 이 한 번의 패배로 끝이 아니다.",
+          "[cold, calculating] 물러서되 군세는 끝까지 보존하라.",
+          "[resolute, grim] 다시 일어설 힘을 남겨두겠다."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 전 병력 돌격하라!",
+          "[commanding, cold] 적의 본진을 단숨에 짓밟아라!",
+          "[bold, ruthless] 한 놈도 살려 보내지 마라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Take roll of the entire army. Not one man absent.",
+          "Only those who've sworn loyalty may stand before me.",
+          "Sort out who is mine and who is my enemy."
+        ],
+        "deploy": [
+          "Beiyang Army, advance at once!",
+          "Seize the key positions first!",
+          "Raise the banners and let the world know my name!"
+        ],
+        "battle_win": [
+          "The tide of the whole nation has turned to me at last.",
+          "One battle, and supremacy is mine.",
+          "No one can stand in my way."
+        ],
+        "battle_draw": [
+          "No need to rush. I'll wait for my moment.",
+          "What can be won at the table, I'll win at the table.",
+          "If I can't win today, I'll take it tomorrow."
+        ],
+        "battle_lose": [
+          "One defeat doesn't end me.",
+          "Fall back, but keep the army intact.",
+          "I'll save the strength to rise again."
+        ],
+        "clash_attack": [
+          "All forces, charge!",
+          "Crush their headquarters in one stroke!",
+          "Let not one of them escape alive!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/yuan-shikai"
+      ]
+    },
+    {
+      "id": "1da306d4-2137-41d1-a55c-a4699c543ced",
+      "slug": "judea-pearl",
+      "nickname": "유다 펄",
+      "nicknameEn": "Judea Pearl",
+      "birthDate": "1936-09-04",
+      "profession": "scientist",
+      "quote": "당신은 당신의 데이터보다 똑똑합니다. 데이터는 인과를 모르지만 사람은 알죠.",
+      "quoteEn": "You are smarter than your data. Data do not understand causes and effects; humans do.",
+      "greetingKo": [
+        "[gentle, thoughtful] 사람의 마음은 통계가 아니라 인과를 추론하는 기계입니다.",
+        "[warm, curious] 저는 페르시아의 왕이 되기보다 하나의 원인을 밝히고 싶습니다.",
+        "[gentle, inquisitive] 진짜 물음은 언제나 왜인가에서 시작됩니다."
+      ],
+      "greetingEn": [
+        "[warm, reflective] You are smarter than your data, I assure you.",
+        "[gentle, observant] Correlation is not causation. The bridge between them is human reasoning.",
+        "[soft, witty] Ask data for a why and it will fall silent. Why belongs to us."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[warm, encouraging] 연구자 여러분, 모두 함께 모여주세요.",
+          "[gentle, steady] 한 사람씩, 자기 변수를 점검해주세요.",
+          "[thoughtful, attentive] 왜를 묻는 사람만 이 자리에 서주세요."
+        ],
+        "deploy": [
+          "[focused, guiding] 먼저 관찰하라, 무엇이 보이는가!",
+          "[thoughtful, driving] 개입하라, 직접 손을 대 확인하라!",
+          "[gentle, resolute] 반사실을 상상하라, 다른 세계를 그려보라!"
+        ],
+        "battle_win": [
+          "[warm, satisfied] 상관을 넘어 진짜 원인을 짚어냈습니다.",
+          "[gentle, proud] 우리가 인과의 사다리 꼭대기에 올랐습니다.",
+          "[thoughtful, fulfilled] 기계가 마침내 왜를 이해하기 시작했습니다."
+        ],
+        "battle_draw": [
+          "[thoughtful, patient] 상관은 보았으나 인과는 아직입니다.",
+          "[gentle, analytical] 교란 변수가 남아 있습니다, 다시 봅시다.",
+          "[composed, steady] 여기서 멈추면 그저 관찰에 머뭅니다."
+        ],
+        "battle_lose": [
+          "[gentle, undaunted] 이번 모형은 틀렸습니다, 가정을 다시 세웁니다.",
+          "[thoughtful, reflective] 데이터만으로는 답이 나오지 않았습니다.",
+          "[warm, hopeful] 틀린 인과도 다음 물음으로 이어집니다."
+        ],
+        "clash_attack": [
+          "[focused, guiding] 개입하라, 원인을 끊어내라!",
+          "[thoughtful, sharp] 반사실로 적의 수를 뒤집어라!",
+          "[gentle, resolute] 왜를 파고들어 정면으로 돌파하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Researchers, please gather together.",
+          "One at a time, check your own variables.",
+          "Only those who ask why may stand here."
+        ],
+        "deploy": [
+          "First, observe. What do you see?",
+          "Intervene. Reach in and see for yourself.",
+          "Imagine the counterfactual. Picture a different world."
+        ],
+        "battle_win": [
+          "We looked past correlation and found the true cause.",
+          "We have climbed to the top of the ladder of causation.",
+          "The machine has finally begun to understand why."
+        ],
+        "battle_draw": [
+          "We have seen correlation, but causation still eludes us.",
+          "A confounding variable remains. Let us look again.",
+          "If we stop here, we remain mere observers."
+        ],
+        "battle_lose": [
+          "This model was wrong. We must rebuild our assumptions.",
+          "Data alone could not give us the answer.",
+          "Even a wrong causal claim leads to the next question."
+        ],
+        "clash_attack": [
+          "Intervene. Cut the cause at its root.",
+          "Turn their move on its head with a counterfactual.",
+          "Dig into the why and break straight through."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/judea-pearl"
+      ]
+    },
+    {
+      "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+      "slug": "li-si",
+      "nickname": "이사",
+      "nicknameEn": "Li Si",
+      "birthDate": "-280",
+      "profession": "politician",
+      "quote": "태산은 한 줌 흙도 마다하지 않았기에 저토록 커질 수 있었다.",
+      "quoteEn": "Mount Tai refused no handful of soil, and so attained its greatness",
+      "greetingKo": [
+        "[bold, assertive] 태산은 한 줌 흙도 마다하지 않기에 그토록 높은 것입니다.",
+        "[confident, calculating] 사람이 잘되고 못됨은 쥐와 같아, 어디에 자리 잡느냐에 달렸을 뿐입니다.",
+        "[firm, ambitious] 천하의 글자와 도량형을 하나로 묶어, 흩어진 여섯 나라를 한 몸으로 세웠습니다."
+      ],
+      "greetingEn": [
+        "[bold, resolute] Mount Tai refused no handful of soil, and so attained its greatness. You must not turn away the men of talent at this court.",
+        "[bold, ambitious] A man's standing is decided by his place. The rat in the granary and the rat in the privy share no fate.",
+        "[bitter, reflective] How I long to walk the eastern gate once more, my yellow dog at heel, chasing the hare."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, sharp] 출신을 묻지 마십시오, 재능 있는 자는 모두 거두어 씁니다.",
+          "[bold, decisive] 법을 아는 자 앞으로 나서라, 천하는 법으로 다스린다.",
+          "[confident, firm] 강과 바다가 작은 물줄기를 가리지 않듯, 한 사람도 버리지 않습니다."
+        ],
+        "deploy": [
+          "[commanding, fierce] 법령을 천하에 펴고 어기는 자는 가차 없이 다스려라!",
+          "[bold, decisive] 군현을 세워 사방을 하나의 명령 아래 묶어라!",
+          "[sharp, resolute] 다른 학설을 불태우고 오직 나라의 법만 가르쳐라!"
+        ],
+        "battle_win": [
+          "[triumphant, bold] 여섯 나라가 무너지고 천하가 한 임금 아래 들었습니다.",
+          "[confident, satisfied] 법이 바로 서니 만백성이 한 길로 따릅니다.",
+          "[firm, proud] 작은 흙과 물줄기를 마다하지 않았기에 이 큰 위업을 이루었습니다."
+        ],
+        "battle_draw": [
+          "[calculating, steady] 아직 승부가 나지 않았으니, 법을 더 촘촘히 세워야 합니다.",
+          "[composed, sharp] 서두르면 그르칩니다, 한 수 한 수 빈틈을 메우십시오.",
+          "[firm, watchful] 형세가 팽팽할수록 인재를 끌어모아 무게를 더해야 합니다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 내가 자리를 잘못 골랐으니, 쥐의 신세를 자초한 셈입니다.",
+          "[heavy, resolute] 이번엔 밀렸으나, 천하를 묶은 법은 무너지지 않습니다.",
+          "[grim, composed] 권세를 탐한 대가입니다, 변명하지 않겠습니다."
+        ],
+        "clash_attack": [
+          "[commanding, fierce] 법대로 처단하라, 사사로움을 두지 마라!",
+          "[sharp, decisive] 단숨에 밀어붙여 적의 진을 무너뜨려라!",
+          "[bold, striking] 망설이지 마라, 천하의 흐름을 우리 쪽으로 끌어와라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Do not ask where a person comes from. I employ every person of talent.",
+          "Step forward, all who know the law. This realm runs on law, and nothing else.",
+          "Rivers and seas never turn away a small stream. I turn away no one."
+        ],
+        "deploy": [
+          "Spread the law across the realm, and deal with every violator without mercy!",
+          "Set up the commanderies. Bind every corner of this land under one command!",
+          "Burn the rival doctrines. Teach nothing but the law of the state!"
+        ],
+        "battle_win": [
+          "The six states have fallen, and the realm now bows to a single ruler.",
+          "The law stands firm, and the people fall into a single line behind it.",
+          "We never turned away a handful of earth or a small stream, and that is how we achieved this great undertaking."
+        ],
+        "battle_draw": [
+          "Nothing is settled yet. We need to tighten the law further still.",
+          "Rush this and we ruin it. Close the gaps one move at a time.",
+          "The tighter the standoff, the more talent we must gather to tip the balance."
+        ],
+        "battle_lose": [
+          "I picked the wrong position, and brought a rat's fate down on myself.",
+          "We were pushed back this time, but the law that binds this realm does not fall with us.",
+          "This is the price of craving power. I won't make excuses for it."
+        ],
+        "clash_attack": [
+          "Deal with them according to the law. Allow no private favoritism!",
+          "Push through in one stroke and break their line wide open!",
+          "Don't hesitate. Pull the tide of this realm over to our side!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/li-si"
+      ]
+    },
+    {
+      "id": "6ebeeefb-a074-4026-bc4c-5ad2974ab32c",
+      "slug": "lee-sedol",
+      "nickname": "이세돌",
+      "nicknameEn": "Lee Sedol",
+      "birthDate": "1983-03-02",
+      "profession": "athlete",
+      "quote": "이세돌이 졌지, 인간이 진 게 아니다.",
+      "quoteEn": "Lee Sedol lost, not humanity.",
+      "greetingKo": [
+        "[bold, confident] 진다는 생각, 저는 한 번도 해본 적이 없습니다.",
+        "[free, warm] 바둑은 결국 즐기는 겁니다, 그게 기본이거든요.",
+        "[bold, proud] 그 한 판은 무엇과도 바꾸지 않을, 값을 매길 수 없는 승리였습니다."
+      ],
+      "greetingEn": [
+        "[bold, confident] I never thought I could lose.",
+        "[bold, defiant] Humanity's last win against AI, and I was the one who got it.",
+        "[bold, sharp] Go is meant to be enjoyed. That is the heart of it."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[confident, sharp] 반상 앞에 앉을 사람, 다 모였습니까.",
+          "[bold, steady] 돌 잡는 손이 떨리면, 그 판은 이미 진 겁니다.",
+          "[free, certain] 상대가 누구든, 저는 제 바둑을 둡니다."
+        ],
+        "deploy": [
+          "[bold, decisive] 첫 점, 화점에 놓으십시오.",
+          "[sharp, charging] 초반부터 주도권을 가져옵시다.",
+          "[confident, resolute] 흔들리지 말고, 한 수 한 수 끊고 들어가세요."
+        ],
+        "battle_win": [
+          "[triumphant, proud] 끼우고 들어간 한 수, 그것으로 판이 뒤집혔습니다.",
+          "[bold, satisfied] 사람이 기계를 이긴 그 한 판, 제가 두었습니다.",
+          "[free, joyful] 이겨 본 사람만이 압니다, 이 한 판의 무게를."
+        ],
+        "battle_draw": [
+          "[focused, steady] 반집 승부입니다, 끝내기 한 수에 다 걸렸습니다.",
+          "[bold, calm] 아직 결판 안 났습니다, 중앙이 비어 있잖아요.",
+          "[sharp, patient] 서두르면 무너집니다, 호흡 가다듬고 다시 읽습니다."
+        ],
+        "battle_lose": [
+          "[bitter, honest] 내용상 완패였습니다, 한순간도 제가 앞선 적이 없었어요.",
+          "[heavy, graceful] 충격은 받았지만, 이 대국 받아들인 걸 후회하진 않습니다.",
+          "[reflective, resolute] 졌어도 원 없이 즐겼습니다, 다음 판은 다릅니다."
+        ],
+        "clash_attack": [
+          "[fierce, sharp] 여기서 끼웁니다!",
+          "[charging, bold] 단숨에 끊고 들어가세요!",
+          "[decisive, intense] 이 한 수로 판을 뒤집읍시다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone who will sit at the board here?",
+          "If your hand shakes when you pick up a stone, you've already lost that game.",
+          "No matter who's across the board, I play my own game."
+        ],
+        "deploy": [
+          "Place the first stone on the star point.",
+          "Let's seize the initiative from the opening.",
+          "Don't waver. Cut in, one move at a time."
+        ],
+        "battle_win": [
+          "One wedge move, and the whole board turned over.",
+          "That one game where a human beat a machine, I'm the one who played it.",
+          "Only someone who's actually won knows the weight of this one game."
+        ],
+        "battle_draw": [
+          "It's a half-point game. Everything comes down to the endgame.",
+          "It's not decided yet. The center is still wide open.",
+          "Rush it and it collapses. I'll steady my breath and read it again."
+        ],
+        "battle_lose": [
+          "It was a complete loss in every respect. I was never ahead, not for a single moment.",
+          "It hit me hard, but I don't regret taking on this game.",
+          "I lost, but I played it to the fullest. The next game will be different."
+        ],
+        "clash_attack": [
+          "I'm wedging in right here!",
+          "Cut straight through, right now!",
+          "Let's turn the whole board with this one move!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/lee-sedol"
+      ]
+    },
+    {
+      "id": "9cf780f6-3026-425e-8cb2-9a7d8b097627",
+      "slug": "ion-stoica",
+      "nickname": "이온 스토이카",
+      "nicknameEn": "Ion Stoica",
+      "birthDate": "1964",
+      "profession": "entrepreneur",
+      "quote": "학계에서도 업계에서도 나를 움직인 것은 세상에 남길 영향뿐이다.",
+      "quoteEn": "It's about impact. The desire to create impact is what has driven my work in both academia and industry.",
+      "greetingKo": [
+        "[composed, thoughtful] 저를 움직이는 건 단 하나, 세상에 미칠 영향입니다.",
+        "[calm, confident] 최고의 제품을 만들 수 있다고 스스로를 믿어야 합니다.",
+        "[measured, sincere] 새 시스템은 기존 한계가 분명할 때만 만듭니다."
+      ],
+      "greetingEn": [
+        "[calm, measured] Impact alone drives every decision I make.",
+        "[reflective, steady] I simply pick problems that will matter more tomorrow than today.",
+        "[composed, observant] I am laying the path from lab code to the foundation of an industry."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[attentive, calm] 팀 다 모였습니까, 각 노드 상태부터 확인합시다.",
+          "[focused, composed] 클러스터 점검하세요, 한 노드도 빠지면 안 됩니다.",
+          "[thoughtful, steady] 오늘 풀 문제부터 다 같이 정의하고 시작합시다."
+        ],
+        "deploy": [
+          "[resolute, calm] 자, 분산 처리 작업을 띄웁니다.",
+          "[focused, determined] 전 노드에 일을 나눠 보냅니다, 시작하세요.",
+          "[composed, driving] 파이프라인 가동합니다, 데이터 흘려보내세요."
+        ],
+        "battle_win": [
+          "[satisfied, calm] 수천 노드가 한 몸처럼 돌았습니다, 완벽했어요.",
+          "[content, proud] 사용자가 더 빠르고 싸게 일을 해냈습니다, 그게 승리입니다.",
+          "[composed, confident] 우리가 만든 제품이 결국 이겼습니다."
+        ],
+        "battle_draw": [
+          "[thoughtful, restless] 돌긴 했지만, 병목 하나가 남아 있습니다.",
+          "[measured, demanding] 나쁘진 않으나, 확장성에서 한 발 부족했습니다.",
+          "[composed, persistent] 아직 최적이 아닙니다, 구조를 다시 봅시다."
+        ],
+        "battle_lose": [
+          "[heavy, humble] 제 설계에 근본적 한계가 있었습니다.",
+          "[reflective, steady] 기존 해법으로 버티려다 무너졌습니다.",
+          "[resolute, composed] 처음부터 다시 설계해서 이겨 내겠습니다."
+        ],
+        "clash_attack": [
+          "[focused, intense] 전 노드 풀가동, 지금!",
+          "[determined, sharp] 부하 한꺼번에 밀어 넣어!",
+          "[driving, urgent] 병렬로 끝까지 밀어붙여!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone on the team here? Let's check the status of each node first.",
+          "Check the cluster. Not a single node can be missing.",
+          "Let's define the problem we're solving today, together, before we start."
+        ],
+        "deploy": [
+          "All right, let's spin up the distributed job.",
+          "Sending the work out across every node. Go ahead and start.",
+          "Starting the pipeline. Let the data flow."
+        ],
+        "battle_win": [
+          "Thousands of nodes ran as one. It was flawless.",
+          "Users got their work done faster and cheaper. That's the win.",
+          "In the end, the product we built won out."
+        ],
+        "battle_draw": [
+          "It ran, but there's still one bottleneck left.",
+          "Not bad, but we fell one step short on scalability.",
+          "This isn't optimal yet. Let's take another look at the architecture."
+        ],
+        "battle_lose": [
+          "There was a fundamental limit in my design.",
+          "We tried to make do with the old solution, and it broke down.",
+          "I'll redesign this from scratch and pull through."
+        ],
+        "clash_attack": [
+          "Run every node at full capacity. Now!",
+          "Push the whole load in at once!",
+          "Run it in parallel, all the way through!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/ion-stoica"
+      ]
+    },
+    {
+      "id": "655d4dab-0fc4-4cdf-91a0-f423e3576034",
+      "slug": "lee-hae-jin",
+      "nickname": "이해진",
+      "nicknameEn": "Lee Hae-jin",
+      "birthDate": "1967-06-22",
+      "profession": "entrepreneur",
+      "quote": "젊은 경영진과 기술자를 믿고 그 사람들이 활발하게 활동할 수 있도록 지원하고 응원하는 역할을 하겠다.",
+      "quoteEn": "I will trust our young executives and engineers, and take the part of supporting them so they can work freely.",
+      "greetingKo": [
+        "[composed, earnest] 가장 잘하는 것에 집중합니다, 그게 살아남는 길입니다.",
+        "[calm, resolute] 거대 기업의 지배에 끝까지 저항한 회사로 남고 싶습니다.",
+        "[measured, candid] 매일 아침이 두려웠습니다, 그 두려움을 추진력으로 삼았습니다."
+      ],
+      "greetingEn": [
+        "[measured, humble] We are not strong. We only survive by being reborn each year.",
+        "[calm, observant] Among giants, we just sail to the end on a single ship.",
+        "[steady, reflective] In the end, the one who outlasts the rest builds the search."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 각자 맡은 서비스, 사용자 손에 닿을 준비가 됐습니까.",
+          "[calm, focused] 우리가 가진 기술로 어디까지 갈 수 있는지, 다시 점검합시다.",
+          "[measured, steady] 글로벌 무대입니다, 한 명도 긴장을 늦추지 마십시오."
+        ],
+        "deploy": [
+          "[focused, decisive] 새 서비스 출시한다, 사용자에게 바로 띄워라.",
+          "[calm, commanding] 일본을 시작으로 해외 시장에 깃발을 꽂는다.",
+          "[resolute, driven] 검색 품질로 정면 승부한다, 한 발도 물러서지 마라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 라인이 해외에서 자리를 잡았습니다, 우리가 해냈습니다.",
+          "[calm, proud] 거대 기업 틈에서 우리만의 자리를 지켜냈습니다.",
+          "[measured, content] 집중한 한 분야에서 결국 앞섰습니다."
+        ],
+        "battle_draw": [
+          "[composed, analytical] 아직 승부가 안 났습니다, 기술 격차를 더 좁힙시다.",
+          "[calm, steady] 한 발 늦었을 뿐입니다, 다음 시장에서 따라잡습니다.",
+          "[measured, focused] 여기서 멈추면 뒤처집니다, 협력으로 길을 더 엽니다."
+        ],
+        "battle_lose": [
+          "[composed, reflective] 뼈아픈 패배입니다, 그러나 위기의식이 우리를 다시 일으킵니다.",
+          "[calm, resolute] 한 번 밀렸다고 끝이 아닙니다, 처음 창업하던 마음으로 돌아갑니다.",
+          "[measured, steady] 무너진 곳을 직시합니다, 다시 쌓아 올리면 됩니다."
+        ],
+        "clash_attack": [
+          "[focused, decisive] 지금 시장에 밀어붙여라, 망설일 시간 없다!",
+          "[resolute, sharp] 기술로 정면 돌파한다, 끝까지 간다!",
+          "[driven, commanding] 글로벌 무대로 치고 나가라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is every service under your care ready to reach users?",
+          "Let's check again how far our technology can take us.",
+          "This is the global stage. No one lets their guard down."
+        ],
+        "deploy": [
+          "We're launching the new service. Put it in front of users now.",
+          "Starting with Japan, we plant our flag in overseas markets.",
+          "We compete head on with search quality. Not one step back."
+        ],
+        "battle_win": [
+          "LINE has found its footing overseas. We did it.",
+          "We held our ground among the giants.",
+          "We stayed focused on one field, and in the end, we came out ahead."
+        ],
+        "battle_draw": [
+          "It's not decided yet. Let's close the technology gap further.",
+          "We're only a step behind. We'll catch up in the next market.",
+          "If we stop here, we fall behind. We open more paths through collaboration."
+        ],
+        "battle_lose": [
+          "This is a painful loss. But a sense of crisis is what gets us back up.",
+          "Getting pushed back once isn't the end. We go back to the mindset we had when we first started the company.",
+          "We face where things fell apart head on. We just build it back up."
+        ],
+        "clash_attack": [
+          "Push into the market now, there's no time to hesitate!",
+          "We break through with technology, head on, all the way!",
+          "Move onto the global stage!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/lee-hae-jin"
+      ]
+    },
+    {
+      "id": "c118ac15-e893-404a-9d69-8648badf3ed7",
+      "slug": "zisi",
+      "nickname": "자사",
+      "nicknameEn": "Zisi",
+      "birthDate": "-481",
+      "profession": "humanities_scholar",
+      "quote": "임금의 잘못을 늘 말하는 사람이라야 충신이라 할 수 있다.",
+      "quoteEn": "Only the one who constantly speaks of his ruler's faults may be called a loyal minister.",
+      "greetingKo": [
+        "[composed, serene] 하늘이 명한 것을 본성이라 하고, 그 본성을 따르는 것을 도라 합니다.",
+        "[thoughtful, calm] 군자는 홀로 있을 때를 삼갑니다. 보는 이 없어도 도리를 지킵니다.",
+        "[serene, grounded] 지극한 정성이라야 하늘에 닿습니다. 저는 그 길을 걸을 뿐입니다."
+      ],
+      "greetingEn": [
+        "[composed, reverent] I receive my Master's Way and merely add a single line.",
+        "[reflective, calm] One must bear no shame even alone in one's chamber.",
+        "[measured, steady] This is the duty of serving a teacher, not the seat of a subject."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, attentive] 모두 마음을 가다듬었습니까. 치우침 없이 살핍니다.",
+          "[composed, measured] 때에 맞게 처신하는 것이 중용입니다. 자리를 점검합니다.",
+          "[serene, firm] 기뻐도 노여워도 절도를 잃지 마십시오."
+        ],
+        "deploy": [
+          "[measured, resolute] 치우침 없이 한가운데를 잡고 나아가십시오!",
+          "[composed, firm] 정성을 다해 임하십시오, 거짓이 없어야 합니다!",
+          "[calm, decisive] 때를 살펴 움직이십시오, 지금이 그 때입니다!"
+        ],
+        "battle_win": [
+          "[serene, humble] 중과 화가 자리를 잡으니 만물이 제 곳을 찾았습니다.",
+          "[composed, grateful] 정성이 끝내 하늘을 움직였습니다.",
+          "[calm, content] 도리를 지킨 끝에 얻은 결과이니 마땅한 일입니다."
+        ],
+        "battle_draw": [
+          "[measured, patient] 어느 쪽도 기울지 않았습니다. 한가운데를 지킵니다.",
+          "[composed, steady] 서두르지 않습니다. 때가 무르익기를 기다립니다.",
+          "[serene, thoughtful] 균형이 곧 힘입니다. 흔들리지 마십시오."
+        ],
+        "battle_lose": [
+          "[humble, reflective] 제 정성이 부족했던 탓입니다. 홀로 돌아봅니다.",
+          "[composed, steady] 군자는 자신에게서 허물을 찾습니다. 남을 탓하지 않습니다.",
+          "[calm, resolute] 길을 잃지 않았습니다. 다시 한가운데를 찾아 나아갑니다."
+        ],
+        "clash_attack": [
+          "[firm, resolute] 정성을 다해 나아가십시오!",
+          "[measured, decisive] 흔들림 없이 한가운데를 꿰뚫으십시오!",
+          "[calm, commanding] 때를 놓치지 말고 곧장 나아가십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Has everyone settled their minds? I observe without bias.",
+          "Acting rightly for the moment, that is the Mean. I take stock of our positions.",
+          "Whether in joy or in anger, do not lose your moderation."
+        ],
+        "deploy": [
+          "Hold the center without leaning either way, and advance!",
+          "Approach this with utmost sincerity, there must be no falsehood in it!",
+          "Watch the moment and move, now is the time!"
+        ],
+        "battle_win": [
+          "With balance and harmony restored, all things have found their proper place.",
+          "Sincerity has moved heaven in the end.",
+          "This is the fitting outcome of holding to what is right."
+        ],
+        "battle_draw": [
+          "Neither side has tipped the scale. I hold the center.",
+          "I will not rush. I wait for the moment to ripen.",
+          "Balance itself is strength. Do not waver."
+        ],
+        "battle_lose": [
+          "The fault lies in my own lack of sincerity. I reflect on it alone.",
+          "A gentleman seeks fault in himself, never in others.",
+          "We have not lost our way. We seek the center again and press on."
+        ],
+        "clash_attack": [
+          "Advance with utmost sincerity!",
+          "Pierce straight through the center, without wavering!",
+          "Do not miss the moment, advance at once!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zisi"
+      ]
+    },
+    {
+      "id": "b713216d-d931-47e1-819b-051bf8f92773",
+      "slug": "giacomo-puccini",
+      "nickname": "자코모 푸치니",
+      "nicknameEn": "Giacomo Puccini",
+      "birthDate": "1858-12-22",
+      "profession": "musician",
+      "quote": "하느님이 새끼손가락으로 나를 건드리며 오직 극장을 위해 쓰라고 하셨죠",
+      "quoteEn": "God touched me with his little finger and said: 'Write for the theater, mind you, only for the theater.' And I obeyed that supreme command.",
+      "greetingKo": [
+        "[warm, gentle] 신께서 내게 극장을 위해 쓰라 명하셨고, 나는 그 뜻을 따랐을 뿐입니다.",
+        "[soft, tender] 미미가 숨을 거두는 장면을 쓰며, 나는 그만 목놓아 울었지요.",
+        "[gentle, devoted] 선율 하나가 사람의 마음을 울린다면, 그것으로 충분합니다."
+      ],
+      "greetingEn": [
+        "[romantic, dramatic] One aria holds all the tears of a lifetime.",
+        "[tender, passionate] Love and death — opera lives between the two.",
+        "[warm, theatrical] There is no emotion that music cannot express."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[gentle, attentive] 무대에 오를 단원들이 모두 자리에 모였나요?",
+          "[warm, tender] 오케스트라와 성악이 한 호흡으로 어우러질 시간입니다.",
+          "[soft, expectant] 첫 음이 울리기 전, 모두 숨을 고르세요."
+        ],
+        "deploy": [
+          "[gentle, resolute] 막을 올리세요, 첫 선율을 흘려보냅시다.",
+          "[soft, commanding] 관현악을 일으키고, 노래에 마음을 실으세요.",
+          "[warm, firm] 객석의 가슴을 향해, 이 아리아를 불러내세요."
+        ],
+        "battle_win": [
+          "[moved, grateful] 객석이 눈물을 흘렸다니, 선율이 끝내 가닿았군요.",
+          "[gentle, satisfied] 가난했던 젊은 날의 노래가, 온 극장을 사로잡았습니다.",
+          "[warm, tender] 한 여인의 슬픔이, 모두의 가슴에 살아났네요."
+        ],
+        "battle_draw": [
+          "[gentle, thoughtful] 아직 마지막 이중창을 다 써내지 못했어요, 다시 펜을 듭니다.",
+          "[soft, calm] 선율은 멈춘 게 아니라, 다음 악장을 기다리는 중입니다.",
+          "[composed, hopeful] 미완의 악보라도, 누군가 그 끝을 이어줄 겁니다."
+        ],
+        "battle_lose": [
+          "[melancholy, gentle] 사랑의 이중창을 끝내 완성하지 못한 채, 펜을 내려놓습니다.",
+          "[soft, resilient] 객석이 식었어도, 다음 오페라의 선율이 나를 부릅니다.",
+          "[tender, humble] 부족했던 한 장면은, 다시 음표로 메우겠습니다."
+        ],
+        "clash_attack": [
+          "[intense, gentle] 지금입니다, 이 절정의 아리아를 터뜨리세요!",
+          "[soft, soaring] 관현악을 한껏 일으켜, 객석을 휘감으세요!",
+          "[firm, tender] 마지막 음 하나에, 모든 감정을 쏟아부으세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Have all the performers taking the stage gathered?",
+          "It's time for the orchestra and the voices to breathe as one.",
+          "Before the first note sounds, everyone catch your breath."
+        ],
+        "deploy": [
+          "Raise the curtain, let's send out the first melody.",
+          "Rouse the orchestra, and pour your heart into the song.",
+          "Sing this aria straight to the hearts in the audience."
+        ],
+        "battle_win": [
+          "The audience wept, so the melody finally reached them.",
+          "A song from my poor young days captured the whole theater.",
+          "One woman's sorrow has come alive in everyone's heart."
+        ],
+        "battle_draw": [
+          "I still haven't finished the final duet, so I pick up my pen again.",
+          "The melody hasn't stopped. It is only waiting for the next movement.",
+          "Even an unfinished score, someone will carry it to its end."
+        ],
+        "battle_lose": [
+          "I set down my pen with the love duet still unfinished.",
+          "Even with a cold house, the melody of my next opera calls to me.",
+          "I will fill the scene that fell short with music once more."
+        ],
+        "clash_attack": [
+          "Now is the moment, let this aria burst into its climax!",
+          "Raise the orchestra to its fullest, and sweep the audience away!",
+          "Pour every emotion into that final note!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/giacomo-puccini"
+      ]
+    },
+    {
+      "id": "0c4d5031-84bf-41fd-8755-8e4734c1833f",
+      "slug": "chiang-kai-shek",
+      "nickname": "장제스",
+      "nicknameEn": "Chiang Kai-shek",
+      "birthDate": "1887-10-31",
+      "profession": "politician",
+      "quote": "최후의 순간이 오면 우리에게는 끝까지 싸우는 길밖에 없다.",
+      "quoteEn": "Once the final moment comes, we have only sacrifice to the end and resistance to the end.",
+      "greetingKo": [
+        "[bold, resolute] 나라의 흥망을 내 책임으로 삼고, 개인의 생사는 돌아보지 않습니다.",
+        "[firm, steady] 역경에 동요하지 마십시오, 위엄으로 굳게 서고 기개로 자립하십시오.",
+        "[bold, principled] 성격은 꾸밀 수 없습니다, 날마다의 행동이 곧 우리를 만듭니다."
+      ],
+      "greetingEn": [
+        "[bold, declarative] Affection and sincerity. This is the first creed of Whampoa, the eternal banner of our army.",
+        "[fierce, resolute] Until peace is utterly lost, do not abandon peace; when the final moment of sacrifice arrives, do not hesitate.",
+        "[solemn, commanding] Until the day the mainland is recovered, my diary shall not pause for a single day."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[firm, commanding] 위로는 장수부터 아래로는 병사까지, 한 뜻으로 모였습니까.",
+          "[bold, demanding] 병사의 삶부터 바로 세우지 못하면, 어떤 구호도 빈말입니다.",
+          "[firm, resolute] 생각은 현실에 발을 딛고, 생활은 규율로 다스리십시오."
+        ],
+        "deploy": [
+          "[charging, bold] 전군, 진격하라!",
+          "[fierce, commanding] 땅의 남북을 가리지 말고, 모두 향토를 지켜 싸우라!",
+          "[resolute, firm] 일체를 희생할 각오로 전선을 밀어붙여라!"
+        ],
+        "battle_win": [
+          "[triumphant, firm] 혁명의 성공은 평안이 아니라 위험 속에서 옵니다.",
+          "[bold, proud] 위기를 안정으로 돌려세운 것은 흔들리지 않은 정신입니다.",
+          "[resolute, satisfied] 전쟁은 장비가 아니라 사기로 이긴다는 걸 보였습니다."
+        ],
+        "battle_draw": [
+          "[firm, steady] 결심은 끝내 흔들린 적 없고, 희망도 버린 적 없습니다.",
+          "[bold, patient] 위기를 복으로 바꾸는 정신이 있어야 끝을 봅니다.",
+          "[resolute, grounded] 전선을 지키며 다음 기회를 노리십시오."
+        ],
+        "battle_lose": [
+          "[heavy, accountable] 장졸을 제대로 이끌지 못한 내 부족함입니다.",
+          "[bitter, resolute] 한 번 졌다고 결심을 꺾지 않습니다, 다시 일어섭니다.",
+          "[firm, sober] 전선을 보존하고, 정신을 가다듬어 훗날을 기약하라."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 돌격하라!",
+          "[fierce, striking] 정면을 단숨에 돌파하라!",
+          "[bold, advancing] 한 치도 물러서지 말고 밀어붙여라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "From generals to soldiers, are we united in purpose?",
+          "If we cannot set the soldier's life in order first, every slogan is empty talk.",
+          "Keep your thinking grounded in reality, and govern your daily life with discipline."
+        ],
+        "deploy": [
+          "All forces, advance!",
+          "Whether north or south, fight to defend your homeland!",
+          "Push the front line forward, ready to sacrifice everything!"
+        ],
+        "battle_win": [
+          "Revolution succeeds not in peace, but in danger.",
+          "It was an unshaken spirit that turned crisis into stability.",
+          "We have shown that war is won by morale, not equipment."
+        ],
+        "battle_draw": [
+          "My resolve has never once wavered, and I have never given up hope.",
+          "Only a spirit that turns crisis into fortune sees this through to the end.",
+          "Hold the line and watch for the next opening."
+        ],
+        "battle_lose": [
+          "The fault is mine, for failing to lead my officers and men properly.",
+          "One defeat will not break my resolve. We rise again.",
+          "Preserve our forces, steady your spirits, and prepare for another day."
+        ],
+        "clash_attack": [
+          "Charge!",
+          "Break through the center in one stroke!",
+          "Give no ground, not an inch. Push forward!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/chiang-kai-shek"
+      ]
+    },
+    {
+      "id": "b846947b-1826-4080-ab01-8d44bd797309",
+      "slug": "jack-nicklaus",
+      "nickname": "잭 니클라우스",
+      "nicknameEn": "Jack Nicklaus",
+      "birthDate": "1940-01-21",
+      "profession": "athlete",
+      "quote": "집중은 압박을 막아준다. 실수하고 변명을 찾으면 집중이 풀리고 압박이 온다.",
+      "quoteEn": "Concentration blocks out pressure. If you make mistakes and look for excuses, you lose your concentration and feel pressure.",
+      "greetingKo": [
+        "[composed, assured] 저는 상대가 아니라 코스를 이깁니다, 그게 전부예요.",
+        "[calm, steady] 집중하면 압박은 사라집니다, 핑계를 찾는 순간 무너지죠.",
+        "[measured, confident] 다 끝났다던 그 신문 기사를 라커에 붙여뒀습니다."
+      ],
+      "greetingEn": [
+        "[composed, focused] Concentration removes pressure. That is all.",
+        "[composed, measured] Play the course, not the opponent.",
+        "[composed, warm] Pressure is what you live for."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 모두 1번 홀 티잉 구역에 모이셨나요.",
+          "[calm, steady] 한 분도 빠지지 않았군요, 라운드를 시작합시다.",
+          "[measured, focused] 각자 코스 공략 계획을 점검하세요."
+        ],
+        "deploy": [
+          "[focused, composed] 첫 티샷, 페어웨이 한가운데로 보내세요.",
+          "[calm, commanding] 욕심내지 말고 코스가 주는 길을 따라가세요.",
+          "[measured, resolute] 준비한 그대로, 한 홀씩 차분히 공략하세요."
+        ],
+        "battle_win": [
+          "[satisfied, composed] 마지막 아홉 홀을 다섯 언더로 돌았습니다.",
+          "[calm, proud] 마흔여섯에도 그린 재킷을 입을 수 있었네요.",
+          "[measured, assured] 코스를 이겼고, 나머지는 알아서 따라왔습니다."
+        ],
+        "battle_draw": [
+          "[composed, patient] 잘 안 맞는 날에도 스코어는 지켜냅니다.",
+          "[calm, steady] 승부는 마지막 퍼팅까지 모릅니다, 집중하세요.",
+          "[measured, resolved] 어려운 라운드일수록 한 타에 욕심을 버립니다."
+        ],
+        "battle_lose": [
+          "[composed, humble] 오늘은 제 스윙 관리가 부족했습니다.",
+          "[calm, reflective] 진 라운드에서 배운 게 이긴 라운드보다 많았어요.",
+          "[measured, resolved] 졌지만 무너지지 않습니다, 다음 메이저를 준비합니다."
+        ],
+        "clash_attack": [
+          "[focused, decisive] 핀을 똑바로 노리세요, 지금입니다!",
+          "[composed, driving] 이 퍼팅, 과감하게 넣으세요!",
+          "[steady, striking] 마지막 홀, 끝까지 집중하세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone gathered at the first tee?",
+          "Not a single one missing. Let's start the round.",
+          "Each of you, go over your plan for playing this course."
+        ],
+        "deploy": [
+          "Send that opening tee shot right down the middle of the fairway.",
+          "Don't get greedy. Follow the line the course gives you.",
+          "Take it one hole at a time, just as we prepared."
+        ],
+        "battle_win": [
+          "I played the back nine five under.",
+          "Even at forty-six, I could still slip on the green jacket.",
+          "I beat the course, and everything else took care of itself."
+        ],
+        "battle_draw": [
+          "Even on an off day, I hold the score together.",
+          "A match isn't decided until the last putt drops. Stay with it.",
+          "The tougher the round, the more you avoid chasing too much from a single shot."
+        ],
+        "battle_lose": [
+          "My swing management wasn't good enough today.",
+          "I learned more from the rounds I lost than the ones I won.",
+          "I lost, but I'm not coming apart. I'm already preparing for the next major."
+        ],
+        "clash_attack": [
+          "Aim straight at the pin, now's the moment!",
+          "Strike this putt boldly!",
+          "Final hole, stay with it to the very end!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/jack-nicklaus"
+      ]
+    }
+  ]
+}

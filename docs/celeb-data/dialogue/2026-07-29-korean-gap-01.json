@@ -1,0 +1,188 @@
+{
+  "batch": "2026-07-29-korean-gap-01",
+  "targets": [
+    {
+      "id": "5be679e6-71fa-4d77-af5b-286a0b129075",
+      "slug": "kim-gu",
+      "nickname": "김구",
+      "nicknameEn": "Kim Gu",
+      "birthDate": "1876-08-29",
+      "profession": "leader",
+      "quote": "나의 소원은 첫째도 자주독립, 둘째도 자주독립, 셋째도 자주독립이다.",
+      "quoteEn": "My wish is first independence, second independence, and third independence.",
+      "greetingKo": [
+        "[solemn, devoted] 나의 소원은 첫째도 자주독립, 둘째도 자주독립, 셋째도 자주독립입니다.",
+        "[resolute, grave] 38선을 베고 쓰러질지언정 한 발자국도 단독정부 쪽으로 옮길 수 없습니다.",
+        "[ardent, hopeful] 내가 진정으로 원하는 우리나라는 한없이 높은 문화의 힘을 가진 나라입니다."
+      ],
+      "greetingEn": [
+        "[solemn, devoted] My wish is first independence, second independence, and third independence.",
+        "[resolute, grave] I would fall across the 38th parallel before taking one step toward a separate government.",
+        "[ardent, hopeful] The Korea I truly want is a nation that holds the boundless power of culture."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "김구가 왔습니다. 임시정부와 광복군의 뜻을 지키겠습니다.",
+          "백범은 평범한 백성이라는 뜻입니다. 제가 할 일을 쉬지 않겠습니다.",
+          "제가 세우고 싶은 나라는 법이 국민의 자유로운 뜻에서 나오는 나라입니다."
+        ],
+        "deploy": [
+          "광복군은 임무를 위해 훈련했습니다. 조국으로 들어갈 길을 준비하십시오.",
+          "일은 실제로 해낼 사람에게 맡기십시오.",
+          "먼저 마음을 닦고 힘을 기르십시오. 독립은 남이 대신해주지 않습니다."
+        ],
+        "battle_win": [
+          "우리는 임시정부의 문패를 지켜 마침내 조국으로 돌아왔습니다.",
+          "우리는 광복군을 세워 우리 이름으로 싸울 군대의 터전을 마련했습니다.",
+          "이제 증오의 투쟁을 거두고 화합의 건설을 시작하십시오."
+        ],
+        "battle_draw": [
+          "해방은 왔지만, 임시정부는 개인 자격으로 조국에 돌아와야 했습니다.",
+          "조국 땅은 밟았지만, 38선 때문에 고향에는 가지 못했습니다.",
+          "환영 속에서도 낮고 가난해 보이는 동포들의 집이 먼저 눈에 들어왔습니다."
+        ],
+        "battle_lose": [
+          "우리 운동은 통일하지 못해 서로 제 살을 깎았습니다. 참으로 슬픈 일입니다.",
+          "광복군의 국내 진입은 끝내 실행하지 못했고, 국제무대의 발언권도 약했습니다.",
+          "이동녕 선생과 현익철 동지는 이역에 묻혀 함께 돌아오지 못했습니다."
+        ],
+        "clash_attack": [
+          "국민은 병정도 죄수도 아닙니다. 한 사람의 호령에 끌려가지 마십시오.",
+          "공원의 꽃을 꺾지 말고, 꽃을 심는 자유를 지키십시오.",
+          "남을 침략할 힘은 원치 않습니다. 침략을 막을 힘만 갖추십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Kim Gu is here. I will uphold the cause of the Provisional Government and the Liberation Army.",
+          "Baekbeom means an ordinary person. I will keep doing what I can.",
+          "I want to build a country whose laws come from the free will of its people."
+        ],
+        "deploy": [
+          "The Liberation Army has trained for its mission. Prepare the way into our homeland.",
+          "Entrust the work to the person who will carry it out.",
+          "Discipline your mind and build your strength. No one else can win our independence for us."
+        ],
+        "battle_win": [
+          "We kept the Provisional Government standing and finally returned home.",
+          "We founded the Liberation Army and laid the foundation for a force that could fight in our own name.",
+          "Now lay down the struggle of hatred and begin the work of building together."
+        ],
+        "battle_draw": [
+          "Liberation came, but the members of the Provisional Government had to return home in a private capacity.",
+          "I set foot in my homeland, but the 38th parallel kept me from my hometown.",
+          "Even amid the welcome, my eyes first went to the low, impoverished homes of my compatriots."
+        ],
+        "battle_lose": [
+          "Our movement failed to unite and tore itself apart. It is a sorrowful thing.",
+          "The Liberation Army never carried out its planned return to Korea, and our voice on the international stage remained weak.",
+          "Comrades Lee Dong-nyeong and Hyeon Ik-cheol were buried abroad and could not return with us."
+        ],
+        "clash_attack": [
+          "The people are neither soldiers nor prisoners. Do not let one person's command drag you along.",
+          "Do not pluck the flowers in the park. Defend the freedom to plant them.",
+          "I do not want strength for invasion. Build only the strength needed to stop it."
+        ]
+      },
+      "sources": [
+        "https://ko.wikisource.org/wiki/%EB%B0%B1%EB%B2%94%EC%9D%BC%EC%A7%80",
+        "https://kimkoomuseum.org/mobile/inf/inf_1_view.asp?BoardDiv=Movie&Idx=4668"
+      ]
+    },
+    {
+      "id": "72cbaef1-03b1-47ef-99aa-01985753855c",
+      "slug": "kim-yeon-koung",
+      "nickname": "김연경",
+      "nicknameEn": "Kim Yeon-koung",
+      "birthDate": "1988-02-26",
+      "profession": "athlete",
+      "quote": "해보자, 후회 없이.",
+      "quoteEn": "Let's do it. No regrets.",
+      "greetingKo": [
+        "[bold, defiant] 해보자, 후회 없이.",
+        "[bold, confident] 식빵 한 조각으로도 코트에서는 흔들리지 않는다.",
+        "[bold, ambitious] 6개국 리그를 밟았으니, 마지막 한 줄도 직접 새긴다."
+      ],
+      "greetingEn": [
+        "[bold, defiant] Let's do it. No regrets.",
+        "[bold, confident] One slice of bread does not shake me on this court.",
+        "[bold, ambitious] Six leagues, six countries — I will write the final line myself."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "김연경입니다. 코트 안에서는 공격적으로 갑니다.",
+          "이 경력은 혼자 만든 게 아닙니다. 가족과 동료, 코치와 팬이 함께했습니다.",
+          "배구는 제 몸만 단련한 게 아니라 제 마음가짐까지 만들었습니다."
+        ],
+        "deploy": [
+          "몸도 마음도 준비됐는지 확인하고 코트에 들어갑시다.",
+          "VNL에서 만난 튀르키예전을 분석했습니다. 준비한 대로 갑시다.",
+          "팀 스포츠는 혼자 이길 수 없습니다. 하나가 되어 들어갑시다."
+        ],
+        "battle_win": [
+          "일본전 5세트를 16대14로 잡았습니다. 제가 30점을 냈지만 승리는 팀이 만들었습니다.",
+          "튀르키예전 마지막 점을 내며, 우리는 9년 만에 올림픽 4강으로 돌아왔습니다.",
+          "8연패 뒤에 세르비아를 꺾었습니다. 오래 기다린 승리라 더 기쁩니다."
+        ],
+        "battle_draw": [
+          "연결이 맞지 않을 때도 있습니다. 그래도 우리 팀은 강합니다.",
+          "처음에는 리더십을 보여주지 못했습니다. 팀이 도와줘 두 번째 세트부터 나아졌습니다.",
+          "저도 동료들과 더 잘 소통해야 합니다. 그래야 팀 경기력이 올라갑니다."
+        ],
+        "battle_lose": [
+          "5차전까지 기회가 많이 왔는데 놓쳤습니다. 그 점이 가장 아쉽습니다.",
+          "런던에서 1976년 이후 최고 성적을 냈지만, 메달은 얻지 못했습니다.",
+          "대표팀을 떠나는 결정은 제 인생에서 가장 어려웠습니다. 그 시절이 지금도 깊이 그립습니다."
+        ],
+        "clash_attack": [
+          "서브는 공격적으로 넣고, 반격과 블로킹으로 끊어냅시다.",
+          "중요한 순간일수록 주공격수가 책임지고 점수를 내야 합니다.",
+          "뜻대로 풀리지 않아도 계속 시도하십시오. 그래야 다음 기회가 옵니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Kim Yeon-koung. On the court, I play aggressively.",
+          "I did not build this career alone. My family, teammates, coaches, and fans were part of every step.",
+          "Volleyball trained more than my body. It shaped my mindset."
+        ],
+        "deploy": [
+          "Make sure both body and mind are ready before we step onto the court.",
+          "We studied our VNL match against Türkiye. Now execute what we prepared.",
+          "No one wins a team sport alone. Let us take the court as one."
+        ],
+        "battle_win": [
+          "We took the fifth set against Japan 16-14. I scored 30 points, but the team earned the win.",
+          "I scored the final point against Türkiye, and we returned to the Olympic semifinals after nine years.",
+          "We beat Serbia after eight straight losses. A win we waited this long for feels even better."
+        ],
+        "battle_draw": [
+          "Our connection can be off sometimes. Even then, this is a strong team.",
+          "I did not show enough leadership at first. The team helped me improve after the second set.",
+          "I still need to communicate better with my teammates. That is how our performance improves."
+        ],
+        "battle_lose": [
+          "We had many chances through Game 5, and we let them slip away. That is what hurts most.",
+          "We achieved Korea's best Olympic result since 1976 in London, but we did not win a medal.",
+          "Leaving the national team was the hardest decision of my life. I still miss those days deeply."
+        ],
+        "clash_attack": [
+          "Serve aggressively, then stop them with our counterattack and block.",
+          "At the crucial point, the main spiker has to take responsibility and score.",
+          "Keep trying even when things do not go our way. That is how the next chance comes."
+        ]
+      },
+      "sources": [
+        "https://www.fivb.com/kim-yeon-koung-the-one-and-only/",
+        "https://en.volleyballworld.com/volleyball/competitions/olympics-2020/news/kim-gets-candid-in-tokyo",
+        "https://en.volleyballworld.com/volleyball/competitions/olympics-2020/news/stellar-kim-yeon-koung-fires-off-30-points-to-see-korea-through",
+        "https://en.volleyballworld.com/volleyball/competitions/olympics-2020/news/south-korea-and-united-states-claim-first-two-spots-in-women-s-semifinals",
+        "https://en.volleyballworld.com/volleyball/competitions/volleyball-nations-league/2021/news/patience-is-kim-s-virtue",
+        "https://www.eczacibasisporkulubu.org.tr/en/news/yeon-koung-kim-i-am-really-happy-that-we-win-with-a-good-team-spirit-video",
+        "https://en.volleyballworld.com/news/kim-i-deeply-miss-my-days-with-the-national-team",
+        "https://www.fivb.com/beyond-the-court-with-kim-yeon-koung/",
+        "https://www.fnnews.com/ampNews/202304062340508872"
+      ]
+    }
+  ]
+}

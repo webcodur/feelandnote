@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "slug": "constantine-i",
+  "nickname": "콘스탄티누스 1세",
+  "route": "hold",
+  "routeReason": "두 차례 수정 뒤에도 크리스푸스와 파우스타의 죽음을 경건한 황제 이름으로 덮을 수 없다는 근거 없는 자기비판이 남았고, dossier 범위를 넘은 니케아 신학 세부도 다시 들어왔다. 후대의 균형 평가가 결말의 목소리를 지배하므로, 재개하려면 두 죽음의 사실과 책임 불확실성을 참회 없이 병치하는 문장과 공의회 설명의 정확한 범위를 인간 편집으로 먼저 확정해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "콘스탄티누스 1세",
+      "birth": "약 272",
+      "death": "337",
+      "profession": "politician",
+      "disambiguation": "로마의 내전을 거쳐 단독 황제가 되었고, 기독교를 후원하며 비잔티온을 콘스탄티노폴리스로 재건한 콘스탄티누스 왕조의 군주",
+      "existingBioForDiscoveryOnly": "기독교를 공인하고 콘스탄티노폴리스를 건설한 로마 황제"
+    },
+    "sources": [
+      {
+        "url": "https://sourcebooks.web.fordham.edu/source/edict-milan.asp",
+        "title": "Galerius and Constantine: Edicts of Toleration 311/313",
+        "publisher": "Fordham University Internet History Sourcebooks",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "콘스탄티누스와 리키니우스가 기독교인뿐 아니라 다른 사람에게도 종교 선택의 자유를 인정하고 몰수 재산 반환을 명한 합의",
+          "313년 조치가 기독교 국교 선포가 아니라 박해 중단과 관용·재산 회복에 관한 정책이었다는 점"
+        ]
+      },
+      {
+        "url": "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp",
+        "title": "Eusebius: Life of Constantine",
+        "publisher": "Fordham University Internet History Sourcebooks",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "기독교 신앙, 교회 후원, 공의회와 황제의 서신, 임종 세례를 찬양적으로 구성한 고대 전승",
+          "콘스탄티누스 사후에 쓰인 기독교적 황제상의 핵심 자료"
+        ]
+      },
+      {
+        "url": "https://academic.oup.com/book/46887/chapter-abstract/422622536",
+        "title": "Introduction | Eusebius: Life of Constantine",
+        "publisher": "Oxford Academic",
+        "kind": "scholarly",
+        "publishedAt": "1999-09-09",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "에우세비오스의 《콘스탄티누스의 생애》가 종교 정책의 핵심 자료인 동시에 찬양문이라는 장르적 성격",
+          "오도 가능성과 편향을 고려해 황제의 내면과 사건을 재구성해야 한다는 한계"
+        ]
+      },
+      {
+        "url": "https://www.britishmuseum.org/collection/term/BIOG140661",
+        "title": "Constantine the Great",
+        "publisher": "The British Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "단독 지배 확립, 기독교 합법화, 콘스탄티노폴리스, 조세 정책과 임종 세례",
+          "아들 크리스푸스와 아내 파우스타의 죽음 및 에우세비오스가 황제를 미화한 자료 상황"
+        ]
+      },
+      {
+        "url": "https://www.metmuseum.org/pt/essays/byzantium-ca-330-1453",
+        "title": "Byzantium (ca. 330–1453)",
+        "publisher": "The Metropolitan Museum of Art",
+        "kind": "scholarly",
+        "publishedAt": "2004-10-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "330년 비잔티온을 새 수도 콘스탄티노폴리스로 봉헌한 사실",
+          "기독교가 로마 제국의 국교가 된 것은 콘스탄티누스보다 뒤인 4세기 말이라는 시대 구분"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "막센티우스와의 내전에서 승리한 뒤 기독교의 신과 승리를 연결하는 전승이 생겼고, 313년 리키니우스와 함께 종교 관용과 기독교 재산 반환을 시행했다.",
+        "significance": "회심의 정확한 내면은 확정하기 어렵지만, 기독교를 박해의 대상에서 제국이 보호하고 후원하는 종교로 바꾼 정책 전환은 분명하다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/source/edict-milan.asp",
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp",
+          "https://academic.oup.com/book/46887/chapter-abstract/422622536"
+        ]
+      },
+      {
+        "point": "단독 황제가 된 뒤 325년 니케아 공의회를 소집해 교회의 분열을 제국 질서의 문제로 다루었다.",
+        "significance": "황제가 신학을 혼자 정했다기보다, 교회 분쟁의 해결을 제국의 안정과 결부하고 회의의 틀과 집행에 권력을 사용한 장면이다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp"
+        ]
+      },
+      {
+        "point": "326년 아들 크리스푸스와 아내 파우스타가 죽었고, 330년에는 비잔티온을 콘스탄티노폴리스라는 새 수도로 봉헌했다.",
+        "significance": "기독교 황제의 이상적 초상과 궁정의 불투명한 폭력, 오래 지속될 제국 도시의 창건이 같은 통치 안에 놓였음을 보여 준다.",
+        "sourceUrls": [
+          "https://www.britishmuseum.org/collection/term/BIOG140661",
+          "https://www.metmuseum.org/pt/essays/byzantium-ca-330-1453"
+        ]
+      },
+      {
+        "point": "평생 기독교를 후원했지만 세례는 죽기 직전에 받았다.",
+        "significance": "그의 신앙을 거짓이나 완결된 정통성 중 하나로 단순화하지 않고, 후기 로마의 세례 관행과 정치적·종교적 변화의 복합성을 남긴다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp",
+          "https://www.britishmuseum.org/collection/term/BIOG140661"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "제국의 평화를 위해 기독교인과 다른 사람에게 신앙 선택의 자유를 주고, 빼앗긴 기독교 재산을 돌려주어야 한다고 명했다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/source/edict-milan.asp"
+        ]
+      },
+      {
+        "point": "교회의 분열을 단순한 사적 논쟁이 아니라 제국 질서를 흔드는 문제로 보아 황제 권력으로 조정하려 했다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp"
+        ]
+      },
+      {
+        "point": "동방의 전략적 거점에 새 수도를 세워 왕조와 제국의 중심을 다시 설계했다.",
+        "sourceUrls": [
+          "https://www.metmuseum.org/pt/essays/byzantium-ca-330-1453",
+          "https://www.britishmuseum.org/collection/term/BIOG140661"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "313년의 관용은 기독교만을 강요하는 국교화가 아니었다. 그러나 황제의 후원과 교회 문제 개입은 종교와 제국 권력을 이전과 다른 방식으로 묶기 시작했다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/source/edict-milan.asp",
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp",
+          "https://www.metmuseum.org/pt/essays/byzantium-ca-330-1453"
+        ]
+      },
+      {
+        "point": "에우세비오스가 그린 경건한 황제와 크리스푸스·파우스타의 죽음은 쉽게 한 인물상으로 합쳐지지 않는다. 사건의 원인과 황제의 감정은 불확실하므로, 모순을 남기되 죄책감을 창작하지 않는다.",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp",
+          "https://academic.oup.com/book/46887/chapter-abstract/422622536",
+          "https://www.britishmuseum.org/collection/term/BIOG140661"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "제국 칙령처럼 짧고 확정적인 문장과, 신앙 전승의 불확실성을 인정하는 절제된 문장을 섞는다.",
+      "directness": "승리·통합·후원을 황제의 언어로 말하되, 신의 뜻을 완전히 안다고 단언하거나 후대 교회의 평가를 자기 목소리로 외우지 않는다.",
+      "moves": [
+        "내전의 승리와 기독교의 신을 연결한 전승에서 시작하되 본 것과 후대가 전한 것을 구분하기",
+        "관용 조치에서 니케아 공의회로 이동하며 종교 자유와 황제 개입의 간격을 드러내기",
+        "새 수도의 장기적 유산과 궁정 가족의 죽음을 나란히 두고 단순한 성인전 결말을 거부하기"
+      ],
+      "avoid": [
+        "밀라노 칙령으로 기독교를 로마의 국교로 만들었다고 쓰기",
+        "십자가 환시의 세부와 회심 순간을 하나의 확정된 목격담으로 재현하기",
+        "니케아 신조를 황제가 직접 만들었다고 단정하기",
+        "크리스푸스와 파우스타의 죽음 원인 및 황제의 후회·속죄를 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "밀라노 합의",
+        "guide": "313년 콘스탄티누스와 리키니우스가 기독교인을 포함한 사람들의 종교 선택을 인정하고 빼앗긴 교회 재산을 돌려주게 한 정책",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/source/edict-milan.asp"
+        ]
+      },
+      {
+        "term": "니케아 공의회",
+        "guide": "325년 교회 내부의 신학 갈등과 통일 문제를 논의하기 위해 황제가 소집한 여러 지역 주교들의 회의",
+        "sourceUrls": [
+          "https://sourcebooks.web.fordham.edu/basis/vita-constantine.asp"
+        ]
+      },
+      {
+        "term": "콘스탄티노폴리스",
+        "guide": "콘스탄티누스가 비잔티온을 확대해 330년 새 수도로 봉헌한 도시, 오늘날의 이스탄불",
+        "sourceUrls": [
+          "https://www.metmuseum.org/pt/essays/byzantium-ca-330-1453"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "회심과 십자가 환시의 전승은 저자와 시기에 따라 세부가 다르다. 한 버전을 황제의 확정된 기억으로 재현하지 않는다.",
+      "에우세비오스의 《콘스탄티누스의 생애》는 사후에 쓴 찬양적 전기다. 종교 정책의 핵심 자료이지만 황제의 모든 행위와 내면을 투명하게 전하지 않는다.",
+      "313년 조치는 기독교 국교화가 아니다. 다른 종교를 포함한 관용과 기독교 재산 반환이며, 국교화는 4세기 말의 별도 과정이다.",
+      "니케아 공의회에서 황제의 역할은 소집·중재·집행 면에서 중요했지만 신학적 결론을 혼자 발명한 것으로 쓰지 않는다.",
+      "크리스푸스와 파우스타의 죽음은 사실이나 원인과 책임의 세부는 불확실하다. 스캔들 전승이나 참회 심리를 사실처럼 채우지 않는다.",
+      "임종 세례는 확인되지만, 이를 평생 신앙의 거짓 증거나 반대로 완전한 성인됨의 증명으로 단정하지 않는다.",
+      "재개 조건은 크리스푸스·파우스타의 죽음을 자기비판 없이 병치하는 문장과 니케아 공의회의 신학 설명 범위를 인간 편집으로 먼저 확정하는 것이다."
+    ]
+  }
+}

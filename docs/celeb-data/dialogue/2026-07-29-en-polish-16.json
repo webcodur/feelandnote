@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-16",
+  "targets": [
+    {
+      "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+      "slug": "shang-yang",
+      "nickname": "상앙",
+      "birthDate": "-390",
+      "profession": "politician",
+      "expectedEn": {
+        "roll_call": [
+          "I was born Gongsun Yang in the state of Wey and became Lord Shang in Qin. I chose laws meant to build a strong state.",
+          "I spoke to Duke Xiao of the imperial way and the kingly way, but he would not wait generations. So I offered the methods of a strong state.",
+          "I set laws for my own age instead of preserving old rites. Qin grew strong under those laws."
+        ],
+        "deploy": [
+          "Do not hesitate. An uncertain course wins neither achievement nor renown.",
+          "Grant rank to those who earn it in battle. Do not preserve hereditary privilege for nobles who will not fight.",
+          "Make the law clear first. The people will follow only when ruler and ministers observe it together."
+        ],
+        "battle_win": [
+          "The people could not join in planning the beginning, but now they can share in the success.",
+          "Rank went to those who earned merit, not merely to noble houses. Qin grew strong by that rule.",
+          "I unified laws, weights, and measures. Qin now moves under the same commands."
+        ],
+        "battle_draw": [
+          "The state grew strong quickly, but it did not match the virtue of Shang and Zhou. That is the limit of the path I chose.",
+          "I used rewards to drive achievement and punishments to impose order. Resentment grew with them.",
+          "I will take bitter words as medicine. Sweet praise alone cannot show me my faults."
+        ],
+        "battle_lose": [
+          "The law I made turned me away at the inn. Now I see how far its harm has reached.",
+          "When Duke Xiao died, my power ended with him. I made laws, but I could not erase his heir's resentment.",
+          "Qin kept my reforms. I was executed by dismemberment on a charge of rebellion."
+        ],
+        "clash_attack": [
+          "I will not discuss reform with those who cling only to old institutions. A new age requires new laws.",
+          "Do not place noble blood above the law. Even the heir's offense must carry consequences.",
+          "Do not block reform with common opinion. Ordinary people cling to old customs, and scholars drown in what they have heard."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I was Gongsun Yang of Wey. In Qin, I became Lord Shang and forged strong laws.",
+          "Duke Xiao would not wait for kingly virtue. I gave him laws for wealth and war.",
+          "I replaced old rites with laws for my age. Qin grew strong under them."
+        ],
+        "deploy": [
+          "Do not hesitate. Doubt wins neither merit nor a name.",
+          "Reward battlefield merit. Abolish hereditary privilege.",
+          "Make the law clear. Ruler and minister must obey it first."
+        ],
+        "battle_win": [
+          "The people could not plan the reform, but they can share its fruits.",
+          "I gave rank for merit, not noble birth. Qin grew strong.",
+          "I unified law, weights, and measures. Now Qin moves under one command."
+        ],
+        "battle_draw": [
+          "Qin grew quickly, but never matched Shang or Zhou in virtue. That was my limit.",
+          "Rewards drove merit and punishments imposed order. Resentment grew beside them.",
+          "I will take bitter words as medicine. Sweet praise hides my faults."
+        ],
+        "battle_lose": [
+          "My own law barred me from an inn. Only then did I see its harm.",
+          "Duke Xiao died, and my power followed. His heir still wanted vengeance.",
+          "Qin kept my reforms. I was torn apart for rebellion."
+        ],
+        "clash_attack": [
+          "Do not let old laws block reform!",
+          "Noble blood does not stand above the law!",
+          "Do not let old customs stop reform!"
+        ]
+      }
+    },
+    {
+      "id": "c2dc8d4c-c82d-4a13-8d91-0d472af53c41",
+      "slug": "sam-smith",
+      "nickname": "샘 스미스",
+      "birthDate": "1992-05-19",
+      "profession": "musician",
+      "expectedEn": {
+        "roll_call": [
+          "At thirteen I sang in the chorus of musicals. At twenty-one I put my loneliness into three chords.",
+          "I am neither male nor female. I am simply myself, and I finally found the words to explain that.",
+          "As a child, I turned the three steps in our kitchen into a stage. I still sing to an audience with that same feeling."
+        ],
+        "deploy": [
+          "Do not try to sound clever. Speaking honestly is enough.",
+          "If you have said everything you need to say, do not force in a bridge. Leave some space in the song.",
+          "Keep going onstage even when it frightens you. Repetition helped me build confidence."
+        ],
+        "battle_win": [
+          "I spoke my mind with only three chords. I did not need to make it complicated.",
+          "Jimmy and I stayed late and layered my voice. We made the sound ourselves without a choir.",
+          "I sang honestly about my life, and people understood me a little better."
+        ],
+        "battle_draw": [
+          "I sang again after vocal surgery, but learning did not end. I still take voice lessons.",
+          "The old lyric was true to who I was then, but it no longer fit who I am now. So I changed it onstage.",
+          "Sometimes I want to make an audience cry, and sometimes I want them to dance. I need both kinds of stage."
+        ],
+        "battle_lose": [
+          "In 2019, I experienced panic attacks and anxiety for the first time. Success did not protect me from them.",
+          "I damaged my vocal cords and had to cancel shows. While my fans waited, I focused on recovering my voice.",
+          "For a while, I was afraid to put happiness and desire into my music. I do not hide them now."
+        ],
+        "clash_attack": [
+          "Do not explain my body or gender for me. I will tell you who I am.",
+          "Do not decide that loneliness is my only story. I also put happiness and desire into my music.",
+          "Do not treat me as a finished singer. If Stevie Wonder still takes lessons, I have no reason to stop."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "At thirteen, I sang in choirs. At twenty-one, loneliness became three chords.",
+          "Neither man nor woman, just me. I finally found the words for myself.",
+          "Our three kitchen steps were my first stage. I still sing that way."
+        ],
+        "deploy": [
+          "Do not try to sound clever. Just be honest.",
+          "If you have said enough, skip the bridge. Leave some space.",
+          "Keep taking the stage, even scared. That is how I learned."
+        ],
+        "battle_win": [
+          "Three chords said everything I felt. Nothing more was needed.",
+          "Jimmy and I layered voices late at night. We became our own choir.",
+          "I sang my life honestly, and people understood me a little better."
+        ],
+        "battle_draw": [
+          "I sang after surgery, but I still take voice lessons.",
+          "Those lyrics were true then. I sing them differently now.",
+          "I want the audience to cry and dance. I need both."
+        ],
+        "battle_lose": [
+          "Panic and anxiety found me in 2019. Success could not stop them.",
+          "I injured my voice and canceled shows. Recovery had to come first.",
+          "I feared singing about joy and desire. I do not hide them now."
+        ],
+        "clash_attack": [
+          "I will define my own body and gender!",
+          "Loneliness is not my only story!",
+          "Stevie still learns. So do I!"
+        ]
+      }
+    }
+  ]
+}

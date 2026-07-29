@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "slug": "gottfried-wilhelm-leibniz",
+  "nickname": "고트프리트 빌헬름 라이프니츠",
+  "route": "improve",
+  "routeReason": "현재 원고는 미적분·이진법·기계식 계산기·모나드·충분 이유·최선의 세계를 한 인물의 ‘질서 찾기’로 묶는 구성이 좋다. 그러나 뉴턴 논쟁을 개인적 억울함과 쓰라림으로 과도하게 심리화하고, 이진법을 현대 컴퓨터의 직접 설계처럼 말하며, ‘고통을 대수롭지 않게 여기지 않았다’는 현대적 변호를 근거 없이 1인칭으로 넣는다. 독립 개발이라는 현재 학술 합의, 표기법의 공헌, 이진 산술의 선행 사례, 신정론이 실제로 고통과 악을 정당화하려 한 논증이라는 불편함을 함께 살리는 개선이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "고트프리트 빌헬름 라이프니츠",
+      "birth": "1646-07-01",
+      "death": "1716-11-14",
+      "profession": "scientist",
+      "disambiguation": "미적분을 뉴턴과 독립적으로 발전시키고 이진 산술, 계산기, 논리학, 모나드론과 신정론을 전개한 독일 수학자·철학자·외교관",
+      "existingBioForDiscoveryOnly": "독일의 수학자·철학자. 미적분학을 독자 개발하고 이진법 체계를 정립했다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/entries/leibniz/",
+        "title": "Gottfried Wilhelm Leibniz",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2025-09-22",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "모나드, 충분 이유의 원리, 예정 조화와 가능한 세계에 관한 철학",
+          "수학·논리·자연철학·법·외교를 넘나든 경력",
+          "여러 원리를 하나의 합리적 체계로 묶으려 한 지적 방향"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/entries/leibniz-physics/",
+        "title": "Leibniz’s Philosophy of Physics",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2024-05-10",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "모나드와 물체·공간·시간의 관계",
+          "뉴턴 진영의 클라크와 벌인 논쟁 및 미적분 우선권 분쟁의 학문적 맥락",
+          "예정 조화를 물리적 원인 작용의 단순한 시계 비유로 축소하지 않을 근거"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/1212.2666",
+        "title": "The Birth of Calculus: Towards a More Leibnizian View",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2012-12-12",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "뉴턴과 라이프니츠의 미적분 개발을 독립 발명으로 보는 근거와 논쟁의 복합성",
+          "발명 우선권과 표기·공개·확산의 공헌을 구별해야 한다는 경계"
+        ]
+      },
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/Extras/Bossut_Newton_Leibniz/",
+        "title": "Bossut on the Newton–Leibniz Calculus Dispute",
+        "publisher": "MacTutor History of Mathematics, University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "라이프니츠가 1684년 미분법을 공개하기 전 여러 해 동안 방법을 갖고 있었다는 당시 논변",
+          "뉴턴과 라이프니츠 진영의 우선권 분쟁이 개인 감정만이 아니라 출판·통신·국가 학술 권력 문제였다는 맥락"
+        ]
+      },
+      {
+        "url": "https://kastalia.medienhaus.udk-berlin.de/odl/Leibniz.pdf",
+        "title": "Explanation of Binary Arithmetic",
+        "publisher": "Berlin University of the Arts",
+        "kind": "primary",
+        "publishedAt": "1703-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "0과 1만으로 수를 나타내는 이진 산술에 대한 라이프니츠의 1703년 설명",
+          "이진법을 철학·신학적 상징과 계산 규칙으로 함께 본 당대 맥락"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/entries/leibniz-evil/",
+        "title": "Leibniz on the Problem of Evil",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2026-01-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "신정론이 선한 신과 악·고통의 공존을 설명하려는 장기적 철학 과제였다는 사실",
+          "‘최선의 가능 세계’ 판단 기준과 고통의 정당화가 학계에서도 논쟁적이라는 점",
+          "라이프니츠의 주장을 현대적 위로나 단순 낙관주의로 바꾸지 않을 경계"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1670년대에 변화율과 넓이를 함께 다루는 계산법을 발전시켰고 1684년 미분법을 공개했다.",
+        "significance": "뉴턴과 다른 경로에서 미적분을 독립적으로 발전시켰으며, 오늘날에도 쓰이는 미분·적분 기호를 통해 방법을 공유 가능한 언어로 만들었다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1212.2666",
+          "https://mathshistory.st-andrews.ac.uk/Extras/Bossut_Newton_Leibniz/"
+        ]
+      },
+      {
+        "point": "1703년 0과 1만으로 모든 수를 나타내는 이진 산술을 체계적으로 설명했다.",
+        "significance": "현대 디지털 컴퓨터를 직접 설계한 것은 아니지만 복잡한 수를 두 기호의 규칙으로 바꾸려 한 그의 보편 언어 구상이 잘 드러난다.",
+        "sourceUrls": [
+          "https://kastalia.medienhaus.udk-berlin.de/odl/Leibniz.pdf"
+        ]
+      },
+      {
+        "point": "1690년대 후반부터 뉴턴 진영과 미적분 우선권 분쟁이 커졌고 1712년 영국 왕립학회 보고서는 뉴턴 쪽에 유리하게 결론을 냈다.",
+        "significance": "오늘날 독립 개발로 보는 학술 판단과 달리 당시 논쟁은 출판 순서·편지·국가 학술 권력이 얽힌 채 그의 말년을 지배했다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1212.2666",
+          "https://mathshistory.st-andrews.ac.uk/Extras/Bossut_Newton_Leibniz/"
+        ]
+      },
+      {
+        "point": "1710년 『신정론』에서 충분 이유와 가능한 세계의 틀로 선한 신이 왜 악과 고통이 있는 세계를 만들었는지 설명하려 했다.",
+        "significance": "‘세상은 좋다’는 낙관 구호가 아니라 악의 존재를 전체 세계의 질서와 신의 선택으로 정당화하려는 논증이며, 바로 그 때문에 강한 비판을 받는다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz-evil/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "아무 일도 까닭 없이 일어나지 않으며, 어떤 사실이 왜 그렇고 다르게 되지 않았는지 설명할 충분한 이유가 있어야 한다고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz/"
+        ]
+      },
+      {
+        "point": "세계의 근본 단위는 공간을 차지하는 작은 물질 알갱이가 아니라 각자 세계를 자기 방식으로 나타내는 단순한 실체인 모나드라고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz/",
+          "https://plato.stanford.edu/entries/leibniz-physics/"
+        ]
+      },
+      {
+        "point": "신은 가능한 세계들 가운데 전체적으로 가장 완전한 세계를 선택했다고 주장했으며, 개별 고통의 제거 가능성과 전체 세계의 최적성은 같지 않다고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz-evil/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "미적분의 독립 개발자라는 현대 학술 판단과, 생전 표절 의혹과 왕립학회 판정 속에서 패자로 남은 경험이 어긋난다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1212.2666",
+          "https://mathshistory.st-andrews.ac.uk/Extras/Bossut_Newton_Leibniz/"
+        ]
+      },
+      {
+        "point": "0과 1, 미분 기호, 계산 기계처럼 복잡성을 다루기 쉬운 표기로 바꾸려 했지만 그의 형이상학은 모나드·예정 조화·가능 세계라는 매우 추상적인 체계가 되었다.",
+        "sourceUrls": [
+          "https://kastalia.medienhaus.udk-berlin.de/odl/Leibniz.pdf",
+          "https://plato.stanford.edu/entries/leibniz/"
+        ]
+      },
+      {
+        "point": "최선의 가능 세계라는 논증은 악과 고통을 설명하려 했지만, 개별 고통을 더 큰 전체의 재료로 정당화한다는 비판을 피하기 어렵다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz-evil/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 원리 문장 뒤에 예외와 반론을 한두 문장으로 붙인다. 미적분·이진법·모나드·충분 이유는 각 문단 하나씩만 소개하고 즉시 괄호로 푼다.",
+      "directness": "세상의 모든 분야를 하나의 표기와 이유로 연결하려는 체계가의 자신감을 살린다. 다만 뉴턴 분쟁의 감정을 소설화하거나 신정론을 현대적 공감의 언어로 세탁하지 않고, 자신의 논증이 부르는 반론을 받아낸다.",
+      "moves": [
+        "복잡한 문제를 더 나은 기호로 바꾸는 미적분의 작업에서 시작하기",
+        "뉴턴과의 독립 개발·출판·표기법 공헌을 구별하고 우선권 논쟁의 제도적 조건을 넣기",
+        "0과 1의 이진 산술을 현대 컴퓨터 예언이 아니라 보편 표기 탐구로 연결하기",
+        "마지막에는 충분 이유와 최선의 세계를 제시한 뒤 고통을 전체 질서로 설명하는 데 따르는 도덕적 반론을 피하지 않기"
+      ],
+      "avoid": [
+        "미적분을 뉴턴에게 빼앗겼다는 피해자 독백으로만 쓰기",
+        "라이프니츠가 현대 컴퓨터의 이진 회로를 발명했다고 쓰기",
+        "모나드를 물리학의 원자나 작은 영혼 알갱이로만 비유하기",
+        "‘최선의 세계’가 현재 세계의 모든 일이 좋다는 뜻이라고 단순화하기",
+        "라이프니츠가 피해자의 고통을 충분히 공감했고 쉽게 말하지 못했다고 내면을 창작하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "미적분",
+        "guide": "순간적인 변화율을 구하는 미분과, 아주 작은 양을 합쳐 넓이·부피를 구하는 적분을 함께 다루는 계산법",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1212.2666"
+        ]
+      },
+      {
+        "term": "이진법",
+        "guide": "0과 1 두 숫자만 사용하고 자리값이 2배씩 커지도록 모든 수를 나타내는 방식",
+        "sourceUrls": [
+          "https://kastalia.medienhaus.udk-berlin.de/odl/Leibniz.pdf"
+        ]
+      },
+      {
+        "term": "모나드",
+        "guide": "더 나눌 수 없고 공간을 차지하지 않으며, 각자의 관점에서 세계 전체를 나타낸다고 라이프니츠가 본 근본 실체",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz/",
+          "https://plato.stanford.edu/entries/leibniz-physics/"
+        ]
+      },
+      {
+        "term": "충분 이유의 원리",
+        "guide": "어떤 사실이 존재하고 그렇게 되었으면, 왜 그렇고 달리 되지 않았는지 설명할 이유가 있어야 한다는 원리",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz/"
+        ]
+      },
+      {
+        "term": "신정론",
+        "guide": "선하고 전능한 신이 존재한다면 왜 세상에 악과 고통이 있는지 설명하고 신의 정의를 옹호하려는 논증",
+        "sourceUrls": [
+          "https://plato.stanford.edu/entries/leibniz-evil/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "뉴턴과 라이프니츠가 미적분을 독립적으로 발전시켰다는 현대의 대체적 판단과 세부 영향 관계에 대한 학술 논쟁을 구별한다.",
+      "뉴턴이 더 먼저 비공개로 방법을 발전시킨 문제, 라이프니츠가 먼저 인쇄 출판한 문제, 오늘날 표기법이 라이프니츠 계통인 문제를 하나의 ‘누가 발명했나’로 뭉개지 않는다.",
+      "우선권 분쟁에서 라이프니츠가 느낀 정확한 감정은 편지나 자기 진술과 연결하지 않고 ‘억울했다’ ‘쓰라렸다’고 단정하지 않는다.",
+      "이진 산술의 선행 사례와 비서구적 조합 전통을 지우지 않으며, 라이프니츠의 1703년 체계화가 현대 전자식 컴퓨터 설계와 동일하다고 쓰지 않는다.",
+      "계산기 제작은 여러 장인의 기술과 선행 기계를 필요로 했으므로 단독 발명 신화로 만들지 않는다.",
+      "모나드·예정 조화·충분 이유는 서로 연결되지만 한 문장 시계 비유로 모두 설명됐다고 보지 않는다.",
+      "최선의 가능 세계는 개별 사건이 모두 좋다는 뜻은 아니지만, 고통을 전체 최적성으로 설명하는 논증 자체의 윤리적 비판을 지우지 않는다.",
+      "라이프니츠가 현대적 피해자 중심 윤리를 이미 품었다고 1인칭 공감을 창작하지 않는다."
+    ]
+  }
+}

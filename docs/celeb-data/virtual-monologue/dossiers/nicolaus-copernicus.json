@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "slug": "nicolaus-copernicus",
+  "nickname": "니콜라우스 코페르니쿠스",
+  "route": "improve",
+  "routeReason": "현재 원고는 역행 운동을 지구의 움직임으로 설명하고, 코페르니쿠스 체계도 원운동과 보정 원을 남겼다는 한계를 밝힌 점이 좋다. 그러나 프톨레마이오스 체계를 ‘원 위에 원을 계속 붙인 복잡한 실패’로 낮추고 태양중심 체계가 곧바로 단순하고 정확한 해답이었다고 암시한다. 출판 지연도 감각과 상식을 거스르는 두려움으로 심리화하지만, 학술 자료는 복잡한 수학적 증명과 관측 완성이 더 중요한 이유였다고 본다. 교회 박해를 피하려 죽을 때까지 숨겼다는 전설, 책을 임종 자리에서 받았다는 일화도 경계해야 한다. 좋은 구조를 살린 정밀 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "니콜라우스 코페르니쿠스",
+      "birth": "1473-02-19",
+      "death": "1543-05-24",
+      "profession": "scientist",
+      "disambiguation": "르네상스기 바르미아의 참사회원·행정가·의사이자, 지구가 움직이고 행성들이 태양 주위를 도는 수학적 우주 체계를 『천구의 회전에 관하여』로 제시한 천문학자",
+      "existingBioForDiscoveryOnly": "폴란드 출신의 르네상스 시대 천문학자이자 수학자. 태양 중심 우주 모델을 제시하여 지동설(태양중심설)을 정립하고, 과학 혁명의 서막을 열었다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html",
+        "title": "Nicolaus Copernicus",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2023-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "참사회원·의사·행정가·천문학자라는 생애와 교육",
+          "프톨레마이오스의 이심원·주전원·이퀀트에 대한 문제의식",
+          "역행 운동을 움직이는 지구 관점에서 설명한 체계",
+          "출판 지연의 주요 이유가 교회 공포보다 수학적 증명과 관측의 완성에 있었다는 평가"
+        ]
+      },
+      {
+        "url": "https://www.geo.utexas.edu/courses/302d/Fall_2011/Full%20text%20-%20Nicholas%20Copernicus%2C%20_De%20Revolutionibus%20%28On%20the%20Revolutions%29%2C_%201.pdf",
+        "title": "On the Revolutions of the Heavenly Spheres",
+        "publisher": "The University of Texas at Austin",
+        "kind": "primary",
+        "publishedAt": "1543-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "기존 체계의 이심원·주전원·이퀀트가 완전한 합의를 이루지 못한다는 코페르니쿠스의 비판",
+          "지구의 자전과 공전, 태양 가까이에 놓인 행성 순서를 설명한 원문",
+          "교황 바오로 3세에게 헌정한 출판 맥락"
+        ]
+      },
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/BEA/copernicus_bea.pdf",
+        "title": "Copernicus, Nicolaus",
+        "publisher": "Biographical Encyclopedia of Astronomers, University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "코페르니쿠스 우주 체계의 첫 부분과 뒤를 잇는 방대한 수학 모형",
+          "작은 주전원을 사용해 프톨레마이오스의 이퀀트를 대체한 사실",
+          "레티쿠스의 역할과 1543년 출판 과정"
+        ]
+      },
+      {
+        "url": "https://www.early-astronomy-um.org/western_revolutionibus1.php",
+        "title": "De Revolutionibus (1543)",
+        "publisher": "University of Michigan History of Astronomy Collections",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1543년 뉘른베르크에서 초판이 출판된 사실",
+          "태양중심 생각을 널리 접근 가능한 수학 체계로 만든 책의 역사적 영향",
+          "출판물의 물질적·서지학적 맥락"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/archives/spr2014/entries/copernicus/",
+        "title": "Nicolaus Copernicus",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2014-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『소논고』의 제한적 유통과 레티쿠스의 『첫 번째 이야기』가 출판을 북돋운 경위",
+          "교회 당국의 반응에 대한 공포가 출판 지연의 가장 중요한 이유였다는 통념을 반박하는 근거",
+          "코페르니쿠스 체계도 주전원과 원운동을 유지했다는 한계"
+        ]
+      },
+      {
+        "url": "https://arxiv.org/abs/1712.05437",
+        "title": "Where Did Copernicus Obtain the Tools to Build His Heliocentric Model? Historical Considerations",
+        "publisher": "arXiv",
+        "kind": "scholarly",
+        "publishedAt": "2017-12-14",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "코페르니쿠스의 기하학적 장치와 중세 이슬람 천문학의 유사성을 둘러싼 연구",
+          "태양중심 체계를 완전히 고립된 유럽 천재의 무에서 나온 발명으로 그리지 않을 경계",
+          "직접 전승 경로는 계속 논쟁적이라는 연구 한계"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1514년 이전 무렵 『소논고』를 써서 태양 가까이에 행성을 배열하고 지구에 자전과 공전을 부여하는 초기 체계를 제한된 학자들에게 돌렸다.",
+        "significance": "1543년 임종 직전 갑자기 떠올린 생각이 아니라 수십 년에 걸쳐 수학을 다듬고 동료들에게 시험한 연구였다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2014/entries/copernicus/"
+        ]
+      },
+      {
+        "point": "지구도 움직인다고 두어 바깥 행성의 역행 운동을 행성 자체가 뒤로 도는 운동이 아니라 움직이는 관측자의 시점 변화로 설명했다.",
+        "significance": "하늘의 복잡한 겉모습을 관측자 지구의 운동으로 다시 배열한 핵심 전환이지만, 당시 관측 정확도를 압도한 완성 모형은 아니었다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html",
+          "https://www.geo.utexas.edu/courses/302d/Fall_2011/Full%20text%20-%20Nicholas%20Copernicus%2C%20_De%20Revolutionibus%20%28On%20the%20Revolutions%29%2C_%201.pdf"
+        ]
+      },
+      {
+        "point": "젊은 천문학자 게오르크 레티쿠스가 연구를 배우고 1540년 『첫 번째 이야기』로 체계를 소개하면서 본저 출판을 재촉했다.",
+        "significance": "『천구의 회전에 관하여』의 출판은 코페르니쿠스 혼자의 결단이 아니라 제자·출판인·교회 인맥이 움직인 협업이었다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/BEA/copernicus_bea.pdf",
+          "https://plato.stanford.edu/archives/spr2014/entries/copernicus/"
+        ]
+      },
+      {
+        "point": "1543년 『천구의 회전에 관하여』가 출판되어 태양중심 생각을 계산 가능한 방대한 천문 체계로 제시했다.",
+        "significance": "책은 지구의 위치를 바꾸었지만 완전한 현대 태양계는 아니었다. 원운동과 작은 주전원을 유지했고, 케플러와 후대 관측이 크게 수정했다.",
+        "sourceUrls": [
+          "https://www.early-astronomy-um.org/western_revolutionibus1.php",
+          "https://mathshistory.st-andrews.ac.uk/BEA/copernicus_bea.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "천문 모형은 관측값을 맞추는 데 그치지 않고 행성의 순서와 운동을 하나의 일관된 배열로 설명해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://www.geo.utexas.edu/courses/302d/Fall_2011/Full%20text%20-%20Nicholas%20Copernicus%2C%20_De%20Revolutionibus%20%28On%20the%20Revolutions%29%2C_%201.pdf",
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html"
+        ]
+      },
+      {
+        "point": "하늘의 이상한 움직임을 모두 천체 자체의 복잡한 운동으로 돌리기 전에 관측자인 지구가 움직일 가능성을 계산해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html"
+        ]
+      },
+      {
+        "point": "완전한 원운동이라는 고대의 이상을 버리지는 않았고 프톨레마이오스의 이퀀트 대신 여러 원운동의 조합으로 균일 운동을 지키려 했다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html",
+          "https://mathshistory.st-andrews.ac.uk/BEA/copernicus_bea.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "태양중심 배치는 역행 운동과 행성 순서를 통일했지만, 원궤도와 주전원을 유지해 계산이 언제나 더 단순하거나 더 정확했던 것은 아니다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html",
+          "https://mathshistory.st-andrews.ac.uk/BEA/copernicus_bea.pdf"
+        ]
+      },
+      {
+        "point": "교회 성직 체계 안의 참사회원이 교황에게 책을 헌정하면서도 지구를 움직이는 우주 체계를 제시했다. 이를 신앙 대 과학의 단순 대결로만 읽을 수 없다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html",
+          "https://www.geo.utexas.edu/courses/302d/Fall_2011/Full%20text%20-%20Nicholas%20Copernicus%2C%20_De%20Revolutionibus%20%28On%20the%20Revolutions%29%2C_%201.pdf"
+        ]
+      },
+      {
+        "point": "태양중심 체계의 저자로 기억되지만 그 수학 도구 일부는 중세 이슬람 천문학과 매우 닮아 있으며 구체적 전승 경로는 아직 논쟁적이다.",
+        "sourceUrls": [
+          "https://arxiv.org/abs/1712.05437"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "차분한 계산자의 중간 길이 문장을 기본으로 하고, 하나의 겉보기 현상 뒤에 한 문장의 괄호 풀이를 붙인다. 주전원·이퀀트·역행 운동은 한꺼번에 설명하지 않는다.",
+      "directness": "혁명가의 선언보다 오랫동안 표를 고치고 원을 배치한 학자의 신중함을 살린다. 교회가 두려웠다는 내면과 임종 전설을 만들지 않고 출판 지연의 실제 수학적 노동을 말한다.",
+      "moves": [
+        "행성이 잠시 뒤로 가는 듯 보이는 역행 운동을 관측자 지구의 추월 장면으로 쉽게 설명하기",
+        "태양중심 배치가 행성 순서를 통일한 장점 뒤에 원궤도·주전원·정확도의 한계를 붙이기",
+        "레티쿠스와 출판 과정을 넣어 죽을 때까지 숨긴 고독한 천재 전설을 깨기",
+        "결말은 ‘중심을 바꿨다’는 상징을 쓰더라도 자신이 현대 태양계를 완성했다는 승전 선언은 피하기"
+      ],
+      "avoid": [
+        "프톨레마이오스 천문학을 엉성한 원 덧붙이기라고 조롱하기",
+        "태양중심 체계가 즉시 더 단순하고 더 정확했다고 단정하기",
+        "교회 처벌이 두려워 평생 책을 숨겼다고 쓰기",
+        "완성된 책을 임종 자리에서 받아 들었다는 일화를 확정 사실로 쓰기",
+        "케플러의 타원 궤도와 갈릴레오의 관측까지 자신의 업적으로 소급하기",
+        "고대·이슬람 천문학의 선행 수학을 지운 고립된 단독 천재 서사"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "역행 운동",
+        "guide": "행성이 별 사이를 한 방향으로 가다가 한동안 뒤로 움직이는 것처럼 보인 뒤 다시 원래 방향으로 가는 겉보기 움직임",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html"
+        ]
+      },
+      {
+        "term": "주전원",
+        "guide": "행성이 작은 원을 돌고 그 작은 원의 중심이 다시 큰 원을 따라 돈다고 계산하는 장치",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html"
+        ]
+      },
+      {
+        "term": "이퀀트",
+        "guide": "프톨레마이오스 체계에서 행성의 큰 원 운동이 일정한 속도로 보이도록 따로 잡은 기준점",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/win2023/entries/copernicus/index.html"
+        ]
+      },
+      {
+        "term": "태양중심 체계",
+        "guide": "지구를 포함한 행성들이 태양 주위를 돌고 지구도 스스로 회전한다고 설명하는 우주 모형",
+        "sourceUrls": [
+          "https://www.geo.utexas.edu/courses/302d/Fall_2011/Full%20text%20-%20Nicholas%20Copernicus%2C%20_De%20Revolutionibus%20%28On%20the%20Revolutions%29%2C_%201.pdf"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "코페르니쿠스는 현대적 의미의 전업 천문학자만이 아니라 바르미아 참사회원·행정가·의사였으며, 국적 표기는 당시 정치 지리를 단순화할 수 있다.",
+      "태양중심 생각에는 고대 선행자가 있었고, 코페르니쿠스의 의의는 관측을 계산하는 방대한 수학 체계로 다시 제시한 데 둔다.",
+      "프톨레마이오스 체계는 무지한 임시변통이 아니라 당대 관측을 정교하게 계산한 성숙한 수학 천문학이었다.",
+      "코페르니쿠스 체계도 원운동과 주전원을 유지했으며, 항상 프톨레마이오스 체계보다 단순하거나 정확했다고 쓰지 않는다.",
+      "출판 지연을 교회의 박해 공포 하나로 설명하지 않는다. 학술 자료는 수학적 증명·관측의 완성과 출판 조건을 더 중요한 이유로 본다.",
+      "레티쿠스의 『첫 번째 이야기』와 출판 실무의 역할을 지우지 않는다.",
+      "오시안더가 붙인 익명 서문과 코페르니쿠스 자신의 입장을 같은 것으로 취급하지 않는다.",
+      "완성된 책을 임종 직전에 손에 받았다는 유명 일화는 직접 증거가 약하므로 독백의 감정 장면으로 쓰지 않는다.",
+      "중세 이슬람 천문학과의 수학적 유사성은 분명한 연구 대상이지만 구체적 전달 경로는 확정하지 않는다."
+    ]
+  }
+}

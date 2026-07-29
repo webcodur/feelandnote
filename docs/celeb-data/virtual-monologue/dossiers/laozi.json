@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "slug": "laozi",
+  "nickname": "노자",
+  "route": "hold",
+  "routeReason": "자동 개선 두 차례 뒤에도 편집 검토에서 1인칭 화자 붕괴와 설명문 지배가 중대 결함으로 남았다. 역사적 개인의 내면을 만들지 않으면서 《도덕경》의 여러 목소리를 한 명의 독백으로 묶으려면, 먼저 '전승된 노자'라는 텍스트 페르소나를 정하고 물·빈 그릇·낮은 자리 같은 이미지가 끌고 가는 구조를 사람이 다시 설계해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "노자",
+      "birth": "-571",
+      "death": "-471",
+      "profession": "humanities_scholar",
+      "disambiguation": "중국 전승에서 공자보다 앞선 사상가이자 《노자》 또는 《도덕경》의 저자로 전해지지만, 현대 연구에서는 역사적 개인의 존재·연대·단독 저술 여부가 확정되지 않은 '노자'",
+      "existingBioForDiscoveryOnly": "도가 사상의 창시자이자 도덕경의 저자. 무위자연의 철학으로 동아시아 사상의 근간을 형성했다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/spr2012/entries/laozi/",
+        "title": "Laozi",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2007-05-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사마천의 전기에 보이는 전통적 노자 이야기와 그 역사성에 대한 학계의 의문",
+          "《노자》의 저자·연대·판본 형성에 관한 여러 학설",
+          "도·덕·자연·무위가 윤리와 정치철학을 함께 이루며 단일한 신비주의로 환원되지 않는다는 점"
+        ]
+      },
+      {
+        "url": "https://plato.stanford.edu/archives/fall2023/entries/daoism-religion/",
+        "title": "Religious Daoism",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "현대 서구 학계가 역사적 노자와 전승의 노자를 구분한다는 점",
+          "곽점본과 마왕퇴본이 현행본과 다른 짧은 판본들이 기원전 4세기 무렵부터 유통됐음을 보여 준다는 점",
+          "《도덕경》이 한 번에 완성된 단일 저작이라기보다 구전과 편집을 거친 문헌일 가능성"
+        ]
+      },
+      {
+        "url": "https://ctext.org/dao-de-jing/ens",
+        "title": "Dao De Jing",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "이름 붙일 수 있는 도는 영원한 도가 아니라는 첫 장의 언어와 이름에 대한 경계",
+          "물, 부드러움, 낮은 자리, 소박함, 만족을 앎, 되돌아감의 이미지",
+          "무위의 통치, 공을 차지하지 않는 행위, 전쟁과 살육을 기뻐하지 않는 태도"
+        ]
+      },
+      {
+        "url": "https://ctext.org/guodian/laozi-a/ens",
+        "title": "Excavated Texts: Guodian Laozi A",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "출토 곽점본에 무위, 자연스러운 변화, 붙잡지 않음과 강제하지 않음의 구절이 실제로 남아 있다는 점",
+          "현행 81장본 이전에 내용과 배열이 다른 《노자》 계열 텍스트가 존재했다는 점",
+          "무위를 아무 일도 하지 않는 상태가 아니라 억지로 지배하지 않는 행위 방식으로 읽을 문헌 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "사마천은 노자를 주 왕실의 기록 관리인으로서 공자가 예를 물었고 국경을 떠나며 약 오천 자의 글을 남긴 인물로 전했지만, 이 전기는 후대 전승이며 사실로 확증되지 않는다.",
+        "significance": "전통적 생애를 독백의 실제 회상으로 재현하지 않고, 노자라는 이름에 여러 전승이 겹쳐 있음을 처음부터 밝힐 근거가 된다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/"
+        ]
+      },
+      {
+        "point": "기원전 4세기 무렵의 곽점 죽간과 뒤이은 마왕퇴 백서가 발견되면서 현행 《도덕경》과 다른 배열·분량의 초기 판본들이 확인됐다.",
+        "significance": "한 개인이 완성본을 한 번에 썼다는 서사보다 여러 목소리와 편집의 역사를 거친 문헌이라는 한계를 독백 설계에 반영한다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2023/entries/daoism-religion/",
+          "https://ctext.org/guodian/laozi-a/ens"
+        ]
+      },
+      {
+        "point": "《노자》는 뒤에 《도덕경》이라는 경전 지위를 얻고 철학적 도가와 종교적 도교의 여러 전통에서 서로 다르게 읽혔다.",
+        "significance": "후대의 모든 도가·도교 사상을 역사적 노자 한 사람의 완성된 의도로 거슬러 올리지 않게 한다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/",
+          "https://plato.stanford.edu/archives/fall2023/entries/daoism-religion/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "도는 만물의 생겨남과 변화를 말하는 근원적 길이지만 하나의 이름과 정의로 완전히 붙잡을 수 없다고 말한다.",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens",
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/"
+        ]
+      },
+      {
+        "point": "무위는 아무것도 하지 않는 무기력이 아니라 사물과 백성을 억지로 조작하거나 성과를 소유하지 않는 행위와 통치의 방식으로 제시된다.",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens",
+          "https://ctext.org/guodian/laozi-a/ens"
+        ]
+      },
+      {
+        "point": "물과 부드러움, 낮은 자리, 다듬지 않은 나무를 통해 다투지 않음과 소박함이 강압과 과시보다 오래가는 힘이라고 말한다.",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      },
+      {
+        "point": "승리와 무력을 영광으로 찬양하지 않고 전쟁을 상례가 아닌 장례의 마음으로 대해야 한다는 정치적 경계를 둔다.",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "《노자》의 무위와 자연은 개인의 마음 수련이면서 동시에 군주의 통치술로도 쓰이므로, 현대적 자유방임이나 단순한 무정부주의로 옮길 수 없다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/",
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      },
+      {
+        "point": "전쟁과 강함을 경계하지만 모든 무력 사용을 금하는 현대적 절대 평화주의 선언으로 단정하기는 어렵고, 텍스트에는 방어와 승부의 언어도 남아 있다.",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      },
+      {
+        "point": "후대에 단일 저자와 완결된 81장 경전으로 정착했지만 출토본은 내용과 배열이 다른 전승 층위를 보여 준다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/fall2023/entries/daoism-religion/",
+          "https://ctext.org/guodian/laozi-a/ens"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 대구와 역설을 기본으로 하고, 개념 뒤에는 물·그릇·나무·골짜기처럼 눈에 보이는 한 가지 이미지를 붙인다.",
+      "directness": "자기 생애를 회고하는 확정적 역사 인물이 아니라 《노자》 문헌의 전승된 화자처럼 절제해 말하며, 연구 한계를 현대 학자의 입으로 장황하게 설명하지 않는다.",
+      "moves": [
+        "높음과 낮음, 단단함과 부드러움, 채움과 비움처럼 두 항을 맞세워 통념을 뒤집기",
+        "도·무위·자연을 먼저 쉬운 생활 이미지로 보여 준 뒤 괄호 안에 한 줄 안내 붙이기",
+        "공을 세우고도 차지하지 않는 행위와 백성을 억지로 바꾸지 않는 통치를 한 흐름으로 연결하기"
+      ],
+      "avoid": [
+        "기원전 571년 출생과 기원전 471년 사망을 확정된 실제 연대로 말하기",
+        "공자를 직접 만나 가르쳤거나 국경에서 《도덕경》 완성본을 썼다는 전승을 실제 회상으로 재현하기",
+        "물을 관찰하며 감동했고 군주를 두려워했으며 후대 평가를 서운해하지 않는다는 창작 내면",
+        "무위를 게으름, 무정책, 자유방임으로 축소하거나 자연을 현대 환경보호 개념으로 번역하기",
+        "도덕경의 모든 장을 한 저자의 일관된 정치 선언으로 묶기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "도",
+        "guide": "만물이 생겨나고 변하는 근원적 길이지만 하나의 이름으로 다 설명할 수 없다고 한 것",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens",
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/"
+        ]
+      },
+      {
+        "term": "무위",
+        "guide": "아무 일도 하지 않는다는 뜻이 아니라 억지로 조작하거나 공을 독차지하지 않는 행위 방식",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens",
+          "https://ctext.org/guodian/laozi-a/ens"
+        ]
+      },
+      {
+        "term": "자연",
+        "guide": "산과 숲만을 뜻하지 않고 남의 강제가 없이 스스로 그렇게 되어 가는 상태",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2012/entries/laozi/",
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      },
+      {
+        "term": "박",
+        "guide": "아직 깎아 꾸미지 않은 통나무처럼 욕망과 인위가 덧붙지 않은 소박한 상태",
+        "sourceUrls": [
+          "https://ctext.org/dao-de-jing/ens"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "역사적 노자가 실제로 존재했는지, 한 사람이 《도덕경》을 썼는지, 생몰 연대가 무엇인지는 확정되지 않는다.",
+      "사마천의 공자 면담·문서 관리·관문 저술 이야기는 중요한 전승이지만 독립적으로 확인된 생애 사실이 아니다.",
+      "현행 《도덕경》과 곽점·마왕퇴 계열 판본은 내용과 배열이 다르므로 현재의 모든 문장을 한 사람의 같은 시기 발언으로 만들지 않는다.",
+      "철학적 도가와 종교적 도교의 후대 교리·신격화를 역사적 노자 자신의 신앙과 의도로 소급하지 않는다.",
+      "독백은 부득이하게 전승된 문헌의 화자를 세우되, 확인되지 않는 개인적 감정·사건·죽음을 새로 만들지 않는다."
+    ]
+  }
+}

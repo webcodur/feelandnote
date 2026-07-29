@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "slug": "charles-darwin",
+  "nickname": "찰스 다윈",
+  "route": "improve",
+  "routeReason": "현재 글은 비글호 관찰, 장기간의 검토, 자연선택의 작동 방식과 이론의 난점을 초독자에게 잘 설명한다. 그러나 자연선택의 공동 발견자인 앨프리드 러셀 월리스가 완전히 사라지고, 갈라파고스 핀치가 곧바로 이론을 낳았다는 익숙한 압축과 '모든 생명이 먼 친척이라는 사실에서 경이를 느꼈다'는 내면 재구성이 들어간다. 비글호 표본에서 출판까지의 긴 연구 과정, 월리스의 1858년 논문과 공동 발표, 『종의 기원』이 유전의 기제를 알지 못했던 한계를 함께 두고 확인되지 않은 감정은 걷어내도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "찰스 로버트 다윈",
+      "birth": "1809-02-12",
+      "death": "1882-04-19",
+      "profession": "scientist",
+      "disambiguation": "비글호 항해의 표본과 장기간의 연구를 바탕으로 앨프리드 러셀 월리스와 함께 자연선택에 의한 진화 이론을 제시한 영국 자연학자",
+      "existingBioForDiscoveryOnly": "영국의 자연과학자. 비글호 항해의 관찰을 토대로 자연선택에 의한 진화론을 정립하여 생물학과 세계관을 근본적으로 바꿨다."
+    },
+    "sources": [
+      {
+        "url": "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+        "title": "On the Origin of Species by Means of Natural Selection, second edition",
+        "publisher": "The Complete Work of Charles Darwin Online, National University of Singapore",
+        "kind": "primary",
+        "publishedAt": "1860-01-07",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "자연선택을 변이·생존·번식의 누적 결과로 설명한 다윈 자신의 논증",
+          "눈과 같은 복잡한 기관, 불완전한 지질 기록 등 이론의 난점을 별도 장에서 다룬 사실",
+          "자연선택을 목적을 가진 주체로 오해하지 않도록 해야 하는 원전 맥락"
+        ]
+      },
+      {
+        "url": "https://www.darwinproject.ac.uk/about-darwin/origin-species",
+        "title": "On the Origin of Species",
+        "publisher": "Darwin Correspondence Project, University of Cambridge",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "월리스의 편지가 1858년 다윈과 월리스 이론의 동시 발표로 이어진 경위",
+          "다윈이 1859년 『종의 기원』을 출판한 과정",
+          "라이엘·후커·그레이 등 서신망과 동료들의 역할"
+        ]
+      },
+      {
+        "url": "https://www.darwinproject.ac.uk/letters/darwins-life-letters/darwin-letters-1858-1859-origin",
+        "title": "Darwin in letters, 1858–1859: Origin",
+        "publisher": "Darwin Correspondence Project, University of Cambridge",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "월리스의 자연선택 논문을 받은 다윈이 유사성을 인정한 당대 서신",
+          "라이엘과 후커가 두 사람의 글을 함께 발표하도록 주선한 사실",
+          "공동 발표 뒤 다윈이 더 긴 저술을 서둘러 완성한 경위"
+        ]
+      },
+      {
+        "url": "https://www.nhm.ac.uk/our-science/services/collections/digital/programme/darwins-fossils.html",
+        "title": "Digitising Darwin’s fossil mammals",
+        "publisher": "Natural History Museum, London",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "비글호 항해에서 수집한 남아메리카 화석 포유류와 표본",
+          "종의 분포·멸종·지질 변화에 관한 관찰이 이후 연구의 토대가 된 사실",
+          "항해 관찰과 1859년 출판 사이에 약 25년의 연구가 있었던 시간 간격"
+        ]
+      },
+      {
+        "url": "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html",
+        "title": "Charles Darwin: History’s most famous biologist",
+        "publisher": "Natural History Museum, London",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "비둘기 품종의 인위선택 연구가 자연선택 논증에 준 역할",
+          "비글호 표본과 갈라파고스 생물 연구의 실제 맥락",
+          "현대 유전학과 구분되는 다윈 시대 자연선택 설명"
+        ]
+      },
+      {
+        "url": "https://www.nhm.ac.uk/discover/what-is-natural-selection.html",
+        "title": "What is natural selection?",
+        "publisher": "Natural History Museum, London",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "다윈과 월리스가 자연선택 이론의 공동 제안자로 평가되는 사실",
+          "1858년 두 사람이 자연선택에 관해 공동 발표한 사실",
+          "『종의 기원』 이후 다윈의 이름이 월리스의 공헌을 가린 수용사"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1831년부터 1836년까지 비글호 항해에 참여해 남아메리카의 화석·지질과 여러 지역의 생물 표본을 수집하고 기록했다.",
+        "significance": "갈라파고스의 한 장면에서 이론을 완성했다는 전설 대신 서로 다른 관찰이 오랜 시간 쌓인 출발점을 보여 준다.",
+        "sourceUrls": [
+          "https://www.nhm.ac.uk/our-science/services/collections/digital/programme/darwins-fossils.html",
+          "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html"
+        ]
+      },
+      {
+        "point": "귀국 뒤 사육 변이, 비둘기, 따개비와 방대한 서신 자료를 검토하며 종의 변화와 자연선택에 관한 논증을 수십 년 동안 다듬었다.",
+        "significance": "천재의 한 번의 착상보다 관찰·사육·분류·동료 서신이 연결된 연구 방식을 중심에 둔다.",
+        "sourceUrls": [
+          "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html",
+          "https://www.darwinproject.ac.uk/about-darwin/origin-species"
+        ]
+      },
+      {
+        "point": "1858년 월리스에게서 비슷한 자연선택 이론을 담은 글을 받고, 라이엘과 후커의 주선으로 두 사람의 글이 같은 자리에서 발표됐다.",
+        "significance": "자연선택을 다윈 단독의 순간적 발견으로 만드는 영웅 서사를 막는 핵심 전환점이다.",
+        "sourceUrls": [
+          "https://www.darwinproject.ac.uk/about-darwin/origin-species",
+          "https://www.darwinproject.ac.uk/letters/darwins-life-letters/darwin-letters-1858-1859-origin",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      },
+      {
+        "point": "1859년 『종의 기원』을 출판해 자연선택과 공통 조상에 의한 종의 변화를 긴 증거와 예상 반론 속에서 제시했다.",
+        "significance": "이론의 힘뿐 아니라 다윈이 눈과 화석 기록 같은 난점을 공개적으로 다룬 검토 태도를 함께 보여 준다.",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.darwinproject.ac.uk/about-darwin/origin-species"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "개체 사이의 유전되는 차이 가운데 환경에서 생존과 번식에 유리한 차이가 세대를 거치며 누적될 수 있다고 논증했다.",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      },
+      {
+        "point": "사육자가 원하는 형질을 고르는 인위선택을 관찰 가능한 비교 대상으로 삼아 목적 없는 자연선택의 누적 효과를 설명했다.",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html"
+        ]
+      },
+      {
+        "point": "복잡한 기관과 불완전한 화석 기록처럼 자신의 이론에 가장 어려워 보이는 반론을 숨기지 않고 가능한 중간 단계와 자료 한계를 검토했다.",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "다윈은 자연선택을 장기간 독자적으로 연구했지만 월리스도 별도로 같은 핵심 원리를 도출했고, 1858년 발표는 두 사람의 이름으로 이루어졌다.",
+        "sourceUrls": [
+          "https://www.darwinproject.ac.uk/letters/darwins-life-letters/darwin-letters-1858-1859-origin",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      },
+      {
+        "point": "비글호 표본은 중요한 출발점이었으나 자연선택 이론은 갈라파고스 핀치만 보고 즉시 완성된 것이 아니라 귀국 뒤의 사육·분류·독서·서신 연구에서 형성됐다.",
+        "sourceUrls": [
+          "https://www.nhm.ac.uk/our-science/services/collections/digital/programme/darwins-fossils.html",
+          "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html",
+          "https://www.darwinproject.ac.uk/about-darwin/origin-species"
+        ]
+      },
+      {
+        "point": "자연선택은 생명의 목적이나 도덕적 진보를 정하는 손이 아니며, 다윈은 DNA와 현대 유전학을 알지 못한 상태에서 변이의 유전을 설명했다.",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "관찰 하나를 짧게 놓고 가능한 반례를 인정한 뒤 여러 증거가 어떻게 같은 설명으로 모이는지 긴 문장으로 잇는다.",
+      "directness": "단정 전에 망설임과 반증 가능성을 드러내는 자연학자의 신중함을 살리되, 후대 연구자가 아는 유전학을 본인의 말처럼 넣지 않는다.",
+      "moves": [
+        "화석·표본·비둘기처럼 손에 잡히는 관찰에서 종의 변화라는 큰 질문으로 이동하기",
+        "눈과 화석 기록의 빈틈 같은 강한 반론을 먼저 인정하고 당시 제시할 수 있었던 답의 범위를 밝히기",
+        "1858년 월리스의 글과 공동 발표를 출판 서사의 한가운데 놓기"
+      ],
+      "avoid": [
+        "갈라파고스 핀치 한 번의 관찰로 자연선택을 즉시 깨달았다는 장면",
+        "월리스·라이엘·후커와 표본 수집·분류 협력자들을 지운 단독 천재 서사",
+        "자연선택을 앞날을 내다보거나 더 높은 생명을 만드는 의지로 표현하기",
+        "종교적 충격이나 인간의 위치에 대한 다윈의 내면 감정을 출처 없이 고백시키기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "자연선택",
+        "guide": "환경에서 더 잘 살아남고 번식한 개체의 유전되는 특징이 여러 세대에 걸쳐 늘어나는 과정",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      },
+      {
+        "term": "인위선택",
+        "guide": "사람이 원하는 특징을 가진 동식물을 골라 번식시키는 일",
+        "sourceUrls": [
+          "https://www.nhm.ac.uk/discover/charles-darwin-most-famous-biologist.html"
+        ]
+      },
+      {
+        "term": "공통 조상",
+        "guide": "서로 다른 생물 갈래가 먼 과거에 함께 갈라져 나온 조상 집단",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf"
+        ]
+      },
+      {
+        "term": "변이",
+        "guide": "같은 종의 개체들 사이에 나타나는 특징의 차이",
+        "sourceUrls": [
+          "https://darwin-online.org.uk/converted/pdf/1860_Origin_F379.pdf",
+          "https://www.nhm.ac.uk/discover/what-is-natural-selection.html"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "다윈의 항해 일기와 후대 회고를 출항 당시 이미 자연선택 이론을 품었다는 증거로 소급하지 않는다.",
+      "다윈과 월리스의 기여를 단순히 같은 분량으로 나누지는 않되, 독립 도출과 1858년 공동 발표를 다윈의 이름 아래 지우지 않는다.",
+      "『종의 기원』의 '적자'는 가장 강하거나 우월한 존재라는 뜻이 아니며 현대 사회의 경쟁이나 차별을 정당화하는 말로 확장하지 않는다.",
+      "다윈은 유전자와 DNA를 몰랐으므로 현대 종합진화론의 설명을 그의 완성된 통찰로 돌리지 않는다.",
+      "서신에서 확인되지 않는 출판 지연의 단일 원인, 종교적 두려움, 죄책감과 경이 같은 내면을 1인칭 사실로 만들지 않는다."
+    ]
+  }
+}

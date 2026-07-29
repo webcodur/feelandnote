@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-10",
+  "targets": [
+    {
+      "id": "27b5884c-a231-4235-8bcf-26e9a8e9cc48",
+      "slug": "billie-eilish",
+      "nickname": "빌리 아일리시",
+      "birthDate": "2001-12-18",
+      "profession": "musician",
+      "expectedEn": {
+        "roll_call": [
+          "I started making music with FINNEAS at our home in Los Angeles. We did not need a major studio to begin.",
+          "At eighteen, I swept all four major Grammy categories in one night. It still feels like the most unreal night of my life.",
+          "I won two Oscars for film songs, and in 2026 I received my tenth Grammy."
+        ],
+        "deploy": [
+          "Do not separate the melody from the lyrics. FINNEAS and I build them together in the same room.",
+          "Bring the audience inside the song onstage. A show comes alive when we move together.",
+          "Do not leave only a performance behind. Build a path beside the stage for fans to take climate action."
+        ],
+        "battle_win": [
+          "Even on the night I won five Grammys, the fans came first. None of us would be there without them.",
+          "I wrote for a character in Barbie, then realized two days later that it was my story. That song became my second Oscar.",
+          "I won my tenth Grammy in 2026, but I still used that stage to say that we must keep speaking and taking action."
+        ],
+        "battle_draw": [
+          "The more people expected Billie Eilish, the more I sometimes felt like I was doing an imitation of myself.",
+          "I am grateful to be famous, but even ordinary grocery shopping became difficult. It is amazing and overwhelming at once.",
+          "I thought I knew what people would like, and I was completely wrong. I had to trust the work more than the prediction."
+        ],
+        "battle_lose": [
+          "For a while I was so unhappy that I thought the entire music industry was the problem. I had to change my own life first.",
+          "In 2025 I had seven Grammy nominations and won none of them. The work still was not over.",
+          "Even the awkward version of me at sixteen stays online forever. Having everyone watch you grow is not a small thing."
+        ],
+        "clash_attack": [
+          "Do not define me by one sound. I want to try everything I have not done yet.",
+          "Do not freeze me into one version. It is strange to expect an eighteen-year-old to have already found herself for good.",
+          "Do not count success only in numbers. How people receive you matters more than how widely they know you."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "FINNEAS and I started making music at home. We never needed a major studio.",
+          "At eighteen, I swept the Grammys' four major categories. It still feels unreal.",
+          "I have two Oscars for film songs and ten Grammys."
+        ],
+        "deploy": [
+          "Do not split melody from lyrics. Finish them together in the same room.",
+          "Let the audience sing too. A show lives when everyone moves together.",
+          "Make room at the venue for fans to take climate action."
+        ],
+        "battle_win": [
+          "Even after winning five Grammys that night, I thanked the fans first.",
+          "The song I wrote for Barbie became my story and won my second Oscar.",
+          "Even while accepting my tenth Grammy, I said what needed saying."
+        ],
+        "battle_draw": [
+          "Trying to act like the Billie people expected felt like impersonating myself.",
+          "I love being famous, but even grocery shopping is hard. It can be overwhelming.",
+          "I thought I knew what people wanted. I was wrong and had to trust the work."
+        ],
+        "battle_lose": [
+          "I blamed the whole music industry for my misery. I had to change my life first.",
+          "Seven Grammy nominations and no wins still did not stop me from making music.",
+          "My mistakes at sixteen still live online. I had to grow up in public."
+        ],
+        "clash_attack": [
+          "Do not trap me in one sound!",
+          "Stop expecting an eighteen-year-old to have everything figured out!",
+          "Forget fame. Listen to how the music reaches people!"
+        ]
+      }
+    },
+    {
+      "id": "0273e153-6bc2-44cd-a366-414206808e97",
+      "slug": "paul-the-apostle",
+      "nickname": "사도 바울",
+      "birthDate": "5",
+      "profession": "leader",
+      "expectedEn": {
+        "roll_call": [
+          "I once persecuted the church. Yet I came to proclaim among the Gentiles the faith I had tried to destroy.",
+          "I am not worthy to be called an apostle. I am what I am only by the grace of God.",
+          "I preached the gospel from Jerusalem all the way to Illyricum. I sought to go where another had not laid the foundation."
+        ],
+        "deploy": [
+          "Bear one another's burdens. In this way you will fulfill the law of Christ.",
+          "Test everything and hold fast to what is good. Refrain from every kind of evil.",
+          "Do not divide into factions. Be of one mind and build one another up."
+        ],
+        "battle_win": [
+          "I labored harder, yet it was not I. The grace that was with me did the work.",
+          "I planted and Apollos watered, but God gave the growth.",
+          "The sting of death does not have the final word. Thanks be to the one who gives us victory."
+        ],
+        "battle_draw": [
+          "I fail to do the good I want and do the evil I do not want. Human will alone cannot end this struggle.",
+          "I came to Corinth in weakness and fear. I sought to leave a ground for faith, not a display of eloquence.",
+          "Even if everything is lawful, not everything is beneficial. Freedom also requires discernment."
+        ],
+        "battle_lose": [
+          "In Asia I was burdened beyond my strength and despaired even of life. I could not rely on my own power.",
+          "I was beaten, stoned, and shipwrecked three times. The marks on my body also belonged to my apostolic path.",
+          "I fear that my labor for the Galatians may have been in vain. Have I become your enemy by telling you the truth?"
+        ],
+        "clash_attack": [
+          "Do not follow anyone who preaches a different gospel. Not even an angel is an exception.",
+          "When Peter was in the wrong at Antioch, I opposed him to his face. The truth of the gospel comes before appearances.",
+          "Do not repay evil with evil. Do not be conquered by evil, but conquer evil with good."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I persecuted the church, then preached the faith I once tried to destroy.",
+          "I am unworthy to be called an apostle. I am here by God's grace.",
+          "From Jerusalem to Illyricum, I preached where no one else had laid a foundation."
+        ],
+        "deploy": [
+          "Bear one another's burdens. That is the law of Christ.",
+          "Test everything. Hold fast to the good and keep away from evil.",
+          "Do not split into factions. Stand together and build one another up."
+        ],
+        "battle_win": [
+          "I labored harder, but not by my strength. God's grace was with me.",
+          "I planted and Apollos watered, but God gave the growth.",
+          "Death does not have the final word. Thanks be to God for victory."
+        ],
+        "battle_draw": [
+          "I do the evil I hate and fail to do the good I want. Willpower is not enough.",
+          "I came to Corinth weak and afraid. I did not hide behind eloquence.",
+          "Everything may be lawful, but not everything is beneficial. We must discern."
+        ],
+        "battle_lose": [
+          "In Asia I was crushed beyond my strength. I could no longer rely on myself.",
+          "I was beaten, stoned, and shipwrecked three times. My body still bears the marks.",
+          "I fear my work in Galatia was wasted. Did truth make me your enemy?"
+        ],
+        "clash_attack": [
+          "Reject any different gospel, even from an angel!",
+          "If Peter is wrong, I will oppose him to his face!",
+          "Do not yield to evil. Overcome it with good!"
+        ]
+      }
+    }
+  ]
+}

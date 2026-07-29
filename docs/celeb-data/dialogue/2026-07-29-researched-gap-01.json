@@ -1,0 +1,278 @@
+{
+  "batch": "2026-07-29-researched-gap-01",
+  "targets": [
+    {
+      "id": "2a8eb02f-4294-49cd-b28a-08da12045c93",
+      "slug": "mo-yan",
+      "nickname": "모옌",
+      "nicknameEn": "Mo Yan",
+      "birthDate": "1955-02-17",
+      "profession": "author",
+      "quote": "내 가족, 마을 사람들 모두가 내 소설의 주인공이 될 수 있다.",
+      "quoteEn": "My family, the villagers around me, all could become the heroes of my fiction.",
+      "greetingKo": [
+        "[measured, reflective] 가오미 동북향에서 한 자루 붓을 들고 왔습니다.",
+        "[calm, candid] 어머니께서는 말 없이 살라 하셨고, 저는 그 말씀을 글로 갚고 있을 따름입니다.",
+        "[steady, warm] 수수밭 사이에서 들은 이야기들을 한 페이지씩 옮겨 적는 사람이지요."
+      ],
+      "greetingEn": [
+        "[measured, reflective] I have come from Northeast Gaomi Township carrying a single brush.",
+        "[calm, candid] My mother taught me to live without speaking; I am simply repaying her words on the page.",
+        "[steady, warm] I am the man who transcribes, line by line, the tales overheard among the sorghum."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "모옌입니다. 저는 이야기꾼이며, 앞으로도 제 방식으로 이야기를 계속하겠습니다.",
+          "가오미 동북향은 작은 고향이지만, 제게는 중국과 세계를 비추는 문학의 왕국입니다.",
+          "독자는 제 소설에서 건조한 역사가 아니라, 사람들이 실제로 어떻게 살고 느꼈는지를 만나야 합니다."
+        ],
+        "deploy": [
+          "시장의 이야기꾼처럼, 자신이 가장 잘 아는 방식으로 이야기를 전하십시오.",
+          "개인적 경험을 그대로 옮기지 말고, 상상과 변형을 거쳐 소설로 만드십시오.",
+          "꿈이나 실제 사건도 자기 경험과 섞여야 비로소 자기 작품이 됩니다."
+        ],
+        "battle_win": [
+          "학교를 떠난 외로움 속에서, 저는 삶이라는 큰 책을 먼저 읽었습니다.",
+          "남의 이야기를 되풀이하던 아이가 자기 이야기를 썼고, 그 이야기들이 노벨문학상에 닿았습니다.",
+          "초고는 마흔세 날에 썼지만, 인물들은 수십 년 동안 제 안에서 기다리고 있었습니다."
+        ],
+        "battle_draw": [
+          "세상 모든 독자에게 사랑받는 작가는 없습니다. 제 책을 읽고도 생각이 달라도 괜찮습니다.",
+          "역사적 사건은 기록에서 찾으십시오. 문학은 그 시대 사람들의 삶과 감정을 보여줍니다.",
+          "고통은 사라지지 않습니다. 다만 유머로 쓸 것인지 비통한 말로 쓸 것인지 선택할 수 있습니다."
+        ],
+        "battle_lose": [
+          "처음에는 착한 사람과 영웅만 쓰려 했습니다. 그 글에는 문학적 가치가 거의 없었습니다.",
+          "실제 인물의 이름을 그대로 썼다가, 마을 사람들이 아버지께 항의하러 오기도 했습니다.",
+          "컴퓨터를 켜면 자료를 찾느라 길을 잃고 어휘도 줄었습니다. 그래서 다시 붓을 들었습니다."
+        ],
+        "clash_attack": [
+          "사람의 마음을 선과 악, 옳고 그름 두 칸으로만 나누지 마십시오. 그 안의 모순된 지대를 보십시오.",
+          "사회 현실에 대한 분노가 문학을 누르고 소설을 사건 보고서로 만들게 두지 마십시오.",
+          "소설을 역사책인 척 쓰지 마십시오. 현대인의 눈으로 과거 속 사람들의 삶을 보십시오."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I am Mo Yan. I am a storyteller, and I will keep telling stories in my own way.",
+          "Northeast Gaomi Township is a small hometown, but to me it is a literary kingdom that reflects China and the world.",
+          "Readers should find not dry history in my novels, but how people actually lived and felt."
+        ],
+        "deploy": [
+          "Tell the story in the way you know best, as the storytellers in the marketplace did.",
+          "Do not copy personal experience exactly as it happened. Transform it through imagination into fiction.",
+          "Whether it begins in a dream or a real event, a story becomes your own only when joined with individual experience."
+        ],
+        "battle_win": [
+          "In the loneliness after leaving school, I began by reading the great book of life.",
+          "A child who once retold other people's tales began writing his own, and those stories reached the Nobel Prize.",
+          "I wrote the draft in forty-three days, but its characters had waited inside me for decades."
+        ],
+        "battle_draw": [
+          "No writer is loved by every reader. You may read my books and still think differently.",
+          "Look to history books for events. Literature shows the lives and feelings of the people who lived through them.",
+          "Suffering does not disappear. We can only choose whether to write it with humor or with painful words."
+        ],
+        "battle_lose": [
+          "At first I tried to write only about good people and heroes. Those pieces had little literary value.",
+          "I used real people's names, and villagers came to my father to complain.",
+          "At the computer I lost my way searching for information, and my vocabulary narrowed. So I returned to the brush."
+        ],
+        "clash_attack": [
+          "Do not divide the human heart into good and evil, right and wrong alone. Look at the contradictory ground within it.",
+          "Do not let anger over social reality suppress literature and turn a novel into a report on an event.",
+          "Do not make a novel pretend to be a history book. Examine lives in the past through the eyes of a modern person."
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/prizes/literature/2012/yan/lecture/",
+        "https://www.nobelprize.org/prizes/literature/2012/yan/25483-interview-with-mo-yan-2012/",
+        "https://www.nobelprize.org/prizes/literature/2012/yan/biographical/",
+        "https://www.neh.gov/humanities/2011/januaryfebruary/conversation/the-real-mo-yan",
+        "https://www.wikidata.org/wiki/Q8998"
+      ]
+    },
+    {
+      "id": "b5b2f158-d9b6-4c35-82ca-bf1fb36a1f31",
+      "slug": "daniel-bruhl",
+      "nickname": "다니엘 브륄",
+      "nicknameEn": "Daniel Bruhl",
+      "birthDate": "1979-06-16",
+      "profession": "actor",
+      "quote": "배우에게 흥미로운 것은 인간으로서 다양한 면을 탐구하는 것이다.",
+      "quoteEn": "What is interesting for an actor is to explore different facets of being human.",
+      "greetingKo": [
+        "[warm, thoughtful] 악역을 연기할수록 인간을 더 깊이 이해하게 됩니다.",
+        "[gentle, curious] 언어가 다르면 감정도 달라져요. 그래서 다국어 연기가 좋아요.",
+        "[calm, earnest] 관객이 잊지 못할 한 장면을 위해 연기합니다."
+      ],
+      "greetingEn": [
+        "[warm, thoughtful] The more I play villains, the more deeply I understand human beings.",
+        "[gentle, curious] Different languages bring different emotions. That's why I love multilingual acting.",
+        "[calm, earnest] I act for that one scene an audience will never forget."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "독일어와 스페인어 사이에서 자라서인지, 한 사람도 한 가지 목소리로만 보이지 않습니다.",
+          "열다섯 살에는 이미 배우가 되겠다고 정했습니다. 그 오래된 확신으로 오늘도 나섭니다.",
+          "저를 한 상자에 넣기엔 언어가 좀 많습니다. 이번에도 낯선 면부터 찾아보죠."
+        ],
+        "deploy": [
+          "무슨 이야기를 할지 먼저 정확히 정하세요. 카메라는 그다음입니다.",
+          "좋은 사람들을 곁에 두세요. 연출은 배우만 이끄는 일이 아닙니다.",
+          "감정이 막히면 언어를 바꿔보세요. 더 솔직해지는 말이 따로 있을 수 있습니다."
+        ],
+        "battle_win": [
+          "배우와 스태프가 같은 장면을 보고 있었군요. 이제야 감독으로서 안심이 됩니다.",
+          "누구도 선인이나 악인 하나로 끝나지 않았습니다. 제가 원한 균형이에요.",
+          "첫 연출 때는 기술 용어도 다 몰랐지만, 좋은 동료들이 끝까지 장면을 살려줬습니다."
+        ],
+        "battle_draw": [
+          "연기는 맞는데 언어가 아직 제 것이 아니군요. 다시 소리 내어 말해보겠습니다.",
+          "장면은 선명하지만 인물이 너무 한쪽입니다. 모순을 하나 더 찾겠습니다.",
+          "제가 다 아는 척했군요. 처음 연출하던 때처럼 도움부터 청하겠습니다."
+        ],
+        "battle_lose": [
+          "제가 말하고 싶은 것보다 규모를 먼저 골랐습니다. 더 개인적인 이야기로 돌아가겠습니다.",
+          "이번에는 배역 뒤에 숨었습니다. 다음에는 제 약점도 장면에 내놓겠습니다.",
+          "한 언어로 밀어붙이다 감정을 놓쳤습니다. 가장 솔직해지는 말부터 다시 찾겠습니다."
+        ],
+        "clash_attack": [
+          "한 가지 국적으로만 규정하지 마세요. 저는 그 경계에서 더 자유롭습니다.",
+          "악역이라는 이름으로 사람을 단순하게 밀지 마세요. 이해할 틈을 남기세요.",
+          "카메라 앞에만 머물지 마세요. 이야기의 모든 단계에 들어가세요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Perhaps because I grew up between German and Spanish, I never hear only one voice in a person.",
+          "By fifteen, I had already decided to become an actor. That old certainty still brings me forward today.",
+          "I speak too many languages to fit into one box. This time, I will start with what feels unfamiliar."
+        ],
+        "deploy": [
+          "First decide exactly what story you want to tell. The camera comes after that.",
+          "Keep good people around you. Directing is not only about guiding actors.",
+          "If the emotion stalls, change languages. Another one may let you speak more honestly."
+        ],
+        "battle_win": [
+          "The actors and crew were seeing the same scene. Now I can finally breathe as a director.",
+          "No one ended up merely a hero or a villain. That is the balance I wanted.",
+          "I did not even know all the technical terms on my first film, but good colleagues carried the scene through."
+        ],
+        "battle_draw": [
+          "The performance is right, but the language still does not feel like mine. I will say it aloud again.",
+          "The scene is clear, but the character is too one-sided. I will look for one more contradiction.",
+          "I pretended to know everything. I will ask for help, as I did on my first film as a director."
+        ],
+        "battle_lose": [
+          "I chose the scale before I chose what I needed to say. I will return to a more personal story.",
+          "This time I hid behind the role. Next time, I will put my own weakness in the scene too.",
+          "I forced the scene through one language and lost the emotion. I will begin again with the words that make me most honest."
+        ],
+        "clash_attack": [
+          "Do not define me by a single nationality. I am freer at the boundary between them.",
+          "Do not flatten someone by calling them a villain. Leave room to understand them.",
+          "Do not stay only in front of the camera. Step into every stage of the story."
+        ]
+      },
+      "sources": [
+        "https://www.theguardian.com/film/2022/oct/24/daniel-bruhl-interview-all-quiet-on-the-western-front",
+        "https://www.interviewmagazine.com/film/daniel-bruhl",
+        "https://www.theupcoming.co.uk/2021/03/03/daniel-bruhl-on-his-directorial-debut-next-door-it-was-magical-i-didnt-get-a-no-from-anyone/",
+        "https://elpais.com/cultura/2021-02-28/daniel-bruhl-abre-la-berlinale-mas-insolita-con-su-opera-prima-como-director.html",
+        "https://danielbruehl.com/"
+      ]
+    },
+    {
+      "id": "2dc2c36f-2ae2-4b08-8a54-0392cbfba438",
+      "slug": "daddy-yankee",
+      "nickname": "대디 양키",
+      "nicknameEn": "Daddy Yankee",
+      "birthDate": "1977-02-03",
+      "profession": "musician",
+      "quote": "나는 투사다. 언제나 그렇다.",
+      "quoteEn": "I'm a fighter. Always have been.",
+      "greetingKo": [
+        "[explosive, proud] 레게톤의 왕이 왔습니다.",
+        "[energetic, confident] 가솔리나 한 방이면 충분해요.",
+        "[bold, charismatic] 라틴 리듬은 세계의 심장이에요."
+      ],
+      "greetingEn": [
+        "[explosive, proud] The king of reggaeton has arrived.",
+        "[energetic, confident] One hit of Gasolina is all it takes.",
+        "[bold, charismatic] The Latin rhythm is the heartbeat of the world."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "우리는 기회를 기다리지 않았습니다. 카세트를 만들어 직접 거리에 나갔죠.",
+          "음악은 예술로 시작하지만, 곡이 끝나면 사업을 알아야 합니다.",
+          "젊은 제작자에게 새 아이디어를 배우되, 제 차선은 제가 지킵니다."
+        ],
+        "deploy": [
+          "거리와 떨어지지 마세요. 뿌리를 잃으면 장르도 힘을 잃습니다.",
+          "마스터와 결정권을 직접 쥐세요. 독립해야 자유롭게 움직일 수 있습니다.",
+          "크게 생각하고 끝까지 대표하세요. 횃불을 들었다면 앞서가야 합니다."
+        ],
+        "battle_win": [
+          "우리가 직접 만든 기회가 이제 세계의 문화가 됐습니다.",
+          "라디오만 보지 않고 인터넷이라는 새 거리를 읽었습니다. 방향을 제대로 봤군요.",
+          "다음 세대가 횃불을 이어받았습니다. 제가 바라던 승리입니다."
+        ],
+        "battle_draw": [
+          "예술은 살아 있는데 사업이 아직 약합니다. 두 쪽을 다시 맞추겠습니다.",
+          "새 소리는 나왔지만 거리의 반응이 없습니다. 클럽으로 돌아가 확인하겠습니다.",
+          "세계만 보다가 푸에르토리코의 뿌리를 흐렸군요. 제 차선부터 다시 찾겠습니다."
+        ],
+        "battle_lose": [
+          "한 장을 닫을 때가 왔는데도 붙들고 있었습니다. 감사하고 다음 목적을 찾겠습니다.",
+          "제가 결정권을 내줬군요. 다시 제 마스터와 방향을 제가 쥐겠습니다.",
+          "상을 좇다가 문화를 놓치면 패배입니다. 처음 카세트를 나누던 마음으로 돌아가겠습니다."
+        ],
+        "clash_attack": [
+          "기회를 기다리지 마세요. 직접 만드세요.",
+          "클럽을 얕보지 마세요. 라틴 음악의 움직임은 그곳에서 먼저 태어납니다.",
+          "한 시장의 귀만 믿지 마세요. 문화마다 듣는 방식이 다릅니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "We did not wait for an opportunity. We made cassettes and took them straight to the streets.",
+          "Music begins as art, but when the song ends, you need to understand the business.",
+          "I learn new ideas from young producers, but I keep myself in my own lane."
+        ],
+        "deploy": [
+          "Stay close to the streets. When the roots go, the genre loses its strength.",
+          "Hold your masters and your decisions in your own hands. Independence is what gives you freedom to move.",
+          "Think big and represent it all the way. If you carry the torch, you have to move ahead."
+        ],
+        "battle_win": [
+          "The opportunities we created ourselves have become a global culture.",
+          "I looked beyond radio and read the internet as the new street. I saw the direction clearly.",
+          "The next generation has taken the torch. That is the victory I wanted."
+        ],
+        "battle_draw": [
+          "The art is alive, but the business is still weak. I will bring the two back into balance.",
+          "The new sound is there, but the streets are not answering. I will go back to the clubs and listen.",
+          "I looked so far outward that I blurred my Puerto Rican roots. I will find my lane again."
+        ],
+        "battle_lose": [
+          "I kept holding on even when it was time to close a chapter. I will give thanks and find the next purpose.",
+          "I gave away my power to decide. I will take back my masters and my direction.",
+          "If I chase awards and lose the culture, that is defeat. I will return to the spirit of those first cassettes."
+        ],
+        "clash_attack": [
+          "Do not wait for an opportunity. Create it yourself.",
+          "Do not underestimate the clubs. New movements in Latin music are born there first.",
+          "Do not trust the ear of a single market. Every culture listens differently."
+        ]
+      },
+      "sources": [
+        "https://es.rollingstone.com/daddy-yankee-por-siempre-la-leyenda-del-reggaeton-se-va-en-lo-mas-alto/",
+        "https://www.antena3internacional.com/programas/el-hormiguero/noticias/daddy-yankee-en-el-hormiguero-30_20210819611e2358e3e4df0001f4d7a0.html",
+        "https://www.telemundo.com/entretenimiento/billboard-en-espanol/daddy-yankee-qa-tmna579246",
+        "https://www.telemundo.com/entretenimiento/billboard-en-espanol/la-entrevista-billboard-daddy-yankee-tmna581446",
+        "https://daddyyankee.com/home-page-esp/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "slug": "martin-luther",
+  "nickname": "마틴 루터",
+  "route": "hold",
+  "routeReason": "두 차례 수정 뒤에도 후반부가 번역·농민전쟁·반유대 글을 연대별로 주석하는 전기 요약으로 돌아갔고, 믿음 안의 자유와 통치자에 대한 복종이 실제 삶에서 충돌하는 중심축이 이어지지 않았다. 재개하려면 95개조와 그리스도인의 자유를 중심에 두고 농민 진압 지지와 후기 반유대 글을 참회 없이 가까이 병치하는 인간 편집 개요를 먼저 확정해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "마틴 루터",
+      "birth": "1483-11-10",
+      "death": "1546-02-18",
+      "profession": "humanities_scholar",
+      "disambiguation": "비텐베르크의 아우구스티누스회 수도사·신학 교수로 면죄부 논쟁에서 출발해 로마 교회와 결별하고 성경 번역과 종교개혁을 이끈 독일의 마틴 루터",
+      "existingBioForDiscoveryOnly": "비텐베르크 대학 신학 교수로, 95개조 반박문을 게시하여 종교개혁의 불씨를 당겼다. 성경을 독일어로 번역해 신앙의 대중화를 이끈 개혁가."
+    },
+    "sources": [
+      {
+        "url": "https://editions.mml.ox.ac.uk/editions/luther-95-theses/luther-95-theses-eng.shtml",
+        "title": "95 Theses: English Translation",
+        "publisher": "Taylor Institution Library, University of Oxford",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "95개조가 면죄부의 효력과 참회·용서·교황 권한을 토론하려는 학술 논제였다는 점",
+          "돈을 넣는 순간 영혼이 구원된다는 설교와 가난한 이를 돕기보다 면죄부를 사게 하는 일을 비판한 내용",
+          "1517년의 루터가 처음부터 새 교회를 만들겠다는 완성된 개혁안을 제시한 것은 아니라는 본문 성격"
+        ]
+      },
+      {
+        "url": "https://editions.mml.ox.ac.uk/editions/freiheit-1520/",
+        "title": "On the Freedom of a Christian",
+        "publisher": "Taylor Institution Library, University of Oxford",
+        "kind": "primary",
+        "publishedAt": "2020-11",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "그리스도인은 믿음으로 모든 것에서 자유롭지만 사랑으로 모든 사람을 섬긴다는 이중 명제",
+          "선행이 사람을 의롭게 만드는 것이 아니라 믿음에서 선행이 나온다는 논지",
+          "기독교적 자유가 정치적 무제한 자율과 같은 뜻이 아니라는 점"
+        ]
+      },
+      {
+        "url": "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+        "title": "Luther the Outlaw",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": "2023",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1521년 보름스 제국회의에서 철회를 요구받고 입장을 고수한 사실",
+          "보름스 칙령으로 불법자로 선고된 뒤 바르트부르크에 머문 사실",
+          "바르트부르크에서 독일어 신약 번역을 진행했고 그 번역이 독일어에 큰 영향을 준 사실"
+        ]
+      },
+      {
+        "url": "https://editions.mml.ox.ac.uk/editions/peasants-nuremberg/",
+        "title": "Against the Attacking Peasants",
+        "publisher": "Taylor Institution Library, University of Oxford",
+        "kind": "primary",
+        "publishedAt": "2025",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1525년 농민전쟁 중 루터가 귀족과 권력자에게 반란 농민을 죽음의 힘으로 진압하라고 촉구한 글",
+          "복음과 종교적 자유를 세속 반란의 정당화로 사용하는 일을 거부한 입장",
+          "루터의 정치적 복종론이 실제 폭력 옹호로 이어진 사례"
+        ]
+      },
+      {
+        "url": "https://www.ushmm.org/m/pdfs/20070119-persecution.pdf",
+        "title": "Christian Persecution of Jews over the Centuries",
+        "publisher": "United States Holocaust Memorial Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1523년 유대인에게 비교적 우호적인 글을 쓴 뒤 1538년과 1543년 적대적 글로 돌아선 변화",
+          "1543년 유대인과 그들의 거짓말에 관하여에서 중세의 반유대적 비방과 박해 주장을 되풀이한 사실",
+          "루터의 후기 반유대 글이 후대 기독교 반유대주의 역사에서 갖는 위험"
+        ]
+      },
+      {
+        "url": "https://blog.oup.com/2017/10/9-myths-reformation/",
+        "title": "9.5 Myths about the Reformation",
+        "publisher": "Oxford University Press Blog",
+        "kind": "reputable-secondary",
+        "publishedAt": "2017-10-27",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "루터 이전에도 인쇄된 완역·부분 독일어 성경이 여러 판 존재했다는 사실",
+          "종교개혁자들이 현대적 의미의 자유로운 개인 해석과 양심의 자유를 지지했다는 통념의 한계",
+          "95개조를 교회문에 못 박은 장면과 종교개혁 영웅 서사를 비판적으로 볼 필요"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1517년 면죄부의 효력과 참회의 의미를 묻는 95개조 논제를 내놓았고 논쟁은 인쇄를 통해 빠르게 퍼졌다.",
+        "significance": "처음부터 교회를 깨뜨리려 한 혁명가가 아니라 가톨릭 신학자 내부의 논쟁에서 출발한 사실을 살린다.",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/luther-95-theses/luther-95-theses-eng.shtml"
+        ]
+      },
+      {
+        "point": "교황과 공의회의 권위를 비판한 끝에 1521년 보름스 제국회의에서 철회를 거부하고 불법자로 선고됐다.",
+        "significance": "양심의 영웅이라는 후대 상징보다 성경 해석과 교회 권위가 충돌한 실제 전환을 중심에 둔다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+          "https://editions.mml.ox.ac.uk/editions/freiheit-1520/"
+        ]
+      },
+      {
+        "point": "바르트부르크에서 독일어 신약 번역을 진행했고 뒤에 협력자들과 성경 전체 번역을 다듬었다.",
+        "significance": "최초 번역자라는 신화를 피하면서도 읽고 들을 수 있는 독일어 성경과 언어에 끼친 실제 영향은 남긴다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+          "https://blog.oup.com/2017/10/9-myths-reformation/"
+        ]
+      },
+      {
+        "point": "1525년 농민전쟁에서는 권력자에게 가혹한 진압을 촉구했고, 1543년에는 유대인을 겨냥한 증오와 박해의 글을 썼다.",
+        "significance": "종교적 자유의 언어가 타인의 정치적·종교적 자유로 자동 확장되지 않았다는 생애의 중대한 한계를 사실로 병치한다.",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/peasants-nuremberg/",
+          "https://www.ushmm.org/m/pdfs/20070119-persecution.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "면죄부를 돈으로 사는 일이 죄의 용서와 구원을 보장하지 않으며 진정한 참회는 삶 전체의 돌이킴이라고 주장했다.",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/luther-95-theses/luther-95-theses-eng.shtml"
+        ]
+      },
+      {
+        "point": "사람은 선행과 공로를 쌓아 의롭게 되는 것이 아니라 그리스도에 대한 믿음으로 자유롭게 되고, 선행은 그 믿음에서 이웃을 섬기는 행동으로 나온다고 보았다.",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/freiheit-1520/"
+        ]
+      },
+      {
+        "point": "교황과 공의회의 명령보다 성경의 증언을 최종 판단 기준으로 앞세웠다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+          "https://editions.mml.ox.ac.uk/editions/luther-95-theses/luther-95-theses-eng.shtml"
+        ]
+      },
+      {
+        "point": "성경을 사람들이 읽고 들을 수 있는 독일어로 옮겨 설교·교육·예배의 언어를 바꾸었다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+          "https://blog.oup.com/2017/10/9-myths-reformation/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "그리스도인의 자유를 모든 권위에서 벗어난 정치적 자유가 아니라 믿음 안의 자유와 이웃을 섬기는 의무로 설명했고, 농민의 무장 저항에는 세속 권력의 폭력적 진압을 지지했다.",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/freiheit-1520/",
+          "https://editions.mml.ox.ac.uk/editions/peasants-nuremberg/"
+        ]
+      },
+      {
+        "point": "권위가 성경에 어긋나면 맞섰지만 자신과 다른 성경 해석과 종교 집단에 현대적 관용을 보장하지는 않았다.",
+        "sourceUrls": [
+          "https://blog.oup.com/2017/10/9-myths-reformation/",
+          "https://www.ushmm.org/m/pdfs/20070119-persecution.pdf"
+        ]
+      },
+      {
+        "point": "독일어 성경의 영향은 컸지만 독일어 성경을 처음 만든 사람은 아니며, 번역 역시 혼자만의 작업으로 완성되지 않았다.",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw",
+          "https://blog.oup.com/2017/10/9-myths-reformation/"
+        ]
+      },
+      {
+        "point": "1523년에는 유대인을 비교적 온건하게 대할 것을 주장했지만 개종 기대가 좌절된 뒤 1543년에는 박해를 부추기는 글을 썼다.",
+        "sourceUrls": [
+          "https://www.ushmm.org/m/pdfs/20070119-persecution.pdf"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 역설과 성경 해석을 밀어붙이는 중간 길이 논쟁 문장을 섞는다.",
+      "directness": "확신이 세고 논적을 거칠게 몰아붙이는 실제 문체를 숨기지 않되, 모든 문장을 현대적 양심 선언이나 참회로 다듬지 않는다.",
+      "moves": [
+        "돈으로 산 면죄와 삶 전체의 참회, 믿음의 자유와 이웃 섬김처럼 역설되는 두 항을 맞세우기",
+        "보름스와 번역의 성취를 말한 뒤 농민과 유대인을 향한 글을 같은 무게의 사실로 놓기",
+        "후대의 영웅 문구보다 95개조와 자유론의 실제 논지를 쉬운 말로 풀기"
+      ],
+      "avoid": [
+        "95개조를 교회문에 못 박는 장면을 확정된 영웅적 기원으로 재현하기",
+        "여기 내가 서 있다는 문장을 보름스 발언의 확실한 축어 인용으로 쓰기",
+        "루터가 최초로 성경을 독일어로 옮겨 모든 평범한 사람에게 처음 성경을 열어 주었다는 신화",
+        "농민전쟁과 반유대 글을 돌아보며 현대적 인권 언어로 후회하고 변명할 수 없다고 말하는 창작 참회",
+        "종교개혁을 현대 양심의 자유·민주주의·개인주의의 완성으로 직선 연결하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "면죄부",
+        "guide": "교회가 죄의 벌을 덜어 준다고 인정한 증서로, 당시에는 헌금과 결합해 판매됐다",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/luther-95-theses/luther-95-theses-eng.shtml"
+        ]
+      },
+      {
+        "term": "이신칭의",
+        "guide": "사람이 공로가 아니라 믿음으로 하나님과 올바른 관계에 놓인다는 주장",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/freiheit-1520/"
+        ]
+      },
+      {
+        "term": "그리스도인의 자유",
+        "guide": "믿음으로 누구에게도 종속되지 않으면서 사랑으로 모든 사람을 섬긴다는 루터의 역설",
+        "sourceUrls": [
+          "https://editions.mml.ox.ac.uk/editions/freiheit-1520/"
+        ]
+      },
+      {
+        "term": "보름스 제국회의",
+        "guide": "1521년 황제와 제후 앞에서 루터에게 저술 철회를 요구한 신성로마제국의 회의",
+        "sourceUrls": [
+          "https://guides.loc.gov/martin-luther-priest-heretic-outlaw/luther-the-outlaw"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "95개조를 교회문에 못 박았다는 장면은 후대 기록에 기대고 역사적 논쟁이 있으므로 독백의 확정 장면으로 쓰지 않는다.",
+      "보름스의 여기 내가 서 있다는 유명한 문구는 당시 기록의 가장 이른 층위에 없을 가능성이 커 직접인용하지 않는다.",
+      "탑 체험과 로마서 구절로 갑자기 두려움이 풀렸다는 이야기는 루터의 후기 자전적 회고와 전승을 거치므로 정확한 순간과 감정을 확정하지 않는다.",
+      "루터 이전에도 독일어 성경이 있었고 그의 번역에는 협력자가 있었으므로 최초·단독 번역자라는 영웅 서사를 피한다.",
+      "농민전쟁과 반유대 글의 해악은 명확히 기록하되 루터가 이를 현대적 기준으로 참회했다는 1인칭 문장을 만들지 않는다.",
+      "루터의 신학 명제는 기독교 내부의 신앙 주장으로 표현하며 하나님이 실제로 그를 의롭다 했다는 말을 중립 역사 사실로 승인하지 않는다.",
+      "재개 조건은 믿음 안의 자유와 통치자에 대한 복종을 한 축에서 충돌시키고 번역·농민전쟁·반유대 글의 연대기 나열을 압축하는 인간 편집 구조를 먼저 확정하는 것이다."
+    ]
+  }
+}

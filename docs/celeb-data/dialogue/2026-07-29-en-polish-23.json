@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-23",
+  "targets": [
+    {
+      "id": "c72788cf-660b-41e0-a8d5-62bede945aa5",
+      "slug": "mick-jagger",
+      "nickname": "믹 재거",
+      "birthDate": "1943-07-26",
+      "profession": "musician",
+      "expectedEn": {
+        "roll_call": [
+          "I'm here. Before we start, let's see whether the song is ready and whether we are.",
+          "Set the deadline first. Wait for inspiration and another few years will slip by.",
+          "Listen to new music, but don't become a slave to fashion. Bring back only what is useful."
+        ],
+        "deploy": [
+          "Get the music right first, then run the whole show in a space the size of the stage. You have to divide your breath between singing and moving.",
+          "If it's a ballad, stand still. Knowing when to stop is harder than moving all the time.",
+          "Don't try to see the whole crowd. Find a few people's eyes and sing with them."
+        ],
+        "battle_win": [
+          "Good. Before we get drunk on the reaction, let's find the moment when the breath ran short.",
+          "If the audience came with us, we brought them inside the performance. That's half the job on stage.",
+          "Longevity isn't the achievement. Being able to finish a new song now is."
+        ],
+        "battle_draw": [
+          "The intro was rough, but we won the crowd back at the chorus. Next time, fix the first eight bars.",
+          "Keith and I don't have to think alike. The song just has to move forward.",
+          "You don't have to chase everything new. Hear what's happening now without losing our own sound."
+        ],
+        "battle_lose": [
+          "We were lazy and heading the wrong way. No excuses. Change the producer and set a deadline.",
+          "The first stage without Charlie was hard. You don't erase the empty chair. You carry on with a different beat.",
+          "The movement stole the breath from the song. Next time I'll run less and sing it better."
+        ],
+        "clash_attack": [
+          "Not everything in fashion is good. Tell me what you heard and what you threw away.",
+          "You don't fill a stage by running all the time. Show me why this song needs you to move.",
+          "Don't use the word legend to excuse delay. Bring me a chorus we can use today."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I'm here. Let's see whether the song and the band are ready.",
+          "Set the deadline. Wait for inspiration and years disappear.",
+          "Listen to new music, but don't chase fashion. Take only what works."
+        ],
+        "deploy": [
+          "Get the music right, then run the full set in a stage-sized room.",
+          "For a ballad, stand still. You need to know when to stop.",
+          "Find a few eyes in the crowd and sing to them."
+        ],
+        "battle_win": [
+          "Good. Now find where the breath broke.",
+          "We pulled the crowd inside the song. Half the stage work is done.",
+          "Longevity isn't the point. Finishing a new song is."
+        ],
+        "battle_draw": [
+          "Rough intro, strong chorus. Fix the first eight bars.",
+          "Keith and I can disagree. The song still has to move.",
+          "Chase the new without losing our sound."
+        ],
+        "battle_lose": [
+          "We got lazy and lost direction. Change the producer and set a deadline.",
+          "Playing without Charlie was hard. We carry on with a different beat.",
+          "I moved too much and lost the song's breath. Next time, less running."
+        ],
+        "clash_attack": [
+          "Fashion doesn't make it good!",
+          "Show the crowd why you move!",
+          "Forget the legend. Bring me today's chorus!"
+        ]
+      }
+    },
+    {
+      "id": "293613d1-0d23-4346-b4e3-cbf999561e18",
+      "slug": "serena-williams",
+      "nickname": "세리나 윌리엄스",
+      "birthDate": "1981-09-26",
+      "profession": "athlete",
+      "expectedEn": {
+        "roll_call": [
+          "I'm here. I don't need to feel perfect today. I need to be ready for the first point.",
+          "Start with my opponent's strengths. How I want to win comes after that.",
+          "I have nothing to prove. But if I step onto the court, I will compete for every point."
+        ],
+        "deploy": [
+          "If the serve is slipping, don't add more power. Recover the percentage first so the next ball can begin.",
+          "If your opponent gets everything back, don't just hit harder. Change the depth and direction, then rebuild the point.",
+          "You can fight without your best condition. Survive with today's options and come back better in the next match."
+        ],
+        "battle_win": [
+          "I won, but the mistakes didn't disappear. First, review what worked under pressure.",
+          "Keeping the same standard in the next match is harder than winning today's trophy. Keep what worked and recover now.",
+          "Being doubted gave me fuel. But anger doesn't finish a victory. Training does."
+        ],
+        "battle_draw": [
+          "The result may be unclear, but the data isn't. Start with first serves, return position and the long rallies.",
+          "You can't strike every ball perfectly. You need options that can still win on a bad day.",
+          "When the pressure rises, watch this point instead of the record. The numbers will still be there after the match."
+        ],
+        "battle_lose": [
+          "If my opponent was better, I have to admit it. Then I check whether I overhit or read the point too late.",
+          "Today was everything I could give. I will not erase today's result with promises about tomorrow.",
+          "I chased perfection until the record became a weight. I won't hide the failure. I'll rebuild my options."
+        ],
+        "clash_attack": [
+          "You think it's only power? If you can't read where I use it, you're already late.",
+          "One good shot won't beat me. Make the same decision again on the next point.",
+          "The expectation that I should win is not your weapon. I've handled that pressure for a long time."
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I don't need to feel perfect. I need the first point.",
+          "Read her strengths first. Then find the way to win.",
+          "Nothing to prove. Step on court and compete."
+        ],
+        "deploy": [
+          "If the serve shakes, relax and recover the percentage.",
+          "If she keeps returning, change depth and direction. Don't just hit harder.",
+          "You can compete without your best stuff. Survive with today's shots."
+        ],
+        "battle_win": [
+          "I won, and the mistakes remain. Review what held under pressure.",
+          "The trophy is mine. Recover and prepare for the next match.",
+          "They doubted me, so I trained harder. That won this."
+        ],
+        "battle_draw": [
+          "Check first serve and return position. The numbers are already there.",
+          "You cannot strike every ball well. Find another way to win on bad days.",
+          "Under pressure, see this point. The record can wait."
+        ],
+        "battle_lose": [
+          "She played better. I will review my control and decisions.",
+          "I gave everything today. Tomorrow cannot erase this result.",
+          "I watched the record and lost the shot. Build more options."
+        ],
+        "clash_attack": [
+          "You saw power. Now read the next ball!",
+          "One good shot will not beat me!",
+          "I have carried that pressure longer than you!"
+        ]
+      }
+    }
+  ]
+}

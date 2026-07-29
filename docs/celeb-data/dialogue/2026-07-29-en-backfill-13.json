@@ -1,0 +1,702 @@
+{
+  "batch": "generated-en-backfill-2026-07-29",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "c20c5aad-cc5c-451b-ba6a-deb70fbb8c5a",
+      "slug": "tom-brady",
+      "nickname": "톰 브래디",
+      "nicknameEn": "Tom Brady",
+      "birthDate": "1977-08-03",
+      "profession": "athlete",
+      "quote": "나를 뽑은 걸 후회할 일은 없을 겁니다.",
+      "quoteEn": "You'll never regret picking me.",
+      "greetingKo": [
+        "[bold, driven] 최고로 뛰려면 최고로 준비해야 한다.",
+        "[confident, resolute] 너희가 날 꺾을 순 있어도 부술 순 없다.",
+        "[assertive, focused] 배우길 멈추는 순간 끝나는 거다."
+      ],
+      "greetingEn": [
+        "[bold, confident] You will never regret picking me.",
+        "[bold, focused] I started at 199. I decide where it ends.",
+        "[bold, calm] One play at a time. That is all I watch."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, steady] 허들로 모여라, 다음 플레이 간다.",
+          "[bold, demanding] 끝까지 싸울 놈만 내 옆에 서라.",
+          "[focused, firm] 다 들어왔지, 시선 나한테 고정해라."
+        ],
+        "deploy": [
+          "[bold, charging] 라인업 셋, 스냅 받자마자 전진한다!",
+          "[commanding, focused] 작전대로 간다, 필드로 뛰어나가라!",
+          "[demanding, resolute] 첫 드라이브부터 밀어붙여라!"
+        ],
+        "battle_win": [
+          "[triumphant, driven] 준비한 만큼 정확히 돌려받았다.",
+          "[bold, satisfied] 끝까지 버틴 팀이 트로피를 든다.",
+          "[confident, grateful] 이건 허들에 모인 우리 전부의 승리다."
+        ],
+        "battle_draw": [
+          "[focused, resolute] 28대 3이라도 한 드라이브씩 따라잡는다.",
+          "[bold, steady] 시계 보지 마라, 한 플레이에만 집중해라.",
+          "[demanding, determined] 동점이면 다음 공격에서 끝낸다."
+        ],
+        "battle_lose": [
+          "[resilient, proud] 실패는 끝이 아니다, 포기만이 끝이다.",
+          "[heavy, resolute] 이 패배는 내가 진다, 다음 주에 갚는다.",
+          "[bold, defiant] 졌어도 우린 부러지지 않았다."
+        ],
+        "clash_attack": [
+          "[fierce, commanding] 지금이다, 엔드존까지 던진다!",
+          "[bold, charging] 포켓 무너지기 전에 바로 꽂아라!",
+          "[demanding, striking] 4쿼터다, 여기서 경기를 끝내라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Huddle up, we're running the next play.",
+          "Only those willing to fight to the end should stand beside me.",
+          "Everybody in? Eyes on me."
+        ],
+        "deploy": [
+          "Lineup's set, snap it and we're moving forward!",
+          "Stick to the plan, get out there on that field!",
+          "Push hard from the very first drive!"
+        ],
+        "battle_win": [
+          "We got back exactly what we put into the preparation.",
+          "The team that holds on till the end lifts the trophy.",
+          "This win belongs to everyone who huddled up together."
+        ],
+        "battle_draw": [
+          "Down 28 to 3, we still claw it back one drive at a time.",
+          "Forget the clock, focus on one play at a time.",
+          "If it's tied, we finish it on the next possession."
+        ],
+        "battle_lose": [
+          "Failure isn't the end, only quitting is.",
+          "This loss is on me. I'll make up for it next week.",
+          "We lost, but we didn't break."
+        ],
+        "clash_attack": [
+          "This is it. I'm throwing to the end zone!",
+          "Get it there before the pocket collapses!",
+          "Fourth quarter, we finish it right here!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/tom-brady"
+      ]
+    },
+    {
+      "id": "6cba4b87-ae6e-4f02-9d21-ba0b489fb34d",
+      "slug": "pat-gelsinger",
+      "nickname": "패트릭 겔싱어",
+      "nicknameEn": "Pat Gelsinger",
+      "birthDate": "1961-03-05",
+      "profession": "entrepreneur",
+      "quote": "무어의 법칙을 지키는 우리는 더 강력하고 효율적인 컴퓨팅을 끊임없이 추구합니다.",
+      "quoteEn": "As the stewards of Moore’s Law, we are in relentless pursuit for more powerful and efficient computing.",
+      "greetingKo": [
+        "[composed, determined] 무어의 법칙은 살아 있습니다. 그 충실한 청지기가 바로 우리입니다.",
+        "[calm, earnest] 저는 열여덟에 기술자로 시작해 386과 486을 설계했지요.",
+        "[steady, faithful] 일은 곧 저의 소명입니다. 맡은 자리에서 온 힘을 다할 뿐입니다."
+      ],
+      "greetingEn": [
+        "[measured, faithful] It is a privilege to meet you. May I pray for you?",
+        "[calm, devoted] Whatever I do, I do it with all my heart, as for the Lord.",
+        "[composed, resolved] Every company I lead becomes my congregation."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 설계팀과 공정팀, 모두 자리에 모였습니까.",
+          "[calm, precise] 각 노드의 일정이 계획대로 가고 있는지 점검하겠습니다.",
+          "[steady, focused] 한 사람도 빠짐없이 로드맵 위에 서 있어야 합니다."
+        ],
+        "deploy": [
+          "[resolute, composed] 사 년 안에 다섯 공정을 양산하라.",
+          "[firm, determined] 18A 라인을 가동하고 웨이퍼를 투입하라.",
+          "[steady, commanding] 파운드리의 문을 열고 고객의 칩을 받아라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 다섯 노드가 약속한 기한 안에 모두 섰습니다.",
+          "[calm, proud] 주기율표가 바닥날 때까지, 우리는 물리의 한계를 더 밀어냅니다.",
+          "[steady, gratified] 무어의 법칙은 여전히 건재함을 우리가 증명했습니다."
+        ],
+        "battle_draw": [
+          "[composed, patient] 수율이 아직 목표에 못 미칩니다. 한 세대 더 다듬습니다.",
+          "[calm, measured] 경쟁사와 어깨를 나란히 했으나, 다음 노드에서 앞서겠습니다.",
+          "[steady, resolute] 서두르지 않습니다. 공정은 정직하게 시간을 요구하니까요."
+        ],
+        "battle_lose": [
+          "[composed, candid] 이번 노드는 제 판단이 늦었습니다.",
+          "[calm, resilient] 무너진 일정을 다시 짜고 로드맵을 바로 세웁니다.",
+          "[steady, faithful] 은혜와 끈기로, 반드시 회복의 길을 냅니다."
+        ],
+        "clash_attack": [
+          "[intent, sharp] 테이프아웃!",
+          "[firm, decisive] 라인 풀가동하라!",
+          "[composed, commanding] 이 칩, 시장에 내보내라."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Design team, process team, is everyone here?",
+          "I'm going to check whether every node's schedule is on track.",
+          "Everyone must have a place on this roadmap."
+        ],
+        "deploy": [
+          "Bring five process nodes to volume production within four years.",
+          "Start up the 18A line and load the wafers.",
+          "Open the foundry's doors and take in our customers' chips."
+        ],
+        "battle_win": [
+          "All five nodes came online within the timeline we promised.",
+          "Until we run out of the periodic table, we keep pushing the limits of physics.",
+          "We just proved Moore's Law is still alive and well."
+        ],
+        "battle_draw": [
+          "Yield still isn't where it needs to be. We'll refine it for one more generation.",
+          "We're standing shoulder to shoulder with the competition now, but we'll pull ahead at the next node.",
+          "We won't rush this. The process demands the time it takes."
+        ],
+        "battle_lose": [
+          "On this node, my call came too late.",
+          "We're rebuilding the broken schedule and setting the roadmap straight again.",
+          "With grace and persistence, we will find our way back."
+        ],
+        "clash_attack": [
+          "Tape-out!",
+          "Run the line at full capacity!",
+          "Get this chip out to market."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/pat-gelsinger"
+      ]
+    },
+    {
+      "id": "6475a4aa-5581-47f2-b395-a3079635bb27",
+      "slug": "peter-handke",
+      "nickname": "페터 한트케",
+      "nicknameEn": "Peter Handke",
+      "birthDate": "1942-12-06",
+      "profession": "author",
+      "quote": "나는 작가다, 톨스토이에게서 왔고 호메로스에게서 왔고 세르반테스에게서 왔다",
+      "quoteEn": "I am a writer, I come from Tolstoy, I come from Homer, I come from Cervantes.",
+      "greetingKo": [
+        "[bold, provocative] 나는 무대 위에서 관객을 정면으로 마주 봅니다.",
+        "[assertive, intense] 내 희곡은 의미가 아니라 말 그 자체로 이뤄집니다.",
+        "[bold, defiant] 카프카는 내 문장마다 잣대가 되었습니다."
+      ],
+      "greetingEn": [
+        "[measured, bold] You have come. A book is a place where an entire life can be set down whole.",
+        "[reflective, solemn] Welcome. Only the one who endures silence can earn a true sentence.",
+        "[gentle, austere] You are welcome here. Walk in slowly. Narrative is in no hurry."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[firm, attentive] 모두 제자리에 있는지 한 사람씩 확인합니다.",
+          "[assertive, focused] 빠진 이 없는지 똑바로 헤아립니다.",
+          "[bold, steady] 각자 맡은 자리를 다시 또렷이 새깁니다."
+        ],
+        "deploy": [
+          "[bold, commanding] 막을 올려라, 관객을 정면으로 마주하라!",
+          "[assertive, decisive] 첫 문장을 던져라, 의미는 뒤따라온다!",
+          "[intense, firm] 익숙한 무대를 부수고 곧장 나아가라!"
+        ],
+        "battle_win": [
+          "[triumphant, bold] 우리가 관습을 부수고 새 장을 열었습니다.",
+          "[assertive, proud] 말 하나하나로 끝내 객석을 흔들어 놓았습니다.",
+          "[intense, satisfied] 정면으로 마주했고, 기어이 이겼습니다."
+        ],
+        "battle_draw": [
+          "[firm, reflective] 아직 그 문장이 객석에 닿지 못했습니다.",
+          "[assertive, patient] 한 번 더 다른 말로 다시 던집니다.",
+          "[bold, steady] 멈추지 말고 다음 장면으로 밀고 갑시다."
+        ],
+        "battle_lose": [
+          "[sober, defiant] 내 언어가 오늘은 객석을 뚫지 못했습니다.",
+          "[reflective, heavy] 이 침묵을 다음 무대의 첫 문장으로 삼겠습니다.",
+          "[bold, resolute] 무너진 무대 위에서 다시 막을 올리겠습니다."
+        ],
+        "clash_attack": [
+          "[fierce, bold] 첫 문장을 정면으로 내던져라!",
+          "[intense, commanding] 익숙한 벽을 단숨에 부숴라!",
+          "[provocative, sharp] 객석 한복판으로 곧장 치고 들어가라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'll check each person and make sure everyone is in place.",
+          "I'll count carefully and make sure no one is missing.",
+          "I'll fix each person's place clearly in mind once more."
+        ],
+        "deploy": [
+          "Raise the curtain. Face the audience head on.",
+          "Throw out the first sentence. The meaning will follow.",
+          "Break the familiar stage and move straight ahead."
+        ],
+        "battle_win": [
+          "We broke convention and opened a new chapter.",
+          "Word by word, we finally shook the audience.",
+          "We faced it head on, and in the end we won."
+        ],
+        "battle_draw": [
+          "That sentence still hasn't reached the audience.",
+          "I'll throw it again, in different words.",
+          "Don't stop. Push on to the next scene."
+        ],
+        "battle_lose": [
+          "My language didn't reach the audience today.",
+          "I'll make this silence the opening line of the next stage.",
+          "I'll raise the curtain again on this fallen stage."
+        ],
+        "clash_attack": [
+          "Throw the first sentence straight at them!",
+          "Smash through the familiar wall in one stroke!",
+          "Drive straight into the heart of the audience!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/peter-handke"
+      ]
+    },
+    {
+      "id": "85f98a0a-edf4-40de-b6e9-a2775d4cda9b",
+      "slug": "pu-songling",
+      "nickname": "포송령",
+      "nicknameEn": "Pu Songling",
+      "birthDate": "1640-06-05",
+      "profession": "author",
+      "quote": "술잔 들고 붓을 놀려 겨우 외로운 울분의 책 한 권을 이루었다.",
+      "quoteEn": "This is but a book of solitary indignation.",
+      "greetingKo": [
+        "[composed, wry] 과거에는 번번이 떨어졌으나, 귀신과 여우는 저를 버리지 않았습니다.",
+        "[calm, measured] 사람의 일이 더 괴이하여, 저는 차라리 요괴를 적었습니다.",
+        "[gentle, knowing] 이야기 좋아하는 분이라면, 차 한 잔 내어 드리지요."
+      ],
+      "greetingEn": [
+        "[composed, contemplative] I keep tea boiling at the Liuquan pavilion. Tell me one of your strange tales.",
+        "[melancholic, calm] This is but a book of solitary indignation.",
+        "[gentle, observant] What lies beyond mortals is recorded not by orthodox history, but by the history of the strange."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 떠도는 이야기를 모아 올 사람들, 다 왔습니까.",
+          "[calm, curious] 저잣거리에서 들은 기담, 하나도 빠뜨리지 마십시오.",
+          "[measured, warm] 길손의 입에서 나온 한마디가 한 편의 글이 됩니다."
+        ],
+        "deploy": [
+          "[composed, decisive] 먹을 갈고, 첫 이야기를 풀어 놓으시오.",
+          "[calm, commanding] 들은 괴담을 한자리에 모아 엮으시오.",
+          "[measured, resolute] 사람이 못 하는 말은 여우의 입을 빌려 적으시오."
+        ],
+        "battle_win": [
+          "[satisfied, wry] 탐관의 낯짝을 귀신에 비춰 보였더니, 그제야 사람들이 웃습니다.",
+          "[composed, proud] 낙방한 선비의 붓이 천 년을 가는 책을 남겼습니다.",
+          "[gentle, certain] 한 편의 기담이 어떤 상소보다 멀리 갑니다."
+        ],
+        "battle_draw": [
+          "[measured, thoughtful] 이야기의 끝맺음이 아직 약합니다, 다시 다듬습니다.",
+          "[composed, patient] 풍자가 너무 드러났습니다, 여우 뒤에 한 번 더 숨깁니다.",
+          "[calm, steady] 서둘러 맺지 않습니다, 여운이 살아야 글이 됩니다."
+        ],
+        "battle_lose": [
+          "[heavy, honest] 이 글이 밋밋한 건, 제가 분노를 다 삭이지 못한 탓입니다.",
+          "[reflective, composed] 알아줄 시험관이 없었듯, 알아줄 독자도 아직 이른가 봅니다.",
+          "[steady, resolute] 오늘 못 쓴 이야기는 내일 다시 붓을 적셔 적습니다."
+        ],
+        "clash_attack": [
+          "[sharp, decisive] 그 위선의 탈을 한 글자로 벗기시오!",
+          "[composed, intense] 붓끝에 귀신을 불러내시오!",
+          "[commanding, wry] 사정 두지 말고, 그 속을 까발리시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Those who gather the stories that drift about, are you all here?",
+          "Every strange tale you heard in the marketplace, don't leave a single one out.",
+          "A single word from a traveler's mouth becomes a whole tale."
+        ],
+        "deploy": [
+          "Grind the ink, and let the first story loose.",
+          "Gather every strange tale you've heard and weave them together.",
+          "What people dare not say, write it through a fox's mouth."
+        ],
+        "battle_win": [
+          "I held up a ghost's mirror to a corrupt official's face, and only then did people finally laugh.",
+          "A failed scholar's brush left behind a book that will last a thousand years.",
+          "A single strange tale travels farther than any petition to the throne."
+        ],
+        "battle_draw": [
+          "The ending of this story is still weak. I'll polish it again.",
+          "The satire shows too plainly. I'll hide it behind the fox once more.",
+          "I won't rush the ending. A tale only lives if its lingering echo survives."
+        ],
+        "battle_lose": [
+          "If this piece falls flat, it's because I haven't fully worked through my anger.",
+          "Just as no examiner ever recognized me, it seems no reader has come to recognize me yet either.",
+          "The story I couldn't write today, I'll dip my brush again tomorrow and write it."
+        ],
+        "clash_attack": [
+          "Strip off that mask of hypocrisy with a single word!",
+          "Summon a ghost from the tip of your brush!",
+          "Show no mercy, expose what's underneath!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/pu-songling"
+      ]
+    },
+    {
+      "id": "4c4932b0-44d8-414c-90e9-27c2034f0fbe",
+      "slug": "paul-mccartney",
+      "nickname": "폴 매카트니",
+      "nicknameEn": "Paul McCartney",
+      "birthDate": "1942-06-18",
+      "profession": "musician",
+      "quote": "우린 스스로를 믿었어, 잘한다는 것도 알았고, 성공할지는 몰랐지만",
+      "quoteEn": "We believed in ourselves. We could see that what we were doing was pretty good, but we never knew if it would succeed.",
+      "greetingKo": [
+        "[warm, easygoing] 다들 왔군요. 슬픈 노래를 가져다 더 낫게 만드는 게 내 일이에요.",
+        "[free, friendly] 펍에서 통하는 밴드면 진짜 좋은 밴드예요. 그게 내 기준이거든.",
+        "[cheerful, relaxed] 베이스든 기타든 피아노든, 손 닿는 대로 연주해요."
+      ],
+      "greetingEn": [
+        "[melodic, warm] All you need is love. That is all.",
+        "[charming, cheerful] A song can be born overnight. It is like magic, you know.",
+        "[joyful, relaxed] People who call others weird are the real weirdos, trust me."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[friendly, upbeat] 자, 다들 자리 잡았죠? 사운드 체크부터 같이 가요.",
+          "[free, warm] 한 명씩 이름 불러요. 오늘 무대는 우리가 같이 채워요.",
+          "[cheerful, ready] 다 모였으면 카운트 들어가요. 원, 투, 쓰리, 포!"
+        ],
+        "deploy": [
+          "[energetic, free] 무대로 올라가요. 첫 코드부터 제대로 긁어요!",
+          "[upbeat, bold] 다 같이 '나, 나나, 나나나나' 떼창 들어가요!",
+          "[cheerful, driven] 조명 켜져요. 객석 끝까지 들리게 연주해요!"
+        ],
+        "battle_win": [
+          "[joyful, warm] 객석이 다 같이 따라 불렀어요. 엄지 척, 최고였어요.",
+          "[free, proud] 할아버지부터 손주까지 한자리에서 떼창했어요. 이게 음악이죠.",
+          "[cheerful, satisfied] 마지막 곡까지 흔들림 없었어요. 우리가 해냈어요."
+        ],
+        "battle_draw": [
+          "[easygoing, steady] 오늘 객석이 좀 조용했네요. 그래도 끝까지 즐겁게 연주했어요.",
+          "[relaxed, patient] 한 곡쯤 삐끗할 수 있어요. 다음 곡에서 다시 끌어올려요.",
+          "[free, composed] 반응이 미지근해도 괜찮아요. 우리는 멈추지 않고 계속 연주해요."
+        ],
+        "battle_lose": [
+          "[honest, easygoing] 오늘 박자가 어긋난 건 내 탓이에요. 다시 맞춰봐요.",
+          "[warm, caring] 다들 지쳤어요. 오늘은 악기 내려놓고 내일 다시 올라요.",
+          "[free, hopeful] 한 무대 망쳐도 괜찮아요. 슬픈 노래도 더 낫게 만들면 돼요."
+        ],
+        "clash_attack": [
+          "[energetic, free] 카운트 넷! 다 같이 들어가요!",
+          "[bold, cheerful] 후렴 떼창, 객석까지 끌어올려요!",
+          "[driven, upbeat] 마지막 코드까지 세게 긁어요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Alright, everyone in place? Let's start with a sound check.",
+          "I'll call your names one by one. We'll fill tonight's stage together.",
+          "Once we're all here, let's count in. One, two, three, four!"
+        ],
+        "deploy": [
+          "Up on stage we go. Nail that first chord!",
+          "Everybody in on the na, na-na, na-na-na-na!",
+          "Lights are up. Play it so it reaches the back row!"
+        ],
+        "battle_win": [
+          "The whole crowd sang along. Thumbs up, that was brilliant.",
+          "Grandparents and grandkids singing together in the same room. That's what music's about.",
+          "Steady right through to the last song. We pulled it off."
+        ],
+        "battle_draw": [
+          "Crowd was a bit quiet tonight. Still had a good time playing right to the end.",
+          "One song can go awry. We'll bring the energy back on the next one.",
+          "It's fine if the response is lukewarm. We don't stop, we just keep playing."
+        ],
+        "battle_lose": [
+          "Timing slipped tonight, that's on me. Let's get it back in sync.",
+          "Everyone's knackered. Let's put the instruments down and get back up tomorrow.",
+          "It's alright to muck up one show. We can make even a sad song better."
+        ],
+        "clash_attack": [
+          "Count of four! Everybody in!",
+          "Chorus singalong, let's lift the whole crowd!",
+          "Hit that last chord hard!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/paul-mccartney"
+      ]
+    },
+    {
+      "id": "34d34606-4e61-479a-bb94-cf99d82bc7d9",
+      "slug": "herta-muller",
+      "nickname": "헤르타 뮐러",
+      "nicknameEn": "Herta Müller",
+      "birthDate": "1953-08-17",
+      "profession": "author",
+      "quote": "말할 수 없는 것은 쓸 수 있습니다, 쓰기란 머리에서 손으로 가는 말없는 일이니까요",
+      "quoteEn": "What can't be said can be written.",
+      "greetingKo": [
+        "[composed, quiet] 손수건 가지고 있나요, 어머니는 늘 그렇게 사랑을 물었어요.",
+        "[measured, resolute] 말할 수 없는 것은 글로 씁니다.",
+        "[calm, firm] 독재는 빼앗을 수 있어도, 내 문장만은 못 빼앗습니다."
+      ],
+      "greetingEn": [
+        "[calm, reflective] Do you have a handkerchief? My writing began with that question my mother asked every morning.",
+        "[measured, candid] What can't be said can be written. Writing is a silent labor from the head to the hand.",
+        "[steady, resolute] For the names that were silenced, I will keep writing."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[quiet, watchful] 다들 여기 있나요, 침묵 속에서도 우리는 흩어지지 않습니다.",
+          "[measured, steady] 두려움에 떨더라도 펜은 놓지 마세요.",
+          "[composed, resolute] 감시의 눈을 견딘 사람만 진실을 적습니다."
+        ],
+        "deploy": [
+          "[resolute, quiet] 한 글자씩, 침묵을 깨고 나아가세요.",
+          "[firm, measured] 빈 종이를 펼치세요, 그것이 우리의 무기입니다.",
+          "[composed, determined] 빼앗긴 자들의 풍경을 끝까지 기록하세요."
+        ],
+        "battle_win": [
+          "[quiet, moved] 마침내 침묵이 글이 되어 세상에 닿았어요.",
+          "[composed, grateful] 빼앗긴 이들의 목소리가 오늘 들렸습니다.",
+          "[resolute, calm] 독재는 끝나도, 적어둔 진실은 남습니다."
+        ],
+        "battle_draw": [
+          "[measured, steady] 다 말하지 못했어요, 다음 문장에서 이어갑니다.",
+          "[quiet, determined] 글은 한 권으로 끝나지 않습니다.",
+          "[composed, patient] 진실은 천천히, 그러나 끝내 적힙니다."
+        ],
+        "battle_lose": [
+          "[heavy, quiet] 오늘은 내 문장이 너무 약했어요.",
+          "[resolute, honest] 두려움에 졌지만, 펜은 놓지 않습니다.",
+          "[composed, steady] 침묵당했더라도, 내일 다시 씁니다."
+        ],
+        "clash_attack": [
+          "[resolute, firm] 진실을 그대로 적으세요, 지금!",
+          "[quiet, fierce] 침묵을 깨세요, 한 글자도 물러서지 마세요.",
+          "[determined, sharp] 빈 종이에 모든 걸 쏟아내세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Is everyone here? Even in silence, we don't scatter.",
+          "Even if your hands are trembling with fear, don't put down the pen.",
+          "Only those who endure the watching eyes can write the truth."
+        ],
+        "deploy": [
+          "One letter at a time, break through the silence.",
+          "Open the blank page. That is our weapon.",
+          "Record the landscape of the dispossessed, all the way to the end."
+        ],
+        "battle_win": [
+          "At last, the silence became words and reached the world.",
+          "The voices of the dispossessed were heard today.",
+          "Dictatorships end, but the truth once written stays."
+        ],
+        "battle_draw": [
+          "I couldn't say it all. I'll continue in the next sentence.",
+          "Writing does not end with a single book.",
+          "The truth comes slowly, but it gets written in the end."
+        ],
+        "battle_lose": [
+          "My sentences were too weak today.",
+          "I lost to fear, but I won't put down the pen.",
+          "Even if I was silenced, I'll write again tomorrow."
+        ],
+        "clash_attack": [
+          "Write the truth exactly as it is, now!",
+          "Break the silence. Don't retreat a single letter.",
+          "Pour everything onto the blank page!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/herta-muller"
+      ]
+    },
+    {
+      "id": "14a4347f-18f3-4034-be6b-dca5774cdce1",
+      "slug": "hwang-sok-yong",
+      "nickname": "황석영",
+      "nicknameEn": "Hwang Sok-yong",
+      "birthDate": "1943-01-04",
+      "profession": "author",
+      "quote": "문학은 당대 살아가는 사람들의 이야기를 담는 것",
+      "quoteEn": "Literature is what holds the stories of the people living in its own time.",
+      "greetingKo": [
+        "[composed, weathered] 저는 십 년을 장길산에 매여 민중의 이야기를 길어 올렸습니다.",
+        "[measured, resolute] 분단을 넘어서지 못하면 우리에게 희망은 없다고 믿습니다.",
+        "[calm, candid] 대충 쓰느니 차라리 펑크를 내라, 그게 제 글쓰기였습니다."
+      ],
+      "greetingEn": [
+        "[composed, observant] Literature is no more than a portrait of its age.",
+        "[composed, reflective] An autobiography means dragging even one's shame into the light.",
+        "[composed, warm] The common people cut a new path each day just to stay alive."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[measured, attentive] 이름 없는 이들의 목소리부터 한 사람씩 불러봅시다.",
+          "[composed, steady] 다들 제 몫의 이야기를 짊어질 준비가 됐습니까.",
+          "[calm, guiding] 우리가 함께 쓰면 한 시대의 기록이 됩니다."
+        ],
+        "deploy": [
+          "[measured, resolute] 흩어진 사람들을 모아 한길로 나아가라.",
+          "[composed, driving] 두려워 말고 가로막힌 경계를 넘어서라!",
+          "[steady, commanding] 민중의 대오를 세워 앞으로 나아가라!"
+        ],
+        "battle_win": [
+          "[composed, satisfied] 끝내 막힌 길을 함께 뚫어냈습니다.",
+          "[measured, proud] 이름 없던 이들이 오늘 역사를 썼습니다.",
+          "[calm, content] 십 년을 버틴 끝이 이렇게 매듭지어졌군요."
+        ],
+        "battle_draw": [
+          "[composed, reflective] 아직 한 장을 못 끝냈을 뿐, 이야기는 이어집니다.",
+          "[measured, patient] 서두르지 맙시다, 분단도 하루에 무너지지 않습니다.",
+          "[steady, hopeful] 멈춘 게 아니라 다음 연재를 기다리는 겁니다."
+        ],
+        "battle_lose": [
+          "[reflective, heavy] 제 붓이 모자랐습니다, 다시 처음부터 쓰겠습니다.",
+          "[composed, resilient] 길을 잃은 듯해도 민중은 끝내 일어섭니다.",
+          "[measured, resolute] 오늘의 패배도 훗날의 기록으로 남깁시다."
+        ],
+        "clash_attack": [
+          "[measured, firm] 가로막힌 경계를 단숨에 넘어서라!",
+          "[composed, striking] 흩어지지 말고 한 호흡으로 밀어붙여라!",
+          "[steady, driving] 망설임 없이 정면으로 나아가라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Let's call them out one by one, starting with the voices of those left unnamed.",
+          "Is everyone ready to carry the weight of their own story?",
+          "When we write together, it becomes the record of an age."
+        ],
+        "deploy": [
+          "Gather the scattered and move forward as one.",
+          "Don't be afraid. Cross the line that holds you back!",
+          "Form the ranks of the people and march forward!"
+        ],
+        "battle_win": [
+          "Together, we finally broke through the road that was blocked.",
+          "Those without names wrote history today.",
+          "After holding on for ten years, this is how it comes to a close."
+        ],
+        "battle_draw": [
+          "We've just not finished this chapter yet. The story goes on.",
+          "Let's not rush. Division will not collapse in a single day either.",
+          "This isn't a stop. It's waiting on the next installment."
+        ],
+        "battle_lose": [
+          "My pen fell short. I'll start over from the beginning.",
+          "It may look like we've lost our way, but the people always rise in the end.",
+          "Let's set down today's defeat too, for the record of what comes later."
+        ],
+        "clash_attack": [
+          "Cross that line in one stroke!",
+          "Stay together, and push forward as one breath!",
+          "No hesitation. Straight ahead!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/hwang-sok-yong"
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "slug": "f.-scott-fitzgerald",
+      "nickname": "F. 스콧 피츠제럴드",
+      "nicknameEn": "F. Scott Fitzgerald",
+      "birthDate": "1896-09-24",
+      "profession": "author",
+      "quote": "최고 지성의 척도는 상반된 두 생각을 동시에 품고도 여전히 해내는 능력이다.",
+      "quoteEn": "The test of a first-rate intelligence is the ability to hold two opposed ideas in mind at the same time and still retain the ability to function",
+      "greetingKo": [
+        "[composed, wistful] 그래서 우리는 물살을 거스르는 배처럼, 끝없이 과거로 떠밀리면서도 앞으로 나아갑니다.",
+        "[measured, elegant] 모든 화려한 파티가 끝나면, 결국 남는 건 빈 잔과 식어버린 새벽뿐이지요.",
+        "[reflective, calm] 부두 끝의 그 초록 불빛을, 나는 오늘도 손을 뻗어 바라봅니다."
+      ],
+      "greetingEn": [
+        "[calm, melancholy] We are nothing more than boats against the current, borne back ceaselessly into the past.",
+        "[reflective, warm] Show me a hero and I will write you a tragedy.",
+        "[wistful, composed] Life is essentially a cheat, and its conditions are those of defeat. But within that, a deeper satisfaction is born."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, attentive] 이 자리에 모인 면면이, 한 권의 소설에 담길 만한 인물들이군요.",
+          "[measured, warm] 자네들의 이름을 내 문장 속에 새겨두겠네.",
+          "[calm, observant] 각자의 빛과 그늘을 가진 사람들이라, 마음에 듭니다."
+        ],
+        "deploy": [
+          "[composed, resolute] 첫 문장을 쓰듯, 망설임 없이 전열을 펼쳐라.",
+          "[measured, deliberate] 군더더기 없는 한 문장처럼, 군세를 가다듬어 나아가라.",
+          "[elegant, firm] 이 밤이 우리의 무대다, 막을 올려라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 잘 다듬은 한 편의 이야기처럼, 흠잡을 데 없이 끝났습니다.",
+          "[measured, proud] 화려함보다 단단함으로 이겼으니, 이 승리는 오래 남을 겁니다.",
+          "[serene, content] 오늘만큼은 초록 불빛에 손이 닿았군요."
+        ],
+        "battle_draw": [
+          "[composed, pensive] 끝맺지 못한 원고처럼, 이 싸움은 다음 장으로 넘어갑니다.",
+          "[measured, steady] 아직 마지막 문장을 쓰지 못했을 뿐입니다.",
+          "[reflective, calm] 승부를 가리지 못했어도, 한 줄 한 줄은 헛되지 않았습니다."
+        ],
+        "battle_lose": [
+          "[composed, melancholic] 화려했던 파티가 끝나듯, 오늘의 패배도 그렇게 지나갈 겁니다.",
+          "[measured, bitter] 모든 잘못은 내 펜 끝에서 비롯되었습니다.",
+          "[wistful, resolute] 무너진 자리에서 다음 이야기를 다시 쓰겠습니다."
+        ],
+        "clash_attack": [
+          "[charging, sharp] 단숨에, 군더더기 없이 베어라!",
+          "[fierce, deliberate] 한 문장처럼 깔끔하게 끝내라!",
+          "[bold, advancing] 망설임은 지워라, 돌격하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "The faces gathered here are the kind that belong in a novel.",
+          "I'll carve your names into my sentences.",
+          "Each of you carries your own light and shadow. I like that."
+        ],
+        "deploy": [
+          "Form the line without hesitation, the way you write a first sentence.",
+          "Tighten the ranks like a sentence with nothing wasted, and advance.",
+          "Tonight is our stage. Raise the curtain."
+        ],
+        "battle_win": [
+          "It ended without a flaw, like a well-polished story.",
+          "We won through soundness rather than flash, so this victory will last.",
+          "Today, at least, I reached the green light."
+        ],
+        "battle_draw": [
+          "Like an unfinished manuscript, this fight carries over to the next chapter.",
+          "I simply haven't written the final sentence yet.",
+          "Even without a decision, not one line of it was wasted."
+        ],
+        "battle_lose": [
+          "Like a lavish party winding down, today's defeat will pass the same way.",
+          "Every fault traces back to the tip of my pen.",
+          "From this ruin, I'll write the next story."
+        ],
+        "clash_attack": [
+          "Cut them down in one stroke, clean and without waste!",
+          "Finish it clean, like a single sentence!",
+          "Erase hesitation. Charge!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/f.-scott-fitzgerald"
+      ]
+    }
+  ]
+}

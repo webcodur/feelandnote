@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "slug": "niccolo-machiavelli",
+  "nickname": "니콜로 마키아벨리",
+  "route": "improve",
+  "routeReason": "현재 글은 피렌체 공화국의 외교 경험, 1512년 실각과 고문, 군주론과 로마사 논고의 차이를 구체적으로 담아 강하다. 그러나 체사레 보르자를 본 경험이 곧바로 완성된 교훈이 됐다고 단순화하고, 시골 생활을 외로운 시절로 부르며 관직 밖으로 밀린 일이 오래 쓰렸다는 심리를 창작한다. 군주론은 잔혹함을 변호한 책이고 논고는 진짜 공화주의라는 식으로 양쪽을 너무 쉽게 화해시키는 문제도 있다. 현재 글의 사실 골격과 건조한 말투는 살리되, 두 저작의 해석 논쟁과 확인 가능한 편지 속 목소리만 남기도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "니콜로 마키아벨리",
+      "birth": "1469-05-03",
+      "death": "1527-06-21",
+      "profession": "humanities_scholar",
+      "disambiguation": "1498년부터 1512년까지 피렌체 공화국의 제2서기관과 외교관으로 일하고 군주론과 로마사 논고를 쓴 니콜로 디 베르나르도 데이 마키아벨리",
+      "existingBioForDiscoveryOnly": "르네상스 시대 피렌체의 외교관이자 정치철학자. '군주론'으로 정치와 도덕을 분리한 현실주의 정치학의 토대를 놓았다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/",
+        "title": "Niccolò Machiavelli",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2023-12-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1498년 제2서기관 임명과 14년간의 외교·행정 활동",
+          "1512년 공화국 몰락 뒤 해임·투옥·고문과 1513년 군주론 집필",
+          "군주론의 권력 분석과 로마사 논고의 공화주의·자유·갈등론",
+          "군주론과 논고의 관계 및 종교·도덕에 대한 해석이 학계에서 계속 논쟁 중이라는 점"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/1232/1232-h/1232-h",
+        "title": "The Prince",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "사랑받기와 두려움받기 가운데 선택해야 한다면 두려움이 안전하다는 제17장의 논증",
+          "두려움을 주더라도 미움을 피하고 시민의 재산을 침해하지 말아야 한다는 제한",
+          "변하는 형편에 맞춰 행동 방식을 바꾸는 능력과 운명의 관계",
+          "선하게 보이는 행동보다 국가 보존에 실제로 필요한 결과를 살핀 권고"
+        ]
+      },
+      {
+        "url": "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm",
+        "title": "Discourses on the First Decade of Titus Livius",
+        "publisher": "Project Gutenberg",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "귀족과 평민의 갈등에서 자유에 유리한 법이 생겼다고 한 공화정 논의",
+          "공동체의 자유를 지키는 데 민중과 제도가 맡는 역할",
+          "로마의 역사적 사례를 통해 공화국의 힘과 부패를 분석한 방식"
+        ]
+      },
+      {
+        "url": "https://courses.washington.edu/hsteu401/Letter%20%20to%20Vettori.pdf",
+        "title": "Letter from Machiavelli to Francesco Vettori, 10 December 1513",
+        "publisher": "University of Washington course archive",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "시골 생활의 일과를 묘사하고 저녁에 옷을 갈아입어 고대 저자들과 대화한다고 쓴 편지",
+          "독서하는 동안 근심·가난·죽음의 두려움을 잊는다고 한 본인의 표현",
+          "군주론을 집필하고 메디치 가문에 바쳐 다시 정치에 쓰이고자 한 정황"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1498년 피렌체 공화국의 제2서기관이 된 뒤 프랑스 궁정과 이탈리아 각지를 오가며 외교 보고서를 썼다.",
+        "significance": "권력론을 추상적인 인간 혐오가 아니라 동맹·군대·정권이 실제로 움직이는 현장에서 나온 분석으로 놓는다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      },
+      {
+        "point": "1512년 메디치가 복귀하면서 해임됐고 이듬해 음모 혐의로 투옥·고문당한 뒤 시골 농장으로 물러났다.",
+        "significance": "군주론이 권력 한가운데 있던 승자의 회고가 아니라 공직을 잃고 복귀를 모색한 사람이 짧은 기간에 쓴 책이라는 맥락을 준다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/",
+          "https://courses.washington.edu/hsteu401/Letter%20%20to%20Vettori.pdf"
+        ]
+      },
+      {
+        "point": "1513년 군주론을 쓰고 이어 여러 해에 걸쳐 로마사 논고를 집필했다.",
+        "significance": "새 군주의 권력 보존과 시민 공동체의 자유라는 서로 다른 문제를 같은 저자가 함께 탐구했다는 긴장을 독백의 중심에 둔다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/",
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h",
+          "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "통치자는 선하다는 평판보다 선택이 질서와 국가 보존에 실제로 어떤 결과를 낳는지 살펴야 한다고 주장했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h",
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      },
+      {
+        "point": "두려움이 사랑보다 믿을 만하다고 보면서도 미움을 피하고 시민의 재산을 건드리지 말라는 한계를 함께 제시했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h"
+        ]
+      },
+      {
+        "point": "공화국에서는 귀족과 민중의 욕망이 충돌하는 것 자체를 없애기보다 그 갈등에서 자유를 지킬 법과 제도가 나오게 해야 한다고 보았다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm",
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      },
+      {
+        "point": "운명은 인간의 계획을 흔들지만 형편을 읽고 행동 방식을 바꾸는 능력으로 대응할 여지도 남는다고 보았다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h",
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "군주론은 새 군주가 권력을 얻고 지키는 문제를, 로마사 논고는 시민의 자유와 공화국의 지속을 다룬다. 어느 한 권을 진심이고 다른 한 권을 위장이라고 확정하기 어렵다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/",
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h",
+          "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm"
+        ]
+      },
+      {
+        "point": "상황에 따라 잔혹함과 기만도 필요하다고 썼지만 무제한 폭력을 권한 것은 아니며, 미움과 재산 침해가 권력을 무너뜨린다고 거듭 경고했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h"
+        ]
+      },
+      {
+        "point": "시민 갈등을 자유의 원천으로 보았지만 갈등이 언제나 좋은 결과를 낳는다고 말한 것은 아니며 제도와 시민적 역량이 필요했다.",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm",
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 건조한 판단 뒤에 역사 사례를 붙이며, 한 문장에 도덕적 수식어를 겹치지 않는다.",
+      "directness": "권력의 불편한 조건을 우회하지 않되 냉혹함을 즐기는 악당처럼 말하지 않는다.",
+      "moves": [
+        "평판과 실제 결과를 나란히 놓고 둘이 어긋나는 지점을 드러내기",
+        "군주의 권력과 공화국의 자유를 같은 답으로 합치지 않고 저작별 질문을 구분하기",
+        "관직을 잃은 뒤의 생활은 베토리에게 직접 쓴 편지의 옷·책·저녁 장면만 사용하기"
+      ],
+      "avoid": [
+        "목적이 수단을 정당화한다는 문장을 본인의 직접 발언처럼 쓰기",
+        "잔혹함과 거짓을 언제나 좋은 통치술로 찬양하는 악당 말투",
+        "군주론은 메디치를 속이기 위한 풍자였거나 로마사 논고만이 진심이었다고 단정하기",
+        "고문 뒤의 트라우마, 시골의 외로움, 관직 상실의 쓰라림을 근거 없이 심리화하기",
+        "현대적 국가·민주주의·국민주권 개념을 완성했다고 말하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "비르투",
+        "guide": "도덕적 착함만이 아니라 형편을 읽고 결단해 질서를 만드는 정치적 역량",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/",
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h"
+        ]
+      },
+      {
+        "term": "포르투나",
+        "guide": "사람의 계획을 흔드는 우연과 시대의 흐름, 곧 운명의 힘",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/1232/1232-h/1232-h"
+        ]
+      },
+      {
+        "term": "공화국",
+        "guide": "한 군주의 소유가 아니라 시민과 제도가 함께 공적인 일을 꾸리는 정치 공동체",
+        "sourceUrls": [
+          "https://www.gutenberg.org/files/10827/10827-h/10827-h.htm",
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      },
+      {
+        "term": "시민군",
+        "guide": "돈을 받고 옮겨 다니는 용병이 아니라 자기 도시를 지키는 시민으로 꾸린 군대",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/sum2026/entries/machiavelli/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "목적이 수단을 정당화한다는 유명한 문구는 군주론의 직접 문장이 아니므로 인용하지 않는다.",
+      "군주론과 로마사 논고의 관계에는 공화주의, 풍자, 일관된 권력론 등 상충하는 해석이 있어 한쪽을 거짓으로 확정하지 않는다.",
+      "1513년 베토리 편지는 독서 중 근심과 가난과 죽음을 잊는다고 직접 쓰지만, 시골 생활 전체가 외롭고 관직 상실이 평생의 상처였다는 심리까지 증명하지 않는다.",
+      "체사레 보르자를 관찰한 사실은 확인되지만 그를 이상적 군주로 무조건 숭배했다고 단순화하지 않는다.",
+      "마키아벨리의 lo stato를 현대 국민국가나 비인격적 국가 개념과 그대로 같다고 보지 않는다."
+    ]
+  }
+}

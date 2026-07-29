@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "slug": "mencius",
+  "nickname": "맹자",
+  "route": "improve",
+  "routeReason": "현재 글은 우물에 빠지려는 아이, 선한 싹, 항산과 항심, 백성이 귀하다는 정치론을 구체적으로 풀어 매우 강하다. 그러나 여러 나라에서 뜻이 쓰이지 않아 답답했다는 감정과 이익의 말로 바꾸지 않았다는 회고, 승리보다 사람을 먼저 보았다는 결말은 맹자 텍스트의 논지를 현대적 자서전으로 매끈하게 잇는다. 성선설도 사람이 태어날 때 이미 완성된 선인이라는 뜻처럼 읽힐 여지가 있다. 좋은 장면과 문장 대부분을 보존하되, 텍스트의 대화적 성격과 선한 가능성에 필요한 환경·수양을 분명히 하도록 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "맹자",
+      "birth": "전통적으로 기원전 372",
+      "death": "전통적으로 기원전 289",
+      "profession": "humanities_scholar",
+      "disambiguation": "전국시대 여러 군주와 문답하며 사람의 선한 가능성과 인정·왕도를 논한 유학자 맹가",
+      "existingBioForDiscoveryOnly": "중국 전국시대 유학자. 공자의 사상을 계승하여 성선설을 주장했으며, 왕도정치를 강조한 아성으로 불린다."
+    },
+    "sources": [
+      {
+        "url": "https://plato.stanford.edu/archives/spr2020/entries/mencius/",
+        "title": "Mencius",
+        "publisher": "Stanford Encyclopedia of Philosophy",
+        "kind": "scholarly",
+        "publishedAt": "2019-09-06",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인의예지의 싹과 우물에 빠지려는 아이의 사고실험",
+          "성선이 완성된 도덕성이 아니라 알맞은 환경과 수양에서 자랄 성향이라는 해석",
+          "기본 생계·교육·개인의 노력이 도덕적 성장에 필요하다는 정치·윤리의 연결",
+          "여러 나라를 돌며 군주에게 조언하고 물러난 생애의 넓은 윤곽",
+          "후대 성리학이 맹자의 용어를 다시 해석한 수용사"
+        ]
+      },
+      {
+        "url": "https://ctext.org/mengzi/gong-sun-chou-i/ens",
+        "title": "Mengzi, Gong Sun Chou I",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "아이가 우물에 빠지려는 순간 누구나 놀라고 가엾게 여긴다는 2A6의 예",
+          "측은·수오·사양·시비의 마음을 인의예지의 싹으로 설명한 구절",
+          "싹을 가졌다고 말하면서도 이를 확충해야 한다고 한 논지"
+        ]
+      },
+      {
+        "url": "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+        "title": "Mengzi, Liang Hui Wang I",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "군주의 가축에 대한 측은함을 백성에게 넓히라고 한 문답",
+          "항산이 없으면 항심을 지키기 어렵고 생업을 무너뜨린 뒤 벌주는 것은 백성을 그물질하는 일이라는 정치론",
+          "이익보다 인과 의를 앞세우라고 군주에게 한 권고",
+          "농사철·세금·가족 생계와 인정의 구체적 연결"
+        ]
+      },
+      {
+        "url": "https://ctext.org/text.pl?if=en&node=25001",
+        "title": "Mengzi, Jin Xin II",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "백성이 가장 귀하고 사직이 그다음이며 임금이 가장 가볍다는 구절",
+          "불인한 사람이 한 나라를 얻은 적은 있어도 천하를 얻은 적은 없다는 정치적 판단",
+          "통치자가 공동체를 위태롭게 하면 바꿀 수 있다는 논지"
+        ]
+      },
+      {
+        "url": "https://ctext.org/mengzi/liang-hui-wang-ii/ens",
+        "title": "Mengzi, Liang Hui Wang II",
+        "publisher": "Chinese Text Project",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "흉년에도 창고를 채운 채 백성이 굶는 통치자를 비판한 문답",
+          "인정을 행해야 백성이 통치자를 따를 수 있다는 주장",
+          "폭군 주를 죽인 일을 임금 시해가 아니라 한 사내를 죽인 것으로 설명한 논의"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "전국시대 여러 군주를 찾아가 전쟁의 이익보다 인과 의, 백성의 생계를 앞세우라고 논했다.",
+        "significance": "구체적 여행 일화를 꾸미기보다 맹자 텍스트에 반복되는 군주와의 문답을 정치적 실천의 중심으로 둔다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/",
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+          "https://ctext.org/mengzi/liang-hui-wang-ii/ens"
+        ]
+      },
+      {
+        "point": "우물에 빠지려는 아이를 본 순간의 놀람과 가엾음을 들어 모든 사람에게 선을 향한 싹이 있다고 논증했다.",
+        "significance": "성선설을 추상 명제로 설명하지 않고 계산보다 먼저 움직이는 구체적인 마음에서 출발하게 한다.",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/gong-sun-chou-i/ens",
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/"
+        ]
+      },
+      {
+        "point": "정치적 조언이 받아들여지지 않은 뒤 물러나 제자들과 가르침을 전했다는 생애의 윤곽이 전한다.",
+        "significance": "좌절의 감정을 창작하지 않고 군주 설득에서 교육과 텍스트 전승으로 활동 무게가 옮겨 간 사실만 남긴다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "사람은 완성된 선인으로 태어나는 것이 아니라 측은함·부끄러움·양보·옳고 그름의 판단이 자랄 가능성을 지니고 태어난다고 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/gong-sun-chou-i/ens",
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/"
+        ]
+      },
+      {
+        "point": "선한 싹은 저절로 완성되지 않으며 기본 생계, 교육, 스스로 생각하고 넓히는 노력이 함께 필요하다고 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/"
+        ]
+      },
+      {
+        "point": "백성의 생업을 무너뜨린 뒤 범죄를 벌주는 정치는 백성을 함정에 빠뜨리는 일이라고 비판했다.",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+          "https://ctext.org/mengzi/liang-hui-wang-ii/ens"
+        ]
+      },
+      {
+        "point": "백성을 임금보다 귀하게 놓고, 사람을 해치는 폭군은 임금다운 지위를 잃는다고 보았다.",
+        "sourceUrls": [
+          "https://ctext.org/text.pl?if=en&node=25001",
+          "https://ctext.org/mengzi/liang-hui-wang-ii/ens"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "인간 본성이 선하다고 보았지만 굶주림과 공포 속에서 많은 사람이 마음을 잃을 수 있다고도 보았다. 성선은 현실의 악을 부정하는 낙관론이 아니다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/",
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens"
+        ]
+      },
+      {
+        "point": "백성이 가장 귀하고 폭군은 물리칠 수 있다고 했지만 군주제를 폐기하거나 현대 민주주의의 선거·권리를 제시한 것은 아니다.",
+        "sourceUrls": [
+          "https://ctext.org/text.pl?if=en&node=25001",
+          "https://ctext.org/mengzi/liang-hui-wang-ii/ens"
+        ]
+      },
+      {
+        "point": "모든 사람에게 도덕의 싹이 있다고 했지만 사랑과 의무를 가족에서 바깥으로 넓히는 차등적 관계를 전제했고, 모든 사람을 똑같이 대하라는 묵가의 입장과 달랐다.",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/",
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 비유와 반문, 군주에게 곧장 던지는 단호한 문장을 중심으로 한다.",
+      "directness": "상대의 핑계를 일상의 예로 되받아치되 현대의 도덕 교사처럼 결론을 대신 설명하지 않는다.",
+      "moves": [
+        "우물의 아이·굶는 백성·가득 찬 창고처럼 한 장면에서 원칙을 끌어내기",
+        "할 수 없음과 하지 않음, 힘과 마음, 이익과 의로움처럼 두 말을 맞세워 구분하기",
+        "성선의 가능성을 말한 직후 싹이 마를 수 있는 환경과 정치의 책임을 붙이기"
+      ],
+      "avoid": [
+        "성선설을 인간은 태어날 때부터 완벽하게 착하다는 말로 단순화하기",
+        "여러 왕에게 무시당해 답답하고 상처받았다는 근거 없는 내면",
+        "백성이 귀하다는 말을 현대 선거민주주의와 국민주권의 선언으로 번역하기",
+        "후대 성리학의 본연지성·우주론을 맹자 자신의 완성된 체계로 말하기",
+        "아성이라는 후대 칭호로 시작해 성인다운 격언만 이어 붙이기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "성선",
+        "guide": "사람에게 선한 마음이 자랄 타고난 방향과 가능성이 있다는 주장",
+        "sourceUrls": [
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/",
+          "https://ctext.org/mengzi/gong-sun-chou-i/ens"
+        ]
+      },
+      {
+        "term": "사단",
+        "guide": "측은함·부끄러움·양보·옳고 그름을 가리는 마음이라는 네 가지 도덕의 싹",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/gong-sun-chou-i/ens"
+        ]
+      },
+      {
+        "term": "왕도",
+        "guide": "힘으로 누르기보다 인과 의로 백성의 삶을 돌보아 얻는 통치",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+          "https://ctext.org/mengzi/liang-hui-wang-ii/ens"
+        ]
+      },
+      {
+        "term": "항산과 항심",
+        "guide": "안정된 생업과 흔들리지 않는 바른 마음으로, 맹자는 대다수 사람에게 둘이 연결돼 있다고 보았다",
+        "sourceUrls": [
+          "https://ctext.org/mengzi/liang-hui-wang-i/ens",
+          "https://plato.stanford.edu/archives/spr2020/entries/mencius/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "맹자의 생애 자료는 제한적이고 맹자라는 책의 대화가 실제 발언의 축어록인지는 알 수 없으므로 여행 장면과 군주의 반응을 소설처럼 재현하지 않는다.",
+      "여러 나라에서 뜻을 쓰지 못한 데 실망했을 것이라는 학술적 추론은 가능하지만 답답함·외로움·분노를 1인칭 감정으로 확정하지 않는다.",
+      "성선설은 주희가 후대에 보편화한 인간의 본성은 본래 선하다는 문구와 완전히 같지 않으며, 싹·환경·수양의 구조를 생략하지 않는다.",
+      "폭군을 한 사내로 부른 구절은 통치의 도덕적 자격을 묻는 강한 논증이지만 현대의 상시적 혁명권이나 민주 헌정으로 곧장 번역하지 않는다.",
+      "후대에 아성으로 높아지고 과거제의 정전이 된 수용사를 맹자 자신의 자기인식으로 말하지 않는다."
+    ]
+  }
+}

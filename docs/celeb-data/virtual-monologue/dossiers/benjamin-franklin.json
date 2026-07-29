@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "slug": "benjamin-franklin",
+  "nickname": "벤자민 프랭클린",
+  "route": "hold",
+  "routeReason": "두 차례 모델 수정과 사실 비증가 국소 교정 뒤에도 인쇄·도서관·실험·헌법을 묶는 실용의 축과 노예 소유·매매 광고·후기 폐지 활동이 만나지 못해, 책임 문제가 마지막의 윤리 부록으로 남았다. 재개하려면 인쇄로 얻은 발언권 옆에 매매 광고를, 판단 오류를 인정한 헌법 태도 옆에 흑인 학생을 통해 판단이 달라진 사실을 놓는 인간 편집 구조를 먼저 확정해야 한다.",
+  "dossier": {
+    "identity": {
+      "name": "벤자민 프랭클린",
+      "birth": "1706-01-17",
+      "death": "1790-04-17",
+      "profession": "politician",
+      "disambiguation": "인쇄업과 시민 기관 설립, 전기 실험, 식민지 외교와 미국 건국에 참여했고 말년에는 노예제 폐지를 청원한 미국의 인쇄인·실험가·정치가",
+      "existingBioForDiscoveryOnly": "미국의 정치가·과학자·인쇄업자. 전기 연구와 피뢰침으로 유명하며 미국 독립과 헌법 제정에 기여했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.franklinpapers.org/morgan.jsp",
+        "title": "Benjamin Franklin, Slavery, and the Founding",
+        "publisher": "The Papers of Benjamin Franklin, Yale University",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "프랭클린이 1750~1760년대 가정에 노예를 두었던 사실",
+          "흑인의 지적 능력에 대한 견해가 흑인 학교 경험을 거치며 달라진 사실",
+          "1787년 펜실베이니아 노예제 폐지협회 회장과 1790년 의회 청원",
+          "노예제와 인종에 관한 개인 기록이 제한적이고 변화가 단순한 참회 서사로 남지 않았다는 점"
+        ]
+      },
+      {
+        "url": "https://www.archives.gov/legislative/features/franklin",
+        "title": "Benjamin Franklin Petitions Congress",
+        "publisher": "National Archives and Records Administration",
+        "kind": "primary",
+        "publishedAt": "1790-02-03",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "프랭클린이 노예를 소유했고 자신의 신문에 노예 매매 광고를 실은 사실",
+          "공개적으로 노예제 폐지에 나선 시점이 생애 후반이었다는 점",
+          "펜실베이니아 노예제 폐지협회 회장으로 의회에 노예무역과 노예제 폐지를 청원한 사실",
+          "청원이 그의 마지막 주요 공적 행동 가운데 하나였다는 점"
+        ]
+      },
+      {
+        "url": "https://prologue.blogs.archives.gov/2010/09/17/what-franklin-thought-of-the-constitution/",
+        "title": "What Franklin Thought of the Constitution",
+        "publisher": "National Archives, Pieces of History",
+        "kind": "primary",
+        "publishedAt": "1787-09-17",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "헌법 제정회의 마지막 연설에서 자신의 판단이 틀릴 수 있음을 인정한 태도",
+          "헌법의 결함을 알면서도 공동의 선과 통치를 위해 지지해 달라고 한 타협의 논리",
+          "완벽한 제도보다 수정 가능한 공동 작업을 중시한 정치적 목소리"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/franklin/franklin-printer.html",
+        "title": "Benjamin Franklin: Printer and Writer",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인쇄업자·작가로서 펜실베이니아 가제트와 가난한 리처드의 달력을 운영한 사실",
+          "회원제 도서관을 비롯한 시민 지식 기관 설립",
+          "인쇄와 독서 공동체가 프랭클린의 공적 활동 기반이 된 점"
+        ]
+      },
+      {
+        "url": "https://library.si.edu/digital-library/book/experimentsobser00fran",
+        "title": "Experiments and Observations on Electricity",
+        "publisher": "Smithsonian Libraries and Archives",
+        "kind": "primary",
+        "publishedAt": "1751-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전기 현상에 대한 실험과 관찰을 편지 형식으로 공개한 연구",
+          "번개와 전기의 관계, 피뢰침 구상으로 이어진 실험적 접근",
+          "결과를 반복 관찰하고 다른 사람과 공유한 과학적 목소리"
+        ]
+      },
+      {
+        "url": "https://founders.archives.gov/documents/Franklin/01-02-02-0114",
+        "title": "Franklin's Account of His Pennsylvania Fireplace",
+        "publisher": "Founders Online, National Archives",
+        "kind": "primary",
+        "publishedAt": "1744-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "연료를 덜 쓰고 방을 더 따뜻하게 하려는 펜실베이니아 화로의 실용적 목적",
+          "총독이 제안한 특허를 받지 않고 발명을 공개했다는 프랭클린 자신의 설명",
+          "다른 발명으로부터 이익을 얻었으니 자신의 발명도 남에게 자유롭게 제공해야 한다는 입장"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/collections/continental-congress-and-constitutional-convention-from-1774-to-1789/articles-and-essays/to-form-a-more-perfect-union/benjamin-franklin/",
+        "title": "Benjamin Franklin",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "식민지 인쇄업자와 시민 활동가에서 대륙회의 대표·주프랑스 외교관·헌법 제정회의 대표로 이어진 공적 경력",
+          "프랑스와의 동맹과 미국 독립 외교에 기여한 사실",
+          "헌법 제정회의에서 타협을 지지한 역할"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "인쇄업으로 경제적 기반과 공적 발언권을 얻은 뒤 도서관 같은 시민 기관을 동료들과 세웠다.",
+        "significance": "개인의 근면만 설교하는 인물이 아니라 인쇄와 협회를 통해 지식·신뢰·공공재를 조직한 실천가로 보여 준다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/franklin/franklin-printer.html"
+        ]
+      },
+      {
+        "point": "전기 현상을 관찰하고 실험 결과를 편지와 책으로 공유하며 번개와 전기의 관계를 밝히고 피뢰침의 실용으로 연결했다.",
+        "significance": "천재의 번뜩임보다 질문·시험·공개·적용으로 이어지는 프랭클린의 사고 방식을 드러낸다.",
+        "sourceUrls": [
+          "https://library.si.edu/digital-library/book/experimentsobser00fran"
+        ]
+      },
+      {
+        "point": "식민지 간 협력과 독립 외교에 참여하고 프랑스의 지원을 얻는 데 기여한 뒤, 헌법 제정회의에서는 불완전한 초안에 대한 지지를 호소했다.",
+        "significance": "발명가 이미지를 넘어 협상과 타협을 실제 제도에 적용한 정치적 실용주의를 보여 준다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/continental-congress-and-constitutional-convention-from-1774-to-1789/articles-and-essays/to-form-a-more-perfect-union/benjamin-franklin/",
+          "https://prologue.blogs.archives.gov/2010/09/17/what-franklin-thought-of-the-constitution/"
+        ]
+      },
+      {
+        "point": "노예를 소유하고 신문에 매매 광고를 실었던 과거가 있었으나, 말년에는 노예제 폐지협회 회장으로 의회에 노예제와 노예무역의 종식을 청원했다.",
+        "significance": "변화를 숨기지 않되 후기 행동으로 앞선 가담이 지워졌다고 말하지 않고, 확인 가능한 선택의 변화만 보여 준다.",
+        "sourceUrls": [
+          "https://www.franklinpapers.org/morgan.jsp",
+          "https://www.archives.gov/legislative/features/franklin"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "지식은 격언으로 소유하기보다 실험과 인쇄를 통해 다른 사람이 확인하고 쓸 수 있게 해야 한다고 행동했다.",
+        "sourceUrls": [
+          "https://library.si.edu/digital-library/book/experimentsobser00fran",
+          "https://www.loc.gov/exhibits/franklin/franklin-printer.html"
+        ]
+      },
+      {
+        "point": "펜실베이니아 화로의 특허를 받지 않으면서, 자신도 남의 발명에서 도움을 받았으니 자신의 발명을 나누겠다고 설명했다.",
+        "sourceUrls": [
+          "https://founders.archives.gov/documents/Franklin/01-02-02-0114"
+        ]
+      },
+      {
+        "point": "헌법이 완벽해서가 아니라 자신의 판단도 틀릴 수 있고 공동의 통치가 필요하다는 이유로 서명과 지지를 권했다.",
+        "sourceUrls": [
+          "https://prologue.blogs.archives.gov/2010/09/17/what-franklin-thought-of-the-constitution/"
+        ]
+      },
+      {
+        "point": "말년에는 노예제를 정의와 인간 자유에 어긋나는 제도로 규정한 폐지협회의 청원에 이름과 직책을 걸었다.",
+        "sourceUrls": [
+          "https://www.archives.gov/legislative/features/franklin",
+          "https://www.franklinpapers.org/morgan.jsp"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "자유와 시민의 공공선을 말하면서도 노예를 소유했고 자신의 신문에 사람을 사고파는 광고를 실어 노예제 경제에 직접 가담했다.",
+        "sourceUrls": [
+          "https://www.archives.gov/legislative/features/franklin",
+          "https://www.franklinpapers.org/morgan.jsp"
+        ]
+      },
+      {
+        "point": "흑인 학생들의 학습 능력을 직접 본 뒤 지적 능력에 관한 견해를 수정했지만, 그 변화가 곧 모든 인종적 편견의 소멸을 뜻하지는 않는다.",
+        "sourceUrls": [
+          "https://www.franklinpapers.org/morgan.jsp"
+        ]
+      },
+      {
+        "point": "완벽하지 않은 헌법을 공동의 선을 위해 지지했지만 그 헌법의 타협은 노예제를 즉시 끝내지 못했고, 자신도 뒤늦게 폐지를 청원했다.",
+        "sourceUrls": [
+          "https://prologue.blogs.archives.gov/2010/09/17/what-franklin-thought-of-the-constitution/",
+          "https://www.archives.gov/legislative/features/franklin"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 평이한 관찰 뒤에 시험 결과와 쓸모를 붙인다. 긴 정치 문장은 스스로의 판단 한계를 인정하는 한 번의 반전으로 닫는다.",
+      "directness": "재치와 자기교정은 살리되 자기계발 격언을 줄줄이 늘어놓지 않는다. 공적 행동의 효용을 말하면서 그 행동이 배제한 사람도 구체적으로 밝힌다.",
+      "moves": [
+        "생활의 불편을 관찰하고 작은 장치나 제도로 시험한 뒤 공개된 효용을 묻기",
+        "내 판단이 틀릴 수 있다는 문장을 타협의 면죄부가 아니라 검증과 수정의 출발로 쓰기",
+        "노예 소유와 폐지 청원을 시간 순서로 나란히 두고 근거 없는 후회 대신 행동의 변화를 말하기"
+      ],
+      "avoid": [
+        "근면·절약 격언만 반복하는 성공학 캐릭터",
+        "연을 날려 번개를 직접 맞았다는 과장된 실험 장면",
+        "모든 발명에 특허를 거부했다는 일반화",
+        "노예 소유를 후회했다고 직접 고백시키거나 말년의 청원으로 과거 책임을 면제하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "회원제 도서관",
+        "guide": "회원들이 돈과 책을 모아 함께 이용한 공동 도서관",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/franklin/franklin-printer.html"
+        ]
+      },
+      {
+        "term": "피뢰침",
+        "guide": "번개의 전류를 건물에서 땅으로 안전하게 흘려보내는 금속 막대",
+        "sourceUrls": [
+          "https://library.si.edu/digital-library/book/experimentsobser00fran"
+        ]
+      },
+      {
+        "term": "노예제 폐지 청원",
+        "guide": "노예무역과 노예 상태를 끝낼 권한을 써 달라고 의회에 낸 요청",
+        "sourceUrls": [
+          "https://www.archives.gov/legislative/features/franklin"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "프랭클린이 노예 소유를 개인적으로 후회했다고 단정할 직접 자료는 부족하므로 후기 폐지 활동을 내면의 참회로 바꾸지 않는다.",
+      "노예제와 인종에 관한 기록이 성기고 그의 관점은 시기별로 달라져 하나의 회심 순간이나 완성된 평등주의로 압축할 수 없다.",
+      "화로의 특허를 거부했다는 본인 설명을 모든 발명과 지식재산에 대한 보편적 무특허 원칙으로 확대하지 않는다.",
+      "전기 실험·시민 기관·외교와 헌법은 모두 동료와 기관의 협업 결과이므로 프랭클린 혼자의 발명과 설계로 쓰지 않는다.",
+      "프랭클린의 재치 있는 자서전적 목소리는 자기 연출의 성격도 있으므로 그가 남긴 격언을 생애 전체의 내면 진술로 취급하지 않는다.",
+      "재개 조건은 인쇄와 공공 실험의 실용 축 안에 노예 매매 광고·인종관 변화·후기 폐지 활동을 윤리 부록이 아닌 같은 공적 행동의 문제로 배치하는 인간 편집 개요를 먼저 확정하는 것이다."
+    ]
+  }
+}

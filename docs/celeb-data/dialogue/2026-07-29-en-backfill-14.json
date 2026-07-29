@@ -1,0 +1,93 @@
+{
+  "batch": "generated-en-backfill-2026-07-29",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "634fe9be-923f-4790-8ae9-6269e3899f21",
+      "slug": "kim-yuna",
+      "nickname": "김연아",
+      "nicknameEn": "Kim Yuna",
+      "birthDate": "1990-09-05",
+      "profession": "athlete",
+      "quote": "무슨 생각을 해. 그냥 하는 거지.",
+      "quoteEn": "I just do it — no need to think about it.",
+      "greetingKo": [
+        "[calm, humble] 무슨 생각을 하겠어요, 그냥 하는 거죠.",
+        "[gentle, composed] 어떤 일도 결국 지나가더라고요, 마음 편히 하겠습니다.",
+        "[warm, steady] 연습한 그대로, 평소처럼 빙판에 서겠습니다."
+      ],
+      "greetingEn": [
+        "[calm, focused] I just do it — no need to think about it.",
+        "[humble, steady] I learned I could get through anything that came.",
+        "[graceful, gentle] One breath at a time, all the way to the end."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[focused, calm] 준비 다 됐습니다, 첫 점프부터 깨끗하게 가겠습니다.",
+          "[humble, ready] 호명해 주시면 바로 들어가겠습니다.",
+          "[composed, gentle] 지금 이 순간에만 집중하고 있습니다."
+        ],
+        "deploy": [
+          "[focused, resolute] 첫 점프에만 집중해라, 그 다음은 생각하지 마라!",
+          "[calm, commanding] 흔들리지 말고 연습한 대로 가라!",
+          "[steady, determined] 끝까지 표정 무너뜨리지 마라, 마지막 자세까지!"
+        ],
+        "battle_win": [
+          "[relieved, humble] 끝나서 후련합니다, 후회 없이 다 쏟았습니다.",
+          "[grateful, calm] 큰 실수 없이 마쳤네요, 감사할 따름입니다.",
+          "[warm, proud] 제 자리에서 할 수 있는 건 다 했습니다."
+        ],
+        "battle_draw": [
+          "[composed, steady] 아직 안 끝났습니다, 다음 연기에서 만회하겠습니다.",
+          "[calm, focused] 점수에 흔들리지 않겠습니다, 제 것에만 집중하겠습니다.",
+          "[gentle, resolute] 부담은 내려놓고, 다시 한 번 깨끗하게 가겠습니다."
+        ],
+        "battle_lose": [
+          "[humble, steady] 제 부족함이었습니다, 더 갈고닦겠습니다.",
+          "[calm, resilient] 넘어졌어도 끝까지 연기했습니다, 이 또한 지나갑니다.",
+          "[gentle, undaunted] 오늘은 아쉽지만, 다시 처음부터 준비하겠습니다."
+        ],
+        "clash_attack": [
+          "[focused, graceful] 지금이다, 트리플 러츠-트리플 토루프 간다!",
+          "[calm, striking] 착지 깨끗하게, 흔들리지 마라!",
+          "[steady, resolute] 마지막 스핀까지 완벽하게 마무리해라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm ready. I'll land the first jump clean.",
+          "Just call my name and I'll take the ice right away.",
+          "Right now, I'm only thinking about this moment."
+        ],
+        "deploy": [
+          "Focus only on the first jump. Don't think about anything after that!",
+          "Don't waver, just do what you practiced!",
+          "Hold your expression steady all the way through, right to the final pose!"
+        ],
+        "battle_win": [
+          "I'm relieved it's over. I gave it everything, with no regrets.",
+          "I finished without any big mistakes. I'm just grateful for that.",
+          "I did everything I could out there."
+        ],
+        "battle_draw": [
+          "It's not over yet. I'll make up for it in the next program.",
+          "I won't let the score shake me. I'll just focus on my own skating.",
+          "I'll let go of the pressure and deliver another clean program."
+        ],
+        "battle_lose": [
+          "That was on me. I'll keep working to get better.",
+          "Even after the fall, I skated it through to the end. This too will pass.",
+          "Today didn't go the way I wanted, but I'll start preparing again from the beginning."
+        ],
+        "clash_attack": [
+          "Now. Triple Lutz-triple toe loop. Here I go!",
+          "Land it clean and stay steady!",
+          "Finish it cleanly, all the way through the final spin!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/kim-yuna"
+      ]
+    }
+  ]
+}

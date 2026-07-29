@@ -1,0 +1,147 @@
+{
+  "batch": "2026-07-29-en-polish-02",
+  "targets": [
+    {
+      "id": "93b88224-1c08-4b9d-a76d-6c6a6e02a766",
+      "slug": "stanley-kubrick",
+      "nickname": "스탠리 큐브릭",
+      "birthDate": "1928-07-26",
+      "profession": "director",
+      "expectedEn": {
+        "roll_call": [
+          "I am here, and I will first find the moment worth putting on film.",
+          "In every scene, I ask whether it is truthful and interesting.",
+          "I will keep analysis and feeling in balance to the end."
+        ],
+        "deploy": [
+          "Keep the scene simple and focus on the performance.",
+          "Know the lines, then put your strength into emotion.",
+          "Keep only what is necessary and cut the rest."
+        ],
+        "battle_win": [
+          "The extra time raised the quality that remained on the screen.",
+          "I joined only the strongest moments and completed this victory in the edit.",
+          "We did not flatter the audience, and the truthful scene answered."
+        ],
+        "battle_draw": [
+          "It is neither good nor bad yet, so I will ask again whether it is necessary.",
+          "Time and resources are short, so I will find the move that preserves quality and ideas.",
+          "The location reveals what the plan missed, and I will accept the difference."
+        ],
+        "battle_lose": [
+          "I missed the chance to change a false scene, so I will find the cause.",
+          "The actor was not alone at fault, because my judgment also failed.",
+          "I missed the weight the scene required, so I will begin with the questions again."
+        ],
+        "clash_attack": [
+          "Cut the false scene!",
+          "Prove it with the image!",
+          "If it is not true, shoot it again!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I start with a scene worth turning on the camera for.",
+          "With every scene, I ask whether it feels true and holds my attention.",
+          "I plan with my head without shutting down an actor's emotions."
+        ],
+        "deploy": [
+          "Keep the camera simple and focus on the actor.",
+          "Know your lines before you arrive. On set, leave room for feeling.",
+          "If the film does not need it, cut it, however much you love it."
+        ],
+        "battle_win": [
+          "Taking our time paid off. The image is finally right.",
+          "I chose the best moments in the edit, and the scene came alive.",
+          "I did not pander to the audience. They recognized a good scene anyway."
+        ],
+        "battle_draw": [
+          "It is not bad, but I will ask whether we need it.",
+          "Time and money are short. I still will not settle for a careless take.",
+          "The plan failed. Let us see what chance gave us on set."
+        ],
+        "battle_lose": [
+          "I knew it was wrong and still failed to fix it. I will find where.",
+          "I cannot blame the actor. My judgment was wrong.",
+          "The scene went flat. I will return to what I meant to film."
+        ],
+        "clash_attack": [
+          "Cut the bad scene!",
+          "Prove it on screen!",
+          "If it looks false, shoot it again!"
+        ]
+      }
+    },
+    {
+      "id": "080db9b7-56ee-454a-b9a5-eee2a30da069",
+      "slug": "sydney-sweeney",
+      "nickname": "시드니 스위니",
+      "birthDate": "1997-09-12",
+      "profession": "actor",
+      "expectedEn": {
+        "roll_call": [
+          "I am here with an actor's instinct and a producer's plan.",
+          "I write the character's life, but I keep my own life for myself.",
+          "Repeated rejection will not change the way I prepare."
+        ],
+        "deploy": [
+          "Know the lines, then come alive on the set.",
+          "Share the problem and bring every voice to the table.",
+          "Make the plan and move on it yourself."
+        ],
+        "battle_win": [
+          "I brought a buried project back and carried it through myself.",
+          "The audience chose to love the work, so this victory was never forced.",
+          "I did not force a fixed answer, and the first instinct brought the scene to life."
+        ],
+        "battle_draw": [
+          "There is no answer yet, so I will fit the moving pieces together again.",
+          "The person I saw differs from the one the room wants, so I will feel it out again.",
+          "Words without context create mistakes, so please hold your judgment."
+        ],
+        "battle_lose": [
+          "I lived through years of rejection, and I will outlast this defeat too.",
+          "The words failed me despite my preparation, so next time I will breathe first.",
+          "My choice moved everyone's time, so I will take responsibility first."
+        ],
+        "clash_attack": [
+          "There is no plan B, so move again!",
+          "My story is mine to protect!",
+          "I will build it through to the end!"
+        ]
+      },
+      "revisedEn": {
+        "roll_call": [
+          "I came to act, but I am thinking like a producer too.",
+          "I draw on my life for a role without surrendering my private life.",
+          "Rejection never stops me from preparing for the next audition."
+        ],
+        "deploy": [
+          "Know your lines. On set, watch the actor across from you.",
+          "When a problem comes up, bring everyone into the conversation.",
+          "Do not wait. Take charge of the project you want to make."
+        ],
+        "battle_win": [
+          "I revived a shelved project and saw it all the way through.",
+          "We never forced it, and the audience loved the film anyway.",
+          "Without a fixed answer, my first instinct stayed alive on screen."
+        ],
+        "battle_draw": [
+          "I do not have the answer yet. I will work through it piece by piece.",
+          "My version of the role differs from the director's. I will adjust.",
+          "Please do not judge me from words stripped of their context."
+        ],
+        "battle_lose": [
+          "I have lost countless auditions. I can prepare again after this one.",
+          "My lines failed me. Next time I will breathe first.",
+          "I chose this project, so I am responsible for everyone's time."
+        ],
+        "clash_attack": [
+          "No plan B. Let's go again!",
+          "I will fight for my role!",
+          "If the role does not exist, I will produce it!"
+        ]
+      }
+    }
+  ]
+}

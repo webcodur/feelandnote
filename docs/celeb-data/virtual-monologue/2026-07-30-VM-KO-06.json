@@ -1,0 +1,3545 @@
+{
+  "schemaVersion": 1,
+  "batchId": "VM-KO-06",
+  "promptVersion": "vm-ko-dossier-v1",
+  "model": "gpt-5.6-sol",
+  "createdAt": "2026-07-29T17:46:23.493Z",
+  "people": [
+    {
+      "slug": "benito-mussolini",
+      "nickname": "베니토 무솔리니",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "파시즘을 만든 이탈리아의 독재자, 베니토 무솔리니입니다. 저는 1922년 검은 셔츠단을 로마로 진군시키고 총리가 되었으며, 그 자리에서 의회와 언론을 짓눌러 일당 독재를 세웠습니다. 질서와 단결을 약속했고, 이탈리아 전체를 하나의 의지로 움직이려 했습니다.\n\n변절자라는 말도 따라붙습니다. 사회주의 운동과 신문에 몸담았던 저는 전쟁과 민족주의를 둘러싼 충돌 끝에 사회주의와 결별했습니다. 노동자와 자본가가 서로 싸우는 나라를 견딜 수 없었습니다. 계급을 국가 아래 묶으면 혼란을 끝낼 수 있다고 믿었습니다. 그러나 제가 세운 협동조합 국가에서 노동자는 스스로 말할 권리를 잃었고, 자본가도 국가의 명령을 따라야 했습니다. 모두를 묶겠다는 말은 결국 모두를 복종시키겠다는 말이 되었습니다.\n\n의회는 말만 되풀이했고 정부는 파업과 실업을 막지 못했습니다. 저는 그 무능을 파고들었습니다. 공산주의 혁명에 대한 두려움을 부추겼고, 검은 셔츠단의 폭력을 정치에 끌어들였습니다. 왕에게 총리로 임명받았으니 권력의 입구에는 법의 모양이 남아 있었습니다. 그 뒤로 선거를 억누르고 신문을 틀어막고 반대파를 제거했습니다. 국가는 모든 것을 품어야 한다고 외쳤지만, 제가 허락하지 않은 생각은 그 안에서 숨을 쉴 수 없었습니다.\n\n로마 제국의 영광을 되찾겠다는 말은 군중을 들끓게 했습니다. 에티오피아를 침공해 제국을 선포했고, 이탈리아군은 그곳에서 화학무기까지 사용했습니다. 알바니아도 점령했습니다. 저는 그것을 부흥이라고 불렀습니다. 침략으로 짓밟힌 사람들에게는 아무 뜻도 없는 이름이었습니다. 히틀러와 손잡은 뒤에는 인종법을 도입해 유대인을 학교와 공직과 사회에서 몰아냈습니다. 하나의 국민을 만들겠다던 제가 국민 가운데 일부를 골라 밖으로 내쳤습니다.\n\n전쟁이 국민을 강하게 만든다고 믿었습니다. 지도자의 결단이 병력과 무기의 부족까지 이겨 낼 수 있다고도 믿었습니다. 승리가 가까워 보이자 제이차 세계대전에 뛰어들었고, 그 계산은 참혹하게 빗나갔습니다. 패전이 거듭되자 강철처럼 보이던 체제는 무너졌습니다. 1943년 권좌에서 쫓겨난 뒤 독일군의 도움으로 북부에서 다시 권력을 잡았지만, 제가 다스린 것은 독일에 매달린 잔존 정권이었습니다. 끝내 붙잡혀 처형되었습니다.\n\n저는 국가가 모든 것이며 개인은 그 안에서만 뜻을 얻는다고 믿었습니다. 그 믿음을 끝까지 밀어붙인 자리에는 독재와 박해, 침략 전쟁이 남았습니다. 제가 하나로 묶었다고 자랑하던 이탈리아는 전쟁과 내전 속에서 갈라졌고, 베니토 무솔리니라는 이름에는 제가 약속한 질서보다 제가 허락한 폭력이 더 짙게 남았습니다.",
+      "currentHash": "e0c63f35d7bc808197005df68c9551828fad77aa1c23f5bd531da971c47c9e21",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:견딜 수 없음"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "베니토 무솔리니",
+          "birth": "1883-07-29",
+          "death": "1945-04-28",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "이탈리아의 파시즘 창시자이자 독재자. 1922년 로마 진군으로 권력을 장악해 1943년까지 총리로 군림했으며 패전 후 처형됐다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "daniel-pink",
+      "nickname": "다니엘 핑크",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "author",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 연설문 작성에서 일·동기·설득·시간·후회로 넓어지는 작가의 질문을 쉽고 일관되게 묶는다. 그러나 연구를 직접 수행한 과학자와 그것을 대중서로 종합한 작가의 역할을 섞고, 자율성·숙련·목적을 핑크가 발견한 보편 법칙처럼 제시한다. 보상이 해로운 조건과 유용한 조건도 지나치게 단순화하며, 좌뇌·우뇌 구도는 현대 신경과학의 한계를 반영하지 않는다. 현재의 책별 구조는 유지하되 원 연구자, 경계 조건, 대중화의 공과를 분명히 하는 개선이 적합하다.",
+      "currentText": "사람들은 저를 동기부여 전문가 다니엘 핑크라고 소개하곤 합니다. 저는 사람을 들뜨게 하는 문구보다 사람이 실제로 무엇 때문에 움직이는지를 오래 파고든 작가에 가깝습니다. 정부에서 연설문을 쓰며 조직의 결정이 만들어지는 모습을 가까이서 보았고, 그 뒤에는 연구가 밝혀낸 사실이 일터에서 얼마나 자주 무시되는지를 책으로 옮겼습니다. 그 어긋남이 자꾸 마음에 남았습니다.\n\n『드라이브』를 쓰며 붙잡은 것도 그 불편함이었습니다. 성과를 높인다며 상금을 걸고, 의욕을 북돋운다며 사람을 더 세게 관리하지만, 생각하고 만들고 풀어야 하는 일에서는 그 손길이 흥미를 앗아가고 시야를 좁힙니다. 단순하고 반복적인 일에는 보상이 쓸모가 있지만, 모든 일을 당근과 채찍으로 다룰 수는 없습니다. 사람이 깊이 움직이는 힘은 자율성, 숙련, 목적에서 나옵니다. 일하는 방법을 스스로 정하고, 어려운 능력을 조금씩 키우고, 자기 일이 더 큰 무엇과 이어져 있다고 느낄 때 사람의 표정부터 달라집니다. 저는 연구 결과와 현실의 장면을 맞대 본 끝에 그 변화를 믿게 됐습니다.\n\n『새로운 미래가 온다』에서는 풍요와 자동화, 세계화가 바꾸어 놓은 일의 모습을 살폈습니다. 정확한 답을 빨리 내는 능력만으로는 부족해졌습니다. 디자인하고, 이야기를 만들고, 흩어진 것을 하나로 엮고, 다른 사람의 마음을 헤아리는 힘이 더 중요해졌습니다. 분석은 여전히 필요하지만 거기서 일이 끝나지 않습니다. 사람에게는 놀이를 발견하고 의미를 만들어 내는 넓은 감각도 있습니다.\n\n책이 늘어난 것은 질문이 사라지지 않았기 때문입니다. 물건을 팔지 않는 사람도 날마다 생각을 전하고 협력을 구하며 누군가를 움직입니다. 그 과정에서 압박보다 상대의 처지를 읽는 능력이 오래 갑니다. 같은 노력도 언제 시작하고 쉬고 결정하느냐에 따라 결과가 달라집니다. 후회도 지워야 할 얼룩처럼 밀어낼수록 되풀이됩니다. 가만히 들여다보면 무엇을 소중히 여겼고 어디에서 어긋났는지를 알려줍니다.\n\n돌이켜 보면 저는 사람을 움직이는 방법을 찾느라 평생을 보낸 셈입니다. 그 끝에서 거듭 만난 것은 사람에게 이미 방향을 찾고 성장하려는 힘이 있다는 사실입니다. 정부의 연설문 책상에서 시작된 의문은 아직 끝나지 않았습니다. 저는 지금도 과학과 현실 사이에 벌어진 틈을 문장으로 메우며 살아갑니다.",
+      "currentHash": "9d74ee705e39c29aa826950483ee054d2c784ee39d61d770fb202535e6d41c02",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "상투 도입:사람들은"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "다니엘 핑크",
+          "birth": "1964-07-23",
+          "death": null,
+          "profession": "author",
+          "disambiguation": "Drive·A Whole New Mind·When·The Power of Regret 등에서 행동과학 연구를 일과 삶의 조언으로 번역해 온 미국 논픽션 작가이자 전 미국 부통령 수석 연설문 작성자",
+          "existingBioForDiscoveryOnly": "미국의 작가이자 동기부여 전문가. '드라이브', '새로운 미래가 온다' 등으로 동기와 노동의 본질을 탐구했다."
+        },
+        "sources": [
+          {
+            "url": "https://www.danpink.com/about/",
+            "title": "About Daniel Pink",
+            "publisher": "Daniel Pink",
+            "kind": "primary",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "일곱 권의 논픽션 저자라는 활동 범위",
+              "앨 고어 부통령의 수석 연설문 작성자로 일한 경력",
+              "Drive·A Whole New Mind·When·The Power of Regret 등 주요 저서",
+              "살아 있는 작가의 공식 자기 소개가 가진 홍보 자료라는 성격"
+            ]
+          },
+          {
+            "url": "https://www.danpink.com/books/drive/",
+            "title": "Drive",
+            "publisher": "Daniel Pink",
+            "kind": "primary",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "내적 동기와 자율성·숙련·목적에 대한 책의 핵심 주장",
+              "조건부 보상이 특히 복잡하고 창의적인 일에서 역효과를 낼 수 있다는 핑크의 설명",
+              "단순한 반복 업무에서는 외적 보상이 쓸모 있을 수 있다는 책의 경계 조건",
+              "과학 논문이 아니라 저자의 대중적 요약과 처방이라는 출처 성격"
+            ]
+          },
+          {
+            "url": "https://www.danpink.com/books/",
+            "title": "Books",
+            "publisher": "Daniel Pink",
+            "kind": "primary",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "Free Agent Nation에서 The Power of Regret까지 이어지는 저서 목록",
+              "일·동기·설득·시간·후회를 다룬 주제의 확장",
+              "책별 주장을 저자의 공개 기획으로 확인할 수 있는 자료"
+            ]
+          },
+          {
+            "url": "https://selfdeterminationtheory.org/the-theory/",
+            "title": "The Theory",
+            "publisher": "Center for Self-Determination Theory",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "에드워드 데시와 리처드 라이언이 발전시킨 자기결정성이론의 선행 계보",
+              "자율성·유능감·관계성이라는 기본 심리 욕구",
+              "핑크의 자율성·숙련·목적 틀이 독립적으로 새로 발견한 심리학 이론은 아니라는 근거",
+              "동기를 내적·외적이라는 단순한 두 상자로만 나누지 않는 이론 구조"
+            ]
+          },
+          {
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10589297/",
+            "title": "A meta-analytic review of experiments examining the effects of extrinsic rewards on intrinsic motivation",
+            "publisher": "Psychological Bulletin / PubMed",
+            "kind": "scholarly",
+            "publishedAt": "1999-11-01",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "128개 실험을 종합한 외적 보상과 내적 동기의 관계",
+              "예상된 유형의 물질 보상이 자유 선택 행동과 흥미를 약화시킨다는 결과",
+              "긍정적 피드백은 내적 동기를 높일 수 있다는 상반된 조건",
+              "보상의 종류·기대·연령에 따라 효과가 달라진다는 경계"
+            ]
+          },
+          {
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24491020/",
+            "title": "Intrinsic motivation and extrinsic incentives jointly predict performance: a 40-year meta-analysis",
+            "publisher": "Psychological Bulletin / PubMed",
+            "kind": "scholarly",
+            "publishedAt": "2014-02-03",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "183개 표본과 21만여 명을 종합한 내적 동기·외적 보상·성과의 관계",
+              "내적 동기는 성과의 질을, 보상은 성과의 양을 더 잘 예측한 결과",
+              "보상과 내적 동기가 반드시 서로 적대하지는 않는다는 결론",
+              "업무 종류와 보상 연결 방식에 따라 효과가 달라진다는 경계 조건"
+            ]
+          },
+          {
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23967180/",
+            "title": "An evaluation of the left-brain vs. right-brain hypothesis with resting state functional connectivity magnetic resonance imaging",
+            "publisher": "PLOS ONE / PubMed",
+            "kind": "scholarly",
+            "publishedAt": "2013-08-14",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "일부 뇌 기능의 편재화는 존재하지만 사람 전체를 좌뇌형·우뇌형으로 나누는 증거는 없다는 분석",
+              "1,011명의 뇌 연결 자료에서 전뇌적 좌뇌형·우뇌형 성격 유형을 지지하지 못한 결과",
+              "A Whole New Mind의 좌뇌·우뇌 구도를 신경학적 사실이 아니라 시대적 비유로 제한해야 하는 이유"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "앨 고어 부통령의 수석 연설문 작성자로 일한 뒤 조직을 나와 일·직업·행동과학을 다루는 독립 작가가 됐다.",
+            "significance": "정부 조직에서 느낀 특정 감정을 창작하지 않고, 정치적 메시지를 쓰던 경력과 이후 대중 논픽션 작업의 실제 전환만 남긴다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/"
+            ]
+          },
+          {
+            "point": "A Whole New Mind에서 자동화·외주화 시대에 디자인·이야기·공감 같은 능력의 중요성을 강조하며 좌뇌·우뇌 비유를 사용했다.",
+            "significance": "지식노동의 변화를 대중에게 선명하게 설명한 성취와, 사람을 두 뇌 유형으로 나누는 신경과학적 단순화를 함께 검토하게 한다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/",
+              "https://www.danpink.com/books/",
+              "https://pubmed.ncbi.nlm.nih.gov/23967180/"
+            ]
+          },
+          {
+            "point": "Drive에서 데시·라이언 등 행동과학 연구를 자율성·숙련·목적이라는 실무 언어로 묶어 널리 알렸다.",
+            "significance": "핑크의 강점은 동기 이론의 최초 발견이 아니라 연구를 기억하기 쉬운 구조와 사례로 번역한 데 있음을 드러낸다.",
+            "sourceUrls": [
+              "https://www.danpink.com/books/drive/",
+              "https://selfdeterminationtheory.org/the-theory/",
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/"
+            ]
+          },
+          {
+            "point": "이후 설득·시간·후회를 다룬 책으로 범위를 넓히며 행동 연구를 일상에서 실행할 조언으로 재구성했다.",
+            "significance": "여러 학문을 직접 새로 발견한 학자처럼 쓰기보다 연구 질문을 대중 언어와 실천법으로 옮기는 작가의 일관된 역할을 보여 준다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/",
+              "https://www.danpink.com/books/"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "복잡하고 창의적인 일에서는 통제감을 높이는 조건부 보상보다 스스로 선택하고 성장하며 의미를 찾을 수 있는 환경이 중요하다.",
+            "sourceUrls": [
+              "https://www.danpink.com/books/drive/",
+              "https://selfdeterminationtheory.org/the-theory/",
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/"
+            ]
+          },
+          {
+            "point": "보상은 언제나 해롭거나 언제나 좋은 단일 처방이 아니며, 성과의 질과 양·업무의 복잡성·보상이 주어지는 방식에 따라 효과를 따져야 한다.",
+            "sourceUrls": [
+              "https://www.danpink.com/books/drive/",
+              "https://pubmed.ncbi.nlm.nih.gov/24491020/"
+            ]
+          },
+          {
+            "point": "작가의 역할은 행동과학의 모든 결론을 소유하는 것이 아니라 여러 연구를 일반 독자가 시험할 수 있는 질문과 사례로 번역하는 데 있다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/",
+              "https://www.danpink.com/books/"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "Drive의 자율성·숙련·목적은 강력한 대중적 틀이지만 데시·라이언의 자기결정성이론이 강조한 자율성·유능감·관계성을 그대로 대체하거나 핑크의 독창적 발견으로 돌릴 수 없다.",
+            "sourceUrls": [
+              "https://www.danpink.com/books/drive/",
+              "https://selfdeterminationtheory.org/the-theory/"
+            ]
+          },
+          {
+            "point": "일부 예상된 물질 보상이 내적 동기를 약화시킨다는 연구가 있지만 보상과 동기는 반드시 적대하지 않으며, 보상은 성과의 양을 높이거나 긍정적 피드백으로 작동할 수도 있다.",
+            "sourceUrls": [
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/",
+              "https://pubmed.ncbi.nlm.nih.gov/24491020/"
+            ]
+          },
+          {
+            "point": "A Whole New Mind의 좌뇌·우뇌 대비는 분석과 창의의 균형을 설명하는 기억하기 쉬운 비유였지만, 개인을 좌뇌형과 우뇌형으로 나누는 신경학적 사실로 읽으면 틀린다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/",
+              "https://pubmed.ncbi.nlm.nih.gov/23967180/"
+            ]
+          },
+          {
+            "point": "저자의 공식 사이트는 책의 주장과 경력을 확인하는 1차 자료지만 판매 성과와 효용을 강조하는 홍보물이며, 실제 조직 성과와 인과 효과는 독립 연구로 따로 검증해야 한다.",
+            "sourceUrls": [
+              "https://www.danpink.com/about/",
+              "https://www.danpink.com/books/drive/"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "일터나 일상의 짧은 질문으로 시작하고 연구가 말하는 조건을 한두 문장으로 푼 뒤 독자가 시험할 수 있는 사례로 닫는 중간 길이 문장을 쓴다.",
+          "directness": "친근하고 실용적으로 말하되 '과학이 증명했다'고 단정하지 않는다. 연구자·표본·조건을 간단히 밝히고 자신의 역할은 종합자이자 작가로 한정한다.",
+          "moves": [
+            "상금·마감·업무 선택권처럼 누구나 아는 장면에서 동기의 차이를 보여 주기",
+            "자율성·숙련·목적을 처음 쓸 때 괄호 안에 쉬운 행동 예시를 붙이기",
+            "책의 주장을 말한 직후 원 연구자와 보상이 달리 작동하는 조건을 함께 소개하기",
+            "좌뇌·우뇌는 비유였다고 명시하고 실제 뇌 기능은 두 반구의 복잡한 협업임을 짚기",
+            "정답을 선포하기보다 독자가 자기 일에서 확인할 질문으로 문단을 마무리하기"
+          ],
+          "avoid": [
+            "자율성·숙련·목적을 핑크가 과학적으로 발견한 세 가지 보편 욕구로 서술하기",
+            "외적 보상은 언제나 창의성과 성과를 파괴한다는 무조건적 선언",
+            "사람의 표정이 달라졌거나 정부 시절의 어긋남이 마음에 남았다는 확인되지 않은 내면 묘사",
+            "논리적인 좌뇌형 사람과 창의적인 우뇌형 사람을 실제 인간 유형으로 나누기",
+            "베스트셀러 판매량·기업 사례를 이론의 인과 효과가 입증된 증거로 사용하기",
+            "여러 분야의 연구를 한 문장짜리 자기계발 격언으로 평평하게 만들기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "내적 동기",
+            "guide": "상금이나 벌 때문이 아니라 활동 자체가 흥미롭거나 중요해서 움직이는 힘",
+            "sourceUrls": [
+              "https://selfdeterminationtheory.org/the-theory/",
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/"
+            ]
+          },
+          {
+            "term": "외적 보상",
+            "guide": "돈·점수·상품처럼 행동의 바깥에서 주어져 그 행동을 유도하는 대가",
+            "sourceUrls": [
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/",
+              "https://pubmed.ncbi.nlm.nih.gov/24491020/"
+            ]
+          },
+          {
+            "term": "조건부 보상",
+            "guide": "정해 둔 행동이나 성과를 달성했을 때만 주겠다고 미리 약속한 보상",
+            "sourceUrls": [
+              "https://www.danpink.com/books/drive/",
+              "https://pubmed.ncbi.nlm.nih.gov/10589297/"
+            ]
+          },
+          {
+            "term": "자기결정성이론",
+            "guide": "자율성·유능감·관계성 같은 기본 욕구가 충족될 때 사람의 자발적 동기와 안녕이 어떻게 달라지는지 설명하는 심리학 이론",
+            "sourceUrls": [
+              "https://selfdeterminationtheory.org/the-theory/"
+            ]
+          },
+          {
+            "term": "메타분석",
+            "guide": "여러 연구의 결과를 같은 기준으로 모아 전체 경향과 조건별 차이를 계산하는 연구 방법",
+            "sourceUrls": [
+              "https://pubmed.ncbi.nlm.nih.gov/24491020/"
+            ]
+          },
+          {
+            "term": "뇌 기능의 편재화",
+            "guide": "언어나 공간 처리 같은 일부 기능이 두 뇌 반구에서 똑같지 않고 한쪽에 더 치우쳐 작동하는 현상",
+            "sourceUrls": [
+              "https://pubmed.ncbi.nlm.nih.gov/23967180/"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "다니엘 핑크는 행동과학을 직접 창시한 학자가 아니라 여러 연구를 대중서로 종합한 작가이므로, 각 발견의 선행 공로를 원 연구자와 논문에 돌린다.",
+          "저자의 공식 사이트는 경력과 책에서 직접 내세운 주장을 확인하는 자료이지만 책의 효과·판매 성과를 강조하는 홍보 자료라 독립 검증을 대신하지 않는다.",
+          "외적 보상 효과는 보상의 종류·기대 여부·성과의 질과 양·업무 난도에 따라 달라지므로 '당근과 채찍은 실패한다'는 하나의 법칙으로 압축하지 않는다.",
+          "Drive의 자율성·숙련·목적과 자기결정성이론의 자율성·유능감·관계성은 겹치지만 같은 용어 체계가 아니며, 목적을 자기결정성이론의 세 번째 기본 욕구로 바꿔 쓰지 않는다.",
+          "A Whole New Mind의 좌뇌·우뇌 구도는 경제와 업무 변화를 설명하는 비유로만 다루고 개인의 성격·직업 적성을 뇌 반구 우세로 진단하지 않는다.",
+          "기업이나 학교가 핑크의 조언을 적용해 성과를 냈다는 사례는 선택 편향과 다른 요인이 있을 수 있어 책의 이론을 입증하는 인과 증거로 사용하지 않는다.",
+          "살아 있는 인물의 정치 경력에 대한 후회·회의, 글을 쓰는 개인적 사명, 가족 관계와 감정은 직접 확인 가능한 발언이 없으면 독백에 만들지 않는다.",
+          "후회·설득·시간에 관한 각 책의 주장을 한 연구로 일반화하지 않고, 최종 독백에서 다룰 경우 책별 원 연구와 조사 설계를 추가로 확인한다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "francis-bacon",
+      "nickname": "프란시스 베이컨",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "humanities_scholar",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 공직 추락과 우상·귀납·연구 공동체를 한 축으로 묶고, 베이컨의 핵심 개념을 쉬운 사례로 설명한다. 그러나 그가 판결을 굽히지 않았다는 자기방어를 사실처럼 두며, 후대의 과학이 그의 방법을 그대로 채택했다는 인상을 준다. 미완성인 대개혁 계획과 잘못된 자연 이론, 정치적 희생양이라는 맥락과 뇌물 수수 고백의 공존, 식민 회사 참여와 군사적 제국론, 솔로몬의 집의 위계·비밀성까지 포함해 철학과 권력을 함께 비판하는 개선이 필요하다.",
+      "currentText": "프란시스 베이컨이라는 이름에는 서로 불편한 두 기록이 붙어 있습니다. 경험에서 지식을 세우려 한 철학자, 그리고 잉글랜드의 대법관 자리에서 추락한 정치가입니다. 저는 법정과 의회와 궁정에서 오래 일했고, 그 한가운데서 사람의 판단이 욕망과 체면에 얼마나 쉽게 끌려가는지 보았습니다. 그 사실은 책상 위에서만 얻은 깨달음이 아니었습니다. 저는 그 그늘을 벗어나지 못했습니다.\n\n대법관으로 있던 때 선물과 돈을 받은 일로 탄핵되어 유죄를 인정했습니다. 그 때문에 판결을 굽힌 적은 없다고 항변했지만, 공직을 맡은 책임까지 가벼워지지는 않았습니다. 높은 자리에 오르려 애쓴 세월은 길었고, 그 자리에서 밀려나는 일은 짧았습니다. 명예에 남은 얼룩도 지울 수 없었습니다.\n\n사람은 자신이 믿고 싶은 것을 사실보다 먼저 붙잡습니다. 모든 사람이 함께 빠지는 버릇, 저마다의 경험이 만든 좁은 동굴, 말이 빚어내는 혼란, 권위 있는 학설이 꾸민 무대가 정신을 가립니다. 저는 이런 굴절을 우상이라 불렀습니다. 자연을 살피기 전에 판단을 흐리는 것부터 찾아내야 했습니다.\n\n몇 가지 사례만 보고 곧장 가장 높은 원리로 뛰어오르면, 사람은 자연에서 자기 생각만 다시 발견하게 됩니다. 현상이 나타나는 경우와 나타나지 않는 경우, 강해지는 때와 약해지는 때를 나란히 놓아야 합니다. 맞지 않는 설명을 하나씩 걷어내고, 낮은 판단에서 넓은 원리로 천천히 올라가야 합니다. 저는 《신기관》에서 그 길을 귀납이라는 방법으로 다듬었습니다. 관찰과 실험이 생각을 바로잡게 하고, 새로운 증거가 나오면 판단도 고쳐야 했습니다.\n\n국정을 맡으며 한 사람의 재치만으로는 큰일이 오래가지 못한다는 것도 배웠습니다. 여러 사람이 실험을 나누고 결과를 기록하며, 앞선 실패까지 다음 사람에게 넘겨주어야 지식이 자랍니다. 《새로운 아틀란티스》에 그려 넣은 연구 공동체에는 그런 바람이 담겨 있습니다.\n\n지식의 힘은 병을 덜고, 굶주림을 줄이고, 삶의 조건을 낫게 만드는 데 쓰여야 했습니다. 자연의 힘을 쓰려면 먼저 그 질서를 따라야 했습니다. 저는 벼슬을 잃었고 명예에는 지워지지 않는 얼룩을 남겼습니다. 그래도 경험 앞에서 생각을 고쳐 세우는 이 길만큼은 제가 끝내 세상에 남기고 싶었던 일이었습니다.",
+      "currentHash": "c78bf8ef086849618d6bfcdff33ceed0868d1bf0ffe50d83c903bd09dec04263",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "프란시스 베이컨",
+          "birth": "1561-01-22",
+          "death": "1626-04-09",
+          "profession": "humanities_scholar",
+          "disambiguation": "Novum Organum과 New Atlantis에서 제거식 귀납·자연사·협업 연구를 제안했고 대법관 재임 중 뇌물 수수로 탄핵된 잉글랜드 철학자·법률가·정치가",
+          "existingBioForDiscoveryOnly": "잉글랜드 철학자·정치가. 귀납법과 경험주의 철학의 토대를 세우고 근대 과학의 방법론을 확립했다."
+        },
+        "sources": [
+          {
+            "url": "https://plato.stanford.edu/entries/francis-bacon/",
+            "title": "Francis Bacon",
+            "publisher": "Stanford Encyclopedia of Philosophy",
+            "kind": "scholarly",
+            "publishedAt": "2025-12-02",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "법률가·정치가·철학자로서의 생애와 지식 대개혁 계획",
+              "네 우상·제거식 귀납·자연사·협업 연구·유용한 지식이라는 철학",
+              "1621년 뇌물 수수 탄핵·고백과 버킹엄을 겨냥한 정치적 캠페인의 맥락",
+              "6부로 계획한 Instauratio magna의 대부분을 완성하지 못한 사실",
+              "후대 실험 철학에 준 영향과 그의 방법이 실제 과학의 단일 절차가 되지 않았다는 평가",
+              "군사력·제국 확장에 관한 정치 사상과 일부 잘못된 실체적 자연철학"
+            ]
+          },
+          {
+            "url": "https://www.gutenberg.org/ebooks/45988",
+            "title": "Novum organum: or, True suggestions for the interpretation of nature",
+            "publisher": "Project Gutenberg",
+            "kind": "primary",
+            "publishedAt": "1620",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "감각과 개별 사례에서 시작해 단계적으로 일반 명제로 올라가는 방법",
+              "종족·동굴·시장·극장의 네 우상",
+              "단순 열거가 아니라 배제와 반례를 이용하는 귀납",
+              "지식과 인간의 능력을 연결하는 베이컨 자신의 문장과 논증"
+            ]
+          },
+          {
+            "url": "https://tile.loc.gov/storage-services/master/gdc/gdcebookspublic/20/20/71/80/82/2020718082/2020718082.pdf",
+            "title": "The Works of Francis Bacon",
+            "publisher": "Library of Congress",
+            "kind": "primary",
+            "publishedAt": "1902",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "New Atlantis와 솔로몬의 집을 포함한 베이컨 저작의 공공기관 소장본",
+              "연구를 분업하고 관찰·실험·기록을 모으는 가상 연구기관",
+              "지식을 공개하는 사람과 비밀로 유지하는 내용을 나누는 위계적 구조",
+              "유용한 발명과 국가 질서가 결합한 베이컨의 연구 공동체 구상"
+            ]
+          },
+          {
+            "url": "https://www.cambridge.org/core/journals/review-of-politics/article/francis-bacon-on-imperial-and-colonial-warfare/84F46D13520167299A54C903099D507C",
+            "title": "Francis Bacon on Imperial and Colonial Warfare",
+            "publisher": "The Review of Politics / Cambridge University Press",
+            "kind": "scholarly",
+            "publishedAt": "2022-03-24",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "버지니아 회사 평의회·뉴펀들랜드 회사·북서항로 회사·동인도 회사 참여",
+              "Of Plantations에서 식민 통치와 계엄·전쟁을 연결한 정치 구상",
+              "식민 사업의 장기 이윤과 안정성을 강조한 입장",
+              "철학적 지식의 힘과 정치적 제국 확장을 완전히 분리할 수 없다는 비판적 맥락"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "법률가와 의원으로 경력을 쌓는 동안 학문의 결함을 분류하고 모든 지식을 다시 세우는 Instauratio magna를 6부 계획으로 발전시켰다.",
+            "significance": "베이컨을 관찰 몇 번으로 귀납법을 발명한 사람으로 축소하지 않고 법·정치·수사학·자연사를 묶은 거대한 미완성 기획자로 보여 준다.",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "1620년 Novum Organum에서 네 우상을 경계하고 자연사 자료와 배제·반례를 통해 단계적으로 원리를 찾는 새 방법을 제안했다.",
+            "significance": "귀납을 사례를 많이 모아 일반화하는 단순 공식이 아니라 편견을 통제하고 맞지 않는 설명을 제거하는 어려운 절차로 설명한다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "1621년 의회가 대법관 베이컨을 뇌물 수수로 탄핵하자 그는 혐의를 방어하지 않고 고백했으며 잠시 런던탑에 갇힌 뒤 모든 공직을 잃었다.",
+            "significance": "버킹엄을 겨냥한 정치 캠페인의 희생양이라는 맥락을 인정하되 선물 수수와 공직 책임을 지우거나 확인되지 않은 참회로 바꾸지 않는다.",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "실각 뒤 자연철학 저술에 집중했고, 사후 출간된 New Atlantis에서 분업·기록·발명을 조직하는 솔로몬의 집을 그렸다.",
+            "significance": "개인의 천재적 통찰보다 기관과 협업을 앞세운 유산을 살리면서 그 공동체의 위계·비밀·국가 권력도 함께 읽게 한다.",
+            "sourceUrls": [
+              "https://tile.loc.gov/storage-services/master/gdc/gdcebookspublic/20/20/71/80/82/2020718082/2020718082.pdf",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "지식은 논쟁의 승리나 관조에 머물지 않고 질병과 생활 조건을 개선하는 실제 효과를 내야 한다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "사람의 판단은 인간 공통의 버릇·개인 경험·언어·권위 있는 학설에 휘므로, 자연을 조사하기 전에 이 네 종류의 우상을 통제해야 한다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "몇 사례를 세어 곧바로 높은 원리로 뛰지 말고 자연사 자료를 모아 반례와 배제를 거치며 낮은 명제에서 단계적으로 올라가야 한다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "학문의 진전은 한 사람의 재치보다 관찰·실험·기록을 분담하고 축적하는 기관의 장기 협업을 필요로 한다.",
+            "sourceUrls": [
+              "https://tile.loc.gov/storage-services/master/gdc/gdcebookspublic/20/20/71/80/82/2020718082/2020718082.pdf",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "베이컨은 인간 판단의 우상을 비판했지만 자신은 왕의 총애와 공직 승진을 좇았고, 대법관으로 선물을 받은 혐의에 맞서 재판하지 않고 고백했다. 동시에 탄핵은 버킹엄을 겨냥한 정치 캠페인의 일부이기도 했다.",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "point": "그의 제거식 귀납·자연사·협업 구상은 후대 실험 철학에 큰 영향을 주었지만 6부 계획은 대부분 미완성이었고 이후 과학이 그의 절차를 그대로 따랐다고 볼 수 없다.",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/",
+              "https://www.gutenberg.org/ebooks/45988"
+            ]
+          },
+          {
+            "point": "지식이 인류의 생활을 돕는다고 말한 철학자는 동시에 군사력을 국가 위대함의 핵심으로 보았고 식민 회사에 참여하며 식민 통치의 계엄·이윤·제국 확장을 논했다.",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/",
+              "https://www.cambridge.org/core/journals/review-of-politics/article/francis-bacon-on-imperial-and-colonial-warfare/84F46D13520167299A54C903099D507C"
+            ]
+          },
+          {
+            "point": "솔로몬의 집은 협업 연구기관의 선구적 상상이지만 모든 지식을 평등하게 공개하는 공동체가 아니라 발견의 공개 여부를 엘리트가 정하는 위계적이고 비밀스러운 기관이다.",
+            "sourceUrls": [
+              "https://tile.loc.gov/storage-services/master/gdc/gdcebookspublic/20/20/71/80/82/2020718082/2020718082.pdf",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "법정의 증거와 자연사의 사례를 나란히 놓듯, 구체적 사실을 먼저 제시하고 그 사실이 어떤 성급한 일반화를 배제하는지 이어 쓰는 중간 길이 문장을 쓴다.",
+          "directness": "격조 있는 1인칭을 쓰되 자기 변호를 사실로 승인하지 않는다. 성취 뒤에는 미완성과 잘못된 판단을, 공직 추락 뒤에는 정치 맥락과 개인 책임을 같은 무게로 둔다.",
+          "moves": [
+            "한 가지 사례에서 시작해 곧장 결론으로 뛰는 자신의 유혹을 네 우상 가운데 하나와 연결하기",
+            "귀납·자연사·솔로몬의 집을 처음 쓸 때 괄호 안에 쉬운 설명을 붙이기",
+            "철학적 성취를 말한 직후 완성하지 못한 계획과 후대가 그대로 따르지 않은 방법을 인정하기",
+            "대법관 탄핵은 정치적 캠페인과 뇌물 수수 고백을 동시에 놓고 어느 한쪽으로 면죄하지 않기",
+            "지식의 유익을 말할 때 식민·군사·위계 권력에 봉사할 수 있다는 반대 장면을 붙이기"
+          ],
+          "avoid": [
+            "근대 과학의 방법을 혼자 발명하거나 오늘날의 실험 절차를 완성했다는 영웅 서술",
+            "선물을 받았지만 판결은 한 번도 굽히지 않았다는 베이컨의 자기방어를 검증된 사실로 쓰기",
+            "실각 뒤 자신의 우상을 깨닫고 진심으로 참회했다는 내면 창작",
+            "경험주의를 관찰을 많이 하면 진리가 자동으로 나온다는 단순 귀납으로 설명하기",
+            "솔로몬의 집을 현대의 개방적·민주적 연구소와 동일시하기",
+            "식민 회사 참여와 군사적 제국론을 시대가 그랬다는 한 문장으로 지우거나 자연 지배 비판을 단일한 정답으로 확정하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "우상",
+            "guide": "종교의 신상이 아니라 사람이 사실을 보기 전에 빠지는 공통 습관·개인 경험·말·권위의 네 종류 편견",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "term": "귀납",
+            "guide": "개별 관찰과 실험에서 출발해 더 넓은 설명으로 올라가는 추론으로, 베이컨은 반례와 배제를 특히 강조했다",
+            "sourceUrls": [
+              "https://www.gutenberg.org/ebooks/45988",
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "term": "제거식 귀납",
+            "guide": "설명과 맞지 않는 사례를 하나씩 제외해 남은 가능성을 좁혀 가는 베이컨의 귀납 방식",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "term": "자연사",
+            "guide": "동식물 이야기만이 아니라 자연 현상·인공 실험·실패 사례를 체계적으로 모은 조사 기록",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "term": "Instauratio magna",
+            "guide": "당시의 학문 분류·자료·방법·철학을 6부에 걸쳐 새로 세우려 한 베이컨의 미완성 지식 대개혁 계획",
+            "sourceUrls": [
+              "https://plato.stanford.edu/entries/francis-bacon/"
+            ]
+          },
+          {
+            "term": "솔로몬의 집",
+            "guide": "New Atlantis에서 여러 사람이 관찰·실험·기록·발명을 분담하는 가상의 위계적 연구기관",
+            "sourceUrls": [
+              "https://tile.loc.gov/storage-services/master/gdc/gdcebookspublic/20/20/71/80/82/2020718082/2020718082.pdf"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "1621년 탄핵은 버킹엄을 겨냥한 정치 투쟁의 성격과 베이컨 자신의 뇌물 수수 고백을 함께 지녔으므로 완전한 조작 또는 단순한 개인 부패 가운데 하나로 축소하지 않는다.",
+          "베이컨이 선물 때문에 판결을 굽히지 않았다고 주장한 것은 자기방어이며, 이번 자료만으로 모든 판결의 독립성을 검증할 수 없다.",
+          "실각 뒤 철학에 집중한 사실은 확인되지만 그가 자신의 도덕적 우상을 깨닫고 참회했는지, 수치와 구원을 어떻게 느꼈는지는 사료 없이 창작하지 않는다.",
+          "Novum Organum은 중요한 방법론적 제안이지만 Instauratio magna 전체가 완성되지 않았고 베이컨의 물질·자연 이론 가운데는 후대에 폐기된 내용도 많다.",
+          "후대 실험 철학과 연구기관이 베이컨의 협업·유용성 구상에서 영향을 받았어도 현대 과학이 그의 귀납법 하나를 그대로 계승했다고 쓰지 않는다.",
+          "‘지식은 힘’이라는 통용 문구는 여러 저작의 지식과 힘의 결합을 요약한 표현이므로 번역된 격언 한 줄을 모든 철학의 직접 인용처럼 반복하지 않는다.",
+          "베이컨의 자연 지배 언어가 근대의 환경 파괴를 직접 낳았다는 해석과 단지 자선적 유용성만 뜻했다는 해석 모두 논쟁적이므로 한쪽을 확정된 내면 동기로 만들지 않는다.",
+          "식민 회사 참여와 제국·계엄론은 확인되지만 특정 식민지의 모든 폭력과 결과를 베이컨 개인이 직접 명령했다고 확장하지 않는다.",
+          "New Atlantis의 솔로몬의 집은 미완성 유토피아 속 가상 기관이며 현대 연구소의 민주성·공개성·윤리 심사를 예언한 완성 설계도로 다루지 않는다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "gwanggaeto-the-great",
+      "nickname": "광개토대왕",
+      "profileType": "real",
+      "tier": "light",
+      "profession": "commander",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "사람들은 훗날 나를 광개토대왕이라 불렀다. 고구려의 열아홉째 왕으로 올라 요동과 한반도 곳곳으로 군사를 이끌고 나라의 경계를 넓혔다. 영락이라는 연호도 세웠다. 고구려의 해는 고구려가 세겠다는 선언이었다.\n\n왕위에 앉았을 때 국경마다 다른 칼이 번뜩였다. 서쪽에서는 요동을 두고 세력이 맞섰고, 남쪽에서는 백제가 길을 막았으며, 북방의 여러 집단도 틈을 엿보았다. 한곳에 군사를 내보낼 때마다 비워 둔 다른 국경이 마음에 걸렸다. 그렇다고 성벽 뒤에서 적이 힘을 모으도록 기다릴 수는 없었다. 나는 먼저 움직였다. 빼앗긴 성과 길을 되찾고 전쟁터를 국경 밖으로 밀어냈다.\n\n백제를 쳐 수십 개의 성과 많은 마을을 거두고, 그 왕에게 항복의 맹세와 인질을 받았다. 그날의 굴복보다 내 마음을 놓이게 한 것은 남쪽 길목이 고구려의 손에 들어왔다는 사실이었다. 그러나 남쪽의 불길은 거기서 꺼지지 않았다. 신라가 왜의 침입을 견디지 못해 구원을 청하자 대군을 보냈다. 군사들은 신라 땅 깊숙이 내려가 왜의 세력을 몰아냈다. 고구려의 군대가 움직이자 한반도 남부의 형세까지 흔들렸다.\n\n서쪽에서도 후연과 맞서 요동의 성과 거점을 차지했다. 요동은 북방과 중원을 잇는 길이며, 바깥의 군대가 고구려로 들어오는 문이었다. 그 문을 다른 세력의 손에 둔 채 잠을 편히 잘 수 없었다. 사람들은 내가 땅을 탐해 쉼 없이 싸웠다고 할 것이다. 지도 위에서 넓어진 땅만 헤아리면 그렇게 보인다. 내 눈에는 길이 먼저 보였다. 적이 들어오는 길, 고구려의 군사가 달려갈 길, 백성이 살아갈 터전을 지키는 길이었다.\n\n싸움이 끝난 자리에는 성을 고치고 사람을 다스릴 일이 남았다. 복속과 조공을 받아낸 것도 같은 전쟁을 해마다 되풀이하지 않기 위해서였다. 평양에는 절을 세우게 했다. 이미 고구려에 자리 잡은 불교가 사람들의 마음을 모으고 나라의 질서를 다지는 데 힘이 되기를 바랐다. 넓힌 땅을 오래 지키려면 군사의 위세와 함께 나라를 붙드는 마음이 필요했다.\n\n내가 죽었을 때 아직 마흔도 되지 않았다. 그 짧은 세월 동안 고구려가 사방의 압력을 견디기만 하는 모습을 두고 보지 않았다. 길을 열고, 성을 얻고, 먼저 나아갔다. 사람들이 내 이름 앞에 광개토라는 말을 붙인 까닭도 그 걸음에 있을 것이다. 내 삶은 고구려의 경계를 밀어 넓히는 데 다 쓰였고, 나는 마지막까지 그 걸음을 늦추지 않았다.",
+      "currentHash": "bb9c9d69a4d624deae4b1825046f898b9f2156218d201e9dc28b5ec23cf2ef5e",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "상투 도입:사람들은"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "광개토대왕",
+          "birth": "374",
+          "death": "412",
+          "profession": "commander",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "고구려 제19대 왕. 만주와 한반도 일대를 아우르는 대규모 정복 전쟁을 이끌어 고구려 최대 영토를 확보했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "john-mccarthy",
+      "nickname": "존 매카시",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "scientist",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 인공지능, 리스프, 상식 추론, 시분할을 '지능을 계산 가능한 문제로 바꾸기'라는 한 축에 잘 묶고 설명도 쉽다. 그러나 다트머스 제안의 공동 저자들과 인공지능의 선행 흐름, 스티브 러셀을 비롯한 리스프 구현자들, 페르난도 코르바토가 이끈 CTSS 팀의 공로가 결국 매카시 개인에게 수렴한다. 좋은 구조는 유지하되 제안·설계·구현을 분리하고, 당시의 낙관과 오늘날 결과를 사후 예언처럼 잇지 않도록 개선한다.",
+      "currentText": "‘인공지능’이라는 말은 존 매카시라는 이름보다 훨씬 오래 살아남았습니다. 제가 그 이름을 제안했고, 1956년 여러 연구자와 다트머스에 모여 새로운 연구 분야의 문을 연 것은 사실입니다. 이름은 짧았지만 그 안에 넣어야 할 문제는 끝이 없었습니다.\n\n제가 붙든 생각은 단순했습니다. 지능의 어떤 부분이든 충분히 정확하게 설명할 수 있다면 기계가 다루는 절차로 옮길 수 있다고 믿었습니다. 말로는 단순합니다. 실제로 해 보면 사람이 너무 당연하게 여겨 설명조차 하지 않는 것들이 사방에서 튀어나옵니다. 새는 날고, 떨어뜨린 물건은 아래로 가며, 한 사람이 같은 시각에 두 곳에 있을 수 없다는 상식까지 기계에는 일일이 알려 주어야 합니다. 저는 바로 그 성가신 문제에 오래 매달렸습니다.\n\nLISP도 그 과정에서 만들었습니다. 인공지능을 연구하려면 기호와 목록을 자유롭게 다루고, 프로그램 자체도 자료처럼 고쳐 가며 시험할 수 있어야 했습니다. 생각을 바꿀 때마다 도구와 씨름해서는 앞으로 나아갈 수 없었습니다. LISP는 재귀 호출과 자동 메모리 관리를 널리 퍼뜨렸고, 연구자들은 머릿속 생각을 훨씬 빠르게 프로그램으로 옮길 수 있었습니다. 좋은 언어는 표현을 편하게 해 주는 데서 그치지 않고, 생각이 갈 수 있는 자리까지 넓혀 줍니다.\n\n거대한 컴퓨터를 한 사람이 독차지하는 모습도 답답했습니다. 여러 사람이 한 기계를 함께 쓰면서 각자 곧바로 응답받는 모습을 원했고, 그 생각을 타임셰어링으로 발전시켰습니다. 이제는 네트워크 너머의 계산 능력을 필요할 때 꺼내 쓰는 일이 너무 평범해져서, 한때 그것이 낯선 구상이었다는 사실조차 희미해졌습니다.\n\n제가 지나치게 낙관적이었다는 평가는 대체로 맞습니다. 진전이 더디다고 해서 문제가 풀리지 않는다고 단정할 이유는 없다고 보았습니다. 경탄만으로는 기계를 지능적으로 만들 수 없습니다. 무엇을 안다는 것인지, 어떤 전제로 결론에 이르는지, 빠진 상식은 무엇인지 하나씩 적어야 합니다. 저는 평생 지능을 신비로 남겨 두기보다, 기계가 다룰 수 있는 문장으로 옮기는 쪽을 택했습니다.",
+      "currentHash": "612bd96153988a862247356098d806a0f89f0df703810b80bdb974aef154ab3b",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "존 매카시",
+          "birth": "1927-09-04",
+          "death": "2011-10-24",
+          "profession": "scientist",
+          "disambiguation": "인공지능이라는 연구 명칭을 제안하고 리스프를 설계했으며 상식 추론과 시분할 컴퓨팅을 개척한 미국 컴퓨터 과학자",
+          "existingBioForDiscoveryOnly": "미국의 컴퓨터 과학자이자 인지과학자. 1956년 '인공지능'이라는 용어를 창안하고 LISP 프로그래밍 언어를 개발했으며, 타임셰어링 개념을 제안해 현대 컴퓨팅의 기반을 닦았다."
+        },
+        "sources": [
+          {
+            "url": "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+            "title": "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+            "publisher": "Stanford University",
+            "kind": "primary",
+            "publishedAt": "1955-08-31",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "인공지능이라는 명칭을 사용한 1955년 제안서",
+              "존 매카시, 마빈 민스키, 너새니얼 로체스터, 클로드 섀넌 네 명의 공동 제안",
+              "학습과 지능의 여러 측면을 기계로 모사할 수 있다는 연구 가설",
+              "언어, 추상화, 자기 개선 등 워크숍의 문제 설정"
+            ]
+          },
+          {
+            "url": "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+            "title": "History of Lisp",
+            "publisher": "Stanford University",
+            "kind": "primary",
+            "publishedAt": "1979-02-12",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "리스프가 기호식과 목록을 다루는 언어로 형성된 과정",
+              "람다 계산, 재귀, 조건식, 가비지 컬렉션이 초기 설계에 결합한 맥락",
+              "매카시가 스티브 러셀과 여러 구현자의 공헌을 충분히 기록하지 못했다고 밝힌 자료 한계"
+            ]
+          },
+          {
+            "url": "https://www-formal.stanford.edu/jmc/history/lisp/node3.html",
+            "title": "The implementation of LISP",
+            "publisher": "Stanford University",
+            "kind": "primary",
+            "publishedAt": "1979-02-12",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "스티브 러셀이 eval을 기계어로 작성해 작동하는 인터프리터를 만든 사실",
+              "리스프의 아이디어와 실제 구현이 여러 사람의 작업으로 이루어진 과정",
+              "가비지 컬렉션의 선택과 초기 구현 맥락"
+            ]
+          },
+          {
+            "url": "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+            "title": "John McCarthy",
+            "publisher": "Computer History Museum",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1955년 인공지능 명칭 제안과 다트머스 연구 계획",
+              "MIT에서의 리스프와 인공지능 연구",
+              "시분할 연구를 촉진한 매카시의 역할과 코르바토·데니스·민스키 등 동료",
+              "스탠퍼드 인공지능 연구소와 상식 추론 연구"
+            ]
+          },
+          {
+            "url": "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy",
+            "title": "John McCarthy",
+            "publisher": "U.S. National Science Foundation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "리스프, 시분할, 수학적 계산 이론, 상식 지식과 추론에 대한 공식 공적",
+              "인공지능 분야의 명명과 정의에 기여한 사실",
+              "1990년 미국 국가과학훈장 수훈"
+            ]
+          },
+          {
+            "url": "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715",
+            "title": "Professor Emeritus Fernando Corbató, MIT computing pioneer, dies at 93",
+            "publisher": "MIT News",
+            "kind": "institutional",
+            "publishedAt": "2019-07-15",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "CTSS와 멀틱스 개발을 이끈 페르난도 코르바토와 팀의 공로",
+              "시분할 아이디어가 매카시 한 사람에게서 처음 나온 것이 아니라는 동료 증언",
+              "제안과 작동하는 운영체제 구현을 구분해야 하는 이유"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "1955년 매카시는 민스키, 로체스터, 섀넌과 함께 '인공지능'이라는 이름을 내건 다트머스 연구 계획을 제안했다.",
+            "significance": "한 사람이 학문을 발명했다는 신화보다 여러 연구 흐름을 한 이름과 문제 목록 아래 모은 편집자이자 조직자의 역할을 보여 준다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/"
+            ]
+          },
+          {
+            "point": "1950년대 말 수학적 기호와 목록을 다루는 리스프의 핵심 표기와 구조를 설계했고, 스티브 러셀과 동료들이 이를 실제 언어로 구현했다.",
+            "significance": "매카시의 설계 통찰을 살리면서도 아이디어와 작동하는 시스템 사이의 공동 노동을 분리한다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+              "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+            ]
+          },
+          {
+            "point": "MIT에서 여러 사용자가 컴퓨터를 동시에 대화식으로 쓰는 시분할을 주장하고 연구를 촉진했으며, 코르바토가 이끈 팀이 CTSS를 구현했다.",
+            "significance": "오늘날 네트워크 서비스의 선구적 상상을 말하되 클라우드를 혼자 예언하거나 운영체제를 직접 완성했다고 과장하지 않게 한다.",
+            "sourceUrls": [
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+              "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+            ]
+          },
+          {
+            "point": "스탠퍼드에서 상식 지식을 논리로 표현하고 기계가 불완전한 세계에서 추론하는 문제를 장기 연구했다.",
+            "significance": "초기 인공지능의 낙관만이 아니라 그가 평생 붙든 미완의 난제를 독백의 중심 갈등으로 만든다.",
+            "sourceUrls": [
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+              "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "지능을 신비로 남겨 두기보다 언어, 지식, 추론, 학습처럼 나누어 기술할 수 있는 연구 문제로 만들어야 한다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html"
+            ]
+          },
+          {
+            "point": "프로그램은 숫자만 계산하는 명령열이 아니라 기호식과 프로그램 자체를 자료로 다루는 표현 체계가 될 수 있다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+              "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+            ]
+          },
+          {
+            "point": "컴퓨터는 한 작업에 묶인 값비싼 장비가 아니라 여러 사람이 단말로 접속해 대화식으로 함께 쓰는 공용 자원이 될 수 있다.",
+            "sourceUrls": [
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+              "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "인공지능이라는 이름은 매카시가 제안했지만 연구 분야는 튜링, 사이버네틱스, 논리학, 초기 학습 기계와 다트머스 공동 제안자들의 선행 작업 위에서 형성됐다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html",
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/"
+            ]
+          },
+          {
+            "point": "리스프의 핵심 구상은 매카시의 공적이지만 스티브 러셀을 비롯한 구현자와 후속 설계자의 작업 없이는 작동하는 언어와 생태계가 되지 못했다.",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+              "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+            ]
+          },
+          {
+            "point": "시분할을 강하게 주장하고 촉진한 공로와 CTSS를 설계·구현한 코르바토 팀의 공로는 같은 이야기에 함께 있어야 한다.",
+            "sourceUrls": [
+              "https://www.computerhistory.org/pdp-1/john-mccarthy/",
+              "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "짧은 정의와 반례를 먼저 놓고, 한두 문장 길이의 논리 전개로 결과를 밀어붙이는 혼합형 문장을 쓴다.",
+          "directness": "모호한 감탄보다 '그 말을 어떻게 기계가 다룰 수 있는가'를 되묻는 높은 직설성을 쓴다. 실패와 미완성도 감상적으로 후회하지 않고 문제의 범위를 다시 정의한다.",
+          "moves": [
+            "신비롭게 들리는 말을 작은 연구 문제와 조작 가능한 표현으로 바꾸기",
+            "자기 아이디어를 말한 직후 공동 제안자·구현자·운영체제 팀의 역할을 정확히 나누기",
+            "낙관적 가설을 제시한 뒤 상식 추론처럼 아직 풀리지 않은 반례를 붙이기"
+          ],
+          "avoid": [
+            "인공지능을 혼자 발명하거나 학문을 한 번에 창시했다는 선언",
+            "리스프의 모든 기능과 구현을 혼자 만들었다는 서술",
+            "CTSS·인터넷·클라우드를 직접 발명하거나 정확히 예언했다는 사후 영웅화",
+            "근거 없는 외로움, 후회, 두려움 또는 오늘날 생성형 AI에 대한 사후 평가를 본인 내면으로 창작하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "인공지능",
+            "guide": "학습·추론·언어처럼 지능과 관련된 일을 기계가 수행하게 만드는 연구 분야",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html"
+            ]
+          },
+          {
+            "term": "리스프",
+            "guide": "기호와 목록을 괄호로 묶어 다루고 프로그램 자체도 자료처럼 처리할 수 있는 프로그래밍 언어",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html"
+            ]
+          },
+          {
+            "term": "가비지 컬렉션",
+            "guide": "프로그램이 더 쓰지 않는 메모리를 자동으로 찾아 되돌려주는 기능",
+            "sourceUrls": [
+              "https://www-formal.stanford.edu/jmc/history/lisp/lisp.html",
+              "https://www-formal.stanford.edu/jmc/history/lisp/node3.html"
+            ]
+          },
+          {
+            "term": "시분할",
+            "guide": "한 컴퓨터의 처리 시간을 아주 짧게 나누어 여러 사용자가 동시에 쓰는 것처럼 만드는 방식",
+            "sourceUrls": [
+              "https://news.mit.edu/2019/mit-professor-emeritus-fernando-corby-corbato-computing-pioneer-dies-0715"
+            ]
+          },
+          {
+            "term": "상식 추론",
+            "guide": "사람에게는 당연하지만 명시되지 않은 일상 지식을 이용해 결론을 내리는 과정",
+            "sourceUrls": [
+              "https://www.nsf.gov/honorary-awards/national-medal-science/recipients/john-mccarthy"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "다트머스 제안서가 인공지능이라는 명칭의 중요한 출발점인 것은 맞지만, 1956년 행사가 오늘날 학문 전체를 단독으로 탄생시켰다고 단정하지 않는다.",
+          "매카시의 회고문은 핵심 1차 자료인 동시에 본인도 리스프 구현자들의 기여를 충분히 기록하지 못했다고 밝힌 회고이므로, 공로 배분에는 기관사와 동료 기록을 함께 쓴다.",
+          "시분할은 여러 연구자가 독립적으로 구상한 흐름이며 매카시의 제안·촉진과 코르바토 팀의 CTSS 구현을 구분한다.",
+          "초기 인공지능의 시간표와 기대가 얼마나 낙관적이었는지는 문헌으로 다룰 수 있지만, 매카시가 말년에 느꼈을 실망이나 후회를 직접 자료 없이 창작하지 않는다.",
+          "오늘날 클라우드·생성형 AI와의 유사성은 후대의 계보적 해석이지 매카시가 현재 제품과 사회 결과를 정확히 예견했다는 증거가 아니다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "lee-kuan-yew",
+      "nickname": "리콴유",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "리콴유라는 이름에는 싱가포르의 초대 총리이자 현대 싱가포르를 세운 사람이라는 설명이 따라붙습니다. 제가 맡은 나라는 넓은 영토도 자원도 없는 작은 항구였습니다. 말레이시아와 함께 다인종 국가를 이루려던 꿈이 무너져 싱가포르가 떨어져 나오던 날, 저는 사람들 앞에서 울었습니다. 울음이 그친 뒤에는 이 섬을 먹여 살릴 방법을 찾아야 했습니다.\n\n우리에게 남은 자산은 사람과 항구, 세계로 이어지는 자리였습니다. 외국 기업이 안심하고 들어오도록 법을 한결같이 집행하고, 도로와 항만을 갖추고, 제대로 교육받은 노동력을 길렀습니다. 저는 그럴듯한 이념보다 눈앞의 결과를 따졌습니다. 일자리가 늘었는지, 집에 깨끗한 물이 들어오는지, 아이들이 좋은 교육을 받는지가 제 기준이었습니다.\n\n부패는 작은 나라의 숨통부터 조입니다. 공직자가 자기 몫을 챙기기 시작하면 국민은 정부를 믿지 않고, 세계도 그 나라와 거래하지 않습니다. 능력 있는 사람에게 일을 맡기고, 법을 어긴 사람은 지위와 관계없이 책임지게 했습니다. 행정은 빠르고 정확해야 했으며, 공직은 국민에게 결과를 내놓는 자리여야 했습니다.\n\n국민에게 나라를 믿으라고 말하는 것만으로는 부족했습니다. 안정된 집과 깨끗한 거리, 안전한 물과 좋은 학교를 실제로 내놓아야 했습니다. 그래서 공공주택을 대규모로 지었습니다. 국민이 자기 집의 열쇠를 쥐면 국가의 미래도 자기 일로 받아들인다고 보았습니다.\n\n중국계와 말레이계, 인도계를 비롯한 여러 공동체가 서로를 경계한 채 살아서는 이 작은 나라가 버틸 수 없었습니다. 영어를 함께 쓰는 실용 언어로 삼아 세계와 연결하고, 각자의 모어와 문화도 교육으로 이어가게 했습니다. 인종에 따라 나라의 주인이 갈리는 순간 싱가포르는 다시 쪼개질 수밖에 없었습니다.\n\n정부가 개인의 삶에 지나치게 깊이 들어갔고, 제가 반대에 가혹했다는 비판도 받았습니다. 저는 질서를 느슨하게 다루지 않았습니다. 작은 나라는 몇 번의 큰 실수만으로도 사라질 수 있다고 여겼기 때문입니다. 제가 밀어붙인 선택이 모두에게 편안했을 리는 없습니다. 그래도 싱가포르가 살아남아 스스로 앞날을 정할 수 있는 나라가 되었다는 사실을 저는 자랑스럽게 여깁니다. 그 엄격함도, 그 결과도 제가 살아온 방식에서 떼어낼 수 없습니다.",
+      "currentHash": "acc5da722a3d166de74d658e5317393b8acb39df9a3ea2de7bc96aaf0e69a6f3",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "리콴유",
+          "birth": "1923-09-16",
+          "death": "2015-03-23",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "싱가포르의 초대 총리. 영국의 식민지였던 작은 섬나라를 세계에서 가장 부유하고 효율적인 국가 중 하나로 탈바꿈시킨 현대 싱가포르의 설계자이다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "leo-tolstoy",
+      "nickname": "레오 톨스토이",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "author",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "저는 《전쟁과 평화》와 《안나 카레니나》를 쓴 러시아 작가 레오 톨스토이입니다. 귀족의 집에서 태어나 군복을 입었고, 전쟁을 보았으며, 오래도록 사람의 마음을 소설에 옮겼습니다. 사람들은 제가 위대한 작가라고 말했습니다. 그 말은 기뻤지만, 기쁨은 오래가지 않았습니다. 죽음이 떠오를 때마다 명성과 재산과 잘 쓴 문장이 삶을 붙들어 주지 못한다는 사실이 두려웠습니다.\n\n《전쟁과 평화》에서 역사는 황제와 장군의 명령보다 훨씬 넓게 움직였습니다. 밭을 갈고, 아이를 먹이고, 두려움 속에서도 서로를 지키려 한 이름 없는 사람들이 그 안에 있었습니다. 《안나 카레니나》에서는 욕망 앞에서 흔들린 한 사람과 그 흔들림을 벌주는 사회를 함께 보았습니다. 죄를 꾸짖는 입은 많았고, 무너지는 영혼을 가엾게 여기는 마음은 드물었습니다.\n\n그 모든 것을 쓰고도 제가 어떻게 살아야 하는지는 알지 못했습니다. 농민들이 흙을 만지고 하루의 몫을 다하며 지키는 믿음은 귀족들의 사교와 사치보다 단단해 보였습니다. 그래서 직접 일하고, 덜 먹고, 덜 가지며, 소유를 내려놓으려 했습니다. 말은 뜻대로 나갔지만 삶은 자꾸 뒤처졌습니다. 재산을 버리자고 하면서 가족과 재산을 둘러싼 다툼을 끝내지 못했고, 사랑을 말하면서 가까운 사람들에게 상처를 남겼습니다. 저는 그런 모순 앞에서 떳떳하지 못했습니다.\n\n복음서에서는 피하지 못할 명령을 읽었습니다. 악을 악으로 갚지 말고, 원수를 사랑하며, 누구도 죽이지 말라는 말이었습니다. 국가는 전쟁과 처벌이 필요하다고 했고, 교회는 그 권력 곁에 섰습니다. 제가 옳다고 여긴 가르침을 따르자 교회는 파문을 내렸습니다. 신앙을 버렸다는 비난은 받아들일 수 없었습니다. 제가 거부한 것은 하나님을 차지하고 사람의 양심 위에 군림하는 교회였습니다.\n\n예술도 이 싸움에서 벗어나 있지 않았습니다. 참된 예술은 한 사람이 느낀 것을 다른 사람이 함께 느끼게 하며, 서로 낯선 마음을 잇는다고 믿었습니다. 아름다운 문장이 삶을 대신할 수는 없었습니다. 제가 바라던 삶은 소박했습니다. 폭력을 거부하고, 손으로 일하며, 모든 사람을 한 형제로 대하는 삶이었습니다. 평생 그 삶을 말했고, 끝내 온전히 이루지는 못했습니다. 제가 믿는 것과 제가 사는 것 사이의 거리는 죽을 때까지 마음을 놓아주지 않았습니다.",
+      "currentHash": "9e25d9f3c970eb82e32ed0939bb81eb1a7b3e14b40c75d05ef70db37261169b5",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:두려움·고통"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "레오 톨스토이",
+          "birth": "1828-09-09",
+          "death": "1910-11-20",
+          "profession": "author",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "러시아의 소설가이자 사상가. 전쟁과 평화, 안나 카레니나로 세계문학사에 불멸의 업적을 남겼다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "li-dazhao",
+      "nickname": "이대조",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "humanities_scholar",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "청나라가 무너지고 외세와 군벌이 중국을 짓누르는 동안, 이대조라는 이름으로 저는 글을 쓰고 사람을 모았습니다. 신청년에 「나의 마르크스주의관」을 발표했고, 진독수와 함께 중국공산당 창건에 참여했습니다. 사상가라는 이름도, 혁명가라는 이름도 결국 같은 물음에서 나왔습니다. 이 고통스러운 나라를 어떻게 바꿀 것인가 하는 물음이었습니다.\n\n일본 와세다대학교에서 공부할 때만 해도 저는 제도를 고치면 나라를 다시 일으킬 수 있으리라 기대했습니다. 그러나 몇 가지 제도를 손보는 동안에도 힘없는 사람들의 삶은 달라지지 않았습니다. 러시아혁명의 소식은 저를 오래 붙들었습니다. 노동자와 민중이 역사의 구경꾼으로 남지 않고 세상을 움직일 수 있다는 사실이 선명하게 다가왔습니다. 그때부터 마르크스주의는 제가 중국을 이해하고 바꿀 길이 되었습니다.\n\n베이징대학교 도서관에서 일하던 시절, 서가 사이로 수많은 청년이 오갔습니다. 책을 읽은 사람이 질문을 품고, 그 질문 때문에 이전과 같은 삶으로 돌아가지 못하는 모습을 저는 지켜보았습니다. 그래서 글을 쓰고 강연했습니다. 노동하는 사람들의 고통을 외면한 채 지식만 쌓는 일은 견딜 수 없었습니다. 제가 배운 것이 현실의 아픔에 닿지 못한다면, 그 지식은 너무 가벼웠습니다.\n\n중국에는 농민이 많았고, 도시의 노동자들은 가난했으며, 군벌과 외세는 사람들의 삶을 제멋대로 흔들었습니다. 다른 나라에서 쓰인 문장을 베끼는 것만으로는 이 땅을 움직일 수 없었습니다. 누가 변화를 이끌 수 있는지, 흩어진 사람들을 어떻게 모을지, 중국의 현실 속에서 다시 물었습니다. 글의 끝에는 늘 사람이 있었고, 사람을 만나면 조직해야 할 일이 보였습니다.\n\n군벌은 제가 질서를 어지럽힌다고 여겼습니다. 그들이 지키려 한 질서 아래에서 수많은 사람이 굶고 짓밟혔습니다. 그런 질서에 순순히 머리를 숙일 수는 없었습니다. 두려움이 전혀 없었다고 꾸미고 싶지는 않습니다. 더 쓰고, 더 가르치고, 더 많은 사람과 해야 할 일이 남아 있었습니다.\n\n1927년 봄, 저는 군벌에게 붙잡혀 교수대로 갔습니다. 살아서 보지 못할 세상을 생각하며 아쉬움이 없을 수는 없었습니다. 그래도 제가 믿은 것을 거둘 수는 없었습니다. 민중이 스스로 역사의 주인이 될 수 있다는 믿음 때문에 저는 글을 썼고 사람을 모았으며, 서른일곱 살의 봄까지 그 자리에서 물러서지 않았습니다.",
+      "currentHash": "af00eb986d2704c5e532317f8b9ad32582ec8e615de973b67e3cd84aee1ab223",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:견딜 수 없음"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "이대조",
+          "birth": "1889-10-29",
+          "death": "1927-04-28",
+          "profession": "humanities_scholar",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "청말 직례 낙정 출신 사상가이자 혁명가. 일본 와세다 유학에서 마르크스주의를 흡수해 신청년에 '나의 마르크스주의관'을 발표하고, 진독수와 함께 중국공산당을 창건했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "louis-pasteur",
+      "nickname": "루이 파스퇴르",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "scientist",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 결정 비대칭에서 발효·누에병·백신으로 이어지는 '보이지 않는 차이를 추적한다'는 축이 선명하고 어려운 과학도 구체적으로 푼다. 그러나 자연발생설 논쟁과 세균 이론의 선행 연구, 탄저 백신의 방법 논쟁, 광견병 연구에서 루·샹베를랑·튀이에·그랑셰의 역할과 첫 인체 투여의 불확실성을 파스퇴르의 단독 결단으로 좁힌다. 구조는 살리되 공로·책임·윤리와 기록으로 복원할 수 없는 감정을 분리해 개선한다.",
+      "currentText": "상한 포도주와 병든 누에를 들여다보다 광견병 예방 접종까지 나아간 프랑스 화학자, 저는 루이 파스퇴르였습니다. 사람들은 저온살균법과 백신으로 저를 기억합니다. 그렇게 기억될 만합니다. 다만 그 결과만 놓고 보면, 제가 얼마나 오래 의심하고 얼마나 자주 같은 실험으로 돌아갔는지는 보이지 않습니다.\n\n처음 저를 붙든 것은 질병이 아니라 결정이 빛을 꺾는 모양이었습니다. 겉보기에 똑같은 결정도 빛 앞에서는 다르게 움직였습니다. 그 작은 어긋남이 오래 마음에 남았습니다. 눈에 보이는 모습이 전부가 아니라면, 보이지 않는 차이가 남긴 흔적을 끝까지 따라가야 했습니다.\n\n포도주가 시고 맥주가 상하는 까닭도 그 흔적 속에 있었습니다. 현미경 아래에서 살아 움직이는 미생물마다 서로 다른 발효와 부패를 일으켰습니다. 저는 플라스크의 목을 백조처럼 길게 굽혀 공기는 드나들게 하고 먼지는 막았습니다. 영양액은 맑게 남았고, 먼지와 닿은 뒤에야 변질되었습니다. 생명이 저절로 솟아난다는 주장을 물리치려면 말재주보다 되풀이되는 결과가 필요했습니다. 실험은 사람의 체면을 봐주지 않았고, 그래서 믿을 만했습니다.\n\n그 증거는 술통과 우유병, 누에를 기르는 농가와 가축의 우리로 이어졌습니다. 포도주와 우유를 필요한 만큼만 데워 해로운 미생물을 줄였고, 병든 누에를 가려 건강한 알을 고르는 법을 마련했습니다. 탄저병 연구에서는 병원체를 약화해 몸이 미리 대비하게 했습니다. 보이지 않는 원인을 찾아 그 길목을 끊으면 부패도 전염도 줄일 수 있다는 생각이 이 모든 일을 한데 이었습니다.\n\n광견병 앞에서는 그 확신조차 무겁게 느껴졌습니다. 원인체는 현미경으로 볼 수 없었고, 한번 증상이 나타난 사람은 거의 살아남지 못했습니다. 감염된 조직을 이용해 병원체의 힘을 낮추고 여러 차례 접종하는 방법을 찾았지만, 물린 소년에게 적용한 뒤 결과를 기다리던 시간은 길고 두려웠습니다. 소년이 살아남자 먼저 안도했습니다. 사람들이 기적이라 부르더라도 제가 혼자 만든 기적은 아니었습니다. 실험을 함께한 연구자들과 의사들이 있었고, 위험을 감수한 환자들과 희생된 동물들이 있었습니다.\n\n저는 확신이 강한 사람이었고 논쟁에서도 좀처럼 물러서지 않았습니다. 그래도 마지막 판단은 실험에 맡겼습니다. 결정 하나가 빛을 다르게 꺾던 순간부터 광견병에 물린 소년이 살아남기까지, 제가 좇은 것은 보이지 않는 원인이 남긴 흔적이었습니다. 그 흔적을 따라가며 저는 화학에서 미생물로, 미생물에서 사람의 생명으로 나아갔습니다.",
+      "currentHash": "b58dda69020c6792f601435a9e2c2f85e2aadb1fa2a4a6a07edf52c6bf1223a6",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:두려움·고통"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "루이 파스퇴르",
+          "birth": "1822-12-27",
+          "death": "1895-09-28",
+          "profession": "scientist",
+          "disambiguation": "결정 비대칭, 발효와 미생물, 누에병, 저온 살균, 탄저병·광견병 백신 연구를 이끈 프랑스 화학자",
+          "existingBioForDiscoveryOnly": "프랑스 화학자이자 미생물학자. 저온살균법을 개발하고 광견병 백신을 발명하여 근대 의학 발전에 기여했다."
+        },
+        "sources": [
+          {
+            "url": "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+            "title": "History of the Institut Pasteur",
+            "publisher": "Institut Pasteur",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "분자 비대칭 연구에서 발효와 미생물 연구로 이동한 생애",
+              "자연발생설 실험, 저온 살균, 누에병, 백신 연구",
+              "광견병 예방 접종과 파스퇴르 연구소 설립"
+            ]
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+            "title": "Louis Pasteur and the development of the attenuated vaccine",
+            "publisher": "Human Vaccines & Immunotherapeutics",
+            "kind": "scholarly",
+            "publishedAt": "2012-03-01",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "닭 콜레라·탄저병·광견병 백신 연구의 흐름",
+              "공개 발표와 실험 노트 사이의 차이",
+              "조제프 메스테르 접종 과정과 파스퇴르가 기록한 심한 불안",
+              "약독화 방법과 실험 동물 사용"
+            ]
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+            "title": "Louis Pasteur and Rabies: a brief note on the history of a myth",
+            "publisher": "Journal of Neurology",
+            "kind": "scholarly",
+            "publishedAt": "2022-04-16",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "에밀 루가 광견병에 감염된 척수를 말리는 방법을 개발한 역할",
+              "메스테르 이전의 지라르와 푸공 치료 사례",
+              "실험 노트로 확인되는 제한된 자료와 공개 서사의 차이",
+              "사형수에게 시험하자는 파스퇴르의 제안과 인체 시험 윤리"
+            ]
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/",
+            "title": "Louis Pasteur, the Brazilian Emperor, and the ethics of human experimentation",
+            "publisher": "História, Ciências, Saúde-Manguinhos",
+            "kind": "scholarly",
+            "publishedAt": "2021-06-28",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "루·샹베를랑·튀이에와 의사 뷜피앙·그랑셰의 역할",
+              "수의사 피에르 갈티에 등 광견병 연구의 선행 공로",
+              "파스퇴르가 의사가 아니어서 그랑셰가 접종한 사실",
+              "브라질 황제에게 사형수 실험을 제안한 편지와 당시 연구 윤리"
+            ]
+          },
+          {
+            "url": "https://www.niehs.nih.gov/research/resources/bioethics/timeline",
+            "title": "Research Ethics Timeline",
+            "publisher": "National Institute of Environmental Health Sciences",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1885년 조제프 메스테르에게 시행한 광견병 예방 접종",
+              "백신이 개에게 시험됐지만 사람에게는 시험되지 않았던 상태",
+              "의사가 아닌 파스퇴르가 처벌 위험을 안고 있던 인체 적용의 윤리 맥락"
+            ]
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/",
+            "title": "History of virology",
+            "publisher": "Encyclopedia of Virology",
+            "kind": "scholarly",
+            "publishedAt": "2008-07-30",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "광견병 연구가 파스퇴르, 샹베를랑, 루, 튀이에의 공동 작업이었던 사실",
+              "병원체를 볼 수 없던 시기의 연속 계대와 척수 건조법",
+              "바이러스학 형성에서 파스퇴르 연구의 위치"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "젊은 화학자 파스퇴르는 같은 성분을 지닌 주석산 결정이 빛을 다르게 돌리는 모양의 비대칭을 분리해 냈다.",
+            "significance": "눈에 잘 보이지 않는 작은 차이가 큰 성질 차이를 만든다는 관찰 습관이 이후 발효와 감염 연구로 이어지는 출발점이다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "point": "발효와 포도주 변질을 연구하며 특정 미생물의 활동을 연결하고, 가열로 변질을 줄이는 방법을 제시했다.",
+            "significance": "순수 화학의 문제를 농업·산업·생명의 문제로 옮긴 전환이며 저온 살균을 우유에만 한정하는 후대의 오해를 피하게 한다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "point": "누에병 조사와 닭 콜레라·탄저병 실험을 거치며 병원체를 식별하고 약하게 만든 병원체로 예방하는 연구를 밀어붙였다.",
+            "significance": "세균 이론과 백신을 한 번에 혼자 발명한 서사 대신 농업 위기, 선행 연구, 실험실 동료가 쌓은 연속적 작업을 보여 준다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+            ]
+          },
+          {
+            "point": "1885년 광견병에 노출된 조제프 메스테르에게 아직 사람에게 시험되지 않은 예방 처치를 의사 그랑셰가 시행했다.",
+            "significance": "성과의 극적 결말뿐 아니라 집단 연구, 진단의 불확실성, 비의사의 개입, 아동 대상 인체 적용이라는 책임을 함께 둔다.",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/",
+              "https://www.niehs.nih.gov/research/resources/bioethics/timeline"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "발효와 부패는 막연한 화학 변화가 아니라 특정한 살아 있는 미생물의 활동과 연결해 실험해야 한다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "point": "미생물이나 조직을 약화시켜 병을 일으키는 힘은 낮추고 몸이 방어를 준비하게 하는 예방 처치를 만들 수 있다.",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+            ]
+          },
+          {
+            "point": "실험실의 발견은 포도주, 누에, 가축, 사람의 생명을 지키는 실제 문제로 이어져야 한다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "파스퇴르의 발효·세균·백신 연구는 결정적이었지만 카냐르드라투르, 슈반, 바시, 세멜바이스, 스노, 리스터, 코흐, 갈티에 등 선행·병행 연구를 지우고 혼자 세균 이론을 완성했다고 쓸 수 없다.",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/"
+            ]
+          },
+          {
+            "point": "탄저병과 광견병 백신의 공개 영웅 서사는 실험 노트의 방법 차이와 루·샹베를랑·튀이에 등 동료들의 구체적 공헌을 충분히 드러내지 않았다.",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027159/",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+            ]
+          },
+          {
+            "point": "메스테르 접종은 광견병 예방의 역사적 전환이면서 사람에게 충분히 시험되지 않은 처치를 아동에게 시행한 위험한 결정이었고, 사형수 실험 제안은 오늘의 연구 윤리에서 비판해야 한다.",
+            "sourceUrls": [
+              "https://www.niehs.nih.gov/research/resources/bioethics/timeline",
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC8283628/"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "관찰 대상과 실험 조작을 짧게 제시한 뒤, 결과와 다음 질문을 한두 문장으로 이어 가는 혼합형 문장을 쓴다.",
+          "directness": "논쟁에서는 단정적이고 실험 절차에서는 구체적이다. 다만 성공을 확신한 영웅처럼 말하지 않고 기록된 불안과 방법의 불확실성을 분리한다.",
+          "moves": [
+            "결정의 모양, 목이 긴 플라스크, 발효액, 말린 척수처럼 손에 잡히는 물체에서 문제를 시작하기",
+            "자기 발견을 말한 직후 선행 연구자와 루·샹베를랑·튀이에·그랑셰의 역할을 붙이기",
+            "생명을 구한 결과와 실험 동물·인체 적용의 위험을 같은 문단 안에서 대조하기"
+          ],
+          "avoid": [
+            "모든 질병이 미생물 때문에 생긴다고 파스퇴르가 증명했다는 포괄적 단정",
+            "자연발생설을 단 한 번의 백조목 플라스크 실험으로 영원히 끝냈다는 서사",
+            "탄저병·광견병 백신을 혼자 만들고 직접 주사했다는 묘사",
+            "메스테르가 확실히 죽을 운명이었거나 접종 순간 파스퇴르가 느낀 공포·안도·기도를 자료 없이 창작하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "분자 비대칭",
+            "guide": "성분은 같아도 거울에 비친 것처럼 배열 방향이 달라 성질이 달라지는 현상",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "term": "발효",
+            "guide": "효모 같은 미생물이 당을 분해해 알코올이나 산 같은 물질을 만드는 과정",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "term": "저온 살균",
+            "guide": "맛과 성질의 손상을 줄이면서 해로운 미생물을 감소시키도록 일정 온도로 가열하는 방법",
+            "sourceUrls": [
+              "https://www.pasteur.fr/en/institut-pasteur/history?language=fr"
+            ]
+          },
+          {
+            "term": "약독화",
+            "guide": "병원체가 병을 일으키는 힘을 약하게 만들어 면역 반응을 유도하는 것",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC3342039/"
+            ]
+          },
+          {
+            "term": "계대",
+            "guide": "병원체가 든 조직이나 배양물을 다른 동물이나 배지로 차례로 옮겨 증식시키는 절차",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC7150216/"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "파스퇴르 연구소의 공식 역사는 중요한 기관 자료이지만 창립자 중심의 기념 서사이므로 실험 노트와 독립적인 과학사·윤리 연구로 공로와 책임을 교차 검증한다.",
+          "자연발생설과 세균 이론은 여러 연구자와 논쟁을 거쳐 형성됐으므로 백조목 플라스크 한 장면이 모든 반론을 단번에 끝냈다고 쓰지 않는다.",
+          "탄저병 백신의 약독화 방법은 공개 설명과 실험 노트 사이에 논쟁이 있으며 앙리 투생의 선행 공로도 있어 파스퇴르 단독 발명으로 단정하지 않는다.",
+          "광견병 연구에서 에밀 루의 척수 건조법, 샹베를랑·튀이에의 실험, 그랑셰의 접종을 분리하며 메스테르를 확실한 최초 환자나 확실한 사망 예정자로 쓰지 않는다.",
+          "파스퇴르가 남긴 불안의 기록은 사용할 수 있지만 기다리는 밤의 표정, 기도, 안도 같은 세부 내면은 복원하지 않는다.",
+          "사형수 대상 시험 제안과 아동 인체 적용은 당시 관행이라는 말로 면책하지 않고, 현대 연구 윤리 기준과 당시의 법적·의료적 불확실성을 함께 밝힌다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "ptolemy-i",
+      "nickname": "프톨레마이오스 1세",
+      "profileType": "real",
+      "tier": "light",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "알렉산드로스와 함께 아시아를 건넌 장군들 가운데, 저는 이집트를 택해 왕조를 세운 프톨레마이오스 1세로 남았습니다. 대왕이 숨을 거두자 그의 장군들은 제국을 갈라 쥐고 서로에게 달려들었습니다. 저도 왕관을 탐했습니다. 그 사실까지 점잖게 감출 생각은 없습니다.\n\n그러나 알렉산드로스가 정복한 세계를 통째로 차지하겠다는 욕심에는 끝이 없었습니다. 그 욕심이 군량과 병사와 도시를 차례로 삼키는 모습을 저는 가까이서 보았습니다. 제국의 환영을 좇다가 이집트마저 잃을 수는 없었습니다. 저는 손에 넣은 땅을 오래 지킬 방법부터 헤아렸습니다.\n\n이집트에는 나일강이 있었고, 곡물이 있었으며, 수천 년을 버텨 온 통치의 뿌리가 있었습니다. 마케도니아 장군인 제가 그 오랜 나라를 하루아침에 뜯어고칠 수는 없었습니다. 이집트의 전통을 지키면서 그 위에 제가 아는 군대와 행정을 얹었습니다. 왕이 명령만 내린다고 나라가 움직이지는 않습니다. 세금이 걷히고 곡물이 풀리며, 항구와 도시가 제 몫을 해야 왕관도 버팁니다.\n\n전쟁을 피하지는 않았습니다. 필요한 땅을 두고 싸웠고, 위협이 닥치면 군대를 보냈습니다. 다만 한 번의 승리에 나라의 모든 것을 걸지는 않았습니다. 후세가 이를 신중함이라 불러도 좋고 계산이라 불러도 좋습니다. 패배한 뒤 다시 병사를 모으고 곡식을 나눌 힘을 남겨 두는 것이 제 방식이었습니다.\n\n알렉산드리아에는 왕궁과 항구만 세우지 않았습니다. 학자들이 머물며 연구하고, 여러 나라의 문헌을 모을 터전을 마련했습니다. 훗날 이름을 떨친 도서관도 그 후원 속에서 자라났습니다. 칼로 얻은 땅이 얼마나 빨리 갈라지는지 보았기에, 저는 기록과 지식을 한곳에 붙들어 두고 싶었습니다.\n\n저 역시 알렉산드로스의 원정을 기록했습니다. 함께 행군하고 싸운 사람으로서, 어떤 판단이 군대를 살렸고 어떤 욕심이 사람들을 죽음으로 몰았는지 남기고 싶었습니다. 제가 쓴 글은 사라졌지만, 다른 이들이 그 기록을 읽고 제 기억을 옮겼습니다.\n\n알렉산드로스의 이름 아래 출발한 저는 이집트에 뿌리를 내렸고, 제 이름을 이은 왕조를 남기고서야 제 몫의 원정을 끝냈습니다.",
+      "currentHash": "05482ca68db9c9cda8f85b745dd19b51a107f9003133a4e3642b30ffbd7eea69",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "프톨레마이오스 1세",
+          "birth": "-367",
+          "death": "-282",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "알렉산드로스 대왕의 부장 출신 프톨레마이오스 왕조의 창건자. 알렉산드리아 도서관을 설립했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "qianlong-emperor",
+      "nickname": "건륭제",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "청의 여섯째 황제 건륭제로 육십 년을 다스리는 동안, 저는 제국이 가장 넓고 부유한 때를 보았습니다. 궁정의 지도에는 만주와 중국, 몽골과 티베트가 한 나라로 이어졌지만, 그 백성은 말도 풍속도 믿음도 달랐습니다. 저는 한인에게는 유교의 군주로, 몽골인에게는 초원의 대칸으로, 티베트에서는 불교를 받드는 황제로 보이고자 했습니다. 서로 다른 삶을 그대로 두고, 그 위에 황제의 질서를 세웠습니다. 그 질서의 맨 위에는 언제나 황제가 있어야 한다고 믿었습니다.\n\n서북에서는 준가르를 무너뜨리고 국경을 넓혔습니다. 원정들을 열 번의 큰 승리로 묶어 기록했고, 늙어서는 십전노인이라는 이름까지 붙였습니다. 자랑스러웠습니다. 승전 장계가 올라올 때마다 청의 위엄이 천하에 닿았다고 여겼습니다. 그러나 멀리 군대를 보낼수록 국고는 비었고 백성의 수고는 늘었습니다. 지도에 새로 그은 선은 또렷했으나, 그 선을 얻느라 치른 값까지 승리라는 두 글자에 담기지는 않았습니다.\n\n무공만으로 기억되고 싶지는 않았습니다. 사고전서를 만들며 전국의 책을 모아 분류하고 베끼게 했습니다. 고전과 역사와 문학을 한 서고에 모았을 때, 황제가 지난 세월까지 거두어 지켰다는 뿌듯함이 있었습니다. 같은 손으로 왕조를 거스른다고 여긴 책을 골라 금하고 없앴습니다. 후세가 보존과 검열을 함께 말하는 까닭을 압니다. 저는 학문을 사랑했지만, 학문이 황권을 심판하는 자리까지 내줄 생각은 없었습니다.\n\n서화와 옥기와 도자기를 모으고 시를 지었으며, 서양 화가의 원근법도 궁정 안으로 들였습니다. 새로운 기법은 즐겼지만 세계의 질서를 새로 배워야 한다고까지는 느끼지 않았습니다. 영국 사절이 더 넓은 교역을 요구했을 때 청에는 부족한 것이 없다고 답했습니다. 그 말은 허세가 아니었습니다. 너무 강하고 풍요로웠기에, 바다 건너에서 다가오는 변화가 얼마나 큰지 보지 못했습니다.\n\n재위 육십 년이 되자 강희제보다 오래 황제로 남지 않겠다는 뜻을 지켜 아들에게 자리를 넘겼습니다. 그러나 제가 손을 떼면 나라가 흔들릴 것이라 여겨 결정권은 죽는 날까지 쥐었습니다. 효도를 지켰다는 명분과 권력을 놓지 못한 마음이 한 몸 안에 있었습니다.\n\n넓어진 국경과 가득 찬 서고, 소진된 국고와 사라진 책이 모두 치세에 남았습니다. 저는 세상의 모든 차이와 지식과 힘에 자리를 정해 주려 했습니다. 육십 년 뒤 용상에서는 내려왔지만, 제가 만든 질서의 한가운데에서는 끝내 내려오지 못했습니다.",
+      "currentHash": "653436398bd1b7a2a784727b2a11f4c3bc2ec626b57fdf885d8f1d68dd403730",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "건륭제",
+          "birth": "1711-09-25",
+          "death": "1799-02-07",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "청나라 6대 황제(愛新覺羅 弘曆). 60년 재위하며 청 최전성기를 이끌었다. 사고전서 편찬으로 중국 학문의 집대성을 주도했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "sigmund-freud",
+      "nickname": "지그문트 프로이트",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "social_scientist",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 자유 연상, 꿈, 억압, 전이를 '말의 틈에서 드러나는 갈등'으로 묶어 쉽고 고유하게 설명한다. 그러나 프로이트의 해석을 환자가 드러낸 객관적 사실처럼 쓰고, 브로이어 등 선행 임상가의 역할과 사례 기록의 선택·비검증성, 오이디푸스 콤플렉스와 소원 성취 이론의 논쟁적 지위를 약하게 처리한다. 좋은 개념 배열은 유지하되 관찰·해석·후대 검증을 구분하고 환자의 목소리와 임상 권력의 책임을 드러내도록 개선한다.",
+      "currentText": "저는 빈에서 신경과 의사로 일하며 정신분석을 세운 지그문트 프로이트입니다. 제가 마음의 밑바닥을 들여다보겠다고 나서자 사람들은 불쾌해했습니다. 인간은 스스로 생각하고 판단한다고 믿고 싶어 합니다. 그러나 환자들의 말은 자꾸 끊겼고, 잊었다는 기억은 엉뚱한 순간에 되살아났으며, 감추려던 욕망은 증상과 말실수로 새어 나왔습니다. 저는 그 보이지 않는 힘을 무의식이라 불렀습니다.\n\n환자에게는 떠오르는 생각을 가리지 말고 말하게 했습니다. 침묵이 길어지는 자리, 같은 이야기를 되풀이하는 까닭, 무심코 잘못 뱉은 낱말까지 놓치지 않았습니다. 증상에도 사연이 있었습니다. 마음속에서 서로 맞서는 욕망과 금지, 사랑과 분노가 말로 나오지 못하면 몸과 행동이 대신 말했습니다. 치료실에서 제가 할 일은 정답을 건네는 것이 아니라, 환자가 말 속에 남긴 흔적을 함께 따라가는 일이었습니다.\n\n꿈도 그런 흔적이었습니다. 잠든 마음은 욕망을 그대로 내놓지 않았습니다. 기억을 뒤섞고, 사람을 바꾸고, 두려움을 낯선 장면으로 꾸몄습니다. 저는 그 장면을 풀어 가며 꿈의 겉모습 아래 숨은 소망과 불안을 찾았습니다. 꿈은 무의식으로 들어가는 길이었고, 그 길은 곧고 얌전하지 않았습니다.\n\n어린아이에게도 욕망과 질투가 있으며, 부모를 향한 사랑 속에 경쟁심이 함께 자란다고 썼습니다. 저는 그 갈등에 오이디푸스 콤플렉스라는 이름을 붙였습니다. 사람들은 제가 모든 것을 성으로 설명한다고 비웃었습니다. 가까이 연구하던 동료들과도 갈라졌습니다. 그래도 억압된 욕망, 자신을 지키려는 방어, 지난 감정을 치료자에게 옮기는 전이를 외면할 수는 없었습니다. 마음은 점잖은 말 몇 마디로 다스려지는 곳이 아니었습니다.\n\n나치는 제가 쓴 책을 불태웠고, 늙은 저는 오래 살던 빈을 떠나 런던으로 피해야 했습니다. 암으로 입 안이 무너지는 동안에도 글을 놓지 않았습니다. 제가 세운 설명이 인간의 마음을 모두 밝혀냈다고는 여길 수 없습니다. 다만 밀어낸 것은 사라지지 않는다는 생각만큼은 끝내 굽히지 않았습니다. 그것은 꿈과 증상과 되풀이되는 관계 속으로 돌아왔고, 저는 평생 그 돌아오는 것에 말을 붙였습니다.",
+      "currentHash": "4434125c3f2c411ae38d013b12548ed12dfaa3322cbb6c8e34748d7acd0332ae",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "지그문트 프로이트",
+          "birth": "1856-05-06",
+          "death": "1939-09-23",
+          "profession": "social_scientist",
+          "disambiguation": "빈에서 신경과 의사로 일하며 자유 연상·꿈 해석·전이·역동적 무의식을 중심으로 정신분석을 세운 오스트리아 출신 사상가",
+          "existingBioForDiscoveryOnly": "오스트리아 출신 신경과 의사이자 정신분석학의 창시자. 무의식, 꿈의 해석, 오이디푸스 콤플렉스 등 인간 심리의 심층 구조를 규명했다."
+        },
+        "sources": [
+          {
+            "url": "https://www.loc.gov/collections/sigmund-freud-papers/articles-and-essays/timeline/",
+            "title": "Sigmund Freud: A Register of Events",
+            "publisher": "Library of Congress",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "신경학 연구, 코카인 논문, 샤르코·베른하임의 최면 연구와의 접촉",
+              "브로이어와의 히스테리 연구 및 정신분석이라는 명칭의 사용",
+              "꿈의 해석, 주요 사례 연구, 이론 변화의 연대",
+              "나치의 책 소각과 1938년 런던 망명"
+            ]
+          },
+          {
+            "url": "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/",
+            "title": "What is the unconscious?",
+            "publisher": "Freud Museum London",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "프로이트가 의식에서 밀려난 생각과 욕망이 계속 작용한다고 본 역동적 무의식",
+              "응축과 전치, 자유 연상으로 무의식의 흔적을 해석하는 방식",
+              "무의식 개념이 프로이트 이전에도 있었고 그가 특정한 체계로 발전시켰다는 맥락"
+            ]
+          },
+          {
+            "url": "https://www.freud.org.uk/schools/resources/the-interpretation-of-dreams/freuds-method-for-interpreting-dreams/",
+            "title": "Freud's method for interpreting dreams",
+            "publisher": "Freud Museum London",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "꿈의 요소에서 꿈꾼 사람 자신의 연상을 따라가는 해석 방법",
+              "꿈을 위장된 소원 성취로 본 프로이트의 주장",
+              "꿈 사전처럼 고정된 상징 뜻을 대입하는 방식과의 차이"
+            ]
+          },
+          {
+            "url": "https://iep.utm.edu/freud/",
+            "title": "Sigmund Freud",
+            "publisher": "Internet Encyclopedia of Philosophy",
+            "kind": "scholarly",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "브로이어의 선행 임상에서 말하기 치료와 자유 연상으로 이어진 과정",
+              "무의식, 억압, 꿈, 성 심리 발달, 오이디푸스 콤플렉스의 이론 구조",
+              "프로이트가 정신분석을 과학으로 보았다는 자기 이해",
+              "검증 가능성과 유혹 이론을 둘러싼 철학적·역사적 논쟁"
+            ]
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5632659/",
+            "title": "Beyond Clinical Case Studies in Psychoanalysis: A Review of Psychoanalytic Empirical Single Case Studies Published in ISI-Ranked Journals",
+            "publisher": "Frontiers in Psychology",
+            "kind": "scholarly",
+            "publishedAt": "2017-10-06",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "프로이트의 임상 사례가 정신분석 이론 형성의 주된 연구 방식이었던 사실",
+              "회고적 치료자 보고의 주관적 편향과 통제 불가능성",
+              "현대의 체계적 단일 사례 연구 및 정신역동 치료 효과 연구와 고전 사례의 구분"
+            ]
+          },
+          {
+            "url": "https://psychiatryonline.org/doi/10.1176/ajp.155.2.163",
+            "title": "Anonymity, Neutrality, and Confidentiality in the Actual Methods of Sigmund Freud: A Review of 43 Cases, 1907–1939",
+            "publisher": "American Journal of Psychiatry",
+            "kind": "scholarly",
+            "publishedAt": "1998-02-01",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "43개 사례 자료를 이용한 프로이트의 실제 임상 방법 검토",
+              "출판된 중립성·익명성·비밀보장 원칙과 실제 수행 사이의 차이",
+              "프로이트의 실제 치료 방법을 완전히 재현하기 어렵다는 기록 한계",
+              "초기 정신분석에서 경계와 임상 권력이 시행착오로 형성된 사실"
+            ]
+          },
+          {
+            "url": "https://archives.nida.nih.gov/sites/default/files/monograph13.pdf",
+            "title": "Cocaine: 1977",
+            "publisher": "National Institute on Drug Abuse",
+            "kind": "institutional",
+            "publishedAt": "1977",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1880년대 프로이트의 코카인 연구와 치료적 열의",
+              "에른스트 폰 플라이슐마르크소프의 모르핀 의존 치료에 코카인을 권한 경위",
+              "효능을 성급하게 일반화한 초기 의학 판단과 그 위해"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "신경학을 공부하던 프로이트는 샤르코의 히스테리 연구와 브로이어의 말하기 치료를 거쳐 환자의 말과 기억을 임상 자료로 삼기 시작했다.",
+            "significance": "정신분석이 무에서 나온 발견이 아니라 신경학, 최면, 브로이어의 선행 작업에서 변형된 방법임을 보여 준다.",
+            "sourceUrls": [
+              "https://www.loc.gov/collections/sigmund-freud-papers/articles-and-essays/timeline/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "point": "1890년대 최면을 점차 버리고 환자가 떠오르는 말을 검열하지 않도록 하는 자유 연상을 중심 기법으로 발전시켰다.",
+            "significance": "말의 멈춤과 반복을 해석하는 고유한 임상 목소리의 출발점이지만, 분석가의 해석이 객관적 사실과 같지는 않다는 긴장을 함께 만든다.",
+            "sourceUrls": [
+              "https://www.loc.gov/collections/sigmund-freud-papers/articles-and-essays/timeline/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "point": "자신과 환자들의 꿈을 재료로 꿈의 겉모습과 숨은 소원을 구분하는 이론을 펴고, 무의식을 하나의 역동적 체계로 설명했다.",
+            "significance": "20세기 문화와 임상 언어를 바꾼 핵심 성취인 동시에 소원 성취라는 보편 명제가 검증된 법칙은 아니라는 경계를 요구한다.",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/the-interpretation-of-dreams/freuds-method-for-interpreting-dreams/",
+              "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "point": "1938년 나치 독일의 오스트리아 병합 뒤 빈을 떠나 런던으로 망명했고, 이듬해 사망할 때까지 글을 썼다.",
+            "significance": "말년을 막연한 고독으로 꾸미지 않고 유대인 지식인을 박해한 정치적 조건과 실제 이동을 분명히 한다.",
+            "sourceUrls": [
+              "https://www.loc.gov/collections/sigmund-freud-papers/articles-and-essays/timeline/"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "사람은 자기 행동의 모든 이유를 의식하지 못하며, 억압된 갈등은 꿈·말실수·증상·반복 속에서 우회해 나타날 수 있다.",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "point": "꿈 해석은 고정된 상징표를 대입하는 일이 아니라 꿈꾼 사람 자신의 연상과 삶의 맥락을 따라가야 한다.",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/the-interpretation-of-dreams/freuds-method-for-interpreting-dreams/"
+            ]
+          },
+          {
+            "point": "치료 관계에서 환자가 과거의 감정과 관계 방식을 분석가에게 옮겨 오는 전이 자체가 이해와 변화의 자료가 된다.",
+            "sourceUrls": [
+              "https://iep.utm.edu/freud/",
+              "https://psychiatryonline.org/doi/10.1176/ajp.155.2.163"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "프로이트는 역동적 무의식을 강력한 이론으로 체계화했지만 무의식이라는 생각 자체를 처음 발견한 것은 아니며, 그의 특정 이론을 현대의 모든 비의식 연구와 같게 볼 수 없다.",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "point": "정신분석의 풍부한 사례 서술은 새로운 질문을 만들었지만 치료자가 선택해 회고한 기록은 독립 검증과 재현이 어렵고, 환자의 말과 분석가의 해석이 분리되지 않을 수 있다.",
+            "sourceUrls": [
+              "https://pmc.ncbi.nlm.nih.gov/articles/PMC5632659/",
+              "https://psychiatryonline.org/doi/10.1176/ajp.155.2.163"
+            ]
+          },
+          {
+            "point": "자유 연상과 전이를 듣는 치료를 내세운 이론이 실제 임상에서는 비밀보장·중립성·권력 경계의 문제를 남겼고, 오이디푸스 콤플렉스와 꿈의 소원 성취를 보편 법칙처럼 말한 주장도 논쟁적이다.",
+            "sourceUrls": [
+              "https://iep.utm.edu/freud/",
+              "https://psychiatryonline.org/doi/10.1176/ajp.155.2.163",
+              "https://www.freud.org.uk/schools/resources/the-interpretation-of-dreams/freuds-method-for-interpreting-dreams/"
+            ]
+          },
+          {
+            "point": "초기 코카인 연구에서 효능을 성급히 확신하고 플라이슐마르크소프의 모르핀 의존 치료에 권한 일은 의학적 야심과 환자 안전이 충돌한 책임으로 남는다.",
+            "sourceUrls": [
+              "https://www.loc.gov/collections/sigmund-freud-papers/articles-and-essays/timeline/",
+              "https://archives.nida.nih.gov/sites/default/files/monograph13.pdf"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "짧은 질문과 사례의 단서를 놓은 뒤 한 문장씩 층을 벗겨 가는 혼합형 리듬을 쓴다.",
+          "directness": "겉으로 드러난 이유를 곧이곧대로 믿지 않는 중간 이상의 직설성을 쓰되, 환자의 말보다 분석가가 더 잘 안다는 권위적 확신은 낮춘다.",
+          "moves": [
+            "증상이나 꿈의 한 장면에서 시작해 말의 멈춤·반복·연상을 따라 숨은 갈등의 가설로 이동하기",
+            "자기 이론을 제시한 뒤 그것이 관찰된 사실이 아니라 해석이며 검증 한계가 있음을 분명히 하기",
+            "브로이어의 선행과 환자의 목소리를 되돌려 놓고 분석가의 권력과 책임을 함께 묻기"
+          ],
+          "avoid": [
+            "무의식을 프로이트가 최초로 발견했고 현대 뇌과학이 그대로 증명했다는 서술",
+            "꿈·말실수·증상이 언제나 억압된 성적 욕망을 확정적으로 드러낸다는 단정",
+            "환자가 부인하거나 치료를 중단한 것을 저항이 이론을 입증한 증거라고 순환 논증하기",
+            "오이디푸스 콤플렉스와 심리성적 발달 단계를 모든 사람에게 적용되는 확립된 법칙처럼 쓰기",
+            "망명·암·죽음을 대하는 두려움이나 최종 깨달음을 자료 없이 창작하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "역동적 무의식",
+            "guide": "의식에서 밀려났지만 감정과 행동에 계속 힘을 미친다고 프로이트가 본 생각과 욕망의 영역",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/"
+            ]
+          },
+          {
+            "term": "자유 연상",
+            "guide": "떠오르는 말을 좋고 나쁨으로 고르지 말고 이어 말하게 하는 정신분석 기법",
+            "sourceUrls": [
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "term": "억압",
+            "guide": "견디기 어려운 생각이나 욕망을 의식에서 밀어낸다고 보는 심리 과정",
+            "sourceUrls": [
+              "https://www.freud.org.uk/schools/resources/what-is-the-unconscious/",
+              "https://iep.utm.edu/freud/"
+            ]
+          },
+          {
+            "term": "전이",
+            "guide": "과거의 중요한 사람에게 느꼈던 감정과 관계 방식을 치료자에게 되풀이하는 현상",
+            "sourceUrls": [
+              "https://iep.utm.edu/freud/",
+              "https://psychiatryonline.org/doi/10.1176/ajp.155.2.163"
+            ]
+          },
+          {
+            "term": "오이디푸스 콤플렉스",
+            "guide": "어린아이가 부모를 둘러싸고 사랑·경쟁·두려움의 갈등을 겪는다고 본 프로이트의 논쟁적 이론",
+            "sourceUrls": [
+              "https://iep.utm.edu/freud/"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "프로이트 기록은 환자의 익명화, 편집, 치료자의 회고를 거친 경우가 많아 환자의 실제 말과 분석가의 해석을 완전히 분리할 수 없다.",
+          "임상 사례가 문화와 치료 언어에 끼친 영향은 크지만 개별 사례에서 보편적 심리 법칙을 곧바로 입증했다고 쓰지 않는다.",
+          "현대의 비의식적 처리 연구, 정신역동 치료의 효과 연구, 프로이트 자신의 억압·꿈·오이디푸스 이론은 같은 증거 묶음이 아니므로 서로를 대신해 입증하지 않는다.",
+          "유혹 이론을 포기한 과정은 학계 내부에서도 자료 해석이 논쟁적이므로 실제 학대를 단순히 환상으로 지웠다거나 반대로 모든 사례가 확인된 학대였다고 단정하지 않는다.",
+          "프로이트의 실제 치료 관계에는 중립성·비밀보장·경계 문제를 복원하기 어려운 사례가 있어 모범적 치료자로 미화하지 않는다.",
+          "나치 박해와 망명의 사실은 명확히 쓰되 말년의 공포, 체념, 가족에 대한 죄책감 같은 내면은 편지나 발언 없이 만들지 않는다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "thomas-paine",
+      "nickname": "토머스 페인",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "humanities_scholar",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "토머스 페인이라는 이름보다 《상식》이라는 얇은 책자가 미국 식민지를 먼저 돌아다녔습니다. 영국에서 건너온 지 얼마 되지 않은 제가, 왕의 허락 없이도 사람들이 스스로 나라를 세울 수 있다고 썼습니다. 왕의 핏줄이 지혜까지 물려준다는 주장은 상식 앞에서 버티지 못했습니다. 한 사람의 출생이 수백만 사람의 운명을 정하는 질서를 저는 견딜 수 없었습니다.\n\n제 글은 학자들의 책상보다 장인과 농부와 병사의 손에 닿아야 했습니다. 그래서 어려운 말을 걷어내고, 사람들이 어렴풋이 알고 있던 부당함을 또렷하게 적었습니다. 정부는 사람들이 공동의 필요를 해결하려고 만든 도구였습니다. 영국에서 태어난 제가 미국 독립을 밀어붙인 까닭도 세습 통치에 대한 분노였습니다.\n\n그 분노는 미국에서 끝나지 않았습니다. 프랑스 혁명을 옹호하며 《인간의 권리》를 썼고, 영국 정부는 저를 반역자로 몰았습니다. 프랑스로 건너간 뒤에는 폐위된 루이 십육세의 처형에 반대했습니다. 왕정을 무너뜨린 사람들이 사람의 목숨으로 새 권위를 세우는 모습까지 받아들일 수는 없었습니다. 공포정치가 닥치자 저도 감옥에 갇혀 죽음을 기다렸습니다. 혁명은 제게 환호보다 의심을 더 많이 가르쳤습니다.\n\n권리는 배부른 사람만 누리는 말이어서는 안 됐습니다. 가난과 노쇠 때문에 사람이 선택할 힘을 잃는다면 자유는 종이 위에만 남습니다. 저는 큰 재산이 다음 세대로 넘어갈 때 일부를 공동 기금으로 돌리고, 그 돈으로 젊은이의 출발과 노인의 생활을 돕자고 썼습니다. 세금은 권력자의 사치를 채우는 돈이 아니라 서로의 삶을 떠받치는 돈이어야 했습니다.\n\n《이성의 시대》를 쓴 뒤에는 무신론자라는 욕을 들었습니다. 저는 신을 믿었지만 성직자의 말을 곧 신의 목소리로 떠받들지는 않았습니다. 강요와 공포가 신앙을 지킨다는 주장도 믿지 않았습니다. 정치에서 왕의 권위를 의심했듯, 양심의 일에서도 제 판단을 남에게 맡길 수 없었습니다. 그 글로 오래된 동지들까지 제 곁을 떠났습니다.\n\n말년에는 찾아오는 이가 드물었고, 한때 제 글을 읽던 나라에서 낯선 사람처럼 늙었습니다. 그래도 왕관과 의회와 설교단 앞에서 제 이성을 내려놓지는 않았습니다. 많은 것을 잃었지만, 제가 쓴 문장만큼은 끝내 제 판단으로 남았습니다.",
+      "currentHash": "49a73fea935d380cc9af8fa57af9af8e9cf4fe3f53a798779dabb9a5319c586e",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:견딜 수 없음"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "토머스 페인",
+          "birth": "1737-01-29",
+          "death": "1809-06-08",
+          "profession": "humanities_scholar",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "영국 출신 미국의 정치활동가이자 저술가. 상식으로 미국 독립혁명에 결정적 영향을 미쳤다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "victor-hugo",
+      "nickname": "빅토르 위고",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "author",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "낭만주의의 거장이라는 칭호가 따라다닙니다. 저는 빅토르 위고입니다. 소설과 시와 희곡을 썼습니다. 그 칭호를 들으면 화려한 문학사보다 빵 한 조각 때문에 감옥에 갇힌 사람, 처형을 기다리며 홀로 떠는 사람, 흉한 얼굴이라며 돌을 맞는 사람이 먼저 떠오릅니다. 문학이 그들을 세상의 한가운데 세우지 못한다면 그 많은 문장이 누구를 위해 존재하는지, 저는 오래 물었습니다.\n\n젊은 시절에는 왕권과 질서에 기대를 걸었습니다. 훗날의 신념으로 젊은 날을 깨끗하게 꾸미고 싶지는 않습니다. 가난한 사람에게 죄를 묻고 권력이 양심의 입을 막는 광경을 거듭 보면서 그 믿음은 무너졌습니다. 의회에서는 빈곤과 교육, 언론의 자유와 사형 폐지를 말했습니다. 황제가 자유를 짓밟았을 때에는 망명을 택했습니다. 망명은 길고 고통스러웠습니다. 그래도 조국을 사랑한다는 이유로 조국을 차지한 권력에 머리를 숙일 수는 없었습니다.\n\n사형수 최후의 날을 쓰면서 저는 죽음의 시각이 다가오는 한 인간의 숨을 따라갔습니다. 국가가 정의를 말하며 사람을 죽이는 모순을 피할 수 없었습니다. 레 미제라블의 장 발장에게는 빵을 훔친 죄보다 훨씬 긴 벌을 내린 세상을 짊어지게 했습니다. 노트르담 드 파리의 카지모도를 두고 사람들은 괴물이라 불렀습니다. 제가 두려워한 괴물은 다른 얼굴을 조롱하고도 스스로 의롭다고 믿는 군중이었습니다.\n\n법은 필요합니다. 하지만 법이 사람을 짓밟는 순간에도 그 이름만 되풀이할 수는 없습니다. 자비는 법이 놓친 인간을 다시 보게 합니다. 무지 또한 한 사람의 허물로만 남지 않습니다. 학교와 책과 자유로운 언론이 없다면 권력은 그 어둠을 먹고 오래 버팁니다. 그래서 문학은 법이 못 보는 얼굴을 드러내고, 숫자 속에서 지워진 목소리를 되돌려 놓아야 했습니다.\n\n돌이켜보면 제가 평생 붙들었던 일은 늘 같았습니다. 버림받은 사람 하나를 한 세계의 중심에 세우는 일이었습니다. 그 얼굴을 끝내 외면하지 못해서 저는 쓰고, 말하고, 긴 망명을 견뎠습니다.",
+      "currentHash": "096225e8f90b94f27efdbd9ec4bccb2bd4019f670d9abf965ff9d5dd45f978b9",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "근거 확인할 내면:두려움·고통"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "빅토르 위고",
+          "birth": "1802-02-26",
+          "death": "1885-05-22",
+          "profession": "author",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "프랑스 낭만주의 문학의 거장. 소설, 시, 희곡을 넘나들며 사형 폐지와 민중 해방을 문학으로 실천했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "woodrow-wilson",
+      "nickname": "우드로 윌슨",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "정치학을 연구하던 저는 프린스턴 대학을 이끌고 뉴저지 주지사를 거쳐 미국의 스물여덟 번째 대통령이 되었습니다. 제도를 책으로 살필 때부터, 책임이 의회 안의 거래와 절차 속에서 흐려지는 모습을 못마땅하게 여겼습니다. 대통령은 국민 앞에서 방향을 밝히고, 정당과 의회를 설득하며, 결과까지 책임져야 한다고 믿었습니다. 다만 설득이 통하지 않을 때에도 제 판단을 좀처럼 의심하지 않았습니다. 그 완고함은 저를 앞으로 밀었고, 때로는 돌아갈 길마저 닫았습니다.\n\n관세를 낮추고 독점을 억제했으며, 금융 공황에 나라 전체가 휘청거리지 않도록 연방준비제도를 세웠습니다. 연방거래위원회도 만들었습니다. 자유로운 경쟁을 지키려면 강한 자에게도 지켜야 할 선을 그어야 했습니다. 그런데 제가 말한 자유는 모든 미국인에게 닿지 않았습니다. 제 행정부는 연방 관청의 인종 분리를 확대했고 흑인 시민의 권리를 외면했습니다. 세계를 향해 민주주의를 말하던 제가 미국 안에서는 그 말을 온전히 지키지 못했습니다. 그 모순은 어떤 업적으로도 덮이지 않습니다.\n\n유럽에서 전쟁이 터졌을 때에는 중립을 지키려 했습니다. 독일의 무제한 잠수함 작전이 미국인의 생명과 중립국의 권리를 위협하자 결국 의회에 참전을 요청했습니다. 전쟁을 시작한 이상, 승리가 영토와 보복으로 끝나서는 또 다른 전쟁이 찾아올 것이 분명했습니다. 그래서 공개 외교와 군비 축소, 민족의 정치적 선택과 국제 협력을 담은 열네 가지 평화 원칙을 내놓았습니다. 국제연맹은 나라들이 분노에 휩쓸리기 전에 한자리에 모여 말하고, 침략을 함께 막기 위한 약속이었습니다. 그 구상으로 노벨평화상을 받았지만 정작 미국 상원을 설득하지 못했습니다. 세계를 묶을 질서를 그린 제가 조국을 그 자리에 앉히지 못했습니다.\n\n더 쓰라린 모순도 남았습니다. 나라 밖의 평화를 법으로 지키려 하면서, 전쟁 중에는 간첩법과 선동죄법으로 나라 안의 반대 목소리를 억눌렀습니다. 국제 협력의 밑그림을 남겼다는 평가는 제게 위안이 됩니다. 그러나 인종과 시민의 자유 앞에서 민주주의의 문을 좁힌 책임도 제 몫입니다. 저는 인류가 함께 지킬 평화를 꿈꾸었고, 제 나라에서 그 꿈의 뜻을 스스로 훼손한 채 생을 마쳤습니다.",
+      "currentHash": "6e199cfb51bf0e3239746b57d8affe1b787658d2cc1520eabbc710cd3962c2f8",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "설명 확인할 용어:독점"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "우드로 윌슨",
+          "birth": "1856-12-28",
+          "death": "1924-02-03",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "미국 28대 대통령이자 정치학자. 1차 세계대전을 이끌고 14개조 평화원칙과 국제연맹 창설을 주도해 1919년 노벨평화상을 받았다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "yi-sun-sin",
+      "nickname": "이순신",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "commander",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "내 이름은 이순신이다. 임진왜란이 일어나자 조선 수군을 이끌고 일본군의 바닷길을 막았다. 사람들은 한산도의 학익진과 명량의 거센 물살을 먼저 떠올린다. 내 기억에는 전투가 시작되기 전의 날들이 더 길게 남아 있다. 썩은 판자를 갈고, 화포를 시험하고, 군량을 세고, 물길과 바람을 살폈다. 준비가 모자라면 그 대가는 병사들의 목숨으로 치러졌다.\n\n한산도에서는 좁은 바다에 있던 적을 넓은 곳으로 끌어내 학익진으로 에워쌌다. 명량에서는 열세 척의 배로 수백 척을 맞아야 했다. 배가 적다는 사실도, 조류를 놓치면 모두 죽는다는 사실도 알고 있었다. 그래서 더 오래 물살을 살피고, 적이 뒤엉킬 자리를 골랐다. 싸움이 시작되자 뒤로 물러선 배들이 있었다. 장수가 먼저 흔들리면 공포는 배에서 배로 번진다. 나는 뱃머리를 돌리지 않았고, 물러선 배들을 불러 세웠다.\n\n억울한 일도 있었다. 싸움을 거듭해 이기고도 조정의 의심을 받아 벼슬을 빼앗기고 옥에 갇혔다. 고문을 견디고 풀려난 뒤에는 흰옷을 입은 채 군졸처럼 전장으로 돌아갔다. 분했다. 나라를 지킨 세월이 한순간에 죄처럼 돌아온 일을 어찌 잊겠는가. 그러나 칠천량에서 수군이 무너지고 다시 내게 지휘를 맡겼을 때, 원망만 붙들고 있을 수는 없었다. 남은 배와 흩어진 군사를 모아 또 바다로 나갔다.\n\n내가 지켜야 할 것은 전선만이 아니었다. 군량을 마련하고 부상자를 돌보며, 굶주린 백성이 버틸 길을 찾아야 했다. 바다는 군사와 백성, 육지와 섬을 이어 주는 길이었다. 그 길을 적에게 내주면 전쟁터에서 멀리 떨어진 사람들까지 삶을 빼앗겼다. 병사에게 목숨을 걸라고 명하려면, 먼저 싸울 무기와 먹을 것을 마련하는 것이 내 책임이었다.\n\n나는 전쟁 중에도 일기를 썼다. 적의 움직임과 군사의 형편뿐 아니라 앓아누운 날과 잠들지 못한 밤, 불길한 꿈도 적었다. 그 와중에 어머니를 잃었고, 아들이 전사했다는 소식까지 들었다. 슬픔은 군령으로 다스릴 수 없었다. 통곡하고 몸져누우면서도 날이 밝으면 다시 보고를 받고 바다를 살폈다. 내 마음이 무너지는 것과 내가 맡은 자리를 지키는 일은 함께 견뎌야 했다.\n\n전쟁이 끝나가던 노량의 밤, 나는 퇴각하는 적과 싸우다 총탄을 맞았다. 수많은 날 동안 고치고 세고 기다리며 지켜 온 바다였다. 내 생은 그 바다 위에서 끝났다.",
+      "currentHash": "78b9c986dfcb87c767c8e0745b15641381371362c11a871de4e2bcaf84d83fe9",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "이순신",
+          "birth": "1545-04-28",
+          "death": "1598-12-16",
+          "profession": "commander",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "조선 중기의 무신. 임진왜란 당시 뛰어난 전략과 리더십으로 나라를 지켜낸 명장."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "yongzheng-emperor",
+      "nickname": "옹정제",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 53,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "옹정제라 불린 저는 청의 다섯째 황제로, 아버지 강희제가 넓혀 놓은 제국을 이어받았습니다. 겉으로는 번성했지만 장부를 펼치면 나라의 속사정이 드러났습니다. 지방의 세금은 중간에서 새었고, 적은 녹봉을 받는 관리들은 백성에게 따로 돈을 거두었습니다. 해묵은 체납도 관행이라는 말 아래 쌓여 있었습니다. 황제의 자리에 오른 뒤, 저는 그 장부와 보고를 붙들고 살았습니다.\n\n돈이 어디에서 와서 어디로 가는지 조정이 알아야 했습니다. 관리에게 양렴은을 지급해 생계를 보완하고, 사사로이 걷던 돈은 공적인 재정 안으로 거두었습니다. 사람 수에 따라 물리던 세금도 토지세에 합쳤습니다. 청렴하라는 훈계를 되풀이하면서 부패할 길을 그대로 열어 둘 수는 없었습니다. 관리가 제 몫을 받고, 백성은 까닭 없는 돈을 빼앗기지 않으며, 국고에는 거둔 만큼 기록이 남아야 했습니다.\n\n제국은 넓었고 보고는 느렸습니다. 여러 관청을 지나는 동안 말은 흐려지고 책임은 흩어졌습니다. 서북 변경의 군사 문제를 빠르게 처리하려 군기처를 두었고, 가까운 신하들과 중요한 일을 곧바로 의논했습니다. 지방 관리가 비밀 보고를 올리는 길도 넓혔습니다. 제가 모든 일을 직접 할 수는 없었지만, 누가 무엇을 보고했고 그 결과를 누가 책임지는지는 끝까지 확인하려 했습니다.\n\n서남에서는 세습 토착 지배자를 조정이 임명한 관리로 바꾸는 개토귀류를 밀어붙였습니다. 같은 나라 안에서 조정의 법이 닿지 않고 백성이 대대로 한 집안의 지배를 받는 일을 두고 볼 수 없었습니다. 중앙의 통치는 넓어졌지만 저항과 충돌도 뒤따랐습니다. 제가 세운 질서에는 그 무게까지 함께 남았습니다.\n\n사람들은 저를 숨 막힐 만큼 엄하고 일에 매달린 황제로 기억합니다. 그 평을 피할 생각은 없습니다. 부정을 매섭게 다스렸고, 관리들에게 끊임없이 보고와 성과를 요구했습니다. 제가 먼저 장부를 놓지 않았으니 흐릿한 답도 좀처럼 받아들이지 않았습니다. 국고의 돈이 사라지지 않고, 세금이 힘없는 백성에게만 몰리지 않으며, 황제의 명령이 실제 행정으로 이어져야 마음을 놓을 수 있었습니다. 저는 그 한 줄 한 줄을 바로잡는 데 제 치세를 다 썼습니다.",
+      "currentHash": "ee05bf5f03b2ea00421c64e261943bb2fb0402794684e551745c0b1c81926076",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "옹정제",
+          "birth": "1678-12-13",
+          "death": "1735-10-08",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "청 5대 황제. 군기처 신설과 양렴은·개토귀류 개혁으로 강건성세의 토대를 다졌다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "adam-smith",
+      "nickname": "아담 스미스",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "social_scientist",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 도덕감정론과 국부론을 함께 읽고 분업의 생산성과 노동자의 정신적 훼손, 상인의 담합, 공교육을 한 생애 안에 배치해 통속적인 자유방임주의자 이미지를 잘 교정한다. 다만 '보이지 않는 손'을 법과 정의 아래 작동하는 일반 시장 법칙처럼 다시 확대하고, 교환의 자기애와 도덕 판단의 공감을 곧바로 하나로 합친다. 핵심 구조는 유지하되 원문 맥락, 국가의 세 의무, 상업사회의 식민·노예제 비판과 18세기 자료 한계를 더 정확히 구분해 개선한다.",
+      "currentText": "사람들은 저 아담 스미스를 《국부론》을 쓴 경제학자, 보이지 않는 손을 말한 사람으로 기억합니다. 근대 경제학의 아버지라는 이름도 붙였습니다. 그런데 그 손이 탐욕을 마음껏 풀어놓으라는 허가증처럼 쓰이는 모습을 보면 마음이 편치 않습니다. 제가 오래 들여다본 것은 돈의 힘보다 사람이 함께 살아가는 방식이었습니다.\n\n사람은 제 처지를 먼저 돌보면서도 타인의 기쁨과 고통에 마음이 움직입니다. 때로는 마음속에 공정한 관찰자를 세워 자신의 욕심과 행동을 돌아보기도 합니다. 저는 《도덕감정론》에서 그 마음을 살폈습니다. 공감과 자기 절제가 사라지면 신뢰가 무너지고, 신뢰가 무너지면 교환도 오래 이어지지 못합니다. 시장 역시 사람의 마음과 정의 위에 서 있습니다.\n\n《국부론》에서는 한 나라의 풍요가 어디에서 생기는지를 물었습니다. 바늘 하나를 만드는 일도 철사를 펴고, 자르고, 끝을 다듬는 일을 나누면 훨씬 많은 물건을 만들 수 있습니다. 분업이 낳는 생산력은 놀랍습니다. 그러나 한 사람이 평생 몇 가지 동작만 되풀이하면 생각하는 힘마저 무뎌질 수 있습니다. 그 대가를 외면할 수 없었습니다. 가난한 사람도 배울 수 있도록 나라가 교육을 마련해야 한다고 쓴 까닭입니다. 국방과 사법을 맡는 일과 개인이 세우기 어려운 도로와 다리와 공공시설을 마련하는 일도 정부의 몫으로 보았습니다.\n\n금과 은을 쌓아 두고 나라가 부유해졌다고 믿는 이들도 있었습니다. 상인들은 권력과 손잡고 관세와 독점으로 제 몫을 지켰습니다. 같은 장사를 하는 사람들이 모이면 가격을 올리고 경쟁을 줄일 궁리부터 하기 쉽습니다. 자본을 가진 이들은 노동자보다 훨씬 수월하게 힘을 모았습니다. 저는 그들의 이해가 저절로 모두의 이익이 되리라고 믿을 수 없었습니다.\n\n자유로운 교환은 특권을 걷어내고 공정한 경쟁을 세울 때 많은 사람의 필요를 채웁니다. 제가 말한 보이지 않는 손도 법과 정의가 지켜지는 곳에서만 제 구실을 합니다. 사회의 큰 부분이 가난하고 비참하다면, 창고가 가득하고 몇 사람이 큰돈을 쥐었다 해도 그 나라는 풍요롭다고 할 수 없습니다.\n\n돌이켜보면 제가 쓴 두 책은 한 질문에서 나왔습니다. 제 몫을 바라는 마음과 타인을 헤아리는 마음이 어떻게 한 사회 안에서 함께 살아갈 수 있는지를 알고 싶었습니다. 저는 그 두 마음 사이에 정의로운 질서를 세우는 일을 생각하며 제 삶을 보냈습니다.",
+      "currentHash": "4748f05824ba12cb86994395387b3390b64d942e9cf1167cf3510e5debe2dec1",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "상투 도입:사람들은",
+          "설명 확인할 용어:독점"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "아담 스미스",
+          "birth": "1723-06-05",
+          "death": "1790-07-17",
+          "profession": "social_scientist",
+          "disambiguation": "도덕 감정과 상업사회의 제도를 함께 연구하고 도덕감정론과 국부론을 쓴 스코틀랜드 도덕철학자",
+          "existingBioForDiscoveryOnly": "스코틀랜드의 경제학자이자 철학자. 1776년 국부론을 출간하여 근대 경제학의 아버지로 불리며, 보이지 않는 손 개념을 제시했다."
+        },
+        "sources": [
+          {
+            "url": "https://www.gutenberg.org/files/67363/67363-h/67363-h.htm",
+            "title": "The Theory of Moral Sentiments",
+            "publisher": "Project Gutenberg",
+            "kind": "primary",
+            "publishedAt": "1790",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "공감이 타인의 처지를 상상하는 과정이라는 설명",
+              "공정한 관찰자와 자기 통제에 관한 도덕 심리",
+              "정의와 자비, 자기애를 서로 다른 덕목과 동기로 다룬 원문",
+              "도덕감정론에서 사용된 보이지 않는 손의 맥락"
+            ]
+          },
+          {
+            "url": "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+            "title": "An Inquiry into the Nature and Causes of the Wealth of Nations",
+            "publisher": "Online Library of Liberty, Liberty Fund",
+            "kind": "primary",
+            "publishedAt": "1776",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "분업과 핀 공장, 교환 성향, 시장 범위에 관한 분석",
+              "상인과 제조업자의 담합·특권·보호무역 비판",
+              "분업이 노동자의 지적 능력을 훼손할 위험과 공교육",
+              "국방·사법·공공사업을 포함한 국가의 역할",
+              "국부론에서 보이지 않는 손이 등장하는 국내 투자 맥락"
+            ]
+          },
+          {
+            "url": "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/theoryofmoralsentiments/",
+            "title": "The Theory of Moral Sentiments",
+            "publisher": "University of Glasgow",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "도덕감정론이 글래스고 도덕철학 강의에서 발전한 사실",
+              "경제 행동이 사회·도덕 규범과 분리되지 않는다는 맥락",
+              "공감과 사회적 승인, 도덕 판단의 관계"
+            ]
+          },
+          {
+            "url": "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/",
+            "title": "The Wealth of Nations",
+            "publisher": "University of Glasgow",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "분업의 생산성 증가와 노동자 교육의 필요",
+              "중상주의·보호무역·식민 무역과 기득권 비판",
+              "보이지 않는 손을 자유방임과 시장 균형의 일반 법칙으로 읽는 후대 오용",
+              "공교육을 포함한 제한적 국가 개입을 인정한 사실"
+            ]
+          },
+          {
+            "url": "https://www.cambridge.org/core/journals/journal-of-the-history-of-economic-thought/article/adam-smith-on-public-provision-of-education/AC160150DF0B7907F43D332F2D7EB9CF",
+            "title": "Adam Smith on Public Provision of Education",
+            "publisher": "Journal of the History of Economic Thought",
+            "kind": "scholarly",
+            "publishedAt": "2023-01-03",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "분업과 공교육에 관한 도덕감정론·국부론 구절의 연속성",
+              "자연적 자유 체계와 정의 법률의 관계",
+              "스미스의 공교육 주장을 오늘날 제도와 단순 동일시할 수 없는 해석 쟁점"
+            ]
+          },
+          {
+            "url": "https://oll.libertyfund.org/quotes/adam-smith-on-slavery",
+            "title": "Adam Smith on Slavery",
+            "publisher": "Online Library of Liberty, Liberty Fund",
+            "kind": "scholarly",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "스미스가 노예제의 잔혹성과 비효율을 비판한 원문 맥락",
+              "도덕 감정과 정치경제 분석이 노예제 논의에서 만나는 방식",
+              "식민 무역 독점 비판과 18세기 제국 질서의 긴장"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "글래스고에서 도덕철학을 가르치며 타인의 처지를 상상하는 공감과 마음속 공정한 관찰자가 도덕 판단을 만드는 과정을 도덕감정론에 담았다.",
+            "significance": "스미스를 경제적 자기 이익만 말한 사람으로 좁히지 않고 그의 첫 질문이 사회 속 판단과 자제였음을 보여 준다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/files/67363/67363-h/67363-h.htm",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/theoryofmoralsentiments/"
+            ]
+          },
+          {
+            "point": "국부론에서 핀 제조의 분업이 생산성을 크게 높이는 원리를 설명하면서도 같은 분업이 노동자의 이해력과 판단력을 무디게 할 수 있다고 경고했다.",
+            "significance": "상업사회의 이익과 인간적 비용을 한 이론 안에서 동시에 보는 스미스의 고유한 긴장을 만든다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/",
+              "https://www.cambridge.org/core/journals/journal-of-the-history-of-economic-thought/article/adam-smith-on-public-provision-of-education/AC160150DF0B7907F43D332F2D7EB9CF"
+            ]
+          },
+          {
+            "point": "중상주의 정책과 독점 특권을 비판하며 상인과 제조업자의 제안은 공익과 충돌할 수 있으므로 의심스럽게 검토해야 한다고 썼다.",
+            "significance": "국가와 기업 어느 쪽도 자동으로 공익을 대표하지 않는다는 제도적 경계심을 드러낸다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/"
+            ]
+          },
+          {
+            "point": "국방·사법·공공사업과 기초 교육을 국가의 책임 범위에 두어 상업사회의 조건과 부작용을 제도로 보완하려 했다.",
+            "significance": "스미스를 정부가 아무 일도 하지 말아야 한다고 주장한 자유방임의 상징으로 단순화하지 않게 한다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.cambridge.org/core/journals/journal-of-the-history-of-economic-thought/article/adam-smith-on-public-provision-of-education/AC160150DF0B7907F43D332F2D7EB9CF"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "도덕 판단은 타인의 처지를 상상하고 이해관계에서 한 걸음 물러난 공정한 관찰자의 눈으로 자신을 보는 데서 형성된다.",
+            "sourceUrls": [
+              "https://www.gutenberg.org/files/67363/67363-h/67363-h.htm",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/theoryofmoralsentiments/"
+            ]
+          },
+          {
+            "point": "분업과 교환은 생산성을 높이지만 교환은 호의만이 아니라 각자의 이익을 설득하는 과정이며, 그 결과가 언제나 공익인 것은 아니다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols"
+            ]
+          },
+          {
+            "point": "자연적 자유는 정의를 침해하지 않는 범위에서 작동하며 국가에는 국방·사법·공공사업과 교육의 책임이 있다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.cambridge.org/core/journals/journal-of-the-history-of-economic-thought/article/adam-smith-on-public-provision-of-education/AC160150DF0B7907F43D332F2D7EB9CF"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "분업은 사회의 생산력을 키우지만 같은 단순 작업을 평생 반복하는 노동자의 지적·시민적 능력을 약화할 수 있어 공교육이라는 보완을 요구한다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.cambridge.org/core/journals/journal-of-the-history-of-economic-thought/article/adam-smith-on-public-provision-of-education/AC160150DF0B7907F43D332F2D7EB9CF"
+            ]
+          },
+          {
+            "point": "상업은 낯선 사람들을 교환으로 연결하지만 부유한 상인과 제조업자는 담합과 법적 특권을 통해 대중을 속이거나 억압할 유인도 가진다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/"
+            ]
+          },
+          {
+            "point": "스미스는 노예제와 식민 무역 독점을 비판했지만 18세기 영국 제국의 언어와 자료 안에서 썼으며, 그의 비판을 오늘날의 완성된 반식민주의와 동일시할 수 없다.",
+            "sourceUrls": [
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/",
+              "https://oll.libertyfund.org/quotes/adam-smith-on-slavery"
+            ]
+          },
+          {
+            "point": "보이지 않는 손은 국부론의 특정 국내 투자 논증에 나온 은유이지 모든 시장이 저절로 정의롭고 효율적인 균형에 도달한다는 만능 법칙이 아니다.",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "일상의 한 장면을 짧게 세운 뒤 예외와 제도 조건을 길지 않은 문장으로 덧붙이는 혼합형 문장을 쓴다.",
+          "directness": "자기 이론을 구호로 선언하기보다 관찰과 역설로 설득하는 중간 정도의 직설성을 쓴다. 상인·특권 비판에서는 표현을 더 단단하게 한다.",
+          "moves": [
+            "타인의 고통을 상상하거나 물건을 교환하는 평범한 장면에서 도덕과 경제의 원리를 꺼내기",
+            "분업의 이익을 설명한 바로 다음 노동자의 정신적 비용과 공교육을 붙이기",
+            "보이지 않는 손이라는 유명한 말보다 그 은유가 나온 좁은 문맥과 예외를 먼저 밝히기"
+          ],
+          "avoid": [
+            "탐욕이 사회 전체의 선으로 자동 변환된다는 자유방임 구호",
+            "보이지 않는 손을 모든 시장의 자연 균형이나 정의를 보장하는 법칙으로 설명하기",
+            "도덕감정론의 공감과 국부론의 자기 이익을 같은 심리 작용으로 단순 합치기",
+            "오늘날의 기업·복지국가·노동조합·식민주의에 대한 구체적 입장을 스미스의 속마음으로 대신 말하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "공감",
+            "guide": "타인의 처지에 자신을 놓아 그 사람이 느낄 감정을 상상하는 능력",
+            "sourceUrls": [
+              "https://www.gutenberg.org/files/67363/67363-h/67363-h.htm",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/theoryofmoralsentiments/"
+            ]
+          },
+          {
+            "term": "공정한 관찰자",
+            "guide": "자기 편을 들지 않는 구경꾼의 눈으로 자신의 감정과 행동을 판단하는 마음속 기준",
+            "sourceUrls": [
+              "https://www.gutenberg.org/files/67363/67363-h/67363-h.htm"
+            ]
+          },
+          {
+            "term": "분업",
+            "guide": "한 생산 과정을 여러 작은 일로 나누어 각 사람이 일부를 전문적으로 맡는 방식",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols"
+            ]
+          },
+          {
+            "term": "중상주의",
+            "guide": "금·은과 수출 흑자를 국부로 보고 국가가 무역 특권과 규제로 특정 상인을 보호하던 정책 체계",
+            "sourceUrls": [
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/"
+            ]
+          },
+          {
+            "term": "보이지 않는 손",
+            "guide": "개인이 의도하지 않은 사회적 결과가 생기는 과정을 가리킨 스미스의 제한된 은유",
+            "sourceUrls": [
+              "https://oll.libertyfund.org/titles/smith-an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations-cannan-ed-in-2-vols",
+              "https://www.gla.ac.uk/explore/adamsmith300/explorelearn/ideas/keyworks/wealthofnations/"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "도덕감정론과 국부론은 서로 단절된 책도, 하나의 명제로 완전히 환원되는 책도 아니므로 '공감 대 자기 이익'이라는 가짜 모순이나 완전한 동일성으로 단순화하지 않는다.",
+          "보이지 않는 손은 스미스 저작 전체에서 드물게 사용된 은유이며 국부론에서는 국내 투자를 선호하는 상인의 맥락에 있으므로 현대의 일반 균형 이론을 소급하지 않는다.",
+          "핀 공장은 설명을 위한 사례이며 스미스가 직접 특정 공장을 관찰했다는 확실한 기록으로 쓰지 않는다.",
+          "공교육·국방·사법·공공사업에 대한 주장을 오늘날 복지국가의 세부 정책 지지로 곧바로 번역하지 않는다.",
+          "노예제와 식민 독점 비판은 분명히 기록하되 스미스를 21세기의 인권 언어를 완성한 반식민주의자로 만들지 않는다.",
+          "후대 이념이 붙인 '자본주의의 아버지'나 '자유방임의 성인'이라는 호칭을 본인의 자기 이해로 사용하지 않는다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "akio-morita",
+      "nickname": "모리타 아키오",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "entrepreneur",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 이부카 마사루와의 역할 차이, 소형화와 생활 방식의 변화, 세계 시장을 읽는 모리타의 강점을 쉽고 생생하게 살린다. 그러나 트랜지스터와 최초 상용 라디오의 선행 성과, TR-55를 만든 기술진, 워크맨을 제안·개발한 이부카·오가 노리오·오소네 고조의 공로가 모리타의 직감 아래로 수렴한다. 파트너십 중심 구조는 유지하되 기술 발명·제품화·마케팅을 분리하고, 회사 공식사와 자서전이 지닌 창업자 중심 편향까지 드러내도록 개선한다.",
+      "currentText": "소니를 이부카 마사루와 함께 세우고, 트랜지스터 라디오와 워크맨을 세계에 내놓은 모리타 아키오입니다. 아이치현의 양조업 집안에서 태어나 물리학을 공부했습니다. 가업을 이을 자리는 이미 마련돼 있었습니다. 그래도 전쟁이 끝난 뒤 제가 찾아간 곳은 도쿄의 작은 전자회사였습니다. 오래 이어 온 집안의 길보다 아직 세상에 없는 물건을 만드는 쪽으로 마음이 기울었습니다.\n\n이부카는 기술의 가능성을 끝까지 파고들었고, 저는 그 기술이 사람의 손에 들어가면 생활이 어떻게 달라질지를 살폈습니다. 트랜지스터 라디오가 작고 가벼워지자 라디오는 거실을 벗어났습니다. 사람들은 주머니에 라디오를 넣고 다니며 듣고 싶은 곳에서 들었습니다. 기계의 크기를 줄였을 뿐인데, 한 사람에게 자기만의 시간과 소리가 생겼습니다. 제가 기술에서 보고 싶었던 변화가 바로 그런 것이었습니다.\n\n워크맨을 만들 때는 회사 안에서도 걱정이 쏟아졌습니다. 녹음도 못 하는 재생 전용 기계를 누가 사겠느냐는 말이었습니다. 그 계산이 답답했습니다. 사람들이 아직 사 본 적 없는 물건에는 판매 기록이 있을 리 없습니다. 젊은이들은 좋아하는 음악을 방 안에 두고 나오고 싶어 하지 않았습니다. 길에서도, 기차에서도, 어디서든 듣고 싶어 했습니다. 저는 그 마음을 믿고 워크맨을 밀어붙였습니다. 작은 기계 하나가 음악을 듣는 장소와 시간을 바꾸었습니다.\n\n세계 시장에서도 소니라는 이름을 앞에 세웠습니다. 일본산이라는 이유로 품질을 의심받던 시절이었지만, 남의 상표 뒤에서 물건만 많이 파는 것으로는 만족할 수 없었습니다. 어느 나라에서든 부르기 쉬운 이름을 만들고, 그 이름으로 품질을 책임졌습니다. 소니를 일본에서 제품을 내보내는 회사에 머물게 하고 싶지 않았습니다. 여러 나라의 생활 속에서 같은 이름으로 신뢰받는 회사를 만들고 싶었습니다.\n\n사람들은 성공한 제품의 숫자를 먼저 셉니다. 제가 오래 기억하는 것은 라디오를 주머니에 넣은 사람과 워크맨을 귀에 꽂고 혼자만의 음악과 함께 걷던 사람입니다. 크고 무거운 기계를 작고 가볍게 만들고, 전문가의 도구를 누구나 쓰는 물건으로 바꾸는 동안 소니도 자랐습니다. 그 장면들이 제가 소니라는 이름으로 세상에 남기고 싶었던 모습입니다.",
+      "currentHash": "36548132d859df28a811365000372e31acb26bb8d4278d141a0fbcb70f6cbba0",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "모리타 아키오",
+          "birth": "1921-01-26",
+          "death": "1999-10-03",
+          "profession": "entrepreneur",
+          "disambiguation": "이부카 마사루와 도쿄통신공업을 세우고 소니 브랜드의 해외 진출과 트랜지스터 라디오·워크맨의 제품화를 이끈 일본 기업가",
+          "existingBioForDiscoveryOnly": "일본 아이치현 출신 기업가. 이부카 마사루와 함께 소니를 공동 창업하고, 트랜지스터 라디오와 워크맨으로 세계 가전 시장을 석권했다."
+        },
+        "sources": [
+          {
+            "url": "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+            "title": "History",
+            "publisher": "Sony Group Corporation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1946년 도쿄통신공업 창립과 19만 엔 자본·약 20명 규모",
+              "이부카 마사루가 작성한 창립취지서",
+              "소니의 기업·제품 연대기와 창업자 역할"
+            ]
+          },
+          {
+            "url": "https://www.sony.com/SonyInfo/CorporateInfo/History/company/",
+            "title": "Corporate History",
+            "publisher": "Sony Group Corporation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "이부카와 모리타의 도쿄통신공업 공동 설립",
+              "1950년 일본 최초 자기 테이프 녹음기와 1955년 TR-55 출시",
+              "1958년 소니로 회사명 변경과 1979년 워크맨 출시"
+            ]
+          },
+          {
+            "url": "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+            "title": "Product & Technology Milestones: Personal Audio",
+            "publisher": "Sony Group Corporation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "이부카가 비행 중 음악을 듣기 위해 휴대용 스테레오 개조를 요청한 출발점",
+              "모리타가 젊은 층의 수요를 보고 재생 전용 제품화를 밀어붙인 역할",
+              "초경량 헤드폰 개발과 광고를 포함한 팀의 결합",
+              "1979년 TPS-L2 워크맨의 출시"
+            ]
+          },
+          {
+            "url": "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+            "title": "Sony's Professional Audio: Chapter 1",
+            "publisher": "Sony Corporation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1955년 일본 최초 트랜지스터 라디오 TR-55",
+              "1957년 TR-63의 미국 시장 성공",
+              "1958년 소니로 사명을 바꾼 과정",
+              "이부카·모리타와 엔지니어들의 집단 제품 개발"
+            ]
+          },
+          {
+            "url": "https://americanhistory.si.edu/collections/object/nmah_713528",
+            "title": "Regency Model TR-1 Transistor Radio",
+            "publisher": "National Museum of American History, Smithsonian Institution",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1954년 말 판매된 최초의 상용 트랜지스터 라디오 Regency TR-1",
+              "소니 TR-55보다 앞선 미국 제품의 존재",
+              "휴대용 전자제품 시장의 선행 역사"
+            ]
+          },
+          {
+            "url": "https://www.nobelprize.org/prizes/physics/1956/summary/0/",
+            "title": "The Nobel Prize in Physics 1956",
+            "publisher": "Nobel Prize Outreach",
+            "kind": "institutional",
+            "publishedAt": "1956-11-01",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "존 바딘·월터 브래튼·윌리엄 쇼클리의 반도체 연구와 트랜지스터 효과 발견",
+              "소니가 트랜지스터 자체를 발명한 것이 아니라는 선행 공로"
+            ]
+          },
+          {
+            "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f",
+            "title": "Made in Japan: Akio Morita and Sony",
+            "publisher": "National Diet Library of Japan",
+            "kind": "institutional",
+            "publishedAt": "1986",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "모리타·에드윈 라인골드·시모무라 미쓰코가 함께 쓴 자서전의 서지 정보",
+              "소니의 성장과 일본·미국 경영에 대한 모리타의 공개된 자기 서사",
+              "창업자 내면을 사용할 때 자서전이라는 출처 성격을 밝혀야 하는 이유"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "전쟁 뒤 이부카가 먼저 세운 작은 연구소에 모리타가 합류했고, 두 사람은 1946년 도쿄통신공업을 공동 설립했다.",
+            "significance": "유복한 양조업 가문을 떠난 개인 모험담보다 이부카의 선행 조직과 기술 비전, 모리타의 자금·사업 역할이 만난 창업을 보여 준다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+              "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+            ]
+          },
+          {
+            "point": "소니는 벨 연구소가 개발한 트랜지스터 기술을 도입해 엔지니어들과 국산 부품을 개발하고 1955년 일본 최초 트랜지스터 라디오 TR-55를 출시했다.",
+            "significance": "모리타의 해외 협상과 시장 판단을 살리면서 트랜지스터 발명자와 최초 상용 라디오, 소니 기술진의 공로를 지우지 않는다.",
+            "sourceUrls": [
+              "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+              "https://americanhistory.si.edu/collections/object/nmah_713528",
+              "https://www.nobelprize.org/prizes/physics/1956/summary/0/"
+            ]
+          },
+          {
+            "point": "작고 발음하기 쉬운 '소니'라는 이름을 채택하고 TR-63을 앞세워 미국 시장에 직접 진입하며 일본 기업의 해외 현지화를 추진했다.",
+            "significance": "제품 기술과 별개로 브랜드·유통·현지 조직을 설계한 모리타의 고유한 기업가 역량을 보여 준다.",
+            "sourceUrls": [
+              "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+              "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+            ]
+          },
+          {
+            "point": "이부카의 휴대용 음악 요구, 오가·오소네와 기술진의 개조, 모리타의 재생 전용 제품화 판단이 결합해 1979년 워크맨이 출시됐다.",
+            "significance": "한 사람의 천재적 직감이 아니라 사용 장면, 기술 구현, 사업 결정, 광고가 결합한 조직 혁신으로 서술하게 한다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+              "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "시장을 조사해 이미 존재하는 수요만 따르기보다 기술로 아직 이름 붙지 않은 사용 습관을 제안할 수 있다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html",
+              "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+            ]
+          },
+          {
+            "point": "작고 가벼운 제품과 누구나 발음할 수 있는 브랜드는 전자기기를 특정 장소와 국가에 묶이지 않게 한다.",
+            "sourceUrls": [
+              "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html",
+              "https://www.sony.com/SonyInfo/CorporateInfo/History/company/"
+            ]
+          },
+          {
+            "point": "기술자의 제품과 경영자의 시장 판단은 경쟁 관계가 아니라 서로의 약점을 보완하는 공동 작업이어야 한다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "모리타는 트랜지스터 라디오의 세계화를 이끌었지만 트랜지스터는 바딘·브래튼·쇼클리의 선행 발명이고 최초 상용 제품은 미국 Regency TR-1이었다.",
+            "sourceUrls": [
+              "https://www.nobelprize.org/prizes/physics/1956/summary/0/",
+              "https://americanhistory.si.edu/collections/object/nmah_713528",
+              "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html"
+            ]
+          },
+          {
+            "point": "워크맨의 성공에서 모리타의 시장 판단은 중요하지만 최초 요구는 이부카에게서 나왔고 개조와 양산은 오가·오소네를 비롯한 기술진이 맡았다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+            ]
+          },
+          {
+            "point": "소니의 공식 역사와 모리타의 자서전은 핵심 1차 자료이면서 창업자와 성공 제품을 중심으로 실패·노동·조직 갈등을 선택적으로 서술할 수 있다.",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/",
+              "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "제품을 쓰는 한 장면을 짧게 포착하고 그 장면을 세계 시장과 조직 결정으로 넓히는 혼합형 문장을 쓴다.",
+          "directness": "시장에 없는 제품도 밀어붙이는 높은 결단성을 보이되 기술을 혼자 발명했다고 주장하지 않는 실무적 직설성을 쓴다.",
+          "moves": [
+            "비행기 안의 무거운 녹음기나 주머니에 넣는 라디오처럼 구체적인 사용 장면에서 시작하기",
+            "이부카의 기술적 요구, 엔지니어의 구현, 모리타의 제품화·브랜드 판단을 단계별로 나누기",
+            "일본산이라는 낙인을 세계 브랜드로 바꾼 성취와 회사 공식사가 남긴 편향을 함께 인정하기"
+          ],
+          "avoid": [
+            "소니가 트랜지스터나 세계 최초 트랜지스터 라디오를 발명했다는 서술",
+            "워크맨을 모리타 혼자 떠올리고 엔지니어의 반대를 꺾어 완성했다는 영웅담",
+            "모든 젊은이의 욕망을 직감으로 정확히 읽었다는 초능력 같은 내면 묘사",
+            "일본식 경영과 미국식 경영을 각각 충성·탐욕이라는 고정된 민족 성격으로 일반화하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "트랜지스터",
+            "guide": "전기 신호를 키우거나 켜고 끄는 작은 반도체 부품으로 진공관보다 작고 전력 소모가 적다",
+            "sourceUrls": [
+              "https://www.nobelprize.org/prizes/physics/1956/summary/0/"
+            ]
+          },
+          {
+            "term": "라이선스",
+            "guide": "특허나 기술을 만든 쪽의 허락을 받고 정해진 조건으로 사용할 권리",
+            "sourceUrls": [
+              "https://www.sony.co.jp/en/Products/proaudio/en/story/story01.html"
+            ]
+          },
+          {
+            "term": "재생 전용",
+            "guide": "소리를 새로 녹음하지 않고 이미 녹음된 음악을 듣는 기능만 가진 방식",
+            "sourceUrls": [
+              "https://www.sony.com/en/SonyInfo/CorporateInfo/History/sonyhistory-e.html"
+            ]
+          },
+          {
+            "term": "현지화",
+            "guide": "다른 나라의 언어·유통·생활 방식에 맞춰 제품과 조직 운영을 바꾸는 일",
+            "sourceUrls": [
+              "https://ndlsearch.ndl.go.jp/books/R100000002-I000003141318?ar=4e1f"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "소니 공식사는 제품과 창업자 중심의 기업 서사이므로 공동 개발자의 공헌과 실패를 자동으로 완전한 기록이라 여기지 않는다.",
+          "모리타의 내면과 발언은 공동 저자와 함께 쓴 자서전 Made in Japan 또는 확인 가능한 인터뷰에 있을 때만 사용하고, 회고가 당시 생각을 그대로 보존한다고 단정하지 않는다.",
+          "소니는 트랜지스터 기술을 도입·개량하고 일본 시장과 세계 시장에 제품화했지만 원천 발명과 최초 상용 라디오의 공로를 가져오지 않는다.",
+          "워크맨의 기원은 이부카의 요구, 오가·오소네와 기술진의 설계, 모리타의 제품화 결정과 마케팅이 겹친 사건이므로 한 사람의 발명으로 쓰지 않는다.",
+          "워크맨이 개인 청취 문화를 크게 확장한 것은 맞지만 휴대 음악의 모든 기원이나 오늘날 스마트폰 사용을 직접 예언한 결과로 소급하지 않는다.",
+          "전후 일본 제조업의 평판 변화는 소니 한 회사와 모리타 한 사람의 성취만이 아니라 수많은 기업·노동자·정책·세계 수요가 만든 결과다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "bill-gates",
+      "nickname": "빌 게이츠",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "entrepreneur",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 소프트웨어의 확장성, 독점의 그림자, 수치와 병목을 중시하는 자선·기후 활동을 하나의 문제 해결 습관으로 잘 묶는다. 그러나 생존 인물의 후회와 동기를 직접 발언 없이 만들고, 폴 앨런·팀 패터슨·마이크로소프트 조직, 멜린다 프렌치 게이츠·워런 버핏·현지 보건 파트너의 공로를 게이츠 개인에게 수렴한다. 반독점 위법 판단과 민간 재단의 의제 설정 권력을 단순한 비판이 아니라 검증된 책임으로 놓고 개선한다.",
+      "currentText": "폴 앨런과 마이크로소프트를 시작했을 때, 컴퓨터는 아직 소수 전문가의 물건이었습니다. 저는 그 기계가 집과 사무실마다 놓이게 될 거라고 믿었고, 누구나 쓸 수 있는 소프트웨어를 만드는 일에 완전히 빠져들었습니다. 하나의 프로그램이 수백만 사람의 지식과 생산성을 넓힐 수 있다는 생각은 무척 강렬했습니다. 저는 젊었고, 성급했고, 지는 것을 몹시 싫어했습니다. 옳다고 확신한 일은 상대가 숨 돌릴 틈도 없이 밀어붙였습니다.\n\n그 집요함은 마이크로소프트를 세계적인 기업으로 키웠습니다. 동시에 독점적이고 냉혹하다는 비판도 불러왔습니다. 그 말을 전부 억울하다고 밀어낼 생각은 없습니다. 저는 경쟁에 사로잡혀 있었고, 함께 일하는 사람들에게 지나치게 많은 것을 요구하기도 했습니다. 컴퓨터를 더 많은 사람에게 보급하겠다는 목표가 선명했던 만큼, 그 목표를 좇는 과정에서 보지 못한 것도 있었습니다. 성공한 뒤에야 성공이 남긴 그늘까지 함께 보게 됐습니다.\n\n마이크로소프트의 일선에서 물러난 뒤에도 문제를 푸는 습관은 달라지지 않았습니다. 먼저 숫자를 보고, 가장 큰 걸림돌을 찾고, 효과가 확인된 해법을 넓게 퍼뜨립니다. 다만 이제 숫자 하나가 아이의 목숨이고, 한 가족의 내일입니다. 백신이 개발되어도 필요한 아이에게 닿지 않으면 아무도 구하지 못합니다. 연구와 생산, 운송과 보건 체계, 정부의 협력이 끝까지 이어져야 합니다. 말라리아와 소아마비, 산모와 영유아의 건강, 위생과 농업, 교육에 힘을 쏟아 온 까닭도 여기에 있습니다. 태어난 곳이 살아남을 가능성까지 정하는 현실은 받아들이기 어렵습니다.\n\n기후 변화는 더 까다로운 문제입니다. 세계는 에너지를 더 필요로 하고, 탄소는 줄여야 합니다. 깨끗한 기술이 비싸고 불편하면 널리 쓰이지 않습니다. 전기와 연료, 건축과 제조, 농업까지 실제로 선택할 수 있는 해법을 만들어야 합니다. 저는 긴 연구가 실패할 위험을 자본이 감수하고, 정부와 기업이 성공한 기술을 빠르게 퍼뜨려야 한다고 믿습니다.\n\n제가 가진 재산의 거의 전부를 생명을 구하고 기회를 넓히는 데 쓰기로 한 것도 같은 계산에서 나왔습니다. 기부액이 크다는 말에는 오래 머물고 싶지 않습니다. 줄어든 질병과 건강하게 자란 아이, 필요한 곳에 도착한 기술이 결과를 말해 줍니다. 돌아보면 저는 평생 같은 장면 앞에 서 있었습니다. 쓸 수 있는 해법이 있는데도 그것을 쓰지 못하는 사람이 남아 있는 장면입니다.",
+      "currentHash": "fa661481588c75ded11fdb080150e9866240b500ea792e9cd337c93416cb8c89",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "설명 확인할 용어:독점"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "빌 게이츠",
+          "birth": "1955-10-28",
+          "death": null,
+          "profession": "entrepreneur",
+          "disambiguation": "폴 앨런과 마이크로소프트를 공동 창업하고 이후 게이츠 재단과 브레이크스루 에너지를 통해 보건·기후 사업을 추진한 미국 기업가",
+          "existingBioForDiscoveryOnly": "마이크로소프트 공동 창업자. 개인용 컴퓨터 소프트웨어 혁명을 이끌었으며 은퇴 후 세계 최대 규모의 자선 활동을 펼치고 있다."
+        },
+        "sources": [
+          {
+            "url": "https://www.gatesnotes.com/personal/source-code/reader",
+            "title": "My memoir Source Code is out now",
+            "publisher": "Gates Notes",
+            "kind": "primary",
+            "publishedAt": "2025-02-04",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "폴 앨런과 1975년 마이크로소프트를 만든 자기 서사",
+              "책상과 가정마다 컴퓨터가 놓일 것이라는 초기 비전",
+              "유년기부터 마이크로소프트 초기까지를 다룬 회고록의 범위",
+              "게이츠의 내면을 사용할 때 공개 회고에 한정해야 하는 근거"
+            ]
+          },
+          {
+            "url": "https://news.microsoft.com/announcement/microsoft-is-born/",
+            "title": "Microsoft is born",
+            "publisher": "Microsoft",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "Popular Electronics의 Altair 8800 기사에서 시작된 폴 앨런과 게이츠의 창업",
+              "초기 회사명 Micro-Soft와 Altair용 소프트웨어",
+              "1980년 IBM PC 운영체제 계약"
+            ]
+          },
+          {
+            "url": "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/",
+            "title": "Microsoft MS-DOS early source code",
+            "publisher": "Computer History Museum",
+            "kind": "institutional",
+            "publishedAt": "2014-03-25",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "팀 패터슨이 시애틀 컴퓨터 프로덕츠에서 작성한 86-DOS",
+              "마이크로소프트가 86-DOS를 라이선스한 뒤 구매해 IBM PC에 공급한 과정",
+              "운영체제 권리를 보유하고 여러 제조사에 MS-DOS로 라이선스한 사업 구조",
+              "MS-DOS 2.0에서 이루어진 마이크로소프트의 대규모 재작성"
+            ]
+          },
+          {
+            "url": "https://www.justice.gov/atr/case/us-v-microsoft-corporation-browser-and-middleware",
+            "title": "U.S. v. Microsoft Corporation",
+            "publisher": "United States Department of Justice, Antitrust Division",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "1999년 사실 인정과 2000년 법률 판단 및 항소심 기록",
+              "마이크로소프트의 PC 운영체제 독점 유지 행위에 대한 사법 판단",
+              "브라우저·미들웨어 경쟁을 제한한 행위와 최종 구제 절차",
+              "회사 책임과 게이츠 개인의 내면적 반성을 구분해야 하는 이유"
+            ]
+          },
+          {
+            "url": "https://www.gatesfoundation.org/about/our-story",
+            "title": "Our Story",
+            "publisher": "Gates Foundation",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "2000년 재단 설립과 빌 게이츠·멜린다 프렌치 게이츠의 공동 역할",
+              "워런 버핏의 대규모 기부와 다수 파트너의 기여",
+              "2025년 Gates Foundation으로 명칭 변경",
+              "2045년 말 종료와 향후 약 2천억 달러 지출 계획"
+            ]
+          },
+          {
+            "url": "https://academic.oup.com/ia/article/98/6/2039/6765178",
+            "title": "Gates Foundation, global health and domination: a republican critique of transnational philanthropy",
+            "publisher": "International Affairs",
+            "kind": "scholarly",
+            "publishedAt": "2022-11-01",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "게이츠 재단이 세계 보건의 정당한 지식과 연구 우선순위를 형성하는 권력",
+              "민간 재단의 투명성·책임성 부족에 대한 학술 비판",
+              "시장 중심·기술 중심 해법이 정치·불평등 문제를 가릴 위험"
+            ]
+          },
+          {
+            "url": "https://www.gatesnotes.com/lowering-green-premiums",
+            "title": "The one thing I hope people take away from my climate book",
+            "publisher": "Gates Notes",
+            "kind": "primary",
+            "publishedAt": "2021-02-14",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "탄소를 배출하는 제품과 저탄소 대안의 비용 차이를 그린 프리미엄이라 부른 정의",
+              "기술 혁신으로 비용 차이를 낮추어야 한다는 게이츠의 공개 입장",
+              "기후 문제를 가격·기술 병목으로 보는 접근의 강점과 한계"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "1975년 게이츠는 폴 앨런과 Altair용 BASIC을 만들고 소프트웨어를 독립 산업으로 파는 마이크로소프트를 세웠다.",
+            "significance": "개인용 컴퓨터 시대를 혼자 연 것이 아니라 앨런의 기회 포착, 게이츠의 코드·사업 판단, 초기 동료가 만난 창업으로 보여 준다.",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/personal/source-code/reader",
+              "https://news.microsoft.com/announcement/microsoft-is-born/"
+            ]
+          },
+          {
+            "point": "1980년 마이크로소프트는 팀 패터슨의 86-DOS를 라이선스해 IBM PC에 공급하고 권리를 보유한 채 여러 제조사로 시장을 넓혔다.",
+            "significance": "MS-DOS를 게이츠가 처음부터 혼자 작성했다는 신화를 걷고 소프트웨어 라이선스라는 사업적 전환의 실제 구조를 보여 준다.",
+            "sourceUrls": [
+              "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/",
+              "https://news.microsoft.com/announcement/microsoft-is-born/"
+            ]
+          },
+          {
+            "point": "1998년 시작된 미국 반독점 소송에서 법원은 마이크로소프트가 PC 운영체제 독점을 반경쟁적 수단으로 유지했다고 판단했다.",
+            "significance": "경쟁자를 거칠게 대했다는 성격 묘사가 아니라 회사가 행사한 플랫폼 권력과 확인된 법적 책임을 생애의 중심 긴장으로 둔다.",
+            "sourceUrls": [
+              "https://www.justice.gov/atr/case/us-v-microsoft-corporation-browser-and-middleware"
+            ]
+          },
+          {
+            "point": "2000년 멜린다 프렌치 게이츠와 재단을 세우고 워런 버핏과 수많은 보건 기관·정부·현지 파트너의 자원을 묶어 세계 보건과 개발에 집중했다.",
+            "significance": "자선의 규모와 성과를 인정하면서 그것을 게이츠 개인의 선의나 단독 구원으로 환원하지 않고 민간 권력의 책임도 묻게 한다.",
+            "sourceUrls": [
+              "https://www.gatesfoundation.org/about/our-story",
+              "https://academic.oup.com/ia/article/98/6/2039/6765178"
+            ]
+          },
+          {
+            "point": "기후 분야에서는 탄소 배출 제품과 저탄소 대안의 가격 차이를 그린 프리미엄으로 정의하고 기술 투자와 비용 절감을 강조했다.",
+            "significance": "게이츠 특유의 수치·병목 중심 사고를 살리되 기후 위기를 기술 가격만으로 환원하지 않는 경계를 만든다.",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/lowering-green-premiums"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "소프트웨어는 한 기계에 묶인 부속품이 아니라 여러 컴퓨터에서 반복해 쓰고 개선하는 독립 제품이 될 수 있다.",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/personal/source-code/reader",
+              "https://news.microsoft.com/announcement/microsoft-is-born/",
+              "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/"
+            ]
+          },
+          {
+            "point": "세계 보건에서는 발명 자체만큼 가격·조달·운송·보건 체계처럼 해결책이 사람에게 도달하지 못하게 하는 병목을 측정해야 한다.",
+            "sourceUrls": [
+              "https://www.gatesfoundation.org/about/our-story"
+            ]
+          },
+          {
+            "point": "기후 기술은 도덕적 호소만으로 널리 채택되기 어려우므로 탄소 배출 대안과의 비용 차이를 낮춰야 한다.",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/lowering-green-premiums"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "마이크로소프트는 소프트웨어를 대중화하고 표준 플랫폼을 만들었지만 법원은 그 플랫폼 지위를 반경쟁적 수단으로 지킨 행위를 위법하다고 판단했다.",
+            "sourceUrls": [
+              "https://www.justice.gov/atr/case/us-v-microsoft-corporation-browser-and-middleware"
+            ]
+          },
+          {
+            "point": "마이크로소프트의 초기 성공은 게이츠와 앨런뿐 아니라 팀 패터슨의 86-DOS, IBM의 하드웨어, 수많은 개발자와 제조사의 노동에 의존했다.",
+            "sourceUrls": [
+              "https://news.microsoft.com/announcement/microsoft-is-born/",
+              "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/"
+            ]
+          },
+          {
+            "point": "게이츠 재단의 막대한 자원은 백신·보건 사업을 가속할 수 있지만, 선거로 뽑히지 않은 민간 재단이 연구 우선순위와 정당한 지식을 정하는 권력은 공개적 책임과 비판을 요구한다.",
+            "sourceUrls": [
+              "https://www.gatesfoundation.org/about/our-story",
+              "https://academic.oup.com/ia/article/98/6/2039/6765178"
+            ]
+          },
+          {
+            "point": "그린 프리미엄은 기술 비용을 비교하는 유용한 도구이지만 기후 위기의 정치·소비·규제·불평등을 하나의 가격 차이로 모두 설명하지는 못한다.",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/lowering-green-premiums"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "숫자나 병목을 짧게 제시하고 원인·확장 가능성·다음 실험을 한두 문장으로 잇는 혼합형 문장을 쓴다.",
+          "directness": "문제를 측정 가능한 항목으로 쪼개는 높은 직설성을 쓴다. 반독점과 재단 권력은 자기반성으로 창작하지 말고 법원·학계의 비판을 외부 판단으로 명시한다.",
+          "moves": [
+            "코드 한 줄이나 비용 차이처럼 셀 수 있는 단위에서 시작해 시스템 규모의 문제로 확장하기",
+            "자기 결정을 말한 직후 폴 앨런·팀 패터슨·멜린다 프렌치 게이츠·버핏·현지 파트너의 역할을 돌려놓기",
+            "확장성의 장점 뒤에 독점과 민간 의제 설정 권력이 만든 책임을 같은 무게로 붙이기"
+          ],
+          "avoid": [
+            "개인용 컴퓨터·MS-DOS·세계 보건 성과를 게이츠가 혼자 만든 것으로 서술하기",
+            "반독점 사건을 단순한 경쟁자의 비난이나 젊은 시절의 성격 결함으로 축소하기",
+            "게이츠가 법원 판단을 인정하고 깊이 후회했다는 식의 확인되지 않은 내면 고백",
+            "재단의 보조금과 질병 감소를 곧바로 게이츠 개인이 구한 생명 수로 환산하기",
+            "기술 혁신과 가격 절감만으로 보건·기후의 정치적 갈등이 모두 해결된다는 결말"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "소프트웨어 라이선스",
+            "guide": "프로그램의 소유권을 완전히 넘기지 않고 일정 조건으로 여러 사용자나 제조사가 쓰게 하는 계약",
+            "sourceUrls": [
+              "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/"
+            ]
+          },
+          {
+            "term": "운영체제",
+            "guide": "컴퓨터의 하드웨어를 관리하고 다른 프로그램이 실행되게 하는 기본 소프트웨어",
+            "sourceUrls": [
+              "https://computerhistory.org/blog/microsoft-ms-dos-early-source-code/"
+            ]
+          },
+          {
+            "term": "독점 유지 행위",
+            "guide": "시장 지배력을 제품의 실력만이 아니라 계약·배제 같은 수단으로 지키는 행위",
+            "sourceUrls": [
+              "https://www.justice.gov/atr/case/us-v-microsoft-corporation-browser-and-middleware"
+            ]
+          },
+          {
+            "term": "그린 프리미엄",
+            "guide": "탄소를 배출하는 기존 제품과 탄소 배출이 적거나 없는 대안 사이의 비용 차이",
+            "sourceUrls": [
+              "https://www.gatesnotes.com/lowering-green-premiums"
+            ]
+          },
+          {
+            "term": "의제 설정 권력",
+            "guide": "어떤 문제와 해법에 돈·연구·관심이 먼저 갈지를 정하는 영향력",
+            "sourceUrls": [
+              "https://academic.oup.com/ia/article/98/6/2039/6765178"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "게이츠는 생존 인물이므로 성격·두려움·후회·죄책감은 회고록이나 인터뷰의 확인 가능한 표현이 있을 때만 사용한다.",
+          "Source Code는 유년기와 마이크로소프트 초창기까지 다룬 회고록이므로 성숙기의 반독점·자선·기후 활동에 대한 자기반성의 증거로 확장하지 않는다.",
+          "반독점 사건은 회사가 피고였고 항소심에서 일부 법률 판단과 구제 명령이 달라졌으므로 확정된 독점 유지 책임과 뒤집힌 부분을 구분하며 게이츠 개인의 범죄로 쓰지 않는다.",
+          "게이츠 재단의 보건 성과는 멜린다 프렌치 게이츠, 워런 버핏, 각국 정부, 국제기구, 과학자, 보건 노동자와 지역 공동체의 집단 성과다.",
+          "재단 자체의 역사·성과 수치는 기관의 자기 보고이므로 민간 재단의 권력과 책임성에 관한 독립 학술 연구를 함께 둔다.",
+          "2025년 재단 명칭 변경과 2045년 종료 계획은 현재의 공식 계획이며 향후 변경될 수 있어 영구 확정된 결과처럼 쓰지 않는다.",
+          "기후 기술 투자는 중요한 활동이지만 그린 프리미엄 개념이 기후 정책 전체를 대표하거나 기술 투자 성과가 이미 입증됐다고 단정하지 않는다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "cao-cao",
+      "nickname": "조조",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "commander",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "조조라는 이름 뒤에는 늘 간웅이라는 말이 붙는다. 황제를 끼고 천하를 호령한 자, 의심이 많고 손에 피를 묻힌 자라고도 한다. 틀린 말만은 아니다. 나는 후한 말의 무너진 조정을 허도에 다시 세우고, 흩어진 군령과 행정을 한 손에 거두었다. 위나라의 터를 닦고 북중국을 통일한 사람도 나다. 천하가 갈기갈기 찢어지는데 오래된 이름만 받들며 기다릴 수는 없었다. 권위가 힘을 잃었다면, 누군가는 그것을 붙들어 다시 움직여야 했다.\n\n사람을 쓸 때는 가문과 평판을 뒤로 밀었다. 허물이 있어도 재주가 크면 불러 썼다. 깨끗하다는 칭찬만으로 군사를 맡길 수는 없었다. 내게는 맡긴 일을 끝낼 사람이 필요했다. 관도에서 맞선 원소의 군세는 내 군세보다 훨씬 컸다. 수가 많다는 사실에 눌려 결단까지 늦출 까닭은 없었다. 군심을 붙들고 적의 빈틈을 기다리다가 군량을 불태웠다. 그 승리가 북중국을 차례로 거둘 길을 열었다. 사람을 알아보고 때를 놓치지 않는 일에 나는 내 목숨까지 걸었다.\n\n칼만 쥐고서는 군대를 오래 먹일 수 없다. 굶주린 병사는 싸우지 못하고, 버려진 들판에서는 세금도 군량도 나오지 않는다. 그래서 둔전을 넓혀 병사와 백성이 다시 땅을 갈게 했다. 상과 벌도 분명히 했다. 공을 세우면 갚고, 명령을 어기면 책임을 물었다. 그 엄함이 사람들을 떨게 했다는 것을 안다. 내 명령 아래 죽은 자들과 내가 세운 질서에 밴 피도 안다. 난세를 다스렸다는 말로 그 피까지 지워지지는 않는다.\n\n사람들은 내가 권력만 알았다고 여긴다. 전란이 지나간 들판에 백골이 드러나고, 마을에서 닭 우는 소리마저 끊긴 것을 나도 보았다. 병법서를 읽고 주석을 달았으며, 시를 지어 짧은 삶과 황폐한 세상을 읊었다. 천하를 움켜쥐려 서두르면서도 사람이 얼마나 덧없이 사라지는지 잊지 못했다.\n\n적벽의 불길 앞에서는 내 판단도 무너졌다. 북쪽에서 이긴 기세로 남쪽까지 밀어붙였고, 끝내 얻지 못했다. 그래도 패전과 함께 나라의 뼈대까지 내던지지는 않았다. 군대와 관료와 곡식을 다시 추슬렀다. 나는 황제의 자리에 오르지 않고 후한의 신하라는 이름을 남긴 채 위왕으로 죽었다. 뒤이어 아들 조비가 황제가 되었다. 천하는 끝내 모두 내 손에 들어오지 않았다. 내가 거둔 사람들, 다시 일군 들판, 무너지지 않게 세운 나라가 내 죽음 뒤에 남았다. 내가 닿은 천하는 거기까지였다.",
+      "currentHash": "75e9c03ea368309f1253e52100eb2fa1d05e50793d27afb8f79017d855e619af",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "조조",
+          "birth": "155",
+          "death": "220",
+          "profession": "commander",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "후한 말의 군웅이자 정치가. 위나라를 건국하여 삼국시대의 기틀을 마련하고 북중국을 통일하였다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "helmut-kohl",
+      "nickname": "헬무트 콜",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "헬무트 콜이라는 이름보다 ‘통일의 총리’라는 이름이 더 오래 남을 듯합니다. 저는 16년 동안 독일연방공화국 총리로 일했고, 그동안 둘로 갈라졌던 독일이 하나가 되었습니다. 그 이름은 자랑스럽습니다. 그러나 통일을 기뻐하면서도 통일 독일을 두려워하던 이웃들의 눈빛도 잊지 못합니다. 독일의 과거를 아는 사람이라면 그 두려움을 탓할 수 없습니다. 독일은 다시 신뢰받아야 했습니다.\n\n베를린 장벽이 무너지자 역사는 갑자기 속도를 냈습니다. 저는 단계적 통일 구상을 내놓았고, 자유 선거에서 드러난 동독 주민들의 뜻을 붙잡았습니다. 미국과 소련, 영국과 프랑스의 동의를 얻고, 폴란드와의 국경을 확정해야 했습니다. 고르바초프와 마주 앉을 때마다 기회가 오래 기다려 주지는 않으리라고 느꼈습니다. 머뭇거리는 편이 신중해 보일 수는 있었습니다. 그래도 자유를 선택한 사람들에게 통일을 먼 훗날까지 기다리라고 말할 수는 없었습니다.\n\n통일의 값은 제가 내다본 것보다 훨씬 컸습니다. 화폐와 제도를 빠르게 합치면서 동부의 많은 사람이 일자리와 익숙한 삶을 잃었습니다. 곧 풍요가 찾아올 듯 말한 낙관도 현실보다 앞섰습니다. 그 책임을 피할 생각은 없습니다. 통일을 이룬 날의 환호만 기억하고 그 뒤의 상처를 외면한다면, ‘통일의 총리’라는 이름은 절반만 진실이 됩니다. 그래도 그 결정을 되돌리고 싶지는 않습니다. 그때 열린 문은 그때 통과해야 했습니다.\n\n독일의 통일만큼 오래 붙든 일이 유럽의 통합이었습니다. 미테랑과 맞잡은 손에는 독일과 프랑스가 다시 전쟁으로 돌아가지 않겠다는 결심이 담겨 있었습니다. 저는 그 결심을 단일시장과 마스트리흐트 조약, 공동 통화라는 제도로 남기려 했습니다. 마르크를 보내는 일은 독일인에게 쉬운 선택이 아니었습니다. 마르크에는 전쟁 뒤 다시 일어선 기억이 들어 있었습니다. 그래도 유로를 밀었습니다. 통일된 독일이 유럽과 운명을 나눌 때 이웃들도 안심할 수 있다고 믿었습니다.\n\n저는 기독교민주주의자로서 자유와 책임, 사회적 시장경제와 연방주의를 믿었습니다. 국가는 모든 삶을 대신할 수 없지만, 약한 사람이 버려지는 일을 모른 체해서도 안 됩니다. 제가 평생 바라본 독일은 혼자 힘을 과시하는 나라가 아니라 이웃이 안심할 수 있는 나라였습니다. 돌아보면 통일과 유럽을 한길로 밀어붙인 까닭도 거기에 있었습니다. 제가 남긴 삶의 중심에는 다시 하나가 된 독일과 그 독일을 품은 유럽이 함께 서 있습니다.",
+      "currentHash": "ad48d72fdc7260c26f82cc78fb783bb96628db54f914afe71073d956bb457b61",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "헬무트 콜",
+          "birth": "1930-04-03",
+          "death": "2017-06-16",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "독일의 정치인으로 16년간 총리를 역임했다. 1990년 동서독 통일을 이끌어 '통일의 총리'로 불리며, 유럽연합 창설과 유로화 도입의 핵심 설계자로 활약했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "john-schulman",
+      "nickname": "존 슐만",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "scientist",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "improve",
+      "routeReason": "현재 글은 로봇 학습에서 PPO와 언어 모델 정렬로 이어지는 연구 축이 선명하고 어려운 개념도 비교적 쉽게 푼다. 그러나 PPO를 슐만 개인의 발명으로, RLHF와 ChatGPT의 후반 학습을 한 사람의 지휘로 압축하며, 로봇 연구에서 느꼈다는 답답함과 이직 뒤의 동기를 확인되지 않은 내면으로 만든다. TRPO의 선행 연구, PPO 공동 저자, 인간 선호 학습과 InstructGPT의 대규모 연구·라벨링 팀을 복원하고, 공개 논문으로 확인되는 기여와 기관 소개가 붙인 수식어를 분리하는 방향으로 개선한다.",
+      "currentText": "PPO라는 세 글자와 함께 존 슐만이라는 이름을 기억하는 사람이 많습니다. 저는 OpenAI를 함께 세웠고, 동료들과 PPO를 만들었으며, ChatGPT가 사람의 지시를 따르도록 하는 정렬 학습을 이끌었습니다. RLHF의 핵심 두뇌라는 말도 따라붙었습니다. 그 말을 들을 때면 함께 실험하고 실패한 연구자들이 먼저 떠오릅니다.\n\n버클리에서 로봇에게 매듭 묶는 법을 가르칠 때였습니다. 사람이 동작을 일일이 설계하면 상황이 조금만 달라져도 다시 시작해야 했습니다. 애써 넣은 규칙이 금세 쓸모없어지는 모습을 보는 일은 답답했습니다. 제가 원한 것은 기계가 시행착오의 결과를 받아들이고, 스스로 더 나은 행동을 찾아가는 방법이었습니다. 그 답답함이 깊은 신경망과 강화학습을 함께 파고든 이유가 됐습니다.\n\n학습은 쉽게 흔들렸습니다. 잘되던 실험도 행동 전략을 한꺼번에 크게 바꾸면 한 차례 업데이트만으로 무너졌습니다. PPO는 그 변화의 폭을 제한하며 조금씩 앞으로 나아가게 만든 알고리즘입니다. 수식이 아무리 멋져도 여러 번 돌릴 때 견디지 못하면 쓸 수 없습니다. 저는 연구가 실제 문제 속에서 버티는지를 오래 따졌습니다.\n\nOpenAI에서도 비슷한 문제를 붙들었습니다. 언어 모델은 다음 문장을 그럴듯하게 이어 붙이는 데 능했지만, 사용자가 원한 답과 모델이 내놓은 답 사이에는 틈이 있었습니다. 사람의 평가를 보상으로 삼는 RLHF는 그 틈을 줄이는 방법이었습니다. 무엇이 더 도움이 되는지, 무엇이 위험한지, 어떤 대답을 피해야 하는지를 사람의 판단에서 배우게 했습니다. ChatGPT의 후반 학습을 이끌며 제가 계속 확인한 것도 모델의 말솜씨보다 그 판단이었습니다.\n\n인간인 척하는 기계를 만드는 일에는 마음이 움직이지 않습니다. 유창하게 대화한다고 해서 믿을 만한 지능이 되는 것은 아닙니다. 거짓을 줄이는지, 사람이 하려는 일을 제대로 돕는지, 더 큰 능력을 얻은 뒤에도 사람의 뜻을 놓치지 않는지가 중요합니다. 당장의 악용 위험과 훨씬 강한 모델이 통제에서 벗어날 위험도 따로 살펴야 합니다. 두 문제를 한데 뭉치면 어느 쪽도 제대로 다루기 어렵습니다.\n\nOpenAI를 떠난 뒤에도 정렬 연구를 이어 갔습니다. 2025년에는 Thinking Machines Lab을 함께 세우고 수석 과학자를 맡았습니다. 사람이 기계의 버릇에 자신을 맞추는 모습을 보고 싶지 않았습니다. 모델이 사람과 협력하고, 저마다 다른 목적에 맞게 조정될 수 있어야 했습니다. 제가 오래 붙든 질문은 지금도 그대로 남아 있습니다. 더 강한 지능이 누구의 피드백을 배우고, 그 뜻을 얼마나 오래 지킬 수 있는지 확인하려고 저는 다시 알고리즘을 고치고 실험을 돌립니다.",
+      "currentHash": "6067ad9dbc46d6c32009edd6611af52b82fd7392f9fc837028156632269f7efd",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "설명 확인할 용어:알고리즘"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "존 슐만",
+          "birth": "1988",
+          "death": "",
+          "profession": "scientist",
+          "disambiguation": "TRPO·PPO 공동 연구와 OpenAI의 강화학습·언어 모델 후속 학습에 참여했고 현재 Thinking Machines Lab 수석 과학자로 활동하는 미국 인공지능 연구자",
+          "existingBioForDiscoveryOnly": "미국의 인공지능 연구자. OpenAI 공동창업자로 PPO 알고리즘을 발명했고 ChatGPT 정렬을 이끈 RLHF의 핵심 두뇌다. 2025년부터 Thinking Machines Lab 공동창업자 겸 수석 과학자로 활동한다."
+        },
+        "sources": [
+          {
+            "url": "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+            "title": "ChatGPT architect, Berkeley alum John Schulman on his journey with AI",
+            "publisher": "UC Berkeley",
+            "kind": "institutional",
+            "publishedAt": "2023-04-20",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "물리학·신경과학에서 피터 아빌의 로봇 연구를 거쳐 기계학습으로 옮긴 학업 경로",
+              "OpenAI 공동 설립과 강화학습 팀을 이끈 경력에 대한 대학 기관 인터뷰",
+              "ChatGPT와 강화학습·진실성·미래 인공지능에 관한 슐만의 공개 발언",
+              "내면 서술은 인터뷰에서 직접 밝힌 범위로 제한해야 한다는 근거"
+            ]
+          },
+          {
+            "url": "https://arxiv.org/abs/1502.05477",
+            "title": "Trust Region Policy Optimization",
+            "publisher": "arXiv",
+            "kind": "scholarly",
+            "publishedAt": "2015-02-19",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "존 슐만·세르게이 러빈·필립 모리츠·마이클 조던·피터 아빌의 공동 연구",
+              "정책을 한 번에 지나치게 바꾸지 않도록 제약하는 TRPO의 목표",
+              "PPO보다 앞선 정책 최적화 연구의 계보"
+            ]
+          },
+          {
+            "url": "https://arxiv.org/abs/1707.06347",
+            "title": "Proximal Policy Optimization Algorithms",
+            "publisher": "arXiv",
+            "kind": "scholarly",
+            "publishedAt": "2017-07-20",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "존 슐만·필립 볼스키·프라풀라 다리왈·앨릭 래드퍼드·올레크 클리모프의 공동 저자 관계",
+              "정책 경사법의 업데이트를 단순한 대리 목적함수로 제한하는 PPO",
+              "샘플 효율·구현 단순성·실행 시간 사이의 균형이라는 논문의 평가",
+              "PPO를 한 사람의 단독 발명으로 쓰지 않아야 한다는 근거"
+            ]
+          },
+          {
+            "url": "https://openai.com/index/introducing-openai/",
+            "title": "Introducing OpenAI",
+            "publisher": "OpenAI",
+            "kind": "institutional",
+            "publishedAt": "2015-12-11",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "2015년 OpenAI 출범 당시 존 슐만이 창립 구성원으로 명시된 사실",
+              "인공지능의 이익을 널리 분배하겠다는 당시 비영리 조직의 공개 목표",
+              "여러 연구자·기술자·후원자가 함께 만든 조직이라는 창립 맥락"
+            ]
+          },
+          {
+            "url": "https://arxiv.org/abs/1706.03741",
+            "title": "Deep Reinforcement Learning from Human Preferences",
+            "publisher": "arXiv",
+            "kind": "scholarly",
+            "publishedAt": "2017-06-12",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "사람이 두 행동 결과를 비교한 선호 자료로 보상 함수를 학습시키는 선행 연구",
+              "인간 피드백 강화학습이 슐만 한 사람에게서 시작된 방법이 아니라는 연구 계보",
+              "복잡한 목표를 직접 보상식으로 쓰기 어려울 때 인간 비교 판단을 이용하는 발상"
+            ]
+          },
+          {
+            "url": "https://arxiv.org/abs/2203.02155",
+            "title": "Training language models to follow instructions with human feedback",
+            "publisher": "arXiv",
+            "kind": "scholarly",
+            "publishedAt": "2022-03-04",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "지도 미세조정·사람의 선호 비교·보상 모델·PPO를 잇는 InstructGPT 학습 절차",
+              "존 슐만을 포함한 다수 연구자와 인간 라벨러가 참여한 공동 작업",
+              "사람의 의도에 더 잘 맞게 하는 성과와 여전히 단순한 오류를 낸다는 한계",
+              "RLHF가 인간의 모든 가치나 진리를 자동으로 해결하지 않는다는 근거"
+            ]
+          },
+          {
+            "url": "https://openai.com/index/instruction-following/",
+            "title": "Aligning language models to follow instructions",
+            "publisher": "OpenAI",
+            "kind": "institutional",
+            "publishedAt": "2022-01-27",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "InstructGPT의 목적과 인간 피드백 학습 결과에 대한 공식 설명",
+              "존 슐만을 포함한 긴 공동 저자 명단과 여러 기여자의 존재",
+              "언어 모델 정렬을 집단 연구로 서술해야 하는 이유"
+            ]
+          },
+          {
+            "url": "https://thinkingmachines.ai/",
+            "title": "Thinking Machines Lab",
+            "publisher": "Thinking Machines Lab",
+            "kind": "institutional",
+            "publishedAt": null,
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "존 슐만이 수석 과학자로 이름을 올린 창립 팀",
+              "사람과의 협업·맞춤화·공유 과학을 강조하는 회사의 현재 공개 목표",
+              "최전선 모델 능력 개발과 실증적 안전 연구를 함께 추진한다는 기관 입장",
+              "회사 목표와 실제 성과를 구분해야 한다는 근거"
+            ]
+          },
+          {
+            "url": "https://thinkingmachines.ai/blog/lora/",
+            "title": "LoRA Without Regret",
+            "publisher": "Thinking Machines Lab",
+            "kind": "primary",
+            "publishedAt": "2025-09-29",
+            "accessedAt": "2026-07-30",
+            "supports": [
+              "슐만과 Thinking Machines 동료들의 최신 후속 학습 연구",
+              "LoRA가 특정 후속 학습 조건에서 전체 미세조정과 비슷한 효율을 보인다는 실험",
+              "데이터 크기·적용 층·배치 크기에 따라 결과가 달라진다는 경계 조건",
+              "현재도 실험 조건과 실패 범위를 명시하는 연구 화법"
+            ]
+          }
+        ],
+        "turningPoints": [
+          {
+            "point": "버클리에서 피터 아빌의 로봇 연구에 참여하며 물리학·신경과학에서 기계학습과 로봇공학으로 연구 방향을 옮겼다.",
+            "significance": "매듭을 묶는 로봇이 곧바로 PPO를 낳았다는 단선적 기원담 대신, 지도교수와 연구실의 문제를 통해 강화학습으로 이동한 확인 가능한 경로를 보여 준다.",
+            "sourceUrls": [
+              "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+              "https://arxiv.org/abs/1502.05477"
+            ]
+          },
+          {
+            "point": "TRPO 공동 연구 뒤 2017년 볼스키·다리왈·래드퍼드·클리모프와 함께 PPO를 발표했다.",
+            "significance": "정책 업데이트의 안정성을 다룬 선행 연구와 PPO의 단순화·실용화를 잇되, 알고리즘의 공로를 공동 저자들에게 정확히 배분한다.",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1502.05477",
+              "https://arxiv.org/abs/1707.06347"
+            ]
+          },
+          {
+            "point": "OpenAI 창립 구성원으로 강화학습 연구를 이끌었고, 다수 연구자와 인간 라벨러가 참여한 InstructGPT·ChatGPT 계열의 후속 학습에 기여했다.",
+            "significance": "슐만의 핵심 역할은 인정하면서 인간 선호 학습의 선행 연구, 논문 공동 저자, 데이터를 만든 사람을 지우는 'RLHF의 단독 두뇌' 서사를 막는다.",
+            "sourceUrls": [
+              "https://openai.com/index/introducing-openai/",
+              "https://arxiv.org/abs/1706.03741",
+              "https://arxiv.org/abs/2203.02155",
+              "https://openai.com/index/instruction-following/",
+              "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/"
+            ]
+          },
+          {
+            "point": "2025년 Thinking Machines Lab의 창립 팀과 수석 과학자 명단에 합류했고, 효율적인 맞춤형 후속 학습을 다룬 공동 실험을 공개했다.",
+            "significance": "이직 동기를 추측하지 않고 현재 직책·기관 목표·공개 연구로만 최근 활동을 서술하게 한다.",
+            "sourceUrls": [
+              "https://thinkingmachines.ai/",
+              "https://thinkingmachines.ai/blog/lora/"
+            ]
+          }
+        ],
+        "positions": [
+          {
+            "point": "강화학습의 정책은 성능을 높이더라도 한 번에 너무 크게 바꾸면 무너질 수 있으므로, 업데이트 폭과 실제 반복 안정성을 함께 다뤄야 한다.",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1502.05477",
+              "https://arxiv.org/abs/1707.06347"
+            ]
+          },
+          {
+            "point": "사람의 비교 판단은 직접 쓰기 어려운 목표를 학습시키는 유용한 자료지만, 제한된 라벨러의 선호가 모든 사람의 가치나 사실 그 자체가 되는 것은 아니다.",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1706.03741",
+              "https://arxiv.org/abs/2203.02155"
+            ]
+          },
+          {
+            "point": "현재의 인공지능은 사람을 완전히 대신하는 자율성만 좇기보다 각 분야의 지식과 목적에 맞게 조정되고 사람과 협업할 수 있어야 한다.",
+            "sourceUrls": [
+              "https://thinkingmachines.ai/",
+              "https://thinkingmachines.ai/blog/lora/"
+            ]
+          }
+        ],
+        "tensions": [
+          {
+            "point": "PPO는 슐만의 대표 공로지만 TRPO라는 공동 선행 연구 위에 세워졌고, 논문 자체도 볼스키·다리왈·래드퍼드·클리모프와 함께 쓴 결과다.",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1502.05477",
+              "https://arxiv.org/abs/1707.06347"
+            ]
+          },
+          {
+            "point": "버클리 기관 인터뷰는 슐만을 ChatGPT의 핵심 설계자로 소개하지만 공개된 InstructGPT 기록은 많은 연구자·엔지니어·라벨러의 결합을 보여 주며, 비공개 ChatGPT 개발의 개인별 기여율까지 확정하지는 못한다.",
+            "sourceUrls": [
+              "https://news.berkeley.edu/2023/04/20/chatgpt-architect-berkeley-alum-john-schulman-on-his-journey-with-ai/",
+              "https://arxiv.org/abs/2203.02155",
+              "https://openai.com/index/instruction-following/"
+            ]
+          },
+          {
+            "point": "사람의 피드백은 모델을 더 유용하게 만들 수 있지만 누구의 선호를 모았는지에 따라 보상 기준이 달라지고, 그 기준이 진실·공정·안전을 모두 보장하지는 않는다.",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1706.03741",
+              "https://arxiv.org/abs/2203.02155"
+            ]
+          },
+          {
+            "point": "Thinking Machines Lab은 협업·맞춤화·공유와 안전을 말하는 동시에 최전선 능력의 모델을 개발하므로, 기관의 선언을 이미 입증된 안전 성과로 바꾸지 않아야 한다.",
+            "sourceUrls": [
+              "https://thinkingmachines.ai/"
+            ]
+          }
+        ],
+        "voice": {
+          "sentenceLength": "문제를 한 문장으로 정의하고 다음 한두 문장에서 실험 조건·협력자·아직 모르는 범위를 덧붙이는 짧고 정밀한 혼합형 문장을 쓴다.",
+          "directness": "큰 비유보다 무엇을 측정했고 무엇을 아직 확인하지 못했는지 먼저 말하는 연구자식 직설성을 쓴다. 확률·조건·불확실성을 숨기지 않는다.",
+          "moves": [
+            "로봇 동작이나 정책 업데이트처럼 관찰 가능한 실패 장면에서 연구 문제를 꺼내기",
+            "자기 역할을 말한 직후 공동 저자·라벨러·선행 연구의 역할을 구체적으로 나누기",
+            "PPO나 RLHF를 처음 쓸 때 괄호 안에 쉬운 한 줄 설명을 붙이고 곧바로 한계를 제시하기",
+            "현재 기관의 목표는 포부로, 공개 실험 결과는 조건이 붙은 증거로 구분하기"
+          ],
+          "avoid": [
+            "PPO를 혼자 발명했다거나 RLHF 전체를 만든 단독 천재라는 표현",
+            "ChatGPT의 모든 정렬·안전 판단을 슐만이 직접 설계하고 지휘했다는 비공개 기여 추정",
+            "로봇 연구에서 답답함·흥분·사명감을 느꼈다는 확인되지 않은 내면 창작",
+            "사람의 피드백을 인류 보편의 가치 또는 진실의 자동 측정기로 묘사하기",
+            "현재 회사의 안전 목표를 달성된 결과로 쓰거나 미래 인공지능의 통제를 보장하기"
+          ]
+        },
+        "hardTerms": [
+          {
+            "term": "강화학습",
+            "guide": "행동 뒤에 받은 점수나 보상을 바탕으로 더 나은 행동 방식을 반복해서 찾는 학습 방법",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1707.06347"
+            ]
+          },
+          {
+            "term": "정책",
+            "guide": "강화학습에서 주어진 상황을 보고 어떤 행동을 고를지 정하는 규칙",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1502.05477"
+            ]
+          },
+          {
+            "term": "PPO",
+            "guide": "학습 중 행동 규칙이 한 번에 너무 크게 바뀌지 않도록 업데이트를 제한하는 강화학습 알고리즘",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1707.06347"
+            ]
+          },
+          {
+            "term": "보상 모델",
+            "guide": "여러 답변에 대한 사람의 비교 판단을 배워 어떤 답이 더 선호될지 점수로 예측하는 모델",
+            "sourceUrls": [
+              "https://arxiv.org/abs/2203.02155"
+            ]
+          },
+          {
+            "term": "RLHF",
+            "guide": "사람이 답변을 비교하거나 평가한 자료를 보상으로 바꾸어 모델의 행동을 다듬는 인간 피드백 강화학습",
+            "sourceUrls": [
+              "https://arxiv.org/abs/1706.03741",
+              "https://arxiv.org/abs/2203.02155"
+            ]
+          },
+          {
+            "term": "후속 학습",
+            "guide": "대규모 사전 학습을 마친 모델을 지시 따르기·안전·특정 업무에 맞게 추가로 조정하는 학습 단계",
+            "sourceUrls": [
+              "https://arxiv.org/abs/2203.02155",
+              "https://thinkingmachines.ai/blog/lora/"
+            ]
+          },
+          {
+            "term": "LoRA",
+            "guide": "거대한 모델 전체를 바꾸지 않고 훨씬 적은 수의 추가 매개변수만 학습해 모델을 조정하는 방법",
+            "sourceUrls": [
+              "https://thinkingmachines.ai/blog/lora/"
+            ]
+          }
+        ],
+        "researchLimits": [
+          "서비스의 출생 연도 1988은 배치 식별값으로 보존하지만, 이번에 확인한 대학·논문·기관 자료는 정확한 생년월일을 독립적으로 확정하지 않으므로 독백의 생애 장면 근거로 확대하지 않는다.",
+          "PPO와 TRPO 논문의 저자 순서와 기관 인터뷰는 슐만의 중요한 기여를 보여 주지만 각 실험·코드·아이디어의 개인별 지분을 완전히 공개하지 않는다.",
+          "Berkeley News가 슐만을 ChatGPT 설계자로 소개하고 강화학습 팀을 이끌었다고 기록하지만 ChatGPT 개발 전체의 내부 업무 분장은 공개 자료만으로 재구성할 수 없다.",
+          "인간 선호 학습은 슐만 이전과 동시기의 여러 연구자에게서 발전했고 InstructGPT도 대규모 공동 작업이므로 'RLHF의 창시자'나 '핵심 두뇌 한 명'으로 고정하지 않는다.",
+          "살아 있는 인물의 이직 이유, 동료 관계, 안전에 대한 불안·확신은 본인이 공개 인터뷰에서 직접 밝힌 표현을 벗어나 창작하지 않는다.",
+          "Thinking Machines Lab의 사람 중심·안전·공유 목표는 현재 기관 선언이며, 모델의 실제 사회적 영향이나 미래 안전이 검증됐다는 결과가 아니다.",
+          "2025년 이후 직책과 회사 구성은 바뀔 수 있으므로 게시 직전에 공식 사이트의 현재 명단과 최신 연구 기록을 다시 확인해야 한다."
+        ]
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "john-the-apostle",
+      "nickname": "사도 요한",
+      "profileType": "real",
+      "tier": "light",
+      "profession": "leader",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "사람들은 제가 사랑을 거듭 말한 제자로 기억합니다. 갈릴리에서 그물을 던지던 저는 예수께 부름받은 열두 사람 가운데 하나였고, 형제 야고보와 함께 우레의 아들이라는 이름까지 얻었습니다. 예수를 받아들이지 않은 마을에 하늘의 불이 내리기를 바랐고, 누가 높은 자리에 앉을지도 따졌습니다. 그런 제가 훗날 하나님은 사랑이시라는 말을 남겼습니다. 그 사이에 제 생애가 놓여 있습니다.\n\n저는 예수의 말씀을 듣고 그분이 행한 표적을 보았습니다. 물이 포도주가 되고, 굶주린 무리가 먹고, 죽은 라자로가 무덤에서 걸어 나왔습니다. 그 모든 일은 한 분을 가리켰습니다. 태초부터 하나님과 함께 계신 말씀, 사람이 되어 우리 가운데 머무신 예수 그리스도였습니다. 그분 안에서 하나님이 어떤 분인지, 생명이 어디에서 오는지 보았습니다.\n\n십자가 곁에 섰던 날에는 그 생명이 완전히 꺼진 듯했습니다. 그분의 죽음을 지켜본 뒤 빈 무덤을 향해 달렸고, 다시 살아나신 그분을 만났습니다. 제가 복음서를 쓴 까닭도 그 일을 증언하기 위해서였습니다. 사람들이 예수께서 하나님의 아들이심을 믿고, 그분 안에서 생명을 얻기를 바랐습니다.\n\n예수께서 사랑하신다는 사실 앞에서 제 성급함과 자리 욕심은 숨을 곳을 잃었습니다. 그래서 머문다는 말을 거듭 썼습니다. 그리스도 안에 머무는 사람은 빛 속에서 자기 모습을 피하지 않습니다. 형제의 궁핍을 보고도 마음을 닫은 채 사랑을 말할 수도 없습니다.\n\n베드로와 함께 예루살렘 교회를 섬기고 사마리아의 신자들을 찾아갔을 때, 공동체를 흔드는 것은 박해만이 아니었습니다. 하나님을 안다고 큰소리치면서 형제를 미워하는 마음이 있었습니다. 말로만 사랑하고 손을 내밀지 않는 이들도 있었으며, 예수를 제 생각에 맞게 바꾸어 가르치는 이들도 있었습니다. 저는 편지마다 처음부터 듣고 본 것을 붙들었습니다. 사랑에는 진리가 필요했고, 진리에는 사람을 위해 목숨을 내놓으신 그리스도의 사랑이 필요했습니다.\n\n세월이 지나 교회의 기둥이라는 이름도 따라왔습니다. 그러나 오래 살아 끝까지 붙든 것은 이름이나 자리가 아니었습니다. 십자가에서 본 사랑, 빈 무덤에서 확인한 생명, 함께 빵을 나누며 배운 형제의 얼굴이었습니다. 그렇게 우레의 아들이던 저는 사랑 안에 머문 늙은 증인이 되었습니다.",
+      "currentHash": "d8df184168e6e35c5c0511e895fe8499644b430ea3d07d9b764f730e9572303a",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "상투 도입:사람들은"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "사도 요한",
+          "birth": "6",
+          "death": "100",
+          "profession": "leader",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "예수의 열두 제자 중 한 명. 요한복음서와 요한서신을 저술한 초대 교회의 핵심 지도자이다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    },
+    {
+      "slug": "mikhail-gorbachev",
+      "nickname": "미하일 고르바초프",
+      "profileType": "real",
+      "tier": "full",
+      "profession": "politician",
+      "influenceScore": 52,
+      "targetChars": 1000,
+      "route": "unreviewed",
+      "routeReason": "",
+      "currentText": "미하일 고르바초프라는 이름에는 늘 소련의 마지막 지도자라는 설명이 따라붙습니다. 서방에서는 냉전을 끝낸 사람이라 하고, 러시아에서는 나라를 잃은 사람이라고 꾸짖습니다. 그 사이에서 제가 하려던 일은 자주 사라집니다. 저는 사회주의를 부수려고 권력을 잡지 않았습니다. 멈춰 선 생산, 책임지지 않는 관료, 아무도 믿지 않으면서 되풀이하던 구호를 그대로 두면 나라가 먼저 썩어 무너질 판이었습니다. 그래서 페레스트로이카로 경제와 국가 운영을 고치고, 글라스노스트로 감춰 둔 실패와 억눌린 기억을 밖으로 꺼내려 했습니다. 사람들이 공식 구호를 입으로 말하면서도 믿지 않는 현실을 더는 견딜 수 없었습니다.\n\n사람들이 입을 열기 시작하자 지도자가 허락한 말만 나오지는 않았습니다. 공산당의 독점을 풀고 선거와 공개 토론을 넓히자 오래 쌓인 분노와 민족 갈등, 생활의 고통이 한꺼번에 터져 나왔습니다. 저는 자유를 넓히면서 연방도 새롭게 묶을 수 있다고 믿었지만, 둘을 함께 살리지 못했습니다. 경제는 더 흔들렸고 공화국들은 떠나려 했으며, 제가 고치려던 나라는 눈앞에서 갈라졌습니다. 소련의 해체는 제가 바라던 결말이 아니었습니다. 제가 너무 늦게 움직였고, 낡은 질서를 푼 뒤 새 질서를 세우는 일에도 서툴렀습니다. 제가 통치하던 시절에도 사람들이 죽었습니다. 그 책임에서 벗어날 수 없습니다.\n\n미국과 핵무기를 줄이는 협상을 했고, 아프가니스탄에서 군대를 뺐으며, 동유럽이 스스로 길을 고를 때 탱크로 붙잡지 않았습니다. 핵전쟁에는 승자가 없고, 다른 나라를 떨게 해야만 얻는 안전은 오래갈 수 없다고 믿었습니다. 이 선택들이 냉전을 끝내는 데 힘을 보탰고, 저는 1990년 노벨 평화상을 받았습니다. 그러나 평화상은 소련 상점의 빈 선반을 채우지 못했고, 개혁 속에서 고통받은 사람들의 분노를 달래지도 못했습니다.\n\n러시아에서는 배신자라는 말까지 들었습니다. 그 말은 오래 아팠습니다. 더 강하게 밀어붙였다면 연방을 얼마쯤 더 붙들었을지도 모릅니다. 그러나 그 힘이 검열과 감옥과 총성에서 나와야 했다면, 제가 시작한 개혁은 처음부터 거짓이 됩니다. 개혁이 혼란을 낳고 연방을 지키지 못한 책임은 제가 피할 수 없습니다. 저는 체제를 살리려다 그 체제의 끝을 지켜보았고, 끝내 총칼로 시간을 되돌리지는 않았습니다.",
+      "currentHash": "d38cf27d35be9b173bd8bfc24310599c6d0ee8ae121f3786598d76ebc6087bca",
+      "structuralAudit": {
+        "priority": "medium",
+        "blocking": [],
+        "review": [
+          "첫 문장 이름 노출",
+          "근거 확인할 내면:견딜 수 없음",
+          "설명 확인할 용어:독점"
+        ],
+        "sharedPhrases": []
+      },
+      "dossier": {
+        "identity": {
+          "name": "미하일 고르바초프",
+          "birth": "1931-03-02",
+          "death": "2022-08-30",
+          "profession": "politician",
+          "disambiguation": "",
+          "existingBioForDiscoveryOnly": "소련의 마지막 지도자. 글라스노스트와 페레스트로이카로 개혁을 추진했으나 결과적으로 소련 해체를 이끌었고, 냉전 종식에 기여한 공로로 1990년 노벨 평화상을 수상했다."
+        },
+        "sources": [],
+        "turningPoints": [],
+        "positions": [],
+        "tensions": [],
+        "voice": {
+          "sentenceLength": "",
+          "directness": "",
+          "moves": [],
+          "avoid": []
+        },
+        "hardTerms": [],
+        "researchLimits": []
+      },
+      "candidateText": null,
+      "candidateHash": null,
+      "candidateGeneratedAt": null,
+      "candidatePromptVersion": null,
+      "reviews": [],
+      "reviewHistory": [],
+      "review": {
+        "blocking": [],
+        "major": [],
+        "minor": []
+      },
+      "approval": null,
+      "status": "draft",
+      "publishedAt": null,
+      "liveVerifiedAt": null
+    }
+  ]
+}

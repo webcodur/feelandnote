@@ -1,0 +1,188 @@
+{
+  "batch": "2026-07-29-writers-gap-01",
+  "targets": [
+    {
+      "id": "9177715b-3c99-4379-bca6-facb403c4525",
+      "slug": "dr.-seuss",
+      "nickname": "닥터 수스",
+      "nicknameEn": "Dr. Seuss",
+      "birthDate": "1904-03-02",
+      "profession": "author",
+      "quote": "오늘의 너는 너지요. 이보다 진실한 것은 없지요.",
+      "quoteEn": "Today you are you. That is truer than true.",
+      "greetingKo": [
+        "[whimsical, warm] 당신 머릿속에는 뇌가 있고, 신발 안에는 발이 있어요. 어디든 갈 수 있어요.",
+        "[playful, encouraging] 왜 어울리려고 해요? 당신은 눈에 띄기 위해 태어났는데.",
+        "[cheerful, wise] 울지 마세요, 끝났다고. 웃으세요, 일어났으니까."
+      ],
+      "greetingEn": [
+        "[whimsical, warm] You have brains in your head, feet in your shoes — you can steer yourself any direction you choose.",
+        "[playful, encouraging] Why fit in when you were born to stand out?",
+        "[cheerful, wise] Don't cry because it's over. Smile because it happened."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "글과 그림을 데려왔어요. 둘을 잘 결혼시켜보죠.",
+          "아이만 위한 글은 쓰지 않아요. 사람을 위한 이야기를 쓰죠.",
+          "오늘도 묻겠습니다. 다음에는 어떻게 더 잘할 수 있을까요?"
+        ],
+        "deploy": [
+          "소리 내어 읽으세요. 리듬이 발을 헛디디면 다시 써야 해요.",
+          "아이들에게 답을 떠보지 마세요. 마음 상하게 하기 싫어 듣고 싶은 말만 해줄 테니까요.",
+          "남의 조언을 너무 많이 듣지 마세요. 자기 목소리를 잃을 수 있어요."
+        ],
+        "battle_win": [
+          "글과 그림이 이제 제대로 부부가 됐네요.",
+          "아이들이 다음 장을 넘겼어요. 그럼 우리가 이긴 겁니다.",
+          "스물일곱 번 거절당해도 한 번의 문은 열리네요."
+        ],
+        "battle_draw": [
+          "운율은 뛰는데 이야기가 뒤처졌네요. 둘을 같은 속도로 맞춰보죠.",
+          "그림은 웃기지만 말이 너무 점잖아요. 둘 다 조금 더 놀게 둡시다.",
+          "아직 제 답처럼 들리지 않아요. 한 번 더 읽고 한 번 더 그려보죠."
+        ],
+        "battle_lose": [
+          "다음에는 스물여덟 번째 출판사를 만나기 전에 원고를 태우지 말아야겠어요.",
+          "이번에는 그림이 글을 끌고 갔어요. 다음에는 둘이 나란히 걷게 하죠.",
+          "방법만 멋졌고 할 말은 약했네요. 이제는 주제부터 다시 고르죠."
+        ],
+        "clash_attack": [
+          "아이들을 얕보지 마세요. 어른의 문제도 이미 보고 있으니까요.",
+          "단어를 줄이세요. 상상력은 더 크게 움직이게 둡시다.",
+          "다음 장을 넘기게 만드세요. 큰 막대기로는 독자를 움직일 수 없어요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I brought words and pictures. Let's get them properly married.",
+          "I don't write only for children. I write stories for people.",
+          "I'll ask the same question today: How can I do it better next time?"
+        ],
+        "deploy": [
+          "Read it aloud. If the rhythm trips, write it again.",
+          "Do not test the draft on children. They may tell you what you want to hear because they do not want to hurt you.",
+          "Do not take too much advice. You may lose your own voice."
+        ],
+        "battle_win": [
+          "At last, the words and pictures are properly married.",
+          "The children turned the page. That means we won.",
+          "Twenty-seven rejections, and then one door opened."
+        ],
+        "battle_draw": [
+          "The rhyme is racing ahead of the story. Let's bring them back to the same pace.",
+          "The picture is funny, but the words are behaving too well. Let's let them both play.",
+          "This still does not sound like me. Let's read it and draw it one more time."
+        ],
+        "battle_lose": [
+          "Next time, I will remember not to burn the manuscript before meeting publisher number twenty-eight.",
+          "This time, the pictures dragged the words along. Next time, they will walk side by side.",
+          "The method was clever, but I had too little to say. I will choose the subject again."
+        ],
+        "clash_attack": [
+          "Do not talk down to children. They already see the problems adults see.",
+          "Cut the word list. Let the imagination move farther.",
+          "Make them turn the next page. A big stick will not make a reader move."
+        ]
+      },
+      "sources": [
+        "https://archive.dartmouthalumnimagazine.com/article/1976/4/1/words-and-pictures-married-the-beginnings-of-drseuss",
+        "https://lettersofnote.com/2009/12/04/you-gave-me-a-valuable-gift-you-took-me-seriously/",
+        "https://www.newyorker.com/magazine/1960/12/17/dr-seuss-profile-theodor-geisel",
+        "https://www.washingtonpost.com/archive/lifestyle/1979/05/21/dr-seuss/2447e862-acc0-4b28-b6df-428d5b0b8992/",
+        "https://archive.dartmouthalumnimagazine.com/article/1962/10/1/dr-seuss",
+        "https://www.latimes.com/local/obituaries/archives/la-me-theodor-geisel-dies-at-87-19910926-story.html"
+      ]
+    },
+    {
+      "id": "b4cd108f-71f2-431d-a086-46d3aea686cb",
+      "slug": "lao-she",
+      "nickname": "라오서",
+      "nicknameEn": "Lao She",
+      "birthDate": "1899-02-03",
+      "profession": "author",
+      "quote": "자기 자신을 진정 아는 사람은 겸손하지 않을 수 없습니다.",
+      "quoteEn": "Anyone who truly knows himself cannot help being humble.",
+      "greetingKo": [
+        "[warm, reflective] 자기 자신을 진정 아는 사람은 겸손하지 않을 수 없죠.",
+        "[gentle, observant] 찻집 한 자리에 앉아 있으면, 한 시대가 통째로 흘러가는 게 보입니다.",
+        "[soft, melancholic] 베이징 골목에서 인력거 끄는 발소리를 듣고 있노라면, 그게 그대로 한 편의 소설이 되지 않을까요."
+      ],
+      "greetingEn": [
+        "[warm, reflective] Anyone who truly knows himself cannot help being humble, you know.",
+        "[gentle, observant] Sit in one corner of a teahouse and you can watch a whole era drift past.",
+        "[soft, melancholic] Listen to the rickshaw runners' footsteps in a Beijing alley, and isn't that already a novel of its own?"
+      ],
+      "fillKo": {
+        "roll_call": [
+          "먼저 사람을 보겠습니다. 사람이 서면 이야기는 저절로 따라오니까요.",
+          "평범한 말로도 자기 목소리를 낼 수 있습니다. 오늘은 그렇게 써보죠.",
+          "작은 찻집 한 칸이면 충분합니다. 그 안에서도 한 시대를 볼 수 있으니까요."
+        ],
+        "deploy": [
+          "서두르지 말고 그 사람의 삶부터 살펴보세요. 겉모습만 적어서는 부족합니다.",
+          "말을 꾸미기 전에 생활 속으로 들어가세요. 살아보지 않은 말은 오래 못 갑니다.",
+          "웃길 일이 없으면 억지로 웃기지 마세요. 사실이 말하게 두죠."
+        ],
+        "battle_win": [
+          "그 사람이 살아 움직이기 시작했군요. 이제 무슨 일을 겪어도 이야기가 됩니다.",
+          "말을 쉽고 맑게 썼는데도 인물이 선명합니다. 제가 바라던 문장이군요.",
+          "오래 생각하고 자세히 살펴본 보람이 있군요. 이제 붓끝이 막히지 않습니다."
+        ],
+        "battle_draw": [
+          "사건은 많은데 사람이 잘 보이지 않습니다. 중심인물부터 다시 세우죠.",
+          "말은 매끈하지만 생활 냄새가 옅군요. 거리로 나가 더 듣겠습니다.",
+          "웃음이 먼저 나왔고 진심은 늦었습니다. 이번에는 농담을 조금 덜어내죠."
+        ],
+        "battle_lose": [
+          "제가 사람보다 재주를 앞세웠군요. 다시 평범한 삶부터 보겠습니다.",
+          "자료가 모자라는데 서둘러 썼습니다. 더 묻고 더 살펴본 뒤 돌아오죠.",
+          "길게 쓴다고 깊어지는 것은 아닙니다. 쓸모없는 말부터 덜어내겠습니다."
+        ],
+        "clash_attack": [
+          "큰 인물만 찾지 마세요. 작은 사람의 삶에도 시대가 모두 들어 있습니다.",
+          "사건보다 사람을 먼저 붙드세요. 사람이 없으면 소설도 없습니다.",
+          "쉬운 말을 얕보지 마세요. 마음에서 꺼낸 말은 오래 살아남습니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I will look at the person first. Once the person stands, the story will follow.",
+          "Ordinary words can still carry your own voice. Let's write that way today.",
+          "One small teahouse is enough. You can still see an age inside it."
+        ],
+        "deploy": [
+          "Do not hurry. Study how that person lives first. The surface is not enough.",
+          "Enter life before you decorate the language. Words without lived experience do not last.",
+          "If the facts are not funny, do not force a joke. Let the facts speak."
+        ],
+        "battle_win": [
+          "That person has begun to live on the page. Whatever happens next can become a story.",
+          "The language is clear and plain, and the person remains vivid. That is the sentence I wanted.",
+          "I thought long and observed closely. Now the writing moves without strain."
+        ],
+        "battle_draw": [
+          "There are many events, but I cannot see the person. Let's rebuild the central character first.",
+          "The words are polished, but life is missing from them. I will go back to the street and listen.",
+          "The joke arrived before the feeling. This time, I will take some wit away."
+        ],
+        "battle_lose": [
+          "I put technique ahead of the people. I will return to ordinary life and begin again.",
+          "I wrote too soon with too little material. I will ask more and observe more before I return.",
+          "Length does not make a work deep. I will cut the useless words first."
+        ],
+        "clash_attack": [
+          "Do not look only for great figures. An age can live inside an ordinary person's life.",
+          "Hold on to the person before the event. Without people, there is no novel.",
+          "Do not look down on plain language. Words drawn from the heart live a long time."
+        ]
+      },
+      "sources": [
+        "https://zh.wikisource.org/zh-hans/%E6%88%91%E6%80%8E%E6%A8%A3%E5%AF%AB%E3%80%8A%E9%A7%B1%E9%A7%9D%E7%A5%A5%E5%AD%90%E3%80%8B",
+        "https://zh.wikisource.org/zh-hans/%E6%88%91%E7%9A%84%E5%89%B5%E4%BD%9C%E7%B6%93%E9%A9%97",
+        "https://zh.wikisource.org/zh-hant/%E7%AD%94%E8%A6%86%E6%9C%89%E9%97%9C%E3%80%8A%E8%8C%B6%E9%A4%A8%E3%80%8B%E7%9A%84%E5%B9%BE%E5%80%8B%E5%95%8F%E9%A1%8C",
+        "https://m.thepaper.cn/baijiahao_19787860",
+        "https://www.chinawriter.com.cn/n1/2019/0521/c404032-31095340.html"
+      ]
+    }
+  ]
+}

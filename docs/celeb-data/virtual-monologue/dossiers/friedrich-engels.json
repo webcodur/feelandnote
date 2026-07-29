@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "slug": "friedrich-engels",
+  "nickname": "프리드리히 엥겔스",
+  "route": "hold",
+  "routeReason": "자동 개선 두 차례 뒤에도 근거 검토에서 공산주의의 범위를 모든 사적 소유 폐지처럼 넓힌 중대 오류가 남았고, 편집 검토에서는 생애 축이 잘게 흩어졌다. 생산수단의 사적 소유라는 정확한 범위를 먼저 고정하고 맨체스터 조사·공장 수입·마르크스 지원·유고 편집의 모순을 시간축으로 다시 짜는 사람의 재구성이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "프리드리히 엥겔스",
+      "birth": "1820-11-28",
+      "death": "1895-08-05",
+      "profession": "social_scientist",
+      "disambiguation": "프로이센 바르멘의 방직업자 집안에서 태어나 맨체스터의 에르멘 앤드 엥겔스에서 일하면서 노동계급을 조사하고 카를 마르크스와 평생 협업한 독일 혁명가·사회이론가",
+      "existingBioForDiscoveryOnly": "독일 출신의 철학자, 경제학자, 혁명가. 카를 마르크스와 함께 '공산당 선언'을 공저하고 마르크스주의를 체계화했으며, 마르크스 사후 '자본론' 2, 3권을 편집 출간했다."
+    },
+    "sources": [
+      {
+        "url": "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm",
+        "title": "The Condition of the Working Class in England: Introduction",
+        "publisher": "Marxists Internet Archive",
+        "kind": "reputable-secondary",
+        "publishedAt": "1845",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "산업혁명이 영국 사회 전체와 프롤레타리아의 형성을 바꾸었다는 엥겔스의 논지",
+          "노동계급의 처지를 의회 보고서와 같은 자료뿐 아니라 도시와 생활환경을 통해 조사한 작업",
+          "맨체스터를 자본주의 산업과 계급 관계를 관찰하는 핵심 장소로 삼은 이유"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/marx/works/1892/01/11.htm",
+        "title": "Preface to the English Edition of The Condition of the Working Class in England",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1892-01-11",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1845년 책에 스물네 살 저자의 좋은 점과 결함이 함께 남아 있다고 한 후기 자기평가",
+          "책에 묘사된 영국의 상태가 여러 면에서 달라졌다고 인정한 내용",
+          "초기 저술의 예측과 표현을 무오류의 완성된 사회과학으로 취급해서는 안 된다는 근거"
+        ]
+      },
+      {
+        "url": "https://www.library.manchester.ac.uk/services/digitisation-services/projects/seeing-the-slums/index.htm",
+        "title": "Seeing the Slums: Victorian Sanitary Survey Maps for Central Manchester",
+        "publisher": "The University of Manchester Library",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "엥겔스가 1844년 맨체스터 레드뱅크의 지하 주거와 위생 상태를 구체적으로 기록한 사실",
+          "그의 도시 묘사를 동시대 위생 조사 지도와 물질적 주거 환경 속에서 대조할 수 있다는 점",
+          "현재 독백의 막연한 공장 굴뚝 이미지보다 구체적인 주거·위생 관찰이 핵심이었다는 점"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/marx/bio/engels/en-1893.htm",
+        "title": "Biography of Engels",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1893",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "바르멘의 제조업자 집안, 1842년 맨체스터 체류, 마르크스와의 공동 활동이라는 생애 윤곽",
+          "1850년 맨체스터의 아버지 회사로 돌아가 상업 활동을 한 사실",
+          "마르크스와 국제 노동운동을 재정적·조직적으로 지원한 활동",
+          "《자본론》 2권을 비롯한 마르크스 저술과 번역을 편집·출판한 작업"
+        ]
+      },
+      {
+        "url": "https://avalon.law.yale.edu/19th_century/manone.asp",
+        "title": "Manifesto of the Communist Party",
+        "publisher": "The Avalon Project, Yale Law School",
+        "kind": "primary",
+        "publishedAt": "1848",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "마르크스와 엥겔스가 근대 부르주아지의 생산력 확대와 그 내부의 계급 대립을 함께 분석한 선언",
+          "지금까지 존재한 사회의 역사를 계급투쟁의 역사로 제시한 명제",
+          "프롤레타리아의 해방과 생산수단의 사적 소유 비판에 관한 공동 입장"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/marx/works/1890/letters/90_09_21.htm",
+        "title": "Engels to J. Bloch in Königsberg, 21 September 1890",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1890-09-21",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "생산과 현실 생활의 재생산을 역사에서 궁극적으로 결정적인 요소라고 한 설명",
+          "경제가 유일한 결정 요인이라는 해석을 무의미한 왜곡이라고 반박한 내용",
+          "정치·법·철학·종교와 투쟁의 결과도 역사 과정과 형식에 상호 영향을 준다고 한 후기 정리"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/marx/works/1885-c2/ch00.htm",
+        "title": "Preface to the First Edition of Capital, Volume II",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1885-05-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "마르크스가 남긴 시기와 완성도가 다른 여러 원고를 엥겔스가 선별·배열해 2권으로 출판한 과정",
+          "엥겔스가 원고의 어느 부분을 사용했는지 밝히고 자신의 편집 결정을 설명한 사실",
+          "《자본론》 후속 권을 단순히 흐트러진 문장만 정서한 것으로 축소할 수 없다는 점"
+        ]
+      },
+      {
+        "url": "https://brill.com/previewpdf/book/edcoll/9789004367159/BP000002.xml",
+        "title": "Editing the Legacy: Friedrich Engels and Marx's Capital",
+        "publisher": "Brill",
+        "kind": "scholarly",
+        "publishedAt": "2018",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "엥겔스가 《자본론》 2권과 3권을 읽을 수 있는 형태로 만든 편집의 역사적 중요성",
+          "미완성 원고의 배열과 문장화가 해석을 수반한 작업이었다는 연구 쟁점",
+          "후속 권을 마르크스의 완성 원고나 엥겔스 단독 저술 어느 쪽으로도 단순화하지 말아야 한다는 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1842년 가족이 지분을 둔 맨체스터 면방직 회사에서 일하기 시작했고, 공장 도시의 노동·주거·질병 자료와 노동자들의 생활을 조사해 《영국 노동계급의 처지》를 썼다.",
+        "significance": "부유한 집안에 대한 막연한 반항이 아니라 자본주의 생산의 안쪽에서 얻은 경험과 공식·비공식 자료를 결합한 초기 사회조사를 중심에 둔다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm",
+          "https://www.library.manchester.ac.uk/services/digitisation-services/projects/seeing-the-slums/index.htm"
+        ]
+      },
+      {
+        "point": "1844년 파리에서 마르크스와 본격적으로 협업하기 시작했고, 함께 역사와 사회를 물질적 생활 조건과 계급 관계에서 분석하며 1848년 《공산당 선언》을 발표했다.",
+        "significance": "엥겔스를 마르크스의 후원자나 조수로만 낮추지 않고 공동 저자·이론가·조직가였다는 사실을 보여 준다.",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp"
+        ]
+      },
+      {
+        "point": "혁명 실패 뒤 1850년 맨체스터 회사로 돌아가 약 이십 년 동안 상업 활동으로 수입을 얻으며 마르크스 가족과 공동 연구·운동을 재정적으로 지원했다.",
+        "significance": "비판한 생산 질서 안에서 기업인으로 일한 모순을 현대적 참회로 꾸미지 않고 그의 연구와 정치 활동을 가능하게 한 실제 조건으로 남긴다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/bio/engels/en-1893.htm"
+        ]
+      },
+      {
+        "point": "마르크스가 죽은 뒤 여러 시기의 미완성 원고를 해독·선별·배열해 《자본론》 2권과 3권을 출판했다.",
+        "significance": "친구의 유언을 충실히 베낀 장면이 아니라 오늘날에도 마르크스와 엥겔스의 경계를 토론하게 만드는 방대한 편집 노동으로 정확히 제시한다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1885-c2/ch00.htm",
+          "https://brill.com/previewpdf/book/edcoll/9789004367159/BP000002.xml"
+        ]
+      },
+      {
+        "point": "말년의 편지에서 물질적 생활의 생산을 역사 분석의 토대로 두면서도 경제 요인만이 모든 사건을 자동으로 결정한다는 단순화를 명시적으로 반박했다.",
+        "significance": "역사유물론을 돈이 모든 것을 결정한다는 한 문장으로 축소하지 않고 정치·법·사상과의 상호작용을 포함한 후기 설명을 보여 준다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1890/letters/90_09_21.htm"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "산업 자본주의는 막대한 생산력을 만들었지만 생산수단을 소유한 부르주아지와 노동력을 팔아야 하는 프롤레타리아의 대립과 불안정도 함께 확대한다고 보았다.",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp",
+          "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm"
+        ]
+      },
+      {
+        "point": "노동자의 질병·열악한 주거·긴 노동을 개인의 게으름이 아니라 산업 도시와 계급 관계가 만들어 낸 사회적 조건으로 조사하고 논증했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm",
+          "https://www.library.manchester.ac.uk/services/digitisation-services/projects/seeing-the-slums/index.htm"
+        ]
+      },
+      {
+        "point": "역사의 토대에서 생산과 재생산을 중시했지만 정치 제도, 법, 사상, 종교와 인간의 투쟁도 역사 사건의 구체적 형태에 영향을 준다고 설명했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1890/letters/90_09_21.htm"
+        ]
+      },
+      {
+        "point": "공산주의를 생산수단의 부르주아적 사적 소유를 폐지하고 노동계급이 스스로 정치적 주체가 되는 운동으로 제시했다.",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "산업 자본주의와 부르주아 소유를 비판하면서도 가족 회사에서 상업 이익을 얻어 생활했고, 그 수입으로 마르크스와 사회주의 운동을 지원했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/bio/engels/en-1893.htm"
+        ]
+      },
+      {
+        "point": "《영국 노동계급의 처지》는 직접 관찰과 당시 보고서를 결합한 선구적 조사였지만 강한 정치적 목적을 가진 스물네 살의 저술이며, 엥겔스 자신도 뒤에 시대 변화와 젊은 책의 결함을 인정했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm",
+          "https://www.marxists.org/archive/marx/works/1892/01/11.htm"
+        ]
+      },
+      {
+        "point": "마르크스와 공동의 역사관을 발전시켰지만 경제만이 역사를 결정한다는 후대의 도식적 마르크스주의를 직접 경계했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1890/letters/90_09_21.htm"
+        ]
+      },
+      {
+        "point": "《자본론》 2·3권을 보존하고 출판한 공로는 결정적이지만, 미완성 원고의 선택과 배열에는 엥겔스의 해석이 개입해 완성된 마르크스 원문과 동일시할 수 없다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1885-c2/ch00.htm",
+          "https://brill.com/previewpdf/book/edcoll/9789004367159/BP000002.xml"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "도시의 구체적 관찰을 짧게 제시한 뒤 그 배후의 계급 관계를 중간 길이 문장으로 분석한다.",
+      "directness": "논쟁적이고 명료하며 때로 풍자적인 사회비평가처럼 말하되, 마르크스의 그늘에서 희생한 성인이나 자신의 사업가 생활을 참회하는 현대인으로 만들지 않는다.",
+      "moves": [
+        "지하 주거·오염된 강·공장 노동 같은 물질적 장면에서 계급 구조의 설명으로 이동하기",
+        "자본주의의 생산력 확대와 노동자 착취를 한쪽만 지우지 않고 같은 문단에 놓기",
+        "마르크스와의 협업을 우정 미담보다 공동 저술·조직·편집의 구체적 노동으로 보여 주기",
+        "역사유물론을 먼저 쉬운 말로 설명하고 경제 단일 결정론과 다르다는 괄호 안내를 붙이기"
+      ],
+      "avoid": [
+        "가난한 노동자를 보고 양심이 깨어났다는 단일 회심 서사",
+        "공장 수익을 얻은 모순을 스스로 거짓말이나 죄라고 고백했다는 창작",
+        "마르크스의 생각을 돈으로만 도운 조수 또는 반대로 마르크스 이론의 실제 단독 창안자로 과장하기",
+        "경제가 문화·정치·사상을 기계적으로 결정한다고 단순화하기",
+        "《자본론》 2·3권을 마르크스의 완성본을 그대로 정리한 책으로 설명하기",
+        "공산주의의 이후 국가들이 벌인 모든 일을 엥겔스가 미리 의도하거나 뒤늦게 후회하는 식으로 말하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "프롤레타리아",
+        "guide": "생산수단을 소유하지 못해 자신의 노동력을 팔아 생활하는 임금노동계급",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp",
+          "https://www.marxists.org/archive/marx/works/1845/condition-working-class/ch02.htm"
+        ]
+      },
+      {
+        "term": "부르주아지",
+        "guide": "공장·자본 같은 생산수단을 소유하고 임금노동을 고용하는 근대 자본가계급",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp"
+        ]
+      },
+      {
+        "term": "생산수단",
+        "guide": "사람들이 물건과 서비스를 만들 때 사용하는 토지·공장·기계·원료 같은 자원",
+        "sourceUrls": [
+          "https://avalon.law.yale.edu/19th_century/manone.asp"
+        ]
+      },
+      {
+        "term": "역사유물론",
+        "guide": "사회의 생각만이 아니라 사람들이 먹고 일하고 생산하는 물질적 조건과 계급 관계에서 역사의 변화를 살피는 관점",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1890/letters/90_09_21.htm"
+        ]
+      },
+      {
+        "term": "《자본론》 편집",
+        "guide": "마르크스가 남긴 완성도와 시기가 다른 원고를 엥겔스가 골라 배열하고 연결해 2·3권으로 출판한 작업",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/marx/works/1885-c2/ch00.htm",
+          "https://brill.com/previewpdf/book/edcoll/9789004367159/BP000002.xml"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "《영국 노동계급의 처지》는 직접 관찰과 공식 보고를 썼지만 정치적 개입을 목적으로 한 저술이므로 모든 묘사와 통계를 중립적 현장조사 결과로 다루지 않는다.",
+      "엥겔스가 노동자 거주지를 방문하고 대화했다고 직접 썼다는 점은 확인되지만 특정 인물의 안내와 개별 대화를 출처 없이 장면화하지 않는다.",
+      "가족 회사에서 얻은 수입으로 마르크스를 지원한 사실은 남기되 엥겔스가 이를 죄책감·위선·속죄로 어떻게 느꼈는지는 편지 근거 없이 만들지 않는다.",
+      "마르크스와 엥겔스의 공동 저술은 문장별 기여도를 모두 가를 수 없으므로 한 사람의 생각을 다른 사람에게 임의로 배분하지 않는다.",
+      "《자본론》 2·3권은 마르크스의 원고를 바탕으로 했지만 엥겔스의 편집 판단이 들어갔으며 그 범위에는 계속되는 학술 논쟁이 있다.",
+      "후대 국가사회주의의 정책과 폭력을 엥겔스의 직접 의도나 예견된 결말로 소급하지 않으며, 반대로 아무 관련도 없다고 면책하는 가상 발언도 만들지 않는다."
+    ]
+  }
+}

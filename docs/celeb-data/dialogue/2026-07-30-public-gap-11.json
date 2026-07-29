@@ -1,0 +1,454 @@
+{
+  "batch": "2026-07-30-public-gap-11",
+  "targets": [
+    {
+      "id": "11aa80da-b1cd-435b-b696-4dd8116d5e44",
+      "slug": "lee-chang-ho",
+      "nickname": "이창호",
+      "nicknameEn": "Lee Chang-ho",
+      "birthDate": "1975-07-29",
+      "profession": "athlete",
+      "quote": "노력을 이기는 재능은 어디에도 없습니다.",
+      "quoteEn": "No talent ever defeats steady effort.",
+      "greetingKo": [
+        "[calm, humble] 노력을 이기는 재능은 어디에도 없습니다.",
+        "[reflective, modest] 묵묵히 하루를 견디는 사람을, 끝내 아무도 이기지 못합니다.",
+        "[serene, respectful] 저는 스승의 어깨 위에 올라탄 작은 사람일 뿐입니다."
+      ],
+      "greetingEn": [
+        "[calm, humble] No talent ever defeats steady effort.",
+        "[reflective, modest] No one truly defeats a person who quietly endures each day.",
+        "[serene, respectful] I am only a small man standing on the shoulders of my teacher."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "이창호입니다. 이기려 서두르지 않고 한 수씩 읽겠습니다.",
+          "부득탐승, 욕심을 거두고 끝까지 집을 세겠습니다.",
+          "스승에게 배운 수를 제 바둑으로 두겠습니다."
+        ],
+        "deploy": [
+          "판 전체를 보고 가장 약한 돌부터 살피세요.",
+          "잡으려 들기보다 제 돌을 먼저 두텁게 하겠습니다.",
+          "끝내기까지 남은 집을 조용히 세어 보겠습니다."
+        ],
+        "battle_win": [
+          "욕심을 거둔 수들이 끝내 집으로 남았습니다.",
+          "작은 이득을 쌓은 덕에 마지막 한 집을 지켰습니다.",
+          "끝까지 읽은 수가 마지막에 맞았습니다."
+        ],
+        "battle_draw": [
+          "아직 반집 승부입니다. 처음부터 다시 세어 보죠.",
+          "서로 두터워졌으니 성급한 침입은 삼가겠습니다.",
+          "판은 팽팽합니다. 끝내기에서 한 번 더 읽겠습니다."
+        ],
+        "battle_lose": [
+          "이기고 싶은 마음이 앞서 무리한 수를 뒀습니다.",
+          "끝내기를 믿다가 큰 곳을 한발 늦게 봤습니다.",
+          "제 계산이 짧았습니다. 다음 판은 더 오래 견디겠습니다."
+        ],
+        "clash_attack": [
+          "욕심내지 마세요!",
+          "끝까지 읽으세요!",
+          "빈틈을 먼저 보세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Lee Chang-ho. I read patiently and never rush the win.",
+          "Victory gets farther away when I reach for it too soon.",
+          "I learned from my teacher, but I must play my own game."
+        ],
+        "deploy": [
+          "Read the whole board before touching the weakest group.",
+          "Strengthen our stones before chasing theirs.",
+          "Save your patience for the endgame."
+        ],
+        "battle_win": [
+          "I gave up the chase, and the points came.",
+          "Small gains held the final point for us.",
+          "I kept reading until the board answered."
+        ],
+        "battle_draw": [
+          "Half a point still separates us. Count again.",
+          "Both sides are strong; do not invade too soon.",
+          "The board is even. Save your focus for the endgame."
+        ],
+        "battle_lose": [
+          "I wanted the win and forced a move.",
+          "I trusted my endgame and missed the larger point.",
+          "My reading stopped too soon. Next time, I will endure."
+        ],
+        "clash_attack": [
+          "Do not get greedy!",
+          "Read to the end!",
+          "Find the weakness first!"
+        ]
+      },
+      "sources": [
+        "https://m.baduk.or.kr/record/gisa_info.asp?PRPL_CODE=10000001",
+        "https://www.youtube.com/watch?v=KEEYP6CvM1U",
+        "https://baduk.or.kr/news/report_view.asp?news_no=5596",
+        "https://www.baduk.or.kr/news/report_view.asp?news_no=5734"
+      ]
+    },
+    {
+      "id": "4ee3ea7f-fd81-4bbf-ab4b-3e33283e9bd4",
+      "slug": "indra-nooyi",
+      "nickname": "인드라 누이",
+      "nicknameEn": "Indra Nooyi",
+      "birthDate": "1955-10-28",
+      "profession": "entrepreneur",
+      "quote": "항상 상대방이 좋은 의도로 행동한다고 가정해 보세요.",
+      "quoteEn": "Always assume that the other person is acting with good intentions.",
+      "greetingKo": [
+        "[warm, commanding] 리더의 역할은 성과를 내는 동시에 목적을 부여하는 것입니다.",
+        "[bold, thoughtful] 성과와 의미, 둘 중 하나만 고르라는 건 거짓 선택입니다.",
+        "[honest, driven] CEO라 해도 여전히 엄마이고, 딸이고, 아내입니다. 전부 제 일이에요."
+      ],
+      "greetingEn": [
+        "[warm, commanding] A leader's role is to deliver results while also giving purpose.",
+        "[bold, thoughtful] Having to choose between performance and meaning is a false choice.",
+        "[honest, driven] Even as CEO, I am still a mother, a daughter, a wife. All of it is my work."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "인드라 누이입니다. 성과와 목적을 함께 묻겠습니다.",
+          "변화가 닥치기 전에 한발 먼저 움직이겠습니다.",
+          "큰 방향을 세우고 세부 수치까지 확인하겠습니다."
+        ],
+        "deploy": [
+          "사업 성과와 사회에 줄 이익을 한 계획에 담으세요.",
+          "변화가 오기 전에 먼저 포트폴리오를 바꿉시다.",
+          "선의를 믿되 세부 수치는 끝까지 확인하세요."
+        ],
+        "battle_win": [
+          "성과를 내면서도 미래에 비용을 떠넘기지 않았습니다.",
+          "먼저 바꾼 선택이 늦은 대응보다 값졌습니다.",
+          "사람을 끌어올렸기에 조직도 함께 컸습니다."
+        ],
+        "battle_draw": [
+          "목적은 분명하지만 성과가 아직 따라오지 않습니다.",
+          "방향은 맞습니다. 이제 세부 수치를 다시 보죠.",
+          "변화는 시작됐지만 사람들을 더 설득해야 합니다."
+        ],
+        "battle_lose": [
+          "성장을 서두르다 목적을 숫자 뒤로 밀었습니다.",
+          "좋은 뜻만 믿고 실행의 세부를 놓쳤습니다.",
+          "변화를 늦게 읽어 대응할 시간을 잃었습니다."
+        ],
+        "clash_attack": [
+          "둘 다 해냅시다!",
+          "먼저 바꿉시다!",
+          "세부까지 챙기세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Indra Nooyi. Performance and purpose belong in the same plan.",
+          "I look around the corner and change before I must.",
+          "I set the direction, then sweat every detail."
+        ],
+        "deploy": [
+          "Build one plan that serves business and society.",
+          "Change the portfolio before the market forces us.",
+          "Assume good intent, then check every detail."
+        ],
+        "battle_win": [
+          "We delivered results without borrowing from the future.",
+          "Changing early cost less than reacting late.",
+          "We developed our people, and the organization grew stronger."
+        ],
+        "battle_draw": [
+          "The purpose is clear; the results are not here yet.",
+          "The direction is right. Now test every number.",
+          "Change has started, but people still need convincing."
+        ],
+        "battle_lose": [
+          "I chased growth and pushed purpose behind the numbers.",
+          "Good intentions did not excuse weak execution.",
+          "I looked around the corner too late to act."
+        ],
+        "clash_attack": [
+          "Deliver on both!",
+          "Change before they do!",
+          "Mind every detail!"
+        ]
+      },
+      "sources": [
+        "https://www.indranooyi.com/leadership",
+        "https://insights.som.yale.edu/insights/can-positive-impact-be-profitable",
+        "https://www.mckinsey.com/featured-insights/mckinsey-on-books/author-talks-indra-nooyi-on-leadership-life-and-crafting-a-better-future",
+        "https://www.bcg.com/publications/2010/indra-nooyi-performance-purpose"
+      ]
+    },
+    {
+      "id": "0176fc64-f7fa-4e32-8677-6f75891d0ecc",
+      "slug": "im-kwon-taek",
+      "nickname": "임권택",
+      "nicknameEn": "Im Kwon-taek",
+      "birthDate": "1936-05-02",
+      "profession": "director",
+      "quote": "영화는 나이만큼 찍히는 법이지요.",
+      "quoteEn": "A film gets shot at the age the director is.",
+      "greetingKo": [
+        "[composed, reflective] 영화는 나이만큼 찍히는 법이지요.",
+        "[measured, warm] 우리 삶의 원동력은 결국 흥이 아니겠습니까.",
+        "[composed, humble] 사심이 없어야 좋은 영화가 됩니다."
+      ],
+      "greetingEn": [
+        "[composed, reflective] A film gets shot at the age the director is.",
+        "[measured, warm] What drives our lives, in the end, is heung.",
+        "[composed, humble] Good cinema begins when the director has no ego."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "임권택입니다. 사람 사는 얼굴을 오래 지켜보겠습니다.",
+          "백 편을 찍고도 현장에서는 다시 배우는 사람입니다.",
+          "남의 눈을 빌리지 않고 제가 본 한국을 담겠습니다."
+        ],
+        "deploy": [
+          "배우를 재촉하지 말고 그 사람의 숨을 기다립시다.",
+          "장면을 꾸미기 전에 그 땅의 삶부터 살피세요.",
+          "흥이 살아났다면 카메라가 먼저 끊지 마세요."
+        ],
+        "battle_win": [
+          "배우가 연기하지 않고 그 사람으로 살아났습니다.",
+          "장면에 제 욕심을 덜어내니 삶이 더 또렷해졌습니다.",
+          "오래 기다린 끝에 사람의 진짜 표정을 얻었습니다."
+        ],
+        "battle_draw": [
+          "화면은 곱지만 그 안의 삶이 아직 얕습니다.",
+          "배우의 숨은 잡았지만 장면이 끝까지 이어지지 않습니다.",
+          "제 생각을 너무 넣어 관객이 볼 몫을 줄였습니다."
+        ],
+        "battle_lose": [
+          "감독의 욕심이 앞서 배우의 얼굴을 가렸습니다.",
+          "한국을 보여주려다 사람을 수식어로 만들었습니다.",
+          "장면을 서두른 탓에 사람 사는 모습을 놓쳤습니다."
+        ],
+        "clash_attack": [
+          "그대로 갑시다!",
+          "흥을 끊지 마세요!",
+          "얼굴을 더 보세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Im Kwon-taek. I watch a face until a life appears.",
+          "After a hundred films, I still arrive ready to learn.",
+          "I will show the Korea I have seen with my own eyes."
+        ],
+        "deploy": [
+          "Let the actor breathe before you call the scene.",
+          "Study the life of the place before dressing the frame.",
+          "Once the rhythm lives, do not cut it short."
+        ],
+        "battle_win": [
+          "The actor disappeared, and the person remained.",
+          "I stepped back, and the life came through.",
+          "Waiting gave us the face the scene needed."
+        ],
+        "battle_draw": [
+          "The frame is beautiful, but the life inside is thin.",
+          "We caught the breath, but not the scene's full pulse.",
+          "I left too little room for the audience."
+        ],
+        "battle_lose": [
+          "My own ambition covered the actor's face.",
+          "I turned a person into a symbol of Korea.",
+          "I hurried the scene and missed how people really lived."
+        ],
+        "clash_attack": [
+          "Let it breathe!",
+          "Keep the rhythm alive!",
+          "Look at the face!"
+        ]
+      },
+      "sources": [
+        "https://www.koreafilm.or.kr/cinematheque/programs/PI_00408",
+        "https://www.koreafilm.or.kr/cinematheque/programs/PI_00015",
+        "https://www.koreafilm.or.kr/kofa/publication/dvds/PB_0000000098"
+      ]
+    },
+    {
+      "id": "a135616e-0456-46e5-bee1-7356b9c92d41",
+      "slug": "changpeng-zhao",
+      "nickname": "자오창펑",
+      "nicknameEn": "Changpeng Zhao",
+      "birthDate": "1977-02-10",
+      "profession": "entrepreneur",
+      "quote": "의심하기보다는 일단 행동하라.",
+      "quoteEn": "Don't ask, just do.",
+      "greetingKo": [
+        "[bold, confident] 의심하기보다는 일단 행동하라.",
+        "[bold, energetic] 우리는 빌드한다. 그게 전부다.",
+        "[bold, steady] 시장이 흔들려도 우리는 사용자 자산을 지킨다."
+      ],
+      "greetingEn": [
+        "[bold, confident] Don't ask, just do.",
+        "[bold, energetic] We BUIDL. That is the job.",
+        "[bold, steady] Markets shake, but user funds stay safe."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "자오창펑입니다. 말보다 제품으로 답하겠습니다.",
+          "사용자가 막히는 한 지점부터 바로 고치겠습니다.",
+          "빠르게 만들되 이제 규정도 설계 안에 넣겠습니다."
+        ],
+        "deploy": [
+          "사용자 자산부터 지키고 그다음 기능을 출시하세요.",
+          "작게 출시하고 반응을 본 뒤 바로 고치세요.",
+          "규정 준수를 제품 설계 첫 줄에 넣으세요."
+        ],
+        "battle_win": [
+          "사용자 문제가 풀렸으니 이번 배포는 성공입니다.",
+          "시장 소음은 덮고 제품을 고친 보람이 있습니다.",
+          "속도와 안전을 함께 챙겨 신뢰를 지켰습니다."
+        ],
+        "battle_draw": [
+          "기능은 돌아가지만 사용자가 헤매면 미완성입니다.",
+          "출시는 빨랐습니다. 안전 점검은 한 번 더 하죠.",
+          "사람들이 몰렸지만 계속 쓸지는 더 지켜봐야 합니다."
+        ],
+        "battle_lose": [
+          "성장을 앞세워 규정 준수를 뒤로 미룬 책임이 있습니다.",
+          "규정은 나중에 맞추면 된다는 판단이 큰 대가를 불렀습니다.",
+          "빠른 출시가 허술한 안전장치를 덮지는 못했습니다."
+        ],
+        "clash_attack": [
+          "지금 배포하세요!",
+          "사용자부터 지켜요!",
+          "계속 만드세요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Changpeng Zhao. I answer with products, not speeches.",
+          "I start with the one place users get stuck.",
+          "Move fast, but put compliance inside the design."
+        ],
+        "deploy": [
+          "Protect user funds before shipping another feature.",
+          "Launch small, watch the response, and fix it.",
+          "Write compliance into the first line of the design."
+        ],
+        "battle_win": [
+          "The release worked because it solved a user problem.",
+          "We ignored the noise and improved the product.",
+          "Speed and safeguards moved together this time."
+        ],
+        "battle_draw": [
+          "The feature works, but confused users mean unfinished work.",
+          "We shipped quickly. Run the safety checks again.",
+          "People showed up. Now we must prove they will keep using it."
+        ],
+        "battle_lose": [
+          "I put growth ahead of compliance, and I own that.",
+          "Treating compliance as a problem for later brought a heavy cost.",
+          "A fast release could not hide weak safeguards."
+        ],
+        "clash_attack": [
+          "Ship it now!",
+          "Protect users first!",
+          "Build through the noise!"
+        ]
+      },
+      "sources": [
+        "https://www.binance.com/id/blog/from-our-ceo/421499824684900429",
+        "https://www.justice.gov/usao-wdwa/pr/binance-and-ceo-plead-guilty-federal-charges-4b-resolution",
+        "https://techcrunch.com/2021/11/23/binance-ceo-changpeng-zhao-talks-regulation-and-platforms-activities-in-africa/",
+        "https://fortune.com/crypto/2023/04/10/the-making-of-cz-changpeng-zhao-exclusive-interview-binance/"
+      ]
+    },
+    {
+      "id": "ccf1fc26-4568-4266-b987-e8df62b119df",
+      "slug": "jean-michel-basquiat",
+      "nickname": "장 미셸 바스키아",
+      "nicknameEn": "Jean-Michel Basquiat",
+      "birthDate": "1960-12-22",
+      "profession": "visual_artist",
+      "quote": "나는 예술 비평가들의 말을 듣지 않는다.",
+      "quoteEn": "I don't listen to what art critics say.",
+      "greetingKo": [
+        "[fierce, raw] 저는 화가가 아닙니다. 왕관을 쓴 시인입니다.",
+        "[electric, defiant] 미술계에 초대받은 게 아닙니다. 문을 부수고 들어갔습니다.",
+        "[burning, urgent] 캔버스 위의 모든 선에 분노와 아름다움이 섞여 있습니다."
+      ],
+      "greetingEn": [
+        "[fierce, raw] I am not a painter. I am a poet who wears a crown.",
+        "[electric, defiant] I was not invited into the art world. I broke down the door.",
+        "[burning, urgent] Every line on the canvas is a mixture of rage and beauty."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "바스키아입니다. 지운 단어부터 다시 보게 만들겠습니다.",
+          "왕관은 장식이 아닙니다. 지워진 이름 위에 올립니다.",
+          "거리의 글자와 해부도를 한 화면에서 부딪치게 하겠습니다."
+        ],
+        "deploy": [
+          "단어를 하나 지워서 시선을 그곳에 붙잡으세요.",
+          "뼈와 장기를 그려 겉모습 아래까지 보여주세요.",
+          "재즈처럼 반복하고 어긋나며 화면을 채우세요."
+        ],
+        "battle_win": [
+          "지운 단어가 오히려 가장 오래 눈에 남았습니다.",
+          "가려졌던 얼굴에 왕관을 씌워 중앙에 세웠습니다.",
+          "해부도와 거리의 말이 서로를 더 선명하게 만들었습니다."
+        ],
+        "battle_draw": [
+          "기호는 선명한데 서로 따로 놉니다.",
+          "단어는 많습니다. 어느 것을 지울지 더 골라야겠네요.",
+          "왕관이 보이지만 그 아래 얼굴은 아직 흐립니다."
+        ],
+        "battle_lose": [
+          "왕관을 반복하다 또 하나의 장식으로 만들었습니다.",
+          "분노만 그리다 그 안에 있던 역사를 놓쳤습니다.",
+          "글자를 채우기만 해서 아무 단어도 남기지 못했습니다."
+        ],
+        "clash_attack": [
+          "지운 단어를 봐요!",
+          "왕관을 올리세요!",
+          "뼈까지 드러내요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Basquiat. I make you look first at the crossed-out word.",
+          "The crown goes over names history tried to erase.",
+          "I put street language and anatomy on the same surface."
+        ],
+        "deploy": [
+          "Cross out one word and make it louder.",
+          "Draw what sits beneath the skin.",
+          "Repeat, break the rhythm, then fill the surface."
+        ],
+        "battle_win": [
+          "The crossed-out word held the eye the longest.",
+          "A crowned Black face now owns the center.",
+          "Anatomy and street language made each other sharper."
+        ],
+        "battle_draw": [
+          "The symbols are sharp, but each one stands alone.",
+          "Too many words. I need to choose what disappears.",
+          "The crown is visible; the face beneath it is not."
+        ],
+        "battle_lose": [
+          "I repeated the crown until it became decoration.",
+          "I painted only the anger and lost the history beneath it.",
+          "I filled the surface and left no word behind."
+        ],
+        "clash_attack": [
+          "Look at the crossed-out word!",
+          "Crown the hidden name!",
+          "Show what lies beneath!"
+        ]
+      },
+      "sources": [
+        "https://www.brooklynmuseum.org/touring-exhibitions/basquiat_notebooks",
+        "https://whitney.org/media/62997",
+        "https://www.moma.org/momaorg/shared/pdfs/moma_learning/docs/LAA_Full.pdf",
+        "https://www.christies.com.cn/lot/lot-5496726"
+      ]
+    }
+  ]
+}

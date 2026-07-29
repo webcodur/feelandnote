@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "slug": "wright-brothers",
+  "nickname": "라이트 형제",
+  "route": "new",
+  "routeReason": "현재 원고는 1903년 12월 17일의 네 차례 비행, 풍동 측정, 날개 비틀림과 세 축 조종이라는 기술 핵심이 좋다. 그러나 윌버와 오빌 두 사람을 하나의 ‘저’로 합쳐 누가 어느 비행을 하고 어느 시기에 어떤 결정을 했는지 흐리고, ‘제가 움직인 대로’ 같은 문장은 복수 인물의 가상 내면을 만든다. 엔진의 설계·가공에 크게 기여한 찰리 테일러와 가게·가정·홍보·간병을 맡은 캐서린 라이트도 사라졌으며, 특허 비밀주의와 글렌 커티스 등을 상대로 한 소송의 정당성·산업 영향 논쟁도 없다. 복수 화자를 ‘우리’로 분명히 하고 각 형제의 차이, 협업자, 사업과 특허 갈등까지 다시 설계해야 하므로 신규 작성이 적합하다.",
+  "dossier": {
+    "identity": {
+      "name": "라이트 형제",
+      "birth": "1867/1871",
+      "death": "1912/1948",
+      "profession": "entrepreneur",
+      "disambiguation": "미국 오하이오주 데이턴에서 인쇄업과 자전거 사업을 함께 하다가 유인 동력 비행기를 개발한 형 윌버 라이트(1867–1912)와 동생 오빌 라이트(1871–1948)의 공동 인물 계정",
+      "existingBioForDiscoveryOnly": "미국의 발명가 형제. 1903년 키티호크에서 조종 가능한 유인 동력 비행에 성공했으며 풍동 실험과 세 축 조종 체계를 발전시켰다."
+    },
+    "sources": [
+      {
+        "url": "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000",
+        "title": "1903 Wright Flyer",
+        "publisher": "Smithsonian National Air and Space Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1900~1902년 글라이더·풍동 실험과 조종 체계 개선",
+          "1903년 플라이어의 엔진·프로펠러·기체 구성",
+          "찰스 테일러가 엔진 제작에 기여한 사실",
+          "12월 17일 네 차례의 유인 동력 비행"
+        ]
+      },
+      {
+        "url": "https://www.nps.gov/articles/wright-brothers.htm",
+        "title": "Wright Brothers",
+        "publisher": "U.S. National Park Service",
+        "kind": "institutional",
+        "publishedAt": "2017",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "인쇄업·자전거 사업에서 비행 연구로 이동한 과정",
+          "오토 릴리엔탈의 죽음과 비행 연구의 재개",
+          "찰리 테일러와 자체 엔진 제작",
+          "1903년 12월 17일 강풍 속 비행의 구체적 조건"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/collections/wilbur-and-orville-wright-papers/articles-and-essays/collection-highlights/starting-the-business/",
+        "title": "Starting the Business",
+        "publisher": "Library of Congress",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "넓은 특허를 얻기까지 세부 기술 공개를 피하라는 변호사의 조언",
+          "비행 기술을 발명에서 판매 가능한 사업으로 옮긴 과정",
+          "공개 지연과 비밀주의가 단순한 겸손이 아니라 특허 전략이었다는 점"
+        ]
+      },
+      {
+        "url": "https://www.nps.gov/people/charles-e-taylor.htm",
+        "title": "Charles E. Taylor",
+        "publisher": "U.S. National Park Service",
+        "kind": "institutional",
+        "publishedAt": "2021",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "자전거 가게 기계공 찰리 테일러가 약 6주 만에 1903년 엔진을 가공·제작한 과정",
+          "형제와 테일러가 기체·엔진 작업을 나눈 협업",
+          "테일러가 이후에도 라이트 회사와 항공기 제작에 참여한 사실"
+        ]
+      },
+      {
+        "url": "https://www.nps.gov/people/katharine-wright.htm",
+        "title": "Katharine Wright",
+        "publisher": "U.S. National Park Service",
+        "kind": "institutional",
+        "publishedAt": "2019",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "캐서린 라이트가 가정 운영과 형제의 경력 지원을 맡은 사실",
+          "1908년 추락 뒤 오빌을 간호하고 유럽 홍보 여행에 함께한 과정",
+          "형제의 사업·공적 이미지 뒤에 있던 가족 노동과 캐서린 자신의 교육·여성참정권 활동"
+        ]
+      },
+      {
+        "url": "https://commons.erau.edu/jaaer/vol21/iss3/9/",
+        "title": "The Wright Brothers vs. the World: Understanding the Wright Patent Wars",
+        "publisher": "Journal of Aviation/Aerospace Education & Research",
+        "kind": "scholarly",
+        "publishedAt": "2012",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "라이트 형제 특허의 범위와 글렌 커티스 등을 상대로 한 소송",
+          "발명 권리를 지키려는 정당성과 초기 미국 항공 산업에 준 손해를 함께 보는 해석",
+          "특허 전쟁의 영향 크기를 둘러싼 후대 논쟁"
+        ]
+      },
+      {
+        "url": "https://siarchives.si.edu/collections/siris_sic_3048",
+        "title": "Capable of Flight: The Feud Between the Wright Brothers and the Smithsonian",
+        "publisher": "Smithsonian Institution Archives",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "랭글리 에어로드롬의 우선권 주장을 둘러싼 라이트 형제와 스미스소니언의 장기 갈등",
+          "특허 분쟁과 박물관 전시가 발명 우선권 기억을 형성한 과정"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "윌버와 오빌은 인쇄기 제작과 신문 발행을 거쳐 1890년대 데이턴에서 자전거 판매·수리·제작 사업을 운영했다.",
+        "significance": "비행을 갑자기 떠올린 천재 형제가 아니라 정밀 가공, 균형, 반복 수리와 사업 운영을 이미 익힌 기술자들로 출발시킨다.",
+        "sourceUrls": [
+          "https://www.nps.gov/articles/wright-brothers.htm"
+        ]
+      },
+      {
+        "point": "1899년 이후 글라이더 실험을 시작하고, 기존 양력 자료가 맞지 않자 1901년 자체 풍동과 날개 모형으로 수치를 다시 측정했다.",
+        "significance": "유명인의 표를 맹목적으로 거부한 영웅담이 아니라 실패한 시험에서 측정 체계 자체를 재검토한 공학 방법을 보여 준다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000",
+          "https://www.nps.gov/articles/wright-brothers.htm"
+        ]
+      },
+      {
+        "point": "날개 비틀림, 승강타, 가동식 수직 꼬리날개를 결합해 기체의 좌우 기울기·오르내림·방향을 조종하는 체계를 발전시켰다.",
+        "significance": "강한 엔진보다 조종 가능한 비행을 핵심 발명으로 두고, 오늘날의 세 축 조종과 당시 장치의 차이도 설명할 수 있다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "point": "찰리 테일러가 가벼운 4기통 엔진을 제작한 뒤 1903년 12월 17일 키티호크에서 오빌과 윌버가 번갈아 네 차례 유인 동력 비행을 했다.",
+        "significance": "첫 12초만 신화화하지 않고 반복 비행, 조종, 엔진 제작자의 노동을 한 사건 안에 둔다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000",
+          "https://www.nps.gov/people/charles-e-taylor.htm"
+        ]
+      },
+      {
+        "point": "1906년 특허를 받은 뒤 비행기 판매와 공개 시연에 나섰지만 글렌 커티스 등과 장기 특허 소송을 벌였고 스미스소니언과 우선권을 놓고도 다퉜다.",
+        "significance": "발명 이후를 축하로 끝내지 않고 지식 공개, 소유권, 산업 성장, 역사 기억을 둘러싼 사업가 형제의 선택으로 확장한다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/wilbur-and-orville-wright-papers/articles-and-essays/collection-highlights/starting-the-business/",
+          "https://commons.erau.edu/jaaer/vol21/iss3/9/",
+          "https://siarchives.si.edu/collections/siris_sic_3048"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "비행 문제를 양력·추진·조종으로 나누고, 그중 조종사가 기체의 자세를 계속 바로잡을 수 있는 능력을 핵심으로 보았다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "point": "기존 자료가 실험 결과와 맞지 않을 때 자체 풍동으로 수백 개 날개 모형을 비교하고 설계값을 다시 만들었다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "point": "프로펠러를 단순한 나사가 아니라 회전하며 추력을 만드는 날개로 보고 기체·엔진·프로펠러를 하나의 시스템으로 계산했다.",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "point": "발명을 사업 자산으로 보호하기 위해 공개를 늦추고 넓은 조종 특허를 확보한 뒤 경쟁자의 장치에도 권리를 주장했다.",
+        "sourceUrls": [
+          "https://www.loc.gov/collections/wilbur-and-orville-wright-papers/articles-and-essays/collection-highlights/starting-the-business/",
+          "https://commons.erau.edu/jaaer/vol21/iss3/9/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "‘라이트 형제’는 두 사람의 공동 작업을 가리키지만 하나의 ‘나’로 말하면 윌버와 오빌의 서로 다른 생애·역할·비행 기록이 사라진다.",
+        "sourceUrls": [
+          "https://www.nps.gov/articles/wright-brothers.htm",
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "point": "1903년 플라이어는 형제의 설계 성취인 동시에 엔진을 실제로 가공한 찰리 테일러의 핵심 노동 없이는 완성되지 않았다.",
+        "sourceUrls": [
+          "https://www.nps.gov/people/charles-e-taylor.htm"
+        ]
+      },
+      {
+        "point": "캐서린 라이트는 가정·가게·간병·유럽 홍보를 맡았지만 ‘두 형제의 발명’이라는 이름 아래 지원 노동이 쉽게 지워진다.",
+        "sourceUrls": [
+          "https://www.nps.gov/people/katharine-wright.htm"
+        ]
+      },
+      {
+        "point": "특허 소송은 수년의 연구 비용과 발명 권리를 방어하는 일이었지만, 넓은 권리 주장과 장기 소송이 초기 산업을 해쳤다는 비판도 있다.",
+        "sourceUrls": [
+          "https://commons.erau.edu/jaaer/vol21/iss3/9/"
+        ]
+      },
+      {
+        "point": "1903년 비행의 우선권은 조종·동력·지속·이륙 조건을 어떻게 정의하는지와 연결되며, 스미스소니언과의 전시 갈등은 그 기억이 제도적으로 만들어졌음을 보여 준다.",
+        "sourceUrls": [
+          "https://siarchives.si.edu/collections/siris_sic_3048",
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "‘윌버는’, ‘오빌은’, ‘우리는’의 주어를 의식적으로 나누고, 한 번의 시험과 수정 결과를 짧은 문장 두세 개로 쌓는다.",
+      "directness": "두 형제의 공동 회고 형식을 쓰되 두 사람의 생각을 합성한 단일 인격처럼 말하지 않는다. 기록된 역할이 다를 때는 이름을 직접 밝힌다.",
+      "moves": [
+        "자전거 가게의 균형과 가공에서 글라이더의 조종 문제로 이동하기",
+        "실패한 양력 자료를 풍동 측정으로 고친 과정을 수치보다 원인과 결과 중심으로 설명하기",
+        "1903년 네 비행에서 조종사와 시간을 구분하기",
+        "엔진 대목에서 찰리 테일러, 사업·홍보 대목에서 캐서린의 이름과 일을 밝히기",
+        "성공 뒤 특허와 우선권 분쟁으로 넘어가 발명과 소유의 긴장을 남기기"
+      ],
+      "avoid": [
+        "두 사람을 하나의 ‘저’로 합친 복수 인물 합성 화자",
+        "12초 비행만으로 현대 항공기가 완성됐다는 서사",
+        "찰리 테일러가 단순히 형제의 지시에 따라 조립만 했다는 축소",
+        "캐서린 라이트를 헌신적인 누이 한 역할로만 소비하기",
+        "‘새의 날개를 보고 그대로 날개 비틀림을 발명했다’는 단선적 영감 신화",
+        "특허 소송을 탐욕이나 정당한 방어 중 하나로만 판결하기",
+        "글렌 커티스·옥타브 샤누트·릴리엔탈 등 국제적 비행 연구 생태계를 지우기",
+        "형제가 미래의 전쟁 항공과 상업 항공을 모두 예견했다는 창작"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "세 축 조종",
+        "guide": "비행기의 코를 위아래로 움직이고, 좌우로 기울이고, 진행 방향을 좌우로 돌리는 세 종류의 자세 제어",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "term": "날개 비틀림",
+        "guide": "양쪽 날개 끝을 서로 반대 방향으로 비틀어 좌우 양력 차이를 만들고 기체를 기울이는 초기 조종 방식",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "term": "풍동",
+        "guide": "인공 바람 속에 작은 날개 모형을 놓고 양력과 저항을 비교해 재는 시험 장치",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "term": "승강타",
+        "guide": "기체의 코를 위아래로 움직여 오르내림을 조절하는 조종 면으로, 1903년 플라이어에는 앞쪽에 달렸다",
+        "sourceUrls": [
+          "https://airandspace.si.edu/collection-objects/wright-1903-flyer/nasm_A19610048000"
+        ]
+      },
+      {
+        "term": "특허 전쟁",
+        "guide": "라이트 형제가 비행 조종 특허의 범위를 두고 글렌 커티스 등 경쟁 제작자와 여러 나라 법정에서 벌인 장기 분쟁",
+        "sourceUrls": [
+          "https://commons.erau.edu/jaaer/vol21/iss3/9/"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "라이트 형제는 두 사람이다. 공동 관점은 ‘우리’로 쓰되 확인 가능한 개인 행동은 윌버와 오빌을 구분한다.",
+      "1903년 12월 17일의 ‘최초’는 사람이 탄 동력·지속·조종 가능한 비행이라는 조건을 명시한다. 모든 선행 비행 시도를 없던 일로 만들지 않는다.",
+      "1903년 엔진은 찰리 테일러가 핵심 가공을 했지만 개념 설계와 요구 조건은 형제와 협의했다. 어느 한쪽의 단독 발명으로 바꾸지 않는다.",
+      "캐서린의 지원은 문서화돼 있으나 비행기 공학 설계의 공동 발명자로 과장하지 않는다.",
+      "특허 소송이 미국 항공 산업을 얼마나 지연했는지는 학자마다 평가가 다르다. 피해가 있었다는 비판과 반론의 여지를 함께 남긴다.",
+      "새의 날개 관찰은 형제의 설명에 등장하지만 날개 비틀림이 한순간의 생체모방으로 완성됐다는 식으로 단순화하지 않는다.",
+      "1903년 네 비행의 거리·시간은 당시 기록과 박물관 자료를 따르며 ‘약’ 표기를 유지한다.",
+      "오빌과 스미스소니언의 장기 갈등은 윌버 사후의 일까지 포함하므로 두 형제가 끝까지 함께 싸웠다고 쓰지 않는다."
+    ]
+  }
+}

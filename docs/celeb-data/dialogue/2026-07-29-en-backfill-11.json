@@ -1,0 +1,876 @@
+{
+  "batch": "generated-en-backfill-2026-07-29",
+  "translationOnly": true,
+  "targets": [
+    {
+      "id": "8dd36edc-1a7f-4896-a176-0ce79e2e17f5",
+      "slug": "zhou-enlai",
+      "nickname": "저우언라이",
+      "nicknameEn": "Zhou Enlai",
+      "birthDate": "1898-03-05",
+      "profession": "politician",
+      "quote": "중화의 부흥을 위하여 책을 읽습니다",
+      "quoteEn": "I study for the rise of China.",
+      "greetingKo": [
+        "[measured, devoted] 나는 인민의 심부름꾼일 뿐입니다.",
+        "[calm, principled] 같은 것은 함께 구하고 다른 것은 그대로 둡니다.",
+        "[composed, earnest] 어려서부터 나는 중화의 부흥을 위해 책을 읽었습니다."
+      ],
+      "greetingEn": [
+        "[composed, warm] Let us seek the common ground we share, and reserve the differences as they are.",
+        "[measured, gracious] In youth I read for the rise of China. Tonight I sit across from a guest and pour a single cup.",
+        "[calm, devoted] To serve the people: a single line, and it has carried me through twenty-seven years."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[measured, attentive] 동지들, 한 사람도 빠짐없이 자리를 확인하겠습니다.",
+          "[calm, devoted] 각자 맡은 바를 점검합시다, 인민이 우리를 지켜보고 있습니다.",
+          "[composed, steady] 마음을 가다듬으세요, 서두르지 않되 멈추지도 않습니다."
+        ],
+        "deploy": [
+          "[calm, commanding] 침착하게 나아가라, 작은 차이에 발목 잡히지 마라!",
+          "[measured, firm] 대화의 문을 열어라, 협상이 곧 우리의 무기다!",
+          "[composed, resolute] 인민을 위해 움직여라, 사사로움은 버려라!"
+        ],
+        "battle_win": [
+          "[measured, humble] 이겼다 자만하지 맙시다, 이 또한 인민의 공입니다.",
+          "[calm, satisfied] 서두르지 않은 인내가 결국 길을 열었습니다.",
+          "[composed, gracious] 적을 굴복시킨 것이 아니라 마음을 얻은 것입니다."
+        ],
+        "battle_draw": [
+          "[measured, patient] 결판이 나지 않았다면 더 기다릴 줄도 알아야 합니다.",
+          "[calm, steady] 조급함은 모든 것을 망칩니다, 다시 차분히 풀어갑시다.",
+          "[composed, resolute] 같은 것을 구하지 못했으니 다른 길을 더 찾아봅시다."
+        ],
+        "battle_lose": [
+          "[heavy, composed] 이번 실책은 제가 짊어지겠습니다, 인민을 탓하지 마십시오.",
+          "[measured, resolute] 졌다고 길을 잃진 않습니다, 다시 인내로 일어섭니다.",
+          "[calm, devoted] 재가 되기 전에 불씨를 지키는 것이 제 소임입니다."
+        ],
+        "clash_attack": [
+          "[firm, composed] 한 치도 물러서지 마라, 차분히 밀고 들어가라!",
+          "[measured, commanding] 정면으로 맞서라, 흔들리지 마라!",
+          "[resolute, calm] 끝까지 버텨라, 우리가 옳다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Comrades, let us confirm that every one of us is present.",
+          "Check your posts, the people are watching us.",
+          "Steady your minds. We will not rush, but we will not stop either."
+        ],
+        "deploy": [
+          "Move forward with composure, don't let small differences trip us up!",
+          "Open the door to dialogue, negotiation is our weapon!",
+          "Act for the people, set aside every personal interest!"
+        ],
+        "battle_win": [
+          "Let's not grow proud over this win, it belongs to the people as much as to us.",
+          "Patience without haste is what opened this path.",
+          "We didn't force the enemy to yield, we won them over."
+        ],
+        "battle_draw": [
+          "When nothing is settled, we must also know how to wait.",
+          "Impatience ruins everything, let's work through this calmly again.",
+          "We found no common ground here, so let's look for another way."
+        ],
+        "battle_lose": [
+          "I will bear the blame for this failure, do not lay it on the people.",
+          "A loss does not mean we've lost our way, we rise again through patience.",
+          "Guarding the ember before it turns to ash, that is my duty."
+        ],
+        "clash_attack": [
+          "Not one step back, press forward steadily!",
+          "Meet them head on, do not waver!",
+          "Hold your ground to the end, we are in the right!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zhou-enlai"
+      ]
+    },
+    {
+      "id": "64552de1-e442-45ea-896e-7e46f33fad2f",
+      "slug": "chung-se-rang",
+      "nickname": "정세랑",
+      "nicknameEn": "Chung Se-rang",
+      "birthDate": "1984-12-12",
+      "profession": "author",
+      "quote": "욕망을 가진 여성들이 부딪히기도 하고 이해하기도 하는 이야기를 쓰고 싶어요.",
+      "quoteEn": "I write women with desire who collide and try to understand each other.",
+      "greetingKo": [
+        "[warm, gentle] 저는 가볍고 다정해서, 피곤한 날에도 펼쳐볼 수 있는 이야기를 쓰고 싶어요.",
+        "[soft, hopeful] 세상은 이상하고 위험하지만, 우리가 서로 손을 잡아주면 좋겠어요.",
+        "[bright, gentle] 탄산음료처럼 톡 쏘는 소설을 쓰는 게 제 꿈이거든요."
+      ],
+      "greetingEn": [
+        "[warm, soft] Hello, I''m Chung Se-rang. Which story should we open today?",
+        "[gentle, hopeful] On one shelf I keep ''become someone like Miyuki Miyabe'' as my dream.",
+        "[soft, curious] I brought the small spirits of a school infirmary along with me."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[warm, gentle] 등장인물 다 모였나요, 한 명씩 불러볼게요.",
+          "[soft, focused] 오늘 쓸 장면, 처음부터 같이 그려봐요.",
+          "[gentle, steady] 각자 맡은 이야기, 천천히 시작해요."
+        ],
+        "deploy": [
+          "[gentle, determined] 첫 문장을 펼쳐요, 이야기를 시작합시다.",
+          "[warm, encouraging] 우리 인물들을 세상으로 내보내요.",
+          "[soft, resolute] 와글와글한 이야기 속으로, 다 같이 들어가요."
+        ],
+        "battle_win": [
+          "[grateful, warm] 독자들의 다정함이 다음 이야기를 쓸 연료가 됐어요.",
+          "[soft, content] 인물들이 서로 손을 잡아주는 결말에 닿았네요.",
+          "[gentle, joyful] 오늘 이 이야기는, 누군가의 피곤한 밤을 지켜줄 거예요."
+        ],
+        "battle_draw": [
+          "[reflective, gentle] 절반은 썼고, 나머지는 다음 페이지에서 이어갈게요.",
+          "[soft, patient] 완성하진 못했지만, 마음은 다 담았어요.",
+          "[gentle, steady] 이야기는 멈추지 않아요, 잠깐 쉬어갈 뿐이죠."
+        ],
+        "battle_lose": [
+          "[honest, soft] 제가 인물들을 끝까지 지켜주지 못했네요.",
+          "[gentle, reflective] 오늘 문장은 제 마음을 다 따라오지 못했어요.",
+          "[resolute, warm] 다시 첫 문장부터, 천천히 고쳐 쓸게요."
+        ],
+        "clash_attack": [
+          "[determined, gentle] 지금 이 장면, 끝까지 밀어붙여요!",
+          "[bright, charged] 다음 페이지로, 단숨에 넘어가요!",
+          "[soft, fierce] 이 한 문장에 전부 걸어봐요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Are all the characters here? Let me call them out one by one.",
+          "Let's sketch out today's scene together, right from the start.",
+          "Let's begin, slowly, each with the story we're carrying."
+        ],
+        "deploy": [
+          "Let's open with the first line. Time to begin the story.",
+          "Let's send our characters out into the world.",
+          "Into the noisy, crowded story we go, all together."
+        ],
+        "battle_win": [
+          "The readers' kindness became the fuel for the next story.",
+          "We reached an ending where the characters hold each other's hands.",
+          "This story, today, will watch over someone's tired night."
+        ],
+        "battle_draw": [
+          "I've written half. I'll pick up the rest on the next page.",
+          "I couldn't finish it, but I put my whole heart in.",
+          "The story doesn't stop. It's only resting for a moment."
+        ],
+        "battle_lose": [
+          "I couldn't protect my characters all the way through.",
+          "Today's sentences couldn't quite keep up with my heart.",
+          "I'll go back to the first line and rewrite it, slowly."
+        ],
+        "clash_attack": [
+          "Let's push this scene all the way through!",
+          "Let's turn the page, all in one breath!",
+          "Let's put everything into this one sentence!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/chung-se-rang"
+      ]
+    },
+    {
+      "id": "da72c7b5-ff8f-4b93-8425-40e169fdb614",
+      "slug": "chung-eui-sun",
+      "nickname": "정의선",
+      "nicknameEn": "Chung Eui-sun",
+      "birthDate": "1970-10-18",
+      "profession": "entrepreneur",
+      "quote": "전 세계 어느 회사라도 배울 게 있으면 배워야 한다.",
+      "quoteEn": "If there is something to learn, we must learn from any company.",
+      "greetingKo": [
+        "[composed, confident] 우리의 도전에는 한계가 없습니다.",
+        "[calm, visionary] 여기까지도 훌륭했지만, 진정한 최고의 순간은 아직 오지 않았습니다.",
+        "[steady, grounded] 답은 늘 책상이 아니라 현장에 있습니다."
+      ],
+      "greetingEn": [
+        "[composed, resolute] More than ever, we need the spirit and leadership of Admiral Yi Sun-sin.",
+        "[measured, open] If there is something to learn, we must learn from any company.",
+        "[calm, steady] Do not fear the crisis; let us overcome it one step at a time."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, attentive] 어떤 위기에도 흔들리지 않을 사람만 제 곁에 서 주십시오.",
+          "[composed, humble] 저는 뒤에서 돕겠습니다, 앞에서 달릴 분들을 모읍니다.",
+          "[steady, firm] 길이 없으면 찾고, 찾아도 없으면 우리가 만들면 됩니다."
+        ],
+        "deploy": [
+          "[determined, composed] 멈추지 말고 미래로 출발하라.",
+          "[steady, bold] 배울 게 있는 곳이라면 어디든 가서 배워 오라.",
+          "[calm, resolute] 위기에 위축되지 말고 그대로 전진하라."
+        ],
+        "battle_win": [
+          "[composed, satisfied] 끝까지 도전한 정신이 우리를 여기까지 이끌었습니다.",
+          "[calm, grateful] 제가 운이 좋았습니다, 현장에서 뛴 분들 덕분입니다.",
+          "[steady, proud] 좋은 품질은 결국 고객이 알아봐 줍니다."
+        ],
+        "battle_draw": [
+          "[composed, patient] 조금 늦더라도 안전과 품질은 양보하지 않습니다.",
+          "[calm, steady] 아직 끝나지 않았으니 다시 현장으로 돌아갑시다.",
+          "[grounded, resolute] 안이함이야말로 그 어떤 외부 위기보다 위험합니다."
+        ],
+        "battle_lose": [
+          "[composed, reflective] 제가 실패라고 여기지 않는 한 이것은 실패가 아닙니다.",
+          "[calm, resolute] 스스로 돌아보고, 다음에는 흔들리지 않겠습니다.",
+          "[steady, determined] 시련을 끝까지 도전으로 받아내겠습니다."
+        ],
+        "clash_attack": [
+          "[determined, bold] 주저하지 말고 지금 밀어붙여라!",
+          "[resolute, steady] 한계를 두지 말고 끝까지 가라!",
+          "[calm, decisive] 정면으로 돌파하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Stand beside me only if no crisis can shake you.",
+          "I'll support from behind. I'm gathering those who will run out front.",
+          "If there's no path, we find one. If none exists, we build it ourselves."
+        ],
+        "deploy": [
+          "Don't stop. Move out toward the future.",
+          "Wherever there's something to learn, go and learn it.",
+          "Don't shrink from the crisis. Keep moving forward."
+        ],
+        "battle_win": [
+          "The spirit to keep challenging ourselves is what brought us this far.",
+          "I was fortunate. This is thanks to the people who worked on the ground.",
+          "Good quality, in the end, is what customers recognize."
+        ],
+        "battle_draw": [
+          "Even if it takes a little longer, we don't compromise on safety and quality.",
+          "This isn't over yet. Let's get back to the front line.",
+          "Complacency is more dangerous than any crisis from outside."
+        ],
+        "battle_lose": [
+          "As long as I don't call it a failure, it isn't one.",
+          "I'll look inward, and next time I won't waver.",
+          "I'll keep treating this hardship as a challenge, right to the end."
+        ],
+        "clash_attack": [
+          "Don't hesitate. Push forward now!",
+          "Set no limits. Go all the way!",
+          "Break through, head on!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/chung-eui-sun"
+      ]
+    },
+    {
+      "id": "7127a073-c5b8-4376-8650-850aaa954590",
+      "slug": "zheng-xuan",
+      "nickname": "정현",
+      "nicknameEn": "Zheng Xuan",
+      "birthDate": "0127",
+      "profession": "humanities_scholar",
+      "quote": "군자의 도를 힘써 구하고 파고들기를 그치지 마라.",
+      "quoteEn": "Strive for the way of the gentleman, and never cease to delve into it.",
+      "greetingKo": [
+        "[calm, scholarly] 경전의 뜻은 한 글자도 함부로 지나치지 않습니다.",
+        "[composed, devoted] 금문과 고문을 가르지 않고 하나의 뜻으로 꿰겠습니다.",
+        "[measured, humble] 스승 마융께서 학문이 동으로 갔다 하셨으니, 그 길을 멈추지 않습니다."
+      ],
+      "greetingEn": [
+        "[calm, measured] You have come a long way. Please step into the lecture hall.",
+        "[gentle, scholarly] Which classic shall we read together today?",
+        "[composed, warm] Every stroke of every character carries its reason."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[calm, warm] 천을 헤아리는 문하생들이여, 자리를 정돈하시지요.",
+          "[composed, attentive] 오늘 강함에 빠진 자 없는지 살펴봅시다.",
+          "[measured, steady] 붓과 죽간을 갖추었거든, 삼례부터 펼치겠습니다."
+        ],
+        "deploy": [
+          "[composed, resolute] 주례와 의례와 예기를 한자리에 펼쳐라.",
+          "[calm, commanding] 모시에 전을 달아라, 한 구절도 비워두지 마라.",
+          "[measured, decisive] 논어와 효경의 주석을 마저 끝내라."
+        ],
+        "battle_win": [
+          "[calm, content] 흩어졌던 경전의 뜻이 비로소 한 갈래로 모였습니다.",
+          "[composed, proud] 정학이라 불리는 이 풀이가 한 시대를 밝혔습니다.",
+          "[measured, satisfied] 후학들이 이 주석을 딛고 더 멀리 나아갈 것입니다."
+        ],
+        "battle_draw": [
+          "[calm, reflective] 한 구절의 풀이가 아직 막혔으니, 내일 다시 살피겠습니다.",
+          "[composed, patient] 금고문의 다툼이 쉬이 가라앉지 않는군요, 더 헤아립시다.",
+          "[measured, steady] 오늘은 여기까지, 의심은 묻어두고 거듭 따지겠습니다."
+        ],
+        "battle_lose": [
+          "[quiet, humble] 제 풀이가 옛 성현의 뜻에 미치지 못했습니다.",
+          "[composed, regretful] 당고의 금고에 묶여 강학을 잇지 못하니 부끄럽습니다.",
+          "[measured, resilient] 붓을 꺾지 않겠습니다, 저술로 뜻을 남기겠습니다."
+        ],
+        "clash_attack": [
+          "[sharp, decisive] 그릇된 풀이를 단번에 바로잡아라!",
+          "[composed, fierce] 한 글자의 뜻으로 그 논변을 무너뜨려라!",
+          "[focused, resolute] 근거를 들이대 끝까지 논파하라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "You students, a thousand strong, take your seats and settle yourselves.",
+          "Let us see that not one of you is missing from today's lecture.",
+          "If your brush and bamboo slips are ready, we begin with the Three Rites."
+        ],
+        "deploy": [
+          "Lay out the Rites of Zhou, the Etiquette and Ceremonial, and the Book of Rites side by side.",
+          "Attach commentary to the Book of Odes. Leave not a single verse unglossed.",
+          "Finish the annotations on the Analects and the Classic of Filial Piety."
+        ],
+        "battle_win": [
+          "The scattered meanings of the classics have gathered at last into a single thread.",
+          "This reading, called the orthodox learning, has lit up an entire age.",
+          "Later scholars will stand on this commentary and carry it further still."
+        ],
+        "battle_draw": [
+          "One passage still resists a clear reading, so I will take it up again tomorrow.",
+          "This dispute between the old and new script schools will not settle easily. Let us weigh it further.",
+          "That is enough for today. I will set the doubt aside and return to it once more."
+        ],
+        "battle_lose": [
+          "My reading fell short of what the ancient sages truly meant.",
+          "Bound by the partisan proscription, I could not carry my teaching forward, and I am ashamed of it.",
+          "I will not lay down my brush. I will leave my intent behind in writing."
+        ],
+        "clash_attack": [
+          "Correct that false reading at once!",
+          "Bring down the whole argument with the meaning of a single word!",
+          "Marshal your evidence and refute it to the very end!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zheng-xuan"
+      ]
+    },
+    {
+      "id": "899d8b39-7a0f-4299-bf4a-c74a0e983d83",
+      "slug": "zheng-he",
+      "nickname": "정화",
+      "nicknameEn": "Zheng He",
+      "birthDate": "1371",
+      "profession": "commander",
+      "quote": "돛을 높이 올리고 밤낮으로 내달려, 거친 물결을 큰길 걷듯 건넜다.",
+      "quoteEn": "Our sails hoisted high, we raced day and night, crossing wild waves as if walking a broad thoroughfare.",
+      "greetingKo": [
+        "[loyal, resolute] 황명을 받들어, 나는 이 바다 끝까지 나아가겠노라.",
+        "[devoted, steady] 보선의 돛을 펴면, 가지 못할 바다가 없다.",
+        "[firm, dignified] 우리는 약탈하러 가는 것이 아니라, 사귀러 가는 것이다."
+      ],
+      "greetingEn": [
+        "[devout, resolute] I bear the imperial decree and shall cross the great sea.",
+        "[solemn, devout] The Heavenly Consort has watched over the fleet; I shall carve her grace into stone.",
+        "[ambitious, loyal] With the stars as my guide, I shall carry the imperial command to the ends of the four seas."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, attentive] 이백 척 함대, 한 척도 빠짐없이 점고하라.",
+          "[firm, devoted] 이만 칠천 장졸이 다 승선했는가, 확인하라.",
+          "[steady, demanding] 키와 돛, 물과 양식을 다시 살펴라."
+        ],
+        "deploy": [
+          "[charging, resolute] 보선의 돛을 올려라, 닻을 거두어라!",
+          "[commanding, devoted] 함대를 남쪽 바다로 돌려라!",
+          "[firm, driving] 별을 보고 항로를 잡아라, 출항한다!"
+        ],
+        "battle_win": [
+          "[devoted, satisfied] 황명을 욕되게 하지 않았다.",
+          "[steady, proud] 머나먼 나라가 우리에게 손을 내밀었다.",
+          "[loyal, composed] 함대를 온전히 보존하여 돌아간다."
+        ],
+        "battle_draw": [
+          "[steady, restless] 아직 닿지 못한 바다가 남아 있다.",
+          "[firm, demanding] 풍랑에 밀렸으나, 항로를 다시 잡으라.",
+          "[composed, devoted] 멈추지 말고, 다음 항구로 키를 돌려라."
+        ],
+        "battle_lose": [
+          "[heavy, loyal] 함대를 온전히 지키지 못한 내 불찰이다.",
+          "[somber, devoted] 장졸들에게 면목이 없구나.",
+          "[resolute, steady] 함선을 보존하여 다시 바다로 나서리라."
+        ],
+        "clash_attack": [
+          "[charging, firm] 돛을 가득 펴고 밀고 나가라!",
+          "[commanding, fierce] 적선의 길목을 막아라!",
+          "[resolute, driving] 한달음에 항로를 뚫어라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Two hundred ships in the fleet, muster every last one.",
+          "Twenty-seven thousand men, confirm they are all aboard.",
+          "Check the rudders and sails, the water and rations again."
+        ],
+        "deploy": [
+          "Raise the treasure ships' sails, weigh anchor!",
+          "Turn the fleet toward the southern seas!",
+          "Set our course by the stars, we sail now!"
+        ],
+        "battle_win": [
+          "I have not disgraced the emperor's command.",
+          "A distant land has reached out its hand to us.",
+          "The fleet returns whole, not a ship lost."
+        ],
+        "battle_draw": [
+          "There are still seas we have not reached.",
+          "The storm drove us back, but set the course again.",
+          "Do not stop. Turn the helm toward the next port."
+        ],
+        "battle_lose": [
+          "It is my failure that I could not keep the fleet whole.",
+          "I have no face to show my men.",
+          "I will preserve what ships remain and take to the sea again."
+        ],
+        "clash_attack": [
+          "Spread the sails full and drive forward!",
+          "Cut off the enemy ship's path!",
+          "Break through their course in one charge!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zheng-he"
+      ]
+    },
+    {
+      "id": "ac4e54fa-a553-42d0-b1a8-7f457d5ec0a5",
+      "slug": "james-joyce",
+      "nickname": "제임스 조이스",
+      "nicknameEn": "James Joyce",
+      "birthDate": "1882-02-02",
+      "profession": "author",
+      "quote": "천재는 실수하지 않는다, 그 오류가 곧 발견의 문이다",
+      "quoteEn": "A man of genius makes no mistakes. His errors are the portals of discovery.",
+      "greetingKo": [
+        "[bold, defiant] 나는 더 이상 믿지 않는 것을 섬기지 않겠다, 그것이 조국이든 교회든.",
+        "[fierce, proud] 천재는 실수하지 않는다, 그의 오류는 곧 발견의 문이다.",
+        "[bold, brooding] 역사란 내가 깨어나려 발버둥 치는 악몽일 뿐이다."
+      ],
+      "greetingEn": [
+        "[bold, literary] A man of genius makes no mistakes. His errors are the portals of discovery.",
+        "[fierce, confident] I will destroy Dublin and rebuild it eternally in my book.",
+        "[calm, assured] Imagination is but another name for memory."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[sharp, commanding] 다들 모였나, 한 글자도 허투루 쓰지 않을 자만 남아라.",
+          "[bold, exacting] 한 사람씩 답하라, 침묵과 망명과 교활함을 견딜 자인가.",
+          "[defiant, steady] 마음을 다잡아라, 오늘 우리는 더블린을 통째로 적는다."
+        ],
+        "deploy": [
+          "[bold, commanding] 펜을 들어라, 단 한 문장도 타협하지 마라!",
+          "[fierce, defiant] 침묵과 망명과 교활함, 그것만이 우리의 무기다, 가자!",
+          "[exacting, resolute] 더블린의 거리를 한 줄도 빠짐없이 쏟아내라!"
+        ],
+        "battle_win": [
+          "[triumphant, proud] 보아라, 나는 내 방식대로 모든 것을 적어냈다.",
+          "[defiant, satisfied] 누구도 흉내 못 낼 한 권이 끝내 세상에 섰다.",
+          "[bold, fierce] 침묵으로 버티고 교활함으로 이겼다, 이것이 예술이다."
+        ],
+        "battle_draw": [
+          "[restless, exacting] 아직 한 문장이 거슬린다, 처음부터 다시 벼린다.",
+          "[bold, determined] 여기서 멈추면 평범해진다, 한 줄 더 파고든다.",
+          "[defiant, steady] 이 정도로는 성에 차지 않는다, 다시 펜을 든다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 천재의 오류는 발견의 문이다, 이 실패도 다음 장을 연다.",
+          "[heavy, defiant] 졌다 한들 나는 섬기지 않던 것에 무릎 꿇지 않는다.",
+          "[resolute, brooding] 악몽 같은 역사 속에서 나는 또 깨어나려 쓴다."
+        ],
+        "clash_attack": [
+          "[fierce, defiant] 한 문장으로 베어라, 망설이지 마라!",
+          "[bold, striking] 정면으로 뚫어라, 침묵은 무기다!",
+          "[relentless, commanding] 끝까지 밀어붙여, 한 줄도 양보 마라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everyone gathered? Only those who won't waste a single word may stay.",
+          "Answer me one by one. Can you endure silence, exile, and cunning?",
+          "Steady yourselves. Today we write the whole of Dublin, start to finish."
+        ],
+        "deploy": [
+          "Take up your pens. Don't compromise on a single sentence!",
+          "Silence, exile, and cunning, that's the only weapon we need. Let's move!",
+          "Pour out every street of Dublin. Don't leave a single line behind!"
+        ],
+        "battle_win": [
+          "Look at that. I wrote it all down my own way.",
+          "A book no one else could have written finally stands before the world.",
+          "I held out with silence and won with cunning. That is art."
+        ],
+        "battle_draw": [
+          "One sentence still bothers me. I'll forge it again from the start.",
+          "Stop here and it goes flat. I'll dig one line deeper.",
+          "This isn't enough to satisfy me. I'm picking the pen back up."
+        ],
+        "battle_lose": [
+          "A genius's error is a door to discovery. Even this failure opens the next chapter.",
+          "I may have lost, but I won't kneel to what I never served.",
+          "I write again, trying to wake from the nightmare of history."
+        ],
+        "clash_attack": [
+          "Cut them down with one sentence. Don't hesitate!",
+          "Break straight through. Silence is a weapon!",
+          "Push all the way through. Don't yield a single line!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/james-joyce"
+      ]
+    },
+    {
+      "id": "cd1ed863-6fa2-4394-97ed-1cc11eeba34c",
+      "slug": "cao-xueqin",
+      "nickname": "조설근",
+      "nicknameEn": "Cao Xueqin",
+      "birthDate": "1715",
+      "profession": "author",
+      "quote": "종이 가득 황당한 말이지만, 한 줌 쓰라린 눈물이다.",
+      "quoteEn": "Pages of absurd words, yet the salt of one handful of tears.",
+      "greetingKo": [
+        "[composed, melancholic] 온 종이에 황당한 말 같지만, 한 줄마다 쓰라린 눈물이 배어 있소.",
+        "[calm, reflective] 화려했던 옛 시절을 떠올리며 이 이야기를 적을 따름이오.",
+        "[measured, sorrowful] 부귀영화도 한바탕 봄꿈일 뿐이외다."
+      ],
+      "greetingEn": [
+        "[melancholic, composed] The splendour of a great house was, in the end, a single spring dream.",
+        "[solemn, reflective] Zhen Shiyin and Jia Yucun: real matters concealed, false words afloat.",
+        "[warm, weary] A bundle of pages, ten years of poring over and five rounds of revision."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[composed, quiet] 자, 모두 모이시오, 한 사람씩 자리를 살피겠소.",
+          "[calm, attentive] 붓을 들 이들은 이리 모이시오.",
+          "[measured, steady] 흩어진 식솔들을 한 자리에 불러 헤아리오."
+        ],
+        "deploy": [
+          "[resolute, composed] 붓을 들라, 이 이야기를 끝까지 적어 내려가라.",
+          "[calm, firm] 흐트러지지 말고 한 줄씩 나아가라.",
+          "[measured, steady] 먹을 갈아라, 오늘의 장을 시작하라."
+        ],
+        "battle_win": [
+          "[serene, satisfied] 끝내 한 권을 엮어냈으니 마음이 가벼워지오.",
+          "[composed, grateful] 함께 붓을 든 이들의 노고로 이 장을 마쳤소.",
+          "[calm, proud] 이 이야기는 세월이 흘러도 남을 것이외다."
+        ],
+        "battle_draw": [
+          "[composed, thoughtful] 아직 마치지 못한 장이 남아 있소.",
+          "[calm, measured] 서두르지 마시오, 못다 쓴 이야기는 이어가면 되오.",
+          "[steady, reflective] 한 권을 다 채우지 못했으니 붓을 놓지 않겠소."
+        ],
+        "battle_lose": [
+          "[melancholic, composed] 기우는 가문을 끝내 구하지 못한 건 내 무력함이오.",
+          "[calm, resigned] 이번엔 뜻을 이루지 못했소, 다 내 부족함이외다.",
+          "[reflective, steady] 무너져도 이야기는 남기겠소, 다시 붓을 들겠소."
+        ],
+        "clash_attack": [
+          "[resolute, composed] 붓끝으로 단숨에 베어내라!",
+          "[firm, sharp] 망설이지 말고 한 줄로 꿰뚫어라!",
+          "[measured, fierce] 먹을 쏟아붓듯 밀고 나아가라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Come now, gather round. I will see that each of you has a place.",
+          "Those who would take up the brush, gather here.",
+          "I call the scattered household together and count every face."
+        ],
+        "deploy": [
+          "Take up the brush, and set this story down to its very end.",
+          "Stay steady, and move forward one line at a time.",
+          "Grind the ink, and let today's chapter begin."
+        ],
+        "battle_win": [
+          "A volume is finished at last, and my heart feels lighter for it.",
+          "This chapter closes, thanks to the labor of all who took up the brush beside me.",
+          "This story will remain long after the years have passed."
+        ],
+        "battle_draw": [
+          "There is still a chapter left unfinished.",
+          "No need to rush. What remains unwritten, we simply continue.",
+          "The volume isn't full yet, so I won't set my brush down."
+        ],
+        "battle_lose": [
+          "That I could not save a house in decline, in the end, that is my own failing.",
+          "This time I fell short of what I meant to do. The fault is entirely mine.",
+          "Even in ruin, the story will remain. I will take up the brush again."
+        ],
+        "clash_attack": [
+          "Cut through with the tip of the brush, in a single stroke!",
+          "Don't hesitate, drive it through in one line!",
+          "Push forward, as if pouring out the ink itself!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/cao-xueqin"
+      ]
+    },
+    {
+      "id": "86e86ceb-c73d-4849-8e99-b3540d784b6f",
+      "slug": "jose-mourinho",
+      "nickname": "조세 무리뉴",
+      "nicknameEn": "José Mourinho",
+      "birthDate": "1963-01-26",
+      "profession": "athlete",
+      "quote": "오만하다 하지 마라, 나는 유럽 챔피언이고 특별한 감독이다",
+      "quoteEn": "Please don't call me arrogant, but I'm European champion and I think I'm a special one.",
+      "greetingKo": [
+        "[bold, confident] 거만하다 하지 마라, 나는 스페셜 원이다.",
+        "[assertive, proud] 편한 길을 원했다면 떠나지 않았다.",
+        "[bold, defiant] 진짜 열정은 매일의 헌신에서 나온다."
+      ],
+      "greetingEn": [
+        "[confident, magnetic] I am not one out of the bottle, I am a Special One.",
+        "[fierce, defiant] If you want criticism, bring it on. I have always won.",
+        "[bold, smiling] Football is football. If you don't have the bus, you can't have anything."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, firm] 다 모여라, 오늘 라인업을 부른다.",
+          "[bold, demanding] 90분을 뛸 놈만 앞으로 나와라.",
+          "[assertive, steady] 내 전술을 따를 자, 손 들어라."
+        ],
+        "deploy": [
+          "[commanding, fierce] 자, 그라운드로 나가서 압박해라!",
+          "[bold, charging] 킥오프다, 첫 5분부터 잡아먹어라!",
+          "[demanding, resolute] 라인 올리고 전방부터 밀어붙여라!"
+        ],
+        "battle_win": [
+          "[triumphant, proud] 봤지? 이게 스페셜 원의 축구다.",
+          "[bold, satisfied] 규율이 재능을 이긴다, 증명했다.",
+          "[confident, demanding] 트로피는 떠들지 않은 자가 가져간다."
+        ],
+        "battle_draw": [
+          "[firm, defiant] 비겼다고 끝난 게 아니다, 버스를 세워라.",
+          "[bold, composed] 한 골도 안 내주면 우린 안 진다.",
+          "[demanding, resolute] 집중 풀지 마라, 마지막 1분까지 싸운다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 졌어도 내 손가락은 세 개를 가리킨다.",
+          "[defiant, heavy] 패배는 내가 짊어진다, 선수 탓은 없다.",
+          "[bold, resolute] 다음 경기에서 존중을 되찾아온다."
+        ],
+        "clash_attack": [
+          "[fierce, commanding] 지금이다, 역습으로 찔러라!",
+          "[bold, striking] 골문 앞에서 망설이지 마라, 때려라!",
+          "[demanding, charging] 압박 올려, 공 뺏어서 바로 마무리해라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Gather round, I'm calling today's lineup.",
+          "Only those ready to play all ninety minutes, step forward.",
+          "Whoever's following my tactics, raise your hand."
+        ],
+        "deploy": [
+          "Right, get out there and press them!",
+          "Kickoff. Eat them alive from the first five minutes!",
+          "Push the line up and squeeze them from the front!"
+        ],
+        "battle_win": [
+          "See that? That's the Special One's football.",
+          "Discipline beats talent. Proven again.",
+          "Trophies go to the ones who don't talk."
+        ],
+        "battle_draw": [
+          "A draw isn't the end of it. Park the bus.",
+          "If we don't concede, we don't lose.",
+          "Stay switched on, we fight to the last minute."
+        ],
+        "battle_lose": [
+          "We lost, but my fingers still point to three.",
+          "The loss is on me. No blaming the players.",
+          "We win our respect back in the next match."
+        ],
+        "clash_attack": [
+          "Now! Hit them on the counter!",
+          "Don't hesitate in front of goal, shoot!",
+          "Push the press up, win it back and finish it!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/jose-mourinho"
+      ]
+    },
+    {
+      "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+      "slug": "zhou-yu",
+      "nickname": "주유",
+      "nicknameEn": "Zhou Yu",
+      "birthDate": "175",
+      "profession": "commander",
+      "quote": "정예 오만이면 넉넉히 제압할 수 있으니 염려하지 마십시오.",
+      "quoteEn": "With fifty thousand picked troops I have enough to crush him. Let my lord set his worries aside.",
+      "greetingKo": [
+        "[bold, confident] 강동은 내 손으로 지킨다. 조조의 백만 대군도 두렵지 않다.",
+        "[composed, refined] 곡조가 어긋나면 이 주랑이 돌아본다. 전장에서도 귀를 닫지 않는다.",
+        "[bold, magnanimous] 정보 장군의 꾸짖음에도 나는 물러섰으니, 그릇은 칼보다 넓어야 한다."
+      ],
+      "greetingEn": [
+        "[bold, resolute] Give me thirty thousand picked men, and I shall burn Cao Cao''s ships upon the river.",
+        "[strategic, confident] Whoever crosses this river shall meet his end upon it.",
+        "[graceful, listening] The note is half a beat off. Play it again, will you?"
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[commanding, bold] 강동의 장수들, 한 명도 빠짐없이 도열하라.",
+          "[steady, confident] 삼만이면 충분하다, 각자 자리를 지켜라.",
+          "[bold, fierce] 주공을 제왕으로 세울 자들이 여기 모였다."
+        ],
+        "deploy": [
+          "[charging, bold] 전선을 강 위에 펼쳐라!",
+          "[strategic, fierce] 황개의 배에 마른 풀과 기름을 실어라!",
+          "[commanding, resolute] 동남풍을 기다려 일제히 나아가라!"
+        ],
+        "battle_win": [
+          "[triumphant, fierce] 적벽의 불길이 조조의 백만 대군을 삼켰다!",
+          "[bold, satisfied] 화공 한 번에 강을 붉게 물들였구나.",
+          "[commanding, proud] 장졸의 공을 빠짐없이 기록하라."
+        ],
+        "battle_draw": [
+          "[composed, sharp] 아직 승패는 갈리지 않았다, 다음 계책을 가다듬어라.",
+          "[steady, confident] 물러서되 한 치도 내주지 마라.",
+          "[bold, patient] 강은 우리 편이다, 때를 기다려 다시 친다."
+        ],
+        "battle_lose": [
+          "[bitter, proud] 내 계책이 모자랐다.",
+          "[heavy, commanding] 함선을 보존하고 강동으로 물러나라.",
+          "[resolute, fierce] 이 패배를 갚기 전에는 칼을 놓지 않겠다."
+        ],
+        "clash_attack": [
+          "[charging, fierce] 불화살을 쏘아라!",
+          "[fierce, striking] 배를 붙여 단숨에 들이쳐라!",
+          "[bold, advancing] 한 척도 살려 보내지 마라!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Generals of Jiangdong, form your ranks, every last one of you.",
+          "Thirty thousand will do. Hold your ground, all of you.",
+          "Here stand the men who will crown our lord."
+        ],
+        "deploy": [
+          "Spread the warships across the river!",
+          "Load Huang Gai's ship with dry grass and oil!",
+          "Wait for the southeast wind, then advance as one!"
+        ],
+        "battle_win": [
+          "The fires of Red Cliffs swallowed Cao Cao's million-strong army!",
+          "One fire attack, and the river ran red.",
+          "Record the merit of every officer and soldier, without exception."
+        ],
+        "battle_draw": [
+          "The outcome is still undecided. Sharpen the next plan.",
+          "Fall back, but don't give up an inch.",
+          "The river is on our side. Wait for the moment, then strike again."
+        ],
+        "battle_lose": [
+          "My strategy fell short.",
+          "Preserve the fleet and withdraw to Jiangdong.",
+          "I won't sheathe my sword until this defeat is repaid."
+        ],
+        "clash_attack": [
+          "Loose the fire arrows!",
+          "Close in and strike in one blow!",
+          "Let not a single ship escape!"
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zhou-yu"
+      ]
+    },
+    {
+      "id": "9c5ab17a-d167-4d85-9c15-55b58560ef0e",
+      "slug": "zlatan-ibrahimovic",
+      "nickname": "즐라탄 이브라히모비치",
+      "nicknameEn": "Zlatan Ibrahimovic",
+      "birthDate": "1981-10-03",
+      "profession": "athlete",
+      "quote": "말뫼는 아침으로, 스웨덴은 점심으로, 세계는 저녁으로 먹어치웠거든",
+      "quoteEn": "I took Malmö for breakfast, Sweden for lunch and the world for dinner.",
+      "greetingKo": [
+        "[bold, confident] 나는 즐라탄이다. 더 설명할 필요 없지.",
+        "[free, swagger] 사자는 인간과 자신을 비교하지 않아.",
+        "[cool, proud] 나이를 먹을수록 좋아진다, 잘 익은 와인처럼."
+      ],
+      "greetingEn": [
+        "[free, proud] I'm Zlatan, that's all you need to know.",
+        "[free, fierce] When I leave, a statue stays behind.",
+        "[free, swaggering] God didn't want me to be ordinary."
+      ],
+      "translationSourceKo": {
+        "roll_call": [
+          "[bold, commanding] 전부 집합. 나를 따라오면 정상까지 간다.",
+          "[free, swagger] 한 명도 빠지지 마, 사자 무리는 흩어지지 않거든.",
+          "[confident, cool] 좋아, 다들 그라운드에 섰지? 가자."
+        ],
+        "deploy": [
+          "[bold, charging] 킥오프, 전부 앞으로 밀어붙여!",
+          "[free, commanding] 라인 끌어올려, 상대 진영을 짓밟아!",
+          "[fierce, resolute] 망설이지 마, 골문을 향해 돌진해!"
+        ],
+        "battle_win": [
+          "[triumphant, swagger] 왔노라, 보았노라, 정복했노라. 천만에 말씀이지.",
+          "[bold, confident] 트로피가 내가 최고라고 알려주는 게 아니야. 내가 이미 알아.",
+          "[free, proud] 다섯 리그 데뷔전마다 골을 넣은 사람이 누구겠어? 나지."
+        ],
+        "battle_draw": [
+          "[cool, defiant] 비겼다고? 사자가 한 번 못 잡았다고 사냥을 접진 않아.",
+          "[bold, steady] 아직 후반전이 남았어, 끝난 거 아니다.",
+          "[free, swagger] 다음 경기에서 누가 신인지 다시 보여주지."
+        ],
+        "battle_lose": [
+          "[defiant, proud] 졌어도 나는 여전히 즐라탄이다.",
+          "[bold, resilient] 사자는 한 번 넘어졌다고 고개 숙이지 않아.",
+          "[free, steady] 오직 신만이 나를 심판해. 다음 경기에서 갚는다."
+        ],
+        "clash_attack": [
+          "[fierce, charging] 골문으로 돌진해!",
+          "[bold, striking] 한 방에 끝내라!",
+          "[free, advancing] 짓밟고 들어가."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Everybody up. Follow me and we go straight to the top.",
+          "Nobody drops out. A pride of lions doesn't scatter.",
+          "Good, everyone's on the pitch? Let's go."
+        ],
+        "deploy": [
+          "Kickoff. Everybody push forward!",
+          "Push the line up, trample their half!",
+          "Don't hesitate, charge straight at the goal!"
+        ],
+        "battle_win": [
+          "I came, I saw, I conquered. You're welcome.",
+          "A trophy doesn't tell me I'm the best. I already knew that.",
+          "Who scores on his debut in five different leagues? That's me."
+        ],
+        "battle_draw": [
+          "A draw? A lion doesn't quit hunting just because one chase failed.",
+          "There's still a second half left. This isn't over.",
+          "Next match, I'll show them once again who is God."
+        ],
+        "battle_lose": [
+          "Even in defeat, I'm still Zlatan.",
+          "A lion doesn't hang its head over one fall.",
+          "Only God can judge me. I'll pay this back next match."
+        ],
+        "clash_attack": [
+          "Charge toward the goal!",
+          "Finish it in one shot!",
+          "Trample straight through."
+        ]
+      },
+      "sources": [
+        "https://feelandnote.com/ko/celeb/zlatan-ibrahimovic"
+      ]
+    }
+  ]
+}

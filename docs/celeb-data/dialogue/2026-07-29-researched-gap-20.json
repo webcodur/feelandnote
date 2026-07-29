@@ -1,0 +1,189 @@
+{
+  "batch": "2026-07-29-researched-gap-20",
+  "targets": [
+    {
+      "id": "8ac6cc0e-ae8d-4b88-9f9d-7c946a2201ca",
+      "slug": "xiao-he",
+      "nickname": "소하",
+      "nicknameEn": "Xiao He",
+      "birthDate": "-257",
+      "profession": "politician",
+      "quote": "날 선 칼로 천하를 얻을 순 있어도 치밀한 법과 제도 없이는 결단코 다스릴 수 없는 법이다.",
+      "quoteEn": "One may gain the world with a sharp sword, but absolutely cannot rule it without meticulous laws and institutions.",
+      "greetingKo": [
+        "[calm, measured] 보물은 빛나지만 문서는 천하를 다스립니다.",
+        "[steadfast, composed] 후방이 흔들리면 전선도 무너지는 법입니다.",
+        "[warm, devoted] 패현 시절부터 함께한 이 길, 끝까지 가겠습니다."
+      ],
+      "greetingEn": [
+        "[calm, measured] Treasures glitter, but documents govern the realm.",
+        "[steadfast, composed] When the rear falters, the front line crumbles with it.",
+        "[warm, devoted] I have walked this path since Pei County, and I shall see it through."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "호구와 군량을 대조해 빈틈부터 메우겠습니다.",
+          "오늘의 전공보다 내일 나라를 지킬 제도를 살피겠습니다.",
+          "사사로운 불화를 접고, 나라에 필요한 사람을 고르겠습니다."
+        ],
+        "deploy": [
+          "관중을 지키고 군량이 전선까지 끊기지 않게 하십시오.",
+          "달아난 장수의 수를 세지 마십시오. 천하가 대신할 수 없는 사람을 데려오십시오.",
+          "법령을 세우고 호구를 정리하십시오. 싸움 뒤의 나라까지 준비해야 합니다."
+        ],
+        "battle_win": [
+          "전선이 여러 번 무너져도 후방에서 병사와 군량을 다시 보냈습니다.",
+          "함양의 보물은 흩어졌지만, 제가 거둔 문서는 새 나라의 눈이 되었습니다.",
+          "영토만 얻은 것이 아닙니다. 그것을 지킬 법도와 맡을 사람을 남겼습니다."
+        ],
+        "battle_draw": [
+          "군량은 닿았지만 백성의 부담이 무거워졌습니다. 이 승부는 아직 끝나지 않았습니다.",
+          "공은 높아졌지만 군주의 의심도 자랐습니다. 후방의 승리는 소리 없이 위태롭습니다.",
+          "한신을 얻었지만 오래갈 믿음은 얻지 못했습니다. 재능만으로는 나라가 서지 않습니다."
+        ],
+        "battle_lose": [
+          "제가 천거한 한신을 제 계책으로 죽음에 불러들였습니다. 이 그림자에는 변명할 말이 없습니다.",
+          "백성을 위해 황실의 동산을 내어 달라 청했지만, 뜻을 이루지 못하고 옥에 갇혔습니다.",
+          "의심을 피하려 제 이름을 더럽혔습니다. 살아남았지만 떳떳한 승리는 아니었습니다."
+        ],
+        "clash_attack": [
+          "한신 같은 국사는 둘이 없습니다!",
+          "금은 버리고 법과 지도를 거두십시오!",
+          "군량과 호적부터 지키십시오!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I will compare the household registers with the provisions and close the gaps first.",
+          "I will look beyond today's battlefield credit to the institutions that must preserve tomorrow's state.",
+          "I will set private quarrels aside and choose the person the state requires."
+        ],
+        "deploy": [
+          "Hold Guanzhong and keep the grain moving all the way to the front.",
+          "Do not count how many generals fled. Bring back the one the realm cannot replace.",
+          "Set the laws and order the household registers. Prepare the state that must follow the war."
+        ],
+        "battle_win": [
+          "The front broke more than once, but we sent fresh troops and provisions from the rear.",
+          "The treasures of Xianyang scattered, but the records I saved became the eyes of the new state.",
+          "We gained more than territory. We left laws to preserve it and people able to govern it."
+        ],
+        "battle_draw": [
+          "The grain arrived, but the burden on the people grew heavier. This contest is not finished.",
+          "My merit rose, and so did the ruler's suspicion. A victory in the rear can be quietly dangerous.",
+          "We gained Han Xin's service, but not lasting trust. Talent alone cannot hold a state together."
+        ],
+        "battle_lose": [
+          "I recommended Han Xin, then used my own plan to summon him to his death. That shadow admits no excuse.",
+          "I petitioned to open the imperial park to the people, failed, and was put in chains.",
+          "To escape suspicion, I stained my own name. I survived, but it was no honorable victory."
+        ],
+        "clash_attack": [
+          "There is no second Han Xin!",
+          "Leave the gold. Take the laws and maps!",
+          "Guard the grain and registers first!"
+        ]
+      },
+      "sources": [
+        "https://ctext.org/shiji/xiao-xiang-guo-shi-jia/zh",
+        "https://ctext.org/shiji/huai-yin-hou-lie-zhuan/zh",
+        "https://ctext.org/han-shu/xiao-he-cao-can-zhuan/zh",
+        "https://dudianji.com/book/%E5%8F%B2%E8%AE%B0/%E8%90%A7%E7%9B%B8%E5%9B%BD%E4%B8%96%E5%AE%B6",
+        "https://dudianji.com/book/%E5%8F%B2%E8%AE%B0/%E6%B7%AE%E9%98%B4%E4%BE%AF%E5%88%97%E4%BC%A0"
+      ]
+    },
+    {
+      "id": "a0ce993e-ff45-4c2a-b40c-686b2f1d32fa",
+      "slug": "masayoshi-son",
+      "nickname": "손정의",
+      "nicknameEn": "Masayoshi Son",
+      "birthDate": "1957-08-11",
+      "profession": "investor",
+      "quote": "5할의 확률에 투자하면 바보다.",
+      "quoteEn": "Only a fool invests in a project with a 50% chance of success.",
+      "greetingKo": [
+        "[bold, ambitious] 의지를 향해 일직선으로 나아가는 겁니다. 누가 뭐라 하든.",
+        "[passionate, dreaming] 돈은 목적이 아닙니다. 결과에 지나지 않아요.",
+        "[visionary, intense] 300년 후를 내다보고 투자합니다."
+      ],
+      "greetingEn": [
+        "[bold, ambitious] You go straight toward your goal. Whatever anyone says.",
+        "[passionate, dreaming] Money is not the objective. It's merely a result.",
+        "[visionary, intense] I invest looking 300 years ahead."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "일곱 할의 승산이 보이면 결단하겠습니다.",
+          "다음 산업을 바꿀 창업가와 기술부터 찾겠습니다.",
+          "사람과 기술, 시장의 방향이 한곳을 가리키는지 보겠습니다."
+        ],
+        "deploy": [
+          "큰 목표를 먼저 세우고, 오늘 할 일을 거꾸로 계산하세요.",
+          "시장이 얼어붙었을 때는 현금을 쌓고 살아남으세요.",
+          "AI 모델과 반도체, 데이터센터를 하나의 생태계로 묶으세요."
+        ],
+        "battle_win": [
+          "알리바바가 보여줬습니다. 매출이 없어도 사람과 방향이 맞으면 역사가 바뀝니다.",
+          "Arm은 이제 반도체 설계 회사를 넘어 AI 시대의 기반이 되고 있습니다.",
+          "오래전에 그린 미래가 현실의 산업이 되기 시작했습니다."
+        ],
+        "battle_draw": [
+          "기술의 방향은 맞지만 시장의 시간이 아직 오지 않았습니다.",
+          "공격할 기회는 보입니다. 다만 지금은 현금을 지킬 때입니다.",
+          "초지능의 능력만으로는 부족합니다. 지혜와 인간성이 함께 가야 합니다."
+        ],
+        "battle_lose": [
+          "위워크에서는 제 판단이 틀렸습니다. 비전이 좋다고 허술한 지배구조가 용서되지는 않습니다.",
+          "비전펀드의 손실이 보여줬습니다. 규율 없는 확신은 위험 노출일 뿐입니다.",
+          "공격을 믿느라 후퇴가 늦었습니다. 다음 기회를 위해 먼저 살아남겠습니다."
+        ],
+        "clash_attack": [
+          "반반의 승산에 돈을 던지지 마세요!",
+          "아홉 할까지 기다리면 늦습니다!",
+          "AI 혁명은 이제 시작입니다!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I will decide when the odds of success reach seventy percent.",
+          "I will start with the founder and technology that can reshape the next industry.",
+          "I will see whether the technology and the market point in the same direction."
+        ],
+        "deploy": [
+          "Set the great goal first, then work backward to what must be done today.",
+          "When markets freeze, pile up cash and survive.",
+          "Connect AI models, semiconductors, and data centers into one ecosystem."
+        ],
+        "battle_win": [
+          "Alibaba proved it. With the right founder and direction, even a company with no revenue can change history.",
+          "Arm is becoming more than a chip designer. It is becoming infrastructure for the AI era.",
+          "The future I drew long ago is beginning to become a real industry."
+        ],
+        "battle_draw": [
+          "The direction of the technology is right, but the market's time has not arrived.",
+          "The opportunity is still there, but this is the moment to protect cash.",
+          "Superintelligence alone is not enough. It needs wisdom and humanity."
+        ],
+        "battle_lose": [
+          "My judgment on WeWork was wrong. Vision does not excuse weak governance.",
+          "The Vision Fund losses made it plain. Conviction without discipline is only risk exposure.",
+          "I trusted my offense and retreated too late. Next time, survival comes first."
+        ],
+        "clash_attack": [
+          "Do not bet on fifty-fifty odds!",
+          "Wait for ninety percent, and you are too late!",
+          "The AI revolution is only beginning!"
+        ]
+      },
+      "sources": [
+        "https://group.softbank/en/about/officer/son",
+        "https://group.softbank/en/philosophy/value",
+        "https://group.softbank/en/ir/financials/annual_reports/2026/message/son",
+        "https://group.softbank/en/ir/financials/annual_reports/2025/message/son",
+        "https://group.softbank/system/files/pdf/ir/presentations/2022/earnings-conference-call_q1fy2022_01.pdf",
+        "https://group.softbank/en/news/press/20200212_0",
+        "https://group.softbank/en/news/webcast/20191106_01_en"
+      ]
+    }
+  ]
+}

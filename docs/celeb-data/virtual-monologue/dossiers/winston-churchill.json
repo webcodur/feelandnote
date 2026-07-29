@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "slug": "winston-churchill",
+  "nickname": "윈스턴 처칠",
+  "route": "improve",
+  "routeReason": "현재 글은 갈리폴리 실패, 1940년 전시 연립정부와 연설, 1945년 총선 패배, 노벨문학상을 한 흐름에 넣어 상당한 재사용 가치가 있다. 그러나 다르다넬스 작전을 혼자 설계하고 홀로 책임진 것처럼 단순화하며 전쟁 승리를 연설가 한 사람의 의지로 기울인다. 제국과 인도에 관한 긴장은 한 문장으로만 처리해 인도 자치 반대와 1943년 벵골 대기근의 식민 통치 책임을 비켜 간다. 공동 의사결정, 갈리폴리의 단계별 책임, 인종·제국관, 다원적인 기근 원인과 구호 실패, 자기 방어적인 역사 저술을 함께 놓는 방식으로 개선한다.",
+  "dossier": {
+    "identity": {
+      "name": "윈스턴 처칠",
+      "birth": "1874-11-30",
+      "death": "1965-01-24",
+      "profession": "politician",
+      "disambiguation": "갈리폴리 작전에 관여한 해군장관이었고 1940~1945년·1951~1955년 영국 총리를 지냈으며 제국주의와 전쟁 지도력의 유산이 함께 논쟁되는 정치가·저술가",
+      "existingBioForDiscoveryOnly": "영국 정치가이자 군인. 제2차 세계대전 당시 영국 총리로 국가를 이끌며 승리를 쟁취했다. 노벨 문학상 수상자."
+    },
+    "sources": [
+      {
+        "url": "https://www.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/collections/churchillexhibition/churchill-the-orator/blood-toil-sweat-and-tears/",
+        "title": "Blood, Toil, Tears and Sweat",
+        "publisher": "UK Parliament",
+        "kind": "primary",
+        "publishedAt": "1940-05-13",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "총리 취임 뒤 하원에서 전시 연립정부를 소개한 첫 연설의 원문과 맥락",
+          "승리를 정책 목표로 제시하면서 장기 전쟁의 고통을 숨기지 않은 수사",
+          "처칠의 짧은 열거·반복·대조 화법을 직접 확인할 수 있는 자료"
+        ]
+      },
+      {
+        "url": "https://archives.chu.cam.ac.uk/education/churchill-era/exercises/dardanelles/",
+        "title": "Dardanelles",
+        "publisher": "Churchill Archives Centre, University of Cambridge",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "해군장관 처칠이 다르다넬스 해상 공격을 강하게 지지한 역할",
+          "전쟁평의회와 장관들이 계획을 승인한 공동 의사결정 구조",
+          "해상 공격 실패와 뒤이은 상륙 작전 사이의 단계 및 처칠의 책임 범위"
+        ]
+      },
+      {
+        "url": "https://www.iwm.org.uk/history/churchills-first-world-war",
+        "title": "Churchill's First World War",
+        "publisher": "Imperial War Museums",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "처칠이 다르다넬스 해군 작전을 밀어붙이고 갈리폴리 상륙에도 관여한 사실",
+          "작전 실패와 막대한 손실이 정치 경력과 해군장관직 사임에 미친 영향",
+          "제1차 세계대전 중 장관·군인으로서 처칠의 선택과 복귀 과정"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815",
+        "title": "Churchill, India and Race",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "대영제국의 유지가 처칠 정치관의 오랜 중심이었다는 점",
+          "인도의 자치 확대와 독립 운동에 대한 처칠의 강한 반대",
+          "인도인과 인종에 대한 위계적 발언이 벵골 대기근 대응과 유산 평가에 미친 문제"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/government-famine-relief-in-bengal-1943/29B98FC4D8970BAECD041E1FCDD26A0C",
+        "title": "Government Famine Relief in Bengal, 1943",
+        "publisher": "The Journal of Asian Studies, Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2011-03-23",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1943년 벵골 대기근에 자연재해·전시 군사 우선·경제 혼란·정치 갈등·부패가 함께 작용한 과정",
+          "식량 조달과 구호 행정의 실패를 단일 원인이나 개인 한 명의 명령으로 축소하면 안 된다는 점",
+          "식민지 정부와 영국 전시 내각의 정책이 구호 조건을 형성한 책임"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/hungry-nation/bengal-famine-and-the-nationalist-case-for-food/104D0A30A414AB32134F3488267AC25A",
+        "title": "The Bengal Famine and the Nationalist Case for Food",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2018-04-20",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "벵골 대기근이 식민 통치의 정치·경제 구조와 식량 권리를 둘러싼 충돌 속에서 심화된 과정",
+          "기근을 피할 수 없는 자연재해로만 볼 수 없다는 인도 민족주의와 사회 운동의 비판",
+          "사망자 추정과 처칠 개인 책임을 둘러싼 논쟁을 구분하면서 정책 실패를 지우지 않는 관점"
+        ]
+      },
+      {
+        "url": "https://www.gov.uk/government/history/past-prime-ministers/winston-churchill",
+        "title": "History of Sir Winston Churchill",
+        "publisher": "Government of the United Kingdom",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1940년 전시 연립정부 총리 취임과 1945년 총선 패배",
+          "1951년 총리 복귀와 1955년 퇴임",
+          "전쟁 지도력·연설·저술과 인도 독립 반대가 함께 남은 정치 경력"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/literature/1953/summary/",
+        "title": "The Nobel Prize in Literature 1953",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "institutional",
+        "publishedAt": "1953-01-01",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1953년 처칠이 노벨문학상을 받은 사실",
+          "역사·전기 서술과 높은 인간 가치를 옹호하는 연설이 수상 이유였다는 공식 문구",
+          "정치가뿐 아니라 저술가·연설가로 평가받은 유산"
+        ]
+      },
+      {
+        "url": "https://www.nobelprize.org/prizes/literature/1953/ceremony-speech/",
+        "title": "Award Ceremony Speech: Winston Churchill",
+        "publisher": "Nobel Prize Outreach",
+        "kind": "primary",
+        "publishedAt": "1953-12-10",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "처칠의 역사서와 전기, 연설에 대한 동시대 노벨위원회의 평가",
+          "정치 행위자와 역사 서술자가 한 사람 안에 겹친다는 특징",
+          "저술의 문학적 힘과 자기 경험 중심 역사 서술의 성격을 함께 볼 근거"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "해군장관 처칠은 1915년 다르다넬스 해상 공격을 강하게 지지했고 실패 뒤 갈리폴리 참사에 대한 정치적 책임을 지며 정부에서 물러났다.",
+        "significance": "작전을 혼자 명령한 천재의 실패로도, 다른 장관 탓만인 희생양으로도 만들지 않고 공동 결정 속 그의 주도적 몫을 구분한다.",
+        "sourceUrls": [
+          "https://archives.chu.cam.ac.uk/education/churchill-era/exercises/dardanelles/",
+          "https://www.iwm.org.uk/history/churchills-first-world-war"
+        ]
+      },
+      {
+        "point": "1940년 5월 총리가 되어 보수당·노동당·자유당이 참여한 전시 연립정부를 꾸리고 하원에서 장기 항전을 정책으로 제시했다.",
+        "significance": "처칠의 연설 능력을 살리되 영국의 항전과 정책을 한 사람의 목소리만으로 설명하지 않는다.",
+        "sourceUrls": [
+          "https://www.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/collections/churchillexhibition/churchill-the-orator/blood-toil-sweat-and-tears/"
+        ]
+      },
+      {
+        "point": "같은 전쟁 중 인도에서는 영국 제국의 유지와 자치 반대를 고수했고 1943년 벵골 대기근 때 식민지·전시 정부의 구호 실패가 수백만 명의 삶을 파괴했다.",
+        "significance": "유럽의 자유를 지킨 지도자라는 서사와 제국의 자유를 제한한 선택을 추상적인 모순 한 줄이 아니라 구체적 사건으로 병치한다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815",
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/government-famine-relief-in-bengal-1943/29B98FC4D8970BAECD041E1FCDD26A0C",
+          "https://www.cambridge.org/core/books/hungry-nation/bengal-famine-and-the-nationalist-case-for-food/104D0A30A414AB32134F3488267AC25A"
+        ]
+      },
+      {
+        "point": "1945년 유럽 전쟁 승리 직후 총선에서 패해 물러났고, 1951년 다시 총리가 됐으며 1953년 역사·전기 저술과 연설로 노벨문학상을 받았다.",
+        "significance": "전쟁 지도력, 민주적 패배, 정치 복귀, 자기 시대를 서술한 저술가라는 서로 다른 유산을 한 가지 영웅상으로 합치지 않는다.",
+        "sourceUrls": [
+          "https://www.gov.uk/government/history/past-prime-ministers/winston-churchill",
+          "https://www.nobelprize.org/prizes/literature/1953/summary/",
+          "https://www.nobelprize.org/prizes/literature/1953/ceremony-speech/"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "1940년 총리 취임 연설에서 나치 독일에 대한 승리를 정부의 목표로 제시하고 전시 연립정부와 장기 동원을 요청했다.",
+        "sourceUrls": [
+          "https://www.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/collections/churchillexhibition/churchill-the-orator/blood-toil-sweat-and-tears/"
+        ]
+      },
+      {
+        "point": "제1차 세계대전에는 오스만 제국의 수도로 가는 해로를 열기 위해 다르다넬스 해군 공격을 강하게 밀었다.",
+        "sourceUrls": [
+          "https://archives.chu.cam.ac.uk/education/churchill-era/exercises/dardanelles/",
+          "https://www.iwm.org.uk/history/churchills-first-world-war"
+        ]
+      },
+      {
+        "point": "인도가 대영제국 안에 남아야 한다고 믿으며 인도 자치와 독립 운동에 오랫동안 반대했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815"
+        ]
+      },
+      {
+        "point": "정치와 전쟁의 당사자로서 자신의 시대를 역사·전기·연설로 다시 서술했다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/literature/1953/summary/",
+          "https://www.nobelprize.org/prizes/literature/1953/ceremony-speech/"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "1940년 영국의 항전을 상징하는 지도자였지만 결정은 전시 내각·의회·군 지휘부와 함께 내렸고 전쟁은 군인·노동자·식민지 인력의 동원으로 수행됐다.",
+        "sourceUrls": [
+          "https://www.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/collections/churchillexhibition/churchill-the-orator/blood-toil-sweat-and-tears/"
+        ]
+      },
+      {
+        "point": "갈리폴리 실패에서 처칠의 주도적 책임은 분명하지만 해상 공격과 육상 상륙은 여러 장관·지휘관이 단계별로 결정했다. 모든 실패를 혼자 설계했다고 쓰는 것도 책임을 지우는 것만큼 부정확하다.",
+        "sourceUrls": [
+          "https://archives.chu.cam.ac.uk/education/churchill-era/exercises/dardanelles/",
+          "https://www.iwm.org.uk/history/churchills-first-world-war"
+        ]
+      },
+      {
+        "point": "유럽에서는 나치 지배에 맞선 자유를 말했지만 인도인의 자치에는 반대했고 인종과 제국에 관한 위계적 관점을 고수했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815"
+        ]
+      },
+      {
+        "point": "벵골 대기근은 자연재해·전쟁·시장 붕괴·식민 행정 실패가 겹친 참사다. 처칠 한 사람이 의도적으로 기근을 만들었다는 단순화는 피해야 하지만 그의 전시 내각과 제국 정책의 책임도 지울 수 없다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/government-famine-relief-in-bengal-1943/29B98FC4D8970BAECD041E1FCDD26A0C",
+          "https://www.cambridge.org/core/books/hungry-nation/bengal-famine-and-the-nationalist-case-for-food/104D0A30A414AB32134F3488267AC25A",
+          "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815"
+        ]
+      },
+      {
+        "point": "노벨문학상을 받을 만큼 역사 서술과 연설의 힘이 컸지만, 자신의 전쟁과 정치 경력을 직접 쓴 역사서는 참여자의 자기 방어와 선택적 기억을 함께 지닌다.",
+        "sourceUrls": [
+          "https://www.nobelprize.org/prizes/literature/1953/summary/",
+          "https://www.nobelprize.org/prizes/literature/1953/ceremony-speech/"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧은 선언과 세 항목 안팎의 열거를 사용하되 유명 연설 문장을 이어 붙이지 않는다. 실패를 말할 때는 장면보다 결정 구조를 먼저 둔다.",
+      "directness": "의회 연설처럼 단단하고 대조가 분명하다. 재치와 반복은 절제하고, 후대의 제국 비판을 스스로 고백하는 모범 답안으로 만들지 않는다.",
+      "moves": [
+        "위기와 선택지를 먼저 제시한 뒤 정부가 택한 목표를 짧게 못박기",
+        "갈리폴리에서 본인의 주도적 역할과 집단 결정 구조를 나란히 말하기",
+        "1940년의 자유와 인도에 대한 제국주의를 추상적 모순이 아닌 행동으로 대비하기",
+        "자신의 역사 저술을 기억의 권위이자 자기 변론이라는 긴장 속에 놓기"
+      ],
+      "avoid": [
+        "유명 연설의 문구를 출처 없이 짜깁기한 영웅 독백",
+        "영국이 처칠의 말 한마디 때문에 홀로 버텼다는 개인 숭배",
+        "갈리폴리 모든 단계를 혼자 설계했거나 반대로 아무 책임도 없었다는 단정",
+        "벵골 대기근을 의도적 단일 명령으로 설명하거나 전시 불가피성으로 면책하기",
+        "오늘의 인권 언어로 제국주의와 인종관을 스스로 참회하게 하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "전시 연립정부",
+        "guide": "전쟁에 대응하려고 여러 정당이 함께 장관을 맡아 꾸린 정부",
+        "sourceUrls": [
+          "https://www.parliament.uk/about/living-heritage/transformingsociety/private-lives/yourcountry/collections/churchillexhibition/churchill-the-orator/blood-toil-sweat-and-tears/"
+        ]
+      },
+      {
+        "term": "다르다넬스·갈리폴리 작전",
+        "guide": "연합국이 오스만 제국의 해협을 뚫으려 1915년 해상 공격과 상륙전을 벌였다가 큰 피해를 입은 작전",
+        "sourceUrls": [
+          "https://archives.chu.cam.ac.uk/education/churchill-era/exercises/dardanelles/",
+          "https://www.iwm.org.uk/history/churchills-first-world-war"
+        ]
+      },
+      {
+        "term": "벵골 대기근",
+        "guide": "1943년 영국령 인도 벵골에서 전쟁·식량 가격·행정 실패와 재해가 겹쳐 수백만 명이 숨진 기근",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/journals/journal-of-asian-studies/article/abs/government-famine-relief-in-bengal-1943/29B98FC4D8970BAECD041E1FCDD26A0C",
+          "https://www.cambridge.org/core/books/hungry-nation/bengal-famine-and-the-nationalist-case-for-food/104D0A30A414AB32134F3488267AC25A"
+        ]
+      },
+      {
+        "term": "대영제국",
+        "guide": "영국이 인도·아프리카·중동 등 여러 지역을 식민지와 자치령으로 지배한 제국 체제",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/abs/cambridge-companion-to-winston-churchill/churchill-india-and-race/26BC7C0E0E4A24EA5458D0B604778815"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "1940년의 결정은 처칠 개인뿐 아니라 전시 내각·의회·군부의 기록으로 봐야 한다. 훗날 회고록이 만든 고독한 지도자 장면을 그대로 재현하지 않는다.",
+      "처칠의 방송·연설 가운데 일부는 당시 생방송 원본과 뒤에 다시 녹음한 음원이 섞여 전한다. 음성의 유명세만으로 당일 발화를 판단하지 않는다.",
+      "갈리폴리의 해상 작전과 상륙 작전은 시기와 결정권자가 다르다. 처칠의 주도적 책임을 분명히 하되 모든 전술 결정을 혼자 내렸다고 하지 않는다.",
+      "벵골 대기근의 사망자 추정과 원인 비중은 연구마다 다르다. 식민 행정·전쟁 정책의 책임을 다루되 처칠 개인의 고의 한 가지로 환원하지 않는다.",
+      "처칠의 모욕적인 인도인 발언은 원전과 전달 경로를 따로 확인해야 한다. 출처가 약한 토끼 번식 비유 같은 문구를 직접인용하지 않는다.",
+      "인도 자치에 관한 처칠의 발언과 전략은 시기마다 맥락이 달라질 수 있지만 제국 유지와 인도 독립 반대라는 장기 입장은 분명히 남긴다.",
+      "노벨문학상은 역사·전기 저술과 연설에 주어졌다. 노벨상이 역사 서술의 중립성이나 사실 무오류를 보증하는 것처럼 쓰지 않는다.",
+      "외부의 제국주의 비판과 기근 책임 평가를 처칠 본인의 현대적 자기반성으로 바꾸지 않는다."
+    ]
+  }
+}

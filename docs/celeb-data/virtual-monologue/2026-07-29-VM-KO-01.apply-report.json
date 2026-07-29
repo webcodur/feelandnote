@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "batchId": "VM-KO-01",
+  "batchFile": "C:\\project\\feelandnote\\docs\\celeb-data\\virtual-monologue\\2026-07-29-VM-KO-01.json",
+  "generatedAt": "2026-07-29T16:59:31.470Z",
+  "mode": "apply",
+  "counts": {
+    "PLAN": 0,
+    "UPDATE": 0,
+    "SKIP": 16,
+    "FAIL": 0
+  },
+  "revalidate": null,
+  "revalidateError": null,
+  "results": [
+    {
+      "slug": "johannes-gutenberg",
+      "nickname": "요한 구텐베르크",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "85fc551e605d7ef87b0fb4aa3aed970163d37412cbeea7f6d2357dff64eb2209",
+      "afterHash": "85fc551e605d7ef87b0fb4aa3aed970163d37412cbeea7f6d2357dff64eb2209"
+    },
+    {
+      "slug": "charlemagne",
+      "nickname": "샤를마뉴",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "7fe21166fa1c00accc6a8f7f078c5e9127c7f9ba26d735cd8dd0a1874cc994aa",
+      "afterHash": "7fe21166fa1c00accc6a8f7f078c5e9127c7f9ba26d735cd8dd0a1874cc994aa"
+    },
+    {
+      "slug": "li-si",
+      "nickname": "이사",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "a27f3c7389ab2314bc70ee280073ad488ae42af27475244feea6ca2ebaf19a26",
+      "afterHash": "a27f3c7389ab2314bc70ee280073ad488ae42af27475244feea6ca2ebaf19a26"
+    },
+    {
+      "slug": "niccolo-machiavelli",
+      "nickname": "니콜로 마키아벨리",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "86156da567835b6839fb03607a3a8af0c58e652315b3082980bd72df90a9434a",
+      "afterHash": "86156da567835b6839fb03607a3a8af0c58e652315b3082980bd72df90a9434a"
+    },
+    {
+      "slug": "julius-caesar",
+      "nickname": "율리우스 카이사르",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "b6ba50ec712cd7f4945b6a8bdfe640f89c9ebf795e86f40118f7426765ce2403",
+      "afterHash": "b6ba50ec712cd7f4945b6a8bdfe640f89c9ebf795e86f40118f7426765ce2403"
+    },
+    {
+      "slug": "alan-turing",
+      "nickname": "앨런 튜링",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "726a7ac6b59a050f7a8830982e440ab0b42883d080d29476503625f50252a347",
+      "afterHash": "726a7ac6b59a050f7a8830982e440ab0b42883d080d29476503625f50252a347"
+    },
+    {
+      "slug": "deng-xiaoping",
+      "nickname": "등소평",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "ea817243bead966aa58621af49d3971276367959571e95c165f36dca5361677f",
+      "afterHash": "ea817243bead966aa58621af49d3971276367959571e95c165f36dca5361677f"
+    },
+    {
+      "slug": "sun-tzu",
+      "nickname": "손자",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "e36c2018b9cf76bc4abaae006ca28440308858340541dc8ba0535074092c7f29",
+      "afterHash": "e36c2018b9cf76bc4abaae006ca28440308858340541dc8ba0535074092c7f29"
+    },
+    {
+      "slug": "abraham-lincoln",
+      "nickname": "에이브러햄 링컨",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "f22a5bfd1f8107ddf5d0ab105651524a2f2f56d7b4a147a1abea6595b9d62d30",
+      "afterHash": "f22a5bfd1f8107ddf5d0ab105651524a2f2f56d7b4a147a1abea6595b9d62d30"
+    },
+    {
+      "slug": "mencius",
+      "nickname": "맹자",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "065654b36fd22ec9f6fa4e970d565f281541885447122393bc168f11d2317b06",
+      "afterHash": "065654b36fd22ec9f6fa4e970d565f281541885447122393bc168f11d2317b06"
+    },
+    {
+      "slug": "shang-yang",
+      "nickname": "상앙",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "43b5e2707ae182675f6a1a8ed0b3f17037e304b33c11f630e93b3d68db9511b4",
+      "afterHash": "43b5e2707ae182675f6a1a8ed0b3f17037e304b33c11f630e93b3d68db9511b4"
+    },
+    {
+      "slug": "karl-marx",
+      "nickname": "칼 마르크스",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "6889469d575356d763ba475647fa828551e466c3846808c6e9b22b25a3ddeb68",
+      "afterHash": "6889469d575356d763ba475647fa828551e466c3846808c6e9b22b25a3ddeb68"
+    },
+    {
+      "slug": "george-washington",
+      "nickname": "조지 워싱턴",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "b07e96390073aae39849f7c53f30317588d0d91c77e3dfd02e8fd0bdfc44ac21",
+      "afterHash": "b07e96390073aae39849f7c53f30317588d0d91c77e3dfd02e8fd0bdfc44ac21"
+    },
+    {
+      "slug": "vladimir-lenin",
+      "nickname": "블라디미르 레닌",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "bebb79b7a8c5053485d6ceeb23442aee2108b1fa899ebc9bc83791702f536410",
+      "afterHash": "bebb79b7a8c5053485d6ceeb23442aee2108b1fa899ebc9bc83791702f536410"
+    },
+    {
+      "slug": "fritz-haber",
+      "nickname": "프리츠 하버",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "bcd45042d6eef5534e3f5d588fd1e95c7a223657db4e4ab1e2492a4e9f9b6ae1",
+      "afterHash": "bcd45042d6eef5534e3f5d588fd1e95c7a223657db4e4ab1e2492a4e9f9b6ae1"
+    },
+    {
+      "slug": "nebuchadnezzar-ii",
+      "nickname": "네부카드네자르 2세",
+      "action": "SKIP",
+      "reason": "이미 후보와 일치",
+      "beforeHash": "c83b6abc9468932cc4b5948faae55510d449733b5abbc05b9d7911755048af1e",
+      "afterHash": "c83b6abc9468932cc4b5948faae55510d449733b5abbc05b9d7911755048af1e"
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "slug": "archimedes",
+  "nickname": "아르키메데스",
+  "route": "improve",
+  "routeReason": "현재 원고는 부력·지렛대·곡선의 넓이와 부피를 ‘현상 뒤에 남는 증명’으로 묶어 어렵지 않게 설명하고, 전쟁 기계보다 수학적 증명을 중심에 둔 구성이 좋다. 그러나 왕관과 욕조의 ‘유레카’, 지렛대 명언, 전쟁 기계와 죽음의 세부는 모두 당대 자서전이 아니라 수백 년 뒤의 여러 전승에 의존한다. 특히 전쟁 기계가 사람을 쓰러뜨린 일을 마음에서 지우지 못했다는 죄책감은 근거 없는 현대적 내면이다. 부력 원리는 『떠 있는 물체에 관하여』라는 실제 저작에, 기계적 발견과 엄밀한 증명의 관계는 『방법』에 기대어 다시 중심을 잡고, 전설은 ‘후대에 이렇게 전해졌다’고 표시하는 개선이 필요하다.",
+  "dossier": {
+    "identity": {
+      "name": "아르키메데스",
+      "birth": "-287",
+      "death": "-212",
+      "profession": "scientist",
+      "disambiguation": "시라쿠사에서 활동하며 구와 원기둥, 포물선·나선, 지레의 평형, 무게중심과 유체의 평형을 기하학적으로 연구한 헬레니즘 수학자",
+      "existingBioForDiscoveryOnly": "시라쿠사 출신의 수학자이자 물리학자. 부력의 원리와 지렛대의 법칙을 발견하고 공성 무기를 설계했다."
+    },
+    "sources": [
+      {
+        "url": "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf",
+        "title": "Archimedes",
+        "publisher": "Complete Dictionary of Scientific Biography via University of St Andrews",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "생애에 관한 확실한 자료가 매우 적고 약 287년이라는 출생 연도도 후대 자료에서 추정된다는 점",
+          "『모래알을 세는 사람』에서 아버지 피디아스를 언급한 사실과 알렉산드리아 수학자들과의 관계",
+          "구와 원기둥·원 측정·평면의 평형·부유체 등 실제 저작과 성취",
+          "왕관 이야기의 진위가 의심스럽고 죽음·지렛대 일화의 전승이 서로 다르다는 경계"
+        ]
+      },
+      {
+        "url": "https://archimedespalimpsest.org/about/history/index.php",
+        "title": "The History of the Archimedes Manuscript",
+        "publisher": "The Archimedes Palimpsest Project, Walters Art Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "10세기 필사본이 13세기 기도서 아래에 지워져 남은 전승 과정",
+          "『방법』·『스토마키온』·그리스어 『떠 있는 물체에 관하여』의 유일하거나 핵심적인 현전 자료",
+          "오늘의 아르키메데스상이 긴 필사와 재발견 과정에 의존한다는 점"
+        ]
+      },
+      {
+        "url": "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php",
+        "title": "The Importance of the Palimpsest to the Study of Archimedes",
+        "publisher": "The Archimedes Palimpsest Project, Walters Art Museum",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "『방법』에서 기계적 균형을 발견 도구로 사용한 뒤 기하학적 증명을 따로 제시한 성격",
+          "『떠 있는 물체에 관하여』의 그리스어 본문을 확정하는 데 팔림프세스트가 한 역할",
+          "1906년과 1998년 발견을 과장하지 않고 기존 사본 전통과 함께 봐야 한다는 경계"
+        ]
+      },
+      {
+        "url": "https://archimedespalimpsest.org/about/scholarship/method-infinity.php",
+        "title": "Methods of Infinity",
+        "publisher": "The Archimedes Palimpsest Project, Walters Art Museum",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "지레의 균형을 이용해 포물선 조각 등 곡선 도형의 크기를 발견하는 『방법』의 절차",
+          "기계적 직관과 엄밀한 기하학적 증명이 서로 다른 역할을 한 점",
+          "곡선과 무한을 다룬 작업을 현대 미적분의 완성으로 과장하지 않을 맥락"
+        ]
+      },
+      {
+        "url": "https://encyclopediaofmath.org/wiki/Exhaustion%2C_method_of",
+        "title": "Exhaustion, method of",
+        "publisher": "Encyclopedia of Mathematics",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "소진법의 기초는 에우독소스에게 귀속되고 아르키메데스가 뛰어난 범위와 기술로 사용했다는 점",
+          "곡선 도형을 안팎에서 근사해 차이를 원하는 만큼 작게 만드는 원리",
+          "아르키메데스가 미적분을 혼자 발명했다는 소급을 피할 근거"
+        ]
+      },
+      {
+        "url": "https://archimedespalimpsest.org/about/history/archimedes.php",
+        "title": "Archimedes of Syracuse",
+        "publisher": "The Archimedes Palimpsest Project, Walters Art Museum",
+        "kind": "institutional",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "폴리비오스가 전한 시라쿠사 방어 기계의 역사적 전승",
+          "비트루비우스가 전한 왕관과 유레카 이야기, 플루타르코스 등 후대 죽음 이야기의 성격",
+          "수학 저작과 대중적 전설을 구분해야 한다는 자료"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "시라쿠사에서 알렉산드리아의 코논·도시테오스·에라토스테네스 등과 문제와 증명을 주고받으며 구·원기둥·포물선·나선의 넓이와 부피를 연구했다.",
+        "significance": "고립된 발명가보다 헬레니즘 수학 공동체 안에서 새 정리를 발견하고 증명한 수학자로 그린다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      },
+      {
+        "point": "『평면의 평형에 관하여』와 『방법』에서 지레와 무게중심의 관계를 기하학적으로 다루고, 균형을 곡선 도형의 크기를 발견하는 도구로 사용했다.",
+        "significance": "‘받침점만 주면 지구를 움직인다’는 명언보다 물리적 균형이 수학적 발견과 증명으로 이어지는 실제 작업을 보여 준다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/scholarship/method-infinity.php",
+          "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php"
+        ]
+      },
+      {
+        "point": "『떠 있는 물체에 관하여』에서 액체의 평형과 잠긴 물체가 받는 힘을 기하학적으로 논했다.",
+        "significance": "욕조의 번뜩임을 부력 법칙의 유일한 근거로 삼지 않고 실제 현전 저작에 남은 정리와 증명을 중심에 둔다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/history/index.php",
+          "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php"
+        ]
+      },
+      {
+        "point": "제2차 포에니 전쟁 때 시라쿠사의 방어 장치와 결부되며, 기원전 212년 로마군이 도시를 함락할 때 살해된 것으로 여러 고대 기록이 전한다.",
+        "significance": "방어 기계의 역사적 가능성은 남기되 장치의 세부와 마지막 말, 전쟁에 대한 죄책감을 확정된 1인칭 장면으로 만들지 않는다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/history/archimedes.php",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "기계적 균형과 물리적 직관은 정리를 발견하는 강한 도구이지만, 결과를 확정하려면 별도의 기하학적 증명이 필요하다고 보았다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/scholarship/method-infinity.php",
+          "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php"
+        ]
+      },
+      {
+        "point": "곡선이나 입체의 크기를 한 번에 재지 못해도 안팎의 도형으로 범위를 좁혀 차이가 더 남을 수 없게 만드는 방식으로 증명했다.",
+        "sourceUrls": [
+          "https://encyclopediaofmath.org/wiki/Exhaustion%2C_method_of",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      },
+      {
+        "point": "액체 속 물체의 뜸과 가라앉음을 물체와 액체의 무게·부피 관계로 설명해 정역학과 기하학을 연결했다.",
+        "sourceUrls": [
+          "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "오늘 가장 유명한 왕관·욕조·유레카 이야기는 아르키메데스보다 약 2세기 뒤 비트루비우스에게서 전해지며 알려진 저작에는 나오지 않는다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/history/archimedes.php",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      },
+      {
+        "point": "전쟁 기계는 폴리비오스 등 고대 역사가에게 전하지만 갈고리·불타는 거울 같은 세부의 신빙성은 서로 다르고 후대에 확대됐다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/history/archimedes.php",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      },
+      {
+        "point": "『방법』은 현대 적분을 떠올리게 하는 강한 기법을 담지만 엄밀한 현대 미적분의 일반 체계를 완성한 것은 아니다.",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/scholarship/method-infinity.php",
+          "https://encyclopediaofmath.org/wiki/Exhaustion%2C_method_of"
+        ]
+      },
+      {
+        "point": "아르키메데스 개인의 목소리를 전하는 자료는 수학 저작과 헌사에 치우쳐 있어 전쟁·죽음·감정에 관한 1인칭 내면은 거의 복원할 수 없다.",
+        "sourceUrls": [
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf",
+          "https://archimedespalimpsest.org/about/history/index.php"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "현상은 짧게 제시하고, 관계와 증명은 한 단계씩 범위를 좁히는 중간 길이 문장으로 쓴다. 부력·소진법·팔림프세스트는 첫 등장에 괄호로 풀어 준다.",
+      "directness": "기계 장치의 기발함을 자랑하는 발명가보다 발견한 값을 끝까지 증명하려는 수학자의 목소리로 쓴다. 전설을 직접 부정하는 냉소 대신 ‘후대에는 이렇게 전하지만 내 글에 남은 것은 이것’이라는 구도로 거리를 둔다.",
+      "moves": [
+        "왕관과 욕조를 첫 장면으로 재연하지 말고 사람들이 기억하는 이야기와 실제 저작을 구분하며 시작하기",
+        "부력은 『떠 있는 물체에 관하여』의 액체 평형과 잠긴 물체 관계로 설명하기",
+        "지레를 거대한 물체를 움직이는 영웅 장면보다 『방법』에서 곡선의 크기를 발견하는 사고 도구로 연결하기",
+        "소진법은 도형을 무한히 잘갰다는 현대어보다 안팎의 범위를 좁혀 차이를 몰아내는 방식으로 풀기",
+        "전쟁 기계는 고대 역사 기록의 범위까지만 말하고 죄책감·후회를 만들지 않기",
+        "결말은 마지막 말 전설보다 사본에서 지워졌다 되살아난 조용한 증명의 생존으로 닫기"
+      ],
+      "avoid": [
+        "욕조에서 부력 원리 전체를 한순간에 발견했다고 확정하기",
+        "‘유레카’를 자신의 정확한 회상과 직접 발언으로 쓰기",
+        "‘지렛대와 설 곳을 주면 지구를 움직이겠다’를 확정된 현장 발언으로 쓰기",
+        "미적분을 뉴턴·라이프니츠보다 먼저 완성했다고 쓰기",
+        "불타는 거울과 아르키메데스의 갈고리 세부를 모두 확정 사실로 쓰기",
+        "전쟁 기계를 만든 죄책감이나 살상에 대한 참회를 창작하기",
+        "죽기 직전 ‘내 원을 건드리지 말라’고 말했다고 단정하기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "부력",
+        "guide": "액체에 잠긴 물체를 위로 미는 힘으로, 물체가 밀어낸 액체의 무게와 연결되는 힘",
+        "sourceUrls": [
+          "https://www.archimedespalimpsest.org/about/scholarship/archimedes-manuscript.php",
+          "https://mathshistory.st-andrews.ac.uk/DSB/Archimedes.pdf"
+        ]
+      },
+      {
+        "term": "무게중심",
+        "guide": "물체의 무게가 한 점에 모여 작용한다고 보아도 균형이 같아지는 기준점",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/scholarship/method-infinity.php"
+        ]
+      },
+      {
+        "term": "소진법",
+        "guide": "곡선 도형을 안과 밖의 단순한 도형으로 감싸 차이를 원하는 만큼 작게 만들고 값이 달아날 여지를 없애는 증명법",
+        "sourceUrls": [
+          "https://encyclopediaofmath.org/wiki/Exhaustion%2C_method_of"
+        ]
+      },
+      {
+        "term": "『방법』",
+        "guide": "지레와 균형 같은 기계적 생각으로 넓이와 부피를 먼저 발견한 뒤 기하학적으로 증명하는 절차를 설명한 저작",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/scholarship/method-infinity.php"
+        ]
+      },
+      {
+        "term": "팔림프세스트",
+        "guide": "옛 글을 지우고 그 위에 새 글을 쓴 양피지 사본으로, 지워진 아래 글에서 아르키메데스 저작들이 되살아났다",
+        "sourceUrls": [
+          "https://archimedespalimpsest.org/about/history/index.php"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "기원전 287년 출생은 12세기 저자의 나이 기록을 바탕으로 거슬러 추정한 값이며 확정 생년이 아니다.",
+      "아버지 피디아스는 아르키메데스의 저작에서 확인되지만 알렉산드리아 유학과 왕실 친족 관계의 세부는 추정과 후대 기록이 섞여 있다.",
+      "왕관과 욕조 이야기는 비트루비우스가 약 2세기 뒤 전했으며 알려진 아르키메데스 저작에는 없다.",
+      "지렛대 명언, 묘비의 소망, 죽음 직전 말은 후대 저자들이 서로 다른 형태로 전하므로 직접 회상으로 쓰지 않는다.",
+      "시라쿠사 방어 기계는 고대 기록에 근거가 있지만 장치의 성능과 세부, 특히 불타는 거울은 과장 가능성이 크다.",
+      "전쟁 기계를 만들며 느낀 죄책감·자부심·갈등은 직접 자료가 없어 1인칭으로 만들지 않는다.",
+      "소진법은 에우독소스의 선행 방법을 아르키메데스가 뛰어나게 확장한 것이며, 현대 미적분을 완성했다고 소급하지 않는다.",
+      "현전 저작은 중세 사본과 번역을 거쳐 복원되므로 오늘의 문장과 도해가 모두 저자의 원본 그대로라고 단정하지 않는다."
+    ]
+  }
+}

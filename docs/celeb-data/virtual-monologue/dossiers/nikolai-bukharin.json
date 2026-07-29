@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "slug": "nikolai-bukharin",
+  "nickname": "니콜라이 부하린",
+  "route": "improve",
+  "routeReason": "현행 원고는 세계경제와 제국주의, 신경제정책, 강제집단화 반대, 공개재판과 옥중 저술이라는 생애의 핵심 축을 잘 잡고 있으며 쉬운 언어로 읽힌다. 그러나 '내가 만든 톱니가 나를 갈아버렸다'는 식의 자백과 참회를 실제 내면처럼 만들고, 전시공산주의기에 부하린이 공개적으로 정당화했던 강제와 당 독재를 구체적으로 보여주지 않는다. 기존 구조를 살리되 그의 문헌상 입장 변화와 공개재판 자료의 불신 가능성을 넣는 개선이 적절하다.",
+  "dossier": {
+    "identity": {
+      "name": "니콜라이 부하린",
+      "birth": "1888-10-09",
+      "death": "1938-03-15",
+      "profession": "politician",
+      "disambiguation": "러시아 혁명의 볼셰비키 이론가이자 당 지도자. 전시공산주의기의 강제 경제를 옹호했다가 신경제정책기의 점진적 농업·공업 발전을 주장했으며, 스탈린과 결별한 뒤 1938년 모스크바 공개재판에서 처형됐다.",
+      "existingBioForDiscoveryOnly": "볼셰비키 혁명가이자 이론가. 레닌이 '당의 가장 뛰어난 이론가'라 칭했으며 『세계경제와 제국주의』, 옥중 저작 『철학적 아라베스크』 등을 남겼다."
+    },
+    "sources": [
+      {
+        "url": "https://www.marxists.org/archive/bukharin/works/1917/imperial/",
+        "title": "Imperialism and World Economy",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "자본이 세계적으로 결합하면서도 국가 단위의 거대 자본 집단으로 조직돼 제국주의 경쟁과 전쟁을 낳는다는 부하린의 분석",
+          "부하린의 초기 명성이 단순한 당내 수사가 아니라 세계경제와 전쟁을 연결한 이론 작업에 근거한다는 점"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html",
+        "title": "Programme of the World Revolution, Chapter V: Proletarian Dictatorship",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "부하린이 혁명기의 감옥·무력·징발과 강한 프롤레타리아 독재를 필요 수단으로 공개 옹호한 사실",
+          "후일 강제집단화에 반대한 그를 처음부터 비폭력적 사회주의자였다고 그려서는 안 되는 근거"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm",
+        "title": "The New Economic Policy of Soviet Russia",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": "1921-07-08",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "전시공산주의의 강제 방식에서 물러나 도시와 농촌의 경제적 균형, 교환과 유인을 회복해야 한다는 신경제정책 설명",
+          "정책 전환을 주장하면서도 과거의 징발과 당 독재를 계속 정당화한 부하린 사상의 연속성과 모순"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/slavic-review/article/abs/smolensk-scandal-and-the-end-of-nep/F9D1B6781299DECD20DDD6B1CFE82E7C",
+        "title": "The Smolensk Scandal and the End of NEP",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2017-01-27",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "신경제정책 말기의 농촌 갈등과 당내 권력투쟁이 단순히 부하린 대 스탈린 두 사람의 이론 논쟁으로만 환원되지 않는 지역사적 맥락",
+          "신경제정책의 성패와 지속 가능성을 결과론으로 단정하지 말아야 할 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/iron-lazar/triumph-of-the-stalin-faction-19281929/BC38C62583AD6B3260CF71C92782BCDC",
+        "title": "The Triumph of the Stalin Faction, 1928–1929",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2012-05-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1928~1929년 곡물 조달 위기와 강제 조달, 급속 공업화를 둘러싸고 스탈린과 부하린의 동맹이 무너진 과정",
+          "부하린의 점진적 노선이 당내 우파로 패배하고 그가 지도부에서 축출된 정치적 전환"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/international-review-of-social-history/article/blood-on-the-red-banner-primitive-accumulation-in-the-worlds-first-socialist-state/8B6D5DB086D968F16273E80A364CB346",
+        "title": "Blood on the Red Banner: Primitive Accumulation in the World's First Socialist State",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "농민에게서 자원을 이전해 공업화를 이루는 문제를 둘러싼 볼셰비키 내부의 논쟁과 부하린의 점진적 NEP 노선",
+          "부하린의 농민 정책도 소비에트 일당국가와 계급 분류의 틀 안에 있었으며 자유방임과 같지 않았다는 점"
+        ]
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/archives/trans-b2bukhar.html",
+        "title": "Translation of Speech of Bukharin",
+        "publisher": "Library of Congress",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "체포 전후 부하린이 테러 혐의를 부인하고 농업 유인과 당내 정책 차이를 주장한 발언 기록",
+          "스탈린과 몰로토프가 개입한 당 회의에서 부하린에게 가해진 정치적 압박"
+        ]
+      },
+      {
+        "url": "https://www.marxists.org/archive/bukharin/works/1938/trial/",
+        "title": "The Case of Bukharin",
+        "publisher": "Marxists Internet Archive",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1938년 공개재판에서 제시된 심문과 부하린의 최후진술이라는 공식 기록",
+          "부하린이 일반적 정치 책임과 구체적 범죄 혐의 사이를 구분하려 한 재판 언어"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/abs/stalin/stalin-as-producer-the-moscow-show-trials-and-the-construction-of-mortal-threats/EE7862138DB659195982BB9588C747B8",
+        "title": "Stalin as Producer: The Moscow Show Trials and the Construction of Mortal Threats",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": null,
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "모스크바 공개재판의 혐의·자백·평결이 실제 사실을 투명하게 드러낸 기록이 아니라 정치적 위협을 만들어낸 연출의 일부였다는 분석",
+          "공식 재판 기록을 부하린의 자유로운 자서전적 고백으로 사용해서는 안 되는 근거"
+        ]
+      },
+      {
+        "url": "https://www.cambridge.org/core/books/marxism-in-dark-times/historys-suppressed-voice-introducing-nikolai-bukharins-prison-manuscripts-193738/396414F93E029243019CB1DB0DBE7AB6",
+        "title": "History's Suppressed Voice: Introducing Nikolai Bukharin's Prison Manuscripts (1937–38)",
+        "publisher": "Cambridge University Press",
+        "kind": "scholarly",
+        "publishedAt": "2012-05-05",
+        "accessedAt": "2026-07-30",
+        "supports": [
+          "1937년 체포 뒤 1938년 처형되기까지 철학·문화·소설·시를 포함한 여러 옥중 원고를 썼다는 사실",
+          "『철학적 아라베스크』를 최후의 사유 활동으로 다룰 수 있지만 전 생애에 대한 참회록으로 단정해서는 안 된다는 맥락"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "제1차 세계대전기에 『세계경제와 제국주의』를 써 자본의 국제화와 국가 간 경쟁이 전쟁을 낳는 구조를 분석했다.",
+        "significance": "후대의 비극만으로 인물을 소개하지 않고, 세계경제를 국가권력과 연결해 읽은 이론가라는 고유한 출발점을 세운다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1917/imperial/"
+        ]
+      },
+      {
+        "point": "혁명과 내전기에는 강제와 프롤레타리아 독재를 옹호했으나, 1921년 신경제정책 아래에서는 농촌과 도시의 교환·유인을 회복하는 노선으로 이동했다.",
+        "significance": "부하린을 일관된 온건파로 만들지 않고, 같은 혁명가가 강제 경제의 한계에 대응하며 정책 수단을 바꾼 과정을 보여준다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html",
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm"
+        ]
+      },
+      {
+        "point": "1928~1929년 강제 곡물 조달과 급속 공업화·집단화에 반대하며 스탈린과 결별했고 당 지도부에서 밀려났다.",
+        "significance": "농민의 생산 유인과 점진적 공업화를 지키려던 경제 논쟁이 곧 권력투쟁과 숙청의 경로가 된 전환이다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/iron-lazar/triumph-of-the-stalin-faction-19281929/BC38C62583AD6B3260CF71C92782BCDC",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/blood-on-the-red-banner-primitive-accumulation-in-the-worlds-first-socialist-state/8B6D5DB086D968F16273E80A364CB346"
+        ]
+      },
+      {
+        "point": "1937년 체포돼 1938년 모스크바 공개재판에서 사형을 선고받았고, 수감 중에도 철학·문학 원고를 썼다.",
+        "significance": "재판의 강요된 언어와 옥중 사유를 구분하면서도, 자신이 가담한 당국가의 폭력이 그에게 돌아온 역사적 긴장을 피하지 않게 한다.",
+        "sourceUrls": [
+          "https://www.loc.gov/exhibits/archives/trans-b2bukhar.html",
+          "https://www.marxists.org/archive/bukharin/works/1938/trial/",
+          "https://www.cambridge.org/core/books/abs/stalin/stalin-as-producer-the-moscow-show-trials-and-the-construction-of-mortal-threats/EE7862138DB659195982BB9588C747B8",
+          "https://www.cambridge.org/core/books/marxism-in-dark-times/historys-suppressed-voice-introducing-nikolai-bukharins-prison-manuscripts-193738/396414F93E029243019CB1DB0DBE7AB6"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "제국주의를 개별 국가의 탐욕만이 아니라 세계시장과 국가 자본집단의 결합이 낳는 구조적 경쟁으로 설명했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1917/imperial/"
+        ]
+      },
+      {
+        "point": "혁명 직후에는 구질서를 무너뜨리고 생산과 분배를 통제하기 위해 무력·징발·당 독재가 필요하다고 주장했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html"
+        ]
+      },
+      {
+        "point": "신경제정책기에는 농민이 생산을 늘릴 유인과 도시·농촌 사이의 교환을 살려 점진적으로 사회주의 경제를 키워야 한다고 보았다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/blood-on-the-red-banner-primitive-accumulation-in-the-worlds-first-socialist-state/8B6D5DB086D968F16273E80A364CB346"
+        ]
+      },
+      {
+        "point": "1920년대 말 강제 곡물 조달과 급속 집단화가 농업과 노동자·농민의 동맹을 파괴할 것이라 보며 스탈린 노선에 반대했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/iron-lazar/triumph-of-the-stalin-faction-19281929/BC38C62583AD6B3260CF71C92782BCDC",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/blood-on-the-red-banner-primitive-accumulation-in-the-worlds-first-socialist-state/8B6D5DB086D968F16273E80A364CB346"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "후일 강제집단화에 반대했지만 혁명 초기에는 자신도 무력·징발과 강한 당 독재를 이론적으로 옹호했다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html",
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm"
+        ]
+      },
+      {
+        "point": "농민의 유인과 점진성을 강조한 신경제정책 노선은 스탈린의 대전환보다 덜 파괴적이었지만, 다당제나 자유민주주의를 지향한 노선은 아니었다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm",
+          "https://www.cambridge.org/core/journals/international-review-of-social-history/article/blood-on-the-red-banner-primitive-accumulation-in-the-worlds-first-socialist-state/8B6D5DB086D968F16273E80A364CB346"
+        ]
+      },
+      {
+        "point": "공개재판에서 남은 자백과 최후진술은 중요한 자료지만, 국가가 연출하고 압박한 절차 안에서 나온 말이라 그의 자유로운 내면 고백으로 읽을 수 없다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1938/trial/",
+          "https://www.cambridge.org/core/books/abs/stalin/stalin-as-producer-the-moscow-show-trials-and-the-construction-of-mortal-threats/EE7862138DB659195982BB9588C747B8"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "경제 구조를 설명할 때는 원인과 결과가 또렷한 중간 길이 문장을 쓰고, 자신의 노선 변화와 정치적 패배를 말할 때는 짧은 반문을 섞는다. 전문어는 첫 등장 직후 괄호로 일상어 풀이를 붙인다.",
+      "directness": "빠르고 논쟁적인 혁명 이론가의 말투를 유지한다. 스스로를 순결한 희생자나 뒤늦게 모든 것을 깨달은 참회자로 만들지 않고, 공개 저술로 확인되는 주장과 그 결과의 모순을 직접 대조한다.",
+      "moves": [
+        "제국주의를 기업과 국가가 세계시장에서 충돌하는 구조로 쉽게 풀어 이론가의 출발점을 보인다",
+        "전시공산주의의 강제를 남의 정책처럼 피하지 않고 자신이 옹호한 문헌상 입장으로 인정한다",
+        "NEP를 단순한 시장경제가 아니라 농민의 생산 유인과 도시·농촌의 교환을 되살린 임시·점진 전략으로 설명한다",
+        "스탈린과의 결별을 인품 충돌보다 곡물 조달·공업화 속도·집단화의 정책 차이로 전개한다",
+        "재판 자백과 옥중 원고를 분리하고, 마지막 판단은 창작된 참회가 아니라 사상의 변화와 한계에 둔다"
+      ],
+      "avoid": [
+        "레닌의 평가 한 문장으로 부하린의 이론적 권위를 대신하기",
+        "강제집단화 반대를 오늘날 자유민주주의와 인권 옹호로 번역하기",
+        "전시공산주의의 폭력을 스탈린만의 발명처럼 말해 부하린의 초기 입장을 지우기",
+        "모스크바 공개재판의 자백을 자유로운 사실 진술이나 신뢰할 수 있는 회고록으로 사용하기",
+        "『철학적 아라베스크』를 전 생애의 죄를 고백한 참회록으로 꾸미기",
+        "부하린의 NEP 노선이 계속됐으면 반드시 성공했을 것이라고 반사실적 결론을 내리기"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "볼셰비키",
+        "guide": "레닌이 이끈 러시아 사회민주노동당의 혁명파로, 1917년 권력을 잡아 공산당 일당국가의 중심이 된 세력.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html"
+        ]
+      },
+      {
+        "term": "세계경제와 제국주의",
+        "guide": "부하린이 세계시장의 통합과 국가별 자본집단의 경쟁이 식민 팽창과 전쟁을 낳는다고 분석한 저작과 이론.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1917/imperial/"
+        ]
+      },
+      {
+        "term": "전시공산주의",
+        "guide": "러시아 내전기에 국가가 생산과 유통을 강하게 통제하고 농산물을 징발한 정책 체제.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm",
+          "https://www.marxists.org/archive/bukharin/works/1918/worldrev/ch05.html"
+        ]
+      },
+      {
+        "term": "신경제정책(NEP)",
+        "guide": "1921년부터 제한적 시장·사영업과 농민의 교환을 허용해 전시공산주의로 무너진 경제를 회복하려 한 정책.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1921/07/08.htm",
+          "https://www.cambridge.org/core/journals/slavic-review/article/abs/smolensk-scandal-and-the-end-of-nep/F9D1B6781299DECD20DDD6B1CFE82E7C"
+        ]
+      },
+      {
+        "term": "강제집단화",
+        "guide": "스탈린 지도부가 농가를 집단농장에 편입하고 곡물을 강제로 조달한 대전환. 부하린은 그 속도와 강제 방식에 반대했다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/iron-lazar/triumph-of-the-stalin-faction-19281929/BC38C62583AD6B3260CF71C92782BCDC"
+        ]
+      },
+      {
+        "term": "모스크바 공개재판",
+        "guide": "1930년대 스탈린 체제의 전직 당 지도자들을 반역·테러 혐의로 공개 기소한 정치재판. 자백은 강압과 연출 가능성을 전제로 읽어야 한다.",
+        "sourceUrls": [
+          "https://www.marxists.org/archive/bukharin/works/1938/trial/",
+          "https://www.cambridge.org/core/books/abs/stalin/stalin-as-producer-the-moscow-show-trials-and-the-construction-of-mortal-threats/EE7862138DB659195982BB9588C747B8"
+        ]
+      },
+      {
+        "term": "철학적 아라베스크",
+        "guide": "부하린이 수감 중 쓴 철학 원고. 사유를 계속했다는 증거이지, 모든 정치 행위에 대한 자백문은 아니다.",
+        "sourceUrls": [
+          "https://www.cambridge.org/core/books/marxism-in-dark-times/historys-suppressed-voice-introducing-nikolai-bukharins-prison-manuscripts-193738/396414F93E029243019CB1DB0DBE7AB6"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "레닌이 부하린을 높이 평가한 문구는 유언장 번역과 인용 맥락에 따라 표현이 달라진다. '레닌이 공인한 최고의 이론가'라는 단순 권위로 사용하지 않는다.",
+      "부하린의 입장은 시기별로 크게 변했다. 1918년 좌익공산주의와 강제 경제, 1921년 이후 NEP, 1928년 이후 반강제집단화를 한 문장에 섞어 일관된 신념처럼 만들지 않는다.",
+      "신경제정책의 장기 성패는 논쟁적이다. 부하린의 노선이 유지됐다면 소련이 반드시 평화롭게 발전했을 것이라고 단정하지 않는다.",
+      "강제집단화에 반대했다는 사실은 중요하지만 부하린이 당 독재, 계급 억압, 혁명 폭력을 모두 거부했다는 뜻은 아니다.",
+      "1938년 공식 재판기록은 국가가 선별·편집하고 강압된 절차에서 생산한 자료다. 구체적 테러·간첩 혐의나 자백을 검증된 사실로 재연하지 않는다.",
+      "부하린이 재판에서 말한 '책임'은 일반적 정치 책임과 구체적 범죄 인정 사이를 오간다. 이를 '내가 만든 기계가 나를 죽였다'는 완결된 참회로 바꾸지 않는다.",
+      "옥중 원고는 체포 뒤에도 철학과 문학 작업을 지속했다는 강한 근거지만, 그가 전시공산주의의 폭력을 전면 부정했다는 직접 증거는 아니다.",
+      "부하린을 순수한 희생자로만 쓰지 않되, 스탈린의 공개재판 혐의를 사실로 인정하는 방식으로 균형을 맞추지도 않는다."
+    ]
+  }
+}

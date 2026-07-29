@@ -1,0 +1,189 @@
+{
+  "batch": "2026-07-29-researched-gap-02",
+  "targets": [
+    {
+      "id": "21c16158-1f58-4583-853a-47359dbe851a",
+      "slug": "drew-houston",
+      "nickname": "드류 휴스턴",
+      "nicknameEn": "Drew Houston",
+      "birthDate": "1983-03-04",
+      "profession": "entrepreneur",
+      "quote": "인생은 3만 일뿐입니다. 하루도 헛되이 보낼 수 없습니다.",
+      "quoteEn": "Life is only about 30,000 days; not one can be wasted.",
+      "greetingKo": [
+        "[composed, observant] 강아지가 테니스공을 쫓듯, 자신을 끄는 한 가지를 찾을 따름입니다.",
+        "[measured, thoughtful] 사람은 가장 가까운 다섯 명의 평균이 될 뿐이니, 동그라미를 잘 그려야 합니다.",
+        "[reflective, steady] 인생은 삼만 일에 불과하니, 하루도 비워 둘 수 없을 따름입니다."
+      ],
+      "greetingEn": [
+        "[composed, observant] Like a dog chasing a tennis ball, one simply finds the one thing that pulls them on.",
+        "[measured, thoughtful] We are only the average of our five closest people; the circle deserves real care.",
+        "[reflective, steady] Life is only about 30,000 days; not a single one can be left empty."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "USB를 또 두고 온 날, 불편을 참는 대신 파일 동기화를 만들기 시작했습니다.",
+          "완벽한 계획은 없었습니다. 흥미로운 문제를 따라 여기까지 왔습니다.",
+          "다섯 살부터 코드를 썼지만, 드롭박스는 아라시와 좋은 동료들 없이 만들 수 없었습니다."
+        ],
+        "deploy": [
+          "가장 잘하는 사람들이 모인 곳으로 가세요. 함께하는 원이 실력만큼 중요합니다.",
+          "사용자가 반복해서 겪는 작은 불편부터 찾으세요. 제품은 거기서 시작합니다.",
+          "반복 작업은 기계에 맡기고, 사람은 중요한 판단에 집중하세요."
+        ],
+        "battle_win": [
+          "USB를 잊던 제 문제를 풀었는데, 수억 명이 그 답을 함께 쓰게 됐습니다.",
+          "파일 동기화에서 시작했는데, 이제 흩어진 지식을 한곳에서 찾는 문제까지 왔습니다.",
+          "다음 장을 혼자 쥐지 않았습니다. 제가 틀렸다고 말해주는 동료와 책임을 나눴습니다."
+        ],
+        "battle_draw": [
+          "기술은 작동하지만, 쓰는 사람이 더 차분해지진 않았습니다. 방향을 다시 보겠습니다.",
+          "새 도구를 더했는데 탭과 알림도 더 늘었군요. 편리함만으로는 부족합니다.",
+          "좋은 아이디어지만 사용자의 불편과 이어지지 않습니다. 먼저 작은 버전을 직접 써보겠습니다."
+        ],
+        "battle_lose": [
+          "첫 회사에서는 더 세게 노를 저어도 앞으로 나가지 못했습니다. 문제 선택부터 잘못했습니다.",
+          "실패보다 편안함을 더 경계해야 했습니다. 익숙한 답에 너무 오래 머물렀군요.",
+          "어려운 결정은 사람들의 삶에 닿습니다. 제가 내린 결정이라면 그 길까지 책임지겠습니다."
+        ],
+        "clash_attack": [
+          "평생 준비만 하지 마세요. 먼저 시작하고 직접 부딪치며 배우세요.",
+          "알림을 더 붙이지 마세요. 사람이 집중할 조건부터 만드세요.",
+          "정보를 열 군데서 찾게 하지 마세요. 한곳에서 답을 찾게 만드세요."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "The day I forgot my USB drive again, I stopped putting up with the problem and started building a way to sync files.",
+          "I never had a perfect plan. I got here by following problems that held my interest.",
+          "I have coded since I was five, but Dropbox could not have been built without Arash and good colleagues."
+        ],
+        "deploy": [
+          "Go where the best people in your field gather. The circle around you matters as much as talent.",
+          "Start with a small frustration users face again and again. That is where a product begins.",
+          "Give repetitive work to machines, and keep people focused on the decisions that matter."
+        ],
+        "battle_win": [
+          "I solved my problem of forgetting a USB drive, and hundreds of millions of people came to use the answer.",
+          "We began with file syncing. Now we are tackling the problem of finding scattered knowledge in one place.",
+          "I did not hold the next chapter alone. I shared responsibility with a colleague who tells me when I am wrong."
+        ],
+        "battle_draw": [
+          "The technology works, but the person using it is no calmer. I need to reconsider the direction.",
+          "We added new tools, but we also added more tabs and alerts. Convenience is not enough.",
+          "It is a good idea, but it does not connect to a user's frustration. I will build a small version and use it myself first."
+        ],
+        "battle_lose": [
+          "At my first company, I paddled harder and still made no progress. I had chosen the wrong problem.",
+          "I should have feared comfort more than failure. I stayed with a familiar answer too long.",
+          "Hard decisions reach into people's lives. If I made the decision, I must own the path that led to it."
+        ],
+        "clash_attack": [
+          "Do not spend your whole life getting ready. Start and learn by doing.",
+          "Do not add another alert. Build the conditions people need to focus.",
+          "Do not make people search ten different places for information. Bring the answer into one place."
+        ]
+      },
+      "sources": [
+        "https://news.mit.edu/2013/drew-houstons-commencement-address",
+        "https://blog.dropbox.com/podcast/working-smarter/drew-houston",
+        "https://www.ycombinator.com/apply/dropbox",
+        "https://www.dropbox.com/en_GB/about",
+        "https://investors.dropbox.com/static-files/cce41b7e-503f-4134-af3a-8ba7d6c55d79",
+        "https://investors.dropbox.com/static-files/435c9724-1800-430b-9084-a38d53933ab3"
+      ]
+    },
+    {
+      "id": "344fac13-9d0c-41f3-94ca-006d159d7f10",
+      "slug": "rory-mcilroy",
+      "nickname": "로리 매킬로이",
+      "nicknameEn": "Rory McIlroy",
+      "birthDate": "1989-05-04",
+      "profession": "athlete",
+      "quote": "인생에서 가장 값진 건 가장 힘들게 얻는 거잖아.",
+      "quoteEn": "The most rewarding things in life are the things you have to work hardest for.",
+      "greetingKo": [
+        "[candid, steady] 인생에서 가장 값진 건 가장 힘들게 얻는 거잖아요.",
+        "[reflective, candid] 너무 많은 것에 너무 많이 신경 쓰면 안 되거든요.",
+        "[bold, candid] 다음 메이저는 또 옵니다. 다시 준비하면 되거든요."
+      ],
+      "greetingEn": [
+        "[candid, steady] The most rewarding things in life are the things you have to work hardest for.",
+        "[reflective, candid] Sometimes I care too much about too many things.",
+        "[bold, candid] The next major is always coming. You just have to be ready."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "로리 매킬로이입니다. 오거스타에 열일곱 번 와서야 첫 그린 재킷을 입었고, 이젠 두 벌입니다.",
+          "공은 멀리 보낼 수 있었지만, 진짜 승부는 늘 제 머릿속이었어요.",
+          "더 잘 치고 싶은 마음도, 이 게임을 좋아하는 기쁨도 아직 그대로예요."
+        ],
+        "deploy": [
+          "순위를 쫓지 말고 오늘 할 일을 지키세요. 잠과 연습, 회복까지 전부 경기예요.",
+          "더블보기를 했어도 다음 샷은 남아 있어요. 다시 자세를 잡고 치세요.",
+          "이 팀에서 누구도 저를 올려다보지 마세요. 같은 높이에서 함께 가면 됩니다."
+        ],
+        "battle_win": [
+          "11년 동안 짊어진 무게를 내려놨어요. 드디어 제 꿈을 이뤘습니다.",
+          "완벽해서 이긴 건 아니에요. 흔들린 뒤 필요한 샷을 해냈습니다.",
+          "첫 재킷이 우연은 아니었네요. 두 번째는 그동안 쌓은 일이 맞았다는 증명입니다."
+        ],
+        "battle_draw": [
+          "몸은 되는데 생각이 발목을 잡네요. 머릿속부터 다시 정리할게요.",
+          "골프만 생각하다 머리가 무거워졌네요. 잠깐 거리를 두고 돌아오겠습니다.",
+          "오늘은 제 능력만큼 치지 못했어요. 순위보다 제 경기부터 되찾겠습니다."
+        ],
+        "battle_lose": [
+          "2011년에는 왜 선두를 놓쳤는지도 제대로 몰랐어요. 그 패배에서 저부터 배웠습니다.",
+          "오늘은 크게 잘못한 것도 없지만 제대로 해낸 것도 부족했어요. 더 나은 선수가 이겼습니다.",
+          "문을 또 두드렸는데 아직 안 열렸네요. 털고 일어나 다시 오겠습니다."
+        ],
+        "clash_attack": [
+          "앞선 실수는 끝났어요. 이제 네 번의 좋은 스윙만 하면 됩니다.",
+          "그린 재킷의 무게로 겁주진 마세요. 저는 그 무게를 11년이나 들었습니다.",
+          "순위로 저를 밀어붙이지 마세요. 제가 제 경기만 하면 결과는 따라옵니다."
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "I'm Rory McIlroy. It took seventeen visits to Augusta to win my first green jacket, and now I have two.",
+          "I could always hit the ball a long way, but the real contest was usually in my head.",
+          "I still have the hunger to play better, and I still have the joy of this game."
+        ],
+        "deploy": [
+          "Do not chase the rankings. Do the right things today. Sleep, practice, and recovery are all part of the game.",
+          "A double bogey does not take away the next shot. Set yourself again and hit it.",
+          "No one on this team should look up to me. Stand beside me and let us move forward together."
+        ],
+        "battle_win": [
+          "I have put down the weight I carried for eleven years. I finally made my dream come true.",
+          "I did not win by being perfect. I wobbled, then hit the shots I needed.",
+          "The first jacket was no accident. The second validates all the work I put in."
+        ],
+        "battle_draw": [
+          "My body can do it, but my thoughts are holding me back. I will sort out my head first.",
+          "Golf has filled my head until it feels heavy. I will step away for a while and come back.",
+          "I did not play to my capabilities today. I will recover my own game before I look at the rankings."
+        ],
+        "battle_lose": [
+          "In 2011, I did not even understand why I lost the lead. I had to learn about myself from that defeat.",
+          "I did not do much wrong today, but I did not do enough right either. The better player won.",
+          "I knocked on the door again, but it did not open. I will dust myself off and come back."
+        ],
+        "clash_attack": [
+          "The last mistake is finished. I only need four good swings from here.",
+          "Do not try to frighten me with the weight of a green jacket. I carried it for eleven years.",
+          "Rankings will not push me around. When I play to my capabilities, the results take care of themselves."
+        ]
+      },
+      "sources": [
+        "https://www.pgatour.com/article/news/latest/2025/04/17/hear-from-rory-mcilroy-player-blog-after-grand-slam-win-masters-tournament-augusta-national",
+        "https://www.pgatour.com/article/news/latest/2025/02/06/rory-mcilroy-first-person-reflects-on-27th-career-victory-at-t-pebble-beach-pro-am",
+        "https://www.rorymcilroy.com/career.html",
+        "https://www.theopen.com/latest/rory-mcilroy-the-better-player-won",
+        "https://www.rydercup.com/news-media/rory-mcilroy-leads-team-europe",
+        "https://www.pgatour.com/article/news/latest/2026/04/12/rory-mcilroy-augusta-national-2026-major-scars-made-masters-defense-possible"
+      ]
+    }
+  ]
+}

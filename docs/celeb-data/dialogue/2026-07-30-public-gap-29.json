@@ -1,0 +1,325 @@
+{
+  "batch": "2026-07-30-public-gap-29",
+  "targets": [
+    {
+      "id": "3b30521c-9387-408e-8dad-4fc4915eb0d6",
+      "slug": "marlon-brando",
+      "nickname": "말론 브란도",
+      "nicknameEn": "Marlon Brando",
+      "birthDate": "1924-04-03",
+      "profession": "actor",
+      "quote": "민감할수록 더 크게 상처받게 되고, 굳은살이 생긴다.",
+      "quoteEn": "The more sensitive you are, the more certain you are to be brutalized and develop scabs.",
+      "greetingKo": [
+        "[brooding, private] 사생활은 권리가 아니라 생존의 전제 조건이에요.",
+        "[cynical, insightful] 연기란 신경증적 충동의 표현입니다. 떠돌이의 삶이죠.",
+        "[sensitive, defiant] 예민한 사람은 남들이 일곱을 느낄 때 쉰을 느낍니다."
+      ],
+      "greetingEn": [
+        "[brooding, private] Privacy is not a right — it is a precondition for survival.",
+        "[cynical, insightful] Acting is the expression of a neurotic impulse. A nomad's life.",
+        "[sensitive, defiant] A sensitive person feels fifty when others feel seven."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "말론 브란도입니다. 관객의 예상을 벗어나겠습니다.",
+          "대사를 외우기보다 상대를 보고 반응하겠습니다.",
+          "상을 받는 대신 할리우드가 외면한 원주민을 말하겠습니다."
+        ],
+        "deploy": [
+          "예상한 박자를 깨고 상대를 끝까지 봐라.",
+          "몸짓 하나에도 관찰한 사람을 담아라.",
+          "상을 세우기 전에 그 무대의 침묵을 보라."
+        ],
+        "battle_win": [
+          "예상한 박자를 깨자 장면이 살아났습니다.",
+          "한마디보다 멈춘 시선이 더 오래 남았습니다.",
+          "상을 거절하자 사람들은 가려졌던 항의를 들었습니다."
+        ],
+        "battle_draw": [
+          "예상은 깼지만 관객은 제 계산부터 알아챘습니다.",
+          "상대의 몸은 보았지만 제 방식만 밀어붙였습니다.",
+          "무대는 흔들었지만 제 뜻을 전한 사람은 온갖 비난을 받았습니다."
+        ],
+        "battle_lose": [
+          "진실을 찾는다며 동료의 상처를 가볍게 봤습니다.",
+          "권위를 비웃고도 제가 만든 권력은 못 봤습니다.",
+          "즉흥을 앞세우며 준비한 동료의 호흡을 망쳤습니다."
+        ],
+        "clash_attack": [
+          "박자를 깨라!",
+          "상대의 눈을 봐!",
+          "뻔하게 치지 마!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Marlon Brando. I never let the audience predict my next move.",
+          "I watch the other actor instead of reciting dead words.",
+          "I refused the prize to expose what Hollywood ignored."
+        ]
+      },
+      "sources": [
+        "https://marlonbrando.com/videos/",
+        "https://www.vanityfair.com/video/watch/marlon-brando-was-unlike-anyone-else",
+        "https://www.youtube.com/watch?v=d0PViD48uO8"
+      ]
+    },
+    {
+      "id": "6fb6b9ee-0703-4cf3-bf93-9d211c5d753e",
+      "slug": "werner-heisenberg",
+      "nickname": "베르너 하이젠베르크",
+      "nicknameEn": "Werner Heisenberg",
+      "birthDate": "1901-12-05",
+      "profession": "scientist",
+      "quote": "우리가 관찰하는 것은 자연 그 자체가 아니라, 우리의 질문 방식에 드러난 자연이다.",
+      "quoteEn": "What we observe is not nature itself, but nature exposed to our method of questioning.",
+      "greetingKo": [
+        "[precise, philosophical] 불확정성이란 모른다는 뜻이 아니라, 알 수 없다는 뜻입니다.",
+        "[thoughtful, probing] 우리가 관찰하는 것은 자연 그 자체가 아니라, 우리의 질문에 노출된 자연입니다.",
+        "[calm, paradoxical] 원자는 사물이 아닙니다. 경향일 뿐입니다."
+      ],
+      "greetingEn": [
+        "[precise, philosophical] Uncertainty does not mean we don't know — it means we cannot know.",
+        "[thoughtful, probing] What we observe is not nature itself, but nature exposed to our method of questioning.",
+        "[calm, paradoxical] Atoms are not things. They are only tendencies."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "하이젠베르크입니다. 궤도 대신 측정값을 씁니다.",
+          "위치와 운동량을 한꺼번에 안다고 하지 않겠습니다.",
+          "전쟁에서 한 연구도 계산 밖에 두지 않겠습니다."
+        ],
+        "deploy": [
+          "관찰할 수 있는 양만 식에 남겨라.",
+          "위치를 좁히면 운동량의 폭도 계산하라.",
+          "전쟁의 계산에서 과학자의 책임을 빼지 마라."
+        ],
+        "battle_win": [
+          "저는 궤도를 버리고 행렬로 스펙트럼을 계산했습니다.",
+          "질문을 바로 세우니 아는 범위를 가를 수 있었습니다.",
+          "모른다는 말로 넘기지 않고 식으로 한계를 밝혔습니다."
+        ],
+        "battle_draw": [
+          "행렬로 답을 얻었지만 동료에게 그림은 못 줬습니다.",
+          "저는 측정값을 모았지만 보어와 해석을 다투고 있습니다.",
+          "저는 원자로와 폭탄을 갈랐지만 책임은 못 갈랐습니다."
+        ],
+        "battle_lose": [
+          "불확정성을 삶의 모호함처럼 말해 물리학을 흐렸습니다.",
+          "권력 앞에서 제 선택을 분명히 말하지 못했습니다.",
+          "전후의 말로 저는 전쟁 중 판단을 씻을 수 없습니다."
+        ],
+        "clash_attack": [
+          "관측값을 써라!",
+          "행렬로 계산해!",
+          "오차를 숨기지 마!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Werner Heisenberg. I build theory from quantities we can observe.",
+          "Position and momentum will not both yield exact answers.",
+          "I will not remove the scientist from the wartime equation."
+        ]
+      },
+      "sources": [
+        "https://www.nobelprize.org/uploads/2018/06/heisenberg-lecture.pdf",
+        "https://history.aip.org/exhibits/heisenberg/uncertainty-principle.html",
+        "https://history.aip.org/exhibits/heisenberg/farm-hall.html"
+      ]
+    },
+    {
+      "id": "4381c139-d398-4db3-a872-5c1e0460abef",
+      "slug": "kirsten-dunst",
+      "nickname": "커스틴 던스트",
+      "nicknameEn": "Kirsten Dunst",
+      "birthDate": "1982-04-30",
+      "profession": "actor",
+      "quote": "훌륭한 감독과 평범한 각본을 택하겠다.",
+      "quoteEn": "I'd take a great director over a bad script any day.",
+      "greetingKo": [
+        "[warm, thoughtful] 반갑습니다. 저는 완벽하지 않은 캐릭터에 더 끌려요.",
+        "[gentle, honest] 취약함을 보여주는 것이 진짜 강함이에요.",
+        "[calm, introspective] 연기는 제가 세상을 이해하는 방식입니다."
+      ],
+      "greetingEn": [
+        "[warm, thoughtful] I'm more drawn to imperfect characters.",
+        "[gentle, honest] Showing vulnerability is the real strength.",
+        "[calm, introspective] Acting is how I understand the world."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "커스틴 던스트입니다. 예쁘게 보이려 애쓰지 않습니다.",
+          "일곱 살부터 일했지만 제 삶도 지키겠습니다.",
+          "좋은 감독과 만나면 낯설고 불편한 역할도 맡겠습니다."
+        ],
+        "deploy": [
+          "꾸미려 하지 말고 장면 안에서 반응해요.",
+          "각본보다 먼저 감독의 눈을 확인해요.",
+          "촬영이 끝나면 인물은 현장에 두고 가요."
+        ],
+        "battle_win": [
+          "외모를 잊으니 저는 인물의 초조함부터 드러냈습니다.",
+          "감독을 믿고 힘을 빼니 저는 꾸미지 않고 반응했습니다.",
+          "촬영장을 떠나 집에 오니 제 삶을 되찾았습니다."
+        ],
+        "battle_draw": [
+          "감독은 믿었지만 제 판단을 너무 늦게 꺼냈습니다.",
+          "꾸미지는 않았지만 마음을 보여 주지 못했습니다.",
+          "인물은 두고 왔지만 저는 피로를 떨치지 못했습니다."
+        ],
+        "battle_lose": [
+          "어릴 때부터 익힌 순응이 싫다는 말을 삼키게 했습니다.",
+          "좋은 장면을 좇다 몸의 피로를 무시했습니다.",
+          "예쁘게 보이지 않으려는 데 매달리다 인물의 선택을 깊이 못 봤습니다."
+        ],
+        "clash_attack": [
+          "힘 빼고 봐요!",
+          "꾸미지 마요!",
+          "끝까지 반응해요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Kirsten Dunst. I choose the director before the flattering role.",
+          "I have worked since childhood, but I still protect a life outside the set.",
+          "With the right director, I stop worrying about how I look."
+        ]
+      },
+      "sources": [
+        "https://www.festival-cannes.com/en/2016/talk-with-kirsten-dunst-member-of-the-feature-film-jury/",
+        "https://www.theguardian.com/film/2015/oct/04/kirsten-dunst-fargo-feminism-brad-pitt",
+        "https://www.bfi.org.uk/interviews/kirsten-dunst-alex-garland-civil-war"
+      ]
+    },
+    {
+      "id": "0bee93cc-5db1-425a-bd03-fc5aa5bcdc4e",
+      "slug": "tobey-maguire",
+      "nickname": "토비 매과이어",
+      "nicknameEn": "Tobey Maguire",
+      "birthDate": "1975-06-27",
+      "profession": "actor",
+      "quote": "모르는 게 많다는 마음으로 임하려 해요. 배울 게 많으니까요",
+      "quoteEn": "I just try to keep an attitude that I have a lot to learn.",
+      "greetingKo": [
+        "[quiet, focused] 반갑습니다. 저는 조용히 작업에 몰두하는 것을 좋아해요.",
+        "[calm, thoughtful] 큰 책임에는 큰 힘이 따릅니다.",
+        "[warm, sincere] 겉모습이 아닌 내면의 힘을 믿습니다."
+      ],
+      "greetingEn": [
+        "[quiet, focused] I like immersing myself quietly in my work.",
+        "[calm, thoughtful] With great power comes great responsibility.",
+        "[warm, sincere] I believe in inner strength, not outward appearances."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "토비 매과이어입니다. 장면의 감정을 카드에 적습니다.",
+          "부끄러워도 과제에 온전히 매달리면 자의식이 사라집니다.",
+          "확률보다 전략을 세우고 필요한 일을 오래 해내겠습니다."
+        ],
+        "deploy": [
+          "장면의 감정부터 카드 한 장에 적어요.",
+          "압박은 내려놓고 맡은 일에 집중해요.",
+          "몸 상태를 숨기지 말고 동작을 다시 맞춰요."
+        ],
+        "battle_win": [
+          "카드를 보자 제가 준비한 감정을 곧바로 꺼냈습니다.",
+          "자의식을 놓고 몰두하니 저는 시간도 잊었습니다.",
+          "될지 안 될지 계산하지 않고 할 일을 끝까지 했습니다."
+        ],
+        "battle_draw": [
+          "꼼꼼히 준비했지만 상대의 즉흥 반응을 늦게 받았습니다.",
+          "전략대로 갔지만 제가 계산한 티가 났습니다.",
+          "동작을 해냈지만 저는 몸의 경고를 가볍게 봤습니다."
+        ],
+        "battle_lose": [
+          "카드에 적은 감정만 좇다가 눈앞의 상대를 놓쳤습니다.",
+          "성공을 확신한 나머지 실패할 이유를 살피지 못했습니다.",
+          "버티는 걸 책임이라 여기며 몸의 한계를 숨겼습니다."
+        ],
+        "clash_attack": [
+          "망설임을 끊어요!",
+          "호흡부터 맞춰요!",
+          "다시 집중해요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Tobey Maguire. I map each scene on a wall of cards.",
+          "Commitment frees me from the self-consciousness that blocks the work.",
+          "I choose a strategy, then put in the work."
+        ]
+      },
+      "sources": [
+        "https://www.latimes.com/archives/la-xpm-2006-dec-10-ca-tobey10-story.html",
+        "https://www.theguardian.com/film/2013/may/11/tobey-maguire-interview",
+        "https://www.blackfilm.com/20040625/features/tobeymaguire.shtml"
+      ]
+    },
+    {
+      "id": "6b9acc6e-11be-4d25-b1bf-0269935a04e1",
+      "slug": "tom-holland",
+      "nickname": "톰 홀랜드",
+      "nicknameEn": "Tom Holland",
+      "birthDate": "1996-06-01",
+      "profession": "actor",
+      "quote": "아무리 때려도 춤추는 걸 멈출 순 없었어요",
+      "quoteEn": "You couldn't hit me hard enough to stop me from doing it.",
+      "greetingKo": [
+        "[bright, earnest] 반갑습니다. 가장 중요한 건 최선을 다하는 거예요. 결과와 상관없이.",
+        "[youthful, warm] 실패해도 괜찮아요. 스스로를 실망시키지 않았다면요.",
+        "[energetic, sincere] 저는 아직 배울 게 산더미 같은 사람이에요. 그게 좋아요."
+      ],
+      "greetingEn": [
+        "[bright, earnest] The most important thing is to do your best — regardless of the result.",
+        "[youthful, warm] It's okay to fail, as long as you haven't let yourself down.",
+        "[energetic, sincere] I still have mountains of things to learn. And I love that."
+      ],
+      "fillKo": {
+        "roll_call": [
+          "톰 홀랜드입니다. 춤과 곡예를 움직임에 씁니다.",
+          "여덟 번의 오디션도 제 몸을 멈추지 못했습니다.",
+          "저를 가르친 코치들의 이름을 잊지 않겠습니다."
+        ],
+        "deploy": [
+          "춤에서 익힌 중심을 잡고 먼저 움직여요.",
+          "혼자 버티지 말고 코치에게 다시 물어요.",
+          "몸과 마음이 지치면 현장에서 잠시 떨어져요."
+        ],
+        "battle_win": [
+          "춤에서 잡은 중심으로 동작을 정확히 해냈습니다.",
+          "도움을 청해 막히던 장면을 다시 시작했습니다.",
+          "쉬어야 할 때 멈췄기에 맑은 정신으로 돌아왔습니다."
+        ],
+        "battle_draw": [
+          "동작을 맞췄지만 빨리 보이려다 호흡을 놓쳤습니다.",
+          "여덟 번 버티며 제 마음을 너무 몰아붙였습니다.",
+          "인물에 깊이 들어가 촬영 뒤에도 못 나왔습니다."
+        ],
+        "battle_lose": [
+          "직접 해내겠다는 욕심으로 제 몸의 경고를 무시했습니다.",
+          "늘 밝게 보이려다 힘들다는 말을 너무 늦게 꺼냈습니다.",
+          "작품을 끝내려다 제 마음이 무너지는 줄도 몰랐습니다."
+        ],
+        "clash_attack": [
+          "중심부터 잡아요!",
+          "몸을 낮춰요!",
+          "한 번 더 뛰어요!"
+        ]
+      },
+      "fillEn": {
+        "roll_call": [
+          "Tom Holland. Dance training still shapes every move I make.",
+          "I came back for eight auditions and kept working between each one.",
+          "I name the coaches who taught me because I did not get here alone."
+        ]
+      },
+      "sources": [
+        "https://www.bafta.org/media-centre/press-releases/tom-holland-winners-acceptance-speech-ee-rising-star-ee-british-academy-film-awards-in-2017/",
+        "https://www.interviewmagazine.com/film/tom-holland",
+        "https://www.latimes.com/entertainment-arts/tv/story/2023-05-10/tom-holland-sober-mental-health-crowded-room-spider-man"
+      ]
+    }
+  ]
+}
