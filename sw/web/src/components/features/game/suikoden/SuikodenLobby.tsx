@@ -5,105 +5,56 @@
 */
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { createPortal } from "react-dom";
 import {
-  Crown, BookOpen, BarChart3, LogOut,
-  Map, Swords, Users, Scroll, Shield, Building, Construction,
+  Crown, BookOpen, LogOut, Map, Swords, Users, Scroll, Shield, Building, RotateCcw,
 } from "lucide-react";
-import { Z_INDEX } from "@/constants/zIndex";
 import GameLobbyNavRow from "@/components/features/game/shared/GameLobbyNavRow";
 import GameLobbyMain from "@/components/features/game/shared/GameLobbyMain";
 import GameLobbySubmenu from "@/components/features/game/shared/GameLobbySubmenu";
 import GameRulesSection from "@/components/features/game/shared/GameRulesSection";
+import { hasSuikodenGame, type SuikodenStartMode } from "@/lib/game/suikoden/save";
 
 interface SuikodenLobbyProps {
-  characterCount: number;
-  onStart: () => void;
+  onStart: (mode: SuikodenStartMode) => void;
   onExit: () => void;
 }
 
 type MenuId = "main" | "rules";
 
-export default function SuikodenLobby({ characterCount, onStart, onExit }: SuikodenLobbyProps) {
+export default function SuikodenLobby({ onStart, onExit }: SuikodenLobbyProps) {
   const t = useTranslations("shared.game");
   const tArena = useTranslations("rest.arena.suikoden");
   const [menu, setMenu] = useState<MenuId>("main");
-  const [devModalOpen, setDevModalOpen] = useState(false);
-  const codeRef = useRef("");
-
-  // 모달 열린 동안 키보드로 비밀코드 수집
-  useEffect(() => {
-    if (!devModalOpen) return;
-    codeRef.current = "";
-    const SECRET = "123";
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { setDevModalOpen(false); return; }
-      if (!/^\d$/.test(e.key)) return;
-      e.stopPropagation();
-      const next = codeRef.current + e.key;
-      if (SECRET.startsWith(next)) {
-        codeRef.current = next;
-        if (next === SECRET) {
-          setDevModalOpen(false);
-          onStart();
-        }
-      } else {
-        codeRef.current = "";
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown, true);
-    return () => window.removeEventListener("keydown", onKeyDown, true);
-  }, [devModalOpen, onStart]);
+  const [hasSave] = useState(() => hasSuikodenGame());
 
   if (menu === "rules") return <LobbyRules onBack={() => setMenu("main")} />;
 
   return (
-    <>
-      <GameLobbyMain
-          title={tArena("label")}
-          englishTitle="Cheondo"
-          catchphrase={tArena("headerDesc")}
-          cta={{
-            icon: <>
-              <Construction size={22} className="sm:hidden" />
-              <Construction size={26} className="hidden sm:block" />
-            </>,
-            label: tArena("devNoticeTitle"),
-            sub: "Coming Soon",
-            onClick: () => setDevModalOpen(true),
-          }}
-          navItems={<>
-            <GameLobbyNavRow icon={<BookOpen size={16} />} label={t("lobby.rules")} sub="Rules" onClick={() => setMenu("rules")} />
-            <GameLobbyNavRow icon={<BarChart3 size={16} />} label={t("lobby.records")} sub="Records" disabled />
-            <GameLobbyNavRow icon={<LogOut size={16} />} label={t("exit")} sub="Exit" onClick={onExit} />
-          </>}
-      />
-      {devModalOpen && createPortal(
-        <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: Z_INDEX.gameModal }}>
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setDevModalOpen(false)} />
-          <div className="relative w-[min(90vw,320px)] rounded-2xl bg-bg-main border border-white/[0.08] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex flex-col items-center pt-6 pb-4 px-5">
-              <Construction size={28} className="mb-2" />
-              <h2 className="text-base font-serif font-black text-white">{tArena("devNoticeTitle")}</h2>
-              <p className="text-[11px] mt-1 text-center leading-relaxed">{tArena("devNoticeDesc")}</p>
-            </div>
-            <div className="px-4 pb-4">
-              <button
-                onClick={() => setDevModalOpen(false)}
-                className="w-full py-2 rounded-lg text-[11px] hover:text-text-secondary"
-              >
-                {t("ui.cancel")}
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-    </>
+    <GameLobbyMain
+      title={tArena("label")}
+      englishTitle="Cheondo"
+      catchphrase={tArena("headerDesc")}
+      cta={{
+        icon: <Crown size={26} />,
+        label: tArena(hasSave ? "continueGame" : "startGame"),
+        sub: hasSave ? tArena("savedGame") : "Campaign",
+        onClick: () => onStart(hasSave ? "continue" : "new"),
+      }}
+      navItems={<>
+        {hasSave && (
+          <GameLobbyNavRow
+            icon={<RotateCcw size={16} />}
+            label={tArena("newGame")}
+            sub="New Game"
+            onClick={() => onStart("new")}
+          />
+        )}
+        <GameLobbyNavRow icon={<BookOpen size={16} />} label={t("lobby.rules")} sub="Rules" onClick={() => setMenu("rules")} />
+        <GameLobbyNavRow icon={<LogOut size={16} />} label={t("exit")} sub="Exit" onClick={onExit} />
+      </>}
+    />
   );
 }
 
@@ -133,7 +84,7 @@ function LobbyRules({ onBack }: { onBack: () => void }) {
 
       {/* PART 1: 게임 흐름 */}
       <GameRulesSection partLabel="Part 1" title={tS("rules.flowTitle")}>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {[
             { step: "01", icon: <Map size={18} />, title: tS("rules.flow1"), desc: tS("rules.flow1Desc") },
             { step: "02", icon: <Building size={18} />, title: tS("rules.flow2"), desc: tS("rules.flow2Desc") },

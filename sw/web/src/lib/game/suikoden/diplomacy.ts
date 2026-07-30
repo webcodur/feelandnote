@@ -2,6 +2,7 @@
 
 import type { GameState, Faction } from './types'
 import { getTotalPower } from './utils'
+import { resolveCampaignOutcome } from './campaign'
 
 /** 외교 행동 결과 */
 export interface DiplomacyResult {
@@ -205,7 +206,7 @@ export function commandSurrender(state: GameState, targetFactionId: string): { s
   const sFame = addFameToFaction(s, state.playerFactionId, 10)
 
   return {
-    state: sFame,
+    state: resolveCampaignOutcome(sFame),
     result: { success: true, message: `${target.name}이 항복했다! (명성 +10)` },
   }
 }

@@ -29,7 +29,7 @@ export default function TurnOrderBar({ state, playerFactionId }: Props) {
         return (
           <div
             key={unitId}
-            className={`relative shrink-0 transition-all ${
+            className={`relative shrink-0 transition-[transform,opacity] ${
               isCurrent ? 'scale-110 z-10' : 'opacity-70'
             }`}
           >

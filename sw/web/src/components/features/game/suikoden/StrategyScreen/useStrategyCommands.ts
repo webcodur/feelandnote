@@ -1,9 +1,10 @@
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import type { GameState, TerritoryId, TaxRate } from '@/lib/game/suikoden/types'
-import { getTerritoryDef } from '@/lib/game/suikoden/utils'
+import { getActiveNeighborInfo, getTerritoryDef } from '@/lib/game/suikoden/utils'
+import { resolveCampaignOutcome } from '@/lib/game/suikoden/campaign'
 import { initBattle, abandonFortress } from '@/lib/game/suikoden/engine'
-import { advanceTurn, commandBuild, commandAssign, commandReassign, commandUnassign, commandIdle, commandTrain, commandReward, commandPunish, commandDemolish, commandSetTaxRate, commandAssignRecruiter, commandCancelRecruiter, commandDispatch, commandRecall } from '@/lib/game/suikoden/turnEngine'
+import { advanceTurn, commandBuild, commandAssign, commandReassign, commandUnassign, commandIdle, commandTrain, commandReward, commandPunish, commandReinforce, commandDemolish, commandSetTaxRate, commandAssignRecruiter, commandCancelRecruiter, commandDispatch, commandRecall } from '@/lib/game/suikoden/turnEngine'
 import { commandAlliance, commandCeasefire, commandTribute, commandSurrender } from '@/lib/game/suikoden/diplomacy'
 import { generateDialog } from '@/lib/game/suikoden/dialog'
 import { getSuikodenText, translateSuikodenMessage } from '../i18n'
@@ -161,6 +162,12 @@ export function useStrategyCommands({
     onUpdateState(s => commandPunish(s, selectedCharId))
   }, [selectedCharId, onUpdateState])
 
+  // ── 병사 보충 명령 ──
+  const handleReinforce = useCallback(() => {
+    if (!selectedCharId) return
+    onUpdateState(s => commandReinforce(s, selectedCharId))
+  }, [selectedCharId, onUpdateState])
+
   // ── 철거 명령 ──
   const handleDemolish = useCallback((buildingInstanceId: string) => {
     if (!viewingTerritory) return
@@ -219,33 +226,128 @@ export function useStrategyCommands({
 
   // ── 침공 ──
   const handleAttack = useCallback((targetTerritoryId: TerritoryId) => {
+    if (!viewingTerritory || !playerFaction.territories.some(t => t.id === viewingTerritory.id)) return
+    const isAdjacent = getActiveNeighborInfo(state, viewingTerritory.id)
+      .some(neighbor => neighbor.id === targetTerritoryId)
+    if (!isAdjacent) {
+      showToast(text.strategy.cannotReachTerritory)
+      return
+    }
+
     const defenderFaction = state.factions.find(f =>
       f.id !== state.playerFactionId && f.territories.some(t => t.id === targetTerritoryId)
     )
     if (!defenderFaction) return
 
-    const pf = state.factions.find(f => f.id === state.playerFactionId)!
-    const attackerIds = pf.members.slice(0, 5).map(m => m.id)
-    const defenderIds = defenderFaction.members.slice(0, 5).map(m => m.id)
-    if (attackerIds.length === 0 || defenderIds.length === 0) return
+    const deployableIds = new Set(
+      state.placements
+        .filter(placement => placement.factionId === state.playerFactionId
+          && placement.territoryId === viewingTerritory.id
+          && placement.task === 'idle')
+        .map(placement => placement.characterId),
+    )
+    const attackerIds = playerFaction.members
+      .filter(member => deployableIds.has(member.id) && member.hp > 0 && member.troops > 0)
+      .sort((a, b) => b.totalScore - a.totalScore)
+      .slice(0, 5)
+      .map(member => member.id)
 
-    const battle = initBattle(pf, defenderFaction, attackerIds, defenderIds, targetTerritoryId)
+    if (attackerIds.length === 0) {
+      showToast(text.strategy.noDeployableUnits)
+      return
+    }
 
-    onUpdateState(s => ({
-      ...s,
+    const stationedDefenderIds = new Set(
+      state.placements
+        .filter(placement => placement.factionId === defenderFaction.id
+          && placement.territoryId === targetTerritoryId)
+        .map(placement => placement.characterId),
+    )
+    const defenderIds = defenderFaction.members
+      .filter(member => stationedDefenderIds.has(member.id) && member.hp > 0 && member.troops > 0)
+      .sort((a, b) => b.totalScore - a.totalScore)
+      .slice(0, 5)
+      .map(member => member.id)
+
+    // 수비대가 비어 있으면 전투 없이 점령하고 빈 세력을 정리한다.
+    if (defenderIds.length === 0) {
+      onUpdateState(current => {
+        const defender = current.factions.find(f => f.id === defenderFaction.id)
+        const taken = defender?.territories.find(t => t.id === targetTerritoryId)
+        if (!defender || !taken) return current
+        const remainingTerritories = defender.territories.filter(t => t.id !== targetTerritoryId)
+        const retreatTerritory = remainingTerritories[0]
+        const clearedTaken = {
+          ...taken,
+          buildingCards: taken.buildingCards.map(card => ({
+            ...card,
+            assigneeId: null,
+            constructionWorkerId: null,
+          })),
+        }
+        const occupied: GameState = {
+          ...current,
+          factions: current.factions.map(f => {
+            if (f.id === current.playerFactionId) {
+              return { ...f, fame: f.fame + 5, territories: [...f.territories, clearedTaken] }
+            }
+            if (f.id === defender.id) {
+              return { ...f, territories: remainingTerritories }
+            }
+            return f
+          }),
+          placements: current.placements.flatMap(placement => {
+            if (placement.factionId !== defender.id || placement.territoryId !== targetTerritoryId) {
+              return [placement]
+            }
+            return retreatTerritory
+              ? [{ ...placement, territoryId: retreatTerritory.id, task: 'idle' as const, assignedBuildingId: null }]
+              : []
+          }),
+          viewingTerritoryId: targetTerritoryId,
+          log: [...current.log, `${taken.name}의 빈 수비대를 접수했다!`],
+        }
+        return resolveCampaignOutcome(occupied)
+      })
+      return
+    }
+
+    const battle = initBattle(playerFaction, defenderFaction, attackerIds, defenderIds, targetTerritoryId)
+
+    onUpdateState(current => ({
+      ...current,
       battle,
       phase: 'battle' as const,
-      log: [...s.log, `${defenderFaction.name}의 ${getTerritoryDef(targetTerritoryId)?.name}에 침공!`],
+      log: [...current.log, `${defenderFaction.name}의 ${getTerritoryDef(targetTerritoryId)?.name}에 침공!`],
     }))
-  }, [state, onUpdateState])
+  }, [state, viewingTerritory, playerFaction, onUpdateState, showToast, text.strategy])
 
   // ── 무주지 점령 ──
   const handleClaim = useCallback((territoryId: TerritoryId) => {
-    const def = getTerritoryDef(territoryId)!
-    onUpdateState(s => ({
-      ...s,
-      factions: s.factions.map(f =>
-        f.id === s.playerFactionId
+    const sourceTerritory = viewingTerritory && playerFaction.territories.some(t => t.id === viewingTerritory.id)
+      ? viewingTerritory
+      : playerFaction.territories.find(territory =>
+          getActiveNeighborInfo(state, territory.id)
+            .some(neighbor => neighbor.id === territoryId && !neighbor.owner),
+        )
+    if (!sourceTerritory) {
+      showToast(text.strategy.cannotReachTerritory)
+      return
+    }
+
+    const isAdjacent = getActiveNeighborInfo(state, sourceTerritory.id)
+      .some(neighbor => neighbor.id === territoryId && !neighbor.owner)
+    if (!isAdjacent) {
+      showToast(text.strategy.cannotReachTerritory)
+      return
+    }
+
+    const def = getTerritoryDef(territoryId)
+    if (!def) return
+    onUpdateState(current => resolveCampaignOutcome({
+      ...current,
+      factions: current.factions.map(f =>
+        f.id === current.playerFactionId
           ? { ...f, fame: f.fame + 5, territories: [...f.territories, {
               id: territoryId,
               name: def.name,
@@ -259,9 +361,10 @@ export function useStrategyCommands({
             }] }
           : f
       ),
-      log: [...s.log, `${def.name}을(를) 점령했다! (명성 +5)`],
+      viewingTerritoryId: territoryId,
+      log: [...current.log, `${def.name}을(를) 점령했다! (명성 +5)`],
     }))
-  }, [onUpdateState])
+  }, [state, viewingTerritory, playerFaction, onUpdateState, showToast, text.strategy])
 
   // ── 본진 복귀 ──
   const handleGoHome = useCallback(() => {
@@ -291,6 +394,7 @@ export function useStrategyCommands({
     handleTrain,
     handleReward,
     handlePunish,
+    handleReinforce,
     handleDemolish,
     handleSetTaxRate,
     handleDiplomacy,

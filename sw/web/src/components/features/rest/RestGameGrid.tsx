@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Clock, Crosshair, Swords, Crown } from "lucide-react";
 import HubCard from "@/components/shared/HubCard";
@@ -63,9 +63,27 @@ export default function RestGameGrid({
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
 
-  const handleExit = () => {
+  const openGame = useCallback((gameId: GameId) => {
+    setActiveGame(gameId);
+    window.history.replaceState(null, "", `#${gameId}`);
+  }, []);
+
+  useEffect(() => {
+    const openFromHash = () => {
+      const gameId = window.location.hash.slice(1) as GameId;
+      if (GAME_SECTIONS.some((game) => game.valueKey === gameId)) {
+        setActiveGame(gameId);
+      }
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
+
+  const handleExit = useCallback(() => {
     setActiveGame(null);
-  };
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+  }, []);
 
   return (
     <>
@@ -76,7 +94,7 @@ export default function RestGameGrid({
             <HubCard
               key={game.valueKey}
               id={game.valueKey}
-              onClick={() => setActiveGame(game.valueKey)}
+              onClick={() => openGame(game.valueKey)}
               title={gameLabels[game.valueKey].title}
               description={gameLabels[game.valueKey].description}
               label={game.label}

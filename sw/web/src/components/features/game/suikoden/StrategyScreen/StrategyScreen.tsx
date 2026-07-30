@@ -78,8 +78,8 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
       {/* 토스트 알림 — absolute, 레이아웃 무영향 */}
       {toast && (
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30">
-          <div className="p-2 px-4 bg-stone-900 border border-amber-500/30 rounded text-xs text-amber-300 text-center shadow-lg whitespace-nowrap">
+        <div className="absolute top-0 left-1/2 z-30 w-[calc(100vw_-_2rem)] max-w-[32rem] -translate-x-1/2">
+          <div className="break-words whitespace-normal rounded border border-amber-500/30 bg-stone-900 px-4 py-2 text-center text-xs text-amber-300 shadow-lg">
             {toast}
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
       {/* HUD — 상태 표시줄 (읽기 전용) */}
       <PanelLabel name={text.strategy.panelResources} />
-      <GameHUD state={state} territory={viewingTerritory} />
+      <GameHUD state={state} />
 
       {/* 도구바 — 내 영토: 풀 도구바, 적 영토: 복귀 버튼 */}
       <PanelLabel name={text.strategy.panelToolbar} />
@@ -157,7 +157,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
         <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-2 flex items-center gap-3">
           <button
             onClick={commands.handleGoHome}
-            className="px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded transition-colors"
+            className="px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded"
           >
             {text.strategy.goMain}
           </button>
@@ -202,7 +202,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
                   <p className="text-text-secondary">{text.strategy.noOneOccupies}</p>
                   <button
                     onClick={() => commands.handleClaim(viewingTerritory.id)}
-                    className="px-6 py-3 bg-green-900/50 border border-green-700 rounded-lg hover:bg-green-800/60 hover:border-green-500 transition-colors text-sm text-stone-100 font-bold"
+                    className="px-6 py-3 bg-green-900/50 border border-green-700 rounded-lg hover:bg-green-800/60 hover:border-green-500 text-sm text-stone-100 font-bold"
                   >
                     {text.strategy.claim}
                   </button>
@@ -260,6 +260,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
           handleTrain={commands.handleTrain}
           handleReward={commands.handleReward}
           handlePunish={commands.handlePunish}
+          handleReinforce={commands.handleReinforce}
           showHelp={showHelp}
           setShowHelp={setShowHelp}
           text={text}

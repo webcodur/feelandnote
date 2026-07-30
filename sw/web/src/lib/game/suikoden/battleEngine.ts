@@ -1,13 +1,13 @@
 // 천도 — 개별 유닛 턴제 전투 엔진
 
 import type {
-  BattleState, BattleUnit, BattleAction, BattleActionType, BattleLogEntry, BattleAnimation,
+  BattleState, BattleUnit, BattleAction, BattleActionType, BattleLogEntry,
   GameCharacter, GridPosition, Faction, TerritoryId, StatusEffect, BattleParticipant,
 } from './types'
 import {
   BATTLE_MAX_TURNS, BATTLE_GRID_ROWS, BATTLE_GRID_COLS,
   CLASS_SPEED_BONUS, CLASS_ATTACK_MULT, CLASS_DEFAULT_ROW,
-  SKILL_DEFS, CLASS_INFO,
+  SKILL_DEFS,
 } from './constants'
 import { getAvailableSkills } from './skills'
 
@@ -15,7 +15,15 @@ import { getAvailableSkills } from './skills'
 
 function calcUnitHp(character: GameCharacter): number {
   const { command, martial } = character.stats
-  return Math.max(10, Math.round(300 + command * 2.0 + martial * 1.0))
+  const baseHp = 300 + command * 2.0 + martial * 1.0
+  const troopRatio = character.maxTroops > 0
+    ? Math.max(0, Math.min(1, character.troops / character.maxTroops))
+    : 0
+  const healthRatio = character.maxHp > 0
+    ? Math.max(0, Math.min(1, character.hp / character.maxHp))
+    : 0
+  // 기존 부상과 병력 손실이 다음 전투의 실제 전력에도 이어진다.
+  return Math.max(10, Math.round(baseHp * (0.25 + troopRatio * 0.75) * healthRatio))
 }
 
 // ── 속도 공식 ──
@@ -262,27 +270,50 @@ function getMoraleMod(morale: number): number {
 // ── 행동 실행 ──
 
 export function executeAction(state: BattleState, action: BattleAction): BattleState {
-  const actor = findUnit(state, action.actorId)
+  let actor = findUnit(state, action.actorId)
   if (!actor || actor.isDefeated) return advanceTurn(state)
 
-  // 혼란 체크
+  // 혼란은 해당 인물의 다음 행동 한 번을 막고 해제된다.
   if (actor.statusEffects.some(e => e.type === 'confused')) {
     const log: BattleLogEntry = {
       turn: state.turnNumber,
       message: `${actor.character.nickname}은(는) 혼란 상태로 행동 불가!`,
       type: 'system',
     }
-    return advanceTurn({ ...state, log: [...state.log, log], animation: null })
+    const recovered = removeStatusEffect(state, actor.id, 'confused')
+    return advanceTurn({ ...recovered, log: [...recovered.log, log], animation: null })
   }
 
-  let newState: BattleState = { ...state, animation: null }
-  const isActorAlly = state.allies.some(u => u.id === action.actorId)
+  // 함정은 걸린 인물의 다음 행동 직전에 발동한다. 살아남으면 예정한 행동을 계속한다.
+  let preparedState = state
+  if (actor.statusEffects.some(e => e.type === 'trapped')) {
+    const trapDamage = Math.max(1, Math.round(actor.maxHp * 0.2))
+    preparedState = applyDamageToUnit(preparedState, actor.id, trapDamage)
+    preparedState = removeStatusEffect(preparedState, actor.id, 'trapped')
+    preparedState = checkDefeated(preparedState)
+    preparedState = {
+      ...preparedState,
+      log: [...preparedState.log, {
+        turn: state.turnNumber,
+        message: `${actor.character.nickname}이(가) 함정에 걸려 ${trapDamage} 피해!`,
+        type: 'skill',
+      }],
+      animation: { type: 'debuff', actorId: actor.id, targetId: actor.id, damage: trapDamage },
+    }
+    actor = findUnit(preparedState, action.actorId)
+    if (!actor || actor.isDefeated) {
+      return advanceTurn(updateMorale(state, preparedState))
+    }
+  }
+
+  let newState: BattleState = { ...preparedState, animation: null }
+  const isActorAlly = preparedState.allies.some(u => u.id === action.actorId)
 
   switch (action.type) {
     case 'attack': {
-      const target = findUnit(state, action.targetId!)
+      const target = findUnit(preparedState, action.targetId!)
       if (!target) break
-      const moraleMod = getMoraleMod(isActorAlly ? state.allyMorale : state.enemyMorale)
+      const moraleMod = getMoraleMod(isActorAlly ? preparedState.allyMorale : preparedState.enemyMorale)
       const damage = calcMeleeDamage(actor, target, moraleMod)
       newState = applyDamageToUnit(newState, target.id, damage)
       newState.log = [...newState.log, {
@@ -321,10 +352,8 @@ export function executeAction(state: BattleState, action: BattleAction): BattleS
     }
   }
 
-  // 사망 체크
   newState = checkDefeated(newState)
-  // 사기 업데이트
-  newState = updateMorale(newState, action)
+  newState = updateMorale(state, newState)
 
   return advanceTurn(newState)
 }
@@ -490,12 +519,18 @@ function executeSkill(state: BattleState, actor: BattleUnit, action: BattleActio
     }
 
     case 'trap': {
-      // 전열에 함정 설치 → 상태이상 추가 (간단 구현)
+      const hostiles = (isActorAlly ? newState.enemies : newState.allies)
+        .filter(unit => !unit.isDefeated)
+      const targetIds = getTargetsByRow(hostiles)
+      for (const targetId of targetIds) {
+        newState = applyStatusEffect(newState, targetId, { type: 'trapped', turnsLeft: 1 })
+      }
       newState.log = [...newState.log, {
         turn: state.turnNumber,
-        message: `${actor.character.nickname}이(가) 함정을 설치했다!`,
+        message: `${actor.character.nickname}이(가) 적 전열에 함정을 설치했다!`,
         type: 'skill',
       }]
+      newState.animation = { type: 'debuff', actorId: actor.id }
       break
     }
 
@@ -515,23 +550,42 @@ function executeSkill(state: BattleState, actor: BattleUnit, action: BattleActio
     }
 
     case 'detect_trap': {
+      const friendlies = isActorAlly ? newState.allies : newState.enemies
+      const trappedIds = friendlies
+        .filter(unit => !unit.isDefeated && unit.statusEffects.some(effect => effect.type === 'trapped'))
+        .map(unit => unit.id)
+      for (const unitId of trappedIds) {
+        newState = removeStatusEffect(newState, unitId, 'trapped')
+      }
       newState.log = [...newState.log, {
         turn: state.turnNumber,
-        message: `${actor.character.nickname}이(가) 매복을 탐지했다!`,
+        message: trappedIds.length > 0
+          ? `${actor.character.nickname}이(가) 매복을 탐지해 함정 ${trappedIds.length}개를 해제했다!`
+          : `${actor.character.nickname}이(가) 매복을 탐지했지만 함정이 없었다.`,
         type: 'skill',
       }]
+      newState.animation = { type: 'buff', actorId: actor.id }
       break
     }
 
     case 'duel_provoke': {
-      // 일기토 (미구현 — 간단한 공격으로 대체)
       const target = findUnit(state, action.targetId!)
       if (!target) break
-      const damage = calcMeleeDamage(actor, target, 1.3)
+      const actorMorale = getMoraleMod(isActorAlly ? state.allyMorale : state.enemyMorale)
+      const targetMorale = getMoraleMod(isActorAlly ? state.enemyMorale : state.allyMorale)
+      const damage = Math.round(calcMeleeDamage(actor, target, actorMorale) * 1.3)
       newState = applyDamageToUnit(newState, target.id, damage)
+
+      const targetAfterStrike = findUnit(newState, target.id)
+      let counterDamage = 0
+      if (targetAfterStrike && targetAfterStrike.hp > 0 && !targetAfterStrike.isDefeated) {
+        counterDamage = Math.round(calcMeleeDamage(targetAfterStrike, actor, targetMorale) * 1.1)
+        newState = applyDamageToUnit(newState, actor.id, counterDamage)
+      }
+
       newState.log = [...newState.log, {
         turn: state.turnNumber,
-        message: `${actor.character.nickname}의 일기토 도발! ${target.character.nickname}에게 ${damage} 피해!`,
+        message: `${actor.character.nickname}의 일기토! ${target.character.nickname}에게 ${damage} 피해, 반격 ${counterDamage} 피해!`,
         type: 'attack',
       }]
       newState.animation = { type: 'melee', actorId: actor.id, targetId: target.id, damage }
@@ -551,11 +605,15 @@ function findUnit(state: BattleState, unitId: string): BattleUnit | undefined {
 function applyDamageToUnit(state: BattleState, unitId: string, damage: number): BattleState {
   const mapUnit = (u: BattleUnit): BattleUnit => {
     if (u.id !== unitId || u.isDefeated) return u
-    // 무적 상태 체크
+    // 결계는 다음 피해를 완전히 흡수하고, 방어 태세는 다음 피격 뒤 해제된다.
     if (u.statusEffects.some(e => e.type === 'shielded')) {
       return { ...u, statusEffects: u.statusEffects.filter(e => e.type !== 'shielded') }
     }
-    return { ...u, hp: Math.max(0, u.hp - damage) }
+    return {
+      ...u,
+      hp: Math.max(0, u.hp - damage),
+      statusEffects: u.statusEffects.filter(e => e.type !== 'defending'),
+    }
   }
   return {
     ...state,
@@ -581,6 +639,21 @@ function applyStatusEffect(state: BattleState, unitId: string, effect: StatusEff
     if (u.id !== unitId || u.isDefeated) return u
     return { ...u, statusEffects: [...u.statusEffects.filter(e => e.type !== effect.type), effect] }
   }
+  return {
+    ...state,
+    allies: state.allies.map(mapUnit),
+    enemies: state.enemies.map(mapUnit),
+  }
+}
+
+function removeStatusEffect(
+  state: BattleState,
+  unitId: string,
+  effectType: StatusEffect['type'],
+): BattleState {
+  const mapUnit = (u: BattleUnit): BattleUnit => u.id === unitId
+    ? { ...u, statusEffects: u.statusEffects.filter(effect => effect.type !== effectType) }
+    : u
   return {
     ...state,
     allies: state.allies.map(mapUnit),
@@ -617,19 +690,21 @@ function checkDefeated(state: BattleState): BattleState {
   }
 }
 
-function updateMorale(state: BattleState, action: BattleAction): BattleState {
+function updateMorale(previousState: BattleState, state: BattleState): BattleState {
   let { allyMorale, enemyMorale } = state
 
-  // 적 처치 사기 변동
-  const allyDead = state.allies.filter(u => u.isDefeated && u.hp <= 0).length
-  const enemyDead = state.enemies.filter(u => u.isDefeated && u.hp <= 0).length
-  // (이미 이전 턴에 죽은 것과 구분하기 어려우므로 간단히 처리)
-
-  // 주군 피격 체크
+  // 주군 격파 충격은 살아 있던 주군이 이번 행동으로 쓰러졌을 때 한 번만 적용한다.
+  const previousAllyLeader = previousState.allies.find(u => u.isLeader)
+  const previousEnemyLeader = previousState.enemies.find(u => u.isLeader)
   const allyLeader = state.allies.find(u => u.isLeader)
   const enemyLeader = state.enemies.find(u => u.isLeader)
-  if (allyLeader?.isDefeated) allyMorale = Math.max(0, allyMorale - 30)
-  if (enemyLeader?.isDefeated) enemyMorale = Math.max(0, enemyMorale - 30)
+
+  if (previousAllyLeader && !previousAllyLeader.isDefeated && allyLeader?.isDefeated) {
+    allyMorale = Math.max(0, allyMorale - 30)
+  }
+  if (previousEnemyLeader && !previousEnemyLeader.isDefeated && enemyLeader?.isDefeated) {
+    enemyMorale = Math.max(0, enemyMorale - 30)
+  }
 
   return { ...state, allyMorale, enemyMorale }
 }
@@ -637,18 +712,15 @@ function updateMorale(state: BattleState, action: BattleAction): BattleState {
 // ── 턴 진행 ──
 
 function advanceTurn(state: BattleState): BattleState {
-  // 상태이상 턴 감소
-  const newState = tickStatusEffects(state)
-
   // 전투 종료 체크
-  const result = checkBattleEnd(newState)
+  const result = checkBattleEnd(state)
   if (result !== 'pending') {
     return {
-      ...newState,
+      ...state,
       result,
       phase: 'result',
-      log: [...newState.log, {
-        turn: newState.turnNumber,
+      log: [...state.log, {
+        turn: state.turnNumber,
         message: result === 'attacker_wins' ? '공격측 승리!'
           : result === 'defender_wins' ? '방어측 승리!'
           : '무승부. 양측 퇴각.',
@@ -662,9 +734,9 @@ function advanceTurn(state: BattleState): BattleState {
 
   // 턴 오더 끝나면 다음 턴
   if (nextIndex >= state.turnOrder.length) {
-    const turnOrder = calcTurnOrder(newState.allies, newState.enemies)
+    const turnOrder = calcTurnOrder(state.allies, state.enemies)
     return {
-      ...newState,
+      ...state,
       turnOrder,
       currentTurnIndex: 0,
       turnNumber: state.turnNumber + 1,
@@ -674,29 +746,15 @@ function advanceTurn(state: BattleState): BattleState {
 
   // 다음 행동자가 죽었으면 스킵
   const nextId = state.turnOrder[nextIndex]
-  const nextUnit = findUnit(newState, nextId)
+  const nextUnit = findUnit(state, nextId)
   if (nextUnit?.isDefeated) {
-    return advanceTurn({ ...newState, currentTurnIndex: nextIndex })
+    return advanceTurn({ ...state, currentTurnIndex: nextIndex })
   }
 
-  return {
-    ...newState,
-    currentTurnIndex: nextIndex,
-    phase: 'action_select',
-  }
-}
-
-function tickStatusEffects(state: BattleState): BattleState {
-  const mapUnit = (u: BattleUnit): BattleUnit => ({
-    ...u,
-    statusEffects: u.statusEffects
-      .map(e => ({ ...e, turnsLeft: e.turnsLeft - 1 }))
-      .filter(e => e.turnsLeft > 0),
-  })
   return {
     ...state,
-    allies: state.allies.map(mapUnit),
-    enemies: state.enemies.map(mapUnit),
+    currentTurnIndex: nextIndex,
+    phase: 'action_select',
   }
 }
 
@@ -808,14 +866,22 @@ export function confirmPlacement(state: BattleState): BattleState {
 // ── 레거시 변환: BattleUnit[] → BattleParticipant[] ──
 
 function unitsToParticipants(units: BattleUnit[]): BattleParticipant[] {
-  return units.map(u => ({
-    character: u.character,
-    factionId: u.factionId,
-    troops: u.character.troops,
-    morale: u.morale,
-    isLeader: u.isLeader,
-    isDefeated: u.isDefeated,
-  }))
+  return units.map(u => {
+    const remainingRatio = u.isDefeated || u.maxHp <= 0
+      ? 0
+      : Math.max(0, Math.min(1, u.hp / u.maxHp))
+    const troops = Math.max(0, Math.floor(u.character.troops * remainingRatio))
+    const campaignHp = Math.max(1, Math.round(u.character.hp * remainingRatio))
+
+    return {
+      character: { ...u.character, hp: campaignHp, troops },
+      factionId: u.factionId,
+      troops,
+      morale: u.morale,
+      isLeader: u.isLeader,
+      isDefeated: u.isDefeated,
+    }
+  })
 }
 
 /** 전투 완료 시 레거시 participants를 갱신 */

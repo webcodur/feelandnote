@@ -1,16 +1,15 @@
 'use client'
 
 import { useLocale, useTranslations } from 'next-intl'
-import type { GameState, Territory } from '@/lib/game/suikoden/types'
+import type { GameState } from '@/lib/game/suikoden/types'
 import { BUILDINGS } from '@/lib/game/suikoden/constants'
 import { formatSuikodenDate, getSuikodenText } from './i18n'
 
 interface Props {
   state: GameState
-  territory: Territory
 }
 
-export default function GameHUD({ state, territory }: Props) {
+export default function GameHUD({ state }: Props) {
   const locale = useLocale()
   const tS = useTranslations('rest.arena.suikoden')
   const text = getSuikodenText(locale)
@@ -18,7 +17,7 @@ export default function GameHUD({ state, territory }: Props) {
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)!
 
   // 전체 영토 턴당수입 합산
-  const turnIncome = { gold: 0, food: 0, knowledge: 0, material: 0 }
+  const turnIncome = { gold: 0, food: 0, knowledge: 0, material: 0, troops: 0 }
   for (const t of playerFaction.territories) {
     // 기본 수입 (영토당)
     turnIncome.gold += 20
@@ -28,11 +27,15 @@ export default function GameHUD({ state, territory }: Props) {
       const bDef = BUILDINGS.find(b => b.id === card.defId)
       if (!bDef) continue
       const e = bDef.effect
-      const mul = card.assigneeId ? 1.5 : 1
+      const isWorking = card.assigneeId
+        ? state.placements.some(p => p.characterId === card.assigneeId && p.task === 'working')
+        : false
+      const mul = isWorking ? 1.5 : 1
       if (e.goldPerTurn) turnIncome.gold += Math.floor(e.goldPerTurn / 3 * mul)
       if (e.foodPerTurn) turnIncome.food += Math.floor(e.foodPerTurn / 3 * mul)
       if (e.knowledgePerTurn) turnIncome.knowledge += Math.floor(e.knowledgePerTurn / 3 * mul)
       if (e.materialPerTurn) turnIncome.material += Math.floor(e.materialPerTurn / 3 * mul)
+      if (e.troopsPerTurn) turnIncome.troops += Math.floor(e.troopsPerTurn / 3 * mul)
     }
   }
 
@@ -66,6 +69,7 @@ export default function GameHUD({ state, territory }: Props) {
         <span className="text-green-400">{tS('mgmt.foodLabel')} {res.food}<small className="text-green-600">(+{turnIncome.food})</small></span>
         <span className="text-blue-400">{tS('mgmt.knowledgeLabel')} {res.knowledge}<small className="text-blue-600">(+{turnIncome.knowledge})</small></span>
         <span className="text-orange-400">{tS('mgmt.materialLabel')} {res.material}<small className="text-orange-600">(+{turnIncome.material})</small></span>
+        <span className="text-red-300">{tS('mgmt.troopsLabel')} {res.troops}<small className="text-red-500">(+{turnIncome.troops})</small></span>
       </div>
     </div>
   )

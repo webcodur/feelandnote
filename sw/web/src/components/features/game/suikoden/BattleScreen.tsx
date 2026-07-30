@@ -6,16 +6,17 @@ import type { GameState, BattleUnit, BattleAction, BattleActionType, DialogEntry
 import { SKILL_DEFS } from '@/lib/game/suikoden/constants'
 import {
   executeAction, getValidTargets, selectAIAction,
-  confirmPlacement, checkBattleEnd, syncLegacyParticipants,
+  confirmPlacement, syncLegacyParticipants,
 } from '@/lib/game/suikoden/battleEngine'
 import { applyBattleResult, collectDispositionTargets } from '@/lib/game/suikoden/engine'
+import { resolveCampaignOutcome } from '@/lib/game/suikoden/campaign'
 import { generateDialog } from '@/lib/game/suikoden/dialog'
 import TurnOrderBar from './TurnOrderBar'
 import BattleGridView from './BattleGridView'
 import ActionPanel from './ActionPanel'
 import PlacementScreen from './PlacementScreen'
 import BattleSVGOverlay from './BattleSVGOverlay'
-import { stripSuikodenFactionSuffix, translateSuikodenBattleLog } from './i18n'
+import { getSuikodenText, stripSuikodenFactionSuffix, translateSuikodenBattleLog } from './i18n'
 
 /** characterId → celeb_dialogues.lines */
 type DialoguesMap = Record<string, Record<string, string[]>>
@@ -30,6 +31,7 @@ interface Props {
 export default function BattleScreen({ state, onUpdateState, onDialog, dialogues }: Props) {
   const locale = useLocale()
   const tS = useTranslations('rest.arena.suikoden')
+  const text = getSuikodenText(locale)
   const battle = state.battle!
   const playerFactionId = state.playerFactionId
   const isPlayerAttacker = battle.attackerFactionId === playerFactionId
@@ -54,7 +56,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
     const pf = state.factions.find(f => f.id === playerFactionId)
     const leader = pf?.members.find(m => m.id === pf.leaderId)
     if (leader) onDialog(generateDialog(type, leader, dialogues?.[leader.id]))
-  }, [battle.result])
+  }, [battle.result, isPlayerAttacker, onDialog, state.factions, playerFactionId, dialogues])
 
   // 현재 행동자
   const currentUnitId = battle.turnOrder[battle.currentTurnIndex] ?? null
@@ -88,9 +90,17 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
     setSelectedAction(action)
     setSelectedTargetId(null)
 
-    // 자기 타겟 행동은 즉시 실행
+    // 별도 대상을 고르지 않는 행동은 즉시 실행한다.
     if (action === 'defend' || action === 'retreat') {
       executePlayerAction(action, currentUnitId!)
+      return
+    }
+    if (action.startsWith('skill:')) {
+      const skillId = action.replace('skill:', '')
+      const targetType = SKILL_DEFS[skillId]?.targetType
+      if (targetType === 'self' || targetType === 'all_ally' || targetType === 'all_enemy') {
+        executePlayerAction(action, currentUnitId!)
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUnitId])
@@ -134,54 +144,42 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
       return { ...s, battle: newBattle }
     })
 
-    // 애니메이션 후 AI 턴 체인
+    // 애니메이션 뒤 선택 상태를 정리한다. 다음 행동자가 AI면 아래 effect가 자동 진행한다.
     setTimeout(() => {
       setSelectedAction(null)
       setSelectedTargetId(null)
       setAnimating(false)
-      runAITurns()
     }, 900)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUnitId, animating, onUpdateState])
 
-  // AI 턴 자동 실행
-  const runAITurns = useCallback(() => {
-    const runNext = () => {
+  // AI 차례는 현재 전투 상태만 보고 한 행동씩 자동 실행한다.
+  // 저장된 전투를 불러왔을 때 AI 차례여도 같은 effect가 즉시 이어받는다.
+  useEffect(() => {
+    if (animating
+      || battle.result !== 'pending'
+      || battle.phase !== 'action_select'
+      || !currentUnitId
+      || isPlayerTurn) return
+
+    const expectedUnitId = currentUnitId
+    const timer = setTimeout(() => {
       onUpdateState(s => {
-        const b = s.battle
-        if (!b || b.result !== 'pending' || b.phase === 'result') return s
-
-        const unitId = b.turnOrder[b.currentTurnIndex]
-        if (!unitId) return s
-
-        const isAlly = b.allies.some(u => u.id === unitId && !u.isDefeated)
-        if (isAlly) return s // 플레이어 턴 → 중단
-
-        // AI 행동
-        const aiAction = selectAIAction(b, unitId)
-        const newBattle = executeAction(b, aiAction)
-
-        // 결과 체크
-        if (newBattle.result !== 'pending') {
-          return { ...s, battle: newBattle }
+        const currentBattle = s.battle
+        if (!currentBattle
+          || currentBattle.result !== 'pending'
+          || currentBattle.phase !== 'action_select'
+          || currentBattle.turnOrder[currentBattle.currentTurnIndex] !== expectedUnitId
+          || currentBattle.allies.some(unit => unit.id === expectedUnitId && !unit.isDefeated)) {
+          return s
         }
 
-        // 다음이 플레이어면 중단, AI면 계속
-        const nextUnitId = newBattle.turnOrder[newBattle.currentTurnIndex]
-        const nextIsAlly = newBattle.allies.some(u => u.id === nextUnitId && !u.isDefeated)
-
-        if (!nextIsAlly && newBattle.result === 'pending') {
-          // 연속 AI 턴 — 약간의 딜레이
-          setTimeout(runNext, 400)
-        }
-
-        return { ...s, battle: newBattle }
+        const aiAction = selectAIAction(currentBattle, expectedUnitId)
+        return { ...s, battle: executeAction(currentBattle, aiAction) }
       })
-    }
+    }, 400)
 
-    // 첫 AI 체크
-    setTimeout(runNext, 300)
-  }, [onUpdateState])
+    return () => clearTimeout(timer)
+  }, [animating, battle.result, battle.phase, currentUnitId, isPlayerTurn, onUpdateState])
 
   // 배치 확정
   const handlePlacementConfirm = useCallback((allies: BattleUnit[]) => {
@@ -194,16 +192,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
 
     onUpdateState(s => {
       const b = s.battle!
-      const newBattle = confirmPlacement({ ...b, allies })
-
-      // 첫 행동자가 AI면 AI 턴 시작
-      const firstId = newBattle.turnOrder[0]
-      const firstIsAlly = newBattle.allies.some(u => u.id === firstId)
-      if (!firstIsAlly) {
-        setTimeout(() => runAITurns(), 300)
-      }
-
-      return { ...s, battle: newBattle }
+      return { ...s, battle: confirmPlacement({ ...b, allies }) }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onUpdateState, onDialog, dialogues])
@@ -231,11 +220,7 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         }
       }
 
-      ns = { ...ns, battle: null, phase: 'strategy' }
-      const active = ns.factions.filter(f => f.territories.length > 0)
-      if (active.length === 1) {
-        ns = { ...ns, isGameOver: true, winner: active[0].id, phase: 'result' }
-      }
+      ns = resolveCampaignOutcome({ ...ns, battle: null, phase: 'strategy' })
       return ns
     })
   }, [onUpdateState])
@@ -264,48 +249,48 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
   return (
     <div className="space-y-2">
       {/* 전투 HUD */}
-      <div className="flex items-center justify-between p-2 bg-stone-800 border border-stone-700 rounded text-xs">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
-            <span className="text-text-primary">{attackerFaction ? stripSuikodenFactionSuffix(attackerFaction.name) : ''}</span>
-            <span className="text-text-secondary text-[10px]">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
+      <div className="flex flex-col gap-2 rounded border border-stone-700 bg-stone-800 p-2 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <div className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: attackerFaction?.color }} />
+            <span className="min-w-0 break-words text-text-primary">{attackerFaction ? stripSuikodenFactionSuffix(attackerFaction.name) : ''}</span>
+            <span className="shrink-0 text-[10px] text-text-secondary">({isPlayerAttacker ? allyAlive : enemyAlive})</span>
           </div>
           <span className="text-text-secondary">vs</span>
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
-            <span className="text-text-primary">{defenderFaction ? stripSuikodenFactionSuffix(defenderFaction.name) : ''}</span>
-            <span className="text-text-secondary text-[10px]">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
+          <div className="flex min-w-0 items-center gap-1.5">
+            <div className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: defenderFaction?.color }} />
+            <span className="min-w-0 break-words text-text-primary">{defenderFaction ? stripSuikodenFactionSuffix(defenderFaction.name) : ''}</span>
+            <span className="shrink-0 text-[10px] text-text-secondary">({isPlayerAttacker ? enemyAlive : allyAlive})</span>
           </div>
         </div>
-        <div className="flex items-center gap-3 text-text-secondary">
-          {battle.defenderHasWalls && <span className="text-amber-400 text-[10px]">{tS('battle.walls')}</span>}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-text-secondary">
+          {battle.defenderHasWalls && <span className="text-[10px] text-amber-400">{tS('battle.walls')}</span>}
           <span>{tS('battle.turnCount', { current: battle.turnNumber, max: battle.maxTurns })}</span>
         </div>
       </div>
 
       {/* 사기 게이지 */}
-      <div className="flex gap-2 text-[10px]">
-        <div className="flex-1">
-          <div className="flex justify-between mb-0.5">
-            <span className="text-green-400">{tS('battle.allyMorale')}</span>
+      <div className="flex flex-col gap-2 text-[10px] sm:flex-row">
+        <div className="min-w-0 flex-1">
+          <div className="mb-0.5 flex flex-wrap justify-between gap-x-2">
+            <span className="break-words text-green-400">{tS('battle.allyMorale')}</span>
             <span className="text-text-secondary">{battle.allyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
             <div
-              className="h-full bg-green-500 rounded-full transition-all"
+              className="h-full bg-green-500 rounded-full transition-[width]"
               style={{ width: `${battle.allyMorale}%` }}
             />
           </div>
         </div>
-        <div className="flex-1">
-          <div className="flex justify-between mb-0.5">
-            <span className="text-red-400">{tS('battle.enemyMorale')}</span>
+        <div className="min-w-0 flex-1">
+          <div className="mb-0.5 flex flex-wrap justify-between gap-x-2">
+            <span className="break-words text-red-400">{tS('battle.enemyMorale')}</span>
             <span className="text-text-secondary">{battle.enemyMorale}</span>
           </div>
           <div className="h-1.5 bg-stone-700 rounded-full overflow-hidden">
             <div
-              className="h-full bg-red-500 rounded-full transition-all"
+              className="h-full bg-red-500 rounded-full transition-[width]"
               style={{ width: `${battle.enemyMorale}%` }}
             />
           </div>
@@ -333,23 +318,23 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
         <>
           {/* 그리드 영역 */}
           <div className="relative">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {/* 아군 그리드 */}
-              <div>
+              <div className="min-w-0">
                 <p className="text-[9px] text-green-400 mb-1 font-bold">{tS('battle.ally')}</p>
                 <BattleGridView
                   units={battle.allies}
                   isAlly={true}
                   currentUnitId={currentUnitId}
                   selectedTargetId={selectedTargetId}
-                  validTargetIds={isPlayerTurn ? [] : validTargetIds}
+                  validTargetIds={isPlayerTurn ? validTargetIds : []}
                   animation={battle.animation}
                   onSelectTarget={handleSelectTarget}
                 />
               </div>
 
               {/* 적군 그리드 */}
-              <div>
+              <div className="min-w-0">
                 <p className="text-[9px] text-red-400 mb-1 font-bold">{tS('battle.enemy')}</p>
                 <BattleGridView
                   units={battle.enemies}
@@ -366,6 +351,28 @@ export default function BattleScreen({ state, onUpdateState, onDialog, dialogues
             {/* SVG 애니메이션 오버레이 */}
             <BattleSVGOverlay animation={battle.animation} onAnimationEnd={handleAnimationEnd} />
           </div>
+
+          {/* 행 범위 기술 대상 선택 */}
+          {isPlayerTurn
+            && selectedAction?.startsWith('skill:')
+            && SKILL_DEFS[selectedAction.replace('skill:', '')]?.targetType === 'row_enemy'
+            && (
+              <div className="grid grid-cols-3 gap-2 p-2 bg-stone-800 border border-stone-700 rounded">
+                {validTargetIds.map(rowId => {
+                  const row = Number(rowId)
+                  const label = row === 0 ? text.battle.row.front : row === 1 ? text.battle.row.middle : text.battle.row.rear
+                  return (
+                    <button
+                      key={rowId}
+                      onClick={() => handleSelectTarget(rowId)}
+                      className="py-2 rounded border border-red-700 bg-red-950/40 text-xs font-bold text-red-200 hover:border-red-400 hover:bg-red-900/50"
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
 
           {/* 행동 패널 (플레이어 턴) */}
           {isPlayerTurn && currentUnit && !animating && (

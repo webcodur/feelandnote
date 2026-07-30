@@ -1,46 +1,51 @@
 # 10. 구현 현황 상세
 
-> **최종 실측 체크: 26.07.16** — 게임 코드 전수 대조(전투 모델·라우트·파일 트리). 이후 게임이 비활성이라 갱신 없음
+> **최종 실측 체크: 26.07.30** — 천도 코드·실제 진입 경로·검증 결과 전수 대조
 
-> 파일별 구현 내용과 시스템 간 연결 관계. 작업 재개 시 참조용.
+> 파일별 구현 내용과 시스템 간 연결 관계. 현재 코드 사실의 기준이다.
+> 시나리오 선택→방랑→거병→경영→전투·외교→통일·패망의 핵심 완주 흐름은 코드상 연결됐다. 브라우저 실제 한 판 완주·실 DB 고정 UUID·전체 web 빌드는 아래 검증 한계 때문에 아직 최종 승인 전이다.
 > 기획 의도는 01~09 참조, 이 문서는 **실제 코드 상태**만 기록한다.
 
 ---
 
 ## 요약 — 기획서와 코드가 갈라진 지점
 
-작업 재개 전에 이것부터 읽는다. 01~09 기획서에 적힌 것 중 코드와 다른 항목이다.
+작업 전에 이것부터 읽는다. 01~09 기획서에 적힌 것 중 코드와 다른 항목이다.
 
 | 항목 | 기획서 서술 | 실제 코드 |
 |------|-----------|----------|
-| **전투** | 6전술 상성 카드 선택, 10라운드 | **3×5 그리드 개별 유닛 턴제, 최대 30턴.** 전술 카드 폐기 |
+| **전투** | 6전술 상성 카드 선택, 10라운드 | **3×5 그리드 개별 인물 턴제, 최대 30턴.** 전술 카드 폐기 |
 | **셋업 1단계** | 시대 + 난이도 선택 | **시나리오 5종 중 택1** (시대·난이도는 시나리오에 내장) |
 | **주군 후보** | Grade < 55 방랑자 풀에서 선택 | **시나리오가 지정한 후보 명단**에서 선택 |
+| **인물 로딩** | 전체 활성 인물 동적 로딩 | **`SUIKODEN_CHARACTER_IDS`의 시나리오 고정 인물만 조회**, 필수 인물 누락 시 시나리오 비활성 |
 | **아이템** | 콘텐츠 기반 두루마리/보물 | **폐기.** 수량제 장비 4종(무기/군마/조선/부적) |
-| **라우트** | `/rest/suikoden` 페이지 | **페이지 없음.** `/rest` 화면의 카드로 게임을 그 자리에 띄운다 |
-| **아이템 로딩** | `loadSuikodenItems()` | **함수 자체가 없다** |
-| **일기토** | 미구현 | 여전히 미구현. `duel_provoke` 스킬은 일반 공격으로 대체된 껍데기 |
+| **진입** | `/rest/suikoden` 페이지 | **전용 페이지 없음.** `/[locale]/rest` 카드 또는 `#suikoden` 직접 접근으로 연다 |
+| **저장** | 미구현 | **브라우저 단일 자동 저장·이어하기.** 실패 시 플레이 유지와 경고 |
+| **일기토** | 미구현 | **구현.** 시전자 선공 후 대상 생존 시 반격하는 1:1 상호 타격 |
+| **캠페인 종료** | 잔존 세력 1개면 승리 | **활성 영토 전부 점령 통일, 플레이어 영토 0 패망, 난이도 제한 턴 초과** 중앙 판정 |
 
 ---
 
 ## 파일 구조
 
-### 게임 로직 (`sw/web/src/lib/game/suikoden/`) — 13개
+### 게임 로직 (`sw/web/src/lib/game/suikoden/`) — 15개
 
 | 파일 | 역할 | 주요 export |
 |------|------|------------|
 | **types.ts** | 전체 타입 정의 | `GameState`, `GameCharacter`, `Faction`, `WorldPreview`, `BattleState`, `BattleUnit`, `TroopEquipment`, `ScenarioDef` 등 |
 | **constants.ts** | 상수 테이블 + `SKILL_DEFS` | `BUILDINGS`(15), `TERRITORIES`(22), `REGIONS`(10), `SKILL_DEFS`(14), `GRADE_*`, `EQUIPMENT_MAX`, `DIFFICULTY_CONFIG`, `THREAT_DEFS` 등 |
-| **engine.ts** | 셋업·방랑·거병·포로 처분 | `previewWorld()`, `previewScenario()`, `finalizeGame()`, `initGame()`, `raiseArmy()`, `abandonFortress()`, `generateWanderingEvent()`, `attemptRecruitGuest()`, `dismissGuest()`, `moveToRegion()`, `initBattle()`, `applyBattleResult()`, `collectDispositionTargets()`, `calcRecruitRate()`, `applyDisposition()`, `finalizeDisposition()` |
+| **engine.ts** | 셋업·방랑·거병·전투 결과·포로 처분 | `previewWorld()`, `previewScenario()`, `finalizeGame()`, `initGame()`, `raiseArmy()`, `abandonFortress()`, `generateWanderingEvent()`, `attemptRecruitGuest()`, `dismissGuest()`, `moveToRegion()`, `initBattle()`, `applyBattleResult()`, `collectDispositionTargets()`, `calcRecruitRate()`, `applyDisposition()`, `finalizeDisposition()` |
 | **battleEngine.ts** | **그리드 턴제 전투 엔진** | `initBattleState()`, `getValidTargets()`, `executeAction()`, `checkBattleEnd()`, `selectAIAction()`, `confirmPlacement()`, `syncLegacyParticipants()` |
-| **turnEngine.ts** | 턴 엔진 + 내정 커맨드 전부 | `advanceTurn()`, `commandBuild/Assign/Reassign/Unassign/Idle/Train/Reward/Punish/Demolish/AssignRecruiter/CancelRecruiter/Dispatch/Recall/SetTaxRate/Equip()` |
+| **campaign.ts** | 중앙 캠페인 판정·소멸 세력 정리 | `resolveCampaignOutcome()` |
+| **save.ts** | 브라우저 단일 자동 저장 | `saveSuikodenGame()`, `loadSuikodenGame()`, `hasSuikodenGame()`, `clearSuikodenGame()` |
+| **turnEngine.ts** | 턴 엔진 + 내정 커맨드 | `advanceTurn()`, `commandBuild/Assign/Reassign/Unassign/Idle/Train/Reward/Punish/Demolish/AssignRecruiter/CancelRecruiter/Dispatch/Recall/SetTaxRate/Equip/Reinforce()` |
 | **aiTurn.ts** | AI 의사결정 | `evaluateAIDecisions()`, `assignIdleCharactersForFaction()` |
 | **diplomacy.ts** | 외교 | `commandAlliance`, `commandCeasefire`, `commandTribute`, `commandSurrender`, `getRelation`, `isAllied` |
 | **events.ts** | 계절/랜덤 이벤트 | `checkSeasonEvents()` **1개뿐** |
 | **skills.ts** | 스킬 가용 판정만 (1KB) | `getAvailableSkills(unit)` **1개뿐**. 스킬 데이터는 `constants.ts`, 실행은 `battleEngine.ts` |
 | **dialog.ts** | 대사 생성 | `generateDialog()` **1개뿐** |
 | **utils.ts** | 유틸 | `dbToCharacter()`, `getEffectiveGrade()`, `getEffectiveGradeScore()`, `getRegionForNationality()`, `getTerritoryForNationality()`, `getBirthYear()`, `getDeathYear()`, `shuffle()`, `getTerritoryDef()`, `getTotalTroops()`, `getTotalPower()`, `getActiveNeighborInfo()`, `isActiveTerritory()`, `isActiveRegion()` |
-| **scenarios.ts** | 시나리오 5종 | `SCENARIOS` |
+| **scenarios.ts** | 시나리오 5종·고정 인물 검사 | `SCENARIOS`, `SUIKODEN_CHARACTER_IDS`, `getMissingScenarioCharacterIds()` |
 | **assetManager.ts** | 초상 경로·폴백 | `getPortraitUrl()`, `getCharacterFallback()`, `preloadAssets()` |
 
 > `calcTacticDamage()`, `calcPersonaGrade()`는 **export되지 않는다.** `calcPersonaGrade`는 `utils.ts` 내부 함수이고, 전술 대미지 계산 함수는 전투 개편으로 사라졌다.
@@ -51,11 +56,11 @@
 
 | 파일 | 역할 |
 |------|------|
-| **SuikodenGame.tsx** | 최상위 — `GameShell`의 Game 인터페이스 구현. idle/setup/ingame 전환, 페이즈 라우팅 |
-| **SuikodenGameWrapper.tsx** | 래퍼 — 배경·로비·페이즈 라벨·오디오 설정을 `GameShell`에 주입. `DialoguesMap` 타입 export |
-| **SuikodenLobby.tsx** | 로비 (`GameLobbyMain` 패턴 타이틀 화면) |
+| **SuikodenGame.tsx** | 최상위 — idle/setup/ingame 전환, 페이즈 라우팅, 상태 변경 자동 저장·이어하기 복구·저장 실패 경고 |
+| **SuikodenGameWrapper.tsx** | 래퍼 — 배경·공개 로비·페이즈 라벨·오디오 설정을 `GameShell`에 주입. `DialoguesMap` 타입 export |
+| **SuikodenLobby.tsx** | 공개 로비 — 저장본이 있으면 이어하기·새 게임, 없으면 새 캠페인 시작 |
 | **SuikodenBackground.tsx** | 배경 어댑터 — idle에선 캔버스(`WindsOfLiangshanBackground`), 인게임에선 단색 |
-| **SetupScreen.tsx** | 2단계 셋업 (1: 시나리오 선택, 2: 주군 선택) |
+| **SetupScreen.tsx** | 2단계 셋업. 시나리오 필수 인물 누락 시 해당 시나리오 시작 불가와 누락 안내 |
 | **WanderingScreen.tsx** | 방랑 페이즈 — 지역 이동, 객장 영입/해산, 거병, 랜덤 이벤트 |
 | **GameHUD.tsx** | 상단바 — 날짜, 계절, 인원, 영토, 명성 |
 | **GameToolbar.tsx** | 커맨드 도구바 — 개발/군사/외교/기타, 세율, 건물 현황 |
@@ -99,17 +104,17 @@ WorldMapView/
 
 | 함수 | 내용 |
 |------|------|
-| `loadSuikodenCharacters()` | `profiles` + `celeb_influence` + `celeb_persona` 조인 로딩. `status='active'`, `death_date` 존재, `profession` 존재로 필터 후 JS에서 사망 120년(`CUTOFF_YEARS`) 경과 판정. 이어서 `celeb_dialogues`에서 `quote`/`quote_en`만 추가 조회. `totalScore` 내림차순 정렬 |
-| `loadSuikodenDialogues()` | `celeb_dialogues`의 `lines`/`lines_en` 전체를 `unstable_cache`로 캐싱(키 `suikoden-dialogues`, 태그 `CELEBS`+`DIALOGUES`) |
+| `loadSuikodenCharacters()` | `.in('id', SUIKODEN_CHARACTER_IDS)`로 시나리오 고정 인물만 조회한다. 활성·사망 120년·직군·영향력 조건을 적용하고, 조회된 ID의 명언만 추가한 뒤 `totalScore` 내림차순 정렬 |
+| `loadSuikodenDialogues()` | 같은 고정 인물의 `lines`/`lines_en`만 `unstable_cache`로 캐싱(키 `suikoden-dialogues`, 태그 `CELEBS`+`DIALOGUES`) |
 
 > **`loadSuikodenItems()`는 존재하지 않는다.** 장비 개편 때 함께 제거됐다.
 
-### 라우트 — 문서가 가장 크게 어긋났던 지점
+### 실제 진입 경로
 
-- **`/rest/suikoden` 페이지는 없다.** `app/[locale]/(main)/rest/suikoden/`에 `loading.tsx`만 있고 `page.tsx`가 없다. (dawn/labyrinth/hegemony도 동일 구조)
-- 실제 라우트는 **`/rest`** 하나다. `rest/page.tsx`(서버)가 `loadSuikodenCharacters()` + `loadSuikodenDialogues()`를 `Promise.all`로 호출해 `RestGameGrid`(클라이언트)에 넘긴다.
-- `RestGameGrid`는 카드 4장을 그리고, 천도 카드(`/images/games/suikoden-card.webp`, 라벨 `CHEONDO`)를 누르면 `activeGame === "suikoden"`이 되어 `SuikodenGameWrapper`를 동적 import로 그 자리에 마운트한다. 링크 이동이 아니다.
-- `constants/navigation.tsx:95`에 `{ key: "suikoden", href: "/rest/suikoden" }`가 남아 있다. **대상 페이지가 없으므로 이 링크는 죽어 있다.** `rest/page.tsx`의 `GAME_SECTIONS`는 해시(`/rest#suikoden`)를 쓴다.
+- **`/rest/suikoden` 페이지는 없다.** `app/[locale]/(main)/rest/suikoden/`에 `loading.tsx`만 있고 `page.tsx`가 없다.
+- 실제 화면은 **`/[locale]/rest`**다. 서버가 고정 인물·대사를 함께 읽어 `RestGameGrid`에 넘긴다.
+- 천도 카드를 누르면 주소가 `#suikoden`으로 바뀌고 `SuikodenGameWrapper`가 그 자리에서 열린다. `/[locale]/rest#suikoden` 직접 접근과 이후 해시 변경도 자동으로 게임을 연다.
+- `constants/navigation.tsx`의 `{ key: "suikoden", href: "/rest/suikoden" }`는 아직 404를 가리키는 죽은 링크다.
 
 ---
 
@@ -127,8 +132,10 @@ WorldMapView/
 ```
 
 - `finalizeGame(preview, playerLeaderId)` — **인자 2개.** 옛 문서의 `items` 세 번째 인자는 없다.
-- `previewWorld(allChars, difficulty, era)`와 `initGame()`은 **엔진에 남아 있으나 어디서도 호출되지 않는다.** `SuikodenGame.tsx`가 import만 하고 쓰지 않는 죽은 참조다. Grade 55 기준 자동 세력 분리(자유 모드)는 이 함수 안에만 살아 있다.
-- `previewWorld`는 `playerCandidates: []`, `scenarioId: ''`를 반환한다 — 주군 후보는 `previewScenario`만 채운다.
+- `getMissingScenarioCharacterIds()`가 선택 시나리오의 주군 후보·AI·방랑자 고정 UUID를 조회 결과와 대조한다. 하나라도 없으면 시작 화면에서 해당 시나리오를 비활성화하고 누락 수를 안내한다.
+- `previewWorld(allChars, difficulty, era)`와 `initGame()`은 엔진에 남은 자유 모드 유물이며 현행 화면은 import하거나 호출하지 않는다.
+- 로비는 비밀코드 없이 공개돼 있다. 브라우저 저장본이 있으면 이어하기와 새 게임을 구분해 제공한다.
+- 상태가 바뀔 때 키 `feelandnote:suikoden:save`(버전 1)로 자동 저장한다. 종료 결과가 확정되면 저장본을 지우며, 저장 실패는 현재 플레이를 중단하지 않고 경고만 표시한다.
 
 ### 전투 시스템 — 그리드 턴제 (2026-06 개편)
 
@@ -165,9 +172,15 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 > **HP 공식이 두 벌이다.** `utils.dbToCharacter`는 `100 + command×0.5 + martial×0.3`(월드맵 표시용, 약 100~180), `battleEngine.calcUnitHp`는 `300 + command×2.0 + martial×1.0`(전투 내부, 약 300~500). 어느 쪽인지 명시하지 않고 "HP 공식"이라 쓰면 안 된다.
 
 **스킬 14종** (`constants.ts` `SKILL_DEFS`): `charge`, `duel_provoke`, `heal`, `barrier`, `confuse`, `fire_attack`, `iron_wall`, `diplomacy_threat`, `inspire`, `culture_sway`, `trap`, `siege_strike`, `ambush`, `detect_trap`.
-가용 판정은 `skills.getAvailableSkills()` — 병과 + 스탯 요구치로 필터. `charge`만 특례 (`martial ≥ 50` **또는** `command ≥ 70`).
+가용 판정은 `skills.getAvailableSkills()`가 담당하고, 플레이어 화면은 모든 대상 지정 기술에 실제 대상 선택을 연결한다.
 
-**전투 UI 흐름**: `BattleScreen` → `phase === 'placement'`면 `PlacementScreen`(3×5 배치, 클릭 교환, 적 진형 미리보기) → 확정 후 HUD/양측 사기 게이지/`TurnOrderBar`/좌우 `BattleGridView` + `BattleSVGOverlay`/플레이어 턴에 `ActionPanel`/로그 12줄. AI는 `selectAIAction` + `executeAction`을 `setTimeout` 체인(초기 300ms, 플레이어 행동 후 900ms, AI 연속 400ms)으로 처리. 종료 시 `syncLegacyParticipants` → `applyBattleResult` → `collectDispositionTargets`.
+- `duel_provoke`: 시전자 1.3배 선공, 대상 생존 시 1.1배 반격
+- `trap`: 적 전열에 설치해 다음 행동 직전 최대 HP 20% 피해. `detect_trap`은 아군 함정 해제
+- 혼란은 다음 행동 한 번을 막고 해제된다. 방어·철벽·결계도 정해진 다음 피격/행동까지만 유지된다.
+
+**전투 손실 연속성**: 인물의 기존 부상률과 병력률을 전투 시작 HP·병력에 반영한다. 종료 시 남은 체력·병력을 캠페인 인물에 다시 기록하므로 다음 전투에서 자동으로 완치·완충되지 않는다.
+
+**전투 UI 흐름**: `BattleScreen` → 배치 화면(3×5 교환·적 진형 미리보기) → 전투 화면(HUD·사기·행동 순서·양측 격자·행동 선택·로그). 모바일에서는 양 진영을 위아래로 배치하고 각 칸을 가용 폭의 5등분으로 계산한다. 저장된 전투가 AI 차례여도 자동 행동을 다시 시작한다. 종료 후 `applyBattleResult`와 포로 처분을 거쳐 `resolveCampaignOutcome`이 통일·패망·제한 턴을 판정한다.
 
 **죽은 상수 — 건드리기 전에 확인할 것**: `TACTIC_MATCHUP`, `TACTIC_INFO`, `CLASS_TACTIC_BONUS`는 `constants.ts`에 여전히 export돼 있으나 **어느 파일도 import하지 않는다.** `TacticType`은 `types.ts:13`에 "레거시 — 참조용으로 유지"로 명시돼 있다.
 
@@ -190,7 +203,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 12 updateMorale             — 민심
 13 updatePopulation         — 3턴마다
 14 updateMaxBuildings       — min(12, floor(8 + population/5000))
-15 checkEvents              — 승리 판정(잔존 세력 1 → isGameOver) 후 checkSeasonEvents
+15 checkEvents              — `resolveCampaignOutcome` 중앙 판정 후, 게임이 끝나지 않았을 때만 `checkSeasonEvents`
 ```
 
 ### 주요 상수 실측값 (`constants.ts`)
@@ -214,7 +227,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 | `WANDERING_MAX_COMPANIONS` / `WANDERING_TRAVEL_TURNS` | 5 / 20 |
 
 > `EQUIPMENT_LABELS`, `EQUIPMENT_COST`, `BATTLE_MAX_UNITS`, `BATTLE_MAX_ROUNDS`는 **존재하지 않는다.**
-> `DIFFICULTY_CONFIG.maxTurns`와 `startAP`는 정의만 돼 있고 **읽는 코드가 없다** — 턴 초과 패배 조건은 미구현이다.
+> `DIFFICULTY_CONFIG.maxTurns`는 `resolveCampaignOutcome()`이 제한 턴 패배에 사용한다. `startAP`만 정의 뒤 읽히지 않는다.
 
 ### 명성 (Fame)
 
@@ -240,7 +253,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 | 나폴레옹 전쟁 | `napoleonic` | modern | hard |
 | 대몽골제국 | `mongol_empire` | medieval | hard |
 
-`scenarios.ts` 내부 `ID` 맵에 프로필 UUID 51개가 상수로 박혀 있다. 인물 명단 변경 시 이 맵을 함께 고쳐야 한다.
+`scenarios.ts`의 프로필 UUID에서 `SUIKODEN_CHARACTER_IDS`를 중복 제거해 만든다. Server Actions는 이 목록만 조회하고, `getMissingScenarioCharacterIds()`가 선택 시나리오의 필수 인물 누락을 검사한다. 인물 명단을 바꾸면 시나리오 정의와 고정 ID 조회가 함께 바뀌는지 확인해야 한다. 26.07.30 작업에서는 실 DB UUID 전원 생존 여부를 조회하지 못했다.
 
 ### 시나리오별 활성 영역 제한
 
@@ -276,24 +289,25 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 
 ---
 
-## 미구현 — 코드로 확인한 것
+## 남은 확장 항목 — 코드로 확인한 것
+
+핵심 완주 흐름에 필요한 일기토·예비 병사 보충·통일/패망/제한 턴·자동 저장은 구현됐다. 아래는 별도 확장 항목이다.
 
 | 항목 | 실제 상태 |
 |------|----------|
-| **일기토** | `battleEngine.ts:527`에 `// 일기토 (미구현 — 간단한 공격으로 대체)`. `duel_provoke`는 `calcMeleeDamage(actor, target, 1.3)`을 부르는 껍데기. UI에선 평범한 스킬 버튼으로 보인다. (`lib/game/duelEngine.ts`는 천도와 무관한 별개 게임) |
-| **징병** | `징병`/`conscript` 문자열이 코드에 **없다.** `Resources.troops`는 쌓이기만 하고 `character.troops`로 옮기는 코드가 없다. 유사물: AI 전용 `aiRecruit`(식량→병력), `barracks`의 `troopsPerTurn: 50` |
-| **학당 학습** | 건물은 있고 학습은 없다. `academy`의 `effect.special: 'discover'`를 **읽는 코드가 없다.** 적용되는 건 `knowledgePerTurn: 25`뿐. `temple`의 `special: 'sorcery'`도 동일하게 방치 |
-| **이벤트 팝업** | 팝업 컴포넌트·상태가 없다. `events.ts`는 효과를 적용하고 `state.log`에 문자열만 추가한다. 선택지가 있는 유일한 이벤트는 방랑 페이즈의 `WanderingEvent` |
-| **문화 승리 / 외교 승리** | 미구현. `checkEvents`는 잔존 세력 1개(통일)만 판정 |
-| **턴 초과 패배** | 미구현. `DIFFICULTY_CONFIG.maxTurns`를 읽는 코드가 없다 |
-| **세이브/로드** | 미구현. localStorage 사용처 없음 |
+| **인구→병력 징병** | 병영 예비 병사를 인물에게 배치하는 `commandReinforce()`는 구현됐다. 인구를 병사로 바꾸고 민심을 깎는 별도 징병은 없다 |
+| **학당 학습** | 건물은 있고 학습은 없다. `academy`의 `effect.special: 'discover'`, `temple`의 `special: 'sorcery'`를 읽는 코드가 없다 |
+| **이벤트 팝업** | 계절 이벤트는 효과와 로그만 남긴다. 선택지가 있는 화면 이벤트는 방랑 페이즈뿐이다 |
+| **문화 승리 / 외교 승리** | 미구현. 현행 정식 승리는 시나리오 활성 영토 전부 점령이다 |
+| **저장 확장** | 브라우저 단일 자동 저장은 구현됐다. 수동 저장·여러 슬롯·서버 동기화는 없다 |
 | **수상전(조선)** | `ships`는 배분·표시만 되고 전투 보정이 없다 |
-| **장비 구매 UI** | `EQUIPMENT_COST`가 없다. 구매 경로는 무기고 생산뿐 |
+| **장비 구매 UI** | `EQUIPMENT_COST`가 없다. 구매 경로는 무기고 생산뿐이다 |
 
-**추가로 발견한 결함** (수정은 별도 판단)
+**추가로 남은 결함·잔재**
 
 - `battleEngine.updateMorale`이 `allyDead`/`enemyDead`를 계산하고 쓰지 않는다. 실제 적용되는 사기 변동은 리더 격파(−30)뿐이다.
-- `SuikodenGame.tsx`가 `initGame`, `previewWorld`를 import만 하고 호출하지 않는다.
+- `constants/navigation.tsx`의 `/rest/suikoden` 링크는 실제 해시 진입 경로와 달라 404다.
+- 자유 모드용 `previewWorld()`·`initGame()`과 6전술 상수는 현행 화면에서 호출하지 않는 유물로 남아 있다.
 
 ---
 
@@ -302,7 +316,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 ### 타입 체크
 
 ```bash
-cd sw/web && npx tsc --noEmit
+NODE_OPTIONS=--max-old-space-size=8192 pnpm --filter '@feelandnote/web' exec tsc --noEmit --pretty false
 ```
 
 ### 지난 개편 이력
@@ -319,10 +333,23 @@ cd sw/web && npx tsc --noEmit
 
 ### 다음 작업 후보 (우선순위순)
 
-1. **죽은 링크 정리** — `navigation.tsx`의 `/rest/suikoden`이 404다. 페이지를 만들거나 링크를 `/rest#suikoden`으로 고친다.
-2. **이벤트 팝업 UI** — 이벤트가 로그에만 남는다.
-3. **거점 배경 3장** — `new_york`/`tenochtitlan`/`sydney` 이미지 추가, 또는 `imageUrl` 필드를 읽도록 교정.
-4. **징병 시스템** — 병영에서 인구→병력 전환. `Resources.troops` 소비처를 만든다.
-5. **학당 학습** — `special: 'discover'` 처리.
-6. **일기토** — 껍데기 `duel_provoke`를 실제 1:1 대결로.
-7. **장비 구매 UI** — 비용 상수부터 정의해야 한다.
+1. **브라우저 실제 완주 검증** — 한국어/영어·모바일에서 시나리오 선택부터 통일·패망·제한 턴까지 확인한다.
+2. **실 DB 고정 인물 검증** — 시나리오 5종의 필수 UUID가 전부 활성 조회되는지 확인한다.
+3. **죽은 링크 정리** — `navigation.tsx`의 `/rest/suikoden`을 실제 `/rest#suikoden` 진입과 맞춘다.
+4. **이벤트 팝업 UI** — 이벤트가 로그에만 남는다.
+5. **거점 배경 3장** — `new_york`/`tenochtitlan`/`sydney` 이미지 추가, 또는 `imageUrl` 필드를 읽도록 교정.
+6. **인구→병력 징병** — 예비 병사 보충과 별개로 인구를 병사로 전환하고 민심을 반영할지 설계한다.
+7. **학당 학습** — `special: 'discover'` 처리.
+8. **장비 구매 UI** — 비용 상수부터 정의해야 한다.
+
+---
+
+## 현재 검증 상태 (26.07.30)
+
+- 천도 범위 ESLint: **0 errors / 19 warnings**
+- 천도 관련 코드 경로 `git diff --check`: **통과**
+- Node 22 내장 TypeScript 로딩: 시나리오 **5종 확인**
+- 전체 TypeScript 검사와 `pnpm build:web`: 천도 밖의 사용자 수정 파일 `sw/web/src/constants/scripturesMuseum.ts`가 존재하지 않는 `scriptures/ko/ai-academy.json`, `scriptures/en/ai-academy.json`을 가져와 중단했다. 이 두 오류 외 천도 타입 오류는 보고되지 않았다.
+- 미검증: 브라우저 실제 한 판 완주, 한국어/영어·모바일 시각 확인, 실 DB 시나리오 고정 UUID 전원 생존 여부, 엔진 런타임 직접 실행.
+
+따라서 **코드상 본 서비스 진입과 핵심 완주 흐름은 연결됐지만, 배포 가능 확정 상태는 아니다.** 전체 빌드 차단 원인을 해소하고 위 실제 플레이 검증을 마친 뒤 최종 승인한다.

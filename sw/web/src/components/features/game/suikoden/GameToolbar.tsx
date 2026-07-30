@@ -72,7 +72,7 @@ export default function GameToolbar({
         {/* 다음 턴 */}
         <button
           onClick={onNextTurn}
-          className="px-3 py-1 text-[11px] font-bold rounded bg-amber-600 text-stone-900 hover:bg-amber-500 active:bg-amber-700 transition-colors"
+          className="px-3 py-1 text-[11px] font-bold rounded bg-amber-600 text-stone-900 hover:bg-amber-500 active:bg-amber-700"
         >
           {text.toolbar.nextTurn}
         </button>
@@ -89,7 +89,7 @@ export default function GameToolbar({
         )}
 
         {/* 기본 버튼 */}
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1">
           <ToolButton
             label={state.autoAssign ? text.toolbar.autoOn : text.toolbar.autoOff}
             active={state.autoAssign}
@@ -107,21 +107,21 @@ export default function GameToolbar({
         <div className="w-px h-4 bg-stone-600" />
 
         {/* 드롭다운 4개 */}
-        <div className="flex items-center gap-1 relative">
+        <div className="relative flex w-full min-w-0 flex-wrap items-center gap-1 [&>div]:static sm:w-auto sm:[&>div]:relative">
           {/* 내정 */}
           <div className="relative">
             <DropdownButton label={text.toolbar.develop} isOpen={openDropdown === 'develop'} onClick={() => toggleDropdown('develop')} />
             {openDropdown === 'develop' && (
-              <div className="absolute top-full left-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[200px] p-2 space-y-2">
+              <div className="absolute left-0 top-full z-50 mt-1 w-[calc(100vw_-_2rem)] max-w-[280px] space-y-2 rounded border border-stone-600 bg-stone-900 p-2 shadow-xl">
                 {/* 세율 조정 */}
                 <div>
                   <div className="text-[10px] text-text-secondary mb-1">{text.toolbar.tax}</div>
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-1">
                     {(['low', 'normal', 'high'] as const).map(rate => (
                       <button
                         key={rate}
                         onClick={() => { onSetTaxRate(rate); setOpenDropdown(null) }}
-                        className={`flex-1 py-1 text-[10px] rounded transition-colors ${
+                        className={`flex-1 py-1 text-[10px] rounded ${
                           territory.taxRate === rate
                             ? rate === 'high' ? 'bg-red-900/50 text-red-300 font-bold'
                               : rate === 'low' ? 'bg-green-900/50 text-green-300 font-bold'
@@ -162,10 +162,10 @@ export default function GameToolbar({
           <div className="relative">
             <DropdownButton label={text.toolbar.military} isOpen={openDropdown === 'military'} onClick={() => toggleDropdown('military')} />
             {openDropdown === 'military' && (
-              <div className="absolute top-full left-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[180px] p-2 space-y-1">
+              <div className="absolute left-0 top-full z-50 mt-1 w-[calc(100vw_-_2rem)] max-w-[240px] space-y-1 rounded border border-stone-600 bg-stone-900 p-2 shadow-xl">
                 {neighbors.map(n => (
-                  <div key={n.id} className="flex items-center justify-between py-1 text-xs">
-                    <span className="text-text-primary">{tS(`territory.${n.id}`)}</span>
+                  <div key={n.id} className="flex flex-wrap items-center justify-between gap-2 py-1 text-xs">
+                    <span className="min-w-0 break-words text-text-primary">{tS(`territory.${n.id}`)}</span>
                     {n.owner ? (
                       n.owner.id !== state.playerFactionId ? (
                         <button
@@ -198,7 +198,7 @@ export default function GameToolbar({
           <div className="relative">
             <DropdownButton label={text.toolbar.diplomacy} isOpen={openDropdown === 'diplomacy'} onClick={() => toggleDropdown('diplomacy')} />
             {openDropdown === 'diplomacy' && (
-              <div className="absolute top-full right-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[220px] max-w-[280px] p-2 space-y-2">
+              <div className="absolute right-0 top-full z-50 mt-1 w-[calc(100vw_-_2rem)] max-w-[280px] space-y-2 rounded border border-stone-600 bg-stone-900 p-2 shadow-xl">
                 {state.factions.filter(f => f.id !== state.playerFactionId && f.territories.length > 0).map(f => {
                   const relation = getRelation(state, f.id)
                   const allied = isAllied(state, f.id)
@@ -208,10 +208,10 @@ export default function GameToolbar({
 
                   return (
                     <div key={f.id} className="p-2 bg-stone-800 rounded space-y-1.5">
-                      <div className="flex items-center gap-2">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: f.color }} />
-                        <span className="flex-1 text-xs text-text-primary truncate font-bold">{stripSuikodenFactionSuffix(f.name)}</span>
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded ${
+                        <span className="min-w-0 flex-1 break-words text-xs font-bold text-text-primary">{stripSuikodenFactionSuffix(f.name)}</span>
+                        <span className={`break-words rounded px-1.5 py-0.5 text-[9px] ${
                           allied ? 'bg-green-900/50 text-green-300' :
                           relation > 0 ? 'text-blue-400' :
                           relation < -30 ? 'text-red-400' : 'text-text-secondary'
@@ -219,12 +219,12 @@ export default function GameToolbar({
                           {relationLabel(relation, allied)}
                         </span>
                       </div>
-                      <div className="flex gap-1">
+                      <div className="flex flex-wrap gap-1">
                         {!allied && (
                           <button
                             onClick={() => { onDiplomacy('alliance', f.id); setOpenDropdown(null) }}
                             disabled={playerFaction.resources.gold < 200}
-                            className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-blue-300 hover:bg-stone-600 disabled:opacity-30"
+                            className="min-w-[calc(50%_-_0.25rem)] flex-1 break-words whitespace-normal py-1 text-[10px] bg-stone-700 rounded text-blue-300 hover:bg-stone-600 disabled:opacity-30"
                           >
                             {text.toolbar.alliance}
                           </button>
@@ -232,21 +232,21 @@ export default function GameToolbar({
                         <button
                           onClick={() => { onDiplomacy('ceasefire', f.id); setOpenDropdown(null) }}
                           disabled={playerFaction.resources.gold < 100}
-                          className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-text-primary hover:bg-stone-600 disabled:opacity-30"
+                          className="min-w-[calc(50%_-_0.25rem)] flex-1 break-words whitespace-normal py-1 text-[10px] bg-stone-700 rounded text-text-primary hover:bg-stone-600 disabled:opacity-30"
                         >
                           {text.toolbar.ceasefire}
                         </button>
                         <button
                           onClick={() => { onDiplomacy('tribute', f.id); setOpenDropdown(null) }}
                           disabled={playerFaction.resources.gold < 100}
-                          className="flex-1 py-1 text-[10px] bg-stone-700 rounded text-amber-300 hover:bg-stone-600 disabled:opacity-30"
+                          className="min-w-[calc(50%_-_0.25rem)] flex-1 break-words whitespace-normal py-1 text-[10px] bg-stone-700 rounded text-amber-300 hover:bg-stone-600 disabled:opacity-30"
                         >
                           {text.toolbar.tribute}
                         </button>
                         {canSurrender && (
                           <button
                             onClick={() => { onDiplomacy('surrender', f.id); setOpenDropdown(null) }}
-                            className="flex-1 py-1 text-[10px] bg-red-900/50 rounded text-red-300 hover:bg-red-800/50"
+                            className="min-w-[calc(50%_-_0.25rem)] flex-1 break-words whitespace-normal py-1 text-[10px] bg-red-900/50 rounded text-red-300 hover:bg-red-800/50"
                           >
                             {text.toolbar.surrender}
                           </button>
@@ -266,30 +266,30 @@ export default function GameToolbar({
           <div className="relative">
             <DropdownButton label={text.toolbar.misc} isOpen={openDropdown === 'etc'} onClick={() => toggleDropdown('etc')} />
             {openDropdown === 'etc' && (
-              <div className="absolute top-full right-0 mt-1 z-50 bg-stone-900 border border-stone-600 rounded shadow-xl min-w-[200px] p-2">
+              <div className="absolute right-0 top-full z-50 mt-1 w-[calc(100vw_-_2rem)] max-w-[240px] rounded border border-stone-600 bg-stone-900 p-2 shadow-xl">
                 <p className="text-[10px] text-text-secondary mb-2">
                   {text.toolbar.abandonHint(WANDERING_MAX_COMPANIONS)}
                 </p>
                 {!confirmAbandon ? (
                   <button
                     onClick={() => setConfirmAbandon(true)}
-                    className="w-full py-1.5 bg-stone-700 rounded text-xs text-red-300 hover:bg-stone-600 transition-colors"
+                    className="w-full py-1.5 bg-stone-700 rounded text-xs text-red-300 hover:bg-stone-600"
                   >
                     {text.toolbar.abandon}
                   </button>
                 ) : (
                   <div className="space-y-1">
                     <p className="text-[10px] text-red-400 font-bold text-center">{text.toolbar.abandonConfirm}</p>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() => { onAbandon(); setConfirmAbandon(false); setOpenDropdown(null) }}
-                        className="flex-1 py-1.5 bg-red-900/60 rounded text-xs text-red-200 hover:bg-red-800 font-bold"
+                        className="min-w-[calc(50%_-_0.5rem)] flex-1 break-words whitespace-normal py-1.5 bg-red-900/60 rounded text-xs text-red-200 hover:bg-red-800 font-bold"
                       >
                         {text.toolbar.abandonExecute}
                       </button>
                       <button
                         onClick={() => setConfirmAbandon(false)}
-                        className="flex-1 py-1.5 bg-stone-700 rounded text-xs text-text-secondary hover:bg-stone-600"
+                        className="min-w-[calc(50%_-_0.5rem)] flex-1 break-words whitespace-normal py-1.5 bg-stone-700 rounded text-xs text-text-secondary hover:bg-stone-600"
                       >
                         {text.common.cancel}
                       </button>
@@ -315,7 +315,7 @@ function ToolButton({ label, disabled, active, onClick }: {
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`px-2 py-1 rounded transition-colors text-[11px] ${
+      className={`max-w-full break-words whitespace-normal px-2 py-1 rounded text-[11px] ${
         active
           ? 'bg-amber-700/50 text-amber-200'
           : disabled
@@ -334,7 +334,7 @@ function DropdownButton({ label, isOpen, onClick }: {
   return (
     <button
       onClick={onClick}
-      className={`px-2 py-1 rounded transition-colors text-[11px] flex items-center gap-0.5 ${
+      className={`flex max-w-full items-center gap-0.5 break-words whitespace-normal rounded px-2 py-1 text-[11px] ${
         isOpen
           ? 'bg-stone-700 text-amber-300'
           : 'text-text-secondary hover:bg-stone-700 hover:text-text-primary'

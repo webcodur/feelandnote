@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type { BattleAnimation } from '@/lib/game/suikoden/types'
 
 interface Props {
@@ -9,22 +9,13 @@ interface Props {
 }
 
 export default function BattleSVGOverlay({ animation, onAnimationEnd }: Props) {
-  const [visible, setVisible] = useState(false)
-
   useEffect(() => {
-    if (!animation) {
-      setVisible(false)
-      return
-    }
-    setVisible(true)
-    const timer = setTimeout(() => {
-      setVisible(false)
-      onAnimationEnd()
-    }, 800)
+    if (!animation) return
+    const timer = setTimeout(onAnimationEnd, 800)
     return () => clearTimeout(timer)
   }, [animation, onAnimationEnd])
 
-  if (!visible || !animation) return null
+  if (!animation) return null
 
   return (
     <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">

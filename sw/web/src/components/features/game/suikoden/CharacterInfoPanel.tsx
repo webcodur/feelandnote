@@ -31,6 +31,7 @@ interface ReadonlyProps extends BaseProps {
   onTrain?: undefined
   onReward?: undefined
   onPunish?: undefined
+  onReinforce?: undefined
 }
 
 interface FullProps extends BaseProps {
@@ -41,6 +42,7 @@ interface FullProps extends BaseProps {
   onTrain: () => void
   onReward: () => void
   onPunish: () => void
+  onReinforce: () => void
 }
 
 export type CharacterInfoPanelProps = ReadonlyProps | FullProps
@@ -244,7 +246,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`shrink-0 px-2 py-1.5 text-[10px] font-medium transition-colors ${
+            className={`shrink-0 px-2 py-1.5 text-[10px] font-medium ${
               tab === t.key
                 ? 'text-amber-400 border-b border-amber-400'
                 : 'text-text-secondary hover:text-text-primary'
@@ -321,6 +323,7 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
           <div className="space-y-1">
             <StatRow label="HP" value={`${char.hp}/${char.maxHp}`} />
             <StatRow label={tS('charInfo.troopsLabel')} value={`${char.troops}/${char.maxTroops}`} />
+            {!isReadonly && <StatRow label={tS('charInfo.reserveTroops')} value={playerFaction!.resources.troops} />}
             <StatRow label={tS('charInfo.moraleLabel')} value={char.morale} />
             {!isReadonly && !isLeader && (
               <StatRow
@@ -329,6 +332,26 @@ export default function CharacterInfoPanel(props: CharacterInfoPanelProps) {
                 color={char.loyaltyValue >= 80 ? 'text-green-400' : char.loyaltyValue >= 50 ? 'text-amber-400' : 'text-red-400'}
               />
             )}
+            {!isReadonly && (() => {
+              const amount = Math.min(playerFaction!.resources.troops, char.maxTroops - char.troops)
+              return (
+                <div className="pt-2 space-y-1">
+                  <button
+                    onClick={props.onReinforce}
+                    disabled={amount <= 0}
+                    className="w-full py-1.5 text-xs font-bold text-red-100 bg-red-900/50 border border-red-700 rounded hover:bg-red-800/60 hover:border-red-500 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    {tS('charInfo.reinforce', { count: Math.max(0, amount) })}
+                  </button>
+                  {char.troops >= char.maxTroops && (
+                    <p className="text-[9px] text-text-secondary text-center">{tS('charInfo.troopsFull')}</p>
+                  )}
+                  {char.troops < char.maxTroops && playerFaction!.resources.troops <= 0 && (
+                    <p className="text-[9px] text-text-secondary text-center">{tS('charInfo.noReserveTroops')}</p>
+                  )}
+                </div>
+              )
+            })()}
           </div>
         )}
 

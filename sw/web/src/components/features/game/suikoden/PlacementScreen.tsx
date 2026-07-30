@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from 'react'
 import { useLocale } from 'next-intl'
-import type { BattleState, BattleUnit, GridPosition } from '@/lib/game/suikoden/types'
-import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS, CLASS_INFO, CLASS_DEFAULT_ROW } from '@/lib/game/suikoden/constants'
+import type { BattleState, BattleUnit } from '@/lib/game/suikoden/types'
+import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS, CLASS_INFO } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
 import { getSuikodenText } from './i18n'
 
@@ -55,20 +55,20 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
   const rowLabels = [text.battle.row.front, text.battle.row.middle, text.battle.row.rear]
 
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <div className="text-center">
         <h3 className="text-sm font-bold text-text-primary">{text.placement.title}</h3>
         <p className="text-[10px] text-text-secondary mt-1">{text.placement.subtitle}</p>
       </div>
 
       {/* 그리드 */}
-      <div className="space-y-1">
+      <div className="min-w-0 space-y-1">
         {grid.map((row, rowIdx) => (
-          <div key={rowIdx} className="flex items-center gap-1">
+          <div key={rowIdx} className="flex min-w-0 items-center gap-1">
             <span className="text-[9px] text-text-secondary w-6 text-right shrink-0">
               {rowLabels[rowIdx]}
             </span>
-            <div className="flex gap-1">
+            <div className="grid min-w-0 flex-1 grid-cols-5 gap-1">
               {row.map((unit, colIdx) => {
                 const isSelected = unit?.id === selectedId
 
@@ -82,7 +82,7 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
                         handleCellClick(rowIdx, colIdx)
                       }
                     }}
-                    className={`w-14 h-16 rounded border transition-all ${
+                    className={`h-16 w-full min-w-0 rounded border ${
                       isSelected
                         ? 'border-amber-400 bg-amber-900/30 ring-1 ring-amber-400'
                         : unit
@@ -93,9 +93,9 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
                     }`}
                   >
                     {unit ? (
-                      <div className="flex flex-col items-center gap-0.5 p-0.5">
+                      <div className="flex min-w-0 flex-col items-center gap-0.5 p-0.5">
                         <CharacterPortrait character={unit.character} size={28} />
-                        <span className="text-[7px] text-text-secondary truncate w-full text-center">
+                        <span className="w-full truncate text-center text-[7px] text-text-secondary">
                           {unit.character.nickname.slice(0, 4)}
                         </span>
                         <span className="text-[7px] text-text-secondary">
@@ -132,7 +132,7 @@ export default function PlacementScreen({ state, onConfirm }: Props) {
       {/* 확인 버튼 */}
       <button
         onClick={() => onConfirm(allies)}
-        className="w-full py-2.5 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500 transition-colors"
+        className="w-full py-2.5 bg-amber-600 rounded text-sm text-stone-900 font-bold hover:bg-amber-500"
       >
         {text.placement.confirm}
       </button>

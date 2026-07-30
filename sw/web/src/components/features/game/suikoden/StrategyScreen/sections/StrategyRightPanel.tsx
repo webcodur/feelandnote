@@ -22,6 +22,7 @@ interface Props {
   handleTrain: () => void
   handleReward: () => void
   handlePunish: () => void
+  handleReinforce: () => void
   showHelp: boolean
   setShowHelp: (v: boolean) => void
   text: ReturnType<typeof import('../../i18n').getSuikodenText>
@@ -31,7 +32,7 @@ export default function StrategyRightPanel({
   state, mapMode, setMapMode, mapOpen, setMapOpen,
   charPanelOpen, setCharPanelOpen, selectedCharId, playerFaction,
   focusTarget, handleSelectTerritory,
-  handleIdle, handleTrain, handleReward, handlePunish,
+  handleIdle, handleTrain, handleReward, handlePunish, handleReinforce,
   showHelp, setShowHelp, text,
 }: Props) {
   return (
@@ -52,7 +53,7 @@ export default function StrategyRightPanel({
             <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
               <button
                 onClick={() => setMapMode('globe')}
-                className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                className={`px-2 py-0.5 text-[10px] rounded ${
                   mapMode === 'globe'
                     ? 'bg-stone-700 text-text-primary font-bold'
                     : 'text-text-secondary hover:text-text-secondary'
@@ -62,7 +63,7 @@ export default function StrategyRightPanel({
               </button>
               <button
                 onClick={() => setMapMode('text')}
-                className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                className={`px-2 py-0.5 text-[10px] rounded ${
                   mapMode === 'text'
                     ? 'bg-stone-700 text-text-primary font-bold'
                     : 'text-text-secondary hover:text-text-secondary'
@@ -120,6 +121,7 @@ export default function StrategyRightPanel({
             onTrain={handleTrain}
             onReward={handleReward}
             onPunish={handlePunish}
+            onReinforce={handleReinforce}
           />
         )}
       </div>

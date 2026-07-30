@@ -23,7 +23,7 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
   return (
     <div className="space-y-2">
       {/* 유닛 정보 */}
-      <div className="flex items-center gap-2 text-xs">
+      <div className="flex flex-wrap items-center gap-2 text-xs">
         <span className="text-amber-400 font-bold">{unit.character.nickname}</span>
         <span className="text-text-secondary">{cls.icon} {tS(`class.${unit.character.unitClass}`)}</span>
         <span className="text-text-secondary">{text.action.hp} {unit.hp}/{unit.maxHp}</span>
@@ -33,7 +33,6 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
       <div className="flex flex-wrap gap-1.5">
         {/* 공격 */}
         <ActionButton
-          id="attack"
           label={text.action.attack}
           icon="⚔️"
           desc={text.action.attackDesc}
@@ -46,7 +45,6 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
         {skills.map(skill => (
           <ActionButton
             key={skill.id}
-            id={`skill:${skill.id}`}
             label={tS(`skill.${skill.id}`)}
             icon={skill.icon}
             desc={tS(`skillDesc.${skill.id}`)}
@@ -58,7 +56,6 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
 
         {/* 방어 */}
         <ActionButton
-          id="defend"
           label={text.action.defend}
           icon="🛡️"
           desc={text.action.defendDesc}
@@ -69,7 +66,6 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
 
         {/* 후퇴 */}
         <ActionButton
-          id="retreat"
           label={text.action.retreat}
           icon="🏃"
           desc={text.action.retreatDesc}
@@ -84,9 +80,9 @@ export default function ActionPanel({ unit, selectedAction, onSelectAction, disa
 }
 
 function ActionButton({
-  id, label, icon, desc, selected, onSelect, disabled, variant,
+  label, icon, desc, selected, onSelect, disabled, variant,
 }: {
-  id: string; label: string; icon: string; desc: string
+  label: string; icon: string; desc: string
   selected: boolean; onSelect: () => void; disabled: boolean
   variant?: 'danger'
 }) {
@@ -94,7 +90,7 @@ function ActionButton({
     <button
       onClick={onSelect}
       disabled={disabled}
-      className={`px-2.5 py-1.5 rounded border text-left transition-all ${
+      className={`px-2.5 py-1.5 rounded border text-left ${
         selected
           ? 'border-amber-400 bg-amber-900/30 ring-1 ring-amber-400'
           : variant === 'danger'

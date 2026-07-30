@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { GameCharacter } from '@/lib/game/suikoden/types'
 import { getPortraitUrl, getCharacterFallback } from '@/lib/game/suikoden/assetManager'
 import { GRADE_COLORS } from '@/lib/game/suikoden/constants'
@@ -13,15 +13,9 @@ interface Props {
 
 /** 에셋이 있으면 이미지, 없으면 CSS 폴백으로 렌더링 */
 export default function CharacterPortrait({ character, size = 48, showGrade = false }: Props) {
-  const [imgSrc, setImgSrc] = useState<string | null>(null)
-  const [imgError, setImgError] = useState(false)
-
-  useEffect(() => {
-    const url = getPortraitUrl(character)
-    setImgSrc(url)
-    setImgError(false)
-  }, [character])
-
+  const [failedSrc, setFailedSrc] = useState<string | null>(null)
+  const imgSrc = getPortraitUrl(character)
+  const imgError = !imgSrc || failedSrc === imgSrc
   const fallback = getCharacterFallback(character)
 
   return (
@@ -37,7 +31,7 @@ export default function CharacterPortrait({ character, size = 48, showGrade = fa
           height={size}
           className="w-full h-full object-cover"
           style={{ imageRendering: 'pixelated' }}
-          onError={() => setImgError(true)}
+          onError={() => setFailedSrc(imgSrc)}
         />
       ) : (
         /* CSS 폴백: 색상 원 + 이니셜 */

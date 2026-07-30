@@ -102,7 +102,7 @@ export default function BuildingCardGrid({
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${viewMode ? 'opacity-100' : 'opacity-30'}`}
         style={{ backgroundImage: `url(/images/game/suikoden/territories/${territory.id}.png)` }}
       />
-      <div className={`absolute inset-0 transition-colors duration-500 ${viewMode ? 'bg-stone-900/30' : 'bg-stone-900/80'}`} />
+      <div className={`absolute inset-0 transition-[background-color] duration-500 ${viewMode ? 'bg-stone-900/30' : 'bg-stone-900/80'}`} />
 
       {/* 감상모드 오버레이 */}
       {viewMode && (
@@ -111,7 +111,7 @@ export default function BuildingCardGrid({
             <span className="text-sm text-white/80 font-serif">{tS(`territory.${territory.id}`)}</span>
             <button
               onClick={() => setViewMode(false)}
-              className="w-7 h-7 rounded-full bg-black/40 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs flex items-center justify-center"
+              className="w-7 h-7 rounded-full bg-black/40 text-white/70 hover:text-white hover:bg-black/60 text-xs flex items-center justify-center"
             >
               ✕
             </button>
@@ -127,7 +127,7 @@ export default function BuildingCardGrid({
           <span className="text-[10px] text-text-secondary">{tS('mgmt.buildingCount', { current: slotUsed, max: slotMax })}</span>
           <button
             onClick={() => setViewMode(true)}
-            className="text-[10px] text-text-secondary hover:text-amber-300 transition-colors"
+            className="text-[10px] text-text-secondary hover:text-amber-300"
             title={tS('mgmt.viewBackground')}
           >
             🖼️
@@ -230,7 +230,7 @@ export default function BuildingCardGrid({
                         {/* 신규 건설 -- readOnly 시 숨김 */}
                         {hasRoom && !readOnly && (
                           <div
-                            className={`inline-flex items-center gap-0.5 px-2 py-1 rounded border border-dashed text-[10px] transition-colors self-start ${
+                            className={`inline-flex items-center gap-0.5 px-2 py-1 rounded border border-dashed text-[10px] self-start ${
                               !canAfford
                                 ? 'border-stone-700/50 text-stone-700'
                                 : dragOverTarget === `new-${bDef.id}`
@@ -245,7 +245,7 @@ export default function BuildingCardGrid({
                             title={`${tS(`bldg.${bDef.id}`)} (${tS('mgmt.goldCost', { amount: bDef.costGold })}${bDef.costMaterial > 0 ? ` ${tS('mgmt.materialCost', { amount: bDef.costMaterial })}` : ''}${bDef.requireStat ? ` ${tS('mgmt.statMinArrow', { stat: tS(`stat.${bDef.requireStat}`), min: bDef.requireStatMin ?? 0 })}` : ''}) ${tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}`}
                           >
                             <span
-                              className="cursor-pointer hover:text-amber-300 transition-colors"
+                              className="cursor-pointer hover:text-amber-300"
                               onClick={() => setInfoBuilding(bDef.id)}
                             >
                               {tS(`bldg.${bDef.id}`)}
@@ -253,7 +253,7 @@ export default function BuildingCardGrid({
                             <span className={`ml-0.5 ${canAfford ? 'text-text-secondary' : 'text-stone-700/50'}`}>{tS('mgmt.buildTurnUnit', { turns: bDef.buildTurns })}</span>
                             {canAfford && (
                               <span
-                                className="text-xs cursor-pointer hover:text-amber-300 transition-colors ml-0.5"
+                                className="text-xs cursor-pointer hover:text-amber-300 ml-0.5"
                                 onClick={() => {
                                   if (!selectedCharId) {
                                     onToast(tS('mgmt.toastSelectBuilderFirst'))
@@ -294,7 +294,7 @@ export default function BuildingCardGrid({
         <div className="sm:w-[200px] sm:border-l sm:border-stone-700 sm:pl-3 space-y-3">
           {/* region 대기 */}
           <div
-            className={`rounded p-2 transition-colors ${
+            className={`rounded p-2 ${
               dragOverTarget === 'idle-pool'
                 ? 'bg-amber-500/5 ring-1 ring-amber-400/30'
                 : ''
@@ -384,7 +384,7 @@ export default function BuildingCardGrid({
                           <span className="text-[10px] text-amber-300 flex-1">{tS('mgmt.subjugating', { nickname: assignedChar.nickname })}</span>
                           <button
                             onClick={() => onRecall(assignedChar.id)}
-                            className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary transition-colors"
+                            className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary"
                           >
                             {tS('mgmt.unassign')}
                           </button>
@@ -392,7 +392,7 @@ export default function BuildingCardGrid({
                       ) : selectedCharId && selectedPlacement?.task !== 'hunting' ? (
                         <button
                           onClick={() => onDispatch(selectedCharId, threat.id)}
-                          className="mt-1.5 w-full px-2 py-1 rounded bg-red-900/40 border border-red-700/50 text-[10px] text-red-300 hover:bg-red-800/50 transition-colors"
+                          className="mt-1.5 w-full px-2 py-1 rounded bg-red-900/40 border border-red-700/50 text-[10px] text-red-300 hover:bg-red-800/50"
                         >
                           {tS('mgmt.dispatchSubjugate')}
                         </button>
@@ -440,7 +440,7 @@ export default function BuildingCardGrid({
                               <span className="text-[10px] text-emerald-300 flex-1">{tS('mgmt.recruiting', { nickname: assignedRecruiter.nickname })}</span>
                               <button
                                 onClick={() => onCancelRecruiter(v.character.id)}
-                                className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary transition-colors"
+                                className="px-1.5 py-0.5 rounded bg-stone-700/50 border border-stone-600/50 text-[9px] text-text-secondary hover:text-text-primary"
                               >
                                 {tS('mgmt.unassign')}
                               </button>
@@ -448,7 +448,7 @@ export default function BuildingCardGrid({
                           ) : selectedCharId ? (
                             <button
                               onClick={() => onAssignRecruiter(v.character.id, selectedCharId)}
-                              className="mt-1.5 w-full px-2 py-1 rounded bg-emerald-900/40 border border-emerald-700/50 text-[10px] text-emerald-300 hover:bg-emerald-800/50 transition-colors"
+                              className="mt-1.5 w-full px-2 py-1 rounded bg-emerald-900/40 border border-emerald-700/50 text-[10px] text-emerald-300 hover:bg-emerald-800/50"
                             >
                               {tS('mgmt.assign')}
                             </button>
@@ -573,7 +573,7 @@ function CharacterChip({
       draggable={!readOnly}
       onDragStart={readOnly ? undefined : onDragStart}
       onClick={readOnly ? undefined : onClick}
-      className={`inline-flex items-center gap-1.5 pl-1 pr-2 py-1 rounded border text-[11px] select-none transition-all ${
+      className={`inline-flex items-center gap-1.5 pl-1 pr-2 py-1 rounded border text-[11px] select-none ${
         readOnly
           ? 'border-stone-600 bg-stone-700/50 text-text-primary'
           : isSelected

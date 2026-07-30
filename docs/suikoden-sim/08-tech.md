@@ -1,5 +1,7 @@
 # 08. 기술 스택 및 아키텍처
 
+> **최종 실측 체크: 26.07.30** — 코드 구조·DB 조회 범위·진입 경로·브라우저 저장 대조
+
 > 파일별 상세 구현 현황은 `10-implementation-status.md`가 단일원천이다. 이 문서는 아키텍처 골격만 다룬다.
 
 ## 기술 스택
@@ -26,8 +28,10 @@
 | **constants.ts** | 상수 테이블 + 스킬 정의(`SKILL_DEFS`) |
 | **engine.ts** | 셋업(`previewScenario`/`finalizeGame`), 방랑, 거병, 포로 처분 |
 | **battleEngine.ts** | 그리드 턴제 전투 엔진 |
-| **scenarios.ts** | 시나리오 5종 정의 |
-| **turnEngine.ts** | 턴 엔진 + 내정/외교 커맨드 |
+| **campaign.ts** | 통일·패망·제한 턴 판정, 소멸 AI 세력·방랑 인물 정리 |
+| **save.ts** | 브라우저 단일 자동 저장·불러오기·삭제 |
+| **scenarios.ts** | 시나리오 5종 정의, 고정 인물 ID 목록·누락 검사 |
+| **turnEngine.ts** | 턴 엔진 + 내정/외교 커맨드 + 예비 병사 보충 |
 | **aiTurn.ts** | AI 의사결정 |
 | **diplomacy.ts** | 외교 |
 | **events.ts** | 계절/랜덤 이벤트 |
@@ -46,22 +50,22 @@
 
 | 함수 | 역할 |
 |------|------|
-| `loadSuikodenCharacters()` | 캐릭터 로딩 (`profiles` + `celeb_influence` + `celeb_persona`, 명언 별도 조회) |
-| `loadSuikodenDialogues()` | 대사 로딩 (`celeb_dialogues`, `unstable_cache` 캐싱) |
+| `loadSuikodenCharacters()` | `SUIKODEN_CHARACTER_IDS`의 시나리오 고정 인물만 로딩 (`profiles` + `celeb_influence` + `celeb_persona`, 명언 별도 조회) |
+| `loadSuikodenDialogues()` | 같은 고정 인물의 대사만 로딩 (`celeb_dialogues`, `unstable_cache` 캐싱) |
 
 ### 라우트
 
-**전용 페이지는 없다.** 게임은 쉼터 화면(`/rest`)의 카드로 그 자리에 마운트된다.
+**전용 페이지는 없다.** 게임은 쉼터 화면(`/[locale]/rest`)의 카드로 그 자리에 열린다.
 
 ```
-app/[locale]/(main)/rest/page.tsx        — 서버. 캐릭터·대사를 Promise.all로 로딩
-  └ RestGameGrid (클라이언트)             — 게임 카드 4장
+app/[locale]/(main)/rest/page.tsx        — 서버. 고정 인물·대사를 Promise.all로 로딩
+  └ RestGameGrid (클라이언트)             — 게임 카드 4장, 주소 해시 감지
       └ activeGame === "suikoden" 일 때 SuikodenGameWrapper 를 dynamic import 로 마운트
 
 app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없음 → 404
 ```
 
-`constants/navigation.tsx`에 `/rest/suikoden` 링크가 남아 있으나 대상 페이지가 없다. `rest/page.tsx`는 해시(`/rest#suikoden`)를 쓴다.
+천도 카드를 누르면 주소가 `#suikoden`으로 바뀌며, `/[locale]/rest#suikoden` 직접 접근이나 해시 변경도 자동으로 게임을 연다. `constants/navigation.tsx`에는 아직 `/rest/suikoden` 링크가 남아 있어 이 경로만 404다.
 
 ---
 
@@ -69,30 +73,37 @@ app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없
 
 ### 캐릭터 로딩
 
-`profiles`에서 `id, nickname, title, profession, nationality, gender, birth_date, death_date, bio, avatar_url`을 읽고 `celeb_influence`(7지표 + `total_score`), `celeb_persona`(`persona` JSON)를 함께 임베드한다.
+`profiles`에서 필요한 프로필·영향력·페르소나를 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
 
 필터:
 - `status = 'active'`
 - `death_date` 존재 (null·빈문자 제외)
 - `profession` 존재
 - 사망 연도 ≤ 현재 연도 − 120 (`CUTOFF_YEARS`, JS에서 판정)
+- `id`가 `SUIKODEN_CHARACTER_IDS`에 포함
 
-정렬은 `totalScore` 내림차순. 명언은 `celeb_dialogues`에서 `lines->quote`, `lines_en->quote`만 뽑아 붙인다.
+정렬은 `totalScore` 내림차순이다. 명언도 조회가 끝난 고정 인물 ID만 `celeb_dialogues`에서 읽는다. 선택 시나리오에 필요한 인물이 결과에 없으면 `getMissingScenarioCharacterIds()`가 누락을 반환하고 시작 화면이 해당 시나리오를 비활성화한다.
 
 - `celeb_persona` 있으면 페르소나 기반 Grade 산정 (우선)
 - 없으면 `total_score` 기반 Grade 폴백
 
 ### 대사 로딩
 
-`celeb_dialogues`의 `celeb_id, lines, lines_en`을 전량 캐싱한다(`unstable_cache`, 태그 `CELEBS`+`DIALOGUES`).
+`celeb_dialogues`도 `.in('celeb_id', SUIKODEN_CHARACTER_IDS)`로 고정 인물의 `celeb_id, lines, lines_en`만 캐싱한다(`unstable_cache`, 태그 `CELEBS`+`DIALOGUES`). 전체 대사 테이블을 가져오지 않는다.
 
 ### 아이템 로딩
 
 **없다.** 콘텐츠 기반 아이템 시스템은 폐기됐고 `loadSuikodenItems()`도 제거됐다. 장비는 게임 내부에서 생산·배분한다 (`05-items.md`).
 
-### 게임 세이브
+### 게임 저장
 
-localStorage 기반 (미구현).
+브라우저 `localStorage`에 한 판을 자동 저장한다.
+
+- 키: `feelandnote:suikoden:save`, 형식 버전 1
+- 상태가 바뀔 때 저장하고 로비에서 이어하기를 제공한다
+- 전투 애니메이션 임시 값은 저장하지 않으며, 게임 종료 시 저장본을 삭제한다
+- 저장소 접근이 거부되거나 가득 차면 현재 플레이는 계속하고 한/영 경고를 표시한다
+- 수동 저장·여러 슬롯·서버 동기화는 없다
 
 ---
 

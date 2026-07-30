@@ -60,6 +60,8 @@ interface SuikodenText {
   }
   strategy: {
     assignRecruiter: string
+    cannotReachTerritory: string
+    noDeployableUnits: string
     helpTitle: string
     helpTurnLabel: string
     helpTurnDesc: string
@@ -237,6 +239,8 @@ const TEXT: Record<Locale, SuikodenText> = {
     },
     strategy: {
       assignRecruiter: '등용 인물을 할당했다. 다음 턴에 판정.',
+      cannotReachTerritory: '현재 거점과 이어진 영토만 공격하거나 점령할 수 있다.',
+      noDeployableUnits: '이 거점에 대기 중인 출진 가능 인물이 없다.',
       helpTitle: '천도 — 턴제 전략',
       helpTurnLabel: '턴제',
       helpTurnDesc: "'다음 턴' 버튼으로 10일씩 진행. 건설·자원·AI가 매 턴 처리된다.",
@@ -245,18 +249,18 @@ const TEXT: Record<Locale, SuikodenText> = {
       helpAssignTitle: '배치',
       helpAssignDesc: "인물 선택 → 빈 건물 카드의 '배치' 클릭. 근무자가 있으면 생산 1.5배.",
       helpBattleTitle: '전투',
-      helpBattleDesc: '군사 탭에서 인접 적 영토에 침공. 전투는 전술 카드 대결.',
+      helpBattleDesc: '군사 메뉴에서 인접 적 영토를 침공한다. 전투에서는 인물마다 차례대로 공격·방어·고유 기술을 선택한다.',
       helpDiplomacyTitle: '외교',
       helpDiplomacyDesc: '외교 탭에서 동맹/정전/조공/항복 등 외교 행동.',
-      helpStatsTitle: '인물 스탯 (0~10)',
-      helpStat1: '완력 — 돌격·허공 전술 주력. 연병장 건설 조건',
-      helpStat2: '기량 — 교역소·광산·성벽 건설 조건. 계략 보조',
-      helpStat3: '지력 — 계략·화공 전술 주력. 학당 건설·외교 보정',
-      helpStat4: '체력 — 방어 전술 주력. HP 결정',
-      helpStat5: '충의 — 충성도 초기값 결정',
-      helpStat6: '인애 — 고무 전술 주력. 사원 건설·민심·외교 보정',
-      helpStat7: '용기 — 돌격·고무 보조. 완력·지력 중 높은 값',
-      helpFooter: '훈련 가능: 완력, 기량, 체력. 인물 상세에서 각 스탯 설명 확인 가능.',
+      helpStatsTitle: '인물 능력 (0~100)',
+      helpStat1: '통솔 — 조직과 군대를 이끄는 힘. 방어와 부대 생존력에 영향',
+      helpStat2: '무력 — 일반 공격·돌격·일기토의 위력. 연병장 건설 조건',
+      helpStat3: '지력 — 혼란·화공 등 계략의 위력과 저항. 학당 건설 조건',
+      helpStat4: '매력 — 인재 등용·외교·민심에 영향',
+      helpStat5: '충의 — 포로 등용 저항과 관계에 대한 헌신',
+      helpStat6: '인자 — 치유·사원 건설·민심에 영향',
+      helpStat7: '용기 — 돌격·기습·순찰에 영향',
+      helpFooter: '훈련으로 통솔·무력·지력을 높일 수 있다. 자세한 설명은 인물 상세의 능력 탭에서 확인한다.',
       panelResources: '자원 현황',
       panelToolbar: '명령 도구바',
       panelBuildings: '건물 배치',
@@ -431,6 +435,8 @@ const TEXT: Record<Locale, SuikodenText> = {
     },
     strategy: {
       assignRecruiter: 'Assigned a recruiter. The attempt resolves next turn.',
+      cannotReachTerritory: 'You can only invade or claim a territory connected to the current stronghold.',
+      noDeployableUnits: 'No idle, battle-ready figures are stationed at this stronghold.',
       helpTitle: 'Cheondo — Turn-Based Strategy',
       helpTurnLabel: 'Turn-Based',
       helpTurnDesc: "Advance 10 days with the 'Next Turn' button. Construction, resources, and AI all resolve each turn.",
@@ -439,18 +445,18 @@ const TEXT: Record<Locale, SuikodenText> = {
       helpAssignTitle: 'Assignment',
       helpAssignDesc: 'Select a character, then assign them to an empty building slot. Staffed buildings run at 1.5x output.',
       helpBattleTitle: 'Battle',
-      helpBattleDesc: 'Invade a neighboring enemy territory from the military tab. Battles resolve as tactical duels.',
+      helpBattleDesc: 'Invade a neighboring enemy territory from the military menu. Each figure acts in turn and chooses attacks, defense, or a unique skill.',
       helpDiplomacyTitle: 'Diplomacy',
       helpDiplomacyDesc: 'Use the diplomacy tab for alliances, ceasefires, tribute, and surrender demands.',
-      helpStatsTitle: 'Character Stats (0-10)',
-      helpStat1: 'Martial — Main stat for charge and assault tactics. Required for training grounds.',
-      helpStat2: 'Diligence — Needed for trade posts, mines, and walls. Also supports development.',
-      helpStat3: 'Intellect — Main stat for stratagems, fire attacks, academies, and diplomacy.',
-      helpStat4: 'Command — Main stat for defensive tactics and overall survivability.',
-      helpStat5: 'Loyalty — Determines initial devotion and resistance to betrayal.',
-      helpStat6: 'Benevolence — Supports rally tactics, temples, public order, and diplomacy.',
-      helpStat7: 'Courage — Supports charges and morale skills. Often paired with martial or intellect.',
-      helpFooter: 'Trainable stats: Martial, Diligence, and Command. See the character panel for full descriptions.',
+      helpStatsTitle: 'Character Stats (0-100)',
+      helpStat1: 'Command — Leadership of armies and organizations; improves defense and unit durability.',
+      helpStat2: 'Martial — Power of attacks, charges, and duels; required for training grounds.',
+      helpStat3: 'Intellect — Power and resistance for confusion and fire tactics; required for academies.',
+      helpStat4: 'Charm — Influences recruitment, diplomacy, and public order.',
+      helpStat5: 'Loyalty — Resistance to recruitment and devotion to relationships.',
+      helpStat6: 'Benevolence — Supports healing, temples, and public order.',
+      helpStat7: 'Courage — Supports charges, ambushes, and patrols.',
+      helpFooter: 'Training can raise Command, Martial, and Intellect. See the Ability tab for full descriptions.',
       panelResources: 'Resources',
       panelToolbar: 'Command Bar',
       panelBuildings: 'Building Layout',
@@ -760,17 +766,23 @@ export function translateSuikodenBattleLog(message: string, locale: string): str
   match = message.match(/^(.+?)의 기습! (.+?)에게 (\d+) 피해!$/)
   if (match) return `${match[1]} ambushes ${match[2]} for ${match[3]} damage!`
 
-  match = message.match(/^(.+?)이\(가\) 함정을 설치했다!$/)
-  if (match) return `${match[1]} sets a trap!`
+  match = message.match(/^(.+?)이\(가\) 적 전열에 함정을 설치했다!$/)
+  if (match) return `${match[1]} traps the enemy front row!`
+
+  match = message.match(/^(.+?)이\(가\) 함정에 걸려 (\d+) 피해!$/)
+  if (match) return `${match[1]} triggers a trap and takes ${match[2]} damage!`
 
   match = message.match(/^(.+?)의 공성 강타! (.+?)에게 (\d+) 피해!$/)
   if (match) return `${match[1]} lands a siege strike on ${match[2]} for ${match[3]} damage!`
 
-  match = message.match(/^(.+?)이\(가\) 매복을 탐지했다!$/)
-  if (match) return `${match[1]} detected the ambush!`
+  match = message.match(/^(.+?)이\(가\) 매복을 탐지해 함정 (\d+)개를 해제했다!$/)
+  if (match) return `${match[1]} detects the ambush and removes ${match[2]} trap(s)!`
 
-  match = message.match(/^(.+?)의 일기토 도발! (.+?)에게 (\d+) 피해!$/)
-  if (match) return `${match[1]} provokes a duel and hits ${match[2]} for ${match[3]} damage!`
+  match = message.match(/^(.+?)이\(가\) 매복을 탐지했지만 함정이 없었다\.$/)
+  if (match) return `${match[1]} searches for an ambush, but finds no traps.`
+
+  match = message.match(/^(.+?)의 일기토! (.+?)에게 (\d+) 피해, 반격 (\d+) 피해!$/)
+  if (match) return `${match[1]} duels ${match[2]} for ${match[3]} damage and takes ${match[4]} in return!`
 
   match = message.match(/^(.+?) 쓰러졌다!$/)
   if (match) return `${match[1]} has fallen!`
