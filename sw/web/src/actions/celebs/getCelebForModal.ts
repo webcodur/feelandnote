@@ -9,7 +9,11 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/supabase'
 import { getCelebLevelByRanking } from '@/constants/materials'
-import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
+import {
+  DIALOGUE_BRIEF_SELECT,
+  getDisplayDialogueQuote,
+  type DialogueBrief,
+} from '@/lib/utils/celeb-dialogues'
 
 // select 문자열과 동일한 필드 집합
 type ProfileModalRow = Pick<
@@ -18,7 +22,7 @@ type ProfileModalRow = Pick<
   | 'title' | 'title_en'
   | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
   | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
-  | 'content_research_status'
+  | 'status' | 'content_research_status'
 >
 
 // 캐시되는 공개 데이터 묶음 (인증 비의존)
@@ -41,7 +45,7 @@ async function fetchCelebModalPublic(
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
   let profileQuery = supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier, content_research_status')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier, status, content_research_status')
     .eq('id', celebId)
     .eq('profile_type', 'CELEB')
 
@@ -84,7 +88,8 @@ async function fetchCelebModalPublic(
     profile,
     contentCount: resolveCelebContentCount(
       contentResult.count,
-      profile.content_research_status
+      profile.content_research_status,
+      profile.status === 'active'
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
@@ -183,8 +188,8 @@ export async function getCelebForModal(
     death_date: profile.death_date,
     bio: profile.bio,
     bio_en: profile.bio_en ?? null,
-    quotes: dialogue?.quote ?? null,
-    quotes_en: dialogue?.quote_en ?? null,
+    quotes: getDisplayDialogueQuote(dialogue?.quote),
+    quotes_en: getDisplayDialogueQuote(dialogue?.quote_en),
     is_verified: profile.is_verified || false,
     is_platform_managed: profile.claimed_by === null,
     follower_count: pub.followerCount,

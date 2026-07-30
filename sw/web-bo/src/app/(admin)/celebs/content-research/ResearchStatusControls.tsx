@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { CircleDashed, Clock3, Loader2, Pause, Search } from 'lucide-react'
+import { CircleDashed, Loader2, Search } from 'lucide-react'
 import type { CelebContentResearchStatus } from '@feelandnote/shared/constants/celeb-content-research'
 import { updateContentResearchStatus } from '@/actions/admin/content-research'
 
@@ -28,28 +28,12 @@ const STATUS_BUTTONS: Array<{
     activeClassName: 'bg-slate-500/25 text-white',
   },
   {
-    value: 'queued',
-    label: '큐',
-    title: '조사할 가치가 있어 작업 큐에 올림',
-    icon: Clock3,
-    className: 'text-amber-300 hover:bg-amber-500/20 hover:text-amber-100',
-    activeClassName: 'bg-amber-500/25 text-amber-100',
-  },
-  {
     value: 'researching',
     label: '조사중',
     title: '현재 콘텐츠 조사를 진행 중',
     icon: Search,
     className: 'text-blue-300 hover:bg-blue-500/20 hover:text-blue-100',
     activeClassName: 'bg-blue-500/25 text-blue-100',
-  },
-  {
-    value: 'deferred',
-    label: '보류',
-    title: '가능성을 닫지 않고 나중으로 보류',
-    icon: Pause,
-    className: 'text-violet-300 hover:bg-violet-500/20 hover:text-violet-100',
-    activeClassName: 'bg-violet-500/25 text-violet-100',
   },
 ]
 

@@ -281,9 +281,7 @@ function emptyBucketCounts(): Record<ContentResearchBucket, number> {
 function emptyStatusCounts(): Record<CelebContentResearchStatus, number> {
   return {
     open: 0,
-    queued: 0,
     researching: 0,
-    deferred: 0,
     confirmed_empty: 0,
   }
 }
@@ -329,7 +327,8 @@ export async function getContentResearchWorkspace(
       actualContentCount,
       displayContentCount: resolveCelebContentCount(
         actualContentCount,
-        normalizedResearchStatus
+        normalizedResearchStatus,
+        profileStatus === 'active'
       ),
       researchStatus: normalizedResearchStatus,
       researchUpdatedAt: profile.content_research_updated_at,

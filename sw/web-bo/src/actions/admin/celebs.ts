@@ -146,7 +146,11 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     celeb_tier: row.celeb_tier || 'full',
     claimed_by: row.claimed_by,
     created_at: row.created_at || '',
-    content_count: resolveCelebContentCount(contentCount, row.content_research_status),
+    content_count: resolveCelebContentCount(
+      contentCount,
+      row.content_research_status,
+      row.status === 'active'
+    ),
     content_research_status: row.content_research_status || 'open',
     content_research_updated_at: row.content_research_updated_at,
     content_research_confirmed_empty_at: row.content_research_confirmed_empty_at,
@@ -489,7 +493,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
         celeb.content_count || 0,
-        research?.status
+        research?.status,
+        celeb.status === 'active'
       ),
       content_research_status: research?.status || 'open',
       content_research_updated_at: research?.updatedAt || null,
@@ -590,7 +595,8 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       created_at: row.created_at || '',
       content_count: resolveCelebContentCount(
         contentCounts.get(row.id) || 0,
-        row.content_research_status
+        row.content_research_status,
+        row.status === 'active'
       ),
       content_research_status: row.content_research_status || 'open',
       content_research_updated_at: row.content_research_updated_at || null,
@@ -650,7 +656,8 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     influence_total: data.celeb_influence?.total_score || 0,
     content_count: resolveCelebContentCount(
       contentCount || 0,
-      data.content_research_status
+      data.content_research_status,
+      data.status === 'active'
     ),
     content_research_status: data.content_research_status || 'open',
     content_research_updated_at: data.content_research_updated_at || null,

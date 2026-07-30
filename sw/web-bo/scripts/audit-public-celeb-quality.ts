@@ -129,14 +129,11 @@ type FactionPersonRow = {
 
 type DialogueProblem = {
   celebId: string
+  slug: string
   nickname: string
-  /** 이 인물이 업로드된 팩션에 출연했는가. 웹용 21개 대사는 영상 대사와 별개라 보호 판정에는 쓰지 않는다. */
+  /** 참고 정보다. 웹용 21개 개인 대사는 팩션 영상과 별개라 보호 판정에 쓰지 않는다. */
   inUploadedFactionCast: boolean
   missingKo: number
-  missingEn: number
-  duplicatedKo: number
-  duplicatedEn: number
-  bannedKo: number
   legacyAnswer: boolean
   malformed: boolean
   shapeIssues: string[]
@@ -162,28 +159,10 @@ function text(value: unknown): string {
   return typeof value === 'string' ? value.trim() : ''
 }
 
-function cleanDialogue(value: string): string {
-  return value
-    .replace(/^\s*\[[^\]]+\]\s*/, '')
-    .replace(/[.,!?'"“”‘’…·:;()\s]/g, '')
-    .toLowerCase()
-}
-
-function dialogueValues(lines: Json | null): string[] {
-  if (!lines) return []
-  return DIALOGUE_KEYS.flatMap(key => {
-    const values = lines[key]
-    return Array.isArray(values) ? values.filter((v): v is string => typeof v === 'string') : []
-  })
-}
-
-function countMap(values: string[]): Map<string, number> {
-  const out = new Map<string, number>()
-  for (const value of values) {
-    const k = cleanDialogue(value)
-    if (k) out.set(k, (out.get(k) ?? 0) + 1)
-  }
-  return out
+function dialogueProblemScore(row: DialogueProblem): number {
+  return Number(row.malformed) * 100
+    + row.missingKo * 10
+    + Number(row.legacyAnswer) * 50
 }
 
 function fieldAudit(rows: ProfileRow[], field: keyof ProfileRow): MissingField {
@@ -363,72 +342,124 @@ async function main() {
     })
   })
 
-  const globalKoCounts = countMap(fullLight.flatMap(profile => dialogueValues(dialogueById.get(profile.id)?.lines ?? null)))
-  const globalEnCounts = countMap(fullLight.flatMap(profile => dialogueValues(dialogueById.get(profile.id)?.lines_en ?? null)))
-  const bannedKoPattern = /승리가\s*우리를\s*부른|에\s*있어서|을\s*통하여|에\s*다름\s*아니|되어졌|—/
-
   const dialogueProblems: DialogueProblem[] = fullLight.map(profile => {
     const row = dialogueById.get(profile.id)
     const ko = row?.lines ?? null
-    const en = row?.lines_en ?? null
-    let malformed = !row || !ko || !en
+    let malformed = !row || !ko
     const shapeIssues: string[] = []
     if (!row) shapeIssues.push('dialogue-row-missing')
     if (!ko) shapeIssues.push('lines-missing')
-    if (!en) shapeIssues.push('lines-en-missing')
     let missingKo = 0
-    let missingEn = 0
 
     for (const key of DIALOGUE_KEYS) {
       const koValues = ko?.[key]
-      const enValues = en?.[key]
       if (!Array.isArray(koValues) || koValues.length !== 3 || koValues.some(v => typeof v !== 'string')) {
         malformed = true
         shapeIssues.push(`ko.${key}:${Array.isArray(koValues) ? koValues.length : typeof koValues}`)
       }
-      if (!Array.isArray(enValues) || enValues.length !== 3 || enValues.some(v => typeof v !== 'string')) {
-        malformed = true
-        shapeIssues.push(`en.${key}:${Array.isArray(enValues) ? enValues.length : typeof enValues}`)
-      }
       missingKo += Array.isArray(koValues) ? Math.max(0, 3 - koValues.filter(v => text(v)).length) : 3
-      missingEn += Array.isArray(enValues) ? Math.max(0, 3 - enValues.filter(v => text(v)).length) : 3
     }
 
-    const koValues = dialogueValues(ko)
-    const enValues = dialogueValues(en)
     return {
       celebId: profile.id,
+      slug: profile.slug ?? profile.id,
       nickname: profile.nickname ?? profile.id,
       inUploadedFactionCast: protectedCelebIds.has(profile.id),
       missingKo,
-      missingEn,
-      duplicatedKo: koValues.filter(value => (globalKoCounts.get(cleanDialogue(value)) ?? 0) > 1).length,
-      duplicatedEn: enValues.filter(value => (globalEnCounts.get(cleanDialogue(value)) ?? 0) > 1).length,
-      bannedKo: koValues.filter(value => bannedKoPattern.test(value)).length,
-      legacyAnswer: !!ko?.answer || !!en?.answer,
+      legacyAnswer: !!ko?.answer,
       malformed,
       shapeIssues,
     }
   })
 
   const rankedDialogueProblems = dialogueProblems
+    .filter(row => row.missingKo || row.legacyAnswer || row.malformed)
     .sort((a, b) => {
-      const score = (row: DialogueProblem) =>
-        Number(row.malformed) * 100
-        + (row.missingKo + row.missingEn) * 10
-        + (row.duplicatedKo + row.duplicatedEn) * 2
-        + row.bannedKo * 5
-        + Number(row.legacyAnswer) * 50
-      return score(b) - score(a) || a.nickname.localeCompare(b.nickname)
+      return dialogueProblemScore(b) - dialogueProblemScore(a) || a.slug.localeCompare(b.slug)
     })
-
   const scopeContents = userContents.filter(row => fullIds.has(row.user_id))
   const contentById = new Map(contents.map(row => [row.id, row]))
+  const profileById = new Map(profiles.map(row => [row.id, row]))
   const localesByContent = new Map<string, LocaleRow[]>()
   for (const row of locales) {
     if (!localesByContent.has(row.content_id)) localesByContent.set(row.content_id, [])
     localesByContent.get(row.content_id)!.push(row)
   }
+
+  const contentIssuesByUser = new Map<string, {
+    contentCount: number
+    reviewMissingKo: number
+    reviewMissingEn: number
+    reviewThinKo: number
+    reviewThinEn: number
+    sourceMissing: number
+    localeMissingKo: number
+    localeMissingEn: number
+    thumbnailMissingKo: number
+    thumbnailMissingEn: number
+    legacyBookSource: number
+  }>()
+  for (const row of scopeContents) {
+    const issue = contentIssuesByUser.get(row.user_id) ?? {
+      contentCount: 0,
+      reviewMissingKo: 0,
+      reviewMissingEn: 0,
+      reviewThinKo: 0,
+      reviewThinEn: 0,
+      sourceMissing: 0,
+      localeMissingKo: 0,
+      localeMissingEn: 0,
+      thumbnailMissingKo: 0,
+      thumbnailMissingEn: 0,
+      legacyBookSource: 0,
+    }
+    const rowLocales = localesByContent.get(row.content_id) ?? []
+    const ko = rowLocales.find(locale => locale.locale === 'ko')
+    const en = rowLocales.find(locale => locale.locale === 'en')
+    const content = contentById.get(row.content_id)
+
+    issue.contentCount += 1
+    issue.reviewMissingKo += Number(!text(row.review))
+    issue.reviewMissingEn += Number(!text(row.review_en))
+    issue.reviewThinKo += Number(text(row.review).length > 0 && text(row.review).length < 80)
+    issue.reviewThinEn += Number(text(row.review_en).length > 0 && text(row.review_en).length < 160)
+    issue.sourceMissing += Number(!text(row.source_url))
+    issue.localeMissingKo += Number(!ko)
+    issue.localeMissingEn += Number(!en)
+    issue.thumbnailMissingKo += Number(Boolean(ko) && !text(ko?.thumbnail_url))
+    issue.thumbnailMissingEn += Number(Boolean(en) && !text(en?.thumbnail_url))
+    issue.legacyBookSource += Number(content?.type === 'BOOK'
+      && !['naver_book', 'openlibrary'].includes(content.external_source ?? ''))
+    contentIssuesByUser.set(row.user_id, issue)
+  }
+  const contentAuditQueue = [...contentIssuesByUser.entries()]
+    .map(([userId, issue]) => {
+      const hardDefects = issue.reviewMissingKo
+        + issue.reviewMissingEn
+        + issue.sourceMissing
+        + issue.localeMissingKo
+        + issue.localeMissingEn
+        + issue.thumbnailMissingKo
+        + issue.thumbnailMissingEn
+        + issue.legacyBookSource
+      const thinSignals = issue.reviewThinKo + issue.reviewThinEn
+      const profile = profileById.get(userId)
+      return {
+        userId,
+        slug: profile?.slug ?? '',
+        nickname: profile?.nickname ?? userId,
+        hardDefects,
+        thinSignals,
+        ...issue,
+      }
+    })
+    .filter(row => row.hardDefects > 0 || row.thinSignals > 0)
+    .sort((a, b) => {
+      return b.hardDefects - a.hardDefects
+        || b.thinSignals - a.thinSignals
+        || b.contentCount - a.contentCount
+        || a.slug.localeCompare(b.slug)
+    })
 
   const contentAudit = {
     rows: scopeContents.length,
@@ -459,6 +490,8 @@ async function main() {
       p10: percentile(scopeContents.map(row => text(row.review).length).filter(Boolean), 0.1),
       median: percentile(scopeContents.map(row => text(row.review).length).filter(Boolean), 0.5),
     },
+    auditQueueSize: contentAuditQueue.length,
+    auditQueue: contentAuditQueue.slice(0, 50),
   }
 
   const publicAssignments = assignments.filter(row => publicIds.has(row.celeb_id))
@@ -466,10 +499,7 @@ async function main() {
     rows: publicAssignments.length,
     shortMissingKo: publicAssignments.filter(row => !text(row.short_desc)).length,
     longMissingKo: publicAssignments.filter(row => !text(row.long_desc)).length,
-    shortMissingEn: publicAssignments.filter(row => !text(row.short_desc_en)).length,
-    longMissingEn: publicAssignments.filter(row => !text(row.long_desc_en)).length,
     quoteMissingKo: publicAssignments.filter(row => !text(row.quote)).length,
-    quoteMissingEn: publicAssignments.filter(row => !text(row.quote_en)).length,
   }
 
   const nonUploadedFactionPeople = factionPeople.filter(person => {
@@ -499,23 +529,16 @@ async function main() {
         protected: uploadedFolders.has(episode.folder),
         placements: people.length,
         missingQuoteKo: people.filter(row => !text(row.quote)).length,
-        missingQuoteEn: people.filter(row => !text(row.quote_en)).length,
-        missingOrigin: people.filter(row => text(row.quote) && !text(row.quote_origin)).length,
         chunkMismatchKo: people.filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-        chunkMismatchEn: people.filter(row => chunksMismatch(row.quote_en, row.quote_en_chunks)).length,
       }
     })
     .filter(row =>
       row.missingQuoteKo > 0
-      || row.missingQuoteEn > 0
-      || row.missingOrigin > 0
-      || row.chunkMismatchKo > 0
-      || row.chunkMismatchEn > 0,
+      || row.chunkMismatchKo > 0,
     )
     .sort((a, b) =>
       Number(a.protected) - Number(b.protected)
       || b.missingQuoteKo - a.missingQuoteKo
-      || b.missingQuoteEn - a.missingQuoteEn
       || a.folder.localeCompare(b.folder),
     )
   const factionDialogueAudit = {
@@ -524,18 +547,11 @@ async function main() {
     protectedPlacements: uploadedPeople.length,
     protectedUniqueCelebs: protectedCelebIds.size,
     protectedMissingQuoteKo: uploadedPeople.filter(row => !text(row.quote)).length,
-    protectedMissingQuoteEn: uploadedPeople.filter(row => !text(row.quote_en)).length,
-    protectedMissingOrigin: uploadedPeople.filter(row => text(row.quote) && !text(row.quote_origin)).length,
     protectedChunkMismatchKo: uploadedPeople.filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-    protectedChunkMismatchEn: uploadedPeople.filter(row => chunksMismatch(row.quote_en, row.quote_en_chunks)).length,
     editablePlacements: nonUploadedFactionPeople.length,
     editableMissingQuoteKo: nonUploadedFactionPeople.filter(row => !text(row.quote)).length,
-    editableMissingQuoteEn: nonUploadedFactionPeople.filter(row => !text(row.quote_en)).length,
-    editableMissingOrigin: nonUploadedFactionPeople.filter(row => text(row.quote) && !text(row.quote_origin)).length,
     editableChunkMismatchKo: nonUploadedFactionPeople
       .filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-    editableChunkMismatchEn: nonUploadedFactionPeople
-      .filter(row => chunksMismatch(row.quote_en, row.quote_en_chunks)).length,
     editableDraftArtifacts: draftArtifactRows.length,
     draftArtifactExamples: draftArtifactRows.slice(0, 30),
     byEpisode: factionDialogueByEpisode,
@@ -574,41 +590,26 @@ async function main() {
       rowsInScope: dialogueProblems.length,
       uploadedFactionCastCelebs: protectedCelebIds.size,
       malformed: dialogueProblems.filter(row => row.malformed).length,
-      editableMalformed: rankedDialogueProblems
-        .filter(row => row.malformed && !row.inUploadedFactionCast)
+      malformedPeople: rankedDialogueProblems
+        .filter(row => row.malformed)
         .map(row => ({
           celebId: row.celebId,
+          slug: row.slug,
           nickname: row.nickname,
           missingKo: row.missingKo,
-          missingEn: row.missingEn,
-          shapeIssues: row.shapeIssues,
-        })),
-      protectedMalformed: rankedDialogueProblems
-        .filter(row => row.malformed && row.inUploadedFactionCast)
-        .map(row => ({
-          celebId: row.celebId,
-          nickname: row.nickname,
-          missingKo: row.missingKo,
-          missingEn: row.missingEn,
           shapeIssues: row.shapeIssues,
         })),
       missingAnyKo: dialogueProblems.filter(row => row.missingKo).length,
-      missingAnyEn: dialogueProblems.filter(row => row.missingEn).length,
-      editableMissingAnyKo: dialogueProblems.filter(row => row.missingKo && !row.inUploadedFactionCast).length,
-      editableMissingAnyEn: dialogueProblems.filter(row => row.missingEn && !row.inUploadedFactionCast).length,
-      editableMissingQueue: rankedDialogueProblems
-        .filter(row => !row.inUploadedFactionCast && (row.missingKo || row.missingEn))
+      missingQueue: rankedDialogueProblems
+        .filter(row => row.missingKo)
         .map(row => ({
           celebId: row.celebId,
+          slug: row.slug,
           nickname: row.nickname,
           missingKo: row.missingKo,
-          missingEn: row.missingEn,
           malformed: row.malformed,
         })),
       legacyAnswer: dialogueProblems.filter(row => row.legacyAnswer).length,
-      exactDuplicateKoLines: [...globalKoCounts.values()].filter(count => count > 1).reduce((sum, count) => sum + count, 0),
-      exactDuplicateEnLines: [...globalEnCounts.values()].filter(count => count > 1).reduce((sum, count) => sum + count, 0),
-      bannedTranslationPatterns: dialogueProblems.reduce((sum, row) => sum + row.bannedKo, 0),
       topProblems: rankedDialogueProblems.slice(0, 30),
     },
     contents: contentAudit,

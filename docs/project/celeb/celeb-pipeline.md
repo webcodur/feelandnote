@@ -86,14 +86,14 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'f
 | 표시값 | 의미 | 조건 |
 |---:|---|---|
 | `1 이상` | 실제 등록 콘텐츠 수 | `user_contents` 실측값을 그대로 사용 |
-| `0` | 열린 상태 | 아직 없음을 확정하지 않음. `open`·`queued`·`researching`·`deferred` 모두 포함 |
-| `-1` | 조사 완료·없음 | 실제 콘텐츠가 0건이고 `content_research_status='confirmed_empty'` |
+| `0` | 활성·미확정 | 실제 콘텐츠가 0건인 활성 프로필이 `open` 또는 `researching` |
+| `-1` | 없음 | 실제 콘텐츠가 0건이고 비활성이거나 `content_research_status='confirmed_empty'` |
 
 - 신규 인물의 기본 상태는 `open`, 표시값은 `0`이다.
-- 조사 완료 근거가 없는 기존 0건 인물은 과거 조사 여부를 추측해 일괄 `-1`로 바꾸지 않는다.
+- 비활성 프로필은 실제 콘텐츠가 0건이면 별도 조사 버킷 없이 `-1`이다.
 - 콘텐츠가 하나라도 생기는 순간 조사 상태보다 실제 양수를 우선한다.
 - `confirmed_empty`인 인물에게 콘텐츠가 추가되면 DB 트리거가 상태를 `open`으로 되돌린다.
-- 단순 선별, 검색 1회 실패, 자료가 적어 보인다는 판단만으로는 `-1`을 줄 수 없다.
+- 활성 프로필은 단순 선별, 검색 1회 실패, 자료가 적어 보인다는 판단만으로 `-1`을 줄 수 없다.
 - 신규 `confirmed_empty`는 web-bo 조사 장부에서만 확정한다. 상태 선택기나 SQL로
   직접 바꾸는 경로는 DB 가드가 거부한다.
 - 조사 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형, 인물명 변형·동명이인 차단,
@@ -161,7 +161,7 @@ basic ─┬─ content ── cultural journey   (full 전용)
 
 기본 등록은 `content_research_status='open'`, 표시값 `0`으로 시작한다.
 
-1. 조사 전·빠른 선별만 완료 → `open`·`queued`·`deferred`, 표시값 `0`
+1. 활성·미조사 → `open`, 표시값 `0`
 2. 조사 진행 → `researching`, 표시값 `0`
 3. 조사 장부에 BOOK·VIDEO·GAME·MUSIC 유형별 출처와 후보 판정을 기록
 4. 콘텐츠 1건 이상 확인 → `contents`·`user_contents` 연결, 실제 개수 표시, 감사 후 full 승격
@@ -171,11 +171,8 @@ basic ─┬─ content ── cultural journey   (full 전용)
 `/celebs/content-research/[celebId]`다. 작업 경로는 실제 콘텐츠 수, 활성 여부,
 조사 상태와 우선순위 신호만으로 파생하며 감상여정을 읽지 않는다.
 
-2026-07-29 기존 Light 회수에서는 감상여정을 **일회성 레거시 단서**로
-사용했으나, 후보 작품만 검증한 167명을 전면 조사 완료로 잘못 판정했다. 같은 날
-167명을 `open/0`으로 복구했다. 전 유형 조사를 실제로 마친 앤서니 암스트롱
-1명만 레거시 `confirmed_empty/-1`로 남았다. 이후에는 감상여정을 콘텐츠 조사
-판정이나 운영 버킷의 SSoT로 사용하지 않는다.
+비활성 프로필은 실제 콘텐츠가 0건이면 표시값 `-1`이다. 감상여정은 콘텐츠
+조사 판정이나 운영 상태의 SSoT로 사용하지 않는다.
 
 ### 티어 미지정 시
 

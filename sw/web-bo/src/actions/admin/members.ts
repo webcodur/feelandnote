@@ -389,7 +389,11 @@ export async function getMember(id: string): Promise<Member | null> {
     persona: personaData || null,
     content_count:
       profileType === 'CELEB'
-        ? resolveCelebContentCount(count, data.content_research_status)
+        ? resolveCelebContentCount(
+            count,
+            data.content_research_status,
+            data.status === 'active'
+          )
         : count || 0,
     content_research_status: data.content_research_status ?? 'open',
     content_research_updated_at: data.content_research_updated_at ?? null,
@@ -487,7 +491,11 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     persona: personaData || null,
     content_count:
       profileType === 'CELEB'
-        ? resolveCelebContentCount(count, data.content_research_status)
+        ? resolveCelebContentCount(
+            count,
+            data.content_research_status,
+            data.status === 'active'
+          )
         : count || 0,
     content_research_status: data.content_research_status ?? 'open',
     content_research_updated_at: data.content_research_updated_at ?? null,
