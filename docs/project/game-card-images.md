@@ -102,6 +102,28 @@ A vast dark archival gallery in strict perspective, built from charcoal stone an
 
 **핵심**: 실제 얼굴을 카드 배경에 합성하지 않는다. 가려진 초상이 늘어선 회랑은 게임 안에서 한 사람의 얼굴이 서서히 드러나는 경험을 미리 암시한다.
 
+### 3-6. 유랑 (WANDER) — 빼앗긴 고향으로
+
+**원본 캔버스**: 거의 검정(`#121212`)인 바탕에 `#0a0a0a` → `#1a1a1b` 그라디언트. 위쪽 1/3에 금색 가로 실선이 지나고, 왼쪽 위에 나침반, 오른쪽 아래에 집이 큰 윤곽으로 놓인다. 그 사이를 점선 경로와 지도 핀 두 개가 잇는다(`WanderBackground.tsx`).
+
+**게임 내용**: 시대를 건너 인물들과 힘을 모아 빼앗긴 고향을 되찾는 여정.
+
+**프롬프트**
+
+```
+An abandoned stone gateway arch stands in the left foreground as a heavy dark silhouette, framing the view. Through and beyond it, a road runs away across empty ground toward a distant gate town glowing on the horizon. Broken paving stones scatter near the arch base.
+
+The scene is night and almost entirely dark. A single warm gold light source (#d4af37) marks a distant walled hometown, small and far away, sitting left of center on the horizon. A pale dirt road leads toward it. Thin mist pools in the low ground. The sky is a deep vertical gradient from near-black (#0a0a0a) at the top into cold slate blue near the horizon, with a few faint stars. The right 40 percent of the frame stays empty and quiet with no detail, only open sky.
+
+Painterly cinematic digital illustration, not photorealistic. Strong contrast between the near-black land and the one warm light. Muted palette: black, slate blue, and a single warm gold accent.
+
+Strictly forbidden: people, human figures, faces, text, letters, numbers, logos, watermarks, UI panels, frames, borders, modern objects (wires, vehicles, signs).
+
+Output size: exactly 2048 x 1024 pixels (2:1 landscape).
+```
+
+**핵심**: 폐허 아치를 지나 멀리 고향 불빛 하나를 바라보는 구조. 아치가 왼쪽을 채우고 그 너머 지평선이 오른쪽으로 열려, 카드에서 왼쪽이 그라디언트로 덮여도 형태가 읽힌다.
+
 ## 4. 규격과 납품
 
 | 항목 | 값 |
@@ -109,7 +131,7 @@ A vast dark archival gallery in strict perspective, built from charcoal stone an
 | 비율 | 2:1 (가로) |
 | 해상도 | 1536×768 이상 |
 | 형식 | 원본 PNG → 최종 WebP 변환 |
-| 파일명 | `dawn-card.webp`, `labyrinth-card.webp`, `hegemony-card.webp`, `suikoden-card.webp`, `memory-card.webp` |
+| 파일명 | `dawn-card.webp`, `labyrinth-card.webp`, `hegemony-card.webp`, `suikoden-card.webp`, `memory-card.webp`, `wander-card.webp` |
 | 경로 | `sw/web/public/images/games/` (신규 폴더) |
 | 용량 | 장당 150KB 이하 목표 (블러가 걸리므로 화질 손실 무해) |
 
@@ -124,12 +146,13 @@ A vast dark archival gallery in strict perspective, built from charcoal stone an
 3. 5장이 나란히 놓였을 때 **한 세트로 보이는지** 확인한다. 톤은 각기 다르되 어둠의 깊이와 빛의 세기가 비슷해야 카드 5장이 형제로 읽힌다.
 4. 이미지 생성은 비용이 발생하므로 **사용자 승인 후** 실행한다.
 
-## 6. 적용 현황 (26.07.15 납품 → 26.07.30 시대의 초상 구현·비공개)
+## 6. 적용 현황 (26.07.15 납품 → 26.07.31 유랑 납품·개발자 모드 노출)
 
-5장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)·`memory-card.webp`(147KB)로 있다.
+6장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)·`memory-card.webp`(147KB)·`wander-card.webp`(18KB)로 있다.
 
-- **시대의 초상 구현 보존·진입 비공개(26.07.30)**: `memory-card.webp`를 카드와 전체화면 배경에 재사용한다. 초상 조회·동적 로더·렌더 코드는 보존돼 있지만, `RestGameGrid.tsx`와 `rest/page.tsx`의 공개 카드·목차에서 제외되어 화면에서 진입할 수 없다.
-- **기억궁 비공개 유지(26.07.28~)**: 기억궁 구현·번역·조회 코드는 보존하되 `/rest` 등록 지점은 계속 주석 상태다. 시대의 초상은 기억궁을 다시 공개한 것이 아니라 별도 게임이다.
+- **유랑 카드 납품(26.07.31)**: §3-6 프롬프트로 3안(평원 길·능선 조망·폐허 아치)을 뽑아 카드에 얹은 상태로 비교하고 폐허 아치안을 채택했다. 1536×768 WebP 18KB. 평균 밝기 17.7로 기억궁(16.3)·미궁(24.5)과 같은 대역이라 여섯 장이 한 세트로 읽힌다.
+- **세 게임 개발자 모드 노출(26.07.31)**: 유랑·기억궁·시대의 초상은 `dev: true`로 표시되어 로컬 개발 서버나 `?dev=1`에서만 카드가 뜬다. 카드 라벨에 `· 개발 중`이 붙고, 미공개 게임 자료는 개발자 모드일 때만 조회한다.
+- **시대의 초상 카드**: `memory-card.webp`를 카드와 전체화면 배경에 재사용한다(파일을 복제하지 않는다).
 - **연결 지점**: `HubCard`(`sw/web/src/components/shared/HubCard.tsx`)에 `backgroundImage` prop 추가 → `RestGameGrid`(`sw/web/src/components/features/rest/RestGameGrid.tsx`)의 `GAME_SECTIONS[].image`가 게임별 경로를 넘긴다.
 - **표시 처리(현행값)**: `next/image` `fill` + `object-cover`, `opacity-90`. 그 위에 왼쪽만 짙은 가로 그라디언트 `from-bg-main/95 via-bg-main/60 to-transparent`.
 - **블러는 걸지 않는다(변경됨)**: 초기 적용은 `blur-[3px]` + `opacity-70`이었으나 카드 개편에서 블러를 걷고 그림을 선명하게 두는 쪽으로 바뀌었다. **따라서 §1의 "블러 후 남는 큰 덩어리만 생각하라"는 전제는 지금 화면과 다르다.** 다만 §2의 발주 규칙(강한 명암 대비, 왼쪽 60%에 주 형상, 오른쪽 40% 비우기)은 그라디언트가 왼쪽을 덮는 구조 때문에 그대로 유효하다. 새로 뽑을 때는 선명한 상태로 선별한다.
