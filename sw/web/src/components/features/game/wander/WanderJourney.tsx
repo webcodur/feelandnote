@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowRight, Brain, HeartHandshake, Swords } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { withParticle, type ParticleKind } from "@/lib/korean-particle";
 import {
   WANDER_EVENT_FAVORS,
   WANDER_EVENT_KEYS,
@@ -36,6 +37,9 @@ function getAffinity(state: WanderState, power: WanderPower): "strong" | "steady
 
 export default function WanderJourney({ state, pendingState, onChoose, onContinue }: Props) {
   const t = useTranslations("rest.arena.wander");
+  const locale = useLocale();
+  // 한국어 문구는 이름 받침에 따라 조사가 달라진다. 영어에는 조사가 없으므로 이름만 넣는다.
+  const named = (name: string, kind: ParticleKind) => (locale === "ko" ? withParticle(name, kind) : name);
   const figure = state.journey[state.round];
   if (!figure) return null;
   const bond = pendingState?.bonds[pendingState.bonds.length - 1];
@@ -47,10 +51,10 @@ export default function WanderJourney({ state, pendingState, onChoose, onContinu
       <WanderStatus state={pendingState ?? state} encounterNumber={state.round + 1} />
       <div className="mt-4 rounded-xl border border-white/10 bg-bg-main/75 p-4 text-center">
         <p className="font-cinzel text-sm font-bold tracking-[0.16em] text-accent">{t(`events.${eventKey}.title`)}</p>
-        <p className="mt-2 text-sm leading-6 text-text-secondary">{t(`events.${eventKey}.body`, { name: figure.name })}</p>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">{t(`events.${eventKey}.body`, { name: named(figure.name, "subject") })}</p>
       </div>
       <p className="mt-3 text-center font-serif text-lg text-text-primary">
-        {t("encounter", { region: t(`regions.${figure.region}`), name: figure.name })}
+        {t("encounter", { region: t(`regions.${figure.region}`), name: named(figure.name, "object") })}
       </p>
       <div className="mt-3">
         <WanderFigureCard figure={figure} regionLabel={t(`regions.${figure.region}`)} yearLabel={lifespan} />
@@ -85,7 +89,7 @@ export default function WanderJourney({ state, pendingState, onChoose, onContinu
 
       {pendingState && bond && (
         <div className="mt-4 rounded-xl border border-accent/35 bg-accent/10 p-5 text-center">
-          <p className="font-serif text-xl font-bold text-text-primary">{t(`outcomes.${bond.power}`, { name: bond.figure.name })}</p>
+          <p className="font-serif text-xl font-bold text-text-primary">{t(`outcomes.${bond.power}`, { name: named(bond.figure.name, "subject") })}</p>
           <p className="mt-2 text-sm text-text-secondary">{t("powerChanged", {
             power: t(`powers.${bond.power}.label`), gain: bond.gain,
             lostPower: t(`powers.${bond.penaltyPower}.label`), penalty: bond.penalty,
