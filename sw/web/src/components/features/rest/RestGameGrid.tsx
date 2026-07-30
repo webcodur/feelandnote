@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Clock, Crosshair, Footprints, Swords, Crown } from "lucide-react";
 import HubCard from "@/components/shared/HubCard";
@@ -31,6 +31,7 @@ const WanderGame = dynamic(() => import("@/components/features/game/wander/Wande
 const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
 
 type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "portrait";
+type PublicGameId = Exclude<GameId, "portrait" | "wander">;
 
 // image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/project/game-card-images.md)
 const GAME_SECTIONS = [
@@ -59,7 +60,7 @@ interface Props {
   wanderPools: WanderPools;
   // memoryFigures: MemoryFigure[];
   portraitFigures: PortraitFigure[];
-  gameLabels: Record<Exclude<GameId, "portrait" | "wander">, GameLabel>;
+  gameLabels: Record<PublicGameId, GameLabel>;
 }
 
 export default function RestGameGrid({
@@ -75,8 +76,27 @@ export default function RestGameGrid({
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
 
+  useEffect(() => {
+    const activateFromHash = () => {
+      const hash = window.location.hash.slice(1) as GameId;
+      if (GAME_SECTIONS.some((game) => game.valueKey === hash)) setActiveGame(hash);
+    };
+    const frame = window.requestAnimationFrame(activateFromHash);
+    window.addEventListener("hashchange", activateFromHash);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", activateFromHash);
+    };
+  }, []);
+
+  const openGame = (game: PublicGameId) => {
+    setActiveGame(game);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${game}`);
+  };
+
   const handleExit = () => {
     setActiveGame(null);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
   };
 
   return (
@@ -88,7 +108,7 @@ export default function RestGameGrid({
             <HubCard
               key={game.valueKey}
               id={game.valueKey}
-              onClick={() => setActiveGame(game.valueKey)}
+              onClick={() => openGame(game.valueKey)}
               title={gameLabels[game.valueKey].title}
               description={gameLabels[game.valueKey].description}
               label={game.label}
