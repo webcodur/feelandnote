@@ -776,6 +776,222 @@
           "preparing": "Preparing",
           "trainingHint": "※ Build a training ground to enable training"
         }
+      },
+      "wander": {
+        "label": "Wander",
+        "premise": "Framed and driven from home, you have eight encounters to gather allies and power before returning to depose the regent.",
+        "objectiveTitle": "Objective: Reclaim Your Home",
+        "objectiveBody": "Read each figure's strengths and the demands of the event. Raising one form of power slightly weakens another. Reach 85 resolve on your strongest route to win.",
+        "selectEra": "Choose an age to wander",
+        "available": "{count} figures available",
+        "start": "Take the exile's road",
+        "notEnoughFigures": "Not enough figures could be loaded for this age.",
+        "beforeEra": "BCE",
+        "progress": "Bonds forged",
+        "encounter": "You meet {name} in {region}",
+        "events": {
+          "closedGate": {
+            "title": "The Closed Border",
+            "body": "War has sealed the city gates. {name} offers a way through.",
+            "choices": {
+              "might": "Break through the blockade",
+              "insight": "Find a hidden passage",
+              "support": "Open the gates with the refugees"
+            }
+          },
+          "hiddenSalon": {
+            "title": "The Hidden Salon",
+            "body": "Among people meeting beyond the watch, {name} listens to the story of your exile.",
+            "choices": {
+              "might": "Form a guard for the gathering",
+              "insight": "Design a secret network",
+              "support": "Win the guests to your cause"
+            }
+          },
+          "burningArchive": {
+            "title": "The Burning Archive",
+            "body": "The regent's agents are destroying records. You and {name} must decide what to save first.",
+            "choices": {
+              "might": "Subdue the arsonists",
+              "insight": "Save the decisive ledger",
+              "support": "Evacuate the witnesses first"
+            }
+          },
+          "marketRiot": {
+            "title": "Riot in the Market",
+            "body": "A hungry crowd faces armed guards. {name} asks where you will stand.",
+            "choices": {
+              "might": "Disarm the guards",
+              "insight": "Find who incited the riot",
+              "support": "Address the crowd"
+            }
+          },
+          "stormHarbor": {
+            "title": "Harbor in the Storm",
+            "body": "A ship carrying aid for your return is about to founder. {name} reaches out from the quay.",
+            "choices": {
+              "might": "Haul the ship to safety",
+              "insight": "Plan which cargo to save",
+              "support": "Rally the harbor workers"
+            }
+          },
+          "publicTrial": {
+            "title": "Trial in the Square",
+            "body": "An innocent person is branded a traitor. You and {name} step into the public trial.",
+            "choices": {
+              "might": "Hold the court against violence",
+              "insight": "Expose the false testimony",
+              "support": "Turn the square toward justice"
+            }
+          },
+          "nightPursuit": {
+            "title": "The Night Pursuit",
+            "body": "The regent's hunters surround the inn. {name} asks you to choose a way out.",
+            "choices": {
+              "might": "Break the encirclement",
+              "insight": "Send the hunters down a false trail",
+              "support": "Trust the townspeople's refuge"
+            }
+          },
+          "farewellFeast": {
+            "title": "The Farewell Feast",
+            "body": "On the eve of your return, {name} asks how you will use all the power you have gathered.",
+            "choices": {
+              "might": "Take the army's oath",
+              "insight": "Review the final operation",
+              "support": "Read the declaration for home"
+            }
+          }
+        },
+        "powerChanged": "{power} +{gain} · {lostPower} -{penalty}",
+        "bestReturn": "Best return now",
+        "returnReadiness": "Readiness to reclaim home",
+        "eventAdvantage": "Favored by this event",
+        "tradeoff": "Cost: {power} -{amount}",
+        "affinity": {
+          "strong": "Figure's strength",
+          "steady": "Steady fit",
+          "weak": "Unfamiliar role"
+        },
+        "nextJourney": "Continue the journey",
+        "returnHome": "Return home",
+        "returnTitle": "It is time to go home",
+        "returnBody": "Focus the strength gathered through eight bonds. Your chosen route home will decide the fate of the regent.",
+        "requiredScore": "Resolve required to reclaim home: {score}",
+        "chooseReturnPlan": "Choose a route to review its outcome before committing.",
+        "confirmReturn": "{plan} · {score} resolve. Return by this route?",
+        "launchReturn": "Begin the homecoming",
+        "decisionPower": "Resolve",
+        "ready": "Ready to reclaim",
+        "notReady": "Not enough power",
+        "eras": {
+          "ancient": {
+            "label": "Ancient",
+            "period": "Dawn of civilization–500"
+          },
+          "medieval": {
+            "label": "Medieval",
+            "period": "501–1499"
+          },
+          "earlyModern": {
+            "label": "Early Modern",
+            "period": "1500–1788"
+          },
+          "revolution": {
+            "label": "Age of Revolutions",
+            "period": "1789–1913"
+          },
+          "modern": {
+            "label": "Modern",
+            "period": "1914–present"
+          }
+        },
+        "powers": {
+          "might": {
+            "label": "Force"
+          },
+          "insight": {
+            "label": "Strategy"
+          },
+          "support": {
+            "label": "Support"
+          }
+        },
+        "choices": {
+          "might": {
+            "label": "Ask them to stand with you",
+            "description": "Share the danger and gather forces for the homecoming."
+          },
+          "insight": {
+            "label": "Seek their counsel",
+            "description": "Gain the knowledge and evidence needed to break the regent."
+          },
+          "support": {
+            "label": "Spread the cause together",
+            "description": "Tell your story to the world and move the people back home."
+          }
+        },
+        "outcomes": {
+          "might": "{name} will stand beside you on the road home.",
+          "insight": "{name} gives you a plan to bring down the regent.",
+          "support": "{name} carries your cause out into the world."
+        },
+        "plans": {
+          "might": {
+            "label": "Return in Revolt",
+            "description": "Open the gates with your companions and defeat the regent's guard."
+          },
+          "insight": {
+            "label": "Return with the Truth",
+            "description": "Expose the regent's crimes and turn every inner circle against them."
+          },
+          "support": {
+            "label": "Return with the People",
+            "description": "Let the people open the gates and remove the regent themselves."
+          }
+        },
+        "bondRoles": {
+          "might": "Companion",
+          "insight": "Strategist",
+          "support": "Patron"
+        },
+        "regions": {
+          "east_asia": "East Asia",
+          "southeast_asia": "Southeast Asia",
+          "south_asia": "South Asia",
+          "central_asia": "Central Asia",
+          "middle_east": "Middle East",
+          "east_europe": "Eastern Europe",
+          "west_europe": "Western Europe",
+          "africa": "Africa",
+          "americas": "the Americas",
+          "oceania": "Oceania"
+        },
+        "breadcrumbs": {
+          "journey": "The Wander",
+          "return": "The Homecoming",
+          "result": "Fate Decided"
+        },
+        "result": {
+          "victoryTitle": "Your home is free",
+          "victoryBody": "The regent's power has fallen. The exile returns home with eight bonds forged across the world.",
+          "victoryBodies": {
+            "might": "When {name} opens the gate, the companions gathered on your journey disarm the regent's guard. Home welcomes its exile after a long night.",
+            "insight": "Through {name}'s plan, hidden ledgers and false testimony surface at once. Abandoned by every ally, the regent steps down.",
+            "support": "The cause carried by {name} reaches home before you do. The people open the gates and fill the square until the regent can no longer stand."
+          },
+          "defeatTitle": "The gates remain shut",
+          "defeatBody": "Your gathered strength could not break the regent. Build one form of power more decisively on your next wander.",
+          "betterPlan": "Your strongest route was {plan} at {score} resolve.",
+          "score": "Resolve",
+          "required": "Required",
+          "bonds": "Bonds",
+          "companions": "Those who stood with you",
+          "decidingBond": "Decisive bond: {name}",
+          "bondEffect": "{power} +{gain} · {lostPower} -{penalty}",
+          "replay": "Try another age",
+          "exit": "Return to Rest"
+        }
       }
     },
     "hub": {
@@ -785,7 +1001,8 @@
       "hegemony": "A strategic battle using figure cards to issue commands",
       "suikoden": "Lead historical figures, build power, and unite civilizations",
       "memory": "A face-pair game of remembering and matching historical figures",
-      "portrait": "A solo game of identifying figures as their portraits come into focus"
+      "portrait": "A solo game of identifying figures as their portraits come into focus",
+      "wander": "Cross an age, forge bonds, and gather the power to reclaim your home"
     },
     "meta": {
       "title": "Rest",
