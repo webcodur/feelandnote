@@ -36,7 +36,7 @@ export default function AcademyCategoryTabs() {
               key={cat.id}
               href={`/library/academy/${cat.id}/${firstCourse}`}
               className={`
-                relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300
+                relative px-4 py-2 rounded-lg text-sm font-bold
                 flex items-center justify-center leading-tight min-w-[60px]
                 ${isActive
                   ? "text-neutral-900 bg-gradient-to-br from-accent via-yellow-200 to-accent shadow-[0_0_15px_rgba(212,175,55,0.4)]"
