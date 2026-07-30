@@ -10,6 +10,7 @@
  * 옵션:
  *   --frame-ratio <n>   정사각 변 대비 얼굴 비율. 기본 0.55 = 정수리 위 여백~쇄골
  *                       (작을수록 아래로 더 내려간다. 0.45면 겨드랑이까지 들어온다)
+ *   --headroom <n>      얼굴 높이 대비 위쪽 여백. 기본 0.5. 높은 왕관·깃털은 0.8~1.2
  *   --size <n>          출력 한 변 픽셀. 기본 800
  *   --all-faces         한 장에서 검출된 얼굴을 전부 뽑는다(기본: 가장 큰 얼굴 1개)
  *
@@ -110,10 +111,10 @@ async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
  * 검출 상자 위로 확보하는 여백. 얼굴 높이 기준 배수.
  * face-api 상자는 눈썹~턱이라 정수리가 빠진다. 0.5면 정수리가 들어오고 위로 약간 남는다.
  */
-const HEADROOM = 0.5
+const DEFAULT_HEADROOM = 0.5
 
 /**
- * 얼굴을 감싸는 정사각 영역. 위는 HEADROOM으로 고정하고 frameRatio가 아래 경계를 정한다.
+ * 얼굴을 감싸는 정사각 영역. 위는 headroom으로 정하고 frameRatio가 아래 경계를 정한다.
  * frameRatio = 정사각 변 대비 얼굴 크기 — 작을수록 정사각이 커져 아래로 더 내려간다.
  *
  * 기본 0.55에서 아래 경계는 턱 밑 얼굴 높이의 약 0.3배, 곧 쇄골 언저리다.
@@ -123,7 +124,8 @@ function computeSquareCrop(
   face: DetectedFace,
   imgW: number,
   imgH: number,
-  frameRatio: number
+  frameRatio: number,
+  headroom: number,
 ): { left: number; top: number; size: number } {
   const faceSize = Math.max(face.width, face.height)
   let size = Math.round(faceSize / frameRatio)
@@ -132,7 +134,7 @@ function computeSquareCrop(
   const cx = face.x + face.width / 2
   let left = Math.round(cx - size / 2)
   // 정수리 여백을 먼저 확정한다. 아래 경계는 남는 만큼 따라온다
-  let top = Math.round(face.y - faceSize * HEADROOM)
+  let top = Math.round(face.y - faceSize * headroom)
 
   left = Math.max(0, Math.min(left, imgW - size))
   top = Math.max(0, Math.min(top, imgH - size))
@@ -162,6 +164,7 @@ function parseArgs() {
   }
 
   const frameRatio = Number(flags.get('frame-ratio') ?? '0.55')
+  const headroom = Number(flags.get('headroom') ?? String(DEFAULT_HEADROOM))
   const size = Number(flags.get('size') ?? '800')
   if (!(frameRatio > 0 && frameRatio <= 1)) {
     throw new Error(`--frame-ratio 는 0~1 사이여야 한다: ${flags.get('frame-ratio')}`)
@@ -169,12 +172,16 @@ function parseArgs() {
   if (!Number.isFinite(size) || size < 64) {
     throw new Error(`--size 값이 부적절하다: ${flags.get('size')}`)
   }
+  if (!Number.isFinite(headroom) || headroom < 0 || headroom > 3) {
+    throw new Error(`--headroom 은 0~3 사이여야 한다: ${flags.get('headroom')}`)
+  }
 
   return {
     input: positional[0],
     outDir: positional[1],
     allFaces: flags.has('all-faces'),
     frameRatio,
+    headroom,
     size,
   }
 }
@@ -184,7 +191,7 @@ function parseArgs() {
 async function processOne(
   imagePath: string,
   outDir: string,
-  opts: { allFaces: boolean; frameRatio: number; size: number }
+  opts: { allFaces: boolean; frameRatio: number; headroom: number; size: number }
 ): Promise<{ done: number; skipped: boolean }> {
   const name = basename(imagePath, extname(imagePath))
   const rotated = await sharp(readFileSync(imagePath)).rotate().toBuffer()
@@ -203,7 +210,7 @@ async function processOne(
 
   for (let i = 0; i < targets.length; i++) {
     const face = targets[i]
-    const box = computeSquareCrop(face, W, H, opts.frameRatio)
+    const box = computeSquareCrop(face, W, H, opts.frameRatio, opts.headroom)
     const outPath = resolve(
       outDir,
       opts.allFaces ? `${name}_face_${i + 1}.png` : `${name}_face.png`
@@ -226,7 +233,7 @@ async function main() {
   const args = parseArgs()
 
   if (!args.input) {
-    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--frame-ratio 0.55] [--size 800] [--all-faces]')
+    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--frame-ratio 0.55] [--headroom 0.5] [--size 800] [--all-faces]')
     process.exit(1)
   }
   if (!existsSync(args.input)) {

@@ -252,58 +252,6 @@
 > 캐시 워든은 A-7에도 있다(중복 등록 불필요). 알렉스 카프·팔머 럭키는 이미 등록돼 있다.
 > ⚠️ K2 흑표·FA-50 설계 책임자 실명은 공개 보도로 확인되지 않았다.
 
-### B-4. 위대한 해커들 — 가면 쓴 자들 (great-hackers-masked)
-
-| 인물 | 영문 | 소속·직책 | 왜 이 편인가 | 출처 |
-|---|---|---|---|---|
-| 피터 잣코 | Peiter "Mudge" Zatko | 죽은 소의 교단·L0pht 핵심, 이후 DARPA·구글·트위터 보안 책임자 | 1998년 미 상원에서 "30분이면 인터넷을 마비시킬 수 있다"고 증언, 훗날 트위터 내부고발자 | en.wikipedia.org/wiki/Peiter_Zatko |
-| 베토 오로크 | Beto O'Rourke | 십대 시절 죽은 소의 교단 멤버, 이후 미 하원의원·대선 후보 | 지하 해커 집단 출신이 대선 후보가 된 반전. 2019년 보도로 공개, 본인 인정 | engadget.com/2019-03-15-beto-orourke-cult-of-the-dead-cow.html |
-| 엑토르 몬세구르 | Hector Monsegur ("Sabu") | 럴즈섹 공동창설자, 2011 체포 후 FBI 협조자 | 럴즈섹을 만든 사람이자 무너뜨린 사람 | en.wikipedia.org/wiki/Hector_Monsegur |
-| 제이크 데이비스 | Jake Davis ("Topiary") | 럴즈섹 대변인 격, 2013 영국 법원 24개월 | 럴즈섹의 목소리. 형기를 마치고 지금은 보안 강연자 | nbcnews.com/tech/tech-news/lulzsec-hackers-who-wreaked-havoc-sony-cia-jailed-uk-flna1c9957155 |
-| 무스타파 알바삼 | Mustafa Al-Bassam ("tflow") | 럴즈섹 최연소, 2013 집행유예 | 미성년 기소 뒤 UCL 박사·블록체인 연구자가 됐다. 가장 밝은 결말 | darkreading.com/cyberattacks-data-breaches/lulzsec-hackers-sentenced-in-london |
-| 제러미 해먼드 | Jeremy Hammond | 어나니머스·AntiSec, 2013 최고형 10년 | 스트랫포 해킹으로 최고형. 그를 지목한 게 FBI 협조자였던 몬세구르였다 | justice.gov/usao-sdny/pr/jeremy-hammond-sentenced-10-years-prison-… |
-| 미하일 마트베예프 | Mikhail Matveev ("Wazawaka") | LockBit·Babuk·Hive 관여, 2022 미 기소, 2024 러시아 내 체포 | 현상금 1,000만 달러가 걸린 채 러시아 국내에서 기소된 특이한 결말 | state.gov/mikhail-pavlovich-matveev |
-
-> 이미 등록: 막심 야쿠베츠·드미트리 호로셰프·노아 어반.
-> ⚠️ 피니어스 피셔는 지금도 신원 미상이라 넣지 않는다. 다크사이드는 실명 지목된 구성원이 없다.
-
-### ❌ B-5. 위대한 해커들 — 국가의 군단 (great-hackers-state) — **편·인물 모두 폐기 (2026-07-28)**
-
-> **폐기 사유.** 이 편의 원래 출연진은 스턱스넷·이퀘이션 그룹·61398부대·샌드웜 같은 **조직·악성코드 이름**이었다.
-> 그걸 사람으로 바꾸려 하니 문제가 둘 드러났다.
-> 1. **한쪽 진영만 얼굴이 붙는다.** 국가 사이버 요원은 이름이 세상에 나오는 통로가 미국 기소장·FBI 수배뿐이라,
->    인물화하면 자동으로 중국·러시아·북한만 실명·수배 사진이 붙고 미국·이스라엘 쪽은 익명으로 남는다.
-> 2. **인물의 격 미달.** 부대 실무자라 생년도 사진도 자료가 없고, 세부 데이터를 만들 근거가 없다.
->
-> **조치**: 영상 기획 1편(그룹 5·출연 13) DB 삭제. 인명부에서 **왕둥·쑨카이량·빅토르 네틱쇼·유리 안드리엔코·
-> 림종혁·미하일 마트베예프 6명 삭제**(도감 배정·계정 포함). 삭제분 백업은 세션 스크래치패드의
-> `deleted-2026-07-28-state-hackers.json`.
-> 같은 편에 있던 **키스 알렉산더·길 슈베드는 유지**한다(공개 인물이고 세부 데이터도 채웠다).
-> 「가면 쓴 자들」·「얼굴 있는 자들」 두 편은 실명 인물 기반이라 손대지 않았다.
->
-> 이 편을 되살린다면 대안 후보는 **랄프 랑그너**(스턱스넷을 해부해 표적이 나탄즈임을 밝힌 분석가)와
-> **세르게이 울라센**(최초 발견자)이다. 분석가라 실명·인터뷰·자료가 충분하다.
-
-<details><summary>폐기된 원래 명단 (기록 보존용)</summary>
-
-| 인물 | 영문 | 소속·직책 | 왜 이 편인가 | 출처 |
-|---|---|---|---|---|
-| 키스 알렉산더 | Keith B. Alexander | 미 NSA 국장 2005~2014, 초대 사이버사령관 | 국가가 해킹을 정규 군사 조직으로 만든 장본인 | en.wikipedia.org/wiki/Keith_B._Alexander |
-| 길 슈베드 | Gil Shwed | 이스라엘 8200부대 출신, 체크포인트 공동창업자·CEO | 열여덟에 부대에서 만든 방화벽 기술로 창업해 산업을 만들었다 | cnbc.com/2017/05/11/israel-unit-8200-team8.html |
-| 왕둥 | Wang Dong ("UglyGorilla") | 인민해방군 61398부대 장교, 2014 미 기소 | 미국이 처음으로 타국 현역 군인을 해킹 혐의로 기소한 5인 중 하나 | fbi.gov/wanted/cyber/wang-dong |
-| 쑨카이량 | Sun Kailiang | 인민해방군 61398부대 장교, 2014 미 기소 | 웨스팅하우스 원전 설계도 절취 혐의로 지목됐다 | justice.gov/archives/opa/pr/us-charges-five-chinese-military-hackers-… |
-| 빅토르 네틱쇼 | Viktor Netyksho | 러시아 GRU 26165부대 지휘관, 2018 미 기소 | 2016년 미국 대선 개입 기소장의 첫 번째 피고인 | justice.gov/archives/opa/pr/us-charges-russian-gru-officers-… |
-| 유리 안드리엔코 | Yuriy Andrienko | GRU 74455부대(샌드웜), 2020 미 기소 | 우크라이나 전력망 정지·NotPetya·평창올림픽 공격 혐의 | fbi.gov/wanted/cyber/gru-hackers-destructive-malware-and-international-cyber-attacks |
-| 림종혁 | Rim Jong Hyok | 북한 정찰총국 안다리엘, 2024.7 미 기소·현상금 1,000만 달러 | 미국 병원·NASA·군 기지를 노렸고 한국 방산업체도 표적 | justice.gov/archives/opa/pr/north-korean-government-hacker-charged-… |
-
-> 이미 등록: 박진혁·마커스 허친스·이정훈·조지 호츠.
-> ⚠️ 스턱스넷 제작자와 이퀘이션 그룹 요원은 실명이 공개된 적이 없다. 지휘관·부대 출신 창업자로 대체했다.
-> 대안 후보: 랄프 랑그너(스턱스넷을 해부해 표적이 나탄즈임을 밝힌 분석가), 세르게이 울라센(최초 발견자).
-
-</details>
-
----
-
 ## C. 아직 손대지 않은 큰 덩어리
 
 | 대상 | 인원 | 메모 |
@@ -314,7 +262,6 @@
 | 서부 개척시대 무법자 | 6 | 와이어트 어프·빌리 더 키드 등 |
 | 전설의 해적 군단 | 6 | 검은 수염·앤 보니 등 |
 | 한국 스포츠 명예의 전당 | 14 미등록 | 김연아·박찬호 등 일부만 등록돼 있다 |
-| 위대한 해커들 얼굴 있는 자들 | 8 | 케빈 미트닉·워즈니악 등 |
 
 ---
 

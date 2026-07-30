@@ -6,6 +6,8 @@
  *     --celeb-id <uuid> \
  *     --commons-file "Fei-Fei Li at AI for Good 2017.jpg" \
  *     --slug fei-fei-li \
+ *     --identity-evidence "https://공식·기관·본인 페이지"
+ *     --source-note "신원 보존·재구성 방식 설명"
  *     [--face-detect true|false]              (기본 true)
  *     [--require-face true|false]             (기본 false. 켜면 얼굴 미검출 시 업로드 전에 중단)
  *     [--face-frame-ratio 0.45]               (얼굴이 결과에서 차지할 비율, 기본 0.45 ≈ 박스의 2.2배 외곽)
@@ -32,7 +34,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
-import { readFileSync, appendFileSync, writeFileSync, existsSync } from 'fs'
+import { readFileSync, appendFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
@@ -71,6 +73,7 @@ type Args = {
   imageUrl?: string
   imageFile?: string
   sourceNote?: string
+  identityEvidence?: string
   slug: string
   faceDetect: boolean
   /**
@@ -118,6 +121,7 @@ function parseArgs(): Args {
   const imageUrl = get('--image-url')
   const imageFile = get('--image-file')
   const sourceNote = get('--source-note')
+  const identityEvidence = get('--identity-evidence')
   const slug = get('--slug')
   const gravityRaw = (get('--crop-gravity') ?? 'attention').toLowerCase()
   const previewPath = get('--preview-path')
@@ -137,6 +141,20 @@ function parseArgs(): Args {
   }
   if (sourceCount > 1) {
     console.error('--commons-file / --image-url / --image-file 은 동시에 쓸 수 없다')
+    process.exit(1)
+  }
+  if (!sourceNote || sourceNote.trim().length < 12) {
+    console.error(
+      '모든 업로드 모드는 12자 이상의 --source-note 가 필수다. '
+      + '인물 신원과 편집·재구성 방식을 구체적으로 적어라.'
+    )
+    process.exit(1)
+  }
+  if (!identityEvidence?.trim()) {
+    console.error(
+      '모든 업로드 모드는 --identity-evidence 가 필수다. '
+      + '실존 인물은 공식·기관·본인 페이지 URL을, fiction은 fiction:<SSoT 경로>를 적어라.'
+    )
     process.exit(1)
   }
   if (!ALLOWED_GRAVITIES.includes(gravityRaw as CropGravity)) {
@@ -172,6 +190,7 @@ function parseArgs(): Args {
     imageUrl,
     imageFile,
     sourceNote,
+    identityEvidence,
     slug,
     faceDetect,
     requireFace,
@@ -180,6 +199,97 @@ function parseArgs(): Args {
     previewPath,
     outSize,
     webpQuality,
+  }
+}
+
+const FORBIDDEN_LOCAL_SOURCE_SEGMENTS = new Set([
+  '_재료',
+  '서비스_재료',
+  '_refs',
+])
+
+// Profiles whose previous avatar was removed for an identity mismatch or for
+// lacking person-specific likeness evidence. Keeping the block in the upload
+// entry point prevents a renamed/copied material file from bypassing the path
+// guard. Remove a slug only after its identity/source audit is resolved.
+const PROVENANCE_QUARANTINED_SLUGS = new Set([
+  'jebe',
+  'pang-juan',
+  'zhao-gao',
+  'hu-hai',
+  'ahmed-sherif',
+  'ishak-pasha',
+  'jamukha',
+  'hai-rui',
+  'kong-rong',
+  'parmenion',
+  'wang-chong',
+])
+
+function assertNotProvenanceQuarantined(slug: string): void {
+  if (!PROVENANCE_QUARANTINED_SLUGS.has(slug)) return
+  throw new Error(
+    `Avatar upload blocked for provenance-quarantined profile "${slug}". `
+    + 'Resolve the person-specific identity/source audit and explicitly remove '
+    + 'the slug from PROVENANCE_QUARANTINED_SLUGS before uploading.'
+  )
+}
+
+function assertLocalSourcePathAllowed(filePath: string): void {
+  const segments = filePath
+    .replace(/\\/g, '/')
+    .split('/')
+    .map((segment) => segment.trim().toLowerCase())
+  const forbidden = segments.find((segment) => FORBIDDEN_LOCAL_SOURCE_SEGMENTS.has(segment))
+  if (forbidden) {
+    throw new Error(
+      `신원 근거가 아닌 재료 경로는 아바타 입력으로 쓸 수 없다: ${forbidden}. `
+      + '이름이 일치하는 완성 개인샷과 독립적인 신원 근거부터 확보하라.'
+    )
+  }
+}
+
+function extractHttpUrls(value: string): string[] {
+  return value.match(/https?:\/\/[^\s,;|)]+/gi) ?? []
+}
+
+function assertIdentityEvidence(
+  evidence: string,
+  celebTier: string | null,
+  r2PublicUrl: string
+): void {
+  const trimmed = evidence.trim()
+  if (trimmed.toLowerCase().startsWith('fiction:')) {
+    if (celebTier !== 'fiction') {
+      throw new Error(
+        `fiction 신원 근거는 celeb_tier=fiction에만 허용된다. 현재 tier=${celebTier ?? 'null'}`
+      )
+    }
+    if (trimmed.length < 'fiction:x'.length) {
+      throw new Error('fiction 신원 근거에는 원전·팩션 SSoT 경로가 필요하다')
+    }
+    return
+  }
+
+  const urls = extractHttpUrls(trimmed)
+  if (urls.length === 0) {
+    throw new Error(
+      '--identity-evidence 에 공식·기관·본인 페이지의 http(s) URL이 하나 이상 필요하다'
+    )
+  }
+
+  const publicBase = r2PublicUrl.replace(/\/+$/, '').toLowerCase()
+  for (const url of urls) {
+    const normalized = url.toLowerCase()
+    const isOwnServiceAvatar =
+      normalized.startsWith(`${publicBase}/celebs/`)
+      || /r2\.dev\/celebs\/[^/]+\/avatar\.webp(?:[?#]|$)/i.test(normalized)
+    if (isOwnServiceAvatar) {
+      throw new Error(
+        '기존 Feel&Note 서비스 아바타는 독립적인 신원 근거가 아니다. '
+        + '공식·기관·본인 페이지를 별도로 제시하라.'
+      )
+    }
   }
 }
 
@@ -490,6 +600,36 @@ async function main() {
     if (!env[k]) throw new Error(`.env에 ${k} 누락`)
   }
 
+  const supabase = createClient(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.SUPABASE_SERVICE_ROLE_KEY
+  )
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id, slug, nickname, profile_type, celeb_tier')
+    .eq('id', args.celebId)
+    .maybeSingle()
+  if (profileError) throw new Error(`업로드 대상 프로필 조회 실패: ${profileError.message}`)
+  if (!profile) throw new Error(`업로드 대상 프로필 없음: ${args.celebId}`)
+  if (profile.profile_type !== 'CELEB') {
+    throw new Error(`업로드 대상이 CELEB 프로필이 아니다: profile_type=${profile.profile_type}`)
+  }
+  if (profile.slug !== args.slug) {
+    throw new Error(
+      `celeb-id와 slug가 서로 다른 인물을 가리킨다: DB=${profile.slug}, 입력=${args.slug}`
+    )
+  }
+
+  assertNotProvenanceQuarantined(profile.slug as string)
+  if (args.imageFile) {
+    assertLocalSourcePathAllowed(resolve(args.imageFile))
+  }
+  assertIdentityEvidence(
+    args.identityEvidence as string,
+    profile.celeb_tier as string | null,
+    env.R2_PUBLIC_URL
+  )
+
   let meta: CommonsMeta
   let sourceLabel: string
   let original: Buffer
@@ -550,6 +690,7 @@ async function main() {
   }
   console.log(`     ${conv.buf.length} bytes`)
   if (args.previewPath) {
+    mkdirSync(dirname(args.previewPath), { recursive: true })
     writeFileSync(args.previewPath, conv.buf)
     console.log(`     preview saved: ${args.previewPath}`)
   }
@@ -577,10 +718,6 @@ async function main() {
   console.log(`     PUT ok: ${publicUrl}`)
 
   console.log(`[5/6] Supabase profiles.avatar_url 갱신`)
-  const supabase = createClient(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.SUPABASE_SERVICE_ROLE_KEY
-  )
   const { error } = await supabase
     .from('profiles')
     .update({ avatar_url: publicUrl })
@@ -594,7 +731,8 @@ async function main() {
   const faceTag = conv.faceDetected
     ? `face=score=${conv.faceScore?.toFixed(3)}_box=${conv.faceBox?.x},${conv.faceBox?.y},${conv.faceBox?.width}x${conv.faceBox?.height}`
     : `face=NOT_DETECTED_fallback=${conv.fallbackGravity ?? 'none'}`
-  const line = `${ts} | ${args.slug} | ${meta.descriptionUrl} | ${meta.licenseShortName} | ${meta.artist} | ${faceTag}\n`
+  const identityEvidence = args.identityEvidence?.trim() || meta.descriptionUrl
+  const line = `${ts} | ${args.slug} | ${meta.descriptionUrl} | ${meta.licenseShortName} | ${meta.artist} | identity=${identityEvidence} | ${faceTag}\n`
   appendFileSync(logPath, line, 'utf-8')
   console.log(`     ${logPath}`)
   console.log(`     ${line.trim()}`)
