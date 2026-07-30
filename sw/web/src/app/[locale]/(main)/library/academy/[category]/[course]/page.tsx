@@ -8,9 +8,9 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import AcademyLessonView from "@/components/features/scriptures/academy/AcademyLessonView";
-import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
-import { ACADEMY_CATEGORY_IDS } from "@/constants/scripturesMuseum";
+import AcademyLessonView from "@/components/features/library/academy/AcademyLessonView";
+import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
+import { ACADEMY_CATEGORY_IDS } from "@/constants/libraryMuseum";
 
 export async function generateMetadata({
   params,
@@ -18,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; category: string; course: string }>;
 }) {
   const { category, course } = await params;
-  const t = await getTranslations("scriptures.academy");
+  const t = await getTranslations("library.academy");
 
   const cat = ACADEMY_CATEGORY_IDS.find((c) => c.id === category);
   if (!cat || !cat.courses.some((c) => c.id === course)) {

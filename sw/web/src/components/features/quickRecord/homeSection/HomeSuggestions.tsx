@@ -3,13 +3,13 @@
 import { Sparkles, Loader2 } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
-import type { ScriptureContent } from "@/actions/scriptures";
+import type { LibraryContent } from "@/actions/library";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
 
 interface HomeSuggestionsProps {
-    suggestions: ScriptureContent[];
+    suggestions: LibraryContent[];
     categoryLabel?: string;
     isSwitchingCategory: boolean;
     localUnreviewedList: UserContentPublic[];

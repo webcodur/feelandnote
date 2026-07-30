@@ -15,7 +15,7 @@ import { useQuickRecord } from "@/contexts/QuickRecordContext";
 import type { UserProfile } from "@/actions/user/getProfile";
 import { removeContent } from "@/actions/contents/removeContent";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
-import type { ScriptureContent } from "@/actions/scriptures";
+import type { LibraryContent } from "@/actions/library";
 import { useTranslations } from "next-intl";
 
 // 서브 컴포넌트 임포트
@@ -36,7 +36,7 @@ interface HomeRecordSectionProps {
   unreviewedList: UserContentPublic[];
   reviewedList: UserContentPublic[];
   profile?: UserProfile | null;
-  initialSuggestions?: ScriptureContent[];
+  initialSuggestions?: LibraryContent[];
 }
 
 interface BlogSearchResultData {
@@ -74,7 +74,7 @@ export default function HomeRecordSection({
   }, [reviewedList]);
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
-  const [suggestions, setSuggestions] = useState<ScriptureContent[]>(initialSuggestions);
+  const [suggestions, setSuggestions] = useState<LibraryContent[]>(initialSuggestions);
   const currentCategoryConfig = getCategoryById(selectedCategory);
 
   const [loadedReviewedItems, setLoadedReviewedItems] = useState<UserContentPublic[]>([]);
@@ -111,7 +111,7 @@ export default function HomeRecordSection({
         } 
         
         try {
-            const { getQuickRecordSuggestions } = await import("@/actions/scriptures");
+            const { getQuickRecordSuggestions } = await import("@/actions/library");
             const newSuggestions = await getQuickRecordSuggestions(categoryConfig.dbType); 
             setSuggestions(newSuggestions);
             

@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/library/figure/page.tsx
   기능: 레거시 리다이렉트
-  책임: /scriptures/figure → /explore/today로 리다이렉트한다.
+  책임: /library/figure → /explore/today로 리다이렉트한다.
 */ // ------------------------------
 
 import { redirect } from "@/i18n/navigation";

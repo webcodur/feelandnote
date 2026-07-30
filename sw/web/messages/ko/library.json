@@ -1,0 +1,360 @@
+{
+  "library": {
+    "section": "지혜의 서가",
+    "tabs": {
+      "era": {
+        "label": "불후의 명작",
+        "description": "수많은 위인이 같은 작품을 선택했다면, 그건 우연이 아닙니다."
+      },
+      "profession": {
+        "label": "갈림길",
+        "description": "여러분이 걷는 길의 선배들은 무엇을 읽었을까요?"
+      },
+      "museum": {
+        "label": "박물관",
+        "description": "점토판에서 스트리밍까지, 인류가 이야기를 담아온 매체의 변천사."
+      },
+      "academy": {
+        "label": "학당",
+        "description": "거장들의 방식을 체화하고 나의 것으로 만드는 수련의 공간."
+      }
+    },
+    "hub": {
+      "quickNav": "바로가기",
+      "figure": "매일 새로운 정신과의 만남으로 하루를 엽니다.",
+      "era": "시간의 흐름을 따라 인류가 남긴 불후의 발자취를 돌아봅니다.",
+      "profession": "철학, 문화, 과학… 각자의 자리에서 정점을 찍은 이들의 궤적을 탐구합니다.",
+      "museum": "수많은 사상과 창작물들이 어떻게 얽혀있는지 거대한 연대기 속에서 확인하세요.",
+      "academy": "AI의 원리, 영상 제작, 음악 이론 등 체계적인 교육 콘텐츠를 체화하는 수련의 공간입니다.",
+      "figureLabel": "오늘의 인물",
+      "eraLabel": "불후의 명작",
+      "professionLabel": "길의 갈래",
+      "museumLabel": "박물관",
+      "academyLabel": "학당",
+      "museumTitle": "콘텐츠의 연대기",
+      "academyTitle": "지혜의 학당",
+      "academyReading": "독서법 비교",
+      "academyVideo": "영상 제작",
+      "academyMusic": "화성학 레슨",
+      "academyAi": "AI 원리",
+      "enterMuseum": "박물관 입장하기",
+      "exploreAcademy": "학당 둘러보기",
+      "continueLearning": "내 학습 기록 이어보기",
+      "moreDetail": "더보기",
+      "exploreMuseum": "관람하기",
+      "enterAcademy": "학당 입장"
+    },
+    "meta": {
+      "title": "서가 - 셀럽 추천 도서·영화 아카이브",
+      "description": "시대별, 직군별로 정리된 셀럽 추천 책·영화 아카이브. 위인들의 필독서부터 현대 셀럽의 추천 작품까지 탐색하세요."
+    },
+    "figure": {
+      "metaTitle": "오늘의 인물 추천 책·영화 | 서가",
+      "metaDescription": "매일 새로운 셀럽의 추천 책, 영화, 음악을 소개합니다. 오늘의 인물이 읽고, 보고, 들은 작품을 확인하세요."
+    },
+    "era": {
+      "metaTitle": "시대별 필독서·명작 목록 | 서가",
+      "metaDescription": "고대부터 현대까지 시대별 필독서와 명작 영화 목록. 셀럽이 추천한 시대의 대표작을 만나보세요."
+    },
+    "museum": {
+      "metaTitle": "박물관 | 지혜의 서가",
+      "metaDescription": "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
+      "pageTitle": "콘텐츠의 연대기",
+      "defaultDescription": "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다.",
+      "keyContents": "주요 콘텐츠",
+      "present": "현재",
+      "representativeTypeface": "대표 서체",
+      "usageContext": "사용 맥락",
+      "typographyClassification": "서체 분류",
+      "foldEssay": "에세이 접기",
+      "unfoldEssay": "에세이 펼치기",
+      "category": {
+        "book": {
+          "label": "책",
+          "description": "점토판에서 전자책까지, 기록 매체 5천 년의 연대기"
+        },
+        "video": {
+          "label": "영상",
+          "description": "환등기에서 스트리밍까지, 움직이는 빛의 역사"
+        },
+        "music": {
+          "label": "음악",
+          "description": "구전 선율에서 디지털 음원까지, 소리의 기록사"
+        },
+        "game": {
+          "label": "게임",
+          "description": "주사위에서 가상현실까지, 놀이의 진화사"
+        }
+      },
+      "sub": {
+        "book": {
+          "media": {
+            "label": "매체",
+            "description": "점토판에서 전자책까지, 기록 매체 5천 년의 연대기"
+          },
+          "writing_tool": {
+            "label": "필기구",
+            "description": "갈대 펜에서 디지털 펜까지, 글자를 새기는 도구의 변천사"
+          },
+          "typography": {
+            "label": "서체",
+            "description": "그림 문자에서 디지털 폰트까지, 글꼴 디자인의 진화사"
+          }
+        },
+        "video": {
+          "media": {
+            "label": "매체",
+            "description": "환등기에서 스트리밍까지, 상영 매체와 포맷의 발전"
+          },
+          "technique": {
+            "label": "기법·효과",
+            "description": "옵티컬 일루전에서 CGI까지, 상상을 현실로 만드는 기술의 진화"
+          },
+          "space": {
+            "label": "공간",
+            "description": "단관 극장에서 거실의 스크린까지, 관람 경험의 변화"
+          }
+        },
+        "music": {
+          "media": {
+            "label": "매체",
+            "description": "구전 선율에서 디지털 음원까지, 소리 저장과 전송의 역사"
+          },
+          "instrument": {
+            "label": "악기",
+            "description": "타악기에서 디지털 신시사이저까지, 소리를 만들어내는 도구의 진화"
+          },
+          "experience": {
+            "label": "청취",
+            "description": "제의장에서 알고리즘까지, 음악을 듣는 공간과 방식의 변천사"
+          }
+        },
+        "game": {
+          "platform": {
+            "label": "플랫폼",
+            "description": "보드게임에서 클라우드까지, 게임이 구동되는 환경의 변천사"
+          },
+          "interface": {
+            "label": "인터페이스",
+            "description": "주사위에서 VR 컨트롤러까지, 게임을 조작하는 방식의 진화"
+          },
+          "graphics": {
+            "label": "그래픽",
+            "description": "텍스트에서 레이트레이싱까지, 게임이 세계를 그려내는 기술의 진화"
+          }
+        }
+      }
+    },
+    "academy": {
+      "metaTitle": "학당 - AI·영상 제작·화성학 강좌 | 서가",
+      "metaDescription": "AI 원리와 활용법, 영상 제작 기초, 화성학 레슨 등 체계적인 무료 교육 콘텐츠. 전문가가 추천하는 학습 자료를 만나보세요.",
+      "pageTitle": "지혜의 학당",
+      "defaultDescription": "AI의 원리부터 영상 제작과 화성학까지, 체계적인 교육 콘텐츠를 만나보세요.",
+      "eyebrow": "Academy",
+      "categoryTabsLabel": "학당 카테고리 선택",
+      "courseTabsLabel": "코스 선택",
+      "courseLabel": "Course",
+      "lessonLabel": "Lesson {n}/{total}",
+      "stepLabel": "Step {n}",
+      "progressTitle": "학습 기록",
+      "progressSummary": "{completed}/{total} 완료",
+      "progressRecentLesson": "최근 학습: {title}",
+      "progressEmpty": "과를 이동하면 최근 학습 위치가 저장됩니다.",
+      "progressGuest": "로그인하면 레슨별 학습 기록이 저장됩니다.",
+      "continueLesson": "이어보기",
+      "previousBtn": "이전",
+      "nextBtn": "다음",
+      "remainingExamples": "추가 예시",
+      "essayMeta": "{author} · {minutes}분 읽기",
+      "foldEssay": "에세이 접기",
+      "unfoldEssay": "에세이 펼치기",
+      "readingMethod": "독서법",
+      "speed": "속도",
+      "memoryRetention": "기억 정착",
+      "suitableSituation": "적합한 상황",
+      "activatedBrainRegion": "활성화 뇌 영역",
+      "comprehension": "이해도 특성",
+      "speedLevel": {
+        "slow": "느림",
+        "medium": "보통",
+        "fast": "빠름",
+        "variable": "가변"
+      },
+      "lesson": {
+        "objectives": "학습 목표",
+        "completionCheckbox": "이해도 확인",
+        "completedBadge": "학습 완료",
+        "recentBadge": "최근",
+        "guestHint": "로그인 시 기록 저장",
+        "sheetExamples": "악보 예시",
+        "difficulty": {
+          "beginner": "입문",
+          "intermediate": "중급",
+          "advanced": "심화"
+        }
+      },
+      "sheetPlayer": {
+        "play": "재생",
+        "stop": "정지",
+        "loading": "불러오는 중",
+        "playLabel": "악보 예시 재생",
+        "stopLabel": "악보 예시 정지"
+      },
+      "quiz": {
+        "title": "확인 문제",
+        "checkAnswer": "정답 확인",
+        "correct": "정답",
+        "incorrect": "오답",
+        "retry": "다시 풀기",
+        "score": "{correct}/{total} 정답",
+        "allCorrect": "모든 문제를 맞혔습니다! 학습 완료 처리되었습니다."
+      },
+      "category": {
+        "book": {
+          "label": "도서",
+          "description": "책의 체계 레슨"
+        },
+        "video": {
+          "label": "영상",
+          "description": "영상 제작 레슨"
+        },
+        "music": {
+          "label": "음악",
+          "description": "화성학 레슨"
+        },
+        "ai": {
+          "label": "AI",
+          "description": "AI 원리와 활용 레슨"
+        }
+      },
+      "course": {
+        "book": {
+          "system": {
+            "label": "책의 문법",
+            "description": "분류 체계, ISBN, 판본, 출판 생태계. 책이라는 시스템을 이해하는 지식"
+          }
+        },
+        "video": {
+          "light_and_camera": {
+            "label": "빛과 카메라",
+            "description": "빛의 성질, 3점 조명, 카메라 구조, 노출과 렌즈의 언어를 배운다"
+          },
+          "composition": {
+            "label": "구도와 프레이밍",
+            "description": "쇼트 사이즈, 카메라 앵글, 무브먼트, 시선 유도 등 화면을 설계하는 문법을 익힌다"
+          },
+          "editing": {
+            "label": "편집",
+            "description": "컷의 종류, 연속 편집, 몽타주, 사운드 편집, 색보정까지 편집의 원리를 배운다"
+          },
+          "narrative": {
+            "label": "시나리오 구조",
+            "description": "3막 구조, 캐릭터 아크, 갈등 설계, 시각적 스토리텔링의 기본기를 다진다"
+          }
+        },
+        "music": {
+          "harmony": {
+            "label": "화성학",
+            "description": "소리의 기초부터 음계, 화음, 진행, 곡 분석까지 화성학의 전 과정을 배운다"
+          }
+        },
+        "ai": {
+          "foundations": {
+            "label": "AI의 원리",
+            "description": "학습과 추론, 신경망, 토큰, 어텐션. 생성형 AI가 답을 만들어내는 구조를 이해한다"
+          },
+          "prompting": {
+            "label": "질문의 기술",
+            "description": "맥락 설계, 예시 제시, 단계 유도, 검증. 원하는 답을 얻어내는 요령을 익힌다"
+          },
+          "creation": {
+            "label": "AI와 창작",
+            "description": "이미지·음성·음악 생성 원리부터 저작권, 편향, 사람이 남는 자리까지 다룬다"
+          }
+        }
+      }
+    },
+    "profession": {
+      "metaTitle": "직업별 추천 책·영화 | 서가",
+      "metaDescription": "지도자, 과학자, 예술가 등 직업별 셀럽이 추천한 필독서와 영화 목록. 분야별 추천 작품을 확인하세요."
+    },
+    "page": {
+      "section": {
+        "sage": {
+          "label": "오늘의 인물",
+          "description": "매일 자정, 한 명의 인물이 새롭게 선정됩니다"
+        },
+        "chosen": {
+          "label": "공통 서가",
+          "description": "가장 많은 인물들이 감상한 작품"
+        },
+        "profession": {
+          "label": "갈림길",
+          "description": "분야별 인물들의 필독서"
+        },
+        "era": {
+          "label": "시대의 작품",
+          "description": "시대별 인물들의 선택"
+        },
+        "museum": {
+          "label": "박물관",
+          "description": "인류 지식 매체와 콘텐츠의 연대기"
+        },
+        "academy": {
+          "label": "학당",
+          "description": "AI 원리, 영상 제작, 화성학 레슨 등 교육 콘텐츠"
+        }
+      },
+      "toc": "목차",
+      "openToc": "목차 열기",
+      "close": "닫기",
+      "viewFullLibrary": "서재 전체 보기",
+      "moreCount": "+{count}개 더",
+      "reviewCount": "감상 기록 {count}개",
+      "newsMention": "뉴스 {count}건 언급",
+      "celebCount": "(인물 {count}명)",
+      "empty": {
+        "noFigure": "오늘의 인물이 없습니다",
+        "noRecords": "감상 기록이 없습니다",
+        "noCategory": "해당 카테고리의 작품이 없습니다",
+        "noProfession": "해당 분야의 작품이 없습니다",
+        "noProfessionData": "분야별 데이터가 없습니다",
+        "noEra": "해당 시대의 작품이 없습니다",
+        "noEraData": "시대별 데이터가 없습니다",
+        "noData": "데이터가 없습니다",
+        "noWorks": "작품이 없습니다",
+        "noEraSection": "해당 시대의 데이터가 없습니다"
+      },
+      "defaultBio": "이 시대를 살아가는 인물입니다.",
+      "eraPage": {
+        "title": "불후의 명작",
+        "description": "전 시대의 대표작과 시대별 명저.",
+        "descriptionSub": "가장 많은 인물들의 선택을 받은 작품들을 만나보세요.",
+        "allEras": "전체 시대",
+        "allErasCaption": "전 시대",
+        "eraAndCategory": "시대 및 카테고리",
+        "worksList": "작품 목록",
+        "figureCount": "{count}명의 위인",
+        "worksCount": "{count}개의 작품",
+        "crossEraDescription": "시대를 초월해 가장 많은 인물들의 선택을 받은 작품들.\n수많은 위인이 같은 책을 선택했다면, 그건 우연이 아닙니다.",
+        "symbolOfEra": "시대의 상징",
+        "eraTabs": {
+          "all": "전체",
+          "contemporary": "현대",
+          "modern": "근대",
+          "medieval": "중세",
+          "ancient": "고대"
+        }
+      },
+      "professionPage": {
+        "title": "길의 갈래",
+        "description": "분야별 인물들의 필독서.",
+        "descriptionSub": "여러분이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
+        "selectProfession": "직군 선택",
+        "selectCategory": "카테고리 선택",
+        "representativePrefix": "대표 ",
+        "recommendedWorks": "추천 작품"
+      }
+    }
+  }
+}

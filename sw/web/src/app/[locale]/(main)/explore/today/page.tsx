@@ -8,7 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
-import { getTodayFigure } from "@/actions/scriptures";
+import { getTodayFigure } from "@/actions/library";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.today");
