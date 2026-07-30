@@ -74,6 +74,7 @@ function CourseTabs({
 function getLessonSource(categoryId: string, data: ReturnType<typeof getScripturesData>) {
   if (categoryId === "video") return data.videoLessons;
   if (categoryId === "book") return data.bookLessons;
+  if (categoryId === "ai") return data.aiLessons;
   return data.harmonyLessons;
 }
 

@@ -1,13 +1,13 @@
 /*
   파일명: /app/(main)/library/academy/page.tsx
   기능: 지혜의 서가 - 학당 카테고리 허브
-  책임: 카테고리 3종(도서/영상/음악) 카드를 표시하고 각 레슨 페이지로 연결한다.
+  책임: 공개 카테고리 3종(도서/영상/음악) 카드를 표시한다. AI는 데이터·직접 경로만 유지한다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ACADEMY_CATEGORY_IDS } from "@/constants/scripturesMuseum";
-import { BookOpen, Film, Music, GraduationCap } from "lucide-react";
+import { BookOpen, Film, Music, Cpu, GraduationCap } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -19,7 +19,11 @@ const CATEGORY_ICONS = {
   book: BookOpen,
   video: Film,
   music: Music,
+  ai: Cpu,
 } as const;
+
+// AI 학당은 데이터와 직접 경로만 유지하고, 공개 진입 카드 한 곳만 출간 전까지 숨긴다.
+const VISIBLE_ACADEMY_CATEGORY_IDS = ACADEMY_CATEGORY_IDS.filter((category) => category.id !== "ai");
 
 export default async function AcademyPage() {
   const t = await getTranslations("scriptures.academy");
@@ -43,7 +47,7 @@ export default async function AcademyPage() {
 
         {/* 카테고리 카드 */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 px-4">
-          {ACADEMY_CATEGORY_IDS.map((cat) => {
+          {VISIBLE_ACADEMY_CATEGORY_IDS.map((cat) => {
             const Icon = CATEGORY_ICONS[cat.id as keyof typeof CATEGORY_ICONS];
             const firstSub = cat.courses[0].id;
             return (
